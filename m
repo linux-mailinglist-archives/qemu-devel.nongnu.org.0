@@ -2,108 +2,83 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B52C52EA944
-	for <lists+qemu-devel@lfdr.de>; Tue,  5 Jan 2021 11:59:23 +0100 (CET)
-Received: from localhost ([::1]:44718 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C1B102EA956
+	for <lists+qemu-devel@lfdr.de>; Tue,  5 Jan 2021 12:01:20 +0100 (CET)
+Received: from localhost ([::1]:48410 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kwk3e-0000oE-Pu
-	for lists+qemu-devel@lfdr.de; Tue, 05 Jan 2021 05:59:22 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58056)
+	id 1kwk5X-0002PJ-Rq
+	for lists+qemu-devel@lfdr.de; Tue, 05 Jan 2021 06:01:19 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59044)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pasic@linux.ibm.com>)
- id 1kwk0z-0007iq-OL; Tue, 05 Jan 2021 05:56:37 -0500
-Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:55492)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pasic@linux.ibm.com>)
- id 1kwk0x-0004NI-4Y; Tue, 05 Jan 2021 05:56:37 -0500
-Received: from pps.filterd (m0098410.ppops.net [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id
- 105AWukk109530; Tue, 5 Jan 2021 05:56:24 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
- h=date : from : to : cc :
- subject : message-id : in-reply-to : references : mime-version :
- content-type : content-transfer-encoding; s=pp1;
- bh=opw90WOzifIYysyQs3SZNAd3OMAbRQj9Hmcl9g+OUKo=;
- b=jfO5L3IfkYVEV/Zy5Jo4rpa/TvVk+PwNGhQ64oD6VcqbgLq93gPybNbQ3t3Mati3SbQZ
- aM18qaBQN5PrnDn7VtYeCV41xMoz+DZOGBcF/4/BGmvdBmyqtUPfzoS4jHNnkV2rLqGO
- 7rHb11G1meKYQ/Mr666hxFA6Jr1O+BVu7KLVZejNOEb5rFbAXh+ZgcE42XEqhRGMy+rw
- xBcPdZPq6yCYirQeg8sVu+Vtq+fORTNgQcYykgl8nk2lJyuSbXZA0qirW06NPM39R1qF
- Yfb6s972WH2/1gKMj7qWbwcqA6Hea1X/FKPDDs+TAYJUCGQ2+N1g+ivjFn7VQgn6Vmlt sA== 
-Received: from pps.reinject (localhost [127.0.0.1])
- by mx0a-001b2d01.pphosted.com with ESMTP id 35vmdj4mvh-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 05 Jan 2021 05:56:24 -0500
-Received: from m0098410.ppops.net (m0098410.ppops.net [127.0.0.1])
- by pps.reinject (8.16.0.36/8.16.0.36) with SMTP id 105AXEEJ110908;
- Tue, 5 Jan 2021 05:56:24 -0500
-Received: from ppma06fra.de.ibm.com (48.49.7a9f.ip4.static.sl-reverse.com
- [159.122.73.72])
- by mx0a-001b2d01.pphosted.com with ESMTP id 35vmdj4muj-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 05 Jan 2021 05:56:23 -0500
-Received: from pps.filterd (ppma06fra.de.ibm.com [127.0.0.1])
- by ppma06fra.de.ibm.com (8.16.0.42/8.16.0.42) with SMTP id 105AqBSW018347;
- Tue, 5 Jan 2021 10:56:21 GMT
-Received: from b06cxnps3075.portsmouth.uk.ibm.com
- (d06relay10.portsmouth.uk.ibm.com [9.149.109.195])
- by ppma06fra.de.ibm.com with ESMTP id 35tg3hhep1-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 05 Jan 2021 10:56:21 +0000
-Received: from d06av26.portsmouth.uk.ibm.com (d06av26.portsmouth.uk.ibm.com
- [9.149.105.62])
- by b06cxnps3075.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 105AuIlw32375270
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Tue, 5 Jan 2021 10:56:18 GMT
-Received: from d06av26.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 35D40AE059;
- Tue,  5 Jan 2021 10:56:18 +0000 (GMT)
-Received: from d06av26.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 27695AE056;
- Tue,  5 Jan 2021 10:56:17 +0000 (GMT)
-Received: from li-e979b1cc-23ba-11b2-a85c-dfd230f6cf82 (unknown [9.171.80.251])
- by d06av26.portsmouth.uk.ibm.com (Postfix) with SMTP;
- Tue,  5 Jan 2021 10:56:17 +0000 (GMT)
-Date: Tue, 5 Jan 2021 11:56:14 +0100
-From: Halil Pasic <pasic@linux.ibm.com>
-To: Ram Pai <linuxram@us.ibm.com>
-Subject: Re: [EXTERNAL] Re: [for-6.0 v5 11/13] spapr: PEF: prevent migration
-Message-ID: <20210105115614.7daaadd6.pasic@linux.ibm.com>
-In-Reply-To: <20210104184026.GD4102@ram-ibm-com.ibm.com>
-References: <20201204054415.579042-1-david@gibson.dropbear.id.au>
- <20201204054415.579042-12-david@gibson.dropbear.id.au>
- <20201214182240.2abd85eb.cohuck@redhat.com>
- <20201217054736.GH310465@yekko.fritz.box>
- <20201217123842.51063918.cohuck@redhat.com>
- <20201217151530.54431f0e@bahia.lan>
- <20201218124111.4957eb50.cohuck@redhat.com>
- <20210104071550.GA22585@ram-ibm-com.ibm.com>
- <20210104134629.49997b53.pasic@linux.ibm.com>
- <20210104184026.GD4102@ram-ibm-com.ibm.com>
-Organization: IBM
-X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1kwk3O-0001YQ-Q4
+ for qemu-devel@nongnu.org; Tue, 05 Jan 2021 05:59:06 -0500
+Received: from mail-wm1-x336.google.com ([2a00:1450:4864:20::336]:55197)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1kwk3N-0005LH-9A
+ for qemu-devel@nongnu.org; Tue, 05 Jan 2021 05:59:06 -0500
+Received: by mail-wm1-x336.google.com with SMTP id c133so2613080wme.4
+ for <qemu-devel@nongnu.org>; Tue, 05 Jan 2021 02:59:04 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=sender:subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=WDRc0KDAkXpAN2Ob5WcxVYBWDkE4V075/vWTBrhNfhs=;
+ b=Vu5BuZUXHMF8WRtz0pAUn1TddUBefDfygs0g3rR7GKioTuT14OecVwJmJ9+slBGx9L
+ oTLgXGLXTqYPwkHJ/ejKlW24JHUbPfKiuq7re2FJzANHIewRZVRe0Iy/WyGDBtLfkb4S
+ v/9PhU0qqS2cAxp9pZZ/4ziDCgssWkxXExW025ibLjwQSCxVfUYAthVFZ7oGQ/4G/bli
+ REE2rHvJUG6UBzhMc63ngqhrrHtXrfLELYx0dG1A4Uwqfj59wgjY84mTcUpyyH/QVwQq
+ RBqBDF3G/Vh2yXr92CaHN/P6Vm/+erkhprTD4G96LN0iePLZ964jpXbbCIQqJujCAtUj
+ iWfQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
+ :date:user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=WDRc0KDAkXpAN2Ob5WcxVYBWDkE4V075/vWTBrhNfhs=;
+ b=RiGJI2UxEDbdUiRh7mJGzKBLlpFSuap8NVrDZ6RWl9/ren552H4wuI9aq1KLi5UH4W
+ pwBlaip14Xj8IQv6VeG+By1N4qjF7PN+ms2EeaKG7rG3/MHn2x6gsfJdEhNCbli9sGp4
+ wxNoaU4pSyaMzQXhsMPfZ6G/LsFCnl15Y3OqfeRoTjZmN/0a9UxOgOrAw+UdYQL5wPdx
+ Xp7a7wU/RR+FFTlWmnLZ2PjqxjrJV2ODd3q/H4niVKcxGFTbgHfPQDp0nUUj5q0bNuso
+ zATrf2LB9lptbEIIHImu8ddOBD1DSFzU8bP9w1Sv6cDZI4AHrTsfveCO1MC6jlcwcWDx
+ rljw==
+X-Gm-Message-State: AOAM5326STCnLnwLEmlzuwSIDHhqfDMN2nj0aV7llVIdPJKeWMuZKq8U
+ Fn2vztXxPEhWmUsDym/S/r1S00KvvqQ=
+X-Google-Smtp-Source: ABdhPJwwUe18XGsVMhpYjQUp1AykVXYeoJ42TisAnB3XVLQpGETosTSayZp03ULGI4fhmmkWOiRl8Q==
+X-Received: by 2002:a1c:2394:: with SMTP id j142mr3017801wmj.42.1609844343578; 
+ Tue, 05 Jan 2021 02:59:03 -0800 (PST)
+Received: from [192.168.1.36] (241.red-88-10-103.dynamicip.rima-tde.net.
+ [88.10.103.241])
+ by smtp.gmail.com with ESMTPSA id s12sm3571531wmh.29.2021.01.05.02.59.02
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 05 Jan 2021 02:59:02 -0800 (PST)
+Subject: Re: [PATCH] tests/docker: Include 'ccache' in Debian base image
+To: Thomas Huth <thuth@redhat.com>, =?UTF-8?Q?Alex_Benn=c3=a9e?=
+ <alex.bennee@linaro.org>
+References: <20201213211601.253530-1-f4bug@amsat.org>
+ <21650cc2-8e1e-067c-fc89-ec7904dc87eb@redhat.com>
+ <5b4bca2e-366a-fd5a-f334-39c0f342e284@amsat.org>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
+Message-ID: <c25922ac-6553-1e2e-9c2b-7af2e933c3cd@amsat.org>
+Date: Tue, 5 Jan 2021 11:59:01 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.6.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
+In-Reply-To: <5b4bca2e-366a-fd5a-f334-39c0f342e284@amsat.org>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-X-TM-AS-GCONF: 00
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.343, 18.0.737
- definitions=2021-01-05_01:2021-01-05,
- 2021-01-05 signatures=0
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- suspectscore=0 mlxscore=0
- bulkscore=0 adultscore=0 phishscore=0 clxscore=1015 spamscore=0
- impostorscore=0 priorityscore=1501 malwarescore=0 mlxlogscore=999
- lowpriorityscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2009150000 definitions=main-2101050064
-Received-SPF: pass client-ip=148.163.156.1; envelope-from=pasic@linux.ibm.com;
- helo=mx0a-001b2d01.pphosted.com
-X-Spam_score_int: -26
-X-Spam_score: -2.7
-X-Spam_bar: --
-X-Spam_report: (-2.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_DNSWL_LOW=-0.7,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Received-SPF: pass client-ip=2a00:1450:4864:20::336;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x336.google.com
+X-Spam_score_int: -14
+X-Spam_score: -1.5
+X-Spam_bar: -
+X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.248,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.248, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -116,193 +91,51 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: pair@us.ibm.com, Cornelia Huck <cohuck@redhat.com>, brijesh.singh@amd.com,
- kvm@vger.kernel.org, "Michael S.
- Tsirkin" <mst@redhat.com>, qemu-devel@nongnu.org, frankja@linux.ibm.com,
- david@redhat.com, mdroth@linux.vnet.ibm.com, borntraeger@de.ibm.com,
- David Gibson <david@gibson.dropbear.id.au>, thuth@redhat.com,
- Eduardo Habkost <ehabkost@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>, Greg Kurz <groug@kaod.org>,
- dgilbert@redhat.com, qemu-s390x@nongnu.org, rth@twiddle.net,
- berrange@redhat.com, Marcelo Tosatti <mtosatti@redhat.com>,
- qemu-ppc@nongnu.org, pbonzini@redhat.com
+Cc: Fam Zheng <fam@euphon.net>, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, 4 Jan 2021 10:40:26 -0800
-Ram Pai <linuxram@us.ibm.com> wrote:
+Hi,
 
-> On Mon, Jan 04, 2021 at 01:46:29PM +0100, Halil Pasic wrote:
-> > On Sun, 3 Jan 2021 23:15:50 -0800
-> > Ram Pai <linuxram@us.ibm.com> wrote:
-> >   
-> > > On Fri, Dec 18, 2020 at 12:41:11PM +0100, Cornelia Huck wrote:  
-> > > > On Thu, 17 Dec 2020 15:15:30 +0100  
-> > [..]  
-> > > > > > > > > +int kvmppc_svm_init(SecurableGuestMemory *sgm, Error **errp)
-> > > > > > > > >  {
-> > > > > > > > >      if (!kvm_check_extension(kvm_state, KVM_CAP_PPC_SECURABLE_GUEST)) {
-> > > > > > > > >          error_setg(errp,
-> > > > > > > > > @@ -54,6 +58,11 @@ static int kvmppc_svm_init(Error **errp)
-> > > > > > > > >          }
-> > > > > > > > >      }
-> > > > > > > > >  
-> > > > > > > > > +    /* add migration blocker */
-> > > > > > > > > +    error_setg(&pef_mig_blocker, "PEF: Migration is not implemented");
-> > > > > > > > > +    /* NB: This can fail if --only-migratable is used */
-> > > > > > > > > +    migrate_add_blocker(pef_mig_blocker, &error_fatal);        
-> > > > > > > > 
-> > > > > > > > Just so that I understand: is PEF something that is enabled by the host
-> > > > > > > > (and the guest is either secured or doesn't start), or is it using a
-> > > > > > > > model like s390x PV where the guest initiates the transition into
-> > > > > > > > secured mode?        
-> > > > > > > 
-> > > > > > > Like s390x PV it's initiated by the guest.
-> > > > > > >       
-> > > > > > > > Asking because s390x adds the migration blocker only when the
-> > > > > > > > transition is actually happening (i.e. guests that do not transition
-> > > > > > > > into secure mode remain migratable.) This has the side effect that you
-> > > > > > > > might be able to start a machine with --only-migratable that
-> > > > > > > > transitions into a non-migratable machine via a guest action, if I'm
-> > > > > > > > not mistaken. Without the new object, I don't see a way to block with
-> > > > > > > > --only-migratable; with it, we should be able to do that. Not sure what
-> > > > > > > > the desirable behaviour is here.        
-> > > > > > >       
-> > > > > 
-> > > > > The purpose of --only-migratable is specifically to prevent the machine
-> > > > > to transition to a non-migrate state IIUC. The guest transition to
-> > > > > secure mode should be nacked in this case.    
-> > > > 
-> > > > Yes, that's what happens for s390x: The guest tries to transition, QEMU
-> > > > can't add a migration blocker and fails the instruction used for
-> > > > transitioning, the guest sees the error.
-> > > > 
-> > > > The drawback is that we see the failure only when we already launched
-> > > > the machine and the guest tries to transition. If I start QEMU with
-> > > > --only-migratable, it will refuse to start when non-migratable devices
-> > > > are configured in the command line, so I see the issue right from the
-> > > > start. (For s390x, that would possibly mean that we should not even
-> > > > present the cpu feature bit when only_migratable is set?)    
-> > > 
-> > > What happens in s390x,  if the guest tries to transition to secure, when
-> > > the secure object is NOT configured on the machine?
-> > >   
-> > 
-> > Nothing in particular.
-> >   
-> > > On PEF systems, the transition fails and the guest is terminated.
-> > > 
-> > > My point is -- QEMU will not be able to predict in advance, what the
-> > > guest might or might not do, regardless of what devices and objects are
-> > > configured in the machine.   If the guest does something unexpected, it
-> > > has to be terminated.  
-> > 
-> > We can't fail transition to secure when the secure object is not
-> > configured on the machine, because that would break pre-existing
-> > setups.  
+On 12/14/20 2:39 PM, Philippe Mathieu-Daudé wrote:
+> On 12/14/20 6:44 AM, Thomas Huth wrote:
+>> On 13/12/2020 22.16, Philippe Mathieu-Daudé wrote:
+>>> Include the 'ccache' package to speed up compilation.
+>>>
+>>> Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+>>> ---
+>>>  tests/docker/dockerfiles/debian10.docker | 1 +
+>>>  1 file changed, 1 insertion(+)
+>>>
+>>> diff --git a/tests/docker/dockerfiles/debian10.docker b/tests/docker/dockerfiles/debian10.docker
+>>> index 73a3caac9cd..9d42b5a4b81 100644
+>>> --- a/tests/docker/dockerfiles/debian10.docker
+>>> +++ b/tests/docker/dockerfiles/debian10.docker
+>>> @@ -20,6 +20,7 @@ RUN apt update && \
+>>>          bc \
+>>>          build-essential \
+>>>          ca-certificates \
+>>> +        ccache \
+>>>          clang \
+>>>          dbus \
+>>>          gdb-multiarch \
+>>
+>> Don't you need some additional setup for this? Like caching the
+>> corresponding directory during CI runs?
 > 
-> So the instruction to switch-to-secure; which I believe is a ultracall
-> on S390,  
-
-Yes it is an ultravisor call. 
-
-> will return success even though the switch-to-secure has failed?
-
-No, I don't think so.
-
-> Will the guest continue as a normal guest or as a secure guest?
+> I hadn't looked at CI (too many CI series in fly).
 > 
-
-I think the guest will give up. It definitely can't continue as secure
-because the conversion to secure failed. And it should not continue as
-non-secure because that's not what the user asked for.
-
-I'm not sure you got my point. My point is: we may not break existing
-setups when adding new features. Secure execution can work without secure
-object today, and what works today shall keep working tomorrow and
-beyond.
-
-> > This feature is still to be shipped, but secure execution has
-> > already been shipped, but without migration support.
-> > 
-> > That's why when you have both the secure object configured, and mandate
-> > migratability, the we can fail. Actually we should fail now, because the
-> > two options are not compatible: you can't have a qemu that is guaranteed
-> > to be migratable, and guaranteed to be able to operate in secure
-> > execution mode today. Failing early, and not on the guests opt-in would
-> > be preferable.
-> > 
-> > After migration support is added, the combo should be fine, and probably
-> > also the default for secure execution machines.
-> >   
-> > > 
-> > > So one possible design choice is to let the guest know that migration
-> > > must be facilitated. It can then decide if it wants to continue as a
-> > > normal VM or terminate itself, or take the plunge and switch to secure.
-> > > A well behaving guest will not switch to secure.
-> > >   
-> > 
-> > I don't understand this point. Sorry.  
+> w.r.t. Docker this is in use since 4 years, see:
+> 324027c24cd ("Makefile: Rules for docker testing")
+> 36ac78e65a0 ("docker: Don't mount ccache db if NOUSER=1")
 > 
-> Qemu will present the 'must-support-migrate' and the 'secure-object' capability
-> to the guest.
+> I suppose we forgot the package when introducing debian10
+> base image in commit d6db2a1cdf6 ("docker: add
+> debian-buster-arm64-cross").
 
-How does the qemu preset the 'must-support-migrate' and the
-'secure-object' capability to the guest on (PPC and especially on s390)? And
-please clarify what do you mean by 'secure-object'. I used to believe I
-understood, but now I have the feeling I don't understand.
+Should I do something else with this patch?
 
-> 
-> The secure-aware guest, has three choices
->    (a) terminate itself. OR
->    (b) not call the switch-to-secure ucall, and continue as normal guest. OR
->    (c) call the switch-to-secure ucall.
-> 
-> Legacy guests which are not aware of secure-object, will continue to do
-> (b).   
-> New Guests which are secure-object aware, will observe that 
-> 'must-support-migrate' and 'secure-object' capabilities are
-> incompatible.  Hence will choose (a) or (b), but will never choose
-> (c).
-> 
+Thanks,
 
-The first problem is, IMHO, that you want to expose QEMU internals to the
-guest. For the guest, there is no such thing as 'must-support-migrate'
-(AFAIK).
-
-The other problem is, that migration and secure are not inherently
-incompatible. On s390x it is the property of the current host
-implementation, that we can't do migration for secure. But this can
-change in the future. 
-
-> 
-> 
-> The main difference between my proposal and the other proposal is...
-> 
->   In my proposal the guest makes the compatibility decision and acts
->   accordingly.  In the other proposal QEMU makes the compatibility
->   decision and acts accordingly. I argue that QEMU cannot make a good
->   compatibility decision, because it wont know in advance, if the guest
->   will or will-not switch-to-secure.
-> 
-
-You have a point there when you say that QEMU does not know in advance,
-if the guest will or will-not switch-to-secure. I made that argument
-regarding VIRTIO_F_ACCESS_PLATFORM (iommu_platform) myself. My idea
-was to flip that property on demand when the conversion occurs. David
-explained to me that this is not possible for ppc, and that having the
-"securable-guest-memory" property (or whatever the name will be)
-specified is a strong indication, that the VM is intended to be used as
-a secure VM (thus it is OK to hurt the case where the guest does not
-try to transition). That argument applies here as well.
-
-But more importantly, as I explained above, the guest does not know if
-migration and secure are incompatible or not. So the guest can't make a
-good decision.
-
-Regards,
-Halil
-
-
-
+Phil.
 
