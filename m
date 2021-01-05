@@ -2,70 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7E1E12EB509
-	for <lists+qemu-devel@lfdr.de>; Tue,  5 Jan 2021 22:51:20 +0100 (CET)
-Received: from localhost ([::1]:39168 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AE6E12EB518
+	for <lists+qemu-devel@lfdr.de>; Tue,  5 Jan 2021 22:57:55 +0100 (CET)
+Received: from localhost ([::1]:42806 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kwuEZ-0001H3-J3
-	for lists+qemu-devel@lfdr.de; Tue, 05 Jan 2021 16:51:19 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33452)
+	id 1kwuKw-0003Ba-OD
+	for lists+qemu-devel@lfdr.de; Tue, 05 Jan 2021 16:57:54 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35622)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <r.bolshakov@yadro.com>)
- id 1kwuDO-0000aA-UH
- for qemu-devel@nongnu.org; Tue, 05 Jan 2021 16:50:06 -0500
-Received: from mta-02.yadro.com ([89.207.88.252]:36220 helo=mta-01.yadro.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <r.bolshakov@yadro.com>)
- id 1kwuDM-0002Hn-Kr
- for qemu-devel@nongnu.org; Tue, 05 Jan 2021 16:50:06 -0500
-Received: from localhost (unknown [127.0.0.1])
- by mta-01.yadro.com (Postfix) with ESMTP id B29C941209;
- Tue,  5 Jan 2021 21:50:02 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=yadro.com; h=
- in-reply-to:content-disposition:content-type:content-type
- :mime-version:references:message-id:subject:subject:from:from
- :date:date:received:received:received; s=mta-01; t=1609883400;
- x=1611697801; bh=GNGsp+GCAQc9jeRkFy3AYBKZ9xuax2w1AhKs5PECZzw=; b=
- FZ1PrmMQKca2HP8Nbx5hEsLVbGoq5Ede0Tg3Iyx6tKsjbqTi39tb/CNeMNBRNa4h
- ytmMW0JDZ5B9CwTeuJAyBwkPD80ikhTek443GVF2BG7TqEw1Ozwec4gEBoCvliRS
- B0infqRpThAVUDgBUL8DZt4T5eFhD44h+GywZVnLdeg=
-X-Virus-Scanned: amavisd-new at yadro.com
-Received: from mta-01.yadro.com ([127.0.0.1])
- by localhost (mta-01.yadro.com [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id Po6A0Eyqtzfh; Wed,  6 Jan 2021 00:50:00 +0300 (MSK)
-Received: from T-EXCH-03.corp.yadro.com (t-exch-03.corp.yadro.com
- [172.17.100.103])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-SHA384 (256/256 bits))
- (No client certificate requested)
- by mta-01.yadro.com (Postfix) with ESMTPS id E810240416;
- Wed,  6 Jan 2021 00:50:00 +0300 (MSK)
-Received: from localhost (172.17.204.212) by T-EXCH-03.corp.yadro.com
- (172.17.100.103) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384_P384) id 15.1.669.32; Wed, 6 Jan
- 2021 00:50:00 +0300
-Date: Wed, 6 Jan 2021 00:50:13 +0300
-From: Roman Bolshakov <r.bolshakov@yadro.com>
-To: Joelle van Dyne <j@getutm.app>
-Subject: Re: [PATCH v2] tcg: Fix execution on Apple Silicon
-Message-ID: <X/TfFdLkh0lvBxny@SPB-NB-133.local>
-References: <20210103145055.11074-1-r.bolshakov@yadro.com>
- <CA+E+eSDCBsgDo=-KP_GyFh2OB9wK5WoYx=CGqYXTvxdJbv7CGA@mail.gmail.com>
+ (Exim 4.90_1) (envelope-from <wuhaotsh@google.com>)
+ id 1kwuJn-0002d2-1c
+ for qemu-devel@nongnu.org; Tue, 05 Jan 2021 16:56:43 -0500
+Received: from mail-lf1-x134.google.com ([2a00:1450:4864:20::134]:39511)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <wuhaotsh@google.com>)
+ id 1kwuJl-0004za-0i
+ for qemu-devel@nongnu.org; Tue, 05 Jan 2021 16:56:42 -0500
+Received: by mail-lf1-x134.google.com with SMTP id a12so2021493lfl.6
+ for <qemu-devel@nongnu.org>; Tue, 05 Jan 2021 13:56:35 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=CJTR5P+O1pAD9ZwARwSZ/K8/6oUZwdn6dUQpE4KreUU=;
+ b=X3nJsZLrGDkre0IxhwB9gU76MRmgh7NQQkgtmp+2qgfMN2myC1CqKbyupf/g2JGSKB
+ ePT96owqK6R0bUltPu1FuQg5iF09pnelWWk46QC8eHo1iOdCnVN11L6zkHbmabV+v/vu
+ o5uQ9VJs/ggBrzXEHevTQMOLE8m8l6/Z2UVqtsWHeN6Xl0WoczwVZn+MKfKNEO2aCCaN
+ AEdihsmfHRofpW/EEzwAxde7+/D9BhED9pdFBZpgbdQZbPbDsHSh/v/LHum5/Mcs2YpY
+ dA7kpcBmfs7Oa9yvL5p4Yz5UEUP9AfWXPt39D4KbcBeOtQV4Zj5zMKY2DhtvZ83v/BEX
+ qcEw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=CJTR5P+O1pAD9ZwARwSZ/K8/6oUZwdn6dUQpE4KreUU=;
+ b=ZAbKiKB8WNsrInsaUnPEGIlakaXGODbofY+vqwvr4vRuvRnEPt+LvSEf/0zhWTfY3x
+ D87xmojvUt8b6CSgsHki681FQ6EoRzldS4OjV/MHGvJR+nM0LgpOTU+i/TVPzhGTOcWY
+ rCF47RRTzbjTNp8IMV46PRX6y0Rq1i7xdbUHIoThykQGQtICV0Slves40gps2hrj4dje
+ d92K6AaA+ZLZMe6lpJITT2rI/Dg2EAsGLPUsDfoWyzAicaQahCh9s+MEBVeqADsWgQ+5
+ eDCR/xMwzWACKZwqKl9QLluyo8e6oGIZNFkxUNY6oSqCEsoOk+XIejgHvVTdnOu4oAbr
+ 7RQw==
+X-Gm-Message-State: AOAM531HRJkbYHdlzwB4R9OVAd5t2GcLP1rzRDTTsZBEQ6z1ndmMNdnj
+ zaJtd2zG0pw0muM3XGET6XXm1g2XUxGWYJQT9gqGtQ==
+X-Google-Smtp-Source: ABdhPJxffchFhmbHgephTF5b7gfCY6BL6aQlHOAEktndKsAUg0Hy3o5GayMBhJkuWUGHuaDX9gKLuRni5Kd2+We6SRY=
+X-Received: by 2002:ac2:4d14:: with SMTP id r20mr576847lfi.410.1609883793668; 
+ Tue, 05 Jan 2021 13:56:33 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset="us-ascii"
-Content-Disposition: inline
-In-Reply-To: <CA+E+eSDCBsgDo=-KP_GyFh2OB9wK5WoYx=CGqYXTvxdJbv7CGA@mail.gmail.com>
-X-Originating-IP: [172.17.204.212]
-X-ClientProxiedBy: T-EXCH-01.corp.yadro.com (172.17.10.101) To
- T-EXCH-03.corp.yadro.com (172.17.100.103)
-Received-SPF: pass client-ip=89.207.88.252; envelope-from=r.bolshakov@yadro.com;
- helo=mta-01.yadro.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+References: <20201217004349.3740927-1-wuhaotsh@google.com>
+In-Reply-To: <20201217004349.3740927-1-wuhaotsh@google.com>
+Date: Tue, 5 Jan 2021 13:56:22 -0800
+Message-ID: <CAGcCb10FdAJs2qkwU3COtapt-xtNAAJg7oVPCFdE-LUHFjwBKQ@mail.gmail.com>
+Subject: Re: [PATCH v4 0/6] Additional NPCM7xx devices
+To: Peter Maydell <peter.maydell@linaro.org>
+Content-Type: multipart/alternative; boundary="000000000000a7214905b82e4742"
+Received-SPF: pass client-ip=2a00:1450:4864:20::134;
+ envelope-from=wuhaotsh@google.com; helo=mail-lf1-x134.google.com
+X-Spam_score_int: -179
+X-Spam_score: -18.0
+X-Spam_bar: ------------------
+X-Spam_report: (-18.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_MED=-0.369,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ ENV_AND_HDR_SPF_MATCH=-0.5, HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001, USER_IN_DEF_DKIM_WL=-7.5,
+ USER_IN_DEF_SPF_WL=-7.5 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -78,179 +76,195 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: QEMU Developers <qemu-devel@nongnu.org>
+Cc: Corey Minyard <minyard@acm.org>, Patrick Venture <venture@google.com>,
+ Havard Skinnemoen <hskinnemoen@google.com>,
+ QEMU Developers <qemu-devel@nongnu.org>, CS20 KFTing <kfting@nuvoton.com>,
+ qemu-arm <qemu-arm@nongnu.org>, IS20 Avi Fishman <Avi.Fishman@nuvoton.com>,
+ =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
+Reply-to: Hao Wu <wuhaotsh@google.com>
+From: Hao Wu via <qemu-devel@nongnu.org>
 
-On Mon, Jan 04, 2021 at 06:02:50PM -0800, Joelle van Dyne wrote:
-> Tested-by: Joelle van Dyne <j@getutm.app>
-> 
-> It works for me. But one thing is that if you build it with the macOS
-> 11.x SDK it won't run on < 11.x. This is why apple recommends
-> something like:
-> 
->         if (__builtin_available(macOS 11, *)) {
->             pthread_jit_write_protect_np();
->         }
-> 
-> You still need a compile time check like MAC_OS_VERSION_11_0 to
-> support linking with older SDKs.
-> 
+--000000000000a7214905b82e4742
+Content-Type: text/plain; charset="UTF-8"
 
-I'll address the issue in v3. Thanks for catching it.
+Ping?
 
-Regards,
-Roman
+On Wed, Dec 16, 2020 at 4:45 PM Hao Wu <wuhaotsh@google.com> wrote:
 
-> On Sun, Jan 3, 2021 at 6:54 AM Roman Bolshakov <r.bolshakov@yadro.com> wrote:
-> >
-> > Pages can't be both write and executable at the same time on Apple
-> > Silicon. macOS provides public API to switch write protection [1] for
-> > JIT applications, like TCG.
-> >
-> > 1. https://developer.apple.com/documentation/apple_silicon/porting_just-in-time_compilers_to_apple_silicon
-> >
-> > Signed-off-by: Roman Bolshakov <r.bolshakov@yadro.com>
-> > ---
-> > v1: https://lists.gnu.org/archive/html/qemu-devel/2021-01/msg00073.html
-> > Changes since v1:
-> >
-> >  - Pruned not needed fiddling with W^X and dropped symmetry from write
-> >    lock/unlock and renamed related functions.
-> >    Similar approach is used in JavaScriptCore [1].
-> >
-> >  - Moved jit helper functions to util/osdep
-> >                                                                                                                                                   As outlined in osdep.h, this matches to (2):                                                                                                                                                                                                                                                    * In an ideal world this header would contain only:                                                                                            *  (1) things which everybody needs                                                                                                            *  (2) things without which code would work on most platforms but                                                                              *      fail to compile or misbehave on a minority of host OSes
-> >
-> >  - Fixed a checkpatch error
-> >
-> >  - Limit new behaviour only to macOS 11.0 and above, because of the
-> >    following declarations:
-> >
-> >    __API_AVAILABLE(macos(11.0))
-> >    __API_UNAVAILABLE(ios, tvos, watchos)
-> >    void pthread_jit_write_protect_np(int enabled);
-> >
-> >    __API_AVAILABLE(macos(11.0))
-> >    __API_UNAVAILABLE(ios, tvos, watchos)
-> >    int pthread_jit_write_protect_supported_np(void);
-> >
-> >  1. https://bugs.webkit.org/attachment.cgi?id=402515&action=prettypatch
-> >
-> >  accel/tcg/cpu-exec.c      |  2 ++
-> >  accel/tcg/translate-all.c |  6 ++++++
-> >  include/qemu/osdep.h      |  3 +++
-> >  tcg/tcg.c                 |  1 +
-> >  util/osdep.c              | 22 ++++++++++++++++++++++
-> >  5 files changed, 34 insertions(+)
-> >
-> > diff --git a/accel/tcg/cpu-exec.c b/accel/tcg/cpu-exec.c
-> > index 8689c54499..374060eb45 100644
-> > --- a/accel/tcg/cpu-exec.c
-> > +++ b/accel/tcg/cpu-exec.c
-> > @@ -175,6 +175,7 @@ static inline tcg_target_ulong cpu_tb_exec(CPUState *cpu, TranslationBlock *itb)
-> >      }
-> >  #endif /* DEBUG_DISAS */
-> >
-> > +    qemu_thread_jit_execute();
-> >      ret = tcg_qemu_tb_exec(env, tb_ptr);
-> >      cpu->can_do_io = 1;
-> >      last_tb = (TranslationBlock *)(ret & ~TB_EXIT_MASK);
-> > @@ -382,6 +383,7 @@ static inline void tb_add_jump(TranslationBlock *tb, int n,
-> >  {
-> >      uintptr_t old;
-> >
-> > +    qemu_thread_jit_write();
-> >      assert(n < ARRAY_SIZE(tb->jmp_list_next));
-> >      qemu_spin_lock(&tb_next->jmp_lock);
-> >
-> > diff --git a/accel/tcg/translate-all.c b/accel/tcg/translate-all.c
-> > index b7d50a73d4..88ae5d35ef 100644
-> > --- a/accel/tcg/translate-all.c
-> > +++ b/accel/tcg/translate-all.c
-> > @@ -1072,6 +1072,9 @@ static inline void *alloc_code_gen_buffer(void)
-> >      size_t size = tcg_ctx->code_gen_buffer_size;
-> >      void *buf;
-> >
-> > +#if defined(__APPLE__) && defined(MAC_OS_VERSION_11_0)
-> > +    flags |= MAP_JIT;
-> > +#endif
-> >      buf = mmap(NULL, size, prot, flags, -1, 0);
-> >      if (buf == MAP_FAILED) {
-> >          return NULL;
-> > @@ -1485,7 +1488,9 @@ static void do_tb_phys_invalidate(TranslationBlock *tb, bool rm_from_page_list)
-> >
-> >  static void tb_phys_invalidate__locked(TranslationBlock *tb)
-> >  {
-> > +    qemu_thread_jit_write();
-> >      do_tb_phys_invalidate(tb, true);
-> > +    qemu_thread_jit_execute();
-> >  }
-> >
-> >  /* invalidate one TB
-> > @@ -1687,6 +1692,7 @@ TranslationBlock *tb_gen_code(CPUState *cpu,
-> >  #endif
-> >
-> >      assert_memory_lock();
-> > +    qemu_thread_jit_write();
-> >
-> >      phys_pc = get_page_addr_code(env, pc);
-> >
-> > diff --git a/include/qemu/osdep.h b/include/qemu/osdep.h
-> > index f9ec8c84e9..89abebcf5d 100644
-> > --- a/include/qemu/osdep.h
-> > +++ b/include/qemu/osdep.h
-> > @@ -686,4 +686,7 @@ char *qemu_get_host_name(Error **errp);
-> >   */
-> >  size_t qemu_get_host_physmem(void);
-> >
-> > +void qemu_thread_jit_write(void);
-> > +void qemu_thread_jit_execute(void);
-> > +
-> >  #endif
-> > diff --git a/tcg/tcg.c b/tcg/tcg.c
-> > index 43c6cf8f52..ab8488f5d5 100644
-> > --- a/tcg/tcg.c
-> > +++ b/tcg/tcg.c
-> > @@ -1065,6 +1065,7 @@ void tcg_prologue_init(TCGContext *s)
-> >      s->pool_labels = NULL;
-> >  #endif
-> >
-> > +    qemu_thread_jit_write();
-> >      /* Generate the prologue.  */
-> >      tcg_target_qemu_prologue(s);
-> >
-> > diff --git a/util/osdep.c b/util/osdep.c
-> > index 66d01b9160..80ec7185da 100644
-> > --- a/util/osdep.c
-> > +++ b/util/osdep.c
-> > @@ -606,3 +606,25 @@ writev(int fd, const struct iovec *iov, int iov_cnt)
-> >      return readv_writev(fd, iov, iov_cnt, true);
-> >  }
-> >  #endif
-> > +
-> > +#if defined(__APPLE__) && defined(MAC_OS_VERSION_11_0)
-> > +static inline void qemu_thread_jit_write_protect(bool enabled)
-> > +{
-> > +    if (pthread_jit_write_protect_supported_np()) {
-> > +        pthread_jit_write_protect_np(enabled);
-> > +    }
-> > +}
-> > +
-> > +void qemu_thread_jit_execute(void)
-> > +{
-> > +    qemu_thread_jit_write_protect(true);
-> > +}
-> > +
-> > +void qemu_thread_jit_write(void)
-> > +{
-> > +    qemu_thread_jit_write_protect(false);
-> > +}
-> > +#else
-> > +void qemu_thread_jit_write(void) {}
-> > +void qemu_thread_jit_execute(void) {}
-> > +#endif
-> > --
-> > 2.29.2
-> >
+> This patch series include a few more NPCM7XX devices including
+>
+> - Analog Digital Converter (ADC)
+> - Pulse Width Modulation (PWM)
+>
+> We also modified the CLK module to generate clock values using qdev_clock.
+> These clocks are used to determine various clocks in NPCM7XX devices.
+>
+> Thank you for your review.
+>
+> Changes since v3:
+> - Use type casting instead of accessing parent object in all devices.
+>
+> Changes since v2:
+> - Split PWM test into a separate patch in the patch set
+> - Add trace events for PWM's update_freq/update_duty
+> - Add trace events for ioread/iowrite in ADC and PWM
+> - Use timer_get_ns in hw/timer/npcm7xx_timer.c
+> - Update commit message in ADC/PWM to mention qom-get/set method for usage
+> - Fix typos
+>
+> Changes since v1:
+> - We removed the IPMI and KCS related code from this patch set.
+>
+> Hao Wu (6):
+>   hw/misc: Add clock converter in NPCM7XX CLK module
+>   hw/timer: Refactor NPCM7XX Timer to use CLK clock
+>   hw/adc: Add an ADC module for NPCM7XX
+>   hw/misc: Add a PWM module for NPCM7XX
+>   hw/misc: Add QTest for NPCM7XX PWM Module
+>   hw/*: Use type casting for SysBusDevice in NPCM7XX
+>
+>  docs/system/arm/nuvoton.rst      |   4 +-
+>  hw/adc/meson.build               |   1 +
+>  hw/adc/npcm7xx_adc.c             | 321 +++++++++++++
+>  hw/adc/trace-events              |   5 +
+>  hw/arm/npcm7xx.c                 |  55 ++-
+>  hw/arm/npcm7xx_boards.c          |   2 +-
+>  hw/mem/npcm7xx_mc.c              |   2 +-
+>  hw/misc/meson.build              |   1 +
+>  hw/misc/npcm7xx_clk.c            | 797 ++++++++++++++++++++++++++++++-
+>  hw/misc/npcm7xx_gcr.c            |   2 +-
+>  hw/misc/npcm7xx_pwm.c            | 559 ++++++++++++++++++++++
+>  hw/misc/npcm7xx_rng.c            |   2 +-
+>  hw/misc/trace-events             |   6 +
+>  hw/nvram/npcm7xx_otp.c           |   2 +-
+>  hw/ssi/npcm7xx_fiu.c             |   2 +-
+>  hw/timer/npcm7xx_timer.c         |  25 +-
+>  include/hw/adc/npcm7xx_adc.h     |  72 +++
+>  include/hw/arm/npcm7xx.h         |   4 +
+>  include/hw/misc/npcm7xx_clk.h    | 146 +++++-
+>  include/hw/misc/npcm7xx_pwm.h    | 106 ++++
+>  include/hw/timer/npcm7xx_timer.h |   1 +
+>  meson.build                      |   1 +
+>  tests/qtest/meson.build          |   4 +-
+>  tests/qtest/npcm7xx_adc-test.c   | 400 ++++++++++++++++
+>  tests/qtest/npcm7xx_pwm-test.c   | 490 +++++++++++++++++++
+>  25 files changed, 2972 insertions(+), 38 deletions(-)
+>  create mode 100644 hw/adc/npcm7xx_adc.c
+>  create mode 100644 hw/adc/trace-events
+>  create mode 100644 hw/misc/npcm7xx_pwm.c
+>  create mode 100644 include/hw/adc/npcm7xx_adc.h
+>  create mode 100644 include/hw/misc/npcm7xx_pwm.h
+>  create mode 100644 tests/qtest/npcm7xx_adc-test.c
+>  create mode 100644 tests/qtest/npcm7xx_pwm-test.c
+>
+> --
+> 2.29.2.684.gfbc64c5ab5-goog
+>
+>
+
+--000000000000a7214905b82e4742
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr">Ping?</div><br><div class=3D"gmail_quote"><div dir=3D"ltr"=
+ class=3D"gmail_attr">On Wed, Dec 16, 2020 at 4:45 PM Hao Wu &lt;<a href=3D=
+"mailto:wuhaotsh@google.com">wuhaotsh@google.com</a>&gt; wrote:<br></div><b=
+lockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-le=
+ft:1px solid rgb(204,204,204);padding-left:1ex">This patch series include a=
+ few more NPCM7XX devices including<br>
+<br>
+- Analog Digital Converter (ADC)<br>
+- Pulse Width Modulation (PWM)<br>
+<br>
+We also modified the CLK module to generate clock values using qdev_clock.<=
+br>
+These clocks are used to determine various clocks in NPCM7XX devices.<br>
+<br>
+Thank you for your review.<br>
+<br>
+Changes since v3:<br>
+- Use type casting instead of accessing parent object in all devices.<br>
+<br>
+Changes since v2:<br>
+- Split PWM test into a separate patch in the patch set<br>
+- Add trace events for PWM&#39;s update_freq/update_duty<br>
+- Add trace events for ioread/iowrite in ADC and PWM<br>
+- Use timer_get_ns in hw/timer/npcm7xx_timer.c<br>
+- Update commit message in ADC/PWM to mention qom-get/set method for usage<=
+br>
+- Fix typos<br>
+<br>
+Changes since v1:<br>
+- We removed the IPMI and KCS related code from this patch set.<br>
+<br>
+Hao Wu (6):<br>
+=C2=A0 hw/misc: Add clock converter in NPCM7XX CLK module<br>
+=C2=A0 hw/timer: Refactor NPCM7XX Timer to use CLK clock<br>
+=C2=A0 hw/adc: Add an ADC module for NPCM7XX<br>
+=C2=A0 hw/misc: Add a PWM module for NPCM7XX<br>
+=C2=A0 hw/misc: Add QTest for NPCM7XX PWM Module<br>
+=C2=A0 hw/*: Use type casting for SysBusDevice in NPCM7XX<br>
+<br>
+=C2=A0docs/system/arm/nuvoton.rst=C2=A0 =C2=A0 =C2=A0 |=C2=A0 =C2=A04 +-<br=
+>
+=C2=A0hw/adc/meson.build=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0|=C2=A0 =C2=A01 +<br>
+=C2=A0hw/adc/npcm7xx_adc.c=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0|=
+ 321 +++++++++++++<br>
+=C2=A0hw/adc/trace-events=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 |=
+=C2=A0 =C2=A05 +<br>
+=C2=A0hw/arm/npcm7xx.c=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0|=C2=A0 55 ++-<br>
+=C2=A0hw/arm/npcm7xx_boards.c=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 |=C2=A0 =C2=
+=A02 +-<br>
+=C2=A0hw/mem/npcm7xx_mc.c=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 |=
+=C2=A0 =C2=A02 +-<br>
+=C2=A0hw/misc/meson.build=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 |=
+=C2=A0 =C2=A01 +<br>
+=C2=A0hw/misc/npcm7xx_clk.c=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 | 797 =
+++++++++++++++++++++++++++++++-<br>
+=C2=A0hw/misc/npcm7xx_gcr.c=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 |=C2=
+=A0 =C2=A02 +-<br>
+=C2=A0hw/misc/npcm7xx_pwm.c=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 | 559 =
+++++++++++++++++++++++<br>
+=C2=A0hw/misc/npcm7xx_rng.c=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 |=C2=
+=A0 =C2=A02 +-<br>
+=C2=A0hw/misc/trace-events=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0|=
+=C2=A0 =C2=A06 +<br>
+=C2=A0hw/nvram/npcm7xx_otp.c=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0|=C2=
+=A0 =C2=A02 +-<br>
+=C2=A0hw/ssi/npcm7xx_fiu.c=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0|=
+=C2=A0 =C2=A02 +-<br>
+=C2=A0hw/timer/npcm7xx_timer.c=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0|=C2=A0 25 =
++-<br>
+=C2=A0include/hw/adc/npcm7xx_adc.h=C2=A0 =C2=A0 =C2=A0|=C2=A0 72 +++<br>
+=C2=A0include/hw/arm/npcm7xx.h=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0|=C2=A0 =C2=
+=A04 +<br>
+=C2=A0include/hw/misc/npcm7xx_clk.h=C2=A0 =C2=A0 | 146 +++++-<br>
+=C2=A0include/hw/misc/npcm7xx_pwm.h=C2=A0 =C2=A0 | 106 ++++<br>
+=C2=A0include/hw/timer/npcm7xx_timer.h |=C2=A0 =C2=A01 +<br>
+=C2=A0meson.build=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 =C2=A0 |=C2=A0 =C2=A01 +<br>
+=C2=A0tests/qtest/meson.build=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 |=C2=A0 =C2=
+=A04 +-<br>
+=C2=A0tests/qtest/npcm7xx_adc-test.c=C2=A0 =C2=A0| 400 ++++++++++++++++<br>
+=C2=A0tests/qtest/npcm7xx_pwm-test.c=C2=A0 =C2=A0| 490 +++++++++++++++++++<=
+br>
+=C2=A025 files changed, 2972 insertions(+), 38 deletions(-)<br>
+=C2=A0create mode 100644 hw/adc/npcm7xx_adc.c<br>
+=C2=A0create mode 100644 hw/adc/trace-events<br>
+=C2=A0create mode 100644 hw/misc/npcm7xx_pwm.c<br>
+=C2=A0create mode 100644 include/hw/adc/npcm7xx_adc.h<br>
+=C2=A0create mode 100644 include/hw/misc/npcm7xx_pwm.h<br>
+=C2=A0create mode 100644 tests/qtest/npcm7xx_adc-test.c<br>
+=C2=A0create mode 100644 tests/qtest/npcm7xx_pwm-test.c<br>
+<br>
+-- <br>
+2.29.2.684.gfbc64c5ab5-goog<br>
+<br>
+</blockquote></div>
+
+--000000000000a7214905b82e4742--
 
