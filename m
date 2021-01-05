@@ -2,66 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C60A52EAD2B
-	for <lists+qemu-devel@lfdr.de>; Tue,  5 Jan 2021 15:13:12 +0100 (CET)
-Received: from localhost ([::1]:51132 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E17B32EAD31
+	for <lists+qemu-devel@lfdr.de>; Tue,  5 Jan 2021 15:14:31 +0100 (CET)
+Received: from localhost ([::1]:53934 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kwn5D-0003hs-BM
-	for lists+qemu-devel@lfdr.de; Tue, 05 Jan 2021 09:13:11 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47236)
+	id 1kwn6V-0004v9-0O
+	for lists+qemu-devel@lfdr.de; Tue, 05 Jan 2021 09:14:31 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48130)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1kwn3F-0002r3-Ch
- for qemu-devel@nongnu.org; Tue, 05 Jan 2021 09:11:09 -0500
-Received: from indium.canonical.com ([91.189.90.7]:48276)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1kwn5G-0004Es-Fd
+ for qemu-devel@nongnu.org; Tue, 05 Jan 2021 09:13:15 -0500
+Received: from mail-ej1-x629.google.com ([2a00:1450:4864:20::629]:43730)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1kwn3C-0006FW-Q6
- for qemu-devel@nongnu.org; Tue, 05 Jan 2021 09:11:09 -0500
-Received: from loganberry.canonical.com ([91.189.90.37])
- by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1kwn3A-0006q0-L0
- for <qemu-devel@nongnu.org>; Tue, 05 Jan 2021 14:11:04 +0000
-Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 982942E8088
- for <qemu-devel@nongnu.org>; Tue,  5 Jan 2021 14:11:04 +0000 (UTC)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1kwn5E-0007Bw-M9
+ for qemu-devel@nongnu.org; Tue, 05 Jan 2021 09:13:14 -0500
+Received: by mail-ej1-x629.google.com with SMTP id jx16so41315233ejb.10
+ for <qemu-devel@nongnu.org>; Tue, 05 Jan 2021 06:13:12 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=rIirAyH3XZ+mUgPKERQ/E7CPSyWgVqdiLqB1+gfTg/k=;
+ b=AZLCROX0iNQLRvMbpVxlAXib62VSGAk/LU2OvCyPZCRue21dlXSWiauJBH2dxeSD4K
+ 9jKS4peN/dZrZXWP4IzwWbf3IZCNaCFDI10HHunNoo+iOd5esyH4PoAPpOu4ScMBdm81
+ EYOCLX5qZuVFNTCDBuuBZ4CXWJPGS5BsREZIQ8OQyWpIFKF/J2TQFwxtszIVIfOTha9A
+ 3qtTCvPDjdlCu2ccxNmybiXIO9OUoyQ0yQUJLpg3CYX/vvusiOpu6omCUjy8SmMBp0ai
+ 2xCMVtF20d3nMRDg5F2tvZzzqUZwf9kz/Dlb1q9GNsOuTMnC95R9Rx/7BmCAMISUgsO4
+ QnWw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=rIirAyH3XZ+mUgPKERQ/E7CPSyWgVqdiLqB1+gfTg/k=;
+ b=YGnM1g+BN7Y1x92J7n68y1G4V6SjINJ/uSGqu3+IZjmUTEgsw1WZz7/bBj+acicycc
+ 5jKXos9XrnkAaxyXbeg2jv0yB0JpIleWeZIqhhXz4MT/27lmlK1ZeioBsQy9udNR+oTT
+ qJLiqn2jdETzZxUDFp4A7qm64qRd59jn/1X8SL+LI14Gx0qzPu0fdRY2a8W/Zh7FsaFo
+ KNPvkplu3I6VjADDiY93Y8TzegdPcEX6Jy2vYhyzT8REDeEMrIMTa3CMSDHvsjpaORv8
+ nOFwwXbhY8n+X0SXr+V5VDsl+bM8fdnRms6CinR+44KxcIlIvXdKkXIiMZB3+Sw1yFCl
+ sTrQ==
+X-Gm-Message-State: AOAM533Qaf3y5jipWHNylRDZdoFX80abFXll2bQC6tV1xJ9FweUzesDW
+ 8ZTrB/TZTjgKaNBbN2Efb2L6x/T4BtCPgZWUzj7ukA==
+X-Google-Smtp-Source: ABdhPJzqE7mA41GFB80bpFpZM01aCMssU3Wssu8WZAj1r5i9g7g7es3nuU/0wSJcuyYzXL0GSGJTouPSB+HIuhRu7P4=
+X-Received: by 2002:a17:906:195a:: with SMTP id
+ b26mr69902671eje.4.1609855990721; 
+ Tue, 05 Jan 2021 06:13:10 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-Date: Tue, 05 Jan 2021 13:59:15 -0000
-From: Gerd Hoffmann <1908266@bugs.launchpad.net>
-To: qemu-devel@nongnu.org
-X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=Incomplete; importance=Undecided;
- assignee=None; 
-X-Launchpad-Bug-Information-Type: Public
-X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: kraxel-redhat tom-ty89
-X-Launchpad-Bug-Reporter: Tom Yan (tom-ty89)
-X-Launchpad-Bug-Modifier: Gerd Hoffmann (kraxel-redhat)
-References: <160803597538.5351.1615822414009397747.malonedeb@gac.canonical.com>
-Message-Id: <160985515566.4456.6305263560690661425.malone@soybean.canonical.com>
-Subject: [Bug 1908266] Re: spice unnecessary forces nographic
-X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
-X-Launchpad-Message-For: qemu-devel-ml
-Precedence: bulk
-X-Generated-By: Launchpad (canonical.com);
- Revision="34b3ffd45c9543b7f7aa5aa313925241e9e7ca3f"; Instance="production"
-X-Launchpad-Hash: dbf27dd3278e388377259aadfc1d1c5035440d90
-Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
- helo=indium.canonical.com
-X-Spam_score_int: -65
-X-Spam_score: -6.6
-X-Spam_bar: ------
-X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9,
- HEADER_FROM_DIFFERENT_DOMAINS=0.249, RCVD_IN_DNSWL_HI=-5,
- RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=ham autolearn_force=no
+References: <672b8aa0-2128-23e1-b778-01a4d96b209d@redhat.com>
+In-Reply-To: <672b8aa0-2128-23e1-b778-01a4d96b209d@redhat.com>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Tue, 5 Jan 2021 14:12:59 +0000
+Message-ID: <CAFEAcA93iYHz2aXUY+sXwNqwNT3MD0HD6V+JoJJWt+xO9OUZNg@mail.gmail.com>
+Subject: Re: [RFC] Using gitlab for upstream qemu repo?
+To: Paolo Bonzini <pbonzini@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2a00:1450:4864:20::629;
+ envelope-from=peter.maydell@linaro.org; helo=mail-ej1-x629.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -70,37 +77,34 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1908266 <1908266@bugs.launchpad.net>
+Cc: Thomas Huth <thuth@redhat.com>,
+ =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>,
+ Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
+ qemu-devel <qemu-devel@nongnu.org>, Stefan Hajnoczi <stefanha@redhat.com>,
+ "Edgar E. Iglesias" <edgar.iglesias@gmail.com>,
+ =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Yes, display devices show up on both UI and spice/vnc,
-and right now there is no way to contigure that.
+On Thu, 22 Oct 2020 at 17:48, Paolo Bonzini <pbonzini@redhat.com> wrote:
+> now that Gitlab is the primary CI infrastructure for QEMU, and that all
+> QEMU git repositories (including mirrors) are available on Gitlab, I
+> would like to propose that committers use Gitlab when merging commits to
+> QEMU repositories.
 
-Using spice fot the vga and gtk for serial/monitor
-is rather unusual though.  Any reason for this?
+> - right now Gitlab pulls from upstream repos and qemu.org pulls from
+> gitlab, but this is not true for the qemu, qemu-web and openbios
+> repositories where Gitlab pulls from qemu.org and qemu.org is the main
+> repository.  With this switch, all the main repositories would be on
+> Gitlab and then mirrored to both qemu.org and GitHub.  Having a
+> homogeneous configuration makes it easier to document what's going on.
 
-I'd suggest to simply use the gtk ui instead.
-It works with opengl (-display gtk,gl=3Don).
-You also can show stuff side-by-side in
-separate windows, via menu -> view -> detach tab.
+So IIRC we decided that we wanted to do this git.qemu.org -> gitlab
+switchover, but not during the 5.2 release. 5.2 is now out the door,
+so what's the next step to do the changeover? Now seems like a good
+time to do it so we can be happy we've dealt with any snags well
+before we get towards softfreeze.
 
--- =
-
-You received this bug notification because you are a member of qemu-
-devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1908266
-
-Title:
-  spice unnecessary forces nographic
-
-Status in QEMU:
-  Incomplete
-
-Bug description:
-  When spice is enabled, qemu does not give the graphical window. It
-  should not imply -nographic but only -display none.
-
-To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1908266/+subscriptions
+thanks
+-- PMM
 
