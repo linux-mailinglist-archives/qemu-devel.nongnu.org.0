@@ -2,55 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D65512EA9E5
-	for <lists+qemu-devel@lfdr.de>; Tue,  5 Jan 2021 12:30:13 +0100 (CET)
-Received: from localhost ([::1]:45338 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 87CF12EAA19
+	for <lists+qemu-devel@lfdr.de>; Tue,  5 Jan 2021 12:41:39 +0100 (CET)
+Received: from localhost ([::1]:48812 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kwkXU-0006e5-7I
-	for lists+qemu-devel@lfdr.de; Tue, 05 Jan 2021 06:30:12 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39376)
+	id 1kwkiY-0000m1-4D
+	for lists+qemu-devel@lfdr.de; Tue, 05 Jan 2021 06:41:38 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41626)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <ganqixin@huawei.com>)
- id 1kwkVq-0005fw-KK; Tue, 05 Jan 2021 06:28:30 -0500
-Received: from szxga08-in.huawei.com ([45.249.212.255]:2246)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <ganqixin@huawei.com>)
- id 1kwkVm-0001CX-8e; Tue, 05 Jan 2021 06:28:30 -0500
-Received: from dggemi401-hub.china.huawei.com (unknown [172.30.72.55])
- by szxga08-in.huawei.com (SkyGuard) with ESMTP id 4D99F43wb6z13dF1;
- Tue,  5 Jan 2021 19:26:48 +0800 (CST)
-Received: from DGGEMI525-MBS.china.huawei.com ([169.254.6.51]) by
- dggemi401-hub.china.huawei.com ([10.3.17.134]) with mapi id 14.03.0509.000;
- Tue, 5 Jan 2021 19:28:11 +0800
-From: ganqixin <ganqixin@huawei.com>
-To: Thomas Huth <thuth@redhat.com>, "qemu-devel@nongnu.org"
- <qemu-devel@nongnu.org>, "qemu-trivial@nongnu.org" <qemu-trivial@nongnu.org>
-Subject: RE: [PATCH] qtest/libqtest.c: fix heap-buffer-overflow in
- qtest_cb_for_every_machine()
-Thread-Topic: [PATCH] qtest/libqtest.c: fix heap-buffer-overflow in
- qtest_cb_for_every_machine()
-Thread-Index: AQHW4qOy1rqRxXUbJEqsjcSBp+bgxqoYRAIAgAChTrA=
-Date: Tue, 5 Jan 2021 11:28:11 +0000
-Message-ID: <A5B86EC83C48EF4CB2BC58BEF3A2F4960661F098@DGGEMI525-MBS.china.huawei.com>
-References: <20210104141025.496193-1-ganqixin@huawei.com>
- <b0426ff0-f33b-dd64-66e5-4937bc3a1be1@redhat.com>
-In-Reply-To: <b0426ff0-f33b-dd64-66e5-4937bc3a1be1@redhat.com>
-Accept-Language: en-US
-Content-Language: zh-CN
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [10.174.185.159]
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1kwkh0-0000F2-IP
+ for qemu-devel@nongnu.org; Tue, 05 Jan 2021 06:40:03 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:32098)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1kwkgx-0006D9-5M
+ for qemu-devel@nongnu.org; Tue, 05 Jan 2021 06:40:00 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1609846797;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=cb4j/9e3f7JdaDCBVjPDA+n05RXSnferayaJmfWz6Jc=;
+ b=PxzjQFy38boqsGP8pggl6RTyVP/YLRnk++3iV/0qHYV0/RzhuNeTWqYlWMgA8F+5DDzKUM
+ wIgbcpkoDpmZEdLou/an6yf9LcP14nYRvGsRczy6awwtXtnCIqDx7SJpw3oK5guAnen/8B
+ nOV0FkyxCiZ9rRulR054jevvIIigACM=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-266-pfOqxaOCPty9bwqFCKe6jQ-1; Tue, 05 Jan 2021 06:39:55 -0500
+X-MC-Unique: pfOqxaOCPty9bwqFCKe6jQ-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 71381107ACE4;
+ Tue,  5 Jan 2021 11:39:54 +0000 (UTC)
+Received: from sirius.home.kraxel.org (ovpn-114-209.ams2.redhat.com
+ [10.36.114.209])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 2504560BE5;
+ Tue,  5 Jan 2021 11:39:53 +0000 (UTC)
+Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
+ id 730CC1800099; Tue,  5 Jan 2021 12:39:52 +0100 (CET)
+Date: Tue, 5 Jan 2021 12:39:52 +0100
+From: Gerd Hoffmann <kraxel@redhat.com>
+To: Peter Maydell <peter.maydell@linaro.org>
+Subject: Re: [Qemu-devel] [PULL 1/1] ui/vnc: fix vmware VGA incompatiblities
+Message-ID: <20210105113952.cjnz2n7z27uihfzy@sirius.home.kraxel.org>
+References: <1395127548-32670-1-git-send-email-kraxel@redhat.com>
+ <1395127548-32670-2-git-send-email-kraxel@redhat.com>
+ <CAFEAcA--LaTy3P+o8DJXzaLj72RGdZQ1rVr1nzw+WpBObEU3gg@mail.gmail.com>
 MIME-Version: 1.0
-X-CFilter-Loop: Reflected
-Received-SPF: pass client-ip=45.249.212.255; envelope-from=ganqixin@huawei.com;
- helo=szxga08-in.huawei.com
-X-Spam_score_int: -41
-X-Spam_score: -4.2
-X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
+In-Reply-To: <CAFEAcA--LaTy3P+o8DJXzaLj72RGdZQ1rVr1nzw+WpBObEU3gg@mail.gmail.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kraxel@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=kraxel@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -29
+X-Spam_score: -3.0
+X-Spam_bar: ---
+X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.243,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -64,53 +80,45 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Laurent Vivier <lvivier@redhat.com>,
- "Chenqun \(kuhn\)" <kuhn.chenqun@huawei.com>,
- Zhanghailiang <zhang.zhanghailiang@huawei.com>,
- Euler Robot <euler.robot@huawei.com>
+Cc: Peter Lieven <pl@kamp.de>, QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-PiBGcm9tOiBUaG9tYXMgSHV0aCBbbWFpbHRvOnRodXRoQHJlZGhhdC5jb21dDQo+IFNlbnQ6IFR1
-ZXNkYXksIEphbnVhcnkgNSwgMjAyMSA1OjQ3IFBNDQo+IFRvOiBnYW5xaXhpbiA8Z2FucWl4aW5A
-aHVhd2VpLmNvbT47IHFlbXUtZGV2ZWxAbm9uZ251Lm9yZzsNCj4gcWVtdS10cml2aWFsQG5vbmdu
-dS5vcmcNCj4gQ2M6IENoZW5xdW4gKGt1aG4pIDxrdWhuLmNoZW5xdW5AaHVhd2VpLmNvbT47IFpo
-YW5naGFpbGlhbmcNCj4gPHpoYW5nLnpoYW5naGFpbGlhbmdAaHVhd2VpLmNvbT47IEV1bGVyIFJv
-Ym90DQo+IDxldWxlci5yb2JvdEBodWF3ZWkuY29tPjsgTGF1cmVudCBWaXZpZXIgPGx2aXZpZXJA
-cmVkaGF0LmNvbT4NCj4gU3ViamVjdDogUmU6IFtQQVRDSF0gcXRlc3QvbGlicXRlc3QuYzogZml4
-IGhlYXAtYnVmZmVyLW92ZXJmbG93IGluDQo+IHF0ZXN0X2NiX2Zvcl9ldmVyeV9tYWNoaW5lKCkN
-Cj4gDQo+IE9uIDA0LzAxLzIwMjEgMTUuMTAsIEdhbiBRaXhpbiB3cm90ZToNCj4gPiBXaGVuIHRo
-ZSBsZW5ndGggb2YgbW5hbWUgaXMgbGVzcyB0aGFuIDUsIG1lbWNweSAoInhlbmZ2IiwgbW5hbWUs
-IDUpDQo+ID4gd2lsbCBjYXVzZSBoZWFwIGJ1ZmZlciBvdmVyZmxvdy4gVGhlcmVmb3JlLCB1c2Ug
-c3RyY21wIHRvIGF2b2lkIHRoaXMNCj4gcHJvYmxlbS4NCj4gPg0KPiA+IFRoZSBhc2FuIHNob3dl
-ZCBzdGFjazoNCj4gPg0KPiA+IEVSUk9SOiBBZGRyZXNzU2FuaXRpemVyOiBoZWFwLWJ1ZmZlci1v
-dmVyZmxvdyBvbiBhZGRyZXNzDQo+ID4gMHg2MDIwMDAwMGYyZjQgYXQgcGMgMHg3ZjY1ZDhjYzIy
-MjUgYnAgMHg3ZmZlOTNjYzVhNjAgc3ANCj4gPiAweDdmZmU5M2NjNTIwOCBSRUFEIG9mIHNpemUg
-NSBhdA0KPiA+IDB4NjAyMDAwMDBmMmY0IHRocmVhZCBUMA0KPiA+ICAgICAgIzAgMHg3ZjY1ZDhj
-YzIyMjQgaW4gbWVtY21wICgvbGliNjQvbGliYXNhbi5zby41KzB4ZGYyMjQpDQo+ID4gICAgICAj
-MSAweDU2MzJjMjBiZTk1YiBpbiBxdGVzdF9jYl9mb3JfZXZlcnlfbWFjaGluZQ0KPiB0ZXN0cy9x
-dGVzdC9saWJxdGVzdC5jOjEyODINCj4gPiAgICAgICMyIDB4NTYzMmMyMGI3OTk1IGluIG1haW4g
-dGVzdHMvcXRlc3QvdGVzdC1obXAuYzoxNjANCj4gPiAgICAgICMzIDB4N2Y2NWQ4OGZlZDQyIGlu
-IF9fbGliY19zdGFydF9tYWluICgvbGliNjQvbGliYy5zby42KzB4MjZkNDIpDQo+ID4gICAgICAj
-NCAweDU2MzJjMjBiNzJjZCBpbiBfc3RhcnQgKGJ1aWxkL3Rlc3RzL3F0ZXN0L3Rlc3QtaG1wKzB4
-NTQyY2QpDQo+ID4NCj4gPiBSZXBvcnRlZC1ieTogRXVsZXIgUm9ib3QgPGV1bGVyLnJvYm90QGh1
-YXdlaS5jb20+DQo+ID4gU2lnbmVkLW9mZi1ieTogR2FuIFFpeGluIDxnYW5xaXhpbkBodWF3ZWku
-Y29tPg0KPiA+IC0tLQ0KPiA+IENjOiBUaG9tYXMgSHV0aCA8dGh1dGhAcmVkaGF0LmNvbT4NCj4g
-PiBDYzogTGF1cmVudCBWaXZpZXIgPGx2aXZpZXJAcmVkaGF0LmNvbT4NCj4gPiAtLS0NCj4gPiAg
-IHRlc3RzL3F0ZXN0L2xpYnF0ZXN0LmMgfCAyICstDQo+ID4gICAxIGZpbGUgY2hhbmdlZCwgMSBp
-bnNlcnRpb24oKyksIDEgZGVsZXRpb24oLSkNCj4gPg0KPiA+IGRpZmYgLS1naXQgYS90ZXN0cy9x
-dGVzdC9saWJxdGVzdC5jIGIvdGVzdHMvcXRlc3QvbGlicXRlc3QuYyBpbmRleA0KPiA+IGU0OWYz
-YTFlNDUuLmU4MTc5YTM1MDkgMTAwNjQ0DQo+ID4gLS0tIGEvdGVzdHMvcXRlc3QvbGlicXRlc3Qu
-Yw0KPiA+ICsrKyBiL3Rlc3RzL3F0ZXN0L2xpYnF0ZXN0LmMNCj4gPiBAQCAtMTI4MSw3ICsxMjgx
-LDcgQEAgdm9pZCBxdGVzdF9jYl9mb3JfZXZlcnlfbWFjaGluZSh2b2lkDQo+ICgqY2IpKGNvbnN0
-IGNoYXIgKm1hY2hpbmUpLA0KPiA+ICAgICAgICAgICBnX2Fzc2VydChxc3RyKTsNCj4gPiAgICAg
-ICAgICAgbW5hbWUgPSBxc3RyaW5nX2dldF9zdHIocXN0cik7DQo+ID4gICAgICAgICAgIC8qIEln
-bm9yZSBtYWNoaW5lcyB0aGF0IGNhbm5vdCBiZSB1c2VkIGZvciBxdGVzdHMgKi8NCj4gPiAtICAg
-ICAgICBpZiAoIW1lbWNtcCgieGVuZnYiLCBtbmFtZSwgNSkgfHwgZ19zdHJfZXF1YWwoInhlbnB2
-IiwNCj4gbW5hbWUpKSB7DQo+ID4gKyAgICAgICAgaWYgKCFzdHJjbXAoInhlbmZ2IiwgbW5hbWUp
-IHx8IGdfc3RyX2VxdWFsKCJ4ZW5wdiIsIG1uYW1lKSkgew0KPiANCj4gVXNpbmcgc3RyY21wKCkg
-aXMgbGlrZWx5IHdyb25nIGhlcmUsIHNpbmNlIHdlJ3JlIHRhbGtpbmcgYWJvdXQgc3RyaW5ncyBs
-aWtlDQo+ICJ4ZW5mdi00LjIiIGhlcmUgLi4uIHNvIEkgZ3Vlc3Mgc3RybmNtcCguLi4sIDUpIHdv
-dWxkIGJlIHRoZSByaWdodCB3YXkgdG8gZ28/DQoNCg0KWWVzLCB1c2luZyBzdHJjbXAoKSBpcyB3
-cm9uZywgSSB3aWxsIG1vZGlmeSB0aGlzIHBhdGNoLiBUaGFua3MgZm9yIHlvdXIgcmVwbHkhDQo=
+  Hi,
+
+> > -#define SVGA_MAX_WIDTH                  2360
+> > +#define SVGA_MAX_WIDTH                  ROUND_UP(2360, VNC_DIRTY_PIXELS_PER_BIT)
+
+> Here we pull in the VNC header in order to get the definition
+> of the VNC_DIRTY_PIXELS_PER_BIT constant, but I don't understand
+> why. The hw/display code should be agnostic of whatever the
+> UI display front-end is. Why does vmware_vga.c need to care
+> but not any other device?
+
+Yep, doesn't make sense.
+
+> I can't find anything in the vmware VGA device docs (though they
+> are pretty meagre) suggesting that there's a requirement for
+> the surface to be a multiple of 16, so I think that the VNC code
+> needs to be able to cope. (This should be no different from any other
+> display device model setting a non-multiple-of-16 width.)
+
+We had problems with that in the past but it should be fixed now.  vnc
+wants a multiple of 16 still.  IIRC you'll get a small black bar filling
+the room to the next multiple of 16 in case the display surface doesn't
+match.
+
+> So my feeling is that this vmware_vga.c portion of this commit
+> should be reverted,
+
+Agree.
+
+Maybe even deprecate the whole device?  Not sure how useful it is these
+days as it has seen pretty much no development in the last decade.  The
+linux kernel modesetting driver complains about missing device features
+and refuses to touch the device ...
+
+take care,
+  Gerd
+
 
