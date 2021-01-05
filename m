@@ -2,73 +2,84 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BE6E22EB389
-	for <lists+qemu-devel@lfdr.de>; Tue,  5 Jan 2021 20:35:15 +0100 (CET)
-Received: from localhost ([::1]:56416 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 447DB2EB38B
+	for <lists+qemu-devel@lfdr.de>; Tue,  5 Jan 2021 20:38:14 +0100 (CET)
+Received: from localhost ([::1]:58972 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kws6s-0002Bq-PC
-	for lists+qemu-devel@lfdr.de; Tue, 05 Jan 2021 14:35:14 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48350)
+	id 1kws9l-0003Qj-CC
+	for lists+qemu-devel@lfdr.de; Tue, 05 Jan 2021 14:38:13 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49784)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <lersek@redhat.com>) id 1kws58-0001Y6-1p
- for qemu-devel@nongnu.org; Tue, 05 Jan 2021 14:33:27 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:40471)
+ (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1kws8k-0002yS-1t
+ for qemu-devel@nongnu.org; Tue, 05 Jan 2021 14:37:10 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:36231)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <lersek@redhat.com>) id 1kws50-0002cj-3t
- for qemu-devel@nongnu.org; Tue, 05 Jan 2021 14:33:23 -0500
+ (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1kws8f-00045u-B7
+ for qemu-devel@nongnu.org; Tue, 05 Jan 2021 14:37:07 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1609875193;
+ s=mimecast20190719; t=1609875423;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=JLvs/AIbF5coHCYeJczIr74WAv1FMMwlB2dR3GjyuAE=;
- b=SIVnsCW3p5bi5mKkzTD33hl89EcQjS2oD81tqBBY3QbmpJYZKf+CF8BJv99L8gxR89T32y
- enHLaNQW4HqHjnUwOwcpBMQzKP7x3lzYPieWVClPbrpWMSkoQPUaY41sLC2LSFt+/74mLO
- uhiu6PNgopj4oLLjTuzQYOIjKyMnCdo=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-584--iE4dlNDORamdrF5sz1ytw-1; Tue, 05 Jan 2021 14:33:09 -0500
-X-MC-Unique: -iE4dlNDORamdrF5sz1ytw-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 6BB08107ACFE;
- Tue,  5 Jan 2021 19:33:08 +0000 (UTC)
-Received: from lacos-laptop-7.usersys.redhat.com (ovpn-113-73.ams2.redhat.com
- [10.36.113.73])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 332B05D6CF;
- Tue,  5 Jan 2021 19:33:01 +0000 (UTC)
-Subject: Re: [PATCH v3 3/8] acpi/gpex: Inform os to keep firmware resource map
-To: Igor Mammedov <imammedo@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>
-References: <20201223090836.9075-1-cenjiahui@huawei.com>
- <20201223090836.9075-4-cenjiahui@huawei.com>
- <20201229144142.66583852@redhat.com>
- <20201230161942-mutt-send-email-mst@kernel.org>
- <20210105013529.4addf44f@redhat.com>
-From: Laszlo Ersek <lersek@redhat.com>
-Message-ID: <614c50ef-350b-a30e-e4bd-c71a9e442e29@redhat.com>
-Date: Tue, 5 Jan 2021 20:33:00 +0100
+ bh=FsDI1+p3FrcepYL3MTeLSfWKDhD48mldYY3L8psWXqA=;
+ b=UMPwhT1faYMSfKH6vzXk1N8XnBipwonLpinuSIUoEGC3WGshSsFfciQvboRSm9PRKQOPRf
+ VkCjNfx6Pn4JXQKQpL59riHCQkk1FPl0bbuqI6GPQQt1loUkEDl2DGoHYdIrqG7hPykPU+
+ fGZPwYAfepUUaP9/nEnX1Mk5aXJk7wo=
+Received: from mail-qv1-f72.google.com (mail-qv1-f72.google.com
+ [209.85.219.72]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-343-8JYMOwYMNpC1_n9eRnzTog-1; Tue, 05 Jan 2021 14:37:01 -0500
+X-MC-Unique: 8JYMOwYMNpC1_n9eRnzTog-1
+Received: by mail-qv1-f72.google.com with SMTP id v1so516439qvb.2
+ for <qemu-devel@nongnu.org>; Tue, 05 Jan 2021 11:37:01 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=FsDI1+p3FrcepYL3MTeLSfWKDhD48mldYY3L8psWXqA=;
+ b=UG1hN3FUB9LUuFh3CBN+w+xwctPeh0ZciVHgAGb1XgfNAALjW2hO4bGS55cdo1r/zf
+ PgRqE5LpM5w6DUqENmi+ACnIsoZEh8rriJWa3KNvJgBHtUn8HCpzWPd6EPr+1sKE3PAF
+ Lkgpwg1TWWycMtczooOIAQsxJIbFndx2m+z1ZxgZRxgSzHq9e9KO+69s06dlf/FWIhzR
+ V+h96ONWDs8fd0x4ZQl884xIHbXAKYuSPVB2SUVRSEhjAvAR3JIokkWq0+8r3tiN0yNJ
+ ELfJH7cmLdy0/aVf4im+fAP4G0oYBqS1td6e44y71KEJrhWvZDHL/lotHjwYJmU2aiVc
+ vuDw==
+X-Gm-Message-State: AOAM530tezdWGMp8VjP0Mi8xlsZondlQzTyZ2agZlIUWRLNEJvoeQCFg
+ u1G/MdIUAaLuxURRA2GSrEcYH3Q2vbvm226vzRWI2rcJm7FoIE7fBBIyfiB5WprhOHJbwaYFKqD
+ yS6UY8E3i1QQWlHY=
+X-Received: by 2002:a05:620a:145a:: with SMTP id
+ i26mr1072779qkl.31.1609875421389; 
+ Tue, 05 Jan 2021 11:37:01 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJx23LqDK6gOFWsiFxESK7lU7bVZmsNIz8ZIP9oP6KsNOVzBQcx0ZOXSjX213QMpkoLDiyEXOg==
+X-Received: by 2002:a05:620a:145a:: with SMTP id
+ i26mr1072764qkl.31.1609875421139; 
+ Tue, 05 Jan 2021 11:37:01 -0800 (PST)
+Received: from xz-x1 ([142.126.83.202])
+ by smtp.gmail.com with ESMTPSA id b78sm146974qkg.29.2021.01.05.11.36.59
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 05 Jan 2021 11:37:00 -0800 (PST)
+Date: Tue, 5 Jan 2021 14:36:58 -0500
+From: Peter Xu <peterx@redhat.com>
+To: Andrey Gruzdev <andrey.gruzdev@virtuozzo.com>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+Subject: Re: [PATCH v10 0/5] UFFD write-tracking migration/snapshots
+Message-ID: <20210105193658.GE149908@xz-x1>
+References: <20201217165712.369061-1-andrey.gruzdev@virtuozzo.com>
 MIME-Version: 1.0
-In-Reply-To: <20210105013529.4addf44f@redhat.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+In-Reply-To: <20201217165712.369061-1-andrey.gruzdev@virtuozzo.com>
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=lersek@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=peterx@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=lersek@redhat.com;
+Content-Disposition: inline
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=peterx@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -29
 X-Spam_score: -3.0
 X-Spam_bar: ---
 X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.252,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -82,161 +93,58 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: xieyingtai@huawei.com, Jiahui Cen <cenjiahui@huawei.com>,
- Eduardo Habkost <ehabkost@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org,
- Ard Biesheuvel <ard.biesheuvel@arm.com>, Paolo Bonzini <pbonzini@redhat.com>,
- wu.wubin@huawei.com
+Cc: Juan Quintela <quintela@redhat.com>, Markus Armbruster <armbru@redhat.com>,
+ qemu-devel@nongnu.org, "Dr . David Alan Gilbert" <dgilbert@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>, Den Lunev <den@openvz.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 01/05/21 01:35, Igor Mammedov wrote:
-> On Wed, 30 Dec 2020 16:22:08 -0500
-> "Michael S. Tsirkin" <mst@redhat.com> wrote:
+On Thu, Dec 17, 2020 at 07:57:07PM +0300, Andrey Gruzdev wrote:
+> This patch series is a kind of 'rethinking' of Denis Plotnikov's ideas he's
+> implemented in his series '[PATCH v0 0/4] migration: add background snapshot'.
 > 
->> On Tue, Dec 29, 2020 at 02:41:42PM +0100, Igor Mammedov wrote:
->>> On Wed, 23 Dec 2020 17:08:31 +0800
->>> Jiahui Cen <cenjiahui@huawei.com> wrote:
->>>   
->>>> There may be some differences in pci resource assignment between guest os
->>>> and firmware.
->>>>
->>>> Eg. A Bridge with Bus [d2]
->>>>     -+-[0000:d2]---01.0-[d3]----01.0
->>>>
->>>>     where [d2:01.00] is a pcie-pci-bridge with BAR0 (mem, 64-bit, non-pref) [size=256]
->>>>           [d3:01.00] is a PCI Device with BAR0 (mem, 64-bit, pref) [size=128K]
->>>>                                           BAR4 (mem, 64-bit, pref) [size=64M]
->>>>
->>>>     In EDK2, the Resource Map would be:
->>>>         PciBus: Resource Map for Bridge [D2|01|00]
->>>>         Type = PMem64; Base = 0x8004000000;     Length = 0x4100000;     Alignment = 0x3FFFFFF
->>>>            Base = 0x8004000000; Length = 0x4000000;     Alignment = 0x3FFFFFF;  Owner = PCI [D3|01|00:20]
->>>>            Base = 0x8008000000; Length = 0x20000;       Alignment = 0x1FFFF;    Owner = PCI [D3|01|00:10]
->>>>         Type =  Mem64; Base = 0x8008100000;     Length = 0x100; Alignment = 0xFFF
->>>>     It would use 0x4100000 to calculate the root bus's PMem64 resource window.
->>>>
->>>>     While in Linux, kernel will use 0x1FFFFFF as the alignment to calculate
->>>>     the PMem64 size, which would be 0x6000000. So kernel would try to
->>>>     allocate 0x6000000 from the PMem64 resource window, but since the window
->>>>     size is 0x4100000 as assigned by EDK2, the allocation would fail.
->>>>
->>>> The diffences could result in resource assignment failure.
->>>>
->>>> Using _DSM #5 method to inform guest os not to ignore the PCI configuration
->>>> that firmware has done at boot time could handle the differences.  
->>>
->>> I'm not sure about this one, 
->>> OS should able to reconfigure PCI resources according to what and where is plugged
->>> (and it even more true is hotplug is taken into account)  
->>
->> spec says this:
->>
->> 0: No (The operating system must not ignore the PCI configuration that firmware has done
->> at boot time. However, the operating system is free to configure the devices in this hierarchy
->> that have not been configured by the firmware. There may be a reduced level of hot plug
->> capability support in this hierarchy due to resource constraints. This situation is the same as
->> the legacy situation where this _DSM is not provided.)
->> 1: Yes (The operating system may ignore the PCI configuration that the firmware has done
->> at boot time, and reconfigure/rebalance the resources in the hierarchy.)
-> I sort of convinced my self that's is just hotplug work might need to implement reconfiguration
-> in guest kernel and maybe QEMU
+> Currently the only way to make (external) live VM snapshot is using existing
+> dirty page logging migration mechanism. The main problem is that it tends to
+> produce a lot of page duplicates while running VM goes on updating already
+> saved pages. That leads to the fact that vmstate image size is commonly several
+> times bigger then non-zero part of virtual machine's RSS. Time required to
+> converge RAM migration and the size of snapshot image severely depend on the
+> guest memory write rate, sometimes resulting in unacceptably long snapshot
+> creation time and huge image size.
 > 
-> Though I have a question,
+> This series propose a way to solve the aforementioned problems. This is done
+> by using different RAM migration mechanism based on UFFD write protection
+> management introduced in v5.7 kernel. The migration strategy is to 'freeze'
+> guest RAM content using write-protection and iteratively release protection
+> for memory ranges that have already been saved to the migration stream.
+> At the same time we read in pending UFFD write fault events and save those
+> pages out-of-order with higher priority.
 > 
->  1. does it work for PC machine with current kernel, if so why?
->  2. what it would take to make it work for arm/virt?
+> How to use:
+> 1. Enable write-tracking migration capability
+>    virsh qemu-monitor-command <domain> --hmp migrate_set_capability.
+> track-writes-ram on
+> 
+> 2. Start the external migration to a file
+>    virsh qemu-monitor-command <domain> --hmp migrate exec:'cat > ./vm_state'
+> 
+> 3. Wait for the migration finish and check that the migration has completed.
+> state.
 
-The Linux/arm64 guest deals with PCI resources differently for
-historical reasons. I was extremely confused by that as well, but Ard
-explained here:
-<https://www.redhat.com/archives/edk2-devel-archive/2020-December/msg01027.html>.
+For the rest patches:
 
-(Do not be alarmed by Ard's initial statement "That is not going to
-work"; he later revised that here:
-<https://lists.gnu.org/archive/html/qemu-devel/2020-12/msg05033.html>.)
+Acked-by: Peter Xu <peterx@redhat.com>
 
-Thanks,
-Laszlo
+Dave, considering the live snapshot series has been dangling for quite some
+time upstream (starting from Denis's work), do you have plan to review/merge it
+in the near future?
 
-> 
->> and
->>
->> IMPLEMENTATION NOTE
->> This _DSM function provides backwards compatibility on platforms that can run legacy operating
->> systems.
->> Operating systems for two different architectures (e.g., x86 and x64) can be installed on a platform.
->> The firmware cannot distinguish the operating system in time to change the boot configuration of
->> devices. Say for instance, an x86 operating system in non-PAE mode is installed on a system. The
->> x86 operating system cannot access device resource space above 4 GiB. So the firmware is required
->> to configure devices at boot time using addresses below 4 GiB. On the other hand, if an x64
->> operating system is installed on this system, it can access device resources above the 4 GiB so it does
->> not want the firmware to constrain the resource assignment below 4 GiB that the firmware
->> configures at boot time. It is not possible for the firmware to change this by the time it boots the
->> operating system. Ignoring the configurations done by firmware at boot time will allow the
->> operating system to push resource assignment using addresses above 4 GiB for an x64 operating
->> system while constrain it to addresses below 4 GiB for an x86 operating system.
->>
->> so fundamentally, saying "1" here just means "you can ignore what
->> firmware configured if you like".
->>
->>
->> I have a different question though: our CRS etc is based on what
->> firmware configured. Is that ok? Or is ACPI expected to somehow
->> reconfigure itself when OS reconfigures devices?
->> Think it's ok but could not find documentation either way.
-> 
-> guest consume DSDT only at boot time,
-> reconfiguration can done later by PCI subsystem without
-> ACPI (at least it used to be so).
-> 
-> However DSM is dynamic,
-> and maybe evaluated at runtime,
-> though I don't know if kernel would re-evaluate this feature bit after boot
-> 
-> 
->>
->>
->>>>
->>>> Signed-off-by: Jiahui Cen <cenjiahui@huawei.com>
->>>> ---
->>>>  hw/pci-host/gpex-acpi.c | 18 ++++++++++++++++--
->>>>  1 file changed, 16 insertions(+), 2 deletions(-)
->>>>
->>>> diff --git a/hw/pci-host/gpex-acpi.c b/hw/pci-host/gpex-acpi.c
->>>> index 11b3db8f71..c189306599 100644
->>>> --- a/hw/pci-host/gpex-acpi.c
->>>> +++ b/hw/pci-host/gpex-acpi.c
->>>> @@ -112,10 +112,24 @@ static void acpi_dsdt_add_pci_osc(Aml *dev)
->>>>      UUID = aml_touuid("E5C937D0-3553-4D7A-9117-EA4D19C3434D");
->>>>      ifctx = aml_if(aml_equal(aml_arg(0), UUID));
->>>>      ifctx1 = aml_if(aml_equal(aml_arg(2), aml_int(0)));
->>>> -    uint8_t byte_list[1] = {1};
->>>> -    buf = aml_buffer(1, byte_list);
->>>> +    uint8_t byte_list[] = {
->>>> +                0x1 << 0 /* support for functions other than function 0 */ |
->>>> +                0x1 << 5 /* support for function 5 */
->>>> +                };
->>>> +    buf = aml_buffer(ARRAY_SIZE(byte_list), byte_list);
->>>>      aml_append(ifctx1, aml_return(buf));
->>>>      aml_append(ifctx, ifctx1);
->>>> +
->>>> +    /* PCI Firmware Specification 3.1
->>>> +     * 4.6.5. _DSM for Ignoring PCI Boot Configurations
->>>> +     */
->>>> +    /* Arg2: Function Index: 5 */
->>>> +    ifctx1 = aml_if(aml_equal(aml_arg(2), aml_int(5)));
->>>> +    /* 0 - The operating system must not ignore the PCI configuration that
->>>> +     *     firmware has done at boot time.
->>>> +     */
->>>> +    aml_append(ifctx1, aml_return(aml_int(0)));
->>>> +    aml_append(ifctx, ifctx1);
->>>>      aml_append(method, ifctx);
->>>>  
->>>>      byte_list[0] = 0;  
->>
->>
-> 
-> 
+I believe there're still quite a few things missing, but imho most of them
+should be doable on top too.
+
+Thanks!
+
+-- 
+Peter Xu
 
 
