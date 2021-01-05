@@ -2,80 +2,93 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DF5452EAB39
-	for <lists+qemu-devel@lfdr.de>; Tue,  5 Jan 2021 13:52:08 +0100 (CET)
-Received: from localhost ([::1]:49822 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CEFBF2EAB3B
+	for <lists+qemu-devel@lfdr.de>; Tue,  5 Jan 2021 13:53:38 +0100 (CET)
+Received: from localhost ([::1]:51330 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kwlol-0000fz-Tz
-	for lists+qemu-devel@lfdr.de; Tue, 05 Jan 2021 07:52:07 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56192)
+	id 1kwlqD-0001P4-Rn
+	for lists+qemu-devel@lfdr.de; Tue, 05 Jan 2021 07:53:37 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56704)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1kwllq-0007dy-1H
- for qemu-devel@nongnu.org; Tue, 05 Jan 2021 07:49:06 -0500
-Received: from mail-wr1-x436.google.com ([2a00:1450:4864:20::436]:36375)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1kwllo-0003nB-7R
- for qemu-devel@nongnu.org; Tue, 05 Jan 2021 07:49:05 -0500
-Received: by mail-wr1-x436.google.com with SMTP id t16so36070075wra.3
- for <qemu-devel@nongnu.org>; Tue, 05 Jan 2021 04:49:03 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=references:user-agent:from:to:cc:subject:date:in-reply-to
- :message-id:mime-version:content-transfer-encoding;
- bh=FP0U5EPdrMsskPCHLjhyHRTZG9hyRra4jcQQvhQsv7I=;
- b=W/toq8yOqnT1vyp9wspbmvjm5eitMRBslLzyO9sUkCXYkvWEHEUSRXnI3tOmTENngD
- LM+OYxNziYzjRH0NgxMG7jsU/fzRsH9oZSnjVBCeIaZHx8QFNBwMUqolubfrJV7mqIcX
- yiSNOYsASER0mrNR0XgNe8Fzvn3ikdE0kLxyRmoHj9U92oAAZ3Jjtkj9xkIaC/J7Eb6D
- 7hRpxvTBAbK/EaPb9ATuoe57jP+LLR9cTbwpnOEezAAYzuQ4lXQGJttkVsbNdIBlILUT
- JifLQWko2g/WjjKAurL/qU5NdeQYqMFs8Y+n57J6s+wJO+q742li0h7rSuHEkuWJ5GIX
- QXQw==
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1kwlmz-0000L1-Ef
+ for qemu-devel@nongnu.org; Tue, 05 Jan 2021 07:50:17 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:54553)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1kwlmx-0004Fq-Bc
+ for qemu-devel@nongnu.org; Tue, 05 Jan 2021 07:50:17 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1609851014;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=mU6I7pNZ8b1j87mOeE4SaJJG0gkVSPNPjhPsoR2dc6M=;
+ b=I/gUES+Rb6SMiEt0KH2CAFvo6NLRfY3D1Dox8KU3gZKk3Kk0gI4mfSKLbpQSw6Il9eejS2
+ FXiHUwOMyYc/HR/OJ6F5yUz402lbx+JRm4dMOZ0VIogWhFfr2LT8JzB6Wbyr/HwZ0AK7O+
+ jST+eRBTOnYyYwJ/XtTwfhHczaFr6pk=
+Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
+ [209.85.221.70]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-154-mUDi3wNvOmai8jlv6LtSaQ-1; Tue, 05 Jan 2021 07:50:11 -0500
+X-MC-Unique: mUDi3wNvOmai8jlv6LtSaQ-1
+Received: by mail-wr1-f70.google.com with SMTP id m20so14214315wrh.2
+ for <qemu-devel@nongnu.org>; Tue, 05 Jan 2021 04:50:11 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:references:user-agent:from:to:cc:subject:date
- :in-reply-to:message-id:mime-version:content-transfer-encoding;
- bh=FP0U5EPdrMsskPCHLjhyHRTZG9hyRra4jcQQvhQsv7I=;
- b=k4jL39m+3KVdA5OmGXLzenpL7DPaRPwpkGgJmQORr/3jqBrk04wVZzUqAbQpD+7yOD
- cQ/nhVfAiZOa6BK2xRpW+PeIoRTEe4iip1wFswglEYoWxHSceCjlA6lU6jNMqU8pOxVa
- Kkj4rINiDhFPSp2txZjsJTLlgfMnPijRsnMUSAltppNbof220OqZAbeNEPVTdXXXrWpW
- o6GZcQUhY308RdPQGcSXPCiCv+Rx9FzLwhF5S4HjRoTK7FwbPZJfPKj8lznOt4bW5iU5
- gpXrmImoozJY7pLCgS33UOovveXMN+NeakLulQ9rl4zDxj0IW1gT5B4galDAab3HNMxQ
- v7wg==
-X-Gm-Message-State: AOAM530i07WCCvHgBxhRJ/aFRPVm27aFjGo870utB4uMh4juYMzxCrlI
- EezKBKmLEXA9EwzKKNBIA72qtg==
-X-Google-Smtp-Source: ABdhPJz30u29gJUJ0KdXB2SB0cXyBi7xtAsq1m58cKrVIAn0zLFMRf9dwzBy4G8fZNFnxXBI1CBH+w==
-X-Received: by 2002:a5d:6209:: with SMTP id y9mr84028796wru.197.1609850942772; 
- Tue, 05 Jan 2021 04:49:02 -0800 (PST)
-Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id g191sm4520263wmg.39.2021.01.05.04.49.01
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 05 Jan 2021 04:49:01 -0800 (PST)
-Received: from zen (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id A610B1FF7E;
- Tue,  5 Jan 2021 12:49:00 +0000 (GMT)
-References: <20201213211601.253530-1-f4bug@amsat.org>
- <21650cc2-8e1e-067c-fc89-ec7904dc87eb@redhat.com>
- <5b4bca2e-366a-fd5a-f334-39c0f342e284@amsat.org>
- <c25922ac-6553-1e2e-9c2b-7af2e933c3cd@amsat.org>
-User-agent: mu4e 1.5.7; emacs 28.0.50
-From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
-Subject: Re: [PATCH] tests/docker: Include 'ccache' in Debian base image
-Date: Tue, 05 Jan 2021 12:48:54 +0000
-In-reply-to: <c25922ac-6553-1e2e-9c2b-7af2e933c3cd@amsat.org>
-Message-ID: <87im8b35xf.fsf@linaro.org>
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=mU6I7pNZ8b1j87mOeE4SaJJG0gkVSPNPjhPsoR2dc6M=;
+ b=XVTxrg6Isc1Emw2K5TqIcOYAdepQyglLIcE/LJ5TlY5HTFFHmMOd8eKxsFMpQSbraR
+ kNziNHj817xVbJPqh+bekcH7JO97mlBoYs7jUTeosvMFo8ONSAzbOJ9ZiR/LXP2DFJMC
+ JXOYG63Q9A5au1mCuDTcmLRuVG/IcF6ophgCh26iSRxUZRP2V1vMc4iBJ0BqZs6/35sQ
+ nin+SAWpxWF5dSjtsRWikLxWi4zZBPK6DkdwZYC3GQxAsEXJ2+in9YmqfVk/9/Un5+8y
+ 6BmvlFzgaG74rUa/eJiy9obc2c2ICiS8tZF+MpqlmoYAQbnCrBAMUZ/XGkcancRc/wZ5
+ 7KUQ==
+X-Gm-Message-State: AOAM532oNkFJ4GSr10rr1NNyXf6OA8dgpECoCV7UPEBqkCqjMh2kuJdi
+ JddnKm9n58LuspeQQOY7BQsyXFEU6Qcl/HsUxUNWOe6j/sN6S6orL9YA7KRgPFzfeJsCtMwgZCr
+ 0VOo8UiqMekeBEj8=
+X-Received: by 2002:adf:a495:: with SMTP id g21mr88551054wrb.198.1609851010315; 
+ Tue, 05 Jan 2021 04:50:10 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJy8VMNRsS/nxcPle0SiTlxtS+1LRvOrFNWElyRfLu+Q5k+IG7opIKWbAt91cOa0rS2NAlWbng==
+X-Received: by 2002:adf:a495:: with SMTP id g21mr88551035wrb.198.1609851010147; 
+ Tue, 05 Jan 2021 04:50:10 -0800 (PST)
+Received: from ?IPv6:2001:b07:6468:f312:c8dd:75d4:99ab:290a?
+ ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
+ by smtp.gmail.com with ESMTPSA id w17sm4209942wmk.12.2021.01.05.04.50.09
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 05 Jan 2021 04:50:09 -0800 (PST)
+Subject: Re: [PATCH v2 2/3] sam460ex: Remove FDT_PPC dependency from KConfig
+To: BALATON Zoltan <balaton@eik.bme.hu>, qemu-devel@nongnu.org,
+ qemu-ppc@nongnu.org
+References: <cover.1609413115.git.balaton@eik.bme.hu>
+ <a55cd539835084bd322695c483273dc4b144ccbc.1609413115.git.balaton@eik.bme.hu>
+ <41b3af5a-2f2b-41eb-98f1-909e80b26ff@eik.bme.hu>
+From: Paolo Bonzini <pbonzini@redhat.com>
+Message-ID: <d50e1ee9-e7e8-9a68-a5ef-3e769e676ea3@redhat.com>
+Date: Tue, 5 Jan 2021 13:50:08 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.5.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::436;
- envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x436.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+In-Reply-To: <41b3af5a-2f2b-41eb-98f1-909e80b26ff@eik.bme.hu>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=pbonzini@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=pbonzini@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -32
+X-Spam_score: -3.3
+X-Spam_bar: ---
+X-Spam_report: (-3.3 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.252,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.249, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -89,57 +102,58 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Fam Zheng <fam@euphon.net>, Thomas Huth <thuth@redhat.com>,
- qemu-devel@nongnu.org
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ David Gibson <david@gibson.dropbear.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+On 04/01/21 02:51, BALATON Zoltan wrote:
+> On Thu, 31 Dec 2020, BALATON Zoltan via wrote:
+>> Dependency on FDT_PPC was added in commit b0048f76095
+>> ("hw/ppc/Kconfig: Only select FDT helper for machines using it") but
+>> it does not seem to be really necessary so remove it again.
+>>
+>> Signed-off-by: BALATON Zoltan <balaton@eik.bme.hu>
+>> ---
+>> v2: Do not remove PPC405, reworded commit message
+>>
+>> hw/ppc/Kconfig | 1 -
+>> 1 file changed, 1 deletion(-)
+>>
+>> diff --git a/hw/ppc/Kconfig b/hw/ppc/Kconfig
+>> index 8548f42b0d..f1e1be208e 100644
+>> --- a/hw/ppc/Kconfig
+>> +++ b/hw/ppc/Kconfig
+>> @@ -64,7 +64,6 @@ config SAM460EX
+>>     select SMBUS_EEPROM
+>>     select USB_EHCI_SYSBUS
+>>     select USB_OHCI
+>> -    select FDT_PPC
+>>
+>> config PREP
+>>     bool
+> 
+> Something is still not right with this, I've noticed that a few other 
+> boards also have this option selected but they don't need fdt.o that's 
+> gated by this option in meson.build. That fdt.o is only needed by 
+> PSERIES and POWERNV but removing FDT_PPC from other boards I get:
+> 
+> ../hw/ppc/sam460ex.c:43:10: fatal error: libfdt.h: No such file or 
+> directory
+>   #include <libfdt.h>
+> 
+> so apparently this switch also pulls in the necessary CPPFLAGS or libfdt 
+> dependency. Is there a separate switch for that or we can only get it 
+> with fdt.o. Not a big deal just not trivial why we need an option that 
+> at first sight select a source file which we don't need. I think I'll 
+> drop this patch for now when resending the series.
 
-Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org> writes:
+You can always do
 
-> Hi,
->
-> On 12/14/20 2:39 PM, Philippe Mathieu-Daud=C3=A9 wrote:
->> On 12/14/20 6:44 AM, Thomas Huth wrote:
->>> On 13/12/2020 22.16, Philippe Mathieu-Daud=C3=A9 wrote:
->>>> Include the 'ccache' package to speed up compilation.
->>>>
->>>> Signed-off-by: Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>
->>>> ---
->>>>  tests/docker/dockerfiles/debian10.docker | 1 +
->>>>  1 file changed, 1 insertion(+)
->>>>
->>>> diff --git a/tests/docker/dockerfiles/debian10.docker b/tests/docker/d=
-ockerfiles/debian10.docker
->>>> index 73a3caac9cd..9d42b5a4b81 100644
->>>> --- a/tests/docker/dockerfiles/debian10.docker
->>>> +++ b/tests/docker/dockerfiles/debian10.docker
->>>> @@ -20,6 +20,7 @@ RUN apt update && \
->>>>          bc \
->>>>          build-essential \
->>>>          ca-certificates \
->>>> +        ccache \
->>>>          clang \
->>>>          dbus \
->>>>          gdb-multiarch \
->>>
->>> Don't you need some additional setup for this? Like caching the
->>> corresponding directory during CI runs?
->>=20
->> I hadn't looked at CI (too many CI series in fly).
->>=20
->> w.r.t. Docker this is in use since 4 years, see:
->> 324027c24cd ("Makefile: Rules for docker testing")
->> 36ac78e65a0 ("docker: Don't mount ccache db if NOUSER=3D1")
->>=20
->> I suppose we forgot the package when introducing debian10
->> base image in commit d6db2a1cdf6 ("docker: add
->> debian-buster-arm64-cross").
->
-> Should I do something else with this patch?
+ppc_ss.add(when: 'CONFIG_SAM460EX', if_true: [files('sam460ex.c'), fdt])
 
-Queued to testing/next, thanks.
+if you want to get rid of the flag.
 
---=20
-Alex Benn=C3=A9e
+Paolo
+
 
