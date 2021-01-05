@@ -2,89 +2,90 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0B9B22EADF5
-	for <lists+qemu-devel@lfdr.de>; Tue,  5 Jan 2021 16:13:22 +0100 (CET)
-Received: from localhost ([::1]:37290 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B2D412EAE0F
+	for <lists+qemu-devel@lfdr.de>; Tue,  5 Jan 2021 16:16:40 +0100 (CET)
+Received: from localhost ([::1]:39628 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kwo1R-00033v-4T
-	for lists+qemu-devel@lfdr.de; Tue, 05 Jan 2021 10:13:21 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49614)
+	id 1kwo4d-0004GP-QC
+	for lists+qemu-devel@lfdr.de; Tue, 05 Jan 2021 10:16:39 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51178)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vkuznets@redhat.com>)
- id 1kwnz4-0001Nq-7b
- for qemu-devel@nongnu.org; Tue, 05 Jan 2021 10:10:55 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:47466)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <vkuznets@redhat.com>)
- id 1kwnyu-0000tD-7D
- for qemu-devel@nongnu.org; Tue, 05 Jan 2021 10:10:53 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1609859440;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=LFoqtC5dXpuh4qtzEzrMEBeapfNabwZt2YlKtG1MoLM=;
- b=BRTYC/oPHtO4cJpi/lIh+GG7Fwx26kA4NbFtHwqX/+BnK6xPvVwTGNEg945ki/B7HS21Yv
- qMSdao/zktpsZ2Xn0pkDqDr6UB7cMB8P7j7gow3mZ74YyNM0/JD/jO7TzQRHE5yXnJOc7S
- B5UW43+3kuiQNfphQP1iRt7yT8DnBmk=
-Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
- [209.85.221.70]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-380-kFUKQbPdN5-gashLA811NA-1; Tue, 05 Jan 2021 10:10:39 -0500
-X-MC-Unique: kFUKQbPdN5-gashLA811NA-1
-Received: by mail-wr1-f70.google.com with SMTP id i4so14976613wrm.21
- for <qemu-devel@nongnu.org>; Tue, 05 Jan 2021 07:10:39 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1kwo2j-0003ag-Hs
+ for qemu-devel@nongnu.org; Tue, 05 Jan 2021 10:14:41 -0500
+Received: from mail-wm1-x32a.google.com ([2a00:1450:4864:20::32a]:36286)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1kwo2e-0002yr-It
+ for qemu-devel@nongnu.org; Tue, 05 Jan 2021 10:14:38 -0500
+Received: by mail-wm1-x32a.google.com with SMTP id y23so3397218wmi.1
+ for <qemu-devel@nongnu.org>; Tue, 05 Jan 2021 07:14:35 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=sender:subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=n8wxZqed5AUobsiDm4bNOoFDW1b3eZQ5Z/U0Af9kF1Q=;
+ b=vhQZ4xEvFF/QdTgURtUfaDZIcy/CGbanH4AQKwHpzEN885phAYA7UV72NzK/U921fO
+ rbE88ZFUAPFbwKqQrnPUoNrwEMw2CQiRPI+5NkC9NXVMYAVtUakj+jk+5W/3d2Fe/Eyr
+ 6x/5oTu2zIUuUsaSTZI3AZoEiSidRWigwsTbUWaQafiU77u8OptcPKdyrKTw6sAbDyki
+ jKQ5GfSPD24LWlXtx0Rf+WB7LHbxb55cWfhvzfZmySbL3qcncBIfwXctF/20saEaH3zD
+ LlEFTuIG3hQ1ay4uskTaFOT+FrYM4tjP4EY2Pn+SciWsqR1iB1OI30+0YejoLxUA/5NX
+ o3/g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:in-reply-to:references:date
- :message-id:mime-version;
- bh=LFoqtC5dXpuh4qtzEzrMEBeapfNabwZt2YlKtG1MoLM=;
- b=WFxqMLoueRA/1mn71ISqTYUJJ6k6jGrCM0EdlT13If0x+qxfQErDdAyQd0xmsD2SVr
- nHVAEANSpXc7wc5xzWyANgzAfGAfAGV1K15qWVw98nqqBTp48tg9x8XrVCwV31scqTjR
- rGsKZ+N/ytjuyzvD9eQdx09ZX61tD+G7L743CBrnv/G+S5rX5CcF5vX50sW/f8GKka2d
- h4nTlPskmSBZuCWw3wNafLgIsg9hofGT+j1EICWWCbrzVKev9LNZIgMhJqe00DsJqAz5
- nl6YYFJVJwCJ2aAOfXH/rmXLCdn5HlHkIScC1mrsF+Hx7TiFsXvSje3EgrKOwCHmvHcg
- pdqQ==
-X-Gm-Message-State: AOAM533YaBvkgK4Kg8Ykfd4LayAQy4INsWe7Ys1IvkwCN7YIlHdKtFo/
- sIyWK4/ziHoy1wkoQE9+DRP4GZtmRIBLgU2Jr3XnEHhomxVyiXSxBCHNGxMXUIV2KJ0L+bixKj/
- PL3USAUdqaT0XczhU51kJMNL/AkJbu3ApOvDzZLWEHUXquVG22TCWEx+a+80mTWrVuEI=
-X-Received: by 2002:adf:ba0c:: with SMTP id o12mr73869wrg.322.1609859438353;
- Tue, 05 Jan 2021 07:10:38 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJyASsYpIfjTqAJfKDnDGeIbk/zbwdVug4GNxW8bh3w7C0UFdctlnsAc+Z6gQdZYCJZLmsF6Mw==
-X-Received: by 2002:adf:ba0c:: with SMTP id o12mr73838wrg.322.1609859438025;
- Tue, 05 Jan 2021 07:10:38 -0800 (PST)
-Received: from vitty.brq.redhat.com (g-server-2.ign.cz. [91.219.240.2])
- by smtp.gmail.com with ESMTPSA id w17sm4723454wmk.12.2021.01.05.07.10.37
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 05 Jan 2021 07:10:37 -0800 (PST)
-From: Vitaly Kuznetsov <vkuznets@redhat.com>
-To: Eduardo Habkost <ehabkost@redhat.com>, Igor Mammedov <imammedo@redhat.com>
-Subject: Re: [PATCH 5/5] i386: provide simple 'hyperv=on' option to x86
- machine types
-In-Reply-To: <20210105143431.GL18467@habkost.net>
-References: <20201119103221.1665171-1-vkuznets@redhat.com>
- <20201119103221.1665171-6-vkuznets@redhat.com>
- <20201216205202.GJ3140057@habkost.net>
- <20201218181340.5e398280@redhat.com> <87r1n0j20n.fsf@vitty.brq.redhat.com>
- <20210104182906.GD18467@habkost.net> <20210105003650.71f39045@redhat.com>
- <20210105143431.GL18467@habkost.net>
-Date: Tue, 05 Jan 2021 16:10:36 +0100
-Message-ID: <87czyjifmb.fsf@vitty.brq.redhat.com>
+ h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
+ :date:user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=n8wxZqed5AUobsiDm4bNOoFDW1b3eZQ5Z/U0Af9kF1Q=;
+ b=SOmtvBBbBAZSI+y2qRJeWQrg3bsTuArxuKUPOtmR3bVLapHjTy1uz9rklNjOGf5dPb
+ gM9CSwe+Kehw1yO5wLdIInAb8ysJW4J79mvMKxTPDSGiBu2UQDfc/MiFyAZrYWkdj9tv
+ AA/ZRLNjBwv1O1hSl15T3jysICDikAdJ/8hhm1anUzPF6xMyJHolvkA/HjwMgX3SDOnW
+ J0kKUySPIru1YdCD+M15Jx5dtG1eqOAs7FxDyMMpUFrbkiZv3KQh/eRsOomJNsCQAeRz
+ DvWDVtBhgZpNZ43oYxT4QGfcXhHaspzPZAMDoVhp60ecIhAOuXoc+T3xpnV8S3rNLK2F
+ Osfg==
+X-Gm-Message-State: AOAM530ebDB5HoOA2/wzMAv50Gk3enwea1EaKuj1XJyGt0PFOCvrCxIr
+ GPv+C0kukSWwq5P1kWM0hLI=
+X-Google-Smtp-Source: ABdhPJyCRMkMvXYWYx189ADpbkkiaegbVrRrZ3fMa6ypxgkmI5/Kkbb11CH16X13JYDKLruhfUw5dg==
+X-Received: by 2002:a1c:1c1:: with SMTP id 184mr3915889wmb.112.1609859674581; 
+ Tue, 05 Jan 2021 07:14:34 -0800 (PST)
+Received: from [192.168.1.36] (241.red-88-10-103.dynamicip.rima-tde.net.
+ [88.10.103.241])
+ by smtp.gmail.com with ESMTPSA id s133sm4508760wmf.38.2021.01.05.07.14.32
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 05 Jan 2021 07:14:33 -0800 (PST)
+Subject: Re: [PULL 00/35] MIPS patches for 2021-01-03
+To: Peter Maydell <peter.maydell@linaro.org>,
+ =?UTF-8?Q?Marc-Andr=c3=a9_Lureau?= <marcandre.lureau@redhat.com>,
+ Stefan Hajnoczi <stefanha@redhat.com>, "Emilio G. Cota" <cota@braap.org>
+References: <20210103205021.2837760-1-f4bug@amsat.org>
+ <CAFEAcA--dkcqBJr=b1LcNpLtctYJewuT8Yvx9Uo47YC6JGgR-Q@mail.gmail.com>
+ <CAFEAcA-HXHrXwGywi0MkxFhCCW3fk91Xr4yHA1--tiSqN2_HWQ@mail.gmail.com>
+ <790b031a-2be6-82d0-565d-f7595e95c077@amsat.org>
+ <CAAdtpL53Ngj3zc0ZtxEvHed0hAxYN0RZ7G2eiL_izuTSWBMM2A@mail.gmail.com>
+ <CAFEAcA-mTCyahsvVaD3PsOA4P8erDXmbLJCDtWaUFFoFiR4r=Q@mail.gmail.com>
+ <47b22eb2-8600-b34f-371f-517804b9cb49@amsat.org>
+ <07a865e0-d535-9a19-cf29-f90984bcd510@amsat.org>
+ <CAFEAcA_S1yAdY7uRYygC4uTxLQpYf22zrcfr9-JkFfhOj1N44g@mail.gmail.com>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
+Message-ID: <f8a0d65d-90e7-f036-544c-eb1cd46ff1f4@amsat.org>
+Date: Tue, 5 Jan 2021 16:14:31 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.6.0
 MIME-Version: 1.0
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=vkuznets@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=vkuznets@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -29
-X-Spam_score: -3.0
-X-Spam_bar: ---
-X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.252,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <CAFEAcA_S1yAdY7uRYygC4uTxLQpYf22zrcfr9-JkFfhOj1N44g@mail.gmail.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::32a;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x32a.google.com
+X-Spam_score_int: -17
+X-Spam_score: -1.8
+X-Spam_bar: -
+X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249, NICE_REPLY_A=-0.249,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -97,82 +98,77 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Paolo Bonzini <pbonzini@redhat.com>, Marcelo Tosatti <mtosatti@redhat.com>,
- qemu-devel@nongnu.org
+Cc: Huacai Chen <chenhuacai@kernel.org>,
+ QEMU Developers <qemu-devel@nongnu.org>, Gerd Hoffmann <kraxel@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>,
+ =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
+ Aurelien Jarno <aurelien@aurel32.net>, Richard Henderson <rth@twiddle.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Eduardo Habkost <ehabkost@redhat.com> writes:
+On 1/5/21 2:17 PM, Peter Maydell wrote:
+> On Tue, 5 Jan 2021 at 09:36, Philippe Mathieu-Daudé <f4bug@amsat.org> wrote:
+>> 4/ libatomic on 32-bit hosts (i386, riscv32? arm?)
+>>
+>> While compiling succeed, linking fails:
+>>
+>> [850/2216] Linking target tests/test-hbitmap
+>> FAILED: tests/test-hbitmap
+>> clang  -o tests/test-hbitmap tests/test-hbitmap.p/test-hbitmap.c.o
+>> tests/test-hbitmap.p/iothread.c.o -Wl,--as-needed -Wl,--no-undefined
+>> -pie -Wl,--whole-archive libblock.fa libcrypto.fa libauthz.fa libqom.fa
+>> libio.fa -Wl,--no-whole-archive -Wl,--warn-common -fsanitize=undefined
+>> -fsanitize=address -Wl,-z,relro -Wl,-z,now -m32 -ggdb
+>> -fstack-protector-strong -Wl,--start-group libqemuutil.a
+>> subprojects/libvhost-user/libvhost-user-glib.a
+>> subprojects/libvhost-user/libvhost-user.a libblock.fa libcrypto.fa
+>> libauthz.fa libqom.fa libio.fa @block.syms -lgio-2.0 -lgobject-2.0
+>> -lglib-2.0 -lgio-2.0 -lgobject-2.0 -lglib-2.0 -pthread -lutil -lgnutls
+>> -lm -lgthread-2.0 -lglib-2.0 /usr/lib/i386-linux-gnu/libglib-2.0.so
+>> -liscsi -lgthread-2.0 -lglib-2.0 -laio -lcurl
+>> /usr/lib/i386-linux-gnu/libz.so -lrbd -lrados -lnettle -lgnutls
+>> -Wl,--end-group
+>> libblock.fa(block_io.c.o): In function `stat64_max':
+>> include/qemu/stats64.h:58: undefined reference to `__atomic_load_8'
+>> include/qemu/stats64.h:60: undefined reference to
+>> `__atomic_compare_exchange_8'
+>> libblock.fa(block_qapi.c.o): In function `stat64_get':
+>> include/qemu/stats64.h:40: undefined reference to `__atomic_load_8'
+>> libqemuutil.a(util_qsp.c.o): In function `qatomic_set_u64':
+>> include/qemu/atomic.h:478: undefined reference to `__atomic_store_8'
+>> libqemuutil.a(util_qsp.c.o): In function `qatomic_read_u64':
+>> include/qemu/atomic.h:468: undefined reference to `__atomic_load_8'
+>> clang: error: linker command failed with exit code 1 (use -v to see
+>> invocation)
+> 
+> Historically we have not linked against libatomic on purpose,
+> on the theory that QEMU should not be trying to use atomic
+> operations that the compiler cannot directly open-code as
+> native atomic instructions. (This is because we want things
+> to work even if the code in another thread that might also be
+> doing atomic operations on the data is TCG.) libatomic might
+> choose to use a mutex under the hood, if my understanding/memory
+> is correct, which obviously TCG won't.
+> 
+> In particular this means that code that can run on 32-bit hosts
+> is not supposed to be doing 64-bit atomic operations. For the
+> code in stat64_max/stat64_get, this is guarded by CONFIG_ATOMIC64,
+> which configure should only be setting if we can do 64-bit atomics
+> without libatomic, so looking at whether that got set and if the
+> test is doing the wrong thing would be my first suggestion.
 
-> On Tue, Jan 05, 2021 at 12:36:50AM +0100, Igor Mammedov wrote:
->> 
->> documenting is good, but if it adds new semantics to how CPU features are handled
->> users up the stack will need code it up as well and juggle with
->>  -machine + -cpu + -device cpu-foo
->> not to mention poor developers who will have to figure out why we do
->> set CPU properties in multiple different ways.
->> 
->> however if we add it as CPU properties that behave the same way as other
->> properties, all mgmt has to do is expose new property to user for usage.
->
-> I think we need to be careful here.  Sometimes just exposing the
-> QOM properties used to implemented a feature is not the best user
-> interface.  e.g.: even if using compat_props for implementing the
-> hyperv features preset, that doesn't automatically mean we want
-> hyperv=on to be a -cpu option.
->
-> I would even argue we shouldn't be focusing on implementation
-> details (like we are doing right now) until the desired external
-> interface is described clearly.
+That makes sense.
 
-I agree, the interface is definitely more important than the
-implementation here. AFAIU we have two options suggested:
+So on a Ubuntu 18.04 i386 host, "configure --cc=clang-10
+--enable-sanitizers' sets atomic64=yes (__ATOMIC_RELAXED
+is also defined).
 
-1) 'hyperv=on' option for x86 machine types.
+The ./configure check is simple. There is a lot of ifdef'ry
+to follow in "qemu/osdep.h" and "qemu/compiler.h" so it is
+hard to figure out what changes "qemu/atomic.h" that it doesn't
+match with ./configure.
 
-Pros: we can use it later to create non-CPU Hyper-V devices
-(e.g. Vmbus).
-Cons: two different places for the currently existing Hyper-V features
-enablement (-cpu and -machine), non-standard way of doing things
-(code-wise).
+Maybe a issue with the sanitizer code?
 
-2) 'hv_default=on' -cpu option
-
-Pros: Single place to enable all Hyper-V enlightenments, we can make it
-mutually exclusive with other hv_* options including hv_passthrough
-(clear semantics).
-
-Cons: This can't be reused to create non-CPU objects in the future and
-so upper layers will (again) need to be modified.
-
-There's probably more, please feel free to add.
-
->> however in this case we are talking about a set of cpu features,
->> if there is no way to implement it as cpu properties + compat properties
->> and requires opencodding it within machine code it might be fine
->> but I fail to see a very good reason for doing that at this momment.
->
-> The reason would be just simplicity of implementation.
->
-> I understand there are reasons to suggest using compat_props if
-> it makes things simpler, but I don't see why we would reject a
-> patch because the implementation is not based purely on
-> compat_props.
->
-> I will let Vitaly to decide how to proceed, based on our
-> feedback.  I encourage him to use compat_props like you suggest,
-> but I don't plan to make this a requirement.
->
-
-Like I replied to Igor in a parallel thread, I hardly see how using
-compat_props can simplify things in case we decide to keep 'hyperv=on' a
-machine type option. It doesn't seem to fit our use-case when we need a
-mechanism to alter CPU properties for the current machine type as well
-as subtract some features for the old ones. If we, however, decide that
-'-cpu' option is better, then we can try to make it work (but the
-implementation won't be straitforward either). 
-
--- 
-Vitaly
-
+Cc'ing Stefan, Emilio & Marc-André too :)
 
