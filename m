@@ -2,77 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 794672EAFD2
-	for <lists+qemu-devel@lfdr.de>; Tue,  5 Jan 2021 17:16:06 +0100 (CET)
-Received: from localhost ([::1]:55280 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 890512EAFED
+	for <lists+qemu-devel@lfdr.de>; Tue,  5 Jan 2021 17:22:12 +0100 (CET)
+Received: from localhost ([::1]:44808 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kwp09-0005A3-D4
-	for lists+qemu-devel@lfdr.de; Tue, 05 Jan 2021 11:16:05 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52694)
+	id 1kwp63-0004QN-Ib
+	for lists+qemu-devel@lfdr.de; Tue, 05 Jan 2021 11:22:11 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52718)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <steven.sistare@oracle.com>)
- id 1kwote-00044l-A9
+ id 1kwote-00044s-Pc
  for qemu-devel@nongnu.org; Tue, 05 Jan 2021 11:09:23 -0500
-Received: from aserp2120.oracle.com ([141.146.126.78]:39410)
+Received: from aserp2130.oracle.com ([141.146.126.79]:34612)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <steven.sistare@oracle.com>)
- id 1kwotc-00043m-3B
+ id 1kwotc-00043u-Lw
  for qemu-devel@nongnu.org; Tue, 05 Jan 2021 11:09:22 -0500
-Received: from pps.filterd (aserp2120.oracle.com [127.0.0.1])
- by aserp2120.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 105Fsx4k031239;
+Received: from pps.filterd (aserp2130.oracle.com [127.0.0.1])
+ by aserp2130.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 105FsjoM094290;
  Tue, 5 Jan 2021 16:09:17 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com;
  h=from : to : cc :
  subject : date : message-id : in-reply-to : references; s=corp-2020-01-29;
- bh=S07JfmMvaCJerb+6p+jaw2Rx/bLMc7vXTS8xdm2naTk=;
- b=im9hYnSVrsWPaObIhauSCO/rVfiEbV31Nc0FsXXyKmvquFO1Ghl1tb3ryudk17plQ7Os
- ADcY1LSb7/PQGWrrKjQEGrrzCsA0IEMPa7qwOYplGINfDIgKrGR2g+Kl899y0K1oTYcK
- EbHIPSJhFOMFzC9MymJv/0dKByYrI2tO1dnS/kjdiMKUtGOlnEduvpaeSf26LDgLjTRC
- i07re718/jMkkfASIHsl89IK+2tb9TbXMBEuGHFBUMF/DKv4U1JrUqfzx6OO24SCphdD
- 2quiR3Sifvsnx3E9xuSsbNb3WYJGUVsdtjPeTe6773S4JUs/Jn65Wuj/1mVIfIAje5kZ gg== 
-Received: from userp3020.oracle.com (userp3020.oracle.com [156.151.31.79])
- by aserp2120.oracle.com with ESMTP id 35tgsksg4t-1
+ bh=P+c/iE7ZNt+1iAl9fEdT5Q4GJTbqiM/4QSgP4j+Xs+w=;
+ b=LkRbSUKtIFevm639KIFdPjxdmSl36Eb5gX0Ajbf5WnXltm8GJSpfZCfkg7F8LjN9+FgV
+ IaNe/auV+v72KXcDuS/3pXk1+H+cugkwZ4+/JWmrd37/3Wzux8yFKQ33TSG28qHWk3V3
+ 96qiSa1DOOhpucPhnaooTaz07yWbyAU4f6NHmtTJhSnLWb/Q0VcBZNlT23TGURd0NsSM
+ eNPl6D8wQkLrm06BIHAbb2B6UJf2a96qJmiQKvHvGciw80gZVQorubo5Ro2ofO7mgpVW
+ awmQ8GIbavyQseJnOuAtg3dPiLM0r44vUzKX4QreDF2FHIIWz5rQQj0v14vgtj8knsa+ GA== 
+Received: from aserp3020.oracle.com (aserp3020.oracle.com [141.146.126.70])
+ by aserp2130.oracle.com with ESMTP id 35tebasjwa-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=FAIL);
  Tue, 05 Jan 2021 16:09:17 +0000
-Received: from pps.filterd (userp3020.oracle.com [127.0.0.1])
- by userp3020.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 105FuODD029126;
+Received: from pps.filterd (aserp3020.oracle.com [127.0.0.1])
+ by aserp3020.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 105FulaQ187551;
  Tue, 5 Jan 2021 16:09:16 GMT
-Received: from userv0121.oracle.com (userv0121.oracle.com [156.151.31.72])
- by userp3020.oracle.com with ESMTP id 35uxnsvb8y-1
+Received: from aserv0121.oracle.com (aserv0121.oracle.com [141.146.126.235])
+ by aserp3020.oracle.com with ESMTP id 35v1f8snr0-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
  Tue, 05 Jan 2021 16:09:16 +0000
 Received: from abhmp0011.oracle.com (abhmp0011.oracle.com [141.146.116.17])
- by userv0121.oracle.com (8.14.4/8.13.8) with ESMTP id 105G9FGi018418;
- Tue, 5 Jan 2021 16:09:15 GMT
+ by aserv0121.oracle.com (8.14.4/8.13.8) with ESMTP id 105G9GcG018678;
+ Tue, 5 Jan 2021 16:09:16 GMT
 Received: from ca-dev63.us.oracle.com (/10.211.8.221)
  by default (Oracle Beehive Gateway v4.0)
- with ESMTP ; Tue, 05 Jan 2021 08:09:14 -0800
+ with ESMTP ; Tue, 05 Jan 2021 08:09:15 -0800
 From: Steve Sistare <steven.sistare@oracle.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH V2 18/22] chardev: cpr for sockets
-Date: Tue,  5 Jan 2021 07:42:06 -0800
-Message-Id: <1609861330-129855-19-git-send-email-steven.sistare@oracle.com>
+Subject: [PATCH V2 19/22] monitor: cpr support
+Date: Tue,  5 Jan 2021 07:42:07 -0800
+Message-Id: <1609861330-129855-20-git-send-email-steven.sistare@oracle.com>
 X-Mailer: git-send-email 1.8.3.1
 In-Reply-To: <1609861330-129855-1-git-send-email-steven.sistare@oracle.com>
 References: <1609861330-129855-1-git-send-email-steven.sistare@oracle.com>
 X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9855
  signatures=668683
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 adultscore=0
- phishscore=0 spamscore=0
- malwarescore=0 mlxscore=0 mlxlogscore=999 suspectscore=0 bulkscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2009150000
- definitions=main-2101050099
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 mlxlogscore=999
+ phishscore=0
+ suspectscore=0 spamscore=0 bulkscore=0 adultscore=0 mlxscore=0
+ malwarescore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2009150000 definitions=main-2101050099
 X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9855
  signatures=668683
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 mlxscore=0
- spamscore=0 malwarescore=0
- phishscore=0 impostorscore=0 bulkscore=0 clxscore=1015 priorityscore=1501
- lowpriorityscore=0 adultscore=0 suspectscore=0 mlxlogscore=999
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2009150000
- definitions=main-2101050099
-Received-SPF: pass client-ip=141.146.126.78;
- envelope-from=steven.sistare@oracle.com; helo=aserp2120.oracle.com
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 suspectscore=0
+ phishscore=0
+ priorityscore=1501 spamscore=0 mlxscore=0 clxscore=1015 bulkscore=0
+ lowpriorityscore=0 impostorscore=0 mlxlogscore=999 adultscore=0
+ malwarescore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2009150000 definitions=main-2101050099
+Received-SPF: pass client-ip=141.146.126.79;
+ envelope-from=steven.sistare@oracle.com; helo=aserp2130.oracle.com
 X-Spam_score_int: -46
 X-Spam_score: -4.7
 X-Spam_bar: ----
@@ -107,153 +107,130 @@ Cc: "Daniel P. Berrange" <berrange@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Define qio_channel_socket_reuse to initialize a channel based on an existing
-socket fd.  Save accepted socket fds in the environment before cprsave, and
-look for fds in the environment after cprload.  Reject cprsave if a socket
-enables the TLS or websocket option.
+A monitor socket requires special treatment.  Save and restore the
+qmp negotiation status.  Stop the monitor's iothread in cpsave. Otherwise,
+the thread will detect the close of the monitor socket and call unsetenv_fd,which modifies environ and races with execv which uses environ.
 
 Signed-off-by: Mark Kanda <mark.kanda@oracle.com>
 Signed-off-by: Steve Sistare <steven.sistare@oracle.com>
 ---
- chardev/char-socket.c       | 30 ++++++++++++++++++++++++++++++
- include/io/channel-socket.h | 12 ++++++++++++
- io/channel-socket.c         |  9 +++++++++
- stubs/Makefile.objs         |  1 +
- stubs/cpr.c                 |  3 +++
- 5 files changed, 55 insertions(+)
- create mode 100644 stubs/cpr.c
+ include/monitor/monitor.h |  2 ++
+ migration/cpr.c           |  2 ++
+ monitor/monitor.c         |  5 +++++
+ monitor/qmp.c             | 43 +++++++++++++++++++++++++++++++++++++++++++
+ 4 files changed, 52 insertions(+)
 
-diff --git a/chardev/char-socket.c b/chardev/char-socket.c
-index ef62dbf..0965305 100644
---- a/chardev/char-socket.c
-+++ b/chardev/char-socket.c
-@@ -36,6 +36,7 @@
- #include "qapi/qapi-visit-sockets.h"
+diff --git a/include/monitor/monitor.h b/include/monitor/monitor.h
+index 1018d75..5456cff 100644
+--- a/include/monitor/monitor.h
++++ b/include/monitor/monitor.h
+@@ -22,6 +22,8 @@ void monitor_init_hmp(Chardev *chr, bool use_readline, Error **errp);
+ int monitor_init(MonitorOptions *opts, bool allow_hmp, Error **errp);
+ int monitor_init_opts(QemuOpts *opts, Error **errp);
+ void monitor_cleanup(void);
++void monitor_iothread_stop(void);
++void monitor_cprsave(void);
  
- #include "chardev/char-io.h"
+ int monitor_suspend(Monitor *mon);
+ void monitor_resume(Monitor *mon);
+diff --git a/migration/cpr.c b/migration/cpr.c
+index de85d56..0f49c7d 100644
+--- a/migration/cpr.c
++++ b/migration/cpr.c
+@@ -137,9 +137,11 @@ void cprsave(const char *file, CprMode mode, Error **errp)
+         if (vfio_cprsave()) {
+             goto err;
+         }
++        monitor_iothread_stop();
+         walkenv(FD_PREFIX, preserve_fd, 0);
+         vhost_dev_reset_all();
+         qemu_term_exit();
++        monitor_cprsave();
+         setenv("QEMU_START_FREEZE", "", 1);
+         qemu_system_exec_request();
+     }
+diff --git a/monitor/monitor.c b/monitor/monitor.c
+index b385a3d..1bda67c 100644
+--- a/monitor/monitor.c
++++ b/monitor/monitor.c
+@@ -591,6 +591,11 @@ void monitor_cleanup(void)
+     }
+ }
+ 
++void monitor_iothread_stop(void)
++{
++    iothread_stop(mon_iothread);
++}
++
+ static void monitor_qapi_event_init(void)
+ {
+     monitor_qapi_event_state = g_hash_table_new(qapi_event_throttle_hash,
+diff --git a/monitor/qmp.c b/monitor/qmp.c
+index d433cea..d7eeab1 100644
+--- a/monitor/qmp.c
++++ b/monitor/qmp.c
+@@ -33,6 +33,7 @@
+ #include "qapi/qmp/qlist.h"
+ #include "qapi/qmp/qstring.h"
+ #include "trace.h"
 +#include "qemu/env.h"
  
- /***********************************************************/
- /* TCP Net console */
-@@ -400,6 +401,7 @@ static void tcp_chr_free_connection(Chardev *chr)
-     SocketChardev *s = SOCKET_CHARDEV(chr);
-     int i;
- 
-+    unsetenv_fd(chr->label);
-     if (s->read_msgfds_num) {
-         for (i = 0; i < s->read_msgfds_num; i++) {
-             close(s->read_msgfds[i]);
-@@ -1157,6 +1159,25 @@ static gboolean socket_reconnect_timeout(gpointer opaque)
-     return false;
+ struct QMPRequest {
+     /* Owner of the request */
+@@ -398,6 +399,21 @@ static void monitor_qmp_setup_handlers_bh(void *opaque)
+     monitor_list_append(&mon->common);
  }
  
-+static void load_char_socket_fd(Chardev *chr)
++static void setenv_qmp(const char *name, bool val)
 +{
-+    SocketChardev *sockchar = SOCKET_CHARDEV(chr);
-+    QIOChannelSocket *sioc;
-+    int fd = getenv_fd(chr->label);
-+
-+    if (fd != -1) {
-+        sockchar = SOCKET_CHARDEV(chr);
-+        sioc = qio_channel_socket_reuse(fd, NULL);
-+        if (sioc) {
-+            tcp_chr_accept(sockchar->listener, sioc, chr);
-+        } else {
-+            error_printf("error: could not restore socket for %s\n",
-+                         chr->label);
-+        }
-+    } else if (sockchar->sioc && !chr->close_on_cpr) {
-+        setenv_fd(chr->label, sockchar->sioc->fd);
-+    }
-+}
- 
- static int qmp_chardev_open_socket_server(Chardev *chr,
-                                           bool is_telnet,
-@@ -1360,6 +1381,13 @@ static void qmp_chardev_open_socket(Chardev *chr,
-         qemu_chr_set_feature(chr, QEMU_CHAR_FEATURE_FD_PASS);
-     }
- 
-+    if (!s->tls_creds && !s->is_websock) {
-+        qemu_chr_set_feature(chr, QEMU_CHAR_FEATURE_CPR);
-+    } else if (only_cpr_capable) {
-+        error_setg(errp, "error: socket %s is not cpr capable due to %s option",
-+                   chr->label, (s->tls_creds ? "TLS" : "websocket"));
-+    }
-+
-     /* be isn't opened until we get a connection */
-     *be_opened = false;
- 
-@@ -1375,6 +1403,8 @@ static void qmp_chardev_open_socket(Chardev *chr,
-             return;
-         }
-     }
-+
-+    load_char_socket_fd(chr);
- }
- 
- static void qemu_chr_parse_socket(QemuOpts *opts, ChardevBackend *backend,
-diff --git a/include/io/channel-socket.h b/include/io/channel-socket.h
-index 777ff59..e425a01 100644
---- a/include/io/channel-socket.h
-+++ b/include/io/channel-socket.h
-@@ -260,5 +260,17 @@ QIOChannelSocket *
- qio_channel_socket_accept(QIOChannelSocket *ioc,
-                           Error **errp);
- 
-+/**
-+ * qio_channel_socket_reuse:
-+ * @fd: existing client socket descriptor
-+ * @errp: pointer to a NULL-initialized error object
-+ *
-+ * Construct a client channel using @fd.
-+ *
-+ * Returns: the new client channel, or NULL on error
-+ */
-+QIOChannelSocket *
-+qio_channel_socket_reuse(int fd,
-+                         Error **errp);
- 
- #endif /* QIO_CHANNEL_SOCKET_H */
-diff --git a/io/channel-socket.c b/io/channel-socket.c
-index de49880..07981be 100644
---- a/io/channel-socket.c
-+++ b/io/channel-socket.c
-@@ -400,6 +400,15 @@ qio_channel_socket_accept(QIOChannelSocket *ioc,
-     return NULL;
- }
- 
-+QIOChannelSocket *
-+qio_channel_socket_reuse(int fd,
-+                         Error **errp)
-+{
-+    QIOChannelSocket *cioc = qio_channel_socket_new();
-+    cioc->fd = fd;
-+    return qio_channel_socket_post_accept(cioc, errp) ? 0 : cioc;
++    setenv_bool(name, val);
 +}
 +
- static void qio_channel_socket_init(Object *obj)
++static bool getenv_qmp(const char *name)
++{
++    bool ret = getenv_bool(name);
++    if (ret != -1) {
++        unsetenv_bool(name);
++        return ret;
++    }
++    return false;
++}
++
+ void monitor_init_qmp(Chardev *chr, bool pretty, Error **errp)
  {
-     QIOChannelSocket *ioc = QIO_CHANNEL_SOCKET(obj);
-diff --git a/stubs/Makefile.objs b/stubs/Makefile.objs
-index d42046a..f6c335b 100644
---- a/stubs/Makefile.objs
-+++ b/stubs/Makefile.objs
-@@ -1,5 +1,6 @@
- stub-obj-y += blk-commit-all.o
- stub-obj-y += cmos.o
-+stub-obj-y += cpr.o
- stub-obj-y += cpu-get-clock.o
- stub-obj-y += cpu-get-icount.o
- stub-obj-y += dump.o
-diff --git a/stubs/cpr.c b/stubs/cpr.c
-new file mode 100644
-index 0000000..aaa189e
---- /dev/null
-+++ b/stubs/cpr.c
-@@ -0,0 +1,3 @@
-+#include "qemu/osdep.h"
+     MonitorQMP *mon = g_new0(MonitorQMP, 1);
+@@ -438,4 +454,31 @@ void monitor_init_qmp(Chardev *chr, bool pretty, Error **errp)
+                                  NULL, &mon->common, NULL, true);
+         monitor_list_append(&mon->common);
+     }
 +
-+bool only_cpr_capable;
++    /*
++     * If a chr->label qmp env var is true, this is a restored qmp
++     * connection with capabilities negotiated.
++     */
++    if (getenv_qmp(chr->label) == true) {
++        mon->commands = &qmp_commands;
++    }
++}
++
++/* Save the result of capability negotiation in the environment */
++
++void monitor_cprsave(void)
++{
++    Monitor *mon;
++    MonitorQMP *qmp_mon;
++
++    QTAILQ_FOREACH(mon, &mon_list, entry) {
++        if (!monitor_is_qmp(mon)) {
++            continue;
++        }
++
++        qmp_mon = container_of(mon, MonitorQMP, common);
++        if (qmp_mon->commands == &qmp_commands) {
++            setenv_qmp(mon->chr.chr->label, true);
++        }
++    }
+ }
 -- 
 1.8.3.1
 
