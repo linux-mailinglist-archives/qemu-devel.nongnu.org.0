@@ -2,64 +2,57 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C50812EA3EC
-	for <lists+qemu-devel@lfdr.de>; Tue,  5 Jan 2021 04:31:16 +0100 (CET)
-Received: from localhost ([::1]:39784 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 251902EA3ED
+	for <lists+qemu-devel@lfdr.de>; Tue,  5 Jan 2021 04:31:18 +0100 (CET)
+Received: from localhost ([::1]:39926 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kwd3z-0003yX-E9
-	for lists+qemu-devel@lfdr.de; Mon, 04 Jan 2021 22:31:15 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38798)
+	id 1kwd41-00042G-4v
+	for lists+qemu-devel@lfdr.de; Mon, 04 Jan 2021 22:31:17 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38824)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <chen.zhang@intel.com>)
- id 1kwd1u-00030c-1W
- for qemu-devel@nongnu.org; Mon, 04 Jan 2021 22:29:06 -0500
+ id 1kwd1w-00033D-BU
+ for qemu-devel@nongnu.org; Mon, 04 Jan 2021 22:29:08 -0500
 Received: from mga18.intel.com ([134.134.136.126]:45664)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <chen.zhang@intel.com>)
- id 1kwd1n-0006Uj-OP
- for qemu-devel@nongnu.org; Mon, 04 Jan 2021 22:29:05 -0500
-IronPort-SDR: FeVdQv+w8mWGZZmUIaARh2pPhAhrjv93BxsyrKlkXgBOp3qBrAB+T0mfk4aVr42npFPpFTRXUU
- nEcfrSQ4ge1Q==
-X-IronPort-AV: E=McAfee;i="6000,8403,9854"; a="164747339"
-X-IronPort-AV: E=Sophos;i="5.78,475,1599548400"; d="scan'208";a="164747339"
+ id 1kwd1u-0006Uj-IL
+ for qemu-devel@nongnu.org; Mon, 04 Jan 2021 22:29:08 -0500
+IronPort-SDR: Mw9zrYs/Bie0w5P+JdeaRqtwz2UJpX9v+HXpTZsIQpsXfD+slpHPUOaX+l4f04TMbHCpHdyYQe
+ 3baLItg7lexw==
+X-IronPort-AV: E=McAfee;i="6000,8403,9854"; a="164747341"
+X-IronPort-AV: E=Sophos;i="5.78,475,1599548400"; d="scan'208";a="164747341"
 Received: from orsmga004.jf.intel.com ([10.7.209.38])
  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
  04 Jan 2021 19:28:52 -0800
-IronPort-SDR: cn4G/icnwUq/VXwzCD/53Vh3myEOA0047GNUeLIpe288XVw+cv5ddmeM6xuJgSNol39LyPTBgZ
- sFsFg7ryxvYA==
+IronPort-SDR: 7EqF17bvtejB9ZTqDhjjp17WA6JEdBwfwHWjnOoBvS4Xr23K9Ig2kDrTusj+uhO8mUXw9jWMPk
+ u5YsMQwPwLxA==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.78,475,1599548400"; d="scan'208";a="496634780"
+X-IronPort-AV: E=Sophos;i="5.78,475,1599548400"; d="scan'208";a="496634786"
 Received: from fmsmsx604.amr.corp.intel.com ([10.18.126.84])
- by orsmga004.jf.intel.com with ESMTP; 04 Jan 2021 19:28:51 -0800
-Received: from shsmsx601.ccr.corp.intel.com (10.109.6.141) by
+ by orsmga004.jf.intel.com with ESMTP; 04 Jan 2021 19:28:52 -0800
+Received: from shsmsx602.ccr.corp.intel.com (10.109.6.142) by
  fmsmsx604.amr.corp.intel.com (10.18.126.84) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.1713.5; Mon, 4 Jan 2021 19:28:47 -0800
+ 15.1.1713.5; Mon, 4 Jan 2021 19:28:49 -0800
 Received: from shsmsx605.ccr.corp.intel.com (10.109.6.215) by
- SHSMSX601.ccr.corp.intel.com (10.109.6.141) with Microsoft SMTP Server
+ SHSMSX602.ccr.corp.intel.com (10.109.6.142) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.1713.5; Tue, 5 Jan 2021 11:28:45 +0800
+ 15.1.1713.5; Tue, 5 Jan 2021 11:28:48 +0800
 Received: from shsmsx605.ccr.corp.intel.com ([10.109.6.215]) by
  SHSMSX605.ccr.corp.intel.com ([10.109.6.215]) with mapi id 15.01.1713.004;
- Tue, 5 Jan 2021 11:28:45 +0800
+ Tue, 5 Jan 2021 11:28:48 +0800
 From: "Zhang, Chen" <chen.zhang@intel.com>
-To: Jason Wang <jasowang@redhat.com>, qemu-dev <qemu-devel@nongnu.org>, "Eric
- Blake" <eblake@redhat.com>, "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
- Markus Armbruster <armbru@redhat.com>
-Subject: RE: [PATCH 1/3] qapi/net: Add new QMP command for COLO passthrough
-Thread-Topic: [PATCH 1/3] qapi/net: Add new QMP command for COLO passthrough
-Thread-Index: AQHW2ZH35CoUMePT00WBg9eX6s7M0aoG0rqAgATaJwD//+sqgIABz6iggAEepoCACeSQYA==
-Date: Tue, 5 Jan 2021 03:28:45 +0000
-Message-ID: <666f41843baf4c84bbafa7f9fdfba96f@intel.com>
+To: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+Subject: RE: [PATCH 0/3] Bypass specific network traffic in COLO
+Thread-Topic: [PATCH 0/3] Bypass specific network traffic in COLO
+Thread-Index: AQHW2ZH2TQccpom8pUur848MxDH3B6oW+52AgAFzEVA=
+Date: Tue, 5 Jan 2021 03:28:48 +0000
+Message-ID: <9f11d2a350574fe485e9c16908e65054@intel.com>
 References: <20201224010918.19275-1-chen.zhang@intel.com>
- <20201224010918.19275-2-chen.zhang@intel.com>
- <08fe5c51-1383-12dd-b255-151a868cd6d9@redhat.com>
- <a4adb965911348f4901f72e7e472c07e@intel.com>
- <97d593c2-222d-a3cf-e797-8d77b8701bed@redhat.com>
- <704028b0dbf843ed9ae64b93ecd1db13@intel.com>
- <05999128-75c0-aeaf-255f-8c1ec7699eab@redhat.com>
-In-Reply-To: <05999128-75c0-aeaf-255f-8c1ec7699eab@redhat.com>
+ <20210104130637.GE2972@work-vm>
+In-Reply-To: <20210104130637.GE2972@work-vm>
 Accept-Language: en-US
 Content-Language: en-US
 X-MS-Has-Attach: 
@@ -68,8 +61,8 @@ dlp-product: dlpe-windows
 dlp-version: 11.5.1.3
 dlp-reaction: no-action
 x-originating-ip: [10.239.127.36]
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 MIME-Version: 1.0
 Received-SPF: pass client-ip=134.134.136.126;
  envelope-from=chen.zhang@intel.com; helo=mga18.intel.com
@@ -90,33 +83,70 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Zhang Chen <zhangckid@gmail.com>
+Cc: Jason Wang <jasowang@redhat.com>, Zhang Chen <zhangckid@gmail.com>,
+ qemu-dev <qemu-devel@nongnu.org>, Markus Armbruster <armbru@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-DQoNCj4gLS0tLS1PcmlnaW5hbCBNZXNzYWdlLS0tLS0NCj4gRnJvbTogSmFzb24gV2FuZyA8amFz
-b3dhbmdAcmVkaGF0LmNvbT4NCj4gU2VudDogV2VkbmVzZGF5LCBEZWNlbWJlciAzMCwgMjAyMCAx
-MTo1NyBBTQ0KPiBUbzogWmhhbmcsIENoZW4gPGNoZW4uemhhbmdAaW50ZWwuY29tPjsgcWVtdS1k
-ZXYgPHFlbXUtDQo+IGRldmVsQG5vbmdudS5vcmc+OyBFcmljIEJsYWtlIDxlYmxha2VAcmVkaGF0
-LmNvbT47IERyLiBEYXZpZCBBbGFuDQo+IEdpbGJlcnQgPGRnaWxiZXJ0QHJlZGhhdC5jb20+OyBN
-YXJrdXMgQXJtYnJ1c3RlciA8YXJtYnJ1QHJlZGhhdC5jb20+DQo+IENjOiBaaGFuZyBDaGVuIDx6
-aGFuZ2NraWRAZ21haWwuY29tPg0KPiBTdWJqZWN0OiBSZTogW1BBVENIIDEvM10gcWFwaS9uZXQ6
-IEFkZCBuZXcgUU1QIGNvbW1hbmQgZm9yIENPTE8NCj4gcGFzc3Rocm91Z2gNCj4gDQo+IA0KPiBP
-biAyMDIwLzEyLzI5IOS4iuWNiDEwOjU2LCBaaGFuZywgQ2hlbiB3cm90ZToNCj4gPj4gSSB0aGlu
-ayB3ZSBjYW4gc3RhcnQgZm9ybSBDT0xPLiBUbyBhdm9pZCBRTVAgY29tcGF0aWJpbGl0eSBpc3N1
-ZXMsIEkNCj4gPj4gd291bGQgbGlrZSB0byBhZGQgdGhlIG4gdHVwbGUgYW5kIHdpbGRjYXJkIHN1
-cHBvcnQgbm93Lg0KPiA+IE9LLCBJIHdpbGwgZG8gdGhpcyBqb2IgaW4gbmV4dCB2ZXJzaW9uLg0K
-PiA+IEZvciB0aGUgUU1QIGNvbXBhdGliaWxpdHkgaXNzdWVzLCBwbGVhc2UgZ2l2ZSBtZSBhIGRl
-bW8gb2Ygd2hhdCB3ZSB3YW50DQo+IHRvIHNlZSwgTGlrZSBzb21lIGV4aXN0aW5nIGNvbW1hbmRz
-Lg0KPiANCj4gDQo+IEkgbWVhbnQgaWYgd2Ugc3RhcnQgZnJvbSBwb3J0IGFuZCB0aGVuIHdhbnQg
-dG8gYWRkIGUuZyBuLXR1cGxlIHN1cHBvcnQuDQo+IERvIHdlIG5lZWQgdG8gaW50cm9kdWNlIGFu
-b3RoZXIgY29tbWFuZD8gT3IgaXMgdGhlcmUgYW55IGludHJvc3BlY3Rpb24NCj4gdGhhdCBjYW4g
-bGV0IG1hbmFnZW1lbnQgbGF5ZXIga25vdyBhYm91dCB0aGlzPw0KDQpPSywgSSB3aWxsIGFkZCB0
-aGUgbi10dXBsZSBzdXBwb3J0Lg0KSXQgbG9va3MgYmFzaWMgY29tbWFuZCBhcmUgYWRkL2RlbCBj
-b25uZWN0aW9uLCBEbyB5b3UgdGhpbmsgc29tZXRoaW5nIG5lZWRzIHRvIGJlIGludHJvZHVjZWQ/
-DQpGb3IgdGhlIG1hbmFnZW1lbnQgbGF5ZXIsIEkgZG9uJ3Qga25vdyB0aGUgZGV0YWlsIHByb2Nl
-c3Mgb2YgaG93IHRvIGFkZCBuZXcgUWVtdSBjb21tYW5kIHN1cHBvcnQgZm9yIGV4YW1wbGUgbGli
-dmlydC4NCk1heWJlIGRlcGVuZCBvbiBsaWJ2aXJ0IGNvbW11bml0eSdzIHBsYW4/DQoNClRoYW5r
-cw0KQ2hlbiANCg0KPiANCj4gVGhhbmtzDQo+IA0KPiANCj4gPg0KPiA+IFRoYW5rcw0KPiA+IENo
-ZW4NCj4gPg0KDQo=
+
+
+> -----Original Message-----
+> From: Dr. David Alan Gilbert <dgilbert@redhat.com>
+> Sent: Monday, January 4, 2021 9:07 PM
+> To: Zhang, Chen <chen.zhang@intel.com>
+> Cc: Jason Wang <jasowang@redhat.com>; qemu-dev <qemu-
+> devel@nongnu.org>; Eric Blake <eblake@redhat.com>; Markus Armbruster
+> <armbru@redhat.com>; Zhang Chen <zhangckid@gmail.com>
+> Subject: Re: [PATCH 0/3] Bypass specific network traffic in COLO
+>=20
+> * Zhang Chen (chen.zhang@intel.com) wrote:
+> > From: Zhang Chen <chen.zhang@intel.com>
+> >
+> > Since the real user scenario does not need to monitor all traffic.
+>=20
+> Can you explain the type of real user case where they only need to compar=
+e
+> some connections?
+
+Sure.
+For example, windows guest user want to enable windows remote desktop to to=
+uch guest(UDP/TCP 3389),
+This case use UDP and TCP mixed, and the tcp part payload always different =
+caused by real desktop display data(for guest time/ mouse display....).
+Another case is some real user application will actively transmit informati=
+on include guest time part,  primary guest send data with time 10:01.000,
+At the same time secondary guest send data with time 10:01.001, it will alw=
+ays trigger COLO checkpoint to drop guest performance.
+
+Thanks
+Chen
+
+
+>=20
+> Dave
+>=20
+> > This series give user ability to bypass kinds of network stream.
+> >
+> > Zhang Chen (3):
+> >   qapi/net: Add new QMP command for COLO passthrough
+> >   hmp-commands: Add new HMP command for COLO passthrough
+> >   net/colo-compare: Add handler for passthrough connection
+> >
+> >  hmp-commands.hx       | 26 +++++++++++++++++++++++
+> >  include/monitor/hmp.h |  2 ++
+> >  monitor/hmp-cmds.c    | 20 ++++++++++++++++++
+> >  net/colo-compare.c    | 49
+> +++++++++++++++++++++++++++++++++++++++++++
+> >  net/colo-compare.h    |  2 ++
+> >  net/net.c             | 39 ++++++++++++++++++++++++++++++++++
+> >  qapi/net.json         | 46
+> ++++++++++++++++++++++++++++++++++++++++
+> >  7 files changed, 184 insertions(+)
+> >
+> > --
+> > 2.17.1
+> >
+> --
+> Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
+
 
