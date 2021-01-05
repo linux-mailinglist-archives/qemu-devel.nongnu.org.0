@@ -2,71 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BA1542EB371
-	for <lists+qemu-devel@lfdr.de>; Tue,  5 Jan 2021 20:23:37 +0100 (CET)
-Received: from localhost ([::1]:45528 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0B7BE2EB383
+	for <lists+qemu-devel@lfdr.de>; Tue,  5 Jan 2021 20:32:31 +0100 (CET)
+Received: from localhost ([::1]:53190 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kwrvc-0005M7-Oc
-	for lists+qemu-devel@lfdr.de; Tue, 05 Jan 2021 14:23:36 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44028)
+	id 1kws4D-0000Zg-KV
+	for lists+qemu-devel@lfdr.de; Tue, 05 Jan 2021 14:32:29 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47068)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <lvivier@redhat.com>)
- id 1kwrqu-0002Ic-2G
- for qemu-devel@nongnu.org; Tue, 05 Jan 2021 14:18:45 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:48864)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <lvivier@redhat.com>)
- id 1kwrqr-0005qE-GM
- for qemu-devel@nongnu.org; Tue, 05 Jan 2021 14:18:43 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1609874320;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=85nym8nvLqtajebZ1SMAFQWD8NiiFmY0bkfw44mVuJQ=;
- b=fpMOdmQZyKykXe7ymiMOR/og8IQVWu5b3e75NRDAbAHhGKyeiRzdzU4S9mMDACKTcYk4tB
- 5Mm3JT4QODY1sfNBUup/NGz5Tpqwf/cccDuXQGFMFDNTpv+awJIIY6Cw0iI3vBIVBT7T+Q
- spN4XowQnGYDvRHVRVIIKbfMQ7CGHNc=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-252-yJIwyRIvNSaCHA2G1fhgCg-1; Tue, 05 Jan 2021 14:17:33 -0500
-X-MC-Unique: yJIwyRIvNSaCHA2G1fhgCg-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 996B71936B60
- for <qemu-devel@nongnu.org>; Tue,  5 Jan 2021 19:17:32 +0000 (UTC)
-Received: from thinkpad.redhat.com (ovpn-113-101.ams2.redhat.com
- [10.36.113.101])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 76F9561F5E;
- Tue,  5 Jan 2021 19:17:31 +0000 (UTC)
-From: Laurent Vivier <lvivier@redhat.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH 2/2] tracetool: fix "PRI" macro decoding
-Date: Tue,  5 Jan 2021 20:17:21 +0100
-Message-Id: <20210105191721.120463-3-lvivier@redhat.com>
-In-Reply-To: <20210105191721.120463-1-lvivier@redhat.com>
-References: <20210105191721.120463-1-lvivier@redhat.com>
+ (Exim 4.90_1) (envelope-from <matevz.langus@borea.si>)
+ id 1kws1k-0007yG-CH
+ for qemu-devel@nongnu.org; Tue, 05 Jan 2021 14:29:56 -0500
+Received: from ris.borea.si ([193.77.156.21]:53960)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <matevz.langus@borea.si>)
+ id 1kws1h-0001JU-Rq
+ for qemu-devel@nongnu.org; Tue, 05 Jan 2021 14:29:56 -0500
+Received: from ris.borea.si (ris.borea.si [127.0.0.1])
+ by ris.borea.si (Postfix) with ESMTP id 4D9Mr80ylGzV2
+ for <qemu-devel@nongnu.org>; Tue,  5 Jan 2021 19:24:24 +0000 (UTC)
+Authentication-Results: ris.borea.si (amavisd-new); dkim=pass (1024-bit key)
+ reason="pass (just generated, assumed good)" header.d=borea.si
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=borea.si; h=
+ content-transfer-encoding:content-language:content-type
+ :content-type:mime-version:user-agent:date:date:message-id
+ :subject:subject:from:from:to; s=dkim; t=1609874663; x=
+ 1612466664; bh=XABEDaMpXYz6jG32cKVeGq9281G+TskJMLkDe5KanVE=; b=s
+ y6JRVtNRg81Boi5mUrzknoIjFRbwW1MMRqYXlcO3XbbmBZLornkctJqe0JjpuDzz
+ jsLH/wUgKba9JUKRckpxHmXDcBL6TrHuOAAKH+J2hqdXhUolorf7zK6tEUn4lQEP
+ zW2vMdv3QJ7oTDS0cNYp83tXBvo4c//kz6qjAP4uoY=
+X-Virus-Scanned: Debian amavisd-new at ris.borea.si
+Received: from ris.borea.si ([127.0.0.1])
+ by ris.borea.si (ris.borea.si [127.0.0.1]) (amavisd-new, port 10026)
+ with ESMTP id 8XgFtziKiTpS for <qemu-devel@nongnu.org>;
+ Tue,  5 Jan 2021 19:24:23 +0000 (UTC)
+Received: from Matevz-Languss-MacBookPro-3.local (_gateway [192.168.234.249])
+ by ris.borea.si (Postfix) with ESMTPSA id 4D9Mr75NWKzKq;
+ Tue,  5 Jan 2021 19:24:23 +0000 (UTC)
+To: laurent@vivier.eu
+From: Matevz Langus <matevz.langus@borea.si>
+Subject: [PATCH] linux-user: Add ETHTOOL ioctl
+Message-ID: <9272ff58-82a7-d687-8a33-05796c643b5b@borea.si>
+Date: Tue, 5 Jan 2021 20:24:22 +0100
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:52.0)
+ Gecko/20100101 PostboxApp/7.0.43
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=lvivier@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=lvivier@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -29
-X-Spam_score: -3.0
-X-Spam_bar: ---
-X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.252,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=193.77.156.21;
+ envelope-from=matevz.langus@borea.si; helo=ris.borea.si
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -79,51 +72,58 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Laurent Vivier <lvivier@redhat.com>, Stefan Hajnoczi <stefanha@redhat.com>,
- "Michael S. Tsirkin" <mst@redhat.com>
+Cc: qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-macro is not reset after use, so the format decoded is always the
-one of the first "PRI" in the format string.
+Handling of ETHTOOL ioctl was not implemented.
 
-For instance:
-
-  vhost_vdpa_set_config(void *dev, uint32_t offset, uint32_t size, \
-                        uint32_t flags) "dev: %p offset: %"PRIu32" \
-                        size: %"PRIu32" flags: 0x%"PRIx32
-
-generates:
-
-  printf("%d@%d vhost_vdpa_set_config dev: %p offset: %u size: %u \
-          flags: 0x%u\n", pid(), gettimeofday_ns(), dev, offset, \
-          size, flags)
-
-for the "flags" parameter, we can see a "0x%u" rather than a "0x%x"
-because the first macro was "PRIu32" (for offset).
-
-In the loop, macro becomes "PRIu32PRIu32PRIx32", and c_macro_to_format()
-returns always macro[3] ('u' in this case). This patch resets macro after
-the format has been decoded.
-
-Signed-off-by: Laurent Vivier <lvivier@redhat.com>
+Signed-off-by: Matevz Langus <matevz.langus@borea.si>
 ---
- scripts/tracetool/format/log_stap.py | 1 +
- 1 file changed, 1 insertion(+)
+ =C2=A0linux-user/ioctls.h=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 | 1 +
+ =C2=A0linux-user/syscall_defs.h | 1 +
+ =C2=A02 files changed, 2 insertions(+)
 
-diff --git a/scripts/tracetool/format/log_stap.py b/scripts/tracetool/format/log_stap.py
-index b486beb67239..3e1186ae9cc2 100644
---- a/scripts/tracetool/format/log_stap.py
-+++ b/scripts/tracetool/format/log_stap.py
-@@ -54,6 +54,7 @@ def c_fmt_to_stap(fmt):
-             else:
-                 if state == STATE_MACRO:
-                     bits.append(c_macro_to_format(macro))
-+                    macro = ""
-                 state = STATE_LITERAL
-         elif fmt[i] == ' ' or fmt[i] == '\t':
-             if state == STATE_MACRO:
--- 
-2.29.2
+diff --git a/linux-user/ioctls.h b/linux-user/ioctls.h
+index 661b5daa9f..3e5c220199 100644
+--- a/linux-user/ioctls.h
++++ b/linux-user/ioctls.h
+@@ -362,6 +362,7 @@
+ =C2=A0=C2=A0 IOCTL(SIOCSIFHWADDR, IOC_W, MK_PTR(MK_STRUCT(STRUCT_sockadd=
+r_ifreq)))
+ =C2=A0=C2=A0 IOCTL(SIOCGIFTXQLEN, IOC_W | IOC_R,=20
+MK_PTR(MK_STRUCT(STRUCT_sockaddr_ifreq)))
+ =C2=A0=C2=A0 IOCTL(SIOCSIFTXQLEN, IOC_W, MK_PTR(MK_STRUCT(STRUCT_sockadd=
+r_ifreq)))
++=C2=A0 IOCTL(SIOCETHTOOL, IOC_R | IOC_W, MK_PTR(MK_STRUCT(STRUCT_ptr_ifr=
+eq)))
+ =C2=A0=C2=A0 IOCTL(SIOCGIFMETRIC, IOC_W | IOC_R, MK_PTR(MK_STRUCT(STRUCT=
+_int_ifreq)))
+ =C2=A0=C2=A0 IOCTL(SIOCSIFMETRIC, IOC_W, MK_PTR(MK_STRUCT(STRUCT_int_ifr=
+eq)))
+ =C2=A0=C2=A0 IOCTL(SIOCGIFMTU, IOC_W | IOC_R, MK_PTR(MK_STRUCT(STRUCT_in=
+t_ifreq)))
+diff --git a/linux-user/syscall_defs.h b/linux-user/syscall_defs.h
+index a00bfc2647..d9301fecc9 100644
+--- a/linux-user/syscall_defs.h
++++ b/linux-user/syscall_defs.h
+@@ -903,6 +903,7 @@ struct target_rtc_pll_info {
 
+ =C2=A0#define TARGET_SIOCGIFTXQLEN=C2=A0=C2=A0 0x8942=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 /* Get the tx queue=20
+length=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 */
+ =C2=A0#define TARGET_SIOCSIFTXQLEN=C2=A0=C2=A0 0x8943=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 /* Set the tx queue=20
+length=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 */
++#define TARGET_SIOCETHTOOL=C2=A0=C2=A0=C2=A0=C2=A0 0x8946=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 /* Ethtool=20
+interface=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+ */
+
+ =C2=A0/* ARP cache control calls. */
+ =C2=A0#define TARGET_OLD_SIOCDARP=C2=A0=C2=A0=C2=A0 0x8950=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 /* old delete ARP table=20
+entry=C2=A0=C2=A0 */
+--=20
+2.24.3 (Apple Git-128)
 
