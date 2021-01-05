@@ -2,42 +2,42 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 61FE22EB0D9
-	for <lists+qemu-devel@lfdr.de>; Tue,  5 Jan 2021 18:04:23 +0100 (CET)
-Received: from localhost ([::1]:53478 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3DE7A2EB116
+	for <lists+qemu-devel@lfdr.de>; Tue,  5 Jan 2021 18:11:25 +0100 (CET)
+Received: from localhost ([::1]:50562 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kwpks-00018j-FV
-	for lists+qemu-devel@lfdr.de; Tue, 05 Jan 2021 12:04:22 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40836)
+	id 1kwprg-0004GR-9W
+	for lists+qemu-devel@lfdr.de; Tue, 05 Jan 2021 12:11:24 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40994)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <ben.widawsky@intel.com>)
- id 1kwpax-0008QL-4W
- for qemu-devel@nongnu.org; Tue, 05 Jan 2021 11:54:08 -0500
-Received: from mga11.intel.com ([192.55.52.93]:21242)
+ id 1kwpbE-0008Ux-3y
+ for qemu-devel@nongnu.org; Tue, 05 Jan 2021 11:54:24 -0500
+Received: from mga11.intel.com ([192.55.52.93]:21251)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <ben.widawsky@intel.com>)
- id 1kwpat-00012E-VJ
- for qemu-devel@nongnu.org; Tue, 05 Jan 2021 11:54:05 -0500
-IronPort-SDR: iqNGzPhLB2yl4qj5qm+F32fhJcRn+gh53y7Igqzd+Xp81UoChpR8FDMwoDHd0cSdK5LRFdZZ3L
- EumpByTFlsag==
-X-IronPort-AV: E=McAfee;i="6000,8403,9855"; a="173629525"
-X-IronPort-AV: E=Sophos;i="5.78,477,1599548400"; d="scan'208";a="173629525"
+ id 1kwpb4-00012q-D9
+ for qemu-devel@nongnu.org; Tue, 05 Jan 2021 11:54:23 -0500
+IronPort-SDR: YedEzilnz4nnyIRu4BoQGVoGFPHv5GuyahfjFjFPzGppDlpY2it1Gl8c4l1bBGzyC3hjWvgfzf
+ GxwZ6zbwEFgg==
+X-IronPort-AV: E=McAfee;i="6000,8403,9855"; a="173629527"
+X-IronPort-AV: E=Sophos;i="5.78,477,1599548400"; d="scan'208";a="173629527"
 Received: from orsmga003.jf.intel.com ([10.7.209.27])
  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
  05 Jan 2021 08:53:55 -0800
-IronPort-SDR: qG7b1XPfSpSc80txGvBZeRKyEKaab/Px7n8m1FzcKMQjpCedelY2VST2zeMzns+Lv25wBT9g11
- SbXoRExTL+hQ==
-X-IronPort-AV: E=Sophos;i="5.78,477,1599548400"; d="scan'208";a="346337974"
+IronPort-SDR: HRNrUOgytxpmzFDMZZkkit1gtg1YtO6zc7cApgCiTHifgVuAOENkbhLoajTToyNDgmqQ9MOt/l
+ weMX8qyzTD0w==
+X-IronPort-AV: E=Sophos;i="5.78,477,1599548400"; d="scan'208";a="346337979"
 Received: from tgeddam-mobl.amr.corp.intel.com (HELO bwidawsk-mobl5.local)
  ([10.252.140.57])
  by orsmga003-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
  05 Jan 2021 08:53:55 -0800
 From: Ben Widawsky <ben.widawsky@intel.com>
 To: qemu-devel@nongnu.org
-Subject: [RFC PATCH v2 10/32] hw/cxl/device: Placeholder for firmware commands
-Date: Tue,  5 Jan 2021 08:53:01 -0800
-Message-Id: <20210105165323.783725-11-ben.widawsky@intel.com>
+Subject: [RFC PATCH v2 11/32] hw/cxl/device: Timestamp implementation (8.2.9.3)
+Date: Tue,  5 Jan 2021 08:53:02 -0800
+Message-Id: <20210105165323.783725-12-ben.widawsky@intel.com>
 X-Mailer: git-send-email 2.30.0
 In-Reply-To: <20210105165323.783725-1-ben.widawsky@intel.com>
 References: <20210105165323.783725-1-ben.widawsky@intel.com>
@@ -45,12 +45,11 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Received-SPF: pass client-ip=192.55.52.93; envelope-from=ben.widawsky@intel.com;
  helo=mga11.intel.com
-X-Spam_score_int: -34
-X-Spam_score: -3.5
-X-Spam_bar: ---
-X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, BODY_EMPTY=1.999,
- PYZOR_CHECK=1.392, RCVD_IN_DNSWL_HI=-5, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_score_int: -68
+X-Spam_score: -6.9
+X-Spam_bar: ------
+X-Spam_report: (-6.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_HI=-5,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -63,8 +62,9 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Thomas Huth <thuth@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>,
- Vishal Verma <vishal.l.verma@intel.com>, Chris Browy <cbrowy@avery-design.com>,
+Cc: Thomas Huth <thuth@redhat.com>, Ben Widawsky <ben.widawsky@intel.com>,
+ "Michael S. Tsirkin" <mst@redhat.com>, Vishal Verma <vishal.l.verma@intel.com>,
+ Chris Browy <cbrowy@avery-design.com>,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
  Jonathan Cameron <Jonathan.Cameron@Huawei.com>,
  Prashant V Agarwal <agpr123@gmail.com>,
@@ -72,5 +72,119 @@ Cc: Thomas Huth <thuth@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+Per spec, timestamp appears to be a free-running counter from a value
+set by the host via the Set Timestamp command (0301h). There are
+references to the epoch, which seem like a red herring. Therefore, the
+implementation implements the timestamp as freerunning counter from the
+last value that was issued by the Set Timestamp command.
+
+Signed-off-by: Ben Widawsky <ben.widawsky@intel.com>
+---
+ hw/cxl/cxl-mailbox-utils.c  | 52 +++++++++++++++++++++++++++++++++++++
+ include/hw/cxl/cxl_device.h |  6 +++++
+ 2 files changed, 58 insertions(+)
+
+diff --git a/hw/cxl/cxl-mailbox-utils.c b/hw/cxl/cxl-mailbox-utils.c
+index 890e486ea1..8b956d9e94 100644
+--- a/hw/cxl/cxl-mailbox-utils.c
++++ b/hw/cxl/cxl-mailbox-utils.c
+@@ -43,6 +43,9 @@ enum {
+         #define CLEAR_RECORDS   0x1
+         #define GET_INTERRUPT_POLICY   0x2
+         #define SET_INTERRUPT_POLICY   0x3
++    TIMESTAMP   = 0x03,
++        #define GET           0x0
++        #define SET           0x1
+ };
+ 
+ /* 8.2.8.4.5.1 Command Return Codes */
+@@ -117,8 +120,11 @@ define_mailbox_handler_zeroed(EVENTS_GET_RECORDS, 0x20);
+ define_mailbox_handler_nop(EVENTS_CLEAR_RECORDS);
+ define_mailbox_handler_zeroed(EVENTS_GET_INTERRUPT_POLICY, 4);
+ define_mailbox_handler_nop(EVENTS_SET_INTERRUPT_POLICY);
++declare_mailbox_handler(TIMESTAMP_GET);
++declare_mailbox_handler(TIMESTAMP_SET);
+ 
+ #define IMMEDIATE_CONFIG_CHANGE (1 << 1)
++#define IMMEDIATE_POLICY_CHANGE (1 << 3)
+ #define IMMEDIATE_LOG_CHANGE (1 << 4)
+ 
+ #define CXL_CMD(s, c, in, cel_effect) \
+@@ -129,10 +135,56 @@ static struct cxl_cmd cxl_cmd_set[256][256] = {
+     CXL_CMD(EVENTS, CLEAR_RECORDS, ~0, IMMEDIATE_LOG_CHANGE),
+     CXL_CMD(EVENTS, GET_INTERRUPT_POLICY, 0, 0),
+     CXL_CMD(EVENTS, SET_INTERRUPT_POLICY, 4, IMMEDIATE_CONFIG_CHANGE),
++    CXL_CMD(TIMESTAMP, GET, 0, 0),
++    CXL_CMD(TIMESTAMP, SET, 8, IMMEDIATE_POLICY_CHANGE),
+ };
+ 
+ #undef CXL_CMD
+ 
++/*
++ * 8.2.9.3.1
++ */
++define_mailbox_handler(TIMESTAMP_GET)
++{
++    struct timespec ts;
++
++    clock_gettime(CLOCK_REALTIME, &ts);
++
++    cxl_dstate->timestamp.set = true;
++    cxl_dstate->timestamp.last_set =
++        ts.tv_sec * NANOSECONDS_PER_SECOND + ts.tv_nsec;
++    cxl_dstate->timestamp.host_set = *(uint64_t *)cmd->payload;
++
++    *len = 8;
++    return CXL_MBOX_SUCCESS;
++}
++
++/*
++ * 8.2.9.3.2
++ */
++define_mailbox_handler(TIMESTAMP_SET)
++{
++    struct timespec ts;
++    uint64_t delta;
++
++    if (!cxl_dstate->timestamp.set) {
++        *(uint64_t *)cmd->payload = 0;
++        goto done;
++    }
++
++    /* First find the delta from the last time the host set the time. */
++    clock_gettime(CLOCK_REALTIME, &ts);
++    delta = (ts.tv_sec * NANOSECONDS_PER_SECOND + ts.tv_nsec) -
++            cxl_dstate->timestamp.host_set;
++
++    /* Then adjust the actual time */
++    *(uint64_t *)cmd->payload = cxl_dstate->timestamp.host_set + delta;
++
++done:
++    *len = 8;
++    return CXL_MBOX_SUCCESS;
++}
++
+ QemuUUID cel_uuid;
+ 
+ void cxl_process_mailbox(CXLDeviceState *cxl_dstate)
+diff --git a/include/hw/cxl/cxl_device.h b/include/hw/cxl/cxl_device.h
+index dd3f4572aa..25974b2416 100644
+--- a/include/hw/cxl/cxl_device.h
++++ b/include/hw/cxl/cxl_device.h
+@@ -100,6 +100,12 @@ typedef struct cxl_device_state {
+         size_t cel_size;
+     };
+ 
++    struct {
++        bool set;
++        uint64_t last_set;
++        uint64_t host_set;
++    } timestamp;
++
+     MemoryRegion *pmem;
+     MemoryRegion *vmem;
+ } CXLDeviceState;
+-- 
+2.30.0
 
 
