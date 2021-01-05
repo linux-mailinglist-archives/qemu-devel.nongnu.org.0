@@ -2,84 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A7E972EB01D
-	for <lists+qemu-devel@lfdr.de>; Tue,  5 Jan 2021 17:33:48 +0100 (CET)
-Received: from localhost ([::1]:38850 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4B7B92EB020
+	for <lists+qemu-devel@lfdr.de>; Tue,  5 Jan 2021 17:34:43 +0100 (CET)
+Received: from localhost ([::1]:41470 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kwpHH-00067Z-PC
-	for lists+qemu-devel@lfdr.de; Tue, 05 Jan 2021 11:33:47 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52974)
+	id 1kwpIA-0007Ag-8R
+	for lists+qemu-devel@lfdr.de; Tue, 05 Jan 2021 11:34:42 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56936)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <steven.sistare@oracle.com>)
- id 1kwouZ-0005XW-Gc
- for qemu-devel@nongnu.org; Tue, 05 Jan 2021 11:10:19 -0500
-Received: from userp2130.oracle.com ([156.151.31.86]:52620)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <steven.sistare@oracle.com>)
- id 1kwouX-0004re-4o
- for qemu-devel@nongnu.org; Tue, 05 Jan 2021 11:10:18 -0500
-Received: from pps.filterd (userp2130.oracle.com [127.0.0.1])
- by userp2130.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 105FtPhi137982;
- Tue, 5 Jan 2021 16:09:12 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com;
- h=from : to : cc :
- subject : date : message-id : in-reply-to : references; s=corp-2020-01-29;
- bh=PaFOwWLpXtDTZgReHTfB+E7OcXOa+oo5kFUt4EuarxA=;
- b=EhwR1u0gdxoZWeMZCtKh9rWnXfhmhchVpA3NpgQzIXFpGGUmoYQ4BDtkyiMKWVOJG5Q3
- smDvG7iVxCE+z8rkzbRw5KEHXySMlFDUJj9aWwPwwMGtcYo3pFUA7/txB1IL8w9jpkPL
- 4WSU/O1E5du7SNnrTpocYZWHtn0DST2Y2R14r+ThCHcKpgXggNka6e7A48BWQGtdq73i
- mxBF5dnJnlV3FC0SHdpB+s8FcBoZELWMKhzaORGfzo3DQ2oUblQ7W9fbkivHfB4LTU3y
- XMWquj4YGzTMPT3uBkP6w9gibQM6rdWZOGnPmZ7u0vAS8NMDvggjlOzBLzul4ciA065N PA== 
-Received: from userp3020.oracle.com (userp3020.oracle.com [156.151.31.79])
- by userp2130.oracle.com with ESMTP id 35tg8r1gyt-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=FAIL);
- Tue, 05 Jan 2021 16:09:12 +0000
-Received: from pps.filterd (userp3020.oracle.com [127.0.0.1])
- by userp3020.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 105FuNBn029086;
- Tue, 5 Jan 2021 16:09:12 GMT
-Received: from userv0121.oracle.com (userv0121.oracle.com [156.151.31.72])
- by userp3020.oracle.com with ESMTP id 35uxnsvb63-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Tue, 05 Jan 2021 16:09:12 +0000
-Received: from abhmp0011.oracle.com (abhmp0011.oracle.com [141.146.116.17])
- by userv0121.oracle.com (8.14.4/8.13.8) with ESMTP id 105G9Aba018379;
- Tue, 5 Jan 2021 16:09:10 GMT
-Received: from ca-dev63.us.oracle.com (/10.211.8.221)
- by default (Oracle Beehive Gateway v4.0)
- with ESMTP ; Tue, 05 Jan 2021 08:09:10 -0800
-From: Steve Sistare <steven.sistare@oracle.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH V2 13/22] vhost: reset vhost devices upon cprsave
-Date: Tue,  5 Jan 2021 07:42:01 -0800
-Message-Id: <1609861330-129855-14-git-send-email-steven.sistare@oracle.com>
-X-Mailer: git-send-email 1.8.3.1
-In-Reply-To: <1609861330-129855-1-git-send-email-steven.sistare@oracle.com>
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1kwp75-0007JI-Ia
+ for qemu-devel@nongnu.org; Tue, 05 Jan 2021 11:23:15 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:57280)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1kwp71-0000FZ-UZ
+ for qemu-devel@nongnu.org; Tue, 05 Jan 2021 11:23:14 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1609863791;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:in-reply-to:in-reply-to:  references:references;
+ bh=EW4/yTsaYp/HwmyDbkL4o65VU5s51o6ns4f0UOu0tm4=;
+ b=RZ6R6uoTH75p5LqsKed2sQKThMjGJnvj2nxk+LN3b2fCeqj55beeh+JJM0KjQ0MfyDTeoP
+ u0FGf61YflERM2UbgJ5WnwtpJQpKNygRAgo5kVndHGRZPHoovZF0MK7JFeogjhMW5IQ9wT
+ XvOuIecWG2gPTQIlxSvC1tsTIdNNusA=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-428-AkLlYfHiMkeso6UBOQC_RA-1; Tue, 05 Jan 2021 11:23:06 -0500
+X-MC-Unique: AkLlYfHiMkeso6UBOQC_RA-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id C5C6115723;
+ Tue,  5 Jan 2021 16:23:04 +0000 (UTC)
+Received: from redhat.com (ovpn-114-197.ams2.redhat.com [10.36.114.197])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 5C39860BFA;
+ Tue,  5 Jan 2021 16:22:47 +0000 (UTC)
+Date: Tue, 5 Jan 2021 16:22:43 +0000
+From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+To: Steve Sistare <steven.sistare@oracle.com>
+Subject: Re: [PATCH V2 18/22] chardev: cpr for sockets
+Message-ID: <20210105162243.GG724458@redhat.com>
 References: <1609861330-129855-1-git-send-email-steven.sistare@oracle.com>
-X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9855
- signatures=668683
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 adultscore=0
- phishscore=0 spamscore=0
- malwarescore=0 mlxscore=0 mlxlogscore=999 suspectscore=0 bulkscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2009150000
- definitions=main-2101050099
-X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9855
- signatures=668683
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 clxscore=1015
- phishscore=0 bulkscore=0
- spamscore=0 impostorscore=0 suspectscore=0 adultscore=0 mlxlogscore=999
- mlxscore=0 malwarescore=0 lowpriorityscore=0 priorityscore=1501
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2009150000
- definitions=main-2101050099
-Received-SPF: pass client-ip=156.151.31.86;
- envelope-from=steven.sistare@oracle.com; helo=userp2130.oracle.com
-X-Spam_score_int: -46
-X-Spam_score: -4.7
-X-Spam_bar: ----
-X-Spam_report: (-4.7 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.252,
+ <1609861330-129855-19-git-send-email-steven.sistare@oracle.com>
+MIME-Version: 1.0
+In-Reply-To: <1609861330-129855-19-git-send-email-steven.sistare@oracle.com>
+User-Agent: Mutt/1.14.6 (2020-07-11)
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=berrange@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=berrange@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -29
+X-Spam_score: -3.0
+X-Spam_bar: ---
+X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.252,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_PASS=-0.001, SPF_PASS=-0.001,
- UNPARSEABLE_RELAY=0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -92,82 +79,90 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "Daniel P. Berrange" <berrange@redhat.com>,
- "Michael S. Tsirkin" <mst@redhat.com>, Jason Zeng <jason.zeng@linux.intel.com>,
- =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
- Juan Quintela <quintela@redhat.com>,
+Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+Cc: Jason Zeng <jason.zeng@linux.intel.com>,
+ "Michael S. Tsirkin" <mst@redhat.com>,
+ Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>,
+ Juan Quintela <quintela@redhat.com>, qemu-devel@nongnu.org,
  "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
- Markus Armbruster <armbru@redhat.com>,
  Alex Williamson <alex.williamson@redhat.com>,
- Steve Sistare <steven.sistare@oracle.com>,
  Stefan Hajnoczi <stefanha@redhat.com>,
- =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>,
+ =?utf-8?Q?Marc-Andr=C3=A9?= Lureau <marcandre.lureau@redhat.com>,
  Paolo Bonzini <pbonzini@redhat.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
+ Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
+ Markus Armbruster <armbru@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-A vhost device is implicitly preserved across re-exec because its fd is not
-closed, and the value of the fd is specified on the command line for the
-new qemu to find.  However, new qemu issues an VHOST_RESET_OWNER ioctl,
-which fails because the device already has an owner.  To fix, reset the
-owner prior to exec.
+On Tue, Jan 05, 2021 at 07:42:06AM -0800, Steve Sistare wrote:
+> Define qio_channel_socket_reuse to initialize a channel based on an existing
+> socket fd.  Save accepted socket fds in the environment before cprsave, and
+> look for fds in the environment after cprload.  Reject cprsave if a socket
+> enables the TLS or websocket option.
+> 
+> Signed-off-by: Mark Kanda <mark.kanda@oracle.com>
+> Signed-off-by: Steve Sistare <steven.sistare@oracle.com>
+> ---
+>  chardev/char-socket.c       | 30 ++++++++++++++++++++++++++++++
+>  include/io/channel-socket.h | 12 ++++++++++++
+>  io/channel-socket.c         |  9 +++++++++
+>  stubs/Makefile.objs         |  1 +
+>  stubs/cpr.c                 |  3 +++
+>  5 files changed, 55 insertions(+)
+>  create mode 100644 stubs/cpr.c
+> 
 
-Signed-off-by: Mark Kanda <mark.kanda@oracle.com>
-Signed-off-by: Steve Sistare <steven.sistare@oracle.com>
----
- hw/virtio/vhost.c         | 11 +++++++++++
- include/hw/virtio/vhost.h |  1 +
- migration/cpr.c           |  1 +
- 3 files changed, 13 insertions(+)
+> diff --git a/include/io/channel-socket.h b/include/io/channel-socket.h
+> index 777ff59..e425a01 100644
+> --- a/include/io/channel-socket.h
+> +++ b/include/io/channel-socket.h
+> @@ -260,5 +260,17 @@ QIOChannelSocket *
+>  qio_channel_socket_accept(QIOChannelSocket *ioc,
+>                            Error **errp);
+>  
+> +/**
+> + * qio_channel_socket_reuse:
+> + * @fd: existing client socket descriptor
+> + * @errp: pointer to a NULL-initialized error object
+> + *
+> + * Construct a client channel using @fd.
+> + *
+> + * Returns: the new client channel, or NULL on error
+> + */
+> +QIOChannelSocket *
+> +qio_channel_socket_reuse(int fd,
+> +                         Error **errp);
+>  
+>  #endif /* QIO_CHANNEL_SOCKET_H */
+> diff --git a/io/channel-socket.c b/io/channel-socket.c
+> index de49880..07981be 100644
+> --- a/io/channel-socket.c
+> +++ b/io/channel-socket.c
+> @@ -400,6 +400,15 @@ qio_channel_socket_accept(QIOChannelSocket *ioc,
+>      return NULL;
+>  }
+>  
+> +QIOChannelSocket *
+> +qio_channel_socket_reuse(int fd,
+> +                         Error **errp)
+> +{
+> +    QIOChannelSocket *cioc = qio_channel_socket_new();
+> +    cioc->fd = fd;
+> +    return qio_channel_socket_post_accept(cioc, errp) ? 0 : cioc;
+> +}
 
-diff --git a/hw/virtio/vhost.c b/hw/virtio/vhost.c
-index 1a1384e..42aa44c 100644
---- a/hw/virtio/vhost.c
-+++ b/hw/virtio/vhost.c
-@@ -1764,6 +1764,17 @@ void vhost_dev_stop(struct vhost_dev *hdev, VirtIODevice *vdev)
-     hdev->vdev = NULL;
- }
- 
-+void vhost_dev_reset_all(void)
-+{
-+    struct vhost_dev *dev;
-+
-+    QLIST_FOREACH(dev, &vhost_devices, entry) {
-+        if (dev->vhost_ops->vhost_reset_device(dev) < 0) {
-+            VHOST_OPS_DEBUG("vhost_reset_device failed");
-+        }
-+    }
-+}
-+
- int vhost_net_set_backend(struct vhost_dev *hdev,
-                           struct vhost_vring_file *file)
- {
-diff --git a/include/hw/virtio/vhost.h b/include/hw/virtio/vhost.h
-index 767a95e..5fef8bd 100644
---- a/include/hw/virtio/vhost.h
-+++ b/include/hw/virtio/vhost.h
-@@ -105,6 +105,7 @@ int vhost_dev_init(struct vhost_dev *hdev, void *opaque,
- void vhost_dev_cleanup(struct vhost_dev *hdev);
- int vhost_dev_start(struct vhost_dev *hdev, VirtIODevice *vdev);
- void vhost_dev_stop(struct vhost_dev *hdev, VirtIODevice *vdev);
-+void vhost_dev_reset_all(void);
- int vhost_dev_enable_notifiers(struct vhost_dev *hdev, VirtIODevice *vdev);
- void vhost_dev_disable_notifiers(struct vhost_dev *hdev, VirtIODevice *vdev);
- 
-diff --git a/migration/cpr.c b/migration/cpr.c
-index 045ebc5..13c5d7c 100644
---- a/migration/cpr.c
-+++ b/migration/cpr.c
-@@ -135,6 +135,7 @@ void cprsave(const char *file, CprMode mode, Error **errp)
-             goto err;
-         }
-         walkenv(FD_PREFIX, preserve_fd, 0);
-+        vhost_dev_reset_all();
-         setenv("QEMU_START_FREEZE", "", 1);
-         qemu_system_exec_request();
-     }
+Why do we need to add this new API when we already have
+
+ qio_channel_socket_new_fd(int fd, Error **errp)
+
+which accepts a pre-opened socket FD ?
+
+
+Regards,
+Daniel
 -- 
-1.8.3.1
+|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
+|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
+|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
 
 
