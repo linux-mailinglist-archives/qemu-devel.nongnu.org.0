@@ -2,42 +2,42 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C59882EB0F5
-	for <lists+qemu-devel@lfdr.de>; Tue,  5 Jan 2021 18:07:12 +0100 (CET)
-Received: from localhost ([::1]:32786 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 35A5B2EB124
+	for <lists+qemu-devel@lfdr.de>; Tue,  5 Jan 2021 18:13:17 +0100 (CET)
+Received: from localhost ([::1]:58668 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kwpnb-0004jR-RX
-	for lists+qemu-devel@lfdr.de; Tue, 05 Jan 2021 12:07:11 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41026)
+	id 1kwptU-0007eJ-8f
+	for lists+qemu-devel@lfdr.de; Tue, 05 Jan 2021 12:13:16 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41222)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <ben.widawsky@intel.com>)
- id 1kwpbE-00005k-Vd
- for qemu-devel@nongnu.org; Tue, 05 Jan 2021 11:54:24 -0500
-Received: from mga11.intel.com ([192.55.52.93]:21242)
+ id 1kwpbQ-0000Hr-RY
+ for qemu-devel@nongnu.org; Tue, 05 Jan 2021 11:54:36 -0500
+Received: from mga11.intel.com ([192.55.52.93]:21251)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <ben.widawsky@intel.com>)
- id 1kwpb7-00012E-FR
- for qemu-devel@nongnu.org; Tue, 05 Jan 2021 11:54:24 -0500
-IronPort-SDR: U0UsRED9aUrlzmag2WxEHNo83FfY9rIS8rOq91wadPmhttO5f9fZxKUfVUKkA3zUMDX9fOoC8o
- Cia80a2y8iFQ==
-X-IronPort-AV: E=McAfee;i="6000,8403,9855"; a="173629531"
-X-IronPort-AV: E=Sophos;i="5.78,477,1599548400"; d="scan'208";a="173629531"
+ id 1kwpbO-00012q-G5
+ for qemu-devel@nongnu.org; Tue, 05 Jan 2021 11:54:36 -0500
+IronPort-SDR: t9BAU1Bs5W9pKONzhLe6Pbtg1Ge+aC0kgy3NfefW8dsujlR/TAnbLwuTZEaaJgsaZfp8PfgHka
+ WHrXBGlhWuuw==
+X-IronPort-AV: E=McAfee;i="6000,8403,9855"; a="173629533"
+X-IronPort-AV: E=Sophos;i="5.78,477,1599548400"; d="scan'208";a="173629533"
 Received: from orsmga003.jf.intel.com ([10.7.209.27])
  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 05 Jan 2021 08:53:56 -0800
-IronPort-SDR: 5uRSWBtaH/UQh/aoIydictYhSlEZsoFD1jtCn8yeOTr75T7rD3u0cObPbiWkQsS//A0WwNC2dt
- F/SauRaWwbhQ==
-X-IronPort-AV: E=Sophos;i="5.78,477,1599548400"; d="scan'208";a="346337994"
+ 05 Jan 2021 08:53:57 -0800
+IronPort-SDR: a7q2AcGLjZBDVZnWSEaoZVdJZ7tmXgHnsEVlIeAl/c3oz8zIyZIOy/TvWp/G5XVUAsGe2lJsKk
+ 9W9Hl++fKHKg==
+X-IronPort-AV: E=Sophos;i="5.78,477,1599548400"; d="scan'208";a="346338002"
 Received: from tgeddam-mobl.amr.corp.intel.com (HELO bwidawsk-mobl5.local)
  ([10.252.140.57])
  by orsmga003-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
  05 Jan 2021 08:53:56 -0800
 From: Ben Widawsky <ben.widawsky@intel.com>
 To: qemu-devel@nongnu.org
-Subject: [RFC PATCH v2 13/32] hw/pxb: Use a type for realizing expanders
-Date: Tue,  5 Jan 2021 08:53:04 -0800
-Message-Id: <20210105165323.783725-14-ben.widawsky@intel.com>
+Subject: [RFC PATCH v2 14/32] hw/pci/cxl: Create a CXL bus type
+Date: Tue,  5 Jan 2021 08:53:05 -0800
+Message-Id: <20210105165323.783725-15-ben.widawsky@intel.com>
 X-Mailer: git-send-email 2.30.0
 In-Reply-To: <20210105165323.783725-1-ben.widawsky@intel.com>
 References: <20210105165323.783725-1-ben.widawsky@intel.com>
@@ -72,64 +72,80 @@ Cc: Thomas Huth <thuth@redhat.com>, Ben Widawsky <ben.widawsky@intel.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This opens up the possibility for more types of expanders (other than
-PCI and PCIe). We'll need this to create a CXL expander.
+The easiest way to differentiate a CXL bus, and a PCIE bus is using a
+flag. A CXL bus, in hardware, is backward compatible with PCIE, and
+therefore the code tries pretty hard to keep them in sync as much as
+possible.
+
+The other way to implement this would be to try to cast the bus to the
+correct type. This is less code and useful for debugging via simply
+looking at the flags.
 
 Signed-off-by: Ben Widawsky <ben.widawsky@intel.com>
 ---
- hw/pci-bridge/pci_expander_bridge.c | 11 +++++++----
- 1 file changed, 7 insertions(+), 4 deletions(-)
+ hw/pci-bridge/pci_expander_bridge.c | 9 ++++++++-
+ include/hw/pci/pci_bus.h            | 7 +++++++
+ 2 files changed, 15 insertions(+), 1 deletion(-)
 
 diff --git a/hw/pci-bridge/pci_expander_bridge.c b/hw/pci-bridge/pci_expander_bridge.c
-index aedded1064..232b7ce305 100644
+index 232b7ce305..88c45dc3b5 100644
 --- a/hw/pci-bridge/pci_expander_bridge.c
 +++ b/hw/pci-bridge/pci_expander_bridge.c
-@@ -24,6 +24,8 @@
+@@ -24,7 +24,7 @@
  #include "hw/boards.h"
  #include "qom/object.h"
  
-+enum BusType { PCI, PCIE };
-+
+-enum BusType { PCI, PCIE };
++enum BusType { PCI, PCIE, CXL };
+ 
  #define TYPE_PXB_BUS "pxb-bus"
  typedef struct PXBBus PXBBus;
- DECLARE_INSTANCE_CHECKER(PXBBus, PXB_BUS,
-@@ -214,7 +216,8 @@ static gint pxb_compare(gconstpointer a, gconstpointer b)
-            0;
- }
+@@ -35,6 +35,10 @@ DECLARE_INSTANCE_CHECKER(PXBBus, PXB_BUS,
+ DECLARE_INSTANCE_CHECKER(PXBBus, PXB_PCIE_BUS,
+                          TYPE_PXB_PCIE_BUS)
  
--static void pxb_dev_realize_common(PCIDevice *dev, bool pcie, Error **errp)
-+static void pxb_dev_realize_common(PCIDevice *dev, enum BusType type,
-+                                   Error **errp)
- {
-     PXBDev *pxb = convert_to_pxb(dev);
-     DeviceState *ds, *bds = NULL;
-@@ -239,7 +242,7 @@ static void pxb_dev_realize_common(PCIDevice *dev, bool pcie, Error **errp)
-     }
- 
++#define TYPE_PXB_CXL_BUS "pxb-cxl-bus"
++DECLARE_INSTANCE_CHECKER(PXBBus, PXB_CXL_BUS,
++                         TYPE_PXB_CXL_BUS)
++
+ struct PXBBus {
+     /*< private >*/
+     PCIBus parent_obj;
+@@ -244,6 +248,9 @@ static void pxb_dev_realize_common(PCIDevice *dev, enum BusType type,
      ds = qdev_new(TYPE_PXB_HOST);
--    if (pcie) {
-+    if (type == PCIE) {
+     if (type == PCIE) {
          bus = pci_root_bus_new(ds, dev_name, NULL, NULL, 0, TYPE_PXB_PCIE_BUS);
++    } else if (type == CXL) {
++        bus = pci_root_bus_new(ds, dev_name, NULL, NULL, 0, TYPE_PXB_CXL_BUS);
++        bus->flags |= PCI_BUS_CXL;
      } else {
          bus = pci_root_bus_new(ds, "pxb-internal", NULL, NULL, 0, TYPE_PXB_BUS);
-@@ -287,7 +290,7 @@ static void pxb_dev_realize(PCIDevice *dev, Error **errp)
-         return;
-     }
+         bds = qdev_new("pci-bridge");
+diff --git a/include/hw/pci/pci_bus.h b/include/hw/pci/pci_bus.h
+index 347440d42c..eb94e7e85c 100644
+--- a/include/hw/pci/pci_bus.h
++++ b/include/hw/pci/pci_bus.h
+@@ -24,6 +24,8 @@ enum PCIBusFlags {
+     PCI_BUS_IS_ROOT                                         = 0x0001,
+     /* PCIe extended configuration space is accessible on this bus */
+     PCI_BUS_EXTENDED_CONFIG_SPACE                           = 0x0002,
++    /* This is a CXL Type BUS */
++    PCI_BUS_CXL                                             = 0x0004,
+ };
  
--    pxb_dev_realize_common(dev, false, errp);
-+    pxb_dev_realize_common(dev, PCI, errp);
- }
+ struct PCIBus {
+@@ -53,6 +55,11 @@ struct PCIBus {
+     Notifier machine_done;
+ };
  
- static void pxb_dev_exitfn(PCIDevice *pci_dev)
-@@ -339,7 +342,7 @@ static void pxb_pcie_dev_realize(PCIDevice *dev, Error **errp)
-         return;
-     }
- 
--    pxb_dev_realize_common(dev, true, errp);
-+    pxb_dev_realize_common(dev, PCIE, errp);
- }
- 
- static void pxb_pcie_dev_class_init(ObjectClass *klass, void *data)
++static inline bool pci_bus_is_cxl(PCIBus *bus)
++{
++    return !!(bus->flags & PCI_BUS_CXL);
++}
++
+ static inline bool pci_bus_is_root(PCIBus *bus)
+ {
+     return !!(bus->flags & PCI_BUS_IS_ROOT);
 -- 
 2.30.0
 
