@@ -2,110 +2,102 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D7FF12EB35C
-	for <lists+qemu-devel@lfdr.de>; Tue,  5 Jan 2021 20:12:10 +0100 (CET)
-Received: from localhost ([::1]:35276 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9CA022EB304
+	for <lists+qemu-devel@lfdr.de>; Tue,  5 Jan 2021 20:04:13 +0100 (CET)
+Received: from localhost ([::1]:56896 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kwrkX-0000OL-FK
-	for lists+qemu-devel@lfdr.de; Tue, 05 Jan 2021 14:12:09 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41630)
+	id 1kwrcq-0005LW-6w
+	for lists+qemu-devel@lfdr.de; Tue, 05 Jan 2021 14:04:12 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38680)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <admin@fosshost.org>)
- id 1kwrjM-0008M9-0b
- for qemu-devel@nongnu.org; Tue, 05 Jan 2021 14:10:56 -0500
-Received: from mail-eopbgr110073.outbound.protection.outlook.com
- ([40.107.11.73]:51045 helo=GBR01-CWL-obe.outbound.protection.outlook.com)
+ (Exim 4.90_1) (envelope-from <jejb@linux.ibm.com>)
+ id 1kwrbB-0004Mg-18
+ for qemu-devel@nongnu.org; Tue, 05 Jan 2021 14:02:29 -0500
+Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:1106
+ helo=mx0a-001b2d01.pphosted.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <admin@fosshost.org>)
- id 1kwrj9-0003Fz-IV
- for qemu-devel@nongnu.org; Tue, 05 Jan 2021 14:10:50 -0500
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=n3t2tOgbbSeAMW0CmFbK3MkjvGlzF4dEkwDMpiRBDdp/JElrAHpo00qjce4kwfTROCd8sECmycOjwfURHkfj4moowkrbN4RchQQLl6hxAF/yFUvE0CJIhWOFvW14Xwjd4ut2Pq+vE2Kk4bJpAtmunVtNvl8QBfIrNTeigNit44zg2qMnmpNsIOAzFp3DdkFbeQXI2EaSgK1kBI+dMiZ7XOD9JcXOlhNAq9NZVXtgKi6XuD0I1b8v2aq7g6i74NY3VbXUq2WnoztjcBHdq5UWFzvlHF66CvBIevsAeoxZTqHHQKYmqvSzQznkUwRjk6qeJ/HLNYvMg4rMQvQMiBV3XA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=AWDxH7megDpiY8lP4ECtMMmhkTR94BJ4d8xUx7wWJGw=;
- b=meLEEtgRRQxzhEAnYJzEEZzgrHepSkKsO33/2MV8FZ4RdmCwxHdhHjJ+v8G+QGGCdB+LrPwok37jr/RFN7pSKrGr4UHfZ+vokF/Mo/0DleVPBrDCxQV8EfM/EAj0OOIAbi6Eyf+CI45vF2Cdm6SrVdgsvoefxKu0/iYjKNac1gYzrpa8pOc/vdRWlDSNUGyvwyMmWsWphHK5R93BvqfZ7NAteHQjFmD2aPyvTxiutcCuoqKf4ELZVBMJM/ICVzb1IrDP/JCcmRs/Sr5yWEoCOmF5EqpVizffCCKRHJvDg4Xh2WgTt+fb/1XTdMoa3e6JuooEaH5Cfzrf9kTJPZWaAg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=fosshost.org; dmarc=pass action=none header.from=fosshost.org;
- dkim=pass header.d=fosshost.org; arc=none
-Received: from LO2P123MB2605.GBRP123.PROD.OUTLOOK.COM (2603:10a6:600:c2::10)
- by LO3P123MB3177.GBRP123.PROD.OUTLOOK.COM (2603:10a6:600:f8::16) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3721.22; Tue, 5 Jan
- 2021 18:55:38 +0000
-Received: from LO2P123MB2605.GBRP123.PROD.OUTLOOK.COM
- ([fe80::5121:a2d7:cd28:d11f]) by LO2P123MB2605.GBRP123.PROD.OUTLOOK.COM
- ([fe80::5121:a2d7:cd28:d11f%6]) with mapi id 15.20.3721.024; Tue, 5 Jan 2021
- 18:55:38 +0000
-From: Fosshost <admin@fosshost.org>
-To: Stefan Hajnoczi <stefanha@gmail.com>
-Subject: Re: QEMU hosting
-Thread-Topic: QEMU hosting
-Thread-Index: AQHW424jqgpOevQOwkK3Y6N1ZcH1wqoZYUOD
-Date: Tue, 5 Jan 2021 18:55:37 +0000
-Message-ID: <LO2P123MB2605DA330913C7D2DA311EF1C8D10@LO2P123MB2605.GBRP123.PROD.OUTLOOK.COM>
-References: <CAJSP0QVZuh8H-U1vtFMhasqSsSy3OA4jmRvwZrQEAx3=1dcb+w@mail.gmail.com>
-In-Reply-To: <CAJSP0QVZuh8H-U1vtFMhasqSsSy3OA4jmRvwZrQEAx3=1dcb+w@mail.gmail.com>
-Accept-Language: en-GB, en-US
-Content-Language: en-GB
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-authentication-results: gmail.com; dkim=none (message not signed)
- header.d=none;gmail.com; dmarc=none action=none header.from=fosshost.org;
-x-originating-ip: [2001:470:1f09:3f:f83e:1734:a902:c969]
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: b0e3ddb4-0be8-454f-8c46-08d8b1ab7dc8
-x-ms-traffictypediagnostic: LO3P123MB3177:
-x-microsoft-antispam-prvs: <LO3P123MB3177E3775810E4AE6E1A2BDBC8D10@LO3P123MB3177.GBRP123.PROD.OUTLOOK.COM>
-x-ms-oob-tlc-oobclassifiers: OLM:10000;
-x-ms-exchange-senderadcheck: 1
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: l6SUuW2koWDU3O5TYAwzRGgrvYKTSSekBvuMsgTsM0TE+iVn+JqegeSfZpf9Qd3BB4oSP92m1PKQB1HmBTf2YO8Sh8fIKjr9Ojf2Lt3wtFtKeqigxm1g70Ue8d6QWv32+b6J9e2aApaYem5VGuZ+JfEW4oem5bkVS4ebDBCrkLaBJDXC1MwsknFSjmJF5+XQTkTNUCTm0GaVHSiGBDdg5o+k+4Wf2e15T1KYDrRIGtiTkpOJYWPLgdlwiiJmpXxlmZrbv7OlQPNGuZ6bbKssLiPZM/OyfSuXR8h5k40Xtnnz6z8qmB7+P8usrBI99zgX5/RS+ks84EWXU7NeIEqhzQqAQupGcEy1CRqKzxjNwQI2BQSJzKLKGgLrin18LAL3pGAajc7MhRJ8vUPQN72A5bc6GgzsvLfO4fFKHhZWhXAxjlf2H+yKVL02TkCSP322tt9XLTjvz8yIWLNie3ioKsqY0shsJtsMJCdLqQZKmgScS95a2yznTd2aSeyn/N56JG12XzWs087Teb4b5xtoMQ==
-x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:LO2P123MB2605.GBRP123.PROD.OUTLOOK.COM; PTR:; CAT:NONE;
- SFS:(366004)(136003)(376002)(39830400003)(396003)(346002)(34096005)(66556008)(66946007)(64756008)(66476007)(6916009)(76116006)(4326008)(38610400001)(8676002)(53546011)(9686003)(71200400001)(498600001)(586005)(6506007)(66446008)(186003)(7116003)(966005)(19627405001)(5660300002)(52536014)(2906002)(83380400001)(166002)(86362001)(8936002)(7696005)(33656002)(3480700007)(55016002)(11634003);
- DIR:OUT; SFP:1101; 
-x-ms-exchange-antispam-messagedata: =?us-ascii?Q?2ET3DtFsubYF8yFHHf3c9L28FMs3sLalqfnXf3s95tjuORJpp7abXGSxlIDY?=
- =?us-ascii?Q?L1iQxnxKMXt2xP6KPk1fGCiEdyy27xrHtvQX7FifATbixRWurpN/KtOiE9TC?=
- =?us-ascii?Q?rr3IK8rdbHxgQGot0Z51KTN9xKVF96QGCPEkhuv2jH3qXSbGEarg0WUuZKSx?=
- =?us-ascii?Q?/GauwBnm+zDZkOQmd/DA9jCSnfIbGaH+UqpSapbp9mx7RiMwil5A/SFRoAiN?=
- =?us-ascii?Q?oC5TZ1vAXu6GOQRvDJU/+bOBCYl/tWQWFsqdIluBk3KnTOB9dMlSKnN8YtfW?=
- =?us-ascii?Q?wkwLR2D4JgN6D9otN5dnSuvnLG/C8cK4VLvAgr9O/XHjw34YLeQqTV3p79Rs?=
- =?us-ascii?Q?tWwurO0xrKCoLXSN8a2yQsAOsK02mSqIKBcF+ItYL3DKgwowhyMhfiyNe0iG?=
- =?us-ascii?Q?a80zDx7e7SgJELdHxZ49g2YF9ZKtrUjTyZn5K8OvWPe01UI4G9NJouD92m52?=
- =?us-ascii?Q?+n6fUm4LTJ8DRNzNoTVPvg6swwUoWZMvB9kNUlIG467kjOtHn57Ekj3ALkwm?=
- =?us-ascii?Q?Ciq76HLrIYUVVtfZLPNEHPfrA6fp/923iv8FCYSRh2KchZw7jlKedmNqLKCd?=
- =?us-ascii?Q?dQDYhMPTAbL7tWP6F8c7F01DPN+h58G23YycW1akuNpqv8ND9CE4FViMXP1i?=
- =?us-ascii?Q?/TBToq4I8iEfphQn+XYOdGvOt74kwjB7HwoVlLwONui8DZMU8gzw+sHk+E6f?=
- =?us-ascii?Q?EfTj7qNZur6eeQXsrNrp5xD9yOVi6dHVMg9a6Xi11YBKRV0IlO1YHID0LPCI?=
- =?us-ascii?Q?rk3GOeK9rEV1zzr8lE/OJqlicjqs252z/NE7Wee8Y+Q6uhzkXIgKT5TRUqbA?=
- =?us-ascii?Q?sN3S9c2NzC37INjpq6wz0/EojQete+Hmgg9muPDmvbIQcJw5RWtpdnlZS/Fw?=
- =?us-ascii?Q?nDVoK/CRD1XRp4cjgcIrEXceWF9Ug10yD6tA2FuYdFdOWROJyIiYhqtieki7?=
- =?us-ascii?Q?KQle4Z2bSgmwaENtEVHvV6cOZJcRYUeELSu0PJVEFH2pkaBmOvahXtvjiMPI?=
- =?us-ascii?Q?iMMpi8P+1n1CoixJQEcLu4opgO6YwLzlsfwXZy6SDanVKVY=3D?=
-x-ms-exchange-transport-forked: True
-Content-Type: multipart/alternative;
- boundary="_000_LO2P123MB2605DA330913C7D2DA311EF1C8D10LO2P123MB2605GBRP_"
+ (Exim 4.90_1) (envelope-from <jejb@linux.ibm.com>)
+ id 1kwrb8-0006hu-0u
+ for qemu-devel@nongnu.org; Tue, 05 Jan 2021 14:02:28 -0500
+Received: from pps.filterd (m0098416.ppops.net [127.0.0.1])
+ by mx0b-001b2d01.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id
+ 105J1aw3071592; Tue, 5 Jan 2021 14:02:22 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
+ h=message-id : subject :
+ from : reply-to : to : cc : date : in-reply-to : references : content-type
+ : mime-version : content-transfer-encoding; s=pp1;
+ bh=/cZUXh8b1x936QtrNe8FlKnGgzof/dN1oIoASK198dg=;
+ b=UXfNL5aEhSnlmHRYjEZ+Ww7JdZaBpBP7Jp55z3FWQOz0cnefKLEyB+u/RZW6o/2sgOfE
+ GGH3/cVGkR5pI2/dorvy9zeEQdYJg3oNojuPrAlqzejTwy0e60e+RZ71LDbLNvDa/xTn
+ S9vqObZgVJbmJYqc/U5Lot6cpkNLxbudCFQBmBdla+8EOROQBCosfiNdGLev9ovBNrQW
+ 3p2S1bR/MpO7EA5PJ+pcPgOoy+cIVqlhgfwYetjKbhYa33kMXaz7i8q9W+1nxYzUefDp
+ fqmYFP+4GPLHyQJHrHpPfwOaWmqiAmrbbkTeY5GJTZPS4dRD8aqkGZ+r4vEI7TfoPojy ng== 
+Received: from pps.reinject (localhost [127.0.0.1])
+ by mx0b-001b2d01.pphosted.com with ESMTP id 35vwueg340-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Tue, 05 Jan 2021 14:02:22 -0500
+Received: from m0098416.ppops.net (m0098416.ppops.net [127.0.0.1])
+ by pps.reinject (8.16.0.36/8.16.0.36) with SMTP id 105J1rc3072445;
+ Tue, 5 Jan 2021 14:02:21 -0500
+Received: from ppma03dal.us.ibm.com (b.bd.3ea9.ip4.static.sl-reverse.com
+ [169.62.189.11])
+ by mx0b-001b2d01.pphosted.com with ESMTP id 35vwueg33q-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Tue, 05 Jan 2021 14:02:21 -0500
+Received: from pps.filterd (ppma03dal.us.ibm.com [127.0.0.1])
+ by ppma03dal.us.ibm.com (8.16.0.42/8.16.0.42) with SMTP id 105IvkKZ024463;
+ Tue, 5 Jan 2021 19:02:21 GMT
+Received: from b03cxnp08028.gho.boulder.ibm.com
+ (b03cxnp08028.gho.boulder.ibm.com [9.17.130.20])
+ by ppma03dal.us.ibm.com with ESMTP id 35tgf8wp48-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Tue, 05 Jan 2021 19:02:21 +0000
+Received: from b03ledav004.gho.boulder.ibm.com
+ (b03ledav004.gho.boulder.ibm.com [9.17.130.235])
+ by b03cxnp08028.gho.boulder.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 105J2Kb321561762
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Tue, 5 Jan 2021 19:02:20 GMT
+Received: from b03ledav004.gho.boulder.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id EEF277805F;
+ Tue,  5 Jan 2021 19:02:19 +0000 (GMT)
+Received: from b03ledav004.gho.boulder.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id C09717805E;
+ Tue,  5 Jan 2021 19:02:18 +0000 (GMT)
+Received: from jarvis.int.hansenpartnership.com (unknown [9.85.172.80])
+ by b03ledav004.gho.boulder.ibm.com (Postfix) with ESMTP;
+ Tue,  5 Jan 2021 19:02:18 +0000 (GMT)
+Message-ID: <b290205e2233f4bda699a09b3329bc052be72749.camel@linux.ibm.com>
+Subject: Re: [PATCH v2] target/i386/sev: add support to query the
+ attestation report
+From: James Bottomley <jejb@linux.ibm.com>
+To: Brijesh Singh <brijesh.singh@amd.com>, qemu-devel@nongnu.org
+Date: Tue, 05 Jan 2021 11:02:17 -0800
+In-Reply-To: <20210105163943.30510-1-brijesh.singh@amd.com>
+References: <20210105163943.30510-1-brijesh.singh@amd.com>
+Content-Type: text/plain; charset="UTF-8"
+User-Agent: Evolution 3.34.4 
 MIME-Version: 1.0
-X-OriginatorOrg: fosshost.org
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: LO2P123MB2605.GBRP123.PROD.OUTLOOK.COM
-X-MS-Exchange-CrossTenant-Network-Message-Id: b0e3ddb4-0be8-454f-8c46-08d8b1ab7dc8
-X-MS-Exchange-CrossTenant-originalarrivaltime: 05 Jan 2021 18:55:37.9944 (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 6f05e4df-9801-4bb7-80d6-e7c58e957903
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: 7nQ93w9+rdZ4oYe7dU8J8bf/5S354pViUXHzZpfZJx39yvGph2zu7ezBRy3eqmqeNOJepZSkALcY5ceGvwQYrw==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: LO3P123MB3177
-Received-SPF: pass client-ip=40.107.11.73; envelope-from=admin@fosshost.org;
- helo=GBR01-CWL-obe.outbound.protection.outlook.com
-X-Spam_score_int: -25
-X-Spam_score: -2.6
+Content-Transfer-Encoding: 7bit
+X-TM-AS-GCONF: 00
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.343, 18.0.737
+ definitions=2021-01-05_05:2021-01-05,
+ 2021-01-05 signatures=0
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ mlxlogscore=999 bulkscore=0
+ priorityscore=1501 adultscore=0 spamscore=0 lowpriorityscore=0
+ clxscore=1015 mlxscore=0 suspectscore=0 phishscore=0 malwarescore=0
+ impostorscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2009150000 definitions=main-2101050108
+Received-SPF: pass client-ip=148.163.158.5; envelope-from=jejb@linux.ibm.com;
+ helo=mx0a-001b2d01.pphosted.com
+X-Spam_score_int: -26
+X-Spam_score: -2.7
 X-Spam_bar: --
-X-Spam_report: (-2.6 / 5.0 requ) BAYES_00=-1.9, HTML_MESSAGE=0.001,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_PASS=-0.001,
+X-Spam_report: (-2.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_DNSWL_LOW=-0.7,
+ RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -119,144 +111,170 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel <qemu-devel@nongnu.org>
+Reply-To: jejb@linux.ibm.com
+Cc: Tom Lendacky <Thomas.Lendacky@amd.com>, kvm@vger.kernel.org,
+ Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---_000_LO2P123MB2605DA330913C7D2DA311EF1C8D10LO2P123MB2605GBRP_
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+On Tue, 2021-01-05 at 10:39 -0600, Brijesh Singh wrote:
+> The SEV FW >= 0.23 added a new command that can be used to query the
+> attestation report containing the SHA-256 digest of the guest memory
+> and VMSA encrypted with the LAUNCH_UPDATE and sign it with the PEK.
+> 
+> Note, we already have a command (LAUNCH_MEASURE) that can be used to
+> query the SHA-256 digest of the guest memory encrypted through the
+> LAUNCH_UPDATE. The main difference between previous and this command
+> is that the report is signed with the PEK and unlike the
+> LAUNCH_MEASURE
+> command the ATTESATION_REPORT command can be called while the guest
+> is running.
+> 
+> Add a QMP interface "query-sev-attestation-report" that can be used
+> to get the report encoded in base64.
+> 
+> Cc: James Bottomley <jejb@linux.ibm.com>
+> Cc: Tom Lendacky <Thomas.Lendacky@amd.com>
+> Cc: Eric Blake <eblake@redhat.com>
+> Cc: Paolo Bonzini <pbonzini@redhat.com>
+> Cc: kvm@vger.kernel.org
+> Signed-off-by: Brijesh Singh <brijesh.singh@amd.com>
+> ---
+> v2:
+>   * add trace event.
+>   * fix the goto to return NULL on failure.
+>   * make the mnonce as a base64 encoded string
 
-Hi Stefan
+Yes, that fixes all my issues, thanks!
 
-Thank you for your email.
+Reviewed-by: James Bottomley <jejb@linux.ibm.com>
+Tested-by: James Bottomley <jejb@linux.ibm.com>
 
+I've also attached a python script below which I've used to verify the
+attestation.
 
-  1.  We do not offer MacOS hosting
-  2.  We can provide virtual machines with full KVM virt on x86 architectur=
-e and soon arm64 v8
-  3.  We do not provide dedicated servers.
+James
 
-If you would like to apply, you can do so at https://fosshost.org/apply
+---
 
-Feel free to join our IRC channel on freenode #fosshost if you have any que=
-stions regarding our work and service
+#!/usr/bin/python3
+##
+# Python script get an attestation and verify it with the PEK
+#
+# This assumes you've already exported the pek.cert with sev-tool
+# from https://github.com/AMDESE/sev-tool.git
+#
+# sev-tool --export_cert_chain
+#
+# creates several files, the only one this script needs is pek.cert
+#
+# Tables and chapters refer to the amd 55766.pdf document
+#
+# https://www.amd.com/system/files/TechDocs/55766_SEV-KM_API_Specification.pdf
+##
+import sys
+import os 
+import base64
+import hashlib
+from argparse import ArgumentParser
+from Crypto.PublicKey import ECC
+from Crypto.Math.Numbers import Integer
+from git.qemu.python.qemu import qmp
 
-Kind regards,
-Thomas
-Fosshost
+if __name__ == "__main__":
+    parser = ArgumentParser(description='Inject secret into SEV')
+    parser.add_argument('--pek-cert',
+                        help='The Platform DH certificate in binary form',
+                        default='pek.cert')
+    parser.add_argument('--socket',
+                        help='Socket to connect to QMP on, defaults to localhost:6550',
+                        default='localhost:6550')
+    args = parser.parse_args()
 
+    if (args.socket[0] == '/'):
+        socket = args.socket
+    elif (':' in args.socket):
+        s = args.socket.split(':')
+        socket = (s[0], int(s[1]))
+    else:
+        parse.error('--socket must be <host>:<port> or /path/to/unix')
 
-________________________________
-From: Stefan Hajnoczi <stefanha@gmail.com>
-Sent: 05 January 2021 14:21
-To: Fosshost <admin@fosshost.org>
-Cc: qemu-devel <qemu-devel@nongnu.org>
-Subject: QEMU hosting
+    fh = open(args.pek_cert, 'rb')
+    pek = bytearray(fh.read())
+    curve = int.from_bytes(pek[16:20], byteorder='little')
+    curves = {
+        1: 'p256',
+        2: 'p384'
+        }
+    Qx = int.from_bytes(bytes(pek[20:92]), byteorder='little')
+    Qy = int.from_bytes(bytes(pek[92:164]), byteorder='little')
 
-Hi Thomas,
-In November you emailed qemu-devel asking if the QEMU project was
-interested in exploring hosting with Fosshost.org. I think my reply
-may have gotten lost so I wanted to check if you have time to discuss
-this again.
+    pubkey = ECC.construct(point_x=Qx, point_y=Qy, curve=curves[curve])
 
-The main hosting need that QEMU has is for continuous integration
-system runners. We are particularly interested in non-x86/non-Linux
-build machines and a dedicated server for reproducible performance
-tests. Just today there was discussion on #qemu IRC about how to go
-about adding a macOS build machine, for example.
+    Qmp = qmp.QEMUMonitorProtocol(address=socket);
+    Qmp.connect()
+    caps = Qmp.command('query-sev')
+    print('SEV query found API={api-major}.{api-minor} build={build-id} policy={policy}\n'.format(**caps))
 
-It would be great to find out more about Fosshost.org and whether we
-can work together.
+    nonce=os.urandom(16)
 
-Thanks,
-Stefan
+    report = Qmp.command('query-sev-attestation-report',
+                         mnonce=base64.b64encode(nonce).decode())
 
---_000_LO2P123MB2605DA330913C7D2DA311EF1C8D10LO2P123MB2605GBRP_
-Content-Type: text/html; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+    a = base64.b64decode(report['data'])
 
-<html>
-<head>
-<meta http-equiv=3D"Content-Type" content=3D"text/html; charset=3Dus-ascii"=
->
-<style type=3D"text/css" style=3D"display:none;"> P {margin-top:0;margin-bo=
-ttom:0;} </style>
-</head>
-<body dir=3D"ltr">
-<div style=3D"font-family: Calibri, Arial, Helvetica, sans-serif; font-size=
-: 12pt; color: rgb(0, 0, 0);">
-Hi Stefan</div>
-<div style=3D"font-family: Calibri, Arial, Helvetica, sans-serif; font-size=
-: 12pt; color: rgb(0, 0, 0);">
-<br>
-</div>
-<div style=3D"font-family: Calibri, Arial, Helvetica, sans-serif; font-size=
-: 12pt; color: rgb(0, 0, 0);">
-Thank you for your email.</div>
-<div style=3D"font-family: Calibri, Arial, Helvetica, sans-serif; font-size=
-: 12pt; color: rgb(0, 0, 0);">
-<br>
-</div>
-<div style=3D"font-family: Calibri, Arial, Helvetica, sans-serif; font-size=
-: 12pt; color: rgb(0, 0, 0);">
-<ol>
-<li>We do not offer MacOS hosting</li><li>We can provide virtual machines w=
-ith full KVM virt on x86 architecture and soon arm64 v8</li><li>We do not p=
-rovide dedicated servers.</li></ol>
-<div>If you would like to apply, you can do so at <a href=3D"https://fossho=
-st.org/apply" id=3D"LPlnk">
-https://fosshost.org/apply</a></div>
-<div><br>
-</div>
-<div>Feel free to join our IRC channel on freenode #fosshost if you have an=
-y questions regarding our work and service</div>
-<div><br>
-</div>
-<div>Kind regards, <br>
-</div>
-<div>Thomas</div>
-<div>Fosshost</div>
-<div><br>
-</div>
-<div class=3D"_Entity _EType_OWALinkPreview _EId_OWALinkPreview _EReadonly_=
-1"></div>
-<br>
-</div>
-<div id=3D"appendonsend"></div>
-<hr style=3D"display:inline-block;width:98%" tabindex=3D"-1">
-<div id=3D"divRplyFwdMsg" dir=3D"ltr"><font face=3D"Calibri, sans-serif" st=
-yle=3D"font-size:11pt" color=3D"#000000"><b>From:</b> Stefan Hajnoczi &lt;s=
-tefanha@gmail.com&gt;<br>
-<b>Sent:</b> 05 January 2021 14:21<br>
-<b>To:</b> Fosshost &lt;admin@fosshost.org&gt;<br>
-<b>Cc:</b> qemu-devel &lt;qemu-devel@nongnu.org&gt;<br>
-<b>Subject:</b> QEMU hosting</font>
-<div>&nbsp;</div>
-</div>
-<div class=3D"BodyFragment"><font size=3D"2"><span style=3D"font-size:11pt;=
-">
-<div class=3D"PlainText">Hi Thomas,<br>
-In November you emailed qemu-devel asking if the QEMU project was<br>
-interested in exploring hosting with Fosshost.org. I think my reply<br>
-may have gotten lost so I wanted to check if you have time to discuss<br>
-this again.<br>
-<br>
-The main hosting need that QEMU has is for continuous integration<br>
-system runners. We are particularly interested in non-x86/non-Linux<br>
-build machines and a dedicated server for reproducible performance<br>
-tests. Just today there was discussion on #qemu IRC about how to go<br>
-about adding a macOS build machine, for example.<br>
-<br>
-It would be great to find out more about Fosshost.org and whether we<br>
-can work together.<br>
-<br>
-Thanks,<br>
-Stefan<br>
-</div>
-</span></font></div>
-</body>
-</html>
+    ##
+    # returned data is formulated as Table 60. Attestation Report Buffer
+    ##
+    rnonce = a[0:16]
+    rmeas = a[16:48]
 
---_000_LO2P123MB2605DA330913C7D2DA311EF1C8D10LO2P123MB2605GBRP_--
+    if (nonce != rnonce):
+        sys.exit('returned nonce doesn\'t match input nonce')
+
+    policy = int.from_bytes(a[48:52], byteorder='little')
+    usage = int.from_bytes(a[52:56], byteorder='little')
+    algo = int.from_bytes(a[56:60], byteorder='little')
+
+    if (policy != caps['policy']):
+        sys.exit('Policy mismatch:', policy, '!=', caps['policy'])
+
+    if (usage != 0x1002):
+        sys.exit('error PEK is not specified in usage: ', usage)
+
+    if (algo == 0x2):
+        h = hashlib.sha256()
+    elif (algo == 0x102):
+        ##
+        # The spec (6.8) says the signature must be ECDSA-SHA256 so this
+        # should be impossible, but it turns out to be the way our
+        # current test hardware produces its signature
+        ##
+        h = hashlib.sha384()
+    else:
+        sys.exit('unrecognized signing algorithm: ', algo)
+
+    h.update(a[0:52])
+
+    sig = a[64:208]
+    r = int.from_bytes(sig[0:72],byteorder='little')
+    s = int.from_bytes(sig[72:144],byteorder='little')
+    ##
+    # subtlety: r and s are little (AMD defined) z is big (crypto requirement)
+    ##
+    z = int.from_bytes(h.digest(), byteorder='big')
+
+    ##
+    # python crypto doesn't have a way of passing in r and s as
+    # integers and I'm not inclined to wrap them up as a big endian
+    # binary signature to have Signature.DSS unwrap them again, so
+    # call the _verify() private interface that does take integers
+    ##
+    if (not pubkey._verify(Integer(z), (Integer(r), Integer(s)))):
+        sys.exit('returned signature did not verify')
+
+    print('usage={usage}, algorithm={algo}'.format(usage=hex(usage),
+                                                   algo=hex(algo)))
+    print('ovmf-hash: ', rmeas.hex())
+
 
