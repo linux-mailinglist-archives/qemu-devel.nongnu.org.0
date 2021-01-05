@@ -2,72 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E2C3A2EA6AE
-	for <lists+qemu-devel@lfdr.de>; Tue,  5 Jan 2021 09:39:00 +0100 (CET)
-Received: from localhost ([::1]:42996 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 894902EA6B8
+	for <lists+qemu-devel@lfdr.de>; Tue,  5 Jan 2021 09:46:16 +0100 (CET)
+Received: from localhost ([::1]:45994 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kwhrn-0007PE-0w
-	for lists+qemu-devel@lfdr.de; Tue, 05 Jan 2021 03:38:59 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47876)
+	id 1kwhyp-0000aw-4E
+	for lists+qemu-devel@lfdr.de; Tue, 05 Jan 2021 03:46:15 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49988)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1kwhoL-0005ax-7K
- for qemu-devel@nongnu.org; Tue, 05 Jan 2021 03:35:27 -0500
-Received: from mail-wm1-x32a.google.com ([2a00:1450:4864:20::32a]:34922)
+ id 1kwhxC-0008Uq-6X
+ for qemu-devel@nongnu.org; Tue, 05 Jan 2021 03:44:34 -0500
+Received: from mail-wr1-x42b.google.com ([2a00:1450:4864:20::42b]:43938)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1kwhoI-0004Yp-QR
- for qemu-devel@nongnu.org; Tue, 05 Jan 2021 03:35:23 -0500
-Received: by mail-wm1-x32a.google.com with SMTP id e25so2237780wme.0
- for <qemu-devel@nongnu.org>; Tue, 05 Jan 2021 00:35:21 -0800 (PST)
+ id 1kwhxA-0000WM-G1
+ for qemu-devel@nongnu.org; Tue, 05 Jan 2021 03:44:33 -0500
+Received: by mail-wr1-x42b.google.com with SMTP id y17so35322070wrr.10
+ for <qemu-devel@nongnu.org>; Tue, 05 Jan 2021 00:44:32 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:subject:to:cc:references:from:message-id:date:user-agent
  :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=P8s0tXowNJGErxQpZkJPpjiWSfmHubKnH23zdETSvgU=;
- b=InmKGCKoAj2e/ee1orQvVvN61STLpfgZC8LZgIKw5LK9b2d5Lp1SHbM/xmDEDx7STB
- 9hxuJl3F24OBouK6F8HRkKD4unBucT0YSAJqN0mlG4IiA3Ia7wJUsff4zK4itBSDMXJ+
- i6h7wfqMmZ6AWb8uKkJd2CsLLToi47Ip0VDnEQwlK0kXxQD4GQN3MKT1oj5Vx+v65o/g
- cZWIMfYX3AxIJG4aKGu6W7AgXwTwFBjxSCnNyIOFZYnVeFYwy3RLh5snxTM1FW56gk5p
- C4dxJL4yL8MZgULR1MSf9M0di5HAW7JbOt4GRpFNbGCDgLugUs2zVuFlQbNCrnh1PS1H
- SAeA==
+ bh=6Tswf3TH82hATRFy+FTwWYyR0SPAnw6oOW8YWEy/TbU=;
+ b=lk0RGpP20X/T3UKiw/YxPI82VJdfuIbK/UEwjK9z7V5OcH2+8Nj4cwHVnSUvRQVhql
+ B+7WFk28j5YfPGlKFAX6SGvMPDBxwy/GKJuejshuK4GLFYfZjywE4jCdKb75T5+zjZrU
+ 66CBG6a/pzAVHKOsMWKuR6WHJiDNAD9JGP5eg6U6nXSo7ufo18GvJh9wjnGqSVzS5umG
+ Oxo5A8+JbSAFySiyKe/kxGxfTCgLJ/5yRHllnu/KsvWjtz3VYxmyq2i4/Gq6GFOqu6jg
+ sOjZK98lyElg6CU+VtTIvHPnNERHeEbZq+qX+vbEFlpxa8tMsvlaz+ghyty1xwrRX+j3
+ pJcQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
  :date:user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=P8s0tXowNJGErxQpZkJPpjiWSfmHubKnH23zdETSvgU=;
- b=guXtZu+1VR7HypOO1zwGDsTXqkNjIijfDIGUQ1e9SEjwfEghJ6OK0b8cmRdJ6Mrbra
- L/M3oPSK+x+S3wJ+9g+rWaq7XyNzqxye+9vzRNofYLewSQVazQM+rzfxX3O+3UIHQh4k
- Zfqrv+Ut7JT1IwblroaCO31q5l8b6rls4Dmwejpa90wyLAh3wfQZM8WnnUZoXVUrj183
- sf4Fq+tPKJ34Q1prmo2M9g9zbnLzYpaL6VIsRc69ZaRJEc3jPmqvvyGYM9y58GzF126j
- 7pEaW85sF+aaPNo1GWgTM+vx4oiPL++2y5hP6MosjKGEjZ383gxKCtn3Hp/1BPHxyvvv
- HzIg==
-X-Gm-Message-State: AOAM533gznrbTFDDMUlSRmWsiZWbWYTapwY8EFInic+as6v4JorKd1WR
- 6VBiceZTsNOhsLhzH6W5hPg=
-X-Google-Smtp-Source: ABdhPJxr/y+QmV3XNVCcDvyIkhFEj5D27MGRmCAQT0a99C2t3Gs/bPUO1mAgHV/Sbc6IlzvdWJ7pdw==
-X-Received: by 2002:a7b:c319:: with SMTP id k25mr2485623wmj.142.1609835720898; 
- Tue, 05 Jan 2021 00:35:20 -0800 (PST)
+ bh=6Tswf3TH82hATRFy+FTwWYyR0SPAnw6oOW8YWEy/TbU=;
+ b=XFsaFC2gaifHGvjrYPriqWCCu0WqmpGem3GGwGSfCUiHvF93UuEsHTRQPvWotAARr3
+ 1kZ6NBr/y/PfOgWvXw2v6BlctHvMaWxlMTb1amzn+ABmVWCr+04tcjG0lZeuQXwmLWUn
+ cz6EvMgxImJvHrLbVpulplv8MeHL21j3xRkJkF8YeHbszao/m+TSEaW5iaYWCb/mqt2F
+ LEe6hd3Ci1mgZaH3P/zaLBLCn0uWN2/2GwFy+K2JNBLI4riQQgI2AVa1Q/gDK4PG3UNi
+ coPoHZj6fcbc1i1LokjBYtYyX9tAIIC1ZW9sgxl4dAz3baYirFzpVr2PpSq9ZkyalhIK
+ XGCA==
+X-Gm-Message-State: AOAM532puHuBp6TMjT5+QsApiYr4DU068sREt9Uu9ugvRq+nVSdW0yKd
+ Y43CoSWhQ5gPlr5gMdkBWvE=
+X-Google-Smtp-Source: ABdhPJxA707vr53YVssbsx932o7K8VazR1tCvzEaMbpqhitOIGhXFEY6+MAglmbtoGyTSIXQUGpYFw==
+X-Received: by 2002:adf:e547:: with SMTP id z7mr81185886wrm.283.1609836271008; 
+ Tue, 05 Jan 2021 00:44:31 -0800 (PST)
 Received: from [192.168.1.36] (241.red-88-10-103.dynamicip.rima-tde.net.
  [88.10.103.241])
- by smtp.gmail.com with ESMTPSA id 125sm3133902wmc.27.2021.01.05.00.35.19
+ by smtp.gmail.com with ESMTPSA id b10sm3153680wmj.5.2021.01.05.00.44.29
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 05 Jan 2021 00:35:20 -0800 (PST)
-Subject: Re: [PATCH, BUILD-FIX] linux-user: Conditionalize TUNSETVNETLE
-To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
-References: <20210104234415.405521-1-richard.henderson@linaro.org>
+ Tue, 05 Jan 2021 00:44:29 -0800 (PST)
+Subject: Re: [PULL 00/35] MIPS patches for 2021-01-03
+To: Huacai Chen <chenhuacai@kernel.org>
+References: <20210103205021.2837760-1-f4bug@amsat.org>
+ <CAFEAcA--dkcqBJr=b1LcNpLtctYJewuT8Yvx9Uo47YC6JGgR-Q@mail.gmail.com>
+ <CAFEAcA-HXHrXwGywi0MkxFhCCW3fk91Xr4yHA1--tiSqN2_HWQ@mail.gmail.com>
+ <790b031a-2be6-82d0-565d-f7595e95c077@amsat.org>
+ <CAAdtpL53Ngj3zc0ZtxEvHed0hAxYN0RZ7G2eiL_izuTSWBMM2A@mail.gmail.com>
+ <CAFEAcA-mTCyahsvVaD3PsOA4P8erDXmbLJCDtWaUFFoFiR4r=Q@mail.gmail.com>
+ <47b22eb2-8600-b34f-371f-517804b9cb49@amsat.org>
+ <1b7c8f3c-f124-ad59-6eb0-ce29803b1327@amsat.org>
+ <61fb784c-0e96-b1ad-31c1-4ada4e849864@amsat.org>
+ <CAAhV-H53bDKK0ndOsNZbOtJ-NBNhdvG186GfRv8tSq9XsU3Y+w@mail.gmail.com>
 From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
-Message-ID: <ee552032-515a-5bc3-c081-870aaa730add@amsat.org>
-Date: Tue, 5 Jan 2021 09:35:19 +0100
+Message-ID: <836021af-b496-75f9-d232-5d00675408e1@amsat.org>
+Date: Tue, 5 Jan 2021 09:44:28 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.6.0
 MIME-Version: 1.0
-In-Reply-To: <20210104234415.405521-1-richard.henderson@linaro.org>
+In-Reply-To: <CAAhV-H53bDKK0ndOsNZbOtJ-NBNhdvG186GfRv8tSq9XsU3Y+w@mail.gmail.com>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::32a;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x32a.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::42b;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x42b.google.com
 X-Spam_score_int: -14
 X-Spam_score: -1.5
 X-Spam_bar: -
@@ -88,22 +97,97 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: peter.maydell@linaro.org, Josh Kunz <jkz@google.com>,
- Laurent Vivier <laurent@vivier.eu>, Shu-Chun Weng <scw@google.com>
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ QEMU Developers <qemu-devel@nongnu.org>, Aurelien Jarno <aurelien@aurel32.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 1/5/21 12:44 AM, Richard Henderson wrote:
-> This fixes the build for older ppc64 kernel headers.
+On 1/5/21 2:53 AM, Huacai Chen wrote:
+> Hi, Philippe and Peter,
 > 
-> Fixes: 6addf06a3c4
-> Cc: Josh Kunz <jkz@google.com>
-> Cc: Shu-Chun Weng <scw@google.com>
-> Cc: Laurent Vivier <laurent@vivier.eu>
-> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
-> ---
->  linux-user/ioctls.h | 2 ++
->  1 file changed, 2 insertions(+)
+> On Tue, Jan 5, 2021 at 2:30 AM Philippe Mathieu-Daudé <f4bug@amsat.org> wrote:
+>>
+>> On 1/4/21 7:24 PM, Philippe Mathieu-Daudé wrote:
+>>> On 1/4/21 6:39 PM, Philippe Mathieu-Daudé wrote:
+>>>> On 1/4/21 4:01 PM, Peter Maydell wrote:
+>>>>> On Mon, 4 Jan 2021 at 13:59, Philippe Mathieu-Daudé <f4bug@amsat.org> wrote:
+>>>>>> I don't have access to OSX host. I'll see to install an aarch32 chroot and
+>>>>>> keep testing (not sure what can differ from an i386 guest).
+>>>>>> If I can't find anything I'll resend the same series without the Loongson-3
+>>>>>> machine, which is the single part adding QOM objects.
+>>>
+>>> OK I guess I found the problem, we have:
+>>>
+>>> struct LoongsonMachineState {
+>>>     MachineState parent_obj;
+>>>     MemoryRegion *pio_alias;
+>>>     MemoryRegion *mmio_alias;
+>>>     MemoryRegion *ecam_alias;
+>>> };
+>>>
+>>> Then:
+>>>
+>>> static inline void loongson3_virt_devices_init(MachineState *machine,
+>>>                                                DeviceState *pic)
+>>> {
+>>>     int i;
+>>>     qemu_irq irq;
+>>>     PCIBus *pci_bus;
+>>>     DeviceState *dev;
+>>>     MemoryRegion *mmio_reg, *ecam_reg;
+>>>     LoongsonMachineState *s = LOONGSON_MACHINE(machine);
+>>>
+>>> LoongsonMachineState is never allocated... Accessing its MR lead
+>>> to BOF.
+>>
+>> I'm going to respin with this (pass 32-bit tests):
+>>
+>> -- >8 --
+>> diff --git a/hw/mips/loongson3_virt.c b/hw/mips/loongson3_virt.c
+>> index e3723d3dd0f..d4a82fa5367 100644
+>> --- a/hw/mips/loongson3_virt.c
+>> +++ b/hw/mips/loongson3_virt.c
+>> @@ -612,8 +612,10 @@ static void mips_loongson3_virt_init(MachineState
+>> *machine)
+>>      loongson3_virt_devices_init(machine, liointc);
+>>  }
+>>
+>> -static void mips_loongson3_virt_machine_init(MachineClass *mc)
+>> +static void loongson3v_machine_class_init(ObjectClass *oc, void *data)
+>>  {
+>> +    MachineClass *mc = MACHINE_CLASS(oc);
+>> +
+>>      mc->desc = "Loongson-3 Virtualization Platform";
+>>      mc->init = mips_loongson3_virt_init;
+>>      mc->block_default_type = IF_IDE;
+>> @@ -624,4 +626,13 @@ static void
+>> mips_loongson3_virt_machine_init(MachineClass *mc)
+>>      mc->minimum_page_bits = 14;
+>>  }
+>>
+>> -DEFINE_MACHINE("loongson3-virt", mips_loongson3_virt_machine_init)
+>> +static const TypeInfo loongson3_machine_types[] = {
+>> +    {
+>> +        .name           = TYPE_LOONGSON_MACHINE,
+>> +        .parent         = TYPE_MACHINE,
+>> +        .instance_size  = sizeof(LoongsonMachineState),
+>> +        .class_init     = loongson3v_machine_class_init,
+>> +    }
+>> +};
+>> +
+>> +DEFINE_TYPES(loongson3_machine_types)
+>> ---
+>>
+>> Thanks Peter for catching this (we really need a 32-bit host runner
+>> on GitLab...).
+>>
+> Should I send a new version?
 
-Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+No, I'll squash that in and resend (preparing MIPS pull requests
+involve some manual testing, I couldn't automate all the steps
+yet, so it takes me some time).
+
+Regards,
+
+Phil.
 
