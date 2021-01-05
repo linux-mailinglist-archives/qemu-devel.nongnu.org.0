@@ -2,75 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D35CB2EAFC2
-	for <lists+qemu-devel@lfdr.de>; Tue,  5 Jan 2021 17:11:39 +0100 (CET)
-Received: from localhost ([::1]:37982 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B40D62EB00C
+	for <lists+qemu-devel@lfdr.de>; Tue,  5 Jan 2021 17:29:40 +0100 (CET)
+Received: from localhost ([::1]:60448 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kwovq-0005pG-Tg
-	for lists+qemu-devel@lfdr.de; Tue, 05 Jan 2021 11:11:38 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52514)
+	id 1kwpDH-00034F-R4
+	for lists+qemu-devel@lfdr.de; Tue, 05 Jan 2021 11:29:39 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52922)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <steven.sistare@oracle.com>)
- id 1kwotW-0003tn-3t
- for qemu-devel@nongnu.org; Tue, 05 Jan 2021 11:09:14 -0500
-Received: from userp2130.oracle.com ([156.151.31.86]:49836)
+ id 1kwouU-0005Rh-Pb
+ for qemu-devel@nongnu.org; Tue, 05 Jan 2021 11:10:14 -0500
+Received: from aserp2130.oracle.com ([141.146.126.79]:35418)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <steven.sistare@oracle.com>)
- id 1kwotT-0003gp-G4
- for qemu-devel@nongnu.org; Tue, 05 Jan 2021 11:09:13 -0500
-Received: from pps.filterd (userp2130.oracle.com [127.0.0.1])
- by userp2130.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 105FtM7b137898;
+ id 1kwouP-0004om-85
+ for qemu-devel@nongnu.org; Tue, 05 Jan 2021 11:10:14 -0500
+Received: from pps.filterd (aserp2130.oracle.com [127.0.0.1])
+ by aserp2130.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 105FsjBE094307;
  Tue, 5 Jan 2021 16:09:04 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com;
  h=from : to : cc :
- subject : date : message-id; s=corp-2020-01-29;
- bh=6SWxPge7Jp9cSEVTHWtDsvaXwq3J+w3Cu5YOrWEDI2U=;
- b=YrBeUyLv0sOsW43GDyHCF544q1PaOBUiEtHk6WinihbGNspF7AVY4B6KMV6gH5LQLMje
- sMd7AZhD3c0KTzH6Qu5h0c/Hskh4Mlu4TT+piuHUGwYKjzrEFTFEe+/R4hQDMSm5AC8u
- PdKmfWNjpEhAWyKOaSLNHd/8akppCrGWCUCF/rUbu1KWLroCZfn8gEYUY/1zJ6GR4rLV
- S1QNlgVyfH7uy6oOtwoHki/OEj570d/TWgl7RkrUv4us3hk1/XbWwxvrQ92IgUE6zrH3
- bNl4QEFeeY5XbNWQkHOyhghoInoZFYKRgoVJu3DqfNXbjTkNTC5nS0Pm9YzcA2CyqLTd aQ== 
-Received: from aserp3030.oracle.com (aserp3030.oracle.com [141.146.126.71])
- by userp2130.oracle.com with ESMTP id 35tg8r1gyd-1
+ subject : date : message-id : in-reply-to : references; s=corp-2020-01-29;
+ bh=m2hIOO7ZwaMGAjBO7ZUaLW022oomIk0QTUel1nQiT5I=;
+ b=IFPogBhtNmQJ8oE+K9bkboOPsfnIEl5AkkxX1XnsNhnHMMl7hDpd3BjaYz6Yljn99gmO
+ TNRzD1+VdRImEmsQrh92u8H+GJGBkz3RD64ZW4Hai15bLncUYxsMSHJDYxq+a0KJKwdZ
+ QvfMVofjG7wQALO7aMJaSK49si5wfDTNayn1yBhnJN0gOK57nbfPnRuRupFyl5tjHBgK
+ jyVq8xhNvsHAqF+zJy8GL48OOmb6nl5NaJI0Pd5sq7MOjd79J+BuTAxmodW8tgUlw9r2
+ Pk51pV1OBCH0ZMjxdy1dFTJjKXh5ROSfH49YStntUeDqycoZzuv+DbfjutfBt+lFYdjN Bg== 
+Received: from userp3030.oracle.com (userp3030.oracle.com [156.151.31.80])
+ by aserp2130.oracle.com with ESMTP id 35tebasjux-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=FAIL);
  Tue, 05 Jan 2021 16:09:04 +0000
-Received: from pps.filterd (aserp3030.oracle.com [127.0.0.1])
- by aserp3030.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 105FuRiA026704;
+Received: from pps.filterd (userp3030.oracle.com [127.0.0.1])
+ by userp3030.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 105FtLnY175890;
  Tue, 5 Jan 2021 16:09:03 GMT
-Received: from userv0121.oracle.com (userv0121.oracle.com [156.151.31.72])
- by aserp3030.oracle.com with ESMTP id 35v4rbjf81-1
+Received: from userv0122.oracle.com (userv0122.oracle.com [156.151.31.75])
+ by userp3030.oracle.com with ESMTP id 35vct61vjm-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
  Tue, 05 Jan 2021 16:09:03 +0000
 Received: from abhmp0011.oracle.com (abhmp0011.oracle.com [141.146.116.17])
- by userv0121.oracle.com (8.14.4/8.13.8) with ESMTP id 105G90xY018211;
- Tue, 5 Jan 2021 16:09:00 GMT
+ by userv0122.oracle.com (8.14.4/8.14.4) with ESMTP id 105G91Y1020380;
+ Tue, 5 Jan 2021 16:09:01 GMT
 Received: from ca-dev63.us.oracle.com (/10.211.8.221)
  by default (Oracle Beehive Gateway v4.0)
- with ESMTP ; Tue, 05 Jan 2021 08:08:59 -0800
+ with ESMTP ; Tue, 05 Jan 2021 08:09:01 -0800
 From: Steve Sistare <steven.sistare@oracle.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH V2 00/22] Live Update
-Date: Tue,  5 Jan 2021 07:41:48 -0800
-Message-Id: <1609861330-129855-1-git-send-email-steven.sistare@oracle.com>
+Subject: [PATCH V2 02/22] qemu_ram_volatile
+Date: Tue,  5 Jan 2021 07:41:50 -0800
+Message-Id: <1609861330-129855-3-git-send-email-steven.sistare@oracle.com>
 X-Mailer: git-send-email 1.8.3.1
+In-Reply-To: <1609861330-129855-1-git-send-email-steven.sistare@oracle.com>
+References: <1609861330-129855-1-git-send-email-steven.sistare@oracle.com>
 X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9855
  signatures=668683
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 mlxlogscore=999
- mlxscore=0 bulkscore=0
- suspectscore=0 spamscore=0 adultscore=0 malwarescore=0 phishscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2009150000
- definitions=main-2101050099
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 adultscore=0
+ malwarescore=0
+ phishscore=0 bulkscore=0 mlxlogscore=999 suspectscore=0 mlxscore=0
+ spamscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2009150000 definitions=main-2101050099
 X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9855
  signatures=668683
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 clxscore=1015
- phishscore=0 bulkscore=0
- spamscore=0 impostorscore=0 suspectscore=0 adultscore=0 mlxlogscore=999
- mlxscore=0 malwarescore=0 lowpriorityscore=0 priorityscore=1501
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2009150000
- definitions=main-2101050099
-Received-SPF: pass client-ip=156.151.31.86;
- envelope-from=steven.sistare@oracle.com; helo=userp2130.oracle.com
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 suspectscore=0
+ phishscore=0
+ priorityscore=1501 spamscore=0 mlxscore=0 clxscore=1011 bulkscore=0
+ lowpriorityscore=0 impostorscore=0 mlxlogscore=999 adultscore=0
+ malwarescore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2009150000 definitions=main-2101050099
+Received-SPF: pass client-ip=141.146.126.79;
+ envelope-from=steven.sistare@oracle.com; helo=aserp2130.oracle.com
 X-Spam_score_int: -46
 X-Spam_score: -4.7
 X-Spam_bar: ----
@@ -105,227 +107,83 @@ Cc: "Daniel P. Berrange" <berrange@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Provide the cprsave and cprload commands for live update.  These save and
-restore VM state, with minimal guest pause time, so that qemu may be updated
-to a new version in between.
+Add a function that returns true if any ram_list block represents
+volatile memory.
 
-cprsave stops the VM and saves vmstate to an ordinary file.  It supports two
-modes: restart and reboot.  For restart, cprsave exec's the qemu binary (or
-/usr/bin/qemu-exec if it exists) with the same argv.  qemu restarts in a
-paused state and waits for the cprload command.
+Signed-off-by: Steve Sistare <steven.sistare@oracle.com>
+---
+ exec.c                | 30 ++++++++++++++++++++++++++++++
+ include/exec/memory.h |  8 ++++++++
+ slirp                 |  2 +-
+ 3 files changed, 39 insertions(+), 1 deletion(-)
 
-To use the restart mode, qemu must be started with the memfd-alloc option,
-which allocates guest ram using memfd_create.  The memfd's are saved to
-the environment and kept open across exec, after which they are found from
-the environment and re-mmap'd.  Hence guest ram is preserved in place,
-albeit with new virtual addresses in the qemu process.  The caller resumes
-the guest by calling cprload, which loads state from the file.  If the VM
-was running at cprsave time, then VM execution resumes.  cprsave supports
-any type of guest image and block device, but the caller must not modify
-guest block devices between cprsave and cprload.
-
-The restart mode supports vfio devices by preserving the vfio container,
-group, device, and event descriptors across the qemu re-exec, and by
-updating DMA mapping virtual addresses using VFIO_DMA_UNMAP_FLAG_SUSPEND
-and VFIO_DMA_MAP_FLAG_RESUME as proposed in 
-https://lore.kernel.org/kvm/1609861013-129801-1-git-send-email-steven.sistare@oracle.com
-
-For the reboot mode, cprsave saves state and exits qemu, and the caller is
-allowed to update the host kernel and system software and reboot.  The
-caller resumes the guest by running qemu with the same arguments as the
-original process and calling cprload.  To use this mode, guest ram must be
-mapped to a persistent shared memory file such as /dev/dax0.0, or /dev/shm
-PKRAM as proposed in https://lore.kernel.org/lkml/1588812129-8596-1-git-send-email-anthony.yznaga@oracle.com/
-
-The reboot mode supports vfio devices if the caller suspends the guest
-instead of stopping the VM, such as by issuing guest-suspend-ram to the
-qemu guest agent.  The guest drivers' suspend methods flush outstanding
-requests and re-initialize the devices, and thus there is no device state
-to save and restore.
-
-The first patches add helper functions:
-
-  - as_flat_walk
-  - qemu_ram_volatile
-  - oslib: qemu_clr_cloexec
-  - util: env var helpers
-  - vl: memfd-alloc option
-  - vl: add helper to request re-exec
-
-The next patches implement cprsave and cprload:
-
-  - cpr
-  - cpr: QMP interfaces
-  - cpr: HMP interfaces
-
-The next patches add vfio support for the restart mode:
-
-  - pci: export functions for cpr
-  - vfio-pci: refactor for cpr
-  - vfio-pci: cpr
-
-The next patches preserve various descriptor-based backend devices across
-a cprsave restart:
-
-  - vhost: reset vhost devices upon cprsave
-  - chardev: cpr framework
-  - chardev: cpr for simple devices
-  - chardev: cpr for pty
-  - chardev: socket accept subroutine
-  - chardev: cpr for sockets
-  - monitor: cpr support
-  - cpr: only-cpr-capable option
-  - cpr: maintainers
-  - simplify savevm
-
-Here is an example of updating qemu from v4.2.0 to v4.2.1 using 
-"cprload restart".  The software update is performed while the guest is
-running to minimize downtime.
-
-window 1				| window 2
-					|
-# qemu-system-x86_64 ... 		|
-QEMU 4.2.0 monitor - type 'help' ...	|
-(qemu) info status			|
-VM status: running			|
-					| # yum update qemu
-(qemu) cprsave /tmp/qemu.sav restart	|
-QEMU 4.2.1 monitor - type 'help' ...	|
-(qemu) info status			|
-VM status: paused (prelaunch)		|
-(qemu) cprload /tmp/qemu.sav		|
-(qemu) info status			|
-VM status: running			|
-
-
-Here is an example of updating the host kernel using "cprload reboot"
-
-window 1					| window 2
-						|
-# qemu-system-x86_64 ...mem-path=/dev/dax0.0 ...|
-QEMU 4.2.1 monitor - type 'help' ...		|
-(qemu) info status				|
-VM status: running				|
-						| # yum update kernel-uek
-(qemu) cprsave /tmp/qemu.sav restart		|
-						|
-# systemctl kexec				|
-kexec_core: Starting new kernel			|
-...						|
-						|
-# qemu-system-x86_64 ...mem-path=/dev/dax0.0 ...|
-QEMU 4.2.1 monitor - type 'help' ...		|
-(qemu) info status				|
-VM status: paused (prelaunch)			|
-(qemu) cprload /tmp/qemu.sav			|
-(qemu) info status				|
-VM status: running				|
-
-Changes from V1 to V2:
-  - revert vmstate infrastructure changes
-  - refactor cpr functions into new files
-  - delete MADV_DOEXEC and use memfd + VFIO_DMA_UNMAP_FLAG_SUSPEND to 
-    preserve memory.
-  - add framework to filter chardev's that support cpr
-  - save and restore vfio eventfd's
-  - modify cprinfo QMP interface
-  - incorporate misc review feedback
-  - remove unrelated and unneeded patches
-  - refactor all patches into a shorter and easier to review series
-
-Steve Sistare (17):
-  as_flat_walk
-  qemu_ram_volatile
-  oslib: qemu_clr_cloexec
-  util: env var helpers
-  vl: memfd-alloc option
-  vl: add helper to request re-exec
-  cpr
-  pci: export functions for cpr
-  vfio-pci: refactor for cpr
-  vfio-pci: cpr
-  chardev: cpr framework
-  chardev: cpr for simple devices
-  chardev: cpr for pty
-  chardev: socket accept subroutine
-  cpr: only-cpr-capable option
-  cpr: maintainers
-  simplify savevm
-
-Mark Kanda (5):
-  cpr: QMP interfaces
-  cpr: HMP interfaces
-  vhost: reset vhost devices upon cprsave
-  chardev: cpr for sockets
-  monitor: cpr support
-
- MAINTAINERS                   |  11 +++
- chardev/char-mux.c            |   1 +
- chardev/char-null.c           |   1 +
- chardev/char-pty.c            |  16 +++-
- chardev/char-serial.c         |   1 +
- chardev/char-socket.c         |  31 +++++++
- chardev/char-stdio.c          |   8 ++
- chardev/char.c                |  41 ++++++++-
- exec.c                        |  75 +++++++++++++--
- gdbstub.c                     |   1 +
- hmp-commands.hx               |  44 +++++++++
- hw/pci/msix.c                 |  20 ++--
- hw/pci/pci.c                  |   7 +-
- hw/vfio/Makefile.objs         |   2 +-
- hw/vfio/common.c              |  63 ++++++++++++-
- hw/vfio/cpr.c                 | 117 +++++++++++++++++++++++
- hw/vfio/pci.c                 | 209 ++++++++++++++++++++++++++++++++++++++----
- hw/vfio/trace-events          |   1 +
- hw/virtio/vhost.c             |  11 +++
- include/chardev/char.h        |   6 ++
- include/exec/memory.h         |  11 +++
- include/hw/pci/msix.h         |   5 +
- include/hw/pci/pci.h          |   2 +
- include/hw/vfio/vfio-common.h |   7 ++
- include/hw/virtio/vhost.h     |   1 +
- include/io/channel-socket.h   |  12 +++
- include/migration/cpr.h       |  17 ++++
- include/monitor/hmp.h         |   3 +
- include/monitor/monitor.h     |   2 +
- include/qemu/env.h            |  27 ++++++
- include/qemu/osdep.h          |   1 +
- include/sysemu/sysemu.h       |   4 +
- io/channel-socket.c           |  52 +++++++----
- linux-headers/linux/vfio.h    |   5 +
- migration/Makefile.objs       |   2 +-
- migration/cpr.c               | 198 +++++++++++++++++++++++++++++++++++++++
- migration/migration.c         |   6 ++
- migration/savevm.c            |  19 ++--
- migration/savevm.h            |   2 +
- monitor/hmp-cmds.c            |  48 ++++++++++
- monitor/monitor.c             |   5 +
- monitor/qmp-cmds.c            |  31 +++++++
- monitor/qmp.c                 |  43 +++++++++
- qapi/Makefile.objs            |   3 +-
- qapi/char.json                |   5 +-
- qapi/cpr.json                 |  68 ++++++++++++++
- qapi/qapi-schema.json         |   1 +
- qemu-options.hx               |  45 ++++++++-
- slirp                         |   2 +-
- softmmu/memory.c              |  17 ++++
- softmmu/vl.c                  |  68 +++++++++++++-
- stubs/Makefile.objs           |   1 +
- stubs/cpr.c                   |   3 +
- trace-events                  |   1 +
- util/Makefile.objs            |   2 +-
- util/env.c                    | 119 ++++++++++++++++++++++++
- util/oslib-posix.c            |   9 ++
- util/oslib-win32.c            |   4 +
- 58 files changed, 1433 insertions(+), 84 deletions(-)
- create mode 100644 hw/vfio/cpr.c
- create mode 100644 include/migration/cpr.h
- create mode 100644 include/qemu/env.h
- create mode 100644 migration/cpr.c
- create mode 100644 qapi/cpr.json
- create mode 100644 stubs/cpr.c
- create mode 100644 util/env.c
-
+diff --git a/exec.c b/exec.c
+index 6f381f9..d1f31b4 100644
+--- a/exec.c
++++ b/exec.c
+@@ -2726,6 +2726,36 @@ ram_addr_t qemu_ram_addr_from_host(void *ptr)
+     return block->offset + offset;
+ }
+ 
++/*
++ * Return true if any memory regions are writable and not backed by shared
++ * memory.
++ */
++bool qemu_ram_volatile(Error **errp)
++{
++    RAMBlock *block;
++    MemoryRegion *mr;
++    bool ret = false;
++
++    rcu_read_lock();
++    QLIST_FOREACH_RCU(block, &ram_list.blocks, next) {
++        mr = block->mr;
++        if (mr &&
++            memory_region_is_ram(mr) &&
++            !memory_region_is_ram_device(mr) &&
++            !memory_region_is_rom(mr) &&
++            (block->fd == -1 || !qemu_ram_is_shared(block))) {
++
++            error_setg(errp, "Memory region %s is volatile",
++                       memory_region_name(mr));
++            ret = true;
++            break;
++        }
++    }
++
++    rcu_read_unlock();
++    return ret;
++}
++
+ /* Generate a debug exception if a watchpoint has been hit.  */
+ void cpu_check_watchpoint(CPUState *cpu, vaddr addr, vaddr len,
+                           MemTxAttrs attrs, int flags, uintptr_t ra)
+diff --git a/include/exec/memory.h b/include/exec/memory.h
+index 8dba065..6115a01 100644
+--- a/include/exec/memory.h
++++ b/include/exec/memory.h
+@@ -2522,6 +2522,14 @@ bool ram_block_discard_is_disabled(void);
+  */
+ bool ram_block_discard_is_required(void);
+ 
++/**
++ * qemu_ram_volatile: return true if any memory regions are writable and not
++ * backed by shared memory.
++ *
++ * @errp: returned error message identifying the bad region.
++ */
++bool qemu_ram_volatile(Error **errp);
++
+ #endif
+ 
+ #endif
+diff --git a/slirp b/slirp
+index ce94eba..a62d367 160000
+--- a/slirp
++++ b/slirp
+@@ -1 +1 @@
+-Subproject commit ce94eba2042d52a0ba3d9e252ebce86715e94275
++Subproject commit a62d36734ffe9828d0f70df1b3898a3b4fbda755
 -- 
 1.8.3.1
 
