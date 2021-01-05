@@ -2,93 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 64C712EAA37
-	for <lists+qemu-devel@lfdr.de>; Tue,  5 Jan 2021 12:53:04 +0100 (CET)
-Received: from localhost ([::1]:58598 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A75DE2EAB20
+	for <lists+qemu-devel@lfdr.de>; Tue,  5 Jan 2021 13:46:25 +0100 (CET)
+Received: from localhost ([::1]:41678 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kwktb-0005P9-Gc
-	for lists+qemu-devel@lfdr.de; Tue, 05 Jan 2021 06:53:03 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44022)
+	id 1kwljE-0005Zr-8Z
+	for lists+qemu-devel@lfdr.de; Tue, 05 Jan 2021 07:46:24 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54754)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kwksQ-0004ol-9t
- for qemu-devel@nongnu.org; Tue, 05 Jan 2021 06:51:50 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:50078)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kwksO-0003Yb-Po
- for qemu-devel@nongnu.org; Tue, 05 Jan 2021 06:51:50 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1609847508;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=JlCARGvl1SVqfUpm6A4vjuFz9uH3af6I3tZCA6K9aQY=;
- b=X+rwK6aW4LMExk+eXOqG92TmmZSNaCGUmTJS5F1pvs9TLNfBLcsTF+dZ2nSTTSJcgyJ2ID
- W9DhrIbRTQJ9FdR2gtwA7t6QponBSfOwt6WaX6Z5H70+8L3DyMTVgzBIhzYi93vcy4wJld
- LiJ2Dq7lAVUwTO9amzkC9rI5X067ksE=
-Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
- [209.85.221.70]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-161-4TSrLzysOY288jAWPEOFzQ-1; Tue, 05 Jan 2021 06:51:46 -0500
-X-MC-Unique: 4TSrLzysOY288jAWPEOFzQ-1
-Received: by mail-wr1-f70.google.com with SMTP id g16so14812724wrv.1
- for <qemu-devel@nongnu.org>; Tue, 05 Jan 2021 03:51:46 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1kwlhM-0004r7-JG
+ for qemu-devel@nongnu.org; Tue, 05 Jan 2021 07:44:28 -0500
+Received: from mail-wr1-x434.google.com ([2a00:1450:4864:20::434]:39905)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1kwlhJ-0001j4-LM
+ for qemu-devel@nongnu.org; Tue, 05 Jan 2021 07:44:28 -0500
+Received: by mail-wr1-x434.google.com with SMTP id c5so36034731wrp.6
+ for <qemu-devel@nongnu.org>; Tue, 05 Jan 2021 04:44:25 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=zWEWFFc4X2fxBvBqJacNlo3Q5pteGX6BPRwZ/IL4MaQ=;
+ b=VwW3zjExyAPVHda5XMQ0Yxx/bDWrBADy8CPuVaw/iQOIfq1jlJUJ2tDedxnwzxneGb
+ QcrfuEdjC/0bDjabZ521RaINvV2Xob0+9kmdrt7kisip3UL/ZjhUfN3FUkT7LywOjb+Z
+ GVn+IwbdJ+Zh/WqNq40mcBMGsnxuqfJfPyCqSeQZPsPK2wBlxe0Xm+ULDGXwMEY6d6dL
+ R4d/9XwpKt1ZgSBibhVYKhR7nW+9tGi06utYfCP4SLaFIC0Rk/arnsrgXLPvycQ1g6v4
+ rPW0aAr8ZTeNQxm1Rdn5dmMRbw/ky2pPMeB5INWLKqgxlymEkUcWNz0iEu/2Yp5z1eZq
+ vWnw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:from:to:cc:references:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
  :content-transfer-encoding;
- bh=JlCARGvl1SVqfUpm6A4vjuFz9uH3af6I3tZCA6K9aQY=;
- b=HKIfQ3FbpAv9PD0/Be6GtcpMI2dTSHvSLYBf78zVshq59AmljsGa8GJohISK4S96Gk
- 38tEV7d9c870vpdIiXadugxPd0trVAFR012jhJHI0nlpBNA4Plp/fhVv7IXF7JPvsxzV
- 7mhwwOEgHVVB25V5CF71r9I1f7ag47NAn5gJKclpSXtX7pKF6gl+6QFTxj/VfLzOL7ui
- W1XOxYR5vt1W0ww+xZmU/IEyFv5QTOyN37vn6T6s5uQM+2JvXllLw4cORj0giWWUgTrl
- WsI0ATnDB1NmjrLJDa3QiqTdFCz4YkUiU3DO3aX6QQB85EeBWgiIJiSBqHkNCvD0VqWH
- v3yA==
-X-Gm-Message-State: AOAM533p6bQuIMXhC0cNSwOG2B/J8a+ozvqINGwHwgfnK/6uXJdiCkSq
- LyfCBy4A+M2RJDQpcV4r8F0frmcMTJMumNuun2i1OFXjrKCXBlt5lfSU8JsSdn5l1nfv5HqvDDl
- J464p0LucylwdyGA=
-X-Received: by 2002:a05:600c:2158:: with SMTP id
- v24mr3070786wml.129.1609847505570; 
- Tue, 05 Jan 2021 03:51:45 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJyYF8b7c+POn2qC58uUWqhCbmH/rMKla0pm9zww8n/4K21e4pf40AEpgKptGpGjdwOB3GaytA==
-X-Received: by 2002:a05:600c:2158:: with SMTP id
- v24mr3070778wml.129.1609847505456; 
- Tue, 05 Jan 2021 03:51:45 -0800 (PST)
-Received: from [192.168.1.36] (241.red-88-10-103.dynamicip.rima-tde.net.
- [88.10.103.241])
- by smtp.gmail.com with ESMTPSA id j9sm96084751wrm.14.2021.01.05.03.51.44
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 05 Jan 2021 03:51:44 -0800 (PST)
-Subject: Re: [PATCH] tests/iotests: drop test 312 from auto group
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-To: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
- qemu-devel@nongnu.org
-References: <20210105100402.12350-1-alex.bennee@linaro.org>
- <2f01d619-b83d-4854-ff15-857264e04e95@redhat.com>
-Message-ID: <4149e04b-8f1e-26df-1320-d6090751c5d9@redhat.com>
-Date: Tue, 5 Jan 2021 12:51:43 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.6.0
+ bh=zWEWFFc4X2fxBvBqJacNlo3Q5pteGX6BPRwZ/IL4MaQ=;
+ b=LnNowckS1wclUdcDhBCENmzdmkV6YKCHU73WQqE6YmYOhcRxfPfLpBlr/cmqfF7I8Y
+ bOYz1IUJMI9b9O/P6e641RXqOZi7sev1rXOGsksoR9X15UwWfAwhk5ktYsnhPEO1gESA
+ F9h/TKLPxm1Vak4wgAmHudARqku8YGtb649o0ZeDUlx+V9xdRuKbwwTvDB33/P/wI56l
+ wLLeG3lmwdPYeG8KwiAYpPO/6IGb7dc7idNf1xOI6uV3h2bA19xqcnftXb0vbW8KHRz7
+ T9ZpoUs1ViH8sW9zT+HtnfGrkUcte9+oXGKMYo2bUuQe1vWCZQjQFD9T8SqYBAOk7qys
+ wzDg==
+X-Gm-Message-State: AOAM530o9yD5pU2MQ2P2uREh/h3sRhPsiXxFtz0FymPtbP+Fq45vIgs2
+ hqpbHq/KCXm6w2Jn9laD7jbGHw==
+X-Google-Smtp-Source: ABdhPJwr+l2qC3kY2CpjViY4CVAdAyan1e8toUi0F1Mx+8LpWqOsftLs3EoGd3fcz9p2os0ihrA5dg==
+X-Received: by 2002:adf:ea04:: with SMTP id q4mr64763736wrm.195.1609850663938; 
+ Tue, 05 Jan 2021 04:44:23 -0800 (PST)
+Received: from zen.linaroharston ([51.148.130.216])
+ by smtp.gmail.com with ESMTPSA id k10sm90724725wrq.38.2021.01.05.04.44.22
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 05 Jan 2021 04:44:22 -0800 (PST)
+Received: from zen.lan (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id F06541FF7E;
+ Tue,  5 Jan 2021 12:44:21 +0000 (GMT)
+From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: qemu-devel@nongnu.org
+Subject: [PATCH] tests/acceptance: bound the size of readline in
+ s390_ccw_virtio
+Date: Tue,  5 Jan 2021 12:44:05 +0000
+Message-Id: <20210105124405.15424-1-alex.bennee@linaro.org>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-In-Reply-To: <2f01d619-b83d-4854-ff15-857264e04e95@redhat.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=philmd@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -29
-X-Spam_score: -3.0
-X-Spam_bar: ---
-X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.243,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Received-SPF: pass client-ip=2a00:1450:4864:20::434;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x434.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -101,26 +85,47 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>,
- "open list:Block layer core" <qemu-block@nongnu.org>,
- Max Reitz <mreitz@redhat.com>
+Cc: thuth@redhat.com,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
+ Cornelia Huck <cohuck@redhat.com>,
+ Wainer dos Santos Moschetta <wainersm@redhat.com>,
+ Halil Pasic <pasic@linux.ibm.com>,
+ Christian Borntraeger <borntraeger@de.ibm.com>,
+ "open list:S390 Virtio-ccw" <qemu-s390x@nongnu.org>,
+ Cleber Rosa <crosa@redhat.com>,
+ =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 1/5/21 11:12 AM, Philippe Mathieu-Daudé wrote:
-> On 1/5/21 11:04 AM, Alex Bennée wrote:
->> The "auto" documentation states:
->>
->>   That means they should run with every QEMU binary (also non-x86)
->>
->> which is not the case as the check-system-fedora build which only
->> includes a rag tag group of rare and deprecated targets doesn't
->> support the virtio device required.
->>
-> 
-> Fixes: ef9bba1484b ("quorum: Implement bdrv_co_block_status()")
-> Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+The read binary data as text via a PPM export of the frame buffer
+seems a bit sketchy and it did blow up in the real world when the
+assertion failed:
 
-Tested-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+  https://gitlab.com/qemu-project/qemu/-/jobs/943183183
+
+However short of cleaning up the test to be more binary focused at
+least limit the attempt to dump the whole file as hexified zeros in
+the logs.
+
+Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
+---
+ tests/acceptance/machine_s390_ccw_virtio.py | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/tests/acceptance/machine_s390_ccw_virtio.py b/tests/acceptance/machine_s390_ccw_virtio.py
+index 0f81af9950..5141d6abb2 100644
+--- a/tests/acceptance/machine_s390_ccw_virtio.py
++++ b/tests/acceptance/machine_s390_ccw_virtio.py
+@@ -241,7 +241,7 @@ class S390CCWVirtioMachine(Test):
+             self.assertEqual(line, b"1024 768\n")
+             line = ppmfile.readline()
+             self.assertEqual(line, b"255\n")
+-            line = ppmfile.readline()
++            line = ppmfile.readline(size=256)
+             self.assertEqual(line, b"The quick fox jumps over a lazy dog\n")
+ 
+         # Hot-plug a virtio-crypto device and see whether it gets accepted
+-- 
+2.20.1
 
 
