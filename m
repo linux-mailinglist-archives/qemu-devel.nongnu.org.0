@@ -2,71 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BEE562EA752
-	for <lists+qemu-devel@lfdr.de>; Tue,  5 Jan 2021 10:31:41 +0100 (CET)
-Received: from localhost ([::1]:39766 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 024EF2EA79A
+	for <lists+qemu-devel@lfdr.de>; Tue,  5 Jan 2021 10:35:49 +0100 (CET)
+Received: from localhost ([::1]:47074 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kwigm-0003OL-QU
-	for lists+qemu-devel@lfdr.de; Tue, 05 Jan 2021 04:31:40 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59516)
+	id 1kwikl-0006pu-Lk
+	for lists+qemu-devel@lfdr.de; Tue, 05 Jan 2021 04:35:47 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60776)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
- id 1kwid4-0002Ir-1g; Tue, 05 Jan 2021 04:27:51 -0500
-Received: from mail-yb1-xb2c.google.com ([2607:f8b0:4864:20::b2c]:46899)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
- id 1kwid2-0001ub-EY; Tue, 05 Jan 2021 04:27:49 -0500
-Received: by mail-yb1-xb2c.google.com with SMTP id f6so28631487ybq.13;
- Tue, 05 Jan 2021 01:27:47 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=byKgXZAveVpGlvN1y8RqU8Pv1Mo+mr9U+5WKhQwPZDo=;
- b=exqvpJ4ZWZtlhHMGufQsm34Nbj3EtqAMfX/YnHuaJI0iPOu+LzpymD7XzKHdOumP0U
- k+Zq9CTPOkshgZBKaJPh8bYN84hymhWcGJEddVrUHF43uNzOlPdDq957blhqkp/HzuVk
- Qo/CcUUx8WQNGVqv5oD3ig6yjO2otHEtawnX22ZVzClORJyXEidcYTMaiNNXQ3Ofc6Ak
- JQd7p1a/Ut3V0PL5cL3N2key0zIpfUOtpjNvjezQc902NhEW8f7PoUL/wnRADaAyBavB
- qFZTiSoWbM7L4FNAqb4i/q0DCm9JyJRUfmSXsIjZmklB0M9zqxasRART3WYcMH2dCoHD
- cFHQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=byKgXZAveVpGlvN1y8RqU8Pv1Mo+mr9U+5WKhQwPZDo=;
- b=jWoCPoi3oFI6snj/eJ61X+i+fq6cRYkiL3vuMkZscBSjzyKx6Q+BXcuNtP3ySKyDCl
- g12pkhPHPCMgN8oxOyrleZnFBHR6D1yCsLYYIX4azlxTBxImu45/x2P5JXpTk//NLKuL
- z9oAiDpxd7uzNnWCbZehfTq0swkhXYO6MerLZGsVymaNzmu2G4kNr1ChtDrZN0rCAhWY
- CQP0EkppDmuxYQNcMH9nH5TuygK4kWNPD3ct9njOiQoJCJ1ePrD9P9fhTHOrWIgeQx5+
- OItmMGxNsqim/OnOiGS4dWlb+YSyPce+JpoUDfmR974FO/oFJiNUd1gqZh4APqswFd2Y
- fOxg==
-X-Gm-Message-State: AOAM5332KnkiHz9PVYMnumNqspAtZu0+cGkQRB+3zufTMb7BZvWXSiBt
- alBWNFs5CNCvJcb1g71JFnEomUzTzd2E624AUuQ=
-X-Google-Smtp-Source: ABdhPJypCQEtYsxgj+yQ61ZOb1oC0D/z1+2/ALfbrTbG1TCYRNyxQ0RJWdd5nZiBWEXOlaW+iAR/Akr0sfTnsS9Mang=
-X-Received: by 2002:a25:aaee:: with SMTP id
- t101mr105435222ybi.517.1609838866984; 
- Tue, 05 Jan 2021 01:27:46 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <cenjiahui@huawei.com>)
+ id 1kwiiv-0006EW-Dl; Tue, 05 Jan 2021 04:33:53 -0500
+Received: from szxga05-in.huawei.com ([45.249.212.191]:3019)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <cenjiahui@huawei.com>)
+ id 1kwiis-0004Rl-Jm; Tue, 05 Jan 2021 04:33:53 -0500
+Received: from DGGEMS401-HUB.china.huawei.com (unknown [172.30.72.59])
+ by szxga05-in.huawei.com (SkyGuard) with ESMTP id 4D96jX5h11zj32l;
+ Tue,  5 Jan 2021 17:32:48 +0800 (CST)
+Received: from [10.174.184.155] (10.174.184.155) by
+ DGGEMS401-HUB.china.huawei.com (10.3.19.201) with Microsoft SMTP Server id
+ 14.3.498.0; Tue, 5 Jan 2021 17:33:37 +0800
+Subject: Ping: [PATCH v4 0/7] block: Add retry for werror=/rerror= mechanism
+To: <qemu-devel@nongnu.org>, Kevin Wolf <kwolf@redhat.com>
+References: <20201215123011.4048-1-cenjiahui@huawei.com>
+From: Jiahui Cen <cenjiahui@huawei.com>
+Message-ID: <494026cb-2db9-81b3-c81c-8398e0bbbb75@huawei.com>
+Date: Tue, 5 Jan 2021 17:33:36 +0800
+User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:68.0) Gecko/20100101
+ Thunderbird/68.2.2
 MIME-Version: 1.0
-References: <1608704767-9317-1-git-send-email-bmeng.cn@gmail.com>
- <1608704767-9317-2-git-send-email-bmeng.cn@gmail.com>
- <CAEUhbmURMNzT5T_LOVvi+m0658jVZhXrEuP=JhJL+pVCbDFuLg@mail.gmail.com>
- <87lfd73fcr.fsf@linaro.org>
-In-Reply-To: <87lfd73fcr.fsf@linaro.org>
-From: Bin Meng <bmeng.cn@gmail.com>
-Date: Tue, 5 Jan 2021 17:27:35 +0800
-Message-ID: <CAEUhbmUciFPsbQJWQy-72n9cQbPyRMcP6HYaL5imo7=pXhJ=JA@mail.gmail.com>
-Subject: Re: [PATCH v2 1/4] hw/misc: imx6_ccm: Update PMU_MISC0 reset value
-To: =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2607:f8b0:4864:20::b2c;
- envelope-from=bmeng.cn@gmail.com; helo=mail-yb1-xb2c.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+In-Reply-To: <20201215123011.4048-1-cenjiahui@huawei.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.174.184.155]
+X-CFilter-Loop: Reflected
+Received-SPF: pass client-ip=45.249.212.191; envelope-from=cenjiahui@huawei.com;
+ helo=szxga05-in.huawei.com
+X-Spam_score_int: -41
+X-Spam_score: -4.2
+X-Spam_bar: ----
+X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
+ RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -80,39 +58,69 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Bin Meng <bin.meng@windriver.com>, Peter Maydell <peter.maydell@linaro.org>,
- qemu-arm <qemu-arm@nongnu.org>,
- "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
- Jean-Christophe Dubois <jcd@tribudubois.net>
+Cc: zhang.zhanghailiang@huawei.com, qemu-block@nongnu.org,
+ "Michael S. Tsirkin" <mst@redhat.com>, Markus Armbruster <armbru@redhat.com>,
+ Max Reitz <mreitz@redhat.com>, Stefan Hajnoczi <stefanha@redhat.com>,
+ fangying1@huawei.com, John Snow <jsnow@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi Alex,
+Hi Kevin,
 
-On Tue, Jan 5, 2021 at 5:25 PM Alex Benn=C3=A9e <alex.bennee@linaro.org> wr=
-ote:
->
->
-> Bin Meng <bmeng.cn@gmail.com> writes:
->
-> > On Wed, Dec 23, 2020 at 2:26 PM Bin Meng <bmeng.cn@gmail.com> wrote:
-> >>
-> >> From: Bin Meng <bin.meng@windriver.com>
-> >>
-> <snip>
-> >>
-> >> (no changes since v1)
-> >>
-> >>  hw/misc/imx6_ccm.c | 2 +-
-> >>  1 file changed, 1 insertion(+), 1 deletion(-)
-> >>
-> >
-> > Ping?
->
-> Looks good to me - Peter should be able to pull it into his tree soon.
+What do you think of these patches?
 
-Thank you for the review.
+Thanks,
+Jiahui
 
-Regards,
-Bin
+On 2020/12/15 20:30, Jiahui Cen wrote:
+> A VM in the cloud environment may use a virutal disk as the backend storage,
+> and there are usually filesystems on the virtual block device. When backend
+> storage is temporarily down, any I/O issued to the virtual block device
+> will cause an error. For example, an error occurred in ext4 filesystem would
+> make the filesystem readonly. In production environment, a cloud backend
+> storage can be soon recovered. For example, an IP-SAN may be down due to
+> network failure and will be online soon after network is recovered. However,
+> the error in the filesystem may not be recovered unless a device reattach
+> or system restart. Thus an I/O retry mechanism is in need to implement a
+> self-healing system.
+> 
+> This patch series propose to extend the werror=/rerror= mechanism to add
+> a 'retry' feature. It can automatically retry failed I/O requests on error
+> without sending error back to guest, and guest can get back running smoothly
+> when I/O is recovred.
+> 
+> v3->v4:
+> * Adapt to werror=/rerror= mechanism.
+> 
+> v2->v3:
+> * Add a doc to describe I/O hang.
+> 
+> v1->v2:
+> * Rebase to fix compile problems.
+> * Fix incorrect remove of rehandle list.
+> * Provide rehandle pause interface.
+> 
+> REF: https://lists.gnu.org/archive/html/qemu-devel/2020-10/msg06560.html
+> 
+> Signed-off-by: Jiahui Cen <cenjiahui@huawei.com>
+> Signed-off-by: Ying Fang <fangying1@huawei.com>
+> 
+> Jiahui Cen (7):
+>   qapi/block-core: Add retry option for error action
+>   block-backend: Introduce retry timer
+>   block-backend: Add device specific retry callback
+>   block-backend: Enable retry action on errors
+>   block-backend: Add timeout support for retry
+>   block: Add error retry param setting
+>   virtio_blk: Add support for retry on errors
+> 
+>  block/block-backend.c          | 66 ++++++++++++++++++++
+>  blockdev.c                     | 52 +++++++++++++++
+>  hw/block/block.c               | 10 +++
+>  hw/block/virtio-blk.c          | 19 +++++-
+>  include/hw/block/block.h       |  7 ++-
+>  include/sysemu/block-backend.h | 10 +++
+>  qapi/block-core.json           |  4 +-
+>  7 files changed, 162 insertions(+), 6 deletions(-)
+> 
 
