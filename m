@@ -2,93 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F33942EB04D
-	for <lists+qemu-devel@lfdr.de>; Tue,  5 Jan 2021 17:40:37 +0100 (CET)
-Received: from localhost ([::1]:54980 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 90D692EB0AD
+	for <lists+qemu-devel@lfdr.de>; Tue,  5 Jan 2021 17:57:57 +0100 (CET)
+Received: from localhost ([::1]:35724 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kwpNt-0004dt-1X
-	for lists+qemu-devel@lfdr.de; Tue, 05 Jan 2021 11:40:37 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33248)
+	id 1kwpee-0001gJ-BF
+	for lists+qemu-devel@lfdr.de; Tue, 05 Jan 2021 11:57:56 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40692)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <steven.sistare@oracle.com>)
- id 1kwpIm-0000Wa-3B
- for qemu-devel@nongnu.org; Tue, 05 Jan 2021 11:35:20 -0500
-Received: from aserp2130.oracle.com ([141.146.126.79]:58774)
+ (Exim 4.90_1) (envelope-from <ben.widawsky@intel.com>)
+ id 1kwpam-00089Q-Dd
+ for qemu-devel@nongnu.org; Tue, 05 Jan 2021 11:53:56 -0500
+Received: from mga11.intel.com ([192.55.52.93]:21242)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <steven.sistare@oracle.com>)
- id 1kwpIk-00046q-Di
- for qemu-devel@nongnu.org; Tue, 05 Jan 2021 11:35:19 -0500
-Received: from pps.filterd (aserp2130.oracle.com [127.0.0.1])
- by aserp2130.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 105GIkxJ036102;
- Tue, 5 Jan 2021 16:35:15 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com;
- h=subject : to : cc :
- references : from : message-id : date : mime-version : in-reply-to :
- content-type : content-transfer-encoding; s=corp-2020-01-29;
- bh=BculOCjTE3EzHuXSJDxGdkbxdvYEBBsY24JXdzH0GGA=;
- b=fonZUZBOACTGbYHTQLiUnBKnqKYTESKHaJvICX3PX/koSHOyxPNIRLFxl5sQaga+3WIM
- h/Fz9mJ2D8hZ3pqW298cmNfYe991rzuVQkMmeD56WF+6rG3OquB1zuC1/KwkNXa9R5X0
- KHDIxAVZHX0uiDsBmlXR/5oKezZ41FnMtIukbx1KhFHbp4DlwhV46QA0+3kGKQEUxbc3
- ryC5EhScX/MhpXSlz0u9UL7NWIu0cUaapqAN/HJr0hMgQA+QTVazdRvAA7Xcg8XQhw4+
- GG/nzPoAS5GAFK8/sHl8oSy/G/H/FIqJA8771uL5TVRtk7w9QJ2Iook12UDS06Sg/w6d /w== 
-Received: from aserp3020.oracle.com (aserp3020.oracle.com [141.146.126.70])
- by aserp2130.oracle.com with ESMTP id 35tebaspxs-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=FAIL);
- Tue, 05 Jan 2021 16:35:15 +0000
-Received: from pps.filterd (aserp3020.oracle.com [127.0.0.1])
- by aserp3020.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 105GKmWQ087116;
- Tue, 5 Jan 2021 16:35:14 GMT
-Received: from aserv0121.oracle.com (aserv0121.oracle.com [141.146.126.235])
- by aserp3020.oracle.com with ESMTP id 35v1f8tn91-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Tue, 05 Jan 2021 16:35:14 +0000
-Received: from abhmp0019.oracle.com (abhmp0019.oracle.com [141.146.116.25])
- by aserv0121.oracle.com (8.14.4/8.13.8) with ESMTP id 105GZDNA029466;
- Tue, 5 Jan 2021 16:35:13 GMT
-Received: from [10.39.222.70] (/10.39.222.70)
- by default (Oracle Beehive Gateway v4.0)
- with ESMTP ; Tue, 05 Jan 2021 16:35:13 +0000
-Subject: Re: [PATCH V2 18/22] chardev: cpr for sockets
-To: =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>
-References: <1609861330-129855-1-git-send-email-steven.sistare@oracle.com>
- <1609861330-129855-19-git-send-email-steven.sistare@oracle.com>
- <20210105162243.GG724458@redhat.com>
-From: Steven Sistare <steven.sistare@oracle.com>
-Organization: Oracle Corporation
-Message-ID: <c91f963a-09ea-9fef-3664-527f27e60742@oracle.com>
-Date: Tue, 5 Jan 2021 11:35:10 -0500
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
- Thunderbird/78.6.0
+ (Exim 4.90_1) (envelope-from <ben.widawsky@intel.com>)
+ id 1kwpaj-00012E-CP
+ for qemu-devel@nongnu.org; Tue, 05 Jan 2021 11:53:56 -0500
+IronPort-SDR: 7HK3uQlw8h5OZ7NXnbt4aq1uAe+ptGYGoMSUewHlL6iX5DmZuH5daHpwYoodjG/ZMqHcfjrD6q
+ Mddgs5JH5KkA==
+X-IronPort-AV: E=McAfee;i="6000,8403,9855"; a="173629487"
+X-IronPort-AV: E=Sophos;i="5.78,477,1599548400"; d="scan'208";a="173629487"
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+ by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 05 Jan 2021 08:53:49 -0800
+IronPort-SDR: 5XiEMEATZ78Je5Z8NIH+kmudJuv9wFn60CAgpserIlc2B9IfyPQ5x+ULr95vcmemgpW1AWSsOr
+ 1EQAyQ35shbA==
+X-IronPort-AV: E=Sophos;i="5.78,477,1599548400"; d="scan'208";a="346337926"
+Received: from tgeddam-mobl.amr.corp.intel.com (HELO bwidawsk-mobl5.local)
+ ([10.252.140.57])
+ by orsmga003-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 05 Jan 2021 08:53:48 -0800
+From: Ben Widawsky <ben.widawsky@intel.com>
+To: qemu-devel@nongnu.org
+Subject: [RFC PATCH v2 00/32] CXL 2.0 Support
+Date: Tue,  5 Jan 2021 08:52:51 -0800
+Message-Id: <20210105165323.783725-1-ben.widawsky@intel.com>
+X-Mailer: git-send-email 2.30.0
 MIME-Version: 1.0
-In-Reply-To: <20210105162243.GG724458@redhat.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9855
- signatures=668683
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 mlxlogscore=999
- phishscore=0
- suspectscore=0 spamscore=0 bulkscore=0 adultscore=0 mlxscore=0
- malwarescore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2009150000 definitions=main-2101050100
-X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9855
- signatures=668683
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 suspectscore=0
- phishscore=0
- priorityscore=1501 spamscore=0 mlxscore=0 clxscore=1015 bulkscore=0
- lowpriorityscore=0 impostorscore=0 mlxlogscore=999 adultscore=0
- malwarescore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2009150000 definitions=main-2101050100
-Received-SPF: pass client-ip=141.146.126.79;
- envelope-from=steven.sistare@oracle.com; helo=aserp2130.oracle.com
-X-Spam_score_int: -48
-X-Spam_score: -4.9
-X-Spam_bar: ----
-X-Spam_report: (-4.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.252,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.249, RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_PASS=-0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Received-SPF: pass client-ip=192.55.52.93; envelope-from=ben.widawsky@intel.com;
+ helo=mga11.intel.com
+X-Spam_score_int: -68
+X-Spam_score: -6.9
+X-Spam_bar: ------
+X-Spam_report: (-6.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_HI=-5,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -101,87 +60,234 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Jason Zeng <jason.zeng@linux.intel.com>,
- "Michael S. Tsirkin" <mst@redhat.com>,
- =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
- Juan Quintela <quintela@redhat.com>, qemu-devel@nongnu.org,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
- Alex Williamson <alex.williamson@redhat.com>,
- Stefan Hajnoczi <stefanha@redhat.com>,
- =?UTF-8?Q?Marc-Andr=c3=a9_Lureau?= <marcandre.lureau@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
- Markus Armbruster <armbru@redhat.com>
+Cc: Thomas Huth <thuth@redhat.com>, Ben Widawsky <ben.widawsky@intel.com>,
+ "Michael S. Tsirkin" <mst@redhat.com>, Vishal Verma <vishal.l.verma@intel.com>,
+ Chris Browy <cbrowy@avery-design.com>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
+ Jonathan Cameron <Jonathan.Cameron@Huawei.com>,
+ Prashant V Agarwal <agpr123@gmail.com>,
+ Dan Williams <dan.j.williams@intel.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 1/5/2021 11:22 AM, Daniel P. Berrangé wrote:
-> On Tue, Jan 05, 2021 at 07:42:06AM -0800, Steve Sistare wrote:
->> Define qio_channel_socket_reuse to initialize a channel based on an existing
->> socket fd.  Save accepted socket fds in the environment before cprsave, and
->> look for fds in the environment after cprload.  Reject cprsave if a socket
->> enables the TLS or websocket option.
->>
->> Signed-off-by: Mark Kanda <mark.kanda@oracle.com>
->> Signed-off-by: Steve Sistare <steven.sistare@oracle.com>
->> ---
->>  chardev/char-socket.c       | 30 ++++++++++++++++++++++++++++++
->>  include/io/channel-socket.h | 12 ++++++++++++
->>  io/channel-socket.c         |  9 +++++++++
->>  stubs/Makefile.objs         |  1 +
->>  stubs/cpr.c                 |  3 +++
->>  5 files changed, 55 insertions(+)
->>  create mode 100644 stubs/cpr.c
->>
-> 
->> diff --git a/include/io/channel-socket.h b/include/io/channel-socket.h
->> index 777ff59..e425a01 100644
->> --- a/include/io/channel-socket.h
->> +++ b/include/io/channel-socket.h
->> @@ -260,5 +260,17 @@ QIOChannelSocket *
->>  qio_channel_socket_accept(QIOChannelSocket *ioc,
->>                            Error **errp);
->>  
->> +/**
->> + * qio_channel_socket_reuse:
->> + * @fd: existing client socket descriptor
->> + * @errp: pointer to a NULL-initialized error object
->> + *
->> + * Construct a client channel using @fd.
->> + *
->> + * Returns: the new client channel, or NULL on error
->> + */
->> +QIOChannelSocket *
->> +qio_channel_socket_reuse(int fd,
->> +                         Error **errp);
->>  
->>  #endif /* QIO_CHANNEL_SOCKET_H */
->> diff --git a/io/channel-socket.c b/io/channel-socket.c
->> index de49880..07981be 100644
->> --- a/io/channel-socket.c
->> +++ b/io/channel-socket.c
->> @@ -400,6 +400,15 @@ qio_channel_socket_accept(QIOChannelSocket *ioc,
->>      return NULL;
->>  }
->>  
->> +QIOChannelSocket *
->> +qio_channel_socket_reuse(int fd,
->> +                         Error **errp)
->> +{
->> +    QIOChannelSocket *cioc = qio_channel_socket_new();
->> +    cioc->fd = fd;
->> +    return qio_channel_socket_post_accept(cioc, errp) ? 0 : cioc;
->> +}
-> 
-> Why do we need to add this new API when we already have
-> 
->  qio_channel_socket_new_fd(int fd, Error **errp)
-> 
-> which accepts a pre-opened socket FD ?
+Fixes since v1 [1]:
+ * Defer introducing some commands/registers not yet used (Ben)
+ * Add stubbed device_reg_init_common() (Ben)
+ * Improve assertions in DVSEC creation (Jonathan)
+ * Use 'n' for HDM register offsets (Jonathan)
+ * Correct revision ID for extensions (Jonathan)
+ * Minor cleanups and clarifications (Jonathan)
+ * Remove error codes not yet used (Jonathan)
+ * Fix interrupt enable bit width (Jonathan)
+ * Add comment for weird register size (Jonathan)
+ * Break out register alignment checks (Jonathan)
+ * Use the reg alignment helper (Jonathan)
+ * Rename error codes to match spec
+ * Fix cap count mid series (Jonathan)
 
-That was fast!
-Good call, thanks.  I missed that qio_channel_socket_new_fd calls qio_channel_socket_set_fd and
-the latter performs the necessary post-accept actions.  I will also delete patch 17.
+New since v1 [1]:
+ * Entirely reworked framework for firmware handling
+ * Implemented more device commands
+ * CEL support
 
-- Steve
+(There are some new patches that I just named 'v2' for simplicity's sake)
+
+Introduce emulation of Compute Express Link 2.0
+(https://www.computeexpresslink.org/).
+
+The emulation has been critical to get the Linux enabling started [2], it would
+be an ideal place to land regression tests for different topology handling, and
+there may be applications for this emulation as a way for a guest to manipulate
+its address space relative to different performance memories.
+
+Three of the five CXL component types are emulated with some level of functionality:
+host bridge, root port, and memory device. Upstream ports and downstream ports
+aren't implemented (the two components needed to make up a switch).
+
+CXL 2.0 is built on top of PCIe (see spec for details). As a result, much of the
+implementation utilizes existing PCI paradigms. To implement the host bridge,
+I've chosen to use PXB (PCI Expander Bridge). It seemed to be the most natural
+fit even though it doesn't directly map to how hardware will work. For
+persistent capacity of the memory device, I utilized the memory subsystem
+(hw/mem).
+
+We have 3 reasons why this work is valuable:
+1. OS driver development and testing
+2. OS driver regression testing
+3. Possible guest support for HDMs
+
+As mentioned above there are three benefits to carrying this enabling in
+upstream QEMU:
+
+1. Linux driver feature development benefits from emulation both due to
+a lack of initial hardware availability, but also, as is seen with
+NVDIMM/PMEM emulation, there is value in being able to share
+topologies with system-software developers even after hardware is
+available.
+
+2. The Linux kernel's unit test suite for NVDIMM/PMEM ended up injecting fake
+resources via custom modules (nfit_test). In retrospect a QEMU emulation of
+nfit_test capabilities would have made the test environment more portable, and
+allowed for easier community contributions of example configurations.
+
+3. This is still being fleshed out, but in short it provides a standardized
+mechanism for the guest to provide feedback to the host about size and placement
+needs of the memory. After the host gives the guest a physical window mapping to
+the CXL device, the emulated HDM decoders allow the guest a way to tell the host
+how much it wants and where. There are likely simpler ways to do this, but
+they'd require inventing a new interface and you'd need to have diverging driver
+code in the guest programming of the HDM decoder vs. the host. Since we've
+already done this work, why not use it?
+
+There is quite a long list of work to do for full spec compliance, but I don't
+believe that any of it precludes merging. Off the top of my head:
+- Main host bridge support (WIP)
+- Interleaving
+- Better Tests
+- Huge swaths of firmware functionality
+- Hot plug support
+- Emulating volatile capacity
+
+The flow of the patches in general is to define all the data structures and
+registers associated with the various components in a top down manner. Host
+bridge, component, ports, devices. Then, the actual implementation is done in
+the same order.
+
+The summary is:
+1-8: Put infrastructure in place for emulation of the components.
+9-12: Implement device mailboxes
+13-15: Create the concept of a CXL bus and plumb into PXB
+16-22: Implement host bridges
+23: Implement a root port
+24: Implement a memory device
+25: Implement HDM decoders
+26-30: ACPI bits
+31: Start working on enabling the main host bridge
+32: Basic test case
+
+[1]: https://lore.kernel.org/qemu-devel/20201111054724.794888-1-ben.widawsky@intel.com/
+[2]: https://lore.kernel.org/linux-cxl/20201209002418.1976362-1-ben.widawsky@intel.com/
+
+Ben Widawsky (31):
+  hw/pci/cxl: Add a CXL component type (interface)
+  hw/cxl/component: Introduce CXL components (8.1.x, 8.2.5)
+  hw/cxl/device: Introduce a CXL device (8.2.8)
+  hw/cxl/device: Implement the CAP array (8.2.8.1-2)
+  hw/cxl/device: Add device status (8.2.8.3)
+  hw/cxl/device: Implement basic mailbox (8.2.8.4)
+  hw/cxl/device: Add memory devices (8.2.8.5)
+  hw/cxl/device: Add cheap EVENTS implementation (8.2.9.1)
+  hw/cxl/device: Placeholder for firmware commands (8.2.9.2)
+  hw/cxl/device: Timestamp implementation (8.2.9.3)
+  hw/cxl/device: Add log commands (8.2.9.4) + CEL
+  hw/pxb: Use a type for realizing expanders
+  hw/pci/cxl: Create a CXL bus type
+  hw/pxb: Allow creation of a CXL PXB (host bridge)
+  qtest: allow DSDT acpi table changes
+  acpi/pci: Consolidate host bridge setup
+  tests/acpi: remove stale allowed tables
+  hw/pci: Plumb _UID through host bridges
+  hw/cxl/component: Implement host bridge MMIO (8.2.5, table 142)
+  acpi/pxb/cxl: Reserve host bridge MMIO
+  hw/pxb/cxl: Add "windows" for host bridges
+  hw/cxl/rp: Add a root port
+  hw/cxl/device: Add a memory device (8.2.8.5)
+  hw/cxl/device: Implement MMIO HDM decoding (8.2.5.12)
+  acpi/cxl: Add _OSC implementation (9.14.2)
+  tests/acpi: allow CEDT table addition
+  acpi/cxl: Create the CEDT (9.14.1)
+  Temp: acpi/cxl: Add ACPI0017 (CEDT awareness)
+  tests/acpi: Add new CEDT files
+  WIP: i386/cxl: Initialize a host bridge
+  qtest/cxl: Add very basic sanity tests
+
+Jonathan Cameron (1):
+  Temp: Add the PCI_EXT_ID_DVSEC definition to the qemu pci_regs.h copy.
+
+ MAINTAINERS                               |   6 +
+ hw/Kconfig                                |   1 +
+ hw/acpi/Kconfig                           |   5 +
+ hw/acpi/cxl.c                             | 173 ++++++++++
+ hw/acpi/meson.build                       |   1 +
+ hw/arm/virt.c                             |   1 +
+ hw/core/machine.c                         |  26 ++
+ hw/core/numa.c                            |   3 +
+ hw/cxl/Kconfig                            |   3 +
+ hw/cxl/cxl-component-utils.c              | 193 +++++++++++
+ hw/cxl/cxl-device-utils.c                 | 278 ++++++++++++++++
+ hw/cxl/cxl-mailbox-utils.c                | 386 ++++++++++++++++++++++
+ hw/cxl/meson.build                        |   5 +
+ hw/i386/acpi-build.c                      |  87 ++++-
+ hw/i386/microvm.c                         |   1 +
+ hw/i386/pc.c                              |   2 +
+ hw/mem/Kconfig                            |   5 +
+ hw/mem/cxl_type3.c                        | 334 +++++++++++++++++++
+ hw/mem/meson.build                        |   1 +
+ hw/meson.build                            |   1 +
+ hw/pci-bridge/Kconfig                     |   5 +
+ hw/pci-bridge/cxl_root_port.c             | 231 +++++++++++++
+ hw/pci-bridge/meson.build                 |   1 +
+ hw/pci-bridge/pci_expander_bridge.c       | 209 +++++++++++-
+ hw/pci-bridge/pcie_root_port.c            |   6 +-
+ hw/pci/pci.c                              |  32 +-
+ hw/pci/pcie.c                             |  30 ++
+ hw/ppc/spapr.c                            |   2 +
+ include/hw/acpi/cxl.h                     |  27 ++
+ include/hw/boards.h                       |   2 +
+ include/hw/cxl/cxl.h                      |  30 ++
+ include/hw/cxl/cxl_component.h            | 187 +++++++++++
+ include/hw/cxl/cxl_device.h               | 210 ++++++++++++
+ include/hw/cxl/cxl_pci.h                  | 160 +++++++++
+ include/hw/pci/pci.h                      |  15 +
+ include/hw/pci/pci_bridge.h               |  25 ++
+ include/hw/pci/pci_bus.h                  |   8 +
+ include/hw/pci/pci_ids.h                  |   1 +
+ include/standard-headers/linux/pci_regs.h |   1 +
+ monitor/hmp-cmds.c                        |  15 +
+ qapi/machine.json                         |   1 +
+ tests/data/acpi/pc/CEDT                   | Bin 0 -> 36 bytes
+ tests/data/acpi/pc/DSDT                   | Bin 5065 -> 5065 bytes
+ tests/data/acpi/pc/DSDT.acpihmat          | Bin 6390 -> 6390 bytes
+ tests/data/acpi/pc/DSDT.bridge            | Bin 6924 -> 6924 bytes
+ tests/data/acpi/pc/DSDT.cphp              | Bin 5529 -> 5529 bytes
+ tests/data/acpi/pc/DSDT.dimmpxm           | Bin 6719 -> 6719 bytes
+ tests/data/acpi/pc/DSDT.hpbridge          | Bin 5026 -> 5026 bytes
+ tests/data/acpi/pc/DSDT.hpbrroot          | Bin 3084 -> 3084 bytes
+ tests/data/acpi/pc/DSDT.ipmikcs           | Bin 5137 -> 5137 bytes
+ tests/data/acpi/pc/DSDT.memhp             | Bin 6424 -> 6424 bytes
+ tests/data/acpi/pc/DSDT.numamem           | Bin 5071 -> 5071 bytes
+ tests/data/acpi/pc/DSDT.roothp            | Bin 5261 -> 5261 bytes
+ tests/data/acpi/q35/CEDT                  | Bin 0 -> 36 bytes
+ tests/data/acpi/q35/DSDT                  | Bin 7801 -> 7801 bytes
+ tests/data/acpi/q35/DSDT.acpihmat         | Bin 9126 -> 9126 bytes
+ tests/data/acpi/q35/DSDT.bridge           | Bin 7819 -> 7819 bytes
+ tests/data/acpi/q35/DSDT.cphp             | Bin 8265 -> 8265 bytes
+ tests/data/acpi/q35/DSDT.dimmpxm          | Bin 9455 -> 9455 bytes
+ tests/data/acpi/q35/DSDT.ipmibt           | Bin 7876 -> 7876 bytes
+ tests/data/acpi/q35/DSDT.memhp            | Bin 9160 -> 9160 bytes
+ tests/data/acpi/q35/DSDT.mmio64           | Bin 8932 -> 8932 bytes
+ tests/data/acpi/q35/DSDT.numamem          | Bin 7807 -> 7807 bytes
+ tests/qtest/cxl-test.c                    |  93 ++++++
+ tests/qtest/meson.build                   |   4 +
+ 65 files changed, 2777 insertions(+), 30 deletions(-)
+ create mode 100644 hw/acpi/cxl.c
+ create mode 100644 hw/cxl/Kconfig
+ create mode 100644 hw/cxl/cxl-component-utils.c
+ create mode 100644 hw/cxl/cxl-device-utils.c
+ create mode 100644 hw/cxl/cxl-mailbox-utils.c
+ create mode 100644 hw/cxl/meson.build
+ create mode 100644 hw/mem/cxl_type3.c
+ create mode 100644 hw/pci-bridge/cxl_root_port.c
+ create mode 100644 include/hw/acpi/cxl.h
+ create mode 100644 include/hw/cxl/cxl.h
+ create mode 100644 include/hw/cxl/cxl_component.h
+ create mode 100644 include/hw/cxl/cxl_device.h
+ create mode 100644 include/hw/cxl/cxl_pci.h
+ create mode 100644 tests/data/acpi/pc/CEDT
+ create mode 100644 tests/data/acpi/q35/CEDT
+ create mode 100644 tests/qtest/cxl-test.c
+
+-- 
+2.30.0
+
 
