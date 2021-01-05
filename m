@@ -2,70 +2,83 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 08A8E2EB01F
-	for <lists+qemu-devel@lfdr.de>; Tue,  5 Jan 2021 17:34:30 +0100 (CET)
-Received: from localhost ([::1]:40286 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D4DA02EB02F
+	for <lists+qemu-devel@lfdr.de>; Tue,  5 Jan 2021 17:37:00 +0100 (CET)
+Received: from localhost ([::1]:48316 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kwpHx-0006hQ-1h
-	for lists+qemu-devel@lfdr.de; Tue, 05 Jan 2021 11:34:29 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60094)
+	id 1kwpKN-0001jy-UM
+	for lists+qemu-devel@lfdr.de; Tue, 05 Jan 2021 11:36:59 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60056)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
- id 1kwpFR-00057p-G7
- for qemu-devel@nongnu.org; Tue, 05 Jan 2021 11:31:53 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:52350)
+ (Exim 4.90_1) (envelope-from <vkuznets@redhat.com>)
+ id 1kwpFP-00053q-Mf
+ for qemu-devel@nongnu.org; Tue, 05 Jan 2021 11:31:51 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:40423)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
- id 1kwpFO-0002rJ-23
- for qemu-devel@nongnu.org; Tue, 05 Jan 2021 11:31:53 -0500
+ (Exim 4.90_1) (envelope-from <vkuznets@redhat.com>)
+ id 1kwpFO-0002rA-0d
+ for qemu-devel@nongnu.org; Tue, 05 Jan 2021 11:31:51 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1609864308;
+ s=mimecast20190719; t=1609864307;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=W0VfzyBbOlOCRdXuLKrtAQ0dRwyMuEKYFOhrnd4jhA0=;
- b=idBT+B/C8F6SDl6gle/58UQUUg1ILBE4qXMH08uNSmwbqr0GokZw6zLAes7jv2R9gffvLQ
- k9NGtRD0XzH0SJh3ugi6dppTKSwUmBq6W4bVYnyHWv84y8QovOZ9vZVztGOcxpCCfkToqC
- LO+RX/KxYSccmPILg1RIWod1xi5N+ho=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-577-_xNbjnDJOSujwZgJxVPGuQ-1; Tue, 05 Jan 2021 11:31:46 -0500
-X-MC-Unique: _xNbjnDJOSujwZgJxVPGuQ-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 3764C1842142
- for <qemu-devel@nongnu.org>; Tue,  5 Jan 2021 16:31:45 +0000 (UTC)
-Received: from localhost (unknown [10.40.208.13])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 89C252B394;
- Tue,  5 Jan 2021 16:31:43 +0000 (UTC)
-Date: Tue, 5 Jan 2021 17:31:41 +0100
-From: Igor Mammedov <imammedo@redhat.com>
-To: Eduardo Habkost <ehabkost@redhat.com>
+ bh=DttBJOJxDk0oPdPq8M5vF1+2NsPHLzg9Rl/IFgDLeqc=;
+ b=arkDz4oaBbCjyArLubDFTsweFbq7ARAS8YgqKoexRzM7gPKeMO+Pgx7oDMWsx7HddGyKdu
+ TkA5o4gjoD4rk0QtJ8dbRcEC5A3vvaouVxwou7iWVmT7zooJd4v0DkUa6Dubx53jd3d145
+ rSeKuq1VU9t3Vdki4qW+cFkTfq0UGmY=
+Received: from mail-ej1-f69.google.com (mail-ej1-f69.google.com
+ [209.85.218.69]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-283-ADnMAX2VObmplK_jg17q6Q-1; Tue, 05 Jan 2021 11:31:46 -0500
+X-MC-Unique: ADnMAX2VObmplK_jg17q6Q-1
+Received: by mail-ej1-f69.google.com with SMTP id q11so97538ejd.0
+ for <qemu-devel@nongnu.org>; Tue, 05 Jan 2021 08:31:46 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:in-reply-to:references:date
+ :message-id:mime-version;
+ bh=DttBJOJxDk0oPdPq8M5vF1+2NsPHLzg9Rl/IFgDLeqc=;
+ b=QvJPQ+Um4LQeifArGWU69SmOYgxKGbDUxjcr4wXAU6wScuYUSwFFodMzN1T/yNHEKg
+ lED5H2srl4+c4MJih9Q5OtojU/4WwNjC41wLLE3qR1uu5T7LC1GCq4hcqzkzCYD2F6rI
+ S34Cwn5IJUS6EiLe+LdNkPd6yfon9aVW9dyaOmMp9grrJWNDUXMeFgZYPZqefQjSbpto
+ Mt4MfLjVHd4RlsBl+1d532r68jVuGhhDnk68udr/vwd3+Zl9pjahtFY4YkmRb5rTA0V/
+ 1hN5zKsbVBslMHa2ZND9ZV/d8Du1wcFAj+SJ113oj751dUejYtuhXNlB/zd0+DiwYkJl
+ 5gog==
+X-Gm-Message-State: AOAM5334CfGyJnYiz8sJGQrp8H5MP6GC6zljL6AhtvQ1yGCPcP1Wih14
+ V2Om1EtktKp1wkWugUpBF6kYuXZJC/nnxfDhup5GjPbF4KhcsoST78yo/7asxQ1fOojCJ1+GMG2
+ PaUyqWWljn5FJ7uB9GvwUSu4lJY7FS31L79hKSGbM9ek8vyzioAYnCl4bv7MAdfLxT0c=
+X-Received: by 2002:a17:906:7c49:: with SMTP id
+ g9mr71816344ejp.185.1609864305144; 
+ Tue, 05 Jan 2021 08:31:45 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJx+l0fcNI44aMBbczACmezk7U6/Z5JMlFUVFlp9iAeqUOruoHsyT1jEcOQGotCm7Z9PWoABXA==
+X-Received: by 2002:a17:906:7c49:: with SMTP id
+ g9mr71816322ejp.185.1609864304942; 
+ Tue, 05 Jan 2021 08:31:44 -0800 (PST)
+Received: from vitty.brq.redhat.com (g-server-2.ign.cz. [91.219.240.2])
+ by smtp.gmail.com with ESMTPSA id f20sm1116edx.92.2021.01.05.08.31.44
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 05 Jan 2021 08:31:44 -0800 (PST)
+From: Vitaly Kuznetsov <vkuznets@redhat.com>
+To: Igor Mammedov <imammedo@redhat.com>
 Subject: Re: [PATCH 5/5] i386: provide simple 'hyperv=on' option to x86
  machine types
-Message-ID: <20210105173141.2fafe61b@redhat.com>
-In-Reply-To: <20210105143431.GL18467@habkost.net>
+In-Reply-To: <20210105170312.32cf0e12@redhat.com>
 References: <20201119103221.1665171-1-vkuznets@redhat.com>
  <20201119103221.1665171-6-vkuznets@redhat.com>
  <20201216205202.GJ3140057@habkost.net>
- <20201218181340.5e398280@redhat.com>
- <87r1n0j20n.fsf@vitty.brq.redhat.com>
- <20210104182906.GD18467@habkost.net>
- <20210105003650.71f39045@redhat.com>
- <20210105143431.GL18467@habkost.net>
+ <20201218181340.5e398280@redhat.com> <87r1n0j20n.fsf@vitty.brq.redhat.com>
+ <20210105000435.1cf4c6f6@redhat.com> <87lfd7iowi.fsf@vitty.brq.redhat.com>
+ <20210105170312.32cf0e12@redhat.com>
+Date: Tue, 05 Jan 2021 17:31:43 +0100
+Message-ID: <87a6tnibv4.fsf@vitty.brq.redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=imammedo@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=vkuznets@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=imammedo@redhat.com;
+Content-Type: text/plain
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=vkuznets@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -29
 X-Spam_score: -3.0
@@ -86,209 +99,52 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Paolo Bonzini <pbonzini@redhat.com>, Vitaly Kuznetsov <vkuznets@redhat.com>,
- Marcelo Tosatti <mtosatti@redhat.com>, qemu-devel@nongnu.org
+Cc: Paolo Bonzini <pbonzini@redhat.com>, Marcelo Tosatti <mtosatti@redhat.com>,
+ Eduardo Habkost <ehabkost@redhat.com>, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, 5 Jan 2021 09:34:31 -0500
-Eduardo Habkost <ehabkost@redhat.com> wrote:
+Igor Mammedov <imammedo@redhat.com> writes:
 
-> On Tue, Jan 05, 2021 at 12:36:50AM +0100, Igor Mammedov wrote:
-> > On Mon, 4 Jan 2021 13:29:06 -0500
-> > Eduardo Habkost <ehabkost@redhat.com> wrote:
-> >   
-> > > On Mon, Jan 04, 2021 at 01:54:32PM +0100, Vitaly Kuznetsov wrote:  
-> > > > Igor Mammedov <imammedo@redhat.com> writes:
-> > > >     
-> > > > >> >  
-> > > > >> > +    /* Hyper-V features enabled with 'hyperv=on' */
-> > > > >> > +    x86mc->default_hyperv_features = BIT(HYPERV_FEAT_RELAXED) |
-> > > > >> > +        BIT(HYPERV_FEAT_VAPIC) | BIT(HYPERV_FEAT_TIME) |
-> > > > >> > +        BIT(HYPERV_FEAT_CRASH) | BIT(HYPERV_FEAT_RESET) |
-> > > > >> > +        BIT(HYPERV_FEAT_VPINDEX) | BIT(HYPERV_FEAT_RUNTIME) |
-> > > > >> > +        BIT(HYPERV_FEAT_SYNIC) | BIT(HYPERV_FEAT_STIMER) |
-> > > > >> > +        BIT(HYPERV_FEAT_FREQUENCIES) | BIT(HYPERV_FEAT_REENLIGHTENMENT) |
-> > > > >> > +        BIT(HYPERV_FEAT_TLBFLUSH) | BIT(HYPERV_FEAT_EVMCS) |
-> > > > >> > +        BIT(HYPERV_FEAT_IPI) | BIT(HYPERV_FEAT_STIMER_DIRECT);    
-> > > > > I'd argue that feature bits do not belong to machine code at all.
-> > > > > If we have to involve machine at all then it should be a set property/value pairs
-> > > > > that machine will set on CPU object (I'm not convinced that doing it
-> > > > > from machine code is good idea though).
-> > > > >    
-> > > > 
-> > > > These are 'features' and not feature bits. 'Bits' here are just our
-> > > > internal (to QEMU) representation of which features are enable and which
-> > > > are not, we could've just used booleans instead. These feature, when
-> > > > enabled, will result in some CPUID changes (not 1:1) but I don't see how
-> > > > it's different from
-> > > >   
-> > > > " -machine q35,accel=kvm "
-> > > > 
-> > > > which also results in CPUID changes.    
-> > > 
-> > > This is a good point, although having accel affect CPUID bits was
-> > > also a source of complexity for query-cpu-model-expansion and
-> > > other QMP queries.  
-> > 
-> > why was, it's still a headache (mutating CPU models depending on accelerator)
-> >   
-> > >   
-> > > > 
-> > > > The main reason for putting this to x86 machine type is versioning, as
-> > > > we go along we will (hopefully) be implementing more and more Hyper-V
-> > > > features but we want to provide 'one knob to rule them all' but do it in
-> > > > a way that will allow migration. We already have 'hv_passthrough' for
-> > > > CPU.    
-> > > 
-> > > I agree completely that the set of bits needs to be on
-> > > MachineClass.  We just need to agree on the external interface.  
-> > That's where I disagree,
-> > let me exaggerate for demo purpose:
-> >  - let's move all CPU models feature defaults to MachineClass and forget about compat properties
-> >     since in that case we can opencode changes in machine_class_init  
-> 
-> I don't see your point here.  compat_props is also part of
-> MachineClass.
-they are but compat_props are data and we typically use them for
-keeping old behavior for devices, all it needs is adding a line
-to set old property value.
-While class_init is typically used for altering machine specific
-behavior, sure it can be used to patch up device but that's
-a bit more ugly (need to add a field to MachineClass to key off
-and the somehow wire it up to affected device).
+> On Tue, 05 Jan 2021 12:50:05 +0100
+>
+> I think there is a misunderstanding, idea was:
+>
+> cpu_initfn() {
+>     //current set
+>     cpu->default_hyperv_cpu_features = ACD
+> }
+>
+> compat_props_5.1 {
+>    cpu.default_hyperv_cpu_features = AB
+> }
+>
+> compat_props_5.2 {
+>    cpu.default_hyperv_cpu_features = ABC
+> }
+>
 
-> > 
-> > It's rather hard code integration between device models, which we try
-> > to avoid and still refactoring QEMU code to get rid of it.
-> > (sure it works until it's not and someone else need to rewrite half of QEMU
-> > to accomplish it's own task because we mixed things together)  
-> 
-> I don't see why using a X86CPU-specific API that is not based on
-> QOM properties is hard code integration.  compat_props is not the
-> only allowed API for machines to communicate with devices.
-> 
-> >   
-> > >   
-> > > >     
-> > > > >> >  
-> > > > >> > +    if (x86ms->hyperv_enabled) {
-> > > > >> > +        feat = x86mc->default_hyperv_features;
-> > > > >> > +        /* Enlightened VMCS is only available on Intel/VMX */
-> > > > >> > +        if (!cpu_has_vmx(&cpu->env)) {
-> > > > >> > +            feat &= ~BIT(HYPERV_FEAT_EVMCS);
-> > > > >> > +        }
-> > > > >> > +
-> > > > >> > +        cpu->hyperv_features |= feat;    
-> > > > > that will ignore features user explicitly doesn't want,
-> > > > > ex:
-> > > > >  -machine hyperv=on -cpu foo,hv-foo=off
-> > > > >    
-> > > > 
-> > > > Existing 'hv_passthrough' mode can also affect the result. Personally, I
-> > > > don't see where 'hv-foo=off' is needed outside of debugging and these
-> > > > use-cases can probably be covered by explicitly listing required
-> > > > features but I'm not against making this work, shouldn't be hard.    
-> > > 
-> > > I'm all for not wasting time supporting use cases that are not
-> > > necessary in practice.  We just need to document the expected
-> > > behavior clearly, whatever we decide to do.  
-> > 
-> > documenting is good, but if it adds new semantics to how CPU features are handled
-> > users up the stack will need code it up as well and juggle with
-> >  -machine + -cpu + -device cpu-foo
-> > not to mention poor developers who will have to figure out why we do
-> > set CPU properties in multiple different ways.
-> > 
-> > however if we add it as CPU properties that behave the same way as other
-> > properties, all mgmt has to do is expose new property to user for usage.  
-> 
-> I think we need to be careful here.  Sometimes just exposing the
-> QOM properties used to implemented a feature is not the best user
-> interface.  e.g.: even if using compat_props for implementing the
-> hyperv features preset, that doesn't automatically mean we want
-> hyperv=on to be a -cpu option.
-> 
-> I would even argue we shouldn't be focusing on implementation
-> details (like we are doing right now) until the desired external
-> interface is described clearly.
-> 
-> > 
-> > it even more true when building machine from QMP interface would be available,
-> > where we would want '-device foo' more or less the same way instead of
-> > special casing some of them, i.e. I'd rather have one device to configure,
-> > instead of doing it in multiple places. It's not possible in reality
-> > but for new code we should try to minimize split brain issues.  
-> 
-> Is split brain a practical problem here?  If the new behavior is
-> implemented in x86_cpu_realizefn() or x86_cpu_pre_plug(), we know
-> it's going to affect all CPU objects.
+...
 
-i was talking about user interface here, i.e.:
- (QMP) create_machine(hyperv=on)
- (QMP) device_add(cpu, hv_foo=x)
-vs:
- (QMP) device_add(cpu, hyperv_defaults=on,=onhv_foo=x)
+> I was talking about CPU features/properties only, it doesn't apply to other devices.
+> It makes sense for machine to have a knob to create onboard hyperv specific
+> devices if there is any (do we have any?).
+>
+> If there aren't any currently, I wouldn't bother with machine knob
+> and just use -cpu foo,hv_default=on or -device cpu,hv_default=on
+> like any other cpu feature.
+>
 
-i.e. in the later case cpu specific options are consolidate within device stanza
-and mgmt doesn't need to be aware and split cpu config in to steps.
+We don't currently have any devices which are not 'CPU features' (in
+QEMU terminology), however, we already have Vmbus and I can easily
+imagine us implementing e.g. hartbeat/kvp/vss/... devices on top. We
+*may* want to enable these 'automatically' and that's what make
+'-machine' option preferable. It is, however, not a *must* right now and
+we can indeed wait until these devices appear and be happy with
+'hv_default' -cpu option for now. We will, however, need to teach upper
+layers about the change when/if it happens.
 
-
-> >   
-> > > >     
-> > > > > not sure we would like to introduce such invariant,
-> > > > > in normal qom property handling the latest set property should have effect
-> > > > > (all other invariants we have in x86 cpu property semantics are comming from legacy handling
-> > > > > and I plan to deprecate them (it will affect x86 and sparc cpus) so CPUs will behave like
-> > > > > any other QOM object when it come to property handling)
-> > > > >  
-> > > > > anyways it's confusing a bit to have cpu flags to come from 2 different places
-> > > > >
-> > > > > -cpu hyperv-use-preset=on,hv-foo=off
-> > > > >
-> > > > > looks less confusing and will heave expected effect
-> > > > >    
-> > > > 
-> > > > Honestly, 'hyperv-use-preset' is confusing even to me :-)
-> > > > 
-> > > > What if we for a second stop thinking about Hyper-V features being CPU
-> > > > features only, e.g. if we want to create Dynamic Memory or PTP or any
-> > > > other Hyper-V specific device in a simple way? We'll have to put these
-> > > > under machine type.    
-> > > 
-> > > I agree.  Hyper-V is not just a set of CPU features.  
-> > me too,
-> > however in this case we are talking about a set of cpu features,
-> > if there is no way to implement it as cpu properties + compat properties
-> > and requires opencodding it within machine code it might be fine
-> > but I fail to see a very good reason for doing that at this momment.  
-> 
-> The reason would be just simplicity of implementation.
-aside other issues,
-cpu props + compact_props looks simpler than machine based variant.
-
-> 
-> I understand there are reasons to suggest using compat_props if
-> it makes things simpler, but I don't see why we would reject a
-> patch because the implementation is not based purely on
-> compat_props.
-main issue is that patch introduces new semantics to cpu feature
-parsing.
-compat_props is for consistency with how we typically handle device
-compatibility, which is also good enough reason.
-
-> I will let Vitaly to decide how to proceed, based on our
-> feedback.  I encourage him to use compat_props like you suggest,
-> but I don't plan to make this a requirement.
-> 
-> >   
-> > > 
-> > > Also, those two approaches are not mutually exclusive.
-> > > "-machine hyperv=on" can be implemented internally using
-> > > "hyperv-use-preset=on" if necessary.  I don't think it has to,
-> > > however.  
-> > 
-> >   
-> 
+-- 
+Vitaly
 
 
