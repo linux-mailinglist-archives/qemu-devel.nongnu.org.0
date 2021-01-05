@@ -2,69 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 718E32EB1BA
-	for <lists+qemu-devel@lfdr.de>; Tue,  5 Jan 2021 18:48:01 +0100 (CET)
-Received: from localhost ([::1]:53960 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9891C2EB1D7
+	for <lists+qemu-devel@lfdr.de>; Tue,  5 Jan 2021 18:55:27 +0100 (CET)
+Received: from localhost ([::1]:53930 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kwqR6-00049x-FX
-	for lists+qemu-devel@lfdr.de; Tue, 05 Jan 2021 12:48:00 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52030)
+	id 1kwqYI-0007Po-Ha
+	for lists+qemu-devel@lfdr.de; Tue, 05 Jan 2021 12:55:26 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52032)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1kwq1A-0003JQ-Ob
+ id 1kwq1A-0003Jc-QO
  for qemu-devel@nongnu.org; Tue, 05 Jan 2021 12:21:14 -0500
-Received: from mail-pj1-x1029.google.com ([2607:f8b0:4864:20::1029]:50618)
+Received: from mail-pj1-x1033.google.com ([2607:f8b0:4864:20::1033]:54345)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1kwq14-0006mr-11
- for qemu-devel@nongnu.org; Tue, 05 Jan 2021 12:21:08 -0500
-Received: by mail-pj1-x1029.google.com with SMTP id lj6so27017pjb.0
- for <qemu-devel@nongnu.org>; Tue, 05 Jan 2021 09:21:05 -0800 (PST)
+ id 1kwq15-0006n4-9l
+ for qemu-devel@nongnu.org; Tue, 05 Jan 2021 12:21:12 -0500
+Received: by mail-pj1-x1033.google.com with SMTP id f14so13668pju.4
+ for <qemu-devel@nongnu.org>; Tue, 05 Jan 2021 09:21:06 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=4gbZ1hEp2iGpxBH0NVqdoNfsrRxmgU8uhJbc8FVSLCA=;
- b=hZ+cWB4JJNCC6SzCMhiypjU7ItO1yQtCJctncUOfgmpx+koUrah3tCyEf57MobX17k
- 82CGHGnkMR5TSDfLWd1aUDYfETn9J0m/EOsOStgFML+VWP+4HedVQfa+Zg8rJWlmJ1RT
- 333YlZT3e3zaYluZNKjXz5bMgQHugoy7vAtpJlNf03lxyMV+Hvpu2AHETxCAmU8JgJnH
- XFHxJojOnKs7S+4QUakS9dg/wEEAHCBRnay2cki8IuJk9cIZPUPh/ooirELlBUFoapow
- Lx2gjTIu/4lhbn5FNOsYr7NAZanH1mZrfca6JxeeFrCmRkOxNxliCtjHr+E41GXUlJQf
- yVxg==
+ bh=DDt9G4G0380iY4uD326AhbzaTibvzTwO85rcnYobk9o=;
+ b=HDP2nytzc/Y8eGQiCFchpkgmcdojCFDZCAR8hWWpdnPWXBRucxocoVT2TdknZbQmbz
+ MRIYsFYyighvXoYVVJczBAQKtx+EtWCVCnrqAlQsPbdUY2RmKEll/YbGzwXxsdqCfVBd
+ EvyM3DKaPPM6Gwx2DfQgf5fwRnDBC4hhBdovWKpYo7jWImrbBFY+n1qZTXbE2R+8Kje/
+ 7s+xn25sC4gtUiSFl9zWKcyyWOTEFqd3AWSeXXnekRr4EDhDpAshnWwZ0OjEy2VNwt62
+ haZubOytL1hx7f0sMu4zB45X9jp91qyGvohYsFKVX9DuivhcLOM8TAHUolQOeL/9ZZzt
+ PvHA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=4gbZ1hEp2iGpxBH0NVqdoNfsrRxmgU8uhJbc8FVSLCA=;
- b=MnKqn2mJZbMHz5RKbbFFCaOw/dfeT6yMhyTGfVSzwHEJWB7lRV3CnDu+wFa5Yw/6uB
- O+EM253ctAFkv1mRcX/tTveBvQrO305M2gQFe3k8iZBfjwLUCqD3c92kBxOL9Vtb83zW
- WuPsDpMbNTXYTHJIpXbc99ri9h/Zj13QrJM7vsySxNF1DWeCu/pFyVZkZ41dBwbXMCWQ
- RrhAVw1wJIXPbc9GYw107idjROol9r3aLFCxFmIy8blSv3fFYCb1RsEFHvQLhQdP6Wa0
- iNPB1Ia1/jW9kGTb950o2Hgf06GCbERsCcCyvTDu303UJM8BjHjj2Mk9D74ELTzqpe56
- WgTw==
-X-Gm-Message-State: AOAM532bmSF8Est6aBp++uMwzrmV3womOyrWkHDazHof19EB6YgHfZce
- 2R99GCgpDx9aKglCaM9hasA24o9L1biYfQ==
-X-Google-Smtp-Source: ABdhPJy64uuqiWO25G4IwdhLMY+hLnb3zlqGTU0RbbuJTvEqUAOtUOur+0spt7h4CCAVHMX0DX4fdw==
-X-Received: by 2002:a17:902:6a83:b029:dc:2a2c:6b91 with SMTP id
- n3-20020a1709026a83b02900dc2a2c6b91mr299973plk.8.1609867264152; 
- Tue, 05 Jan 2021 09:21:04 -0800 (PST)
+ bh=DDt9G4G0380iY4uD326AhbzaTibvzTwO85rcnYobk9o=;
+ b=poCNoq0DyWBTrDBjeb3/RMrbt+hmCEYALNWu3gFUjwmedmiIChD1NhWNpLnAkKkliL
+ cfN/kVgYMgodrcoxaGKYsLM2153JsPolAq9PSGwLOdUwhjSLOlFjojXyGwDCLk1VRXzp
+ zWFTjn41jrzQHVrFhrnQ2RJE+Rv47efXmKSxMYSDqYsoAFTqzOKYmLIWmziaPQAqjeUs
+ wfqqmyTKZWv2eqYfd7SKMJp3bLGJJ1nfr+pBATwiSH89AmGGgHKI4ao0/sICiMd20lt0
+ s5wWYyJq6nRlO3xCv401AEOx8OB6Cspwk/AYfsoBGUNn++fJOx2Hsc3FDIrMFYeh0Tz2
+ qdZA==
+X-Gm-Message-State: AOAM533hrr7tIfm6uEVo/S4ZbYV2djrsRnN9mQQQAsGJlrzeMIUQ1Tn9
+ MC9dIdHqhohaCARrYqCHG5ZXA1O746n04A==
+X-Google-Smtp-Source: ABdhPJx2glmQJNDgDqWaHX7+ioU/MFCgftrpbYbgiGDY8dZ+qiw5ATODF5T8m9TppXK8OJxhJ5/6zA==
+X-Received: by 2002:a17:902:6b89:b029:da:fc41:baec with SMTP id
+ p9-20020a1709026b89b02900dafc41baecmr528675plk.39.1609867265841; 
+ Tue, 05 Jan 2021 09:21:05 -0800 (PST)
 Received: from localhost.localdomain (rrcs-173-197-107-21.west.biz.rr.com.
  [173.197.107.21])
- by smtp.gmail.com with ESMTPSA id u12sm2010pfh.98.2021.01.05.09.21.02
+ by smtp.gmail.com with ESMTPSA id u12sm2010pfh.98.2021.01.05.09.21.04
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 05 Jan 2021 09:21:03 -0800 (PST)
+ Tue, 05 Jan 2021 09:21:05 -0800 (PST)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v5 42/43] tcg: Constify tcg_code_gen_epilogue
-Date: Tue,  5 Jan 2021 07:19:49 -1000
-Message-Id: <20210105171950.415486-43-richard.henderson@linaro.org>
+Subject: [PATCH v5 43/43] tcg: Constify TCGLabelQemuLdst.raddr
+Date: Tue,  5 Jan 2021 07:19:50 -1000
+Message-Id: <20210105171950.415486-44-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20210105171950.415486-1-richard.henderson@linaro.org>
 References: <20210105171950.415486-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1029;
- envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1029.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1033;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1033.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -94,8 +94,6 @@ make this pointer const.
 Reviewed-by: Joelle van Dyne <j@getutm.app>
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- include/tcg/tcg.h            | 2 +-
- tcg/tcg.c                    | 2 +-
  tcg/aarch64/tcg-target.c.inc | 3 +--
  tcg/arm/tcg-target.c.inc     | 3 +--
  tcg/i386/tcg-target.c.inc    | 3 +--
@@ -103,147 +101,120 @@ Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
  tcg/ppc/tcg-target.c.inc     | 3 +--
  tcg/riscv/tcg-target.c.inc   | 3 +--
  tcg/s390/tcg-target.c.inc    | 3 +--
- tcg/sparc/tcg-target.c.inc   | 3 +--
- 10 files changed, 10 insertions(+), 18 deletions(-)
+ tcg/tcg-ldst.c.inc           | 2 +-
+ 8 files changed, 8 insertions(+), 15 deletions(-)
 
-diff --git a/include/tcg/tcg.h b/include/tcg/tcg.h
-index e6fce9a049..95fe5604eb 100644
---- a/include/tcg/tcg.h
-+++ b/include/tcg/tcg.h
-@@ -677,7 +677,7 @@ struct TCGContext {
- 
- extern TCGContext tcg_init_ctx;
- extern __thread TCGContext *tcg_ctx;
--extern void *tcg_code_gen_epilogue;
-+extern const void *tcg_code_gen_epilogue;
- extern uintptr_t tcg_splitwx_diff;
- extern TCGv_env cpu_env;
- 
-diff --git a/tcg/tcg.c b/tcg/tcg.c
-index f278772512..472bf1755b 100644
---- a/tcg/tcg.c
-+++ b/tcg/tcg.c
-@@ -161,7 +161,7 @@ static int tcg_out_ldst_finalize(TCGContext *s);
- static TCGContext **tcg_ctxs;
- static unsigned int n_tcg_ctxs;
- TCGv_env cpu_env = 0;
--void *tcg_code_gen_epilogue;
-+const void *tcg_code_gen_epilogue;
- uintptr_t tcg_splitwx_diff;
- 
- #ifndef CONFIG_TCG_INTERPRETER
 diff --git a/tcg/aarch64/tcg-target.c.inc b/tcg/aarch64/tcg-target.c.inc
-index 2e33162c03..0b7eb09a27 100644
+index 0b7eb09a27..ab199b143f 100644
 --- a/tcg/aarch64/tcg-target.c.inc
 +++ b/tcg/aarch64/tcg-target.c.inc
-@@ -2900,8 +2900,7 @@ static void tcg_target_qemu_prologue(TCGContext *s)
-      * Return path for goto_ptr. Set return value to 0, a-la exit_tb,
-      * and fall through to the rest of the epilogue.
-      */
+@@ -1636,8 +1636,7 @@ static void add_qemu_ldst_label(TCGContext *s, bool is_ld, TCGMemOpIdx oi,
+     label->type = ext;
+     label->datalo_reg = data_reg;
+     label->addrlo_reg = addr_reg;
 -    /* TODO: Cast goes away when all hosts converted */
--    tcg_code_gen_epilogue = (void *)tcg_splitwx_to_rx(s->code_ptr);
-+    tcg_code_gen_epilogue = tcg_splitwx_to_rx(s->code_ptr);
-     tcg_out_movi(s, TCG_TYPE_REG, TCG_REG_X0, 0);
+-    label->raddr = (void *)tcg_splitwx_to_rx(raddr);
++    label->raddr = tcg_splitwx_to_rx(raddr);
+     label->label_ptr[0] = label_ptr;
+ }
  
-     /* TB epilogue */
 diff --git a/tcg/arm/tcg-target.c.inc b/tcg/arm/tcg-target.c.inc
-index 3d2717aeb0..d6cb19ca9f 100644
+index d6cb19ca9f..0fd1126454 100644
 --- a/tcg/arm/tcg-target.c.inc
 +++ b/tcg/arm/tcg-target.c.inc
-@@ -2301,8 +2301,7 @@ static void tcg_target_qemu_prologue(TCGContext *s)
-      * Return path for goto_ptr. Set return value to 0, a-la exit_tb,
-      * and fall through to the rest of the epilogue.
-      */
+@@ -1340,8 +1340,7 @@ static void add_qemu_ldst_label(TCGContext *s, bool is_ld, TCGMemOpIdx oi,
+     label->datahi_reg = datahi;
+     label->addrlo_reg = addrlo;
+     label->addrhi_reg = addrhi;
 -    /* TODO: Cast goes away when all hosts converted */
--    tcg_code_gen_epilogue = (void *)tcg_splitwx_to_rx(s->code_ptr);
-+    tcg_code_gen_epilogue = tcg_splitwx_to_rx(s->code_ptr);
-     tcg_out_movi(s, TCG_TYPE_PTR, TCG_REG_R0, 0);
-     tcg_out_epilogue(s);
+-    label->raddr = (void *)tcg_splitwx_to_rx(raddr);
++    label->raddr = tcg_splitwx_to_rx(raddr);
+     label->label_ptr[0] = label_ptr;
  }
+ 
 diff --git a/tcg/i386/tcg-target.c.inc b/tcg/i386/tcg-target.c.inc
-index 34bf0b9a35..91400d575c 100644
+index 91400d575c..46e856f442 100644
 --- a/tcg/i386/tcg-target.c.inc
 +++ b/tcg/i386/tcg-target.c.inc
-@@ -3804,8 +3804,7 @@ static void tcg_target_qemu_prologue(TCGContext *s)
-      * Return path for goto_ptr. Set return value to 0, a-la exit_tb,
-      * and fall through to the rest of the epilogue.
-      */
+@@ -1795,8 +1795,7 @@ static void add_qemu_ldst_label(TCGContext *s, bool is_ld, bool is_64,
+     label->datahi_reg = datahi;
+     label->addrlo_reg = addrlo;
+     label->addrhi_reg = addrhi;
 -    /* TODO: Cast goes away when all hosts converted */
--    tcg_code_gen_epilogue = (void *)tcg_splitwx_to_rx(s->code_ptr);
-+    tcg_code_gen_epilogue = tcg_splitwx_to_rx(s->code_ptr);
-     tcg_out_movi(s, TCG_TYPE_REG, TCG_REG_EAX, 0);
- 
-     /* TB epilogue */
+-    label->raddr = (void *)tcg_splitwx_to_rx(raddr);
++    label->raddr = tcg_splitwx_to_rx(raddr);
+     label->label_ptr[0] = label_ptr[0];
+     if (TARGET_LONG_BITS > TCG_TARGET_REG_BITS) {
+         label->label_ptr[1] = label_ptr[1];
 diff --git a/tcg/mips/tcg-target.c.inc b/tcg/mips/tcg-target.c.inc
-index a2201bd1dd..18fd474593 100644
+index 18fd474593..add157f6c3 100644
 --- a/tcg/mips/tcg-target.c.inc
 +++ b/tcg/mips/tcg-target.c.inc
-@@ -2473,8 +2473,7 @@ static void tcg_target_qemu_prologue(TCGContext *s)
-      * Return path for goto_ptr. Set return value to 0, a-la exit_tb,
-      * and fall through to the rest of the epilogue.
-      */
+@@ -1283,8 +1283,7 @@ static void add_qemu_ldst_label(TCGContext *s, int is_ld, TCGMemOpIdx oi,
+     label->datahi_reg = datahi;
+     label->addrlo_reg = addrlo;
+     label->addrhi_reg = addrhi;
 -    /* TODO: Cast goes away when all hosts converted */
--    tcg_code_gen_epilogue = (void *)tcg_splitwx_to_rx(s->code_ptr);
-+    tcg_code_gen_epilogue = tcg_splitwx_to_rx(s->code_ptr);
-     tcg_out_mov(s, TCG_TYPE_REG, TCG_REG_V0, TCG_REG_ZERO);
- 
-     /* TB epilogue */
+-    label->raddr = (void *)tcg_splitwx_to_rx(raddr);
++    label->raddr = tcg_splitwx_to_rx(raddr);
+     label->label_ptr[0] = label_ptr[0];
+     if (TCG_TARGET_REG_BITS < TARGET_LONG_BITS) {
+         label->label_ptr[1] = label_ptr[1];
 diff --git a/tcg/ppc/tcg-target.c.inc b/tcg/ppc/tcg-target.c.inc
-index 33b5915005..5f191c03d9 100644
+index 5f191c03d9..19a4a12f15 100644
 --- a/tcg/ppc/tcg-target.c.inc
 +++ b/tcg/ppc/tcg-target.c.inc
-@@ -2346,8 +2346,7 @@ static void tcg_target_qemu_prologue(TCGContext *s)
-     tcg_out32(s, BCCTR | BO_ALWAYS);
- 
-     /* Epilogue */
+@@ -2001,8 +2001,7 @@ static void add_qemu_ldst_label(TCGContext *s, bool is_ld, TCGMemOpIdx oi,
+     label->datahi_reg = datahi_reg;
+     label->addrlo_reg = addrlo_reg;
+     label->addrhi_reg = addrhi_reg;
 -    /* TODO: Cast goes away when all hosts converted */
--    tcg_code_gen_epilogue = (void *)tcg_splitwx_to_rx(s->code_ptr);
-+    tcg_code_gen_epilogue = tcg_splitwx_to_rx(s->code_ptr);
+-    label->raddr = (void *)tcg_splitwx_to_rx(raddr);
++    label->raddr = tcg_splitwx_to_rx(raddr);
+     label->label_ptr[0] = lptr;
+ }
  
-     tcg_out_ld(s, TCG_TYPE_PTR, TCG_REG_R0, TCG_REG_R1, FRAME_SIZE+LR_OFFSET);
-     for (i = 0; i < ARRAY_SIZE(tcg_target_callee_save_regs); ++i) {
 diff --git a/tcg/riscv/tcg-target.c.inc b/tcg/riscv/tcg-target.c.inc
-index 4d595b01d6..c76dc9f9ca 100644
+index c76dc9f9ca..c60b91ba58 100644
 --- a/tcg/riscv/tcg-target.c.inc
 +++ b/tcg/riscv/tcg-target.c.inc
-@@ -1784,8 +1784,7 @@ static void tcg_target_qemu_prologue(TCGContext *s)
-     tcg_out_opc_imm(s, OPC_JALR, TCG_REG_ZERO, tcg_target_call_iarg_regs[1], 0);
- 
-     /* Return path for goto_ptr. Set return value to 0 */
+@@ -996,8 +996,7 @@ static void add_qemu_ldst_label(TCGContext *s, int is_ld, TCGMemOpIdx oi,
+     label->datahi_reg = datahi;
+     label->addrlo_reg = addrlo;
+     label->addrhi_reg = addrhi;
 -    /* TODO: Cast goes away when all hosts converted */
--    tcg_code_gen_epilogue = (void *)tcg_splitwx_to_rx(s->code_ptr);
-+    tcg_code_gen_epilogue = tcg_splitwx_to_rx(s->code_ptr);
-     tcg_out_mov(s, TCG_TYPE_REG, TCG_REG_A0, TCG_REG_ZERO);
+-    label->raddr = (void *)tcg_splitwx_to_rx(raddr);
++    label->raddr = tcg_splitwx_to_rx(raddr);
+     label->label_ptr[0] = label_ptr[0];
+ }
  
-     /* TB epilogue */
 diff --git a/tcg/s390/tcg-target.c.inc b/tcg/s390/tcg-target.c.inc
-index 582a8ef941..b3660ffedf 100644
+index b3660ffedf..d7ef079055 100644
 --- a/tcg/s390/tcg-target.c.inc
 +++ b/tcg/s390/tcg-target.c.inc
-@@ -2551,8 +2551,7 @@ static void tcg_target_qemu_prologue(TCGContext *s)
-      * Return path for goto_ptr. Set return value to 0, a-la exit_tb,
-      * and fall through to the rest of the epilogue.
-      */
+@@ -1587,8 +1587,7 @@ static void add_qemu_ldst_label(TCGContext *s, bool is_ld, TCGMemOpIdx oi,
+     label->oi = oi;
+     label->datalo_reg = data;
+     label->addrlo_reg = addr;
 -    /* TODO: Cast goes away when all hosts converted */
--    tcg_code_gen_epilogue = (void *)tcg_splitwx_to_rx(s->code_ptr);
-+    tcg_code_gen_epilogue = tcg_splitwx_to_rx(s->code_ptr);
-     tcg_out_movi(s, TCG_TYPE_PTR, TCG_REG_R2, 0);
+-    label->raddr = (void *)tcg_splitwx_to_rx(raddr);
++    label->raddr = tcg_splitwx_to_rx(raddr);
+     label->label_ptr[0] = label_ptr;
+ }
  
-     /* TB epilogue */
-diff --git a/tcg/sparc/tcg-target.c.inc b/tcg/sparc/tcg-target.c.inc
-index 182124b96c..922ae96481 100644
---- a/tcg/sparc/tcg-target.c.inc
-+++ b/tcg/sparc/tcg-target.c.inc
-@@ -1039,8 +1039,7 @@ static void tcg_target_qemu_prologue(TCGContext *s)
-     tcg_out_nop(s);
- 
-     /* Epilogue for goto_ptr.  */
--    /* TODO: Cast goes away when all hosts converted */
--    tcg_code_gen_epilogue = (void *)tcg_splitwx_to_rx(s->code_ptr);
-+    tcg_code_gen_epilogue = tcg_splitwx_to_rx(s->code_ptr);
-     tcg_out_arithi(s, TCG_REG_G0, TCG_REG_I7, 8, RETURN);
-     /* delay slot */
-     tcg_out_movi_imm13(s, TCG_REG_O0, 0);
+diff --git a/tcg/tcg-ldst.c.inc b/tcg/tcg-ldst.c.inc
+index 05f9b3ccd6..c3ce88e69d 100644
+--- a/tcg/tcg-ldst.c.inc
++++ b/tcg/tcg-ldst.c.inc
+@@ -28,7 +28,7 @@ typedef struct TCGLabelQemuLdst {
+     TCGReg addrhi_reg;      /* reg index for high word of guest virtual addr */
+     TCGReg datalo_reg;      /* reg index for low word to be loaded or stored */
+     TCGReg datahi_reg;      /* reg index for high word to be loaded or stored */
+-    tcg_insn_unit *raddr;   /* gen code addr of the next IR of qemu_ld/st IR */
++    const tcg_insn_unit *raddr;   /* addr of the next IR of qemu_ld/st IR */
+     tcg_insn_unit *label_ptr[2]; /* label pointers to be updated */
+     QSIMPLEQ_ENTRY(TCGLabelQemuLdst) next;
+ } TCGLabelQemuLdst;
 -- 
 2.25.1
 
