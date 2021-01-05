@@ -2,56 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A4AFF2EA318
-	for <lists+qemu-devel@lfdr.de>; Tue,  5 Jan 2021 02:56:20 +0100 (CET)
-Received: from localhost ([::1]:47854 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9F8962EA326
+	for <lists+qemu-devel@lfdr.de>; Tue,  5 Jan 2021 03:04:47 +0100 (CET)
+Received: from localhost ([::1]:51810 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kwba7-0003O8-NY
-	for lists+qemu-devel@lfdr.de; Mon, 04 Jan 2021 20:56:19 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51332)
+	id 1kwbiI-0005pE-7o
+	for lists+qemu-devel@lfdr.de; Mon, 04 Jan 2021 21:04:46 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52792)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cenjiahui@huawei.com>)
- id 1kwbYB-0002Qy-HN
- for qemu-devel@nongnu.org; Mon, 04 Jan 2021 20:54:19 -0500
-Received: from szxga05-in.huawei.com ([45.249.212.191]:2924)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cenjiahui@huawei.com>)
- id 1kwbY3-0001FL-Le
- for qemu-devel@nongnu.org; Mon, 04 Jan 2021 20:54:19 -0500
-Received: from DGGEMS412-HUB.china.huawei.com (unknown [172.30.72.60])
- by szxga05-in.huawei.com (SkyGuard) with ESMTP id 4D8wVr0nT8zMF4k;
- Tue,  5 Jan 2021 09:52:52 +0800 (CST)
-Received: from [10.174.184.155] (10.174.184.155) by
- DGGEMS412-HUB.china.huawei.com (10.3.19.212) with Microsoft SMTP Server id
- 14.3.498.0; Tue, 5 Jan 2021 09:53:50 +0800
-Subject: Re: [PATCH v3 3/8] acpi/gpex: Inform os to keep firmware resource map
-To: Igor Mammedov <imammedo@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>
-References: <20201223090836.9075-1-cenjiahui@huawei.com>
- <20201223090836.9075-4-cenjiahui@huawei.com>
- <20201229144142.66583852@redhat.com>
- <20201230161942-mutt-send-email-mst@kernel.org>
- <20210105013529.4addf44f@redhat.com>
-From: Jiahui Cen <cenjiahui@huawei.com>
-Message-ID: <5418be81-3b91-749d-1806-0f54e5849421@huawei.com>
-Date: Tue, 5 Jan 2021 09:53:49 +0800
-User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:68.0) Gecko/20100101
- Thunderbird/68.2.2
+ (Exim 4.90_1) (envelope-from <osy86dev@gmail.com>)
+ id 1kwbgi-0005MR-6e
+ for qemu-devel@nongnu.org; Mon, 04 Jan 2021 21:03:08 -0500
+Received: from mail-il1-f175.google.com ([209.85.166.175]:45555)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <osy86dev@gmail.com>)
+ id 1kwbgd-00046F-L5
+ for qemu-devel@nongnu.org; Mon, 04 Jan 2021 21:03:06 -0500
+Received: by mail-il1-f175.google.com with SMTP id w12so27196767ilm.12
+ for <qemu-devel@nongnu.org>; Mon, 04 Jan 2021 18:03:02 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=rrIdhhQdRCN8LWuRoFRgH7sJzmtGJOf7VXmWSyk1ads=;
+ b=HqUVni6WPidnzJGaV4zh7urKQ7WRCYx4TQFLErEl7KAIjX2tYswoFc6fvoDRo8o9ur
+ pST2kI5Rf6sTmm++6mjVB2Bt4QDQUWXlL20MAInfinU2W+Z6XV4l/DUXVKQBjKE0WmCt
+ TgnFU7rpHxN/CWpPbjEMl5nSm96tE4mNCSsH5Ts4rYZ0nR4wsTioPeRWyDyMMhUShGTv
+ 5S8uxYEO8QR2qFyXubbcEZ08urx0WWvFHsRk4KhEuWyQPg3i97ZpEDpmUQ6jZW/7k4qn
+ 0Yl6sL1We4JMYStD7AcodpoEK/deerKic6xRi8lx2K+GDNB3QwDiv0JqzBFkisALAe4Z
+ pvkw==
+X-Gm-Message-State: AOAM532ulljYToWbiIcV/kZAzxjiRBb2Le4rahVbpTph64Juo/0ATBB0
+ G6MHMwSo/Sn/jIGAKTYMQLQdswZx+bs=
+X-Google-Smtp-Source: ABdhPJx8gaDdqr5nZvpVRCa6sO/7ljtNE03xDBxPhUv7oPS5KfypTMzGjwOyOyc9kuVpvU/UkPSepw==
+X-Received: by 2002:a05:6e02:188f:: with SMTP id
+ o15mr73183015ilu.308.1609812181768; 
+ Mon, 04 Jan 2021 18:03:01 -0800 (PST)
+Received: from mail-io1-f49.google.com (mail-io1-f49.google.com.
+ [209.85.166.49])
+ by smtp.gmail.com with ESMTPSA id y15sm41757126ili.65.2021.01.04.18.03.01
+ for <qemu-devel@nongnu.org>
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 04 Jan 2021 18:03:01 -0800 (PST)
+Received: by mail-io1-f49.google.com with SMTP id m23so26930852ioy.2
+ for <qemu-devel@nongnu.org>; Mon, 04 Jan 2021 18:03:01 -0800 (PST)
+X-Received: by 2002:a05:6602:1217:: with SMTP id
+ y23mr61209305iot.193.1609812181092; 
+ Mon, 04 Jan 2021 18:03:01 -0800 (PST)
 MIME-Version: 1.0
-In-Reply-To: <20210105013529.4addf44f@redhat.com>
-Content-Type: text/plain; charset="utf-8"
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.174.184.155]
-X-CFilter-Loop: Reflected
-Received-SPF: pass client-ip=45.249.212.191; envelope-from=cenjiahui@huawei.com;
- helo=szxga05-in.huawei.com
-X-Spam_score_int: -41
-X-Spam_score: -4.2
-X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_MED=-2.3, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+References: <20210103145055.11074-1-r.bolshakov@yadro.com>
+In-Reply-To: <20210103145055.11074-1-r.bolshakov@yadro.com>
+From: Joelle van Dyne <j@getutm.app>
+Date: Mon, 4 Jan 2021 18:02:50 -0800
+X-Gmail-Original-Message-ID: <CA+E+eSDCBsgDo=-KP_GyFh2OB9wK5WoYx=CGqYXTvxdJbv7CGA@mail.gmail.com>
+Message-ID: <CA+E+eSDCBsgDo=-KP_GyFh2OB9wK5WoYx=CGqYXTvxdJbv7CGA@mail.gmail.com>
+Subject: Re: [PATCH v2] tcg: Fix execution on Apple Silicon
+To: Roman Bolshakov <r.bolshakov@yadro.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=209.85.166.175; envelope-from=osy86dev@gmail.com;
+ helo=mail-il1-f175.google.com
+X-Spam_score_int: -13
+X-Spam_score: -1.4
+X-Spam_bar: -
+X-Spam_report: (-1.4 / 5.0 requ) BAYES_00=-1.9,
+ FREEMAIL_FORGED_FROMDOMAIN=0.248, FREEMAIL_FROM=0.001,
+ HEADER_FROM_DIFFERENT_DOMAINS=0.248, RCVD_IN_DNSWL_NONE=-0.0001,
+ RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -64,162 +82,190 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: xieyingtai@huawei.com, Eduardo Habkost <ehabkost@redhat.com>, Richard
- Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org, Ard
- Biesheuvel <ard.biesheuvel@arm.com>, Paolo Bonzini <pbonzini@redhat.com>,
- Laszlo Ersek <lersek@redhat.com>, wu.wubin@huawei.com
+Cc: QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+Tested-by: Joelle van Dyne <j@getutm.app>
 
+It works for me. But one thing is that if you build it with the macOS
+11.x SDK it won't run on < 11.x. This is why apple recommends
+something like:
 
-On 2021/1/5 8:35, Igor Mammedov wrote:
-> On Wed, 30 Dec 2020 16:22:08 -0500
-> "Michael S. Tsirkin" <mst@redhat.com> wrote:
-> 
->> On Tue, Dec 29, 2020 at 02:41:42PM +0100, Igor Mammedov wrote:
->>> On Wed, 23 Dec 2020 17:08:31 +0800
->>> Jiahui Cen <cenjiahui@huawei.com> wrote:
->>>   
->>>> There may be some differences in pci resource assignment between guest os
->>>> and firmware.
->>>>
->>>> Eg. A Bridge with Bus [d2]
->>>>     -+-[0000:d2]---01.0-[d3]----01.0
->>>>
->>>>     where [d2:01.00] is a pcie-pci-bridge with BAR0 (mem, 64-bit, non-pref) [size=256]
->>>>           [d3:01.00] is a PCI Device with BAR0 (mem, 64-bit, pref) [size=128K]
->>>>                                           BAR4 (mem, 64-bit, pref) [size=64M]
->>>>
->>>>     In EDK2, the Resource Map would be:
->>>>         PciBus: Resource Map for Bridge [D2|01|00]
->>>>         Type = PMem64; Base = 0x8004000000;     Length = 0x4100000;     Alignment = 0x3FFFFFF
->>>>            Base = 0x8004000000; Length = 0x4000000;     Alignment = 0x3FFFFFF;  Owner = PCI [D3|01|00:20]
->>>>            Base = 0x8008000000; Length = 0x20000;       Alignment = 0x1FFFF;    Owner = PCI [D3|01|00:10]
->>>>         Type =  Mem64; Base = 0x8008100000;     Length = 0x100; Alignment = 0xFFF
->>>>     It would use 0x4100000 to calculate the root bus's PMem64 resource window.
->>>>
->>>>     While in Linux, kernel will use 0x1FFFFFF as the alignment to calculate
->>>>     the PMem64 size, which would be 0x6000000. So kernel would try to
->>>>     allocate 0x6000000 from the PMem64 resource window, but since the window
->>>>     size is 0x4100000 as assigned by EDK2, the allocation would fail.
->>>>
->>>> The diffences could result in resource assignment failure.
->>>>
->>>> Using _DSM #5 method to inform guest os not to ignore the PCI configuration
->>>> that firmware has done at boot time could handle the differences.  
->>>
->>> I'm not sure about this one, 
->>> OS should able to reconfigure PCI resources according to what and where is plugged
->>> (and it even more true is hotplug is taken into account)  
->>
->> spec says this:
->>
->> 0: No (The operating system must not ignore the PCI configuration that firmware has done
->> at boot time. However, the operating system is free to configure the devices in this hierarchy
->> that have not been configured by the firmware. There may be a reduced level of hot plug
->> capability support in this hierarchy due to resource constraints. This situation is the same as
->> the legacy situation where this _DSM is not provided.)
->> 1: Yes (The operating system may ignore the PCI configuration that the firmware has done
->> at boot time, and reconfigure/rebalance the resources in the hierarchy.)
-> I sort of convinced my self that's is just hotplug work might need to implement reconfiguration
-> in guest kernel and maybe QEMU
-> 
-> Though I have a question,
-> 
->  1. does it work for PC machine with current kernel, if so why?
->  2. what it would take to make it work for arm/virt?
-> 
+        if (__builtin_available(macOS 11, *)) {
+            pthread_jit_write_protect_np();
+        }
 
-1. For x86, it generally keeps the configuration by firmware,
-so there is nothing wrong for PC machine.
+You still need a compile time check like MAC_OS_VERSION_11_0 to
+support linking with older SDKs.
 
-2. We add DSM method in DSDT to inform guest to keep
-firmware's configuration, just like x86.
-
->> and
->>
->> IMPLEMENTATION NOTE
->> This _DSM function provides backwards compatibility on platforms that can run legacy operating
->> systems.
->> Operating systems for two different architectures (e.g., x86 and x64) can be installed on a platform.
->> The firmware cannot distinguish the operating system in time to change the boot configuration of
->> devices. Say for instance, an x86 operating system in non-PAE mode is installed on a system. The
->> x86 operating system cannot access device resource space above 4 GiB. So the firmware is required
->> to configure devices at boot time using addresses below 4 GiB. On the other hand, if an x64
->> operating system is installed on this system, it can access device resources above the 4 GiB so it does
->> not want the firmware to constrain the resource assignment below 4 GiB that the firmware
->> configures at boot time. It is not possible for the firmware to change this by the time it boots the
->> operating system. Ignoring the configurations done by firmware at boot time will allow the
->> operating system to push resource assignment using addresses above 4 GiB for an x64 operating
->> system while constrain it to addresses below 4 GiB for an x86 operating system.
->>
->> so fundamentally, saying "1" here just means "you can ignore what
->> firmware configured if you like".
->>
->>
->> I have a different question though: our CRS etc is based on what
->> firmware configured. Is that ok? Or is ACPI expected to somehow
->> reconfigure itself when OS reconfigures devices?
->> Think it's ok but could not find documentation either way.
-> 
-> guest consume DSDT only at boot time,
-> reconfiguration can done later by PCI subsystem without
-> ACPI (at least it used to be so).
-> 
-> However DSM is dynamic,
-> and maybe evaluated at runtime,
-> though I don't know if kernel would re-evaluate this feature bit after boot
-> 
-
-Seems kernel evaluates DSM only at boot time.
-
-Thanks,
-Jiahui
-
-> 
->>
->>
->>>>
->>>> Signed-off-by: Jiahui Cen <cenjiahui@huawei.com>
->>>> ---
->>>>  hw/pci-host/gpex-acpi.c | 18 ++++++++++++++++--
->>>>  1 file changed, 16 insertions(+), 2 deletions(-)
->>>>
->>>> diff --git a/hw/pci-host/gpex-acpi.c b/hw/pci-host/gpex-acpi.c
->>>> index 11b3db8f71..c189306599 100644
->>>> --- a/hw/pci-host/gpex-acpi.c
->>>> +++ b/hw/pci-host/gpex-acpi.c
->>>> @@ -112,10 +112,24 @@ static void acpi_dsdt_add_pci_osc(Aml *dev)
->>>>      UUID = aml_touuid("E5C937D0-3553-4D7A-9117-EA4D19C3434D");
->>>>      ifctx = aml_if(aml_equal(aml_arg(0), UUID));
->>>>      ifctx1 = aml_if(aml_equal(aml_arg(2), aml_int(0)));
->>>> -    uint8_t byte_list[1] = {1};
->>>> -    buf = aml_buffer(1, byte_list);
->>>> +    uint8_t byte_list[] = {
->>>> +                0x1 << 0 /* support for functions other than function 0 */ |
->>>> +                0x1 << 5 /* support for function 5 */
->>>> +                };
->>>> +    buf = aml_buffer(ARRAY_SIZE(byte_list), byte_list);
->>>>      aml_append(ifctx1, aml_return(buf));
->>>>      aml_append(ifctx, ifctx1);
->>>> +
->>>> +    /* PCI Firmware Specification 3.1
->>>> +     * 4.6.5. _DSM for Ignoring PCI Boot Configurations
->>>> +     */
->>>> +    /* Arg2: Function Index: 5 */
->>>> +    ifctx1 = aml_if(aml_equal(aml_arg(2), aml_int(5)));
->>>> +    /* 0 - The operating system must not ignore the PCI configuration that
->>>> +     *     firmware has done at boot time.
->>>> +     */
->>>> +    aml_append(ifctx1, aml_return(aml_int(0)));
->>>> +    aml_append(ifctx, ifctx1);
->>>>      aml_append(method, ifctx);
->>>>  
->>>>      byte_list[0] = 0;  
->>
->>
-> 
-> .
-> 
+On Sun, Jan 3, 2021 at 6:54 AM Roman Bolshakov <r.bolshakov@yadro.com> wrot=
+e:
+>
+> Pages can't be both write and executable at the same time on Apple
+> Silicon. macOS provides public API to switch write protection [1] for
+> JIT applications, like TCG.
+>
+> 1. https://developer.apple.com/documentation/apple_silicon/porting_just-i=
+n-time_compilers_to_apple_silicon
+>
+> Signed-off-by: Roman Bolshakov <r.bolshakov@yadro.com>
+> ---
+> v1: https://lists.gnu.org/archive/html/qemu-devel/2021-01/msg00073.html
+> Changes since v1:
+>
+>  - Pruned not needed fiddling with W^X and dropped symmetry from write
+>    lock/unlock and renamed related functions.
+>    Similar approach is used in JavaScriptCore [1].
+>
+>  - Moved jit helper functions to util/osdep
+>                                                                          =
+                                                                         As=
+ outlined in osdep.h, this matches to (2):                                 =
+                                                                           =
+                                                                           =
+                                                             * In an ideal =
+world this header would contain only:                                      =
+                                                      *  (1) things which e=
+verybody needs                                                             =
+                                               *  (2) things without which =
+code would work on most platforms but                                      =
+                                        *      fail to compile or misbehave=
+ on a minority of host OSes
+>
+>  - Fixed a checkpatch error
+>
+>  - Limit new behaviour only to macOS 11.0 and above, because of the
+>    following declarations:
+>
+>    __API_AVAILABLE(macos(11.0))
+>    __API_UNAVAILABLE(ios, tvos, watchos)
+>    void pthread_jit_write_protect_np(int enabled);
+>
+>    __API_AVAILABLE(macos(11.0))
+>    __API_UNAVAILABLE(ios, tvos, watchos)
+>    int pthread_jit_write_protect_supported_np(void);
+>
+>  1. https://bugs.webkit.org/attachment.cgi?id=3D402515&action=3Dprettypat=
+ch
+>
+>  accel/tcg/cpu-exec.c      |  2 ++
+>  accel/tcg/translate-all.c |  6 ++++++
+>  include/qemu/osdep.h      |  3 +++
+>  tcg/tcg.c                 |  1 +
+>  util/osdep.c              | 22 ++++++++++++++++++++++
+>  5 files changed, 34 insertions(+)
+>
+> diff --git a/accel/tcg/cpu-exec.c b/accel/tcg/cpu-exec.c
+> index 8689c54499..374060eb45 100644
+> --- a/accel/tcg/cpu-exec.c
+> +++ b/accel/tcg/cpu-exec.c
+> @@ -175,6 +175,7 @@ static inline tcg_target_ulong cpu_tb_exec(CPUState *=
+cpu, TranslationBlock *itb)
+>      }
+>  #endif /* DEBUG_DISAS */
+>
+> +    qemu_thread_jit_execute();
+>      ret =3D tcg_qemu_tb_exec(env, tb_ptr);
+>      cpu->can_do_io =3D 1;
+>      last_tb =3D (TranslationBlock *)(ret & ~TB_EXIT_MASK);
+> @@ -382,6 +383,7 @@ static inline void tb_add_jump(TranslationBlock *tb, =
+int n,
+>  {
+>      uintptr_t old;
+>
+> +    qemu_thread_jit_write();
+>      assert(n < ARRAY_SIZE(tb->jmp_list_next));
+>      qemu_spin_lock(&tb_next->jmp_lock);
+>
+> diff --git a/accel/tcg/translate-all.c b/accel/tcg/translate-all.c
+> index b7d50a73d4..88ae5d35ef 100644
+> --- a/accel/tcg/translate-all.c
+> +++ b/accel/tcg/translate-all.c
+> @@ -1072,6 +1072,9 @@ static inline void *alloc_code_gen_buffer(void)
+>      size_t size =3D tcg_ctx->code_gen_buffer_size;
+>      void *buf;
+>
+> +#if defined(__APPLE__) && defined(MAC_OS_VERSION_11_0)
+> +    flags |=3D MAP_JIT;
+> +#endif
+>      buf =3D mmap(NULL, size, prot, flags, -1, 0);
+>      if (buf =3D=3D MAP_FAILED) {
+>          return NULL;
+> @@ -1485,7 +1488,9 @@ static void do_tb_phys_invalidate(TranslationBlock =
+*tb, bool rm_from_page_list)
+>
+>  static void tb_phys_invalidate__locked(TranslationBlock *tb)
+>  {
+> +    qemu_thread_jit_write();
+>      do_tb_phys_invalidate(tb, true);
+> +    qemu_thread_jit_execute();
+>  }
+>
+>  /* invalidate one TB
+> @@ -1687,6 +1692,7 @@ TranslationBlock *tb_gen_code(CPUState *cpu,
+>  #endif
+>
+>      assert_memory_lock();
+> +    qemu_thread_jit_write();
+>
+>      phys_pc =3D get_page_addr_code(env, pc);
+>
+> diff --git a/include/qemu/osdep.h b/include/qemu/osdep.h
+> index f9ec8c84e9..89abebcf5d 100644
+> --- a/include/qemu/osdep.h
+> +++ b/include/qemu/osdep.h
+> @@ -686,4 +686,7 @@ char *qemu_get_host_name(Error **errp);
+>   */
+>  size_t qemu_get_host_physmem(void);
+>
+> +void qemu_thread_jit_write(void);
+> +void qemu_thread_jit_execute(void);
+> +
+>  #endif
+> diff --git a/tcg/tcg.c b/tcg/tcg.c
+> index 43c6cf8f52..ab8488f5d5 100644
+> --- a/tcg/tcg.c
+> +++ b/tcg/tcg.c
+> @@ -1065,6 +1065,7 @@ void tcg_prologue_init(TCGContext *s)
+>      s->pool_labels =3D NULL;
+>  #endif
+>
+> +    qemu_thread_jit_write();
+>      /* Generate the prologue.  */
+>      tcg_target_qemu_prologue(s);
+>
+> diff --git a/util/osdep.c b/util/osdep.c
+> index 66d01b9160..80ec7185da 100644
+> --- a/util/osdep.c
+> +++ b/util/osdep.c
+> @@ -606,3 +606,25 @@ writev(int fd, const struct iovec *iov, int iov_cnt)
+>      return readv_writev(fd, iov, iov_cnt, true);
+>  }
+>  #endif
+> +
+> +#if defined(__APPLE__) && defined(MAC_OS_VERSION_11_0)
+> +static inline void qemu_thread_jit_write_protect(bool enabled)
+> +{
+> +    if (pthread_jit_write_protect_supported_np()) {
+> +        pthread_jit_write_protect_np(enabled);
+> +    }
+> +}
+> +
+> +void qemu_thread_jit_execute(void)
+> +{
+> +    qemu_thread_jit_write_protect(true);
+> +}
+> +
+> +void qemu_thread_jit_write(void)
+> +{
+> +    qemu_thread_jit_write_protect(false);
+> +}
+> +#else
+> +void qemu_thread_jit_write(void) {}
+> +void qemu_thread_jit_execute(void) {}
+> +#endif
+> --
+> 2.29.2
+>
 
