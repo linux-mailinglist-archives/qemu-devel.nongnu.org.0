@@ -2,34 +2,34 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 17AC72EA474
+	by mail.lfdr.de (Postfix) with ESMTPS id 191D32EA475
 	for <lists+qemu-devel@lfdr.de>; Tue,  5 Jan 2021 05:33:35 +0100 (CET)
-Received: from localhost ([::1]:39630 helo=lists1p.gnu.org)
+Received: from localhost ([::1]:39666 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kwe2G-00037b-O0
+	id 1kwe2G-00038T-O7
 	for lists+qemu-devel@lfdr.de; Mon, 04 Jan 2021 23:33:32 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52140)
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52142)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1kwe0a-0002I0-8s
+ id 1kwe0a-0002I7-T2
  for qemu-devel@nongnu.org; Mon, 04 Jan 2021 23:31:48 -0500
-Received: from indium.canonical.com ([91.189.90.7]:33802)
+Received: from indium.canonical.com ([91.189.90.7]:33946)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1kwe0Y-0006vg-EU
- for qemu-devel@nongnu.org; Mon, 04 Jan 2021 23:31:47 -0500
+ id 1kwe0Z-0006wf-AS
+ for qemu-devel@nongnu.org; Mon, 04 Jan 2021 23:31:48 -0500
 Received: from loganberry.canonical.com ([91.189.90.37])
  by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1kwe0T-0005ri-J0
- for <qemu-devel@nongnu.org>; Tue, 05 Jan 2021 04:31:41 +0000
+ id 1kwe0V-0005rW-R7
+ for <qemu-devel@nongnu.org>; Tue, 05 Jan 2021 04:31:44 +0000
 Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id E43D92E81D9
- for <qemu-devel@nongnu.org>; Tue,  5 Jan 2021 04:31:35 +0000 (UTC)
+ by loganberry.canonical.com (Postfix) with ESMTP id 491DD2E822B
+ for <qemu-devel@nongnu.org>; Tue,  5 Jan 2021 04:31:37 +0000 (UTC)
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
-Date: Tue, 05 Jan 2021 04:17:20 -0000
+Date: Tue, 05 Jan 2021 04:17:22 -0000
 From: Launchpad Bug Tracker <1877418@bugs.launchpad.net>
 To: qemu-devel@nongnu.org
 X-Launchpad-Notification-Type: bug
@@ -44,14 +44,14 @@ X-Launchpad-Bug-Commenters: bump55 janitor jnsnow
 X-Launchpad-Bug-Reporter: Bump (bump55)
 X-Launchpad-Bug-Modifier: Launchpad Janitor (janitor)
 References: <158887096525.4808.16857448132122344597.malonedeb@soybean.canonical.com>
-Message-Id: <160982024131.23270.13139326681228033911.malone@loganberry.canonical.com>
+Message-Id: <160982024247.23270.4225061524567973574.malone@loganberry.canonical.com>
 Subject: [Bug 1877418] Re: qemu-nbd freezes access to VDI file
 X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
 X-Launchpad-Message-For: qemu-devel-ml
 Precedence: bulk
 X-Generated-By: Launchpad (canonical.com);
  Revision="34b3ffd45c9543b7f7aa5aa313925241e9e7ca3f"; Instance="production"
-X-Launchpad-Hash: f1062022d49b3818ddb8bb5a2e59822c1f80a67f
+X-Launchpad-Hash: 787b40e94b1d0ace63c259ded7f54ce756fd269c
 Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
  helo=indium.canonical.com
 X-Spam_score_int: -65
@@ -76,9 +76,10 @@ Reply-To: Bug 1877418 <1877418@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-[Expired for QEMU because there has been no activity for 60 days.]
+[Expired for btrfs-progs (Ubuntu) because there has been no activity for
+60 days.]
 
-** Changed in: qemu
+** Changed in: btrfs-progs (Ubuntu)
        Status: Incomplete =3D> Expired
 
 -- =
