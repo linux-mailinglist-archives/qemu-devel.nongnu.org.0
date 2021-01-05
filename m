@@ -2,73 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C257A2EB2D1
-	for <lists+qemu-devel@lfdr.de>; Tue,  5 Jan 2021 19:52:44 +0100 (CET)
-Received: from localhost ([::1]:39750 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A59FE2EB2DC
+	for <lists+qemu-devel@lfdr.de>; Tue,  5 Jan 2021 19:57:32 +0100 (CET)
+Received: from localhost ([::1]:47074 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kwrRj-0005sl-SS
-	for lists+qemu-devel@lfdr.de; Tue, 05 Jan 2021 13:52:43 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33754)
+	id 1kwrWN-0000oS-92
+	for lists+qemu-devel@lfdr.de; Tue, 05 Jan 2021 13:57:31 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35196)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1kwrQv-0005Ot-PR
- for qemu-devel@nongnu.org; Tue, 05 Jan 2021 13:51:53 -0500
-Received: from mail-wr1-x434.google.com ([2a00:1450:4864:20::434]:45365)
+ id 1kwrUr-0000DD-Ac
+ for qemu-devel@nongnu.org; Tue, 05 Jan 2021 13:55:57 -0500
+Received: from mail-wm1-x32f.google.com ([2a00:1450:4864:20::32f]:40378)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1kwrQu-00020l-AX
- for qemu-devel@nongnu.org; Tue, 05 Jan 2021 13:51:53 -0500
-Received: by mail-wr1-x434.google.com with SMTP id d26so182514wrb.12
- for <qemu-devel@nongnu.org>; Tue, 05 Jan 2021 10:51:51 -0800 (PST)
+ id 1kwrUp-0003Qt-R9
+ for qemu-devel@nongnu.org; Tue, 05 Jan 2021 13:55:57 -0500
+Received: by mail-wm1-x32f.google.com with SMTP id r4so496193wmh.5
+ for <qemu-devel@nongnu.org>; Tue, 05 Jan 2021 10:55:55 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:subject:to:cc:references:from:message-id:date:user-agent
  :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=XpxomBOSnzSualdrs65a1CN4FcPwGiEcCRJKP8yk+jI=;
- b=DrmKcIkGvUH/+RxEwLI/XDg2Gma9lgl/JUGcS57mJdCDppWa5qZEgnGACTgEqGmLrJ
- fI++8N0wNeJCBKqAgRC+PzPdZZOvgtSfP3keAocWvoqeSQoUagKl56syK40qwb43flvg
- uohgHwN8JWJinTrVowJuh+5vLrNiT34Oq23mOIbjniKrwNo77v1oUepuqdy7yA38bxLd
- LIY9eMWQyh9hmajHI8ZENuPQ+kn0tylrUaaCt17kBQMJjK/pH2sRX0Vo76H3dLSE83/U
- jurqZA7ugLK7wA+5/NLvrvIbS6sTsLuA0pqThJEC6Wpy5DBRETW5wRZ8z+T0fwX6DvgL
- iuCw==
+ bh=4ehnnCNggqboultQ64p6PXXgZVO7qDXLnOeYMuacksY=;
+ b=N3ZYBSBKoJq5cEPZEVYfpGf8q9Ir0zsC+ONS/cWZna6CNpNEj7CIqODX1/qcIOzz/F
+ Dpvc+2RV5Y3XzvkTgZ4vpI4D0qko2gfWHt4aqB/TkScS3aSwyhgVQqm3aexkJJ7XPEbQ
+ dir3qHRN9K3vCMvKy8Ft+EJAqBV7ArTUr47QMdkRj369EvdnGM5LbVHgJJbTBnSvezCZ
+ NKcnZPPxnya7nrAYUm6YNxlTVoH46aIuFX5RYe4qt5XG+Sd7FAYYlrlXeGl2KT3kOC6k
+ Eyr0+rYydDMGKYf2isYo2LDWA2VgcZ8fcA5d4H+OkcGNzPn7gfd7UeuNW9PEcnM1/M6X
+ oUQA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
  :date:user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=XpxomBOSnzSualdrs65a1CN4FcPwGiEcCRJKP8yk+jI=;
- b=qLHeC266BEyzaDTVUzsDajoOH7bEsgjb3r8HH5szTj43pL0BeQodgkmKWlxcS3UpiJ
- uYednPL4d0cW06sZBb0mzjM7yZbiqIwGJJTx7D2kvjBbMxbXcRUOHsdhitS5Pc4rgtgL
- 3aUyVaLsu/COzN6UfzehM1Q53VfIrKCeYrz1YlT6ARb7Ib+YoKjPjOTs8IIpQy0GE+vN
- yWFvBJJQUj6ziL/RAgy5XkyVwVoOIK/B8jik48qHqiQ8FxEy413KsEyyR8M4bw7V9tQT
- Jiqje9yV19ofD81pQVwxMLcnzO5g4CaXDwv1ngfGdhVl16L7xJlCXYprnuEC7qJdHbpc
- 28GA==
-X-Gm-Message-State: AOAM532lN9zOZ/HSbckhobdvadi2IO6Q4rok+2zp3U9uISXKzbNJwwBT
- 5TmNCjH4y7iOLjNq53iNvco=
-X-Google-Smtp-Source: ABdhPJyKqO95dv1qbhDDeWrn0jaSw7zBzyWgHui7yJ3LXpCMPBke/J3aevOVUbBfkE8jjoznVCbFLg==
-X-Received: by 2002:a5d:6204:: with SMTP id y4mr927191wru.48.1609872710981;
- Tue, 05 Jan 2021 10:51:50 -0800 (PST)
+ bh=4ehnnCNggqboultQ64p6PXXgZVO7qDXLnOeYMuacksY=;
+ b=VZ9CniIqOZ68dZjkGtRtPl2/fTW1KbKa9DIjtDOYwYPB+Y1Ctv8LSWssRB+X6Zelc0
+ TyQi9rkxkpb+pKAG0Gu/jsLQDejodTQ7TaQJv0MN5O7EEBCcu6ICcIm58feNAFdNYECG
+ 26CZT5IzXKnmTTJ/RXsk6yVkqj6oyOALGSFzqQf+Kvy+GhqiwiNITd/+GmzT4j45JSZ+
+ vpsjigS5AtHDLLPROP9+zohdOSS2lXSucyRawxmkBRrvc/d+/oWWJcw8kgYWxPWMOdS3
+ pKvKpVe7WGugTN+zT23YvA2fbj2ugTmhaJ7MHWoInhLD34Dw5u3nQIIRPWdcq1K1PTOM
+ oMfQ==
+X-Gm-Message-State: AOAM532Yrd2pjzOUy5ASJxeSnMC0Ag66872HoCHsYASJgiWpMTDNvHBM
+ zIm/Uc1cU3Tkx1WwkEQZ85k=
+X-Google-Smtp-Source: ABdhPJz6/GdYmE0/ETT7d3EuxwMOOUOG2nj8jnkRlWyMxy4vaVGlAI2rUqSkT2MWMjraRXH//ghsYw==
+X-Received: by 2002:a1c:bc88:: with SMTP id m130mr505087wmf.82.1609872954113; 
+ Tue, 05 Jan 2021 10:55:54 -0800 (PST)
 Received: from [192.168.1.36] (241.red-88-10-103.dynamicip.rima-tde.net.
  [88.10.103.241])
- by smtp.gmail.com with ESMTPSA id u10sm54229wmd.43.2021.01.05.10.51.49
+ by smtp.gmail.com with ESMTPSA id f7sm5888569wmc.1.2021.01.05.10.55.52
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 05 Jan 2021 10:51:50 -0800 (PST)
-Subject: Re: [PATCH v5 25/43] tcg/tci: Push const down through bytecode reading
+ Tue, 05 Jan 2021 10:55:53 -0800 (PST)
+Subject: Re: [PATCH v5 16/43] tcg: Use Error with alloc_code_gen_buffer
 To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
 References: <20210105171950.415486-1-richard.henderson@linaro.org>
- <20210105171950.415486-26-richard.henderson@linaro.org>
+ <20210105171950.415486-17-richard.henderson@linaro.org>
 From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
-Message-ID: <32f5ac48-e2b2-90d2-49bb-0cc6e36bb17c@amsat.org>
-Date: Tue, 5 Jan 2021 19:51:48 +0100
+Message-ID: <27a7b4a1-280c-0c7e-3773-9b270f184895@amsat.org>
+Date: Tue, 5 Jan 2021 19:55:51 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.6.0
 MIME-Version: 1.0
-In-Reply-To: <20210105171950.415486-26-richard.henderson@linaro.org>
+In-Reply-To: <20210105171950.415486-17-richard.henderson@linaro.org>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::434;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x434.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::32f;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x32f.google.com
 X-Spam_score_int: -17
 X-Spam_score: -1.8
 X-Spam_bar: -
@@ -94,11 +94,36 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On 1/5/21 6:19 PM, Richard Henderson wrote:
+> Report better error messages than just "could not allocate".
+> Let alloc_code_gen_buffer set ctx->code_gen_buffer_size
+> and ctx->code_gen_buffer, and simply return bool.
+> 
 > Reviewed-by: Joelle van Dyne <j@getutm.app>
 > Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 > ---
->  tcg/tci.c | 60 +++++++++++++++++++++++++++++++------------------------
+>  accel/tcg/translate-all.c | 60 ++++++++++++++++++++++-----------------
 >  1 file changed, 34 insertions(+), 26 deletions(-)
+...
+
+>  static bool tb_cmp(const void *ap, const void *bp)
+>  {
+>      const TranslationBlock *a = ap;
+> @@ -1144,11 +1147,16 @@ static void tb_htable_init(void)
+>     size. */
+>  void tcg_exec_init(unsigned long tb_size)
+>  {
+> +    bool ok;
+> +
+>      tcg_allowed = true;
+>      cpu_gen_init();
+>      page_init();
+>      tb_htable_init();
+> -    code_gen_alloc(tb_size);
+> +
+> +    ok = alloc_code_gen_buffer(size_code_gen_buffer(tb_size), &error_fatal);
+> +    assert(ok);
+
+Pointless assert() due to &error_fatal, but harmless.
 
 Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 
