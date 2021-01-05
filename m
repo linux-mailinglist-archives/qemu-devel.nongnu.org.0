@@ -2,72 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B40D62EB00C
-	for <lists+qemu-devel@lfdr.de>; Tue,  5 Jan 2021 17:29:40 +0100 (CET)
-Received: from localhost ([::1]:60448 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 96AF62EAFC1
+	for <lists+qemu-devel@lfdr.de>; Tue,  5 Jan 2021 17:11:38 +0100 (CET)
+Received: from localhost ([::1]:38032 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kwpDH-00034F-R4
-	for lists+qemu-devel@lfdr.de; Tue, 05 Jan 2021 11:29:39 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52922)
+	id 1kwovm-0005qe-Qk
+	for lists+qemu-devel@lfdr.de; Tue, 05 Jan 2021 11:11:34 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52510)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <steven.sistare@oracle.com>)
- id 1kwouU-0005Rh-Pb
- for qemu-devel@nongnu.org; Tue, 05 Jan 2021 11:10:14 -0500
-Received: from aserp2130.oracle.com ([141.146.126.79]:35418)
+ id 1kwotW-0003tj-0v
+ for qemu-devel@nongnu.org; Tue, 05 Jan 2021 11:09:14 -0500
+Received: from aserp2130.oracle.com ([141.146.126.79]:34386)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <steven.sistare@oracle.com>)
- id 1kwouP-0004om-85
- for qemu-devel@nongnu.org; Tue, 05 Jan 2021 11:10:14 -0500
+ id 1kwotT-0003hM-Fj
+ for qemu-devel@nongnu.org; Tue, 05 Jan 2021 11:09:13 -0500
 Received: from pps.filterd (aserp2130.oracle.com [127.0.0.1])
- by aserp2130.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 105FsjBE094307;
- Tue, 5 Jan 2021 16:09:04 GMT
+ by aserp2130.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 105FsoaJ094338;
+ Tue, 5 Jan 2021 16:09:05 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com;
  h=from : to : cc :
  subject : date : message-id : in-reply-to : references; s=corp-2020-01-29;
- bh=m2hIOO7ZwaMGAjBO7ZUaLW022oomIk0QTUel1nQiT5I=;
- b=IFPogBhtNmQJ8oE+K9bkboOPsfnIEl5AkkxX1XnsNhnHMMl7hDpd3BjaYz6Yljn99gmO
- TNRzD1+VdRImEmsQrh92u8H+GJGBkz3RD64ZW4Hai15bLncUYxsMSHJDYxq+a0KJKwdZ
- QvfMVofjG7wQALO7aMJaSK49si5wfDTNayn1yBhnJN0gOK57nbfPnRuRupFyl5tjHBgK
- jyVq8xhNvsHAqF+zJy8GL48OOmb6nl5NaJI0Pd5sq7MOjd79J+BuTAxmodW8tgUlw9r2
- Pk51pV1OBCH0ZMjxdy1dFTJjKXh5ROSfH49YStntUeDqycoZzuv+DbfjutfBt+lFYdjN Bg== 
-Received: from userp3030.oracle.com (userp3030.oracle.com [156.151.31.80])
- by aserp2130.oracle.com with ESMTP id 35tebasjux-1
+ bh=YFQkhznQxjTO6NEXmhjeeH2hxbKGgW+p36KRJn05l4s=;
+ b=yXJpb5ePb5kn0dnJTczy5k/YRxw2xrXIpe/PvbLL8ZHSn8BfwhkKPKOvMB+4DIIRpdXF
+ tZZmX7nqMM6MQG652fBSso3pbbZ0uclAPjgt9a+HvqXKbCywwshLAihXzaMxhNkFbAta
+ icr9DWCNfqLwHTbNcP4imVd4CHtvQE+gspZNeHmvoy/x3KQ5XYVXqbURrJuFC6RZcosT
+ zPRtHeuBcXyT6Webzea7SqWqx1ch+gaZh6deQtQJpFBA9WW9mhN15xD5NaEd2aYZcJ+d
+ 0yAfN8sPshMyZeYzbKRlbia3A/+9zjdbJdDnAjf2OmXYWUK6ASIYlEH3J+77GDuwJGVp EQ== 
+Received: from aserp3030.oracle.com (aserp3030.oracle.com [141.146.126.71])
+ by aserp2130.oracle.com with ESMTP id 35tebasjv2-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=FAIL);
- Tue, 05 Jan 2021 16:09:04 +0000
-Received: from pps.filterd (userp3030.oracle.com [127.0.0.1])
- by userp3030.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 105FtLnY175890;
- Tue, 5 Jan 2021 16:09:03 GMT
-Received: from userv0122.oracle.com (userv0122.oracle.com [156.151.31.75])
- by userp3030.oracle.com with ESMTP id 35vct61vjm-1
+ Tue, 05 Jan 2021 16:09:05 +0000
+Received: from pps.filterd (aserp3030.oracle.com [127.0.0.1])
+ by aserp3030.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 105FuRb4026639;
+ Tue, 5 Jan 2021 16:09:04 GMT
+Received: from userv0121.oracle.com (userv0121.oracle.com [156.151.31.72])
+ by aserp3030.oracle.com with ESMTP id 35v4rbjfa1-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Tue, 05 Jan 2021 16:09:03 +0000
+ Tue, 05 Jan 2021 16:09:04 +0000
 Received: from abhmp0011.oracle.com (abhmp0011.oracle.com [141.146.116.17])
- by userv0122.oracle.com (8.14.4/8.14.4) with ESMTP id 105G91Y1020380;
- Tue, 5 Jan 2021 16:09:01 GMT
+ by userv0121.oracle.com (8.14.4/8.13.8) with ESMTP id 105G92ew018278;
+ Tue, 5 Jan 2021 16:09:02 GMT
 Received: from ca-dev63.us.oracle.com (/10.211.8.221)
  by default (Oracle Beehive Gateway v4.0)
- with ESMTP ; Tue, 05 Jan 2021 08:09:01 -0800
+ with ESMTP ; Tue, 05 Jan 2021 08:09:02 -0800
 From: Steve Sistare <steven.sistare@oracle.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH V2 02/22] qemu_ram_volatile
-Date: Tue,  5 Jan 2021 07:41:50 -0800
-Message-Id: <1609861330-129855-3-git-send-email-steven.sistare@oracle.com>
+Subject: [PATCH V2 03/22] oslib: qemu_clr_cloexec
+Date: Tue,  5 Jan 2021 07:41:51 -0800
+Message-Id: <1609861330-129855-4-git-send-email-steven.sistare@oracle.com>
 X-Mailer: git-send-email 1.8.3.1
 In-Reply-To: <1609861330-129855-1-git-send-email-steven.sistare@oracle.com>
 References: <1609861330-129855-1-git-send-email-steven.sistare@oracle.com>
 X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9855
  signatures=668683
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 adultscore=0
- malwarescore=0
- phishscore=0 bulkscore=0 mlxlogscore=999 suspectscore=0 mlxscore=0
- spamscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2009150000 definitions=main-2101050099
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 mlxlogscore=999
+ mlxscore=0 bulkscore=0
+ suspectscore=0 spamscore=0 adultscore=0 malwarescore=0 phishscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2009150000
+ definitions=main-2101050099
 X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9855
  signatures=668683
 X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 suspectscore=0
  phishscore=0
- priorityscore=1501 spamscore=0 mlxscore=0 clxscore=1011 bulkscore=0
+ priorityscore=1501 spamscore=0 mlxscore=0 clxscore=1015 bulkscore=0
  lowpriorityscore=0 impostorscore=0 mlxlogscore=999 adultscore=0
  malwarescore=0 classifier=spam adjust=0 reason=mlx scancount=1
  engine=8.12.0-2009150000 definitions=main-2101050099
@@ -107,83 +107,63 @@ Cc: "Daniel P. Berrange" <berrange@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Add a function that returns true if any ram_list block represents
-volatile memory.
+Define qemu_clr_cloexec, analogous to qemu_set_cloexec.
 
+Reviewed-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
 Signed-off-by: Steve Sistare <steven.sistare@oracle.com>
 ---
- exec.c                | 30 ++++++++++++++++++++++++++++++
- include/exec/memory.h |  8 ++++++++
- slirp                 |  2 +-
- 3 files changed, 39 insertions(+), 1 deletion(-)
+ include/qemu/osdep.h | 1 +
+ util/oslib-posix.c   | 9 +++++++++
+ util/oslib-win32.c   | 4 ++++
+ 3 files changed, 14 insertions(+)
 
-diff --git a/exec.c b/exec.c
-index 6f381f9..d1f31b4 100644
---- a/exec.c
-+++ b/exec.c
-@@ -2726,6 +2726,36 @@ ram_addr_t qemu_ram_addr_from_host(void *ptr)
-     return block->offset + offset;
+diff --git a/include/qemu/osdep.h b/include/qemu/osdep.h
+index 20872e7..d7d67f2 100644
+--- a/include/qemu/osdep.h
++++ b/include/qemu/osdep.h
+@@ -554,6 +554,7 @@ static inline void qemu_timersub(const struct timeval *val1,
+ #endif
+ 
+ void qemu_set_cloexec(int fd);
++void qemu_clr_cloexec(int fd);
+ 
+ /* Starting on QEMU 2.5, qemu_hw_version() returns "2.5+" by default
+  * instead of QEMU_VERSION, so setting hw_version on MachineClass
+diff --git a/util/oslib-posix.c b/util/oslib-posix.c
+index ad8001a..9e3b477 100644
+--- a/util/oslib-posix.c
++++ b/util/oslib-posix.c
+@@ -314,6 +314,15 @@ void qemu_set_cloexec(int fd)
+     assert(f != -1);
  }
  
-+/*
-+ * Return true if any memory regions are writable and not backed by shared
-+ * memory.
-+ */
-+bool qemu_ram_volatile(Error **errp)
++void qemu_clr_cloexec(int fd)
 +{
-+    RAMBlock *block;
-+    MemoryRegion *mr;
-+    bool ret = false;
-+
-+    rcu_read_lock();
-+    QLIST_FOREACH_RCU(block, &ram_list.blocks, next) {
-+        mr = block->mr;
-+        if (mr &&
-+            memory_region_is_ram(mr) &&
-+            !memory_region_is_ram_device(mr) &&
-+            !memory_region_is_rom(mr) &&
-+            (block->fd == -1 || !qemu_ram_is_shared(block))) {
-+
-+            error_setg(errp, "Memory region %s is volatile",
-+                       memory_region_name(mr));
-+            ret = true;
-+            break;
-+        }
-+    }
-+
-+    rcu_read_unlock();
-+    return ret;
++    int f;
++    f = fcntl(fd, F_GETFD);
++    assert(f != -1);
++    f = fcntl(fd, F_SETFD, f & ~FD_CLOEXEC);
++    assert(f != -1);
 +}
 +
- /* Generate a debug exception if a watchpoint has been hit.  */
- void cpu_check_watchpoint(CPUState *cpu, vaddr addr, vaddr len,
-                           MemTxAttrs attrs, int flags, uintptr_t ra)
-diff --git a/include/exec/memory.h b/include/exec/memory.h
-index 8dba065..6115a01 100644
---- a/include/exec/memory.h
-+++ b/include/exec/memory.h
-@@ -2522,6 +2522,14 @@ bool ram_block_discard_is_disabled(void);
+ /*
+  * Creates a pipe with FD_CLOEXEC set on both file descriptors
   */
- bool ram_block_discard_is_required(void);
+diff --git a/util/oslib-win32.c b/util/oslib-win32.c
+index c654daf..42eb2cc 100644
+--- a/util/oslib-win32.c
++++ b/util/oslib-win32.c
+@@ -254,6 +254,10 @@ void qemu_set_cloexec(int fd)
+ {
+ }
  
-+/**
-+ * qemu_ram_volatile: return true if any memory regions are writable and not
-+ * backed by shared memory.
-+ *
-+ * @errp: returned error message identifying the bad region.
-+ */
-+bool qemu_ram_volatile(Error **errp);
++void qemu_clr_cloexec(int fd)
++{
++}
 +
- #endif
+ /* Offset between 1/1/1601 and 1/1/1970 in 100 nanosec units */
+ #define _W32_FT_OFFSET (116444736000000000ULL)
  
- #endif
-diff --git a/slirp b/slirp
-index ce94eba..a62d367 160000
---- a/slirp
-+++ b/slirp
-@@ -1 +1 @@
--Subproject commit ce94eba2042d52a0ba3d9e252ebce86715e94275
-+Subproject commit a62d36734ffe9828d0f70df1b3898a3b4fbda755
 -- 
 1.8.3.1
 
