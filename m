@@ -2,64 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9B0962EA356
-	for <lists+qemu-devel@lfdr.de>; Tue,  5 Jan 2021 03:27:19 +0100 (CET)
-Received: from localhost ([::1]:44730 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 072E12EA35A
+	for <lists+qemu-devel@lfdr.de>; Tue,  5 Jan 2021 03:28:42 +0100 (CET)
+Received: from localhost ([::1]:47922 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kwc46-0007GK-No
-	for lists+qemu-devel@lfdr.de; Mon, 04 Jan 2021 21:27:18 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56250)
+	id 1kwc5R-00008r-3I
+	for lists+qemu-devel@lfdr.de; Mon, 04 Jan 2021 21:28:41 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57460)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <osy86github@gmail.com>)
- id 1kwbyG-0000nQ-2f; Mon, 04 Jan 2021 21:21:16 -0500
-Received: from mail-pf1-f178.google.com ([209.85.210.178]:44168)
+ (Exim 4.90_1) (envelope-from <wlosh@bsdimp.com>) id 1kwc4Q-00088x-5G
+ for qemu-devel@nongnu.org; Mon, 04 Jan 2021 21:27:38 -0500
+Received: from mail-qt1-x82f.google.com ([2607:f8b0:4864:20::82f]:42631)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <osy86github@gmail.com>)
- id 1kwbyA-000218-S4; Mon, 04 Jan 2021 21:21:15 -0500
-Received: by mail-pf1-f178.google.com with SMTP id a188so4849795pfa.11;
- Mon, 04 Jan 2021 18:21:07 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <wlosh@bsdimp.com>) id 1kwc4O-00048h-4i
+ for qemu-devel@nongnu.org; Mon, 04 Jan 2021 21:27:37 -0500
+Received: by mail-qt1-x82f.google.com with SMTP id z3so19953085qtw.9
+ for <qemu-devel@nongnu.org>; Mon, 04 Jan 2021 18:27:35 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=bsdimp-com.20150623.gappssmtp.com; s=20150623;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=DLKSISxkYyn6r9lurs3p80973n5DBASAi50uEZGUgCw=;
+ b=Qr+gD26En2vA+YnqkfAvqK++4a2igY2kphDsSueH8pNry8wUXWFgd2TXVJAyfE45nw
+ HQLk3B30kEko886pZ7CCbIwOKpWvzTEV3pkKLnMpCsF9X2XnOZQjHrzetNB+ngbrGUg4
+ Jjmln2y7HkPa/DJrFggHwqemodSODC/iD0PsusM0At0kk309w3Rs0YU+zdrhNu0qzI31
+ Vc3K/jHLKJ7M0zijLC3qnezs+1V8dbXyNZickXdT+Of2CpebhmHBeGRhrFkPfWxuri+c
+ J6F312ZRd1i0qgb9AY7L5p84hYuiu7iuLDwrP78EAj+EbjkTtEpfmZu/Xh3VFfHH4cMs
+ Omig==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=2beqqzeGhDVR66ppVSfUzIPL472cxrqAoVT6lzv9HXY=;
- b=rLjpICn6GH8KT+vDp+TQE8KpBfzbHPkraC+oh4oWMymr7ZwlXGvyQJKww3rTAxY3H1
- bqxwbRBmSrfgGrG/bmHLSXKoF4UEiNsF0Nv2FNxpE8CUlXqdKLQ6V1Z7gq/t1Vg6nj/6
- gd0g52GXvwuHtIMb66PmcjBH3Ar4qIZf9B2uTU9T77Pk4uxacNve/9d8H9UCcjHv2DW0
- rZ+SS3x5y8EjJP7t66RnfyLzU+nqQKBIF2cMiZmm4bQz6Bo9R8CQ/IjyDs3AP7j16H5Q
- waYujbDBmH8lOOhwtZEfEIB0Aon9qTuPh7Ai7/yqVuPRbjlboCQutj63nCwrklTfQOI9
- Agww==
-X-Gm-Message-State: AOAM531Vx/n4X6Zkxx+c2TYut26RznquLqCQfFesY3GlzoSPgfyaentz
- akF7Mrw/J7t/mUJRbwwqnEqN20c8x48=
-X-Google-Smtp-Source: ABdhPJyoUpWlEImryPuPMXtw6Auz0GT4ete79/haeGmotxXm2ha+BhzkNUEm5hku+WmM8t2rxSH2hg==
-X-Received: by 2002:aa7:8159:0:b029:1a5:54e4:7cf2 with SMTP id
- d25-20020aa781590000b02901a554e47cf2mr45214006pfn.69.1609813266858; 
- Mon, 04 Jan 2021 18:21:06 -0800 (PST)
-Received: from localhost.localdomain ([73.93.154.186])
- by smtp.gmail.com with ESMTPSA id y27sm57674386pfr.78.2021.01.04.18.21.05
- (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
- Mon, 04 Jan 2021 18:21:06 -0800 (PST)
-From: Joelle van Dyne <j@getutm.app>
-To: qemu-devel@nongnu.org
-Subject: [PATCH v6 7/7] block: check availablity for preadv/pwritev on mac
-Date: Mon,  4 Jan 2021 18:20:55 -0800
-Message-Id: <20210105022055.12113-8-j@getutm.app>
-X-Mailer: git-send-email 2.28.0
-In-Reply-To: <20210105022055.12113-1-j@getutm.app>
-References: <20210105022055.12113-1-j@getutm.app>
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=DLKSISxkYyn6r9lurs3p80973n5DBASAi50uEZGUgCw=;
+ b=rldtsUTYbiIoWwEG3ThEPZz+N8A96nQ2pn2pNN8netv6c2GdMzHnQkKia2Bv/jp/Iy
+ ppo4nUQEtwKWLq+nQzXzB3tb3G6L3Ygos/ETrAZPYeBpP4yFC5O7XiVdhLS9HxY2fNjL
+ UnYqMY1dPVFTKkCrCSOaVkqEssMT3yrJ43qrbaeihAkiZfk2DRYPC7nZpCkT61FHsran
+ Rd0xgE1TnBMVFP6s88Hbi276l72haYIxtlYWgCBy3i1+l8u90nvqrD0UHdtfLf0r0myO
+ Co3Wc6QKpyPQ+AJp1teWrsLh2Va1wOu/FK0/5SXSYo2RYF5ZblNtk3L7/HOe3SO1raz5
+ h8XA==
+X-Gm-Message-State: AOAM5328vTBR+Ux7Ro/J0lhLTzYzkcZWkXm97BJoo69UhhwpfBkzqUn9
+ hMpDWE0HBlEksqvAvWwBT3dDvaqdOEPgButo8XEhqg==
+X-Google-Smtp-Source: ABdhPJyMpkG94KzkLQgqdzi6suUh4OhhpAOSayFU9H8X8wQ2vAOk9lMoJGOivp1bQPqUdEAeLvdCfuovlJdDvnQj+GI=
+X-Received: by 2002:ac8:58d2:: with SMTP id u18mr72344875qta.235.1609813654700; 
+ Mon, 04 Jan 2021 18:27:34 -0800 (PST)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=209.85.210.178;
- envelope-from=osy86github@gmail.com; helo=mail-pf1-f178.google.com
-X-Spam_score_int: -13
-X-Spam_score: -1.4
+References: <20201218205451.10559-1-imp@freebsd.org>
+In-Reply-To: <20201218205451.10559-1-imp@freebsd.org>
+From: Warner Losh <imp@bsdimp.com>
+Date: Mon, 4 Jan 2021 19:27:23 -0700
+Message-ID: <CANCZdfpVGk5yhqBtDoW9mXS3cSaSsMy-kLGEjB0Sb6HoNcW-7g@mail.gmail.com>
+Subject: Re: [PATCH 0/4] A few preliminary bsd-user patches
+To: Warner Losh <imp@freebsd.org>
+Content-Type: multipart/alternative; boundary="0000000000000b17a505b81df318"
+Received-SPF: none client-ip=2607:f8b0:4864:20::82f;
+ envelope-from=wlosh@bsdimp.com; helo=mail-qt1-x82f.google.com
+X-Spam_score_int: -18
+X-Spam_score: -1.9
 X-Spam_bar: -
-X-Spam_report: (-1.4 / 5.0 requ) BAYES_00=-1.9,
- FREEMAIL_FORGED_FROMDOMAIN=0.248, FREEMAIL_FROM=0.001,
- HEADER_FROM_DIFFERENT_DOMAINS=0.248, RCVD_IN_DNSWL_NONE=-0.0001,
- RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001,
+ SPF_HELO_NONE=0.001, SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -72,77 +74,197 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, Roman Bolshakov <r.bolshakov@yadro.com>,
- Joelle van Dyne <j@getutm.app>, "open list:raw" <qemu-block@nongnu.org>,
- Max Reitz <mreitz@redhat.com>
+Cc: QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-macOS 11/iOS 14 added preadv/pwritev APIs. Due to weak linking, configure
-will succeed with CONFIG_PREADV even when targeting a lower OS version.
-We therefore need to check at run time if we can actually use these APIs.
+--0000000000000b17a505b81df318
+Content-Type: text/plain; charset="UTF-8"
 
-Signed-off-by: Joelle van Dyne <j@getutm.app>
----
- block/file-posix.c | 33 +++++++++++++++++++++++++++++++++
- 1 file changed, 33 insertions(+)
+On Fri, Dec 18, 2020 at 1:55 PM <imp@freebsd.org> wrote:
 
-diff --git a/block/file-posix.c b/block/file-posix.c
-index 9f556322e6..f109e1f305 100644
---- a/block/file-posix.c
-+++ b/block/file-posix.c
-@@ -1390,17 +1390,50 @@ static int handle_aiocb_flush(void *opaque)
- #ifdef CONFIG_PREADV
- 
- static bool preadv_present = true;
-+static bool preadv_checked;
- 
- static ssize_t
- qemu_preadv(int fd, const struct iovec *iov, int nr_iov, off_t offset)
- {
-+#ifdef CONFIG_DARWIN /* preadv introduced in macOS 11 */
-+    if (unlikely(!preadv_checked)) {
-+        if (__builtin_available(macOS 11, iOS 14, watchOS 7, tvOS 14, *)) {
-+            preadv_checked = true;
-+        } else {
-+            preadv_present = false;
-+            return -ENOSYS;
-+        }
-+    }
-+    /* Now we suppress the availability warning since we use the cached check */
-+#pragma clang diagnostic push
-+#pragma clang diagnostic ignored "-Wunguarded-availability-new"
-+    return preadv(fd, iov, nr_iov, offset);
-+#pragma clang diagnostic pop
-+#else /* CONFIG_DARWIN */
-     return preadv(fd, iov, nr_iov, offset);
-+#endif
- }
- 
- static ssize_t
- qemu_pwritev(int fd, const struct iovec *iov, int nr_iov, off_t offset)
- {
-+#ifdef CONFIG_DARWIN /* preadv introduced in macOS 11 */
-+    if (unlikely(!preadv_checked)) {
-+        if (__builtin_available(macOS 11, iOS 14, watchOS 7, tvOS 14, *)) {
-+            preadv_checked = true;
-+        } else {
-+            preadv_present = false;
-+            return -ENOSYS;
-+        }
-+    }
-+    /* Now we suppress the availability warning since we use the cached check */
-+#pragma clang diagnostic push
-+#pragma clang diagnostic ignored "-Wunguarded-availability-new"
-+    return pwritev(fd, iov, nr_iov, offset);
-+#pragma clang diagnostic pop
-+#else /* CONFIG_DARWIN */
-     return pwritev(fd, iov, nr_iov, offset);
-+#endif
- }
- 
- #else
--- 
-2.28.0
+> From: Warner Losh <imp@freebsd.org>
+>
+> Here's the first round of bsd-user patches. There's on the order of 280
+> that
+> we've done, but that's too much to review all at once. In addition, 3.1
+> release
+> was the last rebase point that we've been successful with for a number of
+> reasons
+> unrelated to qemu. Now that those have been resolved, we have a new push
+> under way
+> to push things forward, but wanted to upstream as many of the patches as
+> we can
+> directly to qemu's head to lighten the load of carrying all these.
+>
+> This first small series updates the system call lists, moves things around
+> to
+> make it easier to support divergence in the BSD world, and adjusts to the
+> new
+> meson build. It's also designed to help me learn how to land such a large
+> set
+> upstream.
+>
+> These patches have passed through several hands, with different tweaks
+> over the
+> years so have an unusually large number of signed-off-by lines that are the
+> result of this refinement process where several hands have touched the
+> patches
+> in the last 7 years.
+>
+> Sean Bruno (1):
+>   tcg: Additional Trap type for FreeBSD
+>
+> Stacey Son (1):
+>   bsd-user: move strace OS/arch dependent code to host/arch dirs
+>
+> Warner Losh (2):
+>   bsd-user: regenerate FreeBSD's system call numbers
+>   bsd-user: Update strace.list for FreeBSD's latest syscalls
+>
+>  accel/tcg/user-exec.c                  |   8 +-
+>  bsd-user/arm/target_arch_sysarch.h     |  78 +++
+>  bsd-user/arm/target_syscall.h          |  36 ++
+>  bsd-user/freebsd/os-strace.h           |  29 ++
+>  bsd-user/freebsd/strace.list           |  65 ++-
+>  bsd-user/freebsd/syscall_nr.h          | 695 ++++++++++++++-----------
+>  bsd-user/i386/target_arch_sysarch.h    |  77 +++
+>  bsd-user/i386/target_syscall.h         |  19 +
+>  bsd-user/mips/target_arch_sysarch.h    |  69 +++
+>  bsd-user/mips/target_syscall.h         |  52 ++
+>  bsd-user/mips64/target_arch_sysarch.h  |  69 +++
+>  bsd-user/mips64/target_syscall.h       |  53 ++
+>  bsd-user/netbsd/os-strace.h            |   1 +
+>  bsd-user/openbsd/os-strace.h           |   1 +
+>  bsd-user/sparc/target_arch_sysarch.h   |  52 ++
+>  bsd-user/sparc/target_syscall.h        |  24 +-
+>  bsd-user/sparc64/target_arch_sysarch.h |  52 ++
+>  bsd-user/sparc64/target_syscall.h      |  24 +-
+>  bsd-user/strace.c                      |  11 +
+>  bsd-user/x86_64/target_arch_sysarch.h  |  76 +++
+>  bsd-user/x86_64/target_syscall.h       |  21 +-
+>  meson.build                            |   1 +
+>  22 files changed, 1186 insertions(+), 327 deletions(-)
+>  create mode 100644 bsd-user/arm/target_arch_sysarch.h
+>  create mode 100644 bsd-user/arm/target_syscall.h
+>  create mode 100644 bsd-user/freebsd/os-strace.h
+>  create mode 100644 bsd-user/i386/target_arch_sysarch.h
+>  create mode 100644 bsd-user/mips/target_arch_sysarch.h
+>  create mode 100644 bsd-user/mips/target_syscall.h
+>  create mode 100644 bsd-user/mips64/target_arch_sysarch.h
+>  create mode 100644 bsd-user/mips64/target_syscall.h
+>  create mode 100644 bsd-user/netbsd/os-strace.h
+>  create mode 100644 bsd-user/openbsd/os-strace.h
+>  create mode 100644 bsd-user/sparc/target_arch_sysarch.h
+>  create mode 100644 bsd-user/sparc64/target_arch_sysarch.h
+>  create mode 100644 bsd-user/x86_64/target_arch_sysarch.h
+>
 
+ping?
+
+--0000000000000b17a505b81df318
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div dir=3D"ltr"><br></div><br><div class=3D"gmail_quote">=
+<div dir=3D"ltr" class=3D"gmail_attr">On Fri, Dec 18, 2020 at 1:55 PM &lt;<=
+a href=3D"mailto:imp@freebsd.org">imp@freebsd.org</a>&gt; wrote:<br></div><=
+blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-l=
+eft:1px solid rgb(204,204,204);padding-left:1ex">From: Warner Losh &lt;<a h=
+ref=3D"mailto:imp@freebsd.org" target=3D"_blank">imp@freebsd.org</a>&gt;<br=
+>
+<br>
+Here&#39;s the first round of bsd-user patches. There&#39;s on the order of=
+ 280 that<br>
+we&#39;ve done, but that&#39;s too much to review all at once. In addition,=
+ 3.1 release<br>
+was the last rebase point that we&#39;ve been successful with for a number =
+of reasons<br>
+unrelated to qemu. Now that those have been resolved, we have a new push un=
+der way<br>
+to push things forward, but wanted to upstream as many of the patches as we=
+ can<br>
+directly to qemu&#39;s head to lighten the load of carrying all these.<br>
+<br>
+This first small series updates the system call lists, moves things around =
+to<br>
+make it easier to support divergence in the BSD world, and adjusts to the n=
+ew<br>
+meson build. It&#39;s also designed to help me learn how to land such a lar=
+ge set<br>
+upstream.<br>
+<br>
+These patches have passed through several hands, with different tweaks over=
+ the<br>
+years so have an unusually large number of signed-off-by lines that are the=
+<br>
+result of this refinement process where several hands have touched the patc=
+hes<br>
+in the last 7 years.<br>
+<br>
+Sean Bruno (1):<br>
+=C2=A0 tcg: Additional Trap type for FreeBSD<br>
+<br>
+Stacey Son (1):<br>
+=C2=A0 bsd-user: move strace OS/arch dependent code to host/arch dirs<br>
+<br>
+Warner Losh (2):<br>
+=C2=A0 bsd-user: regenerate FreeBSD&#39;s system call numbers<br>
+=C2=A0 bsd-user: Update strace.list for FreeBSD&#39;s latest syscalls<br>
+<br>
+=C2=A0accel/tcg/user-exec.c=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
+ =C2=A0 =C2=A0 |=C2=A0 =C2=A08 +-<br>
+=C2=A0bsd-user/arm/target_arch_sysarch.h=C2=A0 =C2=A0 =C2=A0|=C2=A0 78 +++<=
+br>
+=C2=A0bsd-user/arm/target_syscall.h=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 |=C2=
+=A0 36 ++<br>
+=C2=A0bsd-user/freebsd/os-strace.h=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
+|=C2=A0 29 ++<br>
+=C2=A0bsd-user/freebsd/strace.list=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
+|=C2=A0 65 ++-<br>
+=C2=A0bsd-user/freebsd/syscall_nr.h=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 | 695=
+ ++++++++++++++-----------<br>
+=C2=A0bsd-user/i386/target_arch_sysarch.h=C2=A0 =C2=A0 |=C2=A0 77 +++<br>
+=C2=A0bsd-user/i386/target_syscall.h=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0|=C2=
+=A0 19 +<br>
+=C2=A0bsd-user/mips/target_arch_sysarch.h=C2=A0 =C2=A0 |=C2=A0 69 +++<br>
+=C2=A0bsd-user/mips/target_syscall.h=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0|=C2=
+=A0 52 ++<br>
+=C2=A0bsd-user/mips64/target_arch_sysarch.h=C2=A0 |=C2=A0 69 +++<br>
+=C2=A0bsd-user/mips64/target_syscall.h=C2=A0 =C2=A0 =C2=A0 =C2=A0|=C2=A0 53=
+ ++<br>
+=C2=A0bsd-user/netbsd/os-strace.h=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+|=C2=A0 =C2=A01 +<br>
+=C2=A0bsd-user/openbsd/os-strace.h=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
+|=C2=A0 =C2=A01 +<br>
+=C2=A0bsd-user/sparc/target_arch_sysarch.h=C2=A0 =C2=A0|=C2=A0 52 ++<br>
+=C2=A0bsd-user/sparc/target_syscall.h=C2=A0 =C2=A0 =C2=A0 =C2=A0 |=C2=A0 24=
+ +-<br>
+=C2=A0bsd-user/sparc64/target_arch_sysarch.h |=C2=A0 52 ++<br>
+=C2=A0bsd-user/sparc64/target_syscall.h=C2=A0 =C2=A0 =C2=A0 |=C2=A0 24 +-<b=
+r>
+=C2=A0bsd-user/strace.c=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 |=C2=A0 11 +<br>
+=C2=A0bsd-user/x86_64/target_arch_sysarch.h=C2=A0 |=C2=A0 76 +++<br>
+=C2=A0bsd-user/x86_64/target_syscall.h=C2=A0 =C2=A0 =C2=A0 =C2=A0|=C2=A0 21=
+ +-<br>
+=C2=A0meson.build=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 |=C2=A0 =C2=A01 +<br>
+=C2=A022 files changed, 1186 insertions(+), 327 deletions(-)<br>
+=C2=A0create mode 100644 bsd-user/arm/target_arch_sysarch.h<br>
+=C2=A0create mode 100644 bsd-user/arm/target_syscall.h<br>
+=C2=A0create mode 100644 bsd-user/freebsd/os-strace.h<br>
+=C2=A0create mode 100644 bsd-user/i386/target_arch_sysarch.h<br>
+=C2=A0create mode 100644 bsd-user/mips/target_arch_sysarch.h<br>
+=C2=A0create mode 100644 bsd-user/mips/target_syscall.h<br>
+=C2=A0create mode 100644 bsd-user/mips64/target_arch_sysarch.h<br>
+=C2=A0create mode 100644 bsd-user/mips64/target_syscall.h<br>
+=C2=A0create mode 100644 bsd-user/netbsd/os-strace.h<br>
+=C2=A0create mode 100644 bsd-user/openbsd/os-strace.h<br>
+=C2=A0create mode 100644 bsd-user/sparc/target_arch_sysarch.h<br>
+=C2=A0create mode 100644 bsd-user/sparc64/target_arch_sysarch.h<br>
+=C2=A0create mode 100644 bsd-user/x86_64/target_arch_sysarch.h<br></blockqu=
+ote><div><br></div><div>ping?=C2=A0</div></div></div>
+
+--0000000000000b17a505b81df318--
 
