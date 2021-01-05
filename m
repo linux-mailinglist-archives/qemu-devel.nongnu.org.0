@@ -2,66 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 072E12EA35A
-	for <lists+qemu-devel@lfdr.de>; Tue,  5 Jan 2021 03:28:42 +0100 (CET)
-Received: from localhost ([::1]:47922 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6C2702EA3A6
+	for <lists+qemu-devel@lfdr.de>; Tue,  5 Jan 2021 04:08:27 +0100 (CET)
+Received: from localhost ([::1]:53044 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kwc5R-00008r-3I
-	for lists+qemu-devel@lfdr.de; Mon, 04 Jan 2021 21:28:41 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57460)
+	id 1kwchu-0004uX-02
+	for lists+qemu-devel@lfdr.de; Mon, 04 Jan 2021 22:08:26 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35646)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <wlosh@bsdimp.com>) id 1kwc4Q-00088x-5G
- for qemu-devel@nongnu.org; Mon, 04 Jan 2021 21:27:38 -0500
-Received: from mail-qt1-x82f.google.com ([2607:f8b0:4864:20::82f]:42631)
+ (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
+ id 1kwcgI-0004ME-RB; Mon, 04 Jan 2021 22:06:46 -0500
+Received: from mail-yb1-xb29.google.com ([2607:f8b0:4864:20::b29]:35270)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <wlosh@bsdimp.com>) id 1kwc4O-00048h-4i
- for qemu-devel@nongnu.org; Mon, 04 Jan 2021 21:27:37 -0500
-Received: by mail-qt1-x82f.google.com with SMTP id z3so19953085qtw.9
- for <qemu-devel@nongnu.org>; Mon, 04 Jan 2021 18:27:35 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=bsdimp-com.20150623.gappssmtp.com; s=20150623;
+ (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
+ id 1kwcgC-0000CW-Ot; Mon, 04 Jan 2021 22:06:46 -0500
+Received: by mail-yb1-xb29.google.com with SMTP id u203so27946715ybb.2;
+ Mon, 04 Jan 2021 19:06:39 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=DLKSISxkYyn6r9lurs3p80973n5DBASAi50uEZGUgCw=;
- b=Qr+gD26En2vA+YnqkfAvqK++4a2igY2kphDsSueH8pNry8wUXWFgd2TXVJAyfE45nw
- HQLk3B30kEko886pZ7CCbIwOKpWvzTEV3pkKLnMpCsF9X2XnOZQjHrzetNB+ngbrGUg4
- Jjmln2y7HkPa/DJrFggHwqemodSODC/iD0PsusM0At0kk309w3Rs0YU+zdrhNu0qzI31
- Vc3K/jHLKJ7M0zijLC3qnezs+1V8dbXyNZickXdT+Of2CpebhmHBeGRhrFkPfWxuri+c
- J6F312ZRd1i0qgb9AY7L5p84hYuiu7iuLDwrP78EAj+EbjkTtEpfmZu/Xh3VFfHH4cMs
- Omig==
+ :cc; bh=mQXMT5mh4ntU2gzqVRv04YryteroNq6zIFzMYt/JJ7Y=;
+ b=cr8M6hBC7HimM6NQHUgQeqMIdgrxLrsioYHne7JV8UeMq2+4XTFA0qfi2fr2fvB3a8
+ m+KxQbHkhRcMQYWwtxhZgwaOyidGI8rXHdVJKzsWhF4StDE1cmGPiG8n1M6GypNEeQoT
+ z/i4L9UUjZyebiOkvpnLuMxpRn/dgt1x6lW34nhLRmiKkh7D2I/AS+zieDnaQinBmr7c
+ DooDo8RdZZ0/9E4KojKzBcz66IVhjiTYYgsRSndUyPLGXPZ28iY77qeLF7ryqvjOtcRN
+ 1FGst9J5Z+iGWzBVQ5Fr1GPnKtUnEQwfJLajMsExxgEcSebc1XQPE+IMdD++MQiel4RB
+ mziA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=DLKSISxkYyn6r9lurs3p80973n5DBASAi50uEZGUgCw=;
- b=rldtsUTYbiIoWwEG3ThEPZz+N8A96nQ2pn2pNN8netv6c2GdMzHnQkKia2Bv/jp/Iy
- ppo4nUQEtwKWLq+nQzXzB3tb3G6L3Ygos/ETrAZPYeBpP4yFC5O7XiVdhLS9HxY2fNjL
- UnYqMY1dPVFTKkCrCSOaVkqEssMT3yrJ43qrbaeihAkiZfk2DRYPC7nZpCkT61FHsran
- Rd0xgE1TnBMVFP6s88Hbi276l72haYIxtlYWgCBy3i1+l8u90nvqrD0UHdtfLf0r0myO
- Co3Wc6QKpyPQ+AJp1teWrsLh2Va1wOu/FK0/5SXSYo2RYF5ZblNtk3L7/HOe3SO1raz5
- h8XA==
-X-Gm-Message-State: AOAM5328vTBR+Ux7Ro/J0lhLTzYzkcZWkXm97BJoo69UhhwpfBkzqUn9
- hMpDWE0HBlEksqvAvWwBT3dDvaqdOEPgButo8XEhqg==
-X-Google-Smtp-Source: ABdhPJyMpkG94KzkLQgqdzi6suUh4OhhpAOSayFU9H8X8wQ2vAOk9lMoJGOivp1bQPqUdEAeLvdCfuovlJdDvnQj+GI=
-X-Received: by 2002:ac8:58d2:: with SMTP id u18mr72344875qta.235.1609813654700; 
- Mon, 04 Jan 2021 18:27:34 -0800 (PST)
+ bh=mQXMT5mh4ntU2gzqVRv04YryteroNq6zIFzMYt/JJ7Y=;
+ b=W0BexEPqVGawYOJ4Iv6LulsgSeDXMF4/GHuTo1Q6mBKozODu4H9LAh3tnvtU0MK7fM
+ T0kRn/7KiKt4MXR0UbQPJoICEnp//e6uMfEzuuGv5gAIJmpb3KKrb9GNPJroCUMsCVev
+ oQ2p8ZKbkHGUNCEeodESMNZnFdcNqIaI3CPIdA++fpwd+pxV1R7beQJxFAVvJz+ESFcC
+ m6F+JGCVbTxy6FtYNHfv0AWlv86/ls85iF91EN7wYI0GXFJOB+1Hgl0f48XBU9mpvqB7
+ 7GelN2utLWrivgB2EAOrTejE9qKowLRTJw60f3TB60M/MuxzerRPWlcB3FZ2YF0Yu+VD
+ O/Pw==
+X-Gm-Message-State: AOAM5304RmFOXa3rygFT9XIONccuAMbNsksEYnmjm78/T8HbsGQywa4I
+ Lzo90rdhvv2xZDXdlZoZsoc/81P9GLQ/eGviUh8=
+X-Google-Smtp-Source: ABdhPJxsdejT5+qjfG9qXa0fY+O03qhZjXBz7lipw73FxImeejS0NM1O+DxZgKP/jDuM1HZNrBwVoSk4FTGu1esEf7g=
+X-Received: by 2002:a25:e70e:: with SMTP id e14mr50442831ybh.332.1609815998393; 
+ Mon, 04 Jan 2021 19:06:38 -0800 (PST)
 MIME-Version: 1.0
-References: <20201218205451.10559-1-imp@freebsd.org>
-In-Reply-To: <20201218205451.10559-1-imp@freebsd.org>
-From: Warner Losh <imp@bsdimp.com>
-Date: Mon, 4 Jan 2021 19:27:23 -0700
-Message-ID: <CANCZdfpVGk5yhqBtDoW9mXS3cSaSsMy-kLGEjB0Sb6HoNcW-7g@mail.gmail.com>
-Subject: Re: [PATCH 0/4] A few preliminary bsd-user patches
-To: Warner Losh <imp@freebsd.org>
-Content-Type: multipart/alternative; boundary="0000000000000b17a505b81df318"
-Received-SPF: none client-ip=2607:f8b0:4864:20::82f;
- envelope-from=wlosh@bsdimp.com; helo=mail-qt1-x82f.google.com
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001,
- SPF_HELO_NONE=0.001, SPF_NONE=0.001 autolearn=ham autolearn_force=no
+References: <20201217214826.2094617-1-atish.patra@wdc.com>
+ <CAEUhbmUqJdpuqvZ6V3s9eeW=EUVXrnjbF5GRmygwaZhMGG-6sA@mail.gmail.com>
+ <4f09804c0e35a45fcf3fa78b3f3ed55276d6e10f.camel@wdc.com>
+ <CAEUhbmX16h5S5Y0kFsnDv6t2cnn6we-b-9U_cbnEQkrrckYy0w@mail.gmail.com>
+ <67cbbde886c3ae6e57e837e79f466f4156a910f8.camel@wdc.com>
+ <CAEUhbmVEAxf3OCp=89MCx7qQiN0wKd3QM4k8t20r9Sbq+JA_-w@mail.gmail.com>
+ <df986ea726abea58fedd1a870095378456823d2a.camel@wdc.com>
+ <CAEUhbmUK95YJ74_AJQ8wu9oBM6mDky2n5=pGR_UQE0AB4eXYtQ@mail.gmail.com>
+ <a33a44ff4ec9f16a5ff7649e2d8ed9d87c6bed64.camel@wdc.com>
+ <CAEUhbmXCyrAZzVzvSMSf+FOt5g-jHpk2X6j=00rQNmJKYoXSAA@mail.gmail.com>
+ <CAEUhbmWB6RMX8L2YzYYBhFKuKUgFVx2s2jTER1QEAW6j_VsqKQ@mail.gmail.com>
+ <4db194da3ea2eebdbe9c31e102faafc3f0e570a4.camel@wdc.com>
+In-Reply-To: <4db194da3ea2eebdbe9c31e102faafc3f0e570a4.camel@wdc.com>
+From: Bin Meng <bmeng.cn@gmail.com>
+Date: Tue, 5 Jan 2021 11:06:26 +0800
+Message-ID: <CAEUhbmXVzWf5_arW4ivNd2o1=YdZ456pdXRw5k0HeZovg96aRQ@mail.gmail.com>
+Subject: Re: [PATCH] RISC-V: Place DTB at 3GB boundary instead of 4GB
+To: Atish Patra <Atish.Patra@wdc.com>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::b29;
+ envelope-from=bmeng.cn@gmail.com; helo=mail-yb1-xb29.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -74,197 +85,359 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: QEMU Developers <qemu-devel@nongnu.org>
+Cc: "qemu-riscv@nongnu.org" <qemu-riscv@nongnu.org>,
+ "sagark@eecs.berkeley.edu" <sagark@eecs.berkeley.edu>,
+ "kbastian@mail.uni-paderborn.de" <kbastian@mail.uni-paderborn.de>,
+ Anup Patel <Anup.Patel@wdc.com>,
+ "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
+ Alistair Francis <Alistair.Francis@wdc.com>,
+ "palmer@dabbelt.com" <palmer@dabbelt.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---0000000000000b17a505b81df318
-Content-Type: text/plain; charset="UTF-8"
+Hi Atish,
 
-On Fri, Dec 18, 2020 at 1:55 PM <imp@freebsd.org> wrote:
+On Tue, Jan 5, 2021 at 4:24 AM Atish Patra <Atish.Patra@wdc.com> wrote:
+>
+> On Tue, 2020-12-29 at 12:49 +0800, Bin Meng wrote:
+> > Hi Atish,
+> >
+> > On Wed, Dec 23, 2020 at 9:20 AM Bin Meng <bmeng.cn@gmail.com> wrote:
+> > >
+> > > Hi Atish,
+> > >
+> > > On Wed, Dec 23, 2020 at 3:59 AM Atish Patra <Atish.Patra@wdc.com>
+> > > wrote:
+> > > >
+> > > > On Tue, 2020-12-22 at 13:35 +0800, Bin Meng wrote:
+> > > > > Hi Atish,
+> > > > >
+> > > > > On Sat, Dec 19, 2020 at 3:46 AM Atish Patra <
+> > > > > Atish.Patra@wdc.com>
+> > > > > wrote:
+> > > > > >
+> > > > > > On Fri, 2020-12-18 at 16:42 +0800, Bin Meng wrote:
+> > > > > > > Hi Atish,
+> > > > > > >
+> > > > > > > On Fri, Dec 18, 2020 at 4:00 PM Atish Patra <
+> > > > > > > Atish.Patra@wdc.com>
+> > > > > > > wrote:
+> > > > > > > >
+> > > > > > > > On Fri, 2020-12-18 at 15:33 +0800, Bin Meng wrote:
+> > > > > > > > > Hi Atish,
+> > > > > > > > >
+> > > > > > > > > On Fri, Dec 18, 2020 at 3:27 PM Atish Patra <
+> > > > > > > > > Atish.Patra@wdc.com>
+> > > > > > > > > wrote:
+> > > > > > > > > >
+> > > > > > > > > > On Fri, 2020-12-18 at 15:21 +0800, Bin Meng wrote:
+> > > > > > > > > > > Hi Atish,
+> > > > > > > > > > >
+> > > > > > > > > > > On Fri, Dec 18, 2020 at 5:48 AM Atish Patra
+> > > > > > > > > > > <atish.patra@wdc.com>
+> > > > > > > > > > > wrote:
+> > > > > > > > > > > >
+> > > > > > > > > > > > Currently, we place the DTB at 2MB from 4GB or
+> > > > > > > > > > > > end of
+> > > > > > > > > > > > DRAM
+> > > > > > > > > > > > which
+> > > > > > > > > > > > ever is
+> > > > > > > > > > > > lesser. However, Linux kernel can address only
+> > > > > > > > > > > > 1GB of
+> > > > > > > > > > > > memory
+> > > > > > > > > > > > for
+> > > > > > > > > > > > RV32.
+> > > > > > > > > > > > Thus, it can not map anything beyond 3GB
+> > > > > > > > > > > > (assuming 2GB
+> > > > > > > > > > > > is
+> > > > > > > > > > > > the
+> > > > > > > > > > > > starting address).
+> > > > > > > > > > > > As a result, it can not process DT and panic if
+> > > > > > > > > > > > opensbi
+> > > > > > > > > > > > dynamic
+> > > > > > > > > > > > firmware
+> > > > > > > > > > > > is used.
+> > > > > > > > > > > >
+> > > > > > > > > > > > Fix this by placing the DTB at 2MB from 3GB or
+> > > > > > > > > > > > end of
+> > > > > > > > > > > > DRAM
+> > > > > > > > > > > > whichever is lower.
+> > > > > > > > > > > >
+> > > > > > > > > > > > Signed-off-by: Atish Patra <atish.patra@wdc.com>
+> > > > > > > > > > > > ---
+> > > > > > > > > > > >  hw/riscv/boot.c | 4 ++--
+> > > > > > > > > > > >  1 file changed, 2 insertions(+), 2 deletions(-)
+> > > > > > > > > > > >
+> > > > > > > > > > >
+> > > > > > > > > > > With this patch, 32-bit sifive_u still does not
+> > > > > > > > > > > boot
+> > > > > > > > > > > kernel
+> > > > > > > > > > > with
+> > > > > > > > > > > the
+> > > > > > > > > > > following patch applied on 5.10:
+> > > > > > > > > > >
+> > > > > > > > > > > https://patchwork.kernel.org/project/linux-riscv/patch/20201217074855.1948743-1-atish.patra@wdc.com/
+> > > > > > > > > > >
+> > > > > > > > > > > Command I used:
+> > > > > > > > > > > $ qemu-system-riscv32 -nographic -M sifive_u -m 1G
+> > > > > > > > > > > -smp 5
+> > > > > > > > > > > -
+> > > > > > > > > > > kernel
+> > > > > > > > > > > arch/riscv/boot/Image
+> > > > > > > > > > >
+> > > > > > > > > > > 32-bit virt cannot boot the same kernel image with
+> > > > > > > > > > > memory
+> > > > > > > > > > > set
+> > > > > > > > > > > to
+> > > > > > > > > > > 2G
+> > > > > > > > > > > either:
+> > > > > > > > > > > $ qemu-system-riscv32 -nographic -M virt -m 2G -smp
+> > > > > > > > > > > 4 -
+> > > > > > > > > > > kernel
+> > > > > > > > > > > arch/riscv/boot/Image
+> > > > > > > > > > >
+> > > > > > > > > >
+> > > > > > > > > > Hi Bin,
+> > > > > > > > > > As mentioned in the email on the linux mailing list,
+> > > > > > > > > > this
+> > > > > > > > > > patch
+> > > > > > > > > > only
+> > > > > > > > > > solves 2GB problem. sifive_u problem is solved by
+> > > > > > > > > > Alistair's
+> > > > > > > > > > patch[1].
+> > > > > > > > > >
+> > > > > > > > > > He is planning to send the PR soon. The issue with
+> > > > > > > > > > sifive_u
+> > > > > > > > > > boot
+> > > > > > > > > > was it
+> > > > > > > > > > was failing the 32 bit test earlier resulting a 2MB
+> > > > > > > > > > aligned
+> > > > > > > > > > address
+> > > > > > > > > > instead of 4MB.
+> > > > > > > > >
+> > > > > > > > > Ah, I see. However my testing shows that virt with 2G
+> > > > > > > > > still
+> > > > > > > > > does
+> > > > > > > > > not
+> > > > > > > > > boot with this patch.
+> > > > > > > > >
+> > > > > > > >
+> > > > > > > > Strange. I verified again with following combination with
+> > > > > > > > -bios
+> > > > > > > > and
+> > > > > > > > without bios parameter.
+> > > > > > > >
+> > > > > > > > 1. virt 32/64 with 1GB/2GB memory
+> > > > > > > > 2. sifive_u 32/64 bit with 1GB/2GB memory (Alistair's
+> > > > > > > > patch
+> > > > > > > > included)
+> > > > > > > >
+> > > > > > > > Can you share the boot log along with the head commit of
+> > > > > > > > Qemu
+> > > > > > > > and
+> > > > > > > > commandline ? I am using 5.10 kernel with my kernel fix.
+> > > > > > > >
+> > > > > > >
+> > > > > > > I was using Alistair's QEMU repo for testing and 5.10
+> > > > > > > kernel with
+> > > > > > > your
+> > > > > > > kernel fix:
+> > > > > > >
+> > > > > > > $ git checkout -b testing pull-riscv-to-apply-20201217-1
+> > > > > > > $ apply this patch
+> > > > > > > $ mkdir build;cd build;../configure
+> > > > > > > --target-list=riscv64-softmmu,riscv32-softmmu;make -j
+> > > > > > >
+> > > > > > > $ ./qemu-system-riscv32 -nographic -M virt -m 2G -smp 4 -
+> > > > > > > kernel
+> > > > > > > ~/work/git/linux/arch/riscv/boot/Image
+> > > > > > >
+> > > > > > > OpenSBI v0.8
+> > > > > > >    ____                    _____ ____ _____
+> > > > > > >   / __ \                  / ____|  _ \_   _|
+> > > > > > >  | |  | |_ __   ___ _ __ | (___ | |_) || |
+> > > > > > >  | |  | | '_ \ / _ \ '_ \ \___ \|  _ < | |
+> > > > > > >  | |__| | |_) |  __/ | | |____) | |_) || |_
+> > > > > > >   \____/| .__/ \___|_| |_|_____/|____/_____|
+> > > > > > >         | |
+> > > > > > >         |_|
+> > > > > > >
+> > > > > > > Platform Name       : riscv-virtio,qemu
+> > > > > > > Platform Features   : timer,mfdeleg
+> > > > > > > Platform HART Count : 4
+> > > > > > > Boot HART ID        : 3
+> > > > > > > Boot HART ISA       : rv32imafdcsu
+> > > > > > > BOOT HART Features  : pmp,scounteren,mcounteren,time
+> > > > > > > BOOT HART PMP Count : 16
+> > > > > > > Firmware Base       : 0x80000000
+> > > > > > > Firmware Size       : 104 KB
+> > > > > > > Runtime SBI Version : 0.2
+> > > > > > >
+> > > > > > > MIDELEG : 0x00000222
+> > > > > > > MEDELEG : 0x0000b109
+> > > > > > > PMP0    : 0x80000000-0x8001ffff (A)
+> > > > > > > PMP1    : 0x00000000-0xffffffff (A,R,W,X)
+> > > > > > > <hangs here>
+> > > > > > >
+> > > > > > > $ ./qemu-system-riscv32 -nographic -M sifive_u -m 2G -smp 5
+> > > > > > > -
+> > > > > > > kernel
+> > > > > > > ~/work/git/linux/arch/riscv/boot/Image
+> > > > > > >
+> > > > > > > OpenSBI v0.8
+> > > > > > >    ____                    _____ ____ _____
+> > > > > > >   / __ \                  / ____|  _ \_   _|
+> > > > > > >  | |  | |_ __   ___ _ __ | (___ | |_) || |
+> > > > > > >  | |  | | '_ \ / _ \ '_ \ \___ \|  _ < | |
+> > > > > > >  | |__| | |_) |  __/ | | |____) | |_) || |_
+> > > > > > >   \____/| .__/ \___|_| |_|_____/|____/_____|
+> > > > > > >         | |
+> > > > > > >         |_|
+> > > > > > >
+> > > > > > > Platform Name       : SiFive HiFive Unleashed A00
+> > > > > > > Platform Features   : timer,mfdeleg
+> > > > > > > Platform HART Count : 5
+> > > > > > > Boot HART ID        : 4
+> > > > > > > Boot HART ISA       : rv32imafdcsu
+> > > > > > > BOOT HART Features  : pmp,scounteren,mcounteren
+> > > > > > > BOOT HART PMP Count : 16
+> > > > > > > Firmware Base       : 0x80000000
+> > > > > > > Firmware Size       : 112 KB
+> > > > > > > Runtime SBI Version : 0.2
+> > > > > > >
+> > > > > > > MIDELEG : 0x00000222
+> > > > > > > MEDELEG : 0x0000b109
+> > > > > > > PMP0    : 0x80000000-0x8001ffff (A)
+> > > > > > > PMP1    : 0x00000000-0xffffffff (A,R,W,X)
+> > > > > > > <hangs here>
+> > > > > > >
+> > > > > > > The following is sifive_u with 1G:
+> > > > > > >
+> > > > > > > $ ./qemu-system-riscv32 -nographic -M sifive_u -m 1G -smp 5
+> > > > > > > -
+> > > > > > > kernel
+> > > > > > > ~/work/git/linux/arch/riscv/boot/Image
+> > > > > > >
+> > > > > > > OpenSBI v0.8
+> > > > > > >    ____                    _____ ____ _____
+> > > > > > >   / __ \                  / ____|  _ \_   _|
+> > > > > > >  | |  | |_ __   ___ _ __ | (___ | |_) || |
+> > > > > > >  | |  | | '_ \ / _ \ '_ \ \___ \|  _ < | |
+> > > > > > >  | |__| | |_) |  __/ | | |____) | |_) || |_
+> > > > > > >   \____/| .__/ \___|_| |_|_____/|____/_____|
+> > > > > > >         | |
+> > > > > > >         |_|
+> > > > > > >
+> > > > > > > Platform Name       : SiFive HiFive Unleashed A00
+> > > > > > > Platform Features   : timer,mfdeleg
+> > > > > > > Platform HART Count : 5
+> > > > > > > Boot HART ID        : 3
+> > > > > > > Boot HART ISA       : rv32imafdcsu
+> > > > > > > BOOT HART Features  : pmp,scounteren,mcounteren
+> > > > > > > BOOT HART PMP Count : 16
+> > > > > > > Firmware Base       : 0x80000000
+> > > > > > > Firmware Size       : 112 KB
+> > > > > > > Runtime SBI Version : 0.2
+> > > > > > >
+> > > > > > > MIDELEG : 0x00000222
+> > > > > > > MEDELEG : 0x0000b109
+> > > > > > > PMP0    : 0x80000000-0x8001ffff (A)
+> > > > > > > PMP1    : 0x00000000-0xffffffff (A,R,W,X)
+> > > > > > > [    0.000000] Linux version 5.10.0-00001-gbf0dad61896d
+> > > > > > > (bmeng@pek-vx-bsp2) (riscv64-linux-gcc (GCC) 8.1.0, GNU ld
+> > > > > > > (GNU
+> > > > > > > Binutils) 2.30) #1 SMP Thu Dec 17 16:48:13 CST 2020
+> > > > > > > [    0.000000] OF: fdt: Ignoring memory range 0x80000000 -
+> > > > > > > 0x80400000
+> > > > > > > [    0.000000] efi: UEFI not found.
+> > > > > > > [    0.000000] Zone ranges:
+> > > > > > > [    0.000000]   Normal   [mem 0x0000000080400000-
+> > > > > > > 0x00000000bfffffff]
+> > > > > > > [    0.000000] Movable zone start for each node
+> > > > > > > [    0.000000] Early memory node ranges
+> > > > > > > [    0.000000]   node   0: [mem 0x0000000080400000-
+> > > > > > > 0x00000000bfffffff]
+> > > > > > > [    0.000000] Initmem setup node 0 [mem
+> > > > > > > 0x0000000080400000-
+> > > > > > > 0x00000000bfffffff]
+> > > > > > > [    0.000000] SBI specification v0.2 detected
+> > > > > > > [    0.000000] SBI implementation ID=0x1 Version=0x8
+> > > > > > > [    0.000000] SBI v0.2 TIME extension detected
+> > > > > > > [    0.000000] SBI v0.2 IPI extension detected
+> > > > > > > [    0.000000] SBI v0.2 RFENCE extension detected
+> > > > > > > [    0.000000] SBI v0.2 HSM extension detected
+> > > > > > > [    0.000000] CPU with hartid=0 is not available
+> > > > > > > [    0.000000] CPU with hartid=0 is not available
+> > > > > > >
+> > > > > > > Regards,
+> > > > > > > Bin
+> > > > > >
+> > > > > > May be you forgot to apply this patch for 2GB case on top of
+> > > > > > Alistair's
+> > > > > > tree? I don't see any issues with exact same setup.
+> > > > >
+> > > > > That's really weird. I have:
+> > > > >
+> > > > > $ git log --oneline
+> > > > > 3ced2fb RISC-V: Place DTB at 3GB boundary instead of 4GB
+> > > > > d31e970 riscv/opentitan: Update the OpenTitan memory layout
+> > > > > 3ed2b8a hw/riscv: Use the CPU to determine if 32-bit
+> > > > > 094b072 target/riscv: cpu: Set XLEN independently from target
+> > > > > 8987cdc4 target/riscv: csr: Remove compile time XLEN checks
+> > > > >
+> > > > > I just rebuilt the QEMU binaries but still have the same
+> > > > > result. 2G
+> > > > > does not boot on either 'virt' or 'sifive_u'.
+> > > > >
+> > > > > $ ./qemu-system-riscv32 -version
+> > > > > QEMU emulator version 5.2.50 (v5.2.0-551-g3ced2fb)
+> > > > > Copyright (c) 2003-2020 Fabrice Bellard and the QEMU Project
+> > > > > developers
+> > > > >
+> > > > > Maybe it's toolchain related? I am using kernel.org toolchain
+> > > > > riscv64-linux-gcc (GCC) 8.1.0. I see you were using
+> > > > > riscv64-unknown-linux-gnu-gcc (GCC) 10.2.0.
+> > > > >
+> > > >
+> > > > Strange. If it is a toolchain related issue, the cause might be
+> > > > completely different. Can you give it a try to with updated
+> > > > toolchain ?
+> > > > The pre-built toolchain available in bootlin[1] is 10.2.0.
+> > > >
+> > > > [1] https://toolchains.bootlin.com/
+> > >
+> > > I will give it a try.
+> >
+> > I used the bootlin pre-built 10.2.0 toolchain to build the Linux
+> > kernel. Still, 2GB does not boot on QEMU.
+> >
+> > I looked at your kernel log again, and found:
+> >
+> > [    0.000000] Linux version 5.10.0-00022-ge20097fb37e2-dirty
+> >
+> > It seems you have 22 commits on top of 5.10.
+> >
+> > I only have one commit "RISC-V: Fix usage of
+> > memblock_enforce_memory_limit" on top of 5.10.
+> >
+> > Could you please check?
+> >
+>
+> Sorry for the late reply. I was on vacation. I was using for-next
+> branch on top of 5.10. I just tested with 5.11-rc2 and everything seems
+> to be fine. Can you check with 5.11-rc2 ?
 
-> From: Warner Losh <imp@freebsd.org>
->
-> Here's the first round of bsd-user patches. There's on the order of 280
-> that
-> we've done, but that's too much to review all at once. In addition, 3.1
-> release
-> was the last rebase point that we've been successful with for a number of
-> reasons
-> unrelated to qemu. Now that those have been resolved, we have a new push
-> under way
-> to push things forward, but wanted to upstream as many of the patches as
-> we can
-> directly to qemu's head to lighten the load of carrying all these.
->
-> This first small series updates the system call lists, moves things around
-> to
-> make it easier to support divergence in the BSD world, and adjusts to the
-> new
-> meson build. It's also designed to help me learn how to land such a large
-> set
-> upstream.
->
-> These patches have passed through several hands, with different tweaks
-> over the
-> years so have an unusually large number of signed-off-by lines that are the
-> result of this refinement process where several hands have touched the
-> patches
-> in the last 7 years.
->
-> Sean Bruno (1):
->   tcg: Additional Trap type for FreeBSD
->
-> Stacey Son (1):
->   bsd-user: move strace OS/arch dependent code to host/arch dirs
->
-> Warner Losh (2):
->   bsd-user: regenerate FreeBSD's system call numbers
->   bsd-user: Update strace.list for FreeBSD's latest syscalls
->
->  accel/tcg/user-exec.c                  |   8 +-
->  bsd-user/arm/target_arch_sysarch.h     |  78 +++
->  bsd-user/arm/target_syscall.h          |  36 ++
->  bsd-user/freebsd/os-strace.h           |  29 ++
->  bsd-user/freebsd/strace.list           |  65 ++-
->  bsd-user/freebsd/syscall_nr.h          | 695 ++++++++++++++-----------
->  bsd-user/i386/target_arch_sysarch.h    |  77 +++
->  bsd-user/i386/target_syscall.h         |  19 +
->  bsd-user/mips/target_arch_sysarch.h    |  69 +++
->  bsd-user/mips/target_syscall.h         |  52 ++
->  bsd-user/mips64/target_arch_sysarch.h  |  69 +++
->  bsd-user/mips64/target_syscall.h       |  53 ++
->  bsd-user/netbsd/os-strace.h            |   1 +
->  bsd-user/openbsd/os-strace.h           |   1 +
->  bsd-user/sparc/target_arch_sysarch.h   |  52 ++
->  bsd-user/sparc/target_syscall.h        |  24 +-
->  bsd-user/sparc64/target_arch_sysarch.h |  52 ++
->  bsd-user/sparc64/target_syscall.h      |  24 +-
->  bsd-user/strace.c                      |  11 +
->  bsd-user/x86_64/target_arch_sysarch.h  |  76 +++
->  bsd-user/x86_64/target_syscall.h       |  21 +-
->  meson.build                            |   1 +
->  22 files changed, 1186 insertions(+), 327 deletions(-)
->  create mode 100644 bsd-user/arm/target_arch_sysarch.h
->  create mode 100644 bsd-user/arm/target_syscall.h
->  create mode 100644 bsd-user/freebsd/os-strace.h
->  create mode 100644 bsd-user/i386/target_arch_sysarch.h
->  create mode 100644 bsd-user/mips/target_arch_sysarch.h
->  create mode 100644 bsd-user/mips/target_syscall.h
->  create mode 100644 bsd-user/mips64/target_arch_sysarch.h
->  create mode 100644 bsd-user/mips64/target_syscall.h
->  create mode 100644 bsd-user/netbsd/os-strace.h
->  create mode 100644 bsd-user/openbsd/os-strace.h
->  create mode 100644 bsd-user/sparc/target_arch_sysarch.h
->  create mode 100644 bsd-user/sparc64/target_arch_sysarch.h
->  create mode 100644 bsd-user/x86_64/target_arch_sysarch.h
+I just tested v5.11-rc2 and "-m 2G" boots now.
+
+> Apologies for the any confusion caused.
 >
 
-ping?
+So it looks there are multiple kernel breakages on 32-bit support.
 
---0000000000000b17a505b81df318
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Could you identify which kernel commit "fixed" things in your "Linux
+version 5.10.0-00022-ge20097fb37e2-dirty" build since there are only
+22 commits on top of 5.10?
 
-<div dir=3D"ltr"><div dir=3D"ltr"><br></div><br><div class=3D"gmail_quote">=
-<div dir=3D"ltr" class=3D"gmail_attr">On Fri, Dec 18, 2020 at 1:55 PM &lt;<=
-a href=3D"mailto:imp@freebsd.org">imp@freebsd.org</a>&gt; wrote:<br></div><=
-blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-l=
-eft:1px solid rgb(204,204,204);padding-left:1ex">From: Warner Losh &lt;<a h=
-ref=3D"mailto:imp@freebsd.org" target=3D"_blank">imp@freebsd.org</a>&gt;<br=
->
-<br>
-Here&#39;s the first round of bsd-user patches. There&#39;s on the order of=
- 280 that<br>
-we&#39;ve done, but that&#39;s too much to review all at once. In addition,=
- 3.1 release<br>
-was the last rebase point that we&#39;ve been successful with for a number =
-of reasons<br>
-unrelated to qemu. Now that those have been resolved, we have a new push un=
-der way<br>
-to push things forward, but wanted to upstream as many of the patches as we=
- can<br>
-directly to qemu&#39;s head to lighten the load of carrying all these.<br>
-<br>
-This first small series updates the system call lists, moves things around =
-to<br>
-make it easier to support divergence in the BSD world, and adjusts to the n=
-ew<br>
-meson build. It&#39;s also designed to help me learn how to land such a lar=
-ge set<br>
-upstream.<br>
-<br>
-These patches have passed through several hands, with different tweaks over=
- the<br>
-years so have an unusually large number of signed-off-by lines that are the=
-<br>
-result of this refinement process where several hands have touched the patc=
-hes<br>
-in the last 7 years.<br>
-<br>
-Sean Bruno (1):<br>
-=C2=A0 tcg: Additional Trap type for FreeBSD<br>
-<br>
-Stacey Son (1):<br>
-=C2=A0 bsd-user: move strace OS/arch dependent code to host/arch dirs<br>
-<br>
-Warner Losh (2):<br>
-=C2=A0 bsd-user: regenerate FreeBSD&#39;s system call numbers<br>
-=C2=A0 bsd-user: Update strace.list for FreeBSD&#39;s latest syscalls<br>
-<br>
-=C2=A0accel/tcg/user-exec.c=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
- =C2=A0 =C2=A0 |=C2=A0 =C2=A08 +-<br>
-=C2=A0bsd-user/arm/target_arch_sysarch.h=C2=A0 =C2=A0 =C2=A0|=C2=A0 78 +++<=
-br>
-=C2=A0bsd-user/arm/target_syscall.h=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 |=C2=
-=A0 36 ++<br>
-=C2=A0bsd-user/freebsd/os-strace.h=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
-|=C2=A0 29 ++<br>
-=C2=A0bsd-user/freebsd/strace.list=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
-|=C2=A0 65 ++-<br>
-=C2=A0bsd-user/freebsd/syscall_nr.h=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 | 695=
- ++++++++++++++-----------<br>
-=C2=A0bsd-user/i386/target_arch_sysarch.h=C2=A0 =C2=A0 |=C2=A0 77 +++<br>
-=C2=A0bsd-user/i386/target_syscall.h=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0|=C2=
-=A0 19 +<br>
-=C2=A0bsd-user/mips/target_arch_sysarch.h=C2=A0 =C2=A0 |=C2=A0 69 +++<br>
-=C2=A0bsd-user/mips/target_syscall.h=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0|=C2=
-=A0 52 ++<br>
-=C2=A0bsd-user/mips64/target_arch_sysarch.h=C2=A0 |=C2=A0 69 +++<br>
-=C2=A0bsd-user/mips64/target_syscall.h=C2=A0 =C2=A0 =C2=A0 =C2=A0|=C2=A0 53=
- ++<br>
-=C2=A0bsd-user/netbsd/os-strace.h=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-|=C2=A0 =C2=A01 +<br>
-=C2=A0bsd-user/openbsd/os-strace.h=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
-|=C2=A0 =C2=A01 +<br>
-=C2=A0bsd-user/sparc/target_arch_sysarch.h=C2=A0 =C2=A0|=C2=A0 52 ++<br>
-=C2=A0bsd-user/sparc/target_syscall.h=C2=A0 =C2=A0 =C2=A0 =C2=A0 |=C2=A0 24=
- +-<br>
-=C2=A0bsd-user/sparc64/target_arch_sysarch.h |=C2=A0 52 ++<br>
-=C2=A0bsd-user/sparc64/target_syscall.h=C2=A0 =C2=A0 =C2=A0 |=C2=A0 24 +-<b=
-r>
-=C2=A0bsd-user/strace.c=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 |=C2=A0 11 +<br>
-=C2=A0bsd-user/x86_64/target_arch_sysarch.h=C2=A0 |=C2=A0 76 +++<br>
-=C2=A0bsd-user/x86_64/target_syscall.h=C2=A0 =C2=A0 =C2=A0 =C2=A0|=C2=A0 21=
- +-<br>
-=C2=A0meson.build=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 |=C2=A0 =C2=A01 +<br>
-=C2=A022 files changed, 1186 insertions(+), 327 deletions(-)<br>
-=C2=A0create mode 100644 bsd-user/arm/target_arch_sysarch.h<br>
-=C2=A0create mode 100644 bsd-user/arm/target_syscall.h<br>
-=C2=A0create mode 100644 bsd-user/freebsd/os-strace.h<br>
-=C2=A0create mode 100644 bsd-user/i386/target_arch_sysarch.h<br>
-=C2=A0create mode 100644 bsd-user/mips/target_arch_sysarch.h<br>
-=C2=A0create mode 100644 bsd-user/mips/target_syscall.h<br>
-=C2=A0create mode 100644 bsd-user/mips64/target_arch_sysarch.h<br>
-=C2=A0create mode 100644 bsd-user/mips64/target_syscall.h<br>
-=C2=A0create mode 100644 bsd-user/netbsd/os-strace.h<br>
-=C2=A0create mode 100644 bsd-user/openbsd/os-strace.h<br>
-=C2=A0create mode 100644 bsd-user/sparc/target_arch_sysarch.h<br>
-=C2=A0create mode 100644 bsd-user/sparc64/target_arch_sysarch.h<br>
-=C2=A0create mode 100644 bsd-user/x86_64/target_arch_sysarch.h<br></blockqu=
-ote><div><br></div><div>ping?=C2=A0</div></div></div>
-
---0000000000000b17a505b81df318--
+Regards,
+Bin
 
