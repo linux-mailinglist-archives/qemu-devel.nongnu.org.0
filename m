@@ -2,67 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 097212EB4A9
-	for <lists+qemu-devel@lfdr.de>; Tue,  5 Jan 2021 22:07:45 +0100 (CET)
-Received: from localhost ([::1]:38024 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E05B62EB4B4
+	for <lists+qemu-devel@lfdr.de>; Tue,  5 Jan 2021 22:10:19 +0100 (CET)
+Received: from localhost ([::1]:41112 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kwtYO-00027H-4U
-	for lists+qemu-devel@lfdr.de; Tue, 05 Jan 2021 16:07:44 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50194)
+	id 1kwtas-0003U5-V3
+	for lists+qemu-devel@lfdr.de; Tue, 05 Jan 2021 16:10:18 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50810)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1kwtXR-0001ey-ER
- for qemu-devel@nongnu.org; Tue, 05 Jan 2021 16:06:45 -0500
-Received: from mail-ej1-x62e.google.com ([2a00:1450:4864:20::62e]:40188)
+ (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
+ id 1kwtZl-0002uc-VL; Tue, 05 Jan 2021 16:09:09 -0500
+Received: from mail-il1-x132.google.com ([2607:f8b0:4864:20::132]:36819)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1kwtXP-0003oX-SH
- for qemu-devel@nongnu.org; Tue, 05 Jan 2021 16:06:45 -0500
-Received: by mail-ej1-x62e.google.com with SMTP id x16so2349220ejj.7
- for <qemu-devel@nongnu.org>; Tue, 05 Jan 2021 13:06:43 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
+ id 1kwtZk-0004a1-FD; Tue, 05 Jan 2021 16:09:09 -0500
+Received: by mail-il1-x132.google.com with SMTP id u12so1067095ilv.3;
+ Tue, 05 Jan 2021 13:09:07 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=Wb1pTDwlph50scn5ZOh32fEw2cjBbOQTQXMIXrafqUs=;
- b=Kxe/fXpHILCmtOVzg0QbaAdQxsAcIOMpstP7MydzxTsAnvpT/n5Wln31FH6OI8hmth
- CylxAAmnsqrYl5diXCIWR/E9Wt4Y6O/2niZ+7JZNu3x0qmSwoztneuUHgHxCgASBPK6P
- WFunjBR0VzP38HBCVHZyf8wQfyGhyYY2fSu9B4WHY6stzPZspEJCLkf7kuX9s56l3CMq
- 91FJ9gBdXnJTZXCfnwROExr9ahq2fRIvsI9pp1a1dFWvzbcL5zl55fuyjw6O1/nypMBj
- YiYKANaIPo72Ma6p7db+Xe9S39QEKmzeCSs8HJjPvsQIA9NtrTGBYf6NbEy0/CDOKHrK
- Td+g==
+ :cc; bh=+YbBYxs4hsW5m93VHJs6o1NpJlsMUpCdZX8aI/aak+U=;
+ b=k8eDQt4QYM+wuZjQGsCF4f+ehe5bnilu/YWVfGvWjsl1VAzZ2gvegtqqlMkyNl059k
+ vWarnSO/P0qrlb04iW0sfhFs7nhQzCDd1jYYrtYpAq26F8v/mDCck90xuRbAIF1KdBPl
+ b9xeY3YNjq98gdbWgEttkFS5fUO2Dl3KGJXk9VZbevZIT/lQP53PwK8Wrh9VkKry9Iue
+ ImSsb8pEcVDuG8TiKSXGdexwWdkEGBWHV2a9HmqgqMFGu9Zqr12tcvPYsRb+FTtWsBlr
+ ISg2cnfRa4nDAAryOVeRJXLmWLzA2atha7sK+HsfaV7SXL8qUCjoS6KmWQ/tB1ckM3vR
+ 0gKg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=Wb1pTDwlph50scn5ZOh32fEw2cjBbOQTQXMIXrafqUs=;
- b=suUk9NBy/FfN+lNBnta1/1ZIg7E4TuEOgjDydG/S9K5RDDEKi0Q4rcr2CQeAulUd3N
- GUPdDXIrjHriHJ74xFMpZIHdg9uWfiv9TC/4MEDObmSIc+cAUmuN25YCnNfZNWuVt672
- fewtwck6G06jwsBqyertTzkDksBXBYZY0eTNsb6NHangbc2ri477NzHBg3jq1UF1xuAu
- V2d1NRi/d85gbrG1LAxks4F3XT1DTUqIEo8VmpayYMq38SwTg5npZtbctiYGeBXn9Mmm
- mr7IBBRPVixhERVhlbITBPQusBN5WuDNsrISSqICum/USnN+rnhfqx4EEyNYtHeIOsmJ
- rhQQ==
-X-Gm-Message-State: AOAM530j1SmJCay2qTDKHFVdA20O+JRIXoLFmh+gpCMsrCtGGGuvwzA+
- XHKTTQMpltzHrVfkTIFfW30EKLxVU8lr4OQ4x7HipQ==
-X-Google-Smtp-Source: ABdhPJxksjoyNEQ4vqK2KWC1lUzWCMcMBsgqHMOswtrCLFLXvpINZdAF8ahkdLNAH1SYl3Iu/E++aQQdNb5keLrGp7Y=
-X-Received: by 2002:a17:906:1151:: with SMTP id
- i17mr878018eja.250.1609880802045; 
- Tue, 05 Jan 2021 13:06:42 -0800 (PST)
+ bh=+YbBYxs4hsW5m93VHJs6o1NpJlsMUpCdZX8aI/aak+U=;
+ b=YGtdL+AASCL79qMi2Re029IF+v6zxVfU8XtiL5Iy/L9SAgR8szvTTP/v6l28kyEtXr
+ 2jzoixOc+GGfln+4kLJjTXglEOxJn+A9g5CQl3TZhlkjZdcMNapFTD17Z3vmUow9k9aI
+ acjsLARxdN4tj0pWYQpQklMFqcP4iID0y+Dgx0sp86vWmQlD0fYsS7JcnNGHdfgevfEh
+ iG97z5nPZ8O1NA6VS9WMTa8IBFCNO9LaHjTv3f6gZOrlT6iJ348WNbZwapuEaCYVnHAf
+ wISPwhYvb4c7W6archyK84YViGgGXIo7PRHhXlC+TtKaNizd0qlf5H7XL3olCteO9Iee
+ zJnw==
+X-Gm-Message-State: AOAM533JHkoJLjg+ifmDS6GBfqCdVfDjaPHBmxTdIFBmSwelq4djfxFR
+ z8FKT/fuRg/GQNBznOpFINyvY0s9wD62WG2TNL8=
+X-Google-Smtp-Source: ABdhPJwQSXR2u7OzAU8BxqCV0I9mBOXUSfNsb0iPBq11N/puZwE7xI0J0zEQdUSjoal0cGjIqP9Lie5Yui5f82oDsNo=
+X-Received: by 2002:a92:c942:: with SMTP id i2mr1401461ilq.227.1609880946992; 
+ Tue, 05 Jan 2021 13:09:06 -0800 (PST)
 MIME-Version: 1.0
-References: <20210104173515.198921-1-richard.henderson@linaro.org>
-In-Reply-To: <20210104173515.198921-1-richard.henderson@linaro.org>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Tue, 5 Jan 2021 21:06:30 +0000
-Message-ID: <CAFEAcA_46dUG0FK95n=sSobQUDNzXGAN7QQo=XGdMCTzrrbG3A@mail.gmail.com>
-Subject: Re: [PULL 0/3] tcg patch queue
-To: Richard Henderson <richard.henderson@linaro.org>
+References: <20201202144523.24526-1-bmeng.cn@gmail.com>
+ <CAEUhbmUtCvXCKoQGU9b6+UX1juChVfHkugODjo2psBnRw+7NTw@mail.gmail.com>
+In-Reply-To: <CAEUhbmUtCvXCKoQGU9b6+UX1juChVfHkugODjo2psBnRw+7NTw@mail.gmail.com>
+From: Alistair Francis <alistair23@gmail.com>
+Date: Tue, 5 Jan 2021 13:08:40 -0800
+Message-ID: <CAKmqyKPy-V77t-COOb2Vp5DasfduC49Uy51EcCfSRos+M-JkKw@mail.gmail.com>
+Subject: Re: [PATCH v2 1/2] hw/ssi: imx_spi: Use a macro for number of chip
+ selects supported
+To: Bin Meng <bmeng.cn@gmail.com>
 Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2a00:1450:4864:20::62e;
- envelope-from=peter.maydell@linaro.org; helo=mail-ej1-x62e.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+Received-SPF: pass client-ip=2607:f8b0:4864:20::132;
+ envelope-from=alistair23@gmail.com; helo=mail-il1-x132.google.com
+X-Spam_score_int: -17
+X-Spam_score: -1.8
+X-Spam_bar: -
+X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -77,35 +77,44 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: QEMU Developers <qemu-devel@nongnu.org>
+Cc: Peter Maydell <peter.maydell@linaro.org>, Bin Meng <bin.meng@windriver.com>,
+ "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
+ Jean-Christophe Dubois <jcd@tribudubois.net>, qemu-arm <qemu-arm@nongnu.org>,
+ Peter Chubb <peter.chubb@nicta.com.au>,
+ Alistair Francis <alistair.francis@wdc.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, 4 Jan 2021 at 17:35, Richard Henderson
-<richard.henderson@linaro.org> wrote:
+On Wed, Dec 16, 2020 at 2:25 AM Bin Meng <bmeng.cn@gmail.com> wrote:
 >
-> The following changes since commit 41192db338588051f21501abc13743e62b0a5605:
+> Hi Alistair, Peter,
 >
->   Merge remote-tracking branch 'remotes/ehabkost-gl/tags/machine-next-pull-request' into staging (2021-01-01 22:57:15 +0000)
+> On Wed, Dec 2, 2020 at 10:45 PM Bin Meng <bmeng.cn@gmail.com> wrote:
+> >
+> > From: Bin Meng <bin.meng@windriver.com>
+> >
+> > Avoid using a magic number (4) everywhere for the number of chip
+> > selects supported.
+> >
+> > Signed-off-by: Bin Meng <bin.meng@windriver.com>
+> > Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
+> > ---
+> >
+> > (no changes since v1)
+> >
+> >  hw/ssi/imx_spi.c         | 4 ++--
+> >  include/hw/ssi/imx_spi.h | 5 ++++-
+> >  2 files changed, 6 insertions(+), 3 deletions(-)
+> >
 >
-> are available in the Git repository at:
->
->   https://gitlab.com/rth7680/qemu.git tags/pull-tcg-20210104
->
-> for you to fetch changes up to a66424ba17d661007dc13d78c9e3014ccbaf0efb:
->
->   tcg: Add tcg_gen_bswap_tl alias (2021-01-04 06:32:58 -1000)
->
-> ----------------------------------------------------------------
-> Fix vector clear issue.
-> Fix riscv host shift issue.
-> Add tcg_gen_bswap_tl.
+> Ping, not sure who is going to pick up this series?
 
+It should be reviewed by Jean-Christophe and then probably go via the ARM tree.
 
-Applied, thanks.
+Alistair
 
-Please update the changelog at https://wiki.qemu.org/ChangeLog/6.0
-for any user-visible changes.
-
--- PMM
+>
+> Regards,
+> Bin
+>
 
