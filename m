@@ -2,56 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 303BD2EB131
-	for <lists+qemu-devel@lfdr.de>; Tue,  5 Jan 2021 18:18:16 +0100 (CET)
-Received: from localhost ([::1]:47364 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 882F72EB15A
+	for <lists+qemu-devel@lfdr.de>; Tue,  5 Jan 2021 18:28:00 +0100 (CET)
+Received: from localhost ([::1]:53028 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kwpyI-0006Ye-VT
-	for lists+qemu-devel@lfdr.de; Tue, 05 Jan 2021 12:18:15 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48220)
+	id 1kwq7j-00041a-J8
+	for lists+qemu-devel@lfdr.de; Tue, 05 Jan 2021 12:27:59 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51206)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <ben.widawsky@intel.com>)
- id 1kwptA-00087c-Oo
- for qemu-devel@nongnu.org; Tue, 05 Jan 2021 12:12:56 -0500
-Received: from mga04.intel.com ([192.55.52.120]:64044)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <ben.widawsky@intel.com>)
- id 1kwpt7-0005B8-Sq
- for qemu-devel@nongnu.org; Tue, 05 Jan 2021 12:12:55 -0500
-IronPort-SDR: 2z4p+bBezwGwQy6fhu4rmlUFkG8osrMmsz7BQ23iJtOd4JjoTKjjw6f5IW1ZY1KfV4IdfT4FP8
- UvobVLoAmhvw==
-X-IronPort-AV: E=McAfee;i="6000,8403,9855"; a="174568027"
-X-IronPort-AV: E=Sophos;i="5.78,477,1599548400"; d="scan'208";a="174568027"
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
- by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 05 Jan 2021 09:12:51 -0800
-IronPort-SDR: qW1WkZxQ7PJVT7ZvvQWnyCO6Xc6WYCG3lx4f94UHeRl0bMbSb3UHnEqZ0ejrmLitQxeNC2WJtd
- uKx4MrPQmk1A==
-X-IronPort-AV: E=Sophos;i="5.78,477,1599548400"; d="scan'208";a="397895002"
-Received: from dmayx-mobl.amr.corp.intel.com (HELO intel.com)
- ([10.252.142.146])
- by fmsmga002-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 05 Jan 2021 09:12:50 -0800
-Date: Tue, 5 Jan 2021 09:12:48 -0800
-From: Ben Widawsky <ben.widawsky@intel.com>
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1kwq0A-0002Gi-GG
+ for qemu-devel@nongnu.org; Tue, 05 Jan 2021 12:20:10 -0500
+Received: from mail-pg1-x531.google.com ([2607:f8b0:4864:20::531]:42655)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1kwq04-0006Qt-AT
+ for qemu-devel@nongnu.org; Tue, 05 Jan 2021 12:20:09 -0500
+Received: by mail-pg1-x531.google.com with SMTP id g15so270403pgu.9
+ for <qemu-devel@nongnu.org>; Tue, 05 Jan 2021 09:20:02 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=COs7EFurKzdEkJGVYLhpSUwSiXcrdUCH71QLYE3G/IY=;
+ b=o/DHP8nA3c0qaJHuVflNt0hD/a0l2DAfXC5Uz3392oapIv7eUM/5mqcJKG797HWXDV
+ QPTGuIll0CUKrhAQueq7Uuohprb8VDtNYKFqJSzYgkGjrInavFyT1S7faulZr3fE619K
+ aBCjPlbsCh8u5kRYrtOcrcK2LvNLaaLsT93wUvWkPYEFlNxTnxTsj/UmJ9Yo6UcuUZas
+ B5p/Xd5KAKGoyW9p3eA6Jxmw0YC2TMI8ScgmfGn9LbMsPxg1doM2+nmC8nNvSai2Kcad
+ vHc7jdhMksuogtp3rF06kAdUkfxaVz/+LOc2ukvle9gttdzfSN4oDWa02UtACYxr2Ny8
+ wOlg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=COs7EFurKzdEkJGVYLhpSUwSiXcrdUCH71QLYE3G/IY=;
+ b=FadbUOKEPMeY35gNXughF5ON1EvnN/F8kcJ2wV6w6De2YPl5h8fjExMgQtFNsEQYmi
+ 2v9XoRxEGr9/04odHMGKwI3vKOGdUKm1OB4wRlvPNOA/tAXAMcLVvM5nFNLD5bDdy6RE
+ Z+AxKUomO98eInYjGSZJNNxB5+7m0PNGrgO+37g6ITGiIkS/3ADwxffwp9bWzMwQnjIA
+ To9nRKC+S4IMulgtFOvNj4RJ4PbRTFx0va5+g27A3IHRkk4qS0pVLA43Hrycpzs22PMe
+ qkRhvGa7OoxwIXBjRFOfmwaipcVqxevdOfmf0OmV6uDGjT+SWr6cnHE+/pDm2U5yOOkr
+ LbPA==
+X-Gm-Message-State: AOAM532Uk4F8shFkmUoZjBBAH7W1E9cBzhXBQgLtHp+KMAKmzXD0ReKL
+ +Pc1sU8G9RNEwfdAfIfCNiQHZa8X5XnKug==
+X-Google-Smtp-Source: ABdhPJyknskaiB11LWqlBZW1JG9SttvXdxQH7wPaIA5wiFc4EXGoErdD490e84RRadY0G8q4XN91pQ==
+X-Received: by 2002:a62:184e:0:b029:19e:c636:17f9 with SMTP id
+ 75-20020a62184e0000b029019ec63617f9mr442575pfy.23.1609867201483; 
+ Tue, 05 Jan 2021 09:20:01 -0800 (PST)
+Received: from localhost.localdomain (rrcs-173-197-107-21.west.biz.rr.com.
+ [173.197.107.21])
+ by smtp.gmail.com with ESMTPSA id u12sm2010pfh.98.2021.01.05.09.20.00
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 05 Jan 2021 09:20:00 -0800 (PST)
+From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: Re: [RFC PATCH v2 11/32] hw/cxl/device: Timestamp implementation
- (8.2.9.3)
-Message-ID: <20210105171248.nqebaxx7kzmivcxc@intel.com>
-References: <20210105165323.783725-1-ben.widawsky@intel.com>
- <20210105165323.783725-12-ben.widawsky@intel.com>
+Subject: [PATCH v5 02/43] util: Extract flush_icache_range to cacheflush.c
+Date: Tue,  5 Jan 2021 07:19:09 -1000
+Message-Id: <20210105171950.415486-3-richard.henderson@linaro.org>
+X-Mailer: git-send-email 2.25.1
+In-Reply-To: <20210105171950.415486-1-richard.henderson@linaro.org>
+References: <20210105171950.415486-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20210105165323.783725-12-ben.widawsky@intel.com>
-Received-SPF: pass client-ip=192.55.52.120;
- envelope-from=ben.widawsky@intel.com; helo=mga04.intel.com
-X-Spam_score_int: -41
-X-Spam_score: -4.2
-X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
- RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::531;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x531.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -65,132 +85,376 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Thomas Huth <thuth@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>,
- Vishal Verma <vishal.l.verma@intel.com>, Chris Browy <cbrowy@avery-design.com>,
- Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
- Jonathan Cameron <Jonathan.Cameron@huawei.com>,
- Prashant V Agarwal <agpr123@gmail.com>,
- Dan Williams <dan.j.williams@intel.com>
+Cc: Joelle van Dyne <j@getutm.app>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 21-01-05 08:53:02, Ben Widawsky wrote:
-> Per spec, timestamp appears to be a free-running counter from a value
-> set by the host via the Set Timestamp command (0301h). There are
-> references to the epoch, which seem like a red herring. Therefore, the
-> implementation implements the timestamp as freerunning counter from the
-> last value that was issued by the Set Timestamp command.
-> 
-> Signed-off-by: Ben Widawsky <ben.widawsky@intel.com>
-> ---
->  hw/cxl/cxl-mailbox-utils.c  | 52 +++++++++++++++++++++++++++++++++++++
->  include/hw/cxl/cxl_device.h |  6 +++++
->  2 files changed, 58 insertions(+)
-> 
-> diff --git a/hw/cxl/cxl-mailbox-utils.c b/hw/cxl/cxl-mailbox-utils.c
-> index 890e486ea1..8b956d9e94 100644
-> --- a/hw/cxl/cxl-mailbox-utils.c
-> +++ b/hw/cxl/cxl-mailbox-utils.c
-> @@ -43,6 +43,9 @@ enum {
->          #define CLEAR_RECORDS   0x1
->          #define GET_INTERRUPT_POLICY   0x2
->          #define SET_INTERRUPT_POLICY   0x3
-> +    TIMESTAMP   = 0x03,
-> +        #define GET           0x0
-> +        #define SET           0x1
->  };
->  
->  /* 8.2.8.4.5.1 Command Return Codes */
-> @@ -117,8 +120,11 @@ define_mailbox_handler_zeroed(EVENTS_GET_RECORDS, 0x20);
->  define_mailbox_handler_nop(EVENTS_CLEAR_RECORDS);
->  define_mailbox_handler_zeroed(EVENTS_GET_INTERRUPT_POLICY, 4);
->  define_mailbox_handler_nop(EVENTS_SET_INTERRUPT_POLICY);
-> +declare_mailbox_handler(TIMESTAMP_GET);
-> +declare_mailbox_handler(TIMESTAMP_SET);
->  
->  #define IMMEDIATE_CONFIG_CHANGE (1 << 1)
-> +#define IMMEDIATE_POLICY_CHANGE (1 << 3)
->  #define IMMEDIATE_LOG_CHANGE (1 << 4)
->  
->  #define CXL_CMD(s, c, in, cel_effect) \
-> @@ -129,10 +135,56 @@ static struct cxl_cmd cxl_cmd_set[256][256] = {
->      CXL_CMD(EVENTS, CLEAR_RECORDS, ~0, IMMEDIATE_LOG_CHANGE),
->      CXL_CMD(EVENTS, GET_INTERRUPT_POLICY, 0, 0),
->      CXL_CMD(EVENTS, SET_INTERRUPT_POLICY, 4, IMMEDIATE_CONFIG_CHANGE),
-> +    CXL_CMD(TIMESTAMP, GET, 0, 0),
-> +    CXL_CMD(TIMESTAMP, SET, 8, IMMEDIATE_POLICY_CHANGE),
->  };
->  
->  #undef CXL_CMD
->  
-> +/*
-> + * 8.2.9.3.1
-> + */
-> +define_mailbox_handler(TIMESTAMP_GET)
-> +{
-> +    struct timespec ts;
-> +
-> +    clock_gettime(CLOCK_REALTIME, &ts);
-> +
-> +    cxl_dstate->timestamp.set = true;
-> +    cxl_dstate->timestamp.last_set =
-> +        ts.tv_sec * NANOSECONDS_PER_SECOND + ts.tv_nsec;
-> +    cxl_dstate->timestamp.host_set = *(uint64_t *)cmd->payload;
-> +
-> +    *len = 8;
-> +    return CXL_MBOX_SUCCESS;
-> +}
-> +
-> +/*
-> + * 8.2.9.3.2
-> + */
-> +define_mailbox_handler(TIMESTAMP_SET)
-> +{
-> +    struct timespec ts;
-> +    uint64_t delta;
-> +
-> +    if (!cxl_dstate->timestamp.set) {
-> +        *(uint64_t *)cmd->payload = 0;
-> +        goto done;
-> +    }
-> +
-> +    /* First find the delta from the last time the host set the time. */
-> +    clock_gettime(CLOCK_REALTIME, &ts);
-> +    delta = (ts.tv_sec * NANOSECONDS_PER_SECOND + ts.tv_nsec) -
-> +            cxl_dstate->timestamp.host_set;
-> +
-> +    /* Then adjust the actual time */
-> +    *(uint64_t *)cmd->payload = cxl_dstate->timestamp.host_set + delta;
-> +
-> +done:
-> +    *len = 8;
-> +    return CXL_MBOX_SUCCESS;
-> +}
-> +
+This has been a tcg-specific function, but is also in use
+by hardware accelerators via physmem.c.  This can cause
+link errors when tcg is disabled.
 
-Set/get are reversed here. I missed the fixup before sending.
+Reviewed-by: Joelle van Dyne <j@getutm.app>
+Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+---
+ include/qemu/cacheflush.h | 24 +++++++++++++
+ tcg/aarch64/tcg-target.h  |  5 ---
+ tcg/arm/tcg-target.h      |  5 ---
+ tcg/i386/tcg-target.h     |  4 ---
+ tcg/mips/tcg-target.h     | 11 ------
+ tcg/ppc/tcg-target.h      |  1 -
+ tcg/riscv/tcg-target.h    |  5 ---
+ tcg/s390/tcg-target.h     |  4 ---
+ tcg/sparc/tcg-target.h    |  8 -----
+ tcg/tci/tcg-target.h      |  4 ---
+ softmmu/physmem.c         |  1 +
+ tcg/tcg.c                 |  1 +
+ util/cacheflush.c         | 71 +++++++++++++++++++++++++++++++++++++++
+ tcg/ppc/tcg-target.c.inc  | 22 ------------
+ MAINTAINERS               |  2 ++
+ util/meson.build          |  2 +-
+ 16 files changed, 100 insertions(+), 70 deletions(-)
+ create mode 100644 include/qemu/cacheflush.h
+ create mode 100644 util/cacheflush.c
 
->  QemuUUID cel_uuid;
->  
->  void cxl_process_mailbox(CXLDeviceState *cxl_dstate)
-> diff --git a/include/hw/cxl/cxl_device.h b/include/hw/cxl/cxl_device.h
-> index dd3f4572aa..25974b2416 100644
-> --- a/include/hw/cxl/cxl_device.h
-> +++ b/include/hw/cxl/cxl_device.h
-> @@ -100,6 +100,12 @@ typedef struct cxl_device_state {
->          size_t cel_size;
->      };
->  
-> +    struct {
-> +        bool set;
-> +        uint64_t last_set;
-> +        uint64_t host_set;
-> +    } timestamp;
-> +
->      MemoryRegion *pmem;
->      MemoryRegion *vmem;
->  } CXLDeviceState;
-> -- 
-> 2.30.0
-> 
+diff --git a/include/qemu/cacheflush.h b/include/qemu/cacheflush.h
+new file mode 100644
+index 0000000000..58ae488491
+--- /dev/null
++++ b/include/qemu/cacheflush.h
+@@ -0,0 +1,24 @@
++/*
++ * Flush the host cpu caches.
++ *
++ * This work is licensed under the terms of the GNU GPL, version 2 or later.
++ * See the COPYING file in the top-level directory.
++ */
++
++#ifndef QEMU_CACHEFLUSH_H
++#define QEMU_CACHEFLUSH_H
++
++#if defined(__i386__) || defined(__x86_64__) || defined(__s390__)
++
++static inline void flush_icache_range(uintptr_t start, uintptr_t stop)
++{
++    /* icache is coherent and does not require flushing. */
++}
++
++#else
++
++void flush_icache_range(uintptr_t start, uintptr_t stop);
++
++#endif
++
++#endif /* QEMU_CACHEFLUSH_H */
+diff --git a/tcg/aarch64/tcg-target.h b/tcg/aarch64/tcg-target.h
+index d1159d80c6..108a1fa969 100644
+--- a/tcg/aarch64/tcg-target.h
++++ b/tcg/aarch64/tcg-target.h
+@@ -149,11 +149,6 @@ typedef enum {
+ #define TCG_TARGET_DEFAULT_MO (0)
+ #define TCG_TARGET_HAS_MEMORY_BSWAP     1
+ 
+-static inline void flush_icache_range(uintptr_t start, uintptr_t stop)
+-{
+-    __builtin___clear_cache((char *)start, (char *)stop);
+-}
+-
+ void tb_target_set_jmp_target(uintptr_t, uintptr_t, uintptr_t);
+ 
+ #ifdef CONFIG_SOFTMMU
+diff --git a/tcg/arm/tcg-target.h b/tcg/arm/tcg-target.h
+index 1e132afa75..1e18fefd0e 100644
+--- a/tcg/arm/tcg-target.h
++++ b/tcg/arm/tcg-target.h
+@@ -135,11 +135,6 @@ enum {
+ #define TCG_TARGET_DEFAULT_MO (0)
+ #define TCG_TARGET_HAS_MEMORY_BSWAP     1
+ 
+-static inline void flush_icache_range(uintptr_t start, uintptr_t stop)
+-{
+-    __builtin___clear_cache((char *) start, (char *) stop);
+-}
+-
+ /* not defined -- call should be eliminated at compile time */
+ void tb_target_set_jmp_target(uintptr_t, uintptr_t, uintptr_t);
+ 
+diff --git a/tcg/i386/tcg-target.h b/tcg/i386/tcg-target.h
+index abe8636f0d..f3836a4d0c 100644
+--- a/tcg/i386/tcg-target.h
++++ b/tcg/i386/tcg-target.h
+@@ -210,10 +210,6 @@ extern bool have_movbe;
+ #define TCG_TARGET_extract_i64_valid(ofs, len) \
+     (((ofs) == 8 && (len) == 8) || ((ofs) + (len)) == 32)
+ 
+-static inline void flush_icache_range(uintptr_t start, uintptr_t stop)
+-{
+-}
+-
+ static inline void tb_target_set_jmp_target(uintptr_t tc_ptr,
+                                             uintptr_t jmp_addr, uintptr_t addr)
+ {
+diff --git a/tcg/mips/tcg-target.h b/tcg/mips/tcg-target.h
+index b04c12d317..624248b81e 100644
+--- a/tcg/mips/tcg-target.h
++++ b/tcg/mips/tcg-target.h
+@@ -199,20 +199,9 @@ extern bool use_mips32r2_instructions;
+ #define TCG_TARGET_HAS_ext16u_i64       0 /* andi rt, rs, 0xffff */
+ #endif
+ 
+-#ifdef __OpenBSD__
+-#include <machine/sysarch.h>
+-#else
+-#include <sys/cachectl.h>
+-#endif
+-
+ #define TCG_TARGET_DEFAULT_MO (0)
+ #define TCG_TARGET_HAS_MEMORY_BSWAP     1
+ 
+-static inline void flush_icache_range(uintptr_t start, uintptr_t stop)
+-{
+-    cacheflush ((void *)start, stop-start, ICACHE);
+-}
+-
+ void tb_target_set_jmp_target(uintptr_t, uintptr_t, uintptr_t);
+ 
+ #ifdef CONFIG_SOFTMMU
+diff --git a/tcg/ppc/tcg-target.h b/tcg/ppc/tcg-target.h
+index 7ff46b3d6d..301173c97e 100644
+--- a/tcg/ppc/tcg-target.h
++++ b/tcg/ppc/tcg-target.h
+@@ -176,7 +176,6 @@ extern bool have_vsx;
+ #define TCG_TARGET_HAS_bitsel_vec       have_vsx
+ #define TCG_TARGET_HAS_cmpsel_vec       0
+ 
+-void flush_icache_range(uintptr_t start, uintptr_t stop);
+ void tb_target_set_jmp_target(uintptr_t, uintptr_t, uintptr_t);
+ 
+ #define TCG_TARGET_DEFAULT_MO (0)
+diff --git a/tcg/riscv/tcg-target.h b/tcg/riscv/tcg-target.h
+index ccda7b83c4..888288d54c 100644
+--- a/tcg/riscv/tcg-target.h
++++ b/tcg/riscv/tcg-target.h
+@@ -160,11 +160,6 @@ typedef enum {
+ #define TCG_TARGET_HAS_mulsh_i64        1
+ #endif
+ 
+-static inline void flush_icache_range(uintptr_t start, uintptr_t stop)
+-{
+-    __builtin___clear_cache((char *)start, (char *)stop);
+-}
+-
+ /* not defined -- call should be eliminated at compile time */
+ void tb_target_set_jmp_target(uintptr_t, uintptr_t, uintptr_t);
+ 
+diff --git a/tcg/s390/tcg-target.h b/tcg/s390/tcg-target.h
+index 7e7396caf2..69576f4a9a 100644
+--- a/tcg/s390/tcg-target.h
++++ b/tcg/s390/tcg-target.h
+@@ -146,10 +146,6 @@ enum {
+     TCG_AREG0 = TCG_REG_R10,
+ };
+ 
+-static inline void flush_icache_range(uintptr_t start, uintptr_t stop)
+-{
+-}
+-
+ static inline void tb_target_set_jmp_target(uintptr_t tc_ptr,
+                                             uintptr_t jmp_addr, uintptr_t addr)
+ {
+diff --git a/tcg/sparc/tcg-target.h b/tcg/sparc/tcg-target.h
+index f2989b3b45..9dce305253 100644
+--- a/tcg/sparc/tcg-target.h
++++ b/tcg/sparc/tcg-target.h
+@@ -169,14 +169,6 @@ extern bool use_vis3_instructions;
+ #define TCG_TARGET_DEFAULT_MO (0)
+ #define TCG_TARGET_HAS_MEMORY_BSWAP     1
+ 
+-static inline void flush_icache_range(uintptr_t start, uintptr_t stop)
+-{
+-    uintptr_t p;
+-    for (p = start & -8; p < ((stop + 7) & -8); p += 8) {
+-        __asm__ __volatile__("flush\t%0" : : "r" (p));
+-    }
+-}
+-
+ void tb_target_set_jmp_target(uintptr_t, uintptr_t, uintptr_t);
+ 
+ #define TCG_TARGET_NEED_POOL_LABELS
+diff --git a/tcg/tci/tcg-target.h b/tcg/tci/tcg-target.h
+index 7192d5319e..e8277caee2 100644
+--- a/tcg/tci/tcg-target.h
++++ b/tcg/tci/tcg-target.h
+@@ -192,10 +192,6 @@ void tci_disas(uint8_t opc);
+ 
+ #define HAVE_TCG_QEMU_TB_EXEC
+ 
+-static inline void flush_icache_range(uintptr_t start, uintptr_t stop)
+-{
+-}
+-
+ /* We could notice __i386__ or __s390x__ and reduce the barriers depending
+    on the host.  But if you want performance, you use the normal backend.
+    We prefer consistency across hosts on this.  */
+diff --git a/softmmu/physmem.c b/softmmu/physmem.c
+index 2cd1de4a2c..c595266b9f 100644
+--- a/softmmu/physmem.c
++++ b/softmmu/physmem.c
+@@ -22,6 +22,7 @@
+ #include "qapi/error.h"
+ 
+ #include "qemu/cutils.h"
++#include "qemu/cacheflush.h"
+ #include "cpu.h"
+ #include "exec/exec-all.h"
+ #include "exec/target_page.h"
+diff --git a/tcg/tcg.c b/tcg/tcg.c
+index df2857dc88..9bdc450196 100644
+--- a/tcg/tcg.c
++++ b/tcg/tcg.c
+@@ -35,6 +35,7 @@
+ #include "qemu/host-utils.h"
+ #include "qemu/qemu-print.h"
+ #include "qemu/timer.h"
++#include "qemu/cacheflush.h"
+ 
+ /* Note: the long term plan is to reduce the dependencies on the QEMU
+    CPU definitions. Currently they are used for qemu_ld/st
+diff --git a/util/cacheflush.c b/util/cacheflush.c
+new file mode 100644
+index 0000000000..2881832a38
+--- /dev/null
++++ b/util/cacheflush.c
+@@ -0,0 +1,71 @@
++/*
++ * Flush the host cpu caches.
++ *
++ * This work is licensed under the terms of the GNU GPL, version 2 or later.
++ * See the COPYING file in the top-level directory.
++ */
++
++#include "qemu/osdep.h"
++#include "qemu/cacheflush.h"
++
++
++#if defined(__i386__) || defined(__x86_64__) || defined(__s390__)
++
++/* Caches are coherent and do not require flushing; symbol inline. */
++
++#elif defined(__mips__)
++
++#ifdef __OpenBSD__
++#include <machine/sysarch.h>
++#else
++#include <sys/cachectl.h>
++#endif
++
++void flush_icache_range(uintptr_t start, uintptr_t stop)
++{
++    cacheflush((void *)start, stop - start, ICACHE);
++}
++
++#elif defined(__powerpc__)
++
++void flush_icache_range(uintptr_t start, uintptr_t stop)
++{
++    uintptr_t p, start1, stop1;
++    size_t dsize = qemu_dcache_linesize;
++    size_t isize = qemu_icache_linesize;
++
++    start1 = start & ~(dsize - 1);
++    stop1 = (stop + dsize - 1) & ~(dsize - 1);
++    for (p = start1; p < stop1; p += dsize) {
++        asm volatile ("dcbst 0,%0" : : "r"(p) : "memory");
++    }
++    asm volatile ("sync" : : : "memory");
++
++    start &= start & ~(isize - 1);
++    stop1 = (stop + isize - 1) & ~(isize - 1);
++    for (p = start1; p < stop1; p += isize) {
++        asm volatile ("icbi 0,%0" : : "r"(p) : "memory");
++    }
++    asm volatile ("sync" : : : "memory");
++    asm volatile ("isync" : : : "memory");
++}
++
++#elif defined(__sparc__)
++
++void flush_icache_range(uintptr_t start, uintptr_t stop)
++{
++    uintptr_t p;
++
++    for (p = start & -8; p < ((stop + 7) & -8); p += 8) {
++        __asm__ __volatile__("flush\t%0" : : "r" (p));
++    }
++}
++
++#else
++
++void flush_icache_range(uintptr_t start, uintptr_t stop)
++{
++    __builtin___clear_cache((char *)start, (char *)stop);
++}
++
++#endif
+diff --git a/tcg/ppc/tcg-target.c.inc b/tcg/ppc/tcg-target.c.inc
+index 18ee989f95..0d068ec8ab 100644
+--- a/tcg/ppc/tcg-target.c.inc
++++ b/tcg/ppc/tcg-target.c.inc
+@@ -3863,25 +3863,3 @@ void tcg_register_jit(void *buf, size_t buf_size)
+     tcg_register_jit_int(buf, buf_size, &debug_frame, sizeof(debug_frame));
+ }
+ #endif /* __ELF__ */
+-
+-void flush_icache_range(uintptr_t start, uintptr_t stop)
+-{
+-    uintptr_t p, start1, stop1;
+-    size_t dsize = qemu_dcache_linesize;
+-    size_t isize = qemu_icache_linesize;
+-
+-    start1 = start & ~(dsize - 1);
+-    stop1 = (stop + dsize - 1) & ~(dsize - 1);
+-    for (p = start1; p < stop1; p += dsize) {
+-        asm volatile ("dcbst 0,%0" : : "r"(p) : "memory");
+-    }
+-    asm volatile ("sync" : : : "memory");
+-
+-    start &= start & ~(isize - 1);
+-    stop1 = (stop + isize - 1) & ~(isize - 1);
+-    for (p = start1; p < stop1; p += isize) {
+-        asm volatile ("icbi 0,%0" : : "r"(p) : "memory");
+-    }
+-    asm volatile ("sync" : : : "memory");
+-    asm volatile ("isync" : : : "memory");
+-}
+diff --git a/MAINTAINERS b/MAINTAINERS
+index 42fedf91e7..478bea667c 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -119,6 +119,8 @@ F: softmmu/cpus.c
+ F: cpus-common.c
+ F: accel/tcg/
+ F: accel/stubs/tcg-stub.c
++F: util/cacheinfo.c
++F: util/cacheflush.c
+ F: scripts/decodetree.py
+ F: docs/devel/decodetree.rst
+ F: include/exec/cpu*.h
+diff --git a/util/meson.build b/util/meson.build
+index f359af0d46..a3dfc0f966 100644
+--- a/util/meson.build
++++ b/util/meson.build
+@@ -21,7 +21,7 @@ util_ss.add(files('envlist.c', 'path.c', 'module.c'))
+ util_ss.add(files('host-utils.c'))
+ util_ss.add(files('bitmap.c', 'bitops.c'))
+ util_ss.add(files('fifo8.c'))
+-util_ss.add(files('cacheinfo.c'))
++util_ss.add(files('cacheinfo.c', 'cacheflush.c'))
+ util_ss.add(files('error.c', 'qemu-error.c'))
+ util_ss.add(files('qemu-print.c'))
+ util_ss.add(files('id.c'))
+-- 
+2.25.1
+
 
