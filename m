@@ -2,60 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B5AE42EAB45
-	for <lists+qemu-devel@lfdr.de>; Tue,  5 Jan 2021 13:54:54 +0100 (CET)
-Received: from localhost ([::1]:56396 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id ED8B02EAB47
+	for <lists+qemu-devel@lfdr.de>; Tue,  5 Jan 2021 13:55:35 +0100 (CET)
+Received: from localhost ([::1]:58502 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kwlrR-0003Te-Or
-	for lists+qemu-devel@lfdr.de; Tue, 05 Jan 2021 07:54:53 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57254)
+	id 1kwls7-0004KL-2Q
+	for lists+qemu-devel@lfdr.de; Tue, 05 Jan 2021 07:55:35 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57434)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1kwlol-0001S4-BV
- for qemu-devel@nongnu.org; Tue, 05 Jan 2021 07:52:07 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:41075)
+ (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1kwlpD-0001o9-3Q
+ for qemu-devel@nongnu.org; Tue, 05 Jan 2021 07:52:35 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:56599)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1kwloj-00053o-L2
- for qemu-devel@nongnu.org; Tue, 05 Jan 2021 07:52:07 -0500
+ (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1kwlpB-0005CY-Cs
+ for qemu-devel@nongnu.org; Tue, 05 Jan 2021 07:52:34 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1609851125;
+ s=mimecast20190719; t=1609851152;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=nizhV6y2Te2uQs2B0KqdeSBngp1K7NSERI32b3e3Cbs=;
- b=DR+MccppXZOvgTEoQrd87RP+z0qH8mne/2MW/hQepSjzZ+HBruRbeU79ziYg9y+Sug61+f
- BDVFXBqkJvGHBBVS7HTOLtMSWX3G+TGWaC4jXSuoomUQt1fo9NE8fzribgatWwrwgClpb5
- W9Ox6mV8mZiKZs1vMIhj3qTykcpKlm4=
+ bh=Gvq6j5UmMHNkBLkDpD8I/UF3ID/dmHiGqk52x73H1ZU=;
+ b=YLrQjTloSLbQ1N+N4uuOlc+gX4Tqe+fIiK0Apr6pl5um5L53EmAidYqDgVLDDVPdBZsTTw
+ TWjw3sKApl8NGiQx6LSv1Vijgr+IEgpTF2UrFxDAzycJtmzpUD8iEEWL9e/QIB2UEiy9Fy
+ dPkS7d+K58rGmeQ6+G/yjYw5nAE6f8Q=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-377-vtPl9N03ORyzjrUOeAHnqw-1; Tue, 05 Jan 2021 07:52:01 -0500
-X-MC-Unique: vtPl9N03ORyzjrUOeAHnqw-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
+ us-mta-309-YhN_WAb7P3-cuhzNW-J9IA-1; Tue, 05 Jan 2021 07:52:31 -0500
+X-MC-Unique: YhN_WAb7P3-cuhzNW-J9IA-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id DCF35801817;
- Tue,  5 Jan 2021 12:51:59 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A406659;
+ Tue,  5 Jan 2021 12:52:29 +0000 (UTC)
 Received: from dresden.str.redhat.com (ovpn-113-1.ams2.redhat.com
  [10.36.113.1])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 69FF25C1C2;
- Tue,  5 Jan 2021 12:51:54 +0000 (UTC)
-Subject: Re: [PATCH v15 10/13] qapi: block-stream: add "bottom" argument
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 971DC5B4A4;
+ Tue,  5 Jan 2021 12:52:23 +0000 (UTC)
+From: Max Reitz <mreitz@redhat.com>
+Subject: Re: [PATCH v15 13/13] block: apply COR-filter to block-stream jobs
 To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
  qemu-block@nongnu.org
 References: <20201216061703.70908-1-vsementsov@virtuozzo.com>
- <20201216061703.70908-11-vsementsov@virtuozzo.com>
- <d7d127a1-e70b-4e1f-acc8-eaf9230dd70a@redhat.com>
- <4039f38e-e519-fe51-45c8-ce761587961b@virtuozzo.com>
-From: Max Reitz <mreitz@redhat.com>
-Message-ID: <aaf988d7-8ec9-8ac5-b885-378d70aed42a@redhat.com>
-Date: Tue, 5 Jan 2021 13:51:53 +0100
+ <20201216061703.70908-14-vsementsov@virtuozzo.com>
+ <fa2c8c5e-78b5-6d4a-6e23-aaec2249debb@redhat.com>
+ <e1d9bfea-ff70-1a02-0422-d59ebf1dc011@virtuozzo.com>
+Message-ID: <86990a8d-1c20-62ea-f18c-ff34af4b9cbc@redhat.com>
+Date: Tue, 5 Jan 2021 13:52:22 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.5.0
 MIME-Version: 1.0
-In-Reply-To: <4039f38e-e519-fe51-45c8-ce761587961b@virtuozzo.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+In-Reply-To: <e1d9bfea-ff70-1a02-0422-d59ebf1dc011@virtuozzo.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mreitz@redhat.com
 X-Mimecast-Spam-Score: 0
@@ -72,7 +72,7 @@ X-Spam_report: (-3.3 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.252,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  NICE_REPLY_A=-0.249, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001,
  RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -91,73 +91,82 @@ Cc: fam@euphon.net, kwolf@redhat.com, qemu-devel@nongnu.org, armbru@redhat.com,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 22.12.20 19:00, Vladimir Sementsov-Ogievskiy wrote:
-> 22.12.2020 19:07, Max Reitz wrote:
+On 22.12.20 19:07, Vladimir Sementsov-Ogievskiy wrote:
+> 22.12.2020 19:20, Max Reitz wrote:
 >> On 16.12.20 07:17, Vladimir Sementsov-Ogievskiy wrote:
->>> The code already don't freeze base node and we try to make it prepared
->>> for the situation when base node is changed during the operation. In
->>> other words, block-stream doesn't own base node.
+>>> From: Andrey Shinkevich <andrey.shinkevich@virtuozzo.com>
 >>>
->>> Let's introduce a new interface which should replace the current one,
->>> which will in better relations with the code. Specifying bottom node
->>> instead of base, and requiring it to be non-filter gives us the
->>> following benefits:
+>>> This patch completes the series with the COR-filter applied to
+>>> block-stream operations.
 >>>
->>>   - drop difference between above_base and base_overlay, which will be
->>>     renamed to just bottom, when old interface dropped
+>>> Adding the filter makes it possible in future implement discarding
+>>> copied regions in backing files during the block-stream job, to reduce
+>>> the disk overuse (we need control on permissions).
 >>>
->>>   - clean way to work with parallel streams/commits on the same backing
->>>     chain, which otherwise become a problem when we introduce a filter
->>>     for stream job
+>>> Also, the filter now is smart enough to do copy-on-read with specified
+>>> base, so we have benefit on guest reads even when doing block-stream of
+>>> the part of the backing chain.
 >>>
->>>   - cleaner interface. Nobody will surprised the fact that base node may
->>>     disappear during block-stream, when there is no word about "base" in
->>>     the interface.
+>>> Several iotests are slightly modified due to filter insertion.
 >>>
+>>> Signed-off-by: Andrey Shinkevich <andrey.shinkevich@virtuozzo.com>
 >>> Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 >>> ---
->>>   qapi/block-core.json           | 12 ++++---
->>>   include/block/block_int.h      |  1 +
->>>   block/monitor/block-hmp-cmds.c |  3 +-
->>>   block/stream.c                 | 50 +++++++++++++++++++---------
->>>   blockdev.c                     | 59 ++++++++++++++++++++++++++++------
->>>   5 files changed, 94 insertions(+), 31 deletions(-)
+>>>   block/stream.c             | 105 ++++++++++++++++++++++---------------
+>>>   tests/qemu-iotests/030     |   8 +--
+>>>   tests/qemu-iotests/141.out |   2 +-
+>>>   tests/qemu-iotests/245     |  20 ++++---
+>>>   4 files changed, 80 insertions(+), 55 deletions(-)
 >>>
->>> diff --git a/qapi/block-core.json b/qapi/block-core.json
->>> index b8094a5ec7..cb0066fd5c 100644
->>> --- a/qapi/block-core.json
->>> +++ b/qapi/block-core.json
->>> @@ -2517,10 +2517,14 @@
->>>   # @device: the device or node name of the top image
->>>   #
->>>   # @base: the common backing file name.
->>> -#        It cannot be set if @base-node is also set.
->>> +#        It cannot be set if @base-node or @bottom is also set.
->>>   #
->>>   # @base-node: the node name of the backing file.
->>> -#             It cannot be set if @base is also set. (Since 2.8)
->>> +#             It cannot be set if @base or @bottom is also set. 
->>> (Since 2.8)
->>> +#
->>> +# @bottom: the last node in the chain that should be streamed into
->>> +#          top. It cannot be set if @base or @base-node is also set.
->>> +#          It cannot be filter node. (Since 6.0)
+>>> diff --git a/block/stream.c b/block/stream.c
+>>> index 626dfa2b22..1fa742b0db 100644
+>>> --- a/block/stream.c
+>>> +++ b/block/stream.c
 >>
->> As far as I can make out, one of the results of our discussion on v14 
->> was that when using backing-file + bottom, we want to require the user 
->> to specify backing-fmt as well.  Now, backing-fmt isn’t present yet. 
->> Doesn’t that mean we have to make bottom + backing-file an error until 
->> we have backing-fmt (like it was in v14)?
+>> [...]
+>>
+>>> @@ -266,30 +251,62 @@ void stream_start(const char *job_id, 
+>>> BlockDriverState *bs,
+>>
+>> [...]
+>>
+>>>       /* Make sure that the image is opened in read-write mode */
+>>>       bs_read_only = bdrv_is_read_only(bs);
+>>>       if (bs_read_only) {
+>>> -        if (bdrv_reopen_set_read_only(bs, false, errp) != 0) {
+>>> -            bs_read_only = false;
+>>> -            goto fail;
+>>> +        int ret;
+>>> +        /* Hold the chain during reopen */
+>>> +        if (bdrv_freeze_backing_chain(bs, above_base, errp) < 0) {
+>>> +            return;
+>>> +        }
+>>> +
+>>> +        ret = bdrv_reopen_set_read_only(bs, false, errp);
+>>> +
+>>> +        /* failure, or cor-filter will hold the chain */
+>>> +        bdrv_unfreeze_backing_chain(bs, above_base);
+>>> +
+>>> +        if (ret < 0) {
+>>
+>> Shouldn’t we keep the “bs_read_only = false;” here?
+>>
 > 
-> See my answer on 09. I just have some doubts around backing-fmt and 
-> decided to keep it as is.
-> 
-> I don't think that we really need backing-fmt. We shouldn't have 
-> use-cases when backing-fmt is set to something another than final base 
-> node. Therefore, using format_name of final base node is a correct thing 
-> to do. So, I don't see the reason now for introducing new option.
+> No, as we don't goto fail.
 
-Yup, yup, all good.
+Ah, right, then it won’t do anything.
+
+> (pre-patch, we goto fail here, and don't want 
+> fail: code path to reopend back to RW (as reopening to RO is failed 
+> anyway (and we hope it's transactional enough)))
+
+That’s why we had bs_read_only = false; pre-patch, so the reopen back to 
+RW is skipped.
+
+And with this patch, we don’t need anything else from the “fail” path 
+(freezing is done by the filter, and the filter doesn’t exist yet), so 
+it’s correct to condense the “bs_read_only = false; goto fail;” into a 
+plain “return”.
 
 Reviewed-by: Max Reitz <mreitz@redhat.com>
 
