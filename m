@@ -2,68 +2,101 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AE6E12EB518
-	for <lists+qemu-devel@lfdr.de>; Tue,  5 Jan 2021 22:57:55 +0100 (CET)
-Received: from localhost ([::1]:42806 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6CE612EB654
+	for <lists+qemu-devel@lfdr.de>; Wed,  6 Jan 2021 00:36:22 +0100 (CET)
+Received: from localhost ([::1]:45724 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kwuKw-0003Ba-OD
-	for lists+qemu-devel@lfdr.de; Tue, 05 Jan 2021 16:57:54 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35622)
+	id 1kwvsD-0006AH-03
+	for lists+qemu-devel@lfdr.de; Tue, 05 Jan 2021 18:36:21 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58338)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <wuhaotsh@google.com>)
- id 1kwuJn-0002d2-1c
- for qemu-devel@nongnu.org; Tue, 05 Jan 2021 16:56:43 -0500
-Received: from mail-lf1-x134.google.com ([2a00:1450:4864:20::134]:39511)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <wuhaotsh@google.com>)
- id 1kwuJl-0004za-0i
- for qemu-devel@nongnu.org; Tue, 05 Jan 2021 16:56:42 -0500
-Received: by mail-lf1-x134.google.com with SMTP id a12so2021493lfl.6
- for <qemu-devel@nongnu.org>; Tue, 05 Jan 2021 13:56:35 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=CJTR5P+O1pAD9ZwARwSZ/K8/6oUZwdn6dUQpE4KreUU=;
- b=X3nJsZLrGDkre0IxhwB9gU76MRmgh7NQQkgtmp+2qgfMN2myC1CqKbyupf/g2JGSKB
- ePT96owqK6R0bUltPu1FuQg5iF09pnelWWk46QC8eHo1iOdCnVN11L6zkHbmabV+v/vu
- o5uQ9VJs/ggBrzXEHevTQMOLE8m8l6/Z2UVqtsWHeN6Xl0WoczwVZn+MKfKNEO2aCCaN
- AEdihsmfHRofpW/EEzwAxde7+/D9BhED9pdFBZpgbdQZbPbDsHSh/v/LHum5/Mcs2YpY
- dA7kpcBmfs7Oa9yvL5p4Yz5UEUP9AfWXPt39D4KbcBeOtQV4Zj5zMKY2DhtvZ83v/BEX
- qcEw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=CJTR5P+O1pAD9ZwARwSZ/K8/6oUZwdn6dUQpE4KreUU=;
- b=ZAbKiKB8WNsrInsaUnPEGIlakaXGODbofY+vqwvr4vRuvRnEPt+LvSEf/0zhWTfY3x
- D87xmojvUt8b6CSgsHki681FQ6EoRzldS4OjV/MHGvJR+nM0LgpOTU+i/TVPzhGTOcWY
- rCF47RRTzbjTNp8IMV46PRX6y0Rq1i7xdbUHIoThykQGQtICV0Slves40gps2hrj4dje
- d92K6AaA+ZLZMe6lpJITT2rI/Dg2EAsGLPUsDfoWyzAicaQahCh9s+MEBVeqADsWgQ+5
- eDCR/xMwzWACKZwqKl9QLluyo8e6oGIZNFkxUNY6oSqCEsoOk+XIejgHvVTdnOu4oAbr
- 7RQw==
-X-Gm-Message-State: AOAM531HRJkbYHdlzwB4R9OVAd5t2GcLP1rzRDTTsZBEQ6z1ndmMNdnj
- zaJtd2zG0pw0muM3XGET6XXm1g2XUxGWYJQT9gqGtQ==
-X-Google-Smtp-Source: ABdhPJxffchFhmbHgephTF5b7gfCY6BL6aQlHOAEktndKsAUg0Hy3o5GayMBhJkuWUGHuaDX9gKLuRni5Kd2+We6SRY=
-X-Received: by 2002:ac2:4d14:: with SMTP id r20mr576847lfi.410.1609883793668; 
- Tue, 05 Jan 2021 13:56:33 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <linuxram@us.ibm.com>)
+ id 1kwvqx-0005Vo-G0; Tue, 05 Jan 2021 18:35:04 -0500
+Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:51188
+ helo=mx0a-001b2d01.pphosted.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <linuxram@us.ibm.com>)
+ id 1kwvqs-0006I9-T0; Tue, 05 Jan 2021 18:35:02 -0500
+Received: from pps.filterd (m0098414.ppops.net [127.0.0.1])
+ by mx0b-001b2d01.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id
+ 105NWv8v131611; Tue, 5 Jan 2021 18:34:50 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
+ h=date : from : to : cc :
+ message-id : reply-to : references : mime-version : content-type :
+ in-reply-to : subject; s=pp1;
+ bh=SEMgVBXBgS8oXklCCsiQh4hDhP2dBEwhEUJwWn9ZcM8=;
+ b=m3pIleuvatum4n0oqf4UYyqBb+lxrXdMpmLe3vQsgIIXlu5/rt4vHe2BTsvymRf0WeFD
+ Yr3lAGQmCi5sjbuhpqFdcWwny72tvZG6lCGPutgKY2PzTkmwrmMHsXb8kRQaK/6KuImY
+ PtU06cAcSz1eAVBPxBFLqjJtoOJ7YGrgUs8hqC+O2Pa/LmTinplzz0uOZmexEyDD4Sux
+ WPSehLdUi8UCFLRXJ/zg84o+NcwkQpX5MAgAn+qogPUW8OF5yLEqNRWK7qryio6wBIg0
+ tLciWKgnPK4Y7vU89/8a/LpSxngO2YxMiqVT19NtVBLhZ7PmpOq23olKLXC9bcrRIgSi ug== 
+Received: from pps.reinject (localhost [127.0.0.1])
+ by mx0b-001b2d01.pphosted.com with ESMTP id 35w1rag58t-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Tue, 05 Jan 2021 18:34:49 -0500
+Received: from m0098414.ppops.net (m0098414.ppops.net [127.0.0.1])
+ by pps.reinject (8.16.0.36/8.16.0.36) with SMTP id 105NYnrd135879;
+ Tue, 5 Jan 2021 18:34:49 -0500
+Received: from ppma04ams.nl.ibm.com (63.31.33a9.ip4.static.sl-reverse.com
+ [169.51.49.99])
+ by mx0b-001b2d01.pphosted.com with ESMTP id 35w1rag58d-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Tue, 05 Jan 2021 18:34:49 -0500
+Received: from pps.filterd (ppma04ams.nl.ibm.com [127.0.0.1])
+ by ppma04ams.nl.ibm.com (8.16.0.42/8.16.0.42) with SMTP id 105NW66K004358;
+ Tue, 5 Jan 2021 23:34:47 GMT
+Received: from b06avi18878370.portsmouth.uk.ibm.com
+ (b06avi18878370.portsmouth.uk.ibm.com [9.149.26.194])
+ by ppma04ams.nl.ibm.com with ESMTP id 35u3pmjq9x-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Tue, 05 Jan 2021 23:34:47 +0000
+Received: from d06av22.portsmouth.uk.ibm.com (d06av22.portsmouth.uk.ibm.com
+ [9.149.105.58])
+ by b06avi18878370.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP
+ id 105NYfEo31457672
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Tue, 5 Jan 2021 23:34:41 GMT
+Received: from d06av22.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id A9F7D4C052;
+ Tue,  5 Jan 2021 23:34:44 +0000 (GMT)
+Received: from d06av22.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id B18E54C04A;
+ Tue,  5 Jan 2021 23:34:40 +0000 (GMT)
+Received: from ram-ibm-com.ibm.com (unknown [9.163.29.145])
+ by d06av22.portsmouth.uk.ibm.com (Postfix) with ESMTPS;
+ Tue,  5 Jan 2021 23:34:40 +0000 (GMT)
+Date: Tue, 5 Jan 2021 15:34:38 -0800
+From: Ram Pai <linuxram@us.ibm.com>
+To: David Gibson <david@gibson.dropbear.id.au>
+Message-ID: <20210105233438.GB22585@ram-ibm-com.ibm.com>
+References: <20201204054415.579042-1-david@gibson.dropbear.id.au>
+ <20201204054415.579042-11-david@gibson.dropbear.id.au>
 MIME-Version: 1.0
-References: <20201217004349.3740927-1-wuhaotsh@google.com>
-In-Reply-To: <20201217004349.3740927-1-wuhaotsh@google.com>
-Date: Tue, 5 Jan 2021 13:56:22 -0800
-Message-ID: <CAGcCb10FdAJs2qkwU3COtapt-xtNAAJg7oVPCFdE-LUHFjwBKQ@mail.gmail.com>
-Subject: Re: [PATCH v4 0/6] Additional NPCM7xx devices
-To: Peter Maydell <peter.maydell@linaro.org>
-Content-Type: multipart/alternative; boundary="000000000000a7214905b82e4742"
-Received-SPF: pass client-ip=2a00:1450:4864:20::134;
- envelope-from=wuhaotsh@google.com; helo=mail-lf1-x134.google.com
-X-Spam_score_int: -179
-X-Spam_score: -18.0
-X-Spam_bar: ------------------
-X-Spam_report: (-18.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_MED=-0.369,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- ENV_AND_HDR_SPF_MATCH=-0.5, HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001, USER_IN_DEF_DKIM_WL=-7.5,
- USER_IN_DEF_SPF_WL=-7.5 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20201204054415.579042-11-david@gibson.dropbear.id.au>
+User-Agent: Mutt/1.5.21 (2010-09-15)
+X-TM-AS-GCONF: 00
+Subject: Re:  [for-6.0 v5 10/13] spapr: Add PEF based securable guest memory
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.343, 18.0.737
+ definitions=2021-01-05_09:2021-01-05,
+ 2021-01-05 signatures=0
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ malwarescore=0
+ lowpriorityscore=0 bulkscore=0 spamscore=0 mlxscore=0 suspectscore=0
+ adultscore=0 impostorscore=0 clxscore=1015 mlxlogscore=999 phishscore=0
+ priorityscore=1501 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2009150000 definitions=main-2101050134
+Received-SPF: pass client-ip=148.163.158.5; envelope-from=linuxram@us.ibm.com;
+ helo=mx0a-001b2d01.pphosted.com
+X-Spam_score_int: -26
+X-Spam_score: -2.7
+X-Spam_bar: --
+X-Spam_report: (-2.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_DNSWL_LOW=-0.7,
+ RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -76,195 +109,121 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Corey Minyard <minyard@acm.org>, Patrick Venture <venture@google.com>,
- Havard Skinnemoen <hskinnemoen@google.com>,
- QEMU Developers <qemu-devel@nongnu.org>, CS20 KFTing <kfting@nuvoton.com>,
- qemu-arm <qemu-arm@nongnu.org>, IS20 Avi Fishman <Avi.Fishman@nuvoton.com>,
- =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>
+Reply-To: Ram Pai <linuxram@us.ibm.com>
+Cc: pair@us.ibm.com, Marcelo Tosatti <mtosatti@redhat.com>,
+ brijesh.singh@amd.com, frankja@linux.ibm.com, kvm@vger.kernel.org,
+ "Michael S. Tsirkin" <mst@redhat.com>, cohuck@redhat.com,
+ Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org,
+ dgilbert@redhat.com, pasic@linux.ibm.com, borntraeger@de.ibm.com,
+ qemu-s390x@nongnu.org, qemu-ppc@nongnu.org, berrange@redhat.com,
+ thuth@redhat.com, pbonzini@redhat.com, david@redhat.com, rth@twiddle.net,
+ mdroth@linux.vnet.ibm.com, Eduardo Habkost <ehabkost@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
-Reply-to: Hao Wu <wuhaotsh@google.com>
-From: Hao Wu via <qemu-devel@nongnu.org>
 
---000000000000a7214905b82e4742
-Content-Type: text/plain; charset="UTF-8"
+On Fri, Dec 04, 2020 at 04:44:12PM +1100, David Gibson wrote:
+> Some upcoming POWER machines have a system called PEF (Protected
+> Execution Facility) which uses a small ultravisor to allow guests to
+> run in a way that they can't be eavesdropped by the hypervisor.  The
+> effect is roughly similar to AMD SEV, although the mechanisms are
+> quite different.
+> 
+> Most of the work of this is done between the guest, KVM and the
+> ultravisor, with little need for involvement by qemu.  However qemu
+> does need to tell KVM to allow secure VMs.
+> 
+> Because the availability of secure mode is a guest visible difference
+> which depends on having the right hardware and firmware, we don't
+> enable this by default.  In order to run a secure guest you need to
+> create a "pef-guest" object and set the securable-guest-memory machine
+> property to point to it.
+> 
+> Note that this just *allows* secure guests, the architecture of PEF is
+> such that the guest still needs to talk to the ultravisor to enter
+> secure mode.  Qemu has no directl way of knowing if the guest is in
+> secure mode, and certainly can't know until well after machine
+> creation time.
+> 
+> To start a PEF-capable guest, use the command line options:
+>     -object pef-guest,id=pef0 -machine securable-guest-memory=pef0
+> 
+> Signed-off-by: David Gibson <david@gibson.dropbear.id.au>
+> Acked-by: Ram Pai <linuxram@us.ibm.com>
+> ---
+>  hw/ppc/meson.build   |   1 +
+>  hw/ppc/pef.c         | 115 +++++++++++++++++++++++++++++++++++++++++++
+>  hw/ppc/spapr.c       |  10 ++++
+>  include/hw/ppc/pef.h |  26 ++++++++++
+>  target/ppc/kvm.c     |  18 -------
+>  target/ppc/kvm_ppc.h |   6 ---
+>  6 files changed, 152 insertions(+), 24 deletions(-)
+>  create mode 100644 hw/ppc/pef.c
+>  create mode 100644 include/hw/ppc/pef.h
+> 
+> diff --git a/hw/ppc/meson.build b/hw/ppc/meson.build
+> index ffa2ec37fa..218631c883 100644
+> --- a/hw/ppc/meson.build
+> +++ b/hw/ppc/meson.build
+> @@ -27,6 +27,7 @@ ppc_ss.add(when: 'CONFIG_PSERIES', if_true: files(
+>    'spapr_nvdimm.c',
+>    'spapr_rtas_ddw.c',
+>    'spapr_numa.c',
+> +  'pef.c',
+>  ))
+>  ppc_ss.add(when: 'CONFIG_SPAPR_RNG', if_true: files('spapr_rng.c'))
+>  ppc_ss.add(when: ['CONFIG_PSERIES', 'CONFIG_LINUX'], if_true: files(
+> diff --git a/hw/ppc/pef.c b/hw/ppc/pef.c
+> new file mode 100644
+> index 0000000000..3ae3059cfe
+> --- /dev/null
+> +++ b/hw/ppc/pef.c
+> @@ -0,0 +1,115 @@
+> +/*
+> + * PEF (Protected Execution Facility) for POWER support
+> + *
+> + * Copyright David Gibson, Redhat Inc. 2020
+> + *
+> + * This work is licensed under the terms of the GNU GPL, version 2 or later.
+> + * See the COPYING file in the top-level directory.
+> + *
+> + */
+> +
+> +#include "qemu/osdep.h"
+> +
+> +#include "qapi/error.h"
+> +#include "qom/object_interfaces.h"
+> +#include "sysemu/kvm.h"
+> +#include "migration/blocker.h"
+> +#include "exec/securable-guest-memory.h"
+> +#include "hw/ppc/pef.h"
+> +
+> +#define TYPE_PEF_GUEST "pef-guest"
+> +#define PEF_GUEST(obj)                                  \
+> +    OBJECT_CHECK(PefGuestState, (obj), TYPE_PEF_GUEST)
+> +
+> +typedef struct PefGuestState PefGuestState;
+> +
+> +/**
+> + * PefGuestState:
+> + *
+> + * The PefGuestState object is used for creating and managing a PEF
+> + * guest.
+> + *
+> + * # $QEMU \
+> + *         -object pef-guest,id=pef0 \
+> + *         -machine ...,securable-guest-memory=pef0
+> + */
+> +struct PefGuestState {
+> +    Object parent_obj;
+> +};
+> +
+> +#ifdef CONFIG_KVM
+> +static int kvmppc_svm_init(Error **errp)
+> +{
+> +    if (!kvm_check_extension(kvm_state, KVM_CAP_PPC_SECURABLE_GUEST)) {
+                                           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+KVM defines this macro as KVM_CAP_PPC_SECURE_GUEST. Unless we patch KVM,
+    we are stuck with KVM_CAP_PPC_SECURE_GUEST.
 
-Ping?
-
-On Wed, Dec 16, 2020 at 4:45 PM Hao Wu <wuhaotsh@google.com> wrote:
-
-> This patch series include a few more NPCM7XX devices including
->
-> - Analog Digital Converter (ADC)
-> - Pulse Width Modulation (PWM)
->
-> We also modified the CLK module to generate clock values using qdev_clock.
-> These clocks are used to determine various clocks in NPCM7XX devices.
->
-> Thank you for your review.
->
-> Changes since v3:
-> - Use type casting instead of accessing parent object in all devices.
->
-> Changes since v2:
-> - Split PWM test into a separate patch in the patch set
-> - Add trace events for PWM's update_freq/update_duty
-> - Add trace events for ioread/iowrite in ADC and PWM
-> - Use timer_get_ns in hw/timer/npcm7xx_timer.c
-> - Update commit message in ADC/PWM to mention qom-get/set method for usage
-> - Fix typos
->
-> Changes since v1:
-> - We removed the IPMI and KCS related code from this patch set.
->
-> Hao Wu (6):
->   hw/misc: Add clock converter in NPCM7XX CLK module
->   hw/timer: Refactor NPCM7XX Timer to use CLK clock
->   hw/adc: Add an ADC module for NPCM7XX
->   hw/misc: Add a PWM module for NPCM7XX
->   hw/misc: Add QTest for NPCM7XX PWM Module
->   hw/*: Use type casting for SysBusDevice in NPCM7XX
->
->  docs/system/arm/nuvoton.rst      |   4 +-
->  hw/adc/meson.build               |   1 +
->  hw/adc/npcm7xx_adc.c             | 321 +++++++++++++
->  hw/adc/trace-events              |   5 +
->  hw/arm/npcm7xx.c                 |  55 ++-
->  hw/arm/npcm7xx_boards.c          |   2 +-
->  hw/mem/npcm7xx_mc.c              |   2 +-
->  hw/misc/meson.build              |   1 +
->  hw/misc/npcm7xx_clk.c            | 797 ++++++++++++++++++++++++++++++-
->  hw/misc/npcm7xx_gcr.c            |   2 +-
->  hw/misc/npcm7xx_pwm.c            | 559 ++++++++++++++++++++++
->  hw/misc/npcm7xx_rng.c            |   2 +-
->  hw/misc/trace-events             |   6 +
->  hw/nvram/npcm7xx_otp.c           |   2 +-
->  hw/ssi/npcm7xx_fiu.c             |   2 +-
->  hw/timer/npcm7xx_timer.c         |  25 +-
->  include/hw/adc/npcm7xx_adc.h     |  72 +++
->  include/hw/arm/npcm7xx.h         |   4 +
->  include/hw/misc/npcm7xx_clk.h    | 146 +++++-
->  include/hw/misc/npcm7xx_pwm.h    | 106 ++++
->  include/hw/timer/npcm7xx_timer.h |   1 +
->  meson.build                      |   1 +
->  tests/qtest/meson.build          |   4 +-
->  tests/qtest/npcm7xx_adc-test.c   | 400 ++++++++++++++++
->  tests/qtest/npcm7xx_pwm-test.c   | 490 +++++++++++++++++++
->  25 files changed, 2972 insertions(+), 38 deletions(-)
->  create mode 100644 hw/adc/npcm7xx_adc.c
->  create mode 100644 hw/adc/trace-events
->  create mode 100644 hw/misc/npcm7xx_pwm.c
->  create mode 100644 include/hw/adc/npcm7xx_adc.h
->  create mode 100644 include/hw/misc/npcm7xx_pwm.h
->  create mode 100644 tests/qtest/npcm7xx_adc-test.c
->  create mode 100644 tests/qtest/npcm7xx_pwm-test.c
->
-> --
-> 2.29.2.684.gfbc64c5ab5-goog
->
->
-
---000000000000a7214905b82e4742
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr">Ping?</div><br><div class=3D"gmail_quote"><div dir=3D"ltr"=
- class=3D"gmail_attr">On Wed, Dec 16, 2020 at 4:45 PM Hao Wu &lt;<a href=3D=
-"mailto:wuhaotsh@google.com">wuhaotsh@google.com</a>&gt; wrote:<br></div><b=
-lockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-le=
-ft:1px solid rgb(204,204,204);padding-left:1ex">This patch series include a=
- few more NPCM7XX devices including<br>
-<br>
-- Analog Digital Converter (ADC)<br>
-- Pulse Width Modulation (PWM)<br>
-<br>
-We also modified the CLK module to generate clock values using qdev_clock.<=
-br>
-These clocks are used to determine various clocks in NPCM7XX devices.<br>
-<br>
-Thank you for your review.<br>
-<br>
-Changes since v3:<br>
-- Use type casting instead of accessing parent object in all devices.<br>
-<br>
-Changes since v2:<br>
-- Split PWM test into a separate patch in the patch set<br>
-- Add trace events for PWM&#39;s update_freq/update_duty<br>
-- Add trace events for ioread/iowrite in ADC and PWM<br>
-- Use timer_get_ns in hw/timer/npcm7xx_timer.c<br>
-- Update commit message in ADC/PWM to mention qom-get/set method for usage<=
-br>
-- Fix typos<br>
-<br>
-Changes since v1:<br>
-- We removed the IPMI and KCS related code from this patch set.<br>
-<br>
-Hao Wu (6):<br>
-=C2=A0 hw/misc: Add clock converter in NPCM7XX CLK module<br>
-=C2=A0 hw/timer: Refactor NPCM7XX Timer to use CLK clock<br>
-=C2=A0 hw/adc: Add an ADC module for NPCM7XX<br>
-=C2=A0 hw/misc: Add a PWM module for NPCM7XX<br>
-=C2=A0 hw/misc: Add QTest for NPCM7XX PWM Module<br>
-=C2=A0 hw/*: Use type casting for SysBusDevice in NPCM7XX<br>
-<br>
-=C2=A0docs/system/arm/nuvoton.rst=C2=A0 =C2=A0 =C2=A0 |=C2=A0 =C2=A04 +-<br=
->
-=C2=A0hw/adc/meson.build=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0|=C2=A0 =C2=A01 +<br>
-=C2=A0hw/adc/npcm7xx_adc.c=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0|=
- 321 +++++++++++++<br>
-=C2=A0hw/adc/trace-events=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 |=
-=C2=A0 =C2=A05 +<br>
-=C2=A0hw/arm/npcm7xx.c=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0|=C2=A0 55 ++-<br>
-=C2=A0hw/arm/npcm7xx_boards.c=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 |=C2=A0 =C2=
-=A02 +-<br>
-=C2=A0hw/mem/npcm7xx_mc.c=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 |=
-=C2=A0 =C2=A02 +-<br>
-=C2=A0hw/misc/meson.build=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 |=
-=C2=A0 =C2=A01 +<br>
-=C2=A0hw/misc/npcm7xx_clk.c=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 | 797 =
-++++++++++++++++++++++++++++++-<br>
-=C2=A0hw/misc/npcm7xx_gcr.c=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 |=C2=
-=A0 =C2=A02 +-<br>
-=C2=A0hw/misc/npcm7xx_pwm.c=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 | 559 =
-++++++++++++++++++++++<br>
-=C2=A0hw/misc/npcm7xx_rng.c=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 |=C2=
-=A0 =C2=A02 +-<br>
-=C2=A0hw/misc/trace-events=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0|=
-=C2=A0 =C2=A06 +<br>
-=C2=A0hw/nvram/npcm7xx_otp.c=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0|=C2=
-=A0 =C2=A02 +-<br>
-=C2=A0hw/ssi/npcm7xx_fiu.c=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0|=
-=C2=A0 =C2=A02 +-<br>
-=C2=A0hw/timer/npcm7xx_timer.c=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0|=C2=A0 25 =
-+-<br>
-=C2=A0include/hw/adc/npcm7xx_adc.h=C2=A0 =C2=A0 =C2=A0|=C2=A0 72 +++<br>
-=C2=A0include/hw/arm/npcm7xx.h=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0|=C2=A0 =C2=
-=A04 +<br>
-=C2=A0include/hw/misc/npcm7xx_clk.h=C2=A0 =C2=A0 | 146 +++++-<br>
-=C2=A0include/hw/misc/npcm7xx_pwm.h=C2=A0 =C2=A0 | 106 ++++<br>
-=C2=A0include/hw/timer/npcm7xx_timer.h |=C2=A0 =C2=A01 +<br>
-=C2=A0meson.build=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0 |=C2=A0 =C2=A01 +<br>
-=C2=A0tests/qtest/meson.build=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 |=C2=A0 =C2=
-=A04 +-<br>
-=C2=A0tests/qtest/npcm7xx_adc-test.c=C2=A0 =C2=A0| 400 ++++++++++++++++<br>
-=C2=A0tests/qtest/npcm7xx_pwm-test.c=C2=A0 =C2=A0| 490 +++++++++++++++++++<=
-br>
-=C2=A025 files changed, 2972 insertions(+), 38 deletions(-)<br>
-=C2=A0create mode 100644 hw/adc/npcm7xx_adc.c<br>
-=C2=A0create mode 100644 hw/adc/trace-events<br>
-=C2=A0create mode 100644 hw/misc/npcm7xx_pwm.c<br>
-=C2=A0create mode 100644 include/hw/adc/npcm7xx_adc.h<br>
-=C2=A0create mode 100644 include/hw/misc/npcm7xx_pwm.h<br>
-=C2=A0create mode 100644 tests/qtest/npcm7xx_adc-test.c<br>
-=C2=A0create mode 100644 tests/qtest/npcm7xx_pwm-test.c<br>
-<br>
--- <br>
-2.29.2.684.gfbc64c5ab5-goog<br>
-<br>
-</blockquote></div>
-
---000000000000a7214905b82e4742--
+RP
 
