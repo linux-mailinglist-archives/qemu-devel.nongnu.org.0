@@ -2,69 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 507FF2EB1D2
-	for <lists+qemu-devel@lfdr.de>; Tue,  5 Jan 2021 18:53:10 +0100 (CET)
-Received: from localhost ([::1]:45258 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 718E32EB1BA
+	for <lists+qemu-devel@lfdr.de>; Tue,  5 Jan 2021 18:48:01 +0100 (CET)
+Received: from localhost ([::1]:53960 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kwqW5-0003rQ-B5
-	for lists+qemu-devel@lfdr.de; Tue, 05 Jan 2021 12:53:09 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51944)
+	id 1kwqR6-00049x-FX
+	for lists+qemu-devel@lfdr.de; Tue, 05 Jan 2021 12:48:00 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52030)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1kwq12-0003Fh-TW
- for qemu-devel@nongnu.org; Tue, 05 Jan 2021 12:21:04 -0500
-Received: from mail-pj1-x1030.google.com ([2607:f8b0:4864:20::1030]:55578)
+ id 1kwq1A-0003JQ-Ob
+ for qemu-devel@nongnu.org; Tue, 05 Jan 2021 12:21:14 -0500
+Received: from mail-pj1-x1029.google.com ([2607:f8b0:4864:20::1029]:50618)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1kwq10-0006mM-QH
- for qemu-devel@nongnu.org; Tue, 05 Jan 2021 12:21:04 -0500
-Received: by mail-pj1-x1030.google.com with SMTP id lb18so9573pjb.5
- for <qemu-devel@nongnu.org>; Tue, 05 Jan 2021 09:21:02 -0800 (PST)
+ id 1kwq14-0006mr-11
+ for qemu-devel@nongnu.org; Tue, 05 Jan 2021 12:21:08 -0500
+Received: by mail-pj1-x1029.google.com with SMTP id lj6so27017pjb.0
+ for <qemu-devel@nongnu.org>; Tue, 05 Jan 2021 09:21:05 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:subject:date:message-id:in-reply-to:references:mime-version
- :content-transfer-encoding;
- bh=RjsLWt3F7DefhddvmyHDtzHbHX1tk83XD8LIVsXHpX8=;
- b=qhm8XYo4JZMU4QVa31c11O0tILe9/lKoafWbH7xNi5ERuL2q/3xd7BMEuE1uS80XgL
- T333f6bMscJtTn28zIcJE8vzQIKxlMOoDfuNIEI/aFrvt3auHIVGrHvZpOerONcxXD6H
- S2XexIxdUhavlsFeK1Orx840wtwZBXJ3eW7JlZzc7N44v5AW7do97+vK63WKUcvslTGe
- ZMKZz9+dGFC4pb5qePtt7TqHIW1fy+m2ajWomYRlKym/WdZSxkCsgkaklSzjrjwQVKXK
- POM2jIlJn0cliagzG68HsP0la/pI6woHbpCTQ7Ldf//B97o8RKM1d+igVjVSicpxWJq6
- q5cA==
+ h=from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=4gbZ1hEp2iGpxBH0NVqdoNfsrRxmgU8uhJbc8FVSLCA=;
+ b=hZ+cWB4JJNCC6SzCMhiypjU7ItO1yQtCJctncUOfgmpx+koUrah3tCyEf57MobX17k
+ 82CGHGnkMR5TSDfLWd1aUDYfETn9J0m/EOsOStgFML+VWP+4HedVQfa+Zg8rJWlmJ1RT
+ 333YlZT3e3zaYluZNKjXz5bMgQHugoy7vAtpJlNf03lxyMV+Hvpu2AHETxCAmU8JgJnH
+ XFHxJojOnKs7S+4QUakS9dg/wEEAHCBRnay2cki8IuJk9cIZPUPh/ooirELlBUFoapow
+ Lx2gjTIu/4lhbn5FNOsYr7NAZanH1mZrfca6JxeeFrCmRkOxNxliCtjHr+E41GXUlJQf
+ yVxg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=RjsLWt3F7DefhddvmyHDtzHbHX1tk83XD8LIVsXHpX8=;
- b=E0Cygz4l+/BqxQ/uye9tQZ1f3jc1rtBD98Dx0QrYR6vXq//ngPXo4mGfEgm4itSpHn
- uY0CGsMwkUeLG8V+JhOVu9gwA5hl6A/lMkPNcbI0O+z8jpuQWXsddoMBzaFryV5n8yty
- IXN6d0Fj2AW2G2+F3OJn4XqNjdeSP6N0WCl3Ygs8C3j6RZc0GpL+UiFpBP+K3wjxzG+B
- t8Nnk/OhJrVLHTLt/m6Y+fLAIaAR1clAKTI8t+mX3howU8IQqRSRh3ZLKHdMUWV/eDYs
- 5lRMfnMTB4XPSi2XvsZ16BHyweUvV7ST49tkftFNcPWXEh88iEljZrwefVtZPKnKmpRu
- kALw==
-X-Gm-Message-State: AOAM532nbI/Jo4KiT4Gk8vY4D1zMF+VkoW2UrTSfPXQe12lAiPDa1c77
- XpjgoErh2zunFdwF0QfZf31ltrRrnKVDMg==
-X-Google-Smtp-Source: ABdhPJwTAZUWsDtS+qfTnV5Tz7MB2n0ilTF3NOZgI5EvoHWBaW8DBJiS0Q9zNfocfPU79P1e9jdj4A==
-X-Received: by 2002:a17:90b:78d:: with SMTP id l13mr258820pjz.51.1609867261190; 
- Tue, 05 Jan 2021 09:21:01 -0800 (PST)
+ bh=4gbZ1hEp2iGpxBH0NVqdoNfsrRxmgU8uhJbc8FVSLCA=;
+ b=MnKqn2mJZbMHz5RKbbFFCaOw/dfeT6yMhyTGfVSzwHEJWB7lRV3CnDu+wFa5Yw/6uB
+ O+EM253ctAFkv1mRcX/tTveBvQrO305M2gQFe3k8iZBfjwLUCqD3c92kBxOL9Vtb83zW
+ WuPsDpMbNTXYTHJIpXbc99ri9h/Zj13QrJM7vsySxNF1DWeCu/pFyVZkZ41dBwbXMCWQ
+ RrhAVw1wJIXPbc9GYw107idjROol9r3aLFCxFmIy8blSv3fFYCb1RsEFHvQLhQdP6Wa0
+ iNPB1Ia1/jW9kGTb950o2Hgf06GCbERsCcCyvTDu303UJM8BjHjj2Mk9D74ELTzqpe56
+ WgTw==
+X-Gm-Message-State: AOAM532bmSF8Est6aBp++uMwzrmV3womOyrWkHDazHof19EB6YgHfZce
+ 2R99GCgpDx9aKglCaM9hasA24o9L1biYfQ==
+X-Google-Smtp-Source: ABdhPJy64uuqiWO25G4IwdhLMY+hLnb3zlqGTU0RbbuJTvEqUAOtUOur+0spt7h4CCAVHMX0DX4fdw==
+X-Received: by 2002:a17:902:6a83:b029:dc:2a2c:6b91 with SMTP id
+ n3-20020a1709026a83b02900dc2a2c6b91mr299973plk.8.1609867264152; 
+ Tue, 05 Jan 2021 09:21:04 -0800 (PST)
 Received: from localhost.localdomain (rrcs-173-197-107-21.west.biz.rr.com.
  [173.197.107.21])
- by smtp.gmail.com with ESMTPSA id u12sm2010pfh.98.2021.01.05.09.20.59
- for <qemu-devel@nongnu.org>
+ by smtp.gmail.com with ESMTPSA id u12sm2010pfh.98.2021.01.05.09.21.02
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 05 Jan 2021 09:21:00 -0800 (PST)
+ Tue, 05 Jan 2021 09:21:03 -0800 (PST)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v5 40/43] tcg/arm: Support split-wx code generation
-Date: Tue,  5 Jan 2021 07:19:47 -1000
-Message-Id: <20210105171950.415486-41-richard.henderson@linaro.org>
+Subject: [PATCH v5 42/43] tcg: Constify tcg_code_gen_epilogue
+Date: Tue,  5 Jan 2021 07:19:49 -1000
+Message-Id: <20210105171950.415486-43-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20210105171950.415486-1-richard.henderson@linaro.org>
 References: <20210105171950.415486-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1030;
- envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1030.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1029;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1029.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -84,141 +84,166 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: Joelle van Dyne <j@getutm.app>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+Now that all native tcg hosts support splitwx,
+make this pointer const.
+
+Reviewed-by: Joelle van Dyne <j@getutm.app>
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- tcg/arm/tcg-target.h     |  2 +-
- tcg/arm/tcg-target.c.inc | 37 +++++++++++++++++++++----------------
- 2 files changed, 22 insertions(+), 17 deletions(-)
+ include/tcg/tcg.h            | 2 +-
+ tcg/tcg.c                    | 2 +-
+ tcg/aarch64/tcg-target.c.inc | 3 +--
+ tcg/arm/tcg-target.c.inc     | 3 +--
+ tcg/i386/tcg-target.c.inc    | 3 +--
+ tcg/mips/tcg-target.c.inc    | 3 +--
+ tcg/ppc/tcg-target.c.inc     | 3 +--
+ tcg/riscv/tcg-target.c.inc   | 3 +--
+ tcg/s390/tcg-target.c.inc    | 3 +--
+ tcg/sparc/tcg-target.c.inc   | 3 +--
+ 10 files changed, 10 insertions(+), 18 deletions(-)
 
-diff --git a/tcg/arm/tcg-target.h b/tcg/arm/tcg-target.h
-index 494837d128..fdf75ba93f 100644
---- a/tcg/arm/tcg-target.h
-+++ b/tcg/arm/tcg-target.h
-@@ -142,6 +142,6 @@ void tb_target_set_jmp_target(uintptr_t, uintptr_t, uintptr_t, uintptr_t);
- #define TCG_TARGET_NEED_LDST_LABELS
- #endif
- #define TCG_TARGET_NEED_POOL_LABELS
--#define TCG_TARGET_SUPPORT_MIRROR       0
-+#define TCG_TARGET_SUPPORT_MIRROR       1
+diff --git a/include/tcg/tcg.h b/include/tcg/tcg.h
+index e6fce9a049..95fe5604eb 100644
+--- a/include/tcg/tcg.h
++++ b/include/tcg/tcg.h
+@@ -677,7 +677,7 @@ struct TCGContext {
  
- #endif
-diff --git a/tcg/arm/tcg-target.c.inc b/tcg/arm/tcg-target.c.inc
-index 9b9400f164..3d2717aeb0 100644
---- a/tcg/arm/tcg-target.c.inc
-+++ b/tcg/arm/tcg-target.c.inc
-@@ -187,29 +187,32 @@ static const uint8_t tcg_cond_to_arm_cond[] = {
-     [TCG_COND_GTU] = COND_HI,
- };
+ extern TCGContext tcg_init_ctx;
+ extern __thread TCGContext *tcg_ctx;
+-extern void *tcg_code_gen_epilogue;
++extern const void *tcg_code_gen_epilogue;
+ extern uintptr_t tcg_splitwx_diff;
+ extern TCGv_env cpu_env;
  
--static inline bool reloc_pc24(tcg_insn_unit *code_ptr, tcg_insn_unit *target)
-+static bool reloc_pc24(tcg_insn_unit *src_rw, const tcg_insn_unit *target)
- {
--    ptrdiff_t offset = (tcg_ptr_byte_diff(target, code_ptr) - 8) >> 2;
-+    const tcg_insn_unit *src_rx = tcg_splitwx_to_rx(src_rw);
-+    ptrdiff_t offset = (tcg_ptr_byte_diff(target, src_rx) - 8) >> 2;
-+
-     if (offset == sextract32(offset, 0, 24)) {
--        *code_ptr = (*code_ptr & ~0xffffff) | (offset & 0xffffff);
-+        *src_rw = deposit32(*src_rw, 0, 24, offset);
-         return true;
-     }
-     return false;
- }
+diff --git a/tcg/tcg.c b/tcg/tcg.c
+index f278772512..472bf1755b 100644
+--- a/tcg/tcg.c
++++ b/tcg/tcg.c
+@@ -161,7 +161,7 @@ static int tcg_out_ldst_finalize(TCGContext *s);
+ static TCGContext **tcg_ctxs;
+ static unsigned int n_tcg_ctxs;
+ TCGv_env cpu_env = 0;
+-void *tcg_code_gen_epilogue;
++const void *tcg_code_gen_epilogue;
+ uintptr_t tcg_splitwx_diff;
  
--static inline bool reloc_pc13(tcg_insn_unit *code_ptr, tcg_insn_unit *target)
-+static bool reloc_pc13(tcg_insn_unit *src_rw, const tcg_insn_unit *target)
- {
--    ptrdiff_t offset = tcg_ptr_byte_diff(target, code_ptr) - 8;
-+    const tcg_insn_unit *src_rx = tcg_splitwx_to_rx(src_rw);
-+    ptrdiff_t offset = tcg_ptr_byte_diff(target, src_rx) - 8;
- 
-     if (offset >= -0xfff && offset <= 0xfff) {
--        tcg_insn_unit insn = *code_ptr;
-+        tcg_insn_unit insn = *src_rw;
-         bool u = (offset >= 0);
-         if (!u) {
-             offset = -offset;
-         }
-         insn = deposit32(insn, 23, 1, u);
-         insn = deposit32(insn, 0, 12, offset);
--        *code_ptr = insn;
-+        *src_rw = insn;
-         return true;
-     }
-     return false;
-@@ -221,9 +224,9 @@ static bool patch_reloc(tcg_insn_unit *code_ptr, int type,
-     tcg_debug_assert(addend == 0);
- 
-     if (type == R_ARM_PC24) {
--        return reloc_pc24(code_ptr, (tcg_insn_unit *)value);
-+        return reloc_pc24(code_ptr, (const tcg_insn_unit *)value);
-     } else if (type == R_ARM_PC13) {
--        return reloc_pc13(code_ptr, (tcg_insn_unit *)value);
-+        return reloc_pc13(code_ptr, (const tcg_insn_unit *)value);
-     } else {
-         g_assert_not_reached();
-     }
-@@ -617,7 +620,7 @@ static void tcg_out_movi32(TCGContext *s, int cond, int rd, uint32_t arg)
- 
-     /* Check for a pc-relative address.  This will usually be the TB,
-        or within the TB, which is immediately before the code block.  */
--    diff = arg - ((intptr_t)s->code_ptr + 8);
-+    diff = tcg_pcrel_diff(s, (void *)arg) - 8;
-     if (diff >= 0) {
-         rot = encode_imm(diff);
-         if (rot >= 0) {
-@@ -1337,7 +1340,8 @@ static void add_qemu_ldst_label(TCGContext *s, bool is_ld, TCGMemOpIdx oi,
-     label->datahi_reg = datahi;
-     label->addrlo_reg = addrlo;
-     label->addrhi_reg = addrhi;
--    label->raddr = raddr;
-+    /* TODO: Cast goes away when all hosts converted */
-+    label->raddr = (void *)tcg_splitwx_to_rx(raddr);
-     label->label_ptr[0] = label_ptr;
- }
- 
-@@ -1348,7 +1352,7 @@ static bool tcg_out_qemu_ld_slow_path(TCGContext *s, TCGLabelQemuLdst *lb)
-     MemOp opc = get_memop(oi);
-     void *func;
- 
--    if (!reloc_pc24(lb->label_ptr[0], s->code_ptr)) {
-+    if (!reloc_pc24(lb->label_ptr[0], tcg_splitwx_to_rx(s->code_ptr))) {
-         return false;
-     }
- 
-@@ -1411,7 +1415,7 @@ static bool tcg_out_qemu_st_slow_path(TCGContext *s, TCGLabelQemuLdst *lb)
-     TCGMemOpIdx oi = lb->oi;
-     MemOp opc = get_memop(oi);
- 
--    if (!reloc_pc24(lb->label_ptr[0], s->code_ptr)) {
-+    if (!reloc_pc24(lb->label_ptr[0], tcg_splitwx_to_rx(s->code_ptr))) {
-         return false;
-     }
- 
-@@ -1762,8 +1766,8 @@ static inline void tcg_out_op(TCGContext *s, TCGOpcode opc,
-             TCGReg base = TCG_REG_PC;
- 
-             tcg_debug_assert(s->tb_jmp_insn_offset == 0);
--            ptr = (intptr_t)(s->tb_jmp_target_addr + args[0]);
--            dif = ptr - ((intptr_t)s->code_ptr + 8);
-+            ptr = (intptr_t)tcg_splitwx_to_rx(s->tb_jmp_target_addr + args[0]);
-+            dif = tcg_pcrel_diff(s, (void *)ptr) - 8;
-             dil = sextract32(dif, 0, 12);
-             if (dif != dil) {
-                 /* The TB is close, but outside the 12 bits addressable by
-@@ -2297,7 +2301,8 @@ static void tcg_target_qemu_prologue(TCGContext *s)
+ #ifndef CONFIG_TCG_INTERPRETER
+diff --git a/tcg/aarch64/tcg-target.c.inc b/tcg/aarch64/tcg-target.c.inc
+index 2e33162c03..0b7eb09a27 100644
+--- a/tcg/aarch64/tcg-target.c.inc
++++ b/tcg/aarch64/tcg-target.c.inc
+@@ -2900,8 +2900,7 @@ static void tcg_target_qemu_prologue(TCGContext *s)
       * Return path for goto_ptr. Set return value to 0, a-la exit_tb,
       * and fall through to the rest of the epilogue.
       */
--    tcg_code_gen_epilogue = s->code_ptr;
-+    /* TODO: Cast goes away when all hosts converted */
-+    tcg_code_gen_epilogue = (void *)tcg_splitwx_to_rx(s->code_ptr);
+-    /* TODO: Cast goes away when all hosts converted */
+-    tcg_code_gen_epilogue = (void *)tcg_splitwx_to_rx(s->code_ptr);
++    tcg_code_gen_epilogue = tcg_splitwx_to_rx(s->code_ptr);
+     tcg_out_movi(s, TCG_TYPE_REG, TCG_REG_X0, 0);
+ 
+     /* TB epilogue */
+diff --git a/tcg/arm/tcg-target.c.inc b/tcg/arm/tcg-target.c.inc
+index 3d2717aeb0..d6cb19ca9f 100644
+--- a/tcg/arm/tcg-target.c.inc
++++ b/tcg/arm/tcg-target.c.inc
+@@ -2301,8 +2301,7 @@ static void tcg_target_qemu_prologue(TCGContext *s)
+      * Return path for goto_ptr. Set return value to 0, a-la exit_tb,
+      * and fall through to the rest of the epilogue.
+      */
+-    /* TODO: Cast goes away when all hosts converted */
+-    tcg_code_gen_epilogue = (void *)tcg_splitwx_to_rx(s->code_ptr);
++    tcg_code_gen_epilogue = tcg_splitwx_to_rx(s->code_ptr);
      tcg_out_movi(s, TCG_TYPE_PTR, TCG_REG_R0, 0);
      tcg_out_epilogue(s);
  }
+diff --git a/tcg/i386/tcg-target.c.inc b/tcg/i386/tcg-target.c.inc
+index 34bf0b9a35..91400d575c 100644
+--- a/tcg/i386/tcg-target.c.inc
++++ b/tcg/i386/tcg-target.c.inc
+@@ -3804,8 +3804,7 @@ static void tcg_target_qemu_prologue(TCGContext *s)
+      * Return path for goto_ptr. Set return value to 0, a-la exit_tb,
+      * and fall through to the rest of the epilogue.
+      */
+-    /* TODO: Cast goes away when all hosts converted */
+-    tcg_code_gen_epilogue = (void *)tcg_splitwx_to_rx(s->code_ptr);
++    tcg_code_gen_epilogue = tcg_splitwx_to_rx(s->code_ptr);
+     tcg_out_movi(s, TCG_TYPE_REG, TCG_REG_EAX, 0);
+ 
+     /* TB epilogue */
+diff --git a/tcg/mips/tcg-target.c.inc b/tcg/mips/tcg-target.c.inc
+index a2201bd1dd..18fd474593 100644
+--- a/tcg/mips/tcg-target.c.inc
++++ b/tcg/mips/tcg-target.c.inc
+@@ -2473,8 +2473,7 @@ static void tcg_target_qemu_prologue(TCGContext *s)
+      * Return path for goto_ptr. Set return value to 0, a-la exit_tb,
+      * and fall through to the rest of the epilogue.
+      */
+-    /* TODO: Cast goes away when all hosts converted */
+-    tcg_code_gen_epilogue = (void *)tcg_splitwx_to_rx(s->code_ptr);
++    tcg_code_gen_epilogue = tcg_splitwx_to_rx(s->code_ptr);
+     tcg_out_mov(s, TCG_TYPE_REG, TCG_REG_V0, TCG_REG_ZERO);
+ 
+     /* TB epilogue */
+diff --git a/tcg/ppc/tcg-target.c.inc b/tcg/ppc/tcg-target.c.inc
+index 33b5915005..5f191c03d9 100644
+--- a/tcg/ppc/tcg-target.c.inc
++++ b/tcg/ppc/tcg-target.c.inc
+@@ -2346,8 +2346,7 @@ static void tcg_target_qemu_prologue(TCGContext *s)
+     tcg_out32(s, BCCTR | BO_ALWAYS);
+ 
+     /* Epilogue */
+-    /* TODO: Cast goes away when all hosts converted */
+-    tcg_code_gen_epilogue = (void *)tcg_splitwx_to_rx(s->code_ptr);
++    tcg_code_gen_epilogue = tcg_splitwx_to_rx(s->code_ptr);
+ 
+     tcg_out_ld(s, TCG_TYPE_PTR, TCG_REG_R0, TCG_REG_R1, FRAME_SIZE+LR_OFFSET);
+     for (i = 0; i < ARRAY_SIZE(tcg_target_callee_save_regs); ++i) {
+diff --git a/tcg/riscv/tcg-target.c.inc b/tcg/riscv/tcg-target.c.inc
+index 4d595b01d6..c76dc9f9ca 100644
+--- a/tcg/riscv/tcg-target.c.inc
++++ b/tcg/riscv/tcg-target.c.inc
+@@ -1784,8 +1784,7 @@ static void tcg_target_qemu_prologue(TCGContext *s)
+     tcg_out_opc_imm(s, OPC_JALR, TCG_REG_ZERO, tcg_target_call_iarg_regs[1], 0);
+ 
+     /* Return path for goto_ptr. Set return value to 0 */
+-    /* TODO: Cast goes away when all hosts converted */
+-    tcg_code_gen_epilogue = (void *)tcg_splitwx_to_rx(s->code_ptr);
++    tcg_code_gen_epilogue = tcg_splitwx_to_rx(s->code_ptr);
+     tcg_out_mov(s, TCG_TYPE_REG, TCG_REG_A0, TCG_REG_ZERO);
+ 
+     /* TB epilogue */
+diff --git a/tcg/s390/tcg-target.c.inc b/tcg/s390/tcg-target.c.inc
+index 582a8ef941..b3660ffedf 100644
+--- a/tcg/s390/tcg-target.c.inc
++++ b/tcg/s390/tcg-target.c.inc
+@@ -2551,8 +2551,7 @@ static void tcg_target_qemu_prologue(TCGContext *s)
+      * Return path for goto_ptr. Set return value to 0, a-la exit_tb,
+      * and fall through to the rest of the epilogue.
+      */
+-    /* TODO: Cast goes away when all hosts converted */
+-    tcg_code_gen_epilogue = (void *)tcg_splitwx_to_rx(s->code_ptr);
++    tcg_code_gen_epilogue = tcg_splitwx_to_rx(s->code_ptr);
+     tcg_out_movi(s, TCG_TYPE_PTR, TCG_REG_R2, 0);
+ 
+     /* TB epilogue */
+diff --git a/tcg/sparc/tcg-target.c.inc b/tcg/sparc/tcg-target.c.inc
+index 182124b96c..922ae96481 100644
+--- a/tcg/sparc/tcg-target.c.inc
++++ b/tcg/sparc/tcg-target.c.inc
+@@ -1039,8 +1039,7 @@ static void tcg_target_qemu_prologue(TCGContext *s)
+     tcg_out_nop(s);
+ 
+     /* Epilogue for goto_ptr.  */
+-    /* TODO: Cast goes away when all hosts converted */
+-    tcg_code_gen_epilogue = (void *)tcg_splitwx_to_rx(s->code_ptr);
++    tcg_code_gen_epilogue = tcg_splitwx_to_rx(s->code_ptr);
+     tcg_out_arithi(s, TCG_REG_G0, TCG_REG_I7, 8, RETURN);
+     /* delay slot */
+     tcg_out_movi_imm13(s, TCG_REG_O0, 0);
 -- 
 2.25.1
 
