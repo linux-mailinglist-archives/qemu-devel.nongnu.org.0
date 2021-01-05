@@ -2,82 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E985E2EA145
-	for <lists+qemu-devel@lfdr.de>; Tue,  5 Jan 2021 01:08:34 +0100 (CET)
-Received: from localhost ([::1]:44072 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A99062EA16D
+	for <lists+qemu-devel@lfdr.de>; Tue,  5 Jan 2021 01:23:09 +0100 (CET)
+Received: from localhost ([::1]:49632 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kwZtq-0007ch-0d
-	for lists+qemu-devel@lfdr.de; Mon, 04 Jan 2021 19:08:34 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45756)
+	id 1kwa7w-0002YD-8l
+	for lists+qemu-devel@lfdr.de; Mon, 04 Jan 2021 19:23:08 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49578)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1kwZs6-0006mr-20
- for qemu-devel@nongnu.org; Mon, 04 Jan 2021 19:06:47 -0500
-Received: from mail-pj1-x1035.google.com ([2607:f8b0:4864:20::1035]:36915)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1kwZs3-00061k-Lt
- for qemu-devel@nongnu.org; Mon, 04 Jan 2021 19:06:45 -0500
-Received: by mail-pj1-x1035.google.com with SMTP id b5so618560pjk.2
- for <qemu-devel@nongnu.org>; Mon, 04 Jan 2021 16:06:42 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=subject:from:to:cc:references:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=ULVvpVOfV5cifHagk39cX+/hxyRhrvKYcE2+y9e4rNI=;
- b=DgGnvm3ComJz//QKZDR2TFLSFdWFydaMbro5ZIbcOdH93c9iVUfqCb8vgnulErAulu
- 1zVPxQEWVWxmBEMBFaqgQ/n+UNvnIhpd5P9KxGyMP7QaoG7KXnD1f4fs1QDZTv8bJCpJ
- Onte51Z/3cSKa5wjTfSyCpY9mSZdOh9dqFIKohK+cplV8C28CM4/Jqr+4cmGeQApTvYd
- eRqhnrSkE0CY79QrGvSeYFM4zH+0I+0bOi1nCOGMkWlEnWYARNz6gad4rjLP4QyEgoAJ
- 6VvUXb7gOY9KlvzeKDLHYh0SgTFOxDc9URoraJmLoipi4i2ni7UToTGqCHvdZAwbpBWF
- WI9A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:from:to:cc:references:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=ULVvpVOfV5cifHagk39cX+/hxyRhrvKYcE2+y9e4rNI=;
- b=Od3f99lx1kWB3xk6OhJzQumz/10Fvw2fk6R0u5oW+LKL18CKUIkQCJ2ynTWpu7MiOV
- /k5bdtHYnSz6E0xMe/ZnIz7YZkd79hTIKnMgl599MVGw8xW8eNaZob95zEwMQz04UtMz
- pOyupDa5KGN2g+0FOCWo/a2ZyZo9bwMbJZAFOVHJwl59OuPWXDLZy5jiaSjP4Egwifwp
- Ailf0I+eneTyFCeYPLH5skf4IvWDOjrobXRL5PCb383eAYUS2sGzsmu04mKkqSaLHp+/
- 3GoUw9NfGy5OPD9tysDmH1m1ThQySmqmV7NzRgiMReNJwvFQfhK0Jj9hFuh5pQaW05/0
- Iatg==
-X-Gm-Message-State: AOAM5330SCS4g2sH00l7rpq6/Lq/NpCEJ75SYQlvKMVZyZ9DJTh7xuJM
- DsmJ/yM0gswqaTG3qir4/m3OiA==
-X-Google-Smtp-Source: ABdhPJy2h4sPC5eDtwPSmlmx0zNmN0eAsaPdsRvJ7ylcs0ksJxwnlJGCvsRACeA+sCVWIKZxjqmsYg==
-X-Received: by 2002:a17:90a:d90e:: with SMTP id
- c14mr1294242pjv.85.1609805201834; 
- Mon, 04 Jan 2021 16:06:41 -0800 (PST)
-Received: from [10.25.18.35] (rrcs-173-197-107-21.west.biz.rr.com.
- [173.197.107.21])
- by smtp.gmail.com with ESMTPSA id gm18sm440239pjb.55.2021.01.04.16.06.39
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 04 Jan 2021 16:06:41 -0800 (PST)
-Subject: Re: [PATCH v5 0/2] util/oslib: qemu_try_memalign() improvements
-From: Richard Henderson <richard.henderson@linaro.org>
-To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
- qemu-devel@nongnu.org
-References: <20201021173803.2619054-1-philmd@redhat.com>
- <606cf522-d23e-10aa-2bb5-61c5ba1dcdcb@linaro.org>
-Message-ID: <8d2d61a4-5102-bd93-b057-870eb6e805ef@linaro.org>
-Date: Mon, 4 Jan 2021 14:06:37 -1000
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
+ (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
+ id 1kwa6l-00028x-BZ
+ for qemu-devel@nongnu.org; Mon, 04 Jan 2021 19:21:55 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:59389)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
+ id 1kwa6i-0002tL-HM
+ for qemu-devel@nongnu.org; Mon, 04 Jan 2021 19:21:54 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1609806110;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=19vIFkYVWUpiGNzWNg3xGZh4UNstlKrOZQn8hSkilko=;
+ b=bJ6Vcs5i841ZI6PiepY3SfZPfC2sV7FVOsP/TQEjcNQvtJBb17cmYNYdI+xaZPq5EbeEKi
+ Ypd+PcV/6wrLizOUw+leoUpgZXYqN1N8uwa09TWR6JrsdqUN0PwZfQ2KtB9S2NJWMlmkHu
+ Iq7NslfTJmBGCyAiXASLU+GyQgbO9wM=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-194-9lvE-Xu4O76dZuEijnx2_g-1; Mon, 04 Jan 2021 19:21:46 -0500
+X-MC-Unique: 9lvE-Xu4O76dZuEijnx2_g-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+ [10.5.11.15])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 14270800C78;
+ Tue,  5 Jan 2021 00:21:45 +0000 (UTC)
+Received: from localhost (unknown [10.40.208.13])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id BC1EC62461;
+ Tue,  5 Jan 2021 00:21:38 +0000 (UTC)
+Date: Tue, 5 Jan 2021 01:21:36 +0100
+From: Igor Mammedov <imammedo@redhat.com>
+To: "Michael S. Tsirkin" <mst@redhat.com>
+Subject: Re: [PATCH v3 5/8] acpi/gpex: Append pxb devs in ascending order
+Message-ID: <20210105012136.01c82f9b@redhat.com>
+In-Reply-To: <20201230160814-mutt-send-email-mst@kernel.org>
+References: <20201223090836.9075-1-cenjiahui@huawei.com>
+ <20201223090836.9075-6-cenjiahui@huawei.com>
+ <20201229144735.42faddad@redhat.com>
+ <20201230160814-mutt-send-email-mst@kernel.org>
 MIME-Version: 1.0
-In-Reply-To: <606cf522-d23e-10aa-2bb5-61c5ba1dcdcb@linaro.org>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1035;
- envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1035.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=imammedo@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=imammedo@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -29
+X-Spam_score: -3.0
+X-Spam_bar: ---
+X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.243,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -90,33 +81,114 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Paolo Bonzini <pbonzini@redhat.com>, Stefan Weil <sw@weilnetz.de>
+Cc: xieyingtai@huawei.com, Jiahui Cen <cenjiahui@huawei.com>,
+ Eduardo Habkost <ehabkost@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org,
+ Ard Biesheuvel <ard.biesheuvel@arm.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ Laszlo Ersek <lersek@redhat.com>, wu.wubin@huawei.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 12/16/20 9:24 AM, Richard Henderson wrote:
-> On 10/21/20 12:38 PM, Philippe Mathieu-Daudé wrote:
->> - Use _aligned_malloc for qemu_try_memalign on win32
->> - Assert qemu_try_memalign() alignment is a power of 2
->>
->> Since v4:
->> - Drop superfluous assert (Richard)
->>
->> Philippe Mathieu-Daudé (1):
->>   util/oslib: Assert qemu_try_memalign() alignment is a power of 2
->>
->> Richard Henderson (1):
->>   util/oslib-win32: Use _aligned_malloc for qemu_try_memalign
->>
->>  util/oslib-posix.c |  2 ++
->>  util/oslib-win32.c | 12 +++++-------
->>  2 files changed, 7 insertions(+), 7 deletions(-)
->>
+On Wed, 30 Dec 2020 16:17:14 -0500
+"Michael S. Tsirkin" <mst@redhat.com> wrote:
+
+> On Tue, Dec 29, 2020 at 02:47:35PM +0100, Igor Mammedov wrote:
+> > On Wed, 23 Dec 2020 17:08:33 +0800
+> > Jiahui Cen <cenjiahui@huawei.com> wrote:
+> >   
+> > > The overlap check of IO resource window would fail when Linux kernel
+> > > registers an IO resource [b, c) earlier than another resource [a, b).
+> > > Though this incorrect check could be fixed by [1], it would be better to
+> > > append pxb devs into DSDT table in ascending order.
+> > > 
+> > > [1]: https://lore.kernel.org/lkml/20201218062335.5320-1-cenjiahui@huawei.com/  
+> > 
+> > considering there is acceptable fix for kernel I'd rather avoid
+> > workarounds on QEMU side. So I suggest dropping this patch.  
 > 
-> Ping.
+> Well there's something to be said for a defined order of things.
+> And patch is from Dec 2020 will take ages for guests to be fixed,
+> and changing pci core on stable kernels is risky and needs
+> a ton of testing, not done eaily ...
+> Which guests are affected by the bug?
+it's workaround for a trivial bug for niche configuration
+for a new QEMU feature that never worked for arm/virt machine
+Downstream that think  that it is important enough to support
+can backport and test patch thus helping stable trees to merge
+it sooner.
 
-Ping2.  Shall I just queue this to tcg-next?
 
+> There are also some issues with the patch see below.
+> 
+> > it also should reduce noise in [8/8] masking other changes.
+> >   
+> > > Signed-off-by: Jiahui Cen <cenjiahui@huawei.com>
+> > > ---
+> > >  hw/pci-host/gpex-acpi.c | 11 +++++++++--
+> > >  1 file changed, 9 insertions(+), 2 deletions(-)
+> > > 
+> > > diff --git a/hw/pci-host/gpex-acpi.c b/hw/pci-host/gpex-acpi.c
+> > > index 4bf1e94309..95a7a0f12b 100644
+> > > --- a/hw/pci-host/gpex-acpi.c
+> > > +++ b/hw/pci-host/gpex-acpi.c
+> > > @@ -141,7 +141,7 @@ static void acpi_dsdt_add_pci_osc(Aml *dev)
+> > >  void acpi_dsdt_add_gpex(Aml *scope, struct GPEXConfig *cfg)
+> > >  {
+> > >      int nr_pcie_buses = cfg->ecam.size / PCIE_MMCFG_SIZE_MIN;
+> > > -    Aml *method, *crs, *dev, *rbuf;
+> > > +    Aml *method, *crs, *dev, *rbuf, *pxb_devs[nr_pcie_buses];  
+> 
+> dynamically sized array on stack poses security issues
+> 
+> > >      PCIBus *bus = cfg->bus;
+> > >      CrsRangeSet crs_range_set;
+> > >      CrsRangeEntry *entry;
+> > > @@ -149,6 +149,7 @@ void acpi_dsdt_add_gpex(Aml *scope, struct GPEXConfig *cfg)
+> > >  
+> > >      /* start to construct the tables for pxb */
+> > >      crs_range_set_init(&crs_range_set);
+> > > +    memset(pxb_devs, 0, sizeof(pxb_devs));
+> > >      if (bus) {
+> > >          QLIST_FOREACH(bus, &bus->child, sibling) {
+> > >              uint8_t bus_num = pci_bus_num(bus);
+> > > @@ -190,7 +191,7 @@ void acpi_dsdt_add_gpex(Aml *scope, struct GPEXConfig *cfg)
+> > >  
+> > >              acpi_dsdt_add_pci_osc(dev);
+> > >  
+> > > -            aml_append(scope, dev);
+> > > +            pxb_devs[bus_num] = dev;  
+> 
+> If bus numbers intersect this will overwrite old one.
+> I'd rather not worry about it, just have an array
+> of structs with bus numbers and sort it.
+> 
+> 
+> > >          }
+> > >      }
+> > >  
+> > > @@ -278,5 +279,11 @@ void acpi_dsdt_add_gpex(Aml *scope, struct GPEXConfig *cfg)
+> > >      aml_append(dev, dev_res0);
+> > >      aml_append(scope, dev);
+> > >  
+> > > +    for (i = 0; i < ARRAY_SIZE(pxb_devs); i++) {
+> > > +        if (pxb_devs[i]) {
+> > > +            aml_append(scope, pxb_devs[i]);
+> > > +        }
+> > > +    }  
+> 
+> 
+> so this sorts them by bus number not by io address.
+> Probably happens to help since bios numbers them in the same order ...
+> Is there a way to address this more robustly in case
+> bios changes? E.g. I see the bug is only in PIO so sort by that address maybe?
+> 
+> Also pls add a code comment explaining why we are doing all this
+> with link to patch, which guests are affected etc.
+> 
+> > > +
+> > >      crs_range_set_free(&crs_range_set);
+> > >  }  
+> 
+> 
 
-r~
 
