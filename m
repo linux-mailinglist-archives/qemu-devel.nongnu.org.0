@@ -2,64 +2,82 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 87CF12EAA19
-	for <lists+qemu-devel@lfdr.de>; Tue,  5 Jan 2021 12:41:39 +0100 (CET)
-Received: from localhost ([::1]:48812 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8C5A62EAA30
+	for <lists+qemu-devel@lfdr.de>; Tue,  5 Jan 2021 12:51:42 +0100 (CET)
+Received: from localhost ([::1]:56138 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kwkiY-0000m1-4D
-	for lists+qemu-devel@lfdr.de; Tue, 05 Jan 2021 06:41:38 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41626)
+	id 1kwksH-0004Lm-4K
+	for lists+qemu-devel@lfdr.de; Tue, 05 Jan 2021 06:51:41 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43626)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1kwkh0-0000F2-IP
- for qemu-devel@nongnu.org; Tue, 05 Jan 2021 06:40:03 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:32098)
+ (Exim 4.90_1) (envelope-from <vkuznets@redhat.com>)
+ id 1kwkqs-0003mH-It
+ for qemu-devel@nongnu.org; Tue, 05 Jan 2021 06:50:14 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:36525)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1kwkgx-0006D9-5M
- for qemu-devel@nongnu.org; Tue, 05 Jan 2021 06:40:00 -0500
+ (Exim 4.90_1) (envelope-from <vkuznets@redhat.com>)
+ id 1kwkqq-0002ag-8U
+ for qemu-devel@nongnu.org; Tue, 05 Jan 2021 06:50:13 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1609846797;
+ s=mimecast20190719; t=1609847410;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=cb4j/9e3f7JdaDCBVjPDA+n05RXSnferayaJmfWz6Jc=;
- b=PxzjQFy38boqsGP8pggl6RTyVP/YLRnk++3iV/0qHYV0/RzhuNeTWqYlWMgA8F+5DDzKUM
- wIgbcpkoDpmZEdLou/an6yf9LcP14nYRvGsRczy6awwtXtnCIqDx7SJpw3oK5guAnen/8B
- nOV0FkyxCiZ9rRulR054jevvIIigACM=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-266-pfOqxaOCPty9bwqFCKe6jQ-1; Tue, 05 Jan 2021 06:39:55 -0500
-X-MC-Unique: pfOqxaOCPty9bwqFCKe6jQ-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 71381107ACE4;
- Tue,  5 Jan 2021 11:39:54 +0000 (UTC)
-Received: from sirius.home.kraxel.org (ovpn-114-209.ams2.redhat.com
- [10.36.114.209])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 2504560BE5;
- Tue,  5 Jan 2021 11:39:53 +0000 (UTC)
-Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
- id 730CC1800099; Tue,  5 Jan 2021 12:39:52 +0100 (CET)
-Date: Tue, 5 Jan 2021 12:39:52 +0100
-From: Gerd Hoffmann <kraxel@redhat.com>
-To: Peter Maydell <peter.maydell@linaro.org>
-Subject: Re: [Qemu-devel] [PULL 1/1] ui/vnc: fix vmware VGA incompatiblities
-Message-ID: <20210105113952.cjnz2n7z27uihfzy@sirius.home.kraxel.org>
-References: <1395127548-32670-1-git-send-email-kraxel@redhat.com>
- <1395127548-32670-2-git-send-email-kraxel@redhat.com>
- <CAFEAcA--LaTy3P+o8DJXzaLj72RGdZQ1rVr1nzw+WpBObEU3gg@mail.gmail.com>
+ bh=aZnMXGPqakSmu6r0xUiJ8npB10gSwOmiYWJLC9adITY=;
+ b=fXmRizN1fRz2KRq004UivZwcn/D80eugeTDoVg0/F10wm9YYVp9QM1kcdQ63UPP0AnzjPL
+ QaJVGyQ93vYUtY2PmVZZmpkphnW0bPKQWf5pNUi/lkZHLdTtuaZtM9YsJYXPJy0TmISP3X
+ n2CKVUkt5TLzsLCVT8Q8ta8rKsB/l5Y=
+Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
+ [209.85.221.71]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-108-m3YJsocBOz-2wDRld7m-sw-1; Tue, 05 Jan 2021 06:50:08 -0500
+X-MC-Unique: m3YJsocBOz-2wDRld7m-sw-1
+Received: by mail-wr1-f71.google.com with SMTP id y5so14730433wrs.15
+ for <qemu-devel@nongnu.org>; Tue, 05 Jan 2021 03:50:08 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:in-reply-to:references:date
+ :message-id:mime-version;
+ bh=aZnMXGPqakSmu6r0xUiJ8npB10gSwOmiYWJLC9adITY=;
+ b=elcJXGqLzxcP2ICvqMFX/7SElfNul4tEkYg8fWN5OnDAvKcjRkc5iU4k2fR5HXkax5
+ CtCCaD5YQIFXQixJULa6ZJwSX/St4cFWhCR5osJx95hALsp0Pr46Un9TYuljY6cX1Cmc
+ FJJcNiMZaI1RzorD6b+7vSTyIlStFbSMp8N0YNFFvUWH87ym7BVWLi8zOqMy6q33ZhRt
+ MVokojVnhdpTM173xpEVsSQeds9FmWWgQ3eAbLw9PXS4viTL9okT7nZaJxqVK4k9zBc2
+ qLEu3ARGJmfZwqimoOGX/U0gHXtY6wHxX8ou1nT0a1mcPQ3HxIXa8pL5RUaW8YCWtQ/8
+ tIig==
+X-Gm-Message-State: AOAM532tYjiyUbf9vSi7zMAzzfLLsHHPGI/ofdi/dRHqgEJY63CDaptl
+ oJhIcKrvLw43ZZwfNf0JRPzwZd0LYwJDJvOSALGEyzwKuMU74ja0b+enRbvtKxChaBkNXVA0LHE
+ reV4M2TV8tee6qfKlrq4ph8Gk4YGKQ1Yez0MkcHJIob5ddNDOz2o7ii1RPMQgej55RYA=
+X-Received: by 2002:a05:600c:3549:: with SMTP id
+ i9mr2981686wmq.89.1609847407227; 
+ Tue, 05 Jan 2021 03:50:07 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJzvkYFuMAw1/KATLPTgNSfZWThk6P/0d4ewF6hPvbD8NFMMKI15fI9MUsrfdkjYPwEoWvdD2Q==
+X-Received: by 2002:a05:600c:3549:: with SMTP id
+ i9mr2981661wmq.89.1609847406970; 
+ Tue, 05 Jan 2021 03:50:06 -0800 (PST)
+Received: from vitty.brq.redhat.com (g-server-2.ign.cz. [91.219.240.2])
+ by smtp.gmail.com with ESMTPSA id i18sm98007776wrp.74.2021.01.05.03.50.06
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 05 Jan 2021 03:50:06 -0800 (PST)
+From: Vitaly Kuznetsov <vkuznets@redhat.com>
+To: Igor Mammedov <imammedo@redhat.com>
+Subject: Re: [PATCH 5/5] i386: provide simple 'hyperv=on' option to x86
+ machine types
+In-Reply-To: <20210105000435.1cf4c6f6@redhat.com>
+References: <20201119103221.1665171-1-vkuznets@redhat.com>
+ <20201119103221.1665171-6-vkuznets@redhat.com>
+ <20201216205202.GJ3140057@habkost.net>
+ <20201218181340.5e398280@redhat.com> <87r1n0j20n.fsf@vitty.brq.redhat.com>
+ <20210105000435.1cf4c6f6@redhat.com>
+Date: Tue, 05 Jan 2021 12:50:05 +0100
+Message-ID: <87lfd7iowi.fsf@vitty.brq.redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <CAFEAcA--LaTy3P+o8DJXzaLj72RGdZQ1rVr1nzw+WpBObEU3gg@mail.gmail.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kraxel@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=vkuznets@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=kraxel@redhat.com;
+Content-Type: text/plain
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=vkuznets@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -29
 X-Spam_score: -3.0
@@ -80,45 +98,115 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Lieven <pl@kamp.de>, QEMU Developers <qemu-devel@nongnu.org>
+Cc: Paolo Bonzini <pbonzini@redhat.com>, Marcelo Tosatti <mtosatti@redhat.com>,
+ Eduardo Habkost <ehabkost@redhat.com>, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-  Hi,
+Igor Mammedov <imammedo@redhat.com> writes:
 
-> > -#define SVGA_MAX_WIDTH                  2360
-> > +#define SVGA_MAX_WIDTH                  ROUND_UP(2360, VNC_DIRTY_PIXELS_PER_BIT)
+> On Mon, 04 Jan 2021 13:54:32 +0100
+> Vitaly Kuznetsov <vkuznets@redhat.com> wrote:
+>
+>> Igor Mammedov <imammedo@redhat.com> writes:
+>> 
+>> >> >  
+>> >> > +    /* Hyper-V features enabled with 'hyperv=on' */
+>> >> > +    x86mc->default_hyperv_features = BIT(HYPERV_FEAT_RELAXED) |
+>> >> > +        BIT(HYPERV_FEAT_VAPIC) | BIT(HYPERV_FEAT_TIME) |
+>> >> > +        BIT(HYPERV_FEAT_CRASH) | BIT(HYPERV_FEAT_RESET) |
+>> >> > +        BIT(HYPERV_FEAT_VPINDEX) | BIT(HYPERV_FEAT_RUNTIME) |
+>> >> > +        BIT(HYPERV_FEAT_SYNIC) | BIT(HYPERV_FEAT_STIMER) |
+>> >> > +        BIT(HYPERV_FEAT_FREQUENCIES) | BIT(HYPERV_FEAT_REENLIGHTENMENT) |
+>> >> > +        BIT(HYPERV_FEAT_TLBFLUSH) | BIT(HYPERV_FEAT_EVMCS) |
+>> >> > +        BIT(HYPERV_FEAT_IPI) | BIT(HYPERV_FEAT_STIMER_DIRECT);  
+>> > I'd argue that feature bits do not belong to machine code at all.
+>> > If we have to involve machine at all then it should be a set property/value pairs
+>> > that machine will set on CPU object (I'm not convinced that doing it
+>> > from machine code is good idea though).
+>> >  
+>> 
+>> These are 'features' and not feature bits. 'Bits' here are just our
+>> internal (to QEMU) representation of which features are enable and which
+>> are not, we could've just used booleans instead. These feature, when
+>> enabled, will result in some CPUID changes (not 1:1) but I don't see how
+>> it's different from
+>>   
+>> " -machine q35,accel=kvm "
+>> 
+>> which also results in CPUID changes.
+>> 
+>> The main reason for putting this to x86 machine type is versioning, as
+>> we go along we will (hopefully) be implementing more and more Hyper-V
+>> features but we want to provide 'one knob to rule them all' but do it in
+>> a way that will allow migration. We already have 'hv_passthrough' for
+>> CPU.
+>
+> for versioning device models (cpu included), we typically set some default in
+> device's ininfn, and if later on we need to change it to another default
+> we use compat properties to keep old default to old machine types.
+>
+> For example using it with CPU look at pc_compat_3_1
+>
 
-> Here we pull in the VNC header in order to get the definition
-> of the VNC_DIRTY_PIXELS_PER_BIT constant, but I don't understand
-> why. The hw/display code should be agnostic of whatever the
-> UI display front-end is. Why does vmware_vga.c need to care
-> but not any other device?
+The tricky part for Hyper-V enlightenments is that we have to keep them
+all off as the default when it wasn't explicitly requested as they're
+only needed for Windows guests so one way or another we need a new knob
+to enable the default-good-set.
 
-Yep, doesn't make sense.
+>> What if we for a second stop thinking about Hyper-V features being CPU
+>> features only, e.g. if we want to create Dynamic Memory or PTP or any
+>> other Hyper-V specific device in a simple way? We'll have to put these
+>> under machine type.
+> ideally it would be a property of device that implements the feature
+> and machine might enable it depending on its own properties defaults,
+> but if you change the default behavior of the device model, you do
+> it in device model and use compat properties infrastructure to keep
+> old machine types happy.
 
-> I can't find anything in the vmware VGA device docs (though they
-> are pretty meagre) suggesting that there's a requirement for
-> the surface to be a multiple of 16, so I think that the VNC code
-> needs to be able to cope. (This should be no different from any other
-> display device model setting a non-multiple-of-16 width.)
+This would work nicely if we were to enable some of the Hyper-V
+enlightenments by default for new machine types and then turn them off
+with compat properties. We are in a different situation though, we want
+one knob which will tell us 'enable the default good set' and then we
+need to subtract something from this set because e.g. our machine type
+is old. In case the knob is, as you suggest, in CPU properties
+('hv_default=on' or something like that) we'll have to play dirty games
+in machine init funtion again: go to CPU device options and check if
+'hv_default=on' was requested. If yes, then we enable all Hyper-V
+enlightenments and do the subtraction according to machine version. And
+what's even more weird, that we'll have to use 'hv_default=on' CPU flag
+as an indication to create non-CPU devices. Much easier if the knob is a
+property of machine type itself.
 
-We had problems with that in the past but it should be fixed now.  vnc
-wants a multiple of 16 still.  IIRC you'll get a small black bar filling
-the room to the next multiple of 16 in case the display surface doesn't
-match.
+We can, of course, create a parallel (to the existing one) set of
+Hyper-V properties which are going to be enabled by default (and
+blacklisted by compat properties) and then later when CPU object is
+created we'll set CPU properties according to these 'default' properties
+but I hardly see a benefit in complicating stuff that much.
 
-> So my feeling is that this vmware_vga.c portion of this commit
-> should be reverted,
+Also, compat properties are not the only thing we take into
+consideration when creating an old machine type today. E.g.:
 
-Agree.
+static void pc_q35_3_1_machine_options(MachineClass *m)
+{
+    PCMachineClass *pcmc = PC_MACHINE_CLASS(m);
 
-Maybe even deprecate the whole device?  Not sure how useful it is these
-days as it has seen pretty much no development in the last decade.  The
-linux kernel modesetting driver complains about missing device features
-and refuses to touch the device ...
+    pc_q35_4_0_machine_options(m);
+    m->default_kernel_irqchip_split = false;
+    pcmc->do_not_add_smb_acpi = true;
+    m->smbus_no_migration_support = true;
+    m->alias = NULL;
+    pcmc->pvh_enabled = false;
+    compat_props_add(m->compat_props, hw_compat_3_1, hw_compat_3_1_len);
+    compat_props_add(m->compat_props, pc_compat_3_1, pc_compat_3_1_len);
+}
 
-take care,
-  Gerd
+and that's exactly what I was thinking about for Hyper-V enlightenments:
+when a new one is introduced we'll turn it off by default for new
+machine types, no matter if it's going to be a CPU property or a new
+device.
+
+-- 
+Vitaly
 
 
