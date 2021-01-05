@@ -2,56 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 08F102EA81C
-	for <lists+qemu-devel@lfdr.de>; Tue,  5 Jan 2021 11:02:11 +0100 (CET)
-Received: from localhost ([::1]:39620 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 438E52EA82F
+	for <lists+qemu-devel@lfdr.de>; Tue,  5 Jan 2021 11:05:54 +0100 (CET)
+Received: from localhost ([::1]:44474 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kwjAH-0000Vh-Fj
-	for lists+qemu-devel@lfdr.de; Tue, 05 Jan 2021 05:02:09 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40794)
+	id 1kwjDt-0002ZR-BE
+	for lists+qemu-devel@lfdr.de; Tue, 05 Jan 2021 05:05:53 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42098)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1kwj7X-0007vO-Ee
- for qemu-devel@nongnu.org; Tue, 05 Jan 2021 04:59:19 -0500
-Received: from mout.kundenserver.de ([212.227.126.187]:50317)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1kwj7R-0005Ue-DH
- for qemu-devel@nongnu.org; Tue, 05 Jan 2021 04:59:19 -0500
-Received: from [192.168.100.1] ([82.252.137.42]) by mrelayeu.kundenserver.de
- (mreue011 [213.165.67.103]) with ESMTPSA (Nemesis) id
- 1McXs5-1kP2SP1Bgz-00d2ok; Tue, 05 Jan 2021 10:59:08 +0100
-Subject: Re: [PATCH, BUILD-FIX] linux-user: Conditionalize TUNSETVNETLE
-To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
-References: <20210104234415.405521-1-richard.henderson@linaro.org>
-From: Laurent Vivier <laurent@vivier.eu>
-Message-ID: <db974bf1-0592-fb46-ef09-0de28a96c948@vivier.eu>
-Date: Tue, 5 Jan 2021 10:59:07 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.6.0
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1kwjCM-00022R-9s
+ for qemu-devel@nongnu.org; Tue, 05 Jan 2021 05:04:18 -0500
+Received: from mail-wm1-x32b.google.com ([2a00:1450:4864:20::32b]:35664)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1kwjCJ-0007Un-Mg
+ for qemu-devel@nongnu.org; Tue, 05 Jan 2021 05:04:17 -0500
+Received: by mail-wm1-x32b.google.com with SMTP id e25so2486598wme.0
+ for <qemu-devel@nongnu.org>; Tue, 05 Jan 2021 02:04:13 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=OvY26+OeA5gyOKe+OcLG7rwr2aP82kVRhsB0PtbHUYY=;
+ b=j5sGPoPzdMUJBccelSoHiBT76+fEEqbr/vOLpDlNtUgSpijC8Bbk5NrhE9RIwZWXFH
+ P/3Nhozj4gfKdaBHGqu/j3HligNe/W9E1Wc/HBP1FlOumwock1qiJm99u2CEERq5VMpA
+ dbC/nEd7I3tqbZ7jR5b4eJjwsrL5b5w5eKsqo5Ux3WSo9U0goBh4gCKZsGMWCH0/7KAz
+ +b0P2g+jy7BNE7DCbVKzvLzBq0w7xrAYqWk8wsvK2Eq9guIT9MwoUbhv9dama47kLhxA
+ NfKg+Fnaolm9iMylup84fuYmwRO1vve/WFHrDKa5/FR1kgPbmon50ttlpwXAsXV2Quae
+ 3LgA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=OvY26+OeA5gyOKe+OcLG7rwr2aP82kVRhsB0PtbHUYY=;
+ b=D/De8V1VN5Pm9XEaoziPdGdfvtvDE0rDDQA9c3fwC+pt2xfAWL+8nDY+UAUuMY1Egp
+ iBTGKRYMzmL/thH/ujeHW8axXioZ3rhVUTd+7fB3WiwpR3TOORt9XU18D4CEb7NJ2j31
+ TcJwkYzkrY7aHzl6GzRqBpHkF2e5MSqIr5kVF/ip2tlhe3V3DUHhAtBoJWGykQCaK/d7
+ /l/7a1brzvigzouoJlnMR/hnkBhdcULspgEeqCzyu7id5YU/ziK8Mu3jTCMMwoLvo6Yj
+ KwmzwhKBMJpOai8brlzdmvMz5BhoOzyPGjJGpRHvSZ7dAwTwqZGBFAiEYHEoJ3MxpeMx
+ OpMA==
+X-Gm-Message-State: AOAM532OG8PjRtlVkrWwc2EvcYWschdnU2JsxvALkTUDEYnnwiS3pjXx
+ fJKQBGalxGMto+4AJG/NmRZ/yA==
+X-Google-Smtp-Source: ABdhPJylA6Iwk3Ea/XX06+rVlkjkNxyQqu/XVUkKfzr5Pce9GGwR7mjH8tYTxk3r4On3uKubCt9pug==
+X-Received: by 2002:a7b:cbcc:: with SMTP id n12mr2712288wmi.23.1609841052845; 
+ Tue, 05 Jan 2021 02:04:12 -0800 (PST)
+Received: from zen.linaroharston ([51.148.130.216])
+ by smtp.gmail.com with ESMTPSA id o23sm101277812wro.57.2021.01.05.02.04.11
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 05 Jan 2021 02:04:11 -0800 (PST)
+Received: from zen.lan (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id DB28D1FF7E;
+ Tue,  5 Jan 2021 10:04:10 +0000 (GMT)
+From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: qemu-devel@nongnu.org
+Subject: [PATCH] tests/iotests: drop test 312 from auto group
+Date: Tue,  5 Jan 2021 10:04:02 +0000
+Message-Id: <20210105100402.12350-1-alex.bennee@linaro.org>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-In-Reply-To: <20210104234415.405521-1-richard.henderson@linaro.org>
-Content-Type: text/plain; charset=utf-8
-Content-Language: fr
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:6TNl8yXCEiLgBL2HehbQCDyDdUsdVd8PJ2fQPJei3s9CnEppFt0
- BJpdXM7LbzoRRzPIHex1f0y2rNWzU+xtsdBqF1IoRQXyviHMBSaWQh0483UnMXW33KKBCZh
- aRKZEk7o3zTJrc1Zks/pqFVVCgX+CljwOk1lhYF1MBNY/dMEn8sVSoddrFHEvf/d8/iRHV8
- 9UGecjOIWj3iWjJm0F7vQ==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:m9S6HI6p0us=:DKQSv2ou4bfxFKKJuUn7gI
- mMSxZ5/ea7gfTlDzPztViekFSHhwPCd4yvajmNQhEyQSKCL8sOESWi9dglhaVMcsyHyckJlWt
- zcjsH1C36YQr0EHTuz3hIy6m5lml2zh17mKWwEq723n0gPA1C85AKwaafXwbYsFt6S4lY8zIl
- f11o+izJbaPFijP3FQnxbd0pUAPowTvmfFTVnKLajGYufHN5zwTnYNq7DwkYkbLV1l8T2EZ7Y
- AQzrH2jRfZwtGOXcVhmUMrqG/ln4cc0h2cZSPHlsnTztlU1JPnIBtlEzPckcKIMLPVlau23pB
- qCLjsNDHFO+tnhe/f72AdZ3z86OXfNiy/jVeyE+rZYdSRovBMvE3eUR6h27tVr/voBa3wrzBE
- g2awxG9Ic3ew1yvYmZh5IntWCgLP3puOutpOqEP+4sYmBRMSd7uGyirh8ONzu
-Received-SPF: none client-ip=212.227.126.187; envelope-from=laurent@vivier.eu;
- helo=mout.kundenserver.de
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=ham autolearn_force=no
+Received-SPF: pass client-ip=2a00:1450:4864:20::32b;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x32b.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -64,39 +84,37 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: peter.maydell@linaro.org, Shu-Chun Weng <scw@google.com>,
- Josh Kunz <jkz@google.com>
+Cc: Kevin Wolf <kwolf@redhat.com>,
+ =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
+ "open list:Block layer core" <qemu-block@nongnu.org>,
+ Max Reitz <mreitz@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Le 05/01/2021 à 00:44, Richard Henderson a écrit :
-> This fixes the build for older ppc64 kernel headers.
-> 
-> Fixes: 6addf06a3c4
-> Cc: Josh Kunz <jkz@google.com>
-> Cc: Shu-Chun Weng <scw@google.com>
-> Cc: Laurent Vivier <laurent@vivier.eu>
-> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
-> ---
->  linux-user/ioctls.h | 2 ++
->  1 file changed, 2 insertions(+)
-> 
-> diff --git a/linux-user/ioctls.h b/linux-user/ioctls.h
-> index 661b5daa9f..7193c3b226 100644
-> --- a/linux-user/ioctls.h
-> +++ b/linux-user/ioctls.h
-> @@ -748,8 +748,10 @@
->    IOCTL(TUNSETQUEUE,     IOC_W, MK_PTR(MK_STRUCT(STRUCT_short_ifreq)))
->    IOCTL(TUNSETIFINDEX ,  IOC_W, MK_PTR(TYPE_INT))
->    /* TUNGETFILTER is not supported: see TUNATTACHFILTER. */
-> +#ifdef TUNSETVNETLE
->    IOCTL(TUNSETVNETLE,    IOC_W, MK_PTR(TYPE_INT))
->    IOCTL(TUNGETVNETLE,    IOC_R, MK_PTR(TYPE_INT))
-> +#endif
->  #ifdef TUNSETVNETBE
->    IOCTL(TUNSETVNETBE,    IOC_W, MK_PTR(TYPE_INT))
->    IOCTL(TUNGETVNETBE,    IOC_R, MK_PTR(TYPE_INT))
-> 
+The "auto" documentation states:
 
-Reviewed-by: Laurent Vivier <laurent@vivier.eu>
+  That means they should run with every QEMU binary (also non-x86)
+
+which is not the case as the check-system-fedora build which only
+includes a rag tag group of rare and deprecated targets doesn't
+support the virtio device required.
+
+Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
+---
+ tests/qemu-iotests/group | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/tests/qemu-iotests/group b/tests/qemu-iotests/group
+index e4fb6327ae..bc5bc324fe 100644
+--- a/tests/qemu-iotests/group
++++ b/tests/qemu-iotests/group
+@@ -318,4 +318,4 @@
+ 307 rw quick export
+ 308 rw
+ 309 rw auto quick
+-312 rw auto quick
++312 rw quick
+-- 
+2.20.1
+
 
