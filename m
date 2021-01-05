@@ -2,66 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5B2442EB451
-	for <lists+qemu-devel@lfdr.de>; Tue,  5 Jan 2021 21:35:05 +0100 (CET)
-Received: from localhost ([::1]:50636 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 737032EB452
+	for <lists+qemu-devel@lfdr.de>; Tue,  5 Jan 2021 21:35:43 +0100 (CET)
+Received: from localhost ([::1]:52466 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kwt2m-00014P-DE
-	for lists+qemu-devel@lfdr.de; Tue, 05 Jan 2021 15:35:04 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40892)
+	id 1kwt3O-0001nK-Ib
+	for lists+qemu-devel@lfdr.de; Tue, 05 Jan 2021 15:35:42 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41130)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1kwt1t-0000DO-Ah; Tue, 05 Jan 2021 15:34:09 -0500
-Received: from mail-io1-xd2a.google.com ([2607:f8b0:4864:20::d2a]:43964)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1kwt1r-0008W3-RZ; Tue, 05 Jan 2021 15:34:09 -0500
-Received: by mail-io1-xd2a.google.com with SMTP id o6so578339iob.10;
- Tue, 05 Jan 2021 12:34:07 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=J3hqRWX3mrpBcmId7bMLNt8C7iWnbpDNTj38Zk6UN60=;
- b=lf399kkCKlbvQ9EILHf/3NqQFfL9+jTaaIMfizMc+v06yAEjkcCRzOHx7Rai2CIWtA
- g6eMqk5/TGqmBzlwHVs7hiexm/2XRg7S+ZQSwMocflFGOd2pV5GaAhc9+pQBNislFQ6K
- KmVIrAga1sk1aWoAuO/sGAzdpi9UV//qxjWREXgs/pR9N3BYhSA1ThieszmIZEKF/Iva
- JHuaL6m9Bko6cLiaxBPs+OdhwomIhgJHzmecQU2iuKhUqSOKbv2uVznpg59Buby4ZMQc
- fFux3KE7B8EJDd6CH6sCXSHy2MiOOn7sq6bXs73PWJSl7N+gpab4s76GRuKuiNDHR3JS
- URDw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=J3hqRWX3mrpBcmId7bMLNt8C7iWnbpDNTj38Zk6UN60=;
- b=I2yoFe5FSKeLLKhbY+1uTpOKqHo2JiWlLFWyHhy3aPOqlU032TN3A33FNrDc7xvkU1
- 3Ga8TFEJGJ+A0E4EbFGxH2nknKWxSt6cjMD8003LDb+GQWfcmNikHl7DU8+bf+89NrM/
- orUe3LZmbZd4WNMaH3rQO4VH/50cooTW931y399bNy/ii51yiu/sgTLx7yGotKmlnAkV
- 8WLqdClggUNxscxPvUM77YY6sW32t2OEi345kHm9XHMToM+YQi9byrrGuZ1WABvcSBzU
- EwvVleQfW3KLssZxo0QFZvypnkY5Yy8J15qEnTsGJ4wnht7KkuA39oceXvIS6Pn7E4h1
- 06VA==
-X-Gm-Message-State: AOAM5324FNrtpHFVDe00jwyg7cBQMHYJRnvx4qD/eCXVkw7TwD/I3jPY
- HhKXvxUpaDr0fG4cAAFrZ2bOwGW22FuXa0YEzwM=
-X-Google-Smtp-Source: ABdhPJx8cTaaeck6y1YO9Yye/0t7cAdmdLd59nPpcigBuzRkiaYJvy/WS5ooxA6SBea0PgrOG+JZhJVL4BU0Pa11Hp0=
-X-Received: by 2002:a02:ca09:: with SMTP id i9mr1044363jak.135.1609878846545; 
- Tue, 05 Jan 2021 12:34:06 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <r.bolshakov@yadro.com>)
+ id 1kwt2K-0000xx-Ab
+ for qemu-devel@nongnu.org; Tue, 05 Jan 2021 15:34:36 -0500
+Received: from mta-02.yadro.com ([89.207.88.252]:32902 helo=mta-01.yadro.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <r.bolshakov@yadro.com>)
+ id 1kwt2F-0000FV-SC
+ for qemu-devel@nongnu.org; Tue, 05 Jan 2021 15:34:35 -0500
+Received: from localhost (unknown [127.0.0.1])
+ by mta-01.yadro.com (Postfix) with ESMTP id 711484124F;
+ Tue,  5 Jan 2021 20:34:28 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=yadro.com; h=
+ in-reply-to:content-transfer-encoding:content-disposition
+ :content-type:content-type:mime-version:references:message-id
+ :subject:subject:from:from:date:date:received:received:received;
+ s=mta-01; t=1609878866; x=1611693267; bh=CrZW3AE5rLvtD15kTa6zBk
+ i1U4hMlkiamycPrQfr8hg=; b=fk3u7K7yo9aHaVP7rDInEzu/VThhqPN+JjB+q6
+ IxLQQEzEVoNZTCzJqlFYg6eWM2+R2UG3kTjCfwBSFBsJQSLmsOCcLhJuIs94Sehy
+ Ox7KN+UhgzXh/sCEsL8q5FyLm/CCWlt/HkeXoA9Hfm+KlZBpc3SPCF8yD6lYUDzy
+ hbzYM=
+X-Virus-Scanned: amavisd-new at yadro.com
+Received: from mta-01.yadro.com ([127.0.0.1])
+ by localhost (mta-01.yadro.com [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id XcI8ShQiCwVp; Tue,  5 Jan 2021 23:34:26 +0300 (MSK)
+Received: from T-EXCH-03.corp.yadro.com (t-exch-03.corp.yadro.com
+ [172.17.100.103])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by mta-01.yadro.com (Postfix) with ESMTPS id DBD9A4120E;
+ Tue,  5 Jan 2021 23:34:25 +0300 (MSK)
+Received: from localhost (172.17.204.212) by T-EXCH-03.corp.yadro.com
+ (172.17.100.103) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384_P384) id 15.1.669.32; Tue, 5 Jan
+ 2021 23:34:25 +0300
+Date: Tue, 5 Jan 2021 23:34:38 +0300
+From: Roman Bolshakov <r.bolshakov@yadro.com>
+To: Alex =?iso-8859-1?Q?Benn=E9e?= <alex.bennee@linaro.org>
+Subject: Re: [PATCH v2] tcg: Fix execution on Apple Silicon
+Message-ID: <X/TNXssb7NRw45g5@SPB-NB-133.local>
+References: <20210103145055.11074-1-r.bolshakov@yadro.com>
+ <87zh1o3epo.fsf@linaro.org>
 MIME-Version: 1.0
-References: <CAOkUe-BGMmUTtY8bdTgi2Vrmq-pL2O36bY_kmE5rfbv0SQTJmA@mail.gmail.com>
-In-Reply-To: <CAOkUe-BGMmUTtY8bdTgi2Vrmq-pL2O36bY_kmE5rfbv0SQTJmA@mail.gmail.com>
-From: Alistair Francis <alistair23@gmail.com>
-Date: Tue, 5 Jan 2021 12:33:40 -0800
-Message-ID: <CAKmqyKNj_s0+GE8Mj9=B6HSuAwFDQupr=QsqfzLoW=oSPvSFPg@mail.gmail.com>
-Subject: Re: [PATCH v2] gdb: riscv: Add target description
-To: Sylvain Pelissier <sylvain.pelissier@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::d2a;
- envelope-from=alistair23@gmail.com; helo=mail-io1-xd2a.google.com
-X-Spam_score_int: -17
-X-Spam_score: -1.8
-X-Spam_bar: -
-X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+Content-Type: text/plain; charset="iso-8859-1"
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <87zh1o3epo.fsf@linaro.org>
+X-Originating-IP: [172.17.204.212]
+X-ClientProxiedBy: T-EXCH-01.corp.yadro.com (172.17.10.101) To
+ T-EXCH-03.corp.yadro.com (172.17.100.103)
+Received-SPF: pass client-ip=89.207.88.252; envelope-from=r.bolshakov@yadro.com;
+ helo=mta-01.yadro.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -75,61 +80,193 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "open list:RISC-V" <qemu-riscv@nongnu.org>,
- Sagar Karandikar <sagark@eecs.berkeley.edu>,
- Bastian Koppelmann <kbastian@mail.uni-paderborn.de>,
- "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
- Alistair Francis <Alistair.Francis@wdc.com>,
- Palmer Dabbelt <palmer@dabbelt.com>, Bin Meng <bmeng.cn@gmail.com>
+Cc: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org,
+ Alexander Graf <agraf@csgraf.de>, Joelle van Dyne <j@getutm.app>,
+ Stefan Hajnoczi <stefanha@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, Dec 30, 2020 at 12:26 AM Sylvain Pelissier
-<sylvain.pelissier@gmail.com> wrote:
->
-> Target description is not currently implemented in RISC-V architecture. Thus GDB won't set it properly when attached. The patch implements the target description response.
->
-> Signed-off-by: Sylvain Pelissier <sylvain.pelissier@gmail.com>
+On Mon, Jan 04, 2021 at 03:23:07PM +0000, Alex Bennée wrote:
+> 
+> Roman Bolshakov <r.bolshakov@yadro.com> writes:
+> 
+> > Pages can't be both write and executable at the same time on Apple
+> > Silicon. macOS provides public API to switch write protection [1] for
+> > JIT applications, like TCG.
+> >
+> > 1. https://developer.apple.com/documentation/apple_silicon/porting_just-in-time_compilers_to_apple_silicon
+> >
+> > Signed-off-by: Roman Bolshakov <r.bolshakov@yadro.com>
+> > ---
+> > v1: https://lists.gnu.org/archive/html/qemu-devel/2021-01/msg00073.html
+> > Changes since v1:
+> >
+> >  - Pruned not needed fiddling with W^X and dropped symmetry from write
+> >    lock/unlock and renamed related functions.
+> >    Similar approach is used in JavaScriptCore [1].
+> >
+> >  - Moved jit helper functions to util/osdep
+> >                                                                                                                                                   As outlined in osdep.h, this matches to (2):                                                                                                                                                                                                                                                    * In an ideal world this header would contain only:                                                                                            *  (1) things which everybody needs                                                                                                            *  (2) things without which code would work on most platforms but                                                                              *      fail to compile or misbehave on a minority of host OSes
+> >
+> >  - Fixed a checkpatch error
+> >
+> >  - Limit new behaviour only to macOS 11.0 and above, because of the
+> >    following declarations:
+> >
+> >    __API_AVAILABLE(macos(11.0))
+> >    __API_UNAVAILABLE(ios, tvos, watchos)
+> >    void pthread_jit_write_protect_np(int enabled);
+> >
+> >    __API_AVAILABLE(macos(11.0))
+> >    __API_UNAVAILABLE(ios, tvos, watchos)
+> >    int pthread_jit_write_protect_supported_np(void);
+> >
+> >  1. https://bugs.webkit.org/attachment.cgi?id=402515&action=prettypatch
+> >
+> >  accel/tcg/cpu-exec.c      |  2 ++
+> >  accel/tcg/translate-all.c |  6 ++++++
+> >  include/qemu/osdep.h      |  3 +++
+> >  tcg/tcg.c                 |  1 +
+> >  util/osdep.c              | 22 ++++++++++++++++++++++
+> >  5 files changed, 34 insertions(+)
+> >
+> > diff --git a/accel/tcg/cpu-exec.c b/accel/tcg/cpu-exec.c
+> > index 8689c54499..374060eb45 100644
+> > --- a/accel/tcg/cpu-exec.c
+> > +++ b/accel/tcg/cpu-exec.c
+> > @@ -175,6 +175,7 @@ static inline tcg_target_ulong cpu_tb_exec(CPUState *cpu, TranslationBlock *itb)
+> >      }
+> >  #endif /* DEBUG_DISAS */
+> >  
+> > +    qemu_thread_jit_execute();
+> >      ret = tcg_qemu_tb_exec(env, tb_ptr);
+> >      cpu->can_do_io = 1;
+> >      last_tb = (TranslationBlock *)(ret & ~TB_EXIT_MASK);
+> > @@ -382,6 +383,7 @@ static inline void tb_add_jump(TranslationBlock *tb, int n,
+> >  {
+> >      uintptr_t old;
+> >  
+> > +    qemu_thread_jit_write();
+> >      assert(n < ARRAY_SIZE(tb->jmp_list_next));
+> >      qemu_spin_lock(&tb_next->jmp_lock);
+> >  
+> > diff --git a/accel/tcg/translate-all.c b/accel/tcg/translate-all.c
+> > index b7d50a73d4..88ae5d35ef 100644
+> > --- a/accel/tcg/translate-all.c
+> > +++ b/accel/tcg/translate-all.c
+> > @@ -1072,6 +1072,9 @@ static inline void *alloc_code_gen_buffer(void)
+> >      size_t size = tcg_ctx->code_gen_buffer_size;
+> >      void *buf;
+> >  
+> > +#if defined(__APPLE__) && defined(MAC_OS_VERSION_11_0)
+> > +    flags |= MAP_JIT;
+> > +#endif
+> >      buf = mmap(NULL, size, prot, flags, -1, 0);
+> >      if (buf == MAP_FAILED) {
+> >          return NULL;
+> > @@ -1485,7 +1488,9 @@ static void do_tb_phys_invalidate(TranslationBlock *tb, bool rm_from_page_list)
+> >  
+> >  static void tb_phys_invalidate__locked(TranslationBlock *tb)
+> >  {
+> > +    qemu_thread_jit_write();
+> >      do_tb_phys_invalidate(tb, true);
+> > +    qemu_thread_jit_execute();
+> >  }
+> >  
+> >  /* invalidate one TB
+> > @@ -1687,6 +1692,7 @@ TranslationBlock *tb_gen_code(CPUState *cpu,
+> >  #endif
+> >  
+> >      assert_memory_lock();
+> > +    qemu_thread_jit_write();
+> >  
+> >      phys_pc = get_page_addr_code(env, pc);
+> >  
+> > diff --git a/include/qemu/osdep.h b/include/qemu/osdep.h
+> > index f9ec8c84e9..89abebcf5d 100644
+> > --- a/include/qemu/osdep.h
+> > +++ b/include/qemu/osdep.h
+> > @@ -686,4 +686,7 @@ char *qemu_get_host_name(Error **errp);
+> >   */
+> >  size_t qemu_get_host_physmem(void);
+> >  
+> > +void qemu_thread_jit_write(void);
+> > +void qemu_thread_jit_execute(void);
+> > +
+> >  #endif
+> > diff --git a/tcg/tcg.c b/tcg/tcg.c
+> > index 43c6cf8f52..ab8488f5d5 100644
+> > --- a/tcg/tcg.c
+> > +++ b/tcg/tcg.c
+> > @@ -1065,6 +1065,7 @@ void tcg_prologue_init(TCGContext *s)
+> >      s->pool_labels = NULL;
+> >  #endif
+> >  
+> > +    qemu_thread_jit_write();
+> >      /* Generate the prologue.  */
+> >      tcg_target_qemu_prologue(s);
+> >  
+> > diff --git a/util/osdep.c b/util/osdep.c
+> > index 66d01b9160..80ec7185da 100644
+> > --- a/util/osdep.c
+> > +++ b/util/osdep.c
+> > @@ -606,3 +606,25 @@ writev(int fd, const struct iovec *iov, int iov_cnt)
+> >      return readv_writev(fd, iov, iov_cnt, true);
+> >  }
+> >  #endif
+> > +
+> > +#if defined(__APPLE__) && defined(MAC_OS_VERSION_11_0)
+> > +static inline void qemu_thread_jit_write_protect(bool enabled)
+> > +{
+> > +    if (pthread_jit_write_protect_supported_np()) {
+> > +        pthread_jit_write_protect_np(enabled);
+> > +    }
+> > +}
+> > +
+> > +void qemu_thread_jit_execute(void)
+> > +{
+> > +    qemu_thread_jit_write_protect(true);
+> > +}
+> > +
+> > +void qemu_thread_jit_write(void)
+> > +{
+> > +    qemu_thread_jit_write_protect(false);
+> > +}
+> 
+> What happens if you emulate a -smp 2 ARM guest? In this case MTTCG
+> should be enabled (same guest ordering) but you run a risk of attempting
+> to execute code while write is enabled.
+> 
 
-Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
+Hi Alex,
 
-Alistair
+Thanks for providing a hint. Ubuntu ARM with -smp 4 boots and works. I
+can see 4 CPU in the guest and use the VM without any crashes (but it
+requires patience as it's much slower compared to hvf).
 
-> ---
->  target/riscv/cpu.c | 13 +++++++++++++
->  1 file changed, 13 insertions(+)
->
-> diff --git a/target/riscv/cpu.c b/target/riscv/cpu.c
-> index 254cd83f8b..ed4971978b 100644
-> --- a/target/riscv/cpu.c
-> +++ b/target/riscv/cpu.c
-> @@ -556,6 +556,18 @@ static Property riscv_cpu_properties[] = {
->      DEFINE_PROP_END_OF_LIST(),
->  };
->
-> +static gchar *riscv_gdb_arch_name(CPUState *cs)
-> +{
-> +    RISCVCPU *cpu = RISCV_CPU(cs);
-> +    CPURISCVState *env = &cpu->env;
-> +
-> +    if (riscv_cpu_is_32bit(env)) {
-> +        return g_strdup("riscv:rv32");
-> +    } else {
-> +        return g_strdup("riscv:rv64");
-> +    }
-> +}
-> +
->  static void riscv_cpu_class_init(ObjectClass *c, void *data)
->  {
->      RISCVCPUClass *mcc = RISCV_CPU_CLASS(c);
-> @@ -591,6 +603,7 @@ static void riscv_cpu_class_init(ObjectClass *c, void *data)
->      /* For now, mark unmigratable: */
->      cc->vmsd = &vmstate_riscv_cpu;
->  #endif
-> +    cc->gdb_arch_name = riscv_gdb_arch_name;
->  #ifdef CONFIG_TCG
->      cc->tcg_initialize = riscv_translate_init;
->      cc->tlb_fill = riscv_cpu_tlb_fill;
-> --
-> 2.25.1
+> Is there any way to only change the mapping for the parts of the TB
+> cache used by a thread? Otherwise we'll need additional logic in
+> default_mttcg_enabled to ensure we don't accidentally enable it on Apple
+> silicon.
+
+I'm not sure I understand the question. The mappings are changed only
+for the thread that invokes pthread_jit_write_protect_np(). Each thread
+has its own permissions for MAP_JIT region. As far as I understand MTTCG
+works fine with the series as I've seen 376% CPU utilization at times
+with -smp 4, regardless whether MTTCG is specified explicitly
+(-accel tcg,thread=multi) or not. Respectively, default ARM on ARM is
+MTTCG and it works fine, we don't need to disable it :)
+
+Thanks,
+Roman
+
+> 
+> > +#else
+> > +void qemu_thread_jit_write(void) {}
+> > +void qemu_thread_jit_execute(void) {}
+> > +#endif
+> 
+> 
+> -- 
+> Alex Bennée
 
