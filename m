@@ -2,71 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0E9472EB1E1
-	for <lists+qemu-devel@lfdr.de>; Tue,  5 Jan 2021 18:58:49 +0100 (CET)
-Received: from localhost ([::1]:33192 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 195F22EB1D8
+	for <lists+qemu-devel@lfdr.de>; Tue,  5 Jan 2021 18:55:37 +0100 (CET)
+Received: from localhost ([::1]:54104 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kwqbY-0002GV-52
-	for lists+qemu-devel@lfdr.de; Tue, 05 Jan 2021 12:58:48 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57092)
+	id 1kwqYS-0007US-1g
+	for lists+qemu-devel@lfdr.de; Tue, 05 Jan 2021 12:55:36 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58112)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1kwqGP-0006Xt-4M; Tue, 05 Jan 2021 12:36:57 -0500
-Received: from mail-il1-x12f.google.com ([2607:f8b0:4864:20::12f]:40601)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1kwqGN-0000dP-1Q; Tue, 05 Jan 2021 12:36:56 -0500
-Received: by mail-il1-x12f.google.com with SMTP id e7so428512ile.7;
- Tue, 05 Jan 2021 09:36:53 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=iYUbdn46eLLJUQGutNwUga7LivqPsgBrhoaqA3UjSMc=;
- b=C7rW8Vdc6213/7dex6sGc3MF9LPSadvWCiBhsLWUZ0baN3pEYGmG0dPeWinzaKYMhm
- L4eaM6Kl79/+NkB/wI7Iv4LyIVGubn5OA8mRSKHP+cSvQRG3rxNC4T7AC6xQJ9bUblKv
- w5fLP1TQLV8vPRwCGDs4kWL6ma2xbosoaEN0nDA9S984ub5ajvNXw4eGbYo0MZuL2Gn9
- CpzZVqWT4gkvY8VTA7QX8aFARGlJXfmadxv3ZgSgWwbr6lDTYn6IyfaGZ8kOXpHX793y
- 3CLUh/0bul/6nF3nBaWeoHsPsNez0AP8tRiqgdYKrrSoIzE1GtHG2pZkXBGQU0D8337D
- kzZQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=iYUbdn46eLLJUQGutNwUga7LivqPsgBrhoaqA3UjSMc=;
- b=UBPNDi50N8kYCZXa5onSfai9yeLb1ap5BpUY7yKP5In0JnWPeO3d44YAG3NWeRZQh/
- ZbH+aNuo0gaO7k4jnF8judDpgFlTuKHdMRK3IwPlHaKCJ6Fu7SFwkw8UsNfvX0yjLZ6B
- MqkNrdwAFXAX3/UOM8WLINYgOa7Ps/SS8F5EYpV1/y/0fmMxrgO6gXE7drWeNUcgXRyi
- LME4cm9Hi+nST5OxQJvX4yflg8HT+H/L9Ikimif0qNXLdi0m+i94U5uNNPvkS54ZW0c0
- Z9BN8m3kn/7Tmu2QzY6r0VVVoATreGMvRJm9FextECLHRZYqk6pD21OdBmFXlxIHsxGw
- 4hZg==
-X-Gm-Message-State: AOAM530NPljLPT6F0HOeDHtPvh05eQ/bniOHZFj0T9LKzer4DO2i3WK2
- Vv6O2APto5uSn8ggKfevVJ6tQHgziK6FzHppCRA=
-X-Google-Smtp-Source: ABdhPJyqlVfZpAO6yv6nGmppmW7gpKPg65l4Vu1XOlAeCnxF0P7r3nwdAcmxzlnVeenovVNhgkvSpmqhcmiuN6qc2kU=
-X-Received: by 2002:a92:c942:: with SMTP id i2mr650901ilq.227.1609868212964;
- Tue, 05 Jan 2021 09:36:52 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1kwqJO-0002mf-FO
+ for qemu-devel@nongnu.org; Tue, 05 Jan 2021 12:40:02 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:59647)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1kwqJL-00010W-Nd
+ for qemu-devel@nongnu.org; Tue, 05 Jan 2021 12:40:02 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1609868399;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=1975RotN7bx/pVjtP8np8aGkQPQ5G5ysFfkrpFOJ6Bo=;
+ b=QKpKyh3OzEjJ/cPgCJ612dyfAa/IRtxBE046hO4H64RAX5SbvRc8QTyV35SdI5SQoi8cbN
+ Cyhw9EkbUbllcK75oW+o6SYJ9H4gnsYqqCvqZaKdbDj4P3p2Kj5RTkcU1Zg0heTQ8Y7oB/
+ ey25HeJrDgJleh5XOINxx8wGbOS+m40=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-13-JUv-phf2PAS_UHPcbjOGmQ-1; Tue, 05 Jan 2021 12:39:53 -0500
+X-MC-Unique: JUv-phf2PAS_UHPcbjOGmQ-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id CE03E1922021;
+ Tue,  5 Jan 2021 17:39:51 +0000 (UTC)
+Received: from redhat.com (ovpn-114-197.ams2.redhat.com [10.36.114.197])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 1273A1349A;
+ Tue,  5 Jan 2021 17:39:46 +0000 (UTC)
+Date: Tue, 5 Jan 2021 17:39:44 +0000
+From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+To: Laurent Vivier <lvivier@redhat.com>
+Subject: Re: [PULL for-5.2 2/2] scripts/tracetool: silence SystemTap
+ dtrace(1) long long warnings
+Message-ID: <20210105173944.GJ724458@redhat.com>
+References: <20201111155654.1430860-1-stefanha@redhat.com>
+ <20201111155654.1430860-3-stefanha@redhat.com>
+ <702283f5-13c1-00f9-4c83-49c469287483@redhat.com>
 MIME-Version: 1.0
-References: <20201203124703.168-1-jiangyifei@huawei.com>
- <20201203124703.168-14-jiangyifei@huawei.com>
- <CAKmqyKM5m3_w6=Jd+EdTatY9G0YBm1mFjh+5FodnVmFfKydyZw@mail.gmail.com>
- <1889871dcdf74ac3b495d75e6fd2aeaf@huawei.com>
-In-Reply-To: <1889871dcdf74ac3b495d75e6fd2aeaf@huawei.com>
-From: Alistair Francis <alistair23@gmail.com>
-Date: Tue, 5 Jan 2021 09:36:25 -0800
-Message-ID: <CAKmqyKMg+cmLm6fBN23KCoVajgbY-3YRF3K=m4HaHOoehckGHA@mail.gmail.com>
-Subject: Re: [PATCH RFC v4 13/15] target/riscv: Introduce dynamic time
- frequency for virt machine
-To: Jiangyifei <jiangyifei@huawei.com>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::12f;
- envelope-from=alistair23@gmail.com; helo=mail-il1-x12f.google.com
-X-Spam_score_int: -17
-X-Spam_score: -1.8
-X-Spam_bar: -
-X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <702283f5-13c1-00f9-4c83-49c469287483@redhat.com>
+User-Agent: Mutt/1.14.6 (2020-07-11)
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=berrange@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=berrange@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -29
+X-Spam_score: -3.0
+X-Spam_bar: ---
+X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.252,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -79,194 +84,89 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "kvm-riscv@lists.infradead.org" <kvm-riscv@lists.infradead.org>,
- Anup Patel <anup.patel@wdc.com>, "open list:RISC-V" <qemu-riscv@nongnu.org>,
- "open list:Overall" <kvm@vger.kernel.org>,
- Sagar Karandikar <sagark@eecs.berkeley.edu>,
- "libvir-list@redhat.com" <libvir-list@redhat.com>,
- Bastian Koppelmann <kbastian@mail.uni-paderborn.de>,
- "Zhangxiaofeng \(F\)" <victor.zhangxiaofeng@huawei.com>,
- "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
- Zhanghailiang <zhang.zhanghailiang@huawei.com>,
- Alistair Francis <Alistair.Francis@wdc.com>, yinyipeng <yinyipeng1@huawei.com>,
- Palmer Dabbelt <palmer@dabbelt.com>, "Wubin \(H\)" <wu.wubin@huawei.com>,
- "dengkai \(A\)" <dengkai1@huawei.com>
+Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+Cc: Peter Maydell <peter.maydell@linaro.org>, qemu-block@nongnu.org,
+ qemu-devel@nongnu.org, Markus Armbruster <armbru@redhat.com>,
+ Stefan Hajnoczi <stefanha@redhat.com>,
+ Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, Dec 14, 2020 at 11:31 PM Jiangyifei <jiangyifei@huawei.com> wrote:
->
->
-> > -----Original Message-----
-> > From: Alistair Francis [mailto:alistair23@gmail.com]
-> > Sent: Wednesday, December 9, 2020 6:26 AM
-> > To: Jiangyifei <jiangyifei@huawei.com>
-> > Cc: qemu-devel@nongnu.org Developers <qemu-devel@nongnu.org>; open
-> > list:RISC-V <qemu-riscv@nongnu.org>; Zhangxiaofeng (F)
-> > <victor.zhangxiaofeng@huawei.com>; Sagar Karandikar
-> > <sagark@eecs.berkeley.edu>; open list:Overall <kvm@vger.kernel.org>;
-> > libvir-list@redhat.com; Bastian Koppelmann
-> > <kbastian@mail.uni-paderborn.de>; Anup Patel <anup.patel@wdc.com>;
-> > yinyipeng <yinyipeng1@huawei.com>; Alistair Francis
-> > <Alistair.Francis@wdc.com>; kvm-riscv@lists.infradead.org; Palmer Dabbelt
-> > <palmer@dabbelt.com>; dengkai (A) <dengkai1@huawei.com>; Wubin (H)
-> > <wu.wubin@huawei.com>; Zhanghailiang <zhang.zhanghailiang@huawei.com>
-> > Subject: Re: [PATCH RFC v4 13/15] target/riscv: Introduce dynamic time
-> > frequency for virt machine
-> >
-> > On Thu, Dec 3, 2020 at 4:57 AM Yifei Jiang <jiangyifei@huawei.com> wrote:
-> > >
-> > > Currently, time base frequency was fixed as SIFIVE_CLINT_TIMEBASE_FREQ.
-> > > Here introduce "time-frequency" property to set time base frequency
-> > > dynamically of which default value is still
-> > > SIFIVE_CLINT_TIMEBASE_FREQ. The virt machine uses frequency of the first
-> > cpu to create clint and fdt.
-> > >
-> > > Signed-off-by: Yifei Jiang <jiangyifei@huawei.com>
-> > > Signed-off-by: Yipeng Yin <yinyipeng1@huawei.com>
-> > > ---
-> > >  hw/riscv/virt.c    | 18 ++++++++++++++----
-> > >  target/riscv/cpu.c |  3 +++
-> > >  target/riscv/cpu.h |  2 ++
-> > >  3 files changed, 19 insertions(+), 4 deletions(-)
-> > >
-> > > diff --git a/hw/riscv/virt.c b/hw/riscv/virt.c index
-> > > 47b7018193..788a7237b6 100644
-> > > --- a/hw/riscv/virt.c
-> > > +++ b/hw/riscv/virt.c
-> > > @@ -178,7 +178,7 @@ static void create_pcie_irq_map(void *fdt, char
-> > > *nodename,  }
-> > >
-> > >  static void create_fdt(RISCVVirtState *s, const struct MemmapEntry
-> > *memmap,
-> > > -    uint64_t mem_size, const char *cmdline)
-> > > +    uint64_t mem_size, const char *cmdline, uint64_t
-> > > + timebase_frequency)
-> > >  {
-> > >      void *fdt;
-> > >      int i, cpu, socket;
-> > > @@ -225,7 +225,7 @@ static void create_fdt(RISCVVirtState *s, const
-> > > struct MemmapEntry *memmap,
-> > >
-> > >      qemu_fdt_add_subnode(fdt, "/cpus");
-> > >      qemu_fdt_setprop_cell(fdt, "/cpus", "timebase-frequency",
-> > > -                          SIFIVE_CLINT_TIMEBASE_FREQ);
-> > > +                          timebase_frequency);
-> > >      qemu_fdt_setprop_cell(fdt, "/cpus", "#size-cells", 0x0);
-> > >      qemu_fdt_setprop_cell(fdt, "/cpus", "#address-cells", 0x1);
-> > >      qemu_fdt_add_subnode(fdt, "/cpus/cpu-map"); @@ -510,6 +510,7
-> > @@
-> > > static void virt_machine_init(MachineState *machine)
-> > >      target_ulong firmware_end_addr, kernel_start_addr;
-> > >      uint32_t fdt_load_addr;
-> > >      uint64_t kernel_entry;
-> > > +    uint64_t timebase_frequency = 0;
-> > >      DeviceState *mmio_plic, *virtio_plic, *pcie_plic;
-> > >      int i, j, base_hartid, hart_count;
-> > >      CPUState *cs;
-> > > @@ -553,12 +554,20 @@ static void virt_machine_init(MachineState
-> > *machine)
-> > >                                  hart_count, &error_abort);
-> > >          sysbus_realize(SYS_BUS_DEVICE(&s->soc[i]), &error_abort);
-> > >
-> > > +        if (!timebase_frequency) {
-> > > +            timebase_frequency = RISCV_CPU(first_cpu)->env.frequency;
-> > > +        }
-> > > +        /* If vcpu's time frequency is not specified, we use default
-> > frequency */
-> > > +        if (!timebase_frequency) {
-> > > +            timebase_frequency = SIFIVE_CLINT_TIMEBASE_FREQ;
-> > > +        }
-> > > +
-> > >          /* Per-socket CLINT */
-> > >          sifive_clint_create(
-> > >              memmap[VIRT_CLINT].base + i *
-> > memmap[VIRT_CLINT].size,
-> > >              memmap[VIRT_CLINT].size, base_hartid, hart_count,
-> > >              SIFIVE_SIP_BASE, SIFIVE_TIMECMP_BASE,
-> > SIFIVE_TIME_BASE,
-> > > -            SIFIVE_CLINT_TIMEBASE_FREQ, true);
-> > > +            timebase_frequency, true);
-> > >
-> > >          /* Per-socket PLIC hart topology configuration string */
-> > >          plic_hart_config_len =
-> > > @@ -610,7 +619,8 @@ static void virt_machine_init(MachineState
-> > *machine)
-> > >          main_mem);
-> > >
-> > >      /* create device tree */
-> > > -    create_fdt(s, memmap, machine->ram_size,
-> > machine->kernel_cmdline);
-> > > +    create_fdt(s, memmap, machine->ram_size,
-> > machine->kernel_cmdline,
-> > > +               timebase_frequency);
-> > >
-> > >      /* boot rom */
-> > >      memory_region_init_rom(mask_rom, NULL, "riscv_virt_board.mrom",
-> > > diff --git a/target/riscv/cpu.c b/target/riscv/cpu.c index
-> > > 439dc89ee7..66f35bcbbf 100644
-> > > --- a/target/riscv/cpu.c
-> > > +++ b/target/riscv/cpu.c
-> > > @@ -494,6 +494,8 @@ static void riscv_cpu_realize(DeviceState *dev,
-> > > Error **errp)
-> > >
-> > >      riscv_cpu_register_gdb_regs_for_features(cs);
-> > >
-> > > +    env->user_frequency = env->frequency;
-> > > +
-> > >      qemu_init_vcpu(cs);
-> > >      cpu_reset(cs);
-> > >
-> > > @@ -531,6 +533,7 @@ static Property riscv_cpu_properties[] = {
-> > >      DEFINE_PROP_BOOL("mmu", RISCVCPU, cfg.mmu, true),
-> > >      DEFINE_PROP_BOOL("pmp", RISCVCPU, cfg.pmp, true),
-> > >      DEFINE_PROP_UINT64("resetvec", RISCVCPU, cfg.resetvec,
-> > > DEFAULT_RSTVEC),
-> > > +    DEFINE_PROP_UINT64("time-frequency", RISCVCPU, env.frequency, 0),
-> >
-> > Why not set the default to SIFIVE_CLINT_TIMEBASE_FREQ?
-> >
->
-> When the time frequency is not specified, it will follow the host or the migration
-> source. And we define 0 as equivalent to not specified time frequency.
->
-> > Also, QEMU now has a clock API, is using that instead a better option?
-> >
->
-> Sorry, I didn't find the clock API. Could you tell me what the API is.
-> I think that the time frequency is option of KVM VCPU. So it is appropriate to put this
-> option in the CPU.
+On Mon, Jan 04, 2021 at 09:31:19PM +0100, Laurent Vivier wrote:
+> On 11/11/2020 16:56, Stefan Hajnoczi wrote:
+> > SystemTap's dtrace(1) prints the following warning when it encounters
+> > long long arguments:
+> > 
+> >   Warning: /usr/bin/dtrace:trace/trace-dtrace-hw_virtio.dtrace:76: syntax error near:
+> >   probe vhost_vdpa_dev_start
+> > 
+> >   Warning: Proceeding as if --no-pyparsing was given.
+> > 
+> > Use the uint64_t and int64_t types, respectively. This works with all
+> > host CPU 32- and 64-bit data models (ILP32, LP64, and LLP64) that QEMU
+> > supports.
+> > 
+> > Reported-by: Markus Armbruster <armbru@redhat.com>
+> > Signed-off-by: Stefan Hajnoczi <stefanha@redhat.com>
+> > Reviewed-by: Daniel P. Berrangé <berrange@redhat.com>
+> > Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+> > Message-id: 20201020094043.159935-1-stefanha@redhat.com
+> > Suggested-by: Daniel P. Berrangé <berrange@redhat.com>
+> > Signed-off-by: Stefan Hajnoczi <stefanha@redhat.com>
+> > ---
+> >  scripts/tracetool/format/d.py | 6 ++++++
+> >  1 file changed, 6 insertions(+)
+> > 
+> > diff --git a/scripts/tracetool/format/d.py b/scripts/tracetool/format/d.py
+> > index 353722f89c..ebfb714200 100644
+> > --- a/scripts/tracetool/format/d.py
+> > +++ b/scripts/tracetool/format/d.py
+> > @@ -57,6 +57,12 @@ def generate(events, backend, group):
+> >                  # Avoid it by changing probe type to signed char * beforehand.
+> >                  if type_ == 'int8_t *':
+> >                      type_ = 'signed char *'
+> > +
+> > +            # SystemTap dtrace(1) emits a warning when long long is used
+> > +            type_ = type_.replace('unsigned long long', 'uint64_t')
+> > +            type_ = type_.replace('signed long long', 'int64_t')
+> > +            type_ = type_.replace('long long', 'int64_t')
+> > +
+> >              if name in RESERVED_WORDS:
+> >                  name += '_'
+> >              args.append(type_ + ' ' + name)
+> > 
+> 
+> This patch fixes the warning with "d" format, but we have the same kind of problem with
+> log-stap format:
+> 
+>   $ sudo stap -e 'probe begin{printf ("BEGIN")}'  -I .
+>   parse error: invalid or missing conversion specifier
+>           saw: operator ',' at ./qemu-system-x86_64-log.stp:15118:101
+>        source:     printf("%d@%d vhost_vdpa_set_log_base dev: %p base: 0x%x size: %llu
+> refcnt: %d fd: %d log: %p\n", pid(), gettimeofday_ns(), dev, base, size, refcnt, fd, log)
+> 
+>                        ^
+> 
+>   1 parse error.
+>   WARNING: tapset "./qemu-system-x86_64-log.stp" has errors, and will be skipped
+>   BEGIN
+> 
+> This happens because of the "%llu" in the format string.
+> 
+> I'm wondering if we need to fix all the stap based format or simply replace the "unsigned
+> long long" by "uint64_t" in hw/virtio/trace-events?
 
-The clock API is documented here:
-https://gitlab.com/qemu-project/qemu/-/blob/master/docs/devel/clocks.rst
+The problem isn't really the data type, but rather the format string.
+systemtap format strings are not quite the same as C format strings.
 
-I'm not sure if it applies to KVM, but it is at least worth considering.
+So we need to re-write %llu into %lu I expect. We already do some
+rewriting in log_stap.py but we obviously need a bit more.
 
-Alistair
+Regards,
+Daniel
+-- 
+|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
+|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
+|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
 
->
-> Yifei
->
-> > Alistair
-> >
-> > >      DEFINE_PROP_END_OF_LIST(),
-> > >  };
-> > >
-> > > diff --git a/target/riscv/cpu.h b/target/riscv/cpu.h index
-> > > 16d6050ead..f5b6c34176 100644
-> > > --- a/target/riscv/cpu.h
-> > > +++ b/target/riscv/cpu.h
-> > > @@ -243,6 +243,8 @@ struct CPURISCVState {
-> > >      uint64_t kvm_timer_time;
-> > >      uint64_t kvm_timer_compare;
-> > >      uint64_t kvm_timer_state;
-> > > +    uint64_t user_frequency;
-> > > +    uint64_t frequency;
-> > >  };
-> > >
-> > >  OBJECT_DECLARE_TYPE(RISCVCPU, RISCVCPUClass,
-> > > --
-> > > 2.19.1
-> > >
-> > >
 
