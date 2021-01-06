@@ -2,42 +2,42 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5E2EC2EB877
-	for <lists+qemu-devel@lfdr.de>; Wed,  6 Jan 2021 04:41:12 +0100 (CET)
-Received: from localhost ([::1]:50588 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B51992EB89F
+	for <lists+qemu-devel@lfdr.de>; Wed,  6 Jan 2021 04:49:03 +0100 (CET)
+Received: from localhost ([::1]:49134 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kwzh9-00083v-Ds
-	for lists+qemu-devel@lfdr.de; Tue, 05 Jan 2021 22:41:11 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44716)
+	id 1kwzok-0002DZ-Qo
+	for lists+qemu-devel@lfdr.de; Tue, 05 Jan 2021 22:49:02 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44824)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1kwzeg-0005XJ-70; Tue, 05 Jan 2021 22:38:38 -0500
-Received: from bilbo.ozlabs.org ([203.11.71.1]:38695 helo=ozlabs.org)
+ id 1kwzel-0005jJ-Tt; Tue, 05 Jan 2021 22:38:47 -0500
+Received: from ozlabs.org ([2401:3900:2:1::2]:34315)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1kwzed-0006FD-M1; Tue, 05 Jan 2021 22:38:37 -0500
+ id 1kwzej-0006IL-8w; Tue, 05 Jan 2021 22:38:43 -0500
 Received: by ozlabs.org (Postfix, from userid 1007)
- id 4D9ZpG1NCcz9sVt; Wed,  6 Jan 2021 14:38:30 +1100 (AEDT)
+ id 4D9ZpG3kt5z9sW8; Wed,  6 Jan 2021 14:38:30 +1100 (AEDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=gibson.dropbear.id.au; s=201602; t=1609904310;
- bh=6EhFepxMpLM7PKI6tS1VgwrcMHlyoaSQp4nd7OSi5CE=;
+ bh=LTrtt20FQW0rW0tGMbbp6jPFAUzf10Glde6z9Teh1Qo=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=BYOWhpToGZ/OhDJ+K9ycxFA3yEQP66MuEPJsfTc/06KOX50BLg2YBdMxfCh2R0XcI
- ou1N6xlENye1sszUseRg/uju+f9oC5JRub6Biue865Kd3jE+8Gi3N4opxFNkrvOgIj
- Hnr4PHIlLLrLwABnYoR+tOrcKL2qx8YQAikvvQSw=
+ b=N5I5AJV9yQWM5ey0hWjxekri7KbX7D4bNpuQwwhBafqI7NDdHg0HKIy2Z/ei5ar/s
+ Rf50A2ya+hxTG/dpiF+BbXEsbr6SVPNsi8aYNhfhSqd9dKPJqgcR+zYKS4s/ACe1pm
+ RQ7kCPwReRkhJ3xgy/LHdjHMevXiOKH23cwJyz4Y=
 From: David Gibson <david@gibson.dropbear.id.au>
 To: peter.maydell@linaro.org,
 	groug@kaod.org
-Subject: [PULL 04/22] hw/ppc/ppc440_bamboo: Drop use of ppcuic_init()
-Date: Wed,  6 Jan 2021 14:37:58 +1100
-Message-Id: <20210106033816.232598-5-david@gibson.dropbear.id.au>
+Subject: [PULL 05/22] spapr: DRC lookup cannot fail
+Date: Wed,  6 Jan 2021 14:37:59 +1100
+Message-Id: <20210106033816.232598-6-david@gibson.dropbear.id.au>
 X-Mailer: git-send-email 2.29.2
 In-Reply-To: <20210106033816.232598-1-david@gibson.dropbear.id.au>
 References: <20210106033816.232598-1-david@gibson.dropbear.id.au>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=203.11.71.1; envelope-from=dgibson@ozlabs.org;
+Received-SPF: pass client-ip=2401:3900:2:1::2; envelope-from=dgibson@ozlabs.org;
  helo=ozlabs.org
 X-Spam_score_int: -17
 X-Spam_score: -1.8
@@ -62,109 +62,43 @@ Cc: David Gibson <david@gibson.dropbear.id.au>, qemu-ppc@nongnu.org,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Peter Maydell <peter.maydell@linaro.org>
+From: Greg Kurz <groug@kaod.org>
 
-Switch the bamboo board to directly creating and configuring the UIC,
-rather than doing it via the old ppcuic_init() helper function.
+All memory DRC objects are created during machine init. It is thus safe
+to assume spapr_drc_by_id() cannot return NULL when hot-plug/unplugging
+memory.
 
-Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
-Message-Id: <20201212001537.24520-5-peter.maydell@linaro.org>
+Make this clear with an assertion, like the code already does a few lines
+above when looping over memory DRCs. This fixes Coverity reports 1437757
+and 1437758.
+
+Signed-off-by: Greg Kurz <groug@kaod.org>
+Message-Id: <160805381160.228955.5388294067094240175.stgit@bahia.lan>
 Signed-off-by: David Gibson <david@gibson.dropbear.id.au>
 ---
- hw/ppc/ppc440_bamboo.c | 38 +++++++++++++++++++++++++++-----------
- 1 file changed, 27 insertions(+), 11 deletions(-)
+ hw/ppc/spapr.c | 2 ++
+ 1 file changed, 2 insertions(+)
 
-diff --git a/hw/ppc/ppc440_bamboo.c b/hw/ppc/ppc440_bamboo.c
-index 665bc1784e..b156bcb999 100644
---- a/hw/ppc/ppc440_bamboo.c
-+++ b/hw/ppc/ppc440_bamboo.c
-@@ -33,6 +33,9 @@
- #include "sysemu/qtest.h"
- #include "sysemu/reset.h"
- #include "hw/sysbus.h"
-+#include "hw/intc/ppc-uic.h"
-+#include "hw/qdev-properties.h"
-+#include "qapi/error.h"
+diff --git a/hw/ppc/spapr.c b/hw/ppc/spapr.c
+index 489cefcb81..08f57f9164 100644
+--- a/hw/ppc/spapr.c
++++ b/hw/ppc/spapr.c
+@@ -3437,6 +3437,7 @@ static void spapr_add_lmbs(DeviceState *dev, uint64_t addr_start, uint64_t size,
+         if (dedicated_hp_event_source) {
+             drc = spapr_drc_by_id(TYPE_SPAPR_DRC_LMB,
+                                   addr_start / SPAPR_MEMORY_BLOCK_SIZE);
++            g_assert(drc);
+             spapr_hotplug_req_add_by_count_indexed(SPAPR_DR_CONNECTOR_TYPE_LMB,
+                                                    nr_lmbs,
+                                                    spapr_drc_index(drc));
+@@ -3677,6 +3678,7 @@ static void spapr_memory_unplug_request(HotplugHandler *hotplug_dev,
  
- #define BINARY_DEVICE_TREE_FILE "bamboo.dtb"
- 
-@@ -168,13 +171,13 @@ static void bamboo_init(MachineState *machine)
-     MemoryRegion *ram_memories = g_new(MemoryRegion, PPC440EP_SDRAM_NR_BANKS);
-     hwaddr ram_bases[PPC440EP_SDRAM_NR_BANKS];
-     hwaddr ram_sizes[PPC440EP_SDRAM_NR_BANKS];
--    qemu_irq *pic;
--    qemu_irq *irqs;
-     PCIBus *pcibus;
-     PowerPCCPU *cpu;
-     CPUPPCState *env;
-     target_long initrd_size = 0;
-     DeviceState *dev;
-+    DeviceState *uicdev;
-+    SysBusDevice *uicsbd;
-     int success;
-     int i;
- 
-@@ -192,10 +195,17 @@ static void bamboo_init(MachineState *machine)
-     ppc_dcr_init(env, NULL, NULL);
- 
-     /* interrupt controller */
--    irqs = g_new0(qemu_irq, PPCUIC_OUTPUT_NB);
--    irqs[PPCUIC_OUTPUT_INT] = ((qemu_irq *)env->irq_inputs)[PPC40x_INPUT_INT];
--    irqs[PPCUIC_OUTPUT_CINT] = ((qemu_irq *)env->irq_inputs)[PPC40x_INPUT_CINT];
--    pic = ppcuic_init(env, irqs, 0x0C0, 0, 1);
-+    uicdev = qdev_new(TYPE_PPC_UIC);
-+    uicsbd = SYS_BUS_DEVICE(uicdev);
-+
-+    object_property_set_link(OBJECT(uicdev), "cpu", OBJECT(cpu),
-+                             &error_fatal);
-+    sysbus_realize_and_unref(uicsbd, &error_fatal);
-+
-+    sysbus_connect_irq(uicsbd, PPCUIC_OUTPUT_INT,
-+                       ((qemu_irq *)env->irq_inputs)[PPC40x_INPUT_INT]);
-+    sysbus_connect_irq(uicsbd, PPCUIC_OUTPUT_CINT,
-+                       ((qemu_irq *)env->irq_inputs)[PPC40x_INPUT_CINT]);
- 
-     /* SDRAM controller */
-     memset(ram_bases, 0, sizeof(ram_bases));
-@@ -203,14 +213,18 @@ static void bamboo_init(MachineState *machine)
-     ppc4xx_sdram_banks(machine->ram, PPC440EP_SDRAM_NR_BANKS, ram_memories,
-                        ram_bases, ram_sizes, ppc440ep_sdram_bank_sizes);
-     /* XXX 440EP's ECC interrupts are on UIC1, but we've only created UIC0. */
--    ppc4xx_sdram_init(env, pic[14], PPC440EP_SDRAM_NR_BANKS, ram_memories,
-+    ppc4xx_sdram_init(env,
-+                      qdev_get_gpio_in(uicdev, 14),
-+                      PPC440EP_SDRAM_NR_BANKS, ram_memories,
-                       ram_bases, ram_sizes, 1);
- 
-     /* PCI */
-     dev = sysbus_create_varargs(TYPE_PPC4xx_PCI_HOST_BRIDGE,
-                                 PPC440EP_PCI_CONFIG,
--                                pic[pci_irq_nrs[0]], pic[pci_irq_nrs[1]],
--                                pic[pci_irq_nrs[2]], pic[pci_irq_nrs[3]],
-+                                qdev_get_gpio_in(uicdev, pci_irq_nrs[0]),
-+                                qdev_get_gpio_in(uicdev, pci_irq_nrs[1]),
-+                                qdev_get_gpio_in(uicdev, pci_irq_nrs[2]),
-+                                qdev_get_gpio_in(uicdev, pci_irq_nrs[3]),
-                                 NULL);
-     pcibus = (PCIBus *)qdev_get_child_bus(dev, "pci.0");
-     if (!pcibus) {
-@@ -223,12 +237,14 @@ static void bamboo_init(MachineState *machine)
-     memory_region_add_subregion(get_system_memory(), PPC440EP_PCI_IO, isa);
- 
-     if (serial_hd(0) != NULL) {
--        serial_mm_init(address_space_mem, 0xef600300, 0, pic[0],
-+        serial_mm_init(address_space_mem, 0xef600300, 0,
-+                       qdev_get_gpio_in(uicdev, 0),
-                        PPC_SERIAL_MM_BAUDBASE, serial_hd(0),
-                        DEVICE_BIG_ENDIAN);
-     }
-     if (serial_hd(1) != NULL) {
--        serial_mm_init(address_space_mem, 0xef600400, 0, pic[1],
-+        serial_mm_init(address_space_mem, 0xef600400, 0,
-+                       qdev_get_gpio_in(uicdev, 1),
-                        PPC_SERIAL_MM_BAUDBASE, serial_hd(1),
-                        DEVICE_BIG_ENDIAN);
-     }
+     drc = spapr_drc_by_id(TYPE_SPAPR_DRC_LMB,
+                           addr_start / SPAPR_MEMORY_BLOCK_SIZE);
++    g_assert(drc);
+     spapr_hotplug_req_remove_by_count_indexed(SPAPR_DR_CONNECTOR_TYPE_LMB,
+                                               nr_lmbs, spapr_drc_index(drc));
+ }
 -- 
 2.29.2
 
