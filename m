@@ -2,45 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 564EF2EC07D
-	for <lists+qemu-devel@lfdr.de>; Wed,  6 Jan 2021 16:38:01 +0100 (CET)
-Received: from localhost ([::1]:36300 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A62622EC0AB
+	for <lists+qemu-devel@lfdr.de>; Wed,  6 Jan 2021 16:53:38 +0100 (CET)
+Received: from localhost ([::1]:36010 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kxAsq-0004KT-41
-	for lists+qemu-devel@lfdr.de; Wed, 06 Jan 2021 10:38:00 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35564)
+	id 1kxB7x-0007oK-7O
+	for lists+qemu-devel@lfdr.de; Wed, 06 Jan 2021 10:53:37 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42176)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
- id 1kxAl6-0004cX-OI; Wed, 06 Jan 2021 10:30:00 -0500
-Received: from zero.eik.bme.hu ([2001:738:2001:2001::2001]:13325)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
- id 1kxAl4-0003Iw-Io; Wed, 06 Jan 2021 10:30:00 -0500
-Received: from zero.eik.bme.hu (blah.eik.bme.hu [152.66.115.182])
- by localhost (Postfix) with SMTP id 2B7D37470E9;
- Wed,  6 Jan 2021 16:29:56 +0100 (CET)
-Received: by zero.eik.bme.hu (Postfix, from userid 432)
- id F357E74646C; Wed,  6 Jan 2021 16:29:55 +0100 (CET)
-Received: from localhost (localhost [127.0.0.1])
- by zero.eik.bme.hu (Postfix) with ESMTP id F1A1E74645B;
- Wed,  6 Jan 2021 16:29:55 +0100 (CET)
-Date: Wed, 6 Jan 2021 16:29:55 +0100 (CET)
-To: Peter Maydell <peter.maydell@linaro.org>
-Subject: Re: [PULL 00/22] ppc-for-6.0 queue 20210106
-In-Reply-To: <CAFEAcA8CTq=ukdTxGsapQKv-vpGTK2vSuU-XTg3DXn+voPbe0g@mail.gmail.com>
-Message-ID: <ccfeebf-cfea-d13e-7016-1d6d34a7e4f@eik.bme.hu>
-References: <20210106033816.232598-1-david@gibson.dropbear.id.au>
- <CAFEAcA8CTq=ukdTxGsapQKv-vpGTK2vSuU-XTg3DXn+voPbe0g@mail.gmail.com>
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1kxB6L-0006mM-ML
+ for qemu-devel@nongnu.org; Wed, 06 Jan 2021 10:51:57 -0500
+Received: from mail-ej1-x62f.google.com ([2a00:1450:4864:20::62f]:43365)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1kxB6J-0004RZ-L4
+ for qemu-devel@nongnu.org; Wed, 06 Jan 2021 10:51:57 -0500
+Received: by mail-ej1-x62f.google.com with SMTP id jx16so5583802ejb.10
+ for <qemu-devel@nongnu.org>; Wed, 06 Jan 2021 07:51:55 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=zY2zsmEx0ULg8So7yv9tggzNieN6Jy2zjE+Hd0SH2lo=;
+ b=yePLbs+UggXhedVbaBj0+jUZpuZdphGrLkoLfgeRpHH9+5X6u3wZR0UqZT8CpNfyOX
+ 5QWZlPlziqNhNsADQGLboP96USRpOcnKnpnR/P/EPDCIM4C6l+948amsdy8jvTYy049O
+ P74ESgNdEVXaeGBOCJGQ+pVTCBDJLxoC/ezcsb9MVo1csj5qrtoZK5IAqOceV+/pinoz
+ 2QFQnT+FZRruKH2nM8/bAn9opbMaVyEcZVcywm7gI4WjXOSjT3aTXngvL1wrBCR1AHdN
+ NOOjXFrMDscrppZLUtyfOarnbna7BEjkZtwD09PJwsiXhjoHCcXenLp+bRK53p94Y2gr
+ 1gYA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=zY2zsmEx0ULg8So7yv9tggzNieN6Jy2zjE+Hd0SH2lo=;
+ b=Fs8voO9jJzRJHrEPNmGxi2Pm4P71slvPaOqLjbTZta0uYFGYrlr4uUuyHYUfMnLw83
+ oUl++MNmyxV/xVaUeMtBXiWNnStlW1MZnGRi7Kqr3mA51ZEnm826pXnvjizp9GEaZMin
+ itWSHgNpBIJZXLx6m2dyWIFV1AzUlsLvUZ+//nNp+YqGEkZt34xHTVVfwJJDsaen2qmN
+ lR3NF7OyI10y4hY/q9v0cbWNTmUW/Z+qFTZMFcpi/Lesl0AJH1lhEUwTc0JpO+HJ8Iwm
+ vntp5ji/D3WUmZwd+cYdLYHHQkL/jRAFXAjtYo1cbbuewy5CxDuAEzMuCmTyKkLyfQfT
+ Pb6A==
+X-Gm-Message-State: AOAM533OAxnKUSQNviB4uMMc6NbiIpJ8bHf1R5VwTdQv9na51kKjbYYy
+ SlxAk3TTJ94bLmZayxQtZWSwvZwv6GSzOEFSq8G1rg==
+X-Google-Smtp-Source: ABdhPJzOCt1VaL7pvXaH4sR2AzdceKR2Jofkjg8c2G6+6CjJ4LE+yuLJcCXKx4XvKuHY4HhlZVaO4KzAXonyrGEr7n4=
+X-Received: by 2002:a17:906:195a:: with SMTP id
+ b26mr3237556eje.4.1609948313782; 
+ Wed, 06 Jan 2021 07:51:53 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII; format=flowed
-X-Spam-Probability: 8%
-Received-SPF: pass client-ip=2001:738:2001:2001::2001;
- envelope-from=balaton@eik.bme.hu; helo=zero.eik.bme.hu
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_NONE=0.001,
+References: <20210106120526.29857-1-mark.cave-ayland@ilande.co.uk>
+In-Reply-To: <20210106120526.29857-1-mark.cave-ayland@ilande.co.uk>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Wed, 6 Jan 2021 15:51:42 +0000
+Message-ID: <CAFEAcA8-DUxoZY6WC+XDrDLTRYn8o9L+uV3qXm0sVV23CrePPg@mail.gmail.com>
+Subject: Re: [PULL 0/4] qemu-sparc queue 20210106
+To: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2a00:1450:4864:20::62f;
+ envelope-from=peter.maydell@linaro.org; helo=mail-ej1-x62f.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -54,63 +77,35 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: QEMU Developers <qemu-devel@nongnu.org>, qemu-ppc <qemu-ppc@nongnu.org>,
- Greg Kurz <groug@kaod.org>, David Gibson <david@gibson.dropbear.id.au>
+Cc: QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
-Reply-to: BALATON Zoltan <balaton@eik.bme.hu>
-From: BALATON Zoltan via <qemu-devel@nongnu.org>
 
-On Wed, 6 Jan 2021, Peter Maydell wrote:
-> On Wed, 6 Jan 2021 at 03:38, David Gibson <david@gibson.dropbear.id.au> wrote:
->>
->> The following changes since commit 52d25464605dc20022ad94aa8bc8e8473e600833:
->>
->>   Merge remote-tracking branch 'remotes/rth-gitlab/tags/pull-tcg-20210104' into staging (2021-01-05 16:18:20 +0000)
->>
->> are available in the Git repository at:
->>
->>   https://gitlab.com/dgibson/qemu.git tags/ppc-for-6.0-20210106
->>
->> for you to fetch changes up to 5cbd51a5a58098444ffa246ece2013849be04299:
->>
->>   ppc440_pcix: Fix up pci config access (2021-01-06 11:09:59 +1100)
->>
->> ----------------------------------------------------------------
->> ppc patch queue 2021-01-06
->>
->> First pull request for 2021, which has a bunch of things accumulated
->> over the holidays.  Includes:
->>   * A number of cleanups to sam460ex and ppc440 code from BALATON Zoltan
->>   * Several fixes for builds with --without-default-devices from Greg Kurz
->>   * Fixes for some DRC reset problems from Greg Kurz
->>   * QOM conversion of the PPC 4xx UIC devices from Peter Maydell
->>   * Some other assorted fixes and cleanups
->>
->> ----------------------------------------------------------------
->> BALATON Zoltan via (5):
->>       ppc4xx: Move common dependency on serial to common option
->>       sam460ex: Remove FDT_PPC dependency from KConfig
->>       ppc440_pcix: Improve comment for IRQ mapping
->>       ppc440_pcix: Fix register write trace event
->>       ppc440_pcix: Fix up pci config access
+On Wed, 6 Jan 2021 at 12:05, Mark Cave-Ayland
+<mark.cave-ayland@ilande.co.uk> wrote:
 >
+> The following changes since commit 2e0b5bbe813930021b2baab03c9d424c1c52d18b:
 >
-> Applied, thanks. I'm afraid I missed reading Balaton's email
-> before pushing this to master, so the whole set is in there;
-> sorry about that. Would you mind sending a patchset that
-> makes the necessary changes on top of master (reverts or fixes
-> as appropriate)?
+>   Merge remote-tracking branch 'remotes/philmd-gitlab/tags/mips-20210104' into staging (2021-01-05 21:06:42 +0000)
+>
+> are available in the Git repository at:
+>
+>   git://github.com/mcayland/qemu.git tags/qemu-sparc-20210106
+>
+> for you to fetch changes up to a879306ca14de576d3a5dd51f830ebf89753e223:
+>
+>   sun4m: don't connect two qemu_irqs directly to the same input (2021-01-06 11:41:37 +0000)
+>
+> ----------------------------------------------------------------
+> qemu-sparc queue
+>
+> ----------------------------------------------------------------
 
-Sent a fixup series with the two reverts and the missing patch.
 
-Regards,
-BALATON Zoltan
+Applied, thanks.
 
-> Please update the changelog at https://wiki.qemu.org/ChangeLog/6.0
-> for any user-visible changes.
->
-> -- PMM
->
->
+Please update the changelog at https://wiki.qemu.org/ChangeLog/6.0
+for any user-visible changes.
+
+-- PMM
 
