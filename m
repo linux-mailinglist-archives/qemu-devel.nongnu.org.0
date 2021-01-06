@@ -2,36 +2,37 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4E0452EB89B
-	for <lists+qemu-devel@lfdr.de>; Wed,  6 Jan 2021 04:46:34 +0100 (CET)
-Received: from localhost ([::1]:39664 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 90CFD2EB887
+	for <lists+qemu-devel@lfdr.de>; Wed,  6 Jan 2021 04:43:43 +0100 (CET)
+Received: from localhost ([::1]:58726 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kwzmL-0006hs-Ai
-	for lists+qemu-devel@lfdr.de; Tue, 05 Jan 2021 22:46:33 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44780)
+	id 1kwzja-0002zL-LY
+	for lists+qemu-devel@lfdr.de; Tue, 05 Jan 2021 22:43:42 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44840)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1kwzek-0005fn-OW; Tue, 05 Jan 2021 22:38:42 -0500
-Received: from bilbo.ozlabs.org ([203.11.71.1]:42103 helo=ozlabs.org)
+ id 1kwzeq-0005kA-36; Tue, 05 Jan 2021 22:38:48 -0500
+Received: from ozlabs.org ([203.11.71.1]:36355)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1kwzei-0006IG-RQ; Tue, 05 Jan 2021 22:38:42 -0500
+ id 1kwzei-0006IJ-SI; Tue, 05 Jan 2021 22:38:43 -0500
 Received: by ozlabs.org (Postfix, from userid 1007)
- id 4D9ZpG4Sv9z9sW4; Wed,  6 Jan 2021 14:38:30 +1100 (AEDT)
+ id 4D9ZpG6jfwz9sWL; Wed,  6 Jan 2021 14:38:30 +1100 (AEDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=gibson.dropbear.id.au; s=201602; t=1609904310;
- bh=MqLChWp/n6WijjmfjZsHO4+ZsPDJqKKaYFCgTPmIWEA=;
+ bh=NgwqRujmNWjrdDwsW4Sd+FYXffq1TrNhq5+fdfUvyNE=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=Jrdr9JHcM8jVAeTd1QSUJRpkPffx9XY6cmt07cYodamiqhep3FqRrI7ckVVCoZ9B/
- BKs89RTmDvkXPOpKyjRa62I5JzpBxz7gGDSrqHZ1XlUWQdX6B6yY43uqvKqzNoEpDS
- wky1StFijy62ZVhWekbZJ6vZh2/f9v/QK/Rm4JPU=
+ b=fB4+XgwB48n9LmaPX7QDQ/ifGeDcpRgPBF5yaSvdlCIJGwryvM2PokbeAv+jX+Cdw
+ Gt9xMLJCkaPjUZ1O1/3UK5GkUR5sdwUFTN3M3jOdSMiqrc/GqG5HGMmkIudvExLzen
+ ma2lW+ebOb9NpLpJsUt3EciCVtH70YAdfkeEaNXE=
 From: David Gibson <david@gibson.dropbear.id.au>
 To: peter.maydell@linaro.org,
 	groug@kaod.org
-Subject: [PULL 08/22] spapr: Allow memory unplug to always succeed
-Date: Wed,  6 Jan 2021 14:38:02 +1100
-Message-Id: <20210106033816.232598-9-david@gibson.dropbear.id.au>
+Subject: [PULL 09/22] spapr: Fix buffer overflow in
+ spapr_numa_associativity_init()
+Date: Wed,  6 Jan 2021 14:38:03 +1100
+Message-Id: <20210106033816.232598-10-david@gibson.dropbear.id.au>
 X-Mailer: git-send-email 2.29.2
 In-Reply-To: <20210106033816.232598-1-david@gibson.dropbear.id.au>
 References: <20210106033816.232598-1-david@gibson.dropbear.id.au>
@@ -57,94 +58,119 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: David Gibson <david@gibson.dropbear.id.au>, qemu-ppc@nongnu.org,
- qemu-devel@nongnu.org
+Cc: danielhb413@gmail.com, qemu-devel@nongnu.org, Min Deng <mdeng@redhat.com>,
+ qemu-ppc@nongnu.org, David Gibson <david@gibson.dropbear.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Greg Kurz <groug@kaod.org>
 
-It is currently impossible to hot-unplug a memory device between
-machine reset and CAS.
+Running a guest with 128 NUMA nodes crashes QEMU:
 
-(qemu) device_del dimm1
-Error: Memory hot unplug not supported for this guest
+../../util/error.c:59: error_setv: Assertion `*errp == NULL' failed.
 
-This limitation was introduced in order to provide an explicit
-error path for older guests that didn't support hot-plug event
-sources (and thus memory hot-unplug).
+The crash happens when setting the FWNMI migration blocker:
 
-The linux kernel has been supporting these since 4.11. All recent
-enough guests are thus capable of handling the removal of a memory
-device at all time, including during early boot.
+2861	    if (spapr_get_cap(spapr, SPAPR_CAP_FWNMI) == SPAPR_CAP_ON) {
+2862	        /* Create the error string for live migration blocker */
+2863	        error_setg(&spapr->fwnmi_migration_blocker,
+2864	            "A machine check is being handled during migration. The handler"
+2865	            "may run and log hardware error on the destination");
+2866	    }
 
-Lift the limitation for the latest machine type. This means that
-trying to unplug memory from a guest that doesn't support it will
-likely just do nothing and the memory will only get removed at
-next reboot. Such older guests can still get the existing behavior
-by using an older machine type.
+Inspection reveals that papr->fwnmi_migration_blocker isn't NULL:
 
+(gdb) p spapr->fwnmi_migration_blocker
+$1 = (Error *) 0x8000000004000000
+
+Since this is the only place where papr->fwnmi_migration_blocker is
+set, this means someone wrote there in our back. Further analysis
+points to spapr_numa_associativity_init(), especially the part
+that initializes the associative arrays for NVLink GPUs:
+
+    max_nodes_with_gpus = nb_numa_nodes + NVGPU_MAX_NUM;
+
+ie. max_nodes_with_gpus = 128 + 6, but the array isn't sized to
+accommodate the 6 extra nodes:
+
+struct SpaprMachineState {
+    .
+    .
+    .
+    uint32_t numa_assoc_array[MAX_NODES][NUMA_ASSOC_SIZE];
+
+    Error *fwnmi_migration_blocker;
+};
+
+and the following loops happily overwrite spapr->fwnmi_migration_blocker,
+and probably more:
+
+    for (i = nb_numa_nodes; i < max_nodes_with_gpus; i++) {
+        spapr->numa_assoc_array[i][0] = cpu_to_be32(MAX_DISTANCE_REF_POINTS);
+
+        for (j = 1; j < MAX_DISTANCE_REF_POINTS; j++) {
+            uint32_t gpu_assoc = smc->pre_5_1_assoc_refpoints ?
+                                 SPAPR_GPU_NUMA_ID : cpu_to_be32(i);
+            spapr->numa_assoc_array[i][j] = gpu_assoc;
+        }
+
+        spapr->numa_assoc_array[i][MAX_DISTANCE_REF_POINTS] = cpu_to_be32(i);
+    }
+
+Fix the size of the array. This requires "hw/ppc/spapr.h" to see
+NVGPU_MAX_NUM. Including "hw/pci-host/spapr.h" introduces a
+circular dependency that breaks the build, so this moves the
+definition of NVGPU_MAX_NUM to "hw/ppc/spapr.h" instead.
+
+Reported-by: Min Deng <mdeng@redhat.com>
+BugLink: https://bugzilla.redhat.com/show_bug.cgi?id=1908693
+Fixes: dd7e1d7ae431 ("spapr_numa: move NVLink2 associativity handling to spapr_numa.c")
+Cc: danielhb413@gmail.com
 Signed-off-by: Greg Kurz <groug@kaod.org>
-Message-Id: <160794035064.23292.17560963281911312439.stgit@bahia.lan>
+Message-Id: <160829960428.734871.12634150161215429514.stgit@bahia.lan>
+Reviewed-by: Daniel Henrique Barboza <danielhb413@gmail.com>
 Signed-off-by: David Gibson <david@gibson.dropbear.id.au>
 ---
- hw/ppc/spapr.c         | 6 +++++-
- hw/ppc/spapr_events.c  | 3 ++-
- include/hw/ppc/spapr.h | 1 +
- 3 files changed, 8 insertions(+), 2 deletions(-)
+ include/hw/pci-host/spapr.h | 2 --
+ include/hw/ppc/spapr.h      | 5 ++++-
+ 2 files changed, 4 insertions(+), 3 deletions(-)
 
-diff --git a/hw/ppc/spapr.c b/hw/ppc/spapr.c
-index 68a3ceb927..9f89b1c298 100644
---- a/hw/ppc/spapr.c
-+++ b/hw/ppc/spapr.c
-@@ -4069,7 +4069,8 @@ static void spapr_machine_device_unplug_request(HotplugHandler *hotplug_dev,
-     SpaprMachineClass *smc = SPAPR_MACHINE_CLASS(mc);
+diff --git a/include/hw/pci-host/spapr.h b/include/hw/pci-host/spapr.h
+index 4f58f0223b..bd014823a9 100644
+--- a/include/hw/pci-host/spapr.h
++++ b/include/hw/pci-host/spapr.h
+@@ -115,8 +115,6 @@ struct SpaprPhbState {
+ #define SPAPR_PCI_NV2RAM64_WIN_BASE  SPAPR_PCI_LIMIT
+ #define SPAPR_PCI_NV2RAM64_WIN_SIZE  (2 * TiB) /* For up to 6 GPUs 256GB each */
  
-     if (object_dynamic_cast(OBJECT(dev), TYPE_PC_DIMM)) {
--        if (spapr_ovec_test(sms->ov5_cas, OV5_HP_EVT)) {
-+        if (!smc->pre_6_0_memory_unplug ||
-+            spapr_ovec_test(sms->ov5_cas, OV5_HP_EVT)) {
-             spapr_memory_unplug_request(hotplug_dev, dev, errp);
-         } else {
-             /* NOTE: this means there is a window after guest reset, prior to
-@@ -4555,8 +4556,11 @@ DEFINE_SPAPR_MACHINE(6_0, "6.0", true);
-  */
- static void spapr_machine_5_2_class_options(MachineClass *mc)
- {
-+    SpaprMachineClass *smc = SPAPR_MACHINE_CLASS(mc);
-+
-     spapr_machine_6_0_class_options(mc);
-     compat_props_add(mc->compat_props, hw_compat_5_2, hw_compat_5_2_len);
-+    smc->pre_6_0_memory_unplug = true;
- }
+-/* Max number of these GPUsper a physical box */
+-#define NVGPU_MAX_NUM                6
+ /* Max number of NVLinks per GPU in any physical box */
+ #define NVGPU_MAX_LINKS              3
  
- DEFINE_SPAPR_MACHINE(5_2, "5.2", false);
-diff --git a/hw/ppc/spapr_events.c b/hw/ppc/spapr_events.c
-index 3f37b49fd8..6aedd988b3 100644
---- a/hw/ppc/spapr_events.c
-+++ b/hw/ppc/spapr_events.c
-@@ -658,7 +658,8 @@ static void spapr_hotplug_req_event(uint8_t hp_id, uint8_t hp_action,
-         /* we should not be using count_indexed value unless the guest
-          * supports dedicated hotplug event source
-          */
--        g_assert(spapr_ovec_test(spapr->ov5_cas, OV5_HP_EVT));
-+        g_assert(!SPAPR_MACHINE_GET_CLASS(spapr)->pre_6_0_memory_unplug ||
-+                 spapr_ovec_test(spapr->ov5_cas, OV5_HP_EVT));
-         hp->drc_id.count_indexed.count =
-             cpu_to_be32(drc_id->count_indexed.count);
-         hp->drc_id.count_indexed.index =
 diff --git a/include/hw/ppc/spapr.h b/include/hw/ppc/spapr.h
-index e0f10f252c..06a5b4259f 100644
+index 06a5b4259f..1cc19575f5 100644
 --- a/include/hw/ppc/spapr.h
 +++ b/include/hw/ppc/spapr.h
-@@ -139,6 +139,7 @@ struct SpaprMachineClass {
-     hwaddr rma_limit;          /* clamp the RMA to this size */
-     bool pre_5_1_assoc_refpoints;
-     bool pre_5_2_numa_associativity;
-+    bool pre_6_0_memory_unplug;
+@@ -112,6 +112,9 @@ typedef enum {
+ #define NUMA_ASSOC_SIZE            (MAX_DISTANCE_REF_POINTS + 1)
+ #define VCPU_ASSOC_SIZE            (NUMA_ASSOC_SIZE + 1)
  
-     bool (*phb_placement)(SpaprMachineState *spapr, uint32_t index,
-                           uint64_t *buid, hwaddr *pio, 
++/* Max number of these GPUsper a physical box */
++#define NVGPU_MAX_NUM                6
++
+ typedef struct SpaprCapabilities SpaprCapabilities;
+ struct SpaprCapabilities {
+     uint8_t caps[SPAPR_CAP_NUM];
+@@ -240,7 +243,7 @@ struct SpaprMachineState {
+     unsigned gpu_numa_id;
+     SpaprTpmProxy *tpm_proxy;
+ 
+-    uint32_t numa_assoc_array[MAX_NODES][NUMA_ASSOC_SIZE];
++    uint32_t numa_assoc_array[MAX_NODES + NVGPU_MAX_NUM][NUMA_ASSOC_SIZE];
+ 
+     Error *fwnmi_migration_blocker;
+ };
 -- 
 2.29.2
 
