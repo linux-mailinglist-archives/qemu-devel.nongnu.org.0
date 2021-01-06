@@ -2,34 +2,33 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7727D2EC5B9
-	for <lists+qemu-devel@lfdr.de>; Wed,  6 Jan 2021 22:31:08 +0100 (CET)
-Received: from localhost ([::1]:42852 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B87E82EC5C4
+	for <lists+qemu-devel@lfdr.de>; Wed,  6 Jan 2021 22:33:32 +0100 (CET)
+Received: from localhost ([::1]:50320 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kxGOZ-0004Sb-G4
-	for lists+qemu-devel@lfdr.de; Wed, 06 Jan 2021 16:31:07 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57654)
+	id 1kxGQt-0007lt-Qs
+	for lists+qemu-devel@lfdr.de; Wed, 06 Jan 2021 16:33:31 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57636)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
- id 1kxGMT-0002pM-Vk
- for qemu-devel@nongnu.org; Wed, 06 Jan 2021 16:28:58 -0500
-Received: from zero.eik.bme.hu ([152.66.115.2]:22467)
+ id 1kxGMT-0002os-AP
+ for qemu-devel@nongnu.org; Wed, 06 Jan 2021 16:28:57 -0500
+Received: from zero.eik.bme.hu ([152.66.115.2]:22469)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
- id 1kxGMP-0001jN-S5
+ id 1kxGMP-0001jO-S1
  for qemu-devel@nongnu.org; Wed, 06 Jan 2021 16:28:57 -0500
 Received: from zero.eik.bme.hu (blah.eik.bme.hu [152.66.115.182])
- by localhost (Postfix) with SMTP id 95BB07470FF;
+ by localhost (Postfix) with SMTP id A8AE27470F6;
  Wed,  6 Jan 2021 22:28:51 +0100 (CET)
 Received: by zero.eik.bme.hu (Postfix, from userid 432)
- id 2C6CA7470F4; Wed,  6 Jan 2021 22:28:51 +0100 (CET)
-Message-Id: <c8fa8df147473c3ec5f3284b4a5d37fc9741e824.1609967638.git.balaton@eik.bme.hu>
+ id 333DE7470F7; Wed,  6 Jan 2021 22:28:51 +0100 (CET)
+Message-Id: <a8d1368df3627d3eed4a1702a066054cde213cfc.1609967638.git.balaton@eik.bme.hu>
 In-Reply-To: <cover.1609967638.git.balaton@eik.bme.hu>
 References: <cover.1609967638.git.balaton@eik.bme.hu>
 From: BALATON Zoltan <balaton@eik.bme.hu>
-Subject: [PATCH 05/12] vt82c686: Make vt82c686b-pm an abstract base class and
- add vt8231-pm based on it
+Subject: [PATCH 06/12] vt82c686: Simplify vt82c686b_realize()
 Date: Wed, 06 Jan 2021 22:13:58 +0100
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
@@ -59,228 +58,49 @@ Cc: Huacai Chen <chenhuacai@kernel.org>, f4bug@amsat.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The vt82c686b-pm model can be shared between VT82C686B and VT8231. The
-only difference between the two is the device id in what we emulate so
-make an abstract via-pm model by renaming appropriately and add types
-for vt82c686b-pm and vt8231-pm based on it.
+Remove unneeded variables and setting value to 0 on zero initialised
+data and replace check for error with error_fatal. Rationalise loop
+that sets PCI config header fields read only.
 
 Signed-off-by: BALATON Zoltan <balaton@eik.bme.hu>
 ---
- hw/isa/vt82c686.c         | 87 ++++++++++++++++++++++++++-------------
- include/hw/isa/vt82c686.h |  1 +
- 2 files changed, 59 insertions(+), 29 deletions(-)
+ hw/isa/vt82c686.c | 20 ++++++--------------
+ 1 file changed, 6 insertions(+), 14 deletions(-)
 
 diff --git a/hw/isa/vt82c686.c b/hw/isa/vt82c686.c
-index fc2a1f4430..a989e29fe5 100644
+index a989e29fe5..ead60310fe 100644
 --- a/hw/isa/vt82c686.c
 +++ b/hw/isa/vt82c686.c
-@@ -27,9 +27,10 @@
- #include "exec/address-spaces.h"
- #include "trace.h"
- 
--OBJECT_DECLARE_SIMPLE_TYPE(VT686PMState, VT82C686B_PM)
-+#define TYPE_VIA_PM "via-pm"
-+OBJECT_DECLARE_SIMPLE_TYPE(ViaPMState, VIA_PM)
- 
--struct VT686PMState {
-+struct ViaPMState {
-     PCIDevice dev;
-     MemoryRegion io;
-     ACPIREGS ar;
-@@ -37,7 +38,7 @@ struct VT686PMState {
-     PMSMBus smb;
- };
- 
--static void pm_io_space_update(VT686PMState *s)
-+static void pm_io_space_update(ViaPMState *s)
+@@ -363,24 +363,16 @@ static void vt82c686b_isa_reset(DeviceState *dev)
+ static void vt82c686b_realize(PCIDevice *d, Error **errp)
  {
-     uint32_t pmbase = pci_get_long(s->dev.config + 0x48) & 0xff80UL;
+     VT82C686BISAState *s = VT82C686B_ISA(d);
+-    uint8_t *pci_conf;
++    DeviceState *dev = DEVICE(d);
+     ISABus *isa_bus;
+-    uint8_t *wmask;
+     int i;
  
-@@ -47,7 +48,7 @@ static void pm_io_space_update(VT686PMState *s)
-     memory_region_transaction_commit();
- }
+-    isa_bus = isa_bus_new(DEVICE(d), get_system_memory(),
+-                          pci_address_space_io(d), errp);
+-    if (!isa_bus) {
+-        return;
+-    }
+-
+-    pci_conf = d->config;
+-    pci_config_set_prog_interface(pci_conf, 0x0);
++    isa_bus = isa_bus_new(dev, get_system_memory(), pci_address_space_io(d),
++                          &error_fatal);
  
--static void smb_io_space_update(VT686PMState *s)
-+static void smb_io_space_update(ViaPMState *s)
- {
-     uint32_t smbase = pci_get_long(s->dev.config + 0x90) & 0xfff0UL;
- 
-@@ -59,7 +60,7 @@ static void smb_io_space_update(VT686PMState *s)
- 
- static int vmstate_acpi_post_load(void *opaque, int version_id)
- {
--    VT686PMState *s = opaque;
-+    ViaPMState *s = opaque;
- 
-     pm_io_space_update(s);
-     smb_io_space_update(s);
-@@ -72,20 +73,20 @@ static const VMStateDescription vmstate_acpi = {
-     .minimum_version_id = 1,
-     .post_load = vmstate_acpi_post_load,
-     .fields = (VMStateField[]) {
--        VMSTATE_PCI_DEVICE(dev, VT686PMState),
--        VMSTATE_UINT16(ar.pm1.evt.sts, VT686PMState),
--        VMSTATE_UINT16(ar.pm1.evt.en, VT686PMState),
--        VMSTATE_UINT16(ar.pm1.cnt.cnt, VT686PMState),
--        VMSTATE_STRUCT(apm, VT686PMState, 0, vmstate_apm, APMState),
--        VMSTATE_TIMER_PTR(ar.tmr.timer, VT686PMState),
--        VMSTATE_INT64(ar.tmr.overflow_time, VT686PMState),
-+        VMSTATE_PCI_DEVICE(dev, ViaPMState),
-+        VMSTATE_UINT16(ar.pm1.evt.sts, ViaPMState),
-+        VMSTATE_UINT16(ar.pm1.evt.en, ViaPMState),
-+        VMSTATE_UINT16(ar.pm1.cnt.cnt, ViaPMState),
-+        VMSTATE_STRUCT(apm, ViaPMState, 0, vmstate_apm, APMState),
-+        VMSTATE_TIMER_PTR(ar.tmr.timer, ViaPMState),
-+        VMSTATE_INT64(ar.tmr.overflow_time, ViaPMState),
-         VMSTATE_END_OF_LIST()
+-    wmask = d->wmask;
+-    for (i = 0x00; i < 0xff; i++) {
+-        if (i <= 0x03 || (i >= 0x08 && i <= 0x3f)) {
+-            wmask[i] = 0x00;
++    for (i = 0; i < PCI_CONFIG_HEADER_SIZE; i++) {
++        if (i < PCI_COMMAND || i >= PCI_REVISION_ID) {
++            d->wmask[i] = 0;
+         }
      }
- };
- 
- static void pm_write_config(PCIDevice *d, uint32_t addr, uint32_t val, int len)
- {
--    VT686PMState *s = VT82C686B_PM(d);
-+    ViaPMState *s = VIA_PM(d);
- 
-     trace_via_pm_write(addr, val, len);
-     pci_default_write_config(d, addr, val, len);
-@@ -127,7 +128,7 @@ static const MemoryRegionOps pm_io_ops = {
-     },
- };
- 
--static void pm_update_sci(VT686PMState *s)
-+static void pm_update_sci(ViaPMState *s)
- {
-     int sci_level, pmsts;
- 
-@@ -145,13 +146,13 @@ static void pm_update_sci(VT686PMState *s)
- 
- static void pm_tmr_timer(ACPIREGS *ar)
- {
--    VT686PMState *s = container_of(ar, VT686PMState, ar);
-+    ViaPMState *s = container_of(ar, ViaPMState, ar);
-     pm_update_sci(s);
- }
- 
--static void vt82c686b_pm_reset(DeviceState *d)
-+static void via_pm_reset(DeviceState *d)
- {
--    VT686PMState *s = VT82C686B_PM(d);
-+    ViaPMState *s = VIA_PM(d);
- 
-     memset(s->dev.config + PCI_CONFIG_HEADER_SIZE, 0,
-            PCI_CONFIG_SPACE_SIZE - PCI_CONFIG_HEADER_SIZE);
-@@ -164,9 +165,9 @@ static void vt82c686b_pm_reset(DeviceState *d)
-     smb_io_space_update(s);
- }
- 
--static void vt82c686b_pm_realize(PCIDevice *dev, Error **errp)
-+static void via_pm_realize(PCIDevice *dev, Error **errp)
- {
--    VT686PMState *s = VT82C686B_PM(dev);
-+    ViaPMState *s = VIA_PM(dev);
- 
-     pci_set_word(dev->config + PCI_STATUS, PCI_STATUS_FAST_BACK |
-                  PCI_STATUS_DEVSEL_MEDIUM);
-@@ -177,8 +178,7 @@ static void vt82c686b_pm_realize(PCIDevice *dev, Error **errp)
- 
-     apm_init(dev, &s->apm, NULL, s);
- 
--    memory_region_init_io(&s->io, OBJECT(dev), &pm_io_ops, s,
--                          "vt82c686-pm", 0x100);
-+    memory_region_init_io(&s->io, OBJECT(dev), &pm_io_ops, s, "via-pm", 0x100);
-     memory_region_add_subregion(pci_address_space_io(dev), 0, &s->io);
-     memory_region_set_enabled(&s->io, false);
- 
-@@ -187,34 +187,61 @@ static void vt82c686b_pm_realize(PCIDevice *dev, Error **errp)
-     acpi_pm1_cnt_init(&s->ar, &s->io, false, false, 2);
- }
- 
-+typedef struct via_pm_init_info {
-+    uint16_t device_id;
-+} ViaPMInitInfo;
-+
- static void via_pm_class_init(ObjectClass *klass, void *data)
- {
-     DeviceClass *dc = DEVICE_CLASS(klass);
-     PCIDeviceClass *k = PCI_DEVICE_CLASS(klass);
-+    ViaPMInitInfo *info = data;
- 
--    k->realize = vt82c686b_pm_realize;
-+    k->realize = via_pm_realize;
-     k->config_write = pm_write_config;
-     k->vendor_id = PCI_VENDOR_ID_VIA;
--    k->device_id = PCI_DEVICE_ID_VIA_ACPI;
-+    k->device_id = info->device_id;
-     k->class_id = PCI_CLASS_BRIDGE_OTHER;
-     k->revision = 0x40;
--    dc->reset = vt82c686b_pm_reset;
--    dc->desc = "PM";
-+    dc->reset = via_pm_reset;
-+    /* Reason: part of VIA south bridge, does not exist stand alone */
-+    dc->user_creatable = false;
-     dc->vmsd = &vmstate_acpi;
--    set_bit(DEVICE_CATEGORY_BRIDGE, dc->categories);
- }
- 
- static const TypeInfo via_pm_info = {
--    .name          = TYPE_VT82C686B_PM,
-+    .name          = TYPE_VIA_PM,
-     .parent        = TYPE_PCI_DEVICE,
--    .instance_size = sizeof(VT686PMState),
--    .class_init    = via_pm_class_init,
-+    .instance_size = sizeof(ViaPMState),
-+    .abstract      = true,
-     .interfaces = (InterfaceInfo[]) {
-         { INTERFACE_CONVENTIONAL_PCI_DEVICE },
-         { },
-     },
- };
- 
-+static const ViaPMInitInfo vt82c686b_pm_init_info = {
-+    .device_id = PCI_DEVICE_ID_VIA_ACPI,
-+};
-+
-+static const TypeInfo vt82c686b_pm_info = {
-+    .name          = TYPE_VT82C686B_PM,
-+    .parent        = TYPE_VIA_PM,
-+    .class_init    = via_pm_class_init,
-+    .class_data    = (void *)&vt82c686b_pm_init_info,
-+};
-+
-+static const ViaPMInitInfo vt8231_pm_init_info = {
-+    .device_id = 0x8235,
-+};
-+
-+static const TypeInfo vt8231_pm_info = {
-+    .name          = TYPE_VT8231_PM,
-+    .parent        = TYPE_VIA_PM,
-+    .class_init    = via_pm_class_init,
-+    .class_data    = (void *)&vt8231_pm_init_info,
-+};
-+
- 
- typedef struct SuperIOConfig {
-     uint8_t regs[0x100];
-@@ -423,6 +450,8 @@ static const TypeInfo via_superio_info = {
- static void vt82c686b_register_types(void)
- {
-     type_register_static(&via_pm_info);
-+    type_register_static(&vt82c686b_pm_info);
-+    type_register_static(&vt8231_pm_info);
-     type_register_static(&via_info);
-     type_register_static(&via_superio_info);
- }
-diff --git a/include/hw/isa/vt82c686.h b/include/hw/isa/vt82c686.h
-index 5b0a1ffe72..9b6d610e83 100644
---- a/include/hw/isa/vt82c686.h
-+++ b/include/hw/isa/vt82c686.h
-@@ -4,6 +4,7 @@
- #define TYPE_VT82C686B_ISA "vt82c686b-isa"
- #define TYPE_VT82C686B_SUPERIO "vt82c686b-superio"
- #define TYPE_VT82C686B_PM "vt82c686b-pm"
-+#define TYPE_VT8231_PM "vt8231-pm"
- #define TYPE_VIA_AC97 "via-ac97"
- #define TYPE_VIA_MC97 "via-mc97"
  
 -- 
 2.21.3
