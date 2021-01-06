@@ -2,42 +2,43 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 471CC2EB8B4
-	for <lists+qemu-devel@lfdr.de>; Wed,  6 Jan 2021 04:53:29 +0100 (CET)
-Received: from localhost ([::1]:33286 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 970252EB8A2
+	for <lists+qemu-devel@lfdr.de>; Wed,  6 Jan 2021 04:49:40 +0100 (CET)
+Received: from localhost ([::1]:52188 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kwzt2-0007O6-97
-	for lists+qemu-devel@lfdr.de; Tue, 05 Jan 2021 22:53:28 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44964)
+	id 1kwzpL-0003QA-NR
+	for lists+qemu-devel@lfdr.de; Tue, 05 Jan 2021 22:49:39 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44930)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1kwzev-00060A-SH; Tue, 05 Jan 2021 22:38:53 -0500
-Received: from bilbo.ozlabs.org ([2401:3900:2:1::2]:45341 helo=ozlabs.org)
+ id 1kwzeu-0005wy-F7; Tue, 05 Jan 2021 22:38:52 -0500
+Received: from ozlabs.org ([203.11.71.1]:60529)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1kwzes-0006NP-Tf; Tue, 05 Jan 2021 22:38:53 -0500
+ id 1kwzes-0006NI-O8; Tue, 05 Jan 2021 22:38:52 -0500
 Received: by ozlabs.org (Postfix, from userid 1007)
- id 4D9ZpJ1TjBz9sWl; Wed,  6 Jan 2021 14:38:31 +1100 (AEDT)
+ id 4D9ZpJ32jbz9sWm; Wed,  6 Jan 2021 14:38:32 +1100 (AEDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=gibson.dropbear.id.au; s=201602; t=1609904312;
- bh=sWAfmjAJe2PpHuo2vCmFkmm8MuaabhP/3BpQfL9IP8g=;
+ bh=TZLFjggfHBBmoGYLA9oqu79OwNrKL94/Op02peqixIg=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=VxbEH7DwvFyVrnwJBg41afHAjU1xJRN/C1aBhKB/qtTyfIXCWUj71ljEhscsDQ7wb
- JqsXRBLzTPini2IdkZne3h+Wwmlt0eU9AbweexyrQny3jt7oMv1Rn7B5w2joSGnEjs
- K0Z++6S6DiBV0Z7QWB/tCjp6y9V2JUWqgummvxWI=
+ b=V5m9xy1n4ABkvREbz3Apav+kYeBF5hUDJ8KnXcALLqYGgfGDrXdIWHMRV2ROIi+ZJ
+ kWgSfVwonXkrXnpOKfhGN1DF0M5cnIXYFwdmT8iiX/q5DYDjeZnVRD0X7QaiuOPhOW
+ 4nNcVMSj0oAajx5+iSoR600G/0n4oL7J8gV6gM5U=
 From: David Gibson <david@gibson.dropbear.id.au>
 To: peter.maydell@linaro.org,
 	groug@kaod.org
-Subject: [PULL 18/22] ppc4xx: Move common dependency on serial to common option
-Date: Wed,  6 Jan 2021 14:38:12 +1100
-Message-Id: <20210106033816.232598-19-david@gibson.dropbear.id.au>
+Subject: [PULL 19/22] sam460ex: Remove FDT_PPC dependency from KConfig
+Date: Wed,  6 Jan 2021 14:38:13 +1100
+Message-Id: <20210106033816.232598-20-david@gibson.dropbear.id.au>
 X-Mailer: git-send-email 2.29.2
 In-Reply-To: <20210106033816.232598-1-david@gibson.dropbear.id.au>
 References: <20210106033816.232598-1-david@gibson.dropbear.id.au>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2401:3900:2:1::2; envelope-from=dgibson@ozlabs.org;
+Received-SPF: pass client-ip=203.11.71.1; envelope-from=dgibson@ozlabs.org;
  helo=ozlabs.org
 X-Spam_score_int: -17
 X-Spam_score: -1.8
@@ -57,67 +58,38 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: David Gibson <david@gibson.dropbear.id.au>, qemu-ppc@nongnu.org,
- qemu-devel@nongnu.org
+Cc: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
+ qemu-ppc@nongnu.org, qemu-devel@nongnu.org,
+ David Gibson <david@gibson.dropbear.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: BALATON Zoltan via <qemu-ppc@nongnu.org>
 
-All machines that select SERIAL also select PPC4XX so we can just add
-this common dependency there once.
+Dependency on FDT_PPC was added in commit b0048f76095
+("hw/ppc/Kconfig: Only select FDT helper for machines using it") but
+it does not seem to be really necessary so remove it again.
 
 Signed-off-by: BALATON Zoltan <balaton@eik.bme.hu>
-Message-Id: <94f1eb7cfb7f315bd883d825f3ce7e0cfc2f2b69.1609636173.git.balaton@eik.bme.hu>
+Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+Message-Id: <7461a20b129a912aeacdb9ad115a55f0b84c8726.1609636173.git.balaton@eik.bme.hu>
 Signed-off-by: David Gibson <david@gibson.dropbear.id.au>
 ---
- hw/ppc/Kconfig | 5 +----
- 1 file changed, 1 insertion(+), 4 deletions(-)
+ hw/ppc/Kconfig | 1 -
+ 1 file changed, 1 deletion(-)
 
 diff --git a/hw/ppc/Kconfig b/hw/ppc/Kconfig
-index d11dc30509..d2329edbab 100644
+index d2329edbab..7e267d94a1 100644
 --- a/hw/ppc/Kconfig
 +++ b/hw/ppc/Kconfig
-@@ -36,7 +36,6 @@ config PPC405
-     select M48T59
-     select PFLASH_CFI02
-     select PPC4XX
--    select SERIAL
- 
- config PPC440
-     bool
-@@ -45,7 +44,6 @@ config PPC440
-     imply E1000_PCI
-     select PCI_EXPRESS
-     select PPC4XX
--    select SERIAL
-     select FDT_PPC
- 
- config PPC4XX
-@@ -53,6 +51,7 @@ config PPC4XX
-     select BITBANG_I2C
-     select PCI
-     select PPC_UIC
-+    select SERIAL
- 
- config SAM460EX
-     bool
-@@ -61,7 +60,6 @@ config SAM460EX
-     select IDE_SII3112
-     select M41T80
-     select PPC440
--    select SERIAL
-     select SM501
+@@ -64,7 +64,6 @@ config SAM460EX
      select SMBUS_EEPROM
      select USB_EHCI_SYSBUS
-@@ -123,7 +121,6 @@ config VIRTEX
+     select USB_OHCI
+-    select FDT_PPC
+ 
+ config PREP
      bool
-     select PPC4XX
-     select PFLASH_CFI01
--    select SERIAL
-     select XILINX
-     select XILINX_ETHLITE
-     select FDT_PPC
 -- 
 2.29.2
 
