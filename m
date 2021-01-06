@@ -2,42 +2,44 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 284962EBD73
-	for <lists+qemu-devel@lfdr.de>; Wed,  6 Jan 2021 13:08:07 +0100 (CET)
-Received: from localhost ([::1]:46416 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1815F2EBD80
+	for <lists+qemu-devel@lfdr.de>; Wed,  6 Jan 2021 13:10:21 +0100 (CET)
+Received: from localhost ([::1]:52124 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kx7bi-00063N-5z
-	for lists+qemu-devel@lfdr.de; Wed, 06 Jan 2021 07:08:06 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47128)
+	id 1kx7dr-0008P4-P9
+	for lists+qemu-devel@lfdr.de; Wed, 06 Jan 2021 07:10:19 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47132)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1kx7Zc-0004d7-Ie; Wed, 06 Jan 2021 07:05:57 -0500
-Received: from mail.ilande.co.uk ([2001:41c9:1:41f::167]:57836
+ id 1kx7Ze-0004dZ-3Z
+ for qemu-devel@nongnu.org; Wed, 06 Jan 2021 07:05:59 -0500
+Received: from mail.ilande.co.uk ([2001:41c9:1:41f::167]:57840
  helo=mail.default.ilande.uk0.bigv.io)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1kx7ZX-00029k-Pp; Wed, 06 Jan 2021 07:05:55 -0500
+ id 1kx7ZZ-0002B5-6s
+ for qemu-devel@nongnu.org; Wed, 06 Jan 2021 07:05:57 -0500
 Received: from host109-146-177-189.range109-146.btcentralplus.com
  ([109.146.177.189] helo=kentang.home)
  by mail.default.ilande.uk0.bigv.io with esmtpsa
  (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
  (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1kx7ZX-0006Sn-M1; Wed, 06 Jan 2021 12:05:55 +0000
+ id 1kx7Zb-0006Sn-5k; Wed, 06 Jan 2021 12:05:59 +0000
 From: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
 To: peter.maydell@linaro.org,
 	qemu-devel@nongnu.org
-Date: Wed,  6 Jan 2021 12:05:23 +0000
-Message-Id: <20210106120526.29857-2-mark.cave-ayland@ilande.co.uk>
+Date: Wed,  6 Jan 2021 12:05:24 +0000
+Message-Id: <20210106120526.29857-3-mark.cave-ayland@ilande.co.uk>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20210106120526.29857-1-mark.cave-ayland@ilande.co.uk>
 References: <20210106120526.29857-1-mark.cave-ayland@ilande.co.uk>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-SA-Exim-Connect-IP: 109.146.177.189
 X-SA-Exim-Mail-From: mark.cave-ayland@ilande.co.uk
-Subject: [PULL 1/4] hw/timer/slavio_timer: Allow 64-bit accesses
+Subject: [PULL 2/4] hw/sparc: Make grlib-irqmp device handle its own inbound
+ IRQ lines
 X-SA-Exim-Version: 4.2.1 (built Wed, 08 May 2019 21:11:16 +0000)
 X-SA-Exim-Scanned: Yes (on mail.default.ilande.uk0.bigv.io)
 Received-SPF: pass client-ip=2001:41c9:1:41f::167;
@@ -60,92 +62,146 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Yap KV <yapkv@yahoo.com>, Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
- qemu-stable@nongnu.org
+Cc: KONRAD Frederic <frederic.konrad@adacore.com>,
+ Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Philippe Mathieu-Daudé <f4bug@amsat.org>
+From: Peter Maydell <peter.maydell@linaro.org>
 
-Per the "NCR89C105 Chip Specification" referenced in the header:
+Currently the GRLIB_IRQMP device is used in one place (the leon3 board),
+but instead of the device providing inbound gpio lines for the board
+to wire up, the board code itself calls qemu_allocate_irqs() with
+the handler function being a set_irq function defined in the code
+for the device.
 
-                  Chip-level Address Map
+Refactor this into the standard setup of a device having input
+gpio lines.
 
-  ------------------------------------------------------------------
-  | 1D0 0000 ->   | Counter/Timers                        | W,D    |
-  |   1DF FFFF    |                                       |        |
-  ...
+This fixes a trivial Coverity memory leak report (the leon3
+board code leaks the IRQ array returned from qemu_allocate_irqs()).
 
-  The address map indicated the allowed accesses at each address.
-  [...] W indicates a word access, and D indicates a double-word
-  access.
-
-The SLAVIO timer controller is implemented expecting 32-bit accesses.
-Commit a3d12d073e1 restricted the memory accesses to 32-bit, while
-the device allows 64-bit accesses.
-
-This was not an issue until commit 5d971f9e67 which reverted
-("memory: accept mismatching sizes in memory_region_access_valid").
-
-Fix by renaming .valid MemoryRegionOps as .impl, and add the valid
-access range (W -> 4, D -> 8).
-
-Since commit 21786c7e598 ("memory: Log invalid memory accesses")
-this class of bug can be quickly debugged displaying 'guest_errors'
-accesses, as:
-
-  $ qemu-system-sparc -M SS-20 -m 256 -bios ss20_v2.25_rom -serial stdio -d guest_errors
-
-  Power-ON Reset
-  Invalid access at addr 0x0, size 8, region 'timer-1', reason: invalid size (min:4 max:4)
-
-  $ qemu-system-sparc -M SS-20 -m 256 -bios ss20_v2.25_rom -monitor stdio -S
-  (qemu) info mtree
-  address-space: memory
-    0000000000000000-ffffffffffffffff (prio 0, i/o): system
-      ...
-      0000000ff1300000-0000000ff130000f (prio 0, i/o): timer-1
-             ^^^^^^^^^                                 ^^^^^^^
-                   \ memory region base address and name /
-
-  (qemu) info qtree
-  bus: main-system-bus
-    dev: slavio_timer, id ""              <-- device type name
-      gpio-out "sysbus-irq" 17
-      num_cpus = 1 (0x1)
-      mmio 0000000ff1310000/0000000000000014
-      mmio 0000000ff1300000/0000000000000010 <--- base address
-      mmio 0000000ff1301000/0000000000000010
-      mmio 0000000ff1302000/0000000000000010
-      ...
-
-Reported-by: Yap KV <yapkv@yahoo.com>
-Buglink: https://bugs.launchpad.net/bugs/1906905
-Fixes: a3d12d073e1 ("slavio_timer: convert to memory API")
-CC: qemu-stable@nongnu.org
-Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
-Message-Id: <20201205150903.3062711-1-f4bug@amsat.org>
+Fixes: Coverity CID 1421922
+Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
+Message-Id: <20201212144134.29594-2-peter.maydell@linaro.org>
+Reviewed-by: KONRAD Frederic <frederic.konrad@adacore.com>
 Signed-off-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
 ---
- hw/timer/slavio_timer.c | 4 ++++
- 1 file changed, 4 insertions(+)
+ hw/intc/grlib_irqmp.c    |  5 ++++-
+ hw/sparc/leon3.c         | 21 +++++++++------------
+ include/hw/sparc/grlib.h |  2 --
+ 3 files changed, 13 insertions(+), 15 deletions(-)
 
-diff --git a/hw/timer/slavio_timer.c b/hw/timer/slavio_timer.c
-index 5b2d20cb6a..03e33fc592 100644
---- a/hw/timer/slavio_timer.c
-+++ b/hw/timer/slavio_timer.c
-@@ -331,6 +331,10 @@ static const MemoryRegionOps slavio_timer_mem_ops = {
-     .write = slavio_timer_mem_writel,
-     .endianness = DEVICE_NATIVE_ENDIAN,
-     .valid = {
-+        .min_access_size = 4,
-+        .max_access_size = 8,
-+    },
-+    .impl = {
-         .min_access_size = 4,
-         .max_access_size = 4,
-     },
+diff --git a/hw/intc/grlib_irqmp.c b/hw/intc/grlib_irqmp.c
+index ffec4a07ee..984334fa7b 100644
+--- a/hw/intc/grlib_irqmp.c
++++ b/hw/intc/grlib_irqmp.c
+@@ -51,6 +51,8 @@
+ #define FORCE_OFFSET     0x80
+ #define EXTENDED_OFFSET  0xC0
+ 
++#define MAX_PILS 16
++
+ OBJECT_DECLARE_SIMPLE_TYPE(IRQMP, GRLIB_IRQMP)
+ 
+ typedef struct IRQMPState IRQMPState;
+@@ -126,7 +128,7 @@ void grlib_irqmp_ack(DeviceState *dev, int intno)
+     grlib_irqmp_ack_mask(state, mask);
+ }
+ 
+-void grlib_irqmp_set_irq(void *opaque, int irq, int level)
++static void grlib_irqmp_set_irq(void *opaque, int irq, int level)
+ {
+     IRQMP      *irqmp = GRLIB_IRQMP(opaque);
+     IRQMPState *s;
+@@ -328,6 +330,7 @@ static void grlib_irqmp_init(Object *obj)
+     IRQMP *irqmp = GRLIB_IRQMP(obj);
+     SysBusDevice *dev = SYS_BUS_DEVICE(obj);
+ 
++    qdev_init_gpio_in(DEVICE(obj), grlib_irqmp_set_irq, MAX_PILS);
+     qdev_init_gpio_out_named(DEVICE(obj), &irqmp->irq, "grlib-irq", 1);
+     memory_region_init_io(&irqmp->iomem, obj, &grlib_irqmp_ops, irqmp,
+                           "irqmp", IRQMP_REG_SIZE);
+diff --git a/hw/sparc/leon3.c b/hw/sparc/leon3.c
+index 4bc4ebea84..7e16eea9e6 100644
+--- a/hw/sparc/leon3.c
++++ b/hw/sparc/leon3.c
+@@ -52,8 +52,6 @@
+ #define LEON3_PROM_OFFSET    (0x00000000)
+ #define LEON3_RAM_OFFSET     (0x40000000)
+ 
+-#define MAX_PILS 16
+-
+ #define LEON3_UART_OFFSET  (0x80000100)
+ #define LEON3_UART_IRQ     (3)
+ 
+@@ -194,11 +192,10 @@ static void leon3_generic_hw_init(MachineState *machine)
+     MemoryRegion *prom = g_new(MemoryRegion, 1);
+     int         ret;
+     char       *filename;
+-    qemu_irq   *cpu_irqs = NULL;
+     int         bios_size;
+     int         prom_size;
+     ResetData  *reset_info;
+-    DeviceState *dev;
++    DeviceState *dev, *irqmpdev;
+     int i;
+     AHBPnp *ahb_pnp;
+     APBPnp *apb_pnp;
+@@ -230,16 +227,15 @@ static void leon3_generic_hw_init(MachineState *machine)
+                             GRLIB_AHB_SLAVE, GRLIB_AHBMEM_AREA);
+ 
+     /* Allocate IRQ manager */
+-    dev = qdev_new(TYPE_GRLIB_IRQMP);
++    irqmpdev = qdev_new(TYPE_GRLIB_IRQMP);
+     qdev_init_gpio_in_named_with_opaque(DEVICE(cpu), leon3_set_pil_in,
+                                         env, "pil", 1);
+-    qdev_connect_gpio_out_named(dev, "grlib-irq", 0,
++    qdev_connect_gpio_out_named(irqmpdev, "grlib-irq", 0,
+                                 qdev_get_gpio_in_named(DEVICE(cpu), "pil", 0));
+-    sysbus_realize_and_unref(SYS_BUS_DEVICE(dev), &error_fatal);
+-    sysbus_mmio_map(SYS_BUS_DEVICE(dev), 0, LEON3_IRQMP_OFFSET);
+-    env->irq_manager = dev;
++    sysbus_realize_and_unref(SYS_BUS_DEVICE(irqmpdev), &error_fatal);
++    sysbus_mmio_map(SYS_BUS_DEVICE(irqmpdev), 0, LEON3_IRQMP_OFFSET);
++    env->irq_manager = irqmpdev;
+     env->qemu_irq_ack = leon3_irq_manager;
+-    cpu_irqs = qemu_allocate_irqs(grlib_irqmp_set_irq, dev, MAX_PILS);
+     grlib_apb_pnp_add_entry(apb_pnp, LEON3_IRQMP_OFFSET, 0xFFF,
+                             GRLIB_VENDOR_GAISLER, GRLIB_IRQMP_DEV,
+                             2, 0, GRLIB_APBIO_AREA);
+@@ -330,7 +326,7 @@ static void leon3_generic_hw_init(MachineState *machine)
+     sysbus_mmio_map(SYS_BUS_DEVICE(dev), 0, LEON3_TIMER_OFFSET);
+     for (i = 0; i < LEON3_TIMER_COUNT; i++) {
+         sysbus_connect_irq(SYS_BUS_DEVICE(dev), i,
+-                           cpu_irqs[LEON3_TIMER_IRQ + i]);
++                           qdev_get_gpio_in(irqmpdev, LEON3_TIMER_IRQ + i));
+     }
+ 
+     grlib_apb_pnp_add_entry(apb_pnp, LEON3_TIMER_OFFSET, 0xFFF,
+@@ -342,7 +338,8 @@ static void leon3_generic_hw_init(MachineState *machine)
+     qdev_prop_set_chr(dev, "chrdev", serial_hd(0));
+     sysbus_realize_and_unref(SYS_BUS_DEVICE(dev), &error_fatal);
+     sysbus_mmio_map(SYS_BUS_DEVICE(dev), 0, LEON3_UART_OFFSET);
+-    sysbus_connect_irq(SYS_BUS_DEVICE(dev), 0, cpu_irqs[LEON3_UART_IRQ]);
++    sysbus_connect_irq(SYS_BUS_DEVICE(dev), 0,
++                       qdev_get_gpio_in(irqmpdev, LEON3_UART_IRQ));
+     grlib_apb_pnp_add_entry(apb_pnp, LEON3_UART_OFFSET, 0xFFF,
+                             GRLIB_VENDOR_GAISLER, GRLIB_APBUART_DEV, 1,
+                             LEON3_UART_IRQ, GRLIB_APBIO_AREA);
+diff --git a/include/hw/sparc/grlib.h b/include/hw/sparc/grlib.h
+index 78b6178fcd..e1d1beaa73 100644
+--- a/include/hw/sparc/grlib.h
++++ b/include/hw/sparc/grlib.h
+@@ -36,8 +36,6 @@
+ 
+ typedef void (*set_pil_in_fn) (void *opaque, uint32_t pil_in);
+ 
+-void grlib_irqmp_set_irq(void *opaque, int irq, int level);
+-
+ void grlib_irqmp_ack(DeviceState *dev, int intno);
+ 
+ /* GPTimer */
 -- 
 2.20.1
 
