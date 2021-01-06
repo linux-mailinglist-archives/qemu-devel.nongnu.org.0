@@ -2,64 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 51C9A2EB9D5
-	for <lists+qemu-devel@lfdr.de>; Wed,  6 Jan 2021 07:07:29 +0100 (CET)
-Received: from localhost ([::1]:39112 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 015492EB9D6
+	for <lists+qemu-devel@lfdr.de>; Wed,  6 Jan 2021 07:08:22 +0100 (CET)
+Received: from localhost ([::1]:41942 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kx1yi-0002eW-DE
-	for lists+qemu-devel@lfdr.de; Wed, 06 Jan 2021 01:07:28 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38470)
+	id 1kx1zZ-0003on-3l
+	for lists+qemu-devel@lfdr.de; Wed, 06 Jan 2021 01:08:21 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38776)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
- id 1kx1wq-0001zU-FS; Wed, 06 Jan 2021 01:05:33 -0500
-Received: from mail-yb1-xb2c.google.com ([2607:f8b0:4864:20::b2c]:42425)
+ id 1kx1yJ-0002xS-93; Wed, 06 Jan 2021 01:07:07 -0500
+Received: from mail-yb1-xb32.google.com ([2607:f8b0:4864:20::b32]:47023)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
- id 1kx1wo-00019P-1V; Wed, 06 Jan 2021 01:05:31 -0500
-Received: by mail-yb1-xb2c.google.com with SMTP id j17so1813967ybt.9;
- Tue, 05 Jan 2021 22:05:29 -0800 (PST)
+ id 1kx1yG-0001sp-4z; Wed, 06 Jan 2021 01:07:03 -0500
+Received: by mail-yb1-xb32.google.com with SMTP id f6so1795244ybq.13;
+ Tue, 05 Jan 2021 22:06:59 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=ev+EbpEFLmVZe+5Epsyt5KsNPBDTv3jc41WhF2HPQOM=;
- b=tLfwfw3+uJadhD2f3jjZgh+w4cmrvhxkGhZeesxQFjK7UwbpsVASoVlBS2rtbu+sjX
- 8Yu5lWOOADC8irh7+zm5G0fIPxwlSt0oz5vGvqvZPSenM5lHzLSbnfl1Tps2pCasF/ND
- N6sU3eBdSzrLpk7n/0a3SF+zkTY/nRibHuW8DmTvJSzpb23++AYf+DWOmO2dsUbPYzkV
- sSK9AIUGc1i6OeKNO4HXqWnt0P1QGUpUowQuSvv7uYbn7ys0dyJ4MF8wLR1TiLJ8GjP+
- tffTt6gijvyV4OLTqRtBQSxxJsfrCqAvXyC4pEABv25GY1iMyTG06rHnxC1OQ3axqwRm
- Ukfw==
+ :cc:content-transfer-encoding;
+ bh=7y0hhbvZTznMMzCHGJlFZj/YuRRiB2TedVaDCsTT4PY=;
+ b=gmo6TMLNjkZ+LXD9KNQ6joWIfjYt/yxzKe1zk2Sq9lOqGuVaNVVU7uVHReXflEvL+E
+ 3LytJUIN2gUn/rEn5JNaV9hQJsJdBC4m3Fkt4Nq70jdQt9RANyk1fgfAa7gM/cyKJg6j
+ b8Vf8/Pst+iTe6EhdLCzEAqiRdeT6+jfyrkZgjgpc6Uxwm15jdW+lTw+w2nx9ONJfBz5
+ MEKja0MXw3EHK8WPivgHXJ73Oq4wLHqQcolZXhD/dJ1w7Kfz5swReX/gXYGNFymP9emf
+ VzSockhQgeGvRJl0PurMUwvjXGdD9EfifReIVr0aU0KilJvmIg6bygCgMSob+IdGzDhS
+ Qr2g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=ev+EbpEFLmVZe+5Epsyt5KsNPBDTv3jc41WhF2HPQOM=;
- b=Pw3H3RVDj7FEUpqEpa4N1R4nVRtMF1mLhpAnjdrJof1o6qL1ChjxQm1GKOQcHTIG9T
- 7zSb+urnsTdCUt15AHxrhBr332TN/da1IX2Cxa79OLBakELpXvisbSMKFDV2DILwdq3L
- 0AmnvBSlhPCTPwq7+3j6Ez+O5N+VyUH3Xlj/AUb/YEceekQHcDplE5zlS3E9AW3VBkF+
- Ksm5si8R4i8nj9P0c7OJjZCLFpmrOpp04tMeLkt8w6Yl/fLkI0mAel81BnJND3mLXppI
- 6h+dEsPFOw1SxtAWyx3HDTL86NdQpsK/jHMQ9mBefP2C+/w4ePE3hBb3nr51DwteJ47u
- K1/w==
-X-Gm-Message-State: AOAM5314mXQsGAfkEN7YDMahIirdNuzwGPR25QbOofHgBC7nz4fm6Dvj
- mZ1EX+4hNIabu8WaedHQgEEsvbb5vFdMgkHPkSI=
-X-Google-Smtp-Source: ABdhPJymYw2bgwX9dPDVQii9NifEoR2jIp5hIv6TmO4tUlSnsqrnGkJRSBmYhYRW5Xq5pge9iQVXTTW/Vq0kNfTMI9I=
-X-Received: by 2002:a25:aaee:: with SMTP id t101mr3764854ybi.517.1609913128766; 
- Tue, 05 Jan 2021 22:05:28 -0800 (PST)
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=7y0hhbvZTznMMzCHGJlFZj/YuRRiB2TedVaDCsTT4PY=;
+ b=LQFCjF+AY41RtPbhXQAaiMDppKNFhB6WNleBnxN477hlRYYdUoTyFQraX5o2uH15gz
+ sFPEYJLTvL3BbukEKTDpakhriFDTMAgf5BhGzUfwt0lREIBI+B+F7v0uMVmsMTITx58p
+ L9uUsZ9WxZA65c1O4LGEl1QDhXlQ3YCJuBuetOnPXoCeV9d/TL1WAv635WgQI+m8B4V3
+ 0Txakknl15R2k0qQerUNwuuFrCVkMJQ+81Infz6+YssDjh9K8OxgwuAPuYZ3XE6GGZPI
+ xU1K56yP6BRtF4CxAFYpCbVdGEKD8emPZ4fmioh1LGxVGVydk0wAvKwauDZKooyYgbfK
+ OGdA==
+X-Gm-Message-State: AOAM531NiRUPPDz1CvZZ8ItJGF7M30l1tmBcSiAxheLh2aZ4Qk3GgjAp
+ R3gshLMLb1iBEBu9B/8WaNLtVWGmBB1turQvdr8=
+X-Google-Smtp-Source: ABdhPJxgm3Tqb6yigalIvoRLJHxDyKUSdTWUPB7s7RQp3FJpIv8R4P1yNhsLo8AgxnuT+HetG8Q9O3VKGG2AnB54dDc=
+X-Received: by 2002:a05:6902:210:: with SMTP id
+ j16mr4193590ybs.122.1609913218717; 
+ Tue, 05 Jan 2021 22:06:58 -0800 (PST)
 MIME-Version: 1.0
-References: <20201202144523.24526-1-bmeng.cn@gmail.com>
- <CAEUhbmUtCvXCKoQGU9b6+UX1juChVfHkugODjo2psBnRw+7NTw@mail.gmail.com>
- <CAKmqyKPy-V77t-COOb2Vp5DasfduC49Uy51EcCfSRos+M-JkKw@mail.gmail.com>
- <CAFEAcA-6NqgwKQKBFVg-VYgwdOReddyHm=sUO6o0nLQXaoB_Fg@mail.gmail.com>
- <CAEUhbmVd3Umei8qWdN-H2vejR144sgEDYyKwj5CTsbku5KjvKA@mail.gmail.com>
-In-Reply-To: <CAEUhbmVd3Umei8qWdN-H2vejR144sgEDYyKwj5CTsbku5KjvKA@mail.gmail.com>
+References: <1608182913-54603-1-git-send-email-bmeng.cn@gmail.com>
+ <54a57f94-e0e5-6dfd-2813-a38e374f221c@amsat.org>
+In-Reply-To: <54a57f94-e0e5-6dfd-2813-a38e374f221c@amsat.org>
 From: Bin Meng <bmeng.cn@gmail.com>
-Date: Wed, 6 Jan 2021 14:05:17 +0800
-Message-ID: <CAEUhbmWuDn6yNJOZtW_bn1f2ofnH29rH=Em7mY4=JBoLkfFLfA@mail.gmail.com>
-Subject: Re: [PATCH v2 1/2] hw/ssi: imx_spi: Use a macro for number of chip
- selects supported
-To: Peter Maydell <peter.maydell@linaro.org>
+Date: Wed, 6 Jan 2021 14:06:47 +0800
+Message-ID: <CAEUhbmX9LMEV1UahWB4F2B=eX503D6dJXV3-KtBNuL7_SrNYkg@mail.gmail.com>
+Subject: Re: [PATCH 1/2] hw/ssi: imx_spi: Correct the burst length > 32 bit
+ transfer logic
+To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>
 Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::b2c;
- envelope-from=bmeng.cn@gmail.com; helo=mail-yb1-xb2c.google.com
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2607:f8b0:4864:20::b32;
+ envelope-from=bmeng.cn@gmail.com; helo=mail-yb1-xb32.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -79,57 +79,72 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Alistair Francis <alistair.francis@wdc.com>,
- Bin Meng <bin.meng@windriver.com>,
+Cc: Peter Maydell <peter.maydell@linaro.org>, Bin Meng <bin.meng@windriver.com>,
  "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
  Jean-Christophe Dubois <jcd@tribudubois.net>, qemu-arm <qemu-arm@nongnu.org>,
- Peter Chubb <peter.chubb@nicta.com.au>,
- Alistair Francis <alistair23@gmail.com>
+ Alistair Francis <alistair.francis@wdc.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, Jan 6, 2021 at 8:22 AM Bin Meng <bmeng.cn@gmail.com> wrote:
+On Thu, Dec 31, 2020 at 6:31 PM Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.or=
+g> wrote:
 >
-> On Wed, Jan 6, 2021 at 5:11 AM Peter Maydell <peter.maydell@linaro.org> wrote:
+> On 12/17/20 6:28 AM, Bin Meng wrote:
+> > From: Bin Meng <bin.meng@windriver.com>
 > >
-> > On Tue, 5 Jan 2021 at 21:09, Alistair Francis <alistair23@gmail.com> wrote:
-> > >
-> > > On Wed, Dec 16, 2020 at 2:25 AM Bin Meng <bmeng.cn@gmail.com> wrote:
-> > > >
-> > > > Hi Alistair, Peter,
-> > > >
-> > > > On Wed, Dec 2, 2020 at 10:45 PM Bin Meng <bmeng.cn@gmail.com> wrote:
-> > > > >
-> > > > > From: Bin Meng <bin.meng@windriver.com>
-> > > > >
-> > > > > Avoid using a magic number (4) everywhere for the number of chip
-> > > > > selects supported.
-> > > > >
-> > > > > Signed-off-by: Bin Meng <bin.meng@windriver.com>
-> > > > > Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
-> > > > > ---
-> > > > >
-> > > > > (no changes since v1)
-> > > > >
-> > > > >  hw/ssi/imx_spi.c         | 4 ++--
-> > > > >  include/hw/ssi/imx_spi.h | 5 ++++-
-> > > > >  2 files changed, 6 insertions(+), 3 deletions(-)
-> > > > >
-> > > >
-> > > > Ping, not sure who is going to pick up this series?
-> > >
-> > > It should be reviewed by Jean-Christophe and then probably go via the ARM tree.
+> > For the ECSPIx_CONREG register BURST_LENGTH field, the manual says:
 > >
-> > It doesn't seem to have been sent with a cover letter. Multi-patch
-> > patchsets without a cover letter tend to get missed because when
-> > I scan through my email looking for patches I should review or
-> > pick up I'm looking for either (a) single patches or (b) the 00/nn
-> > cover letter email...
+> > 0x020 A SPI burst contains the 1 LSB in first word and all 32 bits in s=
+econd word.
+> > 0x021 A SPI burst contains the 2 LSB in first word and all 32 bits in s=
+econd word.
+> >
+> > Current logic uses either s->burst_length or 32, whichever smaller,
+> > to determine how many bits it should read from the tx fifo each time.
+> > For example, for a 48 bit burst length, current logic transfers the
+> > first 32 bit from the first word in the tx fifo, followed by a 16
+> > bit from the second word in the tx fifo, which is wrong. The correct
+> > logic should be: transfer the first 16 bit from the first word in
+> > the tx fifo, followed by a 32 bit from the second word in the tx fifo.
+> >
+> > With this change, SPI flash can be successfully probed by U-Boot on
+> > imx6 sabrelite board.
+> >
+> >   =3D> sf probe
+> >   SF: Detected sst25vf016b with page size 256 Bytes, erase size 4 KiB, =
+total 2 MiB
+> >
+> > Fixes: c906a3a01582 ("i.MX: Add the Freescale SPI Controller")
+> > Signed-off-by: Bin Meng <bin.meng@windriver.com>
+> > ---
+> >
+> >  hw/ssi/imx_spi.c | 5 ++++-
+> >  1 file changed, 4 insertions(+), 1 deletion(-)
+> >
+> > diff --git a/hw/ssi/imx_spi.c b/hw/ssi/imx_spi.c
+> > index 85c172e..509fb9f 100644
+> > --- a/hw/ssi/imx_spi.c
+> > +++ b/hw/ssi/imx_spi.c
+> > @@ -178,7 +178,10 @@ static void imx_spi_flush_txfifo(IMXSPIState *s)
+> >
+> >          DPRINTF("data tx:0x%08x\n", tx);
+> >
+> > -        tx_burst =3D MIN(s->burst_length, 32);
+> > +        tx_burst =3D s->burst_length % 32;
+> > +        if (tx_burst =3D=3D 0) {
+> > +            tx_burst =3D 32;
+> > +        }
 >
-> Thanks. I will resend it with a cover-letter.
+> Or alternatively using ternary operator:
+>
+>            tx_burst =3D (s->burst_length % 32) ?: 32;
 
-This series is resent and included in the following series with a cover letter:
-http://patchwork.ozlabs.org/project/qemu-devel/list/?series=222931
+Updated this in v2 series:
+http://patchwork.ozlabs.org/project/qemu-devel/list/?series=3D222931
+
+>
+> Reviewed-by: Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>
+>
 
 Regards,
 Bin
