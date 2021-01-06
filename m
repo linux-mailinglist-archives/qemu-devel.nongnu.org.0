@@ -2,42 +2,42 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A9CA32EBD72
-	for <lists+qemu-devel@lfdr.de>; Wed,  6 Jan 2021 13:07:49 +0100 (CET)
-Received: from localhost ([::1]:46048 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 284962EBD73
+	for <lists+qemu-devel@lfdr.de>; Wed,  6 Jan 2021 13:08:07 +0100 (CET)
+Received: from localhost ([::1]:46416 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kx7bQ-0005uH-6C
-	for lists+qemu-devel@lfdr.de; Wed, 06 Jan 2021 07:07:48 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47046)
+	id 1kx7bi-00063N-5z
+	for lists+qemu-devel@lfdr.de; Wed, 06 Jan 2021 07:08:06 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47128)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1kx7ZU-0004af-7z
- for qemu-devel@nongnu.org; Wed, 06 Jan 2021 07:05:48 -0500
-Received: from mail.ilande.co.uk ([2001:41c9:1:41f::167]:57824
+ id 1kx7Zc-0004d7-Ie; Wed, 06 Jan 2021 07:05:57 -0500
+Received: from mail.ilande.co.uk ([2001:41c9:1:41f::167]:57836
  helo=mail.default.ilande.uk0.bigv.io)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1kx7ZS-00026u-BH
- for qemu-devel@nongnu.org; Wed, 06 Jan 2021 07:05:47 -0500
+ id 1kx7ZX-00029k-Pp; Wed, 06 Jan 2021 07:05:55 -0500
 Received: from host109-146-177-189.range109-146.btcentralplus.com
  ([109.146.177.189] helo=kentang.home)
  by mail.default.ilande.uk0.bigv.io with esmtpsa
  (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
  (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1kx7ZS-0006Sn-Pg; Wed, 06 Jan 2021 12:05:51 +0000
+ id 1kx7ZX-0006Sn-M1; Wed, 06 Jan 2021 12:05:55 +0000
 From: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
 To: peter.maydell@linaro.org,
 	qemu-devel@nongnu.org
-Date: Wed,  6 Jan 2021 12:05:22 +0000
-Message-Id: <20210106120526.29857-1-mark.cave-ayland@ilande.co.uk>
+Date: Wed,  6 Jan 2021 12:05:23 +0000
+Message-Id: <20210106120526.29857-2-mark.cave-ayland@ilande.co.uk>
 X-Mailer: git-send-email 2.20.1
+In-Reply-To: <20210106120526.29857-1-mark.cave-ayland@ilande.co.uk>
+References: <20210106120526.29857-1-mark.cave-ayland@ilande.co.uk>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-SA-Exim-Connect-IP: 109.146.177.189
 X-SA-Exim-Mail-From: mark.cave-ayland@ilande.co.uk
-Subject: [PULL 0/4] qemu-sparc queue 20210106
+Subject: [PULL 1/4] hw/timer/slavio_timer: Allow 64-bit accesses
 X-SA-Exim-Version: 4.2.1 (built Wed, 08 May 2019 21:11:16 +0000)
 X-SA-Exim-Scanned: Yes (on mail.default.ilande.uk0.bigv.io)
 Received-SPF: pass client-ip=2001:41c9:1:41f::167;
@@ -60,41 +60,93 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
+Cc: Yap KV <yapkv@yahoo.com>, Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
+ qemu-stable@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The following changes since commit 2e0b5bbe813930021b2baab03c9d424c1c52d18b:
+From: Philippe Mathieu-Daudé <f4bug@amsat.org>
 
-  Merge remote-tracking branch 'remotes/philmd-gitlab/tags/mips-20210104' into staging (2021-01-05 21:06:42 +0000)
+Per the "NCR89C105 Chip Specification" referenced in the header:
 
-are available in the Git repository at:
+                  Chip-level Address Map
 
-  git://github.com/mcayland/qemu.git tags/qemu-sparc-20210106
+  ------------------------------------------------------------------
+  | 1D0 0000 ->   | Counter/Timers                        | W,D    |
+  |   1DF FFFF    |                                       |        |
+  ...
 
-for you to fetch changes up to a879306ca14de576d3a5dd51f830ebf89753e223:
+  The address map indicated the allowed accesses at each address.
+  [...] W indicates a word access, and D indicates a double-word
+  access.
 
-  sun4m: don't connect two qemu_irqs directly to the same input (2021-01-06 11:41:37 +0000)
+The SLAVIO timer controller is implemented expecting 32-bit accesses.
+Commit a3d12d073e1 restricted the memory accesses to 32-bit, while
+the device allows 64-bit accesses.
 
-----------------------------------------------------------------
-qemu-sparc queue
+This was not an issue until commit 5d971f9e67 which reverted
+("memory: accept mismatching sizes in memory_region_access_valid").
 
-----------------------------------------------------------------
-Mark Cave-Ayland (1):
-      sun4m: don't connect two qemu_irqs directly to the same input
+Fix by renaming .valid MemoryRegionOps as .impl, and add the valid
+access range (W -> 4, D -> 8).
 
-Peter Maydell (2):
-      hw/sparc: Make grlib-irqmp device handle its own inbound IRQ lines
-      include/hw/sparc/grlib.h: Remove unused set_pil_in_fn typedef
+Since commit 21786c7e598 ("memory: Log invalid memory accesses")
+this class of bug can be quickly debugged displaying 'guest_errors'
+accesses, as:
 
-Philippe Mathieu-Daudé (1):
-      hw/timer/slavio_timer: Allow 64-bit accesses
+  $ qemu-system-sparc -M SS-20 -m 256 -bios ss20_v2.25_rom -serial stdio -d guest_errors
 
- hw/intc/grlib_irqmp.c    |  5 ++++-
- hw/sparc/Kconfig         |  1 +
- hw/sparc/leon3.c         | 21 +++++++++------------
- hw/sparc/sun4m.c         | 24 +++++++++++++++++++-----
- hw/timer/slavio_timer.c  |  4 ++++
- include/hw/sparc/grlib.h |  4 ----
- 6 files changed, 37 insertions(+), 22 deletions(-)
+  Power-ON Reset
+  Invalid access at addr 0x0, size 8, region 'timer-1', reason: invalid size (min:4 max:4)
+
+  $ qemu-system-sparc -M SS-20 -m 256 -bios ss20_v2.25_rom -monitor stdio -S
+  (qemu) info mtree
+  address-space: memory
+    0000000000000000-ffffffffffffffff (prio 0, i/o): system
+      ...
+      0000000ff1300000-0000000ff130000f (prio 0, i/o): timer-1
+             ^^^^^^^^^                                 ^^^^^^^
+                   \ memory region base address and name /
+
+  (qemu) info qtree
+  bus: main-system-bus
+    dev: slavio_timer, id ""              <-- device type name
+      gpio-out "sysbus-irq" 17
+      num_cpus = 1 (0x1)
+      mmio 0000000ff1310000/0000000000000014
+      mmio 0000000ff1300000/0000000000000010 <--- base address
+      mmio 0000000ff1301000/0000000000000010
+      mmio 0000000ff1302000/0000000000000010
+      ...
+
+Reported-by: Yap KV <yapkv@yahoo.com>
+Buglink: https://bugs.launchpad.net/bugs/1906905
+Fixes: a3d12d073e1 ("slavio_timer: convert to memory API")
+CC: qemu-stable@nongnu.org
+Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+Message-Id: <20201205150903.3062711-1-f4bug@amsat.org>
+Signed-off-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
+---
+ hw/timer/slavio_timer.c | 4 ++++
+ 1 file changed, 4 insertions(+)
+
+diff --git a/hw/timer/slavio_timer.c b/hw/timer/slavio_timer.c
+index 5b2d20cb6a..03e33fc592 100644
+--- a/hw/timer/slavio_timer.c
++++ b/hw/timer/slavio_timer.c
+@@ -331,6 +331,10 @@ static const MemoryRegionOps slavio_timer_mem_ops = {
+     .write = slavio_timer_mem_writel,
+     .endianness = DEVICE_NATIVE_ENDIAN,
+     .valid = {
++        .min_access_size = 4,
++        .max_access_size = 8,
++    },
++    .impl = {
+         .min_access_size = 4,
+         .max_access_size = 4,
+     },
+-- 
+2.20.1
+
 
