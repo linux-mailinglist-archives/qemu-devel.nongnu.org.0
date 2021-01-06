@@ -2,28 +2,30 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 410F12EC069
-	for <lists+qemu-devel@lfdr.de>; Wed,  6 Jan 2021 16:32:47 +0100 (CET)
-Received: from localhost ([::1]:49224 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8D46B2EC070
+	for <lists+qemu-devel@lfdr.de>; Wed,  6 Jan 2021 16:34:49 +0100 (CET)
+Received: from localhost ([::1]:56384 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kxAnm-00061v-7P
-	for lists+qemu-devel@lfdr.de; Wed, 06 Jan 2021 10:32:46 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35434)
+	id 1kxApk-0000bX-HW
+	for lists+qemu-devel@lfdr.de; Wed, 06 Jan 2021 10:34:48 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35422)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
- id 1kxAkU-0003vL-En; Wed, 06 Jan 2021 10:29:25 -0500
-Received: from zero.eik.bme.hu ([152.66.115.2]:13311)
+ id 1kxAkS-0003vF-Jd; Wed, 06 Jan 2021 10:29:25 -0500
+Received: from zero.eik.bme.hu ([152.66.115.2]:13308)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
- id 1kxAkM-00032j-25; Wed, 06 Jan 2021 10:29:22 -0500
+ id 1kxAkM-00032k-9q; Wed, 06 Jan 2021 10:29:20 -0500
 Received: from zero.eik.bme.hu (blah.eik.bme.hu [152.66.115.182])
- by localhost (Postfix) with SMTP id 73B337470EC;
+ by localhost (Postfix) with SMTP id 8A2977470E2;
  Wed,  6 Jan 2021 16:29:11 +0100 (CET)
 Received: by zero.eik.bme.hu (Postfix, from userid 432)
- id E98717470E2; Wed,  6 Jan 2021 16:29:10 +0100 (CET)
-Message-Id: <cover.1609946641.git.balaton@eik.bme.hu>
-Subject: [PATCH 0/3] Fix up sam460ex fixes
+ id 063457470E9; Wed,  6 Jan 2021 16:29:11 +0100 (CET)
+Message-Id: <8bc87f574759a3e9e9e8707b1e0947c1ee21fa8c.1609946641.git.balaton@eik.bme.hu>
+In-Reply-To: <cover.1609946641.git.balaton@eik.bme.hu>
+References: <cover.1609946641.git.balaton@eik.bme.hu>
+Subject: [PATCH 3/3] sam460ex: Use type cast macro instead of simple cast
 Date: Wed, 06 Jan 2021 16:24:01 +0100
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
@@ -57,18 +59,35 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 Reply-to: BALATON Zoltan <balaton@eik.bme.hu>
 From: BALATON Zoltan via <qemu-devel@nongnu.org>
 
-Accidentally the wrong version of this series was committed, this
-series fixes that up to the last version that was meant to be merged.
+Use the PCI_BUS type cast macro to convert result of
+qdev_get_child_bus(). Also remove the check for NULL afterwards which
+should not be needed because sysbus_create_simple() uses error_abort
+and PCI_BUS macro also checks its argument by default so this
+shouldn't fail here.
 
-BALATON Zoltan (3):
-  Revert "sam460ex: Remove FDT_PPC dependency from KConfig"
-  Revert "ppc4xx: Move common dependency on serial to common option"
-  sam460ex: Use type cast macro instead of simple cast
-
- hw/ppc/Kconfig    | 6 +++++-
+Signed-off-by: BALATON Zoltan <balaton@eik.bme.hu>
+---
  hw/ppc/sam460ex.c | 7 ++-----
- 2 files changed, 7 insertions(+), 6 deletions(-)
+ 1 file changed, 2 insertions(+), 5 deletions(-)
 
+diff --git a/hw/ppc/sam460ex.c b/hw/ppc/sam460ex.c
+index 14e6583eb0..cc67e9c39b 100644
+--- a/hw/ppc/sam460ex.c
++++ b/hw/ppc/sam460ex.c
+@@ -384,11 +384,8 @@ static void sam460ex_init(MachineState *machine)
+     ppc460ex_pcie_init(env);
+     /* All PCI irqs are connected to the same UIC pin (cf. UBoot source) */
+     dev = sysbus_create_simple("ppc440-pcix-host", 0xc0ec00000, uic[1][0]);
+-    pci_bus = (PCIBus *)qdev_get_child_bus(dev, "pci.0");
+-    if (!pci_bus) {
+-        error_report("couldn't create PCI controller!");
+-        exit(1);
+-    }
++    pci_bus = PCI_BUS(qdev_get_child_bus(dev, "pci.0"));
++
+     memory_region_init_alias(isa, NULL, "isa_mmio", get_system_io(),
+                              0, 0x10000);
+     memory_region_add_subregion(get_system_memory(), 0xc08000000, isa);
 -- 
 2.21.3
 
