@@ -2,51 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0858E2EC5C9
-	for <lists+qemu-devel@lfdr.de>; Wed,  6 Jan 2021 22:35:43 +0100 (CET)
-Received: from localhost ([::1]:54916 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 338A62EC5E1
+	for <lists+qemu-devel@lfdr.de>; Wed,  6 Jan 2021 22:47:07 +0100 (CET)
+Received: from localhost ([::1]:43748 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kxGT0-0001fO-2H
-	for lists+qemu-devel@lfdr.de; Wed, 06 Jan 2021 16:35:42 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57714)
+	id 1kxGe2-00012H-0t
+	for lists+qemu-devel@lfdr.de; Wed, 06 Jan 2021 16:47:06 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60240)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
- id 1kxGMW-0002r0-Sf
- for qemu-devel@nongnu.org; Wed, 06 Jan 2021 16:29:00 -0500
-Received: from zero.eik.bme.hu ([152.66.115.2]:22456)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
- id 1kxGMO-0001j2-If
- for qemu-devel@nongnu.org; Wed, 06 Jan 2021 16:29:00 -0500
-Received: from zero.eik.bme.hu (blah.eik.bme.hu [152.66.115.182])
- by localhost (Postfix) with SMTP id 45BB3747100;
- Wed,  6 Jan 2021 22:28:51 +0100 (CET)
-Received: by zero.eik.bme.hu (Postfix, from userid 432)
- id 16A167470F5; Wed,  6 Jan 2021 22:28:51 +0100 (CET)
-Message-Id: <00e13d203010a8e2b9b995df4675ce5df184025e.1609967638.git.balaton@eik.bme.hu>
-In-Reply-To: <cover.1609967638.git.balaton@eik.bme.hu>
-References: <cover.1609967638.git.balaton@eik.bme.hu>
-From: BALATON Zoltan <balaton@eik.bme.hu>
-Subject: [PATCH 01/12] vt82c686: Move superio memory region to SuperIOConfig
- struct
-Date: Wed, 06 Jan 2021 22:13:58 +0100
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1kxGco-0000Zm-B3
+ for qemu-devel@nongnu.org; Wed, 06 Jan 2021 16:45:50 -0500
+Received: from indium.canonical.com ([91.189.90.7]:47958)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1kxGcm-0007Sr-CB
+ for qemu-devel@nongnu.org; Wed, 06 Jan 2021 16:45:50 -0500
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1kxGcj-0007XY-Nm
+ for <qemu-devel@nongnu.org>; Wed, 06 Jan 2021 21:45:45 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id B31B92E8135
+ for <qemu-devel@nongnu.org>; Wed,  6 Jan 2021 21:45:45 +0000 (UTC)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Date: Wed, 06 Jan 2021 21:37:39 -0000
+From: Snoobz <1909921@bugs.launchpad.net>
 To: qemu-devel@nongnu.org
-X-Spam-Probability: 8%
-Received-SPF: pass client-ip=152.66.115.2; envelope-from=balaton@eik.bme.hu;
- helo=zero.eik.bme.hu
-X-Spam_score_int: -41
-X-Spam_score: -4.2
-X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
+X-Launchpad-Bug-Tags: arm linux-user vcpu
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: ajbennee snoobz
+X-Launchpad-Bug-Reporter: Snoobz (snoobz)
+X-Launchpad-Bug-Modifier: Snoobz (snoobz)
+References: <160969474752.18413.12452840655391947769.malonedeb@gac.canonical.com>
+Message-Id: <160996905949.5732.17050028532419763473.malone@chaenomeles.canonical.com>
+Subject: [Bug 1909921] Re: Raspberry Pi 4 qemu:handle_cpu_signal received
+ signal outside vCPU context @ pc=0xffff87709b0e
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="34b3ffd45c9543b7f7aa5aa313925241e9e7ca3f"; Instance="production"
+X-Launchpad-Hash: 1b34bfc7502f1227d5bb5bdcef8fa074f8457684
+Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
+ helo=indium.canonical.com
+X-Spam_score_int: -65
+X-Spam_score: -6.6
+X-Spam_bar: ------
+X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9,
+ HEADER_FROM_DIFFERENT_DOMAINS=0.249, RCVD_IN_DNSWL_HI=-5,
+ RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -55,73 +71,59 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Huacai Chen <chenhuacai@kernel.org>, f4bug@amsat.org
+Reply-To: Bug 1909921 <1909921@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The superio memory region holds the io space index/data registers used
-to access the superio config registers that are implemented in struct
-SuperIOConfig. To keep these related things together move the memory
-region to SuperIOConfig and rename it accordingly.
-Also remove the unused "data" member of SuperIOConfig which is not
-needed as we store actual data values in the regs array.
+Hello,
 
-Signed-off-by: BALATON Zoltan <balaton@eik.bme.hu>
----
- hw/isa/vt82c686.c | 16 ++++++++--------
- 1 file changed, 8 insertions(+), 8 deletions(-)
+Can I get any help please?
 
-diff --git a/hw/isa/vt82c686.c b/hw/isa/vt82c686.c
-index a6f5a0843d..30fe02f4c6 100644
---- a/hw/isa/vt82c686.c
-+++ b/hw/isa/vt82c686.c
-@@ -29,12 +29,11 @@
- typedef struct SuperIOConfig {
-     uint8_t regs[0x100];
-     uint8_t index;
--    uint8_t data;
-+    MemoryRegion io;
- } SuperIOConfig;
- 
- struct VT82C686BISAState {
-     PCIDevice dev;
--    MemoryRegion superio;
-     SuperIOConfig superio_cfg;
- };
- 
-@@ -128,8 +127,9 @@ static void vt82c686b_write_config(PCIDevice *d, uint32_t addr,
- 
-     trace_via_isa_write(addr, val, len);
-     pci_default_write_config(d, addr, val, len);
--    if (addr == 0x85) {  /* enable or disable super IO configure */
--        memory_region_set_enabled(&s->superio, val & 0x2);
-+    if (addr == 0x85) {
-+        /* BIT(1): enable or disable superio config io ports */
-+        memory_region_set_enabled(&s->superio_cfg.io, val & BIT(1));
-     }
- }
- 
-@@ -311,15 +311,15 @@ static void vt82c686b_realize(PCIDevice *d, Error **errp)
-         }
-     }
- 
--    memory_region_init_io(&s->superio, OBJECT(d), &superio_cfg_ops,
--                          &s->superio_cfg, "superio", 2);
--    memory_region_set_enabled(&s->superio, false);
-+    memory_region_init_io(&s->superio_cfg.io, OBJECT(d), &superio_cfg_ops,
-+                          &s->superio_cfg, "superio_cfg", 2);
-+    memory_region_set_enabled(&s->superio_cfg.io, false);
-     /*
-      * The floppy also uses 0x3f0 and 0x3f1.
-      * But we do not emulate a floppy, so just set it here.
-      */
-     memory_region_add_subregion(isa_bus->address_space_io, 0x3f0,
--                                &s->superio);
-+                                &s->superio_cfg.io);
- }
- 
- static void via_class_init(ObjectClass *klass, void *data)
--- 
-2.21.3
+Thank you.
 
+Regards,
+
+-- =
+
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1909921
+
+Title:
+   Raspberry Pi 4 qemu:handle_cpu_signal received signal outside vCPU
+  context @ pc=3D0xffff87709b0e
+
+Status in QEMU:
+  New
+
+Bug description:
+  Hello,
+
+  I have a Raspberry Pi 4 with an ESXi hypervisor installed on it (ESXi ARM=
+ Edition).
+  I created a CentOS 7 VM on it and I'm using a Docker container which is r=
+unning qemu inside it.
+
+  This container is a Debian Bullseye OS and I'm using qemu-i386 to start m=
+y application inside it.
+  The error given by qemu is the following :
+
+  qemu:handle_cpu_signal received signal outside vCPU context @ pc=3D0xffff=
+9d5f9b0e
+  qemu:handle_cpu_signal received signal outside vCPU context @ pc=3D0xffff=
+82f29b0e
+
+  (The pc=3D value is always different, I guess it is randomly generated).
+
+  My qemu version is : qemu-i386 version 5.1.0 (Debian 1:5.1+dfsg-4+b1)
+
+  Could you please help me? Why am I facing this error?
+
+  Feel free to ask any questions regarding this matter in order to find
+  a solution to it!
+
+  Regards
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1909921/+subscriptions
 
