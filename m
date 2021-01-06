@@ -2,30 +2,28 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9B5262EC077
-	for <lists+qemu-devel@lfdr.de>; Wed,  6 Jan 2021 16:35:22 +0100 (CET)
-Received: from localhost ([::1]:56726 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 410F12EC069
+	for <lists+qemu-devel@lfdr.de>; Wed,  6 Jan 2021 16:32:47 +0100 (CET)
+Received: from localhost ([::1]:49224 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kxAqD-0000jy-Ov
-	for lists+qemu-devel@lfdr.de; Wed, 06 Jan 2021 10:35:17 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35418)
+	id 1kxAnm-00061v-7P
+	for lists+qemu-devel@lfdr.de; Wed, 06 Jan 2021 10:32:46 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35434)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
- id 1kxAkQ-0003ul-V0; Wed, 06 Jan 2021 10:29:22 -0500
-Received: from zero.eik.bme.hu ([152.66.115.2]:13309)
+ id 1kxAkU-0003vL-En; Wed, 06 Jan 2021 10:29:25 -0500
+Received: from zero.eik.bme.hu ([152.66.115.2]:13311)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
- id 1kxAkM-00032i-2f; Wed, 06 Jan 2021 10:29:18 -0500
+ id 1kxAkM-00032j-25; Wed, 06 Jan 2021 10:29:22 -0500
 Received: from zero.eik.bme.hu (blah.eik.bme.hu [152.66.115.182])
- by localhost (Postfix) with SMTP id 7AD917470F1;
+ by localhost (Postfix) with SMTP id 73B337470EC;
  Wed,  6 Jan 2021 16:29:11 +0100 (CET)
 Received: by zero.eik.bme.hu (Postfix, from userid 432)
- id EF20D7470E4; Wed,  6 Jan 2021 16:29:10 +0100 (CET)
-Message-Id: <75c7ee59f8ba0b92ab0c69431c93fec615ab840a.1609946641.git.balaton@eik.bme.hu>
-In-Reply-To: <cover.1609946641.git.balaton@eik.bme.hu>
-References: <cover.1609946641.git.balaton@eik.bme.hu>
-Subject: [PATCH 1/3] Revert "sam460ex: Remove FDT_PPC dependency from KConfig"
+ id E98717470E2; Wed,  6 Jan 2021 16:29:10 +0100 (CET)
+Message-Id: <cover.1609946641.git.balaton@eik.bme.hu>
+Subject: [PATCH 0/3] Fix up sam460ex fixes
 Date: Wed, 06 Jan 2021 16:24:01 +0100
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
@@ -59,27 +57,18 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 Reply-to: BALATON Zoltan <balaton@eik.bme.hu>
 From: BALATON Zoltan via <qemu-devel@nongnu.org>
 
-This reverts commit 038da2adf that was mistakenly added, this
-dependency is still needed to get libfdt dependencies even if fdt.o is
-not needed by sam460ex.
+Accidentally the wrong version of this series was committed, this
+series fixes that up to the last version that was meant to be merged.
 
-Signed-off-by: BALATON Zoltan <balaton@eik.bme.hu>
----
- hw/ppc/Kconfig | 1 +
- 1 file changed, 1 insertion(+)
+BALATON Zoltan (3):
+  Revert "sam460ex: Remove FDT_PPC dependency from KConfig"
+  Revert "ppc4xx: Move common dependency on serial to common option"
+  sam460ex: Use type cast macro instead of simple cast
 
-diff --git a/hw/ppc/Kconfig b/hw/ppc/Kconfig
-index 7e267d94a1..d2329edbab 100644
---- a/hw/ppc/Kconfig
-+++ b/hw/ppc/Kconfig
-@@ -64,6 +64,7 @@ config SAM460EX
-     select SMBUS_EEPROM
-     select USB_EHCI_SYSBUS
-     select USB_OHCI
-+    select FDT_PPC
- 
- config PREP
-     bool
+ hw/ppc/Kconfig    | 6 +++++-
+ hw/ppc/sam460ex.c | 7 ++-----
+ 2 files changed, 7 insertions(+), 6 deletions(-)
+
 -- 
 2.21.3
 
