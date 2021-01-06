@@ -2,82 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DE04D2EC207
-	for <lists+qemu-devel@lfdr.de>; Wed,  6 Jan 2021 18:23:13 +0100 (CET)
-Received: from localhost ([::1]:46394 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A673F2EC216
+	for <lists+qemu-devel@lfdr.de>; Wed,  6 Jan 2021 18:26:00 +0100 (CET)
+Received: from localhost ([::1]:52116 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kxCWf-0007ZN-14
-	for lists+qemu-devel@lfdr.de; Wed, 06 Jan 2021 12:23:13 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38624)
+	id 1kxCZL-0001ab-Fo
+	for lists+qemu-devel@lfdr.de; Wed, 06 Jan 2021 12:25:59 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39304)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1kxCV5-0006m6-W9
- for qemu-devel@nongnu.org; Wed, 06 Jan 2021 12:21:36 -0500
-Received: from mail-wm1-x32e.google.com ([2a00:1450:4864:20::32e]:52735)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1kxCV4-0000dL-Gk
- for qemu-devel@nongnu.org; Wed, 06 Jan 2021 12:21:35 -0500
-Received: by mail-wm1-x32e.google.com with SMTP id a6so3026243wmc.2
- for <qemu-devel@nongnu.org>; Wed, 06 Jan 2021 09:21:34 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=IiiDwWiLbjtQVq834bnOVeGf4B3XEfTJEzMtjDivp2I=;
- b=NiP23SmjZjP72NAvrz1sC5M3uUT0tjIr1dZ7dB9o2DyEq0z6kuXSw1MfFwf440MmLW
- 1kWLwCAFDis8Ab8DaZKumAlS9AZCwXnPjF7pF6ThiSpDzDGNgf1tHwlUZQJQLeVjycKM
- iv2SDRfneV/Z9kk4IfskbHoqQEJ1vCovkfwKUcTcCFEg3FIIFojSQO98WbAxxd2GnKXc
- fS4+SWpvW299AtR/kow5fyLGozWJsWkJLeTBj3CK3Jl8NcLhzXKi313SuqBoKvD3Qc3o
- LMefIizs5zXhosCO+8Ddmjjx3YhFG7s7afRi+rZAWIFCTv9/KzNTdU4gwoDUMHl4DBca
- HPDg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
- :date:user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=IiiDwWiLbjtQVq834bnOVeGf4B3XEfTJEzMtjDivp2I=;
- b=szC16s6iEFfh4GbkIiURffE8cXIIzOsDKO30vAfX5YYc7AGG7OwnGKbxp8yHPW6qoE
- MWCmdKYiKqjAJQzdV5mxlo7FUhkfr96Ouo3z9yu637hGgP3MxFpvHdAkl8s5zZ+yTO0F
- CjlB18hf15Pvh8oQ/1U7NABMOlpegxn/lfozoZceNdmZ+5YvS77wad5LMsapTmGJiqdg
- URN10+mD5uw/1Nxd3NEnAUyeBlr8sAYyztMTMjp7pSB88k2p9iZwTf6l2YA3TeeuiU5b
- 0HRuWfEqpXV0HsB39b8LWfEZNRMQYlftitzv+A0rBqxQf1K5Hdzx1mMocR5rsDkOKkQJ
- Q2vg==
-X-Gm-Message-State: AOAM530gzxOEBeQtWgyO/3iPLi3pxky8v8MKgg6yXhxpGuvV1kpkoMnm
- KkfK0xe6RO2aaqGA1eK084UliiLgY1c=
-X-Google-Smtp-Source: ABdhPJxLX0Voipkdovz57/YgGIvdY1N49rqKMHrzUH1TpN1YuWlrrjRkNecpaCic3pHIZAciR5VEZQ==
-X-Received: by 2002:a7b:c7c8:: with SMTP id z8mr4562394wmk.87.1609953693179;
- Wed, 06 Jan 2021 09:21:33 -0800 (PST)
-Received: from [192.168.1.36] (241.red-88-10-103.dynamicip.rima-tde.net.
- [88.10.103.241])
- by smtp.gmail.com with ESMTPSA id h4sm3814332wrt.65.2021.01.06.09.21.31
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 06 Jan 2021 09:21:32 -0800 (PST)
-Subject: Re: [PATCH v2 7/8] hw/mips/malta: Use bootloader helper to set BAR
- resgiters
-To: Jiaxun Yang <jiaxun.yang@flygoat.com>, qemu-devel@nongnu.org
-References: <20201215064200.28751-1-jiaxun.yang@flygoat.com>
- <20201215064507.30148-4-jiaxun.yang@flygoat.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
-Message-ID: <df669ac3-33ce-b654-0988-54afe31cd3d9@amsat.org>
-Date: Wed, 6 Jan 2021 18:21:31 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.6.0
+ (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
+ id 1kxCYR-0000rX-1U
+ for qemu-devel@nongnu.org; Wed, 06 Jan 2021 12:25:03 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:43119)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
+ id 1kxCYM-0000qO-P2
+ for qemu-devel@nongnu.org; Wed, 06 Jan 2021 12:25:02 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1609953898;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=lGoqVbaaQrlJ9WAHXAZMDQbjtsIefvSBaNkWxn9hr6E=;
+ b=bxjpPe0NeKsDu/TfJHGIZHnPga76rdwst8/P4iy5S2TjpzM5RSiokO5n4BBTB3azfwz/IJ
+ 8eb5bl+rVJdrVfoq/JpNFQ8RO0yW19CdwprFQz8ty9ZQwA4eIevR67IVb5CKah3jh45Ggc
+ 4mVXFHQn/8iVQ3GPrUNTIu9LSOxGtUM=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-105-Jtg0HOSwPiKuloQvfaQiEQ-1; Wed, 06 Jan 2021 12:24:54 -0500
+X-MC-Unique: Jtg0HOSwPiKuloQvfaQiEQ-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 014E0107ACE3;
+ Wed,  6 Jan 2021 17:24:52 +0000 (UTC)
+Received: from localhost (unknown [10.40.208.13])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 2F39619C66;
+ Wed,  6 Jan 2021 17:24:31 +0000 (UTC)
+Date: Wed, 6 Jan 2021 18:24:30 +0100
+From: Igor Mammedov <imammedo@redhat.com>
+To: Marian Posteuca <posteuca@mutex.one>
+Subject: Re: [PATCH v3] acpi: Permit OEM ID and OEM table ID fields to be
+ changed
+Message-ID: <20210106182430.6bf1823a@redhat.com>
+In-Reply-To: <20201230221302.26800-1-posteuca@mutex.one>
+References: <20201230221302.26800-1-posteuca@mutex.one>
 MIME-Version: 1.0
-In-Reply-To: <20201215064507.30148-4-jiaxun.yang@flygoat.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::32e;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x32e.google.com
-X-Spam_score_int: -17
-X-Spam_score: -1.8
-X-Spam_bar: -
-X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249, NICE_REPLY_A=-0.249,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=imammedo@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=imammedo@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -29
+X-Spam_score: -3.0
+X-Spam_bar: ---
+X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.252,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -90,18 +79,1362 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: chenhuacai@kernel.org, paulburton@kernel.org
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ Eduardo Habkost <ehabkost@redhat.com>, Sergio Lopez <slp@redhat.com>,
+ "Michael S. Tsirkin" <mst@redhat.com>, Ben Warren <ben@skyportsystems.com>,
+ Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org,
+ Dongjiu Geng <gengdongjiu@huawei.com>, Shannon Zhao <shannon.zhaosl@gmail.com>,
+ Xiang Zheng <zhengxiang9@huawei.com>, qemu-arm@nongnu.org,
+ Paolo Bonzini <pbonzini@redhat.com>,
+ Xiao Guangrong <xiaoguangrong.eric@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 12/15/20 7:45 AM, Jiaxun Yang wrote:
-> Translate embedded assembly into IO writes which is more
-> readable.
-> 
-> Signed-off-by: Jiaxun Yang <jiaxun.yang@flygoat.com>
-> ---
->  hw/mips/malta.c | 68 ++++++++++++++-----------------------------------
->  1 file changed, 19 insertions(+), 49 deletions(-)
+On Thu, 31 Dec 2020 00:13:01 +0200
+Marian Posteuca <posteuca@mutex.one> wrote:
 
-Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+> Qemu's ACPI table generation sets the fields OEM ID and OEM table ID
+> to "BOCHS " and "BXPCxxxx" where "xxxx" is replaced by the ACPI
+> table name.
+>=20
+> Some games like Red Dead Redemption 2 seem to check the ACPI OEM ID
+> and OEM table ID for the strings "BOCHS" and "BXPC" and if they are
+> found, the game crashes(this may be an intentional detection
+> mechanism to prevent playing the game in a virtualized environment).
+>=20
+> This patch allows you to override these default values.
+>=20
+> The feature can be used in this manner:
+> qemu -machine oem-id=3DABCDEF,oem-table-id=3DGHIJKLMN
+>=20
+> The oem-id string can be up to 6 bytes in size, and the
+> oem-table-id string can be up to 8 bytes in size. If the string are
+> smaller than their respective sizes they will be padded with space.
+> If either of these parameters is not set, the current default values
+> will be used for the one missing.
+>=20
+> Note that the the OEM Table ID field will not be extended with the
+> name of the table, but will use either the default name or the user
+> provided one.
+>=20
+> This does not affect the -acpitable option (for user-defined ACPI
+> tables), which has precedence over -machine option.
+
+overall looks good.
+Please add a test case for it, see
+tests/qtest/bios-tables-test.c for description how to do it
+an/or at
+  "[PATCH v3 08/12] tests/acpi: allow updates for expected data files"
+and follow up patches on the list.
+
+Other than that, only my nitpicking below remains.
+
+>=20
+> Signed-off-by: Marian Posteuca <posteuca@mutex.one>
+
+PS:
+here under ---
+should be changelog if it's not v1
+
+> ---
+>  hw/acpi/hmat.h              |  3 +-
+>  hw/i386/acpi-common.h       |  3 +-
+>  include/hw/acpi/acpi-defs.h |  2 +-
+>  include/hw/acpi/aml-build.h |  8 ++--
+>  include/hw/acpi/ghes.h      |  3 +-
+>  include/hw/acpi/pci.h       |  3 +-
+>  include/hw/acpi/vmgenid.h   |  2 +-
+>  include/hw/arm/virt.h       |  2 +
+>  include/hw/i386/microvm.h   |  4 ++
+>  include/hw/i386/pc.h        |  5 ++-
+>  include/hw/mem/nvdimm.h     |  3 +-
+>  hw/acpi/aml-build.c         | 43 +++++++++++--------
+>  hw/acpi/ghes.c              |  5 ++-
+>  hw/acpi/hmat.c              |  5 ++-
+>  hw/acpi/nvdimm.c            | 18 +++++---
+>  hw/acpi/pci.c               |  5 ++-
+>  hw/acpi/vmgenid.c           |  4 +-
+>  hw/arm/virt-acpi-build.c    | 40 +++++++++++------
+>  hw/arm/virt.c               | 57 ++++++++++++++++++++++++
+>  hw/i386/acpi-build.c        | 86 +++++++++++++++++++++++++------------
+>  hw/i386/acpi-common.c       |  5 ++-
+>  hw/i386/acpi-microvm.c      | 13 +++---
+>  hw/i386/microvm.c           | 60 ++++++++++++++++++++++++++
+>  hw/i386/pc.c                | 58 +++++++++++++++++++++++++
+>  24 files changed, 344 insertions(+), 93 deletions(-)
+>=20
+> diff --git a/hw/acpi/hmat.h b/hw/acpi/hmat.h
+> index e9031cac01..b57f0e7e80 100644
+> --- a/hw/acpi/hmat.h
+> +++ b/hw/acpi/hmat.h
+> @@ -37,6 +37,7 @@
+>   */
+>  #define HMAT_PROXIMITY_INITIATOR_VALID  0x1
+> =20
+> -void build_hmat(GArray *table_data, BIOSLinker *linker, NumaState *numa_=
+state);
+> +void build_hmat(GArray *table_data, BIOSLinker *linker, NumaState *numa_=
+state,
+> +                const char *oem_id, const char *oem_table_id);
+> =20
+>  #endif
+> diff --git a/hw/i386/acpi-common.h b/hw/i386/acpi-common.h
+> index c30e461f18..b12cd73ea5 100644
+> --- a/hw/i386/acpi-common.h
+> +++ b/hw/i386/acpi-common.h
+> @@ -9,6 +9,7 @@
+>  #define ACPI_BUILD_IOAPIC_ID 0x0
+> =20
+>  void acpi_build_madt(GArray *table_data, BIOSLinker *linker,
+> -                     X86MachineState *x86ms, AcpiDeviceIf *adev);
+> +                     X86MachineState *x86ms, AcpiDeviceIf *adev,
+> +                     const char *oem_id, const char *oem_table_id);
+> =20
+>  #endif
+> diff --git a/include/hw/acpi/acpi-defs.h b/include/hw/acpi/acpi-defs.h
+> index 38a42f409a..cf9f44299c 100644
+> --- a/include/hw/acpi/acpi-defs.h
+> +++ b/include/hw/acpi/acpi-defs.h
+> @@ -41,7 +41,7 @@ enum {
+>  };
+> =20
+>  typedef struct AcpiRsdpData {
+> -    uint8_t oem_id[6] QEMU_NONSTRING; /* OEM identification */
+> +    char *oem_id;                     /* OEM identification */
+>      uint8_t revision;                 /* Must be 0 for 1.0, 2 for 2.0 */
+> =20
+>      unsigned *rsdt_tbl_offset;
+> diff --git a/include/hw/acpi/aml-build.h b/include/hw/acpi/aml-build.h
+> index e727bea1bc..e22983bba1 100644
+> --- a/include/hw/acpi/aml-build.h
+> +++ b/include/hw/acpi/aml-build.h
+> @@ -8,7 +8,7 @@
+>  #define ACPI_BUILD_TABLE_MAX_SIZE         0x200000
+> =20
+>  #define ACPI_BUILD_APPNAME6 "BOCHS "
+> -#define ACPI_BUILD_APPNAME4 "BXPC"
+> +#define ACPI_BUILD_APPNAME8 "BXPC    "
+> =20
+>  #define ACPI_BUILD_TABLE_FILE "etc/acpi/tables"
+>  #define ACPI_BUILD_RSDP_FILE "etc/acpi/rsdp"
+> @@ -457,10 +457,12 @@ Aml *build_crs(PCIHostState *host, CrsRangeSet *ran=
+ge_set);
+>  void build_srat_memory(AcpiSratMemoryAffinity *numamem, uint64_t base,
+>                         uint64_t len, int node, MemoryAffinityFlags flags=
+);
+> =20
+> -void build_slit(GArray *table_data, BIOSLinker *linker, MachineState *ms=
+);
+> +void build_slit(GArray *table_data, BIOSLinker *linker, MachineState *ms=
+,
+> +                const char *oem_id, const char *oem_table_id);
+> =20
+>  void build_fadt(GArray *tbl, BIOSLinker *linker, const AcpiFadtData *f,
+>                  const char *oem_id, const char *oem_table_id);
+> =20
+> -void build_tpm2(GArray *table_data, BIOSLinker *linker, GArray *tcpalog)=
+;
+> +void build_tpm2(GArray *table_data, BIOSLinker *linker, GArray *tcpalog,
+> +                const char *oem_id, const char *oem_table_id);
+>  #endif
+> diff --git a/include/hw/acpi/ghes.h b/include/hw/acpi/ghes.h
+> index 4ad025e09a..2ae8bc1ded 100644
+> --- a/include/hw/acpi/ghes.h
+> +++ b/include/hw/acpi/ghes.h
+> @@ -67,7 +67,8 @@ typedef struct AcpiGhesState {
+>  } AcpiGhesState;
+> =20
+>  void build_ghes_error_table(GArray *hardware_errors, BIOSLinker *linker)=
+;
+> -void acpi_build_hest(GArray *table_data, BIOSLinker *linker);
+> +void acpi_build_hest(GArray *table_data, BIOSLinker *linker,
+> +                     const char *oem_id, const char *oem_table_id);
+>  void acpi_ghes_add_fw_cfg(AcpiGhesState *vms, FWCfgState *s,
+>                            GArray *hardware_errors);
+>  int acpi_ghes_record_errors(uint8_t notify, uint64_t error_physical_addr=
+);
+> diff --git a/include/hw/acpi/pci.h b/include/hw/acpi/pci.h
+> index bf2a3ed0ba..e514f179d8 100644
+> --- a/include/hw/acpi/pci.h
+> +++ b/include/hw/acpi/pci.h
+> @@ -33,5 +33,6 @@ typedef struct AcpiMcfgInfo {
+>      uint32_t size;
+>  } AcpiMcfgInfo;
+> =20
+> -void build_mcfg(GArray *table_data, BIOSLinker *linker, AcpiMcfgInfo *in=
+fo);
+> +void build_mcfg(GArray *table_data, BIOSLinker *linker, AcpiMcfgInfo *in=
+fo,
+> +                const char *oem_id, const char *oem_table_id);
+>  #endif
+> diff --git a/include/hw/acpi/vmgenid.h b/include/hw/acpi/vmgenid.h
+> index cb4ad37fc5..dc8bb3433e 100644
+> --- a/include/hw/acpi/vmgenid.h
+> +++ b/include/hw/acpi/vmgenid.h
+> @@ -31,7 +31,7 @@ static inline Object *find_vmgenid_dev(void)
+>  }
+> =20
+>  void vmgenid_build_acpi(VmGenIdState *vms, GArray *table_data, GArray *g=
+uid,
+> -                        BIOSLinker *linker);
+> +                        BIOSLinker *linker, const char *oem_id);
+>  void vmgenid_add_fw_cfg(VmGenIdState *vms, FWCfgState *s, GArray *guid);
+> =20
+>  #endif
+> diff --git a/include/hw/arm/virt.h b/include/hw/arm/virt.h
+> index abf54fab49..bba87ab6a3 100644
+> --- a/include/hw/arm/virt.h
+> +++ b/include/hw/arm/virt.h
+> @@ -164,6 +164,8 @@ struct VirtMachineState {
+>      DeviceState *acpi_dev;
+>      Notifier powerdown_notifier;
+>      PCIBus *bus;
+> +    char *oem_id;
+> +    char *oem_table_id;
+>  };
+> =20
+>  #define VIRT_ECAM_ID(high) (high ? VIRT_HIGH_PCIE_ECAM : VIRT_PCIE_ECAM)
+> diff --git a/include/hw/i386/microvm.h b/include/hw/i386/microvm.h
+> index f25f837441..372b05774e 100644
+> --- a/include/hw/i386/microvm.h
+> +++ b/include/hw/i386/microvm.h
+> @@ -76,6 +76,8 @@
+>  #define MICROVM_MACHINE_ISA_SERIAL          "isa-serial"
+>  #define MICROVM_MACHINE_OPTION_ROMS         "x-option-roms"
+>  #define MICROVM_MACHINE_AUTO_KERNEL_CMDLINE "auto-kernel-cmdline"
+> +#define MICROVM_MACHINE_OEM_ID              "oem-id"
+> +#define MICROVM_MACHINE_OEM_TABLE_ID        "oem-table-id"
+> =20
+>  struct MicrovmMachineClass {
+>      X86MachineClass parent;
+> @@ -104,6 +106,8 @@ struct MicrovmMachineState {
+>      Notifier machine_done;
+>      Notifier powerdown_req;
+>      struct GPEXConfig gpex;
+> +    char *oem_id;
+> +    char *oem_table_id;
+>  };
+> =20
+>  #define TYPE_MICROVM_MACHINE   MACHINE_TYPE_NAME("microvm")
+> diff --git a/include/hw/i386/pc.h b/include/hw/i386/pc.h
+> index 2aa8797c6e..5f93540a43 100644
+> --- a/include/hw/i386/pc.h
+> +++ b/include/hw/i386/pc.h
+> @@ -45,6 +45,8 @@ typedef struct PCMachineState {
+>      bool pit_enabled;
+>      bool hpet_enabled;
+>      uint64_t max_fw_size;
+> +    char *oem_id;
+> +    char *oem_table_id;
+> =20
+>      /* NUMA information: */
+>      uint64_t numa_nodes;
+> @@ -62,7 +64,8 @@ typedef struct PCMachineState {
+>  #define PC_MACHINE_SATA             "sata"
+>  #define PC_MACHINE_PIT              "pit"
+>  #define PC_MACHINE_MAX_FW_SIZE      "max-fw-size"
+> -
+> +#define PC_MACHINE_OEM_ID           "oem-id"
+> +#define PC_MACHINE_OEM_TABLE_ID     "oem-table-id"
+>  /**
+>   * PCMachineClass:
+>   *
+> diff --git a/include/hw/mem/nvdimm.h b/include/hw/mem/nvdimm.h
+> index c699842dd0..bcf62f825c 100644
+> --- a/include/hw/mem/nvdimm.h
+> +++ b/include/hw/mem/nvdimm.h
+> @@ -154,7 +154,8 @@ void nvdimm_init_acpi_state(NVDIMMState *state, Memor=
+yRegion *io,
+>  void nvdimm_build_srat(GArray *table_data);
+>  void nvdimm_build_acpi(GArray *table_offsets, GArray *table_data,
+>                         BIOSLinker *linker, NVDIMMState *state,
+> -                       uint32_t ram_slots);
+> +                       uint32_t ram_slots, const char *oem_id,
+> +                       const char *oem_table_id);
+>  void nvdimm_plug(NVDIMMState *state);
+>  void nvdimm_acpi_plug_cb(HotplugHandler *hotplug_dev, DeviceState *dev);
+>  #endif
+> diff --git a/hw/acpi/aml-build.c b/hw/acpi/aml-build.c
+> index f976aa667b..7e1fb0020f 100644
+> --- a/hw/acpi/aml-build.c
+> +++ b/hw/acpi/aml-build.c
+> @@ -1663,6 +1663,16 @@ Aml *aml_object_type(Aml *object)
+>      return var;
+>  }
+> =20
+> +static void copy_pad_field(void *dst, const char *src, size_t dst_size)
+
+why not reuse strpadcpy()
+
+> +{
+> +    size_t copy_size;
+> +
+> +    g_assert(src);
+> +    copy_size =3D MIN(strlen(src), dst_size);
+> +    memset(dst, 0x20, dst_size);
+> +    memcpy(dst, src, copy_size);
+> +}
+> +
+>  void
+>  build_header(BIOSLinker *linker, GArray *table_data,
+>               AcpiTableHeader *h, const char *sig, int len, uint8_t rev,
+> @@ -1670,25 +1680,19 @@ build_header(BIOSLinker *linker, GArray *table_da=
+ta,
+>  {
+>      unsigned tbl_offset =3D (char *)h - table_data->data;
+>      unsigned checksum_offset =3D (char *)&h->checksum - table_data->data=
+;
+> -    memcpy(&h->signature, sig, 4);
+I wouldn't touch unrelated to oem_[table_]id fields in this patch.
+If you want to do that for consistency, it should be a separate patch
+
+> +
+> +    copy_pad_field(&h->signature, sig, sizeof h->signature);
+> +
+>      h->length =3D cpu_to_le32(len);
+>      h->revision =3D rev;
+> =20
+> -    if (oem_id) {
+> -        strncpy((char *)h->oem_id, oem_id, sizeof h->oem_id);
+> -    } else {
+> -        memcpy(h->oem_id, ACPI_BUILD_APPNAME6, 6);
+> -    }
+> -
+> -    if (oem_table_id) {
+> -        strncpy((char *)h->oem_table_id, oem_table_id, sizeof(h->oem_tab=
+le_id));
+> -    } else {
+> -        memcpy(h->oem_table_id, ACPI_BUILD_APPNAME4, 4);
+> -        memcpy(h->oem_table_id + 4, sig, 4);
+> -    }
+> +    copy_pad_field(h->oem_id, oem_id, sizeof h->oem_id);
+> +    copy_pad_field(h->oem_table_id, oem_table_id, sizeof h->oem_table_id=
+);
+> =20
+>      h->oem_revision =3D cpu_to_le32(1);
+> -    memcpy(h->asl_compiler_id, ACPI_BUILD_APPNAME4, 4);
+> +
+> +    copy_pad_field(h->asl_compiler_id, oem_table_id, sizeof h->asl_compi=
+ler_id);
+> +
+>      h->asl_compiler_revision =3D cpu_to_le32(1);
+>      /* Checksum to be filled in by Guest linker */
+>      bios_linker_loader_add_checksum(linker, ACPI_BUILD_TABLE_FILE,
+> @@ -1871,7 +1875,8 @@ void build_srat_memory(AcpiSratMemoryAffinity *numa=
+mem, uint64_t base,
+>   * ACPI spec 5.2.17 System Locality Distance Information Table
+>   * (Revision 2.0 or later)
+>   */
+> -void build_slit(GArray *table_data, BIOSLinker *linker, MachineState *ms=
+)
+> +void build_slit(GArray *table_data, BIOSLinker *linker, MachineState *ms=
+,
+> +                const char *oem_id, const char *oem_table_id)
+>  {
+>      int slit_start, i, j;
+>      slit_start =3D table_data->len;
+> @@ -1892,7 +1897,7 @@ void build_slit(GArray *table_data, BIOSLinker *lin=
+ker, MachineState *ms)
+>      build_header(linker, table_data,
+>                   (void *)(table_data->data + slit_start),
+>                   "SLIT",
+> -                 table_data->len - slit_start, 1, NULL, NULL);
+> +                 table_data->len - slit_start, 1, oem_id, oem_table_id);
+>  }
+> =20
+>  /* build rev1/rev3/rev5.1 FADT */
+> @@ -2024,7 +2029,8 @@ build_hdr:
+>   * table 7: TCG Hardware Interface Description Table Format for TPM 2.0
+>   * of TCG ACPI Specification, Family =E2=80=9C1.2=E2=80=9D and =E2=80=9C=
+2.0=E2=80=9D, Version 1.2, Rev 8
+>   */
+> -void build_tpm2(GArray *table_data, BIOSLinker *linker, GArray *tcpalog)
+> +void build_tpm2(GArray *table_data, BIOSLinker *linker, GArray *tcpalog,
+> +                const char *oem_id, const char *oem_table_id)
+>  {
+>      uint8_t start_method_params[12] =3D {};
+>      unsigned log_addr_offset, tpm2_start;
+> @@ -2073,7 +2079,8 @@ void build_tpm2(GArray *table_data, BIOSLinker *lin=
+ker, GArray *tcpalog)
+>                                     log_addr_offset, 8,
+>                                     ACPI_BUILD_TPMLOG_FILE, 0);
+>      build_header(linker, table_data,
+> -                 tpm2_ptr, "TPM2", table_data->len - tpm2_start, 4, NULL=
+, NULL);
+> +                 tpm2_ptr, "TPM2", table_data->len - tpm2_start, 4, oem_=
+id,
+> +                 oem_table_id);
+>  }
+> =20
+>  Aml *build_crs(PCIHostState *host, CrsRangeSet *range_set)
+> diff --git a/hw/acpi/ghes.c b/hw/acpi/ghes.c
+> index f0ee9f51ca..a4dac6bf15 100644
+> --- a/hw/acpi/ghes.c
+> +++ b/hw/acpi/ghes.c
+> @@ -359,7 +359,8 @@ static void build_ghes_v2(GArray *table_data, int sou=
+rce_id, BIOSLinker *linker)
+>  }
+> =20
+>  /* Build Hardware Error Source Table */
+> -void acpi_build_hest(GArray *table_data, BIOSLinker *linker)
+> +void acpi_build_hest(GArray *table_data, BIOSLinker *linker,
+> +                     const char *oem_id, const char *oem_table_id)
+>  {
+>      uint64_t hest_start =3D table_data->len;
+> =20
+> @@ -372,7 +373,7 @@ void acpi_build_hest(GArray *table_data, BIOSLinker *=
+linker)
+>      build_ghes_v2(table_data, ACPI_HEST_SRC_ID_SEA, linker);
+> =20
+>      build_header(linker, table_data, (void *)(table_data->data + hest_st=
+art),
+> -        "HEST", table_data->len - hest_start, 1, NULL, NULL);
+> +                 "HEST", table_data->len - hest_start, 1, oem_id, oem_ta=
+ble_id);
+>  }
+> =20
+>  void acpi_ghes_add_fw_cfg(AcpiGhesState *ags, FWCfgState *s,
+> diff --git a/hw/acpi/hmat.c b/hw/acpi/hmat.c
+> index 37806f7a06..edb3fd91b2 100644
+> --- a/hw/acpi/hmat.c
+> +++ b/hw/acpi/hmat.c
+> @@ -253,7 +253,8 @@ static void hmat_build_table_structs(GArray *table_da=
+ta, NumaState *numa_state)
+>      }
+>  }
+> =20
+> -void build_hmat(GArray *table_data, BIOSLinker *linker, NumaState *numa_=
+state)
+> +void build_hmat(GArray *table_data, BIOSLinker *linker, NumaState *numa_=
+state,
+> +                const char *oem_id, const char *oem_table_id)
+>  {
+>      int hmat_start =3D table_data->len;
+> =20
+> @@ -264,5 +265,5 @@ void build_hmat(GArray *table_data, BIOSLinker *linke=
+r, NumaState *numa_state)
+> =20
+>      build_header(linker, table_data,
+>                   (void *)(table_data->data + hmat_start),
+> -                 "HMAT", table_data->len - hmat_start, 2, NULL, NULL);
+> +                 "HMAT", table_data->len - hmat_start, 2, oem_id, oem_ta=
+ble_id);
+>  }
+> diff --git a/hw/acpi/nvdimm.c b/hw/acpi/nvdimm.c
+> index aa95b0cbaf..e3d5fe1939 100644
+> --- a/hw/acpi/nvdimm.c
+> +++ b/hw/acpi/nvdimm.c
+> @@ -402,7 +402,8 @@ void nvdimm_plug(NVDIMMState *state)
+>  }
+> =20
+>  static void nvdimm_build_nfit(NVDIMMState *state, GArray *table_offsets,
+> -                              GArray *table_data, BIOSLinker *linker)
+> +                              GArray *table_data, BIOSLinker *linker,
+> +                              const char *oem_id, const char *oem_table_=
+id)
+>  {
+>      NvdimmFitBuffer *fit_buf =3D &state->fit_buf;
+>      unsigned int header;
+> @@ -417,7 +418,8 @@ static void nvdimm_build_nfit(NVDIMMState *state, GAr=
+ray *table_offsets,
+> =20
+>      build_header(linker, table_data,
+>                   (void *)(table_data->data + header), "NFIT",
+> -                 sizeof(NvdimmNfitHeader) + fit_buf->fit->len, 1, NULL, =
+NULL);
+> +                 sizeof(NvdimmNfitHeader) + fit_buf->fit->len, 1, oem_id=
+,
+> +                 oem_table_id);
+>  }
+> =20
+>  #define NVDIMM_DSM_MEMORY_SIZE      4096
+> @@ -1278,7 +1280,7 @@ static void nvdimm_build_nvdimm_devices(Aml *root_d=
+ev, uint32_t ram_slots)
+>  static void nvdimm_build_ssdt(GArray *table_offsets, GArray *table_data,
+>                                BIOSLinker *linker,
+>                                NVDIMMState *nvdimm_state,
+> -                              uint32_t ram_slots)
+> +                              uint32_t ram_slots, const char *oem_id)
+>  {
+>      Aml *ssdt, *sb_scope, *dev;
+>      int mem_addr_offset, nvdimm_ssdt;
+> @@ -1331,7 +1333,7 @@ static void nvdimm_build_ssdt(GArray *table_offsets=
+, GArray *table_data,
+>          NVDIMM_DSM_MEM_FILE, 0);
+>      build_header(linker, table_data,
+>          (void *)(table_data->data + nvdimm_ssdt),
+> -        "SSDT", table_data->len - nvdimm_ssdt, 1, NULL, "NVDIMM");
+> +                 "SSDT", table_data->len - nvdimm_ssdt, 1, oem_id, "NVDI=
+MM");
+>      free_aml_allocator();
+>  }
+> =20
+> @@ -1359,7 +1361,8 @@ void nvdimm_build_srat(GArray *table_data)
+> =20
+>  void nvdimm_build_acpi(GArray *table_offsets, GArray *table_data,
+>                         BIOSLinker *linker, NVDIMMState *state,
+> -                       uint32_t ram_slots)
+> +                       uint32_t ram_slots, const char *oem_id,
+> +                       const char *oem_table_id)
+>  {
+>      GSList *device_list;
+> =20
+> @@ -1369,7 +1372,7 @@ void nvdimm_build_acpi(GArray *table_offsets, GArra=
+y *table_data,
+>      }
+> =20
+>      nvdimm_build_ssdt(table_offsets, table_data, linker, state,
+> -                      ram_slots);
+> +                      ram_slots, oem_id);
+> =20
+>      device_list =3D nvdimm_get_device_list();
+>      /* no NVDIMM device is plugged. */
+> @@ -1377,6 +1380,7 @@ void nvdimm_build_acpi(GArray *table_offsets, GArra=
+y *table_data,
+>          return;
+>      }
+> =20
+> -    nvdimm_build_nfit(state, table_offsets, table_data, linker);
+> +    nvdimm_build_nfit(state, table_offsets, table_data, linker,
+> +                      oem_id, oem_table_id);
+>      g_slist_free(device_list);
+>  }
+> diff --git a/hw/acpi/pci.c b/hw/acpi/pci.c
+> index 9510597a19..ec455c3b25 100644
+> --- a/hw/acpi/pci.c
+> +++ b/hw/acpi/pci.c
+> @@ -28,7 +28,8 @@
+>  #include "hw/acpi/pci.h"
+>  #include "hw/pci/pcie_host.h"
+> =20
+> -void build_mcfg(GArray *table_data, BIOSLinker *linker, AcpiMcfgInfo *in=
+fo)
+> +void build_mcfg(GArray *table_data, BIOSLinker *linker, AcpiMcfgInfo *in=
+fo,
+> +                const char *oem_id, const char *oem_table_id)
+>  {
+>      int mcfg_start =3D table_data->len;
+> =20
+> @@ -56,6 +57,6 @@ void build_mcfg(GArray *table_data, BIOSLinker *linker,=
+ AcpiMcfgInfo *info)
+>      build_append_int_noprefix(table_data, 0, 4);
+> =20
+>      build_header(linker, table_data, (void *)(table_data->data + mcfg_st=
+art),
+> -                 "MCFG", table_data->len - mcfg_start, 1, NULL, NULL);
+> +                 "MCFG", table_data->len - mcfg_start, 1, oem_id, oem_ta=
+ble_id);
+>  }
+> =20
+> diff --git a/hw/acpi/vmgenid.c b/hw/acpi/vmgenid.c
+> index 2c8152d508..93efbcb22a 100644
+> --- a/hw/acpi/vmgenid.c
+> +++ b/hw/acpi/vmgenid.c
+> @@ -23,7 +23,7 @@
+>  #include "sysemu/reset.h"
+> =20
+>  void vmgenid_build_acpi(VmGenIdState *vms, GArray *table_data, GArray *g=
+uid,
+> -                        BIOSLinker *linker)
+> +                        BIOSLinker *linker, const char *oem_id)
+>  {
+>      Aml *ssdt, *dev, *scope, *method, *addr, *if_ctx;
+>      uint32_t vgia_offset;
+> @@ -117,7 +117,7 @@ void vmgenid_build_acpi(VmGenIdState *vms, GArray *ta=
+ble_data, GArray *guid,
+> =20
+>      build_header(linker, table_data,
+>          (void *)(table_data->data + table_data->len - ssdt->buf->len),
+> -        "SSDT", ssdt->buf->len, 1, NULL, "VMGENID");
+> +        "SSDT", ssdt->buf->len, 1, oem_id, "VMGENID");
+>      free_aml_allocator();
+>  }
+> =20
+> diff --git a/hw/arm/virt-acpi-build.c b/hw/arm/virt-acpi-build.c
+> index 711cf2069f..de95100a02 100644
+> --- a/hw/arm/virt-acpi-build.c
+> +++ b/hw/arm/virt-acpi-build.c
+> @@ -340,7 +340,8 @@ build_iort(GArray *table_data, BIOSLinker *linker, Vi=
+rtMachineState *vms)
+>      iort->length =3D cpu_to_le32(iort_length);
+> =20
+>      build_header(linker, table_data, (void *)(table_data->data + iort_st=
+art),
+> -                 "IORT", table_data->len - iort_start, 0, NULL, NULL);
+> +                 "IORT", table_data->len - iort_start, 0, vms->oem_id,
+> +                 vms->oem_table_id);
+>  }
+> =20
+>  static void
+> @@ -374,7 +375,8 @@ build_spcr(GArray *table_data, BIOSLinker *linker, Vi=
+rtMachineState *vms)
+>      spcr->pci_vendor_id =3D 0xffff;  /* PCI Vendor ID: not a PCI device =
+*/
+> =20
+>      build_header(linker, table_data, (void *)(table_data->data + spcr_st=
+art),
+> -                 "SPCR", table_data->len - spcr_start, 2, NULL, NULL);
+> +                 "SPCR", table_data->len - spcr_start, 2, vms->oem_id,
+> +                 vms->oem_table_id);
+>  }
+> =20
+>  static void
+> @@ -426,7 +428,8 @@ build_srat(GArray *table_data, BIOSLinker *linker, Vi=
+rtMachineState *vms)
+>      }
+> =20
+>      build_header(linker, table_data, (void *)(table_data->data + srat_st=
+art),
+> -                 "SRAT", table_data->len - srat_start, 3, NULL, NULL);
+> +                 "SRAT", table_data->len - srat_start, 3, vms->oem_id,
+> +                 vms->oem_table_id);
+>  }
+> =20
+>  /* GTDT */
+> @@ -461,7 +464,8 @@ build_gtdt(GArray *table_data, BIOSLinker *linker, Vi=
+rtMachineState *vms)
+> =20
+>      build_header(linker, table_data,
+>                   (void *)(table_data->data + gtdt_start), "GTDT",
+> -                 table_data->len - gtdt_start, 2, NULL, NULL);
+> +                 table_data->len - gtdt_start, 2, vms->oem_id,
+> +                 vms->oem_table_id);
+>  }
+> =20
+>  /* MADT */
+> @@ -550,7 +554,8 @@ build_madt(GArray *table_data, BIOSLinker *linker, Vi=
+rtMachineState *vms)
+> =20
+>      build_header(linker, table_data,
+>                   (void *)(table_data->data + madt_start), "APIC",
+> -                 table_data->len - madt_start, 3, NULL, NULL);
+> +                 table_data->len - madt_start, 3, vms->oem_id,
+> +                 vms->oem_table_id);
+>  }
+> =20
+>  /* FADT */
+> @@ -580,7 +585,7 @@ static void build_fadt_rev5(GArray *table_data, BIOSL=
+inker *linker,
+>          g_assert_not_reached();
+>      }
+> =20
+> -    build_fadt(table_data, linker, &fadt, NULL, NULL);
+> +    build_fadt(table_data, linker, &fadt, vms->oem_id, vms->oem_table_id=
+);
+>  }
+> =20
+>  /* DSDT */
+> @@ -644,7 +649,8 @@ build_dsdt(GArray *table_data, BIOSLinker *linker, Vi=
+rtMachineState *vms)
+>      g_array_append_vals(table_data, dsdt->buf->data, dsdt->buf->len);
+>      build_header(linker, table_data,
+>          (void *)(table_data->data + table_data->len - dsdt->buf->len),
+> -        "DSDT", dsdt->buf->len, 2, NULL, NULL);
+> +                 "DSDT", dsdt->buf->len, 2, vms->oem_id,
+> +                 vms->oem_table_id);
+>      free_aml_allocator();
+>  }
+> =20
+> @@ -703,7 +709,8 @@ void virt_acpi_build(VirtMachineState *vms, AcpiBuild=
+Tables *tables)
+>             .base =3D vms->memmap[VIRT_ECAM_ID(vms->highmem_ecam)].base,
+>             .size =3D vms->memmap[VIRT_ECAM_ID(vms->highmem_ecam)].size,
+>          };
+> -        build_mcfg(tables_blob, tables->linker, &mcfg);
+> +        build_mcfg(tables_blob, tables->linker, &mcfg, vms->oem_id,
+> +                   vms->oem_table_id);
+>      }
+> =20
+>      acpi_add_table(table_offsets, tables_blob);
+> @@ -712,7 +719,8 @@ void virt_acpi_build(VirtMachineState *vms, AcpiBuild=
+Tables *tables)
+>      if (vms->ras) {
+>          build_ghes_error_table(tables->hardware_errors, tables->linker);
+>          acpi_add_table(table_offsets, tables_blob);
+> -        acpi_build_hest(tables_blob, tables->linker);
+> +        acpi_build_hest(tables_blob, tables->linker, vms->oem_id,
+> +                        vms->oem_table_id);
+>      }
+> =20
+>      if (ms->numa_state->num_nodes > 0) {
+> @@ -720,13 +728,15 @@ void virt_acpi_build(VirtMachineState *vms, AcpiBui=
+ldTables *tables)
+>          build_srat(tables_blob, tables->linker, vms);
+>          if (ms->numa_state->have_numa_distance) {
+>              acpi_add_table(table_offsets, tables_blob);
+> -            build_slit(tables_blob, tables->linker, ms);
+> +            build_slit(tables_blob, tables->linker, ms, vms->oem_id,
+> +                       vms->oem_table_id);
+>          }
+>      }
+> =20
+>      if (ms->nvdimms_state->is_enabled) {
+>          nvdimm_build_acpi(table_offsets, tables_blob, tables->linker,
+> -                          ms->nvdimms_state, ms->ram_slots);
+> +                          ms->nvdimms_state, ms->ram_slots, vms->oem_id,
+> +                          vms->oem_table_id);
+>      }
+> =20
+>      if (its_class_name() && !vmc->no_its) {
+> @@ -736,18 +746,20 @@ void virt_acpi_build(VirtMachineState *vms, AcpiBui=
+ldTables *tables)
+> =20
+>      if (tpm_get_version(tpm_find()) =3D=3D TPM_VERSION_2_0) {
+>          acpi_add_table(table_offsets, tables_blob);
+> -        build_tpm2(tables_blob, tables->linker, tables->tcpalog);
+> +        build_tpm2(tables_blob, tables->linker, tables->tcpalog, vms->oe=
+m_id,
+> +                   vms->oem_table_id);
+>      }
+> =20
+>      /* XSDT is pointed to by RSDP */
+>      xsdt =3D tables_blob->len;
+> -    build_xsdt(tables_blob, tables->linker, table_offsets, NULL, NULL);
+> +    build_xsdt(tables_blob, tables->linker, table_offsets, vms->oem_id,
+> +               vms->oem_table_id);
+> =20
+>      /* RSDP is in FSEG memory, so allocate it separately */
+>      {
+>          AcpiRsdpData rsdp_data =3D {
+>              .revision =3D 2,
+> -            .oem_id =3D ACPI_BUILD_APPNAME6,
+> +            .oem_id =3D vms->oem_id,
+>              .xsdt_tbl_offset =3D &xsdt,
+>              .rsdt_tbl_offset =3D NULL,
+>          };
+> diff --git a/hw/arm/virt.c b/hw/arm/virt.c
+> index 96985917d3..eb08a79aa3 100644
+> --- a/hw/arm/virt.c
+> +++ b/hw/arm/virt.c
+> @@ -2089,6 +2089,43 @@ static void virt_set_its(Object *obj, bool value, =
+Error **errp)
+>      vms->its =3D value;
+>  }
+> =20
+> +static char *virt_get_oem_id(Object *obj, Error **errp)
+> +{
+> +    return g_strdup(VIRT_MACHINE(obj)->oem_id);
+                       ^^^^^^^^^^^^^^^^^^^^^^^^
+such usage is not recommended,
+preferred way is:
+
+Foo *vm =3D VIRT_MACHINE(obj);
+
+then use vm->oem_id where it's needed.
+
+same applies to other similar places in this patch.
+
+> +}
+> +
+> +static void virt_set_oem_id(Object *obj, const char *value, Error **errp=
+)
+> +{
+> +    size_t len =3D strlen(value);
+> +
+> +    if (len > 6) {
+> +        error_setg(errp,
+> +                   "User specified oem-id value is bigger than 6 bytes i=
+n size");
+> +        return;
+> +    }
+> +
+> +    strncpy(VIRT_MACHINE(obj)->oem_id, value, len + 1);
+> +}
+> +
+> +static char *virt_get_oem_table_id(Object *obj, Error **errp)
+> +{
+> +    return g_strdup(VIRT_MACHINE(obj)->oem_table_id);
+> +}
+> +
+> +static void virt_set_oem_table_id(Object *obj, const char *value,
+> +                                  Error **errp)
+> +{
+> +    size_t len =3D strlen(value);
+> +
+> +    if (len > 8) {
+> +        error_setg(errp,
+> +                   "User specified oem-table-id value is bigger than 8 b=
+ytes in size");
+> +        return;
+> +    }
+> +    strncpy(VIRT_MACHINE(obj)->oem_table_id, value, len + 1);
+> +}
+> +
+> +
+>  bool virt_is_acpi_enabled(VirtMachineState *vms)
+>  {
+>      if (vms->acpi =3D=3D ON_OFF_AUTO_OFF) {
+> @@ -2538,6 +2575,23 @@ static void virt_machine_class_init(ObjectClass *o=
+c, void *data)
+>                                            "Set on/off to enable/disable =
+"
+>                                            "ITS instantiation");
+> =20
+> +    object_class_property_add_str(oc, "oem-id",
+> +                                  virt_get_oem_id,
+> +                                  virt_set_oem_id);
+> +    object_class_property_set_description(oc, "oem-id",
+> +                                          "Override the default value of=
+ field OEMID "
+> +                                          "in ACPI table header."
+> +                                          "The string may be up to 6 byt=
+es in size");
+> +
+> +
+> +    object_class_property_add_str(oc, "oem-table-id",
+> +                                  virt_get_oem_table_id,
+> +                                  virt_set_oem_table_id);
+> +    object_class_property_set_description(oc, "oem-table-id",
+> +                                          "Override the default value of=
+ field OEM Table ID "
+> +                                          "in ACPI table header."
+> +                                          "The string may be up to 8 byt=
+es in size");
+> +
+>  }
+> =20
+>  static void virt_instance_init(Object *obj)
+> @@ -2579,6 +2633,9 @@ static void virt_instance_init(Object *obj)
+>      vms->irqmap =3D a15irqmap;
+> =20
+>      virt_flash_create(vms);
+> +
+> +    vms->oem_id =3D g_strndup(ACPI_BUILD_APPNAME6, 6);
+> +    vms->oem_table_id =3D g_strndup(ACPI_BUILD_APPNAME8, 8);
+>  }
+> =20
+>  static const TypeInfo virt_machine_info =3D {
+> diff --git a/hw/i386/acpi-build.c b/hw/i386/acpi-build.c
+> index f18b71dea9..25898fdd37 100644
+> --- a/hw/i386/acpi-build.c
+> +++ b/hw/i386/acpi-build.c
+> @@ -1636,12 +1636,13 @@ build_dsdt(GArray *table_data, BIOSLinker *linker=
+,
+>      g_array_append_vals(table_data, dsdt->buf->data, dsdt->buf->len);
+>      build_header(linker, table_data,
+>          (void *)(table_data->data + table_data->len - dsdt->buf->len),
+> -        "DSDT", dsdt->buf->len, 1, NULL, NULL);
+> +                 "DSDT", dsdt->buf->len, 1, pcms->oem_id, pcms->oem_tabl=
+e_id);
+>      free_aml_allocator();
+>  }
+> =20
+>  static void
+> -build_hpet(GArray *table_data, BIOSLinker *linker)
+> +build_hpet(GArray *table_data, BIOSLinker *linker, const char *oem_id,
+> +           const char *oem_table_id)
+>  {
+>      Acpi20Hpet *hpet;
+> =20
+> @@ -1652,11 +1653,12 @@ build_hpet(GArray *table_data, BIOSLinker *linker=
+)
+>      hpet->timer_block_id =3D cpu_to_le32(0x8086a201);
+>      hpet->addr.address =3D cpu_to_le64(HPET_BASE);
+>      build_header(linker, table_data,
+> -                 (void *)hpet, "HPET", sizeof(*hpet), 1, NULL, NULL);
+> +                 (void *)hpet, "HPET", sizeof(*hpet), 1, oem_id, oem_tab=
+le_id);
+>  }
+> =20
+>  static void
+> -build_tpm_tcpa(GArray *table_data, BIOSLinker *linker, GArray *tcpalog)
+> +build_tpm_tcpa(GArray *table_data, BIOSLinker *linker, GArray *tcpalog,
+> +               const char *oem_id, const char *oem_table_id)
+>  {
+>      Acpi20Tcpa *tcpa =3D acpi_data_push(table_data, sizeof *tcpa);
+>      unsigned log_addr_size =3D sizeof(tcpa->log_area_start_address);
+> @@ -1676,7 +1678,7 @@ build_tpm_tcpa(GArray *table_data, BIOSLinker *link=
+er, GArray *tcpalog)
+>          ACPI_BUILD_TPMLOG_FILE, 0);
+> =20
+>      build_header(linker, table_data,
+> -                 (void *)tcpa, "TCPA", sizeof(*tcpa), 2, NULL, NULL);
+> +                 (void *)tcpa, "TCPA", sizeof(*tcpa), 2, oem_id, oem_tab=
+le_id);
+>  }
+> =20
+>  #define HOLE_640K_START  (640 * KiB)
+> @@ -1811,7 +1813,8 @@ build_srat(GArray *table_data, BIOSLinker *linker, =
+MachineState *machine)
+>      build_header(linker, table_data,
+>                   (void *)(table_data->data + srat_start),
+>                   "SRAT",
+> -                 table_data->len - srat_start, 1, NULL, NULL);
+> +                 table_data->len - srat_start, 1, pcms->oem_id,
+> +                 pcms->oem_table_id);
+>  }
+> =20
+>  /*
+> @@ -1819,7 +1822,8 @@ build_srat(GArray *table_data, BIOSLinker *linker, =
+MachineState *machine)
+>   * (version Oct. 2014 or later)
+>   */
+>  static void
+> -build_dmar_q35(GArray *table_data, BIOSLinker *linker)
+> +build_dmar_q35(GArray *table_data, BIOSLinker *linker, const char *oem_i=
+d,
+> +               const char *oem_table_id)
+>  {
+>      int dmar_start =3D table_data->len;
+> =20
+> @@ -1869,7 +1873,7 @@ build_dmar_q35(GArray *table_data, BIOSLinker *link=
+er)
+>      }
+> =20
+>      build_header(linker, table_data, (void *)(table_data->data + dmar_st=
+art),
+> -                 "DMAR", table_data->len - dmar_start, 1, NULL, NULL);
+> +                 "DMAR", table_data->len - dmar_start, 1, oem_id, oem_ta=
+ble_id);
+>  }
+> =20
+>  /*
+> @@ -1880,7 +1884,8 @@ build_dmar_q35(GArray *table_data, BIOSLinker *link=
+er)
+>   * Helpful to speedup Windows guests and ignored by others.
+>   */
+>  static void
+> -build_waet(GArray *table_data, BIOSLinker *linker)
+> +build_waet(GArray *table_data, BIOSLinker *linker, const char *oem_id,
+> +           const char *oem_table_id)
+>  {
+>      int waet_start =3D table_data->len;
+> =20
+> @@ -1896,7 +1901,7 @@ build_waet(GArray *table_data, BIOSLinker *linker)
+>      build_append_int_noprefix(table_data, 1 << 1 /* ACPI PM timer good *=
+/, 4);
+> =20
+>      build_header(linker, table_data, (void *)(table_data->data + waet_st=
+art),
+> -                 "WAET", table_data->len - waet_start, 1, NULL, NULL);
+> +                 "WAET", table_data->len - waet_start, 1, oem_id, oem_ta=
+ble_id);
+>  }
+> =20
+>  /*
+> @@ -1998,7 +2003,8 @@ ivrs_host_bridges(Object *obj, void *opaque)
+>  }
+> =20
+>  static void
+> -build_amd_iommu(GArray *table_data, BIOSLinker *linker)
+> +build_amd_iommu(GArray *table_data, BIOSLinker *linker, const char *oem_=
+id,
+> +                const char *oem_table_id)
+>  {
+>      int ivhd_table_len =3D 24;
+>      int iommu_start =3D table_data->len;
+> @@ -2093,7 +2099,8 @@ build_amd_iommu(GArray *table_data, BIOSLinker *lin=
+ker)
+>      }
+> =20
+>      build_header(linker, table_data, (void *)(table_data->data + iommu_s=
+tart),
+> -                 "IVRS", table_data->len - iommu_start, 1, NULL, NULL);
+> +                 "IVRS", table_data->len - iommu_start, 1, oem_id,
+> +                 oem_table_id);
+>  }
+> =20
+>  typedef
+> @@ -2149,12 +2156,26 @@ void acpi_build(AcpiBuildTables *tables, MachineS=
+tate *machine)
+>      GArray *tables_blob =3D tables->table_data;
+>      AcpiSlicOem slic_oem =3D { .id =3D NULL, .table_id =3D NULL };
+>      Object *vmgenid_dev;
+> +    char *oem_id;
+> +    char *oem_table_id;
+> =20
+>      acpi_get_pm_info(machine, &pm);
+>      acpi_get_misc_info(&misc);
+>      acpi_get_pci_holes(&pci_hole, &pci_hole64);
+>      acpi_get_slic_oem(&slic_oem);
+> =20
+> +    if (slic_oem.id) {
+> +        oem_id =3D slic_oem.id;
+> +    } else {
+> +        oem_id =3D pcms->oem_id;
+> +    }
+> +
+> +    if (slic_oem.table_id) {
+> +        oem_table_id =3D slic_oem.table_id;
+> +    } else {
+> +        oem_table_id =3D pcms->oem_table_id;
+> +    }
+> +
+>      table_offsets =3D g_array_new(false, true /* clear */,
+>                                          sizeof(uint32_t));
+>      ACPI_BUILD_DPRINTF("init ACPI tables\n");
+> @@ -2188,32 +2209,35 @@ void acpi_build(AcpiBuildTables *tables, MachineS=
+tate *machine)
+>      pm.fadt.facs_tbl_offset =3D &facs;
+>      pm.fadt.dsdt_tbl_offset =3D &dsdt;
+>      pm.fadt.xdsdt_tbl_offset =3D &dsdt;
+> -    build_fadt(tables_blob, tables->linker, &pm.fadt,
+> -               slic_oem.id, slic_oem.table_id);
+> +    build_fadt(tables_blob, tables->linker, &pm.fadt, oem_id, oem_table_=
+id);
+>      aml_len +=3D tables_blob->len - fadt;
+> =20
+>      acpi_add_table(table_offsets, tables_blob);
+>      acpi_build_madt(tables_blob, tables->linker, x86ms,
+> -                    ACPI_DEVICE_IF(x86ms->acpi_dev));
+> +                    ACPI_DEVICE_IF(x86ms->acpi_dev), pcms->oem_id,
+> +                    pcms->oem_table_id);
+> =20
+>      vmgenid_dev =3D find_vmgenid_dev();
+>      if (vmgenid_dev) {
+>          acpi_add_table(table_offsets, tables_blob);
+>          vmgenid_build_acpi(VMGENID(vmgenid_dev), tables_blob,
+> -                           tables->vmgenid, tables->linker);
+> +                           tables->vmgenid, tables->linker, pcms->oem_id=
+);
+>      }
+> =20
+>      if (misc.has_hpet) {
+>          acpi_add_table(table_offsets, tables_blob);
+> -        build_hpet(tables_blob, tables->linker);
+> +        build_hpet(tables_blob, tables->linker, pcms->oem_id,
+> +                   pcms->oem_table_id);
+>      }
+>      if (misc.tpm_version !=3D TPM_VERSION_UNSPEC) {
+>          if (misc.tpm_version =3D=3D TPM_VERSION_1_2) {
+>              acpi_add_table(table_offsets, tables_blob);
+> -            build_tpm_tcpa(tables_blob, tables->linker, tables->tcpalog)=
+;
+> +            build_tpm_tcpa(tables_blob, tables->linker, tables->tcpalog,
+> +                           pcms->oem_id, pcms->oem_table_id);
+>          } else { /* TPM_VERSION_2_0 */
+>              acpi_add_table(table_offsets, tables_blob);
+> -            build_tpm2(tables_blob, tables->linker, tables->tcpalog);
+> +            build_tpm2(tables_blob, tables->linker, tables->tcpalog,
+> +                       pcms->oem_id, pcms->oem_table_id);
+>          }
+>      }
+>      if (pcms->numa_nodes) {
+> @@ -2221,34 +2245,40 @@ void acpi_build(AcpiBuildTables *tables, MachineS=
+tate *machine)
+>          build_srat(tables_blob, tables->linker, machine);
+>          if (machine->numa_state->have_numa_distance) {
+>              acpi_add_table(table_offsets, tables_blob);
+> -            build_slit(tables_blob, tables->linker, machine);
+> +            build_slit(tables_blob, tables->linker, machine, pcms->oem_i=
+d,
+> +                       pcms->oem_table_id);
+>          }
+>          if (machine->numa_state->hmat_enabled) {
+>              acpi_add_table(table_offsets, tables_blob);
+> -            build_hmat(tables_blob, tables->linker, machine->numa_state)=
+;
+> +            build_hmat(tables_blob, tables->linker, machine->numa_state,
+> +                       pcms->oem_id, pcms->oem_table_id);
+>          }
+>      }
+>      if (acpi_get_mcfg(&mcfg)) {
+>          acpi_add_table(table_offsets, tables_blob);
+> -        build_mcfg(tables_blob, tables->linker, &mcfg);
+> +        build_mcfg(tables_blob, tables->linker, &mcfg, pcms->oem_id,
+> +                   pcms->oem_table_id);
+>      }
+>      if (x86_iommu_get_default()) {
+>          IommuType IOMMUType =3D x86_iommu_get_type();
+>          if (IOMMUType =3D=3D TYPE_AMD) {
+>              acpi_add_table(table_offsets, tables_blob);
+> -            build_amd_iommu(tables_blob, tables->linker);
+> +            build_amd_iommu(tables_blob, tables->linker, pcms->oem_id,
+> +                            pcms->oem_table_id);
+>          } else if (IOMMUType =3D=3D TYPE_INTEL) {
+>              acpi_add_table(table_offsets, tables_blob);
+> -            build_dmar_q35(tables_blob, tables->linker);
+> +            build_dmar_q35(tables_blob, tables->linker, pcms->oem_id,
+> +                           pcms->oem_table_id);
+>          }
+>      }
+>      if (machine->nvdimms_state->is_enabled) {
+>          nvdimm_build_acpi(table_offsets, tables_blob, tables->linker,
+> -                          machine->nvdimms_state, machine->ram_slots);
+> +                          machine->nvdimms_state, machine->ram_slots,
+> +                          pcms->oem_id, pcms->oem_table_id);
+>      }
+> =20
+>      acpi_add_table(table_offsets, tables_blob);
+> -    build_waet(tables_blob, tables->linker);
+> +    build_waet(tables_blob, tables->linker, pcms->oem_id, pcms->oem_tabl=
+e_id);
+> =20
+>      /* Add tables supplied by user (if any) */
+>      for (u =3D acpi_table_first(); u; u =3D acpi_table_next(u)) {
+> @@ -2261,13 +2291,13 @@ void acpi_build(AcpiBuildTables *tables, MachineS=
+tate *machine)
+>      /* RSDT is pointed to by RSDP */
+>      rsdt =3D tables_blob->len;
+>      build_rsdt(tables_blob, tables->linker, table_offsets,
+> -               slic_oem.id, slic_oem.table_id);
+> +               oem_id, oem_table_id);
+> =20
+>      /* RSDP is in FSEG memory, so allocate it separately */
+>      {
+>          AcpiRsdpData rsdp_data =3D {
+>              .revision =3D 0,
+> -            .oem_id =3D ACPI_BUILD_APPNAME6,
+> +            .oem_id =3D pcms->oem_id,
+>              .xsdt_tbl_offset =3D NULL,
+>              .rsdt_tbl_offset =3D &rsdt,
+>          };
+> diff --git a/hw/i386/acpi-common.c b/hw/i386/acpi-common.c
+> index a6a30e8363..1f5947fcf9 100644
+> --- a/hw/i386/acpi-common.c
+> +++ b/hw/i386/acpi-common.c
+> @@ -72,7 +72,8 @@ void pc_madt_cpu_entry(AcpiDeviceIf *adev, int uid,
+>  }
+> =20
+>  void acpi_build_madt(GArray *table_data, BIOSLinker *linker,
+> -                     X86MachineState *x86ms, AcpiDeviceIf *adev)
+> +                     X86MachineState *x86ms, AcpiDeviceIf *adev,
+> +                     const char *oem_id, const char *oem_table_id)
+>  {
+>      MachineClass *mc =3D MACHINE_GET_CLASS(x86ms);
+>      const CPUArchIdList *apic_ids =3D mc->possible_cpu_arch_ids(MACHINE(=
+x86ms));
+> @@ -157,6 +158,6 @@ void acpi_build_madt(GArray *table_data, BIOSLinker *=
+linker,
+> =20
+>      build_header(linker, table_data,
+>                   (void *)(table_data->data + madt_start), "APIC",
+> -                 table_data->len - madt_start, 1, NULL, NULL);
+> +                 table_data->len - madt_start, 1, oem_id, oem_table_id);
+>  }
+> =20
+> diff --git a/hw/i386/acpi-microvm.c b/hw/i386/acpi-microvm.c
+> index d34a301b84..54b3af478a 100644
+> --- a/hw/i386/acpi-microvm.c
+> +++ b/hw/i386/acpi-microvm.c
+> @@ -149,7 +149,7 @@ build_dsdt_microvm(GArray *table_data, BIOSLinker *li=
+nker,
+>      g_array_append_vals(table_data, dsdt->buf->data, dsdt->buf->len);
+>      build_header(linker, table_data,
+>          (void *)(table_data->data + table_data->len - dsdt->buf->len),
+> -        "DSDT", dsdt->buf->len, 2, NULL, NULL);
+> +                 "DSDT", dsdt->buf->len, 2, mms->oem_id, mms->oem_table_=
+id);
+>      free_aml_allocator();
+>  }
+> =20
+> @@ -201,21 +201,24 @@ static void acpi_build_microvm(AcpiBuildTables *tab=
+les,
+>      pmfadt.dsdt_tbl_offset =3D &dsdt;
+>      pmfadt.xdsdt_tbl_offset =3D &dsdt;
+>      acpi_add_table(table_offsets, tables_blob);
+> -    build_fadt(tables_blob, tables->linker, &pmfadt, NULL, NULL);
+> +    build_fadt(tables_blob, tables->linker, &pmfadt, mms->oem_id,
+> +               mms->oem_table_id);
+> =20
+>      acpi_add_table(table_offsets, tables_blob);
+>      acpi_build_madt(tables_blob, tables->linker, X86_MACHINE(machine),
+> -                    ACPI_DEVICE_IF(x86ms->acpi_dev));
+> +                    ACPI_DEVICE_IF(x86ms->acpi_dev), mms->oem_id,
+> +                    mms->oem_table_id);
+> =20
+>      xsdt =3D tables_blob->len;
+> -    build_xsdt(tables_blob, tables->linker, table_offsets, NULL, NULL);
+> +    build_xsdt(tables_blob, tables->linker, table_offsets, mms->oem_id,
+> +               mms->oem_table_id);
+> =20
+>      /* RSDP is in FSEG memory, so allocate it separately */
+>      {
+>          AcpiRsdpData rsdp_data =3D {
+>              /* ACPI 2.0: 5.2.4.3 RSDP Structure */
+>              .revision =3D 2, /* xsdt needs v2 */
+> -            .oem_id =3D ACPI_BUILD_APPNAME6,
+> +            .oem_id =3D mms->oem_id,
+>              .xsdt_tbl_offset =3D &xsdt,
+>              .rsdt_tbl_offset =3D NULL,
+>          };
+> diff --git a/hw/i386/microvm.c b/hw/i386/microvm.c
+> index edf2b0f061..904e3e65a1 100644
+> --- a/hw/i386/microvm.c
+> +++ b/hw/i386/microvm.c
+> @@ -648,6 +648,45 @@ static void microvm_powerdown_req(Notifier *notifier=
+, void *data)
+>      }
+>  }
+> =20
+> +static char *microvm_machine_get_oem_id(Object *obj, Error **errp)
+> +{
+> +    return g_strdup(MICROVM_MACHINE(obj)->oem_id);
+> +}
+> +
+> +static void microvm_machine_set_oem_id(Object *obj, const char *value,
+> +                                       Error **errp)
+> +{
+> +    size_t len =3D strlen(value);
+> +
+> +    if (len > 6) {
+> +        error_setg(errp,
+> +          "User specified "MICROVM_MACHINE_OEM_ID" value is bigger than =
+"
+> +          "6 bytes in size");
+> +        return;
+> +    }
+> +
+> +    strncpy(MICROVM_MACHINE(obj)->oem_id, value, len + 1);
+> +}
+> +
+> +static char *microvm_machine_get_oem_table_id(Object *obj, Error **errp)
+> +{
+> +    return g_strdup(MICROVM_MACHINE(obj)->oem_table_id);
+> +}
+> +
+> +static void microvm_machine_set_oem_table_id(Object *obj, const char *va=
+lue,
+> +                                             Error **errp)
+> +{
+> +    size_t len =3D strlen(value);
+> +
+> +    if (len > 8) {
+> +        error_setg(errp,
+> +          "User specified "MICROVM_MACHINE_OEM_TABLE_ID" value is bigger=
+ than "
+> +          "8 bytes in size");
+> +        return;
+> +    }
+> +    strncpy(MICROVM_MACHINE(obj)->oem_table_id, value, len + 1);
+> +}
+> +
+>  static void microvm_machine_initfn(Object *obj)
+>  {
+>      MicrovmMachineState *mms =3D MICROVM_MACHINE(obj);
+> @@ -669,6 +708,9 @@ static void microvm_machine_initfn(Object *obj)
+>      qemu_add_machine_init_done_notifier(&mms->machine_done);
+>      mms->powerdown_req.notify =3D microvm_powerdown_req;
+>      qemu_register_powerdown_notifier(&mms->powerdown_req);
+> +
+> +    mms->oem_id =3D g_strndup(ACPI_BUILD_APPNAME6, 6);
+> +    mms->oem_table_id =3D g_strndup(ACPI_BUILD_APPNAME8, 8);
+>  }
+> =20
+>  static void microvm_class_init(ObjectClass *oc, void *data)
+> @@ -757,6 +799,24 @@ static void microvm_class_init(ObjectClass *oc, void=
+ *data)
+>          MICROVM_MACHINE_AUTO_KERNEL_CMDLINE,
+>          "Set off to disable adding virtio-mmio devices to the kernel cmd=
+line");
+> =20
+> +    object_class_property_add_str(oc, MICROVM_MACHINE_OEM_ID,
+> +                                  microvm_machine_get_oem_id,
+> +                                  microvm_machine_set_oem_id);
+> +    object_class_property_set_description(oc, MICROVM_MACHINE_OEM_ID,
+> +                                          "Override the default value of=
+ field OEMID "
+> +                                          "in ACPI table header."
+> +                                          "The string may be up to 6 byt=
+es in size");
+> +
+> +
+> +    object_class_property_add_str(oc, MICROVM_MACHINE_OEM_TABLE_ID,
+> +                                  microvm_machine_get_oem_table_id,
+> +                                  microvm_machine_set_oem_table_id);
+> +    object_class_property_set_description(oc, MICROVM_MACHINE_OEM_TABLE_=
+ID,
+> +                                          "Override the default value of=
+ field OEM Table ID "
+> +                                          "in ACPI table header."
+> +                                          "The string may be up to 8 byt=
+es in size");
+> +
+> +
+>      machine_class_allow_dynamic_sysbus_dev(mc, TYPE_RAMFB_DEVICE);
+>  }
+> =20
+> diff --git a/hw/i386/pc.c b/hw/i386/pc.c
+> index 5458f61d10..9c50abde68 100644
+> --- a/hw/i386/pc.c
+> +++ b/hw/i386/pc.c
+> @@ -1611,6 +1611,44 @@ static void pc_machine_set_max_fw_size(Object *obj=
+, Visitor *v,
+>      pcms->max_fw_size =3D value;
+>  }
+> =20
+> +static char *pc_machine_get_oem_id(Object *obj, Error **errp)
+> +{
+> +    return g_strdup(PC_MACHINE(obj)->oem_id);
+> +}
+> +
+> +static void pc_machine_set_oem_id(Object *obj, const char *value, Error =
+**errp)
+> +{
+> +    size_t len =3D strlen(value);
+> +
+> +    if (len > 6) {
+> +        error_setg(errp,
+> +          "User specified "PC_MACHINE_OEM_ID" value is bigger than "
+> +          "6 bytes in size");
+> +        return;
+> +    }
+> +
+> +    strncpy(PC_MACHINE(obj)->oem_id, value, len + 1);
+> +}
+> +
+> +static char *pc_machine_get_oem_table_id(Object *obj, Error **errp)
+> +{
+> +    return g_strdup(PC_MACHINE(obj)->oem_table_id);
+> +}
+> +
+> +static void pc_machine_set_oem_table_id(Object *obj, const char *value,
+> +                                        Error **errp)
+> +{
+> +    size_t len =3D strlen(value);
+> +
+> +    if (len > 8) {
+> +        error_setg(errp,
+> +          "User specified "PC_MACHINE_OEM_TABLE_ID" value is bigger than=
+ "
+> +          "8 bytes in size");
+> +        return;
+> +    }
+> +    strncpy(PC_MACHINE(obj)->oem_table_id, value, len + 1);
+> +}
+> +
+>  static void pc_machine_initfn(Object *obj)
+>  {
+>      PCMachineState *pcms =3D PC_MACHINE(obj);
+> @@ -1623,6 +1661,8 @@ static void pc_machine_initfn(Object *obj)
+>      pcms->max_ram_below_4g =3D 0; /* use default */
+>      /* acpi build is enabled by default if machine supports it */
+>      pcms->acpi_build_enabled =3D PC_MACHINE_GET_CLASS(pcms)->has_acpi_bu=
+ild;
+> +    pcms->oem_id =3D g_strndup(ACPI_BUILD_APPNAME6, 6);
+> +    pcms->oem_table_id =3D g_strndup(ACPI_BUILD_APPNAME8, 8);
+>      pcms->smbus_enabled =3D true;
+>      pcms->sata_enabled =3D true;
+>      pcms->pit_enabled =3D true;
+> @@ -1759,6 +1799,24 @@ static void pc_machine_class_init(ObjectClass *oc,=
+ void *data)
+>          NULL, NULL);
+>      object_class_property_set_description(oc, PC_MACHINE_MAX_FW_SIZE,
+>          "Maximum combined firmware size");
+> +
+> +    object_class_property_add_str(oc, PC_MACHINE_OEM_ID,
+> +                                  pc_machine_get_oem_id,
+> +                                  pc_machine_set_oem_id);
+> +    object_class_property_set_description(oc, PC_MACHINE_OEM_ID,
+> +                                          "Override the default value of=
+ field OEMID "
+> +                                          "in ACPI table header."
+> +                                          "The string may be up to 6 byt=
+es in size");
+> +
+> +
+> +    object_class_property_add_str(oc, PC_MACHINE_OEM_TABLE_ID,
+> +                                  pc_machine_get_oem_table_id,
+> +                                  pc_machine_set_oem_table_id);
+> +    object_class_property_set_description(oc, PC_MACHINE_OEM_TABLE_ID,
+> +                                          "Override the default value of=
+ field OEM Table ID "
+> +                                          "in ACPI table header."
+> +                                          "The string may be up to 8 byt=
+es in size");
+> +
+>  }
+> =20
+>  static const TypeInfo pc_machine_info =3D {
+
 
