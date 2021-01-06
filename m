@@ -2,46 +2,47 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 51D8D2EC5CA
-	for <lists+qemu-devel@lfdr.de>; Wed,  6 Jan 2021 22:35:45 +0100 (CET)
-Received: from localhost ([::1]:55024 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0858E2EC5C9
+	for <lists+qemu-devel@lfdr.de>; Wed,  6 Jan 2021 22:35:43 +0100 (CET)
+Received: from localhost ([::1]:54916 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kxGT2-0001iN-CI
-	for lists+qemu-devel@lfdr.de; Wed, 06 Jan 2021 16:35:44 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57688)
+	id 1kxGT0-0001fO-2H
+	for lists+qemu-devel@lfdr.de; Wed, 06 Jan 2021 16:35:42 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57714)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
- id 1kxGMV-0002qT-V0
+ id 1kxGMW-0002r0-Sf
  for qemu-devel@nongnu.org; Wed, 06 Jan 2021 16:29:00 -0500
-Received: from zero.eik.bme.hu ([2001:738:2001:2001::2001]:22495)
+Received: from zero.eik.bme.hu ([152.66.115.2]:22456)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
- id 1kxGMT-0001ks-R8
- for qemu-devel@nongnu.org; Wed, 06 Jan 2021 16:28:59 -0500
+ id 1kxGMO-0001j2-If
+ for qemu-devel@nongnu.org; Wed, 06 Jan 2021 16:29:00 -0500
 Received: from zero.eik.bme.hu (blah.eik.bme.hu [152.66.115.182])
- by localhost (Postfix) with SMTP id CAD1F7470F4;
+ by localhost (Postfix) with SMTP id 45BB3747100;
  Wed,  6 Jan 2021 22:28:51 +0100 (CET)
 Received: by zero.eik.bme.hu (Postfix, from userid 432)
- id 37DAB7470F8; Wed,  6 Jan 2021 22:28:51 +0100 (CET)
-Message-Id: <057fa3b929d3436670ab8925cee51815653626d0.1609967638.git.balaton@eik.bme.hu>
+ id 16A167470F5; Wed,  6 Jan 2021 22:28:51 +0100 (CET)
+Message-Id: <00e13d203010a8e2b9b995df4675ce5df184025e.1609967638.git.balaton@eik.bme.hu>
 In-Reply-To: <cover.1609967638.git.balaton@eik.bme.hu>
 References: <cover.1609967638.git.balaton@eik.bme.hu>
 From: BALATON Zoltan <balaton@eik.bme.hu>
-Subject: [PATCH 07/12] vt82c686: Move creation of ISA devices to the ISA bridge
+Subject: [PATCH 01/12] vt82c686: Move superio memory region to SuperIOConfig
+ struct
 Date: Wed, 06 Jan 2021 22:13:58 +0100
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 To: qemu-devel@nongnu.org
 X-Spam-Probability: 8%
-Received-SPF: pass client-ip=2001:738:2001:2001::2001;
- envelope-from=balaton@eik.bme.hu; helo=zero.eik.bme.hu
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Received-SPF: pass client-ip=152.66.115.2; envelope-from=balaton@eik.bme.hu;
+ helo=zero.eik.bme.hu
+X-Spam_score_int: -41
+X-Spam_score: -4.2
+X-Spam_bar: ----
+X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -58,156 +59,68 @@ Cc: Huacai Chen <chenhuacai@kernel.org>, f4bug@amsat.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Currently the ISA devices that are part of the VIA south bridge,
-superio chip are wired up by board code. Move creation of these ISA
-devices to the VIA ISA bridge model so that board code does not need
-to access ISA bus. This also allows vt82c686b-superio to be made
-internal to vt82c686 which allows implementing its configuration via
-registers in subseqent commits.
+The superio memory region holds the io space index/data registers used
+to access the superio config registers that are implemented in struct
+SuperIOConfig. To keep these related things together move the memory
+region to SuperIOConfig and rename it accordingly.
+Also remove the unused "data" member of SuperIOConfig which is not
+needed as we store actual data values in the regs array.
 
 Signed-off-by: BALATON Zoltan <balaton@eik.bme.hu>
 ---
- hw/isa/vt82c686.c   | 20 ++++++++++++++++++++
- hw/mips/fuloong2e.c | 29 +++++------------------------
- 2 files changed, 25 insertions(+), 24 deletions(-)
+ hw/isa/vt82c686.c | 16 ++++++++--------
+ 1 file changed, 8 insertions(+), 8 deletions(-)
 
 diff --git a/hw/isa/vt82c686.c b/hw/isa/vt82c686.c
-index ead60310fe..3a45056226 100644
+index a6f5a0843d..30fe02f4c6 100644
 --- a/hw/isa/vt82c686.c
 +++ b/hw/isa/vt82c686.c
-@@ -16,6 +16,11 @@
- #include "hw/qdev-properties.h"
- #include "hw/isa/isa.h"
- #include "hw/isa/superio.h"
-+#include "hw/intc/i8259.h"
-+#include "hw/irq.h"
-+#include "hw/dma/i8257.h"
-+#include "hw/timer/i8254.h"
-+#include "hw/rtc/mc146818rtc.h"
- #include "migration/vmstate.h"
- #include "hw/isa/apm.h"
- #include "hw/acpi/acpi.h"
-@@ -307,9 +312,16 @@ OBJECT_DECLARE_SIMPLE_TYPE(VT82C686BISAState, VT82C686B_ISA)
+@@ -29,12 +29,11 @@
+ typedef struct SuperIOConfig {
+     uint8_t regs[0x100];
+     uint8_t index;
+-    uint8_t data;
++    MemoryRegion io;
+ } SuperIOConfig;
  
  struct VT82C686BISAState {
      PCIDevice dev;
-+    qemu_irq cpu_intr;
+-    MemoryRegion superio;
      SuperIOConfig superio_cfg;
  };
  
-+static void via_isa_request_i8259_irq(void *opaque, int irq, int level)
-+{
-+    VT82C686BISAState *s = opaque;
-+    qemu_set_irq(s->cpu_intr, level);
-+}
-+
- static void vt82c686b_write_config(PCIDevice *d, uint32_t addr,
-                                    uint32_t val, int len)
- {
-@@ -365,10 +377,18 @@ static void vt82c686b_realize(PCIDevice *d, Error **errp)
-     VT82C686BISAState *s = VT82C686B_ISA(d);
-     DeviceState *dev = DEVICE(d);
-     ISABus *isa_bus;
-+    qemu_irq *isa_irq;
-     int i;
+@@ -128,8 +127,9 @@ static void vt82c686b_write_config(PCIDevice *d, uint32_t addr,
  
-+    qdev_init_gpio_out(dev, &s->cpu_intr, 1);
-+    isa_irq = qemu_allocate_irqs(via_isa_request_i8259_irq, s, 1);
-     isa_bus = isa_bus_new(dev, get_system_memory(), pci_address_space_io(d),
-                           &error_fatal);
-+    isa_bus_irqs(isa_bus, i8259_init(isa_bus, *isa_irq));
-+    i8254_pit_init(isa_bus, 0x40, 0, NULL);
-+    i8257_dma_init(isa_bus, 0);
-+    isa_create_simple(isa_bus, TYPE_VT82C686B_SUPERIO);
-+    mc146818_rtc_init(isa_bus, 2000, NULL);
- 
-     for (i = 0; i < PCI_CONFIG_HEADER_SIZE; i++) {
-         if (i < PCI_COMMAND || i >= PCI_REVISION_ID) {
-diff --git a/hw/mips/fuloong2e.c b/hw/mips/fuloong2e.c
-index fbdd6122b3..0fc3288556 100644
---- a/hw/mips/fuloong2e.c
-+++ b/hw/mips/fuloong2e.c
-@@ -25,9 +25,6 @@
- #include "qapi/error.h"
- #include "cpu.h"
- #include "hw/clock.h"
--#include "hw/intc/i8259.h"
--#include "hw/dma/i8257.h"
--#include "hw/isa/superio.h"
- #include "net/net.h"
- #include "hw/boards.h"
- #include "hw/i2c/smbus_eeprom.h"
-@@ -38,13 +35,13 @@
- #include "qemu/log.h"
- #include "hw/loader.h"
- #include "hw/ide/pci.h"
-+#include "hw/qdev-properties.h"
- #include "elf.h"
- #include "hw/isa/vt82c686.h"
--#include "hw/rtc/mc146818rtc.h"
--#include "hw/timer/i8254.h"
- #include "exec/address-spaces.h"
- #include "sysemu/qtest.h"
- #include "sysemu/reset.h"
-+#include "sysemu/sysemu.h"
- #include "qemu/error-report.h"
- 
- #define ENVP_PADDR              0x2000
-@@ -224,26 +221,13 @@ static void main_cpu_reset(void *opaque)
+     trace_via_isa_write(addr, val, len);
+     pci_default_write_config(d, addr, val, len);
+-    if (addr == 0x85) {  /* enable or disable super IO configure */
+-        memory_region_set_enabled(&s->superio, val & 0x2);
++    if (addr == 0x85) {
++        /* BIT(1): enable or disable superio config io ports */
++        memory_region_set_enabled(&s->superio_cfg.io, val & BIT(1));
+     }
  }
  
- static void vt82c686b_southbridge_init(PCIBus *pci_bus, int slot, qemu_irq intc,
--                                       I2CBus **i2c_bus, ISABus **p_isa_bus)
-+                                       I2CBus **i2c_bus)
- {
--    qemu_irq *i8259;
--    ISABus *isa_bus;
-     PCIDevice *dev;
+@@ -311,15 +311,15 @@ static void vt82c686b_realize(PCIDevice *d, Error **errp)
+         }
+     }
  
-     dev = pci_create_simple_multifunction(pci_bus, PCI_DEVFN(slot, 0), true,
-                                           TYPE_VT82C686B_ISA);
--    isa_bus = ISA_BUS(qdev_get_child_bus(DEVICE(dev), "isa.0"));
--    assert(isa_bus);
--    *p_isa_bus = isa_bus;
--    /* Interrupt controller */
--    /* The 8259 -> IP5  */
--    i8259 = i8259_init(isa_bus, intc);
--    isa_bus_irqs(isa_bus, i8259);
--    /* init other devices */
--    i8254_pit_init(isa_bus, 0x40, 0, NULL);
--    i8257_dma_init(isa_bus, 0);
--    /* Super I/O */
--    isa_create_simple(isa_bus, TYPE_VT82C686B_SUPERIO);
-+    qdev_connect_gpio_out(DEVICE(dev), 0, intc);
- 
-     dev = pci_create_simple(pci_bus, PCI_DEVFN(slot, 1), "via-ide");
-     pci_ide_create_devs(dev);
-@@ -290,7 +274,6 @@ static void mips_fuloong2e_init(MachineState *machine)
-     uint64_t kernel_entry;
-     PCIDevice *pci_dev;
-     PCIBus *pci_bus;
--    ISABus *isa_bus;
-     I2CBus *smbus;
-     Clock *cpuclk;
-     MIPSCPU *cpu;
-@@ -357,7 +340,7 @@ static void mips_fuloong2e_init(MachineState *machine)
- 
-     /* South bridge -> IP5 */
-     vt82c686b_southbridge_init(pci_bus, FULOONG2E_VIA_SLOT, env->irq[5],
--                               &smbus, &isa_bus);
-+                               &smbus);
- 
-     /* GPU */
-     if (vga_interface_type != VGA_NONE) {
-@@ -372,8 +355,6 @@ static void mips_fuloong2e_init(MachineState *machine)
-     spd_data = spd_data_generate(DDR, machine->ram_size);
-     smbus_eeprom_init_one(smbus, 0x50, spd_data);
- 
--    mc146818_rtc_init(isa_bus, 2000, NULL);
--
-     /* Network card: RTL8139D */
-     network_init(pci_bus);
+-    memory_region_init_io(&s->superio, OBJECT(d), &superio_cfg_ops,
+-                          &s->superio_cfg, "superio", 2);
+-    memory_region_set_enabled(&s->superio, false);
++    memory_region_init_io(&s->superio_cfg.io, OBJECT(d), &superio_cfg_ops,
++                          &s->superio_cfg, "superio_cfg", 2);
++    memory_region_set_enabled(&s->superio_cfg.io, false);
+     /*
+      * The floppy also uses 0x3f0 and 0x3f1.
+      * But we do not emulate a floppy, so just set it here.
+      */
+     memory_region_add_subregion(isa_bus->address_space_io, 0x3f0,
+-                                &s->superio);
++                                &s->superio_cfg.io);
  }
+ 
+ static void via_class_init(ObjectClass *klass, void *data)
 -- 
 2.21.3
 
