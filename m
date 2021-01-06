@@ -2,56 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E11382EBD13
-	for <lists+qemu-devel@lfdr.de>; Wed,  6 Jan 2021 12:22:29 +0100 (CET)
-Received: from localhost ([::1]:45860 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B03FD2EBD1C
+	for <lists+qemu-devel@lfdr.de>; Wed,  6 Jan 2021 12:24:02 +0100 (CET)
+Received: from localhost ([::1]:48038 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kx6tY-0008M9-B5
-	for lists+qemu-devel@lfdr.de; Wed, 06 Jan 2021 06:22:28 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37262)
+	id 1kx6v3-0000pf-PA
+	for lists+qemu-devel@lfdr.de; Wed, 06 Jan 2021 06:24:01 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37492)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1kx6sR-0007wA-Kd
- for qemu-devel@nongnu.org; Wed, 06 Jan 2021 06:21:20 -0500
-Received: from mail.ilande.co.uk ([2001:41c9:1:41f::167]:57756
- helo=mail.default.ilande.uk0.bigv.io)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1kx6sO-0006Gm-Lk
- for qemu-devel@nongnu.org; Wed, 06 Jan 2021 06:21:19 -0500
-Received: from host109-146-177-189.range109-146.btcentralplus.com
- ([109.146.177.189] helo=[192.168.1.65])
- by mail.default.ilande.uk0.bigv.io with esmtpsa
- (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128) (Exim 4.92)
- (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1kx6sM-000692-O8; Wed, 06 Jan 2021 11:21:19 +0000
-From: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
-To: qemu-devel@nongnu.org, atar4qemu@gmail.com, f4bug@amsat.org
-References: <20201219111934.5540-1-mark.cave-ayland@ilande.co.uk>
-Message-ID: <7d9450ae-ba24-fe5d-a581-a29c850a76b7@ilande.co.uk>
-Date: Wed, 6 Jan 2021 11:21:03 +0000
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.6.0
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1kx6tN-00006F-Dy
+ for qemu-devel@nongnu.org; Wed, 06 Jan 2021 06:22:17 -0500
+Received: from mail-ej1-x630.google.com ([2a00:1450:4864:20::630]:44414)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1kx6tK-0006gI-Sm
+ for qemu-devel@nongnu.org; Wed, 06 Jan 2021 06:22:16 -0500
+Received: by mail-ej1-x630.google.com with SMTP id w1so4452735ejf.11
+ for <qemu-devel@nongnu.org>; Wed, 06 Jan 2021 03:22:14 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=ZGtbaTHB7ws4w1nnf5jGISRowGIq34RYWd0ncbq03l0=;
+ b=lxQGv+sSFvaLtpBCwlFQPpm+ACI9DvbtqYaasj75pc2p4k1sztfCfiuN9hYXgXQRZ9
+ KueJam0kL5nTcTIQhiX1dST6zEaQpcNKlI0xZ//9ud7obixue+l/ACx1XszzG8rsYdLU
+ +107LL+sQ7fDJj2mBxeOUwzkjQMsW53vgb6tIJXyDqv8u7ve8HYeJcCbpIh5iV7t2Fy2
+ 0N6YvYOAowx/pheybUOqQtXvJnLOZdnysOep5VDRx/f4mvLy6MzI4CwvubeyIemzv7lH
+ wMf6aN4TiaF3MPdk3i7LxYUndZbN/85OMqLUjz/pMoMudKiWIwCJxaTHx/Zlcx6+ewjy
+ GRAQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=ZGtbaTHB7ws4w1nnf5jGISRowGIq34RYWd0ncbq03l0=;
+ b=dAQkKNlq5Z0IHQ2zpkDJYFC/D6zoacAKlEFcgOmOrVN9G0V0JUO6gqLrjB6osTPA1G
+ Jx9VHPYjp/jZy3/ufVdzjFCtE9FTBT4mMqIcKjQ9LMqsYs/oASqdT4HSk/lIuYDWEa4f
+ HOSCkOd2pjXLWGDfT6lt7T0O5/jM9Jq9UR9oCpKQ1Fr36t7QA2soTg99mSONthpcuwLB
+ FWC8B7pa76kE58xPV0e06oN6I8Mkfqyhc950/iJzzDolNNZgJ7Ie6AINpuT4IKn78JDh
+ HcJIuiZhy+XN7dMouoLSvOM5xP912Kc3VwUbLNExrVw2v52HR1YLf0v/yXe0q5pQfwIw
+ UquA==
+X-Gm-Message-State: AOAM532qtzfnKjnVUn1khCHbMOm271ygC9f09wvQIQIwWVpRGaxA0mo+
+ W64OaLqid4d66Qkz/TIh6+g3D9HgsI3vwYZHG3QSPQ==
+X-Google-Smtp-Source: ABdhPJxm0d2Mi1CIzDX37mEUUAVfb6M4bZY1RT2j0gp3dD/MG4oH7vU5fVH4sMDpqpnTlev8cX27va518yqyvPAbSUI=
+X-Received: by 2002:a17:906:1151:: with SMTP id
+ i17mr2629238eja.250.1609932132830; 
+ Wed, 06 Jan 2021 03:22:12 -0800 (PST)
 MIME-Version: 1.0
-In-Reply-To: <20201219111934.5540-1-mark.cave-ayland@ilande.co.uk>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-SA-Exim-Connect-IP: 109.146.177.189
-X-SA-Exim-Mail-From: mark.cave-ayland@ilande.co.uk
-Subject: Re: [PATCH] sun4m: don't connect two qemu_irqs directly to the same
- input
-X-SA-Exim-Version: 4.2.1 (built Wed, 08 May 2019 21:11:16 +0000)
-X-SA-Exim-Scanned: Yes (on mail.default.ilande.uk0.bigv.io)
-Received-SPF: pass client-ip=2001:41c9:1:41f::167;
- envelope-from=mark.cave-ayland@ilande.co.uk;
- helo=mail.default.ilande.uk0.bigv.io
+References: <20210105094109.3303949-1-f4bug@amsat.org>
+In-Reply-To: <20210105094109.3303949-1-f4bug@amsat.org>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Wed, 6 Jan 2021 11:22:01 +0000
+Message-ID: <CAFEAcA-sbGBfXNrbV4VTWAF=e6ioFb9HYbviSxeQOeNtJ0YHkg@mail.gmail.com>
+Subject: =?UTF-8?B?UmU6IFtQVUxMIHYyIDAwLzM1XSBNSVBTIHBhdGNoZXMgZm9yIDIwMjEtMDEtMDTigIs=?=
+To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2a00:1450:4864:20::630;
+ envelope-from=peter.maydell@linaro.org; helo=mail-ej1-x630.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.249,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -64,104 +79,51 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>,
+ Huacai Chen <chenhuacai@kernel.org>, QEMU Developers <qemu-devel@nongnu.org>,
+ Aurelien Jarno <aurelien@aurel32.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 19/12/2020 11:19, Mark Cave-Ayland wrote:
-
-> The sun4m board code connects both of the IRQ outputs of each ESCC to the
-> same slavio input qemu_irq. Connecting two qemu_irqs outputs directly to the
-> same input is not valid as it produces subtly wrong behaviour (for instance
-> if both the IRQ lines are high, and then one goes low, the PIC input will see
-> this as a high-to-low transition even though the second IRQ line should still
-> be holding it high).
-> 
-> This kind of wiring needs an explicitly created OR gate; add one.
-> 
-> Signed-off-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
-> ---
->   hw/sparc/Kconfig |  1 +
->   hw/sparc/sun4m.c | 23 ++++++++++++++++++-----
->   2 files changed, 19 insertions(+), 5 deletions(-)
-> 
-> diff --git a/hw/sparc/Kconfig b/hw/sparc/Kconfig
-> index 91805afab6..8dcb10086f 100644
-> --- a/hw/sparc/Kconfig
-> +++ b/hw/sparc/Kconfig
-> @@ -14,6 +14,7 @@ config SUN4M
->       select M48T59
->       select STP2000
->       select CHRP_NVRAM
-> +    select OR_IRQ
->   
->   config LEON3
->       bool
-> diff --git a/hw/sparc/sun4m.c b/hw/sparc/sun4m.c
-> index 8686371318..c06c43be18 100644
-> --- a/hw/sparc/sun4m.c
-> +++ b/hw/sparc/sun4m.c
-> @@ -50,6 +50,7 @@
->   #include "hw/misc/empty_slot.h"
->   #include "hw/misc/unimp.h"
->   #include "hw/irq.h"
-> +#include "hw/or-irq.h"
->   #include "hw/loader.h"
->   #include "elf.h"
->   #include "trace.h"
-> @@ -848,7 +849,7 @@ static void sun4m_hw_init(const struct sun4m_hwdef *hwdef,
->       uint32_t initrd_size;
->       DriveInfo *fd[MAX_FD];
->       FWCfgState *fw_cfg;
-> -    DeviceState *dev;
-> +    DeviceState *dev, *ms_kb_orgate, *serial_orgate;
->       SysBusDevice *s;
->       unsigned int smp_cpus = machine->smp.cpus;
->       unsigned int max_cpus = machine->smp.max_cpus;
-> @@ -994,10 +995,16 @@ static void sun4m_hw_init(const struct sun4m_hwdef *hwdef,
->       qdev_prop_set_uint32(dev, "chnAtype", escc_kbd);
->       s = SYS_BUS_DEVICE(dev);
->       sysbus_realize_and_unref(s, &error_fatal);
-> -    sysbus_connect_irq(s, 0, slavio_irq[14]);
-> -    sysbus_connect_irq(s, 1, slavio_irq[14]);
->       sysbus_mmio_map(s, 0, hwdef->ms_kb_base);
->   
-> +    /* Logically OR both its IRQs together */
-> +    ms_kb_orgate = DEVICE(object_new(TYPE_OR_IRQ));
-> +    object_property_set_int(OBJECT(ms_kb_orgate), "num-lines", 2, &error_fatal);
-> +    qdev_realize_and_unref(ms_kb_orgate, NULL, &error_fatal);
-> +    sysbus_connect_irq(s, 0, qdev_get_gpio_in(ms_kb_orgate, 0));
-> +    sysbus_connect_irq(s, 1, qdev_get_gpio_in(ms_kb_orgate, 1));
-> +    qdev_connect_gpio_out(DEVICE(ms_kb_orgate), 0, slavio_irq[14]);
-> +
->       dev = qdev_new(TYPE_ESCC);
->       qdev_prop_set_uint32(dev, "disabled", 0);
->       qdev_prop_set_uint32(dev, "frequency", ESCC_CLOCK);
-> @@ -1009,10 +1016,16 @@ static void sun4m_hw_init(const struct sun4m_hwdef *hwdef,
->   
->       s = SYS_BUS_DEVICE(dev);
->       sysbus_realize_and_unref(s, &error_fatal);
-> -    sysbus_connect_irq(s, 0, slavio_irq[15]);
-> -    sysbus_connect_irq(s, 1,  slavio_irq[15]);
->       sysbus_mmio_map(s, 0, hwdef->serial_base);
->   
-> +    /* Logically OR both its IRQs together */
-> +    serial_orgate = DEVICE(object_new(TYPE_OR_IRQ));
-> +    object_property_set_int(OBJECT(serial_orgate), "num-lines", 2, &error_fatal);
-> +    qdev_realize_and_unref(serial_orgate, NULL, &error_fatal);
-> +    sysbus_connect_irq(s, 0, qdev_get_gpio_in(serial_orgate, 0));
-> +    sysbus_connect_irq(s, 1, qdev_get_gpio_in(serial_orgate, 1));
-> +    qdev_connect_gpio_out(DEVICE(serial_orgate), 0, slavio_irq[15]);
-> +
->       if (hwdef->apc_base) {
->           apc_init(hwdef->apc_base, qemu_allocate_irq(cpu_halt_signal, NULL, 0));
->       }
-
-I've applied this to my qemu-sparc branch, with a slight tweak to the second 
-object_property_set_int() line as it was giving a warning on checkpatch.pl for being 
-just over 80 characters in length.
+On Tue, 5 Jan 2021 at 09:44, Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org> =
+wrote:
+>
+> The following changes since commit e551455f1e7a3d7eee9e11e2903e4050bc5511=
+ae:
+>
+>   Merge remote-tracking branch 'remotes/stefanha-gitlab/tags/block-pull-r=
+equest' into staging (2021-01-04 15:02:53 +0000)
+>
+> are available in the Git repository at:
+>
+>   https://gitlab.com/philmd/qemu.git tags/mips-20210104
+>
+> for you to fetch changes up to 457027298749333047bf81a856ce95ea5f9dccd9:
+>
+>   tests/acceptance: Test boot_linux_console for fuloong2e (2021-01-04 23:=
+36:03 +0100)
+>
+> Since v1:
+> - Fixed memory leak reported by Peter
+>
+> ----------------------------------------------------------------
+> MIPS patches queue
+>
+> - Use PCI macros (Philippe Mathieu-Daud=C3=A9)
+> - Clean up VT82C686B south bridge (BALATON Zoltan)
+> - Introduce clock_ticks_to_ns() (Peter Maydell)
+> - Add Loongson-3 machine (Huacai Chen)
+> - Make addresses used by bootloader unsigned (Jiaxun Yang)
+> - Clean fuloong2e PROM environment (Jiaxun Yang)
+> - Add integration test of fuloong2e booting Linux (Jiaxun Yang)
+>
+> ----------------------------------------------------------------
 
 
-ATB,
+Applied, thanks.
 
-Mark.
+Please update the changelog at https://wiki.qemu.org/ChangeLog/6.0
+for any user-visible changes.
+
+-- PMM
 
