@@ -2,81 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 14E062EC16F
+	by mail.lfdr.de (Postfix) with ESMTPS id 0FE472EC16E
 	for <lists+qemu-devel@lfdr.de>; Wed,  6 Jan 2021 17:49:14 +0100 (CET)
-Received: from localhost ([::1]:42214 helo=lists1p.gnu.org)
+Received: from localhost ([::1]:42216 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kxBzk-00057e-Tw
+	id 1kxBzk-00057j-HW
 	for lists+qemu-devel@lfdr.de; Wed, 06 Jan 2021 11:49:12 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57316)
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57818)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
- id 1kxBwg-0002md-Rr
- for qemu-devel@nongnu.org; Wed, 06 Jan 2021 11:46:02 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:23939)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
- id 1kxBwV-0002dK-Ea
- for qemu-devel@nongnu.org; Wed, 06 Jan 2021 11:46:01 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1609951549;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=UaxV4H1Q8DEiFhs2A0eWteREY+B8chVFt3pmGyWlCnc=;
- b=N8s2y51lzTPP5ay1fQufxh/UeJCnR+fsNhvhBJAREiV2sHspdTRhdfqV+vM0L50sgNkAp7
- fjJtjAlq1f7HCfWZCrOTccuvPYzcFbsljbfmM81OQwpSZfQp6XDOBa26O0/EVDPnlLRw6g
- J4S6jlj242Wmi7ANYzUf6Qx4w58UgC0=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-191-B6-sH5sPOh6VZrshuN7_1w-1; Wed, 06 Jan 2021 11:45:47 -0500
-X-MC-Unique: B6-sH5sPOh6VZrshuN7_1w-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 926641006C81
- for <qemu-devel@nongnu.org>; Wed,  6 Jan 2021 16:45:46 +0000 (UTC)
-Received: from localhost (unknown [10.40.208.13])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 2B32860C95;
- Wed,  6 Jan 2021 16:45:43 +0000 (UTC)
-Date: Wed, 6 Jan 2021 17:45:42 +0100
-From: Igor Mammedov <imammedo@redhat.com>
-To: Vitaly Kuznetsov <vkuznets@redhat.com>
-Subject: Re: [PATCH 5/5] i386: provide simple 'hyperv=on' option to x86
- machine types
-Message-ID: <20210106174542.496f9f6e@redhat.com>
-In-Reply-To: <87sg7egp73.fsf@vitty.brq.redhat.com>
-References: <20201119103221.1665171-1-vkuznets@redhat.com>
- <20201119103221.1665171-6-vkuznets@redhat.com>
- <20201216205202.GJ3140057@habkost.net>
- <20201218181340.5e398280@redhat.com>
- <87r1n0j20n.fsf@vitty.brq.redhat.com>
- <20210105000435.1cf4c6f6@redhat.com>
- <87lfd7iowi.fsf@vitty.brq.redhat.com>
- <20210105170312.32cf0e12@redhat.com>
- <87a6tnibv4.fsf@vitty.brq.redhat.com>
- <20210106141303.145790f7@redhat.com>
- <87sg7egp73.fsf@vitty.brq.redhat.com>
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1kxBy7-0003tM-0B; Wed, 06 Jan 2021 11:47:37 -0500
+Received: from mail-wm1-x32c.google.com ([2a00:1450:4864:20::32c]:54780)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1kxBy5-00030y-He; Wed, 06 Jan 2021 11:47:30 -0500
+Received: by mail-wm1-x32c.google.com with SMTP id c133so2933096wme.4;
+ Wed, 06 Jan 2021 08:47:28 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=sender:subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=M/G24nIvDK6KKZyQruRYz6q/vvCi/hK+tlUi7T69iOM=;
+ b=EbDBm/+IjSUwV1jMJYNNfBYJ1e7Oa6O0jTLjLgIkJc1h41LXIV9wH4OqOepC2QlR3W
+ 38gCPzB5olTiY4nE+XPJADaFNHsIHRCwnHkUJ4SJNREqYzojjcTouOpu3FVGAEhGbQ1Z
+ D0cIKaQFV0WfVgvy57EngCOUPSw/83OwRSSH07S2qiTk4X6cSb1vBV36zXJTMqyb9/6b
+ Z+ieyd8F9VMmltkMUJOWo1lUSP00oV2uwagkN4PSYv00I210KaL7KCO/7R73RRraLJbM
+ mks4uQquYNRk5SURYfT7Mvgefo7m5oEaPFYZ4Md9LRQa3pXpkM6fjsd0BuuXdiio+X0H
+ dH3g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
+ :date:user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=M/G24nIvDK6KKZyQruRYz6q/vvCi/hK+tlUi7T69iOM=;
+ b=Fcb2kdhQnJBnB93y0Rm3YQCOcCPDeS+hcjf5X6taSqnvrNxkhK7nUxhrryoKegWpSf
+ dcnC4YThTNg/rsRYce58BAdVzvXjrAE/qvwGN9/N6D74sxzFfoawC+3d2K7EDB5UDqrQ
+ 9BxyZgz/fORZo/fMT1ZoxqJPxlejl0EEz4XbIRX1Kr1nSt8DnTO0hoTXjldGt4fG/qBj
+ xarB8rvL++uXN4MM8wXXHDYw5FQOQHr1iUC4X2ciTTBiwNDmLlROtj0IZzWAChj49cnf
+ 6YMMUDFTw0IgIrVUcnhgCePz3/OwPbWwunBMrqp3aMdQUudLDzWxsx9x4+rK+kEhiKzw
+ KXNQ==
+X-Gm-Message-State: AOAM531v9+PacIr8u6YZ0r1dw6gyFRV4MmoXt5BrQ2DcdGq3ZF1dvqmB
+ Iecoa0ldmqP7HP0SER79nkw=
+X-Google-Smtp-Source: ABdhPJxjyr+OQ5M3xDfbyQZr6qZhIC8WCZ5LQZhKz+BX5wqv5XlYNNt4f8GFXFTG4CKzhkoVALwz2g==
+X-Received: by 2002:a1c:6383:: with SMTP id x125mr4443878wmb.46.1609951647363; 
+ Wed, 06 Jan 2021 08:47:27 -0800 (PST)
+Received: from [192.168.1.36] (241.red-88-10-103.dynamicip.rima-tde.net.
+ [88.10.103.241])
+ by smtp.gmail.com with ESMTPSA id w189sm3693625wmg.31.2021.01.06.08.47.26
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 06 Jan 2021 08:47:26 -0800 (PST)
+Subject: Re: [PATCHv3] arm-virt: add secure pl061 for reset/power down
+To: Maxim Uvarov <maxim.uvarov@linaro.org>, qemu-arm@nongnu.org,
+ qemu-devel@nongnu.org
+References: <20210106163426.9971-1-maxim.uvarov@linaro.org>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
+Message-ID: <7c639f40-e42a-44a0-3a1f-a0ddc8413e83@amsat.org>
+Date: Wed, 6 Jan 2021 17:47:25 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.6.0
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=imammedo@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=imammedo@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -29
-X-Spam_score: -3.0
-X-Spam_bar: ---
-X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.252,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+In-Reply-To: <20210106163426.9971-1-maxim.uvarov@linaro.org>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::32c;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x32c.google.com
+X-Spam_score_int: -17
+X-Spam_score: -1.8
+X-Spam_bar: -
+X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249, NICE_REPLY_A=-0.249,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -89,129 +87,33 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Paolo Bonzini <pbonzini@redhat.com>, Marcelo Tosatti <mtosatti@redhat.com>,
- Eduardo Habkost <ehabkost@redhat.com>, qemu-devel@nongnu.org
+Cc: peter.maydell@linaro.org, Jose.Marinho@arm.com,
+ tf-a@lists.trustedfirmware.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, 06 Jan 2021 14:38:56 +0100
-Vitaly Kuznetsov <vkuznets@redhat.com> wrote:
-
-> Igor Mammedov <imammedo@redhat.com> writes:
+On 1/6/21 5:34 PM, Maxim Uvarov wrote:
+> Add secure pl061 for reset/power down machine from
+> the secure world (Arm Trusted Firmware).
+> Use the same gpio 3 and gpio 4 which were used by
+> non acpi variant of linux power control gpios.
 > 
-> > On Tue, 05 Jan 2021 17:31:43 +0100
-> > Vitaly Kuznetsov <vkuznets@redhat.com> wrote:
-> >  
-> >> Igor Mammedov <imammedo@redhat.com> writes:
-> >>   
-> >> > On Tue, 05 Jan 2021 12:50:05 +0100
-> >> >
-> >> > I think there is a misunderstanding, idea was:
-> >> >
-> >> > cpu_initfn() {
-> >> >     //current set
-> >> >     cpu->default_hyperv_cpu_features = ACD
-> >> > }
-> >> >
-> >> > compat_props_5.1 {
-> >> >    cpu.default_hyperv_cpu_features = AB
-> >> > }
-> >> >
-> >> > compat_props_5.2 {
-> >> >    cpu.default_hyperv_cpu_features = ABC
-> >> > }
-> >> >    
-> >> 
-> >> ...
-> >>   
-> >> > I was talking about CPU features/properties only, it doesn't apply to other devices.
-> >> > It makes sense for machine to have a knob to create onboard hyperv specific
-> >> > devices if there is any (do we have any?).
-> >> >
-> >> > If there aren't any currently, I wouldn't bother with machine knob
-> >> > and just use -cpu foo,hv_default=on or -device cpu,hv_default=on
-> >> > like any other cpu feature.
-> >> >    
-> >> 
-> >> We don't currently have any devices which are not 'CPU features' (in
-> >> QEMU terminology), however, we already have Vmbus and I can easily
-> >> imagine us implementing e.g. hartbeat/kvp/vss/... devices on top. We
-> >> *may* want to enable these 'automatically' and that's what make
-> >> '-machine' option preferable. It is, however, not a *must* right now and
-> >> we can indeed wait until these devices appear and be happy with
-> >> 'hv_default' -cpu option for now. We will, however, need to teach upper
-> >> layers about the change when/if it happens.  
-> >
-> > which makes me think we are trying to bite something that we shouldn't.
-> > Do we really need this patch (QEMU knob) to magically enable subset of
-> > features and/or devices for a specific OS flavor?
-> >
-> > It's job of upper layers to abstract low level QEMU details in to coarse
-> > grained knobs (libvirt/virt-install/virt-manager/...).
-> > For example virt-install may know that it installing a specific Windows
-> > version, and can build a tailored for that OS configuration including
-> > needed hyperv CPU features and hyperv specific devices.
-> > (if I'm not mistaken libosinfo is used to get metadata for preferred
-> > configuration, so perhaps this should become a patch for that library
-> > and its direct users).
-> >
-> > What we actually lack is a documentation for preferred configuration
-> > in docs/hyperv.txt, currently it just enumerates possible features.
-> > We can just document a recommended 'best practices' there without
-> > putting it in QEMU code and let upper layers to do their job in
-> > the stack.  
+> Signed-off-by: Maxim Uvarov <maxim.uvarov@linaro.org>
+> ---
+>  v3: added missed include qemu/log.h for qemu_log(.. 
+>  v2: replace printf with qemu_log (Philippe Mathieu-Daudé)
+
+Thanks!
+
+Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+
 > 
-> The problem we're facing here is that when a new enlightenment is
-> implemented it takes forever to propagate to the whole stack. We don't
-It's true not only for Hyper-V, I guess it's price to pay for modular solution.
-
-> have any different recommendations for different Windows versions,
-> neither does genuine Hyper-V. The 'fine grained' mechanis we have just
-> contributes to the creation of various Frankenstein configurations
-> (which look nothing like real Hyper-V), people just google for 'Windows
-> KVM slow', add something to their scripts and this keeps propagating.
-That's why I mentioned lack of documentation.
-If someone manually configures QEMU, one should understand what they do
-enable and why or enlist help of virt-install and likes.
-
-> Every time I see a configuration with only a few 'hv_*' options I ask
-> 'why don't you enable the rest?' and I'm yet to receive an answer
-> different from 'hm, I don't know, I copied it from somewhere and it
-> worked'.
-
-If individual features are are composed by virt-install or other tools
-based on libosinfo data, then we don't have to maintain versioning
-of new default_set_features per machine type, which will only become
-worse if we include hv specific devices into it.
-
-Also with libosinfo approach, old machine types and old QEMU versions
-can also benefit from it without need to change whole stack.
-And no versioning is necessary since chosen config set is stored in
-domain XML at the moment VM is created.
-
-> Setting 'hv_*' options individually should be considered debug only.
-that's how cpu's features were designed, a helper knob on top is fine
-as long as it doesn't mess the way it used to work and preferably is
-build on top of existing features.
-
-PS:
-another wild idea how to implement it using '-machine hyperv=on',
-based on compat props idea:
-
-// replaces bit set in your version
-hv_default_set[] =
-  "hv_feat1", "hv_feat2",
- ...
-};
-
-// probably should be done before -cpu is parsed
-then if machine hyperv=on
-   foreach in hv_default_set[]
-      object_register_sugar_prop(hv_default_set[i], "on")
-
-PS2:
-my preferred approach is still -cpu hyperv=on, since it doesn't
-depend on order CLI is currently parsed (which is fragile thing),
-but rather on what user asked us to do with CPU.
-
+>  hw/arm/Kconfig        |  1 +
+>  hw/arm/virt.c         | 24 ++++++++++++
+>  hw/gpio/Kconfig       |  3 ++
+>  hw/gpio/gpio_pwr.c    | 85 +++++++++++++++++++++++++++++++++++++++++++
+>  hw/gpio/meson.build   |  1 +
+>  include/hw/arm/virt.h |  1 +
+>  6 files changed, 115 insertions(+)
+>  create mode 100644 hw/gpio/gpio_pwr.
 
