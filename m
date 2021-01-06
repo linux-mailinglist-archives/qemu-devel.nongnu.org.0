@@ -2,42 +2,43 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8010A2EB8AF
-	for <lists+qemu-devel@lfdr.de>; Wed,  6 Jan 2021 04:51:50 +0100 (CET)
-Received: from localhost ([::1]:56630 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 124982EB8B7
+	for <lists+qemu-devel@lfdr.de>; Wed,  6 Jan 2021 04:55:03 +0100 (CET)
+Received: from localhost ([::1]:36268 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kwzrR-0005NR-JP
-	for lists+qemu-devel@lfdr.de; Tue, 05 Jan 2021 22:51:49 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44934)
+	id 1kwzuY-0000Cs-5O
+	for lists+qemu-devel@lfdr.de; Tue, 05 Jan 2021 22:55:02 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44898)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1kwzeu-0005xF-IP; Tue, 05 Jan 2021 22:38:52 -0500
-Received: from ozlabs.org ([203.11.71.1]:57095)
+ id 1kwzet-0005tB-6K; Tue, 05 Jan 2021 22:38:51 -0500
+Received: from ozlabs.org ([2401:3900:2:1::2]:34423)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1kwzes-0006NF-I1; Tue, 05 Jan 2021 22:38:52 -0500
+ id 1kwzeq-0006MO-5C; Tue, 05 Jan 2021 22:38:50 -0500
 Received: by ozlabs.org (Postfix, from userid 1007)
- id 4D9ZpH67YWz9sWg; Wed,  6 Jan 2021 14:38:31 +1100 (AEDT)
+ id 4D9ZpH5DkSz9sWS; Wed,  6 Jan 2021 14:38:31 +1100 (AEDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=gibson.dropbear.id.au; s=201602; t=1609904311;
- bh=LhukejFda9iGOng0hclp5G8zINQEyYAwY8mhFJAsHe0=;
+ bh=sScZOhoOb3h3fcosBl7ZWkjQcC9p45O2Og6oIAK7Fng=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=UzTFQIYipr3qCRGBgc1OdBegIfYQWfnhkmArd/NXLtu9Pv/SnmXkzJ+ckFl6QiX3I
- a1ULaGPsVNkT1nymzxB+RkqrBLpYshvP6dRd71rh1BrNqpQoITKPMnjyiezip3RIoy
- hTSFow7wNVld49cd5XOvPsAVPmAD3eEbEWWeLffI=
+ b=b5Re7pk3SUj9EEbxVqXhvQJGuzT++MUesv5ZMeGqy2+s3Cnt75pn/BSzoWY0pO55B
+ j/vrWJJ4VhmNvul7ldysYONaMYaCDTcbazlnvocJqjtteXCtiCDM64ITTgG2idWYwR
+ 5yl4Udew7GXYsjX7DSMv1zbsjD77m/ufOL86evsI=
 From: David Gibson <david@gibson.dropbear.id.au>
 To: peter.maydell@linaro.org,
 	groug@kaod.org
-Subject: [PULL 15/22] ppc: Fix build with --without-default-devices
-Date: Wed,  6 Jan 2021 14:38:09 +1100
-Message-Id: <20210106033816.232598-16-david@gibson.dropbear.id.au>
+Subject: [PULL 16/22] ppc: Simplify reverse dependencies of POWERNV and
+ PSERIES on XICS and XIVE
+Date: Wed,  6 Jan 2021 14:38:10 +1100
+Message-Id: <20210106033816.232598-17-david@gibson.dropbear.id.au>
 X-Mailer: git-send-email 2.29.2
 In-Reply-To: <20210106033816.232598-1-david@gibson.dropbear.id.au>
 References: <20210106033816.232598-1-david@gibson.dropbear.id.au>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=203.11.71.1; envelope-from=dgibson@ozlabs.org;
+Received-SPF: pass client-ip=2401:3900:2:1::2; envelope-from=dgibson@ozlabs.org;
  helo=ozlabs.org
 X-Spam_score_int: -17
 X-Spam_score: -1.8
@@ -64,119 +65,79 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Greg Kurz <groug@kaod.org>
 
-Linking of the qemu-system-ppc64 fails on a POWER9 host when
---without-default-devices is passed to configure:
-
-$ ./configure --without-default-devices \
-              --target-list=ppc64-softmmu && make
-
-...
-
-libqemu-ppc64-softmmu.fa.p/hw_ppc_e500.c.o: In function `ppce500_init_mpic_kvm':
-/home/greg/Work/qemu/qemu-ppc/build/../hw/ppc/e500.c:777: undefined reference to `kvm_openpic_connect_vcpu'
-libqemu-ppc64-softmmu.fa.p/hw_ppc_spapr_irq.c.o: In function `spapr_irq_check':
-/home/greg/Work/qemu/qemu-ppc/build/../hw/ppc/spapr_irq.c:189: undefined reference to `xics_kvm_has_broken_disconnect'
-libqemu-ppc64-softmmu.fa.p/hw_intc_spapr_xive.c.o: In function `spapr_xive_post_load':
-/home/greg/Work/qemu/qemu-ppc/build/../hw/intc/spapr_xive.c:530: undefined reference to `kvmppc_xive_post_load'
-
-... and tons of other symbols belonging to the KVM backend of the
-openpic, XICS and XIVE interrupt controllers.
-
-It turns out that OPENPIC_KVM, XICS_KVM and XIVE_KVM are marked
-to depend on KVM but this has no effect when minikconf runs in
-allnoconfig mode. Such reverse dependencies should rather be
-handled with a 'select' statement, eg.
-
-config OPENPIC
-    select OPENPIC_KVM if KVM
-
-or even better by getting rid of the intermediate _KVM config
-and directly checking CONFIG_KVM in the meson.build file:
-
-specific_ss.add(when: ['CONFIG_KVM', 'CONFIG_OPENPIC'],
-		if_true: files('openpic_kvm.c'))
-
-Go for the latter with OPENPIC, XICS and XIVE.
-
-This went unnoticed so far because CI doesn't test the build with
---without-default-devices and KVM enabled on a POWER host.
+Have PSERIES to select XICS and XIVE, and directly check PSERIES
+in hw/intc/meson.build to enable build of the XICS and XIVE sPAPR
+backends, like POWERNV already does. This allows to get rid of the
+intermediate XICS_SPAPR and XIVE_SPAPR.
 
 Signed-off-by: Greg Kurz <groug@kaod.org>
-Message-Id: <160883056791.253005.14924294027763955653.stgit@bahia.lan>
+Message-Id: <160883057560.253005.4206568349917633920.stgit@bahia.lan>
 Signed-off-by: David Gibson <david@gibson.dropbear.id.au>
 ---
- hw/intc/Kconfig     | 10 ----------
- hw/intc/meson.build |  9 ++++++---
- hw/ppc/Kconfig      |  5 -----
- 3 files changed, 6 insertions(+), 18 deletions(-)
+ hw/intc/Kconfig     |  4 +---
+ hw/intc/meson.build |  3 +--
+ hw/ppc/Kconfig      | 14 ++------------
+ 3 files changed, 4 insertions(+), 17 deletions(-)
 
 diff --git a/hw/intc/Kconfig b/hw/intc/Kconfig
-index 468d548ca7..fa2695e58d 100644
+index fa2695e58d..c18d11142a 100644
 --- a/hw/intc/Kconfig
 +++ b/hw/intc/Kconfig
-@@ -30,11 +30,6 @@ config ARM_GIC_KVM
-     default y
-     depends on ARM_GIC && KVM
+@@ -32,11 +32,9 @@ config ARM_GIC_KVM
  
--config OPENPIC_KVM
--    bool
--    default y
--    depends on OPENPIC && KVM
--
  config XICS
      bool
-     depends on POWERNV || PSERIES
-@@ -43,11 +38,6 @@ config XICS_SPAPR
-     bool
-     select XICS
+-    depends on POWERNV || PSERIES
  
--config XICS_KVM
--    bool
--    default y
--    depends on XICS && KVM
--
+-config XICS_SPAPR
++config XIVE
+     bool
+-    select XICS
+ 
  config ALLWINNER_A10_PIC
      bool
- 
 diff --git a/hw/intc/meson.build b/hw/intc/meson.build
-index 68da782ad2..b6c9218908 100644
+index b6c9218908..53cba11569 100644
 --- a/hw/intc/meson.build
 +++ b/hw/intc/meson.build
-@@ -39,7 +39,8 @@ specific_ss.add(when: 'CONFIG_LOONGSON_LIOINTC', if_true: files('loongson_lioint
- specific_ss.add(when: 'CONFIG_MIPS_CPS', if_true: files('mips_gic.c'))
- specific_ss.add(when: 'CONFIG_OMAP', if_true: files('omap_intc.c'))
- specific_ss.add(when: 'CONFIG_OMPIC', if_true: files('ompic.c'))
--specific_ss.add(when: 'CONFIG_OPENPIC_KVM', if_true: files('openpic_kvm.c'))
-+specific_ss.add(when: ['CONFIG_KVM', 'CONFIG_OPENPIC'],
-+		if_true: files('openpic_kvm.c'))
- specific_ss.add(when: 'CONFIG_POWERNV', if_true: files('xics_pnv.c', 'pnv_xive.c'))
- specific_ss.add(when: 'CONFIG_PPC_UIC', if_true: files('ppc-uic.c'))
- specific_ss.add(when: 'CONFIG_RASPI', if_true: files('bcm2835_ic.c', 'bcm2836_control.c'))
-@@ -50,8 +51,10 @@ specific_ss.add(when: 'CONFIG_SH4', if_true: files('sh_intc.c'))
- specific_ss.add(when: 'CONFIG_SIFIVE_CLINT', if_true: files('sifive_clint.c'))
- specific_ss.add(when: 'CONFIG_SIFIVE_PLIC', if_true: files('sifive_plic.c'))
+@@ -53,8 +53,7 @@ specific_ss.add(when: 'CONFIG_SIFIVE_PLIC', if_true: files('sifive_plic.c'))
  specific_ss.add(when: 'CONFIG_XICS', if_true: files('xics.c'))
--specific_ss.add(when: 'CONFIG_XICS_KVM', if_true: files('xics_kvm.c'))
-+specific_ss.add(when: ['CONFIG_KVM', 'CONFIG_XICS'],
-+		if_true: files('xics_kvm.c'))
- specific_ss.add(when: 'CONFIG_XICS_SPAPR', if_true: files('xics_spapr.c'))
+ specific_ss.add(when: ['CONFIG_KVM', 'CONFIG_XICS'],
+ 		if_true: files('xics_kvm.c'))
+-specific_ss.add(when: 'CONFIG_XICS_SPAPR', if_true: files('xics_spapr.c'))
++specific_ss.add(when: 'CONFIG_PSERIES', if_true: files('xics_spapr.c', 'spapr_xive.c'))
  specific_ss.add(when: 'CONFIG_XIVE', if_true: files('xive.c'))
--specific_ss.add(when: 'CONFIG_XIVE_KVM', if_true: files('spapr_xive_kvm.c'))
-+specific_ss.add(when: ['CONFIG_KVM', 'CONFIG_XIVE'],
-+		if_true: files('spapr_xive_kvm.c'))
- specific_ss.add(when: 'CONFIG_XIVE_SPAPR', if_true: files('spapr_xive.c'))
+ specific_ss.add(when: ['CONFIG_KVM', 'CONFIG_XIVE'],
+ 		if_true: files('spapr_xive_kvm.c'))
+-specific_ss.add(when: 'CONFIG_XIVE_SPAPR', if_true: files('spapr_xive.c'))
 diff --git a/hw/ppc/Kconfig b/hw/ppc/Kconfig
-index 982d55f587..e35710c7c3 100644
+index e35710c7c3..a213994ebf 100644
 --- a/hw/ppc/Kconfig
 +++ b/hw/ppc/Kconfig
-@@ -139,11 +139,6 @@ config XIVE_SPAPR
-     depends on PSERIES
-     select XIVE
+@@ -7,8 +7,8 @@ config PSERIES
+     select PCI
+     select SPAPR_VSCSI
+     select VFIO if LINUX   # needed by spapr_pci_vfio.c
+-    select XICS_SPAPR
+-    select XIVE_SPAPR
++    select XICS
++    select XIVE
+     select MSI_NONBROKEN
+     select FDT_PPC
+     select CHRP_NVRAM
+@@ -129,16 +129,6 @@ config VIRTEX
+     select XILINX_ETHLITE
+     select FDT_PPC
  
--config XIVE_KVM
+-config XIVE
+-    bool
+-    depends on POWERNV || PSERIES
+-
+-config XIVE_SPAPR
 -    bool
 -    default y
--    depends on XIVE_SPAPR && KVM
+-    depends on PSERIES
+-    select XIVE
 -
  # Only used by 64-bit targets
  config FW_CFG_PPC
