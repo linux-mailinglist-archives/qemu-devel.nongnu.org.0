@@ -2,42 +2,36 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E622B2EC5B1
-	for <lists+qemu-devel@lfdr.de>; Wed,  6 Jan 2021 22:26:25 +0100 (CET)
-Received: from localhost ([::1]:34426 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D7A4D2EC5B8
+	for <lists+qemu-devel@lfdr.de>; Wed,  6 Jan 2021 22:31:06 +0100 (CET)
+Received: from localhost ([::1]:42712 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kxGK1-0000tb-1O
-	for lists+qemu-devel@lfdr.de; Wed, 06 Jan 2021 16:26:25 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57054)
+	id 1kxGOX-0004P2-LS
+	for lists+qemu-devel@lfdr.de; Wed, 06 Jan 2021 16:31:05 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57608)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
- id 1kxGIj-0000Gu-Gd
- for qemu-devel@nongnu.org; Wed, 06 Jan 2021 16:25:05 -0500
-Received: from zero.eik.bme.hu ([152.66.115.2]:34558)
+ id 1kxGMS-0002oZ-Az
+ for qemu-devel@nongnu.org; Wed, 06 Jan 2021 16:28:57 -0500
+Received: from zero.eik.bme.hu ([152.66.115.2]:22455)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
- id 1kxGIg-0000RF-ND
- for qemu-devel@nongnu.org; Wed, 06 Jan 2021 16:25:04 -0500
+ id 1kxGMO-0001j0-Il
+ for qemu-devel@nongnu.org; Wed, 06 Jan 2021 16:28:55 -0500
 Received: from zero.eik.bme.hu (blah.eik.bme.hu [152.66.115.182])
- by localhost (Postfix) with SMTP id 184007470F3;
- Wed,  6 Jan 2021 22:25:00 +0100 (CET)
+ by localhost (Postfix) with SMTP id 3DEBF7470FD;
+ Wed,  6 Jan 2021 22:28:51 +0100 (CET)
 Received: by zero.eik.bme.hu (Postfix, from userid 432)
- id 820AC7470E0; Wed,  6 Jan 2021 22:24:59 +0100 (CET)
-Received: from localhost (localhost [127.0.0.1])
- by zero.eik.bme.hu (Postfix) with ESMTP id 803F074645B;
- Wed,  6 Jan 2021 22:24:59 +0100 (CET)
-Date: Wed, 6 Jan 2021 22:24:59 +0100 (CET)
+ id 11EFE7470DF; Wed,  6 Jan 2021 22:28:51 +0100 (CET)
+Message-Id: <cover.1609967638.git.balaton@eik.bme.hu>
 From: BALATON Zoltan <balaton@eik.bme.hu>
-To: Paolo Bonzini <pbonzini@redhat.com>
-Subject: Re: [PATCH] vl: initialize displays _after_ exiting preconfiguration
-In-Reply-To: <CABgObfb4v2bZ_PQNxoZHK48c4LhYy34WEWOQo7=Eky+E5=e2Wg@mail.gmail.com>
-Message-ID: <bc1ce1b9-c7d6-8dcb-7766-b04cc346c564@eik.bme.hu>
-References: <20201217091403.36195-1-pbonzini@redhat.com>
- <206452d4-8883-8787-366-c2921c365e@eik.bme.hu>
- <CABgObfb4v2bZ_PQNxoZHK48c4LhYy34WEWOQo7=Eky+E5=e2Wg@mail.gmail.com>
+Subject: [PATCH 00/12] vt82c686b clean ups and vt8231 emulation
+Date: Wed, 06 Jan 2021 22:13:58 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII; format=flowed
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+To: qemu-devel@nongnu.org
 X-Spam-Probability: 8%
 Received-SPF: pass client-ip=152.66.115.2; envelope-from=balaton@eik.bme.hu;
  helo=zero.eik.bme.hu
@@ -58,66 +52,38 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>, Gerd Hoffmann <kraxel@redhat.com>,
- qemu-devel <qemu-devel@nongnu.org>, Howard Spoelstra <hsp.cat7@gmail.com>
+Cc: Huacai Chen <chenhuacai@kernel.org>, f4bug@amsat.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, 6 Jan 2021, Paolo Bonzini wrote:
-> Il mer 6 gen 2021, 18:06 BALATON Zoltan <balaton@eik.bme.hu> ha scritto:
->
->> On Thu, 17 Dec 2020, Paolo Bonzini wrote:
->>> Due to the renumbering of text consoles when graphical consoles are
->>> created, init_displaystate must be called after all QemuConsoles are
->>> created, i.e. after devices are created.
->>>
->>> vl.c calls it from qemu_init_displays, while qmp_x_exit_preconfig is
->>> where devices are created.  If qemu_init_displays is called before it,
->>> the VGA graphical console does not come up.
->>
->> Tested-by: BALATON Zoltan <balaton@eik.bme.hu>
->>
->> This still seems to be missing from master, who should take care of this?
->>
->
-> It's in now, I think.
+These are the remaining patches for VT8231 emulation after the first
+half of it was merged. After patch 3 fuloong2e will need the Bonito
+REG_MASK fix to be able to map SMBus registers because it's no longer
+mapped at fixed address (firmware will do this if it can access the
+right register).
 
-Yes, got merges with the misc fixes series.
+BALATON Zoltan (12):
+  vt82c686: Move superio memory region to SuperIOConfig struct
+  vt82c686: Reorganise code
+  vt82c686: Fix SMBus IO base and configuration registers
+  vt82c686: Fix up power management io base and config
+  vt82c686: Make vt82c686b-pm an abstract base class and add vt8231-pm
+    based on it
+  vt82c686: Simplify vt82c686b_realize()
+  vt82c686: Move creation of ISA devices to the ISA bridge
+  vt82c686: Fix superio_cfg_{read,write}() functions
+  vt82c686: Implement control of serial port io ranges via config regs
+  vt82c686: QOM-ify superio related functionality
+  vt82c686: Add VT8231_SUPERIO based on VIA_SUPERIO
+  vt82c686: Add emulation of VT8231 south bridge
 
-Thanks,
-BALATON Zoltan
+ hw/isa/trace-events       |   2 +
+ hw/isa/vt82c686.c         | 889 ++++++++++++++++++++++++++++----------
+ hw/mips/fuloong2e.c       |  33 +-
+ include/hw/isa/vt82c686.h |   3 +-
+ 4 files changed, 679 insertions(+), 248 deletions(-)
 
-> Paolo
->
->
->> Regards,
->> BALATON Zoltan
->>
->>> Reported-by: Howard Spoelstra <hsp.cat7@gmail.com>
->>> Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
->>> ---
->>> softmmu/vl.c | 2 +-
->>> 1 file changed, 1 insertion(+), 1 deletion(-)
->>>
->>> diff --git a/softmmu/vl.c b/softmmu/vl.c
->>> index 0ed5c5ba93..7ddf405d76 100644
->>> --- a/softmmu/vl.c
->>> +++ b/softmmu/vl.c
->>> @@ -3529,10 +3529,10 @@ void qemu_init(int argc, char **argv, char
->> **envp)
->>>         exit(0);
->>>     }
->>>
->>> -    qemu_init_displays();
->>>     if (!preconfig_requested) {
->>>         qmp_x_exit_preconfig(&error_fatal);
->>>     }
->>> +    qemu_init_displays();
->>>     accel_setup_post(current_machine);
->>>     os_setup_post();
->>>     resume_mux_open();
->>>
->>
->>
->
+-- 
+2.21.3
+
 
