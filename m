@@ -2,78 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E505E2EBD4B
-	for <lists+qemu-devel@lfdr.de>; Wed,  6 Jan 2021 12:44:01 +0100 (CET)
-Received: from localhost ([::1]:59212 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 79FA62EBD4C
+	for <lists+qemu-devel@lfdr.de>; Wed,  6 Jan 2021 12:44:03 +0100 (CET)
+Received: from localhost ([::1]:59302 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kx7EO-0006yS-TC
-	for lists+qemu-devel@lfdr.de; Wed, 06 Jan 2021 06:44:00 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42102)
+	id 1kx7EQ-00070f-Dn
+	for lists+qemu-devel@lfdr.de; Wed, 06 Jan 2021 06:44:02 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42110)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1kx7Cg-0006BB-FB
- for qemu-devel@nongnu.org; Wed, 06 Jan 2021 06:42:14 -0500
-Received: from mail-wm1-x32b.google.com ([2a00:1450:4864:20::32b]:52338)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1kx7Ce-00089o-BV
- for qemu-devel@nongnu.org; Wed, 06 Jan 2021 06:42:14 -0500
-Received: by mail-wm1-x32b.google.com with SMTP id a6so2186636wmc.2
- for <qemu-devel@nongnu.org>; Wed, 06 Jan 2021 03:42:11 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=references:user-agent:from:to:cc:subject:date:in-reply-to
- :message-id:mime-version:content-transfer-encoding;
- bh=Ye0+Afs4GxM/cTNI5PUVAYDdHtSv/Y0BnSuMhVbs7hc=;
- b=BHUdDBaWBaKLOPLKWnWhQRhF/4Dq67XZlCTYCDyjoIOFQKjcGpsIKn5SLPQaO9ob90
- nr4G2AKw1Av1Vw8bl7nY6SwD24hHuLOandGmXsnCYAnpVuxEsxFPn2Vp7jH1yYLlF9kR
- qWmARIUvbe4GAW62tQY7ED34LR5SlClMPjLVeTwHEVL6gcrsBIuslwWS0jJZGZpQWhCK
- 218zsQtAxxlNChf36byJqoQvAyYGDJNWMJJo5oljy2jxcomogyb9E0+akX9rXjLreFeB
- dNserUhGvj52vRNqDBILQM0I3y/YX1ygkW+D0WIfvxyNMpND9WiJm6wjmRrSRnKnkLgq
- H/wA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:references:user-agent:from:to:cc:subject:date
- :in-reply-to:message-id:mime-version:content-transfer-encoding;
- bh=Ye0+Afs4GxM/cTNI5PUVAYDdHtSv/Y0BnSuMhVbs7hc=;
- b=HfH0brveB1yfD6l2V4j6QNLBlIuXOmCuQEN/ULy0bZw34CFkkziEjRj34iYog9ScqI
- euWH5yXSCeafT6vDHyEmD23NKOpgpobnbjxT6VpPgvY+M5pfFbJE2Ml6Np0KhnVJC6uQ
- XUi8Ul5MNi00Ubt0UBm8zwji3/LMtfsBavrpOBnhK/X5x9MN+TOWZVbykEsVCKIKga3w
- KU1uesFPX/jn1r5gOEcy7pRKTu3wxQBousXMh3RgM6DAPgvAYjRsVhSjuWx47niS7VQZ
- KYDInR59n4WaKboAZV/MB0OR3ydIiu9flT8lBlHj7U6XY8FgCTvb57lk0+nOMVYan4qd
- Fnzg==
-X-Gm-Message-State: AOAM531TUfkqGr50w6z3OpgxlQbt4PC0mjnJmq6EG4Sd654XWXCn2PLh
- 55j11RBg5c/mXoVrcHg1lRZr3lhQiWb1jw==
-X-Google-Smtp-Source: ABdhPJxDrMAyz8EOGXuJtGSDCEIphhe+e5uzwo/1eLXT83kK/cqi7HRROkh61pb3ZjyrU/Iz90szpw==
-X-Received: by 2002:a1c:220a:: with SMTP id i10mr3271004wmi.93.1609933330367; 
- Wed, 06 Jan 2021 03:42:10 -0800 (PST)
-Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id z8sm2650353wmg.17.2021.01.06.03.42.08
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 06 Jan 2021 03:42:09 -0800 (PST)
-Received: from zen (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 6AB3C1FF7E;
- Wed,  6 Jan 2021 11:42:08 +0000 (GMT)
-References: <CAAQ-SiP8G28ade0jHbhTcv0jtGQb4OSgL5p3mAr0MU_FH8vZ3w@mail.gmail.com>
-User-agent: mu4e 1.5.7; emacs 28.0.50
-From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: Shreyansh Chouhan <chouhan.shreyansh2702@gmail.com>
-Subject: Re: VirtioSound device emulation implementation
-Date: Wed, 06 Jan 2021 11:40:15 +0000
-In-reply-to: <CAAQ-SiP8G28ade0jHbhTcv0jtGQb4OSgL5p3mAr0MU_FH8vZ3w@mail.gmail.com>
-Message-ID: <87a6tm2sxb.fsf@linaro.org>
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1kx7Cj-0006BZ-FY
+ for qemu-devel@nongnu.org; Wed, 06 Jan 2021 06:42:18 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:54258)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1kx7Cf-0008AZ-GA
+ for qemu-devel@nongnu.org; Wed, 06 Jan 2021 06:42:15 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1609933331;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=5LX2bFbNgCGFa7fpBNqCtvCfhl6Fk8WgOQf+M/Pchxs=;
+ b=UAXPGDb9GycfJPj4/GJcMqqXzPnHRnirAMxu8Ra4ueG/3qtbyinS4pOYvW1mGg8WSZqEE4
+ yca4YBIgx17va4kq2mQJnPEWYzpFo49yBy/UqT57o9EtsoBI5Z237iKlUVWg0CCDzc2jRP
+ WomhJtMa9qHSy8Z3Jev6HzVkYpptn7g=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-368-_-9-_D7NOwS73aRinS0bDg-1; Wed, 06 Jan 2021 06:42:08 -0500
+X-MC-Unique: _-9-_D7NOwS73aRinS0bDg-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id C8BA38049C0;
+ Wed,  6 Jan 2021 11:42:07 +0000 (UTC)
+Received: from localhost.localdomain.com (ovpn-114-197.ams2.redhat.com
+ [10.36.114.197])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id B570B100AE2E;
+ Wed,  6 Jan 2021 11:42:05 +0000 (UTC)
+From: =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>
+To: qemu-devel@nongnu.org
+Subject: [PATCH] cirrus: don't run full qtest on macOS
+Date: Wed,  6 Jan 2021 11:41:59 +0000
+Message-Id: <20210106114159.981538-1-berrange@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::32b;
- envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x32b.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=berrange@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=berrange@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -29
+X-Spam_score: -3.0
+X-Spam_bar: ---
+X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.252,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -86,32 +76,85 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel@nongnu.org
+Cc: Thomas Huth <thuth@redhat.com>, Ed Maste <emaste@freebsd.org>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
+ =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
+ =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
+ Li-Wen Hsu <lwhsu@freebsd.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+The Cirrus CI macOS build hosts have exhibited a serious performance
+degradation in recent months. For example the "qom-test" qtest takes
+over an hour for only the qemu-system-aarch64 binary. This is as much
+20-40 times slower than other environments. The other qtests all show
+similar performance degradation, as do many of the unit tests.
 
-Shreyansh Chouhan <chouhan.shreyansh2702@gmail.com> writes:
+This does not appear related to QEMU code changes, since older git
+commits which were known to fully complete in less than 1 hour on
+Cirrus CI now also show similar bad performance. Either Cirrus CI
+performance has degraded, or an change in its environment has exposed
+a latent bug widely affecting all of QEMU. Debugging the qom-test
+showed no easily identified large bottleneck - every step of the
+test execution was simply slower.
 
-> Hey everyone!
->
-> I want to work on implementing the emulation for the VritioSound device. I
-> contacted the mentor for the project, (Greg), who said it's fine and that=
- I
-> should declare it on the mailing list in order to find out if someone else
-> is already working on this project. That is what this mail is for. I tried
-> searching for "Virtio", "Sound", and "VirtioSound" in the qemu-devel
-> mailing archives but couldn't find anything. If someone is already working
-> on it, please let me know, and if not then I'll start working on it right
-> away.
+macOS builds/tests run outside Cirrus CI show normal performance.
 
-I'm not working on it but please feel free to CC me on discussion and
-patches. I have a general interest on Virtio IO implementations at the
-moment.
+With an inability to identify any obvious problem, the only viable
+way to get a reliably completing Cirrus CI macOS job is to cut out
+almost all of the qtests. We choose to run the x86_64 target only,
+since that has very few machine types and thus is least badly
+impacted in the qom-test execution.
 
-Are you planning to make it an in-QEMU device or maybe a external
-vhost-user daemon?
+With this change, the macOS jobs complete in approx 35 minutes.
 
---=20
-Alex Benn=C3=A9e
+Signed-off-by: Daniel P. Berrangé <berrange@redhat.com>
+---
+ .cirrus.yml | 14 ++++++++++----
+ 1 file changed, 10 insertions(+), 4 deletions(-)
+
+diff --git a/.cirrus.yml b/.cirrus.yml
+index 62a9b57530..3907e036da 100644
+--- a/.cirrus.yml
++++ b/.cirrus.yml
+@@ -18,7 +18,6 @@ freebsd_12_task:
+     - gmake -j$(sysctl -n hw.ncpu) check V=1
+ 
+ macos_task:
+-  timeout_in: 90m
+   osx_instance:
+     image: catalina-base
+   install_script:
+@@ -30,10 +29,13 @@ macos_task:
+                    --extra-cflags='-Wno-error=deprecated-declarations'
+                    || { cat config.log meson-logs/meson-log.txt; exit 1; }
+     - gmake -j$(sysctl -n hw.ncpu)
+-    - gmake check V=1
++    - gmake check-unit V=1
++    - gmake check-block V=1
++    - gmake check-qapi-schema V=1
++    - gmake check-softfloat V=1
++    - gmake check-qtest-x86_64 V=1
+ 
+ macos_xcode_task:
+-  timeout_in: 90m
+   osx_instance:
+     # this is an alias for the latest Xcode
+     image: catalina-xcode
+@@ -45,7 +47,11 @@ macos_xcode_task:
+     - ../configure --extra-cflags='-Wno-error=deprecated-declarations' --enable-modules
+                    --enable-werror --cc=clang || { cat config.log meson-logs/meson-log.txt; exit 1; }
+     - gmake -j$(sysctl -n hw.ncpu)
+-    - gmake check V=1
++    - gmake check-unit V=1
++    - gmake check-block V=1
++    - gmake check-qapi-schema V=1
++    - gmake check-softfloat V=1
++    - gmake check-qtest-x86_64 V=1
+ 
+ windows_msys2_task:
+   timeout_in: 90m
+-- 
+2.29.2
+
 
