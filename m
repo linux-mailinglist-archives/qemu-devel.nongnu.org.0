@@ -2,71 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E03342EBF3C
-	for <lists+qemu-devel@lfdr.de>; Wed,  6 Jan 2021 14:54:28 +0100 (CET)
-Received: from localhost ([::1]:48418 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 69C562EBF4B
+	for <lists+qemu-devel@lfdr.de>; Wed,  6 Jan 2021 15:07:40 +0100 (CET)
+Received: from localhost ([::1]:54412 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kx9Gd-0006Xd-JA
-	for lists+qemu-devel@lfdr.de; Wed, 06 Jan 2021 08:54:27 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42278)
+	id 1kx9TO-0001Tu-Ux
+	for lists+qemu-devel@lfdr.de; Wed, 06 Jan 2021 09:07:38 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45346)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <marcandre.lureau@gmail.com>)
- id 1kx9EG-0005SL-Jd
- for qemu-devel@nongnu.org; Wed, 06 Jan 2021 08:52:01 -0500
-Received: from mail-ej1-x629.google.com ([2a00:1450:4864:20::629]:33700)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <marcandre.lureau@gmail.com>)
- id 1kx9EB-0000Jo-Mo
- for qemu-devel@nongnu.org; Wed, 06 Jan 2021 08:52:00 -0500
-Received: by mail-ej1-x629.google.com with SMTP id b9so5206014ejy.0
- for <qemu-devel@nongnu.org>; Wed, 06 Jan 2021 05:51:53 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=w8IEloSsrnwfCW+PD3GlOqwUfSr/IZHWogLhhAdQdT0=;
- b=re5fOTMSLNQkYgWuwLRLFlnWlo5t2C1RO87H3M+kTR/c92egFOh4Zv1njTtYpPeFym
- jDpU8BY0lMxXthrAgFA9ZVLgseU2NCd2iMf6MwuT9uORNwt3wOvusbMGdgoeRL+CDVhh
- mwWbufmLe+hAdtJWPd0sD4reqF3eMBrGNVXVg2PrJUiToU685vkPZkWh4Xmg7vA8NGxG
- jPLKwgfrdlULTLHO5FyPw1nC9eaxdEqIyiWRy+SJQwO99ZozWXi0rEqJadZcWLTNAQJl
- Ouj2fzXjbraMcV050C2maZc/Gqp8TMW4FMBc60QUw7YiIf9ADZuZtI6vbk76tucfS1xO
- +j9A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=w8IEloSsrnwfCW+PD3GlOqwUfSr/IZHWogLhhAdQdT0=;
- b=ANZmVu5iJUY02s9NbFeqpxYLdiFaZjmCs5Q2GSet6A+F+6HufB0Y5BA5+fdG5kbCoL
- +ODKkrZ1Gq3/f9VbDkvXxvEny0qe8eWylLKojf54/Kh9qrYYK9nof64MfKZ1Jh+NuwXU
- 6TD2o7w370hdrkDN3jrP0bm1LpN7QURyVlMn59A8+U8qy7uoeUBOer1ExG+ssvHn5qbo
- v1ETq6QCFMeFJXyO3iJYWcjIgPjcSBatVDhwB1WKNCh/pNYYrFCEqNQOVK6I0QhZKi+5
- SEn0eBj9koYMb2PhISLMm/wri5/YkrVvnvRSvRkkJLId83f9zUOLyyw8fqtLG4kW8ZlZ
- g3pw==
-X-Gm-Message-State: AOAM532POz8lurz/KaPPq2xX8oHDT6VVf7y+FZeItOHQ4DFJrFk4cHFB
- 1aZqGZqqSDn2tDEUWYGm+YsNf7wQhVzM6wqhpJE=
-X-Google-Smtp-Source: ABdhPJydd3SgQJbztJLDHECaIXVEBd+bsO5gOV+aw1VxkxYi/PPLEscaBPyCUir1W77T/LOSDDReHvVE8Gj6tdZbEWk=
-X-Received: by 2002:a17:906:98d4:: with SMTP id
- zd20mr2889832ejb.532.1609941112558; 
- Wed, 06 Jan 2021 05:51:52 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1kx9Rx-00010k-9i
+ for qemu-devel@nongnu.org; Wed, 06 Jan 2021 09:06:09 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:26884)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1kx9Rt-0006yZ-E8
+ for qemu-devel@nongnu.org; Wed, 06 Jan 2021 09:06:07 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1609941963;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=0H0BJ/p2uBQNFSOOHBY7RpkTHxxZFORxhcM9E4I3DKw=;
+ b=brDPf7RTIea4jLgwu651JhiZNenpPJPAUwofF1WJEiVik8a+JWr+xdya3BJvOQFOVqGT4x
+ qznRO39fHrqroVYDtgyd0Qzhfc3zguBPQbKs7BhWef7HkaTjrIxExOyJn4c8QkBabQyoZq
+ TqrgoHfcIO08ZBpHB+FpbjdnVt+BFDg=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-376-KfxT8dIvP1u_uSlD8B9ixw-1; Wed, 06 Jan 2021 09:04:32 -0500
+X-MC-Unique: KfxT8dIvP1u_uSlD8B9ixw-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 0A3ED107ACE3
+ for <qemu-devel@nongnu.org>; Wed,  6 Jan 2021 14:04:32 +0000 (UTC)
+Received: from thuth.remote.csb (ovpn-112-219.ams2.redhat.com [10.36.112.219])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id D3F775D9DC;
+ Wed,  6 Jan 2021 14:04:22 +0000 (UTC)
+Subject: Re: [qemu-web PATCH v2] Add virtio-blk and virtio-scsi configuration
+ post
+To: Stefan Hajnoczi <stefanha@redhat.com>, qemu-devel@nongnu.org
+References: <20210105104907.33587-1-stefanha@redhat.com>
+From: Thomas Huth <thuth@redhat.com>
+Message-ID: <1284dc6b-0ce0-3d6e-ba54-067e91ca5dc8@redhat.com>
+Date: Wed, 6 Jan 2021 15:04:20 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.4.0
 MIME-Version: 1.0
-References: <785772783205140e219b8bfe7f793305ee768f03.1608705805.git.elena.ufimtseva@oracle.com>
- <CAJ+F1C+D6zjN-exiJnevB_GB58xCPcP7TpCHHzYxWm7BvOi3dw@mail.gmail.com>
- <20201223184940.GA251460@heatpipe>
- <1CFD4614-B351-487A-B01D-1F2D0E282FC5@oracle.com>
-In-Reply-To: <1CFD4614-B351-487A-B01D-1F2D0E282FC5@oracle.com>
-From: =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@gmail.com>
-Date: Wed, 6 Jan 2021 17:51:39 +0400
-Message-ID: <CAJ+F1CLD8=GWaU788a2JLsOCtpnDsR4u6rg0ghZL_pvEcrVYOw@mail.gmail.com>
-Subject: Re: [PATCH] multi-process: Acceptance test for multiprocess QEMU
-To: Jag Raman <jag.raman@oracle.com>
-Content-Type: multipart/alternative; boundary="0000000000001f9a7205b83ba013"
-Received-SPF: pass client-ip=2a00:1450:4864:20::629;
- envelope-from=marcandre.lureau@gmail.com; helo=mail-ej1-x629.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+In-Reply-To: <20210105104907.33587-1-stefanha@redhat.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=thuth@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=thuth@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -32
+X-Spam_score: -3.3
+X-Spam_bar: ---
+X-Spam_report: (-3.3 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.252,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.249, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -80,493 +81,186 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Elena Ufimtseva <elena.ufimtseva@oracle.com>, Fam Zheng <fam@euphon.net>,
- Swapnil Ingle <swapnil.ingle@nutanix.com>,
- John G Johnson <john.g.johnson@oracle.com>, QEMU <qemu-devel@nongnu.org>,
- Gerd Hoffmann <kraxel@redhat.com>, Juan Quintela <quintela@redhat.com>,
- "Michael S. Tsirkin" <mst@redhat.com>, Markus Armbruster <armbru@redhat.com>,
- Kanth Ghatraju <kanth.ghatraju@oracle.com>,
- Felipe Franciosi <felipe@nutanix.com>, Thomas Huth <thuth@redhat.com>,
- Eduardo Habkost <ehabkost@redhat.com>,
- Konrad Rzeszutek Wilk <konrad.wilk@oracle.com>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
- Alex Williamson <alex.williamson@redhat.com>,
- Stefan Hajnoczi <stefanha@redhat.com>,
- Thanos Makatos <thanos.makatos@nutanix.com>, Kevin Wolf <kwolf@redhat.com>,
- "Daniel P. Berrange" <berrange@redhat.com>, Max Reitz <mreitz@redhat.com>,
- Ross Lagerwall <ross.lagerwall@citrix.com>,
- Paolo Bonzini <pbonzini@redhat.com>
+Cc: Paolo Bonzini <pbonzini@redhat.com>,
+ =?UTF-8?Q?Daniel_P_=2e_Berrang=c3=a9?= <berrange@redhat.com>, slp@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---0000000000001f9a7205b83ba013
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+On 05/01/2021 11.49, Stefan Hajnoczi wrote:
+> The second post in the storage series covers virtio-blk and virtio-scsi.
+> It compares the two and offers recommendations that users and tools
+> using QEMU can use as a starting point. Graphs are included comparing
+> the performance of various options.
+> 
+> Signed-off-by: Stefan Hajnoczi <stefanha@redhat.com>
+> ---
+> v2:
+>   * Mention default storage controllers for non-x86 [danpb]
+>   * Remove statement about read-only ISO virtio-blk devices, both Rich
+>     Jones and Daniel Berrange commented about this at different times so
+>     I decided to drop it completely [danpb]
+>   * Clarify PCI slot limits and multi-function discussion for virtio-blk
+>     [danpb]
+>   * Mention multiple virtio-scsi devices for NUMA tuning and that
+>     emulated LUNs can be HDDs or CD-ROMs [danpb]
+> ---
+>   ...020-12-17-virtio-blk-scsi-configuration.md | 115 ++++++++++++++++++
+>   screenshots/2020-09-15-scsi-devices.svg       |   1 +
+>   screenshots/2020-09-15-virtio-blk-vs-scsi.svg |   1 +
+>   3 files changed, 117 insertions(+)
+>   create mode 100644 _posts/2020-12-17-virtio-blk-scsi-configuration.md
+>   create mode 100644 screenshots/2020-09-15-scsi-devices.svg
+>   create mode 100644 screenshots/2020-09-15-virtio-blk-vs-scsi.svg
+> 
+> diff --git a/_posts/2020-12-17-virtio-blk-scsi-configuration.md b/_posts/2020-12-17-virtio-blk-scsi-configuration.md
+> new file mode 100644
+> index 0000000..b4361f5
+> --- /dev/null
+> +++ b/_posts/2020-12-17-virtio-blk-scsi-configuration.md
+> @@ -0,0 +1,115 @@
+> +---
+> +layout: post
+> +title:  "Configuring virtio-blk and virtio-scsi Devices"
+> +date:   2021-01-05 07:00:00 +0000
+> +author: Stefan Hajnoczi and Sergio Lopez
+> +categories: [storage]
+> +---
+> +The [previous article](https://www.qemu.org/2020/09/14/qemu-storage-overview/)
+> +in this series introduced QEMU storage concepts. Now we move on to look at the
+> +two most popular emulated storage controllers for virtualization: virtio-blk
+> +and virtio-scsi.
+> +
+> +This post provides recommendations for configuring virtio-blk and virtio-scsi
+> +and how to choose between the two devices. The recommendations provide good
+> +performance in a wide range of use cases and are suitable as default settings
+> +in tools that use QEMU.
+> +
+> +## Virtio storage devices
+> +### Key points
+> +* Prefer virtio storage devices over other emulated storage controllers.
+> +* Use the latest virtio drivers.
+> +
+> +Virtio devices are recommended over other emulated storage controllers as they
+> +are generally the most performant and fully-featured storage controllers in
+> +QEMU.
+> +
+> +Unlike emulations of hardware storage controllers, virtio-blk and virtio-scsi
+> +are specifically designed and optimized for virtualization. The details of how
+> +they work are published for driver and device implementors in the [VIRTIO
+> +specification](https://docs.oasis-open.org/virtio/virtio/v1.1/virtio-v1.1.html).
+> +
+> +Virtio drivers are available for both Linux and Windows virtual machines.
 
-Hi
+Maybe mention "and other operating systems" as well? I assume virtio drivers 
+are also available for the various BSDs etc.
 
-On Tue, Dec 29, 2020 at 8:19 PM Jag Raman <jag.raman@oracle.com> wrote:
+> +Installing the latest version is recommended for the latest bug fixes and
+> +performance enhancements.
+> +
+> +If virtio drivers are not available, the AHCI (SATA) device is widely supported
+> +by modern x86 operating systems and can be used as a fallback. On non-x86
+> +guests the default storage controller can be used as a fallback.
+> +
+> +## Comparing virtio-blk and virtio-scsi
+> +### Key points
+> +* Prefer virtio-scsi for attaching more than 28 disks or for full SCSI support.
 
->
->
-> > On Dec 23, 2020, at 1:49 PM, Elena Ufimtseva <elena.ufimtseva@oracle.co=
-m>
-> wrote:
-> >
-> > On Wed, Dec 23, 2020 at 03:01:24PM +0400, Marc-Andr=C3=A9 Lureau wrote:
-> >> Hi
-> >>
-> >> On Wed, Dec 23, 2020 at 10:45 AM <elena.ufimtseva@oracle.com> wrote:
-> >>
-> >>> From: Jagannathan Raman <jag.raman@oracle.com>
-> >>>
-> >>> Runs the Avocado acceptance test to check if a
-> >>> remote lsi53c895a device gets identified by the guest.
-> >>>
-> >>> Signed-off-by: Elena Ufimtseva <elena.ufimtseva@oracle.com>
-> >>> Signed-off-by: John G Johnson <john.g.johnson@oracle.com>
-> >>> Signed-off-by: Jagannathan Raman <jag.raman@oracle.com>
-> >>> ---
-> >>> tests/acceptance/multiprocess.py | 104 ++++++++++++++++++++++++++++++=
-+
-> >>> 1 file changed, 104 insertions(+)
-> >>> create mode 100644 tests/acceptance/multiprocess.py
-> >>>
-> >>> diff --git a/tests/acceptance/multiprocess.py
-> >>> b/tests/acceptance/multiprocess.py
-> >>> new file mode 100644
-> >>> index 0000000000..d10b4d2c05
-> >>> --- /dev/null
-> >>> +++ b/tests/acceptance/multiprocess.py
-> >>> @@ -0,0 +1,104 @@
-> >>> +# Test for multiprocess qemu
-> >>> +#
-> >>> +# This work is licensed under the terms of the GNU GPL, version 2 or
-> >>> +# later.  See the COPYING file in the top-level directory.
-> >>> +
-> >>> +
-> >>> +from avocado_qemu import Test
-> >>> +from avocado_qemu import wait_for_console_pattern
-> >>> +from avocado_qemu import exec_command_and_wait_for_pattern
-> >>> +
-> >>> +from qemu.accel import kvm_available
-> >>> +
-> >>> +import os
-> >>> +import socket
-> >>> +
-> >>> +ACCEL_NOT_AVAILABLE_FMT =3D "%s accelerator does not seem to be
-> available"
-> >>> +KVM_NOT_AVAILABLE =3D ACCEL_NOT_AVAILABLE_FMT % "KVM"
-> >>> +
-> >>> +class Multiprocess(Test):
-> >>> +    """
-> >>> +    :avocado: tags=3Dmultiprocess
-> >>> +    """
-> >>> +    KERNEL_COMMON_COMMAND_LINE =3D 'printk.time=3D0 '
-> >>> +
-> >>> +    def wait_for_console_pattern(self, success_message, vm=3DNone):
-> >>> +        wait_for_console_pattern(self, success_message,
-> >>> +                                 failure_message=3D'Kernel panic - n=
-ot
-> >>> syncing',
-> >>> +                                 vm=3Dvm)
-> >>> +
-> >>> +    def do_test(self, kernel_url, initrd_url, kernel_command_line,
-> >>> +                machine_type):
-> >>> +        if not kvm_available(self.arch, self.qemu_bin):
-> >>> +            self.cancel(KVM_NOT_AVAILABLE)
-> >>> +
-> >>> +        # Create socketpair to connect proxy and remote processes
-> >>> +        proxy_sock, remote_sock =3D socket.socketpair(socket.AF_UNIX=
-,
-> >>> +
-> socket.SOCK_STREAM)
-> >>> +        os.set_inheritable(proxy_sock.fileno(), True)
-> >>> +        os.set_inheritable(remote_sock.fileno(), True)
-> >>> +
-> >>> +        kernel_path =3D self.fetch_asset(kernel_url)
-> >>> +        initrd_path =3D self.fetch_asset(initrd_url)
-> >>> +
-> >>> +        # Create remote process
-> >>> +        remote_vm =3D self.get_vm()
-> >>> +        remote_vm.add_args('-machine', 'x-remote')
-> >>> +        remote_vm.add_args('-nodefaults')
-> >>> +        remote_vm.add_args('-device', 'lsi53c895a,id=3Dlsi1')
-> >>> +        remote_vm.add_args('-object', 'x-remote-object,id=3Drobj1,'
-> >>> +                           'devid=3Dlsi1,fd=3D'+str(remote_sock.file=
-no()))
-> >>> +        remote_vm.launch()
-> >>> +
-> >>> +        # Create proxy process
-> >>> +        self.vm.set_console()
-> >>> +        self.vm.add_args('-machine', machine_type)
-> >>> +        self.vm.add_args('-accel', 'kvm')
-> >>> +        self.vm.add_args('-cpu', 'host')
-> >>> +        self.vm.add_args("-object",
-> >>> +
->  "memory-backend-memfd,id=3Dsysmem-file,size=3D2G")
-> >>> +        self.vm.add_args("--numa", "node,memdev=3Dsysmem-file")
-> >>> +        self.vm.add_args("-m", "2048")
-> >>> +        self.vm.add_args('-kernel', kernel_path,
-> >>> +                         '-initrd', initrd_path,
-> >>> +                         '-append', kernel_command_line)
-> >>> +        self.vm.add_args('-device',
-> >>> +                         'x-pci-proxy-dev,'
-> >>> +                         'id=3Dlsi1,fd=3D'+str(proxy_sock.fileno()))
-> >>> +        self.vm.launch()
-> >>> +        self.wait_for_console_pattern("as init process")
-> >>> +        exec_command_and_wait_for_pattern(self, "mount -t sysfs sysf=
-s
-> >>> /sys",
-> >>> +                                          '', '')
-> >>> +        exec_command_and_wait_for_pattern(self,
-> >>> +                                          "cat
-> >>> /sys/bus/pci/devices/*/uevent",
-> >>> +                                          "PCI_ID=3D1000:0012", '')
-> >>> +
-> >>> +    def test_multiprocess_x86_64(self):
-> >>> +        """
-> >>> +        :avocado: tags=3Darch:x86_64
-> >>> +        """
-> >>> +        kernel_url =3D ('
-> >>> https://archives.fedoraproject.org/pub/archive/fedora'
-> >>> +                      '/linux/releases/31/Everything/x86_64/os/image=
-s'
-> >>> +                      '/pxeboot/vmlinuz')
-> >>> +        initrd_url =3D ('
-> >>> https://archives.fedoraproject.org/pub/archive/fedora'
-> >>> +                      '/linux/releases/31/Everything/x86_64/os/image=
-s'
-> >>> +                      '/pxeboot/initrd.img')
-> >>> +        kernel_command_line =3D (self.KERNEL_COMMON_COMMAND_LINE +
-> >>> +                               'console=3DttyS0 rdinit=3D/bin/bash')
-> >>> +        machine =3D 'pc'
-> >>> +        self.do_test(kernel_url, initrd_url, kernel_command_line,
-> machine)
-> >>> +
-> >>> +    def test_multiprocess_aarch64(self):
-> >>> +        """
-> >>> +        :avocado: tags=3Darch:aarch64
-> >>> +        """
-> >>> +        kernel_url =3D ('
-> >>> https://archives.fedoraproject.org/pub/archive/fedora'
-> >>> +
-> '/linux/releases/31/Everything/aarch64/os/images'
-> >>> +                      '/pxeboot/vmlinuz')
-> >>> +        initrd_url =3D ('
-> >>> https://archives.fedoraproject.org/pub/archive/fedora'
-> >>> +
-> '/linux/releases/31/Everything/aarch64/os/images'
-> >>> +                      '/pxeboot/initrd.img')
-> >>> +        kernel_command_line =3D (self.KERNEL_COMMON_COMMAND_LINE +
-> >>> +                               'rdinit=3D/bin/bash console=3DttyAMA0=
-')
-> >>> +        machine_type =3D 'virt,gic-version=3D3'
-> >>> +        self.do_test(kernel_url, initrd_url, kernel_command_line,
-> >>> machine_type)
-> >>> --
-> >>> 2.25.GIT
-> >>>
-> >>>
-> >> The test looks quite nice, thanks. However, it times out for me. I hav=
-e
-> >> very limited experience with avocado. Any idea?
-> >
-> > Thanks Marc-Andre!
-> >
-> >> (13/40)
-> >> tests/acceptance/multiprocess.py:Multiprocess.test_multiprocess_x86_64=
-:
-> >> ERROR: timed out (211.81 s)
-> >
-> > Can you check what is in the log file?
-> > Should show the log file name before it gets cancelled.
-> >
-> > I have it on my system at
-> $HOME/avocado/job-results/job-2020-12-23T10.37-452c8ab/job.log.
->
-> Hi Marc-Andre,
->
-> Thank you very much for taking a loot at it. If you are able to share the
-> test log,
-> that would be helpful to see what is causing the timeout.
->
+I'd rather say "lots of devices" here instead of "28", since 28 needs an 
+explanation (which you give below).
 
-I tested it again, and it works now. No idea what happened.
+> +* Prefer virtio-blk in performance-critical use cases.
 
-Reviewed-by: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
+Maybe move the virtio-blk bullet above the virtio-scsi bullet, so that the 
+two virtio-scsi bullets are listed next to each other? And it's also the 
+order that you use below.
 
---0000000000001f9a7205b83ba013
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+> +* With virtio-scsi, use scsi-block for SCSI passthrough and otherwise use scsi-hd.
+> +
+> +Two virtio storage controllers are available: virtio-blk and virtio-scsi.
+> +
+> +### virtio-blk
+> +The virtio-blk device presents a block device to the virtual machine. Each
+> +virtio-blk device appears as a disk inside the guest. virtio-blk was available
+> +before virtio-scsi and is the most widely deployed virtio storage controller.
+> +
+> +The virtio-blk device offers high performance thanks to a thin software stack
+> +and is therefore a good choice when performance is a priority.
 
-<div dir=3D"ltr"><div dir=3D"ltr">Hi<br></div><br><div class=3D"gmail_quote=
-"><div dir=3D"ltr" class=3D"gmail_attr">On Tue, Dec 29, 2020 at 8:19 PM Jag=
- Raman &lt;<a href=3D"mailto:jag.raman@oracle.com">jag.raman@oracle.com</a>=
-&gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0px =
-0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex"><br>
-<br>
-&gt; On Dec 23, 2020, at 1:49 PM, Elena Ufimtseva &lt;<a href=3D"mailto:ele=
-na.ufimtseva@oracle.com" target=3D"_blank">elena.ufimtseva@oracle.com</a>&g=
-t; wrote:<br>
-&gt; <br>
-&gt; On Wed, Dec 23, 2020 at 03:01:24PM +0400, Marc-Andr=C3=A9 Lureau wrote=
-:<br>
-&gt;&gt; Hi<br>
-&gt;&gt; <br>
-&gt;&gt; On Wed, Dec 23, 2020 at 10:45 AM &lt;<a href=3D"mailto:elena.ufimt=
-seva@oracle.com" target=3D"_blank">elena.ufimtseva@oracle.com</a>&gt; wrote=
-:<br>
-&gt;&gt; <br>
-&gt;&gt;&gt; From: Jagannathan Raman &lt;<a href=3D"mailto:jag.raman@oracle=
-.com" target=3D"_blank">jag.raman@oracle.com</a>&gt;<br>
-&gt;&gt;&gt; <br>
-&gt;&gt;&gt; Runs the Avocado acceptance test to check if a<br>
-&gt;&gt;&gt; remote lsi53c895a device gets identified by the guest.<br>
-&gt;&gt;&gt; <br>
-&gt;&gt;&gt; Signed-off-by: Elena Ufimtseva &lt;<a href=3D"mailto:elena.ufi=
-mtseva@oracle.com" target=3D"_blank">elena.ufimtseva@oracle.com</a>&gt;<br>
-&gt;&gt;&gt; Signed-off-by: John G Johnson &lt;<a href=3D"mailto:john.g.joh=
-nson@oracle.com" target=3D"_blank">john.g.johnson@oracle.com</a>&gt;<br>
-&gt;&gt;&gt; Signed-off-by: Jagannathan Raman &lt;<a href=3D"mailto:jag.ram=
-an@oracle.com" target=3D"_blank">jag.raman@oracle.com</a>&gt;<br>
-&gt;&gt;&gt; ---<br>
-&gt;&gt;&gt; tests/acceptance/multiprocess.py | 104 +++++++++++++++++++++++=
-++++++++<br>
-&gt;&gt;&gt; 1 file changed, 104 insertions(+)<br>
-&gt;&gt;&gt; create mode 100644 tests/acceptance/multiprocess.py<br>
-&gt;&gt;&gt; <br>
-&gt;&gt;&gt; diff --git a/tests/acceptance/multiprocess.py<br>
-&gt;&gt;&gt; b/tests/acceptance/multiprocess.py<br>
-&gt;&gt;&gt; new file mode 100644<br>
-&gt;&gt;&gt; index 0000000000..d10b4d2c05<br>
-&gt;&gt;&gt; --- /dev/null<br>
-&gt;&gt;&gt; +++ b/tests/acceptance/multiprocess.py<br>
-&gt;&gt;&gt; @@ -0,0 +1,104 @@<br>
-&gt;&gt;&gt; +# Test for multiprocess qemu<br>
-&gt;&gt;&gt; +#<br>
-&gt;&gt;&gt; +# This work is licensed under the terms of the GNU GPL, versi=
-on 2 or<br>
-&gt;&gt;&gt; +# later.=C2=A0 See the COPYING file in the top-level director=
-y.<br>
-&gt;&gt;&gt; +<br>
-&gt;&gt;&gt; +<br>
-&gt;&gt;&gt; +from avocado_qemu import Test<br>
-&gt;&gt;&gt; +from avocado_qemu import wait_for_console_pattern<br>
-&gt;&gt;&gt; +from avocado_qemu import exec_command_and_wait_for_pattern<br=
->
-&gt;&gt;&gt; +<br>
-&gt;&gt;&gt; +from qemu.accel import kvm_available<br>
-&gt;&gt;&gt; +<br>
-&gt;&gt;&gt; +import os<br>
-&gt;&gt;&gt; +import socket<br>
-&gt;&gt;&gt; +<br>
-&gt;&gt;&gt; +ACCEL_NOT_AVAILABLE_FMT =3D &quot;%s accelerator does not see=
-m to be available&quot;<br>
-&gt;&gt;&gt; +KVM_NOT_AVAILABLE =3D ACCEL_NOT_AVAILABLE_FMT % &quot;KVM&quo=
-t;<br>
-&gt;&gt;&gt; +<br>
-&gt;&gt;&gt; +class Multiprocess(Test):<br>
-&gt;&gt;&gt; +=C2=A0 =C2=A0 &quot;&quot;&quot;<br>
-&gt;&gt;&gt; +=C2=A0 =C2=A0 :avocado: tags=3Dmultiprocess<br>
-&gt;&gt;&gt; +=C2=A0 =C2=A0 &quot;&quot;&quot;<br>
-&gt;&gt;&gt; +=C2=A0 =C2=A0 KERNEL_COMMON_COMMAND_LINE =3D &#39;printk.time=
-=3D0 &#39;<br>
-&gt;&gt;&gt; +<br>
-&gt;&gt;&gt; +=C2=A0 =C2=A0 def wait_for_console_pattern(self, success_mess=
-age, vm=3DNone):<br>
-&gt;&gt;&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 wait_for_console_pattern(self, su=
-ccess_message,<br>
-&gt;&gt;&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0failure_message=
-=3D&#39;Kernel panic - not<br>
-&gt;&gt;&gt; syncing&#39;,<br>
-&gt;&gt;&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0vm=3Dvm)<br>
-&gt;&gt;&gt; +<br>
-&gt;&gt;&gt; +=C2=A0 =C2=A0 def do_test(self, kernel_url, initrd_url, kerne=
-l_command_line,<br>
-&gt;&gt;&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 machi=
-ne_type):<br>
-&gt;&gt;&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 if not kvm_available(self.arch, s=
-elf.qemu_bin):<br>
-&gt;&gt;&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 self.cancel(KVM_NOT=
-_AVAILABLE)<br>
-&gt;&gt;&gt; +<br>
-&gt;&gt;&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 # Create socketpair to connect pr=
-oxy and remote processes<br>
-&gt;&gt;&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 proxy_sock, remote_sock =3D socke=
-t.socketpair(socket.AF_UNIX,<br>
-&gt;&gt;&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 socket.SOCK_STREAM)<br>
-&gt;&gt;&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 os.set_inheritable(proxy_sock.fil=
-eno(), True)<br>
-&gt;&gt;&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 os.set_inheritable(remote_sock.fi=
-leno(), True)<br>
-&gt;&gt;&gt; +<br>
-&gt;&gt;&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 kernel_path =3D self.fetch_asset(=
-kernel_url)<br>
-&gt;&gt;&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 initrd_path =3D self.fetch_asset(=
-initrd_url)<br>
-&gt;&gt;&gt; +<br>
-&gt;&gt;&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 # Create remote process<br>
-&gt;&gt;&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 remote_vm =3D self.get_vm()<br>
-&gt;&gt;&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 remote_vm.add_args(&#39;-machine&=
-#39;, &#39;x-remote&#39;)<br>
-&gt;&gt;&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 remote_vm.add_args(&#39;-nodefaul=
-ts&#39;)<br>
-&gt;&gt;&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 remote_vm.add_args(&#39;-device&#=
-39;, &#39;lsi53c895a,id=3Dlsi1&#39;)<br>
-&gt;&gt;&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 remote_vm.add_args(&#39;-object&#=
-39;, &#39;x-remote-object,id=3Drobj1,&#39;<br>
-&gt;&gt;&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0&#39;devid=3Dlsi1,fd=3D&#39;+str(remo=
-te_sock.fileno()))<br>
-&gt;&gt;&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 remote_vm.launch()<br>
-&gt;&gt;&gt; +<br>
-&gt;&gt;&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 # Create proxy process<br>
-&gt;&gt;&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 self.vm.set_console()<br>
-&gt;&gt;&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 self.vm.add_args(&#39;-machine&#3=
-9;, machine_type)<br>
-&gt;&gt;&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 self.vm.add_args(&#39;-accel&#39;=
-, &#39;kvm&#39;)<br>
-&gt;&gt;&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 self.vm.add_args(&#39;-cpu&#39;, =
-&#39;host&#39;)<br>
-&gt;&gt;&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 self.vm.add_args(&quot;-object&qu=
-ot;,<br>
-&gt;&gt;&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0&quot;memory-backend-memfd,id=3Dsysmem-file,=
-size=3D2G&quot;)<br>
-&gt;&gt;&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 self.vm.add_args(&quot;--numa&quo=
-t;, &quot;node,memdev=3Dsysmem-file&quot;)<br>
-&gt;&gt;&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 self.vm.add_args(&quot;-m&quot;, =
-&quot;2048&quot;)<br>
-&gt;&gt;&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 self.vm.add_args(&#39;-kernel&#39=
-;, kernel_path,<br>
-&gt;&gt;&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0&#39;-initrd&#39;, initrd_path,<br>
-&gt;&gt;&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0&#39;-append&#39;, kernel_command_line)<br>
-&gt;&gt;&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 self.vm.add_args(&#39;-device&#39=
-;,<br>
-&gt;&gt;&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0&#39;x-pci-proxy-dev,&#39;<br>
-&gt;&gt;&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0&#39;id=3Dlsi1,fd=3D&#39;+str(proxy_sock.fil=
-eno()))<br>
-&gt;&gt;&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 self.vm.launch()<br>
-&gt;&gt;&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 self.wait_for_console_pattern(&qu=
-ot;as init process&quot;)<br>
-&gt;&gt;&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 exec_command_and_wait_for_pattern=
-(self, &quot;mount -t sysfs sysfs<br>
-&gt;&gt;&gt; /sys&quot;,<br>
-&gt;&gt;&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 &#39;&#39;, &#39;&#39;)<br>
-&gt;&gt;&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 exec_command_and_wait_for_pattern=
-(self,<br>
-&gt;&gt;&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 &quot;cat<br>
-&gt;&gt;&gt; /sys/bus/pci/devices/*/uevent&quot;,<br>
-&gt;&gt;&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 &quot;PCI_ID=3D1000:0012&quot;, &#39;&#39;)<br>
-&gt;&gt;&gt; +<br>
-&gt;&gt;&gt; +=C2=A0 =C2=A0 def test_multiprocess_x86_64(self):<br>
-&gt;&gt;&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 &quot;&quot;&quot;<br>
-&gt;&gt;&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 :avocado: tags=3Darch:x86_64<br>
-&gt;&gt;&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 &quot;&quot;&quot;<br>
-&gt;&gt;&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 kernel_url =3D (&#39;<br>
-&gt;&gt;&gt; <a href=3D"https://archives.fedoraproject.org/pub/archive/fedo=
-ra" rel=3D"noreferrer" target=3D"_blank">https://archives.fedoraproject.org=
-/pub/archive/fedora</a>&#39;<br>
-&gt;&gt;&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 &#39;/linux/releases/31/Everything/x86_64/os/images&#39;<=
-br>
-&gt;&gt;&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 &#39;/pxeboot/vmlinuz&#39;)<br>
-&gt;&gt;&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 initrd_url =3D (&#39;<br>
-&gt;&gt;&gt; <a href=3D"https://archives.fedoraproject.org/pub/archive/fedo=
-ra" rel=3D"noreferrer" target=3D"_blank">https://archives.fedoraproject.org=
-/pub/archive/fedora</a>&#39;<br>
-&gt;&gt;&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 &#39;/linux/releases/31/Everything/x86_64/os/images&#39;<=
-br>
-&gt;&gt;&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 &#39;/pxeboot/initrd.img&#39;)<br>
-&gt;&gt;&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 kernel_command_line =3D (self.KER=
-NEL_COMMON_COMMAND_LINE +<br>
-&gt;&gt;&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0&#39;console=3DttyS0 rd=
-init=3D/bin/bash&#39;)<br>
-&gt;&gt;&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 machine =3D &#39;pc&#39;<br>
-&gt;&gt;&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 self.do_test(kernel_url, initrd_u=
-rl, kernel_command_line, machine)<br>
-&gt;&gt;&gt; +<br>
-&gt;&gt;&gt; +=C2=A0 =C2=A0 def test_multiprocess_aarch64(self):<br>
-&gt;&gt;&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 &quot;&quot;&quot;<br>
-&gt;&gt;&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 :avocado: tags=3Darch:aarch64<br>
-&gt;&gt;&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 &quot;&quot;&quot;<br>
-&gt;&gt;&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 kernel_url =3D (&#39;<br>
-&gt;&gt;&gt; <a href=3D"https://archives.fedoraproject.org/pub/archive/fedo=
-ra" rel=3D"noreferrer" target=3D"_blank">https://archives.fedoraproject.org=
-/pub/archive/fedora</a>&#39;<br>
-&gt;&gt;&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 &#39;/linux/releases/31/Everything/aarch64/os/images&#39;=
-<br>
-&gt;&gt;&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 &#39;/pxeboot/vmlinuz&#39;)<br>
-&gt;&gt;&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 initrd_url =3D (&#39;<br>
-&gt;&gt;&gt; <a href=3D"https://archives.fedoraproject.org/pub/archive/fedo=
-ra" rel=3D"noreferrer" target=3D"_blank">https://archives.fedoraproject.org=
-/pub/archive/fedora</a>&#39;<br>
-&gt;&gt;&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 &#39;/linux/releases/31/Everything/aarch64/os/images&#39;=
-<br>
-&gt;&gt;&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 &#39;/pxeboot/initrd.img&#39;)<br>
-&gt;&gt;&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 kernel_command_line =3D (self.KER=
-NEL_COMMON_COMMAND_LINE +<br>
-&gt;&gt;&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0&#39;rdinit=3D/bin/bash=
- console=3DttyAMA0&#39;)<br>
-&gt;&gt;&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 machine_type =3D &#39;virt,gic-ve=
-rsion=3D3&#39;<br>
-&gt;&gt;&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 self.do_test(kernel_url, initrd_u=
-rl, kernel_command_line,<br>
-&gt;&gt;&gt; machine_type)<br>
-&gt;&gt;&gt; --<br>
-&gt;&gt;&gt; 2.25.GIT<br>
-&gt;&gt;&gt; <br>
-&gt;&gt;&gt; <br>
-&gt;&gt; The test looks quite nice, thanks. However, it times out for me. I=
- have<br>
-&gt;&gt; very limited experience with avocado. Any idea?<br>
-&gt; <br>
-&gt; Thanks Marc-Andre!<br>
-&gt; <br>
-&gt;&gt; (13/40)<br>
-&gt;&gt; tests/acceptance/multiprocess.py:Multiprocess.test_multiprocess_x8=
-6_64:<br>
-&gt;&gt; ERROR: timed out (211.81 s)<br>
-&gt; <br>
-&gt; Can you check what is in the log file?<br>
-&gt; Should show the log file name before it gets cancelled.<br>
-&gt; <br>
-&gt; I have it on my system at $HOME/avocado/job-results/job-2020-12-23T10.=
-37-452c8ab/job.log.<br>
-<br>
-Hi Marc-Andre,<br>
-<br>
-Thank you very much for taking a loot at it. If you are able to share the t=
-est log,<br>
-that would be helpful to see what is causing the timeout.<br></blockquote><=
-div><br></div><div>I tested it again, and it works now. No idea what happen=
-ed.</div><div><br></div><div>Reviewed-by: Marc-Andr=C3=A9 Lureau &lt;<a hre=
-f=3D"mailto:marcandre.lureau@redhat.com">marcandre.lureau@redhat.com</a>&gt=
-; <br></div><br></div></div>
+I'd maybe add some more words here, saying that virtio-blk is really simple, 
+just read and write, and that other features might not be supported (like 
+ejecting CD devices). Maybe also add a comment that it took a long time to 
+add an additional command like TRIM to the device?
 
---0000000000001f9a7205b83ba013--
+> +Applications that send SCSI commands are better served by the virtio-scsi
+> +device, which has full SCSI support. SCSI passthrough was removed from the
+> +Linux virtio-blk driver in v5.6 in favor of using virtio-scsi.
+
+Since "passthrough" sounds like a passthrough of real hardware devices, I'd 
+maybe rather say something like: The original virtio-blk devices also 
+included the possibility to handle SCSI commands, but this features was 
+removed from the Linux driver in v5.6 in favor of using virtio-scsi (and is 
+also not available for modern virtio-1.0 devices anymore).
+
+> +Virtual machines that require access to many disks can hit limits based on
+> +availability of PCI slots, which are under contention with other devices
+> +exposed to the guest, such as NICs. For example a typical i440fx machine type
+> +default configuration allows for about 28 disks. It is possible to use
+> +multi-function devices to pack multiple virtio-blk devies into a single PCI
+> +slot at the cost of losing hotplug support, or additional PCI busses can be
+> +defined. Generally though it is simpler to use a single virtio-scsi PCI adapter
+> +instead.
+> +
+> +### virtio-scsi
+> +The virtio-scsi device presents a SCSI Host Bus Adapter to the virtual machine.
+> +SCSI offers a richer command set than virtio-blk and supports more use cases.
+> +
+> +Each device supports up to 16,383 LUNs (disks) per target and up to 255
+> +targets. This allows a single virtio-scsi device to handle all disks in a
+> +virtual machine, although defining more virtio-scsi devices makes it possible
+> +to tune for NUMA topology as we will see in a later blog post.
+> +
+> +Emulated LUNs can be exposed as hard disk drives or CD-ROMs. Physical SCSI
+> +devices can be passed through into the virtual machine, including CD-ROM
+> +drives, tapes, and other devices besides hard disk drives.
+> +
+> +Clustering software that uses SCSI Persistent Reservations is supported by virtio-scsi, but not by virtio-blk.
+> +
+> +Performance of virtio-scsi may be lower than virtio-blk due to a thicker software stack, but in many use cases, this is not a significant factor. The following graph compares 4KB random read performance at various queue depths:
+> +
+> +![Comparing virtio-blk and virtio-scsi performance](/screenshots/2020-09-15-virtio-blk-vs-scsi.svg)
+> +
+> +### virtio-scsi configuration
+> +The following SCSI devices are available with virtio-scsi:
+> +
+> +|Device|SCSI Passthrough|Performance|
+> +|------|----------------|-----------|
+> +|scsi-hd|No|Highest|
+> +|scsi-block|Yes|Lower|
+> +|scsi-generic|Yes|Lowest|
+> +
+> +The scsi-hd device is suitable for disk image files and host block devices
+> +when SCSI passthrough is not required.
+> +
+> +The scsi-block device offers SCSI passthrough and is preferred over
+> +scsi-generic due to higher performance.
+> +
+> +The following graph compares the sequential I/O performance of these devices
+> +using virtio-scsi with an iothread:
+> +
+> +![Comparing scsi-hd, scsi-block, and scsi-generic performance](/screenshots/2020-09-15-scsi-devices.svg)
+> +
+> +## Conclusion
+> +The virtio-blk and virtio-scsi offer a choice between a single block device and
+> +a full-fledged SCSI Host Bus Adapter. Virtualized guests typically use one or
+> +both of them depending on functional and performance requirements. This post
+> +compared the two and offered recommendations on how to choose between them.
+> +
+> +The next post in this series will discuss the iothreads feature that both
+> +virtio-blk and virtio-scsi support for increased performance.
+
+Do you maybe also want to give examples for the QEMU command line showing 
+how virtio-blk and virtio-scsi can be used there?
+
+  Thomas
+
 
