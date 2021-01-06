@@ -2,46 +2,46 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4CE162EC5C5
-	for <lists+qemu-devel@lfdr.de>; Wed,  6 Jan 2021 22:33:33 +0100 (CET)
-Received: from localhost ([::1]:50444 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 23CF02EC5CC
+	for <lists+qemu-devel@lfdr.de>; Wed,  6 Jan 2021 22:37:16 +0100 (CET)
+Received: from localhost ([::1]:59884 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kxGQu-0007pC-Dc
-	for lists+qemu-devel@lfdr.de; Wed, 06 Jan 2021 16:33:32 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57658)
+	id 1kxGUV-0003oF-5i
+	for lists+qemu-devel@lfdr.de; Wed, 06 Jan 2021 16:37:15 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57798)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
- id 1kxGMU-0002pU-6p
- for qemu-devel@nongnu.org; Wed, 06 Jan 2021 16:28:58 -0500
-Received: from zero.eik.bme.hu ([152.66.115.2]:22462)
+ id 1kxGMa-00030G-Qq
+ for qemu-devel@nongnu.org; Wed, 06 Jan 2021 16:29:04 -0500
+Received: from zero.eik.bme.hu ([2001:738:2001:2001::2001]:22500)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
- id 1kxGMP-0001jL-SC
- for qemu-devel@nongnu.org; Wed, 06 Jan 2021 16:28:57 -0500
+ id 1kxGMW-0001lK-8Z
+ for qemu-devel@nongnu.org; Wed, 06 Jan 2021 16:29:04 -0500
 Received: from zero.eik.bme.hu (blah.eik.bme.hu [152.66.115.182])
- by localhost (Postfix) with SMTP id 7F8387470F5;
- Wed,  6 Jan 2021 22:28:51 +0100 (CET)
+ by localhost (Postfix) with SMTP id 697FA7470FC;
+ Wed,  6 Jan 2021 22:28:52 +0100 (CET)
 Received: by zero.eik.bme.hu (Postfix, from userid 432)
- id 26D1A7470F6; Wed,  6 Jan 2021 22:28:51 +0100 (CET)
-Message-Id: <ab7404b6e27d319da2a95a78191a2914f2652656.1609967638.git.balaton@eik.bme.hu>
+ id 4EE9E7470DF; Wed,  6 Jan 2021 22:28:51 +0100 (CET)
+Message-Id: <3e90ffc99bca628ddab2e56632389394fc501abf.1609967638.git.balaton@eik.bme.hu>
 In-Reply-To: <cover.1609967638.git.balaton@eik.bme.hu>
 References: <cover.1609967638.git.balaton@eik.bme.hu>
 From: BALATON Zoltan <balaton@eik.bme.hu>
-Subject: [PATCH 04/12] vt82c686: Fix up power management io base and config
+Subject: [PATCH 12/12] vt82c686: Add emulation of VT8231 south bridge
 Date: Wed, 06 Jan 2021 22:13:58 +0100
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 To: qemu-devel@nongnu.org
 X-Spam-Probability: 8%
-Received-SPF: pass client-ip=152.66.115.2; envelope-from=balaton@eik.bme.hu;
- helo=zero.eik.bme.hu
-X-Spam_score_int: -41
-X-Spam_score: -4.2
-X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Received-SPF: pass client-ip=2001:738:2001:2001::2001;
+ envelope-from=balaton@eik.bme.hu; helo=zero.eik.bme.hu
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -58,155 +58,253 @@ Cc: Huacai Chen <chenhuacai@kernel.org>, f4bug@amsat.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Similar to the SMBus io registers there is a power management io range
-that is set via similar base address reg and enable bit. Some handling
-of this was already there but with several problems: using the wrong
-registers and bits, wrong size range, not acually updating mapping and
-handling reset correctly, nor emulating any of the actual io
-registers. Some of these errors are fixed up here.
-
-After this patch we use the correct base address register, enable bit
-and region size and allow guests to map/unmap this region and
-correctly reset all registers to default values on reset but we still
-don't emulate any of the registers in this range.
-
-Previously just an empty RAM region was mapped on realize, now we add
-an empty io range logging access instead. I think the pm timer should
-be hooked up here but not sure guests need it. PMON on fuloong2e sets
-a base address but does not seem to enable region; the pegasos2
-firmware pokes some regs but continues anyway so don't know if
-anything would make use of these facilities. Therefore this is just a
-clean up of previous state for now and not intending to fully
-implement missing functionality which could be done later if some
-guests need it.
+Add emulation of VT8231 south bridge ISA part based on the similar
+VT82C686B but implemented in a separate subclass that holds the
+differences while reusing parts that can be shared.
 
 Signed-off-by: BALATON Zoltan <balaton@eik.bme.hu>
 ---
- hw/isa/trace-events |  2 ++
- hw/isa/vt82c686.c   | 56 ++++++++++++++++++++++++++++++++-------------
- 2 files changed, 42 insertions(+), 16 deletions(-)
+ hw/isa/vt82c686.c         | 152 ++++++++++++++++++++++++++++++--------
+ include/hw/isa/vt82c686.h |   1 +
+ 2 files changed, 123 insertions(+), 30 deletions(-)
 
-diff --git a/hw/isa/trace-events b/hw/isa/trace-events
-index d267d3e652..641d69eedf 100644
---- a/hw/isa/trace-events
-+++ b/hw/isa/trace-events
-@@ -17,5 +17,7 @@ apm_io_write(uint8_t addr, uint8_t val) "write addr=0x%x val=0x%02x"
- # vt82c686.c
- via_isa_write(uint32_t addr, uint32_t val, int len) "addr 0x%x val 0x%x len 0x%x"
- via_pm_write(uint32_t addr, uint32_t val, int len) "addr 0x%x val 0x%x len 0x%x"
-+via_pm_io_read(uint32_t addr, uint32_t val, int len) "addr 0x%x val 0x%x len 0x%x"
-+via_pm_io_write(uint32_t addr, uint32_t val, int len) "addr 0x%x val 0x%x len 0x%x"
- via_superio_read(uint8_t addr, uint8_t val) "addr 0x%x val 0x%x"
- via_superio_write(uint8_t addr, uint32_t val) "addr 0x%x val 0x%x"
 diff --git a/hw/isa/vt82c686.c b/hw/isa/vt82c686.c
-index 9c4d153022..fc2a1f4430 100644
+index 0390782d1d..604ab4a55e 100644
 --- a/hw/isa/vt82c686.c
 +++ b/hw/isa/vt82c686.c
-@@ -39,14 +39,11 @@ struct VT686PMState {
+@@ -8,6 +8,9 @@
+  *
+  * Contributions after 2012-01-13 are licensed under the terms of the
+  * GNU GPL, version 2 or (at your option) any later version.
++ *
++ * VT8231 south bridge support and general clean up to allow it
++ * Copyright (c) 2018-2020 BALATON Zoltan
+  */
  
- static void pm_io_space_update(VT686PMState *s)
- {
--    uint32_t pm_io_base;
--
--    pm_io_base = pci_get_long(s->dev.config + 0x40);
--    pm_io_base &= 0xffc0;
-+    uint32_t pmbase = pci_get_long(s->dev.config + 0x48) & 0xff80UL;
+ #include "qemu/osdep.h"
+@@ -609,24 +612,48 @@ static const TypeInfo vt8231_superio_info = {
+ };
  
-     memory_region_transaction_begin();
--    memory_region_set_enabled(&s->io, s->dev.config[0x80] & 1);
--    memory_region_set_address(&s->io, pm_io_base);
-+    memory_region_set_address(&s->io, pmbase);
-+    memory_region_set_enabled(&s->io, s->dev.config[0x41] & BIT(7));
-     memory_region_transaction_commit();
- }
  
-@@ -92,6 +89,13 @@ static void pm_write_config(PCIDevice *d, uint32_t addr, uint32_t val, int len)
+-OBJECT_DECLARE_SIMPLE_TYPE(VT82C686BISAState, VT82C686B_ISA)
++#define TYPE_VIA_ISA "via-isa"
++OBJECT_DECLARE_SIMPLE_TYPE(ViaISAState, VIA_ISA)
  
-     trace_via_pm_write(addr, val, len);
-     pci_default_write_config(d, addr, val, len);
-+    if (ranges_overlap(addr, len, 0x48, 4)) {
-+        uint32_t v = pci_get_long(s->dev.config + 0x48);
-+        pci_set_long(s->dev.config + 0x48, (v & 0xff80UL) | 1);
+-struct VT82C686BISAState {
++struct ViaISAState {
+     PCIDevice dev;
+     qemu_irq cpu_intr;
+     ViaSuperIOState *via_sio;
+ };
+ 
++static const VMStateDescription vmstate_via = {
++    .name = "via-isa",
++    .version_id = 1,
++    .minimum_version_id = 1,
++    .fields = (VMStateField[]) {
++        VMSTATE_PCI_DEVICE(dev, ViaISAState),
++        VMSTATE_END_OF_LIST()
 +    }
-+    if (range_covers_byte(addr, len, 0x41)) {
-+        pm_io_space_update(s);
-+    }
-     if (ranges_overlap(addr, len, 0x90, 4)) {
-         uint32_t v = pci_get_long(s->dev.config + 0x90);
-         pci_set_long(s->dev.config + 0x90, (v & 0xfff0UL) | 1);
-@@ -102,6 +106,27 @@ static void pm_write_config(PCIDevice *d, uint32_t addr, uint32_t val, int len)
-     }
- }
- 
-+static void pm_io_write(void *op, hwaddr addr, uint64_t data, unsigned size)
-+{
-+    trace_via_pm_io_write(addr, data, size);
-+}
++};
 +
-+static uint64_t pm_io_read(void *op, hwaddr addr, unsigned size)
-+{
-+    trace_via_pm_io_read(addr, 0, size);
-+    return 0;
-+}
-+
-+static const MemoryRegionOps pm_io_ops = {
-+    .read = pm_io_read,
-+    .write = pm_io_write,
-+    .endianness = DEVICE_NATIVE_ENDIAN,
-+    .impl = {
-+        .min_access_size = 1,
-+        .max_access_size = 1,
++static const TypeInfo via_isa_info = {
++    .name          = TYPE_VIA_ISA,
++    .parent        = TYPE_PCI_DEVICE,
++    .instance_size = sizeof(ViaISAState),
++    .abstract      = true,
++    .interfaces    = (InterfaceInfo[]) {
++        { INTERFACE_CONVENTIONAL_PCI_DEVICE },
++        { },
 +    },
 +};
 +
- static void pm_update_sci(VT686PMState *s)
+ static void via_isa_request_i8259_irq(void *opaque, int irq, int level)
  {
-     int sci_level, pmsts;
-@@ -128,35 +153,34 @@ static void vt82c686b_pm_reset(DeviceState *d)
- {
-     VT686PMState *s = VT82C686B_PM(d);
- 
-+    memset(s->dev.config + PCI_CONFIG_HEADER_SIZE, 0,
-+           PCI_CONFIG_SPACE_SIZE - PCI_CONFIG_HEADER_SIZE);
-+    /* Power Management IO base */
-+    pci_set_long(s->dev.config + 0x48, 1);
-     /* SMBus IO base */
-     pci_set_long(s->dev.config + 0x90, 1);
--    s->dev.config[0xd2] = 0;
- 
-+    pm_io_space_update(s);
-     smb_io_space_update(s);
+-    VT82C686BISAState *s = opaque;
++    ViaISAState *s = opaque;
+     qemu_set_irq(s->cpu_intr, level);
  }
  
- static void vt82c686b_pm_realize(PCIDevice *dev, Error **errp)
++/* TYPE_VT82C686B_ISA */
++
+ static void vt82c686b_write_config(PCIDevice *d, uint32_t addr,
+                                    uint32_t val, int len)
  {
-     VT686PMState *s = VT82C686B_PM(dev);
--    uint8_t *pci_conf;
+-    VT82C686BISAState *s = VT82C686B_ISA(d);
++    ViaISAState *s = VIA_ISA(d);
  
--    pci_conf = s->dev.config;
--    pci_set_word(pci_conf + PCI_COMMAND, 0);
--    pci_set_word(pci_conf + PCI_STATUS, PCI_STATUS_FAST_BACK |
-+    pci_set_word(dev->config + PCI_STATUS, PCI_STATUS_FAST_BACK |
-                  PCI_STATUS_DEVSEL_MEDIUM);
+     trace_via_isa_write(addr, val, len);
+     pci_default_write_config(d, addr, val, len);
+@@ -636,19 +663,9 @@ static void vt82c686b_write_config(PCIDevice *d, uint32_t addr,
+     }
+ }
  
--    /* 0x48-0x4B is Power Management I/O Base */
--    pci_set_long(pci_conf + 0x48, 0x00000001);
+-static const VMStateDescription vmstate_via = {
+-    .name = "vt82c686b",
+-    .version_id = 1,
+-    .minimum_version_id = 1,
+-    .fields = (VMStateField[]) {
+-        VMSTATE_PCI_DEVICE(dev, VT82C686BISAState),
+-        VMSTATE_END_OF_LIST()
+-    }
+-};
 -
-     pm_smbus_init(DEVICE(s), &s->smb, false);
-     memory_region_add_subregion(pci_address_space_io(dev), 0, &s->smb.io);
-     memory_region_set_enabled(&s->smb.io, false);
+ static void vt82c686b_isa_reset(DeviceState *dev)
+ {
+-    VT82C686BISAState *s = VT82C686B_ISA(dev);
++    ViaISAState *s = VIA_ISA(dev);
+     uint8_t *pci_conf = s->dev.config;
  
-     apm_init(dev, &s->apm, NULL, s);
+     pci_set_long(pci_conf + PCI_CAPABILITY_LIST, 0x000000c0);
+@@ -668,7 +685,7 @@ static void vt82c686b_isa_reset(DeviceState *dev)
  
--    memory_region_init(&s->io, OBJECT(dev), "vt82c686-pm", 64);
-+    memory_region_init_io(&s->io, OBJECT(dev), &pm_io_ops, s,
-+                          "vt82c686-pm", 0x100);
-+    memory_region_add_subregion(pci_address_space_io(dev), 0, &s->io);
-     memory_region_set_enabled(&s->io, false);
--    memory_region_add_subregion(get_system_io(), 0, &s->io);
+ static void vt82c686b_realize(PCIDevice *d, Error **errp)
+ {
+-    VT82C686BISAState *s = VT82C686B_ISA(d);
++    ViaISAState *s = VIA_ISA(d);
+     DeviceState *dev = DEVICE(d);
+     ISABus *isa_bus;
+     qemu_irq *isa_irq;
+@@ -692,7 +709,7 @@ static void vt82c686b_realize(PCIDevice *d, Error **errp)
+     }
+ }
  
-     acpi_pm_tmr_init(&s->ar, pm_tmr_timer, &s->io);
-     acpi_pm1_evt_init(&s->ar, pm_tmr_timer, &s->io);
+-static void via_class_init(ObjectClass *klass, void *data)
++static void vt82c686b_class_init(ObjectClass *klass, void *data)
+ {
+     DeviceClass *dc = DEVICE_CLASS(klass);
+     PCIDeviceClass *k = PCI_DEVICE_CLASS(klass);
+@@ -706,22 +723,95 @@ static void via_class_init(ObjectClass *klass, void *data)
+     dc->reset = vt82c686b_isa_reset;
+     dc->desc = "ISA bridge";
+     dc->vmsd = &vmstate_via;
+-    /*
+-     * Reason: part of VIA VT82C686 southbridge, needs to be wired up,
+-     * e.g. by mips_fuloong2e_init()
+-     */
++    /* Reason: part of VIA VT82C686 southbridge, needs to be wired up */
+     dc->user_creatable = false;
+ }
+ 
+-static const TypeInfo via_info = {
++static const TypeInfo vt82c686b_isa_info = {
+     .name          = TYPE_VT82C686B_ISA,
+-    .parent        = TYPE_PCI_DEVICE,
+-    .instance_size = sizeof(VT82C686BISAState),
+-    .class_init    = via_class_init,
+-    .interfaces = (InterfaceInfo[]) {
+-        { INTERFACE_CONVENTIONAL_PCI_DEVICE },
+-        { },
+-    },
++    .parent        = TYPE_VIA_ISA,
++    .instance_size = sizeof(ViaISAState),
++    .class_init    = vt82c686b_class_init,
++};
++
++/* TYPE_VT8231_ISA */
++
++static void vt8231_write_config(PCIDevice *d, uint32_t addr,
++                                uint32_t val, int len)
++{
++    ViaISAState *s = VIA_ISA(d);
++
++    trace_via_isa_write(addr, val, len);
++    pci_default_write_config(d, addr, val, len);
++    if (addr == 0x50) {
++        /* BIT(2): enable or disable superio config io ports */
++        via_superio_io_enable(s->via_sio, val & BIT(2));
++    }
++}
++
++static void vt8231_isa_reset(DeviceState *dev)
++{
++    ViaISAState *s = VIA_ISA(dev);
++    uint8_t *pci_conf = s->dev.config;
++
++    pci_set_long(pci_conf + PCI_CAPABILITY_LIST, 0x000000c0);
++    pci_set_word(pci_conf + PCI_COMMAND, PCI_COMMAND_IO | PCI_COMMAND_MEMORY |
++                 PCI_COMMAND_MASTER | PCI_COMMAND_SPECIAL);
++    pci_set_word(pci_conf + PCI_STATUS, PCI_STATUS_DEVSEL_MEDIUM);
++
++    pci_conf[0x58] = 0x40; /* Miscellaneous Control 0 */
++    pci_conf[0x67] = 0x08; /* Fast IR Config */
++    pci_conf[0x6b] = 0x01; /* Fast IR I/O Base */
++}
++
++static void vt8231_realize(PCIDevice *d, Error **errp)
++{
++    ViaISAState *s = VIA_ISA(d);
++    DeviceState *dev = DEVICE(d);
++    ISABus *isa_bus;
++    qemu_irq *isa_irq;
++    int i;
++
++    qdev_init_gpio_out(dev, &s->cpu_intr, 1);
++    isa_irq = qemu_allocate_irqs(via_isa_request_i8259_irq, s, 1);
++    isa_bus = isa_bus_new(dev, get_system_memory(), pci_address_space_io(d),
++                          &error_fatal);
++    isa_bus_irqs(isa_bus, i8259_init(isa_bus, *isa_irq));
++    i8254_pit_init(isa_bus, 0x40, 0, NULL);
++    i8257_dma_init(isa_bus, 0);
++    s->via_sio = VIA_SUPERIO(isa_create_simple(isa_bus, TYPE_VT8231_SUPERIO));
++    mc146818_rtc_init(isa_bus, 2000, NULL);
++
++    for (i = 0; i < PCI_CONFIG_HEADER_SIZE; i++) {
++        if (i < PCI_COMMAND || i >= PCI_REVISION_ID) {
++            d->wmask[i] = 0;
++        }
++    }
++}
++
++static void vt8231_class_init(ObjectClass *klass, void *data)
++{
++    DeviceClass *dc = DEVICE_CLASS(klass);
++    PCIDeviceClass *k = PCI_DEVICE_CLASS(klass);
++
++    k->realize = vt8231_realize;
++    k->config_write = vt8231_write_config;
++    k->vendor_id = PCI_VENDOR_ID_VIA;
++    k->device_id = 0x8231;
++    k->class_id = PCI_CLASS_BRIDGE_ISA;
++    k->revision = 0x10;
++    dc->reset = vt8231_isa_reset;
++    dc->desc = "ISA bridge";
++    dc->vmsd = &vmstate_via;
++    /* Reason: part of VIA VT8231 southbridge, needs to be wired up */
++    dc->user_creatable = false;
++}
++
++static const TypeInfo vt8231_isa_info = {
++    .name          = TYPE_VT8231_ISA,
++    .parent        = TYPE_VIA_ISA,
++    .instance_size = sizeof(ViaISAState),
++    .class_init    = vt8231_class_init,
+ };
+ 
+ 
+@@ -733,7 +823,9 @@ static void vt82c686b_register_types(void)
+     type_register_static(&via_superio_info);
+     type_register_static(&vt82c686b_superio_info);
+     type_register_static(&vt8231_superio_info);
+-    type_register_static(&via_info);
++    type_register_static(&via_isa_info);
++    type_register_static(&vt82c686b_isa_info);
++    type_register_static(&vt8231_isa_info);
+ }
+ 
+ type_init(vt82c686b_register_types)
+diff --git a/include/hw/isa/vt82c686.h b/include/hw/isa/vt82c686.h
+index 0692b9a527..0f01aaa471 100644
+--- a/include/hw/isa/vt82c686.h
++++ b/include/hw/isa/vt82c686.h
+@@ -3,6 +3,7 @@
+ 
+ #define TYPE_VT82C686B_ISA "vt82c686b-isa"
+ #define TYPE_VT82C686B_PM "vt82c686b-pm"
++#define TYPE_VT8231_ISA "vt8231-isa"
+ #define TYPE_VT8231_PM "vt8231-pm"
+ #define TYPE_VIA_AC97 "via-ac97"
+ #define TYPE_VIA_MC97 "via-mc97"
 -- 
 2.21.3
 
