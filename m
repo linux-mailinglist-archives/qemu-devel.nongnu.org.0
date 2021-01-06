@@ -2,35 +2,35 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 338A62EC5E1
-	for <lists+qemu-devel@lfdr.de>; Wed,  6 Jan 2021 22:47:07 +0100 (CET)
-Received: from localhost ([::1]:43748 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 509C32EC63C
+	for <lists+qemu-devel@lfdr.de>; Wed,  6 Jan 2021 23:32:42 +0100 (CET)
+Received: from localhost ([::1]:53276 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kxGe2-00012H-0t
-	for lists+qemu-devel@lfdr.de; Wed, 06 Jan 2021 16:47:06 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60240)
+	id 1kxHM8-0008WG-St
+	for lists+qemu-devel@lfdr.de; Wed, 06 Jan 2021 17:32:40 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39832)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1kxGco-0000Zm-B3
- for qemu-devel@nongnu.org; Wed, 06 Jan 2021 16:45:50 -0500
-Received: from indium.canonical.com ([91.189.90.7]:47958)
+ id 1kxHKK-0007z6-Bx
+ for qemu-devel@nongnu.org; Wed, 06 Jan 2021 17:30:48 -0500
+Received: from indium.canonical.com ([91.189.90.7]:54202)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1kxGcm-0007Sr-CB
- for qemu-devel@nongnu.org; Wed, 06 Jan 2021 16:45:50 -0500
+ id 1kxHKH-0006Eo-O5
+ for qemu-devel@nongnu.org; Wed, 06 Jan 2021 17:30:48 -0500
 Received: from loganberry.canonical.com ([91.189.90.37])
  by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1kxGcj-0007XY-Nm
- for <qemu-devel@nongnu.org>; Wed, 06 Jan 2021 21:45:45 +0000
+ id 1kxHKF-0002xi-O3
+ for <qemu-devel@nongnu.org>; Wed, 06 Jan 2021 22:30:43 +0000
 Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id B31B92E8135
- for <qemu-devel@nongnu.org>; Wed,  6 Jan 2021 21:45:45 +0000 (UTC)
+ by loganberry.canonical.com (Postfix) with ESMTP id B3EA22E813A
+ for <qemu-devel@nongnu.org>; Wed,  6 Jan 2021 22:30:43 +0000 (UTC)
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
-Date: Wed, 06 Jan 2021 21:37:39 -0000
-From: Snoobz <1909921@bugs.launchpad.net>
+Date: Wed, 06 Jan 2021 22:22:28 -0000
+From: Peter Maydell <1909921@bugs.launchpad.net>
 To: qemu-devel@nongnu.org
 X-Launchpad-Notification-Type: bug
 X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
@@ -38,11 +38,11 @@ X-Launchpad-Bug-Tags: arm linux-user vcpu
 X-Launchpad-Bug-Information-Type: Public
 X-Launchpad-Bug-Private: no
 X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: ajbennee snoobz
+X-Launchpad-Bug-Commenters: ajbennee pmaydell snoobz
 X-Launchpad-Bug-Reporter: Snoobz (snoobz)
-X-Launchpad-Bug-Modifier: Snoobz (snoobz)
+X-Launchpad-Bug-Modifier: Peter Maydell (pmaydell)
 References: <160969474752.18413.12452840655391947769.malonedeb@gac.canonical.com>
-Message-Id: <160996905949.5732.17050028532419763473.malone@chaenomeles.canonical.com>
+Message-Id: <160997174894.5564.9595254286613407054.malone@chaenomeles.canonical.com>
 Subject: [Bug 1909921] Re: Raspberry Pi 4 qemu:handle_cpu_signal received
  signal outside vCPU context @ pc=0xffff87709b0e
 X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
@@ -50,7 +50,7 @@ X-Launchpad-Message-For: qemu-devel-ml
 Precedence: bulk
 X-Generated-By: Launchpad (canonical.com);
  Revision="34b3ffd45c9543b7f7aa5aa313925241e9e7ca3f"; Instance="production"
-X-Launchpad-Hash: 1b34bfc7502f1227d5bb5bdcef8fa074f8457684
+X-Launchpad-Hash: bdc82df3113df04985a17758d31a0f29446f20f1
 Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
  helo=indium.canonical.com
 X-Spam_score_int: -65
@@ -75,13 +75,13 @@ Reply-To: Bug 1909921 <1909921@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hello,
-
-Can I get any help please?
-
-Thank you.
-
-Regards,
+If you run QEMU with the '-d unimp' option (if that's awkward, set the
+environment variable QEMU_LOG to 'unimp' instead) does QEMU print any
+messages about unimplemented functionality? (In
+https://bugs.launchpad.net/qemu/+bug/1619896 somebody else was trying to
+run TeamSpeak 3 Server, which fails because of some unimplemented parts
+of the Linux syscall API in QEMU, but it doesn't actually crash
+apparently.)
 
 -- =
 
