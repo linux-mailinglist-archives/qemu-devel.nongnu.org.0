@@ -2,71 +2,94 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DEBB42EC14F
-	for <lists+qemu-devel@lfdr.de>; Wed,  6 Jan 2021 17:38:51 +0100 (CET)
-Received: from localhost ([::1]:59086 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 692622EC150
+	for <lists+qemu-devel@lfdr.de>; Wed,  6 Jan 2021 17:38:54 +0100 (CET)
+Received: from localhost ([::1]:59290 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kxBpj-0007il-08
-	for lists+qemu-devel@lfdr.de; Wed, 06 Jan 2021 11:38:51 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55110)
+	id 1kxBpl-0007nm-Ge
+	for lists+qemu-devel@lfdr.de; Wed, 06 Jan 2021 11:38:53 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55128)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <maxim.uvarov@linaro.org>)
- id 1kxBns-0006aF-TU
- for qemu-devel@nongnu.org; Wed, 06 Jan 2021 11:36:57 -0500
-Received: from mail-pl1-x62f.google.com ([2607:f8b0:4864:20::62f]:34122)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <maxim.uvarov@linaro.org>)
- id 1kxBnp-00019x-OP
- for qemu-devel@nongnu.org; Wed, 06 Jan 2021 11:36:56 -0500
-Received: by mail-pl1-x62f.google.com with SMTP id t6so1819249plq.1
- for <qemu-devel@nongnu.org>; Wed, 06 Jan 2021 08:36:53 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=ffb+X+NHgNBHv5+5luuXnUQ32C/ziSJZje4HKbF1kak=;
- b=nXfTIrqhq6U1SAxi6oQJEomojGkBpWceWsv6WwOhR6FakHmHAMj02yhs7IAwxXa/O5
- 3ZR0B0RyDGD2XT+O/J2YenLgW8qVCn03gxJ8L7DYob/VDIm7ySl8oxrZwCkaWQBv4nSX
- LswudI1/h039UEkFleqFTgWjzeWFaZKPc3QzUhV4HY7tjYXbzResNjVHICOknTx0BCtX
- Bq7r/Xm5b14NX1y42VTFO9qOOehcd//X4Wk6jFc8siSfQtyIcdIKrBTAHzXAVL0Pz3QX
- WvxtP6+GElwn5U/4QHP/zR6HYj/8onVetPZqrIKSUGkstswur5EC+eRlUKQVRpZ6s2Yk
- 5V9Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=ffb+X+NHgNBHv5+5luuXnUQ32C/ziSJZje4HKbF1kak=;
- b=QOeMits0iWJUiXNFdlfix3UdlAOPapHLSb3crTFtIVvrsSSVugOl9B1WusN1i63BiS
- 8wNOlh6NWsZTxfnsfjZMw5WQSKSBIJxXxq/UQgmH+AmiIU/Tj73M9BvYOs9LJaYfjQvx
- T0uvOAqWz+8M4d7uLioXGfj8h7nBZCgRKS13J5Zztk2FKumgB5n/ZFokTh0RtawFDs0x
- c/UKc5uWRyUXAyeiqjJg8PmUkwwrd9MVdPiyp5oTd/bYmaJSNEE7BUNX997EZTviN9bg
- KPZmTZ3yi6hTnvtPIxmDo0NdwU7jVrqFnOMGYNeh+aEE+hlVdh909TSBg9nT3r8EvHVp
- 6eHA==
-X-Gm-Message-State: AOAM532NpiLU8eqAQJuArj5ydhkbrUBB5oOb4jpjwVL7qlxB2T3I3ezE
- pLdx6kiajp6+zoGdV0lYzN9vfbTHALAItjHmoZrfAA==
-X-Google-Smtp-Source: ABdhPJxbMQyQ2kFp2ybDgZZOpJ/VEv7ib2DWJVQSPrDXMm9fxL/qJn0k7XvT0eorXc5sf7GNzaPI/y100+DFxpzv96A=
-X-Received: by 2002:a17:90a:3989:: with SMTP id
- z9mr5116381pjb.198.1609951011714; 
- Wed, 06 Jan 2021 08:36:51 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <steven.sistare@oracle.com>)
+ id 1kxBnz-0006g8-L9
+ for qemu-devel@nongnu.org; Wed, 06 Jan 2021 11:37:04 -0500
+Received: from aserp2130.oracle.com ([141.146.126.79]:53680)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <steven.sistare@oracle.com>)
+ id 1kxBnw-0001AG-9O
+ for qemu-devel@nongnu.org; Wed, 06 Jan 2021 11:37:02 -0500
+Received: from pps.filterd (aserp2130.oracle.com [127.0.0.1])
+ by aserp2130.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 106GJ1Y4070187;
+ Wed, 6 Jan 2021 16:36:54 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com;
+ h=subject : to : cc :
+ references : from : message-id : date : mime-version : in-reply-to :
+ content-type : content-transfer-encoding; s=corp-2020-01-29;
+ bh=/VQ+WQyrZl19WZrqeFvpqTiC9ndstNf/VINDNbQ4wa0=;
+ b=VARobWaa70s/UVg3H+ZwipI549oVk6nGcQHJf7E2t+ZCHACmhiJrhOs+SdtRjXNOaB8M
+ GDxsJVa8aguBQpqc1oFUZeIiq1UxtzhcQ7lWQDskoo2a+EQz0R0WWg82hQkzv0WclFBU
+ OkB3sXta7pwjuCcFFI8Ui7H2yTBDnRDwX0wS23RgJWylpj3x0eKBoSpZHi0rl+WlvHxY
+ ey2qrek1lgH7FCEUT7vknI79OdeJJOG+hWcpJ69uq/eQw20XNnLiIvoaQnRVIG3Q8NjK
+ NVS2FGre8+h9QGcWuMXa9GWCYcyI1Dhopy1O2ks6Am6ybi5U+YeLlCfjsES3QQuokfo9 XA== 
+Received: from aserp3030.oracle.com (aserp3030.oracle.com [141.146.126.71])
+ by aserp2130.oracle.com with ESMTP id 35wcuxs54g-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=FAIL);
+ Wed, 06 Jan 2021 16:36:54 +0000
+Received: from pps.filterd (aserp3030.oracle.com [127.0.0.1])
+ by aserp3030.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 106GKTVL088234;
+ Wed, 6 Jan 2021 16:36:53 GMT
+Received: from aserv0122.oracle.com (aserv0122.oracle.com [141.146.126.236])
+ by aserp3030.oracle.com with ESMTP id 35v4rcvuva-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Wed, 06 Jan 2021 16:36:53 +0000
+Received: from abhmp0009.oracle.com (abhmp0009.oracle.com [141.146.116.15])
+ by aserv0122.oracle.com (8.14.4/8.14.4) with ESMTP id 106GaqNo020586;
+ Wed, 6 Jan 2021 16:36:52 GMT
+Received: from [10.39.251.70] (/10.39.251.70)
+ by default (Oracle Beehive Gateway v4.0)
+ with ESMTP ; Wed, 06 Jan 2021 08:36:52 -0800
+Subject: Re: [PATCH V2 05/22] vl: memfd-alloc option
+To: =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>
+References: <1609861330-129855-1-git-send-email-steven.sistare@oracle.com>
+ <1609861330-129855-6-git-send-email-steven.sistare@oracle.com>
+ <20210105162708.GH724458@redhat.com>
+From: Steven Sistare <steven.sistare@oracle.com>
+Organization: Oracle Corporation
+Message-ID: <d6c1b91e-9c49-3356-554d-39da53a11e16@oracle.com>
+Date: Wed, 6 Jan 2021 11:36:51 -0500
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
+ Thunderbird/78.6.0
 MIME-Version: 1.0
-References: <20210106163426.9971-1-maxim.uvarov@linaro.org>
-In-Reply-To: <20210106163426.9971-1-maxim.uvarov@linaro.org>
-From: Maxim Uvarov <maxim.uvarov@linaro.org>
-Date: Wed, 6 Jan 2021 19:36:40 +0300
-Message-ID: <CAD8XO3ZkRtGTu7vbqN4H3SHwCaMC78cehbp8ewAuQ7vEBXHkNA@mail.gmail.com>
-Subject: Re: [PATCHv3] arm-virt: add secure pl061 for reset/power down
-To: qemu-arm <qemu-arm@nongnu.org>, QEMU Developers <qemu-devel@nongnu.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2607:f8b0:4864:20::62f;
- envelope-from=maxim.uvarov@linaro.org; helo=mail-pl1-x62f.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+In-Reply-To: <20210105162708.GH724458@redhat.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9855
+ signatures=668683
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 mlxlogscore=999
+ mlxscore=0 bulkscore=0
+ suspectscore=0 spamscore=0 adultscore=0 malwarescore=0 phishscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2009150000
+ definitions=main-2101060099
+X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9855
+ signatures=668683
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 suspectscore=0
+ bulkscore=0
+ clxscore=1015 spamscore=0 impostorscore=0 priorityscore=1501 mlxscore=0
+ adultscore=0 mlxlogscore=999 lowpriorityscore=0 phishscore=0
+ malwarescore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2009150000 definitions=main-2101060099
+Received-SPF: pass client-ip=141.146.126.79;
+ envelope-from=steven.sistare@oracle.com; helo=aserp2130.oracle.com
+X-Spam_score_int: -48
+X-Spam_score: -4.9
+X-Spam_bar: ----
+X-Spam_report: (-4.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.252,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.249, RCVD_IN_DNSWL_MED=-2.3, RCVD_IN_MSPIKE_H4=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_PASS=-0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -79,237 +102,69 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>, f4bug@amsat.org,
- Jose Marinho <Jose.Marinho@arm.com>, tf-a@lists.trustedfirmware.org
+Cc: Jason Zeng <jason.zeng@linux.intel.com>,
+ "Michael S. Tsirkin" <mst@redhat.com>,
+ =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
+ Juan Quintela <quintela@redhat.com>, qemu-devel@nongnu.org,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
+ Alex Williamson <alex.williamson@redhat.com>,
+ Stefan Hajnoczi <stefanha@redhat.com>,
+ =?UTF-8?Q?Marc-Andr=c3=a9_Lureau?= <marcandre.lureau@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
+ Markus Armbruster <armbru@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Please skip v2 and use v3. I had to check that one line change code
-compiles. qemu_log() requires include header for that function.
+On 1/5/2021 11:27 AM, Daniel P. Berrangé wrote:
+> On Tue, Jan 05, 2021 at 07:41:53AM -0800, Steve Sistare wrote:
+>> Allocate anonymous memory using memfd_create if the memfd-alloc option is
+>> set.
+>>
+>> Signed-off-by: Steve Sistare <steven.sistare@oracle.com>
+>> ---
+>>  exec.c                  | 38 ++++++++++++++++++++++++++++++--------
+>>  include/sysemu/sysemu.h |  1 +
+>>  qemu-options.hx         | 11 +++++++++++
+>>  softmmu/vl.c            |  4 ++++
+>>  trace-events            |  1 +
+>>  5 files changed, 47 insertions(+), 8 deletions(-)
+> 
+>> diff --git a/qemu-options.hx b/qemu-options.hx
+>> index 708583b..455b43b7 100644
+>> --- a/qemu-options.hx
+>> +++ b/qemu-options.hx
+>> @@ -4094,6 +4094,17 @@ SRST
+>>      an unmigratable state.
+>>  ERST
+>>  
+>> +#ifdef __linux__
+>> +DEF("memfd-alloc", 0,  QEMU_OPTION_memfd_alloc, \
+>> +    "-memfd-alloc         allocate anonymous memory using memfd_create\n",
+>> +    QEMU_ARCH_ALL)
+>> +#endif
+>> +
+>> +SRST
+>> +``-memfd-alloc``
+>> +    Allocate anonymous memory using memfd_create (Linux only).
+>> +ERST
+> 
+> Do we really need a new arg for this ? It is already possible to request
+> use of memfd for the guest RAM using
+> 
+>   -object memory-backend-memfd,id=ram-node0,size=NNNN
+> 
+> this memory backend object framework was intended to remove the need to
+> add new ad-hoc CLI args for controlling memory allocation.
 
-Best regards,
-Maxim.
+Yes, I considered that, but there are other memory regions that cannot be controlled
+by the command line but which must be preserved, such as vram, bios, and rom.  If vram
+is not preserved, parts of the screen will be blank until the user performs some action
+which refreshes the display.  bios and rom should be preserved rather than re-recreated
+with potentially different contents from the firmware images in the updated qemu package.
 
-On Wed, 6 Jan 2021 at 19:34, Maxim Uvarov <maxim.uvarov@linaro.org> wrote:
->
-> Add secure pl061 for reset/power down machine from
-> the secure world (Arm Trusted Firmware).
-> Use the same gpio 3 and gpio 4 which were used by
-> non acpi variant of linux power control gpios.
->
-> Signed-off-by: Maxim Uvarov <maxim.uvarov@linaro.org>
-> ---
->  v3: added missed include qemu/log.h for qemu_log(..
->  v2: replace printf with qemu_log (Philippe Mathieu-Daud=C3=A9)
->
->  hw/arm/Kconfig        |  1 +
->  hw/arm/virt.c         | 24 ++++++++++++
->  hw/gpio/Kconfig       |  3 ++
->  hw/gpio/gpio_pwr.c    | 85 +++++++++++++++++++++++++++++++++++++++++++
->  hw/gpio/meson.build   |  1 +
->  include/hw/arm/virt.h |  1 +
->  6 files changed, 115 insertions(+)
->  create mode 100644 hw/gpio/gpio_pwr.c
->
-> diff --git a/hw/arm/Kconfig b/hw/arm/Kconfig
-> index 0a242e4c5d..13cc42dcc8 100644
-> --- a/hw/arm/Kconfig
-> +++ b/hw/arm/Kconfig
-> @@ -17,6 +17,7 @@ config ARM_VIRT
->      select PL011 # UART
->      select PL031 # RTC
->      select PL061 # GPIO
-> +    select GPIO_PWR
->      select PLATFORM_BUS
->      select SMBIOS
->      select VIRTIO_MMIO
-> diff --git a/hw/arm/virt.c b/hw/arm/virt.c
-> index 96985917d3..eff0345303 100644
-> --- a/hw/arm/virt.c
-> +++ b/hw/arm/virt.c
-> @@ -147,6 +147,7 @@ static const MemMapEntry base_memmap[] =3D {
->      [VIRT_RTC] =3D                { 0x09010000, 0x00001000 },
->      [VIRT_FW_CFG] =3D             { 0x09020000, 0x00000018 },
->      [VIRT_GPIO] =3D               { 0x09030000, 0x00001000 },
-> +    [VIRT_SECURE_GPIO] =3D        { 0x09031000, 0x00001000 },
->      [VIRT_SECURE_UART] =3D        { 0x09040000, 0x00001000 },
->      [VIRT_SMMU] =3D               { 0x09050000, 0x00020000 },
->      [VIRT_PCDIMM_ACPI] =3D        { 0x09070000, MEMORY_HOTPLUG_IO_LEN },
-> @@ -189,6 +190,7 @@ static const int a15irqmap[] =3D {
->      [VIRT_GPIO] =3D 7,
->      [VIRT_SECURE_UART] =3D 8,
->      [VIRT_ACPI_GED] =3D 9,
-> +    [VIRT_SECURE_GPIO] =3D 10,
->      [VIRT_MMIO] =3D 16, /* ...to 16 + NUM_VIRTIO_TRANSPORTS - 1 */
->      [VIRT_GIC_V2M] =3D 48, /* ...to 48 + NUM_GICV2M_SPIS - 1 */
->      [VIRT_SMMU] =3D 74,    /* ...to 74 + NUM_SMMU_IRQS - 1 */
-> @@ -864,6 +866,24 @@ static void create_gpio(const VirtMachineState *vms)
->      g_free(nodename);
->  }
->
-> +static void create_gpio_secure(const VirtMachineState *vms)
-> +{
-> +    DeviceState *pl061_dev;
-> +    static DeviceState *gpio_pwr_dev;
-> +
-> +    hwaddr base =3D vms->memmap[VIRT_SECURE_GPIO].base;
-> +    int irq =3D vms->irqmap[VIRT_SECURE_GPIO];
-> +
-> +    pl061_dev =3D sysbus_create_simple("pl061", base,
-> +                                     qdev_get_gpio_in(vms->gic, irq));
-> +
-> +    gpio_pwr_dev =3D sysbus_create_simple("gpio-pwr", -1,
-> +                                        qdev_get_gpio_in(pl061_dev, 3));
-> +
-> +    qdev_connect_gpio_out(pl061_dev, 3, qdev_get_gpio_in(gpio_pwr_dev, 3=
-));
-> +    qdev_connect_gpio_out(pl061_dev, 4, qdev_get_gpio_in(gpio_pwr_dev, 4=
-));
-> +}
-> +
->  static void create_virtio_devices(const VirtMachineState *vms)
->  {
->      int i;
-> @@ -1993,6 +2013,10 @@ static void machvirt_init(MachineState *machine)
->          create_gpio(vms);
->      }
->
-> +    if (vms->secure) {
-> +        create_gpio_secure(vms);
-> +    }
-> +
->       /* connect powerdown request */
->       vms->powerdown_notifier.notify =3D virt_powerdown_req;
->       qemu_register_powerdown_notifier(&vms->powerdown_notifier);
-> diff --git a/hw/gpio/Kconfig b/hw/gpio/Kconfig
-> index b6fdaa2586..f0e7405f6e 100644
-> --- a/hw/gpio/Kconfig
-> +++ b/hw/gpio/Kconfig
-> @@ -8,5 +8,8 @@ config PL061
->  config GPIO_KEY
->      bool
->
-> +config GPIO_PWR
-> +    bool
-> +
->  config SIFIVE_GPIO
->      bool
-> diff --git a/hw/gpio/gpio_pwr.c b/hw/gpio/gpio_pwr.c
-> new file mode 100644
-> index 0000000000..0d0680c9f7
-> --- /dev/null
-> +++ b/hw/gpio/gpio_pwr.c
-> @@ -0,0 +1,85 @@
-> +/*
-> + * GPIO qemu power controller
-> + *
-> + * Copyright (c) 2020 Linaro Limited
-> + *
-> + * Author: Maxim Uvarov <maxim.uvarov@linaro.org>
-> + *
-> + * Virtual gpio driver which can be used on top of pl061
-> + * to reboot and shutdown qemu virtual machine. One of use
-> + * case is gpio driver for secure world application (ARM
-> + * Trusted Firmware.).
-> + *
-> + * This work is licensed under the terms of the GNU GPL, version 2 or la=
-ter.
-> + * See the COPYING file in the top-level directory.
-> + * SPDX-License-Identifier: GPL-2.0-or-later
-> + */
-> +
-> +#include "qemu/osdep.h"
-> +#include "qemu/log.h"
-> +#include "hw/irq.h"
-> +#include "hw/sysbus.h"
-> +#include "sysemu/runstate.h"
-> +
-> +#define TYPE_GPIOPWR "gpio-pwr"
-> +OBJECT_DECLARE_SIMPLE_TYPE(GPIO_PWR_State, GPIOPWR)
-> +
-> +struct GPIO_PWR_State {
-> +    SysBusDevice parent_obj;
-> +    qemu_irq irq;
-> +};
-> +
-> +static void gpio_pwr_set_irq(void *opaque, int irq, int level)
-> +{
-> +    GPIO_PWR_State *s =3D (GPIO_PWR_State *)opaque;
-> +
-> +    qemu_set_irq(s->irq, 1);
-> +
-> +    if (level) {
-> +        return;
-> +    }
-> +
-> +    switch (irq) {
-> +    case 3:
-> +        qemu_system_reset_request(SHUTDOWN_CAUSE_GUEST_SHUTDOWN);
-> +        break;
-> +    case 4:
-> +        qemu_system_reset_request(SHUTDOWN_CAUSE_GUEST_RESET);
-> +        break;
-> +    default:
-> +        qemu_log_mask(LOG_GUEST_ERROR,
-> +                      "qemu; gpio_pwr: unknown interrupt %d lvl %d\n",
-> +                      irq, level);
-> +    }
-> +}
-> +
-> +
-> +static void gpio_pwr_realize(DeviceState *dev, Error **errp)
-> +{
-> +    GPIO_PWR_State *s =3D GPIOPWR(dev);
-> +    SysBusDevice *sbd =3D SYS_BUS_DEVICE(dev);
-> +
-> +    sysbus_init_irq(sbd, &s->irq);
-> +    qdev_init_gpio_in(dev, gpio_pwr_set_irq, 8);
-> +}
-> +
-> +static void gpio_pwr_class_init(ObjectClass *klass, void *data)
-> +{
-> +    DeviceClass *dc =3D DEVICE_CLASS(klass);
-> +
-> +    dc->realize =3D gpio_pwr_realize;
-> +}
-> +
-> +static const TypeInfo gpio_pwr_info =3D {
-> +    .name          =3D TYPE_GPIOPWR,
-> +    .parent        =3D TYPE_SYS_BUS_DEVICE,
-> +    .instance_size =3D sizeof(GPIO_PWR_State),
-> +    .class_init    =3D gpio_pwr_class_init,
-> +};
-> +
-> +static void gpio_pwr_register_types(void)
-> +{
-> +    type_register_static(&gpio_pwr_info);
-> +}
-> +
-> +type_init(gpio_pwr_register_types)
-> diff --git a/hw/gpio/meson.build b/hw/gpio/meson.build
-> index 5c0a7d7b95..79568f00ce 100644
-> --- a/hw/gpio/meson.build
-> +++ b/hw/gpio/meson.build
-> @@ -1,5 +1,6 @@
->  softmmu_ss.add(when: 'CONFIG_E500', if_true: files('mpc8xxx.c'))
->  softmmu_ss.add(when: 'CONFIG_GPIO_KEY', if_true: files('gpio_key.c'))
-> +softmmu_ss.add(when: 'CONFIG_GPIO_PWR', if_true: files('gpio_pwr.c'))
->  softmmu_ss.add(when: 'CONFIG_MAX7310', if_true: files('max7310.c'))
->  softmmu_ss.add(when: 'CONFIG_PL061', if_true: files('pl061.c'))
->  softmmu_ss.add(when: 'CONFIG_PUV3', if_true: files('puv3_gpio.c'))
-> diff --git a/include/hw/arm/virt.h b/include/hw/arm/virt.h
-> index abf54fab49..77a4523cc7 100644
-> --- a/include/hw/arm/virt.h
-> +++ b/include/hw/arm/virt.h
-> @@ -81,6 +81,7 @@ enum {
->      VIRT_GPIO,
->      VIRT_SECURE_UART,
->      VIRT_SECURE_MEM,
-> +    VIRT_SECURE_GPIO,
->      VIRT_PCDIMM_ACPI,
->      VIRT_ACPI_GED,
->      VIRT_NVDIMM_ACPI,
-> --
-> 2.17.1
->
+However, your comment reminds me that I must add a few lines of code to preserve the 
+memory-backend-memfd.
+
+- Steve
 
