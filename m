@@ -2,36 +2,37 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D00092EB8B1
-	for <lists+qemu-devel@lfdr.de>; Wed,  6 Jan 2021 04:53:05 +0100 (CET)
-Received: from localhost ([::1]:60290 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 142CB2EB89C
+	for <lists+qemu-devel@lfdr.de>; Wed,  6 Jan 2021 04:46:51 +0100 (CET)
+Received: from localhost ([::1]:40920 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kwzse-0006tb-Te
-	for lists+qemu-devel@lfdr.de; Tue, 05 Jan 2021 22:53:04 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44870)
+	id 1kwzmc-0007EH-1F
+	for lists+qemu-devel@lfdr.de; Tue, 05 Jan 2021 22:46:50 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44900)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1kwzer-0005pR-SV; Tue, 05 Jan 2021 22:38:49 -0500
-Received: from ozlabs.org ([2401:3900:2:1::2]:56225)
+ id 1kwzet-0005tJ-7e; Tue, 05 Jan 2021 22:38:51 -0500
+Received: from bilbo.ozlabs.org ([2401:3900:2:1::2]:56979 helo=ozlabs.org)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1kwzeq-0006M8-2j; Tue, 05 Jan 2021 22:38:49 -0500
+ id 1kwzeq-0006MA-67; Tue, 05 Jan 2021 22:38:50 -0500
 Received: by ozlabs.org (Postfix, from userid 1007)
- id 4D9ZpH2xQ6z9sWP; Wed,  6 Jan 2021 14:38:31 +1100 (AEDT)
+ id 4D9ZpH3yyBz9sWR; Wed,  6 Jan 2021 14:38:31 +1100 (AEDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=gibson.dropbear.id.au; s=201602; t=1609904311;
- bh=1ICu7Dy0E2CqEKsjhRtSLgFtZSAlwOdBnbetZ9cN0Yc=;
+ bh=ccY8CvOgItvQ1W8BmBilO/Xmtaex2xqod37I6ii+0gs=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=WnlKnB3Ps+tcD2tw96wQmBFpmLzlWL2Ig5X6iwApkLNT6kVLOpH1Kc7vj8p86fnAK
- 4+K0fLagCtuuykoqQbCAZwKMIxMMWP5GHLdEwwyfCPYpWaF/aTA2hswHR88G/OlvBa
- u1t2j+QlT09DutEWuDmyJ1SZdgp/Do2APY+p+j5U=
+ b=AvNXQUS+KU9M0Y+mXPqmRTpM3UZKTmpVNIMvIlQAg6F201e3S+nx8NXEHaNCPEStl
+ ajJDMKnVexYSUtHzcQ2c5/x6NCsg81QqNbYyqsJs4AJba7jnQMNaNzwLp6+MghD3aT
+ IM4Xo1Kssx+RECSJryC56/OGAYmH3j6BQo5tnLOc=
 From: David Gibson <david@gibson.dropbear.id.au>
 To: peter.maydell@linaro.org,
 	groug@kaod.org
-Subject: [PULL 13/22] spapr: Use spapr_drc_reset_all() at machine reset
-Date: Wed,  6 Jan 2021 14:38:07 +1100
-Message-Id: <20210106033816.232598-14-david@gibson.dropbear.id.au>
+Subject: [PULL 14/22] spapr: Add drc_ prefix to the DRC realize and unrealize
+ functions
+Date: Wed,  6 Jan 2021 14:38:08 +1100
+Message-Id: <20210106033816.232598-15-david@gibson.dropbear.id.au>
 X-Mailer: git-send-email 2.29.2
 In-Reply-To: <20210106033816.232598-1-david@gibson.dropbear.id.au>
 References: <20210106033816.232598-1-david@gibson.dropbear.id.au>
@@ -64,58 +65,69 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Greg Kurz <groug@kaod.org>
 
-Documentation of object_child_foreach_recursive() clearly stipulates
-that "it is forbidden to add or remove children from @obj from the @fn
-callback". But this is exactly what we do during machine reset. The call
-to spapr_drc_reset() can finalize the hot-unplug sequence of a PHB or a
-PCI bridge, both of which will then in turn destroy their PCI DRCs. This
-could potentially invalidate the iterator used by do_object_child_foreach().
-It is pure luck that this haven't caused any issues so far.
-
-Use spapr_drc_reset_all() since it can cope with DRC removal.
+Use a less generic name for an easier experience with tools such as
+cscope or grep.
 
 Signed-off-by: Greg Kurz <groug@kaod.org>
-Message-Id: <20201218103400.689660-5-groug@kaod.org>
+Message-Id: <20201218103400.689660-6-groug@kaod.org>
 Reviewed-by: Daniel Henrique Barboza <danielhb413@gmail.com>
 Tested-by: Daniel Henrique Barboza <danielhb413@gmail.com>
 Signed-off-by: David Gibson <david@gibson.dropbear.id.au>
 ---
- hw/ppc/spapr.c | 15 +--------------
- 1 file changed, 1 insertion(+), 14 deletions(-)
+ hw/ppc/spapr_drc.c | 12 ++++++------
+ 1 file changed, 6 insertions(+), 6 deletions(-)
 
-diff --git a/hw/ppc/spapr.c b/hw/ppc/spapr.c
-index 9f89b1c298..2c403b574e 100644
---- a/hw/ppc/spapr.c
-+++ b/hw/ppc/spapr.c
-@@ -1566,19 +1566,6 @@ void spapr_setup_hpt(SpaprMachineState *spapr)
+diff --git a/hw/ppc/spapr_drc.c b/hw/ppc/spapr_drc.c
+index a4d2608017..8571d5bafe 100644
+--- a/hw/ppc/spapr_drc.c
++++ b/hw/ppc/spapr_drc.c
+@@ -503,7 +503,7 @@ static const VMStateDescription vmstate_spapr_drc = {
      }
+ };
+ 
+-static void realize(DeviceState *d, Error **errp)
++static void drc_realize(DeviceState *d, Error **errp)
+ {
+     SpaprDrc *drc = SPAPR_DR_CONNECTOR(d);
+     Object *root_container;
+@@ -530,7 +530,7 @@ static void realize(DeviceState *d, Error **errp)
+     trace_spapr_drc_realize_complete(spapr_drc_index(drc));
  }
  
--static int spapr_reset_drcs(Object *child, void *opaque)
--{
--    SpaprDrc *drc =
--        (SpaprDrc *) object_dynamic_cast(child,
--                                                 TYPE_SPAPR_DR_CONNECTOR);
--
--    if (drc) {
--        spapr_drc_reset(drc);
--    }
--
--    return 0;
--}
--
- static void spapr_machine_reset(MachineState *machine)
+-static void unrealize(DeviceState *d)
++static void drc_unrealize(DeviceState *d)
  {
-     SpaprMachineState *spapr = SPAPR_MACHINE(machine);
-@@ -1633,7 +1620,7 @@ static void spapr_machine_reset(MachineState *machine)
-      * will crash QEMU if the DIMM holding the vring goes away). To avoid such
-      * situations, we reset DRCs after all devices have been reset.
-      */
--    object_child_foreach_recursive(object_get_root(), spapr_reset_drcs, NULL);
-+    spapr_drc_reset_all(spapr);
+     SpaprDrc *drc = SPAPR_DR_CONNECTOR(d);
+     Object *root_container;
+@@ -579,8 +579,8 @@ static void spapr_dr_connector_class_init(ObjectClass *k, void *data)
+ {
+     DeviceClass *dk = DEVICE_CLASS(k);
  
-     spapr_clear_pending_events(spapr);
+-    dk->realize = realize;
+-    dk->unrealize = unrealize;
++    dk->realize = drc_realize;
++    dk->unrealize = drc_unrealize;
+     /*
+      * Reason: DR connector needs to be wired to either the machine or to a
+      * PHB in spapr_dr_connector_new().
+@@ -628,7 +628,7 @@ static void realize_physical(DeviceState *d, Error **errp)
+     SpaprDrcPhysical *drcp = SPAPR_DRC_PHYSICAL(d);
+     Error *local_err = NULL;
  
+-    realize(d, &local_err);
++    drc_realize(d, &local_err);
+     if (local_err) {
+         error_propagate(errp, local_err);
+         return;
+@@ -644,7 +644,7 @@ static void unrealize_physical(DeviceState *d)
+ {
+     SpaprDrcPhysical *drcp = SPAPR_DRC_PHYSICAL(d);
+ 
+-    unrealize(d);
++    drc_unrealize(d);
+     vmstate_unregister(VMSTATE_IF(drcp), &vmstate_spapr_drc_physical, drcp);
+     qemu_unregister_reset(drc_physical_reset, drcp);
+ }
 -- 
 2.29.2
 
