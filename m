@@ -2,67 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BC8F32EC0D6
-	for <lists+qemu-devel@lfdr.de>; Wed,  6 Jan 2021 17:05:35 +0100 (CET)
-Received: from localhost ([::1]:56992 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D421E2EC105
+	for <lists+qemu-devel@lfdr.de>; Wed,  6 Jan 2021 17:22:28 +0100 (CET)
+Received: from localhost ([::1]:43010 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kxBJW-0000R9-S1
-	for lists+qemu-devel@lfdr.de; Wed, 06 Jan 2021 11:05:34 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46542)
+	id 1kxBZr-0008W7-Bz
+	for lists+qemu-devel@lfdr.de; Wed, 06 Jan 2021 11:22:27 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51628)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <r.bolshakov@yadro.com>)
- id 1kxBID-0008JZ-25; Wed, 06 Jan 2021 11:04:13 -0500
-Received: from mta-02.yadro.com ([89.207.88.252]:46288 helo=mta-01.yadro.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <r.bolshakov@yadro.com>)
- id 1kxBIA-0001bL-PC; Wed, 06 Jan 2021 11:04:12 -0500
-Received: from localhost (unknown [127.0.0.1])
- by mta-01.yadro.com (Postfix) with ESMTP id 3DEFE412D6;
- Wed,  6 Jan 2021 16:04:08 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=yadro.com; h=
- in-reply-to:content-disposition:content-type:content-type
- :mime-version:references:message-id:subject:subject:from:from
- :date:date:received:received:received; s=mta-01; t=1609949046;
- x=1611763447; bh=4kxhXyFP2O5PFcbvvlJD21aFOWi3oLeDiYHrHgCqs/U=; b=
- VYmJgxsHjf11/fdrkDpxdOr0o9cvRSGRPnF4HCUsSVYm/g+FDUmLmVe0l0G5AM2M
- e+IiF2Dm+DK1yvu9L11CW+lCw5Lkkre0YmsVarMq2ZIHnMjjNWJYjB4lKuDfEf9N
- uB/kJttp0Uv7sjbL5x3Fq8vMu5G+3auWvk9vjnspirM=
-X-Virus-Scanned: amavisd-new at yadro.com
-Received: from mta-01.yadro.com ([127.0.0.1])
- by localhost (mta-01.yadro.com [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id JwWgguZxB6SH; Wed,  6 Jan 2021 19:04:06 +0300 (MSK)
-Received: from T-EXCH-03.corp.yadro.com (t-exch-03.corp.yadro.com
- [172.17.100.103])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-SHA384 (256/256 bits))
- (No client certificate requested)
- by mta-01.yadro.com (Postfix) with ESMTPS id 6096541268;
- Wed,  6 Jan 2021 19:04:06 +0300 (MSK)
-Received: from localhost (172.17.204.212) by T-EXCH-03.corp.yadro.com
- (172.17.100.103) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384_P384) id 15.1.669.32; Wed, 6 Jan
- 2021 19:04:06 +0300
-Date: Wed, 6 Jan 2021 19:04:20 +0300
-From: Roman Bolshakov <r.bolshakov@yadro.com>
-To: Alexander Graf <agraf@csgraf.de>
-Subject: Re: [PATCH v5 00/11] hvf: Implement Apple Silicon Support
-Message-ID: <X/XfhCfOfYIgxhSY@SPB-NB-133.local>
-References: <20201211151300.85322-1-agraf@csgraf.de>
+ (Exim 4.90_1) (envelope-from <maxim.uvarov@linaro.org>)
+ id 1kxBYu-0007yP-Oi
+ for qemu-devel@nongnu.org; Wed, 06 Jan 2021 11:21:28 -0500
+Received: from mail-lf1-x131.google.com ([2a00:1450:4864:20::131]:43966)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <maxim.uvarov@linaro.org>)
+ id 1kxBYr-0007VZ-JB
+ for qemu-devel@nongnu.org; Wed, 06 Jan 2021 11:21:28 -0500
+Received: by mail-lf1-x131.google.com with SMTP id 23so7722433lfg.10
+ for <qemu-devel@nongnu.org>; Wed, 06 Jan 2021 08:21:24 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=QfzBEaW8hSd2HhAG2j9VbHsLNzruC36gvg1hj4FQBy8=;
+ b=AM9gkvPy1L+N71esfbLKxPitm8ZRI/42fl2KnexsLU/8LI3VOeSTPN1z8TETArw6CH
+ dw9y7749qpE3X1bpqv+Gib0/mXJ/l3oQatLuESY+g3jU09s2ar0qC55q+5TtlVWVzbq6
+ yPJ0boUzKJw2qAnZPUKNJPMZztR9yw4EkXRw3l73wlgJTCva0oKOfQGoGjj7MtyxtxcH
+ bMp6TTUokT3IrtGtc2D7QrtPa2UC6BroVTycsfRcM4cFTXbRtJNuiYAZRouXqQ6LRn+/
+ OQ3JNJrhpGtDccfcCmov7rnWLbT/igKzpCgrJK+Ci1PBA/KK3g4xF0VZlkGK8UCpqTIC
+ uTXQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=QfzBEaW8hSd2HhAG2j9VbHsLNzruC36gvg1hj4FQBy8=;
+ b=VjfmHHECK8HsNVBOUXPxG/0MV+CTSLvsFLExnv+Z+6hlD0wHOHqMGG07ORDveb/05v
+ 9HbNv+C5wfGvn3C/kIdGabgurBpLqMq1+tfD/MC+yHrc/TpKY/DkGo4v6IsnjCnco5s+
+ rsh0/vP38Qj6IFT6y2XV9oL72ITZTnuv2r7BQNUqZ01uaDK5o5+ejxZ35ldWk4Tispl4
+ VklYnnexe4hSAbAD8KJASB3cziS7EVpSJDvrhVcvESkt2LaAtkmNL6r7cl6YzS+0DpK1
+ tcKpaZwZiCjJ9LihR3GGm8Lbg5hhr9LnZ0saUfkAXa6Ybz9NCaw85QnEC5KXtoRGjJmx
+ ILQQ==
+X-Gm-Message-State: AOAM530+ziRFqT9j7xMzC0iqVuYn4nR4B9FRdHWI+LTVtZ39jlumERKK
+ cMRj7np47a0nOCUHzCx2qisqCA==
+X-Google-Smtp-Source: ABdhPJzuw6CMODYpg7C9uxjCaqevbDTt5sQGzvMdC4ssPpbYmspCJ+7/f9qOA0QwWJwl3Bx3+blC+Q==
+X-Received: by 2002:a19:23d8:: with SMTP id j207mr2391375lfj.144.1609950082913; 
+ Wed, 06 Jan 2021 08:21:22 -0800 (PST)
+Received: from localhost.localdomain ([176.59.51.124])
+ by smtp.gmail.com with ESMTPSA id u14sm498231ljo.72.2021.01.06.08.21.21
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 06 Jan 2021 08:21:22 -0800 (PST)
+From: Maxim Uvarov <maxim.uvarov@linaro.org>
+To: qemu-arm@nongnu.org,
+	qemu-devel@nongnu.org
+Subject: [PATCHv2] arm-virt: add secure pl061 for reset/power down
+Date: Wed,  6 Jan 2021 19:21:18 +0300
+Message-Id: <20210106162118.8869-1-maxim.uvarov@linaro.org>
+X-Mailer: git-send-email 2.17.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset="us-ascii"
-Content-Disposition: inline
-In-Reply-To: <20201211151300.85322-1-agraf@csgraf.de>
-X-Originating-IP: [172.17.204.212]
-X-ClientProxiedBy: T-EXCH-01.corp.yadro.com (172.17.10.101) To
- T-EXCH-03.corp.yadro.com (172.17.100.103)
-Received-SPF: pass client-ip=89.207.88.252; envelope-from=r.bolshakov@yadro.com;
- helo=mta-01.yadro.com
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::131;
+ envelope-from=maxim.uvarov@linaro.org; helo=mail-lf1-x131.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -75,150 +82,224 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- Eduardo Habkost <ehabkost@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org,
- Cameron Esfahani <dirty@apple.com>, qemu-arm@nongnu.org,
- Frank Yang <lfy@google.com>, Paolo Bonzini <pbonzini@redhat.com>,
- Peter Collingbourne <pcc@google.com>
+Cc: peter.maydell@linaro.org, Maxim Uvarov <maxim.uvarov@linaro.org>,
+ f4bug@amsat.org, Jose.Marinho@arm.com, tf-a@lists.trustedfirmware.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, Dec 11, 2020 at 04:12:49PM +0100, Alexander Graf wrote:
-> Now that Apple Silicon is widely available, people are obviously excited
-> to try and run virtualized workloads on them, such as Linux and Windows.
-> 
-> This patch set implements a fully functional version to get the ball
-> going on that. With this applied, I can successfully run both Linux and
-> Windows as guests. I am not aware of any limitations specific to
-> Hypervisor.framework apart from:
-> 
->   - Live migration / savevm
->   - gdbstub debugging (SP register)
-> 
-> 
-> Enjoy!
-> 
+Add secure pl061 for reset/power down machine from
+the secure world (Arm Trusted Firmware).
+Use the same gpio 3 and gpio 4 which were used by
+non acpi variant of linux power control gpios.
 
-Hi Alex,
+Signed-off-by: Maxim Uvarov <maxim.uvarov@linaro.org>
+---
+ v2: replace printf with qemu_log (Philippe Mathieu-Daudé)
 
-For the ARM part:
-Tested-by: Roman Bolshakov <r.bolshakov@yadro.com>
+ hw/arm/Kconfig        |  1 +
+ hw/arm/virt.c         | 24 +++++++++++++
+ hw/gpio/Kconfig       |  3 ++
+ hw/gpio/gpio_pwr.c    | 84 +++++++++++++++++++++++++++++++++++++++++++
+ hw/gpio/meson.build   |  1 +
+ include/hw/arm/virt.h |  1 +
+ 6 files changed, 114 insertions(+)
+ create mode 100644 hw/gpio/gpio_pwr.c
 
-Note, that it doesn't apply to current master. So I applied it over
-tagged v5.2.0.
+diff --git a/hw/arm/Kconfig b/hw/arm/Kconfig
+index 0a242e4c5d..13cc42dcc8 100644
+--- a/hw/arm/Kconfig
++++ b/hw/arm/Kconfig
+@@ -17,6 +17,7 @@ config ARM_VIRT
+     select PL011 # UART
+     select PL031 # RTC
+     select PL061 # GPIO
++    select GPIO_PWR
+     select PLATFORM_BUS
+     select SMBIOS
+     select VIRTIO_MMIO
+diff --git a/hw/arm/virt.c b/hw/arm/virt.c
+index 96985917d3..eff0345303 100644
+--- a/hw/arm/virt.c
++++ b/hw/arm/virt.c
+@@ -147,6 +147,7 @@ static const MemMapEntry base_memmap[] = {
+     [VIRT_RTC] =                { 0x09010000, 0x00001000 },
+     [VIRT_FW_CFG] =             { 0x09020000, 0x00000018 },
+     [VIRT_GPIO] =               { 0x09030000, 0x00001000 },
++    [VIRT_SECURE_GPIO] =        { 0x09031000, 0x00001000 },
+     [VIRT_SECURE_UART] =        { 0x09040000, 0x00001000 },
+     [VIRT_SMMU] =               { 0x09050000, 0x00020000 },
+     [VIRT_PCDIMM_ACPI] =        { 0x09070000, MEMORY_HOTPLUG_IO_LEN },
+@@ -189,6 +190,7 @@ static const int a15irqmap[] = {
+     [VIRT_GPIO] = 7,
+     [VIRT_SECURE_UART] = 8,
+     [VIRT_ACPI_GED] = 9,
++    [VIRT_SECURE_GPIO] = 10,
+     [VIRT_MMIO] = 16, /* ...to 16 + NUM_VIRTIO_TRANSPORTS - 1 */
+     [VIRT_GIC_V2M] = 48, /* ...to 48 + NUM_GICV2M_SPIS - 1 */
+     [VIRT_SMMU] = 74,    /* ...to 74 + NUM_SMMU_IRQS - 1 */
+@@ -864,6 +866,24 @@ static void create_gpio(const VirtMachineState *vms)
+     g_free(nodename);
+ }
+ 
++static void create_gpio_secure(const VirtMachineState *vms)
++{
++    DeviceState *pl061_dev;
++    static DeviceState *gpio_pwr_dev;
++
++    hwaddr base = vms->memmap[VIRT_SECURE_GPIO].base;
++    int irq = vms->irqmap[VIRT_SECURE_GPIO];
++
++    pl061_dev = sysbus_create_simple("pl061", base,
++                                     qdev_get_gpio_in(vms->gic, irq));
++
++    gpio_pwr_dev = sysbus_create_simple("gpio-pwr", -1,
++                                        qdev_get_gpio_in(pl061_dev, 3));
++
++    qdev_connect_gpio_out(pl061_dev, 3, qdev_get_gpio_in(gpio_pwr_dev, 3));
++    qdev_connect_gpio_out(pl061_dev, 4, qdev_get_gpio_in(gpio_pwr_dev, 4));
++}
++
+ static void create_virtio_devices(const VirtMachineState *vms)
+ {
+     int i;
+@@ -1993,6 +2013,10 @@ static void machvirt_init(MachineState *machine)
+         create_gpio(vms);
+     }
+ 
++    if (vms->secure) {
++        create_gpio_secure(vms);
++    }
++
+      /* connect powerdown request */
+      vms->powerdown_notifier.notify = virt_powerdown_req;
+      qemu_register_powerdown_notifier(&vms->powerdown_notifier);
+diff --git a/hw/gpio/Kconfig b/hw/gpio/Kconfig
+index b6fdaa2586..f0e7405f6e 100644
+--- a/hw/gpio/Kconfig
++++ b/hw/gpio/Kconfig
+@@ -8,5 +8,8 @@ config PL061
+ config GPIO_KEY
+     bool
+ 
++config GPIO_PWR
++    bool
++
+ config SIFIVE_GPIO
+     bool
+diff --git a/hw/gpio/gpio_pwr.c b/hw/gpio/gpio_pwr.c
+new file mode 100644
+index 0000000000..f5868653b3
+--- /dev/null
++++ b/hw/gpio/gpio_pwr.c
+@@ -0,0 +1,84 @@
++/*
++ * GPIO qemu power controller
++ *
++ * Copyright (c) 2020 Linaro Limited
++ *
++ * Author: Maxim Uvarov <maxim.uvarov@linaro.org>
++ *
++ * Virtual gpio driver which can be used on top of pl061
++ * to reboot and shutdown qemu virtual machine. One of use
++ * case is gpio driver for secure world application (ARM
++ * Trusted Firmware.).
++ *
++ * This work is licensed under the terms of the GNU GPL, version 2 or later.
++ * See the COPYING file in the top-level directory.
++ * SPDX-License-Identifier: GPL-2.0-or-later
++ */
++
++#include "qemu/osdep.h"
++#include "hw/irq.h"
++#include "hw/sysbus.h"
++#include "sysemu/runstate.h"
++
++#define TYPE_GPIOPWR "gpio-pwr"
++OBJECT_DECLARE_SIMPLE_TYPE(GPIO_PWR_State, GPIOPWR)
++
++struct GPIO_PWR_State {
++    SysBusDevice parent_obj;
++    qemu_irq irq;
++};
++
++static void gpio_pwr_set_irq(void *opaque, int irq, int level)
++{
++    GPIO_PWR_State *s = (GPIO_PWR_State *)opaque;
++
++    qemu_set_irq(s->irq, 1);
++
++    if (level) {
++        return;
++    }
++
++    switch (irq) {
++    case 3:
++        qemu_system_reset_request(SHUTDOWN_CAUSE_GUEST_SHUTDOWN);
++        break;
++    case 4:
++        qemu_system_reset_request(SHUTDOWN_CAUSE_GUEST_RESET);
++        break;
++    default:
++        qemu_log_mask(LOG_GUEST_ERROR,
++                      "qemu; gpio_pwr: unknown interrupt %d lvl %d\n",
++                      irq, level);
++    }
++}
++
++
++static void gpio_pwr_realize(DeviceState *dev, Error **errp)
++{
++    GPIO_PWR_State *s = GPIOPWR(dev);
++    SysBusDevice *sbd = SYS_BUS_DEVICE(dev);
++
++    sysbus_init_irq(sbd, &s->irq);
++    qdev_init_gpio_in(dev, gpio_pwr_set_irq, 8);
++}
++
++static void gpio_pwr_class_init(ObjectClass *klass, void *data)
++{
++    DeviceClass *dc = DEVICE_CLASS(klass);
++
++    dc->realize = gpio_pwr_realize;
++}
++
++static const TypeInfo gpio_pwr_info = {
++    .name          = TYPE_GPIOPWR,
++    .parent        = TYPE_SYS_BUS_DEVICE,
++    .instance_size = sizeof(GPIO_PWR_State),
++    .class_init    = gpio_pwr_class_init,
++};
++
++static void gpio_pwr_register_types(void)
++{
++    type_register_static(&gpio_pwr_info);
++}
++
++type_init(gpio_pwr_register_types)
+diff --git a/hw/gpio/meson.build b/hw/gpio/meson.build
+index 5c0a7d7b95..79568f00ce 100644
+--- a/hw/gpio/meson.build
++++ b/hw/gpio/meson.build
+@@ -1,5 +1,6 @@
+ softmmu_ss.add(when: 'CONFIG_E500', if_true: files('mpc8xxx.c'))
+ softmmu_ss.add(when: 'CONFIG_GPIO_KEY', if_true: files('gpio_key.c'))
++softmmu_ss.add(when: 'CONFIG_GPIO_PWR', if_true: files('gpio_pwr.c'))
+ softmmu_ss.add(when: 'CONFIG_MAX7310', if_true: files('max7310.c'))
+ softmmu_ss.add(when: 'CONFIG_PL061', if_true: files('pl061.c'))
+ softmmu_ss.add(when: 'CONFIG_PUV3', if_true: files('puv3_gpio.c'))
+diff --git a/include/hw/arm/virt.h b/include/hw/arm/virt.h
+index abf54fab49..77a4523cc7 100644
+--- a/include/hw/arm/virt.h
++++ b/include/hw/arm/virt.h
+@@ -81,6 +81,7 @@ enum {
+     VIRT_GPIO,
+     VIRT_SECURE_UART,
+     VIRT_SECURE_MEM,
++    VIRT_SECURE_GPIO,
+     VIRT_PCDIMM_ACPI,
+     VIRT_ACPI_GED,
+     VIRT_NVDIMM_ACPI,
+-- 
+2.17.1
 
-Are there any outstanding issues that blocking merge apart from the
-rebase?
-
-Thanks,
-Roman
-
-> Alex
-> 
-> v1 -> v2:
-> 
->   - New patch: hvf: Actually set SIG_IPI mask
->   - New patch: hvf: Introduce hvf vcpu struct
->   - New patch: hvf: arm: Mark CPU as dirty on reset
->   - Removed patch: hw/arm/virt: Disable highmem when on hypervisor.framework
->   - Removed patch: arm: Synchronize CPU on PSCI on
->   - Fix build on 32bit arm
->   - Merge vcpu kick function patch into ARM enablement
->   - Implement WFI handling (allows vCPUs to sleep)
->   - Synchronize system registers (fixes OVMF crashes and reboot)
->   - Don't always call cpu_synchronize_state()
->   - Use more fine grained iothread locking
->   - Populate aa64mmfr0 from hardware
->   - Make safe to ctrl-C entitlement application
-> 
-> v2 -> v3:
-> 
->   - Removed patch: hvf: Actually set SIG_IPI mask
->   - New patch: hvf: arm: Add support for GICv3
->   - New patch: hvf: arm: Implement -cpu host
->   - Advance PC on SMC
->   - Use cp list interface for sysreg syncs
->   - Do not set current_cpu
->   - Fix sysreg isread mask
->   - Move sysreg handling to functions
->   - Remove WFI logic again
->   - Revert to global iothread locking
-> 
-> v3 -> v4:
-> 
->   - Removed patch: hvf: arm: Mark CPU as dirty on reset
->   - New patch: hvf: Simplify post reset/init/loadvm hooks
->   - Remove i386-softmmu target (meson.build for hvf target)
->   - Combine both if statements (PSCI)
->   - Use hv.h instead of Hypervisor.h for 10.15 compat
->   - Remove manual inclusion of Hypervisor.h in common .c files
->   - No longer include Hypervisor.h in arm hvf .c files
->   - Remove unused exe_full variable
->   - Reuse exe_name variable
-> 
-> v4 -> v5:
-> 
->   - Use g_free() on destroy
-> 
-> Alexander Graf (10):
->   hvf: Add hypervisor entitlement to output binaries
->   hvf: x86: Remove unused definitions
->   hvf: Move common code out
->   hvf: Introduce hvf vcpu struct
->   arm: Set PSCI to 0.2 for HVF
->   hvf: Simplify post reset/init/loadvm hooks
->   hvf: Add Apple Silicon support
->   arm: Add Hypervisor.framework build target
->   hvf: arm: Add support for GICv3
->   hvf: arm: Implement -cpu host
-> 
-> Peter Collingbourne (1):
->   arm/hvf: Add a WFI handler
-> 
->  MAINTAINERS                  |  14 +-
->  accel/hvf/entitlements.plist |   8 +
->  accel/hvf/hvf-all.c          |  54 +++
->  accel/hvf/hvf-cpus.c         | 466 +++++++++++++++++++
->  accel/hvf/meson.build        |   7 +
->  accel/meson.build            |   1 +
->  include/hw/core/cpu.h        |   3 +-
->  include/sysemu/hvf.h         |   2 +
->  include/sysemu/hvf_int.h     |  66 +++
->  meson.build                  |  40 +-
->  scripts/entitlement.sh       |  13 +
->  target/arm/cpu.c             |  13 +-
->  target/arm/cpu.h             |   2 +
->  target/arm/hvf/hvf.c         | 856 +++++++++++++++++++++++++++++++++++
->  target/arm/hvf/meson.build   |   3 +
->  target/arm/kvm_arm.h         |   2 -
->  target/arm/meson.build       |   2 +
->  target/i386/hvf/hvf-cpus.c   | 131 ------
->  target/i386/hvf/hvf-cpus.h   |  25 -
->  target/i386/hvf/hvf-i386.h   |  49 +-
->  target/i386/hvf/hvf.c        | 462 +++----------------
->  target/i386/hvf/meson.build  |   1 -
->  target/i386/hvf/vmx.h        |  24 +-
->  target/i386/hvf/x86.c        |  28 +-
->  target/i386/hvf/x86_descr.c  |  26 +-
->  target/i386/hvf/x86_emu.c    |  62 +--
->  target/i386/hvf/x86_mmu.c    |   4 +-
->  target/i386/hvf/x86_task.c   |  12 +-
->  target/i386/hvf/x86hvf.c     | 224 ++++-----
->  target/i386/hvf/x86hvf.h     |   2 -
->  30 files changed, 1786 insertions(+), 816 deletions(-)
->  create mode 100644 accel/hvf/entitlements.plist
->  create mode 100644 accel/hvf/hvf-all.c
->  create mode 100644 accel/hvf/hvf-cpus.c
->  create mode 100644 accel/hvf/meson.build
->  create mode 100644 include/sysemu/hvf_int.h
->  create mode 100755 scripts/entitlement.sh
->  create mode 100644 target/arm/hvf/hvf.c
->  create mode 100644 target/arm/hvf/meson.build
->  delete mode 100644 target/i386/hvf/hvf-cpus.c
->  delete mode 100644 target/i386/hvf/hvf-cpus.h
-> 
-> -- 
-> 2.24.3 (Apple Git-128)
-> 
 
