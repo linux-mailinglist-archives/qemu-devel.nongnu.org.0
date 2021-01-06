@@ -2,65 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 51A132EBDA8
-	for <lists+qemu-devel@lfdr.de>; Wed,  6 Jan 2021 13:26:40 +0100 (CET)
-Received: from localhost ([::1]:47794 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 581272EBDBB
+	for <lists+qemu-devel@lfdr.de>; Wed,  6 Jan 2021 13:30:55 +0100 (CET)
+Received: from localhost ([::1]:53668 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kx7tf-0002Df-0O
-	for lists+qemu-devel@lfdr.de; Wed, 06 Jan 2021 07:26:39 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51722)
+	id 1kx7xl-00052K-0f
+	for lists+qemu-devel@lfdr.de; Wed, 06 Jan 2021 07:30:53 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52702)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1kx7re-00010t-TS
- for qemu-devel@nongnu.org; Wed, 06 Jan 2021 07:24:34 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:36294)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kx7wA-0004UZ-UU
+ for qemu-devel@nongnu.org; Wed, 06 Jan 2021 07:29:14 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:26281)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1kx7rc-0002Oe-Nq
- for qemu-devel@nongnu.org; Wed, 06 Jan 2021 07:24:34 -0500
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kx7w8-0004Pf-A3
+ for qemu-devel@nongnu.org; Wed, 06 Jan 2021 07:29:14 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1609935871;
+ s=mimecast20190719; t=1609936150;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=+u/9GBUrM+K6d+l0/BVYlsw+EJZ9uvPqMXQNPPNlhKY=;
- b=X7e+Hzeey/S41HbtIGcjAljuFMQdt7Ie7n/Vw/xLFoLKPmg66cYlnixAQbKnYP5gpU02xZ
- aPr6QnS59mxwwBxgIKIthhgK+2Si4tagiRafn0RW4e6JHb9OUTBdNEUNNPs1G2hR5wXaRH
- w8ka5Lhe4SyjStoesBHv4mqdyezd6CA=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-297-yTVykOyzP3uYgX5PaAh5YQ-1; Wed, 06 Jan 2021 07:24:27 -0500
-X-MC-Unique: yTVykOyzP3uYgX5PaAh5YQ-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 5AA8F612A7;
- Wed,  6 Jan 2021 12:24:26 +0000 (UTC)
-Received: from thuth.remote.csb (ovpn-112-219.ams2.redhat.com [10.36.112.219])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 5120F12D7E;
- Wed,  6 Jan 2021 12:24:23 +0000 (UTC)
-Subject: Re: [PATCH v2] qtest/libqtest: fix heap-buffer-overflow in
- qtest_cb_for_every_machine()
-To: Gan Qixin <ganqixin@huawei.com>, qemu-devel@nongnu.org,
- qemu-trivial@nongnu.org
-References: <20210106050625.518041-1-ganqixin@huawei.com>
-From: Thomas Huth <thuth@redhat.com>
-Message-ID: <1a9e2ca1-bec8-5b5f-aad6-cb4b21b44000@redhat.com>
-Date: Wed, 6 Jan 2021 13:24:22 +0100
+ bh=FZcKvMUCV/6neA6Gs+mm5ZOitZQ0/f4FzD6wSx63b/w=;
+ b=XQ5g86rU8BdNLCk/knyZz2CDw9iRBT4GUuBZ51VQ5fWtEvHvXDj5fsmczuRQryPpXP88sD
+ VlpULfvbRRCVJ6fu31sl0ofFZTGII6zPlZAxr38mLLqNXMwlnXakL8+rE1r/buMW5Qxk/y
+ Q/fMAB014d/9HWmOXOfRss4qgfuX5AE=
+Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
+ [209.85.221.69]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-191-Pf82bGs2Md6ky0DuzpnB7g-1; Wed, 06 Jan 2021 07:29:08 -0500
+X-MC-Unique: Pf82bGs2Md6ky0DuzpnB7g-1
+Received: by mail-wr1-f69.google.com with SMTP id r11so1282773wrs.23
+ for <qemu-devel@nongnu.org>; Wed, 06 Jan 2021 04:29:08 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=FZcKvMUCV/6neA6Gs+mm5ZOitZQ0/f4FzD6wSx63b/w=;
+ b=Ryt/Z5RiYIBtdb7eLCjI+8RIsMP/aiSGgq1LX9qJ+wGKrafDMGonJxAhaWwMruyjO/
+ oIm4n/R7YuixkGmm4t6EDnr7QTDOD4NCsJCvbudlypiSr8DHSvulYr1fCGyYR278e0S8
+ bU89ZLuHtxmxJ0F2PDphMh305SvVzHYswxHP5zmmRNXD2nf2NayNsriaudSVYbl7Mk2t
+ YMuDo30r1+4MiAclhZnmDn1RWlFbi/iBqC8zCtokWGKNMh6cPhygnjjks/XG5kFhGeHG
+ yeNBz+auXNBubb7oJ+gEJKYK1D3mO9eNvM/Lmj4WHT81rOQBx3gvoPBMlwIkLI0nX7se
+ tYbQ==
+X-Gm-Message-State: AOAM533UqBSoNipcCPl36fmAJyT4n9SZdBkNbCbbBCH61+5qo8e00a8n
+ Uz2IapBeAnJCnqAd/ClXAtyBRa/ifR1ec291CH/rbU4mTPKwJrPJVK6D+tpcSVW2pdaUNIQ2ZDd
+ C4+OBP/TPBakMY1k=
+X-Received: by 2002:a1c:2d92:: with SMTP id t140mr3578095wmt.114.1609936147175; 
+ Wed, 06 Jan 2021 04:29:07 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJwYP6Qn8OIk7+8O7HzVqWA9RMjwQq7hwIBWfpcPbQm/f8DOPgX+bgRXg2VZCCrA2CqqFNiAWQ==
+X-Received: by 2002:a1c:2d92:: with SMTP id t140mr3578077wmt.114.1609936146922; 
+ Wed, 06 Jan 2021 04:29:06 -0800 (PST)
+Received: from [192.168.1.36] (241.red-88-10-103.dynamicip.rima-tde.net.
+ [88.10.103.241])
+ by smtp.gmail.com with ESMTPSA id 94sm3065977wrq.22.2021.01.06.04.29.05
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 06 Jan 2021 04:29:06 -0800 (PST)
+Subject: Re: [PATCH] tracetool: strip %l and %ll from systemtap format strings
+To: =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
+ qemu-devel@nongnu.org
+References: <20210106121932.1002928-1-berrange@redhat.com>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+Message-ID: <833a579f-d4b6-ea9d-b4e5-5c8400bf935c@redhat.com>
+Date: Wed, 6 Jan 2021 13:29:05 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.4.0
+ Thunderbird/78.6.0
 MIME-Version: 1.0
-In-Reply-To: <20210106050625.518041-1-ganqixin@huawei.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+In-Reply-To: <20210106121932.1002928-1-berrange@redhat.com>
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=thuth@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=thuth@redhat.com;
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=philmd@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -32
 X-Spam_score: -3.3
@@ -82,43 +98,54 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Laurent Vivier <lvivier@redhat.com>, kuhn.chenqun@huawei.com,
- zhang.zhanghailiang@huawei.com, Euler Robot <euler.robot@huawei.com>
+Cc: Laurent Vivier <lvivier@redhat.com>, William Cohen <wcohen@redhat.com>,
+ Stefan Hajnoczi <stefanha@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 06/01/2021 06.06, Gan Qixin wrote:
-> When the length of mname is less than 5, memcpy("xenfv", mname, 5) will cause
-> heap buffer overflow. Therefore, use strncmp to avoid this problem.
+On 1/6/21 1:19 PM, Daniel P. Berrangé wrote:
+> All variables are 64-bit and so %l / %ll are not required, and the
+> latter is actually invalid:
 > 
-> The asan showed stack:
+>   $ sudo stap -e 'probe begin{printf ("BEGIN")}'  -I .
+>   parse error: invalid or missing conversion specifier
+>           saw: operator ',' at ./qemu-system-x86_64-log.stp:15118:101
+>        source:     printf("%d@%d vhost_vdpa_set_log_base dev: %p base: 0x%x size: %llu
+> refcnt: %d fd: %d log: %p\n", pid(), gettimeofday_ns(), dev, base, size, refcnt, fd, log)
 > 
-> ERROR: AddressSanitizer: heap-buffer-overflow on address 0x60200000f2f4 at
-> pc 0x7f65d8cc2225 bp 0x7ffe93cc5a60 sp 0x7ffe93cc5208 READ of size 5 at
-> 0x60200000f2f4 thread T0
->      #0 0x7f65d8cc2224 in memcmp (/lib64/libasan.so.5+0xdf224)
->      #1 0x5632c20be95b in qtest_cb_for_every_machine tests/qtest/libqtest.c:1282
->      #2 0x5632c20b7995 in main tests/qtest/test-hmp.c:160
->      #3 0x7f65d88fed42 in __libc_start_main (/lib64/libc.so.6+0x26d42)
->      #4 0x5632c20b72cd in _start (build/tests/qtest/test-hmp+0x542cd)
+>                        ^
 > 
-> Reported-by: Euler Robot <euler.robot@huawei.com>
-> Signed-off-by: Gan Qixin <ganqixin@huawei.com>
+> Signed-off-by: Daniel P. Berrangé <berrange@redhat.com>
 > ---
-> Cc: Thomas Huth <thuth@redhat.com>
-> Cc: Laurent Vivier <lvivier@redhat.com>
+>  scripts/tracetool/format/log_stap.py | 6 ++++++
+>  1 file changed, 6 insertions(+)
 > 
-> v2:
-> Changes suggested by Thomas Huth:
->      Replace memcmp(..., 5) with strncmp(..., 5).
-> ---
->   tests/qtest/libqtest.c | 2 +-
->   1 file changed, 1 insertion(+), 1 deletion(-)
+> This is an alternative approach to
+> 
+>   https://lists.gnu.org/archive/html/qemu-devel/2021-01/msg00550.html
 
-Thanks, queued now to my qtest-next branch:
+Indeed more future-proof.
 
-  https://gitlab.com/huth/qemu/-/commits/qtest-next/
+Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 
-  Thomas
+> 
+> diff --git a/scripts/tracetool/format/log_stap.py b/scripts/tracetool/format/log_stap.py
+> index b486beb672..7bac10784b 100644
+> --- a/scripts/tracetool/format/log_stap.py
+> +++ b/scripts/tracetool/format/log_stap.py
+> @@ -49,6 +49,12 @@ def c_fmt_to_stap(fmt):
+>          elif fmt[i] == '"' and not escape:
+>              if state == STATE_LITERAL:
+>                  state = STATE_SKIP
+> +                # All variables in systemtap are 64-bit in size
+> +                # The "%l" integer size qualifiers is thus redundant
+> +                # and "%ll" is not valid at all. Simply strip all
+> +                # size qualifiers for sanity
+> +                literal = literal.replace("%ll", "%")
+> +                literal = literal.replace("%l", "%")
+>                  bits.append(literal)
+>                  literal = ""
+>              else:
+> 
 
 
