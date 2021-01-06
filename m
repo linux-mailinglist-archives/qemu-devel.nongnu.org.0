@@ -2,41 +2,40 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DDD0D2EB89E
-	for <lists+qemu-devel@lfdr.de>; Wed,  6 Jan 2021 04:48:40 +0100 (CET)
-Received: from localhost ([::1]:47646 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 471CC2EB8B4
+	for <lists+qemu-devel@lfdr.de>; Wed,  6 Jan 2021 04:53:29 +0100 (CET)
+Received: from localhost ([::1]:33286 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kwzoN-0001c6-Tt
-	for lists+qemu-devel@lfdr.de; Tue, 05 Jan 2021 22:48:39 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44966)
+	id 1kwzt2-0007O6-97
+	for lists+qemu-devel@lfdr.de; Tue, 05 Jan 2021 22:53:28 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44964)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1kwzev-00060Q-VD; Tue, 05 Jan 2021 22:38:53 -0500
-Received: from ozlabs.org ([2401:3900:2:1::2]:53591)
+ id 1kwzev-00060A-SH; Tue, 05 Jan 2021 22:38:53 -0500
+Received: from bilbo.ozlabs.org ([2401:3900:2:1::2]:45341 helo=ozlabs.org)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1kwzes-0006NO-Uv; Tue, 05 Jan 2021 22:38:53 -0500
+ id 1kwzes-0006NP-Tf; Tue, 05 Jan 2021 22:38:53 -0500
 Received: by ozlabs.org (Postfix, from userid 1007)
- id 4D9ZpJ0Drpz9sWY; Wed,  6 Jan 2021 14:38:31 +1100 (AEDT)
+ id 4D9ZpJ1TjBz9sWl; Wed,  6 Jan 2021 14:38:31 +1100 (AEDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=gibson.dropbear.id.au; s=201602; t=1609904312;
- bh=0HkYjTvE4+W9GZZOQ7j9KWCd4otBBf/gN/dEiX3bLQ0=;
+ bh=sWAfmjAJe2PpHuo2vCmFkmm8MuaabhP/3BpQfL9IP8g=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=IN1Qo9x2hViQR9pxHNILHaGyb1aNwtFujDyHoR+jgCHlb6dBwBgtDr5FpYBMZwb09
- Lux99OyxeIMlh8A4tWkA67YzfsoyXU/UzwkAuqxsXeF1avCEN3xXiBdL/XhFWTzpW/
- ZkkXWintHCopKjBpFImaKK/DDQxUxBWo1Spmi180=
+ b=VxbEH7DwvFyVrnwJBg41afHAjU1xJRN/C1aBhKB/qtTyfIXCWUj71ljEhscsDQ7wb
+ JqsXRBLzTPini2IdkZne3h+Wwmlt0eU9AbweexyrQny3jt7oMv1Rn7B5w2joSGnEjs
+ K0Z++6S6DiBV0Z7QWB/tCjp6y9V2JUWqgummvxWI=
 From: David Gibson <david@gibson.dropbear.id.au>
 To: peter.maydell@linaro.org,
 	groug@kaod.org
-Subject: [PULL 17/22] pnv: Fix reverse dependency on PCI express root ports
-Date: Wed,  6 Jan 2021 14:38:11 +1100
-Message-Id: <20210106033816.232598-18-david@gibson.dropbear.id.au>
+Subject: [PULL 18/22] ppc4xx: Move common dependency on serial to common option
+Date: Wed,  6 Jan 2021 14:38:12 +1100
+Message-Id: <20210106033816.232598-19-david@gibson.dropbear.id.au>
 X-Mailer: git-send-email 2.29.2
 In-Reply-To: <20210106033816.232598-1-david@gibson.dropbear.id.au>
 References: <20210106033816.232598-1-david@gibson.dropbear.id.au>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 Received-SPF: pass client-ip=2401:3900:2:1::2; envelope-from=dgibson@ozlabs.org;
  helo=ozlabs.org
@@ -58,75 +57,67 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>,
- David Gibson <david@gibson.dropbear.id.au>, qemu-ppc@nongnu.org,
+Cc: David Gibson <david@gibson.dropbear.id.au>, qemu-ppc@nongnu.org,
  qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Greg Kurz <groug@kaod.org>
+From: BALATON Zoltan via <qemu-ppc@nongnu.org>
 
-qemu-system-ppc64 built with --without-default-devices crashes:
+All machines that select SERIAL also select PPC4XX so we can just add
+this common dependency there once.
 
-Type 'pnv-phb4-root-port' is missing its parent 'pcie-root-port-base'
-Aborted (core dumped)
-
-Have POWERNV to select PCIE_PORT. This is done through a
-new PCI_POWERNV config in hw/pci-host/Kconfig since POWERNV
-doesn't have a direct dependency on PCI. For this reason,
-PCI_EXPRESS and MSI_NONBROKEN are also moved under
-PCI_POWERNV.
-
-Signed-off-by: Greg Kurz <groug@kaod.org>
-Reviewed-by: Cédric Le Goater <clg@kaod.org>
-Message-Id: <160883058299.253005.342913177952681375.stgit@bahia.lan>
+Signed-off-by: BALATON Zoltan <balaton@eik.bme.hu>
+Message-Id: <94f1eb7cfb7f315bd883d825f3ce7e0cfc2f2b69.1609636173.git.balaton@eik.bme.hu>
 Signed-off-by: David Gibson <david@gibson.dropbear.id.au>
 ---
- hw/pci-host/Kconfig     | 5 +++++
- hw/pci-host/meson.build | 2 +-
- hw/ppc/Kconfig          | 3 +--
- 3 files changed, 7 insertions(+), 3 deletions(-)
+ hw/ppc/Kconfig | 5 +----
+ 1 file changed, 1 insertion(+), 4 deletions(-)
 
-diff --git a/hw/pci-host/Kconfig b/hw/pci-host/Kconfig
-index 036a61877a..eb03f0489d 100644
---- a/hw/pci-host/Kconfig
-+++ b/hw/pci-host/Kconfig
-@@ -60,3 +60,8 @@ config PCI_BONITO
-     select PCI
-     select UNIMP
-     bool
-+
-+config PCI_POWERNV
-+    select PCI_EXPRESS
-+    select MSI_NONBROKEN
-+    select PCIE_PORT
-diff --git a/hw/pci-host/meson.build b/hw/pci-host/meson.build
-index e6d1b89684..da9d1a9964 100644
---- a/hw/pci-host/meson.build
-+++ b/hw/pci-host/meson.build
-@@ -23,7 +23,7 @@ pci_ss.add(when: 'CONFIG_VERSATILE_PCI', if_true: files('versatile.c'))
- 
- softmmu_ss.add_all(when: 'CONFIG_PCI', if_true: pci_ss)
- 
--specific_ss.add(when: 'CONFIG_POWERNV', if_true: files(
-+specific_ss.add(when: 'CONFIG_PCI_POWERNV', if_true: files(
-   'pnv_phb3.c',
-   'pnv_phb3_msi.c',
-   'pnv_phb3_pbcq.c',
 diff --git a/hw/ppc/Kconfig b/hw/ppc/Kconfig
-index a213994ebf..d11dc30509 100644
+index d11dc30509..d2329edbab 100644
 --- a/hw/ppc/Kconfig
 +++ b/hw/ppc/Kconfig
-@@ -29,8 +29,7 @@ config POWERNV
-     select XICS
-     select XIVE
-     select FDT_PPC
--    select PCI_EXPRESS
--    select MSI_NONBROKEN
-+    select PCI_POWERNV
+@@ -36,7 +36,6 @@ config PPC405
+     select M48T59
+     select PFLASH_CFI02
+     select PPC4XX
+-    select SERIAL
  
- config PPC405
+ config PPC440
      bool
+@@ -45,7 +44,6 @@ config PPC440
+     imply E1000_PCI
+     select PCI_EXPRESS
+     select PPC4XX
+-    select SERIAL
+     select FDT_PPC
+ 
+ config PPC4XX
+@@ -53,6 +51,7 @@ config PPC4XX
+     select BITBANG_I2C
+     select PCI
+     select PPC_UIC
++    select SERIAL
+ 
+ config SAM460EX
+     bool
+@@ -61,7 +60,6 @@ config SAM460EX
+     select IDE_SII3112
+     select M41T80
+     select PPC440
+-    select SERIAL
+     select SM501
+     select SMBUS_EEPROM
+     select USB_EHCI_SYSBUS
+@@ -123,7 +121,6 @@ config VIRTEX
+     bool
+     select PPC4XX
+     select PFLASH_CFI01
+-    select SERIAL
+     select XILINX
+     select XILINX_ETHLITE
+     select FDT_PPC
 -- 
 2.29.2
 
