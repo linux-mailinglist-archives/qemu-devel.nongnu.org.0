@@ -2,43 +2,42 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 142CB2EB89C
-	for <lists+qemu-devel@lfdr.de>; Wed,  6 Jan 2021 04:46:51 +0100 (CET)
-Received: from localhost ([::1]:40920 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8010A2EB8AF
+	for <lists+qemu-devel@lfdr.de>; Wed,  6 Jan 2021 04:51:50 +0100 (CET)
+Received: from localhost ([::1]:56630 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kwzmc-0007EH-1F
-	for lists+qemu-devel@lfdr.de; Tue, 05 Jan 2021 22:46:50 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44900)
+	id 1kwzrR-0005NR-JP
+	for lists+qemu-devel@lfdr.de; Tue, 05 Jan 2021 22:51:49 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44934)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1kwzet-0005tJ-7e; Tue, 05 Jan 2021 22:38:51 -0500
-Received: from bilbo.ozlabs.org ([2401:3900:2:1::2]:56979 helo=ozlabs.org)
+ id 1kwzeu-0005xF-IP; Tue, 05 Jan 2021 22:38:52 -0500
+Received: from ozlabs.org ([203.11.71.1]:57095)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1kwzeq-0006MA-67; Tue, 05 Jan 2021 22:38:50 -0500
+ id 1kwzes-0006NF-I1; Tue, 05 Jan 2021 22:38:52 -0500
 Received: by ozlabs.org (Postfix, from userid 1007)
- id 4D9ZpH3yyBz9sWR; Wed,  6 Jan 2021 14:38:31 +1100 (AEDT)
+ id 4D9ZpH67YWz9sWg; Wed,  6 Jan 2021 14:38:31 +1100 (AEDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=gibson.dropbear.id.au; s=201602; t=1609904311;
- bh=ccY8CvOgItvQ1W8BmBilO/Xmtaex2xqod37I6ii+0gs=;
+ bh=LhukejFda9iGOng0hclp5G8zINQEyYAwY8mhFJAsHe0=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=AvNXQUS+KU9M0Y+mXPqmRTpM3UZKTmpVNIMvIlQAg6F201e3S+nx8NXEHaNCPEStl
- ajJDMKnVexYSUtHzcQ2c5/x6NCsg81QqNbYyqsJs4AJba7jnQMNaNzwLp6+MghD3aT
- IM4Xo1Kssx+RECSJryC56/OGAYmH3j6BQo5tnLOc=
+ b=UzTFQIYipr3qCRGBgc1OdBegIfYQWfnhkmArd/NXLtu9Pv/SnmXkzJ+ckFl6QiX3I
+ a1ULaGPsVNkT1nymzxB+RkqrBLpYshvP6dRd71rh1BrNqpQoITKPMnjyiezip3RIoy
+ hTSFow7wNVld49cd5XOvPsAVPmAD3eEbEWWeLffI=
 From: David Gibson <david@gibson.dropbear.id.au>
 To: peter.maydell@linaro.org,
 	groug@kaod.org
-Subject: [PULL 14/22] spapr: Add drc_ prefix to the DRC realize and unrealize
- functions
-Date: Wed,  6 Jan 2021 14:38:08 +1100
-Message-Id: <20210106033816.232598-15-david@gibson.dropbear.id.au>
+Subject: [PULL 15/22] ppc: Fix build with --without-default-devices
+Date: Wed,  6 Jan 2021 14:38:09 +1100
+Message-Id: <20210106033816.232598-16-david@gibson.dropbear.id.au>
 X-Mailer: git-send-email 2.29.2
 In-Reply-To: <20210106033816.232598-1-david@gibson.dropbear.id.au>
 References: <20210106033816.232598-1-david@gibson.dropbear.id.au>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2401:3900:2:1::2; envelope-from=dgibson@ozlabs.org;
+Received-SPF: pass client-ip=203.11.71.1; envelope-from=dgibson@ozlabs.org;
  helo=ozlabs.org
 X-Spam_score_int: -17
 X-Spam_score: -1.8
@@ -58,76 +57,130 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Daniel Henrique Barboza <danielhb413@gmail.com>, qemu-ppc@nongnu.org,
- qemu-devel@nongnu.org, David Gibson <david@gibson.dropbear.id.au>
+Cc: David Gibson <david@gibson.dropbear.id.au>, qemu-ppc@nongnu.org,
+ qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Greg Kurz <groug@kaod.org>
 
-Use a less generic name for an easier experience with tools such as
-cscope or grep.
+Linking of the qemu-system-ppc64 fails on a POWER9 host when
+--without-default-devices is passed to configure:
+
+$ ./configure --without-default-devices \
+              --target-list=ppc64-softmmu && make
+
+...
+
+libqemu-ppc64-softmmu.fa.p/hw_ppc_e500.c.o: In function `ppce500_init_mpic_kvm':
+/home/greg/Work/qemu/qemu-ppc/build/../hw/ppc/e500.c:777: undefined reference to `kvm_openpic_connect_vcpu'
+libqemu-ppc64-softmmu.fa.p/hw_ppc_spapr_irq.c.o: In function `spapr_irq_check':
+/home/greg/Work/qemu/qemu-ppc/build/../hw/ppc/spapr_irq.c:189: undefined reference to `xics_kvm_has_broken_disconnect'
+libqemu-ppc64-softmmu.fa.p/hw_intc_spapr_xive.c.o: In function `spapr_xive_post_load':
+/home/greg/Work/qemu/qemu-ppc/build/../hw/intc/spapr_xive.c:530: undefined reference to `kvmppc_xive_post_load'
+
+... and tons of other symbols belonging to the KVM backend of the
+openpic, XICS and XIVE interrupt controllers.
+
+It turns out that OPENPIC_KVM, XICS_KVM and XIVE_KVM are marked
+to depend on KVM but this has no effect when minikconf runs in
+allnoconfig mode. Such reverse dependencies should rather be
+handled with a 'select' statement, eg.
+
+config OPENPIC
+    select OPENPIC_KVM if KVM
+
+or even better by getting rid of the intermediate _KVM config
+and directly checking CONFIG_KVM in the meson.build file:
+
+specific_ss.add(when: ['CONFIG_KVM', 'CONFIG_OPENPIC'],
+		if_true: files('openpic_kvm.c'))
+
+Go for the latter with OPENPIC, XICS and XIVE.
+
+This went unnoticed so far because CI doesn't test the build with
+--without-default-devices and KVM enabled on a POWER host.
 
 Signed-off-by: Greg Kurz <groug@kaod.org>
-Message-Id: <20201218103400.689660-6-groug@kaod.org>
-Reviewed-by: Daniel Henrique Barboza <danielhb413@gmail.com>
-Tested-by: Daniel Henrique Barboza <danielhb413@gmail.com>
+Message-Id: <160883056791.253005.14924294027763955653.stgit@bahia.lan>
 Signed-off-by: David Gibson <david@gibson.dropbear.id.au>
 ---
- hw/ppc/spapr_drc.c | 12 ++++++------
- 1 file changed, 6 insertions(+), 6 deletions(-)
+ hw/intc/Kconfig     | 10 ----------
+ hw/intc/meson.build |  9 ++++++---
+ hw/ppc/Kconfig      |  5 -----
+ 3 files changed, 6 insertions(+), 18 deletions(-)
 
-diff --git a/hw/ppc/spapr_drc.c b/hw/ppc/spapr_drc.c
-index a4d2608017..8571d5bafe 100644
---- a/hw/ppc/spapr_drc.c
-+++ b/hw/ppc/spapr_drc.c
-@@ -503,7 +503,7 @@ static const VMStateDescription vmstate_spapr_drc = {
-     }
- };
+diff --git a/hw/intc/Kconfig b/hw/intc/Kconfig
+index 468d548ca7..fa2695e58d 100644
+--- a/hw/intc/Kconfig
++++ b/hw/intc/Kconfig
+@@ -30,11 +30,6 @@ config ARM_GIC_KVM
+     default y
+     depends on ARM_GIC && KVM
  
--static void realize(DeviceState *d, Error **errp)
-+static void drc_realize(DeviceState *d, Error **errp)
- {
-     SpaprDrc *drc = SPAPR_DR_CONNECTOR(d);
-     Object *root_container;
-@@ -530,7 +530,7 @@ static void realize(DeviceState *d, Error **errp)
-     trace_spapr_drc_realize_complete(spapr_drc_index(drc));
- }
+-config OPENPIC_KVM
+-    bool
+-    default y
+-    depends on OPENPIC && KVM
+-
+ config XICS
+     bool
+     depends on POWERNV || PSERIES
+@@ -43,11 +38,6 @@ config XICS_SPAPR
+     bool
+     select XICS
  
--static void unrealize(DeviceState *d)
-+static void drc_unrealize(DeviceState *d)
- {
-     SpaprDrc *drc = SPAPR_DR_CONNECTOR(d);
-     Object *root_container;
-@@ -579,8 +579,8 @@ static void spapr_dr_connector_class_init(ObjectClass *k, void *data)
- {
-     DeviceClass *dk = DEVICE_CLASS(k);
+-config XICS_KVM
+-    bool
+-    default y
+-    depends on XICS && KVM
+-
+ config ALLWINNER_A10_PIC
+     bool
  
--    dk->realize = realize;
--    dk->unrealize = unrealize;
-+    dk->realize = drc_realize;
-+    dk->unrealize = drc_unrealize;
-     /*
-      * Reason: DR connector needs to be wired to either the machine or to a
-      * PHB in spapr_dr_connector_new().
-@@ -628,7 +628,7 @@ static void realize_physical(DeviceState *d, Error **errp)
-     SpaprDrcPhysical *drcp = SPAPR_DRC_PHYSICAL(d);
-     Error *local_err = NULL;
+diff --git a/hw/intc/meson.build b/hw/intc/meson.build
+index 68da782ad2..b6c9218908 100644
+--- a/hw/intc/meson.build
++++ b/hw/intc/meson.build
+@@ -39,7 +39,8 @@ specific_ss.add(when: 'CONFIG_LOONGSON_LIOINTC', if_true: files('loongson_lioint
+ specific_ss.add(when: 'CONFIG_MIPS_CPS', if_true: files('mips_gic.c'))
+ specific_ss.add(when: 'CONFIG_OMAP', if_true: files('omap_intc.c'))
+ specific_ss.add(when: 'CONFIG_OMPIC', if_true: files('ompic.c'))
+-specific_ss.add(when: 'CONFIG_OPENPIC_KVM', if_true: files('openpic_kvm.c'))
++specific_ss.add(when: ['CONFIG_KVM', 'CONFIG_OPENPIC'],
++		if_true: files('openpic_kvm.c'))
+ specific_ss.add(when: 'CONFIG_POWERNV', if_true: files('xics_pnv.c', 'pnv_xive.c'))
+ specific_ss.add(when: 'CONFIG_PPC_UIC', if_true: files('ppc-uic.c'))
+ specific_ss.add(when: 'CONFIG_RASPI', if_true: files('bcm2835_ic.c', 'bcm2836_control.c'))
+@@ -50,8 +51,10 @@ specific_ss.add(when: 'CONFIG_SH4', if_true: files('sh_intc.c'))
+ specific_ss.add(when: 'CONFIG_SIFIVE_CLINT', if_true: files('sifive_clint.c'))
+ specific_ss.add(when: 'CONFIG_SIFIVE_PLIC', if_true: files('sifive_plic.c'))
+ specific_ss.add(when: 'CONFIG_XICS', if_true: files('xics.c'))
+-specific_ss.add(when: 'CONFIG_XICS_KVM', if_true: files('xics_kvm.c'))
++specific_ss.add(when: ['CONFIG_KVM', 'CONFIG_XICS'],
++		if_true: files('xics_kvm.c'))
+ specific_ss.add(when: 'CONFIG_XICS_SPAPR', if_true: files('xics_spapr.c'))
+ specific_ss.add(when: 'CONFIG_XIVE', if_true: files('xive.c'))
+-specific_ss.add(when: 'CONFIG_XIVE_KVM', if_true: files('spapr_xive_kvm.c'))
++specific_ss.add(when: ['CONFIG_KVM', 'CONFIG_XIVE'],
++		if_true: files('spapr_xive_kvm.c'))
+ specific_ss.add(when: 'CONFIG_XIVE_SPAPR', if_true: files('spapr_xive.c'))
+diff --git a/hw/ppc/Kconfig b/hw/ppc/Kconfig
+index 982d55f587..e35710c7c3 100644
+--- a/hw/ppc/Kconfig
++++ b/hw/ppc/Kconfig
+@@ -139,11 +139,6 @@ config XIVE_SPAPR
+     depends on PSERIES
+     select XIVE
  
--    realize(d, &local_err);
-+    drc_realize(d, &local_err);
-     if (local_err) {
-         error_propagate(errp, local_err);
-         return;
-@@ -644,7 +644,7 @@ static void unrealize_physical(DeviceState *d)
- {
-     SpaprDrcPhysical *drcp = SPAPR_DRC_PHYSICAL(d);
- 
--    unrealize(d);
-+    drc_unrealize(d);
-     vmstate_unregister(VMSTATE_IF(drcp), &vmstate_spapr_drc_physical, drcp);
-     qemu_unregister_reset(drc_physical_reset, drcp);
- }
+-config XIVE_KVM
+-    bool
+-    default y
+-    depends on XIVE_SPAPR && KVM
+-
+ # Only used by 64-bit targets
+ config FW_CFG_PPC
+     bool
 -- 
 2.29.2
 
