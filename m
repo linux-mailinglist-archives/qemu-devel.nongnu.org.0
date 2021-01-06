@@ -2,42 +2,43 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B51992EB89F
-	for <lists+qemu-devel@lfdr.de>; Wed,  6 Jan 2021 04:49:03 +0100 (CET)
-Received: from localhost ([::1]:49134 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1C5202EB888
+	for <lists+qemu-devel@lfdr.de>; Wed,  6 Jan 2021 04:43:48 +0100 (CET)
+Received: from localhost ([::1]:59276 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kwzok-0002DZ-Qo
-	for lists+qemu-devel@lfdr.de; Tue, 05 Jan 2021 22:49:02 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44824)
+	id 1kwzjf-0003Cp-4S
+	for lists+qemu-devel@lfdr.de; Tue, 05 Jan 2021 22:43:47 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44778)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1kwzel-0005jJ-Tt; Tue, 05 Jan 2021 22:38:47 -0500
-Received: from ozlabs.org ([2401:3900:2:1::2]:34315)
+ id 1kwzek-0005fM-Ih; Tue, 05 Jan 2021 22:38:42 -0500
+Received: from bilbo.ozlabs.org ([203.11.71.1]:51677 helo=ozlabs.org)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1kwzej-0006IL-8w; Tue, 05 Jan 2021 22:38:43 -0500
+ id 1kwzei-0006IC-QU; Tue, 05 Jan 2021 22:38:42 -0500
 Received: by ozlabs.org (Postfix, from userid 1007)
- id 4D9ZpG3kt5z9sW8; Wed,  6 Jan 2021 14:38:30 +1100 (AEDT)
+ id 4D9ZpG2vrcz9sVx; Wed,  6 Jan 2021 14:38:30 +1100 (AEDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=gibson.dropbear.id.au; s=201602; t=1609904310;
- bh=LTrtt20FQW0rW0tGMbbp6jPFAUzf10Glde6z9Teh1Qo=;
+ bh=kfEPRNUrMxoZ3Swm41kkUjdiBsTxkHoRF/VQ6ILmmtE=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=N5I5AJV9yQWM5ey0hWjxekri7KbX7D4bNpuQwwhBafqI7NDdHg0HKIy2Z/ei5ar/s
- Rf50A2ya+hxTG/dpiF+BbXEsbr6SVPNsi8aYNhfhSqd9dKPJqgcR+zYKS4s/ACe1pm
- RQ7kCPwReRkhJ3xgy/LHdjHMevXiOKH23cwJyz4Y=
+ b=CQnsDA9Atj6H0dIiDnOYf+KhQBYV20mExJyN1mqtStuBkcr/I/j0tOBmwNtrzqGN/
+ OykRCVXrmxrcA+3IvuqxgbSy297bLWd613eta/RXYemfbsPPBAW6fFYOacgZqr2nnD
+ pKAg/3vgAYIskWpD72dMXclLYAZcbfqtCv7W8D34=
 From: David Gibson <david@gibson.dropbear.id.au>
 To: peter.maydell@linaro.org,
 	groug@kaod.org
-Subject: [PULL 05/22] spapr: DRC lookup cannot fail
-Date: Wed,  6 Jan 2021 14:37:59 +1100
-Message-Id: <20210106033816.232598-6-david@gibson.dropbear.id.au>
+Subject: [PULL 06/22] spapr/xive: Make spapr_xive_pic_print_info() static
+Date: Wed,  6 Jan 2021 14:38:00 +1100
+Message-Id: <20210106033816.232598-7-david@gibson.dropbear.id.au>
 X-Mailer: git-send-email 2.29.2
 In-Reply-To: <20210106033816.232598-1-david@gibson.dropbear.id.au>
 References: <20210106033816.232598-1-david@gibson.dropbear.id.au>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2401:3900:2:1::2; envelope-from=dgibson@ozlabs.org;
+Received-SPF: pass client-ip=203.11.71.1; envelope-from=dgibson@ozlabs.org;
  helo=ozlabs.org
 X-Spam_score_int: -17
 X-Spam_score: -1.8
@@ -57,48 +58,48 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: David Gibson <david@gibson.dropbear.id.au>, qemu-ppc@nongnu.org,
+Cc: =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>,
+ David Gibson <david@gibson.dropbear.id.au>, qemu-ppc@nongnu.org,
  qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Greg Kurz <groug@kaod.org>
+From: Cédric Le Goater <clg@kaod.org>
 
-All memory DRC objects are created during machine init. It is thus safe
-to assume spapr_drc_by_id() cannot return NULL when hot-plug/unplugging
-memory.
-
-Make this clear with an assertion, like the code already does a few lines
-above when looping over memory DRCs. This fixes Coverity reports 1437757
-and 1437758.
-
-Signed-off-by: Greg Kurz <groug@kaod.org>
-Message-Id: <160805381160.228955.5388294067094240175.stgit@bahia.lan>
+Signed-off-by: Cédric Le Goater <clg@kaod.org>
+Message-Id: <20201215174025.2636824-1-clg@kaod.org>
 Signed-off-by: David Gibson <david@gibson.dropbear.id.au>
 ---
- hw/ppc/spapr.c | 2 ++
- 1 file changed, 2 insertions(+)
+ hw/intc/spapr_xive.c        | 2 +-
+ include/hw/ppc/spapr_xive.h | 2 --
+ 2 files changed, 1 insertion(+), 3 deletions(-)
 
-diff --git a/hw/ppc/spapr.c b/hw/ppc/spapr.c
-index 489cefcb81..08f57f9164 100644
---- a/hw/ppc/spapr.c
-+++ b/hw/ppc/spapr.c
-@@ -3437,6 +3437,7 @@ static void spapr_add_lmbs(DeviceState *dev, uint64_t addr_start, uint64_t size,
-         if (dedicated_hp_event_source) {
-             drc = spapr_drc_by_id(TYPE_SPAPR_DRC_LMB,
-                                   addr_start / SPAPR_MEMORY_BLOCK_SIZE);
-+            g_assert(drc);
-             spapr_hotplug_req_add_by_count_indexed(SPAPR_DR_CONNECTOR_TYPE_LMB,
-                                                    nr_lmbs,
-                                                    spapr_drc_index(drc));
-@@ -3677,6 +3678,7 @@ static void spapr_memory_unplug_request(HotplugHandler *hotplug_dev,
+diff --git a/hw/intc/spapr_xive.c b/hw/intc/spapr_xive.c
+index caedd312d7..801bc19341 100644
+--- a/hw/intc/spapr_xive.c
++++ b/hw/intc/spapr_xive.c
+@@ -156,7 +156,7 @@ static void spapr_xive_end_pic_print_info(SpaprXive *xive, XiveEND *end,
+ #define spapr_xive_in_kernel(xive) \
+     (kvm_irqchip_in_kernel() && (xive)->fd != -1)
  
-     drc = spapr_drc_by_id(TYPE_SPAPR_DRC_LMB,
-                           addr_start / SPAPR_MEMORY_BLOCK_SIZE);
-+    g_assert(drc);
-     spapr_hotplug_req_remove_by_count_indexed(SPAPR_DR_CONNECTOR_TYPE_LMB,
-                                               nr_lmbs, spapr_drc_index(drc));
- }
+-void spapr_xive_pic_print_info(SpaprXive *xive, Monitor *mon)
++static void spapr_xive_pic_print_info(SpaprXive *xive, Monitor *mon)
+ {
+     XiveSource *xsrc = &xive->source;
+     int i;
+diff --git a/include/hw/ppc/spapr_xive.h b/include/hw/ppc/spapr_xive.h
+index 26c8d90d71..b282960ad9 100644
+--- a/include/hw/ppc/spapr_xive.h
++++ b/include/hw/ppc/spapr_xive.h
+@@ -66,8 +66,6 @@ typedef struct SpaprXiveClass {
+  */
+ #define SPAPR_XIVE_BLOCK_ID 0x0
+ 
+-void spapr_xive_pic_print_info(SpaprXive *xive, Monitor *mon);
+-
+ struct SpaprMachineState;
+ void spapr_xive_hcall_init(struct SpaprMachineState *spapr);
+ void spapr_xive_mmio_set_enabled(SpaprXive *xive, bool enable);
 -- 
 2.29.2
 
