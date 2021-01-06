@@ -2,65 +2,87 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 010AB2EC42F
-	for <lists+qemu-devel@lfdr.de>; Wed,  6 Jan 2021 20:52:22 +0100 (CET)
-Received: from localhost ([::1]:50226 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7BD392EC460
+	for <lists+qemu-devel@lfdr.de>; Wed,  6 Jan 2021 21:01:33 +0100 (CET)
+Received: from localhost ([::1]:53850 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kxEqy-00075W-JQ
-	for lists+qemu-devel@lfdr.de; Wed, 06 Jan 2021 14:52:20 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41646)
+	id 1kxEzp-0000df-Jq
+	for lists+qemu-devel@lfdr.de; Wed, 06 Jan 2021 15:01:29 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43102)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1kxEpv-0006fS-Le
- for qemu-devel@nongnu.org; Wed, 06 Jan 2021 14:51:15 -0500
-Received: from indium.canonical.com ([91.189.90.7]:33714)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1kxEpt-0001sI-71
- for qemu-devel@nongnu.org; Wed, 06 Jan 2021 14:51:15 -0500
-Received: from loganberry.canonical.com ([91.189.90.37])
- by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1kxEpp-0006YS-5e
- for <qemu-devel@nongnu.org>; Wed, 06 Jan 2021 19:51:09 +0000
-Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 9E3A12E813E
- for <qemu-devel@nongnu.org>; Wed,  6 Jan 2021 19:51:08 +0000 (UTC)
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1kxExh-00006n-73
+ for qemu-devel@nongnu.org; Wed, 06 Jan 2021 14:59:17 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:49770)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1kxExb-0004ZK-3h
+ for qemu-devel@nongnu.org; Wed, 06 Jan 2021 14:59:16 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1609963149;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=Vr8S/anGxUAVkroaUUA6TApfkCCzIl4V8FumhBwSJdk=;
+ b=fmcMgjgdu4f5Wvrxa+zzDLci6ugKiJgdsQJrb+0Sf/a6eXTAy5fi7H0KdyuxYmChBTkCz7
+ E0s/FBfS7pde9vs4ZmP72N5DZeK+q2mmO8vZiOT1YUyXFAndFtxCnltL/iGDWTtgwuGds5
+ vfmA1gvN+q63TQR6fu3t68P6t7K8Hyc=
+Received: from mail-pf1-f197.google.com (mail-pf1-f197.google.com
+ [209.85.210.197]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-61-rbIfLANwPryFUuif-AJrLw-1; Wed, 06 Jan 2021 14:59:06 -0500
+X-MC-Unique: rbIfLANwPryFUuif-AJrLw-1
+Received: by mail-pf1-f197.google.com with SMTP id n8so2347944pfa.8
+ for <qemu-devel@nongnu.org>; Wed, 06 Jan 2021 11:59:06 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=Vr8S/anGxUAVkroaUUA6TApfkCCzIl4V8FumhBwSJdk=;
+ b=YBuwhkDnLTGi6aHEU1EbVKE3h+MnMjHF19D+Dfbnh3x/IRAjb1oeCykcDU/2HUf6Uz
+ C2bwGpP3vnBTuEPMrhkXOgQMac2Ap8YHZ2RWlZnoTOsfyjfln7IJ+P6DxPqmW9gVjkM9
+ vpyyVrTunTZa7yK70/w2Eaz+vhqjb2Bl3aXC3OekaKMyVRGezUwieb2q4DZnDbTgR40Y
+ YYgQU7OSsqdQNWc17xwJSqsmX4U8v1KTaDs0MafPT8VrwOMqei8WaADAcUKINMVEJKV7
+ z0h8ZmVpPhfYd9otSyWJ4FUNTpOQkROHPFsmqwKcolEjF3oQu6ykPxGMIyfc12qjp8HU
+ OO6A==
+X-Gm-Message-State: AOAM5332a8nGbCqNJCv0hEFJmjMuXoEvtZuv6FWoqUW3QxAYbou1Z5dS
+ HQoCkr8hEpM8qSjD7Rp2lpUT6AVpEb9jW4q7HpgVJQELhY2fB9RkPslCfJgvylCGuOEBE+1DO7s
+ c6g02pjgR+AwpK5GcfQdFExY2cdrlsHU=
+X-Received: by 2002:a17:902:6903:b029:da:f458:798c with SMTP id
+ j3-20020a1709026903b02900daf458798cmr5653088plk.68.1609963145790; 
+ Wed, 06 Jan 2021 11:59:05 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJyY7GCx3uJ22o9Xy/81DiIKQGcYujMf9q9AbVjRRvRq+xO5HGRxePCDsGkfQ1abx/D47gWvZ+UJIbqPE7T5dYU=
+X-Received: by 2002:a17:902:6903:b029:da:f458:798c with SMTP id
+ j3-20020a1709026903b02900daf458798cmr5653071plk.68.1609963145440; Wed, 06 Jan
+ 2021 11:59:05 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-Date: Wed, 06 Jan 2021 19:43:51 -0000
-From: - <1829459@bugs.launchpad.net>
-To: qemu-devel@nongnu.org
-X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
-X-Launchpad-Bug-Information-Type: Public
-X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: crockabiscuit laurent-vivier ubi-one-kenubi
-X-Launchpad-Bug-Reporter: crocket (crockabiscuit)
-X-Launchpad-Bug-Modifier: - (ubi-one-kenubi)
-References: <155806778498.21734.945063058665872727.malonedeb@chaenomeles.canonical.com>
-Message-Id: <160996223162.17617.12259954542127890043.malone@gac.canonical.com>
-Subject: [Bug 1829459] Re: qemu seems to lack support for pid namespace.
-X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
-X-Launchpad-Message-For: qemu-devel-ml
-Precedence: bulk
-X-Generated-By: Launchpad (canonical.com);
- Revision="34b3ffd45c9543b7f7aa5aa313925241e9e7ca3f"; Instance="production"
-X-Launchpad-Hash: fdf13b8246448abd5f642ce389afddc1798dc96c
-Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
- helo=indium.canonical.com
-X-Spam_score_int: -65
-X-Spam_score: -6.6
-X-Spam_bar: ------
-X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9,
- HEADER_FROM_DIFFERENT_DOMAINS=0.249, RCVD_IN_DNSWL_HI=-5,
- RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=ham autolearn_force=no
+References: <20201217091403.36195-1-pbonzini@redhat.com>
+ <206452d4-8883-8787-366-c2921c365e@eik.bme.hu>
+In-Reply-To: <206452d4-8883-8787-366-c2921c365e@eik.bme.hu>
+From: Paolo Bonzini <pbonzini@redhat.com>
+Date: Wed, 6 Jan 2021 20:58:53 +0100
+Message-ID: <CABgObfb4v2bZ_PQNxoZHK48c4LhYy34WEWOQo7=Eky+E5=e2Wg@mail.gmail.com>
+Subject: Re: [PATCH] vl: initialize displays _after_ exiting preconfiguration
+To: BALATON Zoltan <balaton@eik.bme.hu>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=pbonzini@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: multipart/alternative; boundary="00000000000062c64205b840c194"
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=pbonzini@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -29
+X-Spam_score: -3.0
+X-Spam_bar: ---
+X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.252,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ HTML_MESSAGE=0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -69,127 +91,130 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1829459 <1829459@bugs.launchpad.net>
+Cc: Peter Maydell <peter.maydell@linaro.org>, Gerd Hoffmann <kraxel@redhat.com>,
+ qemu-devel <qemu-devel@nongnu.org>, Howard Spoelstra <hsp.cat7@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The same issue persists in qemu-5.2.0.
+--00000000000062c64205b840c194
+Content-Type: text/plain; charset="UTF-8"
 
------------------------------------------
-# qemu-aarch64 --version
-qemu-aarch64 version 5.2.0
-Copyright (c) 2003-2020 Fabrice Bellard and the QEMU Project developers
------------------------------------------
+Il mer 6 gen 2021, 18:06 BALATON Zoltan <balaton@eik.bme.hu> ha scritto:
 
-Symptoms when running inside the aarch64 chroot, with both aarch64 and x86_=
-64 binaries:
------------------------------------------
-# which unshare bash
-/usr/bin/unshare
-/bin/bash
-# file $(!!)
-file $(which unshare bash)
-/usr/bin/unshare: ELF 64-bit LSB pie executable, ARM aarch64, version 1 (SY=
-SV), dynamically linked, interpreter /lib/ld-linux-aarch64.so.1, for GNU/Li=
-nux 3.7.0, stripped
-/bin/bash:        ELF 64-bit LSB pie executable, ARM aarch64, version 1 (SY=
-SV), dynamically linked, interpreter /lib/ld-linux-aarch64.so.1, for GNU/Li=
-nux 3.7.0, stripped
-# unshare --pid -- bash -c 'echo hello world'
-qemu: qemu_thread_create: Invalid argument
-Aborted (core dumped)
-# # --- switch to an x86_64 shell _inside_ the chroot
-# LD_LIBRARY_PATH=3D/x86_64/lib64 PATH=3D/x86_64/bin:$PATH bash =
+> On Thu, 17 Dec 2020, Paolo Bonzini wrote:
+> > Due to the renumbering of text consoles when graphical consoles are
+> > created, init_displaystate must be called after all QemuConsoles are
+> > created, i.e. after devices are created.
+> >
+> > vl.c calls it from qemu_init_displays, while qmp_x_exit_preconfig is
+> > where devices are created.  If qemu_init_displays is called before it,
+> > the VGA graphical console does not come up.
+>
+> Tested-by: BALATON Zoltan <balaton@eik.bme.hu>
+>
+> This still seems to be missing from master, who should take care of this?
+>
 
-# which unshare bash
-/x86_64/bin/unshare
-/x86_64/bin/bash
-# file $(!!)
-file $(which unshare bash)
-/x86_64/bin/unshare: ELF 64-bit LSB pie executable, x86-64, version 1 (SYSV=
-), dynamically linked, interpreter /lib64/ld-linux-x86-64.so.2, for GNU/Lin=
-ux 3.2.0, stripped
-/x86_64/bin/bash:    ELF 64-bit LSB pie executable, x86-64, version 1 (SYSV=
-), dynamically linked, interpreter /lib64/ld-linux-x86-64.so.2, for GNU/Lin=
-ux 3.2.0, stripped
-# unshare --pid -- bash -c 'echo hello world' =
+It's in now, I think.
 
-hello world
-# =
+Paolo
 
------------------------------------------
 
-I can share the core dump, in case that's useful.
+> Regards,
+> BALATON Zoltan
+>
+> > Reported-by: Howard Spoelstra <hsp.cat7@gmail.com>
+> > Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
+> > ---
+> > softmmu/vl.c | 2 +-
+> > 1 file changed, 1 insertion(+), 1 deletion(-)
+> >
+> > diff --git a/softmmu/vl.c b/softmmu/vl.c
+> > index 0ed5c5ba93..7ddf405d76 100644
+> > --- a/softmmu/vl.c
+> > +++ b/softmmu/vl.c
+> > @@ -3529,10 +3529,10 @@ void qemu_init(int argc, char **argv, char
+> **envp)
+> >         exit(0);
+> >     }
+> >
+> > -    qemu_init_displays();
+> >     if (!preconfig_requested) {
+> >         qmp_x_exit_preconfig(&error_fatal);
+> >     }
+> > +    qemu_init_displays();
+> >     accel_setup_post(current_machine);
+> >     os_setup_post();
+> >     resume_mux_open();
+> >
+>
+>
 
-On this system, the qemu-aarch64 binary on the host is statically built
-and binfmt_misc is configured as follows:
------------------------------------------
-:aarch64:M::\x7f\x45\x4c\x46\x02\x01\x01\x00\x00\x00\x00\x00\x00\x00\x00\x0=
-0\x02\x00\xb7:\xff\xff\xff\xff\xff\xff\xff\xfc\xff\xff\xff\xff\xff\xff\xff\=
-xff\xfe\xff\xff:/usr/bin/qemu-aarch64:CF
------------------------------------------
+--00000000000062c64205b840c194
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
--- =
+<div dir=3D"auto"><div><br><br><div class=3D"gmail_quote"><div dir=3D"ltr" =
+class=3D"gmail_attr">Il mer 6 gen 2021, 18:06 BALATON Zoltan &lt;<a href=3D=
+"mailto:balaton@eik.bme.hu">balaton@eik.bme.hu</a>&gt; ha scritto:<br></div=
+><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1=
+px #ccc solid;padding-left:1ex">On Thu, 17 Dec 2020, Paolo Bonzini wrote:<b=
+r>
+&gt; Due to the renumbering of text consoles when graphical consoles are<br=
+>
+&gt; created, init_displaystate must be called after all QemuConsoles are<b=
+r>
+&gt; created, i.e. after devices are created.<br>
+&gt;<br>
+&gt; vl.c calls it from qemu_init_displays, while qmp_x_exit_preconfig is<b=
+r>
+&gt; where devices are created.=C2=A0 If qemu_init_displays is called befor=
+e it,<br>
+&gt; the VGA graphical console does not come up.<br>
+<br>
+Tested-by: BALATON Zoltan &lt;<a href=3D"mailto:balaton@eik.bme.hu" target=
+=3D"_blank" rel=3D"noreferrer">balaton@eik.bme.hu</a>&gt;<br>
+<br>
+This still seems to be missing from master, who should take care of this?<b=
+r></blockquote></div></div><div dir=3D"auto"><br></div><div dir=3D"auto">It=
+&#39;s in now, I think.</div><div dir=3D"auto"><br></div><div dir=3D"auto">=
+Paolo</div><div dir=3D"auto"><br></div><div dir=3D"auto"><div class=3D"gmai=
+l_quote"><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;borde=
+r-left:1px #ccc solid;padding-left:1ex">
+<br>
+Regards,<br>
+BALATON Zoltan<br>
+<br>
+&gt; Reported-by: Howard Spoelstra &lt;<a href=3D"mailto:hsp.cat7@gmail.com=
+" target=3D"_blank" rel=3D"noreferrer">hsp.cat7@gmail.com</a>&gt;<br>
+&gt; Signed-off-by: Paolo Bonzini &lt;<a href=3D"mailto:pbonzini@redhat.com=
+" target=3D"_blank" rel=3D"noreferrer">pbonzini@redhat.com</a>&gt;<br>
+&gt; ---<br>
+&gt; softmmu/vl.c | 2 +-<br>
+&gt; 1 file changed, 1 insertion(+), 1 deletion(-)<br>
+&gt;<br>
+&gt; diff --git a/softmmu/vl.c b/softmmu/vl.c<br>
+&gt; index 0ed5c5ba93..7ddf405d76 100644<br>
+&gt; --- a/softmmu/vl.c<br>
+&gt; +++ b/softmmu/vl.c<br>
+&gt; @@ -3529,10 +3529,10 @@ void qemu_init(int argc, char **argv, char **e=
+nvp)<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0exit(0);<br>
+&gt;=C2=A0 =C2=A0 =C2=A0}<br>
+&gt;<br>
+&gt; -=C2=A0 =C2=A0 qemu_init_displays();<br>
+&gt;=C2=A0 =C2=A0 =C2=A0if (!preconfig_requested) {<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0qmp_x_exit_preconfig(&amp;error_fatal=
+);<br>
+&gt;=C2=A0 =C2=A0 =C2=A0}<br>
+&gt; +=C2=A0 =C2=A0 qemu_init_displays();<br>
+&gt;=C2=A0 =C2=A0 =C2=A0accel_setup_post(current_machine);<br>
+&gt;=C2=A0 =C2=A0 =C2=A0os_setup_post();<br>
+&gt;=C2=A0 =C2=A0 =C2=A0resume_mux_open();<br>
+&gt;<br>
+<br>
+</blockquote></div></div></div>
 
-You received this bug notification because you are a member of qemu-
-devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1829459
+--00000000000062c64205b840c194--
 
-Title:
-  qemu seems to lack support for pid namespace.
-
-Status in QEMU:
-  New
-
-Bug description:
-  # Version
-
-  qemu-4.0.0
-  glibc-2.28
-
-  # commands used to launch qemu-aarch64 in user mode.
-
-  : ${QEMU_BINFMT_FLAGS:=3DOC}
-
-  printf '%s\n' ':qemu-
-  aarch64:M::\x7fELF\x02\x01\x01\x00\x00\x00\x00\x00\x00\x00\x00\x00\x02\x0=
-0\xb7\x00:\xff\xff\xff\xff\xff\xff\xff\x00\xff\xff\xff\xff\xff\xff\xff\xff\=
-xfe\xff\xff\xff:/usr/bin
-  /qemu-aarch64:'"${QEMU_BINFMT_FLAGS}"
-  >/proc/sys/fs/binfmt_misc/register
-
-  > sudo cp /usr/bin/qemu-aarch64 $RPI/usr/bin
-  > sudo chroot $RPI /bin/ksh -l
-
-  # host
-
-  Gentoo Linux amd64
-
-  # Guest
-
-  Gentoo Linux aarch64
-
-  # The problem that I have
-
-  "emerge" program fails due to the error, "qemu: qemu_thread_create: Inval=
-id argument".
-  "emerge" is Gentoo's package manager that compiles and installs packages.
-
-  # Workaround
-
-  Disable pid-sandbox in emerge.
-
-  # How to reproduce the issue
-
-  Execute
-
-  unshare --pid -- echo hello world
-
-  or
-
-  python -c "import portage.process; portage.process.spawn(['echo',
-  'hello', 'world'], unshare_pid=3DTrue)"
-
-To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1829459/+subscriptions
 
