@@ -2,94 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 692622EC150
-	for <lists+qemu-devel@lfdr.de>; Wed,  6 Jan 2021 17:38:54 +0100 (CET)
-Received: from localhost ([::1]:59290 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 14E062EC16F
+	for <lists+qemu-devel@lfdr.de>; Wed,  6 Jan 2021 17:49:14 +0100 (CET)
+Received: from localhost ([::1]:42214 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kxBpl-0007nm-Ge
-	for lists+qemu-devel@lfdr.de; Wed, 06 Jan 2021 11:38:53 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55128)
+	id 1kxBzk-00057e-Tw
+	for lists+qemu-devel@lfdr.de; Wed, 06 Jan 2021 11:49:12 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57316)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <steven.sistare@oracle.com>)
- id 1kxBnz-0006g8-L9
- for qemu-devel@nongnu.org; Wed, 06 Jan 2021 11:37:04 -0500
-Received: from aserp2130.oracle.com ([141.146.126.79]:53680)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <steven.sistare@oracle.com>)
- id 1kxBnw-0001AG-9O
- for qemu-devel@nongnu.org; Wed, 06 Jan 2021 11:37:02 -0500
-Received: from pps.filterd (aserp2130.oracle.com [127.0.0.1])
- by aserp2130.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 106GJ1Y4070187;
- Wed, 6 Jan 2021 16:36:54 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com;
- h=subject : to : cc :
- references : from : message-id : date : mime-version : in-reply-to :
- content-type : content-transfer-encoding; s=corp-2020-01-29;
- bh=/VQ+WQyrZl19WZrqeFvpqTiC9ndstNf/VINDNbQ4wa0=;
- b=VARobWaa70s/UVg3H+ZwipI549oVk6nGcQHJf7E2t+ZCHACmhiJrhOs+SdtRjXNOaB8M
- GDxsJVa8aguBQpqc1oFUZeIiq1UxtzhcQ7lWQDskoo2a+EQz0R0WWg82hQkzv0WclFBU
- OkB3sXta7pwjuCcFFI8Ui7H2yTBDnRDwX0wS23RgJWylpj3x0eKBoSpZHi0rl+WlvHxY
- ey2qrek1lgH7FCEUT7vknI79OdeJJOG+hWcpJ69uq/eQw20XNnLiIvoaQnRVIG3Q8NjK
- NVS2FGre8+h9QGcWuMXa9GWCYcyI1Dhopy1O2ks6Am6ybi5U+YeLlCfjsES3QQuokfo9 XA== 
-Received: from aserp3030.oracle.com (aserp3030.oracle.com [141.146.126.71])
- by aserp2130.oracle.com with ESMTP id 35wcuxs54g-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=FAIL);
- Wed, 06 Jan 2021 16:36:54 +0000
-Received: from pps.filterd (aserp3030.oracle.com [127.0.0.1])
- by aserp3030.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 106GKTVL088234;
- Wed, 6 Jan 2021 16:36:53 GMT
-Received: from aserv0122.oracle.com (aserv0122.oracle.com [141.146.126.236])
- by aserp3030.oracle.com with ESMTP id 35v4rcvuva-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Wed, 06 Jan 2021 16:36:53 +0000
-Received: from abhmp0009.oracle.com (abhmp0009.oracle.com [141.146.116.15])
- by aserv0122.oracle.com (8.14.4/8.14.4) with ESMTP id 106GaqNo020586;
- Wed, 6 Jan 2021 16:36:52 GMT
-Received: from [10.39.251.70] (/10.39.251.70)
- by default (Oracle Beehive Gateway v4.0)
- with ESMTP ; Wed, 06 Jan 2021 08:36:52 -0800
-Subject: Re: [PATCH V2 05/22] vl: memfd-alloc option
-To: =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>
-References: <1609861330-129855-1-git-send-email-steven.sistare@oracle.com>
- <1609861330-129855-6-git-send-email-steven.sistare@oracle.com>
- <20210105162708.GH724458@redhat.com>
-From: Steven Sistare <steven.sistare@oracle.com>
-Organization: Oracle Corporation
-Message-ID: <d6c1b91e-9c49-3356-554d-39da53a11e16@oracle.com>
-Date: Wed, 6 Jan 2021 11:36:51 -0500
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
- Thunderbird/78.6.0
+ (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
+ id 1kxBwg-0002md-Rr
+ for qemu-devel@nongnu.org; Wed, 06 Jan 2021 11:46:02 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:23939)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
+ id 1kxBwV-0002dK-Ea
+ for qemu-devel@nongnu.org; Wed, 06 Jan 2021 11:46:01 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1609951549;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=UaxV4H1Q8DEiFhs2A0eWteREY+B8chVFt3pmGyWlCnc=;
+ b=N8s2y51lzTPP5ay1fQufxh/UeJCnR+fsNhvhBJAREiV2sHspdTRhdfqV+vM0L50sgNkAp7
+ fjJtjAlq1f7HCfWZCrOTccuvPYzcFbsljbfmM81OQwpSZfQp6XDOBa26O0/EVDPnlLRw6g
+ J4S6jlj242Wmi7ANYzUf6Qx4w58UgC0=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-191-B6-sH5sPOh6VZrshuN7_1w-1; Wed, 06 Jan 2021 11:45:47 -0500
+X-MC-Unique: B6-sH5sPOh6VZrshuN7_1w-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 926641006C81
+ for <qemu-devel@nongnu.org>; Wed,  6 Jan 2021 16:45:46 +0000 (UTC)
+Received: from localhost (unknown [10.40.208.13])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 2B32860C95;
+ Wed,  6 Jan 2021 16:45:43 +0000 (UTC)
+Date: Wed, 6 Jan 2021 17:45:42 +0100
+From: Igor Mammedov <imammedo@redhat.com>
+To: Vitaly Kuznetsov <vkuznets@redhat.com>
+Subject: Re: [PATCH 5/5] i386: provide simple 'hyperv=on' option to x86
+ machine types
+Message-ID: <20210106174542.496f9f6e@redhat.com>
+In-Reply-To: <87sg7egp73.fsf@vitty.brq.redhat.com>
+References: <20201119103221.1665171-1-vkuznets@redhat.com>
+ <20201119103221.1665171-6-vkuznets@redhat.com>
+ <20201216205202.GJ3140057@habkost.net>
+ <20201218181340.5e398280@redhat.com>
+ <87r1n0j20n.fsf@vitty.brq.redhat.com>
+ <20210105000435.1cf4c6f6@redhat.com>
+ <87lfd7iowi.fsf@vitty.brq.redhat.com>
+ <20210105170312.32cf0e12@redhat.com>
+ <87a6tnibv4.fsf@vitty.brq.redhat.com>
+ <20210106141303.145790f7@redhat.com>
+ <87sg7egp73.fsf@vitty.brq.redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <20210105162708.GH724458@redhat.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9855
- signatures=668683
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 mlxlogscore=999
- mlxscore=0 bulkscore=0
- suspectscore=0 spamscore=0 adultscore=0 malwarescore=0 phishscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2009150000
- definitions=main-2101060099
-X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9855
- signatures=668683
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 suspectscore=0
- bulkscore=0
- clxscore=1015 spamscore=0 impostorscore=0 priorityscore=1501 mlxscore=0
- adultscore=0 mlxlogscore=999 lowpriorityscore=0 phishscore=0
- malwarescore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2009150000 definitions=main-2101060099
-Received-SPF: pass client-ip=141.146.126.79;
- envelope-from=steven.sistare@oracle.com; helo=aserp2130.oracle.com
-X-Spam_score_int: -48
-X-Spam_score: -4.9
-X-Spam_bar: ----
-X-Spam_report: (-4.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.252,
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=imammedo@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=imammedo@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -29
+X-Spam_score: -3.0
+X-Spam_bar: ---
+X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.252,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.249, RCVD_IN_DNSWL_MED=-2.3, RCVD_IN_MSPIKE_H4=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_PASS=-0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -102,69 +89,129 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Jason Zeng <jason.zeng@linux.intel.com>,
- "Michael S. Tsirkin" <mst@redhat.com>,
- =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
- Juan Quintela <quintela@redhat.com>, qemu-devel@nongnu.org,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
- Alex Williamson <alex.williamson@redhat.com>,
- Stefan Hajnoczi <stefanha@redhat.com>,
- =?UTF-8?Q?Marc-Andr=c3=a9_Lureau?= <marcandre.lureau@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
- Markus Armbruster <armbru@redhat.com>
+Cc: Paolo Bonzini <pbonzini@redhat.com>, Marcelo Tosatti <mtosatti@redhat.com>,
+ Eduardo Habkost <ehabkost@redhat.com>, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 1/5/2021 11:27 AM, Daniel P. Berrangé wrote:
-> On Tue, Jan 05, 2021 at 07:41:53AM -0800, Steve Sistare wrote:
->> Allocate anonymous memory using memfd_create if the memfd-alloc option is
->> set.
->>
->> Signed-off-by: Steve Sistare <steven.sistare@oracle.com>
->> ---
->>  exec.c                  | 38 ++++++++++++++++++++++++++++++--------
->>  include/sysemu/sysemu.h |  1 +
->>  qemu-options.hx         | 11 +++++++++++
->>  softmmu/vl.c            |  4 ++++
->>  trace-events            |  1 +
->>  5 files changed, 47 insertions(+), 8 deletions(-)
-> 
->> diff --git a/qemu-options.hx b/qemu-options.hx
->> index 708583b..455b43b7 100644
->> --- a/qemu-options.hx
->> +++ b/qemu-options.hx
->> @@ -4094,6 +4094,17 @@ SRST
->>      an unmigratable state.
->>  ERST
->>  
->> +#ifdef __linux__
->> +DEF("memfd-alloc", 0,  QEMU_OPTION_memfd_alloc, \
->> +    "-memfd-alloc         allocate anonymous memory using memfd_create\n",
->> +    QEMU_ARCH_ALL)
->> +#endif
->> +
->> +SRST
->> +``-memfd-alloc``
->> +    Allocate anonymous memory using memfd_create (Linux only).
->> +ERST
-> 
-> Do we really need a new arg for this ? It is already possible to request
-> use of memfd for the guest RAM using
-> 
->   -object memory-backend-memfd,id=ram-node0,size=NNNN
-> 
-> this memory backend object framework was intended to remove the need to
-> add new ad-hoc CLI args for controlling memory allocation.
+On Wed, 06 Jan 2021 14:38:56 +0100
+Vitaly Kuznetsov <vkuznets@redhat.com> wrote:
 
-Yes, I considered that, but there are other memory regions that cannot be controlled
-by the command line but which must be preserved, such as vram, bios, and rom.  If vram
-is not preserved, parts of the screen will be blank until the user performs some action
-which refreshes the display.  bios and rom should be preserved rather than re-recreated
-with potentially different contents from the firmware images in the updated qemu package.
+> Igor Mammedov <imammedo@redhat.com> writes:
+> 
+> > On Tue, 05 Jan 2021 17:31:43 +0100
+> > Vitaly Kuznetsov <vkuznets@redhat.com> wrote:
+> >  
+> >> Igor Mammedov <imammedo@redhat.com> writes:
+> >>   
+> >> > On Tue, 05 Jan 2021 12:50:05 +0100
+> >> >
+> >> > I think there is a misunderstanding, idea was:
+> >> >
+> >> > cpu_initfn() {
+> >> >     //current set
+> >> >     cpu->default_hyperv_cpu_features = ACD
+> >> > }
+> >> >
+> >> > compat_props_5.1 {
+> >> >    cpu.default_hyperv_cpu_features = AB
+> >> > }
+> >> >
+> >> > compat_props_5.2 {
+> >> >    cpu.default_hyperv_cpu_features = ABC
+> >> > }
+> >> >    
+> >> 
+> >> ...
+> >>   
+> >> > I was talking about CPU features/properties only, it doesn't apply to other devices.
+> >> > It makes sense for machine to have a knob to create onboard hyperv specific
+> >> > devices if there is any (do we have any?).
+> >> >
+> >> > If there aren't any currently, I wouldn't bother with machine knob
+> >> > and just use -cpu foo,hv_default=on or -device cpu,hv_default=on
+> >> > like any other cpu feature.
+> >> >    
+> >> 
+> >> We don't currently have any devices which are not 'CPU features' (in
+> >> QEMU terminology), however, we already have Vmbus and I can easily
+> >> imagine us implementing e.g. hartbeat/kvp/vss/... devices on top. We
+> >> *may* want to enable these 'automatically' and that's what make
+> >> '-machine' option preferable. It is, however, not a *must* right now and
+> >> we can indeed wait until these devices appear and be happy with
+> >> 'hv_default' -cpu option for now. We will, however, need to teach upper
+> >> layers about the change when/if it happens.  
+> >
+> > which makes me think we are trying to bite something that we shouldn't.
+> > Do we really need this patch (QEMU knob) to magically enable subset of
+> > features and/or devices for a specific OS flavor?
+> >
+> > It's job of upper layers to abstract low level QEMU details in to coarse
+> > grained knobs (libvirt/virt-install/virt-manager/...).
+> > For example virt-install may know that it installing a specific Windows
+> > version, and can build a tailored for that OS configuration including
+> > needed hyperv CPU features and hyperv specific devices.
+> > (if I'm not mistaken libosinfo is used to get metadata for preferred
+> > configuration, so perhaps this should become a patch for that library
+> > and its direct users).
+> >
+> > What we actually lack is a documentation for preferred configuration
+> > in docs/hyperv.txt, currently it just enumerates possible features.
+> > We can just document a recommended 'best practices' there without
+> > putting it in QEMU code and let upper layers to do their job in
+> > the stack.  
+> 
+> The problem we're facing here is that when a new enlightenment is
+> implemented it takes forever to propagate to the whole stack. We don't
+It's true not only for Hyper-V, I guess it's price to pay for modular solution.
 
-However, your comment reminds me that I must add a few lines of code to preserve the 
-memory-backend-memfd.
+> have any different recommendations for different Windows versions,
+> neither does genuine Hyper-V. The 'fine grained' mechanis we have just
+> contributes to the creation of various Frankenstein configurations
+> (which look nothing like real Hyper-V), people just google for 'Windows
+> KVM slow', add something to their scripts and this keeps propagating.
+That's why I mentioned lack of documentation.
+If someone manually configures QEMU, one should understand what they do
+enable and why or enlist help of virt-install and likes.
 
-- Steve
+> Every time I see a configuration with only a few 'hv_*' options I ask
+> 'why don't you enable the rest?' and I'm yet to receive an answer
+> different from 'hm, I don't know, I copied it from somewhere and it
+> worked'.
+
+If individual features are are composed by virt-install or other tools
+based on libosinfo data, then we don't have to maintain versioning
+of new default_set_features per machine type, which will only become
+worse if we include hv specific devices into it.
+
+Also with libosinfo approach, old machine types and old QEMU versions
+can also benefit from it without need to change whole stack.
+And no versioning is necessary since chosen config set is stored in
+domain XML at the moment VM is created.
+
+> Setting 'hv_*' options individually should be considered debug only.
+that's how cpu's features were designed, a helper knob on top is fine
+as long as it doesn't mess the way it used to work and preferably is
+build on top of existing features.
+
+PS:
+another wild idea how to implement it using '-machine hyperv=on',
+based on compat props idea:
+
+// replaces bit set in your version
+hv_default_set[] =
+  "hv_feat1", "hv_feat2",
+ ...
+};
+
+// probably should be done before -cpu is parsed
+then if machine hyperv=on
+   foreach in hv_default_set[]
+      object_register_sugar_prop(hv_default_set[i], "on")
+
+PS2:
+my preferred approach is still -cpu hyperv=on, since it doesn't
+depend on order CLI is currently parsed (which is fragile thing),
+but rather on what user asked us to do with CPU.
+
 
