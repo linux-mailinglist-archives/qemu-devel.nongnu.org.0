@@ -2,58 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 78EB02EB6B2
-	for <lists+qemu-devel@lfdr.de>; Wed,  6 Jan 2021 01:07:23 +0100 (CET)
-Received: from localhost ([::1]:58762 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6D6B72EB6C5
+	for <lists+qemu-devel@lfdr.de>; Wed,  6 Jan 2021 01:23:56 +0100 (CET)
+Received: from localhost ([::1]:47540 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kwwME-0005FG-2J
-	for lists+qemu-devel@lfdr.de; Tue, 05 Jan 2021 19:07:22 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37320)
+	id 1kwwcE-0004Yy-Vo
+	for lists+qemu-devel@lfdr.de; Tue, 05 Jan 2021 19:23:55 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42178)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
- id 1kwwJE-00049d-4i; Tue, 05 Jan 2021 19:04:16 -0500
-Received: from mail-yb1-xb32.google.com ([2607:f8b0:4864:20::b32]:34866)
+ id 1kwwap-00040X-23; Tue, 05 Jan 2021 19:22:27 -0500
+Received: from mail-yb1-xb32.google.com ([2607:f8b0:4864:20::b32]:45945)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
- id 1kwwJC-0008P6-G9; Tue, 05 Jan 2021 19:04:15 -0500
-Received: by mail-yb1-xb32.google.com with SMTP id u203so1223517ybb.2;
- Tue, 05 Jan 2021 16:04:13 -0800 (PST)
+ id 1kwwan-0006bK-Hc; Tue, 05 Jan 2021 19:22:26 -0500
+Received: by mail-yb1-xb32.google.com with SMTP id k78so1184396ybf.12;
+ Tue, 05 Jan 2021 16:22:24 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=97yuiXhl7A44/1z+75UUaMtlehrjZolCLPlNZ9ATrxw=;
- b=okOYrjvj4Lmm06fv7kkDGDbkhCDIEU0c6ZxRG2gWkrnkzaCQSQFwYgg00GKXxzRSEw
- DhpUZhbqq4iwLlbJxNsvuvJn/bk7i3QA2LGj+7amjicl22MEXEzb9YRyT8Rwo8zFpM2F
- 0UgKvVjoTiJbToz/+TcCWZwZcCgqbxXK8er4XWcNUTcPm02fdQrTApI4HQmkUdv7hYU4
- v8UOjUfYlSAB6jRz0brhAF7NmGfZv9awFDnjGXdnW4Bls6RKpYFfwVlSbjvfMTeucMEv
- KN8uzBdJgHMrBwNEX8wR9OOXdhRrnbRojaK55Vw8qVpQ0eIGBFxtlZJfyWGbBca60u2R
- VabQ==
+ :cc; bh=7ugd7YDudYddqLGIcukv+gM9J30wg5E9OZ3wbdwxrsY=;
+ b=FfKeffQDpZPWbJfr0KuqD1NithrQo/98z99aZesAW9ufKAGlxSWT5LRVSR7NEITGLJ
+ J6SlIOgw9eaAHSrmsHvR0SsIStaFOlZwN6m+mEqZaIvUp8cXxHvxeOR2XiPFL7GbdMDA
+ 5G20xwWdDSl6eqSFl7sRhdhs24Uhnv4iGc4dyO64ExtW8xHPknSMxCGTqXgN3tjGaI5i
+ 62JwwajDpYcRD5mu+B2oiDFA/AUEu1JwKp/+9XJdAURBQ72uBWAc5V/RJMQtZH1YZFTr
+ cAxfruD5MGY9NCgMg/n4aIDppRiTuviSL7bhTG4j5zML0JYUDBbIaB7wzlRfM+Ylx/ot
+ saAw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=97yuiXhl7A44/1z+75UUaMtlehrjZolCLPlNZ9ATrxw=;
- b=U8b8fuciVDnaOKxVpDGj/6X90FTRHtQnOZ/55yZ35pYJXwEF2XwHHIt6yDrRRa1Dbh
- Z84bVAXDHOCEML8bUfjHVUzxuK96MrmST/sJ5QzukkY9Px6aSW+Ab1jWPLDH4WFsNqyy
- f5XaZ+U+kBDrgsqf6OsGKyOLfcBCDI4MmaTVei4Bib7JV3n9bEUrOHRlhLoJWXO2FO8H
- PIgW3Rxv9METOaIypwf+oC5IORMo/FKGHJez9G3YPCChNDjUP+0RNfUqbmg7sq9zw5b3
- Qu0X9kuPdQLXx2qJhJGkXpVwsQC1rLhITihLA39kjmLlHlb1UgxXaQZnmkO0JehSplVv
- Vjkw==
-X-Gm-Message-State: AOAM532NrPctq8i9lnu0bTmo/wNcz2cBYk7pJce/m9JdL3OEuXyTO5X+
- rsJlKehNKOyeJJd70568OZAeE20UZs239tG2Hkw=
-X-Google-Smtp-Source: ABdhPJx+g7oXAzauxo4ncGHXpcMb+0JSmaOTyiZsOps/hyLyM5Dz8Zaoip2hUfYnALP5KWwHiZBAAxuF909xuLDsMDw=
-X-Received: by 2002:a25:690b:: with SMTP id e11mr2765358ybc.314.1609891452784; 
- Tue, 05 Jan 2021 16:04:12 -0800 (PST)
+ bh=7ugd7YDudYddqLGIcukv+gM9J30wg5E9OZ3wbdwxrsY=;
+ b=eS9l4uxrDVU/t6z6XU8CReaQdhlUJsRT44x9q4vzZ20EOoUjY4QPuZDZyz5xPXJVsY
+ Tj8qyVuAX/+Ig9j0N5yGv4BtkgaiS2kMTauL3N3Jusj70qJAjiEmMIHP6mnfmcLlV++w
+ v5BKy+Xeo8FJrxVcBY9Y6VUGaZ31ErbzV18FVE9OK/P2OetRJFy5SGfuJ0xL+ZgB2JSQ
+ MDruJ7qmF+hLgJecPz7Uxugi1s0KkTHW1qZkQfcE5rxwuIyZdIF5OH4OqyVUqJ+A8gG3
+ HJXPZzmiSw5MSnLkFdo773GFBTxYrTsgABHsJLZHFYVgRgto4YKhaLo63pAuYGk8cJEK
+ lDDA==
+X-Gm-Message-State: AOAM5330jCS6U5vYqZWx9oRP4mQ+KyHxgDlMW4shuYQ3by8qJhMQ/gqe
+ h98lu/O4OMptXF120ZkSSSkk+yTPU0sGG/d0QlA=
+X-Google-Smtp-Source: ABdhPJxO1V7jYiD1y83kIiSLO0S0DpaEIjmmzIhiOYFQOg7P841IEZAzxG+rxVNKu7uEoNc8VHQSiYwOP2Fo+HU1mLU=
+X-Received: by 2002:a25:4d7:: with SMTP id 206mr2970167ybe.306.1609892544235; 
+ Tue, 05 Jan 2021 16:22:24 -0800 (PST)
 MIME-Version: 1.0
-References: <20201217214826.2094617-1-atish.patra@wdc.com>
- <CAEUhbmVc_SABW_0PKgDMY8t3zTujo4xUnNW3fz1YuWhqXWnV2A@mail.gmail.com>
- <76741a2677ed1d7ae0fc4ff887e5eede58275734.camel@wdc.com>
-In-Reply-To: <76741a2677ed1d7ae0fc4ff887e5eede58275734.camel@wdc.com>
+References: <20201202144523.24526-1-bmeng.cn@gmail.com>
+ <CAEUhbmUtCvXCKoQGU9b6+UX1juChVfHkugODjo2psBnRw+7NTw@mail.gmail.com>
+ <CAKmqyKPy-V77t-COOb2Vp5DasfduC49Uy51EcCfSRos+M-JkKw@mail.gmail.com>
+ <CAFEAcA-6NqgwKQKBFVg-VYgwdOReddyHm=sUO6o0nLQXaoB_Fg@mail.gmail.com>
+In-Reply-To: <CAFEAcA-6NqgwKQKBFVg-VYgwdOReddyHm=sUO6o0nLQXaoB_Fg@mail.gmail.com>
 From: Bin Meng <bmeng.cn@gmail.com>
-Date: Wed, 6 Jan 2021 08:04:02 +0800
-Message-ID: <CAEUhbmVgV3tm6V5HwEgt1Dmw6XKqU0NK5nCo7qxQvVNk_jwtKA@mail.gmail.com>
-Subject: Re: [PATCH] RISC-V: Place DTB at 3GB boundary instead of 4GB
-To: Atish Patra <Atish.Patra@wdc.com>
+Date: Wed, 6 Jan 2021 08:22:13 +0800
+Message-ID: <CAEUhbmVd3Umei8qWdN-H2vejR144sgEDYyKwj5CTsbku5KjvKA@mail.gmail.com>
+Subject: Re: [PATCH v2 1/2] hw/ssi: imx_spi: Use a macro for number of chip
+ selects supported
+To: Peter Maydell <peter.maydell@linaro.org>
 Content-Type: text/plain; charset="UTF-8"
 Received-SPF: pass client-ip=2607:f8b0:4864:20::b32;
  envelope-from=bmeng.cn@gmail.com; helo=mail-yb1-xb32.google.com
@@ -76,53 +78,52 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "qemu-riscv@nongnu.org" <qemu-riscv@nongnu.org>,
- "sagark@eecs.berkeley.edu" <sagark@eecs.berkeley.edu>,
- "kbastian@mail.uni-paderborn.de" <kbastian@mail.uni-paderborn.de>,
- Anup Patel <Anup.Patel@wdc.com>,
- "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
- Alistair Francis <Alistair.Francis@wdc.com>,
- "palmer@dabbelt.com" <palmer@dabbelt.com>
+Cc: Alistair Francis <alistair.francis@wdc.com>,
+ Bin Meng <bin.meng@windriver.com>,
+ "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
+ Jean-Christophe Dubois <jcd@tribudubois.net>, qemu-arm <qemu-arm@nongnu.org>,
+ Peter Chubb <peter.chubb@nicta.com.au>,
+ Alistair Francis <alistair23@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi Atish,
-
-On Wed, Jan 6, 2021 at 7:44 AM Atish Patra <Atish.Patra@wdc.com> wrote:
+On Wed, Jan 6, 2021 at 5:11 AM Peter Maydell <peter.maydell@linaro.org> wrote:
 >
-> On Tue, 2021-01-05 at 11:11 +0800, Bin Meng wrote:
-> > On Fri, Dec 18, 2020 at 5:48 AM Atish Patra <atish.patra@wdc.com>
-> > wrote:
-> > >
-> > > Currently, we place the DTB at 2MB from 4GB or end of DRAM which
-> > > ever is
-> > > lesser. However, Linux kernel can address only 1GB of memory for
-> > > RV32.
-> > > Thus, it can not map anything beyond 3GB (assuming 2GB is the
-> > > starting address).
-> > > As a result, it can not process DT and panic if opensbi dynamic
-> > > firmware
-> > > is used.
-> > >
-> > > Fix this by placing the DTB at 2MB from 3GB or end of DRAM
-> > > whichever is lower.
-> > >
+> On Tue, 5 Jan 2021 at 21:09, Alistair Francis <alistair23@gmail.com> wrote:
 > >
-> > Fixes: 66b1205bc5ab ("RISC-V: Copy the fdt in dram instead of ROM")
+> > On Wed, Dec 16, 2020 at 2:25 AM Bin Meng <bmeng.cn@gmail.com> wrote:
+> > >
+> > > Hi Alistair, Peter,
+> > >
+> > > On Wed, Dec 2, 2020 at 10:45 PM Bin Meng <bmeng.cn@gmail.com> wrote:
+> > > >
+> > > > From: Bin Meng <bin.meng@windriver.com>
+> > > >
+> > > > Avoid using a magic number (4) everywhere for the number of chip
+> > > > selects supported.
+> > > >
+> > > > Signed-off-by: Bin Meng <bin.meng@windriver.com>
+> > > > Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
+> > > > ---
+> > > >
+> > > > (no changes since v1)
+> > > >
+> > > >  hw/ssi/imx_spi.c         | 4 ++--
+> > > >  include/hw/ssi/imx_spi.h | 5 ++++-
+> > > >  2 files changed, 6 insertions(+), 3 deletions(-)
+> > > >
+> > >
+> > > Ping, not sure who is going to pick up this series?
 > >
+> > It should be reviewed by Jean-Christophe and then probably go via the ARM tree.
 >
-> Just to clarify, it is not a bug in the original patch. This bug
-> appeared in recent kernel because kernel(from v5.10) doesn't use fixmap
-> for DT processing anymore. Thus, the DT has to be placed at location
-> that can be addressed by kernel.
+> It doesn't seem to have been sent with a cover letter. Multi-patch
+> patchsets without a cover letter tend to get missed because when
+> I scan through my email looking for patches I should review or
+> pick up I'm looking for either (a) single patches or (b) the 00/nn
+> cover letter email...
 
-Thanks for the clarification.
-
->
-> I will add the fixes tag.
->
-
-Did you get a chance to trace to another possible kernel bug?
+Thanks. I will resend it with a cover-letter.
 
 Regards,
 Bin
