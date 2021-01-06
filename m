@@ -2,41 +2,40 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 970252EB8A2
-	for <lists+qemu-devel@lfdr.de>; Wed,  6 Jan 2021 04:49:40 +0100 (CET)
-Received: from localhost ([::1]:52188 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3CF692EB8BD
+	for <lists+qemu-devel@lfdr.de>; Wed,  6 Jan 2021 04:57:44 +0100 (CET)
+Received: from localhost ([::1]:41278 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kwzpL-0003QA-NR
-	for lists+qemu-devel@lfdr.de; Tue, 05 Jan 2021 22:49:39 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44930)
+	id 1kwzx9-0002Tp-A2
+	for lists+qemu-devel@lfdr.de; Tue, 05 Jan 2021 22:57:43 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44932)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1kwzeu-0005wy-F7; Tue, 05 Jan 2021 22:38:52 -0500
-Received: from ozlabs.org ([203.11.71.1]:60529)
+ id 1kwzeu-0005xD-Hr; Tue, 05 Jan 2021 22:38:52 -0500
+Received: from bilbo.ozlabs.org ([203.11.71.1]:52915 helo=ozlabs.org)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1kwzes-0006NI-O8; Tue, 05 Jan 2021 22:38:52 -0500
+ id 1kwzes-0006NK-Pc; Tue, 05 Jan 2021 22:38:52 -0500
 Received: by ozlabs.org (Postfix, from userid 1007)
- id 4D9ZpJ32jbz9sWm; Wed,  6 Jan 2021 14:38:32 +1100 (AEDT)
+ id 4D9ZpJ54gCz9sWq; Wed,  6 Jan 2021 14:38:32 +1100 (AEDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=gibson.dropbear.id.au; s=201602; t=1609904312;
- bh=TZLFjggfHBBmoGYLA9oqu79OwNrKL94/Op02peqixIg=;
+ bh=DeGX6oX3pueVzK/HPGrBseoqiS/OUo2DmhzNLbSSYQY=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=V5m9xy1n4ABkvREbz3Apav+kYeBF5hUDJ8KnXcALLqYGgfGDrXdIWHMRV2ROIi+ZJ
- kWgSfVwonXkrXnpOKfhGN1DF0M5cnIXYFwdmT8iiX/q5DYDjeZnVRD0X7QaiuOPhOW
- 4nNcVMSj0oAajx5+iSoR600G/0n4oL7J8gV6gM5U=
+ b=HviYh9V7TxvCtYjEX755B/VZRo9lyUKokUfmddAZHD/yIMI92FTtseyDjazN4LIoQ
+ 8uOkyPSGVb3HS97aD7ZHk7kjjhgOX4gZPvVeioRnq3IBiC0cc0O7ps2ymBp+phlAs0
+ qNhu4Dt2JNutqdeLgccD494gVDizMQJGkhROjuDQ=
 From: David Gibson <david@gibson.dropbear.id.au>
 To: peter.maydell@linaro.org,
 	groug@kaod.org
-Subject: [PULL 19/22] sam460ex: Remove FDT_PPC dependency from KConfig
-Date: Wed,  6 Jan 2021 14:38:13 +1100
-Message-Id: <20210106033816.232598-20-david@gibson.dropbear.id.au>
+Subject: [PULL 20/22] ppc440_pcix: Improve comment for IRQ mapping
+Date: Wed,  6 Jan 2021 14:38:14 +1100
+Message-Id: <20210106033816.232598-21-david@gibson.dropbear.id.au>
 X-Mailer: git-send-email 2.29.2
 In-Reply-To: <20210106033816.232598-1-david@gibson.dropbear.id.au>
 References: <20210106033816.232598-1-david@gibson.dropbear.id.au>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 Received-SPF: pass client-ip=203.11.71.1; envelope-from=dgibson@ozlabs.org;
  helo=ozlabs.org
@@ -58,38 +57,46 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
- qemu-ppc@nongnu.org, qemu-devel@nongnu.org,
- David Gibson <david@gibson.dropbear.id.au>
+Cc: David Gibson <david@gibson.dropbear.id.au>, qemu-ppc@nongnu.org,
+ qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: BALATON Zoltan via <qemu-ppc@nongnu.org>
 
-Dependency on FDT_PPC was added in commit b0048f76095
-("hw/ppc/Kconfig: Only select FDT helper for machines using it") but
-it does not seem to be really necessary so remove it again.
+The code mapping all PCI interrupts to a single CPU IRQ works but is
+not trivial so document it in a comment.
 
 Signed-off-by: BALATON Zoltan <balaton@eik.bme.hu>
-Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
-Message-Id: <7461a20b129a912aeacdb9ad115a55f0b84c8726.1609636173.git.balaton@eik.bme.hu>
+Message-Id: <c25c0310510672b58466e795fd701e65e8f1ff97.1609636173.git.balaton@eik.bme.hu>
+Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
 Signed-off-by: David Gibson <david@gibson.dropbear.id.au>
 ---
- hw/ppc/Kconfig | 1 -
- 1 file changed, 1 deletion(-)
+ hw/ppc/ppc440_pcix.c | 11 +++++++++--
+ 1 file changed, 9 insertions(+), 2 deletions(-)
 
-diff --git a/hw/ppc/Kconfig b/hw/ppc/Kconfig
-index d2329edbab..7e267d94a1 100644
---- a/hw/ppc/Kconfig
-+++ b/hw/ppc/Kconfig
-@@ -64,7 +64,6 @@ config SAM460EX
-     select SMBUS_EEPROM
-     select USB_EHCI_SYSBUS
-     select USB_OHCI
--    select FDT_PPC
+diff --git a/hw/ppc/ppc440_pcix.c b/hw/ppc/ppc440_pcix.c
+index ee952314c8..eb1290ffc8 100644
+--- a/hw/ppc/ppc440_pcix.c
++++ b/hw/ppc/ppc440_pcix.c
+@@ -415,8 +415,15 @@ static void ppc440_pcix_reset(DeviceState *dev)
+     s->sts = 0;
+ }
  
- config PREP
-     bool
+-/* All pins from each slot are tied to a single board IRQ.
+- * This may need further refactoring for other boards. */
++/*
++ * All four IRQ[ABCD] pins from all slots are tied to a single board
++ * IRQ, so our mapping function here maps everything to IRQ 0.
++ * The code in pci_change_irq_level() tracks the number of times
++ * the mapped IRQ is asserted and deasserted, so if multiple devices
++ * assert an IRQ at the same time the behaviour is correct.
++ *
++ * This may need further refactoring for boards that use multiple IRQ lines.
++ */
+ static int ppc440_pcix_map_irq(PCIDevice *pci_dev, int irq_num)
+ {
+     trace_ppc440_pcix_map_irq(pci_dev->devfn, irq_num, 0);
 -- 
 2.29.2
 
