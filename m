@@ -2,34 +2,34 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 985BA2EC0CF
-	for <lists+qemu-devel@lfdr.de>; Wed,  6 Jan 2021 17:03:53 +0100 (CET)
-Received: from localhost ([::1]:53462 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 58EAB2EC0CC
+	for <lists+qemu-devel@lfdr.de>; Wed,  6 Jan 2021 17:03:49 +0100 (CET)
+Received: from localhost ([::1]:53250 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kxBHs-0007Ca-MU
-	for lists+qemu-devel@lfdr.de; Wed, 06 Jan 2021 11:03:52 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45710)
+	id 1kxBHn-00073f-EA
+	for lists+qemu-devel@lfdr.de; Wed, 06 Jan 2021 11:03:47 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45734)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1kxBFV-0005ze-LP
- for qemu-devel@nongnu.org; Wed, 06 Jan 2021 11:01:30 -0500
-Received: from indium.canonical.com ([91.189.90.7]:51810)
+ id 1kxBFf-000605-6O
+ for qemu-devel@nongnu.org; Wed, 06 Jan 2021 11:01:39 -0500
+Received: from indium.canonical.com ([91.189.90.7]:51842)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1kxBFS-0000eC-GH
- for qemu-devel@nongnu.org; Wed, 06 Jan 2021 11:01:25 -0500
+ id 1kxBFS-0000eb-T0
+ for qemu-devel@nongnu.org; Wed, 06 Jan 2021 11:01:30 -0500
 Received: from loganberry.canonical.com ([91.189.90.37])
  by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1kxBFQ-0000c9-Cd
- for <qemu-devel@nongnu.org>; Wed, 06 Jan 2021 16:01:20 +0000
+ id 1kxBFR-0000cB-8r
+ for <qemu-devel@nongnu.org>; Wed, 06 Jan 2021 16:01:21 +0000
 Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 2F5942E813A
- for <qemu-devel@nongnu.org>; Wed,  6 Jan 2021 16:01:20 +0000 (UTC)
+ by loganberry.canonical.com (Postfix) with ESMTP id 232BA2E813A
+ for <qemu-devel@nongnu.org>; Wed,  6 Jan 2021 16:01:21 +0000 (UTC)
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
-Date: Wed, 06 Jan 2021 15:45:36 -0000
+Date: Wed, 06 Jan 2021 15:50:31 -0000
 From: "Vladislav K. Valtchev" <1873769@bugs.launchpad.net>
 To: qemu-devel@nongnu.org
 X-Launchpad-Notification-Type: bug
@@ -41,7 +41,7 @@ X-Launchpad-Bug-Commenters: aperamak markostamcar vvaltchev
 X-Launchpad-Bug-Reporter: =?utf-8?q?Marko_=C5=A0tamcar_=28markostamcar=29?=
 X-Launchpad-Bug-Modifier: Vladislav K. Valtchev (vvaltchev)
 References: <158737489336.27883.11672421823937229418.malonedeb@gac.canonical.com>
-Message-Id: <160994793685.6668.11043649945431605601.malone@soybean.canonical.com>
+Message-Id: <160994823135.6821.194745914587589142.malone@chaenomeles.canonical.com>
 Subject: [Bug 1873769] Re: SB16 audio playback freezes emulation in Windows 95
  guest
 X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
@@ -49,7 +49,7 @@ X-Launchpad-Message-For: qemu-devel-ml
 Precedence: bulk
 X-Generated-By: Launchpad (canonical.com);
  Revision="34b3ffd45c9543b7f7aa5aa313925241e9e7ca3f"; Instance="production"
-X-Launchpad-Hash: b34c7a76e9cbb84f6131c76a70698f9a103d5732
+X-Launchpad-Hash: 263710ef956520e44a3f90d3b4028f4311325597
 Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
  helo=indium.canonical.com
 X-Spam_score_int: -65
@@ -74,42 +74,8 @@ Reply-To: Bug 1873769 <1873769@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi Allan, =
-
-I've hit EXACTLY the same problem, while writing a SB16 driver.
-
-Reproducing the bug
-----------------------
-I've tried to QEMU 4 in several scenarios (GTK UI, text mode with the -curs=
-es option,
-just serial console with -nographic and with virt-manager which uses Spice)=
-. It works
-as expected in all the cases EXCEPT for the GTK UI: in that case, the video=
- freezes
-while playing the sound, exactly as in the video posted by Marko; even QEMU=
-'s menu
-doesn't respond while the audio is playing (the bug affects the whole QEMU =
-UI).
-
-Regression
----------------------
-I've also tried the same test with QEMU 2.11, on another machine with Ubunt=
-u 18.04 (LTS)
-and there the problem simply does *not* exist. QEMU's UI (does QEMU 2.x use=
-s GTK?),
-works GREAT while playing SB16 audio.
-
-Conclusion
-----------------
-Is there any chance this bug could be fixed easily, or a fix would necessar=
-ily require
-a (partial) re-design of the way the GTK UI works? In particular, why on QE=
-MU 2.11 the
-problem does not exist?
-
-
-Thanks in advance,
-Vlad
+P.S.: sorry for the terribly broken lines. I didn't expect launchpad to
+add additional line breaks that way :-(
 
 -- =
 
