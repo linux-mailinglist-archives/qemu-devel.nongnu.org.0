@@ -2,40 +2,41 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3CF692EB8BD
-	for <lists+qemu-devel@lfdr.de>; Wed,  6 Jan 2021 04:57:44 +0100 (CET)
-Received: from localhost ([::1]:41278 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 678302EB8B8
+	for <lists+qemu-devel@lfdr.de>; Wed,  6 Jan 2021 04:55:37 +0100 (CET)
+Received: from localhost ([::1]:37444 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kwzx9-0002Tp-A2
-	for lists+qemu-devel@lfdr.de; Tue, 05 Jan 2021 22:57:43 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44932)
+	id 1kwzv6-0000is-Em
+	for lists+qemu-devel@lfdr.de; Tue, 05 Jan 2021 22:55:36 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44968)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1kwzeu-0005xD-Hr; Tue, 05 Jan 2021 22:38:52 -0500
-Received: from bilbo.ozlabs.org ([203.11.71.1]:52915 helo=ozlabs.org)
+ id 1kwzew-00060x-50; Tue, 05 Jan 2021 22:38:54 -0500
+Received: from bilbo.ozlabs.org ([203.11.71.1]:59467 helo=ozlabs.org)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1kwzes-0006NK-Pc; Tue, 05 Jan 2021 22:38:52 -0500
+ id 1kwzeu-0006Ob-Cq; Tue, 05 Jan 2021 22:38:53 -0500
 Received: by ozlabs.org (Postfix, from userid 1007)
- id 4D9ZpJ54gCz9sWq; Wed,  6 Jan 2021 14:38:32 +1100 (AEDT)
+ id 4D9ZpJ70Dcz9sWs; Wed,  6 Jan 2021 14:38:32 +1100 (AEDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=gibson.dropbear.id.au; s=201602; t=1609904312;
- bh=DeGX6oX3pueVzK/HPGrBseoqiS/OUo2DmhzNLbSSYQY=;
+ bh=CY0H8sKR3IFSQjPCsBd6ufCfxXS4CpbLM0Ucsm2WTvw=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=HviYh9V7TxvCtYjEX755B/VZRo9lyUKokUfmddAZHD/yIMI92FTtseyDjazN4LIoQ
- 8uOkyPSGVb3HS97aD7ZHk7kjjhgOX4gZPvVeioRnq3IBiC0cc0O7ps2ymBp+phlAs0
- qNhu4Dt2JNutqdeLgccD494gVDizMQJGkhROjuDQ=
+ b=o3ox8V47E/rTRpBu2HWJxgMe0a73V9o+NLr4uATw+zd4BK9xqFXPD5/vzUsVTxLh3
+ 74IMyqE3edpqV5wIYoFXRdjtjOKHdCnQgGNGN32T0jRnfQ2j4dwxUcim8JlygHjUav
+ UFq8M00dJnX2zOPypdqjKh7VMY7CHAOCJ3w8j1aw=
 From: David Gibson <david@gibson.dropbear.id.au>
 To: peter.maydell@linaro.org,
 	groug@kaod.org
-Subject: [PULL 20/22] ppc440_pcix: Improve comment for IRQ mapping
-Date: Wed,  6 Jan 2021 14:38:14 +1100
-Message-Id: <20210106033816.232598-21-david@gibson.dropbear.id.au>
+Subject: [PULL 21/22] ppc440_pcix: Fix register write trace event
+Date: Wed,  6 Jan 2021 14:38:15 +1100
+Message-Id: <20210106033816.232598-22-david@gibson.dropbear.id.au>
 X-Mailer: git-send-email 2.29.2
 In-Reply-To: <20210106033816.232598-1-david@gibson.dropbear.id.au>
 References: <20210106033816.232598-1-david@gibson.dropbear.id.au>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 Received-SPF: pass client-ip=203.11.71.1; envelope-from=dgibson@ozlabs.org;
  helo=ozlabs.org
@@ -57,46 +58,48 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: David Gibson <david@gibson.dropbear.id.au>, qemu-ppc@nongnu.org,
- qemu-devel@nongnu.org
+Cc: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
+ qemu-ppc@nongnu.org, qemu-devel@nongnu.org,
+ David Gibson <david@gibson.dropbear.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: BALATON Zoltan via <qemu-ppc@nongnu.org>
 
-The code mapping all PCI interrupts to a single CPU IRQ works but is
-not trivial so document it in a comment.
+The trace event for pci_host_config_write() was also using the trace
+event for read. Add corresponding trace and correct this.
 
 Signed-off-by: BALATON Zoltan <balaton@eik.bme.hu>
-Message-Id: <c25c0310510672b58466e795fd701e65e8f1ff97.1609636173.git.balaton@eik.bme.hu>
-Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
+Message-Id: <a6c7dcf7153cc537123ed8ceac060f2f64a883cb.1609636173.git.balaton@eik.bme.hu>
+Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 Signed-off-by: David Gibson <david@gibson.dropbear.id.au>
 ---
- hw/ppc/ppc440_pcix.c | 11 +++++++++--
- 1 file changed, 9 insertions(+), 2 deletions(-)
+ hw/ppc/ppc440_pcix.c | 2 +-
+ hw/ppc/trace-events  | 1 +
+ 2 files changed, 2 insertions(+), 1 deletion(-)
 
 diff --git a/hw/ppc/ppc440_pcix.c b/hw/ppc/ppc440_pcix.c
-index ee952314c8..eb1290ffc8 100644
+index eb1290ffc8..7829d3e556 100644
 --- a/hw/ppc/ppc440_pcix.c
 +++ b/hw/ppc/ppc440_pcix.c
-@@ -415,8 +415,15 @@ static void ppc440_pcix_reset(DeviceState *dev)
-     s->sts = 0;
- }
- 
--/* All pins from each slot are tied to a single board IRQ.
-- * This may need further refactoring for other boards. */
-+/*
-+ * All four IRQ[ABCD] pins from all slots are tied to a single board
-+ * IRQ, so our mapping function here maps everything to IRQ 0.
-+ * The code in pci_change_irq_level() tracks the number of times
-+ * the mapped IRQ is asserted and deasserted, so if multiple devices
-+ * assert an IRQ at the same time the behaviour is correct.
-+ *
-+ * This may need further refactoring for boards that use multiple IRQ lines.
-+ */
- static int ppc440_pcix_map_irq(PCIDevice *pci_dev, int irq_num)
+@@ -169,7 +169,7 @@ static void ppc440_pcix_reg_write4(void *opaque, hwaddr addr,
  {
-     trace_ppc440_pcix_map_irq(pci_dev->devfn, irq_num, 0);
+     struct PPC440PCIXState *s = opaque;
+ 
+-    trace_ppc440_pcix_reg_read(addr, val);
++    trace_ppc440_pcix_reg_write(addr, val, size);
+     switch (addr) {
+     case PCI_VENDOR_ID ... PCI_MAX_LAT:
+         stl_le_p(s->dev->config + addr, val);
+diff --git a/hw/ppc/trace-events b/hw/ppc/trace-events
+index 6d8d095aa2..1e91984526 100644
+--- a/hw/ppc/trace-events
++++ b/hw/ppc/trace-events
+@@ -96,3 +96,4 @@ ppc440_pcix_set_irq(int irq_num) "PCI irq %d"
+ ppc440_pcix_update_pim(int idx, uint64_t size, uint64_t la) "Added window %d of size=0x%" PRIx64 " to CPU=0x%" PRIx64
+ ppc440_pcix_update_pom(int idx, uint32_t size, uint64_t la, uint64_t pcia) "Added window %d of size=0x%x from CPU=0x%" PRIx64 " to PCI=0x%" PRIx64
+ ppc440_pcix_reg_read(uint64_t addr, uint32_t val) "addr 0x%" PRIx64 " = 0x%" PRIx32
++ppc440_pcix_reg_write(uint64_t addr, uint32_t val, uint32_t size) "addr 0x%" PRIx64 " = 0x%" PRIx32 " size 0x%" PRIx32
 -- 
 2.29.2
 
