@@ -2,58 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3AD372EC2F5
-	for <lists+qemu-devel@lfdr.de>; Wed,  6 Jan 2021 19:07:25 +0100 (CET)
-Received: from localhost ([::1]:33738 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3112B2EC317
+	for <lists+qemu-devel@lfdr.de>; Wed,  6 Jan 2021 19:17:54 +0100 (CET)
+Received: from localhost ([::1]:39864 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kxDDP-0003ng-PE
-	for lists+qemu-devel@lfdr.de; Wed, 06 Jan 2021 13:07:23 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48812)
+	id 1kxDNY-00073O-Df
+	for lists+qemu-devel@lfdr.de; Wed, 06 Jan 2021 13:17:52 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50998)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <ben.widawsky@intel.com>)
- id 1kxDCA-00036Z-Pq
- for qemu-devel@nongnu.org; Wed, 06 Jan 2021 13:06:06 -0500
-Received: from mga17.intel.com ([192.55.52.151]:18001)
+ (Exim 4.90_1) (envelope-from <groug@kaod.org>) id 1kxDLc-0006VN-Dc
+ for qemu-devel@nongnu.org; Wed, 06 Jan 2021 13:15:52 -0500
+Received: from 10.mo52.mail-out.ovh.net ([87.98.187.244]:40990)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <ben.widawsky@intel.com>)
- id 1kxDC6-0006zH-SY
- for qemu-devel@nongnu.org; Wed, 06 Jan 2021 13:06:06 -0500
-IronPort-SDR: 5bUvfrlyipnDdRtsDjl2R7FPR22DNh9tlUSPeWgVdQ0m11+HqfIFY4JQI9wpJA5mw+jgGxuqJx
- W4cJMkW8zGsQ==
-X-IronPort-AV: E=McAfee;i="6000,8403,9856"; a="157098301"
-X-IronPort-AV: E=Sophos;i="5.79,327,1602572400"; d="scan'208";a="157098301"
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
- by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 06 Jan 2021 10:05:58 -0800
-IronPort-SDR: WBTvyWtqjYJCp20fwq+ehr1BWFbc5Z001HYGr+ZbZpgKSMmn3e2RBECaneFL+/9eyhozK/sX0Z
- dVEwFBvRbyFQ==
-X-IronPort-AV: E=Sophos;i="5.79,327,1602572400"; d="scan'208";a="379371432"
-Received: from pthatich-mobl1.amr.corp.intel.com (HELO intel.com)
- ([10.252.142.206])
- by orsmga008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 06 Jan 2021 10:05:57 -0800
-Date: Wed, 6 Jan 2021 10:05:56 -0800
-From: Ben Widawsky <ben.widawsky@intel.com>
-To: Jonathan Cameron <Jonathan.Cameron@huawei.com>
-Subject: Re: [Linuxarm]  Re: [RFC PATCH v2 07/32] hw/cxl/device: Implement
- basic mailbox (8.2.8.4)
-Message-ID: <20210106180556.2nw2p2alxxzdx55w@intel.com>
-References: <20210105165323.783725-1-ben.widawsky@intel.com>
- <20210105165323.783725-8-ben.widawsky@intel.com>
- <20210106132123.00003a9d@Huawei.com>
- <20210106174014.00007407@Huawei.com>
+ (Exim 4.90_1) (envelope-from <groug@kaod.org>) id 1kxDLZ-0001GP-GB
+ for qemu-devel@nongnu.org; Wed, 06 Jan 2021 13:15:52 -0500
+Received: from mxplan5.mail.ovh.net (unknown [10.108.16.53])
+ by mo52.mail-out.ovh.net (Postfix) with ESMTPS id 8F7F622BBB3;
+ Wed,  6 Jan 2021 19:15:38 +0100 (CET)
+Received: from kaod.org (37.59.142.99) by DAG8EX1.mxp5.local (172.16.2.71)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2044.4; Wed, 6 Jan 2021
+ 19:15:37 +0100
+Authentication-Results: garm.ovh; auth=pass
+ (GARM-99G0033c497e1d-b962-4f41-b373-088387330350,
+ 63494697DF0D740EAFE7DDD5B9B810A000FD86CF) smtp.auth=groug@kaod.org
+X-OVh-ClientIp: 82.253.208.248
+Date: Wed, 6 Jan 2021 19:15:36 +0100
+From: Greg Kurz <groug@kaod.org>
+To: David Gibson <david@gibson.dropbear.id.au>
+Subject: Re: [PATCH 6/6] spapr: Model DR connectors as simple objects
+Message-ID: <20210106191536.4d4c4991@bahia.lan>
+In-Reply-To: <20201228082839.GL6952@yekko.fritz.box>
+References: <20201218103400.689660-1-groug@kaod.org>
+ <20201218103400.689660-7-groug@kaod.org>
+ <20201228082839.GL6952@yekko.fritz.box>
+X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20210106174014.00007407@Huawei.com>
-Received-SPF: pass client-ip=192.55.52.151;
- envelope-from=ben.widawsky@intel.com; helo=mga17.intel.com
-X-Spam_score_int: -41
-X-Spam_score: -4.2
-X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: multipart/signed; boundary="Sig_/KmjVOfwdivqrLv8Sw7HRGpa";
+ protocol="application/pgp-signature"; micalg=pgp-sha256
+X-Originating-IP: [37.59.142.99]
+X-ClientProxiedBy: DAG7EX2.mxp5.local (172.16.2.62) To DAG8EX1.mxp5.local
+ (172.16.2.71)
+X-Ovh-Tracer-GUID: 8c2e8a77-0506-4c2b-a2a1-8738ca465de7
+X-Ovh-Tracer-Id: 18323458037034621408
+X-VR-SPAMSTATE: OK
+X-VR-SPAMSCORE: -100
+X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedujedrvdegtddgudeiucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuqfggjfdpvefjgfevmfevgfenuceurghilhhouhhtmecuhedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhepfffhvffukfgjfhfogggtihesghdtreerredtvdenucfhrhhomhepifhrvghgucfmuhhriicuoehgrhhouhhgsehkrghougdrohhrgheqnecuggftrfgrthhtvghrnhepfeehtdffgfefheegvdefkedvheeltdehgeffhffhheeguefgkeehveehteeihfehnecuffhomhgrihhnpehprghttghhvgifrdhorhhgnecukfhppedtrddtrddtrddtpdefjedrheelrddugedvrdelleenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhhouggvpehsmhhtphdqohhuthdphhgvlhhopehmgihplhgrnhehrdhmrghilhdrohhvhhdrnhgvthdpihhnvghtpedtrddtrddtrddtpdhmrghilhhfrhhomhepghhrohhugheskhgrohgurdhorhhgpdhrtghpthhtohepuggrnhhivghlhhgssehlihhnuhigrdhisghmrdgtohhm
+Received-SPF: pass client-ip=87.98.187.244; envelope-from=groug@kaod.org;
+ helo=10.mo52.mail-out.ovh.net
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
+ RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -66,532 +69,550 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Thomas Huth <thuth@redhat.com>, Dan@domain.invalid,
- Vishal Verma <vishal.l.verma@intel.com>, qemu-devel@nongnu.org,
- Prashant V Agarwal =?utf-8?Q?=3Cagpr123=40gmail=2Ecom=3E=2C_Chris_Bro?=
- =?utf-8?Q?wy_=3Ccbrowy=40avery-design=2Ecom=3E=2C__Michael_S=2E_Tsirkin__?=
- =?utf-8?Q?=3Cmst=40redhat=2Ecom=3E=2C_Philippe_Mathieu-Daud=C3=A9?=
- <f4bug@amsat.org>
+Cc: Daniel Henrique Barboza <danielhb@linux.ibm.com>, qemu-ppc@nongnu.org,
+ qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 21-01-06 17:40:14, Jonathan Cameron wrote:
-> On Wed, 6 Jan 2021 13:21:23 +0000
-> Jonathan Cameron <Jonathan.Cameron@Huawei.com> wrote:
-> 
-> > On Tue, 5 Jan 2021 08:52:58 -0800
-> > Ben Widawsky <ben.widawsky@intel.com> wrote:
-> > 
-> > > This is the beginning of implementing mailbox support for CXL 2.0
-> > > devices.
-> > > 
-> > > v2: Use register alignment helper (Ben)
-> > >     Minor cleanups (Jonathan)
-> > >     Rename error codes to match spec (Jonathan)
-> > >     Update cap count from 1 to 2 (Jonathan)
-> > >     Add infra to support CEL (Ben)
-> > >     Add more of the actual mailbox handling from later patch (Ben)
-> > > 
-> > > Signed-off-by: Ben Widawsky <ben.widawsky@intel.com>  
-> > 
-> > Hi Ben,
-> > 
-> > I hacked support in for ARM64 to give this a spin and ran into an
-> > interesting problem around read sizes.
-> > 
-> > The mailbox registers space allows 4 or 8 byte reads, but in the kernel
-> > driver (I think I have the right version from your github) you do
-> > the payload drain with
-> > memcpy_from_io()
-> > 
-> > If the size of the payload is not a multiple of 8 bytes, on ARM64 that
-> > results in byte reads and an exception.  This happens with some of the
-> > existing calls which happen to have non multiple of 8 payload sizes.
-> > 
-> > I hacked below to allow 1 byte reads from that region but that's probably
-> > not the right fix.  I found a statement in the CXL spec saying maximum read
-> > size from this register block was 8 bytes but couldn't immediately see a minimum.
-> > (I haven't looked that hard yet though!)
-> > 
-> > Various approaches in kernel could also be used:
-> > 1) Change the payload drain to have specific handling for the end few bytes.
-> > 2) Pad the various structures to ensure payloads are always 8 byte multiples
-> > in length (nasty).
-> 
-> Bit more testing an another little thing below.
-> 
-> J
-> 
-> > 
-> > > ---
-> > >  hw/cxl/cxl-device-utils.c   | 122 ++++++++++++++++++++++++-
-> > >  hw/cxl/cxl-mailbox-utils.c  | 173 ++++++++++++++++++++++++++++++++++++
-> > >  hw/cxl/meson.build          |   1 +
-> > >  include/hw/cxl/cxl.h        |   3 +
-> > >  include/hw/cxl/cxl_device.h |  27 +++++-
-> > >  5 files changed, 322 insertions(+), 4 deletions(-)
-> > >  create mode 100644 hw/cxl/cxl-mailbox-utils.c
-> > > 
-> > > diff --git a/hw/cxl/cxl-device-utils.c b/hw/cxl/cxl-device-utils.c
-> > > index b86e5466bd..642e3c2617 100644
-> > > --- a/hw/cxl/cxl-device-utils.c
-> > > +++ b/hw/cxl/cxl-device-utils.c
-> > > @@ -44,6 +44,108 @@ static uint64_t dev_reg_read(void *opaque, hwaddr offset, unsigned size)
-> > >      return ldn_le_p(&retval, size);
-> > >  }
-> > >  
-> > > +static uint64_t mailbox_reg_read(void *opaque, hwaddr offset, unsigned size)
-> > > +{
-> > > +    CXLDeviceState *cxl_dstate = opaque;
-> > > +
-> > > +    if (cxl_device_check_register_alignment(offset, size)) {
-> > > +        qemu_log_mask(LOG_UNIMP, "Unaligned register read\n");
-> > > +        return 0;
-> > > +    }
-> > > +
-> > > +    return ldn_le_p(cxl_dstate->mbox_reg_state + offset, size);
-> > > +}
-> > > +
-> > > +static void mailbox_mem_writel(uint32_t *reg_state, hwaddr offset,
-> > > +                               uint64_t value)
-> > > +{
-> > > +    switch (offset) {
-> > > +    case A_CXL_DEV_MAILBOX_CTRL:
-> > > +        /* fallthrough */
-> > > +    case A_CXL_DEV_MAILBOX_CAP:
-> > > +        /* RO register */
-> > > +        break;
-> > > +    default:
-> > > +        qemu_log_mask(LOG_UNIMP,
-> > > +                      "%s Unexpected 32-bit access to 0x%" PRIx64 " (WI)\n",
-> > > +                      __func__, offset);
-> > > +        break;
-> > > +    }
-> > > +
-> > > +    stl_le_p((uint8_t *)reg_state + offset, value);
-> > > +}
-> > > +
-> > > +static void mailbox_mem_writeq(uint8_t *reg_state, hwaddr offset,
-> > > +                               uint64_t value)
-> > > +{
-> > > +    switch (offset) {
-> > > +    case A_CXL_DEV_MAILBOX_CMD:
-> > > +        break;
-> > > +    case A_CXL_DEV_BG_CMD_STS:
-> > > +        /* BG not supported */
-> > > +        /* fallthrough */
-> > > +    case A_CXL_DEV_MAILBOX_STS:
-> > > +        /* Read only register, will get updated by the state machine */
-> > > +        return;
-> > > +    default:
-> > > +        qemu_log_mask(LOG_UNIMP,
-> > > +                      "%s Unexpected 64-bit access to 0x%" PRIx64 " (WI)\n",
-> > > +                      __func__, offset);
-> 
-> I've been debugging mail box issues and it seems we can hit this path if
-> a payload is written by the OS.  Result is it never gets written into the memory
-> and hence isn't available when we try to read it below.
-> 
+--Sig_/KmjVOfwdivqrLv8Sw7HRGpa
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: quoted-printable
 
-I'm sorry you had to debug this. I had fixed this previously and it got lost.
-I'm currently between test applications, so my regression testing isn't great.
+On Mon, 28 Dec 2020 19:28:39 +1100
+David Gibson <david@gibson.dropbear.id.au> wrote:
 
-I think the fix should be something like this, but I can't easily test at the
-moment:
+> On Fri, Dec 18, 2020 at 11:34:00AM +0100, Greg Kurz wrote:
+> > Modeling DR connectors as individual devices raises some
+> > concerns, as already discussed a year ago in this thread:
+> >=20
+> > https://patchew.org/QEMU/20191017205953.13122-1-cheloha@linux.vnet.ibm.=
+com/
+> >=20
+> > First, high maxmem settings creates too many DRC devices.
+> > This causes scalability issues. It severely increase boot
+> > time because the multiple traversals of the DRC list that
+> > are performed during machine setup are quadratic operations.
+> > This is directly related to the fact that DRCs are modeled
+> > as individual devices and added to the composition tree.
+> >=20
+> > Second, DR connectors are really an internal concept of
+> > PAPR. They aren't something that the user or management
+> > layer can manipulate in any way. We already don't allow
+> > their creation with device_add by clearing user_creatable.
+> >=20
+> > DR connectors don't even need to be modeled as actual
+> > devices since they don't sit in a bus. They just need
+> > to be associated to an 'owner' object and to have the
+> > equivalent of realize/unrealize functions.
+> >=20
+> > Downgrade them to be simple objects. Convert the existing
+> > realize() and unrealize() to be methods of the DR connector
+> > base class. Also have the base class to inherit from the
+> > vmstate_if interface directly. The get_id() hook simply
+> > returns NULL, just as device_vmstate_if_get_id() does for
+> > devices that don't sit in a bus. The DR connector is no
+> > longer made a child object. This means that it must be
+> > explicitely freed when no longer needed. This is only
+> > required for PHBs and PCI bridges actually : have them to
+> > free the DRC with spapr_dr_connector_free() instead of
+> > object_unparent().
+> >=20
+> > No longer add the DRCs to the QOM composition tree. Track
+> > them with a glib hash table using the global DRC index as
+> > the key instead. This makes traversal a linear operation.
+>=20
+> I have some reservations about this one.  The main thing is that
+> attaching migration state to something that's not a device seems a bit
+> odd to me.  AFAICT exactly one other non-device implements
+> TYPE_VMSTATE_IF, and what it does isn't very clear to me.
+>=20
 
-diff --git a/hw/cxl/cxl-device-utils.c b/hw/cxl/cxl-device-utils.c
-index c515d45d20..b38e9b4c17 100644
---- a/hw/cxl/cxl-device-utils.c
-+++ b/hw/cxl/cxl-device-utils.c
-@@ -102,6 +102,9 @@ static void mailbox_reg_write(void *opaque, hwaddr offset, uint64_t value,
- {
-     CXLDeviceState *cxl_dstate = opaque;
+Even with your proposal below, the current SpaprDrc type, which is
+used all over the place, will stop being a TYPE_DEVICE but we still
+need to support migration with existing machine types for which DRC
+are devices. Implementing TYPE_VMSTATE_IF is essentially a hack that
+allows to do that without keeping the current TYPE_DEVICE based
+implementation around.
 
-+    if (offset >= A_CXL_DEV_CMD_PAYLOAD)
-+        stn_le_p(cxl_dstate->mbox_reg_state, size, value);
-+
-     /*
-      * Lock is needed to prevent concurrent writes as well as to prevent writes
-      * coming in while the firmware is processing. Without background commands
+> As I might have mentioned to you I had a different idea for how to
+> address this problem: still use a TYPE_DEVICE, but have it manage a
+> whole array of DRCs as one unit, rather than just a single one.
+> Specifically I was thinking:
+>=20
+> * one array per PCI bus (DRCs for each function on the bus)
+> * one array for each block of memory (so one for base memory, one for
+>   each DIMM)
+> * one array for all the cpus
+> * one array for all the PHBs
+>=20
+> It has some disadvantages compared to your scheme: it still leaves
+> (less) devices which can't be user managed, which is a bit ugly.  On
+> the other hand, each of those arrays can reasonably be dense, so we
+> can use direct indexing rather than a hash table, which is a bit
+> nicer.
+>=20
+> Thoughts?
+>=20
+
+I find it a bit overkill to introduce a new TYPE_DEVICE (let's
+call it a DRC manager) for something that:
+- doesn't sit on a bus
+- can't be user managed
+- isn't directly represented to the guest as a full node
+  in the DT unlike all other devices, but just as indexes
+  in some properties of actual DR capable devices.
+
+Given that the DRC index space is global and this is what
+the guest passes to DR RTAS calls, we can't do direct
+indexing, strictly speaking. We need at least some logic
+to dispatch operations on individual DRC states to the
+appropriate DRC manager. This logic belongs to the machine
+IMHO.
+
+This shouldn't be too complex for CPUs and PHBs since they
+sit directly under the machine and have 1:1 relation with
+the attached device. It just boils down to instantiate
+some DRC managers during machine init:
+
+- range [ 0x10000000 ... 0x10000000 + ${max_cpus} [
+  for CPUs
+- range [ 0x20000000 ... 0x20000000 + 31 [
+  for PHBs
+
+For memory, the code currently generates DRC indexes in the range:
+
+[ 0x80000000 ... 0x80000000 + ${base_ram_size}/256M ... ${max_ram_size}/256=
+M [
+
+ie. it doesn't generate DRC indexes for the base memory AFAICT. Also
+each DIMM can be of arbitrary size, ie. consume an arbitrary amount
+of DRC indexes. So the machine would instantiate SPAPR_MAX_RAM_SLOTS (32)
+DRC managers, each capable of managing the full set of LMB DRCs, just
+in case ? Likely a lot of zeroes with high maxmem settings but I guess
+we can live with it.
+
+PCI busses would need some extra care though since the machine
+doesn't know about them. This would require to be able to
+register/unregister DRC managers for SPAPR_DR_CONNECTOR_TYPE_PCI
+indexes, so that the dispatching logic know about the ranges
+they cover (PHB internals).
+
+And finally comes migration : I cannot think of a way to generate
+the VMState sections used by existing machine types out of a set
+of arrays of integers... We could keep the current implementation
+around and use it with older machine types, but this certainly
+looks terrible from a maintenance perspective. Did you have any
+suggestion to handle that ?
+
+I seem to remember that one of the motivation to have arrays
+of DRCs is to avoid the inflation of VMState sections that
+we currently get with high maxmem settings, and it is considered
+preferable to stream sparse arrays. This could be achieved by
+building these arrays out of the global DRC hash table in a machine
+pre-save handler and migrate them in a subsection for the default
+machine type. Older machine types would continue with the current
+VMState sections thanks to the TYPE_VMSTATE_IF hack.
+
+Does this seem a reasonable trade-off to be able to support
+older and newer machine types with the same implementation ?
+
+> >=20
+> > Signed-off-by: Greg Kurz <groug@kaod.org>
+> > ---
+> >  include/hw/ppc/spapr_drc.h |   8 +-
+> >  hw/ppc/spapr_drc.c         | 166 ++++++++++++++-----------------------
+> >  hw/ppc/spapr_pci.c         |   2 +-
+> >  3 files changed, 69 insertions(+), 107 deletions(-)
+> >=20
+> > diff --git a/include/hw/ppc/spapr_drc.h b/include/hw/ppc/spapr_drc.h
+> > index 8982927d5c24..a26aa8b9d4c3 100644
+> > --- a/include/hw/ppc/spapr_drc.h
+> > +++ b/include/hw/ppc/spapr_drc.h
+> > @@ -170,7 +170,7 @@ typedef enum {
+> > =20
+> >  typedef struct SpaprDrc {
+> >      /*< private >*/
+> > -    DeviceState parent;
+> > +    Object parent;
+> > =20
+> >      uint32_t id;
+> >      Object *owner;
+> > @@ -193,7 +193,7 @@ struct SpaprMachineState;
+> > =20
+> >  typedef struct SpaprDrcClass {
+> >      /*< private >*/
+> > -    DeviceClass parent;
+> > +    ObjectClass parent;
+> >      SpaprDrcState empty_state;
+> >      SpaprDrcState ready_state;
+> > =20
+> > @@ -209,6 +209,9 @@ typedef struct SpaprDrcClass {
+> > =20
+> >      int (*dt_populate)(SpaprDrc *drc, struct SpaprMachineState *spapr,
+> >                         void *fdt, int *fdt_start_offset, Error **errp);
+> > +
+> > +    void (*realize)(SpaprDrc *drc);
+> > +    void (*unrealize)(SpaprDrc *drc);
+> >  } SpaprDrcClass;
+> > =20
+> >  typedef struct SpaprDrcPhysical {
+> > @@ -232,6 +235,7 @@ SpaprDrcType spapr_drc_type(SpaprDrc *drc);
+> > =20
+> >  SpaprDrc *spapr_dr_connector_new(Object *owner, const char *type,
+> >                                           uint32_t id);
+> > +void spapr_dr_connector_free(SpaprDrc *drc);
+> >  SpaprDrc *spapr_drc_by_index(uint32_t index);
+> >  SpaprDrc *spapr_drc_by_id(const char *type, uint32_t id);
+> >  int spapr_dt_drc(void *fdt, int offset, Object *owner, uint32_t drc_ty=
+pe_mask);
+> > diff --git a/hw/ppc/spapr_drc.c b/hw/ppc/spapr_drc.c
+> > index 8571d5bafe4e..e26763f8b5a4 100644
+> > --- a/hw/ppc/spapr_drc.c
+> > +++ b/hw/ppc/spapr_drc.c
+> > @@ -27,7 +27,6 @@
+> >  #include "sysemu/reset.h"
+> >  #include "trace.h"
+> > =20
+> > -#define DRC_CONTAINER_PATH "/dr-connector"
+> >  #define DRC_INDEX_TYPE_SHIFT 28
+> >  #define DRC_INDEX_ID_MASK ((1ULL << DRC_INDEX_TYPE_SHIFT) - 1)
+> > =20
+> > @@ -503,65 +502,56 @@ static const VMStateDescription vmstate_spapr_drc=
+ =3D {
+> >      }
+> >  };
+> > =20
+> > -static void drc_realize(DeviceState *d, Error **errp)
+> > +static GHashTable *drc_hash_table(void)
+> >  {
+> > -    SpaprDrc *drc =3D SPAPR_DR_CONNECTOR(d);
+> > -    Object *root_container;
+> > -    gchar *link_name;
+> > -    const char *child_name;
+> > +    static GHashTable *dht;
+> > =20
+> > +    if (!dht) {
+> > +        dht =3D g_hash_table_new(NULL, NULL);
+> > +    }
+> > +
+> > +    return dht;
+> > +}
+> > +
+> > +
+> > +static void drc_realize(SpaprDrc *drc)
+> > +{
+> >      trace_spapr_drc_realize(spapr_drc_index(drc));
+> > -    /* NOTE: we do this as part of realize/unrealize due to the fact
+> > -     * that the guest will communicate with the DRC via RTAS calls
+> > -     * referencing the global DRC index. By unlinking the DRC
+> > -     * from DRC_CONTAINER_PATH/<drc_index> we effectively make it
+> > -     * inaccessible by the guest, since lookups rely on this path
+> > -     * existing in the composition tree
+> > -     */
+> > -    root_container =3D container_get(object_get_root(), DRC_CONTAINER_=
+PATH);
+> > -    link_name =3D g_strdup_printf("%x", spapr_drc_index(drc));
+> > -    child_name =3D object_get_canonical_path_component(OBJECT(drc));
+> > -    trace_spapr_drc_realize_child(spapr_drc_index(drc), child_name);
+> > -    object_property_add_alias(root_container, link_name,
+> > -                              drc->owner, child_name);
+> > -    g_free(link_name);
+> > +
+> > +    g_hash_table_insert(drc_hash_table(),
+> > +                        GUINT_TO_POINTER(spapr_drc_index(drc)), drc);
+> >      vmstate_register(VMSTATE_IF(drc), spapr_drc_index(drc), &vmstate_s=
+papr_drc,
+> >                       drc);
+> >      trace_spapr_drc_realize_complete(spapr_drc_index(drc));
+> >  }
+> > =20
+> > -static void drc_unrealize(DeviceState *d)
+> > +static void drc_unrealize(SpaprDrc *drc)
+> >  {
+> > -    SpaprDrc *drc =3D SPAPR_DR_CONNECTOR(d);
+> > -    Object *root_container;
+> > -    gchar *name;
+> > -
+> >      trace_spapr_drc_unrealize(spapr_drc_index(drc));
+> >      vmstate_unregister(VMSTATE_IF(drc), &vmstate_spapr_drc, drc);
+> > -    root_container =3D container_get(object_get_root(), DRC_CONTAINER_=
+PATH);
+> > -    name =3D g_strdup_printf("%x", spapr_drc_index(drc));
+> > -    object_property_del(root_container, name);
+> > -    g_free(name);
+> > +    g_hash_table_remove(drc_hash_table(),
+> > +                        GUINT_TO_POINTER(spapr_drc_index(drc)));
+> >  }
+> > =20
+> >  SpaprDrc *spapr_dr_connector_new(Object *owner, const char *type,
+> >                                           uint32_t id)
+> >  {
+> >      SpaprDrc *drc =3D SPAPR_DR_CONNECTOR(object_new(type));
+> > -    char *prop_name;
+> > =20
+> >      drc->id =3D id;
+> > -    drc->owner =3D owner;
+> > -    prop_name =3D g_strdup_printf("dr-connector[%"PRIu32"]",
+> > -                                spapr_drc_index(drc));
+> > -    object_property_add_child(owner, prop_name, OBJECT(drc));
+> > -    object_unref(OBJECT(drc));
+> > -    qdev_realize(DEVICE(drc), NULL, NULL);
+> > -    g_free(prop_name);
+> > +    drc->owner =3D object_ref(owner);
+> > +    SPAPR_DR_CONNECTOR_GET_CLASS(drc)->realize(drc);
+> > =20
+> >      return drc;
+> >  }
+> > =20
+> > +void spapr_dr_connector_free(SpaprDrc *drc)
+> > +{
+> > +    SPAPR_DR_CONNECTOR_GET_CLASS(drc)->unrealize(drc);
+> > +    object_unref(drc->owner);
+> > +    object_unref(drc);
+> > +}
+> > +
+> >  static void spapr_dr_connector_instance_init(Object *obj)
+> >  {
+> >      SpaprDrc *drc =3D SPAPR_DR_CONNECTOR(obj);
+> > @@ -575,17 +565,19 @@ static void spapr_dr_connector_instance_init(Obje=
+ct *obj)
+> >      drc->state =3D drck->empty_state;
+> >  }
+> > =20
+> > +static char *drc_vmstate_if_get_id(VMStateIf *obj)
+> > +{
+> > +    return NULL;
+> > +}
+> > +
+> >  static void spapr_dr_connector_class_init(ObjectClass *k, void *data)
+> >  {
+> > -    DeviceClass *dk =3D DEVICE_CLASS(k);
+> > +    SpaprDrcClass *drck =3D SPAPR_DR_CONNECTOR_CLASS(k);
+> > +    VMStateIfClass *vc =3D VMSTATE_IF_CLASS(k);
+> > =20
+> > -    dk->realize =3D drc_realize;
+> > -    dk->unrealize =3D drc_unrealize;
+> > -    /*
+> > -     * Reason: DR connector needs to be wired to either the machine or=
+ to a
+> > -     * PHB in spapr_dr_connector_new().
+> > -     */
+> > -    dk->user_creatable =3D false;
+> > +    drck->realize =3D drc_realize;
+> > +    drck->unrealize =3D drc_unrealize;
+> > +    vc->get_id =3D drc_vmstate_if_get_id;
+> >  }
+> > =20
+> >  static bool drc_physical_needed(void *opaque)
+> > @@ -623,39 +615,32 @@ static void drc_physical_reset(void *opaque)
+> >      }
+> >  }
+> > =20
+> > -static void realize_physical(DeviceState *d, Error **errp)
+> > +static void realize_physical(SpaprDrc *drc)
+> >  {
+> > -    SpaprDrcPhysical *drcp =3D SPAPR_DRC_PHYSICAL(d);
+> > -    Error *local_err =3D NULL;
+> > -
+> > -    drc_realize(d, &local_err);
+> > -    if (local_err) {
+> > -        error_propagate(errp, local_err);
+> > -        return;
+> > -    }
+> > +    SpaprDrcPhysical *drcp =3D SPAPR_DRC_PHYSICAL(drc);
+> > =20
+> > +    drc_realize(drc);
+> >      vmstate_register(VMSTATE_IF(drcp),
+> >                       spapr_drc_index(SPAPR_DR_CONNECTOR(drcp)),
+> >                       &vmstate_spapr_drc_physical, drcp);
+> >      qemu_register_reset(drc_physical_reset, drcp);
+> >  }
+> > =20
+> > -static void unrealize_physical(DeviceState *d)
+> > +static void unrealize_physical(SpaprDrc *drc)
+> >  {
+> > -    SpaprDrcPhysical *drcp =3D SPAPR_DRC_PHYSICAL(d);
+> > +    SpaprDrcPhysical *drcp =3D SPAPR_DRC_PHYSICAL(drc);
+> > =20
+> > -    drc_unrealize(d);
+> > -    vmstate_unregister(VMSTATE_IF(drcp), &vmstate_spapr_drc_physical, =
+drcp);
+> >      qemu_unregister_reset(drc_physical_reset, drcp);
+> > +    vmstate_unregister(VMSTATE_IF(drcp), &vmstate_spapr_drc_physical, =
+drcp);
+> > +    drc_unrealize(drc);
+> >  }
+> > =20
+> >  static void spapr_drc_physical_class_init(ObjectClass *k, void *data)
+> >  {
+> > -    DeviceClass *dk =3D DEVICE_CLASS(k);
+> >      SpaprDrcClass *drck =3D SPAPR_DR_CONNECTOR_CLASS(k);
+> > =20
+> > -    dk->realize =3D realize_physical;
+> > -    dk->unrealize =3D unrealize_physical;
+> > +    drck->realize =3D realize_physical;
+> > +    drck->unrealize =3D unrealize_physical;
+> >      drck->dr_entity_sense =3D physical_entity_sense;
+> >      drck->isolate =3D drc_isolate_physical;
+> >      drck->unisolate =3D drc_unisolate_physical;
+> > @@ -731,12 +716,16 @@ static void spapr_drc_pmem_class_init(ObjectClass=
+ *k, void *data)
+> > =20
+> >  static const TypeInfo spapr_dr_connector_info =3D {
+> >      .name          =3D TYPE_SPAPR_DR_CONNECTOR,
+> > -    .parent        =3D TYPE_DEVICE,
+> > +    .parent        =3D TYPE_OBJECT,
+> >      .instance_size =3D sizeof(SpaprDrc),
+> >      .instance_init =3D spapr_dr_connector_instance_init,
+> >      .class_size    =3D sizeof(SpaprDrcClass),
+> >      .class_init    =3D spapr_dr_connector_class_init,
+> >      .abstract      =3D true,
+> > +    .interfaces =3D (InterfaceInfo[]) {
+> > +        { TYPE_VMSTATE_IF },
+> > +        { }
+> > +    },
+> >  };
+> > =20
+> >  static const TypeInfo spapr_drc_physical_info =3D {
+> > @@ -789,14 +778,9 @@ static const TypeInfo spapr_drc_pmem_info =3D {
+> > =20
+> >  SpaprDrc *spapr_drc_by_index(uint32_t index)
+> >  {
+> > -    Object *obj;
+> > -    gchar *name;
+> > -
+> > -    name =3D g_strdup_printf("%s/%x", DRC_CONTAINER_PATH, index);
+> > -    obj =3D object_resolve_path(name, NULL);
+> > -    g_free(name);
+> > -
+> > -    return !obj ? NULL : SPAPR_DR_CONNECTOR(obj);
+> > +    return
+> > +        SPAPR_DR_CONNECTOR(g_hash_table_lookup(drc_hash_table(),
+> > +                                               GUINT_TO_POINTER(index)=
+));
+> >  }
+> > =20
+> >  SpaprDrc *spapr_drc_by_id(const char *type, uint32_t id)
+> > @@ -824,13 +808,12 @@ SpaprDrc *spapr_drc_by_id(const char *type, uint3=
+2_t id)
+> >   */
+> >  int spapr_dt_drc(void *fdt, int offset, Object *owner, uint32_t drc_ty=
+pe_mask)
+> >  {
+> > -    Object *root_container;
+> > -    ObjectProperty *prop;
+> > -    ObjectPropertyIterator iter;
+> > +    GHashTableIter iter;
+> >      uint32_t drc_count =3D 0;
+> >      GArray *drc_indexes, *drc_power_domains;
+> >      GString *drc_names, *drc_types;
+> >      int ret;
+> > +    SpaprDrc *drc;
+> > =20
+> >      /*
+> >       * This should really be only called once per node since it overwr=
+ites
+> > @@ -851,26 +834,12 @@ int spapr_dt_drc(void *fdt, int offset, Object *o=
+wner, uint32_t drc_type_mask)
+> >      drc_names =3D g_string_set_size(g_string_new(NULL), sizeof(uint32_=
+t));
+> >      drc_types =3D g_string_set_size(g_string_new(NULL), sizeof(uint32_=
+t));
+> > =20
+> > -    /* aliases for all DRConnector objects will be rooted in QOM
+> > -     * composition tree at DRC_CONTAINER_PATH
+> > -     */
+> > -    root_container =3D container_get(object_get_root(), DRC_CONTAINER_=
+PATH);
+> > -
+> > -    object_property_iter_init(&iter, root_container);
+> > -    while ((prop =3D object_property_iter_next(&iter))) {
+> > -        Object *obj;
+> > -        SpaprDrc *drc;
+> > +    g_hash_table_iter_init(&iter, drc_hash_table());
+> > +    while (g_hash_table_iter_next(&iter, NULL, (gpointer) &drc)) {
+> >          SpaprDrcClass *drck;
+> >          char *drc_name =3D NULL;
+> >          uint32_t drc_index, drc_power_domain;
+> > =20
+> > -        if (!strstart(prop->type, "link<", NULL)) {
+> > -            continue;
+> > -        }
+> > -
+> > -        obj =3D object_property_get_link(root_container, prop->name,
+> > -                                       &error_abort);
+> > -        drc =3D SPAPR_DR_CONNECTOR(obj);
+> >          drck =3D SPAPR_DR_CONNECTOR_GET_CLASS(drc);
+> > =20
+> >          if (owner && (drc->owner !=3D owner)) {
+> > @@ -951,23 +920,12 @@ out:
+> > =20
+> >  void spapr_drc_reset_all(SpaprMachineState *spapr)
+> >  {
+> > -    Object *drc_container;
+> > -    ObjectProperty *prop;
+> > -    ObjectPropertyIterator iter;
+> > +    GHashTableIter iter;
+> > +    SpaprDrc *drc;
+> > =20
+> > -    drc_container =3D container_get(object_get_root(), DRC_CONTAINER_P=
+ATH);
+> >  restart:
+> > -    object_property_iter_init(&iter, drc_container);
+> > -    while ((prop =3D object_property_iter_next(&iter))) {
+> > -        SpaprDrc *drc;
+> > -
+> > -        if (!strstart(prop->type, "link<", NULL)) {
+> > -            continue;
+> > -        }
+> > -        drc =3D SPAPR_DR_CONNECTOR(object_property_get_link(drc_contai=
+ner,
+> > -                                                          prop->name,
+> > -                                                          &error_abort=
+));
+> > -
+> > +    g_hash_table_iter_init(&iter, drc_hash_table());
+> > +    while (g_hash_table_iter_next(&iter, NULL, (gpointer) &drc)) {
+> >          /*
+> >           * This will complete any pending plug/unplug requests.
+> >           * In case of a unplugged PHB or PCI bridge, this will
+> > diff --git a/hw/ppc/spapr_pci.c b/hw/ppc/spapr_pci.c
+> > index 76d7c91e9c64..ca0cca664e3c 100644
+> > --- a/hw/ppc/spapr_pci.c
+> > +++ b/hw/ppc/spapr_pci.c
+> > @@ -1262,7 +1262,7 @@ static void remove_drcs(SpaprPhbState *phb, PCIBu=
+s *bus)
+> >          SpaprDrc *drc =3D drc_from_devfn(phb, chassis, i);
+> > =20
+> >          if (drc) {
+> > -            object_unparent(OBJECT(drc));
+> > +            spapr_dr_connector_free(drc);
+> >          }
+> >      }
+> >  }
+>=20
 
 
+--Sig_/KmjVOfwdivqrLv8Sw7HRGpa
+Content-Type: application/pgp-signature
+Content-Description: OpenPGP digital signature
 
-> > > +        return;
-> > > +    }
-> > > +
-> > > +    stq_le_p(reg_state + offset, value);
-> > > +}
-> > > +
-> > > +static void mailbox_reg_write(void *opaque, hwaddr offset, uint64_t value,
-> > > +                              unsigned size)
-> > > +{
-> > > +    CXLDeviceState *cxl_dstate = opaque;
-> > > +
-> > > +    /*
-> > > +     * Lock is needed to prevent concurrent writes as well as to prevent writes
-> > > +     * coming in while the firmware is processing. Without background commands
-> > > +     * or the second mailbox implemented, this serves no purpose since the
-> > > +     * memory access is synchronized at a higher level (per memory region).
-> > > +     */
-> > > +    RCU_READ_LOCK_GUARD();
-> > > +
-> > > +    switch (size) {
-> > > +    case 4:
-> > > +        if (unlikely(offset & (sizeof(uint32_t) - 1))) {
-> > > +            qemu_log_mask(LOG_UNIMP, "Unaligned register read\n");
-> > > +            return;
-> > > +        }
-> > > +        mailbox_mem_writel(cxl_dstate->mbox_reg_state32, offset, value);
-> > > +        break;
-> > > +    case 8:
-> > > +        if (unlikely(offset & (sizeof(uint64_t) - 1))) {
-> > > +            qemu_log_mask(LOG_UNIMP, "Unaligned register read\n");
-> > > +            return;
-> > > +        }
-> > > +        mailbox_mem_writeq(cxl_dstate->mbox_reg_state, offset, value);
-> > > +        break;
-> > > +    }
-> > > +
-> > > +    if (ARRAY_FIELD_EX32(cxl_dstate->mbox_reg_state32, CXL_DEV_MAILBOX_CTRL,
-> > > +                         DOORBELL))
-> > > +        cxl_process_mailbox(cxl_dstate);
-> > > +}
-> > > +
-> > > +static const MemoryRegionOps mailbox_ops = {
-> > > +    .read = mailbox_reg_read,
-> > > +    .write = mailbox_reg_write,
-> > > +    .endianness = DEVICE_LITTLE_ENDIAN,
-> > > +    .valid = {
-> > > +        .min_access_size = 4,  
-> > 
-> > Hack was to set this to 1 (and the impl below - no idea if both are needed).
-> > 
-> > > +        .max_access_size = 8,
-> > > +    },
-> > > +    .impl = {
-> > > +        .min_access_size = 4,
-> > > +        .max_access_size = 8,
-> > > +    },
-> > > +};
-> > > +
-> > >  static const MemoryRegionOps dev_ops = {
-> > >      .read = dev_reg_read,
-> > >      .write = NULL,
-> > > @@ -83,20 +185,33 @@ void cxl_device_register_block_init(Object *obj, CXLDeviceState *cxl_dstate)
-> > >                            "cap-array", CXL_DEVICE_REGISTERS_OFFSET - 0);
-> > >      memory_region_init_io(&cxl_dstate->device, obj, &dev_ops, cxl_dstate,
-> > >                            "device-status", CXL_DEVICE_REGISTERS_LENGTH);
-> > > +    memory_region_init_io(&cxl_dstate->mailbox, obj, &mailbox_ops, cxl_dstate,
-> > > +                          "mailbox", CXL_MAILBOX_REGISTERS_LENGTH);
-> > >  
-> > >      memory_region_add_subregion(&cxl_dstate->device_registers, 0,
-> > >                                  &cxl_dstate->caps);
-> > >      memory_region_add_subregion(&cxl_dstate->device_registers,
-> > >                                  CXL_DEVICE_REGISTERS_OFFSET,
-> > >                                  &cxl_dstate->device);
-> > > +    memory_region_add_subregion(&cxl_dstate->device_registers,
-> > > +                                CXL_MAILBOX_REGISTERS_OFFSET,
-> > > +                                &cxl_dstate->mailbox);
-> > >  }
-> > >  
-> > >  static void device_reg_init_common(CXLDeviceState *cxl_dstate) { }
-> > >  
-> > > +static void mailbox_reg_init_common(CXLDeviceState *cxl_dstate)
-> > > +{
-> > > +    /* 2048 payload size, with no interrupt or background support */
-> > > +    ARRAY_FIELD_DP32(cxl_dstate->mbox_reg_state32, CXL_DEV_MAILBOX_CAP,
-> > > +                     PAYLOAD_SIZE, CXL_MAILBOX_PAYLOAD_SHIFT);
-> > > +    cxl_dstate->payload_size = CXL_MAILBOX_MAX_PAYLOAD_SIZE;
-> > > +}
-> > > +
-> > >  void cxl_device_register_init_common(CXLDeviceState *cxl_dstate)
-> > >  {
-> > >      uint32_t *cap_hdrs = cxl_dstate->caps_reg_state32;
-> > > -    const int cap_count = 1;
-> > > +    const int cap_count = 2;
-> > >  
-> > >      /* CXL Device Capabilities Array Register */
-> > >      ARRAY_FIELD_DP32(cap_hdrs, CXL_DEV_CAP_ARRAY, CAP_ID, 0);
-> > > @@ -105,4 +220,9 @@ void cxl_device_register_init_common(CXLDeviceState *cxl_dstate)
-> > >  
-> > >      cxl_device_cap_init(cxl_dstate, DEVICE, 1);
-> > >      device_reg_init_common(cxl_dstate);
-> > > +
-> > > +    cxl_device_cap_init(cxl_dstate, MAILBOX, 2);
-> > > +    mailbox_reg_init_common(cxl_dstate);
-> > > +
-> > > +    assert(cxl_initialize_mailbox(cxl_dstate) == 0);
-> > >  }
-> > > diff --git a/hw/cxl/cxl-mailbox-utils.c b/hw/cxl/cxl-mailbox-utils.c
-> > > new file mode 100644
-> > > index 0000000000..3a39c936de
-> > > --- /dev/null
-> > > +++ b/hw/cxl/cxl-mailbox-utils.c
-> > > @@ -0,0 +1,173 @@
-> > > +/*
-> > > + * CXL Utility library for mailbox interface
-> > > + *
-> > > + * Copyright(C) 2020 Intel Corporation.
-> > > + *
-> > > + * This work is licensed under the terms of the GNU GPL, version 2. See the
-> > > + * COPYING file in the top-level directory.
-> > > + */
-> > > +
-> > > +#include "qemu/osdep.h"
-> > > +#include "hw/cxl/cxl.h"
-> > > +#include "hw/pci/pci.h"
-> > > +#include "qemu/log.h"
-> > > +#include "qemu/uuid.h"
-> > > +
-> > > +/*
-> > > + * How to add a new command, example. The command set FOO, with cmd BAR.
-> > > + *  1. Add the command set and cmd to the enum.
-> > > + *     FOO    = 0x7f,
-> > > + *          #define BAR 0
-> > > + *  2. Forward declare the handler.
-> > > + *     declare_mailbox_handler(FOO_BAR);
-> > > + *  3. Add the command to the cxl_cmd_set[][]
-> > > + *     CXL_CMD(FOO, BAR, 0, 0),
-> > > + *  4. Implement your handler
-> > > + *     define_mailbox_handler(FOO_BAR) { ... return CXL_MBOX_SUCCESS; }
-> > > + *
-> > > + *
-> > > + *  Writing the handler:
-> > > + *    The handler will provide the &struct cxl_cmd, the &CXLDeviceState, and the
-> > > + *    in/out length of the payload. The handler is responsible for consuming the
-> > > + *    payload from cmd->payload and operating upon it as necessary. It must then
-> > > + *    fill the output data into cmd->payload (overwriting what was there),
-> > > + *    setting the length, and returning a valid return code.
-> > > + *
-> > > + *  XXX: The handler need not worry about endianess. The payload is read out of
-> > > + *  a register interface that already deals with it.
-> > > + */
-> > > +
-> > > +/* 8.2.8.4.5.1 Command Return Codes */
-> > > +typedef enum {
-> > > +    CXL_MBOX_SUCCESS = 0x0,
-> > > +    CXL_MBOX_BG_STARTED = 0x1,
-> > > +    CXL_MBOX_INVALID_INPUT = 0x2,
-> > > +    CXL_MBOX_UNSUPPORTED = 0x3,
-> > > +    CXL_MBOX_INTERNAL_ERROR = 0x4,
-> > > +    CXL_MBOX_RETRY_REQUIRED = 0x5,
-> > > +    CXL_MBOX_BUSY = 0x6,
-> > > +    CXL_MBOX_MEDIA_DISABLED = 0x7,
-> > > +    CXL_MBOX_FW_XFER_IN_PROGRESS = 0x8,
-> > > +    CXL_MBOX_FW_XFER_OUT_OF_ORDER = 0x9,
-> > > +    CXL_MBOX_FW_AUTH_FAILED = 0xa,
-> > > +    CXL_MBOX_FW_INVALID_SLOT = 0xb,
-> > > +    CXL_MBOX_FW_ROLLEDBACK = 0xc,
-> > > +    CXL_MBOX_FW_REST_REQD = 0xd,
-> > > +    CXL_MBOX_INVALID_HANDLE = 0xe,
-> > > +    CXL_MBOX_INVALID_PA = 0xf,
-> > > +    CXL_MBOX_INJECT_POISON_LIMIT = 0x10,
-> > > +    CXL_MBOX_PERMANENT_MEDIA_FAILURE = 0x11,
-> > > +    CXL_MBOX_ABORTED = 0x12,
-> > > +    CXL_MBOX_INVALID_SECURITY_STATE = 0x13,
-> > > +    CXL_MBOX_INCORRECT_PASSPHRASE = 0x14,
-> > > +    CXL_MBOX_UNSUPPORTED_MAILBOX = 0x15,
-> > > +    CXL_MBOX_INVALID_PAYLOAD_LENGTH = 0x16,
-> > > +    CXL_MBOX_MAX = 0x17
-> > > +} ret_code;
-> > > +
-> > > +struct cxl_cmd;
-> > > +typedef ret_code (*opcode_handler)(struct cxl_cmd *cmd,
-> > > +                                   CXLDeviceState *cxl_dstate, uint16_t *len);
-> > > +struct cxl_cmd {
-> > > +    const char *name;
-> > > +    opcode_handler handler;
-> > > +    ssize_t in;
-> > > +    uint16_t effect; /* Reported in CEL */
-> > > +    uint8_t *payload;
-> > > +};
-> > > +
-> > > +#define define_mailbox_handler(name)                \
-> > > +    static ret_code cmd_##name(struct cxl_cmd *cmd, \
-> > > +                               CXLDeviceState *cxl_dstate, uint16_t *len)
-> > > +#define declare_mailbox_handler(name) define_mailbox_handler(name)
-> > > +
-> > > +#define CXL_CMD(s, c, in, cel_effect) \
-> > > +    [s][c] = { stringify(s##_##c), cmd_##s##_##c, in, cel_effect }
-> > > +
-> > > +static struct cxl_cmd cxl_cmd_set[256][256] = {};
-> > > +
-> > > +#undef CXL_CMD
-> > > +
-> > > +QemuUUID cel_uuid;
-> > > +
-> > > +void cxl_process_mailbox(CXLDeviceState *cxl_dstate)
-> > > +{
-> > > +    uint16_t ret = CXL_MBOX_SUCCESS;
-> > > +    struct cxl_cmd *cxl_cmd;
-> > > +    uint64_t status_reg;
-> > > +    opcode_handler h;
-> > > +
-> > > +    /*
-> > > +     * current state of mailbox interface
-> > > +     *  mbox_cap_reg = cxl_dstate->reg_state32[R_CXL_DEV_MAILBOX_CAP];
-> > > +     *  mbox_ctrl_reg = cxl_dstate->reg_state32[R_CXL_DEV_MAILBOX_CTRL];
-> > > +     *  status_reg = *(uint64_t *)&cxl_dstate->reg_state[A_CXL_DEV_MAILBOX_STS];
-> > > +     */
-> > > +    uint64_t command_reg =
-> > > +        *(uint64_t *)&cxl_dstate->mbox_reg_state[A_CXL_DEV_MAILBOX_CMD];
-> > > +
-> > > +    /* Check if we have to do anything */
-> > > +    if (!ARRAY_FIELD_EX32(cxl_dstate->mbox_reg_state32, CXL_DEV_MAILBOX_CTRL,
-> > > +                          DOORBELL)) {
-> > > +        qemu_log_mask(LOG_UNIMP, "Corrupt internal state for firmware\n");
-> > > +        return;
-> > > +    }
-> > > +
-> > > +    uint8_t set = FIELD_EX64(command_reg, CXL_DEV_MAILBOX_CMD, COMMAND_SET);
-> > > +    uint8_t cmd = FIELD_EX64(command_reg, CXL_DEV_MAILBOX_CMD, COMMAND);
-> > > +    uint16_t len = FIELD_EX64(command_reg, CXL_DEV_MAILBOX_CMD, LENGTH);
-> > > +    cxl_cmd = &cxl_cmd_set[set][cmd];
-> > > +    h = cxl_cmd->handler;
-> > > +    if (!h) {
-> > > +        goto handled;
-> > > +    }
-> > > +
-> > > +    if (len != cxl_cmd->in) {
-> > > +        ret = CXL_MBOX_INVALID_PAYLOAD_LENGTH;
-> > > +    }
-> > > +
-> > > +    cxl_cmd->payload = cxl_dstate->mbox_reg_state + A_CXL_DEV_CMD_PAYLOAD;
-> 
-> The return highlighted above on which registers are writable meant the payload
-> never has anything useful in it.  Remove that and this seems to work and I
-> can query implemented commands + enable them.
-> 
-> > > +    ret = (*h)(cxl_cmd, cxl_dstate, &len);
-> > > +    assert(len <= cxl_dstate->payload_size);
-> > > +
-> > > +handled:
-> > > +    /*
-> > > +     * Set the return code
-> > > +     * XXX: it's a 64b register, but we're not setting the vendor, so we can get
-> > > +     * away with this
-> > > +     */
-> > > +    status_reg = FIELD_DP64(0, CXL_DEV_MAILBOX_STS, ERRNO, ret);
-> > > +
-> > > +    /*
-> > > +     * Set the return length
-> > > +     */
-> > > +    command_reg = FIELD_DP64(command_reg, CXL_DEV_MAILBOX_CMD, COMMAND_SET, 0);
-> > > +    command_reg = FIELD_DP64(command_reg, CXL_DEV_MAILBOX_CMD, COMMAND, 0);
-> > > +    command_reg = FIELD_DP64(command_reg, CXL_DEV_MAILBOX_CMD, LENGTH, len);
-> > > +
-> > > +    stq_le_p(cxl_dstate->mbox_reg_state + A_CXL_DEV_MAILBOX_CMD, command_reg);
-> > > +    stq_le_p(cxl_dstate->mbox_reg_state + A_CXL_DEV_MAILBOX_STS, status_reg);
-> > > +
-> > > +    /* Tell the host we're done */
-> > > +    ARRAY_FIELD_DP32(cxl_dstate->mbox_reg_state32, CXL_DEV_MAILBOX_CTRL,
-> > > +                     DOORBELL, 0);
-> > > +}
-> > > +
-> > > +int cxl_initialize_mailbox(CXLDeviceState *cxl_dstate)
-> > > +{
-> > > +    const char *cel_uuidstr = "0da9c0b5-bf41-4b78-8f79-96b1623b3f17";
-> > > +
-> > > +    for (int i = 0; i < 256; i++) {
-> > > +        for (int j = 0; j < 256; j++) {
-> > > +            if (cxl_cmd_set[i][j].handler) {
-> > > +                struct cxl_cmd *c = &cxl_cmd_set[i][j];
-> > > +
-> > > +                cxl_dstate->cel_log[cxl_dstate->cel_size].opcode = (i << 8) | j;
-> > > +                cxl_dstate->cel_log[cxl_dstate->cel_size].effect = c->effect;
-> > > +                cxl_dstate->cel_size++;
-> > > +            }
-> > > +        }
-> > > +    }
-> > > +
-> > > +    return qemu_uuid_parse(cel_uuidstr, &cel_uuid);
-> > > +}
-> > > diff --git a/hw/cxl/meson.build b/hw/cxl/meson.build
-> > > index 47154d6850..0eca715d10 100644
-> > > --- a/hw/cxl/meson.build
-> > > +++ b/hw/cxl/meson.build
-> > > @@ -1,4 +1,5 @@
-> > >  softmmu_ss.add(when: 'CONFIG_CXL', if_true: files(
-> > >    'cxl-component-utils.c',
-> > >    'cxl-device-utils.c',
-> > > +  'cxl-mailbox-utils.c',
-> > >  ))
-> > > diff --git a/include/hw/cxl/cxl.h b/include/hw/cxl/cxl.h
-> > > index 23f52c4cf9..362cda40de 100644
-> > > --- a/include/hw/cxl/cxl.h
-> > > +++ b/include/hw/cxl/cxl.h
-> > > @@ -14,5 +14,8 @@
-> > >  #include "cxl_component.h"
-> > >  #include "cxl_device.h"
-> > >  
-> > > +#define COMPONENT_REG_BAR_IDX 0
-> > > +#define DEVICE_REG_BAR_IDX 2
-> > > +
-> > >  #endif
-> > >  
-> > > diff --git a/include/hw/cxl/cxl_device.h b/include/hw/cxl/cxl_device.h
-> > > index 3380fc9e7a..bdf990cec2 100644
-> > > --- a/include/hw/cxl/cxl_device.h
-> > > +++ b/include/hw/cxl/cxl_device.h
-> > > @@ -70,9 +70,10 @@
-> > >      (CXL_MAILBOX_REGISTERS_SIZE + CXL_MAILBOX_MAX_PAYLOAD_SIZE)
-> > >  
-> > >  typedef struct cxl_device_state {
-> > > -    /* Boss container and caps registers */
-> > > +    /* Main register container */
-> > >      MemoryRegion device_registers;
-> > >  
-> > > +    MemoryRegion device;
-> > >      struct {
-> > >          MemoryRegion caps;
-> > >          union {
-> > > @@ -80,8 +81,19 @@ typedef struct cxl_device_state {
-> > >              uint32_t caps_reg_state32[CXL_DEVICE_CAP_REG_SIZE >> 2];
-> > >          };
-> > >      };
-> > > -    MemoryRegion device;
-> > > -    MemoryRegion mailbox;
-> > > +    struct {
-> > > +        MemoryRegion mailbox;
-> > > +        uint16_t payload_size;
-> > > +        union {
-> > > +            uint8_t mbox_reg_state[CXL_MAILBOX_REGISTERS_LENGTH];
-> > > +            uint32_t mbox_reg_state32[CXL_MAILBOX_REGISTERS_LENGTH >> 2];
-> > > +        };
-> > > +        struct {
-> > > +            uint16_t opcode;
-> > > +            uint16_t effect;
-> > > +        } cel_log[1 << 16];
-> > > +        size_t cel_size;
-> > > +    };
-> > >  
-> > >      MemoryRegion *pmem;
-> > >      MemoryRegion *vmem;
-> > > @@ -122,6 +134,9 @@ CXL_DEVICE_CAPABILITY_HEADER_REGISTER(DEVICE, CXL_DEVICE_CAP_HDR1_OFFSET)
-> > >  CXL_DEVICE_CAPABILITY_HEADER_REGISTER(MAILBOX, CXL_DEVICE_CAP_HDR1_OFFSET + \
-> > >                                                 CXL_DEVICE_CAP_REG_SIZE)
-> > >  
-> > > +int cxl_initialize_mailbox(CXLDeviceState *cxl_dstate);
-> > > +void cxl_process_mailbox(CXLDeviceState *cxl_dstate);
-> > > +
-> > >  #define cxl_device_cap_init(dstate, reg, cap_id)                                   \
-> > >      do {                                                                           \
-> > >          uint32_t *cap_hdrs = dstate->caps_reg_state32;                             \
-> > > @@ -149,6 +164,12 @@ REG32(CXL_DEV_MAILBOX_CTRL, 4)
-> > >      FIELD(CXL_DEV_MAILBOX_CTRL, INT_EN, 1, 1)
-> > >      FIELD(CXL_DEV_MAILBOX_CTRL, BG_INT_EN, 2, 1)
-> > >  
-> > > +/* XXX: actually a 64b register */
-> > > +REG32(CXL_DEV_MAILBOX_CMD, 8)
-> > > +    FIELD(CXL_DEV_MAILBOX_CMD, COMMAND, 0, 8)
-> > > +    FIELD(CXL_DEV_MAILBOX_CMD, COMMAND_SET, 8, 8)
-> > > +    FIELD(CXL_DEV_MAILBOX_CMD, LENGTH, 16, 20)
-> > > +
-> > >  /* XXX: actually a 64b register */
-> > >  REG32(CXL_DEV_MAILBOX_STS, 0x10)
-> > >      FIELD(CXL_DEV_MAILBOX_STS, BG_OP, 0, 1)  
-> > _______________________________________________
-> > Linuxarm mailing list -- linuxarm@openeuler.org
-> > To unsubscribe send an email to linuxarm-leave@openeuler.org
-> 
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAEBCAAdFiEEtIKLr5QxQM7yo0kQcdTV5YIvc9YFAl/1/kgACgkQcdTV5YIv
+c9ZAkw/+KT8WgU7jVh8+FfS2IJ8RGfX3hxClO0/XaI/0XvX1J5t3gcnk0J+zj0yL
+R93JhNTK4CUyRnEGrPrkWegfK7zfsACXfoyFmCh1q6EnT/OfSVc76/FBWZGTjzJj
+viXMKtfQ2dFLDJ0Lt+oDu6rHru11siq/QcwOQSRos8Tly6PwQjLO9dRPKwtbMmUB
+gGuk7tWxITfu8pb9WGhZE10cZG08BbXw2zPWDl3CyjJPbSJGRb1rHesySzoH1Ms9
+2BApn9Ny3VJFWwV26ubYHjiC1P4OlNQv1c69pQGEgzSsR76czh1Nv3y1i9J075po
+OI3tFJwaS33haebR6BquVOhk48cynlq6UEnBLjIlONXw4Ji19A1I7UjaQH/hG+4+
+acSbN5UWAY6HAesfLCesx2GtzmKNw1rDJRcaoHLpr1TDZVOg7CG0x5fUN3YKiN5m
+mkBCGAU2Piz+pYRuWBQcKGncwtT+e2dqBQKowQEba0l5cq0gm0GLXZPEQ55WxQOT
+g9ixaKg9oD8PiTyHcErgiSfNUMK2M/fAD1Eq4RsA6Gtc0vofYNJ/4PABtu0aC6JJ
+AN1T8XUYFjRS9MuvhQTUqWyUL4WgbYLZeHQLaLbDSTizP3runeF3jFhnszUO6gAN
+VvrudkQLiCVzdxWDc8Cllezeivgaa0C/CXHL0POb4MRZfaQKPx0=
+=RKQ1
+-----END PGP SIGNATURE-----
+
+--Sig_/KmjVOfwdivqrLv8Sw7HRGpa--
 
