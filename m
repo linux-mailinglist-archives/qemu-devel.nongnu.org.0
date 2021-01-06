@@ -2,74 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1F77C2EC2B6
-	for <lists+qemu-devel@lfdr.de>; Wed,  6 Jan 2021 18:49:48 +0100 (CET)
-Received: from localhost ([::1]:47512 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DB1422EC2C1
+	for <lists+qemu-devel@lfdr.de>; Wed,  6 Jan 2021 18:52:19 +0100 (CET)
+Received: from localhost ([::1]:50236 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kxCwM-0004yO-MO
-	for lists+qemu-devel@lfdr.de; Wed, 06 Jan 2021 12:49:46 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45272)
+	id 1kxCyo-0006CT-Ui
+	for lists+qemu-devel@lfdr.de; Wed, 06 Jan 2021 12:52:18 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45554)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1kxCvS-0004Xc-Tw
- for qemu-devel@nongnu.org; Wed, 06 Jan 2021 12:48:50 -0500
-Received: from mail-wr1-x436.google.com ([2a00:1450:4864:20::436]:42484)
+ id 1kxCxM-0005ju-Qn
+ for qemu-devel@nongnu.org; Wed, 06 Jan 2021 12:50:48 -0500
+Received: from mail-wm1-x32c.google.com ([2a00:1450:4864:20::32c]:40456)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1kxCvO-0004pR-5z
- for qemu-devel@nongnu.org; Wed, 06 Jan 2021 12:48:49 -0500
-Received: by mail-wr1-x436.google.com with SMTP id m5so3184231wrx.9
- for <qemu-devel@nongnu.org>; Wed, 06 Jan 2021 09:48:45 -0800 (PST)
+ id 1kxCxL-00052F-DJ
+ for qemu-devel@nongnu.org; Wed, 06 Jan 2021 12:50:48 -0500
+Received: by mail-wm1-x32c.google.com with SMTP id r4so3327408wmh.5
+ for <qemu-devel@nongnu.org>; Wed, 06 Jan 2021 09:50:47 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:subject:to:cc:references:from:message-id:date:user-agent
+ h=sender:subject:from:to:cc:references:message-id:date:user-agent
  :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=3Pwj/2erWVTfxJvyl/604z+zJQ23cvN/d6WdRV2V7Jc=;
- b=Vyq6ruOg9IbfdzfBm15eEn/VNKJexxAaiyOgG1GLi+EpYsXTUpHMBSqWQveoqXrm5Q
- g6jzCNyeuIdfn2IAsFXjGvrG2MDFGjLjNz+SPNqV8Vk2eNi0wc/WECgria6YgOL4WzYt
- gWAkjCsjp4Ee9bQOf+u/0GZDROcY/k4TfQ4Pq5tqNsVrT9F+FzRX5ZcuOAu0V4wX/kMx
- +k/dg7r3YowqJalMMrlm/1uVhFfit8d1wjozpXXuD7kQ+7V4srYyhc0ZgseIyRdCRUSQ
- Z0E0vajYdLq8UqFLWSgiJswqamfeHA1qACPWNLf8uBMXxFuhtvGihV+E3UJ0o04xrUuG
- PJfA==
+ bh=7iWnIi51Qx0vRpypwG7rAsWRDntKJ/lEFRKdx5h41HQ=;
+ b=gZqLnmFvb3Wk5wYDprgGntssCL0int4dEI0UBLxjd09b4n5DV2KU5zXYaHfC6Nxl6C
+ HUWXQh0eM0kKgwwFzVcaOrWnRmLCuu0DakbMPa5BqEhUZ89uHM0krWXcFL+YMEztKUoM
+ z3/odoxnTDvF0Fy5bvGfmsxRXLJSK3Hwvef1YO4bIAr2Ve1qO0dNGXO5VUckVoLkGqlj
+ GJr7+Vg1sbn4UYiygYBm6JdmWblrBTQgYL09y15X4BbwA+vT2YEoetLX3yOvAIStr/Am
+ igblV6qK308VbKyDZ4qxAdK6oWDYwRjypM8RfECiT8lHE14TUIUpT1srL2OeOHK/MklM
+ 2eKw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
+ h=x-gm-message-state:sender:subject:from:to:cc:references:message-id
  :date:user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=3Pwj/2erWVTfxJvyl/604z+zJQ23cvN/d6WdRV2V7Jc=;
- b=moZRVHZOjtapVqQm9Zca/3fUZguQO3y58V8fALx6fzUoa1oUyW4A/m3j4ulKSTjBTy
- RTl/uynECdFzWRRSmwd2ldIWHs5NlkzDoATjSPgcpMM+eTe9YXeiCUO/R+nuDsYE/OHo
- dK0WEcb35lvPq0Kv1mlRkqVU3SyEn9JBP7qyLR8aZEghVV1CpYdu0sfiqouqm4syM0R8
- 6PECFU+7XpVXMd5kbEH60PpgFK2ttoQtcoh4XHtY3TdRooCbIg2vksKPzwIM59RVCPti
- f12huh9R4F1ftIUfhLkQaaHGJdVGGtHmH4OTaOcxx1l6VPnZQnjQbxvSa+FLNJiFhTaX
- X9jA==
-X-Gm-Message-State: AOAM531t/1qQLsTWKqJcmZZdgfg3X816/m06qFH3GMQ5vQfj4K/vNVX4
- +LIHt9sjBMsIhb2g1jGGzE0=
-X-Google-Smtp-Source: ABdhPJxHQNKsgWTQz0uC86DeQ4D3Yo3rbC9gADG0ZaRsNMcomZ+WkSw29d6PN/QqlHdijdTe5uuRQQ==
-X-Received: by 2002:adf:bc92:: with SMTP id g18mr5190717wrh.160.1609955324658; 
- Wed, 06 Jan 2021 09:48:44 -0800 (PST)
+ bh=7iWnIi51Qx0vRpypwG7rAsWRDntKJ/lEFRKdx5h41HQ=;
+ b=StqKIK37mleIWPPW39iBBN1eW/Fip8Yc7Y9nRMEyR9H9zhYhpSyMJMwOuCwpYFAFvl
+ BFboU5fOw8cxhhPqVenhGBkVm8CiUdGPyKHxzLHVDsjOYuTwbJ/DQdJfAVtHbO8UIkBW
+ LDvM08xOZuAYBO41z6+hsASHXy/AlDtxgTGDzBkNQF0DMjZwmb8bqNa8V6xVwaTxI8Cx
+ wNqB5EQqyYqv2PuX76TD+PyUM5y8qW92XbWA+ZqFb4QH6nWSR6LFssGJ75EL5E0ScVzt
+ iyZlACG2KFJG6d1ZRGksTQNCFydQSWZ+/RM9HMWLSMGH5RSpBZORPMNGGOd+1J8gh3J1
+ 5abw==
+X-Gm-Message-State: AOAM531ApVUVHYvXUJf+uHllKyWBw4P5iwEgypEQacLP0jryxUzlzUvL
+ QDXMMC83SD6EckIzQyzzZx0=
+X-Google-Smtp-Source: ABdhPJwucD7akQ/tnw8vP8nPaWd9jNXlbqPW0NJMhVnTNtmVHQ6xQRx+lfZAL3aql0OTT1YbCXJ56w==
+X-Received: by 2002:a1c:4156:: with SMTP id o83mr4652301wma.178.1609955445810; 
+ Wed, 06 Jan 2021 09:50:45 -0800 (PST)
 Received: from [192.168.1.36] (241.red-88-10-103.dynamicip.rima-tde.net.
  [88.10.103.241])
- by smtp.gmail.com with ESMTPSA id w4sm3789766wmc.13.2021.01.06.09.48.42
+ by smtp.gmail.com with ESMTPSA id j2sm4370063wrh.78.2021.01.06.09.50.44
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 06 Jan 2021 09:48:43 -0800 (PST)
-Subject: Re: [PATCH v2 5/8] hw/mips: Use bl_gen_kernel_jump to generate
- bootloaders
+ Wed, 06 Jan 2021 09:50:45 -0800 (PST)
+Subject: Re: [PATCH v2 0/8] MIPS Bootloader helper
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
 To: Jiaxun Yang <jiaxun.yang@flygoat.com>, qemu-devel@nongnu.org
 References: <20201215064200.28751-1-jiaxun.yang@flygoat.com>
- <20201215064507.30148-2-jiaxun.yang@flygoat.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
-Message-ID: <7dac375f-0cc8-7855-4578-e54b319bd2af@amsat.org>
-Date: Wed, 6 Jan 2021 18:48:42 +0100
+ <f96001e4-5ef4-3d22-5372-45687761a951@amsat.org>
+Message-ID: <720beb63-f1b4-84cc-d1f5-46ac05346bda@amsat.org>
+Date: Wed, 6 Jan 2021 18:50:44 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.6.0
 MIME-Version: 1.0
-In-Reply-To: <20201215064507.30148-2-jiaxun.yang@flygoat.com>
+In-Reply-To: <f96001e4-5ef4-3d22-5372-45687761a951@amsat.org>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::436;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x436.google.com
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::32c;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x32c.google.com
 X-Spam_score_int: -17
 X-Spam_score: -1.8
 X-Spam_bar: -
@@ -90,138 +89,40 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: chenhuacai@kernel.org,
- =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>, paulburton@kernel.org
+Cc: chenhuacai@kernel.org, paulburton@kernel.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-+Alex
-
-On 12/15/20 7:45 AM, Jiaxun Yang wrote:
-> Replace embedded binary with generated code.
+On 1/3/21 9:42 PM, Philippe Mathieu-Daudé wrote:
+> On 12/15/20 7:41 AM, Jiaxun Yang wrote:
+>> v2:
+>> A big reconstruction. rewrite helpers with CPU feature and sepreate
+>> changesets.
+>>
+>> Jiaxun Yang (8):
+>>   hw/mips: Make bootloader addresses unsgined
+>>   hw/mips/malta: Use address translation helper to calculate
+>>     bootloader_run_addr
+>>   hw/mips: Use address translation helper to handle ENVP_ADDR
+>>   hw/mips: Add a bootloader helper
+>>   hw/mips: Use bl_gen_kernel_jump to generate bootloaders
+>>   target/mips/addr: Add translation helpers for KSEG1
+>>   hw/mips/malta: Use bootloader helper to set BAR resgiters
+>>   hw/mips/boston: Use bootloader helper to set GCRs
+>>
+>>  hw/mips/bootloader.c         | 157 ++++++++++++++++++++++++++++++++
+>>  hw/mips/boston.c             |  62 +++----------
+>>  hw/mips/fuloong2e.c          |  48 +++-------
+>>  hw/mips/malta.c              | 171 ++++++++++++-----------------------
+>>  hw/mips/meson.build          |   2 +-
+>>  include/hw/mips/bootloader.h |  48 ++++++++++
+>>  target/mips/addr.c           |  10 ++
+>>  target/mips/cpu.h            |   2 +
+>>  8 files changed, 306 insertions(+), 194 deletions(-)
+>>  create mode 100644 hw/mips/bootloader.c
+>>  create mode 100644 include/hw/mips/bootloader.h
 > 
-> Signed-off-by: Jiaxun Yang <jiaxun.yang@flygoat.com>
-> ---
->  hw/mips/boston.c    | 17 ++---------------
->  hw/mips/fuloong2e.c | 28 ++++------------------------
->  hw/mips/malta.c     | 41 ++++++++++-------------------------------
->  3 files changed, 16 insertions(+), 70 deletions(-)
-> 
-> diff --git a/hw/mips/boston.c b/hw/mips/boston.c
-> index c3b94c68e1..b622222c7d 100644
-> --- a/hw/mips/boston.c
-> +++ b/hw/mips/boston.c
-> @@ -27,6 +27,7 @@
->  #include "hw/ide/ahci.h"
->  #include "hw/loader.h"
->  #include "hw/loader-fit.h"
-> +#include "hw/mips/bootloader.h"
->  #include "hw/mips/cps.h"
->  #include "hw/pci-host/xilinx-pcie.h"
->  #include "hw/qdev-clock.h"
-> @@ -324,21 +325,7 @@ static void gen_firmware(uint32_t *p, hwaddr kernel_entry, hwaddr fdt_addr,
->       * a2/$6 = 0
->       * a3/$7 = 0
->       */
-> -    stl_p(p++, 0x2404fffe);                     /* li   $4, -2 */
-> -                                                /* lui  $5, hi(fdt_addr) */
-> -    stl_p(p++, 0x3c050000 | ((fdt_addr >> 16) & 0xffff));
-> -    if (fdt_addr & 0xffff) {                    /* ori  $5, lo(fdt_addr) */
-> -        stl_p(p++, 0x34a50000 | (fdt_addr & 0xffff));
-> -    }
-> -    stl_p(p++, 0x34060000);                     /* li   $6, 0 */
-> -    stl_p(p++, 0x34070000);                     /* li   $7, 0 */
-> -
-> -    /* Load kernel entry address & jump to it */
-> -                                                /* lui  $25, hi(kernel_entry) */
-> -    stl_p(p++, 0x3c190000 | ((kernel_entry >> 16) & 0xffff));
-> -                                                /* ori  $25, lo(kernel_entry) */
-> -    stl_p(p++, 0x37390000 | (kernel_entry & 0xffff));
-> -    stl_p(p++, 0x03200009);                     /* jr   $25 */
+> Patches 1-3 queued to mips-next.
 
-Eh, no delay slot NOP :)
-
-> +    bl_gen_jump_kernel(&p, 0, (int32_t)-2, fdt_addr, 0, 0, kernel_entry);
->  }
->  
-...
-
-> diff --git a/hw/mips/malta.c b/hw/mips/malta.c
-> index 9afc0b427b..ffd67b8293 100644
-> --- a/hw/mips/malta.c
-> +++ b/hw/mips/malta.c
-> @@ -37,6 +37,7 @@
->  #include "hw/i2c/smbus_eeprom.h"
->  #include "hw/block/flash.h"
->  #include "hw/mips/mips.h"
-> +#include "hw/mips/bootloader.h"
->  #include "hw/mips/cpudevs.h"
->  #include "hw/pci/pci.h"
->  #include "sysemu/sysemu.h"
-> @@ -844,6 +845,7 @@ static void write_bootloader_nanomips(uint8_t *base, uint64_t run_addr,
->  static void write_bootloader(uint8_t *base, uint64_t run_addr,
->                               uint64_t kernel_entry)
->  {
-> +    target_ulong a0;
->      uint32_t *p;
->  
->      /* Small bootloader */
-> @@ -872,30 +874,6 @@ static void write_bootloader(uint8_t *base, uint64_t run_addr,
->      /* Second part of the bootloader */
->      p = (uint32_t *) (base + 0x580);
->  
-> -    if (semihosting_get_argc()) {
-> -        /* Preserve a0 content as arguments have been passed */
-> -        stl_p(p++, 0x00000000);              /* nop */
-> -    } else {
-> -        stl_p(p++, 0x24040002);              /* addiu a0, zero, 2 */
-> -    }
-> -
-> -    /* lui sp, high(ENVP_VADDR) */
-> -    stl_p(p++, 0x3c1d0000 | (((ENVP_VADDR - 64) >> 16) & 0xffff));
-> -    /* ori sp, sp, low(ENVP_VADDR) */
-> -    stl_p(p++, 0x37bd0000 | ((ENVP_VADDR - 64) & 0xffff));
-> -    /* lui a1, high(ENVP_VADDR) */
-> -    stl_p(p++, 0x3c050000 | ((ENVP_VADDR >> 16) & 0xffff));
-> -    /* ori a1, a1, low(ENVP_VADDR) */
-> -    stl_p(p++, 0x34a50000 | (ENVP_VADDR & 0xffff));
-> -    /* lui a2, high(ENVP_VADDR + 8) */
-> -    stl_p(p++, 0x3c060000 | (((ENVP_VADDR + 8) >> 16) & 0xffff));
-> -    /* ori a2, a2, low(ENVP_VADDR + 8) */
-> -    stl_p(p++, 0x34c60000 | ((ENVP_VADDR + 8) & 0xffff));
-> -    /* lui a3, high(ram_low_size) */
-> -    stl_p(p++, 0x3c070000 | (loaderparams.ram_low_size >> 16));
-> -    /* ori a3, a3, low(ram_low_size) */
-> -    stl_p(p++, 0x34e70000 | (loaderparams.ram_low_size & 0xffff));
-> -
->      /* Load BAR registers as done by YAMON */
->      stl_p(p++, 0x3c09b400);                  /* lui t1, 0xb400 */
->  
-> @@ -947,13 +925,14 @@ static void write_bootloader(uint8_t *base, uint64_t run_addr,
->  #endif
->      stl_p(p++, 0xad280088);                  /* sw t0, 0x0088(t1) */
->  
-> -    /* Jump to kernel code */
-> -    stl_p(p++, 0x3c1f0000 |
-> -          ((kernel_entry >> 16) & 0xffff));  /* lui ra, high(kernel_entry) */
-> -    stl_p(p++, 0x37ff0000 |
-> -          (kernel_entry & 0xffff));          /* ori ra, ra, low(kernel_entry) */
-> -    stl_p(p++, 0x03e00009);                  /* jalr ra */
-> -    stl_p(p++, 0x00000000);                  /* nop */
-> +    if (semihosting_get_argc()) {
-> +        a0 = 0;
-
-I never used semihosting with Malta, but it seems you are
-clearing $a0 content.
-
-> +    } else {
-> +        a0 = 2;
-> +    }
-> +    bl_gen_jump_kernel(&p, ENVP_VADDR - 64, a0, ENVP_VADDR,
-> +                       ENVP_VADDR + 8, loaderparams.ram_low_size,
-> +                       kernel_entry);
->  
->      /* YAMON subroutines */
->      p = (uint32_t *) (base + 0x800);
-> 
+Patch 6 queued to mips-next.
 
