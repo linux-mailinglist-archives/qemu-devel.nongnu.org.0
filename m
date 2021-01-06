@@ -2,34 +2,34 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DFAC62EC67E
+	by mail.lfdr.de (Postfix) with ESMTPS id DB4092EC67C
 	for <lists+qemu-devel@lfdr.de>; Thu,  7 Jan 2021 00:03:32 +0100 (CET)
-Received: from localhost ([::1]:37136 helo=lists1p.gnu.org)
+Received: from localhost ([::1]:37118 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kxHpz-0007NF-5T
+	id 1kxHpz-0007Ml-Rb
 	for lists+qemu-devel@lfdr.de; Wed, 06 Jan 2021 18:03:31 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44576)
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44578)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1kxHnP-00060V-GW
+ id 1kxHnP-00060X-My
  for qemu-devel@nongnu.org; Wed, 06 Jan 2021 18:00:51 -0500
-Received: from indium.canonical.com ([91.189.90.7]:57728)
+Received: from indium.canonical.com ([91.189.90.7]:57734)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1kxHnN-0008NA-5k
+ id 1kxHnN-0008NH-8j
  for qemu-devel@nongnu.org; Wed, 06 Jan 2021 18:00:51 -0500
 Received: from loganberry.canonical.com ([91.189.90.37])
  by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1kxHnL-0005Pj-AP
- for <qemu-devel@nongnu.org>; Wed, 06 Jan 2021 23:00:47 +0000
+ id 1kxHnM-0005QO-8b
+ for <qemu-devel@nongnu.org>; Wed, 06 Jan 2021 23:00:48 +0000
 Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 222522E813A
- for <qemu-devel@nongnu.org>; Wed,  6 Jan 2021 23:00:47 +0000 (UTC)
+ by loganberry.canonical.com (Postfix) with ESMTP id 3E0172E8135
+ for <qemu-devel@nongnu.org>; Wed,  6 Jan 2021 23:00:48 +0000 (UTC)
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
-Date: Wed, 06 Jan 2021 22:50:44 -0000
+Date: Wed, 06 Jan 2021 22:51:36 -0000
 From: Snoobz <1909921@bugs.launchpad.net>
 To: qemu-devel@nongnu.org
 X-Launchpad-Notification-Type: bug
@@ -42,7 +42,7 @@ X-Launchpad-Bug-Commenters: ajbennee pmaydell snoobz
 X-Launchpad-Bug-Reporter: Snoobz (snoobz)
 X-Launchpad-Bug-Modifier: Snoobz (snoobz)
 References: <160969474752.18413.12452840655391947769.malonedeb@gac.canonical.com>
-Message-Id: <160997344464.6851.5349844938735741850.malone@wampee.canonical.com>
+Message-Id: <160997349678.5105.8092095699132239402.malone@soybean.canonical.com>
 Subject: [Bug 1909921] Re: Raspberry Pi 4 qemu:handle_cpu_signal received
  signal outside vCPU context @ pc=0xffff87709b0e
 X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
@@ -50,7 +50,7 @@ X-Launchpad-Message-For: qemu-devel-ml
 Precedence: bulk
 X-Generated-By: Launchpad (canonical.com);
  Revision="34b3ffd45c9543b7f7aa5aa313925241e9e7ca3f"; Instance="production"
-X-Launchpad-Hash: e1ef43950c14682d01962fa41a84904d833d6ebc
+X-Launchpad-Hash: 77c42f20b47c526aaf4b2d25eea81b01b759d037
 Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
  helo=indium.canonical.com
 X-Spam_score_int: -65
@@ -75,38 +75,9 @@ Reply-To: Bug 1909921 <1909921@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hello,
-
-If I do as mentionned this command: qemu-i386 -d unimp ./ts3server
-
-I get this output :
-
-2021-01-06 22:45:26.201997|INFO    |ServerLibPriv |   |TeamSpeak 3 Server 3=
-.13.3 (2020-12-16 14:17:05)
-2021-01-06 22:45:26.225836|INFO    |ServerLibPriv |   |SystemInformation: L=
-inux 4.18.0-193.28.1.el7.aarch64 #1 SMP Wed Oct 21 16:25:35 UTC 2020 i686 B=
-inary: 32bit
-2021-01-06 22:45:26.227507|WARNING |ServerLibPriv |   |The system locale is=
- set to "C" this can cause unexpected behavior. We advice you to repair you=
-r locale!
-qemu:handle_cpu_signal received signal outside vCPU context @ pc=3D0xffff81=
-b99b0e
-Trace/breakpoint trap (core dumped)
-
-
-(Forget about the system local WARNING.)
-
-I attached the generated core dumps, if that helps. I don't have other
-logs to add.
-
-Thank you for your help!
-
-Regards,
-
-
-** Attachment added: "core.316"
-   https://bugs.launchpad.net/qemu/+bug/1909921/+attachment/5449850/+files/=
-core.316
+** Attachment added: "core.300"
+   https://bugs.launchpad.net/qemu/+bug/1909921/+attachment/5449851/+files/=
+core.300
 
 -- =
 
