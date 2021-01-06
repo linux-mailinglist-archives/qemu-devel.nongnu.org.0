@@ -2,69 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 79FA62EBD4C
-	for <lists+qemu-devel@lfdr.de>; Wed,  6 Jan 2021 12:44:03 +0100 (CET)
-Received: from localhost ([::1]:59302 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 082CE2EBD8E
+	for <lists+qemu-devel@lfdr.de>; Wed,  6 Jan 2021 13:17:49 +0100 (CET)
+Received: from localhost ([::1]:35574 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kx7EQ-00070f-Dn
-	for lists+qemu-devel@lfdr.de; Wed, 06 Jan 2021 06:44:02 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42110)
+	id 1kx7l5-00055K-Vz
+	for lists+qemu-devel@lfdr.de; Wed, 06 Jan 2021 07:17:48 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33486)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1kx7Cj-0006BZ-FY
- for qemu-devel@nongnu.org; Wed, 06 Jan 2021 06:42:18 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:54258)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1kx7Cf-0008AZ-GA
- for qemu-devel@nongnu.org; Wed, 06 Jan 2021 06:42:15 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1609933331;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=5LX2bFbNgCGFa7fpBNqCtvCfhl6Fk8WgOQf+M/Pchxs=;
- b=UAXPGDb9GycfJPj4/GJcMqqXzPnHRnirAMxu8Ra4ueG/3qtbyinS4pOYvW1mGg8WSZqEE4
- yca4YBIgx17va4kq2mQJnPEWYzpFo49yBy/UqT57o9EtsoBI5Z237iKlUVWg0CCDzc2jRP
- WomhJtMa9qHSy8Z3Jev6HzVkYpptn7g=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-368-_-9-_D7NOwS73aRinS0bDg-1; Wed, 06 Jan 2021 06:42:08 -0500
-X-MC-Unique: _-9-_D7NOwS73aRinS0bDg-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id C8BA38049C0;
- Wed,  6 Jan 2021 11:42:07 +0000 (UTC)
-Received: from localhost.localdomain.com (ovpn-114-197.ams2.redhat.com
- [10.36.114.197])
- by smtp.corp.redhat.com (Postfix) with ESMTP id B570B100AE2E;
- Wed,  6 Jan 2021 11:42:05 +0000 (UTC)
-From: =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH] cirrus: don't run full qtest on macOS
-Date: Wed,  6 Jan 2021 11:41:59 +0000
-Message-Id: <20210106114159.981538-1-berrange@redhat.com>
+ (Exim 4.90_1) (envelope-from <yunextus@gmail.com>)
+ id 1kx4ND-0001Ng-8h
+ for qemu-devel@nongnu.org; Wed, 06 Jan 2021 03:40:55 -0500
+Received: from mail-ej1-x62b.google.com ([2a00:1450:4864:20::62b]:39168)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <yunextus@gmail.com>)
+ id 1kx4N9-0006DB-VM
+ for qemu-devel@nongnu.org; Wed, 06 Jan 2021 03:40:54 -0500
+Received: by mail-ej1-x62b.google.com with SMTP id n26so4012811eju.6
+ for <qemu-devel@nongnu.org>; Wed, 06 Jan 2021 00:40:50 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:from:date:message-id:subject:to;
+ bh=qOIlONhJgGm6BcLwngMuuAp4Lv/EL8TMy5JjHqBftQs=;
+ b=SqbHFz5qWGmrugrE4wqJ+nIOqrbIwtquKdHozU+Y2N46Hpg5vL/Av6VIvAJ8UZEv5g
+ CaS6schObyxK76U/2DopwJgbuiZaFwK70y+Js0B6WEszRsWKdVnv3f4pgMnCMXawln5N
+ UkQsNfgSqPMmYHZED53oq9sW9WrA7HKrXj7j2XxmALqalgsGiwfUWbE/CHx0ttiunM8D
+ ix+n57SGRXSUCERHuLRK9zDAszNa0grQhRz++5xxUczr8ExAMYRbybmD6ldpx5oooF3d
+ frOTmxe7idi9HnkWbf19zvdbXLdZ3pcio0nteKAAH39uWrU4LCoLTU4WCiox30dULLVi
+ bMqw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:from:date:message-id:subject:to;
+ bh=qOIlONhJgGm6BcLwngMuuAp4Lv/EL8TMy5JjHqBftQs=;
+ b=jYaHS2JHuztzIK6Ljcbj9SMPwbAQLlgSSypG/xX9zC0MCr5QPiHqlMqSidOrDkB1yQ
+ bJ9J+7XU1CqsVCz+DGfVKgEUt7PDjFq3B6qW8orx9Jy1wMsbf9RDq+4s8/xL7c65sqHp
+ KvW3OD9CggT6SCQYD0/YhMB8Hc3HaDzuzsI4hhl9nc5sJDZq/raN591K/5y7v3BzgtFA
+ IIyC1438OvMlnX5OLQ7FzB2P8O8OeTZcAm7HRKOeTfOP9wPqjVpErVOO63bvrQm/zzk0
+ 6N9O5vEKWV74OSSL+Nw4iswNKDbOe2tBxQ24Rnu6jH0adykrzNCPvpfsVyChYIyzxfn2
+ XW8g==
+X-Gm-Message-State: AOAM533a+qG0GVPbkhMoWqLvfOK1pdvGBpa4kB5hLEqMiPt50h8+zLZZ
+ qHksrcjzozqwP/sZ2uXyjWSPxqPqIwm3NAsSWM10mQLfffHl/A==
+X-Google-Smtp-Source: ABdhPJyGd9OXizsVfqrjSQltxAo49izoaunhpiMIeIGpOfDcTBaSuJ7/TS/ybs7TzU5Ng78l43Ih3kh5cVrdTOg60xU=
+X-Received: by 2002:a17:906:b106:: with SMTP id
+ u6mr1258405ejy.313.1609922448781; 
+ Wed, 06 Jan 2021 00:40:48 -0800 (PST)
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=berrange@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=berrange@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -29
-X-Spam_score: -3.0
-X-Spam_bar: ---
-X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.252,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+From: Yu Nexus <yunextus@gmail.com>
+Date: Wed, 6 Jan 2021 09:40:38 +0100
+Message-ID: <CABUrspJpXkNeT0=n10Vkd1xDUgE1QAUyBbLfcGv9QdnYg6DqTQ@mail.gmail.com>
+Subject: MTE support inside QEMU?
+To: qemu-devel@nongnu.org
+Content-Type: multipart/alternative; boundary="000000000000acf62105b8374755"
+Received-SPF: pass client-ip=2a00:1450:4864:20::62b;
+ envelope-from=yunextus@gmail.com; helo=mail-ej1-x62b.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
+X-Mailman-Approved-At: Wed, 06 Jan 2021 07:14:24 -0500
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -76,85 +75,27 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Thomas Huth <thuth@redhat.com>, Ed Maste <emaste@freebsd.org>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
- =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
- =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
- Li-Wen Hsu <lwhsu@freebsd.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The Cirrus CI macOS build hosts have exhibited a serious performance
-degradation in recent months. For example the "qom-test" qtest takes
-over an hour for only the qemu-system-aarch64 binary. This is as much
-20-40 times slower than other environments. The other qtests all show
-similar performance degradation, as do many of the unit tests.
+--000000000000acf62105b8374755
+Content-Type: text/plain; charset="UTF-8"
 
-This does not appear related to QEMU code changes, since older git
-commits which were known to fully complete in less than 1 hour on
-Cirrus CI now also show similar bad performance. Either Cirrus CI
-performance has degraded, or an change in its environment has exposed
-a latent bug widely affecting all of QEMU. Debugging the qom-test
-showed no easily identified large bottleneck - every step of the
-test execution was simply slower.
+Is there full support for ARMv8.5 Memory Tagging Extensions (MTE) inside
+QEMU?
+So is this MTE example code supposed to work inside QEMU?
+https://www.kernel.org/doc/html/latest/arm64/memory-tagging-extension.html
 
-macOS builds/tests run outside Cirrus CI show normal performance.
+--000000000000acf62105b8374755
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-With an inability to identify any obvious problem, the only viable
-way to get a reliably completing Cirrus CI macOS job is to cut out
-almost all of the qtests. We choose to run the x86_64 target only,
-since that has very few machine types and thus is least badly
-impacted in the qom-test execution.
+<div dir=3D"ltr"><div dir=3D"ltr"><div dir=3D"ltr">Is there full support fo=
+r ARMv8.5 Memory Tagging Extensions (MTE) inside QEMU?<br></div><div dir=3D=
+"ltr">So is this MTE example code supposed to work inside QEMU? <a href=3D"=
+https://www.kernel.org/doc/html/latest/arm64/memory-tagging-extension.html"=
+>https://www.kernel.org/doc/html/latest/arm64/memory-tagging-extension.html=
+</a><br></div></div></div>
 
-With this change, the macOS jobs complete in approx 35 minutes.
-
-Signed-off-by: Daniel P. Berrangé <berrange@redhat.com>
----
- .cirrus.yml | 14 ++++++++++----
- 1 file changed, 10 insertions(+), 4 deletions(-)
-
-diff --git a/.cirrus.yml b/.cirrus.yml
-index 62a9b57530..3907e036da 100644
---- a/.cirrus.yml
-+++ b/.cirrus.yml
-@@ -18,7 +18,6 @@ freebsd_12_task:
-     - gmake -j$(sysctl -n hw.ncpu) check V=1
- 
- macos_task:
--  timeout_in: 90m
-   osx_instance:
-     image: catalina-base
-   install_script:
-@@ -30,10 +29,13 @@ macos_task:
-                    --extra-cflags='-Wno-error=deprecated-declarations'
-                    || { cat config.log meson-logs/meson-log.txt; exit 1; }
-     - gmake -j$(sysctl -n hw.ncpu)
--    - gmake check V=1
-+    - gmake check-unit V=1
-+    - gmake check-block V=1
-+    - gmake check-qapi-schema V=1
-+    - gmake check-softfloat V=1
-+    - gmake check-qtest-x86_64 V=1
- 
- macos_xcode_task:
--  timeout_in: 90m
-   osx_instance:
-     # this is an alias for the latest Xcode
-     image: catalina-xcode
-@@ -45,7 +47,11 @@ macos_xcode_task:
-     - ../configure --extra-cflags='-Wno-error=deprecated-declarations' --enable-modules
-                    --enable-werror --cc=clang || { cat config.log meson-logs/meson-log.txt; exit 1; }
-     - gmake -j$(sysctl -n hw.ncpu)
--    - gmake check V=1
-+    - gmake check-unit V=1
-+    - gmake check-block V=1
-+    - gmake check-qapi-schema V=1
-+    - gmake check-softfloat V=1
-+    - gmake check-qtest-x86_64 V=1
- 
- windows_msys2_task:
-   timeout_in: 90m
--- 
-2.29.2
-
+--000000000000acf62105b8374755--
 
