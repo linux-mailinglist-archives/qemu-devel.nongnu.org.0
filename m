@@ -2,73 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DB1422EC2C1
-	for <lists+qemu-devel@lfdr.de>; Wed,  6 Jan 2021 18:52:19 +0100 (CET)
-Received: from localhost ([::1]:50236 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7EE4B2EC2D8
+	for <lists+qemu-devel@lfdr.de>; Wed,  6 Jan 2021 18:57:54 +0100 (CET)
+Received: from localhost ([::1]:54228 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kxCyo-0006CT-Ui
-	for lists+qemu-devel@lfdr.de; Wed, 06 Jan 2021 12:52:18 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45554)
+	id 1kxD4D-0008JK-3y
+	for lists+qemu-devel@lfdr.de; Wed, 06 Jan 2021 12:57:53 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46694)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1kxCxM-0005ju-Qn
- for qemu-devel@nongnu.org; Wed, 06 Jan 2021 12:50:48 -0500
-Received: from mail-wm1-x32c.google.com ([2a00:1450:4864:20::32c]:40456)
+ id 1kxD2J-0007Qi-Ot
+ for qemu-devel@nongnu.org; Wed, 06 Jan 2021 12:55:55 -0500
+Received: from mail-wr1-x42d.google.com ([2a00:1450:4864:20::42d]:33611)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1kxCxL-00052F-DJ
- for qemu-devel@nongnu.org; Wed, 06 Jan 2021 12:50:48 -0500
-Received: by mail-wm1-x32c.google.com with SMTP id r4so3327408wmh.5
- for <qemu-devel@nongnu.org>; Wed, 06 Jan 2021 09:50:47 -0800 (PST)
+ id 1kxD2I-0005jx-DF
+ for qemu-devel@nongnu.org; Wed, 06 Jan 2021 12:55:55 -0500
+Received: by mail-wr1-x42d.google.com with SMTP id t30so3243512wrb.0
+ for <qemu-devel@nongnu.org>; Wed, 06 Jan 2021 09:55:54 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:subject:from:to:cc:references:message-id:date:user-agent
+ h=sender:subject:to:cc:references:from:message-id:date:user-agent
  :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=7iWnIi51Qx0vRpypwG7rAsWRDntKJ/lEFRKdx5h41HQ=;
- b=gZqLnmFvb3Wk5wYDprgGntssCL0int4dEI0UBLxjd09b4n5DV2KU5zXYaHfC6Nxl6C
- HUWXQh0eM0kKgwwFzVcaOrWnRmLCuu0DakbMPa5BqEhUZ89uHM0krWXcFL+YMEztKUoM
- z3/odoxnTDvF0Fy5bvGfmsxRXLJSK3Hwvef1YO4bIAr2Ve1qO0dNGXO5VUckVoLkGqlj
- GJr7+Vg1sbn4UYiygYBm6JdmWblrBTQgYL09y15X4BbwA+vT2YEoetLX3yOvAIStr/Am
- igblV6qK308VbKyDZ4qxAdK6oWDYwRjypM8RfECiT8lHE14TUIUpT1srL2OeOHK/MklM
- 2eKw==
+ bh=j7Hm7dV+k0yTsk8QCAftNXZ6fPPCozd8njuJWtLMIsU=;
+ b=LojxKohkKvXrIHoU95ki+Zc/Aae/TCf9H2FN6g23TzvokS86NkRCJw7QGlmJ+Cdtko
+ mHNlIgkDqzzcsdUpKbklhQL4Jwpsl+uNX3E8zVGFIT8oIg/wZoZD7D88VFrLZIT5sbkY
+ aN+p4s4CEcm3c/cANOQl8H6Y+6wmVXriPFHjffPcaReqeGf9DdUM58cgnEQQyCwlEfRG
+ aakrQhxP5OxnOqJwN3dPlzluzqvPjNcxC4TOaAfBnetxTTX76K1wGHvGvgCepUhUSU9+
+ dsdxsTOJYApFRsu+wFPB3KgY4t+7AlkoSsR1/dsI9cviROxPwKte7eASqfrwPcGfBpHV
+ a4KA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:subject:from:to:cc:references:message-id
+ h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
  :date:user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=7iWnIi51Qx0vRpypwG7rAsWRDntKJ/lEFRKdx5h41HQ=;
- b=StqKIK37mleIWPPW39iBBN1eW/Fip8Yc7Y9nRMEyR9H9zhYhpSyMJMwOuCwpYFAFvl
- BFboU5fOw8cxhhPqVenhGBkVm8CiUdGPyKHxzLHVDsjOYuTwbJ/DQdJfAVtHbO8UIkBW
- LDvM08xOZuAYBO41z6+hsASHXy/AlDtxgTGDzBkNQF0DMjZwmb8bqNa8V6xVwaTxI8Cx
- wNqB5EQqyYqv2PuX76TD+PyUM5y8qW92XbWA+ZqFb4QH6nWSR6LFssGJ75EL5E0ScVzt
- iyZlACG2KFJG6d1ZRGksTQNCFydQSWZ+/RM9HMWLSMGH5RSpBZORPMNGGOd+1J8gh3J1
- 5abw==
-X-Gm-Message-State: AOAM531ApVUVHYvXUJf+uHllKyWBw4P5iwEgypEQacLP0jryxUzlzUvL
- QDXMMC83SD6EckIzQyzzZx0=
-X-Google-Smtp-Source: ABdhPJwucD7akQ/tnw8vP8nPaWd9jNXlbqPW0NJMhVnTNtmVHQ6xQRx+lfZAL3aql0OTT1YbCXJ56w==
-X-Received: by 2002:a1c:4156:: with SMTP id o83mr4652301wma.178.1609955445810; 
- Wed, 06 Jan 2021 09:50:45 -0800 (PST)
+ bh=j7Hm7dV+k0yTsk8QCAftNXZ6fPPCozd8njuJWtLMIsU=;
+ b=XZaLaXEHzkq1UUKAwd4M+TWBZ4yVNDR2pl6O3/tSmlbJ40p0N/mspJZDp90xyhFUPH
+ yBo0gTphNwRUjOBEko9DMwgAemOMGI/xufXsJioOaFSjZ8Cmk7jA/+UJDgUYuLAtiyD4
+ lIk1NiiKlkcjxNYbVa7To+DqCfmBEQhdEbITOWb8TNlYWwAX01RlVjN/Zq4Gb+8tL2mY
+ xhXx0IEZ4/Jel/YAgvttb88/NE4BP2FJemq3uwejJKvkPaP18ywNDcuC+AQZMkfJhdSq
+ g95gV3DUZrJ7oziHv1RSOz/ts1zpltE/IB0vhLyEuIqhu8AnpCwhj1nzNozGn6gmj4Hd
+ vLOQ==
+X-Gm-Message-State: AOAM530aJISGVgWXwFj0ITqF5RVrWMkHgpzCLKD6SQbv82xzX4V1GAUn
+ dOgt1iZ/NrA2DNXuY1XKffA=
+X-Google-Smtp-Source: ABdhPJwjkpkumAjhsxWSievMnYPeODFBviziMbM/+ZnVU7uvFcLFqEYw7SdQHsVM7rhlwgWYQhbs2Q==
+X-Received: by 2002:a5d:4bc2:: with SMTP id l2mr5458312wrt.204.1609955753061; 
+ Wed, 06 Jan 2021 09:55:53 -0800 (PST)
 Received: from [192.168.1.36] (241.red-88-10-103.dynamicip.rima-tde.net.
  [88.10.103.241])
- by smtp.gmail.com with ESMTPSA id j2sm4370063wrh.78.2021.01.06.09.50.44
+ by smtp.gmail.com with ESMTPSA id j13sm3772885wmi.36.2021.01.06.09.55.51
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 06 Jan 2021 09:50:45 -0800 (PST)
-Subject: Re: [PATCH v2 0/8] MIPS Bootloader helper
+ Wed, 06 Jan 2021 09:55:52 -0800 (PST)
+Subject: Re: [PATCH v3 04/15] target/mips/mips-defs: Introduce CPU_MIPS64 and
+ cpu_type_is_64bit()
+To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org,
+ Jiaxun Yang <jiaxun.yang@flygoat.com>
+References: <20210104221154.3127610-1-f4bug@amsat.org>
+ <20210104221154.3127610-5-f4bug@amsat.org>
+ <aee2c3f4-f4b0-1d1a-2029-3c027d6cd724@linaro.org>
+ <f351074a-e63e-f39a-c807-9250deca9c39@amsat.org>
+ <d8cdb54c-bfd5-1ade-090a-7ad15974a302@amsat.org>
+ <c82fd319-4cac-f2f8-729b-5edf8b5fd624@linaro.org>
 From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
-To: Jiaxun Yang <jiaxun.yang@flygoat.com>, qemu-devel@nongnu.org
-References: <20201215064200.28751-1-jiaxun.yang@flygoat.com>
- <f96001e4-5ef4-3d22-5372-45687761a951@amsat.org>
-Message-ID: <720beb63-f1b4-84cc-d1f5-46ac05346bda@amsat.org>
-Date: Wed, 6 Jan 2021 18:50:44 +0100
+Message-ID: <5b80353a-f9bb-65b6-5bd5-b030be9a11f0@amsat.org>
+Date: Wed, 6 Jan 2021 18:55:50 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.6.0
 MIME-Version: 1.0
-In-Reply-To: <f96001e4-5ef4-3d22-5372-45687761a951@amsat.org>
+In-Reply-To: <c82fd319-4cac-f2f8-729b-5edf8b5fd624@linaro.org>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::32c;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x32c.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::42d;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x42d.google.com
 X-Spam_score_int: -17
 X-Spam_score: -1.8
 X-Spam_bar: -
@@ -89,40 +95,24 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: chenhuacai@kernel.org, paulburton@kernel.org
+Cc: Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>,
+ Aurelien Jarno <aurelien@aurel32.net>, Paul Burton <paulburton@kernel.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 1/3/21 9:42 PM, Philippe Mathieu-Daudé wrote:
-> On 12/15/20 7:41 AM, Jiaxun Yang wrote:
->> v2:
->> A big reconstruction. rewrite helpers with CPU feature and sepreate
->> changesets.
->>
->> Jiaxun Yang (8):
->>   hw/mips: Make bootloader addresses unsgined
->>   hw/mips/malta: Use address translation helper to calculate
->>     bootloader_run_addr
->>   hw/mips: Use address translation helper to handle ENVP_ADDR
->>   hw/mips: Add a bootloader helper
->>   hw/mips: Use bl_gen_kernel_jump to generate bootloaders
->>   target/mips/addr: Add translation helpers for KSEG1
->>   hw/mips/malta: Use bootloader helper to set BAR resgiters
->>   hw/mips/boston: Use bootloader helper to set GCRs
->>
->>  hw/mips/bootloader.c         | 157 ++++++++++++++++++++++++++++++++
->>  hw/mips/boston.c             |  62 +++----------
->>  hw/mips/fuloong2e.c          |  48 +++-------
->>  hw/mips/malta.c              | 171 ++++++++++++-----------------------
->>  hw/mips/meson.build          |   2 +-
->>  include/hw/mips/bootloader.h |  48 ++++++++++
->>  target/mips/addr.c           |  10 ++
->>  target/mips/cpu.h            |   2 +
->>  8 files changed, 306 insertions(+), 194 deletions(-)
->>  create mode 100644 hw/mips/bootloader.c
->>  create mode 100644 include/hw/mips/bootloader.h
+On 1/5/21 5:01 PM, Richard Henderson wrote:
+> On 1/5/21 12:05 AM, Philippe Mathieu-Daudé wrote:
+>> I'm not sure it is worth the effort, as I plan to check each ISA /
+>> ASE bit from the CP0_ConfigX bits (similarly target/arm/ does), so
+>> these definitions should disappear eventually.
 > 
-> Patches 1-3 queued to mips-next.
+> Excellent.
+> 
+>> Might I keep your R-b tag for this patch (eventually improving the
+>> commit description with some of the info added in this mail) and
+>> keep going?
+> 
+> Yes.
 
-Patch 6 queued to mips-next.
+Thanks :)
 
