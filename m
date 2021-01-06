@@ -2,72 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AE7552EB9AE
-	for <lists+qemu-devel@lfdr.de>; Wed,  6 Jan 2021 06:57:26 +0100 (CET)
-Received: from localhost ([::1]:57422 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CDCC22EB9AC
+	for <lists+qemu-devel@lfdr.de>; Wed,  6 Jan 2021 06:57:20 +0100 (CET)
+Received: from localhost ([::1]:56900 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kx1oz-0006eR-Oj
-	for lists+qemu-devel@lfdr.de; Wed, 06 Jan 2021 00:57:25 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37044)
+	id 1kx1ot-0006RZ-TM
+	for lists+qemu-devel@lfdr.de; Wed, 06 Jan 2021 00:57:19 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37064)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
- id 1kx1nJ-0004qr-1q; Wed, 06 Jan 2021 00:55:41 -0500
-Received: from mail-pj1-x102f.google.com ([2607:f8b0:4864:20::102f]:33692)
+ id 1kx1nM-0004wo-FO; Wed, 06 Jan 2021 00:55:44 -0500
+Received: from mail-pl1-x62d.google.com ([2607:f8b0:4864:20::62d]:36182)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
- id 1kx1nH-0004wr-G7; Wed, 06 Jan 2021 00:55:40 -0500
-Received: by mail-pj1-x102f.google.com with SMTP id w1so2079345pjc.0;
- Tue, 05 Jan 2021 21:55:38 -0800 (PST)
+ id 1kx1nK-0004yK-VT; Wed, 06 Jan 2021 00:55:44 -0500
+Received: by mail-pl1-x62d.google.com with SMTP id j1so1027563pld.3;
+ Tue, 05 Jan 2021 21:55:42 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=co4+01plcMDklfphwAUe6tgXN/qjYqocNNI7W6fX0o0=;
- b=IW8lIzrWPDZ/GaEqerBofB4OlYuHwNBcjR8scFo3+QL+1R2ruSMIM06DhthcCQj7q4
- M8NUtadAefO1Ncsvq5KVizMWjJ8StnvGsItRmpLQwjpO3pvk03XtebOdyfpw33c1RXOm
- D4PU98TgI3ztsmVoSFpnRoTTTzs39JkXPy2ZvVp9h6P8zLRmRFtNWTyLZAgWWlct5Dtb
- hsRR2pfIqe+HYlOm75xi2XA4LjlSOK5mMoYyB9k+swBANwUQrRtnpX2JZaK2jeKzhtCf
- QCVXzAt9Dlpc/sSWrO8BMwbbchCFzsmTqKvngFk03zvubiT1pRPT9M5u4SX4DoFsmzs/
- E6zA==
+ bh=fkbY38y+uyqMVcJivAUjLwtmcJVovS8vLBnCWge6hes=;
+ b=eVrb6lgnNaInpxjmsSVwlQNsZ1o2CtyuAf/BCDootbP+PO2/JTMNeCwjwxLrhF+MZ2
+ 9qGpEiZFNAkHDYrTiV/uCTenkQfS7xhi8f/NUIIFhWHKyEbMj2NUOvImD1cWKF8Pi9OM
+ S8ffDi8cVcUpFbksaW4WAnQuFwTBugVHUtCi4vQqyaq6GsoUbxQnqnSbLYWEXS0tP1SM
+ N0j13l6oTrQwKoeZUFyzDPl3km5nLeBX7wY1zPsMefXpKJUIfpqWkAqDHK2f3YDkKjTv
+ feCM24AWhvF19W8xI868fIt4ssmkEnJBGXYbCQ7mFkeXWaI2eyx9HjeFD55sZmGuiGg6
+ PppA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=co4+01plcMDklfphwAUe6tgXN/qjYqocNNI7W6fX0o0=;
- b=iQzFtmc4sAkBnv/15vGYPFnqV+06cA3g+B6c5G2lJ72Q/O51PHXz9bUxDnIdHgJpjf
- Nz7/vUjOwu7c2GncJmxVGVavOxPa7PLRxck0Pz41qsVJXuyn2+UYD9z2ZNCNhuSy4Jw/
- 05yvg0Yp7j4t4lPyr7Vx9l1O1hn5x7UBA4RUg6rUcVEBjFFo8cXOsG/8Pgxg5PUuId70
- inCGIR/X9Wue/w/+7gsGKK+mxNad37qBcVEhjWBCdzr9OvMwIK5Uak2ANMq/mMOb/1BC
- Jb+eXvtSWOF/yxzB+21snXXVNTuqN0LhMQrsB3Y9ptCRAh19HP532ci7mllm6na+GfQM
- rgYw==
-X-Gm-Message-State: AOAM532ngqePDlPP63d61j9PwAGDozi1DTZYELmCC8s597LuxcL3LUgA
- MVBXdStMhKUQ5otsnDiFULc=
-X-Google-Smtp-Source: ABdhPJw6F9VXUvAHFJqJTUcvRG6mBlP0+eiaH4PtqPZRNLoEVfIrc29rFlZFQkldFg8iW5wQayYq6A==
-X-Received: by 2002:a17:902:521:b029:dc:2836:ec17 with SMTP id
- 30-20020a1709020521b02900dc2836ec17mr2604978plf.47.1609912537840; 
- Tue, 05 Jan 2021 21:55:37 -0800 (PST)
+ bh=fkbY38y+uyqMVcJivAUjLwtmcJVovS8vLBnCWge6hes=;
+ b=dx/Tkgp281audj/2mQvecy15IBp+YIfbED1NBcdkvj/w1lYo4Uw277YuvYrYuxyOpF
+ qb5GBlteHUpu1ZDf8rd3YtKnLWH1m5UWgUluRhUb1Biul6b397uA6EbV+L4I9SuRVN9b
+ ggePiUm+tmWr1JcSmnDfeGpdNKqPzaIIiXYSfxZpYrzuZlOmmH1a3ULatLDvUL4GavP8
+ 3+1RSgSYlC/6zAei9YJPwfFygCEqMW1Umv3Sj/JfbRZdjz2Lecf6IAkiPeYcVbzEHzGk
+ iYWLZ0KMoa6hnsYhMp6FuJhz4Y0UH52dgkNo1JpbPopjOhg/+9piQbLWnD46IC1R1BVq
+ K3vQ==
+X-Gm-Message-State: AOAM530Qy1FfuYM0FHqfwVm38Oo7dpa+PApYnc2uRzYp6mhNlj5uiCCE
+ tYiNrvQBJn+/1Tv5dvLDWVo=
+X-Google-Smtp-Source: ABdhPJxYZnj7tVNylIrzYeSHjUiFJZnK+UTbLh7NPCH3VUxkf2D315TaE29yhnE0ywsVyME68o6sAg==
+X-Received: by 2002:a17:902:16b:b029:dc:4ca1:f5fc with SMTP id
+ 98-20020a170902016bb02900dc4ca1f5fcmr2758401plb.26.1609912541328; 
+ Tue, 05 Jan 2021 21:55:41 -0800 (PST)
 Received: from i9-aorus-gtx1080.localdomain (144.168.56.201.16clouds.com.
  [144.168.56.201])
- by smtp.gmail.com with ESMTPSA id c62sm1070503pfa.116.2021.01.05.21.55.33
+ by smtp.gmail.com with ESMTPSA id c62sm1070503pfa.116.2021.01.05.21.55.38
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 05 Jan 2021 21:55:37 -0800 (PST)
+ Tue, 05 Jan 2021 21:55:40 -0800 (PST)
 From: Bin Meng <bmeng.cn@gmail.com>
 To: Peter Maydell <peter.maydell@linaro.org>,
  Jean-Christophe Dubois <jcd@tribudubois.net>,
  Alistair Francis <alistair.francis@wdc.com>,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
  qemu-arm@nongnu.org, qemu-devel@nongnu.org
-Subject: [PATCH v2 1/4] hw/ssi: imx_spi: Use a macro for number of chip
- selects supported
-Date: Wed,  6 Jan 2021 13:55:19 +0800
-Message-Id: <20210106055522.2031-2-bmeng.cn@gmail.com>
+Subject: [PATCH v2 2/4] hw/ssi: imx_spi: Disable chip selects in
+ imx_spi_reset()
+Date: Wed,  6 Jan 2021 13:55:20 +0800
+Message-Id: <20210106055522.2031-3-bmeng.cn@gmail.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20210106055522.2031-1-bmeng.cn@gmail.com>
 References: <20210106055522.2031-1-bmeng.cn@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::102f;
- envelope-from=bmeng.cn@gmail.com; helo=mail-pj1-x102f.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::62d;
+ envelope-from=bmeng.cn@gmail.com; helo=mail-pl1-x62d.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -87,69 +87,54 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Bin Meng <bin.meng@windriver.com>
+Cc: Xuzhou Cheng <xuzhou.cheng@windriver.com>,
+ Bin Meng <bin.meng@windriver.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Bin Meng <bin.meng@windriver.com>
+From: Xuzhou Cheng <xuzhou.cheng@windriver.com>
 
-Avoid using a magic number (4) everywhere for the number of chip
-selects supported.
+When a write to ECSPI_CONREG register to disable the SPI controller,
+imx_spi_reset() is called to reset the controller, during which CS
+lines should have been disabled, otherwise the state machine of any
+devices (e.g.: SPI flashes) connected to the SPI master is stuck to
+its last state and responds incorrectly to any follow-up commands.
 
+Fixes: c906a3a01582 ("i.MX: Add the Freescale SPI Controller")
+Signed-off-by: Xuzhou Cheng <xuzhou.cheng@windriver.com>
 Signed-off-by: Bin Meng <bin.meng@windriver.com>
-Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
+Acked-by: Alistair Francis <alistair.francis@wdc.com>
+
 ---
 
-(no changes since v1)
+Changes in v2:
+- Fix the "Fixes" tag in the commit message
 
- include/hw/ssi/imx_spi.h | 5 ++++-
- hw/ssi/imx_spi.c         | 4 ++--
- 2 files changed, 6 insertions(+), 3 deletions(-)
+ hw/ssi/imx_spi.c | 5 +++++
+ 1 file changed, 5 insertions(+)
 
-diff --git a/include/hw/ssi/imx_spi.h b/include/hw/ssi/imx_spi.h
-index b82b17f364..eeaf49bbac 100644
---- a/include/hw/ssi/imx_spi.h
-+++ b/include/hw/ssi/imx_spi.h
-@@ -77,6 +77,9 @@
- 
- #define EXTRACT(value, name) extract32(value, name##_SHIFT, name##_LENGTH)
- 
-+/* number of chip selects supported */
-+#define ECSPI_NUM_CS 4
-+
- #define TYPE_IMX_SPI "imx.spi"
- OBJECT_DECLARE_SIMPLE_TYPE(IMXSPIState, IMX_SPI)
- 
-@@ -89,7 +92,7 @@ struct IMXSPIState {
- 
-     qemu_irq irq;
- 
--    qemu_irq cs_lines[4];
-+    qemu_irq cs_lines[ECSPI_NUM_CS];
- 
-     SSIBus *bus;
- 
 diff --git a/hw/ssi/imx_spi.c b/hw/ssi/imx_spi.c
-index d8885ae454..e605049a21 100644
+index e605049a21..85c172e815 100644
 --- a/hw/ssi/imx_spi.c
 +++ b/hw/ssi/imx_spi.c
-@@ -361,7 +361,7 @@ static void imx_spi_write(void *opaque, hwaddr offset, uint64_t value,
+@@ -231,6 +231,7 @@ static void imx_spi_flush_txfifo(IMXSPIState *s)
+ static void imx_spi_reset(DeviceState *dev)
+ {
+     IMXSPIState *s = IMX_SPI(dev);
++    int i;
  
-             /* We are in master mode */
+     DPRINTF("\n");
  
--            for (i = 0; i < 4; i++) {
-+            for (i = 0; i < ECSPI_NUM_CS; i++) {
-                 qemu_set_irq(s->cs_lines[i],
-                              i == imx_spi_selected_channel(s) ? 0 : 1);
-             }
-@@ -424,7 +424,7 @@ static void imx_spi_realize(DeviceState *dev, Error **errp)
-     sysbus_init_mmio(SYS_BUS_DEVICE(dev), &s->iomem);
-     sysbus_init_irq(SYS_BUS_DEVICE(dev), &s->irq);
+@@ -243,6 +244,10 @@ static void imx_spi_reset(DeviceState *dev)
  
--    for (i = 0; i < 4; ++i) {
-+    for (i = 0; i < ECSPI_NUM_CS; ++i) {
-         sysbus_init_irq(SYS_BUS_DEVICE(dev), &s->cs_lines[i]);
-     }
+     imx_spi_update_irq(s);
+ 
++    for (i = 0; i < ECSPI_NUM_CS; i++) {
++        qemu_set_irq(s->cs_lines[i], 1);
++    }
++
+     s->burst_length = 0;
+ }
  
 -- 
 2.25.1
