@@ -2,70 +2,84 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 00E2F2EC1BA
-	for <lists+qemu-devel@lfdr.de>; Wed,  6 Jan 2021 18:07:51 +0100 (CET)
-Received: from localhost ([::1]:45404 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 27CF42EC1D2
+	for <lists+qemu-devel@lfdr.de>; Wed,  6 Jan 2021 18:12:11 +0100 (CET)
+Received: from localhost ([::1]:60924 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kxCHl-0002US-As
-	for lists+qemu-devel@lfdr.de; Wed, 06 Jan 2021 12:07:49 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33880)
+	id 1kxCLy-00017l-7v
+	for lists+qemu-devel@lfdr.de; Wed, 06 Jan 2021 12:12:10 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34216)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1kxCCT-0006Ah-CH
- for qemu-devel@nongnu.org; Wed, 06 Jan 2021 12:02:22 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:30146)
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1kxCDL-0006yJ-KT
+ for qemu-devel@nongnu.org; Wed, 06 Jan 2021 12:03:18 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:25433)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1kxCCP-0005Sn-0U
- for qemu-devel@nongnu.org; Wed, 06 Jan 2021 12:02:20 -0500
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1kxCDI-0005c7-Pc
+ for qemu-devel@nongnu.org; Wed, 06 Jan 2021 12:03:15 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1609952533;
+ s=mimecast20190719; t=1609952591;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=ehrLtNBTNRbeo/Y70jedK8fZnXOpc2+Da3hK5em4AC4=;
- b=BEeKwjKIuThmHkgQ1m71q5fpYEiQ2dHdmC3OopfRpml5oYtEcQcb1Sg1/iF3ZK5fFWsVi3
- +byJHqAd6nWC7hS6je+1H/0ja1KgqCvtzQ6we21NEYiamga05icNxgCGs8rXuMlqHaq3rt
- +TM2b4Ha/TNEgnAaTxa+M9buERkd14s=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-206-qqizzyyzNxCGqwJRVGUQww-1; Wed, 06 Jan 2021 12:02:11 -0500
-X-MC-Unique: qqizzyyzNxCGqwJRVGUQww-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 19D54190A7A1;
- Wed,  6 Jan 2021 17:02:10 +0000 (UTC)
-Received: from localhost (ovpn-113-208.ams2.redhat.com [10.36.113.208])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 694641002393;
- Wed,  6 Jan 2021 17:02:06 +0000 (UTC)
-Date: Wed, 6 Jan 2021 17:02:05 +0000
-From: Stefan Hajnoczi <stefanha@redhat.com>
-To: Keqian Zhu <zhukeqian1@huawei.com>
-Subject: Re: [PATCH v2] Docs/RCU: Correct sample code of qatomic_rcu_set
-Message-ID: <20210106170205.GA133350@stefanha-x1.localdomain>
-References: <20210106071710.15836-1-zhukeqian1@huawei.com>
+ bh=skBr7it1EoVDW3QeqGwHIJI+a8y1yVpi79E9v2Ix7S8=;
+ b=RmJsSURWyJy8UD3Fw9TNH4s5kXAeq0mIlHZmsxDjPB4j1ZgQIhnRF12yGeFdzUfSa28vpH
+ t4GlSbwBTu2wgatSs+Xf/dFrO+yUt849+3o9pge+pK9Cc3q1t/pXlQWXyvyehOwN+kekzM
+ wdCG89UqFoJYvBFTEA95Uvs75w3PWJk=
+Received: from mail-pf1-f200.google.com (mail-pf1-f200.google.com
+ [209.85.210.200]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-38-WEewOxHYNX--OcHlbOBD7g-1; Wed, 06 Jan 2021 12:03:09 -0500
+X-MC-Unique: WEewOxHYNX--OcHlbOBD7g-1
+Received: by mail-pf1-f200.google.com with SMTP id l17so2030886pff.17
+ for <qemu-devel@nongnu.org>; Wed, 06 Jan 2021 09:03:09 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=skBr7it1EoVDW3QeqGwHIJI+a8y1yVpi79E9v2Ix7S8=;
+ b=XJnmvA7bTpHTIzCERyZnP5xQTnbx/D6CJB0Ei58GuTiudxIXcyb0MAThgURsxkgoyy
+ X1HUChF0t/8y68nF4+S9aFv4FnoWCV/nFhA0amsW6yWVN4S/XiOlMiB8hrz9GHvTgqSn
+ uuNKtbPi/LvnzYeEQbxDd7YnDSdC/8tteumESaHnlruasX6L9AxnApXAsRo8/WUNBWL9
+ baXdtW8DINuK8FXcp4Tirhm0TRVn7ORbjJB2xzGqguQydnQpQJoHIB/grsL11H2cK8dN
+ XSJeMLIcVAysg29otqF95aui9nut9iFCEG+4q73MsXWE+DgrRzdsM8EsuB/C7Y+NAEkP
+ 4r9A==
+X-Gm-Message-State: AOAM533dV/deSOBn77ryAom3s+DTUCYUqmsJ/vOsWgCe4GsCOJ1iHA3y
+ oscUqUPyDL1C9wrVqYAkgo5pPIkFtnxP1H4tL9P2BaWNj9xtAlewP0KnvjOWbz1sAb7mmAkoR44
+ Zabcu9xHKxmXEQA4VFEvblARGrxVxoTk=
+X-Received: by 2002:aa7:9388:0:b029:19e:648:6480 with SMTP id
+ t8-20020aa793880000b029019e06486480mr4786085pfe.21.1609952588256; 
+ Wed, 06 Jan 2021 09:03:08 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJwaOa+sC3ZW4695EzbCDXY/G2HjJb1b/K8m+8SDcgwbujOORSM+GXy1oBxeWLR28oycJadlfLu28JbiHtOo7nk=
+X-Received: by 2002:aa7:9388:0:b029:19e:648:6480 with SMTP id
+ t8-20020aa793880000b029019e06486480mr4786056pfe.21.1609952587969; Wed, 06 Jan
+ 2021 09:03:07 -0800 (PST)
 MIME-Version: 1.0
-In-Reply-To: <20210106071710.15836-1-zhukeqian1@huawei.com>
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+References: <20210104144241.343186-1-pbonzini@redhat.com>
+ <CAFEAcA_1MWezZ_X=V8JKBVjMRMO8Z4tY=_qAHV20ROzU+EEm8w@mail.gmail.com>
+ <871rey2edv.fsf@linaro.org>
+In-Reply-To: <871rey2edv.fsf@linaro.org>
+From: Paolo Bonzini <pbonzini@redhat.com>
+Date: Wed, 6 Jan 2021 18:02:56 +0100
+Message-ID: <CABgObfZ9WCfXcnEshmRoZTw2RMTfFfcDK3-aJvYn363+P2yZSQ@mail.gmail.com>
+Subject: Re: [PULL v2 00/53] Misc patches for 2020-12-21
+To: =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=stefanha@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=pbonzini@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="xHFwDpU9dbj6ez1V"
-Content-Disposition: inline
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=stefanha@redhat.com;
+Content-Type: multipart/alternative; boundary="0000000000001c8c6105b83e4cce"
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=pbonzini@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -29
 X-Spam_score: -3.0
 X-Spam_bar: ---
 X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.252,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ HTML_MESSAGE=0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -78,52 +92,143 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>, Andrew Jones <drjones@redhat.com>,
- Eduardo Habkost <ehabkost@redhat.com>, qemu-trivial@nongnu.org,
- qemu-devel@nongnu.org, Peter Xu <peterx@redhat.com>, qemu-arm@nongnu.org,
- wanghaibin.wang@huawei.com, Paolo Bonzini <pbonzini@redhat.com>,
- Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <philmd@redhat.com>
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ qemu-devel <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---xHFwDpU9dbj6ez1V
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+--0000000000001c8c6105b83e4cce
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Wed, Jan 06, 2021 at 03:17:10PM +0800, Keqian Zhu wrote:
-> Correct sample code to avoid confusing readers.
->=20
-> Signed-off-by: Keqian Zhu <zhukeqian1@huawei.com>
-> Cc: qemu-trivial@nongnu.org
-> Reviewed-by: Paolo Bonzini <pbonzini@redhat.com>
-> Reviewed-by: Peter Xu <peterx@redhat.com>
-> ---
->=20
-> v2:
->  - Add Cc and R-b.
->=20
-> ---
->  docs/devel/rcu.txt | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
+I have already sent the v3, so you may want to wait a day or two. The good
+thing of conversion patches is that if they break something you can just
+drop them. :)
 
-Reviewed-by: Stefan Hajnoczi <stefanha@redhat.com>
+Paolo
 
---xHFwDpU9dbj6ez1V
-Content-Type: application/pgp-signature; name="signature.asc"
+Il mer 6 gen 2021, 17:56 Alex Benn=C3=A9e <alex.bennee@linaro.org> ha scrit=
+to:
 
------BEGIN PGP SIGNATURE-----
+>
+> Peter Maydell <peter.maydell@linaro.org> writes:
+>
+> > On Mon, 4 Jan 2021 at 14:44, Paolo Bonzini <pbonzini@redhat.com> wrote:
+> >>
+> >> The following changes since commit
+> 41192db338588051f21501abc13743e62b0a5605:
+> >>
+> >>   Merge remote-tracking branch
+> 'remotes/ehabkost-gl/tags/machine-next-pull-request' into staging
+> (2021-01-01 22:57:15 +0000)
+> >>
+> >> are available in the Git repository at:
+> >>
+> >>   https://gitlab.com/bonzini/qemu.git tags/for-upstream
+> >>
+> >> for you to fetch changes up to bac87e979fcca9f884e1c9190132c51d99a8698=
+4:
+> >>
+> >>   win32: drop fd registration to the main-loop on setting non-block
+> (2021-01-02 21:03:38 +0100)
+> >>
+> >> ----------------------------------------------------------------
+> >> From Alex's pull request:
+> >> * improve cross-build KVM coverage
+> >> * new --without-default-features configure flag
+> >> * add __repr__ for ConsoleSocket for debugging
+> >> * build tcg tests with -Werror
+> >> * test 32 bit builds with fedora
+> >> * remove last traces of debian9
+> >> * hotfix for centos8 powertools repo
+>
+> Given this might take awhile to get in and the fact I've got more fixes
+> for regressions since Christmas I might as well include these in a only
+> testing PR. I'm giving it a final run on the CI systems now before I
+> send the email, tag for reference:
+>
+> : To github.com:stsquad/qemu.git
+> :  * [new tag]               pull-testing-060121-3 -> pull-testing-060121=
+-3
+> : To gitlab.com:stsquad/qemu.git
+> :  * [new tag]               pull-testing-060121-3 -> pull-testing-060121=
+-3
+> : pushed pull-testing-060121-3
+>
+> --
+> Alex Benn=C3=A9e
+>
+>
 
-iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAl/17Q0ACgkQnKSrs4Gr
-c8gZpgf/YNO4iFwAYjwd3y/gTXwdffsM/jadr2ElZQmD8kpXrxKzBjtCq7+zsDsU
-f0GmHKjd6WCJNg/0Fli7gExWwWcF6Yazol1pCK3XcilbEBSDyCgrWKsB0sOdHJMs
-3zEBi6BQDE5uC61Vk7a2yezGZYl3w1NJ3D1Qn5JvlWx0yOWPt3pkz3MDNCP9GO0a
-A3diaDB355bcRfq0BiSKL5XjmTU/NdA7qHWIOHYdPgad5Vd7jLL2qbLfqysca1E6
-StDse/NvG6/eIf0NupZX5qIkbpSFZUZ1yCM/ty7WJNv0V5Fhysyip+7agRGSd+C/
-5uWnnSR0kUSKZEcXVDDIBDrX5GNIkg==
-=i5Xn
------END PGP SIGNATURE-----
+--0000000000001c8c6105b83e4cce
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
---xHFwDpU9dbj6ez1V--
+<div dir=3D"auto">I have already sent the v3, so you may want to wait a day=
+ or two. The good thing of conversion patches is that if they break somethi=
+ng you can just drop them. :)<div dir=3D"auto"><br></div><div dir=3D"auto">=
+Paolo</div></div><br><div class=3D"gmail_quote"><div dir=3D"ltr" class=3D"g=
+mail_attr">Il mer 6 gen 2021, 17:56 Alex Benn=C3=A9e &lt;<a href=3D"mailto:=
+alex.bennee@linaro.org">alex.bennee@linaro.org</a>&gt; ha scritto:<br></div=
+><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1=
+px #ccc solid;padding-left:1ex"><br>
+Peter Maydell &lt;<a href=3D"mailto:peter.maydell@linaro.org" target=3D"_bl=
+ank" rel=3D"noreferrer">peter.maydell@linaro.org</a>&gt; writes:<br>
+<br>
+&gt; On Mon, 4 Jan 2021 at 14:44, Paolo Bonzini &lt;<a href=3D"mailto:pbonz=
+ini@redhat.com" target=3D"_blank" rel=3D"noreferrer">pbonzini@redhat.com</a=
+>&gt; wrote:<br>
+&gt;&gt;<br>
+&gt;&gt; The following changes since commit 41192db338588051f21501abc13743e=
+62b0a5605:<br>
+&gt;&gt;<br>
+&gt;&gt;=C2=A0 =C2=A0Merge remote-tracking branch &#39;remotes/ehabkost-gl/=
+tags/machine-next-pull-request&#39; into staging (2021-01-01 22:57:15 +0000=
+)<br>
+&gt;&gt;<br>
+&gt;&gt; are available in the Git repository at:<br>
+&gt;&gt;<br>
+&gt;&gt;=C2=A0 =C2=A0<a href=3D"https://gitlab.com/bonzini/qemu.git" rel=3D=
+"noreferrer noreferrer" target=3D"_blank">https://gitlab.com/bonzini/qemu.g=
+it</a> tags/for-upstream<br>
+&gt;&gt;<br>
+&gt;&gt; for you to fetch changes up to bac87e979fcca9f884e1c9190132c51d99a=
+86984:<br>
+&gt;&gt;<br>
+&gt;&gt;=C2=A0 =C2=A0win32: drop fd registration to the main-loop on settin=
+g non-block (2021-01-02 21:03:38 +0100)<br>
+&gt;&gt;<br>
+&gt;&gt; ----------------------------------------------------------------<b=
+r>
+&gt;&gt; From Alex&#39;s pull request:<br>
+&gt;&gt; * improve cross-build KVM coverage<br>
+&gt;&gt; * new --without-default-features configure flag<br>
+&gt;&gt; * add __repr__ for ConsoleSocket for debugging<br>
+&gt;&gt; * build tcg tests with -Werror<br>
+&gt;&gt; * test 32 bit builds with fedora<br>
+&gt;&gt; * remove last traces of debian9<br>
+&gt;&gt; * hotfix for centos8 powertools repo<br>
+<br>
+Given this might take awhile to get in and the fact I&#39;ve got more fixes=
+<br>
+for regressions since Christmas I might as well include these in a only<br>
+testing PR. I&#39;m giving it a final run on the CI systems now before I<br=
+>
+send the email, tag for reference:<br>
+<br>
+: To github.com:stsquad/qemu.git<br>
+:=C2=A0 * [new tag]=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0p=
+ull-testing-060121-3 -&gt; pull-testing-060121-3<br>
+: To gitlab.com:stsquad/qemu.git<br>
+:=C2=A0 * [new tag]=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0p=
+ull-testing-060121-3 -&gt; pull-testing-060121-3<br>
+: pushed pull-testing-060121-3<br>
+<br>
+-- <br>
+Alex Benn=C3=A9e<br>
+<br>
+</blockquote></div>
+
+--0000000000001c8c6105b83e4cce--
 
 
