@@ -2,34 +2,34 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 977392EC683
-	for <lists+qemu-devel@lfdr.de>; Thu,  7 Jan 2021 00:05:49 +0100 (CET)
-Received: from localhost ([::1]:42752 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DE2182EC67D
+	for <lists+qemu-devel@lfdr.de>; Thu,  7 Jan 2021 00:03:32 +0100 (CET)
+Received: from localhost ([::1]:37220 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kxHsC-0001YA-Mp
-	for lists+qemu-devel@lfdr.de; Wed, 06 Jan 2021 18:05:48 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44600)
+	id 1kxHpz-0007PF-MG
+	for lists+qemu-devel@lfdr.de; Wed, 06 Jan 2021 18:03:31 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44602)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1kxHnR-000613-7D
+ id 1kxHnR-00061D-Fb
  for qemu-devel@nongnu.org; Wed, 06 Jan 2021 18:00:53 -0500
-Received: from indium.canonical.com ([91.189.90.7]:57778)
+Received: from indium.canonical.com ([91.189.90.7]:57792)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1kxHnP-0008O9-Fp
+ id 1kxHnP-0008OE-P4
  for qemu-devel@nongnu.org; Wed, 06 Jan 2021 18:00:53 -0500
 Received: from loganberry.canonical.com ([91.189.90.37])
  by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1kxHnN-0005R0-E1
- for <qemu-devel@nongnu.org>; Wed, 06 Jan 2021 23:00:49 +0000
+ id 1kxHnO-0005Pb-Mi
+ for <qemu-devel@nongnu.org>; Wed, 06 Jan 2021 23:00:50 +0000
 Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 626192E8135
- for <qemu-devel@nongnu.org>; Wed,  6 Jan 2021 23:00:49 +0000 (UTC)
+ by loganberry.canonical.com (Postfix) with ESMTP id AA0E12E8139
+ for <qemu-devel@nongnu.org>; Wed,  6 Jan 2021 23:00:50 +0000 (UTC)
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
-Date: Wed, 06 Jan 2021 22:52:15 -0000
+Date: Wed, 06 Jan 2021 22:53:40 -0000
 From: Snoobz <1909921@bugs.launchpad.net>
 To: qemu-devel@nongnu.org
 X-Launchpad-Notification-Type: bug
@@ -42,7 +42,7 @@ X-Launchpad-Bug-Commenters: ajbennee pmaydell snoobz
 X-Launchpad-Bug-Reporter: Snoobz (snoobz)
 X-Launchpad-Bug-Modifier: Snoobz (snoobz)
 References: <160969474752.18413.12452840655391947769.malonedeb@gac.canonical.com>
-Message-Id: <160997353605.5198.12340176873901484428.malone@soybean.canonical.com>
+Message-Id: <160997362013.17954.13965701783649702010.malone@gac.canonical.com>
 Subject: [Bug 1909921] Re: Raspberry Pi 4 qemu:handle_cpu_signal received
  signal outside vCPU context @ pc=0xffff87709b0e
 X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
@@ -50,7 +50,7 @@ X-Launchpad-Message-For: qemu-devel-ml
 Precedence: bulk
 X-Generated-By: Launchpad (canonical.com);
  Revision="34b3ffd45c9543b7f7aa5aa313925241e9e7ca3f"; Instance="production"
-X-Launchpad-Hash: dd0be765e2ff3276e1db07005787d49d0ec6ab3a
+X-Launchpad-Hash: d0a0ea4796534d12c0aa390302b8562d24931398
 Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
  helo=indium.canonical.com
 X-Spam_score_int: -65
@@ -75,9 +75,14 @@ Reply-To: Bug 1909921 <1909921@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-** Attachment added: "core.282"
-   https://bugs.launchpad.net/qemu/+bug/1909921/+attachment/5449852/+files/=
-core.282
+If you can't see the core dumps, provide me with a file hoster where I
+can upload them. They are around 180mb each.
+
+Feel free to ask more test to find a solution to this matter.
+
+Thank you!
+
+Regards,
 
 -- =
 
