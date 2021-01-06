@@ -2,32 +2,31 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4139D2EC05F
-	for <lists+qemu-devel@lfdr.de>; Wed,  6 Jan 2021 16:27:53 +0100 (CET)
-Received: from localhost ([::1]:39652 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6CB652EC064
+	for <lists+qemu-devel@lfdr.de>; Wed,  6 Jan 2021 16:29:43 +0100 (CET)
+Received: from localhost ([::1]:43212 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kxAj2-0001bi-AW
-	for lists+qemu-devel@lfdr.de; Wed, 06 Jan 2021 10:27:52 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34528)
+	id 1kxAko-000373-9h
+	for lists+qemu-devel@lfdr.de; Wed, 06 Jan 2021 10:29:42 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34650)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <andrey.gruzdev@virtuozzo.com>)
- id 1kxAgc-00087a-OG
- for qemu-devel@nongnu.org; Wed, 06 Jan 2021 10:25:22 -0500
-Received: from relay.sw.ru ([185.231.240.75]:43040 helo=relay3.sw.ru)
+ id 1kxAhN-0000LA-Qc
+ for qemu-devel@nongnu.org; Wed, 06 Jan 2021 10:26:09 -0500
+Received: from relay.sw.ru ([185.231.240.75]:43294 helo=relay3.sw.ru)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <andrey.gruzdev@virtuozzo.com>)
- id 1kxAga-0001Ke-Hc
- for qemu-devel@nongnu.org; Wed, 06 Jan 2021 10:25:22 -0500
+ id 1kxAhM-0001iz-0Z
+ for qemu-devel@nongnu.org; Wed, 06 Jan 2021 10:26:09 -0500
 Received: from [192.168.15.182] (helo=andrey-MS-7B54.sw.ru)
  by relay3.sw.ru with esmtp (Exim 4.94)
  (envelope-from <andrey.gruzdev@virtuozzo.com>)
- id 1kxAfb-00Fdkz-6V; Wed, 06 Jan 2021 18:24:19 +0300
+ id 1kxAgM-00Fdkz-Su; Wed, 06 Jan 2021 18:25:06 +0300
 To: qemu-devel@nongnu.org
-Subject: [PATCH v11 4/5] migration: implementation of background snapshot
- thread
-Date: Wed,  6 Jan 2021 18:21:19 +0300
-Message-Id: <20210106152120.31279-5-andrey.gruzdev@virtuozzo.com>
+Subject: [PATCH v11 5/5] migration: introduce 'userfaultfd-wrlat.py' script
+Date: Wed,  6 Jan 2021 18:21:20 +0300
+Message-Id: <20210106152120.31279-6-andrey.gruzdev@virtuozzo.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20210106152120.31279-1-andrey.gruzdev@virtuozzo.com>
 References: <20210106152120.31279-1-andrey.gruzdev@virtuozzo.com>
@@ -35,11 +34,11 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Received-SPF: pass client-ip=185.231.240.75;
  envelope-from=andrey.gruzdev@virtuozzo.com; helo=relay3.sw.ru
-X-Spam_score_int: -12
-X-Spam_score: -1.3
+X-Spam_score_int: -18
+X-Spam_score: -1.9
 X-Spam_bar: -
-X-Spam_report: (-1.3 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, URG_BIZ=0.573 autolearn=no autolearn_force=no
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -61,385 +60,169 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 Reply-to: Andrey Gruzdev <andrey.gruzdev@virtuozzo.com>
 From: Andrey Gruzdev via <qemu-devel@nongnu.org>
 
-Introducing implementation of 'background' snapshot thread
-which in overall follows the logic of precopy migration
-while internally utilizes completely different mechanism
-to 'freeze' vmstate at the start of snapshot creation.
-
-This mechanism is based on userfault_fd with wr-protection
-support and is Linux-specific.
+Add BCC/eBPF script to analyze userfaultfd write fault latency distribution.
 
 Signed-off-by: Andrey Gruzdev <andrey.gruzdev@virtuozzo.com>
 Acked-by: Peter Xu <peterx@redhat.com>
 ---
- migration/migration.c | 255 +++++++++++++++++++++++++++++++++++++++++-
- migration/migration.h |   3 +
- migration/ram.c       |   2 +
- migration/savevm.c    |   1 -
- migration/savevm.h    |   2 +
- 5 files changed, 260 insertions(+), 3 deletions(-)
+ scripts/userfaultfd-wrlat.py | 148 +++++++++++++++++++++++++++++++++++
+ 1 file changed, 148 insertions(+)
+ create mode 100755 scripts/userfaultfd-wrlat.py
 
-diff --git a/migration/migration.c b/migration/migration.c
-index 2c2cb9ef01..0901a15ac5 100644
---- a/migration/migration.c
-+++ b/migration/migration.c
-@@ -2007,6 +2007,7 @@ void migrate_init(MigrationState *s)
-      * locks.
-      */
-     s->cleanup_bh = 0;
-+    s->vm_start_bh = 0;
-     s->to_dst_file = NULL;
-     s->state = MIGRATION_STATUS_NONE;
-     s->rp_state.from_dst_file = NULL;
-@@ -3211,6 +3212,50 @@ fail:
-                       MIGRATION_STATUS_FAILED);
- }
- 
-+/**
-+ * bg_migration_completion: Used by bg_migration_thread when after all the
-+ *   RAM has been saved. The caller 'breaks' the loop when this returns.
-+ *
-+ * @s: Current migration state
-+ */
-+static void bg_migration_completion(MigrationState *s)
-+{
-+    int current_active_state = s->state;
+diff --git a/scripts/userfaultfd-wrlat.py b/scripts/userfaultfd-wrlat.py
+new file mode 100755
+index 0000000000..5ffd3c6c9a
+--- /dev/null
++++ b/scripts/userfaultfd-wrlat.py
+@@ -0,0 +1,148 @@
++#!/usr/bin/python3
++#
++# userfaultfd-wrlat Summarize userfaultfd write fault latencies.
++#                   Events are continuously accumulated for the
++#                   run, while latency distribution histogram is
++#                   dumped each 'interval' seconds.
++#
++#                   For Linux, uses BCC, eBPF.
++#
++# USAGE: userfaultfd-lat [interval [count]]
++#
++# Copyright Virtuozzo GmbH, 2020
++#
++# Authors:
++#   Andrey Gruzdev   <andrey.gruzdev@virtuozzo.com>
++#
++# This work is licensed under the terms of the GNU GPL, version 2 or
++# later.  See the COPYING file in the top-level directory.
 +
-+    /*
-+     * Stop tracking RAM writes - un-protect memory, un-register UFFD
-+     * memory ranges, flush kernel wait queues and wake up threads
-+     * waiting for write fault to be resolved.
-+     */
-+    ram_write_tracking_stop();
++from __future__ import print_function
++from bcc import BPF
++from ctypes import c_ushort, c_int, c_ulonglong
++from time import sleep
++from sys import argv
 +
-+    if (s->state == MIGRATION_STATUS_ACTIVE) {
-+        /*
-+         * By this moment we have RAM content saved into the migration stream.
-+         * The next step is to flush the non-RAM content (device state)
-+         * right after the ram content. The device state has been stored into
-+         * the temporary buffer before RAM saving started.
-+         */
-+        qemu_put_buffer(s->to_dst_file, s->bioc->data, s->bioc->usage);
-+        qemu_fflush(s->to_dst_file);
-+    } else if (s->state == MIGRATION_STATUS_CANCELLING) {
-+        goto fail;
-+    }
++def usage():
++    print("USAGE: %s [interval [count]]" % argv[0])
++    exit()
 +
-+    if (qemu_file_get_error(s->to_dst_file)) {
-+        trace_migration_completion_file_err();
-+        goto fail;
-+    }
-+
-+    migrate_set_state(&s->state, current_active_state,
-+                      MIGRATION_STATUS_COMPLETED);
-+    return;
-+
-+fail:
-+    migrate_set_state(&s->state, current_active_state,
-+                      MIGRATION_STATUS_FAILED);
-+}
-+
- bool migrate_colo_enabled(void)
- {
-     MigrationState *s = migrate_get_current();
-@@ -3551,6 +3596,47 @@ static void migration_iteration_finish(MigrationState *s)
-     qemu_mutex_unlock_iothread();
- }
- 
-+static void bg_migration_iteration_finish(MigrationState *s)
-+{
-+    qemu_mutex_lock_iothread();
-+    switch (s->state) {
-+    case MIGRATION_STATUS_COMPLETED:
-+        migration_calculate_complete(s);
-+        break;
-+
-+    case MIGRATION_STATUS_ACTIVE:
-+    case MIGRATION_STATUS_FAILED:
-+    case MIGRATION_STATUS_CANCELLED:
-+    case MIGRATION_STATUS_CANCELLING:
-+        break;
-+
-+    default:
-+        /* Should not reach here, but if so, forgive the VM. */
-+        error_report("%s: Unknown ending state %d", __func__, s->state);
-+        break;
-+    }
-+
-+    migrate_fd_cleanup_schedule(s);
-+    qemu_mutex_unlock_iothread();
-+}
++# define BPF program
++bpf_text = """
++#include <uapi/linux/ptrace.h>
++#include <linux/mm.h>
 +
 +/*
-+ * Return true if continue to the next iteration directly, false
-+ * otherwise.
++ * UFFD page fault event descriptor.
++ * Used as a key to BPF_HASH table.
 + */
-+static MigIterateState bg_migration_iteration_run(MigrationState *s)
++struct ev_desc {
++    u64 pid;
++    u64 addr;
++};
++
++BPF_HASH(ev_start, struct ev_desc, u64);
++BPF_HASH(ctx_handle_userfault, u64, u64);
++BPF_HISTOGRAM(ev_delta_hist, u64);
++
++/* Trace UFFD page fault start event. */
++static void do_event_start(u64 pid, u64 address)
 +{
-+    int res;
++    struct ev_desc desc = { .pid = pid, .addr = address };
++    u64 ts = bpf_ktime_get_ns();
 +
-+    res = qemu_savevm_state_iterate(s->to_dst_file, false);
-+    if (res > 0) {
-+        bg_migration_completion(s);
-+        return MIG_ITERATE_BREAK;
-+    }
-+
-+    return MIG_ITERATE_RESUME;
++    ev_start.insert(&desc, &ts);
 +}
 +
- void migration_make_urgent_request(void)
- {
-     qemu_sem_post(&migrate_get_current()->rate_limit_sem);
-@@ -3698,6 +3784,165 @@ static void *migration_thread(void *opaque)
-     return NULL;
- }
- 
-+static void bg_migration_vm_start_bh(void *opaque)
++/* Trace UFFD page fault end event. */
++static void do_event_end(u64 pid, u64 address)
 +{
-+    MigrationState *s = opaque;
++    struct ev_desc desc = { .pid = pid, .addr = address };
++    u64 ts = bpf_ktime_get_ns();
++    u64 *tsp;
 +
-+    qemu_bh_delete(s->vm_start_bh);
-+    s->vm_start_bh = NULL;
-+
-+    vm_start();
-+    s->downtime = qemu_clock_get_ms(QEMU_CLOCK_REALTIME) - s->downtime_start;
++    tsp = ev_start.lookup(&desc);
++    if (tsp) {
++        u64 delta = ts - (*tsp);
++        /* Transform time delta to milliseconds */
++        ev_delta_hist.increment(bpf_log2l(delta / 1000000));
++        ev_start.delete(&desc);
++    }
 +}
 +
-+/**
-+ * Background snapshot thread, based on live migration code.
-+ * This is an alternative implementation of live migration mechanism
-+ * introduced specifically to support background snapshots.
-+ *
-+ * It takes advantage of userfault_fd write protection mechanism introduced
-+ * in v5.7 kernel. Compared to existing dirty page logging migration much
-+ * lesser stream traffic is produced resulting in smaller snapshot images,
-+ * simply cause of no page duplicates can get into the stream.
-+ *
-+ * Another key point is that generated vmstate stream reflects machine state
-+ * 'frozen' at the beginning of snapshot creation compared to dirty page logging
-+ * mechanism, which effectively results in that saved snapshot is the state of VM
-+ * at the end of the process.
-+ */
-+static void *bg_migration_thread(void *opaque)
++/* KPROBE for handle_userfault(). */
++int probe_handle_userfault(struct pt_regs *ctx, struct vm_fault *vmf,
++        unsigned long reason)
 +{
-+    MigrationState *s = opaque;
-+    int64_t setup_start;
-+    MigThrError thr_error;
-+    QEMUFile *fb;
-+    bool early_fail = true;
++    /* Trace only UFFD write faults. */
++    if (reason & VM_UFFD_WP) {
++        u64 pid = (u32) bpf_get_current_pid_tgid();
++        u64 addr = vmf->address;
 +
-+    rcu_register_thread();
-+    object_ref(OBJECT(s));
-+
-+    qemu_file_set_rate_limit(s->to_dst_file, INT64_MAX);
-+
-+    setup_start = qemu_clock_get_ms(QEMU_CLOCK_HOST);
-+    /*
-+     * We want to save vmstate for the moment when migration has been
-+     * initiated but also we want to save RAM content while VM is running.
-+     * The RAM content should appear first in the vmstate. So, we first
-+     * stash the non-RAM part of the vmstate to the temporary buffer,
-+     * then write RAM part of the vmstate to the migration stream
-+     * with vCPUs running and, finally, write stashed non-RAM part of
-+     * the vmstate from the buffer to the migration stream.
-+     */
-+    s->bioc = qio_channel_buffer_new(128 * 1024);
-+    qio_channel_set_name(QIO_CHANNEL(s->bioc), "vmstate-buffer");
-+    fb = qemu_fopen_channel_output(QIO_CHANNEL(s->bioc));
-+    object_unref(OBJECT(s->bioc));
-+
-+    update_iteration_initial_status(s);
-+
-+    qemu_savevm_state_header(s->to_dst_file);
-+    qemu_savevm_state_setup(s->to_dst_file);
-+
-+    if (qemu_savevm_state_guest_unplug_pending()) {
-+        migrate_set_state(&s->state, MIGRATION_STATUS_SETUP,
-+                          MIGRATION_STATUS_WAIT_UNPLUG);
-+
-+        while (s->state == MIGRATION_STATUS_WAIT_UNPLUG &&
-+               qemu_savevm_state_guest_unplug_pending()) {
-+            qemu_sem_timedwait(&s->wait_unplug_sem, 250);
-+        }
-+
-+        migrate_set_state(&s->state, MIGRATION_STATUS_WAIT_UNPLUG,
-+                          MIGRATION_STATUS_ACTIVE);
-+    } else {
-+        migrate_set_state(&s->state, MIGRATION_STATUS_SETUP,
-+                MIGRATION_STATUS_ACTIVE);
++        do_event_start(pid, addr);
++        ctx_handle_userfault.update(&pid, &addr);
 +    }
-+    s->setup_time = qemu_clock_get_ms(QEMU_CLOCK_HOST) - setup_start;
-+
-+    trace_migration_thread_setup_complete();
-+    s->downtime_start = qemu_clock_get_ms(QEMU_CLOCK_REALTIME);
-+
-+    qemu_mutex_lock_iothread();
-+
-+    /*
-+     * If VM is currently in suspended state, then, to make a valid runstate
-+     * transition in vm_stop_force_state() we need to wakeup it up.
-+     */
-+    qemu_system_wakeup_request(QEMU_WAKEUP_REASON_OTHER, NULL);
-+    s->vm_was_running = runstate_is_running();
-+
-+    if (global_state_store()) {
-+        goto fail;
-+    }
-+    /* Forcibly stop VM before saving state of vCPUs and devices */
-+    if (vm_stop_force_state(RUN_STATE_PAUSED)) {
-+        goto fail;
-+    }
-+    /*
-+     * Put vCPUs in sync with shadow context structures, then
-+     * save their state to channel-buffer along with devices.
-+     */
-+    cpu_synchronize_all_states();
-+    if (qemu_savevm_state_complete_precopy_non_iterable(fb, false, false)) {
-+        goto fail;
-+    }
-+    /* Now initialize UFFD context and start tracking RAM writes */
-+    if (ram_write_tracking_start()) {
-+        goto fail;
-+    }
-+    early_fail = false;
-+
-+    /*
-+     * Start VM from BH handler to avoid write-fault lock here.
-+     * UFFD-WP protection for the whole RAM is already enabled so
-+     * calling VM state change notifiers from vm_start() would initiate
-+     * writes to virtio VQs memory which is in write-protected region.
-+     */
-+    s->vm_start_bh = qemu_bh_new(bg_migration_vm_start_bh, s);
-+    qemu_bh_schedule(s->vm_start_bh);
-+
-+    qemu_mutex_unlock_iothread();
-+
-+    while (migration_is_active(s)) {
-+        MigIterateState iter_state = bg_migration_iteration_run(s);
-+        if (iter_state == MIG_ITERATE_SKIP) {
-+            continue;
-+        } else if (iter_state == MIG_ITERATE_BREAK) {
-+            break;
-+        }
-+
-+        /*
-+         * Try to detect any kind of failures, and see whether we
-+         * should stop the migration now.
-+         */
-+        thr_error = migration_detect_error(s);
-+        if (thr_error == MIG_THR_ERR_FATAL) {
-+            /* Stop migration */
-+            break;
-+        }
-+
-+        migration_update_counters(s, qemu_clock_get_ms(QEMU_CLOCK_REALTIME));
-+    }
-+
-+    trace_migration_thread_after_loop();
-+
-+fail:
-+    if (early_fail) {
-+        migrate_set_state(&s->state, MIGRATION_STATUS_ACTIVE,
-+                MIGRATION_STATUS_FAILED);
-+        qemu_mutex_unlock_iothread();
-+    }
-+
-+    bg_migration_iteration_finish(s);
-+
-+    qemu_fclose(fb);
-+    object_unref(OBJECT(s));
-+    rcu_unregister_thread();
-+
-+    return NULL;
++    return 0;
 +}
 +
- void migrate_fd_connect(MigrationState *s, Error *error_in)
- {
-     Error *local_err = NULL;
-@@ -3761,8 +4006,14 @@ void migrate_fd_connect(MigrationState *s, Error *error_in)
-         migrate_fd_cleanup(s);
-         return;
-     }
--    qemu_thread_create(&s->thread, "live_migration", migration_thread, s,
--                       QEMU_THREAD_JOINABLE);
++/* KRETPROBE for handle_userfault(). */
++int retprobe_handle_userfault(struct pt_regs *ctx)
++{
++    u64 pid = (u32) bpf_get_current_pid_tgid();
++    u64 *addr_p;
 +
-+    if (migrate_background_snapshot()) {
-+        qemu_thread_create(&s->thread, "background_snapshot",
-+                bg_migration_thread, s, QEMU_THREAD_JOINABLE);
-+    } else {
-+        qemu_thread_create(&s->thread, "live_migration",
-+                migration_thread, s, QEMU_THREAD_JOINABLE);
++    /*
++     * Here we just ignore the return value. In case of spurious wakeup
++     * or pending signal we'll still get (at least for v5.8.0 kernel)
++     * VM_FAULT_RETRY or (VM_FAULT_RETRY | VM_FAULT_MAJOR) here.
++     * Anyhow, handle_userfault() would be re-entered if such case happens,
++     * keeping initial timestamp unchanged for the faulting thread.
++     */
++    addr_p = ctx_handle_userfault.lookup(&pid);
++    if (addr_p) {
++        do_event_end(pid, *addr_p);
++        ctx_handle_userfault.delete(&pid);
 +    }
-     s->migration_thread_running = true;
- }
- 
-diff --git a/migration/migration.h b/migration/migration.h
-index f40338cfbf..0723955cd7 100644
---- a/migration/migration.h
-+++ b/migration/migration.h
-@@ -20,6 +20,7 @@
- #include "qemu/thread.h"
- #include "qemu/coroutine_int.h"
- #include "io/channel.h"
-+#include "io/channel-buffer.h"
- #include "net/announce.h"
- #include "qom/object.h"
- 
-@@ -147,8 +148,10 @@ struct MigrationState {
- 
-     /*< public >*/
-     QemuThread thread;
-+    QEMUBH *vm_start_bh;
-     QEMUBH *cleanup_bh;
-     QEMUFile *to_dst_file;
-+    QIOChannelBuffer *bioc;
-     /*
-      * Protects to_dst_file pointer.  We need to make sure we won't
-      * yield or hang during the critical section, since this lock will
-diff --git a/migration/ram.c b/migration/ram.c
-index 5707382db1..05fe0c8592 100644
---- a/migration/ram.c
-+++ b/migration/ram.c
-@@ -1471,6 +1471,7 @@ static RAMBlock *poll_fault_page(RAMState *rs, ram_addr_t *offset)
-     page_address = (void *) uffd_msg.arg.pagefault.address;
-     bs = qemu_ram_block_from_host(page_address, false, offset);
-     assert(bs && (bs->flags & RAM_UF_WRITEPROTECT) != 0);
++    return 0;
++}
++"""
 +
-     return bs;
- }
- #endif /* CONFIG_LINUX */
-@@ -1836,6 +1837,7 @@ static void ram_save_host_page_post(RAMState *rs, PageSearchStatus *pss,
-         /* Un-protect memory range. */
-         res = uffd_change_protection(rs->uffdio_fd, page_address, run_length,
-                 false, false);
++# arguments
++interval = 10
++count = -1
++if len(argv) > 1:
++    try:
++        interval = int(argv[1])
++        if interval == 0:
++            raise
++        if len(argv) > 2:
++            count = int(argv[2])
++    except:    # also catches -h, --help
++        usage()
 +
-         /* We don't want to override existing error from ram_save_host_page(). */
-         if (res < 0 && *res_override >= 0) {
-             *res_override = res;
-diff --git a/migration/savevm.c b/migration/savevm.c
-index 27e842812e..dd4ad0aaaf 100644
---- a/migration/savevm.c
-+++ b/migration/savevm.c
-@@ -1354,7 +1354,6 @@ int qemu_savevm_state_complete_precopy_iterable(QEMUFile *f, bool in_postcopy)
-     return 0;
- }
- 
--static
- int qemu_savevm_state_complete_precopy_non_iterable(QEMUFile *f,
-                                                     bool in_postcopy,
-                                                     bool inactivate_disks)
-diff --git a/migration/savevm.h b/migration/savevm.h
-index ba64a7e271..aaee2528ed 100644
---- a/migration/savevm.h
-+++ b/migration/savevm.h
-@@ -64,5 +64,7 @@ int qemu_loadvm_state(QEMUFile *f);
- void qemu_loadvm_state_cleanup(void);
- int qemu_loadvm_state_main(QEMUFile *f, MigrationIncomingState *mis);
- int qemu_load_device_state(QEMUFile *f);
-+int qemu_savevm_state_complete_precopy_non_iterable(QEMUFile *f,
-+        bool in_postcopy, bool inactivate_disks);
- 
- #endif
++# load BPF program
++b = BPF(text=bpf_text)
++# attach KRPOBEs
++b.attach_kprobe(event="handle_userfault", fn_name="probe_handle_userfault")
++b.attach_kretprobe(event="handle_userfault", fn_name="retprobe_handle_userfault")
++
++# header
++print("Tracing UFFD-WP write fault latency... Hit Ctrl-C to end.")
++
++# output
++loop = 0
++do_exit = 0
++while (1):
++    if count > 0:
++        loop += 1
++        if loop > count:
++            exit()
++    try:
++        sleep(interval)
++    except KeyboardInterrupt:
++        pass; do_exit = 1
++
++    print()
++    b["ev_delta_hist"].print_log2_hist("msecs")
++    if do_exit:
++        exit()
 -- 
 2.25.1
 
