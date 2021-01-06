@@ -2,58 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E9ED62EBE20
-	for <lists+qemu-devel@lfdr.de>; Wed,  6 Jan 2021 14:00:47 +0100 (CET)
-Received: from localhost ([::1]:42548 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2F06B2EBE2D
+	for <lists+qemu-devel@lfdr.de>; Wed,  6 Jan 2021 14:04:02 +0100 (CET)
+Received: from localhost ([::1]:46052 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kx8Qg-0005Mm-TH
-	for lists+qemu-devel@lfdr.de; Wed, 06 Jan 2021 08:00:46 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58958)
+	id 1kx8Tp-00077l-5U
+	for lists+qemu-devel@lfdr.de; Wed, 06 Jan 2021 08:04:01 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60464)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1kx8PI-0004th-0l
- for qemu-devel@nongnu.org; Wed, 06 Jan 2021 07:59:20 -0500
-Received: from mout.kundenserver.de ([212.227.17.10]:34281)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1kx8PG-0001bZ-5D
- for qemu-devel@nongnu.org; Wed, 06 Jan 2021 07:59:19 -0500
-Received: from [192.168.100.1] ([82.252.137.42]) by mrelayeu.kundenserver.de
- (mreue107 [213.165.67.119]) with ESMTPSA (Nemesis) id
- 1N7AEs-1ju7ig0VES-017WJy; Wed, 06 Jan 2021 13:59:14 +0100
-Subject: Re: [PATCH] linux-user: Add ETHTOOL ioctl
-To: Matevz Langus <matevz.langus@borea.si>
-References: <9272ff58-82a7-d687-8a33-05796c643b5b@borea.si>
- <ee004b9f-5c7a-41d0-5a81-252ca3d4270c@vivier.eu>
- <b548119a-5fcf-6a78-edbb-44cde1a4769a@borea.si>
-From: Laurent Vivier <laurent@vivier.eu>
-Message-ID: <874452cd-77c0-d907-1545-080c6f148f3a@vivier.eu>
-Date: Wed, 6 Jan 2021 13:59:13 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.6.0
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1kx8Sd-0006f9-Ep
+ for qemu-devel@nongnu.org; Wed, 06 Jan 2021 08:02:47 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:53556)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1kx8Sb-0003Xb-3L
+ for qemu-devel@nongnu.org; Wed, 06 Jan 2021 08:02:46 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1609938164;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=9cEiEhRiHfzTJDLKT6mHy/pw4zaPX72sfCLNf6zbJSs=;
+ b=aRmlhzp86c7srpwA3F4zYjCaFC2PrdDiIJBjaXWMGveABQL3TUgM5Z8sqOigG/nCSLfBXI
+ R01ScXZXPaR+LKpezEuLseqNP/cD8G9Jf8Y0aQNU7xsg/qKVAK/gb8JcrmTvnmE4/gSlIp
+ 2+LdwCcq4+RJr3htjJBDE1CAMoa2SBI=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-547-cNeCxBKgOv6tYZgAHk0LQw-1; Wed, 06 Jan 2021 08:02:42 -0500
+X-MC-Unique: cNeCxBKgOv6tYZgAHk0LQw-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id B6B0CC745A
+ for <qemu-devel@nongnu.org>; Wed,  6 Jan 2021 13:02:41 +0000 (UTC)
+Received: from localhost.localdomain.com (ovpn-114-197.ams2.redhat.com
+ [10.36.114.197])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 5FAAE5D9D2;
+ Wed,  6 Jan 2021 13:02:40 +0000 (UTC)
+From: =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>
+To: qemu-devel@nongnu.org
+Subject: [PATCH v2] tracetool: also strip %l and %ll from systemtap format
+ strings
+Date: Wed,  6 Jan 2021 13:02:39 +0000
+Message-Id: <20210106130239.1004729-1-berrange@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <b548119a-5fcf-6a78-edbb-44cde1a4769a@borea.si>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=berrange@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:mGxzU5HP77msqWPbxPpcCGl46CqGK2Bfz/FrSTB/NvIsdXI2Ibk
- 0lglaQx5ZouRchM49S8zuPhcuFJv7P/e8Qe8DNxK1Klyjzz9XTKLqDLHHQcWaj+PKm9CNAr
- /H3ZFEfYBeP7s00LvmLQsWDxX870TR7fqTcMVxLs6+PdMEiIBFBKTwR/6Xdzrrw9BZvcIsv
- CrjBcmxRPO7FI9mJYMIwA==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:BwlfX/x6UBI=:NEbN+81BnMl0qwIoVxz7fV
- e7l31QC/SmNDUv8cu2kIPiM82a15jH9mR9GVZYp79oNr41ZlPUmpIjSNx065XvfFzfvWeyF0E
- tysMvDeZKy4zuFHQxvBopVhjUjFlY3lJ5YpT0KKtEhOdxrQzOh8bI2+kGXI78ovxtVatMEQB0
- +Q6FiClL4BYJUxyexcCaCnrdmoq4MdaddymP4gUqWjmw+S8CwaLQv2Kr0/VH434SWw5UU99/6
- 6QcJg325ZLW4ksyTZNJxUSgQX3eBRQ9dY0yKQiQracsa4mpMb13tFq/tXs4kvxxpKGWMQxehL
- 20CjiItQRa92kGGxj5lMOYUUjKRMkCadY/4uVbKyFl9iLAOebSmuNrZLXxPiJrkiFYTytiDJ6
- ZrrFm/keBVY++s/ZFshzcEL7/im3p8FkPUW1BbOBauwDewxDa0DstmKeXFhIL
-Received-SPF: none client-ip=212.227.17.10; envelope-from=laurent@vivier.eu;
- helo=mout.kundenserver.de
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.249,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=ham autolearn_force=no
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=berrange@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -29
+X-Spam_score: -3.0
+X-Spam_bar: ---
+X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.252,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -66,32 +77,51 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel@nongnu.org
+Cc: Laurent Vivier <lvivier@redhat.com>, William Cohen <wcohen@redhat.com>,
+ =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
+ Stefan Hajnoczi <stefanha@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Le 05/01/2021 à 21:07, Matevz Langus a écrit :
-> Hi Laurent,
+All variables are 64-bit and so %l / %ll are not required, and the
+latter is actually invalid:
 
-Hi Matevz,
+  $ sudo stap -e 'probe begin{printf ("BEGIN")}'  -I .
+  parse error: invalid or missing conversion specifier
+          saw: operator ',' at ./qemu-system-x86_64-log.stp:15118:101
+       source:     printf("%d@%d vhost_vdpa_set_log_base dev: %p base: 0x%x size: %llu
+refcnt: %d fd: %d log: %p\n", pid(), gettimeofday_ns(), dev, base, size, refcnt, fd, log)
 
-> I know it must be more complex, but it worked for our case so I wanted to share it anyway as we did
-> not find support for this in latest git, but forgot to check mailing list.
+                       ^
 
-This kind of patch only works if endianness and word size are the same between the host and the guest.
+Signed-off-by: Daniel P. Berrangé <berrange@redhat.com>
+---
+ scripts/tracetool/format/log_stap.py | 7 ++++++-
+ 1 file changed, 6 insertions(+), 1 deletion(-)
 
-> With this small patch + some others in Linux kernel we were able to execute Intel XL710 network
-> adapter NVM Update utility (nvmupdate64e) which is x86_64 only binary on aarch64 Linux platform and
-> upgrade NIC firmware.
+In v2:
 
-Thank you to have shared your work and this information with the community :)
+ - Change existing logic that stripped %z to handle %l/%ll too
 
-This kind of work is very useful.
+diff --git a/scripts/tracetool/format/log_stap.py b/scripts/tracetool/format/log_stap.py
+index b486beb672..fac911a0f4 100644
+--- a/scripts/tracetool/format/log_stap.py
++++ b/scripts/tracetool/format/log_stap.py
+@@ -77,7 +77,12 @@ def c_fmt_to_stap(fmt):
+     elif state == STATE_LITERAL:
+         bits.append(literal)
+ 
+-    fmt = re.sub("%(\d*)z(x|u|d)", "%\\1\\2", "".join(bits))
++    # All variables in systemtap are 64-bit in size
++    # The "%l" integer size qualifier is thus redundant
++    # and "%ll" is not valid at all. Simiarly the size_t
++    # based "%z" size qualifier is not valid. We just
++    # strip all size qualifiers for sanity.
++    fmt = re.sub("%(\d*)(l+|z)(x|u|d)", "%\\1\\3", "".join(bits))
+     return fmt
+ 
+ def generate(events, backend, group):
+-- 
+2.29.2
 
-> At least we can try if this works OK with Shu-Chun's patch as well.
-
-Yes, please, do.
-
-Thanks,
-Laurent
 
