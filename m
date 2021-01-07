@@ -2,70 +2,130 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 321192ED37E
-	for <lists+qemu-devel@lfdr.de>; Thu,  7 Jan 2021 16:27:24 +0100 (CET)
-Received: from localhost ([::1]:43112 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1E8A52ED38D
+	for <lists+qemu-devel@lfdr.de>; Thu,  7 Jan 2021 16:32:30 +0100 (CET)
+Received: from localhost ([::1]:47554 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kxXC7-0005Tr-9C
-	for lists+qemu-devel@lfdr.de; Thu, 07 Jan 2021 10:27:23 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39400)
+	id 1kxXH2-0007de-TJ
+	for lists+qemu-devel@lfdr.de; Thu, 07 Jan 2021 10:32:28 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44604)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vkuznets@redhat.com>)
- id 1kxX09-00007i-Um
- for qemu-devel@nongnu.org; Thu, 07 Jan 2021 10:15:03 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:49617)
+ (Exim 4.90_1) (envelope-from <brogers@suse.com>) id 1kxXFz-0006rF-QQ
+ for qemu-devel@nongnu.org; Thu, 07 Jan 2021 10:31:23 -0500
+Received: from de-smtp-delivery-102.mimecast.com ([194.104.109.102]:28379)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <vkuznets@redhat.com>)
- id 1kxX06-0006Si-SY
- for qemu-devel@nongnu.org; Thu, 07 Jan 2021 10:15:01 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1610032498;
+ (Exim 4.90_1) (envelope-from <brogers@suse.com>) id 1kxXFv-000467-Qz
+ for qemu-devel@nongnu.org; Thu, 07 Jan 2021 10:31:23 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.com;
+ s=mimecast20200619; t=1610033476;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ to:to:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=zmKsrftZroiMSmfGPATbUxz/xzWLmTw994Mrg2P/ZNA=;
- b=Bi7ST8fw/5iBfUwu6eo1c8kd3fYBIEak/KcK+7NpE1HL3SQfWPA2oFaEzvcPTx2+ax/f5l
- LT9bzpB7ko8An0MJtjwIqStIbXa5fAaIaXyOmDAUj9Io8GLJTVcvXSkoEDuwlNS+/RnMO0
- 9vjqUsOoH+SHbWALwP7zh95RLHhlPNc=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-530-XrAJ0MZmOfaQLdBb97hc3A-1; Thu, 07 Jan 2021 10:14:56 -0500
-X-MC-Unique: XrAJ0MZmOfaQLdBb97hc3A-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 882F68030A0
- for <qemu-devel@nongnu.org>; Thu,  7 Jan 2021 15:14:55 +0000 (UTC)
-Received: from vitty.brq.redhat.com (unknown [10.40.195.131])
- by smtp.corp.redhat.com (Postfix) with ESMTP id D97F05D9DC;
- Thu,  7 Jan 2021 15:14:53 +0000 (UTC)
-From: Vitaly Kuznetsov <vkuznets@redhat.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH v3 19/19] qtest/hyperv: Introduce a simple hyper-v test
-Date: Thu,  7 Jan 2021 16:14:52 +0100
-Message-Id: <20210107151452.541112-1-vkuznets@redhat.com>
-In-Reply-To: <20210107150640.539239-1-vkuznets@redhat.com>
-References: <20210107150640.539239-1-vkuznets@redhat.com>
+ bh=5Nqvsp2f84aGRChDSqmazJFJdasZs6dcOo3lRYpCdv4=;
+ b=WqSF5QeAzV80eKYSI6H1PjsX8e0csZQBPbntxuYie0ZJd81qcHjftmvG7a2jsu37ktgXyI
+ G9dAzeUhsGsZuPFB+/AIDpCYdSvJy9w3wJY0LLGKVRq+GVa2xGrY1/jJYP5atlO/OaU/B+
+ ivfx3Omt9oQZ3mH/H94IF2iED2b7gq8=
+Received: from EUR02-AM5-obe.outbound.protection.outlook.com
+ (mail-am5eur02lp2054.outbound.protection.outlook.com [104.47.4.54]) (Using
+ TLS) by relay.mimecast.com with ESMTP id
+ de-mta-17-9u29EBsyOmy1mgoCVBA3hQ-1; Thu, 07 Jan 2021 16:31:15 +0100
+X-MC-Unique: 9u29EBsyOmy1mgoCVBA3hQ-1
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=kgAhqR1D6qygakMPi8DqQNwTU290gbhLRlPuW3T5Xls0dubabsK42wyqhU39z1+oZJ2NKiTThzVDqZTKKdNsxYdb1vmKgn39eVnSxMQ+By449+IWjrfwnsXDiqAaGYIQ8R6yyYrCzvu+xQ6x9fGFgZaFrHE840nRQrFnpwVF1ebGDGTZZ6CZL7U2QOo4DFv2NV+SuyV8YwEXm5VNDxc+fEGd88zwAAlIOLBmHlfZEpigI6RfmCeoJbbw/zRV+TF71xodEYDjAkFIiuXEnyYfgWgvazeU0R4sNVCn56HJ8LKCBhIkKolAntVUn5qHmciOrXmG3fbGLQYc9RzR9MlVuw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=XTf8lry6+hlZVsk6bVjC22oR7sxyQqG+nopuWvbm8iQ=;
+ b=XZS2krC59H2KnuYzXbVLcpf0D/xk/JMDDFq3A0EUNQQaILhrpH4PKZ1MzjexQqomRv6HXorMWyThG3WVXf3dj5G0FUh8p4g2ha/NxtoRY9VEVVqowk7118PbDGMCTtRI3zNStuJUhWcx4kMI+/ematJ182nULs5K2ibhj1xvIVb93xBFnsoE7SfbydVFmMJg/KoUVePNlQbnbXiYKK1O2dAFxzDmxNWLGVXD5v5LKkjypEUZMRvOWXpDjgqa4MhQgqDEMXrtktHefRtLaZpmYnwl4Wz6e8Umgg8SEOf4MzL3fODXh7hq/ObqxftpLGRlJZeWQjfeHA9/G4zxwLylLg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=suse.com; dmarc=pass action=none header.from=suse.com;
+ dkim=pass header.d=suse.com; arc=none
+Authentication-Results: redhat.com; dkim=none (message not signed)
+ header.d=none;redhat.com; dmarc=none action=none header.from=suse.com;
+Received: from AM4PR0401MB2354.eurprd04.prod.outlook.com
+ (2603:10a6:200:54::21) by AM8PR04MB7233.eurprd04.prod.outlook.com
+ (2603:10a6:20b:1df::15) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3742.6; Thu, 7 Jan
+ 2021 15:31:15 +0000
+Received: from AM4PR0401MB2354.eurprd04.prod.outlook.com
+ ([fe80::2580:e7d:9f89:8edf]) by AM4PR0401MB2354.eurprd04.prod.outlook.com
+ ([fe80::2580:e7d:9f89:8edf%10]) with mapi id 15.20.3742.006; Thu, 7 Jan 2021
+ 15:31:15 +0000
+Message-ID: <a561020367c37d9c10d0e573abc2072249cbefb1.camel@suse.com>
+Subject: Re: [PULL 50/55] virtfs: convert to meson
+From: Bruce Rogers <brogers@suse.com>
+To: Paolo Bonzini <pbonzini@redhat.com>, qemu-devel@nongnu.org
+Date: Thu, 07 Jan 2021 08:31:08 -0700
+In-Reply-To: <24d591d5-fb37-f77a-d8ab-3112dfe35439@redhat.com>
+References: <20201221144447.26161-1-pbonzini@redhat.com>
+ <20201221144447.26161-51-pbonzini@redhat.com>
+ <36869fd5f001f4eab10539839395504fd9fb5f7d.camel@suse.com>
+ <24d591d5-fb37-f77a-d8ab-3112dfe35439@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+User-Agent: Evolution 3.38.2 
+Content-Transfer-Encoding: quoted-printable
+X-Originating-IP: [63.248.145.198]
+X-ClientProxiedBy: AM0PR04CA0132.eurprd04.prod.outlook.com
+ (2603:10a6:208:55::37) To AM4PR0401MB2354.eurprd04.prod.outlook.com
+ (2603:10a6:200:54::21)
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=vkuznets@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=vkuznets@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -29
-X-Spam_score: -3.0
-X-Spam_bar: ---
-X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.246,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-MS-Exchange-MessageSentRepresentingType: 1
+Received: from [192.168.1.22] (63.248.145.198) by
+ AM0PR04CA0132.eurprd04.prod.outlook.com (2603:10a6:208:55::37) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.3742.6 via Frontend Transport; Thu, 7 Jan 2021 15:31:13 +0000
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: f1e286ab-ede5-40d6-3c5c-08d8b321454c
+X-MS-TrafficTypeDiagnostic: AM8PR04MB7233:
+X-Microsoft-Antispam-PRVS: <AM8PR04MB72330CAF59549CB2B2FFD2A2D9AF0@AM8PR04MB7233.eurprd04.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:9508;
+X-MS-Exchange-SenderADCheck: 1
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: CfTI2A6wuYnJQqPKX3K1KvUuM6pzpjxSkYD91QmXllYl+BF5ju3iZak+JsGiJug+rOITrYjT/dVrNLPsP0ySNzgF19HwlOXHYg9docTzSHRwWbHfwQhWcMY/VdsVN9gOI49myqf1sXo0wdgt+z/YNjkk4IQdrQ6JRva6xCjkqNvFkSfTm+6/HKndiz+Da7N7qIKvVc7UqpxVKoE/aXG+1IE+DkwjyYDATgg/lfi2fGDYg4/b7VLiRWqTjyoTwp1EshsyPchObKXzhMj1Z631FYFVuNBi1xrdGYbu2K410qoY0MWcB3HzYDPLMHVO7RDlSgFtmZ+XE1NnqWTzYTkifEwY5DEVtBt02ISne286VykfaBTEiIWbhqBtopGT+1ldral3dnzHxfEN5nIZQyzOtA==
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:AM4PR0401MB2354.eurprd04.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(39860400002)(366004)(396003)(136003)(376002)(346002)(8676002)(83380400001)(86362001)(66476007)(6486002)(478600001)(66946007)(5660300002)(66556008)(52116002)(36756003)(16576012)(316002)(6666004)(2616005)(2906002)(956004)(53546011)(8936002)(16526019)(186003)(26005);
+ DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData: =?us-ascii?Q?WmeK6yETINO8X9ZfujkxoixxPU1DlnlPM9LhbrVGy1hV/qYmZHQ9+NMYcvyQ?=
+ =?us-ascii?Q?DAnHCvyeQLnFiL9nylNDHDSyaCsWgQ3bsQBr6Pq89CZujG58XFFoT8CkVFzr?=
+ =?us-ascii?Q?7olf43pvmXN5rK3f6gtpyPy0Kexou81OPMeO+FcpIqBPzYAShAF4IfC1GP2w?=
+ =?us-ascii?Q?Olzz8ptnnvVS0gbgPiFK6voYZOiBbl1Nzg1kJQ08B4eU+CThNuyDtRCxhOgA?=
+ =?us-ascii?Q?4bVaTLm+3lUHmJd18LSKiSc0nNewKWkuoXHEpmfgjwKflFA/jF/UTg1Ua5/F?=
+ =?us-ascii?Q?OzQjGPypXBVL+d7PN24gNH3bkHOkJJWyKjn8/BFn9pOFFdHfgQ/OZ7rTeogn?=
+ =?us-ascii?Q?JwHhpH5TH6p2AZO1W1PDR/YpuG95N37cHz0a0Ol6uAn83XZ4EZCJiDugxAxk?=
+ =?us-ascii?Q?WlkIap6rz6mAtmCuqNWQIesAoVSz94VpbRtbm2tC/fnb78h0F53XQi4mm2hD?=
+ =?us-ascii?Q?fsKARJJB3tOSEsNfpKWiSwlVtPZCHNPbP7OkhwAntMFFmGyFrqgr/fDXJPXX?=
+ =?us-ascii?Q?69lKC8/MrDoXfQxF/x3E0Gwmsz9R1HPXykPvYrgNQeZt5Qn2tC+YVCAdY5CW?=
+ =?us-ascii?Q?BRcKhBRJlLABF+J+hLFW5Ie0UjnScB3sBBWiOc/pEHsteabLJTuSO5zu9Hyb?=
+ =?us-ascii?Q?5fdvrXhsnDvv/abw5Ig7Pv/soWTlqoLLUs0zjtKQTiEEvQRT0gGHM8vqqR7S?=
+ =?us-ascii?Q?qHptsbepPGTrKD50ggJS738VKwEE9Q3355fTrOu/aDDztcKScZlHfOY5qNR3?=
+ =?us-ascii?Q?CMbUi1yqhkcEgIK2uz2JjoJK8TegxB8/iCbr7Dl5cY1foPFwc+AKydH73U1s?=
+ =?us-ascii?Q?/sDBvMaz870iFCzUdiavf6TnNSDlxlaPeLMXzm3F1SdN1AFETA5GPmG+mI6c?=
+ =?us-ascii?Q?pC0ZGM3xoBVvuycDWvVaPemDNO/tPfL7rrCQ4Er4CeFI1/xAiEhu4FFIVPEV?=
+ =?us-ascii?Q?DhucG0ac4EjHOsOGfKJXzANeyU6mGAgKg/X1OEVh4mm0WhBYOWvzGEphfX31?=
+ =?us-ascii?Q?CU/m?=
+X-OriginatorOrg: suse.com
+X-MS-Exchange-CrossTenant-AuthSource: AM4PR0401MB2354.eurprd04.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 07 Jan 2021 15:31:14.9947 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: f7a17af6-1c5c-4a36-aa8b-f5be247aa4ba
+X-MS-Exchange-CrossTenant-Network-Message-Id: f1e286ab-ede5-40d6-3c5c-08d8b321454c
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: HmL1lDnkF3t5bd0vbbzmYtZrpRXKG2KaCuyDGqYq6CBKtIMYfsO42h38857u4JenibYi8xjZZf3liYWQN9CDAg==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM8PR04MB7233
+Received-SPF: pass client-ip=194.104.109.102; envelope-from=brogers@suse.com;
+ helo=de-smtp-delivery-102.mimecast.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
+X-Spam_bar: --
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ MSGID_FROM_MTA_HEADER=0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -78,295 +138,61 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Paolo Bonzini <pbonzini@redhat.com>, Marcelo Tosatti <mtosatti@redhat.com>,
- Eduardo Habkost <ehabkost@redhat.com>, Igor Mammedov <imammedo@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-For the beginning, just test 'hv-default', 'hv-passthrough' and a couple
-of custom Hyper-V enlightenments configurations through QMP. Later, it
-would be great to complement this by checking CPUID values from within the
-guest.
+On Thu, 2021-01-07 at 15:49 +0100, Paolo Bonzini wrote:
+> On 07/01/21 14:58, Bruce Rogers wrote:
+> > I noticed that for me, this broke the building of virtfs-proxy-
+> > helper.
+> > I've not yet figured out what the fix should be, but thought you'd
+> > want
+> > to know.
+>=20
+> Possibly:
+>=20
+> diff --git a/fsdev/meson.build b/fsdev/meson.build
+> index 7dd1cc9bfb..65455a179e 100644
+> --- a/fsdev/meson.build
+> +++ b/fsdev/meson.build
+> @@ -8,7 +8,7 @@ fsdev_ss.add(when: ['CONFIG_FSDEV_9P'], if_true:
+> files(
+> =C2=A0 ), if_false: files('qemu-fsdev-dummy.c'))
+> =C2=A0 softmmu_ss.add_all(when: 'CONFIG_LINUX', if_true: fsdev_ss)
+>=20
+> -have_virtfs_proxy_helper =3D have_tools and libattr.found() and=20
+> libcap_ng.found() and 'CONFIG_VIRTFS' in config_host
+> +have_virtfs_proxy_helper =3D have_tools and libattr.found() and=20
+> libcap_ng.found() and have_virtfs
+> =C2=A0 if have_virtfs_proxy_helper
+> =C2=A0=C2=A0=C2=A0 executable('virtfs-proxy-helper',
+> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0 files('virtfs-proxy-helper.c', '9p-marshal.c',=20
+> '9p-iov-marshal.c'),
+> diff --git a/tests/qtest/meson.build b/tests/qtest/meson.build
+> index 450af3e51c..b8e19bbc81 100644
+> --- a/tests/qtest/meson.build
+> +++ b/tests/qtest/meson.build
+> @@ -199,7 +199,9 @@ qos_test_ss.add(
+> =C2=A0=C2=A0=C2=A0 'virtio-serial-test.c',
+> =C2=A0=C2=A0=C2=A0 'vmxnet3-test.c',
+> =C2=A0 )
+> -qos_test_ss.add(when: 'CONFIG_VIRTFS', if_true: files('virtio-9p-
+> test.c'))
+> +if have_virtfs
+> +=C2=A0 qos_test_ss.add(files('virtio-9p-test.c'))
+> +endif
+> =C2=A0 qos_test_ss.add(when: 'CONFIG_VHOST_USER', if_true:=20
+> files('vhost-user-test.c'))
+>=20
+> =C2=A0 tpmemu_files =3D ['tpm-emu.c', 'tpm-util.c', 'tpm-tests.c']
+>=20
+> Since CONFIG_VIRTFS does not exist anymore.=C2=A0 Sorry.
+>=20
+> Paolo
+>=20
 
-Signed-off-by: Vitaly Kuznetsov <vkuznets@redhat.com>
----
- MAINTAINERS               |   1 +
- tests/qtest/hyperv-test.c | 238 ++++++++++++++++++++++++++++++++++++++
- tests/qtest/meson.build   |   3 +-
- 3 files changed, 241 insertions(+), 1 deletion(-)
- create mode 100644 tests/qtest/hyperv-test.c
-
-diff --git a/MAINTAINERS b/MAINTAINERS
-index 171e7047aaaa..bb44007d795d 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -1495,6 +1495,7 @@ F: hw/isa/apm.c
- F: include/hw/isa/apm.h
- F: tests/test-x86-cpuid.c
- F: tests/qtest/test-x86-cpuid-compat.c
-+F: tests/qtest/hyperv-test.c
- 
- PC Chipset
- M: Michael S. Tsirkin <mst@redhat.com>
-diff --git a/tests/qtest/hyperv-test.c b/tests/qtest/hyperv-test.c
-new file mode 100644
-index 000000000000..029d1f8cb46e
---- /dev/null
-+++ b/tests/qtest/hyperv-test.c
-@@ -0,0 +1,238 @@
-+/*
-+ * Hyper-V emulation CPU feature test cases
-+ *
-+ * Copyright (c) 2021 Red Hat Inc.
-+ * Authors:
-+ *  Vitaly Kuznetsov <vkuznets@redhat.com>
-+ *
-+ * This work is licensed under the terms of the GNU GPL, version 2 or later.
-+ * See the COPYING file in the top-level directory.
-+ */
-+#include <linux/kvm.h>
-+#include <sys/ioctl.h>
-+
-+#include "qemu/osdep.h"
-+#include "qemu/bitops.h"
-+#include "libqos/libqtest.h"
-+#include "qapi/qmp/qdict.h"
-+#include "qapi/qmp/qjson.h"
-+
-+#define MACHINE_KVM "-machine pc-q35-5.2 -accel kvm "
-+#define QUERY_HEAD  "{ 'execute': 'query-cpu-model-expansion', " \
-+                    "  'arguments': { 'type': 'full', "
-+#define QUERY_TAIL  "}}"
-+
-+static bool kvm_enabled(QTestState *qts)
-+{
-+    QDict *resp, *qdict;
-+    bool enabled;
-+
-+    resp = qtest_qmp(qts, "{ 'execute': 'query-kvm' }");
-+    g_assert(qdict_haskey(resp, "return"));
-+    qdict = qdict_get_qdict(resp, "return");
-+    g_assert(qdict_haskey(qdict, "enabled"));
-+    enabled = qdict_get_bool(qdict, "enabled");
-+    qobject_unref(resp);
-+
-+    return enabled;
-+}
-+
-+static bool kvm_has_sys_hyperv_cpuid(void)
-+{
-+    int fd = open("/dev/kvm", O_RDWR);
-+    int ret;
-+
-+    g_assert(fd > 0);
-+
-+    ret = ioctl(fd, KVM_CHECK_EXTENSION, KVM_CAP_SYS_HYPERV_CPUID);
-+
-+    close(fd);
-+
-+    return ret > 0;
-+}
-+
-+static QDict *do_query_no_props(QTestState *qts, const char *cpu_type)
-+{
-+    return qtest_qmp(qts, QUERY_HEAD "'model': { 'name': %s }"
-+                          QUERY_TAIL, cpu_type);
-+}
-+
-+static bool resp_has_props(QDict *resp)
-+{
-+    QDict *qdict;
-+
-+    g_assert(resp);
-+
-+    if (!qdict_haskey(resp, "return")) {
-+        return false;
-+    }
-+    qdict = qdict_get_qdict(resp, "return");
-+
-+    if (!qdict_haskey(qdict, "model")) {
-+        return false;
-+    }
-+    qdict = qdict_get_qdict(qdict, "model");
-+
-+    return qdict_haskey(qdict, "props");
-+}
-+
-+static QDict *resp_get_props(QDict *resp)
-+{
-+    QDict *qdict;
-+
-+    g_assert(resp);
-+    g_assert(resp_has_props(resp));
-+
-+    qdict = qdict_get_qdict(resp, "return");
-+    qdict = qdict_get_qdict(qdict, "model");
-+    qdict = qdict_get_qdict(qdict, "props");
-+
-+    return qdict;
-+}
-+
-+static bool resp_get_feature(QDict *resp, const char *feature)
-+{
-+    QDict *props;
-+
-+    g_assert(resp);
-+    g_assert(resp_has_props(resp));
-+    props = resp_get_props(resp);
-+    g_assert(qdict_get(props, feature));
-+    return qdict_get_bool(props, feature);
-+}
-+
-+#define assert_has_feature(qts, cpu_type, feature)                     \
-+({                                                                     \
-+    QDict *_resp = do_query_no_props(qts, cpu_type);                   \
-+    g_assert(_resp);                                                   \
-+    g_assert(resp_has_props(_resp));                                   \
-+    g_assert(qdict_get(resp_get_props(_resp), feature));               \
-+    qobject_unref(_resp);                                              \
-+})
-+
-+#define resp_assert_feature(resp, feature, expected_value)             \
-+({                                                                     \
-+    QDict *_props;                                                     \
-+                                                                       \
-+    g_assert(_resp);                                                   \
-+    g_assert(resp_has_props(_resp));                                   \
-+    _props = resp_get_props(_resp);                                    \
-+    g_assert(qdict_get(_props, feature));                              \
-+    g_assert(qdict_get_bool(_props, feature) == (expected_value));     \
-+})
-+
-+#define assert_feature(qts, cpu_type, feature, expected_value)         \
-+({                                                                     \
-+    QDict *_resp;                                                      \
-+                                                                       \
-+    _resp = do_query_no_props(qts, cpu_type);                          \
-+    g_assert(_resp);                                                   \
-+    resp_assert_feature(_resp, feature, expected_value);               \
-+    qobject_unref(_resp);                                              \
-+})
-+
-+#define assert_has_feature_enabled(qts, cpu_type, feature)             \
-+    assert_feature(qts, cpu_type, feature, true)
-+
-+#define assert_has_feature_disabled(qts, cpu_type, feature)            \
-+    assert_feature(qts, cpu_type, feature, false)
-+
-+static void test_assert_hyperv_all(QTestState *qts)
-+{
-+    QDict *resp;
-+
-+    assert_has_feature_enabled(qts, "host", "hv-relaxed");
-+    assert_has_feature_enabled(qts, "host", "hv-vapic");
-+    assert_has_feature_enabled(qts, "host", "hv-vpindex");
-+    assert_has_feature_enabled(qts, "host", "hv-runtime");
-+    assert_has_feature_enabled(qts, "host", "hv-crash");
-+    assert_has_feature_enabled(qts, "host", "hv-time");
-+    assert_has_feature_enabled(qts, "host", "hv-synic");
-+    assert_has_feature_enabled(qts, "host", "hv-stimer");
-+    assert_has_feature_enabled(qts, "host", "hv-tlbflush");
-+    assert_has_feature_enabled(qts, "host", "hv-ipi");
-+    assert_has_feature_enabled(qts, "host", "hv-reset");
-+    assert_has_feature_enabled(qts, "host", "hv-frequencies");
-+    assert_has_feature_enabled(qts, "host", "hv-reenlightenment");
-+    assert_has_feature_enabled(qts, "host", "hv-stimer-direct");
-+
-+    resp = do_query_no_props(qts, "host");
-+    if (resp_get_feature(resp, "vmx")) {
-+        assert_has_feature_enabled(qts, "host", "hv-evmcs");
-+    } else {
-+        assert_has_feature_disabled(qts, "host", "hv-evmcs");
-+    }
-+
-+}
-+
-+static void test_query_cpu_hv_default(const void *data)
-+{
-+    QTestState *qts;
-+
-+    qts = qtest_init(MACHINE_KVM "-cpu host,hv-default");
-+
-+    test_assert_hyperv_all(qts);
-+
-+    qtest_quit(qts);
-+}
-+
-+static void test_query_cpu_hv_default_minus(const void *data)
-+{
-+    QTestState *qts;
-+
-+    qts = qtest_init(MACHINE_KVM "-cpu host,hv-default,hv_ipi=off");
-+
-+    assert_has_feature_enabled(qts, "host", "hv-tlbflush");
-+    assert_has_feature_disabled(qts, "host", "hv-ipi");
-+
-+    qtest_quit(qts);
-+}
-+
-+static void test_query_cpu_hv_custom(const void *data)
-+{
-+    QTestState *qts;
-+
-+    qts = qtest_init(MACHINE_KVM "-cpu host,hv-vpindex");
-+
-+    assert_has_feature_enabled(qts, "host", "hv-vpindex");
-+    assert_has_feature_disabled(qts, "host", "hv-synic");
-+
-+    qtest_quit(qts);
-+}
-+
-+static void test_query_cpu_hv_passthrough(const void *data)
-+{
-+    QTestState *qts;
-+
-+    qts = qtest_init(MACHINE_KVM "-cpu host,hv-passthrough");
-+    if (!kvm_enabled(qts)) {
-+        qtest_quit(qts);
-+        return;
-+    }
-+
-+    test_assert_hyperv_all(qts);
-+
-+    qtest_quit(qts);
-+}
-+
-+int main(int argc, char **argv)
-+{
-+    const char *arch = qtest_get_arch();
-+
-+    g_test_init(&argc, &argv, NULL);
-+
-+    if (!strcmp(arch, "i386") || !strcmp(arch, "x86_64")) {
-+        qtest_add_data_func("/hyperv/hv-default",
-+                            NULL, test_query_cpu_hv_default);
-+        qtest_add_data_func("/hyperv/hv-default-minus",
-+                            NULL, test_query_cpu_hv_default_minus);
-+        qtest_add_data_func("/hyperv/hv-custom",
-+                            NULL, test_query_cpu_hv_custom);
-+        if (kvm_has_sys_hyperv_cpuid()) {
-+            qtest_add_data_func("/hyperv/hv-passthrough",
-+                                NULL, test_query_cpu_hv_passthrough);
-+        }
-+    }
-+
-+    return g_test_run();
-+}
-diff --git a/tests/qtest/meson.build b/tests/qtest/meson.build
-index 6a67c538be12..fcbe425626f4 100644
---- a/tests/qtest/meson.build
-+++ b/tests/qtest/meson.build
-@@ -64,7 +64,8 @@ qtests_i386 = \
-    'vmgenid-test',
-    'migration-test',
-    'test-x86-cpuid-compat',
--   'numa-test']
-+   'numa-test',
-+   'hyperv-test']
- 
- dbus_daemon = find_program('dbus-daemon', required: false)
- if dbus_daemon.found() and config_host.has_key('GDBUS_CODEGEN')
--- 
-2.29.2
+Looks like that solves the issue. Thanks.
+- Bruce
 
 
