@@ -2,77 +2,47 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 463962ECA38
-	for <lists+qemu-devel@lfdr.de>; Thu,  7 Jan 2021 06:42:51 +0100 (CET)
-Received: from localhost ([::1]:32820 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id F0F4D2ECA45
+	for <lists+qemu-devel@lfdr.de>; Thu,  7 Jan 2021 06:56:38 +0100 (CET)
+Received: from localhost ([::1]:37612 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kxO4Q-0000Vc-3j
-	for lists+qemu-devel@lfdr.de; Thu, 07 Jan 2021 00:42:50 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39192)
+	id 1kxOHl-0003Dd-GD
+	for lists+qemu-devel@lfdr.de; Thu, 07 Jan 2021 00:56:37 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41576)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <luoyonggang@gmail.com>)
- id 1kxO0b-0004gV-Fh
- for qemu-devel@nongnu.org; Thu, 07 Jan 2021 00:38:53 -0500
-Received: from mail-pj1-x1030.google.com ([2607:f8b0:4864:20::1030]:36531)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <luoyonggang@gmail.com>)
- id 1kxO0Z-000825-Ty
- for qemu-devel@nongnu.org; Thu, 07 Jan 2021 00:38:53 -0500
-Received: by mail-pj1-x1030.google.com with SMTP id l23so3078207pjg.1
- for <qemu-devel@nongnu.org>; Wed, 06 Jan 2021 21:38:51 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=FJcCqNbly+HuBFBx/VMoWDYh1LrAqFMypQIcCUsLO3E=;
- b=AbB54v0n6NruxVsQno+eefZ6NeRDZn0/v1sbL7S7RnTSXq0SN02wxfnyyllRWE+xJG
- cWNyxIaSubc4XVT5kv5lZiK4Ifwme9idfIqtDyYnggeViontuBLza/abghCWWmdhULlP
- NVR2LmL4gOhyEu6DR5rd75I7sdom4BVb2qAgT3o21D0QxLUoaBm92gfs5aWY9gOnJwaZ
- 3DMw00AaHs3oQZpXBFrmUCpN1aPNmY2tUMBiblSYtCSfB0M6lI+jcx38fBy4+EGJb0RN
- f4ZYLI02L2Rqew9XYNlLXah0T3dqUq5Bbul+iaVvEVPtChHLisPEz3NHD/GhZs0kOzte
- 6MlA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=FJcCqNbly+HuBFBx/VMoWDYh1LrAqFMypQIcCUsLO3E=;
- b=DYkhPblcD8fiJTgBXMJyUbw2pSMTySTP4VkbWPIeVrtZreoKpKKKjEpDqpoQT0rdGk
- DSAvcdsnBBXKwPRIMDicvBBaT+3AvaYYaSWhPxDHkervPESHjQCRYPs418xkwKcFXAsS
- bJ9WGGlt0DhiNe7JmKtDBOLNm+pf7dXA063MjqYtQx8BklQ3sF87KG8EKaGRSYnIrv61
- bedZIEk2gSuffZEd3UmRVQEodyyDACl14aPMmhY8f9Ux7A77hocKxkPp/Xi+xtwXHkT7
- q3Pn1egLhrrPLmv/9I7TPCPIlCBewFG8kbgHspXXj6/y+qANo5GFJ/6z8G2uDb4sAmYE
- HgUg==
-X-Gm-Message-State: AOAM532JOYThd7T3tWJ3ZJU1g7jJmkkZTx0uXL5r4s9dqynFbav6qtCV
- kxnzJ7kTlwTU1fRRbyESsXRb0gtR8UDhiO0N
-X-Google-Smtp-Source: ABdhPJwythTqFvocJvAyu+lnwNJ0z69dQJeEdda4GT7NdYlT5KGPwnHx7i7z9ay99apOE4RQWjMiew==
-X-Received: by 2002:a17:90a:fb8e:: with SMTP id
- cp14mr7561417pjb.96.1609997930234; 
- Wed, 06 Jan 2021 21:38:50 -0800 (PST)
-Received: from localhost.localdomain ([103.94.185.75])
- by smtp.googlemail.com with ESMTPSA id y6sm7660091pjl.0.2021.01.06.21.38.47
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 06 Jan 2021 21:38:49 -0800 (PST)
-From: Yonggang Luo <luoyonggang@gmail.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH 4/4] maintainers: Add me as Windows Hosted Continuous
- Integration maintainer
-Date: Wed,  6 Jan 2021 21:38:25 -0800
-Message-Id: <20210107053825.2010-5-luoyonggang@gmail.com>
-X-Mailer: git-send-email 2.29.2.windows.3
-In-Reply-To: <20210107053825.2010-1-luoyonggang@gmail.com>
-References: <20210107053825.2010-1-luoyonggang@gmail.com>
+ (Exim 4.90_1) (envelope-from <alxndr@bu.edu>) id 1kxOG4-0002Qp-Cu
+ for qemu-devel@nongnu.org; Thu, 07 Jan 2021 00:54:52 -0500
+Received: from relay68.bu.edu ([128.197.228.73]:33014)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <alxndr@bu.edu>) id 1kxOG2-0007Nf-I4
+ for qemu-devel@nongnu.org; Thu, 07 Jan 2021 00:54:51 -0500
+X-Envelope-From: alxndr@bu.edu
+X-BU-AUTH: mozz.bu.edu [128.197.127.33]
+Received: from BU-AUTH (localhost.localdomain [127.0.0.1]) (authenticated
+ bits=0)
+ by relay68.bu.edu (8.14.3/8.14.3) with ESMTP id 1075s8nW010641
+ (version=TLSv1/SSLv3 cipher=AES256-GCM-SHA384 bits=256 verify=NO);
+ Thu, 7 Jan 2021 00:54:11 -0500
+Date: Thu, 7 Jan 2021 00:54:08 -0500
+From: Alexander Bulekov <alxndr@bu.edu>
+To: Qiuhao Li <Qiuhao.Li@outlook.com>
+Subject: Re: [PATCH v4 6/7] fuzz: add minimization options
+Message-ID: <20210107055408.dj2fdn6rpjeucedn@mozz.bu.edu>
+References: <ME3P282MB17456B93AE422008F433C50DFCD80@ME3P282MB1745.AUSP282.PROD.OUTLOOK.COM>
+ <ME3P282MB1745F90579724DF1BCC3F18FFCD80@ME3P282MB1745.AUSP282.PROD.OUTLOOK.COM>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF8-8
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1030;
- envelope-from=luoyonggang@gmail.com; helo=mail-pj1-x1030.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <ME3P282MB1745F90579724DF1BCC3F18FFCD80@ME3P282MB1745.AUSP282.PROD.OUTLOOK.COM>
+Received-SPF: pass client-ip=128.197.228.73; envelope-from=alxndr@bu.edu;
+ helo=relay68.bu.edu
+X-Spam_score_int: -15
+X-Spam_score: -1.6
+X-Spam_bar: -
+X-Spam_report: (-1.6 / 5.0 requ) BAYES_00=-1.9, HK_RANDOM_ENVFROM=0.001,
+ HK_RANDOM_FROM=0.999, RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -85,35 +55,101 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Paolo Bonzini <pbonzini@redhat.com>,
- Sunil Muthuswamy <sunilmut@microsoft.com>, Ed Maste <emaste@freebsd.org>,
- Yonggang Luo <luoyonggang@gmail.com>
+Cc: thuth@redhat.com, qemu-devel@nongnu.org, darren.kenny@oracle.com,
+ bsd@redhat.com, stefanha@redhat.com, pbonzini@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Signed-off-by: Yonggang Luo <luoyonggang@gmail.com>
----
- MAINTAINERS | 6 ++++++
- 1 file changed, 6 insertions(+)
+On 201229 1240, Qiuhao Li wrote:
+> -M1: loop around the remove minimizer
+> -M2: try setting bits in operand of write/out to zero
+> Signed-off-by: Qiuhao Li <Qiuhao.Li@outlook.com>
 
-diff --git a/MAINTAINERS b/MAINTAINERS
-index 4be087b88e..4d9df874a1 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -3198,6 +3198,12 @@ S: Maintained
- F: .cirrus.yml
- W: https://cirrus-ci.com/github/qemu/qemu
- 
-+Windows Hosted Continuous Integration
-+M: Yonggang Luo <luoyonggang@gmail.com>
-+S: Maintained
-+F: .cirrus.yml
-+W: https://cirrus-ci.com/github/qemu/qemu
-+
- GitLab Continuous Integration
- M: Thomas Huth <thuth@redhat.com>
- M: Philippe Mathieu-Daudé <philmd@redhat.com>
--- 
-2.29.2.windows.3
+Reviewed-by: Alexander Bulekov <alxndr@bu.edu>
 
+> ---
+>  scripts/oss-fuzz/minimize_qtest_trace.py | 32 +++++++++++++++++++-----
+>  1 file changed, 26 insertions(+), 6 deletions(-)
+> 
+> diff --git a/scripts/oss-fuzz/minimize_qtest_trace.py b/scripts/oss-fuzz/minimize_qtest_trace.py
+> index 70ac0c5366..a681984076 100755
+> --- a/scripts/oss-fuzz/minimize_qtest_trace.py
+> +++ b/scripts/oss-fuzz/minimize_qtest_trace.py
+> @@ -16,6 +16,10 @@ QEMU_PATH = None
+>  TIMEOUT = 5
+>  CRASH_TOKEN = None
+>  
+> +# Minimization levels
+> +M1 = False # loop around the remove minimizer
+> +M2 = False # try setting bits in operand of write/out to zero
+> +
+>  write_suffix_lookup = {"b": (1, "B"),
+>                         "w": (2, "H"),
+>                         "l": (4, "L"),
+> @@ -23,10 +27,20 @@ write_suffix_lookup = {"b": (1, "B"),
+>  
+>  def usage():
+>      sys.exit("""\
+> -Usage: QEMU_PATH="/path/to/qemu" QEMU_ARGS="args" {} input_trace output_trace
+> +Usage:
+> +
+> +QEMU_PATH="/path/to/qemu" QEMU_ARGS="args" {} [Options] input_trace output_trace
+> +
+>  By default, will try to use the second-to-last line in the output to identify
+>  whether the crash occred. Optionally, manually set a string that idenitifes the
+>  crash by setting CRASH_TOKEN=
+> +
+> +Options:
+> +
+> +-M1: enable a loop around the remove minimizer, which may help decrease some
+> +     timing dependant instructions. Off by default.
+> +-M2: try setting bits in operand of write/out to zero. Off by default.
+> +
+>  """.format((sys.argv[0])))
+>  
+>  deduplication_note = """\n\
+> @@ -213,24 +227,30 @@ def minimize_trace(inpath, outpath):
+>      print("Setting the timeout for {} seconds".format(TIMEOUT))
+>  
+>      newtrace = trace[:]
+> -
+> +    global M1, M2
+>      # remove minimizer
+>      old_len = len(newtrace) + 1
+>      while(old_len > len(newtrace)):
+>          old_len = len(newtrace)
+> +        print("trace lenth = ", old_len)
+>          remove_minimizer(newtrace, outpath)
+> +        if not M1 and not M2:
+> +            break
+>          newtrace = list(filter(lambda s: s != "", newtrace))
+>      assert(check_if_trace_crashes(newtrace, outpath))
+>  
+> -    # set zero minimizer
+> -    set_zero_minimizer(newtrace, outpath)
+> +    if M2:
+> +        set_zero_minimizer(newtrace, outpath)
+>      assert(check_if_trace_crashes(newtrace, outpath))
+>  
+>  
+>  if __name__ == '__main__':
+>      if len(sys.argv) < 3:
+>          usage()
+> -
+> +    if "-M1" in sys.argv:
+> +        M1 = True
+> +    if "-M2" in sys.argv:
+> +        M2 = True
+>      QEMU_PATH = os.getenv("QEMU_PATH")
+>      QEMU_ARGS = os.getenv("QEMU_ARGS")
+>      if QEMU_PATH is None or QEMU_ARGS is None:
+> @@ -239,4 +259,4 @@ if __name__ == '__main__':
+>      #     QEMU_ARGS += " -accel qtest"
+>      CRASH_TOKEN = os.getenv("CRASH_TOKEN")
+>      QEMU_ARGS += " -qtest stdio -monitor none -serial none "
+> -    minimize_trace(sys.argv[1], sys.argv[2])
+> +    minimize_trace(sys.argv[-2], sys.argv[-1])
+> -- 
+> 2.25.1
+> 
 
