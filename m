@@ -2,50 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id ECF042ED117
-	for <lists+qemu-devel@lfdr.de>; Thu,  7 Jan 2021 14:46:20 +0100 (CET)
-Received: from localhost ([::1]:40396 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 550BB2ED0F9
+	for <lists+qemu-devel@lfdr.de>; Thu,  7 Jan 2021 14:43:41 +0100 (CET)
+Received: from localhost ([::1]:33010 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kxVcK-0006yu-1g
-	for lists+qemu-devel@lfdr.de; Thu, 07 Jan 2021 08:46:20 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36122)
+	id 1kxVZk-0003qA-DQ
+	for lists+qemu-devel@lfdr.de; Thu, 07 Jan 2021 08:43:40 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36226)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1kxVTB-00063f-D1
- for qemu-devel@nongnu.org; Thu, 07 Jan 2021 08:36:57 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:32798)
+ (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1kxVTZ-0006JH-IE
+ for qemu-devel@nongnu.org; Thu, 07 Jan 2021 08:37:17 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:22845)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1kxVT5-0004fg-8x
- for qemu-devel@nongnu.org; Thu, 07 Jan 2021 08:36:53 -0500
+ (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1kxVTV-0004rF-Vf
+ for qemu-devel@nongnu.org; Thu, 07 Jan 2021 08:37:17 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1610026606;
+ s=mimecast20190719; t=1610026633;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=NDJl84KEdjlgLLvcRzDOsHL+HtcoP4SkwFsxAmiKiRE=;
- b=H+GPGPfQc4LtiChm1d/bKJyfCasJi+JqCkkAzTp7bEbCtPbR6AnAfDLAx/tnUDw6Y+RNLK
- yCIRPtUbjKSxBGl+mwHK46MCQGiHU4RsssGtmv9O3UcWj2ybhD6kHs9gDTX5tb0il4P4u2
- hM9jF7cnrQmzipcIpgEHh1l8Cyo4UZ8=
+ bh=dVlzzsAxRMvurHvFrOg8YkHRbLfUgjuHNTWvKkQZmQc=;
+ b=V83a4a8Kk0AYDinbwHRo0+2YzOi9WrpwpPO635GwD181nsOjUVNHo+coVScjU8aJyrfFKr
+ pbEPiU9/k6shjEPAr2HshwcNYRiNTsfb6T/NsQdGgcNKAsn85ZWpwW+f6W6isCJsQvqAoy
+ hzYXm0Iy5VMmnsZRVTiBr/TKnCyMmlQ=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-476-85M06svQPa6vO3QCzX-uUA-1; Thu, 07 Jan 2021 08:36:44 -0500
-X-MC-Unique: 85M06svQPa6vO3QCzX-uUA-1
+ us-mta-358-0bjmQYbsMMmOIsStbWPJYw-1; Thu, 07 Jan 2021 08:37:10 -0500
+X-MC-Unique: 0bjmQYbsMMmOIsStbWPJYw-1
 Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
  [10.5.11.16])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 316AA801AA7;
- Thu,  7 Jan 2021 13:36:43 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id B4CD91005E42;
+ Thu,  7 Jan 2021 13:37:05 +0000 (UTC)
 Received: from t480s.redhat.com (ovpn-114-161.ams2.redhat.com [10.36.114.161])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 28A2E71C82;
- Thu,  7 Jan 2021 13:36:25 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 81C2371C82;
+ Thu,  7 Jan 2021 13:36:43 +0000 (UTC)
 From: David Hildenbrand <david@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v4 09/11] softmmu/physmem: Extend
- ram_block_discard_(require|disable) by two discard types
-Date: Thu,  7 Jan 2021 14:34:21 +0100
-Message-Id: <20210107133423.44964-10-david@redhat.com>
+Subject: [PATCH v4 10/11] virtio-mem: Require only coordinated discards
+Date: Thu,  7 Jan 2021 14:34:22 +0100
+Message-Id: <20210107133423.44964-11-david@redhat.com>
 In-Reply-To: <20210107133423.44964-1-david@redhat.com>
 References: <20210107133423.44964-1-david@redhat.com>
 MIME-Version: 1.0
@@ -77,13 +76,12 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Marek Kedzierski <mkedzier@redhat.com>,
- Pankaj Gupta <pankaj.gupta.linux@gmail.com>,
+Cc: Pankaj Gupta <pankaj.gupta.linux@gmail.com>,
+ Alex Williamson <alex.williamson@redhat.com>,
  Wei Yang <richard.weiyang@linux.alibaba.com>,
  David Hildenbrand <david@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>,
- Alex Williamson <alex.williamson@redhat.com>, Peter Xu <peterx@redhat.com>,
- "Dr . David Alan Gilbert" <dgilbert@redhat.com>,
- Auger Eric <eric.auger@redhat.com>,
+ "Dr . David Alan Gilbert" <dgilbert@redhat.com>, Peter Xu <peterx@redhat.com>,
+ Marek Kedzierski <mkedzier@redhat.com>, Auger Eric <eric.auger@redhat.com>,
  Pankaj Gupta <pankaj.gupta@cloud.ionos.com>,
  teawater <teawaterz@linux.alibaba.com>,
  Jonathan Cameron <Jonathan.Cameron@huawei.com>,
@@ -91,10 +89,10 @@ Cc: Marek Kedzierski <mkedzier@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-We want to separate the two cases whereby we discard ram
-- uncoordinated: e.g., virito-balloon
-- coordinated: e.g., virtio-mem coordinated via the RamDiscardMgr
+We implement the RamDiscardMgr interface and only require coordinated
+discarding of RAM to work.
 
+Reviewed-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
 Reviewed-by: Pankaj Gupta <pankaj.gupta@cloud.ionos.com>
 Cc: Paolo Bonzini <pbonzini@redhat.com>
 Cc: "Michael S. Tsirkin" <mst@redhat.com>
@@ -109,144 +107,40 @@ Cc: teawater <teawaterz@linux.alibaba.com>
 Cc: Marek Kedzierski <mkedzier@redhat.com>
 Signed-off-by: David Hildenbrand <david@redhat.com>
 ---
- include/exec/memory.h | 18 +++++++++++++--
- softmmu/physmem.c     | 54 ++++++++++++++++++++++++++++++++++++++-----
- 2 files changed, 64 insertions(+), 8 deletions(-)
+ hw/virtio/virtio-mem.c | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
-diff --git a/include/exec/memory.h b/include/exec/memory.h
-index 67d9f1f3a7..11832cce3c 100644
---- a/include/exec/memory.h
-+++ b/include/exec/memory.h
-@@ -2808,6 +2808,12 @@ static inline MemOp devend_memop(enum device_endian end)
-  */
- int ram_block_discard_disable(bool state);
- 
-+/*
-+ * See ram_block_discard_disable(): only disable uncoordinated discards,
-+ * keeping coordinated discards (via the RamDiscardMgr) enabled.
-+ */
-+int ram_block_uncoordinated_discard_disable(bool state);
-+
- /*
-  * Inhibit technologies that disable discarding of pages in RAM blocks.
-  *
-@@ -2817,12 +2823,20 @@ int ram_block_discard_disable(bool state);
- int ram_block_discard_require(bool state);
- 
- /*
-- * Test if discarding of memory in ram blocks is disabled.
-+ * See ram_block_discard_require(): only inhibit technologies that disable
-+ * uncoordinated discarding of pages in RAM blocks, allowing co-existance with
-+ * technologies that only inhibit uncoordinated discards (via the
-+ * RamDiscardMgr).
-+ */
-+int ram_block_coordinated_discard_require(bool state);
-+
-+/*
-+ * Test if any discarding of memory in ram blocks is disabled.
-  */
- bool ram_block_discard_is_disabled(void);
- 
- /*
-- * Test if discarding of memory in ram blocks is required to work reliably.
-+ * Test if any discarding of memory in ram blocks is required to work reliably.
-  */
- bool ram_block_discard_is_required(void);
- 
-diff --git a/softmmu/physmem.c b/softmmu/physmem.c
-index dc61335b60..2e8512aa26 100644
---- a/softmmu/physmem.c
-+++ b/softmmu/physmem.c
-@@ -3660,8 +3660,14 @@ void mtree_print_dispatch(AddressSpaceDispatch *d, MemoryRegion *root)
+diff --git a/hw/virtio/virtio-mem.c b/hw/virtio/virtio-mem.c
+index f419a758f3..99d0712195 100644
+--- a/hw/virtio/virtio-mem.c
++++ b/hw/virtio/virtio-mem.c
+@@ -687,7 +687,7 @@ static void virtio_mem_device_realize(DeviceState *dev, Error **errp)
+         return;
      }
+ 
+-    if (ram_block_discard_require(true)) {
++    if (ram_block_coordinated_discard_require(true)) {
+         error_setg(errp, "Discarding RAM is disabled");
+         return;
+     }
+@@ -695,7 +695,7 @@ static void virtio_mem_device_realize(DeviceState *dev, Error **errp)
+     ret = ram_block_discard_range(rb, 0, qemu_ram_get_used_length(rb));
+     if (ret) {
+         error_setg_errno(errp, -ret, "Unexpected error discarding RAM");
+-        ram_block_discard_require(false);
++        ram_block_coordinated_discard_require(false);
+         return;
+     }
+ 
+@@ -738,7 +738,7 @@ static void virtio_mem_device_unrealize(DeviceState *dev)
+     virtio_del_queue(vdev, 0);
+     virtio_cleanup(vdev);
+     g_free(vmem->bitmap);
+-    ram_block_discard_require(false);
++    ram_block_coordinated_discard_require(false);
  }
  
-+/* Require any discards to work. */
- static unsigned int ram_block_discard_requirers;
-+/* Require only coordinated discards to work. */
-+static unsigned int ram_block_coordinated_discard_requirers;
-+/* Disable any discards. */
- static unsigned int ram_block_discard_disablers;
-+/* Disable only uncoordinated discards. */
-+static unsigned int ram_block_uncoordinated_discard_disablers;
- static QemuMutex ram_block_discard_disable_mutex;
- 
- static void ram_block_discard_disable_mutex_lock(void)
-@@ -3687,10 +3693,27 @@ int ram_block_discard_disable(bool state)
-     ram_block_discard_disable_mutex_lock();
-     if (!state) {
-         ram_block_discard_disablers--;
--    } else if (!ram_block_discard_requirers) {
--        ram_block_discard_disablers++;
-+    } else if (ram_block_discard_requirers ||
-+               ram_block_coordinated_discard_requirers) {
-+        ret = -EBUSY;
-     } else {
-+        ram_block_discard_disablers++;
-+    }
-+    ram_block_discard_disable_mutex_unlock();
-+    return ret;
-+}
-+
-+int ram_block_uncoordinated_discard_disable(bool state)
-+{
-+    int ret = 0;
-+
-+    ram_block_discard_disable_mutex_lock();
-+    if (!state) {
-+        ram_block_uncoordinated_discard_disablers--;
-+    } else if (ram_block_discard_requirers) {
-         ret = -EBUSY;
-+    } else {
-+        ram_block_uncoordinated_discard_disablers++;
-     }
-     ram_block_discard_disable_mutex_unlock();
-     return ret;
-@@ -3703,10 +3726,27 @@ int ram_block_discard_require(bool state)
-     ram_block_discard_disable_mutex_lock();
-     if (!state) {
-         ram_block_discard_requirers--;
--    } else if (!ram_block_discard_disablers) {
--        ram_block_discard_requirers++;
-+    } else if (ram_block_discard_disablers ||
-+               ram_block_uncoordinated_discard_disablers) {
-+        ret = -EBUSY;
-     } else {
-+        ram_block_discard_requirers++;
-+    }
-+    ram_block_discard_disable_mutex_unlock();
-+    return ret;
-+}
-+
-+int ram_block_coordinated_discard_require(bool state)
-+{
-+    int ret = 0;
-+
-+    ram_block_discard_disable_mutex_lock();
-+    if (!state) {
-+        ram_block_coordinated_discard_requirers--;
-+    } else if (ram_block_discard_disablers) {
-         ret = -EBUSY;
-+    } else {
-+        ram_block_coordinated_discard_requirers++;
-     }
-     ram_block_discard_disable_mutex_unlock();
-     return ret;
-@@ -3714,10 +3754,12 @@ int ram_block_discard_require(bool state)
- 
- bool ram_block_discard_is_disabled(void)
- {
--    return qatomic_read(&ram_block_discard_disablers);
-+    return qatomic_read(&ram_block_discard_disablers) ||
-+           qatomic_read(&ram_block_uncoordinated_discard_disablers);
- }
- 
- bool ram_block_discard_is_required(void)
- {
--    return qatomic_read(&ram_block_discard_requirers);
-+    return qatomic_read(&ram_block_discard_requirers) ||
-+           qatomic_read(&ram_block_coordinated_discard_requirers);
- }
+ static int virtio_mem_discard_range_cb(const VirtIOMEM *vmem, void *arg,
 -- 
 2.29.2
 
