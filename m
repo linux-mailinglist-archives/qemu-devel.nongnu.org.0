@@ -2,85 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C62472ECBA6
-	for <lists+qemu-devel@lfdr.de>; Thu,  7 Jan 2021 09:14:07 +0100 (CET)
-Received: from localhost ([::1]:47628 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A9CC72ECBE0
+	for <lists+qemu-devel@lfdr.de>; Thu,  7 Jan 2021 09:46:42 +0100 (CET)
+Received: from localhost ([::1]:33650 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kxQQo-0001Ec-Sm
-	for lists+qemu-devel@lfdr.de; Thu, 07 Jan 2021 03:14:06 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34926)
+	id 1kxQwL-0000oZ-9n
+	for lists+qemu-devel@lfdr.de; Thu, 07 Jan 2021 03:46:41 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41354)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1kxQPf-0000ny-Me
- for qemu-devel@nongnu.org; Thu, 07 Jan 2021 03:12:55 -0500
-Received: from mail-wr1-x433.google.com ([2a00:1450:4864:20::433]:33499)
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1kxQvS-0000LM-Dv
+ for qemu-devel@nongnu.org; Thu, 07 Jan 2021 03:45:46 -0500
+Received: from indium.canonical.com ([91.189.90.7]:40216)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1kxQPd-00030H-NM
- for qemu-devel@nongnu.org; Thu, 07 Jan 2021 03:12:55 -0500
-Received: by mail-wr1-x433.google.com with SMTP id t30so4735266wrb.0
- for <qemu-devel@nongnu.org>; Thu, 07 Jan 2021 00:12:52 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=references:user-agent:from:to:cc:subject:date:in-reply-to
- :message-id:mime-version:content-transfer-encoding;
- bh=Vo1fYfjWWssgAfItKHCgmhmHIKXo/CI3WJxluQvhc/U=;
- b=EuDxWwjSw1QKd2YAC7qTpZ5kAd3/q29fpL0FtCA5jQq1eOVg2A6NBbgYg1PSyed+JQ
- zBtm85iGd58SQ/A22tG0GKzvnJdKG3YlU9o7Z4O/WZXyRmjlcpY//IazA0AOYZD/MENb
- xkiuR9pRyhzqTF6tTATfyJ9nX4bvIm4XESF901G+i4d8IcKG1DpHwA7SgpnjW6iFvfih
- sdS+s0+epg6vq/15Jq/ifO5hjtl8E7bKNcohnOmJg8ykajlFSR/TnuWlLWMtpI9D1N/Y
- nTE9Ofz4v4d6fnrex7tpva9Vcy5Tp7c0UFCwpqCbdEEH/A+Ea8Y9NsMCXnB1uJPU0rLK
- nocA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:references:user-agent:from:to:cc:subject:date
- :in-reply-to:message-id:mime-version:content-transfer-encoding;
- bh=Vo1fYfjWWssgAfItKHCgmhmHIKXo/CI3WJxluQvhc/U=;
- b=grfYDo3Oi/G1tqMvRuNRZPrH1QfNrb65OYthUUvz9DTrSw/irQUvt5KK7DAYf5KomP
- gf2HX+mLsA1RcKcfV6NvdagZdWYNwB9c1X7e3/oIMQTQ19uFqeIhqT2yBJX1uznRO6CA
- kM5xG78yXA6tzJru8zcLQyjVfNY3wBoAzSlD0VKxhaB6ph4uwFPhQ8vucGVHK/+uL9Ii
- BDFGiTekZ0r/prC0m0HuKVa2iqZa7nBNo252IVzBiGMfy/iCYFxa2Wenr2zjMenat3kW
- huNU1118EUqlLqQN5fx5uzNpGoAtcNw0XQsLpAWpKKX+BqLzEBeszBzcXNArDXWSXPa4
- Wahw==
-X-Gm-Message-State: AOAM531UwP1x+f4igNqkWwX/5zZe8Rvn2iSBFtfQBhFaXcORJV2uOGUh
- B1T2r/O0z6BExhXYRNuzFewdRA==
-X-Google-Smtp-Source: ABdhPJzAXjgz3aae2IY51wyFcCcNHDoPi2FDfqSGFsp/XJXGLlw08P/MPummQeCWBbHIrh9uM80P9g==
-X-Received: by 2002:adf:9dc4:: with SMTP id q4mr7608036wre.367.1610007171474; 
- Thu, 07 Jan 2021 00:12:51 -0800 (PST)
-Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id a14sm6659062wrn.3.2021.01.07.00.12.50
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 07 Jan 2021 00:12:50 -0800 (PST)
-Received: from zen (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id A3B8F1FF7E;
- Thu,  7 Jan 2021 08:12:49 +0000 (GMT)
-References: <20210104144241.343186-1-pbonzini@redhat.com>
- <CAFEAcA_1MWezZ_X=V8JKBVjMRMO8Z4tY=_qAHV20ROzU+EEm8w@mail.gmail.com>
- <871rey2edv.fsf@linaro.org>
- <CABgObfZ9WCfXcnEshmRoZTw2RMTfFfcDK3-aJvYn363+P2yZSQ@mail.gmail.com>
-User-agent: mu4e 1.5.7; emacs 28.0.50
-From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: Paolo Bonzini <pbonzini@redhat.com>
-Subject: Re: [PULL v2 00/53] Misc patches for 2020-12-21
-Date: Thu, 07 Jan 2021 08:12:10 +0000
-In-reply-to: <CABgObfZ9WCfXcnEshmRoZTw2RMTfFfcDK3-aJvYn363+P2yZSQ@mail.gmail.com>
-Message-ID: <87y2h517y6.fsf@linaro.org>
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1kxQvQ-0001hE-0E
+ for qemu-devel@nongnu.org; Thu, 07 Jan 2021 03:45:46 -0500
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1kxQvN-00085F-SE
+ for <qemu-devel@nongnu.org>; Thu, 07 Jan 2021 08:45:41 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id CCE292E8137
+ for <qemu-devel@nongnu.org>; Thu,  7 Jan 2021 08:45:41 +0000 (UTC)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::433;
- envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x433.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Date: Thu, 07 Jan 2021 08:40:13 -0000
+From: =?utf-8?q?Philippe_Mathieu-Daud=C3=A9?= <1910505@bugs.launchpad.net>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: philmd
+X-Launchpad-Bug-Reporter: =?utf-8?q?Philippe_Mathieu-Daud=C3=A9_=28philmd?=
+ =?utf-8?q?=29?=
+X-Launchpad-Bug-Modifier: =?utf-8?q?Philippe_Mathieu-Daud=C3=A9_=28philmd?=
+ =?utf-8?q?=29?=
+Message-Id: <161000881348.18330.2540162310564338256.malonedeb@gac.canonical.com>
+Subject: [Bug 1910505] [NEW] atomic failure linking with --enable-sanitizers
+ on 32-bit Linux hosts
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="34b3ffd45c9543b7f7aa5aa313925241e9e7ca3f"; Instance="production"
+X-Launchpad-Hash: 999e1159fb85fa9c886f96940d771f2c3245ac02
+Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
+ helo=indium.canonical.com
+X-Spam_score_int: -65
+X-Spam_score: -6.6
+X-Spam_bar: ------
+X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9,
+ HEADER_FROM_DIFFERENT_DOMAINS=0.249, RCVD_IN_DNSWL_HI=-5,
+ RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -89,78 +71,161 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- qemu-devel <qemu-devel@nongnu.org>
+Reply-To: Bug 1910505 <1910505@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+Public bug reported:
 
-Paolo Bonzini <pbonzini@redhat.com> writes:
+As of commit 50536341b47, using --enable-sanitizers on 32-bit Linux host:
+- displays various warnings
+- fails linking
 
-> I have already sent the v3, so you may want to wait a day or two. The good
-> thing of conversion patches is that if they break something you can just
-> drop them. :)
+Using Ubuntu 18.04 (release 20201211.1) and Clang10 on i386:
 
-I re-span with v4 which just has a few extra regression fixes on top of
-the ones in your v3.
+[139/675] Compiling C object softmmu.fa.p/softmmu_icount.c.o
+In file included from ../softmmu/icount.c:31:
+In file included from include/exec/exec-all.h:23:
+In file included from ../target/mips/cpu.h:4:
+In file included from ../target/mips/cpu-qom.h:23:
+In file included from include/hw/core/cpu.h:23:
+In file included from include/hw/qdev-core.h:5:
+In file included from include/qemu/bitmap.h:16:
+In file included from include/qemu/bitops.h:17:
+include/qemu/atomic.h:463:12: warning: misaligned atomic operation may
+incur significant performance penalty [-Watomic-alignment]
+    return qatomic_read__nocheck(ptr);
+           ^
+include/qemu/atomic.h:129:5: note: expanded from macro
+'qatomic_read__nocheck'
+    __atomic_load_n(ptr, __ATOMIC_RELAXED)
+    ^
+include/qemu/atomic.h:473:5: warning: misaligned atomic operation may
+incur significant performance penalty [-Watomic-alignment]
+    qatomic_set__nocheck(ptr, val);
+    ^
+include/qemu/atomic.h:138:5: note: expanded from macro
+'qatomic_set__nocheck'
+    __atomic_store_n(ptr, i, __ATOMIC_RELAXED)
+    ^
+2 warnings generated.
+[...]
 
->
-> Paolo
->
-> Il mer 6 gen 2021, 17:56 Alex Benn=C3=A9e <alex.bennee@linaro.org> ha scr=
-itto:
->
->>
->> Peter Maydell <peter.maydell@linaro.org> writes:
->>
->> > On Mon, 4 Jan 2021 at 14:44, Paolo Bonzini <pbonzini@redhat.com> wrote:
->> >>
->> >> The following changes since commit
->> 41192db338588051f21501abc13743e62b0a5605:
->> >>
->> >>   Merge remote-tracking branch
->> 'remotes/ehabkost-gl/tags/machine-next-pull-request' into staging
->> (2021-01-01 22:57:15 +0000)
->> >>
->> >> are available in the Git repository at:
->> >>
->> >>   https://gitlab.com/bonzini/qemu.git tags/for-upstream
->> >>
->> >> for you to fetch changes up to bac87e979fcca9f884e1c9190132c51d99a869=
-84:
->> >>
->> >>   win32: drop fd registration to the main-loop on setting non-block
->> (2021-01-02 21:03:38 +0100)
->> >>
->> >> ----------------------------------------------------------------
->> >> From Alex's pull request:
->> >> * improve cross-build KVM coverage
->> >> * new --without-default-features configure flag
->> >> * add __repr__ for ConsoleSocket for debugging
->> >> * build tcg tests with -Werror
->> >> * test 32 bit builds with fedora
->> >> * remove last traces of debian9
->> >> * hotfix for centos8 powertools repo
->>
->> Given this might take awhile to get in and the fact I've got more fixes
->> for regressions since Christmas I might as well include these in a only
->> testing PR. I'm giving it a final run on the CI systems now before I
->> send the email, tag for reference:
->>
->> : To github.com:stsquad/qemu.git
->> :  * [new tag]               pull-testing-060121-3 -> pull-testing-06012=
-1-3
->> : To gitlab.com:stsquad/qemu.git
->> :  * [new tag]               pull-testing-060121-3 -> pull-testing-06012=
-1-3
->> : pushed pull-testing-060121-3
->>
->> --
->> Alex Benn=C3=A9e
->>
->>
+[850/2216] Linking target tests/test-hbitmap
+FAILED: tests/test-hbitmap
+clang  -o tests/test-hbitmap tests/test-hbitmap.p/test-hbitmap.c.o
+tests/test-hbitmap.p/iothread.c.o -Wl,--as-needed -Wl,--no-undefined
+-pie -Wl,--whole-archive libblock.fa libcrypto.fa libauthz.fa libqom.fa
+libio.fa -Wl,--no-whole-archive -Wl,--warn-common -fsanitize=3Dundefined
+-fsanitize=3Daddress -Wl,-z,relro -Wl,-z,now -m32 -ggdb
+-fstack-protector-strong -Wl,--start-group libqemuutil.a
+subprojects/libvhost-user/libvhost-user-glib.a
+subprojects/libvhost-user/libvhost-user.a libblock.fa libcrypto.fa
+libauthz.fa libqom.fa libio.fa @block.syms -lgio-2.0 -lgobject-2.0
+-lglib-2.0 -lgio-2.0 -lgobject-2.0 -lglib-2.0 -pthread -lutil -lgnutls
+-lm -lgthread-2.0 -lglib-2.0 /usr/lib/i386-linux-gnu/libglib-2.0.so
+-liscsi -lgthread-2.0 -lglib-2.0 -laio -lcurl
+/usr/lib/i386-linux-gnu/libz.so -lrbd -lrados -lnettle -lgnutls
+-Wl,--end-group
+libblock.fa(block_io.c.o): In function `stat64_max':
+include/qemu/stats64.h:58: undefined reference to `__atomic_load_8'
+include/qemu/stats64.h:60: undefined reference to
+`__atomic_compare_exchange_8'
+libblock.fa(block_qapi.c.o): In function `stat64_get':
+include/qemu/stats64.h:40: undefined reference to `__atomic_load_8'
+libqemuutil.a(util_qsp.c.o): In function `qatomic_set_u64':
+include/qemu/atomic.h:478: undefined reference to `__atomic_store_8'
+libqemuutil.a(util_qsp.c.o): In function `qatomic_read_u64':
+include/qemu/atomic.h:468: undefined reference to `__atomic_load_8'
+clang: error: linker command failed with exit code 1 (use -v to see
+invocation)
 
+Issue previously reported on the list here:
+https://www.mail-archive.com/qemu-devel@nongnu.org/msg770128.html
 
---=20
-Alex Benn=C3=A9e
+** Affects: qemu
+     Importance: Undecided
+         Status: New
+
+-- =
+
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1910505
+
+Title:
+  atomic failure linking with --enable-sanitizers on 32-bit Linux hosts
+
+Status in QEMU:
+  New
+
+Bug description:
+  As of commit 50536341b47, using --enable-sanitizers on 32-bit Linux host:
+  - displays various warnings
+  - fails linking
+
+  Using Ubuntu 18.04 (release 20201211.1) and Clang10 on i386:
+
+  [139/675] Compiling C object softmmu.fa.p/softmmu_icount.c.o
+  In file included from ../softmmu/icount.c:31:
+  In file included from include/exec/exec-all.h:23:
+  In file included from ../target/mips/cpu.h:4:
+  In file included from ../target/mips/cpu-qom.h:23:
+  In file included from include/hw/core/cpu.h:23:
+  In file included from include/hw/qdev-core.h:5:
+  In file included from include/qemu/bitmap.h:16:
+  In file included from include/qemu/bitops.h:17:
+  include/qemu/atomic.h:463:12: warning: misaligned atomic operation may
+  incur significant performance penalty [-Watomic-alignment]
+      return qatomic_read__nocheck(ptr);
+             ^
+  include/qemu/atomic.h:129:5: note: expanded from macro
+  'qatomic_read__nocheck'
+      __atomic_load_n(ptr, __ATOMIC_RELAXED)
+      ^
+  include/qemu/atomic.h:473:5: warning: misaligned atomic operation may
+  incur significant performance penalty [-Watomic-alignment]
+      qatomic_set__nocheck(ptr, val);
+      ^
+  include/qemu/atomic.h:138:5: note: expanded from macro
+  'qatomic_set__nocheck'
+      __atomic_store_n(ptr, i, __ATOMIC_RELAXED)
+      ^
+  2 warnings generated.
+  [...]
+
+  [850/2216] Linking target tests/test-hbitmap
+  FAILED: tests/test-hbitmap
+  clang  -o tests/test-hbitmap tests/test-hbitmap.p/test-hbitmap.c.o
+  tests/test-hbitmap.p/iothread.c.o -Wl,--as-needed -Wl,--no-undefined
+  -pie -Wl,--whole-archive libblock.fa libcrypto.fa libauthz.fa libqom.fa
+  libio.fa -Wl,--no-whole-archive -Wl,--warn-common -fsanitize=3Dundefined
+  -fsanitize=3Daddress -Wl,-z,relro -Wl,-z,now -m32 -ggdb
+  -fstack-protector-strong -Wl,--start-group libqemuutil.a
+  subprojects/libvhost-user/libvhost-user-glib.a
+  subprojects/libvhost-user/libvhost-user.a libblock.fa libcrypto.fa
+  libauthz.fa libqom.fa libio.fa @block.syms -lgio-2.0 -lgobject-2.0
+  -lglib-2.0 -lgio-2.0 -lgobject-2.0 -lglib-2.0 -pthread -lutil -lgnutls
+  -lm -lgthread-2.0 -lglib-2.0 /usr/lib/i386-linux-gnu/libglib-2.0.so
+  -liscsi -lgthread-2.0 -lglib-2.0 -laio -lcurl
+  /usr/lib/i386-linux-gnu/libz.so -lrbd -lrados -lnettle -lgnutls
+  -Wl,--end-group
+  libblock.fa(block_io.c.o): In function `stat64_max':
+  include/qemu/stats64.h:58: undefined reference to `__atomic_load_8'
+  include/qemu/stats64.h:60: undefined reference to
+  `__atomic_compare_exchange_8'
+  libblock.fa(block_qapi.c.o): In function `stat64_get':
+  include/qemu/stats64.h:40: undefined reference to `__atomic_load_8'
+  libqemuutil.a(util_qsp.c.o): In function `qatomic_set_u64':
+  include/qemu/atomic.h:478: undefined reference to `__atomic_store_8'
+  libqemuutil.a(util_qsp.c.o): In function `qatomic_read_u64':
+  include/qemu/atomic.h:468: undefined reference to `__atomic_load_8'
+  clang: error: linker command failed with exit code 1 (use -v to see
+  invocation)
+
+  Issue previously reported on the list here:
+  https://www.mail-archive.com/qemu-devel@nongnu.org/msg770128.html
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1910505/+subscriptions
 
