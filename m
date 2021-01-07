@@ -2,72 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D5E442ED3D1
-	for <lists+qemu-devel@lfdr.de>; Thu,  7 Jan 2021 16:59:41 +0100 (CET)
-Received: from localhost ([::1]:52044 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id F05A92ED3D9
+	for <lists+qemu-devel@lfdr.de>; Thu,  7 Jan 2021 17:02:42 +0100 (CET)
+Received: from localhost ([::1]:54644 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kxXhM-0006sh-Uv
-	for lists+qemu-devel@lfdr.de; Thu, 07 Jan 2021 10:59:40 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53842)
+	id 1kxXkI-00005c-0s
+	for lists+qemu-devel@lfdr.de; Thu, 07 Jan 2021 11:02:42 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54326)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1kxXgF-0005zP-F4
- for qemu-devel@nongnu.org; Thu, 07 Jan 2021 10:58:31 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:22105)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1kxXgD-0005h0-6i
- for qemu-devel@nongnu.org; Thu, 07 Jan 2021 10:58:30 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1610035107;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=vq80xUa2iGjLxb1g3ca/LwoXPqVXagkpMDBEfrLTLCU=;
- b=hWz7CvZYidoYz/bc28jvmCqYJd7TrBnK+j5KxJwJ9KJDiXaeaUwNZn7XVmQr1regy3oMWN
- TSkwnGQLtmeti35z+uTMzZv5CcM35SNv6uxGEPz7o2haVXxXSPa9ty9K94o2cExGRhPb6g
- jH9IAOcXRxjImCSuhACy8y7wDvQ8bzM=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-467-KucNN4KTOJ252_Gm_hd9AQ-1; Thu, 07 Jan 2021 10:58:23 -0500
-X-MC-Unique: KucNN4KTOJ252_Gm_hd9AQ-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id C6455AFA88;
- Thu,  7 Jan 2021 15:58:22 +0000 (UTC)
-Received: from sirius.home.kraxel.org (ovpn-114-197.ams2.redhat.com
- [10.36.114.197])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 8F8125D9DE;
- Thu,  7 Jan 2021 15:58:22 +0000 (UTC)
-Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
- id EFD08180061B; Thu,  7 Jan 2021 16:58:20 +0100 (CET)
-Date: Thu, 7 Jan 2021 16:58:20 +0100
-From: Gerd Hoffmann <kraxel@redhat.com>
-To: Shreyansh Chouhan <chouhan.shreyansh2702@gmail.com>
-Subject: Re: VirtioSound device emulation implementation
-Message-ID: <20210107155820.eww4blxj5kvoletf@sirius.home.kraxel.org>
-References: <CAAQ-SiP8G28ade0jHbhTcv0jtGQb4OSgL5p3mAr0MU_FH8vZ3w@mail.gmail.com>
- <87a6tm2sxb.fsf@linaro.org>
- <CAAQ-SiOW8OnWEb0sHUEeS139-Tw0RO2YD1Tx-1s9iuy3ZVQFgw@mail.gmail.com>
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1kxXiO-0007dk-L7
+ for qemu-devel@nongnu.org; Thu, 07 Jan 2021 11:00:45 -0500
+Received: from mail-ed1-x52d.google.com ([2a00:1450:4864:20::52d]:35120)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1kxXiM-0006SY-9s
+ for qemu-devel@nongnu.org; Thu, 07 Jan 2021 11:00:44 -0500
+Received: by mail-ed1-x52d.google.com with SMTP id u19so8278966edx.2
+ for <qemu-devel@nongnu.org>; Thu, 07 Jan 2021 08:00:41 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=nm2Ima4bp1U3JjhBWCY7piiq4gwIFTGYdxuTBWUSwxA=;
+ b=n5PRIhTcIdazsXZIWOfUu5lS9yaMmgrFRwCnxoqdZIuwe9IvpHrFjhAhibqkzJFYeD
+ 4FOGoPo6ct+qSyvaBQMzAR68yVE7ker2rWREGjsU6dMqqeKGs60mwx6aRgjOYOJiQNzo
+ jp+JEAuSfYrUw6rUbyZKOV937XweNjvcVZt54rbe101Qkaa+asEB+OD7P1oAUjLNfItQ
+ Z+vI7lMiHoruwmio6r0WRnRn6SXKhtZBVxBXk9jpd2y18WpsV8JkDnXXnKcO1OkAyK43
+ AOykowSSrEeCDPXdnyPpw2kGf/mj05sD7dlTauRxyrtZl7r0Ft06v5uY7rle7WGoWBwu
+ IMvw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=nm2Ima4bp1U3JjhBWCY7piiq4gwIFTGYdxuTBWUSwxA=;
+ b=QHxv2AB6sH3VeGILfCg1QptYCOvkzPjdvIvRrIRDL01h9KTP3EBZFAgYsuPSJtAGar
+ iMYLnrvqFWssksq8mm3E78pZfpC2UwuGMGP6nr0/+hdWQh0eAPvDInWiHY1O1GLwx1RS
+ hxfAI3QvaR+X181l77urQe3t6Y/MxYndImU3F4bcN7Z2FmGIKqn3kyYSauoN1tc7yrKj
+ KXxbOr3IK35u7IS8yCsqH+ZYWKah7txqErI0PneHYxJXAnYZqOD6fj9/ZH3mzw78BJ45
+ f7KWw7Np8X+lUAkL+VokW70IYMDjiy2151Ge/qJDD29DjICNJ95Ji7h23XMitXB5eot3
+ g3gw==
+X-Gm-Message-State: AOAM530YLpu9QNSex7e9NS7BrQckeRtnJIs47JAszyMHNhGrQosRJ3Gy
+ 9JrhE75vwkRv1//FRvq3x7EcJvZsoGLXCovhjyvI2A==
+X-Google-Smtp-Source: ABdhPJwaOdl3MCbeZWtzzeFg3+ziw2gRTwk9Grn0NiN/izVIbCAvQTDn7w1SwAyU39h2g6Vw9FK9MERDA/YtI7tRNQU=
+X-Received: by 2002:aa7:cdc3:: with SMTP id h3mr2139042edw.52.1610035239948;
+ Thu, 07 Jan 2021 08:00:39 -0800 (PST)
 MIME-Version: 1.0
-In-Reply-To: <CAAQ-SiOW8OnWEb0sHUEeS139-Tw0RO2YD1Tx-1s9iuy3ZVQFgw@mail.gmail.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kraxel@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=kraxel@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -29
-X-Spam_score: -3.0
-X-Spam_bar: ---
-X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.246,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+References: <20201208180118.157911-1-richard.henderson@linaro.org>
+ <20201208180118.157911-6-richard.henderson@linaro.org>
+In-Reply-To: <20201208180118.157911-6-richard.henderson@linaro.org>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Thu, 7 Jan 2021 16:00:28 +0000
+Message-ID: <CAFEAcA9sT4JdPWkojp0r6yazJc5vbmzWHwnkMtChTQ1aZ2uugQ@mail.gmail.com>
+Subject: Re: [PATCH v2 05/24] target/arm: Fix SCTLR_B test for TCGv_i64
+ load/store
+To: Richard Henderson <richard.henderson@linaro.org>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2a00:1450:4864:20::52d;
+ envelope-from=peter.maydell@linaro.org; helo=mail-ed1-x52d.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -80,33 +78,56 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>,
- qemu-devel@nongnu.org
+Cc: qemu-arm <qemu-arm@nongnu.org>, QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-  Hi,
+On Tue, 8 Dec 2020 at 18:01, Richard Henderson
+<richard.henderson@linaro.org> wrote:
+>
+> Just because operating on a TCGv_i64 temporary does not
+> mean that we're performing a 64-bit operation.  Restrict
+> the frobbing to actual 64-bit operations.
 
-> > Are you planning to make it an in-QEMU device or maybe a external
-> > vhost-user daemon?
-> 
-> The project page states that we need to use the QEMU audio subsystem
-> for playing and capturing audio samples. I am not entirely sure if
-> this implies that the device should be an in-QEMU device or if it
-> could be an external daemon.  What do you suggest?
+If I understand correctly, this patch isn't actually a behaviour
+change because at this point the only users of gen_aa32_ld_i64()
+and gen_aa32_st_i64() are in fact performing 64-bit operations
+so the (opc & MO_SIZE) == MO_64 test is always true. (Presumably
+subsequent patches are going to add uses of these functions that
+want to load smaller sizes?) If that's right, worth mentioning
+explicitly in the commit message, I think.
 
-I think the easiest would be to make it an in-qemu device.  All the
-infrastructure qemu has to play sound in various ways (alsa, pulse,
-jack, oss, ...) can be used without much effort then.
+> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+> ---
+>  target/arm/translate.c | 4 ++--
+>  1 file changed, 2 insertions(+), 2 deletions(-)
+>
+> diff --git a/target/arm/translate.c b/target/arm/translate.c
+> index f35d376341..ef9192cf6b 100644
+> --- a/target/arm/translate.c
+> +++ b/target/arm/translate.c
+> @@ -949,7 +949,7 @@ static void gen_aa32_ld_i64(DisasContext *s, TCGv_i64 val, TCGv_i32 a32,
+>      tcg_gen_qemu_ld_i64(val, addr, index, opc);
+>
+>      /* Not needed for user-mode BE32, where we use MO_BE instead.  */
+> -    if (!IS_USER_ONLY && s->sctlr_b) {
+> +    if (!IS_USER_ONLY && s->sctlr_b && (opc & MO_SIZE) == MO_64) {
+>          tcg_gen_rotri_i64(val, val, 32);
+>      }
+>
+> @@ -968,7 +968,7 @@ static void gen_aa32_st_i64(DisasContext *s, TCGv_i64 val, TCGv_i32 a32,
+>      TCGv addr = gen_aa32_addr(s, a32, opc);
+>
+>      /* Not needed for user-mode BE32, where we use MO_BE instead.  */
+> -    if (!IS_USER_ONLY && s->sctlr_b) {
+> +    if (!IS_USER_ONLY && s->sctlr_b && (opc & MO_SIZE) == MO_64) {
+>          TCGv_i64 tmp = tcg_temp_new_i64();
+>          tcg_gen_rotri_i64(tmp, val, 32);
+>          tcg_gen_qemu_st_i64(tmp, addr, index, opc);
 
-That is not set in stone though.  It is certainly possible to implement
-the device as separate process, using the vhost-user protocol for
-communication with qemu.  On one side it is more effort as you have to
-handle the audio streams and sound devices without qemu helping with
-that.  On the other side vhost-user is also supported by other
-hypervisors, so the implementation could be shared then.
+Otherwise
+Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
 
-HTH,
-  Gerd
-
+thanks
+-- PMM
 
