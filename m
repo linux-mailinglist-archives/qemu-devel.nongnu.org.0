@@ -2,71 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 579BA2ED5E1
-	for <lists+qemu-devel@lfdr.de>; Thu,  7 Jan 2021 18:45:01 +0100 (CET)
-Received: from localhost ([::1]:43694 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C2B082ED5F5
+	for <lists+qemu-devel@lfdr.de>; Thu,  7 Jan 2021 18:47:31 +0100 (CET)
+Received: from localhost ([::1]:49074 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kxZLI-0001hQ-Do
-	for lists+qemu-devel@lfdr.de; Thu, 07 Jan 2021 12:45:00 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58686)
+	id 1kxZNi-0004PS-QZ
+	for lists+qemu-devel@lfdr.de; Thu, 07 Jan 2021 12:47:30 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60478)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1kxZG6-0004mK-O4
- for qemu-devel@nongnu.org; Thu, 07 Jan 2021 12:39:40 -0500
-Received: from mail-ej1-x629.google.com ([2a00:1450:4864:20::629]:38329)
+ id 1kxZJo-0000yI-Oa
+ for qemu-devel@nongnu.org; Thu, 07 Jan 2021 12:43:28 -0500
+Received: from mail-ed1-x52d.google.com ([2a00:1450:4864:20::52d]:33195)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1kxZG5-0003GN-1i
- for qemu-devel@nongnu.org; Thu, 07 Jan 2021 12:39:38 -0500
-Received: by mail-ej1-x629.google.com with SMTP id 6so10844151ejz.5
- for <qemu-devel@nongnu.org>; Thu, 07 Jan 2021 09:39:36 -0800 (PST)
+ id 1kxZJn-0004zP-6K
+ for qemu-devel@nongnu.org; Thu, 07 Jan 2021 12:43:28 -0500
+Received: by mail-ed1-x52d.google.com with SMTP id j16so8619471edr.0
+ for <qemu-devel@nongnu.org>; Thu, 07 Jan 2021 09:43:24 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=srY4sloYL3cPGVkeYpWQV/O1Ofps9sp0I6HDWtlGXcc=;
- b=LICvEyFqiaZwHQ9R2roughkIhHn7GpvWoeDji5H252g2VhtbIPOCe4YJnF3HXQdl75
- NOJIReNZL49epSb3xDephCZ2yIMi2qhUgkx5NkpjwS6sc6JT0JEl5grjZy7hLEeegyo8
- 5CZgUiBZ5ByhTYYPYS269Bxaa2MYAcsKO3oukH7LLSt216hREYkOl58BwE3B7H103yzo
- zz8MZbhXpZf+VrfLO+NEeZhd0VyN9Z757AV5TvgDl60PAeOeqp3YiHbczMX0YafiPQUj
- k1Az6OA8ab+UWUZKKWTlB1rxCo63ZTp/X/z5GTEewAkPPXEz3s3vPZiQ9FY4Q2Y8ek/S
- Uvww==
+ :cc; bh=LBOgn61wexeXsurZm8vyfI7SFAM/KVT0qJzidYdDdIk=;
+ b=jeKyFhW2nLQEfD1NVGZ/P7iV8L40GOO1rQjSPhjY+RLb3FzrfI9NG+sDVvXMvJzA0p
+ f4+FYue+YCg3BycfSscA+8vziqs36jBdz7aFf366Lxf53QZaR1g2bGB88ng0Fz4rRw+E
+ E2F5i1l/XSKAZymdqabL3oLiq4cmLMIubdl82+hqM1mAcsX260/62hQS/ke9zJVQ/13q
+ cGsgqhK4D8ohjkqMA+QyCXDOpThz57HwdyHFWyCzJAiKVOoojb6+rjCZDeqBA6Wn3ItG
+ 1/Vrw97rFMy+0o0bAjlN8398Mv91pxg9Jj8eKMTuzs/cC2W0R+Roat41zHQS0wNwdMY6
+ AenQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=srY4sloYL3cPGVkeYpWQV/O1Ofps9sp0I6HDWtlGXcc=;
- b=lNzdlPRSY7HLKsb01q0bv0KMlTGXpa7I1w5cW0wj+IBnWzxHApK2TpdS8XepswarVW
- nA2S6yfEAyObNGGZkHmxqJNZ7eKs7yhCiNV4kLwY3LlVN/O9ThKOmt+L4pup5woF9j5l
- +DjfeI4fcVzkjBAfVlQBeirVsYhl3o8HCNjAbtx9OQgCqJx2hV0iqGkGQMJuJ8MWViSX
- 6qM/VeourUEjuJ4GUFmS5n0xGZh2mUPG6DBPLWOddKexGkrV01OqyVULqViPXc2buYrA
- u54o/ZUZxKVhFi4r/oRaqaTpCVa3Yu5aR0wYhGY7nTzcaKe3TyieHrF3+H4YcRwyDyHD
- CWsw==
-X-Gm-Message-State: AOAM533OpfaTYCMbNfrUf17QVHRiA8qgcsoOiNZO9Eh0OwJ7BhhgYL90
- FAt51dAa6uk5UMHsvO0AwxMKuoKm/eWN3oQ9DdRqkg==
-X-Google-Smtp-Source: ABdhPJyjmFsnMKU4qK6p+uJjYAtmp1LcieeLWkj+I8PybtslnGb1JZRDFmbi7jNRzTBzZBtDjxqJ9mxt1OOrgsI6DGI=
-X-Received: by 2002:a17:906:195a:: with SMTP id
- b26mr6972262eje.4.1610041175734; 
- Thu, 07 Jan 2021 09:39:35 -0800 (PST)
+ bh=LBOgn61wexeXsurZm8vyfI7SFAM/KVT0qJzidYdDdIk=;
+ b=FQeM9UZ8WMew42txTNmcwwH6OYyG3gqwwj75WIbSCgvrOB35k6IZAIQS3lvr3W8o1t
+ oYJKnxQrZ2djKpE0Qpa/XX726xeIVSBE/PBqhUCxMGHABJdIFh0dxVlwp7CTXod9Xv5w
+ OAwIjNClI+BiZuxaFmznw1FfvkV5IXP0t6Y1yx036CkpK8TLfM6yK8mMBhk5tm3x3L6P
+ WaoHQKM0+FAxfyiogA/Nmr0hbObsltmJlkw6J0CYjfRVACozPk3I3Hf517J1iXpmzbO4
+ A44A9jf5WzRFOMKzbIyf0SJtMZNo9u2ZfYJriHcrPNXIutgxdc2rlh0gmTznNZndwp4G
+ yWsg==
+X-Gm-Message-State: AOAM530djBP/qvY5c56qenEXdLcBJgrn+YjhXLkAKQ9B08Q2chMQML94
+ AUWgBa45MU1ZSa2gdAW5MCWx8mZc6XGljEU6JfnRoQ==
+X-Google-Smtp-Source: ABdhPJxsAIe0quszlsx39/os5E/XhJP9EHfHqqyun8inAHqSvzz+rXq1MDWKU+VP9CcEOU05azZ0YepXznHMYka9a2E=
+X-Received: by 2002:a05:6402:1383:: with SMTP id
+ b3mr2411472edv.100.1610041403544; 
+ Thu, 07 Jan 2021 09:43:23 -0800 (PST)
 MIME-Version: 1.0
-References: <20201208180118.157911-1-richard.henderson@linaro.org>
- <20201208180118.157911-25-richard.henderson@linaro.org>
-In-Reply-To: <20201208180118.157911-25-richard.henderson@linaro.org>
+References: <20201215114828.18076-1-leif@nuviainc.com>
+ <20201215114828.18076-4-leif@nuviainc.com>
+ <CABoDooPXUC585huW0-1Md1WTAO0AwhKvOe20FioU=SbOJ+FdkA@mail.gmail.com>
+ <20201215164904.GY1664@vanye>
+ <CABoDooO==m2SiE+6t6idGjMsM71d1C0=_BBNJBriBkgg+eAXDQ@mail.gmail.com>
+ <20201217121031.GK1664@vanye>
+ <CABoDooP_uW-w5JaMXmo6AzUomFp5BuSS27zn6x3hu1VKbNbEVA@mail.gmail.com>
+ <20201217122444.GL1664@vanye>
+In-Reply-To: <20201217122444.GL1664@vanye>
 From: Peter Maydell <peter.maydell@linaro.org>
-Date: Thu, 7 Jan 2021 17:39:24 +0000
-Message-ID: <CAFEAcA97CfTvAJkSHEYtEKrg9jZjCLTbra-KFxfYZVuCH7MMkA@mail.gmail.com>
-Subject: Re: [PATCH v2 24/24] target/arm: Enforce alignment for sve
- unpredicated LDR/STR
-To: Richard Henderson <richard.henderson@linaro.org>
+Date: Thu, 7 Jan 2021 17:43:12 +0000
+Message-ID: <CAFEAcA8huj+2Dc2+fWjkXEY1ToYEoDcSVddD+94D_vmGz1eoaA@mail.gmail.com>
+Subject: Re: [PATCH v2 3/5] target/arm: add descriptions of CLIDR_EL1,
+ CCSIDR_EL1, CTR_EL0 to cpu.h
+To: Leif Lindholm <leif@nuviainc.com>
 Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2a00:1450:4864:20::629;
- envelope-from=peter.maydell@linaro.org; helo=mail-ej1-x629.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::52d;
+ envelope-from=peter.maydell@linaro.org; helo=mail-ed1-x52d.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -79,72 +85,25 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-arm <qemu-arm@nongnu.org>, QEMU Developers <qemu-devel@nongnu.org>
+Cc: Laurent Desnogues <laurent.desnogues@gmail.com>,
+ qemu-arm <qemu-arm@nongnu.org>,
+ "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, 8 Dec 2020 at 18:02, Richard Henderson
-<richard.henderson@linaro.org> wrote:
+On Thu, 17 Dec 2020 at 12:24, Leif Lindholm <leif@nuviainc.com> wrote:
 >
-> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
-> ---
->  target/arm/translate-sve.c | 58 +++++++++++++++++++++++++++++---------
->  1 file changed, 45 insertions(+), 13 deletions(-)
+> On Thu, Dec 17, 2020 at 13:18:03 +0100, Laurent Desnogues wrote:
+> > I was thinking about changing the field names, not the register name
+> > because the register is the same, only the layout changes.  So
+> > LINESIZE -> CCIDX_LINESIZE, etc.
+> >
+> > That's personal preference, Peter might have a different one.
 >
-> diff --git a/target/arm/translate-sve.c b/target/arm/translate-sve.c
-> index 6125e734af..b481e97428 100644
-> --- a/target/arm/translate-sve.c
-> +++ b/target/arm/translate-sve.c
-> @@ -4263,7 +4263,8 @@ static bool trans_UCVTF_dd(DisasContext *s, arg_rpr_esz *a)
->   * The load should begin at the address Rn + IMM.
->   */
->
-> -static void do_ldr(DisasContext *s, uint32_t vofs, int len, int rn, int imm)
-> +static void do_ldr(DisasContext *s, uint32_t vofs, int len,
-> +                   MemOp align, int rn, int imm)
->  {
->      int len_align = QEMU_ALIGN_DOWN(len, 8);
->      int len_remain = len % 8;
-> @@ -4276,6 +4277,10 @@ static void do_ldr(DisasContext *s, uint32_t vofs, int len, int rn, int imm)
->      clean_addr = gen_mte_checkN(s, dirty_addr, false, rn != 31, len, MO_8);
->      tcg_temp_free_i64(dirty_addr);
->
-> +    if (!s->align_mem) {
-> +        align = 0;
-> +    }
-> +
->      /*
->       * Note that unpredicated load/store of vector/predicate registers
->       * are defined as a stream of bytes, which equates to little-endian
-> @@ -4288,7 +4293,8 @@ static void do_ldr(DisasContext *s, uint32_t vofs, int len, int rn, int imm)
->
->          t0 = tcg_temp_new_i64();
->          for (i = 0; i < len_align; i += 8) {
-> -            tcg_gen_qemu_ld_i64(t0, clean_addr, midx, MO_LEQ);
-> +            tcg_gen_qemu_ld_i64(t0, clean_addr, midx, MO_LEQ | align);
-> +            align = 0;
->              tcg_gen_st_i64(t0, cpu_env, vofs + i);
->              tcg_gen_addi_i64(clean_addr, clean_addr, 8);
->          }
-> @@ -4302,6 +4308,16 @@ static void do_ldr(DisasContext *s, uint32_t vofs, int len, int rn, int imm)
->          clean_addr = new_tmp_a64_local(s);
->          tcg_gen_mov_i64(clean_addr, t0);
->
-> +        if (align > MO_ALIGN_8) {
-> +            t0 = tcg_temp_new_i64();
-> +            tcg_gen_qemu_ld_i64(t0, clean_addr, midx, MO_LEQ | align);
-> +            tcg_gen_addi_i64(clean_addr, clean_addr, 8);
-> +            tcg_gen_addi_ptr(i, i, 8);
-> +            tcg_gen_st_i64(t0, cpu_env, vofs);
-> +            tcg_temp_free_i64(t0);
-> +            align = 0;
-> +        }
-> +
+> I see. Sure, that works too, and doesn't pollute the register name.
+> I'll wait for Peter before sending out v3.
 
-Why do we need to do this (and the similar thing in do_str()) ?
-Most of the rest of the patch is fairly clear in that it is just
-passing the alignment requirement through to the load/store fns,
-but this is a bit more opaque to me...
+Laurent's suggestion works for me.
 
 thanks
 -- PMM
