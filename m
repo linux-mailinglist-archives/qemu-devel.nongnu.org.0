@@ -2,51 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8749D2ECD17
-	for <lists+qemu-devel@lfdr.de>; Thu,  7 Jan 2021 10:48:54 +0100 (CET)
-Received: from localhost ([::1]:45634 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7C3702ECD68
+	for <lists+qemu-devel@lfdr.de>; Thu,  7 Jan 2021 11:00:16 +0100 (CET)
+Received: from localhost ([::1]:51290 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kxRuX-0005AT-Kt
-	for lists+qemu-devel@lfdr.de; Thu, 07 Jan 2021 04:48:53 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59874)
+	id 1kxS5X-0008Dv-2O
+	for lists+qemu-devel@lfdr.de; Thu, 07 Jan 2021 05:00:15 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34346)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
- id 1kxRsw-0004Jr-7t
- for qemu-devel@nongnu.org; Thu, 07 Jan 2021 04:47:14 -0500
-Received: from zero.eik.bme.hu ([2001:738:2001:2001::2001]:37411)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
- id 1kxRss-0006fs-VY
- for qemu-devel@nongnu.org; Thu, 07 Jan 2021 04:47:14 -0500
-Received: from zero.eik.bme.hu (blah.eik.bme.hu [152.66.115.182])
- by localhost (Postfix) with SMTP id 7EC667470FB;
- Thu,  7 Jan 2021 10:47:09 +0100 (CET)
-Received: by zero.eik.bme.hu (Postfix, from userid 432)
- id 538727470F9; Thu,  7 Jan 2021 10:47:09 +0100 (CET)
-Received: from localhost (localhost [127.0.0.1])
- by zero.eik.bme.hu (Postfix) with ESMTP id 51DCB7470F8;
- Thu,  7 Jan 2021 10:47:09 +0100 (CET)
-Date: Thu, 7 Jan 2021 10:47:09 +0100 (CET)
-From: BALATON Zoltan <balaton@eik.bme.hu>
-To: =?ISO-8859-15?Q?Philippe_Mathieu-Daud=E9?= <f4bug@amsat.org>
-Subject: Re: [PATCH 02/12] vt82c686: Reorganise code
-In-Reply-To: <77da4dfa-896b-3dbc-a648-6ddc472fc043@amsat.org>
-Message-ID: <9ff6f79-4967-ac9c-87cb-25c290174a81@eik.bme.hu>
-References: <cover.1609967638.git.balaton@eik.bme.hu>
- <a3d10c3daf6e8746b985c9fe776ae314fd10499b.1609967638.git.balaton@eik.bme.hu>
- <77da4dfa-896b-3dbc-a648-6ddc472fc043@amsat.org>
+ (Exim 4.90_1) (envelope-from <rjones@redhat.com>) id 1kxS3v-0007iD-0z
+ for qemu-devel@nongnu.org; Thu, 07 Jan 2021 04:58:35 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:24638)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <rjones@redhat.com>) id 1kxS3r-0003jn-Hu
+ for qemu-devel@nongnu.org; Thu, 07 Jan 2021 04:58:33 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1610013508;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=aEU5MZcMQhymtuikXuLy9TJeQJ18+FbBlbhpoPJd/2k=;
+ b=dFW+61gBE1Jq+3kcUMApJSvku1juhb5EJK+Auosdj+vw2FgUae7ltGp3WcMuDD9QixQfkc
+ S1AVkEPCSr7kMbhxaZjol/A1Hsxml6I3D9LNZfnGugkA6fmPunG5A9CG7mJFSHxKDSxzOc
+ VtWIPo08Zc+ZPUt/FCEv7zSW5Ye7A1w=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-17-um7aYS99PrOs8FqlQnKnjg-1; Thu, 07 Jan 2021 04:58:24 -0500
+X-MC-Unique: um7aYS99PrOs8FqlQnKnjg-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 626C4803623;
+ Thu,  7 Jan 2021 09:58:22 +0000 (UTC)
+Received: from localhost (ovpn-114-98.ams2.redhat.com [10.36.114.98])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 772831346D;
+ Thu,  7 Jan 2021 09:58:18 +0000 (UTC)
+Date: Thu, 7 Jan 2021 09:58:17 +0000
+From: "Richard W.M. Jones" <rjones@redhat.com>
+To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+Subject: Re: [PATCH 4/4] block: introduce BDRV_MAX_LENGTH
+Message-ID: <20210107095817.GA2673@redhat.com>
+References: <20201203222713.13507-1-vsementsov@virtuozzo.com>
+ <20201203222713.13507-5-vsementsov@virtuozzo.com>
 MIME-Version: 1.0
-Content-Type: multipart/mixed;
- boundary="3866299591-312986800-1610012829=:62010"
-X-Spam-Probability: 9%
-Received-SPF: pass client-ip=2001:738:2001:2001::2001;
- envelope-from=balaton@eik.bme.hu; helo=zero.eik.bme.hu
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <20201203222713.13507-5-vsementsov@virtuozzo.com>
+User-Agent: Mutt/1.5.21 (2010-09-15)
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=rjones@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=rjones@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -29
+X-Spam_score: -3.0
+X-Spam_bar: ---
+X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.252,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -59,56 +77,63 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Huacai Chen <chenhuacai@kernel.org>, qemu-devel@nongnu.org
+Cc: fam@euphon.net, kwolf@redhat.com, berto@igalia.com, qemu-block@nongnu.org,
+ qemu-devel@nongnu.org, mreitz@redhat.com, stefanha@redhat.com, den@openvz.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-  This message is in MIME format.  The first part should be readable text,
-  while the remaining parts are likely unreadable without MIME-aware tools.
+On Fri, Dec 04, 2020 at 01:27:13AM +0300, Vladimir Sementsov-Ogievskiy wrote:
+> Finally to be safe with calculations, to not calculate different
+> maximums for different nodes (depending on cluster size and
+> request_alignment), let's simply set QEMU_ALIGN_DOWN(INT64_MAX, 2^30)
+> as absolute maximum bytes length for Qemu. Actually, it's not much less
+> than INT64_MAX.
 
---3866299591-312986800-1610012829=:62010
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 8BIT
+> +/*
+> + * We want allow aligning requests and disk length up to any 32bit alignment
+> + * and don't afraid of overflow.
+> + * To achieve it, and in the same time use some pretty number as maximum disk
+> + * size, let's define maximum "length" (a limit for any offset/bytes request and
+> + * for disk size) to be the greatest power of 2 less than INT64_MAX.
+> + */
+> +#define BDRV_MAX_ALIGNMENT (1L << 30)
+> +#define BDRV_MAX_LENGTH (QEMU_ALIGN_DOWN(INT64_MAX, BDRV_MAX_ALIGNMENT))
 
-On Thu, 7 Jan 2021, Philippe Mathieu-Daudé wrote:
-> On 1/6/21 10:13 PM, BALATON Zoltan wrote:
->> Move lines around so that object definitions become consecutive and
->> not scattered around. This brings functions belonging to an object
->> together so it's clearer what is defined and what parts belong to
->> which object.
->>
->> Signed-off-by: BALATON Zoltan <balaton@eik.bme.hu>
->> ---
->>  hw/isa/vt82c686.c | 279 +++++++++++++++++++++++-----------------------
->>  1 file changed, 140 insertions(+), 139 deletions(-)
-> ...
->>  static void vt82c686b_realize(PCIDevice *d, Error **errp)
->>  {
->>      VT82C686BISAState *s = VT82C686B_ISA(d);
->> @@ -354,6 +353,7 @@ static const TypeInfo via_info = {
->>      },
->>  };
->>
->> +
->>  static void vt82c686b_superio_class_init(ObjectClass *klass, void *data)
->>  {
->>      ISASuperIOClass *sc = ISA_SUPERIO_CLASS(klass);
->> @@ -372,11 +372,12 @@ static const TypeInfo via_superio_info = {
->>      .class_init    = vt82c686b_superio_class_init,
->>  };
->>
->> +
->
-> Spurious extra-lines?
+This change broke nbdkit tests.
 
-No, they are intended, I've used two lines to separate parts of the file 
-which define different objects. It's subtle but useful organisation of 
-code to show what belongs together.
+We test that qemu can handle a qemu NBD export of size 2^63 - 512, the
+largest size that (experimentally) we found qemu could safely handle.
+eg:
 
-Regards,
-BALATON Zoltan
+  https://github.com/libguestfs/nbdkit/blob/master/tests/test-memory-largest-for-qemu.sh
 
-> Reviewed with 'git-diff --color-moved=dimmed-zebra':
-> Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
---3866299591-312986800-1610012829=:62010--
+Before this commit:
+
+  $ nbdkit memory $(( 2**63 - 512 )) --run './qemu-img info "$uri"'
+  image: nbd://localhost:10809
+  file format: raw
+  virtual size: 8 EiB (9223372036854775296 bytes)
+  disk size: unavailable
+
+After this commit:
+
+  $ nbdkit memory $(( 2**63 - 512 )) --run './qemu-img info "$uri"'
+  qemu-img: Could not open 'nbd://localhost:10809': Could not refresh total sector count: File too large
+
+Can I confirm that this limit is now the new official one and we
+should adjust nbdkit tests?  Or was this change unintentional given
+that qemu seemed happy to handle 2^63 - 512 disks before?
+
+Note that nbdkit & libnbd support up to 2^63 - 1 bytes (we are not
+limited to whole sectors).  Also the Linux kernel will let you create
+a /dev/nbdX device of size 2^63 - 1.
+
+Rich.
+
+-- 
+Richard Jones, Virtualization Group, Red Hat http://people.redhat.com/~rjones
+Read my programming and virtualization blog: http://rwmj.wordpress.com
+libguestfs lets you edit virtual machines.  Supports shell scripting,
+bindings from many languages.  http://libguestfs.org
+
 
