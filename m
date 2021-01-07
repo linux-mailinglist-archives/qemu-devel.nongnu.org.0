@@ -2,47 +2,50 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8D2C92ED56B
-	for <lists+qemu-devel@lfdr.de>; Thu,  7 Jan 2021 18:22:47 +0100 (CET)
-Received: from localhost ([::1]:46098 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 391852ED548
+	for <lists+qemu-devel@lfdr.de>; Thu,  7 Jan 2021 18:17:44 +0100 (CET)
+Received: from localhost ([::1]:57704 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kxYzm-0001oB-L7
-	for lists+qemu-devel@lfdr.de; Thu, 07 Jan 2021 12:22:46 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48406)
+	id 1kxYut-0002tB-8D
+	for lists+qemu-devel@lfdr.de; Thu, 07 Jan 2021 12:17:43 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48278)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <keithp@vr.keithp.com>)
- id 1kxYrO-0000t4-Kl; Thu, 07 Jan 2021 12:14:06 -0500
-Received: from home.keithp.com ([63.227.221.253]:55618 helo=elaine.keithp.com)
+ id 1kxYrD-0000pH-K7; Thu, 07 Jan 2021 12:13:56 -0500
+Received: from home.keithp.com ([63.227.221.253]:55576 helo=elaine.keithp.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <keithp@vr.keithp.com>)
- id 1kxYrL-0001pg-KI; Thu, 07 Jan 2021 12:14:06 -0500
+ id 1kxYrB-0001cd-4k; Thu, 07 Jan 2021 12:13:55 -0500
 Received: from localhost (localhost [127.0.0.1])
- by elaine.keithp.com (Postfix) with ESMTP id 6DD2A3F2E315;
- Thu,  7 Jan 2021 09:07:26 -0800 (PST)
+ by elaine.keithp.com (Postfix) with ESMTP id CD0D83F2E3BD;
+ Thu,  7 Jan 2021 09:07:25 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=keithp.com; s=mail;
- t=1610039246; bh=9BOTQrPtZFuoNkEto83jhRHuzrY24cMlHGqNa4OHSIY=;
- h=From:To:Cc:Subject:Date:From;
- b=gNDedzCS515exhvhhtzTot0CtnkZW1iSO1ZPFPPrW5m/Ib9ji6Fo1jHJEWY1uBSRu
- RNOoegtnZOJnL4ZjlMIJyST5YFHVcLGWdbeVx8YD4EkUHGAr+bdOmeAX8i156tLxMp
- elI6gvNOQ6eef+NF3QnqBKBCDBE4x1p+yPzwvh9nkbIdyoRMzUOOl6ctiaxVFDSfCv
- lJ0NJ5SPm8jO/UFXT1C8DcPE3ewqr5NsMk2p+raA75NrtNl0fAZ/m/8jXdLW7uwrjF
- oJ+LxSQHOgutqov+a86WKz5XkF37+TqGZ2A6qutRriTAvUum6GAqgfmgvVcfP21M5I
- uAWoyrEew4yBA==
+ t=1610039245; bh=YnhUQZaG9di3JTUB6ONQsQkxSeXtwlkHPePjWsx+onM=;
+ h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+ b=KyOwmarEUyaMuxwJVRUOqjGHC5o0n42ZE6ZQk7wgZv5VnR2uf0zkDsgRnyaHxMfXH
+ G1LqhuQ9MiOEDN/di17YKrXphm7EhSH/ihkQdSUEw1DBYT7FGUPvE2zhjvZoZx9Gze
+ QNhVhJKaAsTwAjRx8jzNp/pyi6RRGUadfd7ZfDOgy/IuznQBX39c5vuF0ocE2AcOqJ
+ ThnwTBlzVXkdURZ/xxUpDHeG7uRXVQ4jkgsHeUp9nQfDN5JIIFdHJIMtZHlbERk411
+ UJqwEtBjG2PFJSe4I57e0AeAkwitDgMnq5SgocuHzDQECdN/ZkmYRooXo531V1XkTC
+ 2k3LFfx1QGP+g==
 X-Virus-Scanned: Debian amavisd-new at keithp.com
 Received: from elaine.keithp.com ([127.0.0.1])
  by localhost (elaine.keithp.com [127.0.0.1]) (amavisd-new, port 10024)
- with LMTP id JrZe3ojHtXJn; Thu,  7 Jan 2021 09:07:26 -0800 (PST)
+ with LMTP id VcT8lqcTjnrJ; Thu,  7 Jan 2021 09:07:24 -0800 (PST)
 Received: from vr.keithp.com (vr.keithp.com [10.0.0.39])
- by elaine.keithp.com (Postfix) with ESMTP id E5CE53F2E325;
+ by elaine.keithp.com (Postfix) with ESMTP id E0E2D3F2E315;
  Thu,  7 Jan 2021 09:07:23 -0800 (PST)
 Received: by vr.keithp.com (Postfix, from userid 1000)
- id 65703742C81; Thu,  7 Jan 2021 09:07:23 -0800 (PST)
+ id 8C44F742C69; Thu,  7 Jan 2021 09:07:23 -0800 (PST)
 To: qemu-devel@nongnu.org
-Subject: [PATCH 0/9] Add RISC-V semihosting 0.2. Finish ARM semihosting 2.0
-Date: Thu,  7 Jan 2021 09:07:08 -0800
-Message-Id: <20210107170717.2098982-1-keithp@keithp.com>
+Subject: [PATCH 1/9] semihosting: Move ARM semihosting code to shared
+ directories
+Date: Thu,  7 Jan 2021 09:07:09 -0800
+Message-Id: <20210107170717.2098982-2-keithp@keithp.com>
 X-Mailer: git-send-email 2.29.2
+In-Reply-To: <20210107170717.2098982-1-keithp@keithp.com>
+References: <20210107170717.2098982-1-keithp@keithp.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Received-SPF: none client-ip=63.227.221.253; envelope-from=keithp@vr.keithp.com;
@@ -65,11 +68,11 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>, qemu-riscv@nongnu.org,
- Sagar Karandikar <sagark@eecs.berkeley.edu>,
+Cc: Peter Maydell <peter.maydell@linaro.org>, Keith Packard <keithp@keithp.com>,
+ qemu-riscv@nongnu.org, Sagar Karandikar <sagark@eecs.berkeley.edu>,
  Bastian Koppelmann <kbastian@mail.uni-paderborn.de>,
  Laurent Vivier <laurent@vivier.eu>, qemu-arm@nongnu.org,
- Alistair Francis <Alistair.Francis@wdc.com>,
+ Alistair Francis <alistair.francis@wdc.com>,
  Palmer Dabbelt <palmer@dabbelt.com>,
  =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
@@ -77,36 +80,164 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 Reply-to: Keith Packard <keithp@keithp.com>
 From: Keith Packard via <qemu-devel@nongnu.org>
 
-This series adds support for RISC-V Semihosting, version 0.2 as
-specified here:
+This commit renames two files which provide ARM semihosting support so
+that they can be shared by other architectures:
 
-	https://github.com/riscv/riscv-semihosting-spec/releases/tag/0.2
+ 1. target/arm/arm-semi.c     -> hw/semihosting/common-semi.c
+ 2. linux-user/arm/semihost.c -> linux-user/semihost.c
 
-This specification references the ARM semihosting release 2.0 as
-specified here:
+The build system was modified use a new config variable,
+CONFIG_ARM_COMPATIBLE_SEMIHOSTING, which has been added to the ARM
+softmmu and linux-user default configs. The contents of the source
+files has not been changed in this patch.
 
-	https://static.docs.arm.com/100863/0200/semihosting.pdf
+Signed-off-by: Keith Packard <keithp@keithp.com>
+Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
 
-That specification includes several semihosting calls which were not
-previously implemented. This series includes implementations for the
-remaining calls so that both RISC-V and ARM versions are now complete.
+----
 
-Tests for release 2.0 can be found in picolibc on the semihost-2.0-all
-branch:
+v2
+	Place common-semi.c name in arm_ss, just as arm-semi.c was
 
-	https://github.com/picolibc/picolibc/tree/semihost-2.0-all
+v3
+	Create CONFIG_ARM_COMPATIBLE_SEMIHOSTING and assign in
+	arm config files
 
-These tests uncovered a bug in the SYS_HEAPINFO implementation for
-ARM, which has been fixed in this series as well.
+v4
+	Also update aarch64_be default config
 
-The series is structured as follows:
+v5
+	Also update armeb default config
+---
+ default-configs/devices/arm-softmmu.mak               | 1 +
+ default-configs/targets/aarch64-linux-user.mak        | 1 +
+ default-configs/targets/aarch64_be-linux-user.mak     | 1 +
+ default-configs/targets/arm-linux-user.mak            | 1 +
+ default-configs/targets/armeb-linux-user.mak          | 1 +
+ hw/semihosting/Kconfig                                | 3 +++
+ target/arm/arm-semi.c => hw/semihosting/common-semi.c | 0
+ hw/semihosting/meson.build                            | 3 +++
+ linux-user/arm/meson.build                            | 3 ---
+ linux-user/meson.build                                | 1 +
+ linux-user/{arm => }/semihost.c                       | 0
+ target/arm/meson.build                                | 2 --
+ 12 files changed, 12 insertions(+), 5 deletions(-)
+ rename target/arm/arm-semi.c => hw/semihosting/common-semi.c (100%)
+ rename linux-user/{arm => }/semihost.c (100%)
 
- 1. Move shared semihosting files
- 2. Change public common semihosting APIs
- 3. Change internal semihosting interfaces
- 4. Fix SYS_HEAPINFO crash on ARM
- 5-6. Add RISC-V semihosting implementation
- 7-9. Add missing semihosting operations from release 2.0
-
+diff --git a/default-configs/devices/arm-softmmu.mak b/default-configs/devices/arm-softmmu.mak
+index 08a32123b4..0500156a0c 100644
+--- a/default-configs/devices/arm-softmmu.mak
++++ b/default-configs/devices/arm-softmmu.mak
+@@ -42,4 +42,5 @@ CONFIG_FSL_IMX25=y
+ CONFIG_FSL_IMX7=y
+ CONFIG_FSL_IMX6UL=y
+ CONFIG_SEMIHOSTING=y
++CONFIG_ARM_COMPATIBLE_SEMIHOSTING=y
+ CONFIG_ALLWINNER_H3=y
+diff --git a/default-configs/targets/aarch64-linux-user.mak b/default-configs/targets/aarch64-linux-user.mak
+index 163c9209f4..4713253709 100644
+--- a/default-configs/targets/aarch64-linux-user.mak
++++ b/default-configs/targets/aarch64-linux-user.mak
+@@ -2,3 +2,4 @@ TARGET_ARCH=aarch64
+ TARGET_BASE_ARCH=arm
+ TARGET_XML_FILES= gdb-xml/aarch64-core.xml gdb-xml/aarch64-fpu.xml gdb-xml/arm-core.xml gdb-xml/arm-vfp.xml gdb-xml/arm-vfp3.xml gdb-xml/arm-neon.xml gdb-xml/arm-m-profile.xml
+ TARGET_HAS_BFLT=y
++CONFIG_ARM_COMPATIBLE_SEMIHOSTING=y
+diff --git a/default-configs/targets/aarch64_be-linux-user.mak b/default-configs/targets/aarch64_be-linux-user.mak
+index 4c953cf8c5..fae831558d 100644
+--- a/default-configs/targets/aarch64_be-linux-user.mak
++++ b/default-configs/targets/aarch64_be-linux-user.mak
+@@ -3,3 +3,4 @@ TARGET_BASE_ARCH=arm
+ TARGET_WORDS_BIGENDIAN=y
+ TARGET_XML_FILES= gdb-xml/aarch64-core.xml gdb-xml/aarch64-fpu.xml gdb-xml/arm-core.xml gdb-xml/arm-vfp.xml gdb-xml/arm-vfp3.xml gdb-xml/arm-neon.xml gdb-xml/arm-m-profile.xml
+ TARGET_HAS_BFLT=y
++CONFIG_ARM_COMPATIBLE_SEMIHOSTING=y
+diff --git a/default-configs/targets/arm-linux-user.mak b/default-configs/targets/arm-linux-user.mak
+index c7cd872e86..e741ffd4d3 100644
+--- a/default-configs/targets/arm-linux-user.mak
++++ b/default-configs/targets/arm-linux-user.mak
+@@ -3,3 +3,4 @@ TARGET_SYSTBL_ABI=common,oabi
+ TARGET_SYSTBL=syscall.tbl
+ TARGET_XML_FILES= gdb-xml/arm-core.xml gdb-xml/arm-vfp.xml gdb-xml/arm-vfp3.xml gdb-xml/arm-neon.xml gdb-xml/arm-m-profile.xml
+ TARGET_HAS_BFLT=y
++CONFIG_ARM_COMPATIBLE_SEMIHOSTING=y
+diff --git a/default-configs/targets/armeb-linux-user.mak b/default-configs/targets/armeb-linux-user.mak
+index 79bf10e99b..255e44e8b0 100644
+--- a/default-configs/targets/armeb-linux-user.mak
++++ b/default-configs/targets/armeb-linux-user.mak
+@@ -4,3 +4,4 @@ TARGET_SYSTBL=syscall.tbl
+ TARGET_WORDS_BIGENDIAN=y
+ TARGET_XML_FILES= gdb-xml/arm-core.xml gdb-xml/arm-vfp.xml gdb-xml/arm-vfp3.xml gdb-xml/arm-neon.xml gdb-xml/arm-m-profile.xml
+ TARGET_HAS_BFLT=y
++CONFIG_ARM_COMPATIBLE_SEMIHOSTING=y
+diff --git a/hw/semihosting/Kconfig b/hw/semihosting/Kconfig
+index efe0a30734..4c30dc6b16 100644
+--- a/hw/semihosting/Kconfig
++++ b/hw/semihosting/Kconfig
+@@ -1,3 +1,6 @@
+ 
+ config SEMIHOSTING
+        bool
++
++config ARM_COMPATIBLE_SEMIHOSTING
++       bool
+diff --git a/target/arm/arm-semi.c b/hw/semihosting/common-semi.c
+similarity index 100%
+rename from target/arm/arm-semi.c
+rename to hw/semihosting/common-semi.c
+diff --git a/hw/semihosting/meson.build b/hw/semihosting/meson.build
+index f40ac574c4..5b4a170270 100644
+--- a/hw/semihosting/meson.build
++++ b/hw/semihosting/meson.build
+@@ -2,3 +2,6 @@ specific_ss.add(when: 'CONFIG_SEMIHOSTING', if_true: files(
+   'config.c',
+   'console.c',
+ ))
++
++specific_ss.add(when: ['CONFIG_ARM_COMPATIBLE_SEMIHOSTING'],
++		if_true: files('common-semi.c'))
+diff --git a/linux-user/arm/meson.build b/linux-user/arm/meson.build
+index 432984b58e..5a93c925cf 100644
+--- a/linux-user/arm/meson.build
++++ b/linux-user/arm/meson.build
+@@ -1,6 +1,3 @@
+-linux_user_ss.add(when: 'TARGET_AARCH64', if_true: files('semihost.c'))
+-linux_user_ss.add(when: 'TARGET_ARM', if_true: files('semihost.c'))
+-
+ subdir('nwfpe')
+ 
+ syscall_nr_generators += {
+diff --git a/linux-user/meson.build b/linux-user/meson.build
+index 2b94e4ba24..7fe28d659e 100644
+--- a/linux-user/meson.build
++++ b/linux-user/meson.build
+@@ -16,6 +16,7 @@ linux_user_ss.add(rt)
+ 
+ linux_user_ss.add(when: 'TARGET_HAS_BFLT', if_true: files('flatload.c'))
+ linux_user_ss.add(when: 'TARGET_I386', if_true: files('vm86.c'))
++linux_user_ss.add(when: 'CONFIG_ARM_COMPATIBLE_SEMIHOSTING', if_true: files('semihost.c'))
+ 
+ 
+ syscall_nr_generators = {}
+diff --git a/linux-user/arm/semihost.c b/linux-user/semihost.c
+similarity index 100%
+rename from linux-user/arm/semihost.c
+rename to linux-user/semihost.c
+diff --git a/target/arm/meson.build b/target/arm/meson.build
+index f5de2a77b8..15b936c101 100644
+--- a/target/arm/meson.build
++++ b/target/arm/meson.build
+@@ -32,8 +32,6 @@ arm_ss.add(files(
+ ))
+ arm_ss.add(zlib)
+ 
+-arm_ss.add(when: 'CONFIG_TCG', if_true: files('arm-semi.c'))
+-
+ arm_ss.add(when: 'CONFIG_KVM', if_true: files('kvm.c', 'kvm64.c'), if_false: files('kvm-stub.c'))
+ 
+ arm_ss.add(when: 'TARGET_AARCH64', if_true: files(
+-- 
+2.29.2
 
 
