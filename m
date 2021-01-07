@@ -2,67 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 688492ED177
-	for <lists+qemu-devel@lfdr.de>; Thu,  7 Jan 2021 15:12:40 +0100 (CET)
-Received: from localhost ([::1]:45638 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 32DB22ED157
+	for <lists+qemu-devel@lfdr.de>; Thu,  7 Jan 2021 15:05:33 +0100 (CET)
+Received: from localhost ([::1]:58080 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kxW1n-0005MW-HL
-	for lists+qemu-devel@lfdr.de; Thu, 07 Jan 2021 09:12:39 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42844)
+	id 1kxVuu-0006x6-8z
+	for lists+qemu-devel@lfdr.de; Thu, 07 Jan 2021 09:05:32 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42786)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1kxVqS-0003y4-Ft
- for qemu-devel@nongnu.org; Thu, 07 Jan 2021 09:01:01 -0500
-Received: from mail-ed1-x531.google.com ([2a00:1450:4864:20::531]:39699)
+ id 1kxVqQ-0003xC-AZ
+ for qemu-devel@nongnu.org; Thu, 07 Jan 2021 09:00:54 -0500
+Received: from mail-ed1-x530.google.com ([2a00:1450:4864:20::530]:46256)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1kxVqK-0006vq-Ix
- for qemu-devel@nongnu.org; Thu, 07 Jan 2021 09:00:55 -0500
-Received: by mail-ed1-x531.google.com with SMTP id c7so7830144edv.6
- for <qemu-devel@nongnu.org>; Thu, 07 Jan 2021 06:00:46 -0800 (PST)
+ id 1kxVqK-0006wf-Iw
+ for qemu-devel@nongnu.org; Thu, 07 Jan 2021 09:00:50 -0500
+Received: by mail-ed1-x530.google.com with SMTP id b73so7757197edf.13
+ for <qemu-devel@nongnu.org>; Thu, 07 Jan 2021 06:00:47 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=VlMbpwwRGUfyBr2oLxpRJNDE1UWwr1g5mMbRh1kMy5M=;
- b=XAagg5dE1NHdyclG9PMQ4ulSd1p4WqQ9cAPHhStyOENGD3PKM4z3IB2VcZtRrMm1oo
- 6etDvBAsuE/+XuzEOvcIfKwIQJTYPzK6hbMSij1quH53UYmInHHvEG9y68wvwYh7Y5Hk
- 2LxU+WYi6XE3Nl23n4wGKIs1YxxmkN5OOeflG4mKYiRG0FfjFjIoXbfD+KjKD5e1w5TA
- JEZWKUrVP2ToEaSB2NTvsOO3o6q+yZYo4uzNBmceQWFgVPO1Ly4MjDh39QBHM4fLKYAo
- DasCpOuT+CXo2pdo7VKYiJb7JmaD8/SWzsyOPPpiGuxfiOfVUlbuII12d+isXuDud+uK
- +iyw==
+ bh=t+Pwn9LfFG65wvaIUQ2xmA9CpZnngkiMNkAxYZScHNk=;
+ b=W1yPHQ5Oha1hAeKLvXQHAgiKuICQu+riwApI91ZUUBVPbJ7o65NJH3hyUGqDODElLX
+ CvOBKWDgRQufTi2eQui4h8b4dsgMR4cqLcE7uy9QPnFwfiJtJgEZkGfXkFtMwbV7NVHV
+ DtOlGOezv0Q3Aj9FhQm+51YrQ9Ksj6wGkkfF2lLOKYE3t+ZGtiJT2+murcUzAuqHJb/1
+ hic37pFtXU5nFBlGu20IEJ4fY5lmdeFqONygYY2jJu4lJWNAUday+vVKRXSP2efNTJO5
+ JZX32noBcbKRNg/KclBICVAhc+niVvzzCNrJ8yDY+aNU0AAsuXZqMT+BnGU1oIQoAWcy
+ xFtQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=VlMbpwwRGUfyBr2oLxpRJNDE1UWwr1g5mMbRh1kMy5M=;
- b=oWlifTGdXaGsgxekA0X0Yt9XAM1UQ89cd92LqdIgj2waViJVUSJmPh/qmP1cllcEbj
- Jw7KY9E/mUGgUJu788V9LWw3tPn8usAcUuwTw/27ZcOI2mOpjRseMxo8ZTheIoczDMQW
- yeSv7XLspIpufv1xSwOs8ei0rhW3VqepQ/iZDa77i2DYQyKjh9fUtMO7iZrthjJaAJeM
- L2Flk5UN6zgJYlJHb8yBIscYgrej2StA/V8XL7P8XK/eb2DWvk0BjNp7Kon3p1MdiiQ4
- 8TOF2XXVJJHqAaipzn1pnbqXwn+aCJWAyV4xmCSNEsWnkCV5ParONVoRn8IoN23pj6f4
- WzPQ==
-X-Gm-Message-State: AOAM530dLAhDZ2UWl+qBK+qda699QIHF+M3LWc9Q4c3vaG/WW9MXqn9c
- YNqqu8Cw8ZsEhmaYQA76/q+oL+eN0drt2A==
-X-Google-Smtp-Source: ABdhPJxRlC7RpBXrDGuKPd82SadeXAARnLKQXndpiRA43H4HK8xd0H6w3m0OQ9zes6p2ihUbGCzOIQ==
-X-Received: by 2002:a50:9e8b:: with SMTP id a11mr1741146edf.276.1610028045355; 
- Thu, 07 Jan 2021 06:00:45 -0800 (PST)
+ bh=t+Pwn9LfFG65wvaIUQ2xmA9CpZnngkiMNkAxYZScHNk=;
+ b=dJBOGbGkF4luFLwUuvUVBYYilwvX/i4HEX1nrUuIBUkI7ToNvQTDyU7w3MuhzR2U9p
+ iCLq2Y6E3T8RxS32f/JlygMmH8PfFNT6+kShbOuk3XQaldNgyHvbAe0kxr8Xowmu0DeP
+ KdepGxvBlfJPO+XvrYrhdJgrViPcNx/K6plPAb+D6Cs3rIHG7Q2kPPeKIMDMqZNSFmZ+
+ vsdWs+iDY1q7FMKJiEC92soSQBzTDVDMlYPevWpyltjtCW9ra6Xes3evp2Ur2npC2rhz
+ 41+idajXcHTv3ZwXmjuCqgiuR09Isi+5UkHVdQ4VQ3VDyQMbS6fVrVjlAIV/Vvoi/BW8
+ 33DA==
+X-Gm-Message-State: AOAM531Ih7yFuf8G9E2u6o9SUmJlVlBAGEJ/SGCvA+O+Ahfqyhtn+4Kq
+ WcxULAIsCxaQxjo7IThzBIiD+vyeYAxDpw==
+X-Google-Smtp-Source: ABdhPJxUR6lb4AqZY40lk7LNBEnrPdRIetEAryg+o6RJ1yfctKM4kdiXgN+51cCXKdZP8HjdWAq+aw==
+X-Received: by 2002:aa7:d919:: with SMTP id a25mr1707624edr.81.1610028046439; 
+ Thu, 07 Jan 2021 06:00:46 -0800 (PST)
 Received: from avogadro.lan ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
- by smtp.gmail.com with ESMTPSA id oq27sm2438523ejb.108.2021.01.07.06.00.44
+ by smtp.gmail.com with ESMTPSA id oq27sm2438523ejb.108.2021.01.07.06.00.45
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 07 Jan 2021 06:00:44 -0800 (PST)
+ Thu, 07 Jan 2021 06:00:45 -0800 (PST)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 4/8] configure: move X11 detection to Meson
-Date: Thu,  7 Jan 2021 15:00:35 +0100
-Message-Id: <20210107140039.467969-5-pbonzini@redhat.com>
+Subject: [PATCH 5/8] configure: move GTK+ detection to Meson
+Date: Thu,  7 Jan 2021 15:00:36 +0100
+Message-Id: <20210107140039.467969-6-pbonzini@redhat.com>
 X-Mailer: git-send-email 2.29.2
 In-Reply-To: <20210107140039.467969-1-pbonzini@redhat.com>
 References: <20210107140039.467969-1-pbonzini@redhat.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::531;
- envelope-from=paolo.bonzini@gmail.com; helo=mail-ed1-x531.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::530;
+ envelope-from=paolo.bonzini@gmail.com; helo=mail-ed1-x530.google.com
 X-Spam_score_int: -14
 X-Spam_score: -1.5
 X-Spam_bar: -
@@ -88,104 +88,237 @@ Cc: alex.bennee@linaro.org, marcandre.lureau@redhat.com, berrange@redhat.com,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-For now move the logic verbatim.  GTK+ actually has a hard requirement
-on X11 if gtk+x11 is present, but we will sort that out later.
+This also allows removing CONFIG_NEED_X11, all the ingredients
+can be computed easily in meson.build.
 
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- configure      | 14 ++------------
- meson.build    |  9 +++++----
- ui/meson.build |  4 ++--
- 3 files changed, 9 insertions(+), 18 deletions(-)
+ configure         | 55 ++++++-----------------------------------------
+ meson.build       | 29 ++++++++++++++++++-------
+ meson_options.txt |  2 ++
+ ui/meson.build    |  2 +-
+ 4 files changed, 30 insertions(+), 58 deletions(-)
 
 diff --git a/configure b/configure
-index c6d09b225e..e9d76c2c13 100755
+index e9d76c2c13..652cff7ba6 100755
 --- a/configure
 +++ b/configure
-@@ -2759,14 +2759,6 @@ EOF
+@@ -414,7 +414,7 @@ cfi="false"
+ cfi_debug="false"
+ seccomp="auto"
+ glusterfs="auto"
+-gtk="$default_feature"
++gtk="auto"
+ tls_priority="NORMAL"
+ gnutls="$default_feature"
+ nettle="$default_feature"
+@@ -1377,9 +1377,9 @@ for opt do
+   --enable-uuid|--disable-uuid)
+       echo "$0: $opt is obsolete, UUID support is always built" >&2
+   ;;
+-  --disable-gtk) gtk="no"
++  --disable-gtk) gtk="disabled"
+   ;;
+-  --enable-gtk) gtk="yes"
++  --enable-gtk) gtk="enabled"
+   ;;
+   --tls-priority=*) tls_priority="$optarg"
+   ;;
+@@ -2329,10 +2329,10 @@ if test "$cocoa" = "enabled"; then
+     if test "$sdl" = "enabled"; then
+         error_exit "Cocoa and SDL UIs cannot both be enabled at once"
+     fi
+-    if test "$gtk" = "yes"; then
++    if test "$gtk" = "enabled"; then
+         error_exit "Cocoa and GTK UIs cannot both be enabled at once"
+     fi
+-    gtk=no
++    gtk=disabled
+     sdl=disabled
+ fi
+ 
+@@ -2759,31 +2759,6 @@ EOF
    fi
  fi
  
 -##########################################
--# X11 probe
--if $pkg_config --exists "x11"; then
--    have_x11=yes
--    x11_cflags=$($pkg_config --cflags x11)
--    x11_libs=$($pkg_config --libs x11)
+-# GTK probe
+-
+-if test "$gtk" != "no"; then
+-    gtkpackage="gtk+-3.0"
+-    gtkx11package="gtk+-x11-3.0"
+-    gtkversion="3.22.0"
+-    if $pkg_config --exists "$gtkpackage >= $gtkversion"; then
+-        gtk_cflags=$($pkg_config --cflags $gtkpackage)
+-        gtk_libs=$($pkg_config --libs $gtkpackage)
+-        gtk_version=$($pkg_config --modversion $gtkpackage)
+-        if $pkg_config --exists "$gtkx11package >= $gtkversion"; then
+-            need_x11=yes
+-            gtk_cflags="$gtk_cflags $x11_cflags"
+-            gtk_libs="$gtk_libs $x11_libs"
+-        fi
+-        gtk="yes"
+-    elif test "$gtk" = "yes"; then
+-        feature_not_found "gtk" "Install gtk3-devel"
+-    else
+-        gtk="no"
+-    fi
+-fi
+-
+-
+ ##########################################
+ # GNUTLS probe
+ 
+@@ -3640,16 +3615,6 @@ EOF
+   fi
+ fi
+ 
+-if test "$opengl" = "yes" && test "$have_x11" = "yes"; then
+-  for target in $target_list; do
+-    case $target in
+-      lm32-softmmu) # milkymist-tmu2 requires X11 and OpenGL
+-        need_x11=yes
+-      ;;
+-    esac
+-  done
 -fi
 -
  ##########################################
- # GTK probe
- 
-@@ -5681,10 +5673,8 @@ fi
+ # libxml2 probe
+ if test "$libxml2" != "no" ; then
+@@ -5673,9 +5638,6 @@ fi
  if test "$module_upgrades" = "yes"; then
    echo "CONFIG_MODULE_UPGRADES=y" >> $config_host_mak
  fi
--if test "$have_x11" = "yes" && test "$need_x11" = "yes"; then
--  echo "CONFIG_X11=y" >> $config_host_mak
--  echo "X11_CFLAGS=$x11_cflags" >> $config_host_mak
--  echo "X11_LIBS=$x11_libs" >> $config_host_mak
-+if test "$need_x11" = "yes"; then
-+  echo "CONFIG_NEED_X11=y" >> $config_host_mak
- fi
+-if test "$need_x11" = "yes"; then
+-  echo "CONFIG_NEED_X11=y" >> $config_host_mak
+-fi
  if test "$pipe2" = "yes" ; then
    echo "CONFIG_PIPE2=y" >> $config_host_mak
+ fi
+@@ -5763,11 +5725,6 @@ fi
+ if test "$bswap_h" = "yes" ; then
+   echo "CONFIG_MACHINE_BSWAP_H=y" >> $config_host_mak
+ fi
+-if test "$gtk" = "yes" ; then
+-  echo "CONFIG_GTK=y" >> $config_host_mak
+-  echo "GTK_CFLAGS=$gtk_cflags" >> $config_host_mak
+-  echo "GTK_LIBS=$gtk_libs" >> $config_host_mak
+-fi
+ if test "$gio" = "yes" ; then
+     echo "CONFIG_GIO=y" >> $config_host_mak
+     echo "GIO_CFLAGS=$gio_cflags" >> $config_host_mak
+@@ -6491,7 +6448,7 @@ NINJA=$ninja $meson setup \
+         -Dmalloc=$malloc -Dmalloc_trim=$malloc_trim -Dsparse=$sparse \
+         -Dkvm=$kvm -Dhax=$hax -Dwhpx=$whpx -Dhvf=$hvf \
+         -Dxen=$xen -Dxen_pci_passthrough=$xen_pci_passthrough -Dtcg=$tcg \
+-        -Dcocoa=$cocoa -Dmpath=$mpath -Dsdl=$sdl -Dsdl_image=$sdl_image \
++        -Dcocoa=$cocoa -Dgtk=$gtk -Dmpath=$mpath -Dsdl=$sdl -Dsdl_image=$sdl_image \
+         -Dvnc=$vnc -Dvnc_sasl=$vnc_sasl -Dvnc_jpeg=$vnc_jpeg -Dvnc_png=$vnc_png \
+         -Dgettext=$gettext -Dxkbcommon=$xkbcommon -Du2f=$u2f -Dvirtiofsd=$virtiofsd \
+         -Dcapstone=$capstone -Dslirp=$slirp -Dfdt=$fdt -Dbrlapi=$brlapi \
 diff --git a/meson.build b/meson.build
-index a729a30d2f..fdd4312c71 100644
+index fdd4312c71..a3a0958b4d 100644
 --- a/meson.build
 +++ b/meson.build
-@@ -783,9 +783,9 @@ if 'CONFIG_VTE' in config_host
+@@ -772,19 +772,31 @@ if 'CONFIG_OPENGL' in config_host
+   opengl = declare_dependency(compile_args: config_host['OPENGL_CFLAGS'].split(),
+                               link_args: config_host['OPENGL_LIBS'].split())
+ endif
++
+ gtk = not_found
+-if 'CONFIG_GTK' in config_host
+-  gtk = declare_dependency(compile_args: config_host['GTK_CFLAGS'].split(),
+-                              link_args: config_host['GTK_LIBS'].split())
++gtkx11 = not_found
++if not get_option('gtk').auto() or have_system
++  gtk = dependency('gtk+-3.0', version: '>=3.22.0',
++                   method: 'pkg-config',
++                   required: get_option('gtk'),
++                   static: enable_static)
++  if gtk.found()
++    gtkx11 = dependency('gtk+-x11-3.0', version: '>=3.22.0',
++                        method: 'pkg-config',
++                        required: false,
++                        static: enable_static)
++    gtk = declare_dependency(dependencies: [gtk, gtkx11])
++  endif
+ endif
++
+ vte = not_found
+ if 'CONFIG_VTE' in config_host
+   vte = declare_dependency(compile_args: config_host['VTE_CFLAGS'].split(),
                             link_args: config_host['VTE_LIBS'].split())
  endif
  x11 = not_found
--if 'CONFIG_X11' in config_host
--  x11 = declare_dependency(compile_args: config_host['X11_CFLAGS'].split(),
--                           link_args: config_host['X11_LIBS'].split())
-+if config_host.has_key('CONFIG_NEED_X11')
-+  x11 = dependency('x11', method: 'pkg-config', required: false,
-+                   static: enable_static)
+-if config_host.has_key('CONFIG_NEED_X11')
+-  x11 = dependency('x11', method: 'pkg-config', required: false,
++if gtkx11.found() or 'lm32-softmmu' in target_dirs
++  x11 = dependency('x11', method: 'pkg-config', required: gtkx11.found(),
+                    static: enable_static)
  endif
  vnc = not_found
- png = not_found
-@@ -1081,6 +1081,7 @@ config_host_data.set('CONFIG_STATX', has_statx)
- config_host_data.set('CONFIG_ZSTD', zstd.found())
- config_host_data.set('CONFIG_FUSE', fuse.found())
- config_host_data.set('CONFIG_FUSE_LSEEK', fuse_lseek.found())
-+config_host_data.set('CONFIG_X11', x11.found())
- config_host_data.set('CONFIG_CFI', get_option('cfi'))
- config_host_data.set('QEMU_VERSION', '"@0@"'.format(meson.project_version()))
- config_host_data.set('QEMU_VERSION_MAJOR', meson.project_version().split('.')[0])
-@@ -1167,7 +1168,7 @@ host_kconfig = \
-   ('CONFIG_SPICE' in config_host ? ['CONFIG_SPICE=y'] : []) + \
-   ('CONFIG_IVSHMEM' in config_host ? ['CONFIG_IVSHMEM=y'] : []) + \
-   ('CONFIG_OPENGL' in config_host ? ['CONFIG_OPENGL=y'] : []) + \
--  ('CONFIG_X11' in config_host ? ['CONFIG_X11=y'] : []) + \
-+  (x11.found() ? ['CONFIG_X11=y'] : []) + \
-   ('CONFIG_VHOST_USER' in config_host ? ['CONFIG_VHOST_USER=y'] : []) + \
-   ('CONFIG_VHOST_VDPA' in config_host ? ['CONFIG_VHOST_VDPA=y'] : []) + \
-   ('CONFIG_VHOST_KERNEL' in config_host ? ['CONFIG_VHOST_KERNEL=y'] : []) + \
+@@ -1058,6 +1070,7 @@ if glusterfs.found()
+   config_host_data.set('CONFIG_GLUSTERFS_FTRUNCATE_HAS_STAT', glusterfs_ftruncate_has_stat)
+   config_host_data.set('CONFIG_GLUSTERFS_IOCB_HAS_STAT', glusterfs_iocb_has_stat)
+ endif
++config_host_data.set('CONFIG_GTK', gtk.found())
+ config_host_data.set('CONFIG_LIBATTR', have_old_libattr)
+ config_host_data.set('CONFIG_LIBCAP_NG', libcap_ng.found())
+ config_host_data.set('CONFIG_LIBISCSI', libiscsi.found())
+@@ -2229,7 +2242,7 @@ subdir('tools')
+ subdir('pc-bios')
+ subdir('docs')
+ subdir('tests')
+-if 'CONFIG_GTK' in config_host
++if gtk.found()
+   subdir('po')
+ endif
+ 
+@@ -2246,7 +2259,7 @@ if host_machine.system() == 'windows'
+   if build_docs
+     nsis_cmd += '-DCONFIG_DOCUMENTATION=y'
+   endif
+-  if 'CONFIG_GTK' in config_host
++  if gtk.found()
+     nsis_cmd += '-DCONFIG_GTK=y'
+   endif
+ 
+@@ -2337,7 +2350,7 @@ endif
+ summary_info += {'SDL support':       sdl.found()}
+ summary_info += {'SDL image support': sdl_image.found()}
+ # TODO: add back version
+-summary_info += {'GTK support':       config_host.has_key('CONFIG_GTK')}
++summary_info += {'GTK support':       gtk.found()}
+ summary_info += {'pixman':            pixman.found()}
+ # TODO: add back version
+ summary_info += {'VTE support':       config_host.has_key('CONFIG_VTE')}
+diff --git a/meson_options.txt b/meson_options.txt
+index 41f9c2cf6c..b9b106675f 100644
+--- a/meson_options.txt
++++ b/meson_options.txt
+@@ -76,6 +76,8 @@ option('lzo', type : 'feature', value : 'auto',
+        description: 'lzo compression support')
+ option('rbd', type : 'feature', value : 'auto',
+        description: 'Ceph block device driver')
++option('gtk', type : 'feature', value : 'auto',
++       description: 'GTK+ user interface')
+ option('sdl', type : 'feature', value : 'auto',
+        description: 'SDL user interface')
+ option('sdl_image', type : 'feature', value : 'auto',
 diff --git a/ui/meson.build b/ui/meson.build
-index d805448c4e..afbdd78e97 100644
+index afbdd78e97..407e291ebe 100644
 --- a/ui/meson.build
 +++ b/ui/meson.build
-@@ -62,7 +62,7 @@ if config_host.has_key('CONFIG_GTK')
+@@ -57,7 +57,7 @@ if config_host.has_key('CONFIG_OPENGL_DMABUF')
+   ui_modules += {'egl-headless' : egl_headless_ss}
+ endif
+ 
+-if config_host.has_key('CONFIG_GTK')
++if gtk.found()
+   softmmu_ss.add(when: 'CONFIG_WIN32', if_true: files('win32-kbd-hook.c'))
  
    gtk_ss = ss.source_set()
-   gtk_ss.add(gtk, vte, pixman, files('gtk.c'))
--  gtk_ss.add(when: [x11, 'CONFIG_X11'], if_true: files('x_keymap.c'))
-+  gtk_ss.add(when: x11, if_true: files('x_keymap.c'))
-   gtk_ss.add(when: [opengl, 'CONFIG_OPENGL'], if_true: files('gtk-egl.c', 'gtk-gl-area.c'))
-   ui_modules += {'gtk' : gtk_ss}
- endif
-@@ -77,7 +77,7 @@ if sdl.found()
-     'sdl2.c',
-   ))
-   sdl_ss.add(when: [opengl, 'CONFIG_OPENGL'], if_true: files('sdl2-gl.c'))
--  sdl_ss.add(when: [x11, 'CONFIG_X11'], if_true: files('x_keymap.c'))
-+  sdl_ss.add(when: x11, if_true: files('x_keymap.c'))
-   ui_modules += {'sdl' : sdl_ss}
- endif
- 
 -- 
 2.29.2
 
