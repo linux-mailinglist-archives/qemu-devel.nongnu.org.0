@@ -2,69 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C7F8F2EE8D6
-	for <lists+qemu-devel@lfdr.de>; Thu,  7 Jan 2021 23:38:41 +0100 (CET)
-Received: from localhost ([::1]:41008 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0371F2EE8D5
+	for <lists+qemu-devel@lfdr.de>; Thu,  7 Jan 2021 23:38:24 +0100 (CET)
+Received: from localhost ([::1]:39262 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kxdvU-0004HJ-RN
-	for lists+qemu-devel@lfdr.de; Thu, 07 Jan 2021 17:38:40 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46616)
+	id 1kxdvD-0003Io-2d
+	for lists+qemu-devel@lfdr.de; Thu, 07 Jan 2021 17:38:23 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46700)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1kxdi4-0008TD-FL
- for qemu-devel@nongnu.org; Thu, 07 Jan 2021 17:24:48 -0500
-Received: from mail-wr1-x42e.google.com ([2a00:1450:4864:20::42e]:36550)
+ id 1kxdiA-0000Ha-0G
+ for qemu-devel@nongnu.org; Thu, 07 Jan 2021 17:24:54 -0500
+Received: from mail-wm1-x330.google.com ([2a00:1450:4864:20::330]:39469)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1kxdi2-0005D2-V0
- for qemu-devel@nongnu.org; Thu, 07 Jan 2021 17:24:48 -0500
-Received: by mail-wr1-x42e.google.com with SMTP id t16so7143338wra.3
- for <qemu-devel@nongnu.org>; Thu, 07 Jan 2021 14:24:46 -0800 (PST)
+ id 1kxdi8-0005Hc-7K
+ for qemu-devel@nongnu.org; Thu, 07 Jan 2021 17:24:53 -0500
+Received: by mail-wm1-x330.google.com with SMTP id 3so6819436wmg.4
+ for <qemu-devel@nongnu.org>; Thu, 07 Jan 2021 14:24:51 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=r446af/BEgIH/8cqnACVmQPnVuqEMMgc7/K3JtKHKOk=;
- b=qpGFzj6m5FFszD8aYLBDnx6u1j4Fcq3cD4+18rtk/1dXSmrBZ7SxbOv+JTQbaOoamo
- VghsaUWLHh3z1PxUodplat8odiJmWx0t9EH3Q/5sbMdZ7yuAfERITlKxX45V4kIVnboF
- 6+nZogq77Fzm63hXVLs2L9smY3wRGF1TnuDgwiY8F2/qfk4PtM8n9oWO27kWk6uAuJak
- t/xMkhi8cXqFgMrt7l4jsAkxM5Q1BjXqqKeCshZ9geLomJE24dPBOxRMz5FqGrGmwys1
- qRomXr8fWuRAPa1ec5UgGXS6gIxpF3CdnYl/+tUhko6aT43mCjZkXl4Gxk0HAkJf9tvl
- EcFQ==
+ bh=dcR5NfJ4bwd3GfZx+pYyGxxdnoF1o7zacb4JP8su4Rw=;
+ b=SKxTZgOcgVzHj3DKPn6v+2IU+QoulCHt2RAJKbmiMqIZnukJVsAKErS3PvVBt9Q9yh
+ 2lGahRiDR+l/rqT3vU5Rlr7uE4D/PPsmqVuQS0ZEYVoGHODToRH8+a11bOyrVS2XLiaK
+ buPBkjlqfnXvGbScV48QroYRf3Fu9qGfr+EBb5PYaoPoiSp08efBI13MZkHsVb2q4y2S
+ hJLMKEQRFq9g0Jhwvyhr9Q9wUvhODDTN3rHToc+YlMJJ6WnNoOpbykFRipjrcIWnDr0K
+ GVXK5Wgqq5NlSCAwwEy4jYNdPZjBfkWzipWwDxzzjJV8KNXJkVsj4zYgYn8pkBJ3CDDo
+ oexA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=r446af/BEgIH/8cqnACVmQPnVuqEMMgc7/K3JtKHKOk=;
- b=ob7j1pPOzYA3skeE/FrPXlpQEv9stB16pfx18wtupLjtB7WAgXt1GkoctC/PMBNozu
- JdmLHl5MI5y/YH5Js9AziXjBaN5F4HCpzWCL3jhnFM00YMiPvq8Yddjq+5U3JeYw0wwD
- RpFPFhJM4ENfY+F8BF2V+ElRAvwkcKKEW4aQL2gAZ8wvPUdZUgnD563eUUXdwaQPnCix
- lFd4/qBC8/f3J9djd994Ll9vXhD/IpLO2JyJFLci3AVtgJ72O9YHe8Z4nsapO0mrMedU
- Wfp4gSZggl16ZhACP06qK/ny0yQGQcKNypMC1FB9EnQPM1nU5Knnfa4rIxrDM5b5sVAi
- pg8g==
-X-Gm-Message-State: AOAM532cz76+uxJrXaMeJ+/obAsR0CHPUaeEkmzw9OYaDFSGaftGv2nq
- p0zOCd8W+xnxl7yRtNMk8bOQHbPKCws=
-X-Google-Smtp-Source: ABdhPJwCsmyU6k2gmlk9eYhvqhY92VyIIL3GWXGM3B7ZnDJ3ScTAoH3Xic2OzXnKHm6okNdHJVKirQ==
-X-Received: by 2002:a5d:4ad0:: with SMTP id y16mr662380wrs.424.1610058285366; 
- Thu, 07 Jan 2021 14:24:45 -0800 (PST)
+ bh=dcR5NfJ4bwd3GfZx+pYyGxxdnoF1o7zacb4JP8su4Rw=;
+ b=jdBTDZlyoT4OUrQGffUvtBv8NOq6yossHtjz9hxeSWtuaZK0Kk1h9+M0MEG6uf84En
+ lS9UJF+QpdkA1mm0stLED/H2ZLlX/DzxtAtxYS6fsjtpj1UyIMQ/EeBsVX02dtFVQyo2
+ 13YI1GCMcz4SZT+9/f73OROB6AM5Q7E3OHxfvr9NjrHqYqOxF4GSs74aObwMH1nyxqeu
+ 3MTw2pIE0onwMT2MZPXJo91xJYAUjzlMGeixsfiPs++R4VwQhMgQqK8DYdX1qNB9hYPR
+ 9Gq4rnuVaKZPlXutdMkk27tKDs8+FlW1rSETVjzDo6sVmUfwYKxSI3KZCvVDRG4mqTY/
+ 35zw==
+X-Gm-Message-State: AOAM531B7I+yLDMKwGJAeCTwj8qhXaWkY0S1o5bfzHLnZzj93aUzq70c
+ ATEMRyXaV6kiSVmjnW9/xbRTrHmLcio=
+X-Google-Smtp-Source: ABdhPJxYDqODrrjf7pdQ0Z0PcI2BySmJ6bIXEkP3iZ8g95kryCbIw8SkmdqWfWVT/ysqEfYlDJrIFA==
+X-Received: by 2002:a1c:4954:: with SMTP id w81mr527168wma.60.1610058290666;
+ Thu, 07 Jan 2021 14:24:50 -0800 (PST)
 Received: from x1w.redhat.com (241.red-88-10-103.dynamicip.rima-tde.net.
  [88.10.103.241])
- by smtp.gmail.com with ESMTPSA id n9sm10103105wrq.41.2021.01.07.14.24.44
+ by smtp.gmail.com with ESMTPSA id v65sm5262739wme.23.2021.01.07.14.24.49
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 07 Jan 2021 14:24:44 -0800 (PST)
+ Thu, 07 Jan 2021 14:24:49 -0800 (PST)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 21/66] target/mips: Add !CONFIG_USER_ONLY comment after #endif
-Date: Thu,  7 Jan 2021 23:22:08 +0100
-Message-Id: <20210107222253.20382-22-f4bug@amsat.org>
+Subject: [PULL 22/66] target/mips: Remove consecutive CONFIG_USER_ONLY ifdefs
+Date: Thu,  7 Jan 2021 23:22:09 +0100
+Message-Id: <20210107222253.20382-23-f4bug@amsat.org>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20210107222253.20382-1-f4bug@amsat.org>
 References: <20210107222253.20382-1-f4bug@amsat.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::42e;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x42e.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::330;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x330.google.com
 X-Spam_score_int: -14
 X-Spam_score: -1.5
 X-Spam_bar: -
@@ -95,74 +95,27 @@ Cc: Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-To help understand ifdef'ry, add comment after #endif.
-
 Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-Message-Id: <20201214183739.500368-4-f4bug@amsat.org>
+Message-Id: <20201214183739.500368-5-f4bug@amsat.org>
 ---
- target/mips/helper.c | 13 ++++++++-----
- 1 file changed, 8 insertions(+), 5 deletions(-)
+ target/mips/helper.c | 2 --
+ 1 file changed, 2 deletions(-)
 
 diff --git a/target/mips/helper.c b/target/mips/helper.c
-index d1b6bb6fb23..92bd3fb8550 100644
+index 92bd3fb8550..cfb6d82fd33 100644
 --- a/target/mips/helper.c
 +++ b/target/mips/helper.c
-@@ -455,7 +455,8 @@ void cpu_mips_store_cause(CPUMIPSState *env, target_ulong val)
-         }
-     }
- }
--#endif
-+
-+#endif /* !CONFIG_USER_ONLY */
- 
- static void raise_mmu_exception(CPUMIPSState *env, target_ulong address,
-                                 int rw, int tlb_error)
-@@ -537,6 +538,7 @@ static void raise_mmu_exception(CPUMIPSState *env, target_ulong address,
- }
- 
- #if !defined(CONFIG_USER_ONLY)
-+
- hwaddr mips_cpu_get_phys_page_debug(CPUState *cs, vaddr addr)
- {
-     MIPSCPU *cpu = MIPS_CPU(cs);
-@@ -550,7 +552,7 @@ hwaddr mips_cpu_get_phys_page_debug(CPUState *cs, vaddr addr)
+@@ -552,9 +552,7 @@ hwaddr mips_cpu_get_phys_page_debug(CPUState *cs, vaddr addr)
      }
      return phys_addr;
  }
--#endif
-+#endif /* !CONFIG_USER_ONLY */
+-#endif /* !CONFIG_USER_ONLY */
  
- #if !defined(CONFIG_USER_ONLY)
+-#if !defined(CONFIG_USER_ONLY)
  #if !defined(TARGET_MIPS64)
-@@ -886,7 +888,7 @@ refill:
-     return true;
- }
- #endif
--#endif
-+#endif /* !CONFIG_USER_ONLY */
  
- bool mips_cpu_tlb_fill(CPUState *cs, vaddr address, int size,
-                        MMUAccessType access_type, int mmu_idx,
-@@ -1088,7 +1090,8 @@ static inline void set_badinstr_registers(CPUMIPSState *env)
-         env->CP0_BadInstrP = cpu_ldl_code(env, env->active_tc.PC - 4);
-     }
- }
--#endif
-+
-+#endif /* !CONFIG_USER_ONLY */
- 
- void mips_cpu_do_interrupt(CPUState *cs)
- {
-@@ -1482,7 +1485,7 @@ void r4k_invalidate_tlb(CPUMIPSState *env, int idx, int use_extra)
-         }
-     }
- }
--#endif
-+#endif /* !CONFIG_USER_ONLY */
- 
- void QEMU_NORETURN do_raise_exception_err(CPUMIPSState *env,
-                                           uint32_t exception,
+ /*
 -- 
 2.26.2
 
