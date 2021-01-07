@@ -2,73 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D57C02ED3F3
-	for <lists+qemu-devel@lfdr.de>; Thu,  7 Jan 2021 17:10:30 +0100 (CET)
-Received: from localhost ([::1]:37356 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 49AC42ED3F5
+	for <lists+qemu-devel@lfdr.de>; Thu,  7 Jan 2021 17:10:37 +0100 (CET)
+Received: from localhost ([::1]:37752 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kxXrp-0006nm-UJ
-	for lists+qemu-devel@lfdr.de; Thu, 07 Jan 2021 11:10:29 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56380)
+	id 1kxXrw-0006zK-Bt
+	for lists+qemu-devel@lfdr.de; Thu, 07 Jan 2021 11:10:36 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56466)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1kxXpm-0005sP-Ug
- for qemu-devel@nongnu.org; Thu, 07 Jan 2021 11:08:22 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:34036)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1kxXpl-0001b2-79
- for qemu-devel@nongnu.org; Thu, 07 Jan 2021 11:08:22 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1610035699;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:in-reply-to:in-reply-to:  references:references;
- bh=oV5VM36LVs8zXTYciWnULN94V0KpB9wVobLdvyvLp9Q=;
- b=g5PEZiMhqODEmvUTXTAoS+krjeqhT+ah7yq9duqSs0pzOUWH0mFJEldJsMbCaQtqlAFNWs
- S5lY+362NhMGP1VyzmAAnLrDU7d2jg0AKVTlB+kMreCCAohMOsoq8GiT45yw4YpL1dPx5F
- qKEpPOkUp8fD1ETsS2gZIUms1kSW3vQ=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-184-6-h4R9QrP8qH9E0IDXDfoQ-1; Thu, 07 Jan 2021 11:07:05 -0500
-X-MC-Unique: 6-h4R9QrP8qH9E0IDXDfoQ-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 1C2D110054FF;
- Thu,  7 Jan 2021 16:07:04 +0000 (UTC)
-Received: from redhat.com (ovpn-115-29.ams2.redhat.com [10.36.115.29])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 266B560937;
- Thu,  7 Jan 2021 16:06:55 +0000 (UTC)
-Date: Thu, 7 Jan 2021 16:06:53 +0000
-From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-To: Paolo Bonzini <pbonzini@redhat.com>
-Subject: Re: [PATCH 1/8] build-system: clean up TCG/TCI configury
-Message-ID: <20210107160653.GD1029501@redhat.com>
-References: <20210107140039.467969-1-pbonzini@redhat.com>
- <20210107140039.467969-2-pbonzini@redhat.com>
- <CAFEAcA9yyUUmd+hj6kgAV8KWtCC41Q55JRfE0q1zTaDaOofgOQ@mail.gmail.com>
- <a5cd4c43-2f12-2dbf-8db7-21acc7abc73d@redhat.com>
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1kxXq4-0005yK-BY
+ for qemu-devel@nongnu.org; Thu, 07 Jan 2021 11:08:40 -0500
+Received: from mail-ej1-x634.google.com ([2a00:1450:4864:20::634]:41296)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1kxXpw-0001fd-HD
+ for qemu-devel@nongnu.org; Thu, 07 Jan 2021 11:08:40 -0500
+Received: by mail-ej1-x634.google.com with SMTP id ce23so10388210ejb.8
+ for <qemu-devel@nongnu.org>; Thu, 07 Jan 2021 08:08:32 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=yjaq8juzB3Pr56RMdEXiqpkDQ0Ly57tB+Sk9DxkiTdc=;
+ b=woXufm1YcY8K3lRBJMlSVegnqyjNfn5CofacC0marvups08ZKUTMYI/swVbTHmL0Ud
+ CfZR9sP90jJcMDh74OFiPiMbRzYNHpHaIV/VSMkbOtd6NYR+o28uGnnOpWR7s+DOHHow
+ EsasN5rI8P9PGdiu6+2cRBvNbBXjtQEX2q8ISD5VldTvvpkjV6086H4yR0cbUCua13UI
+ 2TpL+lqvZT5ZKp+JM5dio7AjhT2Eevkd1y9mUWfQqfQaOoaI5t0JzQNuYv7wqED/9ZUQ
+ fShyPOFtoveufXIy1ZZ8lBg8oAQbIWRtjpbz3/ZGFDS6uiZ3fJ6zbnzEiBZHTOt0WmaQ
+ V3tg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=yjaq8juzB3Pr56RMdEXiqpkDQ0Ly57tB+Sk9DxkiTdc=;
+ b=A/CJ0FrMU2lojHbXyXKX6vhdeCKjZEm6EMnLQXAvIuLAjjCtZ9KSs9w7+QpcS9MTJs
+ OAeJqEMPy/ounerzJ/8JJhkMoes5EABzgOz8YFcFUpyLPuJJmj2PPwYZ6xSwomL70etD
+ /kUPD/F4hoPpB7rKPMKnS6GzBMleNQfXMAb5K58a6xmXiQ6pBy2jbprbeO4NgZ0XtQi1
+ bAkeSMNwB/K2Y3jZ7ufDz93LXpjkNOXMLMcHHIDP3ULqJd6U5T1Led8vkqnya1gMnFJq
+ dH88mHmv4gBwiljFTgL+T+mSBuWr2qJ3zTBKsrStDIBG8rYXweEA2oDu2JOFLXYKtcS1
+ ZQQQ==
+X-Gm-Message-State: AOAM533vS+Or+Ov+BNa/fFY1po1ZdazssLo8YroJJC7mRnwJVt0CU2qD
+ YSrNVNGi4ng8sH7YDFEW+V2Rf2R412xC9xMsMePGhA==
+X-Google-Smtp-Source: ABdhPJwlBx9472bnsDfZw45mOLE3UjSvi8jEiUSA7SZFiIgEOS2m/pslz9DANdGJW9BP2hkHP/HlIpaMwJiSLHaHxXg=
+X-Received: by 2002:a17:906:3d4a:: with SMTP id
+ q10mr6845576ejf.85.1610035711092; 
+ Thu, 07 Jan 2021 08:08:31 -0800 (PST)
 MIME-Version: 1.0
-In-Reply-To: <a5cd4c43-2f12-2dbf-8db7-21acc7abc73d@redhat.com>
-User-Agent: Mutt/1.14.6 (2020-07-11)
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=berrange@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=berrange@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -29
-X-Spam_score: -3.0
-X-Spam_bar: ---
-X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.246,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+References: <20201208180118.157911-1-richard.henderson@linaro.org>
+ <20201208180118.157911-8-richard.henderson@linaro.org>
+In-Reply-To: <20201208180118.157911-8-richard.henderson@linaro.org>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Thu, 7 Jan 2021 16:08:19 +0000
+Message-ID: <CAFEAcA9R7k+2H3ZKFxcdaofEQduYH2qObTyw-yp5b7=CUcCeHA@mail.gmail.com>
+Subject: Re: [PATCH v2 07/24] target/arm: Enforce word alignment for LDRD/STRD
+To: Richard Henderson <richard.henderson@linaro.org>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2a00:1450:4864:20::634;
+ envelope-from=peter.maydell@linaro.org; helo=mail-ej1-x634.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -81,45 +78,21 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>,
- QEMU Developers <qemu-devel@nongnu.org>, Stefan Hajnoczi <stefanha@redhat.com>,
- =?utf-8?Q?Marc-Andr=C3=A9?= Lureau <marcandre.lureau@redhat.com>
+Cc: qemu-arm <qemu-arm@nongnu.org>, QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, Jan 07, 2021 at 04:50:36PM +0100, Paolo Bonzini wrote:
-> On 07/01/21 16:01, Peter Maydell wrote:
-> > On Thu, 7 Jan 2021 at 14:03, Paolo Bonzini <pbonzini@redhat.com> wrote:
-> > > 
-> > > Make CONFIG_TCG_INTERPRETER a Meson option, and enable TCI (though with
-> > > a warning) if the host CPU is unsupported, making it more similar to
-> > > other --enable-* options.
-> > 
-> > The current behaviour is kind of deliberate. Using the TCG
-> > interpreter is a terrible idea and think it's better if we
-> > don't let users end up using it without realising that they have.
-> > (Personally I would vote to deprecate-and-delete TCI, and also
-> > to just have configure error out on unknown host CPU architectures.)
-> 
-> Fair enough, I can change this back of course.  The missing targets are
-> parisc, ia64 and sh4 I guess.
+On Tue, 8 Dec 2020 at 18:01, Richard Henderson
+<richard.henderson@linaro.org> wrote:
+>
+> Buglink: https://bugs.launchpad.net/qemu/+bug/1905356
+> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+> ---
+>  target/arm/translate.c | 16 ++++++++--------
+>  1 file changed, 8 insertions(+), 8 deletions(-)
 
-ia64 is a dead host architecture and doesn't exist in any OS distro that
-we target anymore, so I don't think we need to consider it.
+Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
 
-Likewise parisc/hppa doesn't seem exist in Debian since Squeeze, so I
-think we can rule that out too.
-
-Only sh4 still seems to be supported in Debian. I expect the primary
-need there is for sh4 guest support rather than sh4 host support.
-
-Regards,
-Daniel
--- 
-|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
-|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
-|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
-
+thanks
+-- PMM
 
