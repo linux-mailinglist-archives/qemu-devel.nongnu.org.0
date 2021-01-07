@@ -2,81 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D7B792ECBA4
-	for <lists+qemu-devel@lfdr.de>; Thu,  7 Jan 2021 09:12:17 +0100 (CET)
-Received: from localhost ([::1]:45472 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C62472ECBA6
+	for <lists+qemu-devel@lfdr.de>; Thu,  7 Jan 2021 09:14:07 +0100 (CET)
+Received: from localhost ([::1]:47628 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kxQP2-0000Fg-VR
-	for lists+qemu-devel@lfdr.de; Thu, 07 Jan 2021 03:12:16 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34736)
+	id 1kxQQo-0001Ec-Sm
+	for lists+qemu-devel@lfdr.de; Thu, 07 Jan 2021 03:14:06 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34926)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1kxQOJ-0008IA-Ot
- for qemu-devel@nongnu.org; Thu, 07 Jan 2021 03:11:31 -0500
-Received: from mail-wm1-x334.google.com ([2a00:1450:4864:20::334]:33374)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1kxQPf-0000ny-Me
+ for qemu-devel@nongnu.org; Thu, 07 Jan 2021 03:12:55 -0500
+Received: from mail-wr1-x433.google.com ([2a00:1450:4864:20::433]:33499)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1kxQOI-0002MK-Bb
- for qemu-devel@nongnu.org; Thu, 07 Jan 2021 03:11:31 -0500
-Received: by mail-wm1-x334.google.com with SMTP id n16so4429777wmc.0
- for <qemu-devel@nongnu.org>; Thu, 07 Jan 2021 00:11:29 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=hDGBMJo9aVdh+UbJagth4T/znofRW6/B05geGc2WU74=;
- b=b9xipJx/glLRT13Qav6xU2i58blNy2BIcDIPJT4SFKheUCHi+0DOr2K54if/T7OydJ
- f8PeeZ3oUIbwYCV/6GWM3a38l46lB7Jl451np/huSRTjot53C8W0g9zM0h8Y+3MGsdXD
- E8LALhwg/QZFrNCx/ltZJcet0WnNgtigqllbiH8cY1V9J3/4L8UvUVHBoZgzPLS/5YnV
- R7w9EDZL3Qvu/5bwJfEyXVwph13J/jWnIJ6ZK8oIcX2bm3ot+KNN9iXImRnEKfzxYIje
- nBLYrHlKg7robEBwXLDBDLP2KaTjLl0U6Onpeoe2GUoH8GTwSQkXZSxZd7LM6M4vSkNK
- yvPA==
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1kxQPd-00030H-NM
+ for qemu-devel@nongnu.org; Thu, 07 Jan 2021 03:12:55 -0500
+Received: by mail-wr1-x433.google.com with SMTP id t30so4735266wrb.0
+ for <qemu-devel@nongnu.org>; Thu, 07 Jan 2021 00:12:52 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=references:user-agent:from:to:cc:subject:date:in-reply-to
+ :message-id:mime-version:content-transfer-encoding;
+ bh=Vo1fYfjWWssgAfItKHCgmhmHIKXo/CI3WJxluQvhc/U=;
+ b=EuDxWwjSw1QKd2YAC7qTpZ5kAd3/q29fpL0FtCA5jQq1eOVg2A6NBbgYg1PSyed+JQ
+ zBtm85iGd58SQ/A22tG0GKzvnJdKG3YlU9o7Z4O/WZXyRmjlcpY//IazA0AOYZD/MENb
+ xkiuR9pRyhzqTF6tTATfyJ9nX4bvIm4XESF901G+i4d8IcKG1DpHwA7SgpnjW6iFvfih
+ sdS+s0+epg6vq/15Jq/ifO5hjtl8E7bKNcohnOmJg8ykajlFSR/TnuWlLWMtpI9D1N/Y
+ nTE9Ofz4v4d6fnrex7tpva9Vcy5Tp7c0UFCwpqCbdEEH/A+Ea8Y9NsMCXnB1uJPU0rLK
+ nocA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
- :date:user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=hDGBMJo9aVdh+UbJagth4T/znofRW6/B05geGc2WU74=;
- b=rRRrQtX5V/SXGCai9H9i6ybTmMRh2jtnMy9YqoQKA/OqtkD55Xzq191YtTIwSlQx5E
- ka/tUyzIwO2YT9JDLEw7+GJTAl2XCKt0qiXbfLJVs9hLxdhAUMVFSodwrpo4cUbCcRQt
- ZD9B3fHFzKzIcdeZr5ad9kakPLHMwWSoqUGoQNAXq+ncb8wNcCOwTxHvyv2+y/og6A9N
- tfFFaVeMEnVJzhDYbYLPvySqAJIZy+NCj6R/gxpJCkdZAwioyFo9jFN0wo+srpbPWjWK
- UuCcOZXvtSUlYeD8X2X9+NZdJGnkYv0ek/JBhOqBknX0+ql2Q9BsZLk+3XKmVMkTKGah
- eCNg==
-X-Gm-Message-State: AOAM530jjvmBFFcKxf6IfmzH0Nn/2pZ9oTHEu8HEeYQtOY0P/OIoIyfj
- LYxpUyatNUpSg2hjPcGITWI=
-X-Google-Smtp-Source: ABdhPJzSkEgmQ8DVUlDlMDHfPkdoCspCmdVKSZb2hnKeJjMoYuwjHasmbLydS77zrr+T540pQjQq/w==
-X-Received: by 2002:a1c:2586:: with SMTP id l128mr6952015wml.78.1610007088955; 
- Thu, 07 Jan 2021 00:11:28 -0800 (PST)
-Received: from [192.168.1.36] (241.red-88-10-103.dynamicip.rima-tde.net.
- [88.10.103.241])
- by smtp.gmail.com with ESMTPSA id n11sm7550607wra.9.2021.01.07.00.11.27
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 07 Jan 2021 00:11:28 -0800 (PST)
-Subject: Re: [PATCH 06/12] vt82c686: Simplify vt82c686b_realize()
-To: BALATON Zoltan <balaton@eik.bme.hu>, qemu-devel@nongnu.org
-References: <cover.1609967638.git.balaton@eik.bme.hu>
- <a8d1368df3627d3eed4a1702a066054cde213cfc.1609967638.git.balaton@eik.bme.hu>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
-Message-ID: <f4cc48eb-2760-f80f-2a22-05c7ba82baa7@amsat.org>
-Date: Thu, 7 Jan 2021 09:11:27 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.6.0
+ h=x-gm-message-state:references:user-agent:from:to:cc:subject:date
+ :in-reply-to:message-id:mime-version:content-transfer-encoding;
+ bh=Vo1fYfjWWssgAfItKHCgmhmHIKXo/CI3WJxluQvhc/U=;
+ b=grfYDo3Oi/G1tqMvRuNRZPrH1QfNrb65OYthUUvz9DTrSw/irQUvt5KK7DAYf5KomP
+ gf2HX+mLsA1RcKcfV6NvdagZdWYNwB9c1X7e3/oIMQTQ19uFqeIhqT2yBJX1uznRO6CA
+ kM5xG78yXA6tzJru8zcLQyjVfNY3wBoAzSlD0VKxhaB6ph4uwFPhQ8vucGVHK/+uL9Ii
+ BDFGiTekZ0r/prC0m0HuKVa2iqZa7nBNo252IVzBiGMfy/iCYFxa2Wenr2zjMenat3kW
+ huNU1118EUqlLqQN5fx5uzNpGoAtcNw0XQsLpAWpKKX+BqLzEBeszBzcXNArDXWSXPa4
+ Wahw==
+X-Gm-Message-State: AOAM531UwP1x+f4igNqkWwX/5zZe8Rvn2iSBFtfQBhFaXcORJV2uOGUh
+ B1T2r/O0z6BExhXYRNuzFewdRA==
+X-Google-Smtp-Source: ABdhPJzAXjgz3aae2IY51wyFcCcNHDoPi2FDfqSGFsp/XJXGLlw08P/MPummQeCWBbHIrh9uM80P9g==
+X-Received: by 2002:adf:9dc4:: with SMTP id q4mr7608036wre.367.1610007171474; 
+ Thu, 07 Jan 2021 00:12:51 -0800 (PST)
+Received: from zen.linaroharston ([51.148.130.216])
+ by smtp.gmail.com with ESMTPSA id a14sm6659062wrn.3.2021.01.07.00.12.50
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 07 Jan 2021 00:12:50 -0800 (PST)
+Received: from zen (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id A3B8F1FF7E;
+ Thu,  7 Jan 2021 08:12:49 +0000 (GMT)
+References: <20210104144241.343186-1-pbonzini@redhat.com>
+ <CAFEAcA_1MWezZ_X=V8JKBVjMRMO8Z4tY=_qAHV20ROzU+EEm8w@mail.gmail.com>
+ <871rey2edv.fsf@linaro.org>
+ <CABgObfZ9WCfXcnEshmRoZTw2RMTfFfcDK3-aJvYn363+P2yZSQ@mail.gmail.com>
+User-agent: mu4e 1.5.7; emacs 28.0.50
+From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: Paolo Bonzini <pbonzini@redhat.com>
+Subject: Re: [PULL v2 00/53] Misc patches for 2020-12-21
+Date: Thu, 07 Jan 2021 08:12:10 +0000
+In-reply-to: <CABgObfZ9WCfXcnEshmRoZTw2RMTfFfcDK3-aJvYn363+P2yZSQ@mail.gmail.com>
+Message-ID: <87y2h517y6.fsf@linaro.org>
 MIME-Version: 1.0
-In-Reply-To: <a8d1368df3627d3eed4a1702a066054cde213cfc.1609967638.git.balaton@eik.bme.hu>
 Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::334;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x334.google.com
-X-Spam_score_int: -17
-X-Spam_score: -1.8
-X-Spam_bar: -
-X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249, NICE_REPLY_A=-0.249,
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2a00:1450:4864:20::433;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x433.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -89,19 +89,78 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Huacai Chen <chenhuacai@kernel.org>
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ qemu-devel <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 1/6/21 10:13 PM, BALATON Zoltan wrote:
-> Remove unneeded variables and setting value to 0 on zero initialised
-> data and replace check for error with error_fatal. Rationalise loop
-> that sets PCI config header fields read only.
-> 
-> Signed-off-by: BALATON Zoltan <balaton@eik.bme.hu>
-> ---
->  hw/isa/vt82c686.c | 20 ++++++--------------
->  1 file changed, 6 insertions(+), 14 deletions(-)
 
-Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+Paolo Bonzini <pbonzini@redhat.com> writes:
+
+> I have already sent the v3, so you may want to wait a day or two. The good
+> thing of conversion patches is that if they break something you can just
+> drop them. :)
+
+I re-span with v4 which just has a few extra regression fixes on top of
+the ones in your v3.
+
+>
+> Paolo
+>
+> Il mer 6 gen 2021, 17:56 Alex Benn=C3=A9e <alex.bennee@linaro.org> ha scr=
+itto:
+>
+>>
+>> Peter Maydell <peter.maydell@linaro.org> writes:
+>>
+>> > On Mon, 4 Jan 2021 at 14:44, Paolo Bonzini <pbonzini@redhat.com> wrote:
+>> >>
+>> >> The following changes since commit
+>> 41192db338588051f21501abc13743e62b0a5605:
+>> >>
+>> >>   Merge remote-tracking branch
+>> 'remotes/ehabkost-gl/tags/machine-next-pull-request' into staging
+>> (2021-01-01 22:57:15 +0000)
+>> >>
+>> >> are available in the Git repository at:
+>> >>
+>> >>   https://gitlab.com/bonzini/qemu.git tags/for-upstream
+>> >>
+>> >> for you to fetch changes up to bac87e979fcca9f884e1c9190132c51d99a869=
+84:
+>> >>
+>> >>   win32: drop fd registration to the main-loop on setting non-block
+>> (2021-01-02 21:03:38 +0100)
+>> >>
+>> >> ----------------------------------------------------------------
+>> >> From Alex's pull request:
+>> >> * improve cross-build KVM coverage
+>> >> * new --without-default-features configure flag
+>> >> * add __repr__ for ConsoleSocket for debugging
+>> >> * build tcg tests with -Werror
+>> >> * test 32 bit builds with fedora
+>> >> * remove last traces of debian9
+>> >> * hotfix for centos8 powertools repo
+>>
+>> Given this might take awhile to get in and the fact I've got more fixes
+>> for regressions since Christmas I might as well include these in a only
+>> testing PR. I'm giving it a final run on the CI systems now before I
+>> send the email, tag for reference:
+>>
+>> : To github.com:stsquad/qemu.git
+>> :  * [new tag]               pull-testing-060121-3 -> pull-testing-06012=
+1-3
+>> : To gitlab.com:stsquad/qemu.git
+>> :  * [new tag]               pull-testing-060121-3 -> pull-testing-06012=
+1-3
+>> : pushed pull-testing-060121-3
+>>
+>> --
+>> Alex Benn=C3=A9e
+>>
+>>
+
+
+--=20
+Alex Benn=C3=A9e
 
