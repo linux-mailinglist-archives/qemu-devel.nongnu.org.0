@@ -2,64 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DBA312ED473
-	for <lists+qemu-devel@lfdr.de>; Thu,  7 Jan 2021 17:41:51 +0100 (CET)
-Received: from localhost ([::1]:47688 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 054612ED4BA
+	for <lists+qemu-devel@lfdr.de>; Thu,  7 Jan 2021 17:49:10 +0100 (CET)
+Received: from localhost ([::1]:52844 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kxYMA-00088W-Nc
-	for lists+qemu-devel@lfdr.de; Thu, 07 Jan 2021 11:41:50 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38102)
+	id 1kxYTE-0002WP-M8
+	for lists+qemu-devel@lfdr.de; Thu, 07 Jan 2021 11:49:08 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39838)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1kxYLG-0007hY-7G
- for qemu-devel@nongnu.org; Thu, 07 Jan 2021 11:40:54 -0500
-Received: from mail-ed1-x52c.google.com ([2a00:1450:4864:20::52c]:34171)
+ id 1kxYQf-0001hZ-MR
+ for qemu-devel@nongnu.org; Thu, 07 Jan 2021 11:46:29 -0500
+Received: from mail-ed1-x531.google.com ([2a00:1450:4864:20::531]:34230)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1kxYLE-0004io-IH
- for qemu-devel@nongnu.org; Thu, 07 Jan 2021 11:40:53 -0500
-Received: by mail-ed1-x52c.google.com with SMTP id dk8so8424935edb.1
- for <qemu-devel@nongnu.org>; Thu, 07 Jan 2021 08:40:51 -0800 (PST)
+ id 1kxYQd-00073c-4Y
+ for qemu-devel@nongnu.org; Thu, 07 Jan 2021 11:46:29 -0500
+Received: by mail-ed1-x531.google.com with SMTP id dk8so8442758edb.1
+ for <qemu-devel@nongnu.org>; Thu, 07 Jan 2021 08:46:26 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=6ZolVs4qB2ef7LoIPC0NN7PtffFLjD20+DZtAcLSE00=;
- b=AhzyITYfIkR/zkIq2a6QcKxlzdor8FUDilF7t5Gi6Ay/dJ0V5lJtTAUeNiNZhoWHGP
- PiyG20+Xsa56zjNk8+Iv2q0wldToo7Wkfobk8NwITy8b5YnZR5ZwXQJVo9U+w1i1x/D0
- zcltPfz0a061GHcjzc2+ONqouxCtZEj0F5zyTwb+gfpINtTqPEXhs5VJIHD7MyNpbOtB
- yyALSimxVPMofrS3d2HyWHZKjPFwYZyns/ARiEeIPHVihl0eGulRRDdf5NQnWbYjc38n
- B32MOJTKyyHrh/2T/Cqum8wJfLjnHVHrcMM2h2dN+W1Lo7+Tj6DkA1o/P7BxxVj8BPC5
- RpfQ==
+ :cc; bh=QORxvQQGcqsCzWuVmsLL8k9lF5JX+K+N8q2BxtmPHPs=;
+ b=ackduXaFQRFn+Cz5PxZJqBKKSTElw+nreiULK7avFHw6q2PSmtl1zdY9kI+DnGxeGn
+ T8o56CD7jMGy0gsHch3vGDv9bdRMszh3CLPKnJj3PhcAa4UAzin+94aXjKvCb8DbbzzU
+ sViKh9u1OMRwJSK/KC2vJEKZz19tndThWKVB7jq+7sXP7QIvHke2Y/YEV+UJX/4DZWcc
+ SeJC3KD+/mMr6nnpFEeb+RovLkuZLHPU1UEdsFDnxr6G5TkajX1lKrF4cY+M7aHRBxCL
+ oWxg1f450/Oj8wTHGqps2GgIpPw51bBEfu8XF7UUVR0zdXHYRKlPHesXWm9TGMhm7f4o
+ BlkQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=6ZolVs4qB2ef7LoIPC0NN7PtffFLjD20+DZtAcLSE00=;
- b=MmF/UWPDwgTNu6andNMhKqq7ioDMuptVwa8FH+I8I9hsn55ejBNOD5MGaEa6UBw913
- neF6xU6W2S1r1W2SFlReDFVXkBJslit/1udrkwFRZ1A4B6yONTrTXHxuLDFoNJEHtO7l
- 2Boa9c1tizXDZU1l1sDH8uaejAz7CQ8ehaDGWQJ4XtwAApi3aXTZqbdZVitfTypbj7Rh
- k4axJlEpZakCUDQdj/sfufgHAYTpN2mu0ld5YzSCkrYmLkBcWi8IE/u227+b9Zqd+t5T
- VTpA4YmKwu7n5MxLkWN7arvju5sPYywnZsF63NDdm8DikExneGl3uP+YXr4QjQ1n6wo7
- LKBg==
-X-Gm-Message-State: AOAM5316D5IX0NipA1yv+8sUxMBTmsJAIWuzkL+8lU1lb8+yNviG+BpS
- C7YgEReIszOUEF8mBGGt5StO5ctNV+cyJJt2SgVfRw==
-X-Google-Smtp-Source: ABdhPJyKc+5acdT76DjJaUm68VPgBHh4iAOEqrZL3u9WonoBcaMdM3vHvC6ocqdSU7WKwT3MWp9WPHjLmohUBgN4iJk=
-X-Received: by 2002:a05:6402:1383:: with SMTP id
- b3mr2224197edv.100.1610037650829; 
- Thu, 07 Jan 2021 08:40:50 -0800 (PST)
+ bh=QORxvQQGcqsCzWuVmsLL8k9lF5JX+K+N8q2BxtmPHPs=;
+ b=AJNY09dqsFlfy7LhvU17MJHbHv2/0OdJqh8AGP1rtAux7Hqd9k1+mNkhHlqBu7Casl
+ GFxkc4XfA2fq4WF8n19f6Qd1sGYpfnq3LXuK5xsjYlp15bW33k9suPkwD0qIcWXwmi30
+ 7WZZWDF30reQ8q3D/+pR0sn3lm7BqPdAflpg5bOX5vo8gr7r1VmBD2j6pNoNLVnatXwo
+ Th0Aep0OYoJSjdbUSSznCK1cHco7VTnmazaDD0MQXnFLZ/wpESV7IGm5kFWi6mICJav0
+ ovNvFLGOmf1p0m67NnlECNxCzUFKHn5F2UoxrfFxJwI6dsGEXEqN1n8vDTauSpjyrb1K
+ tSsw==
+X-Gm-Message-State: AOAM532OK0yUJKpTvDhXIUzsxh2Qz/rJRVm03GHUsrYwUAortulcc/T1
+ /04lbSyvCWwI8vj/jG1zqj+9LOb7lG/RZYWIDosacQ==
+X-Google-Smtp-Source: ABdhPJwBLUeXOxHyz0Py2exTXugxSfPAnZhe5LJ5H9ItkIMZtyDnWnLn8ifyJV7JxMl+Eju3PTATIu25xVrojoHFdBs=
+X-Received: by 2002:aa7:cdc3:: with SMTP id h3mr2281070edw.52.1610037985683;
+ Thu, 07 Jan 2021 08:46:25 -0800 (PST)
 MIME-Version: 1.0
 References: <20201208180118.157911-1-richard.henderson@linaro.org>
- <20201208180118.157911-16-richard.henderson@linaro.org>
-In-Reply-To: <20201208180118.157911-16-richard.henderson@linaro.org>
+ <20201208180118.157911-17-richard.henderson@linaro.org>
+In-Reply-To: <20201208180118.157911-17-richard.henderson@linaro.org>
 From: Peter Maydell <peter.maydell@linaro.org>
-Date: Thu, 7 Jan 2021 16:40:39 +0000
-Message-ID: <CAFEAcA8LyfUn_BZ-e17VtD=aK7N44t2vRkY=uqSO9W9VhBRC1w@mail.gmail.com>
-Subject: Re: [PATCH v2 15/24] target/arm: Enforce alignment for VLDn/VSTn
- (multiple)
+Date: Thu, 7 Jan 2021 16:46:14 +0000
+Message-ID: <CAFEAcA_uSEmN-RmKVRT-+7XNOh05NF4j8MbqAWdrheoZ88fwGw@mail.gmail.com>
+Subject: Re: [PATCH v2 16/24] target/arm: Enforce alignment for VLDn/VSTn
+ (single)
 To: Richard Henderson <richard.henderson@linaro.org>
 Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2a00:1450:4864:20::52c;
- envelope-from=peter.maydell@linaro.org; helo=mail-ed1-x52c.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::531;
+ envelope-from=peter.maydell@linaro.org; helo=mail-ed1-x531.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -88,10 +87,9 @@ On Tue, 8 Dec 2020 at 18:01, Richard Henderson
 >
 > Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 > ---
->  target/arm/translate.h          |  1 +
->  target/arm/translate.c          | 15 +++++++++++++++
->  target/arm/translate-neon.c.inc | 27 ++++++++++++++++++++++-----
->  3 files changed, 38 insertions(+), 5 deletions(-)
+>  target/arm/translate-neon.c.inc | 48 ++++++++++++++++++++++++++++-----
+>  1 file changed, 42 insertions(+), 6 deletions(-)
+
 
 Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
 
