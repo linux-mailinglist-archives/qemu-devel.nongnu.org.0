@@ -2,71 +2,99 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0274A2ECDBB
-	for <lists+qemu-devel@lfdr.de>; Thu,  7 Jan 2021 11:26:38 +0100 (CET)
-Received: from localhost ([::1]:56384 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7F6D02ECDB8
+	for <lists+qemu-devel@lfdr.de>; Thu,  7 Jan 2021 11:25:35 +0100 (CET)
+Received: from localhost ([::1]:53328 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kxSV3-0007Mx-2b
-	for lists+qemu-devel@lfdr.de; Thu, 07 Jan 2021 05:26:37 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40980)
+	id 1kxSU2-000638-Hz
+	for lists+qemu-devel@lfdr.de; Thu, 07 Jan 2021 05:25:34 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41008)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mlevitsk@redhat.com>)
- id 1kxSSC-0004ZB-D0
- for qemu-devel@nongnu.org; Thu, 07 Jan 2021 05:23:40 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:48630)
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1kxSSD-0004c2-W4
+ for qemu-devel@nongnu.org; Thu, 07 Jan 2021 05:23:42 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:26563)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <mlevitsk@redhat.com>)
- id 1kxSSA-0006jf-FR
- for qemu-devel@nongnu.org; Thu, 07 Jan 2021 05:23:40 -0500
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1kxSSB-0006l8-Ss
+ for qemu-devel@nongnu.org; Thu, 07 Jan 2021 05:23:41 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1610015016;
+ s=mimecast20190719; t=1610015019;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=IzNp6btn9SRTsuumUp+bOPUMwBrJ4pY52moh5KY3Nhw=;
- b=RU9cym8Z9tKvMkjsNy7arnq+UekiMMxji5JXHQXfVu3l5K3JU4Whyq+Pvn06lCRDlaxuKY
- fheXrRdGmvtupqBqZNOoMm+JoTOwuR+fgCJnhAOqvPoZxy+dtGHepH0Ha2+y7YlIOqQDQA
- I9C+fzVDpmyTYr4Oh2x3ToJD0NwLzEc=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-180-YHJPv-zUOty0YCZLf-QWog-1; Thu, 07 Jan 2021 05:23:34 -0500
-X-MC-Unique: YHJPv-zUOty0YCZLf-QWog-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id EF8D98049C0;
- Thu,  7 Jan 2021 10:23:32 +0000 (UTC)
-Received: from starship (unknown [10.35.206.22])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 97DAF71CB7;
- Thu,  7 Jan 2021 10:23:24 +0000 (UTC)
-Message-ID: <26a820b4f4796b74fa679b5afaf2af65ad3c2b9b.camel@redhat.com>
-Subject: Re: [PATCH v3 0/5] SCSI: fix transfer limits for SCSI passthrough
-From: Maxim Levitsky <mlevitsk@redhat.com>
-To: qemu-devel@nongnu.org
-Date: Thu, 07 Jan 2021 12:23:23 +0200
-In-Reply-To: <20201217165612.942849-1-mlevitsk@redhat.com>
-References: <20201217165612.942849-1-mlevitsk@redhat.com>
-User-Agent: Evolution 3.36.5 (3.36.5-1.fc32)
+ bh=AcBAQn29rozCiak0cLA4ZMrxwZzBNDVE8RX2ZO4vwNo=;
+ b=ULSQPI7/Xz883A/MQCDoBf1wPjt1ZwwpqRm0hTdx2F22Y4bZ9CyepI7kPIIBLO6cwMwJlC
+ pzIImTJfgjirzD04iSx81L+Il/abrthG7Qo+3efOxtH7F93Rm2RpJo8KpPTEKSKbnI9hg5
+ znMQ58/PSm6tdsbVkMUx93nQ0y/AGmo=
+Received: from mail-ed1-f69.google.com (mail-ed1-f69.google.com
+ [209.85.208.69]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-515-VWNAmIRCP-Svg2LeBRt6Yg-1; Thu, 07 Jan 2021 05:23:35 -0500
+X-MC-Unique: VWNAmIRCP-Svg2LeBRt6Yg-1
+Received: by mail-ed1-f69.google.com with SMTP id a9so3213172edy.8
+ for <qemu-devel@nongnu.org>; Thu, 07 Jan 2021 02:23:35 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:to:cc:references:from:subject:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=AcBAQn29rozCiak0cLA4ZMrxwZzBNDVE8RX2ZO4vwNo=;
+ b=qKPX51Zi2zsKZKArIVweL45sIrhVXKiCM98umnpiNG5KwjEGTjVTGva+LkQuKc4z8K
+ UzfDmh9rJkeGpmhrzq8E3DAb6U13y5b0dqd7JYEB0eWYtwKHX6g+SfyZgZt2ihVifTAd
+ nVHbBNZyFNrq53t/zVR/z1NHTDQJyCWylDP8+LB0ubomojvMkOPt+yhtGcCYXK1mA2qN
+ 0D6CutJOThg3iCNTiJDxszDbunT3tMF0l+Ch/EZa2todXD5adH4Eot4LsC21PT8GG4xq
+ GgHKjygbR+HO8zEgdoZAnTkTLZ+8JlczVG4jpFGGJqA97RHcUVPwh1m259UpGdeR7Xqz
+ mkCQ==
+X-Gm-Message-State: AOAM530FtKrf0ACmw/5df+lnLm6N5diQyqo/HE8UuyU0tBS8bBAql8iy
+ cQuqEt81HPyow/dFtWcz5Yf6mnz8eqmQiX+59PR7zxsY0MYtuL7pyGwfE+lo2Je2SHC2vby2VbY
+ luZJP+0UhqMnHAc0=
+X-Received: by 2002:a05:6402:202e:: with SMTP id
+ ay14mr1225324edb.102.1610015014133; 
+ Thu, 07 Jan 2021 02:23:34 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJzckNMpNXeDb+Bb00VV5y/be4ZDIqlqFbrnEvrp54IE030Uo2ayPOwu5ieAI65zoeL8dfZC2A==
+X-Received: by 2002:a05:6402:202e:: with SMTP id
+ ay14mr1225302edb.102.1610015013861; 
+ Thu, 07 Jan 2021 02:23:33 -0800 (PST)
+Received: from ?IPv6:2001:b07:6468:f312:5e2c:eb9a:a8b6:fd3e?
+ ([2001:b07:6468:f312:5e2c:eb9a:a8b6:fd3e])
+ by smtp.gmail.com with ESMTPSA id he38sm1393713ejc.96.2021.01.07.02.23.32
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 07 Jan 2021 02:23:32 -0800 (PST)
+To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
+ Stefan Hajnoczi <stefanha@redhat.com>, "Emilio G. Cota" <cota@braap.org>,
+ =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ =?UTF-8?Q?Marc-Andr=c3=a9_Lureau?= <marcandre.lureau@redhat.com>
+References: <161000881348.18330.2540162310564338256.malonedeb@gac.canonical.com>
+ <88bee064-f323-366a-7931-dc4bc40057e3@redhat.com>
+From: Paolo Bonzini <pbonzini@redhat.com>
+Subject: Re: [Bug 1910505] [NEW] atomic failure linking with
+ --enable-sanitizers on 32-bit Linux hosts
+Message-ID: <605b709c-19b7-d692-5ed0-2c12a48a8bb4@redhat.com>
+Date: Thu, 7 Jan 2021 11:23:31 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.5.0
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+In-Reply-To: <88bee064-f323-366a-7931-dc4bc40057e3@redhat.com>
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mlevitsk@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=pbonzini@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=mlevitsk@redhat.com;
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=pbonzini@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -29
-X-Spam_score: -3.0
+X-Spam_score_int: -32
+X-Spam_score: -3.3
 X-Spam_bar: ---
-X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.252,
+X-Spam_report: (-3.3 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.252,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ NICE_REPLY_A=-0.249, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -79,92 +107,36 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, Fam Zheng <fam@euphon.net>,
- Stefan Hajnoczi <stefanha@redhat.com>, qemu-block@nongnu.org,
- Peter Lieven <pl@kamp.de>, Tom Yan <tom.ty89@gmail.com>,
- Ronnie Sahlberg <ronniesahlberg@gmail.com>,
- Paolo Bonzini <pbonzini@redhat.com>, Max Reitz <mreitz@redhat.com>
+Cc: qemu-devel@nongnu.org, Qemu-block <qemu-block@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, 2020-12-17 at 18:56 +0200, Maxim Levitsky wrote:
-> This patch series attempts to provide a solution to the problem of the transfer
-> limits of the raw file driver (host_device/file-posix), some of which I
-> already tried to fix in the past.
+On 07/01/21 10:10, Philippe Mathieu-Daudé wrote:
+> libblock.fa(block_io.c.o): In function `stat64_max':
+> include/qemu/stats64.h:58: undefined reference to `__atomic_load_8'
+> include/qemu/stats64.h:60: undefined reference to
+> `__atomic_compare_exchange_8'
+> libblock.fa(block_qapi.c.o): In function `stat64_get':
+> include/qemu/stats64.h:40: undefined reference to `__atomic_load_8'
+> libqemuutil.a(util_qsp.c.o): In function `qatomic_set_u64':
+> include/qemu/atomic.h:478: undefined reference to `__atomic_store_8'
+> libqemuutil.a(util_qsp.c.o): In function `qatomic_read_u64':
+> include/qemu/atomic.h:468: undefined reference to `__atomic_load_8'
+> clang: error: linker command failed with exit code 1 (use -v to see
+> invocation)
 > 
-> I included 2 patches from Tom Yan which fix two issues with reading the limits
-> correctly from the */dev/sg* character devices in the first place.
-> 
-> The only change to these patches is that I tweaked a bit the comments in the
-> source to better document the /dev/sg quirks.
-> 
-> The other two patches in this series split the max transfer limits that qemu
-> block devices expose in two:
-> One limit is for the regular IO, and another is for the SG_IO (aka bdrv_*_ioctl),
-> and the two device drivers (scsi-block and scsi-generic) that use the later
-> are switched to the new interface.
-> 
-> This should ensure that the raw driver can still advertise the unlimited
-> transfer  length, unless it is used for SG_IO, because that yields the highest
-> performance.
-> 
-> Also I include a somewhat unrelated fix to a bug I found in qemu's
-> SCSI passthrough while testing this:
-> When qemu emulates the VPD block limit page, for a SCSI device that doesn't
-> implement it, it doesn't really advertise the emulated page to the guest.
-> 
-> I tested this by doing both regular and SG_IO passthrough of my
-> USB SD card reader.
-> 
-> That device turned out to be a perfect device for the task, since it has max
-> transfer size of 1024 blocks (512K), and it enforces it.
-> 
-> Also it didn't implement the VPD block limits page,
-> (transfer size limit probably comes from something USB related) which triggered
-> the unrelated bug.
-> 
-> I was able to see IO errors without the patches, and the wrong max transfer
-> size in the guest, and with patches both issues were gone.
-> 
-> I also found an unrelated issue in /dev/sg passthrough in the kernel.
-> It turns out that in-kernel driver has a limitation of 16 requests in flight,
-> regardless of what underlying device supports.
-> 
-> With a large multi-threaded fio job  and a debug print in qemu, it is easy to
-> see it, although the errors don't do much harm to the guest as it retries the
-> IO, and eventually succeed.
-> It is an open question if this should be solved.
-> 
-> V2: fixed an issue in a patch from Tom Yan (thanks), and removed
-> refactoring from last patch according to Paulo's request.
-> 
-> V3: few cosmitic changes due to the review feedback.
-> 
-> Maxim Levitsky (3):
->   block: add max_ioctl_transfer to BlockLimits
->   block: use blk_get_max_ioctl_transfer for SCSI passthrough
->   block/scsi: correctly emulate the VPD block limits page
-> 
-> Tom Yan (2):
->   file-posix: split hdev_refresh_limits from raw_refresh_limits
->   file-posix: add sg_get_max_segments that actually works with sg
-> 
->  block/block-backend.c          | 12 ++++++
->  block/file-posix.c             | 76 +++++++++++++++++++++++++++-------
->  block/io.c                     |  2 +
->  block/iscsi.c                  |  1 +
->  hw/scsi/scsi-generic.c         | 13 ++++--
->  include/block/block_int.h      |  4 ++
->  include/sysemu/block-backend.h |  1 +
->  7 files changed, 90 insertions(+), 19 deletions(-)
-> 
-> -- 
-> 2.26.2
-> 
-> 
-> 
-Any update on this?
-Best regards,
-	Maxim Levitsky
+> Issue previously reported on the list here:
+> https://www.mail-archive.com/qemu-devel@nongnu.org/msg770128.html
+
+Looks like 64-bit atomics are available without sanitizers, but fall 
+back to libatomic with sanitizers (tsan probably?).
+
+So CONFIG_ATOMIC64 is not detected properly in configure, because 
+-fsanitize=* flags are added (at "end of CC checks" around line 5000) 
+after the atomic64 test (around 400 lines before that).
+
+I'm not sure what breaks if -fsanitize flags are added earlier.
+
+Paolo
 
 
