@@ -2,69 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A48EC2EE8F9
-	for <lists+qemu-devel@lfdr.de>; Thu,  7 Jan 2021 23:44:07 +0100 (CET)
-Received: from localhost ([::1]:57814 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 995572EE90B
+	for <lists+qemu-devel@lfdr.de>; Thu,  7 Jan 2021 23:47:24 +0100 (CET)
+Received: from localhost ([::1]:38150 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kxe0k-00032R-Ja
-	for lists+qemu-devel@lfdr.de; Thu, 07 Jan 2021 17:44:06 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46770)
+	id 1kxe3r-000741-HS
+	for lists+qemu-devel@lfdr.de; Thu, 07 Jan 2021 17:47:20 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46864)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1kxdiU-0000nJ-J9
- for qemu-devel@nongnu.org; Thu, 07 Jan 2021 17:25:14 -0500
-Received: from mail-wm1-x32e.google.com ([2a00:1450:4864:20::32e]:37584)
+ id 1kxdif-0000pK-QN
+ for qemu-devel@nongnu.org; Thu, 07 Jan 2021 17:25:26 -0500
+Received: from mail-wr1-x433.google.com ([2a00:1450:4864:20::433]:37830)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1kxdiS-0005P2-Sa
- for qemu-devel@nongnu.org; Thu, 07 Jan 2021 17:25:14 -0500
-Received: by mail-wm1-x32e.google.com with SMTP id q75so6840170wme.2
- for <qemu-devel@nongnu.org>; Thu, 07 Jan 2021 14:25:12 -0800 (PST)
+ id 1kxdic-0005RG-Mu
+ for qemu-devel@nongnu.org; Thu, 07 Jan 2021 17:25:24 -0500
+Received: by mail-wr1-x433.google.com with SMTP id i9so7142544wrc.4
+ for <qemu-devel@nongnu.org>; Thu, 07 Jan 2021 14:25:22 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=6XvVGZx0cqMA0IbQkfNJyPnGsDJniknsO06wunE5/50=;
- b=ezh6a3ocDKcM3HI5iUhq5PBvcWgBK6BAd72QFsj39sGkwnDwvhQdaV5iJJgPxAbjgX
- HnDcp6QHSFr30gEXPigbeRotkjQuy+0x8yOxLQ+vSo7KwCR7kcawa3OOwDFLNLFiQ44X
- BNy8P/+0lKH8gGfuIlLWIBfbOsJFq2sJ3VOpq7huvycAOEukEStVh/ubgtZGZ5jNbFfP
- Kyk5mLSLM7owCBRrzDqeG2CgEsfggdFBXljf7DHJcCLc7d1jGPgej3V3ytbunLn2HZOT
- sWiQ7n6nPysUeqkZwkoDKbfj/3BgMba1pTJuxNLCZKjm9XBbrgi3ckpUkz33L1/W8Jsx
- xF6Q==
+ bh=2UuX+ygCL9NQhxyYPo8S/tX8V99CFSpKYjvju/1WTRw=;
+ b=FtebATSCzssDKSTVyEBHTyfxZHEyueAnMcztoYO2nqONIlfNyNQ47V/b34tLC6l6t1
+ oKM+cemUKzeLIspqo1pEWZQIiuDRkDk2rUy8OXEXwZSnGokAqUTwP2AttqLU+FkMcYMT
+ wFTUF5n5meR9Z/ZixEHgLMRiQcjpKe+NVCsxpQtyN5Im14QXo6sxlLFkw6+KJJ+W9yXa
+ yaB8mJ10nnJedDSDKRQhq+tnGWCeUuNXqeuM+edCvSvm4b7/waeMW1O520eh18ywKEpt
+ SWnb8yAaF5mksm6wtMSNOqzp2XuOMYD+AlW3h/C24Y1/DBLOpxPmev9R02DQROaK8GNG
+ ye+w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=6XvVGZx0cqMA0IbQkfNJyPnGsDJniknsO06wunE5/50=;
- b=j9jYRHN+YE4QgujGEK5oQc9Vqo/i6RAhUHD0PhW3AUG+q/jGs/41nhsMArF1ZA/CaF
- u4WlIoYpIkJTMfU/oAHPtnszdw1e6+bRfCzP4ssoQz2XqRIhrg5mdePJiTuYf3mQfS4h
- 3bLIOQg1FaDKqsCjq+mTI9GeMPgOzUR9nPujGKLfEu3C2rE8fWZWoKCMEODfOEHQL3rn
- jbwaUkzNyCs3GHqgjLzIjn2seNbXz/o0msEnJZfCzocVwdy+rwrqPtzg0vXz2egBXl9b
- 48+echeFn9Gf5yg/2j1eMXfNYPuKd5fdxz64pEPLU8eCSQDpzePlqOHkgFkTyV2545IW
- uChQ==
-X-Gm-Message-State: AOAM531A29Rl+f+p8yJkut7OfJacezOKwmghYBk2GTaIjSbiNdb3OMeW
- GZK5xnBlCj4por+wpusoeyYhx+F3qAg=
-X-Google-Smtp-Source: ABdhPJx6x49t860Ji4WBqZXY+0iRVBS0DuxcRHaO7i+LjJx6y6RwOhS5Mayfg4WzxVVZyQstZYej7w==
-X-Received: by 2002:a7b:ce02:: with SMTP id m2mr482037wmc.111.1610058311180;
- Thu, 07 Jan 2021 14:25:11 -0800 (PST)
+ bh=2UuX+ygCL9NQhxyYPo8S/tX8V99CFSpKYjvju/1WTRw=;
+ b=SHU8kWFAF0dy4+4omA7E06KoPwXq0v3BKyBjzuggQXF9J0yiVzwnP02NFkPkHyn0Nz
+ LfV+FomRsMeuF4HTG3iQ+1+298ZItqLLQxOzr2Ytse1OSq1KucM6tXw+ev+QiNhJ7TCO
+ ieuL5jb/8Fe797MKwfNEoTRsX1xWg2Mu5iiUG/aMCNjQNhYoqp/62UqLFPZKy1/5CGDe
+ yXxUPC36u80HJrOmzI/ISQTjz/riOUw+/65LnvMuNZkFwbo4HSLS46UhUqf1Z2tKMyKG
+ 5f4aMLeraDpfNt5r93XkFGO3vOS4xSTYeYMrTg7rhNqzHiTNn3qVebwXEZnEdfMUrniT
+ FUFg==
+X-Gm-Message-State: AOAM532BJ2MyzA8UEHD5b1ogGAgUDBa3wxjfqBF8NUqnGo0YaLfnSRgZ
+ r77TFVunC3h3HR8qraIRGgvHIxgqRx8=
+X-Google-Smtp-Source: ABdhPJzMyJdqE/eO0phoPlTa/qBVpXHkKqr9ihmwxJoBQBQQQe/goVibMYsBjjZd/5mLbkiF7PY3xg==
+X-Received: by 2002:adf:f891:: with SMTP id u17mr662412wrp.253.1610058321171; 
+ Thu, 07 Jan 2021 14:25:21 -0800 (PST)
 Received: from x1w.redhat.com (241.red-88-10-103.dynamicip.rima-tde.net.
  [88.10.103.241])
- by smtp.gmail.com with ESMTPSA id w18sm10304215wrn.2.2021.01.07.14.25.09
+ by smtp.gmail.com with ESMTPSA id c7sm11513721wro.16.2021.01.07.14.25.19
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 07 Jan 2021 14:25:10 -0800 (PST)
+ Thu, 07 Jan 2021 14:25:20 -0800 (PST)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 26/66] target/mips: Move mmu_init() functions to tlb_helper.c
-Date: Thu,  7 Jan 2021 23:22:13 +0100
-Message-Id: <20210107222253.20382-27-f4bug@amsat.org>
+Subject: [PULL 28/66] target/mips/translate: Extract DisasContext structure
+Date: Thu,  7 Jan 2021 23:22:15 +0100
+Message-Id: <20210107222253.20382-29-f4bug@amsat.org>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20210107222253.20382-1-f4bug@amsat.org>
 References: <20210107222253.20382-1-f4bug@amsat.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::32e;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x32e.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::433;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x433.google.com
 X-Spam_score_int: -14
 X-Spam_score: -1.5
 X-Spam_bar: -
@@ -95,143 +95,131 @@ Cc: Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+Extract DisasContext to a new 'translate.h' header so
+different translation files (ISA, ASE, extensions)
+can use it.
+
 Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-Message-Id: <20201206233949.3783184-15-f4bug@amsat.org>
+Message-Id: <20201207235539.4070364-2-f4bug@amsat.org>
 ---
- target/mips/internal.h           |  1 +
- target/mips/tlb_helper.c         | 46 ++++++++++++++++++++++++++++++
- target/mips/translate_init.c.inc | 48 --------------------------------
- 3 files changed, 47 insertions(+), 48 deletions(-)
+ target/mips/translate.h | 50 +++++++++++++++++++++++++++++++++++++++++
+ target/mips/translate.c | 38 +------------------------------
+ 2 files changed, 51 insertions(+), 37 deletions(-)
+ create mode 100644 target/mips/translate.h
 
-diff --git a/target/mips/internal.h b/target/mips/internal.h
-index ae1181d2029..9a7698019e2 100644
---- a/target/mips/internal.h
-+++ b/target/mips/internal.h
-@@ -207,6 +207,7 @@ void cpu_mips_start_count(CPUMIPSState *env);
- void cpu_mips_stop_count(CPUMIPSState *env);
+diff --git a/target/mips/translate.h b/target/mips/translate.h
+new file mode 100644
+index 00000000000..fcda1a99001
+--- /dev/null
++++ b/target/mips/translate.h
+@@ -0,0 +1,50 @@
++/*
++ *  MIPS translation routines.
++ *
++ *  Copyright (c) 2004-2005 Jocelyn Mayer
++ *
++ * SPDX-License-Identifier: LGPL-2.1-or-later
++ */
++#ifndef TARGET_MIPS_TRANSLATE_H
++#define TARGET_MIPS_TRANSLATE_H
++
++#include "exec/translator.h"
++
++typedef struct DisasContext {
++    DisasContextBase base;
++    target_ulong saved_pc;
++    target_ulong page_start;
++    uint32_t opcode;
++    uint64_t insn_flags;
++    int32_t CP0_Config1;
++    int32_t CP0_Config2;
++    int32_t CP0_Config3;
++    int32_t CP0_Config5;
++    /* Routine used to access memory */
++    int mem_idx;
++    MemOp default_tcg_memop_mask;
++    uint32_t hflags, saved_hflags;
++    target_ulong btarget;
++    bool ulri;
++    int kscrexist;
++    bool rxi;
++    int ie;
++    bool bi;
++    bool bp;
++    uint64_t PAMask;
++    bool mvh;
++    bool eva;
++    bool sc;
++    int CP0_LLAddr_shift;
++    bool ps;
++    bool vp;
++    bool cmgcr;
++    bool mrp;
++    bool nan2008;
++    bool abs2008;
++    bool saar;
++    bool mi;
++    int gi;
++} DisasContext;
++
++#endif
+diff --git a/target/mips/translate.c b/target/mips/translate.c
+index f8f0f95509c..9e824e12d44 100644
+--- a/target/mips/translate.c
++++ b/target/mips/translate.c
+@@ -36,6 +36,7 @@
+ #include "exec/log.h"
+ #include "qemu/qemu-print.h"
+ #include "fpu_helper.h"
++#include "translate.h"
  
- /* helper.c */
-+void mmu_init(CPUMIPSState *env, const mips_def_t *def);
- bool mips_cpu_tlb_fill(CPUState *cs, vaddr address, int size,
-                        MMUAccessType access_type, int mmu_idx,
-                        bool probe, uintptr_t retaddr);
-diff --git a/target/mips/tlb_helper.c b/target/mips/tlb_helper.c
-index b02c0479e79..082c17928d3 100644
---- a/target/mips/tlb_helper.c
-+++ b/target/mips/tlb_helper.c
-@@ -120,6 +120,52 @@ int r4k_map_address(CPUMIPSState *env, hwaddr *physical, int *prot,
-     return TLBRET_NOMATCH;
- }
+ #define MIPS_DEBUG_DISAS 0
  
-+static void no_mmu_init(CPUMIPSState *env, const mips_def_t *def)
-+{
-+    env->tlb->nb_tlb = 1;
-+    env->tlb->map_address = &no_mmu_map_address;
-+}
-+
-+static void fixed_mmu_init(CPUMIPSState *env, const mips_def_t *def)
-+{
-+    env->tlb->nb_tlb = 1;
-+    env->tlb->map_address = &fixed_mmu_map_address;
-+}
-+
-+static void r4k_mmu_init(CPUMIPSState *env, const mips_def_t *def)
-+{
-+    env->tlb->nb_tlb = 1 + ((def->CP0_Config1 >> CP0C1_MMU) & 63);
-+    env->tlb->map_address = &r4k_map_address;
-+    env->tlb->helper_tlbwi = r4k_helper_tlbwi;
-+    env->tlb->helper_tlbwr = r4k_helper_tlbwr;
-+    env->tlb->helper_tlbp = r4k_helper_tlbp;
-+    env->tlb->helper_tlbr = r4k_helper_tlbr;
-+    env->tlb->helper_tlbinv = r4k_helper_tlbinv;
-+    env->tlb->helper_tlbinvf = r4k_helper_tlbinvf;
-+}
-+
-+void mmu_init(CPUMIPSState *env, const mips_def_t *def)
-+{
-+    env->tlb = g_malloc0(sizeof(CPUMIPSTLBContext));
-+
-+    switch (def->mmu_type) {
-+    case MMU_TYPE_NONE:
-+        no_mmu_init(env, def);
-+        break;
-+    case MMU_TYPE_R4000:
-+        r4k_mmu_init(env, def);
-+        break;
-+    case MMU_TYPE_FMT:
-+        fixed_mmu_init(env, def);
-+        break;
-+    case MMU_TYPE_R3000:
-+    case MMU_TYPE_R6000:
-+    case MMU_TYPE_R8000:
-+    default:
-+        cpu_abort(env_cpu(env), "MMU type not supported\n");
-+    }
-+}
-+
- static int is_seg_am_mapped(unsigned int am, bool eu, int mmu_idx)
- {
-     /*
-diff --git a/target/mips/translate_init.c.inc b/target/mips/translate_init.c.inc
-index 21ee22c05dc..535d4c0c702 100644
---- a/target/mips/translate_init.c.inc
-+++ b/target/mips/translate_init.c.inc
-@@ -935,54 +935,6 @@ void mips_cpu_list(void)
-     }
- }
+@@ -2554,43 +2555,6 @@ static TCGv mxu_CR;
+     tcg_temp_free_i32(helper_tmp);                                \
+     } while (0)
  
--#ifndef CONFIG_USER_ONLY
--static void no_mmu_init(CPUMIPSState *env, const mips_def_t *def)
--{
--    env->tlb->nb_tlb = 1;
--    env->tlb->map_address = &no_mmu_map_address;
--}
+-typedef struct DisasContext {
+-    DisasContextBase base;
+-    target_ulong saved_pc;
+-    target_ulong page_start;
+-    uint32_t opcode;
+-    uint64_t insn_flags;
+-    int32_t CP0_Config1;
+-    int32_t CP0_Config2;
+-    int32_t CP0_Config3;
+-    int32_t CP0_Config5;
+-    /* Routine used to access memory */
+-    int mem_idx;
+-    MemOp default_tcg_memop_mask;
+-    uint32_t hflags, saved_hflags;
+-    target_ulong btarget;
+-    bool ulri;
+-    int kscrexist;
+-    bool rxi;
+-    int ie;
+-    bool bi;
+-    bool bp;
+-    uint64_t PAMask;
+-    bool mvh;
+-    bool eva;
+-    bool sc;
+-    int CP0_LLAddr_shift;
+-    bool ps;
+-    bool vp;
+-    bool cmgcr;
+-    bool mrp;
+-    bool nan2008;
+-    bool abs2008;
+-    bool saar;
+-    bool mi;
+-    int gi;
+-} DisasContext;
 -
--static void fixed_mmu_init(CPUMIPSState *env, const mips_def_t *def)
--{
--    env->tlb->nb_tlb = 1;
--    env->tlb->map_address = &fixed_mmu_map_address;
--}
--
--static void r4k_mmu_init(CPUMIPSState *env, const mips_def_t *def)
--{
--    env->tlb->nb_tlb = 1 + ((def->CP0_Config1 >> CP0C1_MMU) & 63);
--    env->tlb->map_address = &r4k_map_address;
--    env->tlb->helper_tlbwi = r4k_helper_tlbwi;
--    env->tlb->helper_tlbwr = r4k_helper_tlbwr;
--    env->tlb->helper_tlbp = r4k_helper_tlbp;
--    env->tlb->helper_tlbr = r4k_helper_tlbr;
--    env->tlb->helper_tlbinv = r4k_helper_tlbinv;
--    env->tlb->helper_tlbinvf = r4k_helper_tlbinvf;
--}
--
--static void mmu_init(CPUMIPSState *env, const mips_def_t *def)
--{
--    env->tlb = g_malloc0(sizeof(CPUMIPSTLBContext));
--
--    switch (def->mmu_type) {
--    case MMU_TYPE_NONE:
--        no_mmu_init(env, def);
--        break;
--    case MMU_TYPE_R4000:
--        r4k_mmu_init(env, def);
--        break;
--    case MMU_TYPE_FMT:
--        fixed_mmu_init(env, def);
--        break;
--    case MMU_TYPE_R3000:
--    case MMU_TYPE_R6000:
--    case MMU_TYPE_R8000:
--    default:
--        cpu_abort(env_cpu(env), "MMU type not supported\n");
--    }
--}
--#endif /* CONFIG_USER_ONLY */
--
- static void fpu_init (CPUMIPSState *env, const mips_def_t *def)
- {
-     int i;
+ #define DISAS_STOP       DISAS_TARGET_0
+ #define DISAS_EXIT       DISAS_TARGET_1
+ 
 -- 
 2.26.2
 
