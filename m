@@ -2,69 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8D1CB2EE95E
-	for <lists+qemu-devel@lfdr.de>; Thu,  7 Jan 2021 23:58:19 +0100 (CET)
-Received: from localhost ([::1]:51112 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EC7E92EE926
+	for <lists+qemu-devel@lfdr.de>; Thu,  7 Jan 2021 23:49:19 +0100 (CET)
+Received: from localhost ([::1]:46128 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kxeEU-0007MD-JZ
-	for lists+qemu-devel@lfdr.de; Thu, 07 Jan 2021 17:58:18 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47094)
+	id 1kxe5m-00020F-Vn
+	for lists+qemu-devel@lfdr.de; Thu, 07 Jan 2021 17:49:19 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47106)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1kxdjO-00025G-Fd
- for qemu-devel@nongnu.org; Thu, 07 Jan 2021 17:26:10 -0500
-Received: from mail-wm1-x334.google.com ([2a00:1450:4864:20::334]:53472)
+ id 1kxdjT-00029d-LD
+ for qemu-devel@nongnu.org; Thu, 07 Jan 2021 17:26:15 -0500
+Received: from mail-wr1-x42d.google.com ([2a00:1450:4864:20::42d]:45322)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1kxdjM-0005vS-Ue
- for qemu-devel@nongnu.org; Thu, 07 Jan 2021 17:26:10 -0500
-Received: by mail-wm1-x334.google.com with SMTP id k10so6362607wmi.3
- for <qemu-devel@nongnu.org>; Thu, 07 Jan 2021 14:26:08 -0800 (PST)
+ id 1kxdjS-0005wP-6T
+ for qemu-devel@nongnu.org; Thu, 07 Jan 2021 17:26:15 -0500
+Received: by mail-wr1-x42d.google.com with SMTP id d26so7088556wrb.12
+ for <qemu-devel@nongnu.org>; Thu, 07 Jan 2021 14:26:13 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=n6RRuYZ8EGGXTpGZvsOKW/oYziHM0vCJPjdxKK9QfP8=;
- b=b2liXW65beeD2lT7WvmvqnfKSev9lKyIOR/qt+3YfkcSBiqUXqCLub5tz2bF017rsZ
- KULF9vT4qroLXU7TSCScrYsnk11Jmz5bgKu6TL2rexVDoy5CRDrFPBiN0VXGes0eDzl4
- FSLlY1Zb79pg3RHBItCHpYH82i0/l14lIvo91iXlO5xJhWaJ6jUN4z7qBhiAnv2NMYvF
- 3lo4E5vEwjugOPSLAVfwu88DkBRd1500Z/FZzKvHYODBzanfummJfxw3Td8hca/ciYxt
- P7Dwc+4SG3KxDNfnrlUlgv2HXu99MyObqsSwtGkZWsV21pMVDkD1zVPIJ9f0yX54znK8
- Q1lg==
+ bh=gpgHQHdilrFY/Au0x7qNpr3WUr1jSj6gUqKW5wcmkNw=;
+ b=e7okNRHBZtMqgGM6d5VNmV9C7y+TdjUXNAA8R5c9aj9y+IDIowU9RL2Hqz+LPtcyMC
+ 0L1s7+txvq7SZt9mQT7Kf8+YW0qXTa4X52bjKfCvZD60Y27a+NdtCwqjP5yXe8+OS42o
+ D9TOnCzW2D5L00uWnL2WPnta0DxDCKGH4rokFeIkPGhXzAMxPcuh/49gKSrZtqQbpHlB
+ MQkAhbqs/NdILIs/1iRc5oMJCsYwRResxCBWCf7YDkxKwdcPJG0wtwpC69Ck8TrbHLWW
+ RL/C0tPAI/Uvs/xqHllBw7hhYYPX5czkP22v/7L3/i3p5J/5AfaOAIJuR6ArKuEaN9AY
+ fBzQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=n6RRuYZ8EGGXTpGZvsOKW/oYziHM0vCJPjdxKK9QfP8=;
- b=ZR/MKpWBSrDeKqCH4hy7gOEY3/0KnTdHqfrCEKK06D98oZp5DbaYvQAcmedguKr74r
- ZNz+DG9VO4q1WRilaZpBMredS0aaFBq5RvghVNogtxKqokq8eQp1JGhdWUeOJuCfj9ki
- TCA92ihmcr9sMIAtyV6wA8OawEM9fyRpKSb7DbCgO1DLJcweDg4pdPERYRR9uCMZSnpG
- DMtA9Dbrs3VOuBdpLMdM/bMAUcivgIPUbqDX84teuX/lsYSivcnOty9SVfO6UDy/9qya
- gnfdtn7c/GDzrzpJbXp/fkKSfYH7X9/Rcmrqrfq4fDZZXqA3/fPpgag+NdrX5cVu3hSh
- jzBA==
-X-Gm-Message-State: AOAM532jZvL1m7v88Pp0HclDCuAqRB0dRd7nEZpos3gZ3jTUzv6oba3o
- FMCa63o91Up/cHDsqaqZsE/d9L6J26Q=
-X-Google-Smtp-Source: ABdhPJy+Bhg02UrR6EUU7nIp/RZlfsHKVNh0/aLRhJdggPjtZEe9ZOqSEYDljYp/dpQUQlWvLHykMA==
-X-Received: by 2002:a7b:cb93:: with SMTP id m19mr522874wmi.45.1610058367428;
- Thu, 07 Jan 2021 14:26:07 -0800 (PST)
+ bh=gpgHQHdilrFY/Au0x7qNpr3WUr1jSj6gUqKW5wcmkNw=;
+ b=aEXzwWMNeyne6ejUEii03p0pWrN0oo4YJr2ctFzvF3Zm4PJhgsABC9ssecESZG50hc
+ J4Yo7d//VAYhGMBLleiRbG411gGKGJ6MNNtCfZd5HD4NUpxTpvRXVHw1bw1vFs1lZwBD
+ OkItFT4nVl6UMkoLUF3Bj0lZRzEJBfqhk4aLflFuV7nZ1N/MriQnqGM4Gcq2P6xWOrl0
+ Kpk41vRT8iJ+ub1eODQMR5H9SsT6ppln9Bkt7yHF+owqlS7FA3a6FNoIagZmhgONRujW
+ mLgWNC5Kz8opbBMG1+IOBC3aA7WFahF6UWR8WNHaZq24AZsADC+zjOtjdMtYsFj/IBm9
+ fDgA==
+X-Gm-Message-State: AOAM530659n2RpNGgEJUlV+aqO1fVE1LMsqRI6HekKXA7nMV9Ur0EIyt
+ 2rDGjaBH+/5lD40uHB/0TW+f/B5zr2w=
+X-Google-Smtp-Source: ABdhPJxkJD3JxPHzQTm/T+0q95uHk/ybzsKYtj/FjAirlGxa6q54t6h5V2wZ+EtDdMERaIxkpjsp/w==
+X-Received: by 2002:adf:e60f:: with SMTP id p15mr699194wrm.60.1610058372562;
+ Thu, 07 Jan 2021 14:26:12 -0800 (PST)
 Received: from x1w.redhat.com (241.red-88-10-103.dynamicip.rima-tde.net.
  [88.10.103.241])
- by smtp.gmail.com with ESMTPSA id h29sm11023080wrc.68.2021.01.07.14.26.06
+ by smtp.gmail.com with ESMTPSA id r13sm10551180wrt.10.2021.01.07.14.26.11
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 07 Jan 2021 14:26:06 -0800 (PST)
+ Thu, 07 Jan 2021 14:26:11 -0800 (PST)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 37/66] target/mips: Introduce ase_msa_available() helper
-Date: Thu,  7 Jan 2021 23:22:24 +0100
-Message-Id: <20210107222253.20382-38-f4bug@amsat.org>
+Subject: [PULL 38/66] target/mips: Simplify msa_reset()
+Date: Thu,  7 Jan 2021 23:22:25 +0100
+Message-Id: <20210107222253.20382-39-f4bug@amsat.org>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20210107222253.20382-1-f4bug@amsat.org>
 References: <20210107222253.20382-1-f4bug@amsat.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::334;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x334.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::42d;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x42d.google.com
 X-Spam_score_int: -14
 X-Spam_score: -1.5
 X-Spam_bar: -
@@ -95,134 +95,50 @@ Cc: Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Instead of accessing CP0_Config3 directly and checking
-the 'MSA Present' bit, introduce an explicit helper,
-making the code easier to read.
+Call msa_reset() unconditionally, but only reset
+the MSA registers if MSA is implemented.
 
 Reviewed-by: Jiaxun Yang <jiaxun.yang@flygoat.com>
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 Tested-by: Jiaxun Yang <jiaxun.yang@flygoat.com>
-Message-Id: <20201208003702.4088927-2-f4bug@amsat.org>
+Message-Id: <20201208003702.4088927-3-f4bug@amsat.org>
 ---
- target/mips/cpu.h       |  6 ++++++
- target/mips/cpu.c       |  2 +-
- target/mips/kvm.c       | 12 ++++++------
- target/mips/translate.c |  6 ++----
- 4 files changed, 15 insertions(+), 11 deletions(-)
+ target/mips/cpu.c          | 5 +----
+ target/mips/cpu-defs.c.inc | 4 ++++
+ 2 files changed, 5 insertions(+), 4 deletions(-)
 
-diff --git a/target/mips/cpu.h b/target/mips/cpu.h
-index 9c45744c5c1..b9e227a30e9 100644
---- a/target/mips/cpu.h
-+++ b/target/mips/cpu.h
-@@ -1299,6 +1299,12 @@ bool cpu_type_supports_cps_smp(const char *cpu_type);
- bool cpu_supports_isa(const CPUMIPSState *env, uint64_t isa_mask);
- bool cpu_type_supports_isa(const char *cpu_type, uint64_t isa);
- 
-+/* Check presence of MSA implementation */
-+static inline bool ase_msa_available(CPUMIPSState *env)
-+{
-+    return env->CP0_Config3 & (1 << CP0C3_MSAP);
-+}
-+
- /* Check presence of multi-threading ASE implementation */
- static inline bool ase_mt_available(CPUMIPSState *env)
- {
 diff --git a/target/mips/cpu.c b/target/mips/cpu.c
-index 55c6a054bba..45375ebc45c 100644
+index 45375ebc45c..4c590b90b25 100644
 --- a/target/mips/cpu.c
 +++ b/target/mips/cpu.c
-@@ -532,7 +532,7 @@ static void mips_cpu_reset(DeviceState *dev)
+@@ -531,10 +531,7 @@ static void mips_cpu_reset(DeviceState *dev)
+         env->hflags |= MIPS_HFLAG_M16;
      }
  
-     /* MSA */
--    if (env->CP0_Config3 & (1 << CP0C3_MSAP)) {
-+    if (ase_msa_available(env)) {
-         msa_reset(env);
-     }
+-    /* MSA */
+-    if (ase_msa_available(env)) {
+-        msa_reset(env);
+-    }
++    msa_reset(env);
  
-diff --git a/target/mips/kvm.c b/target/mips/kvm.c
-index a5b6fe35dbc..84fb10ea35d 100644
---- a/target/mips/kvm.c
-+++ b/target/mips/kvm.c
-@@ -79,7 +79,7 @@ int kvm_arch_init_vcpu(CPUState *cs)
-         }
-     }
+     compute_hflags(env);
+     restore_fp_status(env);
+diff --git a/target/mips/cpu-defs.c.inc b/target/mips/cpu-defs.c.inc
+index 535d4c0c702..fe0f47aadf8 100644
+--- a/target/mips/cpu-defs.c.inc
++++ b/target/mips/cpu-defs.c.inc
+@@ -978,6 +978,10 @@ static void mvp_init(CPUMIPSState *env)
  
--    if (kvm_mips_msa_cap && env->CP0_Config3 & (1 << CP0C3_MSAP)) {
-+    if (kvm_mips_msa_cap && ase_msa_available(env)) {
-         ret = kvm_vcpu_enable_cap(cs, KVM_CAP_MIPS_MSA, 0, 0);
-         if (ret < 0) {
-             /* mark unsupported so it gets disabled on reset */
-@@ -105,7 +105,7 @@ void kvm_mips_reset_vcpu(MIPSCPU *cpu)
-         warn_report("KVM does not support FPU, disabling");
-         env->CP0_Config1 &= ~(1 << CP0C1_FP);
-     }
--    if (!kvm_mips_msa_cap && env->CP0_Config3 & (1 << CP0C3_MSAP)) {
-+    if (!kvm_mips_msa_cap && ase_msa_available(env)) {
-         warn_report("KVM does not support MSA, disabling");
-         env->CP0_Config3 &= ~(1 << CP0C3_MSAP);
-     }
-@@ -618,7 +618,7 @@ static int kvm_mips_put_fpu_registers(CPUState *cs, int level)
-          * FPU register state is a subset of MSA vector state, so don't put FPU
-          * registers if we're emulating a CPU with MSA.
-          */
--        if (!(env->CP0_Config3 & (1 << CP0C3_MSAP))) {
-+        if (!ase_msa_available(env)) {
-             /* Floating point registers */
-             for (i = 0; i < 32; ++i) {
-                 if (env->CP0_Status & (1 << CP0St_FR)) {
-@@ -637,7 +637,7 @@ static int kvm_mips_put_fpu_registers(CPUState *cs, int level)
-     }
- 
-     /* Only put MSA state if we're emulating a CPU with MSA */
--    if (env->CP0_Config3 & (1 << CP0C3_MSAP)) {
-+    if (ase_msa_available(env)) {
-         /* MSA Control Registers */
-         if (level == KVM_PUT_FULL_STATE) {
-             err = kvm_mips_put_one_reg(cs, KVM_REG_MIPS_MSA_IR,
-@@ -698,7 +698,7 @@ static int kvm_mips_get_fpu_registers(CPUState *cs)
-          * FPU register state is a subset of MSA vector state, so don't save FPU
-          * registers if we're emulating a CPU with MSA.
-          */
--        if (!(env->CP0_Config3 & (1 << CP0C3_MSAP))) {
-+        if (!ase_msa_available(env)) {
-             /* Floating point registers */
-             for (i = 0; i < 32; ++i) {
-                 if (env->CP0_Status & (1 << CP0St_FR)) {
-@@ -717,7 +717,7 @@ static int kvm_mips_get_fpu_registers(CPUState *cs)
-     }
- 
-     /* Only get MSA state if we're emulating a CPU with MSA */
--    if (env->CP0_Config3 & (1 << CP0C3_MSAP)) {
-+    if (ase_msa_available(env)) {
-         /* MSA Control Registers */
-         err = kvm_mips_get_one_reg(cs, KVM_REG_MIPS_MSA_IR,
-                                    &env->msair);
-diff --git a/target/mips/translate.c b/target/mips/translate.c
-index 69fa8a50790..c01db5f9d39 100644
---- a/target/mips/translate.c
-+++ b/target/mips/translate.c
-@@ -24920,8 +24920,7 @@ static void decode_opc_special(CPUMIPSState *env, DisasContext *ctx)
-         gen_trap(ctx, op1, rs, rt, -1);
-         break;
-     case OPC_LSA: /* OPC_PMON */
--        if ((ctx->insn_flags & ISA_MIPS_R6) ||
--            (env->CP0_Config3 & (1 << CP0C3_MSAP))) {
-+        if ((ctx->insn_flags & ISA_MIPS_R6) || ase_msa_available(env)) {
-             decode_opc_special_r6(env, ctx);
-         } else {
-             /* Pmon entry point, also R4010 selsl */
-@@ -25023,8 +25022,7 @@ static void decode_opc_special(CPUMIPSState *env, DisasContext *ctx)
-         }
-         break;
-     case OPC_DLSA:
--        if ((ctx->insn_flags & ISA_MIPS_R6) ||
--            (env->CP0_Config3 & (1 << CP0C3_MSAP))) {
-+        if ((ctx->insn_flags & ISA_MIPS_R6) || ase_msa_available(env)) {
-             decode_opc_special_r6(env, ctx);
-         }
-         break;
+ static void msa_reset(CPUMIPSState *env)
+ {
++    if (!ase_msa_available(env)) {
++        return;
++    }
++
+ #ifdef CONFIG_USER_ONLY
+     /* MSA access enabled */
+     env->CP0_Config5 |= 1 << CP0C5_MSAEn;
 -- 
 2.26.2
 
