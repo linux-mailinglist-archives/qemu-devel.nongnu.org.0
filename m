@@ -2,70 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2200D2ECDB3
-	for <lists+qemu-devel@lfdr.de>; Thu,  7 Jan 2021 11:22:09 +0100 (CET)
-Received: from localhost ([::1]:42140 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C774E2ECDB6
+	for <lists+qemu-devel@lfdr.de>; Thu,  7 Jan 2021 11:24:16 +0100 (CET)
+Received: from localhost ([::1]:48896 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kxSQi-0001RA-5p
-	for lists+qemu-devel@lfdr.de; Thu, 07 Jan 2021 05:22:08 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40250)
+	id 1kxSSl-0004DI-RQ
+	for lists+qemu-devel@lfdr.de; Thu, 07 Jan 2021 05:24:15 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40220)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <luoyonggang@gmail.com>)
- id 1kxSOd-00086x-Np
- for qemu-devel@nongnu.org; Thu, 07 Jan 2021 05:20:00 -0500
-Received: from mail-pj1-x102b.google.com ([2607:f8b0:4864:20::102b]:55156)
+ id 1kxSOW-00086G-WB
+ for qemu-devel@nongnu.org; Thu, 07 Jan 2021 05:19:55 -0500
+Received: from mail-pf1-x433.google.com ([2607:f8b0:4864:20::433]:43800)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <luoyonggang@gmail.com>)
- id 1kxSOM-00053L-PW
- for qemu-devel@nongnu.org; Thu, 07 Jan 2021 05:19:55 -0500
-Received: by mail-pj1-x102b.google.com with SMTP id f14so1179961pju.4
- for <qemu-devel@nongnu.org>; Thu, 07 Jan 2021 02:19:42 -0800 (PST)
+ id 1kxSOP-00054a-Tf
+ for qemu-devel@nongnu.org; Thu, 07 Jan 2021 05:19:52 -0500
+Received: by mail-pf1-x433.google.com with SMTP id c12so3569198pfo.10
+ for <qemu-devel@nongnu.org>; Thu, 07 Jan 2021 02:19:45 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=FJcCqNbly+HuBFBx/VMoWDYh1LrAqFMypQIcCUsLO3E=;
- b=gqmPomGazmjZR/ZQSS60Ma8yPzAHWhGuR03yEsOmkg1NeuWHox1i37IvC7ivEGp2QD
- uW9QEYc4z/zei6A9JE6aAThEIsHiiAYcfyPDjaSiel1+I2djK7t7KORtDo/1e9NnZdQd
- KlkEkAU6DwH8hFz/GDd16ViS4JWgLmQ/z9OzEquF4dFtHHA45OJCcUMCsz9tv0yU+mqB
- kO5WluYTnzgpEGqncxe5dhC40swHygOUs0QDpqb8SOb30MLe4um2VG7WBbgTr7l9wSj7
- 06tB7j2hlKJma0ru7UuxYl45DNaUMAj7l19Ch6mRxlDuntUSESrHUC5ojAyuWws/LiH6
- 9J6Q==
+ bh=dSi1f/7draldcvhbTcR9eZXnx6tBY5L1isM3ly1Kkz0=;
+ b=sq3OhRk1G3iqYbJ0dy2FVZXox6yIFRHNY62j057jb6+/jqKNQpBJwn2y90Cn23rHEw
+ /RjrjMSiAYis7nB9S/6sK9YI/5BTEtfyhHE51bmt407Ie4cn3AAd1rnQK2WsuCvQgxuc
+ xwVQiIE9WExrDy8bSCa6O+owhhDByCAKojrl3En69ULwcvjM/IDJt/AoqVV10L4mIfCu
+ DFNIJkloDKU24hIzZp66aaR2BDxAXhecPJ5PfiyC4edETkG14ktBv592S0pFMC/gQu6d
+ 379L0B3I1xnteya+SpkU7Rr46lRNa1s5WrLjqnJGi4O8BY6PjVwyuAL0T8/6z41rrrKg
+ QrDg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=FJcCqNbly+HuBFBx/VMoWDYh1LrAqFMypQIcCUsLO3E=;
- b=Vgs2bN3xnRhh/wP8FbnySyZWPmMsO7vf3/nZOdoX0YM5iB6bkApzecaNSyvUfvfuUf
- PvDCQd2zZzxI8eKjURM7HrO0l/iSP7Ic5DzcibX2uIa8JY5f5e0AQ8ETw0BPLHSFlTWy
- ezY3er/zLhm4VWQ7WadpbHv07uzE+DnOKA1thNjSAsPLi+XAz1PwAeCtHXEmo3msjHaK
- UKsxpYWx+eOSmivv4svgEoaMjl1QhsfhTZ0NOvm9508XSiSI6j3D16W6U/rr7ePYEVVa
- CP6EGgg37j7XKIeoSy6pg/+/E+ZCJQpWYtHEv1E9eyQxlR3GwRt4n3R5vMKP1a5Og/4h
- 5MRw==
-X-Gm-Message-State: AOAM531B5ABapUhM+W18ZeNUaCl3r1RVFzLcItsQSswrc0EQgsHju63P
- /iSCBcZW0a2D0e/nxx5S6QxlJ1yR7Gn90dW/
-X-Google-Smtp-Source: ABdhPJxwoqpUrLbF20CmKv8ukYcng1WKVZG2pw/Hh1kB+7JvRq7o0NPSO1M8NalgwKm/3mQY3DY+Qg==
-X-Received: by 2002:a17:90b:4394:: with SMTP id
- in20mr8804400pjb.34.1610014781122; 
- Thu, 07 Jan 2021 02:19:41 -0800 (PST)
+ bh=dSi1f/7draldcvhbTcR9eZXnx6tBY5L1isM3ly1Kkz0=;
+ b=f7UmKSZpYRbN3CV2G6nH3skCBfCoTdmBQ6kC4UPOAZKutyPrEEXYUjuQ7LNAZXvT1r
+ yihJS18Es8XvjpYzX5sOPn2Qc87b3amSaWs9yrjnZ04UadjwP0mx3k3r5rtfdaE78hAE
+ yUao9uAIS7b0cKmdnT7RlopJjxNXz4CS3y5epC6D7zyW13V6iCZlrzpkkSUziOvzscul
+ fB2SJerTMETOjAChjFYIWk18ucPcrauJTZZIx4+DgcZowE9y+d0vxHAW9RLmsY8UznC/
+ OHP+yk0F2ozSw2MRAevf5f7HC323P4ncEP1ghEr6GyCTItZd1aD3uMfSWoTlCOFPe/Gv
+ rtvw==
+X-Gm-Message-State: AOAM530vOUWzeEQeXWp75xuFl8Lejc8MX/QbROWkkPGGBJUG6RhQBKQV
+ /SX2KoMlaD0vyBx0EgHTzR1kt45aXdNmlzjv
+X-Google-Smtp-Source: ABdhPJzzsXkFZ9L93rSeN/duFxWElwV0lXqmXt1IA0tCzQ/SQqlRh0MIRs7xmnjdiwTzuFw620/3tA==
+X-Received: by 2002:a63:d24d:: with SMTP id t13mr1170249pgi.37.1610014783818; 
+ Thu, 07 Jan 2021 02:19:43 -0800 (PST)
 Received: from localhost.localdomain ([103.94.185.75])
- by smtp.googlemail.com with ESMTPSA id s5sm4934662pju.9.2021.01.07.02.19.38
+ by smtp.googlemail.com with ESMTPSA id s5sm4934662pju.9.2021.01.07.02.19.41
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 07 Jan 2021 02:19:40 -0800 (PST)
+ Thu, 07 Jan 2021 02:19:43 -0800 (PST)
 From: Yonggang Luo <luoyonggang@gmail.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v4 3/5] maintainers: Add me as Windows Hosted Continuous
- Integration maintainer
-Date: Thu,  7 Jan 2021 02:19:17 -0800
-Message-Id: <20210107101919.80-4-luoyonggang@gmail.com>
+Subject: [PATCH v4 4/5] whpx: Fixes include of whp-dispatch.h in whpx.h
+Date: Thu,  7 Jan 2021 02:19:18 -0800
+Message-Id: <20210107101919.80-5-luoyonggang@gmail.com>
 X-Mailer: git-send-email 2.29.2.windows.3
 In-Reply-To: <20210107101919.80-1-luoyonggang@gmail.com>
 References: <20210107101919.80-1-luoyonggang@gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::102b;
- envelope-from=luoyonggang@gmail.com; helo=mail-pj1-x102b.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::433;
+ envelope-from=luoyonggang@gmail.com; helo=mail-pf1-x433.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -93,26 +90,22 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 Signed-off-by: Yonggang Luo <luoyonggang@gmail.com>
 ---
- MAINTAINERS | 6 ++++++
- 1 file changed, 6 insertions(+)
+ include/sysemu/whpx.h | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/MAINTAINERS b/MAINTAINERS
-index 4be087b88e..4d9df874a1 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -3198,6 +3198,12 @@ S: Maintained
- F: .cirrus.yml
- W: https://cirrus-ci.com/github/qemu/qemu
+diff --git a/include/sysemu/whpx.h b/include/sysemu/whpx.h
+index 9346fd92e9..4f38784d7e 100644
+--- a/include/sysemu/whpx.h
++++ b/include/sysemu/whpx.h
+@@ -15,7 +15,7 @@
  
-+Windows Hosted Continuous Integration
-+M: Yonggang Luo <luoyonggang@gmail.com>
-+S: Maintained
-+F: .cirrus.yml
-+W: https://cirrus-ci.com/github/qemu/qemu
-+
- GitLab Continuous Integration
- M: Thomas Huth <thuth@redhat.com>
- M: Philippe Mathieu-Daudé <philmd@redhat.com>
+ #ifdef CONFIG_WHPX
+ 
+-#include "whp-dispatch.h"
++#include <WinHvPlatformDefs.h>
+ 
+ struct whpx_state {
+     uint64_t mem_quota;
 -- 
 2.29.2.windows.3
 
