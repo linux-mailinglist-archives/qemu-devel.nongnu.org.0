@@ -2,66 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 24A2A2ECA34
-	for <lists+qemu-devel@lfdr.de>; Thu,  7 Jan 2021 06:41:08 +0100 (CET)
-Received: from localhost ([::1]:54246 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3B1122ECA35
+	for <lists+qemu-devel@lfdr.de>; Thu,  7 Jan 2021 06:41:35 +0100 (CET)
+Received: from localhost ([::1]:54598 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kxO2k-00063g-Ma
-	for lists+qemu-devel@lfdr.de; Thu, 07 Jan 2021 00:41:06 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39140)
+	id 1kxO3C-0006D1-9X
+	for lists+qemu-devel@lfdr.de; Thu, 07 Jan 2021 00:41:34 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39154)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <luoyonggang@gmail.com>)
- id 1kxO0U-0004Vk-Kk
- for qemu-devel@nongnu.org; Thu, 07 Jan 2021 00:38:46 -0500
-Received: from mail-pg1-x52c.google.com ([2607:f8b0:4864:20::52c]:41948)
+ id 1kxO0W-0004X7-OZ
+ for qemu-devel@nongnu.org; Thu, 07 Jan 2021 00:38:48 -0500
+Received: from mail-pl1-x629.google.com ([2607:f8b0:4864:20::629]:41466)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <luoyonggang@gmail.com>)
- id 1kxO0Q-0007wk-TO
- for qemu-devel@nongnu.org; Thu, 07 Jan 2021 00:38:45 -0500
-Received: by mail-pg1-x52c.google.com with SMTP id i7so4082129pgc.8
- for <qemu-devel@nongnu.org>; Wed, 06 Jan 2021 21:38:41 -0800 (PST)
+ id 1kxO0S-0007yC-7Z
+ for qemu-devel@nongnu.org; Thu, 07 Jan 2021 00:38:48 -0500
+Received: by mail-pl1-x629.google.com with SMTP id y8so2914524plp.8
+ for <qemu-devel@nongnu.org>; Wed, 06 Jan 2021 21:38:43 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=rhQZCZ6csUApkPeGsoLidE8TMWUYv82hNyDvRdEZaas=;
- b=PSqOlIamER0EiPsE7VkKtFInd3AnNG72tSGKCxuNQWCcBCTfBCPqpAzjtUWqfQVqtI
- kwz0qiHx4J9V8OEqDpZl26J7x3HJpFeyV8Zhb0wtWMHqBF5USgZZrIe56IhxLNswrMa2
- hhatQaK70wOeIFzkWgLlylEQM5O/rdqJIql/nHl8wTTMjEooo/sT/Ne/G198DUVc1NPK
- zHr8ZGsF2Eyvx2I+qoVEjcBt2S1BxysyQZcfKDgwqJ6aNaKxJzN++9vhwIDxWJFaXDXD
- p6hpf+87TmAoV83+sEZ4LUQqcX9KLF6ndw9p2AAtHZqrmkKwnBauB7shTM8TQ0P/h19t
- 9p2w==
+ h=from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=/5wKUycp8+J/TPqjX01ADm1mPwlsfaW14r1L66i18T0=;
+ b=lwJ6Nmo4XxRiDUb19Nx0NBE5RSsAOVnZAZSzJNw8w/OdfMXoyXywAXaDoCk+zrXa0r
+ 4wVZnWz2S4Ck7Mvf5koyoJOtLWrhRIpcBTAxStysCwZkJwpcGCo/pWcmObQBTwc+Br2x
+ LO9E/A7fvFVYSZbt3dZ1KKh2QtMidW/cak6SN1rAspcy6Zv+a2bekcsOpXhuey7bMjH9
+ poIXcOQ539b+/6MTKHVpVCO1FTUz5pa+55o6AOYg4tbZ0G7WinJROBfrEUQDhfegXLNL
+ a4+T6N7aRJzlNG7YdPp7W+BY5J0b8fRdxENXL+nvcV7O+LQnixkhaY+LonyEKBWNQ3bh
+ 803w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=rhQZCZ6csUApkPeGsoLidE8TMWUYv82hNyDvRdEZaas=;
- b=buir5IAm6WzWoJQ9qr8e6mex9mJiBA0WQbFrzS/lguPAkXPOlLRjc44DEk2jnLk6r2
- UWCwAmxLVeOZoSbvxiyF6+Kg7Ud2Y7dNBXeuwLnDzwYEsBLys+OEFMHxtz3BtuFqS+Ta
- JWy9D+1ulaD0vTiFeulCHKktpvpZA5rNLIwAOH4zc909vjm72BIxwarIHiaPd38Vhf5W
- J+eQIfhZc3P3nVKdXjx+eIKtEE3EPDejE4VqVkTM6wNAJDGxWv2f/qkX2hz+XVtPjbIl
- k3FT3vBaepg2LEICsMsHOe9x6BfQ1pxiPvWXC7I0mR1XECs+38Ye/0O24ASw7SoqHPja
- EhfA==
-X-Gm-Message-State: AOAM530EdsSqxZ8/bpMezxC0BrHMUB86oYwVc4bHvO4C5demDVDeCx8T
- ukxaHVteaYDrFZUJTCGvSxGv2voaRCh88utS
-X-Google-Smtp-Source: ABdhPJxM1dKmO5pgeRjNBBp3f+GK5mpZEfDMflXaNb9m53GjETctSfaveMOEx8dDMeKdMm55DyT7Kw==
-X-Received: by 2002:a63:4d1:: with SMTP id 200mr182367pge.362.1609997919545;
- Wed, 06 Jan 2021 21:38:39 -0800 (PST)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=/5wKUycp8+J/TPqjX01ADm1mPwlsfaW14r1L66i18T0=;
+ b=IrbvBItyWqYI45fIxkuWSz/Aki2W7cKYtPO5OoteyWv+v3vewY9cJ+mN0U+zJF0xU5
+ jOSnwW8XZ59UVmMawj66kOBMEw4BLvfLKEUN5tyd4DARBQ1SQt6umm8H/cFpGhdfD/AT
+ QFYNKOgzpCdRwUioRW5Ap61nl2gbAOTMpkR1gtsIdYXFydox3KavjepLDHZlH/fQFAo+
+ My3odmuuJ+8kp17D4kL27vMXn7INtkBwg9po+59DD9hdXLPKaO7LVRhBfp5hH0jOO0U/
+ MiWPeGl16KSPzY5h33bOIGAATFn2pPlnGgNlBqWGS5pzE9pSuuiaVBUmcMPdShCERhO/
+ +UxQ==
+X-Gm-Message-State: AOAM5319aJB48GD47wBnLqYhy89FELBGzsX3VsNQRn5IcQ5aGEuQXagJ
+ KpudvRyymigSy1LGb9x1cVgNqhR84XgCHouw
+X-Google-Smtp-Source: ABdhPJyWB+nzoRtuzx+mbN/EKL90dEIgqxMbLroCjh+lR738tOeCWJgzXNCjLOydSb/dL7MOIY8Xbg==
+X-Received: by 2002:a17:902:848e:b029:dc:b38:98f0 with SMTP id
+ c14-20020a170902848eb02900dc0b3898f0mr7828442plo.82.1609997922489; 
+ Wed, 06 Jan 2021 21:38:42 -0800 (PST)
 Received: from localhost.localdomain ([103.94.185.75])
- by smtp.googlemail.com with ESMTPSA id y6sm7660091pjl.0.2021.01.06.21.38.37
+ by smtp.googlemail.com with ESMTPSA id y6sm7660091pjl.0.2021.01.06.21.38.39
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 06 Jan 2021 21:38:38 -0800 (PST)
+ Wed, 06 Jan 2021 21:38:41 -0800 (PST)
 From: Yonggang Luo <luoyonggang@gmail.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 0/4] Fixes whpx build and improve Windows host CI
-Date: Wed,  6 Jan 2021 21:38:21 -0800
-Message-Id: <20210107053825.2010-1-luoyonggang@gmail.com>
+Subject: [PATCH 1/4] cirrus/msys2: Exit powershell with $LastExitCode
+Date: Wed,  6 Jan 2021 21:38:22 -0800
+Message-Id: <20210107053825.2010-2-luoyonggang@gmail.com>
 X-Mailer: git-send-email 2.29.2.windows.3
-Content-Type: text/plain; charset="utf-8"
+In-Reply-To: <20210107053825.2010-1-luoyonggang@gmail.com>
+References: <20210107053825.2010-1-luoyonggang@gmail.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2607:f8b0:4864:20::52c;
- envelope-from=luoyonggang@gmail.com; helo=mail-pg1-x52c.google.com
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::629;
+ envelope-from=luoyonggang@gmail.com; helo=mail-pl1-x629.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -87,26 +89,27 @@ Cc: Paolo Bonzini <pbonzini@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Exit powershell with $LastExitCode so that the CI=0D
-would report the build/testing failure=0D
-Fixes include of whp-dispatch.h=0D
-Cache msys2 mingw with a proper fingerprint so=0D
-that only when msys2 packages are changed need=0D
-trigger the re-populate the cache=0D
-=0D
-Yonggang Luo (4):=0D
-  cirrus/msys2: Exit powershell with $LastExitCode=0D
-  cirrus/msys2: Cache msys2 mingw in a better way.=0D
-  whpx: Fixes include of whp-dispatch.h in whpx.h=0D
-  maintainers: Add me as Windows Hosted Continuous Integration=0D
-    maintainer=0D
-=0D
- .cirrus.yml           | 119 +++++++++++++++++++++++++-----------------=0D
- MAINTAINERS           |   6 +++=0D
- include/sysemu/whpx.h |   2 +-=0D
- 3 files changed, 77 insertions(+), 50 deletions(-)=0D
-=0D
--- =0D
-2.29.2.windows.3=0D
-=0D
+Currently if we don't exit with $LastExitCode manually,
+the cirrus would not report the build/testing failure.
+
+Signed-off-by: Yonggang Luo <luoyonggang@gmail.com>
+---
+ .cirrus.yml | 2 ++
+ 1 file changed, 2 insertions(+)
+
+diff --git a/.cirrus.yml b/.cirrus.yml
+index 62a9b57530..ff6adabd0d 100644
+--- a/.cirrus.yml
++++ b/.cirrus.yml
+@@ -131,5 +131,7 @@ windows_msys2_task:
+     - C:\tools\msys64\usr\bin\bash.exe -lc "mkdir build"
+     - C:\tools\msys64\usr\bin\bash.exe -lc "cd build && ../configure --python=python3"
+     - C:\tools\msys64\usr\bin\bash.exe -lc "cd build && make -j8"
++    - exit $LastExitCode
+   test_script:
+     - C:\tools\msys64\usr\bin\bash.exe -lc "cd build && make V=1 check"
++    - exit $LastExitCode
+-- 
+2.29.2.windows.3
+
 
