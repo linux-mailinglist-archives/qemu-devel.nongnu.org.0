@@ -2,90 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A102D2ECF18
-	for <lists+qemu-devel@lfdr.de>; Thu,  7 Jan 2021 12:52:06 +0100 (CET)
-Received: from localhost ([::1]:58822 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5B22A2ECF02
+	for <lists+qemu-devel@lfdr.de>; Thu,  7 Jan 2021 12:50:28 +0100 (CET)
+Received: from localhost ([::1]:54146 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kxTpl-000213-N5
-	for lists+qemu-devel@lfdr.de; Thu, 07 Jan 2021 06:52:05 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34282)
+	id 1kxToB-0008Og-DI
+	for lists+qemu-devel@lfdr.de; Thu, 07 Jan 2021 06:50:27 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34806)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1kxTlA-0005MP-Eq
- for qemu-devel@nongnu.org; Thu, 07 Jan 2021 06:47:20 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:34457)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1kxTl6-0004cd-Oi
- for qemu-devel@nongnu.org; Thu, 07 Jan 2021 06:47:19 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1610020034;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=i/KNuwG0WlXOVd+hwXHwF9R8bbEw0106uJpTvLKcWSo=;
- b=HmqEQuC+hh+mZPlnv8yew1qLphAjyuaDTQlVq5sLdkdW0BeSl8BiGaoYlIbVPjTH60NTUH
- 8UIRQDHTrO85MbTW2D/KiHnQ7QGfMQ7zdCxq/g3LHraTXu8x76/R52L321gzP4m3AJUUm6
- rHFA2P/fCeffjQ+U7Xz2RJOAzMNtFL8=
-Received: from mail-ed1-f72.google.com (mail-ed1-f72.google.com
- [209.85.208.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-466-45cE2MdkPBOul-tXh4tncQ-1; Thu, 07 Jan 2021 06:47:12 -0500
-X-MC-Unique: 45cE2MdkPBOul-tXh4tncQ-1
-Received: by mail-ed1-f72.google.com with SMTP id u18so3256180edy.5
- for <qemu-devel@nongnu.org>; Thu, 07 Jan 2021 03:47:12 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1kxTmk-0006zY-Fx
+ for qemu-devel@nongnu.org; Thu, 07 Jan 2021 06:48:58 -0500
+Received: from mail-wr1-x436.google.com ([2a00:1450:4864:20::436]:39141)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1kxTmh-0005PH-Mz
+ for qemu-devel@nongnu.org; Thu, 07 Jan 2021 06:48:57 -0500
+Received: by mail-wr1-x436.google.com with SMTP id c5so5347603wrp.6
+ for <qemu-devel@nongnu.org>; Thu, 07 Jan 2021 03:48:55 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=references:user-agent:from:to:cc:subject:date:in-reply-to
+ :message-id:mime-version:content-transfer-encoding;
+ bh=ZuqmGMMA8FUb7dMWg1DmXuELLuKPdiYZrS8QWwwRv0w=;
+ b=FKKi8TVi0r46AdndONW/K3E3PE6XrMoVPOjRUk6QyGF1olnAPqUQ08Cso+FCAS2Sxq
+ OJPACg3SIOGL7sNu+gX5ZGHE+D2K8GdffJtstqCBlieO4yM1yKquQHf+qVXbwY9phxzO
+ x/XH/DX74ehgAIcmxgPDcabYTAPb/5C2iiMxs3KZpo+SKp1XkWSLKSg7iL3K0Nc9E0zM
+ nHLJlhSgYGVlUAmV41EhOkn/RVAZqmuBL/yfGR6IVFTFIDj2oXgz4MybWKHMUzBQ1H1o
+ VM29ptyHLmv/mJzuEmNyaD/sDwbiREdhrG1nA8NU2Uq8Mn6GS3cIvmUfU4kklQ2m0a5k
+ abEw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=i/KNuwG0WlXOVd+hwXHwF9R8bbEw0106uJpTvLKcWSo=;
- b=Mkx2fRbGK1fTYDZQTHyQvf+TQP5ZLrim/ANHMEl693f3MSTyWvvT0iRNdLVDX0Yqqt
- y0v9d0T71IBLGsGoxIQhWlKKCiqHVeh20wEStWXzWgObjkrKp+cAgsUCH8tz4IpiWRk1
- LhW7oY3sPDPQCA37M4sAbGnwhaTCbWJtY3DGk1+sHJY6BfTpG3dUvreWPp5nsS9Kynt9
- 5i0Ovgi654IMdMI6WZGvII97FbRh3O08VOxuJ516q8XnBhz6htjlZwfW4tL09107ABOf
- yQU2vm0/OARqB7aS9GNLu67eP8z6HYS6/ppAEhpmxxGRI5xWl13lQ0K7IaXS9kIEg/9A
- z9Ww==
-X-Gm-Message-State: AOAM531nMIL27pYd9Lgp1OJxiALAIJ83NpKYkzkn+nhc78i2tE46hmWI
- vyvTlZW/UtjpSRq3xwnZoxUkWzwk0Mi16QTNfEEckPecNeZccd8JyC5b6BVThEYTQ0RxnS1N/F8
- KwnDT22uRGNN5YtCJNzOUAyD6OY7FynpAmWN7oCe2aW6QS+bXgL1g8Zi+TBmMc+ng+iE=
-X-Received: by 2002:a50:a6c2:: with SMTP id f2mr1388564edc.7.1610020031199;
- Thu, 07 Jan 2021 03:47:11 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJyrq712TNlWSxcKRcWsmrNDzYar1htG15VQf0cm770j16EbDWctJzVTcH2pivLAaAU+SiIikQ==
-X-Received: by 2002:a50:a6c2:: with SMTP id f2mr1388552edc.7.1610020030939;
- Thu, 07 Jan 2021 03:47:10 -0800 (PST)
-Received: from ?IPv6:2001:b07:6468:f312:5e2c:eb9a:a8b6:fd3e?
- ([2001:b07:6468:f312:5e2c:eb9a:a8b6:fd3e])
- by smtp.gmail.com with ESMTPSA id n8sm2346720eju.33.2021.01.07.03.47.09
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 07 Jan 2021 03:47:09 -0800 (PST)
-Subject: Re: [PATCH] meson: fix ncurses detection on macOS
-To: Chris Hofstaedtler <chris@hofstaedtler.name>, qemu-devel@nongnu.org
-References: <20201228151652.235542-1-chris@hofstaedtler.name>
-From: Paolo Bonzini <pbonzini@redhat.com>
-Message-ID: <509d7467-3747-cbfd-61e2-f92f3a9c67f8@redhat.com>
-Date: Thu, 7 Jan 2021 12:47:08 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.5.0
+ h=x-gm-message-state:references:user-agent:from:to:cc:subject:date
+ :in-reply-to:message-id:mime-version:content-transfer-encoding;
+ bh=ZuqmGMMA8FUb7dMWg1DmXuELLuKPdiYZrS8QWwwRv0w=;
+ b=cl2rIU+K+3OfTy+JqM5rTwuTLoLnEjTTdPDz4H8OIwEPMnZkpbQLgYh/XG88H7uT0W
+ Y8uBX+2BcEVyey6PPqs9+xZTj0REtDV+vPPT1jg039LBO4QUVo6g+EwL4uFWxNXFZymw
+ ds2zSk8sl/QR+6GIPFLEeCa//jsz4tYrgEBL9ikeav4tz60c3yTNv1kFpr+w11phm2tg
+ pnUYYdaxDSFHUEnV01hEE5p86Fyv/4NRSfxdKeGqrG6H+g+INh5x1NOdhBDNAfJwnWtT
+ iGNJD7hvkE5pUv5/Hz+pbHNXRf6dp2pJ9I4aiPu6n/OvuflsCMnku+0ivgcRB8vpDPxN
+ 8yIA==
+X-Gm-Message-State: AOAM530JeifqTFQZJtVllDhLRzga1P+oduvDxvQ+8tRgxaUn1E37zoAN
+ g0NK/BqlmK6HfyIDSPdDEat6yQ==
+X-Google-Smtp-Source: ABdhPJwTvLDPKPih1N7O8LYfjsBuYNi5buGcs82L5duB1odLalw85adekc3lzz9jBgtpGs6Ev1W4kQ==
+X-Received: by 2002:adf:97dd:: with SMTP id t29mr8522448wrb.357.1610020134258; 
+ Thu, 07 Jan 2021 03:48:54 -0800 (PST)
+Received: from zen.linaroharston ([51.148.130.216])
+ by smtp.gmail.com with ESMTPSA id a62sm8230317wmh.40.2021.01.07.03.48.53
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 07 Jan 2021 03:48:53 -0800 (PST)
+Received: from zen (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id B55B31FF7E;
+ Thu,  7 Jan 2021 11:48:52 +0000 (GMT)
+References: <20210107072933.3828450-1-f4bug@amsat.org>
+User-agent: mu4e 1.5.7; emacs 28.0.50
+From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
+Subject: Re: [PATCH] tests/docker: Remove Debian 9 remnant lines
+Date: Thu, 07 Jan 2021 11:48:46 +0000
+In-reply-to: <20210107072933.3828450-1-f4bug@amsat.org>
+Message-ID: <87pn2h0xy3.fsf@linaro.org>
 MIME-Version: 1.0
-In-Reply-To: <20201228151652.235542-1-chris@hofstaedtler.name>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=pbonzini@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=pbonzini@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -32
-X-Spam_score: -3.3
-X-Spam_bar: ---
-X-Spam_report: (-3.3 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.252,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.249, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2a00:1450:4864:20::436;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x436.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -99,46 +86,41 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: Fam Zheng <fam@euphon.net>, Thomas Huth <thuth@redhat.com>,
+ Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
+ qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 28/12/20 16:16, Chris Hofstaedtler wrote:
-> Without this, meson fails with "curses package not usable"
-> when using ncurses 6.2. Apparently the wide functions
-> (addwstr, etc) are hidden behind the extra define, and
-> meson does not define it at that detection stage.
-> 
-> Signed-off-by: Chris Hofstaedtler <chris@hofstaedtler.name>
+
+Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org> writes:
+
+> Debian 9 base container has been removed in commits
+> e3755276d1f and c9d78b06c06. Remove the last remnants.
+>
+> Fixes: e3755276d1f ("tests/docker: Remove old Debian 9 containers")
+> Signed-off-by: Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>
+
+Queued to testing/next, thanks.
+
 > ---
->   meson.build | 2 +-
->   1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/meson.build b/meson.build
-> index 9c152a85bd..7b9d92c14a 100644
-> --- a/meson.build
-> +++ b/meson.build
-> @@ -510,7 +510,7 @@ if have_system and not get_option('curses').disabled()
->     endforeach
->     msg = get_option('curses').enabled() ? 'curses library not found' : ''
->     if curses.found()
-> -    if cc.links(curses_test, dependencies: [curses])
-> +    if cc.links(curses_test, args: '-DNCURSES_WIDECHAR', dependencies: [curses])
->         curses = declare_dependency(compile_args: '-DNCURSES_WIDECHAR', dependencies: [curses])
->       else
->         msg = 'curses package not usable'
-> 
+>  tests/docker/Makefile.include | 1 -
+>  1 file changed, 1 deletion(-)
+>
+> diff --git a/tests/docker/Makefile.include b/tests/docker/Makefile.include
+> index c254ac38d0a..0779dab5b96 100644
+> --- a/tests/docker/Makefile.include
+> +++ b/tests/docker/Makefile.include
+> @@ -108,7 +108,6 @@ ifneq ($(HOST_ARCH),x86_64)
+>  DOCKER_PARTIAL_IMAGES +=3D debian-mips-cross debian-mipsel-cross debian-=
+mips64el-cross
+>  DOCKER_PARTIAL_IMAGES +=3D debian-ppc64el-cross
+>  DOCKER_PARTIAL_IMAGES +=3D debian-s390x-cross
+> -DOCKER_PARTIAL_IMAGES +=3D debian-win32-cross debian-win64-cross
+>  DOCKER_PARTIAL_IMAGES +=3D fedora travis
+>  endif
 
-Already fixed by commit 0dbce6efb5ff2e7113734d3a0cabbf87fc56feec
 
-     meson: fix detection of curses with pkgconfig
-
-     Reviewed-by: Marc-André Lureau <marcandre.lureau@redhat.com>
-     Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
-
-Sorry for the delay in applying it.
-
-Thanks,
-
-Paolo
-
+--=20
+Alex Benn=C3=A9e
 
