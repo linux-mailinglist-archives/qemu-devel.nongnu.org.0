@@ -2,69 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E54582EE775
-	for <lists+qemu-devel@lfdr.de>; Thu,  7 Jan 2021 22:10:06 +0100 (CET)
-Received: from localhost ([::1]:54434 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 14D942EE777
+	for <lists+qemu-devel@lfdr.de>; Thu,  7 Jan 2021 22:11:42 +0100 (CET)
+Received: from localhost ([::1]:56938 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kxcXm-0006Fq-0d
-	for lists+qemu-devel@lfdr.de; Thu, 07 Jan 2021 16:10:06 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59968)
+	id 1kxcZJ-0007T5-68
+	for lists+qemu-devel@lfdr.de; Thu, 07 Jan 2021 16:11:41 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60288)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1kxcWF-0005TJ-1W
- for qemu-devel@nongnu.org; Thu, 07 Jan 2021 16:08:31 -0500
-Received: from mail-ed1-x534.google.com ([2a00:1450:4864:20::534]:37869)
+ id 1kxcY2-0006ib-Ot
+ for qemu-devel@nongnu.org; Thu, 07 Jan 2021 16:10:22 -0500
+Received: from mail-ed1-x52c.google.com ([2a00:1450:4864:20::52c]:43177)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1kxcW8-00034Z-HG
- for qemu-devel@nongnu.org; Thu, 07 Jan 2021 16:08:30 -0500
-Received: by mail-ed1-x534.google.com with SMTP id cm17so9129402edb.4
- for <qemu-devel@nongnu.org>; Thu, 07 Jan 2021 13:08:24 -0800 (PST)
+ id 1kxcY0-0003aV-AO
+ for qemu-devel@nongnu.org; Thu, 07 Jan 2021 16:10:22 -0500
+Received: by mail-ed1-x52c.google.com with SMTP id y24so9074637edt.10
+ for <qemu-devel@nongnu.org>; Thu, 07 Jan 2021 13:10:19 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=zMl9HB+CoeXivwtGRa00mnivVk8GGwQAiI6UYMzRyho=;
- b=cXMp+Cy/JMgy9H01KiWx4ox09DK+ha8i9819ixe4IZnC1PIkjqlm7z+s7i3uUOsc3R
- WP5AG5FRVIWqK2cODy6n8fjXpkXkUGHLiiQzEsMuTPhfwgQk8QbQBYNRi99ZJYtSW+af
- QLFHah2y/ygnez4HR/zBEKC6aVCu9EBHvMFHN0M0wfySdAPIwGhuKaYfkFjgTYRP+GOZ
- bNrGKosxEPhfeFDj/ZvP+TY8nxsEI1cEFozxoKkEJWTzhfI9eg0zXT7lkcW3Gyw4buyd
- 2thOqB+UVgjMu4E76tSvk3VfSSENlyIwLBjog+z64ko9lULsEFqyR7oOyFvRbv+5WInS
- N7Tg==
+ :cc; bh=OMeoWbothf8/Ef4qD/ayPFIJQJ3UmD5fLaQFggFJsRo=;
+ b=ymGFm+GaGxKYWGRArnBN2pHrJhiGfw7CJMMQGaA5dKFC/it7n5NgVkAdpj8FIWPsxO
+ HmgtT104eDKYEP2hcfFCqQXQhmDeDvJDlCkFQOWTcR1a/GR68Mt/V6tNxEVaeHMaRwdB
+ AR5ADhy23e5A7b827v/2bkMOGhqnSWwurKrNFQGifcaRTePcCMTVAWcIYgDA+cIhU14Q
+ km0JC9zPwgtwzeCG+IKXfuB/d3h8bn54tOjWo2Z0q8DxJz5RHVq3dhlzUoniYlZQl9lk
+ UDc+33Vb2/A1ZTlTvqAHvhBhadtIi8kIw+mijR2JODBa+RUqB7dp3CYGFnxL/gQSHrQh
+ VJsA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=zMl9HB+CoeXivwtGRa00mnivVk8GGwQAiI6UYMzRyho=;
- b=Kyj008JRrSygNMa54RRiiOMWkgOUYUyxaklan4duVoadVQSpdMC1q9BxqdWz0QFkUf
- 8PRCyaoQglSEieGWZljJSzJ6cludUejvWktAUYlLF5dG8j5gL9vgoa0pIOZ7wx+ng671
- 0z4+sBeKe5xW2a8J1IgWHxgJrehxKR/VZZJY3JU+PmADxxPpgDrvKxIxvc/cH6elguWU
- MC7UrUmHW18uS+/guRAH6yxOy9BTbm7A84Ok0vgfYCFJ0vIvXV/50nh8S1w7TXXIqRdP
- lBK2eA/npaNbJyIr3ehf3vbsBpOfT62yUsyP+bblIfpnsuUrCAYQp5hLaLAsAM676b3/
- +LVg==
-X-Gm-Message-State: AOAM533U6cnG3Pp7HNSBQPZWq1jZvA5sdv+qEIORnsrKdm3CfZeLXGB/
- y0z2G87NqaSEV/KnlZXJZTQdm+Xj5xZOMcQk3LwFfQ==
-X-Google-Smtp-Source: ABdhPJz0z+v0gdhv3jktfNkT9wNFyLLzwqM6FJQGE0im0+EEEA4XwJ1oUJRrAdPwh2QHh8Yp9MWII6s9o5vALx6kyKg=
-X-Received: by 2002:aa7:d915:: with SMTP id a21mr2971927edr.251.1610053703000; 
- Thu, 07 Jan 2021 13:08:23 -0800 (PST)
+ bh=OMeoWbothf8/Ef4qD/ayPFIJQJ3UmD5fLaQFggFJsRo=;
+ b=JnKL9E6XRO/F368z4v83SvR9s5eYbGW0em7PzwKxh/acKa+g4H4ARyzsJTaBybd7Ke
+ qRFSPBmGOKGq7LZML9Ns6+hVgyOCImKytbHKDwkVXi89XZS/VmwLjmu8RhQcGMhwdIbB
+ jnAyxZkIWsG3h3RzgktwIvcIRyn54A20IwiONL0JYbI4DjuG2iFvAOix5mXVuAbQDseQ
+ mQf8rO9n+yp1C2y9xSUg4ikuYhyRVG9W5ptvSsJK/zxR1WPa1wxUFeslIjpRJspOMMt7
+ gYEC0ZQckk8+x945cbTg1mT/WbM0jxfLoqAp4btEGonxtM5DQsWpWNb5txsgdwEhDY00
+ sgUQ==
+X-Gm-Message-State: AOAM533PTAJp7D1IBUYxfjQE3NvTiAwMwFnEDNLbb1ieHqEpWnLePF3/
+ RypEZ4au7HbZXhf4KtOPR/amWiFf+r08anCpYUVOsw==
+X-Google-Smtp-Source: ABdhPJxQBfXSL0HvSUCf2ZW0OZD9LRI8wRUDyxvCbyj/UdSR8P3y93fwrawS5BkcAqtjimHAHb/oiMbxfTj8pRsyaAQ=
+X-Received: by 2002:a05:6402:1383:: with SMTP id
+ b3mr2951085edv.100.1610053818967; 
+ Thu, 07 Jan 2021 13:10:18 -0800 (PST)
 MIME-Version: 1.0
 References: <20201217004349.3740927-1-wuhaotsh@google.com>
- <20201217004349.3740927-7-wuhaotsh@google.com>
-In-Reply-To: <20201217004349.3740927-7-wuhaotsh@google.com>
+ <20201217004349.3740927-6-wuhaotsh@google.com>
+In-Reply-To: <20201217004349.3740927-6-wuhaotsh@google.com>
 From: Peter Maydell <peter.maydell@linaro.org>
-Date: Thu, 7 Jan 2021 21:08:11 +0000
-Message-ID: <CAFEAcA_dHwgAPcDxPW0xWcGrA=zW46Y+s79eK3KEt4A8m4=Emg@mail.gmail.com>
-Subject: Re: [PATCH v4 6/6] hw/*: Use type casting for SysBusDevice in NPCM7XX
+Date: Thu, 7 Jan 2021 21:10:07 +0000
+Message-ID: <CAFEAcA_BTy5z5TUkGifxSkX9xgxMTfgYwQ6daPnGvtWTnV2MFA@mail.gmail.com>
+Subject: Re: [PATCH v4 5/6] hw/misc: Add QTest for NPCM7XX PWM Module
 To: Hao Wu <wuhaotsh@google.com>
 Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2a00:1450:4864:20::534;
- envelope-from=peter.maydell@linaro.org; helo=mail-ed1-x534.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::52c;
+ envelope-from=peter.maydell@linaro.org; helo=mail-ed1-x52c.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -87,10 +88,11 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On Thu, 17 Dec 2020 at 00:45, Hao Wu <wuhaotsh@google.com> wrote:
 >
-> A device shouldn't access its parent object which is QOM internal.
-> Instead it should use type cast for this purporse. This patch fixes this
-> issue for all NPCM7XX Devices.
+> We add a qtest for the PWM in the previous patch. It proves it works as
+> expected.
 >
+> Reviewed-by: Havard Skinnemoen <hskinnemoen@google.com>
+> Reviewed-by: Tyrone Ting <kfting@nuvoton.com>
 > Signed-off-by: Hao Wu <wuhaotsh@google.com>
 
 Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
