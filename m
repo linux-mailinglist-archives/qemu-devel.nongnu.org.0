@@ -2,72 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DDD132ECE5A
-	for <lists+qemu-devel@lfdr.de>; Thu,  7 Jan 2021 12:01:26 +0100 (CET)
-Received: from localhost ([::1]:43478 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B829F2ECE78
+	for <lists+qemu-devel@lfdr.de>; Thu,  7 Jan 2021 12:14:08 +0100 (CET)
+Received: from localhost ([::1]:50164 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kxT2j-0002KI-VG
-	for lists+qemu-devel@lfdr.de; Thu, 07 Jan 2021 06:01:25 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48590)
+	id 1kxTF1-00068u-Ci
+	for lists+qemu-devel@lfdr.de; Thu, 07 Jan 2021 06:14:07 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52900)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <luoyonggang@gmail.com>)
- id 1kxSz9-00009V-PC
- for qemu-devel@nongnu.org; Thu, 07 Jan 2021 05:57:44 -0500
-Received: from mail-lf1-x12b.google.com ([2a00:1450:4864:20::12b]:46711)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <luoyonggang@gmail.com>)
- id 1kxSz5-0005zz-KL
- for qemu-devel@nongnu.org; Thu, 07 Jan 2021 05:57:43 -0500
-Received: by mail-lf1-x12b.google.com with SMTP id o10so2675633lfl.13
- for <qemu-devel@nongnu.org>; Thu, 07 Jan 2021 02:57:38 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:reply-to:from:date:message-id
- :subject:to:cc;
- bh=FDH/5XUC5HqMO/EJlYlAybhszKVrAlEnT5mt6DZfrlQ=;
- b=sKTaTQSgjC6i6PG1OrmONuMvbgzgvCFD2HvasbHAT2nRS47sa1hXFFBwIweWiKNojU
- CPOWNXsgxj6JsGG1X4pjoZidCE6yI7Kw/08/Ys3hamPiS3nRuUMg1A6LfO+3cE98VC1h
- RhVxocxSMUhqssRSXjLGX++GI821phM9CmpYHZEi3x60hxaHN0fUAVpyzbnRiGO9j5Kf
- KJcu0YjnF3TJXYJWriXgeHcgz5IaB+VNtChsMce8R8e29eA9oQGOcb3RXk3djPYrTJfg
- cjBQ6Xc+PhfGVjf9/hfvb4buZNlyCwcLekpN/AqDmt/i8Q/neun3Z+FuiW0h6mAbnDJc
- Le1Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:reply-to
- :from:date:message-id:subject:to:cc;
- bh=FDH/5XUC5HqMO/EJlYlAybhszKVrAlEnT5mt6DZfrlQ=;
- b=Qlg4CNEz/8sHLCGAqEHDRG/InjEvrFbdfMPvsiyOtuAK5znTEVF4qEUYOrK3HTbBMM
- z9cYCFMxsLren9+udPGmi+HRADGYC2E6qENNTqFEmWxl5l/R1Bt+4Pau3h2ShLYHq/SH
- imuRu0tnPI/RiRWdG5mgzhlY0npLr/lBDTBzz/2oKcoVMZZ6YOjKtJVW3L5wb1XvI9Wu
- YAQe6ykrLEf54VjQA+5O2WWjf1DqKd7eh75G8s2l448gAZ5XzOzptfazqVk5PFkfq0Fm
- vhYc976BKw6T7ay3CH0NGIJ/7AHUB6brLUme4CN6G/KXJKmn1Xd2cH3nlY/PkCWMJbYV
- 7n0Q==
-X-Gm-Message-State: AOAM5307bVRWuhVK91VfpWMdz2spsZPMopVrR1yLTSn93axlOnnwalqw
- o/J9SVSRGzCas3Ynj9As9K2m4JAZZ6GHvA+M8NA=
-X-Google-Smtp-Source: ABdhPJxNTtDhbZ7Aum9SXtOzxDXCJmWzhiScFtszKi9101QQIB8Dx4lfPqhjzJ6y5Ph+SiGas0rFe7VN3JzbW2hhpLA=
-X-Received: by 2002:a19:ecb:: with SMTP id 194mr3548712lfo.70.1610017056681;
- Thu, 07 Jan 2021 02:57:36 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <groug@kaod.org>) id 1kxTE9-0005hh-Pd
+ for qemu-devel@nongnu.org; Thu, 07 Jan 2021 06:13:13 -0500
+Received: from 4.mo52.mail-out.ovh.net ([178.33.43.201]:35677)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <groug@kaod.org>) id 1kxTE7-0004yW-4x
+ for qemu-devel@nongnu.org; Thu, 07 Jan 2021 06:13:13 -0500
+Received: from mxplan5.mail.ovh.net (unknown [10.109.146.147])
+ by mo52.mail-out.ovh.net (Postfix) with ESMTPS id 6B7E022EA52;
+ Thu,  7 Jan 2021 12:13:06 +0100 (CET)
+Received: from kaod.org (37.59.142.98) by DAG8EX1.mxp5.local (172.16.2.71)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2044.4; Thu, 7 Jan 2021
+ 12:13:05 +0100
+Authentication-Results: garm.ovh; auth=pass
+ (GARM-98R0020269c8d7-5dcd-4b38-bee2-0e3a29a78694,
+ 60F1A555FF7AE05BC39886BDE76A51AB2B051214) smtp.auth=groug@kaod.org
+X-OVh-ClientIp: 82.253.208.248
+Date: Thu, 7 Jan 2021 12:13:04 +0100
+From: Greg Kurz <groug@kaod.org>
+To: BALATON Zoltan <balaton@eik.bme.hu>
+Subject: Re: [PATCH 3/3] sam460ex: Use type cast macro instead of simple cast
+Message-ID: <20210107121304.1db97130@bahia.lan>
+In-Reply-To: <201f883b-c4f2-88f1-24fa-b1759d2c849d@eik.bme.hu>
+References: <cover.1609946641.git.balaton@eik.bme.hu>
+ <8bc87f574759a3e9e9e8707b1e0947c1ee21fa8c.1609946641.git.balaton@eik.bme.hu>
+ <20210107090815.12cc73fd@bahia.lan>
+ <201f883b-c4f2-88f1-24fa-b1759d2c849d@eik.bme.hu>
+X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-References: <20210107101919.80-1-luoyonggang@gmail.com>
- <20210107101919.80-6-luoyonggang@gmail.com>
- <CAJ+F1C+q9e08zX9OqkS4294oCNBAf-Gs7L9AomtYrc7vKyqCEA@mail.gmail.com>
- <7b3d24b7-d301-549d-abc2-613f02c8843e@redhat.com>
-In-Reply-To: <7b3d24b7-d301-549d-abc2-613f02c8843e@redhat.com>
-From: =?UTF-8?B?572X5YuH5YiaKFlvbmdnYW5nIEx1byk=?= <luoyonggang@gmail.com>
-Date: Thu, 7 Jan 2021 02:57:24 -0800
-Message-ID: <CAE2XoE-4QYMnQUJb=KUBH1f9dRQaK5fGr9+BytMGa+ZYgzVdXw@mail.gmail.com>
-Subject: Re: [PATCH v4 5/5] whpx: move whpx_lapic_state from header to c file
-To: Paolo Bonzini <pbonzini@redhat.com>
-Content-Type: multipart/alternative; boundary="000000000000bef42605b84d4e71"
-Received-SPF: pass client-ip=2a00:1450:4864:20::12b;
- envelope-from=luoyonggang@gmail.com; helo=mail-lf1-x12b.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset="US-ASCII"
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [37.59.142.98]
+X-ClientProxiedBy: DAG9EX2.mxp5.local (172.16.2.82) To DAG8EX1.mxp5.local
+ (172.16.2.71)
+X-Ovh-Tracer-GUID: f6733657-fa1e-445b-a37a-5d72b145f0c5
+X-Ovh-Tracer-Id: 17060198340839446822
+X-VR-SPAMSTATE: OK
+X-VR-SPAMSCORE: -100
+X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedujedrvdegvddgvdehucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuqfggjfdpvefjgfevmfevgfenuceurghilhhouhhtmecuhedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhepfffhvffukfgjfhfogggtgfhisehtjeertdertddvnecuhfhrohhmpefirhgvghcumfhurhiiuceoghhrohhugheskhgrohgurdhorhhgqeenucggtffrrghtthgvrhhnpeefuddtieejjeevheekieeltefgleetkeetheettdeifeffvefhffelffdtfeeljeenucfkpheptddrtddrtddrtddpfeejrdehledrudegvddrleeknecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmohguvgepshhmthhpqdhouhhtpdhhvghlohepmhigphhlrghnhedrmhgrihhlrdhovhhhrdhnvghtpdhinhgvtheptddrtddrtddrtddpmhgrihhlfhhrohhmpehgrhhouhhgsehkrghougdrohhrghdprhgtphhtthhopegurghvihgusehgihgsshhonhdrughrohhpsggvrghrrdhiugdrrghu
+Received-SPF: pass client-ip=178.33.43.201; envelope-from=groug@kaod.org;
+ helo=4.mo52.mail-out.ovh.net
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -80,84 +69,110 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: luoyonggang@gmail.com
-Cc: Ed Maste <emaste@freebsd.org>, Sunil Muthuswamy <sunilmut@microsoft.com>,
- =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@gmail.com>,
- QEMU <qemu-devel@nongnu.org>
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ David Gibson <david@gibson.dropbear.id.au>,
+ BALATON Zoltan via <qemu-ppc@nongnu.org>, qemu-devel@nongnu.org,
+ f4bug@amsat.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---000000000000bef42605b84d4e71
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+On Thu, 7 Jan 2021 10:45:26 +0100
+BALATON Zoltan <balaton@eik.bme.hu> wrote:
 
-On Thu, Jan 7, 2021 at 2:55 AM Paolo Bonzini <pbonzini@redhat.com> wrote:
->
-> On 07/01/21 11:28, Marc-Andr=C3=A9 Lureau wrote:
-> > Hi
+> On Thu, 7 Jan 2021, Greg Kurz wrote:
+> > On Wed, 6 Jan 2021 16:24:01 +0100
+> > BALATON Zoltan via <qemu-ppc@nongnu.org> wrote:
 > >
-> > On Thu, Jan 7, 2021 at 2:26 PM Yonggang Luo <luoyonggang@gmail.com
-> > <mailto:luoyonggang@gmail.com>> wrote:
+> >> Use the PCI_BUS type cast macro to convert result of
+> >> qdev_get_child_bus(). Also remove the check for NULL afterwards which
+> >> should not be needed because sysbus_create_simple() uses error_abort
 > >
-> >     This struct only used in whpx-apic.c, there is no need
-> >     expose it in whpx.h.
+> > It seems to me that sysbus_create_simple() doesn't return NULL because
+> > it ends up calling object_new_with_type(). This allocates the object
+> > with either g_malloc() or qemu_memalign(), both of which abort on
+> > failure.
 > >
-> >     Signed-off-by: Yonggang Luo <luoyonggang@gmail.com
-> >     <mailto:luoyonggang@gmail.com>>
+> >> and PCI_BUS macro also checks its argument by default so this
 > >
-> >
-> > Similar patch pending:
-> >
-https://patchew.org/QEMU/20201219090637.1700900-1-pbonzini@redhat.com/20201=
-219090637.1700900-3-pbonzini@redhat.com/
-> > <
-https://patchew.org/QEMU/20201219090637.1700900-1-pbonzini@redhat.com/20201=
-219090637.1700900-3-pbonzini@redhat.com/
->
->
-> This one could still be applied before or after mine, it makes sense.
->
-> Paolo
->
-OK, prefer yours:) I am trying to green the CI,
+> > AFAICT, PCI_BUS() and all other instance type checking macros are
+> > happy with a NULL argument. They simply return NULL in this case.
+> 
+> This wasn't my experience when I've got an error in code and got a NULL 
+> pointer here (on pegasos2 board but same situation). At least with 
+> qom-debug enabled (which I think is on by default unless explicitly 
+> disabled in configure) this will abort if the object is not the right 
+> type.
+> 
 
---
-         =E6=AD=A4=E8=87=B4
-=E7=A4=BC
-=E7=BD=97=E5=8B=87=E5=88=9A
-Yours
-    sincerely,
-Yonggang Luo
+You're right that qom-cast-debug is enabled by default and that it
+causes object_dynamic_cast_assert() to abort on type mismatch, but
+definitely not with a NULL value, as mentioned in this very old
+commit:
 
---000000000000bef42605b84d4e71
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+commit b7f43fe46029d8fd0594cd599fa2599dcce0f553
+Author: Paolo Bonzini <pbonzini@redhat.com>
+Date:   Fri Nov 23 16:56:17 2012 +0100
 
-<div dir=3D"ltr"><br><br>On Thu, Jan 7, 2021 at 2:55 AM Paolo Bonzini &lt;<=
-a href=3D"mailto:pbonzini@redhat.com">pbonzini@redhat.com</a>&gt; wrote:<br=
->&gt;<br>&gt; On 07/01/21 11:28, Marc-Andr=C3=A9 Lureau wrote:<br>&gt; &gt;=
- Hi<br>&gt; &gt;<br>&gt; &gt; On Thu, Jan 7, 2021 at 2:26 PM Yonggang Luo &=
-lt;<a href=3D"mailto:luoyonggang@gmail.com">luoyonggang@gmail.com</a><br>&g=
-t; &gt; &lt;mailto:<a href=3D"mailto:luoyonggang@gmail.com">luoyonggang@gma=
-il.com</a>&gt;&gt; wrote:<br>&gt; &gt;<br>&gt; &gt; =C2=A0 =C2=A0 This stru=
-ct only used in whpx-apic.c, there is no need<br>&gt; &gt; =C2=A0 =C2=A0 ex=
-pose it in whpx.h.<br>&gt; &gt;<br>&gt; &gt; =C2=A0 =C2=A0 Signed-off-by: Y=
-onggang Luo &lt;<a href=3D"mailto:luoyonggang@gmail.com">luoyonggang@gmail.=
-com</a><br>&gt; &gt; =C2=A0 =C2=A0 &lt;mailto:<a href=3D"mailto:luoyonggang=
-@gmail.com">luoyonggang@gmail.com</a>&gt;&gt;<br>&gt; &gt;<br>&gt; &gt;<br>=
-&gt; &gt; Similar patch pending:<br>&gt; &gt; <a href=3D"https://patchew.or=
-g/QEMU/20201219090637.1700900-1-pbonzini@redhat.com/20201219090637.1700900-=
-3-pbonzini@redhat.com/">https://patchew.org/QEMU/20201219090637.1700900-1-p=
-bonzini@redhat.com/20201219090637.1700900-3-pbonzini@redhat.com/</a><br>&gt=
-; &gt; &lt;<a href=3D"https://patchew.org/QEMU/20201219090637.1700900-1-pbo=
-nzini@redhat.com/20201219090637.1700900-3-pbonzini@redhat.com/">https://pat=
-chew.org/QEMU/20201219090637.1700900-1-pbonzini@redhat.com/20201219090637.1=
-700900-3-pbonzini@redhat.com/</a>&gt;<br>&gt;<br>&gt; This one could still =
-be applied before or after mine, it makes sense.<br>&gt;<br>&gt; Paolo<br>&=
-gt;<br>OK, prefer yours:) I am trying to green the CI,=C2=A0<br><br>--<br>=
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=E6=AD=A4=E8=87=B4<br>=E7=A4=BC<br>=E7=BD=
-=97=E5=8B=87=E5=88=9A<br>Yours<br>=C2=A0 =C2=A0 sincerely,<br>Yonggang Luo<=
-/div>
+    qom: dynamic_cast of NULL is always NULL
+    
+    Trying to cast a NULL value will cause a crash.  Returning
+    NULL is also sensible, and it is also what the type-unsafe
+    DO_UPCAST macro does.
+    
+    Reported-by: Markus Armbruster <armbru@redhat.com>
+    Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
+    Signed-off-by: Anthony Liguori <aliguori@us.ibm.com>
 
---000000000000bef42605b84d4e71--
+Maybe this should be documented in the function header in "qom/object.h".
+
+> >> shouldn't fail here.
+> >>
+> >> Signed-off-by: BALATON Zoltan <balaton@eik.bme.hu>
+> >> ---
+> >>  hw/ppc/sam460ex.c | 7 ++-----
+> >>  1 file changed, 2 insertions(+), 5 deletions(-)
+> >>
+> >> diff --git a/hw/ppc/sam460ex.c b/hw/ppc/sam460ex.c
+> >> index 14e6583eb0..cc67e9c39b 100644
+> >> --- a/hw/ppc/sam460ex.c
+> >> +++ b/hw/ppc/sam460ex.c
+> >> @@ -384,11 +384,8 @@ static void sam460ex_init(MachineState *machine)
+> >>      ppc460ex_pcie_init(env);
+> >>      /* All PCI irqs are connected to the same UIC pin (cf. UBoot source) */
+> >>      dev = sysbus_create_simple("ppc440-pcix-host", 0xc0ec00000, uic[1][0]);
+> >> -    pci_bus = (PCIBus *)qdev_get_child_bus(dev, "pci.0");
+> >> -    if (!pci_bus) {
+> >> -        error_report("couldn't create PCI controller!");
+> >> -        exit(1);
+> >> -    }
+> >> +    pci_bus = PCI_BUS(qdev_get_child_bus(dev, "pci.0"));
+> >> +
+> >
+> > But PCI_BUS() is being passed qdev_get_child_bus(dev, "pci.0"), not
+> > dev... so the real question here is whether this can return NULL
+> > or not. And if this happens, is this a (1) user or (2) programming
+> > error ?
+> >
+> > If (1) then the "if (!pci_bus) { }" should be kept. If (2) then
+> > it should be converted to an assert().
+> 
+> I think it can only fail if the ppc440-pcix-host type is changed to not 
+> have a pci.0 child any more which is a programming error that's very 
+> unlikely to happen but if needed an assert could be added but I don't 
+> think that's really necessary. The error_report was definitely not needed 
+> as it's not a user error in any case.
+> 
+
+I was also thinking about a programming error. Whether to add an assert()
+or not is up to you, you're the maintainer for this code :)
+
+> Regards,
+> BALATON Zoltan
+> 
+> >>      memory_region_init_alias(isa, NULL, "isa_mmio", get_system_io(),
+> >>                               0, 0x10000);
+> >>      memory_region_add_subregion(get_system_memory(), 0xc08000000, isa);
+> >
+> >
+
 
