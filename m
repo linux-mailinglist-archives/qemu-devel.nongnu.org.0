@@ -2,75 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 789D52ED80D
-	for <lists+qemu-devel@lfdr.de>; Thu,  7 Jan 2021 20:37:49 +0100 (CET)
-Received: from localhost ([::1]:38680 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 42E852EE640
+	for <lists+qemu-devel@lfdr.de>; Thu,  7 Jan 2021 20:39:19 +0100 (CET)
+Received: from localhost ([::1]:41834 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kxb6S-0006JM-BU
-	for lists+qemu-devel@lfdr.de; Thu, 07 Jan 2021 14:37:48 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38872)
+	id 1kxb7u-0007gy-9l
+	for lists+qemu-devel@lfdr.de; Thu, 07 Jan 2021 14:39:18 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39108)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <r.bolshakov@yadro.com>)
- id 1kxb4s-0005fT-LS; Thu, 07 Jan 2021 14:36:10 -0500
-Received: from mta-02.yadro.com ([89.207.88.252]:57106 helo=mta-01.yadro.com)
+ (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
+ id 1kxb6f-0006sT-Lr; Thu, 07 Jan 2021 14:38:01 -0500
+Received: from zero.eik.bme.hu ([2001:738:2001:2001::2001]:16516)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <r.bolshakov@yadro.com>)
- id 1kxb4p-0003cI-Ee; Thu, 07 Jan 2021 14:36:10 -0500
-Received: from localhost (unknown [127.0.0.1])
- by mta-01.yadro.com (Postfix) with ESMTP id 0C95541268;
- Thu,  7 Jan 2021 19:36:05 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=yadro.com; h=
- in-reply-to:content-disposition:content-type:content-type
- :mime-version:references:message-id:subject:subject:from:from
- :date:date:received:received:received; s=mta-01; t=1610048163;
- x=1611862564; bh=7Jc9pn7dX6TYLIB0mXaziEfQDZjtMQxeIOvPQWYb+GY=; b=
- Mtp+2V+AwVZGdoemfyLLXUd3Ltl7B4DxNHQcqp05NeA5skvY7tww1w9YlxAYOb7o
- ZTbI097m2dunfmbjG69fTIxRN/zywP4+I1XRthwg9mLumqJrUiDoTZSM2FdiQfx8
- tMhORYmDBe/9bETOY5ZDaLesc9QjyvuBv9av3pXW3K8=
-X-Virus-Scanned: amavisd-new at yadro.com
-Received: from mta-01.yadro.com ([127.0.0.1])
- by localhost (mta-01.yadro.com [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id 5E6AmBYGKIIN; Thu,  7 Jan 2021 22:36:03 +0300 (MSK)
-Received: from T-EXCH-03.corp.yadro.com (t-exch-03.corp.yadro.com
- [172.17.100.103])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-SHA384 (256/256 bits))
- (No client certificate requested)
- by mta-01.yadro.com (Postfix) with ESMTPS id 7D045404AC;
- Thu,  7 Jan 2021 22:36:03 +0300 (MSK)
-Received: from localhost (172.17.204.212) by T-EXCH-03.corp.yadro.com
- (172.17.100.103) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384_P384) id 15.1.669.32; Thu, 7 Jan
- 2021 22:36:03 +0300
-Date: Thu, 7 Jan 2021 22:36:20 +0300
-From: Roman Bolshakov <r.bolshakov@yadro.com>
-To: Paolo Bonzini <pbonzini@redhat.com>
-Subject: Re: [PATCH] meson: Propagate gnutls dependency
-Message-ID: <X/ditOsBmc4A1lJn@SPB-NB-133.local>
-References: <CAFEAcA-X6DSKeyS4bbNe3tu-QFGxc1VM+Eoz_UMk-8jb--zq9g@mail.gmail.com>
- <ea49da2a-47f9-8ffe-8dbc-1974f34cb6f1@redhat.com>
- <X/NPRqMkdM0/IxTh@SPB-NB-133.local>
- <af0194cd-cdcc-44a3-f023-80d73d96c9e8@redhat.com>
- <X/R5xtvMn4PcSkTf@SPB-NB-133.local>
- <690581da-9258-41e5-14cb-bb1b162e8993@redhat.com>
- <X/cvK5Xkh6+1Qn1K@SPB-NB-133.local>
- <86bebbbf-ff0f-263d-96a2-4e6df9f85776@redhat.com>
- <X/dQb7xj/RYiT00R@SPB-NB-133.local>
- <74d3e1a4-3f0e-f3bb-6079-03043530bfa5@redhat.com>
+ (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
+ id 1kxb6c-0004Ca-EJ; Thu, 07 Jan 2021 14:38:01 -0500
+Received: from zero.eik.bme.hu (blah.eik.bme.hu [152.66.115.182])
+ by localhost (Postfix) with SMTP id 64A3C7470F7;
+ Thu,  7 Jan 2021 20:37:52 +0100 (CET)
+Received: by zero.eik.bme.hu (Postfix, from userid 432)
+ id 1B4B47470F4; Thu,  7 Jan 2021 20:37:52 +0100 (CET)
+Received: from localhost (localhost [127.0.0.1])
+ by zero.eik.bme.hu (Postfix) with ESMTP id 196BC7470DF;
+ Thu,  7 Jan 2021 20:37:52 +0100 (CET)
+Date: Thu, 7 Jan 2021 20:37:52 +0100 (CET)
+From: BALATON Zoltan <balaton@eik.bme.hu>
+To: Greg Kurz <groug@kaod.org>
+Subject: Re: [PATCH 3/3] sam460ex: Use type cast macro instead of simple cast
+In-Reply-To: <20210107121304.1db97130@bahia.lan>
+Message-ID: <9060766a-f159-c7c3-f7e-c2b5f2d41e24@eik.bme.hu>
+References: <cover.1609946641.git.balaton@eik.bme.hu>
+ <8bc87f574759a3e9e9e8707b1e0947c1ee21fa8c.1609946641.git.balaton@eik.bme.hu>
+ <20210107090815.12cc73fd@bahia.lan>
+ <201f883b-c4f2-88f1-24fa-b1759d2c849d@eik.bme.hu>
+ <20210107121304.1db97130@bahia.lan>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="us-ascii"
-Content-Disposition: inline
-In-Reply-To: <74d3e1a4-3f0e-f3bb-6079-03043530bfa5@redhat.com>
-X-Originating-IP: [172.17.204.212]
-X-ClientProxiedBy: T-EXCH-01.corp.yadro.com (172.17.10.101) To
- T-EXCH-03.corp.yadro.com (172.17.100.103)
-Received-SPF: pass client-ip=89.207.88.252; envelope-from=r.bolshakov@yadro.com;
- helo=mta-01.yadro.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
+Content-Type: text/plain; charset=US-ASCII; format=flowed
+X-Spam-Probability: 8%
+Received-SPF: pass client-ip=2001:738:2001:2001::2001;
+ envelope-from=balaton@eik.bme.hu; helo=zero.eik.bme.hu
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -84,52 +58,113 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, Peter Maydell <peter.maydell@linaro.org>,
- Daniel =?iso-8859-1?Q?P=2E_Berrang=E9?= <berrange@redhat.com>,
- "open list:Block
- layer core" <qemu-block@nongnu.org>, QEMU Developers <qemu-devel@nongnu.org>,
- Max Reitz <mreitz@redhat.com>, Gerd Hoffmann <kraxel@redhat.com>
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ David Gibson <david@gibson.dropbear.id.au>,
+ BALATON Zoltan via <qemu-ppc@nongnu.org>, qemu-devel@nongnu.org,
+ f4bug@amsat.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, Jan 07, 2021 at 07:22:06PM +0100, Paolo Bonzini wrote:
-> On 07/01/21 19:18, Roman Bolshakov wrote:
-> > 
-> > > The real issue is that Meson's implementation of link_whole for
-> > > library-in-library makes sense for one use case (convenience library that is
-> > > linked into another convenience library) but not for another (grouping code
-> > > for subsystems).  I cannot blame them for this because link_with is a more
-> > > common case for the latter; OTOH QEMU is using link_whole a lot in order to
-> > > support the *_init() construct.
-> > > 
-> > > I really think the correct fix is for Meson to use objects instead of
-> > > archives for link_whole, similar to how QEMU Makefiles used to do it. This
-> > > would also remove the need for the special .fa suffix, so it would be an
-> > > improvement all around.
-> > > 
-> > Does it mean that we need a kind of object target in meson? Do you think
-> > if this interface would work?
-> > 
-> > crypto_objs = object_library(..., dependencies: public_deps + [aninternaldep])
-> > crypto = declare_dependency(link_with: crypto_objs, dependencies: public_deps)
-> 
-> No I think that Meson should simply explode link_whole libraries to their
-> constituent objects.  This way duplicates are avoided.
-> 
+On Thu, 7 Jan 2021, Greg Kurz wrote:
+> On Thu, 7 Jan 2021 10:45:26 +0100
+> BALATON Zoltan <balaton@eik.bme.hu> wrote:
+>
+>> On Thu, 7 Jan 2021, Greg Kurz wrote:
+>>> On Wed, 6 Jan 2021 16:24:01 +0100
+>>> BALATON Zoltan via <qemu-ppc@nongnu.org> wrote:
+>>>
+>>>> Use the PCI_BUS type cast macro to convert result of
+>>>> qdev_get_child_bus(). Also remove the check for NULL afterwards which
+>>>> should not be needed because sysbus_create_simple() uses error_abort
+>>>
+>>> It seems to me that sysbus_create_simple() doesn't return NULL because
+>>> it ends up calling object_new_with_type(). This allocates the object
+>>> with either g_malloc() or qemu_memalign(), both of which abort on
+>>> failure.
+>>>
+>>>> and PCI_BUS macro also checks its argument by default so this
+>>>
+>>> AFAICT, PCI_BUS() and all other instance type checking macros are
+>>> happy with a NULL argument. They simply return NULL in this case.
+>>
+>> This wasn't my experience when I've got an error in code and got a NULL
+>> pointer here (on pegasos2 board but same situation). At least with
+>> qom-debug enabled (which I think is on by default unless explicitly
+>> disabled in configure) this will abort if the object is not the right
+>> type.
+>>
+>
+> You're right that qom-cast-debug is enabled by default and that it
+> causes object_dynamic_cast_assert() to abort on type mismatch, but
+> definitely not with a NULL value, as mentioned in this very old
+> commit:
 
-Ok. I've looked through related changes in meson and it flattens object
-files implicitly for link_with/link_whole parameters of static_library:
+Indeed, PCI_BUS(NULL) does not abort just returns NULL. I think I 
+remembered wrong and had dev==NULL so qdev_get_child_bus() was aborting.
 
-  https://github.com/mesonbuild/meson/pull/6030/files
+> commit b7f43fe46029d8fd0594cd599fa2599dcce0f553
+> Author: Paolo Bonzini <pbonzini@redhat.com>
+> Date:   Fri Nov 23 16:56:17 2012 +0100
+>
+>    qom: dynamic_cast of NULL is always NULL
+>
+>    Trying to cast a NULL value will cause a crash.  Returning
+>    NULL is also sensible, and it is also what the type-unsafe
+>    DO_UPCAST macro does.
+>
+>    Reported-by: Markus Armbruster <armbru@redhat.com>
+>    Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
+>    Signed-off-by: Anthony Liguori <aliguori@us.ibm.com>
+>
+> Maybe this should be documented in the function header in "qom/object.h".
+>
+>>>> shouldn't fail here.
+>>>>
+>>>> Signed-off-by: BALATON Zoltan <balaton@eik.bme.hu>
+>>>> ---
+>>>>  hw/ppc/sam460ex.c | 7 ++-----
+>>>>  1 file changed, 2 insertions(+), 5 deletions(-)
+>>>>
+>>>> diff --git a/hw/ppc/sam460ex.c b/hw/ppc/sam460ex.c
+>>>> index 14e6583eb0..cc67e9c39b 100644
+>>>> --- a/hw/ppc/sam460ex.c
+>>>> +++ b/hw/ppc/sam460ex.c
+>>>> @@ -384,11 +384,8 @@ static void sam460ex_init(MachineState *machine)
+>>>>      ppc460ex_pcie_init(env);
+>>>>      /* All PCI irqs are connected to the same UIC pin (cf. UBoot source) */
+>>>>      dev = sysbus_create_simple("ppc440-pcix-host", 0xc0ec00000, uic[1][0]);
+>>>> -    pci_bus = (PCIBus *)qdev_get_child_bus(dev, "pci.0");
+>>>> -    if (!pci_bus) {
+>>>> -        error_report("couldn't create PCI controller!");
+>>>> -        exit(1);
+>>>> -    }
+>>>> +    pci_bus = PCI_BUS(qdev_get_child_bus(dev, "pci.0"));
+>>>> +
+>>>
+>>> But PCI_BUS() is being passed qdev_get_child_bus(dev, "pci.0"), not
+>>> dev... so the real question here is whether this can return NULL
+>>> or not. And if this happens, is this a (1) user or (2) programming
+>>> error ?
+>>>
+>>> If (1) then the "if (!pci_bus) { }" should be kept. If (2) then
+>>> it should be converted to an assert().
+>>
+>> I think it can only fail if the ppc440-pcix-host type is changed to not
+>> have a pci.0 child any more which is a programming error that's very
+>> unlikely to happen but if needed an assert could be added but I don't
+>> think that's really necessary. The error_report was definitely not needed
+>> as it's not a user error in any case.
+>>
+>
+> I was also thinking about a programming error. Whether to add an assert()
+> or not is up to you, you're the maintainer for this code :)
 
-But qemu adds dependencies to source set and populates dependencies
-parameter of static_library and declare_dependency and we get duplicate
-symbols:
-
-  https://lists.gnu.org/archive/html/qemu-devel/2021-01/msg00411.html
-
-Perhaps it's a bug then.
+In that case I think I keep it simple and don't add an assert because I 
+think this error is highly unlikely (we create a pci host object that 
+should have a pci bus child) and it would crash anyway shortly when trying 
+to add devices so an additional assert here does not seem to help much 
+catching a bug.
 
 Regards,
-Roman
+BALATON Zoltan
 
