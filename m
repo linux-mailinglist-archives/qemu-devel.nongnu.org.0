@@ -2,70 +2,93 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F2AAD2ED3AD
-	for <lists+qemu-devel@lfdr.de>; Thu,  7 Jan 2021 16:43:37 +0100 (CET)
-Received: from localhost ([::1]:55946 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 42BBF2ED3C6
+	for <lists+qemu-devel@lfdr.de>; Thu,  7 Jan 2021 16:52:24 +0100 (CET)
+Received: from localhost ([::1]:35884 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kxXRm-0004GB-Uu
-	for lists+qemu-devel@lfdr.de; Thu, 07 Jan 2021 10:43:36 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48142)
+	id 1kxXaB-0008FU-2g
+	for lists+qemu-devel@lfdr.de; Thu, 07 Jan 2021 10:52:15 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50934)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1kxXQW-0003IZ-U1
- for qemu-devel@nongnu.org; Thu, 07 Jan 2021 10:42:16 -0500
-Received: from mail-ej1-x629.google.com ([2a00:1450:4864:20::629]:42495)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1kxXQV-00084S-Aj
- for qemu-devel@nongnu.org; Thu, 07 Jan 2021 10:42:16 -0500
-Received: by mail-ej1-x629.google.com with SMTP id d17so10248011ejy.9
- for <qemu-devel@nongnu.org>; Thu, 07 Jan 2021 07:42:14 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=Q1+BB7EAgsUKpRCVdjDUmj5z8BxSmmmAA8Vqd9CXW88=;
- b=Stv/xJyV/DbuHg5VjJUh8xPIgsTsIFKh9gcDtHpj63Nc19Z8N4Dj7GHmLZCNbgUf+z
- 9Fu8ea3f256IRCx/dsricEqIWKd5jVxJYMtFhxgn7JJ18nTtqYu46gz6Ah6IBfhd019r
- /ImUuekYEAQrd/jTkFRrY+1JdFYpKkst6h4AUWpO8NvVse7zykdriuXdNND4iFa3RPVK
- 7L19kBH1OLkFUEmC90+F0Yh8p4xc2lLiFWruXMnvPEJ8RKWNAXNKEBEU9nRTRmtNry0S
- Q7kJ/R2oKJCb7Bta3E/QVdCH5KehACRaB9c9FpIjPfdxPe7KaDSm86ATySWDubkZydDc
- T1rA==
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1kxXYo-0007Ih-Pg
+ for qemu-devel@nongnu.org; Thu, 07 Jan 2021 10:50:50 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:52370)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1kxXYk-0002kx-3d
+ for qemu-devel@nongnu.org; Thu, 07 Jan 2021 10:50:49 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1610034643;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=7Q2gmz1B1JwXbviPYUfGrPQYBN07BAtAUdjrqSGo/ok=;
+ b=FUzYDozU/fsw+rysjaKRsAOOjCdOyGjZEkeWDuEdVPIcQKPu6mQKgp2beBAqoRUtYmxVUP
+ 9oyXaauzETkhyAQDGjJwDG7SII2nkzLc3DvCUmejKzb64iDf0z08BxV0N79ivz72tDNuGL
+ m4qPg3G5q1lD/e5iTGyHqrpe0VqDfmQ=
+Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
+ [209.85.221.70]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-5-gm2n-qzNM5mtPyF6wn4AnQ-1; Thu, 07 Jan 2021 10:50:39 -0500
+X-MC-Unique: gm2n-qzNM5mtPyF6wn4AnQ-1
+Received: by mail-wr1-f70.google.com with SMTP id m20so2820826wrh.2
+ for <qemu-devel@nongnu.org>; Thu, 07 Jan 2021 07:50:39 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=Q1+BB7EAgsUKpRCVdjDUmj5z8BxSmmmAA8Vqd9CXW88=;
- b=qECyHIuPpoLHr1pspcTtRbAWdadwBABDIhs4e07QIwkmwrHaQo+td2+gbYjQwgACYO
- ZTUlVAiojKXStktbLWQrdPWHh5QDxg9uBhiqNaqZc5dB5ywsiKTHLOX9hs3u0VyHPUso
- 5JFynfupUr6ThU09+c+aC+4m60ECAQltmhlltgZa3fD5fx8LaW8o2VDP/RH8abI4N27e
- qFAeHZeB53EuFebnyuzFpNmn0qH/zSyEwFGeODAEA1obW99rAp8Mzz8lHnVInrrRgchH
- ee+9ohq4tGNXRGyG5flrkPAFgyVkb5krgtmivJNMItboWqZEcNcI2NlYqX73B4uuk186
- moWA==
-X-Gm-Message-State: AOAM533zB07xIWT83LcwyGp3pJyDuSoASnUBqS1zsRmGtQmPFGEyhdxk
- FlTMDBsK8cIcMvXyxZOKjeDIsCceE9w5TmLnPWsDwA==
-X-Google-Smtp-Source: ABdhPJyXjr7wp5N+iPTQnYX8QQTKLncbRliX5Ji6hyrv2qteFfXVrIPnO3kprqrFbFBoeeSgVSIF7vLDRd9NlPZEBYs=
-X-Received: by 2002:a17:906:e250:: with SMTP id
- gq16mr6495694ejb.382.1610034133227; 
- Thu, 07 Jan 2021 07:42:13 -0800 (PST)
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=7Q2gmz1B1JwXbviPYUfGrPQYBN07BAtAUdjrqSGo/ok=;
+ b=gh8KwyVzstwlx4DDCItpJjWAj8jNsX0lcOImlOnacln2+cUcUHSDbTuz1DvoMZgJip
+ 1tuJD84hOFeFS2rExaC2Fnzr9KLQBq+se9f+pXWAoaT+ThCiil3CZjPxnIGttNnU8+Ho
+ oxSGnokm4qdAiPOOz99DeP7K8eEuOiJBkt1S4j8oPMzbxAN0xoRFEFv+7+HuhYsFm4CC
+ E8f1kck5RB1xt/9tuLrJY/fAqszun+0M3vIEruI2xP437T4o18+82gpZFChRqQ7TaRkU
+ uPSsOGgqEKiiih24s19wT26Q+Wr5Yx+PVGzcOzG8kVlmgCRr6x/qaEjdgm+YhfRnNIDv
+ Wj4Q==
+X-Gm-Message-State: AOAM531+eR0kCBKwQRzvwxyVUCSVFNGnKF4dBt3SChzRROYunSBEs5s7
+ zu6vyB/iYGcQ6KCYTxNw6svAgf0ILXkz/9oeWt9pw8tEgqHPnMFZ7S3UHyMRQJGaPHbhHVy13P/
+ OmIvB3mYUtxXhi9A=
+X-Received: by 2002:a1c:de41:: with SMTP id v62mr8705088wmg.135.1610034638344; 
+ Thu, 07 Jan 2021 07:50:38 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJwQg7LvkjTs1EEqU7I/EjdapDqBfrCKVZ1WLFYWAJ0oA87pGeG7Yf9fYylKkYQ/pNy0p7DY7Q==
+X-Received: by 2002:a1c:de41:: with SMTP id v62mr8705076wmg.135.1610034638169; 
+ Thu, 07 Jan 2021 07:50:38 -0800 (PST)
+Received: from ?IPv6:2001:b07:6468:f312:c8dd:75d4:99ab:290a?
+ ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
+ by smtp.gmail.com with ESMTPSA id c6sm9274503wrh.7.2021.01.07.07.50.36
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 07 Jan 2021 07:50:37 -0800 (PST)
+Subject: Re: [PATCH 1/8] build-system: clean up TCG/TCI configury
+To: Peter Maydell <peter.maydell@linaro.org>
+References: <20210107140039.467969-1-pbonzini@redhat.com>
+ <20210107140039.467969-2-pbonzini@redhat.com>
+ <CAFEAcA9yyUUmd+hj6kgAV8KWtCC41Q55JRfE0q1zTaDaOofgOQ@mail.gmail.com>
+From: Paolo Bonzini <pbonzini@redhat.com>
+Message-ID: <a5cd4c43-2f12-2dbf-8db7-21acc7abc73d@redhat.com>
+Date: Thu, 7 Jan 2021 16:50:36 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.5.0
 MIME-Version: 1.0
-References: <20201208180118.157911-1-richard.henderson@linaro.org>
- <20201208180118.157911-3-richard.henderson@linaro.org>
-In-Reply-To: <20201208180118.157911-3-richard.henderson@linaro.org>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Thu, 7 Jan 2021 15:42:02 +0000
-Message-ID: <CAFEAcA8C5hmyTWq1VYfLueaVbw99=D-AgW746eOuQAOMc_tk4A@mail.gmail.com>
-Subject: Re: [PATCH v2 02/24] target/arm: Add ALIGN_MEM to TBFLAG_ANY
-To: Richard Henderson <richard.henderson@linaro.org>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2a00:1450:4864:20::629;
- envelope-from=peter.maydell@linaro.org; helo=mail-ej1-x629.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+In-Reply-To: <CAFEAcA9yyUUmd+hj6kgAV8KWtCC41Q55JRfE0q1zTaDaOofgOQ@mail.gmail.com>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=pbonzini@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=pbonzini@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -32
+X-Spam_score: -3.3
+X-Spam_bar: ---
+X-Spam_report: (-3.3 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.246,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.267, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -78,64 +101,29 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-arm <qemu-arm@nongnu.org>, QEMU Developers <qemu-devel@nongnu.org>
+Cc: =?UTF-8?Q?Marc-Andr=c3=a9_Lureau?= <marcandre.lureau@redhat.com>,
+ "Daniel P. Berrange" <berrange@redhat.com>,
+ =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
+ QEMU Developers <qemu-devel@nongnu.org>, Stefan Hajnoczi <stefanha@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, 8 Dec 2020 at 18:01, Richard Henderson
-<richard.henderson@linaro.org> wrote:
->
-> Use this to signal when memory access alignment is required.
-> This value comes from the CCR register for M-profile, and
-> from the SCTLR register for A-profile.
->
-> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
-> ---
->  target/arm/cpu.h       | 20 +++++++++++---------
->  target/arm/translate.h |  2 ++
->  target/arm/helper.c    | 19 +++++++++++++++++--
->  target/arm/translate.c |  7 +++----
->  4 files changed, 33 insertions(+), 15 deletions(-)
->
-> diff --git a/target/arm/cpu.h b/target/arm/cpu.h
-> index e5514c8286..e074055a94 100644
-> --- a/target/arm/cpu.h
-> +++ b/target/arm/cpu.h
-> @@ -3220,15 +3220,15 @@ typedef ARMCPU ArchCPU;
->   * We put flags which are shared between 32 and 64 bit mode at the top
->   * of the word, and flags which apply to only one mode at the bottom.
->   *
-> - *  31          20    18    14          9              0
-> - * +--------------+-----+-----+----------+--------------+
-> - * |              |     |   TBFLAG_A32   |              |
-> - * |              |     +-----+----------+  TBFLAG_AM32 |
-> - * |  TBFLAG_ANY  |           |TBFLAG_M32|              |
-> - * |              +-----------+----------+--------------|
-> - * |              |            TBFLAG_A64               |
-> - * +--------------+-------------------------------------+
-> - *  31          20                                     0
-> + *  31          19  18    14          9              0
-> + * +--------------+---+-----+----------+--------------+
-> + * |              |   |   TBFLAG_A32   |              |
-> + * |              |   +-----+----------+  TBFLAG_AM32 |
-> + * |  TBFLAG_ANY  |         |TBFLAG_M32|              |
-> + * |              +---------+----------+--------------|
-> + * |              |          TBFLAG_A64               |
-> + * +--------------+-----------------------------------+
-> + *  31          19                                   0
->   *
->   * Unless otherwise noted, these bits are cached in env->hflags.
->   */
-> @@ -3241,6 +3241,8 @@ FIELD(TBFLAG_ANY, MMUIDX, 24, 4)
->  FIELD(TBFLAG_ANY, FPEXC_EL, 22, 2)
->  /* For A-profile only, target EL for debug exceptions.  */
->  FIELD(TBFLAG_ANY, DEBUG_TARGET_EL, 20, 2)
-> +/* Memory operations require alignment: SCTLR_ELx.A or CCR.UNALIGN_TRP */
-> +FIELD(TBFLAG_ANY, ALIGN_MEM, 19, 1)
+On 07/01/21 16:01, Peter Maydell wrote:
+> On Thu, 7 Jan 2021 at 14:03, Paolo Bonzini <pbonzini@redhat.com> wrote:
+>>
+>> Make CONFIG_TCG_INTERPRETER a Meson option, and enable TCI (though with
+>> a warning) if the host CPU is unsupported, making it more similar to
+>> other --enable-* options.
+> 
+> The current behaviour is kind of deliberate. Using the TCG
+> interpreter is a terrible idea and think it's better if we
+> don't let users end up using it without realising that they have.
+> (Personally I would vote to deprecate-and-delete TCI, and also
+> to just have configure error out on unknown host CPU architectures.)
 
-This is trying to use the same bit as TBFLAG_A64 MTE0_ACTIVE...
-We might have to finally start in on using bits in cs_base.
+Fair enough, I can change this back of course.  The missing targets are 
+parisc, ia64 and sh4 I guess.
 
-thanks
--- PMM
+Paolo
+
 
