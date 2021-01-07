@@ -2,46 +2,46 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 613772ED565
-	for <lists+qemu-devel@lfdr.de>; Thu,  7 Jan 2021 18:22:00 +0100 (CET)
-Received: from localhost ([::1]:43562 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8B2172ED554
+	for <lists+qemu-devel@lfdr.de>; Thu,  7 Jan 2021 18:19:45 +0100 (CET)
+Received: from localhost ([::1]:38446 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kxYz1-0000fF-F8
-	for lists+qemu-devel@lfdr.de; Thu, 07 Jan 2021 12:21:59 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48566)
+	id 1kxYwq-0006pb-KU
+	for lists+qemu-devel@lfdr.de; Thu, 07 Jan 2021 12:19:44 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48370)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <keithp@vr.keithp.com>)
- id 1kxYrl-0001FQ-7Q; Thu, 07 Jan 2021 12:14:30 -0500
-Received: from home.keithp.com ([63.227.221.253]:55606 helo=elaine.keithp.com)
+ id 1kxYrL-0000qa-HK; Thu, 07 Jan 2021 12:14:03 -0500
+Received: from home.keithp.com ([63.227.221.253]:55580 helo=elaine.keithp.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <keithp@vr.keithp.com>)
- id 1kxYrh-0001kr-SK; Thu, 07 Jan 2021 12:14:28 -0500
+ id 1kxYrG-0001cb-6h; Thu, 07 Jan 2021 12:14:03 -0500
 Received: from localhost (localhost [127.0.0.1])
- by elaine.keithp.com (Postfix) with ESMTP id 551883F2E362;
+ by elaine.keithp.com (Postfix) with ESMTP id 5F4A73F2E377;
  Thu,  7 Jan 2021 09:07:28 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=keithp.com; s=mail;
- t=1610039248; bh=AZlHtW8kz5BBCXUeA7PKuNpaggryBx9EMe68Qb8hox4=;
+ t=1610039248; bh=ao8BkiJUDNltJDG+znPk84V3JVHLPOPySPB5Z6oOHPE=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=DwP/dbhg3dAlEUyV+3sw+2KdeCkU/aONlAcAmKA+XTuIbtQsSUKMopl3nlq188Yi4
- 7884Peo586IqcTjmh5cPTAt+npJAOXs78eyMlLYf9S93q+5+eHJGXa8WNFGSoiuQUX
- f8kGVRYrb7ue3Gy8PbHODrv8XA5fZkv+POXxeJWYrTxSUUG+ZbcaUj+f8/cm76fLTX
- KXb2MBJ7lsRniBgIlGkVrOtN6wCAu3fmEf4aG+cxDYjGLYcRzVCY9kseVUpMMgKcCt
- 53dpm7QLkmcoo2cttnMSQMDco/IkCPyWvSU9T7WR+Gz8WIqzwzhyZ37JSiSWQYtSdm
- 0B+JJqLZ/8QeA==
+ b=qln/jqfqzdkN5UkA4Tazx5hFW9ILpQ3FiHixTYXWoPgicwLoX60GNyr9/yTephVEp
+ X5sL1Ggkbk1YnY7o2g0r8qX1F58bdCTKENW4nYxpnjgGziR6yWpXQFJjyuGqnlnDW1
+ kGjqBZQtciu9s8Y3vnsetu0MBlN/lu9Ljg5Tgjw0aooyuVdOl6HbSTdO3dQ1SW/aGi
+ 0x1/FL4upVKNzLlIWgui3hown/sZwxi5w8tPvwl1eM5P+czxFdXkY1HUeTBG8dDthm
+ 0eLQxpqd7Sb+vntjZYdGxMM3CVBqzhJ+pnRGWp0L5ti3tm0WppbUERh7xP+q98/ne7
+ J1MgTICQ+Dkdg==
 X-Virus-Scanned: Debian amavisd-new at keithp.com
 Received: from elaine.keithp.com ([127.0.0.1])
  by localhost (elaine.keithp.com [127.0.0.1]) (amavisd-new, port 10024)
- with LMTP id GBwq9C6zHZ0j; Thu,  7 Jan 2021 09:07:28 -0800 (PST)
+ with LMTP id XOUfMGZHfuGL; Thu,  7 Jan 2021 09:07:28 -0800 (PST)
 Received: from vr.keithp.com (vr.keithp.com [10.0.0.39])
- by elaine.keithp.com (Postfix) with ESMTP id 5560E3F2E39D;
+ by elaine.keithp.com (Postfix) with ESMTP id 49C3F3F2E398;
  Thu,  7 Jan 2021 09:07:24 -0800 (PST)
 Received: by vr.keithp.com (Postfix, from userid 1000)
- id 4842D742C81; Thu,  7 Jan 2021 09:07:24 -0800 (PST)
+ id 3DF96742C6B; Thu,  7 Jan 2021 09:07:24 -0800 (PST)
 To: qemu-devel@nongnu.org
-Subject: [PATCH 8/9] semihosting: Implement SYS_TMPNAM
-Date: Thu,  7 Jan 2021 09:07:16 -0800
-Message-Id: <20210107170717.2098982-9-keithp@keithp.com>
+Subject: [PATCH 9/9] semihosting: Implement SYS_ISERROR
+Date: Thu,  7 Jan 2021 09:07:17 -0800
+Message-Id: <20210107170717.2098982-10-keithp@keithp.com>
 X-Mailer: git-send-email 2.29.2
 In-Reply-To: <20210107170717.2098982-1-keithp@keithp.com>
 References: <20210107170717.2098982-1-keithp@keithp.com>
@@ -82,50 +82,33 @@ From: Keith Packard via <qemu-devel@nongnu.org>
 Part of Semihosting for AArch32 and AArch64 Release 2.0
 
 Signed-off-by: Keith Packard <keithp@keithp.com>
-Message-Id: <20201214200713.3886611-9-keithp@keithp.com>
+Message-Id: <20201214200713.3886611-10-keithp@keithp.com>
 ---
- hw/semihosting/common-semi.c | 21 +++++++++++++++++++--
- 1 file changed, 19 insertions(+), 2 deletions(-)
+ hw/semihosting/common-semi.c | 4 ++++
+ 1 file changed, 4 insertions(+)
 
 diff --git a/hw/semihosting/common-semi.c b/hw/semihosting/common-semi.c
-index b1368d945c..b0648c3812 100644
+index b0648c3812..abc15bf219 100644
 --- a/hw/semihosting/common-semi.c
 +++ b/hw/semihosting/common-semi.c
-@@ -835,6 +835,7 @@ target_ulong do_common_semihosting(CPUState *cs)
-     CPUArchState *env = cs->env_ptr;
-     target_ulong args;
-     target_ulong arg0, arg1, arg2, arg3;
-+    target_ulong ul_ret;
-     char * s;
-     int nr;
-     uint32_t ret;
-@@ -998,8 +999,24 @@ target_ulong do_common_semihosting(CPUState *cs)
- 
-         return guestfd_fns[gf->type].flenfn(cs, gf);
-     case TARGET_SYS_TMPNAM:
--        qemu_log_mask(LOG_UNIMP, "%s: SYS_TMPNAM not implemented", __func__);
--        return -1;
+@@ -59,6 +59,7 @@
+ #define TARGET_SYS_WRITE       0x05
+ #define TARGET_SYS_READ        0x06
+ #define TARGET_SYS_READC       0x07
++#define TARGET_SYS_ISERROR     0x08
+ #define TARGET_SYS_ISTTY       0x09
+ #define TARGET_SYS_SEEK        0x0a
+ #define TARGET_SYS_FLEN        0x0c
+@@ -967,6 +968,9 @@ target_ulong do_common_semihosting(CPUState *cs)
+         return guestfd_fns[gf->type].readfn(cs, gf, arg1, len);
+     case TARGET_SYS_READC:
+         return qemu_semihosting_console_inc(cs->env_ptr);
++    case TARGET_SYS_ISERROR:
 +        GET_ARG(0);
-+        GET_ARG(1);
-+        GET_ARG(2);
-+        if (asprintf(&s, "/tmp/qemu-%x%02x", getpid(),
-+                     (int) (arg1 & 0xff)) < 0) {
-+            return -1;
-+        }
-+        ul_ret = (target_ulong) -1;
-+
-+        /* Make sure there's enough space in the buffer */
-+        if (strlen(s) < arg2) {
-+            char *output = lock_user(VERIFY_WRITE, arg0, arg2, 0);
-+            strcpy(output, s);
-+            unlock_user(output, arg0, arg2);
-+            ul_ret = 0;
-+        }
-+        free(s);
-+        return ul_ret;
-     case TARGET_SYS_REMOVE:
++        return (target_long) arg0 < 0 ? 1 : 0;
+     case TARGET_SYS_ISTTY:
          GET_ARG(0);
-         GET_ARG(1);
+ 
 -- 
 2.29.2
 
