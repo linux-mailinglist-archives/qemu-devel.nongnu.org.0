@@ -2,50 +2,50 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0169E2ED0F2
-	for <lists+qemu-devel@lfdr.de>; Thu,  7 Jan 2021 14:41:26 +0100 (CET)
-Received: from localhost ([::1]:54756 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 35C7E2ED0EF
+	for <lists+qemu-devel@lfdr.de>; Thu,  7 Jan 2021 14:39:45 +0100 (CET)
+Received: from localhost ([::1]:49424 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kxVXZ-00018d-02
-	for lists+qemu-devel@lfdr.de; Thu, 07 Jan 2021 08:41:25 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35896)
+	id 1kxVVv-0007NW-TJ
+	for lists+qemu-devel@lfdr.de; Thu, 07 Jan 2021 08:39:43 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35948)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1kxVSz-0005cG-Hb
- for qemu-devel@nongnu.org; Thu, 07 Jan 2021 08:36:41 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:31369)
+ (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1kxVT2-0005gq-3J
+ for qemu-devel@nongnu.org; Thu, 07 Jan 2021 08:36:44 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:54179)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1kxVSO-0004ZK-Ch
- for qemu-devel@nongnu.org; Thu, 07 Jan 2021 08:36:41 -0500
+ (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1kxVSU-0004Zr-5E
+ for qemu-devel@nongnu.org; Thu, 07 Jan 2021 08:36:43 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1610026563;
+ s=mimecast20190719; t=1610026568;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=MpgISYbNWh/byxuNWvmdaxhWpij9YwvJUEpchzl5WrY=;
- b=HPjX9YeMgSVIenI5NUl528ReB+xlZYZrzgQicGBCXq69/o0SgNmfQCh6N/DgGjpxmL7HTq
- rR07kw/BoPH23Z8v4jP8i9yWtRTMgzUkJaRHf6IpLFfs9vGDIq9/ujGeWmdtfG4vAsQ08o
- 23A8Mjal4kzu+xnYhHhK/RlA4kJRlSI=
+ bh=phpUApLFWJcRZKTgToVV/F1hUfJLo3qn5Y2gqdT+Elw=;
+ b=Ct3HTrBKFpZE4Zlead+wTuEfSAjvkoqJTKKR+9biXx+4CJuKX2ZkmtOTA4uoOUYLzr6EFO
+ GZRaMR2JNNIOldre9k7fyDMRcaXVsqnFvGS0uWYfYWdqaMkCi9T4pfVNjdkevdgHxpQ+qe
+ w4yn0SbfACZoHe46ZZeK8fUO6PU5kDI=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-236-QVdzXTXeNlu-3z_w_AyZ1A-1; Thu, 07 Jan 2021 08:36:02 -0500
-X-MC-Unique: QVdzXTXeNlu-3z_w_AyZ1A-1
+ us-mta-539-Jy9EJ1jVOdSwzOX9Nyz_iQ-1; Thu, 07 Jan 2021 08:36:05 -0500
+X-MC-Unique: Jy9EJ1jVOdSwzOX9Nyz_iQ-1
 Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
  [10.5.11.16])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id BDC7B1005513;
- Thu,  7 Jan 2021 13:36:00 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id C58D4B8100;
+ Thu,  7 Jan 2021 13:36:03 +0000 (UTC)
 Received: from t480s.redhat.com (ovpn-114-161.ams2.redhat.com [10.36.114.161])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 5851471C82;
- Thu,  7 Jan 2021 13:35:43 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 18E8218017;
+ Thu,  7 Jan 2021 13:36:00 +0000 (UTC)
 From: David Hildenbrand <david@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v4 05/11] vfio: Query and store the maximum number of possible
- DMA mappings
-Date: Thu,  7 Jan 2021 14:34:17 +0100
-Message-Id: <20210107133423.44964-6-david@redhat.com>
+Subject: [PATCH v4 06/11] vfio: Sanity check maximum number of DMA mappings
+ with RamDiscardMgr
+Date: Thu,  7 Jan 2021 14:34:18 +0100
+Message-Id: <20210107133423.44964-7-david@redhat.com>
 In-Reply-To: <20210107133423.44964-1-david@redhat.com>
 References: <20210107133423.44964-1-david@redhat.com>
 MIME-Version: 1.0
@@ -56,15 +56,15 @@ X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=david@redhat.com;
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=david@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -29
 X-Spam_score: -3.0
 X-Spam_bar: ---
 X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.246,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -89,10 +89,14 @@ Cc: Pankaj Gupta <pankaj.gupta.linux@gmail.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Let's query the maximum number of possible DMA mappings by querying the
-available mappings when creating the container (before any mappings are
-created). We'll use this informaton soon to perform some sanity checks
-and warn the user.
+Although RamDiscardMgr can handle running into the maximum number of
+DMA mappings by propagating errors when creating a DMA mapping, we want
+to sanity check and warn the user early that there is a theoretical setup
+issue and that virtio-mem might not be able to provide as much memory
+towards a VM as desired.
+
+As suggested by Alex, let's use the number of KVM memory slots to guess
+how many other mappings we might see over time.
 
 Cc: Paolo Bonzini <pbonzini@redhat.com>
 Cc: "Michael S. Tsirkin" <mst@redhat.com>
@@ -107,45 +111,63 @@ Cc: teawater <teawaterz@linux.alibaba.com>
 Cc: Marek Kedzierski <mkedzier@redhat.com>
 Signed-off-by: David Hildenbrand <david@redhat.com>
 ---
- hw/vfio/common.c              | 4 ++++
- include/hw/vfio/vfio-common.h | 1 +
- 2 files changed, 5 insertions(+)
+ hw/vfio/common.c | 43 +++++++++++++++++++++++++++++++++++++++++++
+ 1 file changed, 43 insertions(+)
 
 diff --git a/hw/vfio/common.c b/hw/vfio/common.c
-index 2bd219cf1d..1babb6bb99 100644
+index 1babb6bb99..bc20f738ce 100644
 --- a/hw/vfio/common.c
 +++ b/hw/vfio/common.c
-@@ -1934,6 +1934,7 @@ static int vfio_connect_container(VFIOGroup *group, AddressSpace *as,
-     container->fd = fd;
-     container->error = NULL;
-     container->dirty_pages_supported = false;
-+    container->dma_max_mappings = 0;
-     QLIST_INIT(&container->giommu_list);
-     QLIST_INIT(&container->hostwin_list);
-     QLIST_INIT(&container->vrdl_list);
-@@ -1965,7 +1966,10 @@ static int vfio_connect_container(VFIOGroup *group, AddressSpace *as,
-         vfio_host_win_add(container, 0, (hwaddr)-1, info->iova_pgsizes);
-         container->pgsizes = info->iova_pgsizes;
+@@ -758,6 +758,49 @@ static void vfio_register_ram_discard_notifier(VFIOContainer *container,
+                               vfio_ram_discard_notify_discard_all);
+     rdmc->register_listener(rdm, section->mr, &vrdl->listener);
+     QLIST_INSERT_HEAD(&container->vrdl_list, vrdl, next);
++
++    /*
++     * Sanity-check if we have a theoretically problematic setup where we could
++     * exceed the maximum number of possible DMA mappings over time. We assume
++     * that each mapped section in the same address space as a RamDiscardMgr
++     * section consumes exactly one DMA mapping, with the exception of
++     * RamDiscardMgr sections; i.e., we don't expect to have gIOMMU sections in
++     * the same address space as RamDiscardMgr sections.
++     *
++     * We assume that each section in the address space consumes one memslot.
++     * We take the number of KVM memory slots as a best guess for the maximum
++     * number of sections in the address space we could have over time,
++     * also consuming DMA mappings.
++     */
++    if (container->dma_max_mappings) {
++        unsigned int vrdl_count = 0, vrdl_mappings = 0, max_memslots = 512;
++
++#ifdef CONFIG_KVM
++        if (kvm_enabled()) {
++            max_memslots = kvm_get_max_memslots();
++        }
++#endif
++
++        QLIST_FOREACH(vrdl, &container->vrdl_list, next) {
++            hwaddr start, end;
++
++            start = QEMU_ALIGN_DOWN(vrdl->offset_within_address_space,
++                                    vrdl->granularity);
++            end = ROUND_UP(vrdl->offset_within_address_space + vrdl->size,
++                           vrdl->granularity);
++            vrdl_mappings = (end - start) / vrdl->granularity;
++            vrdl_count++;
++        }
++
++        if (vrdl_mappings + max_memslots - vrdl_count >
++            container->dma_max_mappings) {
++            warn_report("%s: possibly running out of DMA mappings. E.g., try"
++                        " increasing the 'block-size' of virtio-mem devies."
++                        " Maximum possible DMA mappings: %d, Maximum possible"
++                        " memslots: %d", __func__, container->dma_max_mappings,
++                        max_memslots);
++        }
++    }
+ }
  
-+        /* The default in the kernel ("dma_entry_limit") is 65535. */
-+        container->dma_max_mappings = 65535;
-         if (!ret) {
-+            vfio_get_info_dma_avail(info, &container->dma_max_mappings);
-             vfio_get_iommu_info_migration(container, info);
-         }
-         g_free(info);
-diff --git a/include/hw/vfio/vfio-common.h b/include/hw/vfio/vfio-common.h
-index af6f8d1b22..4b28c6e8ac 100644
---- a/include/hw/vfio/vfio-common.h
-+++ b/include/hw/vfio/vfio-common.h
-@@ -88,6 +88,7 @@ typedef struct VFIOContainer {
-     uint64_t dirty_pgsizes;
-     uint64_t max_dirty_bitmap_size;
-     unsigned long pgsizes;
-+    unsigned int dma_max_mappings;
-     QLIST_HEAD(, VFIOGuestIOMMU) giommu_list;
-     QLIST_HEAD(, VFIOHostDMAWindow) hostwin_list;
-     QLIST_HEAD(, VFIOGroup) group_list;
+ static void vfio_unregister_ram_discard_listener(VFIOContainer *container,
 -- 
 2.29.2
 
