@@ -2,39 +2,39 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0A2672EC961
-	for <lists+qemu-devel@lfdr.de>; Thu,  7 Jan 2021 05:31:01 +0100 (CET)
-Received: from localhost ([::1]:58980 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C19CE2EC9B1
+	for <lists+qemu-devel@lfdr.de>; Thu,  7 Jan 2021 05:55:07 +0100 (CET)
+Received: from localhost ([::1]:36178 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kxMwu-0006th-2u
-	for lists+qemu-devel@lfdr.de; Wed, 06 Jan 2021 23:31:00 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58316)
+	id 1kxNKE-0002rk-E9
+	for lists+qemu-devel@lfdr.de; Wed, 06 Jan 2021 23:55:06 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:32956)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alxndr@bu.edu>) id 1kxMvk-0006UL-NR
- for qemu-devel@nongnu.org; Wed, 06 Jan 2021 23:29:48 -0500
-Received: from relay64.bu.edu ([128.197.228.104]:44776)
+ (Exim 4.90_1) (envelope-from <alxndr@bu.edu>) id 1kxNJT-0002Qb-1f
+ for qemu-devel@nongnu.org; Wed, 06 Jan 2021 23:54:19 -0500
+Received: from relay64.bu.edu ([128.197.228.104]:45380)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alxndr@bu.edu>) id 1kxMvi-0000It-UT
- for qemu-devel@nongnu.org; Wed, 06 Jan 2021 23:29:48 -0500
+ (Exim 4.90_1) (envelope-from <alxndr@bu.edu>) id 1kxNJQ-0003MW-Si
+ for qemu-devel@nongnu.org; Wed, 06 Jan 2021 23:54:18 -0500
 X-Envelope-From: alxndr@bu.edu
 X-BU-AUTH: mozz.bu.edu [128.197.127.33]
 Received: from BU-AUTH (localhost.localdomain [127.0.0.1]) (authenticated
  bits=0)
- by relay64.bu.edu (8.14.3/8.14.3) with ESMTP id 1074SYYw017643
+ by relay64.bu.edu (8.14.3/8.14.3) with ESMTP id 1074rSZG032311
  (version=TLSv1/SSLv3 cipher=AES256-GCM-SHA384 bits=256 verify=NO);
- Wed, 6 Jan 2021 23:28:37 -0500
-Date: Wed, 6 Jan 2021 23:28:34 -0500
+ Wed, 6 Jan 2021 23:53:32 -0500
+Date: Wed, 6 Jan 2021 23:53:28 -0500
 From: Alexander Bulekov <alxndr@bu.edu>
 To: Qiuhao Li <Qiuhao.Li@outlook.com>
-Subject: Re: [PATCH v4 3/7] fuzz: split write operand using binary approach
-Message-ID: <20210107042834.jquwmfoqbc4nqorl@mozz.bu.edu>
+Subject: Re: [PATCH v4 4/7] fuzz: loop the remove minimizer and refactoring
+Message-ID: <20210107045328.owso2kow2gvqbdzq@mozz.bu.edu>
 References: <ME3P282MB17456B93AE422008F433C50DFCD80@ME3P282MB1745.AUSP282.PROD.OUTLOOK.COM>
- <ME3P282MB174580AA2D8580EDFF256757FCD80@ME3P282MB1745.AUSP282.PROD.OUTLOOK.COM>
+ <ME3P282MB17457CC3B59A47C3005560DCFCD80@ME3P282MB1745.AUSP282.PROD.OUTLOOK.COM>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <ME3P282MB174580AA2D8580EDFF256757FCD80@ME3P282MB1745.AUSP282.PROD.OUTLOOK.COM>
+In-Reply-To: <ME3P282MB17457CC3B59A47C3005560DCFCD80@ME3P282MB1745.AUSP282.PROD.OUTLOOK.COM>
 Received-SPF: pass client-ip=128.197.228.104; envelope-from=alxndr@bu.edu;
  helo=relay64.bu.edu
 X-Spam_score_int: -15
@@ -61,145 +61,117 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On 201229 1240, Qiuhao Li wrote:
-> Currently, we split the write commands' data from the middle. If it does not
-> work, try to move the pivot left by one byte and retry until there is no
-> space.
+> Now we use a one-time scan and remove strategy in the remval minimizer,
+> which is not suitable for timing dependent instructions.
 > 
-> But, this method has two flaws:
+> For example, instruction A will indicate an address where the config
+> chunk locates, and instruction B will make the configuration active. If
+> we have the following instruction sequence:
 > 
-> 1. It may fail to trim all unnecessary bytes on the right side.
+> ...
+> A1
+> B1
+> A2
+> B2
+> ...
 > 
-> For example, there is an IO write command:
+> A2 and B2 are the actual instructions that trigger the bug.
 > 
->   write addr uuxxxxuu
+> If we scan from top to bottom, after we remove A1, the behavior of B1
+> might be unknowable, including not to crash the program. But we will
+> successfully remove B1 later cause A2 and B2 will crash the process
+> anyway:
 > 
-> u is the unnecessary byte for the crash. Unlike ram write commands, in most
-> case, a split IO write won't trigger the same crash, So if we split from the
-> middle, we will get:
+> ...
+> A1
+> A2
+> B2
+> ...
 > 
->   write addr uu (will be removed in next round)
->   write addr xxxxuu
+> Now one more trimming will remove A1.
 > 
-> For xxxxuu, since split it from the middle and retry to the leftmost byte
-> won't get the same crash, we will be stopped from removing the last two
-> bytes.
+> In the perfect case, we would need to be able to remove A and B (or C!) at
+> the same time. But for now, let's just add a loop around the minimizer.
 > 
-> 2. The algorithm complexity is O(n) since we move the pivot byte by byte.
+> Since we only remove instructions, this iterative algorithm is converging.
 > 
-> To solve the first issue, we can try a symmetrical position on the right if
-> we fail on the left. As for the second issue, instead moving by one byte, we
-> can approach the boundary exponentially, achieving O(log(n)).
-> 
-> Give an example:
-> 
->                    xxxxuu len=6
->                         +
->                         |
->                         +
->                  xxx,xuu 6/2=3 fail
->                         +
->          +--------------+-------------+
->          |                            |
->          +                            +
->   xx,xxuu 6/2^2=1 fail         xxxxu,u 6-1=5 success
->                                  +   +
->          +------------------+----+   |
->          |                  |        +-------------+ u removed
->          +                  +
->    xx,xxu 5/2=2 fail  xxxx,u 6-2=4 success
->                            +
->                            |
->                            +-----------+ u removed
-> 
-> In some rare case, this algorithm will fail to trim all unnecessary bytes:
-> 
->   xxxxxxxxxuxxxxxx
->   xxxxxxxx-xuxxxxxx Fail
->   xxxx-xxxxxuxxxxxx Fail
->   xxxxxxxxxuxx-xxxx Fail
->   ...
-> 
-> I think the trade-off is worth it.
+> Tested with Bug 1908062.
 > 
 > Signed-off-by: Qiuhao Li <Qiuhao.Li@outlook.com>
 
+Small note below, but otherwise:
 Reviewed-by: Alexander Bulekov <alxndr@bu.edu>
 
 > ---
->  scripts/oss-fuzz/minimize_qtest_trace.py | 29 ++++++++++++++++--------
->  1 file changed, 20 insertions(+), 9 deletions(-)
+>  scripts/oss-fuzz/minimize_qtest_trace.py | 41 +++++++++++++++---------
+>  1 file changed, 26 insertions(+), 15 deletions(-)
 > 
 > diff --git a/scripts/oss-fuzz/minimize_qtest_trace.py b/scripts/oss-fuzz/minimize_qtest_trace.py
-> index 0b665ae657..1a26bf5b93 100755
+> index 1a26bf5b93..378a7ccec6 100755
 > --- a/scripts/oss-fuzz/minimize_qtest_trace.py
 > +++ b/scripts/oss-fuzz/minimize_qtest_trace.py
-> @@ -94,7 +94,7 @@ def minimize_trace(inpath, outpath):
->          prior = newtrace[i:i+remove_step]
->          for j in range(i, i+remove_step):
->              newtrace[j] = ""
-> -        print("Removing {lines} ...".format(lines=prior))
-> +        print("Removing {lines} ...\n".format(lines=prior))
->          if check_if_trace_crashes(newtrace, outpath):
->              i += remove_step
->              # Double the number of lines to remove for next round
-> @@ -107,9 +107,11 @@ def minimize_trace(inpath, outpath):
->              remove_step = 1
->              continue
->          newtrace[i] = prior[0] # remove_step = 1
-> +
->          # 2.) Try to replace write{bwlq} commands with a write addr, len
->          # command. Since this can require swapping endianness, try both LE and
->          # BE options. We do this, so we can "trim" the writes in (3)
-> +
->          if (newtrace[i].startswith("write") and not
->              newtrace[i].startswith("write ")):
->              suffix = newtrace[i].split()[0][-1]
-> @@ -130,11 +132,15 @@ def minimize_trace(inpath, outpath):
->                  newtrace[i] = prior[0]
+> @@ -71,21 +71,9 @@ def check_if_trace_crashes(trace, path):
+>      return False
 >  
->          # 3.) If it is a qtest write command: write addr len data, try to split
-> -        # it into two separate write commands. If splitting the write down the
-> -        # middle does not work, try to move the pivot "left" and retry, until
-> -        # there is no space left. The idea is to prune unneccessary bytes from
-> -        # long writes, while accommodating arbitrary MemoryRegion access sizes
-> -        # and alignments.
-> +        # it into two separate write commands. If splitting the data operand
-> +        # from length/2^n bytes to the left does not work, try to move the pivot
-> +        # to the right side, then add one to n, until length/2^n == 0. The idea
-> +        # is to prune unneccessary bytes from long writes, while accommodating
-> +        # arbitrary MemoryRegion access sizes and alignments.
+>  
+> -def minimize_trace(inpath, outpath):
+> -    global TIMEOUT
+> -    with open(inpath) as f:
+> -        trace = f.readlines()
+> -    start = time.time()
+> -    if not check_if_trace_crashes(trace, outpath):
+> -        sys.exit("The input qtest trace didn't cause a crash...")
+> -    end = time.time()
+> -    print("Crashed in {} seconds".format(end-start))
+> -    TIMEOUT = (end-start)*5
+> -    print("Setting the timeout for {} seconds".format(TIMEOUT))
+> -
+> -    i = 0
+> -    newtrace = trace[:]
+> +def remove_minimizer(newtrace, outpath):
+
+Maybe a different name for this function?
+e.g. minimize_each_line or minimize_iter
+
+-Alex
+
+>      remove_step = 1
+> +    i = 0
+>      while i < len(newtrace):
+>          # 1.) Try to remove lines completely and reproduce the crash.
+>          # If it works, we're done.
+> @@ -174,7 +162,30 @@ def minimize_trace(inpath, outpath):
+>                      newtrace[i] = prior[0]
+>                      del newtrace[i+1]
+>          i += 1
+> -    check_if_trace_crashes(newtrace, outpath)
 > +
-> +        # This algorithm will fail under some rare situations.
-> +        # e.g., xxxxxxxxxuxxxxxx (u is the unnecessary byte)
 > +
->          if newtrace[i].startswith("write "):
->              addr = int(newtrace[i].split()[1], 16)
->              length = int(newtrace[i].split()[2], 16)
-> @@ -143,6 +149,7 @@ def minimize_trace(inpath, outpath):
->                  leftlength = int(length/2)
->                  rightlength = length - leftlength
->                  newtrace.insert(i+1, "")
-> +                power = 1
->                  while leftlength > 0:
->                      newtrace[i] = "write {addr} {size} 0x{data}\n".format(
->                              addr=hex(addr),
-> @@ -154,9 +161,13 @@ def minimize_trace(inpath, outpath):
->                              data=data[leftlength*2:])
->                      if check_if_trace_crashes(newtrace, outpath):
->                          break
-> -                    else:
-> -                        leftlength -= 1
-> -                        rightlength += 1
-> +                    # move the pivot to right side
-> +                    if leftlength < rightlength:
-> +                        rightlength, leftlength = leftlength, rightlength
-> +                        continue
-> +                    power += 1
-> +                    leftlength = int(length/pow(2, power))
-> +                    rightlength = length - leftlength
->                  if check_if_trace_crashes(newtrace, outpath):
->                      i -= 1
->                  else:
+> +def minimize_trace(inpath, outpath):
+> +    global TIMEOUT
+> +    with open(inpath) as f:
+> +        trace = f.readlines()
+> +    start = time.time()
+> +    if not check_if_trace_crashes(trace, outpath):
+> +        sys.exit("The input qtest trace didn't cause a crash...")
+> +    end = time.time()
+> +    print("Crashed in {} seconds".format(end-start))
+> +    TIMEOUT = (end-start)*5
+> +    print("Setting the timeout for {} seconds".format(TIMEOUT))
+> +
+> +    newtrace = trace[:]
+> +
+> +    # remove minimizer
+> +    old_len = len(newtrace) + 1
+> +    while(old_len > len(newtrace)):
+> +        old_len = len(newtrace)
+> +        remove_minimizer(newtrace, outpath)
+> +        newtrace = list(filter(lambda s: s != "", newtrace))
+> +
+> +    assert(check_if_trace_crashes(newtrace, outpath))
+>  
+>  
+>  if __name__ == '__main__':
 > -- 
 > 2.25.1
 > 
