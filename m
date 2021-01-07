@@ -2,83 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 61F262EE810
-	for <lists+qemu-devel@lfdr.de>; Thu,  7 Jan 2021 23:03:44 +0100 (CET)
-Received: from localhost ([::1]:34882 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 704862EE82B
+	for <lists+qemu-devel@lfdr.de>; Thu,  7 Jan 2021 23:14:09 +0100 (CET)
+Received: from localhost ([::1]:40220 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kxdNf-0000kF-8D
-	for lists+qemu-devel@lfdr.de; Thu, 07 Jan 2021 17:03:43 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41936)
+	id 1kxdXk-0004IZ-1k
+	for lists+qemu-devel@lfdr.de; Thu, 07 Jan 2021 17:14:08 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44184)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1kxdMT-0000BX-0r
- for qemu-devel@nongnu.org; Thu, 07 Jan 2021 17:02:29 -0500
-Received: from mail-pf1-x42c.google.com ([2607:f8b0:4864:20::42c]:42493)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1kxdWw-0003lm-Ai; Thu, 07 Jan 2021 17:13:18 -0500
+Received: from mail-wm1-x32c.google.com ([2a00:1450:4864:20::32c]:51913)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1kxdMR-0005Kc-CX
- for qemu-devel@nongnu.org; Thu, 07 Jan 2021 17:02:28 -0500
-Received: by mail-pf1-x42c.google.com with SMTP id h10so4883072pfo.9
- for <qemu-devel@nongnu.org>; Thu, 07 Jan 2021 14:02:26 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=subject:to:cc:references:from:message-id:date:user-agent
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1kxdWu-0001Aw-LV; Thu, 07 Jan 2021 17:13:18 -0500
+Received: by mail-wm1-x32c.google.com with SMTP id v14so6348299wml.1;
+ Thu, 07 Jan 2021 14:13:15 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=sender:subject:to:references:from:cc:message-id:date:user-agent
  :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=wIrYqelWQrLF7t7DOjYcFcQd5x0pSDtWI74x1YUH7vU=;
- b=bp06FwBEyhu+gPAoNzPGfdGXUet9fejNyoQ/sZKBPKsf9HfN5xcwb5fS6UoMGqsTaA
- ohube+8/boY1JYepgr1f2m/1BZAKnm/E/6cQDF+gXR56WVrH2Pznp9kjySK1K9+0gPUk
- 5uAgqdQHYpNm/KbZmje9L6ZR501CgTFwmCT9W//azkMsAFkMabXBjzsLxYAfPL1Aa3vE
- xGkWT4YCYdisrkLns8in1mkRXml2uFlo+nAVbmAn9HtDiatkri5pQOdAJLU0t/2SQlxF
- pI4ikh8tRf1qK3W9kF0aUaxDRFp4gGlngota3iZe2IX0lD44vT0thlMhJvpk7Yd69lHl
- 21mw==
+ bh=K4T7AbWqL1Uh5WkojPp1mJJYra3fPcG7SypekqMMxIQ=;
+ b=p85uEYlwKHU8XuOWaD03jJ8xPDKjnwzvNepcBYfgUS4JvuugxIywURiffkxNHWZss7
+ /GcQQYbKNdNCS/2ThXZJn35OzWOP44OWxNiwUBcwePK0a+xvVKhgPDC9Nb7bo/z7/Cxw
+ VdUIKbAlEs4MAViwFAbrR4oWkQOZdc/DHA5n7K8V9ZW/aFHzAq/aN8SkNXPEtVWT9b5N
+ Ja9myKy+ml715Kpg26s7Z8L88u/UJCAnhuogZbrqrzwC9dwFlqnQr3GgekHMuXNClxmK
+ h0CncLBVagwakw/6qCDd/h271SHWJfnibVSBVVV352216fkpoGuC8npDA9GJRt6I2bCj
+ sVrQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
+ h=x-gm-message-state:sender:subject:to:references:from:cc:message-id
+ :date:user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=wIrYqelWQrLF7t7DOjYcFcQd5x0pSDtWI74x1YUH7vU=;
- b=T7HkYRXAPcBcyX4CAis6OtS4IF/UMMvFdorFe2ej2PZKjgtUY1XK//J+2Qo73m5D3e
- lhxd6Z408Jslt/g8RNomLWuk9dozn64Y2Pg1s45oizF7bMAjrtya5BLHggNc279yCK5U
- BONnUWDN127Xvgs29uTpp3JMMuL3B6C2hrmmNG6zrUYZvGfKA8UTjxEN/wdO2sn2l1p2
- APzydqFVLUw4sHfBTtNKY/U696sgizuH+5z2NRSar94tO5yPbA3FgOI8qGvMFjgW3UIs
- hKEBjjJco7ryvnwo8dM+WiHd0DXyOvpekFqbHrJynz7bE//mjfQIV73oWHHZLOj9o1+S
- PErw==
-X-Gm-Message-State: AOAM530q/DPO9o/mCdox7PlR8Tt/joQ2eCeBw6Pn7JqZRqNfmZKlSVln
- yaoFImQFzfd3NxdlPoeI6t9XOg==
-X-Google-Smtp-Source: ABdhPJzcVPqFiPdobgU7612qnH24yI/leb5KzDhjVUMgP2Y1i3z0jROUD4ddTy8OLH1M4/icoDADXQ==
-X-Received: by 2002:a62:7858:0:b029:19d:c011:1cfe with SMTP id
- t85-20020a6278580000b029019dc0111cfemr547178pfc.47.1610056945802; 
- Thu, 07 Jan 2021 14:02:25 -0800 (PST)
-Received: from [10.25.18.38] (rrcs-173-197-107-21.west.biz.rr.com.
- [173.197.107.21])
- by smtp.gmail.com with ESMTPSA id a4sm7972298pgn.40.2021.01.07.14.02.24
+ bh=K4T7AbWqL1Uh5WkojPp1mJJYra3fPcG7SypekqMMxIQ=;
+ b=LoM+E5t5hKx7WfIDyqeOjAL49nJnmQy4BZ2GGv3zDr7+9NATH9IBMHSAvM/I2K6G3u
+ vljy7lFhyrwEtcn2YGZ9bbYb6Z8Q6z+Ugx+VFeo37TBivqfKGDT5ieEH9+1QIo/Ibrnb
+ 6NIsreZAIeaHU1OqRxFZo3A3ZV/2ZoZc4mKK/w0QFEIpS4jgvsd4P65zdKwW1GrcklZM
+ W3A7rKSSAsPcLCHvXjXqNKWCn9auGOUiiHnPhQt0LutPFkHXgV7PXvAMWUlFkmm8KHje
+ v5LqJbHSRvapscvw6gDltL7oz35XY9ooeZyOJFhOeytVwKXoABitppT824QbqivcPswf
+ C0BQ==
+X-Gm-Message-State: AOAM533cRJdMl35OOHfZxnhx14GqJ5WrKcheuayUAfbX1r6RA2ouBEpc
+ YOXQy45+n5VRDkR0kEvb5v0vFSauCV8=
+X-Google-Smtp-Source: ABdhPJweeNe0uGS3TT0ARXxR6rp/iBmc7v+GQzAdM5AQtHBp1TozcSEkWca5iJNpleeG38j8BLS3YA==
+X-Received: by 2002:a7b:c3d1:: with SMTP id t17mr473366wmj.11.1610057594655;
+ Thu, 07 Jan 2021 14:13:14 -0800 (PST)
+Received: from [192.168.1.36] (241.red-88-10-103.dynamicip.rima-tde.net.
+ [88.10.103.241])
+ by smtp.gmail.com with ESMTPSA id a12sm10997623wrh.71.2021.01.07.14.13.13
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 07 Jan 2021 14:02:25 -0800 (PST)
-Subject: Re: [PATCH v2 24/24] target/arm: Enforce alignment for sve
- unpredicated LDR/STR
-To: Peter Maydell <peter.maydell@linaro.org>
-References: <20201208180118.157911-1-richard.henderson@linaro.org>
- <20201208180118.157911-25-richard.henderson@linaro.org>
- <CAFEAcA97CfTvAJkSHEYtEKrg9jZjCLTbra-KFxfYZVuCH7MMkA@mail.gmail.com>
-From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <6ff3c7b0-9254-2e36-89e0-e9eb59fd6e7f@linaro.org>
-Date: Thu, 7 Jan 2021 12:02:21 -1000
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
+ Thu, 07 Jan 2021 14:13:13 -0800 (PST)
+Subject: Re: [Bug 1910586] [NEW] SD card size constraint conceptually wrong
+To: Bug 1910586 <1910586@bugs.launchpad.net>, qemu-devel@nongnu.org
+References: <161004745358.28900.17773103786496139692.malonedeb@chaenomeles.canonical.com>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
+Message-ID: <f4c6b358-ce79-73d8-8a92-eb474ab1a5ee@amsat.org>
+Date: Thu, 7 Jan 2021 23:13:12 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.6.0
 MIME-Version: 1.0
-In-Reply-To: <CAFEAcA97CfTvAJkSHEYtEKrg9jZjCLTbra-KFxfYZVuCH7MMkA@mail.gmail.com>
+In-Reply-To: <161004745358.28900.17773103786496139692.malonedeb@chaenomeles.canonical.com>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::42c;
- envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x42c.google.com
-X-Spam_score_int: -23
-X-Spam_score: -2.4
-X-Spam_bar: --
-X-Spam_report: (-2.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.267,
+Received-SPF: pass client-ip=2a00:1450:4864:20::32c;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x32c.google.com
+X-Spam_score_int: -17
+X-Spam_score: -1.8
+X-Spam_bar: -
+X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.248,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.248, NICE_REPLY_A=-0.267,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -91,34 +86,74 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-arm <qemu-arm@nongnu.org>, QEMU Developers <qemu-devel@nongnu.org>
+Cc: Qemu-block <qemu-block@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 1/7/21 7:39 AM, Peter Maydell wrote:
->> +        if (align > MO_ALIGN_8) {
->> +            t0 = tcg_temp_new_i64();
->> +            tcg_gen_qemu_ld_i64(t0, clean_addr, midx, MO_LEQ | align);
->> +            tcg_gen_addi_i64(clean_addr, clean_addr, 8);
->> +            tcg_gen_addi_ptr(i, i, 8);
->> +            tcg_gen_st_i64(t0, cpu_env, vofs);
->> +            tcg_temp_free_i64(t0);
->> +            align = 0;
->> +        }
->> +
+On 1/7/21 8:24 PM, - wrote:
+> Public bug reported:
 > 
-> Why do we need to do this (and the similar thing in do_str()) ?
-> Most of the rest of the patch is fairly clear in that it is just
-> passing the alignment requirement through to the load/store fns,
-> but this is a bit more opaque to me...
+> The patch discussed here:
+> https://www.mail-archive.com/qemu-devel@nongnu.org/msg720833.html
+> introduces an artificial size constraint for SD cards
+> that has no relation to reality.
+> 
+> I'm trying to use an _actual_ **physical** SD card,
+> and qemu tells me its size is "invalid".
+> 
+> Something here appears to be conceptually wrong.
+> 
+> --------------------------------------------------
+> # fdisk -l /dev/sdg
+> Disk /dev/sdg: 14.84 GiB, 15931539456 bytes, 31116288 sectors
+> Disk model: USB  SD Reader  
+> Units: sectors of 1 * 512 = 512 bytes
+> Sector size (logical/physical): 512 bytes / 512 bytes
+> I/O size (minimum/optimal): 512 bytes / 512 bytes
+> Disklabel type: dos
+> Disk identifier: 0x7a0c8bb0
+> 
+> Device     Boot  Start      End  Sectors  Size Id Type
+> /dev/sdg1         2048   524287   522240  255M  c W95 FAT32 (LBA)
+> /dev/sdg2       524288 31116287 30592000 14.6G 83 Linux
+> # qemu-system-aarch64 -M raspi3 -m 1G -kernel vmlinuz-5.4.79-v8 -dtb bcm2837-rpi-3-b-plus.dtb -append console=ttyAMA0\ root=/dev/mmcblk0p2\ rw -nographic -serial mon:stdio -drive file=/dev/sdg,format=raw
+> qemu-system-aarch64: Invalid SD card size: 14.8 GiB
+> SD card size has to be a power of 2, e.g. 16 GiB.
 
-What follows this context is a single memory access within a tcg loop.
+Your physical card likely is 16GiB. The firmware running
+on it is free to reserve some amount to replace broken
+blocks. In your case ~7%.
 
-When align is <= the size of the access, every access can use the same
-alignment mop.  But for MO_ALIGN_16, since we're emitting 8-byte accesses, the
-second access will not be 16-byte aligned.  So I peel off one loop iteration at
-the beginning to perform the alignment check.
+We choose to restrict the model to the physical layer to
+simplify the design and avoid to deal with security issues.
 
+Patches to improve the model by better matching the real
+world are always welcomed!
 
-r~
+> You can resize disk images with 'qemu-img resize <imagefile> <new-size>'
+> (note that this will lose data if you make the image smaller than it currently is).
+
+Indeed, we can remove this warning for block devices.
+
+> --------------------------------------------------
+> 
+> The same invocation with a dump of the actual image
+> resized to match qemu's odd expectations works fine.
+> 
+> 
+> This is on QEMU 5.2.0, as evidenced by the following:
+> --------------------------------------------------
+> # qemu-system-aarch64 -version
+> QEMU emulator version 5.2.0
+> Copyright (c) 2003-2020 Fabrice Bellard and the QEMU Project developers
+> --------------------------------------------------
+> 
+> Is there a simple workaround that disables this rather
+> arbitrary constraint?
+
+No, but you can send a patch :)
+
+Regards,
+
+Phil.
 
