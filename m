@@ -2,68 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2BDC92ED172
-	for <lists+qemu-devel@lfdr.de>; Thu,  7 Jan 2021 15:11:17 +0100 (CET)
-Received: from localhost ([::1]:39602 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A3FD72ED164
+	for <lists+qemu-devel@lfdr.de>; Thu,  7 Jan 2021 15:08:16 +0100 (CET)
+Received: from localhost ([::1]:34322 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kxW0R-0002kL-TI
-	for lists+qemu-devel@lfdr.de; Thu, 07 Jan 2021 09:11:15 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42842)
+	id 1kxVxX-0000VE-EW
+	for lists+qemu-devel@lfdr.de; Thu, 07 Jan 2021 09:08:15 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42840)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1kxVqS-0003y3-Gc
+ id 1kxVqS-0003y2-GC
  for qemu-devel@nongnu.org; Thu, 07 Jan 2021 09:01:01 -0500
-Received: from mail-ej1-x62f.google.com ([2a00:1450:4864:20::62f]:37597)
+Received: from mail-ej1-x634.google.com ([2a00:1450:4864:20::634]:45102)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1kxVqK-0006wr-Ng
+ id 1kxVqQ-0006wz-1Z
  for qemu-devel@nongnu.org; Thu, 07 Jan 2021 09:00:55 -0500
-Received: by mail-ej1-x62f.google.com with SMTP id ga15so9844537ejb.4
- for <qemu-devel@nongnu.org>; Thu, 07 Jan 2021 06:00:48 -0800 (PST)
+Received: by mail-ej1-x634.google.com with SMTP id qw4so9716274ejb.12
+ for <qemu-devel@nongnu.org>; Thu, 07 Jan 2021 06:00:49 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=FIDd9CoeqK0N6Tbm6H/NLOa+Nm0iRe/kCNkiUDvwvU0=;
- b=hW230Leo5qTDAyWCsKBYPGBAdM1Ah98XX8zpogxVKaycQameVX5BiimetouI5CL/Uj
- ky0NzC0NzqGLOrzX0L7hptj77u/0R8xAXBVP2/hk7h0vGe23dSL64vI7D0Ep4XmSoNHn
- F8aeP17m/nDLLAEWa34vpaEayoE4vbSIA97xkckzMlQl1V7oqd85RH1Nj1NCvQzU6bF4
- R7wFF/ffk14ES4zcmtA8wvOMjPH1p+7B96r7oQ8zUdP70LsYFH7fKOxPynyxvZXXYf2A
- OFc8jh+GENvlFGlrptsLJkj0uQ4Qu0iwxNZWcVwg5Asq8XH6t8J0y3yWKtmxzpeEwUzC
- K7qQ==
+ bh=Q0WxjNIuPF+6aWJPxAfV1RhO2xpwQzcsT3F2ChtwrVo=;
+ b=bELg9N3BCHQXO/bKw0hubIfaADChs2zWdeQqFCsQ5kgd3uPjhnJKTFhmrKHlkA4utP
+ Y3LkO5RiB/mSiFc6+T6gQ97bO1YTsM6DHPwdQt/XbRNd928DiM56h3WoVQDbdf4GKH6J
+ GvnPXSqYUjq/MrbBcWLmDYcByH6zaWb9wUDO7CreEO5KYaVEp+JthpIIH/zEwF4xiQjb
+ n/4q6XF6XuQLbxf3RbBXos0iByDcQUGEqcucDX1sQpI1749iZH/F1zxOlN9trfHy95ui
+ P962ghY7tileUqe4viHAryHPFrcutac8XIq1xCRhmWUm/btmFPYm++hJ6pGD9e2+vdah
+ 5vnA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=FIDd9CoeqK0N6Tbm6H/NLOa+Nm0iRe/kCNkiUDvwvU0=;
- b=DxF1WAXLhFxugDUEFaTz6I/nlXU1hFFiwwsFDGfoZS/Y2rmieXIPsJdRQV/ES13S0r
- cRLowcwSh1sw6SnlWE0/Gr+Z/mcaO+oC7RNfmNNK2Lgr4Gj7N5EUMnvtft6DhWf7Na3M
- rIapQA04LVmYBI74d9ieN6QOEWxnPAgSPy2NeOjJMUQYsoB6+my3X1kXH2iwDHAFK+gt
- s4CKdybP7NC5JblpTDg2o+xBXiRfPZB1mFEYCQACQYZi2wSpJnvkhPhIJN8Dqld8BJV1
- eE8aFQ2h6IE3siXJCtWA2GFX3+1JZSgVgojah65CZw2dhrTNhh5PF5qwdeZc2Mmew7II
- 4ZWQ==
-X-Gm-Message-State: AOAM532OpJUAgVYvKQS71mCLoZttJoZEQwYEw91R72K/Puh2YDnJGb8L
- HJzpkFlFaIbPVilkra7ZGi2vYs6hgZvO3Q==
-X-Google-Smtp-Source: ABdhPJwYVmUul650kYF+zZNR8iko/wNpaDR0cGWUm2PrXesFnvFgCHDC24qfOf07YRImOqCR0y4VzQ==
-X-Received: by 2002:a17:906:cd14:: with SMTP id
- oz20mr5876426ejb.99.1610028047343; 
- Thu, 07 Jan 2021 06:00:47 -0800 (PST)
+ bh=Q0WxjNIuPF+6aWJPxAfV1RhO2xpwQzcsT3F2ChtwrVo=;
+ b=k6j0I0ZqrOZSAi0YlsDVbI+Nhh0Cw+qIWl7iSwCltl+F72WnIeVJT0ES/K5jUTpdXt
+ AxojIFTh6uESpBWVU3ls6wbK4xby5UrduC9TZHYeQDVE7YcabpUBqAERkS2XYRVYgQc9
+ +H36NE65aS3WeS8YioFB8rlA72wahkknWkiThEt/cWJZ16K5nrk1ZMrh9040pRjUVQn3
+ FnCfbJ+7K/wT6Lr8PPQ0uY5PZlYmQLBqpff369buYXoy/rReezkbpxbFfRwoez3nNd5N
+ 1BdbOX8AhzOo5xJmCww3g/zU3KmGkppewkjDRcn/Ce40bkZkefA3RwBrfcVxIzrWfWrR
+ RyXA==
+X-Gm-Message-State: AOAM532jsObPgIqqGnBm9Kc7RiDDaZuh83QVlUi4+UZsKpZRNCHwytO3
+ tF0p4axD5nqMWh5bJX+OYs7umMs1D/ML7Q==
+X-Google-Smtp-Source: ABdhPJxSGkeYJXzARQiz0+ceQUGHYaDR8J/4Ac/DQtPpBufkbiMuPAh+ULbo8BlJmYf3cf0V6nSfJA==
+X-Received: by 2002:a17:906:447:: with SMTP id
+ e7mr6375021eja.172.1610028048315; 
+ Thu, 07 Jan 2021 06:00:48 -0800 (PST)
 Received: from avogadro.lan ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
- by smtp.gmail.com with ESMTPSA id oq27sm2438523ejb.108.2021.01.07.06.00.46
+ by smtp.gmail.com with ESMTPSA id oq27sm2438523ejb.108.2021.01.07.06.00.47
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 07 Jan 2021 06:00:46 -0800 (PST)
+ Thu, 07 Jan 2021 06:00:47 -0800 (PST)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 6/8] configure: move Cocoa incompatibility checks to Meson
-Date: Thu,  7 Jan 2021 15:00:37 +0100
-Message-Id: <20210107140039.467969-7-pbonzini@redhat.com>
+Subject: [PATCH 7/8] configure: quote command line arguments in config.status
+Date: Thu,  7 Jan 2021 15:00:38 +0100
+Message-Id: <20210107140039.467969-8-pbonzini@redhat.com>
 X-Mailer: git-send-email 2.29.2
 In-Reply-To: <20210107140039.467969-1-pbonzini@redhat.com>
 References: <20210107140039.467969-1-pbonzini@redhat.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::62f;
- envelope-from=paolo.bonzini@gmail.com; helo=mail-ej1-x62f.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::634;
+ envelope-from=paolo.bonzini@gmail.com; helo=mail-ej1-x634.google.com
 X-Spam_score_int: -14
 X-Spam_score: -1.5
 X-Spam_bar: -
@@ -89,114 +89,40 @@ Cc: alex.bennee@linaro.org, marcandre.lureau@redhat.com, berrange@redhat.com,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The cocoa UI code currently assumes it is always the active UI
-and does not interact well with other UI frontend code.  Move
-the relevant checks to Meson now that all other frontends
-have become Meson options.  This way, SDL/GTK+/Cocoa can be
-parsed entirely by scripts/configure-parse-buildoptions.pl.
+Make config.status generation a bit more robust.  (The quote_sh
+function will also be reused to parse configure's command line
+arguments in an external script driven by Meson build option
+introspection).
 
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- configure   | 15 ---------------
- meson.build | 17 ++++++++++-------
- 2 files changed, 10 insertions(+), 22 deletions(-)
+ configure | 6 +++++-
+ 1 file changed, 5 insertions(+), 1 deletion(-)
 
 diff --git a/configure b/configure
-index 652cff7ba6..d573058b16 100755
+index d573058b16..41866cc38e 100755
 --- a/configure
 +++ b/configure
-@@ -772,7 +772,6 @@ Darwin)
-     QEMU_CFLAGS="-arch x86_64 $QEMU_CFLAGS"
-     QEMU_LDFLAGS="-arch x86_64 $QEMU_LDFLAGS"
-   fi
--  cocoa="enabled"
-   audio_drv_list="coreaudio try-sdl"
-   audio_possible_drivers="coreaudio sdl"
-   QEMU_LDFLAGS="-framework CoreFoundation -framework IOKit $QEMU_LDFLAGS"
-@@ -2322,20 +2321,6 @@ if test -z "$want_tools"; then
- fi
+@@ -89,6 +89,10 @@ printf " '%s'" "$0" "$@" >> config.log
+ echo >> config.log
+ echo "#" >> config.log
  
- ##########################################
--# cocoa implies not SDL or GTK
--# (the cocoa UI code currently assumes it is always the active UI
--# and doesn't interact well with other UI frontend code)
--if test "$cocoa" = "enabled"; then
--    if test "$sdl" = "enabled"; then
--        error_exit "Cocoa and SDL UIs cannot both be enabled at once"
--    fi
--    if test "$gtk" = "enabled"; then
--        error_exit "Cocoa and GTK UIs cannot both be enabled at once"
--    fi
--    gtk=disabled
--    sdl=disabled
--fi
--
- # Some versions of Mac OS X incorrectly define SIZE_MAX
- cat > $TMPC << EOF
- #include <stdint.h>
-diff --git a/meson.build b/meson.build
-index a3a0958b4d..5a8efd2316 100644
---- a/meson.build
-+++ b/meson.build
-@@ -148,7 +148,6 @@ version_res = []
- coref = []
- iokit = []
- emulator_link_args = []
--cocoa = not_found
- hvf = not_found
- if targetos == 'windows'
-   socket = cc.find_library('ws2_32')
-@@ -161,7 +160,6 @@ if targetos == 'windows'
- elif targetos == 'darwin'
-   coref = dependency('appleframeworks', modules: 'CoreFoundation')
-   iokit = dependency('appleframeworks', modules: 'IOKit')
--  cocoa = dependency('appleframeworks', modules: 'Cocoa', required: get_option('cocoa'))
- elif targetos == 'sunos'
-   socket = [cc.find_library('socket'),
-             cc.find_library('nsl'),
-@@ -252,9 +250,6 @@ if not have_xen_pci_passthrough and get_option('xen_pci_passthrough').enabled()
-     error('Xen PCI passthrough requested but Xen not enabled')
-   endif
- endif
--if not cocoa.found() and get_option('cocoa').enabled()
--  error('Cocoa not available on this platform')
--endif
- 
- ################
- # Dependencies #
-@@ -358,6 +353,14 @@ if not get_option('attr').disabled()
-   endif
- endif
- 
-+cocoa = dependency('appleframeworks', modules: 'Cocoa', required: get_option('cocoa'))
-+if cocoa.found() and get_option('sdl').enabled()
-+  error('Cocoa and SDL cannot be enabled at the same time')
-+endif
-+if cocoa.found() and get_option('gtk').enabled()
-+  error('Cocoa and GTK+ cannot be enabled at the same time')
-+endif
++quote_sh() {
++    printf "%s" "$1" | sed "s,','\\\\'',g; s,.*,'&',"
++}
 +
- seccomp = not_found
- if not get_option('seccomp').auto() or have_system or have_tools
-   seccomp = dependency('libseccomp', version: '>=2.3.0',
-@@ -643,7 +646,7 @@ if not get_option('brlapi').auto() or have_system
- endif
+ print_error() {
+     (echo
+     echo "ERROR: $1"
+@@ -6509,7 +6513,7 @@ preserve_env WINDRES
  
- sdl = not_found
--if have_system
-+if not get_option('sdl').auto() or (have_system and not cocoa.found())
-   sdl = dependency('sdl2', required: get_option('sdl'), static: enable_static)
-   sdl_image = not_found
- endif
-@@ -775,7 +778,7 @@ endif
- 
- gtk = not_found
- gtkx11 = not_found
--if not get_option('gtk').auto() or have_system
-+if not get_option('gtk').auto() or (have_system and not cocoa.found())
-   gtk = dependency('gtk+-3.0', version: '>=3.22.0',
-                    method: 'pkg-config',
-                    required: get_option('gtk'),
+ printf "exec" >>config.status
+ for i in "$0" "$@"; do
+-  test "$i" = --skip-meson || printf " '%s'" "$i" >>config.status
++  test "$i" = --skip-meson || printf " %s" "$(quote_sh "$i")" >>config.status
+ done
+ echo ' "$@"' >>config.status
+ chmod +x config.status
 -- 
 2.29.2
 
