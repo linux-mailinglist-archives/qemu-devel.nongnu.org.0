@@ -2,69 +2,58 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3D73D2ECDD2
-	for <lists+qemu-devel@lfdr.de>; Thu,  7 Jan 2021 11:31:59 +0100 (CET)
-Received: from localhost ([::1]:40716 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4A2232ECDE8
+	for <lists+qemu-devel@lfdr.de>; Thu,  7 Jan 2021 11:34:44 +0100 (CET)
+Received: from localhost ([::1]:49408 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kxSaE-00044f-7K
-	for lists+qemu-devel@lfdr.de; Thu, 07 Jan 2021 05:31:58 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42104)
+	id 1kxSct-0007tY-5I
+	for lists+qemu-devel@lfdr.de; Thu, 07 Jan 2021 05:34:43 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42550)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <marcandre.lureau@gmail.com>)
- id 1kxSXK-0002nX-AM
- for qemu-devel@nongnu.org; Thu, 07 Jan 2021 05:28:58 -0500
-Received: from mail-ej1-x62c.google.com ([2a00:1450:4864:20::62c]:43814)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <marcandre.lureau@gmail.com>)
- id 1kxSXI-0000h5-Fd
- for qemu-devel@nongnu.org; Thu, 07 Jan 2021 05:28:58 -0500
-Received: by mail-ej1-x62c.google.com with SMTP id jx16so8921766ejb.10
- for <qemu-devel@nongnu.org>; Thu, 07 Jan 2021 02:28:56 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=IPTmgu0eFjM8zv6QdX5i7nCQ6o7MFD4tlXneoSbIYKE=;
- b=EPiQbrKSaxaI3w2JKpntWKL09BlBu2DcOBkGd+SwO51MeEwQoxHzXDVXPAJ9BS1bvz
- WkpWumKfqTKcGp+yZxkjobbl8RNS+HPEbw99mNMNUNhkA+lyF3aYuqsXCGw6l4UsDYmv
- 9o/bwOyqFvlWmah03drQsR20W7srfyAD8HekgmCHb/muNkoXLpsO5SWX9UZupcTCs3YV
- ogc5C3/ARHcz28xRjcSzlypS7/+99HwCDm1WfOHEoQjpZ4L8URaDyn/tba/hg+Ag0/h6
- M2Ywy3y8SHmOI7FI00I8a3fWzzjCNjj5omIpitTjpWtOhwOm3aAroN/KXYRdaA2Hgo3d
- mgXw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=IPTmgu0eFjM8zv6QdX5i7nCQ6o7MFD4tlXneoSbIYKE=;
- b=LniJp/exJ7PPlxEGC3yf5eq5grQSuzXrA2vIxIoeNSpsMl+XiOI8o8zTIQJap17QCP
- 0+rC1rFiy2u3+LZwCbjuewSFNbW9SG7Bk8zd4gi+JdznbQ8wtb6r6Msj/pdM7fvwdPik
- QoGH9myHaOdNo2wBw3HeC1zxsycD/exqAqcSwfykIEaLHYU5ONpa4HztRzd5kg+kx96j
- DnWK3eUjTTcRggiBqnZhTiZaZk/WwB408zLcK1AxUt0yojumcFUzsD3JrsTpyPr8teaR
- 85AGS52RNPrIB/UM6fhE7XY+IXkpfS8tQaopmoN/zThKoPEVko77p6fsptXjM0mzPEDP
- wmuA==
-X-Gm-Message-State: AOAM530qifNvoJ5NMkHt5hNSIRI67GVFsvE/F1VRQ/G5AaLaBT9eCWFB
- kQzZ119SHKpmrpJECJ0JeQC4a/twoxVDaGJloes=
-X-Google-Smtp-Source: ABdhPJzR/N3mLtr8kjZbBL9hMubpld7vaz51AmoQ0LCzQXG919dacVg/xY1UwPOPnsOS6Xbv1NjkX8ump/fWnlwgdbg=
-X-Received: by 2002:a17:906:17d5:: with SMTP id
- u21mr5793502eje.109.1610015335063; 
- Thu, 07 Jan 2021 02:28:55 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <no-reply@patchew.org>)
+ id 1kxSZP-0004hk-3M
+ for qemu-devel@nongnu.org; Thu, 07 Jan 2021 05:31:08 -0500
+Resent-Date: Thu, 07 Jan 2021 05:31:07 -0500
+Resent-Message-Id: <E1kxSZP-0004hk-3M@lists.gnu.org>
+Received: from sender4-of-o52.zoho.com ([136.143.188.52]:21270)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <no-reply@patchew.org>)
+ id 1kxSZL-0001Zx-KH
+ for qemu-devel@nongnu.org; Thu, 07 Jan 2021 05:31:06 -0500
+ARC-Seal: i=1; a=rsa-sha256; t=1610015451; cv=none; 
+ d=zohomail.com; s=zohoarc; 
+ b=nILOfuWjNfcR4rmuQTHxJ3zHHRKwDIs9BJLTZxki1j2j2pcsdPmT8aj8jfGW0iVI8F6P6iXJmvMXqM23MmsffYiTNzO7gSkyKlIa5bymXYkkjnC8saToSoNnqGIMdF3KKKnHT/LCiZmYMVuJutL/NqAf0UAkBNIwydrd3FToC70=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
+ s=zohoarc; t=1610015451;
+ h=Content-Type:Content-Transfer-Encoding:Cc:Date:From:In-Reply-To:MIME-Version:Message-ID:Reply-To:Subject:To;
+ bh=kbiZk1plyxr1hbzb1oFIrBKuekKWtvWhgp+SaUvjz2A=; 
+ b=bw1SVRE4nOGPmh1c5EgVD64vJurfp1ifTo6DHm0B1SqSMAItCA+hCzaZgnHUna+Y4cj75DHTzFeJc6IjziHMNYUXZwYQhqcbnsMrfAJU4Vj9QphHr7uo7h0kxqVh+mUWegvTi71KmqxoAfw/wB3Qwl8BfjkPg5CDDp2zKPhcRTs=
+ARC-Authentication-Results: i=1; mx.zohomail.com;
+ spf=pass  smtp.mailfrom=no-reply@patchew.org;
+ dmarc=pass header.from=<no-reply@patchew.org>
+ header.from=<no-reply@patchew.org>
+Received: from [172.17.0.3] (23.253.156.214 [23.253.156.214]) by
+ mx.zohomail.com with SMTPS id 1610015445946673.8871697688121;
+ Thu, 7 Jan 2021 02:30:45 -0800 (PST)
+In-Reply-To: <20210107101919.80-1-luoyonggang@gmail.com>
+Subject: Re: [PATCH v4 0/5] Misc meson fixes along test-vmstate fixes
+Message-ID: <161001544401.500.944440260972082500@5f806b4aa85b>
 MIME-Version: 1.0
-References: <20210107101919.80-1-luoyonggang@gmail.com>
- <20210107101919.80-6-luoyonggang@gmail.com>
-In-Reply-To: <20210107101919.80-6-luoyonggang@gmail.com>
-From: =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@gmail.com>
-Date: Thu, 7 Jan 2021 14:28:43 +0400
-Message-ID: <CAJ+F1C+q9e08zX9OqkS4294oCNBAf-Gs7L9AomtYrc7vKyqCEA@mail.gmail.com>
-Subject: Re: [PATCH v4 5/5] whpx: move whpx_lapic_state from header to c file
-To: Yonggang Luo <luoyonggang@gmail.com>
-Content-Type: multipart/alternative; boundary="00000000000021272705b84ce8eb"
-Received-SPF: pass client-ip=2a00:1450:4864:20::62c;
- envelope-from=marcandre.lureau@gmail.com; helo=mail-ej1-x62c.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
+Resent-From: 
+From: no-reply@patchew.org
+To: luoyonggang@gmail.com
+Date: Thu, 7 Jan 2021 02:30:45 -0800 (PST)
+X-ZohoMailClient: External
+Received-SPF: pass client-ip=136.143.188.52; envelope-from=no-reply@patchew.org;
+ helo=sender4-of-o52.zoho.com
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
+ RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -78,150 +67,52 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Paolo Bonzini <pbonzini@redhat.com>,
- Sunil Muthuswamy <sunilmut@microsoft.com>, Ed Maste <emaste@freebsd.org>,
- QEMU <qemu-devel@nongnu.org>
+Reply-To: qemu-devel@nongnu.org
+Cc: pbonzini@redhat.com, sunilmut@microsoft.com, emaste@freebsd.org,
+ qemu-devel@nongnu.org, luoyonggang@gmail.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---00000000000021272705b84ce8eb
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-Hi
-
-On Thu, Jan 7, 2021 at 2:26 PM Yonggang Luo <luoyonggang@gmail.com> wrote:
-
-> This struct only used in whpx-apic.c, there is no need
-> expose it in whpx.h.
->
-> Signed-off-by: Yonggang Luo <luoyonggang@gmail.com>
->
-
-Similar patch pending:
-https://patchew.org/QEMU/20201219090637.1700900-1-pbonzini@redhat.com/20201=
-219090637.1700900-3-pbonzini@redhat.com/
-
----
->  include/sysemu/whpx.h        | 7 -------
->  target/i386/whpx/whpx-apic.c | 7 +++++++
->  2 files changed, 7 insertions(+), 7 deletions(-)
->
-> diff --git a/include/sysemu/whpx.h b/include/sysemu/whpx.h
-> index 4f38784d7e..bfbcaa25d8 100644
-> --- a/include/sysemu/whpx.h
-> +++ b/include/sysemu/whpx.h
-> @@ -25,13 +25,6 @@ struct whpx_state {
->      bool apic_in_platform;
->  };
->
-> -struct whpx_lapic_state {
-> -    struct {
-> -        uint32_t data;
-> -        uint32_t padding[3];
-> -    } fields[256];
-> -};
-> -
->  extern struct whpx_state whpx_global;
->  int whpx_enabled(void);
->
-> diff --git a/target/i386/whpx/whpx-apic.c b/target/i386/whpx/whpx-apic.c
-> index b127a3cb8a..dd60fb0996 100644
-> --- a/target/i386/whpx/whpx-apic.c
-> +++ b/target/i386/whpx/whpx-apic.c
-> @@ -20,6 +20,13 @@
->  #include "sysemu/whpx.h"
->  #include "whp-dispatch.h"
->
-> +struct whpx_lapic_state {
-> +    struct {
-> +        uint32_t data;
-> +        uint32_t padding[3];
-> +    } fields[256];
-> +};
-> +
->  static void whpx_put_apic_state(APICCommonState *s,
->                                  struct whpx_lapic_state *kapic)
->  {
-> --
-> 2.29.2.windows.3
->
->
->
-
---=20
-Marc-Andr=C3=A9 Lureau
-
---00000000000021272705b84ce8eb
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div>Hi<br></div><br><div class=3D"gmail_quote"><div dir=
-=3D"ltr" class=3D"gmail_attr">On Thu, Jan 7, 2021 at 2:26 PM Yonggang Luo &=
-lt;<a href=3D"mailto:luoyonggang@gmail.com">luoyonggang@gmail.com</a>&gt; w=
-rote:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0p=
-x 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">This struc=
-t only used in whpx-apic.c, there is no need<br>
-expose it in whpx.h.<br>
-<br>
-Signed-off-by: Yonggang Luo &lt;<a href=3D"mailto:luoyonggang@gmail.com" ta=
-rget=3D"_blank">luoyonggang@gmail.com</a>&gt;<br></blockquote><div><br></di=
-v><div>Similar patch pending:<br></div><div><a href=3D"https://patchew.org/=
-QEMU/20201219090637.1700900-1-pbonzini@redhat.com/20201219090637.1700900-3-=
-pbonzini@redhat.com/">https://patchew.org/QEMU/20201219090637.1700900-1-pbo=
-nzini@redhat.com/20201219090637.1700900-3-pbonzini@redhat.com/</a></div><di=
-v> <br></div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px =
-0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">
----<br>
-=C2=A0include/sysemu/whpx.h=C2=A0 =C2=A0 =C2=A0 =C2=A0 | 7 -------<br>
-=C2=A0target/i386/whpx/whpx-apic.c | 7 +++++++<br>
-=C2=A02 files changed, 7 insertions(+), 7 deletions(-)<br>
-<br>
-diff --git a/include/sysemu/whpx.h b/include/sysemu/whpx.h<br>
-index 4f38784d7e..bfbcaa25d8 100644<br>
---- a/include/sysemu/whpx.h<br>
-+++ b/include/sysemu/whpx.h<br>
-@@ -25,13 +25,6 @@ struct whpx_state {<br>
-=C2=A0 =C2=A0 =C2=A0bool apic_in_platform;<br>
-=C2=A0};<br>
-<br>
--struct whpx_lapic_state {<br>
--=C2=A0 =C2=A0 struct {<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 uint32_t data;<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 uint32_t padding[3];<br>
--=C2=A0 =C2=A0 } fields[256];<br>
--};<br>
--<br>
-=C2=A0extern struct whpx_state whpx_global;<br>
-=C2=A0int whpx_enabled(void);<br>
-<br>
-diff --git a/target/i386/whpx/whpx-apic.c b/target/i386/whpx/whpx-apic.c<br=
->
-index b127a3cb8a..dd60fb0996 100644<br>
---- a/target/i386/whpx/whpx-apic.c<br>
-+++ b/target/i386/whpx/whpx-apic.c<br>
-@@ -20,6 +20,13 @@<br>
-=C2=A0#include &quot;sysemu/whpx.h&quot;<br>
-=C2=A0#include &quot;whp-dispatch.h&quot;<br>
-<br>
-+struct whpx_lapic_state {<br>
-+=C2=A0 =C2=A0 struct {<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 uint32_t data;<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 uint32_t padding[3];<br>
-+=C2=A0 =C2=A0 } fields[256];<br>
-+};<br>
-+<br>
-=C2=A0static void whpx_put_apic_state(APICCommonState *s,<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0struct whpx_lapic_state *kapic=
-)<br>
-=C2=A0{<br>
--- <br>
-2.29.2.windows.3<br>
-<br>
-<br>
-</blockquote></div><br clear=3D"all"><br>-- <br><div dir=3D"ltr" class=3D"g=
-mail_signature">Marc-Andr=C3=A9 Lureau<br></div></div>
-
---00000000000021272705b84ce8eb--
+UGF0Y2hldyBVUkw6IGh0dHBzOi8vcGF0Y2hldy5vcmcvUUVNVS8yMDIxMDEwNzEwMTkxOS44MC0x
+LWx1b3lvbmdnYW5nQGdtYWlsLmNvbS8KCgoKSGksCgpUaGlzIHNlcmllcyBzZWVtcyB0byBoYXZl
+IHNvbWUgY29kaW5nIHN0eWxlIHByb2JsZW1zLiBTZWUgb3V0cHV0IGJlbG93IGZvcgptb3JlIGlu
+Zm9ybWF0aW9uOgoKVHlwZTogc2VyaWVzCk1lc3NhZ2UtaWQ6IDIwMjEwMTA3MTAxOTE5LjgwLTEt
+bHVveW9uZ2dhbmdAZ21haWwuY29tClN1YmplY3Q6IFtQQVRDSCB2NCAwLzVdIE1pc2MgbWVzb24g
+Zml4ZXMgYWxvbmcgdGVzdC12bXN0YXRlIGZpeGVzCgo9PT0gVEVTVCBTQ1JJUFQgQkVHSU4gPT09
+CiMhL2Jpbi9iYXNoCmdpdCByZXYtcGFyc2UgYmFzZSA+IC9kZXYvbnVsbCB8fCBleGl0IDAKZ2l0
+IGNvbmZpZyAtLWxvY2FsIGRpZmYucmVuYW1lbGltaXQgMApnaXQgY29uZmlnIC0tbG9jYWwgZGlm
+Zi5yZW5hbWVzIFRydWUKZ2l0IGNvbmZpZyAtLWxvY2FsIGRpZmYuYWxnb3JpdGhtIGhpc3RvZ3Jh
+bQouL3NjcmlwdHMvY2hlY2twYXRjaC5wbCAtLW1haWxiYWNrIGJhc2UuLgo9PT0gVEVTVCBTQ1JJ
+UFQgRU5EID09PQoKVXBkYXRpbmcgM2M4Y2Y1YTljMjFmZjg3ODIxNjRkMWRlZjdmNDRiZDg4ODcx
+MzM4NApGcm9tIGh0dHBzOi8vZ2l0aHViLmNvbS9wYXRjaGV3LXByb2plY3QvcWVtdQogLSBbdGFn
+IHVwZGF0ZV0gICAgICBwYXRjaGV3LzIwMjEwMTA3MDcyOTMzLjM4Mjg0NTAtMS1mNGJ1Z0BhbXNh
+dC5vcmcgLT4gcGF0Y2hldy8yMDIxMDEwNzA3MjkzMy4zODI4NDUwLTEtZjRidWdAYW1zYXQub3Jn
+CiAqIFtuZXcgdGFnXSAgICAgICAgIHBhdGNoZXcvMjAyMTAxMDcxMDE5MTkuODAtMS1sdW95b25n
+Z2FuZ0BnbWFpbC5jb20gLT4gcGF0Y2hldy8yMDIxMDEwNzEwMTkxOS44MC0xLWx1b3lvbmdnYW5n
+QGdtYWlsLmNvbQpTd2l0Y2hlZCB0byBhIG5ldyBicmFuY2ggJ3Rlc3QnCmQ5M2Q4M2Mgd2hweDog
+bW92ZSB3aHB4X2xhcGljX3N0YXRlIGZyb20gaGVhZGVyIHRvIGMgZmlsZQo1MzhmMzA3IHdocHg6
+IEZpeGVzIGluY2x1ZGUgb2Ygd2hwLWRpc3BhdGNoLmggaW4gd2hweC5oCjA2NzUwMWQgbWFpbnRh
+aW5lcnM6IEFkZCBtZSBhcyBXaW5kb3dzIEhvc3RlZCBDb250aW51b3VzIEludGVncmF0aW9uIG1h
+aW50YWluZXIKZjQxNDA5ZCBjaXJydXMvbXN5czI6IENhY2hlIG1zeXMyIG1pbmd3IGluIGEgYmV0
+dGVyIHdheS4KOTlhY2IzZCBjaXJydXMvbXN5czI6IEV4aXQgcG93ZXJzaGVsbCB3aXRoICRMYXN0
+RXhpdENvZGUKCj09PSBPVVRQVVQgQkVHSU4gPT09CjEvNSBDaGVja2luZyBjb21taXQgOTlhY2Iz
+ZDdjMzMzIChjaXJydXMvbXN5czI6IEV4aXQgcG93ZXJzaGVsbCB3aXRoICRMYXN0RXhpdENvZGUp
+CjIvNSBDaGVja2luZyBjb21taXQgZjQxNDA5ZDZkNWYxIChjaXJydXMvbXN5czI6IENhY2hlIG1z
+eXMyIG1pbmd3IGluIGEgYmV0dGVyIHdheS4pCkVSUk9SOiB0cmFpbGluZyB3aGl0ZXNwYWNlCiMx
+NDI6IEZJTEU6IC5jaXJydXMueW1sOjE0MToKKyAgICAgICAgZGVsIC1Gb3JjZSAtUmVjdXJzZSAt
+RXJyb3JBY3Rpb24gU2lsZW50bHlDb250aW51ZSBjOlx0b29sc1xtc3lzNjQgJAoKdG90YWw6IDEg
+ZXJyb3JzLCAwIHdhcm5pbmdzLCAxNDAgbGluZXMgY2hlY2tlZAoKUGF0Y2ggMi81IGhhcyBzdHls
+ZSBwcm9ibGVtcywgcGxlYXNlIHJldmlldy4gIElmIGFueSBvZiB0aGVzZSBlcnJvcnMKYXJlIGZh
+bHNlIHBvc2l0aXZlcyByZXBvcnQgdGhlbSB0byB0aGUgbWFpbnRhaW5lciwgc2VlCkNIRUNLUEFU
+Q0ggaW4gTUFJTlRBSU5FUlMuCgozLzUgQ2hlY2tpbmcgY29tbWl0IDA2NzUwMWQ3NTg2ZCAobWFp
+bnRhaW5lcnM6IEFkZCBtZSBhcyBXaW5kb3dzIEhvc3RlZCBDb250aW51b3VzIEludGVncmF0aW9u
+IG1haW50YWluZXIpCjQvNSBDaGVja2luZyBjb21taXQgNTM4ZjMwNzJmYzE0ICh3aHB4OiBGaXhl
+cyBpbmNsdWRlIG9mIHdocC1kaXNwYXRjaC5oIGluIHdocHguaCkKNS81IENoZWNraW5nIGNvbW1p
+dCBkOTNkODNjOWY4ZGIgKHdocHg6IG1vdmUgd2hweF9sYXBpY19zdGF0ZSBmcm9tIGhlYWRlciB0
+byBjIGZpbGUpCj09PSBPVVRQVVQgRU5EID09PQoKVGVzdCBjb21tYW5kIGV4aXRlZCB3aXRoIGNv
+ZGU6IDEKCgpUaGUgZnVsbCBsb2cgaXMgYXZhaWxhYmxlIGF0Cmh0dHA6Ly9wYXRjaGV3Lm9yZy9s
+b2dzLzIwMjEwMTA3MTAxOTE5LjgwLTEtbHVveW9uZ2dhbmdAZ21haWwuY29tL3Rlc3RpbmcuY2hl
+Y2twYXRjaC8/dHlwZT1tZXNzYWdlLgotLS0KRW1haWwgZ2VuZXJhdGVkIGF1dG9tYXRpY2FsbHkg
+YnkgUGF0Y2hldyBbaHR0cHM6Ly9wYXRjaGV3Lm9yZy9dLgpQbGVhc2Ugc2VuZCB5b3VyIGZlZWRi
+YWNrIHRvIHBhdGNoZXctZGV2ZWxAcmVkaGF0LmNvbQ==
 
