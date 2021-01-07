@@ -2,75 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A4CB02ECF97
-	for <lists+qemu-devel@lfdr.de>; Thu,  7 Jan 2021 13:27:49 +0100 (CET)
-Received: from localhost ([::1]:56804 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 76F152ED01B
+	for <lists+qemu-devel@lfdr.de>; Thu,  7 Jan 2021 13:44:05 +0100 (CET)
+Received: from localhost ([::1]:34378 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kxUOK-00072a-PD
-	for lists+qemu-devel@lfdr.de; Thu, 07 Jan 2021 07:27:48 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42936)
+	id 1kxUe4-0002MG-1B
+	for lists+qemu-devel@lfdr.de; Thu, 07 Jan 2021 07:44:04 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46788)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1kxUL0-00057v-Mw
- for qemu-devel@nongnu.org; Thu, 07 Jan 2021 07:24:22 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:48177)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1kxUKz-0005Qz-6E
- for qemu-devel@nongnu.org; Thu, 07 Jan 2021 07:24:22 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1610022260;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=FwzxehpDXq3R4yHsvkxSoT8YAou6bQT3fwchV3R4FvM=;
- b=SO7oxQgKoXplHNgpu95/n2+s4yeMDaTqmoMZcGq3MwcDelkp8WhsVhWVKI3K4ypuRePWGe
- IdY5GQaM55XyWH5IPaYGTokJ12MgGHJ5r83dBxVGmIgDRtBYr9oxh5QSY9FAJPV3AyHIfk
- iyXILQdq2RDQCXzHvyAQpqRVBnc1DgU=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-457-THsDDsSpMhCJAMMCUaNupg-1; Thu, 07 Jan 2021 07:24:16 -0500
-X-MC-Unique: THsDDsSpMhCJAMMCUaNupg-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 5FDF3800D53;
- Thu,  7 Jan 2021 12:24:15 +0000 (UTC)
-Received: from dresden.str.redhat.com (ovpn-114-252.ams2.redhat.com
- [10.36.114.252])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id EE9E760BF1;
- Thu,  7 Jan 2021 12:24:09 +0000 (UTC)
-Subject: Re: [PATCH v3 1/5] file-posix: split hdev_refresh_limits from
- raw_refresh_limits
-To: Maxim Levitsky <mlevitsk@redhat.com>, qemu-devel@nongnu.org
-References: <20201217165612.942849-1-mlevitsk@redhat.com>
- <20201217165612.942849-2-mlevitsk@redhat.com>
-From: Max Reitz <mreitz@redhat.com>
-Message-ID: <ceee451e-4e9a-bd0c-cb6a-1fdf1a274e99@redhat.com>
-Date: Thu, 7 Jan 2021 13:24:07 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.5.0
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1kxUcC-0001Tv-3E
+ for qemu-devel@nongnu.org; Thu, 07 Jan 2021 07:42:08 -0500
+Received: from mail-wm1-x336.google.com ([2a00:1450:4864:20::336]:36175)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1kxUc3-00051b-P4
+ for qemu-devel@nongnu.org; Thu, 07 Jan 2021 07:42:04 -0500
+Received: by mail-wm1-x336.google.com with SMTP id y23so5426389wmi.1
+ for <qemu-devel@nongnu.org>; Thu, 07 Jan 2021 04:41:59 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=references:user-agent:from:to:cc:subject:date:in-reply-to
+ :message-id:mime-version:content-transfer-encoding;
+ bh=hm+TDULvTFm3BkCp3PJC0miDRY8RW3QNcnYoyhla4jY=;
+ b=hJWpumI++WGCpq0hprJQxeqfOCSRhsRMIc6/3ekzogLj803W7/sRiQsiy6fTKT91Kq
+ Lord8noTup0g+dZoSLmvs0Dr/dtdxArlrqZIw7pGaBDollwu/iqisbbGQiNcsPm+C5sp
+ gQdNop+/iM5rIrKZcjME/T65ST/eb3GtrlM2oUQ6zPJsQouzFPWYfL9HjA6h10ORhlg6
+ M0bixPOGt2LXgs9HCf4/vz9Ey5eqk5irzSX+3iAb1KGt0NqyXl3kO/hoL+fW3BBj9S8S
+ yg+vnGQ4f9ym7eP67qy/wBLqi2lGWm1446qXWlCvl05pqk+1WR20I0KRVZMydZDXv72l
+ UVvA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:references:user-agent:from:to:cc:subject:date
+ :in-reply-to:message-id:mime-version:content-transfer-encoding;
+ bh=hm+TDULvTFm3BkCp3PJC0miDRY8RW3QNcnYoyhla4jY=;
+ b=hrwnA34qIZNSVDdSJCPGEglCoFq4ptDL2MKBdRDXnebaRUMbbhwameBlVxpFQniiz8
+ fPg7Cv9fFPss/V3y65mJzSkhP5FImyUWgIVRwCoB0jNupvDCtamTilY1VAeoIfqMuasv
+ urhppf+aOsVg+AST84wOT1EmJkFcWtK2Uu7qN3wedBFZ/HEKM8dbLtmNAz4VYT3l7BT6
+ NpoIQvh/osZ/dJ3RLEs/Gnwtjw5OSR7b0XqJl19VombBZ1IjBhe/SU9a+8sFmY+RxiMa
+ ReYF5CHQJHsJyNLr09ENKmRYADfQexdiVtE+LMuRnhFz5KU11W2Ixu68wMp96zblFb5A
+ JazQ==
+X-Gm-Message-State: AOAM530g0njfDmYdYPzmhKHmD9uoUOjFhUD94dfi30+XnqQqZ2Msf/IV
+ 6G9zwIqJ568b71tT4fgB0dD2mtbwG/DMSw==
+X-Google-Smtp-Source: ABdhPJzr+j8hK51Baz9iG94nYUTGdQD/4b8m5gQ/SG1ugZ2+xv6d7KBvs3s5Wh/waX+bb6YHRZQHUQ==
+X-Received: by 2002:a05:600c:d8:: with SMTP id
+ u24mr7834463wmm.103.1610023317274; 
+ Thu, 07 Jan 2021 04:41:57 -0800 (PST)
+Received: from zen.linaroharston ([51.148.130.216])
+ by smtp.gmail.com with ESMTPSA id o125sm7401568wmo.30.2021.01.07.04.41.56
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 07 Jan 2021 04:41:56 -0800 (PST)
+Received: from zen (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id AF2BE1FF7E;
+ Thu,  7 Jan 2021 12:41:55 +0000 (GMT)
+References: <1609963815-417989-1-git-send-email-steven.sistare@oracle.com>
+User-agent: mu4e 1.5.7; emacs 28.0.50
+From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: Steve Sistare <steven.sistare@oracle.com>
+Subject: Re: [PATCH V1] gdbstub: suspended state support
+Date: Thu, 07 Jan 2021 12:40:44 +0000
+In-reply-to: <1609963815-417989-1-git-send-email-steven.sistare@oracle.com>
+Message-ID: <87h7ns2a24.fsf@linaro.org>
 MIME-Version: 1.0
-In-Reply-To: <20201217165612.942849-2-mlevitsk@redhat.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mreitz@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=mreitz@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -32
-X-Spam_score: -3.3
-X-Spam_bar: ---
-X-Spam_report: (-3.3 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.246,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.267, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2a00:1450:4864:20::336;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x336.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -83,152 +87,74 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, Fam Zheng <fam@euphon.net>,
- Ronnie Sahlberg <ronniesahlberg@gmail.com>, qemu-block@nongnu.org,
- Peter Lieven <pl@kamp.de>, Tom Yan <tom.ty89@gmail.com>,
- Stefan Hajnoczi <stefanha@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>
+Cc: Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
+ qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 17.12.20 17:56, Maxim Levitsky wrote:
-> From: Tom Yan <tom.ty89@gmail.com>
-> 
-> We can and should get max transfer length and max segments for all host
-> devices / cdroms (on Linux).
-> 
-> Also use MIN_NON_ZERO instead when we clamp max transfer length against
-> max segments.
-> 
-> Signed-off-by: Tom Yan <tom.ty89@gmail.com>
-> Signed-off-by: Maxim Levitsky <mlevitsk@redhat.com>
+
+Steve Sistare <steven.sistare@oracle.com> writes:
+
+> Modify the gdb server so a continue command appears to resume execution
+> when in RUN_STATE_SUSPENDED.  Do not print the next gdb prompt, but do not
+> actually resume instruction fetch.  While in this "fake" running mode, a
+> ctrl-C returns the user to the gdb prompt.
+
+What exactly is the purpose of this? To hide the details of the runstate
+as controlled by the user? I wouldn't expect someone using gdb debugging
+not to also have control of the HMP/QMP interface.
+
+>
+> Signed-off-by: Steve Sistare <steven.sistare@oracle.com>
 > ---
->   block/file-posix.c | 57 +++++++++++++++++++++++++++++++++-------------
->   1 file changed, 41 insertions(+), 16 deletions(-)
+>  gdbstub.c | 11 +++++++++--
+>  1 file changed, 9 insertions(+), 2 deletions(-)
+>
+> diff --git a/gdbstub.c b/gdbstub.c
+> index f3a318c..2f0d9ff 100644
+> --- a/gdbstub.c
+> +++ b/gdbstub.c
+> @@ -461,7 +461,9 @@ static inline void gdb_continue(void)
+>  #else
+>      if (!runstate_needs_reset()) {
+>          trace_gdbstub_op_continue();
+> -        vm_start();
+> +        if (!runstate_check(RUN_STATE_SUSPENDED)) {
+> +            vm_start();
+> +        }
+>      }
+>  #endif
+>  }
+> @@ -490,7 +492,7 @@ static int gdb_continue_partial(char *newstates)
+>      int flag =3D 0;
+>=20=20
+>      if (!runstate_needs_reset()) {
+> -        if (vm_prepare_start()) {
+> +        if (!runstate_check(RUN_STATE_SUSPENDED) && vm_prepare_start()) {
+>              return 0;
+>          }
+>=20=20
+> @@ -2835,6 +2837,9 @@ static void gdb_read_byte(uint8_t ch)
+>          /* when the CPU is running, we cannot do anything except stop
+>             it when receiving a char */
+>          vm_stop(RUN_STATE_PAUSED);
+> +    } else if (runstate_check(RUN_STATE_SUSPENDED) && ch =3D=3D 3) {
+> +        /* Received ctrl-c from gdb */
+> +        gdb_vm_state_change(0, 0, RUN_STATE_PAUSED);
+>      } else
+>  #endif
+>      {
+> @@ -3282,6 +3287,8 @@ static void gdb_sigterm_handler(int signal)
+>  {
+>      if (runstate_is_running()) {
+>          vm_stop(RUN_STATE_PAUSED);
+> +    } else if (runstate_check(RUN_STATE_SUSPENDED)) {
+> +        gdb_vm_state_change(0, 0, RUN_STATE_PAUSED);
+>      }
+>  }
+>  #endif
 
-I’m aware that most of my remarks below apply to the pre-patch state 
-just as well, but I feel like now is a good time to raise them, so, here 
-goes:
 
-> diff --git a/block/file-posix.c b/block/file-posix.c
-> index 9804681d5c..cbf1271773 100644
-> --- a/block/file-posix.c
-> +++ b/block/file-posix.c
-> @@ -1166,6 +1166,10 @@ static int sg_get_max_transfer_length(int fd)
->       int max_bytes = 0;
->   
->       if (ioctl(fd, BLKSECTGET, &max_bytes) == 0) {
-> +        /*
-> +         * BLKSECTGET for /dev/sg* character devices incorrectly returns
-> +         * the max transfer size in bytes (rather than in blocks).
-> +         */
->           return max_bytes;
->       } else {
->           return -errno;
-> @@ -1175,7 +1179,22 @@ static int sg_get_max_transfer_length(int fd)
->   #endif
->   }
->   
-> -static int sg_get_max_segments(int fd)
-> +static int get_max_transfer_length(int fd)
-> +{
-> +#if defined(BLKSECTGET)
-> +    int sect = 0;
-> +
-> +    if (ioctl(fd, BLKSECTGET, &sect) == 0) {
-> +        return sect << 9;
-
-Can this overflow?
-
-(I mean, technically it would still be safe, because either the limit is 
-set too low or it isn’t set at all, which would be correct on overflow. 
-  But still.)
-
-> +    } else {
-> +        return -errno;
-> +    }
-> +#else
-> +    return -ENOSYS;
-> +#endif
-> +}
-> +
-> +static int get_max_segments(int fd)
->   {
->   #ifdef CONFIG_LINUX
->       char buf[32];
-
-This function stores max_segments (a long) in ret (an int) and returns 
-the latter.  Should we guard against overflows?
-
-> @@ -1230,23 +1249,29 @@ static void raw_refresh_limits(BlockDriverState *bs, Error **errp)
->   {
->       BDRVRawState *s = bs->opaque;
->   
-> -    if (bs->sg) {
-> -        int ret = sg_get_max_transfer_length(s->fd);
-> +    raw_probe_alignment(bs, s->fd, errp);
-> +    bs->bl.min_mem_alignment = s->buf_align;
-> +    bs->bl.opt_mem_alignment = MAX(s->buf_align, qemu_real_host_page_size);
-> +}
-> +
-> +static void hdev_refresh_limits(BlockDriverState *bs, Error **errp)
-> +{
-> +    BDRVRawState *s = bs->opaque;
-> +
-> +    int ret = bs->sg ? sg_get_max_transfer_length(s->fd) :
-> +                       get_max_transfer_length(s->fd);
->   
-> -        if (ret > 0 && ret <= BDRV_REQUEST_MAX_BYTES) {
-> -            bs->bl.max_transfer = pow2floor(ret);
-> -        }
-> +    if (ret > 0 && ret <= BDRV_REQUEST_MAX_BYTES) {
-> +        bs->bl.max_transfer = pow2floor(ret);
-> +    }
->   
-> -        ret = sg_get_max_segments(s->fd);
-> -        if (ret > 0) {
-> -            bs->bl.max_transfer = MIN(bs->bl.max_transfer,
-> -                                      ret * qemu_real_host_page_size);
-
-(1) Can this overflow?  (Which I suppose could result in a 
-non-power-of-two result)
-
-(2) Even disregarding overflows, is ret * qemu_real_host_page_size 
-guaranteed to be a power of two?
-
-Max
-
-> -        }
-> +    ret = get_max_segments(s->fd);
-> +    if (ret > 0) {
-> +        bs->bl.max_transfer = MIN_NON_ZERO(bs->bl.max_transfer,
-> +                                           ret * qemu_real_host_page_size);
->       }
->   
-> -    raw_probe_alignment(bs, s->fd, errp);
-> -    bs->bl.min_mem_alignment = s->buf_align;
-> -    bs->bl.opt_mem_alignment = MAX(s->buf_align, qemu_real_host_page_size);
-> +    raw_refresh_limits(bs, errp);
->   }
->   
->   static int check_for_dasd(int fd)
-> @@ -3600,7 +3625,7 @@ static BlockDriver bdrv_host_device = {
->       .bdrv_co_pdiscard       = hdev_co_pdiscard,
->       .bdrv_co_copy_range_from = raw_co_copy_range_from,
->       .bdrv_co_copy_range_to  = raw_co_copy_range_to,
-> -    .bdrv_refresh_limits = raw_refresh_limits,
-> +    .bdrv_refresh_limits = hdev_refresh_limits,
->       .bdrv_io_plug = raw_aio_plug,
->       .bdrv_io_unplug = raw_aio_unplug,
->       .bdrv_attach_aio_context = raw_aio_attach_aio_context,
-> @@ -3724,7 +3749,7 @@ static BlockDriver bdrv_host_cdrom = {
->       .bdrv_co_preadv         = raw_co_preadv,
->       .bdrv_co_pwritev        = raw_co_pwritev,
->       .bdrv_co_flush_to_disk  = raw_co_flush_to_disk,
-> -    .bdrv_refresh_limits = raw_refresh_limits,
-> +    .bdrv_refresh_limits = hdev_refresh_limits,
->       .bdrv_io_plug = raw_aio_plug,
->       .bdrv_io_unplug = raw_aio_unplug,
->       .bdrv_attach_aio_context = raw_aio_attach_aio_context,
-> 
-
+--=20
+Alex Benn=C3=A9e
 
