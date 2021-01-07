@@ -2,88 +2,93 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 72F892ED65C
-	for <lists+qemu-devel@lfdr.de>; Thu,  7 Jan 2021 19:05:57 +0100 (CET)
-Received: from localhost ([::1]:49540 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 83DB22ED65F
+	for <lists+qemu-devel@lfdr.de>; Thu,  7 Jan 2021 19:07:12 +0100 (CET)
+Received: from localhost ([::1]:51846 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kxZfY-00015e-Hu
-	for lists+qemu-devel@lfdr.de; Thu, 07 Jan 2021 13:05:56 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43116)
+	id 1kxZgl-0002C5-HO
+	for lists+qemu-devel@lfdr.de; Thu, 07 Jan 2021 13:07:11 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43582)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <david.edmondson@oracle.com>)
- id 1kxZdn-0000Ol-HK; Thu, 07 Jan 2021 13:04:07 -0500
-Received: from aserp2130.oracle.com ([141.146.126.79]:36152)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <david.edmondson@oracle.com>)
- id 1kxZdj-0005BK-J5; Thu, 07 Jan 2021 13:04:06 -0500
-Received: from pps.filterd (aserp2130.oracle.com [127.0.0.1])
- by aserp2130.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 107Hsosh089438;
- Thu, 7 Jan 2021 18:03:53 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com;
- h=to : cc : subject :
- in-reply-to : references : sender : from : date : message-id :
- mime-version : content-type; s=corp-2020-01-29;
- bh=CwkLoRVsv5y/OL8ds5x0PBWOfkrO0kjl5xSbsHi6mvI=;
- b=LPEh+3A5wV6EkIs6IKH4jLxkJcK8grC55iP52j72Wcoxu+GXpj9HWO/5Ep6sMGcy2IyA
- zToLzCN2zWvaUBHV8epWriHsQIfhQlt7ZsBpeKAHo2IarqHO4UImZebPeaS74uE22zL2
- LcZ9tVpB0jc5WzgYeRShgcXUi17hdaLdQ7PncLRkMrVhLt4Nw/dRWMdiSJJi3I2U5BWW
- 5OKHiYUmmne2MSoc1+4PxQ2N4ANsRiTucEcbAC40MSe4eUNiMV9zOBuaeEmFLkVTf5Aw
- 2t3locViRfBrZUqEVmghaxAoyKrpyCynW/T+WDneKua2gx+5DeWSePkxizXc/YjfEaHv sw== 
-Received: from aserp3020.oracle.com (aserp3020.oracle.com [141.146.126.70])
- by aserp2130.oracle.com with ESMTP id 35wcuxx026-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=FAIL);
- Thu, 07 Jan 2021 18:03:53 +0000
-Received: from pps.filterd (aserp3020.oracle.com [127.0.0.1])
- by aserp3020.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 107I12Rf118368;
- Thu, 7 Jan 2021 18:03:52 GMT
-Received: from aserv0122.oracle.com (aserv0122.oracle.com [141.146.126.236])
- by aserp3020.oracle.com with ESMTP id 35v1fbj00h-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Thu, 07 Jan 2021 18:03:52 +0000
-Received: from abhmp0013.oracle.com (abhmp0013.oracle.com [141.146.116.19])
- by aserv0122.oracle.com (8.14.4/8.14.4) with ESMTP id 107I3pMc015379;
- Thu, 7 Jan 2021 18:03:51 GMT
-Received: from disaster-area.hh.sledj.net (/81.187.26.238)
- by default (Oracle Beehive Gateway v4.0)
- with ESMTP ; Thu, 07 Jan 2021 18:03:51 +0000
-Received: from localhost (disaster-area.hh.sledj.net [local])
- by disaster-area.hh.sledj.net (OpenSMTPD) with ESMTPA id 9a336e21;
- Thu, 7 Jan 2021 18:03:49 +0000 (UTC)
-To: qemu-devel@nongnu.org
-Subject: Re: [PATCH v3] block: report errno when flock fcntl fails
-In-Reply-To: <20210107175538.381304-1-david.edmondson@oracle.com>
-References: <20210107175538.381304-1-david.edmondson@oracle.com>
-X-HGTTG: zarquon
-From: David Edmondson <david.edmondson@oracle.com>
-Date: Thu, 07 Jan 2021 18:03:49 +0000
-Message-ID: <cunsg7cpqt6.fsf@oracle.com>
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1kxZev-0001JZ-J4
+ for qemu-devel@nongnu.org; Thu, 07 Jan 2021 13:05:20 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:27005)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1kxZeq-0005aV-Qf
+ for qemu-devel@nongnu.org; Thu, 07 Jan 2021 13:05:16 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1610042710;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=534aklQdQv4pdi5L7+ASDXnzFzsOrNHjcTI0kOiBI+M=;
+ b=S/MC1iMz6hWRXO5CvZ1haMYBLloAhXbipqDVspiw4EmTbYrIRghzL6Fvp6nHjCOBLuQLF3
+ 7JeMJnq0n9lRm3+A23yfgUQ8dc3YviT0MMfCx1qM2g08uPYmZfPtdhDukVG37ak0NgSS19
+ 73/WvzfqTlyZPy0RKnhJz91OtkZETyc=
+Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
+ [209.85.221.72]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-537-Stiq_tncPbacJzUsNakaFg-1; Thu, 07 Jan 2021 13:05:08 -0500
+X-MC-Unique: Stiq_tncPbacJzUsNakaFg-1
+Received: by mail-wr1-f72.google.com with SMTP id o17so2969747wra.8
+ for <qemu-devel@nongnu.org>; Thu, 07 Jan 2021 10:05:08 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=534aklQdQv4pdi5L7+ASDXnzFzsOrNHjcTI0kOiBI+M=;
+ b=H2nTaQyKG+Y2iDUDbt0XLzh9kGx+YKHaLWOlnvpI+tNoe/ugt7HDE7W38fGtf6vaUL
+ 4X8ClNG12xnK3t1VViR8pUElFhzo19oOnOG00nYgSAabslopc5Bjgkcxc8Gx9yCElmpu
+ AYy6rnKgY2nWoIeWkj3JKJaEx7OHvsxRSx0cQgqUu4caX/F82p3mzrGxu7lCdNQVWU9d
+ nBBHf3fuFBo6CmNtu3sfxhh+rgfLgMETZytZrdyVWm2KBIaJ8KiUxDcjmG6hvpVjsZT5
+ jwxKO5ETOMm8oKeEfKv7O+spv0EopWkp6rXPzcqlUgl/SbSX+eanuMlK+U+4krHwFxhU
+ 6z3g==
+X-Gm-Message-State: AOAM531YNQcSS00NJ/2QjTP42JK2x82lTqZUUk4iLKZrKqXjpbOEpfW+
+ +saZkz70Ah6sePH+8WstewywTs036CEKiRY/8SOjavW/qtyzrfCqSl40C+XLeNZ05SJupO2ydYZ
+ D9BsXxdTbjNWl0Cg=
+X-Received: by 2002:a5d:5005:: with SMTP id e5mr9798966wrt.279.1610042707719; 
+ Thu, 07 Jan 2021 10:05:07 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJxkphaxTjxvdLpFtKe8JYa1K6PmR+J/cvDYpknLSLxgLq3okP7ytBGD3FJA3vekw4i+cvAzOw==
+X-Received: by 2002:a5d:5005:: with SMTP id e5mr9798954wrt.279.1610042707581; 
+ Thu, 07 Jan 2021 10:05:07 -0800 (PST)
+Received: from ?IPv6:2001:b07:6468:f312:c8dd:75d4:99ab:290a?
+ ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
+ by smtp.gmail.com with ESMTPSA id n189sm8828899wmf.20.2021.01.07.10.05.06
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 07 Jan 2021 10:05:06 -0800 (PST)
+Subject: Re: [PATCH v2 0/2] Quality of life patches for qemu coroutine
+ debugging
+To: Maxim Levitsky <mlevitsk@redhat.com>, qemu-devel@nongnu.org
+References: <20201217155436.927320-1-mlevitsk@redhat.com>
+ <2ca49172510fc5a989a222b693f3cdcee879af07.camel@redhat.com>
+From: Paolo Bonzini <pbonzini@redhat.com>
+Message-ID: <2a1daed5-e9cf-e356-afd0-2154c787ae6c@redhat.com>
+Date: Thu, 7 Jan 2021 19:05:05 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.5.0
 MIME-Version: 1.0
-Content-Type: text/plain
-X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9857
- signatures=668683
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 mlxlogscore=999
- phishscore=0
- suspectscore=0 spamscore=0 bulkscore=0 adultscore=0 mlxscore=0
- malwarescore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2009150000 definitions=main-2101070106
-X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9857
- signatures=668683
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 suspectscore=0
- bulkscore=0
- clxscore=1015 spamscore=0 impostorscore=0 priorityscore=1501 mlxscore=0
- adultscore=0 mlxlogscore=999 lowpriorityscore=0 phishscore=0
- malwarescore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2009150000 definitions=main-2101070105
-Received-SPF: pass client-ip=141.146.126.79;
- envelope-from=david.edmondson@oracle.com; helo=aserp2130.oracle.com
-X-Spam_score_int: -45
-X-Spam_score: -4.6
-X-Spam_bar: ----
-X-Spam_report: (-4.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.246,
+In-Reply-To: <2ca49172510fc5a989a222b693f3cdcee879af07.camel@redhat.com>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=pbonzini@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=pbonzini@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -32
+X-Spam_score: -3.3
+X-Spam_bar: ---
+X-Spam_report: (-3.3 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.246,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_MED=-2.3, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_PASS=-0.001,
- SPF_PASS=-0.001, UNPARSEABLE_RELAY=0.001 autolearn=ham autolearn_force=no
+ NICE_REPLY_A=-0.267, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -96,405 +101,51 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>,
- Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
- Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
- qemu-block@nongnu.org, Max Reitz <mreitz@redhat.com>
+Cc: Fam Zheng <fam@euphon.net>, Eduardo Habkost <ehabkost@redhat.com>,
+ Cleber Rosa <crosa@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Ugh, please ignore this one. I didn't remove the test changes, but the
-tests passed, which I don't understand.
+On 07/01/21 11:24, Maxim Levitsky wrote:
+> On Thu, 2020-12-17 at 17:54 +0200, Maxim Levitsky wrote:
+>> These are two patches that improve a bit the qemu gdb scripts in regard to
+>> coroutines.
+>>
+>> First patch fixes a bug in 'qemu coroutine' in regard to usage on non topmost
+>> stack frame.
+>>
+>> Second patch implements 'qemu bt' as Stefan suggested.
+>>
+>> V2, because after hitting 'send' I noticed a few bugs:
+>>     1. Switch to try/catch around bt, so that when regular bt fails, we
+>>        print the same message as original bt.
+>>     2. Print the correct co-routine address
+>>
+>> Best regards,
+>>          Maxim Levitsky
+>>
+>> Maxim Levitsky (2):
+>>    scripts/gdb: fix 'qemu coroutine' when users selects a non topmost
+>>      stack frame
+>>    scripts/gdb: implement 'qemu bt'
+>>
+>>   scripts/qemu-gdb.py          |  1 +
+>>   scripts/qemugdb/coroutine.py | 35 ++++++++++++++++++++++++++++++++++-
+>>   2 files changed, 35 insertions(+), 1 deletion(-)
+>>
+>> -- 
+>> 2.26.2
+>>
+>>
+>>
+> Any update on this?
+> Best regards,
+> 	Maxim Levitsky
+> 
+> 
 
-On Thursday, 2021-01-07 at 17:55:38 GMT, David Edmondson wrote:
+I'll queue them myself, thanks.
 
-> When a call to fcntl(2) for the purpose of manipulating file locks
-> fails with an error other than EAGAIN or EACCES, report the error
-> returned by fcntl.
->
-> EAGAIN or EACCES are elided as they are considered to be common
-> failures, indicating that a conflicting lock is held by another
-> process.
->
-> Signed-off-by: David Edmondson <david.edmondson@oracle.com>
-> ---
-> v3:
-> - Remove the now unnecessary updates to the test framework (Max).
-> - Elide the error detail for EAGAIN or EACCES when locking (Kevin,
->   sort-of Max).
-> - Philippe and Vladimir sent Reviewed-by, but things have changed
->   noticeably, so I didn't add them (dme).
->
->  block/file-posix.c         | 52 +++++++++++++++++++++-----
->  tests/qemu-iotests/153.out | 76 +++++++++++++++++++-------------------
->  tests/qemu-iotests/182.out |  2 +-
->  3 files changed, 81 insertions(+), 49 deletions(-)
->
-> diff --git a/block/file-posix.c b/block/file-posix.c
-> index 00cdaaa2d4..c5142f7ffa 100644
-> --- a/block/file-posix.c
-> +++ b/block/file-posix.c
-> @@ -836,7 +836,13 @@ static int raw_apply_lock_bytes(BDRVRawState *s, int fd,
->          if ((perm_lock_bits & bit) && !(locked_perm & bit)) {
->              ret = qemu_lock_fd(fd, off, 1, false);
->              if (ret) {
-> -                error_setg(errp, "Failed to lock byte %d", off);
-> +                int err = -ret;
-> +
-> +                if (err == EAGAIN || err == EACCES) {
-> +                    error_setg(errp, "Failed to lock byte %d", off);
-> +                } else {
-> +                    error_setg_errno(errp, err, "Failed to lock byte %d", off);
-> +                }
->                  return ret;
->              } else if (s) {
->                  s->locked_perm |= bit;
-> @@ -844,7 +850,13 @@ static int raw_apply_lock_bytes(BDRVRawState *s, int fd,
->          } else if (unlock && (locked_perm & bit) && !(perm_lock_bits & bit)) {
->              ret = qemu_unlock_fd(fd, off, 1);
->              if (ret) {
-> -                error_setg(errp, "Failed to unlock byte %d", off);
-> +                int err = -ret;
-> +
-> +                if (err == EAGAIN || err == EACCES) {
-> +                    error_setg(errp, "Failed to lock byte %d", off);
-> +                } else {
-> +                    error_setg_errno(errp, err, "Failed to lock byte %d", off);
-> +                }
->                  return ret;
->              } else if (s) {
->                  s->locked_perm &= ~bit;
-> @@ -857,7 +869,13 @@ static int raw_apply_lock_bytes(BDRVRawState *s, int fd,
->          if ((shared_perm_lock_bits & bit) && !(locked_shared_perm & bit)) {
->              ret = qemu_lock_fd(fd, off, 1, false);
->              if (ret) {
-> -                error_setg(errp, "Failed to lock byte %d", off);
-> +                int err = -ret;
-> +
-> +                if (err == EAGAIN || err == EACCES) {
-> +                    error_setg(errp, "Failed to lock byte %d", off);
-> +                } else {
-> +                    error_setg_errno(errp, err, "Failed to lock byte %d", off);
-> +                }
->                  return ret;
->              } else if (s) {
->                  s->locked_shared_perm |= bit;
-> @@ -866,7 +884,7 @@ static int raw_apply_lock_bytes(BDRVRawState *s, int fd,
->                     !(shared_perm_lock_bits & bit)) {
->              ret = qemu_unlock_fd(fd, off, 1);
->              if (ret) {
-> -                error_setg(errp, "Failed to unlock byte %d", off);
-> +                error_setg_errno(errp, -ret, "Failed to unlock byte %d", off);
->                  return ret;
->              } else if (s) {
->                  s->locked_shared_perm &= ~bit;
-> @@ -890,9 +908,16 @@ static int raw_check_lock_bytes(int fd, uint64_t perm, uint64_t shared_perm,
->              ret = qemu_lock_fd_test(fd, off, 1, true);
->              if (ret) {
->                  char *perm_name = bdrv_perm_names(p);
-> -                error_setg(errp,
-> -                           "Failed to get \"%s\" lock",
-> -                           perm_name);
-> +                int err = -ret;
-> +
-> +                if (err == EAGAIN || err == EACCES) {
-> +                    error_setg(errp, "Failed to get \"%s\" lock",
-> +                               perm_name);
-> +                } else {
-> +                    error_setg_errno(errp, err,
-> +                                     "Failed to get \"%s\" lock",
-> +                                     perm_name);
-> +                }
->                  g_free(perm_name);
->                  return ret;
->              }
-> @@ -905,9 +930,16 @@ static int raw_check_lock_bytes(int fd, uint64_t perm, uint64_t shared_perm,
->              ret = qemu_lock_fd_test(fd, off, 1, true);
->              if (ret) {
->                  char *perm_name = bdrv_perm_names(p);
-> -                error_setg(errp,
-> -                           "Failed to get shared \"%s\" lock",
-> -                           perm_name);
-> +                int err = -ret;
-> +
-> +                if (err == EAGAIN || err == EACCES) {
-> +                    error_setg(errp, "Failed to get shared \"%s\" lock",
-> +                               perm_name);
-> +                } else {
-> +                    error_setg_errno(errp, err,
-> +                                     "Failed to get shared \"%s\" lock",
-> +                                     perm_name);
-> +                }
->                  g_free(perm_name);
->                  return ret;
->              }
-> diff --git a/tests/qemu-iotests/153.out b/tests/qemu-iotests/153.out
-> index ff8e55864a..14da13a1a5 100644
-> --- a/tests/qemu-iotests/153.out
-> +++ b/tests/qemu-iotests/153.out
-> @@ -11,11 +11,11 @@ Formatting 'TEST_DIR/t.IMGFMT', fmt=IMGFMT size=33554432 backing_file=TEST_DIR/t
->  == Launching QEMU, opts: '' ==
->  
->  == Launching another QEMU, opts: '' ==
-> -QEMU_PROG: -drive file=TEST_DIR/t.qcow2,if=none,: Failed to get "write" lock
-> +QEMU_PROG: -drive file=TEST_DIR/t.qcow2,if=none,: Failed to get "write" lock: Resource temporarily unavailable
->  Is another process using the image [TEST_DIR/t.qcow2]?
->  
->  == Launching another QEMU, opts: 'read-only=on' ==
-> -QEMU_PROG: -drive file=TEST_DIR/t.qcow2,if=none,read-only=on: Failed to get shared "write" lock
-> +QEMU_PROG: -drive file=TEST_DIR/t.qcow2,if=none,read-only=on: Failed to get shared "write" lock: Resource temporarily unavailable
->  Is another process using the image [TEST_DIR/t.qcow2]?
->  
->  == Launching another QEMU, opts: 'read-only=on,force-share=on' ==
-> @@ -23,77 +23,77 @@ Is another process using the image [TEST_DIR/t.qcow2]?
->  == Running utility commands  ==
->  
->  _qemu_io_wrapper -c read 0 512 TEST_DIR/t.qcow2
-> -qemu-io: can't open device TEST_DIR/t.qcow2: Failed to get "write" lock
-> +qemu-io: can't open device TEST_DIR/t.qcow2: Failed to get "write" lock: Resource temporarily unavailable
->  Is another process using the image [TEST_DIR/t.qcow2]?
->  
->  _qemu_io_wrapper -r -c read 0 512 TEST_DIR/t.qcow2
-> -qemu-io: can't open device TEST_DIR/t.qcow2: Failed to get shared "write" lock
-> +qemu-io: can't open device TEST_DIR/t.qcow2: Failed to get shared "write" lock: Resource temporarily unavailable
->  Is another process using the image [TEST_DIR/t.qcow2]?
->  
->  _qemu_io_wrapper -c open  TEST_DIR/t.qcow2 -c read 0 512
-> -qemu-io: can't open device TEST_DIR/t.qcow2: Failed to get "write" lock
-> +qemu-io: can't open device TEST_DIR/t.qcow2: Failed to get "write" lock: Resource temporarily unavailable
->  Is another process using the image [TEST_DIR/t.qcow2]?
->  no file open, try 'help open'
->  
->  _qemu_io_wrapper -c open -r  TEST_DIR/t.qcow2 -c read 0 512
-> -qemu-io: can't open device TEST_DIR/t.qcow2: Failed to get shared "write" lock
-> +qemu-io: can't open device TEST_DIR/t.qcow2: Failed to get shared "write" lock: Resource temporarily unavailable
->  Is another process using the image [TEST_DIR/t.qcow2]?
->  no file open, try 'help open'
->  
->  _qemu_img_wrapper info TEST_DIR/t.qcow2
-> -qemu-img: Could not open 'TEST_DIR/t.qcow2': Failed to get shared "write" lock
-> +qemu-img: Could not open 'TEST_DIR/t.qcow2': Failed to get shared "write" lock: Resource temporarily unavailable
->  Is another process using the image [TEST_DIR/t.qcow2]?
->  
->  _qemu_img_wrapper check TEST_DIR/t.qcow2
-> -qemu-img: Could not open 'TEST_DIR/t.qcow2': Failed to get shared "write" lock
-> +qemu-img: Could not open 'TEST_DIR/t.qcow2': Failed to get shared "write" lock: Resource temporarily unavailable
->  Is another process using the image [TEST_DIR/t.qcow2]?
->  
->  _qemu_img_wrapper compare TEST_DIR/t.qcow2 TEST_DIR/t.qcow2
-> -qemu-img: Could not open 'TEST_DIR/t.qcow2': Failed to get shared "write" lock
-> +qemu-img: Could not open 'TEST_DIR/t.qcow2': Failed to get shared "write" lock: Resource temporarily unavailable
->  Is another process using the image [TEST_DIR/t.qcow2]?
->  
->  _qemu_img_wrapper map TEST_DIR/t.qcow2
-> -qemu-img: Could not open 'TEST_DIR/t.qcow2': Failed to get shared "write" lock
-> +qemu-img: Could not open 'TEST_DIR/t.qcow2': Failed to get shared "write" lock: Resource temporarily unavailable
->  Is another process using the image [TEST_DIR/t.qcow2]?
->  
->  _qemu_img_wrapper amend -o size=32M TEST_DIR/t.qcow2
-> -qemu-img: Could not open 'TEST_DIR/t.qcow2': Failed to get "write" lock
-> +qemu-img: Could not open 'TEST_DIR/t.qcow2': Failed to get "write" lock: Resource temporarily unavailable
->  Is another process using the image [TEST_DIR/t.qcow2]?
->  
->  _qemu_img_wrapper commit TEST_DIR/t.qcow2
-> -qemu-img: Could not open 'TEST_DIR/t.qcow2': Failed to get "write" lock
-> +qemu-img: Could not open 'TEST_DIR/t.qcow2': Failed to get "write" lock: Resource temporarily unavailable
->  Is another process using the image [TEST_DIR/t.qcow2]?
->  
->  _qemu_img_wrapper resize TEST_DIR/t.qcow2 32M
-> -qemu-img: Could not open 'TEST_DIR/t.qcow2': Failed to get "write" lock
-> +qemu-img: Could not open 'TEST_DIR/t.qcow2': Failed to get "write" lock: Resource temporarily unavailable
->  Is another process using the image [TEST_DIR/t.qcow2]?
->  
->  _qemu_img_wrapper rebase TEST_DIR/t.qcow2 -b TEST_DIR/t.qcow2.base -F qcow2
-> -qemu-img: Could not open 'TEST_DIR/t.qcow2': Failed to get "write" lock
-> +qemu-img: Could not open 'TEST_DIR/t.qcow2': Failed to get "write" lock: Resource temporarily unavailable
->  Is another process using the image [TEST_DIR/t.qcow2]?
->  
->  _qemu_img_wrapper snapshot -l TEST_DIR/t.qcow2
-> -qemu-img: Could not open 'TEST_DIR/t.qcow2': Failed to get shared "write" lock
-> +qemu-img: Could not open 'TEST_DIR/t.qcow2': Failed to get shared "write" lock: Resource temporarily unavailable
->  Is another process using the image [TEST_DIR/t.qcow2]?
->  
->  _qemu_img_wrapper convert TEST_DIR/t.qcow2 TEST_DIR/t.qcow2.convert
-> -qemu-img: Could not open 'TEST_DIR/t.qcow2': Failed to get shared "write" lock
-> +qemu-img: Could not open 'TEST_DIR/t.qcow2': Failed to get shared "write" lock: Resource temporarily unavailable
->  Is another process using the image [TEST_DIR/t.qcow2]?
->  
->  _qemu_img_wrapper dd if=TEST_DIR/t.qcow2 of=TEST_DIR/t.qcow2.convert bs=512 count=1
-> -qemu-img: Could not open 'TEST_DIR/t.qcow2': Failed to get shared "write" lock
-> +qemu-img: Could not open 'TEST_DIR/t.qcow2': Failed to get shared "write" lock: Resource temporarily unavailable
->  Is another process using the image [TEST_DIR/t.qcow2]?
->  
->  _qemu_img_wrapper bench -c 1 TEST_DIR/t.qcow2
-> -qemu-img: Could not open 'TEST_DIR/t.qcow2': Failed to get shared "write" lock
-> +qemu-img: Could not open 'TEST_DIR/t.qcow2': Failed to get shared "write" lock: Resource temporarily unavailable
->  Is another process using the image [TEST_DIR/t.qcow2]?
->  
->  _qemu_img_wrapper bench -w -c 1 TEST_DIR/t.qcow2
-> -qemu-img: Could not open 'TEST_DIR/t.qcow2': Failed to get "write" lock
-> +qemu-img: Could not open 'TEST_DIR/t.qcow2': Failed to get "write" lock: Resource temporarily unavailable
->  Is another process using the image [TEST_DIR/t.qcow2]?
->  
->  _qemu_img_wrapper create -f qcow2 TEST_DIR/t.qcow2 -b TEST_DIR/t.qcow2.base -F qcow2
-> -qemu-img: TEST_DIR/t.qcow2: Failed to get "write" lock
-> +qemu-img: TEST_DIR/t.qcow2: Failed to get "write" lock: Resource temporarily unavailable
->  Is another process using the image [TEST_DIR/t.qcow2]?
->  file format: IMGFMT
->  backing file format: IMGFMT
-> @@ -132,7 +132,7 @@ qemu-img: unrecognized option '-U'
->  Try 'qemu-img --help' for more information
->  
->  _qemu_img_wrapper rebase -U TEST_DIR/t.qcow2 -b TEST_DIR/t.qcow2.base -F qcow2
-> -qemu-img: Could not open 'TEST_DIR/t.qcow2': Failed to get "write" lock
-> +qemu-img: Could not open 'TEST_DIR/t.qcow2': Failed to get "write" lock: Resource temporarily unavailable
->  Is another process using the image [TEST_DIR/t.qcow2]?
->  
->  _qemu_img_wrapper snapshot -l -U TEST_DIR/t.qcow2
-> @@ -158,7 +158,7 @@ Formatting 'TEST_DIR/t.IMGFMT', fmt=IMGFMT size=33554432 backing_file=TEST_DIR/t
->  == Launching QEMU, opts: 'read-only=on' ==
->  
->  == Launching another QEMU, opts: '' ==
-> -QEMU_PROG: -drive file=TEST_DIR/t.qcow2,if=none,: Failed to get "write" lock
-> +QEMU_PROG: -drive file=TEST_DIR/t.qcow2,if=none,: Failed to get "write" lock: Resource temporarily unavailable
->  Is another process using the image [TEST_DIR/t.qcow2]?
->  
->  == Launching another QEMU, opts: 'read-only=on' ==
-> @@ -168,13 +168,13 @@ Is another process using the image [TEST_DIR/t.qcow2]?
->  == Running utility commands  ==
->  
->  _qemu_io_wrapper -c read 0 512 TEST_DIR/t.qcow2
-> -qemu-io: can't open device TEST_DIR/t.qcow2: Failed to get "write" lock
-> +qemu-io: can't open device TEST_DIR/t.qcow2: Failed to get "write" lock: Resource temporarily unavailable
->  Is another process using the image [TEST_DIR/t.qcow2]?
->  
->  _qemu_io_wrapper -r -c read 0 512 TEST_DIR/t.qcow2
->  
->  _qemu_io_wrapper -c open  TEST_DIR/t.qcow2 -c read 0 512
-> -qemu-io: can't open device TEST_DIR/t.qcow2: Failed to get "write" lock
-> +qemu-io: can't open device TEST_DIR/t.qcow2: Failed to get "write" lock: Resource temporarily unavailable
->  Is another process using the image [TEST_DIR/t.qcow2]?
->  no file open, try 'help open'
->  
-> @@ -189,19 +189,19 @@ _qemu_img_wrapper compare TEST_DIR/t.qcow2 TEST_DIR/t.qcow2
->  _qemu_img_wrapper map TEST_DIR/t.qcow2
->  
->  _qemu_img_wrapper amend -o size=32M TEST_DIR/t.qcow2
-> -qemu-img: Could not open 'TEST_DIR/t.qcow2': Failed to get "write" lock
-> +qemu-img: Could not open 'TEST_DIR/t.qcow2': Failed to get "write" lock: Resource temporarily unavailable
->  Is another process using the image [TEST_DIR/t.qcow2]?
->  
->  _qemu_img_wrapper commit TEST_DIR/t.qcow2
-> -qemu-img: Could not open 'TEST_DIR/t.qcow2': Failed to get "write" lock
-> +qemu-img: Could not open 'TEST_DIR/t.qcow2': Failed to get "write" lock: Resource temporarily unavailable
->  Is another process using the image [TEST_DIR/t.qcow2]?
->  
->  _qemu_img_wrapper resize TEST_DIR/t.qcow2 32M
-> -qemu-img: Could not open 'TEST_DIR/t.qcow2': Failed to get "write" lock
-> +qemu-img: Could not open 'TEST_DIR/t.qcow2': Failed to get "write" lock: Resource temporarily unavailable
->  Is another process using the image [TEST_DIR/t.qcow2]?
->  
->  _qemu_img_wrapper rebase TEST_DIR/t.qcow2 -b TEST_DIR/t.qcow2.base -F qcow2
-> -qemu-img: Could not open 'TEST_DIR/t.qcow2': Failed to get "write" lock
-> +qemu-img: Could not open 'TEST_DIR/t.qcow2': Failed to get "write" lock: Resource temporarily unavailable
->  Is another process using the image [TEST_DIR/t.qcow2]?
->  
->  _qemu_img_wrapper snapshot -l TEST_DIR/t.qcow2
-> @@ -213,11 +213,11 @@ _qemu_img_wrapper dd if=TEST_DIR/t.qcow2 of=TEST_DIR/t.qcow2.convert bs=512 coun
->  _qemu_img_wrapper bench -c 1 TEST_DIR/t.qcow2
->  
->  _qemu_img_wrapper bench -w -c 1 TEST_DIR/t.qcow2
-> -qemu-img: Could not open 'TEST_DIR/t.qcow2': Failed to get "write" lock
-> +qemu-img: Could not open 'TEST_DIR/t.qcow2': Failed to get "write" lock: Resource temporarily unavailable
->  Is another process using the image [TEST_DIR/t.qcow2]?
->  
->  _qemu_img_wrapper create -f qcow2 TEST_DIR/t.qcow2 -b TEST_DIR/t.qcow2.base -F qcow2
-> -qemu-img: TEST_DIR/t.qcow2: Failed to get "write" lock
-> +qemu-img: TEST_DIR/t.qcow2: Failed to get "write" lock: Resource temporarily unavailable
->  Is another process using the image [TEST_DIR/t.qcow2]?
->  file format: IMGFMT
->  backing file format: IMGFMT
-> @@ -256,7 +256,7 @@ qemu-img: unrecognized option '-U'
->  Try 'qemu-img --help' for more information
->  
->  _qemu_img_wrapper rebase -U TEST_DIR/t.qcow2 -b TEST_DIR/t.qcow2.base -F qcow2
-> -qemu-img: Could not open 'TEST_DIR/t.qcow2': Failed to get "write" lock
-> +qemu-img: Could not open 'TEST_DIR/t.qcow2': Failed to get "write" lock: Resource temporarily unavailable
->  Is another process using the image [TEST_DIR/t.qcow2]?
->  
->  _qemu_img_wrapper snapshot -l -U TEST_DIR/t.qcow2
-> @@ -377,17 +377,17 @@ qemu-img: Could not open 'TEST_DIR/t.qcow2': force-share=on can only be used wit
->  Round done
->  
->  == Two devices with the same image (read-only=off - read-only=off) ==
-> -QEMU_PROG: -drive if=none,file=TEST_DIR/t.qcow2,read-only=off: Failed to get "write" lock
-> +QEMU_PROG: -drive if=none,file=TEST_DIR/t.qcow2,read-only=off: Failed to get "write" lock: Resource temporarily unavailable
->  Is another process using the image [TEST_DIR/t.qcow2]?
->  
->  == Two devices with the same image (read-only=off - read-only=on) ==
-> -QEMU_PROG: -drive if=none,file=TEST_DIR/t.qcow2,read-only=on: Failed to get shared "write" lock
-> +QEMU_PROG: -drive if=none,file=TEST_DIR/t.qcow2,read-only=on: Failed to get shared "write" lock: Resource temporarily unavailable
->  Is another process using the image [TEST_DIR/t.qcow2]?
->  
->  == Two devices with the same image (read-only=off - read-only=on,force-share=on) ==
->  
->  == Two devices with the same image (read-only=on - read-only=off) ==
-> -QEMU_PROG: -drive if=none,file=TEST_DIR/t.qcow2,read-only=off: Failed to get "write" lock
-> +QEMU_PROG: -drive if=none,file=TEST_DIR/t.qcow2,read-only=off: Failed to get "write" lock: Resource temporarily unavailable
->  Is another process using the image [TEST_DIR/t.qcow2]?
->  
->  == Two devices with the same image (read-only=on - read-only=on) ==
-> @@ -408,13 +408,13 @@ Formatting 'TEST_DIR/t.IMGFMT.c', fmt=IMGFMT size=33554432 backing_file=TEST_DIR
->  == Two devices sharing the same file in backing chain ==
->  
->  == Backing image also as an active device ==
-> -QEMU_PROG: -drive if=none,file=TEST_DIR/t.qcow2: Failed to get "write" lock
-> +QEMU_PROG: -drive if=none,file=TEST_DIR/t.qcow2: Failed to get "write" lock: Resource temporarily unavailable
->  Is another process using the image [TEST_DIR/t.qcow2]?
->  
->  == Backing image also as an active device (ro) ==
->  
->  == Symbolic link ==
-> -QEMU_PROG: -drive if=none,file=TEST_DIR/t.qcow2: Failed to get "write" lock
-> +QEMU_PROG: -drive if=none,file=TEST_DIR/t.qcow2: Failed to get "write" lock: Resource temporarily unavailable
->  Is another process using the image [TEST_DIR/t.qcow2]?
->  
->  == Active commit to intermediate layer should work when base in use ==
-> @@ -430,7 +430,7 @@ Adding drive
->  {"return": "OKrn"}
->  
->  _qemu_io_wrapper TEST_DIR/t.qcow2 -c write 0 512
-> -qemu-io: can't open device TEST_DIR/t.qcow2: Failed to get "write" lock
-> +qemu-io: can't open device TEST_DIR/t.qcow2: Failed to get "write" lock: Resource temporarily unavailable
->  Is another process using the image [TEST_DIR/t.qcow2]?
->  Creating overlay with qemu-img when the guest is running should be allowed
->  
-> @@ -455,7 +455,7 @@ _qemu_img_wrapper info TEST_DIR/t.qcow2
->  {"return": ""}
->  
->  _qemu_io_wrapper TEST_DIR/t.qcow2 -c write 0 512
-> -qemu-io: can't open device TEST_DIR/t.qcow2: Failed to get "write" lock
-> +qemu-io: can't open device TEST_DIR/t.qcow2: Failed to get "write" lock: Resource temporarily unavailable
->  Is another process using the image [TEST_DIR/t.qcow2]?
->  Closing the other
->  { 'execute': 'human-monitor-command',
-> diff --git a/tests/qemu-iotests/182.out b/tests/qemu-iotests/182.out
-> index 57f7265458..0e23f30f84 100644
-> --- a/tests/qemu-iotests/182.out
-> +++ b/tests/qemu-iotests/182.out
-> @@ -3,7 +3,7 @@ Formatting 'TEST_DIR/t.IMGFMT', fmt=IMGFMT size=33554432
->  Starting QEMU
->  
->  Starting a second QEMU using the same image should fail
-> -QEMU_PROG: -drive file=TEST_DIR/t.qcow2,if=none,id=drive0,file.locking=on: Failed to get "write" lock
-> +QEMU_PROG: -drive file=TEST_DIR/t.qcow2,if=none,id=drive0,file.locking=on: Failed to get "write" lock: Resource temporarily unavailable
->  Is another process using the image [TEST_DIR/t.qcow2]?
->  
->  === Testing reopen ===
-> -- 
-> 2.29.2
+Paolo
 
-dme.
--- 
-Music has magic, it's good clear syncopation.
 
