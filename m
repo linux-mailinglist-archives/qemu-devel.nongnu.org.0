@@ -2,70 +2,51 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3CCE72ECDFE
-	for <lists+qemu-devel@lfdr.de>; Thu,  7 Jan 2021 11:38:04 +0100 (CET)
-Received: from localhost ([::1]:54626 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 552F02ECE05
+	for <lists+qemu-devel@lfdr.de>; Thu,  7 Jan 2021 11:39:25 +0100 (CET)
+Received: from localhost ([::1]:56878 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kxSg7-0001ol-Bg
-	for lists+qemu-devel@lfdr.de; Thu, 07 Jan 2021 05:38:03 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44264)
+	id 1kxShQ-0002oO-ET
+	for lists+qemu-devel@lfdr.de; Thu, 07 Jan 2021 05:39:24 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44654)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1kxSek-0001NO-Ed
- for qemu-devel@nongnu.org; Thu, 07 Jan 2021 05:36:38 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:31143)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1kxSei-0004Xx-55
- for qemu-devel@nongnu.org; Thu, 07 Jan 2021 05:36:37 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1610015794;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=qktnC06QgromIDzebo/9LwPb+YTd7N7wq0sBVkjGF3w=;
- b=AinifsZ7X9luCCN4kW4Tl8GWJPy99h+gJ5Vyg7ipvSlQuOTJCTZKzurdpWR5gkvm9l+uR0
- GauGmM15067zWsnYqx4dNfuhedELn8fPW7kQLdIWeBAsDXof/4Y+VP2QvaYm3UqBlzDkTr
- V6NIKhFICttD3Hw1EW2240h+vI6b4Tg=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-480-9ulOn1gJO1CyHmJ28GiAbw-1; Thu, 07 Jan 2021 05:36:32 -0500
-X-MC-Unique: 9ulOn1gJO1CyHmJ28GiAbw-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 6A3548144E3;
- Thu,  7 Jan 2021 10:36:31 +0000 (UTC)
-Received: from sirius.home.kraxel.org (ovpn-114-197.ams2.redhat.com
- [10.36.114.197])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 435C677BE1;
- Thu,  7 Jan 2021 10:36:26 +0000 (UTC)
-Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
- id 79D501800620; Thu,  7 Jan 2021 11:36:24 +0100 (CET)
-Date: Thu, 7 Jan 2021 11:36:24 +0100
-From: Gerd Hoffmann <kraxel@redhat.com>
-To: Laurent Vivier <laurent@vivier.eu>
-Subject: Re: [PATCH] virtio-mmio: fix guest kernel crash with SHM regions
-Message-ID: <20210107103624.v67snigf33lpynai@sirius.home.kraxel.org>
-References: <20201220163539.2255963-1-laurent@vivier.eu>
- <ab15d154-8c4d-4a79-9e15-6d3e4c59c5ed@vivier.eu>
+ (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
+ id 1kxSgV-0002L3-3A
+ for qemu-devel@nongnu.org; Thu, 07 Jan 2021 05:38:27 -0500
+Received: from zero.eik.bme.hu ([152.66.115.2]:27376)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
+ id 1kxSgR-0005LH-VV
+ for qemu-devel@nongnu.org; Thu, 07 Jan 2021 05:38:26 -0500
+Received: from zero.eik.bme.hu (blah.eik.bme.hu [152.66.115.182])
+ by localhost (Postfix) with SMTP id 5471C7470F8;
+ Thu,  7 Jan 2021 11:38:21 +0100 (CET)
+Received: by zero.eik.bme.hu (Postfix, from userid 432)
+ id 0ED107470F7; Thu,  7 Jan 2021 11:38:21 +0100 (CET)
+Received: from localhost (localhost [127.0.0.1])
+ by zero.eik.bme.hu (Postfix) with ESMTP id 0D1937470F4;
+ Thu,  7 Jan 2021 11:38:21 +0100 (CET)
+Date: Thu, 7 Jan 2021 11:38:21 +0100 (CET)
+From: BALATON Zoltan <balaton@eik.bme.hu>
+To: =?ISO-8859-15?Q?Philippe_Mathieu-Daud=E9?= <f4bug@amsat.org>
+Subject: Re: [PATCH 05/12] vt82c686: Make vt82c686b-pm an abstract base class
+ and add vt8231-pm based on it
+In-Reply-To: <bb288088-db7b-005d-db5a-5a41fb15f069@amsat.org>
+Message-ID: <93a8537e-64c1-1a3-8eeb-2114a46458d@eik.bme.hu>
+References: <cover.1609967638.git.balaton@eik.bme.hu>
+ <c8fa8df147473c3ec5f3284b4a5d37fc9741e824.1609967638.git.balaton@eik.bme.hu>
+ <bb288088-db7b-005d-db5a-5a41fb15f069@amsat.org>
 MIME-Version: 1.0
-In-Reply-To: <ab15d154-8c4d-4a79-9e15-6d3e4c59c5ed@vivier.eu>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kraxel@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=kraxel@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -29
-X-Spam_score: -3.0
-X-Spam_bar: ---
-X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.252,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+Content-Type: multipart/mixed;
+ boundary="3866299591-1623005816-1610015901=:62010"
+X-Spam-Probability: 9%
+Received-SPF: pass client-ip=152.66.115.2; envelope-from=balaton@eik.bme.hu;
+ helo=zero.eik.bme.hu
+X-Spam_score_int: -41
+X-Spam_score: -4.2
+X-Spam_bar: ----
+X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -79,29 +60,121 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel@nongnu.org, "Michael S. Tsirkin" <mst@redhat.com>
+Cc: Igor Mammedov <imammedo@redhat.com>, Huacai Chen <chenhuacai@kernel.org>,
+ qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-  Hi,
+  This message is in MIME format.  The first part should be readable text,
+  while the remaining parts are likely unreadable without MIME-aware tools.
 
-> > According to the comments in the kernel, a non existent shared region
-> > has a length of (u64)-1.
+--3866299591-1623005816-1610015901=:62010
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 8BIT
 
-virtio spec says the same.
+On Thu, 7 Jan 2021, Philippe Mathieu-Daudé wrote:
+> Hi Zoltan,
+>
+> On 1/6/21 10:13 PM, BALATON Zoltan wrote:
+>> The vt82c686b-pm model can be shared between VT82C686B and VT8231. The
+>> only difference between the two is the device id in what we emulate so
+>> make an abstract via-pm model by renaming appropriately and add types
+>> for vt82c686b-pm and vt8231-pm based on it.
+>>
+>> Signed-off-by: BALATON Zoltan <balaton@eik.bme.hu>
+>> ---
+>>  hw/isa/vt82c686.c         | 87 ++++++++++++++++++++++++++-------------
+>>  include/hw/isa/vt82c686.h |  1 +
+>>  2 files changed, 59 insertions(+), 29 deletions(-)
+> ...
+>
+>> +typedef struct via_pm_init_info {
+>> +    uint16_t device_id;
+>> +} ViaPMInitInfo;
+>> +
+>>  static void via_pm_class_init(ObjectClass *klass, void *data)
+>>  {
+>>      DeviceClass *dc = DEVICE_CLASS(klass);
+>>      PCIDeviceClass *k = PCI_DEVICE_CLASS(klass);
+>> +    ViaPMInitInfo *info = data;
+>>
+>> -    k->realize = vt82c686b_pm_realize;
+>> +    k->realize = via_pm_realize;
+>>      k->config_write = pm_write_config;
+>>      k->vendor_id = PCI_VENDOR_ID_VIA;
+>> -    k->device_id = PCI_DEVICE_ID_VIA_ACPI;
+>> +    k->device_id = info->device_id;
+>>      k->class_id = PCI_CLASS_BRIDGE_OTHER;
+>>      k->revision = 0x40;
+>> -    dc->reset = vt82c686b_pm_reset;
+>> -    dc->desc = "PM";
+>> +    dc->reset = via_pm_reset;
+>
+>> +    /* Reason: part of VIA south bridge, does not exist stand alone */
+>> +    dc->user_creatable = false;
+>>      dc->vmsd = &vmstate_acpi;
+>> -    set_bit(DEVICE_CATEGORY_BRIDGE, dc->categories);
+>
+> Please do this change in a previous patch.
 
-> > +   case VIRTIO_MMIO_SHM_LEN_LOW:
-> > +   case VIRTIO_MMIO_SHM_LEN_HIGH:
-> > +        /*
-> > +         * VIRTIO_MMIO_SHM_SEL is unimplemented
-> > +         * according to the linux driver, if region length is -1
-> > +         * the shared memory doesn't exist
-> > +         */
-> > +        return -1;
+OK, done.
 
-Acked-by: Gerd Hoffmann <kraxel@redhat.com>
+>>  }
+>>
+>>  static const TypeInfo via_pm_info = {
+>> -    .name          = TYPE_VT82C686B_PM,
+>> +    .name          = TYPE_VIA_PM,
+>>      .parent        = TYPE_PCI_DEVICE,
+>> -    .instance_size = sizeof(VT686PMState),
+>> -    .class_init    = via_pm_class_init,
+>> +    .instance_size = sizeof(ViaPMState),
+>> +    .abstract      = true,
+>>      .interfaces = (InterfaceInfo[]) {
+>>          { INTERFACE_CONVENTIONAL_PCI_DEVICE },
+>>          { },
+>>      },
+>>  };
+>>
+>> +static const ViaPMInitInfo vt82c686b_pm_init_info = {
+>> +    .device_id = PCI_DEVICE_ID_VIA_ACPI,
+>> +};
+>> +
+>> +static const TypeInfo vt82c686b_pm_info = {
+>> +    .name          = TYPE_VT82C686B_PM,
+>> +    .parent        = TYPE_VIA_PM,
+>> +    .class_init    = via_pm_class_init,
+>> +    .class_data    = (void *)&vt82c686b_pm_init_info,
+>
+> Igor said new code should avoid using .class_data:
+> https://www.mail-archive.com/qemu-devel@nongnu.org/msg678305.html
+> Can you convert to "leaf class"? Then this patch is good to go.
 
-take care,
-  Gerd
+That says for machines it is not advised (and Igor generally prefers init 
+funcs everywhere) but this is a device model. Is it still not allowed to 
+use class_data here? I think this is shorter this way than with an init 
+function but I may try to convert if absolutely necessary.
 
+Regards,
+BALATON Zoltan
+
+> A trivial example of conversion is commit f0eeb4b6154
+> ("hw/arm/raspi: Avoid using TypeInfo::class_data pointer").
+>
+>> +};
+>> +
+>> +static const ViaPMInitInfo vt8231_pm_init_info = {
+>> +    .device_id = 0x8235,
+>> +};
+>> +
+>> +static const TypeInfo vt8231_pm_info = {
+>> +    .name          = TYPE_VT8231_PM,
+>> +    .parent        = TYPE_VIA_PM,
+>> +    .class_init    = via_pm_class_init,
+>> +    .class_data    = (void *)&vt8231_pm_init_info,
+>> +};
+>>
+>>
+>
+>
+--3866299591-1623005816-1610015901=:62010--
 
