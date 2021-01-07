@@ -2,63 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 358C52ECF53
-	for <lists+qemu-devel@lfdr.de>; Thu,  7 Jan 2021 13:06:41 +0100 (CET)
-Received: from localhost ([::1]:39640 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 921E42ECF64
+	for <lists+qemu-devel@lfdr.de>; Thu,  7 Jan 2021 13:18:10 +0100 (CET)
+Received: from localhost ([::1]:46276 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kxU3s-0006zz-9I
-	for lists+qemu-devel@lfdr.de; Thu, 07 Jan 2021 07:06:40 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39212)
+	id 1kxUEz-00024F-6Z
+	for lists+qemu-devel@lfdr.de; Thu, 07 Jan 2021 07:18:09 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41694)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1kxU2n-0006B6-N3
- for qemu-devel@nongnu.org; Thu, 07 Jan 2021 07:05:34 -0500
-Received: from mail-ed1-x536.google.com ([2a00:1450:4864:20::536]:46160)
+ id 1kxUE6-0001W4-RB
+ for qemu-devel@nongnu.org; Thu, 07 Jan 2021 07:17:15 -0500
+Received: from mail-ej1-x635.google.com ([2a00:1450:4864:20::635]:39386)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1kxU2h-00054P-6e
- for qemu-devel@nongnu.org; Thu, 07 Jan 2021 07:05:33 -0500
-Received: by mail-ed1-x536.google.com with SMTP id b73so7430081edf.13
- for <qemu-devel@nongnu.org>; Thu, 07 Jan 2021 04:05:26 -0800 (PST)
+ id 1kxUE3-0002CM-VS
+ for qemu-devel@nongnu.org; Thu, 07 Jan 2021 07:17:14 -0500
+Received: by mail-ej1-x635.google.com with SMTP id n26so9395814eju.6
+ for <qemu-devel@nongnu.org>; Thu, 07 Jan 2021 04:17:11 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=TQJP9SHvhtgCE+LhCTsQ1Cl6QLn6MFbDlgkF5dtNERo=;
- b=H0FWXnEOYDe2KC+gU6R6KLn/9+v0lECSxO6KWMunTAuPvC+1u0SawP9xTK2FGJo7Sl
- GOhwigeKhktZ0XrK4G5jarl1DF45gD2GbBux8w62Z4OkV0ukYUx+6iYlCZAfzQgxcAAM
- S6udiXdWznGkVqU4rioA6My1k8TsquqPCTtTHohFHsB8aiuBnQjho/VrPfDmQCqu3es1
- bJ2u6/6SF0R+9EcPHl4pXn0V9qEHwjjaPm+jK+1IxUwQQ9WxTEO9mPb5kn0wgGYS0R9L
- p03W+RKX0FNOTFZfTaDwIJwHFwajUJIeUFoQeO+mHi33CpmIcY303fUa/5nqNhfgjVOI
- t6Tg==
+ :cc; bh=QNNwoy5PFKpKN9OXomCECGA2LaR6TvbCOQym7aWFzH0=;
+ b=cn3kMB0JMRs6yRYvCyP3yS/0KwDIvNraZqD+5Dz7ErU97Fya0TmGWvF2q/1fsQRpgl
+ h4ud0VX2wDogN9F9X1Z8R0nhtzcr/y7KVMbanOSsAkdk6RrsCFMb4xiZYRdglTGsvSQc
+ B0WJZdKwcu30zuhoRj3rT6vv5+3vSn/rDiUIyrKvVZOkGkKjPfPGs3STQt2bWmY1db36
+ otPqDYqkHVxUEKmjaGyISuoXTp5fQJDjQpFlLCcYex+nnojA8vwu+3m/srY/5JJ+PJHE
+ qkzqzp4+im5EjbErmPxkQF4VuDwRsx2IoIdX8vzCj7D/q5b4rYX/cTapf/BBcZa/mC4K
+ ENTg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=TQJP9SHvhtgCE+LhCTsQ1Cl6QLn6MFbDlgkF5dtNERo=;
- b=ZrKWu+UeemY/yjpq7AMfV0Qn7KCE/hnKEFu4HdxRSCZj2ZdU8SHfmmuhjYFFJcJ5kU
- 3SqPEimsPE43AKSC0ArSlE+87vxTLFOKMRVYnFOU3qkZuC9xzZTbH2XBiXtqGvu4FZy2
- fjgI3zDQPATazNG+ojCcUs1QzFL/cyu4iC54Q0VxZENYTP66F5Si/MDIrDzXNCdZOvPb
- i6tRCi+2cE3Vzu46x4BKn9gXho1b3K5laEl0e2iATOFx2oG5NQT+WcUVPoxrXFaNcgQ9
- pGj8DkV7Qq9DRdHx7B13kveqVghwWbmTg5grydMtErJr5IM3eEXvOU4zcnEro1Su38/J
- N21w==
-X-Gm-Message-State: AOAM532VZ4aLsQicrEtdQTBoJg8DuxVYqGgrUqk5OWQdVd12SbO7dAro
- xtQFpiZLrUAii/wktMUm1PuPq7OwyrWAaDZHc/cm3/wbRcg=
-X-Google-Smtp-Source: ABdhPJygyxZajpU0qMBcWEA0F02iT9+o32xORVZjP4FmsNDofRI9ggJd6r6geddcrQfRf5Ei6quP+PWZh9+1Q/BVQ5U=
-X-Received: by 2002:aa7:c388:: with SMTP id k8mr1463569edq.36.1610021125186;
- Thu, 07 Jan 2021 04:05:25 -0800 (PST)
+ :message-id:subject:to:cc;
+ bh=QNNwoy5PFKpKN9OXomCECGA2LaR6TvbCOQym7aWFzH0=;
+ b=KN4+U1O/HmJv+msLuG8UaF7iP8mkLrTbRhLqiTw5cBDSmLt7SLy1dsKME8w2FVlL/u
+ ssLBHLtAygY11tqTjLKLHOFQ4rg2gpjBO3aSZEmnggU8lsDhaEkOSoWhhObst4fTKfAL
+ bA/Vyu7ZjNEJyN/cTYHPL6UOCJTAcxg7vVjaHYWp3tubt8s8PuHVJix5+7U7oh26N/CR
+ NQl3IG6x8v0gw1hPPMCmteHNFSTxkAP6Sw/eXBvljEZPXMj0nfBNIV1LUjOyuhzz4Nq6
+ jS9TPcdHHiIO04s4lbfPDFCfPZnxR8x1XwdHVpga/cGqc/dFtXQb+KRZSbd0wk97Bns0
+ C0JA==
+X-Gm-Message-State: AOAM530ynJ0PMIcZPR9Lot95TXUKj0bjP7Q0IDoU2P26WEvyteF9wZSO
+ UadTWsZYxtx7BnFLQ74DPU1xoNNKbhyNJhVR1mWEKw==
+X-Google-Smtp-Source: ABdhPJwUuot25qnzyLKqFmKYOtAadxH91AVBBxkO33P2zcf9wJqwwvFXFZqfrfqkook/NyK7yT/cFT+TGdtjaYMM+Js=
+X-Received: by 2002:a17:906:e94c:: with SMTP id
+ jw12mr6372811ejb.56.1610021829946; 
+ Thu, 07 Jan 2021 04:17:09 -0800 (PST)
 MIME-Version: 1.0
-References: <20210106202616.20004-1-alex.bennee@linaro.org>
-In-Reply-To: <20210106202616.20004-1-alex.bennee@linaro.org>
+References: <20201215174815.51520-1-drjones@redhat.com>
+ <cun8s9zorr3.fsf@zarquon.hh.sledj.net>
+ <20201216064353.2n4evhicybkkuf7z@kamzik.brq.redhat.com>
+In-Reply-To: <20201216064353.2n4evhicybkkuf7z@kamzik.brq.redhat.com>
 From: Peter Maydell <peter.maydell@linaro.org>
-Date: Thu, 7 Jan 2021 12:05:14 +0000
-Message-ID: <CAFEAcA9g-VTziowONbB2dZDKG_kdL0y8-p-Vf3JydpJPf05wow@mail.gmail.com>
-Subject: Re: [PULL v4 0/4] more testing fixes (all green now)
-To: =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>
+Date: Thu, 7 Jan 2021 12:16:58 +0000
+Message-ID: <CAFEAcA8MQoThWcmcoC30oEGGQ8POtz=ixBd7HUjZT+8YnJfvqA@mail.gmail.com>
+Subject: Re: [PATCH] hw/arm/virt: Remove virt machine state 'smp_cpus'
+To: Andrew Jones <drjones@redhat.com>
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::536;
- envelope-from=peter.maydell@linaro.org; helo=mail-ed1-x536.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::635;
+ envelope-from=peter.maydell@linaro.org; helo=mail-ej1-x635.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -78,40 +79,46 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: QEMU Developers <qemu-devel@nongnu.org>
+Cc: David Edmondson <david.edmondson@oracle.com>,
+ Ying Fang <fangying1@huawei.com>, salil.mehta@huawei.com,
+ qemu-arm <qemu-arm@nongnu.org>, QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, 6 Jan 2021 at 20:26, Alex Benn=C3=A9e <alex.bennee@linaro.org> wrot=
-e:
+On Wed, 16 Dec 2020 at 06:44, Andrew Jones <drjones@redhat.com> wrote:
 >
-> The following changes since commit aadac5b3d9fdce28030495f80fc76a4336e973=
-28:
->
->   Merge remote-tracking branch 'remotes/bonzini-gitlab/tags/for-upstream'=
- into staging (2021-01-06 15:55:29 +0000)
->
-> are available in the Git repository at:
->
->   https://github.com/stsquad/qemu.git tags/pull-testing-060121-4
->
-> for you to fetch changes up to af229fc367021e361cebaf84acceb01f28922cc4:
->
->   cirrus: don't run full qtest on macOS (2021-01-06 17:30:02 +0000)
->
-> ----------------------------------------------------------------
-> Testing updates (back to green)
->
->   - include ccache in Debian 10 docker image
->   - iotests: drop 312 from auto group
->   - bound reading of s390x framebuffer file
->   - cirrus: drop non-x86 tests so we complete
+> On Tue, Dec 15, 2020 at 06:20:48PM +0000, David Edmondson wrote:
+> > On Tuesday, 2020-12-15 at 18:48:15 +01, Andrew Jones wrote:
+> >
+> > > virt machine's 'smp_cpus' and machine->smp.cpus must always have the
+> > > same value. And, anywhere we have virt machine state we have machine
+> > > state. So let's remove the redundancy. Also, to make it easier to see
+> > > that machine->smp is the true source for "smp_cpus" and "max_cpus",
+> > > avoid passing them in function parameters, preferring instead to get
+> > > them from the state.
 
+> > >  static void fdt_add_cpu_nodes(const VirtMachineState *vms)
+> > >  {
+> > > -    int cpu;
+> > > -    int addr_cells = 1;
+> > >      const MachineState *ms = MACHINE(vms);
+> > > +    int smp_cpus = ms->smp.cpus, cpu;
+> >
+> > Is it house-style to have initialised and un-initialised local variables
+> > declared on the same line?
+> >
+>
+> checkpatch.pl doesn't complain and a grep of qemu shows hundreds of other
+> examples. That said, I only see one other example in hw/arm/virt.c, so if
+> we'd rather avoid it, I'll repost.
 
-Applied, thanks.
+I think this is one of those things where the style guide doesn't
+say anything, so it comes down to individual developer preference.
+Personally I find declaring an uninitialized local on the same
+line and after an initialized local is a bit confusing to read
+so I've tweaked the patch, but it's not a big deal either way.
 
-Please update the changelog at https://wiki.qemu.org/ChangeLog/6.0
-for any user-visible changes.
+Applied to target-arm.next, thanks.
 
 -- PMM
 
