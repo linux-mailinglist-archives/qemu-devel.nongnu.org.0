@@ -2,60 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9C6562ED573
-	for <lists+qemu-devel@lfdr.de>; Thu,  7 Jan 2021 18:24:37 +0100 (CET)
-Received: from localhost ([::1]:52954 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9A3792ED596
+	for <lists+qemu-devel@lfdr.de>; Thu,  7 Jan 2021 18:29:09 +0100 (CET)
+Received: from localhost ([::1]:34666 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kxZ1Y-0004ls-K4
-	for lists+qemu-devel@lfdr.de; Thu, 07 Jan 2021 12:24:36 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51288)
+	id 1kxZ5w-00016C-MC
+	for lists+qemu-devel@lfdr.de; Thu, 07 Jan 2021 12:29:08 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53554)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1kxYyX-0001IK-8q; Thu, 07 Jan 2021 12:21:29 -0500
-Received: from mail-il1-x133.google.com ([2607:f8b0:4864:20::133]:39023)
+ id 1kxZ4D-0007vl-48
+ for qemu-devel@nongnu.org; Thu, 07 Jan 2021 12:27:22 -0500
+Received: from mail-il1-x12b.google.com ([2607:f8b0:4864:20::12b]:33694)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1kxYyT-0004hn-E4; Thu, 07 Jan 2021 12:21:29 -0500
-Received: by mail-il1-x133.google.com with SMTP id q1so7450747ilt.6;
- Thu, 07 Jan 2021 09:21:23 -0800 (PST)
+ id 1kxZ4B-0006sw-69
+ for qemu-devel@nongnu.org; Thu, 07 Jan 2021 12:27:20 -0500
+Received: by mail-il1-x12b.google.com with SMTP id n9so7514717ili.0
+ for <qemu-devel@nongnu.org>; Thu, 07 Jan 2021 09:27:18 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=lj1dIjgJAB4CfFTM3uOm4Tfj6WYesgRX8Abi0tAnS2w=;
- b=KV7ro4rwsMzBU8VxM0KQUyF2p0HFSiycqS2oB94qqHfdUSEeolTw3vkMfvmdoCOYzL
- viKWMnv5p/NLbA9s17JJKOwt4fiJ82/nImIDU7jtoLYQDhFTmkhoWzx4gjL7T0wheK4R
- jxzN6GDVyo0BiylY0uTx5t+pkJ74krl8VWcvDAIwEUg4kxxu5knY4l0/2tm03KCA1ZuP
- QzItA97CHzs6CRTShh77QiAUFnFRu0AC4w9PgJE80A0qrpWIjSm+mM54+UC8PWUuCAxN
- 7SGPHoMVqixhL4hhDdCi5MGr++Gc4AyPUjsPAWtWGB7LM/TvPz4/1JTbROFF4cJgvhXh
- 7oKw==
+ :cc; bh=2fJ4tnsZcgLuQRlybs1j2m17X9FShkRVCMtgwy5eMgM=;
+ b=aiWu8fCLmhdVAXEVx5vqBw0XTGp9VcpHS0Syb96J4vXMDxI3UQ4xwcZ93dUb7vjr/k
+ AWIsvouQ3r2/NOOeluVao/fRDtnCucRYLfAhsNy1cn5cD4Trz4zMOtvfWRiBKOjO/i+B
+ BXxOJ3LFt6siZd4ZEQJu72qcPPWDRFja/LleRbEuEGCZbjYcdM8DFY9t2hkNpSO57lq+
+ Ao5t353jxAOzGstao1NuFl17QYsR4XdOMW13rKphcaTlhCSLISdxo8QasA1PpNqIMFEg
+ J3DX+hbS+/gcsbruBr4oO/EXD8x7DpVBBSJgCg/9EbeOIf7GTsLGaXfmsIiXRvVn9RJk
+ Q/RQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=lj1dIjgJAB4CfFTM3uOm4Tfj6WYesgRX8Abi0tAnS2w=;
- b=F3T2HAq2Cc5I4IbmbQpjryUrgJTVuE6HB+0y8RKh6abRyNF+jQ8oCb4DP1P2lHp9/V
- Vx7FvgrtmVG8+Ju+Th6sK/F8d1to+FLZmjDNxwS/WEtsfztqzLveN0ib2/FRHvpdLZ2u
- xzjhu/+oqzInwPysi+kL9seEihJrBYO0zAy0VAbW96xdAFSQBBuZy+8YQQS9evgWa5w1
- wSZ24wKOU/QCFyljnkxEWINlOk4ReU3xZkqwrohFbUpL1MpbyvFb/+EnGppddjlJ5nDa
- VJ2Gkc0aNK6WpNVGrVfpKqzkhI2EXKyM6aaaHaZD5fS0l3Cear43VSVfIXxqm6JPdJ3E
- FElQ==
-X-Gm-Message-State: AOAM532KviUhi3SnwRCY0BZPN9VQ7pazvL1GEo96xRFvo+txcd66c3bQ
- NydxAOJr3C60zLUqRctOqp9j+IVuaWp/Mx2bF7M=
-X-Google-Smtp-Source: ABdhPJyz1SBh5eouQDThMckXGYaFsqKvLsXvE192EYdAKi3MEeXYagQV4R7K88r8IyQ0iuCrBYQ8D3G3yRGn8nUbV/M=
-X-Received: by 2002:a92:c942:: with SMTP id i2mr9866817ilq.227.1610040083255; 
- Thu, 07 Jan 2021 09:21:23 -0800 (PST)
+ bh=2fJ4tnsZcgLuQRlybs1j2m17X9FShkRVCMtgwy5eMgM=;
+ b=M2CN36EnGgaBO48jzNZ0lSJhOfFNGXjUgsHbPx4YjAxJvEKy5FAJFE7hjsMHUAO9gQ
+ Ls+gHFTcwRWPFOWk+B8lCCn/9jwHTNornsbY1vccwax25J+cHQv4rKtrGASnWbB6Naym
+ YONmIDYX2wK7oKP2Z7ewR9sF1q6QzQ6PjQ69LCc4K/0SelgyBKTlUx+JAprLd/8dZ7Km
+ 3GcQm6Ro2YDuGTa5MHRxhWNVZ4XReJxG5dHf8ygdb33LO93/qJeQ+7S8R0PCdl4C+e9f
+ yicHQ/g4F/V+z/KQ34AfdRQhTTaS/EqAX0QAi9opbcpNAZPFccxpcnOXBADKQqPNQ1E9
+ s+lw==
+X-Gm-Message-State: AOAM530Q9vcd5gky8D7g87RgjKIGZeU5sPiq7AEP1DiCQ5b2gxM2WcA7
+ Y8fCj4BC2A+ENS0auhhT8eRb4x0TuuDTKvlSma4=
+X-Google-Smtp-Source: ABdhPJwgm0w5KsyLPe71OTn4C1yj0AhhYczS0xH6NtxH82oQ0ovOJjFjlN032elaXuvD6pFW5D7cuLYdLvrLr1UIS/U=
+X-Received: by 2002:a92:dc0f:: with SMTP id t15mr9985238iln.267.1610040438144; 
+ Thu, 07 Jan 2021 09:27:18 -0800 (PST)
 MIME-Version: 1.0
-References: <20201218022653.654-1-jiangyifei@huawei.com>
- <20201218022653.654-2-jiangyifei@huawei.com>
-In-Reply-To: <20201218022653.654-2-jiangyifei@huawei.com>
+References: <20201223060204.576856-1-richard.henderson@linaro.org>
+ <20201223060204.576856-10-richard.henderson@linaro.org>
+In-Reply-To: <20201223060204.576856-10-richard.henderson@linaro.org>
 From: Alistair Francis <alistair23@gmail.com>
-Date: Thu, 7 Jan 2021 09:20:57 -0800
-Message-ID: <CAKmqyKPVUCWj20bkUVX1KS_0W79u6buGYMdpt-e+bcE79-zyZg@mail.gmail.com>
-Subject: Re: [PATCH v2 1/1] target-riscv: support QMP dump-guest-memory
-To: Yifei Jiang <jiangyifei@huawei.com>
+Date: Thu, 7 Jan 2021 09:26:51 -0800
+Message-ID: <CAKmqyKOmkekPJkHf5Z5KSVoO1DMzmEQHe2i6D5U4KBhEKrsvyw@mail.gmail.com>
+Subject: Re: [PATCH 09/22] tcg/riscv: Convert to tcg-target-constr.h
+To: Richard Henderson <richard.henderson@linaro.org>
 Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::133;
- envelope-from=alistair23@gmail.com; helo=mail-il1-x133.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::12b;
+ envelope-from=alistair23@gmail.com; helo=mail-il1-x12b.google.com
 X-Spam_score_int: -17
 X-Spam_score: -1.8
 X-Spam_bar: -
@@ -76,289 +78,119 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "open list:RISC-V" <qemu-riscv@nongnu.org>,
- Zhanghailiang <zhang.zhanghailiang@huawei.com>,
- Sagar Karandikar <sagark@eecs.berkeley.edu>,
- Bastian Koppelmann <kbastian@mail.uni-paderborn.de>,
- "Zhangxiaofeng \(F\)" <victor.zhangxiaofeng@huawei.com>,
- "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
- "limingwang \(A\)" <limingwang@huawei.com>,
- Alistair Francis <Alistair.Francis@wdc.com>,
- Palmer Dabbelt <palmer@dabbelt.com>, fanliang@huawei.com,
- "Wubin \(H\)" <wu.wubin@huawei.com>, "dengkai \(A\)" <dengkai1@huawei.com>
+Cc: "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, Dec 17, 2020 at 6:29 PM Yifei Jiang <jiangyifei@huawei.com> wrote:
+On Tue, Dec 22, 2020 at 10:13 PM Richard Henderson
+<richard.henderson@linaro.org> wrote:
 >
-> Add the support needed for creating prstatus elf notes. Now elf notes
-> only contains user_regs. This allows us to use QMP dump-guest-memory.
->
-> Signed-off-by: Yifei Jiang <jiangyifei@huawei.com>
-> Signed-off-by: Mingwang Li <limingwang@huawei.com>
+> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 
-Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
+Acked-by: Alistair Francis <alistair.francis@wdc.com>
 
 Alistair
 
 > ---
->  target/riscv/arch_dump.c | 189 +++++++++++++++++++++++++++++++++++++++
->  target/riscv/cpu.c       |   2 +
->  target/riscv/cpu.h       |   4 +
->  target/riscv/cpu_bits.h  |   1 +
->  target/riscv/meson.build |   1 +
->  5 files changed, 197 insertions(+)
->  create mode 100644 target/riscv/arch_dump.c
+>  tcg/riscv/tcg-target-constr.h | 24 +++++++++++++++++++++
+>  tcg/riscv/tcg-target.h        |  1 +
+>  tcg/riscv/tcg-target.c.inc    | 39 -----------------------------------
+>  3 files changed, 25 insertions(+), 39 deletions(-)
+>  create mode 100644 tcg/riscv/tcg-target-constr.h
 >
-> diff --git a/target/riscv/arch_dump.c b/target/riscv/arch_dump.c
+> diff --git a/tcg/riscv/tcg-target-constr.h b/tcg/riscv/tcg-target-constr.h
 > new file mode 100644
-> index 0000000000..b89ddf18c7
+> index 0000000000..5daf2e6a5b
 > --- /dev/null
-> +++ b/target/riscv/arch_dump.c
-> @@ -0,0 +1,189 @@
-> +/* Support for writing ELF notes for RISC-V architectures
-> + *
-> + * Copyright (C) 2020 Huawei Technologies Co., Ltd
-> + *
-> + * This program is free software; you can redistribute it and/or modify it
-> + * under the terms and conditions of the GNU General Public License,
-> + * version 2 or later, as published by the Free Software Foundation.
-> + *
-> + * This program is distributed in the hope it will be useful, but WITHOUT
-> + * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
-> + * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for
-> + * more details.
-> + *
-> + * You should have received a copy of the GNU General Public License along with
-> + * this program.  If not, see <http://www.gnu.org/licenses/>.
+> +++ b/tcg/riscv/tcg-target-constr.h
+> @@ -0,0 +1,24 @@
+> +/* SPDX-License-Identifier: MIT */
+> +/*
+> + * RISC-V target-specific operand constaints.
+> + * Copyright (c) 2020 Linaro
 > + */
 > +
-> +#include "qemu/osdep.h"
-> +#include "cpu.h"
-> +#include "elf.h"
-> +#include "sysemu/dump.h"
+> +#define ALL_GENERAL_REGS  0xffffffffu
 > +
-> +/* struct user_regs_struct from arch/riscv/include/uapi/asm/ptrace.h */
-> +struct riscv_user_regs {
-> +    target_ulong pc;
-> +    target_ulong regs[31];
-> +} QEMU_PACKED;
-> +
-> +/* struct elf_prstatus from include/uapi/linux/elfcore.h */
-> +struct riscv64_elf_prstatus {
-> +    char pad1[32]; /* 32 == offsetof(struct elf_prstatus, pr_pid) */
-> +    uint32_t pr_pid;
-> +    char pad2[76]; /* 76 == offsetof(struct elf_prstatus, pr_reg) -
-> +                            offsetof(struct elf_prstatus, pr_ppid) */
-> +    struct riscv_user_regs pr_reg;
-> +    char pad3[8];
-> +} QEMU_PACKED;
-> +
-> +struct riscv64_note {
-> +    Elf64_Nhdr hdr;
-> +    char name[8]; /* align_up(sizeof("CORE"), 4) */
-> +    struct riscv64_elf_prstatus prstatus;
-> +} QEMU_PACKED;
-> +
-> +#define RISCV64_NOTE_HEADER_SIZE offsetof(struct riscv64_note, prstatus)
-> +#define RISCV64_PRSTATUS_NOTE_SIZE \
-> +            (RISCV64_NOTE_HEADER_SIZE + sizeof(struct riscv64_elf_prstatus))
-> +
-> +static void riscv64_note_init(struct riscv64_note *note, DumpState *s,
-> +                              const char *name, Elf64_Word namesz,
-> +                              Elf64_Word type, Elf64_Word descsz)
-> +{
-> +    memset(note, 0, sizeof(*note));
-> +
-> +    note->hdr.n_namesz = cpu_to_dump32(s, namesz);
-> +    note->hdr.n_descsz = cpu_to_dump32(s, descsz);
-> +    note->hdr.n_type = cpu_to_dump32(s, type);
-> +
-> +    memcpy(note->name, name, namesz);
-> +}
-> +
-> +int riscv_cpu_write_elf64_note(WriteCoreDumpFunction f, CPUState *cs,
-> +                               int cpuid, void *opaque)
-> +{
-> +    struct riscv64_note note;
-> +    RISCVCPU *cpu = RISCV_CPU(cs);
-> +    CPURISCVState *env = &cpu->env;
-> +    DumpState *s = opaque;
-> +    int ret, i = 0;
-> +    const char name[] = "CORE";
-> +
-> +    riscv64_note_init(&note, s, name, sizeof(name),
-> +                      NT_PRSTATUS, sizeof(note.prstatus));
-> +
-> +    note.prstatus.pr_pid = cpu_to_dump32(s, cpuid);
-> +
-> +    note.prstatus.pr_reg.pc = cpu_to_dump64(s, env->pc);
-> +
-> +    for (i = 0; i < 31; i++) {
-> +        note.prstatus.pr_reg.regs[i] = cpu_to_dump64(s, env->gpr[i + 1]);
-> +    }
-> +
-> +    ret = f(&note, RISCV64_PRSTATUS_NOTE_SIZE, s);
-> +    if (ret < 0) {
-> +        return -1;
-> +    }
-> +
-> +    return ret;
-> +}
-> +
-> +struct riscv32_elf_prstatus {
-> +    char pad1[24]; /* 24 == offsetof(struct elf_prstatus, pr_pid) */
-> +    uint32_t pr_pid;
-> +    char pad2[44]; /* 44 == offsetof(struct elf_prstatus, pr_reg) -
-> +                            offsetof(struct elf_prstatus, pr_ppid) */
-> +    struct riscv_user_regs pr_reg;
-> +    char pad3[4];
-> +} QEMU_PACKED;
-> +
-> +struct riscv32_note {
-> +    Elf32_Nhdr hdr;
-> +    char name[8]; /* align_up(sizeof("CORE"), 4) */
-> +    struct riscv32_elf_prstatus prstatus;
-> +} QEMU_PACKED;
-> +
-> +#define RISCV32_NOTE_HEADER_SIZE offsetof(struct riscv32_note, prstatus)
-> +#define RISCV32_PRSTATUS_NOTE_SIZE \
-> +            (RISCV32_NOTE_HEADER_SIZE + sizeof(struct riscv32_elf_prstatus))
-> +
-> +static void riscv32_note_init(struct riscv32_note *note, DumpState *s,
-> +                              const char *name, Elf32_Word namesz,
-> +                              Elf32_Word type, Elf32_Word descsz)
-> +{
-> +    memset(note, 0, sizeof(*note));
-> +
-> +    note->hdr.n_namesz = cpu_to_dump32(s, namesz);
-> +    note->hdr.n_descsz = cpu_to_dump32(s, descsz);
-> +    note->hdr.n_type = cpu_to_dump32(s, type);
-> +
-> +    memcpy(note->name, name, namesz);
-> +}
-> +
-> +int riscv_cpu_write_elf32_note(WriteCoreDumpFunction f, CPUState *cs,
-> +                               int cpuid, void *opaque)
-> +{
-> +    struct riscv32_note note;
-> +    RISCVCPU *cpu = RISCV_CPU(cs);
-> +    CPURISCVState *env = &cpu->env;
-> +    DumpState *s = opaque;
-> +    int ret, i;
-> +    const char name[] = "CORE";
-> +
-> +    riscv32_note_init(&note, s, name, sizeof(name),
-> +                      NT_PRSTATUS, sizeof(note.prstatus));
-> +
-> +    note.prstatus.pr_pid = cpu_to_dump32(s, cpuid);
-> +
-> +    note.prstatus.pr_reg.pc = cpu_to_dump32(s, env->pc);
-> +
-> +    for (i = 0; i < 31; i++) {
-> +        note.prstatus.pr_reg.regs[i] = cpu_to_dump32(s, env->gpr[i + 1]);
-> +    }
-> +
-> +    ret = f(&note, RISCV32_PRSTATUS_NOTE_SIZE, s);
-> +    if (ret < 0) {
-> +        return -1;
-> +    }
-> +
-> +    return ret;
-> +}
-> +
-> +int cpu_get_dump_info(ArchDumpInfo *info,
-> +                      const GuestPhysBlockList *guest_phys_blocks)
-> +{
-> +    RISCVCPU *cpu;
-> +    CPURISCVState *env;
-> +
-> +    if (first_cpu == NULL) {
-> +        return -1;
-> +    }
-> +    cpu = RISCV_CPU(first_cpu);
-> +    env = &cpu->env;
-> +
-> +    info->d_machine = EM_RISCV;
-> +
-> +#if defined(TARGET_RISCV64)
-> +    info->d_class = ELFCLASS64;
+> +#ifdef CONFIG_SOFTMMU
+> +#define ALL_QLDST_REGS \
+> +    (ALL_GENERAL_REGS & ~((1 << TCG_REG_A0) | (1 << TCG_REG_A1) | \
+> +                          (1 << TCG_REG_A2) | (1 << TCG_REG_A3) | \
+> +                          (1 << TCG_REG_A5)))
 > +#else
-> +    info->d_class = ELFCLASS32;
+> +#define ALL_QLDST_REGS   ALL_GENERAL_REGS
 > +#endif
 > +
-> +    info->d_endian = (env->mstatus & MSTATUS_UBE) != 0
-> +                     ? ELFDATA2MSB : ELFDATA2LSB;
+> +REGS('r', ALL_GENERAL_REGS)
+> +REGS('L', ALL_QLDST_REGS)
 > +
-> +    return 0;
-> +}
-> +
-> +ssize_t cpu_get_note_size(int class, int machine, int nr_cpus)
-> +{
-> +    size_t note_size;
-> +
-> +    if (class == ELFCLASS64) {
-> +        note_size = RISCV64_PRSTATUS_NOTE_SIZE;
-> +    } else {
-> +        note_size = RISCV32_PRSTATUS_NOTE_SIZE;
-> +    }
-> +
-> +    return note_size * nr_cpus;
-> +}
-> diff --git a/target/riscv/cpu.c b/target/riscv/cpu.c
-> index 6a0264fc6b..69999af813 100644
-> --- a/target/riscv/cpu.c
-> +++ b/target/riscv/cpu.c
-> @@ -560,6 +560,8 @@ static void riscv_cpu_class_init(ObjectClass *c, void *data)
->      cc->get_phys_page_debug = riscv_cpu_get_phys_page_debug;
->      /* For now, mark unmigratable: */
->      cc->vmsd = &vmstate_riscv_cpu;
-> +    cc->write_elf64_note = riscv_cpu_write_elf64_note;
-> +    cc->write_elf32_note = riscv_cpu_write_elf32_note;
+> +CONST('I', TCG_CT_CONST_S12)
+> +CONST('N', TCG_CT_CONST_N12)
+> +CONST('M', TCG_CT_CONST_M12)
+> +CONST('Z', TCG_CT_CONST_ZERO)
+> diff --git a/tcg/riscv/tcg-target.h b/tcg/riscv/tcg-target.h
+> index 032439d806..ff8ff43a46 100644
+> --- a/tcg/riscv/tcg-target.h
+> +++ b/tcg/riscv/tcg-target.h
+> @@ -175,5 +175,6 @@ void tb_target_set_jmp_target(uintptr_t, uintptr_t, uintptr_t);
+>  #define TCG_TARGET_NEED_POOL_LABELS
+>
+>  #define TCG_TARGET_HAS_MEMORY_BSWAP 0
+> +#define TCG_TARGET_CONSTR_H
+>
 >  #endif
->  #ifdef CONFIG_TCG
->      cc->tcg_initialize = riscv_translate_init;
-> diff --git a/target/riscv/cpu.h b/target/riscv/cpu.h
-> index c0a326c843..4a340b0c73 100644
-> --- a/target/riscv/cpu.h
-> +++ b/target/riscv/cpu.h
-> @@ -315,6 +315,10 @@ extern const char * const riscv_intr_names[];
+> diff --git a/tcg/riscv/tcg-target.c.inc b/tcg/riscv/tcg-target.c.inc
+> index d536f3ccc1..33047c1951 100644
+> --- a/tcg/riscv/tcg-target.c.inc
+> +++ b/tcg/riscv/tcg-target.c.inc
+> @@ -131,45 +131,6 @@ static inline tcg_target_long sextreg(tcg_target_long val, int pos, int len)
+>      }
+>  }
 >
->  const char *riscv_cpu_get_trap_name(target_ulong cause, bool async);
->  void riscv_cpu_do_interrupt(CPUState *cpu);
-> +int riscv_cpu_write_elf64_note(WriteCoreDumpFunction f, CPUState *cs,
-> +                               int cpuid, void *opaque);
-> +int riscv_cpu_write_elf32_note(WriteCoreDumpFunction f, CPUState *cs,
-> +                               int cpuid, void *opaque);
->  int riscv_cpu_gdb_read_register(CPUState *cpu, GByteArray *buf, int reg);
->  int riscv_cpu_gdb_write_register(CPUState *cpu, uint8_t *buf, int reg);
->  bool riscv_cpu_exec_interrupt(CPUState *cs, int interrupt_request);
-> diff --git a/target/riscv/cpu_bits.h b/target/riscv/cpu_bits.h
-> index 24b24c69c5..d7259561e7 100644
-> --- a/target/riscv/cpu_bits.h
-> +++ b/target/riscv/cpu_bits.h
-> @@ -368,6 +368,7 @@
->  #define MSTATUS_MIE         0x00000008
->  #define MSTATUS_UPIE        0x00000010
->  #define MSTATUS_SPIE        0x00000020
-> +#define MSTATUS_UBE         0x00000040
->  #define MSTATUS_MPIE        0x00000080
->  #define MSTATUS_SPP         0x00000100
->  #define MSTATUS_MPP         0x00001800
-> diff --git a/target/riscv/meson.build b/target/riscv/meson.build
-> index 14a5c62dac..88ab850682 100644
-> --- a/target/riscv/meson.build
-> +++ b/target/riscv/meson.build
-> @@ -26,6 +26,7 @@ riscv_ss.add(files(
->
->  riscv_softmmu_ss = ss.source_set()
->  riscv_softmmu_ss.add(files(
-> +  'arch_dump.c',
->    'pmp.c',
->    'monitor.c',
->    'machine.c'
+> -/* parse target specific constraints */
+> -static const char *target_parse_constraint(TCGArgConstraint *ct,
+> -                                           const char *ct_str, TCGType type)
+> -{
+> -    switch (*ct_str++) {
+> -    case 'r':
+> -        ct->regs = 0xffffffff;
+> -        break;
+> -    case 'L':
+> -        /* qemu_ld/qemu_st constraint */
+> -        ct->regs = 0xffffffff;
+> -        /* qemu_ld/qemu_st uses TCG_REG_TMP0 */
+> -#if defined(CONFIG_SOFTMMU)
+> -        tcg_regset_reset_reg(ct->regs, tcg_target_call_iarg_regs[0]);
+> -        tcg_regset_reset_reg(ct->regs, tcg_target_call_iarg_regs[1]);
+> -        tcg_regset_reset_reg(ct->regs, tcg_target_call_iarg_regs[2]);
+> -        tcg_regset_reset_reg(ct->regs, tcg_target_call_iarg_regs[3]);
+> -        tcg_regset_reset_reg(ct->regs, tcg_target_call_iarg_regs[4]);
+> -#endif
+> -        break;
+> -    case 'I':
+> -        ct->ct |= TCG_CT_CONST_S12;
+> -        break;
+> -    case 'N':
+> -        ct->ct |= TCG_CT_CONST_N12;
+> -        break;
+> -    case 'M':
+> -        ct->ct |= TCG_CT_CONST_M12;
+> -        break;
+> -    case 'Z':
+> -        /* we can use a zero immediate as a zero register argument. */
+> -        ct->ct |= TCG_CT_CONST_ZERO;
+> -        break;
+> -    default:
+> -        return NULL;
+> -    }
+> -    return ct_str;
+> -}
+> -
+>  /* test if a constant matches the constraint */
+>  static int tcg_target_const_match(tcg_target_long val, TCGType type,
+>                                    const TCGArgConstraint *arg_ct)
 > --
-> 2.19.1
+> 2.25.1
 >
 >
 
