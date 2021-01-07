@@ -2,49 +2,89 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 42E852EE640
-	for <lists+qemu-devel@lfdr.de>; Thu,  7 Jan 2021 20:39:19 +0100 (CET)
-Received: from localhost ([::1]:41834 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 746552EE655
+	for <lists+qemu-devel@lfdr.de>; Thu,  7 Jan 2021 20:43:23 +0100 (CET)
+Received: from localhost ([::1]:46364 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kxb7u-0007gy-9l
-	for lists+qemu-devel@lfdr.de; Thu, 07 Jan 2021 14:39:18 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39108)
+	id 1kxbBq-0001hZ-Hx
+	for lists+qemu-devel@lfdr.de; Thu, 07 Jan 2021 14:43:22 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39960)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
- id 1kxb6f-0006sT-Lr; Thu, 07 Jan 2021 14:38:01 -0500
-Received: from zero.eik.bme.hu ([2001:738:2001:2001::2001]:16516)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
- id 1kxb6c-0004Ca-EJ; Thu, 07 Jan 2021 14:38:01 -0500
-Received: from zero.eik.bme.hu (blah.eik.bme.hu [152.66.115.182])
- by localhost (Postfix) with SMTP id 64A3C7470F7;
- Thu,  7 Jan 2021 20:37:52 +0100 (CET)
-Received: by zero.eik.bme.hu (Postfix, from userid 432)
- id 1B4B47470F4; Thu,  7 Jan 2021 20:37:52 +0100 (CET)
-Received: from localhost (localhost [127.0.0.1])
- by zero.eik.bme.hu (Postfix) with ESMTP id 196BC7470DF;
- Thu,  7 Jan 2021 20:37:52 +0100 (CET)
-Date: Thu, 7 Jan 2021 20:37:52 +0100 (CET)
-From: BALATON Zoltan <balaton@eik.bme.hu>
-To: Greg Kurz <groug@kaod.org>
-Subject: Re: [PATCH 3/3] sam460ex: Use type cast macro instead of simple cast
-In-Reply-To: <20210107121304.1db97130@bahia.lan>
-Message-ID: <9060766a-f159-c7c3-f7e-c2b5f2d41e24@eik.bme.hu>
-References: <cover.1609946641.git.balaton@eik.bme.hu>
- <8bc87f574759a3e9e9e8707b1e0947c1ee21fa8c.1609946641.git.balaton@eik.bme.hu>
- <20210107090815.12cc73fd@bahia.lan>
- <201f883b-c4f2-88f1-24fa-b1759d2c849d@eik.bme.hu>
- <20210107121304.1db97130@bahia.lan>
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1kxbAi-00012m-VI
+ for qemu-devel@nongnu.org; Thu, 07 Jan 2021 14:42:12 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:35129)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1kxbAf-0005kf-77
+ for qemu-devel@nongnu.org; Thu, 07 Jan 2021 14:42:12 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1610048527;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=Y0sO6xsxqJO9hWvzYeG73IDH3YEGj8+E3VSoQBNcxYw=;
+ b=cCQ8mJKcp5yBGusvvMlEQ7YaFM75VF59J/7acSVMvwO3NAEcyp3D1JW6EsFvXk8yWXjq+k
+ 5iCRKLm6QP0DOsPW3H1HfeVA/O0LUsRwoLf+ZbbyT2AE7LLR5XjhrUvfSvw/Qb3KDF8+ii
+ FKewzK8LZW6Vrx9duU9w1lpPEHO1f8E=
+Received: from mail-pl1-f199.google.com (mail-pl1-f199.google.com
+ [209.85.214.199]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-439-uI4greQ5Mzqr7cQjAeO70w-1; Thu, 07 Jan 2021 14:42:04 -0500
+X-MC-Unique: uI4greQ5Mzqr7cQjAeO70w-1
+Received: by mail-pl1-f199.google.com with SMTP id 98so4653868pla.12
+ for <qemu-devel@nongnu.org>; Thu, 07 Jan 2021 11:42:04 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=Y0sO6xsxqJO9hWvzYeG73IDH3YEGj8+E3VSoQBNcxYw=;
+ b=dhSBSvOl5HQvhBLEVZQ4JuV867gtQ7LWDe07QZkawMUmVGNQkBRFrWukoy5GbSAFad
+ 0XSoO5GV8LchGoNodvAoLAlBEwQDvCpZ6uiYK6oQ3uYKXKaU7NDeD9ZgckZG3okUqZdX
+ bCUeXe18Xf2slp5XJlnLKneSNnEPF+w9hyQVri3VZwk873Hrhg7dsUPKRr7L/RiXKlxY
+ SyarqfucIs6sjwsLPfAGll6MJDPpjPYe5TuDVYOIE2gqiRVoVcjL/JgRGh55eoJWLB7v
+ yzA5GHmVuqhaiX9xjozWBQ3jyQJojr48exWzLRZC63/Cg1eHNlqsZHkPulE9G2THxauy
+ u/Rw==
+X-Gm-Message-State: AOAM532OdiQ07Uoil4OIxQ+OwxLPRejy/uJhBQaAu9/ckDFMvMdZ7dMd
+ 0o32X8wNrkPWoPFVPLZD/Nr4ADnu0upNpJ9JM3q8N2AchcWU0lDxXt58yAdrAzwRF/r97jfQoSc
+ DMVpFlelhvp0Dqehq9eja5HOnFyste0M=
+X-Received: by 2002:a63:cb06:: with SMTP id p6mr3376853pgg.146.1610048523636; 
+ Thu, 07 Jan 2021 11:42:03 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJzxaZTWucm102yH7gEhTrerkclw3bizNEsDptYLUITC0Yryz+CAERyLncw2cOVbPeC/zghllzx0yB3N/Pvk2so=
+X-Received: by 2002:a63:cb06:: with SMTP id p6mr3376828pgg.146.1610048523391; 
+ Thu, 07 Jan 2021 11:42:03 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII; format=flowed
-X-Spam-Probability: 8%
-Received-SPF: pass client-ip=2001:738:2001:2001::2001;
- envelope-from=balaton@eik.bme.hu; helo=zero.eik.bme.hu
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_NONE=0.001,
+References: <CAFEAcA-X6DSKeyS4bbNe3tu-QFGxc1VM+Eoz_UMk-8jb--zq9g@mail.gmail.com>
+ <ea49da2a-47f9-8ffe-8dbc-1974f34cb6f1@redhat.com>
+ <X/NPRqMkdM0/IxTh@SPB-NB-133.local>
+ <af0194cd-cdcc-44a3-f023-80d73d96c9e8@redhat.com>
+ <X/R5xtvMn4PcSkTf@SPB-NB-133.local>
+ <690581da-9258-41e5-14cb-bb1b162e8993@redhat.com>
+ <X/cvK5Xkh6+1Qn1K@SPB-NB-133.local>
+ <86bebbbf-ff0f-263d-96a2-4e6df9f85776@redhat.com>
+ <X/dQb7xj/RYiT00R@SPB-NB-133.local>
+ <74d3e1a4-3f0e-f3bb-6079-03043530bfa5@redhat.com>
+ <X/ditOsBmc4A1lJn@SPB-NB-133.local>
+In-Reply-To: <X/ditOsBmc4A1lJn@SPB-NB-133.local>
+From: Paolo Bonzini <pbonzini@redhat.com>
+Date: Thu, 7 Jan 2021 20:41:50 +0100
+Message-ID: <CABgObfbYXoGVv4_KSzKR5J4XfJ2du9z77LEh1vrShz-q-O_t4g@mail.gmail.com>
+Subject: Re: [PATCH] meson: Propagate gnutls dependency
+To: Roman Bolshakov <r.bolshakov@yadro.com>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=pbonzini@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: multipart/alternative; boundary="0000000000004ee9bd05b854a242"
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=pbonzini@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -29
+X-Spam_score: -3.0
+X-Spam_bar: ---
+X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.246,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ HTML_MESSAGE=0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -58,113 +98,90 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- David Gibson <david@gibson.dropbear.id.au>,
- BALATON Zoltan via <qemu-ppc@nongnu.org>, qemu-devel@nongnu.org,
- f4bug@amsat.org
+Cc: Kevin Wolf <kwolf@redhat.com>, Peter Maydell <peter.maydell@linaro.org>,
+ =?UTF-8?Q?Daniel_P=2E_Berrang=C3=A9?= <berrange@redhat.com>,
+ "open list:Block layer core" <qemu-block@nongnu.org>,
+ QEMU Developers <qemu-devel@nongnu.org>, Max Reitz <mreitz@redhat.com>,
+ Gerd Hoffmann <kraxel@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, 7 Jan 2021, Greg Kurz wrote:
-> On Thu, 7 Jan 2021 10:45:26 +0100
-> BALATON Zoltan <balaton@eik.bme.hu> wrote:
->
->> On Thu, 7 Jan 2021, Greg Kurz wrote:
->>> On Wed, 6 Jan 2021 16:24:01 +0100
->>> BALATON Zoltan via <qemu-ppc@nongnu.org> wrote:
->>>
->>>> Use the PCI_BUS type cast macro to convert result of
->>>> qdev_get_child_bus(). Also remove the check for NULL afterwards which
->>>> should not be needed because sysbus_create_simple() uses error_abort
->>>
->>> It seems to me that sysbus_create_simple() doesn't return NULL because
->>> it ends up calling object_new_with_type(). This allocates the object
->>> with either g_malloc() or qemu_memalign(), both of which abort on
->>> failure.
->>>
->>>> and PCI_BUS macro also checks its argument by default so this
->>>
->>> AFAICT, PCI_BUS() and all other instance type checking macros are
->>> happy with a NULL argument. They simply return NULL in this case.
->>
->> This wasn't my experience when I've got an error in code and got a NULL
->> pointer here (on pegasos2 board but same situation). At least with
->> qom-debug enabled (which I think is on by default unless explicitly
->> disabled in configure) this will abort if the object is not the right
->> type.
->>
->
-> You're right that qom-cast-debug is enabled by default and that it
-> causes object_dynamic_cast_assert() to abort on type mismatch, but
-> definitely not with a NULL value, as mentioned in this very old
-> commit:
+--0000000000004ee9bd05b854a242
+Content-Type: text/plain; charset="UTF-8"
 
-Indeed, PCI_BUS(NULL) does not abort just returns NULL. I think I 
-remembered wrong and had dev==NULL so qdev_get_child_bus() was aborting.
+Il gio 7 gen 2021, 20:36 Roman Bolshakov <r.bolshakov@yadro.com> ha scritto:
 
-> commit b7f43fe46029d8fd0594cd599fa2599dcce0f553
-> Author: Paolo Bonzini <pbonzini@redhat.com>
-> Date:   Fri Nov 23 16:56:17 2012 +0100
+> > No I think that Meson should simply explode link_whole libraries to their
+> > constituent objects.  This way duplicates are avoided.
+> >
 >
->    qom: dynamic_cast of NULL is always NULL
+> Ok. I've looked through related changes in meson and it flattens object
+> files implicitly for link_with/link_whole parameters of static_library:
 >
->    Trying to cast a NULL value will cause a crash.  Returning
->    NULL is also sensible, and it is also what the type-unsafe
->    DO_UPCAST macro does.
+>   https://github.com/mesonbuild/meson/pull/6030/files
 >
->    Reported-by: Markus Armbruster <armbru@redhat.com>
->    Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
->    Signed-off-by: Anthony Liguori <aliguori@us.ibm.com>
+> But qemu adds dependencies to source set and populates dependencies
+> parameter of static_library and declare_dependency and we get duplicate
+> symbols:
 >
-> Maybe this should be documented in the function header in "qom/object.h".
+>   https://lists.gnu.org/archive/html/qemu-devel/2021-01/msg00411.html
 >
->>>> shouldn't fail here.
->>>>
->>>> Signed-off-by: BALATON Zoltan <balaton@eik.bme.hu>
->>>> ---
->>>>  hw/ppc/sam460ex.c | 7 ++-----
->>>>  1 file changed, 2 insertions(+), 5 deletions(-)
->>>>
->>>> diff --git a/hw/ppc/sam460ex.c b/hw/ppc/sam460ex.c
->>>> index 14e6583eb0..cc67e9c39b 100644
->>>> --- a/hw/ppc/sam460ex.c
->>>> +++ b/hw/ppc/sam460ex.c
->>>> @@ -384,11 +384,8 @@ static void sam460ex_init(MachineState *machine)
->>>>      ppc460ex_pcie_init(env);
->>>>      /* All PCI irqs are connected to the same UIC pin (cf. UBoot source) */
->>>>      dev = sysbus_create_simple("ppc440-pcix-host", 0xc0ec00000, uic[1][0]);
->>>> -    pci_bus = (PCIBus *)qdev_get_child_bus(dev, "pci.0");
->>>> -    if (!pci_bus) {
->>>> -        error_report("couldn't create PCI controller!");
->>>> -        exit(1);
->>>> -    }
->>>> +    pci_bus = PCI_BUS(qdev_get_child_bus(dev, "pci.0"));
->>>> +
->>>
->>> But PCI_BUS() is being passed qdev_get_child_bus(dev, "pci.0"), not
->>> dev... so the real question here is whether this can return NULL
->>> or not. And if this happens, is this a (1) user or (2) programming
->>> error ?
->>>
->>> If (1) then the "if (!pci_bus) { }" should be kept. If (2) then
->>> it should be converted to an assert().
->>
->> I think it can only fail if the ppc440-pcix-host type is changed to not
->> have a pci.0 child any more which is a programming error that's very
->> unlikely to happen but if needed an assert could be added but I don't
->> think that's really necessary. The error_report was definitely not needed
->> as it's not a user error in any case.
->>
+> Perhaps it's a bug then.
 >
-> I was also thinking about a programming error. Whether to add an assert()
-> or not is up to you, you're the maintainer for this code :)
 
-In that case I think I keep it simple and don't add an assert because I 
-think this error is highly unlikely (we create a pci host object that 
-should have a pci bus child) and it would crash anyway shortly when trying 
-to add devices so an additional assert here does not seem to help much 
-catching a bug.
+No, the same deduplication is not done for executables, because executables
+use libraries directly and not their object files.
 
-Regards,
-BALATON Zoltan
+Paolo
+
+>
+> Regards,
+> Roman
+>
+>
+
+--0000000000004ee9bd05b854a242
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"auto"><div><br><br><div class=3D"gmail_quote"><div dir=3D"ltr" =
+class=3D"gmail_attr">Il gio 7 gen 2021, 20:36 Roman Bolshakov &lt;<a href=
+=3D"mailto:r.bolshakov@yadro.com">r.bolshakov@yadro.com</a>&gt; ha scritto:=
+</div><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-l=
+eft:1px #ccc solid;padding-left:1ex">
+&gt; No I think that Meson should simply explode link_whole libraries to th=
+eir<br>
+&gt; constituent objects.=C2=A0 This way duplicates are avoided.<br>
+&gt; <br>
+<br>
+Ok. I&#39;ve looked through related changes in meson and it flattens object=
+<br>
+files implicitly for link_with/link_whole parameters of static_library:<br>
+<br>
+=C2=A0 <a href=3D"https://github.com/mesonbuild/meson/pull/6030/files" rel=
+=3D"noreferrer noreferrer" target=3D"_blank">https://github.com/mesonbuild/=
+meson/pull/6030/files</a><br>
+<br>
+But qemu adds dependencies to source set and populates dependencies<br>
+parameter of static_library and declare_dependency and we get duplicate<br>
+symbols:<br>
+<br>
+=C2=A0 <a href=3D"https://lists.gnu.org/archive/html/qemu-devel/2021-01/msg=
+00411.html" rel=3D"noreferrer noreferrer" target=3D"_blank">https://lists.g=
+nu.org/archive/html/qemu-devel/2021-01/msg00411.html</a><br>
+<br>
+Perhaps it&#39;s a bug then.<br></blockquote></div></div><div dir=3D"auto">=
+<br></div><div dir=3D"auto">No, the same deduplication is not done for exec=
+utables, because executables use libraries directly and not their object fi=
+les.</div><div dir=3D"auto"><br></div><div dir=3D"auto">Paolo</div><div dir=
+=3D"auto"><div class=3D"gmail_quote"><blockquote class=3D"gmail_quote" styl=
+e=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex">
+<br>
+Regards,<br>
+Roman<br>
+<br>
+</blockquote></div></div></div>
+
+--0000000000004ee9bd05b854a242--
+
 
