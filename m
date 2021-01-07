@@ -2,74 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8F8552ECE51
-	for <lists+qemu-devel@lfdr.de>; Thu,  7 Jan 2021 11:58:11 +0100 (CET)
-Received: from localhost ([::1]:38940 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DDD132ECE5A
+	for <lists+qemu-devel@lfdr.de>; Thu,  7 Jan 2021 12:01:26 +0100 (CET)
+Received: from localhost ([::1]:43478 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kxSza-0000Dm-Lo
-	for lists+qemu-devel@lfdr.de; Thu, 07 Jan 2021 05:58:10 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48216)
+	id 1kxT2j-0002KI-VG
+	for lists+qemu-devel@lfdr.de; Thu, 07 Jan 2021 06:01:25 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48590)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
- id 1kxSxv-0007N8-51
- for qemu-devel@nongnu.org; Thu, 07 Jan 2021 05:56:27 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:31640)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
- id 1kxSxs-0005Os-AJ
- for qemu-devel@nongnu.org; Thu, 07 Jan 2021 05:56:26 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1610016983;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=I8y/VqgnJJR+0oDNqP1GLvdHYTamTUtpeqOFO2jOUqo=;
- b=Dtxx0JYBcc4Zefy4q63ZmMyM/8C0Fmny+djZW8lhn2H2Sv/ZUAiPVjnKyFJWPWLFarSOHs
- NOuJZ2ebBvm9vjzOkUPC6EwGLPgRgUhN6V6mOQdEB8tzk2S39hb3RQlp/+WTxnjG9/cq4x
- T+BRq9zrD+Ba86biRnEIFWPYFPLqoPI=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-160-kldhRcVsO5qRyW9VQY3hHA-1; Thu, 07 Jan 2021 05:56:20 -0500
-X-MC-Unique: kldhRcVsO5qRyW9VQY3hHA-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 26AD11005504;
- Thu,  7 Jan 2021 10:56:19 +0000 (UTC)
-Received: from localhost (unknown [10.40.208.23])
- by smtp.corp.redhat.com (Postfix) with ESMTP id BADFC36FA;
- Thu,  7 Jan 2021 10:56:17 +0000 (UTC)
-Date: Thu, 7 Jan 2021 11:56:15 +0100
-From: Igor Mammedov <imammedo@redhat.com>
-To: BALATON Zoltan <balaton@eik.bme.hu>
-Subject: Re: [PATCH 05/12] vt82c686: Make vt82c686b-pm an abstract base
- class and add vt8231-pm based on it
-Message-ID: <20210107115615.3cac27b3@redhat.com>
-In-Reply-To: <93a8537e-64c1-1a3-8eeb-2114a46458d@eik.bme.hu>
-References: <cover.1609967638.git.balaton@eik.bme.hu>
- <c8fa8df147473c3ec5f3284b4a5d37fc9741e824.1609967638.git.balaton@eik.bme.hu>
- <bb288088-db7b-005d-db5a-5a41fb15f069@amsat.org>
- <93a8537e-64c1-1a3-8eeb-2114a46458d@eik.bme.hu>
+ (Exim 4.90_1) (envelope-from <luoyonggang@gmail.com>)
+ id 1kxSz9-00009V-PC
+ for qemu-devel@nongnu.org; Thu, 07 Jan 2021 05:57:44 -0500
+Received: from mail-lf1-x12b.google.com ([2a00:1450:4864:20::12b]:46711)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <luoyonggang@gmail.com>)
+ id 1kxSz5-0005zz-KL
+ for qemu-devel@nongnu.org; Thu, 07 Jan 2021 05:57:43 -0500
+Received: by mail-lf1-x12b.google.com with SMTP id o10so2675633lfl.13
+ for <qemu-devel@nongnu.org>; Thu, 07 Jan 2021 02:57:38 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:reply-to:from:date:message-id
+ :subject:to:cc;
+ bh=FDH/5XUC5HqMO/EJlYlAybhszKVrAlEnT5mt6DZfrlQ=;
+ b=sKTaTQSgjC6i6PG1OrmONuMvbgzgvCFD2HvasbHAT2nRS47sa1hXFFBwIweWiKNojU
+ CPOWNXsgxj6JsGG1X4pjoZidCE6yI7Kw/08/Ys3hamPiS3nRuUMg1A6LfO+3cE98VC1h
+ RhVxocxSMUhqssRSXjLGX++GI821phM9CmpYHZEi3x60hxaHN0fUAVpyzbnRiGO9j5Kf
+ KJcu0YjnF3TJXYJWriXgeHcgz5IaB+VNtChsMce8R8e29eA9oQGOcb3RXk3djPYrTJfg
+ cjBQ6Xc+PhfGVjf9/hfvb4buZNlyCwcLekpN/AqDmt/i8Q/neun3Z+FuiW0h6mAbnDJc
+ Le1Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:reply-to
+ :from:date:message-id:subject:to:cc;
+ bh=FDH/5XUC5HqMO/EJlYlAybhszKVrAlEnT5mt6DZfrlQ=;
+ b=Qlg4CNEz/8sHLCGAqEHDRG/InjEvrFbdfMPvsiyOtuAK5znTEVF4qEUYOrK3HTbBMM
+ z9cYCFMxsLren9+udPGmi+HRADGYC2E6qENNTqFEmWxl5l/R1Bt+4Pau3h2ShLYHq/SH
+ imuRu0tnPI/RiRWdG5mgzhlY0npLr/lBDTBzz/2oKcoVMZZ6YOjKtJVW3L5wb1XvI9Wu
+ YAQe6ykrLEf54VjQA+5O2WWjf1DqKd7eh75G8s2l448gAZ5XzOzptfazqVk5PFkfq0Fm
+ vhYc976BKw6T7ay3CH0NGIJ/7AHUB6brLUme4CN6G/KXJKmn1Xd2cH3nlY/PkCWMJbYV
+ 7n0Q==
+X-Gm-Message-State: AOAM5307bVRWuhVK91VfpWMdz2spsZPMopVrR1yLTSn93axlOnnwalqw
+ o/J9SVSRGzCas3Ynj9As9K2m4JAZZ6GHvA+M8NA=
+X-Google-Smtp-Source: ABdhPJxNTtDhbZ7Aum9SXtOzxDXCJmWzhiScFtszKi9101QQIB8Dx4lfPqhjzJ6y5Ph+SiGas0rFe7VN3JzbW2hhpLA=
+X-Received: by 2002:a19:ecb:: with SMTP id 194mr3548712lfo.70.1610017056681;
+ Thu, 07 Jan 2021 02:57:36 -0800 (PST)
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=imammedo@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=imammedo@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -29
-X-Spam_score: -3.0
-X-Spam_bar: ---
-X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.252,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+References: <20210107101919.80-1-luoyonggang@gmail.com>
+ <20210107101919.80-6-luoyonggang@gmail.com>
+ <CAJ+F1C+q9e08zX9OqkS4294oCNBAf-Gs7L9AomtYrc7vKyqCEA@mail.gmail.com>
+ <7b3d24b7-d301-549d-abc2-613f02c8843e@redhat.com>
+In-Reply-To: <7b3d24b7-d301-549d-abc2-613f02c8843e@redhat.com>
+From: =?UTF-8?B?572X5YuH5YiaKFlvbmdnYW5nIEx1byk=?= <luoyonggang@gmail.com>
+Date: Thu, 7 Jan 2021 02:57:24 -0800
+Message-ID: <CAE2XoE-4QYMnQUJb=KUBH1f9dRQaK5fGr9+BytMGa+ZYgzVdXw@mail.gmail.com>
+Subject: Re: [PATCH v4 5/5] whpx: move whpx_lapic_state from header to c file
+To: Paolo Bonzini <pbonzini@redhat.com>
+Content-Type: multipart/alternative; boundary="000000000000bef42605b84d4e71"
+Received-SPF: pass client-ip=2a00:1450:4864:20::12b;
+ envelope-from=luoyonggang@gmail.com; helo=mail-lf1-x12b.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -82,130 +80,84 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Huacai Chen <chenhuacai@kernel.org>,
- Philippe =?UTF-8?B?TWF0aGlldS1EYXVkw6k=?= <f4bug@amsat.org>,
- qemu-devel@nongnu.org
+Reply-To: luoyonggang@gmail.com
+Cc: Ed Maste <emaste@freebsd.org>, Sunil Muthuswamy <sunilmut@microsoft.com>,
+ =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@gmail.com>,
+ QEMU <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, 7 Jan 2021 11:38:21 +0100 (CET)
-BALATON Zoltan <balaton@eik.bme.hu> wrote:
+--000000000000bef42605b84d4e71
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-> On Thu, 7 Jan 2021, Philippe Mathieu-Daud=C3=A9 wrote:
-> > Hi Zoltan,
+On Thu, Jan 7, 2021 at 2:55 AM Paolo Bonzini <pbonzini@redhat.com> wrote:
+>
+> On 07/01/21 11:28, Marc-Andr=C3=A9 Lureau wrote:
+> > Hi
 > >
-> > On 1/6/21 10:13 PM, BALATON Zoltan wrote: =20
-> >> The vt82c686b-pm model can be shared between VT82C686B and VT8231. The
-> >> only difference between the two is the device id in what we emulate so
-> >> make an abstract via-pm model by renaming appropriately and add types
-> >> for vt82c686b-pm and vt8231-pm based on it.
-> >>
-> >> Signed-off-by: BALATON Zoltan <balaton@eik.bme.hu>
-> >> ---
-> >>  hw/isa/vt82c686.c         | 87 ++++++++++++++++++++++++++------------=
--
-> >>  include/hw/isa/vt82c686.h |  1 +
-> >>  2 files changed, 59 insertions(+), 29 deletions(-) =20
-> > ...
-> > =20
-> >> +typedef struct via_pm_init_info {
-> >> +    uint16_t device_id;
-> >> +} ViaPMInitInfo;
-> >> +
-> >>  static void via_pm_class_init(ObjectClass *klass, void *data)
-> >>  {
-> >>      DeviceClass *dc =3D DEVICE_CLASS(klass);
-> >>      PCIDeviceClass *k =3D PCI_DEVICE_CLASS(klass);
-> >> +    ViaPMInitInfo *info =3D data;
-> >>
-> >> -    k->realize =3D vt82c686b_pm_realize;
-> >> +    k->realize =3D via_pm_realize;
-> >>      k->config_write =3D pm_write_config;
-> >>      k->vendor_id =3D PCI_VENDOR_ID_VIA;
-> >> -    k->device_id =3D PCI_DEVICE_ID_VIA_ACPI;
-> >> +    k->device_id =3D info->device_id;
-> >>      k->class_id =3D PCI_CLASS_BRIDGE_OTHER;
-> >>      k->revision =3D 0x40;
-> >> -    dc->reset =3D vt82c686b_pm_reset;
-> >> -    dc->desc =3D "PM";
-> >> +    dc->reset =3D via_pm_reset; =20
-> > =20
-> >> +    /* Reason: part of VIA south bridge, does not exist stand alone *=
-/
-> >> +    dc->user_creatable =3D false;
-> >>      dc->vmsd =3D &vmstate_acpi;
-> >> -    set_bit(DEVICE_CATEGORY_BRIDGE, dc->categories); =20
+> > On Thu, Jan 7, 2021 at 2:26 PM Yonggang Luo <luoyonggang@gmail.com
+> > <mailto:luoyonggang@gmail.com>> wrote:
 > >
-> > Please do this change in a previous patch. =20
->=20
-> OK, done.
->=20
-> >>  }
-> >>
-> >>  static const TypeInfo via_pm_info =3D {
-> >> -    .name          =3D TYPE_VT82C686B_PM,
-> >> +    .name          =3D TYPE_VIA_PM,
-> >>      .parent        =3D TYPE_PCI_DEVICE,
-> >> -    .instance_size =3D sizeof(VT686PMState),
-> >> -    .class_init    =3D via_pm_class_init,
-> >> +    .instance_size =3D sizeof(ViaPMState),
-> >> +    .abstract      =3D true,
-> >>      .interfaces =3D (InterfaceInfo[]) {
-> >>          { INTERFACE_CONVENTIONAL_PCI_DEVICE },
-> >>          { },
-> >>      },
-> >>  };
-> >>
-> >> +static const ViaPMInitInfo vt82c686b_pm_init_info =3D {
-> >> +    .device_id =3D PCI_DEVICE_ID_VIA_ACPI,
-> >> +};
-> >> +
-> >> +static const TypeInfo vt82c686b_pm_info =3D {
-> >> +    .name          =3D TYPE_VT82C686B_PM,
-> >> +    .parent        =3D TYPE_VIA_PM,
-> >> +    .class_init    =3D via_pm_class_init,
-> >> +    .class_data    =3D (void *)&vt82c686b_pm_init_info, =20
+> >     This struct only used in whpx-apic.c, there is no need
+> >     expose it in whpx.h.
 > >
-> > Igor said new code should avoid using .class_data:
-> > https://www.mail-archive.com/qemu-devel@nongnu.org/msg678305.html
-> > Can you convert to "leaf class"? Then this patch is good to go. =20
->=20
-> That says for machines it is not advised (and Igor generally prefers init=
-=20
-> funcs everywhere) but this is a device model. Is it still not allowed to=
-=20
-> use class_data here? I think this is shorter this way than with an init=
-=20
-> function but I may try to convert if absolutely necessary.
-
-For this simple case class_init would be cleaner as it doesn't need casting=
- (void*).
-But I'm fine with either approaches here.
-
-> Regards,
-> BALATON Zoltan
->=20
-> > A trivial example of conversion is commit f0eeb4b6154
-> > ("hw/arm/raspi: Avoid using TypeInfo::class_data pointer").
-> > =20
-> >> +};
-> >> +
-> >> +static const ViaPMInitInfo vt8231_pm_init_info =3D {
-> >> +    .device_id =3D 0x8235,
-
-Is it possible to replace magic number with a human readable macro?
-
-> >> +};
-> >> +
-> >> +static const TypeInfo vt8231_pm_info =3D {
-> >> +    .name          =3D TYPE_VT8231_PM,
-> >> +    .parent        =3D TYPE_VIA_PM,
-> >> +    .class_init    =3D via_pm_class_init,
-> >> +    .class_data    =3D (void *)&vt8231_pm_init_info,
-> >> +};
-> >>
-> >> =20
+> >     Signed-off-by: Yonggang Luo <luoyonggang@gmail.com
+> >     <mailto:luoyonggang@gmail.com>>
 > >
-> > =20
+> >
+> > Similar patch pending:
+> >
+https://patchew.org/QEMU/20201219090637.1700900-1-pbonzini@redhat.com/20201=
+219090637.1700900-3-pbonzini@redhat.com/
+> > <
+https://patchew.org/QEMU/20201219090637.1700900-1-pbonzini@redhat.com/20201=
+219090637.1700900-3-pbonzini@redhat.com/
+>
+>
+> This one could still be applied before or after mine, it makes sense.
+>
+> Paolo
+>
+OK, prefer yours:) I am trying to green the CI,
 
+--
+         =E6=AD=A4=E8=87=B4
+=E7=A4=BC
+=E7=BD=97=E5=8B=87=E5=88=9A
+Yours
+    sincerely,
+Yonggang Luo
+
+--000000000000bef42605b84d4e71
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><br><br>On Thu, Jan 7, 2021 at 2:55 AM Paolo Bonzini &lt;<=
+a href=3D"mailto:pbonzini@redhat.com">pbonzini@redhat.com</a>&gt; wrote:<br=
+>&gt;<br>&gt; On 07/01/21 11:28, Marc-Andr=C3=A9 Lureau wrote:<br>&gt; &gt;=
+ Hi<br>&gt; &gt;<br>&gt; &gt; On Thu, Jan 7, 2021 at 2:26 PM Yonggang Luo &=
+lt;<a href=3D"mailto:luoyonggang@gmail.com">luoyonggang@gmail.com</a><br>&g=
+t; &gt; &lt;mailto:<a href=3D"mailto:luoyonggang@gmail.com">luoyonggang@gma=
+il.com</a>&gt;&gt; wrote:<br>&gt; &gt;<br>&gt; &gt; =C2=A0 =C2=A0 This stru=
+ct only used in whpx-apic.c, there is no need<br>&gt; &gt; =C2=A0 =C2=A0 ex=
+pose it in whpx.h.<br>&gt; &gt;<br>&gt; &gt; =C2=A0 =C2=A0 Signed-off-by: Y=
+onggang Luo &lt;<a href=3D"mailto:luoyonggang@gmail.com">luoyonggang@gmail.=
+com</a><br>&gt; &gt; =C2=A0 =C2=A0 &lt;mailto:<a href=3D"mailto:luoyonggang=
+@gmail.com">luoyonggang@gmail.com</a>&gt;&gt;<br>&gt; &gt;<br>&gt; &gt;<br>=
+&gt; &gt; Similar patch pending:<br>&gt; &gt; <a href=3D"https://patchew.or=
+g/QEMU/20201219090637.1700900-1-pbonzini@redhat.com/20201219090637.1700900-=
+3-pbonzini@redhat.com/">https://patchew.org/QEMU/20201219090637.1700900-1-p=
+bonzini@redhat.com/20201219090637.1700900-3-pbonzini@redhat.com/</a><br>&gt=
+; &gt; &lt;<a href=3D"https://patchew.org/QEMU/20201219090637.1700900-1-pbo=
+nzini@redhat.com/20201219090637.1700900-3-pbonzini@redhat.com/">https://pat=
+chew.org/QEMU/20201219090637.1700900-1-pbonzini@redhat.com/20201219090637.1=
+700900-3-pbonzini@redhat.com/</a>&gt;<br>&gt;<br>&gt; This one could still =
+be applied before or after mine, it makes sense.<br>&gt;<br>&gt; Paolo<br>&=
+gt;<br>OK, prefer yours:) I am trying to green the CI,=C2=A0<br><br>--<br>=
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=E6=AD=A4=E8=87=B4<br>=E7=A4=BC<br>=E7=BD=
+=97=E5=8B=87=E5=88=9A<br>Yours<br>=C2=A0 =C2=A0 sincerely,<br>Yonggang Luo<=
+/div>
+
+--000000000000bef42605b84d4e71--
 
