@@ -2,70 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C97042ECF8B
-	for <lists+qemu-devel@lfdr.de>; Thu,  7 Jan 2021 13:22:08 +0100 (CET)
-Received: from localhost ([::1]:48868 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 078022ECF8E
+	for <lists+qemu-devel@lfdr.de>; Thu,  7 Jan 2021 13:24:53 +0100 (CET)
+Received: from localhost ([::1]:52500 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kxUIp-0003L7-TH
-	for lists+qemu-devel@lfdr.de; Thu, 07 Jan 2021 07:22:07 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42126)
+	id 1kxULU-00052n-4J
+	for lists+qemu-devel@lfdr.de; Thu, 07 Jan 2021 07:24:52 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42800)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <rjones@redhat.com>) id 1kxUHI-0002nD-AA
- for qemu-devel@nongnu.org; Thu, 07 Jan 2021 07:20:32 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:37688)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <rjones@redhat.com>) id 1kxUH7-0003Wu-68
- for qemu-devel@nongnu.org; Thu, 07 Jan 2021 07:20:31 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1610022018;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=4FxkCrAdiAK1rCKRY+7hROoddRWh9ES1di+1TeTTi9o=;
- b=IAqkgrv4BaI23xYUbJsVwJIUR4yR6oTEXN6K8Cbc2Q1GfAGombu3/Vx1YCpeBwXNyIAZ8c
- zTLUA/MB+PuFRLLoVQKBLy++g1f8VTNg6Slk4FbVIH3zjR9ol9p0jbxw6DTMC6uYXu5PI7
- 3/r/Mz7ofLfiVxO2u301n2gVCj44S2s=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-400-rgbxWY80MEqrhCCYut-QIg-1; Thu, 07 Jan 2021 07:20:13 -0500
-X-MC-Unique: rgbxWY80MEqrhCCYut-QIg-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 281D71800D42;
- Thu,  7 Jan 2021 12:20:12 +0000 (UTC)
-Received: from localhost (ovpn-114-98.ams2.redhat.com [10.36.114.98])
- by smtp.corp.redhat.com (Postfix) with ESMTP id E60A119C93;
- Thu,  7 Jan 2021 12:20:05 +0000 (UTC)
-Date: Thu, 7 Jan 2021 12:20:05 +0000
-From: "Richard W.M. Jones" <rjones@redhat.com>
-To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-Subject: Re: [PATCH 4/4] block: introduce BDRV_MAX_LENGTH
-Message-ID: <20210107122005.GC2673@redhat.com>
-References: <20201203222713.13507-1-vsementsov@virtuozzo.com>
- <20201203222713.13507-5-vsementsov@virtuozzo.com>
- <20210107095817.GA2673@redhat.com>
- <20210107105611.GB2673@redhat.com>
+ (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
+ id 1kxUKF-0004LX-9P
+ for qemu-devel@nongnu.org; Thu, 07 Jan 2021 07:23:35 -0500
+Received: from mail.ilande.co.uk ([2001:41c9:1:41f::167]:59118
+ helo=mail.default.ilande.uk0.bigv.io)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
+ id 1kxUKC-00056A-6R
+ for qemu-devel@nongnu.org; Thu, 07 Jan 2021 07:23:35 -0500
+Received: from host109-146-177-189.range109-146.btcentralplus.com
+ ([109.146.177.189] helo=[192.168.1.65])
+ by mail.default.ilande.uk0.bigv.io with esmtpsa
+ (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128) (Exim 4.92)
+ (envelope-from <mark.cave-ayland@ilande.co.uk>)
+ id 1kxUKB-0006Ag-VS; Thu, 07 Jan 2021 12:23:36 +0000
+To: =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
+ qemu-devel@nongnu.org
+References: <20210106114159.981538-1-berrange@redhat.com>
+ <20210106133622.GM976881@redhat.com>
+From: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
+Message-ID: <7018bf8c-fba5-4025-df58-02da091eebf8@ilande.co.uk>
+Date: Thu, 7 Jan 2021 12:23:19 +0000
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.6.0
 MIME-Version: 1.0
-In-Reply-To: <20210107105611.GB2673@redhat.com>
-User-Agent: Mutt/1.5.21 (2010-09-15)
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=rjones@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=rjones@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -29
-X-Spam_score: -3.0
-X-Spam_bar: ---
-X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.246,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+In-Reply-To: <20210106133622.GM976881@redhat.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+X-SA-Exim-Connect-IP: 109.146.177.189
+X-SA-Exim-Mail-From: mark.cave-ayland@ilande.co.uk
+Subject: Re: [PATCH] cirrus: don't run full qtest on macOS
+X-SA-Exim-Version: 4.2.1 (built Wed, 08 May 2019 21:11:16 +0000)
+X-SA-Exim-Scanned: Yes (on mail.default.ilande.uk0.bigv.io)
+Received-SPF: pass client-ip=2001:41c9:1:41f::167;
+ envelope-from=mark.cave-ayland@ilande.co.uk;
+ helo=mail.default.ilande.uk0.bigv.io
+X-Spam_score_int: -21
+X-Spam_score: -2.2
+X-Spam_bar: --
+X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.267,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -79,63 +65,121 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: fam@euphon.net, kwolf@redhat.com, berto@igalia.com, qemu-block@nongnu.org,
- qemu-devel@nongnu.org, mreitz@redhat.com, berrange@redhat.com,
- stefanha@redhat.com, den@openvz.org
+Cc: Kevin Wolf <kwolf@redhat.com>, Peter Maydell <peter.maydell@linaro.org>,
+ Thomas Huth <thuth@redhat.com>, Ed Maste <emaste@freebsd.org>,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
+ Markus Armbruster <armbru@redhat.com>, Stefan Hajnoczi <stefanha@redhat.com>,
+ =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
+ Li-Wen Hsu <lwhsu@freebsd.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, Jan 07, 2021 at 10:56:12AM +0000, Richard W.M. Jones wrote:
-> On Thu, Jan 07, 2021 at 09:58:17AM +0000, Richard W.M. Jones wrote:
-> > On Fri, Dec 04, 2020 at 01:27:13AM +0300, Vladimir Sementsov-Ogievskiy wrote:
-> > > Finally to be safe with calculations, to not calculate different
-> > > maximums for different nodes (depending on cluster size and
-> > > request_alignment), let's simply set QEMU_ALIGN_DOWN(INT64_MAX, 2^30)
-> > > as absolute maximum bytes length for Qemu. Actually, it's not much less
-> > > than INT64_MAX.
-> > 
-> > > +/*
-> > > + * We want allow aligning requests and disk length up to any 32bit alignment
-> > > + * and don't afraid of overflow.
-> > > + * To achieve it, and in the same time use some pretty number as maximum disk
-> > > + * size, let's define maximum "length" (a limit for any offset/bytes request and
-> > > + * for disk size) to be the greatest power of 2 less than INT64_MAX.
-> > > + */
-> > > +#define BDRV_MAX_ALIGNMENT (1L << 30)
-> > > +#define BDRV_MAX_LENGTH (QEMU_ALIGN_DOWN(INT64_MAX, BDRV_MAX_ALIGNMENT))
-> > 
-> > This change broke nbdkit tests.
+On 06/01/2021 13:36, Daniel P. Berrangé wrote:
+
+>> The Cirrus CI macOS build hosts have exhibited a serious performance
+>> degradation in recent months. For example the "qom-test" qtest takes
+>> over an hour for only the qemu-system-aarch64 binary. This is as much
+>> 20-40 times slower than other environments. The other qtests all show
+>> similar performance degradation, as do many of the unit tests.
+>>
+>> This does not appear related to QEMU code changes, since older git
+>> commits which were known to fully complete in less than 1 hour on
+>> Cirrus CI now also show similar bad performance. Either Cirrus CI
+>> performance has degraded, or an change in its environment has exposed
+>> a latent bug widely affecting all of QEMU. Debugging the qom-test
+>> showed no easily identified large bottleneck - every step of the
+>> test execution was simply slower.
 > 
-> Actually that's not the only problem.  It appears that we're unable to
-> read or write the last sector of this disk:
+> It appears I might be mistaken here. On IRC it was reported that
+> going back furrther to v5.1.0 shows good performance in Cirrus
+> still.
 > 
-> $ nbdkit memory $(( 2**63 - 2**30 )) --run 'build/qemu-io -r -f raw "$uri" -c "r -v $(( 2**63 - 2**30 - 512 )) 512" ' 
-> read failed: Input/output error
+> I had only gone back as far as 2a5a79d1b57280edd72193f6031de3feb682154e
+> which I thought was fast originally.
 > 
-> $ nbdkit memory $(( 2**63 - 2**30 )) --run 'build/qemu-io -f raw "$uri" -c "w -P 3 $(( 2**63 - 2**30 - 512 )) 512" ' 
-> write failed: Input/output error
-> 
-> You can play around with the constants.  I found it's possible to read
-> and write the non-aligned 512 bytes starting at 2^63-2^30-513.  Could
-> be a fencepost error somewhere in qemu?
+> So somewhere between v5.1.0 and 2a5a79 we apparently regressed.
 
-Actually this is a pre-existing bug in qemu.
+I tested a few macos cirrus-ci builds after the meson conversion and found that they 
+were working fine, so whatever is affecting the macos build must be related to a QEMU 
+change.
 
-What happens is qemu-io calls qemu_strtosz("9223372035781033472")
-which returns 0x7fffffffc0000000 and no error.  That answer is plain
-flat out wrong.  The reason for that is qemu_strtosz uses floating
-point for the calculation(!) so is limited to 53 bits of precision and
-silently truncates.
+A full bisect proved to be too tricky due to the instability of the tree at that 
+point in time, however reading through "git log" and attempting some builds at merges 
+I thought might be related I discovered that the slowness was introduced by this PR:
 
-It happened we were just lucky that our earlier test with
-2^63 - 1024 worked.
 
-Rich.
+commit b7092cda1b36ce687e65ab1831346f9529b781b8
+Merge: 497d415d76 eb94b81a94
+Author: Peter Maydell <peter.maydell@linaro.org>
+Date:   Fri Oct 9 13:20:46 2020 +0100
 
--- 
-Richard Jones, Virtualization Group, Red Hat http://people.redhat.com/~rjones
-Read my programming and virtualization blog: http://rwmj.wordpress.com
-libguestfs lets you edit virtual machines.  Supports shell scripting,
-bindings from many languages.  http://libguestfs.org
+     Merge remote-tracking branch 'remotes/armbru/tags/pull-monitor-2020-10-09' into 
+staging
 
+     Monitor patches for 2020-10-09
+
+     # gpg: Signature made Fri 09 Oct 2020 06:16:51 BST
+     # gpg:                using RSA key 354BC8B3D7EB2A6B68674E5F3870B400EB918653
+     # gpg:                issuer "armbru@redhat.com"
+     # gpg: Good signature from "Markus Armbruster <armbru@redhat.com>" [full]
+     # gpg:                 aka "Markus Armbruster <armbru@pond.sub.org>" [full]
+     # Primary key fingerprint: 354B C8B3 D7EB 2A6B 6867  4E5F 3870 B400 EB91 8653
+
+     * remotes/armbru/tags/pull-monitor-2020-10-09:
+       block: Convert 'block_resize' to coroutine
+       block: Add bdrv_lock()/unlock()
+       block: Add bdrv_co_enter()/leave()
+       util/async: Add aio_co_reschedule_self()
+       hmp: Add support for coroutine command handlers
+       qmp: Move dispatcher to a coroutine
+       qapi: Add a 'coroutine' flag for commands
+       monitor: Make current monitor a per-coroutine property
+       qmp: Call monitor_set_cur() only in qmp_dispatch()
+       qmp: Assert that no other monitor is active
+       hmp: Update current monitor only in handle_hmp_command()
+       monitor: Use getter/setter functions for cur_mon
+       monitor: Add Monitor parameter to monitor_get_cpu_index()
+       monitor: Add Monitor parameter to monitor_set_cpu()
+
+     Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
+
+
+Fortunately that PR could be bisected and that led me this commit:
+
+
+9ce44e2ce267caf5559904a201aa1986b0a8326b is the first bad commit
+commit 9ce44e2ce267caf5559904a201aa1986b0a8326b
+Author: Kevin Wolf <kwolf@redhat.com>
+Date:   Mon Oct 5 17:58:50 2020 +0200
+
+     qmp: Move dispatcher to a coroutine
+
+     This moves the QMP dispatcher to a coroutine and runs all QMP command
+     handlers that declare 'coroutine': true in coroutine context so they
+     can avoid blocking the main loop while doing I/O or waiting for other
+     events.
+
+     For commands that are not declared safe to run in a coroutine, the
+     dispatcher drops out of coroutine context by calling the QMP command
+     handler from a bottom half.
+
+     Signed-off-by: Kevin Wolf <kwolf@redhat.com>
+     Reviewed-by: Markus Armbruster <armbru@redhat.com>
+     Message-Id: <20201005155855.256490-10-kwolf@redhat.com>
+     Reviewed-by: Markus Armbruster <armbru@redhat.com>
+     Reviewed-by: Stefan Hajnoczi <stefanha@redhat.com>
+     Signed-off-by: Markus Armbruster <armbru@redhat.com>
+
+
+Given that Peter can run the tests manually, I'm not exactly sure why the cirrus-ci 
+environment is different - all I can think of is that it could be related to running 
+in a headless terminal.
+
+For reference running cirrus-ci on the last good commit 04f22362f1 "qapi: Add a 
+'coroutine' flag for commands" gave me a total runtime of 35 mins.
+
+
+ATB,
+
+Mark.
 
