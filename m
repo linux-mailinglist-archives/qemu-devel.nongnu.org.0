@@ -2,68 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C080E2EE6C2
-	for <lists+qemu-devel@lfdr.de>; Thu,  7 Jan 2021 21:24:02 +0100 (CET)
-Received: from localhost ([::1]:39732 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8F9BE2EE6A9
+	for <lists+qemu-devel@lfdr.de>; Thu,  7 Jan 2021 21:21:34 +0100 (CET)
+Received: from localhost ([::1]:59204 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kxbpB-0001V6-PH
-	for lists+qemu-devel@lfdr.de; Thu, 07 Jan 2021 15:24:01 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48176)
+	id 1kxbmn-0006Di-Em
+	for lists+qemu-devel@lfdr.de; Thu, 07 Jan 2021 15:21:33 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48236)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1kxbgw-00017M-96
- for qemu-devel@nongnu.org; Thu, 07 Jan 2021 15:15:33 -0500
-Received: from mail-pf1-x434.google.com ([2607:f8b0:4864:20::434]:35542)
+ id 1kxbh0-0001BG-Vo
+ for qemu-devel@nongnu.org; Thu, 07 Jan 2021 15:15:35 -0500
+Received: from mail-pj1-x1033.google.com ([2607:f8b0:4864:20::1033]:51490)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1kxbgm-0001VB-9H
- for qemu-devel@nongnu.org; Thu, 07 Jan 2021 15:15:26 -0500
-Received: by mail-pf1-x434.google.com with SMTP id c79so4568120pfc.2
- for <qemu-devel@nongnu.org>; Thu, 07 Jan 2021 12:15:16 -0800 (PST)
+ id 1kxbgq-0001Zh-1S
+ for qemu-devel@nongnu.org; Thu, 07 Jan 2021 15:15:34 -0500
+Received: by mail-pj1-x1033.google.com with SMTP id z12so2113424pjn.1
+ for <qemu-devel@nongnu.org>; Thu, 07 Jan 2021 12:15:22 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=yHpWBji5XIjin1o+94tFD6CTmKluj6DDVpJFH1M81zM=;
- b=P5DOXmM1mnEfORNJDTYzyWWej81LEumEDrNnQv+1j/mEglTGQOoG3pmTerVB//E/go
- PkMoedUcksFx+j2igBCnlhD1obvMDbTXw/I4HevxqlQasPSCyTHP8oC++9GQKyzfRRYe
- goO6bhXdjnf2eFjUuZSAfXbHcgA0Ic6swPCHATyjLXvUbumOlsxjDLjVW2JriQ/Dmqy5
- UC3iqs9X32OLzYD2t9CR4zSv859SkySDssTAPzwccmewH7M1fD6/VbrLSlRPCR1BraxT
- Q8HFaPUcIDr5rG48VO7zUNqo92TpD3oQShK2R5IfH80m6UW2JyQaniJZteFKfCCneA8Y
- 7zQw==
+ bh=rtXLHEnFm6PYImUKUfsTMRutoZrBjCY0hpS4NqovFSw=;
+ b=IDQ37mg04ipoga/gdigKisakv9sEGUi1r0LS5oym5igu9gMjZBcDAIeSXFC4U1jnwI
+ KvbSVeqdS+K4/dwRwt/laxGe8n+8dLO2Izj9lI4hkEgay5TBI0KUzBqkDbbqGTyF+hOj
+ 9rMinCylZAd/6MYHPoLbU2TB7KKXBfHdwmHlYxPaG0FPRbxGV2SykgM+WXZanfskCJy7
+ sUcH28sTSDA9tfYaxeUGU6rneAWrbouL7WS2xfz7TN1u9m4RHZSI+4Jea6KrhGxdLjQH
+ 6jDEGP1nhF/39eVM8qkZXnRgqaTOz5pmoIzkPs7lMIXU3TwzvqAhbXaR/IXaCnF7fQA4
+ V1hg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=yHpWBji5XIjin1o+94tFD6CTmKluj6DDVpJFH1M81zM=;
- b=EC4qg5b5B7CT3ioPrYiSnY6aX6skUc7LAEYJ9drg3t/0GhG+d7RmDAPEpcME6FfJNR
- FXQ164sZJxmnVJ1zjvqtYbEPi+Nc4ZVg51MH0JH/AcInlshCcjWdprtx1jxTOu3auIvx
- moVwIb8HqWZNRIb/rwMDbNnfRwsvxjwS7JXsMNd0qpP7Qhgj+ixX3y7qnKsBWiJZcG+w
- SY8aD5FBeFOllOovo/IDYSMy9AuJtTN3DKHNTnV5o5+u1HiBOeeyRoMKcE7IGSWxu4VX
- SortWkVzMKy1hsv38+P7hORUc9FWFXIGxqwzk9n9PzevbQmFTMxcERbkmbCnoKC56eX6
- JvdA==
-X-Gm-Message-State: AOAM531Rcss+qQuAIon2leaNtHSldygMQegBjx5g+8gyhKcs1srkFVV9
- w0k/wIV68/rgOjt4MyrB/o+Qd8QjJsoWGQ==
-X-Google-Smtp-Source: ABdhPJyEFsmXi3fF9ZeTiSOzCO8qVSuvEVCH0oS/Unzxuqc532yvExpysJpKId6JSMdJeX4Gc6bniA==
-X-Received: by 2002:a63:f608:: with SMTP id m8mr3439872pgh.11.1610050515842;
- Thu, 07 Jan 2021 12:15:15 -0800 (PST)
+ bh=rtXLHEnFm6PYImUKUfsTMRutoZrBjCY0hpS4NqovFSw=;
+ b=n9kw/9S9vAdBMd1+K85EfK+wc+1YOkKmJWnUI6/yZIjHK2b5P7TS1Gv1ehRVAyE1o3
+ I58PDdZr0ljC4Gx5ZGWhqcHQjl/XOabzzW9NK+GBYWMyFb3wRzU8Na+v5Qz1cVGxLp9e
+ /57w7ZWCDJCU++K9OyNl9Y7BnsC6NBrpo+hzc3UO0r7YI2hQYWr3mBKp5SljNLdob7r9
+ NZSR13z2/OKAlXg/Am7JI9+vnAasjNr39KDn38LC2pLGQpEvAF/K745YUN4BLngY5KGP
+ JdGH554Y0ZY2eGUKeUbanGvYucjv2TeqFuX+24+2ea58uKhGATjgUnTu9kj+FV/4auWQ
+ fI3A==
+X-Gm-Message-State: AOAM530+Bv0MH75vXl4pNzF+RwaxN+u9UprZZUyrrzkoYqc2H6Ad7kGk
+ 3a3ANfTrbJYoscswWUd07oVt3Ty7G0i0zw==
+X-Google-Smtp-Source: ABdhPJyojZmuv/pVny1PfM/PxZ576qJm8S5Tc1pVVFVqDL5fth40oFwrims2jevKiMCS1yXFHreFPQ==
+X-Received: by 2002:a17:90a:1c02:: with SMTP id
+ s2mr186707pjs.212.1610050521080; 
+ Thu, 07 Jan 2021 12:15:21 -0800 (PST)
 Received: from localhost.localdomain (rrcs-173-197-107-21.west.biz.rr.com.
  [173.197.107.21])
- by smtp.gmail.com with ESMTPSA id v6sm6516265pfi.31.2021.01.07.12.15.14
+ by smtp.gmail.com with ESMTPSA id v6sm6516265pfi.31.2021.01.07.12.15.19
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 07 Jan 2021 12:15:15 -0800 (PST)
+ Thu, 07 Jan 2021 12:15:20 -0800 (PST)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 13/47] tcg: Adjust TCGLabel for const
-Date: Thu,  7 Jan 2021 10:14:14 -1000
-Message-Id: <20210107201448.1152301-14-richard.henderson@linaro.org>
+Subject: [PULL 16/47] tcg: Adjust tcg_register_jit for const
+Date: Thu,  7 Jan 2021 10:14:17 -1000
+Message-Id: <20210107201448.1152301-17-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20210107201448.1152301-1-richard.henderson@linaro.org>
 References: <20210107201448.1152301-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::434;
- envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x434.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1033;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1033.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -87,132 +88,188 @@ Cc: peter.maydell@linaro.org, Joelle van Dyne <j@getutm.app>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Change TCGLabel.u.value_ptr to const, and initialize it with
-tcg_splitwx_to_rx.  Propagate const through tcg/host/ only
-as far as needed to avoid errors from the value_ptr change.
+We must change all targets at once, since all must match
+the declaration in tcg.c.
 
 Reviewed-by: Joelle van Dyne <j@getutm.app>
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- include/tcg/tcg.h            | 2 +-
- tcg/tcg.c                    | 2 +-
- tcg/aarch64/tcg-target.c.inc | 2 +-
- tcg/arm/tcg-target.c.inc     | 2 +-
- tcg/mips/tcg-target.c.inc    | 5 +++--
- tcg/ppc/tcg-target.c.inc     | 4 ++--
- tcg/s390/tcg-target.c.inc    | 2 +-
- 7 files changed, 10 insertions(+), 9 deletions(-)
+ include/tcg/tcg.h            |  2 +-
+ tcg/tcg.c                    | 10 +++++-----
+ tcg/aarch64/tcg-target.c.inc |  2 +-
+ tcg/arm/tcg-target.c.inc     |  2 +-
+ tcg/i386/tcg-target.c.inc    |  2 +-
+ tcg/mips/tcg-target.c.inc    |  2 +-
+ tcg/ppc/tcg-target.c.inc     |  2 +-
+ tcg/riscv/tcg-target.c.inc   |  2 +-
+ tcg/s390/tcg-target.c.inc    |  2 +-
+ tcg/sparc/tcg-target.c.inc   |  2 +-
+ 10 files changed, 14 insertions(+), 14 deletions(-)
 
 diff --git a/include/tcg/tcg.h b/include/tcg/tcg.h
-index b769e868bc..e9af279738 100644
+index e9af279738..e744a1ce02 100644
 --- a/include/tcg/tcg.h
 +++ b/include/tcg/tcg.h
-@@ -261,7 +261,7 @@ struct TCGLabel {
-     unsigned refs : 16;
-     union {
-         uintptr_t value;
--        tcg_insn_unit *value_ptr;
-+        const tcg_insn_unit *value_ptr;
-     } u;
-     QSIMPLEQ_HEAD(, TCGRelocation) relocs;
-     QSIMPLEQ_ENTRY(TCGLabel) next;
+@@ -1255,7 +1255,7 @@ typedef uintptr_t tcg_prologue_fn(CPUArchState *env, const void *tb_ptr);
+ extern tcg_prologue_fn *tcg_qemu_tb_exec;
+ #endif
+ 
+-void tcg_register_jit(void *buf, size_t buf_size);
++void tcg_register_jit(const void *buf, size_t buf_size);
+ 
+ #if TCG_TARGET_MAYBE_vec
+ /* Return zero if the tuple (opc, type, vece) is unsupportable;
 diff --git a/tcg/tcg.c b/tcg/tcg.c
-index 7bf441979d..325e439cb7 100644
+index 898c4bd1b6..f278772512 100644
 --- a/tcg/tcg.c
 +++ b/tcg/tcg.c
-@@ -306,7 +306,7 @@ static void tcg_out_label(TCGContext *s, TCGLabel *l, tcg_insn_unit *ptr)
- {
-     tcg_debug_assert(!l->has_value);
-     l->has_value = 1;
--    l->u.value_ptr = ptr;
-+    l->u.value_ptr = tcg_splitwx_to_rx(ptr);
- }
+@@ -97,7 +97,7 @@ typedef struct QEMU_PACKED {
+     DebugFrameFDEHeader fde;
+ } DebugFrameHeader;
  
- TCGLabel *gen_new_label(void)
-diff --git a/tcg/aarch64/tcg-target.c.inc b/tcg/aarch64/tcg-target.c.inc
-index 76f8ae48ad..96dc9f4d0b 100644
---- a/tcg/aarch64/tcg-target.c.inc
-+++ b/tcg/aarch64/tcg-target.c.inc
-@@ -1306,7 +1306,7 @@ static void tcg_out_cmp(TCGContext *s, TCGType ext, TCGReg a,
+-static void tcg_register_jit_int(void *buf, size_t size,
++static void tcg_register_jit_int(const void *buf, size_t size,
+                                  const void *debug_frame,
+                                  size_t debug_frame_size)
+     __attribute__((unused));
+@@ -1137,7 +1137,7 @@ void tcg_prologue_init(TCGContext *s)
+     total_size -= prologue_size;
+     s->code_gen_buffer_size = total_size;
+ 
+-    tcg_register_jit(s->code_gen_buffer, total_size);
++    tcg_register_jit(tcg_splitwx_to_rx(s->code_gen_buffer), total_size);
+ 
+ #ifdef DEBUG_DISAS
+     if (qemu_loglevel_mask(CPU_LOG_TB_OUT_ASM)) {
+@@ -4511,7 +4511,7 @@ static int find_string(const char *strtab, const char *str)
      }
  }
  
--static inline void tcg_out_goto(TCGContext *s, tcg_insn_unit *target)
-+static void tcg_out_goto(TCGContext *s, const tcg_insn_unit *target)
+-static void tcg_register_jit_int(void *buf_ptr, size_t buf_size,
++static void tcg_register_jit_int(const void *buf_ptr, size_t buf_size,
+                                  const void *debug_frame,
+                                  size_t debug_frame_size)
  {
-     ptrdiff_t offset = target - s->code_ptr;
-     tcg_debug_assert(offset == sextract64(offset, 0, 26));
+@@ -4713,13 +4713,13 @@ static void tcg_register_jit_int(void *buf_ptr, size_t buf_size,
+ /* No support for the feature.  Provide the entry point expected by exec.c,
+    and implement the internal function we declared earlier.  */
+ 
+-static void tcg_register_jit_int(void *buf, size_t size,
++static void tcg_register_jit_int(const void *buf, size_t size,
+                                  const void *debug_frame,
+                                  size_t debug_frame_size)
+ {
+ }
+ 
+-void tcg_register_jit(void *buf, size_t buf_size)
++void tcg_register_jit(const void *buf, size_t buf_size)
+ {
+ }
+ #endif /* ELF_HOST_MACHINE */
+diff --git a/tcg/aarch64/tcg-target.c.inc b/tcg/aarch64/tcg-target.c.inc
+index 6d8152c468..9ace859db3 100644
+--- a/tcg/aarch64/tcg-target.c.inc
++++ b/tcg/aarch64/tcg-target.c.inc
+@@ -2964,7 +2964,7 @@ static const DebugFrame debug_frame = {
+     }
+ };
+ 
+-void tcg_register_jit(void *buf, size_t buf_size)
++void tcg_register_jit(const void *buf, size_t buf_size)
+ {
+     tcg_register_jit_int(buf, buf_size, &debug_frame, sizeof(debug_frame));
+ }
 diff --git a/tcg/arm/tcg-target.c.inc b/tcg/arm/tcg-target.c.inc
-index 1e32bf42b8..f8f485d807 100644
+index a197e6bc45..9b9400f164 100644
 --- a/tcg/arm/tcg-target.c.inc
 +++ b/tcg/arm/tcg-target.c.inc
-@@ -1019,7 +1019,7 @@ static inline void tcg_out_st8(TCGContext *s, int cond,
-  * with the code buffer limited to 16MB we wouldn't need the long case.
-  * But we also use it for the tail-call to the qemu_ld/st helpers, which does.
-  */
--static void tcg_out_goto(TCGContext *s, int cond, tcg_insn_unit *addr)
-+static void tcg_out_goto(TCGContext *s, int cond, const tcg_insn_unit *addr)
+@@ -2353,7 +2353,7 @@ static const DebugFrame debug_frame = {
+     }
+ };
+ 
+-void tcg_register_jit(void *buf, size_t buf_size)
++void tcg_register_jit(const void *buf, size_t buf_size)
  {
-     intptr_t addri = (intptr_t)addr;
-     ptrdiff_t disp = tcg_pcrel_diff(s, addr);
+     tcg_register_jit_int(buf, buf_size, &debug_frame, sizeof(debug_frame));
+ }
+diff --git a/tcg/i386/tcg-target.c.inc b/tcg/i386/tcg-target.c.inc
+index 197e3006c8..d272975ff1 100644
+--- a/tcg/i386/tcg-target.c.inc
++++ b/tcg/i386/tcg-target.c.inc
+@@ -3976,7 +3976,7 @@ static const DebugFrame debug_frame = {
+ #endif
+ 
+ #if defined(ELF_HOST_MACHINE)
+-void tcg_register_jit(void *buf, size_t buf_size)
++void tcg_register_jit(const void *buf, size_t buf_size)
+ {
+     tcg_register_jit_int(buf, buf_size, &debug_frame, sizeof(debug_frame));
+ }
 diff --git a/tcg/mips/tcg-target.c.inc b/tcg/mips/tcg-target.c.inc
-index f641105f9a..a3f838fa51 100644
+index 6d2c369a85..e9c8c24741 100644
 --- a/tcg/mips/tcg-target.c.inc
 +++ b/tcg/mips/tcg-target.c.inc
-@@ -144,7 +144,8 @@ static tcg_insn_unit *bswap32_addr;
- static tcg_insn_unit *bswap32u_addr;
- static tcg_insn_unit *bswap64_addr;
+@@ -2703,7 +2703,7 @@ static const DebugFrame debug_frame = {
+     }
+ };
  
--static inline uint32_t reloc_pc16_val(tcg_insn_unit *pc, tcg_insn_unit *target)
-+static inline uint32_t reloc_pc16_val(tcg_insn_unit *pc,
-+                                      const tcg_insn_unit *target)
+-void tcg_register_jit(void *buf, size_t buf_size)
++void tcg_register_jit(const void *buf, size_t buf_size)
  {
-     /* Let the compiler perform the right-shift as part of the arithmetic.  */
-     ptrdiff_t disp = target - (pc + 1);
-@@ -152,7 +153,7 @@ static inline uint32_t reloc_pc16_val(tcg_insn_unit *pc, tcg_insn_unit *target)
-     return disp & 0xffff;
- }
- 
--static inline void reloc_pc16(tcg_insn_unit *pc, tcg_insn_unit *target)
-+static inline void reloc_pc16(tcg_insn_unit *pc, const tcg_insn_unit *target)
- {
-     *pc = deposit32(*pc, 0, 16, reloc_pc16_val(pc, target));
+     tcg_register_jit_int(buf, buf_size, &debug_frame, sizeof(debug_frame));
  }
 diff --git a/tcg/ppc/tcg-target.c.inc b/tcg/ppc/tcg-target.c.inc
-index 15d5c78798..d108f01fec 100644
+index 38dabe40c4..a0a5bac13f 100644
 --- a/tcg/ppc/tcg-target.c.inc
 +++ b/tcg/ppc/tcg-target.c.inc
-@@ -184,7 +184,7 @@ static inline bool in_range_b(tcg_target_long target)
-     return target == sextract64(target, 0, 26);
- }
+@@ -3847,7 +3847,7 @@ static DebugFrame debug_frame = {
+     }
+ };
  
--static uint32_t reloc_pc24_val(tcg_insn_unit *pc, tcg_insn_unit *target)
-+static uint32_t reloc_pc24_val(tcg_insn_unit *pc, const tcg_insn_unit *target)
+-void tcg_register_jit(void *buf, size_t buf_size)
++void tcg_register_jit(const void *buf, size_t buf_size)
  {
-     ptrdiff_t disp = tcg_ptr_byte_diff(target, pc);
-     tcg_debug_assert(in_range_b(disp));
-@@ -201,7 +201,7 @@ static bool reloc_pc24(tcg_insn_unit *pc, tcg_insn_unit *target)
-     return false;
- }
+     uint8_t *p = &debug_frame.fde_reg_ofs[3];
+     int i;
+diff --git a/tcg/riscv/tcg-target.c.inc b/tcg/riscv/tcg-target.c.inc
+index 90588ca2a3..0518595742 100644
+--- a/tcg/riscv/tcg-target.c.inc
++++ b/tcg/riscv/tcg-target.c.inc
+@@ -1907,7 +1907,7 @@ static const DebugFrame debug_frame = {
+     }
+ };
  
--static uint16_t reloc_pc14_val(tcg_insn_unit *pc, tcg_insn_unit *target)
-+static uint16_t reloc_pc14_val(tcg_insn_unit *pc, const tcg_insn_unit *target)
+-void tcg_register_jit(void *buf, size_t buf_size)
++void tcg_register_jit(const void *buf, size_t buf_size)
  {
-     ptrdiff_t disp = tcg_ptr_byte_diff(target, pc);
-     tcg_debug_assert(disp == (int16_t) disp);
+     tcg_register_jit_int(buf, buf_size, &debug_frame, sizeof(debug_frame));
+ }
 diff --git a/tcg/s390/tcg-target.c.inc b/tcg/s390/tcg-target.c.inc
-index ac99ccea73..1b5c4f0ab0 100644
+index 37f4dc4cfd..1444914428 100644
 --- a/tcg/s390/tcg-target.c.inc
 +++ b/tcg/s390/tcg-target.c.inc
-@@ -1302,7 +1302,7 @@ static void tgen_extract(TCGContext *s, TCGReg dest, TCGReg src,
-     tcg_out_risbg(s, dest, src, 64 - len, 63, 64 - ofs, 1);
- }
+@@ -2620,7 +2620,7 @@ static const DebugFrame debug_frame = {
+     }
+ };
  
--static void tgen_gotoi(TCGContext *s, int cc, tcg_insn_unit *dest)
-+static void tgen_gotoi(TCGContext *s, int cc, const tcg_insn_unit *dest)
+-void tcg_register_jit(void *buf, size_t buf_size)
++void tcg_register_jit(const void *buf, size_t buf_size)
  {
-     ptrdiff_t off = dest - s->code_ptr;
-     if (off == (int16_t)off) {
+     tcg_register_jit_int(buf, buf_size, &debug_frame, sizeof(debug_frame));
+ }
+diff --git a/tcg/sparc/tcg-target.c.inc b/tcg/sparc/tcg-target.c.inc
+index 1a40911660..4c81d5f1c2 100644
+--- a/tcg/sparc/tcg-target.c.inc
++++ b/tcg/sparc/tcg-target.c.inc
+@@ -1816,7 +1816,7 @@ static const DebugFrame debug_frame = {
+     .fde_ret_save = { 9, 15, 31 },      /* DW_CFA_register o7, i7 */
+ };
+ 
+-void tcg_register_jit(void *buf, size_t buf_size)
++void tcg_register_jit(const void *buf, size_t buf_size)
+ {
+     tcg_register_jit_int(buf, buf_size, &debug_frame, sizeof(debug_frame));
+ }
 -- 
 2.25.1
 
