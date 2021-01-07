@@ -2,73 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9FD032ECAF5
-	for <lists+qemu-devel@lfdr.de>; Thu,  7 Jan 2021 08:31:02 +0100 (CET)
-Received: from localhost ([::1]:43082 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 72F1E2ECAFF
+	for <lists+qemu-devel@lfdr.de>; Thu,  7 Jan 2021 08:37:07 +0100 (CET)
+Received: from localhost ([::1]:49154 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kxPl7-0007kf-Nu
-	for lists+qemu-devel@lfdr.de; Thu, 07 Jan 2021 02:31:01 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54634)
+	id 1kxPr0-0002Vd-7p
+	for lists+qemu-devel@lfdr.de; Thu, 07 Jan 2021 02:37:06 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55420)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1kxPjn-0007EP-G2
- for qemu-devel@nongnu.org; Thu, 07 Jan 2021 02:29:39 -0500
-Received: from mail-wm1-x335.google.com ([2a00:1450:4864:20::335]:52837)
+ id 1kxPoC-0000uv-CV; Thu, 07 Jan 2021 02:34:12 -0500
+Received: from mail-wr1-x435.google.com ([2a00:1450:4864:20::435]:39917)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1kxPjl-0008Fr-Uf
- for qemu-devel@nongnu.org; Thu, 07 Jan 2021 02:29:39 -0500
-Received: by mail-wm1-x335.google.com with SMTP id a6so4299882wmc.2
- for <qemu-devel@nongnu.org>; Wed, 06 Jan 2021 23:29:37 -0800 (PST)
+ id 1kxPo8-0001qG-Qp; Thu, 07 Jan 2021 02:34:11 -0500
+Received: by mail-wr1-x435.google.com with SMTP id c5so4612800wrp.6;
+ Wed, 06 Jan 2021 23:34:02 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=DVnWHSxcnT/JcuWfCy2pRme8Z2W0yCPa0ghSL2aqpGk=;
- b=HJIRsydRMmX+AGtrwnlhD0G9MovjQYJsc9bJpnUPWg9xhoMm3VJR83GvdLtW8MlTbw
- Yh7ybUyc2iS60PEXo77WwC6YBvNdy4iOdXyduq76gPpOxF49olbMrr0AUjhPoXTqd9sC
- CfN4qP9m+MWxxtb8JEm1SmWZ+AUS5jlESp7nEzzOv3Q5qmh9ZoAtE9ROSreA1v+Ei1xW
- IEWE8ssXFZG6cvG3N+yMfvTq9fjKZsfxflOFOdh38FTJuDJdWbpmp4/CMa/4M7pk+12W
- /ioD3mWSSjW0t4SVmDlWID6UPXaofN3YQmPa2OewjFhfm0CcYD0aHTBXwuqOev0xBzju
- jipQ==
+ h=sender:subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=mv9BUTkHXJZeu6IB83yOyuX6/467HlhRD+rQLREzjB4=;
+ b=a1zjEKw9bYPZrFL6oMhyNnSP5fLggA3YYz15TYt95d7yP/FrMnY+UwZgUdfWfpny9l
+ 3G4WHhn8EV9E//Ec03N09uZcyeYzLAxhZ0hpwXNCyEDDo3+JnwRmUBv+lMLIm3shV4yv
+ ud1UWNUk+2IzZJkJpIeqXU2UvCLrr1OerIihI65NAFRAr/xpaFKPoj5LbUkw+/g17rDi
+ o91e6VaCCVgGMq+xVCNZyM1V5rKTBnzMfMTCk5UdTOxgoMu7RqK0IEn+2FnXXYci9d2W
+ LmfQOGYS/1hCDzCO92hf6l/5xdBqcF6X7pfVC9YH1VjlXTf/QRCkF7rW+uuCIymBwwDf
+ rmRQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
- :mime-version:content-transfer-encoding;
- bh=DVnWHSxcnT/JcuWfCy2pRme8Z2W0yCPa0ghSL2aqpGk=;
- b=j+x/A0XEo/gWjUCTqjyVBMth0dx94EUpURDpLpKNpALS5wamg0T3RpE6f1FYZJTdof
- uRrx+CUX1pszIQJKtV1C5A1BtpGXUPHdnw4YeiyRlV4y9MW3yqtTRFXc8ItKGgBPd5D4
- m3ulQLe/NdPa7CIKE5PIEVs2mpd1GnTCC7f4+RohjlpuEkcod20qVBOrsGq+nGBFp4uR
- YTgVTLN3rrxA/onEYP4QmnsovzTR9PWtexvio701b+Uy2/xnnKK6owdzJdW30ofHBSW1
- bAB+Szme2OfoOk6oBWvSfNxBcmx85lU7jhicBj/O7jEjRyOQ2GsjBZNDrYCjq8C6xOqb
- +opQ==
-X-Gm-Message-State: AOAM530af1OITX8Lk2DQEtRcg5rrEfOIgQSKrzDbwvi9x7HF/2Jau8SV
- jMK1+rGwzN+/Cng6lCSb/IzGV4596Rk=
-X-Google-Smtp-Source: ABdhPJxF4CesLj84c1u+5YYKWL1872yo+ib8tNymOT8a4VPllRmY6ezXqITEzUZsep+mIjfLROzDrA==
-X-Received: by 2002:a7b:cb4f:: with SMTP id v15mr6683926wmj.123.1610004576206; 
- Wed, 06 Jan 2021 23:29:36 -0800 (PST)
-Received: from localhost.localdomain
- (241.red-88-10-103.dynamicip.rima-tde.net. [88.10.103.241])
- by smtp.gmail.com with ESMTPSA id a13sm6419528wrt.96.2021.01.06.23.29.34
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 06 Jan 2021 23:29:35 -0800 (PST)
-From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
-To: qemu-devel@nongnu.org
-Subject: [PATCH] tests/docker: Remove Debian 9 remnant lines
-Date: Thu,  7 Jan 2021 08:29:33 +0100
-Message-Id: <20210107072933.3828450-1-f4bug@amsat.org>
-X-Mailer: git-send-email 2.26.2
+ h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
+ :date:user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=mv9BUTkHXJZeu6IB83yOyuX6/467HlhRD+rQLREzjB4=;
+ b=uhbGhqluvQlwy8oDTKxMSzkcE4fvZL596VqqiIoYFZ3+RjpMC8V4mZkG/F+6qoBVBc
+ mZmlRb8MkFlKM7EQmNUNVsfUt1x0LeRDzCVUFM0hXheLfqEFjkdrcQCJMdx5XFzbJLNi
+ otvmpPI7TduLEZTJPrEabj7Cwl8pCun8qMkJEuitOxrSY4NOOTjkr73zSn4ilrCRy3R8
+ eIbY3dxASK+aq2vZ/c+vHV3ZozyIjzElH5mKvdPfiA4LREOuujfHq5u3TvT7WwtBeB10
+ x0Prqky2QsrJNpgRw1HgHpmUAL31GSHP2JxeeN09UwkZ94zYckeQYzG0rDL/DnrcdT4f
+ /59Q==
+X-Gm-Message-State: AOAM532SFB3rd3saFDWa5kp/pWt6yQJDmDIzZA4jgzkR+0VQfLQ/70YP
+ oAKPDZVS9Ic+ibIfO1MSeYk=
+X-Google-Smtp-Source: ABdhPJzaaEkfEFNV2kTqUq+QRFMMUzGn7NwTA8uALTRqD8qZno/7XXTQnOa/WdY+in2vBCKCpyJ/bQ==
+X-Received: by 2002:a5d:4c4d:: with SMTP id n13mr7640502wrt.356.1610004841043; 
+ Wed, 06 Jan 2021 23:34:01 -0800 (PST)
+Received: from [192.168.1.36] (241.red-88-10-103.dynamicip.rima-tde.net.
+ [88.10.103.241])
+ by smtp.gmail.com with ESMTPSA id a62sm6312249wmf.7.2021.01.06.23.33.59
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 06 Jan 2021 23:34:00 -0800 (PST)
+Subject: Re: [RFC PATCH 0/2] Pegasos2 emulation
+To: BALATON Zoltan <balaton@eik.bme.hu>, qemu-devel@nongnu.org,
+ qemu-ppc@nongnu.org
+References: <cover.1609973005.git.balaton@eik.bme.hu>
+ <fc421134-788a-4c62-db25-7e2453104539@eik.bme.hu>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
+Message-ID: <f3d46697-6371-9bd6-67b4-d1c1255fdcf3@amsat.org>
+Date: Thu, 7 Jan 2021 08:33:59 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.6.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::335;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x335.google.com
-X-Spam_score_int: -14
-X-Spam_score: -1.5
+In-Reply-To: <fc421134-788a-4c62-db25-7e2453104539@eik.bme.hu>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::435;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x435.google.com
+X-Spam_score_int: -17
+X-Spam_score: -1.8
 X-Spam_bar: -
-X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249, NICE_REPLY_A=-0.249,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
@@ -83,36 +88,75 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Fam Zheng <fam@euphon.net>,
- =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
- Thomas Huth <thuth@redhat.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ David Gibson <david@gibson.dropbear.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Debian 9 base container has been removed in commits
-e3755276d1f and c9d78b06c06. Remove the last remnants.
+On 1/7/21 2:15 AM, BALATON Zoltan wrote:
+> On Wed, 6 Jan 2021, BALATON Zoltan wrote:
+>> Hello,
+>>
+>> This is adding a new PPC board called pegasos2 currently posted as RFC
+>> because it depends on not yet merged VT8231 emulation currently on the
+>> list:
+>>
+>> https://patchew.org/QEMU/cover.1609967638.git.balaton@eik.bme.hu/
 
-Fixes: e3755276d1f ("tests/docker: Remove old Debian 9 containers")
-Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
----
- tests/docker/Makefile.include | 1 -
- 1 file changed, 1 deletion(-)
+This note ^^^ ...
 
-diff --git a/tests/docker/Makefile.include b/tests/docker/Makefile.include
-index c254ac38d0a..0779dab5b96 100644
---- a/tests/docker/Makefile.include
-+++ b/tests/docker/Makefile.include
-@@ -108,7 +108,6 @@ ifneq ($(HOST_ARCH),x86_64)
- DOCKER_PARTIAL_IMAGES += debian-mips-cross debian-mipsel-cross debian-mips64el-cross
- DOCKER_PARTIAL_IMAGES += debian-ppc64el-cross
- DOCKER_PARTIAL_IMAGES += debian-s390x-cross
--DOCKER_PARTIAL_IMAGES += debian-win32-cross debian-win64-cross
- DOCKER_PARTIAL_IMAGES += fedora travis
- endif
- 
--- 
-2.26.2
+>>
+>> and may need some changes like a test case but I'm posting it now for
+>> getting feedback on what's needed to merge this. More info on it can
+>> be found at:
+>>
+>> https://osdn.net/projects/qmiga/wiki/SubprojectPegasos2
+>>
+>> Currently it needs a firmware ROM image that I cannot include due to
+>> original copyright holder (bPlan) did not release it under a free
+>> licence but I have plans to write a replacement in the future. With
+>> that firmware it can boot MorphOS now as:
+>>
+>> qemu-system-ppc -M pegasos2 -cdrom morphos.iso -device
+>> ati-vga,romfile="" -serial stdio
+>>
+>> then enter "boot cd boot.img" at the firmware "ok" prompt as described
+>> in the MorphOS.readme. To boot Linux use same command line with e.g.
+>> -cdrom debian-8.11.0-powerpc-netinst.iso then enter
+>> "boot cd install/pegasos"
+>>
+>> Patch 2 adds the actual board code after patch 1 adding MV64361 system
+>> controller chip. The mv643xx.h header file is taken from Linux and
+>> produces a bunch of checkpatch warnings due to different formatting
+>> rules it follows, I'm not sure we want to adopt it or keep it as it is
+>> given that it does not appear any more in recent Linux versions so we
+>> could reformat it as it's unlikely to get updated in the future.
+> 
+> Interestingly it applies for patchew while this was accidentally based
+> on my previous series that has hw/ppc/Kconfig reverts so it does not
+> apply on current master.
 
+... can be passed as hint to patchew as a tag:
+
+Based-on: <cover.1609967638.git.balaton@eik.bme.hu>
+
+> Also missing a file so does not compile but
+> other than that the content could be reviewed. I've now updated this repo:
+> 
+> https://osdn.net/projects/qmiga/scm/git/qemu/tree/pegasos2/
+> 
+> which contains all the needed patches over QEMU master at one place in
+> case somebody wants to try this. I'll send an updated version later
+> after I get some feedback.
+> 
+> The command lines above also need -bios /path/to/firmware.rom
+
+An integration test similar to the Fuloong PMON would be highly
+appreciated :)
+
+https://www.mail-archive.com/qemu-devel@nongnu.org/msg752605.html
+
+Regards,
+
+Phil.
 
