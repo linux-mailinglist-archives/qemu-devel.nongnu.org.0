@@ -2,93 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8A02D2ECC61
-	for <lists+qemu-devel@lfdr.de>; Thu,  7 Jan 2021 10:11:36 +0100 (CET)
-Received: from localhost ([::1]:46872 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7E6962ECC62
+	for <lists+qemu-devel@lfdr.de>; Thu,  7 Jan 2021 10:12:38 +0100 (CET)
+Received: from localhost ([::1]:49706 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kxRKR-00080Y-L8
-	for lists+qemu-devel@lfdr.de; Thu, 07 Jan 2021 04:11:35 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46058)
+	id 1kxRLR-0000nd-86
+	for lists+qemu-devel@lfdr.de; Thu, 07 Jan 2021 04:12:37 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46802)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kxRJL-0007Kj-M5
- for qemu-devel@nongnu.org; Thu, 07 Jan 2021 04:10:27 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:33599)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kxRJI-0004X9-Gy
- for qemu-devel@nongnu.org; Thu, 07 Jan 2021 04:10:26 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1610010622;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=bpB8i2CgsKUTPILX0jBAjJ0j+pcrq41lee75uZSNQgQ=;
- b=KN+Y0+6mssP9ailgWmuvJ4r5fblYqff7VQi7YDO0cygKdi1O+B/BX2ocTjF6PPXHhmb45v
- dFxGHFXWm1lLrj0F81D2W0hbsCF+oTD0MH4aWydkcCG7fDJ3fXpeLOb6ZJJvRAHutl7CwN
- 4c2itGAOxIqQQbDScSTGOFU2X6pFrYI=
-Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
- [209.85.221.69]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-561-_5ybchfOPaCBxieqNwoLjw-1; Thu, 07 Jan 2021 04:10:20 -0500
-X-MC-Unique: _5ybchfOPaCBxieqNwoLjw-1
-Received: by mail-wr1-f69.google.com with SMTP id b8so2372683wrv.14
- for <qemu-devel@nongnu.org>; Thu, 07 Jan 2021 01:10:19 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:references:cc:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=bpB8i2CgsKUTPILX0jBAjJ0j+pcrq41lee75uZSNQgQ=;
- b=A5XdTWbkBi/uJn5VjxyiDXqqKWeA7zPhDNTLWlZnLePJtpmsQAhzAV8inXjUlFZpWw
- deaxDR0mQ+LtwdY6GBjBsiWX5GeprFqiofzXNTu36FihZs+v1uP7B5LBy9ZFfaxkpYq4
- Er7oJtAQCE2KpDkWbs4HpcmSyFvnNSxEyWR1/jOnVct4s7Zqh0nM7bw4Z+Aq8mYMrdDE
- Pbql0HP3DZW8X0gRaf+l1NBW/ZB2xeFexQsHucv4PENBSWz680sDE7ZjcOV6C/lvrkyY
- bxae+Ckpo5XkZtPz7eNud2MjWDxaTXgEG3VCvWn77BbWdslcplvE4EdUv0+xr0KBfeqr
- DzNw==
-X-Gm-Message-State: AOAM5323plMIYUXgcZS43GEX0kpvXmT9i5w+MFlmfg/7n1RPqdVu8yAD
- JAP1nye0BantuZXkj1gVkJ6gStEU4fBqlWGAT7LMUbjcbs/K1ogKQstE3KFNpycYia/GdqZ9eho
- nZECvH4cu4PSTav8=
-X-Received: by 2002:adf:fd05:: with SMTP id e5mr8029666wrr.225.1610010618897; 
- Thu, 07 Jan 2021 01:10:18 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJx8Tobll8cvv2w+4+Y74sCTscmclFeLAAG2TCAS85lKWPEgfSzzx6SnStretMYzX+fvdH8iIw==
-X-Received: by 2002:adf:fd05:: with SMTP id e5mr8029648wrr.225.1610010618729; 
- Thu, 07 Jan 2021 01:10:18 -0800 (PST)
-Received: from [192.168.1.36] (241.red-88-10-103.dynamicip.rima-tde.net.
- [88.10.103.241])
- by smtp.gmail.com with ESMTPSA id p15sm6814837wrt.15.2021.01.07.01.10.17
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 07 Jan 2021 01:10:18 -0800 (PST)
-Subject: Re: [Bug 1910505] [NEW] atomic failure linking with
- --enable-sanitizers on 32-bit Linux hosts
-To: Stefan Hajnoczi <stefanha@redhat.com>, Paolo Bonzini
- <pbonzini@redhat.com>, "Emilio G. Cota" <cota@braap.org>,
- =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
- Richard Henderson <richard.henderson@linaro.org>,
- =?UTF-8?Q?Marc-Andr=c3=a9_Lureau?= <marcandre.lureau@redhat.com>
-References: <161000881348.18330.2540162310564338256.malonedeb@gac.canonical.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-Message-ID: <88bee064-f323-366a-7931-dc4bc40057e3@redhat.com>
-Date: Thu, 7 Jan 2021 10:10:16 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.6.0
+ (Exim 4.90_1) (envelope-from <prvs=634a5def5=atish.patra@wdc.com>)
+ id 1kxRKS-0008Sq-2Z; Thu, 07 Jan 2021 04:11:36 -0500
+Received: from esa3.hgst.iphmx.com ([216.71.153.141]:24019)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <prvs=634a5def5=atish.patra@wdc.com>)
+ id 1kxRKP-0005JK-AX; Thu, 07 Jan 2021 04:11:35 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
+ d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
+ t=1610010693; x=1641546693;
+ h=from:to:cc:subject:date:message-id:mime-version:
+ content-transfer-encoding;
+ bh=I/MhugurugNGvvWXulRQVrb0yhFYNb+h9xyzU5fFVjs=;
+ b=ls+dSK+Z3Guwy5B4N+qgKFdRMPoOvICIvVQS2W/MSW8th3Xk/laP8pZ5
+ Fjv7747FAXjyizYwU0nAuzuggum5MKKAX6v5veNjmDkoYzVS2IJ1GyTnU
+ RBFpPj08OL6MQ9hzVnG/BItG2s01ypQYQt+Hapmh2kRhS3/gyDKYo1AsJ
+ 6IPprq/k4/GzEng1FkqvgQAnXS/RIa4HLGBA7RJwh1LOSE+sajlq2WD9e
+ V7mok/h5quzgj0UWQfjqrZZ9sJk14kGj2e4tpJGx2xx+YT0iZatHsseEp
+ EzBWhDhj3MSABir4AdTEbCs3eN7OyramHMjlXbo5ux/IBCeEYLrtiWYpr g==;
+IronPort-SDR: y8zCJN3MiIqCkPom/4ZIBGgLiAUrlC/KgJEUWya1ZNiuYzuAQx0ghiFMkm529bRI3dt+kTdN92
+ uqzSh34joPhyNnmfStjg0XIjw5mQ07k/VSmXcZJiVVoUIM9zcfplom7JGeUIANuQJcm24cMleJ
+ 0JNqyYfu9cPkShEuF8f/4PylqICGcoZiNVci/psQVhdeNqPqqSARuq5D/ec2eV4A8km3tmMREf
+ GzbD8pGXIrFRLeuQL9SIqozwPUFqxJ+865A1zhOFvyigxrYxBLESTamDS0EDFI4r8KYg9SjANm
+ osk=
+X-IronPort-AV: E=Sophos;i="5.79,329,1602518400"; d="scan'208";a="161137545"
+Received: from uls-op-cesaip02.wdc.com (HELO uls-op-cesaep02.wdc.com)
+ ([199.255.45.15])
+ by ob1.hgst.iphmx.com with ESMTP; 07 Jan 2021 17:11:29 +0800
+IronPort-SDR: pHJeTlnExuXeJtYLm3KqXtXzck0iKZFZ0B5NVVxoRC6PkR0Twy2HfKFHxRDM7mg6kie2JKCD1N
+ BzrOKFKjr8FIyBvhOmRkuawO6gBU2IiwuqQWPXS6RN3RCaa6XDAZLdQmcoac50+3RqVsbu8aSy
+ 1GpLjkoJhBsgHA4BbSVcYeUeokU5+LmWPfIQgExhs4xga0dTDQYtCxzS5ZlEu6LAffaCwoUb3/
+ iwvSQO7+Xg1n2qRK9YTrY0eJSE5IL/xcvQRkjgHlt5hCUkc8jt51kRLAsT+GOIj2gb1qAzvdS5
+ Q47eeLnJcnc+xLfK+UAX00Mc
+Received: from uls-op-cesaip02.wdc.com ([10.248.3.37])
+ by uls-op-cesaep02.wdc.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 07 Jan 2021 00:54:28 -0800
+IronPort-SDR: f5F+ouawqWDH9Tr4YAF9RDJWd3yx4bBp/oA8AetxHMxBa2j4DSu6okX42YkaaV8s4MlKN5ll/Z
+ KqdGg6vfxKTxHPKc3Gbsd6ifCR5acb/9VVr3m94DU4dgtVW1fKdgtj0XHwBq5/w22/mdQDAsq4
+ l+OQupdnlEl6p93umbbNIlIzChksA6RyKe5th/Pa6qTI6WumGSlusW51a77oW0DNXKratAPKro
+ 6I/Wnr8c3K1NuR9YtfmA66y2FBlVfL6BpRQy/NZbn70IbM/WEf3HAujrPSFhkRhUHcGzlwwmY/
+ 13Y=
+WDCIronportException: Internal
+Received: from usa002483.ad.shared (HELO jedi-01.hgst.com) ([10.86.62.136])
+ by uls-op-cesaip02.wdc.com with ESMTP; 07 Jan 2021 01:11:30 -0800
+From: Atish Patra <atish.patra@wdc.com>
+To: qemu-devel@nongnu.org
+Subject: [v2 PATCH] RISC-V: Place DTB at 3GB boundary instead of 4GB
+Date: Thu,  7 Jan 2021 01:11:27 -0800
+Message-Id: <20210107091127.3407870-1-atish.patra@wdc.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-In-Reply-To: <161000881348.18330.2540162310564338256.malonedeb@gac.canonical.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=philmd@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -32
-X-Spam_score: -3.3
-X-Spam_bar: ---
-X-Spam_report: (-3.3 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.252,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.249, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+Received-SPF: pass client-ip=216.71.153.141;
+ envelope-from=prvs=634a5def5=atish.patra@wdc.com; helo=esa3.hgst.iphmx.com
+X-Spam_score_int: -43
+X-Spam_score: -4.4
+X-Spam_bar: ----
+X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_PASS=-0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -102,84 +83,56 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel@nongnu.org, Qemu-block <qemu-block@nongnu.org>
+Cc: qemu-riscv@nongnu.org, Sagar Karandikar <sagark@eecs.berkeley.edu>,
+ Bastian Koppelmann <kbastian@mail.uni-paderborn.de>,
+ Bin Meng <bin.meng@windriver.com>, Atish Patra <atish.patra@wdc.com>,
+ Alistair Francis <Alistair.Francis@wdc.com>,
+ Palmer Dabbelt <palmer@dabbelt.com>, Bin Meng <bmeng.cn@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Cc'ing atomic team and qemu-block@ for "qemu/stats64.h".
+Currently, we place the DTB at 2MB from 4GB or end of DRAM which ever is
+lesser. However, Linux kernel can address only 1GB of memory for RV32.
+Thus, it can not map anything beyond 3GB (assuming 2GB is the starting address).
+As a result, it can not process DT and panic if opensbi dynamic firmware
+is used. While at it, place the DTB further away to avoid in memory placement
+issues in future.
 
-On 1/7/21 9:40 AM, Philippe Mathieu-Daudé wrote:
-> Public bug reported:
-> 
-> As of commit 50536341b47, using --enable-sanitizers on 32-bit Linux host:
-> - displays various warnings
-> - fails linking
-> 
-> Using Ubuntu 18.04 (release 20201211.1) and Clang10 on i386:
-> 
-> [139/675] Compiling C object softmmu.fa.p/softmmu_icount.c.o
-> In file included from ../softmmu/icount.c:31:
-> In file included from include/exec/exec-all.h:23:
-> In file included from ../target/mips/cpu.h:4:
-> In file included from ../target/mips/cpu-qom.h:23:
-> In file included from include/hw/core/cpu.h:23:
-> In file included from include/hw/qdev-core.h:5:
-> In file included from include/qemu/bitmap.h:16:
-> In file included from include/qemu/bitops.h:17:
-> include/qemu/atomic.h:463:12: warning: misaligned atomic operation may
-> incur significant performance penalty [-Watomic-alignment]
->     return qatomic_read__nocheck(ptr);
->            ^
-> include/qemu/atomic.h:129:5: note: expanded from macro
-> 'qatomic_read__nocheck'
->     __atomic_load_n(ptr, __ATOMIC_RELAXED)
->     ^
-> include/qemu/atomic.h:473:5: warning: misaligned atomic operation may
-> incur significant performance penalty [-Watomic-alignment]
->     qatomic_set__nocheck(ptr, val);
->     ^
-> include/qemu/atomic.h:138:5: note: expanded from macro
-> 'qatomic_set__nocheck'
->     __atomic_store_n(ptr, i, __ATOMIC_RELAXED)
->     ^
-> 2 warnings generated.
-> [...]
-> 
-> [850/2216] Linking target tests/test-hbitmap
-> FAILED: tests/test-hbitmap
-> clang  -o tests/test-hbitmap tests/test-hbitmap.p/test-hbitmap.c.o
-> tests/test-hbitmap.p/iothread.c.o -Wl,--as-needed -Wl,--no-undefined
-> -pie -Wl,--whole-archive libblock.fa libcrypto.fa libauthz.fa libqom.fa
-> libio.fa -Wl,--no-whole-archive -Wl,--warn-common -fsanitize=undefined
-> -fsanitize=address -Wl,-z,relro -Wl,-z,now -m32 -ggdb
-> -fstack-protector-strong -Wl,--start-group libqemuutil.a
-> subprojects/libvhost-user/libvhost-user-glib.a
-> subprojects/libvhost-user/libvhost-user.a libblock.fa libcrypto.fa
-> libauthz.fa libqom.fa libio.fa @block.syms -lgio-2.0 -lgobject-2.0
-> -lglib-2.0 -lgio-2.0 -lgobject-2.0 -lglib-2.0 -pthread -lutil -lgnutls
-> -lm -lgthread-2.0 -lglib-2.0 /usr/lib/i386-linux-gnu/libglib-2.0.so
-> -liscsi -lgthread-2.0 -lglib-2.0 -laio -lcurl
-> /usr/lib/i386-linux-gnu/libz.so -lrbd -lrados -lnettle -lgnutls
-> -Wl,--end-group
-> libblock.fa(block_io.c.o): In function `stat64_max':
-> include/qemu/stats64.h:58: undefined reference to `__atomic_load_8'
-> include/qemu/stats64.h:60: undefined reference to
-> `__atomic_compare_exchange_8'
-> libblock.fa(block_qapi.c.o): In function `stat64_get':
-> include/qemu/stats64.h:40: undefined reference to `__atomic_load_8'
-> libqemuutil.a(util_qsp.c.o): In function `qatomic_set_u64':
-> include/qemu/atomic.h:478: undefined reference to `__atomic_store_8'
-> libqemuutil.a(util_qsp.c.o): In function `qatomic_read_u64':
-> include/qemu/atomic.h:468: undefined reference to `__atomic_load_8'
-> clang: error: linker command failed with exit code 1 (use -v to see
-> invocation)
-> 
-> Issue previously reported on the list here:
-> https://www.mail-archive.com/qemu-devel@nongnu.org/msg770128.html
-> 
-> ** Affects: qemu
->      Importance: Undecided
->          Status: New
-> 
+Fix this by placing the DTB at 16MB from 3GB or end of DRAM whichever is lower.
+
+Fixes: 66b1205bc5ab ("RISC-V: Copy the fdt in dram instead of ROM")
+
+Reviewed-by: Bin Meng <bin.meng@windriver.com>
+Tested-by: Bin Meng <bin.meng@windriver.com>
+Signed-off-by: Atish Patra <atish.patra@wdc.com>
+---
+Changes from v2->v1
+1. Added the fixes tag and updated aligned down address to 16MB.
+---
+ hw/riscv/boot.c | 8 ++++----
+ 1 file changed, 4 insertions(+), 4 deletions(-)
+
+diff --git a/hw/riscv/boot.c b/hw/riscv/boot.c
+index d62f3dc7581e..2ed23c7e9849 100644
+--- a/hw/riscv/boot.c
++++ b/hw/riscv/boot.c
+@@ -202,11 +202,11 @@ uint32_t riscv_load_fdt(hwaddr dram_base, uint64_t mem_size, void *fdt)
+     /*
+      * We should put fdt as far as possible to avoid kernel/initrd overwriting
+      * its content. But it should be addressable by 32 bit system as well.
+-     * Thus, put it at an aligned address that less than fdt size from end of
+-     * dram or 4GB whichever is lesser.
++     * Thus, put it at an 16MB aligned address that less than fdt size from the
++     * end of dram or 3GB whichever is lesser.
+      */
+-    temp = MIN(dram_end, 4096 * MiB);
+-    fdt_addr = QEMU_ALIGN_DOWN(temp - fdtsize, 2 * MiB);
++    temp = MIN(dram_end, 3072 * MiB);
++    fdt_addr = QEMU_ALIGN_DOWN(temp - fdtsize, 16 * MiB);
+ 
+     fdt_pack(fdt);
+     /* copy in the device tree */
+-- 
+2.25.1
 
 
