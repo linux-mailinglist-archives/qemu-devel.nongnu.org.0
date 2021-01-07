@@ -2,46 +2,50 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 242042EECBB
-	for <lists+qemu-devel@lfdr.de>; Fri,  8 Jan 2021 05:59:37 +0100 (CET)
-Received: from localhost ([::1]:58944 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 864712EECD6
+	for <lists+qemu-devel@lfdr.de>; Fri,  8 Jan 2021 06:21:53 +0100 (CET)
+Received: from localhost ([::1]:38916 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kxjs8-0001sN-59
-	for lists+qemu-devel@lfdr.de; Thu, 07 Jan 2021 23:59:36 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52776)
+	id 1kxkDg-0001vX-JA
+	for lists+qemu-devel@lfdr.de; Fri, 08 Jan 2021 00:21:52 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60356)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alxndr@bu.edu>) id 1kxjRZ-0001L5-8t
- for qemu-devel@nongnu.org; Thu, 07 Jan 2021 23:32:09 -0500
-Received: from relay68.bu.edu ([128.197.228.73]:50854)
+ (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
+ id 1kxkBb-0000aR-Gz; Fri, 08 Jan 2021 00:19:43 -0500
+Received: from bilbo.ozlabs.org ([203.11.71.1]:40505 helo=ozlabs.org)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alxndr@bu.edu>) id 1kxjRX-0006YA-Dc
- for qemu-devel@nongnu.org; Thu, 07 Jan 2021 23:32:08 -0500
-X-Envelope-From: alxndr@bu.edu
-X-BU-AUTH: mozz.bu.edu [128.197.127.33]
-Received: from BU-AUTH (localhost.localdomain [127.0.0.1]) (authenticated
- bits=0)
- by relay68.bu.edu (8.14.3/8.14.3) with ESMTP id 1084Uq1p022772
- (version=TLSv1/SSLv3 cipher=AES256-GCM-SHA384 bits=256 verify=NO);
- Thu, 7 Jan 2021 23:30:55 -0500
-Date: Thu, 7 Jan 2021 23:30:52 -0500
-From: Alexander Bulekov <alxndr@bu.edu>
-To: Qiuhao Li <Qiuhao.Li@outlook.com>
-Subject: Re: [PATCH v4 7/7] fuzz: heuristic split write based on past IOs
-Message-ID: <20210108043052.uarsduahnnud7bfx@mozz.bu.edu>
-References: <ME3P282MB17456B93AE422008F433C50DFCD80@ME3P282MB1745.AUSP282.PROD.OUTLOOK.COM>
- <ME3P282MB174588DE27F32E918F71DA1BFCD80@ME3P282MB1745.AUSP282.PROD.OUTLOOK.COM>
+ (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
+ id 1kxkBY-00030v-Om; Fri, 08 Jan 2021 00:19:43 -0500
+Received: by ozlabs.org (Postfix, from userid 1007)
+ id 4DBrxq1Wjbz9sWl; Fri,  8 Jan 2021 16:19:27 +1100 (AEDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=gibson.dropbear.id.au; s=201602; t=1610083167;
+ bh=R8yIype4M4Q3PgQiQZ1z0eOH5rLnw9NyidpMTsavZBw=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=C0+Bg3VDaQdkovuQ41cjZ2HaXPT+IOULaW6rsXVWIAKCvKEExYfjwQZPM2RuD+TLU
+ 7p/dkjlMqe0GIaXrXnWSqhuaA69nhzHXbJYZdDBPa6om7mxQfxNeVdcGWB/pxdpWOn
+ H1dkEnoWvXwFFUHe3yFuVwg5QTFIx1Oyy6H1L55E=
+Date: Fri, 8 Jan 2021 10:24:02 +1100
+From: David Gibson <david@gibson.dropbear.id.au>
+To: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
+Subject: Re: [PATCH v2 0/7] macio: remove PIC object property links
+Message-ID: <20210107232402.GF3209@yekko.fritz.box>
+References: <20201229175619.6051-1-mark.cave-ayland@ilande.co.uk>
+ <2b58fe51-ddeb-3fd3-9557-b236821b764d@ilande.co.uk>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="Y/WcH0a6A93yCHGr"
 Content-Disposition: inline
-In-Reply-To: <ME3P282MB174588DE27F32E918F71DA1BFCD80@ME3P282MB1745.AUSP282.PROD.OUTLOOK.COM>
-Received-SPF: pass client-ip=128.197.228.73; envelope-from=alxndr@bu.edu;
- helo=relay68.bu.edu
-X-Spam_score_int: -15
-X-Spam_score: -1.6
-X-Spam_bar: -
-X-Spam_report: (-1.6 / 5.0 requ) BAYES_00=-1.9, HK_RANDOM_ENVFROM=0.001,
- HK_RANDOM_FROM=0.998, RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001,
+In-Reply-To: <2b58fe51-ddeb-3fd3-9557-b236821b764d@ilande.co.uk>
+Received-SPF: pass client-ip=203.11.71.1; envelope-from=dgibson@ozlabs.org;
+ helo=ozlabs.org
+X-Spam_score_int: -1
+X-Spam_score: -0.2
+X-Spam_bar: /
+X-Spam_report: (-0.2 / 5.0 requ) BAYES_00=-1.9, DATE_IN_PAST_03_06=1.592,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1,
+ HEADER_FROM_DIFFERENT_DOMAINS=0.248, SPF_HELO_PASS=-0.001,
  SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -55,98 +59,101 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: thuth@redhat.com, qemu-devel@nongnu.org, darren.kenny@oracle.com,
- bsd@redhat.com, stefanha@redhat.com, pbonzini@redhat.com
+Cc: thuth@redhat.com, qemu-ppc@nongnu.org, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 201229 1240, Qiuhao Li wrote:
-> If previous write commands write the same length of data with the same step,
-> we view it as a hint.
-> 
-> Signed-off-by: Qiuhao Li <Qiuhao.Li@outlook.com>
 
-Reviewed-by: Alexander Bulekov <alxndr@bu.edu>
+--Y/WcH0a6A93yCHGr
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-> ---
->  scripts/oss-fuzz/minimize_qtest_trace.py | 56 ++++++++++++++++++++++++
->  1 file changed, 56 insertions(+)
-> 
-> diff --git a/scripts/oss-fuzz/minimize_qtest_trace.py b/scripts/oss-fuzz/minimize_qtest_trace.py
-> index a681984076..6cbf2b0419 100755
-> --- a/scripts/oss-fuzz/minimize_qtest_trace.py
-> +++ b/scripts/oss-fuzz/minimize_qtest_trace.py
-> @@ -85,6 +85,43 @@ def check_if_trace_crashes(trace, path):
->      return False
->  
->  
-> +# If previous write commands write the same length of data at the same
-> +# interval, we view it as a hint.
-> +def split_write_hint(newtrace, i):
-> +    HINT_LEN = 3 # > 2
-> +    if i <=(HINT_LEN-1):
-> +        return None
-> +
-> +    #find previous continuous write traces
-> +    k = 0
-> +    l = i-1
-> +    writes = []
-> +    while (k != HINT_LEN and l >= 0):
-> +        if newtrace[l].startswith("write "):
-> +            writes.append(newtrace[l])
-> +            k += 1
-> +            l -= 1
-> +        elif newtrace[l] == "":
-> +            l -= 1
-> +        else:
-> +            return None
-> +    if k != HINT_LEN:
-> +        return None
-> +
-> +    length = int(writes[0].split()[2], 16)
-> +    for j in range(1, HINT_LEN):
-> +        if length != int(writes[j].split()[2], 16):
-> +            return None
-> +
-> +    step = int(writes[0].split()[1], 16) - int(writes[1].split()[1], 16)
-> +    for j in range(1, HINT_LEN-1):
-> +        if step != int(writes[j].split()[1], 16) - \
-> +            int(writes[j+1].split()[1], 16):
-> +            return None
-> +
-> +    return (int(writes[0].split()[1], 16)+step, length)
-> +
-> +
->  def remove_minimizer(newtrace, outpath):
->      remove_step = 1
->      i = 0
-> @@ -148,6 +185,25 @@ def remove_minimizer(newtrace, outpath):
->              length = int(newtrace[i].split()[2], 16)
->              data = newtrace[i].split()[3][2:]
->              if length > 1:
-> +
-> +                # Can we get a hint from previous writes?
-> +                hint = split_write_hint(newtrace, i)
-> +                if hint is not None:
-> +                    hint_addr = hint[0]
-> +                    hint_len = hint[1]
-> +                    if hint_addr >= addr and hint_addr+hint_len <= addr+length:
-> +                        newtrace[i] = "write {addr} {size} 0x{data}\n".format(
-> +                            addr=hex(hint_addr),
-> +                            size=hex(hint_len),
-> +                            data=data[(hint_addr-addr)*2:\
-> +                                (hint_addr-addr)*2+hint_len*2])
-> +                        if check_if_trace_crashes(newtrace, outpath):
-> +                            # next round
-> +                            i += 1
-> +                            continue
-> +                        newtrace[i] = prior[0]
-> +
-> +                # Try splitting it using a binary approach
->                  leftlength = int(length/2)
->                  rightlength = length - leftlength
->                  newtrace.insert(i+1, "")
-> -- 
-> 2.25.1
-> 
+On Thu, Jan 07, 2021 at 02:26:33PM +0000, Mark Cave-Ayland wrote:
+> On 29/12/2020 17:56, Mark Cave-Ayland wrote:
+>=20
+> > This patchset follows on from the dicussion at https://lists.gnu.org/ar=
+chive/html/qemu-devel/2020-11/msg02630.html
+> > where the user_creatable flag for the macio devices was set back to fal=
+se just
+> > before the 5.2 release.
+> >=20
+> > The underlying cause was that the PIC object property links were not be=
+ing set
+> > before realise. Whilst this cannot happen when launching the g3beige an=
+d mac99
+> > machines from qemu-system-ppc, it caused some automated tests to fail.
+> >=20
+> > Here we fix the real problem which is to move the PIC for both machines=
+ into the
+> > macio device, which not only matches real hardware but also enables the=
+ PIC object
+> > property links to be completely removed.
+> >=20
+> > Patch 6 rewires the macio gpios for the mac99 machine as per Ben's orig=
+inal comment
+> > after the OpenPIC device has been moved into the macio-newworld device,=
+ and then
+> > finally patch 7 removes setting the user_creatable flag to false on the=
+ macio devices
+> > once again.
+> >=20
+> > Signed-off-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
+> >=20
+> > v2:
+> > - Add R-B tag for patch 1 from David
+> > - Update commit messages to included more detail as requested by David
+> >=20
+> >=20
+> > Mark Cave-Ayland (7):
+> >    mac_oldworld: remove duplicate bus check for PPC_INPUT(env)
+> >    mac_oldworld: move initialisation of grackle before heathrow
+> >    macio: move heathrow PIC inside macio-oldworld device
+> >    mac_newworld: delay wiring of PCI IRQs in New World machine
+> >    macio: move OpenPIC inside macio-newworld device
+> >    macio: wire macio GPIOs to OpenPIC using sysbus IRQs
+> >    macio: don't set user_creatable to false
+> >=20
+> >   hw/misc/macio/gpio.c          | 24 +++--------
+> >   hw/misc/macio/macio.c         | 53 ++++++++++++------------
+> >   hw/ppc/mac_newworld.c         | 71 ++++++++++++++++----------------
+> >   hw/ppc/mac_oldworld.c         | 76 ++++++++++++++++-------------------
+> >   include/hw/misc/macio/gpio.h  |  2 -
+> >   include/hw/misc/macio/macio.h |  4 +-
+> >   6 files changed, 104 insertions(+), 126 deletions(-)
+>=20
+> Any further thoughts on this? David has reviewed patches 1-5 but I've had=
+ no
+> other feedback to date. If everyone is happy then I don't mind including
+> this in a qemu-macppc PR.
+
+I'm happy for you to do that.
+
+--=20
+David Gibson			| I'll have my music baroque, and my code
+david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
+				| _way_ _around_!
+http://www.ozlabs.org/~dgibson
+
+--Y/WcH0a6A93yCHGr
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAl/3mA0ACgkQbDjKyiDZ
+s5LChRAAmFSIKfL7cqul/C0nDdsgn22ziMojIJsHmX9Y0r1AxasGslFYcoILDD5u
+yTlJ0Gy84OWRTVy7lU9T9s7JAM0Rv/UdzytwyYsnG2uQly9QaX8YK3WV/SPoENVi
+janTQxr/+VIINwEl+II4qJOWofv9Sq8MGJplAYlLhxouSjgjkjbdyYhpKo8d7uN3
+zeSPVCygp+nVxIcEGDC+Js3ge7XLyQm5iytOGoT2gIefOwWS4U58GgBXQ6i1z95s
+WzXfwOzk4vqPmuK2MpJ6y3AIzu1rBygtuRpQlll/xSgjXZB6jsmGsFVfQMtQqZPW
+TdpmGqmLHkwxIs76PpUW+BgYUDwPX7hHIX/2nuoFMKIQpX7uSs6pH0sCTltQlXXz
+0INZJl7CUgVCrweuNBdTyo0Hb7O7HaabzQr1SVdrJo721tC70yFdno6Ac85WBYtp
+qgqk+lzk32Xz2ACWNEhACJLPyEuFZG7CzJYe7lOPLtEdEDGGq2H0JYkwpxk1VR/f
+MZZn5dvT+C2UGegYfDEBY1aOswT1HkkO5YoAcecJboe5gRjTKJemOFWV9+ThnjNq
+YBlR3Sai1xuV3JtcuSnY/Sa/RnVOdKMkAycjFOYIhUwj1Jonu3WfkDto9116bcH1
+CY/TYagCJlz5895pUzWQhtjTulm0u5Dsre3aTla2Wf/YFJUTXTk=
+=TKfs
+-----END PGP SIGNATURE-----
+
+--Y/WcH0a6A93yCHGr--
 
