@@ -2,75 +2,80 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CD0142EE71F
-	for <lists+qemu-devel@lfdr.de>; Thu,  7 Jan 2021 21:44:50 +0100 (CET)
-Received: from localhost ([::1]:47542 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 371FB2EE744
+	for <lists+qemu-devel@lfdr.de>; Thu,  7 Jan 2021 21:54:39 +0100 (CET)
+Received: from localhost ([::1]:48834 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kxc9J-0003n7-Sn
-	for lists+qemu-devel@lfdr.de; Thu, 07 Jan 2021 15:44:49 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48712)
+	id 1kxcIo-00088J-97
+	for lists+qemu-devel@lfdr.de; Thu, 07 Jan 2021 15:54:38 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52468)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1kxbhf-0001fT-Pw
- for qemu-devel@nongnu.org; Thu, 07 Jan 2021 15:16:16 -0500
-Received: from mail-pf1-x433.google.com ([2607:f8b0:4864:20::433]:46473)
+ id 1kxc2j-0004oy-91
+ for qemu-devel@nongnu.org; Thu, 07 Jan 2021 15:38:01 -0500
+Received: from mail-pf1-x433.google.com ([2607:f8b0:4864:20::433]:38390)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1kxbhd-0001nk-Mw
- for qemu-devel@nongnu.org; Thu, 07 Jan 2021 15:16:15 -0500
-Received: by mail-pf1-x433.google.com with SMTP id s21so4543457pfu.13
- for <qemu-devel@nongnu.org>; Thu, 07 Jan 2021 12:16:13 -0800 (PST)
+ id 1kxc2h-0000Zf-KT
+ for qemu-devel@nongnu.org; Thu, 07 Jan 2021 15:38:00 -0500
+Received: by mail-pf1-x433.google.com with SMTP id d2so4630109pfq.5
+ for <qemu-devel@nongnu.org>; Thu, 07 Jan 2021 12:37:59 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=/axlOMlK9mP+17efpjcCMV26tl84bU61W0fMNh0sRdI=;
- b=Mvlb87Ax8F1pSxrYId/kf8csdowCkIiQ7FVPeo2DOX5HpaxtWP3G/vRT2SN/uEN4D7
- XgKtln3HncNPkltdkVomAdWVK+/rRIwQSJqkaNtagVBsaw9b+E5v6/YUhqH/8e5a1PDs
- d2VBq5DsCMdJOD5WNXddSlqhtoiwOnluEy2VZcUP/gcTlCR+CFNiXnWnWbfly2CWeIHU
- fIg5pulSgGs0seIHDhRM4nt7n9s4fvq/OMm88uAIdGJkFlqwO3udeGcFVuTAW9mYJBQR
- UKuwUaADdgN6nOTNNHJdW2C7rWWKDOmVSGCRPRDBPBWnqInFyaXS73VaaZnsuVmwD/OU
- Osig==
+ h=subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=mCnTY9YH3EC4LSSj4YJLFMo2b7CqxHLmm6hE4pJzs6s=;
+ b=HFAG/mktg+NZj22C7bg0yAHn0Fr92NH9PA19yh8a2IrHwQAO4z+oF49iHZnZrxhfdh
+ 1k9iIIKT97auX160LTFVhzX8ftSsM+AISeRrLc/puBLl5mRVwOMWz/CjnQxSBs9sTXOn
+ OF+nF+JcgkrZo5VwWDtXOBUbFTaE11BhOfczY3eN1w/KTC9MMX/FN9CjURCcz+WBOkel
+ HB4mdbVAWuWWbAMZALpnbsvKScy7Si1Bn0YPvLWskDg23nsg5M/nziqN+JFFuDaax66v
+ uON/C5NMmhrbQunM98Mta4KOv61lupZ2fUj1IGcw3aHbTcpyDjTq0nN1GAaP1+Nro5ZR
+ zndw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=/axlOMlK9mP+17efpjcCMV26tl84bU61W0fMNh0sRdI=;
- b=eevCAkRkfS6c5jn8fLKhfnsIN5Ny/w2bXj5wY4ny/22qzFhl6UVjRwTj+VBj9nOOjb
- 8R5H4S/9M7/CRqNnXPpshjH1JzDkt0PBnQg2Q4uGYOBDjdAwAANERcUYfuZnYPcpWkb5
- H7I3a76ENvT8J6nA5fwlvQXgLIczazWm+6ZKFoQ11BYrfSoWvgr7L1YN40tmr/rKkrtn
- Fq1dySuznsAEHvwsMZQ+E1k3A2PQpZlWTpGx4JtVzrMx2qbY9599L+wvMSMP4fM0VghQ
- 0h1o4NHJ6ZrN1WK6MIT5t+oWow4r7URomMZ1c8GaNCtOaC423qhwbjmVRXcD/bLZAtzm
- AbYg==
-X-Gm-Message-State: AOAM530kVn8HG1mBZR1Lc7n3ywkP4kq4xZBINObVbNx04AA3XfVSC34c
- 7hls3RhktS/yLQlI1vz5YdxTu7oZnHHD+A==
-X-Google-Smtp-Source: ABdhPJwMAjCY5wI7fLpbpJq3KudYM+q8VeDSuosH5/u4sYbbuKSOU82kpHsP8yDx4JkuKJuXg+bL5w==
-X-Received: by 2002:a05:6a00:a88:b029:19e:4ba8:bbe4 with SMTP id
- b8-20020a056a000a88b029019e4ba8bbe4mr3675085pfl.41.1610050571831; 
- Thu, 07 Jan 2021 12:16:11 -0800 (PST)
-Received: from localhost.localdomain (rrcs-173-197-107-21.west.biz.rr.com.
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=mCnTY9YH3EC4LSSj4YJLFMo2b7CqxHLmm6hE4pJzs6s=;
+ b=DB3zNN96y9GviE2a8er3mFPG5vNHi3yTdp9oNunfbG6fv7cFkRvXFl0SHtfKN2QJKW
+ HwV+B5kTxdBNnVazshMdl9EferPeoSrJpye9G6C/g1KbfRXJHnUtqH1r19h+EYaQIfYj
+ aKbdcQj1WFRePWRvo+yh1CDrgONB8Zzd2r637PFJoKXZ31o8Q9C3/9ctfrdKXE/ScBfI
+ ly5x/fH0cfGdZxXSrudjppNc6ayybgdbPfghUZYT/Za4iFf5mAwl2A+fDPYU4OISlAEw
+ XTXLb2ottcQ/w5Q2x0EwbULZEdOsfPd8DyX8d0vL12XJj8ogTCBHhFpAx7O+OEw6jS9n
+ XVjw==
+X-Gm-Message-State: AOAM532HrJscsD5+SdJ4aSmod6Q0rnT8cGwNqMBEqs6wVzlY5Dgs959D
+ mr39c2loCHsL+iUQGGjGcRUjXw==
+X-Google-Smtp-Source: ABdhPJz5/m977NotorsSUrgJqAf85gHCxSRKQAvZJlL/3Yab1qXVbSInzhTbdzbJ9O9nnXPTVsIBkQ==
+X-Received: by 2002:a63:f64c:: with SMTP id u12mr3600240pgj.98.1610051878136; 
+ Thu, 07 Jan 2021 12:37:58 -0800 (PST)
+Received: from [10.25.18.38] (rrcs-173-197-107-21.west.biz.rr.com.
  [173.197.107.21])
- by smtp.gmail.com with ESMTPSA id v6sm6516265pfi.31.2021.01.07.12.16.10
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 07 Jan 2021 12:16:11 -0800 (PST)
+ by smtp.gmail.com with ESMTPSA id w19sm6951773pgf.23.2021.01.07.12.37.56
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 07 Jan 2021 12:37:57 -0800 (PST)
+Subject: Re: [PATCH v2 05/24] target/arm: Fix SCTLR_B test for TCGv_i64
+ load/store
+To: Peter Maydell <peter.maydell@linaro.org>
+References: <20201208180118.157911-1-richard.henderson@linaro.org>
+ <20201208180118.157911-6-richard.henderson@linaro.org>
+ <CAFEAcA9sT4JdPWkojp0r6yazJc5vbmzWHwnkMtChTQ1aZ2uugQ@mail.gmail.com>
 From: Richard Henderson <richard.henderson@linaro.org>
-To: qemu-devel@nongnu.org
-Subject: [PULL 47/47] tcg: Constify TCGLabelQemuLdst.raddr
-Date: Thu,  7 Jan 2021 10:14:48 -1000
-Message-Id: <20210107201448.1152301-48-richard.henderson@linaro.org>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20210107201448.1152301-1-richard.henderson@linaro.org>
-References: <20210107201448.1152301-1-richard.henderson@linaro.org>
+Message-ID: <f1451527-804b-04f2-7d73-89cdb0247b37@linaro.org>
+Date: Thu, 7 Jan 2021 10:37:54 -1000
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+In-Reply-To: <CAFEAcA9sT4JdPWkojp0r6yazJc5vbmzWHwnkMtChTQ1aZ2uugQ@mail.gmail.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Received-SPF: pass client-ip=2607:f8b0:4864:20::433;
  envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x433.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+X-Spam_score_int: -23
+X-Spam_score: -2.4
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+X-Spam_report: (-2.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.267,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -85,140 +90,36 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: peter.maydell@linaro.org, Joelle van Dyne <j@getutm.app>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
+Cc: qemu-arm <qemu-arm@nongnu.org>, QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Now that all native tcg hosts support splitwx,
-make this pointer const.
+On 1/7/21 6:00 AM, Peter Maydell wrote:
+> On Tue, 8 Dec 2020 at 18:01, Richard Henderson
+> <richard.henderson@linaro.org> wrote:
+>>
+>> Just because operating on a TCGv_i64 temporary does not
+>> mean that we're performing a 64-bit operation.  Restrict
+>> the frobbing to actual 64-bit operations.
+> 
+> If I understand correctly, this patch isn't actually a behaviour
+> change because at this point the only users of gen_aa32_ld_i64()
+> and gen_aa32_st_i64() are in fact performing 64-bit operations
+> so the (opc & MO_SIZE) == MO_64 test is always true.
 
-Reviewed-by: Joelle van Dyne <j@getutm.app>
-Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
-Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
----
- tcg/aarch64/tcg-target.c.inc | 3 +--
- tcg/arm/tcg-target.c.inc     | 3 +--
- tcg/i386/tcg-target.c.inc    | 3 +--
- tcg/mips/tcg-target.c.inc    | 3 +--
- tcg/ppc/tcg-target.c.inc     | 3 +--
- tcg/riscv/tcg-target.c.inc   | 3 +--
- tcg/s390/tcg-target.c.inc    | 3 +--
- tcg/tcg-ldst.c.inc           | 2 +-
- 8 files changed, 8 insertions(+), 15 deletions(-)
+Correct.
 
-diff --git a/tcg/aarch64/tcg-target.c.inc b/tcg/aarch64/tcg-target.c.inc
-index 0b7eb09a27..ab199b143f 100644
---- a/tcg/aarch64/tcg-target.c.inc
-+++ b/tcg/aarch64/tcg-target.c.inc
-@@ -1636,8 +1636,7 @@ static void add_qemu_ldst_label(TCGContext *s, bool is_ld, TCGMemOpIdx oi,
-     label->type = ext;
-     label->datalo_reg = data_reg;
-     label->addrlo_reg = addr_reg;
--    /* TODO: Cast goes away when all hosts converted */
--    label->raddr = (void *)tcg_splitwx_to_rx(raddr);
-+    label->raddr = tcg_splitwx_to_rx(raddr);
-     label->label_ptr[0] = label_ptr;
- }
- 
-diff --git a/tcg/arm/tcg-target.c.inc b/tcg/arm/tcg-target.c.inc
-index d6cb19ca9f..0fd1126454 100644
---- a/tcg/arm/tcg-target.c.inc
-+++ b/tcg/arm/tcg-target.c.inc
-@@ -1340,8 +1340,7 @@ static void add_qemu_ldst_label(TCGContext *s, bool is_ld, TCGMemOpIdx oi,
-     label->datahi_reg = datahi;
-     label->addrlo_reg = addrlo;
-     label->addrhi_reg = addrhi;
--    /* TODO: Cast goes away when all hosts converted */
--    label->raddr = (void *)tcg_splitwx_to_rx(raddr);
-+    label->raddr = tcg_splitwx_to_rx(raddr);
-     label->label_ptr[0] = label_ptr;
- }
- 
-diff --git a/tcg/i386/tcg-target.c.inc b/tcg/i386/tcg-target.c.inc
-index 91400d575c..46e856f442 100644
---- a/tcg/i386/tcg-target.c.inc
-+++ b/tcg/i386/tcg-target.c.inc
-@@ -1795,8 +1795,7 @@ static void add_qemu_ldst_label(TCGContext *s, bool is_ld, bool is_64,
-     label->datahi_reg = datahi;
-     label->addrlo_reg = addrlo;
-     label->addrhi_reg = addrhi;
--    /* TODO: Cast goes away when all hosts converted */
--    label->raddr = (void *)tcg_splitwx_to_rx(raddr);
-+    label->raddr = tcg_splitwx_to_rx(raddr);
-     label->label_ptr[0] = label_ptr[0];
-     if (TARGET_LONG_BITS > TCG_TARGET_REG_BITS) {
-         label->label_ptr[1] = label_ptr[1];
-diff --git a/tcg/mips/tcg-target.c.inc b/tcg/mips/tcg-target.c.inc
-index 18fd474593..add157f6c3 100644
---- a/tcg/mips/tcg-target.c.inc
-+++ b/tcg/mips/tcg-target.c.inc
-@@ -1283,8 +1283,7 @@ static void add_qemu_ldst_label(TCGContext *s, int is_ld, TCGMemOpIdx oi,
-     label->datahi_reg = datahi;
-     label->addrlo_reg = addrlo;
-     label->addrhi_reg = addrhi;
--    /* TODO: Cast goes away when all hosts converted */
--    label->raddr = (void *)tcg_splitwx_to_rx(raddr);
-+    label->raddr = tcg_splitwx_to_rx(raddr);
-     label->label_ptr[0] = label_ptr[0];
-     if (TCG_TARGET_REG_BITS < TARGET_LONG_BITS) {
-         label->label_ptr[1] = label_ptr[1];
-diff --git a/tcg/ppc/tcg-target.c.inc b/tcg/ppc/tcg-target.c.inc
-index 5f191c03d9..19a4a12f15 100644
---- a/tcg/ppc/tcg-target.c.inc
-+++ b/tcg/ppc/tcg-target.c.inc
-@@ -2001,8 +2001,7 @@ static void add_qemu_ldst_label(TCGContext *s, bool is_ld, TCGMemOpIdx oi,
-     label->datahi_reg = datahi_reg;
-     label->addrlo_reg = addrlo_reg;
-     label->addrhi_reg = addrhi_reg;
--    /* TODO: Cast goes away when all hosts converted */
--    label->raddr = (void *)tcg_splitwx_to_rx(raddr);
-+    label->raddr = tcg_splitwx_to_rx(raddr);
-     label->label_ptr[0] = lptr;
- }
- 
-diff --git a/tcg/riscv/tcg-target.c.inc b/tcg/riscv/tcg-target.c.inc
-index c76dc9f9ca..c60b91ba58 100644
---- a/tcg/riscv/tcg-target.c.inc
-+++ b/tcg/riscv/tcg-target.c.inc
-@@ -996,8 +996,7 @@ static void add_qemu_ldst_label(TCGContext *s, int is_ld, TCGMemOpIdx oi,
-     label->datahi_reg = datahi;
-     label->addrlo_reg = addrlo;
-     label->addrhi_reg = addrhi;
--    /* TODO: Cast goes away when all hosts converted */
--    label->raddr = (void *)tcg_splitwx_to_rx(raddr);
-+    label->raddr = tcg_splitwx_to_rx(raddr);
-     label->label_ptr[0] = label_ptr[0];
- }
- 
-diff --git a/tcg/s390/tcg-target.c.inc b/tcg/s390/tcg-target.c.inc
-index b3660ffedf..d7ef079055 100644
---- a/tcg/s390/tcg-target.c.inc
-+++ b/tcg/s390/tcg-target.c.inc
-@@ -1587,8 +1587,7 @@ static void add_qemu_ldst_label(TCGContext *s, bool is_ld, TCGMemOpIdx oi,
-     label->oi = oi;
-     label->datalo_reg = data;
-     label->addrlo_reg = addr;
--    /* TODO: Cast goes away when all hosts converted */
--    label->raddr = (void *)tcg_splitwx_to_rx(raddr);
-+    label->raddr = tcg_splitwx_to_rx(raddr);
-     label->label_ptr[0] = label_ptr;
- }
- 
-diff --git a/tcg/tcg-ldst.c.inc b/tcg/tcg-ldst.c.inc
-index 05f9b3ccd6..c3ce88e69d 100644
---- a/tcg/tcg-ldst.c.inc
-+++ b/tcg/tcg-ldst.c.inc
-@@ -28,7 +28,7 @@ typedef struct TCGLabelQemuLdst {
-     TCGReg addrhi_reg;      /* reg index for high word of guest virtual addr */
-     TCGReg datalo_reg;      /* reg index for low word to be loaded or stored */
-     TCGReg datahi_reg;      /* reg index for high word to be loaded or stored */
--    tcg_insn_unit *raddr;   /* gen code addr of the next IR of qemu_ld/st IR */
-+    const tcg_insn_unit *raddr;   /* addr of the next IR of qemu_ld/st IR */
-     tcg_insn_unit *label_ptr[2]; /* label pointers to be updated */
-     QSIMPLEQ_ENTRY(TCGLabelQemuLdst) next;
- } TCGLabelQemuLdst;
--- 
-2.25.1
+> (Presumably
+> subsequent patches are going to add uses of these functions that
+> want to load smaller sizes?)
 
+Correct.
+
+> If that's right, worth mentioning
+> explicitly in the commit message, I think.
+
+Will do.
+
+
+r~
 
