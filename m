@@ -2,70 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A885F2EE951
-	for <lists+qemu-devel@lfdr.de>; Thu,  7 Jan 2021 23:55:03 +0100 (CET)
-Received: from localhost ([::1]:37642 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AF3132EE958
+	for <lists+qemu-devel@lfdr.de>; Thu,  7 Jan 2021 23:56:25 +0100 (CET)
+Received: from localhost ([::1]:43864 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kxeBK-0001mx-KJ
-	for lists+qemu-devel@lfdr.de; Thu, 07 Jan 2021 17:55:02 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47666)
+	id 1kxeCe-0004Kt-ML
+	for lists+qemu-devel@lfdr.de; Thu, 07 Jan 2021 17:56:24 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47726)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1kxdku-0004qZ-Jq
- for qemu-devel@nongnu.org; Thu, 07 Jan 2021 17:27:44 -0500
-Received: from mail-wm1-x32a.google.com ([2a00:1450:4864:20::32a]:53472)
+ id 1kxdlA-0005IB-3W
+ for qemu-devel@nongnu.org; Thu, 07 Jan 2021 17:28:00 -0500
+Received: from mail-wm1-x32e.google.com ([2a00:1450:4864:20::32e]:38813)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1kxdkr-0006TU-OD
- for qemu-devel@nongnu.org; Thu, 07 Jan 2021 17:27:43 -0500
-Received: by mail-wm1-x32a.google.com with SMTP id k10so6364768wmi.3
- for <qemu-devel@nongnu.org>; Thu, 07 Jan 2021 14:27:41 -0800 (PST)
+ id 1kxdl6-0006YN-OY
+ for qemu-devel@nongnu.org; Thu, 07 Jan 2021 17:27:58 -0500
+Received: by mail-wm1-x32e.google.com with SMTP id g185so6835551wmf.3
+ for <qemu-devel@nongnu.org>; Thu, 07 Jan 2021 14:27:56 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=fXnJoY5COKKqaViQrzHGXO3P7g2CyIkmu5oDvOAw7V8=;
- b=O1qK4uUowbfAgF0pV9XHWYIIQaO0chpA4tklBN1Up+BJAoLZE0wIKBO2VDRscoKz56
- jP19Q0Su11gLV1fKdsc1opLqlp0xzAdFetHHneRdQYTnl+6xTxrrBj7KrPV0kV6GKgAj
- X8xAA414trpxr67UU5Ql/dfJgwK/7urzxPBQhCWsQlujCpSFopxKqz4JxUd9rF1p6uu4
- vLdWXdse1VirzPhq9L+qIM6HEMP1LUN/ph3DM0wpVzV5Snu9+D8z/kFvumRq4WXJmHXv
- ucjGtmwWYBC2YnRooDlKESI02N1uCeeo3bpQQSIDEM6L8UyDSi4V0ePyts1KFHLOpH78
- uoTg==
+ bh=2KMW1AHx+CcjcF6oy+EHrDBlKoWTeIJxR2dMpOZQe7U=;
+ b=eu/pL2XsD3VR3uKPHuTsM8iVriGrGrjPRln4TPJRfQZh9Wms+y1U2X+v2CLH7nW5uf
+ s7UNpD79IzDqtqMDOI+rpEe5hMgNatDvgxevjKH69XI+BZw49OQb1xzQ9pSccDWLoe9x
+ UQD8i6iXuWPjvWDV14d5xSEjIgYQ2WP4GF3aQal/85RncyXxdGPnU2uQ+eeoNOOxmpTY
+ iePB7so0OQAEj9HHVscAzXTKVj8ONFLG1iH6KPpZV9r++IQUiGniQTmQ3u8uRVUve708
+ YE3ZPFb7AKetOsEqIzrRp3ReKkKqbnCy18Gq2Y9QfBgWcWDMTJcgRDJcWhO0bnmmPD0G
+ uSXA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=fXnJoY5COKKqaViQrzHGXO3P7g2CyIkmu5oDvOAw7V8=;
- b=AP32C9gvLZL7rWhQQpZcfBlssBudm/5lBIMPrDNC5xW1/QCTqx0LPlWSVmv3h5NhMd
- PFdOGuC2vFFwQv2MVGJhpouhctokTCPZFgDiTZkARlmzvoxTrVqzqvirq4S14i6tSytU
- kvgyXFl1km9dvxB0OmKFXK9fGofejrzmuyFpwr1elxX2GSixub4z5Fl5qrl32/i8DGB0
- U5dl26TrXFR+R3YqCEYaFc5nfjD09IwMsxcynXF8Yru3nHkFdjlD2UC7EEjh05v5s6kA
- FSRD3x3MHPrpmF7plbQpzNrBun8pqkCF+8Ldq8mHC0+kkDyFTqxZjVXLS/0yoPZPedfS
- ABHQ==
-X-Gm-Message-State: AOAM5301KXUNM+K/8zqaoW4q9lJ2Jj9mPqtJPAGXiJ6PdayTXyAAf+pq
- aLURVgp+cOZtmcvK7W1HZBg1COycaT8=
-X-Google-Smtp-Source: ABdhPJx4Sw9YkvyMOSz1j6l4//C+swB7Ehawld7rbm9wWnEhdS49W2zJ3bBVSKrxYAHspGHLrfxgpA==
-X-Received: by 2002:a7b:c19a:: with SMTP id y26mr519327wmi.20.1610058459860;
- Thu, 07 Jan 2021 14:27:39 -0800 (PST)
+ bh=2KMW1AHx+CcjcF6oy+EHrDBlKoWTeIJxR2dMpOZQe7U=;
+ b=aOlEw5DI9Ae763TYAuedlMC/XAFj/6kGoKbU3BBSdBx/eiHOax5UlR5sA9kb4x5cir
+ 3VCDBTfEKKqUTeisuDtL32YNpF9vwFKQUTC07jno4/0IMcVc8J+BByBcpqfoGRk1JnQq
+ XQMlqbaRMScIvMSmQ7XcmGJQZ+ZL6Wd5fM4vdQGTO9idqsOcnkOD5FgZYXzHGzCPcIxW
+ Aazmf1NlWKxNALOGfmuvXUJTpvcNjmKWVciZuaKPGDvbbQDaEh/beZO4QFgPE33xzScK
+ kE2emCLe83nEiWkzTr6YnOaUEayImZX7wI7IJQtXOwj4s7xmshW8cBG8iVYbJ1pj5Z9A
+ JQlw==
+X-Gm-Message-State: AOAM533SmCTkhvECv2ByB5e2Gw+Kvr0YQg5ScXARizuhb3ryMnUDIAlj
+ xaZ2bgej00gKGDRlw1b9xZoJYVrz/mM=
+X-Google-Smtp-Source: ABdhPJwhlHkwhPGlw9CABxGJvzuyyJEPRsNT1YsTzkdqiwuDfohqGuCHk/Hb4esUZif9cgPQE9hFFQ==
+X-Received: by 2002:a1c:2b46:: with SMTP id r67mr521041wmr.162.1610058475322; 
+ Thu, 07 Jan 2021 14:27:55 -0800 (PST)
 Received: from x1w.redhat.com (241.red-88-10-103.dynamicip.rima-tde.net.
  [88.10.103.241])
- by smtp.gmail.com with ESMTPSA id w8sm10003601wrl.91.2021.01.07.14.27.38
+ by smtp.gmail.com with ESMTPSA id b83sm9675771wmd.48.2021.01.07.14.27.54
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 07 Jan 2021 14:27:39 -0800 (PST)
+ Thu, 07 Jan 2021 14:27:54 -0800 (PST)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 55/66] target/mips: Introduce decodetree helpers for MSA
- LSA/DLSA opcodes
-Date: Thu,  7 Jan 2021 23:22:42 +0100
-Message-Id: <20210107222253.20382-56-f4bug@amsat.org>
+Subject: [PULL 58/66] target/mips: Convert Rel6 Special2 opcode to decodetree
+Date: Thu,  7 Jan 2021 23:22:45 +0100
+Message-Id: <20210107222253.20382-59-f4bug@amsat.org>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20210107222253.20382-1-f4bug@amsat.org>
 References: <20210107222253.20382-1-f4bug@amsat.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::32a;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x32a.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::32e;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x32e.google.com
 X-Spam_score_int: -14
 X-Spam_score: -1.5
 X-Spam_bar: -
@@ -96,108 +95,63 @@ Cc: Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Add the LSA opcode to the MSA32 decodetree config, add DLSA
-to a new config for the MSA64 ASE, and call decode_msa64()
-in the main decode_opc() loop.
+Special2 opcode have been removed from the Release 6.
+
+Add a single decodetree entry for all the opcode class,
+triggering Reserved Instruction if ever used.
+
+Remove unreachable check_insn_opc_removed() call.
 
 Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-Message-Id: <20201215225757.764263-23-f4bug@amsat.org>
+Message-Id: <20201208203704.243704-7-f4bug@amsat.org>
 ---
- target/mips/msa32.decode    |  4 ++++
- target/mips/msa64.decode    | 17 +++++++++++++++++
- target/mips/msa_translate.c | 14 ++++++++++++++
- target/mips/meson.build     |  1 +
- 4 files changed, 36 insertions(+)
- create mode 100644 target/mips/msa64.decode
+ target/mips/mips32r6.decode  | 2 ++
+ target/mips/rel6_translate.c | 7 +++++++
+ target/mips/translate.c      | 2 --
+ 3 files changed, 9 insertions(+), 2 deletions(-)
 
-diff --git a/target/mips/msa32.decode b/target/mips/msa32.decode
-index d69675132b8..0b2f0863251 100644
---- a/target/mips/msa32.decode
-+++ b/target/mips/msa32.decode
-@@ -10,11 +10,15 @@
- #       (Document Number: MD00866-2B-MSA32-AFP-01.12)
- #
+diff --git a/target/mips/mips32r6.decode b/target/mips/mips32r6.decode
+index 027585ee042..259bac612ab 100644
+--- a/target/mips/mips32r6.decode
++++ b/target/mips/mips32r6.decode
+@@ -15,3 +15,5 @@
+ @lsa                ...... rs:5 rt:5 rd:5 ... sa:2 ......   &lsa
  
-+&lsa                rd rt rs sa
- &msa_bz             df wt s16
- 
-+@lsa                ...... rs:5 rt:5 rd:5 ... sa:2 ......   &lsa
- @bz                 ...... ... ..   wt:5 s16:16             &msa_bz df=3
- @bz_df              ...... ... df:2 wt:5 s16:16             &msa_bz
- 
-+LSA                 000000 ..... ..... ..... 000 .. 000101  @lsa
+ LSA                 000000 ..... ..... ..... 000 .. 000101  @lsa
 +
- BZ_V                010001 01011  ..... ................    @bz
- BNZ_V               010001 01111  ..... ................    @bz
++REMOVED             011100 ----- ----- ----- ----- ------   # SPECIAL2
+diff --git a/target/mips/rel6_translate.c b/target/mips/rel6_translate.c
+index 631d0b87748..51264f0ce92 100644
+--- a/target/mips/rel6_translate.c
++++ b/target/mips/rel6_translate.c
+@@ -18,6 +18,13 @@
+ #include "decode-mips32r6.c.inc"
+ #include "decode-mips64r6.c.inc"
  
-diff --git a/target/mips/msa64.decode b/target/mips/msa64.decode
-new file mode 100644
-index 00000000000..8dcbbcd8538
---- /dev/null
-+++ b/target/mips/msa64.decode
-@@ -0,0 +1,17 @@
-+# MIPS SIMD Architecture Module instruction set
-+#
-+# Copyright (C) 2020  Philippe Mathieu-Daudé
-+#
-+# SPDX-License-Identifier: LGPL-2.1-or-later
-+#
-+# Reference:
-+#       MIPS Architecture for Programmers Volume IV-j
-+#       The MIPS64 SIMD Architecture Module, Revision 1.12
-+#       (Document Number: MD00868-1D-MSA64-AFP-01.12)
-+#
-+
-+&lsa                rd rt rs sa !extern
-+
-+@lsa                ...... rs:5 rt:5 rd:5 ... sa:2 ......   &lsa
-+
-+DLSA                 000000 ..... ..... ..... 000 .. 010101 @lsa
-diff --git a/target/mips/msa_translate.c b/target/mips/msa_translate.c
-index 8a48f889aa2..e97370e54c2 100644
---- a/target/mips/msa_translate.c
-+++ b/target/mips/msa_translate.c
-@@ -19,6 +19,7 @@
- 
- /* Include the auto-generated decoder.  */
- #include "decode-msa32.c.inc"
-+#include "decode-msa64.c.inc"
- 
- #define OPC_MSA (0x1E << 26)
- 
-@@ -2266,7 +2267,20 @@ static bool trans_MSA(DisasContext *ctx, arg_MSA *a)
-     return true;
- }
- 
-+static bool trans_LSA(DisasContext *ctx, arg_LSA *a)
++bool trans_REMOVED(DisasContext *ctx, arg_REMOVED *a)
 +{
-+    return gen_LSA(ctx, a->rd, a->rt, a->rs, a->sa);
++    gen_reserved_instruction(ctx);
++
++    return true;
 +}
 +
-+static bool trans_DLSA(DisasContext *ctx, arg_LSA *a)
-+{
-+    return gen_DLSA(ctx, a->rd, a->rt, a->rs, a->sa);
-+}
-+
- bool decode_ase_msa(DisasContext *ctx, uint32_t insn)
+ static bool trans_LSA(DisasContext *ctx, arg_LSA *a)
  {
-+    if (TARGET_LONG_BITS == 64 && decode_msa64(ctx, insn)) {
-+        return true;
-+    }
-     return decode_msa32(ctx, insn);
- }
-diff --git a/target/mips/meson.build b/target/mips/meson.build
-index 9afee0ca955..21b75254047 100644
---- a/target/mips/meson.build
-+++ b/target/mips/meson.build
-@@ -1,5 +1,6 @@
- gen = [
-   decodetree.process('msa32.decode', extra_args: [ '--static-decode=decode_msa32' ]),
-+  decodetree.process('msa64.decode', extra_args: [ '--static-decode=decode_msa64' ]),
- ]
+     return gen_LSA(ctx, a->rd, a->rt, a->rs, a->sa);
+diff --git a/target/mips/translate.c b/target/mips/translate.c
+index f4481afb8de..01c1ee546e2 100644
+--- a/target/mips/translate.c
++++ b/target/mips/translate.c
+@@ -27137,8 +27137,6 @@ static void decode_opc_special2_legacy(CPUMIPSState *env, DisasContext *ctx)
+     int rs, rt, rd;
+     uint32_t op1;
  
- mips_ss = ss.source_set()
+-    check_insn_opc_removed(ctx, ISA_MIPS_R6);
+-
+     rs = (ctx->opcode >> 21) & 0x1f;
+     rt = (ctx->opcode >> 16) & 0x1f;
+     rd = (ctx->opcode >> 11) & 0x1f;
 -- 
 2.26.2
 
