@@ -2,51 +2,51 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9B1412ED33D
-	for <lists+qemu-devel@lfdr.de>; Thu,  7 Jan 2021 16:09:10 +0100 (CET)
-Received: from localhost ([::1]:47900 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BD2C72ED35D
+	for <lists+qemu-devel@lfdr.de>; Thu,  7 Jan 2021 16:16:43 +0100 (CET)
+Received: from localhost ([::1]:41870 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kxWuT-0000Ep-LN
-	for lists+qemu-devel@lfdr.de; Thu, 07 Jan 2021 10:09:09 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37356)
+	id 1kxX1m-00018K-PI
+	for lists+qemu-devel@lfdr.de; Thu, 07 Jan 2021 10:16:42 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37648)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <vkuznets@redhat.com>)
- id 1kxWsg-00073D-K2
- for qemu-devel@nongnu.org; Thu, 07 Jan 2021 10:07:19 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:57371)
+ id 1kxWtQ-00087c-6h
+ for qemu-devel@nongnu.org; Thu, 07 Jan 2021 10:08:04 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:49759)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <vkuznets@redhat.com>)
- id 1kxWsZ-0003pV-1t
- for qemu-devel@nongnu.org; Thu, 07 Jan 2021 10:07:18 -0500
+ id 1kxWtN-00046j-RL
+ for qemu-devel@nongnu.org; Thu, 07 Jan 2021 10:08:03 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1610032028;
+ s=mimecast20190719; t=1610032081;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=T8extoD+E5w+3LujEzEz7dnEvzka12n48Txjn2DwjzY=;
- b=aayPlU2UBt8XVchrA4G6/ET4Uxe3AXlOIhR5yQCvLAu2TPKQRM0/dfXk15spJn8RRL7ojJ
- uRinmuPb4Ks7yEIv82QFk+w6nsfzo2jV9/Zgrq9dVqOjmfFjRHXEPefq20oCdKXUdldkiB
- x8igW+yHv4oaFcVnuwTxFxqOGsApAWI=
+ bh=A/JKM7pKG9aRmqEKJ0ZykkNx3sB6VZbvuipCG+TDEH0=;
+ b=FF5Gvs24ND7S1qAu0HR+EK+RjDAKr3Y3cRLIdu7OPvhXmJSQJAxzkV/+9sAM67xc4Vstky
+ sVxK2m5wR05vS6XQi0n4vZyodfJV1VkIOEeOTPg24SSPEj/1R3EslV9ISeRZLCJjGTwB/2
+ A2OYAAPkgMFXdRLAdlcSE3R54yEQNAQ=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-592-JxjnaZpeNFu4QSJSFsCfcg-1; Thu, 07 Jan 2021 10:07:06 -0500
-X-MC-Unique: JxjnaZpeNFu4QSJSFsCfcg-1
+ us-mta-336-GQKRMGiwNby7879ag6B7zA-1; Thu, 07 Jan 2021 10:07:59 -0500
+X-MC-Unique: GQKRMGiwNby7879ag6B7zA-1
 Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
  [10.5.11.13])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id B5C128015DB
- for <qemu-devel@nongnu.org>; Thu,  7 Jan 2021 15:07:05 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 9AE778AADF5
+ for <qemu-devel@nongnu.org>; Thu,  7 Jan 2021 15:07:43 +0000 (UTC)
 Received: from vitty.brq.redhat.com (unknown [10.40.195.131])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 91D436EF42;
- Thu,  7 Jan 2021 15:07:00 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 1C862779D6;
+ Thu,  7 Jan 2021 15:07:05 +0000 (UTC)
 From: Vitaly Kuznetsov <vkuznets@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v3 07/19] i386: introduce hyperv_feature_supported()
-Date: Thu,  7 Jan 2021 16:06:28 +0100
-Message-Id: <20210107150640.539239-8-vkuznets@redhat.com>
+Subject: [PATCH v3 08/19] i386: introduce hv_cpuid_get_host()
+Date: Thu,  7 Jan 2021 16:06:29 +0100
+Message-Id: <20210107150640.539239-9-vkuznets@redhat.com>
 In-Reply-To: <20210107150640.539239-1-vkuznets@redhat.com>
 References: <20210107150640.539239-1-vkuznets@redhat.com>
 MIME-Version: 1.0
@@ -83,86 +83,146 @@ Cc: Paolo Bonzini <pbonzini@redhat.com>, Marcelo Tosatti <mtosatti@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Clean up hv_cpuid_check_and_set() by separating hyperv_feature_supported()
-off it. No functional change intended.
+As a preparation to implementing hv_cpuid_cache intro introduce
+hv_cpuid_get_host(). No functional change intended.
 
 Signed-off-by: Vitaly Kuznetsov <vkuznets@redhat.com>
 ---
- target/i386/kvm/kvm.c | 49 ++++++++++++++++++++++++++-----------------
- 1 file changed, 30 insertions(+), 19 deletions(-)
+ target/i386/kvm/kvm.c | 100 +++++++++++++++++++++++-------------------
+ 1 file changed, 56 insertions(+), 44 deletions(-)
 
 diff --git a/target/i386/kvm/kvm.c b/target/i386/kvm/kvm.c
-index 768e08fa5e8f..5472d78f5d73 100644
+index 5472d78f5d73..2a37bdc45d17 100644
 --- a/target/i386/kvm/kvm.c
 +++ b/target/i386/kvm/kvm.c
-@@ -1110,13 +1110,33 @@ static int hv_cpuid_get_fw(struct kvm_cpuid2 *cpuid, int fw, uint32_t *r)
+@@ -1110,6 +1110,19 @@ static int hv_cpuid_get_fw(struct kvm_cpuid2 *cpuid, int fw, uint32_t *r)
      return 0;
  }
  
-+static bool hyperv_feature_supported(struct kvm_cpuid2 *cpuid, int feature)
++static uint32_t hv_cpuid_get_host(struct kvm_cpuid2 *cpuid, uint32_t func,
++                                  int reg)
 +{
-+    uint32_t r, fw, bits;
-+    int i;
++    struct kvm_cpuid_entry2 *entry;
 +
-+    for (i = 0; i < ARRAY_SIZE(kvm_hyperv_properties[feature].flags); i++) {
-+        fw = kvm_hyperv_properties[feature].flags[i].fw;
-+        bits = kvm_hyperv_properties[feature].flags[i].bits;
-+
-+        if (!fw) {
-+            continue;
-+        }
-+
-+        if (hv_cpuid_get_fw(cpuid, fw, &r) || (r & bits) != bits) {
-+            return false;
-+        }
++    entry = cpuid_find_entry(cpuid, func, 0);
++    if (!entry) {
++        return 0;
 +    }
 +
-+    return true;
++    return cpuid_entry_get_reg(entry, reg);
 +}
 +
- static int hv_cpuid_check_and_set(CPUState *cs, struct kvm_cpuid2 *cpuid,
-                                   int feature)
+ static bool hyperv_feature_supported(struct kvm_cpuid2 *cpuid, int feature)
+ {
+     uint32_t r, fw, bits;
+@@ -1206,7 +1219,7 @@ static int hyperv_handle_properties(CPUState *cs,
  {
      X86CPU *cpu = X86_CPU(cs);
--    uint32_t r, fw, bits;
-     uint64_t deps;
--    int i, dep_feat;
-+    int dep_feat;
+     struct kvm_cpuid2 *cpuid;
+-    struct kvm_cpuid_entry2 *c, *c2;
++    struct kvm_cpuid_entry2 *c;
+     uint32_t cpuid_i = 0;
+     int r;
  
-     if (!hyperv_feat_enabled(cpu, feature) && !cpu->hyperv_passthrough) {
-         return 0;
-@@ -1135,23 +1155,14 @@ static int hv_cpuid_check_and_set(CPUState *cs, struct kvm_cpuid2 *cpuid,
-         deps &= ~(1ull << dep_feat);
+@@ -1238,45 +1251,46 @@ static int hyperv_handle_properties(CPUState *cs,
      }
  
--    for (i = 0; i < ARRAY_SIZE(kvm_hyperv_properties[feature].flags); i++) {
--        fw = kvm_hyperv_properties[feature].flags[i].fw;
--        bits = kvm_hyperv_properties[feature].flags[i].bits;
--
--        if (!fw) {
--            continue;
+     if (cpu->hyperv_passthrough) {
+-        c = cpuid_find_entry(cpuid, HV_CPUID_VENDOR_AND_MAX_FUNCTIONS, 0);
+-        if (c) {
+-            cpu->hyperv_vendor_id[0] = c->ebx;
+-            cpu->hyperv_vendor_id[1] = c->ecx;
+-            cpu->hyperv_vendor_id[2] = c->edx;
+-            cpu->hyperv_vendor = g_realloc(cpu->hyperv_vendor,
+-                                           sizeof(cpu->hyperv_vendor_id) + 1);
+-            memcpy(cpu->hyperv_vendor, cpu->hyperv_vendor_id,
+-                   sizeof(cpu->hyperv_vendor_id));
 -        }
 -
--        if (hv_cpuid_get_fw(cpuid, fw, &r) || (r & bits) != bits) {
--            if (hyperv_feat_enabled(cpu, feature)) {
--                fprintf(stderr,
--                        "Hyper-V %s is not supported by kernel\n",
--                        kvm_hyperv_properties[feature].desc);
--                return 1;
--            } else {
--                return 0;
--            }
-+    if (!hyperv_feature_supported(cpuid, feature)) {
-+        if (hyperv_feat_enabled(cpu, feature)) {
-+            fprintf(stderr,
-+                    "Hyper-V %s is not supported by kernel\n",
-+                    kvm_hyperv_properties[feature].desc);
-+            return 1;
-+        } else {
-+            return 0;
-         }
+-        c = cpuid_find_entry(cpuid, HV_CPUID_INTERFACE, 0);
+-        if (c) {
+-            cpu->hyperv_interface_id[0] = c->eax;
+-            cpu->hyperv_interface_id[1] = c->ebx;
+-            cpu->hyperv_interface_id[2] = c->ecx;
+-            cpu->hyperv_interface_id[3] = c->edx;
+-        }
+-
+-        c = cpuid_find_entry(cpuid, HV_CPUID_VERSION, 0);
+-        if (c) {
+-            cpu->hyperv_version_id[0] = c->eax;
+-            cpu->hyperv_version_id[1] = c->ebx;
+-            cpu->hyperv_version_id[2] = c->ecx;
+-            cpu->hyperv_version_id[3] = c->edx;
+-        }
+-
+-        c = cpuid_find_entry(cpuid, HV_CPUID_IMPLEMENT_LIMITS, 0);
+-        if (c) {
+-            cpu->hv_max_vps = c->eax;
+-            cpu->hyperv_limits[0] = c->ebx;
+-            cpu->hyperv_limits[1] = c->ecx;
+-            cpu->hyperv_limits[2] = c->edx;
+-        }
+-
+-        c = cpuid_find_entry(cpuid, HV_CPUID_ENLIGHTMENT_INFO, 0);
+-        if (c) {
+-            cpu->hyperv_spinlock_attempts = c->ebx;
+-        }
++        cpu->hyperv_vendor_id[0] =
++            hv_cpuid_get_host(cpuid, HV_CPUID_VENDOR_AND_MAX_FUNCTIONS, R_EBX);
++        cpu->hyperv_vendor_id[1] =
++            hv_cpuid_get_host(cpuid, HV_CPUID_VENDOR_AND_MAX_FUNCTIONS, R_ECX);
++        cpu->hyperv_vendor_id[2] =
++            hv_cpuid_get_host(cpuid, HV_CPUID_VENDOR_AND_MAX_FUNCTIONS, R_EDX);
++        cpu->hyperv_vendor = g_realloc(cpu->hyperv_vendor,
++                                       sizeof(cpu->hyperv_vendor_id) + 1);
++        memcpy(cpu->hyperv_vendor, cpu->hyperv_vendor_id,
++               sizeof(cpu->hyperv_vendor_id));
++
++        cpu->hyperv_interface_id[0] =
++            hv_cpuid_get_host(cpuid, HV_CPUID_INTERFACE, R_EAX);
++        cpu->hyperv_interface_id[1] =
++            hv_cpuid_get_host(cpuid, HV_CPUID_INTERFACE, R_EBX);
++        cpu->hyperv_interface_id[2] =
++            hv_cpuid_get_host(cpuid, HV_CPUID_INTERFACE, R_ECX);
++        cpu->hyperv_interface_id[3] =
++            hv_cpuid_get_host(cpuid, HV_CPUID_INTERFACE, R_EDX);
++
++        cpu->hyperv_version_id[0] =
++            hv_cpuid_get_host(cpuid, HV_CPUID_VERSION, R_EAX);
++        cpu->hyperv_version_id[1] =
++            hv_cpuid_get_host(cpuid, HV_CPUID_VERSION, R_EBX);
++        cpu->hyperv_version_id[2] =
++            hv_cpuid_get_host(cpuid, HV_CPUID_VERSION, R_ECX);
++        cpu->hyperv_version_id[3] =
++            hv_cpuid_get_host(cpuid, HV_CPUID_VERSION, R_EDX);
++
++        cpu->hv_max_vps = hv_cpuid_get_host(cpuid, HV_CPUID_IMPLEMENT_LIMITS,
++                                            R_EAX);
++        cpu->hyperv_limits[0] =
++            hv_cpuid_get_host(cpuid, HV_CPUID_IMPLEMENT_LIMITS, R_EBX);
++        cpu->hyperv_limits[1] =
++            hv_cpuid_get_host(cpuid, HV_CPUID_IMPLEMENT_LIMITS, R_ECX);
++        cpu->hyperv_limits[2] =
++            hv_cpuid_get_host(cpuid, HV_CPUID_IMPLEMENT_LIMITS, R_EDX);
++
++        cpu->hyperv_spinlock_attempts =
++            hv_cpuid_get_host(cpuid, HV_CPUID_ENLIGHTMENT_INFO, R_EBX);
      }
  
+     /* Features */
+@@ -1350,10 +1364,8 @@ static int hyperv_handle_properties(CPUState *cs,
+     if (cpu->hyperv_no_nonarch_cs == ON_OFF_AUTO_ON) {
+         c->eax |= HV_NO_NONARCH_CORESHARING;
+     } else if (cpu->hyperv_no_nonarch_cs == ON_OFF_AUTO_AUTO) {
+-        c2 = cpuid_find_entry(cpuid, HV_CPUID_ENLIGHTMENT_INFO, 0);
+-        if (c2) {
+-            c->eax |= c2->eax & HV_NO_NONARCH_CORESHARING;
+-        }
++        c->eax |= hv_cpuid_get_host(cpuid, HV_CPUID_ENLIGHTMENT_INFO, R_EAX) &
++            HV_NO_NONARCH_CORESHARING;
+     }
+ 
+     c = &cpuid_ent[cpuid_i++];
 -- 
 2.29.2
 
