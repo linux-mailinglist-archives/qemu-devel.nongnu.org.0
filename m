@@ -2,81 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0D89C2ECB9F
-	for <lists+qemu-devel@lfdr.de>; Thu,  7 Jan 2021 09:10:01 +0100 (CET)
-Received: from localhost ([::1]:41954 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 364992ECBA0
+	for <lists+qemu-devel@lfdr.de>; Thu,  7 Jan 2021 09:10:07 +0100 (CET)
+Received: from localhost ([::1]:42368 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kxQMq-000773-3y
-	for lists+qemu-devel@lfdr.de; Thu, 07 Jan 2021 03:10:00 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34198)
+	id 1kxQMw-0007Ha-5G
+	for lists+qemu-devel@lfdr.de; Thu, 07 Jan 2021 03:10:06 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34362)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1kxQL1-0006Fp-Hp
- for qemu-devel@nongnu.org; Thu, 07 Jan 2021 03:08:07 -0500
-Received: from mail-wr1-x435.google.com ([2a00:1450:4864:20::435]:46498)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1kxQKz-0000nA-Ht
- for qemu-devel@nongnu.org; Thu, 07 Jan 2021 03:08:06 -0500
-Received: by mail-wr1-x435.google.com with SMTP id d13so4642748wrc.13
- for <qemu-devel@nongnu.org>; Thu, 07 Jan 2021 00:08:02 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=QeO8f+4cj7hV4u8LoLyaJlIuJ8U40ngQvs5rvL6pSco=;
- b=Ps/Cu/yoaJwmPgy5/CxryYZ2zWbI2cPMlmnRtixGG3XA4e8NS2FY4PRMcDTimchZpX
- FefusJcqNUJZmzhaxvT1/4t+5O1TO9ZBkwDdvyRKSCepAitGODPBGIdKQ1ylyE/GvWdd
- hPuWu/6WIwOzealRU+tfHvGKc5ShjMNpyTlwtovuKiZZCrG/K6aJAT8awR7CTm8lPq0B
- fHft0nfeDCGss/PX44AmbsRTpxjjCaS9LkLGeuxlufbVbaUk4qbBESc1Dmn9ShNly59P
- 7W6Qq0i85/ez2LQ6k+MREQO85G3dNA0QPh9KEyuulNOhwXg7BJKHdDeHLPgnhyQqbmoS
- IZSw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
- :date:user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=QeO8f+4cj7hV4u8LoLyaJlIuJ8U40ngQvs5rvL6pSco=;
- b=hsJB5J1FpFAy3xFJEdSoCTdF8LaAxQtP5YBHqcXw5/6cyw8cAaqmilKms/1fo8WnSi
- Je/YPb4UTsE9titDP4kLbDVOXV++HqsteNKnXZVaRX8XE7ECpe2U33vebDuwKlxMoIqT
- 9xkVdJyZMEgtDVgBMEeOvqBxurquvdNloHwHKhUbg0EPaqnNFHyECHSY4e81L1y6mF0D
- bHCjer3/KStyJlBlOLnNwCj6elHuMz/caU5lXXwm48yd3BqpgYB5R+3g8lLVrF8lANMz
- Nrttsyvr8oqN/qXIADPyJF/g8uYd2Zh+o83HMkKLaJx51uMNZQ+i4yJRPwhEZxf9FOmD
- +nww==
-X-Gm-Message-State: AOAM532mZUhjohXDSUcbtQBnfsrH1kmNsU6/4BpwPSyKTWqUmODHxYoV
- VDcIUtPNZ5ZWkEdunmJNil0=
-X-Google-Smtp-Source: ABdhPJy1zZueU4v74pxy6xu75W2eXh5smE28NKMdOyWgP2bLU536ooJipEbyg7ZBCNa91nUFZqbIMQ==
-X-Received: by 2002:adf:a4cf:: with SMTP id h15mr7733469wrb.13.1610006881241; 
- Thu, 07 Jan 2021 00:08:01 -0800 (PST)
-Received: from [192.168.1.36] (241.red-88-10-103.dynamicip.rima-tde.net.
- [88.10.103.241])
- by smtp.gmail.com with ESMTPSA id h83sm6799116wmf.9.2021.01.07.00.08.00
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 07 Jan 2021 00:08:00 -0800 (PST)
-Subject: Re: [PATCH 02/12] vt82c686: Reorganise code
-To: BALATON Zoltan <balaton@eik.bme.hu>, qemu-devel@nongnu.org
-References: <cover.1609967638.git.balaton@eik.bme.hu>
- <a3d10c3daf6e8746b985c9fe776ae314fd10499b.1609967638.git.balaton@eik.bme.hu>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
-Message-ID: <77da4dfa-896b-3dbc-a648-6ddc472fc043@amsat.org>
-Date: Thu, 7 Jan 2021 09:07:59 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.6.0
+ (Exim 4.90_1) (envelope-from <groug@kaod.org>) id 1kxQLO-0006Mu-9z
+ for qemu-devel@nongnu.org; Thu, 07 Jan 2021 03:08:30 -0500
+Received: from 3.mo52.mail-out.ovh.net ([178.33.254.192]:40889)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <groug@kaod.org>) id 1kxQLF-0000sU-PA
+ for qemu-devel@nongnu.org; Thu, 07 Jan 2021 03:08:30 -0500
+Received: from mxplan5.mail.ovh.net (unknown [10.108.4.89])
+ by mo52.mail-out.ovh.net (Postfix) with ESMTPS id 8636522E5F7;
+ Thu,  7 Jan 2021 09:08:17 +0100 (CET)
+Received: from kaod.org (37.59.142.103) by DAG8EX1.mxp5.local (172.16.2.71)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2044.4; Thu, 7 Jan 2021
+ 09:08:16 +0100
+Authentication-Results: garm.ovh; auth=pass
+ (GARM-103G00512650ed1-2b06-4406-a2ea-d86f78b1f577,
+ 60F1A555FF7AE05BC39886BDE76A51AB2B051214) smtp.auth=groug@kaod.org
+X-OVh-ClientIp: 82.253.208.248
+Date: Thu, 7 Jan 2021 09:08:15 +0100
+From: Greg Kurz <groug@kaod.org>
+To: BALATON Zoltan via <qemu-ppc@nongnu.org>
+Subject: Re: [PATCH 3/3] sam460ex: Use type cast macro instead of simple cast
+Message-ID: <20210107090815.12cc73fd@bahia.lan>
+In-Reply-To: <8bc87f574759a3e9e9e8707b1e0947c1ee21fa8c.1609946641.git.balaton@eik.bme.hu>
+References: <cover.1609946641.git.balaton@eik.bme.hu>
+ <8bc87f574759a3e9e9e8707b1e0947c1ee21fa8c.1609946641.git.balaton@eik.bme.hu>
+X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-In-Reply-To: <a3d10c3daf6e8746b985c9fe776ae314fd10499b.1609967638.git.balaton@eik.bme.hu>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::435;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x435.google.com
-X-Spam_score_int: -17
-X-Spam_score: -1.8
+Content-Type: text/plain; charset="US-ASCII"
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [37.59.142.103]
+X-ClientProxiedBy: DAG9EX1.mxp5.local (172.16.2.81) To DAG8EX1.mxp5.local
+ (172.16.2.71)
+X-Ovh-Tracer-GUID: 13d8f254-ad53-48d7-853f-521abb7cafbc
+X-Ovh-Tracer-Id: 13938922322658433318
+X-VR-SPAMSTATE: OK
+X-VR-SPAMSCORE: -100
+X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedujedrvdeguddgfeejucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuqfggjfdpvefjgfevmfevgfenuceurghilhhouhhtmecuhedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhepfffhvffukfgjfhfogggtgfhisehtjeertdertddvnecuhfhrohhmpefirhgvghcumfhurhiiuceoghhrohhugheskhgrohgurdhorhhgqeenucggtffrrghtthgvrhhnpeefuddtieejjeevheekieeltefgleetkeetheettdeifeffvefhffelffdtfeeljeenucfkpheptddrtddrtddrtddpfeejrdehledrudegvddruddtfeenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhhouggvpehsmhhtphdqohhuthdphhgvlhhopehmgihplhgrnhehrdhmrghilhdrohhvhhdrnhgvthdpihhnvghtpedtrddtrddtrddtpdhmrghilhhfrhhomhepghhrohhugheskhgrohgurdhorhhgpdhrtghpthhtohepuggrvhhiugesghhisghsohhnrdgurhhophgsvggrrhdrihgurdgruh
+Received-SPF: pass client-ip=178.33.254.192; envelope-from=groug@kaod.org;
+ helo=3.mo52.mail-out.ovh.net
+X-Spam_score_int: -18
+X-Spam_score: -1.9
 X-Spam_bar: -
-X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249, NICE_REPLY_A=-0.249,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
+ RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -89,39 +68,62 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Huacai Chen <chenhuacai@kernel.org>
+Cc: Peter
+ Maydell <peter.maydell@linaro.org>, f4bug@amsat.org, qemu-devel@nongnu.org,
+ David Gibson <david@gibson.dropbear.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 1/6/21 10:13 PM, BALATON Zoltan wrote:
-> Move lines around so that object definitions become consecutive and
-> not scattered around. This brings functions belonging to an object
-> together so it's clearer what is defined and what parts belong to
-> which object.
+On Wed, 6 Jan 2021 16:24:01 +0100
+BALATON Zoltan via <qemu-ppc@nongnu.org> wrote:
+
+> Use the PCI_BUS type cast macro to convert result of
+> qdev_get_child_bus(). Also remove the check for NULL afterwards which
+> should not be needed because sysbus_create_simple() uses error_abort
+
+It seems to me that sysbus_create_simple() doesn't return NULL because
+it ends up calling object_new_with_type(). This allocates the object
+with either g_malloc() or qemu_memalign(), both of which abort on
+failure.
+
+> and PCI_BUS macro also checks its argument by default so this
+
+AFAICT, PCI_BUS() and all other instance type checking macros are
+happy with a NULL argument. They simply return NULL in this case.
+
+> shouldn't fail here.
 > 
 > Signed-off-by: BALATON Zoltan <balaton@eik.bme.hu>
 > ---
->  hw/isa/vt82c686.c | 279 +++++++++++++++++++++++-----------------------
->  1 file changed, 140 insertions(+), 139 deletions(-)
-...
->  static void vt82c686b_realize(PCIDevice *d, Error **errp)
->  {
->      VT82C686BISAState *s = VT82C686B_ISA(d);
-> @@ -354,6 +353,7 @@ static const TypeInfo via_info = {
->      },
->  };
->  
-> +
->  static void vt82c686b_superio_class_init(ObjectClass *klass, void *data)
->  {
->      ISASuperIOClass *sc = ISA_SUPERIO_CLASS(klass);
-> @@ -372,11 +372,12 @@ static const TypeInfo via_superio_info = {
->      .class_init    = vt82c686b_superio_class_init,
->  };
->  
+>  hw/ppc/sam460ex.c | 7 ++-----
+>  1 file changed, 2 insertions(+), 5 deletions(-)
+> 
+> diff --git a/hw/ppc/sam460ex.c b/hw/ppc/sam460ex.c
+> index 14e6583eb0..cc67e9c39b 100644
+> --- a/hw/ppc/sam460ex.c
+> +++ b/hw/ppc/sam460ex.c
+> @@ -384,11 +384,8 @@ static void sam460ex_init(MachineState *machine)
+>      ppc460ex_pcie_init(env);
+>      /* All PCI irqs are connected to the same UIC pin (cf. UBoot source) */
+>      dev = sysbus_create_simple("ppc440-pcix-host", 0xc0ec00000, uic[1][0]);
+> -    pci_bus = (PCIBus *)qdev_get_child_bus(dev, "pci.0");
+> -    if (!pci_bus) {
+> -        error_report("couldn't create PCI controller!");
+> -        exit(1);
+> -    }
+> +    pci_bus = PCI_BUS(qdev_get_child_bus(dev, "pci.0"));
 > +
 
-Spurious extra-lines?
-Reviewed with 'git-diff --color-moved=dimmed-zebra':
-Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+But PCI_BUS() is being passed qdev_get_child_bus(dev, "pci.0"), not
+dev... so the real question here is whether this can return NULL
+or not. And if this happens, is this a (1) user or (2) programming
+error ?
+
+If (1) then the "if (!pci_bus) { }" should be kept. If (2) then
+it should be converted to an assert().
+
+>      memory_region_init_alias(isa, NULL, "isa_mmio", get_system_io(),
+>                               0, 0x10000);
+>      memory_region_add_subregion(get_system_memory(), 0xc08000000, isa);
+
 
