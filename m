@@ -2,92 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8C4392ED5C1
-	for <lists+qemu-devel@lfdr.de>; Thu,  7 Jan 2021 18:38:28 +0100 (CET)
-Received: from localhost ([::1]:53476 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 155E22ED5B2
+	for <lists+qemu-devel@lfdr.de>; Thu,  7 Jan 2021 18:32:50 +0100 (CET)
+Received: from localhost ([::1]:41836 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kxZEx-00024p-KW
-	for lists+qemu-devel@lfdr.de; Thu, 07 Jan 2021 12:38:27 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52378)
+	id 1kxZ9V-0005ET-5c
+	for lists+qemu-devel@lfdr.de; Thu, 07 Jan 2021 12:32:49 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53880)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jag.raman@oracle.com>)
- id 1kxZ1H-0005Vo-VQ
- for qemu-devel@nongnu.org; Thu, 07 Jan 2021 12:24:20 -0500
-Received: from aserp2120.oracle.com ([141.146.126.78]:58862)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jag.raman@oracle.com>)
- id 1kxZ1F-0005cP-Bd
- for qemu-devel@nongnu.org; Thu, 07 Jan 2021 12:24:19 -0500
-Received: from pps.filterd (aserp2120.oracle.com [127.0.0.1])
- by aserp2120.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 107H9X73049772;
- Thu, 7 Jan 2021 17:23:56 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com;
- h=content-type :
- mime-version : subject : from : in-reply-to : date : cc :
- content-transfer-encoding : message-id : references : to;
- s=corp-2020-01-29; bh=SZUTpPZtOCRPRUrIsa6LiZCqg/8RH1hwihoK/QUb70E=;
- b=QDUt/nFmXly9va6nrn5qE50Q12k+7wg7fY63sIRbSjenfXGiSVd/o4vKoMXCoPfApbXR
- KBpTFT6b4uFDG2V/fnkjGHokyXC22Wxqyt1Ad0Jq7qRleKcSu4H6xPCG5gzbDilFVZ1k
- ETwydVUaBS4Sb143RqGxoGuyu9d1t16o+pphSc/oo/ngnG9+D+zT02dLVI3qU/i4BHbr
- YgL1jISUiYpcmoPJnpSww00poWgvBg2t7apFEtVu60Sfm1ZYgTg+HTuDAKAVU0RD0T1p
- PS1ypbDyFvBi98RdMS0SZwNeU+tLLFGwScqukxMz8deT6MnMykvTwp1UA1KCklE20GKA lA== 
-Received: from userp3030.oracle.com (userp3030.oracle.com [156.151.31.80])
- by aserp2120.oracle.com with ESMTP id 35wepmdex7-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=FAIL);
- Thu, 07 Jan 2021 17:23:56 +0000
-Received: from pps.filterd (userp3030.oracle.com [127.0.0.1])
- by userp3030.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 107HBR8M052192;
- Thu, 7 Jan 2021 17:23:55 GMT
-Received: from userv0122.oracle.com (userv0122.oracle.com [156.151.31.75])
- by userp3030.oracle.com with ESMTP id 35w3g321ur-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Thu, 07 Jan 2021 17:23:55 +0000
-Received: from abhmp0014.oracle.com (abhmp0014.oracle.com [141.146.116.20])
- by userv0122.oracle.com (8.14.4/8.14.4) with ESMTP id 107HNrf0030291;
- Thu, 7 Jan 2021 17:23:53 GMT
-Received: from [10.39.243.43] (/10.39.243.43)
- by default (Oracle Beehive Gateway v4.0)
- with ESMTP ; Thu, 07 Jan 2021 17:23:52 +0000
-Content-Type: text/plain;
-	charset=utf-8
-Mime-Version: 1.0 (Mac OS X Mail 14.0 \(3654.40.0.2.32\))
-Subject: Re: [PATCH] multi-process: Acceptance test for multiprocess QEMU
-From: Jag Raman <jag.raman@oracle.com>
-In-Reply-To: <CAJ+F1CLD8=GWaU788a2JLsOCtpnDsR4u6rg0ghZL_pvEcrVYOw@mail.gmail.com>
-Date: Thu, 7 Jan 2021 12:23:49 -0500
-Content-Transfer-Encoding: quoted-printable
-Message-Id: <241A0E86-9570-49DC-8F91-A4CEC9DA4B0B@oracle.com>
-References: <785772783205140e219b8bfe7f793305ee768f03.1608705805.git.elena.ufimtseva@oracle.com>
- <CAJ+F1C+D6zjN-exiJnevB_GB58xCPcP7TpCHHzYxWm7BvOi3dw@mail.gmail.com>
- <20201223184940.GA251460@heatpipe>
- <1CFD4614-B351-487A-B01D-1F2D0E282FC5@oracle.com>
- <CAJ+F1CLD8=GWaU788a2JLsOCtpnDsR4u6rg0ghZL_pvEcrVYOw@mail.gmail.com>
-To: =?utf-8?Q?Marc-Andr=C3=A9_Lureau?= <marcandre.lureau@gmail.com>
-X-Mailer: Apple Mail (2.3654.40.0.2.32)
-X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9857
- signatures=668683
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 mlxscore=0
- malwarescore=0 adultscore=0
- phishscore=0 spamscore=0 mlxlogscore=999 suspectscore=0 bulkscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2009150000
- definitions=main-2101070101
-X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9857
- signatures=668683
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 adultscore=0
- bulkscore=0 spamscore=0
- impostorscore=0 phishscore=0 lowpriorityscore=0 suspectscore=0
- priorityscore=1501 mlxscore=0 malwarescore=0 clxscore=1015 mlxlogscore=999
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2009150000
- definitions=main-2101070101
-Received-SPF: pass client-ip=141.146.126.78; envelope-from=jag.raman@oracle.com;
- helo=aserp2120.oracle.com
-X-Spam_score_int: -45
-X-Spam_score: -4.6
-X-Spam_bar: ----
-X-Spam_report: (-4.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.246,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_MED=-2.3, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_PASS=-0.001,
+ (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
+ id 1kxZ4x-0000Q8-94
+ for qemu-devel@nongnu.org; Thu, 07 Jan 2021 12:28:07 -0500
+Received: from mail-il1-x12a.google.com ([2607:f8b0:4864:20::12a]:33699)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
+ id 1kxZ4v-00077z-6M
+ for qemu-devel@nongnu.org; Thu, 07 Jan 2021 12:28:07 -0500
+Received: by mail-il1-x12a.google.com with SMTP id n9so7517518ili.0
+ for <qemu-devel@nongnu.org>; Thu, 07 Jan 2021 09:28:04 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=6w3bLel4a6nCEui4l7Ii2zpI8zBMAixbYDKLoH0c4KQ=;
+ b=HUxLlOCmnxLz/KK3m9/HDHTfOS7G9yEKtRJCIoS970R+fSSv8ljB7032xkt5dufcB1
+ AID7ox/MaLC48o9R+qj8wGLbKv/14tGt/y/ndrcpI7KoDLqCz85gBJS1a0b5nkyIZJct
+ sv2NqauSDRjtgyUpVEDCUZlsWXEhs2yR5UB6yncSeypmvgtTI9NWVUcurW8glipXm69F
+ i3ewGcafuI7B+l4TDqc2dwRD8K1X9QqVsraPOc0bGm0jYgzo5sjtPp0flSkAolAnqEy/
+ wwG2wTd589auG+NIFrFriDCIYzqQs7grId6xGcIbLJ1k1thagyNMzjreH1qWklnH5lsQ
+ /sjA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=6w3bLel4a6nCEui4l7Ii2zpI8zBMAixbYDKLoH0c4KQ=;
+ b=cnytE/DmsiFvPXOmAVjkMNOSr/dEhSE4B3U0ybmy1Pg5dIzGeBc52Iwch3FTFKZwWS
+ IdMNFKc/r8hoxGlQxPJm3ePy077WDNHRavnXK3jB3eUW/n+qFaUaayJSDtz5myhFB6gQ
+ cCn+rV0CwIKzBkO1HiSxwJcIbzE1aK7tDKGeM8UfmnGAJgY6yDzLGR7SAMyAC5ZzmcuF
+ VkWr2WGnd26FguUhWnbiCQWhBuyAynp+pEXNbewIHHzUtm+VomhbW5WRPMMttWcMZzkG
+ m8pTJ47LABfO4MCxSCq/MXocEbZbymogAxDiHT9kzZryTxqrzhMnDGX8yMcHz5zGnW/F
+ Fu/A==
+X-Gm-Message-State: AOAM5337jkaOZsosYfo+c9FNbzVMe0spUvXYYak3QzOu+lCCS1WdcWLx
+ m3uZVA0YNs5kK7TET2dnTVEmjqA23mOchyHir/9Hp/bLqBM=
+X-Google-Smtp-Source: ABdhPJwuGIQoVjTw4CZTijGUdR2MkmuoDFf9uSln6bfRqQLrCHOltwDXrPQDWlaCv3TZMTqaCbi3Mu3O7vIUo8RXrmY=
+X-Received: by 2002:a92:c942:: with SMTP id i2mr9893673ilq.227.1610040483574; 
+ Thu, 07 Jan 2021 09:28:03 -0800 (PST)
+MIME-Version: 1.0
+References: <20201223060204.576856-1-richard.henderson@linaro.org>
+ <20201223060204.576856-13-richard.henderson@linaro.org>
+In-Reply-To: <20201223060204.576856-13-richard.henderson@linaro.org>
+From: Alistair Francis <alistair23@gmail.com>
+Date: Thu, 7 Jan 2021 09:27:36 -0800
+Message-ID: <CAKmqyKPa8PDfMiHP-5nyzU+0-dPJAnPi-4kuvri4a1grqeSJVA@mail.gmail.com>
+Subject: Re: [PATCH 12/22] tcg: Remove TCG_TARGET_CONSTR_H
+To: Richard Henderson <richard.henderson@linaro.org>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::12a;
+ envelope-from=alistair23@gmail.com; helo=mail-il1-x12a.google.com
+X-Spam_score_int: -17
+X-Spam_score: -1.8
+X-Spam_bar: -
+X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -101,233 +78,177 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Elena Ufimtseva <elena.ufimtseva@oracle.com>, Fam Zheng <fam@euphon.net>,
- Swapnil Ingle <swapnil.ingle@nutanix.com>,
- John G Johnson <john.g.johnson@oracle.com>, QEMU <qemu-devel@nongnu.org>,
- Gerd Hoffmann <kraxel@redhat.com>, Juan Quintela <quintela@redhat.com>,
- "Michael S. Tsirkin" <mst@redhat.com>, Markus Armbruster <armbru@redhat.com>,
- Kanth Ghatraju <kanth.ghatraju@oracle.com>,
- Felipe Franciosi <felipe@nutanix.com>, Thomas Huth <thuth@redhat.com>,
- Eduardo Habkost <ehabkost@redhat.com>,
- Konrad Rzeszutek Wilk <konrad.wilk@oracle.com>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
- Alex Williamson <alex.williamson@redhat.com>,
- Stefan Hajnoczi <stefanha@redhat.com>,
- Thanos Makatos <thanos.makatos@nutanix.com>, Kevin Wolf <kwolf@redhat.com>,
- "Daniel P. Berrange" <berrange@redhat.com>, Max Reitz <mreitz@redhat.com>,
- Ross Lagerwall <ross.lagerwall@citrix.com>,
- Paolo Bonzini <pbonzini@redhat.com>
+Cc: "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+On Tue, Dec 22, 2020 at 10:21 PM Richard Henderson
+<richard.henderson@linaro.org> wrote:
+>
+> All backends have now been converted to tcg-target-constr.h,
+> so we can remove the fallback code.
+>
+> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 
+Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
 
-> On Jan 6, 2021, at 8:51 AM, Marc-Andr=C3=A9 Lureau =
-<marcandre.lureau@gmail.com> wrote:
->=20
-> Hi
->=20
-> On Tue, Dec 29, 2020 at 8:19 PM Jag Raman <jag.raman@oracle.com> =
-wrote:
->=20
->=20
-> > On Dec 23, 2020, at 1:49 PM, Elena Ufimtseva =
-<elena.ufimtseva@oracle.com> wrote:
-> >=20
-> > On Wed, Dec 23, 2020 at 03:01:24PM +0400, Marc-Andr=C3=A9 Lureau =
-wrote:
-> >> Hi
-> >>=20
-> >> On Wed, Dec 23, 2020 at 10:45 AM <elena.ufimtseva@oracle.com> =
-wrote:
-> >>=20
-> >>> From: Jagannathan Raman <jag.raman@oracle.com>
-> >>>=20
-> >>> Runs the Avocado acceptance test to check if a
-> >>> remote lsi53c895a device gets identified by the guest.
-> >>>=20
-> >>> Signed-off-by: Elena Ufimtseva <elena.ufimtseva@oracle.com>
-> >>> Signed-off-by: John G Johnson <john.g.johnson@oracle.com>
-> >>> Signed-off-by: Jagannathan Raman <jag.raman@oracle.com>
-> >>> ---
-> >>> tests/acceptance/multiprocess.py | 104 =
-+++++++++++++++++++++++++++++++
-> >>> 1 file changed, 104 insertions(+)
-> >>> create mode 100644 tests/acceptance/multiprocess.py
-> >>>=20
-> >>> diff --git a/tests/acceptance/multiprocess.py
-> >>> b/tests/acceptance/multiprocess.py
-> >>> new file mode 100644
-> >>> index 0000000000..d10b4d2c05
-> >>> --- /dev/null
-> >>> +++ b/tests/acceptance/multiprocess.py
-> >>> @@ -0,0 +1,104 @@
-> >>> +# Test for multiprocess qemu
-> >>> +#
-> >>> +# This work is licensed under the terms of the GNU GPL, version 2 =
-or
-> >>> +# later.  See the COPYING file in the top-level directory.
-> >>> +
-> >>> +
-> >>> +from avocado_qemu import Test
-> >>> +from avocado_qemu import wait_for_console_pattern
-> >>> +from avocado_qemu import exec_command_and_wait_for_pattern
-> >>> +
-> >>> +from qemu.accel import kvm_available
-> >>> +
-> >>> +import os
-> >>> +import socket
-> >>> +
-> >>> +ACCEL_NOT_AVAILABLE_FMT =3D "%s accelerator does not seem to be =
-available"
-> >>> +KVM_NOT_AVAILABLE =3D ACCEL_NOT_AVAILABLE_FMT % "KVM"
-> >>> +
-> >>> +class Multiprocess(Test):
-> >>> +    """
-> >>> +    :avocado: tags=3Dmultiprocess
-> >>> +    """
-> >>> +    KERNEL_COMMON_COMMAND_LINE =3D 'printk.time=3D0 '
-> >>> +
-> >>> +    def wait_for_console_pattern(self, success_message, vm=3DNone):=
+Alistair
 
-> >>> +        wait_for_console_pattern(self, success_message,
-> >>> +                                 failure_message=3D'Kernel panic =
-- not
-> >>> syncing',
-> >>> +                                 vm=3Dvm)
-> >>> +
-> >>> +    def do_test(self, kernel_url, initrd_url, =
-kernel_command_line,
-> >>> +                machine_type):
-> >>> +        if not kvm_available(self.arch, self.qemu_bin):
-> >>> +            self.cancel(KVM_NOT_AVAILABLE)
-> >>> +
-> >>> +        # Create socketpair to connect proxy and remote processes
-> >>> +        proxy_sock, remote_sock =3D =
-socket.socketpair(socket.AF_UNIX,
-> >>> +                                                    =
-socket.SOCK_STREAM)
-> >>> +        os.set_inheritable(proxy_sock.fileno(), True)
-> >>> +        os.set_inheritable(remote_sock.fileno(), True)
-> >>> +
-> >>> +        kernel_path =3D self.fetch_asset(kernel_url)
-> >>> +        initrd_path =3D self.fetch_asset(initrd_url)
-> >>> +
-> >>> +        # Create remote process
-> >>> +        remote_vm =3D self.get_vm()
-> >>> +        remote_vm.add_args('-machine', 'x-remote')
-> >>> +        remote_vm.add_args('-nodefaults')
-> >>> +        remote_vm.add_args('-device', 'lsi53c895a,id=3Dlsi1')
-> >>> +        remote_vm.add_args('-object', 'x-remote-object,id=3Drobj1,'=
-
-> >>> +                           =
-'devid=3Dlsi1,fd=3D'+str(remote_sock.fileno()))
-> >>> +        remote_vm.launch()
-> >>> +
-> >>> +        # Create proxy process
-> >>> +        self.vm.set_console()
-> >>> +        self.vm.add_args('-machine', machine_type)
-> >>> +        self.vm.add_args('-accel', 'kvm')
-> >>> +        self.vm.add_args('-cpu', 'host')
-> >>> +        self.vm.add_args("-object",
-> >>> +                         =
-"memory-backend-memfd,id=3Dsysmem-file,size=3D2G")
-> >>> +        self.vm.add_args("--numa", "node,memdev=3Dsysmem-file")
-> >>> +        self.vm.add_args("-m", "2048")
-> >>> +        self.vm.add_args('-kernel', kernel_path,
-> >>> +                         '-initrd', initrd_path,
-> >>> +                         '-append', kernel_command_line)
-> >>> +        self.vm.add_args('-device',
-> >>> +                         'x-pci-proxy-dev,'
-> >>> +                         'id=3Dlsi1,fd=3D'+str(proxy_sock.fileno())=
-)
-> >>> +        self.vm.launch()
-> >>> +        self.wait_for_console_pattern("as init process")
-> >>> +        exec_command_and_wait_for_pattern(self, "mount -t sysfs =
-sysfs
-> >>> /sys",
-> >>> +                                          '', '')
-> >>> +        exec_command_and_wait_for_pattern(self,
-> >>> +                                          "cat
-> >>> /sys/bus/pci/devices/*/uevent",
-> >>> +                                          "PCI_ID=3D1000:0012", =
-'')
-> >>> +
-> >>> +    def test_multiprocess_x86_64(self):
-> >>> +        """
-> >>> +        :avocado: tags=3Darch:x86_64
-> >>> +        """
-> >>> +        kernel_url =3D ('
-> >>> https://archives.fedoraproject.org/pub/archive/fedora'
-> >>> +                      =
-'/linux/releases/31/Everything/x86_64/os/images'
-> >>> +                      '/pxeboot/vmlinuz')
-> >>> +        initrd_url =3D ('
-> >>> https://archives.fedoraproject.org/pub/archive/fedora'
-> >>> +                      =
-'/linux/releases/31/Everything/x86_64/os/images'
-> >>> +                      '/pxeboot/initrd.img')
-> >>> +        kernel_command_line =3D (self.KERNEL_COMMON_COMMAND_LINE =
-+
-> >>> +                               'console=3DttyS0 =
-rdinit=3D/bin/bash')
-> >>> +        machine =3D 'pc'
-> >>> +        self.do_test(kernel_url, initrd_url, kernel_command_line, =
-machine)
-> >>> +
-> >>> +    def test_multiprocess_aarch64(self):
-> >>> +        """
-> >>> +        :avocado: tags=3Darch:aarch64
-> >>> +        """
-> >>> +        kernel_url =3D ('
-> >>> https://archives.fedoraproject.org/pub/archive/fedora'
-> >>> +                      =
-'/linux/releases/31/Everything/aarch64/os/images'
-> >>> +                      '/pxeboot/vmlinuz')
-> >>> +        initrd_url =3D ('
-> >>> https://archives.fedoraproject.org/pub/archive/fedora'
-> >>> +                      =
-'/linux/releases/31/Everything/aarch64/os/images'
-> >>> +                      '/pxeboot/initrd.img')
-> >>> +        kernel_command_line =3D (self.KERNEL_COMMON_COMMAND_LINE =
-+
-> >>> +                               'rdinit=3D/bin/bash =
-console=3DttyAMA0')
-> >>> +        machine_type =3D 'virt,gic-version=3D3'
-> >>> +        self.do_test(kernel_url, initrd_url, kernel_command_line,
-> >>> machine_type)
-> >>> --
-> >>> 2.25.GIT
-> >>>=20
-> >>>=20
-> >> The test looks quite nice, thanks. However, it times out for me. I =
-have
-> >> very limited experience with avocado. Any idea?
-> >=20
-> > Thanks Marc-Andre!
-> >=20
-> >> (13/40)
-> >> =
-tests/acceptance/multiprocess.py:Multiprocess.test_multiprocess_x86_64:
-> >> ERROR: timed out (211.81 s)
-> >=20
-> > Can you check what is in the log file?
-> > Should show the log file name before it gets cancelled.
-> >=20
-> > I have it on my system at =
-$HOME/avocado/job-results/job-2020-12-23T10.37-452c8ab/job.log.
->=20
-> Hi Marc-Andre,
->=20
-> Thank you very much for taking a loot at it. If you are able to share =
-the test log,
-> that would be helpful to see what is causing the timeout.
->=20
-> I tested it again, and it works now. No idea what happened.
->=20
-> Reviewed-by: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>=20
-
-Thank you for confirming, Marc-Andre!
->=20
-
+> ---
+>  tcg/aarch64/tcg-target.h |  1 -
+>  tcg/arm/tcg-target.h     |  1 -
+>  tcg/i386/tcg-target.h    |  1 -
+>  tcg/mips/tcg-target.h    |  1 -
+>  tcg/ppc/tcg-target.h     |  1 -
+>  tcg/riscv/tcg-target.h   |  1 -
+>  tcg/s390/tcg-target.h    |  1 -
+>  tcg/sparc/tcg-target.h   |  1 -
+>  tcg/tci/tcg-target.h     |  2 --
+>  tcg/tcg.c                | 16 ----------------
+>  10 files changed, 26 deletions(-)
+>
+> diff --git a/tcg/aarch64/tcg-target.h b/tcg/aarch64/tcg-target.h
+> index ca7af5a589..663dd0b95e 100644
+> --- a/tcg/aarch64/tcg-target.h
+> +++ b/tcg/aarch64/tcg-target.h
+> @@ -159,6 +159,5 @@ void tb_target_set_jmp_target(uintptr_t, uintptr_t, uintptr_t);
+>  #define TCG_TARGET_NEED_LDST_LABELS
+>  #endif
+>  #define TCG_TARGET_NEED_POOL_LABELS
+> -#define TCG_TARGET_CONSTR_H
+>
+>  #endif /* AARCH64_TCG_TARGET_H */
+> diff --git a/tcg/arm/tcg-target.h b/tcg/arm/tcg-target.h
+> index 6f058d6d9b..17e771374d 100644
+> --- a/tcg/arm/tcg-target.h
+> +++ b/tcg/arm/tcg-target.h
+> @@ -146,6 +146,5 @@ void tb_target_set_jmp_target(uintptr_t, uintptr_t, uintptr_t);
+>  #define TCG_TARGET_NEED_LDST_LABELS
+>  #endif
+>  #define TCG_TARGET_NEED_POOL_LABELS
+> -#define TCG_TARGET_CONSTR_H
+>
+>  #endif
+> diff --git a/tcg/i386/tcg-target.h b/tcg/i386/tcg-target.h
+> index 7c405e166d..abd4ac7fc0 100644
+> --- a/tcg/i386/tcg-target.h
+> +++ b/tcg/i386/tcg-target.h
+> @@ -235,6 +235,5 @@ static inline void tb_target_set_jmp_target(uintptr_t tc_ptr,
+>  #define TCG_TARGET_NEED_LDST_LABELS
+>  #endif
+>  #define TCG_TARGET_NEED_POOL_LABELS
+> -#define TCG_TARGET_CONSTR_H
+>
+>  #endif
+> diff --git a/tcg/mips/tcg-target.h b/tcg/mips/tcg-target.h
+> index f4a79bcad1..c6b091d849 100644
+> --- a/tcg/mips/tcg-target.h
+> +++ b/tcg/mips/tcg-target.h
+> @@ -217,6 +217,5 @@ void tb_target_set_jmp_target(uintptr_t, uintptr_t, uintptr_t);
+>  #ifdef CONFIG_SOFTMMU
+>  #define TCG_TARGET_NEED_LDST_LABELS
+>  #endif
+> -#define TCG_TARGET_CONSTR_H
+>
+>  #endif
+> diff --git a/tcg/ppc/tcg-target.h b/tcg/ppc/tcg-target.h
+> index 78d3470f3c..be10363956 100644
+> --- a/tcg/ppc/tcg-target.h
+> +++ b/tcg/ppc/tcg-target.h
+> @@ -185,6 +185,5 @@ void tb_target_set_jmp_target(uintptr_t, uintptr_t, uintptr_t);
+>  #define TCG_TARGET_NEED_LDST_LABELS
+>  #endif
+>  #define TCG_TARGET_NEED_POOL_LABELS
+> -#define TCG_TARGET_CONSTR_H
+>
+>  #endif
+> diff --git a/tcg/riscv/tcg-target.h b/tcg/riscv/tcg-target.h
+> index ff8ff43a46..032439d806 100644
+> --- a/tcg/riscv/tcg-target.h
+> +++ b/tcg/riscv/tcg-target.h
+> @@ -175,6 +175,5 @@ void tb_target_set_jmp_target(uintptr_t, uintptr_t, uintptr_t);
+>  #define TCG_TARGET_NEED_POOL_LABELS
+>
+>  #define TCG_TARGET_HAS_MEMORY_BSWAP 0
+> -#define TCG_TARGET_CONSTR_H
+>
+>  #endif
+> diff --git a/tcg/s390/tcg-target.h b/tcg/s390/tcg-target.h
+> index 3aff3cc572..63c8797bd3 100644
+> --- a/tcg/s390/tcg-target.h
+> +++ b/tcg/s390/tcg-target.h
+> @@ -162,6 +162,5 @@ static inline void tb_target_set_jmp_target(uintptr_t tc_ptr,
+>  #define TCG_TARGET_NEED_LDST_LABELS
+>  #endif
+>  #define TCG_TARGET_NEED_POOL_LABELS
+> -#define TCG_TARGET_CONSTR_H
+>
+>  #endif
+> diff --git a/tcg/sparc/tcg-target.h b/tcg/sparc/tcg-target.h
+> index bfee6191b3..633841ebf2 100644
+> --- a/tcg/sparc/tcg-target.h
+> +++ b/tcg/sparc/tcg-target.h
+> @@ -179,6 +179,5 @@ static inline void flush_icache_range(uintptr_t start, uintptr_t stop)
+>  void tb_target_set_jmp_target(uintptr_t, uintptr_t, uintptr_t);
+>
+>  #define TCG_TARGET_NEED_POOL_LABELS
+> -#define TCG_TARGET_CONSTR_H
+>
+>  #endif
+> diff --git a/tcg/tci/tcg-target.h b/tcg/tci/tcg-target.h
+> index cd3dee51bb..8c1c1d265d 100644
+> --- a/tcg/tci/tcg-target.h
+> +++ b/tcg/tci/tcg-target.h
+> @@ -210,6 +210,4 @@ static inline void tb_target_set_jmp_target(uintptr_t tc_ptr,
+>      /* no need to flush icache explicitly */
+>  }
+>
+> -#define TCG_TARGET_CONSTR_H
+> -
+>  #endif /* TCG_TARGET_H */
+> diff --git a/tcg/tcg.c b/tcg/tcg.c
+> index f5b53d739e..2bde926315 100644
+> --- a/tcg/tcg.c
+> +++ b/tcg/tcg.c
+> @@ -102,10 +102,6 @@ static void tcg_register_jit_int(void *buf, size_t size,
+>      __attribute__((unused));
+>
+>  /* Forward declarations for functions declared and used in tcg-target.c.inc. */
+> -#ifndef TCG_TARGET_CONSTR_H
+> -static const char *target_parse_constraint(TCGArgConstraint *ct,
+> -                                           const char *ct_str, TCGType type);
+> -#endif
+>  static void tcg_out_ld(TCGContext *s, TCGType type, TCGReg ret, TCGReg arg1,
+>                         intptr_t arg2);
+>  static bool tcg_out_mov(TCGContext *s, TCGType type, TCGReg ret, TCGReg arg);
+> @@ -2288,7 +2284,6 @@ static void process_op_defs(TCGContext *s)
+>                      ct_str++;
+>                      break;
+>
+> -#ifdef TCG_TARGET_CONSTR_H
+>                  /* Include all of the target-specific constraints. */
+>
+>  #undef CONST
+> @@ -2304,17 +2299,6 @@ static void process_op_defs(TCGContext *s)
+>                  default:
+>                      /* Typo in TCGTargetOpDef constraint. */
+>                      g_assert_not_reached();
+> -#else
+> -                default:
+> -                    {
+> -                        TCGType type = (def->flags & TCG_OPF_64BIT
+> -                                        ? TCG_TYPE_I64 : TCG_TYPE_I32);
+> -                        ct_str = target_parse_constraint(&def->args_ct[i],
+> -                                                         ct_str, type);
+> -                        /* Typo in TCGTargetOpDef constraint. */
+> -                        tcg_debug_assert(ct_str != NULL);
+> -                    }
+> -#endif
+>                  }
+>              }
+>          }
+> --
+> 2.25.1
+>
+>
 
