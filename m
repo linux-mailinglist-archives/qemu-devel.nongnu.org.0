@@ -2,69 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6706D2EE875
-	for <lists+qemu-devel@lfdr.de>; Thu,  7 Jan 2021 23:25:46 +0100 (CET)
-Received: from localhost ([::1]:48842 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4A65F2EE897
+	for <lists+qemu-devel@lfdr.de>; Thu,  7 Jan 2021 23:27:28 +0100 (CET)
+Received: from localhost ([::1]:56606 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kxdiz-0008UQ-Dg
-	for lists+qemu-devel@lfdr.de; Thu, 07 Jan 2021 17:25:45 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46234)
+	id 1kxdkd-0003OH-9m
+	for lists+qemu-devel@lfdr.de; Thu, 07 Jan 2021 17:27:27 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46268)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1kxdgY-0006m6-GU
- for qemu-devel@nongnu.org; Thu, 07 Jan 2021 17:23:14 -0500
-Received: from mail-wm1-x32b.google.com ([2a00:1450:4864:20::32b]:38786)
+ id 1kxdgh-0006wq-II
+ for qemu-devel@nongnu.org; Thu, 07 Jan 2021 17:23:23 -0500
+Received: from mail-wm1-x332.google.com ([2a00:1450:4864:20::332]:38793)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1kxdgX-0004eT-2E
- for qemu-devel@nongnu.org; Thu, 07 Jan 2021 17:23:14 -0500
-Received: by mail-wm1-x32b.google.com with SMTP id g185so6828646wmf.3
- for <qemu-devel@nongnu.org>; Thu, 07 Jan 2021 14:23:12 -0800 (PST)
+ id 1kxdgc-0004jA-HA
+ for qemu-devel@nongnu.org; Thu, 07 Jan 2021 17:23:19 -0500
+Received: by mail-wm1-x332.google.com with SMTP id g185so6828776wmf.3
+ for <qemu-devel@nongnu.org>; Thu, 07 Jan 2021 14:23:18 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=qWarhXBRCCKl1ib6yNLPWYWSvngUVzs/930y/X1kaDM=;
- b=OuM8zCGuNKENPmA4AeOPBdxZtVqMeY6L/Qv81iOjsTaLsVhNTiF50IuicWsO8xsyU6
- o0YnigsuBrsraQeRizxBsomHfdxZIkbwBoywYTxdXLmqXJ5LlsBkfCJAzthQm4hhH681
- pMnR00hnz1Vk57j5SO61N7SoMInJ12z1LYEw1qAKQLvAOLeh+6B8UifHppiM09sgyr+6
- IouSehCrBqmUXzGLX8iNu1dqgmKYWfxhb6FDOLK63NnBD25BeS8taeITL6RNsNl6kU+J
- nteWfI+rNhmXMDJUF+V7/x92LZyffEXHgdvcmn9w3dvTNFRrcOXzq5uNVBAAGeaoDmon
- 6eTg==
+ bh=i4p93KWwozcpUdxQORlradD/IWu48glCvPCZu/J+OhM=;
+ b=Czkxpi82pJCD7JSf0mA7kHhcxneqK0d6Fsds+0JbSzuPtZWV1yh1M5oXFGZ+w0JNuW
+ cyc5o4bORJxj++VlibljEoacu8ytM3nu/1NQbW3IgS/bOzz1y9DfQt+sKqMpCMHFyH7R
+ L9Yw4OgAR6qcwJ82fnwL7IIdbY8GsFKenrAsXAREMdk5h1j94jq1mNQbh/U8E/o5uYKK
+ wjx9K4+FV2DA7gTfJD1gevkY8UEbaQdtJ7hR7mAwRcis19ywwvO2BOHPJJdYa/gtmkom
+ gCe6QknW3HDOAqJmSv7I6pxVUett3/FbWSncVR8NTYiJW6QHnM0MEPER2H1PsEUn30Vz
+ vHsw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=qWarhXBRCCKl1ib6yNLPWYWSvngUVzs/930y/X1kaDM=;
- b=OfWfyb2vXpcvSA5lfR81nevkWLJwSkpB+ISEMw0+Zr0tnHpkNpLLbuBYrFBVFiR4E7
- z4MbXdC5jOr00cfkn73sDWcZQQw0sbPr2Y1qa+FHYKld99AB0FGvFSNHY1P5vzyR8ozC
- INHSvKw0jay4Z1cZWxWev5a4vE/BSzozeHgnOqkMqUR+kCxQQ2E/D9/Bm/PRxW/EtSxx
- tDB94R/BK9D0lz6uiVxrWauQDBrc/MBRCtl6FRVuPyiMQHjZj5xkXOwLYT7dftEeYp3/
- F3maJfcBmu5TNL2TQvTnq1BRmThCYcbNU6EkKxVb28CVRnxktQDd0QFtmbsxxGipFVEs
- aERQ==
-X-Gm-Message-State: AOAM532yzyXXOM7toyX0pHgOcTkNSxaBU6T+Th+A/QduKjiu0/Zj9CBk
- CJe2C8bqQgXF0xLB+zwI6xfpRqp0UCM=
-X-Google-Smtp-Source: ABdhPJwXEJY641mvWZFlqGlSPn78NAiXwQ5lcO0KUEHFx1ZWxt8dNXQxbxwgVbBtDlkQiI8jfm1hCA==
-X-Received: by 2002:a1c:6283:: with SMTP id w125mr480401wmb.155.1610058191505; 
- Thu, 07 Jan 2021 14:23:11 -0800 (PST)
+ bh=i4p93KWwozcpUdxQORlradD/IWu48glCvPCZu/J+OhM=;
+ b=mrErjrGv+vKlPQe9oYzvOh+xKAd4eOMPDnCo4zQcPMODIO1Vxbxf79VUNYyeoj+IM3
+ DXkJGmPQj/h9uttgtYPArx3GEaS/dze9HPL2kqP1PjvTXJrnywc+DJiCp8P43TznjC8S
+ NJnmIAH+ewIWbh0W4/AURNeOhSdtcXo48quYTf/B+K8ByS7kgrTF8twUEwBDvTQwBS7N
+ f3XA4cguyeoHtFs+62JePZ2UaexSZvGQUYmwhw4JpReQHCsfXNS/x0uz/FE57KiFBJy8
+ coKTICcD+D5+Le1wEoa93ff/BlTzW9Nolht9CAaswXhJpqVmeJCti2cuJJpQfYpdcUYR
+ slOg==
+X-Gm-Message-State: AOAM533+IfCvAxjl5wfq55uSGnv4Ir55ZCy0TjcZpJxoshZYUnjm7wEk
+ BOUXZNkmAuXxAI6oBZlW+IeE3/KGw+Y=
+X-Google-Smtp-Source: ABdhPJw42/Tbgd5nDkMN32lGkO4V59KXfV71HMhGiFKrMKuVn2Z9xZTeKIOwm/xUy/9bCNTfy7TeRQ==
+X-Received: by 2002:a1c:234d:: with SMTP id j74mr532053wmj.18.1610058196986;
+ Thu, 07 Jan 2021 14:23:16 -0800 (PST)
 Received: from x1w.redhat.com (241.red-88-10-103.dynamicip.rima-tde.net.
  [88.10.103.241])
- by smtp.gmail.com with ESMTPSA id q15sm9893608wrw.75.2021.01.07.14.23.10
+ by smtp.gmail.com with ESMTPSA id y7sm9861567wmb.37.2021.01.07.14.23.15
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 07 Jan 2021 14:23:10 -0800 (PST)
+ Thu, 07 Jan 2021 14:23:15 -0800 (PST)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 03/66] target/mips/addr: Add translation helpers for KSEG1
-Date: Thu,  7 Jan 2021 23:21:50 +0100
-Message-Id: <20210107222253.20382-4-f4bug@amsat.org>
+Subject: [PULL 04/66] target/mips/mips-defs: Remove USE_HOST_FLOAT_REGS comment
+Date: Thu,  7 Jan 2021 23:21:51 +0100
+Message-Id: <20210107222253.20382-5-f4bug@amsat.org>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20210107222253.20382-1-f4bug@amsat.org>
 References: <20210107222253.20382-1-f4bug@amsat.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::32b;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x32b.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::332;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x332.google.com
 X-Spam_score_int: -14
 X-Spam_score: -1.5
 X-Spam_bar: -
@@ -88,61 +88,40 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Cc: Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>,
  Paul Burton <paulburton@kernel.org>, kvm@vger.kernel.org,
  libvir-list@redhat.com, Huacai Chen <chenhuacai@kernel.org>,
+ Richard Henderson <richard.henderson@linaro.org>,
  Laurent Vivier <laurent@vivier.eu>,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
  Paolo Bonzini <pbonzini@redhat.com>, Aurelien Jarno <aurelien@aurel32.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Jiaxun Yang <jiaxun.yang@flygoat.com>
+Remove a comment added 12 years ago but never used (commit
+b6d96beda3a: "Use temporary registers for the MIPS FPU emulation").
 
-It's useful for bootloader to do I/O operations.
-
-Signed-off-by: Jiaxun Yang <jiaxun.yang@flygoat.com>
-Tested-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
-Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
-Reviewed-by: Huacai Chen <chenhuacai@kernel.org>
-Message-Id: <20201215064507.30148-3-jiaxun.yang@flygoat.com>
 Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+Message-Id: <20210104221154.3127610-2-f4bug@amsat.org>
 ---
- target/mips/cpu.h  |  2 ++
- target/mips/addr.c | 10 ++++++++++
- 2 files changed, 12 insertions(+)
+ target/mips/mips-defs.h | 6 ------
+ 1 file changed, 6 deletions(-)
 
-diff --git a/target/mips/cpu.h b/target/mips/cpu.h
-index 0086f95ea2a..0c2d397e4a9 100644
---- a/target/mips/cpu.h
-+++ b/target/mips/cpu.h
-@@ -1312,6 +1312,8 @@ uint64_t cpu_mips_kseg0_to_phys(void *opaque, uint64_t addr);
- uint64_t cpu_mips_phys_to_kseg0(void *opaque, uint64_t addr);
+diff --git a/target/mips/mips-defs.h b/target/mips/mips-defs.h
+index ed6a7a9e545..555e165fb01 100644
+--- a/target/mips/mips-defs.h
++++ b/target/mips/mips-defs.h
+@@ -1,12 +1,6 @@
+ #ifndef QEMU_MIPS_DEFS_H
+ #define QEMU_MIPS_DEFS_H
  
- uint64_t cpu_mips_kvm_um_phys_to_kseg0(void *opaque, uint64_t addr);
-+uint64_t cpu_mips_kseg1_to_phys(void *opaque, uint64_t addr);
-+uint64_t cpu_mips_phys_to_kseg1(void *opaque, uint64_t addr);
- bool mips_um_ksegs_enabled(void);
- void mips_um_ksegs_enable(void);
+-/*
+- * If we want to use host float regs...
+- *
+- * #define USE_HOST_FLOAT_REGS
+- */
+-
+ /* Real pages are variable size... */
+ #define MIPS_TLB_MAX 128
  
-diff --git a/target/mips/addr.c b/target/mips/addr.c
-index 27a6036c451..86f1c129c9f 100644
---- a/target/mips/addr.c
-+++ b/target/mips/addr.c
-@@ -40,6 +40,16 @@ uint64_t cpu_mips_kvm_um_phys_to_kseg0(void *opaque, uint64_t addr)
-     return addr | 0x40000000ll;
- }
- 
-+uint64_t cpu_mips_kseg1_to_phys(void *opaque, uint64_t addr)
-+{
-+    return addr & 0x1fffffffll;
-+}
-+
-+uint64_t cpu_mips_phys_to_kseg1(void *opaque, uint64_t addr)
-+{
-+    return (addr & 0x1fffffffll) | 0xffffffffa0000000ll;
-+}
-+
- bool mips_um_ksegs_enabled(void)
- {
-     return mips_um_ksegs;
 -- 
 2.26.2
 
