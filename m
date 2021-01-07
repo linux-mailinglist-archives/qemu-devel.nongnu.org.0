@@ -2,69 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6E2712EE67B
-	for <lists+qemu-devel@lfdr.de>; Thu,  7 Jan 2021 21:02:57 +0100 (CET)
-Received: from localhost ([::1]:35766 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 427382EE68A
+	for <lists+qemu-devel@lfdr.de>; Thu,  7 Jan 2021 21:06:04 +0100 (CET)
+Received: from localhost ([::1]:39936 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kxbUm-0003M2-Fa
-	for lists+qemu-devel@lfdr.de; Thu, 07 Jan 2021 15:02:56 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43994)
+	id 1kxbXn-0005CA-A0
+	for lists+qemu-devel@lfdr.de; Thu, 07 Jan 2021 15:06:03 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45222)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1kxbT6-00021g-G2
- for qemu-devel@nongnu.org; Thu, 07 Jan 2021 15:01:19 -0500
-Received: from mail-ej1-x630.google.com ([2a00:1450:4864:20::630]:34613)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1kxbT4-0004b9-KO
- for qemu-devel@nongnu.org; Thu, 07 Jan 2021 15:01:12 -0500
-Received: by mail-ej1-x630.google.com with SMTP id g20so11492054ejb.1
- for <qemu-devel@nongnu.org>; Thu, 07 Jan 2021 12:01:10 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=5xw3j+kjjmJJDjmlmsVhdRn/Wx0+xXxnfBFmqL2+YXA=;
- b=xfR6lIs5ZhLXs57eL2Nm+cD4fhjqRhlM/nUvD4T6GYFnrqWTHn4HbOtZhn3CAcwLM+
- WpYWPGRILHJFAfbWIQbfXb9cisFxN9JXnUpaeTTeen2QWrhqzN/LYd4Uy0COcBaMmuAB
- xd1EWE+pEV4KVhvR2/7gHhW5lNL2TI1bSFzLlROHWibR1ZwrW0gWtJZyqkjiYWIGLnM2
- rtljSwm5veCxuB+7ZWrqqvufdJRepVI2qN+99BYoRDWlwzELEOxbDW2zxIuTxw53IZpi
- DVUcERZaajOByokWXuz2aY6tDiUHPm490MZW5IgoqQkHJs0g2zV4fDMVNBGV+rFasfvb
- BVBA==
+ (Exim 4.90_1) (envelope-from <nsoffer@redhat.com>)
+ id 1kxbWS-0004m6-4e
+ for qemu-devel@nongnu.org; Thu, 07 Jan 2021 15:04:40 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:40897)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <nsoffer@redhat.com>)
+ id 1kxbWQ-0005q2-Af
+ for qemu-devel@nongnu.org; Thu, 07 Jan 2021 15:04:39 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1610049877;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=dZrg+pCtfKPLymbuP4kh3SMLq+f7eeBrTr8kzmmRt88=;
+ b=TUWgG17ruMEIpmzpXORtxZm3L6tmOTgLSUh3xKjPwCw+Tdms2KeURtKlVucGf8d0+Muedj
+ ZbAlqVioclQdH+Bv9Y3qYvtt/t1JArLu0tPVD0a3IW3FC9TATiWT25CCYvqc9/SfxjiiN6
+ NOJquEqWfh0vhfcr97+/zTKq685H76Q=
+Received: from mail-oo1-f72.google.com (mail-oo1-f72.google.com
+ [209.85.161.72]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-388-KHf2LUqEP4WqTohmJY0G0Q-1; Thu, 07 Jan 2021 15:03:28 -0500
+X-MC-Unique: KHf2LUqEP4WqTohmJY0G0Q-1
+Received: by mail-oo1-f72.google.com with SMTP id x11so5257621oog.9
+ for <qemu-devel@nongnu.org>; Thu, 07 Jan 2021 12:03:28 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=5xw3j+kjjmJJDjmlmsVhdRn/Wx0+xXxnfBFmqL2+YXA=;
- b=NeDVAFITCbMUTl0axX8yDwIfYGdKagP1JkhGTGGQEa3TwGjblarFIp475TGcUql2hP
- sA0fex6QXKJnuOL3Zoy+rZ3bo2ygavyW2ExmkdT2b0cGrViZk45SQ0Yv12/E09w43fvh
- TMIOczdPdKdQVnngGoEdf9I8w6blh+o85z+sAe0E3nk+UIx0C9mV0YDgVW/HFOJNFlXx
- FpG5z+bP5ZN4i0JE+YIYjxqlwIabhoeufONuF0+qpj0TGFukkxHsE1jMNSIQaYVL1jTB
- LnPHY/Tf2UC302NrVagC3BZkJelFseQXLopeFOprCDaPKht8nalD1GN7amhJ528dbyh7
- CQ4g==
-X-Gm-Message-State: AOAM53163RX12A0IzW16cOy4Iy056ss3+zHO3i5TL7AsX2+ExGvikPMX
- 9ULSzCeC9Z6/whjdRuV4xWCxPZWXWanIL8W9Ll21mQ==
-X-Google-Smtp-Source: ABdhPJzxbyYFEhzF7xl57UKz8ngmE11AqCofnDd3ABJlBMSPcXEeKiLSiJiERBiigq/2V/RcNsG9zt5PbYZmb5BknWQ=
-X-Received: by 2002:a17:906:e94c:: with SMTP id
- jw12mr364752ejb.56.1610049668968; 
- Thu, 07 Jan 2021 12:01:08 -0800 (PST)
+ bh=dZrg+pCtfKPLymbuP4kh3SMLq+f7eeBrTr8kzmmRt88=;
+ b=OhqtKH45whryja1B06lTstb0ki/dGsJvOxvRPV0ZAsVAR5dBEyGyJS8zJJdzsBNdQn
+ 1X9rG3mU7TTfCJ2WDtKalsobsGXcK4kPvD6ITfwgZJvpD/7MhHyAK2EMjIEoCiTI+u8v
+ apI1T9DmMl0RzgYER2SLu5WSq3tZSb/eYj9UEP9vA3y020HYwxjHosJK/1092v6JmlQy
+ 8/fu57V8BBtFzLvz9NsPWoJatlOgDyJSRLN6fcOkI76yoIzT1tikvV6lKzKsNQX/Eu+7
+ wU+GNzFj08ugwlhMNFN8iyv8UcdGJ5gcN7nV58iRO6v/jAnJQ3yyZiuDZRHCaGS/ZEal
+ ptjw==
+X-Gm-Message-State: AOAM531EsiyIKhFsZIo4/XzwZjMMBxoNukAeR7yuXZrxdthejLMGPCZj
+ N/Mfb3pv2vL2rVHXVTu4DSOQVfWal9ZPMYzLg9bGJ5DaAX4SA/kuSXiHZpjUKvP18p/mgPU43w8
+ acvCxGvESg8Y/TkP+b5t3NJULds2bJC8=
+X-Received: by 2002:a4a:e2d7:: with SMTP id l23mr2156621oot.67.1610049806687; 
+ Thu, 07 Jan 2021 12:03:26 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJzu1m0uhE7EppNrPmtxXm2p62ZNXrJWaD157aYGDk3iP1bAG3AcGdmytyi2Dn0EzxS8LvHN8YFVw9sIqfMN8Xc=
+X-Received: by 2002:a4a:e2d7:: with SMTP id l23mr2156577oot.67.1610049805776; 
+ Thu, 07 Jan 2021 12:03:25 -0800 (PST)
 MIME-Version: 1.0
-References: <FRYP281MB0158389968A2A1C231F3A585ABFB0@FRYP281MB0158.DEUP281.PROD.OUTLOOK.COM>
-In-Reply-To: <FRYP281MB0158389968A2A1C231F3A585ABFB0@FRYP281MB0158.DEUP281.PROD.OUTLOOK.COM>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Thu, 7 Jan 2021 20:00:57 +0000
-Message-ID: <CAFEAcA9-EP7s-gNCsXf_59eOfo+hvTX_EwJjg02dHt0eyWOk9A@mail.gmail.com>
-Subject: Re: [PATCH] Initialize Zynq7000 UART clocks on reset
-To: Michael Peter <michael.peter@hensoldt-cyber.de>
+References: <1b7b5aa0-2ab0-75a5-68f4-01eb4684dbcb@proxmox.com>
+ <CAMRbyyuLboa+XWAmboC5Q6ZQ2KoVXMKJC=r+fGiHPTMEJR8JnA@mail.gmail.com>
+ <c00f320b-4d8b-d345-acc5-ba43202a05e3@proxmox.com>
+In-Reply-To: <c00f320b-4d8b-d345-acc5-ba43202a05e3@proxmox.com>
+From: Nir Soffer <nsoffer@redhat.com>
+Date: Thu, 7 Jan 2021 22:03:09 +0200
+Message-ID: <CAMRbyyuAxb+qKSUAH_4XSzWYQz3+agAbEv+X93WTKG+1+kifRQ@mail.gmail.com>
+Subject: Re: Potential regression in 'qemu-img convert' to LVM
+To: Stefan Reiter <s.reiter@proxmox.com>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=nsoffer@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2a00:1450:4864:20::630;
- envelope-from=peter.maydell@linaro.org; helo=mail-ej1-x630.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=nsoffer@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -29
+X-Spam_score: -3.0
+X-Spam_bar: ---
+X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.246,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -77,86 +89,90 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Damien Hedde <damien.hedde@greensocs.com>,
- "Edgar E. Iglesias" <edgar.iglesias@gmail.com>, qemu-arm <qemu-arm@nongnu.org>,
- "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
- Alistair Francis <alistair@alistair23.me>
+Cc: QEMU Developers <qemu-devel@nongnu.org>, qemu-block <qemu-block@nongnu.org>,
+ Maxim Levitsky <mlevitsk@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Alistair/Edgar/Damien -- could I get a review from one of you
-for this Xilinx clock-gen related patch, please?
+On Tue, Sep 15, 2020 at 2:51 PM Stefan Reiter <s.reiter@proxmox.com> wrote:
+>
+> On 9/15/20 11:08 AM, Nir Soffer wrote:
+> > On Mon, Sep 14, 2020 at 3:25 PM Stefan Reiter <s.reiter@proxmox.com> wrote:
+> >>
+> >> Hi list,
+> >>
+> >> following command fails since 5.1 (tested on kernel 5.4.60):
+> >>
+> >> # qemu-img convert -p -f raw -O raw /dev/zvol/pool/disk-1 /dev/vg/disk-1
+> >> qemu-img: error while writing at byte 2157968896: Device or resource busy
+> >>
+> >> (source is ZFS here, but doesn't matter in practice, it always fails the
+> >> same; offset changes slightly but consistently hovers around 2^31)
+> >>
+> >> strace shows the following:
+> >> fallocate(13, FALLOC_FL_KEEP_SIZE|FALLOC_FL_PUNCH_HOLE, 2157968896,
+> >> 4608) = -1 EBUSY (Device or resource busy)
+> >
+> > What is the size of the LV?
+> >
+>
+> Same as the source, 5GB in my test case. Created with:
+>
+> # lvcreate -ay --size 5242880k --name disk-1 vg
+>
+> > Does it happen if you change sparse minimum size (-S)?
+> >
+> > For example: -S 64k
+> >
+> >      qemu-img convert -p -f raw -O raw -S 64k /dev/zvol/pool/disk-1
+> > /dev/vg/disk-1
+> >
+>
+> Tried a few different values, always the same result: EBUSY at byte
+> 2157968896.
+>
+> >> Other fallocate calls leading up to this work fine.
+> >>
+> >> This happens since commit edafc70c0c "qemu-img convert: Don't pre-zero
+> >> images", before that all fallocates happened at the start. Reverting the
+> >> commit and calling qemu-img exactly the same way on the same data works
+> >> fine.
+> >
+> > But slowly, doing up to 100% more work for fully allocated images.
+> >
+>
+> Of course, I'm not saying the patch is wrong, reverting it just avoids
+> triggering the bug.
+>
+> >> Simply retrying the syscall on EBUSY (like EINTR) does *not* work,
+> >> once it fails it keeps failing with the same error.
+> >>
+> >> I couldn't find anything related to EBUSY on fallocate, and it only
+> >> happens on LVM targets... Any idea or pointers where to look?
+> >
+> > Is this thin LV?
+> >
+>
+> No, regular LV. See command above.
+>
+> > This works for us using regular LVs.
+> >
+> > Which kernel? which distro?
+> >
+>
+> Reproducible on:
+> * PVE w/ kernel 5.4.60 (Ubuntu based)
+> * Manjaro w/ kernel 5.8.6
+>
+> I found that it does not happen with all images, I suppose there must be
+> a certain number of smaller holes for it to happen. I am using a VM
+> image with a bare-bones Alpine Linux installation, but it's not an
+> isolated case, we've had two people report the issue on our bug tracker:
+> https://bugzilla.proxmox.com/show_bug.cgi?id=3002
 
-thanks
--- PMM
+I think that this issue may be fixed by
+https://lists.nongnu.org/archive/html/qemu-block/2020-11/msg00358.html
 
-On Tue, 24 Nov 2020 at 18:54, Michael Peter
-<michael.peter@hensoldt-cyber.de> wrote:
->
-> Pass an additional argument to zynq_slcr_compute_clocks that indicates whether an reset-exit condition
-> applies. If called from zynq_slcr_reset_exit, external clocks are assumed to be active, even if the
-> device state indicates a reset state.
->
-> Signed-off-by: Michael Peter <michael.peter@hensoldt-cyber.de>
-> ---
->  hw/misc/zynq_slcr.c | 12 ++++++------
->  1 file changed, 6 insertions(+), 6 deletions(-)
->
-> diff --git a/hw/misc/zynq_slcr.c b/hw/misc/zynq_slcr.c
-> index a2b28019e3..073122b934 100644
-> --- a/hw/misc/zynq_slcr.c
-> +++ b/hw/misc/zynq_slcr.c
-> @@ -269,12 +269,12 @@ static uint64_t zynq_slcr_compute_clock(const uint64_t periods[],
->   * But do not propagate them further. Connected clocks
->   * will not receive any updates (See zynq_slcr_compute_clocks())
->   */
-> -static void zynq_slcr_compute_clocks(ZynqSLCRState *s)
-> +static void zynq_slcr_compute_clocks(ZynqSLCRState *s, bool ignore_reset)
->  {
->      uint64_t ps_clk = clock_get(s->ps_clk);
->
->      /* consider outputs clocks are disabled while in reset */
-> -    if (device_is_in_reset(DEVICE(s))) {
-> +    if (!ignore_reset && device_is_in_reset(DEVICE(s))) {
->          ps_clk = 0;
->      }
->
-> @@ -305,7 +305,7 @@ static void zynq_slcr_propagate_clocks(ZynqSLCRState *s)
->  static void zynq_slcr_ps_clk_callback(void *opaque)
->  {
->      ZynqSLCRState *s = (ZynqSLCRState *) opaque;
-> -    zynq_slcr_compute_clocks(s);
-> +    zynq_slcr_compute_clocks(s, false);
->      zynq_slcr_propagate_clocks(s);
->  }
->
-> @@ -410,7 +410,7 @@ static void zynq_slcr_reset_hold(Object *obj)
->      ZynqSLCRState *s = ZYNQ_SLCR(obj);
->
->      /* will disable all output clocks */
-> -    zynq_slcr_compute_clocks(s);
-> +    zynq_slcr_compute_clocks(s, false);
->      zynq_slcr_propagate_clocks(s);
->  }
->
-> @@ -419,7 +419,7 @@ static void zynq_slcr_reset_exit(Object *obj)
->      ZynqSLCRState *s = ZYNQ_SLCR(obj);
->
->      /* will compute output clocks according to ps_clk and registers */
-> -    zynq_slcr_compute_clocks(s);
-> +    zynq_slcr_compute_clocks(s, true);
->      zynq_slcr_propagate_clocks(s);
->  }
->
-> @@ -558,7 +558,7 @@ static void zynq_slcr_write(void *opaque, hwaddr offset,
->      case R_ARM_PLL_CTRL:
->      case R_DDR_PLL_CTRL:
->      case R_UART_CLK_CTRL:
-> -        zynq_slcr_compute_clocks(s);
-> +        zynq_slcr_compute_clocks(s, false);
->          zynq_slcr_propagate_clocks(s);
->          break;
->      }
-> --
-> 2.17.1
+Nir
+
 
