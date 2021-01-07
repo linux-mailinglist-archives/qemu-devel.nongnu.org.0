@@ -2,41 +2,44 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 44FE32ECD10
-	for <lists+qemu-devel@lfdr.de>; Thu,  7 Jan 2021 10:47:03 +0100 (CET)
-Received: from localhost ([::1]:42458 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8749D2ECD17
+	for <lists+qemu-devel@lfdr.de>; Thu,  7 Jan 2021 10:48:54 +0100 (CET)
+Received: from localhost ([::1]:45634 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kxRsj-0003pC-Ry
-	for lists+qemu-devel@lfdr.de; Thu, 07 Jan 2021 04:47:01 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59532)
+	id 1kxRuX-0005AT-Kt
+	for lists+qemu-devel@lfdr.de; Thu, 07 Jan 2021 04:48:53 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59874)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
- id 1kxRrN-0003Na-OT; Thu, 07 Jan 2021 04:45:37 -0500
-Received: from zero.eik.bme.hu ([2001:738:2001:2001::2001]:17756)
+ id 1kxRsw-0004Jr-7t
+ for qemu-devel@nongnu.org; Thu, 07 Jan 2021 04:47:14 -0500
+Received: from zero.eik.bme.hu ([2001:738:2001:2001::2001]:37411)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
- id 1kxRrI-0005zC-DC; Thu, 07 Jan 2021 04:45:36 -0500
+ id 1kxRss-0006fs-VY
+ for qemu-devel@nongnu.org; Thu, 07 Jan 2021 04:47:14 -0500
 Received: from zero.eik.bme.hu (blah.eik.bme.hu [152.66.115.182])
- by localhost (Postfix) with SMTP id 881DB7470F5;
- Thu,  7 Jan 2021 10:45:26 +0100 (CET)
+ by localhost (Postfix) with SMTP id 7EC667470FB;
+ Thu,  7 Jan 2021 10:47:09 +0100 (CET)
 Received: by zero.eik.bme.hu (Postfix, from userid 432)
- id 40FF97470F4; Thu,  7 Jan 2021 10:45:26 +0100 (CET)
+ id 538727470F9; Thu,  7 Jan 2021 10:47:09 +0100 (CET)
 Received: from localhost (localhost [127.0.0.1])
- by zero.eik.bme.hu (Postfix) with ESMTP id 3EFDA74645B;
- Thu,  7 Jan 2021 10:45:26 +0100 (CET)
-Date: Thu, 7 Jan 2021 10:45:26 +0100 (CET)
+ by zero.eik.bme.hu (Postfix) with ESMTP id 51DCB7470F8;
+ Thu,  7 Jan 2021 10:47:09 +0100 (CET)
+Date: Thu, 7 Jan 2021 10:47:09 +0100 (CET)
 From: BALATON Zoltan <balaton@eik.bme.hu>
-To: Greg Kurz <groug@kaod.org>
-Subject: Re: [PATCH 3/3] sam460ex: Use type cast macro instead of simple cast
-In-Reply-To: <20210107090815.12cc73fd@bahia.lan>
-Message-ID: <201f883b-c4f2-88f1-24fa-b1759d2c849d@eik.bme.hu>
-References: <cover.1609946641.git.balaton@eik.bme.hu>
- <8bc87f574759a3e9e9e8707b1e0947c1ee21fa8c.1609946641.git.balaton@eik.bme.hu>
- <20210107090815.12cc73fd@bahia.lan>
+To: =?ISO-8859-15?Q?Philippe_Mathieu-Daud=E9?= <f4bug@amsat.org>
+Subject: Re: [PATCH 02/12] vt82c686: Reorganise code
+In-Reply-To: <77da4dfa-896b-3dbc-a648-6ddc472fc043@amsat.org>
+Message-ID: <9ff6f79-4967-ac9c-87cb-25c290174a81@eik.bme.hu>
+References: <cover.1609967638.git.balaton@eik.bme.hu>
+ <a3d10c3daf6e8746b985c9fe776ae314fd10499b.1609967638.git.balaton@eik.bme.hu>
+ <77da4dfa-896b-3dbc-a648-6ddc472fc043@amsat.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII; format=flowed
-X-Spam-Probability: 8%
+Content-Type: multipart/mixed;
+ boundary="3866299591-312986800-1610012829=:62010"
+X-Spam-Probability: 9%
 Received-SPF: pass client-ip=2001:738:2001:2001::2001;
  envelope-from=balaton@eik.bme.hu; helo=zero.eik.bme.hu
 X-Spam_score_int: -18
@@ -56,80 +59,56 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- David Gibson <david@gibson.dropbear.id.au>,
- BALATON Zoltan via <qemu-ppc@nongnu.org>, qemu-devel@nongnu.org,
- f4bug@amsat.org
+Cc: Huacai Chen <chenhuacai@kernel.org>, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, 7 Jan 2021, Greg Kurz wrote:
-> On Wed, 6 Jan 2021 16:24:01 +0100
-> BALATON Zoltan via <qemu-ppc@nongnu.org> wrote:
->
->> Use the PCI_BUS type cast macro to convert result of
->> qdev_get_child_bus(). Also remove the check for NULL afterwards which
->> should not be needed because sysbus_create_simple() uses error_abort
->
-> It seems to me that sysbus_create_simple() doesn't return NULL because
-> it ends up calling object_new_with_type(). This allocates the object
-> with either g_malloc() or qemu_memalign(), both of which abort on
-> failure.
->
->> and PCI_BUS macro also checks its argument by default so this
->
-> AFAICT, PCI_BUS() and all other instance type checking macros are
-> happy with a NULL argument. They simply return NULL in this case.
+  This message is in MIME format.  The first part should be readable text,
+  while the remaining parts are likely unreadable without MIME-aware tools.
 
-This wasn't my experience when I've got an error in code and got a NULL 
-pointer here (on pegasos2 board but same situation). At least with 
-qom-debug enabled (which I think is on by default unless explicitly 
-disabled in configure) this will abort if the object is not the right 
-type.
+--3866299591-312986800-1610012829=:62010
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 8BIT
 
->> shouldn't fail here.
+On Thu, 7 Jan 2021, Philippe Mathieu-Daudé wrote:
+> On 1/6/21 10:13 PM, BALATON Zoltan wrote:
+>> Move lines around so that object definitions become consecutive and
+>> not scattered around. This brings functions belonging to an object
+>> together so it's clearer what is defined and what parts belong to
+>> which object.
 >>
 >> Signed-off-by: BALATON Zoltan <balaton@eik.bme.hu>
 >> ---
->>  hw/ppc/sam460ex.c | 7 ++-----
->>  1 file changed, 2 insertions(+), 5 deletions(-)
+>>  hw/isa/vt82c686.c | 279 +++++++++++++++++++++++-----------------------
+>>  1 file changed, 140 insertions(+), 139 deletions(-)
+> ...
+>>  static void vt82c686b_realize(PCIDevice *d, Error **errp)
+>>  {
+>>      VT82C686BISAState *s = VT82C686B_ISA(d);
+>> @@ -354,6 +353,7 @@ static const TypeInfo via_info = {
+>>      },
+>>  };
 >>
->> diff --git a/hw/ppc/sam460ex.c b/hw/ppc/sam460ex.c
->> index 14e6583eb0..cc67e9c39b 100644
->> --- a/hw/ppc/sam460ex.c
->> +++ b/hw/ppc/sam460ex.c
->> @@ -384,11 +384,8 @@ static void sam460ex_init(MachineState *machine)
->>      ppc460ex_pcie_init(env);
->>      /* All PCI irqs are connected to the same UIC pin (cf. UBoot source) */
->>      dev = sysbus_create_simple("ppc440-pcix-host", 0xc0ec00000, uic[1][0]);
->> -    pci_bus = (PCIBus *)qdev_get_child_bus(dev, "pci.0");
->> -    if (!pci_bus) {
->> -        error_report("couldn't create PCI controller!");
->> -        exit(1);
->> -    }
->> +    pci_bus = PCI_BUS(qdev_get_child_bus(dev, "pci.0"));
+>> +
+>>  static void vt82c686b_superio_class_init(ObjectClass *klass, void *data)
+>>  {
+>>      ISASuperIOClass *sc = ISA_SUPERIO_CLASS(klass);
+>> @@ -372,11 +372,12 @@ static const TypeInfo via_superio_info = {
+>>      .class_init    = vt82c686b_superio_class_init,
+>>  };
+>>
 >> +
 >
-> But PCI_BUS() is being passed qdev_get_child_bus(dev, "pci.0"), not
-> dev... so the real question here is whether this can return NULL
-> or not. And if this happens, is this a (1) user or (2) programming
-> error ?
->
-> If (1) then the "if (!pci_bus) { }" should be kept. If (2) then
-> it should be converted to an assert().
+> Spurious extra-lines?
 
-I think it can only fail if the ppc440-pcix-host type is changed to not 
-have a pci.0 child any more which is a programming error that's very 
-unlikely to happen but if needed an assert could be added but I don't 
-think that's really necessary. The error_report was definitely not needed 
-as it's not a user error in any case.
+No, they are intended, I've used two lines to separate parts of the file 
+which define different objects. It's subtle but useful organisation of 
+code to show what belongs together.
 
 Regards,
 BALATON Zoltan
 
->>      memory_region_init_alias(isa, NULL, "isa_mmio", get_system_io(),
->>                               0, 0x10000);
->>      memory_region_add_subregion(get_system_memory(), 0xc08000000, isa);
->
->
+> Reviewed with 'git-diff --color-moved=dimmed-zebra':
+> Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+--3866299591-312986800-1610012829=:62010--
 
