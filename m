@@ -2,34 +2,34 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 675292ECEF0
-	for <lists+qemu-devel@lfdr.de>; Thu,  7 Jan 2021 12:45:34 +0100 (CET)
-Received: from localhost ([::1]:38130 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8830F2ECEF8
+	for <lists+qemu-devel@lfdr.de>; Thu,  7 Jan 2021 12:48:54 +0100 (CET)
+Received: from localhost ([::1]:48054 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kxTjR-0001cJ-FC
-	for lists+qemu-devel@lfdr.de; Thu, 07 Jan 2021 06:45:33 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33442)
+	id 1kxTmf-0005p9-KH
+	for lists+qemu-devel@lfdr.de; Thu, 07 Jan 2021 06:48:53 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33490)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <cenjiahui@huawei.com>)
- id 1kxThL-0007yl-Jj
- for qemu-devel@nongnu.org; Thu, 07 Jan 2021 06:43:23 -0500
-Received: from szxga05-in.huawei.com ([45.249.212.191]:3022)
+ id 1kxThO-00083L-4P
+ for qemu-devel@nongnu.org; Thu, 07 Jan 2021 06:43:26 -0500
+Received: from szxga05-in.huawei.com ([45.249.212.191]:3021)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <cenjiahui@huawei.com>)
- id 1kxThI-0002p0-3k
- for qemu-devel@nongnu.org; Thu, 07 Jan 2021 06:43:23 -0500
-Received: from DGGEMS407-HUB.china.huawei.com (unknown [172.30.72.60])
- by szxga05-in.huawei.com (SkyGuard) with ESMTP id 4DBPV46PZlzj4Zx;
+ id 1kxThJ-0002ou-T7
+ for qemu-devel@nongnu.org; Thu, 07 Jan 2021 06:43:25 -0500
+Received: from DGGEMS404-HUB.china.huawei.com (unknown [172.30.72.59])
+ by szxga05-in.huawei.com (SkyGuard) with ESMTP id 4DBPV41pRlzj4Md;
  Thu,  7 Jan 2021 19:42:20 +0800 (CST)
-Received: from localhost (10.174.184.155) by DGGEMS407-HUB.china.huawei.com
- (10.3.19.207) with Microsoft SMTP Server id 14.3.498.0; Thu, 7 Jan 2021
- 19:43:06 +0800
+Received: from localhost (10.174.184.155) by DGGEMS404-HUB.china.huawei.com
+ (10.3.19.204) with Microsoft SMTP Server id 14.3.498.0; Thu, 7 Jan 2021
+ 19:43:07 +0800
 From: Jiahui Cen <cenjiahui@huawei.com>
 To: <qemu-devel@nongnu.org>
-Subject: [PATCH v4 2/8] acpi: Fix unmatched expected DSDT.pxb file
-Date: Thu, 7 Jan 2021 19:40:37 +0800
-Message-ID: <20210107114043.9624-3-cenjiahui@huawei.com>
+Subject: [PATCH v4 3/8] acpi: Add addr offset in build_crs
+Date: Thu, 7 Jan 2021 19:40:38 +0800
+Message-ID: <20210107114043.9624-4-cenjiahui@huawei.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20210107114043.9624-1-cenjiahui@huawei.com>
 References: <20210107114043.9624-1-cenjiahui@huawei.com>
@@ -67,172 +67,122 @@ Cc: xieyingtai@huawei.com, Jiahui Cen <cenjiahui@huawei.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Commit fe1127da11 ("unit-test: Add the binary file and clear diff.h") does not
-use the up-to-date expected file for pxb for ARM virt.
+AML needs Address Translation offset to describe how a bridge translates
+addresses accross the bridge when using an address descriptor, and
+especially on ARM, the translation offset of pio resource is usually
+non zero.
 
-Fix the expected DSDT.pxb file.
+Therefore, it's necessary to pass offset for pio, mmio32, mmio64 and bus
+number into build_crs.
 
-Full diff of changed file disassembly:
-
-diff -ru /tmp/old/tests/data/acpi/virt/DSDT.pxb.dsl /tmp/new/tests/data/acpi/virt/DSDT.pxb.dsl
---- /tmp/old/tests/data/acpi/virt/DSDT.pxb.dsl  2021-01-07 17:04:51.246831080 +0800
-+++ /tmp/new/tests/data/acpi/virt/DSDT.pxb.dsl  2021-01-07 17:11:59.566831080 +0800
-@@ -9,9 +9,9 @@
-  *
-  * Original Table Header:
-  *     Signature        "DSDT"
-- *     Length           0x00001E7A (7802)
-+ *     Length           0x00001DF9 (7673)
-  *     Revision         0x02
-- *     Checksum         0x57
-+ *     Checksum         0x42
-  *     OEM ID           "BOCHS "
-  *     OEM Table ID     "BXPCDSDT"
-  *     OEM Revision     0x00000001 (1)
-@@ -45,32 +45,6 @@
-             })
-         }
-
--        Device (FLS0)
--        {
--            Name (_HID, "LNRO0015")  // _HID: Hardware ID
--            Name (_UID, Zero)  // _UID: Unique ID
--            Name (_CRS, ResourceTemplate ()  // _CRS: Current Resource Settings
--            {
--                Memory32Fixed (ReadWrite,
--                    0x00000000,         // Address Base
--                    0x04000000,         // Address Length
--                    )
--            })
--        }
--
--        Device (FLS1)
--        {
--            Name (_HID, "LNRO0015")  // _HID: Hardware ID
--            Name (_UID, One)  // _UID: Unique ID
--            Name (_CRS, ResourceTemplate ()  // _CRS: Current Resource Settings
--            {
--                Memory32Fixed (ReadWrite,
--                    0x04000000,         // Address Base
--                    0x04000000,         // Address Length
--                    )
--            })
--        }
--
-         Device (FWCF)
-         {
-             Name (_HID, "QEMU0002")  // _HID: Hardware ID
-@@ -665,9 +639,6 @@
-         {
-             Name (_HID, "PNP0A08" /* PCI Express Bus */)  // _HID: Hardware ID
-             Name (_CID, "PNP0A03" /* PCI Bus */)  // _CID: Compatible ID
--            Name (_ADR, Zero)  // _ADR: Address
--            Name (_CCA, One)  // _CCA: Cache Coherency Attribute
--            Name (_SEG, Zero)  // _SEG: PCI Segment
-             Name (_BBN, 0x80)  // _BBN: BIOS Bus Number
-             Name (_UID, 0x80)  // _UID: Unique ID
-             Name (_STR, Unicode ("pxb Device"))  // _STR: Description String
-@@ -1857,7 +1828,7 @@
-             Name (_CID, "PNP0A03" /* PCI Bus */)  // _CID: Compatible ID
-             Name (_SEG, Zero)  // _SEG: PCI Segment
-             Name (_BBN, Zero)  // _BBN: BIOS Bus Number
--            Name (_UID, "PCI0")  // _UID: Unique ID
-+            Name (_UID, Zero)  // _UID: Unique ID
-             Name (_STR, Unicode ("PCIe 0 Device"))  // _STR: Description String
-             Name (_CCA, One)  // _CCA: Cache Coherency Attribute
-             Name (_PRT, Package (0x80)  // _PRT: PCI Routing Table
-@@ -2983,41 +2954,37 @@
-                 Return (0x0000004010000000)
-             }
-
--            Method (_CRS, 0, NotSerialized)  // _CRS: Current Resource Settings
-+            Name (_CRS, ResourceTemplate ()  // _CRS: Current Resource Settings
-             {
--                Return (ResourceTemplate ()
--                {
--                    WordBusNumber (ResourceProducer, MinFixed, MaxFixed, PosDecode,
--                        0x0000,             // Granularity
--                        0x0000,             // Range Minimum
--                        0x007F,             // Range Maximum
--                        0x0000,             // Translation Offset
--                        0x0080,             // Length
--                        ,, )
--                    DWordMemory (ResourceProducer, PosDecode, MinFixed, MaxFixed, NonCacheable, ReadWrite,
--                        0x00000000,         // Granularity
--                        0x10000000,         // Range Minimum
--                        0x3EFEFFFF,         // Range Maximum
--                        0x00000000,         // Translation Offset
--                        0x2EFF0000,         // Length
--                        ,, , AddressRangeMemory, TypeStatic)
--                    DWordIO (ResourceProducer, MinFixed, MaxFixed, PosDecode, EntireRange,
--                        0x00000000,         // Granularity
--                        0x00000000,         // Range Minimum
--                        0x0000FFFF,         // Range Maximum
--                        0x3EFF0000,         // Translation Offset
--                        0x00010000,         // Length
--                        ,, , TypeStatic, DenseTranslation)
--                    QWordMemory (ResourceProducer, PosDecode, MinFixed, MaxFixed, NonCacheable, ReadWrite,
--                        0x0000000000000000, // Granularity
--                        0x0000008000000000, // Range Minimum
--                        0x000000FFFFFFFFFF, // Range Maximum
--                        0x0000000000000000, // Translation Offset
--                        0x0000008000000000, // Length
--                        ,, , AddressRangeMemory, TypeStatic)
--                })
--            }
--
-+                WordBusNumber (ResourceProducer, MinFixed, MaxFixed, PosDecode,
-+                    0x0000,             // Granularity
-+                    0x0000,             // Range Minimum
-+                    0x007F,             // Range Maximum
-+                    0x0000,             // Translation Offset
-+                    0x0080,             // Length
-+                    ,, )
-+                DWordMemory (ResourceProducer, PosDecode, MinFixed, MaxFixed, NonCacheable, ReadWrite,
-+                    0x00000000,         // Granularity
-+                    0x10000000,         // Range Minimum
-+                    0x3EFEFFFF,         // Range Maximum
-+                    0x00000000,         // Translation Offset
-+                    0x2EFF0000,         // Length
-+                    ,, , AddressRangeMemory, TypeStatic)
-+                DWordIO (ResourceProducer, MinFixed, MaxFixed, PosDecode, EntireRange,
-+                    0x00000000,         // Granularity
-+                    0x00000000,         // Range Minimum
-+                    0x0000FFFF,         // Range Maximum
-+                    0x3EFF0000,         // Translation Offset
-+                    0x00010000,         // Length
-+                    ,, , TypeStatic, DenseTranslation)
-+                QWordMemory (ResourceProducer, PosDecode, MinFixed, MaxFixed, NonCacheable, ReadWrite,
-+                    0x0000000000000000, // Granularity
-+                    0x0000008000000000, // Range Minimum
-+                    0x000000FFFFFFFFFF, // Range Maximum
-+                    0x0000000000000000, // Translation Offset
-+                    0x0000008000000000, // Length
-+                    ,, , AddressRangeMemory, TypeStatic)
-+            })
-             Name (SUPP, Zero)
-             Name (CTRL, Zero)
-             Method (_OSC, 4, NotSerialized)  // _OSC: Operating System Capabilities
-
-Fixes: fe1127da11 ("unit-test: Add the binary file and clear diff.h")
 Signed-off-by: Jiahui Cen <cenjiahui@huawei.com>
 ---
- tests/data/acpi/virt/DSDT.pxb | Bin 7802 -> 7673 bytes
- 1 file changed, 0 insertions(+), 0 deletions(-)
+ hw/acpi/aml-build.c         | 18 ++++++++++--------
+ hw/i386/acpi-build.c        |  3 ++-
+ hw/pci-host/gpex-acpi.c     |  3 ++-
+ include/hw/acpi/aml-build.h |  4 +++-
+ 4 files changed, 17 insertions(+), 11 deletions(-)
 
-diff --git a/tests/data/acpi/virt/DSDT.pxb b/tests/data/acpi/virt/DSDT.pxb
-index d5f0533a02d62bc2ae2db9b9de9484e5c06652fe..76f5f1c2fd487644c6b4f827a70ad770edb9fdc9 100644
-GIT binary patch
-delta 70
-zcmV-M0J;DAJo!5cL{mgm`5gcN0z#1r8v=ygktblW?YIa6OPZ6X2_m!G35f{>PNz^q
-cNt3DxACrg^53`&Ttq27OUqez;vr-%=0*oRUFaQ7m
-
-delta 217
-zcmexq{mX{SCD<jTN{)enDSRTAG*j!-iRuaUhHgH=1|0Doo-VvTenI{Q28N~#9Py!^
-zE<n;bC|FRCi?5B7fsp|MSSlH!n?PC&v1wsM*TMqS1=eEW7Vhi@(GuwD8){%+U<5Qj
-zIK*+|g83XwzOyGgaw_pVx&(nNb#?@r6YT1~If1i>lgWL><aa`bth@ovo(7xch1YU$
-Qia3I;VOX;HqO=AR0CN5_Pyhe`
-
+diff --git a/hw/acpi/aml-build.c b/hw/acpi/aml-build.c
+index f976aa667b..7b6ebb0cc8 100644
+--- a/hw/acpi/aml-build.c
++++ b/hw/acpi/aml-build.c
+@@ -2076,7 +2076,9 @@ void build_tpm2(GArray *table_data, BIOSLinker *linker, GArray *tcpalog)
+                  tpm2_ptr, "TPM2", table_data->len - tpm2_start, 4, NULL, NULL);
+ }
+ 
+-Aml *build_crs(PCIHostState *host, CrsRangeSet *range_set)
++Aml *build_crs(PCIHostState *host, CrsRangeSet *range_set, uint32_t io_offset,
++               uint32_t mmio32_offset, uint64_t mmio64_offset,
++               uint16_t bus_nr_offset)
+ {
+     Aml *crs = aml_resource_template();
+     CrsRangeSet temp_range_set;
+@@ -2189,10 +2191,10 @@ Aml *build_crs(PCIHostState *host, CrsRangeSet *range_set)
+     for (i = 0; i < temp_range_set.io_ranges->len; i++) {
+         entry = g_ptr_array_index(temp_range_set.io_ranges, i);
+         aml_append(crs,
+-                   aml_word_io(AML_MIN_FIXED, AML_MAX_FIXED,
+-                               AML_POS_DECODE, AML_ENTIRE_RANGE,
+-                               0, entry->base, entry->limit, 0,
+-                               entry->limit - entry->base + 1));
++                   aml_dword_io(AML_MIN_FIXED, AML_MAX_FIXED,
++                                AML_POS_DECODE, AML_ENTIRE_RANGE,
++                                0, entry->base, entry->limit, io_offset,
++                                entry->limit - entry->base + 1));
+         crs_range_insert(range_set->io_ranges, entry->base, entry->limit);
+     }
+ 
+@@ -2205,7 +2207,7 @@ Aml *build_crs(PCIHostState *host, CrsRangeSet *range_set)
+                    aml_dword_memory(AML_POS_DECODE, AML_MIN_FIXED,
+                                     AML_MAX_FIXED, AML_NON_CACHEABLE,
+                                     AML_READ_WRITE,
+-                                    0, entry->base, entry->limit, 0,
++                                    0, entry->base, entry->limit, mmio32_offset,
+                                     entry->limit - entry->base + 1));
+         crs_range_insert(range_set->mem_ranges, entry->base, entry->limit);
+     }
+@@ -2217,7 +2219,7 @@ Aml *build_crs(PCIHostState *host, CrsRangeSet *range_set)
+                    aml_qword_memory(AML_POS_DECODE, AML_MIN_FIXED,
+                                     AML_MAX_FIXED, AML_NON_CACHEABLE,
+                                     AML_READ_WRITE,
+-                                    0, entry->base, entry->limit, 0,
++                                    0, entry->base, entry->limit, mmio64_offset,
+                                     entry->limit - entry->base + 1));
+         crs_range_insert(range_set->mem_64bit_ranges,
+                          entry->base, entry->limit);
+@@ -2230,7 +2232,7 @@ Aml *build_crs(PCIHostState *host, CrsRangeSet *range_set)
+                             0,
+                             pci_bus_num(host->bus),
+                             max_bus,
+-                            0,
++                            bus_nr_offset,
+                             max_bus - pci_bus_num(host->bus) + 1));
+ 
+     return crs;
+diff --git a/hw/i386/acpi-build.c b/hw/i386/acpi-build.c
+index f18b71dea9..f56d699c7f 100644
+--- a/hw/i386/acpi-build.c
++++ b/hw/i386/acpi-build.c
+@@ -1360,7 +1360,8 @@ build_dsdt(GArray *table_data, BIOSLinker *linker,
+             }
+ 
+             aml_append(dev, build_prt(false));
+-            crs = build_crs(PCI_HOST_BRIDGE(BUS(bus)->parent), &crs_range_set);
++            crs = build_crs(PCI_HOST_BRIDGE(BUS(bus)->parent), &crs_range_set,
++                            0, 0, 0, 0);
+             aml_append(dev, aml_name_decl("_CRS", crs));
+             aml_append(scope, dev);
+             aml_append(dsdt, scope);
+diff --git a/hw/pci-host/gpex-acpi.c b/hw/pci-host/gpex-acpi.c
+index 7f20ee1c98..11b3db8f71 100644
+--- a/hw/pci-host/gpex-acpi.c
++++ b/hw/pci-host/gpex-acpi.c
+@@ -168,7 +168,8 @@ void acpi_dsdt_add_gpex(Aml *scope, struct GPEXConfig *cfg)
+              * 1. The resources the pci-brige/pcie-root-port need.
+              * 2. The resources the devices behind pxb need.
+              */
+-            crs = build_crs(PCI_HOST_BRIDGE(BUS(bus)->parent), &crs_range_set);
++            crs = build_crs(PCI_HOST_BRIDGE(BUS(bus)->parent), &crs_range_set,
++                            cfg->pio.base, 0, 0, 0);
+             aml_append(dev, aml_name_decl("_CRS", crs));
+ 
+             acpi_dsdt_add_pci_osc(dev);
+diff --git a/include/hw/acpi/aml-build.h b/include/hw/acpi/aml-build.h
+index e727bea1bc..54a5aec4d7 100644
+--- a/include/hw/acpi/aml-build.h
++++ b/include/hw/acpi/aml-build.h
+@@ -452,7 +452,9 @@ void crs_replace_with_free_ranges(GPtrArray *ranges,
+ void crs_range_set_init(CrsRangeSet *range_set);
+ void crs_range_set_free(CrsRangeSet *range_set);
+ 
+-Aml *build_crs(PCIHostState *host, CrsRangeSet *range_set);
++Aml *build_crs(PCIHostState *host, CrsRangeSet *range_set, uint32_t io_offset,
++               uint32_t mmio32_offset, uint64_t mmio64_offset,
++               uint16_t bus_nr_offset);
+ 
+ void build_srat_memory(AcpiSratMemoryAffinity *numamem, uint64_t base,
+                        uint64_t len, int node, MemoryAffinityFlags flags);
 -- 
 2.29.2
 
