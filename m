@@ -2,58 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F23922ECA46
-	for <lists+qemu-devel@lfdr.de>; Thu,  7 Jan 2021 06:56:45 +0100 (CET)
-Received: from localhost ([::1]:37902 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DE89E2ECAA5
+	for <lists+qemu-devel@lfdr.de>; Thu,  7 Jan 2021 07:47:54 +0100 (CET)
+Received: from localhost ([::1]:54022 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kxOHr-0003NH-6t
-	for lists+qemu-devel@lfdr.de; Thu, 07 Jan 2021 00:56:43 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41582)
+	id 1kxP5N-0006AU-Du
+	for lists+qemu-devel@lfdr.de; Thu, 07 Jan 2021 01:47:53 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48436)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cenjiahui@huawei.com>)
- id 1kxOG6-0002Rb-Fd
- for qemu-devel@nongnu.org; Thu, 07 Jan 2021 00:54:58 -0500
-Received: from szxga04-in.huawei.com ([45.249.212.190]:2910)
+ (Exim 4.90_1) (envelope-from <chenhuacai@kernel.org>)
+ id 1kxP4L-0005jf-8P
+ for qemu-devel@nongnu.org; Thu, 07 Jan 2021 01:46:49 -0500
+Received: from mail.kernel.org ([198.145.29.99]:51188)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cenjiahui@huawei.com>)
- id 1kxOG1-0007Gy-2I
- for qemu-devel@nongnu.org; Thu, 07 Jan 2021 00:54:54 -0500
-Received: from DGGEMS401-HUB.china.huawei.com (unknown [172.30.72.59])
- by szxga04-in.huawei.com (SkyGuard) with ESMTP id 4DBFlh1ctmz15np7;
- Thu,  7 Jan 2021 13:53:36 +0800 (CST)
-Received: from [10.174.184.155] (10.174.184.155) by
- DGGEMS401-HUB.china.huawei.com (10.3.19.201) with Microsoft SMTP Server id
- 14.3.498.0; Thu, 7 Jan 2021 13:54:24 +0800
-Subject: Re: [PATCH v3 3/8] acpi/gpex: Inform os to keep firmware resource map
-To: Igor Mammedov <imammedo@redhat.com>
-References: <20201223090836.9075-1-cenjiahui@huawei.com>
- <20201223090836.9075-4-cenjiahui@huawei.com>
- <20201229144142.66583852@redhat.com>
- <20201230161942-mutt-send-email-mst@kernel.org>
- <20210105013529.4addf44f@redhat.com>
- <5418be81-3b91-749d-1806-0f54e5849421@huawei.com>
- <20210106142910.5ca8b677@redhat.com>
-From: Jiahui Cen <cenjiahui@huawei.com>
-Message-ID: <dca69f55-dfd1-3f97-dc3f-13eeedec5027@huawei.com>
-Date: Thu, 7 Jan 2021 13:54:23 +0800
-User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:68.0) Gecko/20100101
- Thunderbird/68.2.2
+ (Exim 4.90_1) (envelope-from <chenhuacai@kernel.org>)
+ id 1kxP4J-0005kF-CH
+ for qemu-devel@nongnu.org; Thu, 07 Jan 2021 01:46:48 -0500
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 5A61622EBF
+ for <qemu-devel@nongnu.org>; Thu,  7 Jan 2021 06:46:44 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1610002004;
+ bh=x5AuJeqiTL0qx4PK1dl2D7FhhoJm4EXg2UQRMrzIPDM=;
+ h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+ b=IccwB9hDa9BYGknEmEwIeRQ5+U33AEZVrBQRHdDEoEu7nikfbq2FzhV7AWZXehyW0
+ iAzaB1DmyOsksGsv0oZ4XVB/NSHpdU+X4ovV4DzUQDgDjaHBSIPHxtDsuDe94UbyFy
+ QrdYpD5w7hjSO636JRL9H0UPZn9C4z3X525d0pO+a51EcJ5LXOSxy9xNkjd73E1EWG
+ UbX580wwKHrkBgEo09iS1x+eNWcWd3p9EQi99VcXRPcw2aBTrNUQMT6a76Ex8oA97P
+ xtazhjAdR80V6v1TqWkwqwn3yqDy15/XTLeYjLYu0HT+S1iBN3bBT+G7yAYi7kXkVI
+ rDikPMG4tGlBw==
+Received: by mail-il1-f174.google.com with SMTP id b10so3768488ilr.4
+ for <qemu-devel@nongnu.org>; Wed, 06 Jan 2021 22:46:44 -0800 (PST)
+X-Gm-Message-State: AOAM532WFnm7G1sjsSh/92k/9DlTygnEy1DdS8nDEvfJ+woVsgxpo7w6
+ HCbF7JfirPyWbxRFkatfTtrhzUqhDwRgdlyefhQ=
+X-Google-Smtp-Source: ABdhPJyjMXEoOobxQKNskDH/wlppv6zxekS4HAY1HQHrX7D5Nzr3Irv/Q1d1ufb0+YctjOssoRSvMDo9DFdYj0FlKGY=
+X-Received: by 2002:a92:870b:: with SMTP id m11mr7427637ild.134.1610002003722; 
+ Wed, 06 Jan 2021 22:46:43 -0800 (PST)
 MIME-Version: 1.0
-In-Reply-To: <20210106142910.5ca8b677@redhat.com>
-Content-Type: text/plain; charset="utf-8"
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.174.184.155]
-X-CFilter-Loop: Reflected
-Received-SPF: pass client-ip=45.249.212.190; envelope-from=cenjiahui@huawei.com;
- helo=szxga04-in.huawei.com
-X-Spam_score_int: -43
-X-Spam_score: -4.4
-X-Spam_bar: ----
-X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.249,
- RCVD_IN_DNSWL_MED=-2.3, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+References: <20210106184602.3771551-1-f4bug@amsat.org>
+In-Reply-To: <20210106184602.3771551-1-f4bug@amsat.org>
+From: Huacai Chen <chenhuacai@kernel.org>
+Date: Thu, 7 Jan 2021 14:46:32 +0800
+X-Gmail-Original-Message-ID: <CAAhV-H4WGpZvz1wnCW7PrL74_B=epyxZ-PndirptZinjDoyxUg@mail.gmail.com>
+Message-ID: <CAAhV-H4WGpZvz1wnCW7PrL74_B=epyxZ-PndirptZinjDoyxUg@mail.gmail.com>
+Subject: Re: [PATCH] docs/system: Remove deprecated 'fulong2e' machine alias
+To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=198.145.29.99; envelope-from=chenhuacai@kernel.org;
+ helo=mail.kernel.org
+X-Spam_score_int: -73
+X-Spam_score: -7.4
+X-Spam_bar: -------
+X-Spam_report: (-7.4 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.252,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_HI=-5, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -66,186 +70,78 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: xieyingtai@huawei.com, Eduardo
- Habkost <ehabkost@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org,
- Ard Biesheuvel <ard.biesheuvel@arm.com>, Paolo Bonzini <pbonzini@redhat.com>,
- Laszlo Ersek <lersek@redhat.com>, wu.wubin@huawei.com
+Cc: Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>,
+ Thomas Huth <huth@tuxfamily.org>, QEMU Developers <qemu-devel@nongnu.org>,
+ libvir-list@redhat.com, Aurelien Jarno <aurelien@aurel32.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+Reviewed-by: Huacai Chen <chenhuacai@kernel.org>
 
-
-On 2021/1/6 21:29, Igor Mammedov wrote:
-> On Tue, 5 Jan 2021 09:53:49 +0800
-> Jiahui Cen <cenjiahui@huawei.com> wrote:
-> 
->> On 2021/1/5 8:35, Igor Mammedov wrote:
->>> On Wed, 30 Dec 2020 16:22:08 -0500
->>> "Michael S. Tsirkin" <mst@redhat.com> wrote:
->>>   
->>>> On Tue, Dec 29, 2020 at 02:41:42PM +0100, Igor Mammedov wrote:  
->>>>> On Wed, 23 Dec 2020 17:08:31 +0800
->>>>> Jiahui Cen <cenjiahui@huawei.com> wrote:
->>>>>     
->>>>>> There may be some differences in pci resource assignment between guest os
->>>>>> and firmware.
->>>>>>
->>>>>> Eg. A Bridge with Bus [d2]
->>>>>>     -+-[0000:d2]---01.0-[d3]----01.0
->>>>>>
->>>>>>     where [d2:01.00] is a pcie-pci-bridge with BAR0 (mem, 64-bit, non-pref) [size=256]
->>>>>>           [d3:01.00] is a PCI Device with BAR0 (mem, 64-bit, pref) [size=128K]
->>>>>>                                           BAR4 (mem, 64-bit, pref) [size=64M]
->>>>>>
->>>>>>     In EDK2, the Resource Map would be:
->>>>>>         PciBus: Resource Map for Bridge [D2|01|00]
->>>>>>         Type = PMem64; Base = 0x8004000000;     Length = 0x4100000;     Alignment = 0x3FFFFFF
->>>>>>            Base = 0x8004000000; Length = 0x4000000;     Alignment = 0x3FFFFFF;  Owner = PCI [D3|01|00:20]
->>>>>>            Base = 0x8008000000; Length = 0x20000;       Alignment = 0x1FFFF;    Owner = PCI [D3|01|00:10]
->>>>>>         Type =  Mem64; Base = 0x8008100000;     Length = 0x100; Alignment = 0xFFF
->>>>>>     It would use 0x4100000 to calculate the root bus's PMem64 resource window.
->>>>>>
->>>>>>     While in Linux, kernel will use 0x1FFFFFF as the alignment to calculate
->>>>>>     the PMem64 size, which would be 0x6000000. So kernel would try to
->>>>>>     allocate 0x6000000 from the PMem64 resource window, but since the window
->>>>>>     size is 0x4100000 as assigned by EDK2, the allocation would fail.
->>>>>>
->>>>>> The diffences could result in resource assignment failure.
->>>>>>
->>>>>> Using _DSM #5 method to inform guest os not to ignore the PCI configuration
->>>>>> that firmware has done at boot time could handle the differences.    
->>>>>
->>>>> I'm not sure about this one, 
->>>>> OS should able to reconfigure PCI resources according to what and where is plugged
->>>>> (and it even more true is hotplug is taken into account)    
->>>>
->>>> spec says this:
->>>>
->>>> 0: No (The operating system must not ignore the PCI configuration that firmware has done
->>>> at boot time. However, the operating system is free to configure the devices in this hierarchy
->>>> that have not been configured by the firmware. There may be a reduced level of hot plug
->>>> capability support in this hierarchy due to resource constraints. This situation is the same as
->>>> the legacy situation where this _DSM is not provided.)
->>>> 1: Yes (The operating system may ignore the PCI configuration that the firmware has done
->>>> at boot time, and reconfigure/rebalance the resources in the hierarchy.)  
->>> I sort of convinced my self that's is just hotplug work might need to implement reconfiguration
->>> in guest kernel and maybe QEMU
->>>
->>> Though I have a question,
->>>
->>>  1. does it work for PC machine with current kernel, if so why?
->>>  2. what it would take to make it work for arm/virt?
->>>   
->>
->> 1. For x86, it generally keeps the configuration by firmware,
->> so there is nothing wrong for PC machine.
->>
->> 2. We add DSM method in DSDT to inform guest to keep
->> firmware's configuration, just like x86.
->>
->>>> and
->>>>
->>>> IMPLEMENTATION NOTE
->>>> This _DSM function provides backwards compatibility on platforms that can run legacy operating
->>>> systems.
->>>> Operating systems for two different architectures (e.g., x86 and x64) can be installed on a platform.
->>>> The firmware cannot distinguish the operating system in time to change the boot configuration of
->>>> devices. Say for instance, an x86 operating system in non-PAE mode is installed on a system. The
->>>> x86 operating system cannot access device resource space above 4 GiB. So the firmware is required
->>>> to configure devices at boot time using addresses below 4 GiB. On the other hand, if an x64
->>>> operating system is installed on this system, it can access device resources above the 4 GiB so it does
->>>> not want the firmware to constrain the resource assignment below 4 GiB that the firmware
->>>> configures at boot time. It is not possible for the firmware to change this by the time it boots the
->>>> operating system. Ignoring the configurations done by firmware at boot time will allow the
->>>> operating system to push resource assignment using addresses above 4 GiB for an x64 operating
->>>> system while constrain it to addresses below 4 GiB for an x86 operating system.
->>>>
->>>> so fundamentally, saying "1" here just means "you can ignore what
->>>> firmware configured if you like".
->>>>
->>>>
->>>> I have a different question though: our CRS etc is based on what
->>>> firmware configured. Is that ok? Or is ACPI expected to somehow
->>>> reconfigure itself when OS reconfigures devices?
->>>> Think it's ok but could not find documentation either way.  
->>>
->>> guest consume DSDT only at boot time,
->>> reconfiguration can done later by PCI subsystem without
->>> ACPI (at least it used to be so).
->>>
->>> However DSM is dynamic,
->>> and maybe evaluated at runtime,
->>> though I don't know if kernel would re-evaluate this feature bit after boot
->>>   
->>
->> Seems kernel evaluates DSM only at boot time.
-> 
-> Ok, lets respin this series without 5/8
-> to avoid mixing unrelated changes in one series.
-> 
-> We can think about 5/8 some more and return to it later if it proves hard to merge.
-
-OK, I'll split patch [5/8] from this series and
-send them separately.
-
-Thanks for the discussion.
-
-Thanks,
-Jiahui
-
-> 
->>
->> Thanks,
->> Jiahui
->>
->>>   
->>>>
->>>>  
->>>>>>
->>>>>> Signed-off-by: Jiahui Cen <cenjiahui@huawei.com>
->>>>>> ---
->>>>>>  hw/pci-host/gpex-acpi.c | 18 ++++++++++++++++--
->>>>>>  1 file changed, 16 insertions(+), 2 deletions(-)
->>>>>>
->>>>>> diff --git a/hw/pci-host/gpex-acpi.c b/hw/pci-host/gpex-acpi.c
->>>>>> index 11b3db8f71..c189306599 100644
->>>>>> --- a/hw/pci-host/gpex-acpi.c
->>>>>> +++ b/hw/pci-host/gpex-acpi.c
->>>>>> @@ -112,10 +112,24 @@ static void acpi_dsdt_add_pci_osc(Aml *dev)
->>>>>>      UUID = aml_touuid("E5C937D0-3553-4D7A-9117-EA4D19C3434D");
->>>>>>      ifctx = aml_if(aml_equal(aml_arg(0), UUID));
->>>>>>      ifctx1 = aml_if(aml_equal(aml_arg(2), aml_int(0)));
->>>>>> -    uint8_t byte_list[1] = {1};
->>>>>> -    buf = aml_buffer(1, byte_list);
->>>>>> +    uint8_t byte_list[] = {
->>>>>> +                0x1 << 0 /* support for functions other than function 0 */ |
->>>>>> +                0x1 << 5 /* support for function 5 */
->>>>>> +                };
->>>>>> +    buf = aml_buffer(ARRAY_SIZE(byte_list), byte_list);
->>>>>>      aml_append(ifctx1, aml_return(buf));
->>>>>>      aml_append(ifctx, ifctx1);
->>>>>> +
->>>>>> +    /* PCI Firmware Specification 3.1
->>>>>> +     * 4.6.5. _DSM for Ignoring PCI Boot Configurations
->>>>>> +     */
->>>>>> +    /* Arg2: Function Index: 5 */
->>>>>> +    ifctx1 = aml_if(aml_equal(aml_arg(2), aml_int(5)));
->>>>>> +    /* 0 - The operating system must not ignore the PCI configuration that
->>>>>> +     *     firmware has done at boot time.
->>>>>> +     */
->>>>>> +    aml_append(ifctx1, aml_return(aml_int(0)));
->>>>>> +    aml_append(ifctx, ifctx1);
->>>>>>      aml_append(method, ifctx);
->>>>>>  
->>>>>>      byte_list[0] = 0;    
->>>>
->>>>  
->>>
->>> .
->>>   
->>
-> 
-> .
-> 
+On Thu, Jan 7, 2021 at 2:46 AM Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org=
+> wrote:
+>
+> The 'fulong2e' machine alias has been marked as deprecated since
+> QEMU v5.1 (commit c3a09ff68dd, the machine is renamed 'fuloong2e').
+> Time to remove it now.
+>
+> Signed-off-by: Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>
+> ---
+>  docs/system/deprecated.rst       | 5 -----
+>  docs/system/removed-features.rst | 5 +++++
+>  hw/mips/fuloong2e.c              | 1 -
+>  3 files changed, 5 insertions(+), 6 deletions(-)
+>
+> diff --git a/docs/system/deprecated.rst b/docs/system/deprecated.rst
+> index bacd76d7a58..e20bfcb17a4 100644
+> --- a/docs/system/deprecated.rst
+> +++ b/docs/system/deprecated.rst
+> @@ -309,11 +309,6 @@ The 'scsi-disk' device is deprecated. Users should u=
+se 'scsi-hd' or
+>  System emulator machines
+>  ------------------------
+>
+> -mips ``fulong2e`` machine (since 5.1)
+> -'''''''''''''''''''''''''''''''''''''
+> -
+> -This machine has been renamed ``fuloong2e``.
+> -
+>  ``pc-1.0``, ``pc-1.1``, ``pc-1.2`` and ``pc-1.3`` (since 5.0)
+>  '''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+>
+> diff --git a/docs/system/removed-features.rst b/docs/system/removed-featu=
+res.rst
+> index 8b20d78a4d0..430fc33ca18 100644
+> --- a/docs/system/removed-features.rst
+> +++ b/docs/system/removed-features.rst
+> @@ -120,6 +120,11 @@ mips ``r4k`` platform (removed in 5.2)
+>  This machine type was very old and unmaintained. Users should use the ``=
+malta``
+>  machine type instead.
+>
+> +mips ``fulong2e`` machine alias (removed in 6.0)
+> +''''''''''''''''''''''''''''''''''''''''''''''''
+> +
+> +This machine has been renamed ``fuloong2e``.
+> +
+>  Related binaries
+>  ----------------
+>
+> diff --git a/hw/mips/fuloong2e.c b/hw/mips/fuloong2e.c
+> index 29805242caa..bac2adbd5ae 100644
+> --- a/hw/mips/fuloong2e.c
+> +++ b/hw/mips/fuloong2e.c
+> @@ -383,7 +383,6 @@ static void mips_fuloong2e_init(MachineState *machine=
+)
+>  static void mips_fuloong2e_machine_init(MachineClass *mc)
+>  {
+>      mc->desc =3D "Fuloong 2e mini pc";
+> -    mc->alias =3D "fulong2e";             /* Incorrect name used up to Q=
+EMU 4.2 */
+>      mc->init =3D mips_fuloong2e_init;
+>      mc->block_default_type =3D IF_IDE;
+>      mc->default_cpu_type =3D MIPS_CPU_TYPE_NAME("Loongson-2E");
+> --
+> 2.26.2
+>
 
