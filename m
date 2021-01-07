@@ -2,75 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CB28B2EE705
-	for <lists+qemu-devel@lfdr.de>; Thu,  7 Jan 2021 21:37:27 +0100 (CET)
-Received: from localhost ([::1]:53974 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0711D2EE709
+	for <lists+qemu-devel@lfdr.de>; Thu,  7 Jan 2021 21:39:15 +0100 (CET)
+Received: from localhost ([::1]:33436 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kxc2A-0002m4-RE
-	for lists+qemu-devel@lfdr.de; Thu, 07 Jan 2021 15:37:26 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48494)
+	id 1kxc3u-00066z-0v
+	for lists+qemu-devel@lfdr.de; Thu, 07 Jan 2021 15:39:14 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48588)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1kxbhR-0001VO-1z
- for qemu-devel@nongnu.org; Thu, 07 Jan 2021 15:16:02 -0500
-Received: from mail-pl1-x62e.google.com ([2607:f8b0:4864:20::62e]:44498)
+ id 1kxbhW-0001XU-4a
+ for qemu-devel@nongnu.org; Thu, 07 Jan 2021 15:16:06 -0500
+Received: from mail-pl1-x630.google.com ([2607:f8b0:4864:20::630]:40025)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1kxbhE-0001gO-Re
- for qemu-devel@nongnu.org; Thu, 07 Jan 2021 15:15:54 -0500
-Received: by mail-pl1-x62e.google.com with SMTP id r4so4140502pls.11
- for <qemu-devel@nongnu.org>; Thu, 07 Jan 2021 12:15:46 -0800 (PST)
+ id 1kxbhE-0001gT-Rr
+ for qemu-devel@nongnu.org; Thu, 07 Jan 2021 15:16:03 -0500
+Received: by mail-pl1-x630.google.com with SMTP id q4so4154306plr.7
+ for <qemu-devel@nongnu.org>; Thu, 07 Jan 2021 12:15:47 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=1C9DAauAp7ESr+w+Jngt35D1tFX2Zjw12yc74O3Eyt0=;
- b=JbL+zwzBpEjWHm+q88jSzggyZVvivBjFJ4/DPrh79pZb9YeyFjDH2fnWiHiihqYgT3
- Grjye7O7ZEG9ofQh9kQvCK5DScFl2u5BNtDgfLfUkCQ63xVA+Uqc1Lcx62kuv0TLg4Uj
- Z2m9i7RKtHEkTPU2L5bTcIqabSr1PnmptOGt/fJQPDJyTxG5x3zvkDcdErCvvnSEddVu
- rLD3k8QooflCltJKbxIMDpx096bMi3FYdXuAxwZxR7lRlm0eLUDrfBOcnosmjFkNLOrA
- YmxYtuIEf2InBggn2lZ5yxjCxkDr6WeNVNzPQ0bqCIKnhQzdX2fL2wbdzMOhrkHzAXr0
- /7UA==
+ bh=qay0jNTmpyZq4ULzg3vkr0em7pJVaOqPAuzaBx5paoU=;
+ b=j4k7cODbUlVvQ57DiYLgTqp2bcvpN+C+0KnuW8UCb+C/svfe3m9L7eyoWteQYQySZ1
+ 2rv8KXr2nxCirPDDrM1leGwtgTlQ6e0UQfbFDH5dtu1yLtyVww7hwMK0ksNaGcIVBije
+ 0GrNjHLwVJSNKuMj2N0KMvBB/jky0xygnccjx2cbSSfEH34yrS2zGvMiGUAk+ZiXwpyw
+ qxc85AijBIVDUOf/BehJs39QnmrGqCA9+rKZTAAeV3ipM3gYGnjJD8Ho+/rgTExKheg/
+ 0vSRmOxlj5N4UHCmTYrkcyNe/nG4QMspPI22kaYHUCRgUswnDGLMoh3amtKR5uIQqRUU
+ Jv3A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=1C9DAauAp7ESr+w+Jngt35D1tFX2Zjw12yc74O3Eyt0=;
- b=KzT/xrpHTDtdX5IbqkvfVQyKEm9VwQ8Fn6Egvk3UD1waNNe3we5f2Vic1QI4/Ks627
- f7P+CHNKw6PAnuYLE84kbBLoOFV/2Q8f5CjoGsNu9N6j+9BnBN4xkVLXrcL7+pdvmJjF
- a2FLII6img21srlyCl+5Suh7IuEpk0aIljraeHCslkcCUTr1w65J8QsZREAsjJ55zDvm
- UmIiV0FgM82cSocK1Ov+UjvVgEsueIH7dUh+NK7/kgBi/CYZYztmIJj7Y56hA97B0Wsb
- biFlgv6GblPExZtuEbejA01jkzuHj9yBWtffmrEWXp9/44n7MnkqAvgDXtHQ1r2APFYz
- l5xA==
-X-Gm-Message-State: AOAM530Lfqi6SMQ5+2RhrMnBdC1l20DopNvM/xWaUKe88Mjh8CfuoOoF
- OML+wxcbXxA6tr7VUieEwwPQHMu1G7FcQQ==
-X-Google-Smtp-Source: ABdhPJwfb5u8UMtoi/pN5pEW32Yz4eLUqcN4JCZ8OQgzVEYnHmepQXrfKxFYZzDr63PwLRxu9FnVHw==
-X-Received: by 2002:a17:90a:bf05:: with SMTP id c5mr166021pjs.95.1610050544925; 
- Thu, 07 Jan 2021 12:15:44 -0800 (PST)
+ bh=qay0jNTmpyZq4ULzg3vkr0em7pJVaOqPAuzaBx5paoU=;
+ b=bpEAHK8+BL3hpT3Z1DwIfKNoA9/+D/e5ZaRn1TuWcu11mUXiHNER+6GVORjTYqzNwO
+ qiL7j18ZI4S2wnqho/uyvAyrMV24v1xtQr88nrfDbxg1ZpCncQIN7LtpaKkF/Zq7WWR2
+ 8iYLwY5/N0i5vIeEihkLK+bF2lYQH5z9VUM3DYxJPV+IOQForKURxJNCwRyeeboKmnMo
+ tmEfIqvvgMTJduzqSUG+ojuZ7H3Txm/z05AgTJgMpGmJF0OVNOC2TXAx/Gb3KtgnoEKq
+ Drw1zBoUNqw+qM+HzRAyojQsOWPlYrP5xtd/O4tul4fl2jqXMoMmxhg9j7E7DpZUIBMW
+ ipQg==
+X-Gm-Message-State: AOAM531p3MUyyGoiEpeX8TmQesKWnODGLvrUtyfEUQ9Pm21EV/8q/cAm
+ wgcD404M+C2djpDm6D4JyfXjbqa/rnPIlQ==
+X-Google-Smtp-Source: ABdhPJzb+Ji2n0vbVBnAATMic2zp687AwxbAT6KlNVhqM6Q3pFmPXrklLTRlTEEBNc9g8RSUtVsx5Q==
+X-Received: by 2002:a17:90a:e60d:: with SMTP id
+ j13mr211559pjy.52.1610050546543; 
+ Thu, 07 Jan 2021 12:15:46 -0800 (PST)
 Received: from localhost.localdomain (rrcs-173-197-107-21.west.biz.rr.com.
  [173.197.107.21])
- by smtp.gmail.com with ESMTPSA id v6sm6516265pfi.31.2021.01.07.12.15.43
+ by smtp.gmail.com with ESMTPSA id v6sm6516265pfi.31.2021.01.07.12.15.45
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 07 Jan 2021 12:15:44 -0800 (PST)
+ Thu, 07 Jan 2021 12:15:46 -0800 (PST)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 30/47] tcg: Introduce tcg_tbrel_diff
-Date: Thu,  7 Jan 2021 10:14:31 -1000
-Message-Id: <20210107201448.1152301-31-richard.henderson@linaro.org>
+Subject: [PULL 31/47] tcg/ppc: Use tcg_tbrel_diff
+Date: Thu,  7 Jan 2021 10:14:32 -1000
+Message-Id: <20210107201448.1152301-32-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20210107201448.1152301-1-richard.henderson@linaro.org>
 References: <20210107201448.1152301-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::62e;
- envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x62e.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::630;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x630.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -83,40 +84,49 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: peter.maydell@linaro.org, Joelle van Dyne <j@getutm.app>
+Cc: peter.maydell@linaro.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Reviewed-by: Joelle van Dyne <j@getutm.app>
+Use tcg_tbrel_diff when we need a displacement to a label,
+and with a NULL argument when we need the normalizing addend.
+
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- include/tcg/tcg.h | 13 +++++++++++++
- 1 file changed, 13 insertions(+)
+ tcg/ppc/tcg-target.c.inc | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
-diff --git a/include/tcg/tcg.h b/include/tcg/tcg.h
-index e744a1ce02..e6fce9a049 100644
---- a/include/tcg/tcg.h
-+++ b/include/tcg/tcg.h
-@@ -1146,6 +1146,19 @@ static inline ptrdiff_t tcg_pcrel_diff(TCGContext *s, const void *target)
-     return tcg_ptr_byte_diff(target, tcg_splitwx_to_rx(s->code_ptr));
- }
+diff --git a/tcg/ppc/tcg-target.c.inc b/tcg/ppc/tcg-target.c.inc
+index 0eb9c4ebe2..ed7a201578 100644
+--- a/tcg/ppc/tcg-target.c.inc
++++ b/tcg/ppc/tcg-target.c.inc
+@@ -837,7 +837,7 @@ static void tcg_out_movi_int(TCGContext *s, TCGType type, TCGReg ret,
+     }
  
-+/**
-+ * tcg_tbrel_diff
-+ * @s: the tcg context
-+ * @target: address of the target
-+ *
-+ * Produce a difference, from the beginning of the current TB code
-+ * to the destination address.
-+ */
-+static inline ptrdiff_t tcg_tbrel_diff(TCGContext *s, const void *target)
-+{
-+    return tcg_ptr_byte_diff(target, tcg_splitwx_to_rx(s->code_buf));
-+}
-+
- /**
-  * tcg_current_code_size
-  * @s: the tcg context
+     /* Load addresses within the TB with one insn.  */
+-    tb_diff = arg - (intptr_t)s->code_gen_ptr;
++    tb_diff = tcg_tbrel_diff(s, (void *)arg);
+     if (!in_prologue && USE_REG_TB && tb_diff == (int16_t)tb_diff) {
+         tcg_out32(s, ADDI | TAI(ret, TCG_REG_TB, tb_diff));
+         return;
+@@ -890,7 +890,7 @@ static void tcg_out_movi_int(TCGContext *s, TCGType type, TCGReg ret,
+     /* Use the constant pool, if possible.  */
+     if (!in_prologue && USE_REG_TB) {
+         new_pool_label(s, arg, R_PPC_ADDR16, s->code_ptr,
+-                       -(intptr_t)s->code_gen_ptr);
++                       tcg_tbrel_diff(s, NULL));
+         tcg_out32(s, LD | TAI(ret, TCG_REG_TB, 0));
+         return;
+     }
+@@ -940,7 +940,7 @@ static void tcg_out_dupi_vec(TCGContext *s, TCGType type, TCGReg ret,
+      */
+     if (USE_REG_TB) {
+         rel = R_PPC_ADDR16;
+-        add = -(intptr_t)s->code_gen_ptr;
++        add = tcg_tbrel_diff(s, NULL);
+     } else {
+         rel = R_PPC_ADDR32;
+         add = 0;
 -- 
 2.25.1
 
