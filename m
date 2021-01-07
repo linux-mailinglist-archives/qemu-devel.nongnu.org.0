@@ -2,46 +2,46 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 079AB2ED59F
-	for <lists+qemu-devel@lfdr.de>; Thu,  7 Jan 2021 18:29:55 +0100 (CET)
-Received: from localhost ([::1]:37132 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2E80E2ED553
+	for <lists+qemu-devel@lfdr.de>; Thu,  7 Jan 2021 18:19:29 +0100 (CET)
+Received: from localhost ([::1]:37326 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kxZ6g-0002H7-2O
-	for lists+qemu-devel@lfdr.de; Thu, 07 Jan 2021 12:29:54 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50250)
+	id 1kxYwa-0006KA-4X
+	for lists+qemu-devel@lfdr.de; Thu, 07 Jan 2021 12:19:28 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48330)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <keithp@vr.keithp.com>)
- id 1kxYvs-0005oU-C4; Thu, 07 Jan 2021 12:18:44 -0500
-Received: from home.keithp.com ([63.227.221.253]:55722 helo=elaine.keithp.com)
+ id 1kxYrI-0000py-Kq; Thu, 07 Jan 2021 12:14:01 -0500
+Received: from home.keithp.com ([63.227.221.253]:55570 helo=elaine.keithp.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <keithp@vr.keithp.com>)
- id 1kxYvq-0003Uw-NM; Thu, 07 Jan 2021 12:18:44 -0500
+ id 1kxYrG-0001ce-0l; Thu, 07 Jan 2021 12:14:00 -0500
 Received: from localhost (localhost [127.0.0.1])
- by elaine.keithp.com (Postfix) with ESMTP id D09783F2E325;
- Thu,  7 Jan 2021 09:07:26 -0800 (PST)
+ by elaine.keithp.com (Postfix) with ESMTP id D649F3F2E33F;
+ Thu,  7 Jan 2021 09:07:27 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=keithp.com; s=mail;
- t=1610039246; bh=bhuL9gru7dcwx7hNurPSG0LXo6Gk/htLgalKFE4yYNQ=;
+ t=1610039247; bh=HQ2no4pmFUfdvBf2Fr5onjS6Anm6WNhxIKyNg4sErU0=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=Zfa93vr1u9afwP+YSO+A13dxkreCFQveHsyyh3lk7ZvpgWFrCvari1WRkCYDBrWKT
- 4C3W4Q0V7YYrTBgZG8RPH5RWHfD9E8zLEKNNrmnrm9ZJA2dHpLmq+8abhN5wXaR7uF
- MzuWNAKCfX3SC17bNbirn6LgVAAhN8HwiAAPnusmC4/pckjgjzGdoDp1ddRN7iMxYg
- 2qDwD+pw/JAr+5Sn6kpL6iB8VsXe9pD6ZSd4spIWWZ196KRmfeuveGVR27BRp+6zFO
- J+OHYaEh9NPRZNBPrPebn4fce8N33gOC17EvQqHkyR86LsCinpfrf6/3PVRgWmJ2Ww
- IOV3iCgfXpTUw==
+ b=q6QV/diK9I+bDV+cCRonS0Dqr3ZqElKCegoM3HjGg9Nay1O7PBIThyocXEMQX2dl7
+ MPpFVmlQGb1JmvRPMF9uKdnyNHKKg5wwJMca3YgIhpfusHOcanyVQde8VqwLVdJxhc
+ MEoYJPXtKC5BsjwQgIgjt59UKHGfLr9Liu4ySwThthx8FZP5d26r018fQkH0XB71pg
+ GY+5SJWzHn5eLxE9M7w1J1C3jQURLbAfWI/KyXnYW1wf+vnhLtB/wQDHg0fV1XIuNp
+ Qd278RITnaO4AYUZYm/+DmLFBMsdOZyWBjaJSmHKA03MKZtv3AsgpdwFdiWKWUKnFf
+ AAv5r+TxQ508Q==
 X-Virus-Scanned: Debian amavisd-new at keithp.com
 Received: from elaine.keithp.com ([127.0.0.1])
  by localhost (elaine.keithp.com [127.0.0.1]) (amavisd-new, port 10024)
- with LMTP id TcbzPHBZo4ah; Thu,  7 Jan 2021 09:07:26 -0800 (PST)
+ with LMTP id gq7fO4VHvDkL; Thu,  7 Jan 2021 09:07:27 -0800 (PST)
 Received: from vr.keithp.com (vr.keithp.com [10.0.0.39])
- by elaine.keithp.com (Postfix) with ESMTP id 0C36B3F2E35D;
+ by elaine.keithp.com (Postfix) with ESMTP id 3F63E3F2E381;
  Thu,  7 Jan 2021 09:07:24 -0800 (PST)
 Received: by vr.keithp.com (Postfix, from userid 1000)
- id E3715742D0D; Thu,  7 Jan 2021 09:07:23 -0800 (PST)
+ id 2CFD2742D0D; Thu,  7 Jan 2021 09:07:23 -0800 (PST)
 To: qemu-devel@nongnu.org
-Subject: [PATCH 6/9] riscv: Add semihosting support for user mode
-Date: Thu,  7 Jan 2021 09:07:14 -0800
-Message-Id: <20210107170717.2098982-7-keithp@keithp.com>
+Subject: [PATCH 7/9] semihosting: Implement SYS_ELAPSED and SYS_TICKFREQ
+Date: Thu,  7 Jan 2021 09:07:15 -0800
+Message-Id: <20210107170717.2098982-8-keithp@keithp.com>
 X-Mailer: git-send-email 2.29.2
 In-Reply-To: <20210107170717.2098982-1-keithp@keithp.com>
 References: <20210107170717.2098982-1-keithp@keithp.com>
@@ -72,50 +72,112 @@ Cc: Peter Maydell <peter.maydell@linaro.org>, Keith Packard <keithp@keithp.com>,
  Bastian Koppelmann <kbastian@mail.uni-paderborn.de>,
  Laurent Vivier <laurent@vivier.eu>, qemu-arm@nongnu.org,
  Alistair Francis <Alistair.Francis@wdc.com>,
- Palmer Dabbelt <palmer@dabbelt.com>, Kito Cheng <kito.cheng@sifive.com>,
+ Palmer Dabbelt <palmer@dabbelt.com>,
  =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 Reply-to: Keith Packard <keithp@keithp.com>
 From: Keith Packard via <qemu-devel@nongnu.org>
 
-From: Kito Cheng <kito.cheng@sifive.com>
+These are part of Semihosting for AArch32 and AArch64 Release 2.0
 
-This could made testing more easier and ARM/AArch64 has supported on
-their linux user mode too, so I think it should be reasonable.
-
-Verified GCC testsuite with newlib/semihosting.
-
-Signed-off-by: Kito Cheng <kito.cheng@sifive.com>
-Reviewed-by: Keith Packard <keithp@keithp.com>
-Message-Id: <20201214200713.3886611-7-keithp@keithp.com>
+Signed-off-by: Keith Packard <keithp@keithp.com>
+Message-Id: <20201214200713.3886611-8-keithp@keithp.com>
 ---
- linux-user/riscv/cpu_loop.c | 5 +++++
- 1 file changed, 5 insertions(+)
+ hw/semihosting/common-semi.c | 16 ++++++++++++++++
+ include/qemu/timer.h         |  2 ++
+ util/qemu-timer-common.c     |  4 ++++
+ 3 files changed, 22 insertions(+)
 
-diff --git a/linux-user/riscv/cpu_loop.c b/linux-user/riscv/cpu_loop.c
-index aa9e437875..9665dabb09 100644
---- a/linux-user/riscv/cpu_loop.c
-+++ b/linux-user/riscv/cpu_loop.c
-@@ -23,6 +23,7 @@
+diff --git a/hw/semihosting/common-semi.c b/hw/semihosting/common-semi.c
+index f0cf5f10f5..b1368d945c 100644
+--- a/hw/semihosting/common-semi.c
++++ b/hw/semihosting/common-semi.c
+@@ -38,6 +38,7 @@
+ #include "hw/semihosting/console.h"
+ #include "hw/semihosting/common-semi.h"
+ #include "qemu/log.h"
++#include "qemu/timer.h"
+ #ifdef CONFIG_USER_ONLY
  #include "qemu.h"
- #include "cpu_loop-common.h"
- #include "elf.h"
-+#include "hw/semihosting/common-semi.h"
  
- void cpu_loop(CPURISCVState *env)
- {
-@@ -91,6 +92,10 @@ void cpu_loop(CPURISCVState *env)
-             sigcode = TARGET_SEGV_MAPERR;
-             sigaddr = env->badaddr;
-             break;
-+        case RISCV_EXCP_SEMIHOST:
-+            env->gpr[xA0] = do_common_semihosting(cs);
-+            env->pc += 4;
-+            break;
-         case EXCP_DEBUG:
-         gdbstep:
-             signum = TARGET_SIGTRAP;
+@@ -73,6 +74,8 @@
+ #define TARGET_SYS_EXIT        0x18
+ #define TARGET_SYS_SYNCCACHE   0x19
+ #define TARGET_SYS_EXIT_EXTENDED 0x20
++#define TARGET_SYS_ELAPSED     0x30
++#define TARGET_SYS_TICKFREQ    0x31
+ 
+ /* ADP_Stopped_ApplicationExit is used for exit(0),
+  * anything else is implemented as exit(1) */
+@@ -837,6 +840,7 @@ target_ulong do_common_semihosting(CPUState *cs)
+     uint32_t ret;
+     uint32_t len;
+     GuestFD *gf;
++    int64_t elapsed;
+ 
+     (void) env; /* Used implicitly by arm lock_user macro */
+     nr = common_semi_arg(cs, 0) & 0xffffffffU;
+@@ -1246,6 +1250,18 @@ target_ulong do_common_semihosting(CPUState *cs)
+         }
+         gdb_exit(cs->env_ptr, ret);
+         exit(ret);
++    case TARGET_SYS_ELAPSED:
++        elapsed = get_clock() - clock_start;
++        if (sizeof(target_ulong) == 8) {
++            SET_ARG(0, elapsed);
++        } else {
++            SET_ARG(0, (uint32_t) elapsed);
++            SET_ARG(1, (uint32_t) (elapsed >> 32));
++        }
++        return 0;
++    case TARGET_SYS_TICKFREQ:
++        /* qemu always uses nsec */
++        return 1000000000;
+     case TARGET_SYS_SYNCCACHE:
+         /*
+          * Clean the D-cache and invalidate the I-cache for the specified
+diff --git a/include/qemu/timer.h b/include/qemu/timer.h
+index bdecc5b41f..ca6fae51f1 100644
+--- a/include/qemu/timer.h
++++ b/include/qemu/timer.h
+@@ -806,6 +806,8 @@ static inline int64_t get_clock_realtime(void)
+     return tv.tv_sec * 1000000000LL + (tv.tv_usec * 1000);
+ }
+ 
++extern int64_t clock_start;
++
+ /* Warning: don't insert tracepoints into these functions, they are
+    also used by simpletrace backend and tracepoints would cause
+    an infinite recursion! */
+diff --git a/util/qemu-timer-common.c b/util/qemu-timer-common.c
+index baf3317f74..cc1326f726 100644
+--- a/util/qemu-timer-common.c
++++ b/util/qemu-timer-common.c
+@@ -27,6 +27,8 @@
+ /***********************************************************/
+ /* real time host monotonic timer */
+ 
++int64_t clock_start;
++
+ #ifdef _WIN32
+ 
+ int64_t clock_freq;
+@@ -41,6 +43,7 @@ static void __attribute__((constructor)) init_get_clock(void)
+         exit(1);
+     }
+     clock_freq = freq.QuadPart;
++    clock_start = get_clock();
+ }
+ 
+ #else
+@@ -55,5 +58,6 @@ static void __attribute__((constructor)) init_get_clock(void)
+     if (clock_gettime(CLOCK_MONOTONIC, &ts) == 0) {
+         use_rt_clock = 1;
+     }
++    clock_start = get_clock();
+ }
+ #endif
 -- 
 2.29.2
 
