@@ -2,52 +2,96 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 552F02ECE05
-	for <lists+qemu-devel@lfdr.de>; Thu,  7 Jan 2021 11:39:25 +0100 (CET)
-Received: from localhost ([::1]:56878 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 83FCC2ECE4B
+	for <lists+qemu-devel@lfdr.de>; Thu,  7 Jan 2021 11:57:03 +0100 (CET)
+Received: from localhost ([::1]:35504 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kxShQ-0002oO-ET
-	for lists+qemu-devel@lfdr.de; Thu, 07 Jan 2021 05:39:24 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44654)
+	id 1kxSyU-0007DZ-3N
+	for lists+qemu-devel@lfdr.de; Thu, 07 Jan 2021 05:57:02 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48020)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
- id 1kxSgV-0002L3-3A
- for qemu-devel@nongnu.org; Thu, 07 Jan 2021 05:38:27 -0500
-Received: from zero.eik.bme.hu ([152.66.115.2]:27376)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
- id 1kxSgR-0005LH-VV
- for qemu-devel@nongnu.org; Thu, 07 Jan 2021 05:38:26 -0500
-Received: from zero.eik.bme.hu (blah.eik.bme.hu [152.66.115.182])
- by localhost (Postfix) with SMTP id 5471C7470F8;
- Thu,  7 Jan 2021 11:38:21 +0100 (CET)
-Received: by zero.eik.bme.hu (Postfix, from userid 432)
- id 0ED107470F7; Thu,  7 Jan 2021 11:38:21 +0100 (CET)
-Received: from localhost (localhost [127.0.0.1])
- by zero.eik.bme.hu (Postfix) with ESMTP id 0D1937470F4;
- Thu,  7 Jan 2021 11:38:21 +0100 (CET)
-Date: Thu, 7 Jan 2021 11:38:21 +0100 (CET)
-From: BALATON Zoltan <balaton@eik.bme.hu>
-To: =?ISO-8859-15?Q?Philippe_Mathieu-Daud=E9?= <f4bug@amsat.org>
-Subject: Re: [PATCH 05/12] vt82c686: Make vt82c686b-pm an abstract base class
- and add vt8231-pm based on it
-In-Reply-To: <bb288088-db7b-005d-db5a-5a41fb15f069@amsat.org>
-Message-ID: <93a8537e-64c1-1a3-8eeb-2114a46458d@eik.bme.hu>
-References: <cover.1609967638.git.balaton@eik.bme.hu>
- <c8fa8df147473c3ec5f3284b4a5d37fc9741e824.1609967638.git.balaton@eik.bme.hu>
- <bb288088-db7b-005d-db5a-5a41fb15f069@amsat.org>
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1kxSx5-0006CH-RI
+ for qemu-devel@nongnu.org; Thu, 07 Jan 2021 05:55:35 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:37354)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1kxSx1-0004wK-4j
+ for qemu-devel@nongnu.org; Thu, 07 Jan 2021 05:55:34 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1610016929;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=OWbLmQlZgMTbYZOsUmeBdmLxC4yi3iByBupY0i+XKAA=;
+ b=DHT6gzgSAtf4WOrCVU035t2HFs8lbI5rtgWjpczG+MGCdptzHCQQmWVdIbP0mnAZMrqIZ9
+ s6jlAUWSybQk0iLK3XLkIlg6oMArG+584In/y6TSONXT2GhS06HHhDsN1uguwWQbfndtYs
+ bIstSKgABW7/ZgV6LHoMY8R3+2FXcwc=
+Received: from mail-ed1-f70.google.com (mail-ed1-f70.google.com
+ [209.85.208.70]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-99-Ap06Y3glNTGCXlaofTJeaA-1; Thu, 07 Jan 2021 05:55:15 -0500
+X-MC-Unique: Ap06Y3glNTGCXlaofTJeaA-1
+Received: by mail-ed1-f70.google.com with SMTP id dh21so3215009edb.6
+ for <qemu-devel@nongnu.org>; Thu, 07 Jan 2021 02:55:15 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=OWbLmQlZgMTbYZOsUmeBdmLxC4yi3iByBupY0i+XKAA=;
+ b=KekcgaxmBF39pMUgHJKfxSww+HdOSGQuvFlUrfGguV7uYGaMUIHlF16HeHQpaHwWCY
+ mDxbr089C6jzBLo6wSRbxNCrOCh15JUIJXc3m+OXEN7wP+t08O10IMfxplX3J0N7Qq/d
+ 0L+53koOOV/A3DAnKfMv/3sZXja5Wd85UyyFQYjlvarSL+MXqpvC7roou6JjHCAZ4RLk
+ iXrt18MFqKamOg/fkg6a/RJAyjzbfejz970AbhadpHEDU9Yoc6JRMX1SXJhOj1tr93E9
+ t/tiG37ticbkEcTDeuqZnwUJwV9/yTMAdbRyoLAnTpDWFaxCzjX0HKOqNG6knTyCbUYw
+ mj0Q==
+X-Gm-Message-State: AOAM530MGaJmtaKTNxyrjKs26Bmcme0MjvDRxgkE3KG2DcXd4ZJ88FBD
+ ar74QxTBa4J4NzVXq5oTX11owA9FZ1DDNvzOwMnEwxne3hyfccJfqZE6zoeUiX6z2Xne3ktRgZ5
+ aUbdTWD6JqQFkzFk=
+X-Received: by 2002:a17:906:810:: with SMTP id
+ e16mr6174796ejd.34.1610016914825; 
+ Thu, 07 Jan 2021 02:55:14 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJy8COpcLH12KHdTfnrCd6fpZSbIjh1E8k/eD9chRwu0mM2ZmFomHh3h80718DYZUrHIu6fgDQ==
+X-Received: by 2002:a17:906:810:: with SMTP id
+ e16mr6174791ejd.34.1610016914668; 
+ Thu, 07 Jan 2021 02:55:14 -0800 (PST)
+Received: from ?IPv6:2001:b07:6468:f312:5e2c:eb9a:a8b6:fd3e?
+ ([2001:b07:6468:f312:5e2c:eb9a:a8b6:fd3e])
+ by smtp.gmail.com with ESMTPSA id p12sm2274073ejc.116.2021.01.07.02.55.13
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 07 Jan 2021 02:55:13 -0800 (PST)
+Subject: Re: [PATCH v4 5/5] whpx: move whpx_lapic_state from header to c file
+To: =?UTF-8?Q?Marc-Andr=c3=a9_Lureau?= <marcandre.lureau@gmail.com>,
+ Yonggang Luo <luoyonggang@gmail.com>
+References: <20210107101919.80-1-luoyonggang@gmail.com>
+ <20210107101919.80-6-luoyonggang@gmail.com>
+ <CAJ+F1C+q9e08zX9OqkS4294oCNBAf-Gs7L9AomtYrc7vKyqCEA@mail.gmail.com>
+From: Paolo Bonzini <pbonzini@redhat.com>
+Message-ID: <7b3d24b7-d301-549d-abc2-613f02c8843e@redhat.com>
+Date: Thu, 7 Jan 2021 11:55:12 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.5.0
 MIME-Version: 1.0
-Content-Type: multipart/mixed;
- boundary="3866299591-1623005816-1610015901=:62010"
-X-Spam-Probability: 9%
-Received-SPF: pass client-ip=152.66.115.2; envelope-from=balaton@eik.bme.hu;
- helo=zero.eik.bme.hu
-X-Spam_score_int: -41
-X-Spam_score: -4.2
-X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <CAJ+F1C+q9e08zX9OqkS4294oCNBAf-Gs7L9AomtYrc7vKyqCEA@mail.gmail.com>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=pbonzini@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=pbonzini@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -32
+X-Spam_score: -3.3
+X-Spam_bar: ---
+X-Spam_report: (-3.3 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.252,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.249, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -60,121 +104,30 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Igor Mammedov <imammedo@redhat.com>, Huacai Chen <chenhuacai@kernel.org>,
- qemu-devel@nongnu.org
+Cc: Sunil Muthuswamy <sunilmut@microsoft.com>, Ed Maste <emaste@freebsd.org>,
+ QEMU <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-  This message is in MIME format.  The first part should be readable text,
-  while the remaining parts are likely unreadable without MIME-aware tools.
+On 07/01/21 11:28, Marc-André Lureau wrote:
+> Hi
+> 
+> On Thu, Jan 7, 2021 at 2:26 PM Yonggang Luo <luoyonggang@gmail.com 
+> <mailto:luoyonggang@gmail.com>> wrote:
+> 
+>     This struct only used in whpx-apic.c, there is no need
+>     expose it in whpx.h.
+> 
+>     Signed-off-by: Yonggang Luo <luoyonggang@gmail.com
+>     <mailto:luoyonggang@gmail.com>>
+> 
+> 
+> Similar patch pending:
+> https://patchew.org/QEMU/20201219090637.1700900-1-pbonzini@redhat.com/20201219090637.1700900-3-pbonzini@redhat.com/ 
+> <https://patchew.org/QEMU/20201219090637.1700900-1-pbonzini@redhat.com/20201219090637.1700900-3-pbonzini@redhat.com/>
 
---3866299591-1623005816-1610015901=:62010
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 8BIT
+This one could still be applied before or after mine, it makes sense.
 
-On Thu, 7 Jan 2021, Philippe Mathieu-Daudé wrote:
-> Hi Zoltan,
->
-> On 1/6/21 10:13 PM, BALATON Zoltan wrote:
->> The vt82c686b-pm model can be shared between VT82C686B and VT8231. The
->> only difference between the two is the device id in what we emulate so
->> make an abstract via-pm model by renaming appropriately and add types
->> for vt82c686b-pm and vt8231-pm based on it.
->>
->> Signed-off-by: BALATON Zoltan <balaton@eik.bme.hu>
->> ---
->>  hw/isa/vt82c686.c         | 87 ++++++++++++++++++++++++++-------------
->>  include/hw/isa/vt82c686.h |  1 +
->>  2 files changed, 59 insertions(+), 29 deletions(-)
-> ...
->
->> +typedef struct via_pm_init_info {
->> +    uint16_t device_id;
->> +} ViaPMInitInfo;
->> +
->>  static void via_pm_class_init(ObjectClass *klass, void *data)
->>  {
->>      DeviceClass *dc = DEVICE_CLASS(klass);
->>      PCIDeviceClass *k = PCI_DEVICE_CLASS(klass);
->> +    ViaPMInitInfo *info = data;
->>
->> -    k->realize = vt82c686b_pm_realize;
->> +    k->realize = via_pm_realize;
->>      k->config_write = pm_write_config;
->>      k->vendor_id = PCI_VENDOR_ID_VIA;
->> -    k->device_id = PCI_DEVICE_ID_VIA_ACPI;
->> +    k->device_id = info->device_id;
->>      k->class_id = PCI_CLASS_BRIDGE_OTHER;
->>      k->revision = 0x40;
->> -    dc->reset = vt82c686b_pm_reset;
->> -    dc->desc = "PM";
->> +    dc->reset = via_pm_reset;
->
->> +    /* Reason: part of VIA south bridge, does not exist stand alone */
->> +    dc->user_creatable = false;
->>      dc->vmsd = &vmstate_acpi;
->> -    set_bit(DEVICE_CATEGORY_BRIDGE, dc->categories);
->
-> Please do this change in a previous patch.
+Paolo
 
-OK, done.
-
->>  }
->>
->>  static const TypeInfo via_pm_info = {
->> -    .name          = TYPE_VT82C686B_PM,
->> +    .name          = TYPE_VIA_PM,
->>      .parent        = TYPE_PCI_DEVICE,
->> -    .instance_size = sizeof(VT686PMState),
->> -    .class_init    = via_pm_class_init,
->> +    .instance_size = sizeof(ViaPMState),
->> +    .abstract      = true,
->>      .interfaces = (InterfaceInfo[]) {
->>          { INTERFACE_CONVENTIONAL_PCI_DEVICE },
->>          { },
->>      },
->>  };
->>
->> +static const ViaPMInitInfo vt82c686b_pm_init_info = {
->> +    .device_id = PCI_DEVICE_ID_VIA_ACPI,
->> +};
->> +
->> +static const TypeInfo vt82c686b_pm_info = {
->> +    .name          = TYPE_VT82C686B_PM,
->> +    .parent        = TYPE_VIA_PM,
->> +    .class_init    = via_pm_class_init,
->> +    .class_data    = (void *)&vt82c686b_pm_init_info,
->
-> Igor said new code should avoid using .class_data:
-> https://www.mail-archive.com/qemu-devel@nongnu.org/msg678305.html
-> Can you convert to "leaf class"? Then this patch is good to go.
-
-That says for machines it is not advised (and Igor generally prefers init 
-funcs everywhere) but this is a device model. Is it still not allowed to 
-use class_data here? I think this is shorter this way than with an init 
-function but I may try to convert if absolutely necessary.
-
-Regards,
-BALATON Zoltan
-
-> A trivial example of conversion is commit f0eeb4b6154
-> ("hw/arm/raspi: Avoid using TypeInfo::class_data pointer").
->
->> +};
->> +
->> +static const ViaPMInitInfo vt8231_pm_init_info = {
->> +    .device_id = 0x8235,
->> +};
->> +
->> +static const TypeInfo vt8231_pm_info = {
->> +    .name          = TYPE_VT8231_PM,
->> +    .parent        = TYPE_VIA_PM,
->> +    .class_init    = via_pm_class_init,
->> +    .class_data    = (void *)&vt8231_pm_init_info,
->> +};
->>
->>
->
->
---3866299591-1623005816-1610015901=:62010--
 
