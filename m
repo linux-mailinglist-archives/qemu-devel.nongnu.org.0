@@ -2,67 +2,92 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EF88B2ED5B0
-	for <lists+qemu-devel@lfdr.de>; Thu,  7 Jan 2021 18:31:44 +0100 (CET)
-Received: from localhost ([::1]:40314 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8C4392ED5C1
+	for <lists+qemu-devel@lfdr.de>; Thu,  7 Jan 2021 18:38:28 +0100 (CET)
+Received: from localhost ([::1]:53476 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kxZ8R-0004B0-VW
-	for lists+qemu-devel@lfdr.de; Thu, 07 Jan 2021 12:31:44 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50722)
+	id 1kxZEx-00024p-KW
+	for lists+qemu-devel@lfdr.de; Thu, 07 Jan 2021 12:38:27 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52378)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1kxYxB-00009t-90; Thu, 07 Jan 2021 12:20:05 -0500
-Received: from mail-il1-x130.google.com ([2607:f8b0:4864:20::130]:46495)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1kxYx9-00045J-9F; Thu, 07 Jan 2021 12:20:04 -0500
-Received: by mail-il1-x130.google.com with SMTP id 75so7404038ilv.13;
- Thu, 07 Jan 2021 09:20:02 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=ptcMxe9Nv82uu4oxcfnXc+mpUaxY1oKqsL8yWJb7fS0=;
- b=X1nScLwpP6JgOPzsHdRK41lvP0lB7+i5Cic101pCMRIlw4RVzKO7JxuyFO/l5Y2MI6
- 8Aas4DQFaY9Mqyy1iPTf1iP4wsf9fhOaIJ6EPJcBR9kmy1srkboX779DVXrmp2iW4a7V
- Wgg+XksyfZH2sPAI+kKHw3omTod0Wf5iuil0E4FiBGM0/0cHrgdIHD9HcIt1QM9vXFRI
- 5mkB5v++kRH68gtL3St65AoTxU9SWqm7MDoIaOv08ZUW9WzF5igE8lBfaWGue8azQmdY
- hgiX+GUugGdzq/ckiKHqBnyYU1sHocZDO/ciLjhD7e6f9l+ZtLuyVtO/aKyMbFRmnOV9
- 8owQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=ptcMxe9Nv82uu4oxcfnXc+mpUaxY1oKqsL8yWJb7fS0=;
- b=NTuBkxCM/OJo0Ggd8kmPZMFSPun0rS5N1Off2vOftk5uGKCRwwmy8hSmYfr1NvJB7y
- Ts8kDiyNXTMvraXyoO829I3OQnv1E7yluObm/qG8nhGO5RKnhfbL961nAC0qdMpJbQ08
- +vPyaEOqX41JcEw35GOa9Oe/5xNPAIWvnY+cFAWEbq9kBBkeO1gRAwIKyJHpeC6oHG+5
- 8DsVKqvsvBV1ph96prPc9FBxIzgQ5xTGXHnmzESBUdU8SpGh1BuH2J/p7VHmOV1impdV
- LRb2ZJX8jjfGl/mRSAIDnWB1iOnVotiLXJXEmUWHYF8mff3pRsMwU/CkbqsNkz/7nTr6
- i9lg==
-X-Gm-Message-State: AOAM531F2T1AnGpwjvOXA8oChpUM8wJyC3O44gAQ4Taa/JJR0E9jY6DP
- U7mbXrMgiFPQ7rZSDbnyac2zCAXs8++MC2WQWdI=
-X-Google-Smtp-Source: ABdhPJzQPyDFut/EvllcjoJdeYqDylzVn4KQaWMGgUBMFkbOEp9Nrd7uio748m5vTckRfcAC9fb2xcbH8xxUrgE0LU8=
-X-Received: by 2002:a92:dc0f:: with SMTP id t15mr9955096iln.267.1610040002077; 
- Thu, 07 Jan 2021 09:20:02 -0800 (PST)
-MIME-Version: 1.0
-References: <20201223192553.332508-1-atish.patra@wdc.com>
-In-Reply-To: <20201223192553.332508-1-atish.patra@wdc.com>
-From: Alistair Francis <alistair23@gmail.com>
-Date: Thu, 7 Jan 2021 09:19:35 -0800
-Message-ID: <CAKmqyKO7uRewgKZz9V5BP5Xnqw8HWaCruaQta1JK_HvzmhdR+Q@mail.gmail.com>
-Subject: Re: [PATCH v2] target/riscv/pmp: Raise exception if no PMP entry is
- configured
-To: Atish Patra <atish.patra@wdc.com>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::130;
- envelope-from=alistair23@gmail.com; helo=mail-il1-x130.google.com
-X-Spam_score_int: -17
-X-Spam_score: -1.8
-X-Spam_bar: -
-X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ (Exim 4.90_1) (envelope-from <jag.raman@oracle.com>)
+ id 1kxZ1H-0005Vo-VQ
+ for qemu-devel@nongnu.org; Thu, 07 Jan 2021 12:24:20 -0500
+Received: from aserp2120.oracle.com ([141.146.126.78]:58862)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <jag.raman@oracle.com>)
+ id 1kxZ1F-0005cP-Bd
+ for qemu-devel@nongnu.org; Thu, 07 Jan 2021 12:24:19 -0500
+Received: from pps.filterd (aserp2120.oracle.com [127.0.0.1])
+ by aserp2120.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 107H9X73049772;
+ Thu, 7 Jan 2021 17:23:56 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com;
+ h=content-type :
+ mime-version : subject : from : in-reply-to : date : cc :
+ content-transfer-encoding : message-id : references : to;
+ s=corp-2020-01-29; bh=SZUTpPZtOCRPRUrIsa6LiZCqg/8RH1hwihoK/QUb70E=;
+ b=QDUt/nFmXly9va6nrn5qE50Q12k+7wg7fY63sIRbSjenfXGiSVd/o4vKoMXCoPfApbXR
+ KBpTFT6b4uFDG2V/fnkjGHokyXC22Wxqyt1Ad0Jq7qRleKcSu4H6xPCG5gzbDilFVZ1k
+ ETwydVUaBS4Sb143RqGxoGuyu9d1t16o+pphSc/oo/ngnG9+D+zT02dLVI3qU/i4BHbr
+ YgL1jISUiYpcmoPJnpSww00poWgvBg2t7apFEtVu60Sfm1ZYgTg+HTuDAKAVU0RD0T1p
+ PS1ypbDyFvBi98RdMS0SZwNeU+tLLFGwScqukxMz8deT6MnMykvTwp1UA1KCklE20GKA lA== 
+Received: from userp3030.oracle.com (userp3030.oracle.com [156.151.31.80])
+ by aserp2120.oracle.com with ESMTP id 35wepmdex7-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=FAIL);
+ Thu, 07 Jan 2021 17:23:56 +0000
+Received: from pps.filterd (userp3030.oracle.com [127.0.0.1])
+ by userp3030.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 107HBR8M052192;
+ Thu, 7 Jan 2021 17:23:55 GMT
+Received: from userv0122.oracle.com (userv0122.oracle.com [156.151.31.75])
+ by userp3030.oracle.com with ESMTP id 35w3g321ur-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Thu, 07 Jan 2021 17:23:55 +0000
+Received: from abhmp0014.oracle.com (abhmp0014.oracle.com [141.146.116.20])
+ by userv0122.oracle.com (8.14.4/8.14.4) with ESMTP id 107HNrf0030291;
+ Thu, 7 Jan 2021 17:23:53 GMT
+Received: from [10.39.243.43] (/10.39.243.43)
+ by default (Oracle Beehive Gateway v4.0)
+ with ESMTP ; Thu, 07 Jan 2021 17:23:52 +0000
+Content-Type: text/plain;
+	charset=utf-8
+Mime-Version: 1.0 (Mac OS X Mail 14.0 \(3654.40.0.2.32\))
+Subject: Re: [PATCH] multi-process: Acceptance test for multiprocess QEMU
+From: Jag Raman <jag.raman@oracle.com>
+In-Reply-To: <CAJ+F1CLD8=GWaU788a2JLsOCtpnDsR4u6rg0ghZL_pvEcrVYOw@mail.gmail.com>
+Date: Thu, 7 Jan 2021 12:23:49 -0500
+Content-Transfer-Encoding: quoted-printable
+Message-Id: <241A0E86-9570-49DC-8F91-A4CEC9DA4B0B@oracle.com>
+References: <785772783205140e219b8bfe7f793305ee768f03.1608705805.git.elena.ufimtseva@oracle.com>
+ <CAJ+F1C+D6zjN-exiJnevB_GB58xCPcP7TpCHHzYxWm7BvOi3dw@mail.gmail.com>
+ <20201223184940.GA251460@heatpipe>
+ <1CFD4614-B351-487A-B01D-1F2D0E282FC5@oracle.com>
+ <CAJ+F1CLD8=GWaU788a2JLsOCtpnDsR4u6rg0ghZL_pvEcrVYOw@mail.gmail.com>
+To: =?utf-8?Q?Marc-Andr=C3=A9_Lureau?= <marcandre.lureau@gmail.com>
+X-Mailer: Apple Mail (2.3654.40.0.2.32)
+X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9857
+ signatures=668683
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 mlxscore=0
+ malwarescore=0 adultscore=0
+ phishscore=0 spamscore=0 mlxlogscore=999 suspectscore=0 bulkscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2009150000
+ definitions=main-2101070101
+X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9857
+ signatures=668683
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 adultscore=0
+ bulkscore=0 spamscore=0
+ impostorscore=0 phishscore=0 lowpriorityscore=0 suspectscore=0
+ priorityscore=1501 mlxscore=0 malwarescore=0 clxscore=1015 mlxlogscore=999
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2009150000
+ definitions=main-2101070101
+Received-SPF: pass client-ip=141.146.126.78; envelope-from=jag.raman@oracle.com;
+ helo=aserp2120.oracle.com
+X-Spam_score_int: -45
+X-Spam_score: -4.6
+X-Spam_bar: ----
+X-Spam_report: (-4.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.246,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_MED=-2.3, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_PASS=-0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -76,93 +101,233 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "open list:RISC-V" <qemu-riscv@nongnu.org>,
- Sagar Karandikar <sagark@eecs.berkeley.edu>,
- Bastian Koppelmann <kbastian@mail.uni-paderborn.de>,
- Anup Patel <anup.patel@wdc.com>,
- "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
- Alistair Francis <Alistair.Francis@wdc.com>,
- Palmer Dabbelt <palmer@dabbelt.com>
+Cc: Elena Ufimtseva <elena.ufimtseva@oracle.com>, Fam Zheng <fam@euphon.net>,
+ Swapnil Ingle <swapnil.ingle@nutanix.com>,
+ John G Johnson <john.g.johnson@oracle.com>, QEMU <qemu-devel@nongnu.org>,
+ Gerd Hoffmann <kraxel@redhat.com>, Juan Quintela <quintela@redhat.com>,
+ "Michael S. Tsirkin" <mst@redhat.com>, Markus Armbruster <armbru@redhat.com>,
+ Kanth Ghatraju <kanth.ghatraju@oracle.com>,
+ Felipe Franciosi <felipe@nutanix.com>, Thomas Huth <thuth@redhat.com>,
+ Eduardo Habkost <ehabkost@redhat.com>,
+ Konrad Rzeszutek Wilk <konrad.wilk@oracle.com>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
+ Alex Williamson <alex.williamson@redhat.com>,
+ Stefan Hajnoczi <stefanha@redhat.com>,
+ Thanos Makatos <thanos.makatos@nutanix.com>, Kevin Wolf <kwolf@redhat.com>,
+ "Daniel P. Berrange" <berrange@redhat.com>, Max Reitz <mreitz@redhat.com>,
+ Ross Lagerwall <ross.lagerwall@citrix.com>,
+ Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, Dec 23, 2020 at 11:26 AM Atish Patra <atish.patra@wdc.com> wrote:
->
-> As per the privilege specification, any access from S/U mode should fail
-> if no pmp region is configured.
 
-This doesn't sound right, the spec says:
 
-"If no PMP entry matches an S-mode or U-mode access, but at least one
-PMP entry is implemented, the access fails."
+> On Jan 6, 2021, at 8:51 AM, Marc-Andr=C3=A9 Lureau =
+<marcandre.lureau@gmail.com> wrote:
+>=20
+> Hi
+>=20
+> On Tue, Dec 29, 2020 at 8:19 PM Jag Raman <jag.raman@oracle.com> =
+wrote:
+>=20
+>=20
+> > On Dec 23, 2020, at 1:49 PM, Elena Ufimtseva =
+<elena.ufimtseva@oracle.com> wrote:
+> >=20
+> > On Wed, Dec 23, 2020 at 03:01:24PM +0400, Marc-Andr=C3=A9 Lureau =
+wrote:
+> >> Hi
+> >>=20
+> >> On Wed, Dec 23, 2020 at 10:45 AM <elena.ufimtseva@oracle.com> =
+wrote:
+> >>=20
+> >>> From: Jagannathan Raman <jag.raman@oracle.com>
+> >>>=20
+> >>> Runs the Avocado acceptance test to check if a
+> >>> remote lsi53c895a device gets identified by the guest.
+> >>>=20
+> >>> Signed-off-by: Elena Ufimtseva <elena.ufimtseva@oracle.com>
+> >>> Signed-off-by: John G Johnson <john.g.johnson@oracle.com>
+> >>> Signed-off-by: Jagannathan Raman <jag.raman@oracle.com>
+> >>> ---
+> >>> tests/acceptance/multiprocess.py | 104 =
++++++++++++++++++++++++++++++++
+> >>> 1 file changed, 104 insertions(+)
+> >>> create mode 100644 tests/acceptance/multiprocess.py
+> >>>=20
+> >>> diff --git a/tests/acceptance/multiprocess.py
+> >>> b/tests/acceptance/multiprocess.py
+> >>> new file mode 100644
+> >>> index 0000000000..d10b4d2c05
+> >>> --- /dev/null
+> >>> +++ b/tests/acceptance/multiprocess.py
+> >>> @@ -0,0 +1,104 @@
+> >>> +# Test for multiprocess qemu
+> >>> +#
+> >>> +# This work is licensed under the terms of the GNU GPL, version 2 =
+or
+> >>> +# later.  See the COPYING file in the top-level directory.
+> >>> +
+> >>> +
+> >>> +from avocado_qemu import Test
+> >>> +from avocado_qemu import wait_for_console_pattern
+> >>> +from avocado_qemu import exec_command_and_wait_for_pattern
+> >>> +
+> >>> +from qemu.accel import kvm_available
+> >>> +
+> >>> +import os
+> >>> +import socket
+> >>> +
+> >>> +ACCEL_NOT_AVAILABLE_FMT =3D "%s accelerator does not seem to be =
+available"
+> >>> +KVM_NOT_AVAILABLE =3D ACCEL_NOT_AVAILABLE_FMT % "KVM"
+> >>> +
+> >>> +class Multiprocess(Test):
+> >>> +    """
+> >>> +    :avocado: tags=3Dmultiprocess
+> >>> +    """
+> >>> +    KERNEL_COMMON_COMMAND_LINE =3D 'printk.time=3D0 '
+> >>> +
+> >>> +    def wait_for_console_pattern(self, success_message, vm=3DNone):=
 
-I don't see anything saying that an access will fail if there are no
-PMP regions configred.
+> >>> +        wait_for_console_pattern(self, success_message,
+> >>> +                                 failure_message=3D'Kernel panic =
+- not
+> >>> syncing',
+> >>> +                                 vm=3Dvm)
+> >>> +
+> >>> +    def do_test(self, kernel_url, initrd_url, =
+kernel_command_line,
+> >>> +                machine_type):
+> >>> +        if not kvm_available(self.arch, self.qemu_bin):
+> >>> +            self.cancel(KVM_NOT_AVAILABLE)
+> >>> +
+> >>> +        # Create socketpair to connect proxy and remote processes
+> >>> +        proxy_sock, remote_sock =3D =
+socket.socketpair(socket.AF_UNIX,
+> >>> +                                                    =
+socket.SOCK_STREAM)
+> >>> +        os.set_inheritable(proxy_sock.fileno(), True)
+> >>> +        os.set_inheritable(remote_sock.fileno(), True)
+> >>> +
+> >>> +        kernel_path =3D self.fetch_asset(kernel_url)
+> >>> +        initrd_path =3D self.fetch_asset(initrd_url)
+> >>> +
+> >>> +        # Create remote process
+> >>> +        remote_vm =3D self.get_vm()
+> >>> +        remote_vm.add_args('-machine', 'x-remote')
+> >>> +        remote_vm.add_args('-nodefaults')
+> >>> +        remote_vm.add_args('-device', 'lsi53c895a,id=3Dlsi1')
+> >>> +        remote_vm.add_args('-object', 'x-remote-object,id=3Drobj1,'=
 
-Alistair
+> >>> +                           =
+'devid=3Dlsi1,fd=3D'+str(remote_sock.fileno()))
+> >>> +        remote_vm.launch()
+> >>> +
+> >>> +        # Create proxy process
+> >>> +        self.vm.set_console()
+> >>> +        self.vm.add_args('-machine', machine_type)
+> >>> +        self.vm.add_args('-accel', 'kvm')
+> >>> +        self.vm.add_args('-cpu', 'host')
+> >>> +        self.vm.add_args("-object",
+> >>> +                         =
+"memory-backend-memfd,id=3Dsysmem-file,size=3D2G")
+> >>> +        self.vm.add_args("--numa", "node,memdev=3Dsysmem-file")
+> >>> +        self.vm.add_args("-m", "2048")
+> >>> +        self.vm.add_args('-kernel', kernel_path,
+> >>> +                         '-initrd', initrd_path,
+> >>> +                         '-append', kernel_command_line)
+> >>> +        self.vm.add_args('-device',
+> >>> +                         'x-pci-proxy-dev,'
+> >>> +                         'id=3Dlsi1,fd=3D'+str(proxy_sock.fileno())=
+)
+> >>> +        self.vm.launch()
+> >>> +        self.wait_for_console_pattern("as init process")
+> >>> +        exec_command_and_wait_for_pattern(self, "mount -t sysfs =
+sysfs
+> >>> /sys",
+> >>> +                                          '', '')
+> >>> +        exec_command_and_wait_for_pattern(self,
+> >>> +                                          "cat
+> >>> /sys/bus/pci/devices/*/uevent",
+> >>> +                                          "PCI_ID=3D1000:0012", =
+'')
+> >>> +
+> >>> +    def test_multiprocess_x86_64(self):
+> >>> +        """
+> >>> +        :avocado: tags=3Darch:x86_64
+> >>> +        """
+> >>> +        kernel_url =3D ('
+> >>> https://archives.fedoraproject.org/pub/archive/fedora'
+> >>> +                      =
+'/linux/releases/31/Everything/x86_64/os/images'
+> >>> +                      '/pxeboot/vmlinuz')
+> >>> +        initrd_url =3D ('
+> >>> https://archives.fedoraproject.org/pub/archive/fedora'
+> >>> +                      =
+'/linux/releases/31/Everything/x86_64/os/images'
+> >>> +                      '/pxeboot/initrd.img')
+> >>> +        kernel_command_line =3D (self.KERNEL_COMMON_COMMAND_LINE =
++
+> >>> +                               'console=3DttyS0 =
+rdinit=3D/bin/bash')
+> >>> +        machine =3D 'pc'
+> >>> +        self.do_test(kernel_url, initrd_url, kernel_command_line, =
+machine)
+> >>> +
+> >>> +    def test_multiprocess_aarch64(self):
+> >>> +        """
+> >>> +        :avocado: tags=3Darch:aarch64
+> >>> +        """
+> >>> +        kernel_url =3D ('
+> >>> https://archives.fedoraproject.org/pub/archive/fedora'
+> >>> +                      =
+'/linux/releases/31/Everything/aarch64/os/images'
+> >>> +                      '/pxeboot/vmlinuz')
+> >>> +        initrd_url =3D ('
+> >>> https://archives.fedoraproject.org/pub/archive/fedora'
+> >>> +                      =
+'/linux/releases/31/Everything/aarch64/os/images'
+> >>> +                      '/pxeboot/initrd.img')
+> >>> +        kernel_command_line =3D (self.KERNEL_COMMON_COMMAND_LINE =
++
+> >>> +                               'rdinit=3D/bin/bash =
+console=3DttyAMA0')
+> >>> +        machine_type =3D 'virt,gic-version=3D3'
+> >>> +        self.do_test(kernel_url, initrd_url, kernel_command_line,
+> >>> machine_type)
+> >>> --
+> >>> 2.25.GIT
+> >>>=20
+> >>>=20
+> >> The test looks quite nice, thanks. However, it times out for me. I =
+have
+> >> very limited experience with avocado. Any idea?
+> >=20
+> > Thanks Marc-Andre!
+> >=20
+> >> (13/40)
+> >> =
+tests/acceptance/multiprocess.py:Multiprocess.test_multiprocess_x86_64:
+> >> ERROR: timed out (211.81 s)
+> >=20
+> > Can you check what is in the log file?
+> > Should show the log file name before it gets cancelled.
+> >=20
+> > I have it on my system at =
+$HOME/avocado/job-results/job-2020-12-23T10.37-452c8ab/job.log.
+>=20
+> Hi Marc-Andre,
+>=20
+> Thank you very much for taking a loot at it. If you are able to share =
+the test log,
+> that would be helpful to see what is causing the timeout.
+>=20
+> I tested it again, and it works now. No idea what happened.
+>=20
+> Reviewed-by: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>=20
 
->
-> Signed-off-by: Atish Patra <atish.patra@wdc.com>
-> ---
-> Changes from v2->v1
-> 1. Removed the static from the function definition
-> ---
->  target/riscv/op_helper.c | 5 +++++
->  target/riscv/pmp.c       | 4 ++--
->  target/riscv/pmp.h       | 1 +
->  3 files changed, 8 insertions(+), 2 deletions(-)
->
-> diff --git a/target/riscv/op_helper.c b/target/riscv/op_helper.c
-> index d55def76cffd..1eddcb94de7e 100644
-> --- a/target/riscv/op_helper.c
-> +++ b/target/riscv/op_helper.c
-> @@ -150,6 +150,11 @@ target_ulong helper_mret(CPURISCVState *env, target_ulong cpu_pc_deb)
->
->      uint64_t mstatus = env->mstatus;
->      target_ulong prev_priv = get_field(mstatus, MSTATUS_MPP);
-> +
-> +    if (!pmp_get_num_rules(env) && (prev_priv != PRV_M)) {
-> +        riscv_raise_exception(env, RISCV_EXCP_ILLEGAL_INST, GETPC());
-> +    }
-> +
->      target_ulong prev_virt = get_field(env->mstatus, MSTATUS_MPV);
->      mstatus = set_field(mstatus, MSTATUS_MIE,
->                          get_field(mstatus, MSTATUS_MPIE));
-> diff --git a/target/riscv/pmp.c b/target/riscv/pmp.c
-> index 2eda8e1e2f07..80d0334e1bfc 100644
-> --- a/target/riscv/pmp.c
-> +++ b/target/riscv/pmp.c
-> @@ -74,7 +74,7 @@ static inline int pmp_is_locked(CPURISCVState *env, uint32_t pmp_index)
->  /*
->   * Count the number of active rules.
->   */
-> -static inline uint32_t pmp_get_num_rules(CPURISCVState *env)
-> +uint32_t pmp_get_num_rules(CPURISCVState *env)
->  {
->       return env->pmp_state.num_rules;
->  }
-> @@ -237,7 +237,7 @@ bool pmp_hart_has_privs(CPURISCVState *env, target_ulong addr,
->
->      /* Short cut if no rules */
->      if (0 == pmp_get_num_rules(env)) {
-> -        return true;
-> +        return (env->priv == PRV_M) ? true : false;
->      }
->
->      if (size == 0) {
-> diff --git a/target/riscv/pmp.h b/target/riscv/pmp.h
-> index 6c6b4c9befe8..c8d5ef4a694e 100644
-> --- a/target/riscv/pmp.h
-> +++ b/target/riscv/pmp.h
-> @@ -64,5 +64,6 @@ bool pmp_is_range_in_tlb(CPURISCVState *env, hwaddr tlb_sa,
->                           target_ulong *tlb_size);
->  void pmp_update_rule_addr(CPURISCVState *env, uint32_t pmp_index);
->  void pmp_update_rule_nums(CPURISCVState *env);
-> +uint32_t pmp_get_num_rules(CPURISCVState *env);
->
->  #endif
-> --
-> 2.25.1
->
->
+Thank you for confirming, Marc-Andre!
+>=20
+
 
