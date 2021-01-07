@@ -2,70 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5916F2EE928
-	for <lists+qemu-devel@lfdr.de>; Thu,  7 Jan 2021 23:49:23 +0100 (CET)
-Received: from localhost ([::1]:46462 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CE7562EE933
+	for <lists+qemu-devel@lfdr.de>; Thu,  7 Jan 2021 23:51:42 +0100 (CET)
+Received: from localhost ([::1]:54636 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kxe5q-00028c-Bd
-	for lists+qemu-devel@lfdr.de; Thu, 07 Jan 2021 17:49:22 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47030)
+	id 1kxe85-0005ah-Rl
+	for lists+qemu-devel@lfdr.de; Thu, 07 Jan 2021 17:51:41 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47056)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1kxdj4-0001aJ-DN
- for qemu-devel@nongnu.org; Thu, 07 Jan 2021 17:25:50 -0500
-Received: from mail-wr1-x42c.google.com ([2a00:1450:4864:20::42c]:38509)
+ id 1kxdj9-0001pS-97
+ for qemu-devel@nongnu.org; Thu, 07 Jan 2021 17:25:55 -0500
+Received: from mail-wm1-x32f.google.com ([2a00:1450:4864:20::32f]:50351)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1kxdj2-0005kK-MX
- for qemu-devel@nongnu.org; Thu, 07 Jan 2021 17:25:50 -0500
-Received: by mail-wr1-x42c.google.com with SMTP id r7so7119049wrc.5
- for <qemu-devel@nongnu.org>; Thu, 07 Jan 2021 14:25:48 -0800 (PST)
+ id 1kxdj7-0005p3-Ph
+ for qemu-devel@nongnu.org; Thu, 07 Jan 2021 17:25:55 -0500
+Received: by mail-wm1-x32f.google.com with SMTP id 190so6378046wmz.0
+ for <qemu-devel@nongnu.org>; Thu, 07 Jan 2021 14:25:53 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=M5/OHDIsfN90nSudp26zMHLuKLIpMGo4pYHfXrBeq+Y=;
- b=c+RtxgvWMGPC4oJziyXh6e/afUtmeW7vFEIHlOzTEZZAg1xkTQm6hHzewLTNkw4mpm
- MFFwtfdor0S1lwwpCd4mBjsgutk94+5+349QBaj8qooa1AgFqCzTlXyD93dMHG+5kdaT
- n0mWHOeYAKy7HpCYRXu52eFr5dwWFFtmhWFL+d+SScvCuIqkGlHLCUP1OXYm85a3uXR9
- 1xfXamn6wLoEF9rny5ItVqBI2E9nP74gCXl171987E8/82VCSoJ0LxANsOwM6nBRUnQk
- N7lEbo/ShMFmU7tvuDabe81sXYS7EQojRV1rf7xyP1x05XXhqDOf5+O2gQA2waXK+FGx
- dNMw==
+ bh=3jTmKcmmqBWLYbQ1cWD989jXI7AUr/FtqoKPQ00ZpaA=;
+ b=JmCr9XMH0Xb/5ySjXnTL2zj8cPAsTgQNJ2XdfmLENexBJjnJtbsVgKl+4pTFOSwxGM
+ bvYcgCEbrEO3qU8Xam8cLfy8CwX8GDys5m8nIKN2uDp6FwZYFZ9HHZTVjoQDU0XHmjU+
+ D/NIctv2mOmnFWzaCcvTmdXkQ92s3QDfSOpnT3XTfytSuH3pJSu3q5IqezBWliQFVgT5
+ apFP/C7KxsmT8lUS/XP44hhdFX8aSDXCfbfR7vVF5PD0wxu0ALVjRzADkJtUU70UcNCl
+ ppnSQ25S/68/gkMsSpJyFxK1TGItTa5782GF5BA+nj6p00BSoQ6ZbfVWzf64cPrhF/lE
+ K6cQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=M5/OHDIsfN90nSudp26zMHLuKLIpMGo4pYHfXrBeq+Y=;
- b=VRRssKc2j9SsQNOHnE/k4nBwUaDCvxwinQo/IAqi7cWih2dMQ3FmSNiLB3Cz9mMpSu
- 0iCgvGKHhv8FD8rgQ51LvYttXSPW5ANTeC5hxmXUCAH3gJrkkhMUATBGpsXivZOYxCss
- QZlXz+4WN3XE4YaOBKG2CFMyY3SI/UCFe1MkDIXQNeDg7lJgO7DCbQr0AFJqAgYMUaV/
- sMHthgXUvq/xsT8X+ghA52JKqYOmSorxnYv2+yJ/IO43iBAvCPNnDD5me0fqM93XiE8H
- C+RaR+CCkfqp2Qg9FbbnAbV1of2H6LeNxLvy1bKcRc5Gy2ZuS5F98NLu0VBZqJrt8pNI
- Perg==
-X-Gm-Message-State: AOAM531/z17kSgxkCDftxnKCLNrSZaXXYRKoz7oOAvYTxRWIlu+Hkzvp
- m6sY07v0t6rxCGDNkpj9+q7MnAOYS6g=
-X-Google-Smtp-Source: ABdhPJy4mm0Ii5NGwleCxYIQNeng+A7yjLBn+FieY6iend0fQ9dqJVNukJWP7vcnXWJCCPP9dpT+oA==
-X-Received: by 2002:a5d:5256:: with SMTP id k22mr641108wrc.89.1610058347060;
- Thu, 07 Jan 2021 14:25:47 -0800 (PST)
+ bh=3jTmKcmmqBWLYbQ1cWD989jXI7AUr/FtqoKPQ00ZpaA=;
+ b=QKG0eD3Mhi9AnStCB+ipkcGWIfq1ekKnIQ4IVvn2jO06rVitHvimVF9JpzSMK0iDqn
+ XAdsm/wSYXsqy6SlDZq5cyU/NQFPklcie08QLozQaE8mmCboMmunNniQnIJqdyCwYIJM
+ v/FjPNEpUxk+Q8lkQx4fCpaZW1n7GSBDhBbrTdrt5+PeclqPQGY20CBiEnNecV94VHTr
+ rCwdA3PNvM3JqLqw5hj9je2dr+Po6GfMiJ/tEWF3n7HleWhourojkveYP1Rj43eqddTZ
+ 5QBBulJvo6T6pp6JNV4oj2Zixe21VIVkKgo4CtXc0Efly9HLMfh28gvMsAFhH1twke/a
+ 2p1Q==
+X-Gm-Message-State: AOAM532tqpUIGN32uitwT/zsrtRXeKl4gIuS+1Ik5DPVJQ7ej7hPJRu0
+ vXOidBppmAQWRHA/C2ibFyygus2YUQs=
+X-Google-Smtp-Source: ABdhPJySWP2OfH3zDeQHbohqijhGKNj//KPNIRETWR+IRsQBzw41eeOhKpXMHUzNlu9Sj6QDr2gJGw==
+X-Received: by 2002:a7b:c145:: with SMTP id z5mr516372wmi.164.1610058352120;
+ Thu, 07 Jan 2021 14:25:52 -0800 (PST)
 Received: from x1w.redhat.com (241.red-88-10-103.dynamicip.rima-tde.net.
  [88.10.103.241])
- by smtp.gmail.com with ESMTPSA id i9sm10794305wrs.70.2021.01.07.14.25.45
+ by smtp.gmail.com with ESMTPSA id x66sm9249543wmg.26.2021.01.07.14.25.50
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 07 Jan 2021 14:25:46 -0800 (PST)
+ Thu, 07 Jan 2021 14:25:51 -0800 (PST)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 33/66] target/mips: Extract FPU specific definitions to
- translate.h
-Date: Thu,  7 Jan 2021 23:22:20 +0100
-Message-Id: <20210107222253.20382-34-f4bug@amsat.org>
+Subject: [PULL 34/66] target/mips: Only build TCG code when CONFIG_TCG is set
+Date: Thu,  7 Jan 2021 23:22:21 +0100
+Message-Id: <20210107222253.20382-35-f4bug@amsat.org>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20210107222253.20382-1-f4bug@amsat.org>
 References: <20210107222253.20382-1-f4bug@amsat.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::42c;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x42c.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::32f;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x32f.google.com
 X-Spam_score_int: -14
 X-Spam_score: -1.5
 X-Spam_bar: -
@@ -96,187 +95,45 @@ Cc: Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Extract FPU specific definitions that can be used by
-ISA / ASE / extensions to translate.h header.
-
 Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-Message-Id: <20201214183739.500368-16-f4bug@amsat.org>
+Message-Id: <20201206233949.3783184-20-f4bug@amsat.org>
 ---
- target/mips/translate.h | 71 +++++++++++++++++++++++++++++++++++++++++
- target/mips/translate.c | 70 ----------------------------------------
- 2 files changed, 71 insertions(+), 70 deletions(-)
+ target/mips/meson.build | 8 ++++++--
+ 1 file changed, 6 insertions(+), 2 deletions(-)
 
-diff --git a/target/mips/translate.h b/target/mips/translate.h
-index 4c30a328e4b..c70bca998fb 100644
---- a/target/mips/translate.h
-+++ b/target/mips/translate.h
-@@ -52,6 +52,77 @@ typedef struct DisasContext {
- /* MIPS major opcodes */
- #define MASK_OP_MAJOR(op)   (op & (0x3F << 26))
+diff --git a/target/mips/meson.build b/target/mips/meson.build
+index 5a49951c6d7..596eb1aeeb3 100644
+--- a/target/mips/meson.build
++++ b/target/mips/meson.build
+@@ -1,9 +1,11 @@
+ mips_ss = ss.source_set()
+ mips_ss.add(files(
+   'cpu.c',
++  'gdbstub.c',
++))
++mips_ss.add(when: 'CONFIG_TCG', if_true: files(
+   'dsp_helper.c',
+   'fpu_helper.c',
+-  'gdbstub.c',
+   'lmmi_helper.c',
+   'msa_helper.c',
+   'op_helper.c',
+@@ -15,11 +17,13 @@
+ mips_softmmu_ss = ss.source_set()
+ mips_softmmu_ss.add(files(
+   'addr.c',
+-  'cp0_helper.c',
+   'cp0_timer.c',
+   'machine.c',
+   'mips-semi.c',
+ ))
++mips_softmmu_ss.add(when: 'CONFIG_TCG', if_true: files(
++  'cp0_helper.c',
++))
  
-+#define OPC_CP1 (0x11 << 26)
-+
-+/* Coprocessor 1 (rs field) */
-+#define MASK_CP1(op)                (MASK_OP_MAJOR(op) | (op & (0x1F << 21)))
-+
-+/* Values for the fmt field in FP instructions */
-+enum {
-+    /* 0 - 15 are reserved */
-+    FMT_S = 16,          /* single fp */
-+    FMT_D = 17,          /* double fp */
-+    FMT_E = 18,          /* extended fp */
-+    FMT_Q = 19,          /* quad fp */
-+    FMT_W = 20,          /* 32-bit fixed */
-+    FMT_L = 21,          /* 64-bit fixed */
-+    FMT_PS = 22,         /* paired single fp */
-+    /* 23 - 31 are reserved */
-+};
-+
-+enum {
-+    OPC_MFC1     = (0x00 << 21) | OPC_CP1,
-+    OPC_DMFC1    = (0x01 << 21) | OPC_CP1,
-+    OPC_CFC1     = (0x02 << 21) | OPC_CP1,
-+    OPC_MFHC1    = (0x03 << 21) | OPC_CP1,
-+    OPC_MTC1     = (0x04 << 21) | OPC_CP1,
-+    OPC_DMTC1    = (0x05 << 21) | OPC_CP1,
-+    OPC_CTC1     = (0x06 << 21) | OPC_CP1,
-+    OPC_MTHC1    = (0x07 << 21) | OPC_CP1,
-+    OPC_BC1      = (0x08 << 21) | OPC_CP1, /* bc */
-+    OPC_BC1ANY2  = (0x09 << 21) | OPC_CP1,
-+    OPC_BC1ANY4  = (0x0A << 21) | OPC_CP1,
-+    OPC_BZ_V     = (0x0B << 21) | OPC_CP1,
-+    OPC_BNZ_V    = (0x0F << 21) | OPC_CP1,
-+    OPC_S_FMT    = (FMT_S << 21) | OPC_CP1,
-+    OPC_D_FMT    = (FMT_D << 21) | OPC_CP1,
-+    OPC_E_FMT    = (FMT_E << 21) | OPC_CP1,
-+    OPC_Q_FMT    = (FMT_Q << 21) | OPC_CP1,
-+    OPC_W_FMT    = (FMT_W << 21) | OPC_CP1,
-+    OPC_L_FMT    = (FMT_L << 21) | OPC_CP1,
-+    OPC_PS_FMT   = (FMT_PS << 21) | OPC_CP1,
-+    OPC_BC1EQZ   = (0x09 << 21) | OPC_CP1,
-+    OPC_BC1NEZ   = (0x0D << 21) | OPC_CP1,
-+    OPC_BZ_B     = (0x18 << 21) | OPC_CP1,
-+    OPC_BZ_H     = (0x19 << 21) | OPC_CP1,
-+    OPC_BZ_W     = (0x1A << 21) | OPC_CP1,
-+    OPC_BZ_D     = (0x1B << 21) | OPC_CP1,
-+    OPC_BNZ_B    = (0x1C << 21) | OPC_CP1,
-+    OPC_BNZ_H    = (0x1D << 21) | OPC_CP1,
-+    OPC_BNZ_W    = (0x1E << 21) | OPC_CP1,
-+    OPC_BNZ_D    = (0x1F << 21) | OPC_CP1,
-+};
-+
-+#define MASK_CP1_FUNC(op)           (MASK_CP1(op) | (op & 0x3F))
-+#define MASK_BC1(op)                (MASK_CP1(op) | (op & (0x3 << 16)))
-+
-+enum {
-+    OPC_BC1F     = (0x00 << 16) | OPC_BC1,
-+    OPC_BC1T     = (0x01 << 16) | OPC_BC1,
-+    OPC_BC1FL    = (0x02 << 16) | OPC_BC1,
-+    OPC_BC1TL    = (0x03 << 16) | OPC_BC1,
-+};
-+
-+enum {
-+    OPC_BC1FANY2     = (0x00 << 16) | OPC_BC1ANY2,
-+    OPC_BC1TANY2     = (0x01 << 16) | OPC_BC1ANY2,
-+};
-+
-+enum {
-+    OPC_BC1FANY4     = (0x00 << 16) | OPC_BC1ANY4,
-+    OPC_BC1TANY4     = (0x01 << 16) | OPC_BC1ANY4,
-+};
-+
- void generate_exception(DisasContext *ctx, int excp);
- void generate_exception_err(DisasContext *ctx, int excp, int err);
- void generate_exception_end(DisasContext *ctx, int excp);
-diff --git a/target/mips/translate.c b/target/mips/translate.c
-index 610fba61de4..39b57794b36 100644
---- a/target/mips/translate.c
-+++ b/target/mips/translate.c
-@@ -43,7 +43,6 @@ enum {
-     OPC_SPECIAL  = (0x00 << 26),
-     OPC_REGIMM   = (0x01 << 26),
-     OPC_CP0      = (0x10 << 26),
--    OPC_CP1      = (0x11 << 26),
-     OPC_CP2      = (0x12 << 26),
-     OPC_CP3      = (0x13 << 26),
-     OPC_SPECIAL2 = (0x1C << 26),
-@@ -996,75 +995,6 @@ enum {
-     OPC_WAIT     = 0x20 | OPC_C0,
- };
- 
--/* Coprocessor 1 (rs field) */
--#define MASK_CP1(op)                (MASK_OP_MAJOR(op) | (op & (0x1F << 21)))
--
--/* Values for the fmt field in FP instructions */
--enum {
--    /* 0 - 15 are reserved */
--    FMT_S = 16,          /* single fp */
--    FMT_D = 17,          /* double fp */
--    FMT_E = 18,          /* extended fp */
--    FMT_Q = 19,          /* quad fp */
--    FMT_W = 20,          /* 32-bit fixed */
--    FMT_L = 21,          /* 64-bit fixed */
--    FMT_PS = 22,         /* paired single fp */
--    /* 23 - 31 are reserved */
--};
--
--enum {
--    OPC_MFC1     = (0x00 << 21) | OPC_CP1,
--    OPC_DMFC1    = (0x01 << 21) | OPC_CP1,
--    OPC_CFC1     = (0x02 << 21) | OPC_CP1,
--    OPC_MFHC1    = (0x03 << 21) | OPC_CP1,
--    OPC_MTC1     = (0x04 << 21) | OPC_CP1,
--    OPC_DMTC1    = (0x05 << 21) | OPC_CP1,
--    OPC_CTC1     = (0x06 << 21) | OPC_CP1,
--    OPC_MTHC1    = (0x07 << 21) | OPC_CP1,
--    OPC_BC1      = (0x08 << 21) | OPC_CP1, /* bc */
--    OPC_BC1ANY2  = (0x09 << 21) | OPC_CP1,
--    OPC_BC1ANY4  = (0x0A << 21) | OPC_CP1,
--    OPC_BZ_V     = (0x0B << 21) | OPC_CP1,
--    OPC_BNZ_V    = (0x0F << 21) | OPC_CP1,
--    OPC_S_FMT    = (FMT_S << 21) | OPC_CP1,
--    OPC_D_FMT    = (FMT_D << 21) | OPC_CP1,
--    OPC_E_FMT    = (FMT_E << 21) | OPC_CP1,
--    OPC_Q_FMT    = (FMT_Q << 21) | OPC_CP1,
--    OPC_W_FMT    = (FMT_W << 21) | OPC_CP1,
--    OPC_L_FMT    = (FMT_L << 21) | OPC_CP1,
--    OPC_PS_FMT   = (FMT_PS << 21) | OPC_CP1,
--    OPC_BC1EQZ   = (0x09 << 21) | OPC_CP1,
--    OPC_BC1NEZ   = (0x0D << 21) | OPC_CP1,
--    OPC_BZ_B     = (0x18 << 21) | OPC_CP1,
--    OPC_BZ_H     = (0x19 << 21) | OPC_CP1,
--    OPC_BZ_W     = (0x1A << 21) | OPC_CP1,
--    OPC_BZ_D     = (0x1B << 21) | OPC_CP1,
--    OPC_BNZ_B    = (0x1C << 21) | OPC_CP1,
--    OPC_BNZ_H    = (0x1D << 21) | OPC_CP1,
--    OPC_BNZ_W    = (0x1E << 21) | OPC_CP1,
--    OPC_BNZ_D    = (0x1F << 21) | OPC_CP1,
--};
--
--#define MASK_CP1_FUNC(op)           (MASK_CP1(op) | (op & 0x3F))
--#define MASK_BC1(op)                (MASK_CP1(op) | (op & (0x3 << 16)))
--
--enum {
--    OPC_BC1F     = (0x00 << 16) | OPC_BC1,
--    OPC_BC1T     = (0x01 << 16) | OPC_BC1,
--    OPC_BC1FL    = (0x02 << 16) | OPC_BC1,
--    OPC_BC1TL    = (0x03 << 16) | OPC_BC1,
--};
--
--enum {
--    OPC_BC1FANY2     = (0x00 << 16) | OPC_BC1ANY2,
--    OPC_BC1TANY2     = (0x01 << 16) | OPC_BC1ANY2,
--};
--
--enum {
--    OPC_BC1FANY4     = (0x00 << 16) | OPC_BC1ANY4,
--    OPC_BC1TANY4     = (0x01 << 16) | OPC_BC1ANY4,
--};
--
- #define MASK_CP2(op)                (MASK_OP_MAJOR(op) | (op & (0x1F << 21)))
- 
- enum {
+ target_arch += {'mips': mips_ss}
+ target_softmmu_arch += {'mips': mips_softmmu_ss}
 -- 
 2.26.2
 
