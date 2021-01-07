@@ -2,64 +2,80 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D5CF02ED77A
-	for <lists+qemu-devel@lfdr.de>; Thu,  7 Jan 2021 20:33:05 +0100 (CET)
-Received: from localhost ([::1]:34416 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 789D52ED80D
+	for <lists+qemu-devel@lfdr.de>; Thu,  7 Jan 2021 20:37:49 +0100 (CET)
+Received: from localhost ([::1]:38680 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kxb1s-0003wG-Nk
-	for lists+qemu-devel@lfdr.de; Thu, 07 Jan 2021 14:33:04 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37770)
+	id 1kxb6S-0006JM-BU
+	for lists+qemu-devel@lfdr.de; Thu, 07 Jan 2021 14:37:48 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38872)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1kxazf-0003Oi-Kz
- for qemu-devel@nongnu.org; Thu, 07 Jan 2021 14:30:47 -0500
-Received: from indium.canonical.com ([91.189.90.7]:53674)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1kxazd-0001vg-7r
- for qemu-devel@nongnu.org; Thu, 07 Jan 2021 14:30:47 -0500
-Received: from loganberry.canonical.com ([91.189.90.37])
- by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1kxaza-0003RZ-TC
- for <qemu-devel@nongnu.org>; Thu, 07 Jan 2021 19:30:42 +0000
-Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id DBB802E8137
- for <qemu-devel@nongnu.org>; Thu,  7 Jan 2021 19:30:42 +0000 (UTC)
+ (Exim 4.90_1) (envelope-from <r.bolshakov@yadro.com>)
+ id 1kxb4s-0005fT-LS; Thu, 07 Jan 2021 14:36:10 -0500
+Received: from mta-02.yadro.com ([89.207.88.252]:57106 helo=mta-01.yadro.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <r.bolshakov@yadro.com>)
+ id 1kxb4p-0003cI-Ee; Thu, 07 Jan 2021 14:36:10 -0500
+Received: from localhost (unknown [127.0.0.1])
+ by mta-01.yadro.com (Postfix) with ESMTP id 0C95541268;
+ Thu,  7 Jan 2021 19:36:05 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=yadro.com; h=
+ in-reply-to:content-disposition:content-type:content-type
+ :mime-version:references:message-id:subject:subject:from:from
+ :date:date:received:received:received; s=mta-01; t=1610048163;
+ x=1611862564; bh=7Jc9pn7dX6TYLIB0mXaziEfQDZjtMQxeIOvPQWYb+GY=; b=
+ Mtp+2V+AwVZGdoemfyLLXUd3Ltl7B4DxNHQcqp05NeA5skvY7tww1w9YlxAYOb7o
+ ZTbI097m2dunfmbjG69fTIxRN/zywP4+I1XRthwg9mLumqJrUiDoTZSM2FdiQfx8
+ tMhORYmDBe/9bETOY5ZDaLesc9QjyvuBv9av3pXW3K8=
+X-Virus-Scanned: amavisd-new at yadro.com
+Received: from mta-01.yadro.com ([127.0.0.1])
+ by localhost (mta-01.yadro.com [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id 5E6AmBYGKIIN; Thu,  7 Jan 2021 22:36:03 +0300 (MSK)
+Received: from T-EXCH-03.corp.yadro.com (t-exch-03.corp.yadro.com
+ [172.17.100.103])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by mta-01.yadro.com (Postfix) with ESMTPS id 7D045404AC;
+ Thu,  7 Jan 2021 22:36:03 +0300 (MSK)
+Received: from localhost (172.17.204.212) by T-EXCH-03.corp.yadro.com
+ (172.17.100.103) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384_P384) id 15.1.669.32; Thu, 7 Jan
+ 2021 22:36:03 +0300
+Date: Thu, 7 Jan 2021 22:36:20 +0300
+From: Roman Bolshakov <r.bolshakov@yadro.com>
+To: Paolo Bonzini <pbonzini@redhat.com>
+Subject: Re: [PATCH] meson: Propagate gnutls dependency
+Message-ID: <X/ditOsBmc4A1lJn@SPB-NB-133.local>
+References: <CAFEAcA-X6DSKeyS4bbNe3tu-QFGxc1VM+Eoz_UMk-8jb--zq9g@mail.gmail.com>
+ <ea49da2a-47f9-8ffe-8dbc-1974f34cb6f1@redhat.com>
+ <X/NPRqMkdM0/IxTh@SPB-NB-133.local>
+ <af0194cd-cdcc-44a3-f023-80d73d96c9e8@redhat.com>
+ <X/R5xtvMn4PcSkTf@SPB-NB-133.local>
+ <690581da-9258-41e5-14cb-bb1b162e8993@redhat.com>
+ <X/cvK5Xkh6+1Qn1K@SPB-NB-133.local>
+ <86bebbbf-ff0f-263d-96a2-4e6df9f85776@redhat.com>
+ <X/dQb7xj/RYiT00R@SPB-NB-133.local>
+ <74d3e1a4-3f0e-f3bb-6079-03043530bfa5@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-Date: Thu, 07 Jan 2021 19:24:13 -0000
-From: - <1910586@bugs.launchpad.net>
-To: qemu-devel@nongnu.org
-X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
-X-Launchpad-Bug-Information-Type: Public
-X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: ubi-one-kenubi
-X-Launchpad-Bug-Reporter: - (ubi-one-kenubi)
-X-Launchpad-Bug-Modifier: - (ubi-one-kenubi)
-Message-Id: <161004745358.28900.17773103786496139692.malonedeb@chaenomeles.canonical.com>
-Subject: [Bug 1910586] [NEW] SD card size constraint conceptually wrong
-X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
-X-Launchpad-Message-For: qemu-devel-ml
-Precedence: bulk
-X-Generated-By: Launchpad (canonical.com);
- Revision="9b8a7e9b05b0918031670be47aedac0f241cb913"; Instance="production"
-X-Launchpad-Hash: fded81a8e45aa1187724354185e2aec1f08db3f2
-Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
- helo=indium.canonical.com
-X-Spam_score_int: -65
-X-Spam_score: -6.6
-X-Spam_bar: ------
-X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9,
- HEADER_FROM_DIFFERENT_DOMAINS=0.248, RCVD_IN_DNSWL_HI=-5,
- RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset="us-ascii"
+Content-Disposition: inline
+In-Reply-To: <74d3e1a4-3f0e-f3bb-6079-03043530bfa5@redhat.com>
+X-Originating-IP: [172.17.204.212]
+X-ClientProxiedBy: T-EXCH-01.corp.yadro.com (172.17.10.101) To
+ T-EXCH-03.corp.yadro.com (172.17.100.103)
+Received-SPF: pass client-ip=89.207.88.252; envelope-from=r.bolshakov@yadro.com;
+ helo=mta-01.yadro.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -68,126 +84,52 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1910586 <1910586@bugs.launchpad.net>
+Cc: Kevin Wolf <kwolf@redhat.com>, Peter Maydell <peter.maydell@linaro.org>,
+ Daniel =?iso-8859-1?Q?P=2E_Berrang=E9?= <berrange@redhat.com>,
+ "open list:Block
+ layer core" <qemu-block@nongnu.org>, QEMU Developers <qemu-devel@nongnu.org>,
+ Max Reitz <mreitz@redhat.com>, Gerd Hoffmann <kraxel@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Public bug reported:
+On Thu, Jan 07, 2021 at 07:22:06PM +0100, Paolo Bonzini wrote:
+> On 07/01/21 19:18, Roman Bolshakov wrote:
+> > 
+> > > The real issue is that Meson's implementation of link_whole for
+> > > library-in-library makes sense for one use case (convenience library that is
+> > > linked into another convenience library) but not for another (grouping code
+> > > for subsystems).  I cannot blame them for this because link_with is a more
+> > > common case for the latter; OTOH QEMU is using link_whole a lot in order to
+> > > support the *_init() construct.
+> > > 
+> > > I really think the correct fix is for Meson to use objects instead of
+> > > archives for link_whole, similar to how QEMU Makefiles used to do it. This
+> > > would also remove the need for the special .fa suffix, so it would be an
+> > > improvement all around.
+> > > 
+> > Does it mean that we need a kind of object target in meson? Do you think
+> > if this interface would work?
+> > 
+> > crypto_objs = object_library(..., dependencies: public_deps + [aninternaldep])
+> > crypto = declare_dependency(link_with: crypto_objs, dependencies: public_deps)
+> 
+> No I think that Meson should simply explode link_whole libraries to their
+> constituent objects.  This way duplicates are avoided.
+> 
 
-The patch discussed here:
-https://www.mail-archive.com/qemu-devel@nongnu.org/msg720833.html
-introduces an artificial size constraint for SD cards
-that has no relation to reality.
+Ok. I've looked through related changes in meson and it flattens object
+files implicitly for link_with/link_whole parameters of static_library:
 
-I'm trying to use an _actual_ **physical** SD card,
-and qemu tells me its size is "invalid".
+  https://github.com/mesonbuild/meson/pull/6030/files
 
-Something here appears to be conceptually wrong.
+But qemu adds dependencies to source set and populates dependencies
+parameter of static_library and declare_dependency and we get duplicate
+symbols:
 
---------------------------------------------------
-# fdisk -l /dev/sdg
-Disk /dev/sdg: 14.84 GiB, 15931539456 bytes, 31116288 sectors
-Disk model: USB  SD Reader  =
+  https://lists.gnu.org/archive/html/qemu-devel/2021-01/msg00411.html
 
-Units: sectors of 1 * 512 =3D 512 bytes
-Sector size (logical/physical): 512 bytes / 512 bytes
-I/O size (minimum/optimal): 512 bytes / 512 bytes
-Disklabel type: dos
-Disk identifier: 0x7a0c8bb0
+Perhaps it's a bug then.
 
-Device     Boot  Start      End  Sectors  Size Id Type
-/dev/sdg1         2048   524287   522240  255M  c W95 FAT32 (LBA)
-/dev/sdg2       524288 31116287 30592000 14.6G 83 Linux
-# qemu-system-aarch64 -M raspi3 -m 1G -kernel vmlinuz-5.4.79-v8 -dtb bcm283=
-7-rpi-3-b-plus.dtb -append console=3DttyAMA0\ root=3D/dev/mmcblk0p2\ rw -no=
-graphic -serial mon:stdio -drive file=3D/dev/sdg,format=3Draw
-qemu-system-aarch64: Invalid SD card size: 14.8 GiB
-SD card size has to be a power of 2, e.g. 16 GiB.
-You can resize disk images with 'qemu-img resize <imagefile> <new-size>'
-(note that this will lose data if you make the image smaller than it curren=
-tly is).
---------------------------------------------------
-
-The same invocation with a dump of the actual image
-resized to match qemu's odd expectations works fine.
-
-
-This is on QEMU 5.2.0, as evidenced by the following:
---------------------------------------------------
-# qemu-system-aarch64 -version
-QEMU emulator version 5.2.0
-Copyright (c) 2003-2020 Fabrice Bellard and the QEMU Project developers
---------------------------------------------------
-
-Is there a simple workaround that disables this rather
-arbitrary constraint?
-
-** Affects: qemu
-     Importance: Undecided
-         Status: New
-
--- =
-
-You received this bug notification because you are a member of qemu-
-devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1910586
-
-Title:
-  SD card size constraint conceptually wrong
-
-Status in QEMU:
-  New
-
-Bug description:
-  The patch discussed here:
-  https://www.mail-archive.com/qemu-devel@nongnu.org/msg720833.html
-  introduces an artificial size constraint for SD cards
-  that has no relation to reality.
-
-  I'm trying to use an _actual_ **physical** SD card,
-  and qemu tells me its size is "invalid".
-
-  Something here appears to be conceptually wrong.
-
-  --------------------------------------------------
-  # fdisk -l /dev/sdg
-  Disk /dev/sdg: 14.84 GiB, 15931539456 bytes, 31116288 sectors
-  Disk model: USB  SD Reader  =
-
-  Units: sectors of 1 * 512 =3D 512 bytes
-  Sector size (logical/physical): 512 bytes / 512 bytes
-  I/O size (minimum/optimal): 512 bytes / 512 bytes
-  Disklabel type: dos
-  Disk identifier: 0x7a0c8bb0
-
-  Device     Boot  Start      End  Sectors  Size Id Type
-  /dev/sdg1         2048   524287   522240  255M  c W95 FAT32 (LBA)
-  /dev/sdg2       524288 31116287 30592000 14.6G 83 Linux
-  # qemu-system-aarch64 -M raspi3 -m 1G -kernel vmlinuz-5.4.79-v8 -dtb bcm2=
-837-rpi-3-b-plus.dtb -append console=3DttyAMA0\ root=3D/dev/mmcblk0p2\ rw -=
-nographic -serial mon:stdio -drive file=3D/dev/sdg,format=3Draw
-  qemu-system-aarch64: Invalid SD card size: 14.8 GiB
-  SD card size has to be a power of 2, e.g. 16 GiB.
-  You can resize disk images with 'qemu-img resize <imagefile> <new-size>'
-  (note that this will lose data if you make the image smaller than it curr=
-ently is).
-  --------------------------------------------------
-
-  The same invocation with a dump of the actual image
-  resized to match qemu's odd expectations works fine.
-
-  =
-
-  This is on QEMU 5.2.0, as evidenced by the following:
-  --------------------------------------------------
-  # qemu-system-aarch64 -version
-  QEMU emulator version 5.2.0
-  Copyright (c) 2003-2020 Fabrice Bellard and the QEMU Project developers
-  --------------------------------------------------
-
-  Is there a simple workaround that disables this rather
-  arbitrary constraint?
-
-To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1910586/+subscriptions
+Regards,
+Roman
 
