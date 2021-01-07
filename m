@@ -2,66 +2,50 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 832852EC75C
-	for <lists+qemu-devel@lfdr.de>; Thu,  7 Jan 2021 01:36:38 +0100 (CET)
-Received: from localhost ([::1]:42480 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9E74A2EC79D
+	for <lists+qemu-devel@lfdr.de>; Thu,  7 Jan 2021 02:17:30 +0100 (CET)
+Received: from localhost ([::1]:51044 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kxJI5-0002bo-1q
-	for lists+qemu-devel@lfdr.de; Wed, 06 Jan 2021 19:36:37 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57896)
+	id 1kxJvd-0001gW-8K
+	for lists+qemu-devel@lfdr.de; Wed, 06 Jan 2021 20:17:29 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34304)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1kxJH6-0002B5-Kd
- for qemu-devel@nongnu.org; Wed, 06 Jan 2021 19:35:36 -0500
-Received: from indium.canonical.com ([91.189.90.7]:37314)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1kxJH4-0006r8-Fb
- for qemu-devel@nongnu.org; Wed, 06 Jan 2021 19:35:36 -0500
-Received: from loganberry.canonical.com ([91.189.90.37])
- by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1kxJH2-0002p0-Co
- for <qemu-devel@nongnu.org>; Thu, 07 Jan 2021 00:35:32 +0000
-Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 5FB412E8135
- for <qemu-devel@nongnu.org>; Thu,  7 Jan 2021 00:35:32 +0000 (UTC)
+ (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
+ id 1kxJtX-000135-4f; Wed, 06 Jan 2021 20:15:19 -0500
+Received: from zero.eik.bme.hu ([152.66.115.2]:38083)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
+ id 1kxJtU-0003HG-4s; Wed, 06 Jan 2021 20:15:18 -0500
+Received: from zero.eik.bme.hu (blah.eik.bme.hu [152.66.115.182])
+ by localhost (Postfix) with SMTP id 058DD7470F3;
+ Thu,  7 Jan 2021 02:15:12 +0100 (CET)
+Received: by zero.eik.bme.hu (Postfix, from userid 432)
+ id CA98B7470DF; Thu,  7 Jan 2021 02:15:11 +0100 (CET)
+Received: from localhost (localhost [127.0.0.1])
+ by zero.eik.bme.hu (Postfix) with ESMTP id C89487470F7;
+ Thu,  7 Jan 2021 02:15:11 +0100 (CET)
+Date: Thu, 7 Jan 2021 02:15:11 +0100 (CET)
+From: BALATON Zoltan <balaton@eik.bme.hu>
+To: qemu-devel@nongnu.org, qemu-ppc@nongnu.org
+Subject: Re: [RFC PATCH 0/2] Pegasos2 emulation
+In-Reply-To: <cover.1609973005.git.balaton@eik.bme.hu>
+Message-ID: <fc421134-788a-4c62-db25-7e2453104539@eik.bme.hu>
+References: <cover.1609973005.git.balaton@eik.bme.hu>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-Date: Thu, 07 Jan 2021 00:26:37 -0000
-From: cinap_lenrek <1901359@bugs.launchpad.net>
-To: qemu-devel@nongnu.org
-X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
-X-Launchpad-Bug-Information-Type: Public
-X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: cinaplenrek
-X-Launchpad-Bug-Reporter: cinap_lenrek (cinaplenrek)
-X-Launchpad-Bug-Modifier: cinap_lenrek (cinaplenrek)
-References: <160358192028.26978.16757353407676731946.malonedeb@wampee.canonical.com>
-Message-Id: <160997919768.5056.8613380969208139408.malone@chaenomeles.canonical.com>
-Subject: [Bug 1901359] Re: ignore bit 0 in pci CONFIG_ADDRESS register write
- for Type 1 access
-X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
-X-Launchpad-Message-For: qemu-devel-ml
-Precedence: bulk
-X-Generated-By: Launchpad (canonical.com);
- Revision="34b3ffd45c9543b7f7aa5aa313925241e9e7ca3f"; Instance="production"
-X-Launchpad-Hash: b69c977f1916081ca7c28d01a7c7414987c27219
-Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
- helo=indium.canonical.com
-X-Spam_score_int: -65
-X-Spam_score: -6.6
-X-Spam_bar: ------
-X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9,
- HEADER_FROM_DIFFERENT_DOMAINS=0.249, RCVD_IN_DNSWL_HI=-5,
- RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset=US-ASCII; format=flowed
+X-Spam-Probability: 8%
+Received-SPF: pass client-ip=152.66.115.2; envelope-from=balaton@eik.bme.hu;
+ helo=zero.eik.bme.hu
+X-Spam_score_int: -41
+X-Spam_score: -4.2
+X-Spam_bar: ----
+X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -70,55 +54,78 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1901359 <1901359@bugs.launchpad.net>
+Cc: Peter Maydell <peter.maydell@linaro.org>, f4bug@amsat.org,
+ David Gibson <david@gibson.dropbear.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-is anybody home?
+On Wed, 6 Jan 2021, BALATON Zoltan wrote:
+> Hello,
+>
+> This is adding a new PPC board called pegasos2 currently posted as RFC
+> because it depends on not yet merged VT8231 emulation currently on the
+> list:
+>
+> https://patchew.org/QEMU/cover.1609967638.git.balaton@eik.bme.hu/
+>
+> and may need some changes like a test case but I'm posting it now for
+> getting feedback on what's needed to merge this. More info on it can
+> be found at:
+>
+> https://osdn.net/projects/qmiga/wiki/SubprojectPegasos2
+>
+> Currently it needs a firmware ROM image that I cannot include due to
+> original copyright holder (bPlan) did not release it under a free
+> licence but I have plans to write a replacement in the future. With
+> that firmware it can boot MorphOS now as:
+>
+> qemu-system-ppc -M pegasos2 -cdrom morphos.iso -device ati-vga,romfile="" -serial stdio
+>
+> then enter "boot cd boot.img" at the firmware "ok" prompt as described
+> in the MorphOS.readme. To boot Linux use same command line with e.g.
+> -cdrom debian-8.11.0-powerpc-netinst.iso then enter
+> "boot cd install/pegasos"
+>
+> Patch 2 adds the actual board code after patch 1 adding MV64361 system
+> controller chip. The mv643xx.h header file is taken from Linux and
+> produces a bunch of checkpatch warnings due to different formatting
+> rules it follows, I'm not sure we want to adopt it or keep it as it is
+> given that it does not appear any more in recent Linux versions so we
+> could reformat it as it's unlikely to get updated in the future.
 
--- =
+Interestingly it applies for patchew while this was accidentally based on 
+my previous series that has hw/ppc/Kconfig reverts so it does not apply on 
+current master. Also missing a file so does not compile but other than 
+that the content could be reviewed. I've now updated this repo:
 
-You received this bug notification because you are a member of qemu-
-devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1901359
+https://osdn.net/projects/qmiga/scm/git/qemu/tree/pegasos2/
 
-Title:
-  ignore bit 0 in pci CONFIG_ADDRESS register write for Type 1 access
+which contains all the needed patches over QEMU master at one place in 
+case somebody wants to try this. I'll send an updated version later after 
+I get some feedback.
 
-Status in QEMU:
-  New
+The command lines above also need -bios /path/to/firmware.rom
 
-Bug description:
-  I'v recently stumbled upon a bug in the Plan9 PCI config space access
-  routines for config mode #1.
+Regards,
+BALATON Zoltan
 
-  The code used to set bit 0 in the CONFIG_ADDRESS register for a Type 1
-  access.
-
-  This was most likely a misreading of the PCI local bus specification
-  on our side.
-
-  However, in the PCI local bus specification 3.0, it states the
-  following:
-
-  > 3.2.2.3.2 Software Generation of Configuration Transactions
-  > ...
-  > For Type 1 translations, the host bridge directly copies the contents o=
-f the
-  > CONFIG_ADDRESS register (excluding bits 31 and 0) onto the PCI AD lines=
- during the
-  > address phase of a configuration transaction making sure that AD[1::0] =
-is "01".
-
-  note the: "excluding bits 31 and 0"
-
-  What happens in qemu instead is that it uses bit 0 of the CONFIG_ADDRESS
-  register as part of the register offset (when it probably should ignore i=
-t)
-  when translating from Type 1 to Type 0 address. So once it reaches the de=
-vice
-  behind the bridge the register address is off by one.
-
-To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1901359/+subscriptions
+> BALATON Zoltan (2):
+>  hw/pci-host: Add emulation of Marvell MV64361 PPC system controller
+>  hw/ppc: Add emulation of Genesi/bPlan Pegasos II
+>
+> default-configs/devices/ppc-softmmu.mak |   2 +
+> hw/pci-host/Kconfig                     |   3 +
+> hw/pci-host/meson.build                 |   2 +
+> hw/pci-host/mv64361.c                   | 966 ++++++++++++++++++++++++
+> hw/pci-host/mv643xx.h                   | 919 ++++++++++++++++++++++
+> hw/pci-host/trace-events                |   6 +
+> hw/ppc/Kconfig                          |  10 +
+> hw/ppc/meson.build                      |   2 +
+> hw/ppc/pegasos2.c                       | 144 ++++
+> 9 files changed, 2054 insertions(+)
+> create mode 100644 hw/pci-host/mv64361.c
+> create mode 100644 hw/pci-host/mv643xx.h
+> create mode 100644 hw/ppc/pegasos2.c
+>
+>
 
