@@ -2,69 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C079C2EF4FE
-	for <lists+qemu-devel@lfdr.de>; Fri,  8 Jan 2021 16:41:28 +0100 (CET)
-Received: from localhost ([::1]:36672 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5F99F2EF507
+	for <lists+qemu-devel@lfdr.de>; Fri,  8 Jan 2021 16:43:29 +0100 (CET)
+Received: from localhost ([::1]:44514 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kxttH-00014t-Pz
-	for lists+qemu-devel@lfdr.de; Fri, 08 Jan 2021 10:41:27 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47288)
+	id 1kxtvE-0004OF-EN
+	for lists+qemu-devel@lfdr.de; Fri, 08 Jan 2021 10:43:28 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47306)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1kxtod-0004kJ-QE
- for qemu-devel@nongnu.org; Fri, 08 Jan 2021 10:36:39 -0500
-Received: from mail-wr1-x42c.google.com ([2a00:1450:4864:20::42c]:44228)
+ id 1kxtof-0004qF-Iv
+ for qemu-devel@nongnu.org; Fri, 08 Jan 2021 10:36:41 -0500
+Received: from mail-wr1-x432.google.com ([2a00:1450:4864:20::432]:44234)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1kxtoc-0002u1-1R
- for qemu-devel@nongnu.org; Fri, 08 Jan 2021 10:36:39 -0500
-Received: by mail-wr1-x42c.google.com with SMTP id w5so9381535wrm.11
- for <qemu-devel@nongnu.org>; Fri, 08 Jan 2021 07:36:37 -0800 (PST)
+ id 1kxtod-0002uC-0q
+ for qemu-devel@nongnu.org; Fri, 08 Jan 2021 10:36:41 -0500
+Received: by mail-wr1-x432.google.com with SMTP id w5so9381589wrm.11
+ for <qemu-devel@nongnu.org>; Fri, 08 Jan 2021 07:36:38 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:subject:date:message-id:in-reply-to:references:mime-version
  :content-transfer-encoding;
- bh=yZOeSSXeiw2HQ+tvPkDoDlq1tyApzywP9jbeOOtyMI0=;
- b=WKIDaCNnP7V/SHcJyVnvTZn4dgMwMMlxZc+FFgYDG/TS3bk/0crVmWj03xQCWQZPD2
- QHTTGneyigrBU94hXwQSzXsBrfGvPis2WPBtsDQLyqamFfYJ2rFu7HYsSj4U7KegHB//
- MehRPHZHtXRGThCZbelzWkbLySidLJsrlkNJLE9rzq/V+dSCA07p3z+N7AhjMxX2xyYy
- KXIRUIt3QK+ZxyQNXta8KeX2fyW6l2xxVGWGOGFW2QAzdna97+S9/VbMW5a3/37bMtbo
- ZJBiitJoWs1bm1Xk4M+KYCKGG19Wp10ce6A5Ijr4uwqT3Rka7M5JyvWXXXgwsz+bsgQY
- kZCg==
+ bh=k/yTTW3gJMy8kmNQdvCvlmrK8ZnSXl30930dPL2g97c=;
+ b=fTBlzZ6AUXKbhJhYj6DM8p2sA0eXcpFyq7LRt3YbWzivJ75miO1PPGWUpO9eiRSkM7
+ LrPe5SnvRzd5rKpHSfEBhOmkbaqyoJE8+oUr0XGHxkzoDk1r3oRqa9sFrXXZ56cSgS5S
+ YEIs03MMmKr7rZs2q0xVu8bOXnKV8SXh27YKznMIXeUk7JjHFffH4INVA9jpF0U3f7cu
+ +8wfoxEuRQPt4B42bOedUDyhm7kZsRpUkT2dujAswitlGxa9S0kUkn+AroKL0M57Cmr1
+ WU2gE6A7ON1U3ff4IBX7uGO4FKGdeRJxlbq3wbUmtiTylA11Uo4GUSd86NU18HKqhuYG
+ i6xg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=yZOeSSXeiw2HQ+tvPkDoDlq1tyApzywP9jbeOOtyMI0=;
- b=KdawVwxhKV7GBvR15lzJ89uEDmw4qsI6gq4dG9vp/zz0iQhSAYZ3MY1WbKY4c/KOHd
- /HM8gfmHc9DsFzJ1QR0KiRSAwMnPq+B2T+phNdAxLScbbzeQGBFJTzFXvDypDO4+U2ZJ
- YFSvObAdpVouJGx7vBBOBsIoNClz6f9h0XK3Kq6c795+3QxITlbiBWskevlm542HH7bx
- Ka7rXBzvovIskbE8SfDKL5jSaUzXIHTG17LJYJhI9aplJaLxmicchCoCmXy/Ec1tRImL
- kJU+KTnLphzEpjanT/sMaujW3dfsG+xx9/ad51uK8ZhIf6YOGCs2lU2l63D5LTjQLjqL
- Vvzg==
-X-Gm-Message-State: AOAM531VfAkiwY0Wnf6ZiCQOiUvJxIL4S8r4n+KEpG7d2JemkBQOobis
- hGarIbhNmkX/lKvCIhfhfO1MaA1Gd4iwEg==
-X-Google-Smtp-Source: ABdhPJw2MxbuHFOEN9pWVIKQZjkCEuqCxNN7x6GoMxno9fTrPIcaPE2beqsloQaR+qVCE00deUvlug==
-X-Received: by 2002:a5d:5112:: with SMTP id s18mr4175743wrt.267.1610120196521; 
- Fri, 08 Jan 2021 07:36:36 -0800 (PST)
+ bh=k/yTTW3gJMy8kmNQdvCvlmrK8ZnSXl30930dPL2g97c=;
+ b=oz5J/1+Iqhjo3MX9c+X8hSWdqeYpKXoJVwbPeRanepF8Y479pkJ3FhhARfOEpX0j01
+ YBVyaJl7E1HVq6rtSsL1iRzcx7U+qwbm1utcNTwqQ7RHtoK35BcDk5qGRbef7Zt1xwFX
+ VJdc2DBTXBxqP+4bux5+1aFPD2MM5jfgKxfHpfOew1Wyb8i4Ftpao2Fg23a0AxetVjtB
+ 5/ns+01yAfwOuTeIanGh7ONdob15R9EMKx8r+tXggWRFtR+XsMMrqjEmJZ9COHbKBmRk
+ p7VGrniEeF1yyrIiGw0Fla+EYd4K4wvx/idWsGlvmDxvA0LYTgyx0szKrl6PcdgLS4SV
+ K8kg==
+X-Gm-Message-State: AOAM531DsVIkTOHkCMxs9oqrPXs+m0zHcXivOF0h9ahyp1GclLo62qrF
+ bJjTM8cXCSRft94oWwqrqCVYz5k1FWBcaQ==
+X-Google-Smtp-Source: ABdhPJxRZiH/7oP+Utj40UC9SxxxJPihaX6yPXVGRmjnwPiY2nTJa5+on57vRaUM19Gnl59GAn1z1g==
+X-Received: by 2002:adf:a1d5:: with SMTP id v21mr4225623wrv.24.1610120197470; 
+ Fri, 08 Jan 2021 07:36:37 -0800 (PST)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
- by smtp.gmail.com with ESMTPSA id f9sm15887572wrw.81.2021.01.08.07.36.35
+ by smtp.gmail.com with ESMTPSA id f9sm15887572wrw.81.2021.01.08.07.36.36
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 08 Jan 2021 07:36:35 -0800 (PST)
+ Fri, 08 Jan 2021 07:36:36 -0800 (PST)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 08/23] hw/arm/highbank: Drop dead KVM support code
-Date: Fri,  8 Jan 2021 15:36:06 +0000
-Message-Id: <20210108153621.3868-9-peter.maydell@linaro.org>
+Subject: [PULL 09/23] util/qemu-timer: Make timer_free() imply timer_del()
+Date: Fri,  8 Jan 2021 15:36:07 +0000
+Message-Id: <20210108153621.3868-10-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20210108153621.3868-1-peter.maydell@linaro.org>
 References: <20210108153621.3868-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::42c;
- envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x42c.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::432;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x432.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -87,61 +87,70 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Support for running KVM on 32-bit Arm hosts was removed in commit
-82bf7ae84ce739e.  You can still run a 32-bit guest on a 64-bit Arm
-host CPU, but because Arm KVM requires the host and guest CPU types
-to match, it is not possible to run a guest that requires a Cortex-A9
-or Cortex-A15 CPU there.  That means that the code in the
-highbank/midway board models to support KVM is no longer used, and we
-can delete it.
+Currently timer_free() is a simple wrapper for g_free().  This means
+that the timer being freed must not be currently active, as otherwise
+QEMU might crash later when the active list is processed and still
+has a pointer to freed memory on it.  As a result almost all calls to
+timer_free() are preceded by a timer_del() call, as can be seen in
+the output of
+  git grep -B1 '\<timer_free\>'
+
+This is unfortunate API design as it makes it easy to accidentally
+misuse (by forgetting the timer_del()), and the correct use is
+annoyingly verbose.
+
+Make timer_free() imply a timer_del().
 
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
+Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
-Message-id: 20201215144215.28482-1-peter.maydell@linaro.org
+Message-id: 20201215154107.3255-2-peter.maydell@linaro.org
 ---
- hw/arm/highbank.c | 14 ++++----------
- 1 file changed, 4 insertions(+), 10 deletions(-)
+ include/qemu/timer.h | 24 +++++++++++++-----------
+ 1 file changed, 13 insertions(+), 11 deletions(-)
 
-diff --git a/hw/arm/highbank.c b/hw/arm/highbank.c
-index bf7b8f4c648..bf886268c57 100644
---- a/hw/arm/highbank.c
-+++ b/hw/arm/highbank.c
-@@ -26,7 +26,6 @@
- #include "hw/arm/boot.h"
- #include "hw/loader.h"
- #include "net/net.h"
--#include "sysemu/kvm.h"
- #include "sysemu/runstate.h"
- #include "sysemu/sysemu.h"
- #include "hw/boards.h"
-@@ -38,6 +37,7 @@
- #include "hw/cpu/a15mpcore.h"
- #include "qemu/log.h"
- #include "qom/object.h"
-+#include "cpu.h"
+diff --git a/include/qemu/timer.h b/include/qemu/timer.h
+index bdecc5b41fe..61296ea980c 100644
+--- a/include/qemu/timer.h
++++ b/include/qemu/timer.h
+@@ -609,17 +609,6 @@ static inline QEMUTimer *timer_new_ms(QEMUClockType type, QEMUTimerCB *cb,
+  */
+ void timer_deinit(QEMUTimer *ts);
  
- #define SMP_BOOT_ADDR           0x100
- #define SMP_BOOT_REG            0x40
-@@ -396,15 +396,9 @@ static void calxeda_init(MachineState *machine, enum cxmachines machine_id)
-     highbank_binfo.loader_start = 0;
-     highbank_binfo.write_secondary_boot = hb_write_secondary;
-     highbank_binfo.secondary_cpu_reset_hook = hb_reset_secondary;
--    if (!kvm_enabled()) {
--        highbank_binfo.board_setup_addr = BOARD_SETUP_ADDR;
--        highbank_binfo.write_board_setup = hb_write_board_setup;
--        highbank_binfo.secure_board_setup = true;
--    } else {
--        warn_report("cannot load built-in Monitor support "
--                    "if KVM is enabled. Some guests (such as Linux) "
--                    "may not boot.");
--    }
-+    highbank_binfo.board_setup_addr = BOARD_SETUP_ADDR;
-+    highbank_binfo.write_board_setup = hb_write_board_setup;
-+    highbank_binfo.secure_board_setup = true;
+-/**
+- * timer_free:
+- * @ts: the timer
+- *
+- * Free a timer (it must not be on the active list)
+- */
+-static inline void timer_free(QEMUTimer *ts)
+-{
+-    g_free(ts);
+-}
+-
+ /**
+  * timer_del:
+  * @ts: the timer
+@@ -631,6 +620,19 @@ static inline void timer_free(QEMUTimer *ts)
+  */
+ void timer_del(QEMUTimer *ts);
  
-     arm_load_kernel(ARM_CPU(first_cpu), machine, &highbank_binfo);
- }
++/**
++ * timer_free:
++ * @ts: the timer
++ *
++ * Free a timer. This will call timer_del() for you to remove
++ * the timer from the active list if it was still active.
++ */
++static inline void timer_free(QEMUTimer *ts)
++{
++    timer_del(ts);
++    g_free(ts);
++}
++
+ /**
+  * timer_mod_ns:
+  * @ts: the timer
 -- 
 2.20.1
 
