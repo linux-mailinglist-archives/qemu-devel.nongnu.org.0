@@ -2,65 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D26C42EF1B1
-	for <lists+qemu-devel@lfdr.de>; Fri,  8 Jan 2021 12:56:44 +0100 (CET)
-Received: from localhost ([::1]:36722 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A1BE22EF1BA
+	for <lists+qemu-devel@lfdr.de>; Fri,  8 Jan 2021 13:02:44 +0100 (CET)
+Received: from localhost ([::1]:39470 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kxqNn-0005VP-Ez
-	for lists+qemu-devel@lfdr.de; Fri, 08 Jan 2021 06:56:43 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46210)
+	id 1kxqTb-0006yd-EB
+	for lists+qemu-devel@lfdr.de; Fri, 08 Jan 2021 07:02:43 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47472)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1kxqMK-0004uO-50
- for qemu-devel@nongnu.org; Fri, 08 Jan 2021 06:55:12 -0500
-Received: from mail-ed1-x534.google.com ([2a00:1450:4864:20::534]:35349)
+ id 1kxqS4-0006NN-WD
+ for qemu-devel@nongnu.org; Fri, 08 Jan 2021 07:01:10 -0500
+Received: from mail-ed1-x52f.google.com ([2a00:1450:4864:20::52f]:37446)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1kxqMI-0004mn-8n
- for qemu-devel@nongnu.org; Fri, 08 Jan 2021 06:55:11 -0500
-Received: by mail-ed1-x534.google.com with SMTP id u19so10971968edx.2
- for <qemu-devel@nongnu.org>; Fri, 08 Jan 2021 03:55:09 -0800 (PST)
+ id 1kxqS2-0007mh-PV
+ for qemu-devel@nongnu.org; Fri, 08 Jan 2021 07:01:08 -0500
+Received: by mail-ed1-x52f.google.com with SMTP id cm17so10957593edb.4
+ for <qemu-devel@nongnu.org>; Fri, 08 Jan 2021 04:01:06 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=TT5sj4iaJu43b/QUazBJnf2Em/sDqdQRPcN8vEMLGlQ=;
- b=rOMcP/FDfddJ59bQmtIUlvjeCooqpYpQiXi+F9rkYjJb0e3/5guxuBDdpS1aG3OS3f
- 4rGQmIvAtvwTaVYaQ2AQm50pCldwNB3xUfHiemBZmgfl6rTxRWNWFxyfF6eeaiVrkuZI
- QHkMnKzc36bzydvsVoOun79GNo/EFyFNi+yqJpjAyYKXpvMUguJxDeDIZiHbgVzFc+gX
- JWtg5fM0lJo+q7PccuRnnjAyIWdj1D+kcfDDt6/LaZxDD6Nv8u7PfgMOwGex0DRJ3w3B
- mrjb6zm3VabCFhwTFqPF2s7ydaWR+IaXKvb8F4N8Rt/8JPsN001DCFBXS1wj6PMGe0DX
- l9gw==
+ :cc; bh=fP/qEYZEGDFRfjuEHIlUuy7VdR+fkK+BoeTNoMGoGkc=;
+ b=oOK7OvmOUBm7EmO6nssa+X/aiGv4HkJCY/uSIw1vYotmLu5jJQN6c6eV8rkydvugr1
+ 7b3xY9Qdb3WOqRJgn2LP/oqXV5YWmx2vwem5omkYcuNLzZ61a5hDxgt/i/WA4v0ehUyD
+ wMFVY+Fb4O4IASrO0f28JM5NzBS6sFKGqdt9Qki9NnM9DXyl42y4b+c9wVbMGha3/Dbg
+ +Fd9CEgVomGwYj2Xcp9RtS+IDrljAP0qB7dYHHqn0mTey+e35oxqGGhmZnlY5otaV+8u
+ cSLuKB3Dia/9XnoCOI8YOJezJeN514+1/lTxqpZmYU/K04duZwR9yXrjtgByNXiz/mHx
+ 5rCQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=TT5sj4iaJu43b/QUazBJnf2Em/sDqdQRPcN8vEMLGlQ=;
- b=Gd+OrSEzv9TeA0cWkTtNAUhbFUzMyUNtfgCya2uyvbde4tBhlQWLufvLpiyqvbjVE3
- R2rRwNZJYYVtVzPHjhdA1e8dUNF/i8syMN7ZKhPhJxjhc/0rAgoveF2eK8b6Ez/GDpht
- qiFC8eh+SYG35cCj8R2JISxBDAHkmySbSMCQ1zYtqNsmra84WpDcvW06lcuzAQtt0pFs
- fdzgdDd5rgtxwtLqltwLH0+ybVthKminyU4xlRu571Njd+fOvQzxnr04sBNr3IQx9oOq
- jFNFF5KyLDVnU9QEQJ5JPlCZrlDOPwenISdiR/BOn9bfeteOvgdgIhpFgsugVDPFKhC1
- oQQg==
-X-Gm-Message-State: AOAM532qeoKAcxe7XdC5T1NDJzFXwESl2hMdSTs3KVq6TOlvn9zdGNsW
- GwxJJYs6CWI3itxATrTDDDu4XpepMb+GtVZuk3nU8A==
-X-Google-Smtp-Source: ABdhPJyckDc+/6Etn43fiZ1uuKRn9BA9d8GkrLLZ6s1Q5Flec1t+BGz2awu6YoKhKr7qMj04u6ErSWGkmPsfbPWb7u0=
-X-Received: by 2002:a50:fd18:: with SMTP id i24mr5140256eds.146.1610106908338; 
- Fri, 08 Jan 2021 03:55:08 -0800 (PST)
+ :message-id:subject:to:cc;
+ bh=fP/qEYZEGDFRfjuEHIlUuy7VdR+fkK+BoeTNoMGoGkc=;
+ b=H1ZlTq6rrv898NHNCl9LLtu0RQLBDAOYxljJUuW/5b8I30pafyHTHDl9LOxeCWa+Gr
+ P4Q2zdSgsi9mqx3aw7VYAuxEIYqsw6FKcfSUoM7jd9SHZUWn2bctj8Le/qBhIWB/h3UB
+ HHJ/Ko8ukoEXao1cmB5C0PcL9oPvpxOarpR1OfOPLGeR+woIQy6Aekwq5+Mufk8jWMSO
+ vi6cnYwlWi12TrTevWz+iTrqMvgZLqr2csrDxbgu4LFHa931UcMiqaNiwPsXx4q0Qkdm
+ 9deW4ufZaWPwIegzVDMCufcKi+cX1GvgD8pQceCw9e2sNhmv9szE10XFw4/RAfgt59Rf
+ txzQ==
+X-Gm-Message-State: AOAM533fk+TEfjRHCSFixzlZo5VkSv+okA9Aw7YlsT78oUf/HrGUO2TI
+ Xh58MSwFmgkqxT+DH2mKAjR0IVrkWikUDbGc8I7jgA==
+X-Google-Smtp-Source: ABdhPJyavmNM3mPdY/gExcnC7UAz4yMWEaNdLiZFmlUQvekvE3u/6xkWk/gP/m01XtE5QUHH9BAqAr/rNJR4dQm7dGw=
+X-Received: by 2002:a05:6402:366:: with SMTP id
+ s6mr4911789edw.44.1610107265082; 
+ Fri, 08 Jan 2021 04:01:05 -0800 (PST)
 MIME-Version: 1.0
-References: <20210107222253.20382-1-f4bug@amsat.org>
- <CAFEAcA-6SD7304G=tXUYWZMYekZ=+ZXaMc26faTNnHFxw9MWqg@mail.gmail.com>
- <CAAdtpL7CKT3gG8VCP4K1COjfqbG+pP_p_LG5Py8rmjUJH4foMg@mail.gmail.com>
-In-Reply-To: <CAAdtpL7CKT3gG8VCP4K1COjfqbG+pP_p_LG5Py8rmjUJH4foMg@mail.gmail.com>
+References: <1608295996-8464-1-git-send-email-mihai.carabas@oracle.com>
+ <1608295996-8464-4-git-send-email-mihai.carabas@oracle.com>
+In-Reply-To: <1608295996-8464-4-git-send-email-mihai.carabas@oracle.com>
 From: Peter Maydell <peter.maydell@linaro.org>
-Date: Fri, 8 Jan 2021 11:54:57 +0000
-Message-ID: <CAFEAcA_Sx3b3ppxUdnuUSkc-xJmGhp8WZ57jN6tDziwRNxQ-MQ@mail.gmail.com>
-Subject: Re: [PULL 00/66] MIPS patches for 2021-01-07
-To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>
+Date: Fri, 8 Jan 2021 12:00:54 +0000
+Message-ID: <CAFEAcA_CGCCH8YahZQypxqobrngyV2YPgWQhqb0Oqcgbfz0DaA@mail.gmail.com>
+Subject: Re: [PATCH 3/3] pvpanic : update pvpanic spec document
+To: Mihai Carabas <mihai.carabas@oracle.com>
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::534;
- envelope-from=peter.maydell@linaro.org; helo=mail-ed1-x534.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::52f;
+ envelope-from=peter.maydell@linaro.org; helo=mail-ed1-x52f.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -80,32 +78,56 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>,
- kvm-devel <kvm@vger.kernel.org>, Paul Burton <paulburton@kernel.org>,
- Libvirt <libvir-list@redhat.com>, Huacai Chen <chenhuacai@kernel.org>,
- Richard Henderson <richard.henderson@linaro.org>,
- "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
- Laurent Vivier <laurent@vivier.eu>, Paolo Bonzini <pbonzini@redhat.com>,
- Aurelien Jarno <aurelien@aurel32.net>
+Cc: QEMU Developers <qemu-devel@nongnu.org>, Gerd Hoffmann <kraxel@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, 8 Jan 2021 at 11:28, Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org> =
-wrote:
-> Le ven. 8 janv. 2021 11:35, Peter Maydell <peter.maydell@linaro.org> a =
-=C3=A9crit :
->> Looks like decodetree fails to cope with non-ASCII characters in
->> its input file -- probably this depends on the host locale settings:
->> I think these hosts run in the 'C' locale.
+On Fri, 18 Dec 2020 at 13:36, Mihai Carabas <mihai.carabas@oracle.com> wrote:
 >
+> Add pvpanic PCI device support details in docs/specs/pvpanic.txt.
 >
-> Can you provide more information on your host so we can cover it in Gitla=
-b-CI?
+> Signed-off-by: Mihai Carabas <mihai.carabas@oracle.com>
+> ---
+>  docs/specs/pvpanic.txt | 13 ++++++++++++-
+>  1 file changed, 12 insertions(+), 1 deletion(-)
+>
+> diff --git a/docs/specs/pvpanic.txt b/docs/specs/pvpanic.txt
+> index a90fbca..5ddc8df 100644
+> --- a/docs/specs/pvpanic.txt
+> +++ b/docs/specs/pvpanic.txt
+> @@ -1,7 +1,7 @@
+>  PVPANIC DEVICE
+>  ==============
+>
+> -pvpanic device is a simulated ISA device, through which a guest panic
+> +pvpanic device is a simulated device, through which a guest panic
+>  event is sent to qemu, and a QMP event is generated. This allows
+>  management apps (e.g. libvirt) to be notified and respond to the event.
+>
+> @@ -9,6 +9,9 @@ The management app has the option of waiting for GUEST_PANICKED events,
+>  and/or polling for guest-panicked RunState, to learn when the pvpanic
+>  device has fired a panic event.
+>
+> +The pvpanic device can be implemented as an ISA device (using IOPORT) or as a
+> +PCI device.
+> +
+>  ISA Interface
+>  -------------
+>
+> @@ -24,6 +27,14 @@ bit 1: a guest panic has happened and will be handled by the guest;
+>         the host should record it or report it, but should not affect
+>         the execution of the guest.
+>
+> +PCI Interface
+> +-------------
+> +
+> +The PCI interface is similar to the ISA interface except that it uses an MMIO
+> +address space provided by its BAR0, 2 bytes long. Any machine with a PCI
+> +device can enable a pvpanic device by adding '-device pvpanic-pci' to the
+> +command line.
 
-It's just the windows crossbuilds on x86-64 Linux, and also the
-aarch32-on-aarch64 chroot. I'm pretty sure that the only relevant
-detail here is going to be the host LANG/etc environment variable
-settings when 'make' is run, though.
+Why is it 2 bytes long, when both the ISA and the ACPI interfaces are
+only a single byte? What size reads and writes are accepted?
 
 thanks
 -- PMM
