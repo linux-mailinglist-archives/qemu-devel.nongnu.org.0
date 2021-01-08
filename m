@@ -2,63 +2,82 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 53A082EF852
-	for <lists+qemu-devel@lfdr.de>; Fri,  8 Jan 2021 20:43:38 +0100 (CET)
-Received: from localhost ([::1]:55972 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 342722EF85C
+	for <lists+qemu-devel@lfdr.de>; Fri,  8 Jan 2021 20:47:22 +0100 (CET)
+Received: from localhost ([::1]:59656 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kxxfd-0004Cu-1s
-	for lists+qemu-devel@lfdr.de; Fri, 08 Jan 2021 14:43:37 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47804)
+	id 1kxxjF-0005rL-8S
+	for lists+qemu-devel@lfdr.de; Fri, 08 Jan 2021 14:47:21 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48276)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <wlosh@bsdimp.com>) id 1kxxdq-0003jb-2D
- for qemu-devel@nongnu.org; Fri, 08 Jan 2021 14:41:46 -0500
-Received: from mail-qk1-x732.google.com ([2607:f8b0:4864:20::732]:44096)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1kxxfe-0004fN-39
+ for qemu-devel@nongnu.org; Fri, 08 Jan 2021 14:43:38 -0500
+Received: from mail-pg1-x535.google.com ([2607:f8b0:4864:20::535]:36481)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <wlosh@bsdimp.com>) id 1kxxdn-0000vT-Ir
- for qemu-devel@nongnu.org; Fri, 08 Jan 2021 14:41:45 -0500
-Received: by mail-qk1-x732.google.com with SMTP id v126so9490539qkd.11
- for <qemu-devel@nongnu.org>; Fri, 08 Jan 2021 11:41:42 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=bsdimp-com.20150623.gappssmtp.com; s=20150623;
- h=mime-version:from:date:message-id:subject:to;
- bh=PaqCf76Z8/+m4c+ziqwWR+P3gQU3bqtzZLdA7a12q4o=;
- b=FvhrwTFhCdXpEhOiStijMOR6iBAx4ohxCr3NkvvVj0tvmNEeAHOqXDWzrBFIKOSFSQ
- Zx6fTSZ11GaBdH9lGjHFFCHP/HLScuNZmIyb52SBsdrpjjTXbpXuU0pI/K/x5OiCKREW
- +0w678qHtfGnjRZyEHDKFVFWpbnnPGlUXl3bn0/ItltwVRIIP2o4Q15rrDq5jy675kW9
- 91hMZDxWVKHuf4igqGFCrM7ipHgKWDPO26x4vmbPwscNZi5gRJJfjov0AlwEMCjuCeRM
- +uvQ9d9TtBpu9upsaFgNjkFn0Er9Zk6HKKlhqPKH+RlrwoLTUDzKbgB4eUvlB0AQ0Egl
- hQGQ==
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1kxxfc-0001d0-9o
+ for qemu-devel@nongnu.org; Fri, 08 Jan 2021 14:43:37 -0500
+Received: by mail-pg1-x535.google.com with SMTP id c132so8278567pga.3
+ for <qemu-devel@nongnu.org>; Fri, 08 Jan 2021 11:43:35 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=7B5AjKFz/5qkReno8zVW1cgCBGyZ6HQPc6XThD0S/z4=;
+ b=ez7yw7o2VV0taXBUjfpt8T9toefY122gTXYdZier7jlWsoxCisqUGYkt8V2SBSqsEH
+ RoQC9NfY48HG21ov9xnOTYXxEbTrVwxKhWM9n5wsivMQLp+Ee9GYysmMUibQh0Y2P0z9
+ TAEctAZYJe+yWyVpmybmFsE9pj75lnaLyLGg9ywn8BaHSKcrcuzDGS8QBh9598o9Y8Yp
+ nGtfsRWkXU+Hu/JT+qi8iD/7tJ76WmEGMFYnbv7H6s54eQjE0w3U9YQ+6YsuF3Ue9wbM
+ YbMjFdNZagMLiSuiKxPT4SDKT3hOTvqm4h+m3SuxilwWO2QsMXC3QRzY+zuiQbU4dv65
+ iyYA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:from:date:message-id:subject:to;
- bh=PaqCf76Z8/+m4c+ziqwWR+P3gQU3bqtzZLdA7a12q4o=;
- b=He3ai1ePmXw+Zsg1yFmbaVL+USBSX64piF58YPeeETEu0ErqtNZqs3Bi9N5TP6lVMz
- M2wcQNkmIKlaR4LbKw5CnOkFBn5RBqSBmd7HZV8x4zbLBGGe2cGhsIHF71vPCYpkyUlc
- dzba8YATucRquBmnyjw66cb5rsBcnLVyu7I5mA4TKNYnMB7MRets6Y7ayzFVHmead0ok
- oAx7+HG6tPO/2/FUZzkeBusIg4i47RRg2bBa3/fF/BqeVaQqbwUUQB7X42g8o3rC0MGt
- X8VmW2sK7DnY9Lz2mVNe8iTRmGmvuP7J4F5zaVU8HrVWArna2wIdDLXM8iRyqsviGZid
- XiCg==
-X-Gm-Message-State: AOAM530mVCeYFdAxiRqifJ4KPZyTpBpGAsJqc9VwmbXiL0DB+bA5ZcHJ
- Wwu3jfbppA5IGluJrPdHJFsLO/Ay0zLUochGhZW3Osw4zyFiBdA3
-X-Google-Smtp-Source: ABdhPJz/tUVKlI5lB1DycsR1AnyRHIfYelXdEbHEkdk4SfWiZaOYeBVhH2C/+5/GeR8lzqQRyWO8Yry83Dbig3Bjh7M=
-X-Received: by 2002:a37:4a4e:: with SMTP id x75mr5503544qka.89.1610134901221; 
- Fri, 08 Jan 2021 11:41:41 -0800 (PST)
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=7B5AjKFz/5qkReno8zVW1cgCBGyZ6HQPc6XThD0S/z4=;
+ b=SZrddS5q6F2MVHfWvpgwrrJNA2H3zKMy1InaQ4LKHNPPzmaGepVourtdDZBPAlmx+V
+ jYvKjbsLZp1bF54p2/5kxJQy9nCXLKAq6Nkdjov4hU7KfJL2ahNmxl0DEwhjS5mnA1P/
+ osA8b7w+uzsMFTxb2O9tigJxX+vXKsTONF0Vuh8AJ0mZ7tGEnRjnRkQrRyU6bwCDPatO
+ QZmJKdK7CvjQJPh/xUM9kUkDa0qC3ul3i9rYe1x+ZxoIybgc77Om0hxhqxiYU7xEJJzW
+ C/92iRIp6+jPwsTpIV4CFqid6zXNxjh9X4GGi1eyD5J9KVbbPknJuDVXoaLA7U5sEgNO
+ k9MQ==
+X-Gm-Message-State: AOAM533jSEXZBb8qCVKcdfVd14RSYfiHBGMiuPrcuFKyLIqI7BFMhKh7
+ ORs9WrnZMyzzW/dT1dXfzXyseQ==
+X-Google-Smtp-Source: ABdhPJx0CW+OApUBY1H6LCUFelopVtGn5vOWQjIyT88o5C3qF6ouFndHNmDmfDlI9or8Qg++s/s2TA==
+X-Received: by 2002:aa7:90cf:0:b029:1a3:a176:f4d0 with SMTP id
+ k15-20020aa790cf0000b02901a3a176f4d0mr5318227pfk.8.1610135014656; 
+ Fri, 08 Jan 2021 11:43:34 -0800 (PST)
+Received: from ?IPv6:2607:fb90:58e:547c:94a4:bdef:7aa2:3a7c?
+ ([2607:fb90:58e:547c:94a4:bdef:7aa2:3a7c])
+ by smtp.gmail.com with ESMTPSA id o140sm9478873pfd.26.2021.01.08.11.43.32
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 08 Jan 2021 11:43:34 -0800 (PST)
+Subject: Re: [PATCH v2 3/4] s390x/tcg: Only ignore content in r0 when
+ specified via "b" or "x"
+To: David Hildenbrand <david@redhat.com>, qemu-devel@nongnu.org
+References: <20210108132049.8501-1-david@redhat.com>
+ <20210108132049.8501-4-david@redhat.com>
+From: Richard Henderson <richard.henderson@linaro.org>
+Message-ID: <21b165f3-4d7a-3464-dcff-3c22cce43028@linaro.org>
+Date: Fri, 8 Jan 2021 09:43:29 -1000
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
 MIME-Version: 1.0
-From: Warner Losh <imp@bsdimp.com>
-Date: Fri, 8 Jan 2021 12:41:30 -0700
-Message-ID: <CANCZdfo_CDqyG339HwNQb_K+sbsV0t+3nJMXVFf=mYrS3nsv-Q@mail.gmail.com>
-Subject: qemu bsd-user plans
-To: QEMU Developers <qemu-devel@nongnu.org>
-Content-Type: multipart/alternative; boundary="000000000000d4029a05b868be62"
-Received-SPF: none client-ip=2607:f8b0:4864:20::732;
- envelope-from=wlosh@bsdimp.com; helo=mail-qk1-x732.google.com
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001,
- SPF_HELO_NONE=0.001, SPF_NONE=0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <20210108132049.8501-4-david@redhat.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::535;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x535.google.com
+X-Spam_score_int: -22
+X-Spam_score: -2.3
+X-Spam_bar: --
+X-Spam_report: (-2.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.241,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -71,125 +90,51 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: Thomas Huth <thuth@redhat.com>, Heiko Carstens <hca@linux.ibm.com>,
+ Cornelia Huck <cohuck@redhat.com>, Nick Desaulniers <ndesaulniers@google.com>,
+ Christian Borntraeger <borntraeger@de.ibm.com>, qemu-s390x@nongnu.org,
+ Guenter Roeck <linux@roeck-us.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---000000000000d4029a05b868be62
-Content-Type: text/plain; charset="UTF-8"
+On 1/8/21 3:20 AM, David Hildenbrand wrote:
+> Using get_address() with register identifiers comming from an "r" field
+> is wrong: if the "r" field designates "r0", we don't read the content
+> and instead assume 0 - which should only be applied when the register
+> was specified via "b" or "x".
+> 
+> PoP 5-11 "Operand-Address Generation":
+>   "A zero in any of the B1, B2, X2, B3, or B4 fields indicates the absence
+>    of the corresponding address component. For the absent component, a zero
+>    is used in forming the intermediate sum, regardless of the contents of
+>    general register 0. A displacement of zero has no special significance."
+> 
+> This BUG became visible for CSPG as generated by LLVM-12 in the upstream
+> Linux kernel (v5.11-rc2), used while creating the linear mapping in
+> vmem_map_init(): Trying to store to address 0 results in a Low Address
+> Protection exception.
+> 
+> Debugging this was more complicated than it could have been: The program
+> interrupt handler in the kernel will try to crash the kernel: doing so, it
+> will enable DAT. As the linear mapping is not created yet (asce=0), we run
+> into an addressing exception while tring to walk non-existant DAT tables,
+> resulting in a program exception loop.
+> 
+> This allows for booting upstream Linux kernels compiled by clang-12. Most
+> of these cases seem to be broken forever.
+> 
+> Reported-by: Nick Desaulniers <ndesaulniers@google.com>
+> Cc: Guenter Roeck <linux@roeck-us.net>
+> Cc: Christian Borntraeger <borntraeger@de.ibm.com>
+> Cc: Heiko Carstens <hca@linux.ibm.com>
+> Signed-off-by: David Hildenbrand <david@redhat.com>
+> ---
+>  target/s390x/insn-data.def |  8 ++++----
+>  target/s390x/translate.c   | 15 +++++++++------
+>  2 files changed, 13 insertions(+), 10 deletions(-)
 
-The FreeBSD project has rewritten bsd-user. We've been working on this for
-quite some time (the earliest commits date from 2013). Maybe a dozen people
-have worked on this over time, and there's 3 or 4 active developers focused
-on FreeBSD changes at the moment.
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 
-For a while, we'd merge in upstream changes from qemu. This worked great
-for us, but left us with a big backlog that was hard to upstream. Each of
-the updates took some time, so we got a little behind.
+r~
 
-So, a few years ago, I spent several weeks converting the tangled merge
-mess into a set of linear patches and started moving that forward. This was
-around the time 4.0 was released. I only managed to get the rebase forward
-to 3.1 release at the time before I hit problems related to poor testing
-environment making it hard to verify newer versions were still working.
-Plus, we found a few bugs that took a while to resolve for a number of
-reasons. Now that they are resolved, we're able to use qemu-bsd-user to
-build ~30k packages for arm, and ~20k for different types of mips in
-FreeBSD "ports" system. We now have great confidence that it's working well
-again.
-
-Now that those bugs are resolved, I started trying to forward-port the
-two-year-old base and immediately found myself hitting a number of
-problems. A big problem was that I was re-doing a lot of work that was due
-to innoculous changes upstream that I wouldn't have to do if the bsd-user
-changes were upstream. These changes get in the way of dealing with the
-more substantial structural changes in qemu that have happened.
-
-There had been talk of doing a remove and replace update of bsd-user. This
-talk was before I managed to rebase things as far forward as 3.1 even. This
-appealed to me because we've accumulated about 150 patches to date, many
-quite large, and curating them into a set of maybe 400 or 500 changes to
-match the size and scope of most patches I've seen posted to qemu-devel
-seemed overwhelming.
-
-However, it's been another year since that plan was hatched, and it's
-become clear to me that plan won't end in success. The closest I've been
-able to get is 3.1 when 4.1 was current (about 6 months behind). It's time
-for a new plan.
-
-So, my new plan is to rebase what changes I can to the tip of master and
-submit those for review. I'll work with the developers on the FreeBSD side
-to ensure they are included in reviews in addition to the normal qemu-devel
-list. This will allow us to pare down the deltas between our code and
-upstream to allow us to make progress. The changes will be held to the
-standard 'makes things better'. Given how broken bsd-user is today in qemu
-upstream, at first that will a very easy standard to make.
-
-The first patch I'll submit will be changing MAINTAINERS to point to me,
-since I'm acting as the point person in this effort. I'll then re-submit
-some other changes that I've submitted in the past, but CC the FreeBSD
-folks that are currently active (they were only CC'd to former developers
-who lack the time to review).
-
-But before I get too far down this path, I thought I'd send out what's
-going on to qemu-devel so I can get feedback and adjust the plan into
-something that's mutually agreeable so time I put towards this is not
-wasted.
-
-So, what do people think of these plans?
-
-Warner
-
---000000000000d4029a05b868be62
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr">The FreeBSD project has rewritten bsd-user. We&#39;ve been=
- working on this for quite some time (the earliest commits date from 2013).=
- Maybe a dozen people have worked on this over time, and there&#39;s 3 or 4=
- active developers focused on FreeBSD changes at the moment.<br><br>For a w=
-hile, we&#39;d merge in upstream changes from qemu. This worked great for u=
-s, but left us with a big backlog that was hard to upstream. Each of the up=
-dates took some time, so we got a little behind.<br><br>So, a few years ago=
-, I spent several weeks converting the tangled merge mess into a set of lin=
-ear patches and started moving that forward. This was around the time 4.0 w=
-as released. I only managed to get the rebase forward to 3.1 release at the=
- time before I hit problems related to poor testing environment making it h=
-ard to verify newer versions were still working. Plus, we found a few bugs =
-that took a while to resolve for a number of reasons. Now that they are res=
-olved, we&#39;re able to use qemu-bsd-user to build ~30k packages for arm, =
-and ~20k for different types of mips in FreeBSD &quot;ports&quot; system. W=
-e now have great confidence that it&#39;s working well again.<br><br>Now th=
-at those bugs are resolved, I started trying to forward-port the two-year-o=
-ld base and immediately found myself hitting a number of problems. A big pr=
-oblem was that I was re-doing a lot of work that was due to innoculous chan=
-ges upstream that I wouldn&#39;t have to do if the bsd-user changes were up=
-stream. These changes get in the way of dealing with the more substantial s=
-tructural changes in qemu that have happened.<br><br>There had been talk of=
- doing a remove and replace update of bsd-user. This talk was before I mana=
-ged to rebase things as far forward as 3.1 even. This appealed to me becaus=
-e we&#39;ve accumulated about 150 patches to date, many quite large, and cu=
-rating them into a set of maybe 400 or 500 changes to match the size and sc=
-ope of most patches I&#39;ve seen posted to qemu-devel seemed overwhelming.=
-<br><br>However, it&#39;s been another year since that plan was hatched, an=
-d it&#39;s become clear to me that plan won&#39;t end in success. The close=
-st I&#39;ve been able to get is 3.1 when 4.1 was current (about 6 months be=
-hind). It&#39;s time for a new plan.<br><br>So, my new plan is to rebase wh=
-at changes I can to the tip of master and submit those for review. I&#39;ll=
- work with the developers on the FreeBSD side to ensure they are included i=
-n reviews in addition to the normal qemu-devel list. This will allow us to =
-pare down the deltas between our code and upstream to allow us to make prog=
-ress. The changes will be held to the standard &#39;makes things better&#39=
-;. Given how broken bsd-user is today in qemu upstream, at first that will =
-a very easy standard to make.<br><br>The first patch I&#39;ll submit will b=
-e changing MAINTAINERS to point to me, since I&#39;m acting as the point pe=
-rson in this effort. I&#39;ll then re-submit some other changes that I&#39;=
-ve submitted in the past, but CC the FreeBSD folks that are currently activ=
-e (they were only CC&#39;d to former developers who lack the time to review=
-).<br><br>But before I get too far down this path, I thought I&#39;d send o=
-ut what&#39;s going on to qemu-devel so I can get feedback and adjust the p=
-lan into something that&#39;s mutually agreeable so time I put towards this=
- is not wasted.<div><br></div><div>So, what do people think of these plans?=
-<br><br>Warner<br></div></div>
-
---000000000000d4029a05b868be62--
 
