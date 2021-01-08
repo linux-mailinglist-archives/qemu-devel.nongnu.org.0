@@ -2,68 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2A9052EF18D
-	for <lists+qemu-devel@lfdr.de>; Fri,  8 Jan 2021 12:44:40 +0100 (CET)
-Received: from localhost ([::1]:59296 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D26C42EF1B1
+	for <lists+qemu-devel@lfdr.de>; Fri,  8 Jan 2021 12:56:44 +0100 (CET)
+Received: from localhost ([::1]:36722 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kxqC6-0002XP-Mr
-	for lists+qemu-devel@lfdr.de; Fri, 08 Jan 2021 06:44:38 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43894)
+	id 1kxqNn-0005VP-Ez
+	for lists+qemu-devel@lfdr.de; Fri, 08 Jan 2021 06:56:43 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46210)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1kxqAZ-0001tl-EP
- for qemu-devel@nongnu.org; Fri, 08 Jan 2021 06:43:03 -0500
-Received: from mail-ed1-x531.google.com ([2a00:1450:4864:20::531]:36213)
+ id 1kxqMK-0004uO-50
+ for qemu-devel@nongnu.org; Fri, 08 Jan 2021 06:55:12 -0500
+Received: from mail-ed1-x534.google.com ([2a00:1450:4864:20::534]:35349)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1kxqAW-0007Fp-Uu
- for qemu-devel@nongnu.org; Fri, 08 Jan 2021 06:43:03 -0500
-Received: by mail-ed1-x531.google.com with SMTP id b2so10920032edm.3
- for <qemu-devel@nongnu.org>; Fri, 08 Jan 2021 03:43:00 -0800 (PST)
+ id 1kxqMI-0004mn-8n
+ for qemu-devel@nongnu.org; Fri, 08 Jan 2021 06:55:11 -0500
+Received: by mail-ed1-x534.google.com with SMTP id u19so10971968edx.2
+ for <qemu-devel@nongnu.org>; Fri, 08 Jan 2021 03:55:09 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=/FBfmz197pDsZkIONNMlw1co5B8rbv9TMRBJbAagSJY=;
- b=xBO2E1RMgAwIB6DMxKQErqiM+LWMjrn8zjuYqvx+zRCkECoytXwxxBRIsZaO97z0YW
- SCffR9PD1Vr6Ev1LSyu2fhtBUqCBI1iccQUx8IL2yhgXa+/6/BZQsavEjzq3uMzcuiJo
- 9p//HA0IXlHghRkDUayZqLBiABcpCbH6cCVVynpls2NSUmP3U38eTXVByC/sYhH+GUJf
- nabIL5L4JThgq8jTKjUOwJQOeznAu5+Ba7Ya+6X6G6bKdlCEisY1cDyWDyeAOy+k9hde
- FSaqGqIiTcn4724xlln8AOZ639CbAKTkCjDdbsKLzAwWsfEHeU2/OJUNUsx37evFfDBX
- 5D0A==
+ :cc:content-transfer-encoding;
+ bh=TT5sj4iaJu43b/QUazBJnf2Em/sDqdQRPcN8vEMLGlQ=;
+ b=rOMcP/FDfddJ59bQmtIUlvjeCooqpYpQiXi+F9rkYjJb0e3/5guxuBDdpS1aG3OS3f
+ 4rGQmIvAtvwTaVYaQ2AQm50pCldwNB3xUfHiemBZmgfl6rTxRWNWFxyfF6eeaiVrkuZI
+ QHkMnKzc36bzydvsVoOun79GNo/EFyFNi+yqJpjAyYKXpvMUguJxDeDIZiHbgVzFc+gX
+ JWtg5fM0lJo+q7PccuRnnjAyIWdj1D+kcfDDt6/LaZxDD6Nv8u7PfgMOwGex0DRJ3w3B
+ mrjb6zm3VabCFhwTFqPF2s7ydaWR+IaXKvb8F4N8Rt/8JPsN001DCFBXS1wj6PMGe0DX
+ l9gw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=/FBfmz197pDsZkIONNMlw1co5B8rbv9TMRBJbAagSJY=;
- b=fl/tvzWdR+Fdp+u35RlIPLKfhFD1Nx9cTjO1fqrxRwLIjDoenSgkfgjtYW72mLNmbT
- yIYOuukCZ/iF4UbL3IZc5sqZusc1MC/a4+iSXgePPmZAnsbZIZeETfmSgThkupqisyxO
- XPJsrNU2BwWeic5ZU7CfESdilhspn1FyKDUNG0w+DLet0ku583LZz8mUZYXzmDeZImOY
- qKZL6iGJKJl2VE4BATL1ZxNL029OavX7y5A5VGqUzTVjwEy1AAXVDGVHeAWk6HLhw2VP
- 1roO0f+NeGVznkLkB62N0YSPjwb3twkeZXuLG/mmObEzbsk8agTtFWHCKJB8h43rvyV8
- VUHw==
-X-Gm-Message-State: AOAM530m5PiYwd7lhxcRYE6ClySA06ZUxNV9u7zgQ5unftfNpGdd2/Cf
- HBofuokVfUqMTZ57NgbtgDix6A8FqZYxWCJ9tpDqHg==
-X-Google-Smtp-Source: ABdhPJyymzjCKTPHolDGvH8tlWsqUqaJmisS1/mPf1oPGhoqG8DvMus4gIAPVh0B5bgl0L6D3dQ2DozoLM5t9do4MRs=
-X-Received: by 2002:aa7:c353:: with SMTP id j19mr4968108edr.204.1610106179256; 
- Fri, 08 Jan 2021 03:42:59 -0800 (PST)
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=TT5sj4iaJu43b/QUazBJnf2Em/sDqdQRPcN8vEMLGlQ=;
+ b=Gd+OrSEzv9TeA0cWkTtNAUhbFUzMyUNtfgCya2uyvbde4tBhlQWLufvLpiyqvbjVE3
+ R2rRwNZJYYVtVzPHjhdA1e8dUNF/i8syMN7ZKhPhJxjhc/0rAgoveF2eK8b6Ez/GDpht
+ qiFC8eh+SYG35cCj8R2JISxBDAHkmySbSMCQ1zYtqNsmra84WpDcvW06lcuzAQtt0pFs
+ fdzgdDd5rgtxwtLqltwLH0+ybVthKminyU4xlRu571Njd+fOvQzxnr04sBNr3IQx9oOq
+ jFNFF5KyLDVnU9QEQJ5JPlCZrlDOPwenISdiR/BOn9bfeteOvgdgIhpFgsugVDPFKhC1
+ oQQg==
+X-Gm-Message-State: AOAM532qeoKAcxe7XdC5T1NDJzFXwESl2hMdSTs3KVq6TOlvn9zdGNsW
+ GwxJJYs6CWI3itxATrTDDDu4XpepMb+GtVZuk3nU8A==
+X-Google-Smtp-Source: ABdhPJyckDc+/6Etn43fiZ1uuKRn9BA9d8GkrLLZ6s1Q5Flec1t+BGz2awu6YoKhKr7qMj04u6ErSWGkmPsfbPWb7u0=
+X-Received: by 2002:a50:fd18:: with SMTP id i24mr5140256eds.146.1610106908338; 
+ Fri, 08 Jan 2021 03:55:08 -0800 (PST)
 MIME-Version: 1.0
-References: <20201217113137.121607-1-ganqixin@huawei.com>
-In-Reply-To: <20201217113137.121607-1-ganqixin@huawei.com>
+References: <20210107222253.20382-1-f4bug@amsat.org>
+ <CAFEAcA-6SD7304G=tXUYWZMYekZ=+ZXaMc26faTNnHFxw9MWqg@mail.gmail.com>
+ <CAAdtpL7CKT3gG8VCP4K1COjfqbG+pP_p_LG5Py8rmjUJH4foMg@mail.gmail.com>
+In-Reply-To: <CAAdtpL7CKT3gG8VCP4K1COjfqbG+pP_p_LG5Py8rmjUJH4foMg@mail.gmail.com>
 From: Peter Maydell <peter.maydell@linaro.org>
-Date: Fri, 8 Jan 2021 11:42:47 +0000
-Message-ID: <CAFEAcA9Z9VDTW5GSC=R_NYF_FOoKMXQcCy3U6pctmj0jg=0-Fg@mail.gmail.com>
-Subject: Re: [PATCH v2 0/7] Fix some memleaks caused by ptimer_init
-To: Gan Qixin <ganqixin@huawei.com>
+Date: Fri, 8 Jan 2021 11:54:57 +0000
+Message-ID: <CAFEAcA_Sx3b3ppxUdnuUSkc-xJmGhp8WZ57jN6tDziwRNxQ-MQ@mail.gmail.com>
+Subject: Re: [PULL 00/66] MIPS patches for 2021-01-07
+To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>
 Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2a00:1450:4864:20::531;
- envelope-from=peter.maydell@linaro.org; helo=mail-ed1-x531.google.com
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2a00:1450:4864:20::534;
+ envelope-from=peter.maydell@linaro.org; helo=mail-ed1-x534.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -76,48 +80,32 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: zhanghailiang <zhang.zhanghailiang@huawei.com>,
- QEMU Trivial <qemu-trivial@nongnu.org>,
- QEMU Developers <qemu-devel@nongnu.org>,
- sundeep subbaraya <sundeep.lkml@gmail.com>,
- Beniamino Galvani <b.galvani@gmail.com>,
- Igor Mitsyanko <i.mitsyanko@gmail.com>, Jan Kiszka <jan.kiszka@web.de>,
- Antony Pavlov <antonynpavlov@gmail.com>,
- "Chenqun \(kuhn\)" <kuhn.chenqun@huawei.com>
+Cc: Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>,
+ kvm-devel <kvm@vger.kernel.org>, Paul Burton <paulburton@kernel.org>,
+ Libvirt <libvir-list@redhat.com>, Huacai Chen <chenhuacai@kernel.org>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
+ Laurent Vivier <laurent@vivier.eu>, Paolo Bonzini <pbonzini@redhat.com>,
+ Aurelien Jarno <aurelien@aurel32.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, 17 Dec 2020 at 11:32, Gan Qixin <ganqixin@huawei.com> wrote:
+On Fri, 8 Jan 2021 at 11:28, Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org> =
+wrote:
+> Le ven. 8 janv. 2021 11:35, Peter Maydell <peter.maydell@linaro.org> a =
+=C3=A9crit :
+>> Looks like decodetree fails to cope with non-ASCII characters in
+>> its input file -- probably this depends on the host locale settings:
+>> I think these hosts run in the 'C' locale.
 >
-> v1->v2:
-> Changes suggested by Peter Maydell:
->     Delete the modification of unrelated whitespace.
 >
-> Gan Qixin (7):
->   allwinner-a10-pit: Use ptimer_free() in the finalize function to avoid
->     memleaks
->   digic-timer: Use ptimer_free() in the finalize function to avoid
->     memleaks
->   exynos4210_mct: Use ptimer_free() in the finalize function to avoid
->     memleaks
->   exynos4210_pwm: Use ptimer_free() in the finalize function to avoid
->     memleaks
->   exynos4210_rtc: Use ptimer_free() in the finalize function to avoid
->     memleaks
->   mss-timer: Use ptimer_free() in the finalize function to avoid
->     memleaks
->   musicpal: Use ptimer_free() in the finalize function to avoid memleaks
+> Can you provide more information on your host so we can cover it in Gitla=
+b-CI?
 
-Applied to target-arm.next, thanks.
-
-PS: something odd happened with the threading of this series --
-the patch emails weren't follow-ups to the cover letter --
-so the automated tools like patchew got confused and thought
-the series was empty:
-https://patchew.org/QEMU/20201217113137.121607-1-ganqixin@huawei.com/
-
-You might want to look into fixing that for next time you send
-a patchset.
+It's just the windows crossbuilds on x86-64 Linux, and also the
+aarch32-on-aarch64 chroot. I'm pretty sure that the only relevant
+detail here is going to be the host LANG/etc environment variable
+settings when 'make' is run, though.
 
 thanks
 -- PMM
