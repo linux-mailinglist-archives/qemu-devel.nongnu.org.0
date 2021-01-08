@@ -2,100 +2,80 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 91EA52EF87D
-	for <lists+qemu-devel@lfdr.de>; Fri,  8 Jan 2021 21:03:28 +0100 (CET)
-Received: from localhost ([::1]:55790 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0F84C2EF88B
+	for <lists+qemu-devel@lfdr.de>; Fri,  8 Jan 2021 21:11:11 +0100 (CET)
+Received: from localhost ([::1]:59402 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kxxyp-0000aU-KD
-	for lists+qemu-devel@lfdr.de; Fri, 08 Jan 2021 15:03:27 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52592)
+	id 1kxy6H-0002Qa-Hq
+	for lists+qemu-devel@lfdr.de; Fri, 08 Jan 2021 15:11:09 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54168)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1kxxxm-0008Hl-OX
- for qemu-devel@nongnu.org; Fri, 08 Jan 2021 15:02:22 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:54582)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1kxxxk-0008VA-Nv
- for qemu-devel@nongnu.org; Fri, 08 Jan 2021 15:02:22 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1610136138;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=Nab57hnOBUVefffekMw8GiFgvpKSZ4vixCswdy+ucIE=;
- b=A+qcHBXy4kkbQORyurtVvXp39pTFls/SVsApWFQG8BMgB0cuIRTUH5jMmJiwCE/iMuBxPb
- +zIfLwoAPG3t6BDd1b3ktzCzqsCw3Yc56EUBCgAa5DyxIpyChoR//TP72JlVIZ++xoj/XE
- riIpo3Eby97PI3osQwVz1+BKsEOh9PE=
-Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
- [209.85.128.70]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-546-HwV4XYJpPu2MnOe--j431A-1; Fri, 08 Jan 2021 15:02:16 -0500
-X-MC-Unique: HwV4XYJpPu2MnOe--j431A-1
-Received: by mail-wm1-f70.google.com with SMTP id z12so3593994wmf.9
- for <qemu-devel@nongnu.org>; Fri, 08 Jan 2021 12:02:16 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1kxy4d-0001l3-Nl
+ for qemu-devel@nongnu.org; Fri, 08 Jan 2021 15:09:27 -0500
+Received: from mail-pg1-x536.google.com ([2607:f8b0:4864:20::536]:46235)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1kxy4b-0002Om-1A
+ for qemu-devel@nongnu.org; Fri, 08 Jan 2021 15:09:27 -0500
+Received: by mail-pg1-x536.google.com with SMTP id c22so8275274pgg.13
+ for <qemu-devel@nongnu.org>; Fri, 08 Jan 2021 12:09:24 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=lB68adO6GrIyK320+aTFNTpiiJBBuCJBQZObKpChUMY=;
+ b=HQekSAIz+3mdrcj378y3SzlysmDaVv4O0JdmdMiFwerukroC0ey4tlcENlhcQaQzEo
+ A5/folDv+Z8kav6FvAXB5dc8vGJZqISV9QO3qAxtRh4+DT8DFDXHyAejzXNewCZCTyA9
+ gxxOelchZofvUm7Zke+SMJC9FOB3BZscfZK51mY9X75HtVQkghg/lp/JSIRa3JkVhhJI
+ e+MvHXtFxgm1GySJHHq8TsAkU2rWaVoakKLoo/bnian8pqLSiioUslzKPsYALm9lSU7t
+ MdiePuJYKHsbSBeV/CAOd5rHaD96s8b4xDO17q0DZquijKKdh/Ijshqy1aJ5NxJMhJnU
+ VY2w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:subject:to:cc:references:from:message-id:date
  :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=Nab57hnOBUVefffekMw8GiFgvpKSZ4vixCswdy+ucIE=;
- b=ixXhMhtbdC+fmQxcrTeyeRs7pbJsZDZRKpqjFKww3bUyWha64LZFhHM8l4ieHZnrJz
- f8WzlEZRMoH8Gp09JxCrwEWdAzsfZ6j7mYw75MFKEjjKwC6cKkTyVLsPCvZ0NmOtDO8r
- Q+AOTBkz/xkhqLF0wQvRPuhL/VbtbvICDy151iTQm4xIMpGlmYgiTdSCGzaNQM3070rS
- 6UvJJTswqj57Et54i1ZkJlekB7rw/ZBHV1CY/bZoCXaImvpxEJ8Ujz+PHyXjDoSC7C7N
- uRP0noStzWGtbP+iRHBccZZm5Yg4Fwf7lzkxuNL04IDFRklZahoJHOF/jGEQR473WRFJ
- Iu4A==
-X-Gm-Message-State: AOAM5317OvMPspptKGyc31GJDfJFHN5Gy7ussiE0mkJw/v28behRYEAr
- dDqid6W2f9SKA2P+eWkoErywUQ4qhO96bo1waEan1VMVbOLDM0QnNm8fDPHxjTGX+qwTsqc0n95
- oSpVsvKhtnNQNIuA=
-X-Received: by 2002:a1c:c308:: with SMTP id t8mr4555493wmf.22.1610136135306;
- Fri, 08 Jan 2021 12:02:15 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJziRh2vSxJ2s68+G64nW5dDzaByQmwIrkPO4QIGpEnlJzyt5ynKCZRWbW5OBiU48ZMEvhrjZA==
-X-Received: by 2002:a1c:c308:: with SMTP id t8mr4555465wmf.22.1610136135036;
- Fri, 08 Jan 2021 12:02:15 -0800 (PST)
-Received: from ?IPv6:2001:b07:6468:f312:c8dd:75d4:99ab:290a?
- ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
- by smtp.gmail.com with ESMTPSA id d191sm13047763wmd.24.2021.01.08.12.02.13
+ bh=lB68adO6GrIyK320+aTFNTpiiJBBuCJBQZObKpChUMY=;
+ b=hWAUHpgCE+3DQdbEs/RjxtKyWApc4y784y8FEU7Wh35Oul2OtWZvpGo3HOROnAz7Jw
+ 6c8BH5n2PT27cJZUuyB1b70L/7OWBinN7pjsmeURrbrzoD44POsimKr5Dcl1PkfJ+mWN
+ a2Yek1tr3cJaSkFCAqoyV1+yaCF9b8QYTO5LVhQhnIkkA+Zr1Xywq0C0pF7gS0Cql/4E
+ BpPmGMQVBFtePf8txJTDC7XaDcatcluDcaOnP7pE2/iHSXo5UQL8/8ZK61+OYn0wve7C
+ 6nfBA3c8S2Lj9Y+02N2FJS7roDrXeHaInJJS3pAqxqR7+Nbw5R7kw060kSxwxl9TBVxv
+ 94RQ==
+X-Gm-Message-State: AOAM533k9xD/oyi6TFNyTwBgX/UMrlx3KOcB7iCQ5MVJvkYmlGlHcCjr
+ pMjqUce6QK8X8vjprzXE6H0sHQ==
+X-Google-Smtp-Source: ABdhPJwzVq5jEosN93vIs/MFprcwAC1yYzhFdJ+LpR0Ionjn4P5T7hk1gzA7uuhV5nbhbftDJr5+aQ==
+X-Received: by 2002:a63:170f:: with SMTP id x15mr8635801pgl.157.1610136563457; 
+ Fri, 08 Jan 2021 12:09:23 -0800 (PST)
+Received: from [10.25.18.7] (rrcs-173-197-107-21.west.biz.rr.com.
+ [173.197.107.21])
+ by smtp.gmail.com with ESMTPSA id a131sm10794419pfd.171.2021.01.08.12.09.21
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 08 Jan 2021 12:02:14 -0800 (PST)
-Subject: Re: [PATCH] meson: Propagate gnutls dependency
-To: Roman Bolshakov <r.bolshakov@yadro.com>
-References: <X/NPRqMkdM0/IxTh@SPB-NB-133.local>
- <af0194cd-cdcc-44a3-f023-80d73d96c9e8@redhat.com>
- <X/R5xtvMn4PcSkTf@SPB-NB-133.local>
- <690581da-9258-41e5-14cb-bb1b162e8993@redhat.com>
- <X/cvK5Xkh6+1Qn1K@SPB-NB-133.local>
- <86bebbbf-ff0f-263d-96a2-4e6df9f85776@redhat.com>
- <X/dQb7xj/RYiT00R@SPB-NB-133.local>
- <74d3e1a4-3f0e-f3bb-6079-03043530bfa5@redhat.com>
- <X/ditOsBmc4A1lJn@SPB-NB-133.local>
- <CABgObfbYXoGVv4_KSzKR5J4XfJ2du9z77LEh1vrShz-q-O_t4g@mail.gmail.com>
- <X/iyiCT39u5MCS2D@SPB-NB-133.local>
-From: Paolo Bonzini <pbonzini@redhat.com>
-Message-ID: <99503726-e8b0-97e1-3799-a40e04d6203b@redhat.com>
-Date: Fri, 8 Jan 2021 21:02:13 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.5.0
+ Fri, 08 Jan 2021 12:09:22 -0800 (PST)
+Subject: Re: [PATCH] target/arm: Don't decode insns in the XScale/iWMMXt space
+ as cp insns
+To: Peter Maydell <peter.maydell@linaro.org>, qemu-arm@nongnu.org,
+ qemu-devel@nongnu.org
+References: <20210108195157.32067-1-peter.maydell@linaro.org>
+From: Richard Henderson <richard.henderson@linaro.org>
+Message-ID: <93a29bfc-bc4c-b46c-3e8c-9be3ef40356a@linaro.org>
+Date: Fri, 8 Jan 2021 10:09:19 -1000
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
 MIME-Version: 1.0
-In-Reply-To: <X/iyiCT39u5MCS2D@SPB-NB-133.local>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=pbonzini@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8; format=flowed
+In-Reply-To: <20210108195157.32067-1-peter.maydell@linaro.org>
+Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=pbonzini@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -32
-X-Spam_score: -3.3
-X-Spam_bar: ---
-X-Spam_report: (-3.3 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.247,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.241, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+Received-SPF: pass client-ip=2607:f8b0:4864:20::536;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x536.google.com
+X-Spam_score_int: -22
+X-Spam_score: -2.3
+X-Spam_bar: --
+X-Spam_report: (-2.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.241,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -109,36 +89,33 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, Peter Maydell <peter.maydell@linaro.org>,
- =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
- "open list:Block layer core" <qemu-block@nongnu.org>,
- QEMU Developers <qemu-devel@nongnu.org>, Max Reitz <mreitz@redhat.com>,
- Gerd Hoffmann <kraxel@redhat.com>
+Cc: qemu-stable@nongnu.org, Guenter Roeck <linux@roeck-us.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 08/01/21 20:29, Roman Bolshakov wrote:
-> Paolo,
+On 1/8/21 9:51 AM, Peter Maydell wrote:
+> In commit cd8be50e58f63413c0 we converted the A32 coprocessor
+> insns to decodetree. This accidentally broke XScale/iWMMXt insns,
+> because it moved the handling of "cp insns which are handled
+> by looking up the cp register in the hashtable" from after the
+> call to the legacy disas_xscale_insn() decode to before it,
+> with the result that all XScale/iWMMXt insns now UNDEF.
 > 
-> I tried to use extract_all_objects() to get all object files directly
-> but it doesn't work on dependency objects defined via
-> declare_dependency(). It works only on regular targets (libs and
-> executables). And as far as I understand the intention to have
-> declare_dependency() in QEMU was to specify public interface to avoid
-> some duplication. But meson doesn't have public/private notion for build
-> targets so if we drop declare_dependency we need to specify link_whole
-> in every user of a library that's had link_whole: declare_dependency()
-> and build files would become less lean. So I'm not sure how to proceed.
+> Update valid_cp() so that it knows that on XScale cp 0 and 1
+> are not standard coprocessor instructions; this will cause
+> the decodetree trans_ functions to ignore them, so that
+> execution will correctly get through to the legacy decode again.
+> 
+> Cc: qemu-stable@nongnu.org
+> Reported-by: Guenter Roeck <linux@roeck-us.net>
+> Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
+> ---
+> With this Guenter's test image now successfully boots
+> and shuts down again.
+> ---
 
-Yes, that was just saying that the code was _in Meson_ but it still 
-needs a change to the ninja backend.
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 
-> The proposed patch (in the subject) is the still the best we've got so
-> far that fixes macOS build immediately without much bigger wrestling
-> with meson.
-
-Yes, I'm going to queue it.
-
-Paolo
+r~
 
 
