@@ -2,80 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C54002EF6F8
-	for <lists+qemu-devel@lfdr.de>; Fri,  8 Jan 2021 19:06:54 +0100 (CET)
-Received: from localhost ([::1]:47398 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6F81B2EF73F
+	for <lists+qemu-devel@lfdr.de>; Fri,  8 Jan 2021 19:22:15 +0100 (CET)
+Received: from localhost ([::1]:40294 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kxwA1-0002CA-Rv
-	for lists+qemu-devel@lfdr.de; Fri, 08 Jan 2021 13:06:53 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47748)
+	id 1kxwOs-0004lv-J0
+	for lists+qemu-devel@lfdr.de; Fri, 08 Jan 2021 13:22:14 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53652)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1kxw7O-0000K4-LX
- for qemu-devel@nongnu.org; Fri, 08 Jan 2021 13:04:10 -0500
-Received: from mail-wr1-x434.google.com ([2a00:1450:4864:20::434]:46196)
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1kxwNn-0004KU-2R
+ for qemu-devel@nongnu.org; Fri, 08 Jan 2021 13:21:07 -0500
+Received: from indium.canonical.com ([91.189.90.7]:37616)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1kxw7L-0000pk-KI
- for qemu-devel@nongnu.org; Fri, 08 Jan 2021 13:04:10 -0500
-Received: by mail-wr1-x434.google.com with SMTP id d13so9796112wrc.13
- for <qemu-devel@nongnu.org>; Fri, 08 Jan 2021 10:04:07 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:subject:date:message-id:in-reply-to:references:mime-version
- :content-transfer-encoding;
- bh=Cltfwd92MkrmvHsb6h8wjp9eDpmVWfQV41adHitKqbs=;
- b=WWDNZg4XlRJ2pRMkulGUta0K4mI0jBtVsFYEQ6LH0w4kzci3R8+KHuWq0EFKgTCcAh
- Riaf9sXFozKBE0WusjFJq6QpnHbA+EP0XF8PZI4Yhdak5AOk/cqyAcDTY3qQhcbLpOyl
- tdUNEEpYcTjL6HYYs3KEqmVnK6CwL0a08o+bwMQSj26rnSNSx0e0w6efMBQ6BSEU4U9I
- b/kVt/Dxf1QOiEgzBjTjK5NUnTmWCH2bH4+ZWylIu1fNJsyLHcY+uaSR1ABGZMtqp6hs
- u48Ljkdb0nWSNHGyQ6LGJwgGFjj02C3pxY32oi/888GXDri46n35GLFZ2DDn778Ghq2g
- TC2Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=Cltfwd92MkrmvHsb6h8wjp9eDpmVWfQV41adHitKqbs=;
- b=NuV38r393OTU93kt8gn8N9wA84+ID+JhpZYK+SfbpnoTyx2e02gM/WVjyYTO9+9cwS
- 6U9LqOqzrRZlJ3ekbN7QOvsUFOc6dmc8OzhoA9EUkdQXTkX/345EBUIptC9dbkmABn0c
- FVrnLp8JDQLcepiBd2+qXC65BSgkZgN9URMO4d0WoPBCMU1nKhSsu7t/aldNy7ZdV6UB
- DGq5iECyRRyPsx/HRCgDKWMu/DElsxKk6WAdjto6TXlsKDRCQxGOoYPggplIF9o79ote
- uYu3E7BsDshETIw6nNb6axiwzpIRE/akFE3OiZ72tBNw2xVt6Mzny6grn7c+q+mZ6VlX
- 3nUA==
-X-Gm-Message-State: AOAM530/y57k0jbO874nx5wNIShmdlFo4+IKXvuVLpGatqtt3oxXt5pH
- 1Tmy2KizbDEdhE9PgGSSk4g6ow==
-X-Google-Smtp-Source: ABdhPJxPo1Z8Pih0fRnNAlF7tiD6eiEb4oHHwQo7MQPX6KqzOSbfR6dOQJeqbsbj1Y35iJcROiEelw==
-X-Received: by 2002:a5d:55c6:: with SMTP id i6mr4767784wrw.137.1610129046389; 
- Fri, 08 Jan 2021 10:04:06 -0800 (PST)
-Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
- by smtp.gmail.com with ESMTPSA id s1sm13423029wrv.97.2021.01.08.10.04.05
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 08 Jan 2021 10:04:05 -0800 (PST)
-From: Peter Maydell <peter.maydell@linaro.org>
-To: qemu-arm@nongnu.org,
-	qemu-devel@nongnu.org
-Subject: [PATCH 2/2] hw/net/lan9118: Add symbolic constants for register
- offsets
-Date: Fri,  8 Jan 2021 18:04:01 +0000
-Message-Id: <20210108180401.2263-3-peter.maydell@linaro.org>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20210108180401.2263-1-peter.maydell@linaro.org>
-References: <20210108180401.2263-1-peter.maydell@linaro.org>
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1kxwNi-0006gL-PJ
+ for qemu-devel@nongnu.org; Fri, 08 Jan 2021 13:21:06 -0500
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1kxwNg-00004y-75
+ for <qemu-devel@nongnu.org>; Fri, 08 Jan 2021 18:21:00 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id 0965B2E813D
+ for <qemu-devel@nongnu.org>; Fri,  8 Jan 2021 18:21:00 +0000 (UTC)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::434;
- envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x434.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Date: Fri, 08 Jan 2021 18:08:21 -0000
+From: Peter Maydell <1904954@bugs.launchpad.net>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
+X-Launchpad-Bug-Tags: ethernet lan lan9118 netwroking
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: alfred2g pmaydell
+X-Launchpad-Bug-Reporter: alfred gedeon (alfred2g)
+X-Launchpad-Bug-Modifier: Peter Maydell (pmaydell)
+References: <160584191813.16356.9445911921619079194.malonedeb@chaenomeles.canonical.com>
+Message-Id: <161012930206.22411.285179719142088604.malone@wampee.canonical.com>
+Subject: [Bug 1904954] Re: lan9118 bug peeked received message size not equal
+ to actual received message size
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="fd9c5a87183d01004404fa6027cd262eaa7f6fcf"; Instance="production"
+X-Launchpad-Hash: 13218676d548b5f1585b422d5d3dc2fb8469aa4f
+Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
+ helo=indium.canonical.com
+X-Spam_score_int: -65
+X-Spam_score: -6.6
+X-Spam_bar: ------
+X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9,
+ HEADER_FROM_DIFFERENT_DOMAINS=0.248, RCVD_IN_DNSWL_HI=-5,
+ RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -84,78 +71,46 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Reply-To: Bug 1904954 <1904954@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The lan9118 code mostly uses symbolic constants for register offsets;
-the exceptions are those which the datasheet doesn't give an official
-symbolic name to.
+This patchset should fix this bug:
+https://patchew.org/QEMU/20210108180401.2263-1-peter.maydell@linaro.org/
 
-Add some names for the registers which don't already have them, based
-on the longer names they are given in the memory map.
+PS: this isn't a security issue because the lan9118 is used only on
+board models that can't run under KVM and so it is not on QEMU's
+security boundary.
 
-Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
----
- hw/net/lan9118.c | 24 ++++++++++++++++++------
- 1 file changed, 18 insertions(+), 6 deletions(-)
+-- =
 
-diff --git a/hw/net/lan9118.c b/hw/net/lan9118.c
-index 13d469fe24f..abc796285ab 100644
---- a/hw/net/lan9118.c
-+++ b/hw/net/lan9118.c
-@@ -40,6 +40,17 @@ do { hw_error("lan9118: error: " fmt , ## __VA_ARGS__);} while (0)
- do { fprintf(stderr, "lan9118: error: " fmt , ## __VA_ARGS__);} while (0)
- #endif
- 
-+/* The tx and rx fifo ports are a range of aliased 32-bit registers */
-+#define RX_DATA_FIFO_PORT_FIRST 0x00
-+#define RX_DATA_FIFO_PORT_LAST 0x1f
-+#define TX_DATA_FIFO_PORT_FIRST 0x20
-+#define TX_DATA_FIFO_PORT_LAST 0x3f
-+
-+#define RX_STATUS_FIFO_PORT 0x40
-+#define RX_STATUS_FIFO_PEEK 0x44
-+#define TX_STATUS_FIFO_PORT 0x48
-+#define TX_STATUS_FIFO_PEEK 0x4c
-+
- #define CSR_ID_REV      0x50
- #define CSR_IRQ_CFG     0x54
- #define CSR_INT_STS     0x58
-@@ -1020,7 +1031,8 @@ static void lan9118_writel(void *opaque, hwaddr offset,
-     offset &= 0xff;
- 
-     //DPRINTF("Write reg 0x%02x = 0x%08x\n", (int)offset, val);
--    if (offset >= 0x20 && offset < 0x40) {
-+    if (offset >= TX_DATA_FIFO_PORT_FIRST &&
-+        offset <= TX_DATA_FIFO_PORT_LAST) {
-         /* TX FIFO */
-         tx_fifo_push(s, val);
-         return;
-@@ -1198,18 +1210,18 @@ static uint64_t lan9118_readl(void *opaque, hwaddr offset,
-     lan9118_state *s = (lan9118_state *)opaque;
- 
-     //DPRINTF("Read reg 0x%02x\n", (int)offset);
--    if (offset < 0x20) {
-+    if (offset <= RX_DATA_FIFO_PORT_LAST) {
-         /* RX FIFO */
-         return rx_fifo_pop(s);
-     }
-     switch (offset) {
--    case 0x40:
-+    case RX_STATUS_FIFO_PORT:
-         return rx_status_fifo_pop(s);
--    case 0x44:
-+    case RX_STATUS_FIFO_PEEK:
-         return s->rx_status_fifo[s->rx_status_fifo_head];
--    case 0x48:
-+    case TX_STATUS_FIFO_PORT:
-         return tx_status_fifo_pop(s);
--    case 0x4c:
-+    case TX_STATUS_FIFO_PEEK:
-         return s->tx_status_fifo[s->tx_status_fifo_head];
-     case CSR_ID_REV:
-         return 0x01180001;
--- 
-2.20.1
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1904954
 
+Title:
+  lan9118 bug peeked received message size not equal to actual received
+  message size
+
+Status in QEMU:
+  New
+
+Bug description:
+  peeked message size is not equal to read message size
+
+  Bug in the code at line:
+  https://github.com/qemu/qemu/blob/master/hw/net/lan9118.c#L1209
+
+  s->tx_status_fifo_head should be s->rx_status_fifo_head
+
+  Could also be a security bug, as the user could allocate a buffer of
+  size peeked data smaller than the actual packet received, which could
+  cause a buffer overflow.
+
+  Thanks,
+
+  Alfred
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1904954/+subscriptions
 
