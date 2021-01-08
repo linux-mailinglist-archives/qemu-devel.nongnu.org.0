@@ -2,70 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 381C22EF417
-	for <lists+qemu-devel@lfdr.de>; Fri,  8 Jan 2021 15:42:56 +0100 (CET)
-Received: from localhost ([::1]:34984 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8135C2EF42E
+	for <lists+qemu-devel@lfdr.de>; Fri,  8 Jan 2021 15:50:27 +0100 (CET)
+Received: from localhost ([::1]:38948 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kxsyc-000618-Os
-	for lists+qemu-devel@lfdr.de; Fri, 08 Jan 2021 09:42:54 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33456)
+	id 1kxt5u-00006b-3c
+	for lists+qemu-devel@lfdr.de; Fri, 08 Jan 2021 09:50:26 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35202)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1kxswT-0005BU-AI
- for qemu-devel@nongnu.org; Fri, 08 Jan 2021 09:40:41 -0500
-Received: from mail-ed1-x533.google.com ([2a00:1450:4864:20::533]:46309)
+ id 1kxt4x-00087c-NS
+ for qemu-devel@nongnu.org; Fri, 08 Jan 2021 09:49:27 -0500
+Received: from mail-ej1-x62b.google.com ([2a00:1450:4864:20::62b]:34518)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1kxswN-0008V1-Fp
- for qemu-devel@nongnu.org; Fri, 08 Jan 2021 09:40:41 -0500
-Received: by mail-ed1-x533.google.com with SMTP id v26so2454823eds.13
- for <qemu-devel@nongnu.org>; Fri, 08 Jan 2021 06:40:35 -0800 (PST)
+ id 1kxt4v-0002un-C2
+ for qemu-devel@nongnu.org; Fri, 08 Jan 2021 09:49:27 -0500
+Received: by mail-ej1-x62b.google.com with SMTP id g20so14929027ejb.1
+ for <qemu-devel@nongnu.org>; Fri, 08 Jan 2021 06:49:24 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=0LN0oJ+aDXDrxZB9Pk6yCOmV3Ijg+90M2UtZfIHI3O4=;
- b=VXu/8weXQ0FxTvNjve83Qdip8M722NsQYnoU7s5oqQ29iH9FwdSRFw1eZAAJoQIfs7
- JlOYLN7EroM7t2PatILsH2Dnt2hEcUS3DwM2DaDxpaQczeRysMYDRwh2qri3YUHU9iV0
- kKgaTDBE1D6ES/jLPmQ2CYBAieNo2qXBSV2VANNcF98c8HwUskr5R9/31/8QJicDuAPo
- pGDe23KL+l7C0drQJQsIuJ53JGRghi8bjblk59X7deU9U839M0KvXMmVsBTH56ztw+Z7
- CllISCHhkjMsrnDs+3fBJ0dY90CwDqAboOApaXFN4/qsD4lLciQsQh3v92j+VfAQOHb8
- UFMw==
+ :cc; bh=EPrlCp8NjczREcv59nZpUeZQD3tdKHQamXpMTRmG/NE=;
+ b=qRt7mPVdi6i0OXx7q83lbdqMrI6t0AayzvJgQj8Iw35ln7dAbgLG25aVugw5NgQCvu
+ hWZYcf3rrwHkDRE66an7JrfLxWWs1fR+emKJqaUw5/RWJ2nij2tf4rVSorADLrhYmcdY
+ in397cOZms27hcpiFbVqJVon4kDDTVMCPhTbv1wRGDi3PqhK4kmVKvy32gIe5UPDPEKn
+ BlhTgxfTS3Us0O0J0E3LCqz4zbrAOJNuC37Qlj1oz+eo5aj2xC5V7xOwjqbnkD231CIw
+ koGJHmP5n5E2nICGZDEC1K41nzuvgRu6PY5jd7EclGZskNSFnfD5rydXv7UOciWDnK56
+ pBIQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=0LN0oJ+aDXDrxZB9Pk6yCOmV3Ijg+90M2UtZfIHI3O4=;
- b=iEOd+n/p39pbUhuF73DzUKFkZzNWT4mhryZQcxp2/c1rF3b3LDPVC131rzJROYL5iz
- PGMS6iNc8pkCICWnZZV0aVxnHy5SX4giZSKZAVzS5+BJU5NxcXVwxgPg0+Cer04cyELK
- r17BcbKXjrasoYihLnB1ctiw22cSJdHQY86Vt3nq+7/ofMPnMgFYv5AodeJPbTfETvZ3
- CkSK7bryOfeXXvjf87G/RGNr/rmR9AYIrt8YOpuL8uc2WbZiIBuwldBZBETCMkDn3HmR
- 3qOYpMItQK32pU9T2pZyLmTnBxiXNOSJyBmhfm/MhCulQTymNIl6w3rq9vRRG5QZ4FAC
- YvCQ==
-X-Gm-Message-State: AOAM5319J3oEgdTZoTCvzeamjHyfBzw2WwBzdfPoEjGLP3TzEvkj8+yn
- UMWrF+ib/itMjgHAshaOhlU+EVs1Fyen8PdC1OK3aQ==
-X-Google-Smtp-Source: ABdhPJxcoTYB/1+b7l2JHFzF1E2qizve5Da6qfVk+rG8hBOHLPKmqxMkanHIxEFedb8mllEk64EaBqPiGhE3/dTU0Zk=
-X-Received: by 2002:aa7:d915:: with SMTP id a21mr5399953edr.251.1610116833710; 
- Fri, 08 Jan 2021 06:40:33 -0800 (PST)
+ bh=EPrlCp8NjczREcv59nZpUeZQD3tdKHQamXpMTRmG/NE=;
+ b=WZYk2urj+webchknQm1CP1k0D0B19pkyaeJw9UxZNHI8haF/Ezn8RESPZ0/va5fCZT
+ 9oVosxOJrA6IOFBVkVgP0BahkmCSHtnaNcINGcAqgCvAFiLUwff9dSdcFuO1khQlDBEl
+ I3ePy6UxQ0tVQ/qrN++SVwENUtsXltM1CUgnykFnnXOwGhkW4nyH/bD8FXgB9GKuKrWB
+ M0ajU6yWVlJ5lzYWTbEuDKOC84Qub9qeB5jyXmMJBGdQ+Qv4BZ3dovUx8d26xcsPBa0Q
+ zNv+XaebNakDFTv5p8RK3cpAb0SABBaI9bJMvVx0o8ytq2Sq9ncwLhOnmUb/zkdpU13N
+ ijYg==
+X-Gm-Message-State: AOAM530WbWAkW8mK3uhFr4LnbGxgMmjmlqujicFWhArQ/scoYSK8naVK
+ ITOTaOmGH0dGeRUwqme+sVaWYcDEjDhsdqPRvRd8zw==
+X-Google-Smtp-Source: ABdhPJySm8GDeTlVwpa2iuR8HVPiQmc+lao42kRoueGnkWMjiRDeIsATjUH9WgQn01ZcDK3i5bhxr3rP3VSTqTQuUZA=
+X-Received: by 2002:a17:906:e250:: with SMTP id
+ gq16mr2773095ejb.382.1610117363818; 
+ Fri, 08 Jan 2021 06:49:23 -0800 (PST)
 MIME-Version: 1.0
-References: <20201202144523.24526-1-bmeng.cn@gmail.com>
- <20201202144523.24526-2-bmeng.cn@gmail.com>
-In-Reply-To: <20201202144523.24526-2-bmeng.cn@gmail.com>
+References: <1608182913-54603-1-git-send-email-bmeng.cn@gmail.com>
+ <1608182913-54603-2-git-send-email-bmeng.cn@gmail.com>
+In-Reply-To: <1608182913-54603-2-git-send-email-bmeng.cn@gmail.com>
 From: Peter Maydell <peter.maydell@linaro.org>
-Date: Fri, 8 Jan 2021 14:40:22 +0000
-Message-ID: <CAFEAcA9weaHgHTZBmEeveOxaakpeQTAvqrKGG6pZAprr=DcpWQ@mail.gmail.com>
-Subject: Re: [PATCH v2 2/2] hw/ssi: imx_spi: Disable chip selects in
- imx_spi_reset()
+Date: Fri, 8 Jan 2021 14:49:12 +0000
+Message-ID: <CAFEAcA84tudyJ7NBkKb1YGhV3p5EMZ+6dD7DJicNT_hk0w1sVg@mail.gmail.com>
+Subject: Re: [PATCH 2/2] hw/ssi: imx_spi: Correct tx and rx fifo endianness
 To: Bin Meng <bmeng.cn@gmail.com>
 Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2a00:1450:4864:20::533;
- envelope-from=peter.maydell@linaro.org; helo=mail-ed1-x533.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::62b;
+ envelope-from=peter.maydell@linaro.org; helo=mail-ej1-x62b.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -78,76 +78,111 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Xuzhou Cheng <xuzhou.cheng@windriver.com>,
- Bin Meng <bin.meng@windriver.com>, QEMU Developers <qemu-devel@nongnu.org>,
- Jean-Christophe Dubois <jcd@tribudubois.net>, qemu-arm <qemu-arm@nongnu.org>,
- Peter Chubb <peter.chubb@nicta.com.au>,
- Alistair Francis <alistair.francis@wdc.com>
+Cc: Bin Meng <bin.meng@windriver.com>, qemu-arm <qemu-arm@nongnu.org>,
+ Alistair Francis <alistair.francis@wdc.com>,
+ QEMU Developers <qemu-devel@nongnu.org>,
+ Jean-Christophe Dubois <jcd@tribudubois.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, 2 Dec 2020 at 14:45, Bin Meng <bmeng.cn@gmail.com> wrote:
+On Thu, 17 Dec 2020 at 05:28, Bin Meng <bmeng.cn@gmail.com> wrote:
 >
-> From: Xuzhou Cheng <xuzhou.cheng@windriver.com>
+> From: Bin Meng <bin.meng@windriver.com>
 >
-> When a write to ECSPI_CONREG register to disable the SPI controller,
-> imx_spi_reset() is called to reset the controller, during which CS
-> lines should have been disabled, otherwise the state machine of any
-> devices (e.g.: SPI flashes) connected to the SPI master is stuck to
-> its last state and responds incorrectly to any follow-up commands.
+> The endianness of data exchange between tx and rx fifo is incorrect.
+> Earlier bytes are supposed to show up on MSB and later bytes on LSB,
+> ie: in big endian. The manual does not explicitly say this, but the
+> U-Boot and Linux driver codes have a swap on the data transferred
+> to tx fifo and from rx fifo.
+
+To check my understanding, if we have a burst length of 16 bits, say,
+when we do the fifo32_pop() of a 32 bit word, where in that
+word and which way round are the 2 bytes we are going to transfer ?
+
+> With this change, U-Boot read from / write to SPI flash tests pass.
+>
+>   => sf test 1ff000 1000
+>   SPI flash test:
+>   0 erase: 0 ticks, 4096000 KiB/s 32768.000 Mbps
+>   1 check: 3 ticks, 1333 KiB/s 10.664 Mbps
+>   2 write: 235 ticks, 17 KiB/s 0.136 Mbps
+>   3 read: 2 ticks, 2000 KiB/s 16.000 Mbps
+>   Test passed
+>   0 erase: 0 ticks, 4096000 KiB/s 32768.000 Mbps
+>   1 check: 3 ticks, 1333 KiB/s 10.664 Mbps
+>   2 write: 235 ticks, 17 KiB/s 0.136 Mbps
+>   3 read: 2 ticks, 2000 KiB/s 16.000 Mbps
 >
 > Fixes: c906a3a01582 ("i.MX: Add the Freescale SPI Controller")
-> Signed-off-by: Xuzhou Cheng <xuzhou.cheng@windriver.com>
 > Signed-off-by: Bin Meng <bin.meng@windriver.com>
-> Acked-by: Alistair Francis <alistair.francis@wdc.com>
 >
 > ---
 >
-> Changes in v2:
-> - Fix the "Fixes" tag in the commit message
->
->  hw/ssi/imx_spi.c | 5 +++++
->  1 file changed, 5 insertions(+)
+>  hw/ssi/imx_spi.c | 16 ++++++++++++----
+>  1 file changed, 12 insertions(+), 4 deletions(-)
 >
 > diff --git a/hw/ssi/imx_spi.c b/hw/ssi/imx_spi.c
-> index e605049a21..85c172e815 100644
+> index 509fb9f..71f0902 100644
 > --- a/hw/ssi/imx_spi.c
 > +++ b/hw/ssi/imx_spi.c
-> @@ -231,6 +231,7 @@ static void imx_spi_flush_txfifo(IMXSPIState *s)
->  static void imx_spi_reset(DeviceState *dev)
+> @@ -156,13 +156,14 @@ static void imx_spi_flush_txfifo(IMXSPIState *s)
 >  {
->      IMXSPIState *s = IMX_SPI(dev);
-> +    int i;
+>      uint32_t tx;
+>      uint32_t rx;
+> +    uint32_t data;
+> +    uint8_t byte;
 >
->      DPRINTF("\n");
+>      DPRINTF("Begin: TX Fifo Size = %d, RX Fifo Size = %d\n",
+>              fifo32_num_used(&s->tx_fifo), fifo32_num_used(&s->rx_fifo));
 >
-> @@ -243,6 +244,10 @@ static void imx_spi_reset(DeviceState *dev)
+>      while (!fifo32_is_empty(&s->tx_fifo)) {
+>          int tx_burst = 0;
+> -        int index = 0;
 >
->      imx_spi_update_irq(s);
+>          if (s->burst_length <= 0) {
+>              s->burst_length = imx_spi_burst_length(s);
+> @@ -183,10 +184,18 @@ static void imx_spi_flush_txfifo(IMXSPIState *s)
+>              tx_burst = 32;
+>          }
 >
-> +    for (i = 0; i < ECSPI_NUM_CS; i++) {
-> +        qemu_set_irq(s->cs_lines[i], 1);
-> +    }
+> +        data = 0;
+> +        for (int i = 0; i < tx_burst / 8; i++) {
+> +            byte = tx & 0xff;
+> +            tx = tx >> 8;
+> +            data = (data << 8) | byte;
+> +        }
+> +        tx = data;
+> +
 
-Calling qemu_set_irq() in a device reset function is a bad
-idea, because you don't know whether the thing on the other
-end of the IRQ line (a) has already reset before you or
-(b) is going to reset after you. If you need to do this then
-I think you need to convert this device (and perhaps whatever
-it's connected to) to the 3-phase-reset API. (But you probably
-don't, see below.)
+Why carefully reverse the order of bytes in the word and then
+take a byte at a time from the bottom of the word in the loop below,
+when you could change the loop to take bytes from the top of the word
+instead ?
 
-Usually the approach is that the device on the other end
-of the line is going to reset its state anyway, so there's
-no need to actively signal an irq line change.
-
-If this is required only for the case of "guest requested
-a controller reset via the ECSPI_CONREG register" and not
-for full system reset, then you can handle that by having
-an imx_spi_soft_reset() which calls imx_spi_reset() and then
-does the qemu_set_irq() calls, so full system (power-cycle)
-reset still goes to imx_spi_reset() but guest-commanded
-reset via the register interface calls imx_spi_soft_reset().
+>          rx = 0;
+>
+>          while (tx_burst > 0) {
+> -            uint8_t byte = tx & 0xff;
+> +            byte = tx & 0xff;
+>
+>              DPRINTF("writing 0x%02x\n", (uint32_t)byte);
+>
+> @@ -196,12 +205,11 @@ static void imx_spi_flush_txfifo(IMXSPIState *s)
+>              DPRINTF("0x%02x read\n", (uint32_t)byte);
+>
+>              tx = tx >> 8;
+> -            rx |= (byte << (index * 8));
+> +            rx = (rx << 8) | byte;
+>
+>              /* Remove 8 bits from the actual burst */
+>              tx_burst -= 8;
+>              s->burst_length -= 8;
+> -            index++;
+>          }
+>
+>          DPRINTF("data rx:0x%08x\n", rx);
+> --
+> 2.7.4
 
 thanks
 -- PMM
