@@ -2,81 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A65152EF735
-	for <lists+qemu-devel@lfdr.de>; Fri,  8 Jan 2021 19:18:54 +0100 (CET)
-Received: from localhost ([::1]:36026 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9BF3C2EF743
+	for <lists+qemu-devel@lfdr.de>; Fri,  8 Jan 2021 19:23:35 +0100 (CET)
+Received: from localhost ([::1]:42502 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kxwLd-0001rL-PS
-	for lists+qemu-devel@lfdr.de; Fri, 08 Jan 2021 13:18:53 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51778)
+	id 1kxwQA-0005jZ-Nz
+	for lists+qemu-devel@lfdr.de; Fri, 08 Jan 2021 13:23:34 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54200)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1kxwIy-0000Yi-QQ; Fri, 08 Jan 2021 13:16:10 -0500
-Received: from mail-wm1-x335.google.com ([2a00:1450:4864:20::335]:35481)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1kxwPE-0005HO-3U
+ for qemu-devel@nongnu.org; Fri, 08 Jan 2021 13:22:36 -0500
+Received: from mail-wr1-x42c.google.com ([2a00:1450:4864:20::42c]:34056)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1kxwIx-00058q-DA; Fri, 08 Jan 2021 13:16:08 -0500
-Received: by mail-wm1-x335.google.com with SMTP id e25so9223237wme.0;
- Fri, 08 Jan 2021 10:16:06 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:subject:to:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=kzW+etdvWCxLvil8pyMDDG+XQ0COh7mraCS06TiMlQo=;
- b=rPxwEtKl5X2ES8OdMBh3M43QyJn7qvrwbZRI+9RbAHrTlYrBzd4LuLco08OoQhnjTG
- mgZgY24rnM/lyvW7wtyC+yhDiQqP3rnl6Ajf99ejz0smdp8tQG9I4iX+pLpbYIC8eYDa
- hdpp7wmPVEXHBW23VoIBwtAvNc2IDuuoqSARyVwlS2CIiA6GbJVDamylEQAhe6LHjRh8
- 5ABd4eshyhjwpilcN54XD4+/FpXsKP5xwW1PvuhfuVuR/o/6NypQr3XOruXjqL0UsYSU
- VEZE2RmmPyVcEpZa4YAjCY6Qcn5leZ2WDJj4ZR3Idok/ExVORp5yJeVJvg0uD9GIL0kA
- msiA==
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1kxwPC-00078z-Cb
+ for qemu-devel@nongnu.org; Fri, 08 Jan 2021 13:22:35 -0500
+Received: by mail-wr1-x42c.google.com with SMTP id q18so9933254wrn.1
+ for <qemu-devel@nongnu.org>; Fri, 08 Jan 2021 10:22:33 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=references:user-agent:from:to:cc:subject:date:in-reply-to
+ :message-id:mime-version:content-transfer-encoding;
+ bh=NI2zdzCh9rWrYMr0ZP7emF6ME8NPAIofP7g4fbqqodE=;
+ b=ynID7F5LpKLtfAGqOmrhVRpEe1X1ilu6WlBG+oOGJRhs61acZN+tkfEyMMr41n+KXH
+ VyukggyHvV+JeMYI+9PrDJmc+Sc7VooqVwv0OouuO9AqRqaevsBeDkZND57vGyXBL0Oj
+ e54YZHDl+VEhTRLUXGThEgprsVGSLnorR8tqcdrCLd1nEU/PhSvsWDMMwFb2HaIY5ISC
+ 4Xl+H1K4yXv2cfHKRnkskMvDyrOW+mVFmxwyqHZ0rWCzjHo6Oi5LNRGQMG+eKpv7thxP
+ X3nZLsW0bfNMDxVrSs/GaN42iJ+zJ+M33h4friyOnwnIa54M9lJ7grvbGmrMeW5MVstc
+ 3fiA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:subject:to:references:from:message-id
- :date:user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=kzW+etdvWCxLvil8pyMDDG+XQ0COh7mraCS06TiMlQo=;
- b=STJn958BNod7w3czjbBxrj2zszO6gkns+ZF6hx4ORBPXQMoLWs+QxRD0r2uCYpQBbS
- r3v7ThkxTiWt9p9TaTbx9D5hnC1kVi7bPh2KpjiRj7ukiCU8qd2icsqxpirkkUx5Q+jg
- 4MCvFVDsuRBC0Nq6eTEb70y3Gz/m/TZeYaS9ZGcYQEI+izX3U74q02dpNVr8XU3ODWfx
- DzPJIDwta00q0VxIr28oLg2goxNddRk4BGVzEjijk/KALfJnHOyMawCG0fO73PMOIlhn
- g/A8VzyymIYO22/KhZCf6HUg6mhfVSNWIryMeN+vpFauhBNJOLmlHIOuALp4MIJCe8Xs
- 7ECA==
-X-Gm-Message-State: AOAM532ats1KyIdw0LL44cfBlB7Hf7j1vX5jSN0XRpPc6yN4EspcrXB9
- wBOYiJ5ydmmqPXefGyAJb55uk3rPYEQ=
-X-Google-Smtp-Source: ABdhPJyeKi4FC5pRgnnJuTkiVTgJh3qpllLZKQeokr+WGasxdfO2T+bDVDgB0/suwymO6DY+a1kRzw==
-X-Received: by 2002:a1c:6741:: with SMTP id b62mr4150526wmc.21.1610129765304; 
- Fri, 08 Jan 2021 10:16:05 -0800 (PST)
-Received: from [192.168.1.36] (241.red-88-10-103.dynamicip.rima-tde.net.
- [88.10.103.241])
- by smtp.gmail.com with ESMTPSA id s13sm14823188wra.53.2021.01.08.10.16.04
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 08 Jan 2021 10:16:04 -0800 (PST)
-Subject: Re: [PATCH 2/2] hw/net/lan9118: Add symbolic constants for register
- offsets
-To: Peter Maydell <peter.maydell@linaro.org>, qemu-arm@nongnu.org,
- qemu-devel@nongnu.org
-References: <20210108180401.2263-1-peter.maydell@linaro.org>
- <20210108180401.2263-3-peter.maydell@linaro.org>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
-Message-ID: <ee3de176-557b-11ef-282a-da84a1f52a71@amsat.org>
-Date: Fri, 8 Jan 2021 19:16:03 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.6.0
+ h=x-gm-message-state:references:user-agent:from:to:cc:subject:date
+ :in-reply-to:message-id:mime-version:content-transfer-encoding;
+ bh=NI2zdzCh9rWrYMr0ZP7emF6ME8NPAIofP7g4fbqqodE=;
+ b=dOaiaHE5LQAIYMVEo3tJzkNczqyCdJi1w8TdZ/HARbFUVo9JNOG/92f691xP0HGpCi
+ hfc+1EYvLH0M8QXepRFnstlEEpe9qAJzlWZ9JHUVkvy9ONedHP1ig/Bxc3kcIWvyAujl
+ 4duPDYMC4TZjvOisDyRTHriPDqHqZ2STTst+vh9PnpIiUN/769Nf0LinlSPy+eifQhbz
+ 1xQm9hp554iVqlDS2OvkWNktbkiw+MbsgfDTOiWjDB+yJqnFoDwDlT1NAKzeXUZdnjPx
+ 2mHRnh7QWJmKQB5DGrR/U+SMw1WjqRK2ZeEEgXuHCRTZJ+eF5ZgBTpdzGu9sFFdyUCcu
+ AqTg==
+X-Gm-Message-State: AOAM530bFb9KoxEdrF0ooqce45k/QmJ8wWTYdR7HPMrtfvfVAdoHjrBI
+ 1KN/txsK0zkaUaUbyshDOiniww==
+X-Google-Smtp-Source: ABdhPJwtf6sydOobHP7Ct1ZKPm+TsWaCE9O+uzLXSY3raCEDqS09wsuugr6D4HLga5hLm1MziBh4xw==
+X-Received: by 2002:a05:6000:1811:: with SMTP id
+ m17mr4783218wrh.67.1610130152657; 
+ Fri, 08 Jan 2021 10:22:32 -0800 (PST)
+Received: from zen.linaroharston ([51.148.130.216])
+ by smtp.gmail.com with ESMTPSA id z15sm14619390wrv.67.2021.01.08.10.22.31
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 08 Jan 2021 10:22:31 -0800 (PST)
+Received: from zen (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id BE3491FF7E;
+ Fri,  8 Jan 2021 18:22:30 +0000 (GMT)
+References: <20210108161416.21129-1-peter.maydell@linaro.org>
+ <20210108161416.21129-2-peter.maydell@linaro.org>
+User-agent: mu4e 1.5.7; emacs 28.0.50
+From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: Peter Maydell <peter.maydell@linaro.org>
+Subject: Re: [PATCH v2 1/2] docs: Add qemu-storage-daemon(1) manpage to
+ meson.build
+Date: Fri, 08 Jan 2021 18:22:25 +0000
+In-reply-to: <20210108161416.21129-2-peter.maydell@linaro.org>
+Message-ID: <87zh1jz3tl.fsf@linaro.org>
 MIME-Version: 1.0
-In-Reply-To: <20210108180401.2263-3-peter.maydell@linaro.org>
 Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::335;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x335.google.com
-X-Spam_score_int: -16
-X-Spam_score: -1.7
-X-Spam_bar: -
-X-Spam_report: (-1.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.248, NICE_REPLY_A=-0.241,
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2a00:1450:4864:20::42c;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x42c.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -89,21 +89,43 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: Paolo Bonzini <pbonzini@redhat.com>, qemu-devel@nongnu.org,
+ Stefan Hajnoczi <stefanha@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 1/8/21 7:04 PM, Peter Maydell wrote:
-> The lan9118 code mostly uses symbolic constants for register offsets;
-> the exceptions are those which the datasheet doesn't give an official
-> symbolic name to.
-> 
-> Add some names for the registers which don't already have them, based
-> on the longer names they are given in the memory map.
-> 
-> Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
-> ---
->  hw/net/lan9118.c | 24 ++++++++++++++++++------
->  1 file changed, 18 insertions(+), 6 deletions(-)
 
-Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+Peter Maydell <peter.maydell@linaro.org> writes:
+
+> In commit 1982e1602d15 we added a new qemu-storage-daemon(1) manpage.
+> At the moment new manpages have to be listed both in the conf.py for
+> Sphinx and also in docs/meson.build for Meson. We forgot the second
+> of those -- correct the omission.
+>
+> Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
+
+Reviewed-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
+
+> ---
+>  docs/meson.build | 1 +
+>  1 file changed, 1 insertion(+)
+>
+> diff --git a/docs/meson.build b/docs/meson.build
+> index 71641b4fe07..fae9849b79b 100644
+> --- a/docs/meson.build
+> +++ b/docs/meson.build
+> @@ -62,6 +62,7 @@ if build_docs
+>          'qemu-img.1': (have_tools ? 'man1' : ''),
+>          'qemu-nbd.8': (have_tools ? 'man8' : ''),
+>          'qemu-pr-helper.8': (have_tools ? 'man8' : ''),
+> +        'qemu-storage-daemon.1': (have_tools ? 'man1' : ''),
+>          'qemu-trace-stap.1': (config_host.has_key('CONFIG_TRACE_SYSTEMTA=
+P') ? 'man1' : ''),
+>          'virtfs-proxy-helper.1': (have_virtfs_proxy_helper ? 'man1' : ''=
+),
+>          'virtiofsd.1': (have_virtiofsd ? 'man1' : ''),
+
+
+--=20
+Alex Benn=C3=A9e
 
