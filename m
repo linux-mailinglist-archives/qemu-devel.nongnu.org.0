@@ -2,105 +2,106 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B21772EED83
-	for <lists+qemu-devel@lfdr.de>; Fri,  8 Jan 2021 07:42:42 +0100 (CET)
-Received: from localhost ([::1]:57566 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4D8CB2EED87
+	for <lists+qemu-devel@lfdr.de>; Fri,  8 Jan 2021 07:44:46 +0100 (CET)
+Received: from localhost ([::1]:60828 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kxlTt-0003eB-Fw
-	for lists+qemu-devel@lfdr.de; Fri, 08 Jan 2021 01:42:41 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44554)
+	id 1kxlVt-0005D4-Dm
+	for lists+qemu-devel@lfdr.de; Fri, 08 Jan 2021 01:44:45 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45040)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <Qiuhao.Li@outlook.com>)
- id 1kxlQD-0001s4-7w
- for qemu-devel@nongnu.org; Fri, 08 Jan 2021 01:38:54 -0500
-Received: from mail-oln040092253103.outbound.protection.outlook.com
- ([40.92.253.103]:63909 helo=APC01-SG2-obe.outbound.protection.outlook.com)
+ id 1kxlTR-0004ET-Cy
+ for qemu-devel@nongnu.org; Fri, 08 Jan 2021 01:42:14 -0500
+Received: from mail-sg2apc01olkn082d.outbound.protection.outlook.com
+ ([2a01:111:f400:febd::82d]:20208
+ helo=APC01-SG2-obe.outbound.protection.outlook.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <Qiuhao.Li@outlook.com>)
- id 1kxlQA-0007Yf-0v
- for qemu-devel@nongnu.org; Fri, 08 Jan 2021 01:38:52 -0500
+ id 1kxlTP-0000fr-N2
+ for qemu-devel@nongnu.org; Fri, 08 Jan 2021 01:42:13 -0500
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=SXcXOFWJJ5xZRfCZ1rxwgc+MGkHpQOAzi6mvDu6J97Fhii1w2TJd4CluuHER4rhvKJSXJDUhG3J3rKvqVG5l7L+i7sBy0G1CGXy+lmBQy3IKgUg56tUFBykZDQvBJXfeutOsZjKHSppRV+vflKH0qOBJDYm1OwLHuXybIqslNoApIAgnS9yXotMYouCYEU9WD2TAV2Lek6Z581GXSLq+zH5ITudjJmFPiY9ea7tH/PTxhJ72PWSLaJDymYhp5zRq26usrXkuZXpq61f0sXMFHFmJASCfwQgMatTWhtRqeyxednake7rMrwhUHhMMAcCIp3E+pg8xosLXP8iTnZkTMA==
+ b=g+n83vPmBZO/O40E+qeHNqev2RC8rkGO0oyGjPgcDGo5msngr/pWwEGoZnf1MabHXMCVvaZzYanQloZU4haD3eWyZP7ddEQqrlTemSsivOI30IzLCo/4pOHcdQoZDWs9dSo2e3NF9nHXyeD5pMnBWpOz02KptIA0dFO8Al5qIHVujXiOoVF9N1ngmYRzmJyllvLEJOoOLX5Ksp8VTrlcCaAw6KnPspzozqIQEBUqrph/O8O6LpfZgpD7/lWdu2nCgEx6rPr1eiiGHhKVQp+6SWMqMgdftegrY4wgC0FkACG8ztwRF7dC6ezXkupXX8iL0JeMnFkZI09Kz6FHL23e3Q==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=Q85JygrgDSxW8i/jWYljdA+7FRjGGda7l05OTF2aOxY=;
- b=XkfmM47wEUI0uiqEhd+z30pf2BNfYrlwnE1hc30fjt1/qlqAJ6kbQ6Td1B237b6P8P6M1ltPabS+Sli6xt4HoWB30PXtTYiOcSsmpoFTLzyGPiDQRQ8FuE3xYqEPU/vGoc5aJhPYopdl8uC1LSxf6R5o0E1nT9SGT21XWHz6d3d1+JhXDyBp6edZKrSIxxgss9tEgB7U9Nl/QfNFtZlxTnqz4+622hJRTDpHZRSKefOXexDnNgSqNrTftV378WYWnw0ZRmz6tCZl6fZIvOjPqXVrUtPJJaD3rotLT/MkyN+r78XiDf/YDnKFmnQcG/2QG7GOscAiXFl0+R5H7eMsLg==
+ bh=Cu9eeRDkUNgzD5Sxv6bAWMSNk3ZwO7FBGcQO0e/UC3U=;
+ b=QMTWXxgwAJ2JrscujzdFbspWbmq8JJdKZJNoyaxWnemNE58G3G6gQioBSrQkn5hCRElk2twD75A0sIs6IY0rOn+My8c26HDOD3ROxemfyNTl64lm/l5hw9E6u/6EFJlWoEaQUtu+VAMLmTp3/9KBgq3cjoHZ163v0jQ0cT5xXtm6u2ymXu0xLoW/6fE+3cLmLGJlgOT1Mb2iBkkOY8zSRhrXW/4iIZ/lXMCt3k7NK0qTMwaWKuXp++4MvLzUC8PpLWu/j7EvahZrqwzAZ8EBAyzlocbyufudtYli3KrVcIvfK0TQ2LVFTqoTKnVmD49ecadb9TMwJsLsAjU4w+BXGA==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=none; dmarc=none;
  dkim=none; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=outlook.com;
  s=selector1;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=Q85JygrgDSxW8i/jWYljdA+7FRjGGda7l05OTF2aOxY=;
- b=brhUpzBriFxoxeFlDZf/N49j/LYoEtln/xri/jhqfHsFBbXSY/LihG27XEjCjFq0cFrZ2H6YkfK+6ds7C1wCu7XHaENqre6ut3su4WAC9ONjKOsmfPpHXPv/4bYip3TopCQTYFWqKwrNK4dRFd5UWsYhssGmRIHtz/6eLWtodcT0DUsgOlkEzYzyt9FdDNjRJSh6wrOsSswkSLuLrmAwuqhvVb+qQUr/uJMDo9vpOTkSBOsqRkI0H87WCCOqUnCYcxKxWykkB34aSW7nXdMX7eCWcnc3hOF1i7l2WM9d8mGebT3JIB4XnDj0eO5DywWChZs80R6QSg0G19HMum+JCQ==
+ bh=Cu9eeRDkUNgzD5Sxv6bAWMSNk3ZwO7FBGcQO0e/UC3U=;
+ b=FTT6rPutjdv5QHvnFvopH1oTh7QG46HYT4zDtZ7tCfGeoBUEbkJFT+d5OjwJGET8yUIR3WZtWYL1aREqa8j+PUutITTC8aPdWpXuZaVGIJio1O2ylKexBcykUhyeiyHYwDsXLkdMIvvh4TMib9WCrzBmPLL8yWgZa9VwHb9s2C5RVzOVb0stufiPjSjvnAP6d2412q5epUkeDG5fQa6FCHw7u7jJLcUQkw9CKjfaCD07/098VGcIgSlVP+/mMRJuXQfAyQysM1QukACGjwehydH63stUWilGZRZcHLmY1BxKpDnuwaKL2cW67d8TqlyY18Qgl2XXcjJ6b/+tpOnXmg==
 Received: from HK2APC01FT049.eop-APC01.prod.protection.outlook.com
- (2a01:111:e400:7ebc::4f) by
- HK2APC01HT014.eop-APC01.prod.protection.outlook.com (2a01:111:e400:7ebc::159)
+ (2a01:111:e400:7ebc::4a) by
+ HK2APC01HT022.eop-APC01.prod.protection.outlook.com (2a01:111:e400:7ebc::376)
  with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3742.6; Fri, 8 Jan
- 2021 06:38:43 +0000
+ 2021 06:41:49 +0000
 Received: from MEAPR01MB3494.ausprd01.prod.outlook.com (10.152.248.58) by
  HK2APC01FT049.mail.protection.outlook.com (10.152.249.218) with Microsoft
  SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.3742.6 via Frontend Transport; Fri, 8 Jan 2021 06:38:43 +0000
-X-IncomingTopHeaderMarker: OriginalChecksum:7E518BB6E8E1FE1F704AE5658245745981404522AE7D49C95B0479792C14C4C9;
- UpperCasedChecksum:56E35A3230EAF1E8D2B859B966263FCF7FDBAB2E4166D1FE07B40DFB679D3201;
- SizeAsReceived:7671; Count:47
+ 15.20.3742.6 via Frontend Transport; Fri, 8 Jan 2021 06:41:49 +0000
+X-IncomingTopHeaderMarker: OriginalChecksum:FC26241FBBE71D79A8C06EF949CC5366B98CF773FD24ADDC590E1E7593392473;
+ UpperCasedChecksum:2778D213E1CAF12C2C3B6D1B7E540223C8FD5FF0AA06ABF5192CC58FC7A5BC4F;
+ SizeAsReceived:7677; Count:47
 Received: from MEAPR01MB3494.ausprd01.prod.outlook.com
  ([fe80::2d4d:a683:7f83:cf50]) by MEAPR01MB3494.ausprd01.prod.outlook.com
  ([fe80::2d4d:a683:7f83:cf50%7]) with mapi id 15.20.3742.006; Fri, 8 Jan 2021
- 06:38:43 +0000
+ 06:41:49 +0000
 From: Qiuhao Li <Qiuhao.Li@outlook.com>
 To: alxndr@bu.edu,
 	qemu-devel@nongnu.org
-Subject: [PATCH v6 6/7] fuzz: add minimization options
-Date: Fri,  8 Jan 2021 14:33:30 +0800
-Message-ID: <MEAPR01MB34943433E0BA454B7291B04EFCAE0@MEAPR01MB3494.ausprd01.prod.outlook.com>
+Subject: [PATCH v6 7/7] fuzz: heuristic split write based on past IOs
+Date: Fri,  8 Jan 2021 14:33:31 +0800
+Message-ID: <MEAPR01MB34944249FC7DF106543BA3ABFCAE0@MEAPR01MB3494.ausprd01.prod.outlook.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <MEAPR01MB349467055C8DBCB7743E4283FCAE0@MEAPR01MB3494.ausprd01.prod.outlook.com>
 References: <MEAPR01MB349467055C8DBCB7743E4283FCAE0@MEAPR01MB3494.ausprd01.prod.outlook.com>
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain
-X-TMN: [kYkxfQuqlLoynuz1zQO6d842qrp3zbtpf0tE9hMYySHNVaB3whnVjnQrOvdVn1eu]
-X-ClientProxiedBy: TY2PR02CA0037.apcprd02.prod.outlook.com
- (2603:1096:404:a6::25) To MEAPR01MB3494.ausprd01.prod.outlook.com
+X-TMN: [OId/YKAN8HDIjj7qKcsuMe87WBhx7557Ptd5+dd1D/fhZlnA5cc1Xe5Tw4BdKgfK]
+X-ClientProxiedBy: HKAPR04CA0018.apcprd04.prod.outlook.com
+ (2603:1096:203:d0::28) To MEAPR01MB3494.ausprd01.prod.outlook.com
  (2603:10c6:201:39::11)
-X-Microsoft-Original-Message-ID: <20210108063331.17035-6-Qiuhao.Li@outlook.com>
+X-Microsoft-Original-Message-ID: <20210108063331.17035-7-Qiuhao.Li@outlook.com>
 MIME-Version: 1.0
 X-MS-Exchange-MessageSentRepresentingType: 1
 Received: from XPS-13-9360 (2001:250:fe01:130:10c6:c22f:85d6:f9d) by
- TY2PR02CA0037.apcprd02.prod.outlook.com (2603:1096:404:a6::25) with Microsoft
+ HKAPR04CA0018.apcprd04.prod.outlook.com (2603:1096:203:d0::28) with Microsoft
  SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.3742.6 via Frontend Transport; Fri, 8 Jan 2021 06:38:42 +0000
+ 15.20.3742.6 via Frontend Transport; Fri, 8 Jan 2021 06:41:48 +0000
 X-MS-PublicTrafficType: Email
 X-IncomingHeaderCount: 47
 X-EOPAttributedMessage: 0
-X-MS-Office365-Filtering-Correlation-Id: 057c1048-cd77-41a4-3e68-08d8b3a00aea
-X-MS-Exchange-SLBlob-MailProps: S/btQ8cKWiT4Pkfzu6B+gslsbaS+QpFwjCPv1UTKlQ2wyOuCRiSqc47S4KpmnOJbL8VPF/41CdlikSAMS9Jd2burg1S/IuRGvTxd9Jd10MkaSRGIImEsvimPQ0TMIy5RRQjdA9fV4/IeFwYhKc+Fpr4eB2neCNr14t/h15F8qP260EtYWCxt39nN1v6dP4urT0H+j20hQN8+RdYZtrJ1hbEabfEQ5S/BJmqJXYLUSn9vnopHJ0NGRzYe7Bo0o5xLU4r1+9zF/AkYSs8zYjuUXFzG1ahDP9KXY48nQGzTOQKYJ230SVJNgC5NWI/Z7BZjV5/MJ+3C32ye/W2ixSNSRTIIQ4/ZrT3kN7m6CefLM/VzkcpkJfLtAD2cyWTSQS0Hmbfq8qXNjx8n8mywIUQHxMYZpa/fy2vS/bad1qD7xS2UYP6eVLabK73JQEaZST2AzqYQYR2Vh0mnsXoG9AHo1tKIAZNsO1OxxB3YMkvqQi6l6J4+aYiLgpUOV/YHLmPnuxgETv7HbMwXHBzKFa0iWywTu3mXlpDiH6uhSQlZLNmVVX0vMhX40tMS2dyThGBhxVx7+aaQ13JeiaGObQZv7sHY5y2r4Eo9MTErmNKr6faM+SoFlEEVEmIEvx1IuW+4MA8ER3uzL0NBwINi5UiRGXRebwvPyQTx0Em2oGaI3CQ3oJGAsoCyovktkUNQaI8BWfwiDrvlxwph9mtPosTE3FyuXFVic8CBO8obR0nTcR1go4QJY9qZDBVSGMabxGnZQOLRQ5aXJ60=
-X-MS-TrafficTypeDiagnostic: HK2APC01HT014:
+X-MS-Office365-Filtering-Correlation-Id: 5e939182-f38c-4b80-7086-08d8b3a079c5
+X-MS-Exchange-SLBlob-MailProps: S/btQ8cKWiT4Pkfzu6B+gslsbaS+QpFwhVEmwSfFHOGHjTc0/O1ppqjSp8wfTbi/reQoe56AtEzST12vugJ8la3bQZRgNZYf455b8N2B36wKwURrn4VkeW6O6Q4P4Z+cKWCIO8sP2DeecHoZVa3SW7UJIZB3RFWEG/kmNwov8LF+xqK2yhbQql7ZxC9FWa/5+QiBeyIumasxXI9HnoY3uwb9Mnghf0C31h3zy53ObiN3RsaV5M+ValdTiWll6vpYyrISyBe0e/CtsYNGVdv1Lcr73hMm49JrK81T8+zOxB/rGL3fIOxEWedM5Bvnl7JIvaMBTxOQLsVh/h0hmTEehSPGEx9pjpquNbhakSCXjQqaKr1vVaqbUqo+8KwZaH/BoluYL2yuAac8c+hcHKO3uhX3sYPcA5qbJmjWrIwMlJLckW711Wm38zur0uCxr5GLvFhoHu4WbwZROQTFoHfXLp6H4YoZVtTseqyf4MQZMBoECqQjIengSHT9+nmUjx9u0eVMKGevVnz5rTT5Fx1nh6o7+krPJ7zFR2H/dkJ5dq7i+vuG76kA1b9IBPchVs/rOZDPO6bA1iw9sC4qKLQmNCWrv4MZEZWczEhNRCooCr2pkloikSlusqVh2uzJkGpTk1/oiDq/vG0r3L5+F1j+g1uxmVdg9WMk3y3yeg718X4BTaLnHaSAH1x7RNj/Q1w252aM0ajQyewxQIar1CQT3vC8ngiDeaoKGg3ApjinE2WOrvtlu/uGnURReNU4eYKhiSMHofWkMVk=
+X-MS-TrafficTypeDiagnostic: HK2APC01HT022:
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: Tkj+OSJUX8j+jesql6g64PI3o+ilVSD3jDEEAEv5J/AXZiHDlEbffL94qnU9j+nS5Yh+PGlo46OYSoDK3PfcaEUuM2d5KA7P4uYxkUeZaosvuOhgZGwEFkB1yxZlmGGLZToKw3LcmgCsgh2MGU0D8QjovJFqdmLzRLtEX8Gt8Xg/i8XaxPBPQKYNKdNPhoCrqKrFpkbG3KoGsnW80HtPWFWZ16t5WN2H12Ac3IaR6mvqLAzk1bxq8OMGBF21XkwG
-X-MS-Exchange-AntiSpam-MessageData: uw1AcCEFe9587jFIiaPbsQCPYIuftfexsUT7jtF2Gxn9gzOhkYwsA74h1eP9Xjr1SIGfC8CQdUWAAeYQ3AUePPYm9nrK0M6ibYEqB8vLkrRyc8fVLFkSMNIPhJE/QKBN/D5/bHl05SM3J/7A6GHiQUOqcmtYTYsEnHuxCT8E1vcezETChQH3xIVMVICxy+uCBqqMJ7dzdbiTNI1L9KaIUA==
+X-Microsoft-Antispam-Message-Info: qsK31uiQsq0z2oaJPdWCU+UsLaT9k68HH9INCbH2srvDE3RR7Oh8MUKmPaboDnV9VtXTfEF4xbfky4Tn5B/aqoyLT6N7QfY+bgmcduYBqW9exmKLy+iiGzEdLPr+3EE2/M/wrGqVy3hQ16fLpBcDxN/uXxIIJVrYkoH4VbUTr9hkQGRH1jONEtdgoCgYc2plMGkD2RBvTr7ylS15WexJLR3w99f1/pPfBvKCbXOZbnLjvypFqqM+TMYns6oF+bae
+X-MS-Exchange-AntiSpam-MessageData: cxMvQCFQOLuInbf00a5CVuQzu6zQ7UMTZ3CfGgZRiYjnBLKOWGS2smoAeKixy+4hb4eI/1ASw/3Gx5cqtAx4jMxJeKSenpN72+NtZXWGv6mEW7CBYgUTK25TWq/+KvSGLtJICGol/8TwfR3duxwV7EhCKvApCLGCo1oEOchoUurKVzf9nEPZARStXLofV708dOy24NHYryyn72PhI49pCQ==
 X-OriginatorOrg: outlook.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 08 Jan 2021 06:38:43.1398 (UTC)
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 08 Jan 2021 06:41:49.1737 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 84df9e7f-e9f6-40af-b435-aaaaaaaaaaaa
-X-MS-Exchange-CrossTenant-Network-Message-Id: 057c1048-cd77-41a4-3e68-08d8b3a00aea
+X-MS-Exchange-CrossTenant-Network-Message-Id: 5e939182-f38c-4b80-7086-08d8b3a079c5
 X-MS-Exchange-CrossTenant-AuthSource: HK2APC01FT049.eop-APC01.prod.protection.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Anonymous
 X-MS-Exchange-CrossTenant-FromEntityHeader: Internet
 X-MS-Exchange-CrossTenant-RMS-PersistedConsumerOrg: 00000000-0000-0000-0000-000000000000
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: HK2APC01HT014
-Received-SPF: pass client-ip=40.92.253.103; envelope-from=Qiuhao.Li@outlook.com;
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: HK2APC01HT022
+Received-SPF: pass client-ip=2a01:111:f400:febd::82d;
+ envelope-from=Qiuhao.Li@outlook.com;
  helo=APC01-SG2-obe.outbound.protection.outlook.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- MSGID_FROM_MTA_HEADER=0.001, RCVD_IN_DNSWL_NONE=-0.0001,
- RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_PASS=-0.001,
+ MSGID_FROM_MTA_HEADER=0.001, SPF_HELO_PASS=-0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -120,94 +121,90 @@ Cc: thuth@redhat.com, Qiuhao Li <Qiuhao.Li@outlook.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
--M1: remove IO commands iteratively
--M2: try setting bits in operand of write/out to zero
+If previous write commands write the same length of data with the same step,
+we view it as a hint.
 
 Signed-off-by: Qiuhao Li <Qiuhao.Li@outlook.com>
 Reviewed-by: Alexander Bulekov <alxndr@bu.edu>
 Tested-by: Alexander Bulekov <alxndr@bu.edu>
 ---
- scripts/oss-fuzz/minimize_qtest_trace.py | 30 ++++++++++++++++++++----
- 1 file changed, 26 insertions(+), 4 deletions(-)
+ scripts/oss-fuzz/minimize_qtest_trace.py | 56 ++++++++++++++++++++++++
+ 1 file changed, 56 insertions(+)
 
 diff --git a/scripts/oss-fuzz/minimize_qtest_trace.py b/scripts/oss-fuzz/minimize_qtest_trace.py
-index 2325b38dbc..8661116075 100755
+index 8661116075..408ae2ac67 100755
 --- a/scripts/oss-fuzz/minimize_qtest_trace.py
 +++ b/scripts/oss-fuzz/minimize_qtest_trace.py
-@@ -16,6 +16,10 @@ QEMU_PATH = None
- TIMEOUT = 5
- CRASH_TOKEN = None
+@@ -85,6 +85,43 @@ def check_if_trace_crashes(trace, path):
+     return False
  
-+# Minimization levels
-+M1 = False # try removing IO commands iteratively
-+M2 = False # try setting bits in operand of write/out to zero
+ 
++# If previous write commands write the same length of data at the same
++# interval, we view it as a hint.
++def split_write_hint(newtrace, i):
++    HINT_LEN = 3 # > 2
++    if i <=(HINT_LEN-1):
++        return None
 +
- write_suffix_lookup = {"b": (1, "B"),
-                        "w": (2, "H"),
-                        "l": (4, "L"),
-@@ -23,10 +27,20 @@ write_suffix_lookup = {"b": (1, "B"),
- 
- def usage():
-     sys.exit("""\
--Usage: QEMU_PATH="/path/to/qemu" QEMU_ARGS="args" {} input_trace output_trace
-+Usage:
++    #find previous continuous write traces
++    k = 0
++    l = i-1
++    writes = []
++    while (k != HINT_LEN and l >= 0):
++        if newtrace[l].startswith("write "):
++            writes.append(newtrace[l])
++            k += 1
++            l -= 1
++        elif newtrace[l] == "":
++            l -= 1
++        else:
++            return None
++    if k != HINT_LEN:
++        return None
 +
-+QEMU_PATH="/path/to/qemu" QEMU_ARGS="args" {} [Options] input_trace output_trace
++    length = int(writes[0].split()[2], 16)
++    for j in range(1, HINT_LEN):
++        if length != int(writes[j].split()[2], 16):
++            return None
 +
- By default, will try to use the second-to-last line in the output to identify
- whether the crash occred. Optionally, manually set a string that idenitifes the
- crash by setting CRASH_TOKEN=
++    step = int(writes[0].split()[1], 16) - int(writes[1].split()[1], 16)
++    for j in range(1, HINT_LEN-1):
++        if step != int(writes[j].split()[1], 16) - \
++            int(writes[j+1].split()[1], 16):
++            return None
 +
-+Options:
++    return (int(writes[0].split()[1], 16)+step, length)
 +
-+-M1: enable a loop around the remove minimizer, which may help decrease some
-+     timing dependant instructions. Off by default.
-+-M2: try setting bits in operand of write/out to zero. Off by default.
 +
- """.format((sys.argv[0])))
- 
- deduplication_note = """\n\
-@@ -213,24 +227,32 @@ def minimize_trace(inpath, outpath):
-     print("Setting the timeout for {} seconds".format(TIMEOUT))
- 
-     newtrace = trace[:]
-+    global M1, M2
- 
-     # remove lines
-     old_len = len(newtrace) + 1
-     while(old_len > len(newtrace)):
-         old_len = len(newtrace)
-+        print("trace lenth = ", old_len)
-         remove_lines(newtrace, outpath)
-+        if not M1 and not M2:
-+            break
-         newtrace = list(filter(lambda s: s != "", newtrace))
-     assert(check_if_trace_crashes(newtrace, outpath))
- 
-     # set bits to zero
--    clear_bits(newtrace, outpath)
-+    if M2:
-+        clear_bits(newtrace, outpath)
-     assert(check_if_trace_crashes(newtrace, outpath))
- 
- 
- if __name__ == '__main__':
-     if len(sys.argv) < 3:
-         usage()
--
-+    if "-M1" in sys.argv:
-+        M1 = True
-+    if "-M2" in sys.argv:
-+        M2 = True
-     QEMU_PATH = os.getenv("QEMU_PATH")
-     QEMU_ARGS = os.getenv("QEMU_ARGS")
-     if QEMU_PATH is None or QEMU_ARGS is None:
-@@ -239,4 +261,4 @@ if __name__ == '__main__':
-     #     QEMU_ARGS += " -accel qtest"
-     CRASH_TOKEN = os.getenv("CRASH_TOKEN")
-     QEMU_ARGS += " -qtest stdio -monitor none -serial none "
--    minimize_trace(sys.argv[1], sys.argv[2])
-+    minimize_trace(sys.argv[-2], sys.argv[-1])
+ def remove_lines(newtrace, outpath):
+     remove_step = 1
+     i = 0
+@@ -148,6 +185,25 @@ def remove_lines(newtrace, outpath):
+             length = int(newtrace[i].split()[2], 16)
+             data = newtrace[i].split()[3][2:]
+             if length > 1:
++
++                # Can we get a hint from previous writes?
++                hint = split_write_hint(newtrace, i)
++                if hint is not None:
++                    hint_addr = hint[0]
++                    hint_len = hint[1]
++                    if hint_addr >= addr and hint_addr+hint_len <= addr+length:
++                        newtrace[i] = "write {addr} {size} 0x{data}\n".format(
++                            addr=hex(hint_addr),
++                            size=hex(hint_len),
++                            data=data[(hint_addr-addr)*2:\
++                                (hint_addr-addr)*2+hint_len*2])
++                        if check_if_trace_crashes(newtrace, outpath):
++                            # next round
++                            i += 1
++                            continue
++                        newtrace[i] = prior[0]
++
++                # Try splitting it using a binary approach
+                 leftlength = int(length/2)
+                 rightlength = length - leftlength
+                 newtrace.insert(i+1, "")
 -- 
 2.25.1
 
