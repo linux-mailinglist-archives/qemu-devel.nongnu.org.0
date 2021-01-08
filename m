@@ -2,79 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C09BB2EF2AE
-	for <lists+qemu-devel@lfdr.de>; Fri,  8 Jan 2021 13:56:11 +0100 (CET)
-Received: from localhost ([::1]:45662 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CA5772EF2FA
+	for <lists+qemu-devel@lfdr.de>; Fri,  8 Jan 2021 14:24:43 +0100 (CET)
+Received: from localhost ([::1]:56286 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kxrJK-0000W8-8W
-	for lists+qemu-devel@lfdr.de; Fri, 08 Jan 2021 07:56:10 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33920)
+	id 1kxrkw-0007IZ-Rh
+	for lists+qemu-devel@lfdr.de; Fri, 08 Jan 2021 08:24:42 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39972)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1kxrIC-0008PE-8r
- for qemu-devel@nongnu.org; Fri, 08 Jan 2021 07:55:00 -0500
-Received: from mail-wr1-x436.google.com ([2a00:1450:4864:20::436]:36434)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1kxrIA-0007pJ-CZ
- for qemu-devel@nongnu.org; Fri, 08 Jan 2021 07:54:59 -0500
-Received: by mail-wr1-x436.google.com with SMTP id t16so8931023wra.3
- for <qemu-devel@nongnu.org>; Fri, 08 Jan 2021 04:54:57 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=references:user-agent:from:to:cc:subject:date:in-reply-to
- :message-id:mime-version:content-transfer-encoding;
- bh=JHfKgbFBE78ffVGPMtC/OXIpuVrprZXYeZSPYUDjHQ0=;
- b=VUCZSi4AekbdNtO3y81F8cHC9C1TvrKWBe5SbC3EyjBybu9+7KavOJmkBhCyhb4Ubt
- R2j2n7Ye5BUJWE4AyV+r/hlKUlAFcjYMUbNra6dJjKhoGeihKUy+mRRPHiyHFZE2FTrG
- +/ZYYtVMs1GlM/dmVLEin0Nd8sGVwdZiujG7g47Tvf8x0rro6m4IhIrwZsML1e4TtO82
- wiFdczdUsTEKaQSmrclgiAx4y84hXdpiwETLj+hYHV91Jo92HSaRExGPHm9zWTjGCLC8
- dEZt11uD+VOTeXw8PNFz3dTHi3Uyu/BhHedJwBozL3Dq7neq9IjLKX5kBuryDg8VaFk+
- FC9g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:references:user-agent:from:to:cc:subject:date
- :in-reply-to:message-id:mime-version:content-transfer-encoding;
- bh=JHfKgbFBE78ffVGPMtC/OXIpuVrprZXYeZSPYUDjHQ0=;
- b=CPGjM9iMx2smN6BMe8555WnmtTuaYTuNQff3Qwe91dmTAZk67wr4oNzGpNx5GNEBEW
- W5ksWI4a4xv9iEWiPeq5ZxYta+n5XWAGTw4a4iccgsqUI8HmfvJ835oUK5f/ftJq0CGg
- hMbbmOik0DY5ve/sDpID3+3FKy0k3YzryO/oQDh1STxTf2WeSXwDM7T+X3uaZwwn5Lqq
- ab1AEq1Ov5s24dgl0g3h8INQ4Cqnk2JL3pOopFJ24Rt5Vqrb7pM1hB61rJnBbNxuq6ji
- 5/xrdRqlmA6EW7TmzLy9gY+M6ZSEbSfgzr3fBk5EwczhRuQ0u1XThjR3ECptKGn/dv+C
- 2w6A==
-X-Gm-Message-State: AOAM531lLR/CTsPdrdEHMTe4XerAq+VqEujSqN0CQ/E5ajjb1seWVIqE
- R+TeaXBkru9+tSzm2Y5DWk5RXA==
-X-Google-Smtp-Source: ABdhPJxw9UcxguO1V2RwVLHQa0MsAfX0p1ZiCCW2rRale6BHe8ASvyCEBR7EX5vRbjzR4Oe8lHKPGA==
-X-Received: by 2002:a5d:5913:: with SMTP id v19mr3564547wrd.207.1610110496783; 
- Fri, 08 Jan 2021 04:54:56 -0800 (PST)
-Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id z6sm11487207wmi.15.2021.01.08.04.54.54
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 08 Jan 2021 04:54:54 -0800 (PST)
-Received: from zen (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id B2B611FF7E;
- Fri,  8 Jan 2021 12:54:53 +0000 (GMT)
-References: <20201223212752.1145294-1-keithp@keithp.com>
-User-agent: mu4e 1.5.7; emacs 28.0.50
-From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: Keith Packard <keithp@keithp.com>
-Subject: Re: [PATCH] gdbstub.c uses incorrect check for active gdb in
- use_gdb_syscalls
-Date: Fri, 08 Jan 2021 12:36:06 +0000
-In-reply-to: <20201223212752.1145294-1-keithp@keithp.com>
-Message-ID: <875z471tcy.fsf@linaro.org>
+ (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1kxrhU-0005ld-57
+ for qemu-devel@nongnu.org; Fri, 08 Jan 2021 08:21:08 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:46862)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1kxrhO-0002eb-9E
+ for qemu-devel@nongnu.org; Fri, 08 Jan 2021 08:21:06 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1610112059;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=5gSG9SgXlAJZFFwSunzJ7h/OK6L5MCQapob9rtlXa5c=;
+ b=GAK0u2OLucfVY5MjgWArcIuHxPzh5tyiJdRz8NtraLVJL4yis4T08IV8gNBukneGPGefrD
+ Iu+Du3VcQB0PGvzSO9haesg7ILsCTA7MR8Z7L5IvNnS2rUxENymzxmRDI+pQAxwNDKB0kh
+ Hdyn+UPn4Fl3OTR9LRJHprXnmrOHX3Y=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-580-e51DwyXaOt2wY4plZSXtVw-1; Fri, 08 Jan 2021 08:20:58 -0500
+X-MC-Unique: e51DwyXaOt2wY4plZSXtVw-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id CE56B107ACE3;
+ Fri,  8 Jan 2021 13:20:56 +0000 (UTC)
+Received: from t480s.redhat.com (ovpn-114-168.ams2.redhat.com [10.36.114.168])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id D958F5D9C0;
+ Fri,  8 Jan 2021 13:20:50 +0000 (UTC)
+From: David Hildenbrand <david@redhat.com>
+To: qemu-devel@nongnu.org
+Subject: [PATCH v2 0/4] s390x/tcg: fix booting Linux kernels compiled with
+ clang-11 and clang-12
+Date: Fri,  8 Jan 2021 14:20:45 +0100
+Message-Id: <20210108132049.8501-1-david@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::436;
- envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x436.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=david@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="US-ASCII"
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=david@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -29
+X-Spam_score: -3.0
+X-Spam_bar: ---
+X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.247,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -87,81 +74,47 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
- qemu-devel@nongnu.org
+Cc: Thomas Huth <thuth@redhat.com>, David Hildenbrand <david@redhat.com>,
+ Nick Desaulniers <ndesaulniers@google.com>, Heiko Carstens <hca@linux.ibm.com>,
+ Cornelia Huck <cohuck@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ Christian Borntraeger <borntraeger@de.ibm.com>, qemu-s390x@nongnu.org,
+ Guenter Roeck <linux@roeck-us.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+This series fixes booting current upstream Linux kernel compiled by
+clang-11 and clang-12 under TCG.
 
-Keith Packard <keithp@keithp.com> writes:
+Decided to pull in already separatly sent patches. The last patch is
+not required to fix the boot issues, but related to patch #3.
 
-> When checking whether there is a live gdb connection, code shouldn't
-> use 'gdbserver_state.init' as that value is set when the
-> gdbserver_state structure is initialized in init_gdbserver_state, not
-> when the gdb socket has a valid connection.
->
-> The 'handle_detach' function appears to use 'gdbserver_state.c_cpu' as
-> an indication of whether there is a connection, so I've used the same
-> in use_gdb_syscalls.
+Latest version of the patches available at:
+git@github.com:davidhildenbrand/qemu.git clang
 
-I guess it could be anything that is set by gdb_accept_init(). I'm a
-little wary of c_cpu given it has a specific meaning of current cpu and
-does move around depending on actions of the debugger.
+v1 -> v2:
+- Add 's390x/tcg: Don't ignore content in r0 when not specified via "b" or
+  "x"'
+- Add 's390x/tcg: Ignore register content if b1/b2 is zero when handling
+  EXEUTE'
+- "s390x/tcg: Fix ALGSI"
+-- Fixup subject
+- "s390x/tcg: Fix RISBHG"
+-- Rephrase description, stating that it fixes clang-11
 
-It would be better to wrap the test in a function (static bool
-is_connected()?) so the semantic meaning is clear in the code and we can
-fix things in one place if needed.
+David Hildenbrand (4):
+  s390x/tcg: Fix ALGSI
+  s390x/tcg: Fix RISBHG
+  s390x/tcg: Only ignore content in r0 when specified via "b" or "x"
+  s390x/tcg: Ignore register content if b1/b2 is zero when handling
+    EXECUTE
 
-> This avoids a segfault when qemu is run with the '-s' flag (create a
-> gdb protocol socket), but without the '-S' flag (delay until 'c'
-> command is received).
+ target/s390x/insn-data.def | 10 +++++-----
+ target/s390x/mem_helper.c  |  4 ++--
+ target/s390x/translate.c   | 33 +++++++++++++++++----------------
+ 3 files changed, 24 insertions(+), 23 deletions(-)
 
-How exactly did you create the segfault? Just starting with -s and
-attaching to a running tasks works fine for me although I Can see
-semihosting stuff would never get to gdb after connection.
+-- 
+2.29.2
 
-> I would like this patch to inform a discussion on whether the numerous
-> other places using gdbserver_state.init are also incorrect (most of
-> them appear to be using it in the same way use_gdb_syscalls does), and
-> also whether use_gdb_syscalls should cache the result of this check or
-> whether it should check each time it is called to see if a gdb
-> connection is currently acive.
-
-Hmm I don't see anything obviously wrong - although I note a bunch of
-tests also check for ->fd which is probably a clearer indication of an
-active connection. I'm sure this could be improved with a semantically
-clearer code though.
-
-> For the second question, I don't have a
-> clear idea; mixing gdb and native calls seems problematic for stateful
-> operations like file open/close.
-
-Yes it's a bit of a hack. I can imagine starting with a remote GDB
-connection and then loosing it after opening a file descriptor would
-result in Bad Things (tm). I'm not sure what the cleanest approach is to
-handling the resulting mess.
-
->
-> Signed-off-by: Keith Packard <keithp@keithp.com>
-> ---
->  gdbstub.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
->
-> diff --git a/gdbstub.c b/gdbstub.c
-> index d99bc0bf2e..4e709d16fd 100644
-> --- a/gdbstub.c
-> +++ b/gdbstub.c
-> @@ -460,7 +460,7 @@ int use_gdb_syscalls(void)
->      /* -semihosting-config target=3Dauto */
->      /* On the first call check if gdb is connected and remember. */
->      if (gdb_syscall_mode =3D=3D GDB_SYS_UNKNOWN) {
-> -        gdb_syscall_mode =3D gdbserver_state.init ?
-> +        gdb_syscall_mode =3D gdbserver_state.c_cpu !=3D NULL ?
->              GDB_SYS_ENABLED : GDB_SYS_DISABLED;
->      }
->      return gdb_syscall_mode =3D=3D GDB_SYS_ENABLED;
-
-
---=20
-Alex Benn=C3=A9e
 
