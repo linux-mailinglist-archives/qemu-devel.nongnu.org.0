@@ -2,52 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D2C802EECD7
-	for <lists+qemu-devel@lfdr.de>; Fri,  8 Jan 2021 06:21:59 +0100 (CET)
-Received: from localhost ([::1]:38974 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D8B882EECD8
+	for <lists+qemu-devel@lfdr.de>; Fri,  8 Jan 2021 06:22:03 +0100 (CET)
+Received: from localhost ([::1]:39172 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kxkDk-0001wv-Uh
-	for lists+qemu-devel@lfdr.de; Fri, 08 Jan 2021 00:21:56 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60358)
+	id 1kxkDq-00021k-U4
+	for lists+qemu-devel@lfdr.de; Fri, 08 Jan 2021 00:22:02 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60368)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1kxkBb-0000aT-Km; Fri, 08 Jan 2021 00:19:43 -0500
-Received: from bilbo.ozlabs.org ([203.11.71.1]:59743 helo=ozlabs.org)
+ id 1kxkBc-0000bC-QF; Fri, 08 Jan 2021 00:19:44 -0500
+Received: from ozlabs.org ([203.11.71.1]:49421)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1kxkBZ-00030y-13; Fri, 08 Jan 2021 00:19:43 -0500
+ id 1kxkBZ-00030z-BJ; Fri, 08 Jan 2021 00:19:44 -0500
 Received: by ozlabs.org (Postfix, from userid 1007)
- id 4DBrxq2LW5z9sWc; Fri,  8 Jan 2021 16:19:27 +1100 (AEDT)
+ id 4DBrxq326Mz9sWm; Fri,  8 Jan 2021 16:19:27 +1100 (AEDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=gibson.dropbear.id.au; s=201602; t=1610083167;
- bh=10pRltwJwzOkdN7mhNTBSGaf0kxqc7JDgVdLQdMlTSA=;
+ bh=yM+GSG4Blu08wIh9l4eOZ3YDwhjhMK9nufRyv7Kfvgs=;
  h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=Lv6It7gqYmQbvx3xp+rcMnGXo9jc2ttqKwRQmz2zvRQ4aTYyX3X3xTGj7u4Q5nbJM
- c9ywxrQowVJ8FnVju9oInROQxxYUm+GcZNLt74hF3tm9plk4JCgTr7NF9dlLAuZskY
- fAmYJ3hKysSGCjiXGzUH5HZJcSfmOFLFVodOXGPw=
-Date: Fri, 8 Jan 2021 11:34:38 +1100
+ b=liZ9gk5HASA02GcL6ulAiQ+LEY5MFhBoA8niYeQtoi54jGblXFYwZzWKg4Skl2s8F
+ o6c6L/XuNLP8SMkRf2Ip4QkzgMcPZDbEoYeqleougcuJCzumNxxa6yCyw55hmpSnh3
+ pGa6DWFfDz8kgZ+JQ/9b+Qzov7IEDwCf3T+LxtNo=
+Date: Fri, 8 Jan 2021 15:03:03 +1100
 From: David Gibson <david@gibson.dropbear.id.au>
-To: Ram Pai <linuxram@us.ibm.com>
-Subject: Re: [for-6.0 v5 10/13] spapr: Add PEF based securable guest memory
-Message-ID: <20210108003438.GG3209@yekko.fritz.box>
+To: Cornelia Huck <cohuck@redhat.com>
+Subject: Re: [for-6.0 v5 03/13] securable guest memory: Handle memory
+ encryption via interface
+Message-ID: <20210108040303.GH3209@yekko.fritz.box>
 References: <20201204054415.579042-1-david@gibson.dropbear.id.au>
- <20201204054415.579042-11-david@gibson.dropbear.id.au>
- <20210105233438.GB22585@ram-ibm-com.ibm.com>
+ <20201204054415.579042-4-david@gibson.dropbear.id.au>
+ <20201204141005.07bf61dd.cohuck@redhat.com>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="4ndw/alBWmZEhfcZ"
+ protocol="application/pgp-signature"; boundary="aF3LVLvitz/VQU3c"
 Content-Disposition: inline
-In-Reply-To: <20210105233438.GB22585@ram-ibm-com.ibm.com>
+In-Reply-To: <20201204141005.07bf61dd.cohuck@redhat.com>
 Received-SPF: pass client-ip=203.11.71.1; envelope-from=dgibson@ozlabs.org;
  helo=ozlabs.org
-X-Spam_score_int: -1
-X-Spam_score: -0.2
-X-Spam_bar: /
-X-Spam_report: (-0.2 / 5.0 requ) BAYES_00=-1.9, DATE_IN_PAST_03_06=1.592,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1,
- HEADER_FROM_DIFFERENT_DOMAINS=0.248, SPF_HELO_PASS=-0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+X-Spam_score_int: -17
+X-Spam_score: -1.8
+X-Spam_bar: -
+X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, HEADER_FROM_DIFFERENT_DOMAINS=0.248,
+ SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -60,130 +60,66 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: pair@us.ibm.com, Marcelo Tosatti <mtosatti@redhat.com>,
- brijesh.singh@amd.com, frankja@linux.ibm.com, kvm@vger.kernel.org,
- "Michael S. Tsirkin" <mst@redhat.com>, cohuck@redhat.com,
- Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org,
+Cc: pair@us.ibm.com, brijesh.singh@amd.com, frankja@linux.ibm.com,
+ kvm@vger.kernel.org, "Michael S. Tsirkin" <mst@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ Marcelo Tosatti <mtosatti@redhat.com>, david@redhat.com, qemu-devel@nongnu.org,
  dgilbert@redhat.com, pasic@linux.ibm.com, borntraeger@de.ibm.com,
  qemu-s390x@nongnu.org, qemu-ppc@nongnu.org, berrange@redhat.com,
- thuth@redhat.com, pbonzini@redhat.com, david@redhat.com, rth@twiddle.net,
+ thuth@redhat.com, pbonzini@redhat.com, rth@twiddle.net,
  mdroth@linux.vnet.ibm.com, Eduardo Habkost <ehabkost@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 
---4ndw/alBWmZEhfcZ
+--aF3LVLvitz/VQU3c
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Tue, Jan 05, 2021 at 03:34:38PM -0800, Ram Pai wrote:
-> On Fri, Dec 04, 2020 at 04:44:12PM +1100, David Gibson wrote:
-> > Some upcoming POWER machines have a system called PEF (Protected
-> > Execution Facility) which uses a small ultravisor to allow guests to
-> > run in a way that they can't be eavesdropped by the hypervisor.  The
-> > effect is roughly similar to AMD SEV, although the mechanisms are
-> > quite different.
+On Fri, Dec 04, 2020 at 02:10:05PM +0100, Cornelia Huck wrote:
+> On Fri,  4 Dec 2020 16:44:05 +1100
+> David Gibson <david@gibson.dropbear.id.au> wrote:
+>=20
+> > At the moment AMD SEV sets a special function pointer, plus an opaque
+> > handle in KVMState to let things know how to encrypt guest memory.
 > >=20
-> > Most of the work of this is done between the guest, KVM and the
-> > ultravisor, with little need for involvement by qemu.  However qemu
-> > does need to tell KVM to allow secure VMs.
-> >=20
-> > Because the availability of secure mode is a guest visible difference
-> > which depends on having the right hardware and firmware, we don't
-> > enable this by default.  In order to run a secure guest you need to
-> > create a "pef-guest" object and set the securable-guest-memory machine
-> > property to point to it.
-> >=20
-> > Note that this just *allows* secure guests, the architecture of PEF is
-> > such that the guest still needs to talk to the ultravisor to enter
-> > secure mode.  Qemu has no directl way of knowing if the guest is in
-> > secure mode, and certainly can't know until well after machine
-> > creation time.
-> >=20
-> > To start a PEF-capable guest, use the command line options:
-> >     -object pef-guest,id=3Dpef0 -machine securable-guest-memory=3Dpef0
+> > Now that we have a QOM interface for handling things related to securab=
+le
+> > guest memory, use a QOM method on that interface, rather than a bare
+> > function pointer for this.
 > >=20
 > > Signed-off-by: David Gibson <david@gibson.dropbear.id.au>
-> > Acked-by: Ram Pai <linuxram@us.ibm.com>
+> > Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 > > ---
-> >  hw/ppc/meson.build   |   1 +
-> >  hw/ppc/pef.c         | 115 +++++++++++++++++++++++++++++++++++++++++++
-> >  hw/ppc/spapr.c       |  10 ++++
-> >  include/hw/ppc/pef.h |  26 ++++++++++
-> >  target/ppc/kvm.c     |  18 -------
-> >  target/ppc/kvm_ppc.h |   6 ---
-> >  6 files changed, 152 insertions(+), 24 deletions(-)
-> >  create mode 100644 hw/ppc/pef.c
-> >  create mode 100644 include/hw/ppc/pef.h
+> >  accel/kvm/kvm-all.c                   |  36 +++++---
+> >  accel/kvm/sev-stub.c                  |   9 +-
+> >  include/exec/securable-guest-memory.h |   2 +
+> >  include/sysemu/sev.h                  |   5 +-
+> >  target/i386/monitor.c                 |   1 -
+> >  target/i386/sev.c                     | 116 ++++++++++----------------
+> >  6 files changed, 77 insertions(+), 92 deletions(-)
 > >=20
-> > diff --git a/hw/ppc/meson.build b/hw/ppc/meson.build
-> > index ffa2ec37fa..218631c883 100644
-> > --- a/hw/ppc/meson.build
-> > +++ b/hw/ppc/meson.build
-> > @@ -27,6 +27,7 @@ ppc_ss.add(when: 'CONFIG_PSERIES', if_true: files(
-> >    'spapr_nvdimm.c',
-> >    'spapr_rtas_ddw.c',
-> >    'spapr_numa.c',
-> > +  'pef.c',
-> >  ))
-> >  ppc_ss.add(when: 'CONFIG_SPAPR_RNG', if_true: files('spapr_rng.c'))
-> >  ppc_ss.add(when: ['CONFIG_PSERIES', 'CONFIG_LINUX'], if_true: files(
-> > diff --git a/hw/ppc/pef.c b/hw/ppc/pef.c
-> > new file mode 100644
-> > index 0000000000..3ae3059cfe
-> > --- /dev/null
-> > +++ b/hw/ppc/pef.c
-> > @@ -0,0 +1,115 @@
-> > +/*
-> > + * PEF (Protected Execution Facility) for POWER support
-> > + *
-> > + * Copyright David Gibson, Redhat Inc. 2020
-> > + *
-> > + * This work is licensed under the terms of the GNU GPL, version 2 or =
-later.
-> > + * See the COPYING file in the top-level directory.
-> > + *
-> > + */
-> > +
-> > +#include "qemu/osdep.h"
-> > +
-> > +#include "qapi/error.h"
-> > +#include "qom/object_interfaces.h"
-> > +#include "sysemu/kvm.h"
-> > +#include "migration/blocker.h"
-> > +#include "exec/securable-guest-memory.h"
-> > +#include "hw/ppc/pef.h"
-> > +
-> > +#define TYPE_PEF_GUEST "pef-guest"
-> > +#define PEF_GUEST(obj)                                  \
-> > +    OBJECT_CHECK(PefGuestState, (obj), TYPE_PEF_GUEST)
-> > +
-> > +typedef struct PefGuestState PefGuestState;
-> > +
-> > +/**
-> > + * PefGuestState:
-> > + *
-> > + * The PefGuestState object is used for creating and managing a PEF
-> > + * guest.
-> > + *
-> > + * # $QEMU \
-> > + *         -object pef-guest,id=3Dpef0 \
-> > + *         -machine ...,securable-guest-memory=3Dpef0
-> > + */
-> > +struct PefGuestState {
-> > +    Object parent_obj;
-> > +};
-> > +
-> > +#ifdef CONFIG_KVM
-> > +static int kvmppc_svm_init(Error **errp)
-> > +{
-> > +    if (!kvm_check_extension(kvm_state, KVM_CAP_PPC_SECURABLE_GUEST)) {
->                                            ^^^^^^^^^^^^^^^^^^^^^^^^^^
-> KVM defines this macro as KVM_CAP_PPC_SECURE_GUEST. Unless we patch KVM,
->     we are stuck with KVM_CAP_PPC_SECURE_GUEST.
+>=20
+> > @@ -224,7 +224,7 @@ int kvm_get_max_memslots(void)
+> > =20
+> >  bool kvm_memcrypt_enabled(void)
+> >  {
+> > -    if (kvm_state && kvm_state->memcrypt_handle) {
+> > +    if (kvm_state && kvm_state->sgm) {
+>=20
+> If we want to generalize the concept, maybe check for encrypt_data in
+> sgm here? There's probably room for different callbacks in the sgm
+> structure.
 
-Oops, made an over-zealous search and replace.  Fixed now.
+I don't think it's worth changing here.  This gets changed again in
+patch 6, I'll adjust to clarify a bit what's going on there.
+
+>=20
+> >          return true;
+> >      }
+> > =20
+>=20
 
 --=20
 David Gibson			| I'll have my music baroque, and my code
@@ -191,25 +127,25 @@ david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
 				| _way_ _around_!
 http://www.ozlabs.org/~dgibson
 
---4ndw/alBWmZEhfcZ
+--aF3LVLvitz/VQU3c
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAl/3qJsACgkQbDjKyiDZ
-s5IANQ/+J2DKwAaHGUe/L8Mc/Q4ZWxGd3BNXR1m7x/uq8d5WBiZO4oluS7iFz5Ti
-/HZNZogvQcIRu6bbM4GAYmXGv9V4eqIJ5fKiti/EXb0cus0+7VwbWecgfJQQspma
-W1EwAXRw0GGspVH4JYfdJDXPp4c30SR7HnJRP1MWq9KBq99tVWGiqOpsOiTsz6/8
-iF6mOGp53mq3QqEP9n4yz2WGVwKpRqtHuyTOLbOqTjg/uLIlHJugknB4TU5gFNsB
-8DoukIeE2Jzyk1B0sSv0qloYCP3FesZxkM0zcbr1iSSWrdj5cRVzmrMV3GKxwbbZ
-Dh4JCstjg7/NVnpNCJwCdV5awi6U7Y3JuWrY6QXaUOXsJHJQVIQcib5MPYDiJU/j
-zwalQVEx5MYAKQEu0kDg3vnDM3YNSdk/yuJYs0CKhFTsPkc1d4Qn+P/v6kY1JkW/
-vn1ZDQmWh9gRbnXJzOkbasAVSayvLSFTjZr8k3KhvuLguohu80XxadqHSk3Uf+i4
-L4gx8b3SFeDbYg88fbhsZA8PPqHPqJ4He7Y+544T5LLiQH+6ht/RYsZQhoYHP/ze
-RO/S0hOFOnXQrDlf9I2xISwtcljtSVRZA04YVb+LcWOcP6i5YzXN/0nkPJIOzWn5
-FAsbAhX+nGYty6xLBv7+FoZuTRm9VYv0IoBtsbHqsokDTSTw+FA=
-=bbwY
+iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAl/32XQACgkQbDjKyiDZ
+s5I3Hw//eRYOBsJ2TurIh7rwuauV/QflkcKoHjCC3SbHxSNrIRsiXD/KxU15OTyR
+TVyCCZIQnyD2mORKhwpNPtSTdPbeds/sTsxGC2mUwAkcudy7s1f5GpQccf9jL7j5
+jJjsBAo9Tkn0VJKoQZMPYSEY4ru33Zbqk5zArqR8PvrUsXhw60K3/xXi2mVZ5cUN
+m82v5dSxl9pIgF5fDm7a2VHeE5YiB5/ZCpdbGFpuX59LvV5y/UmFdx9vbam5e8Ie
+ekoIjFsv5yJ2eECeZ7jzmBmdJ/KoNWZ5rzX0ID39o8buS5ZZO2KxC9F4Rt/iIt0I
+RX0YNmD32wX/s3CJzB/KytTTE38jjzdEnU7arlGHEDz5CibGBpDoA/BP2tFIoTll
+o7ina6lu0s+T4UrNEKS+DagFY5qJGNA+1p7JcuNBGj2ns7QIY8zNXh04K0toyrb5
+LFUHd9DT+AciTDaQ5e/I7/ONaFLBh2EAc4AbcUo6r1iXyPQ+df446qaIljA2ljGn
+oQX0CjYDxWRo+Wn2wBc1yLiL7GD4vu19m5JdTPpom8LdjCDGDtCuGi6Vr56c1NRS
+DMYbbnOBxtnR49B9umPfqR8VS+lKFeilixsohid8+Yohe940BkyIcgFCVyth+RG0
+044z8YFmtRnuZL5HaPXD+YzAG93+OeFSA0MAyxakNE8hrl/EQt4=
+=e/zG
 -----END PGP SIGNATURE-----
 
---4ndw/alBWmZEhfcZ--
+--aF3LVLvitz/VQU3c--
 
