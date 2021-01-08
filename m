@@ -2,51 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 534222EFB9A
-	for <lists+qemu-devel@lfdr.de>; Sat,  9 Jan 2021 00:14:51 +0100 (CET)
-Received: from localhost ([::1]:58090 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 415072EFBB4
+	for <lists+qemu-devel@lfdr.de>; Sat,  9 Jan 2021 00:32:45 +0100 (CET)
+Received: from localhost ([::1]:36510 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ky0y1-0007Vo-QN
-	for lists+qemu-devel@lfdr.de; Fri, 08 Jan 2021 18:14:49 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56676)
+	id 1ky1FL-00035K-RI
+	for lists+qemu-devel@lfdr.de; Fri, 08 Jan 2021 18:32:43 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59394)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
- id 1ky0wx-00074S-DP
- for qemu-devel@nongnu.org; Fri, 08 Jan 2021 18:13:43 -0500
-Received: from zero.eik.bme.hu ([152.66.115.2]:33682)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
- id 1ky0wt-0000QU-Mt
- for qemu-devel@nongnu.org; Fri, 08 Jan 2021 18:13:42 -0500
-Received: from zero.eik.bme.hu (blah.eik.bme.hu [152.66.115.182])
- by localhost (Postfix) with SMTP id 74F867470F4;
- Sat,  9 Jan 2021 00:13:36 +0100 (CET)
-Received: by zero.eik.bme.hu (Postfix, from userid 432)
- id 371C374646C; Sat,  9 Jan 2021 00:13:36 +0100 (CET)
-Received: from localhost (localhost [127.0.0.1])
- by zero.eik.bme.hu (Postfix) with ESMTP id 3588674645B;
- Sat,  9 Jan 2021 00:13:36 +0100 (CET)
-Date: Sat, 9 Jan 2021 00:13:36 +0100 (CET)
-From: BALATON Zoltan <balaton@eik.bme.hu>
-To: Roman Bolshakov <r.bolshakov@yadro.com>
-Subject: Re: [PATCH v2] ui/cocoa: Fix openFile: deprecation on Big Sur
-In-Reply-To: <X/jJ7dTlBW8Pg65q@SPB-NB-133.local>
-Message-ID: <e585d6ab-2dc8-4d1d-fbf7-96ecfdaa79@eik.bme.hu>
-References: <20210102150718.47618-1-r.bolshakov@yadro.com>
- <CAFEAcA8GMYcTrfKJ-6E3rKyytDHSL4UeWPVuFVLtzWjDtCxMVw@mail.gmail.com>
- <CAFEAcA97hh-bC7yjpHLGyvOiBGMxRtOQaf0O-y5WG0xYYA8N7A@mail.gmail.com>
- <X/jJ7dTlBW8Pg65q@SPB-NB-133.local>
+ (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
+ id 1ky1E2-0002an-RU; Fri, 08 Jan 2021 18:31:22 -0500
+Received: from mail-il1-x132.google.com ([2607:f8b0:4864:20::132]:45203)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
+ id 1ky1Dz-00075L-VK; Fri, 08 Jan 2021 18:31:22 -0500
+Received: by mail-il1-x132.google.com with SMTP id y13so4022665ilm.12;
+ Fri, 08 Jan 2021 15:31:18 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=qcxuxui2gzdHKyX6/q5Q3k3nVtNBy6cB/u6yKIrkDxk=;
+ b=V2b3B6FI3C7Ps6iRAxVOvGuxOf3aymMZF/FGe0RGTYdAYv4q9XRHmTGMC4aszyge+i
+ rZAlBhAtSVtnkwd0IMRSqZvQZg+BQjUDa5mBbSG+PcOB+80mwWN7nBftQprNC6siG/fP
+ kbrmwIJmTHeHOxB3OxB6as1VVAfcBukECgbTJ7v8T5JnLt+ctEpPGkbB7Z5RbNooN3SY
+ iCvzEf9dtpDHe7s6G+RjGcEx9g5u5vubQ7iseg9Eobb7swP33R3ybsS52lXUyzIyqz6w
+ JnV9DFMMoRjPZjoT5qk3eniCRzTVq2HWj2w37lMgJwT0lY6g1SWD5bCEXRXHlk8m9guE
+ TeQQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=qcxuxui2gzdHKyX6/q5Q3k3nVtNBy6cB/u6yKIrkDxk=;
+ b=DRxsNvWn3QBDuEX3rIAMJb8Gu1qka4f6k8kYoHrdJ11c6qcDjGYv9BpogVDxxAffR2
+ 5taPc1EANm0pFs+7e3NDvqjSmv+WkHJ/nVapNcrBMgSPAhMWg7CXvk/MFQhJhNIC9Rot
+ sMCUcBCaDnvYJyQ3BSpXnjgp6poXoz62CTovhaDRMAo7oQ2W2RO/ZRXeSqMdZR7JGpkw
+ Q24TvPUoaP7onGeiYZqQpSzqnX+Zc+gequOmGCRTgRstaRFHoafNLh7mXaLkswrY0+AR
+ MQYC2myUPngpQRj+y5jbiPLGSR6Xj4scft61muFcOlGg4OvVdolbaK+KbseMYMOmFPYd
+ 60Tw==
+X-Gm-Message-State: AOAM531YvwbkdqX9e603xObUEvGqk4JwxQ1iWzvRp3aelVWkRxJYXw9C
+ K6wjO0cal0nh3ua+4Cg9H22Bw46gX+eWl9SCVAs=
+X-Google-Smtp-Source: ABdhPJzSzZOAo9mBI6QNY+kx3Oo+nFV8b9tNlCk6N6zKrLfiKlpye9eEdcgqzBFDjuM6fYuZlOiSppcI8xC8DlR2428=
+X-Received: by 2002:a92:c942:: with SMTP id i2mr5952472ilq.227.1610148678034; 
+ Fri, 08 Jan 2021 15:31:18 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII; format=flowed
-X-Spam-Probability: 8%
-Received-SPF: pass client-ip=152.66.115.2; envelope-from=balaton@eik.bme.hu;
- helo=zero.eik.bme.hu
-X-Spam_score_int: -41
-X-Spam_score: -4.2
-X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+References: <20210108224256.2321-1-alex.bennee@linaro.org>
+ <20210108224256.2321-17-alex.bennee@linaro.org>
+In-Reply-To: <20210108224256.2321-17-alex.bennee@linaro.org>
+From: Alistair Francis <alistair23@gmail.com>
+Date: Fri, 8 Jan 2021 15:30:51 -0800
+Message-ID: <CAKmqyKOLLXqjeGO6-k1d_Y_23Q5Tt1uKYUUwCjPDPPMJB3GXVQ@mail.gmail.com>
+Subject: Re: [PATCH v1 16/20] riscv: Add semihosting support
+To: =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2607:f8b0:4864:20::132;
+ envelope-from=alistair23@gmail.com; helo=mail-il1-x132.google.com
+X-Spam_score_int: -17
+X-Spam_score: -1.8
+X-Spam_bar: -
+X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -59,125 +78,484 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- QEMU Developers <qemu-devel@nongnu.org>, Gerd Hoffmann <kraxel@redhat.com>
+Cc: Keith Packard <keithp@keithp.com>,
+ "open list:RISC-V TCG CPUs" <qemu-riscv@nongnu.org>,
+ Sagar Karandikar <sagark@eecs.berkeley.edu>,
+ Bastian Koppelmann <kbastian@mail.uni-paderborn.de>,
+ "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
+ Laurent Vivier <laurent@vivier.eu>, Palmer Dabbelt <palmer@dabbelt.com>,
+ Alistair Francis <Alistair.Francis@wdc.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Sat, 9 Jan 2021, Roman Bolshakov wrote:
-> On Fri, Jan 08, 2021 at 03:00:07PM +0000, Peter Maydell wrote:
->> On Fri, 8 Jan 2021 at 13:50, Peter Maydell <peter.maydell@linaro.org> wrote:
->>>
->>> On Sat, 2 Jan 2021 at 15:14, Roman Bolshakov <r.bolshakov@yadro.com> wrote:
->>>>
->>>> ui/cocoa.m:1188:44: warning: 'openFile:' is deprecated: first deprecated in macOS 11.0 - Use -[NSWorkspace openURL:] instead.
->>>>       [-Wdeprecated-declarations]
->>>>         if ([[NSWorkspace sharedWorkspace] openFile: full_file_path] == YES) {
->>>>                                            ^
->>>> /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/System/Library/Frameworks/AppKit.framework/Headers/NSWorkspace.h:350:1: note:
->>>>       'openFile:' has been explicitly marked deprecated here
->>>> - (BOOL)openFile:(NSString *)fullPath API_DEPRECATED("Use -[NSWorkspace openURL:] instead.", macos(10.0, 11.0));
->>>> ^
->>>>
->>>> Signed-off-by: Roman Bolshakov <r.bolshakov@yadro.com>
->>>> ---
->>>
->>> Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
->>
->>
->> So I was just trying to test this patch, and I found that at least
->> for me the osx menu bar has stopped working in QEMU -- keyboard
->> shortcuts to it still work but none of the menu buttons respond
->> to the mouse. Does that happen for anybody else?
->>
+On Fri, Jan 8, 2021 at 3:06 PM Alex Benn=C3=A9e <alex.bennee@linaro.org> wr=
+ote:
 >
-> There's an old bug when QEMU menu bar is not responsive because it's not
-> properly activated. If you click off qemu and click on the qemu dock
-> icon then it "gets fixed" (cmd-tab works too). Do you hit the issue as
-> described in the article [1]? The code in the article does exactly the
-> same what I'm doing manually. I wanted to fix it but somehow it got
-> postponed for like a whole year :) I might try to make a fix this but
-> note, the issue is not related to the patch.
+> From: Keith Packard <keithp@keithp.com>
+>
+> Adapt the arm semihosting support code for RISCV. This implementation
+> is based on the standard for RISC-V semihosting version 0.2 as
+> documented in
+>
+>    https://github.com/riscv/riscv-semihosting-spec/releases/tag/0.2
+>
+> Signed-off-by: Keith Packard <keithp@keithp.com>
+> Message-Id: <20210107170717.2098982-6-keithp@keithp.com>
+> Signed-off-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
 
-This does not sound like the best solution to the problem. There's some 
-info on this here (and blog post linked from it):
+Whoops, I thought I had already reviewed this commit.
 
-https://stackoverflow.com/questions/7460092/nswindow-makekeyandorderfront-makes-window-appear-but-not-key-or-front
+Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
 
-Maybe we call makeKeyAndOrderFront: too early before the app is active and 
-that's causing the problem? Would it work better if that's moved after 
-[NSApp run]? (Maybe we also need canBecomeKey: somewhere but I don't see 
-why would that be needed for normal windows.)
+Alistair
 
-Regards,
-BALATON Zoltan
-
->> Also, the "bring up the docs" help option (which is what this
->> patch is changing) doesn't seem to work when QEMU is run from
->> the source tree and the docs haven't been installed to the
->> locations where it expects it might find them. Probably the
->> code needs updating to work with qemu_find_file() or some
->> variant on it.
->>
+> ---
+>  default-configs/devices/riscv32-softmmu.mak   |  2 +
+>  default-configs/devices/riscv64-softmmu.mak   |  2 +
+>  .../targets/riscv32-linux-user.mak            |  1 +
+>  .../targets/riscv64-linux-user.mak            |  1 +
+>  hw/semihosting/common-semi.h                  |  5 +-
+>  linux-user/qemu.h                             |  4 +-
+>  target/riscv/cpu_bits.h                       |  1 +
+>  hw/semihosting/common-semi.c                  | 82 ++++++++++++++++++-
+>  linux-user/semihost.c                         |  8 +-
+>  target/riscv/cpu_helper.c                     | 10 +++
+>  target/riscv/translate.c                      | 11 +++
+>  .../riscv/insn_trans/trans_privileged.c.inc   | 37 ++++++++-
+>  qemu-options.hx                               | 10 ++-
+>  13 files changed, 162 insertions(+), 12 deletions(-)
 >
-> If I add:
-> diff --git a/ui/cocoa.m b/ui/cocoa.m
-> index ea3b845b53..4772b7f981 100644
-> --- a/ui/cocoa.m
-> +++ b/ui/cocoa.m
-> @@ -1189,6 +1189,7 @@ - (void) openDocumentation: (NSString *) filename
->                           path_array[index], filename];
->         full_file_url = [NSURL fileURLWithPath: full_file_path
->                                    isDirectory: false];
-> +        NSLog(@"%@", full_file_url);
->         if ([[NSWorkspace sharedWorkspace] openURL: full_file_url] == YES) {
->             return;
->         }
+> diff --git a/default-configs/devices/riscv32-softmmu.mak b/default-config=
+s/devices/riscv32-softmmu.mak
+> index 94a236c9c2..d847bd5692 100644
+> --- a/default-configs/devices/riscv32-softmmu.mak
+> +++ b/default-configs/devices/riscv32-softmmu.mak
+> @@ -3,6 +3,8 @@
+>  # Uncomment the following lines to disable these optional devices:
+>  #
+>  #CONFIG_PCI_DEVICES=3Dn
+> +CONFIG_SEMIHOSTING=3Dy
+> +CONFIG_ARM_COMPATIBLE_SEMIHOSTING=3Dy
 >
-> And click "Help"->"QEMU Documentation". I get the following logs:
-> 2021-01-08 23:14:15.288 qemu-system-x86_64[46165:12969383] file:///Users/roolebo/dev/qemu/apple-silicon/build/../share/doc/qemu/index.html
-> 2021-01-08 23:14:15.288 qemu-system-x86_64[46165:12969383] file:///Users/roolebo/dev/qemu/apple-silicon/build/../doc/qemu/index.html
-> 2021-01-08 23:14:15.288 qemu-system-x86_64[46165:12969383] file:///Users/roolebo/dev/qemu/apple-silicon/build/../docs/index.html
+>  # Boards:
+>  #
+> diff --git a/default-configs/devices/riscv64-softmmu.mak b/default-config=
+s/devices/riscv64-softmmu.mak
+> index 76b6195648..d5eec75f05 100644
+> --- a/default-configs/devices/riscv64-softmmu.mak
+> +++ b/default-configs/devices/riscv64-softmmu.mak
+> @@ -3,6 +3,8 @@
+>  # Uncomment the following lines to disable these optional devices:
+>  #
+>  #CONFIG_PCI_DEVICES=3Dn
+> +CONFIG_SEMIHOSTING=3Dy
+> +CONFIG_ARM_COMPATIBLE_SEMIHOSTING=3Dy
 >
-> In order to get documentation on macOS. sphinx-doc has to be installed
-> from homebrew. The package is keg-only so sphinx-build has to be added
-> to PATH.
+>  # Boards:
+>  #
+> diff --git a/default-configs/targets/riscv32-linux-user.mak b/default-con=
+figs/targets/riscv32-linux-user.mak
+> index dfb259e8aa..6a9d1b1bc1 100644
+> --- a/default-configs/targets/riscv32-linux-user.mak
+> +++ b/default-configs/targets/riscv32-linux-user.mak
+> @@ -2,3 +2,4 @@ TARGET_ARCH=3Driscv32
+>  TARGET_BASE_ARCH=3Driscv
+>  TARGET_ABI_DIR=3Driscv
+>  TARGET_XML_FILES=3D gdb-xml/riscv-32bit-cpu.xml gdb-xml/riscv-32bit-fpu.=
+xml gdb-xml/riscv-64bit-fpu.xml gdb-xml/riscv-32bit-csr.xml gdb-xml/riscv-3=
+2bit-virtual.xml
+> +CONFIG_ARM_COMPATIBLE_SEMIHOSTING=3Dy
+> diff --git a/default-configs/targets/riscv64-linux-user.mak b/default-con=
+figs/targets/riscv64-linux-user.mak
+> index b13895f3b0..0a92849a1b 100644
+> --- a/default-configs/targets/riscv64-linux-user.mak
+> +++ b/default-configs/targets/riscv64-linux-user.mak
+> @@ -2,3 +2,4 @@ TARGET_ARCH=3Driscv64
+>  TARGET_BASE_ARCH=3Driscv
+>  TARGET_ABI_DIR=3Driscv
+>  TARGET_XML_FILES=3D gdb-xml/riscv-64bit-cpu.xml gdb-xml/riscv-32bit-fpu.=
+xml gdb-xml/riscv-64bit-fpu.xml gdb-xml/riscv-64bit-csr.xml gdb-xml/riscv-6=
+4bit-virtual.xml
+> +CONFIG_ARM_COMPATIBLE_SEMIHOSTING=3Dy
+> diff --git a/hw/semihosting/common-semi.h b/hw/semihosting/common-semi.h
+> index bc53e92c79..0bfab1c669 100644
+> --- a/hw/semihosting/common-semi.h
+> +++ b/hw/semihosting/common-semi.h
+> @@ -1,6 +1,6 @@
+>  /*
+>   *  Semihosting support for systems modeled on the Arm "Angel"
+> - *  semihosting syscalls design.
+> + *  semihosting syscalls design. This includes Arm and RISC-V processors
+>   *
+>   *  Copyright (c) 2005, 2007 CodeSourcery.
+>   *  Copyright (c) 2019 Linaro
+> @@ -26,6 +26,9 @@
+>   *     Semihosting for AArch32 and AArch64 Release 2.0
+>   *     https://static.docs.arm.com/100863/0200/semihosting.pdf
+>   *
+> + *  RISC-V Semihosting is documented in:
+> + *     RISC-V Semihosting
+> + *     https://github.com/riscv/riscv-semihosting-spec/blob/main/riscv-s=
+emihosting-spec.adoc
+>   */
 >
-> Then you can build with --enable-docs. Generated documentation resides
-> in the build tree after the QEMU has been switched to meson:
+>  #ifndef COMMON_SEMI_H
+> diff --git a/linux-user/qemu.h b/linux-user/qemu.h
+> index 534753ca12..17aa992165 100644
+> --- a/linux-user/qemu.h
+> +++ b/linux-user/qemu.h
+> @@ -109,6 +109,8 @@ typedef struct TaskState {
+>      /* FPA state */
+>      FPA11 fpa;
+>  # endif
+> +#endif
+> +#if defined(TARGET_ARM) || defined(TARGET_RISCV)
+>      int swi_errno;
+>  #endif
+>  #if defined(TARGET_I386) && !defined(TARGET_X86_64)
+> @@ -122,7 +124,7 @@ typedef struct TaskState {
+>  #ifdef TARGET_M68K
+>      abi_ulong tp_value;
+>  #endif
+> -#if defined(TARGET_ARM) || defined(TARGET_M68K)
+> +#if defined(TARGET_ARM) || defined(TARGET_M68K) || defined(TARGET_RISCV)
+>      /* Extra fields for semihosted binaries.  */
+>      abi_ulong heap_base;
+>      abi_ulong heap_limit;
+> diff --git a/target/riscv/cpu_bits.h b/target/riscv/cpu_bits.h
+> index b41e8836c3..4196ef8b69 100644
+> --- a/target/riscv/cpu_bits.h
+> +++ b/target/riscv/cpu_bits.h
+> @@ -542,6 +542,7 @@
+>  #define RISCV_EXCP_INST_PAGE_FAULT               0xc /* since: priv-1.10=
+.0 */
+>  #define RISCV_EXCP_LOAD_PAGE_FAULT               0xd /* since: priv-1.10=
+.0 */
+>  #define RISCV_EXCP_STORE_PAGE_FAULT              0xf /* since: priv-1.10=
+.0 */
+> +#define RISCV_EXCP_SEMIHOST                      0x10
+>  #define RISCV_EXCP_INST_GUEST_PAGE_FAULT         0x14
+>  #define RISCV_EXCP_LOAD_GUEST_ACCESS_FAULT       0x15
+>  #define RISCV_EXCP_VIRT_INSTRUCTION_FAULT        0x16
+> diff --git a/hw/semihosting/common-semi.c b/hw/semihosting/common-semi.c
+> index 293791f721..5fcb8663c6 100644
+> --- a/hw/semihosting/common-semi.c
+> +++ b/hw/semihosting/common-semi.c
+> @@ -1,6 +1,6 @@
+>  /*
+>   *  Semihosting support for systems modeled on the Arm "Angel"
+> - *  semihosting syscalls design.
+> + *  semihosting syscalls design. This includes Arm and RISC-V processors
+>   *
+>   *  Copyright (c) 2005, 2007 CodeSourcery.
+>   *  Copyright (c) 2019 Linaro
+> @@ -25,6 +25,10 @@
+>   *  ARM Semihosting is documented in:
+>   *     Semihosting for AArch32 and AArch64 Release 2.0
+>   *     https://static.docs.arm.com/100863/0200/semihosting.pdf
+> + *
+> + *  RISC-V Semihosting is documented in:
+> + *     RISC-V Semihosting
+> + *     https://github.com/riscv/riscv-semihosting-spec/blob/main/riscv-s=
+emihosting-spec.adoc
+>   */
 >
-> find . -name index.html
-> ./build/meson-private/temp/sphinx/out/index.html
-> ./build/docs/devel/index.html
-> ./build/docs/tools/index.html
-> ./build/docs/index.html
-> ./build/docs/specs/index.html
-> ./build/docs/interop/index.html
-> ./build/docs/user/index.html
-> ./build/docs/system/index.html
+>  #include "qemu/osdep.h"
+> @@ -222,6 +226,42 @@ common_semi_rambase(CPUState *cs)
 >
-> The problem is that the paths above don't point to docs in build tree.
-> The patch only fixes a warning and doesn't break existing path
-> resolution. The fix for out-of-tree docs is trivial:
-> diff --git a/ui/cocoa.m b/ui/cocoa.m
-> index ea3b845b53..13fba8103e 100644
-> --- a/ui/cocoa.m
-> +++ b/ui/cocoa.m
-> @@ -1176,7 +1176,7 @@ - (void)toggleFullScreen:(id)sender
-> - (void) openDocumentation: (NSString *) filename
-> {
->     /* Where to look for local files */
-> -    NSString *path_array[] = {@"../share/doc/qemu/", @"../doc/qemu/", @"../docs/"};
-> +    NSString *path_array[] = {@"../share/doc/qemu/", @"../doc/qemu/", @"docs/"};
->     NSString *full_file_path;
->     NSURL *full_file_url;
+>  #endif /* TARGET_ARM */
 >
-> I'll add it as a separate patch to v2.
+> +#ifdef TARGET_RISCV
+> +static inline target_ulong
+> +common_semi_arg(CPUState *cs, int argno)
+> +{
+> +    RISCVCPU *cpu =3D RISCV_CPU(cs);
+> +    CPURISCVState *env =3D &cpu->env;
+> +    return env->gpr[xA0 + argno];
+> +}
+> +
+> +static inline void
+> +common_semi_set_ret(CPUState *cs, target_ulong ret)
+> +{
+> +    RISCVCPU *cpu =3D RISCV_CPU(cs);
+> +    CPURISCVState *env =3D &cpu->env;
+> +    env->gpr[xA0] =3D ret;
+> +}
+> +
+> +static inline bool
+> +common_semi_sys_exit_extended(CPUState *cs, int nr)
+> +{
+> +    return (nr =3D=3D TARGET_SYS_EXIT_EXTENDED || sizeof(target_ulong) =
+=3D=3D 8);
+> +}
+> +
+> +#ifndef CONFIG_USER_ONLY
+> +
+> +static inline target_ulong
+> +common_semi_rambase(CPUState *cs)
+> +{
+> +    RISCVCPU *cpu =3D RISCV_CPU(cs);
+> +    CPURISCVState *env =3D &cpu->env;
+> +    return common_semi_find_region_base(env->gpr[xSP]);
+> +}
+> +#endif
+> +
+> +#endif
+> +
+>  /*
+>   * Allocate a new guest file descriptor and return it; if we
+>   * couldn't allocate a new fd then return -1.
+> @@ -398,6 +438,12 @@ static target_ulong common_semi_flen_buf(CPUState *c=
+s)
+>          sp =3D env->regs[13];
+>      }
+>  #endif
+> +#ifdef TARGET_RISCV
+> +    RISCVCPU *cpu =3D RISCV_CPU(cs);
+> +    CPURISCVState *env =3D &cpu->env;
+> +
+> +    sp =3D env->gpr[xSP];
+> +#endif
 >
-> 1. https://ar.al/2018/09/17/workaround-for-unclickable-app-menu-bug-with-window.makekeyandorderfront-and-nsapp.activate-on-macos/
+>      return sp - 64;
+>  }
+> @@ -741,6 +787,37 @@ static const GuestFDFunctions guestfd_fns[] =3D {
+>       put_user_u32(val, args + (n) * 4))
+>  #endif
 >
-> Regards,
-> Roman
+> +#ifdef TARGET_RISCV
+> +
+> +/*
+> + * get_user_ual is defined as get_user_u32 in softmmu-semi.h,
+> + * we need a macro that fetches a target_ulong
+> + */
+> +#define get_user_utl(arg, p)                    \
+> +    ((sizeof(target_ulong) =3D=3D 8) ?              \
+> +     get_user_u64(arg, p) :                     \
+> +     get_user_u32(arg, p))
+> +
+> +/*
+> + * put_user_ual is defined as put_user_u32 in softmmu-semi.h,
+> + * we need a macro that stores a target_ulong
+> + */
+> +#define put_user_utl(arg, p)                    \
+> +    ((sizeof(target_ulong) =3D=3D 8) ?              \
+> +     put_user_u64(arg, p) :                     \
+> +     put_user_u32(arg, p))
+> +
+> +#define GET_ARG(n) do {                                                 =
+\
+> +        if (get_user_utl(arg ## n, args + (n) * sizeof(target_ulong))) {=
+ \
+> +            errno =3D EFAULT;                                           =
+  \
+> +            return set_swi_errno(cs, -1);                              \
+> +        }                                                               =
+\
+> +    } while (0)
+> +
+> +#define SET_ARG(n, val)                                 \
+> +    put_user_utl(val, args + (n) * sizeof(target_ulong))
+> +#endif
+> +
+>  /*
+>   * Do a semihosting call.
+>   *
+> @@ -1179,6 +1256,9 @@ target_ulong do_common_semihosting(CPUState *cs)
+>          if (is_a64(cs->env_ptr)) {
+>              return 0;
+>          }
+> +#endif
+> +#ifdef TARGET_RISCV
+> +        return 0;
+>  #endif
+>          /* fall through -- invalid for A32/T32 */
+>      default:
+> diff --git a/linux-user/semihost.c b/linux-user/semihost.c
+> index a1f0f6050e..c0015ee7f6 100644
+> --- a/linux-user/semihost.c
+> +++ b/linux-user/semihost.c
+> @@ -1,11 +1,11 @@
+>  /*
+> - * ARM Semihosting Console Support
+> + * ARM Compatible Semihosting Console Support.
+>   *
+>   * Copyright (c) 2019 Linaro Ltd
+>   *
+> - * Currently ARM is unique in having support for semihosting support
+> - * in linux-user. So for now we implement the common console API but
+> - * just for arm linux-user.
+> + * Currently ARM and RISC-V are unique in having support for
+> + * semihosting support in linux-user. So for now we implement the
+> + * common console API but just for arm and risc-v linux-user.
+>   *
+>   * SPDX-License-Identifier: GPL-2.0-or-later
+>   */
+> diff --git a/target/riscv/cpu_helper.c b/target/riscv/cpu_helper.c
+> index a2afb95fa1..f8350f5f78 100644
+> --- a/target/riscv/cpu_helper.c
+> +++ b/target/riscv/cpu_helper.c
+> @@ -24,6 +24,7 @@
+>  #include "exec/exec-all.h"
+>  #include "tcg/tcg-op.h"
+>  #include "trace.h"
+> +#include "hw/semihosting/common-semi.h"
+>
+>  int riscv_cpu_mmu_index(CPURISCVState *env, bool ifetch)
+>  {
+> @@ -847,6 +848,15 @@ void riscv_cpu_do_interrupt(CPUState *cs)
+>      target_ulong htval =3D 0;
+>      target_ulong mtval2 =3D 0;
+>
+> +    if  (cause =3D=3D RISCV_EXCP_SEMIHOST) {
+> +        if (env->priv >=3D PRV_S) {
+> +            env->gpr[xA0] =3D do_common_semihosting(cs);
+> +            env->pc +=3D 4;
+> +            return;
+> +        }
+> +        cause =3D RISCV_EXCP_BREAKPOINT;
+> +    }
+> +
+>      if (!async) {
+>          /* set tval to badaddr for traps with address information */
+>          switch (cause) {
+> diff --git a/target/riscv/translate.c b/target/riscv/translate.c
+> index 554d52a4be..0f28b5f41e 100644
+> --- a/target/riscv/translate.c
+> +++ b/target/riscv/translate.c
+> @@ -64,6 +64,7 @@ typedef struct DisasContext {
+>      uint16_t vlen;
+>      uint16_t mlen;
+>      bool vl_eq_vlmax;
+> +    CPUState *cs;
+>  } DisasContext;
+>
+>  #ifdef TARGET_RISCV64
+> @@ -747,6 +748,15 @@ static bool gen_shift(DisasContext *ctx, arg_r *a,
+>      return true;
+>  }
+>
+> +static uint32_t opcode_at(DisasContextBase *dcbase, target_ulong pc)
+> +{
+> +    DisasContext *ctx =3D container_of(dcbase, DisasContext, base);
+> +    CPUState *cpu =3D ctx->cs;
+> +    CPURISCVState *env =3D cpu->env_ptr;
+> +
+> +    return cpu_ldl_code(env, pc);
+> +}
+> +
+>  /* Include insn module translation function */
+>  #include "insn_trans/trans_rvi.c.inc"
+>  #include "insn_trans/trans_rvm.c.inc"
+> @@ -814,6 +824,7 @@ static void riscv_tr_init_disas_context(DisasContextB=
+ase *dcbase, CPUState *cs)
+>      ctx->lmul =3D FIELD_EX32(tb_flags, TB_FLAGS, LMUL);
+>      ctx->mlen =3D 1 << (ctx->sew  + 3 - ctx->lmul);
+>      ctx->vl_eq_vlmax =3D FIELD_EX32(tb_flags, TB_FLAGS, VL_EQ_VLMAX);
+> +    ctx->cs =3D cs;
+>  }
+>
+>  static void riscv_tr_tb_start(DisasContextBase *db, CPUState *cpu)
+> diff --git a/target/riscv/insn_trans/trans_privileged.c.inc b/target/risc=
+v/insn_trans/trans_privileged.c.inc
+> index 2a61a853bf..32312be202 100644
+> --- a/target/riscv/insn_trans/trans_privileged.c.inc
+> +++ b/target/riscv/insn_trans/trans_privileged.c.inc
+> @@ -29,7 +29,42 @@ static bool trans_ecall(DisasContext *ctx, arg_ecall *=
+a)
+>
+>  static bool trans_ebreak(DisasContext *ctx, arg_ebreak *a)
+>  {
+> -    generate_exception(ctx, RISCV_EXCP_BREAKPOINT);
+> +    target_ulong    ebreak_addr =3D ctx->base.pc_next;
+> +    target_ulong    pre_addr =3D ebreak_addr - 4;
+> +    target_ulong    post_addr =3D ebreak_addr + 4;
+> +    uint32_t pre    =3D 0;
+> +    uint32_t ebreak =3D 0;
+> +    uint32_t post   =3D 0;
+> +
+> +    /*
+> +     * The RISC-V semihosting spec specifies the following
+> +     * three-instruction sequence to flag a semihosting call:
+> +     *
+> +     *      slli zero, zero, 0x1f       0x01f01013
+> +     *      ebreak                      0x00100073
+> +     *      srai zero, zero, 0x7        0x40705013
+> +     *
+> +     * The two shift operations on the zero register are no-ops, used
+> +     * here to signify a semihosting exception, rather than a breakpoint=
+.
+> +     *
+> +     * Uncompressed instructions are required so that the sequence is ea=
+sy
+> +     * to validate.
+> +     *
+> +     * The three instructions are required to lie in the same page so
+> +     * that no exception will be raised when fetching them.
+> +     */
+> +
+> +    if ((pre_addr & TARGET_PAGE_MASK) =3D=3D (post_addr & TARGET_PAGE_MA=
+SK)) {
+> +        pre    =3D opcode_at(&ctx->base, pre_addr);
+> +        ebreak =3D opcode_at(&ctx->base, ebreak_addr);
+> +        post   =3D opcode_at(&ctx->base, post_addr);
+> +    }
+> +
+> +    if  (pre =3D=3D 0x01f01013 && ebreak =3D=3D 0x00100073 && post =3D=
+=3D 0x40705013) {
+> +        generate_exception(ctx, RISCV_EXCP_SEMIHOST);
+> +    } else {
+> +        generate_exception(ctx, RISCV_EXCP_BREAKPOINT);
+> +    }
+>      exit_tb(ctx); /* no chaining */
+>      ctx->base.is_jmp =3D DISAS_NORETURN;
+>      return true;
+> diff --git a/qemu-options.hx b/qemu-options.hx
+> index 1698a0c751..263caa21ec 100644
+> --- a/qemu-options.hx
+> +++ b/qemu-options.hx
+> @@ -4197,10 +4197,10 @@ ERST
+>  DEF("semihosting", 0, QEMU_OPTION_semihosting,
+>      "-semihosting    semihosting mode\n",
+>      QEMU_ARCH_ARM | QEMU_ARCH_M68K | QEMU_ARCH_XTENSA | QEMU_ARCH_LM32 |
+> -    QEMU_ARCH_MIPS | QEMU_ARCH_NIOS2)
+> +    QEMU_ARCH_MIPS | QEMU_ARCH_NIOS2 | QEMU_ARCH_RISCV)
+>  SRST
+>  ``-semihosting``
+> -    Enable semihosting mode (ARM, M68K, Xtensa, MIPS, Nios II only).
+> +    Enable semihosting mode (ARM, M68K, Xtensa, MIPS, Nios II, RISC-V on=
+ly).
+>
+>      Note that this allows guest direct access to the host filesystem, so
+>      should only be used with a trusted guest OS.
+> @@ -4212,10 +4212,10 @@ DEF("semihosting-config", HAS_ARG, QEMU_OPTION_se=
+mihosting_config,
+>      "-semihosting-config [enable=3Don|off][,target=3Dnative|gdb|auto][,c=
+hardev=3Did][,arg=3Dstr[,...]]\n" \
+>      "                semihosting configuration\n",
+>  QEMU_ARCH_ARM | QEMU_ARCH_M68K | QEMU_ARCH_XTENSA | QEMU_ARCH_LM32 |
+> -QEMU_ARCH_MIPS | QEMU_ARCH_NIOS2)
+> +QEMU_ARCH_MIPS | QEMU_ARCH_NIOS2 | QEMU_ARCH_RISCV)
+>  SRST
+>  ``-semihosting-config [enable=3Don|off][,target=3Dnative|gdb|auto][,char=
+dev=3Did][,arg=3Dstr[,...]]``
+> -    Enable and configure semihosting (ARM, M68K, Xtensa, MIPS, Nios II
+> +    Enable and configure semihosting (ARM, M68K, Xtensa, MIPS, Nios II, =
+RISC-V
+>      only).
+>
+>      Note that this allows guest direct access to the host filesystem, so
+> @@ -4230,6 +4230,8 @@ SRST
+>      open/read/write/seek/select. Tensilica baremetal libc for ISS and
+>      linux platform "sim" use this interface.
+>
+> +    On RISC-V this implements the standard semihosting API, version 0.2.
+> +
+>      ``target=3Dnative|gdb|auto``
+>          Defines where the semihosting calls will be addressed, to QEMU
+>          (``native``) or to GDB (``gdb``). The default is ``auto``, which
+> --
+> 2.20.1
 >
 >
 
