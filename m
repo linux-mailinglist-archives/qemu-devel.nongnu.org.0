@@ -2,69 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 159B52EF537
-	for <lists+qemu-devel@lfdr.de>; Fri,  8 Jan 2021 16:56:03 +0100 (CET)
-Received: from localhost ([::1]:44084 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 04E722EF53E
+	for <lists+qemu-devel@lfdr.de>; Fri,  8 Jan 2021 16:57:53 +0100 (CET)
+Received: from localhost ([::1]:48218 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kxu7O-0008AV-5C
-	for lists+qemu-devel@lfdr.de; Fri, 08 Jan 2021 10:56:02 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47460)
+	id 1kxu9A-0001Yc-2g
+	for lists+qemu-devel@lfdr.de; Fri, 08 Jan 2021 10:57:52 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47484)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1kxtor-00052Q-8b
- for qemu-devel@nongnu.org; Fri, 08 Jan 2021 10:36:53 -0500
-Received: from mail-wr1-x431.google.com ([2a00:1450:4864:20::431]:34716)
+ id 1kxtot-00053W-BA
+ for qemu-devel@nongnu.org; Fri, 08 Jan 2021 10:36:55 -0500
+Received: from mail-wr1-x435.google.com ([2a00:1450:4864:20::435]:44239)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1kxtoo-0002yT-KU
- for qemu-devel@nongnu.org; Fri, 08 Jan 2021 10:36:53 -0500
-Received: by mail-wr1-x431.google.com with SMTP id q18so9457891wrn.1
- for <qemu-devel@nongnu.org>; Fri, 08 Jan 2021 07:36:49 -0800 (PST)
+ id 1kxtop-0002ye-AM
+ for qemu-devel@nongnu.org; Fri, 08 Jan 2021 10:36:55 -0500
+Received: by mail-wr1-x435.google.com with SMTP id w5so9382173wrm.11
+ for <qemu-devel@nongnu.org>; Fri, 08 Jan 2021 07:36:50 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:subject:date:message-id:in-reply-to:references:mime-version
  :content-transfer-encoding;
- bh=3psp3ieItsXSg+BAwR517+P8wNoT4jZliP7RqS9B40A=;
- b=EhtsMVltRcc4ZwpAc7rVPMhrDszTP2tHtbqHLguqOGHPPBb4E5XkAPb0bXBHnAU2MS
- RSELFu0nUZoTDncYMPliuFBGJIs/BBSL2yzX7BWfBhtNY2mPinqYxiWgIgCFGw1J9dBc
- EtJk3EvHGkmJZjQkeWdd3BcbGwV3momIhTjklwsySLMYvjaQz2OJVzmlaRYQNzbAic1A
- FSLYvtYd9CRIr9aKWpnQfmbZ21So89l3NRDce5/hwLxY7GF5gRATGiFBx9/fjdB9KbhM
- Mcj6UAfJxVUC8AFiJ2XPZyY29A5mvB4ulYZzo7s7IMCGWhROoX4lHEbeHWvKEYTrzzKJ
- oMIw==
+ bh=914fnl0pJhWjr3RTpGLKQ1skila3tieL+3miZYLqW2k=;
+ b=j31kWkXiRRZM9er6yKN8ZJGXe2ymrCBMaLepbDycINGK1SqsUxXClkCYKbBe9W9deM
+ 9fISOP9oUsAiDt4t1UZm084+BxFRBbBI0BZNQX/dTuG3hW7iE3dTTPcpVE1qKkDYpEFl
+ oJJJsB+V1ZkMTM/zm7hZsU1k73oI1HTh3POwxFF0xF7D8p3mUvzSCQ5BezUNyRQgIWC2
+ mpa++2Kvu103NDAysslDiOJUXhOM0roUB9Dnnma9Jr7MgPDWXArhTVCGQ5ipaEHUrPOF
+ ZoPQhHIHAxy5TGsg3HP/Ieu1sJNqmV6fvi/7fQ86DnJXhhjbG6hrGPzEwFnF2VVsqbal
+ Qh1A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=3psp3ieItsXSg+BAwR517+P8wNoT4jZliP7RqS9B40A=;
- b=YkKPx20PHef06QnvZ4uBKjoggOHxfcqIobGwHiqORjOnigNC/7hZBImYj+bfTY9tyi
- Vqp/bEeASZ45PvTS/p0m3SlxVRV76AN2mwZYxjnaEbAzg+rD0bpAOAJmO2g8yFtvmOpe
- 2+wXrclojgQH3x//RHjsF5DbjLXtdPOrIdAZceSEznBIe+/J5B+r2hcsU6NfCTFv6W7i
- Nz+cp4bid0NkwcLxO2xeRRW/GRMkoZxcw/M5AetPn9obHVGY/cCLZHy8rR0lvWqwS0pm
- NvOQuoB2opHOD3KIKHEVDREXCCZoCCSuHgdqy5Cc1ftVzMcLNPO8jlbH1NNngcwYX/h1
- 0QXg==
-X-Gm-Message-State: AOAM531cRMOIDt9y7G7hdsPnxrT3F2uUSbv0MbB+2wDEjkEP5aF8wOkw
- jD+WIik6d/xuPF4/d280kljeHDl3ougvyQ==
-X-Google-Smtp-Source: ABdhPJzWpDyAHZ71V/jA0H0xrbdfSccIc3MOCCdZtIwnsSK4+e0SzqjvZYna8ShPU5mzaLpPOP2JqQ==
-X-Received: by 2002:adf:e54a:: with SMTP id z10mr4300850wrm.1.1610120208548;
- Fri, 08 Jan 2021 07:36:48 -0800 (PST)
+ bh=914fnl0pJhWjr3RTpGLKQ1skila3tieL+3miZYLqW2k=;
+ b=anOTuiIQw7B+8W30LMLAZqB8PE+MxiMGWsfjKijWltSrpFkQohMkX/xjjHpBltTay/
+ l/FMKoRY8u/QxxWMBsI9V7CSHY2Gq3NeNoEPAgtigOWKh8WBQA7DfUfVOhT3t6iO/oyv
+ OxNReQFa9xJNKTA7+CQlYoVxfxi0g2i6zzy2IZCbcLFNGYUv8CFFDQnir+xhkkOvWo/T
+ GZnJvhdziTrvgLd7I5mfvpO5HNyDIqe3FNAqyxhfqgHqxdwTJmUa1HwonsD8a/oHo2vX
+ 4ACmFWGVKxyrk0uhtVIrl8cN8OfYWZuoAS39pPvLzEZhJkRaoZmPO/A5u36k+T7WIiEd
+ OiYg==
+X-Gm-Message-State: AOAM531xKK0SWWT0Y+sPNw+DlaVs518Cip16Y0rSGpKnDjTRyFJ+njhE
+ pFTsZwIwhHbbc8t2XKUlDk/4mnkwaRc07Q==
+X-Google-Smtp-Source: ABdhPJzsjvd4snxXwFAKsYhyaczhmavrUt98knWVDdrxeepEVUFkLUMR5JVTtXGUMaYip5QhlUfsEw==
+X-Received: by 2002:adf:e60f:: with SMTP id p15mr4190393wrm.60.1610120209659; 
+ Fri, 08 Jan 2021 07:36:49 -0800 (PST)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
- by smtp.gmail.com with ESMTPSA id f9sm15887572wrw.81.2021.01.08.07.36.47
+ by smtp.gmail.com with ESMTPSA id f9sm15887572wrw.81.2021.01.08.07.36.48
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 08 Jan 2021 07:36:47 -0800 (PST)
+ Fri, 08 Jan 2021 07:36:49 -0800 (PST)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 19/23] exynos4210_mct: Use ptimer_free() in the finalize
- function to avoid memleaks
-Date: Fri,  8 Jan 2021 15:36:17 +0000
-Message-Id: <20210108153621.3868-20-peter.maydell@linaro.org>
+Subject: [PULL 20/23] hw/misc: imx6_ccm: Update PMU_MISC0 reset value
+Date: Fri,  8 Jan 2021 15:36:18 +0000
+Message-Id: <20210108153621.3868-21-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20210108153621.3868-1-peter.maydell@linaro.org>
 References: <20210108153621.3868-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::431;
- envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x431.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::435;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x435.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -87,68 +87,75 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Gan Qixin <ganqixin@huawei.com>
+From: Bin Meng <bin.meng@windriver.com>
 
-When running device-introspect-test, a memory leak occurred in the
-exynos4210_mct_init function, so use ptimer_free() in the finalize function to
-avoid it.
+U-Boot expects PMU_MISC0 register bit 7 is set (see init_bandgap()
+in arch/arm/mach-imx/mx6/soc.c) during boot. This bit indicates the
+bandgap has stabilized.
 
-ASAN shows memory leak stack:
+With this change, the latest upstream U-Boot (v2021.01-rc3) for imx6
+sabrelite board (mx6qsabrelite_defconfig), with a slight change made
+by switching CONFIG_OF_SEPARATE to CONFIG_OF_EMBED, boots to U-Boot
+shell on QEMU with the following command:
 
-Indirect leak of 96 byte(s) in 1 object(s) allocated from:
-    #0 0xffffab97e1f0 in __interceptor_calloc (/lib64/libasan.so.5+0xee1f0)
-    #1 0xffffab256800 in g_malloc0 (/lib64/libglib-2.0.so.0+0x56800)
-    #2 0xaaabf555db78 in ptimer_init /qemu/hw/core/ptimer.c:432
-    #3 0xaaabf56b01a0 in exynos4210_mct_init /qemu/hw/timer/exynos4210_mct.c:1505
-    #4 0xaaabf6339f6c in object_initialize_with_type /qemu/qom/object.c:515
-    #5 0xaaabf633a1e0 in object_new_with_type /qemu/qom/object.c:729
-    #6 0xaaabf6375e40 in qmp_device_list_properties /qemu/qom/qom-qmp-cmds.c:153
-    #7 0xaaabf653d8ec in qmp_marshal_device_list_properties /qemu/qapi/qapi-commands-qdev.c:59
-    #8 0xaaabf6587d08 in do_qmp_dispatch_bh /qemu/qapi/qmp-dispatch.c:110
-    #9 0xaaabf6552708 in aio_bh_call /qemu/util/async.c:136
-    #10 0xaaabf6552708 in aio_bh_poll /qemu/util/async.c:164
-    #11 0xaaabf655f19c in aio_dispatch /qemu/util/aio-posix.c:381
-    #12 0xaaabf65523f4 in aio_ctx_dispatch /qemu/util/async.c:306
+$ qemu-system-arm -M sabrelite -smp 4 -m 1G -kernel u-boot \
+    -display none -serial null -serial stdio
 
-Reported-by: Euler Robot <euler.robot@huawei.com>
-Signed-off-by: Gan Qixin <ganqixin@huawei.com>
-Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
+Boot log below:
+
+  U-Boot 2021.01-rc3 (Dec 12 2020 - 17:40:02 +0800)
+
+  CPU:   Freescale i.MX?? rev1.0 at 792 MHz
+  Reset cause: POR
+  Model: Freescale i.MX6 Quad SABRE Lite Board
+  Board: SABRE Lite
+  I2C:   ready
+  DRAM:  1 GiB
+  force_idle_bus: sda=0 scl=0 sda.gp=0x5c scl.gp=0x55
+  force_idle_bus: failed to clear bus, sda=0 scl=0
+  force_idle_bus: sda=0 scl=0 sda.gp=0x6d scl.gp=0x6c
+  force_idle_bus: failed to clear bus, sda=0 scl=0
+  force_idle_bus: sda=0 scl=0 sda.gp=0xcb scl.gp=0x5
+  force_idle_bus: failed to clear bus, sda=0 scl=0
+  MMC:   FSL_SDHC: 0, FSL_SDHC: 1
+  Loading Environment from MMC... *** Warning - No block device, using default environment
+
+  In:    serial
+  Out:   serial
+  Err:   serial
+  Net:   Board Net Initialization Failed
+  No ethernet found.
+  starting USB...
+  Bus usb@2184000: usb dr_mode not found
+  USB EHCI 1.00
+  Bus usb@2184200: USB EHCI 1.00
+  scanning bus usb@2184000 for devices... 1 USB Device(s) found
+  scanning bus usb@2184200 for devices... 1 USB Device(s) found
+         scanning usb for storage devices... 0 Storage Device(s) found
+         scanning usb for ethernet devices... 0 Ethernet Device(s) found
+  Hit any key to stop autoboot:  0
+  =>
+
+Signed-off-by: Bin Meng <bin.meng@windriver.com>
+Reviewed-by: Alex Bennée <alex.bennee@linaro.org>
+Message-id: 20210106063504.10841-2-bmeng.cn@gmail.com
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 ---
- hw/timer/exynos4210_mct.c | 14 ++++++++++++++
- 1 file changed, 14 insertions(+)
+ hw/misc/imx6_ccm.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/hw/timer/exynos4210_mct.c b/hw/timer/exynos4210_mct.c
-index 439053acd2a..d0e53439968 100644
---- a/hw/timer/exynos4210_mct.c
-+++ b/hw/timer/exynos4210_mct.c
-@@ -1530,6 +1530,19 @@ static void exynos4210_mct_init(Object *obj)
-     sysbus_init_mmio(dev, &s->iomem);
- }
- 
-+static void exynos4210_mct_finalize(Object *obj)
-+{
-+    int i;
-+    Exynos4210MCTState *s = EXYNOS4210_MCT(obj);
-+
-+    ptimer_free(s->g_timer.ptimer_frc);
-+
-+    for (i = 0; i < 2; i++) {
-+        ptimer_free(s->l_timer[i].tick_timer.ptimer_tick);
-+        ptimer_free(s->l_timer[i].ptimer_frc);
-+    }
-+}
-+
- static void exynos4210_mct_class_init(ObjectClass *klass, void *data)
- {
-     DeviceClass *dc = DEVICE_CLASS(klass);
-@@ -1543,6 +1556,7 @@ static const TypeInfo exynos4210_mct_info = {
-     .parent        = TYPE_SYS_BUS_DEVICE,
-     .instance_size = sizeof(Exynos4210MCTState),
-     .instance_init = exynos4210_mct_init,
-+    .instance_finalize = exynos4210_mct_finalize,
-     .class_init    = exynos4210_mct_class_init,
- };
+diff --git a/hw/misc/imx6_ccm.c b/hw/misc/imx6_ccm.c
+index cb740427eca..7e031b67757 100644
+--- a/hw/misc/imx6_ccm.c
++++ b/hw/misc/imx6_ccm.c
+@@ -450,7 +450,7 @@ static void imx6_ccm_reset(DeviceState *dev)
+     s->analog[PMU_REG_3P0] = 0x00000F74;
+     s->analog[PMU_REG_2P5] = 0x00005071;
+     s->analog[PMU_REG_CORE] = 0x00402010;
+-    s->analog[PMU_MISC0] = 0x04000000;
++    s->analog[PMU_MISC0] = 0x04000080;
+     s->analog[PMU_MISC1] = 0x00000000;
+     s->analog[PMU_MISC2] = 0x00272727;
  
 -- 
 2.20.1
