@@ -2,106 +2,87 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4D8CB2EED87
-	for <lists+qemu-devel@lfdr.de>; Fri,  8 Jan 2021 07:44:46 +0100 (CET)
-Received: from localhost ([::1]:60828 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 064722EEDA1
+	for <lists+qemu-devel@lfdr.de>; Fri,  8 Jan 2021 07:55:46 +0100 (CET)
+Received: from localhost ([::1]:36846 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kxlVt-0005D4-Dm
-	for lists+qemu-devel@lfdr.de; Fri, 08 Jan 2021 01:44:45 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45040)
+	id 1kxlgW-0008Bq-7Q
+	for lists+qemu-devel@lfdr.de; Fri, 08 Jan 2021 01:55:44 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48108)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <Qiuhao.Li@outlook.com>)
- id 1kxlTR-0004ET-Cy
- for qemu-devel@nongnu.org; Fri, 08 Jan 2021 01:42:14 -0500
-Received: from mail-sg2apc01olkn082d.outbound.protection.outlook.com
- ([2a01:111:f400:febd::82d]:20208
- helo=APC01-SG2-obe.outbound.protection.outlook.com)
+ (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
+ id 1kxlcO-0007Wd-D9; Fri, 08 Jan 2021 01:51:28 -0500
+Received: from new3-smtp.messagingengine.com ([66.111.4.229]:35307)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <Qiuhao.Li@outlook.com>)
- id 1kxlTP-0000fr-N2
- for qemu-devel@nongnu.org; Fri, 08 Jan 2021 01:42:13 -0500
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=g+n83vPmBZO/O40E+qeHNqev2RC8rkGO0oyGjPgcDGo5msngr/pWwEGoZnf1MabHXMCVvaZzYanQloZU4haD3eWyZP7ddEQqrlTemSsivOI30IzLCo/4pOHcdQoZDWs9dSo2e3NF9nHXyeD5pMnBWpOz02KptIA0dFO8Al5qIHVujXiOoVF9N1ngmYRzmJyllvLEJOoOLX5Ksp8VTrlcCaAw6KnPspzozqIQEBUqrph/O8O6LpfZgpD7/lWdu2nCgEx6rPr1eiiGHhKVQp+6SWMqMgdftegrY4wgC0FkACG8ztwRF7dC6ezXkupXX8iL0JeMnFkZI09Kz6FHL23e3Q==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=Cu9eeRDkUNgzD5Sxv6bAWMSNk3ZwO7FBGcQO0e/UC3U=;
- b=QMTWXxgwAJ2JrscujzdFbspWbmq8JJdKZJNoyaxWnemNE58G3G6gQioBSrQkn5hCRElk2twD75A0sIs6IY0rOn+My8c26HDOD3ROxemfyNTl64lm/l5hw9E6u/6EFJlWoEaQUtu+VAMLmTp3/9KBgq3cjoHZ163v0jQ0cT5xXtm6u2ymXu0xLoW/6fE+3cLmLGJlgOT1Mb2iBkkOY8zSRhrXW/4iIZ/lXMCt3k7NK0qTMwaWKuXp++4MvLzUC8PpLWu/j7EvahZrqwzAZ8EBAyzlocbyufudtYli3KrVcIvfK0TQ2LVFTqoTKnVmD49ecadb9TMwJsLsAjU4w+BXGA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=none; dmarc=none;
- dkim=none; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=outlook.com;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=Cu9eeRDkUNgzD5Sxv6bAWMSNk3ZwO7FBGcQO0e/UC3U=;
- b=FTT6rPutjdv5QHvnFvopH1oTh7QG46HYT4zDtZ7tCfGeoBUEbkJFT+d5OjwJGET8yUIR3WZtWYL1aREqa8j+PUutITTC8aPdWpXuZaVGIJio1O2ylKexBcykUhyeiyHYwDsXLkdMIvvh4TMib9WCrzBmPLL8yWgZa9VwHb9s2C5RVzOVb0stufiPjSjvnAP6d2412q5epUkeDG5fQa6FCHw7u7jJLcUQkw9CKjfaCD07/098VGcIgSlVP+/mMRJuXQfAyQysM1QukACGjwehydH63stUWilGZRZcHLmY1BxKpDnuwaKL2cW67d8TqlyY18Qgl2XXcjJ6b/+tpOnXmg==
-Received: from HK2APC01FT049.eop-APC01.prod.protection.outlook.com
- (2a01:111:e400:7ebc::4a) by
- HK2APC01HT022.eop-APC01.prod.protection.outlook.com (2a01:111:e400:7ebc::376)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3742.6; Fri, 8 Jan
- 2021 06:41:49 +0000
-Received: from MEAPR01MB3494.ausprd01.prod.outlook.com (10.152.248.58) by
- HK2APC01FT049.mail.protection.outlook.com (10.152.249.218) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.3742.6 via Frontend Transport; Fri, 8 Jan 2021 06:41:49 +0000
-X-IncomingTopHeaderMarker: OriginalChecksum:FC26241FBBE71D79A8C06EF949CC5366B98CF773FD24ADDC590E1E7593392473;
- UpperCasedChecksum:2778D213E1CAF12C2C3B6D1B7E540223C8FD5FF0AA06ABF5192CC58FC7A5BC4F;
- SizeAsReceived:7677; Count:47
-Received: from MEAPR01MB3494.ausprd01.prod.outlook.com
- ([fe80::2d4d:a683:7f83:cf50]) by MEAPR01MB3494.ausprd01.prod.outlook.com
- ([fe80::2d4d:a683:7f83:cf50%7]) with mapi id 15.20.3742.006; Fri, 8 Jan 2021
- 06:41:49 +0000
-From: Qiuhao Li <Qiuhao.Li@outlook.com>
-To: alxndr@bu.edu,
-	qemu-devel@nongnu.org
-Subject: [PATCH v6 7/7] fuzz: heuristic split write based on past IOs
-Date: Fri,  8 Jan 2021 14:33:31 +0800
-Message-ID: <MEAPR01MB34944249FC7DF106543BA3ABFCAE0@MEAPR01MB3494.ausprd01.prod.outlook.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <MEAPR01MB349467055C8DBCB7743E4283FCAE0@MEAPR01MB3494.ausprd01.prod.outlook.com>
-References: <MEAPR01MB349467055C8DBCB7743E4283FCAE0@MEAPR01MB3494.ausprd01.prod.outlook.com>
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-TMN: [OId/YKAN8HDIjj7qKcsuMe87WBhx7557Ptd5+dd1D/fhZlnA5cc1Xe5Tw4BdKgfK]
-X-ClientProxiedBy: HKAPR04CA0018.apcprd04.prod.outlook.com
- (2603:1096:203:d0::28) To MEAPR01MB3494.ausprd01.prod.outlook.com
- (2603:10c6:201:39::11)
-X-Microsoft-Original-Message-ID: <20210108063331.17035-7-Qiuhao.Li@outlook.com>
+ (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
+ id 1kxlcL-00053V-OL; Fri, 08 Jan 2021 01:51:27 -0500
+Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
+ by mailnew.nyi.internal (Postfix) with ESMTP id 07513580448;
+ Fri,  8 Jan 2021 01:51:23 -0500 (EST)
+Received: from mailfrontend1 ([10.202.2.162])
+ by compute4.internal (MEProxy); Fri, 08 Jan 2021 01:51:23 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=irrelevant.dk;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-type:in-reply-to; s=fm2; bh=aqnE3p/D4OBoXFSvckX1SDdR09K
+ Aios1cj/ZxxNFip8=; b=Mwig/vW9kYAi3xTxew9LU3K8v25Joe/cvzu4pcV9Svf
+ PdkA3R1bxKK+ZB4SXs4XKISfLm7rr5jxOXG+QMAClw3Cc7ftdc7SXlN5GIrQHab5
+ +S6OV9k4FJrrwQShSJokPqHCyPgGFxMWsbmA4r90lc7aGm+bzIk1/GEKn1hz5uAp
+ eUqUvnTKox2itcv0ARQGQQ19GNkkb6VAvrrBYf4EqTzt/YPX0eLJ4J2CqvPoI/u6
+ 1DwWnphvwu1FCoJwJzJ7ui5lbMfyjE8Ol6n8Uv9wdOua2bXcl88iTBlAKbRIhVok
+ BfmMhsYqQFGwK5mNIvP/tYGAT5lnJ2dj6rvtxjfPdTQ==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+ messagingengine.com; h=cc:content-type:date:from:in-reply-to
+ :message-id:mime-version:references:subject:to:x-me-proxy
+ :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; bh=aqnE3p
+ /D4OBoXFSvckX1SDdR09KAios1cj/ZxxNFip8=; b=lSjXMzNU7lc3No8ai/3d2d
+ WB1TOKD/trH3gsygoH+1krMsQfp0A+PA98CVcY7xhB0VrGlO4qgXetXkK20lLrIJ
+ DMdD65uLlKQGzyeTv/ir+gMX5UU5zkCBLAIgDifNULjSozBSLEgGPCf+We+44+gG
+ 04VXxCIEoRYjQEVbFL/bMnGS1vm7tJ+qR2amKmkIe1kEnoKVvP/CTgbB2CLzgwnI
+ SJ4rxbEJDCsmuYk/KRn1b15yqI7BIrlZVC2LqBboNPjvfY/IjaqKO0cP2ZrQHqaN
+ oTeRvCP9U/NI90PRaTj+dTf1MLdT68SQ7WdGj8si1qQIroWhnuHC8kabCgjEqZJw
+ ==
+X-ME-Sender: <xms:6QD4X-wVSwbFKWa-Nc7r4q1bM2hctvs14Wr8ODeft-uWwAxS0w-tMg>
+ <xme:6QD4X6R5MElnpZZVUY0UtyUDMkrCAIvD5q7Z1974-EoEq5EXrgD2DqwXDp4_M6AUD
+ H_HxxqW9hs1ZcTJT08>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedujedrvdegfedguddvkecutefuodetggdotefrod
+ ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfgh
+ necuuegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmd
+ enucfjughrpeffhffvuffkfhggtggujgesghdtreertddtjeenucfhrhhomhepmfhlrghu
+ shculfgvnhhsvghnuceoihhtshesihhrrhgvlhgvvhgrnhhtrdgukheqnecuggftrfgrth
+ htvghrnhepuddtheelledvtedvfeeuheegvefhjeeuleeihfduhfeiffffhfdutdekkeei
+ keefnecuffhomhgrihhnpehinhhfrhgruggvrggurdhorhhgnecukfhppeektddrudeije
+ drleekrdduledtnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhf
+ rhhomhepihhtshesihhrrhgvlhgvvhgrnhhtrdgukh
+X-ME-Proxy: <xmx:6QD4XwV7fQmEUFvYbxsT5eXVtggNMtz2uhA14xXHKOBI7am7c88BZA>
+ <xmx:6QD4X0hLc8pSdTlX1pGSu0mNgyoZa1Wy06xb4v-cnkfNVxrhtY56vA>
+ <xmx:6QD4XwCCXdsQuY-hvjeESJd7uamxQ8Z8vK_33tlKBfpIt-7UB9Xe7w>
+ <xmx:6gD4X5JB6wSrlr9H9ByriaT4RfXtsXIETRiaPlyBoAnXBzbLXPCrAQ>
+Received: from apples.localdomain (80-167-98-190-cable.dk.customer.tdc.net
+ [80.167.98.190])
+ by mail.messagingengine.com (Postfix) with ESMTPA id 0ADCA24005E;
+ Fri,  8 Jan 2021 01:51:19 -0500 (EST)
+Date: Fri, 8 Jan 2021 07:51:18 +0100
+From: Klaus Jensen <its@irrelevant.dk>
+To: Dmitry Fomichev <dmitry.fomichev@wdc.com>
+Subject: Re: [PATCH v11 00/13] hw/block/nvme: Support Namespace Types and
+ Zoned Namespace Command Set
+Message-ID: <X/gA5nKm0s6ymCX6@apples.localdomain>
+References: <20201208200410.27900-1-dmitry.fomichev@wdc.com>
+ <X9Cfod3RaAOM9dJP@apples.localdomain>
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-Received: from XPS-13-9360 (2001:250:fe01:130:10c6:c22f:85d6:f9d) by
- HKAPR04CA0018.apcprd04.prod.outlook.com (2603:1096:203:d0::28) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.3742.6 via Frontend Transport; Fri, 8 Jan 2021 06:41:48 +0000
-X-MS-PublicTrafficType: Email
-X-IncomingHeaderCount: 47
-X-EOPAttributedMessage: 0
-X-MS-Office365-Filtering-Correlation-Id: 5e939182-f38c-4b80-7086-08d8b3a079c5
-X-MS-Exchange-SLBlob-MailProps: S/btQ8cKWiT4Pkfzu6B+gslsbaS+QpFwhVEmwSfFHOGHjTc0/O1ppqjSp8wfTbi/reQoe56AtEzST12vugJ8la3bQZRgNZYf455b8N2B36wKwURrn4VkeW6O6Q4P4Z+cKWCIO8sP2DeecHoZVa3SW7UJIZB3RFWEG/kmNwov8LF+xqK2yhbQql7ZxC9FWa/5+QiBeyIumasxXI9HnoY3uwb9Mnghf0C31h3zy53ObiN3RsaV5M+ValdTiWll6vpYyrISyBe0e/CtsYNGVdv1Lcr73hMm49JrK81T8+zOxB/rGL3fIOxEWedM5Bvnl7JIvaMBTxOQLsVh/h0hmTEehSPGEx9pjpquNbhakSCXjQqaKr1vVaqbUqo+8KwZaH/BoluYL2yuAac8c+hcHKO3uhX3sYPcA5qbJmjWrIwMlJLckW711Wm38zur0uCxr5GLvFhoHu4WbwZROQTFoHfXLp6H4YoZVtTseqyf4MQZMBoECqQjIengSHT9+nmUjx9u0eVMKGevVnz5rTT5Fx1nh6o7+krPJ7zFR2H/dkJ5dq7i+vuG76kA1b9IBPchVs/rOZDPO6bA1iw9sC4qKLQmNCWrv4MZEZWczEhNRCooCr2pkloikSlusqVh2uzJkGpTk1/oiDq/vG0r3L5+F1j+g1uxmVdg9WMk3y3yeg718X4BTaLnHaSAH1x7RNj/Q1w252aM0ajQyewxQIar1CQT3vC8ngiDeaoKGg3ApjinE2WOrvtlu/uGnURReNU4eYKhiSMHofWkMVk=
-X-MS-TrafficTypeDiagnostic: HK2APC01HT022:
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: qsK31uiQsq0z2oaJPdWCU+UsLaT9k68HH9INCbH2srvDE3RR7Oh8MUKmPaboDnV9VtXTfEF4xbfky4Tn5B/aqoyLT6N7QfY+bgmcduYBqW9exmKLy+iiGzEdLPr+3EE2/M/wrGqVy3hQ16fLpBcDxN/uXxIIJVrYkoH4VbUTr9hkQGRH1jONEtdgoCgYc2plMGkD2RBvTr7ylS15WexJLR3w99f1/pPfBvKCbXOZbnLjvypFqqM+TMYns6oF+bae
-X-MS-Exchange-AntiSpam-MessageData: cxMvQCFQOLuInbf00a5CVuQzu6zQ7UMTZ3CfGgZRiYjnBLKOWGS2smoAeKixy+4hb4eI/1ASw/3Gx5cqtAx4jMxJeKSenpN72+NtZXWGv6mEW7CBYgUTK25TWq/+KvSGLtJICGol/8TwfR3duxwV7EhCKvApCLGCo1oEOchoUurKVzf9nEPZARStXLofV708dOy24NHYryyn72PhI49pCQ==
-X-OriginatorOrg: outlook.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 08 Jan 2021 06:41:49.1737 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 84df9e7f-e9f6-40af-b435-aaaaaaaaaaaa
-X-MS-Exchange-CrossTenant-Network-Message-Id: 5e939182-f38c-4b80-7086-08d8b3a079c5
-X-MS-Exchange-CrossTenant-AuthSource: HK2APC01FT049.eop-APC01.prod.protection.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: Internet
-X-MS-Exchange-CrossTenant-RMS-PersistedConsumerOrg: 00000000-0000-0000-0000-000000000000
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: HK2APC01HT022
-Received-SPF: pass client-ip=2a01:111:f400:febd::82d;
- envelope-from=Qiuhao.Li@outlook.com;
- helo=APC01-SG2-obe.outbound.protection.outlook.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="wQg5EvSNXRoR37l1"
+Content-Disposition: inline
+In-Reply-To: <X9Cfod3RaAOM9dJP@apples.localdomain>
+Received-SPF: pass client-ip=66.111.4.229; envelope-from=its@irrelevant.dk;
+ helo=new3-smtp.messagingengine.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- MSGID_FROM_MTA_HEADER=0.001, SPF_HELO_PASS=-0.001,
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_PASS=-0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -115,97 +96,79 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: thuth@redhat.com, Qiuhao Li <Qiuhao.Li@outlook.com>,
- darren.kenny@oracle.com, bsd@redhat.com, stefanha@redhat.com,
- pbonzini@redhat.com
+Cc: Kevin Wolf <kwolf@redhat.com>, Fam Zheng <fam@euphon.net>,
+ Damien Le Moal <damien.lemoal@wdc.com>, qemu-block@nongnu.org,
+ Niklas Cassel <niklas.cassel@wdc.com>, Klaus Jensen <k.jensen@samsung.com>,
+ qemu-devel@nongnu.org, Max Reitz <mreitz@redhat.com>,
+ Alistair Francis <alistair.francis@wdc.com>, Keith Busch <kbusch@kernel.org>,
+ Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
+ Matias Bjorling <matias.bjorling@wdc.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-If previous write commands write the same length of data with the same step,
-we view it as a hint.
 
-Signed-off-by: Qiuhao Li <Qiuhao.Li@outlook.com>
-Reviewed-by: Alexander Bulekov <alxndr@bu.edu>
-Tested-by: Alexander Bulekov <alxndr@bu.edu>
----
- scripts/oss-fuzz/minimize_qtest_trace.py | 56 ++++++++++++++++++++++++
- 1 file changed, 56 insertions(+)
+--wQg5EvSNXRoR37l1
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-diff --git a/scripts/oss-fuzz/minimize_qtest_trace.py b/scripts/oss-fuzz/minimize_qtest_trace.py
-index 8661116075..408ae2ac67 100755
---- a/scripts/oss-fuzz/minimize_qtest_trace.py
-+++ b/scripts/oss-fuzz/minimize_qtest_trace.py
-@@ -85,6 +85,43 @@ def check_if_trace_crashes(trace, path):
-     return False
- 
- 
-+# If previous write commands write the same length of data at the same
-+# interval, we view it as a hint.
-+def split_write_hint(newtrace, i):
-+    HINT_LEN = 3 # > 2
-+    if i <=(HINT_LEN-1):
-+        return None
-+
-+    #find previous continuous write traces
-+    k = 0
-+    l = i-1
-+    writes = []
-+    while (k != HINT_LEN and l >= 0):
-+        if newtrace[l].startswith("write "):
-+            writes.append(newtrace[l])
-+            k += 1
-+            l -= 1
-+        elif newtrace[l] == "":
-+            l -= 1
-+        else:
-+            return None
-+    if k != HINT_LEN:
-+        return None
-+
-+    length = int(writes[0].split()[2], 16)
-+    for j in range(1, HINT_LEN):
-+        if length != int(writes[j].split()[2], 16):
-+            return None
-+
-+    step = int(writes[0].split()[1], 16) - int(writes[1].split()[1], 16)
-+    for j in range(1, HINT_LEN-1):
-+        if step != int(writes[j].split()[1], 16) - \
-+            int(writes[j+1].split()[1], 16):
-+            return None
-+
-+    return (int(writes[0].split()[1], 16)+step, length)
-+
-+
- def remove_lines(newtrace, outpath):
-     remove_step = 1
-     i = 0
-@@ -148,6 +185,25 @@ def remove_lines(newtrace, outpath):
-             length = int(newtrace[i].split()[2], 16)
-             data = newtrace[i].split()[3][2:]
-             if length > 1:
-+
-+                # Can we get a hint from previous writes?
-+                hint = split_write_hint(newtrace, i)
-+                if hint is not None:
-+                    hint_addr = hint[0]
-+                    hint_len = hint[1]
-+                    if hint_addr >= addr and hint_addr+hint_len <= addr+length:
-+                        newtrace[i] = "write {addr} {size} 0x{data}\n".format(
-+                            addr=hex(hint_addr),
-+                            size=hex(hint_len),
-+                            data=data[(hint_addr-addr)*2:\
-+                                (hint_addr-addr)*2+hint_len*2])
-+                        if check_if_trace_crashes(newtrace, outpath):
-+                            # next round
-+                            i += 1
-+                            continue
-+                        newtrace[i] = prior[0]
-+
-+                # Try splitting it using a binary approach
-                 leftlength = int(length/2)
-                 rightlength = length - leftlength
-                 newtrace.insert(i+1, "")
--- 
-2.25.1
+On Dec  9 10:57, Klaus Jensen wrote:
+> Hi Dmitry,
+>=20
+> By and large, this looks OK to me. There are still some issues here and
+> there, and some comments of mine that you did not address, but I will
+> follow up with patches to fix that. Let's get this merged.
+>=20
+> It looks like the nvme-next you rebased on is slightly old and missing
+> two commits:
+>=20
+>   "hw/block/nvme: remove superfluous NvmeCtrl parameter" and
+>   "hw/block/nvme: pull aio error handling"
+>=20
+> It caused a couple of conflicts, but nothing that I couldn't fix up.
+>=20
+> Since I didn't manage to convince anyone about the zsze and zcap
+> parameters being in terms of LBAs, I'll revert that to be
+> 'zoned.zone_size' and 'zoned.zone_capacity'.
+>=20
+> Finally, would you accept that we skip "hw/block/nvme: Add injection of
+> Offline/Read-Only zones" for now? I'd like to discuss it a bit since I
+> think the random injects feels a bit ad-hoc. Back when I did OCSSD
+> emulation with Hans, we did something like this for setting up state
+> through a descriptor text file - I think we should explore something
+> like that before we lock down the two parameters. I'll amend the final
+> documentation commit to not include those parameters.
+>=20
+> Sounds good?
+>=20
+> Otherwise, I think this is mergeable to nvme-next. So, for the series
+> (excluding "hw/block/nvme: Add injection of Offline/Read-Only zones"):
+>=20
+> Reviewed-by: Klaus Jensen <k.jensen@samsung.com>
+>=20
 
+I've applied this series to my local nvme-next. Our repo host is
+unavailable this morning (infradead.org), but I will push as soon as
+possible.
+
+
+Thanks!
+Klaus
+
+--wQg5EvSNXRoR37l1
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEEUigzqnXi3OaiR2bATeGvMW1PDekFAl/4AOMACgkQTeGvMW1P
+Denbcwf/Tl79kwDPR8B1qmBhC9MF+YLvsY6rMBU3jczIQOBKns51aRTomaWzyxJr
+eATlBp2k+F2ZmrNiTgM4prDMkBPmaGSatu8/xW5lZVa2mDAi5ub+rsCd9VfZChWA
+jphG7huB2i00v/bCuhnUmNoHacWGF/rh3Dhvk8ypxqYaNx3kuGhYIQUfTKfxYmPI
+aTAeG9Bq1bT0Ehzvs9zapgPBpb3X5NnGzKNy0Y0uD1NjYan+QFcMLecmyhTwg2Yt
+kVvvYV2Wu2Z5zG3/C8zq7vEvb4q+I8I7qO4SCjevj8d8qzSNaGQynRQzJG3FvgRE
+3ZheeFSZKOpqtdAzGPOP/E/4PDKmVg==
+=h5Ih
+-----END PGP SIGNATURE-----
+
+--wQg5EvSNXRoR37l1--
 
