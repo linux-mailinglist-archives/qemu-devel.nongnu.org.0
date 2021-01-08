@@ -2,68 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7EE052EF512
-	for <lists+qemu-devel@lfdr.de>; Fri,  8 Jan 2021 16:45:42 +0100 (CET)
-Received: from localhost ([::1]:50630 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C079C2EF4FE
+	for <lists+qemu-devel@lfdr.de>; Fri,  8 Jan 2021 16:41:28 +0100 (CET)
+Received: from localhost ([::1]:36672 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kxtxN-0006sR-Iw
-	for lists+qemu-devel@lfdr.de; Fri, 08 Jan 2021 10:45:41 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47278)
+	id 1kxttH-00014t-Pz
+	for lists+qemu-devel@lfdr.de; Fri, 08 Jan 2021 10:41:27 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47288)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1kxtod-0004j6-9S
+ id 1kxtod-0004kJ-QE
  for qemu-devel@nongnu.org; Fri, 08 Jan 2021 10:36:39 -0500
-Received: from mail-wm1-x32a.google.com ([2a00:1450:4864:20::32a]:37916)
+Received: from mail-wr1-x42c.google.com ([2a00:1450:4864:20::42c]:44228)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1kxtoa-0002t7-TQ
+ id 1kxtoc-0002u1-1R
  for qemu-devel@nongnu.org; Fri, 08 Jan 2021 10:36:39 -0500
-Received: by mail-wm1-x32a.google.com with SMTP id g185so8774897wmf.3
- for <qemu-devel@nongnu.org>; Fri, 08 Jan 2021 07:36:36 -0800 (PST)
+Received: by mail-wr1-x42c.google.com with SMTP id w5so9381535wrm.11
+ for <qemu-devel@nongnu.org>; Fri, 08 Jan 2021 07:36:37 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:subject:date:message-id:in-reply-to:references:mime-version
  :content-transfer-encoding;
- bh=2D1No+kzyFL1cUkFc4BKpRp9iyQy/AXg4LApV51ftSM=;
- b=ZQjov/ZMnhvv6STpkzAUQ6Dp6V8g0H2Fg1xYKILDKUU1NNMEr02Z3aWfb0rAHjbI6H
- gEd6g2QjNpNdzv5/019IfMLzJmSFrxhnm7PaljKhdrwCMbLCU6I9X+R3aEneCG5vhUsT
- h5BqCWg44WfR7d54jgavxduGt5hiMJunnB1sSjTHEl1cD0+h3AOVxWb9OzGH7WiPjJrm
- pYUAiFvtjgJeXCVuSZGaN35t/nrbY6jILwm56O3giwNDe/Ga/634HOSPmF6+eyFxJ/DQ
- GDR21I5V2pCl/u3E8aoXhZ7t8adO3HPy25zo5LfATU0L+mYXz32qpahO5jQyo5Drk9UQ
- 2fSA==
+ bh=yZOeSSXeiw2HQ+tvPkDoDlq1tyApzywP9jbeOOtyMI0=;
+ b=WKIDaCNnP7V/SHcJyVnvTZn4dgMwMMlxZc+FFgYDG/TS3bk/0crVmWj03xQCWQZPD2
+ QHTTGneyigrBU94hXwQSzXsBrfGvPis2WPBtsDQLyqamFfYJ2rFu7HYsSj4U7KegHB//
+ MehRPHZHtXRGThCZbelzWkbLySidLJsrlkNJLE9rzq/V+dSCA07p3z+N7AhjMxX2xyYy
+ KXIRUIt3QK+ZxyQNXta8KeX2fyW6l2xxVGWGOGFW2QAzdna97+S9/VbMW5a3/37bMtbo
+ ZJBiitJoWs1bm1Xk4M+KYCKGG19Wp10ce6A5Ijr4uwqT3Rka7M5JyvWXXXgwsz+bsgQY
+ kZCg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=2D1No+kzyFL1cUkFc4BKpRp9iyQy/AXg4LApV51ftSM=;
- b=j5IOjPDyK5vk8HMNGwgvYjwuHsBQ71DCzRfcpNocMZTdNrcfbLnie5hfTboKJpEtkV
- VktmiyNpatXfZUCi6Z0NeA/ndUwKPX6VzbhAgaQDElZ1E2BCohuRMGXc1bLkpcj58pl1
- y/uyzGSZQ07NjCc50uA7t82X9tRPvOGfp7pWpEvEv21Umh4f5r4RkhKGVZ6I7UzoZU89
- Bn3xXKX8azVnHj4Q5Y0484hOrM7C3lhI+ebEXkoTbuOumV7L7DV3136PoI0DkIi0wJbr
- QoQkLlDV2MYX+0LIhi7oMzPGYwMKw/gGEWaqvpokgIxD4MdADufry3Lpk+fwbZN3Bz9c
- FEqw==
-X-Gm-Message-State: AOAM533tbmL1nJ/KVPMKSDzARP9EYOSJboWEZCuKL2rA+6edj5Jpojwq
- /SxijTLLYflIt9jjFyeVLMJjoNnPtgs7Fw==
-X-Google-Smtp-Source: ABdhPJzq92OQZBlABpJd8SbfJ6BGWwG/Pgvi+xSSd/af2rg6YzVDlLDn4SR+J5mg11f1FsUpLPNcsA==
-X-Received: by 2002:a1c:2c4:: with SMTP id 187mr3615500wmc.187.1610120195314; 
- Fri, 08 Jan 2021 07:36:35 -0800 (PST)
+ bh=yZOeSSXeiw2HQ+tvPkDoDlq1tyApzywP9jbeOOtyMI0=;
+ b=KdawVwxhKV7GBvR15lzJ89uEDmw4qsI6gq4dG9vp/zz0iQhSAYZ3MY1WbKY4c/KOHd
+ /HM8gfmHc9DsFzJ1QR0KiRSAwMnPq+B2T+phNdAxLScbbzeQGBFJTzFXvDypDO4+U2ZJ
+ YFSvObAdpVouJGx7vBBOBsIoNClz6f9h0XK3Kq6c795+3QxITlbiBWskevlm542HH7bx
+ Ka7rXBzvovIskbE8SfDKL5jSaUzXIHTG17LJYJhI9aplJaLxmicchCoCmXy/Ec1tRImL
+ kJU+KTnLphzEpjanT/sMaujW3dfsG+xx9/ad51uK8ZhIf6YOGCs2lU2l63D5LTjQLjqL
+ Vvzg==
+X-Gm-Message-State: AOAM531VfAkiwY0Wnf6ZiCQOiUvJxIL4S8r4n+KEpG7d2JemkBQOobis
+ hGarIbhNmkX/lKvCIhfhfO1MaA1Gd4iwEg==
+X-Google-Smtp-Source: ABdhPJw2MxbuHFOEN9pWVIKQZjkCEuqCxNN7x6GoMxno9fTrPIcaPE2beqsloQaR+qVCE00deUvlug==
+X-Received: by 2002:a5d:5112:: with SMTP id s18mr4175743wrt.267.1610120196521; 
+ Fri, 08 Jan 2021 07:36:36 -0800 (PST)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
- by smtp.gmail.com with ESMTPSA id f9sm15887572wrw.81.2021.01.08.07.36.34
+ by smtp.gmail.com with ESMTPSA id f9sm15887572wrw.81.2021.01.08.07.36.35
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 08 Jan 2021 07:36:34 -0800 (PST)
+ Fri, 08 Jan 2021 07:36:35 -0800 (PST)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 07/23] target/arm: Implement Cortex-M55 model
-Date: Fri,  8 Jan 2021 15:36:05 +0000
-Message-Id: <20210108153621.3868-8-peter.maydell@linaro.org>
+Subject: [PULL 08/23] hw/arm/highbank: Drop dead KVM support code
+Date: Fri,  8 Jan 2021 15:36:06 +0000
+Message-Id: <20210108153621.3868-9-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20210108153621.3868-1-peter.maydell@linaro.org>
 References: <20210108153621.3868-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::32a;
- envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x32a.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::42c;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x42c.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -86,77 +87,61 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Now that we have implemented all the features needed by the v8.1M
-architecture, we can add the model of the Cortex-M55.  This is the
-configuration without MVE support; we'll add MVE later.
+Support for running KVM on 32-bit Arm hosts was removed in commit
+82bf7ae84ce739e.  You can still run a 32-bit guest on a 64-bit Arm
+host CPU, but because Arm KVM requires the host and guest CPU types
+to match, it is not possible to run a guest that requires a Cortex-A9
+or Cortex-A15 CPU there.  That means that the code in the
+highbank/midway board models to support KVM is no longer used, and we
+can delete it.
 
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-Message-id: 20201210201433.26262-5-peter.maydell@linaro.org
+Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+Message-id: 20201215144215.28482-1-peter.maydell@linaro.org
 ---
- target/arm/cpu_tcg.c | 42 ++++++++++++++++++++++++++++++++++++++++++
- 1 file changed, 42 insertions(+)
+ hw/arm/highbank.c | 14 ++++----------
+ 1 file changed, 4 insertions(+), 10 deletions(-)
 
-diff --git a/target/arm/cpu_tcg.c b/target/arm/cpu_tcg.c
-index 0013e25412f..98544db2df3 100644
---- a/target/arm/cpu_tcg.c
-+++ b/target/arm/cpu_tcg.c
-@@ -401,6 +401,46 @@ static void cortex_m33_initfn(Object *obj)
-     cpu->ctr = 0x8000c000;
- }
+diff --git a/hw/arm/highbank.c b/hw/arm/highbank.c
+index bf7b8f4c648..bf886268c57 100644
+--- a/hw/arm/highbank.c
++++ b/hw/arm/highbank.c
+@@ -26,7 +26,6 @@
+ #include "hw/arm/boot.h"
+ #include "hw/loader.h"
+ #include "net/net.h"
+-#include "sysemu/kvm.h"
+ #include "sysemu/runstate.h"
+ #include "sysemu/sysemu.h"
+ #include "hw/boards.h"
+@@ -38,6 +37,7 @@
+ #include "hw/cpu/a15mpcore.h"
+ #include "qemu/log.h"
+ #include "qom/object.h"
++#include "cpu.h"
  
-+static void cortex_m55_initfn(Object *obj)
-+{
-+    ARMCPU *cpu = ARM_CPU(obj);
-+
-+    set_feature(&cpu->env, ARM_FEATURE_V8);
-+    set_feature(&cpu->env, ARM_FEATURE_V8_1M);
-+    set_feature(&cpu->env, ARM_FEATURE_M);
-+    set_feature(&cpu->env, ARM_FEATURE_M_MAIN);
-+    set_feature(&cpu->env, ARM_FEATURE_M_SECURITY);
-+    set_feature(&cpu->env, ARM_FEATURE_THUMB_DSP);
-+    cpu->midr = 0x410fd221; /* r0p1 */
-+    cpu->revidr = 0;
-+    cpu->pmsav7_dregion = 16;
-+    cpu->sau_sregion = 8;
-+    /*
-+     * These are the MVFR* values for the FPU, no MVE configuration;
-+     * we will update them later when we implement MVE
-+     */
-+    cpu->isar.mvfr0 = 0x10110221;
-+    cpu->isar.mvfr1 = 0x12100011;
-+    cpu->isar.mvfr2 = 0x00000040;
-+    cpu->isar.id_pfr0 = 0x20000030;
-+    cpu->isar.id_pfr1 = 0x00000230;
-+    cpu->isar.id_dfr0 = 0x10200000;
-+    cpu->id_afr0 = 0x00000000;
-+    cpu->isar.id_mmfr0 = 0x00111040;
-+    cpu->isar.id_mmfr1 = 0x00000000;
-+    cpu->isar.id_mmfr2 = 0x01000000;
-+    cpu->isar.id_mmfr3 = 0x00000011;
-+    cpu->isar.id_isar0 = 0x01103110;
-+    cpu->isar.id_isar1 = 0x02212000;
-+    cpu->isar.id_isar2 = 0x20232232;
-+    cpu->isar.id_isar3 = 0x01111131;
-+    cpu->isar.id_isar4 = 0x01310132;
-+    cpu->isar.id_isar5 = 0x00000000;
-+    cpu->isar.id_isar6 = 0x00000000;
-+    cpu->clidr = 0x00000000; /* caches not implemented */
-+    cpu->ctr = 0x8303c003;
-+}
-+
- static const ARMCPRegInfo cortexr5_cp_reginfo[] = {
-     /* Dummy the TCM region regs for the moment */
-     { .name = "ATCM", .cp = 15, .opc1 = 0, .crn = 9, .crm = 1, .opc2 = 0,
-@@ -655,6 +695,8 @@ static const ARMCPUInfo arm_tcg_cpus[] = {
-                              .class_init = arm_v7m_class_init },
-     { .name = "cortex-m33",  .initfn = cortex_m33_initfn,
-                              .class_init = arm_v7m_class_init },
-+    { .name = "cortex-m55",  .initfn = cortex_m55_initfn,
-+                             .class_init = arm_v7m_class_init },
-     { .name = "cortex-r5",   .initfn = cortex_r5_initfn },
-     { .name = "cortex-r5f",  .initfn = cortex_r5f_initfn },
-     { .name = "ti925t",      .initfn = ti925t_initfn },
+ #define SMP_BOOT_ADDR           0x100
+ #define SMP_BOOT_REG            0x40
+@@ -396,15 +396,9 @@ static void calxeda_init(MachineState *machine, enum cxmachines machine_id)
+     highbank_binfo.loader_start = 0;
+     highbank_binfo.write_secondary_boot = hb_write_secondary;
+     highbank_binfo.secondary_cpu_reset_hook = hb_reset_secondary;
+-    if (!kvm_enabled()) {
+-        highbank_binfo.board_setup_addr = BOARD_SETUP_ADDR;
+-        highbank_binfo.write_board_setup = hb_write_board_setup;
+-        highbank_binfo.secure_board_setup = true;
+-    } else {
+-        warn_report("cannot load built-in Monitor support "
+-                    "if KVM is enabled. Some guests (such as Linux) "
+-                    "may not boot.");
+-    }
++    highbank_binfo.board_setup_addr = BOARD_SETUP_ADDR;
++    highbank_binfo.write_board_setup = hb_write_board_setup;
++    highbank_binfo.secure_board_setup = true;
+ 
+     arm_load_kernel(ARM_CPU(first_cpu), machine, &highbank_binfo);
+ }
 -- 
 2.20.1
 
