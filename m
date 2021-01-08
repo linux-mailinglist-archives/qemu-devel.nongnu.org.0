@@ -2,35 +2,35 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F1BDF2EEC7C
+	by mail.lfdr.de (Postfix) with ESMTPS id A77B52EEC7B
 	for <lists+qemu-devel@lfdr.de>; Fri,  8 Jan 2021 05:28:28 +0100 (CET)
-Received: from localhost ([::1]:50064 helo=lists1p.gnu.org)
+Received: from localhost ([::1]:49908 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kxjO0-00036l-0N
-	for lists+qemu-devel@lfdr.de; Thu, 07 Jan 2021 23:28:28 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51392)
+	id 1kxjNz-00032x-L8
+	for lists+qemu-devel@lfdr.de; Thu, 07 Jan 2021 23:28:27 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51368)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1kxjLl-0001Jc-Rd
- for qemu-devel@nongnu.org; Thu, 07 Jan 2021 23:26:11 -0500
-Received: from indium.canonical.com ([91.189.90.7]:56012)
+ id 1kxjLh-0001Hu-J2
+ for qemu-devel@nongnu.org; Thu, 07 Jan 2021 23:26:05 -0500
+Received: from indium.canonical.com ([91.189.90.7]:55918)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1kxjLb-0003ea-JT
- for qemu-devel@nongnu.org; Thu, 07 Jan 2021 23:26:09 -0500
+ id 1kxjLa-0003du-EV
+ for qemu-devel@nongnu.org; Thu, 07 Jan 2021 23:26:05 -0500
 Received: from loganberry.canonical.com ([91.189.90.37])
  by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1kxjLX-00045h-5k
- for <qemu-devel@nongnu.org>; Fri, 08 Jan 2021 04:25:55 +0000
+ id 1kxjLW-0004Cq-DH
+ for <qemu-devel@nongnu.org>; Fri, 08 Jan 2021 04:25:54 +0000
 Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 9393F2E814C
+ by loganberry.canonical.com (Postfix) with ESMTP id 0B1582E8157
  for <qemu-devel@nongnu.org>; Fri,  8 Jan 2021 04:25:54 +0000 (UTC)
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
-Date: Fri, 08 Jan 2021 04:17:19 -0000
-From: Launchpad Bug Tracker <1656711@bugs.launchpad.net>
+Date: Fri, 08 Jan 2021 04:17:20 -0000
+From: Launchpad Bug Tracker <1658141@bugs.launchpad.net>
 To: qemu-devel@nongnu.org
 X-Launchpad-Notification-Type: bug
 X-Launchpad-Bug: product=qemu; status=Expired; importance=Undecided;
@@ -38,18 +38,19 @@ X-Launchpad-Bug: product=qemu; status=Expired; importance=Undecided;
 X-Launchpad-Bug-Information-Type: Public
 X-Launchpad-Bug-Private: no
 X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: janitor joshtriplett th-huth
-X-Launchpad-Bug-Reporter: Josh Triplett (joshtriplett)
+X-Launchpad-Bug-Commenters: aldelaro5 fgouget janitor th-huth
+X-Launchpad-Bug-Reporter: Francois Gouget (fgouget)
 X-Launchpad-Bug-Modifier: Launchpad Janitor (janitor)
-References: <20170115231500.27272.80762.malonedeb@chaenomeles.canonical.com>
-Message-Id: <161007944004.27824.10606564580461628911.malone@loganberry.canonical.com>
-Subject: [Bug 1656711] Re: GTK3 interface doesn't zoom-to-fit by default
+References: <20170120163946.25029.76236.malonedeb@wampee.canonical.com>
+Message-Id: <161007944063.27824.16726006070963390926.malone@loganberry.canonical.com>
+Subject: [Bug 1658141] Re: QEMU's default msrs handling causes Windows 10 64
+ bit to crash
 X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
 X-Launchpad-Message-For: qemu-devel-ml
 Precedence: bulk
 X-Generated-By: Launchpad (canonical.com);
  Revision="9b8a7e9b05b0918031670be47aedac0f241cb913"; Instance="production"
-X-Launchpad-Hash: 78916c70a5d3932ca8aab9c6b6c58300c4c84152
+X-Launchpad-Hash: c25750b19c58220e92d9c43ef94fafadc3081e4f
 Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
  helo=indium.canonical.com
 X-Spam_score_int: -65
@@ -70,7 +71,7 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1656711 <1656711@bugs.launchpad.net>
+Reply-To: Bug 1658141 <1658141@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
@@ -83,29 +84,82 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 You received this bug notification because you are a member of qemu-
 devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1656711
+https://bugs.launchpad.net/bugs/1658141
 
 Title:
-  GTK3 interface doesn't zoom-to-fit by default
+  QEMU's default msrs handling causes Windows 10 64 bit to crash
 
 Status in QEMU:
   Expired
 
 Bug description:
-  The SDL interface automatically scales the video output to
-  match the window size.  The GTK3 interface has an off-by-default option
-  "Zoom To Fit" for that.  As far as I can tell, no command-line option
-  exists to turn that option on.  That makes it harder to quickly zoom a
-  freshly launched VM; instead of just hitting a maximize-window hotkey, I
-  also have to navigate through the menu to select "Zoom To Fit".
+  Wine uses QEMU to run its conformance test suite on Windows virtual
+  machines. Wine's conformance tests check the behavior of various
+  Windows APIs and verify that they behave as expected.
 
-  Given that VMs typically start out running in a much lower-resolution
-  video mode than the host (and VMs not running a full graphical
-  environment often stay that way), this seriously impacts the usability
-  of qemu-system.
+  One such test checks handling of exceptions down. When run on Windows 10 =
+64 bit in QEMU it triggers a "KMOD_EXCEPTION_NOT_HANDLED" BSOD in the VM. S=
+ee:
+  https://bugs.winehq.org/show_bug.cgi?id=3D40240
 
-  (Observed in QEMU 2.8)
+  =
+
+  To reproduce this bug:
+  * Pick a Windows 10 64 bit VM on an Intel host.
+
+  * Start the VM. I'm pretty sure any qemu command will do but here's what =
+I used:
+    qemu-system-x86_64 -machine pc-i440fx-2.1,accel=3Dkvm -cpu core2duo,+nx=
+ -m 2048 -hda /var/lib/libvirt/images/wtbw1064.qcow2
+
+  * Grab the attached source code. The tar file is a bit big at 85KB
+  because I had to include some Wine headers. However the source file
+  proper, exception.c, is only 85 lines, including the LGPL header.
+
+  * Compile the source code with MinGW by typing 'make'. This produces a
+  32 bit exception.exe executable. I'll attach it for good measure.
+
+  * Put exception.exe on the VM and run it.
+
+  =
+
+  After investigation it turns out this happens:
+   * Only for Windows 10 64 bit guests. Windows 10 32 bit and older Windows=
+ versions are unaffected.
+
+   * Only on Intel hosts. At least both my Xeon E3-1226 v3 and i7-4790K
+  hosts are impacted but not my Opteron 6128 one.
+
+   * It does not seem to depend on the emulated CPU type: on the Intel host=
+s this happened with both =
+
+  core2duo,nx and 'copy the host configuration' and did not depend on the n=
+umber of emulated cpus/cores.
+
+   * This happened with both QEMU 2.1 and 2.7, and both the 3.16.0 and
+  4.8.11 Linux kernels, both on Debian 8.6 and Debian Testing.
+
+  =
+
+  After searching for quite some time I discovered that the kvm kernel modu=
+le was sneaking the following messages into /var/log/syslog precisely when =
+the BSOD happens:
+
+  Dec 16 13:43:48 vm3 kernel: [  191.624802] kvm [2064]: vcpu0, guest rIP: =
+0xfffff803cb3c0bf3 kvm_set_msr_common: MSR_IA32_DEBUGCTLMSR 0x1, nop
+  Dec 16 13:43:48 vm3 kernel: [  191.624835] kvm [2064]: vcpu0, guest rIP: =
+0xfffff803cb3c0c5c unhandled rdmsr: 0x1c9
+
+  A search on the Internet turned up a post suggesting to change kvm's
+  ignore_msrs setting:
+
+     echo 1 >/sys/module/kvm/parameters/ignore_msrs
+
+  https://www.reddit.com/r/VFIO/comments/42dj7n/some_games_crash_to_biosboo=
+t_on_launch/
+
+  This does actually work and provides a workaround at least.
 
 To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1656711/+subscriptions
+https://bugs.launchpad.net/qemu/+bug/1658141/+subscriptions
 
