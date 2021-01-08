@@ -2,71 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 103EA2EFB5E
-	for <lists+qemu-devel@lfdr.de>; Fri,  8 Jan 2021 23:52:31 +0100 (CET)
-Received: from localhost ([::1]:45712 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D0BD72EFB53
+	for <lists+qemu-devel@lfdr.de>; Fri,  8 Jan 2021 23:48:16 +0100 (CET)
+Received: from localhost ([::1]:33978 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ky0cQ-0005fI-3D
-	for lists+qemu-devel@lfdr.de; Fri, 08 Jan 2021 17:52:30 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52174)
+	id 1ky0YJ-0000it-Tm
+	for lists+qemu-devel@lfdr.de; Fri, 08 Jan 2021 17:48:15 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52182)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1ky0TI-0005YQ-Q1
- for qemu-devel@nongnu.org; Fri, 08 Jan 2021 17:43:04 -0500
-Received: from mail-wm1-x32f.google.com ([2a00:1450:4864:20::32f]:52040)
+ id 1ky0TJ-0005aE-On
+ for qemu-devel@nongnu.org; Fri, 08 Jan 2021 17:43:05 -0500
+Received: from mail-wr1-x434.google.com ([2a00:1450:4864:20::434]:45758)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1ky0TH-0003CK-1M
- for qemu-devel@nongnu.org; Fri, 08 Jan 2021 17:43:04 -0500
-Received: by mail-wm1-x32f.google.com with SMTP id v14so8973694wml.1
- for <qemu-devel@nongnu.org>; Fri, 08 Jan 2021 14:43:02 -0800 (PST)
+ id 1ky0TI-0003Db-7o
+ for qemu-devel@nongnu.org; Fri, 08 Jan 2021 17:43:05 -0500
+Received: by mail-wr1-x434.google.com with SMTP id d26so10364198wrb.12
+ for <qemu-devel@nongnu.org>; Fri, 08 Jan 2021 14:43:03 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=JAFqFFMTBWJ96RD8DQESAD7h08RaCf54WY46ucZTa7A=;
- b=NR0X+IqvOZRGfwz1EYtYjHDJ8/fAeY0jtkQRFZ9I4iuMivbIvS/i8cxKfI3rSIMSh6
- CNMOyAE48aW4XT5dbECXjoGqEo+hSi/7NAg+Kpz6TrmyP0RQZ47GVUnIg13nElPkbwLW
- wbJtIvHWXfiCwpvkAHs2rv5eKjbYlURTwIlP7mWtamMDz4IUPXApObIoYMM8LaR5h35W
- S5aJ5RxdiGTu+GzYFIXm5UHWm4Npd2TXrmiEbkALr1iGeCQHUQxV3QEx2C5OCij7b3pf
- t674xiq2rGhlHfdssrlp2U7WFInvuyyNUtsjcaEtx/X4pYPjhVEe+Kk5nkdMmtPo7lry
- zHNQ==
+ bh=1ISROrgxmTLwm8neDLFzzDk+uvwe3gX34uOZq7+aYuE=;
+ b=vYgy1a1AUa5CWFcE7ojOgCO7EALxr4HAh0H0DNtSNXNXmDwBSCkd3si0vg+rQ2NUdp
+ dImPwVp8XNeG90dwZ5t9mFt+VLoDc1Wf11V/TLMbmpoYgxcpSao+JMjxbKtUnMDVyjK6
+ Bv7EhYxsy79FKNTRS5ZuFxJjVZpBxXUX4opNDANx8U6hsCjCNlOrK3/erWNXxEjRq4Pl
+ sRqwnW56cptRX1PS2yb90TlKiGdDKVk8xyqJdemXlNk/1xwKlX0rQgmhecB+fQ+snpli
+ xwgH2YvbXmi2ASQPHUGUflx6nadlB6+4KXBeaTejtAPKUeLLzd5pBYWaLa/qBzM2VpYP
+ jVyg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=JAFqFFMTBWJ96RD8DQESAD7h08RaCf54WY46ucZTa7A=;
- b=o3HXZol+Qo94cXPD38pw2N+OJFs7ebD8cp+A5tnomnlhtc6sapSKLKqp1U8+KqWtGv
- aKkRIDAl7DPAccE/TMuaKkRQPu3oncwrJNVaTmPD2nOifNiWMMhs8v5ENTs8wq87qoqe
- jk3LhRROrXJOQaVZsqMGJWKaOp9QEVQG28VbY7duJEHlsqZp1J/nD6sYChQ67xnExNE6
- bEAieB4E4DUPT9GK9K2kJ0bscxZHJwOHbyblFCqp7qgNkqnedKGAV/xYROvoWFP5r4kP
- qpd73fSVwgEA72lQGNBd6tYznZh5Oa70F2/hXXia3vpORBu0U10c3Xe9J1jYC/hhHXpf
- PaoA==
-X-Gm-Message-State: AOAM530+lC801Ln2ueDT+ujg2RliqPUDRXxesjf10HYPKeA6l1n7adhF
- dznhxeUAoLH9lGC7lRYgZ/FcQQZpSOYgIA==
-X-Google-Smtp-Source: ABdhPJwddYZtaxruFODn/1QnIHszNxkQsC8h9vthaDAlb/eCRUl9XA/ccXX/fUjZXT6XVXXw34+pKw==
-X-Received: by 2002:a1c:bd87:: with SMTP id n129mr4902920wmf.32.1610145781565; 
- Fri, 08 Jan 2021 14:43:01 -0800 (PST)
+ bh=1ISROrgxmTLwm8neDLFzzDk+uvwe3gX34uOZq7+aYuE=;
+ b=VMUauHnp9ghpuO5j3IhGFjeeYUZpLojajCJ5GTHY5ajUXY/m+5xuXYOpO2o9OIrw8q
+ 9ufGqJqsFMNM4UAXlJrGLP9z77efr2OmT+dyntOnBoKwg3kyu7ONoij7pQg1cR0mvB0W
+ LlaaVVn3JHkwVJv26p/dbPwrAUWLcACsBnYuPffwV2YsgsONtKG+DUNgl7ozv9rDcoSW
+ mgfsgxs2q/CGWV27+mGnHvmVrFTLO8N6Z8mCIatxKQjpPqXBdELsF2kjoZUnGcwVsTbt
+ rQdlrPKvfg7kE003SLv4fNMiXbPwqFSmRu3n0gkb3hLDt8zglzVirzPvFbUwf05Fabf+
+ 9zqg==
+X-Gm-Message-State: AOAM532PzfZUrQ+zU0IYu327ZZCoV4ajHdiQFBqWcXfnrDR99B6hmMCD
+ rnbzcSGcjzwjWhtjqPtUMzNUDQ==
+X-Google-Smtp-Source: ABdhPJxlEdNPTpzzJW2Wgc3NQGINllGFoZMj2niEAEumB1VPKUsQObvMXSfBAgjvDxEx2hNVR3K4eg==
+X-Received: by 2002:a5d:4683:: with SMTP id u3mr5717699wrq.19.1610145782828;
+ Fri, 08 Jan 2021 14:43:02 -0800 (PST)
 Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id m17sm16889792wrn.0.2021.01.08.14.42.57
+ by smtp.gmail.com with ESMTPSA id s205sm13563841wmf.46.2021.01.08.14.42.57
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 08 Jan 2021 14:42:57 -0800 (PST)
+ Fri, 08 Jan 2021 14:42:59 -0800 (PST)
 Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 184EB1FF8C;
+ by zen.linaroharston (Postfix) with ESMTP id 2C2E71FF8F;
  Fri,  8 Jan 2021 22:42:57 +0000 (GMT)
 From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH  v1 02/20] test/guest-debug: echo QEMU command as well
-Date: Fri,  8 Jan 2021 22:42:38 +0000
-Message-Id: <20210108224256.2321-3-alex.bennee@linaro.org>
+Subject: [PATCH  v1 03/20] configure: gate our use of GDB to 8.3.1 or above
+Date: Fri,  8 Jan 2021 22:42:39 +0000
+Message-Id: <20210108224256.2321-4-alex.bennee@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20210108224256.2321-1-alex.bennee@linaro.org>
 References: <20210108224256.2321-1-alex.bennee@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::32f;
- envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x32f.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::434;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x434.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -90,28 +90,41 @@ Cc: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This helps with debugging.
+The support of socket based debugging which we need for linux-user
+testing is only really stable as of 8.3.1 so lets gate our use of GDB
+on having a relatively modern version.
+
+For direct testing you can just point to a locally compiled version of
+gdb via configure, e.g.:
+
+  ../../configure --gdb=$HOME/src/binutils-gdb.git/builds/all/install/bin/gdb
 
 Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
-Message-Id: <20201214153012.12723-2-alex.bennee@linaro.org>
-Message-Id: <20201218112707.28348-2-alex.bennee@linaro.org>
+Message-Id: <20201214153012.12723-3-alex.bennee@linaro.org>
+Message-Id: <20201218112707.28348-3-alex.bennee@linaro.org>
 Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
 ---
- tests/guest-debug/run-test.py | 1 +
- 1 file changed, 1 insertion(+)
+ configure | 7 +++++--
+ 1 file changed, 5 insertions(+), 2 deletions(-)
 
-diff --git a/tests/guest-debug/run-test.py b/tests/guest-debug/run-test.py
-index 71c5569054..0c4f5c3808 100755
---- a/tests/guest-debug/run-test.py
-+++ b/tests/guest-debug/run-test.py
-@@ -53,6 +53,7 @@ if __name__ == '__main__':
-         cmd = "%s %s -g %s %s" % (args.qemu, args.qargs, socket_name,
-                                   args.binary)
+diff --git a/configure b/configure
+index 5860bdb77b..96cc7d9b9f 100755
+--- a/configure
++++ b/configure
+@@ -6239,8 +6239,11 @@ if test "$plugins" = "yes" ; then
+     fi
+ fi
  
-+    print("QEMU CMD: %s" % (cmd))
-     inferior = subprocess.Popen(shlex.split(cmd))
+-if test -n "$gdb_bin" ; then
+-    echo "HAVE_GDB_BIN=$gdb_bin" >> $config_host_mak
++if test -n "$gdb_bin"; then
++    gdb_version=$($gdb_bin --version | head -n 1)
++    if version_ge ${gdb_version##* } 8.3.1; then
++        echo "HAVE_GDB_BIN=$gdb_bin" >> $config_host_mak
++    fi
+ fi
  
-     # Now launch gdb with our test and collect the result
+ if test "$secret_keyring" = "yes" ; then
 -- 
 2.20.1
 
