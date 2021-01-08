@@ -2,75 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E74802EF86A
-	for <lists+qemu-devel@lfdr.de>; Fri,  8 Jan 2021 20:53:33 +0100 (CET)
-Received: from localhost ([::1]:43214 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 42E762EF833
+	for <lists+qemu-devel@lfdr.de>; Fri,  8 Jan 2021 20:35:47 +0100 (CET)
+Received: from localhost ([::1]:49258 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kxxpF-0002qc-0q
-	for lists+qemu-devel@lfdr.de; Fri, 08 Jan 2021 14:53:33 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45432)
+	id 1kxxY1-0000lA-Pq
+	for lists+qemu-devel@lfdr.de; Fri, 08 Jan 2021 14:35:45 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46270)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <r.bolshakov@yadro.com>)
- id 1kxxRX-0006fL-71; Fri, 08 Jan 2021 14:29:03 -0500
-Received: from mta-02.yadro.com ([89.207.88.252]:34476 helo=mta-01.yadro.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <r.bolshakov@yadro.com>)
- id 1kxxRS-00057B-Sq; Fri, 08 Jan 2021 14:29:01 -0500
-Received: from localhost (unknown [127.0.0.1])
- by mta-01.yadro.com (Postfix) with ESMTP id C70FA4120E;
- Fri,  8 Jan 2021 19:28:54 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=yadro.com; h=
- in-reply-to:content-disposition:content-type:content-type
- :mime-version:references:message-id:subject:subject:from:from
- :date:date:received:received:received; s=mta-01; t=1610134133;
- x=1611948534; bh=SkfEU3ubg7GeAEuNVKVjpdYtnHP7uxx1ZTorzY0XS0M=; b=
- iuLSxxHElaX93LPdgpZqsnjE9ehOCbhmIDKmbDnLNgGNVOrSWTLMZ9Hl0wY/QZ4V
- Ne8xXQExsA7Uf5NcyNon+ZP6rF+wLy9kOXP8kNs0OiavZPXpdx2DYHuTfLN1v/wl
- BkKMeyYrtBJQOaYCc/X3bNsdZbD7cz8CYhiK3fCgcmw=
-X-Virus-Scanned: amavisd-new at yadro.com
-Received: from mta-01.yadro.com ([127.0.0.1])
- by localhost (mta-01.yadro.com [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id HbXsEIyS_PeC; Fri,  8 Jan 2021 22:28:53 +0300 (MSK)
-Received: from T-EXCH-03.corp.yadro.com (t-exch-03.corp.yadro.com
- [172.17.100.103])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-SHA384 (256/256 bits))
- (No client certificate requested)
- by mta-01.yadro.com (Postfix) with ESMTPS id C238641208;
- Fri,  8 Jan 2021 22:28:52 +0300 (MSK)
-Received: from localhost (172.17.204.212) by T-EXCH-03.corp.yadro.com
- (172.17.100.103) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384_P384) id 15.1.669.32; Fri, 8 Jan
- 2021 22:28:52 +0300
-Date: Fri, 8 Jan 2021 22:29:12 +0300
-From: Roman Bolshakov <r.bolshakov@yadro.com>
-To: Paolo Bonzini <pbonzini@redhat.com>
-Subject: Re: [PATCH] meson: Propagate gnutls dependency
-Message-ID: <X/iyiCT39u5MCS2D@SPB-NB-133.local>
-References: <X/NPRqMkdM0/IxTh@SPB-NB-133.local>
- <af0194cd-cdcc-44a3-f023-80d73d96c9e8@redhat.com>
- <X/R5xtvMn4PcSkTf@SPB-NB-133.local>
- <690581da-9258-41e5-14cb-bb1b162e8993@redhat.com>
- <X/cvK5Xkh6+1Qn1K@SPB-NB-133.local>
- <86bebbbf-ff0f-263d-96a2-4e6df9f85776@redhat.com>
- <X/dQb7xj/RYiT00R@SPB-NB-133.local>
- <74d3e1a4-3f0e-f3bb-6079-03043530bfa5@redhat.com>
- <X/ditOsBmc4A1lJn@SPB-NB-133.local>
- <CABgObfbYXoGVv4_KSzKR5J4XfJ2du9z77LEh1vrShz-q-O_t4g@mail.gmail.com>
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1kxxVv-00005h-Fv
+ for qemu-devel@nongnu.org; Fri, 08 Jan 2021 14:33:37 -0500
+Received: from mail-io1-xd35.google.com ([2607:f8b0:4864:20::d35]:34725)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1kxxVt-0006ec-7q
+ for qemu-devel@nongnu.org; Fri, 08 Jan 2021 14:33:35 -0500
+Received: by mail-io1-xd35.google.com with SMTP id i18so10893095ioa.1
+ for <qemu-devel@nongnu.org>; Fri, 08 Jan 2021 11:33:32 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=KXBl4gh2jUeVrorwwe/XL0xIAaboG1sUzAjyOpvrWPY=;
+ b=FtOHzYsAiglWtndrFUr4i0TBsYbMGvbLbpBmYXJw9e3i3/Yxx0JKAmAWLLJ3WgscEX
+ MPUTmYwf+2SpXgJ+HM3YDOGxYiqILTc0ZgKsLlg0kE7E5UOxawC25ORhWcilTa28x6cU
+ yX6zIWzWesyihzgdd4mhvOei/07efbKcdDCTTknZbS+yFusG94Mi2SeBvJMn2fs4uBuW
+ zXt0cniwW71qw6xOrHqiqV1yQk8MBKforARa53f0ohMzz1fgoXdO4KEUlF21Cd26ctJi
+ Fr7Tu09eZgRpLukuARie0qmqXhLFb7pxqFELzcstthdd8Sdc87BONs5WdYfKp6Ta5rTR
+ 1pBA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=KXBl4gh2jUeVrorwwe/XL0xIAaboG1sUzAjyOpvrWPY=;
+ b=DSAvvxn9yELsBBp+EEcteGJym/agJXXjHg6NegXZ9V5Gqk7MzSFAIeNii1dkrwkNHg
+ LU7KCkw2RhNXyCWojcZVvJkkKM7DaegNihLhu048st0ivsUWWsKtI6Rb4jeP6dDfmJki
+ mbNzKrtgJZ/Y3Ncpm229fFoYghW7uHduInZRIm94nEsGn16mfZBr5ip9ge6bnWMWdoK6
+ qWy1x9B7aGtmAZNvZHjgkQmCRrj2MhQy+qaAGHIAYGc96vJDDYg30wMW7/7tOY0BMCYN
+ G/6Q69Tks/4skFmF1vsuotY8nXyqKH0RiAGFr/1fXBc2yiGSbEHcN/ED/ph9MP5Jf6WT
+ Bd/Q==
+X-Gm-Message-State: AOAM533DDxxd8euTbFx9AJQkgOLUALIP1diMlV4u3CRSdAHj6RqNz0Ab
+ 9B7LQIK5ygEXkRSFuPDZXCIw8A==
+X-Google-Smtp-Source: ABdhPJy7WtvI+Em1w3ScQOCFtefnAeh49ET+5LGjP4hs3frGiMGnTMPn+2hmLCbVH+bGLdr0uzSmjA==
+X-Received: by 2002:a5e:de08:: with SMTP id e8mr6429819iok.203.1610134411384; 
+ Fri, 08 Jan 2021 11:33:31 -0800 (PST)
+Received: from ?IPv6:2607:fb90:58e:547c:94a4:bdef:7aa2:3a7c?
+ ([2607:fb90:58e:547c:94a4:bdef:7aa2:3a7c])
+ by smtp.gmail.com with ESMTPSA id l78sm7867985ild.30.2021.01.08.11.33.29
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 08 Jan 2021 11:33:30 -0800 (PST)
+Subject: Re: [PATCH v2 1/4] s390x/tcg: Fix ALGSI
+To: David Hildenbrand <david@redhat.com>, qemu-devel@nongnu.org
+References: <20210108132049.8501-1-david@redhat.com>
+ <20210108132049.8501-2-david@redhat.com>
+From: Richard Henderson <richard.henderson@linaro.org>
+Message-ID: <aa8193e4-bf56-3ed6-fb6e-524ff1b7bd2d@linaro.org>
+Date: Fri, 8 Jan 2021 09:33:26 -1000
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset="us-ascii"
-Content-Disposition: inline
-In-Reply-To: <CABgObfbYXoGVv4_KSzKR5J4XfJ2du9z77LEh1vrShz-q-O_t4g@mail.gmail.com>
-X-Originating-IP: [172.17.204.212]
-X-ClientProxiedBy: T-EXCH-01.corp.yadro.com (172.17.10.101) To
- T-EXCH-03.corp.yadro.com (172.17.100.103)
-Received-SPF: pass client-ip=89.207.88.252; envelope-from=r.bolshakov@yadro.com;
- helo=mta-01.yadro.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+In-Reply-To: <20210108132049.8501-2-david@redhat.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::d35;
+ envelope-from=richard.henderson@linaro.org; helo=mail-io1-xd35.google.com
+X-Spam_score_int: -22
+X-Spam_score: -2.3
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.241,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -84,54 +88,25 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, Peter Maydell <peter.maydell@linaro.org>,
- Daniel =?iso-8859-1?Q?P=2E_Berrang=E9?= <berrange@redhat.com>,
- "open list:Block
- layer core" <qemu-block@nongnu.org>, QEMU Developers <qemu-devel@nongnu.org>,
- Max Reitz <mreitz@redhat.com>, Gerd Hoffmann <kraxel@redhat.com>
+Cc: qemu-s390x@nongnu.org, Cornelia Huck <cohuck@redhat.com>,
+ Thomas Huth <thuth@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, Jan 07, 2021 at 08:41:50PM +0100, Paolo Bonzini wrote:
-> Il gio 7 gen 2021, 20:36 Roman Bolshakov <r.bolshakov@yadro.com> ha scritto:
+On 1/8/21 3:20 AM, David Hildenbrand wrote:
+> Looks like something went wrong whiel touching that line. Instead of "r1"
+> we need a new temporary. Also, we have to pass MO_TEQ, to indicate that
+> we are working with 64-bit values. Let's revert these changes.
 > 
-> > > No I think that Meson should simply explode link_whole libraries to their
-> > > constituent objects.  This way duplicates are avoided.
-> > >
-> >
-> > Ok. I've looked through related changes in meson and it flattens object
-> > files implicitly for link_with/link_whole parameters of static_library:
-> >
-> >   https://github.com/mesonbuild/meson/pull/6030/files
-> >
-> > But qemu adds dependencies to source set and populates dependencies
-> > parameter of static_library and declare_dependency and we get duplicate
-> > symbols:
-> >
-> >   https://lists.gnu.org/archive/html/qemu-devel/2021-01/msg00411.html
-> >
-> > Perhaps it's a bug then.
-> >
-> 
-> No, the same deduplication is not done for executables, because executables
-> use libraries directly and not their object files.
-> 
+> Fixes: ff26d287bddc ("target/s390x: Improve cc computation for ADD LOGICAL")
+> Signed-off-by: David Hildenbrand <david@redhat.com>
+> ---
+>  target/s390x/insn-data.def | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
 
-Paolo,
+Oops.  Sorry about that.
 
-I tried to use extract_all_objects() to get all object files directly
-but it doesn't work on dependency objects defined via
-declare_dependency(). It works only on regular targets (libs and
-executables). And as far as I understand the intention to have
-declare_dependency() in QEMU was to specify public interface to avoid
-some duplication. But meson doesn't have public/private notion for build
-targets so if we drop declare_dependency we need to specify link_whole
-in every user of a library that's had link_whole: declare_dependency()
-and build files would become less lean. So I'm not sure how to proceed.
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 
-The proposed patch (in the subject) is the still the best we've got so
-far that fixes macOS build immediately without much bigger wrestling
-with meson.
-
--Roman
+r~
 
