@@ -2,30 +2,32 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A79992EFAFF
-	for <lists+qemu-devel@lfdr.de>; Fri,  8 Jan 2021 23:20:04 +0100 (CET)
-Received: from localhost ([::1]:49830 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C097A2EFB0A
+	for <lists+qemu-devel@lfdr.de>; Fri,  8 Jan 2021 23:23:04 +0100 (CET)
+Received: from localhost ([::1]:56740 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ky071-0007W8-Li
-	for lists+qemu-devel@lfdr.de; Fri, 08 Jan 2021 17:20:03 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47738)
+	id 1ky09v-0001zm-SZ
+	for lists+qemu-devel@lfdr.de; Fri, 08 Jan 2021 17:23:03 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47740)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
- id 1ky04S-0005n6-UP; Fri, 08 Jan 2021 17:17:25 -0500
-Received: from zero.eik.bme.hu ([2001:738:2001:2001::2001]:60452)
+ id 1ky04T-0005nL-3N; Fri, 08 Jan 2021 17:17:25 -0500
+Received: from zero.eik.bme.hu ([2001:738:2001:2001::2001]:60456)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
- id 1ky04P-0004v0-VA; Fri, 08 Jan 2021 17:17:23 -0500
+ id 1ky04Q-0004v5-2f; Fri, 08 Jan 2021 17:17:24 -0500
 Received: from zero.eik.bme.hu (blah.eik.bme.hu [152.66.115.182])
- by localhost (Postfix) with SMTP id 4CB74747100;
+ by localhost (Postfix) with SMTP id AE57F7475F6;
  Fri,  8 Jan 2021 23:17:19 +0100 (CET)
 Received: by zero.eik.bme.hu (Postfix, from userid 432)
- id 224D57470F4; Fri,  8 Jan 2021 23:17:19 +0100 (CET)
-Message-Id: <cover.1610143658.git.balaton@eik.bme.hu>
+ id 294957470FC; Fri,  8 Jan 2021 23:17:19 +0100 (CET)
+Message-Id: <15a9fa72eed4f02bdbeaef206803d5e22260e2de.1610143658.git.balaton@eik.bme.hu>
+In-Reply-To: <cover.1610143658.git.balaton@eik.bme.hu>
+References: <cover.1610143658.git.balaton@eik.bme.hu>
 From: BALATON Zoltan <balaton@eik.bme.hu>
-Date: Fri, 8 Jan 2021 23:07:38 +0100
-Subject: [PATCH v2 0/3] Fix up sam460ex fixes
+Subject: [PATCH v2 1/3] Revert "sam460ex: Remove FDT_PPC dependency from
+ KConfig"
 Date: Fri, 08 Jan 2021 23:07:38 +0100
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
@@ -35,11 +37,11 @@ To: qemu-devel@nongnu.org,
 X-Spam-Probability: 8%
 Received-SPF: pass client-ip=2001:738:2001:2001::2001;
  envelope-from=balaton@eik.bme.hu; helo=zero.eik.bme.hu
-X-Spam_score_int: -7
-X-Spam_score: -0.8
-X-Spam_bar: /
-X-Spam_report: (-0.8 / 5.0 requ) BAYES_00=-1.9, INVALID_DATE=1.096,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=no autolearn_force=no
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -57,22 +59,27 @@ Cc: Peter Maydell <peter.maydell@linaro.org>, f4bug@amsat.org,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Accidentally the wrong version of this series was committed, this
-series fixes that up to the last version that was meant to be merged.
-This v2 is rebased on Peter's UIC series and clarifies commit message
-of last patch.
+This reverts commit 038da2adf that was mistakenly added, this
+dependency is still needed to get libfdt dependencies even if fdt.o is
+not needed by sam460ex.
 
-Based-on: <20210108171212.16500-1-peter.maydell@linaro.org>
+Signed-off-by: BALATON Zoltan <balaton@eik.bme.hu>
+---
+ hw/ppc/Kconfig | 1 +
+ 1 file changed, 1 insertion(+)
 
-BALATON Zoltan (3):
-  Revert "sam460ex: Remove FDT_PPC dependency from KConfig"
-  Revert "ppc4xx: Move common dependency on serial to common option"
-  sam460ex: Use type cast macro instead of simple cast
-
- hw/ppc/Kconfig    | 6 +++++-
- hw/ppc/sam460ex.c | 7 ++-----
- 2 files changed, 7 insertions(+), 6 deletions(-)
-
+diff --git a/hw/ppc/Kconfig b/hw/ppc/Kconfig
+index 7e267d94a1..d2329edbab 100644
+--- a/hw/ppc/Kconfig
++++ b/hw/ppc/Kconfig
+@@ -64,6 +64,7 @@ config SAM460EX
+     select SMBUS_EEPROM
+     select USB_EHCI_SYSBUS
+     select USB_OHCI
++    select FDT_PPC
+ 
+ config PREP
+     bool
 -- 
 2.21.3
 
