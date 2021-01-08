@@ -2,68 +2,57 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 845402EF812
-	for <lists+qemu-devel@lfdr.de>; Fri,  8 Jan 2021 20:26:32 +0100 (CET)
-Received: from localhost ([::1]:40704 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2A0AE2EF80E
+	for <lists+qemu-devel@lfdr.de>; Fri,  8 Jan 2021 20:24:26 +0100 (CET)
+Received: from localhost ([::1]:35662 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kxxP5-0004Hv-Kf
-	for lists+qemu-devel@lfdr.de; Fri, 08 Jan 2021 14:26:31 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41740)
+	id 1kxxN3-0001yv-6N
+	for lists+qemu-devel@lfdr.de; Fri, 08 Jan 2021 14:24:25 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39650)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1kxxEx-0004m2-SK
- for qemu-devel@nongnu.org; Fri, 08 Jan 2021 14:16:05 -0500
-Received: from indium.canonical.com ([91.189.90.7]:44810)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1kxxEr-0000Zb-Ds
- for qemu-devel@nongnu.org; Fri, 08 Jan 2021 14:16:03 -0500
-Received: from loganberry.canonical.com ([91.189.90.37])
- by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1kxxEo-00051o-1O
- for <qemu-devel@nongnu.org>; Fri, 08 Jan 2021 19:15:54 +0000
-Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id EE40E2E813E
- for <qemu-devel@nongnu.org>; Fri,  8 Jan 2021 19:15:53 +0000 (UTC)
-MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-Date: Fri, 08 Jan 2021 19:06:29 -0000
-From: Peter Maydell <1904954@bugs.launchpad.net>
-To: qemu-devel@nongnu.org
-X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=In Progress; importance=Undecided;
- assignee=None; 
-X-Launchpad-Bug-Tags: ethernet lan lan9118 netwroking
-X-Launchpad-Bug-Information-Type: Public
-X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: alfred2g pmaydell
-X-Launchpad-Bug-Reporter: alfred gedeon (alfred2g)
-X-Launchpad-Bug-Modifier: Peter Maydell (pmaydell)
-References: <160584191813.16356.9445911921619079194.malonedeb@chaenomeles.canonical.com>
-Message-Id: <161013278947.1154.17832770862342188525.launchpad@gac.canonical.com>
-Subject: [Bug 1904954] Re: lan9118 bug peeked received message size not equal
- to actual received message size
-X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
-X-Launchpad-Message-For: qemu-devel-ml
-Precedence: bulk
-X-Generated-By: Launchpad (canonical.com);
- Revision="fd9c5a87183d01004404fa6027cd262eaa7f6fcf"; Instance="production"
-X-Launchpad-Hash: 3e874f49d5ec6c0a9a308e832089f3aef3e23d88
-Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
- helo=indium.canonical.com
-X-Spam_score_int: -65
-X-Spam_score: -6.6
-X-Spam_bar: ------
-X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9,
- HEADER_FROM_DIFFERENT_DOMAINS=0.248, RCVD_IN_DNSWL_HI=-5,
- RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=ham autolearn_force=no
+ (Exim 4.90_1) (envelope-from <huangy81@chinatelecom.cn>)
+ id 1kxx7w-0000le-SK
+ for qemu-devel@nongnu.org; Fri, 08 Jan 2021 14:08:48 -0500
+Received: from prt-mail.chinatelecom.cn ([42.123.76.220]:50846
+ helo=chinatelecom.cn) by eggs.gnu.org with esmtp (Exim 4.90_1)
+ (envelope-from <huangy81@chinatelecom.cn>) id 1kxx7s-0006fx-DW
+ for qemu-devel@nongnu.org; Fri, 08 Jan 2021 14:08:48 -0500
+HMM_SOURCE_IP: 172.18.0.48:17829.1062543948
+HMM_ATTACHE_NUM: 0000
+HMM_SOURCE_TYPE: SMTP
+Received: from clientip-203.57.249.251?logid-4904171397564a909bb6e26728d4a894
+ (unknown [172.18.0.48])
+ by chinatelecom.cn (HERMES) with SMTP id 02260280072;
+ Sat,  9 Jan 2021 03:08:34 +0800 (CST)
+X-189-SAVE-TO-SEND: +huangy81@chinatelecom.cn
+Received: from  ([172.18.0.48])
+ by App0024 with ESMTP id 4904171397564a909bb6e26728d4a894 for
+ qemu-devel@nongnu.org; Sat Jan  9 03:08:36 2021
+X-Transaction-ID: 4904171397564a909bb6e26728d4a894
+X-filter-score: filter<0>
+X-Real-From: huangy81@chinatelecom.cn
+X-Receive-IP: 172.18.0.48
+X-MEDUSA-Status: 0
+From: huangy81@chinatelecom.cn
+To: qemu-devel <qemu-devel@nongnu.org>
+Subject: [PATCH] kvm: mirror "-machine dirty_gfn_count" to the accelerator
+ property
+Date: Sat,  9 Jan 2021 03:08:31 +0800
+Message-Id: <1610132911-33839-1-git-send-email-huangy81@chinatelecom.cn>
+X-Mailer: git-send-email 1.8.3.1
+Received-SPF: pass client-ip=42.123.76.220;
+ envelope-from=huangy81@chinatelecom.cn; helo=chinatelecom.cn
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_PASS=-0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
+X-Mailman-Approved-At: Fri, 08 Jan 2021 14:20:53 -0500
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -72,42 +61,56 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1904954 <1904954@bugs.launchpad.net>
+Cc: Paolo Bonzini <pbonzini@redhat.com>, Hyman <huangy81@chinatelecom.cn>,
+ peterx <peterx@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-** Changed in: qemu
-       Status: New =3D> In Progress
+QEMU enable the dirty ring feature by specifing the "-accel" sub-parameter.
+https://lore.kernel.org/qemu-devel/20210108165050.406906-10-peterx@redhat.com/
+Libvirt use "-machine accel=kvm" option to specify the accelerator by default,
+which is incompatible with above option.
 
--- =
+This patch introduce the "dirty_gfn_count" sub-parameter of the "-machine"
+in the way that the commit "23b089" has done. So that Libvirt can enable this
+feature by adding "-machine dirty_gfn_count=xxx" to the QEMU command line.
 
-You received this bug notification because you are a member of qemu-
-devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1904954
+Signed-off-by: Hyman <huangy81@chinatelecom.cn>
+---
+ softmmu/vl.c       | 3 ++-
+ util/qemu-config.c | 4 ++++
+ 2 files changed, 6 insertions(+), 1 deletion(-)
 
-Title:
-  lan9118 bug peeked received message size not equal to actual received
-  message size
+diff --git a/softmmu/vl.c b/softmmu/vl.c
+index 7ddf405..d8e3dec 100644
+--- a/softmmu/vl.c
++++ b/softmmu/vl.c
+@@ -1666,7 +1666,8 @@ static int machine_set_property(void *opaque,
+         object_register_sugar_prop(ACCEL_CLASS_NAME("xen"), qom_name, value);
+         return 0;
+     }
+-    if (g_str_equal(qom_name, "kvm-shadow-mem")) {
++    if (g_str_equal(qom_name, "kvm-shadow-mem") ||
++        g_str_equal(qom_name, "dirty-gfn-count")) {
+         object_register_sugar_prop(ACCEL_CLASS_NAME("kvm"), qom_name, value);
+         return 0;
+     }
+diff --git a/util/qemu-config.c b/util/qemu-config.c
+index e2a700b..70f1b50 100644
+--- a/util/qemu-config.c
++++ b/util/qemu-config.c
+@@ -234,6 +234,10 @@ static QemuOptsList machine_opts = {
+             .help = "Up to 8 chars in set of [A-Za-z0-9. ](lower case chars"
+                     " converted to upper case) to pass to machine"
+                     " loader, boot manager, and guest kernel",
++        },{
++            .name = "dirty_gfn_count",
++            .type = QEMU_OPT_NUMBER,
++            .help = "KVM dirty ring GFN count",
+         },
+         { /* End of list */ }
+     }
+-- 
+1.8.3.1
 
-Status in QEMU:
-  In Progress
-
-Bug description:
-  peeked message size is not equal to read message size
-
-  Bug in the code at line:
-  https://github.com/qemu/qemu/blob/master/hw/net/lan9118.c#L1209
-
-  s->tx_status_fifo_head should be s->rx_status_fifo_head
-
-  Could also be a security bug, as the user could allocate a buffer of
-  size peeked data smaller than the actual packet received, which could
-  cause a buffer overflow.
-
-  Thanks,
-
-  Alfred
-
-To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1904954/+subscriptions
 
