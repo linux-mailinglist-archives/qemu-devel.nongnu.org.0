@@ -2,93 +2,87 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C53BD2EF5FF
-	for <lists+qemu-devel@lfdr.de>; Fri,  8 Jan 2021 17:49:48 +0100 (CET)
-Received: from localhost ([::1]:49244 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E7DED2EF615
+	for <lists+qemu-devel@lfdr.de>; Fri,  8 Jan 2021 17:56:18 +0100 (CET)
+Received: from localhost ([::1]:59798 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kxuxP-0006Gg-G1
-	for lists+qemu-devel@lfdr.de; Fri, 08 Jan 2021 11:49:47 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43460)
+	id 1kxv3g-0002hJ-4z
+	for lists+qemu-devel@lfdr.de; Fri, 08 Jan 2021 11:56:18 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45268)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kxuu7-0004Be-EC
- for qemu-devel@nongnu.org; Fri, 08 Jan 2021 11:46:23 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:34930)
+ (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1kxuyZ-00089L-2J
+ for qemu-devel@nongnu.org; Fri, 08 Jan 2021 11:50:59 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:33499)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kxuu1-0003q3-D6
- for qemu-devel@nongnu.org; Fri, 08 Jan 2021 11:46:23 -0500
+ (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1kxuyW-0005Ru-Ve
+ for qemu-devel@nongnu.org; Fri, 08 Jan 2021 11:50:58 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1610124376;
+ s=mimecast20190719; t=1610124656;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=kTEz3JnPjCZl6L8/+3Qt0JzG0AEK5I8Yc5I8f8AXGYA=;
- b=GK8YDNn3EVanwp67iEiQyJwm2PuPRlgBz++fPS5DgsNsV6iIFPAa7dBKD2fiRZDjmBKwDh
- yINU2cIpHqzgc2RgZSl0k14Z8mCh4H4d2jlkVFb4E6UqKBD3+DtI3StGo5GbTGyplvJcOQ
- ix4/eMr+GnXpGMOSmMcaG9oEW2LbP04=
-Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
- [209.85.128.71]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-219-z03IFTlSMjONkOCv_ZJDXw-1; Fri, 08 Jan 2021 11:46:13 -0500
-X-MC-Unique: z03IFTlSMjONkOCv_ZJDXw-1
-Received: by mail-wm1-f71.google.com with SMTP id h21so3434413wmq.7
- for <qemu-devel@nongnu.org>; Fri, 08 Jan 2021 08:46:13 -0800 (PST)
+ bh=dNNUkgCHDqnn4h+zLY4Ywf90DjPhnZqB9vTnYirewJM=;
+ b=FFj4VMT3GOijda5YWlZr1YZFQL7gtnsnMP4trF4nD0n4kT395aVr4q7miDaA55IYGwfoNv
+ E9YKim/scoIYNjgK0VDNTae4B5giNhP7lDZlfGPeGod2oWKAm/3fLS/3SZtm/2L3vvSojJ
+ b1n703VE6z9HR1YsWuRF5+NXjJMIOBY=
+Received: from mail-qv1-f69.google.com (mail-qv1-f69.google.com
+ [209.85.219.69]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-162-Jp_IRJFlNzSh9UJoGqT4nw-1; Fri, 08 Jan 2021 11:50:54 -0500
+X-MC-Unique: Jp_IRJFlNzSh9UJoGqT4nw-1
+Received: by mail-qv1-f69.google.com with SMTP id x17so285014qvo.23
+ for <qemu-devel@nongnu.org>; Fri, 08 Jan 2021 08:50:54 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=kTEz3JnPjCZl6L8/+3Qt0JzG0AEK5I8Yc5I8f8AXGYA=;
- b=Qe1W5NV9L79Afpegs3CdRLH39XZI/9geLH8g1GmmZmHvf5ZIcRPIVni2/EtL6uBmTd
- JDxclv+UqSs/y7CMK+kr9WAv4Edg1OUetIa/ooCmLp5IoTSQdcAlfsa2kiJCEYHRjT8a
- rzm5sGnvYsa4AIpL0gyL0DYUTh66969VDyvkRZ+80Ar5JMX5Xa4yFwEDvKdAZiA2BM7I
- BUm71cEOBZW+vDpIJOOUCa/mHaI3n7MgSe3t+t0QqJ1bGXuRgzQW8fXnRxONEJHHcOM0
- EdEvJzsu1OsAwKmmxCcBxQq2TORsfPPlvUSYXRJqGRkHlUEkw3Ts1ziVm2SsuAn/sbo4
- BSMw==
-X-Gm-Message-State: AOAM532m2Vm7H4tZdTmq05op6ek/duvqzmvvWSdJKNSAgdlkMXqn4/1c
- 2zp81gt/mrqijhyuSKnkqaAo8IET6hetbrQOv8xHDhwRgTJvkj50L1X77uvWFvEOG8FC7i/7CoP
- nGYrb9n9tKcqPmKI=
-X-Received: by 2002:a05:600c:2106:: with SMTP id
- u6mr3890564wml.4.1610124372660; 
- Fri, 08 Jan 2021 08:46:12 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJz52zwk9a1j9Iwv6+Eho4GO3ZqFhGFdqLTnOd+osmK0iZmv7SaRQKnlcC+k/kzt2UP/Y6HsSg==
-X-Received: by 2002:a05:600c:2106:: with SMTP id
- u6mr3890556wml.4.1610124372537; 
- Fri, 08 Jan 2021 08:46:12 -0800 (PST)
-Received: from [192.168.1.36] (241.red-88-10-103.dynamicip.rima-tde.net.
- [88.10.103.241])
- by smtp.gmail.com with ESMTPSA id w17sm12250605wmk.12.2021.01.08.08.46.11
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 08 Jan 2021 08:46:11 -0800 (PST)
-Subject: Re: [PATCH v2 1/2] docs: Add qemu-storage-daemon(1) manpage to
- meson.build
-To: Peter Maydell <peter.maydell@linaro.org>, qemu-devel@nongnu.org
-References: <20210108161416.21129-1-peter.maydell@linaro.org>
- <20210108161416.21129-2-peter.maydell@linaro.org>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-Message-ID: <f06a1192-e14a-2e8a-9f40-8158b51127c7@redhat.com>
-Date: Fri, 8 Jan 2021 17:46:10 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.6.0
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=dNNUkgCHDqnn4h+zLY4Ywf90DjPhnZqB9vTnYirewJM=;
+ b=qjKc+cFRRuI6uHqV26xZrP9EGQbcoQKo00bwiOadgBJ2dtc/Cfi/MwN3UKAj9Uaojq
+ 03HH/vPhwWjcMXa8qG+6OCGOUVYwLJuJlmVwDyREDV7QvOviWX9MZ4qY+8qCEJVtO9Pn
+ dQmw6gdXWMiuhc8Iu7OeO5nJP4mV0Zt4dOVkGTb6vp/SciIAIKzHN9ed8SOqNvBK+3aL
+ auwr27A4SaloPCgoI1l7pBJqcg+2rg3tzYM1umXjLTRFdt3FySmPz35S1RcvInUdfUc9
+ VtokpxSPWYHuuj/tG5yh4WNJGMr4oTJ/DqK4IrHlc4RWtxnNDCRkKcVSySQfMrPOVDcm
+ wXSQ==
+X-Gm-Message-State: AOAM533nZYNKP4DRxk5wda4fGEK3ZokP6pf5nZcClXtaxtN8H3+HReKT
+ rW+SHw1YkyEooOi1FmPoe7DRPJUImFQeL5gUldfQqAHtaxxEQ/6AQYgExzcQ1dc46+doFMXd9oF
+ 2Ppn3aclUJDqsfD9tWIvym8E/EvqCdAgA0eR9fkdpp3DUAoUZXR5/i5hnQqA6TBqf
+X-Received: by 2002:a05:620a:2104:: with SMTP id
+ l4mr4553764qkl.35.1610124653685; 
+ Fri, 08 Jan 2021 08:50:53 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJw4w1MHyBEMqd7FSrVWQcgVmIgieMmLk7edhfAwuIK5INpfFevdLeQXdjMC4nzrAuaPZnJF/Q==
+X-Received: by 2002:a05:620a:2104:: with SMTP id
+ l4mr4553740qkl.35.1610124653416; 
+ Fri, 08 Jan 2021 08:50:53 -0800 (PST)
+Received: from xz-x1.redhat.com ([142.126.83.202])
+ by smtp.gmail.com with ESMTPSA id n5sm4954064qkh.126.2021.01.08.08.50.52
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 08 Jan 2021 08:50:52 -0800 (PST)
+From: Peter Xu <peterx@redhat.com>
+To: qemu-devel@nongnu.org
+Subject: [PATCH v4 05/13] KVM: Use a big lock to replace per-kml slots_lock
+Date: Fri,  8 Jan 2021 11:50:42 -0500
+Message-Id: <20210108165050.406906-2-peterx@redhat.com>
+X-Mailer: git-send-email 2.26.2
+In-Reply-To: <20210108165050.406906-1-peterx@redhat.com>
+References: <20210108164601.406146-1-peterx@redhat.com>
+ <20210108165050.406906-1-peterx@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <20210108161416.21129-2-peter.maydell@linaro.org>
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=peterx@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=philmd@redhat.com;
+Content-Type: text/plain; charset="US-ASCII"
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=peterx@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -32
-X-Spam_score: -3.3
+X-Spam_score_int: -29
+X-Spam_score: -3.0
 X-Spam_bar: ---
-X-Spam_report: (-3.3 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.247,
+X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.247,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.241, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -101,37 +95,165 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Paolo Bonzini <pbonzini@redhat.com>, Qemu-block <qemu-block@nongnu.org>,
- Stefan Hajnoczi <stefanha@redhat.com>
+Cc: Paolo Bonzini <pbonzini@redhat.com>, Hyman <huangy81@chinatelecom.cn>,
+ "Dr . David Alan Gilbert" <dgilbert@redhat.com>, peterx@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 1/8/21 5:14 PM, Peter Maydell wrote:
-> In commit 1982e1602d15 we added a new qemu-storage-daemon(1) manpage.
-> At the moment new manpages have to be listed both in the conf.py for
-> Sphinx and also in docs/meson.build for Meson. We forgot the second
-> of those -- correct the omission.
-> 
-> Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
+Per-kml slots_lock will bring some trouble if we want to take all slots_lock of
+all the KMLs, especially when we're in a context that we could have taken some
+of the KML slots_lock, then we even need to figure out what we've taken and
+what we need to take.
 
-Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+Make this simple by merging all KML slots_lock into a single slots lock.
 
-> ---
->  docs/meson.build | 1 +
->  1 file changed, 1 insertion(+)
-> 
-> diff --git a/docs/meson.build b/docs/meson.build
-> index 71641b4fe07..fae9849b79b 100644
-> --- a/docs/meson.build
-> +++ b/docs/meson.build
-> @@ -62,6 +62,7 @@ if build_docs
->          'qemu-img.1': (have_tools ? 'man1' : ''),
->          'qemu-nbd.8': (have_tools ? 'man8' : ''),
->          'qemu-pr-helper.8': (have_tools ? 'man8' : ''),
-> +        'qemu-storage-daemon.1': (have_tools ? 'man1' : ''),
->          'qemu-trace-stap.1': (config_host.has_key('CONFIG_TRACE_SYSTEMTAP') ? 'man1' : ''),
->          'virtfs-proxy-helper.1': (have_virtfs_proxy_helper ? 'man1' : ''),
->          'virtiofsd.1': (have_virtiofsd ? 'man1' : ''),
-> 
+Per-kml slots_lock isn't anything that helpful anyway - so far only x86 has two
+address spaces (so, two slots_locks).  All the rest archs will be having one
+address space always, which means there's actually one slots_lock so it will be
+the same as before.
+
+Signed-off-by: Peter Xu <peterx@redhat.com>
+---
+ accel/kvm/kvm-all.c      | 32 +++++++++++++++++---------------
+ include/sysemu/kvm_int.h |  2 --
+ 2 files changed, 17 insertions(+), 17 deletions(-)
+
+diff --git a/accel/kvm/kvm-all.c b/accel/kvm/kvm-all.c
+index 9f779b56ae..d891a22a3b 100644
+--- a/accel/kvm/kvm-all.c
++++ b/accel/kvm/kvm-all.c
+@@ -176,8 +176,10 @@ typedef struct KVMResampleFd KVMResampleFd;
+ static QLIST_HEAD(, KVMResampleFd) kvm_resample_fd_list =
+     QLIST_HEAD_INITIALIZER(kvm_resample_fd_list);
+ 
+-#define kvm_slots_lock(kml)      qemu_mutex_lock(&(kml)->slots_lock)
+-#define kvm_slots_unlock(kml)    qemu_mutex_unlock(&(kml)->slots_lock)
++static QemuMutex kml_slots_lock;
++
++#define kvm_slots_lock()  qemu_mutex_lock(&kml_slots_lock)
++#define kvm_slots_unlock()  qemu_mutex_unlock(&kml_slots_lock)
+ 
+ static inline void kvm_resample_fd_remove(int gsi)
+ {
+@@ -263,9 +265,9 @@ bool kvm_has_free_slot(MachineState *ms)
+     bool result;
+     KVMMemoryListener *kml = &s->memory_listener;
+ 
+-    kvm_slots_lock(kml);
++    kvm_slots_lock();
+     result = !!kvm_get_free_slot(kml);
+-    kvm_slots_unlock(kml);
++    kvm_slots_unlock();
+ 
+     return result;
+ }
+@@ -331,7 +333,7 @@ int kvm_physical_memory_addr_from_host(KVMState *s, void *ram,
+     KVMMemoryListener *kml = &s->memory_listener;
+     int i, ret = 0;
+ 
+-    kvm_slots_lock(kml);
++    kvm_slots_lock();
+     for (i = 0; i < s->nr_slots; i++) {
+         KVMSlot *mem = &kml->slots[i];
+ 
+@@ -341,7 +343,7 @@ int kvm_physical_memory_addr_from_host(KVMState *s, void *ram,
+             break;
+         }
+     }
+-    kvm_slots_unlock(kml);
++    kvm_slots_unlock();
+ 
+     return ret;
+ }
+@@ -537,7 +539,7 @@ static int kvm_section_update_flags(KVMMemoryListener *kml,
+         return 0;
+     }
+ 
+-    kvm_slots_lock(kml);
++    kvm_slots_lock();
+ 
+     while (size && !ret) {
+         slot_size = MIN(kvm_max_slot_size, size);
+@@ -553,7 +555,7 @@ static int kvm_section_update_flags(KVMMemoryListener *kml,
+     }
+ 
+ out:
+-    kvm_slots_unlock(kml);
++    kvm_slots_unlock();
+     return ret;
+ }
+ 
+@@ -826,7 +828,7 @@ static int kvm_physical_log_clear(KVMMemoryListener *kml,
+         return ret;
+     }
+ 
+-    kvm_slots_lock(kml);
++    kvm_slots_lock();
+ 
+     for (i = 0; i < s->nr_slots; i++) {
+         mem = &kml->slots[i];
+@@ -852,7 +854,7 @@ static int kvm_physical_log_clear(KVMMemoryListener *kml,
+         }
+     }
+ 
+-    kvm_slots_unlock(kml);
++    kvm_slots_unlock();
+ 
+     return ret;
+ }
+@@ -1157,7 +1159,7 @@ static void kvm_set_phys_mem(KVMMemoryListener *kml,
+     ram = memory_region_get_ram_ptr(mr) + section->offset_within_region +
+           (start_addr - section->offset_within_address_space);
+ 
+-    kvm_slots_lock(kml);
++    kvm_slots_lock();
+ 
+     if (!add) {
+         do {
+@@ -1215,7 +1217,7 @@ static void kvm_set_phys_mem(KVMMemoryListener *kml,
+     } while (size);
+ 
+ out:
+-    kvm_slots_unlock(kml);
++    kvm_slots_unlock();
+ }
+ 
+ static void kvm_region_add(MemoryListener *listener,
+@@ -1242,9 +1244,9 @@ static void kvm_log_sync(MemoryListener *listener,
+     KVMMemoryListener *kml = container_of(listener, KVMMemoryListener, listener);
+     int r;
+ 
+-    kvm_slots_lock(kml);
++    kvm_slots_lock();
+     r = kvm_physical_sync_dirty_bitmap(kml, section);
+-    kvm_slots_unlock(kml);
++    kvm_slots_unlock();
+     if (r < 0) {
+         abort();
+     }
+@@ -1344,7 +1346,7 @@ void kvm_memory_listener_register(KVMState *s, KVMMemoryListener *kml,
+ {
+     int i;
+ 
+-    qemu_mutex_init(&kml->slots_lock);
++    qemu_mutex_init(&kml_slots_lock);
+     kml->slots = g_malloc0(s->nr_slots * sizeof(KVMSlot));
+     kml->as_id = as_id;
+ 
+diff --git a/include/sysemu/kvm_int.h b/include/sysemu/kvm_int.h
+index 65740806da..f3d9eed750 100644
+--- a/include/sysemu/kvm_int.h
++++ b/include/sysemu/kvm_int.h
+@@ -27,8 +27,6 @@ typedef struct KVMSlot
+ 
+ typedef struct KVMMemoryListener {
+     MemoryListener listener;
+-    /* Protects the slots and all inside them */
+-    QemuMutex slots_lock;
+     KVMSlot *slots;
+     int as_id;
+ } KVMMemoryListener;
+-- 
+2.26.2
 
 
