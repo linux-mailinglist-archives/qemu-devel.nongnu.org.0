@@ -2,42 +2,43 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 864712EECD6
-	for <lists+qemu-devel@lfdr.de>; Fri,  8 Jan 2021 06:21:53 +0100 (CET)
-Received: from localhost ([::1]:38916 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D2C802EECD7
+	for <lists+qemu-devel@lfdr.de>; Fri,  8 Jan 2021 06:21:59 +0100 (CET)
+Received: from localhost ([::1]:38974 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kxkDg-0001vX-JA
-	for lists+qemu-devel@lfdr.de; Fri, 08 Jan 2021 00:21:52 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60356)
+	id 1kxkDk-0001wv-Uh
+	for lists+qemu-devel@lfdr.de; Fri, 08 Jan 2021 00:21:56 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60358)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1kxkBb-0000aR-Gz; Fri, 08 Jan 2021 00:19:43 -0500
-Received: from bilbo.ozlabs.org ([203.11.71.1]:40505 helo=ozlabs.org)
+ id 1kxkBb-0000aT-Km; Fri, 08 Jan 2021 00:19:43 -0500
+Received: from bilbo.ozlabs.org ([203.11.71.1]:59743 helo=ozlabs.org)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1kxkBY-00030v-Om; Fri, 08 Jan 2021 00:19:43 -0500
+ id 1kxkBZ-00030y-13; Fri, 08 Jan 2021 00:19:43 -0500
 Received: by ozlabs.org (Postfix, from userid 1007)
- id 4DBrxq1Wjbz9sWl; Fri,  8 Jan 2021 16:19:27 +1100 (AEDT)
+ id 4DBrxq2LW5z9sWc; Fri,  8 Jan 2021 16:19:27 +1100 (AEDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=gibson.dropbear.id.au; s=201602; t=1610083167;
- bh=R8yIype4M4Q3PgQiQZ1z0eOH5rLnw9NyidpMTsavZBw=;
+ bh=10pRltwJwzOkdN7mhNTBSGaf0kxqc7JDgVdLQdMlTSA=;
  h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=C0+Bg3VDaQdkovuQ41cjZ2HaXPT+IOULaW6rsXVWIAKCvKEExYfjwQZPM2RuD+TLU
- 7p/dkjlMqe0GIaXrXnWSqhuaA69nhzHXbJYZdDBPa6om7mxQfxNeVdcGWB/pxdpWOn
- H1dkEnoWvXwFFUHe3yFuVwg5QTFIx1Oyy6H1L55E=
-Date: Fri, 8 Jan 2021 10:24:02 +1100
+ b=Lv6It7gqYmQbvx3xp+rcMnGXo9jc2ttqKwRQmz2zvRQ4aTYyX3X3xTGj7u4Q5nbJM
+ c9ywxrQowVJ8FnVju9oInROQxxYUm+GcZNLt74hF3tm9plk4JCgTr7NF9dlLAuZskY
+ fAmYJ3hKysSGCjiXGzUH5HZJcSfmOFLFVodOXGPw=
+Date: Fri, 8 Jan 2021 11:34:38 +1100
 From: David Gibson <david@gibson.dropbear.id.au>
-To: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
-Subject: Re: [PATCH v2 0/7] macio: remove PIC object property links
-Message-ID: <20210107232402.GF3209@yekko.fritz.box>
-References: <20201229175619.6051-1-mark.cave-ayland@ilande.co.uk>
- <2b58fe51-ddeb-3fd3-9557-b236821b764d@ilande.co.uk>
+To: Ram Pai <linuxram@us.ibm.com>
+Subject: Re: [for-6.0 v5 10/13] spapr: Add PEF based securable guest memory
+Message-ID: <20210108003438.GG3209@yekko.fritz.box>
+References: <20201204054415.579042-1-david@gibson.dropbear.id.au>
+ <20201204054415.579042-11-david@gibson.dropbear.id.au>
+ <20210105233438.GB22585@ram-ibm-com.ibm.com>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="Y/WcH0a6A93yCHGr"
+ protocol="application/pgp-signature"; boundary="4ndw/alBWmZEhfcZ"
 Content-Disposition: inline
-In-Reply-To: <2b58fe51-ddeb-3fd3-9557-b236821b764d@ilande.co.uk>
+In-Reply-To: <20210105233438.GB22585@ram-ibm-com.ibm.com>
 Received-SPF: pass client-ip=203.11.71.1; envelope-from=dgibson@ozlabs.org;
  helo=ozlabs.org
 X-Spam_score_int: -1
@@ -59,75 +60,130 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: thuth@redhat.com, qemu-ppc@nongnu.org, qemu-devel@nongnu.org
+Cc: pair@us.ibm.com, Marcelo Tosatti <mtosatti@redhat.com>,
+ brijesh.singh@amd.com, frankja@linux.ibm.com, kvm@vger.kernel.org,
+ "Michael S. Tsirkin" <mst@redhat.com>, cohuck@redhat.com,
+ Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org,
+ dgilbert@redhat.com, pasic@linux.ibm.com, borntraeger@de.ibm.com,
+ qemu-s390x@nongnu.org, qemu-ppc@nongnu.org, berrange@redhat.com,
+ thuth@redhat.com, pbonzini@redhat.com, david@redhat.com, rth@twiddle.net,
+ mdroth@linux.vnet.ibm.com, Eduardo Habkost <ehabkost@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 
---Y/WcH0a6A93yCHGr
+--4ndw/alBWmZEhfcZ
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Thu, Jan 07, 2021 at 02:26:33PM +0000, Mark Cave-Ayland wrote:
-> On 29/12/2020 17:56, Mark Cave-Ayland wrote:
->=20
-> > This patchset follows on from the dicussion at https://lists.gnu.org/ar=
-chive/html/qemu-devel/2020-11/msg02630.html
-> > where the user_creatable flag for the macio devices was set back to fal=
-se just
-> > before the 5.2 release.
+On Tue, Jan 05, 2021 at 03:34:38PM -0800, Ram Pai wrote:
+> On Fri, Dec 04, 2020 at 04:44:12PM +1100, David Gibson wrote:
+> > Some upcoming POWER machines have a system called PEF (Protected
+> > Execution Facility) which uses a small ultravisor to allow guests to
+> > run in a way that they can't be eavesdropped by the hypervisor.  The
+> > effect is roughly similar to AMD SEV, although the mechanisms are
+> > quite different.
 > >=20
-> > The underlying cause was that the PIC object property links were not be=
-ing set
-> > before realise. Whilst this cannot happen when launching the g3beige an=
-d mac99
-> > machines from qemu-system-ppc, it caused some automated tests to fail.
+> > Most of the work of this is done between the guest, KVM and the
+> > ultravisor, with little need for involvement by qemu.  However qemu
+> > does need to tell KVM to allow secure VMs.
 > >=20
-> > Here we fix the real problem which is to move the PIC for both machines=
- into the
-> > macio device, which not only matches real hardware but also enables the=
- PIC object
-> > property links to be completely removed.
+> > Because the availability of secure mode is a guest visible difference
+> > which depends on having the right hardware and firmware, we don't
+> > enable this by default.  In order to run a secure guest you need to
+> > create a "pef-guest" object and set the securable-guest-memory machine
+> > property to point to it.
 > >=20
-> > Patch 6 rewires the macio gpios for the mac99 machine as per Ben's orig=
-inal comment
-> > after the OpenPIC device has been moved into the macio-newworld device,=
- and then
-> > finally patch 7 removes setting the user_creatable flag to false on the=
- macio devices
-> > once again.
+> > Note that this just *allows* secure guests, the architecture of PEF is
+> > such that the guest still needs to talk to the ultravisor to enter
+> > secure mode.  Qemu has no directl way of knowing if the guest is in
+> > secure mode, and certainly can't know until well after machine
+> > creation time.
 > >=20
-> > Signed-off-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
+> > To start a PEF-capable guest, use the command line options:
+> >     -object pef-guest,id=3Dpef0 -machine securable-guest-memory=3Dpef0
 > >=20
-> > v2:
-> > - Add R-B tag for patch 1 from David
-> > - Update commit messages to included more detail as requested by David
+> > Signed-off-by: David Gibson <david@gibson.dropbear.id.au>
+> > Acked-by: Ram Pai <linuxram@us.ibm.com>
+> > ---
+> >  hw/ppc/meson.build   |   1 +
+> >  hw/ppc/pef.c         | 115 +++++++++++++++++++++++++++++++++++++++++++
+> >  hw/ppc/spapr.c       |  10 ++++
+> >  include/hw/ppc/pef.h |  26 ++++++++++
+> >  target/ppc/kvm.c     |  18 -------
+> >  target/ppc/kvm_ppc.h |   6 ---
+> >  6 files changed, 152 insertions(+), 24 deletions(-)
+> >  create mode 100644 hw/ppc/pef.c
+> >  create mode 100644 include/hw/ppc/pef.h
 > >=20
-> >=20
-> > Mark Cave-Ayland (7):
-> >    mac_oldworld: remove duplicate bus check for PPC_INPUT(env)
-> >    mac_oldworld: move initialisation of grackle before heathrow
-> >    macio: move heathrow PIC inside macio-oldworld device
-> >    mac_newworld: delay wiring of PCI IRQs in New World machine
-> >    macio: move OpenPIC inside macio-newworld device
-> >    macio: wire macio GPIOs to OpenPIC using sysbus IRQs
-> >    macio: don't set user_creatable to false
-> >=20
-> >   hw/misc/macio/gpio.c          | 24 +++--------
-> >   hw/misc/macio/macio.c         | 53 ++++++++++++------------
-> >   hw/ppc/mac_newworld.c         | 71 ++++++++++++++++----------------
-> >   hw/ppc/mac_oldworld.c         | 76 ++++++++++++++++-------------------
-> >   include/hw/misc/macio/gpio.h  |  2 -
-> >   include/hw/misc/macio/macio.h |  4 +-
-> >   6 files changed, 104 insertions(+), 126 deletions(-)
->=20
-> Any further thoughts on this? David has reviewed patches 1-5 but I've had=
- no
-> other feedback to date. If everyone is happy then I don't mind including
-> this in a qemu-macppc PR.
+> > diff --git a/hw/ppc/meson.build b/hw/ppc/meson.build
+> > index ffa2ec37fa..218631c883 100644
+> > --- a/hw/ppc/meson.build
+> > +++ b/hw/ppc/meson.build
+> > @@ -27,6 +27,7 @@ ppc_ss.add(when: 'CONFIG_PSERIES', if_true: files(
+> >    'spapr_nvdimm.c',
+> >    'spapr_rtas_ddw.c',
+> >    'spapr_numa.c',
+> > +  'pef.c',
+> >  ))
+> >  ppc_ss.add(when: 'CONFIG_SPAPR_RNG', if_true: files('spapr_rng.c'))
+> >  ppc_ss.add(when: ['CONFIG_PSERIES', 'CONFIG_LINUX'], if_true: files(
+> > diff --git a/hw/ppc/pef.c b/hw/ppc/pef.c
+> > new file mode 100644
+> > index 0000000000..3ae3059cfe
+> > --- /dev/null
+> > +++ b/hw/ppc/pef.c
+> > @@ -0,0 +1,115 @@
+> > +/*
+> > + * PEF (Protected Execution Facility) for POWER support
+> > + *
+> > + * Copyright David Gibson, Redhat Inc. 2020
+> > + *
+> > + * This work is licensed under the terms of the GNU GPL, version 2 or =
+later.
+> > + * See the COPYING file in the top-level directory.
+> > + *
+> > + */
+> > +
+> > +#include "qemu/osdep.h"
+> > +
+> > +#include "qapi/error.h"
+> > +#include "qom/object_interfaces.h"
+> > +#include "sysemu/kvm.h"
+> > +#include "migration/blocker.h"
+> > +#include "exec/securable-guest-memory.h"
+> > +#include "hw/ppc/pef.h"
+> > +
+> > +#define TYPE_PEF_GUEST "pef-guest"
+> > +#define PEF_GUEST(obj)                                  \
+> > +    OBJECT_CHECK(PefGuestState, (obj), TYPE_PEF_GUEST)
+> > +
+> > +typedef struct PefGuestState PefGuestState;
+> > +
+> > +/**
+> > + * PefGuestState:
+> > + *
+> > + * The PefGuestState object is used for creating and managing a PEF
+> > + * guest.
+> > + *
+> > + * # $QEMU \
+> > + *         -object pef-guest,id=3Dpef0 \
+> > + *         -machine ...,securable-guest-memory=3Dpef0
+> > + */
+> > +struct PefGuestState {
+> > +    Object parent_obj;
+> > +};
+> > +
+> > +#ifdef CONFIG_KVM
+> > +static int kvmppc_svm_init(Error **errp)
+> > +{
+> > +    if (!kvm_check_extension(kvm_state, KVM_CAP_PPC_SECURABLE_GUEST)) {
+>                                            ^^^^^^^^^^^^^^^^^^^^^^^^^^
+> KVM defines this macro as KVM_CAP_PPC_SECURE_GUEST. Unless we patch KVM,
+>     we are stuck with KVM_CAP_PPC_SECURE_GUEST.
 
-I'm happy for you to do that.
+Oops, made an over-zealous search and replace.  Fixed now.
 
 --=20
 David Gibson			| I'll have my music baroque, and my code
@@ -135,25 +191,25 @@ david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
 				| _way_ _around_!
 http://www.ozlabs.org/~dgibson
 
---Y/WcH0a6A93yCHGr
+--4ndw/alBWmZEhfcZ
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAl/3mA0ACgkQbDjKyiDZ
-s5LChRAAmFSIKfL7cqul/C0nDdsgn22ziMojIJsHmX9Y0r1AxasGslFYcoILDD5u
-yTlJ0Gy84OWRTVy7lU9T9s7JAM0Rv/UdzytwyYsnG2uQly9QaX8YK3WV/SPoENVi
-janTQxr/+VIINwEl+II4qJOWofv9Sq8MGJplAYlLhxouSjgjkjbdyYhpKo8d7uN3
-zeSPVCygp+nVxIcEGDC+Js3ge7XLyQm5iytOGoT2gIefOwWS4U58GgBXQ6i1z95s
-WzXfwOzk4vqPmuK2MpJ6y3AIzu1rBygtuRpQlll/xSgjXZB6jsmGsFVfQMtQqZPW
-TdpmGqmLHkwxIs76PpUW+BgYUDwPX7hHIX/2nuoFMKIQpX7uSs6pH0sCTltQlXXz
-0INZJl7CUgVCrweuNBdTyo0Hb7O7HaabzQr1SVdrJo721tC70yFdno6Ac85WBYtp
-qgqk+lzk32Xz2ACWNEhACJLPyEuFZG7CzJYe7lOPLtEdEDGGq2H0JYkwpxk1VR/f
-MZZn5dvT+C2UGegYfDEBY1aOswT1HkkO5YoAcecJboe5gRjTKJemOFWV9+ThnjNq
-YBlR3Sai1xuV3JtcuSnY/Sa/RnVOdKMkAycjFOYIhUwj1Jonu3WfkDto9116bcH1
-CY/TYagCJlz5895pUzWQhtjTulm0u5Dsre3aTla2Wf/YFJUTXTk=
-=TKfs
+iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAl/3qJsACgkQbDjKyiDZ
+s5IANQ/+J2DKwAaHGUe/L8Mc/Q4ZWxGd3BNXR1m7x/uq8d5WBiZO4oluS7iFz5Ti
+/HZNZogvQcIRu6bbM4GAYmXGv9V4eqIJ5fKiti/EXb0cus0+7VwbWecgfJQQspma
+W1EwAXRw0GGspVH4JYfdJDXPp4c30SR7HnJRP1MWq9KBq99tVWGiqOpsOiTsz6/8
+iF6mOGp53mq3QqEP9n4yz2WGVwKpRqtHuyTOLbOqTjg/uLIlHJugknB4TU5gFNsB
+8DoukIeE2Jzyk1B0sSv0qloYCP3FesZxkM0zcbr1iSSWrdj5cRVzmrMV3GKxwbbZ
+Dh4JCstjg7/NVnpNCJwCdV5awi6U7Y3JuWrY6QXaUOXsJHJQVIQcib5MPYDiJU/j
+zwalQVEx5MYAKQEu0kDg3vnDM3YNSdk/yuJYs0CKhFTsPkc1d4Qn+P/v6kY1JkW/
+vn1ZDQmWh9gRbnXJzOkbasAVSayvLSFTjZr8k3KhvuLguohu80XxadqHSk3Uf+i4
+L4gx8b3SFeDbYg88fbhsZA8PPqHPqJ4He7Y+544T5LLiQH+6ht/RYsZQhoYHP/ze
+RO/S0hOFOnXQrDlf9I2xISwtcljtSVRZA04YVb+LcWOcP6i5YzXN/0nkPJIOzWn5
+FAsbAhX+nGYty6xLBv7+FoZuTRm9VYv0IoBtsbHqsokDTSTw+FA=
+=bbwY
 -----END PGP SIGNATURE-----
 
---Y/WcH0a6A93yCHGr--
+--4ndw/alBWmZEhfcZ--
 
