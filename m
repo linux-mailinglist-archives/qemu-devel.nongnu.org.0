@@ -2,73 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0D4472EF7FF
-	for <lists+qemu-devel@lfdr.de>; Fri,  8 Jan 2021 20:19:11 +0100 (CET)
-Received: from localhost ([::1]:55154 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4FFB12EF813
+	for <lists+qemu-devel@lfdr.de>; Fri,  8 Jan 2021 20:26:47 +0100 (CET)
+Received: from localhost ([::1]:41478 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kxxHy-0005px-0n
-	for lists+qemu-devel@lfdr.de; Fri, 08 Jan 2021 14:19:10 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40340)
+	id 1kxxPK-0004ni-D8
+	for lists+qemu-devel@lfdr.de; Fri, 08 Jan 2021 14:26:46 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40456)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from
- <3JK74XwgKCmkdbOHVaZONVVNSL.JVTXLTb-KLcLSUVUNUb.VYN@flex--wuhaotsh.bounces.google.com>)
- id 1kxx9i-00018l-W9
- for qemu-devel@nongnu.org; Fri, 08 Jan 2021 14:10:39 -0500
-Received: from mail-pj1-x1049.google.com ([2607:f8b0:4864:20::1049]:55696)
+ <3Ja74XwgKCmoecPIWbaPOWWOTM.KWUYMUc-LMdMTVWVOVc.WZO@flex--wuhaotsh.bounces.google.com>)
+ id 1kxx9q-0001D9-PP
+ for qemu-devel@nongnu.org; Fri, 08 Jan 2021 14:10:47 -0500
+Received: from mail-pg1-x549.google.com ([2607:f8b0:4864:20::549]:46902)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from
- <3JK74XwgKCmkdbOHVaZONVVNSL.JVTXLTb-KLcLSUVUNUb.VYN@flex--wuhaotsh.bounces.google.com>)
- id 1kxx9d-0007LD-Ul
- for qemu-devel@nongnu.org; Fri, 08 Jan 2021 14:10:38 -0500
-Received: by mail-pj1-x1049.google.com with SMTP id 25so7143935pjb.5
- for <qemu-devel@nongnu.org>; Fri, 08 Jan 2021 11:10:29 -0800 (PST)
+ <3Ja74XwgKCmoecPIWbaPOWWOTM.KWUYMUc-LMdMTVWVOVc.WZO@flex--wuhaotsh.bounces.google.com>)
+ id 1kxx9f-0007LQ-H6
+ for qemu-devel@nongnu.org; Fri, 08 Jan 2021 14:10:44 -0500
+Received: by mail-pg1-x549.google.com with SMTP id w13so8078014pgr.13
+ for <qemu-devel@nongnu.org>; Fri, 08 Jan 2021 11:10:31 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=20161025;
  h=sender:date:in-reply-to:message-id:mime-version:references:subject
- :from:to:cc; bh=LFMApgmcvcDNCjLnfm4pNHIGZoEohJnPNwpMriHcQFE=;
- b=AEKD5cxxfQ0J2L7YBJx0gbOMcsAYU2w3B4iC5LZgl3LV+i7OmDaUBdTrGZ7T9NXqQH
- CWLEfQ/MGC68khXQvO03jTSf5Z1MpreTHvi0p4LA8yQYV6LzHl7LaJggV3NOpha7+Bg7
- BndSakaCk5sZ0FYLg4Cp99GDFTJLTJ0YMJrEr7BDcgPGkh+q0bcnVvP5Di6QQRkJAdeE
- gi7T4iWSrrfhzDjKhbVgw+YpJQf6xZGovlqpK1tZjDGj3I4wfdBvZ9nrO2/dlKxYxVVE
- dUspVay/HrqXiT2d33Nnj6qug0H7yOizYwzagJel/s2FJQRWslWJhiqnjO2iFrOtMuZc
- VAZA==
+ :from:to:cc; bh=r+c8gA3nmxYNL7aBu2zdA8HqAK+wSYkjLQrk13sw7cg=;
+ b=gKrLTVpjgNbbiR6i/na8jJLGb4k3XlrqMtU+USgazvWi46azrCyxsMifqwq7i4Jv1Y
+ e3tmpRe99hBbj0bzZ4GI3qOYJS4xfZPmcIVullN+XhazpojIGXVKq1l8tSTSnaSQ9J5e
+ IqimepUirEbWPqV4r8gcy6DVGw74B7ZZXnKlFM1hPSianFbONcSOTodF/PR84YGIP9cH
+ 6ubv1fm1+MCUmidHKEVIemBDpfW+pIzMGbvj9nXlL4Qyo8qC7FxfbjR4BCkKybPDdBpU
+ JvUcnYEhZZUYyzGU4vb7EkSCL/NmubHHqD3/lHNMSvslzab89aVj7yt95ldp3ebbsMRP
+ DAyA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:date:in-reply-to:message-id:mime-version
  :references:subject:from:to:cc;
- bh=LFMApgmcvcDNCjLnfm4pNHIGZoEohJnPNwpMriHcQFE=;
- b=a+5auihmPinpKyGgp9on0TxDdu5x0U6Nq34waG785JfO1gZ/VejM2w86QPHRZ/IRgA
- JblINpbKdy8Jg6IpBfSZ9QrxO2uvnQq3uAT/FB7t/EwDHyLbjbGNLSuOJC7IM+kufl7F
- iIQxpxJZ8vzSwb3fadeTsgNs1PI9nYaOCImc062mO/aC8IqTxdBcw54chFnztNFtSNpO
- P0HQCeL3OY87bqCe8FB9HAlKU5P+8Lq9Mm56wF2Mnz7yJLaPEpQaZ37Nk3DXzJ8XY3bn
- 427/6ywhpjuLldXxdlguxt9p8IRwSIpXcoePIJqh8vPxF1jP+oynQZsy6WpeeFeTyATU
- G0ug==
-X-Gm-Message-State: AOAM5330wuIaBr5hWou/jnm/nw8uLfi3TurhJU6nvL6aYWz8W4jHUT85
- HD+XJLP0Rf4EOAK0cDLuCaaxG3QPNAACUw==
-X-Google-Smtp-Source: ABdhPJxs/q21SPe8Gb2RU84T4IllVPIOMgUPzTODcAzg1jxmu5S5nFpk5dwVYaia2W2L0moQmVJ9NG6XOPRa/w==
+ bh=r+c8gA3nmxYNL7aBu2zdA8HqAK+wSYkjLQrk13sw7cg=;
+ b=ph2tPO2eOVaKTxQaDOpG4w9ECEuKHGIO/MqcFcj/XYIZIhxgm5at8cy4FaglV2CdWB
+ dVfkoibXleXbq8nH696ZO73egcIGmsnyCE+JDy+RrYL2yWTDuFnCuXoKPl0vmHLw4H04
+ 0f3LIAM8S5RRy0gzB0U9Jq1CzcVY5PR41ZBnUu2MNi417p8ar7dmNztN0jSuUCJ1qFcB
+ ViImFDrgOf+34FbJRsx3O68CtYErfpN9uz4YDiqCPbH2fOFOfF75mBlEyrSNXTCycyym
+ aL9k6+Mp1wXZ4S3c1aXoqko4Ueuw0NQQNpr/YxXD2nP7cYZ6A42mZj8gnpX++/ZnJxlR
+ AGag==
+X-Gm-Message-State: AOAM531Y/3kaoCTU/nxpOWsgtfsV3FHaZCJzxdNFVE/nxNJDynvhQ1ao
+ XD+i3nBow+9FeP6KDFoN+ljnRC6CoYkeEA==
+X-Google-Smtp-Source: ABdhPJyKzOOrjBP0P4HpWQn5EA0Rd6V1PnVNY1fumrQi7ubMwg4QObCGCU3dh8TOtV4vmUkKnpKcih621PV97A==
 X-Received: from mimik.c.googlers.com ([fda3:e722:ac3:10:7f:e700:c0a8:4e])
- (user=wuhaotsh job=sendgmr) by 2002:a62:7f4c:0:b029:19e:23d1:cf0a with SMTP
- id a73-20020a627f4c0000b029019e23d1cf0amr5039230pfd.67.1610133028157; Fri, 08
- Jan 2021 11:10:28 -0800 (PST)
-Date: Fri,  8 Jan 2021 11:09:42 -0800
+ (user=wuhaotsh job=sendgmr) by 2002:a17:902:7207:b029:da:fd0c:521a with SMTP
+ id ba7-20020a1709027207b02900dafd0c521amr5193681plb.45.1610133029830; Fri, 08
+ Jan 2021 11:10:29 -0800 (PST)
+Date: Fri,  8 Jan 2021 11:09:43 -0800
 In-Reply-To: <20210108190945.949196-1-wuhaotsh@google.com>
-Message-Id: <20210108190945.949196-4-wuhaotsh@google.com>
+Message-Id: <20210108190945.949196-5-wuhaotsh@google.com>
 Mime-Version: 1.0
 References: <20210108190945.949196-1-wuhaotsh@google.com>
 X-Mailer: git-send-email 2.29.2.729.g45daf8777d-goog
-Subject: [PATCH v5 3/6] hw/adc: Add an ADC module for NPCM7XX
+Subject: [PATCH v5 4/6] hw/misc: Add a PWM module for NPCM7XX
 To: peter.maydell@linaro.org
 Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1049;
- envelope-from=3JK74XwgKCmkdbOHVaZONVVNSL.JVTXLTb-KLcLSUVUNUb.VYN@flex--wuhaotsh.bounces.google.com;
- helo=mail-pj1-x1049.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::549;
+ envelope-from=3Ja74XwgKCmoecPIWbaPOWWOTM.KWUYMUc-LMdMTVWVOVc.WZO@flex--wuhaotsh.bounces.google.com;
+ helo=mail-pg1-x549.google.com
 X-Spam_score_int: -99
 X-Spam_score: -10.0
 X-Spam_bar: ----------
 X-Spam_report: (-10.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_MED=-0.386,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- USER_IN_DEF_DKIM_WL=-7.5 autolearn=ham autolearn_force=no
+ USER_IN_DEF_DKIM_WL=-7.5 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -89,67 +89,139 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 Reply-to: Hao Wu <wuhaotsh@google.com>
 From: Hao Wu via <qemu-devel@nongnu.org>
 
-The ADC is part of NPCM7XX Module. Its behavior is controled by the
-ADC_CON register. It converts one of the eight analog inputs into a
-digital input and stores it in the ADC_DATA register when enabled.
+The PWM module is part of NPCM7XX module. Each NPCM7XX module has two
+identical PWM modules. Each module contains 4 PWM entries. Each PWM has
+two outputs: frequency and duty_cycle. Both are computed using inputs
+from software side.
 
-Users can alter input value by using qom-set QMP command.
+This module does not model detail pulse signals since it is expensive.
+It also does not model interrupts and watchdogs that are dependant on
+the detail models. The interfaces for these are left in the module so
+that anyone in need for these functionalities can implement on their
+own.
+
+The user can read the duty cycle and frequency using qom-get command.
 
 Reviewed-by: Havard Skinnemoen <hskinnemoen@google.com>
 Reviewed-by: Tyrone Ting <kfting@nuvoton.com>
 Signed-off-by: Hao Wu <wuhaotsh@google.com>
 ---
- docs/system/arm/nuvoton.rst    |   2 +-
- hw/adc/meson.build             |   1 +
- hw/adc/npcm7xx_adc.c           | 301 ++++++++++++++++++++++++++
- hw/adc/trace-events            |   5 +
- hw/arm/npcm7xx.c               |  24 ++-
- include/hw/adc/npcm7xx_adc.h   |  69 ++++++
- include/hw/arm/npcm7xx.h       |   2 +
- meson.build                    |   1 +
- tests/qtest/meson.build        |   3 +-
- tests/qtest/npcm7xx_adc-test.c | 377 +++++++++++++++++++++++++++++++++
- 10 files changed, 782 insertions(+), 3 deletions(-)
- create mode 100644 hw/adc/npcm7xx_adc.c
- create mode 100644 hw/adc/trace-events
- create mode 100644 include/hw/adc/npcm7xx_adc.h
- create mode 100644 tests/qtest/npcm7xx_adc-test.c
+ docs/system/arm/nuvoton.rst   |   2 +-
+ hw/arm/npcm7xx.c              |  26 +-
+ hw/misc/meson.build           |   1 +
+ hw/misc/npcm7xx_pwm.c         | 550 ++++++++++++++++++++++++++++++++++
+ hw/misc/trace-events          |   6 +
+ include/hw/arm/npcm7xx.h      |   2 +
+ include/hw/misc/npcm7xx_pwm.h | 105 +++++++
+ 7 files changed, 689 insertions(+), 3 deletions(-)
+ create mode 100644 hw/misc/npcm7xx_pwm.c
+ create mode 100644 include/hw/misc/npcm7xx_pwm.h
 
 diff --git a/docs/system/arm/nuvoton.rst b/docs/system/arm/nuvoton.rst
-index b00d405d52..35829f8d0b 100644
+index 35829f8d0b..a1786342e2 100644
 --- a/docs/system/arm/nuvoton.rst
 +++ b/docs/system/arm/nuvoton.rst
-@@ -41,6 +41,7 @@ Supported devices
-  * Random Number Generator (RNG)
+@@ -42,6 +42,7 @@ Supported devices
   * USB host (USBH)
   * GPIO controller
-+ * Analog to Digital Converter (ADC)
+  * Analog to Digital Converter (ADC)
++ * Pulse Width Modulation (PWM)
  
  Missing devices
  ---------------
-@@ -58,7 +59,6 @@ Missing devices
-  * USB device (USBD)
-  * SMBus controller (SMBF)
+@@ -61,7 +62,6 @@ Missing devices
   * Peripheral SPI controller (PSPI)
-- * Analog to Digital Converter (ADC)
   * SD/MMC host
   * PECI interface
-  * Pulse Width Modulation (PWM)
-diff --git a/hw/adc/meson.build b/hw/adc/meson.build
-index 0d62ae96ae..6ddee23813 100644
---- a/hw/adc/meson.build
-+++ b/hw/adc/meson.build
-@@ -1 +1,2 @@
- softmmu_ss.add(when: 'CONFIG_STM32F2XX_ADC', if_true: files('stm32f2xx_adc.c'))
-+softmmu_ss.add(when: 'CONFIG_NPCM7XX', if_true: files('npcm7xx_adc.c'))
-diff --git a/hw/adc/npcm7xx_adc.c b/hw/adc/npcm7xx_adc.c
+- * Pulse Width Modulation (PWM)
+  * Tachometer
+  * PCI and PCIe root complex and bridges
+  * VDM and MCTP support
+diff --git a/hw/arm/npcm7xx.c b/hw/arm/npcm7xx.c
+index b22a8c966d..72040d4079 100644
+--- a/hw/arm/npcm7xx.c
++++ b/hw/arm/npcm7xx.c
+@@ -102,6 +102,8 @@ enum NPCM7xxInterrupt {
+     NPCM7XX_WDG2_IRQ,                   /* Timer Module 2 Watchdog */
+     NPCM7XX_EHCI_IRQ            = 61,
+     NPCM7XX_OHCI_IRQ            = 62,
++    NPCM7XX_PWM0_IRQ            = 93,   /* PWM module 0 */
++    NPCM7XX_PWM1_IRQ,                   /* PWM module 1 */
+     NPCM7XX_GPIO0_IRQ           = 116,
+     NPCM7XX_GPIO1_IRQ,
+     NPCM7XX_GPIO2_IRQ,
+@@ -144,6 +146,12 @@ static const hwaddr npcm7xx_fiu3_flash_addr[] = {
+     0xb8000000, /* CS3 */
+ };
+ 
++/* Register base address for each PWM Module */
++static const hwaddr npcm7xx_pwm_addr[] = {
++    0xf0103000,
++    0xf0104000,
++};
++
+ static const struct {
+     hwaddr regs_addr;
+     uint32_t unconnected_pins;
+@@ -353,6 +361,10 @@ static void npcm7xx_init(Object *obj)
+         object_initialize_child(obj, npcm7xx_fiu[i].name, &s->fiu[i],
+                                 TYPE_NPCM7XX_FIU);
+     }
++
++    for (i = 0; i < ARRAY_SIZE(s->pwm); i++) {
++        object_initialize_child(obj, "pwm[*]", &s->pwm[i], TYPE_NPCM7XX_PWM);
++    }
+ }
+ 
+ static void npcm7xx_realize(DeviceState *dev, Error **errp)
+@@ -513,6 +525,18 @@ static void npcm7xx_realize(DeviceState *dev, Error **errp)
+     sysbus_connect_irq(SYS_BUS_DEVICE(&s->ohci), 0,
+                        npcm7xx_irq(s, NPCM7XX_OHCI_IRQ));
+ 
++    /* PWM Modules. Cannot fail. */
++    QEMU_BUILD_BUG_ON(ARRAY_SIZE(npcm7xx_pwm_addr) != ARRAY_SIZE(s->pwm));
++    for (i = 0; i < ARRAY_SIZE(s->pwm); i++) {
++        SysBusDevice *sbd = SYS_BUS_DEVICE(&s->pwm[i]);
++
++        qdev_connect_clock_in(DEVICE(&s->pwm[i]), "clock", qdev_get_clock_out(
++                    DEVICE(&s->clk), "apb3-clock"));
++        sysbus_realize(sbd, &error_abort);
++        sysbus_mmio_map(sbd, 0, npcm7xx_pwm_addr[i]);
++        sysbus_connect_irq(sbd, i, npcm7xx_irq(s, NPCM7XX_PWM0_IRQ + i));
++    }
++
+     /*
+      * Flash Interface Unit (FIU). Can fail if incorrect number of chip selects
+      * specified, but this is a programming error.
+@@ -580,8 +604,6 @@ static void npcm7xx_realize(DeviceState *dev, Error **errp)
+     create_unimplemented_device("npcm7xx.peci",         0xf0100000,   4 * KiB);
+     create_unimplemented_device("npcm7xx.siox[1]",      0xf0101000,   4 * KiB);
+     create_unimplemented_device("npcm7xx.siox[2]",      0xf0102000,   4 * KiB);
+-    create_unimplemented_device("npcm7xx.pwm[0]",       0xf0103000,   4 * KiB);
+-    create_unimplemented_device("npcm7xx.pwm[1]",       0xf0104000,   4 * KiB);
+     create_unimplemented_device("npcm7xx.mft[0]",       0xf0180000,   4 * KiB);
+     create_unimplemented_device("npcm7xx.mft[1]",       0xf0181000,   4 * KiB);
+     create_unimplemented_device("npcm7xx.mft[2]",       0xf0182000,   4 * KiB);
+diff --git a/hw/misc/meson.build b/hw/misc/meson.build
+index ce15ffceb9..607cd38a21 100644
+--- a/hw/misc/meson.build
++++ b/hw/misc/meson.build
+@@ -64,6 +64,7 @@ softmmu_ss.add(when: 'CONFIG_MAINSTONE', if_true: files('mst_fpga.c'))
+ softmmu_ss.add(when: 'CONFIG_NPCM7XX', if_true: files(
+   'npcm7xx_clk.c',
+   'npcm7xx_gcr.c',
++  'npcm7xx_pwm.c',
+   'npcm7xx_rng.c',
+ ))
+ softmmu_ss.add(when: 'CONFIG_OMAP', if_true: files(
+diff --git a/hw/misc/npcm7xx_pwm.c b/hw/misc/npcm7xx_pwm.c
 new file mode 100644
-index 0000000000..870a6d50c2
+index 0000000000..e99e3cc7ef
 --- /dev/null
-+++ b/hw/adc/npcm7xx_adc.c
-@@ -0,0 +1,301 @@
++++ b/hw/misc/npcm7xx_pwm.c
+@@ -0,0 +1,550 @@
 +/*
-+ * Nuvoton NPCM7xx ADC Module
++ * Nuvoton NPCM7xx PWM Module
 + *
 + * Copyright 2020 Google LLC
 + *
@@ -165,152 +237,321 @@ index 0000000000..870a6d50c2
 + */
 +
 +#include "qemu/osdep.h"
-+#include "hw/adc/npcm7xx_adc.h"
++#include "hw/irq.h"
 +#include "hw/qdev-clock.h"
 +#include "hw/qdev-properties.h"
++#include "hw/misc/npcm7xx_pwm.h"
 +#include "hw/registerfields.h"
 +#include "migration/vmstate.h"
++#include "qemu/bitops.h"
++#include "qemu/error-report.h"
 +#include "qemu/log.h"
 +#include "qemu/module.h"
-+#include "qemu/timer.h"
 +#include "qemu/units.h"
 +#include "trace.h"
 +
-+REG32(NPCM7XX_ADC_CON, 0x0)
-+REG32(NPCM7XX_ADC_DATA, 0x4)
++REG32(NPCM7XX_PWM_PPR, 0x00);
++REG32(NPCM7XX_PWM_CSR, 0x04);
++REG32(NPCM7XX_PWM_PCR, 0x08);
++REG32(NPCM7XX_PWM_CNR0, 0x0c);
++REG32(NPCM7XX_PWM_CMR0, 0x10);
++REG32(NPCM7XX_PWM_PDR0, 0x14);
++REG32(NPCM7XX_PWM_CNR1, 0x18);
++REG32(NPCM7XX_PWM_CMR1, 0x1c);
++REG32(NPCM7XX_PWM_PDR1, 0x20);
++REG32(NPCM7XX_PWM_CNR2, 0x24);
++REG32(NPCM7XX_PWM_CMR2, 0x28);
++REG32(NPCM7XX_PWM_PDR2, 0x2c);
++REG32(NPCM7XX_PWM_CNR3, 0x30);
++REG32(NPCM7XX_PWM_CMR3, 0x34);
++REG32(NPCM7XX_PWM_PDR3, 0x38);
++REG32(NPCM7XX_PWM_PIER, 0x3c);
++REG32(NPCM7XX_PWM_PIIR, 0x40);
++REG32(NPCM7XX_PWM_PWDR0, 0x44);
++REG32(NPCM7XX_PWM_PWDR1, 0x48);
++REG32(NPCM7XX_PWM_PWDR2, 0x4c);
++REG32(NPCM7XX_PWM_PWDR3, 0x50);
 +
 +/* Register field definitions. */
-+#define NPCM7XX_ADC_CON_MUX(rv) extract32(rv, 24, 4)
-+#define NPCM7XX_ADC_CON_INT_EN  BIT(21)
-+#define NPCM7XX_ADC_CON_REFSEL  BIT(19)
-+#define NPCM7XX_ADC_CON_INT     BIT(18)
-+#define NPCM7XX_ADC_CON_EN      BIT(17)
-+#define NPCM7XX_ADC_CON_RST     BIT(16)
-+#define NPCM7XX_ADC_CON_CONV    BIT(14)
-+#define NPCM7XX_ADC_CON_DIV(rv) extract32(rv, 1, 8)
++#define NPCM7XX_PPR(rv, index)      extract32((rv), npcm7xx_ppr_base[index], 8)
++#define NPCM7XX_CSR(rv, index)      extract32((rv), npcm7xx_csr_base[index], 3)
++#define NPCM7XX_CH(rv, index)       extract32((rv), npcm7xx_ch_base[index], 4)
++#define NPCM7XX_CH_EN               BIT(0)
++#define NPCM7XX_CH_INV              BIT(2)
++#define NPCM7XX_CH_MOD              BIT(3)
 +
-+#define NPCM7XX_ADC_MAX_RESULT      1023
-+#define NPCM7XX_ADC_DEFAULT_IREF    2000000
-+#define NPCM7XX_ADC_CONV_CYCLES     20
-+#define NPCM7XX_ADC_RESET_CYCLES    10
-+#define NPCM7XX_ADC_R0_INPUT        500000
-+#define NPCM7XX_ADC_R1_INPUT        1500000
++/* Offset of each PWM channel's prescaler in the PPR register. */
++static const int npcm7xx_ppr_base[] = { 0, 0, 8, 8 };
++/* Offset of each PWM channel's clock selector in the CSR register. */
++static const int npcm7xx_csr_base[] = { 0, 4, 8, 12 };
++/* Offset of each PWM channel's control variable in the PCR register. */
++static const int npcm7xx_ch_base[] = { 0, 8, 12, 16 };
 +
-+static void npcm7xx_adc_reset(NPCM7xxADCState *s)
++static uint32_t npcm7xx_pwm_calculate_freq(NPCM7xxPWM *p)
 +{
-+    timer_del(&s->conv_timer);
-+    s->con = 0x000c0001;
-+    s->data = 0x00000000;
-+}
++    uint32_t ppr;
++    uint32_t csr;
++    uint32_t freq;
 +
-+static uint32_t npcm7xx_adc_convert(uint32_t input, uint32_t ref)
-+{
-+    uint32_t result;
-+
-+    result = input * (NPCM7XX_ADC_MAX_RESULT + 1) / ref;
-+    if (result > NPCM7XX_ADC_MAX_RESULT) {
-+        result = NPCM7XX_ADC_MAX_RESULT;
++    if (!p->running) {
++        return 0;
 +    }
 +
-+    return result;
-+}
-+
-+static uint32_t npcm7xx_adc_prescaler(NPCM7xxADCState *s)
-+{
-+    return 2 * (NPCM7XX_ADC_CON_DIV(s->con) + 1);
-+}
-+
-+static void npcm7xx_adc_start_timer(Clock *clk, QEMUTimer *timer,
-+        uint32_t cycles, uint32_t prescaler)
-+{
-+    int64_t now = qemu_clock_get_ns(QEMU_CLOCK_VIRTUAL);
-+    int64_t ticks = cycles;
-+    int64_t ns;
-+
-+    ticks *= prescaler;
-+    ns = clock_ticks_to_ns(clk, ticks);
-+    ns += now;
-+    timer_mod(timer, ns);
-+}
-+
-+static void npcm7xx_adc_start_convert(NPCM7xxADCState *s)
-+{
-+    uint32_t prescaler = npcm7xx_adc_prescaler(s);
-+
-+    npcm7xx_adc_start_timer(s->clock, &s->conv_timer, NPCM7XX_ADC_CONV_CYCLES,
-+            prescaler);
-+}
-+
-+static void npcm7xx_adc_convert_done(void *opaque)
-+{
-+    NPCM7xxADCState *s = opaque;
-+    uint32_t input = NPCM7XX_ADC_CON_MUX(s->con);
-+    uint32_t ref = (s->con & NPCM7XX_ADC_CON_REFSEL)
-+        ? s->iref : s->vref;
-+
-+    if (input >= NPCM7XX_ADC_NUM_INPUTS) {
-+        qemu_log_mask(LOG_GUEST_ERROR, "%s: invalid input: %u\n",
-+                      __func__, input);
-+        return;
++    csr = NPCM7XX_CSR(p->module->csr, p->index);
++    ppr = NPCM7XX_PPR(p->module->ppr, p->index);
++    freq = clock_get_hz(p->module->clock);
++    freq /= ppr + 1;
++    /* csr can only be 0~4 */
++    if (csr > 4) {
++        qemu_log_mask(LOG_GUEST_ERROR,
++                      "%s: invalid csr value %u\n",
++                      __func__, csr);
++        csr = 4;
 +    }
-+    s->data = npcm7xx_adc_convert(s->adci[input], ref);
-+    if (s->con & NPCM7XX_ADC_CON_INT_EN) {
-+        s->con |= NPCM7XX_ADC_CON_INT;
-+        qemu_irq_raise(s->irq);
-+    }
-+    s->con &= ~NPCM7XX_ADC_CON_CONV;
-+}
-+
-+static void npcm7xx_adc_calibrate(NPCM7xxADCState *adc)
-+{
-+    adc->calibration_r_values[0] = npcm7xx_adc_convert(NPCM7XX_ADC_R0_INPUT,
-+            adc->iref);
-+    adc->calibration_r_values[1] = npcm7xx_adc_convert(NPCM7XX_ADC_R1_INPUT,
-+            adc->iref);
-+}
-+
-+static void npcm7xx_adc_write_con(NPCM7xxADCState *s, uint32_t new_con)
-+{
-+    uint32_t old_con = s->con;
-+
-+    /* Write ADC_INT to 1 to clear it */
-+    if (new_con & NPCM7XX_ADC_CON_INT) {
-+        new_con &= ~NPCM7XX_ADC_CON_INT;
-+        qemu_irq_lower(s->irq);
-+    } else if (old_con & NPCM7XX_ADC_CON_INT) {
-+        new_con |= NPCM7XX_ADC_CON_INT;
++    /* freq won't be changed if csr == 4. */
++    if (csr < 4) {
++        freq >>= csr + 1;
 +    }
 +
-+    s->con = new_con;
++    return freq / (p->cnr + 1);
++}
 +
-+    if (s->con & NPCM7XX_ADC_CON_RST) {
-+        npcm7xx_adc_reset(s);
-+        return;
-+    }
++static uint32_t npcm7xx_pwm_calculate_duty(NPCM7xxPWM *p)
++{
++    uint64_t duty;
 +
-+    if ((s->con & NPCM7XX_ADC_CON_EN)) {
-+        if (s->con & NPCM7XX_ADC_CON_CONV) {
-+            if (!(old_con & NPCM7XX_ADC_CON_CONV)) {
-+                npcm7xx_adc_start_convert(s);
-+            }
++    if (p->running) {
++        if (p->cnr == 0) {
++            duty = 0;
++        } else if (p->cmr >= p->cnr) {
++            duty = NPCM7XX_PWM_MAX_DUTY;
 +        } else {
-+            timer_del(&s->conv_timer);
++            duty = NPCM7XX_PWM_MAX_DUTY * (p->cmr + 1) / (p->cnr + 1);
++        }
++    } else {
++        duty = 0;
++    }
++
++    if (p->inverted) {
++        duty = NPCM7XX_PWM_MAX_DUTY - duty;
++    }
++
++    return duty;
++}
++
++static void npcm7xx_pwm_update_freq(NPCM7xxPWM *p)
++{
++    uint32_t freq = npcm7xx_pwm_calculate_freq(p);
++
++    if (freq != p->freq) {
++        trace_npcm7xx_pwm_update_freq(DEVICE(p->module)->canonical_path,
++                                      p->index, p->freq, freq);
++        p->freq = freq;
++    }
++}
++
++static void npcm7xx_pwm_update_duty(NPCM7xxPWM *p)
++{
++    uint32_t duty = npcm7xx_pwm_calculate_duty(p);
++
++    if (duty != p->duty) {
++        trace_npcm7xx_pwm_update_duty(DEVICE(p->module)->canonical_path,
++                                      p->index, p->duty, duty);
++        p->duty = duty;
++    }
++}
++
++static void npcm7xx_pwm_update_output(NPCM7xxPWM *p)
++{
++    npcm7xx_pwm_update_freq(p);
++    npcm7xx_pwm_update_duty(p);
++}
++
++static void npcm7xx_pwm_write_ppr(NPCM7xxPWMState *s, uint32_t new_ppr)
++{
++    int i;
++    uint32_t old_ppr = s->ppr;
++
++    QEMU_BUILD_BUG_ON(ARRAY_SIZE(npcm7xx_ppr_base) != NPCM7XX_PWM_PER_MODULE);
++    s->ppr = new_ppr;
++    for (i = 0; i < NPCM7XX_PWM_PER_MODULE; ++i) {
++        if (NPCM7XX_PPR(old_ppr, i) != NPCM7XX_PPR(new_ppr, i)) {
++            npcm7xx_pwm_update_freq(&s->pwm[i]);
 +        }
 +    }
 +}
 +
-+static uint64_t npcm7xx_adc_read(void *opaque, hwaddr offset, unsigned size)
++static void npcm7xx_pwm_write_csr(NPCM7xxPWMState *s, uint32_t new_csr)
 +{
++    int i;
++    uint32_t old_csr = s->csr;
++
++    QEMU_BUILD_BUG_ON(ARRAY_SIZE(npcm7xx_csr_base) != NPCM7XX_PWM_PER_MODULE);
++    s->csr = new_csr;
++    for (i = 0; i < NPCM7XX_PWM_PER_MODULE; ++i) {
++        if (NPCM7XX_CSR(old_csr, i) != NPCM7XX_CSR(new_csr, i)) {
++            npcm7xx_pwm_update_freq(&s->pwm[i]);
++        }
++    }
++}
++
++static void npcm7xx_pwm_write_pcr(NPCM7xxPWMState *s, uint32_t new_pcr)
++{
++    int i;
++    bool inverted;
++    uint32_t pcr;
++    NPCM7xxPWM *p;
++
++    s->pcr = new_pcr;
++    QEMU_BUILD_BUG_ON(ARRAY_SIZE(npcm7xx_ch_base) != NPCM7XX_PWM_PER_MODULE);
++    for (i = 0; i < NPCM7XX_PWM_PER_MODULE; ++i) {
++        p = &s->pwm[i];
++        pcr = NPCM7XX_CH(new_pcr, i);
++        inverted = pcr & NPCM7XX_CH_INV;
++
++        /*
++         * We only run a PWM channel with toggle mode. Single-shot mode does not
++         * generate frequency and duty-cycle values.
++         */
++        if ((pcr & NPCM7XX_CH_EN) && (pcr & NPCM7XX_CH_MOD)) {
++            if (p->running) {
++                /* Re-run this PWM channel if inverted changed. */
++                if (p->inverted ^ inverted) {
++                    p->inverted = inverted;
++                    npcm7xx_pwm_update_duty(p);
++                }
++            } else {
++                /* Run this PWM channel. */
++                p->running = true;
++                p->inverted = inverted;
++                npcm7xx_pwm_update_output(p);
++            }
++        } else {
++            /* Clear this PWM channel. */
++            p->running = false;
++            p->inverted = inverted;
++            npcm7xx_pwm_update_output(p);
++        }
++    }
++
++}
++
++static hwaddr npcm7xx_cnr_index(hwaddr offset)
++{
++    switch (offset) {
++    case A_NPCM7XX_PWM_CNR0:
++        return 0;
++    case A_NPCM7XX_PWM_CNR1:
++        return 1;
++    case A_NPCM7XX_PWM_CNR2:
++        return 2;
++    case A_NPCM7XX_PWM_CNR3:
++        return 3;
++    default:
++        g_assert_not_reached();
++    }
++}
++
++static hwaddr npcm7xx_cmr_index(hwaddr offset)
++{
++    switch (offset) {
++    case A_NPCM7XX_PWM_CMR0:
++        return 0;
++    case A_NPCM7XX_PWM_CMR1:
++        return 1;
++    case A_NPCM7XX_PWM_CMR2:
++        return 2;
++    case A_NPCM7XX_PWM_CMR3:
++        return 3;
++    default:
++        g_assert_not_reached();
++    }
++}
++
++static hwaddr npcm7xx_pdr_index(hwaddr offset)
++{
++    switch (offset) {
++    case A_NPCM7XX_PWM_PDR0:
++        return 0;
++    case A_NPCM7XX_PWM_PDR1:
++        return 1;
++    case A_NPCM7XX_PWM_PDR2:
++        return 2;
++    case A_NPCM7XX_PWM_PDR3:
++        return 3;
++    default:
++        g_assert_not_reached();
++    }
++}
++
++static hwaddr npcm7xx_pwdr_index(hwaddr offset)
++{
++    switch (offset) {
++    case A_NPCM7XX_PWM_PWDR0:
++        return 0;
++    case A_NPCM7XX_PWM_PWDR1:
++        return 1;
++    case A_NPCM7XX_PWM_PWDR2:
++        return 2;
++    case A_NPCM7XX_PWM_PWDR3:
++        return 3;
++    default:
++        g_assert_not_reached();
++    }
++}
++
++static uint64_t npcm7xx_pwm_read(void *opaque, hwaddr offset, unsigned size)
++{
++    NPCM7xxPWMState *s = opaque;
 +    uint64_t value = 0;
-+    NPCM7xxADCState *s = opaque;
 +
 +    switch (offset) {
-+    case A_NPCM7XX_ADC_CON:
-+        value = s->con;
++    case A_NPCM7XX_PWM_CNR0:
++    case A_NPCM7XX_PWM_CNR1:
++    case A_NPCM7XX_PWM_CNR2:
++    case A_NPCM7XX_PWM_CNR3:
++        value = s->pwm[npcm7xx_cnr_index(offset)].cnr;
 +        break;
 +
-+    case A_NPCM7XX_ADC_DATA:
-+        value = s->data;
++    case A_NPCM7XX_PWM_CMR0:
++    case A_NPCM7XX_PWM_CMR1:
++    case A_NPCM7XX_PWM_CMR2:
++    case A_NPCM7XX_PWM_CMR3:
++        value = s->pwm[npcm7xx_cmr_index(offset)].cmr;
++        break;
++
++    case A_NPCM7XX_PWM_PDR0:
++    case A_NPCM7XX_PWM_PDR1:
++    case A_NPCM7XX_PWM_PDR2:
++    case A_NPCM7XX_PWM_PDR3:
++        value = s->pwm[npcm7xx_pdr_index(offset)].pdr;
++        break;
++
++    case A_NPCM7XX_PWM_PWDR0:
++    case A_NPCM7XX_PWM_PWDR1:
++    case A_NPCM7XX_PWM_PWDR2:
++    case A_NPCM7XX_PWM_PWDR3:
++        value = s->pwm[npcm7xx_pwdr_index(offset)].pwdr;
++        break;
++
++    case A_NPCM7XX_PWM_PPR:
++        value = s->ppr;
++        break;
++
++    case A_NPCM7XX_PWM_CSR:
++        value = s->csr;
++        break;
++
++    case A_NPCM7XX_PWM_PCR:
++        value = s->pcr;
++        break;
++
++    case A_NPCM7XX_PWM_PIER:
++        value = s->pier;
++        break;
++
++    case A_NPCM7XX_PWM_PIIR:
++        value = s->piir;
 +        break;
 +
 +    default:
@@ -320,39 +561,90 @@ index 0000000000..870a6d50c2
 +        break;
 +    }
 +
-+    trace_npcm7xx_adc_read(DEVICE(s)->canonical_path, offset, value);
++    trace_npcm7xx_pwm_read(DEVICE(s)->canonical_path, offset, value);
 +    return value;
 +}
 +
-+static void npcm7xx_adc_write(void *opaque, hwaddr offset, uint64_t v,
-+        unsigned size)
++static void npcm7xx_pwm_write(void *opaque, hwaddr offset,
++                                uint64_t v, unsigned size)
 +{
-+    NPCM7xxADCState *s = opaque;
++    NPCM7xxPWMState *s = opaque;
++    NPCM7xxPWM *p;
++    uint32_t value = v;
 +
-+    trace_npcm7xx_adc_write(DEVICE(s)->canonical_path, offset, v);
++    trace_npcm7xx_pwm_write(DEVICE(s)->canonical_path, offset, value);
 +    switch (offset) {
-+    case A_NPCM7XX_ADC_CON:
-+        npcm7xx_adc_write_con(s, v);
++    case A_NPCM7XX_PWM_CNR0:
++    case A_NPCM7XX_PWM_CNR1:
++    case A_NPCM7XX_PWM_CNR2:
++    case A_NPCM7XX_PWM_CNR3:
++        p = &s->pwm[npcm7xx_cnr_index(offset)];
++        p->cnr = value;
++        npcm7xx_pwm_update_output(p);
 +        break;
 +
-+    case A_NPCM7XX_ADC_DATA:
++    case A_NPCM7XX_PWM_CMR0:
++    case A_NPCM7XX_PWM_CMR1:
++    case A_NPCM7XX_PWM_CMR2:
++    case A_NPCM7XX_PWM_CMR3:
++        p = &s->pwm[npcm7xx_cmr_index(offset)];
++        p->cmr = value;
++        npcm7xx_pwm_update_output(p);
++        break;
++
++    case A_NPCM7XX_PWM_PDR0:
++    case A_NPCM7XX_PWM_PDR1:
++    case A_NPCM7XX_PWM_PDR2:
++    case A_NPCM7XX_PWM_PDR3:
 +        qemu_log_mask(LOG_GUEST_ERROR,
 +                      "%s: register @ 0x%04" HWADDR_PRIx " is read-only\n",
 +                      __func__, offset);
 +        break;
 +
++    case A_NPCM7XX_PWM_PWDR0:
++    case A_NPCM7XX_PWM_PWDR1:
++    case A_NPCM7XX_PWM_PWDR2:
++    case A_NPCM7XX_PWM_PWDR3:
++        qemu_log_mask(LOG_UNIMP,
++                     "%s: register @ 0x%04" HWADDR_PRIx " is not implemented\n",
++                     __func__, offset);
++        break;
++
++    case A_NPCM7XX_PWM_PPR:
++        npcm7xx_pwm_write_ppr(s, value);
++        break;
++
++    case A_NPCM7XX_PWM_CSR:
++        npcm7xx_pwm_write_csr(s, value);
++        break;
++
++    case A_NPCM7XX_PWM_PCR:
++        npcm7xx_pwm_write_pcr(s, value);
++        break;
++
++    case A_NPCM7XX_PWM_PIER:
++        qemu_log_mask(LOG_UNIMP,
++                     "%s: register @ 0x%04" HWADDR_PRIx " is not implemented\n",
++                     __func__, offset);
++        break;
++
++    case A_NPCM7XX_PWM_PIIR:
++        qemu_log_mask(LOG_UNIMP,
++                     "%s: register @ 0x%04" HWADDR_PRIx " is not implemented\n",
++                     __func__, offset);
++        break;
++
 +    default:
 +        qemu_log_mask(LOG_GUEST_ERROR,
 +                      "%s: invalid offset 0x%04" HWADDR_PRIx "\n",
 +                      __func__, offset);
 +        break;
 +    }
-+
 +}
 +
-+static const struct MemoryRegionOps npcm7xx_adc_ops = {
-+    .read       = npcm7xx_adc_read,
-+    .write      = npcm7xx_adc_write,
++static const struct MemoryRegionOps npcm7xx_pwm_ops = {
++    .read       = npcm7xx_pwm_read,
++    .write      = npcm7xx_pwm_write,
 +    .endianness = DEVICE_LITTLE_ENDIAN,
 +    .valid      = {
 +        .min_access_size        = 4,
@@ -361,190 +653,168 @@ index 0000000000..870a6d50c2
 +    },
 +};
 +
-+static void npcm7xx_adc_enter_reset(Object *obj, ResetType type)
++static void npcm7xx_pwm_enter_reset(Object *obj, ResetType type)
 +{
-+    NPCM7xxADCState *s = NPCM7XX_ADC(obj);
++    NPCM7xxPWMState *s = NPCM7XX_PWM(obj);
++    int i;
 +
-+    npcm7xx_adc_reset(s);
++    for (i = 0; i < NPCM7XX_PWM_PER_MODULE; i++) {
++        NPCM7xxPWM *p = &s->pwm[i];
++
++        p->cnr = 0x00000000;
++        p->cmr = 0x00000000;
++        p->pdr = 0x00000000;
++        p->pwdr = 0x00000000;
++    }
++
++    s->ppr = 0x00000000;
++    s->csr = 0x00000000;
++    s->pcr = 0x00000000;
++    s->pier = 0x00000000;
++    s->piir = 0x00000000;
 +}
 +
-+static void npcm7xx_adc_hold_reset(Object *obj)
++static void npcm7xx_pwm_hold_reset(Object *obj)
 +{
-+    NPCM7xxADCState *s = NPCM7XX_ADC(obj);
++    NPCM7xxPWMState *s = NPCM7XX_PWM(obj);
++    int i;
 +
-+    qemu_irq_lower(s->irq);
++    for (i = 0; i < NPCM7XX_PWM_PER_MODULE; i++) {
++        qemu_irq_lower(s->pwm[i].irq);
++    }
 +}
 +
-+static void npcm7xx_adc_init(Object *obj)
++static void npcm7xx_pwm_init(Object *obj)
 +{
-+    NPCM7xxADCState *s = NPCM7XX_ADC(obj);
++    NPCM7xxPWMState *s = NPCM7XX_PWM(obj);
 +    SysBusDevice *sbd = SYS_BUS_DEVICE(obj);
 +    int i;
 +
-+    sysbus_init_irq(sbd, &s->irq);
++    for (i = 0; i < NPCM7XX_PWM_PER_MODULE; i++) {
++        NPCM7xxPWM *p = &s->pwm[i];
++        p->module = s;
++        p->index = i;
++        sysbus_init_irq(sbd, &p->irq);
++    }
 +
-+    timer_init_ns(&s->conv_timer, QEMU_CLOCK_VIRTUAL,
-+            npcm7xx_adc_convert_done, s);
-+    memory_region_init_io(&s->iomem, obj, &npcm7xx_adc_ops, s,
-+                          TYPE_NPCM7XX_ADC, 4 * KiB);
++    memory_region_init_io(&s->iomem, obj, &npcm7xx_pwm_ops, s,
++                          TYPE_NPCM7XX_PWM, 4 * KiB);
 +    sysbus_init_mmio(sbd, &s->iomem);
 +    s->clock = qdev_init_clock_in(DEVICE(s), "clock", NULL, NULL);
 +
-+    for (i = 0; i < NPCM7XX_ADC_NUM_INPUTS; ++i) {
-+        object_property_add_uint32_ptr(obj, "adci[*]",
-+                &s->adci[i], OBJ_PROP_FLAG_WRITE);
++    for (i = 0; i < NPCM7XX_PWM_PER_MODULE; ++i) {
++        object_property_add_uint32_ptr(obj, "freq[*]",
++                &s->pwm[i].freq, OBJ_PROP_FLAG_READ);
++        object_property_add_uint32_ptr(obj, "duty[*]",
++                &s->pwm[i].duty, OBJ_PROP_FLAG_READ);
 +    }
-+    object_property_add_uint32_ptr(obj, "vref",
-+            &s->vref, OBJ_PROP_FLAG_WRITE);
-+    npcm7xx_adc_calibrate(s);
 +}
 +
-+static const VMStateDescription vmstate_npcm7xx_adc = {
-+    .name = "npcm7xx-adc",
++static const VMStateDescription vmstate_npcm7xx_pwm = {
++    .name = "npcm7xx-pwm",
 +    .version_id = 0,
 +    .minimum_version_id = 0,
 +    .fields = (VMStateField[]) {
-+        VMSTATE_TIMER(conv_timer, NPCM7xxADCState),
-+        VMSTATE_UINT32(con, NPCM7xxADCState),
-+        VMSTATE_UINT32(data, NPCM7xxADCState),
-+        VMSTATE_CLOCK(clock, NPCM7xxADCState),
-+        VMSTATE_UINT32_ARRAY(adci, NPCM7xxADCState, NPCM7XX_ADC_NUM_INPUTS),
-+        VMSTATE_UINT32(vref, NPCM7xxADCState),
-+        VMSTATE_UINT32(iref, NPCM7xxADCState),
-+        VMSTATE_UINT16_ARRAY(calibration_r_values, NPCM7xxADCState,
-+                NPCM7XX_ADC_NUM_CALIB),
++        VMSTATE_BOOL(running, NPCM7xxPWM),
++        VMSTATE_BOOL(inverted, NPCM7xxPWM),
++        VMSTATE_UINT8(index, NPCM7xxPWM),
++        VMSTATE_UINT32(cnr, NPCM7xxPWM),
++        VMSTATE_UINT32(cmr, NPCM7xxPWM),
++        VMSTATE_UINT32(pdr, NPCM7xxPWM),
++        VMSTATE_UINT32(pwdr, NPCM7xxPWM),
++        VMSTATE_UINT32(freq, NPCM7xxPWM),
++        VMSTATE_UINT32(duty, NPCM7xxPWM),
 +        VMSTATE_END_OF_LIST(),
 +    },
 +};
 +
-+static Property npcm7xx_timer_properties[] = {
-+    DEFINE_PROP_UINT32("iref", NPCM7xxADCState, iref, NPCM7XX_ADC_DEFAULT_IREF),
-+    DEFINE_PROP_END_OF_LIST(),
++static const VMStateDescription vmstate_npcm7xx_pwm_module = {
++    .name = "npcm7xx-pwm-module",
++    .version_id = 0,
++    .minimum_version_id = 0,
++    .fields = (VMStateField[]) {
++        VMSTATE_CLOCK(clock, NPCM7xxPWMState),
++        VMSTATE_STRUCT_ARRAY(pwm, NPCM7xxPWMState,
++                             NPCM7XX_PWM_PER_MODULE, 0, vmstate_npcm7xx_pwm,
++                             NPCM7xxPWM),
++        VMSTATE_UINT32(ppr, NPCM7xxPWMState),
++        VMSTATE_UINT32(csr, NPCM7xxPWMState),
++        VMSTATE_UINT32(pcr, NPCM7xxPWMState),
++        VMSTATE_UINT32(pier, NPCM7xxPWMState),
++        VMSTATE_UINT32(piir, NPCM7xxPWMState),
++        VMSTATE_END_OF_LIST(),
++    },
 +};
 +
-+static void npcm7xx_adc_class_init(ObjectClass *klass, void *data)
++static void npcm7xx_pwm_class_init(ObjectClass *klass, void *data)
 +{
 +    ResettableClass *rc = RESETTABLE_CLASS(klass);
 +    DeviceClass *dc = DEVICE_CLASS(klass);
 +
-+    dc->desc = "NPCM7xx ADC Module";
-+    dc->vmsd = &vmstate_npcm7xx_adc;
-+    rc->phases.enter = npcm7xx_adc_enter_reset;
-+    rc->phases.hold = npcm7xx_adc_hold_reset;
-+
-+    device_class_set_props(dc, npcm7xx_timer_properties);
++    dc->desc = "NPCM7xx PWM Controller";
++    dc->vmsd = &vmstate_npcm7xx_pwm_module;
++    rc->phases.enter = npcm7xx_pwm_enter_reset;
++    rc->phases.hold = npcm7xx_pwm_hold_reset;
 +}
 +
-+static const TypeInfo npcm7xx_adc_info = {
-+    .name               = TYPE_NPCM7XX_ADC,
++static const TypeInfo npcm7xx_pwm_info = {
++    .name               = TYPE_NPCM7XX_PWM,
 +    .parent             = TYPE_SYS_BUS_DEVICE,
-+    .instance_size      = sizeof(NPCM7xxADCState),
-+    .class_init         = npcm7xx_adc_class_init,
-+    .instance_init      = npcm7xx_adc_init,
++    .instance_size      = sizeof(NPCM7xxPWMState),
++    .class_init         = npcm7xx_pwm_class_init,
++    .instance_init      = npcm7xx_pwm_init,
 +};
 +
-+static void npcm7xx_adc_register_types(void)
++static void npcm7xx_pwm_register_type(void)
 +{
-+    type_register_static(&npcm7xx_adc_info);
++    type_register_static(&npcm7xx_pwm_info);
 +}
++type_init(npcm7xx_pwm_register_type);
+diff --git a/hw/misc/trace-events b/hw/misc/trace-events
+index b5118acd3f..d626b9d7a7 100644
+--- a/hw/misc/trace-events
++++ b/hw/misc/trace-events
+@@ -120,6 +120,12 @@ npcm7xx_gcr_write(uint64_t offset, uint32_t value) "offset: 0x%04" PRIx64 " valu
+ npcm7xx_rng_read(uint64_t offset, uint64_t value, unsigned size) "offset: 0x%04" PRIx64 " value: 0x%02" PRIx64 " size: %u"
+ npcm7xx_rng_write(uint64_t offset, uint64_t value, unsigned size) "offset: 0x%04" PRIx64 " value: 0x%02" PRIx64 " size: %u"
+ 
++# npcm7xx_pwm.c
++npcm7xx_pwm_read(const char *id, uint64_t offset, uint32_t value) "%s offset: 0x%04" PRIx64 " value: 0x%08" PRIx32
++npcm7xx_pwm_write(const char *id, uint64_t offset, uint32_t value) "%s offset: 0x%04" PRIx64 " value: 0x%08" PRIx32
++npcm7xx_pwm_update_freq(const char *id, uint8_t index, uint32_t old_value, uint32_t new_value) "%s pwm[%u] Update Freq: old_freq: %u, new_freq: %u"
++npcm7xx_pwm_update_duty(const char *id, uint8_t index, uint32_t old_value, uint32_t new_value) "%s pwm[%u] Update Duty: old_duty: %u, new_duty: %u"
 +
-+type_init(npcm7xx_adc_register_types);
-diff --git a/hw/adc/trace-events b/hw/adc/trace-events
+ # stm32f4xx_syscfg.c
+ stm32f4xx_syscfg_set_irq(int gpio, int line, int level) "Interupt: GPIO: %d, Line: %d; Level: %d"
+ stm32f4xx_pulse_exti(int irq) "Pulse EXTI: %d"
+diff --git a/include/hw/arm/npcm7xx.h b/include/hw/arm/npcm7xx.h
+index 51e1c7620d..f6227aa8aa 100644
+--- a/include/hw/arm/npcm7xx.h
++++ b/include/hw/arm/npcm7xx.h
+@@ -23,6 +23,7 @@
+ #include "hw/mem/npcm7xx_mc.h"
+ #include "hw/misc/npcm7xx_clk.h"
+ #include "hw/misc/npcm7xx_gcr.h"
++#include "hw/misc/npcm7xx_pwm.h"
+ #include "hw/misc/npcm7xx_rng.h"
+ #include "hw/nvram/npcm7xx_otp.h"
+ #include "hw/timer/npcm7xx_timer.h"
+@@ -78,6 +79,7 @@ typedef struct NPCM7xxState {
+     NPCM7xxCLKState     clk;
+     NPCM7xxTimerCtrlState tim[3];
+     NPCM7xxADCState     adc;
++    NPCM7xxPWMState     pwm[2];
+     NPCM7xxOTPState     key_storage;
+     NPCM7xxOTPState     fuse_array;
+     NPCM7xxMCState      mc;
+diff --git a/include/hw/misc/npcm7xx_pwm.h b/include/hw/misc/npcm7xx_pwm.h
 new file mode 100644
-index 0000000000..4c3279ece2
+index 0000000000..5a689d3f66
 --- /dev/null
-+++ b/hw/adc/trace-events
-@@ -0,0 +1,5 @@
-+# See docs/devel/tracing.txt for syntax documentation.
-+
-+# npcm7xx_adc.c
-+npcm7xx_adc_read(const char *id, uint64_t offset, uint32_t value) " %s offset: 0x%04" PRIx64 " value 0x%04" PRIx32
-+npcm7xx_adc_write(const char *id, uint64_t offset, uint32_t value) "%s offset: 0x%04" PRIx64 " value 0x%04" PRIx32
-diff --git a/hw/arm/npcm7xx.c b/hw/arm/npcm7xx.c
-index fabfb1697b..b22a8c966d 100644
---- a/hw/arm/npcm7xx.c
-+++ b/hw/arm/npcm7xx.c
-@@ -51,6 +51,9 @@
- #define NPCM7XX_EHCI_BA         (0xf0806000)
- #define NPCM7XX_OHCI_BA         (0xf0807000)
- 
-+/* ADC Module */
-+#define NPCM7XX_ADC_BA          (0xf000c000)
-+
- /* Internal AHB SRAM */
- #define NPCM7XX_RAM3_BA         (0xc0008000)
- #define NPCM7XX_RAM3_SZ         (4 * KiB)
-@@ -61,6 +64,7 @@
- #define NPCM7XX_ROM_BA          (0xffff0000)
- #define NPCM7XX_ROM_SZ          (64 * KiB)
- 
-+
- /* Clock configuration values to be fixed up when bypassing bootloader */
- 
- /* Run PLL1 at 1600 MHz */
-@@ -73,6 +77,7 @@
-  * interrupts.
-  */
- enum NPCM7xxInterrupt {
-+    NPCM7XX_ADC_IRQ             = 0,
-     NPCM7XX_UART0_IRQ           = 2,
-     NPCM7XX_UART1_IRQ,
-     NPCM7XX_UART2_IRQ,
-@@ -296,6 +301,14 @@ static void npcm7xx_init_fuses(NPCM7xxState *s)
-                             sizeof(value));
- }
- 
-+static void npcm7xx_write_adc_calibration(NPCM7xxState *s)
-+{
-+    /* Both ADC and the fuse array must have realized. */
-+    QEMU_BUILD_BUG_ON(sizeof(s->adc.calibration_r_values) != 4);
-+    npcm7xx_otp_array_write(&s->fuse_array, s->adc.calibration_r_values,
-+            NPCM7XX_FUSE_ADC_CALIB, sizeof(s->adc.calibration_r_values));
-+}
-+
- static qemu_irq npcm7xx_irq(NPCM7xxState *s, int n)
- {
-     return qdev_get_gpio_in(DEVICE(&s->a9mpcore), n);
-@@ -322,6 +335,7 @@ static void npcm7xx_init(Object *obj)
-                             TYPE_NPCM7XX_FUSE_ARRAY);
-     object_initialize_child(obj, "mc", &s->mc, TYPE_NPCM7XX_MC);
-     object_initialize_child(obj, "rng", &s->rng, TYPE_NPCM7XX_RNG);
-+    object_initialize_child(obj, "adc", &s->adc, TYPE_NPCM7XX_ADC);
- 
-     for (i = 0; i < ARRAY_SIZE(s->tim); i++) {
-         object_initialize_child(obj, "tim[*]", &s->tim[i], TYPE_NPCM7XX_TIMER);
-@@ -414,6 +428,15 @@ static void npcm7xx_realize(DeviceState *dev, Error **errp)
-     sysbus_realize(SYS_BUS_DEVICE(&s->mc), &error_abort);
-     sysbus_mmio_map(SYS_BUS_DEVICE(&s->mc), 0, NPCM7XX_MC_BA);
- 
-+    /* ADC Modules. Cannot fail. */
-+    qdev_connect_clock_in(DEVICE(&s->adc), "clock", qdev_get_clock_out(
-+                          DEVICE(&s->clk), "adc-clock"));
-+    sysbus_realize(SYS_BUS_DEVICE(&s->adc), &error_abort);
-+    sysbus_mmio_map(SYS_BUS_DEVICE(&s->adc), 0, NPCM7XX_ADC_BA);
-+    sysbus_connect_irq(SYS_BUS_DEVICE(&s->adc), 0,
-+            npcm7xx_irq(s, NPCM7XX_ADC_IRQ));
-+    npcm7xx_write_adc_calibration(s);
-+
-     /* Timer Modules (TIM). Cannot fail. */
-     QEMU_BUILD_BUG_ON(ARRAY_SIZE(npcm7xx_tim_addr) != ARRAY_SIZE(s->tim));
-     for (i = 0; i < ARRAY_SIZE(s->tim); i++) {
-@@ -528,7 +551,6 @@ static void npcm7xx_realize(DeviceState *dev, Error **errp)
-     create_unimplemented_device("npcm7xx.vdmx",         0xe0800000,   4 * KiB);
-     create_unimplemented_device("npcm7xx.pcierc",       0xe1000000,  64 * KiB);
-     create_unimplemented_device("npcm7xx.kcs",          0xf0007000,   4 * KiB);
--    create_unimplemented_device("npcm7xx.adc",          0xf000c000,   4 * KiB);
-     create_unimplemented_device("npcm7xx.gfxi",         0xf000e000,   4 * KiB);
-     create_unimplemented_device("npcm7xx.gpio[0]",      0xf0010000,   4 * KiB);
-     create_unimplemented_device("npcm7xx.gpio[1]",      0xf0011000,   4 * KiB);
-diff --git a/include/hw/adc/npcm7xx_adc.h b/include/hw/adc/npcm7xx_adc.h
-new file mode 100644
-index 0000000000..7d8442107a
---- /dev/null
-+++ b/include/hw/adc/npcm7xx_adc.h
-@@ -0,0 +1,69 @@
++++ b/include/hw/misc/npcm7xx_pwm.h
+@@ -0,0 +1,105 @@
 +/*
-+ * Nuvoton NPCM7xx ADC Module
++ * Nuvoton NPCM7xx PWM Module
 + *
 + * Copyright 2020 Google LLC
 + *
@@ -558,489 +828,96 @@ index 0000000000..7d8442107a
 + * FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License
 + * for more details.
 + */
-+#ifndef NPCM7XX_ADC_H
-+#define NPCM7XX_ADC_H
++#ifndef NPCM7XX_PWM_H
++#define NPCM7XX_PWM_H
 +
 +#include "hw/clock.h"
-+#include "hw/irq.h"
 +#include "hw/sysbus.h"
-+#include "qemu/timer.h"
++#include "hw/irq.h"
 +
-+#define NPCM7XX_ADC_NUM_INPUTS      8
-+/**
-+ * This value should not be changed unless write_adc_calibration function in
-+ * hw/arm/npcm7xx.c is also changed.
++/* Each PWM module holds 4 PWM channels. */
++#define NPCM7XX_PWM_PER_MODULE 4
++
++/*
++ * Number of registers in one pwm module. Don't change this without increasing
++ * the version_id in vmstate.
 + */
-+#define NPCM7XX_ADC_NUM_CALIB       2
++#define NPCM7XX_PWM_NR_REGS (0x54 / sizeof(uint32_t))
++
++/*
++ * The maximum duty values. Each duty unit represents 1/NPCM7XX_PWM_MAX_DUTY
++ * cycles. For example, if NPCM7XX_PWM_MAX_DUTY=1,000,000 and a PWM has a duty
++ * value of 100,000 the duty cycle for that PWM is 10%.
++ */
++#define NPCM7XX_PWM_MAX_DUTY 1000000
++
++typedef struct NPCM7xxPWMState NPCM7xxPWMState;
 +
 +/**
-+ * struct NPCM7xxADCState - Analog to Digital Converter Module device state.
++ * struct NPCM7xxPWM - The state of a single PWM channel.
++ * @module: The PWM module that contains this channel.
++ * @irq: GIC interrupt line to fire on expiration if enabled.
++ * @running: Whether this PWM channel is generating output.
++ * @inverted: Whether this PWM channel is inverted.
++ * @index: The index of this PWM channel.
++ * @cnr: The counter register.
++ * @cmr: The comparator register.
++ * @pdr: The data register.
++ * @pwdr: The watchdog register.
++ * @freq: The frequency of this PWM channel.
++ * @duty: The duty cycle of this PWM channel. One unit represents
++ *   1/NPCM7XX_MAX_DUTY cycles.
++ */
++typedef struct NPCM7xxPWM {
++    NPCM7xxPWMState         *module;
++
++    qemu_irq                irq;
++
++    bool                    running;
++    bool                    inverted;
++
++    uint8_t                 index;
++    uint32_t                cnr;
++    uint32_t                cmr;
++    uint32_t                pdr;
++    uint32_t                pwdr;
++
++    uint32_t                freq;
++    uint32_t                duty;
++} NPCM7xxPWM;
++
++/**
++ * struct NPCM7xxPWMState - Pulse Width Modulation device state.
 + * @parent: System bus device.
 + * @iomem: Memory region through which registers are accessed.
-+ * @conv_timer: The timer counts down remaining cycles for the conversion.
-+ * @irq: GIC interrupt line to fire on expiration (if enabled).
-+ * @con: The Control Register.
-+ * @data: The Data Buffer.
-+ * @clock: The ADC Clock.
-+ * @adci: The input voltage in units of uV. 1uv = 1e-6V.
-+ * @vref: The external reference voltage.
-+ * @iref: The internal reference voltage, initialized at launch time.
-+ * @rv: The calibrated output values of 0.5V and 1.5V for the ADC.
++ * @clock: The PWM clock.
++ * @pwm: The PWM channels owned by this module.
++ * @ppr: The prescaler register.
++ * @csr: The clock selector register.
++ * @pcr: The control register.
++ * @pier: The interrupt enable register.
++ * @piir: The interrupt indication register.
 + */
-+typedef struct {
++struct NPCM7xxPWMState {
 +    SysBusDevice parent;
 +
 +    MemoryRegion iomem;
 +
-+    QEMUTimer    conv_timer;
-+
-+    qemu_irq     irq;
-+    uint32_t     con;
-+    uint32_t     data;
 +    Clock       *clock;
++    NPCM7xxPWM pwm[NPCM7XX_PWM_PER_MODULE];
 +
-+    /* Voltages are in unit of uV. 1V = 1000000uV. */
-+    uint32_t     adci[NPCM7XX_ADC_NUM_INPUTS];
-+    uint32_t     vref;
-+    uint32_t     iref;
-+
-+    uint16_t     calibration_r_values[NPCM7XX_ADC_NUM_CALIB];
-+} NPCM7xxADCState;
-+
-+#define TYPE_NPCM7XX_ADC "npcm7xx-adc"
-+#define NPCM7XX_ADC(obj) \
-+    OBJECT_CHECK(NPCM7xxADCState, (obj), TYPE_NPCM7XX_ADC)
-+
-+#endif /* NPCM7XX_ADC_H */
-diff --git a/include/hw/arm/npcm7xx.h b/include/hw/arm/npcm7xx.h
-index 5469247e38..51e1c7620d 100644
---- a/include/hw/arm/npcm7xx.h
-+++ b/include/hw/arm/npcm7xx.h
-@@ -17,6 +17,7 @@
- #define NPCM7XX_H
- 
- #include "hw/boards.h"
-+#include "hw/adc/npcm7xx_adc.h"
- #include "hw/cpu/a9mpcore.h"
- #include "hw/gpio/npcm7xx_gpio.h"
- #include "hw/mem/npcm7xx_mc.h"
-@@ -76,6 +77,7 @@ typedef struct NPCM7xxState {
-     NPCM7xxGCRState     gcr;
-     NPCM7xxCLKState     clk;
-     NPCM7xxTimerCtrlState tim[3];
-+    NPCM7xxADCState     adc;
-     NPCM7xxOTPState     key_storage;
-     NPCM7xxOTPState     fuse_array;
-     NPCM7xxMCState      mc;
-diff --git a/meson.build b/meson.build
-index 563688d682..88966516a5 100644
---- a/meson.build
-+++ b/meson.build
-@@ -1687,6 +1687,7 @@ if have_system
-     'chardev',
-     'hw/9pfs',
-     'hw/acpi',
-+    'hw/adc',
-     'hw/alpha',
-     'hw/arm',
-     'hw/audio',
-diff --git a/tests/qtest/meson.build b/tests/qtest/meson.build
-index 6a67c538be..955710d1c5 100644
---- a/tests/qtest/meson.build
-+++ b/tests/qtest/meson.build
-@@ -134,7 +134,8 @@ qtests_sparc64 = \
-   ['prom-env-test', 'boot-serial-test']
- 
- qtests_npcm7xx = \
--  ['npcm7xx_gpio-test',
-+  ['npcm7xx_adc-test',
-+   'npcm7xx_gpio-test',
-    'npcm7xx_rng-test',
-    'npcm7xx_timer-test',
-    'npcm7xx_watchdog_timer-test']
-diff --git a/tests/qtest/npcm7xx_adc-test.c b/tests/qtest/npcm7xx_adc-test.c
-new file mode 100644
-index 0000000000..f029706945
---- /dev/null
-+++ b/tests/qtest/npcm7xx_adc-test.c
-@@ -0,0 +1,377 @@
-+/*
-+ * QTests for Nuvoton NPCM7xx ADCModules.
-+ *
-+ * Copyright 2020 Google LLC
-+ *
-+ * This program is free software; you can redistribute it and/or modify it
-+ * under the terms of the GNU General Public License as published by the
-+ * Free Software Foundation; either version 2 of the License, or
-+ * (at your option) any later version.
-+ *
-+ * This program is distributed in the hope that it will be useful, but WITHOUT
-+ * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
-+ * FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License
-+ * for more details.
-+ */
-+
-+#include "qemu/osdep.h"
-+#include "qemu/bitops.h"
-+#include "qemu/timer.h"
-+#include "libqos/libqtest.h"
-+#include "qapi/qmp/qdict.h"
-+
-+#define REF_HZ          (25000000)
-+
-+#define CON_OFFSET      0x0
-+#define DATA_OFFSET     0x4
-+
-+#define NUM_INPUTS      8
-+#define DEFAULT_IREF    2000000
-+#define CONV_CYCLES     20
-+#define RESET_CYCLES    10
-+#define R0_INPUT        500000
-+#define R1_INPUT        1500000
-+#define MAX_RESULT      1023
-+
-+#define DEFAULT_CLKDIV  5
-+
-+#define FUSE_ARRAY_BA   0xf018a000
-+#define FCTL_OFFSET     0x14
-+#define FST_OFFSET      0x0
-+#define FADDR_OFFSET    0x4
-+#define FDATA_OFFSET    0x8
-+#define ADC_CALIB_ADDR  24
-+#define FUSE_READ       0x2
-+
-+/* Register field definitions. */
-+#define CON_MUX(rv) ((rv) << 24)
-+#define CON_INT_EN  BIT(21)
-+#define CON_REFSEL  BIT(19)
-+#define CON_INT     BIT(18)
-+#define CON_EN      BIT(17)
-+#define CON_RST     BIT(16)
-+#define CON_CONV    BIT(14)
-+#define CON_DIV(rv) extract32(rv, 1, 8)
-+
-+#define FST_RDST    BIT(1)
-+#define FDATA_MASK  0xff
-+
-+#define MAX_ERROR   10000
-+#define MIN_CALIB_INPUT 100000
-+#define MAX_CALIB_INPUT 1800000
-+
-+static const uint32_t input_list[] = {
-+    100000,
-+    500000,
-+    1000000,
-+    1500000,
-+    1800000,
-+    2000000,
++    uint32_t    ppr;
++    uint32_t    csr;
++    uint32_t    pcr;
++    uint32_t    pier;
++    uint32_t    piir;
 +};
 +
-+static const uint32_t vref_list[] = {
-+    2000000,
-+    2200000,
-+    2500000,
-+};
++#define TYPE_NPCM7XX_PWM "npcm7xx-pwm"
++#define NPCM7XX_PWM(obj) \
++    OBJECT_CHECK(NPCM7xxPWMState, (obj), TYPE_NPCM7XX_PWM)
 +
-+static const uint32_t iref_list[] = {
-+    1800000,
-+    1900000,
-+    2000000,
-+    2100000,
-+    2200000,
-+};
-+
-+static const uint32_t div_list[] = {0, 1, 3, 7, 15};
-+
-+typedef struct ADC {
-+    int irq;
-+    uint64_t base_addr;
-+} ADC;
-+
-+ADC adc = {
-+    .irq        = 0,
-+    .base_addr  = 0xf000c000
-+};
-+
-+static uint32_t adc_read_con(QTestState *qts, const ADC *adc)
-+{
-+    return qtest_readl(qts, adc->base_addr + CON_OFFSET);
-+}
-+
-+static void adc_write_con(QTestState *qts, const ADC *adc, uint32_t value)
-+{
-+    qtest_writel(qts, adc->base_addr + CON_OFFSET, value);
-+}
-+
-+static uint32_t adc_read_data(QTestState *qts, const ADC *adc)
-+{
-+    return qtest_readl(qts, adc->base_addr + DATA_OFFSET);
-+}
-+
-+static uint32_t adc_calibrate(uint32_t measured, uint32_t *rv)
-+{
-+    return R0_INPUT + (R1_INPUT - R0_INPUT) * (int32_t)(measured - rv[0])
-+        / (int32_t)(rv[1] - rv[0]);
-+}
-+
-+static void adc_qom_set(QTestState *qts, const ADC *adc,
-+        const char *name, uint32_t value)
-+{
-+    QDict *response;
-+    const char *path = "/machine/soc/adc";
-+
-+    g_test_message("Setting properties %s of %s with value %u",
-+            name, path, value);
-+    response = qtest_qmp(qts, "{ 'execute': 'qom-set',"
-+            " 'arguments': { 'path': %s, 'property': %s, 'value': %u}}",
-+            path, name, value);
-+    /* The qom set message returns successfully. */
-+    g_assert_true(qdict_haskey(response, "return"));
-+}
-+
-+static void adc_write_input(QTestState *qts, const ADC *adc,
-+        uint32_t index, uint32_t value)
-+{
-+    char name[100];
-+
-+    sprintf(name, "adci[%u]", index);
-+    adc_qom_set(qts, adc, name, value);
-+}
-+
-+static void adc_write_vref(QTestState *qts, const ADC *adc, uint32_t value)
-+{
-+    adc_qom_set(qts, adc, "vref", value);
-+}
-+
-+static uint32_t adc_calculate_output(uint32_t input, uint32_t ref)
-+{
-+    uint32_t output;
-+
-+    g_assert_cmpuint(input, <=, ref);
-+    output = (input * (MAX_RESULT + 1)) / ref;
-+    if (output > MAX_RESULT) {
-+        output = MAX_RESULT;
-+    }
-+
-+    return output;
-+}
-+
-+static uint32_t adc_prescaler(QTestState *qts, const ADC *adc)
-+{
-+    uint32_t div = extract32(adc_read_con(qts, adc), 1, 8);
-+
-+    return 2 * (div + 1);
-+}
-+
-+static int64_t adc_calculate_steps(uint32_t cycles, uint32_t prescale,
-+        uint32_t clkdiv)
-+{
-+    return (NANOSECONDS_PER_SECOND / (REF_HZ >> clkdiv)) * cycles * prescale;
-+}
-+
-+static void adc_wait_conv_finished(QTestState *qts, const ADC *adc,
-+        uint32_t clkdiv)
-+{
-+    uint32_t prescaler = adc_prescaler(qts, adc);
-+
-+    /*
-+     * ADC should takes roughly 20 cycles to convert one sample. So we assert it
-+     * should take 10~30 cycles here.
-+     */
-+    qtest_clock_step(qts, adc_calculate_steps(CONV_CYCLES / 2, prescaler,
-+                clkdiv));
-+    /* ADC is still converting. */
-+    g_assert_true(adc_read_con(qts, adc) & CON_CONV);
-+    qtest_clock_step(qts, adc_calculate_steps(CONV_CYCLES, prescaler, clkdiv));
-+    /* ADC has finished conversion. */
-+    g_assert_false(adc_read_con(qts, adc) & CON_CONV);
-+}
-+
-+/* Check ADC can be reset to default value. */
-+static void test_init(gconstpointer adc_p)
-+{
-+    const ADC *adc = adc_p;
-+
-+    QTestState *qts = qtest_init("-machine quanta-gsj");
-+    adc_write_con(qts, adc, CON_REFSEL | CON_INT);
-+    g_assert_cmphex(adc_read_con(qts, adc), ==, CON_REFSEL);
-+    qtest_quit(qts);
-+}
-+
-+/* Check ADC can convert from an internal reference. */
-+static void test_convert_internal(gconstpointer adc_p)
-+{
-+    const ADC *adc = adc_p;
-+    uint32_t index, input, output, expected_output;
-+    QTestState *qts = qtest_init("-machine quanta-gsj");
-+    qtest_irq_intercept_in(qts, "/machine/soc/a9mpcore/gic");
-+
-+    for (index = 0; index < NUM_INPUTS; ++index) {
-+        for (size_t i = 0; i < ARRAY_SIZE(input_list); ++i) {
-+            input = input_list[i];
-+            expected_output = adc_calculate_output(input, DEFAULT_IREF);
-+
-+            adc_write_input(qts, adc, index, input);
-+            adc_write_con(qts, adc, CON_MUX(index) | CON_REFSEL | CON_INT |
-+                    CON_EN | CON_CONV);
-+            adc_wait_conv_finished(qts, adc, DEFAULT_CLKDIV);
-+            g_assert_cmphex(adc_read_con(qts, adc), ==, CON_MUX(index) |
-+                    CON_REFSEL | CON_EN);
-+            g_assert_false(qtest_get_irq(qts, adc->irq));
-+            output = adc_read_data(qts, adc);
-+            g_assert_cmpuint(output, ==, expected_output);
-+        }
-+    }
-+
-+    qtest_quit(qts);
-+}
-+
-+/* Check ADC can convert from an external reference. */
-+static void test_convert_external(gconstpointer adc_p)
-+{
-+    const ADC *adc = adc_p;
-+    uint32_t index, input, vref, output, expected_output;
-+    QTestState *qts = qtest_init("-machine quanta-gsj");
-+    qtest_irq_intercept_in(qts, "/machine/soc/a9mpcore/gic");
-+
-+    for (index = 0; index < NUM_INPUTS; ++index) {
-+        for (size_t i = 0; i < ARRAY_SIZE(input_list); ++i) {
-+            for (size_t j = 0; j < ARRAY_SIZE(vref_list); ++j) {
-+                input = input_list[i];
-+                vref = vref_list[j];
-+                expected_output = adc_calculate_output(input, vref);
-+
-+                adc_write_input(qts, adc, index, input);
-+                adc_write_vref(qts, adc, vref);
-+                adc_write_con(qts, adc, CON_MUX(index) | CON_INT | CON_EN |
-+                        CON_CONV);
-+                adc_wait_conv_finished(qts, adc, DEFAULT_CLKDIV);
-+                g_assert_cmphex(adc_read_con(qts, adc), ==,
-+                        CON_MUX(index) | CON_EN);
-+                g_assert_false(qtest_get_irq(qts, adc->irq));
-+                output = adc_read_data(qts, adc);
-+                g_assert_cmpuint(output, ==, expected_output);
-+            }
-+        }
-+    }
-+
-+    qtest_quit(qts);
-+}
-+
-+/* Check ADC interrupt files if and only if CON_INT_EN is set. */
-+static void test_interrupt(gconstpointer adc_p)
-+{
-+    const ADC *adc = adc_p;
-+    uint32_t index, input, output, expected_output;
-+    QTestState *qts = qtest_init("-machine quanta-gsj");
-+
-+    index = 1;
-+    input = input_list[1];
-+    expected_output = adc_calculate_output(input, DEFAULT_IREF);
-+
-+    qtest_irq_intercept_in(qts, "/machine/soc/a9mpcore/gic");
-+    adc_write_input(qts, adc, index, input);
-+    g_assert_false(qtest_get_irq(qts, adc->irq));
-+    adc_write_con(qts, adc, CON_MUX(index) | CON_INT_EN | CON_REFSEL | CON_INT
-+            | CON_EN | CON_CONV);
-+    adc_wait_conv_finished(qts, adc, DEFAULT_CLKDIV);
-+    g_assert_cmphex(adc_read_con(qts, adc), ==, CON_MUX(index) | CON_INT_EN
-+            | CON_REFSEL | CON_INT | CON_EN);
-+    g_assert_true(qtest_get_irq(qts, adc->irq));
-+    output = adc_read_data(qts, adc);
-+    g_assert_cmpuint(output, ==, expected_output);
-+
-+    qtest_quit(qts);
-+}
-+
-+/* Check ADC is reset after setting ADC_RST for 10 ADC cycles. */
-+static void test_reset(gconstpointer adc_p)
-+{
-+    const ADC *adc = adc_p;
-+    QTestState *qts = qtest_init("-machine quanta-gsj");
-+
-+    for (size_t i = 0; i < ARRAY_SIZE(div_list); ++i) {
-+        uint32_t div = div_list[i];
-+
-+        adc_write_con(qts, adc, CON_INT | CON_EN | CON_RST | CON_DIV(div));
-+        qtest_clock_step(qts, adc_calculate_steps(RESET_CYCLES,
-+                    adc_prescaler(qts, adc), DEFAULT_CLKDIV));
-+        g_assert_false(adc_read_con(qts, adc) & CON_EN);
-+    }
-+    qtest_quit(qts);
-+}
-+
-+/* Check ADC Calibration works as desired. */
-+static void test_calibrate(gconstpointer adc_p)
-+{
-+    int i, j;
-+    const ADC *adc = adc_p;
-+
-+    for (j = 0; j < ARRAY_SIZE(iref_list); ++j) {
-+        uint32_t iref = iref_list[j];
-+        uint32_t expected_rv[] = {
-+            adc_calculate_output(R0_INPUT, iref),
-+            adc_calculate_output(R1_INPUT, iref),
-+        };
-+        char buf[100];
-+        QTestState *qts;
-+
-+        sprintf(buf, "-machine quanta-gsj -global npcm7xx-adc.iref=%u", iref);
-+        qts = qtest_init(buf);
-+
-+        /* Check the converted value is correct using the calibration value. */
-+        for (i = 0; i < ARRAY_SIZE(input_list); ++i) {
-+            uint32_t input;
-+            uint32_t output;
-+            uint32_t expected_output;
-+            uint32_t calibrated_voltage;
-+            uint32_t index = 0;
-+
-+            input = input_list[i];
-+            /* Calibration only works for input range 0.1V ~ 1.8V. */
-+            if (input < MIN_CALIB_INPUT || input > MAX_CALIB_INPUT) {
-+                continue;
-+            }
-+            expected_output = adc_calculate_output(input, iref);
-+
-+            adc_write_input(qts, adc, index, input);
-+            adc_write_con(qts, adc, CON_MUX(index) | CON_REFSEL | CON_INT |
-+                    CON_EN | CON_CONV);
-+            adc_wait_conv_finished(qts, adc, DEFAULT_CLKDIV);
-+            g_assert_cmphex(adc_read_con(qts, adc), ==,
-+                    CON_REFSEL | CON_MUX(index) | CON_EN);
-+            output = adc_read_data(qts, adc);
-+            g_assert_cmpuint(output, ==, expected_output);
-+
-+            calibrated_voltage = adc_calibrate(output, expected_rv);
-+            g_assert_cmpuint(calibrated_voltage, >, input - MAX_ERROR);
-+            g_assert_cmpuint(calibrated_voltage, <, input + MAX_ERROR);
-+        }
-+
-+        qtest_quit(qts);
-+    }
-+}
-+
-+static void adc_add_test(const char *name, const ADC* wd,
-+        GTestDataFunc fn)
-+{
-+    g_autofree char *full_name = g_strdup_printf("npcm7xx_adc/%s",  name);
-+    qtest_add_data_func(full_name, wd, fn);
-+}
-+#define add_test(name, td) adc_add_test(#name, td, test_##name)
-+
-+int main(int argc, char **argv)
-+{
-+    g_test_init(&argc, &argv, NULL);
-+
-+    add_test(init, &adc);
-+    add_test(convert_internal, &adc);
-+    add_test(convert_external, &adc);
-+    add_test(interrupt, &adc);
-+    add_test(reset, &adc);
-+    add_test(calibrate, &adc);
-+
-+    return g_test_run();
-+}
++#endif /* NPCM7XX_PWM_H */
 -- 
 2.29.2.729.g45daf8777d-goog
 
