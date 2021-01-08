@@ -2,75 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EC9FB2EF436
-	for <lists+qemu-devel@lfdr.de>; Fri,  8 Jan 2021 15:52:52 +0100 (CET)
-Received: from localhost ([::1]:41428 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3C9952EF457
+	for <lists+qemu-devel@lfdr.de>; Fri,  8 Jan 2021 16:02:42 +0100 (CET)
+Received: from localhost ([::1]:47816 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kxt8G-0001II-1W
-	for lists+qemu-devel@lfdr.de; Fri, 08 Jan 2021 09:52:52 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35566)
+	id 1kxtHk-0004ic-K5
+	for lists+qemu-devel@lfdr.de; Fri, 08 Jan 2021 10:02:40 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37130)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1kxt6b-0000kI-A9
- for qemu-devel@nongnu.org; Fri, 08 Jan 2021 09:51:09 -0500
-Received: from mail-wm1-x336.google.com ([2a00:1450:4864:20::336]:37385)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1kxtFX-0003ef-IV
+ for qemu-devel@nongnu.org; Fri, 08 Jan 2021 10:00:25 -0500
+Received: from mail-ej1-x62e.google.com ([2a00:1450:4864:20::62e]:46283)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1kxt6Z-0003Ta-C5
- for qemu-devel@nongnu.org; Fri, 08 Jan 2021 09:51:08 -0500
-Received: by mail-wm1-x336.google.com with SMTP id q75so8654884wme.2
- for <qemu-devel@nongnu.org>; Fri, 08 Jan 2021 06:51:07 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=zQcZp8bkA2WeZ/wn/evI7oLuy1OM3HJbolNiXmykBOk=;
- b=bCdHUttOpd6TrBZfxyS6QUpD6XI170rtl1ysrFSex4XSKLxKHKXddK9+jmQS8suwLP
- yUYGc6pYhlADrNUzidQ+BNJKPREFsOqOBjl59Ia9JNMg+eQBRf9278IWyWcJxm3ArILF
- +l5iUmA2bULtdH9TstrPxDvIDNsLYv81pL63DG4Tz0hcVGtKilF0bD1ZJ3CSWZSZKVVV
- rNqHEFssVSW8evh7/tL4cBfxGoimHeVm/qb2d+iMc4SBPE31u9wj6etN3BkOwuHjry4o
- zPzM6qjZ/S8gYm2CUd/8kYLJUzjeNLht0GPGTBVL6cIQjxa2oeyLGdayW/J9KkeHnTCr
- Hrpg==
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1kxtFU-0006lh-VR
+ for qemu-devel@nongnu.org; Fri, 08 Jan 2021 10:00:23 -0500
+Received: by mail-ej1-x62e.google.com with SMTP id t16so14786734ejf.13
+ for <qemu-devel@nongnu.org>; Fri, 08 Jan 2021 07:00:20 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=aDRlnrCLOkV8rTIWKaApFgqCOGtFkSHZ3XWQZ5pxZ/0=;
+ b=wjyVNO/j+NwHylL+Qk1g4n+AoLx3y83DvLEderNyqUekXqxl4vqGXj2r+8n3+nfC/J
+ /3LHF4LFRPdFA+Y9j7SIE/abkmLYSPeO35qEfpr4RKX6uSAoqeIBlGryrHSgIMI/ODHU
+ 5ZySl/Sif2NFahLjbmeYG9T+WQgZwY5dsaGCitDSA9JYKrKQdrbK6ugvlaj2NP2PUK44
+ 74tAndKF4m/XN68hhp31jtEVRHFJ4sKrMXVGNIyEFqAI7I8H4JZCJl2HX3xfIGZUjFv0
+ 4h9TZGEnbOBREdlQ2T+GcokGkHdxI1X9eBO+KL4b0dME62ZQxXRDFtn3D6cPULeX3FiT
+ PIDg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
- :mime-version:content-transfer-encoding;
- bh=zQcZp8bkA2WeZ/wn/evI7oLuy1OM3HJbolNiXmykBOk=;
- b=KI8gq6q9k5tISZo5czFnp/U3gOgdKQN9imS7wi6Z4F2gBTdr/ovJw+7Wtj6ZzsFRGg
- 2pZYkw6ZsQV+IdQ67xwclZCOeqQVW/AcPlXN97ULZcyZtN2x4qQSYNQRkQK31aIExUXB
- icZvXv1fUC7DYZQgTyGMo4d6O4QxckzN/Jnl9OdcwBgXMbaps7VKIZ8EiLIAobIyQUl9
- 9U497JtGtU7XKTz2kI8TxODsMU87s1c+AwuKzHJkry236qErKQ9XkJOA0ftKP+lr9CSP
- sFNb1/HLbXy35FfT3ztPeILFShUvSKVgyqwYLM6RRSbVzg6LLXr85gC/IjKo8pIymhCY
- /eoA==
-X-Gm-Message-State: AOAM530RQycHrQ6rXtrhkXe3COOGg/dJKKYfi14YXMFo04+iHYX2tMIa
- F7WACBflBQZi5VEfTORClNME7vx/El0=
-X-Google-Smtp-Source: ABdhPJxCKGgRuh4n6ks6A04peQkyfwTqRAQt3IKvJ41lL3pDFQjWkDRsPtQ4L8uAWcrtmSsOiZpySQ==
-X-Received: by 2002:a1c:b742:: with SMTP id h63mr3341274wmf.122.1610117465620; 
- Fri, 08 Jan 2021 06:51:05 -0800 (PST)
-Received: from x1w.redhat.com (241.red-88-10-103.dynamicip.rima-tde.net.
- [88.10.103.241])
- by smtp.gmail.com with ESMTPSA id x7sm11691942wmi.11.2021.01.08.06.51.03
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 08 Jan 2021 06:51:04 -0800 (PST)
-From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
-To: qemu-devel@nongnu.org
-Subject: [PATCH] shippable.yml: Remove jobs duplicated on Gitlab-CI
-Date: Fri,  8 Jan 2021 15:51:03 +0100
-Message-Id: <20210108145103.269353-1-f4bug@amsat.org>
-X-Mailer: git-send-email 2.26.2
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=aDRlnrCLOkV8rTIWKaApFgqCOGtFkSHZ3XWQZ5pxZ/0=;
+ b=WHrlYhzjEc2g0shZK0MHAv7XTvELQxFV+11FZTVl5U3E77pMuJZeGwHPkNAe6mP+0k
+ I/MfgvK+AFqb8/+2h+attkaiuBrl91LTBNspsqPGzlLGw3aEMTJm7egShKEocMclHGaV
+ JhnajGykYLpbJHWm2z/VJlzvyE36q2YQqqYtliREuibjUQ6ymoiMuE9TMaWpmEG9lRhS
+ JygF/gs1Ka7KrM+IqhOBoQ9NH1Ehdf6jGV5jeAV334qHytFkPzCPxqH2jp9Mivpi25Es
+ 3gITDZVaZi6peCjZvi81wh+SfV4iYPmsPblo9n1UHvk1J2jqPoH5IzUJ6YzVux7BvgfQ
+ ybBg==
+X-Gm-Message-State: AOAM532qt3sb/ZbMxB7CsMAKC8GBGrRNWfRWfST9Cth750pFz9gKjxmT
+ 8wTw3tcdUTbElXf1ZsELOJ5jighWejWM2tfYjm2YOg==
+X-Google-Smtp-Source: ABdhPJzywjUn+MP2arlbzhU8Sj9vRmY1F8VauQfs0b8E9p51Fc3LF+Z4UkucWkPUX71W1gXGhcap3KkUnrjfyNC0244=
+X-Received: by 2002:a17:906:e94c:: with SMTP id
+ jw12mr2997443ejb.56.1610118019245; 
+ Fri, 08 Jan 2021 07:00:19 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::336;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x336.google.com
-X-Spam_score_int: -14
-X-Spam_score: -1.5
-X-Spam_bar: -
-X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.248,
+References: <20210102150718.47618-1-r.bolshakov@yadro.com>
+ <CAFEAcA8GMYcTrfKJ-6E3rKyytDHSL4UeWPVuFVLtzWjDtCxMVw@mail.gmail.com>
+In-Reply-To: <CAFEAcA8GMYcTrfKJ-6E3rKyytDHSL4UeWPVuFVLtzWjDtCxMVw@mail.gmail.com>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Fri, 8 Jan 2021 15:00:07 +0000
+Message-ID: <CAFEAcA97hh-bC7yjpHLGyvOiBGMxRtOQaf0O-y5WG0xYYA8N7A@mail.gmail.com>
+Subject: Re: [PATCH v2] ui/cocoa: Fix openFile: deprecation on Big Sur
+To: Roman Bolshakov <r.bolshakov@yadro.com>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2a00:1450:4864:20::62e;
+ envelope-from=peter.maydell@linaro.org; helo=mail-ej1-x62e.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -83,89 +78,40 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Fam Zheng <fam@euphon.net>, Thomas Huth <thuth@redhat.com>,
- =?UTF-8?q?Daniel=20P=20=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
- Paolo Bonzini <pbonzini@redhat.com>,
- =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
+Cc: QEMU Developers <qemu-devel@nongnu.org>, Gerd Hoffmann <kraxel@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The following jobs are duplicated on Gitlab-CI since commit
-6bcb5fc0f7a ("gitlab-ci: Add cross-compiling build tests"):
+On Fri, 8 Jan 2021 at 13:50, Peter Maydell <peter.maydell@linaro.org> wrote:
+>
+> On Sat, 2 Jan 2021 at 15:14, Roman Bolshakov <r.bolshakov@yadro.com> wrote:
+> >
+> > ui/cocoa.m:1188:44: warning: 'openFile:' is deprecated: first deprecated in macOS 11.0 - Use -[NSWorkspace openURL:] instead.
+> >       [-Wdeprecated-declarations]
+> >         if ([[NSWorkspace sharedWorkspace] openFile: full_file_path] == YES) {
+> >                                            ^
+> > /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/System/Library/Frameworks/AppKit.framework/Headers/NSWorkspace.h:350:1: note:
+> >       'openFile:' has been explicitly marked deprecated here
+> > - (BOOL)openFile:(NSString *)fullPath API_DEPRECATED("Use -[NSWorkspace openURL:] instead.", macos(10.0, 11.0));
+> > ^
+> >
+> > Signed-off-by: Roman Bolshakov <r.bolshakov@yadro.com>
+> > ---
+>
+> Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
 
-- IMAGE=debian-armel-cross
 
-  TARGET_LIST=arm-softmmu               -> cross-armel-system
-  TARGET_LIST=arm-linux-user            -> cross-armel-user
-  TARGET_LIST=armeb-linux-user          -> cross-armel-user
+So I was just trying to test this patch, and I found that at least
+for me the osx menu bar has stopped working in QEMU -- keyboard
+shortcuts to it still work but none of the menu buttons respond
+to the mouse. Does that happen for anybody else?
 
-- IMAGE=debian-armhf-cross
+Also, the "bring up the docs" help option (which is what this
+patch is changing) doesn't seem to work when QEMU is run from
+the source tree and the docs haven't been installed to the
+locations where it expects it might find them. Probably the
+code needs updating to work with qemu_find_file() or some
+variant on it.
 
-  TARGET_LIST=arm-softmmu               -> cross-armhf-system
-  TARGET_LIST=arm-linux-user            -> cross-armhf-user
-  TARGET_LIST=armeb-linux-user          -> cross-armhf-user
-
-- IMAGE=debian-arm64-cross
-
-  TARGET_LIST=aarch64-softmmu           -> cross-arm64-system
-  TARGET_LIST=aarch64-linux-user        -> cross-arm64-user
-
-- IMAGE=debian-s390x-cross
-
-  TARGET_LIST=s390x-softmmu             -> cross-s390x-system
-  TARGET_LIST=s390x-linux-user          -> cross-s390x-user
-
-- IMAGE=debian-mips-cross
-
-  TARGET_LIST=mipsel-linux-user         -> cross-mips-user
-
-- IMAGE=debian-mips64el-cross
-
-  TARGET_LIST=mips64el-softmmu          -> cross-mips64el-system
-  TARGET_LIST=mips64el-linux-user       -> cross-mips64el-user
-
-- IMAGE=debian-ppc64el-cross
-
-  TARGET_LIST=ppc64-softmmu             -> cross-ppc64el-system
-  TARGET_LIST=ppc64-linux-user          -> cross-ppc64el-user
-  TARGET_LIST=ppc64abi32-linux-user     -> cross-ppc64el-user
-
-Remove them from Shippable CI.
-
-Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
----
- .shippable.yml | 14 +-------------
- 1 file changed, 1 insertion(+), 13 deletions(-)
-
-diff --git a/.shippable.yml b/.shippable.yml
-index 14350e6de8a..97bfa2a0f38 100644
---- a/.shippable.yml
-+++ b/.shippable.yml
-@@ -7,20 +7,8 @@ env:
-   matrix:
-     - IMAGE=debian-amd64
-       TARGET_LIST=x86_64-softmmu,x86_64-linux-user
--    - IMAGE=debian-armel-cross
--      TARGET_LIST=arm-softmmu,arm-linux-user,armeb-linux-user
--    - IMAGE=debian-armhf-cross
--      TARGET_LIST=arm-softmmu,arm-linux-user,armeb-linux-user
--    - IMAGE=debian-arm64-cross
--      TARGET_LIST=aarch64-softmmu,aarch64-linux-user
--    - IMAGE=debian-s390x-cross
--      TARGET_LIST=s390x-softmmu,s390x-linux-user
-     - IMAGE=debian-mips-cross
--      TARGET_LIST=mips-softmmu,mipsel-linux-user
--    - IMAGE=debian-mips64el-cross
--      TARGET_LIST=mips64el-softmmu,mips64el-linux-user
--    - IMAGE=debian-ppc64el-cross
--      TARGET_LIST=ppc64-softmmu,ppc64-linux-user,ppc64abi32-linux-user
-+      TARGET_LIST=mips-softmmu
- build:
-   pre_ci_boot:
-     image_name: registry.gitlab.com/qemu-project/qemu/qemu/${IMAGE}
--- 
-2.26.2
-
+-- PMM
 
