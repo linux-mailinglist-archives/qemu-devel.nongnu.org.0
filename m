@@ -2,111 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 697FB2EEBD2
-	for <lists+qemu-devel@lfdr.de>; Fri,  8 Jan 2021 04:20:26 +0100 (CET)
-Received: from localhost ([::1]:52164 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E0AC32EEC7E
+	for <lists+qemu-devel@lfdr.de>; Fri,  8 Jan 2021 05:30:16 +0100 (CET)
+Received: from localhost ([::1]:58536 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kxiK9-0001Ux-GM
-	for lists+qemu-devel@lfdr.de; Thu, 07 Jan 2021 22:20:25 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39066)
+	id 1kxjPj-0006ey-Sn
+	for lists+qemu-devel@lfdr.de; Thu, 07 Jan 2021 23:30:15 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51486)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <Qiuhao.Li@outlook.com>)
- id 1kxiIP-00007F-Td
- for qemu-devel@nongnu.org; Thu, 07 Jan 2021 22:18:38 -0500
-Received: from mail-oln040092254066.outbound.protection.outlook.com
- ([40.92.254.66]:34240 helo=APC01-PU1-obe.outbound.protection.outlook.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <Qiuhao.Li@outlook.com>)
- id 1kxiIK-0006pt-GT
- for qemu-devel@nongnu.org; Thu, 07 Jan 2021 22:18:37 -0500
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=iNpUlV1EMAVZh4ru/W6ngaZObh56nLzLH9uOdlCqw7bhqpn5RPLixPp6APrei/4fDSfQPk/iiZeT5Bp3CqeEeq7t7VUGtc17vuRfDnSd+sh3Mt5yEO7qHORZbxCZ/dbSGXCcxqrCUS1LQ053zTg5FR1ck49bdBDFsFVYaTzwxAc/DcwBOf6Hx5ixHSOqi2nNSI2/k/rG0auuLyYRl7pBZ0r7caSfr/0u/GKCQZQph7i9AQVGIO8GdW8N/cSt0POU3rXxkvtlmoIm0A0ak1OjRPDFA4EVOR9izueGyR8ZmUX3MuDlO2j6r6VDfKzlibLDwft1iY5P9dBPPtKWya7G6A==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=7XTiontcXcl/sXd8NsJSPTBEjBlvNG9gWFbSN0ODnC4=;
- b=MQZW6E+QhTseJz8Zh0rOOV0II/pFbNn2R1kIam2f0Gjkhhtw4K9he2iymIdcwk5nt/JLko71miyw+9dXSy40cfehx9pYPO6s7eCs5Yku8tGhBAf7OSrVmMJSH9yYW33UH01sjHFvyUmW+TNJ2GCn4o92IwmOdc01PZ/1H4HVROyVM+Pi1fx0ekthd8qfT6f7iv+H40AnHVlwl4XI5SQLHoGmdC0GNMYuNFul/BNhFRapnZFx1MmbOKkRWtpkwL0U2d8iysbP4MF+U5UCQ9Mdz3EqHlA5VTKcpzKmyn78k3H024sV9kUIjvnh0fA6hBAz0TAxTNHNlrd/xX7+YMbUgg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=none; dmarc=none;
- dkim=none; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=outlook.com;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=7XTiontcXcl/sXd8NsJSPTBEjBlvNG9gWFbSN0ODnC4=;
- b=rzePrAbe9zXprcFqTE3aF2n/4mCYz/GOivlt04up6qFMUqnCrbBaRQMKCZ3ZzHEf8t27tHwd9CjA+LeTulW7y0pTzBeB/EohY5ZncNREALGFAYNCRhGLo3rcJo9SzzzfB1fBkSkjIpK8lpP41sRX2KjCcBw2zLLTz/Qhdpsgb1MhcGBf1ob5plUEZq5BIRNVlkYG50dE1UVhGYoEZJNmKgDbXZtwVEXaJM2EbNK3xfFpYWg+CQNPeZMMD07ahh7X/St+bOSBSxvbnWkilMFCpZfwapv0NHD3gOAlkjtCAz3T3qBjsPgFslUqrws9RIHFUtrUBmkGMiPF9ODXSagSrQ==
-Received: from PU1APC01FT020.eop-APC01.prod.protection.outlook.com
- (2a01:111:e400:7ebe::49) by
- PU1APC01HT044.eop-APC01.prod.protection.outlook.com (2a01:111:e400:7ebe::390)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3742.6; Fri, 8 Jan
- 2021 03:18:20 +0000
-Received: from MEAPR01MB3494.ausprd01.prod.outlook.com (10.152.252.54) by
- PU1APC01FT020.mail.protection.outlook.com (10.152.252.217) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.3742.6 via Frontend Transport; Fri, 8 Jan 2021 03:18:20 +0000
-X-IncomingTopHeaderMarker: OriginalChecksum:8BE70C2AE17927D1AC72ACD4AB5BF71EB203EFFBCC8C9922697FEF8A2D5DFEEF;
- UpperCasedChecksum:B966827DAC738978C36DAAA1E17BA6F1CB82A44613965FFBCDBF0C0E2D788E9E;
- SizeAsReceived:7670; Count:47
-Received: from MEAPR01MB3494.ausprd01.prod.outlook.com
- ([fe80::2d4d:a683:7f83:cf50]) by MEAPR01MB3494.ausprd01.prod.outlook.com
- ([fe80::2d4d:a683:7f83:cf50%7]) with mapi id 15.20.3742.006; Fri, 8 Jan 2021
- 03:18:20 +0000
-From: Qiuhao Li <Qiuhao.Li@outlook.com>
-To: alxndr@bu.edu,
-	qemu-devel@nongnu.org
-Subject: [PATCH v5 7/7] fuzz: heuristic split write based on past IOs
-Date: Fri,  8 Jan 2021 11:12:49 +0800
-Message-ID: <MEAPR01MB34947491156D2FAD87C0EF2CFCAE0@MEAPR01MB3494.ausprd01.prod.outlook.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <MEAPR01MB349464ED835FE8243FB09100FCAE0@MEAPR01MB3494.ausprd01.prod.outlook.com>
-References: <MEAPR01MB349464ED835FE8243FB09100FCAE0@MEAPR01MB3494.ausprd01.prod.outlook.com>
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-TMN: [fAjHALQQsT0TtC/Iw8VSJH6gDAaykidXXN0aDI9b5yZkhKaahyFe3cPzazFXHQy5]
-X-ClientProxiedBy: HK2PR0401CA0020.apcprd04.prod.outlook.com
- (2603:1096:202:2::30) To MEAPR01MB3494.ausprd01.prod.outlook.com
- (2603:10c6:201:39::11)
-X-Microsoft-Original-Message-ID: <20210108031249.68381-7-Qiuhao.Li@outlook.com>
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1kxjLs-0001Of-Iv
+ for qemu-devel@nongnu.org; Thu, 07 Jan 2021 23:26:16 -0500
+Received: from indium.canonical.com ([91.189.90.7]:56254)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1kxjLo-0003h6-40
+ for qemu-devel@nongnu.org; Thu, 07 Jan 2021 23:26:16 -0500
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1kxjLb-0004Cj-2J
+ for <qemu-devel@nongnu.org>; Fri, 08 Jan 2021 04:25:59 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id D2F8F2E8140
+ for <qemu-devel@nongnu.org>; Fri,  8 Jan 2021 04:25:58 +0000 (UTC)
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-Received: from XPS-13-9360 (2001:250:fe01:130:40a3:2fc0:cdf4:4729) by
- HK2PR0401CA0020.apcprd04.prod.outlook.com (2603:1096:202:2::30) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3742.6 via Frontend
- Transport; Fri, 8 Jan 2021 03:18:19 +0000
-X-MS-PublicTrafficType: Email
-X-IncomingHeaderCount: 47
-X-EOPAttributedMessage: 0
-X-MS-Office365-Filtering-Correlation-Id: 12510e80-15c4-4b09-71d2-08d8b3840c8e
-X-MS-Exchange-SLBlob-MailProps: S/btQ8cKWiT4Pkfzu6B+gslsbaS+QpFwhVEmwSfFHOHzogkw7n/eb6NP0bIyotz4Rl1rPUY0qmZtwy49kHYPIytVOiy4Z88Fd1jh79EoF4Xp2L4WFuQFLlW4+NUr/x1W31kEDRxIEY6+1zPvTl+/DN0PBoLZ+AAwxOE9kAiOxzbDXU2d4GKVPgvlF6dYzpRinvMG4SnTzcuMY6HHuTWY5xt1Yx4EYTNH2xwTwiFGMB0948FHgNd8SoBMhqy6vPyn75QJ3we/9BQs1gLbd9lk70DGJwuS7A8Nd5pVDmYHvj7CYaz2lgjTxBbUgrFg6AW+6YuwfMu0SbqVX1J0W5za5yWDhi7UbK5oUAiGjDXmgMU9RQyDfcDvDoFqjwLJRn6Sn/n99vMIBvT1h2Kcx/FcdccuIxY9Zc0pmFrHUXCTFeWmhbrc6pxTrQcssQi3NqmfOoFnyZil3NSSMQHPj2CtKtN2mfG5cF80ZIfnXrUmUesfskeph1LplEQNWodeZGFi9RHI4DuQztXTpsABwp4rkwsNw9cUw2XIhmFs0BRbuIXN0lFYoXhTM1igufcMLramj871zjZd/H7Dl0gCCqmXds7MHzVVqPSvDIB1pGiD8Nf/zZEs4rygPg/e7IsZEBOe5F8W4NvvH18RpkGrKrmTIo7aXo339eFxbKRicpfGUc6VBUmtUvovzZ5JWkliksKYSGaBImxwyXT0kDjtdZjzM18epNQcuioVAU1fG9S2CGQCDlO+I54WIfKfm2sA7yKyGZCet8lyGPU=
-X-MS-TrafficTypeDiagnostic: PU1APC01HT044:
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: +n9oawzMQ9lKg6SGkEvAwKbDw4XU/a0yH6ShBufSZFtNSI4r5cCwG98URPNsHJOpXIC97CovGyt1Yo0TZWAyhnrSIgRG7D+MCCpF3tFuLGEtcOg7kWwvFHxTQAbH8CnXJlKq5fgUrWoI1ZQirktcv5oUF7QaD2w2N78OiVPUSv23eBcxcB8S5OH8cIQZjOz3z8w3ICnrAZDvj8bFv9ErfLR6iu7N4/xdeIos5qHlFw5LHt/Fv39r64T+8dGdKbQr
-X-MS-Exchange-AntiSpam-MessageData: MUKIAM3WKSfcCQV5IyyPKIDVYalb5XoCgjBHUa0mWvQEGYQqM9FqTCXRcz2vsiSWa81JHm6hVJBGFAAmTKsusjlhSJn9tB6KTEJUSHdlI+aRhkxsBTQcLn2nQAmVF/T4tilTNe1iuZqsFAlGKCHY5OYjwESOzmVwG2NrmyphttU60nM0WHuqGFxwVM7NiLsw0YvYmLoMMIRkuDpNdfDglw==
-X-OriginatorOrg: outlook.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 08 Jan 2021 03:18:20.0082 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 84df9e7f-e9f6-40af-b435-aaaaaaaaaaaa
-X-MS-Exchange-CrossTenant-Network-Message-Id: 12510e80-15c4-4b09-71d2-08d8b3840c8e
-X-MS-Exchange-CrossTenant-AuthSource: PU1APC01FT020.eop-APC01.prod.protection.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: Internet
-X-MS-Exchange-CrossTenant-RMS-PersistedConsumerOrg: 00000000-0000-0000-0000-000000000000
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PU1APC01HT044
-Received-SPF: pass client-ip=40.92.254.66; envelope-from=Qiuhao.Li@outlook.com;
- helo=APC01-PU1-obe.outbound.protection.outlook.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- MSGID_FROM_MTA_HEADER=0.001, RCVD_IN_DNSWL_NONE=-0.0001,
- RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_PASS=-0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Date: Fri, 08 Jan 2021 04:17:14 -0000
+From: Launchpad Bug Tracker <1648726@bugs.launchpad.net>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=Expired; importance=Undecided;
+ assignee=None; 
+X-Launchpad-Bug-Tags: uas uasp usb usb-host xhci
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: janitor jscinoz th-huth
+X-Launchpad-Bug-Reporter: Jack Coulter (jscinoz)
+X-Launchpad-Bug-Modifier: Launchpad Janitor (janitor)
+References: <20161209080958.23373.14363.malonedeb@chaenomeles.canonical.com>
+Message-Id: <161007943531.27824.4638252303274279432.malone@loganberry.canonical.com>
+Subject: [Bug 1648726] Re: [usb-host] Passthrough of UAS devices fails with
+ Windows (10) guests
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="9b8a7e9b05b0918031670be47aedac0f241cb913"; Instance="production"
+X-Launchpad-Hash: 6bbcdb65c76eeec17cc1c964d6868e1e49f3fc10
+Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
+ helo=indium.canonical.com
+X-Spam_score_int: -65
+X-Spam_score: -6.6
+X-Spam_bar: ------
+X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9,
+ HEADER_FROM_DIFFERENT_DOMAINS=0.248, RCVD_IN_DNSWL_HI=-5,
+ RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -115,95 +72,104 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: thuth@redhat.com, Qiuhao Li <Qiuhao.Li@outlook.com>,
- darren.kenny@oracle.com, bsd@redhat.com, stefanha@redhat.com,
- pbonzini@redhat.com
+Reply-To: Bug 1648726 <1648726@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-If previous write commands write the same length of data with the same step,
-we view it as a hint.
+[Expired for QEMU because there has been no activity for 60 days.]
 
-Signed-off-by: Qiuhao Li <Qiuhao.Li@outlook.com>
----
- scripts/oss-fuzz/minimize_qtest_trace.py | 56 ++++++++++++++++++++++++
- 1 file changed, 56 insertions(+)
+** Changed in: qemu
+       Status: Incomplete =3D> Expired
 
-diff --git a/scripts/oss-fuzz/minimize_qtest_trace.py b/scripts/oss-fuzz/minimize_qtest_trace.py
-index 8661116075..408ae2ac67 100755
---- a/scripts/oss-fuzz/minimize_qtest_trace.py
-+++ b/scripts/oss-fuzz/minimize_qtest_trace.py
-@@ -85,6 +85,43 @@ def check_if_trace_crashes(trace, path):
-     return False
- 
- 
-+# If previous write commands write the same length of data at the same
-+# interval, we view it as a hint.
-+def split_write_hint(newtrace, i):
-+    HINT_LEN = 3 # > 2
-+    if i <=(HINT_LEN-1):
-+        return None
-+
-+    #find previous continuous write traces
-+    k = 0
-+    l = i-1
-+    writes = []
-+    while (k != HINT_LEN and l >= 0):
-+        if newtrace[l].startswith("write "):
-+            writes.append(newtrace[l])
-+            k += 1
-+            l -= 1
-+        elif newtrace[l] == "":
-+            l -= 1
-+        else:
-+            return None
-+    if k != HINT_LEN:
-+        return None
-+
-+    length = int(writes[0].split()[2], 16)
-+    for j in range(1, HINT_LEN):
-+        if length != int(writes[j].split()[2], 16):
-+            return None
-+
-+    step = int(writes[0].split()[1], 16) - int(writes[1].split()[1], 16)
-+    for j in range(1, HINT_LEN-1):
-+        if step != int(writes[j].split()[1], 16) - \
-+            int(writes[j+1].split()[1], 16):
-+            return None
-+
-+    return (int(writes[0].split()[1], 16)+step, length)
-+
-+
- def remove_lines(newtrace, outpath):
-     remove_step = 1
-     i = 0
-@@ -148,6 +185,25 @@ def remove_lines(newtrace, outpath):
-             length = int(newtrace[i].split()[2], 16)
-             data = newtrace[i].split()[3][2:]
-             if length > 1:
-+
-+                # Can we get a hint from previous writes?
-+                hint = split_write_hint(newtrace, i)
-+                if hint is not None:
-+                    hint_addr = hint[0]
-+                    hint_len = hint[1]
-+                    if hint_addr >= addr and hint_addr+hint_len <= addr+length:
-+                        newtrace[i] = "write {addr} {size} 0x{data}\n".format(
-+                            addr=hex(hint_addr),
-+                            size=hex(hint_len),
-+                            data=data[(hint_addr-addr)*2:\
-+                                (hint_addr-addr)*2+hint_len*2])
-+                        if check_if_trace_crashes(newtrace, outpath):
-+                            # next round
-+                            i += 1
-+                            continue
-+                        newtrace[i] = prior[0]
-+
-+                # Try splitting it using a binary approach
-                 leftlength = int(length/2)
-                 rightlength = length - leftlength
-                 newtrace.insert(i+1, "")
--- 
-2.25.1
+-- =
 
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1648726
+
+Title:
+  [usb-host] Passthrough of UAS devices fails with Windows (10) guests
+
+Status in QEMU:
+  Expired
+
+Bug description:
+  Split off from https://bugs.launchpad.net/qemu/+bug/1579306 as this is
+  a distinct issue.
+
+  Physical USB storage devices that support the UAS protocol do not work
+  correctly when passed through to Windows guests (I've only tested this
+  with Windows 10 x64, build 1607).
+
+  Passing through such a device results in the older BOT/MSC protocol
+  being used:
+
+  <See attachment win10-uas-fail.png>
+
+  Using the same domain configuration with a Linux guest (tested with
+  SystemRescueCD 4.8.0) works correctly:
+
+  /: Bus 02.Port 1: Dev 1, Class=3Droot_hub, Driver=3Dxhci_hcd/4p, 5000M
+  =C2=A0=C2=A0=C2=A0=C2=A0|__ Port 1: Dev 2, If 0, Class=3DMass Storage, Dr=
+iver=3Duas, 5000M
+  /: Bus 01.Port 1: Dev 1, Class=3Droot_hub, Driver=3Dxhci_hcd/4p, 480M
+
+  In both cases, the VM was launched via libvirt, which generated the
+  following command line:
+
+  /usr/bin/qemu-system-x86_64 -name guest=3DWin10-Edge-IE11,debug-
+  threads=3Don -S -object
+  secret,id=3DmasterKey0,format=3Draw,file=3D/var/lib/libvirt/qemu/domain-1=
+3-Win10
+  -Edge-IE11/master-key.aes -machine
+  pc-q35-2.7,accel=3Dkvm,usb=3Doff,vmport=3Doff,dump-guest-core=3Doff -cpu
+  host,hv_time,hv_relaxed,hv_vapic,hv_spinlocks=3D0x1fff -m 4096 -realtime
+  mlock=3Doff -smp 8,sockets=3D1,cores=3D4,threads=3D2 -uuid 47c39707-088c-=
+4edc-
+  8b6a-a7856e09f43d -no-user-config -nodefaults -chardev
+  socket,id=3Dcharmonitor,path=3D/var/lib/libvirt/qemu/domain-13-Win10-Edge-
+  IE11/monitor.sock,server,nowait -mon
+  chardev=3Dcharmonitor,id=3Dmonitor,mode=3Dcontrol -rtc
+  base=3Dlocaltime,driftfix=3Dslew -global kvm-pit.lost_tick_policy=3Ddisca=
+rd
+  -no-hpet -no-shutdown -global ICH9-LPC.disable_s3=3D1 -global
+  ICH9-LPC.disable_s4=3D1 -boot strict=3Don -device
+  i82801b11-bridge,id=3Dpci.1,bus=3Dpcie.0,addr=3D0x1e -device pci-
+  bridge,chassis_nr=3D2,id=3Dpci.2,bus=3Dpci.1,addr=3D0x0 -device nec-usb-
+  xhci,id=3Dusb,bus=3Dpci.2,addr=3D0x6 -device virtio-scsi-
+  pci,id=3Dscsi0,bus=3Dpci.2,addr=3D0x3 -device virtio-serial-pci,id=3Dvirt=
+io-
+  serial0,bus=3Dpci.2,addr=3D0x4 -drive file=3D/home/jack/IMG/Win10-Edge-
+  IE11.qcow2,format=3Dqcow2,if=3Dnone,id=3Ddrive-scsi0-0-0-0,discard=3Dunmap
+  -device scsi-hd,bus=3Dscsi0.0,channel=3D0,scsi-id=3D0,lun=3D0,drive=3Ddri=
+ve-
+  scsi0-0-0-0,id=3Dscsi0-0-0-0,bootindex=3D1 -drive if=3Dnone,id=3Ddrive-
+  scsi0-0-0-1,readonly=3Don -device scsi-cd,bus=3Dscsi0.0,channel=3D0,scsi-
+  id=3D0,lun=3D1,drive=3Ddrive-scsi0-0-0-1,id=3Dscsi0-0-0-1 -netdev
+  tap,fd=3D22,id=3Dhostnet0,vhost=3Don,vhostfd=3D24 -device virtio-net-
+  pci,netdev=3Dhostnet0,id=3Dnet0,mac=3D52:54:00:27:94:5d,bus=3Dpci.2,addr=
+=3D0x1
+  -chardev pty,id=3Dcharserial0 -device isa-
+  serial,chardev=3Dcharserial0,id=3Dserial0 -chardev
+  spicevmc,id=3Dcharchannel0,name=3Dvdagent -device virtserialport,bus
+  =3Dvirtio-
+  serial0.0,nr=3D1,chardev=3Dcharchannel0,id=3Dchannel0,name=3Dcom.redhat.s=
+pice.0
+  -device usb-tablet,id=3Dinput0,bus=3Dusb.0,port=3D2 -spice
+  port=3D5900,addr=3D127.0.0.1,disable-ticketing,image-compression=3Doff
+  ,seamless-migration=3Don -device qxl-
+  vga,id=3Dvideo0,ram_size=3D67108864,vram_size=3D67108864,vram64_size_mb=
+=3D0,vgamem_mb=3D16,max_outputs=3D1,bus=3Dpcie.0,addr=3D0x1
+  -device intel-hda,id=3Dsound0,bus=3Dpci.2,addr=3D0x2 -device hda-
+  duplex,id=3Dsound0-codec0,bus=3Dsound0.0,cad=3D0 -chardev
+  spicevmc,id=3Dcharredir0,name=3Dusbredir -device usb-
+  redir,chardev=3Dcharredir0,id=3Dredir0,bus=3Dusb.0,port=3D3 -chardev
+  spicevmc,id=3Dcharredir1,name=3Dusbredir -device usb-
+  redir,chardev=3Dcharredir1,id=3Dredir1,bus=3Dusb.0,port=3D4 -device usb-
+  host,hostbus=3D4,hostaddr=3D4,id=3Dhostdev0,bus=3Dusb.0,port=3D1 -device =
+virtio-
+  balloon-pci,id=3Dballoon0,bus=3Dpci.2,addr=3D0x5 -msg timestamp=3Don
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1648726/+subscriptions
 
