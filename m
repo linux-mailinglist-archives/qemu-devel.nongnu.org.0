@@ -2,67 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 09F2F2EF4F3
+	by mail.lfdr.de (Postfix) with ESMTPS id 2D8392EF4F4
 	for <lists+qemu-devel@lfdr.de>; Fri,  8 Jan 2021 16:38:45 +0100 (CET)
-Received: from localhost ([::1]:56272 helo=lists1p.gnu.org)
+Received: from localhost ([::1]:56328 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kxtqd-00062p-Ii
-	for lists+qemu-devel@lfdr.de; Fri, 08 Jan 2021 10:38:43 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47148)
+	id 1kxtqe-000647-6s
+	for lists+qemu-devel@lfdr.de; Fri, 08 Jan 2021 10:38:44 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47150)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1kxtoS-0004Nt-E8
+ id 1kxtoS-0004Nu-EK
  for qemu-devel@nongnu.org; Fri, 08 Jan 2021 10:36:28 -0500
-Received: from mail-wm1-x32e.google.com ([2a00:1450:4864:20::32e]:40492)
+Received: from mail-wr1-x42c.google.com ([2a00:1450:4864:20::42c]:35885)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1kxtoQ-0002pT-1A
+ id 1kxtoQ-0002pZ-Rv
  for qemu-devel@nongnu.org; Fri, 08 Jan 2021 10:36:28 -0500
-Received: by mail-wm1-x32e.google.com with SMTP id r4so8751731wmh.5
- for <qemu-devel@nongnu.org>; Fri, 08 Jan 2021 07:36:25 -0800 (PST)
+Received: by mail-wr1-x42c.google.com with SMTP id t16so9438236wra.3
+ for <qemu-devel@nongnu.org>; Fri, 08 Jan 2021 07:36:26 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:subject:date:message-id:mime-version
+ h=from:to:subject:date:message-id:in-reply-to:references:mime-version
  :content-transfer-encoding;
- bh=0HJ5hnIVK4wCTwPt1N8IA4C49lrrO8ZyrLHK6RBfiAk=;
- b=EHKSX+Prws7f/tIO/tXpLayG2LW53wRV9XBZpXBbYKh6lltzOP55mbCyPshsJQEWR1
- ORAWxxUIfO38b/xduT6vBIMynYT6KxAg9wqN2YcIbhowZ0gTAnZi6GApUwgJPgw/9ueS
- 89iTpwPK3Y0/rF7z90biBfKsFqZW77flyxnMQGn9tBScpZfBGKo3R0mywnSqWXuU3Ful
- N6S/3/EWH37HGHa5+Fy7+Wx7pRnp7MGbvr23D/le5wRacZ8mBfaeyTLP+xNJjx3W+5bO
- bIMsU3efwGEpfvXwU+WM3Th/Qq4eXG7uxz7xG8IzHTq4vvtqR1L6VZ3FNbBthCDD3lkm
- /LoA==
+ bh=9+vWx3FqtrO6G+H4ty7no9j/6Y8/B4v8DIST+CCoA8U=;
+ b=wTppJBwLhe3wao62eCltjTkNFIwMZfJgdoAkxZL08MB8Uwxr2QJLQM+Ehxx4oDs2dI
+ 7rgkqEMAJBBKj+POVXHEDpjWoy0AaUYbTzMeeWjLfYOP54vS+/W2ioYnLh53GjZUu+z3
+ fO3+5LbEUrA9MwH5GQV+ItBsthWeR0JP44ufQp+bSRXiHWsvoS3dOEroHQnS6Adu+Kwh
+ TtuhYCb1K88xKL31KC3q1cqeWBpT/po740jxs4XJTiGLutEOx4wbqqe2OLtFM7UTv8O0
+ Yl5Nimv1/IqWRIKOrjI5eKTLsu31XivPmLin7dM/NU8rxyH/+C4sMn5AWzWSEKhvYU0v
+ 1ybw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=0HJ5hnIVK4wCTwPt1N8IA4C49lrrO8ZyrLHK6RBfiAk=;
- b=Vg6NYwAV8awl4+AWCryPmcAl/1a2X+vg+hB1VZuZhZ9DyQRYjcchNXoynUANvdczX0
- KIFG9ramzzWZFzveteO6t1dMq9ZbwNAOzdxSseY8JNvAJnNfs+M1GsySgBX9n2dkeU3F
- 7B0X6+uAL4rOtGNORsaWLt/McRBd75tYByEaYKWyanPqVbN8jEIfBTr8ldKVxcGE9lu3
- SLqi/ZqFVfZlqolnHey/lHmme4ldUMBw3L7RFPBK8WMrxgMVJ+iChwgCsjqZ1/E1bDtD
- lR2dp837v5sq1oqbgaGlWqBQDGuqpwx0+dlQ0rca8+SqPWv+AEnCguL6NfBJukU4JIIr
- GOwg==
-X-Gm-Message-State: AOAM533Tpg08ay5Rue+bhP/GcdHzdUdp/qcTh4/vnLKFKuCT2DKEWnp9
- xhXAiYz1+ERa3NWeGAmpVG9/rJBGm4A6+w==
-X-Google-Smtp-Source: ABdhPJx5ILL+oR0uVs7pieRAaBSWovWQBYAYW64bMk7H1i++5+lvVPzVI8ZnlN8wwutrQKrWBZIB6A==
-X-Received: by 2002:a1c:4843:: with SMTP id v64mr3576141wma.186.1610120183867; 
- Fri, 08 Jan 2021 07:36:23 -0800 (PST)
+ h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=9+vWx3FqtrO6G+H4ty7no9j/6Y8/B4v8DIST+CCoA8U=;
+ b=C1a4k9+O5pHwi5MThEiAimsO5bcILTZ+e5ut0d35cAF9OhidY8OAxwZM5ejZA4rUcC
+ WJ16BmENE9F++rLDVA4O9FpFK78EXj1gVh1MCTxRq7qHezaxPopK2SIrg1C7Y+boQ0qC
+ zllJRwjZtv4VjjYzhDQwADwX8q5YESWBFUXReSAyFNqE7PJggH2Ap3sq6RjZZQzuxnBg
+ 1l+xyZONGbJRKXpxCr1POCuNTh3GTfR8ekBLkOysUndq7Hj5iX5up6dWDHzGOUvNySd7
+ QZJ1+X5v3OHq5n6qUM64WBJXo2+9CT+OzXbkcT0hQJdzK35nvOCmzySK2kU/tjAcTLmp
+ K7/w==
+X-Gm-Message-State: AOAM530qCz+m8rEkDu6tvPq7YjJhmNN2SACYhoQBjwj/R04G9+/gi2EP
+ sHgBuwANw1GPz60nYppck6yYHa/mcboEVA==
+X-Google-Smtp-Source: ABdhPJzGyCgAvHx4/ekXEVcHlRi19S/uAKumSxuVy5uJgnpaHnWjTx2MkWy6yhBSUo/pbxNEBNMy/Q==
+X-Received: by 2002:adf:ee4a:: with SMTP id w10mr4098184wro.81.1610120185000; 
+ Fri, 08 Jan 2021 07:36:25 -0800 (PST)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
- by smtp.gmail.com with ESMTPSA id f9sm15887572wrw.81.2021.01.08.07.36.22
+ by smtp.gmail.com with ESMTPSA id f9sm15887572wrw.81.2021.01.08.07.36.24
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 08 Jan 2021 07:36:23 -0800 (PST)
+ Fri, 08 Jan 2021 07:36:24 -0800 (PST)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 00/23] target-arm queue
-Date: Fri,  8 Jan 2021 15:35:58 +0000
-Message-Id: <20210108153621.3868-1-peter.maydell@linaro.org>
+Subject: [PULL 01/23] intc/arm_gic: Fix gic_irq_signaling_enabled() for vCPUs
+Date: Fri,  8 Jan 2021 15:35:59 +0000
+Message-Id: <20210108153621.3868-2-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.20.1
+In-Reply-To: <20210108153621.3868-1-peter.maydell@linaro.org>
+References: <20210108153621.3868-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::32e;
- envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x32e.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::42c;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x42c.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -85,135 +87,42 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Nothing too exciting, but does include the last bits of v8.1M support work.
+From: "Edgar E. Iglesias" <edgar.iglesias@xilinx.com>
 
--- PMM
+Correct the indexing into s->cpu_ctlr for vCPUs.
 
-The following changes since commit e79de63ab1bd1f6550e7b915e433bec1ad1a870a:
+Signed-off-by: Edgar E. Iglesias <edgar.iglesias@xilinx.com>
+Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+Reviewed-by: Luc Michel <luc.michel@greensocs.com>
+Message-id: 20201214222154.3480243-2-edgar.iglesias@gmail.com
+Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
+---
+ hw/intc/arm_gic.c | 4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
 
-  Merge remote-tracking branch 'remotes/rth-gitlab/tags/pull-tcg-20210107' into staging (2021-01-07 20:34:05 +0000)
+diff --git a/hw/intc/arm_gic.c b/hw/intc/arm_gic.c
+index c60dc6b5e6e..af41e2fb448 100644
+--- a/hw/intc/arm_gic.c
++++ b/hw/intc/arm_gic.c
+@@ -141,6 +141,8 @@ static inline void gic_get_best_virq(GICState *s, int cpu,
+ static inline bool gic_irq_signaling_enabled(GICState *s, int cpu, bool virt,
+                                     int group_mask)
+ {
++    int cpu_iface = virt ? (cpu + GIC_NCPU) : cpu;
++
+     if (!virt && !(s->ctlr & group_mask)) {
+         return false;
+     }
+@@ -149,7 +151,7 @@ static inline bool gic_irq_signaling_enabled(GICState *s, int cpu, bool virt,
+         return false;
+     }
+ 
+-    if (!(s->cpu_ctlr[cpu] & group_mask)) {
++    if (!(s->cpu_ctlr[cpu_iface] & group_mask)) {
+         return false;
+     }
+ 
+-- 
+2.20.1
 
-are available in the Git repository at:
-
-  https://git.linaro.org/people/pmaydell/qemu-arm.git tags/pull-target-arm-20210108
-
-for you to fetch changes up to c9f8511ea8d2b80723af0fea1f716d752c1b5208:
-
-  docs/system: arm: Add sabrelite board description (2021-01-08 15:13:39 +0000)
-
-----------------------------------------------------------------
-target-arm queue:
- * intc/arm_gic: Fix gic_irq_signaling_enabled() for vCPUs
- * target/arm: Fix MTE0_ACTIVE
- * target/arm: Implement v8.1M and Cortex-M55 model
- * hw/arm/highbank: Drop dead KVM support code
- * util/qemu-timer: Make timer_free() imply timer_del()
- * various devices: Use ptimer_free() in finalize function
- * docs/system: arm: Add sabrelite board description
- * sabrelite: Minor fixes to allow booting U-Boot
-
-----------------------------------------------------------------
-Andrew Jones (1):
-      hw/arm/virt: Remove virt machine state 'smp_cpus'
-
-Bin Meng (4):
-      hw/misc: imx6_ccm: Update PMU_MISC0 reset value
-      hw/msic: imx6_ccm: Correct register value for silicon type
-      hw/arm: sabrelite: Connect the Ethernet PHY at address 6
-      docs/system: arm: Add sabrelite board description
-
-Edgar E. Iglesias (1):
-      intc/arm_gic: Fix gic_irq_signaling_enabled() for vCPUs
-
-Gan Qixin (7):
-      digic-timer: Use ptimer_free() in the finalize function to avoid memleaks
-      allwinner-a10-pit: Use ptimer_free() in the finalize function to avoid memleaks
-      exynos4210_rtc: Use ptimer_free() in the finalize function to avoid memleaks
-      exynos4210_pwm: Use ptimer_free() in the finalize function to avoid memleaks
-      mss-timer: Use ptimer_free() in the finalize function to avoid memleaks
-      musicpal: Use ptimer_free() in the finalize function to avoid memleaks
-      exynos4210_mct: Use ptimer_free() in the finalize function to avoid memleaks
-
-Peter Maydell (9):
-      hw/intc/armv7m_nvic: Correct handling of CCR.BFHFNMIGN
-      target/arm: Correct store of FPSCR value via FPCXT_S
-      target/arm: Implement FPCXT_NS fp system register
-      target/arm: Implement Cortex-M55 model
-      hw/arm/highbank: Drop dead KVM support code
-      util/qemu-timer: Make timer_free() imply timer_del()
-      scripts/coccinelle: New script to remove unnecessary timer_del() calls
-      Remove superfluous timer_del() calls
-      target/arm: Remove timer_del()/timer_deinit() before timer_free()
-
-Richard Henderson (1):
-      target/arm: Fix MTE0_ACTIVE
-
- docs/system/arm/sabrelite.rst                 | 119 ++++++++++++++++++++++++++
- docs/system/target-arm.rst                    |   1 +
- scripts/coccinelle/timer-del-timer-free.cocci |  18 ++++
- include/hw/arm/virt.h                         |   3 +-
- include/qemu/timer.h                          |  24 +++---
- block/iscsi.c                                 |   2 -
- block/nbd.c                                   |   1 -
- block/qcow2.c                                 |   1 -
- hw/arm/highbank.c                             |  14 +--
- hw/arm/musicpal.c                             |  12 +++
- hw/arm/sabrelite.c                            |   4 +
- hw/arm/virt-acpi-build.c                      |   9 +-
- hw/arm/virt.c                                 |  21 +++--
- hw/block/nvme.c                               |   2 -
- hw/char/serial.c                              |   2 -
- hw/char/virtio-serial-bus.c                   |   2 -
- hw/ide/core.c                                 |   1 -
- hw/input/hid.c                                |   1 -
- hw/intc/apic.c                                |   1 -
- hw/intc/arm_gic.c                             |   4 +-
- hw/intc/armv7m_nvic.c                         |  15 ++++
- hw/intc/ioapic.c                              |   1 -
- hw/ipmi/ipmi_bmc_extern.c                     |   1 -
- hw/misc/imx6_ccm.c                            |   4 +-
- hw/net/e1000.c                                |   3 -
- hw/net/e1000e_core.c                          |   8 --
- hw/net/pcnet-pci.c                            |   1 -
- hw/net/rtl8139.c                              |   1 -
- hw/net/spapr_llan.c                           |   1 -
- hw/net/virtio-net.c                           |   2 -
- hw/rtc/exynos4210_rtc.c                       |   9 ++
- hw/s390x/s390-pci-inst.c                      |   1 -
- hw/sd/sd.c                                    |   1 -
- hw/sd/sdhci.c                                 |   2 -
- hw/timer/allwinner-a10-pit.c                  |  11 +++
- hw/timer/digic-timer.c                        |   8 ++
- hw/timer/exynos4210_mct.c                     |  14 +++
- hw/timer/exynos4210_pwm.c                     |  11 +++
- hw/timer/mss-timer.c                          |  13 +++
- hw/usb/dev-hub.c                              |   1 -
- hw/usb/hcd-ehci.c                             |   1 -
- hw/usb/hcd-ohci-pci.c                         |   1 -
- hw/usb/hcd-uhci.c                             |   1 -
- hw/usb/hcd-xhci.c                             |   1 -
- hw/usb/redirect.c                             |   1 -
- hw/vfio/display.c                             |   1 -
- hw/virtio/vhost-vsock-common.c                |   1 -
- hw/virtio/virtio-balloon.c                    |   1 -
- hw/virtio/virtio-rng.c                        |   1 -
- hw/watchdog/wdt_diag288.c                     |   1 -
- hw/watchdog/wdt_i6300esb.c                    |   1 -
- migration/colo.c                              |   1 -
- monitor/hmp-cmds.c                            |   1 -
- net/announce.c                                |   1 -
- net/colo-compare.c                            |   1 -
- net/slirp.c                                   |   1 -
- replay/replay-debugging.c                     |   1 -
- target/arm/cpu.c                              |   2 -
- target/arm/cpu_tcg.c                          |  42 +++++++++
- target/arm/helper.c                           |   2 +-
- target/s390x/cpu.c                            |   2 -
- ui/console.c                                  |   1 -
- ui/spice-core.c                               |   1 -
- util/throttle.c                               |   1 -
- target/arm/translate-vfp.c.inc                | 114 ++++++++++++++++++++++--
- 65 files changed, 421 insertions(+), 111 deletions(-)
- create mode 100644 docs/system/arm/sabrelite.rst
- create mode 100644 scripts/coccinelle/timer-del-timer-free.cocci
 
