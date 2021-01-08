@@ -2,63 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 182872EF05C
-	for <lists+qemu-devel@lfdr.de>; Fri,  8 Jan 2021 11:03:35 +0100 (CET)
-Received: from localhost ([::1]:35866 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 62E082EF087
+	for <lists+qemu-devel@lfdr.de>; Fri,  8 Jan 2021 11:18:12 +0100 (CET)
+Received: from localhost ([::1]:41336 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kxocH-000609-Ke
-	for lists+qemu-devel@lfdr.de; Fri, 08 Jan 2021 05:03:33 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53658)
+	id 1kxoqR-00014W-08
+	for lists+qemu-devel@lfdr.de; Fri, 08 Jan 2021 05:18:11 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56498)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1kxobV-0005Vb-8K
- for qemu-devel@nongnu.org; Fri, 08 Jan 2021 05:02:45 -0500
-Received: from 4.mo51.mail-out.ovh.net ([188.165.42.229]:44402)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1kxobR-00016Z-SB
- for qemu-devel@nongnu.org; Fri, 08 Jan 2021 05:02:45 -0500
-Received: from mxplan5.mail.ovh.net (unknown [10.108.1.214])
- by mo51.mail-out.ovh.net (Postfix) with ESMTPS id 29DAB25322E;
- Fri,  8 Jan 2021 11:02:37 +0100 (CET)
-Received: from kaod.org (37.59.142.95) by DAG4EX1.mxp5.local (172.16.2.31)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2044.4; Fri, 8 Jan 2021
- 11:02:35 +0100
-Authentication-Results: garm.ovh; auth=pass
- (GARM-95G001cb8c4923-4c5f-4027-856d-4c4d062e438e,
- 4B30ABD194C75D8A324D43CE175BC731D3728792) smtp.auth=clg@kaod.org
-X-OVh-ClientIp: 82.64.250.170
-Subject: Re: What's the correct way to implement rfi and related instruction.
-To: <luoyonggang@gmail.com>
-References: <CAE2XoE84K6vdQ23upRa1MaCNWSycUGKja9DrTpVCQ4bdY7bZuQ@mail.gmail.com>
- <db5077c9-4b20-08f1-131e-0bbc7ae15313@kaod.org>
- <CAE2XoE-Fc3Tc51uiDN70_6suHPwczdp9EcS_LirLK-txzgS+yw@mail.gmail.com>
-From: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>
-Message-ID: <ef0eb70c-5b56-9850-2ad3-f12591cd6b4b@kaod.org>
-Date: Fri, 8 Jan 2021 11:02:29 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.6.0
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1kxopJ-0000eX-Hl
+ for qemu-devel@nongnu.org; Fri, 08 Jan 2021 05:17:01 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:33337)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1kxopG-0007jn-NG
+ for qemu-devel@nongnu.org; Fri, 08 Jan 2021 05:17:00 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1610101016;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:in-reply-to:in-reply-to:  references:references;
+ bh=OXS9a5oMWJMUKPfRJUID9I9JKtpSqjIcUvUyKgZpy/g=;
+ b=HjqQBRrCaAARQUpiB+7I4m8ZZz9I4J7WEkEXT6MzEe+Vv+1Z0yEStF6cfBIHeHM2VrKSit
+ LygzfRmwZN/Kq4pCIQZC+nqpG+gqqoUmsz85SWB9yJiLK7Qnk47R3PXYa2uLP2m2a/rgWK
+ k98CfKYIuozNM3qyQP3XnkEEcLe7xdI=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-85-vKDbPeZ3PWyuISgYgkkMmQ-1; Fri, 08 Jan 2021 05:16:54 -0500
+X-MC-Unique: vKDbPeZ3PWyuISgYgkkMmQ-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id D3BD959;
+ Fri,  8 Jan 2021 10:16:52 +0000 (UTC)
+Received: from redhat.com (ovpn-114-227.ams2.redhat.com [10.36.114.227])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 4288D60C5F;
+ Fri,  8 Jan 2021 10:16:47 +0000 (UTC)
+Date: Fri, 8 Jan 2021 10:16:45 +0000
+From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+To: Paolo Bonzini <pbonzini@redhat.com>
+Subject: Re: [RFC PATCH] ci: ensure that all jobs use a shallow clone
+Message-ID: <20210108101645.GE1082385@redhat.com>
+References: <20210107171719.477856-1-pbonzini@redhat.com>
+ <20210107182812.GI1029501@redhat.com>
+ <dff4499e-eb4d-f96b-5f82-51352561d231@redhat.com>
+ <CABgObfZt-8gG3c4WTZqd0Ls0VEe43MFc_mFuykoZvDP2ZGu0gA@mail.gmail.com>
 MIME-Version: 1.0
-In-Reply-To: <CAE2XoE-Fc3Tc51uiDN70_6suHPwczdp9EcS_LirLK-txzgS+yw@mail.gmail.com>
-Content-Type: text/plain; charset="utf-8"
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-X-Originating-IP: [37.59.142.95]
-X-ClientProxiedBy: DAG3EX1.mxp5.local (172.16.2.21) To DAG4EX1.mxp5.local
- (172.16.2.31)
-X-Ovh-Tracer-GUID: 2f8bccb2-270b-481c-8fa3-0272539bcc2a
-X-Ovh-Tracer-Id: 3295509028327033638
-X-VR-SPAMSTATE: OK
-X-VR-SPAMSCORE: -100
-X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedujedrvdeggedguddtucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuqfggjfdpvefjgfevmfevgfenuceurghilhhouhhtmecuhedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhepuffvfhfhkffffgggjggtgfhisehtkeertddtfeejnecuhfhrohhmpeevrogurhhitggpnfgvpgfiohgrthgvrhcuoegtlhhgsehkrghougdrohhrgheqnecuggftrfgrthhtvghrnhepfeejtdffhefggfejgfdthfeivdfgueffgffgheduheekffeiteeuvdeghfefiedvnecuffhomhgrihhnpehgnhhurdhorhhgnecukfhppedtrddtrddtrddtpdefjedrheelrddugedvrdelheenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhhouggvpehsmhhtphdqohhuthdphhgvlhhopehmgihplhgrnhehrdhmrghilhdrohhvhhdrnhgvthdpihhnvghtpedtrddtrddtrddtpdhmrghilhhfrhhomheptghlgheskhgrohgurdhorhhgpdhrtghpthhtoheplhhuohihohhnghhgrghnghesghhmrghilhdrtghomh
-Received-SPF: pass client-ip=188.165.42.229; envelope-from=clg@kaod.org;
- helo=4.mo51.mail-out.ovh.net
-X-Spam_score_int: -21
-X-Spam_score: -2.2
-X-Spam_bar: --
-X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.267,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+In-Reply-To: <CABgObfZt-8gG3c4WTZqd0Ls0VEe43MFc_mFuykoZvDP2ZGu0gA@mail.gmail.com>
+User-Agent: Mutt/1.14.6 (2020-07-11)
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=berrange@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=berrange@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -29
+X-Spam_score: -3.0
+X-Spam_bar: ---
+X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.246,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -71,203 +81,57 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Thomas Monjalon <thomas@monjalon.net>, qemu-ppc@nongnu.org,
- qemu-level <qemu-devel@nongnu.org>, Aurelien Jarno <aurelien@aurel32.net>,
- David Gibson <david@gibson.dropbear.id.au>
+Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+Cc: Thomas Huth <thuth@redhat.com>,
+ Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>, qemu-devel@nongnu.org,
+ stefanha@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 1/8/21 5:21 AM, 罗勇刚(Yonggang Luo) wrote:
+On Thu, Jan 07, 2021 at 08:23:49PM +0100, Paolo Bonzini wrote:
+> Il gio 7 gen 2021, 20:05 Thomas Huth <thuth@redhat.com> ha scritto:
 > 
+> > on travis-ci.com you can
+> > only get free CI minutes for non-sponsored FOSS projects.
+> > So let's simply not worry about Travis-CI anymore.
+> >
+> > Maybe we could rather disable shippable now that we support the cross
+> > container builds on gitlab-ci, too?
+> >
 > 
-> On Fri, Jan 8, 2021 at 5:54 AM Cédric Le Goater <clg@kaod.org <mailto:clg@kaod.org>> wrote:
->>
->> On 1/7/21 8:14 PM, 罗勇刚(Yonggang Luo) wrote:
->> > This is the first patch,:
->> > It's store MSR bits differntly for different rfi instructions:
->> > [Qemu-devel] [PATCH] target-ppc: fix RFI by clearing some bits of MSR
->> > https://lists.gnu.org/archive/html/qemu-devel/2010-05/msg02999.html <https://lists.gnu.org/archive/html/qemu-devel/2010-05/msg02999.html> <https://lists.gnu.org/archive/html/qemu-devel/2010-05/msg02999.html <https://lists.gnu.org/archive/html/qemu-devel/2010-05/msg02999.html>>
->> > Comes from  target-ppc: fix RFI by clearing some bits of MSR
->> > SHA-1: c3d420ead1aee9fcfd12be11cbdf6b1620134773
->> >  target-ppc/op_helper.c | 6 +++---
->> >  1 file changed, 3 insertions(+), 3 deletions(-)
->> > ```
->> > diff --git a/target-ppc/op_helper.c b/target-ppc/op_helper.c
->> > index 8f2ee986bb..3c3aa60bc3 100644
->> > --- a/target-ppc/op_helper.c
->> > +++ b/target-ppc/op_helper.c
->> > @@ -1646,20 +1646,20 @@ static inline void do_rfi(target_ulong nip, target_ulong msr,
->> >  void helper_rfi (void)
->> >  {
->> >      do_rfi(env->spr[SPR_SRR0], env->spr[SPR_SRR1],
->> > -           ~((target_ulong)0x0), 1);
->> > +           ~((target_ulong)0x783F0000), 1);
->> >  }
->> >  
->> >  #if defined(TARGET_PPC64)
->> >  void helper_rfid (void)
->> >  {
->> >      do_rfi(env->spr[SPR_SRR0], env->spr[SPR_SRR1],
->> > -           ~((target_ulong)0x0), 0);
->> > +           ~((target_ulong)0x783F0000), 0);
->> >  }
->> >  
->> >  void helper_hrfid (void)
->> >  {
->> >      do_rfi(env->spr[SPR_HSRR0], env->spr[SPR_HSRR1],
->> > -           ~((target_ulong)0x0), 0);
->> > +           ~((target_ulong)0x783F0000), 0);
->> >  }
->> >  #endif
->> >  #endif
->> > ```
->> >
->> > This is the second patch,:
->> > it's remove the parameter  `target_ulong msrm, int keep_msrh`
->> > Comes from ppc: Fix rfi/rfid/hrfi/... emulation
->> > SHA-1: a2e71b28e832346409efc795ecd1f0a2bcb705a3
->> > ```
->> >  target-ppc/excp_helper.c | 51 +++++++++++++++++++-----------------------------
->> >  1 file changed, 20 insertions(+), 31 deletions(-)
->> >
->> > diff --git a/target-ppc/excp_helper.c b/target-ppc/excp_helper.c
->> > index 30e960e30b..aa0b63f4b0 100644
->> > --- a/target-ppc/excp_helper.c
->> > +++ b/target-ppc/excp_helper.c
->> > @@ -922,25 +922,20 @@ void helper_store_msr(CPUPPCState *env, target_ulong val)
->> >      }
->> >  }
->> >  
->> > -static inline void do_rfi(CPUPPCState *env, target_ulong nip, target_ulong msr,
->> > -                          target_ulong msrm, int keep_msrh)
->> > +static inline void do_rfi(CPUPPCState *env, target_ulong nip, target_ulong msr)
->> >  {
->> >      CPUState *cs = CPU(ppc_env_get_cpu(env));
->> >  
->> > +    /* MSR:POW cannot be set by any form of rfi */
->> > +    msr &= ~(1ULL << MSR_POW);
->> > +
->> >  #if defined(TARGET_PPC64)
->> > -    if (msr_is_64bit(env, msr)) {
->> > -        nip = (uint64_t)nip;
->> > -        msr &= (uint64_t)msrm;
->> > -    } else {
->> > +    /* Switching to 32-bit ? Crop the nip */
->> > +    if (!msr_is_64bit(env, msr)) {
->> >          nip = (uint32_t)nip;
->> > -        msr = (uint32_t)(msr & msrm);
->> > -        if (keep_msrh) {
->> > -            msr |= env->msr & ~((uint64_t)0xFFFFFFFF);
->> > -        }
->> >      }
->> >  #else
->> >      nip = (uint32_t)nip;
->> > -    msr &= (uint32_t)msrm;
->> >  #endif
->> >      /* XXX: beware: this is false if VLE is supported */
->> >      env->nip = nip & ~((target_ulong)0x00000003);
->> > @@ -959,26 +954,24 @@ static inline void do_rfi(CPUPPCState *env, target_ulong nip, target_ulong msr,
->> >  
->> >  void helper_rfi(CPUPPCState *env)
->> >  {
->> > -    if (env->excp_model == POWERPC_EXCP_BOOKE) {
->> > -        do_rfi(env, env->spr[SPR_SRR0], env->spr[SPR_SRR1],
->> > -               ~((target_ulong)0), 0);
->> > -    } else {
->> > -        do_rfi(env, env->spr[SPR_SRR0], env->spr[SPR_SRR1],
->> > -               ~((target_ulong)0x783F0000), 1);
->> > -    }
->> > +    do_rfi(env, env->spr[SPR_SRR0], env->spr[SPR_SRR1] & 0xfffffffful);
->> >  }
->> >  
->> > +#define MSR_BOOK3S_MASK
->> >  #if defined(TARGET_PPC64)
->> >  void helper_rfid(CPUPPCState *env)
->> >  {
->> > -    do_rfi(env, env->spr[SPR_SRR0], env->spr[SPR_SRR1],
->> > -           ~((target_ulong)0x783F0000), 0);
->> > +    /* The architeture defines a number of rules for which bits
->> > +     * can change but in practice, we handle this in hreg_store_msr()
->> > +     * which will be called by do_rfi(), so there is no need to filter
->> > +     * here
->> > +     */
->> > +    do_rfi(env, env->spr[SPR_SRR0], env->spr[SPR_SRR1]);
->> >  }
->> >  
->> >  void helper_hrfid(CPUPPCState *env)
->> >  {
->> > -    do_rfi(env, env->spr[SPR_HSRR0], env->spr[SPR_HSRR1],
->> > -           ~((target_ulong)0x783F0000), 0);
->> > +    do_rfi(env, env->spr[SPR_HSRR0], env->spr[SPR_HSRR1]);
->> >  }
->> >  #endif
->> >  
->> > @@ -986,28 +979,24 @@ void helper_hrfid(CPUPPCState *env)
->> >  /* Embedded PowerPC specific helpers */
->> >  void helper_40x_rfci(CPUPPCState *env)
->> >  {
->> > -    do_rfi(env, env->spr[SPR_40x_SRR2], env->spr[SPR_40x_SRR3],
->> > -           ~((target_ulong)0xFFFF0000), 0);
->> > +    do_rfi(env, env->spr[SPR_40x_SRR2], env->spr[SPR_40x_SRR3]);
->> >  }
->> >  
->> >  void helper_rfci(CPUPPCState *env)
->> >  {
->> > -    do_rfi(env, env->spr[SPR_BOOKE_CSRR0], env->spr[SPR_BOOKE_CSRR1],
->> > -           ~((target_ulong)0), 0);
->> > +    do_rfi(env, env->spr[SPR_BOOKE_CSRR0], env->spr[SPR_BOOKE_CSRR1]);
->> >  }
->> >  
->> >  void helper_rfdi(CPUPPCState *env)
->> >  {
->> >      /* FIXME: choose CSRR1 or DSRR1 based on cpu type */
->> > -    do_rfi(env, env->spr[SPR_BOOKE_DSRR0], env->spr[SPR_BOOKE_DSRR1],
->> > -           ~((target_ulong)0), 0);
->> > +    do_rfi(env, env->spr[SPR_BOOKE_DSRR0], env->spr[SPR_BOOKE_DSRR1]);
->> >  }
->> >  
->> >  void helper_rfmci(CPUPPCState *env)
->> >  {
->> >      /* FIXME: choose CSRR1 or MCSRR1 based on cpu type */
->> > -    do_rfi(env, env->spr[SPR_BOOKE_MCSRR0], env->spr[SPR_BOOKE_MCSRR1],
->> > -           ~((target_ulong)0), 0);
->> > +    do_rfi(env, env->spr[SPR_BOOKE_MCSRR0], env->spr[SPR_BOOKE_MCSRR1]);
->> >  }
->> >  #endif
->> >  
->> > @@ -1045,7 +1034,7 @@ void helper_td(CPUPPCState *env, target_ulong arg1, target_ulong arg2,
->> >  
->> >  void helper_rfsvc(CPUPPCState *env)
->> >  {
->> > -    do_rfi(env, env->lr, env->ctr, 0x0000FFFF, 0);
->> > +    do_rfi(env, env->lr, env->ctr & 0x0000FFFF);
->> >  }
->> >  
->> >  /* Embedded.Processor Control */
->> > ```
->> >
->> > And of cause, the second patch fixes some problem, but also cause new problem,
->> > how to implement these instruction properly?
->>
->> What are the new problems  ?
->
->
-> Before this patch, VxWorks can working, but after this, VxWorks can not boot anymore.
+> With pleasure, starting this discussion was an intended possible side
+> effect of the patch. :)
+> 
+> The main issue with Travis is the non-x86 builders, which have no
+> alternative yet.
 
-I suppose you did a bisect to reach this patch. 
+The free travis accounts get 10000 credits. Linux jobs take 10 credits
+per minute of execution time. Free credits are a one-off grant which
+don't auto renew. You have to make an email request to travis to beg
+for more each time they run out.
 
-Which QEMU machine is impacted ? Which CPU ? What are the symptoms ? 
+The non-x86 CI jobs we have in travis consume 91 minutes of time in
+total.  So we'll burn through all free credits in 11 jobs and then
+our CI will stop.
 
-Did you try to run with -d exec or -d in_asm to identify the exact
-instruction ? 
+IOW, despite travis giving us non-x86 builders, it is doomed to be
+unusuable, unless we can convince them to give us a *massively*
+larger free credit allowance on the qemu account.  It would need to
+be on the order x100 larger, and auto-renewing once a month to cope
+with our rate of builds for the non-x86 CI jobs.
 
-From there, you could try to revert partially the patch above to 
-fix the problem. 
+I think we need to just delete the travis config and accept that we
+can't run those jobs unless we provide our own hardware for non-x86
+in GitLab CI.  IIUC, the latter is something we're planning anyway.
 
-Thanks,
+So I support removing travis and shippable configs and focusing only
+on GitLab and Cirrus
 
-C.
-
-
+Regards,
+Daniel
+-- 
+|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
+|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
+|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
 
 
