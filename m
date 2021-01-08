@@ -2,60 +2,46 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 977FE2EECB4
-	for <lists+qemu-devel@lfdr.de>; Fri,  8 Jan 2021 05:56:30 +0100 (CET)
-Received: from localhost ([::1]:51388 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 83A142EECC1
+	for <lists+qemu-devel@lfdr.de>; Fri,  8 Jan 2021 06:00:24 +0100 (CET)
+Received: from localhost ([::1]:60300 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kxjp7-00078V-KX
-	for lists+qemu-devel@lfdr.de; Thu, 07 Jan 2021 23:56:29 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52550)
+	id 1kxjst-0002TD-BQ
+	for lists+qemu-devel@lfdr.de; Fri, 08 Jan 2021 00:00:23 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52620)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <tsimpson@qualcomm.com>)
- id 1kxjQE-000052-1f
- for qemu-devel@nongnu.org; Thu, 07 Jan 2021 23:30:46 -0500
-Received: from alexa-out-sd-01.qualcomm.com ([199.106.114.38]:25188)
- by eggs.gnu.org with esmtps (TLS1.2:RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <tsimpson@qualcomm.com>)
- id 1kxjQ8-00059i-Di
- for qemu-devel@nongnu.org; Thu, 07 Jan 2021 23:30:45 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
- d=quicinc.com; i=@quicinc.com; q=dns/txt; s=qcdkim;
- t=1610080243; x=1641616243;
- h=from:to:cc:subject:date:message-id:in-reply-to:
- references:mime-version:content-transfer-encoding;
- bh=dt4Xyy9jaGqB39GgjkHe2F6Vhgqxyz2aaXwaS3nqTJ4=;
- b=mvE/cQ3sftvcSOZzK61UELbF0BMX7H9iK25tOvi1p0fMWfg5v9Bf4F7F
- ZuCDK/nyKelBE4JN2T1M7mQ7Ox5ATG5fD7lPJ5G+4rMKsP8jKUlD4Ewlm
- PYorn3pDXZyd4vROOqPn4TVxeFuSpG0l/EsDmFChGBNI+7RztOM4oy+Xl E=;
-Received: from unknown (HELO ironmsg05-sd.qualcomm.com) ([10.53.140.145])
- by alexa-out-sd-01.qualcomm.com with ESMTP; 07 Jan 2021 20:29:17 -0800
-X-QCInternal: smtphost
-Received: from vu-tsimpson-aus.qualcomm.com (HELO
- vu-tsimpson1-aus.qualcomm.com) ([10.222.150.1])
- by ironmsg05-sd.qualcomm.com with ESMTP; 07 Jan 2021 20:29:16 -0800
-Received: by vu-tsimpson1-aus.qualcomm.com (Postfix, from userid 47164)
- id 6E3DC124C; Thu,  7 Jan 2021 22:29:16 -0600 (CST)
-From: Taylor Simpson <tsimpson@quicinc.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH v6 35/35] Add newline when generating Dockerfile
-Date: Thu,  7 Jan 2021 22:29:06 -0600
-Message-Id: <1610080146-14968-36-git-send-email-tsimpson@quicinc.com>
-X-Mailer: git-send-email 2.7.4
-In-Reply-To: <1610080146-14968-1-git-send-email-tsimpson@quicinc.com>
-References: <1610080146-14968-1-git-send-email-tsimpson@quicinc.com>
+ (Exim 4.90_1) (envelope-from <alxndr@bu.edu>) id 1kxjQi-0000pv-9c
+ for qemu-devel@nongnu.org; Thu, 07 Jan 2021 23:31:17 -0500
+Received: from relay64.bu.edu ([128.197.228.104]:50285)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <alxndr@bu.edu>) id 1kxjQg-00067J-OH
+ for qemu-devel@nongnu.org; Thu, 07 Jan 2021 23:31:15 -0500
+X-Envelope-From: alxndr@bu.edu
+X-BU-AUTH: mozz.bu.edu [128.197.127.33]
+Received: from BU-AUTH (localhost.localdomain [127.0.0.1]) (authenticated
+ bits=0)
+ by relay64.bu.edu (8.14.3/8.14.3) with ESMTP id 1084U8Yb010599
+ (version=TLSv1/SSLv3 cipher=AES256-GCM-SHA384 bits=256 verify=NO);
+ Thu, 7 Jan 2021 23:30:11 -0500
+Date: Thu, 7 Jan 2021 23:30:08 -0500
+From: Alexander Bulekov <alxndr@bu.edu>
+To: Qiuhao Li <Qiuhao.Li@outlook.com>
+Subject: Re: [PATCH v5 0/7] fuzz: improve crash case minimization
+Message-ID: <20210108043008.nqo3dssgduwjuyar@mozz.bu.edu>
+References: <MEAPR01MB349464ED835FE8243FB09100FCAE0@MEAPR01MB3494.ausprd01.prod.outlook.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
-Received-SPF: pass client-ip=199.106.114.38;
- envelope-from=tsimpson@qualcomm.com; helo=alexa-out-sd-01.qualcomm.com
-X-Spam_score_int: -40
-X-Spam_score: -4.1
-X-Spam_bar: ----
-X-Spam_report: (-4.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, HEADER_FROM_DIFFERENT_DOMAINS=0.248,
- RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <MEAPR01MB349464ED835FE8243FB09100FCAE0@MEAPR01MB3494.ausprd01.prod.outlook.com>
+Received-SPF: pass client-ip=128.197.228.104; envelope-from=alxndr@bu.edu;
+ helo=relay64.bu.edu
+X-Spam_score_int: -15
+X-Spam_score: -1.6
+X-Spam_bar: -
+X-Spam_report: (-1.6 / 5.0 requ) BAYES_00=-1.9, HK_RANDOM_ENVFROM=0.001,
+ HK_RANDOM_FROM=0.998, RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -68,26 +54,71 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: ale@rev.ng, bcain@quicinc.com,
- =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
- richard.henderson@linaro.org, laurent@vivier.eu, tsimpson@quicinc.com,
- Fam Zheng <fam@euphon.net>, philmd@redhat.com
+Cc: thuth@redhat.com, qemu-devel@nongnu.org, darren.kenny@oracle.com,
+ bsd@redhat.com, stefanha@redhat.com, pbonzini@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-RnJvbTogQWxlc3NhbmRybyBEaSBGZWRlcmljbyA8YWxlQHJldi5uZz4KClNpZ25lZC1vZmYtYnk6
-IEFsZXNzYW5kcm8gRGkgRmVkZXJpY28gPGFsZUByZXYubmc+Ci0tLQogdGVzdHMvZG9ja2VyL2Rv
-Y2tlci5weSB8IDQgKystLQogMSBmaWxlIGNoYW5nZWQsIDIgaW5zZXJ0aW9ucygrKSwgMiBkZWxl
-dGlvbnMoLSkKCmRpZmYgLS1naXQgYS90ZXN0cy9kb2NrZXIvZG9ja2VyLnB5IGIvdGVzdHMvZG9j
-a2VyL2RvY2tlci5weQppbmRleCBkNDczNTY2Li41YzMxOGQ5IDEwMDc1NQotLS0gYS90ZXN0cy9k
-b2NrZXIvZG9ja2VyLnB5CisrKyBiL3Rlc3RzL2RvY2tlci9kb2NrZXIucHkKQEAgLTMzMyw5ICsz
-MzMsOSBAQCBjbGFzcyBEb2NrZXIob2JqZWN0KToKICAgICAgICAgICAgICAgICAgICAgICAgICAo
-dW5hbWUsIHVpZCwgdW5hbWUpKQogCiAgICAgICAgIHRtcF9kZi53cml0ZSgiXG4iKQotICAgICAg
-ICB0bXBfZGYud3JpdGUoIkxBQkVMIGNvbS5xZW11LmRvY2tlcmZpbGUtY2hlY2tzdW09JXMiICUg
-KGNoZWNrc3VtKSkKKyAgICAgICAgdG1wX2RmLndyaXRlKCJMQUJFTCBjb20ucWVtdS5kb2NrZXJm
-aWxlLWNoZWNrc3VtPSVzXG4iICUgKGNoZWNrc3VtKSkKICAgICAgICAgZm9yIGYsIGMgaW4gZXh0
-cmFfZmlsZXNfY2tzdW06Ci0gICAgICAgICAgICB0bXBfZGYud3JpdGUoIkxBQkVMIGNvbS5xZW11
-LiVzLWNoZWNrc3VtPSVzIiAlIChmLCBjKSkKKyAgICAgICAgICAgIHRtcF9kZi53cml0ZSgiTEFC
-RUwgY29tLnFlbXUuJXMtY2hlY2tzdW09JXNcbiIgJSAoZiwgYykpCiAKICAgICAgICAgdG1wX2Rm
-LmZsdXNoKCkKIAotLSAKMi43LjQKCg==
+Hi Qiuhao,
+Can you add my Reviewed-by: tags to the patches that I have reviewed?
+Thanks
+-Alex
+
+On 210108 1044, Qiuhao Li wrote:
+> Extend and refine the crash case minimization process.
+> 
+> Test input:
+>   Bug 1909261 full_reproducer
+>   6500 QTest instructions (write mostly)
+> 
+> Refined (-M1 minimization level) vs. Original version:
+>   real  38m31.942s  <-- real  532m57.192s
+>   user  28m18.188s  <-- user  89m0.536s
+>   sys   12m42.239s  <-- sys   50m33.074s
+>   2558 instructions <-- 2846 instructions
+> 
+> Test Enviroment:
+>   i7-8550U, 16GB LPDDR3, SSD 
+>   Ubuntu 20.04.1 5.4.0-58-generic x86_64
+>   Python 3.8.5
+> 
+> v5:
+>   Fix: send SIGKILL on timeout
+>   Fix: rename minimization functions
+> 
+> v4:
+>   Fix: messy diff in [PATCH v3 4/7]
+> 
+> v3:
+>   Fix: checkpatch.pl errors
+> 
+> v2: 
+>   New: [PATCH v2 1/7]
+>   New: [PATCH v2 2/7]
+>   New: [PATCH v2 4/7]
+>   New: [PATCH v2 6/7]
+>   New: [PATCH v2 7/7]
+>   Fix: [PATCH 2/4] split using binary approach
+>   Fix: [PATCH 3/4] typo in comments
+>   Discard: [PATCH 1/4] the hardcoded regex match for crash detection
+>   Discard: [PATCH 4/4] the delaying minimizer
+>   
+> Thanks for the suggestions from:
+>   Alexander Bulekov
+> 
+> Qiuhao Li (7):
+>   fuzz: accelerate non-crash detection
+>   fuzz: double the IOs to remove for every loop
+>   fuzz: split write operand using binary approach
+>   fuzz: remove IO commands iteratively
+>   fuzz: set bits in operand of write/out to zero
+>   fuzz: add minimization options
+>   fuzz: heuristic split write based on past IOs
+> 
+>  scripts/oss-fuzz/minimize_qtest_trace.py | 257 ++++++++++++++++++-----
+>  1 file changed, 210 insertions(+), 47 deletions(-)
+> 
+> -- 
+> 2.25.1
+> 
 
