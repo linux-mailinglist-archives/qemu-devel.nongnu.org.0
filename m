@@ -2,69 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 04E722EF53E
-	for <lists+qemu-devel@lfdr.de>; Fri,  8 Jan 2021 16:57:53 +0100 (CET)
-Received: from localhost ([::1]:48218 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0AF5C2EF535
+	for <lists+qemu-devel@lfdr.de>; Fri,  8 Jan 2021 16:55:41 +0100 (CET)
+Received: from localhost ([::1]:42836 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kxu9A-0001Yc-2g
-	for lists+qemu-devel@lfdr.de; Fri, 08 Jan 2021 10:57:52 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47484)
+	id 1kxu72-0007eB-2r
+	for lists+qemu-devel@lfdr.de; Fri, 08 Jan 2021 10:55:40 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47466)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1kxtot-00053W-BA
+ id 1kxtor-00053S-Rs
  for qemu-devel@nongnu.org; Fri, 08 Jan 2021 10:36:55 -0500
-Received: from mail-wr1-x435.google.com ([2a00:1450:4864:20::435]:44239)
+Received: from mail-wr1-x433.google.com ([2a00:1450:4864:20::433]:40423)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1kxtop-0002ye-AM
- for qemu-devel@nongnu.org; Fri, 08 Jan 2021 10:36:55 -0500
-Received: by mail-wr1-x435.google.com with SMTP id w5so9382173wrm.11
- for <qemu-devel@nongnu.org>; Fri, 08 Jan 2021 07:36:50 -0800 (PST)
+ id 1kxtoq-0002zD-9m
+ for qemu-devel@nongnu.org; Fri, 08 Jan 2021 10:36:53 -0500
+Received: by mail-wr1-x433.google.com with SMTP id 91so9427029wrj.7
+ for <qemu-devel@nongnu.org>; Fri, 08 Jan 2021 07:36:51 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:subject:date:message-id:in-reply-to:references:mime-version
  :content-transfer-encoding;
- bh=914fnl0pJhWjr3RTpGLKQ1skila3tieL+3miZYLqW2k=;
- b=j31kWkXiRRZM9er6yKN8ZJGXe2ymrCBMaLepbDycINGK1SqsUxXClkCYKbBe9W9deM
- 9fISOP9oUsAiDt4t1UZm084+BxFRBbBI0BZNQX/dTuG3hW7iE3dTTPcpVE1qKkDYpEFl
- oJJJsB+V1ZkMTM/zm7hZsU1k73oI1HTh3POwxFF0xF7D8p3mUvzSCQ5BezUNyRQgIWC2
- mpa++2Kvu103NDAysslDiOJUXhOM0roUB9Dnnma9Jr7MgPDWXArhTVCGQ5ipaEHUrPOF
- ZoPQhHIHAxy5TGsg3HP/Ieu1sJNqmV6fvi/7fQ86DnJXhhjbG6hrGPzEwFnF2VVsqbal
- Qh1A==
+ bh=Q+9hde3K1MBMpA3NU0diSpudMf3Bp4YMA1COVKFBOoc=;
+ b=VWBwQWrmGUtzXWYXm/70ZhZ++M1nrYD26GpkCfKa7SgmijRudr8fjjECH+1GpY/iQC
+ 0W+J0/kQlemcsqryUQ4K24YauDCgCl7w3QVh6JD/XvYT0Uc75McLGeFGy8892qsl5hhK
+ LkXKnSC8yfTAFDPogE0xoOpWLVXYqiMDSb92nhPsL9y1C1FndiWll+VIxvt6PqI1+Nw/
+ 40gXF2XAKRAyYXb5q/JJVjU5T6s/KHwgXb0j9DjbYyNL5O7n7UKf9czRcCLCo6TIbDD0
+ 4eEZqv7krrswewqnNqVJCFTQV/AsknhnzOtL1Is71iohV+XZ0C8546069hRj6aFWIEvC
+ HutQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=914fnl0pJhWjr3RTpGLKQ1skila3tieL+3miZYLqW2k=;
- b=anOTuiIQw7B+8W30LMLAZqB8PE+MxiMGWsfjKijWltSrpFkQohMkX/xjjHpBltTay/
- l/FMKoRY8u/QxxWMBsI9V7CSHY2Gq3NeNoEPAgtigOWKh8WBQA7DfUfVOhT3t6iO/oyv
- OxNReQFa9xJNKTA7+CQlYoVxfxi0g2i6zzy2IZCbcLFNGYUv8CFFDQnir+xhkkOvWo/T
- GZnJvhdziTrvgLd7I5mfvpO5HNyDIqe3FNAqyxhfqgHqxdwTJmUa1HwonsD8a/oHo2vX
- 4ACmFWGVKxyrk0uhtVIrl8cN8OfYWZuoAS39pPvLzEZhJkRaoZmPO/A5u36k+T7WIiEd
- OiYg==
-X-Gm-Message-State: AOAM531xKK0SWWT0Y+sPNw+DlaVs518Cip16Y0rSGpKnDjTRyFJ+njhE
- pFTsZwIwhHbbc8t2XKUlDk/4mnkwaRc07Q==
-X-Google-Smtp-Source: ABdhPJzsjvd4snxXwFAKsYhyaczhmavrUt98knWVDdrxeepEVUFkLUMR5JVTtXGUMaYip5QhlUfsEw==
-X-Received: by 2002:adf:e60f:: with SMTP id p15mr4190393wrm.60.1610120209659; 
- Fri, 08 Jan 2021 07:36:49 -0800 (PST)
+ bh=Q+9hde3K1MBMpA3NU0diSpudMf3Bp4YMA1COVKFBOoc=;
+ b=eh9GooZaylLvNLpDXlsjDyo7KFwQdYmIdwUvkxIXq0wiZnooLNrTkIn0n5HkVjPWyU
+ hPhvilkjbu6yUNXlc7kMSMRGnGs+go2Gj34Z2+onNi5gH/fkjeOhxIsNDt2y+RTQY2jC
+ a8pe6cLMi5R4JVUohO7KsGaCurC4Wer3tZ8XBwYHtehggRDUchhKlc0WsMzccgzlo+WD
+ 8Irqmu5hFKCoKp5Ee6/LXsznsm6iqBsb5DNsXIUsdqWjbTCWavU4L22f8/rdVI+l94yk
+ ZzWgYYCAAFnNxQ5MmFHNR/BMJaZ6f8ox5qFxu9ONtx6pN9v+wMMoatiaIGe9UW+TTGNy
+ x+Nw==
+X-Gm-Message-State: AOAM532Tof3FRRHRJYN4VUYrJ8Qg1odqNWf0YTZHS2dfTDda1HsC2Y+N
+ I8JcO/NuGOQshSLGhQRQ9UH6QRs2m/vM1Q==
+X-Google-Smtp-Source: ABdhPJygxDyZRzRM2Kk7Sqljsuwmj5NlfLSi2c7/hi49frMqWzha5zIGhXAePiiVld3TrTNOfqFBgA==
+X-Received: by 2002:adf:e443:: with SMTP id t3mr4193108wrm.366.1610120210789; 
+ Fri, 08 Jan 2021 07:36:50 -0800 (PST)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
- by smtp.gmail.com with ESMTPSA id f9sm15887572wrw.81.2021.01.08.07.36.48
+ by smtp.gmail.com with ESMTPSA id f9sm15887572wrw.81.2021.01.08.07.36.49
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
  Fri, 08 Jan 2021 07:36:49 -0800 (PST)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 20/23] hw/misc: imx6_ccm: Update PMU_MISC0 reset value
-Date: Fri,  8 Jan 2021 15:36:18 +0000
-Message-Id: <20210108153621.3868-21-peter.maydell@linaro.org>
+Subject: [PULL 21/23] hw/msic: imx6_ccm: Correct register value for silicon
+ type
+Date: Fri,  8 Jan 2021 15:36:19 +0000
+Message-Id: <20210108153621.3868-22-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20210108153621.3868-1-peter.maydell@linaro.org>
 References: <20210108153621.3868-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::435;
- envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x435.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::433;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x433.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -89,74 +90,38 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Bin Meng <bin.meng@windriver.com>
 
-U-Boot expects PMU_MISC0 register bit 7 is set (see init_bandgap()
-in arch/arm/mach-imx/mx6/soc.c) during boot. This bit indicates the
-bandgap has stabilized.
-
-With this change, the latest upstream U-Boot (v2021.01-rc3) for imx6
-sabrelite board (mx6qsabrelite_defconfig), with a slight change made
-by switching CONFIG_OF_SEPARATE to CONFIG_OF_EMBED, boots to U-Boot
-shell on QEMU with the following command:
-
-$ qemu-system-arm -M sabrelite -smp 4 -m 1G -kernel u-boot \
-    -display none -serial null -serial stdio
-
-Boot log below:
-
-  U-Boot 2021.01-rc3 (Dec 12 2020 - 17:40:02 +0800)
+Currently when U-Boot boots, it prints "??" for i.MX processor:
 
   CPU:   Freescale i.MX?? rev1.0 at 792 MHz
-  Reset cause: POR
-  Model: Freescale i.MX6 Quad SABRE Lite Board
-  Board: SABRE Lite
-  I2C:   ready
-  DRAM:  1 GiB
-  force_idle_bus: sda=0 scl=0 sda.gp=0x5c scl.gp=0x55
-  force_idle_bus: failed to clear bus, sda=0 scl=0
-  force_idle_bus: sda=0 scl=0 sda.gp=0x6d scl.gp=0x6c
-  force_idle_bus: failed to clear bus, sda=0 scl=0
-  force_idle_bus: sda=0 scl=0 sda.gp=0xcb scl.gp=0x5
-  force_idle_bus: failed to clear bus, sda=0 scl=0
-  MMC:   FSL_SDHC: 0, FSL_SDHC: 1
-  Loading Environment from MMC... *** Warning - No block device, using default environment
 
-  In:    serial
-  Out:   serial
-  Err:   serial
-  Net:   Board Net Initialization Failed
-  No ethernet found.
-  starting USB...
-  Bus usb@2184000: usb dr_mode not found
-  USB EHCI 1.00
-  Bus usb@2184200: USB EHCI 1.00
-  scanning bus usb@2184000 for devices... 1 USB Device(s) found
-  scanning bus usb@2184200 for devices... 1 USB Device(s) found
-         scanning usb for storage devices... 0 Storage Device(s) found
-         scanning usb for ethernet devices... 0 Ethernet Device(s) found
-  Hit any key to stop autoboot:  0
-  =>
+The register that was used to determine the silicon type is
+undocumented in the latest IMX6DQRM (Rev. 6, 05/2020), but we
+can refer to get_cpu_rev() in arch/arm/mach-imx/mx6/soc.c in
+the U-Boot source codes that USB_ANALOG_DIGPROG is used.
+
+Update its reset value to indicate i.MX6Q.
 
 Signed-off-by: Bin Meng <bin.meng@windriver.com>
 Reviewed-by: Alex Bennée <alex.bennee@linaro.org>
-Message-id: 20210106063504.10841-2-bmeng.cn@gmail.com
+Message-id: 20210106063504.10841-3-bmeng.cn@gmail.com
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 ---
  hw/misc/imx6_ccm.c | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/hw/misc/imx6_ccm.c b/hw/misc/imx6_ccm.c
-index cb740427eca..7e031b67757 100644
+index 7e031b67757..4c830fd89ae 100644
 --- a/hw/misc/imx6_ccm.c
 +++ b/hw/misc/imx6_ccm.c
-@@ -450,7 +450,7 @@ static void imx6_ccm_reset(DeviceState *dev)
-     s->analog[PMU_REG_3P0] = 0x00000F74;
-     s->analog[PMU_REG_2P5] = 0x00005071;
-     s->analog[PMU_REG_CORE] = 0x00402010;
--    s->analog[PMU_MISC0] = 0x04000000;
-+    s->analog[PMU_MISC0] = 0x04000080;
-     s->analog[PMU_MISC1] = 0x00000000;
-     s->analog[PMU_MISC2] = 0x00272727;
+@@ -462,7 +462,7 @@ static void imx6_ccm_reset(DeviceState *dev)
+     s->analog[USB_ANALOG_USB2_VBUS_DETECT] = 0x00000004;
+     s->analog[USB_ANALOG_USB2_CHRG_DETECT] = 0x00000000;
+     s->analog[USB_ANALOG_USB2_MISC] = 0x00000002;
+-    s->analog[USB_ANALOG_DIGPROG] = 0x00000000;
++    s->analog[USB_ANALOG_DIGPROG] = 0x00630000;
  
+     /* all PLLs need to be locked */
+     s->analog[CCM_ANALOG_PLL_ARM]   |= CCM_ANALOG_PLL_LOCK;
 -- 
 2.20.1
 
