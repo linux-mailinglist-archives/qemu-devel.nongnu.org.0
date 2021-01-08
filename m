@@ -2,69 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4078E2EF527
-	for <lists+qemu-devel@lfdr.de>; Fri,  8 Jan 2021 16:52:18 +0100 (CET)
-Received: from localhost ([::1]:35220 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 433B92EF51A
+	for <lists+qemu-devel@lfdr.de>; Fri,  8 Jan 2021 16:48:55 +0100 (CET)
+Received: from localhost ([::1]:56020 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kxu3l-00049v-91
-	for lists+qemu-devel@lfdr.de; Fri, 08 Jan 2021 10:52:17 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47374)
+	id 1kxu0U-0000um-Ao
+	for lists+qemu-devel@lfdr.de; Fri, 08 Jan 2021 10:48:54 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47402)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1kxtol-0004yX-O0
- for qemu-devel@nongnu.org; Fri, 08 Jan 2021 10:36:47 -0500
-Received: from mail-wr1-x42a.google.com ([2a00:1450:4864:20::42a]:34708)
+ id 1kxtom-000505-TE
+ for qemu-devel@nongnu.org; Fri, 08 Jan 2021 10:36:49 -0500
+Received: from mail-wr1-x42b.google.com ([2a00:1450:4864:20::42b]:46978)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1kxtoh-0002wo-8W
- for qemu-devel@nongnu.org; Fri, 08 Jan 2021 10:36:47 -0500
-Received: by mail-wr1-x42a.google.com with SMTP id q18so9457593wrn.1
- for <qemu-devel@nongnu.org>; Fri, 08 Jan 2021 07:36:42 -0800 (PST)
+ id 1kxtoj-0002wt-HP
+ for qemu-devel@nongnu.org; Fri, 08 Jan 2021 10:36:48 -0500
+Received: by mail-wr1-x42b.google.com with SMTP id d13so9367207wrc.13
+ for <qemu-devel@nongnu.org>; Fri, 08 Jan 2021 07:36:44 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:subject:date:message-id:in-reply-to:references:mime-version
  :content-transfer-encoding;
- bh=M1QetWJUJoDE77s/fKEVmCNBI+2lQSp4v7iXPPK7Vd0=;
- b=bCktKPQyMO24w7TiMjvjG01rvArqeE2dMHhNRZvkK34+iDrLfaXYc/kqjzdGk/X77/
- qRMlfJeezV7Wm5DkdG2eA15kqI63XE6ECPobv4eVkBlVHIFHrVUNsfWE6mHNb9vPV0uv
- jgUt49uDm+4pgp/FBCnMopCKAlt6OpRzlQKFJKGHPb97I5FxkVdQnxr7ASgT8GAIFOg9
- AOqo23R5P+pPfCtaQgU+NrhYWrZgGsmDL/AaQZ4l17CToVtMtkIozszC79azga3RmNII
- n3mhTzvrLhahvhNJmoDMIl4VkwB7f6pXzswfUKp9M/aZUbxn+M1oMfti0ml3DKp7dXfj
- jB+Q==
+ bh=YNbbCXLYwFs5e3ZlATxT/qWoHe4YgqAQ3sZTdG+49vY=;
+ b=lslQ/oaA6zoMf5f2m0k/kyIMQTwVgDrwqSBCamqqTGeMF9hu5hTu35fdV5t/rxGya+
+ HiqbLm8+RN2qcBJUD0PiVlZH0ScxO+YMNQTz/g/FjsSZXz3aIz4uufYRlMBQgNPyZeip
+ w0VL9ySUwg//Bgo9LIkJol8HSA17A2+vz+g6muVUurBokd41X/DszRbp6fiwUY7UJH6t
+ xmGD+FF6By62r7FmxCuHlOkk+ZQa06e2yryOvjsvpL0aYz3yKi3KlsmquE6U+SBzuG6Q
+ Y6GtjObbdbCzmTZBSEBPDILevhu3MTOOjdfJC2rvBE1ri+ahItqtNfK70tevKAZZzhwY
+ KAVQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=M1QetWJUJoDE77s/fKEVmCNBI+2lQSp4v7iXPPK7Vd0=;
- b=HkLOd86Zoa8xbgB+izrlUNIhZSPQFjYGZ3pIA/Cm4XrQVCo4AuRPOFaeNBjwtdWsBX
- R5ZWiYLPaXxowrfqeL9Dr5mflV3WBMWfY/7eYCq3K/31WufD8IWqV9scUnf4fzk+kC13
- G5oKiCdkqHTsXSRGhtzZJr0V91RV0Rorm8gETjOnSsgz4RmKjfJi989ekl5v9j1G14JS
- eNRv6xDc4wqt5+pSt+cIuClvPhU3yitBFdj1LXPeJate3o5N/q4hEzzfV2t5xU5k7ejT
- cnUtp/eWtlDu+cZhUgELkfui7e2BQY6ZQjAzBXbw/E4JF00ZinHTPT7yY10H+KQiEc+A
- 3uIg==
-X-Gm-Message-State: AOAM530aTDEeQ641AIWHHdV2/48lTi5+NRTwijqoebopetGNvlqZHALj
- 3ywPGUks4xGxQvJjNYCHc/lxnSkJmQ7vuA==
-X-Google-Smtp-Source: ABdhPJxXi988NmY5XT9D4NMaaMxkCfG28kqybbA6H3wd+Lq3/SL+qSwtaIsWVFnF1NoNpFFaiMg47g==
-X-Received: by 2002:a5d:5227:: with SMTP id i7mr4389944wra.68.1610120201773;
- Fri, 08 Jan 2021 07:36:41 -0800 (PST)
+ bh=YNbbCXLYwFs5e3ZlATxT/qWoHe4YgqAQ3sZTdG+49vY=;
+ b=pje9tfWvl6SGqOZ7tGYq+8fLyXTG5Xk5ozCv0ANLv5WXZHJSX9Fp1IedYex73nQaRO
+ Ak6feVyFg9Fw3akHcU0NvfN5QFNlpN6NMS36xi5OEvbKlWxZJfJLPpwv18pLdE7fVr10
+ 8Ov1NSWlJgXH8TITOFlkh59psITbkQYSdpTtVFsfGqUlU4c61orX0GLGA895/BGCy2Gd
+ wUbNuMu51rOkMl8JKEiaMjKPgsGE8ojpvuR+3r3jD/NWm1O1I3fzu7JuiQRu1dSgEKGu
+ prn56GR6vc6vmT/3UaIEeYP0bUUzReKnmk/q/AdbHyiYtUg0Ke6gUdXc5YhSG6Vm17on
+ QFDA==
+X-Gm-Message-State: AOAM531SDUFn/aaFGMNu6mz1DXsb+NH0kLTNakxxL2TV0P6k5bUiEIHV
+ M8OILbf/loAHI3031sF1jsvIxkF0R+7/AQ==
+X-Google-Smtp-Source: ABdhPJxOKlklF6yBOYpvzXxPG/rbtVlPSD0wSlSB8hbYGJucpxL/fX4z+q62pH7zScZfvbAlqamauA==
+X-Received: by 2002:adf:e452:: with SMTP id t18mr4047725wrm.177.1610120202880; 
+ Fri, 08 Jan 2021 07:36:42 -0800 (PST)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
- by smtp.gmail.com with ESMTPSA id f9sm15887572wrw.81.2021.01.08.07.36.40
+ by smtp.gmail.com with ESMTPSA id f9sm15887572wrw.81.2021.01.08.07.36.41
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 08 Jan 2021 07:36:41 -0800 (PST)
+ Fri, 08 Jan 2021 07:36:42 -0800 (PST)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 13/23] digic-timer: Use ptimer_free() in the finalize function
- to avoid memleaks
-Date: Fri,  8 Jan 2021 15:36:11 +0000
-Message-Id: <20210108153621.3868-14-peter.maydell@linaro.org>
+Subject: [PULL 14/23] allwinner-a10-pit: Use ptimer_free() in the finalize
+ function to avoid memleaks
+Date: Fri,  8 Jan 2021 15:36:12 +0000
+Message-Id: <20210108153621.3868-15-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20210108153621.3868-1-peter.maydell@linaro.org>
 References: <20210108153621.3868-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::42a;
- envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x42a.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::42b;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x42b.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -89,59 +89,61 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Gan Qixin <ganqixin@huawei.com>
 
-When running device-introspect-test, a memory leak occurred in the
-digic_timer_init function, so use ptimer_free() in the finalize function to
-avoid it.
+When running device-introspect-test, a memory leak occurred in the a10_pit_init
+function, so use ptimer_free() in the finalize function to avoid it.
 
 ASAN shows memory leak stack:
 
-Indirect leak of 288 byte(s) in 3 object(s) allocated from:
+Indirect leak of 288 byte(s) in 6 object(s) allocated from:
     #0 0xffffab97e1f0 in __interceptor_calloc (/lib64/libasan.so.5+0xee1f0)
     #1 0xffffab256800 in g_malloc0 (/lib64/libglib-2.0.so.0+0x56800)
-    #2 0xaaabf555db78 in ptimer_init /qemu/hw/core/ptimer.c:432
-    #3 0xaaabf5b04084 in digic_timer_init /qemu/hw/timer/digic-timer.c:142
-    #4 0xaaabf6339f6c in object_initialize_with_type /qemu/qom/object.c:515
-    #5 0xaaabf633ca04 in object_initialize_child_with_propsv /qemu/qom/object.c:564
-    #6 0xaaabf633cc08 in object_initialize_child_with_props /qemu/qom/object.c:547
-    #7 0xaaabf5b40e84 in digic_init /qemu/hw/arm/digic.c:46
-    #8 0xaaabf6339f6c in object_initialize_with_type /qemu/qom/object.c:515
-    #9 0xaaabf633a1e0 in object_new_with_type /qemu/qom/object.c:729
-    #10 0xaaabf6375e40 in qmp_device_list_properties /qemu/qom/qom-qmp-cmds.c:153
-    #11 0xaaabf653d8ec in qmp_marshal_device_list_properties /qemu/qapi/qapi-commands-qdev.c:59
-    #12 0xaaabf6587d08 in do_qmp_dispatch_bh /qemu/qapi/qmp-dispatch.c:110
+    #2 0xaaabf555db84 in timer_new_full /qemu/include/qemu/timer.h:523
+    #3 0xaaabf555db84 in timer_new /qemu/include/qemu/timer.h:544
+    #4 0xaaabf555db84 in timer_new_ns /qemu/include/qemu/timer.h:562
+    #5 0xaaabf555db84 in ptimer_init /qemu/hw/core/ptimer.c:433
+    #6 0xaaabf57415e8 in a10_pit_init /qemu/hw/timer/allwinner-a10-pit.c:278
+    #7 0xaaabf6339f6c in object_initialize_with_type /qemu/qom/object.c:515
+    #8 0xaaabf633ca04 in object_initialize_child_with_propsv /qemu/qom/object.c:564
+    #9 0xaaabf633cc08 in object_initialize_child_with_props /qemu/qom/object.c:547
+    #10 0xaaabf5b94680 in aw_a10_init /qemu/hw/arm/allwinner-a10.c:49
+    #11 0xaaabf6339f6c in object_initialize_with_type /qemu/qom/object.c:515
+    #12 0xaaabf633a1e0 in object_new_with_type /qemu/qom/object.c:729
 
 Reported-by: Euler Robot <euler.robot@huawei.com>
 Signed-off-by: Gan Qixin <ganqixin@huawei.com>
 Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 ---
- hw/timer/digic-timer.c | 8 ++++++++
- 1 file changed, 8 insertions(+)
+ hw/timer/allwinner-a10-pit.c | 11 +++++++++++
+ 1 file changed, 11 insertions(+)
 
-diff --git a/hw/timer/digic-timer.c b/hw/timer/digic-timer.c
-index 32612228daf..e3aae4a45a4 100644
---- a/hw/timer/digic-timer.c
-+++ b/hw/timer/digic-timer.c
-@@ -154,6 +154,13 @@ static void digic_timer_init(Object *obj)
-     sysbus_init_mmio(SYS_BUS_DEVICE(obj), &s->iomem);
+diff --git a/hw/timer/allwinner-a10-pit.c b/hw/timer/allwinner-a10-pit.c
+index f84fc0ea25a..c3fc2a4daaf 100644
+--- a/hw/timer/allwinner-a10-pit.c
++++ b/hw/timer/allwinner-a10-pit.c
+@@ -279,6 +279,16 @@ static void a10_pit_init(Object *obj)
+     }
  }
  
-+static void digic_timer_finalize(Object *obj)
++static void a10_pit_finalize(Object *obj)
 +{
-+    DigicTimerState *s = DIGIC_TIMER(obj);
++    AwA10PITState *s = AW_A10_PIT(obj);
++    int i;
 +
-+    ptimer_free(s->ptimer);
++    for (i = 0; i < AW_A10_PIT_TIMER_NR; i++) {
++        ptimer_free(s->timer[i]);
++    }
 +}
 +
- static void digic_timer_class_init(ObjectClass *klass, void *class_data)
+ static void a10_pit_class_init(ObjectClass *klass, void *data)
  {
      DeviceClass *dc = DEVICE_CLASS(klass);
-@@ -167,6 +174,7 @@ static const TypeInfo digic_timer_info = {
+@@ -294,6 +304,7 @@ static const TypeInfo a10_pit_info = {
      .parent = TYPE_SYS_BUS_DEVICE,
-     .instance_size = sizeof(DigicTimerState),
-     .instance_init = digic_timer_init,
-+    .instance_finalize = digic_timer_finalize,
-     .class_init = digic_timer_class_init,
+     .instance_size = sizeof(AwA10PITState),
+     .instance_init = a10_pit_init,
++    .instance_finalize = a10_pit_finalize,
+     .class_init = a10_pit_class_init,
  };
  
 -- 
