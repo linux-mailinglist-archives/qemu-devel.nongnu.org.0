@@ -2,85 +2,93 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 73B372EF5FE
-	for <lists+qemu-devel@lfdr.de>; Fri,  8 Jan 2021 17:49:32 +0100 (CET)
-Received: from localhost ([::1]:48554 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C53BD2EF5FF
+	for <lists+qemu-devel@lfdr.de>; Fri,  8 Jan 2021 17:49:48 +0100 (CET)
+Received: from localhost ([::1]:49244 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kxux9-0005xX-H1
-	for lists+qemu-devel@lfdr.de; Fri, 08 Jan 2021 11:49:31 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43456)
+	id 1kxuxP-0006Gg-G1
+	for lists+qemu-devel@lfdr.de; Fri, 08 Jan 2021 11:49:47 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43460)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1kxuu7-0004B9-2z
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kxuu7-0004Be-EC
  for qemu-devel@nongnu.org; Fri, 08 Jan 2021 11:46:23 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:39411)
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:34930)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1kxutx-0003k7-RE
- for qemu-devel@nongnu.org; Fri, 08 Jan 2021 11:46:22 -0500
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kxuu1-0003q3-D6
+ for qemu-devel@nongnu.org; Fri, 08 Jan 2021 11:46:23 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1610124370;
+ s=mimecast20190719; t=1610124376;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=XP+ch9DopkIwLK8sMynXGI2J3pEPHcTHE3OJ/jRr6Dk=;
- b=K/0BjQCUhZX2ThNxhckdCiCX63wl/8KcA7puvi0Ln9yU3k2skkPugcaL9yxm5ESW6ftuQ+
- mXcol6p+VX145ecFmdCWqIu+EYMYFgoKt8Bva3p4deSB1bAT/cZNxJwjtvh0n9kSoexxXw
- tV+PtSx4MTpfZwvk8/EgJP0uZScqytA=
-Received: from mail-qt1-f200.google.com (mail-qt1-f200.google.com
- [209.85.160.200]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-270-US4K6bpPNJyqQS5ydn2k3A-1; Fri, 08 Jan 2021 11:46:09 -0500
-X-MC-Unique: US4K6bpPNJyqQS5ydn2k3A-1
-Received: by mail-qt1-f200.google.com with SMTP id l7so8685232qth.15
- for <qemu-devel@nongnu.org>; Fri, 08 Jan 2021 08:46:08 -0800 (PST)
+ bh=kTEz3JnPjCZl6L8/+3Qt0JzG0AEK5I8Yc5I8f8AXGYA=;
+ b=GK8YDNn3EVanwp67iEiQyJwm2PuPRlgBz++fPS5DgsNsV6iIFPAa7dBKD2fiRZDjmBKwDh
+ yINU2cIpHqzgc2RgZSl0k14Z8mCh4H4d2jlkVFb4E6UqKBD3+DtI3StGo5GbTGyplvJcOQ
+ ix4/eMr+GnXpGMOSmMcaG9oEW2LbP04=
+Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
+ [209.85.128.71]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-219-z03IFTlSMjONkOCv_ZJDXw-1; Fri, 08 Jan 2021 11:46:13 -0500
+X-MC-Unique: z03IFTlSMjONkOCv_ZJDXw-1
+Received: by mail-wm1-f71.google.com with SMTP id h21so3434413wmq.7
+ for <qemu-devel@nongnu.org>; Fri, 08 Jan 2021 08:46:13 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=XP+ch9DopkIwLK8sMynXGI2J3pEPHcTHE3OJ/jRr6Dk=;
- b=HNVCGlKgmCmeFNNERLdwhJXkXtg+/wYTEQ6VA6k7TqaqGYGqVK48Fghqqj5Utks9yt
- 53iuPL7Wdm5c/Oh1CrtzIqeNtasv4cUKdAJ9GDx2EAQIN7lrg84nW5Ce6bWJtf8/S7LP
- sjSg+/9oMPxQ3jvKFhQrmm08CqmvTZCXRZIwFdi/Yb50oTWQkGPY701XCHMYcqdybsfB
- IwnYLhdpoucj7lwkVdUrpDIrq1pgDR2E0GL7QkCY78aKDE92wQdCu7iE1QqMNgIF+UJT
- Walyy353JpGo3UUhzNYxmBrTTi/rdnPryJv719lamy1uxHvPwqgknqIi+7fdM02M9Tii
- HX8w==
-X-Gm-Message-State: AOAM532TOVWl16rcQ1CShlGWQa3ekZVsjJ+LHIjVUkkoQLRpxJ9i4Wb0
- BYgHhKVeBb3fywbOe18eiyc97Mt/tYG46gymzcMPmTuTrMLhm+UXH/nRAYEr4OGuQkGaGq1mCQC
- 2m16ZPP7kX8ZsF6rlZiKi96qHkNItRpKhPscvwDi8k/64npvl6dWh1P621Nypa+fZ
-X-Received: by 2002:ac8:5514:: with SMTP id j20mr4281769qtq.387.1610124367758; 
- Fri, 08 Jan 2021 08:46:07 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJwI1GG2Qasb0h7rpNV4ftzW2DJkpTgpnFIuR+/eDfgdl2wS6yeUBs226Q7pywrUIm/89Og55g==
-X-Received: by 2002:ac8:5514:: with SMTP id j20mr4281745qtq.387.1610124367463; 
- Fri, 08 Jan 2021 08:46:07 -0800 (PST)
-Received: from xz-x1.redhat.com ([142.126.83.202])
- by smtp.gmail.com with ESMTPSA id c139sm5067437qke.24.2021.01.08.08.46.06
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 08 Jan 2021 08:46:06 -0800 (PST)
-From: Peter Xu <peterx@redhat.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH v4 03/13] memory: Introduce log_sync_global() to memory
- listener
-Date: Fri,  8 Jan 2021 11:45:51 -0500
-Message-Id: <20210108164601.406146-4-peterx@redhat.com>
-X-Mailer: git-send-email 2.26.2
-In-Reply-To: <20210108164601.406146-1-peterx@redhat.com>
-References: <20210108164601.406146-1-peterx@redhat.com>
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=kTEz3JnPjCZl6L8/+3Qt0JzG0AEK5I8Yc5I8f8AXGYA=;
+ b=Qe1W5NV9L79Afpegs3CdRLH39XZI/9geLH8g1GmmZmHvf5ZIcRPIVni2/EtL6uBmTd
+ JDxclv+UqSs/y7CMK+kr9WAv4Edg1OUetIa/ooCmLp5IoTSQdcAlfsa2kiJCEYHRjT8a
+ rzm5sGnvYsa4AIpL0gyL0DYUTh66969VDyvkRZ+80Ar5JMX5Xa4yFwEDvKdAZiA2BM7I
+ BUm71cEOBZW+vDpIJOOUCa/mHaI3n7MgSe3t+t0QqJ1bGXuRgzQW8fXnRxONEJHHcOM0
+ EdEvJzsu1OsAwKmmxCcBxQq2TORsfPPlvUSYXRJqGRkHlUEkw3Ts1ziVm2SsuAn/sbo4
+ BSMw==
+X-Gm-Message-State: AOAM532m2Vm7H4tZdTmq05op6ek/duvqzmvvWSdJKNSAgdlkMXqn4/1c
+ 2zp81gt/mrqijhyuSKnkqaAo8IET6hetbrQOv8xHDhwRgTJvkj50L1X77uvWFvEOG8FC7i/7CoP
+ nGYrb9n9tKcqPmKI=
+X-Received: by 2002:a05:600c:2106:: with SMTP id
+ u6mr3890564wml.4.1610124372660; 
+ Fri, 08 Jan 2021 08:46:12 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJz52zwk9a1j9Iwv6+Eho4GO3ZqFhGFdqLTnOd+osmK0iZmv7SaRQKnlcC+k/kzt2UP/Y6HsSg==
+X-Received: by 2002:a05:600c:2106:: with SMTP id
+ u6mr3890556wml.4.1610124372537; 
+ Fri, 08 Jan 2021 08:46:12 -0800 (PST)
+Received: from [192.168.1.36] (241.red-88-10-103.dynamicip.rima-tde.net.
+ [88.10.103.241])
+ by smtp.gmail.com with ESMTPSA id w17sm12250605wmk.12.2021.01.08.08.46.11
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 08 Jan 2021 08:46:11 -0800 (PST)
+Subject: Re: [PATCH v2 1/2] docs: Add qemu-storage-daemon(1) manpage to
+ meson.build
+To: Peter Maydell <peter.maydell@linaro.org>, qemu-devel@nongnu.org
+References: <20210108161416.21129-1-peter.maydell@linaro.org>
+ <20210108161416.21129-2-peter.maydell@linaro.org>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+Message-ID: <f06a1192-e14a-2e8a-9f40-8158b51127c7@redhat.com>
+Date: Fri, 8 Jan 2021 17:46:10 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.6.0
 MIME-Version: 1.0
+In-Reply-To: <20210108161416.21129-2-peter.maydell@linaro.org>
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=peterx@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=peterx@redhat.com;
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=philmd@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -29
-X-Spam_score: -3.0
+X-Spam_score_int: -32
+X-Spam_score: -3.3
 X-Spam_bar: ---
-X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.247,
+X-Spam_report: (-3.3 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.247,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ NICE_REPLY_A=-0.241, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -93,115 +101,37 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Paolo Bonzini <pbonzini@redhat.com>, Hyman <huangy81@chinatelecom.cn>,
- "Dr . David Alan Gilbert" <dgilbert@redhat.com>, peterx@redhat.com
+Cc: Paolo Bonzini <pbonzini@redhat.com>, Qemu-block <qemu-block@nongnu.org>,
+ Stefan Hajnoczi <stefanha@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Some of the memory listener may want to do log synchronization without
-being able to specify a range of memory to sync but always globally.
-Such a memory listener should provide this new method instead of the
-log_sync() method.
+On 1/8/21 5:14 PM, Peter Maydell wrote:
+> In commit 1982e1602d15 we added a new qemu-storage-daemon(1) manpage.
+> At the moment new manpages have to be listed both in the conf.py for
+> Sphinx and also in docs/meson.build for Meson. We forgot the second
+> of those -- correct the omission.
+> 
+> Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 
-Obviously we can also achieve similar thing when we put the global
-sync logic into a log_sync() handler. However that's not efficient
-enough because otherwise memory_global_dirty_log_sync() may do the
-global sync N times, where N is the number of flat ranges in the
-address space.
+Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 
-Make this new method be exclusive to log_sync().
-
-Reviewed-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
-Signed-off-by: Peter Xu <peterx@redhat.com>
----
- include/exec/memory.h | 12 ++++++++++++
- softmmu/memory.c      | 33 +++++++++++++++++++++++----------
- 2 files changed, 35 insertions(+), 10 deletions(-)
-
-diff --git a/include/exec/memory.h b/include/exec/memory.h
-index 521d9901d7..f80b68f1e3 100644
---- a/include/exec/memory.h
-+++ b/include/exec/memory.h
-@@ -610,6 +610,18 @@ struct MemoryListener {
-      */
-     void (*log_sync)(MemoryListener *listener, MemoryRegionSection *section);
- 
-+    /**
-+     * @log_sync_global:
-+     *
-+     * This is the global version of @log_sync when the listener does
-+     * not have a way to synchronize the log with finer granularity.
-+     * When the listener registers with @log_sync_global defined, then
-+     * its @log_sync must be NULL.  Vice versa.
-+     *
-+     * @listener: The #MemoryListener.
-+     */
-+    void (*log_sync_global)(MemoryListener *listener);
-+
-     /**
-      * @log_clear:
-      *
-diff --git a/softmmu/memory.c b/softmmu/memory.c
-index 333e1ed7b0..824abe3c7a 100644
---- a/softmmu/memory.c
-+++ b/softmmu/memory.c
-@@ -2052,6 +2052,10 @@ void memory_region_set_dirty(MemoryRegion *mr, hwaddr addr,
-                                         memory_region_get_dirty_log_mask(mr));
- }
- 
-+/*
-+ * If memory region `mr' is NULL, do global sync.  Otherwise, sync
-+ * dirty bitmap for the specified memory region.
-+ */
- static void memory_region_sync_dirty_bitmap(MemoryRegion *mr)
- {
-     MemoryListener *listener;
-@@ -2065,18 +2069,24 @@ static void memory_region_sync_dirty_bitmap(MemoryRegion *mr)
-      * address space once.
-      */
-     QTAILQ_FOREACH(listener, &memory_listeners, link) {
--        if (!listener->log_sync) {
--            continue;
--        }
--        as = listener->address_space;
--        view = address_space_get_flatview(as);
--        FOR_EACH_FLAT_RANGE(fr, view) {
--            if (fr->dirty_log_mask && (!mr || fr->mr == mr)) {
--                MemoryRegionSection mrs = section_from_flat_range(fr, view);
--                listener->log_sync(listener, &mrs);
-+        if (listener->log_sync) {
-+            as = listener->address_space;
-+            view = address_space_get_flatview(as);
-+            FOR_EACH_FLAT_RANGE(fr, view) {
-+                if (fr->dirty_log_mask && (!mr || fr->mr == mr)) {
-+                    MemoryRegionSection mrs = section_from_flat_range(fr, view);
-+                    listener->log_sync(listener, &mrs);
-+                }
-             }
-+            flatview_unref(view);
-+        } else if (listener->log_sync_global) {
-+            /*
-+             * No matter whether MR is specified, what we can do here
-+             * is to do a global sync, because we are not capable to
-+             * sync in a finer granularity.
-+             */
-+            listener->log_sync_global(listener);
-         }
--        flatview_unref(view);
-     }
- }
- 
-@@ -2764,6 +2774,9 @@ void memory_listener_register(MemoryListener *listener, AddressSpace *as)
- {
-     MemoryListener *other = NULL;
- 
-+    /* Only one of them can be defined for a listener */
-+    assert(!(listener->log_sync && listener->log_sync_global));
-+
-     listener->address_space = as;
-     if (QTAILQ_EMPTY(&memory_listeners)
-         || listener->priority >= QTAILQ_LAST(&memory_listeners)->priority) {
--- 
-2.26.2
+> ---
+>  docs/meson.build | 1 +
+>  1 file changed, 1 insertion(+)
+> 
+> diff --git a/docs/meson.build b/docs/meson.build
+> index 71641b4fe07..fae9849b79b 100644
+> --- a/docs/meson.build
+> +++ b/docs/meson.build
+> @@ -62,6 +62,7 @@ if build_docs
+>          'qemu-img.1': (have_tools ? 'man1' : ''),
+>          'qemu-nbd.8': (have_tools ? 'man8' : ''),
+>          'qemu-pr-helper.8': (have_tools ? 'man8' : ''),
+> +        'qemu-storage-daemon.1': (have_tools ? 'man1' : ''),
+>          'qemu-trace-stap.1': (config_host.has_key('CONFIG_TRACE_SYSTEMTAP') ? 'man1' : ''),
+>          'virtfs-proxy-helper.1': (have_virtfs_proxy_helper ? 'man1' : ''),
+>          'virtiofsd.1': (have_virtiofsd ? 'man1' : ''),
+> 
 
 
