@@ -2,72 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E11D22EFB7D
-	for <lists+qemu-devel@lfdr.de>; Fri,  8 Jan 2021 23:58:01 +0100 (CET)
-Received: from localhost ([::1]:60998 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E60942EFB75
+	for <lists+qemu-devel@lfdr.de>; Fri,  8 Jan 2021 23:55:02 +0100 (CET)
+Received: from localhost ([::1]:52834 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ky0hk-0004Qi-SY
-	for lists+qemu-devel@lfdr.de; Fri, 08 Jan 2021 17:58:00 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53514)
+	id 1ky0er-0000Tr-V0
+	for lists+qemu-devel@lfdr.de; Fri, 08 Jan 2021 17:55:01 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53444)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1ky0cf-0007Et-U2
- for qemu-devel@nongnu.org; Fri, 08 Jan 2021 17:52:45 -0500
-Received: from mail-wr1-x432.google.com ([2a00:1450:4864:20::432]:45810)
+ id 1ky0cY-0006vF-BV
+ for qemu-devel@nongnu.org; Fri, 08 Jan 2021 17:52:38 -0500
+Received: from mail-wr1-x436.google.com ([2a00:1450:4864:20::436]:35979)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1ky0cc-0008Ms-UT
- for qemu-devel@nongnu.org; Fri, 08 Jan 2021 17:52:45 -0500
-Received: by mail-wr1-x432.google.com with SMTP id d26so10377804wrb.12
- for <qemu-devel@nongnu.org>; Fri, 08 Jan 2021 14:52:42 -0800 (PST)
+ id 1ky0cW-0008In-HD
+ for qemu-devel@nongnu.org; Fri, 08 Jan 2021 17:52:38 -0500
+Received: by mail-wr1-x436.google.com with SMTP id t16so10434336wra.3
+ for <qemu-devel@nongnu.org>; Fri, 08 Jan 2021 14:52:36 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=ZsSv1UGfrn6J078VHJLG9y3rVAHQSQMbrGcG3mLPQZw=;
- b=L5JXEzLzxTnWMqPZyNbYAKT/SAPlDtX/OdShp/OZLVrdQ8+xLcZofhWqyjDA+ad7DC
- GH0oLYUtlwFenRF5/cMdv3HGIyebHCXY5XQchNzMf39V8gHN3HOX+DvqG9Udk+8sZrl0
- h8zuYq3i6imYayWAtQZnnF7mY3YtoV6W5GqGX9xtki1TtRCYXF63gGnG08txBFXeG+9t
- XUiZIhhbA42QJU6m4rfvEJ0V362LHjzr+rur/o6BKTRhR4CZJuW6bsK8XvTRvXliOTzA
- A8S2MZzqTQSb8cCZJUYqLy5b8Xr1cfRkgG+sRO3le80u3sLLwIY/zCVQkB63FbgNQQ1p
- SczA==
+ bh=LkY5m97dX9SF15x7oW2dFPwV0f6ynuCQ5kAKkmn67ro=;
+ b=TGT/O+RPCfYhdwC0KPlP/YkB5pQTwoAKS8srOn6UeVPSF48lvTRb265Ai0KktojF5l
+ XIyA/lwCgvbSCcQVqFXGi8QeU/4Z23ievb2NWA4m3hbAZf23Kd9Cx6mD5N2/MCpu0rtx
+ 4aY54s7cGwbzyQ9lYyrNdrScHo3wgMjeJ5OfIfKdUZe/FdQ0YZPHLjeXDeqqDI2xL4DK
+ IUGuLHxmqG7wuoZhiIPBo18sx2aJhvCQfjfB+j+cAQ7rnzjbohUqIxqXBPn6ypFrsa+M
+ pxkDNa41tQPp+YzKS8eeoyQFY6sROy49kgX8ZrhHLPiHkwF8CgtB0KfkuQ+mes0gKOt+
+ NOLA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=ZsSv1UGfrn6J078VHJLG9y3rVAHQSQMbrGcG3mLPQZw=;
- b=mvr+mvkwsDcGGDgVStzoEdjbZ3X9f65lXLNNmXJlPmR/y1dlRYkydtX/Lzm4kGIyPf
- IArI1ay0NpPUIYkrGDzDz6MyTNRkhBRYxylitAgtqX6cqDYY5w17z6MH+ui1ufJshJUM
- VfHRb7YKh/HyH113FZkIZrLKCjkMhUua4kINo+pEm1+KrHfij5c2nErwn3+IIbUyKXgv
- OyjyRrm2YMMCwOwNOu67dLXZvlGcKCr5yfRBUpfHDtjCMNXC/SHJ/S8XPAvwe+G/n3Xq
- 8zZIt6QE8CpXy2YIYU4/ukDZiedn9ukoPfno7o24NeJk7F7cTmCy957o0+5YtKzmPr7F
- qWeA==
-X-Gm-Message-State: AOAM533V0gxUBEGG0MZzet001w5UwJS8y8F+nMyCNgBCGOK8hg9qS5bL
- 8uFok6KKn717SxyTJndvxcXPPg==
-X-Google-Smtp-Source: ABdhPJz8/HxEI20KqQ0yBadn3+cNZamp4kjkor2chVno/NPZ/UG9swVP/vpcF9trfAPJGG6NS8mSpw==
-X-Received: by 2002:adf:b359:: with SMTP id k25mr5778435wrd.98.1610146361694; 
- Fri, 08 Jan 2021 14:52:41 -0800 (PST)
+ bh=LkY5m97dX9SF15x7oW2dFPwV0f6ynuCQ5kAKkmn67ro=;
+ b=JAwkTz45QRfI41jskylF71H6mUteUfg3MOtI8EK4IEofCJ/Ic+OAl2pSpSj5fiNbw4
+ LAKLTiEZxxVmbq+yGCrCrGYGoi3pQWiLIUDjeNcrnpeI2PWXYU5C/mfmt1FQytn3PK7M
+ 5SYDAMe8YrmwDzO9MNKFPMUi205iX+nOKjtPW968jxAOIzow6lzQl584l9CxBgEFYiPQ
+ FNa+FyCqzVttsGh6BVuKyB6AZVsrQ5dsifoRO8HYGFPHZggWyYfsvtzU4IuQtMRtZXYy
+ us4v935PfoZz9saGCpBy0FZtH8yw2SNFCyC15OxL0WVPE8ZW7dOID+zDXuSKUROGXSHp
+ eBfQ==
+X-Gm-Message-State: AOAM531zWKeKOmPVdUupJ2ppoUOK72+tkQCKcw9EgU23Uyl/UtlbXHSg
+ OB8UHK2cvOSXBIUCbWWnh+sJyg==
+X-Google-Smtp-Source: ABdhPJyoiNbQuESkFnv8vlv+ewChjhEo7rYvvCvdd5bHLi7pz7OaS8Cdwy3q4SVCqgRG8wxbp3JETw==
+X-Received: by 2002:adf:9d48:: with SMTP id o8mr5680195wre.408.1610146355111; 
+ Fri, 08 Jan 2021 14:52:35 -0800 (PST)
 Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id w189sm13559085wmg.31.2021.01.08.14.52.34
+ by smtp.gmail.com with ESMTPSA id j7sm13574125wmb.40.2021.01.08.14.52.32
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 08 Jan 2021 14:52:40 -0800 (PST)
+ Fri, 08 Jan 2021 14:52:33 -0800 (PST)
 Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 773F11FF9E;
+ by zen.linaroharston (Postfix) with ESMTP id CF8CD1FFA5;
  Fri,  8 Jan 2021 22:42:58 +0000 (GMT)
 From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v1 15/20] semihosting: Support SYS_HEAPINFO when
- env->boot_info is not set
-Date: Fri,  8 Jan 2021 22:42:51 +0000
-Message-Id: <20210108224256.2321-16-alex.bennee@linaro.org>
+Subject: [PATCH v1 18/20] semihosting: Implement SYS_ELAPSED and SYS_TICKFREQ
+Date: Fri,  8 Jan 2021 22:42:54 +0000
+Message-Id: <20210108224256.2321-19-alex.bennee@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20210108224256.2321-1-alex.bennee@linaro.org>
 References: <20210108224256.2321-1-alex.bennee@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::432;
- envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x432.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::436;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x436.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -94,79 +93,106 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Keith Packard <keithp@keithp.com>
 
-env->boot_info is only set in some ARM startup paths, so we cannot
-rely on it to support the SYS_HEAPINFO semihosting function. When not
-available, fallback to finding a RAM memory region containing the
-current stack and use the base of that.
+These are part of Semihosting for AArch32 and AArch64 Release 2.0
 
 Signed-off-by: Keith Packard <keithp@keithp.com>
-Message-Id: <20210107170717.2098982-5-keithp@keithp.com>
+Message-Id: <20210107170717.2098982-8-keithp@keithp.com>
 Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
 ---
- hw/semihosting/common-semi.c | 43 +++++++++++++++++++++++++++++++++++-
- 1 file changed, 42 insertions(+), 1 deletion(-)
+ include/qemu/timer.h         |  2 ++
+ hw/semihosting/common-semi.c | 16 ++++++++++++++++
+ util/qemu-timer-common.c     |  4 ++++
+ 3 files changed, 22 insertions(+)
 
+diff --git a/include/qemu/timer.h b/include/qemu/timer.h
+index 61296ea980..1678238384 100644
+--- a/include/qemu/timer.h
++++ b/include/qemu/timer.h
+@@ -808,6 +808,8 @@ static inline int64_t get_clock_realtime(void)
+     return tv.tv_sec * 1000000000LL + (tv.tv_usec * 1000);
+ }
+ 
++extern int64_t clock_start;
++
+ /* Warning: don't insert tracepoints into these functions, they are
+    also used by simpletrace backend and tracepoints would cause
+    an infinite recursion! */
 diff --git a/hw/semihosting/common-semi.c b/hw/semihosting/common-semi.c
-index ac1271545e..293791f721 100644
+index 5fcb8663c6..3d6604dcdd 100644
 --- a/hw/semihosting/common-semi.c
 +++ b/hw/semihosting/common-semi.c
-@@ -137,6 +137,36 @@ typedef struct GuestFD {
+@@ -38,6 +38,7 @@
+ #include "hw/semihosting/console.h"
+ #include "hw/semihosting/common-semi.h"
+ #include "qemu/log.h"
++#include "qemu/timer.h"
+ #ifdef CONFIG_USER_ONLY
+ #include "qemu.h"
  
- static GArray *guestfd_array;
+@@ -73,6 +74,8 @@
+ #define TARGET_SYS_EXIT        0x18
+ #define TARGET_SYS_SYNCCACHE   0x19
+ #define TARGET_SYS_EXIT_EXTENDED 0x20
++#define TARGET_SYS_ELAPSED     0x30
++#define TARGET_SYS_TICKFREQ    0x31
  
-+#ifndef CONFIG_USER_ONLY
-+#include "exec/address-spaces.h"
-+/*
-+ * Find the base of a RAM region containing the specified address
-+ */
-+static inline hwaddr
-+common_semi_find_region_base(hwaddr addr)
-+{
-+    MemoryRegion *subregion;
-+
-+    /*
-+     * Find the chunk of R/W memory containing the address.  This is
-+     * used for the SYS_HEAPINFO semihosting call, which should
-+     * probably be using information from the loaded application.
-+     */
-+    QTAILQ_FOREACH(subregion, &get_system_memory()->subregions,
-+                   subregions_link) {
-+        if (subregion->ram && !subregion->readonly) {
-+            Int128 top128 = int128_add(int128_make64(subregion->addr),
-+                                       subregion->size);
-+            Int128 addr128 = int128_make64(addr);
-+            if (subregion->addr <= addr && int128_lt(addr128, top128)) {
-+                return subregion->addr;
-+            }
+ /* ADP_Stopped_ApplicationExit is used for exit(0),
+  * anything else is implemented as exit(1) */
+@@ -837,6 +840,7 @@ target_ulong do_common_semihosting(CPUState *cs)
+     uint32_t ret;
+     uint32_t len;
+     GuestFD *gf;
++    int64_t elapsed;
+ 
+     (void) env; /* Used implicitly by arm lock_user macro */
+     nr = common_semi_arg(cs, 0) & 0xffffffffU;
+@@ -1246,6 +1250,18 @@ target_ulong do_common_semihosting(CPUState *cs)
+         }
+         gdb_exit(ret);
+         exit(ret);
++    case TARGET_SYS_ELAPSED:
++        elapsed = get_clock() - clock_start;
++        if (sizeof(target_ulong) == 8) {
++            SET_ARG(0, elapsed);
++        } else {
++            SET_ARG(0, (uint32_t) elapsed);
++            SET_ARG(1, (uint32_t) (elapsed >> 32));
 +        }
-+    }
-+    return 0;
-+}
-+#endif
++        return 0;
++    case TARGET_SYS_TICKFREQ:
++        /* qemu always uses nsec */
++        return 1000000000;
+     case TARGET_SYS_SYNCCACHE:
+         /*
+          * Clean the D-cache and invalidate the I-cache for the specified
+diff --git a/util/qemu-timer-common.c b/util/qemu-timer-common.c
+index baf3317f74..cc1326f726 100644
+--- a/util/qemu-timer-common.c
++++ b/util/qemu-timer-common.c
+@@ -27,6 +27,8 @@
+ /***********************************************************/
+ /* real time host monotonic timer */
+ 
++int64_t clock_start;
 +
- #ifdef TARGET_ARM
- static inline target_ulong
- common_semi_arg(CPUState *cs, int argno)
-@@ -175,7 +205,18 @@ common_semi_rambase(CPUState *cs)
- {
-     CPUArchState *env = cs->env_ptr;
-     const struct arm_boot_info *info = env->boot_info;
--    return info->loader_start;
-+    target_ulong sp;
-+
-+    if (info) {
-+        return info->loader_start;
-+    }
-+
-+    if (is_a64(env)) {
-+        sp = env->xregs[31];
-+    } else {
-+        sp = env->regs[13];
-+    }
-+    return common_semi_find_region_base(sp);
+ #ifdef _WIN32
+ 
+ int64_t clock_freq;
+@@ -41,6 +43,7 @@ static void __attribute__((constructor)) init_get_clock(void)
+         exit(1);
+     }
+     clock_freq = freq.QuadPart;
++    clock_start = get_clock();
+ }
+ 
+ #else
+@@ -55,5 +58,6 @@ static void __attribute__((constructor)) init_get_clock(void)
+     if (clock_gettime(CLOCK_MONOTONIC, &ts) == 0) {
+         use_rt_clock = 1;
+     }
++    clock_start = get_clock();
  }
  #endif
- 
 -- 
 2.20.1
 
