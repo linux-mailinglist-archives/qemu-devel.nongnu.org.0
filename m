@@ -2,74 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 560ED2EF665
-	for <lists+qemu-devel@lfdr.de>; Fri,  8 Jan 2021 18:23:27 +0100 (CET)
-Received: from localhost ([::1]:60828 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E50E52EF65E
+	for <lists+qemu-devel@lfdr.de>; Fri,  8 Jan 2021 18:19:04 +0100 (CET)
+Received: from localhost ([::1]:49458 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kxvTy-0005Ca-D3
-	for lists+qemu-devel@lfdr.de; Fri, 08 Jan 2021 12:23:26 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54040)
+	id 1kxvPj-0007of-HO
+	for lists+qemu-devel@lfdr.de; Fri, 08 Jan 2021 12:19:03 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54054)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1kxvJc-0000dr-Q3
+ id 1kxvJd-0000eE-Ha
  for qemu-devel@nongnu.org; Fri, 08 Jan 2021 12:12:46 -0500
-Received: from mail-wr1-x42d.google.com ([2a00:1450:4864:20::42d]:36702)
+Received: from mail-wm1-x331.google.com ([2a00:1450:4864:20::331]:37420)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1kxvJK-0004tQ-4e
- for qemu-devel@nongnu.org; Fri, 08 Jan 2021 12:12:44 -0500
-Received: by mail-wr1-x42d.google.com with SMTP id t16so9728070wra.3
- for <qemu-devel@nongnu.org>; Fri, 08 Jan 2021 09:12:20 -0800 (PST)
+ id 1kxvJL-0004ta-Bb
+ for qemu-devel@nongnu.org; Fri, 08 Jan 2021 12:12:45 -0500
+Received: by mail-wm1-x331.google.com with SMTP id q75so9043841wme.2
+ for <qemu-devel@nongnu.org>; Fri, 08 Jan 2021 09:12:21 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=9vrnHXTMsZjfdHKV6SCdqqT25waiXTd0JncR/beyVqQ=;
- b=QHMsg99GgDV2FyJefgaixvLG+3Ypu/C0bFrAC7sIG7NhIgidMpRO9UCAtg3Ud4RSzH
- Cbh7DupmbF7iYyNlcfiC0wLrJoHc/ZkBifsbvWuGAZkPg16etLwgvPnNtimDi4QjPe4q
- i75jUl6kEUhdVFsxL9dRvTktQU+w3+5l6NMQtERPz03+TJl8W/0+X+E7t5/NFV4a3zTU
- 1MDPAFGbGaKyydOYHO5zPtiqtkDVtcIULbOHCPGnWls3OnOG087v3eZIdP+GS6ygtLfG
- Ii9p4xzwZ8EwL+CrEuaZr2RFCsPbVnG2Vn2qpAtElNiFEqnILExHCm94ncIj8kIjsGMG
- 2/fw==
+ bh=65MIWpvfEizz0gfsIhaa+4GtpcZafIaROxnZgCMDZXM=;
+ b=TiiAOFS9KGw0LxTSjgQs0AbYAO4aJtPltXBeUv2ozAaHqk9gu0UcjSDGNuWB+u0HZL
+ q44jgynceIbo7FgH8MdtlHVWMizQVmCvtKLPQ1DuKEUxXO7r1Ksyt0qsxF4d4+iIOKeR
+ VTPhJ7Qww47UXvvkXbbPNy79nmaw7RmhwkJZ/78bbhEzB74XC67TBjR8B5slfNE/oKZv
+ 1magPrIRFNTxWaU57+BMJebTjZR5cB7D2RG5q0vipdw4LAubPgEwuKBjJZmgSCEKNobs
+ ANeAaQh7SKOlamCzjY9E9GcRIpKzW6O6okGc4fyISfsz2ukzeKZXZQeH061xewIKT+dl
+ /aGw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=9vrnHXTMsZjfdHKV6SCdqqT25waiXTd0JncR/beyVqQ=;
- b=m68fZUKU9kd/IZ3nrXRWeUGULTq/EHESvzuQ+tZ2VD4QYWTA3DGVbZ9C3WZogfy45i
- WUsoTEpD3Awc9K64Ohw0uE3aMoNtSN3H09L9q+M7k6d9y/aOybn8/Ai0kIdkG3zCfCAP
- ZhkIVqKmPuIKWihqECV31A/BA+ISRFC0YRLZYukfo33t06Y2CpsrKJhO+SSC291KCmtb
- xmyx5hT4Xs7zvkJ6qAaUj3gDYsg+n0CMLZ4flr4oyY0o+QJ6VsErI6Bps1X08UZjLAI2
- OXqNfVpUOnDaVPR8Jl9kARJGYZb46k7gJGx/HuD9x9MDjOF+CsmFn3pRaV3ZQBOIeP9X
- Qz/g==
-X-Gm-Message-State: AOAM530ju98GxKdbL3PRzkdaVzsrKPoQwO+Kt058SqQM72VD/ynNavp+
- WCE5N5GNGYXPL2fqh8NiketMF5GpwW7u5Q==
-X-Google-Smtp-Source: ABdhPJxuDI19HV/AHzCdjEroU77lLE2H8QZwsYlev9W5AET8ZhCjIK9Wc3Aiv0oST8ZoCr21dbIxTA==
-X-Received: by 2002:a5d:674c:: with SMTP id l12mr4548899wrw.399.1610125938937; 
- Fri, 08 Jan 2021 09:12:18 -0800 (PST)
+ bh=65MIWpvfEizz0gfsIhaa+4GtpcZafIaROxnZgCMDZXM=;
+ b=OnFpGmdDE9hv53AyvrC2wYmiQRzM6j2Ql9MuCTjxdmIxIHF9SE3ELdxq3OjU8XmOPH
+ uFTJ5kdu+GI7ifeBv5RLzeq2zxowwTi4sZbuJPDHxnlEvl4s3wZbZQ/n2Jj+NHzw9GtO
+ LJpXMlisbXtvSMmoeG14xT2J8v3DKBTfV/6Pxds5Xm4IVIil1F2rr74/4P1rKMxyZTNx
+ l0inCOAoI0kpeZSfEGMKhe42ouSR48IN5k4zp+VS0T65gqpqm7Xn8IqnNDyEL8MFLxLO
+ Ud/pRhRtWfi+UfpEiyqVPOGsA6UQxflQ/eJSk4Tlkerco+BheaZlkha4iakplVTzfItQ
+ dMRA==
+X-Gm-Message-State: AOAM532Lv4VljHODgyLfP0PsTqXAaTbce/Zj+iMq3TweDvl2nugTATis
+ Cb30VXHWGfDiN0Wu4bUdyL6q1kT5AZgMnQ==
+X-Google-Smtp-Source: ABdhPJze9VzEmbdR14oJSJur2WD6wXB5biDlcLXaq0M8ETEBCLSA3YlicP70o+7o64HlrZfZMZ4Usw==
+X-Received: by 2002:a1c:68d6:: with SMTP id d205mr3975283wmc.154.1610125940241; 
+ Fri, 08 Jan 2021 09:12:20 -0800 (PST)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
- by smtp.gmail.com with ESMTPSA id v1sm13540456wrr.48.2021.01.08.09.12.17
+ by smtp.gmail.com with ESMTPSA id v1sm13540456wrr.48.2021.01.08.09.12.19
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 08 Jan 2021 09:12:18 -0800 (PST)
+ Fri, 08 Jan 2021 09:12:19 -0800 (PST)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 3/4] hw/ppc/ppc405_uc: Drop use of ppcuic_init()
-Date: Fri,  8 Jan 2021 17:12:11 +0000
-Message-Id: <20210108171212.16500-4-peter.maydell@linaro.org>
+Subject: [PATCH v2 4/4] hw/ppc: Remove unused ppcuic_init()
+Date: Fri,  8 Jan 2021 17:12:12 +0000
+Message-Id: <20210108171212.16500-5-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20210108171212.16500-1-peter.maydell@linaro.org>
 References: <20210108171212.16500-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::42d;
- envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x42d.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::331;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x331.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -87,221 +87,107 @@ Cc: qemu-ppc@nongnu.org, Greg Kurz <groug@kaod.org>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Switch the ppc405_uc boards to directly creating and configuring the
-UIC, rather than doing it via the old ppcuic_init() helper function.
+Now we've converted all the callsites to directly create the QOM UIC
+device themselves, the ppcuic_init() function is unused and can be
+removed. The enum defining PPCUIC symbolic constants can be moved
+to the ppc-uic.h header where it more naturally belongs.
 
-We retain the API feature of ppc405ep_init() where it passes back
-something allowing the callers to wire up devices to the UIC if
-they need to, even though neither of the callsites currently makes
-use of this ability -- instead of passing back the qemu_irq array
-we pass back the UIC DeviceState.
-
-This fixes a trivial Coverity-detected memory leak where
-we were leaking the array of IRQs returned by ppcuic_init().
-
-Fixes: Coverity CID 1421922
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
+Reviewed-by: Edgar E. Iglesias <edgar.iglesias@xilinx.com>
+Tested-by: Edgar E. Iglesias <edgar.iglesias@xilinx.com>
 ---
- hw/ppc/ppc405.h        |  2 +-
- hw/ppc/ppc405_boards.c |  8 ++---
- hw/ppc/ppc405_uc.c     | 70 +++++++++++++++++++++++++-----------------
- 3 files changed, 47 insertions(+), 33 deletions(-)
+ include/hw/intc/ppc-uic.h |  7 +++++++
+ include/hw/ppc/ppc4xx.h   |  9 ---------
+ hw/ppc/ppc4xx_devs.c      | 38 --------------------------------------
+ 3 files changed, 7 insertions(+), 47 deletions(-)
 
-diff --git a/hw/ppc/ppc405.h b/hw/ppc/ppc405.h
-index e6c702f7e0d..c58f739886a 100644
---- a/hw/ppc/ppc405.h
-+++ b/hw/ppc/ppc405.h
-@@ -66,7 +66,7 @@ CPUPPCState *ppc405ep_init(MemoryRegion *address_space_mem,
-                         MemoryRegion ram_memories[2],
-                         hwaddr ram_bases[2],
-                         hwaddr ram_sizes[2],
--                        uint32_t sysclk, qemu_irq **picp,
-+                        uint32_t sysclk, DeviceState **uicdev,
-                         int do_init);
+diff --git a/include/hw/intc/ppc-uic.h b/include/hw/intc/ppc-uic.h
+index e614e2ffd80..22dd5e5ac2c 100644
+--- a/include/hw/intc/ppc-uic.h
++++ b/include/hw/intc/ppc-uic.h
+@@ -47,6 +47,13 @@ OBJECT_DECLARE_SIMPLE_TYPE(PPCUIC, PPC_UIC)
  
- #endif /* PPC405_H */
-diff --git a/hw/ppc/ppc405_boards.c b/hw/ppc/ppc405_boards.c
-index b7249f21cf2..8f77887fb18 100644
---- a/hw/ppc/ppc405_boards.c
-+++ b/hw/ppc/ppc405_boards.c
-@@ -151,7 +151,6 @@ static void ref405ep_init(MachineState *machine)
-     CPUPPCState *env;
-     DeviceState *dev;
-     SysBusDevice *s;
--    qemu_irq *pic;
-     MemoryRegion *bios;
-     MemoryRegion *sram = g_new(MemoryRegion, 1);
-     ram_addr_t bdloc;
-@@ -167,6 +166,7 @@ static void ref405ep_init(MachineState *machine)
-     int len;
-     DriveInfo *dinfo;
-     MemoryRegion *sysmem = get_system_memory();
-+    DeviceState *uicdev;
+ #define UIC_MAX_IRQ 32
  
-     if (machine->ram_size != mc->default_ram_size) {
-         char *sz = size_to_str(mc->default_ram_size);
-@@ -184,7 +184,7 @@ static void ref405ep_init(MachineState *machine)
-     ram_bases[1] = 0x00000000;
-     ram_sizes[1] = 0x00000000;
-     env = ppc405ep_init(sysmem, ram_memories, ram_bases, ram_sizes,
--                        33333333, &pic, kernel_filename == NULL ? 0 : 1);
-+                        33333333, &uicdev, kernel_filename == NULL ? 0 : 1);
-     /* allocate SRAM */
-     sram_size = 512 * KiB;
-     memory_region_init_ram(sram, NULL, "ef405ep.sram", sram_size,
-@@ -429,7 +429,6 @@ static void taihu_405ep_init(MachineState *machine)
-     const char *kernel_filename = machine->kernel_filename;
-     const char *initrd_filename = machine->initrd_filename;
-     char *filename;
--    qemu_irq *pic;
-     MemoryRegion *sysmem = get_system_memory();
-     MemoryRegion *bios;
-     MemoryRegion *ram_memories = g_new(MemoryRegion, 2);
-@@ -440,6 +439,7 @@ static void taihu_405ep_init(MachineState *machine)
-     int linux_boot;
-     int fl_idx;
-     DriveInfo *dinfo;
-+    DeviceState *uicdev;
- 
-     if (machine->ram_size != mc->default_ram_size) {
-         char *sz = size_to_str(mc->default_ram_size);
-@@ -459,7 +459,7 @@ static void taihu_405ep_init(MachineState *machine)
-                              "taihu_405ep.ram-1", machine->ram, ram_bases[1],
-                              ram_sizes[1]);
-     ppc405ep_init(sysmem, ram_memories, ram_bases, ram_sizes,
--                  33333333, &pic, kernel_filename == NULL ? 0 : 1);
-+                  33333333, &uicdev, kernel_filename == NULL ? 0 : 1);
-     /* allocate and load BIOS */
-     fl_idx = 0;
- #if defined(USE_FLASH_BIOS)
-diff --git a/hw/ppc/ppc405_uc.c b/hw/ppc/ppc405_uc.c
-index 3e191ae4af5..fe047074a17 100644
---- a/hw/ppc/ppc405_uc.c
-+++ b/hw/ppc/ppc405_uc.c
-@@ -36,6 +36,9 @@
- #include "sysemu/sysemu.h"
- #include "qemu/log.h"
- #include "exec/address-spaces.h"
-+#include "hw/intc/ppc-uic.h"
-+#include "hw/qdev-properties.h"
-+#include "qapi/error.h"
- 
- //#define DEBUG_OPBA
- //#define DEBUG_SDRAM
-@@ -1446,14 +1449,15 @@ CPUPPCState *ppc405ep_init(MemoryRegion *address_space_mem,
-                         MemoryRegion ram_memories[2],
-                         hwaddr ram_bases[2],
-                         hwaddr ram_sizes[2],
--                        uint32_t sysclk, qemu_irq **picp,
-+                        uint32_t sysclk, DeviceState **uicdevp,
-                         int do_init)
- {
-     clk_setup_t clk_setup[PPC405EP_CLK_NB], tlb_clk_setup;
-     qemu_irq dma_irqs[4], gpt_irqs[5], mal_irqs[4];
-     PowerPCCPU *cpu;
-     CPUPPCState *env;
--    qemu_irq *pic, *irqs;
-+    DeviceState *uicdev;
-+    SysBusDevice *uicsbd;
- 
-     memset(clk_setup, 0, sizeof(clk_setup));
-     /* init CPUs */
-@@ -1474,59 +1478,69 @@ CPUPPCState *ppc405ep_init(MemoryRegion *address_space_mem,
-     /* Initialize timers */
-     ppc_booke_timers_init(cpu, sysclk, 0);
-     /* Universal interrupt controller */
--    irqs = g_new0(qemu_irq, PPCUIC_OUTPUT_NB);
--    irqs[PPCUIC_OUTPUT_INT] =
--        ((qemu_irq *)env->irq_inputs)[PPC40x_INPUT_INT];
--    irqs[PPCUIC_OUTPUT_CINT] =
--        ((qemu_irq *)env->irq_inputs)[PPC40x_INPUT_CINT];
--    pic = ppcuic_init(env, irqs, 0x0C0, 0, 1);
--    *picp = pic;
-+    uicdev = qdev_new(TYPE_PPC_UIC);
-+    uicsbd = SYS_BUS_DEVICE(uicdev);
++/* Symbolic constants for the sysbus IRQ outputs */
++enum {
++    PPCUIC_OUTPUT_INT = 0,
++    PPCUIC_OUTPUT_CINT = 1,
++    PPCUIC_OUTPUT_NB,
++};
 +
-+    object_property_set_link(OBJECT(uicdev), "cpu", OBJECT(cpu),
-+                             &error_fatal);
-+    sysbus_realize_and_unref(uicsbd, &error_fatal);
-+
-+    sysbus_connect_irq(uicsbd, PPCUIC_OUTPUT_INT,
-+                       ((qemu_irq *)env->irq_inputs)[PPC40x_INPUT_INT]);
-+    sysbus_connect_irq(uicsbd, PPCUIC_OUTPUT_CINT,
-+                       ((qemu_irq *)env->irq_inputs)[PPC40x_INPUT_CINT]);
-+
-+    *uicdevp = uicdev;
-+
-     /* SDRAM controller */
-         /* XXX 405EP has no ECC interrupt */
--    ppc4xx_sdram_init(env, pic[17], 2, ram_memories,
-+    ppc4xx_sdram_init(env, qdev_get_gpio_in(uicdev, 17), 2, ram_memories,
-                       ram_bases, ram_sizes, do_init);
-     /* External bus controller */
-     ppc405_ebc_init(env);
-     /* DMA controller */
--    dma_irqs[0] = pic[5];
--    dma_irqs[1] = pic[6];
--    dma_irqs[2] = pic[7];
--    dma_irqs[3] = pic[8];
-+    dma_irqs[0] = qdev_get_gpio_in(uicdev, 5);
-+    dma_irqs[1] = qdev_get_gpio_in(uicdev, 6);
-+    dma_irqs[2] = qdev_get_gpio_in(uicdev, 7);
-+    dma_irqs[3] = qdev_get_gpio_in(uicdev, 8);
-     ppc405_dma_init(env, dma_irqs);
-     /* IIC controller */
--    sysbus_create_simple(TYPE_PPC4xx_I2C, 0xef600500, pic[2]);
-+    sysbus_create_simple(TYPE_PPC4xx_I2C, 0xef600500,
-+                         qdev_get_gpio_in(uicdev, 2));
-     /* GPIO */
-     ppc405_gpio_init(0xef600700);
-     /* Serial ports */
-     if (serial_hd(0) != NULL) {
--        serial_mm_init(address_space_mem, 0xef600300, 0, pic[0],
-+        serial_mm_init(address_space_mem, 0xef600300, 0,
-+                       qdev_get_gpio_in(uicdev, 0),
-                        PPC_SERIAL_MM_BAUDBASE, serial_hd(0),
-                        DEVICE_BIG_ENDIAN);
-     }
-     if (serial_hd(1) != NULL) {
--        serial_mm_init(address_space_mem, 0xef600400, 0, pic[1],
-+        serial_mm_init(address_space_mem, 0xef600400, 0,
-+                       qdev_get_gpio_in(uicdev, 1),
-                        PPC_SERIAL_MM_BAUDBASE, serial_hd(1),
-                        DEVICE_BIG_ENDIAN);
-     }
-     /* OCM */
-     ppc405_ocm_init(env);
-     /* GPT */
--    gpt_irqs[0] = pic[19];
--    gpt_irqs[1] = pic[20];
--    gpt_irqs[2] = pic[21];
--    gpt_irqs[3] = pic[22];
--    gpt_irqs[4] = pic[23];
-+    gpt_irqs[0] = qdev_get_gpio_in(uicdev, 19);
-+    gpt_irqs[1] = qdev_get_gpio_in(uicdev, 20);
-+    gpt_irqs[2] = qdev_get_gpio_in(uicdev, 21);
-+    gpt_irqs[3] = qdev_get_gpio_in(uicdev, 22);
-+    gpt_irqs[4] = qdev_get_gpio_in(uicdev, 23);
-     ppc4xx_gpt_init(0xef600000, gpt_irqs);
-     /* PCI */
--    /* Uses pic[3], pic[16], pic[18] */
-+    /* Uses UIC IRQs 3, 16, 18 */
-     /* MAL */
--    mal_irqs[0] = pic[11];
--    mal_irqs[1] = pic[12];
--    mal_irqs[2] = pic[13];
--    mal_irqs[3] = pic[14];
-+    mal_irqs[0] = qdev_get_gpio_in(uicdev, 11);
-+    mal_irqs[1] = qdev_get_gpio_in(uicdev, 12);
-+    mal_irqs[2] = qdev_get_gpio_in(uicdev, 13);
-+    mal_irqs[3] = qdev_get_gpio_in(uicdev, 14);
-     ppc4xx_mal_init(env, 4, 2, mal_irqs);
-     /* Ethernet */
--    /* Uses pic[9], pic[15], pic[17] */
-+    /* Uses UIC IRQs 9, 15, 17 */
-     /* CPU control */
-     ppc405ep_cpc_init(env, clk_setup, sysclk);
+ struct PPCUIC {
+     /*< private >*/
+     SysBusDevice parent_obj;
+diff --git a/include/hw/ppc/ppc4xx.h b/include/hw/ppc/ppc4xx.h
+index cc19c8da5be..980f964b5a9 100644
+--- a/include/hw/ppc/ppc4xx.h
++++ b/include/hw/ppc/ppc4xx.h
+@@ -33,15 +33,6 @@ PowerPCCPU *ppc4xx_init(const char *cpu_model,
+                         clk_setup_t *cpu_clk, clk_setup_t *tb_clk,
+                         uint32_t sysclk);
  
+-/* PowerPC 4xx universal interrupt controller */
+-enum {
+-    PPCUIC_OUTPUT_INT = 0,
+-    PPCUIC_OUTPUT_CINT = 1,
+-    PPCUIC_OUTPUT_NB,
+-};
+-qemu_irq *ppcuic_init (CPUPPCState *env, qemu_irq *irqs,
+-                       uint32_t dcr_base, int has_ssr, int has_vr);
+-
+ void ppc4xx_sdram_banks(MemoryRegion *ram, int nr_banks,
+                         MemoryRegion ram_memories[],
+                         hwaddr ram_bases[], hwaddr ram_sizes[],
+diff --git a/hw/ppc/ppc4xx_devs.c b/hw/ppc/ppc4xx_devs.c
+index ffe4cf43e88..fe9d4f7155e 100644
+--- a/hw/ppc/ppc4xx_devs.c
++++ b/hw/ppc/ppc4xx_devs.c
+@@ -77,44 +77,6 @@ PowerPCCPU *ppc4xx_init(const char *cpu_type,
+     return cpu;
+ }
+ 
+-/*****************************************************************************/
+-/* "Universal" Interrupt controller */
+-
+-qemu_irq *ppcuic_init (CPUPPCState *env, qemu_irq *irqs,
+-                       uint32_t dcr_base, int has_ssr, int has_vr)
+-{
+-    DeviceState *uicdev = qdev_new(TYPE_PPC_UIC);
+-    SysBusDevice *uicsbd = SYS_BUS_DEVICE(uicdev);
+-    qemu_irq *uic_irqs;
+-    int i;
+-
+-    qdev_prop_set_uint32(uicdev, "dcr-base", dcr_base);
+-    qdev_prop_set_bit(uicdev, "use-vectors", has_vr);
+-    object_property_set_link(OBJECT(uicdev), "cpu", OBJECT(env_cpu(env)),
+-                             &error_fatal);
+-    sysbus_realize_and_unref(uicsbd, &error_fatal);
+-
+-    sysbus_connect_irq(uicsbd, PPCUIC_OUTPUT_INT, irqs[PPCUIC_OUTPUT_INT]);
+-    sysbus_connect_irq(uicsbd, PPCUIC_OUTPUT_CINT, irqs[PPCUIC_OUTPUT_CINT]);
+-
+-    /*
+-     * Return an allocated array of the UIC's input IRQ lines.
+-     * This is an ugly temporary API to retain compatibility with
+-     * the ppcuic_init() interface from the pre-QOM-conversion UIC.
+-     * None of the callers free this array, so it is leaked -- but
+-     * so was the array allocated by qemu_allocate_irqs() in the
+-     * old code.
+-     *
+-     * The callers should just instantiate the UIC and wire it up
+-     * themselves rather than passing qemu_irq* in and out of this function.
+-     */
+-    uic_irqs = g_new0(qemu_irq, UIC_MAX_IRQ);
+-    for (i = 0; i < UIC_MAX_IRQ; i++) {
+-        uic_irqs[i] = qdev_get_gpio_in(uicdev, i);
+-    }
+-    return uic_irqs;
+-}
+-
+ /*****************************************************************************/
+ /* SDRAM controller */
+ typedef struct ppc4xx_sdram_t ppc4xx_sdram_t;
 -- 
 2.20.1
 
