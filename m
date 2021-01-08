@@ -2,71 +2,93 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 220982EF47E
-	for <lists+qemu-devel@lfdr.de>; Fri,  8 Jan 2021 16:07:47 +0100 (CET)
-Received: from localhost ([::1]:55390 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 320972EF487
+	for <lists+qemu-devel@lfdr.de>; Fri,  8 Jan 2021 16:08:13 +0100 (CET)
+Received: from localhost ([::1]:56876 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kxtMf-0008DV-Q6
-	for lists+qemu-devel@lfdr.de; Fri, 08 Jan 2021 10:07:45 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38764)
+	id 1kxtN6-0000Ps-8R
+	for lists+qemu-devel@lfdr.de; Fri, 08 Jan 2021 10:08:12 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38958)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1kxtLD-0007Fx-FS
- for qemu-devel@nongnu.org; Fri, 08 Jan 2021 10:06:15 -0500
-Received: from mail-ej1-x633.google.com ([2a00:1450:4864:20::633]:34752)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1kxtL6-0000TF-Sa
- for qemu-devel@nongnu.org; Fri, 08 Jan 2021 10:06:15 -0500
-Received: by mail-ej1-x633.google.com with SMTP id g20so15001799ejb.1
- for <qemu-devel@nongnu.org>; Fri, 08 Jan 2021 07:06:07 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=uZxst5pG/lC60+vYJJBXGxA6kYccQzJdFjIbPSVft44=;
- b=nLhEmcr9sIZ3uCTKtR2XGMkf5iPKgVhAx/C/lz1ZR83XqDiaPQA2yowpJ/bpwcDXlD
- T+m81BQM+8b6x72FKjRkKUGFabruMJb+/RuDrLrB3vWoTuJdenEuzwwnDkD1uaxDnCyX
- SayNaJE3984/H+wZoqo5c0OSMEWWDY96hlq09paog2wADl2WaXFLB7wasbOvceMVtIu2
- BO+z8xI0NQ5BqPLw+Ieue+wiCrJDcD/TpKahhzv8uJhmYiE8+9YWEqnYcPRzuokjQE7s
- sE0nQ67ZfFHD57Ep082MyeTML/jXBZaEs8lWOviedSThMGlblnfKkIybb1aFW5p7leLy
- l6gw==
+ (Exim 4.90_1) (envelope-from <sgarzare@redhat.com>)
+ id 1kxtLp-0007iu-CJ
+ for qemu-devel@nongnu.org; Fri, 08 Jan 2021 10:06:53 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:28918)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <sgarzare@redhat.com>)
+ id 1kxtLi-0000kS-Gb
+ for qemu-devel@nongnu.org; Fri, 08 Jan 2021 10:06:53 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1610118405;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=7wBwsG56Bsxex18dbtXK0XZybqGGh77JwLxho0q30kU=;
+ b=NfacZtIF5cqrM+IzHHTRwlPVvWYprLJDJzUqxCkk4na0PHHFvX3ZLSjhc/j3QPjj6WvOE9
+ lTbrO90ZeugGPyupY09CjfiWGk19S0n0HWOzpdyxOexRT6b67peUdMNj8MvFTQUVVfllvo
+ uHaLVuBM+7+m9Y7isZnDAq7Wj9I+1Qo=
+Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
+ [209.85.221.69]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-114-IJA4fxp4MQS_lwafcy0fEQ-1; Fri, 08 Jan 2021 10:06:43 -0500
+X-MC-Unique: IJA4fxp4MQS_lwafcy0fEQ-1
+Received: by mail-wr1-f69.google.com with SMTP id m20so4281951wrh.2
+ for <qemu-devel@nongnu.org>; Fri, 08 Jan 2021 07:06:42 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=uZxst5pG/lC60+vYJJBXGxA6kYccQzJdFjIbPSVft44=;
- b=LyBhDNjiBKIfdc/V1MDmQw46pX+uQdbFbQyTztez4Z+bJb8OgFiXfaFzyAe94phZPI
- AOicYBam3dbRarXi7/yyGRwHV78N2ToAib64GVnhcWQPhJbOw4+9Pr0eJUtXe5jhSNJ0
- LCZkUkdu2Pi7Am65wcB5XUWKBBdMsTc+UsXV+br46JCaSHezaEDQ4uR4T5cfUYDC09Ei
- Pi1Yz198eEHcWN1jCbzd8eUF4cZsJplKTKdqNrydej//RoXFlhmhdJYy824oIDKZE3gy
- ZRpTBLzWP1iqgMK24DvIMeRU72J8IChp8RFbWWMqPwWpbjUJCnjLlHbuS6bwjVbTXz7g
- rutA==
-X-Gm-Message-State: AOAM531D7eQUvB+kSHcugKW5sQ30U+DVdc4GeuzKvkhi/8hlUyEGoAQ4
- 9t4h6vkKUdgz77olTVL8LlXZdQ2kUaEPPl9tlgXSrg==
-X-Google-Smtp-Source: ABdhPJzBGV7WOpTgMkasIm0ahkaMexrPkljG6umrVOlY9CS0BU5d8uIHRZ3jYioZ63AQMtaB5K8u6K1RfQFh/8fhbp4=
-X-Received: by 2002:a17:906:e94c:: with SMTP id
- jw12mr3021778ejb.56.1610118366278; 
- Fri, 08 Jan 2021 07:06:06 -0800 (PST)
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:content-transfer-encoding
+ :in-reply-to;
+ bh=7wBwsG56Bsxex18dbtXK0XZybqGGh77JwLxho0q30kU=;
+ b=sw1h+huo9FqjTglAU+TF+RiZm1elscZ/jr5DbJhWJ86Q9w1yd9bq0DmNupLZyjHbkd
+ 6FAMndV2yTRNbEq7I7NGaGOpkLW2dOyNQYyEnsIiTAHTGrZ9PNzZmpJ94KOwE7Apo/Lr
+ pKCCipoT8HBPjajR+CPLMK7k7jW9lDcYbamjTTHllJGFRCsurB7g02fbR1A03ne5kSIA
+ WbgHx/DJyNc/xTIEwAcE/U3QPDA4iL1Q1S65hOA7ysVpAXW8D/jXSipc7jSYq/hEnAUD
+ jOIsJ9HEQ1R92U+DDdtgUkP4m2+SVyGOR6yo0iTnq/EInsIMJa1AoeQWXxEaybIpq7tO
+ z5yg==
+X-Gm-Message-State: AOAM53163zb01nlAwHXsvFPZBHFQpqlp3nNiRxwjPP+cPpHPrcFBE1gE
+ 7+LhqL8lYUfDKo4mrquIu4ETJibIkIFOh+GV4lSZ4rSsJ64HLI3qPtLJ7vj25MngOV4B3Hq0sbg
+ JNKDJg6wNOoXhF3U=
+X-Received: by 2002:a05:600c:255:: with SMTP id
+ 21mr3398859wmj.69.1610118401865; 
+ Fri, 08 Jan 2021 07:06:41 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJyUeWRJX1r0y9VjEADh5VGcoDvFcBVgX8mTsN/VfcHJXXgT7mVhg/KHuM/q/z1NS7z292Kv+Q==
+X-Received: by 2002:a05:600c:255:: with SMTP id
+ 21mr3398842wmj.69.1610118401685; 
+ Fri, 08 Jan 2021 07:06:41 -0800 (PST)
+Received: from steredhat (host-79-34-249-199.business.telecomitalia.it.
+ [79.34.249.199])
+ by smtp.gmail.com with ESMTPSA id a62sm12347646wmf.7.2021.01.08.07.06.40
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 08 Jan 2021 07:06:40 -0800 (PST)
+Date: Fri, 8 Jan 2021 16:06:38 +0100
+From: Stefano Garzarella <sgarzare@redhat.com>
+To: Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>
+Subject: Re: [PATCH] hw/virtio-pci: Replace error_report() by
+ qemu_log_mask(GUEST_ERROR)
+Message-ID: <20210108150638.pzc4mu5knw37ejsv@steredhat>
+References: <20201210172834.178052-1-philmd@redhat.com>
+ <20210108120243.zgajoyust5n56l5m@steredhat>
+ <990898ff-a225-0548-690a-f7bab039ca08@redhat.com>
 MIME-Version: 1.0
-References: <20210102150718.47618-1-r.bolshakov@yadro.com>
- <CAFEAcA8GMYcTrfKJ-6E3rKyytDHSL4UeWPVuFVLtzWjDtCxMVw@mail.gmail.com>
- <CAFEAcA97hh-bC7yjpHLGyvOiBGMxRtOQaf0O-y5WG0xYYA8N7A@mail.gmail.com>
-In-Reply-To: <CAFEAcA97hh-bC7yjpHLGyvOiBGMxRtOQaf0O-y5WG0xYYA8N7A@mail.gmail.com>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Fri, 8 Jan 2021 15:05:55 +0000
-Message-ID: <CAFEAcA_DONsg-c_-sEA_T_P+5jYSAXtTDfcvy7_h7oGWOqJ+nA@mail.gmail.com>
-Subject: Re: [PATCH v2] ui/cocoa: Fix openFile: deprecation on Big Sur
-To: Roman Bolshakov <r.bolshakov@yadro.com>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2a00:1450:4864:20::633;
- envelope-from=peter.maydell@linaro.org; helo=mail-ej1-x633.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <990898ff-a225-0548-690a-f7bab039ca08@redhat.com>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=sgarzare@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=sgarzare@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -29
+X-Spam_score: -3.0
+X-Spam_bar: ---
+X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.247,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -79,40 +101,49 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: QEMU Developers <qemu-devel@nongnu.org>, Gerd Hoffmann <kraxel@redhat.com>
+Cc: qemu-trivial@nongnu.org, qemu-devel@nongnu.org,
+ "Michael S. Tsirkin" <mst@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, 8 Jan 2021 at 15:00, Peter Maydell <peter.maydell@linaro.org> wrote:
+On Fri, Jan 08, 2021 at 04:00:21PM +0100, Philippe Mathieu-Daudé wrote:
+>On 1/8/21 1:02 PM, Stefano Garzarella wrote:
+>> On Thu, Dec 10, 2020 at 06:28:34PM +0100, Philippe Mathieu-DaudÃƒÂ© wrote:
+>>> Replace I/O write error reported with error_report() by
+>>> qemu_log_mask(GUEST_ERROR) which allow filtering.
+>>>
+>>> Signed-off-by: Philippe Mathieu-DaudÃƒÂ© <philmd@redhat.com>
+>>> ---
+>>> hw/virtio/virtio-pci.c | 6 ++++--
+>>> 1 file changed, 4 insertions(+), 2 deletions(-)
+>>>
+>>> diff --git a/hw/virtio/virtio-pci.c b/hw/virtio/virtio-pci.c
+>>> index f863f69ede4..094c36aa3ea 100644
+>>> --- a/hw/virtio/virtio-pci.c
+>>> +++ b/hw/virtio/virtio-pci.c
+>>> @@ -27,6 +27,7 @@
+>>> #include "hw/qdev-properties.h"
+>>> #include "qapi/error.h"
+>>> #include "qemu/error-report.h"
+>>             ^
+>> Just a little thing, could we remove this inclusion since we are not
+>> using error_report() anymore in this file?
 >
-> On Fri, 8 Jan 2021 at 13:50, Peter Maydell <peter.maydell@linaro.org> wrote:
-> >
-> > On Sat, 2 Jan 2021 at 15:14, Roman Bolshakov <r.bolshakov@yadro.com> wrote:
-> > >
-> > > ui/cocoa.m:1188:44: warning: 'openFile:' is deprecated: first deprecated in macOS 11.0 - Use -[NSWorkspace openURL:] instead.
-> > >       [-Wdeprecated-declarations]
-> > >         if ([[NSWorkspace sharedWorkspace] openFile: full_file_path] == YES) {
-> > >                                            ^
-> > > /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/System/Library/Frameworks/AppKit.framework/Headers/NSWorkspace.h:350:1: note:
-> > >       'openFile:' has been explicitly marked deprecated here
-> > > - (BOOL)openFile:(NSString *)fullPath API_DEPRECATED("Use -[NSWorkspace openURL:] instead.", macos(10.0, 11.0));
-> > > ^
-> > >
-> > > Signed-off-by: Roman Bolshakov <r.bolshakov@yadro.com>
-> > > ---
-> >
-> > Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
->
->
-> So I was just trying to test this patch, and I found that at least
-> for me the osx menu bar has stopped working in QEMU -- keyboard
-> shortcuts to it still work but none of the menu buttons respond
-> to the mouse. Does that happen for anybody else?
+>We can't because virtio_pci_device_plugged() calls
+>warn_report() twice :/
 
-This menu bar breakage appears to be caused by this patch. I have
-no idea why, because the patch looks pretty harmless. Nonetheless,
-I'm going to have to drop it from my queue.
+Of course you are right :-)
 
-thanks
--- PMM
+Stefano
+
+>
+>> Anyway the patch LGTM:
+>>
+>> Reviewed-by: Stefano Garzarella <sgarzare@redhat.com>
+>
+>Thanks!
+>
+>Phil.
+>
+
 
