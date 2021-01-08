@@ -2,69 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 51AD42EF55A
-	for <lists+qemu-devel@lfdr.de>; Fri,  8 Jan 2021 17:02:52 +0100 (CET)
-Received: from localhost ([::1]:56376 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B35952EF56C
+	for <lists+qemu-devel@lfdr.de>; Fri,  8 Jan 2021 17:05:41 +0100 (CET)
+Received: from localhost ([::1]:33436 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kxuDz-0005Gs-B9
-	for lists+qemu-devel@lfdr.de; Fri, 08 Jan 2021 11:02:51 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47506)
+	id 1kxuGi-0007q2-QB
+	for lists+qemu-devel@lfdr.de; Fri, 08 Jan 2021 11:05:40 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47826)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1kxtov-00055j-Lu
- for qemu-devel@nongnu.org; Fri, 08 Jan 2021 10:36:57 -0500
-Received: from mail-wr1-x42e.google.com ([2a00:1450:4864:20::42e]:45689)
+ id 1kxtqY-00074W-4W
+ for qemu-devel@nongnu.org; Fri, 08 Jan 2021 10:38:38 -0500
+Received: from mail-ej1-x62c.google.com ([2a00:1450:4864:20::62c]:44572)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1kxtot-0002zo-31
- for qemu-devel@nongnu.org; Fri, 08 Jan 2021 10:36:57 -0500
-Received: by mail-wr1-x42e.google.com with SMTP id d26so9382672wrb.12
- for <qemu-devel@nongnu.org>; Fri, 08 Jan 2021 07:36:54 -0800 (PST)
+ id 1kxtqW-0003VS-Ax
+ for qemu-devel@nongnu.org; Fri, 08 Jan 2021 10:38:37 -0500
+Received: by mail-ej1-x62c.google.com with SMTP id w1so14953510ejf.11
+ for <qemu-devel@nongnu.org>; Fri, 08 Jan 2021 07:38:35 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:subject:date:message-id:in-reply-to:references:mime-version
- :content-transfer-encoding;
- bh=AMnhlZyrvWZ5ic2poiBccv6AydLf+e+4fw82RlCGQo4=;
- b=wfEmKfrpDcPlngQpnoUCcn17F5dpYiMsxNxmSa8l5QhwlImRSCLAn8WN7b3aUVRMj0
- 7kR0jGpiuqKlPDAx/PGP9UOPYKeK/pMr8ue/ZkWzqrfL9q0biUK/Jkz7mNxEBn/2iA+3
- gsY7YTRx8KsZLly+aJF8/k9ZSkEq0BxrZ/gVUwTE6YUbl7ML3aziXSpA8JcTD+wcDeHY
- ZE7WeyEWSu/3l7HfI2j8OEBW/ZLkOGN5IK0Vfhz6xdSe+G0FGN7ZKxZcesOQy1cp1vQC
- ZzD/1TSF0JMc9xpsTbUEkjCtqxdAIR0EwCnFhTHlXZLg6sJY5Rj/mClqXfYXl5EcvZNd
- NlAA==
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=rPxolWVqn2Qs6yPoRuT6Y3s1WuQyH1tjwMCY8QGOUI0=;
+ b=VKSbSwzW8/QRkItfq647k1gW9Ug2wgSk3YRHgHfCiEyCuqXFuP4nsdPRgwJzImokpL
+ 0Nz7oia1274MVKnAeDVZuf/tTlziPkV+Nbpa7FDnam0I6qqAysdycBQnYdU/VF2+gBok
+ fSTFGVxtDxrRf2C+9pSx4tCvwkqyCJbGIeDJNV/clsFDfDk8zEkt+20EIGlpWLskZOoR
+ kON3eSGCEJ5mKkVeSiyC4yTvdGEXLsFr/F+ylyGiZxm3PtHez/XVaNt59yZbIsKZV2KN
+ pyu5qLcJz/rFm25kYbaZ2xuzOm2JEOUgTKnryDodlMy/dNh4b0k6L2zX3auN0SgDZuiv
+ p3pg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=AMnhlZyrvWZ5ic2poiBccv6AydLf+e+4fw82RlCGQo4=;
- b=hjnUUkXemSwt31lzQDC7GtGq9IU1FyJBSvn7jWNEqxbSFW+zvOXtNSa44cKLrnaS8n
- N8/hiqsKN0xfJNAjbPrPlnO9g4u1P7u/U5V5lbr5JI7JyYdUmccWpzKjPOJe/oawEmwB
- HudrgN7VhLO70DkwbHKrjBjfLsQQ3QM4JdtOCK9BLHZHFk1P9KG53bss968KUu5CZyLh
- GrVdk+AqbOV6/bXg1lff4B953UO2pkWxqcc0Uc6/xHOipESS4aZGiE+t/5cElsAcWQyY
- qiP6SqsRDOCkGWQuj/7Vw++uvioRXEPPqkKUeYRGWUU6UZ1lPjYejMi63NRdFF9mVfGw
- cYCQ==
-X-Gm-Message-State: AOAM530PpjSba19jcqTucOjsR9rimNsP665NvyAifWxXXNyJhCB+yVoD
- 13ccYvBVyy0p4Xk7heeazbg6eMcUBI6DmA==
-X-Google-Smtp-Source: ABdhPJx0JDy+EP5nwUNy08X3YVXhWC1/Bo1209u1Hq4ukk+WRNRlqjpQg3hSpQwBajs9lZh6VLWVAQ==
-X-Received: by 2002:a5d:5049:: with SMTP id h9mr4378355wrt.404.1610120212903; 
- Fri, 08 Jan 2021 07:36:52 -0800 (PST)
-Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
- by smtp.gmail.com with ESMTPSA id f9sm15887572wrw.81.2021.01.08.07.36.52
- for <qemu-devel@nongnu.org>
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 08 Jan 2021 07:36:52 -0800 (PST)
-From: Peter Maydell <peter.maydell@linaro.org>
-To: qemu-devel@nongnu.org
-Subject: [PULL 23/23] docs/system: arm: Add sabrelite board description
-Date: Fri,  8 Jan 2021 15:36:21 +0000
-Message-Id: <20210108153621.3868-24-peter.maydell@linaro.org>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20210108153621.3868-1-peter.maydell@linaro.org>
-References: <20210108153621.3868-1-peter.maydell@linaro.org>
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=rPxolWVqn2Qs6yPoRuT6Y3s1WuQyH1tjwMCY8QGOUI0=;
+ b=gNnKIIrGeDOGmef93uqzxx9ELMsoiNN2cOkq5RCzUY6ecwJTTpKZsVDIRYzrD+0Z3a
+ /nKsmC89LBv7Oo9krpBtOJhAMAMc8ruK6Nn+442ER6c2YAVdZ+wh8137Ini0dXTXwXjx
+ Q2K2+noyL+h0vaUd5rgOQUL/EwKR7L7vfVNlJD2M5wtwmoA8jEMO0v2HtBlNMVcb/bIA
+ L2i3Fv3uovlTdDRBNUWoISlLbzgxRV4jwFSCtjgmBPchpj5cbryqdoB35lrDFGIlTnDM
+ 0xBDAKnXeFjvlCHKBByb82cgxFQBcs5C4vPNCnALq49EFlggqMGHNEWQWjgMk8h1Xt7v
+ BL/A==
+X-Gm-Message-State: AOAM532fYHq03y3SGbQhR8kBZsB4xWRrEkw3lTuyuUmdVED0V6lXKiWp
+ uDt+A3CkWQMa+Uv0spOx8GGLQiMhhqG4T9xvA84JSw==
+X-Google-Smtp-Source: ABdhPJxes9ERz61aVWYIqGB6bdKrP4JxS0mpH0vxSJ+MvTz91l23MpQwD28ka+RmWuP7AMm21BdH9jxNe0K5AbEUuPE=
+X-Received: by 2002:a17:906:31d2:: with SMTP id
+ f18mr2933356ejf.407.1610120314932; 
+ Fri, 08 Jan 2021 07:38:34 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::42e;
- envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x42e.google.com
+References: <20210108151632.277015-1-f4bug@amsat.org>
+In-Reply-To: <20210108151632.277015-1-f4bug@amsat.org>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Fri, 8 Jan 2021 15:38:23 +0000
+Message-ID: <CAFEAcA_5YzU7sGhbVtzP7-=PsaJoe3wMxkCPnO=qdY8q6Bf7rw@mail.gmail.com>
+Subject: Re: [PATCH] decodetree: Open files with encoding='utf-8'
+To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2a00:1450:4864:20::62c;
+ envelope-from=peter.maydell@linaro.org; helo=mail-ej1-x62c.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -84,162 +79,60 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: Paolo Bonzini <pbonzini@redhat.com>, Cleber Rosa <crosa@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ QEMU Developers <qemu-devel@nongnu.org>, Eduardo Habkost <ehabkost@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Bin Meng <bin.meng@windriver.com>
+On Fri, 8 Jan 2021 at 15:16, Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org> =
+wrote:
+>
+> When decodetree.py was added in commit 568ae7efae7, QEMU was
+> using Python 2 which happily reads UTF-8 files in text mode.
+> Python 3 requires either UTF-8 locale or an explicit encoding
+> passed to open(). Now that Python 3 is required, explicit
+> UTF-8 encoding for decodetree sources.
+>
+> This fixes:
+>
+>   $ /usr/bin/python3 scripts/decodetree.py test.decode
+>   Traceback (most recent call last):
+>     File "scripts/decodetree.py", line 1397, in <module>
+>       main()
+>     File "scripts/decodetree.py", line 1308, in main
+>       parse_file(f, toppat)
+>     File "scripts/decodetree.py", line 994, in parse_file
+>       for line in f:
+>     File "/usr/lib/python3.6/encodings/ascii.py", line 26, in decode
+>       return codecs.ascii_decode(input, self.errors)[0]
+>   UnicodeDecodeError: 'ascii' codec can't decode byte 0xc3 in position 80=
+:
+>   ordinal not in range(128)
+>
+> Reported-by: Peter Maydell <peter.maydell@linaro.org>
+> Signed-off-by: Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>
+> ---
+>  scripts/decodetree.py | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+>
+> diff --git a/scripts/decodetree.py b/scripts/decodetree.py
+> index 47aa9caf6d1..fa40903cff1 100644
+> --- a/scripts/decodetree.py
+> +++ b/scripts/decodetree.py
+> @@ -1304,7 +1304,7 @@ def main():
+>
+>      for filename in args:
+>          input_file =3D filename
+> -        f =3D open(filename, 'r')
+> +        f =3D open(filename, 'r', encoding=3D'utf-8')
+>          parse_file(f, toppat)
+>          f.close()
 
-This adds the target guide for SABRE Lite board, and documents how
-to boot a Linux kernel and U-Boot bootloader.
+Should we also be opening the output file explicitly as
+utf-8 ? (How do we say "write to sys.stdout as utf-8" for
+the case where we're doing that?)
 
-Signed-off-by: Bin Meng <bin.meng@windriver.com>
-Reviewed-by: Alex Bennée <alex.bennee@linaro.org>
-Message-id: 20210106063504.10841-5-bmeng.cn@gmail.com
-Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
----
- docs/system/arm/sabrelite.rst | 119 ++++++++++++++++++++++++++++++++++
- docs/system/target-arm.rst    |   1 +
- 2 files changed, 120 insertions(+)
- create mode 100644 docs/system/arm/sabrelite.rst
-
-diff --git a/docs/system/arm/sabrelite.rst b/docs/system/arm/sabrelite.rst
-new file mode 100644
-index 00000000000..71713310e3a
---- /dev/null
-+++ b/docs/system/arm/sabrelite.rst
-@@ -0,0 +1,119 @@
-+Boundary Devices SABRE Lite (``sabrelite``)
-+===========================================
-+
-+Boundary Devices SABRE Lite i.MX6 Development Board is a low-cost development
-+platform featuring the powerful Freescale / NXP Semiconductor's i.MX 6 Quad
-+Applications Processor.
-+
-+Supported devices
-+-----------------
-+
-+The SABRE Lite machine supports the following devices:
-+
-+ * Up to 4 Cortex A9 cores
-+ * Generic Interrupt Controller
-+ * 1 Clock Controller Module
-+ * 1 System Reset Controller
-+ * 5 UARTs
-+ * 2 EPIC timers
-+ * 1 GPT timer
-+ * 2 Watchdog timers
-+ * 1 FEC Ethernet controller
-+ * 3 I2C controllers
-+ * 7 GPIO controllers
-+ * 4 SDHC storage controllers
-+ * 4 USB 2.0 host controllers
-+ * 5 ECSPI controllers
-+ * 1 SST 25VF016B flash
-+
-+Please note above list is a complete superset the QEMU SABRE Lite machine can
-+support. For a normal use case, a device tree blob that represents a real world
-+SABRE Lite board, only exposes a subset of devices to the guest software.
-+
-+Boot options
-+------------
-+
-+The SABRE Lite machine can start using the standard -kernel functionality
-+for loading a Linux kernel, U-Boot bootloader or ELF executable.
-+
-+Running Linux kernel
-+--------------------
-+
-+Linux mainline v5.10 release is tested at the time of writing. To build a Linux
-+mainline kernel that can be booted by the SABRE Lite machine, simply configure
-+the kernel using the imx_v6_v7_defconfig configuration:
-+
-+.. code-block:: bash
-+
-+  $ export ARCH=arm
-+  $ export CROSS_COMPILE=arm-linux-gnueabihf-
-+  $ make imx_v6_v7_defconfig
-+  $ make
-+
-+To boot the newly built Linux kernel in QEMU with the SABRE Lite machine, use:
-+
-+.. code-block:: bash
-+
-+  $ qemu-system-arm -M sabrelite -smp 4 -m 1G \
-+      -display none -serial null -serial stdio \
-+      -kernel arch/arm/boot/zImage \
-+      -dtb arch/arm/boot/dts/imx6q-sabrelite.dtb \
-+      -initrd /path/to/rootfs.ext4 \
-+      -append "root=/dev/ram"
-+
-+Running U-Boot
-+--------------
-+
-+U-Boot mainline v2020.10 release is tested at the time of writing. To build a
-+U-Boot mainline bootloader that can be booted by the SABRE Lite machine, use
-+the mx6qsabrelite_defconfig with similar commands as described above for Linux:
-+
-+.. code-block:: bash
-+
-+  $ export CROSS_COMPILE=arm-linux-gnueabihf-
-+  $ make mx6qsabrelite_defconfig
-+
-+Note we need to adjust settings by:
-+
-+.. code-block:: bash
-+
-+  $ make menuconfig
-+
-+then manually select the following configuration in U-Boot:
-+
-+  Device Tree Control > Provider of DTB for DT Control > Embedded DTB
-+
-+To start U-Boot using the SABRE Lite machine, provide the u-boot binary to
-+the -kernel argument, along with an SD card image with rootfs:
-+
-+.. code-block:: bash
-+
-+  $ qemu-system-arm -M sabrelite -smp 4 -m 1G \
-+      -display none -serial null -serial stdio \
-+      -kernel u-boot
-+
-+The following example shows booting Linux kernel from dhcp, and uses the
-+rootfs on an SD card. This requires some additional command line parameters
-+for QEMU:
-+
-+.. code-block:: none
-+
-+  -nic user,tftp=/path/to/kernel/zImage \
-+  -drive file=sdcard.img,id=rootfs -device sd-card,drive=rootfs
-+
-+The directory for the built-in TFTP server should also contain the device tree
-+blob of the SABRE Lite board. The sample SD card image was populated with the
-+root file system with one single partition. You may adjust the kernel "root="
-+boot parameter accordingly.
-+
-+After U-Boot boots, type the following commands in the U-Boot command shell to
-+boot the Linux kernel:
-+
-+.. code-block:: none
-+
-+  => setenv ethaddr 00:11:22:33:44:55
-+  => setenv bootfile zImage
-+  => dhcp
-+  => tftpboot 14000000 imx6q-sabrelite.dtb
-+  => setenv bootargs root=/dev/mmcblk3p1
-+  => bootz 12000000 - 14000000
-diff --git a/docs/system/target-arm.rst b/docs/system/target-arm.rst
-index bde4b8e044e..edd013c7bbd 100644
---- a/docs/system/target-arm.rst
-+++ b/docs/system/target-arm.rst
-@@ -83,6 +83,7 @@ undocumented; you can get a complete list by running
-    arm/versatile
-    arm/vexpress
-    arm/aspeed
-+   arm/sabrelite
-    arm/digic
-    arm/musicpal
-    arm/gumstix
--- 
-2.20.1
-
+thanks
+-- PMM
 
