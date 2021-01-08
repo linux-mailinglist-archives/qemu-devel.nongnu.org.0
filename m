@@ -2,70 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7178B2EF7D1
-	for <lists+qemu-devel@lfdr.de>; Fri,  8 Jan 2021 20:02:52 +0100 (CET)
-Received: from localhost ([::1]:40848 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6E4D52EF7D6
+	for <lists+qemu-devel@lfdr.de>; Fri,  8 Jan 2021 20:05:35 +0100 (CET)
+Received: from localhost ([::1]:43794 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kxx2B-0006cx-HW
-	for lists+qemu-devel@lfdr.de; Fri, 08 Jan 2021 14:02:51 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36838)
+	id 1kxx4o-0007xi-7C
+	for lists+qemu-devel@lfdr.de; Fri, 08 Jan 2021 14:05:34 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37924)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <ndesaulniers@google.com>)
- id 1kxx0F-0005c1-CF
- for qemu-devel@nongnu.org; Fri, 08 Jan 2021 14:00:51 -0500
-Received: from mail-pj1-x1033.google.com ([2607:f8b0:4864:20::1033]:36092)
+ (Exim 4.90_1) (envelope-from <wuhaotsh@google.com>)
+ id 1kxx2h-0007JZ-O7
+ for qemu-devel@nongnu.org; Fri, 08 Jan 2021 14:03:23 -0500
+Received: from mail-lf1-x130.google.com ([2a00:1450:4864:20::130]:44228)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <ndesaulniers@google.com>)
- id 1kxx0A-00043M-8Z
- for qemu-devel@nongnu.org; Fri, 08 Jan 2021 14:00:51 -0500
-Received: by mail-pj1-x1033.google.com with SMTP id l23so6695737pjg.1
- for <qemu-devel@nongnu.org>; Fri, 08 Jan 2021 11:00:44 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <wuhaotsh@google.com>)
+ id 1kxx2e-00051a-CM
+ for qemu-devel@nongnu.org; Fri, 08 Jan 2021 14:03:23 -0500
+Received: by mail-lf1-x130.google.com with SMTP id m25so25268368lfc.11
+ for <qemu-devel@nongnu.org>; Fri, 08 Jan 2021 11:03:19 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=20161025;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=/TIuQ/Dc6oV5cFFdg8BY3A+MTZC9D+x9g/kzjwn+7Ic=;
- b=aYxbB0pjmQh7CSGuwukE//izOSoLYCOHYVZrJMT5bkQ3+NDf7i4Yt/E8k4Gyj2jSh2
- AwI8hgcJqiCIQ1ENZxMJQKXyZ40Mqh+Ko9mdM4u9bElTdZiAGQlCSF48UT+07reGaBFn
- DPmkBN55iBl609l+7sSgJtpKnvtGHU/L3L8rbzQj2OWfikJPHcEeA3SxKR8jlXm2VMFQ
- d6HW2Yq5d7hwJ0zXFksCkp3CshM2TXeCs61IowUlZ8yCx2MBFOC2/RWlPQbo33deuL2M
- 9t84gTL11OwcKhSSB17hmYs/y3eUP2Q+N40EW4HBfBENr0jeKpCNhLFA25EoBdopPs04
- eL0Q==
+ :cc; bh=jx3HgjgoqCryCu5BbtY+fpsMLc9rC/RAHqSiOqhmIhk=;
+ b=GeCm1FvoAGZ84OyAJv6cUaw0iqlfVIYninQPjsPFenu5Mfehe//ZuBr27pJSEaJ7DB
+ dT/C+0j2rhtqlFM9SlablSxyTTAcjnIk/oJDiAMU5w52VQWCoUPRWpaDbaf9r5ho3yRg
+ wr0/JLxClf+EnLRHdt2/jdOPmm1ssaEqh7VPv0wM1xlebRN3WqdA+9LVwlwlf7qUzCl7
+ iKErh6dg5RSFzulg44wtf/+euyR4gOqBTYIChsKcbsRq0vqX/CulKsrNVznffNomxE2l
+ evWGFJrhwluCMeN8EtkA/DMxckrXVq18I2rMewYIE9rIGqVcyuFFXvxAXRIrrixZdhyS
+ XuJQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=/TIuQ/Dc6oV5cFFdg8BY3A+MTZC9D+x9g/kzjwn+7Ic=;
- b=UWNBy6QPXZeW7XxrAn0bfGBUe8vNaQRk1CCiCORjf6xhrAVwZ+Gg1BXGHs7m+6BhZI
- 0C2XTb1Kc7WoEubSQhRB7AyJIJt9XRooSPAO9neJbgyZ8CjloU0PzeCDgRPNmjltfDU1
- FvYjryWYHZBAA2veOhf3ExmBPH8BFqn9goW1HMvz5ioBjxJX88AEarojKq7HG5vB5jdp
- UFH2rXZ5eCG+RSXtrFbThx5sP0r0vHGNEg8CQN9hYBKlcLK+rbpMusOvH1SzGhYff8aN
- s9MvM//tI+gP31vgx8qaNhJDxstz+WykNEH/FfWmZ5H4CGOIpEsnBS4TsGwIy7i5Cr0s
- 0qwg==
-X-Gm-Message-State: AOAM5307C47iBqeZAizLv8S0gBu8WAbdJy8xtVQM9o5VK6A8bA2Rbku4
- BQU93OZqneQSmQ/SAChJSm6xSYKhg2EIBkdu5wqUPQ==
-X-Google-Smtp-Source: ABdhPJwEnF6pguQLTt+57QzO1mI0RjrqhUhwReTX46j05pHmmBziCIU5ImqNZe+PRiyJXtg52yt8oaTDNlXFDq+o/mk=
-X-Received: by 2002:a17:90a:6ba4:: with SMTP id
- w33mr5313216pjj.32.1610132443201; 
- Fri, 08 Jan 2021 11:00:43 -0800 (PST)
+ bh=jx3HgjgoqCryCu5BbtY+fpsMLc9rC/RAHqSiOqhmIhk=;
+ b=QjHyVXyufl6LXsNnm3zcNeXxZUoRMq5jseZLe9A0vIE+Rgq0mUOqLz30mB9N9J+ioc
+ bgtr5zhKwnuAxKA9OlFMpxHvcZFhKCmik3UDWsMWh1DKM0v+NT5M0o2tRz9qKuXdMD5R
+ 5XQTUM1m4ZX4PTEz4rTQY5N7qjW2RirdD4bAIPxaV+x/WGTA1Vh3Vm4TrnoV3OgpdmDd
+ k/hDa/yvNE/OOhg868cBTlZZ1QzvJwcM1ugggQHLR6YKmGgytOG2cEw9M1aY0NUHAGRR
+ oNnJmkU5mZaoFdiOtz3sRq6s2xGanfmmj1Fn2esCMYr8QMkLoQHuTzj4iouaEZhys5Gp
+ CJ3g==
+X-Gm-Message-State: AOAM533WJh+GtGhdEQhvuu2b4S4V5avs3XjqEPF/yzYaJGpiYz/GjAnq
+ J4CTa/Mqnr0jBd7dhZgwOd9tXgUmuWyT1CRrNBYdoQ==
+X-Google-Smtp-Source: ABdhPJyVZQGoCU7URtAhUjvHTxSoMmMB6XKVWwf77NZHMhH5Pm7AjuLmkhOClEPGA5GIbl8j990O2GVkX/HbKmSMwxo=
+X-Received: by 2002:a2e:9b4f:: with SMTP id o15mr1933981ljj.393.1610132598044; 
+ Fri, 08 Jan 2021 11:03:18 -0800 (PST)
 MIME-Version: 1.0
-References: <20210108132049.8501-1-david@redhat.com>
-In-Reply-To: <20210108132049.8501-1-david@redhat.com>
-Date: Fri, 8 Jan 2021 11:00:32 -0800
-Message-ID: <CAKwvOdnMNRDhuAo78Hg4vAvbZF0jXY1=UaKX8F1oe0pTpjYD6A@mail.gmail.com>
-Subject: Re: [PATCH v2 0/4] s390x/tcg: fix booting Linux kernels compiled with
- clang-11 and clang-12
-To: David Hildenbrand <david@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1033;
- envelope-from=ndesaulniers@google.com; helo=mail-pj1-x1033.google.com
+References: <20210108185154.8108-1-leif@nuviainc.com>
+ <20210108185154.8108-4-leif@nuviainc.com>
+In-Reply-To: <20210108185154.8108-4-leif@nuviainc.com>
+Date: Fri, 8 Jan 2021 11:03:06 -0800
+Message-ID: <CAGcCb11BFE-LaYdOw0N7STyL+n20GZr6bNz5C0z44JtLS8KMKg@mail.gmail.com>
+Subject: Re: [PATCH v3 3/6] target/arm: make ARMCPU.ctr 64-bit
+To: Leif Lindholm <leif@nuviainc.com>
+Content-Type: multipart/alternative; boundary="0000000000008c909e05b86835e9"
+Received-SPF: pass client-ip=2a00:1450:4864:20::130;
+ envelope-from=wuhaotsh@google.com; helo=mail-lf1-x130.google.com
 X-Spam_score_int: -179
 X-Spam_score: -18.0
 X-Spam_bar: ------------------
 X-Spam_report: (-18.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_MED=-0.386,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- ENV_AND_HDR_SPF_MATCH=-0.5, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, USER_IN_DEF_DKIM_WL=-7.5,
- USER_IN_DEF_SPF_WL=-7.5 autolearn=unavailable autolearn_force=no
+ ENV_AND_HDR_SPF_MATCH=-0.5, HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001, USER_IN_DEF_DKIM_WL=-7.5,
+ USER_IN_DEF_SPF_WL=-7.5 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -78,84 +77,90 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Thomas Huth <thuth@redhat.com>,
- clang-built-linux <clang-built-linux@googlegroups.com>,
- Heiko Carstens <hca@linux.ibm.com>, Cornelia Huck <cohuck@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org,
- Christian Borntraeger <borntraeger@de.ibm.com>, qemu-s390x@nongnu.org,
- Guenter Roeck <linux@roeck-us.net>
+Cc: Laurent Desnogues <laurent.desnogues@gmail.com>,
+ Peter Maydell <peter.maydell@linaro.org>, qemu-arm <qemu-arm@nongnu.org>,
+ QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
-Reply-to: Nick Desaulniers <ndesaulniers@google.com>
-From: Nick Desaulniers via <qemu-devel@nongnu.org>
+Reply-to: Hao Wu <wuhaotsh@google.com>
+From: Hao Wu via <qemu-devel@nongnu.org>
 
-On Fri, Jan 8, 2021 at 5:21 AM David Hildenbrand <david@redhat.com> wrote:
->
-> This series fixes booting current upstream Linux kernel compiled by
-> clang-11 and clang-12 under TCG.
->
-> Decided to pull in already separatly sent patches. The last patch is
-> not required to fix the boot issues, but related to patch #3.
->
-> Latest version of the patches available at:
-> git@github.com:davidhildenbrand/qemu.git clang
+--0000000000008c909e05b86835e9
+Content-Type: text/plain; charset="UTF-8"
 
-Hey looks like we're off to the races!
+On Fri, Jan 8, 2021 at 10:54 AM Leif Lindholm <leif@nuviainc.com> wrote:
 
-$ qemu/build/qemu-system-s390x -M s390-ccw-virtio -display none
--initrd /android1/boot-utils/images/s390/rootfs.cpio -kernel
-/android0/linux-next/arch/s390/boot/bzImage -m 512m -nodefaults
--serial mon:stdio
-...
-[    0.365077] Linux version 5.11.0-rc2-01914-g16586f130181-dirty
-(ndesaulniers@ndesaulniers1.mtv.corp.google.com) (Nick Desaulniers
-clang version 12.0.0 (git@github.com:llvm/llvm-project.git
-e75fec2b238f0e26cfb7645f2208baebe3440d41), GNU ld (GNU Binutils for
-Debian) 2.35.1) #76 SMP Thu Jan 7 17:51:34 PST 2021
-...
-/ # cat /proc/version
-Linux version 5.11.0-rc2-01914-g16586f130181-dirty
-(ndesaulniers@ndesaulniers1.mtv.corp.google.com) (Nick Desaulniers
-clang version 12.0.0 (git@github.com:llvm/llvm-project.git
-e75fec2b238f0e26cfb7645f2208baebe3440d41), GNU ld (GNU Binutils for
-Debian) 2.35.1) #76 SMP Thu Jan 7 17:51:34 PST 2021
-/ # uname -a
-Linux (none) 5.11.0-rc2-01914-g16586f130181-dirty #76 SMP Thu Jan 7
-17:51:34 PST 2021 s390x GNU/Linux
+> When FEAT_MTE is implemented, the AArch64 view of CTR_EL0 adds the
+> TminLine field in bits [37:32].
+> Extend the ctr field to be able to hold this context.
+>
+> Signed-off-by: Leif Lindholm <leif@nuviainc.com>
+>
+Reviewed-by: Hao Wu <wuhaotsh@google.com>
 
-For the series:
-Tested-by: Nick Desaulniers <ndesaulniers@google.com>
-
-
+> ---
+>  target/arm/cpu.h | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
 >
-> v1 -> v2:
-> - Add 's390x/tcg: Don't ignore content in r0 when not specified via "b" or
->   "x"'
-> - Add 's390x/tcg: Ignore register content if b1/b2 is zero when handling
->   EXEUTE'
-> - "s390x/tcg: Fix ALGSI"
-> -- Fixup subject
-> - "s390x/tcg: Fix RISBHG"
-> -- Rephrase description, stating that it fixes clang-11
->
-> David Hildenbrand (4):
->   s390x/tcg: Fix ALGSI
->   s390x/tcg: Fix RISBHG
->   s390x/tcg: Only ignore content in r0 when specified via "b" or "x"
->   s390x/tcg: Ignore register content if b1/b2 is zero when handling
->     EXECUTE
->
->  target/s390x/insn-data.def | 10 +++++-----
->  target/s390x/mem_helper.c  |  4 ++--
->  target/s390x/translate.c   | 33 +++++++++++++++++----------------
->  3 files changed, 24 insertions(+), 23 deletions(-)
->
+> diff --git a/target/arm/cpu.h b/target/arm/cpu.h
+> index fadd1a47df..063228de2a 100644
+> --- a/target/arm/cpu.h
+> +++ b/target/arm/cpu.h
+> @@ -931,7 +931,7 @@ struct ARMCPU {
+>      uint64_t midr;
+>      uint32_t revidr;
+>      uint32_t reset_fpsid;
+> -    uint32_t ctr;
+> +    uint64_t ctr;
+>      uint32_t reset_sctlr;
+>      uint64_t pmceid0;
+>      uint64_t pmceid1;
 > --
-> 2.29.2
+> 2.20.1
+>
+>
 >
 
+--0000000000008c909e05b86835e9
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
--- 
-Thanks,
-~Nick Desaulniers
+<div dir=3D"ltr"><div dir=3D"ltr"><br></div><br><div class=3D"gmail_quote">=
+<div dir=3D"ltr" class=3D"gmail_attr">On Fri, Jan 8, 2021 at 10:54 AM Leif =
+Lindholm &lt;<a href=3D"mailto:leif@nuviainc.com">leif@nuviainc.com</a>&gt;=
+ wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px =
+0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">When FEA=
+T_MTE is implemented, the AArch64 view of CTR_EL0 adds the<br>
+TminLine field in bits [37:32].<br>
+Extend the ctr field to be able to hold this context.<br>
+<br>
+Signed-off-by: Leif Lindholm &lt;<a href=3D"mailto:leif@nuviainc.com" targe=
+t=3D"_blank">leif@nuviainc.com</a>&gt;<br></blockquote><div>Reviewed-by: Ha=
+o Wu &lt;<a href=3D"mailto:wuhaotsh@google.com">wuhaotsh@google.com</a>&gt;=
+=C2=A0</div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0=
+.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">
+---<br>
+=C2=A0target/arm/cpu.h | 2 +-<br>
+=C2=A01 file changed, 1 insertion(+), 1 deletion(-)<br>
+<br>
+diff --git a/target/arm/cpu.h b/target/arm/cpu.h<br>
+index fadd1a47df..063228de2a 100644<br>
+--- a/target/arm/cpu.h<br>
++++ b/target/arm/cpu.h<br>
+@@ -931,7 +931,7 @@ struct ARMCPU {<br>
+=C2=A0 =C2=A0 =C2=A0uint64_t midr;<br>
+=C2=A0 =C2=A0 =C2=A0uint32_t revidr;<br>
+=C2=A0 =C2=A0 =C2=A0uint32_t reset_fpsid;<br>
+-=C2=A0 =C2=A0 uint32_t ctr;<br>
++=C2=A0 =C2=A0 uint64_t ctr;<br>
+=C2=A0 =C2=A0 =C2=A0uint32_t reset_sctlr;<br>
+=C2=A0 =C2=A0 =C2=A0uint64_t pmceid0;<br>
+=C2=A0 =C2=A0 =C2=A0uint64_t pmceid1;<br>
+-- <br>
+2.20.1<br>
+<br>
+<br>
+</blockquote></div></div>
+
+--0000000000008c909e05b86835e9--
 
