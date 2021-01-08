@@ -2,68 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 892272EF668
-	for <lists+qemu-devel@lfdr.de>; Fri,  8 Jan 2021 18:25:03 +0100 (CET)
-Received: from localhost ([::1]:37020 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id F2D272EF66C
+	for <lists+qemu-devel@lfdr.de>; Fri,  8 Jan 2021 18:26:57 +0100 (CET)
+Received: from localhost ([::1]:40736 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kxvVW-0007Sb-Kp
-	for lists+qemu-devel@lfdr.de; Fri, 08 Jan 2021 12:25:02 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54190)
+	id 1kxvXN-0000k6-0E
+	for lists+qemu-devel@lfdr.de; Fri, 08 Jan 2021 12:26:57 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54724)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <sgarzare@redhat.com>)
- id 1kxvJy-0001W8-TA
- for qemu-devel@nongnu.org; Fri, 08 Jan 2021 12:13:06 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:59949)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <sgarzare@redhat.com>)
- id 1kxvJw-00054f-Kz
- for qemu-devel@nongnu.org; Fri, 08 Jan 2021 12:13:06 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1610125983;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=IE9TS/vpPpTp5y2Ek4nW1NSZCOzppGB66j51BLT4u+k=;
- b=Dk7M8QtTgjI1DV9wE9R+9vJfbU0DcR0v4jueZJauPcMnzdsUt8I1XPun1UDPVPriB87RJW
- tL5l3JcNoGu5KI9w4B567aSx8zUYvF5pYkP8J2zdKWksJLzAB1akPbtklLnJnjrRfmrCCP
- kXLKQBWkCUFThSdOzM3VrpOsjycDZ4M=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-167-fc343Ln-MY-BNWtm_IOGtw-1; Fri, 08 Jan 2021 12:12:59 -0500
-X-MC-Unique: fc343Ln-MY-BNWtm_IOGtw-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 817DE59;
- Fri,  8 Jan 2021 17:12:58 +0000 (UTC)
-Received: from steredhat.redhat.com (ovpn-113-193.ams2.redhat.com
- [10.36.113.193])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 85FCD5B6A7;
- Fri,  8 Jan 2021 17:12:53 +0000 (UTC)
-From: Stefano Garzarella <sgarzare@redhat.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH] virtio: move 'use-disabled-flag' property to hw_compat_4_2
-Date: Fri,  8 Jan 2021 18:12:52 +0100
-Message-Id: <20210108171252.209502-1-sgarzare@redhat.com>
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1kxvLX-0003sJ-Kq
+ for qemu-devel@nongnu.org; Fri, 08 Jan 2021 12:14:43 -0500
+Received: from mail-ed1-x52f.google.com ([2a00:1450:4864:20::52f]:45687)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1kxvLW-0005XT-0U
+ for qemu-devel@nongnu.org; Fri, 08 Jan 2021 12:14:43 -0500
+Received: by mail-ed1-x52f.google.com with SMTP id r5so11847866eda.12
+ for <qemu-devel@nongnu.org>; Fri, 08 Jan 2021 09:14:41 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=/j2ysI53yJgO5pnipk+fGK4XsZkoo1uaFSJUKGQC+00=;
+ b=MURwSPJUPy8EPC7QNMNjxB0Z2uOO/lm4O7fmUdNc86N9rmI6jp+CFFDH4oZN6bk99Y
+ qVQYs3MJ3YBUC1SddTDBNw29cXWnvF1VXXNf0ZML9dB53RTQ0NXDoZwSPhxPN4RzzbYD
+ a2aPui0cZdn3jfw2PQ6nZoG4x8OStGAdyUhjM1bemLxB+k8P+2Ea/oAVP8wSC/F8QhxR
+ YTpUJYoiwBivxfGS1Sp3fM3zRgmEotZXL/zSpPTXRdni1UbgzCxI5z163PXv8KTYHZ1H
+ 09ExeR0K9FYeYWo1j9D6k/QCEtTGlvdvVqCItkp3KrJ8uO98oVo/WyD91eBh5OFQgtg9
+ Dm4g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=/j2ysI53yJgO5pnipk+fGK4XsZkoo1uaFSJUKGQC+00=;
+ b=k3lzQQQhj7ygAc5lM3yTg/ptuDPaMJGx0jhUbnlRaOvxorE5j9l4wqu9LvKgu6XlFc
+ Yqz0W+PQi3WhhH18X7Yit3lPtxUzMAZP8xLGMFfVr0kpojgWFwCpFPQgRQSQc6CYJxlb
+ IsFLMMVdCrCl4EvhxdzOTR1X+JNhejp4e9+TqvupnRKmbog7NQzjRHsY2Y+oe/4G4YW5
+ oLhOMb/YAKhUdr+0oMVlk3nyuZuLSmcKU6QGQGxWMugwmekKFg4+Z7yowqod8nC5wFwQ
+ y9kCuZ+VPFnP58OccHhcXaQ/O7l66MyDfI+ow2g5pzRa57bN0iv1trQilZ8q3ruErhwZ
+ ArwA==
+X-Gm-Message-State: AOAM530fHhYqxNZ3I/TLnbILX3BDrX2vhAJVIzt0o7R+drqZYmWBJfnD
+ EMMbicVjC8mZqDvQooIv9jSCOJpOLTYAmOWswaaGyQ==
+X-Google-Smtp-Source: ABdhPJy7xKZTn6OfmoZGJV08iKQ+w7cNQb3QwKiJ6hkvvJicbtE6pYx/R7GmvpjCbSR6/MONnonDXQnAd4weleRW5ZQ=
+X-Received: by 2002:a05:6402:1383:: with SMTP id
+ b3mr5788635edv.100.1610126080706; 
+ Fri, 08 Jan 2021 09:14:40 -0800 (PST)
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=sgarzare@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=sgarzare@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -29
-X-Spam_score: -3.0
-X-Spam_bar: ---
-X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.247,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+References: <20210108151632.277015-1-f4bug@amsat.org>
+ <CAFEAcA_5YzU7sGhbVtzP7-=PsaJoe3wMxkCPnO=qdY8q6Bf7rw@mail.gmail.com>
+ <9c5d25dd-6b4e-85ac-5e71-36540d1f1525@amsat.org>
+In-Reply-To: <9c5d25dd-6b4e-85ac-5e71-36540d1f1525@amsat.org>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Fri, 8 Jan 2021 17:14:29 +0000
+Message-ID: <CAFEAcA87yvTykxUGkPZaDcD0i8LN2-6Yhh_HpSrZc_ZD3dbMqw@mail.gmail.com>
+Subject: Re: [PATCH] decodetree: Open files with encoding='utf-8'
+To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2a00:1450:4864:20::52f;
+ envelope-from=peter.maydell@linaro.org; helo=mail-ed1-x52f.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -76,67 +81,31 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Eduardo Habkost <ehabkost@redhat.com>, Juan Quintela <quintela@redhat.com>,
- qemu-stable@nongnu.org, "Michael S. Tsirkin" <mst@redhat.com>,
- mdroth@linux.vnet.ibm.com, "Dr . David Alan Gilbert" <dgilbert@redhat.com>,
- Jing Zhao <jinzhao@redhat.com>
+Cc: Paolo Bonzini <pbonzini@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ QEMU Developers <qemu-devel@nongnu.org>, Eduardo Habkost <ehabkost@redhat.com>,
+ Cleber Rosa <crosa@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Commit 9d7bd0826f introduced a new 'use-disabled-flag' property
-set to true by default.
-To allow the migration, we set this property to false in the hw_compat,
-but in the wrong place (hw_compat_4_1).
+On Fri, 8 Jan 2021 at 16:44, Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org> =
+wrote:
+>
+> On 1/8/21 4:38 PM, Peter Maydell wrote:
+> > Should we also be opening the output file explicitly as
+> > utf-8 ? (How do we say "write to sys.stdout as utf-8" for
+> > the case where we're doing that?)
+>
+> I have been wondering about it, but the content written
+> in the output file is plain C code using only ASCII,
+> which any locale is able to process. But indeed maybe
+> we prefer ignore the user locale... I'm not sure.
 
-Since commit 9d7bd0826f was released with QEMU 5.0, we move
-'use-disabled-flag' property to hw_compat_4_2, so 4.2 machine types
-will have the pre-patch behavior and the migration can work.
+I'm not a python expert so I don't know what the usual thing
+is here, but it seems to me better to insulate our build
+process from what the user's locale happens to be set to,
+even if it happens that we currently only output ASCII.
 
-The issue was discovered with vhost-vsock device and 4.2 machine
-type without running any kernel in the VM:
-    $ qemu-4.2 -M pc-q35-4.2,accel=kvm \
-        -device vhost-vsock-pci,guest-cid=4 \
-        -monitor stdio -incoming tcp:0:3333
-
-    $ qemu-5.2 -M pc-q35-4.2,accel=kvm \
-        -device vhost-vsock-pci,guest-cid=3 \
-        -monitor stdio
-    (qemu) migrate -d tcp:0:3333
-
-    # qemu-4.2 output
-    qemu-system-x86_64: Failed to load virtio-vhost_vsock:virtio
-    qemu-system-x86_64: error while loading state for instance 0x0 of device '0000:00:03.0/virtio-vhost_vsock'
-    qemu-system-x86_64: load of migration failed: No such file or directory
-
-Reported-by: Jing Zhao <jinzhao@redhat.com>
-Buglink: https://bugzilla.redhat.com/show_bug.cgi?id=1907255
-Fixes: 9d7bd0826f ("virtio-pci: disable vring processing when bus-mastering is disabled")
-Cc: mdroth@linux.vnet.ibm.com
-CC: qemu-stable@nongnu.org
-Signed-off-by: Stefano Garzarella <sgarzare@redhat.com>
----
- hw/core/machine.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/hw/core/machine.c b/hw/core/machine.c
-index de3b8f1b31..5d6163ab70 100644
---- a/hw/core/machine.c
-+++ b/hw/core/machine.c
-@@ -70,12 +70,12 @@ GlobalProperty hw_compat_4_2[] = {
-     { "qxl", "revision", "4" },
-     { "qxl-vga", "revision", "4" },
-     { "fw_cfg", "acpi-mr-restore", "false" },
-+    { "virtio-device", "use-disabled-flag", "false" },
- };
- const size_t hw_compat_4_2_len = G_N_ELEMENTS(hw_compat_4_2);
- 
- GlobalProperty hw_compat_4_1[] = {
-     { "virtio-pci", "x-pcie-flr-init", "off" },
--    { "virtio-device", "use-disabled-flag", "false" },
- };
- const size_t hw_compat_4_1_len = G_N_ELEMENTS(hw_compat_4_1);
- 
--- 
-2.26.2
-
+thanks
+-- PMM
 
