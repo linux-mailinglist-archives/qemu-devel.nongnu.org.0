@@ -2,32 +2,32 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C097A2EFB0A
-	for <lists+qemu-devel@lfdr.de>; Fri,  8 Jan 2021 23:23:04 +0100 (CET)
-Received: from localhost ([::1]:56740 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0168F2EFB00
+	for <lists+qemu-devel@lfdr.de>; Fri,  8 Jan 2021 23:20:06 +0100 (CET)
+Received: from localhost ([::1]:49962 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ky09v-0001zm-SZ
-	for lists+qemu-devel@lfdr.de; Fri, 08 Jan 2021 17:23:03 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47740)
+	id 1ky073-0007ZE-2t
+	for lists+qemu-devel@lfdr.de; Fri, 08 Jan 2021 17:20:05 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47744)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
- id 1ky04T-0005nL-3N; Fri, 08 Jan 2021 17:17:25 -0500
-Received: from zero.eik.bme.hu ([2001:738:2001:2001::2001]:60456)
+ id 1ky04T-0005oH-Q0; Fri, 08 Jan 2021 17:17:25 -0500
+Received: from zero.eik.bme.hu ([2001:738:2001:2001::2001]:60458)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
- id 1ky04Q-0004v5-2f; Fri, 08 Jan 2021 17:17:24 -0500
+ id 1ky04Q-0004v6-2O; Fri, 08 Jan 2021 17:17:25 -0500
 Received: from zero.eik.bme.hu (blah.eik.bme.hu [152.66.115.182])
- by localhost (Postfix) with SMTP id AE57F7475F6;
+ by localhost (Postfix) with SMTP id BAD467470FD;
  Fri,  8 Jan 2021 23:17:19 +0100 (CET)
 Received: by zero.eik.bme.hu (Postfix, from userid 432)
- id 294957470FC; Fri,  8 Jan 2021 23:17:19 +0100 (CET)
-Message-Id: <15a9fa72eed4f02bdbeaef206803d5e22260e2de.1610143658.git.balaton@eik.bme.hu>
+ id 2FE3E7470FE; Fri,  8 Jan 2021 23:17:19 +0100 (CET)
+Message-Id: <8c65807fc7dc1c4c4f6320f2fd6409a3091c88ff.1610143658.git.balaton@eik.bme.hu>
 In-Reply-To: <cover.1610143658.git.balaton@eik.bme.hu>
 References: <cover.1610143658.git.balaton@eik.bme.hu>
 From: BALATON Zoltan <balaton@eik.bme.hu>
-Subject: [PATCH v2 1/3] Revert "sam460ex: Remove FDT_PPC dependency from
- KConfig"
+Subject: [PATCH v2 2/3] Revert "ppc4xx: Move common dependency on serial to
+ common option"
 Date: Fri, 08 Jan 2021 23:07:38 +0100
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
@@ -59,27 +59,60 @@ Cc: Peter Maydell <peter.maydell@linaro.org>, f4bug@amsat.org,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This reverts commit 038da2adf that was mistakenly added, this
-dependency is still needed to get libfdt dependencies even if fdt.o is
-not needed by sam460ex.
+This reverts commit e6d5106786 which was added mistakenly. While this
+change works it was suggested during review that keeping dependencies
+explicit for each board may be better than listing them in a common
+option so keep the previous version and revert this change.
 
 Signed-off-by: BALATON Zoltan <balaton@eik.bme.hu>
 ---
- hw/ppc/Kconfig | 1 +
- 1 file changed, 1 insertion(+)
+ hw/ppc/Kconfig | 5 ++++-
+ 1 file changed, 4 insertions(+), 1 deletion(-)
 
 diff --git a/hw/ppc/Kconfig b/hw/ppc/Kconfig
-index 7e267d94a1..d2329edbab 100644
+index d2329edbab..d11dc30509 100644
 --- a/hw/ppc/Kconfig
 +++ b/hw/ppc/Kconfig
-@@ -64,6 +64,7 @@ config SAM460EX
+@@ -36,6 +36,7 @@ config PPC405
+     select M48T59
+     select PFLASH_CFI02
+     select PPC4XX
++    select SERIAL
+ 
+ config PPC440
+     bool
+@@ -44,6 +45,7 @@ config PPC440
+     imply E1000_PCI
+     select PCI_EXPRESS
+     select PPC4XX
++    select SERIAL
+     select FDT_PPC
+ 
+ config PPC4XX
+@@ -51,7 +53,6 @@ config PPC4XX
+     select BITBANG_I2C
+     select PCI
+     select PPC_UIC
+-    select SERIAL
+ 
+ config SAM460EX
+     bool
+@@ -60,6 +61,7 @@ config SAM460EX
+     select IDE_SII3112
+     select M41T80
+     select PPC440
++    select SERIAL
+     select SM501
      select SMBUS_EEPROM
      select USB_EHCI_SYSBUS
-     select USB_OHCI
-+    select FDT_PPC
- 
- config PREP
+@@ -121,6 +123,7 @@ config VIRTEX
      bool
+     select PPC4XX
+     select PFLASH_CFI01
++    select SERIAL
+     select XILINX
+     select XILINX_ETHLITE
+     select FDT_PPC
 -- 
 2.21.3
 
