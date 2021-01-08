@@ -2,88 +2,84 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 563A22EF1BD
-	for <lists+qemu-devel@lfdr.de>; Fri,  8 Jan 2021 13:04:54 +0100 (CET)
-Received: from localhost ([::1]:41870 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 245A22EF20B
+	for <lists+qemu-devel@lfdr.de>; Fri,  8 Jan 2021 13:09:07 +0100 (CET)
+Received: from localhost ([::1]:45592 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kxqVh-0008M3-DQ
-	for lists+qemu-devel@lfdr.de; Fri, 08 Jan 2021 07:04:53 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48016)
+	id 1kxqZl-0002Kf-Tf
+	for lists+qemu-devel@lfdr.de; Fri, 08 Jan 2021 07:09:05 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48624)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <sgarzare@redhat.com>)
- id 1kxqTp-0007ME-A4
- for qemu-devel@nongnu.org; Fri, 08 Jan 2021 07:02:57 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:20399)
+ id 1kxqXl-0001XB-Uy
+ for qemu-devel@nongnu.org; Fri, 08 Jan 2021 07:07:01 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:47020)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <sgarzare@redhat.com>)
- id 1kxqTm-00006C-B4
- for qemu-devel@nongnu.org; Fri, 08 Jan 2021 07:02:56 -0500
+ id 1kxqXk-0001pp-CT
+ for qemu-devel@nongnu.org; Fri, 08 Jan 2021 07:07:01 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1610107371;
+ s=mimecast20190719; t=1610107618;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=nRl1PvtfpQCPx1KYbiRv2DxLMG3oug/kwifvBkuJ8vk=;
- b=MUXqik7GBJsahtmeFOwjRnFpsTFvE691XC/glhqouHSx+RdL5Fsrq0PjVHBoJTg1EDUjxl
- zaZhq4HZ/fuHYz87hNUkhYUPT+w4Z4XkYQCojZPrFLKnsu8Be5LkwFNa7iuyvhw05bxj8g
- haMeTpYEdX5QUlas6WPkkL/JoqJiTkc=
-Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
- [209.85.128.71]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-410-Sw7pxC86OyW6JO2QPZuz2g-1; Fri, 08 Jan 2021 07:02:49 -0500
-X-MC-Unique: Sw7pxC86OyW6JO2QPZuz2g-1
-Received: by mail-wm1-f71.google.com with SMTP id z12so3125850wmf.9
- for <qemu-devel@nongnu.org>; Fri, 08 Jan 2021 04:02:49 -0800 (PST)
+ bh=zMS1iUMZXWNYYjvPWk8s1Gt0yJ3DRg8qtz7cAAw/gHc=;
+ b=EBrueCPfKfxp5kv9ArYNlSRVrdQ6T7kHgp4aLVa/c2c0/+oTgKzr81YeeTG81Gd8c+r4oa
+ Smy1WCQw9C2snj006B2Zxy49K7swNzdZY1LOHrNo3pviN/o1PhiVrsNTZVW2tUICCXqshH
+ znlrWcpCDtIyfXG1s4za9EycdnLxxWI=
+Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
+ [209.85.221.69]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-277-FKFC61E2M8yGKV0wZVgDmw-1; Fri, 08 Jan 2021 07:06:56 -0500
+X-MC-Unique: FKFC61E2M8yGKV0wZVgDmw-1
+Received: by mail-wr1-f69.google.com with SMTP id i4so4069309wrm.21
+ for <qemu-devel@nongnu.org>; Fri, 08 Jan 2021 04:06:55 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:content-transfer-encoding
- :in-reply-to;
- bh=GZe04kumBAhHvIQi/NYdvEvC4xOEvoKxegMd3L1khXU=;
- b=E8gPRwms/ihik1Qwg/MGus3vpGHCi0zugJUSsAFAh+p/wn0aq7dfNMCQA68a6qXemu
- h/8rFetIklXeZ4R1TmMIdVLZvOuAmkxTIBcjr4pTQowpfECHfsPJyBsEtAvDf4fP6y2W
- Rw6llGsHMn8UXa2gyfIJdiyp9VxZ9kLO2McuKKSJ3zamuXS+zcIKpYK2h/k8eIG2wnnM
- 321ZfWrfWez90UY1icpYRCCl7ZXevZv+/nm71F/4jytKeeRe+hsDmGrnr6PtJwRg9epR
- hsFux0Mwn530o5BqstoB7D7XS3xcMQef8ovU1JvbNSP3A+JzFPcr57R2aziiGuMx1l39
- HEsg==
-X-Gm-Message-State: AOAM533gUVvaYjK5Fqv2HD9vDulhRPCQxuypHnn/X/vi89gqh7fnV621
- 2j84O/dJKdgwaMja3pM8QIpuxOp4GdOK4Gr2TV4KGHBUgzUfJOClRNEOh4mHuNiWaNf7zaxGjvd
- G/4UYfgYvXsm7CX4=
-X-Received: by 2002:adf:e710:: with SMTP id c16mr3333480wrm.295.1610107368461; 
- Fri, 08 Jan 2021 04:02:48 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJz1x44AMSa5GTnREMjA1EnsuPXnmx8MNgvt7fZbJIb079M+Tr17V2dCZ0WJvPW7reU7dJpq7A==
-X-Received: by 2002:adf:e710:: with SMTP id c16mr3333459wrm.295.1610107368207; 
- Fri, 08 Jan 2021 04:02:48 -0800 (PST)
+ :mime-version:content-disposition:in-reply-to;
+ bh=zMS1iUMZXWNYYjvPWk8s1Gt0yJ3DRg8qtz7cAAw/gHc=;
+ b=bkI3+yEkCQovlWixbjIlzNrUKnaHxx9MC27GJTF3Ln5WjoYqzQQpv/R+DWbM5gZR07
+ DE9PAkmyeQm4W0zgbTkDNj6wwtjGSbOE31+jlg56K+Mr3VRUcrmg2FcJYPzOstHAhQtm
+ Xy8YIsIytQMgIDFz6hbzKuhyfyywuaC1BvipUjESXJtoa+slqQeOrvVJhiEWWCyK1DoT
+ h3mxL51PAZHrMWmq/fQh7HBT02Yy62o6viSuo1V3m0Fsgm3puoq5sQ92QD/eo/I3sC6m
+ 0vdO8wqSEQ63Ly2KY0LCPybeBtALO12NsF990EYemP8cjytn9Uqa7g5dfa6h8JC9KkYX
+ 6IAQ==
+X-Gm-Message-State: AOAM532F9+XOh4wSusqZxLVG8juBCKBtxoc/y//VPgNZBjBPIcEwi/6k
+ R5EFGE+OHBZ2UHj6g3e0kOiaWDIJcnXIq7BmYOyUKHDzHwhO26/97BDiJbZ8WHhAgYYj0tI3ib0
+ cPhzD4il0N8arWtg=
+X-Received: by 2002:adf:9506:: with SMTP id 6mr3327071wrs.172.1610107614738;
+ Fri, 08 Jan 2021 04:06:54 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJzP7asF9cQyCQKuoE5lnELnTj/IToYQ4c7STQONENin+t8fyciMNdW+twfHIFm2ElbMJJgZDA==
+X-Received: by 2002:adf:9506:: with SMTP id 6mr3327054wrs.172.1610107614580;
+ Fri, 08 Jan 2021 04:06:54 -0800 (PST)
 Received: from steredhat (host-79-34-249-199.business.telecomitalia.it.
  [79.34.249.199])
- by smtp.gmail.com with ESMTPSA id u5sm12603928wrr.32.2021.01.08.04.02.46
+ by smtp.gmail.com with ESMTPSA id j9sm12815090wrm.14.2021.01.08.04.06.53
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 08 Jan 2021 04:02:47 -0800 (PST)
-Date: Fri, 8 Jan 2021 13:02:43 +0100
+ Fri, 08 Jan 2021 04:06:53 -0800 (PST)
+Date: Fri, 8 Jan 2021 13:06:51 +0100
 From: Stefano Garzarella <sgarzare@redhat.com>
-To: Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>
-Subject: Re: [PATCH] hw/virtio-pci: Replace error_report() by
- qemu_log_mask(GUEST_ERROR)
-Message-ID: <20210108120243.zgajoyust5n56l5m@steredhat>
-References: <20201210172834.178052-1-philmd@redhat.com>
+To: Laurent Vivier <laurent@vivier.eu>
+Subject: Re: [PATCH] virtio-mmio: fix guest kernel crash with SHM regions
+Message-ID: <20210108120651.tznrrc4q7nrv23zy@steredhat>
+References: <20201220163539.2255963-1-laurent@vivier.eu>
 MIME-Version: 1.0
-In-Reply-To: <20201210172834.178052-1-philmd@redhat.com>
+In-Reply-To: <20201220163539.2255963-1-laurent@vivier.eu>
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=sgarzare@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=iso-8859-1; format=flowed
+Content-Type: text/plain; charset=us-ascii; format=flowed
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=sgarzare@redhat.com;
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=sgarzare@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -29
 X-Spam_score: -3.0
 X-Spam_bar: ---
 X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.246,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -97,56 +93,60 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-trivial@nongnu.org, qemu-devel@nongnu.org,
- "Michael S. Tsirkin" <mst@redhat.com>
+Cc: "Michael S. Tsirkin" <mst@redhat.com>, qemu-devel@nongnu.org,
+ Gerd Hoffmann <kraxel@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, Dec 10, 2020 at 06:28:34PM +0100, Philippe Mathieu-Daudé wrote:
->Replace I/O write error reported with error_report() by
->qemu_log_mask(GUEST_ERROR) which allow filtering.
+On Sun, Dec 20, 2020 at 05:35:39PM +0100, Laurent Vivier wrote:
+>In the kernel, virtio_gpu_init() uses virtio_get_shm_region()
+>since
+>commit 6076a9711dc5 ("drm/virtio: implement blob resources: probe for host visible region")
+>but vm_get_shm_region() unconditionally uses VIRTIO_MMIO_SHM_SEL to
+>get the address and the length of the region.
 >
->Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+>commit 38e895487afc ("virtio: Implement get_shm_region for MMIO transport"
+>
+>As this is not implemented in QEMU, address and length are 0 and passed
+>as is to devm_request_mem_region() that triggers a crash:
+>
+>  [drm:virtio_gpu_init] *ERROR* Could not reserve host visible region
+>  Unable to handle kernel NULL pointer dereference at virtual address (ptrval)
+>
+>According to the comments in the kernel, a non existent shared region
+>has a length of (u64)-1.
+>
+>This is what we return now with this patch to disable the region.
+>
+>Signed-off-by: Laurent Vivier <laurent@vivier.eu>
 >---
-> hw/virtio/virtio-pci.c | 6 ++++--
-> 1 file changed, 4 insertions(+), 2 deletions(-)
+> hw/virtio/virtio-mmio.c | 8 ++++++++
+> 1 file changed, 8 insertions(+)
 >
->diff --git a/hw/virtio/virtio-pci.c b/hw/virtio/virtio-pci.c
->index f863f69ede4..094c36aa3ea 100644
->--- a/hw/virtio/virtio-pci.c
->+++ b/hw/virtio/virtio-pci.c
->@@ -27,6 +27,7 @@
-> #include "hw/qdev-properties.h"
-> #include "qapi/error.h"
-> #include "qemu/error-report.h"
-             ^
-Just a little thing, could we remove this inclusion since we are not 
-using error_report() anymore in this file?
-
-Anyway the patch LGTM:
+>diff --git a/hw/virtio/virtio-mmio.c b/hw/virtio/virtio-mmio.c
+>index e1b5c3b81e37..610661d6a526 100644
+>--- a/hw/virtio/virtio-mmio.c
+>+++ b/hw/virtio/virtio-mmio.c
+>@@ -191,6 +191,14 @@ static uint64_t virtio_mmio_read(void *opaque, hwaddr offset, unsigned size)
+>             return 0;
+>         }
+>         return vdev->generation;
+>+   case VIRTIO_MMIO_SHM_LEN_LOW:
+>+   case VIRTIO_MMIO_SHM_LEN_HIGH:
+>+        /*
+>+         * VIRTIO_MMIO_SHM_SEL is unimplemented
+>+         * according to the linux driver, if region length is -1
+>+         * the shared memory doesn't exist
+>+         */
+>+        return -1;
+>     case VIRTIO_MMIO_DEVICE_FEATURES_SEL:
+>     case VIRTIO_MMIO_DRIVER_FEATURES:
+>     case VIRTIO_MMIO_DRIVER_FEATURES_SEL:
+>-- 
+>2.29.2
+>
+>
 
 Reviewed-by: Stefano Garzarella <sgarzare@redhat.com>
-
-
->+#include "qemu/log.h"
-> #include "qemu/module.h"
-> #include "hw/pci/msi.h"
-> #include "hw/pci/msix.h"
->@@ -365,8 +366,9 @@ static void virtio_ioport_write(void *opaque, uint32_t addr, uint32_t val)
->         virtio_queue_set_vector(vdev, vdev->queue_sel, val);
->         break;
->     default:
->-        error_report("%s: unexpected address 0x%x value 0x%x",
->-                     __func__, addr, val);
->+        qemu_log_mask(LOG_GUEST_ERROR,
->+                      "%s: unexpected address 0x%x value 0x%x\n",
->+                      __func__, addr, val);
->         break;
->     }
-> }
->-- 
->2.26.2
->
->
 
 
