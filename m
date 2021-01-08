@@ -2,72 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5F63D2EFB7C
-	for <lists+qemu-devel@lfdr.de>; Fri,  8 Jan 2021 23:58:01 +0100 (CET)
-Received: from localhost ([::1]:60922 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CC14D2EFB74
+	for <lists+qemu-devel@lfdr.de>; Fri,  8 Jan 2021 23:52:48 +0100 (CET)
+Received: from localhost ([::1]:47156 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ky0hk-0004Oq-Dr
-	for lists+qemu-devel@lfdr.de; Fri, 08 Jan 2021 17:58:00 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52410)
+	id 1ky0ch-0006HQ-RQ
+	for lists+qemu-devel@lfdr.de; Fri, 08 Jan 2021 17:52:47 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52334)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1ky0Tb-00062m-Qp
- for qemu-devel@nongnu.org; Fri, 08 Jan 2021 17:43:25 -0500
-Received: from mail-wr1-x431.google.com ([2a00:1450:4864:20::431]:37173)
+ id 1ky0TV-0005xi-Iz
+ for qemu-devel@nongnu.org; Fri, 08 Jan 2021 17:43:17 -0500
+Received: from mail-wm1-x32f.google.com ([2a00:1450:4864:20::32f]:33126)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1ky0TW-0003Lk-MF
- for qemu-devel@nongnu.org; Fri, 08 Jan 2021 17:43:23 -0500
-Received: by mail-wr1-x431.google.com with SMTP id i9so10423629wrc.4
- for <qemu-devel@nongnu.org>; Fri, 08 Jan 2021 14:43:18 -0800 (PST)
+ id 1ky0TT-0003Jv-Ui
+ for qemu-devel@nongnu.org; Fri, 08 Jan 2021 17:43:17 -0500
+Received: by mail-wm1-x32f.google.com with SMTP id n16so7530133wmc.0
+ for <qemu-devel@nongnu.org>; Fri, 08 Jan 2021 14:43:15 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=D8hjMY1BPoAUqSeYWMrPk55bUnN1M9eF1vGZSEqnRpk=;
- b=wxRn9zWiAlLhRdB86OVdIChJGGn2b6xFuRAwwmiUKs2tOhGNUXpIzWt/3OqfTzX6u1
- Pvjy/i1qcoslgfZTjtncAebk3+qDLWvHROLjDrGhLVKx7uRjuk8GmFAOO0IlzELP6jZw
- yzEC3wma6K0R2Nrwqp0fXUsuX7fHS+rnmWYAch0IT805yO9BVILAQJHzxY/Mq4L0Vtm7
- B4ywJgaW6rd1+8MDIdkArxNZCKnNyjMbUxe2Qed2cqvwzbytguQ799ZZTkyZHx9tlp0r
- gkA56ioiU+cx8Ton48X3IwIKB/bglx2JuOtBjCq1a9sG2EFRokmt7JBbMJFqfe0nq1Wt
- j3xg==
+ bh=n+tNfZXks0AfgGeVgRmCcNJ5lvfvk4oLjTnHoH0ByjE=;
+ b=vxzxJ5uqRBBtdE7LfMGwX3cS4hUiNOSHDcQ6Kaxyk+diFyC7OVHjTd/4bjFwpRq0vt
+ 003gdmEeAra5M7OKqOzKFX/BEkvIDCOfD4Q/kHE4sDH3HgLafdTu33wgDA9O+hKo4dLB
+ PrkzphalGGCL0I3W/6YF2puasAQ6KExBiYnyb3KhwpyGNS2ux0QNUoZJL/vOMACu0MdV
+ a3lfac2nxi8MGoTlUTgv3IaHIUfjs9lzvHvyEOwr/pJthfvy+lLlqO3+StSv4D1fNDt2
+ nEtFj2ghXDP1a6AUulKrvbJ0c9iTrXLGrcOVKCn1KUZDJ6lvhWL1OqLcZlja7f7BKfwk
+ DWUQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=D8hjMY1BPoAUqSeYWMrPk55bUnN1M9eF1vGZSEqnRpk=;
- b=k5TocToRRocHiBMG4mwbcUSgJrQ6bvOc05Vxs/l6X8nD5JpMkSwsQp1VczBImqQvg1
- hscm8bQnmU4rhG1gS8I89pja/mQX7BGGGIli88S8cTpTKmvIiEdrBV83gZCo4vL2gayq
- UJ1XF7iqw6QZ2Eo2p7/zJHI+9D4NGpRBibeerLYfspao/MpOGzldDb+X5ThimS/ckBOl
- EVT5v5xkD3WG/6vOJ3QQp6PC74gJ3648Q/6z6HSmHtj8aSs2Mtdl6g+d8U/psixRU+wX
- ptSxsof4RvHE7s9Juizeu00OjlG+jEjmmYzz0iJs/3SNJWXz5Td5XmfenkAWjNiNlWbB
- 6s6A==
-X-Gm-Message-State: AOAM533zWU1C3AVqIq7r+9LKJEpbL4rjX2p6QDIMr11aOJf8IPq3iaYp
- 3DViF7ddMUQd3NS2o4ZAzlZEPw==
-X-Google-Smtp-Source: ABdhPJxmcOqYeb0wCZgw4/uB48Jv47b+1Y11bZPgoXQXwl5rnJU/R/fTeNet0bPNGC6i+e8ZKxQu/A==
-X-Received: by 2002:a5d:528a:: with SMTP id c10mr5587399wrv.117.1610145797440; 
- Fri, 08 Jan 2021 14:43:17 -0800 (PST)
+ bh=n+tNfZXks0AfgGeVgRmCcNJ5lvfvk4oLjTnHoH0ByjE=;
+ b=CWTFu9lk1WEB+0hxaXQIzT9puh808izbkn8A9zd87k2V7BR78TRk2OuSPfJwxKEbrU
+ lH7MuS9X/gFPLlrKQ/D3q/35x4hgtywNRqI4s0FX60NWOWncPQK3r2daoRPtTUYlHoKw
+ aBVKqLTz3fPfPzW+21V08+Jxz6MYsQS9SHc1zeCBpZA1vlI7Y69Z8eIn3eoCVIG6690F
+ 4lTggz5HZpCBIg/0K1bu/ww7bqW+KH9rV2GLnZ82gTdBuPBKUmGLQ/Um4IMqPcy0d1mX
+ qoxCIvkSJ2NB9K/4pt3oow0by/S/FX4MCnIYGSi0n6fwIsdIYNemaCJxuDBY4C38d/Y8
+ R7xw==
+X-Gm-Message-State: AOAM532SbDaiy6b4pqr5VbxgnTD5m1h9i0NKqAYoMfB7ACVLSKfZpCBA
+ 7//JDpkXbulbbdAZ9EU3AYSg33b/0457eQ==
+X-Google-Smtp-Source: ABdhPJx/28yB5vpA+18iKiJfxmH3j5Ixi5JzXtxipmv+HW0b9FPXZl5mkGN/JEedII1KtaP3OCGFTw==
+X-Received: by 2002:a1c:df57:: with SMTP id w84mr4850639wmg.37.1610145794761; 
+ Fri, 08 Jan 2021 14:43:14 -0800 (PST)
 Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id k10sm14065753wrq.38.2021.01.08.14.43.02
+ by smtp.gmail.com with ESMTPSA id x17sm14908433wro.40.2021.01.08.14.43.03
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
  Fri, 08 Jan 2021 14:43:08 -0800 (PST)
 Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id E67FE1FF99;
- Fri,  8 Jan 2021 22:42:57 +0000 (GMT)
+ by zen.linaroharston (Postfix) with ESMTP id 07D521FF9A;
+ Fri,  8 Jan 2021 22:42:58 +0000 (GMT)
 From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v1 10/20] target/arm: use official org.gnu.gdb.aarch64.sve
- layout for registers
-Date: Fri,  8 Jan 2021 22:42:46 +0000
-Message-Id: <20210108224256.2321-11-alex.bennee@linaro.org>
+Subject: [PATCH  v1 11/20] Makefile: add GNU global tags support
+Date: Fri,  8 Jan 2021 22:42:47 +0000
+Message-Id: <20210108224256.2321-12-alex.bennee@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20210108224256.2321-1-alex.bennee@linaro.org>
 References: <20210108224256.2321-1-alex.bennee@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::431;
- envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x431.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::32f;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x32f.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -87,216 +86,65 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Luis Machado <luis.machado@linaro.org>,
- "open list:ARM TCG CPUs" <qemu-arm@nongnu.org>,
- =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
- Peter Maydell <peter.maydell@linaro.org>
+Cc: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-While GDB can work with any XML description given to it there is
-special handling for SVE registers on the GDB side which makes the
-users life a little better. The changes aren't that major and all the
-registers save the $vg reported the same. All that changes is:
+GNU Global is another tags engine which is more like cscope in being
+able to support finding both references and definitions. You will be
+un-surprised to know it also integrates well with Emacs.
 
-  - report org.gnu.gdb.aarch64.sve
-  - use gdb nomenclature for names and types
-  - minor re-ordering of the types to match reference
-  - re-enable ieee_half (as we know gdb supports it now)
-  - $vg is now a 64 bit int
-  - check $vN and $zN aliasing in test
+The main benefit of integrating it into find-src-path is it takes less
+time to rebuild the database from scratch when you have a lot of build
+directories under your source tree.
 
-Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
-Cc: Luis Machado <luis.machado@linaro.org>
-Message-Id: <20201218112707.28348-10-alex.bennee@linaro.org>
 Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
 ---
- target/arm/gdbstub.c                        | 75 ++++++++-------------
- target/arm/helper.c                         |  2 +-
- tests/tcg/aarch64/gdbstub/test-sve-ioctl.py | 11 +++
- 3 files changed, 41 insertions(+), 47 deletions(-)
+ Makefile   | 9 ++++++++-
+ .gitignore | 3 +++
+ 2 files changed, 11 insertions(+), 1 deletion(-)
 
-diff --git a/target/arm/gdbstub.c b/target/arm/gdbstub.c
-index 866595b4f1..a8fff2a3d0 100644
---- a/target/arm/gdbstub.c
-+++ b/target/arm/gdbstub.c
-@@ -195,22 +195,17 @@ static const struct TypeSize vec_lanes[] = {
-     { "uint128", 128, 'q', 'u' },
-     { "int128", 128, 'q', 's' },
-     /* 64 bit */
-+    { "ieee_double", 64, 'd', 'f' },
-     { "uint64", 64, 'd', 'u' },
-     { "int64", 64, 'd', 's' },
--    { "ieee_double", 64, 'd', 'f' },
-     /* 32 bit */
-+    { "ieee_single", 32, 's', 'f' },
-     { "uint32", 32, 's', 'u' },
-     { "int32", 32, 's', 's' },
--    { "ieee_single", 32, 's', 'f' },
-     /* 16 bit */
-+    { "ieee_half", 16, 'h', 'f' },
-     { "uint16", 16, 'h', 'u' },
-     { "int16", 16, 'h', 's' },
--    /*
--     * TODO: currently there is no reliable way of telling
--     * if the remote gdb actually understands ieee_half so
--     * we don't expose it in the target description for now.
--     * { "ieee_half", 16, 'h', 'f' },
--     */
-     /* bytes */
-     { "uint8", 8, 'b', 'u' },
-     { "int8", 8, 'b', 's' },
-@@ -223,17 +218,16 @@ int arm_gen_dynamic_svereg_xml(CPUState *cs, int base_reg)
-     GString *s = g_string_new(NULL);
-     DynamicGDBXMLInfo *info = &cpu->dyn_svereg_xml;
-     g_autoptr(GString) ts = g_string_new("");
--    int i, bits, reg_width = (cpu->sve_max_vq * 128);
-+    int i, j, bits, reg_width = (cpu->sve_max_vq * 128);
-     info->num = 0;
-     g_string_printf(s, "<?xml version=\"1.0\"?>");
-     g_string_append_printf(s, "<!DOCTYPE target SYSTEM \"gdb-target.dtd\">");
--    g_string_append_printf(s, "<feature name=\"org.qemu.gdb.aarch64.sve\">");
-+    g_string_append_printf(s, "<feature name=\"org.gnu.gdb.aarch64.sve\">");
+diff --git a/Makefile b/Makefile
+index fb9923ff22..66eec99685 100644
+--- a/Makefile
++++ b/Makefile
+@@ -253,6 +253,13 @@ ctags:
+ 	rm -f "$(SRC_PATH)/"tags
+ 	$(find-src-path) -exec ctags -f "$(SRC_PATH)/"tags --append {} +
  
-     /* First define types and totals in a whole VL */
-     for (i = 0; i < ARRAY_SIZE(vec_lanes); i++) {
-         int count = reg_width / vec_lanes[i].size;
--        g_string_printf(ts, "vq%d%c%c", count,
--                        vec_lanes[i].sz, vec_lanes[i].suffix);
-+        g_string_printf(ts, "svev%c%c", vec_lanes[i].sz, vec_lanes[i].suffix);
-         g_string_append_printf(s,
-                                "<vector id=\"%s\" type=\"%s\" count=\"%d\"/>",
-                                ts->str, vec_lanes[i].gdb_type, count);
-@@ -243,39 +237,37 @@ int arm_gen_dynamic_svereg_xml(CPUState *cs, int base_reg)
-      * signed and potentially float versions of each size from 128 to
-      * 8 bits.
-      */
--    for (bits = 128; bits >= 8; bits /= 2) {
--        int count = reg_width / bits;
--        g_string_append_printf(s, "<union id=\"vq%dn\">", count);
--        for (i = 0; i < ARRAY_SIZE(vec_lanes); i++) {
--            if (vec_lanes[i].size == bits) {
--                g_string_append_printf(s, "<field name=\"%c\" type=\"vq%d%c%c\"/>",
--                                       vec_lanes[i].suffix,
--                                       count,
--                                       vec_lanes[i].sz, vec_lanes[i].suffix);
-+    for (bits = 128, i = 0; bits >= 8; bits /= 2, i++) {
-+        const char suf[] = { 'q', 'd', 's', 'h', 'b' };
-+        g_string_append_printf(s, "<union id=\"svevn%c\">", suf[i]);
-+        for (j = 0; j < ARRAY_SIZE(vec_lanes); j++) {
-+            if (vec_lanes[j].size == bits) {
-+                g_string_append_printf(s, "<field name=\"%c\" type=\"svev%c%c\"/>",
-+                                       vec_lanes[j].suffix,
-+                                       vec_lanes[j].sz, vec_lanes[j].suffix);
-             }
-         }
-         g_string_append(s, "</union>");
-     }
-     /* And now the final union of unions */
--    g_string_append(s, "<union id=\"vq\">");
--    for (bits = 128; bits >= 8; bits /= 2) {
--        int count = reg_width / bits;
--        for (i = 0; i < ARRAY_SIZE(vec_lanes); i++) {
--            if (vec_lanes[i].size == bits) {
--                g_string_append_printf(s, "<field name=\"%c\" type=\"vq%dn\"/>",
--                                       vec_lanes[i].sz, count);
--                break;
--            }
--        }
-+    g_string_append(s, "<union id=\"svev\">");
-+    for (bits = 128, i = 0; bits >= 8; bits /= 2, i++) {
-+        const char suf[] = { 'q', 'd', 's', 'h', 'b' };
-+        g_string_append_printf(s, "<field name=\"%c\" type=\"svevn%c\"/>",
-+                               suf[i], suf[i]);
-     }
-     g_string_append(s, "</union>");
- 
-+    /* Finally the sve prefix type */
-+    g_string_append_printf(s,
-+                           "<vector id=\"svep\" type=\"uint8\" count=\"%d\"/>",
-+                           reg_width / 8);
++.PHONY: gtags
++gtags:
++	rm -f "$(SRC_PATH)/"GTAGS
++	rm -f "$(SRC_PATH)/"GRTAGS
++	rm -f "$(SRC_PATH)/"GPATH
++	$(find-src-path) | gtags -f -
 +
-     /* Then define each register in parts for each vq */
-     for (i = 0; i < 32; i++) {
-         g_string_append_printf(s,
-                                "<reg name=\"z%d\" bitsize=\"%d\""
--                               " regnum=\"%d\" group=\"vector\""
--                               " type=\"vq\"/>",
-+                               " regnum=\"%d\" type=\"svev\"/>",
-                                i, reg_width, base_reg++);
-         info->num++;
-     }
-@@ -287,31 +279,22 @@ int arm_gen_dynamic_svereg_xml(CPUState *cs, int base_reg)
-                            " regnum=\"%d\" group=\"float\""
-                            " type=\"int\"/>", base_reg++);
-     info->num += 2;
--    /*
--     * Predicate registers aren't so big they are worth splitting up
--     * but we do need to define a type to hold the array of quad
--     * references.
--     */
--    g_string_append_printf(s,
--                           "<vector id=\"vqp\" type=\"uint16\" count=\"%d\"/>",
--                           cpu->sve_max_vq);
-+
-     for (i = 0; i < 16; i++) {
-         g_string_append_printf(s,
-                                "<reg name=\"p%d\" bitsize=\"%d\""
--                               " regnum=\"%d\" group=\"vector\""
--                               " type=\"vqp\"/>",
-+                               " regnum=\"%d\" type=\"svep\"/>",
-                                i, cpu->sve_max_vq * 16, base_reg++);
-         info->num++;
-     }
-     g_string_append_printf(s,
-                            "<reg name=\"ffr\" bitsize=\"%d\""
-                            " regnum=\"%d\" group=\"vector\""
--                           " type=\"vqp\"/>",
-+                           " type=\"svep\"/>",
-                            cpu->sve_max_vq * 16, base_reg++);
-     g_string_append_printf(s,
-                            "<reg name=\"vg\" bitsize=\"64\""
--                           " regnum=\"%d\" group=\"vector\""
--                           " type=\"uint32\"/>",
-+                           " regnum=\"%d\" type=\"int\"/>",
-                            base_reg++);
-     info->num += 2;
-     g_string_append_printf(s, "</feature>");
-diff --git a/target/arm/helper.c b/target/arm/helper.c
-index d077dd9ef5..d434044f07 100644
---- a/target/arm/helper.c
-+++ b/target/arm/helper.c
-@@ -276,7 +276,7 @@ static int arm_gdb_get_svereg(CPUARMState *env, GByteArray *buf, int reg)
-          * while the ZCR works in Vector Quads (VQ) which is 128bit chunks.
-          */
-         int vq = sve_zcr_len_for_el(env, arm_current_el(env)) + 1;
--        return gdb_get_reg32(buf, vq * 2);
-+        return gdb_get_reg64(buf, vq * 2);
-     }
-     default:
-         /* gdbstub asked for something out our range */
-diff --git a/tests/tcg/aarch64/gdbstub/test-sve-ioctl.py b/tests/tcg/aarch64/gdbstub/test-sve-ioctl.py
-index 972cf73c31..b9ef169c1a 100644
---- a/tests/tcg/aarch64/gdbstub/test-sve-ioctl.py
-+++ b/tests/tcg/aarch64/gdbstub/test-sve-ioctl.py
-@@ -40,6 +40,17 @@ class TestBreakpoint(gdb.Breakpoint):
-         except gdb.error:
-             report(False, "checking zregs (out of range)")
- 
-+        # Check the aliased V registers are set and GDB has correctly
-+        # created them for us having recognised and handled SVE.
-+        try:
-+            for i in range(0, 16):
-+                val_z = gdb.parse_and_eval("$z0.b.u[%d]" % i)
-+                val_v = gdb.parse_and_eval("$v0.b.u[%d]" % i)
-+                report(int(val_z) == int(val_v),
-+                       "v0.b.u[%d] == z0.b.u[%d]" % (i, i))
-+        except gdb.error:
-+            report(False, "checking vregs (out of range)")
-+
- 
- def run_test():
-     "Run through the tests one by one"
+ .PHONY: TAGS
+ TAGS:
+ 	rm -f "$(SRC_PATH)/"TAGS
+@@ -279,7 +286,7 @@ help:
+ 	$(call print-help,all,Build all)
+ 	$(call print-help,dir/file.o,Build specified target only)
+ 	$(call print-help,install,Install QEMU, documentation and tools)
+-	$(call print-help,ctags/TAGS,Generate tags file for editors)
++	$(call print-help,ctags/gtags/TAGS,Generate tags file for editors)
+ 	$(call print-help,cscope,Generate cscope index)
+ 	$(call print-help,sparse,Run sparse on the QEMU source)
+ 	@echo  ''
+diff --git a/.gitignore b/.gitignore
+index b32bca1315..75a4be0724 100644
+--- a/.gitignore
++++ b/.gitignore
+@@ -7,6 +7,9 @@
+ cscope.*
+ tags
+ TAGS
++GPATH
++GRTAGS
++GTAGS
+ *~
+ *.ast_raw
+ *.depend_raw
 -- 
 2.20.1
 
