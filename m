@@ -2,73 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 62E082EF087
-	for <lists+qemu-devel@lfdr.de>; Fri,  8 Jan 2021 11:18:12 +0100 (CET)
-Received: from localhost ([::1]:41336 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 051CC2EF094
+	for <lists+qemu-devel@lfdr.de>; Fri,  8 Jan 2021 11:21:37 +0100 (CET)
+Received: from localhost ([::1]:44756 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kxoqR-00014W-08
-	for lists+qemu-devel@lfdr.de; Fri, 08 Jan 2021 05:18:11 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56498)
+	id 1kxotk-0002Vn-4C
+	for lists+qemu-devel@lfdr.de; Fri, 08 Jan 2021 05:21:36 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57112)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1kxopJ-0000eX-Hl
- for qemu-devel@nongnu.org; Fri, 08 Jan 2021 05:17:01 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:33337)
+ (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1kxos3-0001kp-13
+ for qemu-devel@nongnu.org; Fri, 08 Jan 2021 05:19:51 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:20918)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1kxopG-0007jn-NG
- for qemu-devel@nongnu.org; Fri, 08 Jan 2021 05:17:00 -0500
+ (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1kxos0-0000bR-UJ
+ for qemu-devel@nongnu.org; Fri, 08 Jan 2021 05:19:50 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1610101016;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:in-reply-to:in-reply-to:  references:references;
- bh=OXS9a5oMWJMUKPfRJUID9I9JKtpSqjIcUvUyKgZpy/g=;
- b=HjqQBRrCaAARQUpiB+7I4m8ZZz9I4J7WEkEXT6MzEe+Vv+1Z0yEStF6cfBIHeHM2VrKSit
- LygzfRmwZN/Kq4pCIQZC+nqpG+gqqoUmsz85SWB9yJiLK7Qnk47R3PXYa2uLP2m2a/rgWK
- k98CfKYIuozNM3qyQP3XnkEEcLe7xdI=
+ s=mimecast20190719; t=1610101188;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=SYYUG7X0IpkyiBL6VX/4/vSf3kpATyymdleg3iSp1yo=;
+ b=fWYs42Ixj3VvaHOngOTXse31eQIlAv8DSyNiw/lHP9GA0RtFx1nG6ie0mn4xIlB1TBdXYB
+ 1vUzA/xHfKVsjAx5pIeKSbAYfbesTSUt4hLYyiOYz4joBFT6bKWBLStUD45/v4RfWpPbkG
+ QAbo/L5wwTunpO6bRmCRubbUpB21kMQ=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-85-vKDbPeZ3PWyuISgYgkkMmQ-1; Fri, 08 Jan 2021 05:16:54 -0500
-X-MC-Unique: vKDbPeZ3PWyuISgYgkkMmQ-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
+ us-mta-215-3zu2t-9BM0idsyXLB8Qa3g-1; Fri, 08 Jan 2021 05:19:45 -0500
+X-MC-Unique: 3zu2t-9BM0idsyXLB8Qa3g-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id D3BD959;
- Fri,  8 Jan 2021 10:16:52 +0000 (UTC)
-Received: from redhat.com (ovpn-114-227.ams2.redhat.com [10.36.114.227])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 4288D60C5F;
- Fri,  8 Jan 2021 10:16:47 +0000 (UTC)
-Date: Fri, 8 Jan 2021 10:16:45 +0000
-From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-To: Paolo Bonzini <pbonzini@redhat.com>
-Subject: Re: [RFC PATCH] ci: ensure that all jobs use a shallow clone
-Message-ID: <20210108101645.GE1082385@redhat.com>
-References: <20210107171719.477856-1-pbonzini@redhat.com>
- <20210107182812.GI1029501@redhat.com>
- <dff4499e-eb4d-f96b-5f82-51352561d231@redhat.com>
- <CABgObfZt-8gG3c4WTZqd0Ls0VEe43MFc_mFuykoZvDP2ZGu0gA@mail.gmail.com>
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id F1293800D55;
+ Fri,  8 Jan 2021 10:19:43 +0000 (UTC)
+Received: from [10.36.114.168] (ovpn-114-168.ams2.redhat.com [10.36.114.168])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 4AD9A5D9C0;
+ Fri,  8 Jan 2021 10:19:41 +0000 (UTC)
+Subject: Re: [PATCH v1] s390x/tcg: Fix RISBHG
+From: David Hildenbrand <david@redhat.com>
+To: Nick Desaulniers <ndesaulniers@google.com>,
+ David Hildenbrand <dhildenb@redhat.com>
+References: <CAKwvOdmE=Z9pV4txRw-kpcv5FOSr6eEXfmGnc++R_Vzv8MnRDQ@mail.gmail.com>
+ <B6050D16-4BD3-4355-878F-33E3E7C3A75D@redhat.com>
+ <CAKwvOdn068fXosDhtF_o-DVY2tQs4pWj59+uJ59_=JPfOK2Hsg@mail.gmail.com>
+ <bbdd5d1b-6aa9-cd2c-eb9a-cf0345dbc999@redhat.com>
+Organization: Red Hat GmbH
+Message-ID: <a039a6b7-11b2-1588-744a-7fe0780483d1@redhat.com>
+Date: Fri, 8 Jan 2021 11:19:40 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.5.0
 MIME-Version: 1.0
-In-Reply-To: <CABgObfZt-8gG3c4WTZqd0Ls0VEe43MFc_mFuykoZvDP2ZGu0gA@mail.gmail.com>
-User-Agent: Mutt/1.14.6 (2020-07-11)
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+In-Reply-To: <bbdd5d1b-6aa9-cd2c-eb9a-cf0345dbc999@redhat.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=berrange@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=david@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=berrange@redhat.com;
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=david@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -29
-X-Spam_score: -3.0
+X-Spam_score_int: -32
+X-Spam_score: -3.3
 X-Spam_bar: ---
-X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.246,
+X-Spam_report: (-3.3 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.246,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ NICE_REPLY_A=-0.267, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -81,57 +85,163 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-Cc: Thomas Huth <thuth@redhat.com>,
- Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>, qemu-devel@nongnu.org,
- stefanha@redhat.com
+Cc: Jonas Paulsson <paulsson@linux.vnet.ibm.com>,
+ Thomas Huth <thuth@redhat.com>, Ulrich Weigand <Ulrich.Weigand@de.ibm.com>,
+ Vasily Gorbik <gor@linux.ibm.com>,
+ clang-built-linux <clang-built-linux@googlegroups.com>,
+ Heiko Carstens <hca@linux.ibm.com>, Cornelia Huck <cohuck@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org,
+ Christian Borntraeger <borntraeger@de.ibm.com>, qemu-s390x@nongnu.org,
+ Guenter Roeck <linux@roeck-us.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, Jan 07, 2021 at 08:23:49PM +0100, Paolo Bonzini wrote:
-> Il gio 7 gen 2021, 20:05 Thomas Huth <thuth@redhat.com> ha scritto:
+On 08.01.21 10:44, David Hildenbrand wrote:
+> On 08.01.21 03:20, Nick Desaulniers wrote:
+>> On Thu, Jan 7, 2021 at 3:27 PM David Hildenbrand <dhildenb@redhat.com> wrote:
+>>>
+>>>
+>>>> Am 08.01.2021 um 00:21 schrieb Nick Desaulniers <ndesaulniers@google.com>:
+>>>>
+>>>> ﻿On Thu, Jan 7, 2021 at 3:13 PM David Hildenbrand <david@redhat.com> wrote:
+>>>>>
+>>>>> RISBHG is broken and currently hinders clang builds of upstream kernels
+>>>>> from booting: the kernel crashes early, while decompressing the image.
+>>>>>
+>>>>>  [...]
+>>>>>   Kernel fault: interruption code 0005 ilc:2
+>>>>>   Kernel random base: 0000000000000000
+>>>>>   PSW : 0000200180000000 0000000000017a1e
+>>>>>         R:0 T:0 IO:0 EX:0 Key:0 M:0 W:0 P:0 AS:0 CC:2 PM:0 RI:0 EA:3
+>>>>>   GPRS: 0000000000000001 0000000c00000000 00000003fffffff4 00000000fffffff0
+>>>>>         0000000000000000 00000000fffffff4 000000000000000c 00000000fffffff0
+>>>>>         00000000fffffffc 0000000000000000 00000000fffffff8 00000000008e25a8
+>>>>>         0000000000000009 0000000000000002 0000000000000008 000000000000bce0
+>>>>>
+>>>>> One example of a buggy instruction is:
+>>>>>
+>>>>>    17dde:       ec 1e 00 9f 20 5d       risbhg  %r1,%r14,0,159,32
+>>>>>
+>>>>> With %r14 = 0x9 and %r1 = 0x7 should result in %r1 = 0x900000007, however,
+>>>>> results in %r1 = 0.
+>>>>>
+>>>>> Let's interpret values of i3/i4 as documented in the PoP and make
+>>>>> computation of "mask" only based on i3 and i4 and use "pmask" only at the
+>>>>> very end to make sure wrapping is only applied to the high/low doubleword.
+>>>>>
+>>>>> With this patch, I can successfully boot a v5.10 kernel built with
+>>>>> clang, and gcc builds keep on working.
+>>>>>
+>>>>> Fixes: 2d6a869833d9 ("target-s390: Implement RISBG")
+>>>>> Reported-by: Nick Desaulniers <ndesaulniers@google.com>
+>>>>> Cc: Guenter Roeck <linux@roeck-us.net>
+>>>>> Cc: Christian Borntraeger <borntraeger@de.ibm.com>
+>>>>> Signed-off-by: David Hildenbrand <david@redhat.com>
+>>>>> ---
+>>>>>
+>>>>> This BUG was a nightmare to debug and the code a nightmare to understand.
+>>>>>
+>>>>> To make clang/gcc builds boot, the following fix is required as well on
+>>>>> top of current master: "[PATCH] target/s390x: Fix ALGSI"
+>>>>> https://lkml.kernel.org/r/20210107202135.52379-1-david@redhat.com
+>>>>
+>>>> In that case, a huge thank you!!! for this work! ++beers_owed.
+>>>>
+>>>
+>>> :) a kernel build for z13 should work with the (default) „-cpu qemu“ cpu type.
+>>
+>> Hmm...so I don't think clang can build a Linux kernel image with
+>> CONFIG_MARCH_Z13=y just yet; just defconfig.  Otherwise looks like
+>> clang barfs on some of the inline asm constraints.
+>>
 > 
-> > on travis-ci.com you can
-> > only get free CI minutes for non-sponsored FOSS projects.
-> > So let's simply not worry about Travis-CI anymore.
-> >
-> > Maybe we could rather disable shippable now that we support the cross
-> > container builds on gitlab-ci, too?
-> >
+> Ah, right. I overwrote my manual config by a temporary defconfig :)
 > 
-> With pleasure, starting this discussion was an intended possible side
-> effect of the patch. :)
 > 
-> The main issue with Travis is the non-x86 builders, which have no
-> alternative yet.
+> So, I'm on x86-64 F33.
+> 
+> clang version 11.0.0 (Fedora 11.0.0-2.fc33)
+> LLVM version 11.0.0
+> 
+> I cannot directly use "LLVM=1" for cross-compilation, as I keep getting
+> "error: unknown emulation: elf64_s390" from ld.lld and "error: invalid
+> output format: 'elf64-s390'" from llvm-objcopy. I assume that's fixed in
+> llvm12?
+> 
+> 1. I patch around it (strange, I remember CC= .. used to work, but it no
+> longer does)
+> 
+> ---
+> 
+> index e30cf02da8b8..89c57062ed5d 100644
+> --- a/Makefile
+> +++ b/Makefile
+> @@ -427,13 +427,13 @@ KBUILD_HOSTLDLIBS   := $(HOST_LFS_LIBS) $(HOSTLDLIBS)
+>  CPP            = $(CC) -E
+>  ifneq ($(LLVM),)
+>  CC             = clang
+> -LD             = ld.lld
+> -AR             = llvm-ar
+> -NM             = llvm-nm
+> -OBJCOPY                = llvm-objcopy
+> -OBJDUMP                = llvm-objdump
+> -READELF                = llvm-readelf
+> -STRIP          = llvm-strip
+> +LD             = $(CROSS_COMPILE)ld
+> +AR             = $(CROSS_COMPILE)ar
+> +NM             = $(CROSS_COMPILE)nm
+> +OBJCOPY                = $(CROSS_COMPILE)objcopy
+> +OBJDUMP                = $(CROSS_COMPILE)objdump
+> +READELF                = $(CROSS_COMPILE)readelf
+> +STRIP          = $(CROSS_COMPILE)strip
+>  else
+>  CC             = $(CROSS_COMPILE)gcc
+>  LD             = $(CROSS_COMPILE)ld
+> 
+> ---
+> 
+> 2. Compile using clang
+> 
+> 
+> Using latest linux-next (1c925d2030afd354a02c23500386e620e662622b) +
+> above patch
+> 
+> ---
+> 
+> #!/bin/bash
+> export ARCH=s390;
+> export CROSS_COMPILE=s390x-linux-gnu-
+> export LLVM=1
+> make distclean
+> make defconfig
+> 
+> # Make F32 initrd boot without inserting modules
+> ./scripts/config -e CONFIG_SCSI_ISCSI_ATTRS
+> ./scripts/config -e CONFIG_ISCSI_TCP
+> 
+> make -j40 > /dev/null
+> 
+> ---
+> 
+> 3. Run it via QEMU. I boot a full Fedora 32 using the cloud-image +
+> initrd from Fedora 32 (tried to stick to your cmdline where possible)
+> 
+> ./build/qemu-system-s390x \
+> -m 512M \
+> -cpu qemu \
+> -display none \
+> -nodefaults \
+> -kernel ../linux-cross/arch/s390/boot/bzImage \
+> -append "root=/dev/vda1 conmode=sclp console=ttyS0" \
+> -initrd ../Fedora-Cloud-Base-32-1.6.x86_64-initrd.img \
+> -hda ../Fedora-Cloud-Base-32-1.6.x86_64-initrd.img \
 
-The free travis accounts get 10000 credits. Linux jobs take 10 credits
-per minute of execution time. Free credits are a one-off grant which
-don't auto renew. You have to make an email request to travis to beg
-for more each time they run out.
+^ -hda ../Fedora-Cloud-Base-32-1.6.x86_64.qcow2 \
 
-The non-x86 CI jobs we have in travis consume 91 minutes of time in
-total.  So we'll burn through all free credits in 11 jobs and then
-our CI will stop.
 
-IOW, despite travis giving us non-x86 builders, it is doomed to be
-unusuable, unless we can convince them to give us a *massively*
-larger free credit allowance on the qemu account.  It would need to
-be on the order x100 larger, and auto-renewing once a month to cope
-with our rate of builds for the non-x86 CI jobs.
-
-I think we need to just delete the travis config and accept that we
-can't run those jobs unless we provide our own hardware for non-x86
-in GitLab CI.  IIUC, the latter is something we're planning anyway.
-
-So I support removing travis and shippable configs and focusing only
-on GitLab and Cirrus
-
-Regards,
-Daniel
 -- 
-|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
-|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
-|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
+Thanks,
+
+David / dhildenb
 
 
