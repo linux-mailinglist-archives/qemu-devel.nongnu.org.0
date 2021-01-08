@@ -2,60 +2,107 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B35352EED2F
-	for <lists+qemu-devel@lfdr.de>; Fri,  8 Jan 2021 06:37:40 +0100 (CET)
-Received: from localhost ([::1]:45392 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 68DDC2EED67
+	for <lists+qemu-devel@lfdr.de>; Fri,  8 Jan 2021 07:21:47 +0100 (CET)
+Received: from localhost ([::1]:36000 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kxkSx-00068n-98
-	for lists+qemu-devel@lfdr.de; Fri, 08 Jan 2021 00:37:39 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34462)
+	id 1kxl9d-00019E-T6
+	for lists+qemu-devel@lfdr.de; Fri, 08 Jan 2021 01:21:45 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41354)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <ben.widawsky@intel.com>)
- id 1kxkSA-0005jg-II
- for qemu-devel@nongnu.org; Fri, 08 Jan 2021 00:36:50 -0500
-Received: from mga17.intel.com ([192.55.52.151]:61410)
+ (Exim 4.90_1) (envelope-from <Qiuhao.Li@outlook.com>)
+ id 1kxl8B-00005q-98
+ for qemu-devel@nongnu.org; Fri, 08 Jan 2021 01:20:15 -0500
+Received: from mail-oln040092253108.outbound.protection.outlook.com
+ ([40.92.253.108]:8143 helo=APC01-SG2-obe.outbound.protection.outlook.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <ben.widawsky@intel.com>)
- id 1kxkS7-0003Hb-Hy
- for qemu-devel@nongnu.org; Fri, 08 Jan 2021 00:36:50 -0500
-IronPort-SDR: FBLd9DVaIUdjYi9fPmTy73z5WLERCxwbJPzmfrdIDUbcYTY31xN5sDCghfaQuBHcB2O7m4fi5y
- ZzNppQz2GzQQ==
-X-IronPort-AV: E=McAfee;i="6000,8403,9857"; a="157325393"
-X-IronPort-AV: E=Sophos;i="5.79,330,1602572400"; d="scan'208";a="157325393"
-Received: from orsmga005.jf.intel.com ([10.7.209.41])
- by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 07 Jan 2021 21:36:42 -0800
-IronPort-SDR: 2RrgpmfeVwplJ4uEMy7cvyK1hae9oLn7V2a3oAAn1Jf8+q8SRRnW2P+JfvLZFwXiMyjOPryyPT
- 900pVfg0lu9g==
-X-IronPort-AV: E=Sophos;i="5.79,330,1602572400"; d="scan'208";a="566372266"
-Received: from testonfe-mobl.amr.corp.intel.com (HELO intel.com)
- ([10.252.141.243])
- by orsmga005-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 07 Jan 2021 21:36:42 -0800
-Date: Thu, 7 Jan 2021 21:36:40 -0800
-From: Ben Widawsky <ben.widawsky@intel.com>
-To: Jonathan Cameron <Jonathan.Cameron@huawei.com>
-Subject: Re: [Linuxarm]  Re: [RFC PATCH v2 07/32] hw/cxl/device: Implement
- basic mailbox (8.2.8.4)
-Message-ID: <20210108053640.oimcztkzyp6p5lru@intel.com>
-References: <20210105165323.783725-1-ben.widawsky@intel.com>
- <20210105165323.783725-8-ben.widawsky@intel.com>
- <20210106132123.00003a9d@Huawei.com>
- <20210106174014.00007407@Huawei.com>
- <20210106180556.2nw2p2alxxzdx55w@intel.com>
- <20210106190825.ed5w5p5tdk6v6f2u@intel.com>
+ (Exim 4.90_1) (envelope-from <Qiuhao.Li@outlook.com>)
+ id 1kxl85-0007C9-IL
+ for qemu-devel@nongnu.org; Fri, 08 Jan 2021 01:20:13 -0500
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=k3ELBzWg7owyaa72KIopes93bdA+jywiwRfa7pUmfXV0zJlAixOilUeUWcxrfByTOWHHSo+y+y3EitOE8U5dHthTUyGm7WomwJxcc5puphfK6aoZTk0lFahsQAyTUhMf8ddNi83aI9d0Zkfqm8OXBA2Xp9VVGYEqKcYwCkKLEjuFT6JuiLv9XGkwhxy4hSsmSPb2rQzU9Kl4PZJ0QvjKhWh2NfcUlsTiFSdWWy1uDQA2N9XQ86sguDgwosHjM0QUuMz0vDToXptn+ZSet+nX2sQmlE8iUC68YsZPHDF3m4XnkzBL0OakXC4P4zOWgh+HbZrzMb2s6po9/QnXBzqgvw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=HnZil+J+qPA4e78/7mML14c5jm3SaZeHzXghtRk3kbs=;
+ b=jQpIXjJze1sejy7grB46Foe2ZhTMt8wbNOR9c8RLd7zZcyPppi/u8i4P2A3M1nYWkEqPrToaZ0BLjD5t8ei8l4KvXM1L4QkxkTcysft8acfEPCwmQJGVp8HDaGMiz+88U3QQJaMFItkh909FYNzX3ykY5yDshvOke5dZjjwX8u0QtLh6WW+yrSDm/uk84BBFVHKcAnWmDHFJkSXOR47XGicj25Y03QIlxVtWMD/q/1niqAHRT4OONC1PMecxlsperMQWkmtN8G4c6/03AlTIZQBsZHy83xwLiznZUac5YTVcoAPIwX8FbXC1xLyHKeuWIKSKxKDqo21RnfGxsAcMXg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=none; dmarc=none;
+ dkim=none; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=outlook.com;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=HnZil+J+qPA4e78/7mML14c5jm3SaZeHzXghtRk3kbs=;
+ b=B6jbahf+T2LvP46rLj3OtCxgPpRlVAanmjhc9yuDyBSrYdELzWBvCFLgagSOl4WKuYkJDzaPXgePZUJhwlhUV2VBJngeBENUY4dqpeHWn8Rls64oP0FIGQMd9ITjP1mRknSitaFnmYFBIUhTlPYqLcVrLvEAt2kXNrAeofmIAhQl9iMZdpccvzFugW9xFpVldEQN4EYgyQpgAH0rYmePkXj63/O0p3Hpc7KnvuCOtsGx8q5he2sYoJQuM3qQlu4mbBiAk5fyW8FW44U7CSTi9uTnse2yCbPwM9YVSOFHiFx+pWfFBas6arFXTTcct7KMil63RAgT8Y+dhypLeVbT3Q==
+Received: from SG2APC01FT060.eop-APC01.prod.protection.outlook.com
+ (2a01:111:e400:7ebd::47) by
+ SG2APC01HT043.eop-APC01.prod.protection.outlook.com (2a01:111:e400:7ebd::244)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3742.6; Fri, 8 Jan
+ 2021 06:20:00 +0000
+Received: from MEAPR01MB3494.ausprd01.prod.outlook.com
+ (2a01:111:e400:7ebd::4d) by SG2APC01FT060.mail.protection.outlook.com
+ (2a01:111:e400:7ebd::409) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3742.6 via Frontend
+ Transport; Fri, 8 Jan 2021 06:20:00 +0000
+X-IncomingTopHeaderMarker: OriginalChecksum:6652789A97EF7A4A07C5F60AC2F3AF227115040DE6C3F76E4FBE8329059DC65D;
+ UpperCasedChecksum:A1A90AF8FB92700FD8E362DAA445C0C34A30A5C10B271A1FCC61A468A7CB11FE;
+ SizeAsReceived:8761; Count:47
+Received: from MEAPR01MB3494.ausprd01.prod.outlook.com
+ ([fe80::2d4d:a683:7f83:cf50]) by MEAPR01MB3494.ausprd01.prod.outlook.com
+ ([fe80::2d4d:a683:7f83:cf50%7]) with mapi id 15.20.3742.006; Fri, 8 Jan 2021
+ 06:20:00 +0000
+Message-ID: <MEAPR01MB3494AD5BB9FE8C55A9B35274FCAE0@MEAPR01MB3494.ausprd01.prod.outlook.com>
+Subject: Re: [PATCH v5 0/7] fuzz: improve crash case minimization
+From: Qiuhao Li <Qiuhao.Li@outlook.com>
+To: Alexander Bulekov <alxndr@bu.edu>
+Date: Fri, 08 Jan 2021 14:19:43 +0800
+In-Reply-To: <20210108043008.nqo3dssgduwjuyar@mozz.bu.edu>
+References: <MEAPR01MB349464ED835FE8243FB09100FCAE0@MEAPR01MB3494.ausprd01.prod.outlook.com>
+ <20210108043008.nqo3dssgduwjuyar@mozz.bu.edu>
+Content-Type: text/plain; charset="UTF-8"
+User-Agent: Evolution 3.36.4-0ubuntu1 
+Content-Transfer-Encoding: 7bit
+X-TMN: [NEbuOns2nQsOlPVJ+A2toON5lOZy+Euo]
+X-ClientProxiedBy: AM0PR10CA0041.EURPRD10.PROD.OUTLOOK.COM
+ (2603:10a6:20b:150::21) To MEAPR01MB3494.ausprd01.prod.outlook.com
+ (2603:10c6:201:39::11)
+X-Microsoft-Original-Message-ID: <7d5f18e60d245b63efffc7dd03a72e924f548727.camel@outlook.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20210106190825.ed5w5p5tdk6v6f2u@intel.com>
-Received-SPF: pass client-ip=192.55.52.151;
- envelope-from=ben.widawsky@intel.com; helo=mga17.intel.com
-X-Spam_score_int: -41
-X-Spam_score: -4.2
-X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-MS-Exchange-MessageSentRepresentingType: 1
+Received: from localhost (104.193.8.207) by
+ AM0PR10CA0041.EURPRD10.PROD.OUTLOOK.COM (2603:10a6:20b:150::21) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3742.6 via Frontend
+ Transport; Fri, 8 Jan 2021 06:19:51 +0000
+X-MS-PublicTrafficType: Email
+X-IncomingHeaderCount: 47
+X-EOPAttributedMessage: 0
+X-MS-Office365-Filtering-Correlation-Id: bb5ecea3-7f3f-4d8f-0dea-08d8b39d6dc3
+X-MS-TrafficTypeDiagnostic: SG2APC01HT043:
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: SGZKOGaP9oRckCI2pspwSB6HAROTkWe/f9xgGin6hIHUwiLVSY0ZC0/Big3YDQSrlkwY9KmkYBCU/xeTSVEnJXvJsDhXudjhz+BXHU5ey+x7fpDBeqFLd4B8xK7QzKBn2vu0JbEJZixu1OW6rCxBrV54Bnofg4vDVqp8U8E7MasR+twzTcWOsJDgqSWSklLPo2Ha5RZiuwF54tkW4XVO96bIt+mBkXtC9FIu5yFn4WG6a99hjjmIO6jmicslEBLe
+X-MS-Exchange-AntiSpam-MessageData: O+Im8NNpvEv7sKsYbmgpXQHa/VBNFnl0wnRNqfzZsImFjzDeRRcOxUHnkOowa9gBn8VlPBsjt6KhuV0AaEgHLWA9Q8P2irzGroUQidnEEoELpBuBH59DqIM9bIx3Sma9NJoHtBm68AgHh9gr5gbGGQ==
+X-OriginatorOrg: outlook.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 08 Jan 2021 06:20:00.1904 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 84df9e7f-e9f6-40af-b435-aaaaaaaaaaaa
+X-MS-Exchange-CrossTenant-Network-Message-Id: bb5ecea3-7f3f-4d8f-0dea-08d8b39d6dc3
+X-MS-Exchange-CrossTenant-AuthSource: SG2APC01FT060.eop-APC01.prod.protection.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: Internet
+X-MS-Exchange-CrossTenant-RMS-PersistedConsumerOrg: 00000000-0000-0000-0000-000000000000
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SG2APC01HT043
+Received-SPF: pass client-ip=40.92.253.108; envelope-from=Qiuhao.Li@outlook.com;
+ helo=APC01-SG2-obe.outbound.protection.outlook.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ MSGID_FROM_MTA_HEADER=0.001, RCVD_IN_DNSWL_NONE=-0.0001,
+ RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_PASS=-0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -68,63 +115,78 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Thomas Huth <thuth@redhat.com>, Dan@domain.invalid,
- Vishal Verma <vishal.l.verma@intel.com>, qemu-devel@nongnu.org,
- Prashant V Agarwal =?utf-8?Q?=3Cagpr123=40gmail=2Ecom=3E=2C_Chris_Brow?=
- =?utf-8?Q?y_=3Ccbrowy=40avery-design=2Ecom=3E=2C__Michael_S=2E_Tsirkin__?=
- =?utf-8?Q?=3Cmst=40redhat=2Ecom=3E=2C_Philippe_Mathieu-Daud=C3=A9?=
- <f4bug@amsat.org>
+Cc: thuth@redhat.com, qemu-devel@nongnu.org, darren.kenny@oracle.com,
+ bsd@redhat.com, stefanha@redhat.com, pbonzini@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 21-01-06 11:08:28, Ben Widawsky wrote:
-> On 21-01-06 10:05:57, Ben Widawsky wrote:
-> > On 21-01-06 17:40:14, Jonathan Cameron wrote:
-> > > On Wed, 6 Jan 2021 13:21:23 +0000
-> > > Jonathan Cameron <Jonathan.Cameron@Huawei.com> wrote:
-> > > 
-> > > > On Tue, 5 Jan 2021 08:52:58 -0800
-> > > > Ben Widawsky <ben.widawsky@intel.com> wrote:
-> > > > 
-> 
-> [snip]
-> 
-> > 
-> > I'm sorry you had to debug this. I had fixed this previously and it got lost.
-> > I'm currently between test applications, so my regression testing isn't great.
-> > 
-> > I think the fix should be something like this, but I can't easily test at the
-> > moment:
-> > 
-> > diff --git a/hw/cxl/cxl-device-utils.c b/hw/cxl/cxl-device-utils.c
-> > index c515d45d20..b38e9b4c17 100644
-> > --- a/hw/cxl/cxl-device-utils.c
-> > +++ b/hw/cxl/cxl-device-utils.c
-> > @@ -102,6 +102,9 @@ static void mailbox_reg_write(void *opaque, hwaddr offset, uint64_t value,
-> >  {
-> >      CXLDeviceState *cxl_dstate = opaque;
-> > 
-> > +    if (offset >= A_CXL_DEV_CMD_PAYLOAD)
-> > +        stn_le_p(cxl_dstate->mbox_reg_state, size, value);
-> > +
-> >      /*
-> >       * Lock is needed to prevent concurrent writes as well as to prevent writes
-> >       * coming in while the firmware is processing. Without background commands
-> > 
-> > 
-> > 
-> 
-> +    if (offset >= A_CXL_DEV_CMD_PAYLOAD) {
-> +        stn_le_p(cxl_dstate->mbox_reg_state, size, value);
-> +        return;
-> +    }
-> +
+On Thu, 2021-01-07 at 23:30 -0500, Alexander Bulekov wrote:
+> Hi Qiuhao,
+> Can you add my Reviewed-by: tags to the patches that I have reviewed?
+> Thanks
+> -Alex
 
-Last time's a charm
-         stn_le_p(cxl_dstate->mbox_reg_state + offset, size, value);
+Ok, fixed in version 6, thanks.
 
 > 
-> [snip]
-> 
+> On 210108 1044, Qiuhao Li wrote:
+> > Extend and refine the crash case minimization process.
 > > 
+> > Test input:
+> >   Bug 1909261 full_reproducer
+> >   6500 QTest instructions (write mostly)
+> > 
+> > Refined (-M1 minimization level) vs. Original version:
+> >   real  38m31.942s  <-- real  532m57.192s
+> >   user  28m18.188s  <-- user  89m0.536s
+> >   sys   12m42.239s  <-- sys   50m33.074s
+> >   2558 instructions <-- 2846 instructions
+> > 
+> > Test Enviroment:
+> >   i7-8550U, 16GB LPDDR3, SSD 
+> >   Ubuntu 20.04.1 5.4.0-58-generic x86_64
+> >   Python 3.8.5
+> > 
+> > v5:
+> >   Fix: send SIGKILL on timeout
+> >   Fix: rename minimization functions
+> > 
+> > v4:
+> >   Fix: messy diff in [PATCH v3 4/7]
+> > 
+> > v3:
+> >   Fix: checkpatch.pl errors
+> > 
+> > v2: 
+> >   New: [PATCH v2 1/7]
+> >   New: [PATCH v2 2/7]
+> >   New: [PATCH v2 4/7]
+> >   New: [PATCH v2 6/7]
+> >   New: [PATCH v2 7/7]
+> >   Fix: [PATCH 2/4] split using binary approach
+> >   Fix: [PATCH 3/4] typo in comments
+> >   Discard: [PATCH 1/4] the hardcoded regex match for crash
+> > detection
+> >   Discard: [PATCH 4/4] the delaying minimizer
+> >   
+> > Thanks for the suggestions from:
+> >   Alexander Bulekov
+> > 
+> > Qiuhao Li (7):
+> >   fuzz: accelerate non-crash detection
+> >   fuzz: double the IOs to remove for every loop
+> >   fuzz: split write operand using binary approach
+> >   fuzz: remove IO commands iteratively
+> >   fuzz: set bits in operand of write/out to zero
+> >   fuzz: add minimization options
+> >   fuzz: heuristic split write based on past IOs
+> > 
+> >  scripts/oss-fuzz/minimize_qtest_trace.py | 257 ++++++++++++++++++-
+> > ----
+> >  1 file changed, 210 insertions(+), 47 deletions(-)
+> > 
+> > -- 
+> > 2.25.1
+> > 
+
 
