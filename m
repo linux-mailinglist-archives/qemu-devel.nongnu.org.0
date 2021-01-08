@@ -2,62 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 42C532EF294
-	for <lists+qemu-devel@lfdr.de>; Fri,  8 Jan 2021 13:35:38 +0100 (CET)
-Received: from localhost ([::1]:34402 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C09BB2EF2AE
+	for <lists+qemu-devel@lfdr.de>; Fri,  8 Jan 2021 13:56:11 +0100 (CET)
+Received: from localhost ([::1]:45662 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kxqzR-0002OW-6a
-	for lists+qemu-devel@lfdr.de; Fri, 08 Jan 2021 07:35:37 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56782)
+	id 1kxrJK-0000W8-8W
+	for lists+qemu-devel@lfdr.de; Fri, 08 Jan 2021 07:56:10 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33920)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1kxqwz-0001pG-PK
- for qemu-devel@nongnu.org; Fri, 08 Jan 2021 07:33:05 -0500
-Received: from mail-ed1-x533.google.com ([2a00:1450:4864:20::533]:34414)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1kxrIC-0008PE-8r
+ for qemu-devel@nongnu.org; Fri, 08 Jan 2021 07:55:00 -0500
+Received: from mail-wr1-x436.google.com ([2a00:1450:4864:20::436]:36434)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1kxqwy-0005xp-6o
- for qemu-devel@nongnu.org; Fri, 08 Jan 2021 07:33:05 -0500
-Received: by mail-ed1-x533.google.com with SMTP id dk8so11100916edb.1
- for <qemu-devel@nongnu.org>; Fri, 08 Jan 2021 04:33:03 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1kxrIA-0007pJ-CZ
+ for qemu-devel@nongnu.org; Fri, 08 Jan 2021 07:54:59 -0500
+Received: by mail-wr1-x436.google.com with SMTP id t16so8931023wra.3
+ for <qemu-devel@nongnu.org>; Fri, 08 Jan 2021 04:54:57 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=m/b6wFjDIupbvlkZPrdivnWfIEm3/ToydQnfE+0PcQs=;
- b=sbP7y+UNhg+POmULDcnPoum1OYT/C6sh/crty3KndnYnIrliusB/PmDl/ublCagdQ1
- Wmo2B7JCeIzKWU3Db7HKIkIhyS21m5QI8WJ+I5INzP02LSInjFal28vVJW/bOGJEFwyZ
- et9finAzmVb49pzzsl4h/yh5xSIxIZghEJZ4wGKeXAPei44wD2IzDP0VndKGrbkz6Lfd
- YFxLYd15HeNN45+oBA3uZFRW7icBgXKZ80WYbJPJ2jzJyE8LvGZi9THAzZAQf/WraiLp
- hMYulIwV+XYPMruiuIiw9svoJiizbyMeq5JrmdKQeHrmXFz7gm1jIcPu4kMnKXImLYCA
- JHaA==
+ h=references:user-agent:from:to:cc:subject:date:in-reply-to
+ :message-id:mime-version:content-transfer-encoding;
+ bh=JHfKgbFBE78ffVGPMtC/OXIpuVrprZXYeZSPYUDjHQ0=;
+ b=VUCZSi4AekbdNtO3y81F8cHC9C1TvrKWBe5SbC3EyjBybu9+7KavOJmkBhCyhb4Ubt
+ R2j2n7Ye5BUJWE4AyV+r/hlKUlAFcjYMUbNra6dJjKhoGeihKUy+mRRPHiyHFZE2FTrG
+ +/ZYYtVMs1GlM/dmVLEin0Nd8sGVwdZiujG7g47Tvf8x0rro6m4IhIrwZsML1e4TtO82
+ wiFdczdUsTEKaQSmrclgiAx4y84hXdpiwETLj+hYHV91Jo92HSaRExGPHm9zWTjGCLC8
+ dEZt11uD+VOTeXw8PNFz3dTHi3Uyu/BhHedJwBozL3Dq7neq9IjLKX5kBuryDg8VaFk+
+ FC9g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=m/b6wFjDIupbvlkZPrdivnWfIEm3/ToydQnfE+0PcQs=;
- b=BW3X1anf8SqdS1OWqbOXvvDujuSkurTgsorbKyygrl3l2kISJBIbzurJn0HwMF2PgP
- 3pq4t4+7Z6q6pTd938YYAV//ufbG/pX0AtNz+5XYW0MjIc+fmbmkANW0bYanDceNWojg
- lHhDAllX71xtJDjoSdy/rw5HUYZb9mMBQ7k9bEDiBhj4rk/2VAgLgJdT0G0OcgDUDpFj
- 0H4Dhs6CbfynrE70I8KM+aT/RhWljoW9bzn5aiil8MxO9UNe6q1u3F/VR5BT1GP1Qsln
- 9H8JRMQIJFo4hRK7cYEY7olLO1lxD1sEvJFasLGFiosLmhqtzEXhp0/YQuct6ZuY8qJB
- wTiQ==
-X-Gm-Message-State: AOAM532knQ87e3SXKXUTjERmptTIJRvbKCtidQX5WCV2Ke86phsB9woO
- yfQIGpQD9sKV1bpD1PR9UhAssGarT9sxM22NzCEOedKjzrQ=
-X-Google-Smtp-Source: ABdhPJwdiwLyWAAOJ20aWYX2VCXY1kCBN6OWt2ziwddP5UDIl3Y0FJIhLCzEVn1f8CAsNx1WJOpGwcsX180fT71QgWs=
-X-Received: by 2002:aa7:cdc3:: with SMTP id h3mr5037337edw.52.1610109182722;
- Fri, 08 Jan 2021 04:33:02 -0800 (PST)
+ h=x-gm-message-state:references:user-agent:from:to:cc:subject:date
+ :in-reply-to:message-id:mime-version:content-transfer-encoding;
+ bh=JHfKgbFBE78ffVGPMtC/OXIpuVrprZXYeZSPYUDjHQ0=;
+ b=CPGjM9iMx2smN6BMe8555WnmtTuaYTuNQff3Qwe91dmTAZk67wr4oNzGpNx5GNEBEW
+ W5ksWI4a4xv9iEWiPeq5ZxYta+n5XWAGTw4a4iccgsqUI8HmfvJ835oUK5f/ftJq0CGg
+ hMbbmOik0DY5ve/sDpID3+3FKy0k3YzryO/oQDh1STxTf2WeSXwDM7T+X3uaZwwn5Lqq
+ ab1AEq1Ov5s24dgl0g3h8INQ4Cqnk2JL3pOopFJ24Rt5Vqrb7pM1hB61rJnBbNxuq6ji
+ 5/xrdRqlmA6EW7TmzLy9gY+M6ZSEbSfgzr3fBk5EwczhRuQ0u1XThjR3ECptKGn/dv+C
+ 2w6A==
+X-Gm-Message-State: AOAM531lLR/CTsPdrdEHMTe4XerAq+VqEujSqN0CQ/E5ajjb1seWVIqE
+ R+TeaXBkru9+tSzm2Y5DWk5RXA==
+X-Google-Smtp-Source: ABdhPJxw9UcxguO1V2RwVLHQa0MsAfX0p1ZiCCW2rRale6BHe8ASvyCEBR7EX5vRbjzR4Oe8lHKPGA==
+X-Received: by 2002:a5d:5913:: with SMTP id v19mr3564547wrd.207.1610110496783; 
+ Fri, 08 Jan 2021 04:54:56 -0800 (PST)
+Received: from zen.linaroharston ([51.148.130.216])
+ by smtp.gmail.com with ESMTPSA id z6sm11487207wmi.15.2021.01.08.04.54.54
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 08 Jan 2021 04:54:54 -0800 (PST)
+Received: from zen (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id B2B611FF7E;
+ Fri,  8 Jan 2021 12:54:53 +0000 (GMT)
+References: <20201223212752.1145294-1-keithp@keithp.com>
+User-agent: mu4e 1.5.7; emacs 28.0.50
+From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: Keith Packard <keithp@keithp.com>
+Subject: Re: [PATCH] gdbstub.c uses incorrect check for active gdb in
+ use_gdb_syscalls
+Date: Fri, 08 Jan 2021 12:36:06 +0000
+In-reply-to: <20201223212752.1145294-1-keithp@keithp.com>
+Message-ID: <875z471tcy.fsf@linaro.org>
 MIME-Version: 1.0
-References: <20210106063504.10841-1-bmeng.cn@gmail.com>
-In-Reply-To: <20210106063504.10841-1-bmeng.cn@gmail.com>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Fri, 8 Jan 2021 12:32:51 +0000
-Message-ID: <CAFEAcA_FdQBSQkr5z7PFnC7TzWkaA92w4Msy4bCrB2qUbXWLMA@mail.gmail.com>
-Subject: Re: [PATCH v3 0/4] hw/arm: sabrelite: Improve emulation fidelity to
- allow booting upstream U-Boot
-To: Bin Meng <bmeng.cn@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2a00:1450:4864:20::533;
- envelope-from=peter.maydell@linaro.org; helo=mail-ed1-x533.google.com
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2a00:1450:4864:20::436;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x436.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -77,40 +87,81 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Bin Meng <bin.meng@windriver.com>, qemu-arm <qemu-arm@nongnu.org>,
- =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>,
- QEMU Developers <qemu-devel@nongnu.org>,
- Jean-Christophe Dubois <jcd@tribudubois.net>
+Cc: Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
+ qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, 6 Jan 2021 at 06:35, Bin Meng <bmeng.cn@gmail.com> wrote:
+
+Keith Packard <keithp@keithp.com> writes:
+
+> When checking whether there is a live gdb connection, code shouldn't
+> use 'gdbserver_state.init' as that value is set when the
+> gdbserver_state structure is initialized in init_gdbserver_state, not
+> when the gdb socket has a valid connection.
 >
-> From: Bin Meng <bin.meng@windriver.com>
+> The 'handle_detach' function appears to use 'gdbserver_state.c_cpu' as
+> an indication of whether there is a connection, so I've used the same
+> in use_gdb_syscalls.
+
+I guess it could be anything that is set by gdb_accept_init(). I'm a
+little wary of c_cpu given it has a specific meaning of current cpu and
+does move around depending on actions of the debugger.
+
+It would be better to wrap the test in a function (static bool
+is_connected()?) so the semantic meaning is clear in the code and we can
+fix things in one place if needed.
+
+> This avoids a segfault when qemu is run with the '-s' flag (create a
+> gdb protocol socket), but without the '-S' flag (delay until 'c'
+> command is received).
+
+How exactly did you create the segfault? Just starting with -s and
+attaching to a running tasks works fine for me although I Can see
+semihosting stuff would never get to gdb after connection.
+
+> I would like this patch to inform a discussion on whether the numerous
+> other places using gdbserver_state.init are also incorrect (most of
+> them appear to be using it in the same way use_gdb_syscalls does), and
+> also whether use_gdb_syscalls should cache the result of this check or
+> whether it should check each time it is called to see if a gdb
+> connection is currently acive.
+
+Hmm I don't see anything obviously wrong - although I note a bunch of
+tests also check for ->fd which is probably a clearer indication of an
+active connection. I'm sure this could be improved with a semantically
+clearer code though.
+
+> For the second question, I don't have a
+> clear idea; mixing gdb and native calls seems problematic for stateful
+> operations like file open/close.
+
+Yes it's a bit of a hack. I can imagine starting with a remote GDB
+connection and then loosing it after opening a file descriptor would
+result in Bad Things (tm). I'm not sure what the cleanest approach is to
+handling the resulting mess.
+
 >
+> Signed-off-by: Keith Packard <keithp@keithp.com>
+> ---
+>  gdbstub.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
 >
-> At present the upstream U-Boot (as of today, v2021.01-rc3) does not
-> boot on QEMU sabrelite machine.
->
-> This fixes several issues to improve emulation fidelity of the i.MX6
-> sabrelite board. With this series, upstream U-Boot can boot to U-Boot
-> command shell. While we are here, add a target guide for this board
-> to help people run Linux kernel and U-Boot on QEMU.
->
-> Changes in v3:
-> - correct 2 typos in sabrelite.rst
->
-> Changes in v2:
-> - new patch: add sabrelite target guide
->
-> Bin Meng (4):
->   hw/misc: imx6_ccm: Update PMU_MISC0 reset value
->   hw/msic: imx6_ccm: Correct register value for silicon type
->   hw/arm: sabrelite: Connect the Ethernet PHY at address 6
->   docs/system: arm: Add sabrelite board description
+> diff --git a/gdbstub.c b/gdbstub.c
+> index d99bc0bf2e..4e709d16fd 100644
+> --- a/gdbstub.c
+> +++ b/gdbstub.c
+> @@ -460,7 +460,7 @@ int use_gdb_syscalls(void)
+>      /* -semihosting-config target=3Dauto */
+>      /* On the first call check if gdb is connected and remember. */
+>      if (gdb_syscall_mode =3D=3D GDB_SYS_UNKNOWN) {
+> -        gdb_syscall_mode =3D gdbserver_state.init ?
+> +        gdb_syscall_mode =3D gdbserver_state.c_cpu !=3D NULL ?
+>              GDB_SYS_ENABLED : GDB_SYS_DISABLED;
+>      }
+>      return gdb_syscall_mode =3D=3D GDB_SYS_ENABLED;
 
 
-Applied to target-arm.next, thanks.
-
--- PMM
+--=20
+Alex Benn=C3=A9e
 
