@@ -2,66 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 77E732EF86F
-	for <lists+qemu-devel@lfdr.de>; Fri,  8 Jan 2021 20:56:50 +0100 (CET)
-Received: from localhost ([::1]:48546 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BF6022EF870
+	for <lists+qemu-devel@lfdr.de>; Fri,  8 Jan 2021 20:57:48 +0100 (CET)
+Received: from localhost ([::1]:50810 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kxxsP-0005DC-H8
-	for lists+qemu-devel@lfdr.de; Fri, 08 Jan 2021 14:56:49 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50040)
+	id 1kxxtL-0006MI-SX
+	for lists+qemu-devel@lfdr.de; Fri, 08 Jan 2021 14:57:47 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50674)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1kxxoV-0002dE-DH
- for qemu-devel@nongnu.org; Fri, 08 Jan 2021 14:52:48 -0500
-Received: from mail-ej1-x636.google.com ([2a00:1450:4864:20::636]:40284)
+ id 1kxxs1-0005T7-1U
+ for qemu-devel@nongnu.org; Fri, 08 Jan 2021 14:56:25 -0500
+Received: from mail-ej1-x62a.google.com ([2a00:1450:4864:20::62a]:35482)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1kxxoR-0004lz-N5
- for qemu-devel@nongnu.org; Fri, 08 Jan 2021 14:52:47 -0500
-Received: by mail-ej1-x636.google.com with SMTP id x16so16066683ejj.7
- for <qemu-devel@nongnu.org>; Fri, 08 Jan 2021 11:52:43 -0800 (PST)
+ id 1kxxrx-0006FA-Rj
+ for qemu-devel@nongnu.org; Fri, 08 Jan 2021 14:56:24 -0500
+Received: by mail-ej1-x62a.google.com with SMTP id q22so16157170eja.2
+ for <qemu-devel@nongnu.org>; Fri, 08 Jan 2021 11:56:21 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=k5KlDyDwq4tQx6HE1slbSWN6jVC4VZObz3liUz9MFuI=;
- b=AxYzVJsathWfkoyXn45yAwlwzHJHuzXsJ8vCXk+RWHZE85VX3UDt1Qju/AXnuBYnSh
- h2CvdmVo6TD7D7Meu5/k3Bu72r7r2KLDUQLPACvBqOZKBL94R6F3gFYiYPEcjgqvweLr
- 5SuIeTuLXgg3iK82QVSJ+mU1ZpzN+epFkNA0/bjz8HSIitd1hEBExT+lu7MHpTdq8pzl
- W2AHmr5M5dUZrPvt8eB+8hHwi+uCp2SR/njdWJw77FxZeM13/j1FFu+bXlmq8MykPmWq
- X9aaPd9IEDCp+KQgY+wiM5KOshJVa9Q2K4zrPi9XjbRstisUTxDeAb1WjnQbSU/OGZPV
- zj0w==
+ :cc:content-transfer-encoding;
+ bh=aymvMmPvUaZhL2NOn8t2DZzp0MOQgKyhgCbwuTUxFeE=;
+ b=bcFC//7RZPf14tmZKT+Pt/g2vSMG2VWzQKvMKr2D/XeIK84/KZI1XId8gxPcFBiBNl
+ hhVJGY36qj2B9lW8MEqqv47fDQE6jlc+ofclvGKJcRxKkUnCiNSnb0eV1KuHvSusxyg/
+ aldhbLxJgZ2MEJinN2/BBZ3fGyqaXxTnDulc8+JAyVh6CDZEr9YEHaEhGPEmfCnX2CjS
+ 24RLkSmzk8JRNvzQAdtJmj7VeiI+WP3pZVkYFKQzZSYTMz9HczYwkByMHKTTEYSccBA8
+ L+CM03o+zYsYN32N+NQd31dbz3jHmQJYZi0aNtULGZVehWiiSs4aWjNgX3imCwi7fC49
+ +z4g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=k5KlDyDwq4tQx6HE1slbSWN6jVC4VZObz3liUz9MFuI=;
- b=nOYUSHYAHsVjsycM1E/APe60I16tzhmroINWcSEq19JGLMVfvX1rlyU7zQTBsqHcgA
- eXC5spRSrXt62u3F1iZumNE83CDeNndaFyB8BgfMK7fRk5wCNMDk4macS/M4vrviwpfO
- uzoyzseFDmxr40XflepjgohXDqV4GougB3l3PcgaBYjh6Rdujk9WfKqA0F9OnWDsl5ek
- 2OSag+nFtAJujtNWW5aXgmXmOwoKESMn6EcCyLfzpbMcm8AHbWUtIqv0x3R2wgzJt60v
- QGSNe1z/VftFl/DmRk+p6KDrQzzQxemGoojcnxUJs0aOO6rLc491/kKvqRSG4B55slfX
- gV0g==
-X-Gm-Message-State: AOAM531muJUCzUJF8GoB75Hcm+iASFMdQ261Mi+dJVRXjYsrgh5PSR5F
- dMTVH648bG6h/Ilpp6cSJHmtTb2PRa1kcWkmelTs7g==
-X-Google-Smtp-Source: ABdhPJyG0YivE7Yr2snoT8735wuWC2OvUVZLYVwBUbGJUxHVNTEzSMf1kjMMr+5TyPOE83tVNVobKhreUfpFegaD9mw=
-X-Received: by 2002:a17:906:3d4a:: with SMTP id
- q10mr3695022ejf.85.1610135562390; 
- Fri, 08 Jan 2021 11:52:42 -0800 (PST)
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=aymvMmPvUaZhL2NOn8t2DZzp0MOQgKyhgCbwuTUxFeE=;
+ b=U/6dPaplQwvyEOD8bsVq8Nsr0LjOi0wBu+qhxJLwUWfnJC9+sLk3+Ll2dyJICcT5mp
+ r1RI6kmdhs0xATs0V4gZQAmPFpjiWIpzbWyVBQbLlUG2QWFYV8vEs806qyiciJYMOnL4
+ QVUFM3biV1qpSWMdSsI9941100hkzmkGW3Fgs1jcegJT0jRZj18fT9TTpczZQRsxyNS+
+ WbN8p8Q7wdRLLzFnM0Np7hPPui37Kn6WfisCNeeiSww+oyxu4fWsKw9WYTDDImbdgaHF
+ +qXHWJXjkCFJS3xqHTobr1hZ719tWnC7KhWJaIu+a5equUiDvJj0e1ri1q8AEklW4rgr
+ 7Rjw==
+X-Gm-Message-State: AOAM530P9pIAgsKXYj04UgmmzeZcSYW7SlQmEBV8WOh2rseGsYYVTcbK
+ /nAlgPeqKf4H6s/XsndrBp3NoTyjH7auKAQqwzf4Sw==
+X-Google-Smtp-Source: ABdhPJwGM9VChN5oonpNa7Mo3ttH4MmbLGAPS0kNw8RdGbbr/GdZRzNkc1mHfUO+z6blpPTdklvtvHj5aeo0xrcrAPE=
+X-Received: by 2002:a17:906:195a:: with SMTP id
+ b26mr3668962eje.4.1610135780296; 
+ Fri, 08 Jan 2021 11:56:20 -0800 (PST)
 MIME-Version: 1.0
-References: <aa0a0bcc-bd00-37dd-1012-cd71d32f1f9b@roeck-us.net>
- <2f710d2a-ab7b-de6c-4ada-8fb7300556da@amsat.org>
- <142ead0d-db31-3e3b-15bc-4614658ef251@roeck-us.net>
- <CAFEAcA819jnU99nQdFZw1dd_x7YZ4SqQHouOw5w+iC2uEY76aA@mail.gmail.com>
- <1ae841c2-7714-f062-f64c-486882287fbc@roeck-us.net>
-In-Reply-To: <1ae841c2-7714-f062-f64c-486882287fbc@roeck-us.net>
+References: <CANCZdfo_CDqyG339HwNQb_K+sbsV0t+3nJMXVFf=mYrS3nsv-Q@mail.gmail.com>
+In-Reply-To: <CANCZdfo_CDqyG339HwNQb_K+sbsV0t+3nJMXVFf=mYrS3nsv-Q@mail.gmail.com>
 From: Peter Maydell <peter.maydell@linaro.org>
-Date: Fri, 8 Jan 2021 19:52:31 +0000
-Message-ID: <CAFEAcA_RLZRSw1jv3GK5RLY+PG79Zm13OiJ1+Q+WUxpHwqwUOw@mail.gmail.com>
-Subject: Re: pxa crashes with qemu v5.2 when executing xscale operations
-To: Guenter Roeck <linux@roeck-us.net>
+Date: Fri, 8 Jan 2021 19:56:09 +0000
+Message-ID: <CAFEAcA-UUFng5AwFgOEKiQqR3XQEQa+pBejisuFvhUqqfxMA8Q@mail.gmail.com>
+Subject: Re: qemu bsd-user plans
+To: Warner Losh <imp@bsdimp.com>
 Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2a00:1450:4864:20::636;
- envelope-from=peter.maydell@linaro.org; helo=mail-ej1-x636.google.com
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2a00:1450:4864:20::62a;
+ envelope-from=peter.maydell@linaro.org; helo=mail-ej1-x62a.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -81,36 +79,80 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Richard Henderson <richard.henderson@linaro.org>,
- =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>,
- QEMU Developers <qemu-devel@nongnu.org>
+Cc: Sean Bruno <sbruno@freebsd.org>, Thomas Huth <thuth@redhat.com>,
+ Ed Maste <emaste@freebsd.org>, QEMU Developers <qemu-devel@nongnu.org>,
+ Kamil Rytarowski <kamil@netbsd.org>,
+ "Daniel P. Berrange" <berrange@redhat.com>,
+ =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>,
+ Li-Wen Hsu <lwhsu@freebsd.org>, Brad <brad@comstyle.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, 8 Jan 2021 at 18:56, Guenter Roeck <linux@roeck-us.net> wrote:
->
-> On 1/8/21 9:25 AM, Peter Maydell wrote:
-> > On Mon, 21 Dec 2020 at 16:01, Guenter Roeck <linux@roeck-us.net> wrote:
-> >> Something like the following should do.
-> >>
-> >> qemu-system-arm -M z2 -kernel arch/arm/boot/zImage -no-reboot \
-> >>     -initrd rootfs-armv5.cpio \
-> >>     --append "rdinit=/sbin/init console=ttyS0" \
-> >>     -nographic -monitor null -serial stdio
-> >>
-> >> where the kernel is built with pxa_defconfig.
-> >> Machine name can be any of the pxa machines (akita, borzoi, spitz,
-> >> tosa, terrier, z2, or mainstone). The initrd is from:
-> >> https://github.com/groeck/linux-build-test/blob/master/rootfs/arm/rootfs-armv5.cpio.gz
-> >
-> > Do you have a zImage that exhibits this so I don't have to build
-> > my own, please?
-> >
->
-> Attached.
-
-Thanks. Yeah, this is a bug in my refactoring of the coprocessor
-insn handling :-(  I've just sent a patch which fixes it.
+Adding the people to the CC list who were on the previous discussion thread=
+...
 
 -- PMM
+
+
+On Fri, 8 Jan 2021 at 19:43, Warner Losh <imp@bsdimp.com> wrote:
+>
+> The FreeBSD project has rewritten bsd-user. We've been working on this fo=
+r quite some time (the earliest commits date from 2013). Maybe a dozen peop=
+le have worked on this over time, and there's 3 or 4 active developers focu=
+sed on FreeBSD changes at the moment.
+>
+> For a while, we'd merge in upstream changes from qemu. This worked great =
+for us, but left us with a big backlog that was hard to upstream. Each of t=
+he updates took some time, so we got a little behind.
+>
+> So, a few years ago, I spent several weeks converting the tangled merge m=
+ess into a set of linear patches and started moving that forward. This was =
+around the time 4.0 was released. I only managed to get the rebase forward =
+to 3.1 release at the time before I hit problems related to poor testing en=
+vironment making it hard to verify newer versions were still working. Plus,=
+ we found a few bugs that took a while to resolve for a number of reasons. =
+Now that they are resolved, we're able to use qemu-bsd-user to build ~30k p=
+ackages for arm, and ~20k for different types of mips in FreeBSD "ports" sy=
+stem. We now have great confidence that it's working well again.
+>
+> Now that those bugs are resolved, I started trying to forward-port the tw=
+o-year-old base and immediately found myself hitting a number of problems. =
+A big problem was that I was re-doing a lot of work that was due to innocul=
+ous changes upstream that I wouldn't have to do if the bsd-user changes wer=
+e upstream. These changes get in the way of dealing with the more substanti=
+al structural changes in qemu that have happened.
+>
+> There had been talk of doing a remove and replace update of bsd-user. Thi=
+s talk was before I managed to rebase things as far forward as 3.1 even. Th=
+is appealed to me because we've accumulated about 150 patches to date, many=
+ quite large, and curating them into a set of maybe 400 or 500 changes to m=
+atch the size and scope of most patches I've seen posted to qemu-devel seem=
+ed overwhelming.
+>
+> However, it's been another year since that plan was hatched, and it's bec=
+ome clear to me that plan won't end in success. The closest I've been able =
+to get is 3.1 when 4.1 was current (about 6 months behind). It's time for a=
+ new plan.
+>
+> So, my new plan is to rebase what changes I can to the tip of master and =
+submit those for review. I'll work with the developers on the FreeBSD side =
+to ensure they are included in reviews in addition to the normal qemu-devel=
+ list. This will allow us to pare down the deltas between our code and upst=
+ream to allow us to make progress. The changes will be held to the standard=
+ 'makes things better'. Given how broken bsd-user is today in qemu upstream=
+, at first that will a very easy standard to make.
+>
+> The first patch I'll submit will be changing MAINTAINERS to point to me, =
+since I'm acting as the point person in this effort. I'll then re-submit so=
+me other changes that I've submitted in the past, but CC the FreeBSD folks =
+that are currently active (they were only CC'd to former developers who lac=
+k the time to review).
+>
+> But before I get too far down this path, I thought I'd send out what's go=
+ing on to qemu-devel so I can get feedback and adjust the plan into somethi=
+ng that's mutually agreeable so time I put towards this is not wasted.
+>
+> So, what do people think of these plans?
+>
+> Warner
 
