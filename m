@@ -2,98 +2,98 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E61002EED81
-	for <lists+qemu-devel@lfdr.de>; Fri,  8 Jan 2021 07:39:27 +0100 (CET)
-Received: from localhost ([::1]:53018 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AB0612EED82
+	for <lists+qemu-devel@lfdr.de>; Fri,  8 Jan 2021 07:42:06 +0100 (CET)
+Received: from localhost ([::1]:56578 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kxlQk-000132-W9
-	for lists+qemu-devel@lfdr.de; Fri, 08 Jan 2021 01:39:27 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44324)
+	id 1kxlTJ-0002wu-NG
+	for lists+qemu-devel@lfdr.de; Fri, 08 Jan 2021 01:42:05 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44410)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <Qiuhao.Li@outlook.com>)
- id 1kxlOW-0008PG-Lv
- for qemu-devel@nongnu.org; Fri, 08 Jan 2021 01:37:10 -0500
-Received: from mail-oln040092253042.outbound.protection.outlook.com
- ([40.92.253.42]:57507 helo=APC01-SG2-obe.outbound.protection.outlook.com)
+ id 1kxlPM-0001D9-E5
+ for qemu-devel@nongnu.org; Fri, 08 Jan 2021 01:38:00 -0500
+Received: from mail-oln040092253063.outbound.protection.outlook.com
+ ([40.92.253.63]:63266 helo=APC01-SG2-obe.outbound.protection.outlook.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <Qiuhao.Li@outlook.com>)
- id 1kxlOU-0006ir-LD
- for qemu-devel@nongnu.org; Fri, 08 Jan 2021 01:37:08 -0500
+ id 1kxlPK-00077Q-BM
+ for qemu-devel@nongnu.org; Fri, 08 Jan 2021 01:38:00 -0500
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=hc5skLcpzVhgejYzlF8C0VuMehUrjGvdbfoypHwtBflew9ls8R5d5te8N3ibyPUIIYM/8zg8js28jsFstjNyLpuDGBKBRjymPP2MdjOQUJmOJ2JcmgieQzNMPXQPRpv8apOaWlHNIW4BkQRS69suDADsZ7g+fnSORk2knJu0hcsn/6iehY1lsjXBKD5qcq/aSqaTcbptBphIoSwnYvUvnmKUeT0BQZJmRlGzjbwC948xbf+jd4AXbZ8p0UqvFiPL9u4OAJdSSVmYd+Bh48qo0Vf8u3WXb72nmUM+7/u0EjHgepDu6VF3naIdm8XvXdPgY8hF6WZgzjWIM/Xr0SLGgg==
+ b=hg7RcuudRXVClt0bRy4+VPoSHUwM7aorWz/O+3KMnMHxU57uhZJHFkh7O/WFYllgBHempwsSADtZSghi6GOjWgQEIFgGHtkkozLuDUR5gDm+IvVzmSKHwlp92pg/5Wy/cbAfVtEIxf303lZK63g/Dm7x0cNRh5mYP+h3ashaq+UA5XEc4bS+ibTEK8U0XDN0P2a9K6/PnH5OrMYHx8180J57vFLsu42abTWRaefkKszzsH++J5wpq7gIpv3TY6WKvK58+Yey5EeKThMApCan5wuNYdbgqHNIH/ICsFfS0IGDm4JH0/wYAC6OZ6mGeVsbjOqq7ZN/MSdnQrnQT5objg==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=35226rHk2QhbBEeRdjvWNAEkm0dVs5gsYZMFmUzsgo8=;
- b=n1lXNOFBsSE1IFBuJxkTnjonGcxt+CEEnp8K8tLx2HOYcPDxm/mjfKhpy689mF8u7hy3Va4YGXOmv5WTLjoQQbS3TE7gePe6CGy1+lahq4HQF6Fm8dPw8ds5Bi4PVyT0ApvIKDHLLD2qc0A3iLzVkRw3UDrPYbeJ7sv/SjsIj1pKJ2/XteaImMNYrt1V0BiqmMd7ZPoA9po6lfdHlzGkIN/QoR4I95oijebZlyHLyGJClH4TJFik43XLwfAlR1JL0xN/DOKkfjScLEHqwMlRSrzK4L/SkWqHNWdsYWfUcF4CNw8bO8cgtC4hrdz5ZCKDq1MQmkF6mbKmFvgkLm9bxg==
+ bh=bRmV6nO74Mh+1xg6JV5mP/6lpqidg46vYuzrJBmaRAU=;
+ b=Mv2J2AYraaZ3ACFlcbVQnWmL7DOivuCtCwumwAfpEX9uePAPE76ieJyGAYDEmvE1x4QbCIWUoG0NEZQ8atfxfwBBpDgHv0PxDU4n/Z9NLslH78r9eb7MOyCjVEqmznKSW+KaLZl6XngL6qF2XOFXIwLlJAIJQGoOYLXcucwqlLP4f2K9l7ZLqSVVxfWHJDHf8KVVE9EY+X3I59vMxeX8Samzx/lmpFz73t5duW62daYS+mErfdiYX7+tWzHXuYHBZM2plY73GzABBA6T/af2TUUM/kAUKZt2DawDH7Q6yrgvzTrB5ZJqBCG1/OTifUJTCaYuYq7Uj6m46CkqVlzMqw==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=none; dmarc=none;
  dkim=none; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=outlook.com;
  s=selector1;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=35226rHk2QhbBEeRdjvWNAEkm0dVs5gsYZMFmUzsgo8=;
- b=JwGE2jxUg4pWhw9M2CitQYJQcXfzfkhrZ0Cj9362XZIRst//9K2g+0iFZEx+TmY2ERt8O4/a3tI5iZ1i2H4P2seHRS5R6dnooHssI37IE5d++GvCwE47MiVMcVWOieTAI81a4hsteSjDctvaK8x1tvoQu/E7RX6kl1ZzoAGUnduvkkb5T3G5kdr6AzO7vJixHfiivIRiI0gYS788prWWa2Lx2p5lSs6sAizPYCRU6dpJevPkmU3mzcf5+wH9RsPa5504jmQN5Q6x+p6+m9C/uBm87LQlw/l1fLFWRXAeOgFMSqylCMhQ7bepYi5xxzEw3aS47TRo/7/SWpuZIUNpIw==
+ bh=bRmV6nO74Mh+1xg6JV5mP/6lpqidg46vYuzrJBmaRAU=;
+ b=mmGgXVivv7ik9c9ksVoRn1WpOlK4JiFVJkK/SyScS4UCEErj7B5z0MFnwpy79grOT2Pv6aMqIxwL7s5CeGvSX/lmcHBAYTfyc1yHiv1OIG0zpX3oE7uyAoDCPLRXYa52o9O5kMb5WSoKw9h+/hDR0UZsUiwyiyReKgWBlP0aha4rpF982l0tSM/Uq+lsX52JGwXt6jaJJ+ipkER4iwEjnDRJlA5PxvFu1eDf9InMYrikzQ92gs0PPPCaawwle/X4wPYsa0pc0ovk8c3LBo5pwmyi9SzF/zjGKPagE/mjcEphbWx2vHglDvNGZ9bRjjB72f/4X7u/A/PZI+babSWMag==
 Received: from HK2APC01FT049.eop-APC01.prod.protection.outlook.com
- (2a01:111:e400:7ebc::50) by
- HK2APC01HT232.eop-APC01.prod.protection.outlook.com (2a01:111:e400:7ebc::394)
+ (2a01:111:e400:7ebc::4e) by
+ HK2APC01HT137.eop-APC01.prod.protection.outlook.com (2a01:111:e400:7ebc::380)
  with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3742.6; Fri, 8 Jan
- 2021 06:36:54 +0000
+ 2021 06:37:39 +0000
 Received: from MEAPR01MB3494.ausprd01.prod.outlook.com (10.152.248.58) by
  HK2APC01FT049.mail.protection.outlook.com (10.152.249.218) with Microsoft
  SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.3742.6 via Frontend Transport; Fri, 8 Jan 2021 06:36:54 +0000
-X-IncomingTopHeaderMarker: OriginalChecksum:71E8D490654C5EC8953FD317CD1816CB7F5E586241E9D233617B77FFC26A8449;
- UpperCasedChecksum:0F3D19C51CC8F632792BB00FD880BF2B15844D4469CBCAF044468E625862B42E;
- SizeAsReceived:7659; Count:47
+ 15.20.3742.6 via Frontend Transport; Fri, 8 Jan 2021 06:37:39 +0000
+X-IncomingTopHeaderMarker: OriginalChecksum:6576C93D6AB1290EA3E2E4A128B081B89D49CEF3CB07ED75C2C9AA2FB42C34DA;
+ UpperCasedChecksum:FB08F56623533FEB083850642C464F0959C393B99C8E1F345260F231E86102A0;
+ SizeAsReceived:7668; Count:47
 Received: from MEAPR01MB3494.ausprd01.prod.outlook.com
  ([fe80::2d4d:a683:7f83:cf50]) by MEAPR01MB3494.ausprd01.prod.outlook.com
  ([fe80::2d4d:a683:7f83:cf50%7]) with mapi id 15.20.3742.006; Fri, 8 Jan 2021
- 06:36:53 +0000
+ 06:37:38 +0000
 From: Qiuhao Li <Qiuhao.Li@outlook.com>
 To: alxndr@bu.edu,
 	qemu-devel@nongnu.org
-Subject: [PATCH v6 4/7] fuzz: remove IO commands iteratively
-Date: Fri,  8 Jan 2021 14:33:28 +0800
-Message-ID: <MEAPR01MB34942D441A4C84A74CB01709FCAE0@MEAPR01MB3494.ausprd01.prod.outlook.com>
+Subject: [PATCH v6 5/7] fuzz: set bits in operand of write/out to zero
+Date: Fri,  8 Jan 2021 14:33:29 +0800
+Message-ID: <MEAPR01MB3494BA22C439D33D8C1CB9B7FCAE0@MEAPR01MB3494.ausprd01.prod.outlook.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <MEAPR01MB349467055C8DBCB7743E4283FCAE0@MEAPR01MB3494.ausprd01.prod.outlook.com>
 References: <MEAPR01MB349467055C8DBCB7743E4283FCAE0@MEAPR01MB3494.ausprd01.prod.outlook.com>
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain
-X-TMN: [TRqwea5pEAPc8DyvtaRzjoD17fLDM9hBSItaTY3ip9VLrdjVPHLW5h23CRM1fHw5]
-X-ClientProxiedBy: HK2PR0401CA0003.apcprd04.prod.outlook.com
- (2603:1096:202:2::13) To MEAPR01MB3494.ausprd01.prod.outlook.com
+X-TMN: [gIqHBhs8++dXPq1d1LeJ729GuQnyGmA0MOAHlpSkhp31Jyacf684SefOzQqepRC5]
+X-ClientProxiedBy: HK2PR0401CA0008.apcprd04.prod.outlook.com
+ (2603:1096:202:2::18) To MEAPR01MB3494.ausprd01.prod.outlook.com
  (2603:10c6:201:39::11)
-X-Microsoft-Original-Message-ID: <20210108063331.17035-4-Qiuhao.Li@outlook.com>
+X-Microsoft-Original-Message-ID: <20210108063331.17035-5-Qiuhao.Li@outlook.com>
 MIME-Version: 1.0
 X-MS-Exchange-MessageSentRepresentingType: 1
 Received: from XPS-13-9360 (2001:250:fe01:130:10c6:c22f:85d6:f9d) by
- HK2PR0401CA0003.apcprd04.prod.outlook.com (2603:1096:202:2::13) with
+ HK2PR0401CA0008.apcprd04.prod.outlook.com (2603:1096:202:2::18) with
  Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3742.6 via Frontend
- Transport; Fri, 8 Jan 2021 06:36:52 +0000
+ Transport; Fri, 8 Jan 2021 06:37:37 +0000
 X-MS-PublicTrafficType: Email
 X-IncomingHeaderCount: 47
 X-EOPAttributedMessage: 0
-X-MS-Office365-Filtering-Correlation-Id: 7274a2ce-9d05-4d71-68a4-08d8b39fc964
-X-MS-Exchange-SLBlob-MailProps: S/btQ8cKWiT4Pkfzu6B+gslsbaS+QpFwMRUHTKJJVtAPn/bWcJTZGva+oXXRMDs2GucWnWtTLoVKR1i2aeCm15OoCdwr7Pwm+AbyYs3cmhExntpuNY6t1BXTsZrOJnsVvDQsos6/Ij1LbJMrbmsHuy+hjh4Wcyv7mHUt3mLmtLdsxJfG2JDwTwRIgyCXtN158VsehgJF3snIKQnOPxe4OkmMI7DKZWAd5ITQnsBdv2UIpBE55vQMmjh4wu6p77xVJorIUKhj0gByuqVgNeTMwmGt3kD3JPar2lSnE58snMHWTnhE3RdvnIdu3MGisP5PZNwSre/7Pdu9fAwXFr1TA7vZLnQp0cBrjcf6hZRrnf6F9HjMiDFdc0IXVyt0m38YxY/1SlKmb0YSn7bOu6elYRIgLx5bd45L6v01ZyqLhgD1Jc/zVwKsEiH1jFUrYzmvYrJpNmk+48hgiZ5KndAMJKigbVmXnarA6G7/LbEH3wo5GG/P+x+M9FQs93YBaofFNpC+GGdAD3OJ4g7PB9ceu2PLmM9psu1Qs+iZAjwYBJCVeUkB89Th+PdibZmbm16STa7/WXGvdMNEBaxpgllu68+f6HkrBev+t2JVCHZ5/0jO5qc9nCcCyt5703aGh5zlI2Wnz/gPpV6klAgFWOPCnV9H30cLmiy7YpTruLtbkRkLffErk2isZSRwyhd69n0rdwmVd3H3BgF5igR5Y/DdAukhtXWDR72HTvOHgzbzb/fE+UsSIqlF198OuVILaMD0/D339oExrog=
-X-MS-TrafficTypeDiagnostic: HK2APC01HT232:
+X-MS-Office365-Filtering-Correlation-Id: 4b5061bf-6bb1-4b3a-4f0d-08d8b39fe455
+X-MS-Exchange-SLBlob-MailProps: S/btQ8cKWiT4Pkfzu6B+gslsbaS+QpFwt6dgSuE3OGphhSovPL0zOxNXdVBevMqgo6sNuzWEwkvSNjb6dvfIUhgi07l0MVBRfJkAZWz0z5MDsGhu/y2aESWAuj7l+qJ6NljVAsppp4H5axIvbWMn16Z4gBp9OOuz5mcuI3nP+CGFl3hqFBygWdhJ6pLC4wpoPz2zPoKApzjSD1zKP1WnR8DqAL+gJqc3MmFCaTt5RSlBV5bSxCIc2jHso1wfpnxJNK6+p5qxHyiBpN+jmOlJsGPlUZpVKPPwY9jIQG8sg8Pu7QrFQBP9Ba7mtw6YNlxaPEATVuixGW2ZRHK/IgCkg4fQEBE3uGwsTnhLJRYEnmXe2DNkgsZ0fAf/tz6yUucxkqi5IT8AzTsNsUBAwOdpmwlSSKL5wHJewJCxxkf6LM1i/2cb3I9jNp+CdYc3xE6QJZMANlZiCZUaWM6guQUfIWvE78QJ/IGLNgAr2YWvTdhnELzFhZ/v/RaJsyPsiFuA9Z2Z2qihMM78kDq/ucAKWml4dE2jMsPMvw5hVgVkhRqnoevJgC9YlV7WPFDN41bHSl41DyUFxzsMDQRazbaNSi8bMdy8C3CfOCVmz67HK6a6FI8O7Aa0y4RCx9wmxByZrYpAlpSt4EvS1ht339JynCPLradET12nD+mmmRGdo2MVt34jUbYU7pY0+ISWy6D4RvVk7c2LZnxHWBMBNm7AS8ZRIJaW1wnmhXumY4NghmuxDYgRJ0m5sztjGxXkcu7QSu/gzHr4Uz4=
+X-MS-TrafficTypeDiagnostic: HK2APC01HT137:
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: IOKrI0ljdQ/2Hn3N7Re32Az+8J0slQkW3AVVN2EItr+P8WG5R7OFUfzrVj7zp64CjIKmGnSivN4xxkp5UcOuWsybSECAFisVkeYpbe9bpozFuzWBWMFmb5lJ0cOc/UihcbQ2udJ90z+DMLeipthuSRQ47op4F183g1WEdPQI2UyRP6GOyQEF5Kevd+4pKpaQbjFb7extoRfsgBQcB8xnKwW2wdV1aBgF/4vU+m7qIWiEOEOyzotkfgOsIy1Hfvmz
-X-MS-Exchange-AntiSpam-MessageData: M5aZtESh5+CpIVY8l8EPzybjX/Q5t75rvqTDXXohhv28Y5B+V0hrfpMZmvOxaV4spM+rWbTUOCwjbiYczCR4R12HSNZJ77N1oP8x4j+MsP4vtddtS8ZZ0KjhChtzX4g/LmUhnvZd8PUQ2MmJ6RSH2Q06pDiSDnBSs+HNTKPJ3A+TBcPTqzuvVaRIeu174k875ntSy+XqvLDPRqlbK4EyOA==
+X-Microsoft-Antispam-Message-Info: pmpceiPYwSY/nTlzWiSyjp+cergz9RLI7nhhR8u7CZ7xaYObPn501S8MFRujf2FWvJ9eZlb2+74Ra1qaEVUU0/MEXSud3eCLkskEJ5QxtfrWCxJ1Tjj+bimIg4fbFLdPRAeOJdpfDRabo3LJ6ck5Q2ZOSv6MQjgAiHc8hAPg1XJdm+to0r7frjjxwcvjr17kTrmhqEjazpdFwbYcPUKnvN8cwL/O7GlxWpaKzmqYpsG9QzbjhFsUuCvaYr//K5dJ
+X-MS-Exchange-AntiSpam-MessageData: EOmF6pSM6x7aXx4ZJ+uF2K94rfBPsxhB3ukAKcO291X4NBpC2vQBTgHpM9tzbfTWhPlVK73b849ZCQrEWOOGp/7fU7S3ajyGVCIKq0q0ohTgnsWw2DMm/P99ADmm8zbAdI4IGuA8kKx3DYVTocNt9mCb9se4+/+bhzBJHmaK4PXp8eguWvysakIZvVtYufNyu5cyUSEMl4MNB8NzjRp+GQ==
 X-OriginatorOrg: outlook.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 08 Jan 2021 06:36:53.1688 (UTC)
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 08 Jan 2021 06:37:38.3953 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 84df9e7f-e9f6-40af-b435-aaaaaaaaaaaa
-X-MS-Exchange-CrossTenant-Network-Message-Id: 7274a2ce-9d05-4d71-68a4-08d8b39fc964
+X-MS-Exchange-CrossTenant-Network-Message-Id: 4b5061bf-6bb1-4b3a-4f0d-08d8b39fe455
 X-MS-Exchange-CrossTenant-AuthSource: HK2APC01FT049.eop-APC01.prod.protection.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Anonymous
 X-MS-Exchange-CrossTenant-FromEntityHeader: Internet
 X-MS-Exchange-CrossTenant-RMS-PersistedConsumerOrg: 00000000-0000-0000-0000-000000000000
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: HK2APC01HT232
-Received-SPF: pass client-ip=40.92.253.42; envelope-from=Qiuhao.Li@outlook.com;
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: HK2APC01HT137
+Received-SPF: pass client-ip=40.92.253.63; envelope-from=Qiuhao.Li@outlook.com;
  helo=APC01-SG2-obe.outbound.protection.outlook.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
@@ -121,109 +121,77 @@ Cc: thuth@redhat.com, Qiuhao Li <Qiuhao.Li@outlook.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Now we use a one-time scan and remove strategy in the minimizer,
-which is not suitable for timing dependent instructions.
+Simplifying the crash cases by opportunistically setting bits in operands of
+out/write to zero may help to debug, since usually bit one means turn on or
+trigger a function while zero is the default turn-off setting.
 
-For example, instruction A will indicate an address where the config
-chunk locates, and instruction B will make the configuration active.
-If we have the following instruction sequence:
-
-...
-A1
-B1
-A2
-B2
-...
-
-A2 and B2 are the actual instructions that trigger the bug.
-
-If we scan from top to bottom, after we remove A1, the behavior of B1
-might be unknowable, including not to crash the program. But we will
-successfully remove B1 later cause A2 and B2 will crash the process
-anyway:
-
-...
-A1
-A2
-B2
-...
-
-Now one more trimming will remove A1.
-
-In the perfect case, we would need to be able to remove A and B (or C!) at
-the same time. But for now, let's just add a loop around the minimizer.
-
-Since we only remove instructions, this iterative algorithm is converging.
-
-Tested with Bug 1908062.
+Tested Bug 1908062.
 
 Signed-off-by: Qiuhao Li <Qiuhao.Li@outlook.com>
 Reviewed-by: Alexander Bulekov <alxndr@bu.edu>
 Tested-by: Alexander Bulekov <alxndr@bu.edu>
 ---
- scripts/oss-fuzz/minimize_qtest_trace.py | 41 +++++++++++++++---------
- 1 file changed, 26 insertions(+), 15 deletions(-)
+ scripts/oss-fuzz/minimize_qtest_trace.py | 39 ++++++++++++++++++++++++
+ 1 file changed, 39 insertions(+)
 
 diff --git a/scripts/oss-fuzz/minimize_qtest_trace.py b/scripts/oss-fuzz/minimize_qtest_trace.py
-index 5cf39f4e6e..45c1627d32 100755
+index 45c1627d32..2325b38dbc 100755
 --- a/scripts/oss-fuzz/minimize_qtest_trace.py
 +++ b/scripts/oss-fuzz/minimize_qtest_trace.py
-@@ -71,21 +71,9 @@ def check_if_trace_crashes(trace, path):
-     return False
- 
- 
--def minimize_trace(inpath, outpath):
--    global TIMEOUT
--    with open(inpath) as f:
--        trace = f.readlines()
--    start = time.time()
--    if not check_if_trace_crashes(trace, outpath):
--        sys.exit("The input qtest trace didn't cause a crash...")
--    end = time.time()
--    print("Crashed in {} seconds".format(end-start))
--    TIMEOUT = (end-start)*5
--    print("Setting the timeout for {} seconds".format(TIMEOUT))
--
--    i = 0
--    newtrace = trace[:]
-+def remove_lines(newtrace, outpath):
-     remove_step = 1
-+    i = 0
-     while i < len(newtrace):
-         # 1.) Try to remove lines completely and reproduce the crash.
-         # If it works, we're done.
-@@ -174,7 +162,30 @@ def minimize_trace(inpath, outpath):
-                     newtrace[i] = prior[0]
-                     del newtrace[i+1]
+@@ -164,6 +164,42 @@ def remove_lines(newtrace, outpath):
          i += 1
--    check_if_trace_crashes(newtrace, outpath)
+ 
+ 
++def clear_bits(newtrace, outpath):
++    # try setting bits in operands of out/write to zero
++    i = 0
++    while i < len(newtrace):
++        if (not newtrace[i].startswith("write ") and not
++           newtrace[i].startswith("out")):
++           i += 1
++           continue
++        # write ADDR SIZE DATA
++        # outx ADDR VALUE
++        print("\nzero setting bits: {}".format(newtrace[i]))
++
++        prefix = " ".join(newtrace[i].split()[:-1])
++        data = newtrace[i].split()[-1]
++        data_bin = bin(int(data, 16))
++        data_bin_list = list(data_bin)
++
++        for j in range(2, len(data_bin_list)):
++            prior = newtrace[i]
++            if (data_bin_list[j] == '1'):
++                data_bin_list[j] = '0'
++                data_try = hex(int("".join(data_bin_list), 2))
++                # It seems qtest only accepts padded hex-values.
++                if len(data_try) % 2 == 1:
++                    data_try = data_try[:2] + "0" + data_try[2:-1]
++
++                newtrace[i] = "{prefix} {data_try}\n".format(
++                        prefix=prefix,
++                        data_try=data_try)
++
++                if not check_if_trace_crashes(newtrace, outpath):
++                    data_bin_list[j] = '1'
++                    newtrace[i] = prior
++        i += 1
 +
 +
-+def minimize_trace(inpath, outpath):
-+    global TIMEOUT
-+    with open(inpath) as f:
-+        trace = f.readlines()
-+    start = time.time()
-+    if not check_if_trace_crashes(trace, outpath):
-+        sys.exit("The input qtest trace didn't cause a crash...")
-+    end = time.time()
-+    print("Crashed in {} seconds".format(end-start))
-+    TIMEOUT = (end-start)*5
-+    print("Setting the timeout for {} seconds".format(TIMEOUT))
-+
-+    newtrace = trace[:]
-+
-+    # remove lines
-+    old_len = len(newtrace) + 1
-+    while(old_len > len(newtrace)):
-+        old_len = len(newtrace)
-+        remove_lines(newtrace, outpath)
-+        newtrace = list(filter(lambda s: s != "", newtrace))
-+
+ def minimize_trace(inpath, outpath):
+     global TIMEOUT
+     with open(inpath) as f:
+@@ -184,7 +220,10 @@ def minimize_trace(inpath, outpath):
+         old_len = len(newtrace)
+         remove_lines(newtrace, outpath)
+         newtrace = list(filter(lambda s: s != "", newtrace))
 +    assert(check_if_trace_crashes(newtrace, outpath))
  
++    # set bits to zero
++    clear_bits(newtrace, outpath)
+     assert(check_if_trace_crashes(newtrace, outpath))
  
- if __name__ == '__main__':
+ 
 -- 
 2.25.1
 
