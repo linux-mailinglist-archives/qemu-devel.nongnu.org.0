@@ -2,76 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9F0512EEFFE
-	for <lists+qemu-devel@lfdr.de>; Fri,  8 Jan 2021 10:46:28 +0100 (CET)
-Received: from localhost ([::1]:60380 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 182872EF05C
+	for <lists+qemu-devel@lfdr.de>; Fri,  8 Jan 2021 11:03:35 +0100 (CET)
+Received: from localhost ([::1]:35866 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kxoLj-0003O1-Nr
-	for lists+qemu-devel@lfdr.de; Fri, 08 Jan 2021 04:46:27 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50546)
+	id 1kxocH-000609-Ke
+	for lists+qemu-devel@lfdr.de; Fri, 08 Jan 2021 05:03:33 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53658)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1kxoKS-0002q7-7s
- for qemu-devel@nongnu.org; Fri, 08 Jan 2021 04:45:08 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:30566)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1kxoKP-0001Ar-0C
- for qemu-devel@nongnu.org; Fri, 08 Jan 2021 04:45:07 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1610099103;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=/OXYCgoWWVA1n7sPx24WxW5LdaPXzs2gQYtVcQ/wvFg=;
- b=QGHRKV2dMf3wiEKJjkj9+gMUHI/+n6TMusjOk4SkoN7pyMoJ6rWb3Hk0KZYK6WCySrRj5a
- yRDrlU5by2CE6FWSBUxaSMNM/JyKaBCdLLbKeB9ULkn++CKZ+ex/brHjaMA26C8lXP9o+s
- n9nheAAIaFkrl48SqidqUpjio26S7Jg=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-374-q5D4zIhTMBOUDeIyYa_jcA-1; Fri, 08 Jan 2021 04:45:00 -0500
-X-MC-Unique: q5D4zIhTMBOUDeIyYa_jcA-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 3D5F918C9F40;
- Fri,  8 Jan 2021 09:44:58 +0000 (UTC)
-Received: from [10.36.114.168] (ovpn-114-168.ams2.redhat.com [10.36.114.168])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 5C3B610013C0;
- Fri,  8 Jan 2021 09:44:55 +0000 (UTC)
-Subject: Re: [PATCH v1] s390x/tcg: Fix RISBHG
-To: Nick Desaulniers <ndesaulniers@google.com>,
- David Hildenbrand <dhildenb@redhat.com>
-References: <CAKwvOdmE=Z9pV4txRw-kpcv5FOSr6eEXfmGnc++R_Vzv8MnRDQ@mail.gmail.com>
- <B6050D16-4BD3-4355-878F-33E3E7C3A75D@redhat.com>
- <CAKwvOdn068fXosDhtF_o-DVY2tQs4pWj59+uJ59_=JPfOK2Hsg@mail.gmail.com>
-From: David Hildenbrand <david@redhat.com>
-Organization: Red Hat GmbH
-Message-ID: <bbdd5d1b-6aa9-cd2c-eb9a-cf0345dbc999@redhat.com>
-Date: Fri, 8 Jan 2021 10:44:54 +0100
+ (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1kxobV-0005Vb-8K
+ for qemu-devel@nongnu.org; Fri, 08 Jan 2021 05:02:45 -0500
+Received: from 4.mo51.mail-out.ovh.net ([188.165.42.229]:44402)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1kxobR-00016Z-SB
+ for qemu-devel@nongnu.org; Fri, 08 Jan 2021 05:02:45 -0500
+Received: from mxplan5.mail.ovh.net (unknown [10.108.1.214])
+ by mo51.mail-out.ovh.net (Postfix) with ESMTPS id 29DAB25322E;
+ Fri,  8 Jan 2021 11:02:37 +0100 (CET)
+Received: from kaod.org (37.59.142.95) by DAG4EX1.mxp5.local (172.16.2.31)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2044.4; Fri, 8 Jan 2021
+ 11:02:35 +0100
+Authentication-Results: garm.ovh; auth=pass
+ (GARM-95G001cb8c4923-4c5f-4027-856d-4c4d062e438e,
+ 4B30ABD194C75D8A324D43CE175BC731D3728792) smtp.auth=clg@kaod.org
+X-OVh-ClientIp: 82.64.250.170
+Subject: Re: What's the correct way to implement rfi and related instruction.
+To: <luoyonggang@gmail.com>
+References: <CAE2XoE84K6vdQ23upRa1MaCNWSycUGKja9DrTpVCQ4bdY7bZuQ@mail.gmail.com>
+ <db5077c9-4b20-08f1-131e-0bbc7ae15313@kaod.org>
+ <CAE2XoE-Fc3Tc51uiDN70_6suHPwczdp9EcS_LirLK-txzgS+yw@mail.gmail.com>
+From: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>
+Message-ID: <ef0eb70c-5b56-9850-2ad3-f12591cd6b4b@kaod.org>
+Date: Fri, 8 Jan 2021 11:02:29 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.5.0
+ Thunderbird/78.6.0
 MIME-Version: 1.0
-In-Reply-To: <CAKwvOdn068fXosDhtF_o-DVY2tQs4pWj59+uJ59_=JPfOK2Hsg@mail.gmail.com>
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=david@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
+In-Reply-To: <CAE2XoE-Fc3Tc51uiDN70_6suHPwczdp9EcS_LirLK-txzgS+yw@mail.gmail.com>
+Content-Type: text/plain; charset="utf-8"
 Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=david@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -32
-X-Spam_score: -3.3
-X-Spam_bar: ---
-X-Spam_report: (-3.3 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.246,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.267, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Originating-IP: [37.59.142.95]
+X-ClientProxiedBy: DAG3EX1.mxp5.local (172.16.2.21) To DAG4EX1.mxp5.local
+ (172.16.2.31)
+X-Ovh-Tracer-GUID: 2f8bccb2-270b-481c-8fa3-0272539bcc2a
+X-Ovh-Tracer-Id: 3295509028327033638
+X-VR-SPAMSTATE: OK
+X-VR-SPAMSCORE: -100
+X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedujedrvdeggedguddtucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuqfggjfdpvefjgfevmfevgfenuceurghilhhouhhtmecuhedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhepuffvfhfhkffffgggjggtgfhisehtkeertddtfeejnecuhfhrohhmpeevrogurhhitggpnfgvpgfiohgrthgvrhcuoegtlhhgsehkrghougdrohhrgheqnecuggftrfgrthhtvghrnhepfeejtdffhefggfejgfdthfeivdfgueffgffgheduheekffeiteeuvdeghfefiedvnecuffhomhgrihhnpehgnhhurdhorhhgnecukfhppedtrddtrddtrddtpdefjedrheelrddugedvrdelheenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhhouggvpehsmhhtphdqohhuthdphhgvlhhopehmgihplhgrnhehrdhmrghilhdrohhvhhdrnhgvthdpihhnvghtpedtrddtrddtrddtpdhmrghilhhfrhhomheptghlgheskhgrohgurdhorhhgpdhrtghpthhtoheplhhuohihohhnghhgrghnghesghhmrghilhdrtghomh
+Received-SPF: pass client-ip=188.165.42.229; envelope-from=clg@kaod.org;
+ helo=4.mo51.mail-out.ovh.net
+X-Spam_score_int: -21
+X-Spam_score: -2.2
+X-Spam_bar: --
+X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.267,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -84,224 +71,203 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Jonas Paulsson <paulsson@linux.vnet.ibm.com>,
- Thomas Huth <thuth@redhat.com>, Ulrich Weigand <Ulrich.Weigand@de.ibm.com>,
- Vasily Gorbik <gor@linux.ibm.com>,
- clang-built-linux <clang-built-linux@googlegroups.com>,
- Heiko Carstens <hca@linux.ibm.com>, Cornelia Huck <cohuck@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org,
- Christian Borntraeger <borntraeger@de.ibm.com>, qemu-s390x@nongnu.org,
- Guenter Roeck <linux@roeck-us.net>
+Cc: Thomas Monjalon <thomas@monjalon.net>, qemu-ppc@nongnu.org,
+ qemu-level <qemu-devel@nongnu.org>, Aurelien Jarno <aurelien@aurel32.net>,
+ David Gibson <david@gibson.dropbear.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 08.01.21 03:20, Nick Desaulniers wrote:
-> On Thu, Jan 7, 2021 at 3:27 PM David Hildenbrand <dhildenb@redhat.com> wrote:
+On 1/8/21 5:21 AM, 罗勇刚(Yonggang Luo) wrote:
+> 
+> 
+> On Fri, Jan 8, 2021 at 5:54 AM Cédric Le Goater <clg@kaod.org <mailto:clg@kaod.org>> wrote:
 >>
+>> On 1/7/21 8:14 PM, 罗勇刚(Yonggang Luo) wrote:
+>> > This is the first patch,:
+>> > It's store MSR bits differntly for different rfi instructions:
+>> > [Qemu-devel] [PATCH] target-ppc: fix RFI by clearing some bits of MSR
+>> > https://lists.gnu.org/archive/html/qemu-devel/2010-05/msg02999.html <https://lists.gnu.org/archive/html/qemu-devel/2010-05/msg02999.html> <https://lists.gnu.org/archive/html/qemu-devel/2010-05/msg02999.html <https://lists.gnu.org/archive/html/qemu-devel/2010-05/msg02999.html>>
+>> > Comes from  target-ppc: fix RFI by clearing some bits of MSR
+>> > SHA-1: c3d420ead1aee9fcfd12be11cbdf6b1620134773
+>> >  target-ppc/op_helper.c | 6 +++---
+>> >  1 file changed, 3 insertions(+), 3 deletions(-)
+>> > ```
+>> > diff --git a/target-ppc/op_helper.c b/target-ppc/op_helper.c
+>> > index 8f2ee986bb..3c3aa60bc3 100644
+>> > --- a/target-ppc/op_helper.c
+>> > +++ b/target-ppc/op_helper.c
+>> > @@ -1646,20 +1646,20 @@ static inline void do_rfi(target_ulong nip, target_ulong msr,
+>> >  void helper_rfi (void)
+>> >  {
+>> >      do_rfi(env->spr[SPR_SRR0], env->spr[SPR_SRR1],
+>> > -           ~((target_ulong)0x0), 1);
+>> > +           ~((target_ulong)0x783F0000), 1);
+>> >  }
+>> >  
+>> >  #if defined(TARGET_PPC64)
+>> >  void helper_rfid (void)
+>> >  {
+>> >      do_rfi(env->spr[SPR_SRR0], env->spr[SPR_SRR1],
+>> > -           ~((target_ulong)0x0), 0);
+>> > +           ~((target_ulong)0x783F0000), 0);
+>> >  }
+>> >  
+>> >  void helper_hrfid (void)
+>> >  {
+>> >      do_rfi(env->spr[SPR_HSRR0], env->spr[SPR_HSRR1],
+>> > -           ~((target_ulong)0x0), 0);
+>> > +           ~((target_ulong)0x783F0000), 0);
+>> >  }
+>> >  #endif
+>> >  #endif
+>> > ```
+>> >
+>> > This is the second patch,:
+>> > it's remove the parameter  `target_ulong msrm, int keep_msrh`
+>> > Comes from ppc: Fix rfi/rfid/hrfi/... emulation
+>> > SHA-1: a2e71b28e832346409efc795ecd1f0a2bcb705a3
+>> > ```
+>> >  target-ppc/excp_helper.c | 51 +++++++++++++++++++-----------------------------
+>> >  1 file changed, 20 insertions(+), 31 deletions(-)
+>> >
+>> > diff --git a/target-ppc/excp_helper.c b/target-ppc/excp_helper.c
+>> > index 30e960e30b..aa0b63f4b0 100644
+>> > --- a/target-ppc/excp_helper.c
+>> > +++ b/target-ppc/excp_helper.c
+>> > @@ -922,25 +922,20 @@ void helper_store_msr(CPUPPCState *env, target_ulong val)
+>> >      }
+>> >  }
+>> >  
+>> > -static inline void do_rfi(CPUPPCState *env, target_ulong nip, target_ulong msr,
+>> > -                          target_ulong msrm, int keep_msrh)
+>> > +static inline void do_rfi(CPUPPCState *env, target_ulong nip, target_ulong msr)
+>> >  {
+>> >      CPUState *cs = CPU(ppc_env_get_cpu(env));
+>> >  
+>> > +    /* MSR:POW cannot be set by any form of rfi */
+>> > +    msr &= ~(1ULL << MSR_POW);
+>> > +
+>> >  #if defined(TARGET_PPC64)
+>> > -    if (msr_is_64bit(env, msr)) {
+>> > -        nip = (uint64_t)nip;
+>> > -        msr &= (uint64_t)msrm;
+>> > -    } else {
+>> > +    /* Switching to 32-bit ? Crop the nip */
+>> > +    if (!msr_is_64bit(env, msr)) {
+>> >          nip = (uint32_t)nip;
+>> > -        msr = (uint32_t)(msr & msrm);
+>> > -        if (keep_msrh) {
+>> > -            msr |= env->msr & ~((uint64_t)0xFFFFFFFF);
+>> > -        }
+>> >      }
+>> >  #else
+>> >      nip = (uint32_t)nip;
+>> > -    msr &= (uint32_t)msrm;
+>> >  #endif
+>> >      /* XXX: beware: this is false if VLE is supported */
+>> >      env->nip = nip & ~((target_ulong)0x00000003);
+>> > @@ -959,26 +954,24 @@ static inline void do_rfi(CPUPPCState *env, target_ulong nip, target_ulong msr,
+>> >  
+>> >  void helper_rfi(CPUPPCState *env)
+>> >  {
+>> > -    if (env->excp_model == POWERPC_EXCP_BOOKE) {
+>> > -        do_rfi(env, env->spr[SPR_SRR0], env->spr[SPR_SRR1],
+>> > -               ~((target_ulong)0), 0);
+>> > -    } else {
+>> > -        do_rfi(env, env->spr[SPR_SRR0], env->spr[SPR_SRR1],
+>> > -               ~((target_ulong)0x783F0000), 1);
+>> > -    }
+>> > +    do_rfi(env, env->spr[SPR_SRR0], env->spr[SPR_SRR1] & 0xfffffffful);
+>> >  }
+>> >  
+>> > +#define MSR_BOOK3S_MASK
+>> >  #if defined(TARGET_PPC64)
+>> >  void helper_rfid(CPUPPCState *env)
+>> >  {
+>> > -    do_rfi(env, env->spr[SPR_SRR0], env->spr[SPR_SRR1],
+>> > -           ~((target_ulong)0x783F0000), 0);
+>> > +    /* The architeture defines a number of rules for which bits
+>> > +     * can change but in practice, we handle this in hreg_store_msr()
+>> > +     * which will be called by do_rfi(), so there is no need to filter
+>> > +     * here
+>> > +     */
+>> > +    do_rfi(env, env->spr[SPR_SRR0], env->spr[SPR_SRR1]);
+>> >  }
+>> >  
+>> >  void helper_hrfid(CPUPPCState *env)
+>> >  {
+>> > -    do_rfi(env, env->spr[SPR_HSRR0], env->spr[SPR_HSRR1],
+>> > -           ~((target_ulong)0x783F0000), 0);
+>> > +    do_rfi(env, env->spr[SPR_HSRR0], env->spr[SPR_HSRR1]);
+>> >  }
+>> >  #endif
+>> >  
+>> > @@ -986,28 +979,24 @@ void helper_hrfid(CPUPPCState *env)
+>> >  /* Embedded PowerPC specific helpers */
+>> >  void helper_40x_rfci(CPUPPCState *env)
+>> >  {
+>> > -    do_rfi(env, env->spr[SPR_40x_SRR2], env->spr[SPR_40x_SRR3],
+>> > -           ~((target_ulong)0xFFFF0000), 0);
+>> > +    do_rfi(env, env->spr[SPR_40x_SRR2], env->spr[SPR_40x_SRR3]);
+>> >  }
+>> >  
+>> >  void helper_rfci(CPUPPCState *env)
+>> >  {
+>> > -    do_rfi(env, env->spr[SPR_BOOKE_CSRR0], env->spr[SPR_BOOKE_CSRR1],
+>> > -           ~((target_ulong)0), 0);
+>> > +    do_rfi(env, env->spr[SPR_BOOKE_CSRR0], env->spr[SPR_BOOKE_CSRR1]);
+>> >  }
+>> >  
+>> >  void helper_rfdi(CPUPPCState *env)
+>> >  {
+>> >      /* FIXME: choose CSRR1 or DSRR1 based on cpu type */
+>> > -    do_rfi(env, env->spr[SPR_BOOKE_DSRR0], env->spr[SPR_BOOKE_DSRR1],
+>> > -           ~((target_ulong)0), 0);
+>> > +    do_rfi(env, env->spr[SPR_BOOKE_DSRR0], env->spr[SPR_BOOKE_DSRR1]);
+>> >  }
+>> >  
+>> >  void helper_rfmci(CPUPPCState *env)
+>> >  {
+>> >      /* FIXME: choose CSRR1 or MCSRR1 based on cpu type */
+>> > -    do_rfi(env, env->spr[SPR_BOOKE_MCSRR0], env->spr[SPR_BOOKE_MCSRR1],
+>> > -           ~((target_ulong)0), 0);
+>> > +    do_rfi(env, env->spr[SPR_BOOKE_MCSRR0], env->spr[SPR_BOOKE_MCSRR1]);
+>> >  }
+>> >  #endif
+>> >  
+>> > @@ -1045,7 +1034,7 @@ void helper_td(CPUPPCState *env, target_ulong arg1, target_ulong arg2,
+>> >  
+>> >  void helper_rfsvc(CPUPPCState *env)
+>> >  {
+>> > -    do_rfi(env, env->lr, env->ctr, 0x0000FFFF, 0);
+>> > +    do_rfi(env, env->lr, env->ctr & 0x0000FFFF);
+>> >  }
+>> >  
+>> >  /* Embedded.Processor Control */
+>> > ```
+>> >
+>> > And of cause, the second patch fixes some problem, but also cause new problem,
+>> > how to implement these instruction properly?
 >>
->>> Am 08.01.2021 um 00:21 schrieb Nick Desaulniers <ndesaulniers@google.com>:
->>>
->>> ﻿On Thu, Jan 7, 2021 at 3:13 PM David Hildenbrand <david@redhat.com> wrote:
->>>>
->>>> RISBHG is broken and currently hinders clang builds of upstream kernels
->>>> from booting: the kernel crashes early, while decompressing the image.
->>>>
->>>>  [...]
->>>>   Kernel fault: interruption code 0005 ilc:2
->>>>   Kernel random base: 0000000000000000
->>>>   PSW : 0000200180000000 0000000000017a1e
->>>>         R:0 T:0 IO:0 EX:0 Key:0 M:0 W:0 P:0 AS:0 CC:2 PM:0 RI:0 EA:3
->>>>   GPRS: 0000000000000001 0000000c00000000 00000003fffffff4 00000000fffffff0
->>>>         0000000000000000 00000000fffffff4 000000000000000c 00000000fffffff0
->>>>         00000000fffffffc 0000000000000000 00000000fffffff8 00000000008e25a8
->>>>         0000000000000009 0000000000000002 0000000000000008 000000000000bce0
->>>>
->>>> One example of a buggy instruction is:
->>>>
->>>>    17dde:       ec 1e 00 9f 20 5d       risbhg  %r1,%r14,0,159,32
->>>>
->>>> With %r14 = 0x9 and %r1 = 0x7 should result in %r1 = 0x900000007, however,
->>>> results in %r1 = 0.
->>>>
->>>> Let's interpret values of i3/i4 as documented in the PoP and make
->>>> computation of "mask" only based on i3 and i4 and use "pmask" only at the
->>>> very end to make sure wrapping is only applied to the high/low doubleword.
->>>>
->>>> With this patch, I can successfully boot a v5.10 kernel built with
->>>> clang, and gcc builds keep on working.
->>>>
->>>> Fixes: 2d6a869833d9 ("target-s390: Implement RISBG")
->>>> Reported-by: Nick Desaulniers <ndesaulniers@google.com>
->>>> Cc: Guenter Roeck <linux@roeck-us.net>
->>>> Cc: Christian Borntraeger <borntraeger@de.ibm.com>
->>>> Signed-off-by: David Hildenbrand <david@redhat.com>
->>>> ---
->>>>
->>>> This BUG was a nightmare to debug and the code a nightmare to understand.
->>>>
->>>> To make clang/gcc builds boot, the following fix is required as well on
->>>> top of current master: "[PATCH] target/s390x: Fix ALGSI"
->>>> https://lkml.kernel.org/r/20210107202135.52379-1-david@redhat.com
->>>
->>> In that case, a huge thank you!!! for this work! ++beers_owed.
->>>
->>
->> :) a kernel build for z13 should work with the (default) „-cpu qemu“ cpu type.
-> 
-> Hmm...so I don't think clang can build a Linux kernel image with
-> CONFIG_MARCH_Z13=y just yet; just defconfig.  Otherwise looks like
-> clang barfs on some of the inline asm constraints.
-> 
+>> What are the new problems  ?
+>
+>
+> Before this patch, VxWorks can working, but after this, VxWorks can not boot anymore.
 
-Ah, right. I overwrote my manual config by a temporary defconfig :)
+I suppose you did a bisect to reach this patch. 
 
+Which QEMU machine is impacted ? Which CPU ? What are the symptoms ? 
 
-So, I'm on x86-64 F33.
+Did you try to run with -d exec or -d in_asm to identify the exact
+instruction ? 
 
-clang version 11.0.0 (Fedora 11.0.0-2.fc33)
-LLVM version 11.0.0
+From there, you could try to revert partially the patch above to 
+fix the problem. 
 
-I cannot directly use "LLVM=1" for cross-compilation, as I keep getting
-"error: unknown emulation: elf64_s390" from ld.lld and "error: invalid
-output format: 'elf64-s390'" from llvm-objcopy. I assume that's fixed in
-llvm12?
-
-1. I patch around it (strange, I remember CC= .. used to work, but it no
-longer does)
-
----
-
-index e30cf02da8b8..89c57062ed5d 100644
---- a/Makefile
-+++ b/Makefile
-@@ -427,13 +427,13 @@ KBUILD_HOSTLDLIBS   := $(HOST_LFS_LIBS) $(HOSTLDLIBS)
- CPP            = $(CC) -E
- ifneq ($(LLVM),)
- CC             = clang
--LD             = ld.lld
--AR             = llvm-ar
--NM             = llvm-nm
--OBJCOPY                = llvm-objcopy
--OBJDUMP                = llvm-objdump
--READELF                = llvm-readelf
--STRIP          = llvm-strip
-+LD             = $(CROSS_COMPILE)ld
-+AR             = $(CROSS_COMPILE)ar
-+NM             = $(CROSS_COMPILE)nm
-+OBJCOPY                = $(CROSS_COMPILE)objcopy
-+OBJDUMP                = $(CROSS_COMPILE)objdump
-+READELF                = $(CROSS_COMPILE)readelf
-+STRIP          = $(CROSS_COMPILE)strip
- else
- CC             = $(CROSS_COMPILE)gcc
- LD             = $(CROSS_COMPILE)ld
-
----
-
-2. Compile using clang
-
-
-Using latest linux-next (1c925d2030afd354a02c23500386e620e662622b) +
-above patch
-
----
-
-#!/bin/bash
-export ARCH=s390;
-export CROSS_COMPILE=s390x-linux-gnu-
-export LLVM=1
-make distclean
-make defconfig
-
-# Make F32 initrd boot without inserting modules
-./scripts/config -e CONFIG_SCSI_ISCSI_ATTRS
-./scripts/config -e CONFIG_ISCSI_TCP
-
-make -j40 > /dev/null
-
----
-
-3. Run it via QEMU. I boot a full Fedora 32 using the cloud-image +
-initrd from Fedora 32 (tried to stick to your cmdline where possible)
-
-./build/qemu-system-s390x \
--m 512M \
--cpu qemu \
--display none \
--nodefaults \
--kernel ../linux-cross/arch/s390/boot/bzImage \
--append "root=/dev/vda1 conmode=sclp console=ttyS0" \
--initrd ../Fedora-Cloud-Base-32-1.6.x86_64-initrd.img \
--hda ../Fedora-Cloud-Base-32-1.6.x86_64-initrd.img \
--serial mon:stdio
-
-
-KASLR disabled: CPU has no PRNG
-[    0.408769] Linux version 5.11.0-rc2-next-20210108-dirty
-(dhildenb@desktop) (clang version 11.0.0 (Fedora 11.0.0-2.fc33), GNU ld
-version 2.35.1-1.fc33) #1 SMP Fri Jan 8 10:23:01 CET 2021
-[    0.410266] setup: Linux is running under KVM in 64-bit mode
-[    0.415840] setup: The maximum memory size is 512MB
-[    0.417278] cpu: 1 configured CPUs, 0 standby CPUs
-
-...
-
-Fedora 32 (Cloud Edition)
-Kernel 5.11.0-rc2-next-20210108-dirty on an s390x (ttysclp0)
-
-atomic-00 login:
-
-
-> It looks like with your patch applied we get further into the boot!
-> I'm not seeing any output with:
-> $ /android0/qemu/build/qemu-system-s390x -cpu qemu -append
-> 'conmode=sclp console=ttyS0' -display none -initrd
-> /<path/to>/boot-utils/images/s390/rootfs.cpio -kernel
-> arch/s390/boot/bzImage -m 512m -nodefaults -serial mon:stdio
-> 
-> (Based on a quick skim through
-> https://www.ibm.com/support/knowledgecenter/en/linuxonibm/com.ibm.linux.z.ludd/ludd_r_lmtkernelparameter.html).
-> Do I have all of those right?
-> 
-> If I attach GDB to QEMU running that kernel image, I was able to view
-> the print banner once via `lx-dmesg` gdb macro in the kernel, but it
-> seems on subsequent runs control flow gets diverted unexpected post
-> entry to start_kernel() always to `s390_base_pgm_handler` ...errr..at
-> least when I try to single step in GDB.  Tried with linux-5.10.y,
-> mainline, and linux-next.
-> 
-> qemu: 470dd6bd360782f5137f7e3376af6a44658eb1d3 + your patch
-> llvm: 106e66f3f555c8f887e82c5f04c3e77bdaf345e8
-> linux-5.10.y: d1988041d19dc8b532579bdbb7c4a978391c0011
-> linux: 71c061d2443814de15e177489d5cc00a4a253ef3
-> linux-next: f87684f6470f5f02bd47d4afb900366e5d2f31b6
-> 
-> 
-> (gdb) hbreak setup_arch
-> Hardware assisted breakpoint 1 at 0x142229e: file
-> arch/s390/kernel/setup.c, line 1091.
-> (gdb) c
-> Continuing.
-> 
-> Program received signal SIGTRAP, Trace/breakpoint trap.
-> 0x00000000014222a0 in setup_arch (cmdline_p=0x11d7ed8) at
-> arch/s390/kernel/setup.c:1091
-> 1091            if (MACHINE_IS_VM)
-> (gdb) lx-dmesg
-> [    0.376351] Linux version 5.11.0-rc2-00157-ga2885c701c30
-> (ndesaulniers@ndesaulniers1.mtv.corp.google.com) (Nick Desaulniers
-> clang version 12.0.0 (git@github.com:llvm/llvm-project.git
-> e75fec2b238f0e26cfb7645f2208baebe3440d41), GNU ld (GNU Binutils for
-> Debian) 2.35.1) #81 SMP Thu Jan 7 17:57:34 PST 2021
-
-So you're using llvm 12. Maybe that makes a difference. Or we have an
-issue with our arm64 backend. Or using ld.lld and friends make a
-difference. Guess I'd have to custom-compile llvm12 (gah) ... maybe I
-can find some rpms somewhere.
-
--- 
 Thanks,
 
-David / dhildenb
+C.
+
+
 
 
