@@ -2,69 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 17A482EF7BE
-	for <lists+qemu-devel@lfdr.de>; Fri,  8 Jan 2021 19:56:17 +0100 (CET)
-Received: from localhost ([::1]:52932 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id ADE6A2EF7BA
+	for <lists+qemu-devel@lfdr.de>; Fri,  8 Jan 2021 19:53:55 +0100 (CET)
+Received: from localhost ([::1]:44794 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kxwvo-0007lQ-62
-	for lists+qemu-devel@lfdr.de; Fri, 08 Jan 2021 13:56:16 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34206)
+	id 1kxwtW-00049t-MH
+	for lists+qemu-devel@lfdr.de; Fri, 08 Jan 2021 13:53:54 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34236)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <leif@nuviainc.com>) id 1kxwri-00027I-EY
- for qemu-devel@nongnu.org; Fri, 08 Jan 2021 13:52:02 -0500
-Received: from mail-wr1-x42c.google.com ([2a00:1450:4864:20::42c]:39181)
+ (Exim 4.90_1) (envelope-from <leif@nuviainc.com>) id 1kxwrk-00028u-V1
+ for qemu-devel@nongnu.org; Fri, 08 Jan 2021 13:52:06 -0500
+Received: from mail-wr1-x436.google.com ([2a00:1450:4864:20::436]:34997)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <leif@nuviainc.com>) id 1kxwrg-0000uJ-T3
- for qemu-devel@nongnu.org; Fri, 08 Jan 2021 13:52:02 -0500
-Received: by mail-wr1-x42c.google.com with SMTP id c5so9947162wrp.6
- for <qemu-devel@nongnu.org>; Fri, 08 Jan 2021 10:52:00 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <leif@nuviainc.com>) id 1kxwrh-0000uw-Q1
+ for qemu-devel@nongnu.org; Fri, 08 Jan 2021 13:52:03 -0500
+Received: by mail-wr1-x436.google.com with SMTP id r3so9987775wrt.2
+ for <qemu-devel@nongnu.org>; Fri, 08 Jan 2021 10:52:01 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=nuviainc-com.20150623.gappssmtp.com; s=20150623;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=puA6/puXorIWl8XVvGX9+7qdGtTAWfovzDg6hzeCqzU=;
- b=e+Y85H6iaUqPYHcxfNj7Djbm2xfNZwQsFBtoS82ht05TZkYZXVOO8TDYK6/day16BG
- k9mfawz3IrR9ymxLsklYsJgJWy/U0+1DK455mnAQYNgmqgyGlCgGjwkIho53xzEIWnsE
- Wkm5ow5ImbRAUwaMgQzNC3PvzWysDAn9LNe909u+IITIdnX1OokLEkO0vFDoZEZ4Qfji
- OQbm+sOKEQ8rpyfEanmoNlW3Jol/uS7Ngkrbt6TKWDzjXt6F3O6wABPTcfMNSH0hPXqp
- Lw6ulIesFrTm5yymV8pUJgZ5VZT2MG55UscNpivESY1IkTi4fKf1ifSU4DOtEpU5AuGp
- vpwA==
+ bh=jBQ465cDwNWEY9JJSZIV4j2V7wZd54tnbvPI3yNzMNM=;
+ b=vp8OfeqfLFLbNMdMqRns1yMGUKLSVz72PkW0vPlqPz+zSbelo1mAwvheuK0x1g3Qm8
+ DhTzu5SRn9sDQ8rQG0ZeEMc7F71HZcOUqJlfZNoavr1eNWi1impQYbIWpiC4foH4aBR0
+ R8pUpQJNrYroeIEm5f9sV7YLEJFL3fvRSqoI/t2k5pV/DRt5SMZteQt42a6zWRulw6c2
+ HVAWYMfhnac/i2tSMHOPlIj71yAa1S1kmaFCG+Gx/m9i31mbY5Nbnn8pYHbdYxFnX1kM
+ FdGUvV0wjxLxtSLTfgbkK2AhHosiv+Uh+wdzd0zNT7MrjCa57B8lTeaRhXVMmvWN7Km1
+ CnlQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=puA6/puXorIWl8XVvGX9+7qdGtTAWfovzDg6hzeCqzU=;
- b=uMu2LnpTyWJaJzorwd899UfoLIkzA7m2y31MN9iKxcXDEQN7KGQm257cOaw5nB9PYo
- /wY9DGwDvXxqJuOda2/C7Mr1seS5M2UMZ2b1BdBPB2t4ND3F9kETbD+4qXPJskgv08O0
- 6BnP0JMpKCYkik3wX4+zGkpEgBMci2n6DBqutgm4kUfDZiCAnXuj2YGIp7BhzmeaRTA/
- NvHfWJowZrn9ueVaMfyPRZDjiVnBhSRN/Ga/hMWNfoN7S3fN2efG4AWchpDpQK9htJFi
- LBjaDTyejAWmEqBtKocQ9dSiCP3Z4226TreLGksWV9w/DfI6rTdcMu3UCsPn1JqRkd0G
- IWaQ==
-X-Gm-Message-State: AOAM533qGCZLAnhEH1d9zY1fT0oITSHNqc3I+6UKy2gWF9a5twTeqtWo
- EObFglAq0XEGGXs9LNTMfCxVUkgo+8qeexT02vjVJvl5eibMLqj4XRksa0Uu9/2nI5A97MH+S4T
- WTphtdMZXyKgkt95qnoA4fWS6yKIFYD1DaGHcFI+91H94bQuytTaxTuZwKn4ipZkqKqaZAQ==
-X-Google-Smtp-Source: ABdhPJwQmo8WCGXwztg+movEQFMWwlVZODimGGFInmo09t9NDOVp6HwanSIq25wtXVg3UFclM9fEAw==
-X-Received: by 2002:a5d:6708:: with SMTP id o8mr4970661wru.64.1610131919324;
- Fri, 08 Jan 2021 10:51:59 -0800 (PST)
+ bh=jBQ465cDwNWEY9JJSZIV4j2V7wZd54tnbvPI3yNzMNM=;
+ b=MIrFNnHPzE4FYCWSIwAr9CjCraJAdmTvu1z4pDnGsKkYov+PEH/43pyBeUfEvkf3FU
+ liNNI9oj4aTqMpEHfq8X8DXflf/ol2n6AQG1Sr4X5FFT2PNyGAcFvVbulWJTERVbT8L1
+ C+LDOdg7LUSSaSOXVFA+boFdz6+CnMIWwRpWbaqnKOK1Sde/Qk+N9R4JOBoYWx6mg5kL
+ fnpSvw41Ki/OYH8ms6TKwaBEq2CBi7ZO0sSRpuM2NhrdOtfZ6vQw+8oqttoeVcsloD1U
+ iLScrrzX323UYG1gBkxR56GnEGkwLH+StboRMvlv0GDLUQPqnFyEAw0AaCb3fcYHeLVg
+ QyJA==
+X-Gm-Message-State: AOAM531kEujZctG+N5EhUZZTD9Hljy6dSmiqXxqoPqtHPdX378215N4O
+ hST/aBO6ZX1j3/G/OZ9GCibu4CloVGWLzu5AEbKwfLoHdne9BTHKtuhluzxBFR57pJn/M7IZm4v
+ aArN+hFfaLGrBVoxNyjymxOWKkX11xr36bA9RVHVSRVBkF81E6le5gffLafA1KJMvApG/dw==
+X-Google-Smtp-Source: ABdhPJzfkIZajyWZeL8HXTDvZ8uh/X3BLIwLvouG0MAAjsbreM98XYXMAXFMpexX175bIpnHRL+udQ==
+X-Received: by 2002:a05:6000:14b:: with SMTP id
+ r11mr5090150wrx.53.1610131920213; 
+ Fri, 08 Jan 2021 10:52:00 -0800 (PST)
 Received: from vanye.hemma.eciton.net
  (cpc1-cmbg19-2-0-cust915.5-4.cable.virginm.net. [82.27.183.148])
- by smtp.gmail.com with ESMTPSA id b19sm12353373wmj.37.2021.01.08.10.51.58
+ by smtp.gmail.com with ESMTPSA id b19sm12353373wmj.37.2021.01.08.10.51.59
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 08 Jan 2021 10:51:58 -0800 (PST)
+ Fri, 08 Jan 2021 10:51:59 -0800 (PST)
 From: Leif Lindholm <leif@nuviainc.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v3 4/6] target/arm: add descriptions of CLIDR_EL1, CCSIDR_EL1,
- CTR_EL0 to cpu.h
-Date: Fri,  8 Jan 2021 18:51:52 +0000
-Message-Id: <20210108185154.8108-5-leif@nuviainc.com>
+Subject: [PATCH v3 5/6] target/arm: add aarch64 ID register fields to cpu.h
+Date: Fri,  8 Jan 2021 18:51:53 +0000
+Message-Id: <20210108185154.8108-6-leif@nuviainc.com>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20210108185154.8108-1-leif@nuviainc.com>
 References: <20210108185154.8108-1-leif@nuviainc.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::42c;
- envelope-from=leif@nuviainc.com; helo=mail-wr1-x42c.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::436;
+ envelope-from=leif@nuviainc.com; helo=mail-wr1-x436.google.com
 X-Spam_score_int: -18
 X-Spam_score: -1.9
 X-Spam_bar: -
@@ -88,53 +88,74 @@ Cc: Laurent Desnogues <laurent.desnogues@gmail.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+Add entries present in ARM DDI 0487F.c (August 2020).
+
 Signed-off-by: Leif Lindholm <leif@nuviainc.com>
+Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
+Reviewed-by: Laurent Desnogues <laurent.desnogues@gmail.com>
 ---
- target/arm/cpu.h | 31 +++++++++++++++++++++++++++++++
- 1 file changed, 31 insertions(+)
+ target/arm/cpu.h | 15 +++++++++++++++
+ 1 file changed, 15 insertions(+)
 
 diff --git a/target/arm/cpu.h b/target/arm/cpu.h
-index 063228de2a..18c1cb02bb 100644
+index 18c1cb02bb..8300341a26 100644
 --- a/target/arm/cpu.h
 +++ b/target/arm/cpu.h
-@@ -1736,6 +1736,37 @@ FIELD(V7M_FPCCR, ASPEN, 31, 1)
- /*
-  * System register ID fields.
-  */
-+FIELD(CLIDR_EL1, CTYPE1, 0, 3)
-+FIELD(CLIDR_EL1, CTYPE2, 3, 3)
-+FIELD(CLIDR_EL1, CTYPE3, 6, 3)
-+FIELD(CLIDR_EL1, CTYPE4, 9, 3)
-+FIELD(CLIDR_EL1, CTYPE5, 12, 3)
-+FIELD(CLIDR_EL1, CTYPE6, 15, 3)
-+FIELD(CLIDR_EL1, CTYPE7, 18, 3)
-+FIELD(CLIDR_EL1, LOUIS, 21, 3)
-+FIELD(CLIDR_EL1, LOC, 24, 3)
-+FIELD(CLIDR_EL1, LOUU, 27, 3)
-+FIELD(CLIDR_EL1, ICB, 30, 3)
-+
-+/* When FEAT_CCIDX is implemented */
-+FIELD(CCSIDR_EL1, CCIDX_LINESIZE, 0, 3)
-+FIELD(CCSIDR_EL1, CCIDX_ASSOCIATIVITY, 3, 21)
-+FIELD(CCSIDR_EL1, CCIDX_NUMSETS, 32, 24)
-+
-+/* When FEAT_CCIDX is not implemented */
-+FIELD(CCSIDR_EL1, LINESIZE, 0, 3)
-+FIELD(CCSIDR_EL1, ASSOCIATIVITY, 3, 10)
-+FIELD(CCSIDR_EL1, NUMSETS, 13, 15)
-+
-+FIELD(CTR_EL0,  IMINLINE, 0, 4)
-+FIELD(CTR_EL0,  L1IP, 14, 2)
-+FIELD(CTR_EL0,  DMINLINE, 16, 4)
-+FIELD(CTR_EL0,  ERG, 20, 4)
-+FIELD(CTR_EL0,  CWG, 24, 4)
-+FIELD(CTR_EL0,  IDC, 28, 1)
-+FIELD(CTR_EL0,  DIC, 29, 1)
-+FIELD(CTR_EL0,  TMINLINE, 32, 6)
-+
- FIELD(MIDR_EL1, REVISION, 0, 4)
- FIELD(MIDR_EL1, PARTNUM, 4, 12)
- FIELD(MIDR_EL1, ARCHITECTURE, 16, 4)
+@@ -1902,6 +1902,9 @@ FIELD(ID_AA64ISAR1, GPI, 28, 4)
+ FIELD(ID_AA64ISAR1, FRINTTS, 32, 4)
+ FIELD(ID_AA64ISAR1, SB, 36, 4)
+ FIELD(ID_AA64ISAR1, SPECRES, 40, 4)
++FIELD(ID_AA64ISAR1, BF16, 44, 4)
++FIELD(ID_AA64ISAR1, DGH, 48, 4)
++FIELD(ID_AA64ISAR1, I8MM, 52, 4)
+ 
+ FIELD(ID_AA64PFR0, EL0, 0, 4)
+ FIELD(ID_AA64PFR0, EL1, 4, 4)
+@@ -1912,11 +1915,18 @@ FIELD(ID_AA64PFR0, ADVSIMD, 20, 4)
+ FIELD(ID_AA64PFR0, GIC, 24, 4)
+ FIELD(ID_AA64PFR0, RAS, 28, 4)
+ FIELD(ID_AA64PFR0, SVE, 32, 4)
++FIELD(ID_AA64PFR0, SEL2, 36, 4)
++FIELD(ID_AA64PFR0, MPAM, 40, 4)
++FIELD(ID_AA64PFR0, AMU, 44, 4)
++FIELD(ID_AA64PFR0, DIT, 48, 4)
++FIELD(ID_AA64PFR0, CSV2, 56, 4)
++FIELD(ID_AA64PFR0, CSV3, 60, 4)
+ 
+ FIELD(ID_AA64PFR1, BT, 0, 4)
+ FIELD(ID_AA64PFR1, SSBS, 4, 4)
+ FIELD(ID_AA64PFR1, MTE, 8, 4)
+ FIELD(ID_AA64PFR1, RAS_FRAC, 12, 4)
++FIELD(ID_AA64PFR1, MPAM_FRAC, 16, 4)
+ 
+ FIELD(ID_AA64MMFR0, PARANGE, 0, 4)
+ FIELD(ID_AA64MMFR0, ASIDBITS, 4, 4)
+@@ -1930,6 +1940,8 @@ FIELD(ID_AA64MMFR0, TGRAN16_2, 32, 4)
+ FIELD(ID_AA64MMFR0, TGRAN64_2, 36, 4)
+ FIELD(ID_AA64MMFR0, TGRAN4_2, 40, 4)
+ FIELD(ID_AA64MMFR0, EXS, 44, 4)
++FIELD(ID_AA64MMFR0, FGT, 56, 4)
++FIELD(ID_AA64MMFR0, ECV, 60, 4)
+ 
+ FIELD(ID_AA64MMFR1, HAFDBS, 0, 4)
+ FIELD(ID_AA64MMFR1, VMIDBITS, 4, 4)
+@@ -1939,6 +1951,8 @@ FIELD(ID_AA64MMFR1, LO, 16, 4)
+ FIELD(ID_AA64MMFR1, PAN, 20, 4)
+ FIELD(ID_AA64MMFR1, SPECSEI, 24, 4)
+ FIELD(ID_AA64MMFR1, XNX, 28, 4)
++FIELD(ID_AA64MMFR1, TWED, 32, 4)
++FIELD(ID_AA64MMFR1, ETS, 36, 4)
+ 
+ FIELD(ID_AA64MMFR2, CNP, 0, 4)
+ FIELD(ID_AA64MMFR2, UAO, 4, 4)
+@@ -1965,6 +1979,7 @@ FIELD(ID_AA64DFR0, CTX_CMPS, 28, 4)
+ FIELD(ID_AA64DFR0, PMSVER, 32, 4)
+ FIELD(ID_AA64DFR0, DOUBLELOCK, 36, 4)
+ FIELD(ID_AA64DFR0, TRACEFILT, 40, 4)
++FIELD(ID_AA64DFR0, MTPMU, 48, 4)
+ 
+ FIELD(ID_DFR0, COPDBG, 0, 4)
+ FIELD(ID_DFR0, COPSDBG, 4, 4)
 -- 
 2.20.1
 
