@@ -2,124 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B47FF2EF864
-	for <lists+qemu-devel@lfdr.de>; Fri,  8 Jan 2021 20:51:42 +0100 (CET)
-Received: from localhost ([::1]:40316 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E74802EF86A
+	for <lists+qemu-devel@lfdr.de>; Fri,  8 Jan 2021 20:53:33 +0100 (CET)
+Received: from localhost ([::1]:43214 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kxxnR-0001bN-Qf
-	for lists+qemu-devel@lfdr.de; Fri, 08 Jan 2021 14:51:41 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43534)
+	id 1kxxpF-0002qc-0q
+	for lists+qemu-devel@lfdr.de; Fri, 08 Jan 2021 14:53:33 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45432)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <groeck7@gmail.com>)
- id 1kxxKh-0000no-Ld; Fri, 08 Jan 2021 14:21:59 -0500
-Received: from mail-oi1-x22c.google.com ([2607:f8b0:4864:20::22c]:36456)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <groeck7@gmail.com>)
- id 1kxxKf-0002ax-P9; Fri, 08 Jan 2021 14:21:59 -0500
-Received: by mail-oi1-x22c.google.com with SMTP id 9so12543645oiq.3;
- Fri, 08 Jan 2021 11:21:55 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:subject:to:cc:references:from:autocrypt:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=DXJi3FsmvnPl4rLTUMupZB5MNHZ6aJQACZIwKI+tRQ4=;
- b=CL4++unZz9Cx1LBQOb7k2HRRvCHIJg96QLY0aTczJnO3dr1MbdEBToD14YiMmGt4gC
- NYlSdgfIDGOio05OS0L9pQNccYW0ZPhQMpyWGrRRINZRgVScMY8Js8KabdOgVMqiVns+
- yFpS/jJZ1vKrN2P48rDGVQ03eOS1lR2XM5gjt1jKN2v3lSlFjaISmdGRvZ4dzUiz0mOD
- wSmqaNMG+MIUDtKVxy5tBDQA89TyIZ0sV88PKX3/B3Mbt7BOeyJ4gkKkhhWWYLyOdW7+
- eBrg8FzpYn6oRMF/aSssY7brYbb0+2gfL2feWXfzp2KbPfvqR87aYNZa2ys/kBnLYjQX
- LzGQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:subject:to:cc:references:from:autocrypt
- :message-id:date:user-agent:mime-version:in-reply-to
- :content-language:content-transfer-encoding;
- bh=DXJi3FsmvnPl4rLTUMupZB5MNHZ6aJQACZIwKI+tRQ4=;
- b=dgqfNR1/iueN1EI7DujDUQzLwcf+NdmpMlWXNw9/PUq6hcuHCX1K0v+vcw3qFmyUQe
- 8phNt3N/qPXK0+KIDlKk2nzuozIoCVU9qQ0TUyxuLL8xpNnuHEHUZzbHx1IZ06OzZwiC
- Ki9JVk1L3XJPN2CSxoVQUAH+J5dYCt4WKiSjdLQk+A6LtoS+D7H9p8aqjyrg0UDES4o1
- 5eW4H8nFOIyU4diy+0TrDgrCS9aOooONyL9LH0qHW7PEnfMG3o9CsHNEEizN1DUXv79V
- HZZCHzNmUryJ0/tzj0y6i9XnxFbP1Y+epBfUrR1d5UpCWSuGsG/ikJU7WSFq3RISx9Jy
- HzPA==
-X-Gm-Message-State: AOAM532zeifHazMShwCbR3j+Y5gOGZivCZ53e1WJkWo8xhMnYJnQ/l17
- 8hYkVzP3jUnFTuCF9Jooe5o=
-X-Google-Smtp-Source: ABdhPJyvPOU02IY5uiAPjhl4C/5Ugct3c1ifYH9xEjjRGZAVEw/+tAXUKb5vKAkLSMJ0gDZyjinqVQ==
-X-Received: by 2002:aca:d594:: with SMTP id m142mr3283267oig.17.1610133714329; 
- Fri, 08 Jan 2021 11:21:54 -0800 (PST)
-Received: from server.roeck-us.net ([2600:1700:e321:62f0:329c:23ff:fee3:9d7c])
- by smtp.gmail.com with ESMTPSA id
- b15sm642014otj.15.2021.01.08.11.21.52
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 08 Jan 2021 11:21:53 -0800 (PST)
-Subject: Re: [PATCH v2 0/4] s390x/tcg: fix booting Linux kernels compiled with
- clang-11 and clang-12
-To: David Hildenbrand <david@redhat.com>, qemu-devel@nongnu.org
-References: <20210108132049.8501-1-david@redhat.com>
-From: Guenter Roeck <linux@roeck-us.net>
-Autocrypt: addr=linux@roeck-us.net; keydata=
- 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
- mDW4+i+XlNFUPUYMrIKi9joBhu18ssf5i5Q=
-Message-ID: <466de7db-d2bd-4091-5f62-f49c8e4d872c@roeck-us.net>
-Date: Fri, 8 Jan 2021 11:21:51 -0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
+ (Exim 4.90_1) (envelope-from <r.bolshakov@yadro.com>)
+ id 1kxxRX-0006fL-71; Fri, 08 Jan 2021 14:29:03 -0500
+Received: from mta-02.yadro.com ([89.207.88.252]:34476 helo=mta-01.yadro.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <r.bolshakov@yadro.com>)
+ id 1kxxRS-00057B-Sq; Fri, 08 Jan 2021 14:29:01 -0500
+Received: from localhost (unknown [127.0.0.1])
+ by mta-01.yadro.com (Postfix) with ESMTP id C70FA4120E;
+ Fri,  8 Jan 2021 19:28:54 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=yadro.com; h=
+ in-reply-to:content-disposition:content-type:content-type
+ :mime-version:references:message-id:subject:subject:from:from
+ :date:date:received:received:received; s=mta-01; t=1610134133;
+ x=1611948534; bh=SkfEU3ubg7GeAEuNVKVjpdYtnHP7uxx1ZTorzY0XS0M=; b=
+ iuLSxxHElaX93LPdgpZqsnjE9ehOCbhmIDKmbDnLNgGNVOrSWTLMZ9Hl0wY/QZ4V
+ Ne8xXQExsA7Uf5NcyNon+ZP6rF+wLy9kOXP8kNs0OiavZPXpdx2DYHuTfLN1v/wl
+ BkKMeyYrtBJQOaYCc/X3bNsdZbD7cz8CYhiK3fCgcmw=
+X-Virus-Scanned: amavisd-new at yadro.com
+Received: from mta-01.yadro.com ([127.0.0.1])
+ by localhost (mta-01.yadro.com [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id HbXsEIyS_PeC; Fri,  8 Jan 2021 22:28:53 +0300 (MSK)
+Received: from T-EXCH-03.corp.yadro.com (t-exch-03.corp.yadro.com
+ [172.17.100.103])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by mta-01.yadro.com (Postfix) with ESMTPS id C238641208;
+ Fri,  8 Jan 2021 22:28:52 +0300 (MSK)
+Received: from localhost (172.17.204.212) by T-EXCH-03.corp.yadro.com
+ (172.17.100.103) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384_P384) id 15.1.669.32; Fri, 8 Jan
+ 2021 22:28:52 +0300
+Date: Fri, 8 Jan 2021 22:29:12 +0300
+From: Roman Bolshakov <r.bolshakov@yadro.com>
+To: Paolo Bonzini <pbonzini@redhat.com>
+Subject: Re: [PATCH] meson: Propagate gnutls dependency
+Message-ID: <X/iyiCT39u5MCS2D@SPB-NB-133.local>
+References: <X/NPRqMkdM0/IxTh@SPB-NB-133.local>
+ <af0194cd-cdcc-44a3-f023-80d73d96c9e8@redhat.com>
+ <X/R5xtvMn4PcSkTf@SPB-NB-133.local>
+ <690581da-9258-41e5-14cb-bb1b162e8993@redhat.com>
+ <X/cvK5Xkh6+1Qn1K@SPB-NB-133.local>
+ <86bebbbf-ff0f-263d-96a2-4e6df9f85776@redhat.com>
+ <X/dQb7xj/RYiT00R@SPB-NB-133.local>
+ <74d3e1a4-3f0e-f3bb-6079-03043530bfa5@redhat.com>
+ <X/ditOsBmc4A1lJn@SPB-NB-133.local>
+ <CABgObfbYXoGVv4_KSzKR5J4XfJ2du9z77LEh1vrShz-q-O_t4g@mail.gmail.com>
 MIME-Version: 1.0
-In-Reply-To: <20210108132049.8501-1-david@redhat.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::22c;
- envelope-from=groeck7@gmail.com; helo=mail-oi1-x22c.google.com
-X-Spam_score_int: -14
-X-Spam_score: -1.5
-X-Spam_bar: -
-X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_ENVFROM_END_DIGIT=0.25,
- FREEMAIL_FORGED_FROMDOMAIN=0.249, FREEMAIL_FROM=0.001,
- HEADER_FROM_DIFFERENT_DOMAINS=0.248, NICE_REPLY_A=-0.241,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+Content-Type: text/plain; charset="us-ascii"
+Content-Disposition: inline
+In-Reply-To: <CABgObfbYXoGVv4_KSzKR5J4XfJ2du9z77LEh1vrShz-q-O_t4g@mail.gmail.com>
+X-Originating-IP: [172.17.204.212]
+X-ClientProxiedBy: T-EXCH-01.corp.yadro.com (172.17.10.101) To
+ T-EXCH-03.corp.yadro.com (172.17.100.103)
+Received-SPF: pass client-ip=89.207.88.252; envelope-from=r.bolshakov@yadro.com;
+ helo=mta-01.yadro.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -132,50 +84,54 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Thomas Huth <thuth@redhat.com>, Nick Desaulniers <ndesaulniers@google.com>,
- Heiko Carstens <hca@linux.ibm.com>, Cornelia Huck <cohuck@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- Christian Borntraeger <borntraeger@de.ibm.com>, qemu-s390x@nongnu.org
+Cc: Kevin Wolf <kwolf@redhat.com>, Peter Maydell <peter.maydell@linaro.org>,
+ Daniel =?iso-8859-1?Q?P=2E_Berrang=E9?= <berrange@redhat.com>,
+ "open list:Block
+ layer core" <qemu-block@nongnu.org>, QEMU Developers <qemu-devel@nongnu.org>,
+ Max Reitz <mreitz@redhat.com>, Gerd Hoffmann <kraxel@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 1/8/21 5:20 AM, David Hildenbrand wrote:
-> This series fixes booting current upstream Linux kernel compiled by
-> clang-11 and clang-12 under TCG.
+On Thu, Jan 07, 2021 at 08:41:50PM +0100, Paolo Bonzini wrote:
+> Il gio 7 gen 2021, 20:36 Roman Bolshakov <r.bolshakov@yadro.com> ha scritto:
 > 
-> Decided to pull in already separatly sent patches. The last patch is
-> not required to fix the boot issues, but related to patch #3.
+> > > No I think that Meson should simply explode link_whole libraries to their
+> > > constituent objects.  This way duplicates are avoided.
+> > >
+> >
+> > Ok. I've looked through related changes in meson and it flattens object
+> > files implicitly for link_with/link_whole parameters of static_library:
+> >
+> >   https://github.com/mesonbuild/meson/pull/6030/files
+> >
+> > But qemu adds dependencies to source set and populates dependencies
+> > parameter of static_library and declare_dependency and we get duplicate
+> > symbols:
+> >
+> >   https://lists.gnu.org/archive/html/qemu-devel/2021-01/msg00411.html
+> >
+> > Perhaps it's a bug then.
+> >
 > 
-> Latest version of the patches available at:
-> git@github.com:davidhildenbrand/qemu.git clang
-> 
-> v1 -> v2:
-> - Add 's390x/tcg: Don't ignore content in r0 when not specified via "b" or
->   "x"'
-> - Add 's390x/tcg: Ignore register content if b1/b2 is zero when handling
->   EXEUTE'
-> - "s390x/tcg: Fix ALGSI"
-> -- Fixup subject
-> - "s390x/tcg: Fix RISBHG"
-> -- Rephrase description, stating that it fixes clang-11
-> 
-> David Hildenbrand (4):
->   s390x/tcg: Fix ALGSI
->   s390x/tcg: Fix RISBHG
->   s390x/tcg: Only ignore content in r0 when specified via "b" or "x"
->   s390x/tcg: Ignore register content if b1/b2 is zero when handling
->     EXECUTE
-> 
->  target/s390x/insn-data.def | 10 +++++-----
->  target/s390x/mem_helper.c  |  4 ++--
->  target/s390x/translate.c   | 33 +++++++++++++++++----------------
->  3 files changed, 24 insertions(+), 23 deletions(-)
+> No, the same deduplication is not done for executables, because executables
+> use libraries directly and not their object files.
 > 
 
-FWIW, for the series, with gcc 8.3.0 and 10.2.0, booting Linux kernel
-v5.11-rc2-178-gf5e6c330254a:
+Paolo,
 
-Tested-by: Guenter Roeck <linux@roeck-us.net>
+I tried to use extract_all_objects() to get all object files directly
+but it doesn't work on dependency objects defined via
+declare_dependency(). It works only on regular targets (libs and
+executables). And as far as I understand the intention to have
+declare_dependency() in QEMU was to specify public interface to avoid
+some duplication. But meson doesn't have public/private notion for build
+targets so if we drop declare_dependency we need to specify link_whole
+in every user of a library that's had link_whole: declare_dependency()
+and build files would become less lean. So I'm not sure how to proceed.
 
-Guenter
+The proposed patch (in the subject) is the still the best we've got so
+far that fixes macOS build immediately without much bigger wrestling
+with meson.
+
+-Roman
 
