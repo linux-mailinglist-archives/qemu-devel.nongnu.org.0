@@ -2,125 +2,105 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 56C1A2EFB7B
-	for <lists+qemu-devel@lfdr.de>; Fri,  8 Jan 2021 23:58:01 +0100 (CET)
-Received: from localhost ([::1]:60904 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5B8082EFB81
+	for <lists+qemu-devel@lfdr.de>; Fri,  8 Jan 2021 23:59:27 +0100 (CET)
+Received: from localhost ([::1]:38042 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ky0hk-0004OS-Bc
-	for lists+qemu-devel@lfdr.de; Fri, 08 Jan 2021 17:58:00 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53272)
+	id 1ky0j8-0006lX-DV
+	for lists+qemu-devel@lfdr.de; Fri, 08 Jan 2021 17:59:26 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53336)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <groeck7@gmail.com>)
- id 1ky0bY-0005XR-0N; Fri, 08 Jan 2021 17:51:36 -0500
-Received: from mail-ot1-x330.google.com ([2607:f8b0:4864:20::330]:40058)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <groeck7@gmail.com>)
- id 1ky0bW-0007iB-1l; Fri, 08 Jan 2021 17:51:35 -0500
-Received: by mail-ot1-x330.google.com with SMTP id j12so11258681ota.7;
- Fri, 08 Jan 2021 14:51:33 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:subject:to:cc:references:from:autocrypt:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=Xxog+FWQtdXGGn49vblXgZfPwsZtGQA7X+cL+q1/iHI=;
- b=lStJJRf6Cvaqs6KOgr4gl2kSyp1o3U9h+W2Q07eVXwqnmdDv+VgyjeM8FuxU3+aZH2
- V92eTOCypX/+Rq1MbBkFb/6zYPuVcjrGEFOeKIIPygZLLxMA++BnwFOY8/5zca/BxFs4
- dJ2scRGf8SmtiQuf6b8y+38pIToWj/b6l2WOEGb/668lH0ntnTR+HwvlKGAAeBl7LZ8g
- T2FNrmpYvI4JFXFHQQHOj6vRxxmY8VgHS5aCdmLc7jK+rYb6yklaQG4xh2k5lJw8tBom
- vxAqkJ0Kldm22nXq6Yz7CYO7YQPhu9s4YzhhF45TqyiQalULRObPNPjWPOw3CJ2CIRVW
- tRnA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:subject:to:cc:references:from:autocrypt
- :message-id:date:user-agent:mime-version:in-reply-to
- :content-language:content-transfer-encoding;
- bh=Xxog+FWQtdXGGn49vblXgZfPwsZtGQA7X+cL+q1/iHI=;
- b=ORYIxsYzg/0PwxZKJn6rciu0U86HXzylbC43HsknkjNUu4xtYRGE3WjEVZEOOc0dqM
- d4FxvImESmQmCsrxqn/UuQSQuFeq0JU8okNoEEyDKhS1YWzIZabMGEmLWpIAE9SupLv8
- QZt4c1h3DWuBJxWIX+/HRHHrJ2s+7xuGBXZkcFW+agOi1R0CsL/5kz9v1p56juTvwn1f
- EHc2x6vt9YN2GjCw3ixrKnlqMi/PZm69Ouo1S6xWsAJvwfalBNoG1CxUb5e3/hFiH+gH
- EQuQiIb3neY8GxcNutA13TO7zoRf90YFqI8+Oh6bTJky1wbqtt1YzR2UNExfVHSElrej
- uPfA==
-X-Gm-Message-State: AOAM532UUPnnDOgnS/oF5P2OMTl/00lnUjcF5cqmp7J+7rAkGFaFBDXF
- 2H88EMggGSbZXfQ6392zLPqr+8qe3pU=
-X-Google-Smtp-Source: ABdhPJyw4+ELUDoJjo1g0SRLXPco9S+mNLK8trDg32zxCSeTO9VCf7wmU1JbKChtHAvAf1jbcTHhTQ==
-X-Received: by 2002:a9d:224:: with SMTP id 33mr4285248otb.98.1610146291833;
- Fri, 08 Jan 2021 14:51:31 -0800 (PST)
-Received: from server.roeck-us.net ([2600:1700:e321:62f0:329c:23ff:fee3:9d7c])
- by smtp.gmail.com with ESMTPSA id
- h26sm2093072ots.9.2021.01.08.14.51.30
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 08 Jan 2021 14:51:30 -0800 (PST)
-Subject: Re: [PATCH] target/arm: Don't decode insns in the XScale/iWMMXt space
- as cp insns
-To: Peter Maydell <peter.maydell@linaro.org>, qemu-arm@nongnu.org,
+ (Exim 4.90_1) (envelope-from <dbuono@linux.vnet.ibm.com>)
+ id 1ky0c1-00064L-Kn
+ for qemu-devel@nongnu.org; Fri, 08 Jan 2021 17:52:10 -0500
+Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:61872
+ helo=mx0a-001b2d01.pphosted.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <dbuono@linux.vnet.ibm.com>)
+ id 1ky0bu-0007vT-EY
+ for qemu-devel@nongnu.org; Fri, 08 Jan 2021 17:52:05 -0500
+Received: from pps.filterd (m0098416.ppops.net [127.0.0.1])
+ by mx0b-001b2d01.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id
+ 108MWwQc034236; Fri, 8 Jan 2021 17:51:44 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
+ h=subject : to : cc :
+ references : from : message-id : date : mime-version : in-reply-to :
+ content-type : content-transfer-encoding; s=pp1;
+ bh=y/gE/uXod8Rbc26MIMC3fKw1SyMN0UHnGfZLjL33nxk=;
+ b=Kdm9eZjReDKsDtxlsm2HRtQRohuzRkP53NEETd34BdQZxD4kYou3nWey/PJz3BnNa2WS
+ E8p3ozkODmAXaq0bvFC79Ltl6g/yuXM7izDsgibdrerMpaXl12dKPGEWbZfkwo9angWJ
+ 9G0MesRMw4WXtLAia8IsFgHyl8X5PNzNwXPF7cb0hksfvKtCeiNav/mMxNxroyk8mWuu
+ 9O7FXvtd0x57HS0sAOLlrZNAOnPkZLHWL/3PNFrYksnNNdDHrqaMMNMK/1HRijqa4AZq
+ oq8/hU5lFe411U3b1JX9MwIgwd3mbMHjIHrNtvwkEBW/KmvCTqhjO6DYFmgSW2bLon3M Aw== 
+Received: from pps.reinject (localhost [127.0.0.1])
+ by mx0b-001b2d01.pphosted.com with ESMTP id 35xyyyrq6n-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Fri, 08 Jan 2021 17:51:44 -0500
+Received: from m0098416.ppops.net (m0098416.ppops.net [127.0.0.1])
+ by pps.reinject (8.16.0.36/8.16.0.36) with SMTP id 108MfXOL066027;
+ Fri, 8 Jan 2021 17:51:44 -0500
+Received: from ppma03dal.us.ibm.com (b.bd.3ea9.ip4.static.sl-reverse.com
+ [169.62.189.11])
+ by mx0b-001b2d01.pphosted.com with ESMTP id 35xyyyrq6c-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Fri, 08 Jan 2021 17:51:44 -0500
+Received: from pps.filterd (ppma03dal.us.ibm.com [127.0.0.1])
+ by ppma03dal.us.ibm.com (8.16.0.42/8.16.0.42) with SMTP id 108Mm3WF007716;
+ Fri, 8 Jan 2021 22:51:43 GMT
+Received: from b03cxnp07028.gho.boulder.ibm.com
+ (b03cxnp07028.gho.boulder.ibm.com [9.17.130.15])
+ by ppma03dal.us.ibm.com with ESMTP id 35tgf9trm2-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Fri, 08 Jan 2021 22:51:43 +0000
+Received: from b03ledav003.gho.boulder.ibm.com
+ (b03ledav003.gho.boulder.ibm.com [9.17.130.234])
+ by b03cxnp07028.gho.boulder.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 108Mpgfu21102960
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Fri, 8 Jan 2021 22:51:42 GMT
+Received: from b03ledav003.gho.boulder.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 7AA176A054;
+ Fri,  8 Jan 2021 22:51:42 +0000 (GMT)
+Received: from b03ledav003.gho.boulder.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id B87AF6A047;
+ Fri,  8 Jan 2021 22:51:41 +0000 (GMT)
+Received: from [9.160.3.101] (unknown [9.160.3.101])
+ by b03ledav003.gho.boulder.ibm.com (Postfix) with ESMTP;
+ Fri,  8 Jan 2021 22:51:41 +0000 (GMT)
+Subject: Re: [PATCH] decodetree: Open files with encoding='utf-8'
+To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
  qemu-devel@nongnu.org
-References: <20210108195157.32067-1-peter.maydell@linaro.org>
-From: Guenter Roeck <linux@roeck-us.net>
-Autocrypt: addr=linux@roeck-us.net; keydata=
- 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
- mDW4+i+XlNFUPUYMrIKi9joBhu18ssf5i5Q=
-Message-ID: <5ba8cd70-c4a1-5543-660b-61c0bc998705@roeck-us.net>
-Date: Fri, 8 Jan 2021 14:51:29 -0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
+References: <20210108151632.277015-1-f4bug@amsat.org>
+From: Daniele Buono <dbuono@linux.vnet.ibm.com>
+Message-ID: <2cde5504-9df6-93fb-a014-daee2b907fde@linux.vnet.ibm.com>
+Date: Fri, 8 Jan 2021 17:51:41 -0500
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
+ Thunderbird/78.6.0
 MIME-Version: 1.0
-In-Reply-To: <20210108195157.32067-1-peter.maydell@linaro.org>
-Content-Type: text/plain; charset=utf-8
+In-Reply-To: <20210108151632.277015-1-f4bug@amsat.org>
+Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::330;
- envelope-from=groeck7@gmail.com; helo=mail-ot1-x330.google.com
-X-Spam_score_int: -14
-X-Spam_score: -1.5
-X-Spam_bar: -
-X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_ENVFROM_END_DIGIT=0.25,
- FREEMAIL_FORGED_FROMDOMAIN=0.249, FREEMAIL_FROM=0.001,
- HEADER_FROM_DIFFERENT_DOMAINS=0.248, NICE_REPLY_A=-0.241,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+Content-Transfer-Encoding: 8bit
+X-TM-AS-GCONF: 00
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.343, 18.0.737
+ definitions=2021-01-08_11:2021-01-07,
+ 2021-01-08 signatures=0
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ malwarescore=0
+ mlxlogscore=999 mlxscore=0 lowpriorityscore=0 adultscore=0 spamscore=0
+ impostorscore=0 phishscore=0 priorityscore=1501 bulkscore=0 clxscore=1011
+ suspectscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2009150000 definitions=main-2101080113
+Received-SPF: none client-ip=148.163.158.5;
+ envelope-from=dbuono@linux.vnet.ibm.com; helo=mx0a-001b2d01.pphosted.com
+X-Spam_score_int: -28
+X-Spam_score: -2.9
+X-Spam_bar: --
+X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.241,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -133,57 +113,62 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-stable@nongnu.org
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ Paolo Bonzini <pbonzini@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ Eduardo Habkost <ehabkost@redhat.com>, Cleber Rosa <crosa@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 1/8/21 11:51 AM, Peter Maydell wrote:
-> In commit cd8be50e58f63413c0 we converted the A32 coprocessor
-> insns to decodetree. This accidentally broke XScale/iWMMXt insns,
-> because it moved the handling of "cp insns which are handled
-> by looking up the cp register in the hashtable" from after the
-> call to the legacy disas_xscale_insn() decode to before it,
-> with the result that all XScale/iWMMXt insns now UNDEF.
+I had a similar issue in the past with the acceptance tests.
+Some VMs send UTF-8 output in their console and the acceptance test
+script would bail out if the locale was not UTF-8.
+
+I sent a patch on the ml but it probably got lost:
+https://lists.gnu.org/archive/html/qemu-devel/2020-07/msg06086.html
+
+I can re-spin it if you guys are interested
+
+
+On 1/8/2021 10:16 AM, Philippe Mathieu-Daudé wrote:
+> When decodetree.py was added in commit 568ae7efae7, QEMU was
+> using Python 2 which happily reads UTF-8 files in text mode.
+> Python 3 requires either UTF-8 locale or an explicit encoding
+> passed to open(). Now that Python 3 is required, explicit
+> UTF-8 encoding for decodetree sources.
 > 
-> Update valid_cp() so that it knows that on XScale cp 0 and 1
-> are not standard coprocessor instructions; this will cause
-> the decodetree trans_ functions to ignore them, so that
-> execution will correctly get through to the legacy decode again.
+> This fixes:
 > 
-> Cc: qemu-stable@nongnu.org
-> Reported-by: Guenter Roeck <linux@roeck-us.net>
-> Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
+>    $ /usr/bin/python3 scripts/decodetree.py test.decode
+>    Traceback (most recent call last):
+>      File "scripts/decodetree.py", line 1397, in <module>
+>        main()
+>      File "scripts/decodetree.py", line 1308, in main
+>        parse_file(f, toppat)
+>      File "scripts/decodetree.py", line 994, in parse_file
+>        for line in f:
+>      File "/usr/lib/python3.6/encodings/ascii.py", line 26, in decode
+>        return codecs.ascii_decode(input, self.errors)[0]
+>    UnicodeDecodeError: 'ascii' codec can't decode byte 0xc3 in position 80:
+>    ordinal not in range(128)
+> 
+> Reported-by: Peter Maydell <peter.maydell@linaro.org>
+> Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 > ---
-> With this Guenter's test image now successfully boots
-> and shuts down again.
-> ---
-
-Thanks a lot for the fix!
-
-Tested-by: Guenter Roeck <linux@roeck-us.net>
-
->  target/arm/translate.c | 7 +++++++
->  1 file changed, 7 insertions(+)
+>   scripts/decodetree.py | 2 +-
+>   1 file changed, 1 insertion(+), 1 deletion(-)
 > 
-> diff --git a/target/arm/translate.c b/target/arm/translate.c
-> index f5acd32e76a..528b93dffa2 100644
-> --- a/target/arm/translate.c
-> +++ b/target/arm/translate.c
-> @@ -5282,7 +5282,14 @@ static bool valid_cp(DisasContext *s, int cp)
->       * only cp14 and cp15 are valid, and other values aren't considered
->       * to be in the coprocessor-instruction space at all. v8M still
->       * permits coprocessors 0..7.
-> +     * For XScale, we must not decode the XScale cp0, cp1 space as
-> +     * a standard coprocessor insn, because we want to fall through to
-> +     * the legacy disas_xscale_insn() decoder after decodetree is done.
->       */
-> +    if (arm_dc_feature(s, ARM_FEATURE_XSCALE) && (cp == 0 || cp == 1)) {
-> +        return false;
-> +    }
-> +
->      if (arm_dc_feature(s, ARM_FEATURE_V8) &&
->          !arm_dc_feature(s, ARM_FEATURE_M)) {
->          return cp >= 14;
+> diff --git a/scripts/decodetree.py b/scripts/decodetree.py
+> index 47aa9caf6d1..fa40903cff1 100644
+> --- a/scripts/decodetree.py
+> +++ b/scripts/decodetree.py
+> @@ -1304,7 +1304,7 @@ def main():
 > 
-
+>       for filename in args:
+>           input_file = filename
+> -        f = open(filename, 'r')
+> +        f = open(filename, 'r', encoding='utf-8')
+>           parse_file(f, toppat)
+>           f.close()
+> 
 
