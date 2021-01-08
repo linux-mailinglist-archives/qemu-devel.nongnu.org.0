@@ -2,69 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BD49D2EF302
-	for <lists+qemu-devel@lfdr.de>; Fri,  8 Jan 2021 14:28:10 +0100 (CET)
-Received: from localhost ([::1]:34576 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6C0592EF376
+	for <lists+qemu-devel@lfdr.de>; Fri,  8 Jan 2021 14:52:04 +0100 (CET)
+Received: from localhost ([::1]:54176 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kxroH-0001eJ-SJ
-	for lists+qemu-devel@lfdr.de; Fri, 08 Jan 2021 08:28:09 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40052)
+	id 1kxsBP-0003UG-2W
+	for lists+qemu-devel@lfdr.de; Fri, 08 Jan 2021 08:52:03 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47598)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1kxrhX-0005o5-IR
- for qemu-devel@nongnu.org; Fri, 08 Jan 2021 08:21:11 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:23047)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1kxrhW-0002nQ-0j
- for qemu-devel@nongnu.org; Fri, 08 Jan 2021 08:21:11 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1610112069;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=XzNzABc9kqEGW1XlawqHqkOVM25PLG/URWvedRv0ocM=;
- b=HsOfvKzzU7TWX8wrF01h9RixAvAdqWQtctFEhw9CbpZ+BIdHxXZSj+0lUJLeMFVqQHuQdS
- O7Oz9QEJoEymTysRz1hyR0KxVMBRfHY5eh51sgQCJ9HKpFS5diPjR2Qt6IU+xqt3C0XzAs
- IFCIVyhhDoaa5m23k9ILCU3su+6E6lQ=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-465-AcfoTpzwM065_SUs7y47tA-1; Fri, 08 Jan 2021 08:21:05 -0500
-X-MC-Unique: AcfoTpzwM065_SUs7y47tA-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A1FD0804002;
- Fri,  8 Jan 2021 13:21:04 +0000 (UTC)
-Received: from t480s.redhat.com (ovpn-114-168.ams2.redhat.com [10.36.114.168])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 4DC0B5D9C0;
- Fri,  8 Jan 2021 13:21:03 +0000 (UTC)
-From: David Hildenbrand <david@redhat.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH v2 4/4] s390x/tcg: Ignore register content if b1/b2 is zero
- when handling EXECUTE
-Date: Fri,  8 Jan 2021 14:20:49 +0100
-Message-Id: <20210108132049.8501-5-david@redhat.com>
-In-Reply-To: <20210108132049.8501-1-david@redhat.com>
-References: <20210108132049.8501-1-david@redhat.com>
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1kxsAL-0002uA-6q
+ for qemu-devel@nongnu.org; Fri, 08 Jan 2021 08:50:57 -0500
+Received: from mail-ej1-x635.google.com ([2a00:1450:4864:20::635]:43611)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1kxsAJ-000701-8F
+ for qemu-devel@nongnu.org; Fri, 08 Jan 2021 08:50:56 -0500
+Received: by mail-ej1-x635.google.com with SMTP id jx16so14538815ejb.10
+ for <qemu-devel@nongnu.org>; Fri, 08 Jan 2021 05:50:54 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=pgloYTHhKqpbFvrivGZDOeP9gj2oGBxEf54Q/TxsE4I=;
+ b=EeT0T5/6ID0PcUYL2ofXzTcE2IYVZ8zerIUpCG1edlN8G1v6ge0EpOBd27ghpJ4AXJ
+ g5cYxPcMlNn+we67GAnSjpSDoz8zqAA2YmZCyPsdffGX4zZjFxwUdd7Oc7DWxp27ULIm
+ piO67iOyW/zJ/Yqantm+wJ7xpBUoGCoZGaxoIyy0A+h+5DibLD33j5IF9EEND/S9cwtV
+ yXrtDfXZ5iBIMQEkC7dH5jyYcZRpCuzQGYNR3O2PPJXJMTlNHyCoVfPtr6mCergmnit3
+ XVmF6tr7T1ZpdbE/M5bf0m9C9TNHR7wXpujt7K5a1F5cOzWbj4GluRyNLLVNjCsdJz6C
+ jjfA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=pgloYTHhKqpbFvrivGZDOeP9gj2oGBxEf54Q/TxsE4I=;
+ b=ajKPUPtysOSwUFCFgjtrlEZrPj3M10JX8nAJqq8Bi72JwVFGQSDPlQQSkRN/Cpd1hS
+ wpHV86xJY5tyI0YGE/FVtAXi71rFzumGk8AuQ0BFEqG3Ij2sDmzfgtpcC16wcsZO+wm4
+ BYe8YSBmi/mXxjqxRdi2abl2T3pr1rLHNG82F93n0sqvuF/N7hunRIR7qmAdNWojLD76
+ z9EAMHhfJ1DoiLWwGlJc0L5moEaEbgSVqO5orY3fKmW2a2N77ima3Obqe3W4oBtGBUZK
+ eXjLtdLj14bn9zGxEHUHOofKNVwyn2m5PG0jJDE+AuDa443GbXReSOVktiXdKTaogf0N
+ JUHw==
+X-Gm-Message-State: AOAM530QiZlPfVOw3PB1vDtyZ4kc9ZYUbQ8pWdeh1vVeV8F2y0wlHBw+
+ z8Fg5dJRb9OPsJRKxUsnNi/JPxeir8sjj5yTAAfsFA==
+X-Google-Smtp-Source: ABdhPJwPlMozjrvAvUnnj1jyAGWCVfcVj4HuZEQgQvmwMMvuOeHb3Lz20DpJ6tfrJQf7RKKyUbjZkwMNDwDfK5ovepk=
+X-Received: by 2002:a17:906:1151:: with SMTP id
+ i17mr2795894eja.250.1610113853526; 
+ Fri, 08 Jan 2021 05:50:53 -0800 (PST)
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=david@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=david@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -29
-X-Spam_score: -3.0
-X-Spam_bar: ---
-X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.247,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+References: <20210102150718.47618-1-r.bolshakov@yadro.com>
+In-Reply-To: <20210102150718.47618-1-r.bolshakov@yadro.com>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Fri, 8 Jan 2021 13:50:42 +0000
+Message-ID: <CAFEAcA8GMYcTrfKJ-6E3rKyytDHSL4UeWPVuFVLtzWjDtCxMVw@mail.gmail.com>
+Subject: Re: [PATCH v2] ui/cocoa: Fix openFile: deprecation on Big Sur
+To: Roman Bolshakov <r.bolshakov@yadro.com>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2a00:1450:4864:20::635;
+ envelope-from=peter.maydell@linaro.org; helo=mail-ej1-x635.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -77,37 +77,28 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-s390x@nongnu.org, Cornelia Huck <cohuck@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- Thomas Huth <thuth@redhat.com>, David Hildenbrand <david@redhat.com>
+Cc: QEMU Developers <qemu-devel@nongnu.org>, Gerd Hoffmann <kraxel@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-In our EXECUTE fast path, we have to ignore the content of r0, if
-specified by b1 or b2.
+On Sat, 2 Jan 2021 at 15:14, Roman Bolshakov <r.bolshakov@yadro.com> wrote:
+>
+> ui/cocoa.m:1188:44: warning: 'openFile:' is deprecated: first deprecated in macOS 11.0 - Use -[NSWorkspace openURL:] instead.
+>       [-Wdeprecated-declarations]
+>         if ([[NSWorkspace sharedWorkspace] openFile: full_file_path] == YES) {
+>                                            ^
+> /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/System/Library/Frameworks/AppKit.framework/Headers/NSWorkspace.h:350:1: note:
+>       'openFile:' has been explicitly marked deprecated here
+> - (BOOL)openFile:(NSString *)fullPath API_DEPRECATED("Use -[NSWorkspace openURL:] instead.", macos(10.0, 11.0));
+> ^
+>
+> Signed-off-by: Roman Bolshakov <r.bolshakov@yadro.com>
+> ---
 
-Fixes: d376f123c7de ("target/s390x: Re-implement a few EXECUTE target insns directly")
-Signed-off-by: David Hildenbrand <david@redhat.com>
----
- target/s390x/mem_helper.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
 
-diff --git a/target/s390x/mem_helper.c b/target/s390x/mem_helper.c
-index 0108611cc9..1901e9dfc7 100644
---- a/target/s390x/mem_helper.c
-+++ b/target/s390x/mem_helper.c
-@@ -2473,8 +2473,8 @@ void HELPER(ex)(CPUS390XState *env, uint32_t ilen, uint64_t r1, uint64_t addr)
-             uint32_t d1 = extract64(insn, 32, 12);
-             uint32_t b2 = extract64(insn, 28, 4);
-             uint32_t d2 = extract64(insn, 16, 12);
--            uint64_t a1 = wrap_address(env, env->regs[b1] + d1);
--            uint64_t a2 = wrap_address(env, env->regs[b2] + d2);
-+            uint64_t a1 = wrap_address(env, (b1 ? env->regs[b1] : 0) + d1);
-+            uint64_t a2 = wrap_address(env, (b2 ? env->regs[b2] : 0) + d2);
- 
-             env->cc_op = helper(env, l, a1, a2, 0);
-             env->psw.addr += ilen;
--- 
-2.29.2
+I'll take this via my target-arm tree, for convenience's sake.
 
+thanks
+-- PMM
 
