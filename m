@@ -2,71 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 180292EF0C3
-	for <lists+qemu-devel@lfdr.de>; Fri,  8 Jan 2021 11:36:45 +0100 (CET)
-Received: from localhost ([::1]:52948 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 669F12EF0C4
+	for <lists+qemu-devel@lfdr.de>; Fri,  8 Jan 2021 11:37:34 +0100 (CET)
+Received: from localhost ([::1]:55192 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kxp8N-0006ib-Us
-	for lists+qemu-devel@lfdr.de; Fri, 08 Jan 2021 05:36:43 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59774)
+	id 1kxp9B-0007xO-GT
+	for lists+qemu-devel@lfdr.de; Fri, 08 Jan 2021 05:37:33 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59914)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1kxp7F-0006Et-CS
- for qemu-devel@nongnu.org; Fri, 08 Jan 2021 05:35:33 -0500
-Received: from mail-ej1-x62f.google.com ([2a00:1450:4864:20::62f]:34260)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1kxp7B-0008Bf-4d
- for qemu-devel@nongnu.org; Fri, 08 Jan 2021 05:35:33 -0500
-Received: by mail-ej1-x62f.google.com with SMTP id g20so13971393ejb.1
- for <qemu-devel@nongnu.org>; Fri, 08 Jan 2021 02:35:28 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=rIkyMw46PHgBF6q3fnsb9totx5EdQT6p6Pt/NidcJGw=;
- b=TgAnAp0olUK3niT2aiPTjGy9oIaTiyXPIST+AkXJxfEHYOhofnGzNggKAu+7RN1HLj
- bxsylWpaFt/xV8gwXrSYMIygVeN1EMdmCtsJerazyA6/eOC1zN8lepzf8nCkQkRuwCgQ
- Jj9mE5ym3ZKhT1kO8YPvMk8F0AIFfyuQbLf87rsXP48DDjRddYN+V6O88sJEbR0zfBiz
- 664c0XMdXX8pOsYDagjoPR4ZQYalZGnORAl/Mgs7wnrL3y0OMNvGlsPdjWqQLkzCp2Db
- fHjOiQoObrv08hricV5nd1VSoJe3dCj9c9UztttazxB0EScN8FuHbSqXex5KFG7ipaTx
- JYRg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=rIkyMw46PHgBF6q3fnsb9totx5EdQT6p6Pt/NidcJGw=;
- b=Hr0Wn3ZrONa3E3+ZeunBOXjEbh5q26dG+LDEkvzj4Tgv7A/5nN1T0ZsukM8LFUeqOk
- wc/qA90DqL9p3IcbvhE8Nacdhec63Bz9YLwgImxJ3R9TtUknNstHVo26fB7U513/DTV7
- WgfEVGs/CqTBNA2Jb076GiF+sNpo6JWW+8+DmEQeJhVaNuxJVkSUFyF6ft3CKW0QoWAF
- 98IKhLrlF9BxKm2bdBruMH16WZmN/6U4YJOmrqm3l9ZC+fAZlqQ8s+SkrwntxtpdUkTm
- FDXPMsFugAh4GYvkS6l4XMHbVMLSgy/kLGueD1StLtdiXYvTDZVKJ9s92RG3V9eUG4EM
- Z0IA==
-X-Gm-Message-State: AOAM5328RTxAHKSu3QadWm3QyJ9m/pLatY9xoerW8vURwOPsQJJCupzl
- R+oEskUEEnPy3d0E7cno85F6/Wdw59WGC36IYA9jcA==
-X-Google-Smtp-Source: ABdhPJwNeqDHR8Vw/jQ1m1utg9NjAfhdr0YmkxZXdHVGF/kVuB/ddQZ9+1qyrCgWmdCr4d2lpDNh/bt995E2SfE+o04=
-X-Received: by 2002:a17:906:1151:: with SMTP id
- i17mr2307267eja.250.1610102127258; 
- Fri, 08 Jan 2021 02:35:27 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1kxp7y-0006x1-Mq
+ for qemu-devel@nongnu.org; Fri, 08 Jan 2021 05:36:20 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:55938)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1kxp7u-00006M-R2
+ for qemu-devel@nongnu.org; Fri, 08 Jan 2021 05:36:18 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1610102174;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=8fJ9jFB3S8QUrQ9mVhHSO23ic7tetd0vHnRUvARgb3E=;
+ b=Upxecl4/FF2hYAZoy127YTmhbbrVMst8FtjOle6Vg5ZdlNo5NNr++cx7R2YOYMkMuuRjsg
+ QrRokFYaFyUlGECwNPUosQe3/ti8AcyAlOBNRtple2SZl1XI0OVMnKboNU6oOSdePvGUHJ
+ uyKJGxhXlOLlZ9O3+aFX5r4EHueCIk8=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-576-0HZOwGKKMO6Qrgh4xdQ7sA-1; Fri, 08 Jan 2021 05:36:10 -0500
+X-MC-Unique: 0HZOwGKKMO6Qrgh4xdQ7sA-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 6D3968042B5;
+ Fri,  8 Jan 2021 10:36:08 +0000 (UTC)
+Received: from [10.36.114.168] (ovpn-114-168.ams2.redhat.com [10.36.114.168])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id B0E795D9C0;
+ Fri,  8 Jan 2021 10:36:02 +0000 (UTC)
+Subject: Re: [PATCH v1] s390x/tcg: Fix RISBHG
+From: David Hildenbrand <david@redhat.com>
+To: Nick Desaulniers <ndesaulniers@google.com>,
+ David Hildenbrand <dhildenb@redhat.com>
+References: <CAKwvOdmE=Z9pV4txRw-kpcv5FOSr6eEXfmGnc++R_Vzv8MnRDQ@mail.gmail.com>
+ <B6050D16-4BD3-4355-878F-33E3E7C3A75D@redhat.com>
+ <CAKwvOdn068fXosDhtF_o-DVY2tQs4pWj59+uJ59_=JPfOK2Hsg@mail.gmail.com>
+ <bbdd5d1b-6aa9-cd2c-eb9a-cf0345dbc999@redhat.com>
+ <a039a6b7-11b2-1588-744a-7fe0780483d1@redhat.com>
+Organization: Red Hat GmbH
+Message-ID: <97447294-2a91-6e32-548b-d438525a2a9f@redhat.com>
+Date: Fri, 8 Jan 2021 11:36:01 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.5.0
 MIME-Version: 1.0
-References: <20210107222253.20382-1-f4bug@amsat.org>
-In-Reply-To: <20210107222253.20382-1-f4bug@amsat.org>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Fri, 8 Jan 2021 10:35:16 +0000
-Message-ID: <CAFEAcA-6SD7304G=tXUYWZMYekZ=+ZXaMc26faTNnHFxw9MWqg@mail.gmail.com>
-Subject: Re: [PULL 00/66] MIPS patches for 2021-01-07
-To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::62f;
- envelope-from=peter.maydell@linaro.org; helo=mail-ej1-x62f.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <a039a6b7-11b2-1588-744a-7fe0780483d1@redhat.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=david@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=david@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -32
+X-Spam_score: -3.3
+X-Spam_bar: ---
+X-Spam_report: (-3.3 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.246,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.267, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -79,89 +86,174 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>,
- kvm-devel <kvm@vger.kernel.org>, Paul Burton <paulburton@kernel.org>,
- Libvirt <libvir-list@redhat.com>, Huacai Chen <chenhuacai@kernel.org>,
- Richard Henderson <richard.henderson@linaro.org>,
- QEMU Developers <qemu-devel@nongnu.org>, Laurent Vivier <laurent@vivier.eu>,
- Paolo Bonzini <pbonzini@redhat.com>, Aurelien Jarno <aurelien@aurel32.net>
+Cc: Jonas Paulsson <paulsson@linux.vnet.ibm.com>,
+ Thomas Huth <thuth@redhat.com>, Ulrich Weigand <Ulrich.Weigand@de.ibm.com>,
+ Vasily Gorbik <gor@linux.ibm.com>,
+ clang-built-linux <clang-built-linux@googlegroups.com>,
+ Heiko Carstens <hca@linux.ibm.com>, Cornelia Huck <cohuck@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org,
+ Christian Borntraeger <borntraeger@de.ibm.com>, qemu-s390x@nongnu.org,
+ Guenter Roeck <linux@roeck-us.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, 7 Jan 2021 at 22:25, Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org> =
-wrote:
->
-> The following changes since commit 470dd6bd360782f5137f7e3376af6a44658eb1=
-d3:
->
->   Merge remote-tracking branch 'remotes/stsquad/tags/pull-testing-060121-=
-4' into staging (2021-01-06 22:18:36 +0000)
->
-> are available in the Git repository at:
->
->   https://gitlab.com/philmd/qemu.git tags/mips-20210107
->
-> for you to fetch changes up to f97d339d612b86d8d336a11f01719a10893d6707:
->
->   docs/system: Remove deprecated 'fulong2e' machine alias (2021-01-07 22:=
-57:49 +0100)
->
-> ----------------------------------------------------------------
-> MIPS patches queue
->
-> - Simplify CPU/ISA definitions
-> - Various maintenance code movements in translate.c
-> - Convert part of the MSA ASE instructions to decodetree
-> - Convert some instructions removed from Release 6 to decodetree
-> - Remove deprecated 'fulong2e' machine alias
+On 08.01.21 11:19, David Hildenbrand wrote:
+> On 08.01.21 10:44, David Hildenbrand wrote:
+>> On 08.01.21 03:20, Nick Desaulniers wrote:
+>>> On Thu, Jan 7, 2021 at 3:27 PM David Hildenbrand <dhildenb@redhat.com> wrote:
+>>>>
+>>>>
+>>>>> Am 08.01.2021 um 00:21 schrieb Nick Desaulniers <ndesaulniers@google.com>:
+>>>>>
+>>>>> ﻿On Thu, Jan 7, 2021 at 3:13 PM David Hildenbrand <david@redhat.com> wrote:
+>>>>>>
+>>>>>> RISBHG is broken and currently hinders clang builds of upstream kernels
+>>>>>> from booting: the kernel crashes early, while decompressing the image.
+>>>>>>
+>>>>>>  [...]
+>>>>>>   Kernel fault: interruption code 0005 ilc:2
+>>>>>>   Kernel random base: 0000000000000000
+>>>>>>   PSW : 0000200180000000 0000000000017a1e
+>>>>>>         R:0 T:0 IO:0 EX:0 Key:0 M:0 W:0 P:0 AS:0 CC:2 PM:0 RI:0 EA:3
+>>>>>>   GPRS: 0000000000000001 0000000c00000000 00000003fffffff4 00000000fffffff0
+>>>>>>         0000000000000000 00000000fffffff4 000000000000000c 00000000fffffff0
+>>>>>>         00000000fffffffc 0000000000000000 00000000fffffff8 00000000008e25a8
+>>>>>>         0000000000000009 0000000000000002 0000000000000008 000000000000bce0
+>>>>>>
+>>>>>> One example of a buggy instruction is:
+>>>>>>
+>>>>>>    17dde:       ec 1e 00 9f 20 5d       risbhg  %r1,%r14,0,159,32
+>>>>>>
+>>>>>> With %r14 = 0x9 and %r1 = 0x7 should result in %r1 = 0x900000007, however,
+>>>>>> results in %r1 = 0.
+>>>>>>
+>>>>>> Let's interpret values of i3/i4 as documented in the PoP and make
+>>>>>> computation of "mask" only based on i3 and i4 and use "pmask" only at the
+>>>>>> very end to make sure wrapping is only applied to the high/low doubleword.
+>>>>>>
+>>>>>> With this patch, I can successfully boot a v5.10 kernel built with
+>>>>>> clang, and gcc builds keep on working.
+>>>>>>
+>>>>>> Fixes: 2d6a869833d9 ("target-s390: Implement RISBG")
+>>>>>> Reported-by: Nick Desaulniers <ndesaulniers@google.com>
+>>>>>> Cc: Guenter Roeck <linux@roeck-us.net>
+>>>>>> Cc: Christian Borntraeger <borntraeger@de.ibm.com>
+>>>>>> Signed-off-by: David Hildenbrand <david@redhat.com>
+>>>>>> ---
+>>>>>>
+>>>>>> This BUG was a nightmare to debug and the code a nightmare to understand.
+>>>>>>
+>>>>>> To make clang/gcc builds boot, the following fix is required as well on
+>>>>>> top of current master: "[PATCH] target/s390x: Fix ALGSI"
+>>>>>> https://lkml.kernel.org/r/20210107202135.52379-1-david@redhat.com
+>>>>>
+>>>>> In that case, a huge thank you!!! for this work! ++beers_owed.
+>>>>>
+>>>>
+>>>> :) a kernel build for z13 should work with the (default) „-cpu qemu“ cpu type.
+>>>
+>>> Hmm...so I don't think clang can build a Linux kernel image with
+>>> CONFIG_MARCH_Z13=y just yet; just defconfig.  Otherwise looks like
+>>> clang barfs on some of the inline asm constraints.
+>>>
+>>
+>> Ah, right. I overwrote my manual config by a temporary defconfig :)
+>>
+>>
+>> So, I'm on x86-64 F33.
+>>
+>> clang version 11.0.0 (Fedora 11.0.0-2.fc33)
+>> LLVM version 11.0.0
+>>
+>> I cannot directly use "LLVM=1" for cross-compilation, as I keep getting
+>> "error: unknown emulation: elf64_s390" from ld.lld and "error: invalid
+>> output format: 'elf64-s390'" from llvm-objcopy. I assume that's fixed in
+>> llvm12?
+>>
+>> 1. I patch around it (strange, I remember CC= .. used to work, but it no
+>> longer does)
+>>
+>> ---
+>>
+>> index e30cf02da8b8..89c57062ed5d 100644
+>> --- a/Makefile
+>> +++ b/Makefile
+>> @@ -427,13 +427,13 @@ KBUILD_HOSTLDLIBS   := $(HOST_LFS_LIBS) $(HOSTLDLIBS)
+>>  CPP            = $(CC) -E
+>>  ifneq ($(LLVM),)
+>>  CC             = clang
+>> -LD             = ld.lld
+>> -AR             = llvm-ar
+>> -NM             = llvm-nm
+>> -OBJCOPY                = llvm-objcopy
+>> -OBJDUMP                = llvm-objdump
+>> -READELF                = llvm-readelf
+>> -STRIP          = llvm-strip
+>> +LD             = $(CROSS_COMPILE)ld
+>> +AR             = $(CROSS_COMPILE)ar
+>> +NM             = $(CROSS_COMPILE)nm
+>> +OBJCOPY                = $(CROSS_COMPILE)objcopy
+>> +OBJDUMP                = $(CROSS_COMPILE)objdump
+>> +READELF                = $(CROSS_COMPILE)readelf
+>> +STRIP          = $(CROSS_COMPILE)strip
+>>  else
+>>  CC             = $(CROSS_COMPILE)gcc
+>>  LD             = $(CROSS_COMPILE)ld
+>>
+>> ---
+>>
+>> 2. Compile using clang
+>>
+>>
+>> Using latest linux-next (1c925d2030afd354a02c23500386e620e662622b) +
+>> above patch
+>>
+>> ---
+>>
+>> #!/bin/bash
+>> export ARCH=s390;
+>> export CROSS_COMPILE=s390x-linux-gnu-
+>> export LLVM=1
+>> make distclean
+>> make defconfig
+>>
+>> # Make F32 initrd boot without inserting modules
+>> ./scripts/config -e CONFIG_SCSI_ISCSI_ATTRS
+>> ./scripts/config -e CONFIG_ISCSI_TCP
+>>
+>> make -j40 > /dev/null
+>>
+>> ---
+>>
+>> 3. Run it via QEMU. I boot a full Fedora 32 using the cloud-image +
+>> initrd from Fedora 32 (tried to stick to your cmdline where possible)
+>>
+>> ./build/qemu-system-s390x \
+>> -m 512M \
+>> -cpu qemu \
+>> -display none \
+>> -nodefaults \
+>> -kernel ../linux-cross/arch/s390/boot/bzImage \
+>> -append "root=/dev/vda1 conmode=sclp console=ttyS0" \
+>> -initrd ../Fedora-Cloud-Base-32-1.6.x86_64-initrd.img \
+>> -hda ../Fedora-Cloud-Base-32-1.6.x86_64-initrd.img \
+> 
+> ^ -hda ../Fedora-Cloud-Base-32-1.6.x86_64.qcow2 \
+> 
+> 
 
-Hi; this failed to build on some of my hosts:
+Using homebrew llvm-12/clang-12 results in a kernel that is indeed stuck
+is in an endless program exception loop, seeming to try printing a
+backtrace over and over again. Yet, no output besides
 
-[1/4674] Generating 'libqemu-mipsel-softmmu.fa.p/decode-mips64r6.c.inc'.
-FAILED: libqemu-mipsel-softmmu.fa.p/decode-mips64r6.c.inc
-/usr/bin/python3 /home/petmay01/qemu-for-merges/scripts/decodetree.py
-../../target/mips/mips64r6.decode --static-deco
-de=3Ddecode_mips64r6 -o libqemu-mipsel-softmmu.fa.p/decode-mips64r6.c.inc
-Traceback (most recent call last):
-  File "/home/petmay01/qemu-for-merges/scripts/decodetree.py", line
-1397, in <module>
-    main()
-  File "/home/petmay01/qemu-for-merges/scripts/decodetree.py", line
-1308, in main
-    parse_file(f, toppat)
-  File "/home/petmay01/qemu-for-merges/scripts/decodetree.py", line
-994, in parse_file
-    for line in f:
-  File "/usr/lib/python3.6/encodings/ascii.py", line 26, in decode
-    return codecs.ascii_decode(input, self.errors)[0]
-UnicodeDecodeError: 'ascii' codec can't decode byte 0xc3 in position
-80: ordinal not in range(128)
-[2/4674] Generating 'libqemu-mipsel-softmmu.fa.p/decode-msa64.c.inc'.
-FAILED: libqemu-mipsel-softmmu.fa.p/decode-msa64.c.inc
-/usr/bin/python3 /home/petmay01/qemu-for-merges/scripts/decodetree.py
-../../target/mips/msa64.decode --static-decode=3D
-decode_msa64 -o libqemu-mipsel-softmmu.fa.p/decode-msa64.c.inc
-Traceback (most recent call last):
-  File "/home/petmay01/qemu-for-merges/scripts/decodetree.py", line
-1397, in <module>
-    main()
-  File "/home/petmay01/qemu-for-merges/scripts/decodetree.py", line
-1308, in main
-    parse_file(f, toppat)
-  File "/home/petmay01/qemu-for-merges/scripts/decodetree.py", line
-994, in parse_file
-    for line in f:
-  File "/usr/lib/python3.6/encodings/ascii.py", line 26, in decode
-    return codecs.ascii_decode(input, self.errors)[0]
-UnicodeDecodeError: 'ascii' codec can't decode byte 0xc3 in position
-93: ordinal not in range(128)
+"KASLR disabled: CPU has no PRNG"
 
-etc.
+Kernel runs under KVM, so more debugging to do to get clang-12 builds
+running as well.
 
-Looks like decodetree fails to cope with non-ASCII characters in
-its input file -- probably this depends on the host locale settings:
-I think these hosts run in the 'C' locale.
+-- 
+Thanks,
 
-thanks
--- PMM
+David / dhildenb
+
 
