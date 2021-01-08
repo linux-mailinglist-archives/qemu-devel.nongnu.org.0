@@ -2,93 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D0B792EF990
-	for <lists+qemu-devel@lfdr.de>; Fri,  8 Jan 2021 21:42:47 +0100 (CET)
-Received: from localhost ([::1]:45436 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 780472EF9EF
+	for <lists+qemu-devel@lfdr.de>; Fri,  8 Jan 2021 22:09:41 +0100 (CET)
+Received: from localhost ([::1]:52554 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kxyas-0002bJ-EQ
-	for lists+qemu-devel@lfdr.de; Fri, 08 Jan 2021 15:42:46 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59942)
+	id 1kxz0u-0007wB-1V
+	for lists+qemu-devel@lfdr.de; Fri, 08 Jan 2021 16:09:40 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35388)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1kxyZk-00027q-C4
- for qemu-devel@nongnu.org; Fri, 08 Jan 2021 15:41:36 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:50426)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1kxyZe-0005bi-Ji
- for qemu-devel@nongnu.org; Fri, 08 Jan 2021 15:41:35 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1610138488;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=uoKD2V1Ueh+o5O7PWM3rzdFQ6t91jGdeDoylJA134K8=;
- b=VagpyQTufwKhMteAjt/LiPgAuv36nkLg4F8fnEM8++uS7EG1hXHhX0zC2iSVj9jMSWBmwi
- UCB5MaLp7fjyDhVtL4hbjwe9fL+HiIwJMDRyvqC3E6gPQiVJZTdgari5evKuOa7RoZLrrk
- 9WwrXe+di3DBKiUhzJTV1mp08r76XRM=
-Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
- [209.85.128.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-66-uGwb924VPji-q_5q3YjdXA-1; Fri, 08 Jan 2021 15:41:25 -0500
-X-MC-Unique: uGwb924VPji-q_5q3YjdXA-1
-Received: by mail-wm1-f72.google.com with SMTP id s130so3660676wme.0
- for <qemu-devel@nongnu.org>; Fri, 08 Jan 2021 12:41:24 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=uoKD2V1Ueh+o5O7PWM3rzdFQ6t91jGdeDoylJA134K8=;
- b=ghBHKrU+x3XjWmGIxRkz0g43M2X5Iqj6qAWTqUrIyp6haJGKcw3lS1rNAo7s83k1Zs
- E/j0BspB1m+kN2WargjuTIrJHKwVO2LkjGfBSjWMB2TWFDnBagxOZEx0YVsEc19189gO
- NgyPiazbpKmaBo1ho3dWb2PaNsgMb1WzrOR2K8/ry7iBB4BaAOyaJzQbjMQhmzcQsvr2
- t6N+LRyVzOfdJMtOewEs0XiX7Lfc5ryxt7SzoD6Hmr+H/lcu7VWNFd4D4rrDKmh4hZwz
- SkwJT7c269DLY7OMB+MxsIOs0+UKE1opPHgy8wTFG6l7G4EdctSCt90Exwbkb4Gxz/FJ
- VfOg==
-X-Gm-Message-State: AOAM53261hKN9r9JfNqmZYEuyNPnsLfYefl7t2/zm8R48DNqGBSBP1X6
- aUJCutAFF77Vs1J9yTUzyfABJFrmDrvNRF/offCQBZhrSa6u8a34ZIMhisLIysgVkoS/Ylwx0hw
- 1uzBzZoFDUBg3Umk=
-X-Received: by 2002:a05:600c:214a:: with SMTP id
- v10mr4511334wml.138.1610138483801; 
- Fri, 08 Jan 2021 12:41:23 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJxuqADKhAhn95zIUCfyvUOjJ601o6hUoARpVcuHd7VhGQbkEbwlGo5jSYuJbXLz3kvkFnM9/Q==
-X-Received: by 2002:a05:600c:214a:: with SMTP id
- v10mr4511322wml.138.1610138483557; 
- Fri, 08 Jan 2021 12:41:23 -0800 (PST)
-Received: from ?IPv6:2001:b07:6468:f312:c8dd:75d4:99ab:290a?
- ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
- by smtp.gmail.com with ESMTPSA id o74sm14993554wme.36.2021.01.08.12.41.22
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 08 Jan 2021 12:41:22 -0800 (PST)
-Subject: Re: [PATCH] kvm: mirror "-machine dirty_gfn_count" to the accelerator
- property
-To: huangy81@chinatelecom.cn, qemu-devel <qemu-devel@nongnu.org>
-References: <1610132911-33839-1-git-send-email-huangy81@chinatelecom.cn>
-From: Paolo Bonzini <pbonzini@redhat.com>
-Message-ID: <3aa73987-40e8-3619-0723-9f17f73850bd@redhat.com>
-Date: Fri, 8 Jan 2021 21:41:21 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.5.0
+ (Exim 4.90_1) (envelope-from <r.bolshakov@yadro.com>)
+ id 1kxz06-0007XP-Ae
+ for qemu-devel@nongnu.org; Fri, 08 Jan 2021 16:08:51 -0500
+Received: from mta-02.yadro.com ([89.207.88.252]:37730 helo=mta-01.yadro.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <r.bolshakov@yadro.com>)
+ id 1kxz02-0006eR-Ig
+ for qemu-devel@nongnu.org; Fri, 08 Jan 2021 16:08:49 -0500
+Received: from localhost (unknown [127.0.0.1])
+ by mta-01.yadro.com (Postfix) with ESMTP id 704C4412DB;
+ Fri,  8 Jan 2021 21:08:43 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=yadro.com; h=
+ in-reply-to:content-disposition:content-type:content-type
+ :mime-version:references:message-id:subject:subject:from:from
+ :date:date:received:received:received; s=mta-01; t=1610140121;
+ x=1611954522; bh=ZoR382vS8FSqwI3obS7SVF2zrnhxyeS+H3/YEcKdLok=; b=
+ is6mbP0gvXmI/68pVA08x9KDwkzu3l46BHQKEymGtsS7gXr7UJ1QJibhDdUyfcfU
+ XKxCQBXbkqcd2WfrJD5LWLR1dQVDQqiezDPGh1sfO7408vTPWvBZPgKHgmQwu9ZX
+ tXPxpIuAZjNjKrB4a27xFkEhrozxePnKIvIcPDfMYBc=
+X-Virus-Scanned: amavisd-new at yadro.com
+Received: from mta-01.yadro.com ([127.0.0.1])
+ by localhost (mta-01.yadro.com [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id oqZar_UvfdCe; Sat,  9 Jan 2021 00:08:41 +0300 (MSK)
+Received: from T-EXCH-03.corp.yadro.com (t-exch-03.corp.yadro.com
+ [172.17.100.103])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by mta-01.yadro.com (Postfix) with ESMTPS id AA84840416;
+ Sat,  9 Jan 2021 00:08:41 +0300 (MSK)
+Received: from localhost (172.17.204.212) by T-EXCH-03.corp.yadro.com
+ (172.17.100.103) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384_P384) id 15.1.669.32; Sat, 9 Jan
+ 2021 00:08:41 +0300
+Date: Sat, 9 Jan 2021 00:09:01 +0300
+From: Roman Bolshakov <r.bolshakov@yadro.com>
+To: Peter Maydell <peter.maydell@linaro.org>
+Subject: Re: [PATCH v2] ui/cocoa: Fix openFile: deprecation on Big Sur
+Message-ID: <X/jJ7dTlBW8Pg65q@SPB-NB-133.local>
+References: <20210102150718.47618-1-r.bolshakov@yadro.com>
+ <CAFEAcA8GMYcTrfKJ-6E3rKyytDHSL4UeWPVuFVLtzWjDtCxMVw@mail.gmail.com>
+ <CAFEAcA97hh-bC7yjpHLGyvOiBGMxRtOQaf0O-y5WG0xYYA8N7A@mail.gmail.com>
 MIME-Version: 1.0
-In-Reply-To: <1610132911-33839-1-git-send-email-huangy81@chinatelecom.cn>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=pbonzini@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=pbonzini@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -32
-X-Spam_score: -3.3
-X-Spam_bar: ---
-X-Spam_report: (-3.3 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.247,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.241, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+Content-Type: text/plain; charset="us-ascii"
+Content-Disposition: inline
+In-Reply-To: <CAFEAcA97hh-bC7yjpHLGyvOiBGMxRtOQaf0O-y5WG0xYYA8N7A@mail.gmail.com>
+X-Originating-IP: [172.17.204.212]
+X-ClientProxiedBy: T-EXCH-01.corp.yadro.com (172.17.10.101) To
+ T-EXCH-03.corp.yadro.com (172.17.100.103)
+Received-SPF: pass client-ip=89.207.88.252; envelope-from=r.bolshakov@yadro.com;
+ helo=mta-01.yadro.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -102,64 +79,109 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: peterx <peterx@redhat.com>
+Cc: QEMU Developers <qemu-devel@nongnu.org>, Gerd Hoffmann <kraxel@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 08/01/21 20:08, huangy81@chinatelecom.cn wrote:
-> QEMU enable the dirty ring feature by specifing the "-accel" sub-parameter.
-> https://lore.kernel.org/qemu-devel/20210108165050.406906-10-peterx@redhat.com/
-> Libvirt use "-machine accel=kvm" option to specify the accelerator by default,
-> which is incompatible with above option.
+On Fri, Jan 08, 2021 at 03:00:07PM +0000, Peter Maydell wrote:
+> On Fri, 8 Jan 2021 at 13:50, Peter Maydell <peter.maydell@linaro.org> wrote:
+> >
+> > On Sat, 2 Jan 2021 at 15:14, Roman Bolshakov <r.bolshakov@yadro.com> wrote:
+> > >
+> > > ui/cocoa.m:1188:44: warning: 'openFile:' is deprecated: first deprecated in macOS 11.0 - Use -[NSWorkspace openURL:] instead.
+> > >       [-Wdeprecated-declarations]
+> > >         if ([[NSWorkspace sharedWorkspace] openFile: full_file_path] == YES) {
+> > >                                            ^
+> > > /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/System/Library/Frameworks/AppKit.framework/Headers/NSWorkspace.h:350:1: note:
+> > >       'openFile:' has been explicitly marked deprecated here
+> > > - (BOOL)openFile:(NSString *)fullPath API_DEPRECATED("Use -[NSWorkspace openURL:] instead.", macos(10.0, 11.0));
+> > > ^
+> > >
+> > > Signed-off-by: Roman Bolshakov <r.bolshakov@yadro.com>
+> > > ---
+> >
+> > Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
 > 
-> This patch introduce the "dirty_gfn_count" sub-parameter of the "-machine"
-> in the way that the commit "23b089" has done. So that Libvirt can enable this
-> feature by adding "-machine dirty_gfn_count=xxx" to the QEMU command line.
 > 
-> Signed-off-by: Hyman <huangy81@chinatelecom.cn>
-
-Libvirt should switch to "-accel kvm" instead.  The "-machine" options 
-for accelerators are legacy and now there is a better mechanism.  There 
-will never be a version of QEMU that supports dirty ring and doesn't 
-support "-accel kvm", so it's easy for Libvirt to detect when to use 
-"-accel".
-
-Paolo
-
-> ---
->   softmmu/vl.c       | 3 ++-
->   util/qemu-config.c | 4 ++++
->   2 files changed, 6 insertions(+), 1 deletion(-)
-> 
-> diff --git a/softmmu/vl.c b/softmmu/vl.c
-> index 7ddf405..d8e3dec 100644
-> --- a/softmmu/vl.c
-> +++ b/softmmu/vl.c
-> @@ -1666,7 +1666,8 @@ static int machine_set_property(void *opaque,
->           object_register_sugar_prop(ACCEL_CLASS_NAME("xen"), qom_name, value);
->           return 0;
->       }
-> -    if (g_str_equal(qom_name, "kvm-shadow-mem")) {
-> +    if (g_str_equal(qom_name, "kvm-shadow-mem") ||
-> +        g_str_equal(qom_name, "dirty-gfn-count")) {
->           object_register_sugar_prop(ACCEL_CLASS_NAME("kvm"), qom_name, value);
->           return 0;
->       }
-> diff --git a/util/qemu-config.c b/util/qemu-config.c
-> index e2a700b..70f1b50 100644
-> --- a/util/qemu-config.c
-> +++ b/util/qemu-config.c
-> @@ -234,6 +234,10 @@ static QemuOptsList machine_opts = {
->               .help = "Up to 8 chars in set of [A-Za-z0-9. ](lower case chars"
->                       " converted to upper case) to pass to machine"
->                       " loader, boot manager, and guest kernel",
-> +        },{
-> +            .name = "dirty_gfn_count",
-> +            .type = QEMU_OPT_NUMBER,
-> +            .help = "KVM dirty ring GFN count",
->           },
->           { /* End of list */ }
->       }
+> So I was just trying to test this patch, and I found that at least
+> for me the osx menu bar has stopped working in QEMU -- keyboard
+> shortcuts to it still work but none of the menu buttons respond
+> to the mouse. Does that happen for anybody else?
 > 
 
+There's an old bug when QEMU menu bar is not responsive because it's not
+properly activated. If you click off qemu and click on the qemu dock
+icon then it "gets fixed" (cmd-tab works too). Do you hit the issue as
+described in the article [1]? The code in the article does exactly the
+same what I'm doing manually. I wanted to fix it but somehow it got
+postponed for like a whole year :) I might try to make a fix this but
+note, the issue is not related to the patch.
+
+
+> Also, the "bring up the docs" help option (which is what this
+> patch is changing) doesn't seem to work when QEMU is run from
+> the source tree and the docs haven't been installed to the
+> locations where it expects it might find them. Probably the
+> code needs updating to work with qemu_find_file() or some
+> variant on it.
+> 
+
+If I add:
+diff --git a/ui/cocoa.m b/ui/cocoa.m
+index ea3b845b53..4772b7f981 100644
+--- a/ui/cocoa.m
++++ b/ui/cocoa.m
+@@ -1189,6 +1189,7 @@ - (void) openDocumentation: (NSString *) filename
+                           path_array[index], filename];
+         full_file_url = [NSURL fileURLWithPath: full_file_path
+                                    isDirectory: false];
++        NSLog(@"%@", full_file_url);
+         if ([[NSWorkspace sharedWorkspace] openURL: full_file_url] == YES) {
+             return;
+         }
+
+And click "Help"->"QEMU Documentation". I get the following logs:
+2021-01-08 23:14:15.288 qemu-system-x86_64[46165:12969383] file:///Users/roolebo/dev/qemu/apple-silicon/build/../share/doc/qemu/index.html
+2021-01-08 23:14:15.288 qemu-system-x86_64[46165:12969383] file:///Users/roolebo/dev/qemu/apple-silicon/build/../doc/qemu/index.html
+2021-01-08 23:14:15.288 qemu-system-x86_64[46165:12969383] file:///Users/roolebo/dev/qemu/apple-silicon/build/../docs/index.html
+
+In order to get documentation on macOS. sphinx-doc has to be installed
+from homebrew. The package is keg-only so sphinx-build has to be added
+to PATH.
+
+Then you can build with --enable-docs. Generated documentation resides
+in the build tree after the QEMU has been switched to meson:
+
+find . -name index.html
+./build/meson-private/temp/sphinx/out/index.html
+./build/docs/devel/index.html
+./build/docs/tools/index.html
+./build/docs/index.html
+./build/docs/specs/index.html
+./build/docs/interop/index.html
+./build/docs/user/index.html
+./build/docs/system/index.html
+
+The problem is that the paths above don't point to docs in build tree.
+The patch only fixes a warning and doesn't break existing path
+resolution. The fix for out-of-tree docs is trivial:
+diff --git a/ui/cocoa.m b/ui/cocoa.m
+index ea3b845b53..13fba8103e 100644
+--- a/ui/cocoa.m
++++ b/ui/cocoa.m
+@@ -1176,7 +1176,7 @@ - (void)toggleFullScreen:(id)sender
+ - (void) openDocumentation: (NSString *) filename
+ {
+     /* Where to look for local files */
+-    NSString *path_array[] = {@"../share/doc/qemu/", @"../doc/qemu/", @"../docs/"};
++    NSString *path_array[] = {@"../share/doc/qemu/", @"../doc/qemu/", @"docs/"};
+     NSString *full_file_path;
+     NSURL *full_file_url;
+
+I'll add it as a separate patch to v2.
+
+1. https://ar.al/2018/09/17/workaround-for-unclickable-app-menu-bug-with-window.makekeyandorderfront-and-nsapp.activate-on-macos/
+
+Regards,
+Roman
 
