@@ -2,34 +2,34 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 13B822EF6A5
-	for <lists+qemu-devel@lfdr.de>; Fri,  8 Jan 2021 18:42:27 +0100 (CET)
-Received: from localhost ([::1]:56362 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4E43F2EF6A6
+	for <lists+qemu-devel@lfdr.de>; Fri,  8 Jan 2021 18:42:28 +0100 (CET)
+Received: from localhost ([::1]:56488 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kxvmL-0008Pz-IU
-	for lists+qemu-devel@lfdr.de; Fri, 08 Jan 2021 12:42:25 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38946)
+	id 1kxvmN-0008T5-CM
+	for lists+qemu-devel@lfdr.de; Fri, 08 Jan 2021 12:42:27 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38978)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1kxvky-0007aD-9w
- for qemu-devel@nongnu.org; Fri, 08 Jan 2021 12:41:00 -0500
-Received: from indium.canonical.com ([91.189.90.7]:59514)
+ id 1kxvkz-0007aU-4D
+ for qemu-devel@nongnu.org; Fri, 08 Jan 2021 12:41:01 -0500
+Received: from indium.canonical.com ([91.189.90.7]:59524)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1kxvkw-0008KK-Az
+ id 1kxvkw-0008KO-Is
  for qemu-devel@nongnu.org; Fri, 08 Jan 2021 12:41:00 -0500
 Received: from loganberry.canonical.com ([91.189.90.37])
  by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1kxvku-0004m1-5A
- for <qemu-devel@nongnu.org>; Fri, 08 Jan 2021 17:40:56 +0000
+ id 1kxvkv-0004o9-3Q
+ for <qemu-devel@nongnu.org>; Fri, 08 Jan 2021 17:40:57 +0000
 Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 25DDF2E8139
- for <qemu-devel@nongnu.org>; Fri,  8 Jan 2021 17:40:56 +0000 (UTC)
+ by loganberry.canonical.com (Postfix) with ESMTP id 17D292E8137
+ for <qemu-devel@nongnu.org>; Fri,  8 Jan 2021 17:40:57 +0000 (UTC)
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
-Date: Fri, 08 Jan 2021 17:27:43 -0000
+Date: Fri, 08 Jan 2021 17:30:02 -0000
 From: Peter Maydell <1904954@bugs.launchpad.net>
 To: qemu-devel@nongnu.org
 X-Launchpad-Notification-Type: bug
@@ -42,7 +42,7 @@ X-Launchpad-Bug-Commenters: alfred2g pmaydell
 X-Launchpad-Bug-Reporter: alfred gedeon (alfred2g)
 X-Launchpad-Bug-Modifier: Peter Maydell (pmaydell)
 References: <160584191813.16356.9445911921619079194.malonedeb@chaenomeles.canonical.com>
-Message-Id: <161012686375.25322.14535902821010156536.malone@chaenomeles.canonical.com>
+Message-Id: <161012700285.21672.1343185608708114920.malone@wampee.canonical.com>
 Subject: [Bug 1904954] Re: lan9118 bug peeked received message size not equal
  to actual received message size
 X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
@@ -50,7 +50,7 @@ X-Launchpad-Message-For: qemu-devel-ml
 Precedence: bulk
 X-Generated-By: Launchpad (canonical.com);
  Revision="fd9c5a87183d01004404fa6027cd262eaa7f6fcf"; Instance="production"
-X-Launchpad-Hash: 55b5dd1542dcd11da653ae5848e0e078b6b22658
+X-Launchpad-Hash: 17c294a6db212e3a7225d251193a1ee56a877a66
 Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
  helo=indium.canonical.com
 X-Spam_score_int: -65
@@ -75,7 +75,8 @@ Reply-To: Bug 1904954 <1904954@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Do you have a test case that will reproduce this bug ?
+(The line of code you point out is pretty clearly wrong; it would just
+be nice to have a test case to confirm that the obvious fix works.)
 
 -- =
 
