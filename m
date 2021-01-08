@@ -2,46 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B95982EEF29
-	for <lists+qemu-devel@lfdr.de>; Fri,  8 Jan 2021 10:10:03 +0100 (CET)
-Received: from localhost ([::1]:51666 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0F1D42EEFCD
+	for <lists+qemu-devel@lfdr.de>; Fri,  8 Jan 2021 10:42:21 +0100 (CET)
+Received: from localhost ([::1]:58108 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kxnmU-0005Aw-OU
-	for lists+qemu-devel@lfdr.de; Fri, 08 Jan 2021 04:10:02 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44026)
+	id 1kxoHj-0002Ie-Jy
+	for lists+qemu-devel@lfdr.de; Fri, 08 Jan 2021 04:42:19 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50080)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <remi@remlab.net>)
- id 1kxnkz-0003py-Dr; Fri, 08 Jan 2021 04:08:29 -0500
-Received: from poy.remlab.net ([2001:41d0:2:5a1a::]:42252
- helo=ns207790.ip-94-23-215.eu)
- by eggs.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <remi@remlab.net>)
- id 1kxnku-00007F-LW; Fri, 08 Jan 2021 04:08:26 -0500
-Received: from basile.remlab.net (ip6-localhost [IPv6:::1])
- by ns207790.ip-94-23-215.eu (Postfix) with ESMTP id 2F94C5FECC;
- Fri,  8 Jan 2021 10:08:18 +0100 (CET)
-From: remi.denis.courmont@huawei.com
-To: qemu-arm@nongnu.org
-Subject: [PATCHv2 2/2] target/arm: enable Small Translation tables in max CPU
-Date: Fri,  8 Jan 2021 11:08:17 +0200
-Message-Id: <20210108090817.6127-2-remi.denis.courmont@huawei.com>
-X-Mailer: git-send-email 2.30.0
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1kxoGL-0001sX-Oz
+ for qemu-devel@nongnu.org; Fri, 08 Jan 2021 04:40:54 -0500
+Received: from indium.canonical.com ([91.189.90.7]:60886)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1kxoGJ-0007os-M0
+ for qemu-devel@nongnu.org; Fri, 08 Jan 2021 04:40:53 -0500
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1kxoGH-00043o-Mr
+ for <qemu-devel@nongnu.org>; Fri, 08 Jan 2021 09:40:49 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id A6A452E802B
+ for <qemu-devel@nongnu.org>; Fri,  8 Jan 2021 09:40:49 +0000 (UTC)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2001:41d0:2:5a1a::; envelope-from=remi@remlab.net;
- helo=ns207790.ip-94-23-215.eu
-X-Spam_score_int: -16
-X-Spam_score: -1.7
-X-Spam_bar: -
-X-Spam_report: (-1.7 / 5.0 requ) BAYES_00=-1.9,
- HEADER_FROM_DIFFERENT_DOMAINS=0.248, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Date: Fri, 08 Jan 2021 09:32:21 -0000
+From: Edvinas Valatka <1910696@bugs.launchpad.net>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
+X-Launchpad-Bug-Tags: qemu readconfig spice
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: edacval
+X-Launchpad-Bug-Reporter: Edvinas Valatka (edacval)
+X-Launchpad-Bug-Modifier: Edvinas Valatka (edacval)
+Message-Id: <161009834109.3567.5030676858811031897.malonedeb@wampee.canonical.com>
+Subject: [Bug 1910696] [NEW] Qemu fails to start with error " There is no
+ option group 'spice'"
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="9b8a7e9b05b0918031670be47aedac0f241cb913"; Instance="production"
+X-Launchpad-Hash: 317f33f4e83b725657ae949df14b8f3e7bab6b54
+Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
+ helo=indium.canonical.com
+X-Spam_score_int: -65
+X-Spam_score: -6.6
+X-Spam_bar: ------
+X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9,
+ HEADER_FROM_DIFFERENT_DOMAINS=0.248, RCVD_IN_DNSWL_HI=-5,
+ RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -50,30 +70,72 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel@nongnu.org
+Reply-To: Bug 1910696 <1910696@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Rémi Denis-Courmont <remi.denis.courmont@huawei.com>
+Public bug reported:
 
-Signed-off-by: Rémi Denis-Courmont <remi.denis.courmont@huawei.com>
----
- target/arm/cpu64.c | 1 +
- 1 file changed, 1 insertion(+)
+After upgrade from 5.1.0 to 5.2.0, qemu fails on start with error:
+`
+/usr/bin/qemu-system-x86_64 -S -name trinti -uuid f8ad2ff6-8808-4f42-8f0b-9=
+e23acd20f84 -daemonize -cpu host -nographic -serial chardev:console -nodefa=
+ults -no-reboot -no-user-config -sandbox on,obsolete=3Ddeny,elevateprivileg=
+es=3Dallow,spawn=3Ddeny,resourcecontrol=3Ddeny -readconfig /var/log/lxd/tri=
+nti/qemu.conf -pidfile /var/log/lxd/trinti/qemu.pid -D /var/log/lxd/trinti/=
+qemu.log -chroot /var/lib/lxd/virtual-machines/trinti -smbios type=3D2,manu=
+facturer=3DCanonical Ltd.,product=3DLXD -runas nobody: =
 
-diff --git a/target/arm/cpu64.c b/target/arm/cpu64.c
-index 7cf9fc4bc6..da24f94baa 100644
---- a/target/arm/cpu64.c
-+++ b/target/arm/cpu64.c
-@@ -669,6 +669,7 @@ static void aarch64_max_initfn(Object *obj)
-         t = cpu->isar.id_aa64mmfr2;
-         t = FIELD_DP64(t, ID_AA64MMFR2, UAO, 1);
-         t = FIELD_DP64(t, ID_AA64MMFR2, CNP, 1); /* TTCNP */
-+        t = FIELD_DP64(t, ID_AA64MMFR2, ST, 1); /* TTST */
-         cpu->isar.id_aa64mmfr2 = t;
- 
-         /* Replicate the same data to the 32-bit id registers.  */
--- 
-2.30.0
+qemu-system-x86_64:/var/log/lxd/trinti/qemu.conf:27: There is no option gro=
+up 'spice'
+qemu-system-x86_64: -readconfig /var/log/lxd/trinti/qemu.conf: read config =
+/var/log/lxd/trinti/qemu.conf: Invalid argument
+`
+Bisected to first bad commit: https://github.com/qemu/qemu/commit/cbe5fa117=
+89035c43fd2108ac6f45848954954b5
 
+** Affects: qemu
+     Importance: Undecided
+         Status: New
+
+
+** Tags: qemu readconfig spice
+
+** Attachment added: "qemu.conf"
+   https://bugs.launchpad.net/bugs/1910696/+attachment/5450604/+files/qemu.=
+conf
+
+-- =
+
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1910696
+
+Title:
+  Qemu fails to start with error " There is no option group 'spice'"
+
+Status in QEMU:
+  New
+
+Bug description:
+  After upgrade from 5.1.0 to 5.2.0, qemu fails on start with error:
+  `
+  /usr/bin/qemu-system-x86_64 -S -name trinti -uuid f8ad2ff6-8808-4f42-8f0b=
+-9e23acd20f84 -daemonize -cpu host -nographic -serial chardev:console -node=
+faults -no-reboot -no-user-config -sandbox on,obsolete=3Ddeny,elevateprivil=
+eges=3Dallow,spawn=3Ddeny,resourcecontrol=3Ddeny -readconfig /var/log/lxd/t=
+rinti/qemu.conf -pidfile /var/log/lxd/trinti/qemu.pid -D /var/log/lxd/trint=
+i/qemu.log -chroot /var/lib/lxd/virtual-machines/trinti -smbios type=3D2,ma=
+nufacturer=3DCanonical Ltd.,product=3DLXD -runas nobody: =
+
+  qemu-system-x86_64:/var/log/lxd/trinti/qemu.conf:27: There is no option g=
+roup 'spice'
+  qemu-system-x86_64: -readconfig /var/log/lxd/trinti/qemu.conf: read confi=
+g /var/log/lxd/trinti/qemu.conf: Invalid argument
+  `
+  Bisected to first bad commit: https://github.com/qemu/qemu/commit/cbe5fa1=
+1789035c43fd2108ac6f45848954954b5
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1910696/+subscriptions
 
