@@ -2,70 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 266212EFB34
-	for <lists+qemu-devel@lfdr.de>; Fri,  8 Jan 2021 23:26:20 +0100 (CET)
-Received: from localhost ([::1]:34522 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EB8252EFB36
+	for <lists+qemu-devel@lfdr.de>; Fri,  8 Jan 2021 23:27:32 +0100 (CET)
+Received: from localhost ([::1]:37144 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ky0D5-0004rk-8d
-	for lists+qemu-devel@lfdr.de; Fri, 08 Jan 2021 17:26:19 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48866)
+	id 1ky0EG-00061W-2F
+	for lists+qemu-devel@lfdr.de; Fri, 08 Jan 2021 17:27:32 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49024)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1ky0B4-00041G-6G
- for qemu-devel@nongnu.org; Fri, 08 Jan 2021 17:24:14 -0500
-Received: from mail-ed1-x534.google.com ([2a00:1450:4864:20::534]:36301)
+ id 1ky0BX-0004ly-Dc
+ for qemu-devel@nongnu.org; Fri, 08 Jan 2021 17:24:43 -0500
+Received: from mail-ej1-x62f.google.com ([2a00:1450:4864:20::62f]:45771)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1ky0B2-0007rP-Hr
- for qemu-devel@nongnu.org; Fri, 08 Jan 2021 17:24:13 -0500
-Received: by mail-ed1-x534.google.com with SMTP id b2so12764658edm.3
- for <qemu-devel@nongnu.org>; Fri, 08 Jan 2021 14:24:12 -0800 (PST)
+ id 1ky0BV-0008Dw-Rk
+ for qemu-devel@nongnu.org; Fri, 08 Jan 2021 17:24:43 -0500
+Received: by mail-ej1-x62f.google.com with SMTP id qw4so16456446ejb.12
+ for <qemu-devel@nongnu.org>; Fri, 08 Jan 2021 14:24:41 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=EkaMjEMklMlvNUqOOKFls5lK7dDrMPFaiKVpB/t3InE=;
- b=KAKN+iz+IhAORE2RVYQzF1wc719+RF6QXsRx7JxaBaiizilKmPEsxC6ETRK19aIJaP
- wy5pJg6CC/VvQXRAbfFsccX0mFzci6RjDOxABut/7X/7bd3cGKXIR3vzwI7wE6u6qs2L
- uJ6ttZwZh2LxuXNQKvRESSEo3/Hx37BwsJ/Mz5+uTTZKlvWGy9qzLESYce208U8SANFX
- 2aFLeMixciMOhIHPvV95kOYPPZUUyX5LKcEPHQZi/Y9A17yvTSfojtQF6PVkoUFOTnXU
- nr7S4BYDOCZjS1vWoUXEaCHvKtDGBPWr5SYR21oMVHBXkqx7U7wUI7XBMD16sO89xhnu
- HvxQ==
+ :cc; bh=QOjiVqz4xSXzNrjxO98q0Oj1+3/h+lmQwTMq1kn8Poc=;
+ b=oO/qKSgkL5jyUImonxwgi7ExpXbIiYoAEwsEwVVdXNIMknP9uyN1oSgAlUGcxPI+1I
+ k647kFF82SnFRkO5yqhW5PUuqEhcbT4Puqnl1kAAXYdwne1476mMnWwy1gQ+6OFWeUgF
+ nA+/C3NSyR2U6nZdul//8L/TbhRZ4jwLeEygp3G8R5aYwacXsbwx9TYMNhThOarPWEsH
+ 8ky/owWdVQB4qfiib/SacqXdoG8b8iFYdXvGVzJhSv08F2zsdaEBvN04IEM6AlbsQ06N
+ M9PXb6xzNdNIGJikWrsuVObUnnqC7pgN00ts3F/jvBznX1Hy3r6Svy2RQeRTA7gWwZbl
+ fPtA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=EkaMjEMklMlvNUqOOKFls5lK7dDrMPFaiKVpB/t3InE=;
- b=RzCRXAd9avBTqQI7VLCxhu74Nbu+F5ZA6P2nT++n94THzldmmMVyPrsQStHq50haIK
- 1Dd52zNX2vc4HxtpbEGRZAoybX98JcM3afepK1HnJMYtqVNsQn8S2YDmm632Ph7z/8jO
- RAvFb7hae3Im3pP2OLJX4BxMP+B+2LP2BVmAzgN4gXFzdO/cWCY1AzfyuZCrso2VpiBt
- ayCWhJsyIGefvJf59Hut1IQzu0X4NqZ/4G5xyIiUStBszzfl5ckqaxGpEKbLq2AcOEGo
- qihe/AJbohNNuiM/rl008YGtvcBoT8NtCvVdLriC1vjhf7nBtPpORfgHNuQnzn3k0Xqu
- QCaA==
-X-Gm-Message-State: AOAM533QYCtH73PzT4qbLko4zba2ZaKmKpDPsYvs5APQ628DR8W8jLPU
- SOQFzTj/g0hkbgpfWKKO0fZ93jwzqbQwe7hIYMIprg==
-X-Google-Smtp-Source: ABdhPJxTk4UcnfNf9FGu/NhTgh8CbK2fG11J5foxE6lh7J4OF6HdLEw+tbde9tSdjUESwqRd1aM6QKjMYknNc6+P/WY=
-X-Received: by 2002:a50:fd18:: with SMTP id i24mr6907871eds.146.1610144651158; 
- Fri, 08 Jan 2021 14:24:11 -0800 (PST)
+ bh=QOjiVqz4xSXzNrjxO98q0Oj1+3/h+lmQwTMq1kn8Poc=;
+ b=XiDz9nMXjwV27kgGa4XwRMkCKspBge0nPlHYBLbR5/UhXIFxbfPSuxM+34NS6HoMKH
+ IjHNk35GX7fhlCXOuSDCnjJkzisAiT5ALPP2hlD/Y1wA6TW4HPFnCuFV3TDVPccySrVp
+ 3upv9sNt/ko9OWanBueSImtgRJwfhRfAOMTBROaVsSobjwTkYufcLkx76PfLN3pSL6ZP
+ pjphekj5wxDg/RN/TxWpl5qsUznrB9myYyQEH+j+pX7kn51VX40JkRB/v0MUQd4CsRSg
+ R9cX6xkltFBKGmzBNkEDrBsJeOV69HGSBZ2JzgzWGGZNygFHWtzwsgpaT5/4X8hvtMCA
+ idyQ==
+X-Gm-Message-State: AOAM531JxO3mWQymbBy8M9piZzDxprErjruP8MCW9UaCGaJIJvaB2YXp
+ sd7HI5z31ZQy2/3l2cgEmk1eJHGPQ2tXUIqIMF6GcA==
+X-Google-Smtp-Source: ABdhPJyZ2wdT9Tq44isPfSgJxXUChYw/SNpjmx2LBdvy0xocTZjA602Hs+FgpfXs+3MLfxcVu/dob1iOAzGiDbfX+2A=
+X-Received: by 2002:a17:906:6b88:: with SMTP id
+ l8mr4038657ejr.482.1610144680626; 
+ Fri, 08 Jan 2021 14:24:40 -0800 (PST)
 MIME-Version: 1.0
 References: <cover.1610143658.git.balaton@eik.bme.hu>
- <8c65807fc7dc1c4c4f6320f2fd6409a3091c88ff.1610143658.git.balaton@eik.bme.hu>
-In-Reply-To: <8c65807fc7dc1c4c4f6320f2fd6409a3091c88ff.1610143658.git.balaton@eik.bme.hu>
+ <a4dc55b56eed3ce899b7bf9835b980a114c52598.1610143658.git.balaton@eik.bme.hu>
+In-Reply-To: <a4dc55b56eed3ce899b7bf9835b980a114c52598.1610143658.git.balaton@eik.bme.hu>
 From: Peter Maydell <peter.maydell@linaro.org>
-Date: Fri, 8 Jan 2021 22:23:59 +0000
-Message-ID: <CAFEAcA9xP-w-JPerXVw-5Sk-Q7OeuLQyfhJwbsmiKcAH45mx7Q@mail.gmail.com>
-Subject: Re: [PATCH v2 2/3] Revert "ppc4xx: Move common dependency on serial
- to common option"
+Date: Fri, 8 Jan 2021 22:24:29 +0000
+Message-ID: <CAFEAcA8_LxPKC79eOdt_fsFhjRV1KB-tq51oR6-=YzDfM9MMgw@mail.gmail.com>
+Subject: Re: [PATCH v2 3/3] sam460ex: Use type cast macro instead of simple
+ cast
 To: BALATON Zoltan <balaton@eik.bme.hu>
 Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2a00:1450:4864:20::534;
- envelope-from=peter.maydell@linaro.org; helo=mail-ed1-x534.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::62f;
+ envelope-from=peter.maydell@linaro.org; helo=mail-ej1-x62f.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -86,15 +87,14 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On Fri, 8 Jan 2021 at 22:17, BALATON Zoltan <balaton@eik.bme.hu> wrote:
 >
-> This reverts commit e6d5106786 which was added mistakenly. While this
-> change works it was suggested during review that keeping dependencies
-> explicit for each board may be better than listing them in a common
-> option so keep the previous version and revert this change.
+> Use the PCI_BUS type cast macro to convert result of qdev_get_child_bus().
+> Also remove the check for NULL afterwards which should not be needed
+> because sysbus_create_simple() uses error_abort and we create the PCI
+> host object here that's expected to have a PCI bus so this shouldn't
+> fail. Even if it would fail that would be due to a programmer error so
+> an error message is not necessary.
 >
 > Signed-off-by: BALATON Zoltan <balaton@eik.bme.hu>
-> ---
->  hw/ppc/Kconfig | 5 ++++-
->  1 file changed, 4 insertions(+), 1 deletion(-)
 
 Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
 
