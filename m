@@ -2,73 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 245612EF0A6
-	for <lists+qemu-devel@lfdr.de>; Fri,  8 Jan 2021 11:29:06 +0100 (CET)
-Received: from localhost ([::1]:50548 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 192502EF0D4
+	for <lists+qemu-devel@lfdr.de>; Fri,  8 Jan 2021 11:46:51 +0100 (CET)
+Received: from localhost ([::1]:57916 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kxp0z-0005G3-7u
-	for lists+qemu-devel@lfdr.de; Fri, 08 Jan 2021 05:29:05 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58610)
+	id 1kxpI9-0001om-Vy
+	for lists+qemu-devel@lfdr.de; Fri, 08 Jan 2021 05:46:50 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33230)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1kxp0G-0004pS-S7
- for qemu-devel@nongnu.org; Fri, 08 Jan 2021 05:28:20 -0500
-Received: from mail-ed1-x52a.google.com ([2a00:1450:4864:20::52a]:33541)
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1kxpHK-0001Ot-Dj
+ for qemu-devel@nongnu.org; Fri, 08 Jan 2021 05:45:58 -0500
+Received: from indium.canonical.com ([91.189.90.7]:55806)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1kxp0F-0004jR-4K
- for qemu-devel@nongnu.org; Fri, 08 Jan 2021 05:28:20 -0500
-Received: by mail-ed1-x52a.google.com with SMTP id j16so10749041edr.0
- for <qemu-devel@nongnu.org>; Fri, 08 Jan 2021 02:28:18 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=lLpWtzdPQfFiUn7ndft0bQTqwhqAebBKmdK+eSvT5CA=;
- b=B8w8769tpVSIncMXYaZovV6Ik3bJFr1bql5Qh4Snm9swxuICysNLvsCpivIPYZB/WD
- rKVJTpTdXuiClh5agf982sZYdwru6Ru8t4muDxwH3GFIfN7e2m4u8wvbA8BJbCovtYa6
- 3AYl41C9J1kcoBDQK8oytmkQIEu0WpIqzpDq+hm3FVmM4gdliWQk9FZogJQtsdrTZbZR
- q5uxPDIHPVer8txSrfg4LrHACz46bIg0PScw8QH9OgPOZNN0nrMId19jVPb4xefd3E3z
- Sx3YvXVg6821+wiMyFLdUduTNPRLvPhnIa/a3hZUHzvgTiK2lRaAuhNUPlejrCceukCm
- FN+w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=lLpWtzdPQfFiUn7ndft0bQTqwhqAebBKmdK+eSvT5CA=;
- b=MRQBDGVykrJFdIVgGQYEd9HMX4Tp36b9oBpLF4xA5Ff+DZAM14LK1anXCe3FA4zz1q
- 4qTqVOT6WjMKAvVvGXPd8/LUQuntYlpWw895HABCoghYQ61xuWk51PyhlZFWm4UZlhKw
- HL6qdLziJKBLmXTBDjH8bkeoZtmxBoMpcAsYC11sKjveHefMvdBPVHmeViulTb9MvwDT
- JkncPVOya55BtxhHmluoK1i6AvVbOOT38fNXfDQtERVQnpWWBBnlXt3NdnRVM8nBvE88
- 9y25jrSFqLU08rGhkwRVa+2FLOIkqbBzJxHxuSMc9gGT8PrAQkNSO21pTna6NiwDKpQm
- otbw==
-X-Gm-Message-State: AOAM53255+sA4BW5jCt3iedHl8ZPXrnGIl7A4N2rLaNGLLxIZXbSYxDA
- pg9GhxU7k/hi2yQOKGIbD+psD/tPGjfP9WjvcWJpCQ==
-X-Google-Smtp-Source: ABdhPJy8+5zZNk6TpIc/axPxAkFU8EltZjYpj36ROjNfpgXWky6lYkSLBW6lcAKYu7CTU+FfUb7vh3GebR6tsr9hgXk=
-X-Received: by 2002:a05:6402:366:: with SMTP id
- s6mr4685319edw.44.1610101696869; 
- Fri, 08 Jan 2021 02:28:16 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1kxpHH-0004tq-Q0
+ for qemu-devel@nongnu.org; Fri, 08 Jan 2021 05:45:58 -0500
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1kxpHE-0008O8-UL
+ for <qemu-devel@nongnu.org>; Fri, 08 Jan 2021 10:45:53 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id C5FEC2E814B
+ for <qemu-devel@nongnu.org>; Fri,  8 Jan 2021 10:45:52 +0000 (UTC)
 MIME-Version: 1.0
-References: <20210107201448.1152301-1-richard.henderson@linaro.org>
-In-Reply-To: <20210107201448.1152301-1-richard.henderson@linaro.org>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Fri, 8 Jan 2021 10:28:05 +0000
-Message-ID: <CAFEAcA9AOW5_jHuBC=vWZC--MxjSypm6qZ=9Nu_5oJixG-1oww@mail.gmail.com>
-Subject: Re: [PULL 00/47] tcg patch queue
-To: Richard Henderson <richard.henderson@linaro.org>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2a00:1450:4864:20::52a;
- envelope-from=peter.maydell@linaro.org; helo=mail-ed1-x52a.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Date: Fri, 08 Jan 2021 10:34:14 -0000
+From: Mauro Matteo Cascella <1910723@bugs.launchpad.net>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
+X-Launchpad-Bug-Tags: cve qemu security
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: mauro-cascella
+X-Launchpad-Bug-Reporter: Mauro Matteo Cascella (mauro-cascella)
+X-Launchpad-Bug-Modifier: Mauro Matteo Cascella (mauro-cascella)
+Message-Id: <161010205447.5394.7992680653208743690.malonedeb@gac.canonical.com>
+Subject: [Bug 1910723] [NEW] NULL pointer dereference issues in am53c974 SCSI
+ host bus adapter
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="9b8a7e9b05b0918031670be47aedac0f241cb913"; Instance="production"
+X-Launchpad-Hash: 64957cd93e12a251af0dd29cfe1858ace0e80de6
+Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
+ helo=indium.canonical.com
+X-Spam_score_int: -65
+X-Spam_score: -6.6
+X-Spam_bar: ------
+X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9,
+ HEADER_FROM_DIFFERENT_DOMAINS=0.248, RCVD_IN_DNSWL_HI=-5,
+ RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -77,37 +70,256 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: QEMU Developers <qemu-devel@nongnu.org>
+Reply-To: Bug 1910723 <1910723@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, 7 Jan 2021 at 20:14, Richard Henderson
-<richard.henderson@linaro.org> wrote:
->
-> The following changes since commit 470dd6bd360782f5137f7e3376af6a44658eb1d3:
->
->   Merge remote-tracking branch 'remotes/stsquad/tags/pull-testing-060121-4' into staging (2021-01-06 22:18:36 +0000)
->
-> are available in the Git repository at:
->
->   https://gitlab.com/rth7680/qemu.git tags/pull-tcg-20210107
->
-> for you to fetch changes up to e5e2e4c73926f6f3c1f5da24a350e4345d5ad232:
->
->   tcg: Constify TCGLabelQemuLdst.raddr (2021-01-07 05:09:42 -1000)
->
-> ----------------------------------------------------------------
-> Build fix for ppc64 centos7.
-> Reduce the use of scratch registers for tcg/i386.
-> Use _aligned_malloc for Win32.
-> Enable split w^x code gen buffers.
->
+Public bug reported:
+
+Two NULL pointer dereference issues were found in the am53c974 SCSI host
+bus adapter emulation of QEMU. They could occur while handling the
+'Information Transfer' command (CMD_TI) in function handle_ti() in
+hw/scsi/esp.c, and could be abused by a malicious guest to crash the
+QEMU process on the host resulting in a denial of service.
+
+Both issues were reported by Cheolwoo Myung (Seoul National University).
+To reproduce them, configure and run QEMU as follows. Please find
+attached the required disk images.
+
+$ ./configure --target-list=3Dx86_64-softmmu --enable-kvm --enable-sanitize=
+rs
+$ make
+$ ./qemu-system-x86_64 -m 512 -drive file=3D./hyfuzz.img,index=3D0,media=3D=
+disk,format=3Draw \
+-device am53c974,id=3Dscsi -device scsi-hd,drive=3DSysDisk \
+-drive id=3DSysDisk,if=3Dnone,file=3D./disk.img
+
+Additional info:
+RHBZ: https://bugzilla.redhat.com/show_bug.cgi?id=3D1909766
+RHBZ: https://bugzilla.redhat.com/show_bug.cgi?id=3D1909769
+
+ASAN logs:
+=3D=3D672133=3D=3D         =
+
+hw/scsi/scsi-bus.c:1385:12: runtime error: member access within null pointe=
+r of type 'struct SCSIRequest'
+AddressSanitizer:DEADLYSIGNAL                                              =
+                              =
+
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D             =
+
+=3D=3D672133=3D=3DERROR: AddressSanitizer: SEGV on unknown address 0x000000=
+000171 (pc 0x55bd63e20b85 bp 0x7f4b6fffdfa0 sp 0x7f4b6fffdf70 T7)
+=3D=3D672133=3D=3DThe signal is caused by a READ memory access.         =
+
+=3D=3D672133=3D=3DHint: address points to the zero page.                   =
+                                      =
+
+    #0 0x55bd63e20b85 in scsi_req_continue hw/scsi/scsi-bus.c:1385
+    #1 0x55bd63ab34fb in esp_do_dma hw/scsi/esp.c:453       =
+
+    #2 0x55bd63ab4b3c in handle_ti hw/scsi/esp.c:549          =
+
+    #3 0x55bd63ab72a9 in esp_reg_write hw/scsi/esp.c:691                 =
+
+    #4 0x55bd63d7b5dd in esp_pci_io_write hw/scsi/esp-pci.c:206    =
+
+    #5 0x55bd645d55a3 in memory_region_write_accessor softmmu/memory.c:491
+    #6 0x55bd645d5a24 in access_with_adjusted_size softmmu/memory.c:552
+    #7 0x55bd645e2baa in memory_region_dispatch_write softmmu/memory.c:1501
+    #8 0x55bd646b75ff in flatview_write_continue softmmu/physmem.c:2759
+    #9 0x55bd646b79d1 in flatview_write softmmu/physmem.c:2799
+    #10 0x55bd646b8341 in address_space_write softmmu/physmem.c:2891   =
+
+    #11 0x55bd646b83f9 in address_space_rw softmmu/physmem.c:2901
+    #12 0x55bd648c4736 in kvm_handle_io accel/kvm/kvm-all.c:2285
+    #13 0x55bd648c69c8 in kvm_cpu_exec accel/kvm/kvm-all.c:2531
+    #14 0x55bd647b2413 in kvm_vcpu_thread_fn accel/kvm/kvm-cpus.c:49
+    #15 0x55bd64f560de in qemu_thread_start util/qemu-thread-posix.c:521
+    #16 0x7f4b981763f8 in start_thread (/lib64/libpthread.so.0+0x93f8)
+    #17 0x7f4b980a3902 in __GI___clone (/lib64/libc.so.6+0x101902)
+
+---
+
+=3D=3D672020=3D=3D
+hw/scsi/esp.c:196:62: runtime error: member access within null pointer of t=
+ype 'struct SCSIDevice'
+AddressSanitizer:DEADLYSIGNAL                                              =
+                              =
+
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D             =
+
+=3D=3D672020=3D=3DERROR: AddressSanitizer: SEGV on unknown address 0x000000=
+000098 (pc 0x559bc99946fd bp 0x7f08bd737fb0 sp 0x7f08bd737f70 T7)
+=3D=3D672020=3D=3DThe signal is caused by a READ memory access.         =
+
+=3D=3D672020=3D=3DHint: address points to the zero page.                   =
+                                      =
+
+    #0 0x559bc99946fd in do_busid_cmd hw/scsi/esp.c:196        =
+
+    #1 0x559bc9994e71 in do_cmd hw/scsi/esp.c:220           =
+
+    #2 0x559bc999ae81 in handle_ti hw/scsi/esp.c:555          =
+
+    #3 0x559bc999d2a9 in esp_reg_write hw/scsi/esp.c:691                 =
+
+    #4 0x559bc9c615dd in esp_pci_io_write hw/scsi/esp-pci.c:206    =
+
+    #5 0x559bca4bb5a3 in memory_region_write_accessor softmmu/memory.c:491
+    #6 0x559bca4bba24 in access_with_adjusted_size softmmu/memory.c:552
+    #7 0x559bca4c8baa in memory_region_dispatch_write softmmu/memory.c:1501
+    #8 0x559bca59d5ff in flatview_write_continue softmmu/physmem.c:2759
+    #9 0x559bca59d9d1 in flatview_write softmmu/physmem.c:2799
+    #10 0x559bca59e341 in address_space_write softmmu/physmem.c:2891   =
+
+    #11 0x559bca59e3f9 in address_space_rw softmmu/physmem.c:2901
+    #12 0x559bca7aa736 in kvm_handle_io accel/kvm/kvm-all.c:2285
+    #13 0x559bca7ac9c8 in kvm_cpu_exec accel/kvm/kvm-all.c:2531
+    #14 0x559bca698413 in kvm_vcpu_thread_fn accel/kvm/kvm-cpus.c:49
+    #15 0x559bcae3c0de in qemu_thread_start util/qemu-thread-posix.c:521
+    #16 0x7f08e57ba3f8 in start_thread (/lib64/libpthread.so.0+0x93f8)
+    #17 0x7f08e56e7902 in __GI___clone (/lib64/libc.so.6+0x101902)
+
+** Affects: qemu
+     Importance: Undecided
+         Status: New
 
 
-Applied, thanks.
+** Tags: cve qemu security
 
-Please update the changelog at https://wiki.qemu.org/ChangeLog/6.0
-for any user-visible changes.
+** Attachment added: "null-derefs-am53c974.tar.gz"
+   https://bugs.launchpad.net/bugs/1910723/+attachment/5450693/+files/null-=
+derefs-am53c974.tar.gz
 
--- PMM
+-- =
+
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1910723
+
+Title:
+  NULL pointer dereference issues in am53c974 SCSI host bus adapter
+
+Status in QEMU:
+  New
+
+Bug description:
+  Two NULL pointer dereference issues were found in the am53c974 SCSI
+  host bus adapter emulation of QEMU. They could occur while handling
+  the 'Information Transfer' command (CMD_TI) in function handle_ti() in
+  hw/scsi/esp.c, and could be abused by a malicious guest to crash the
+  QEMU process on the host resulting in a denial of service.
+
+  Both issues were reported by Cheolwoo Myung (Seoul National
+  University). To reproduce them, configure and run QEMU as follows.
+  Please find attached the required disk images.
+
+  $ ./configure --target-list=3Dx86_64-softmmu --enable-kvm --enable-saniti=
+zers
+  $ make
+  $ ./qemu-system-x86_64 -m 512 -drive file=3D./hyfuzz.img,index=3D0,media=
+=3Ddisk,format=3Draw \
+  -device am53c974,id=3Dscsi -device scsi-hd,drive=3DSysDisk \
+  -drive id=3DSysDisk,if=3Dnone,file=3D./disk.img
+
+  Additional info:
+  RHBZ: https://bugzilla.redhat.com/show_bug.cgi?id=3D1909766
+  RHBZ: https://bugzilla.redhat.com/show_bug.cgi?id=3D1909769
+
+  ASAN logs:
+  =3D=3D672133=3D=3D         =
+
+  hw/scsi/scsi-bus.c:1385:12: runtime error: member access within null poin=
+ter of type 'struct SCSIRequest'
+  AddressSanitizer:DEADLYSIGNAL                                            =
+                                =
+
+  =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D             =
+
+  =3D=3D672133=3D=3DERROR: AddressSanitizer: SEGV on unknown address 0x0000=
+00000171 (pc 0x55bd63e20b85 bp 0x7f4b6fffdfa0 sp 0x7f4b6fffdf70 T7)
+  =3D=3D672133=3D=3DThe signal is caused by a READ memory access.         =
+
+  =3D=3D672133=3D=3DHint: address points to the zero page.                 =
+                                        =
+
+      #0 0x55bd63e20b85 in scsi_req_continue hw/scsi/scsi-bus.c:1385
+      #1 0x55bd63ab34fb in esp_do_dma hw/scsi/esp.c:453       =
+
+      #2 0x55bd63ab4b3c in handle_ti hw/scsi/esp.c:549          =
+
+      #3 0x55bd63ab72a9 in esp_reg_write hw/scsi/esp.c:691                 =
+
+      #4 0x55bd63d7b5dd in esp_pci_io_write hw/scsi/esp-pci.c:206    =
+
+      #5 0x55bd645d55a3 in memory_region_write_accessor softmmu/memory.c:491
+      #6 0x55bd645d5a24 in access_with_adjusted_size softmmu/memory.c:552
+      #7 0x55bd645e2baa in memory_region_dispatch_write softmmu/memory.c:15=
+01
+      #8 0x55bd646b75ff in flatview_write_continue softmmu/physmem.c:2759
+      #9 0x55bd646b79d1 in flatview_write softmmu/physmem.c:2799
+      #10 0x55bd646b8341 in address_space_write softmmu/physmem.c:2891   =
+
+      #11 0x55bd646b83f9 in address_space_rw softmmu/physmem.c:2901
+      #12 0x55bd648c4736 in kvm_handle_io accel/kvm/kvm-all.c:2285
+      #13 0x55bd648c69c8 in kvm_cpu_exec accel/kvm/kvm-all.c:2531
+      #14 0x55bd647b2413 in kvm_vcpu_thread_fn accel/kvm/kvm-cpus.c:49
+      #15 0x55bd64f560de in qemu_thread_start util/qemu-thread-posix.c:521
+      #16 0x7f4b981763f8 in start_thread (/lib64/libpthread.so.0+0x93f8)
+      #17 0x7f4b980a3902 in __GI___clone (/lib64/libc.so.6+0x101902)
+
+  ---
+
+  =3D=3D672020=3D=3D
+  hw/scsi/esp.c:196:62: runtime error: member access within null pointer of=
+ type 'struct SCSIDevice'
+  AddressSanitizer:DEADLYSIGNAL                                            =
+                                =
+
+  =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D             =
+
+  =3D=3D672020=3D=3DERROR: AddressSanitizer: SEGV on unknown address 0x0000=
+00000098 (pc 0x559bc99946fd bp 0x7f08bd737fb0 sp 0x7f08bd737f70 T7)
+  =3D=3D672020=3D=3DThe signal is caused by a READ memory access.         =
+
+  =3D=3D672020=3D=3DHint: address points to the zero page.                 =
+                                        =
+
+      #0 0x559bc99946fd in do_busid_cmd hw/scsi/esp.c:196        =
+
+      #1 0x559bc9994e71 in do_cmd hw/scsi/esp.c:220           =
+
+      #2 0x559bc999ae81 in handle_ti hw/scsi/esp.c:555          =
+
+      #3 0x559bc999d2a9 in esp_reg_write hw/scsi/esp.c:691                 =
+
+      #4 0x559bc9c615dd in esp_pci_io_write hw/scsi/esp-pci.c:206    =
+
+      #5 0x559bca4bb5a3 in memory_region_write_accessor softmmu/memory.c:491
+      #6 0x559bca4bba24 in access_with_adjusted_size softmmu/memory.c:552
+      #7 0x559bca4c8baa in memory_region_dispatch_write softmmu/memory.c:15=
+01
+      #8 0x559bca59d5ff in flatview_write_continue softmmu/physmem.c:2759
+      #9 0x559bca59d9d1 in flatview_write softmmu/physmem.c:2799
+      #10 0x559bca59e341 in address_space_write softmmu/physmem.c:2891   =
+
+      #11 0x559bca59e3f9 in address_space_rw softmmu/physmem.c:2901
+      #12 0x559bca7aa736 in kvm_handle_io accel/kvm/kvm-all.c:2285
+      #13 0x559bca7ac9c8 in kvm_cpu_exec accel/kvm/kvm-all.c:2531
+      #14 0x559bca698413 in kvm_vcpu_thread_fn accel/kvm/kvm-cpus.c:49
+      #15 0x559bcae3c0de in qemu_thread_start util/qemu-thread-posix.c:521
+      #16 0x7f08e57ba3f8 in start_thread (/lib64/libpthread.so.0+0x93f8)
+      #17 0x7f08e56e7902 in __GI___clone (/lib64/libc.so.6+0x101902)
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1910723/+subscriptions
 
