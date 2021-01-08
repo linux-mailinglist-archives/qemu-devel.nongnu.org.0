@@ -2,71 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 232532EEDDB
-	for <lists+qemu-devel@lfdr.de>; Fri,  8 Jan 2021 08:27:43 +0100 (CET)
-Received: from localhost ([::1]:50486 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 931222EEE2E
+	for <lists+qemu-devel@lfdr.de>; Fri,  8 Jan 2021 08:55:48 +0100 (CET)
+Received: from localhost ([::1]:54274 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kxmBR-0008Db-Ng
-	for lists+qemu-devel@lfdr.de; Fri, 08 Jan 2021 02:27:41 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55552)
+	id 1kxmcd-00040L-5U
+	for lists+qemu-devel@lfdr.de; Fri, 08 Jan 2021 02:55:47 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59854)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1kxm9C-0007gy-W4
- for qemu-devel@nongnu.org; Fri, 08 Jan 2021 02:25:23 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:36804)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1kxm95-0003nf-3U
- for qemu-devel@nongnu.org; Fri, 08 Jan 2021 02:25:20 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1610090711;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=BUczPeGITrcyHJwqS/HoHzQWWpNMt0hmqKuG6wL8gis=;
- b=A3bllhMDlhPYQFgQZUBn4aqapR8mYQIm5kyxdBVTZbzEgBj11fWU5y36VLnV4zv8r53wk1
- T/CTW5XsZTKlMYRRDEKVQnFD0lcI4O9QEYAYyRgnuLLdpV4rBf9mqPHzopA4qtCdJIaUFi
- C6f3fNq8yx4JIh7Ze8Uexo4qVwmK/yw=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-536--EqD4VC1Opaf0ZzSRtBGuw-1; Fri, 08 Jan 2021 02:25:09 -0500
-X-MC-Unique: -EqD4VC1Opaf0ZzSRtBGuw-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 442E2805F01;
- Fri,  8 Jan 2021 07:25:08 +0000 (UTC)
-Received: from thuth.remote.csb (ovpn-112-213.ams2.redhat.com [10.36.112.213])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 3EFD860C4D;
- Fri,  8 Jan 2021 07:25:02 +0000 (UTC)
-Subject: Re: [PATCH] configure: Add flags for MinGW32 standalone build
-To: Joshua Watt <jpewhacker@gmail.com>, qemu-devel@nongnu.org
-References: <20210107213856.34170-1-JPEWhacker@gmail.com>
-From: Thomas Huth <thuth@redhat.com>
-Message-ID: <8ea87ea1-093d-81b0-13d6-60caa9fcdad4@redhat.com>
-Date: Fri, 8 Jan 2021 08:25:01 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.4.0
+ (Exim 4.90_1) (envelope-from <chouhan.shreyansh2702@gmail.com>)
+ id 1kxmb6-0003Ze-Ub
+ for qemu-devel@nongnu.org; Fri, 08 Jan 2021 02:54:12 -0500
+Received: from mail-pg1-x535.google.com ([2607:f8b0:4864:20::535]:32977)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <chouhan.shreyansh2702@gmail.com>)
+ id 1kxmb3-0000Jd-2Q
+ for qemu-devel@nongnu.org; Fri, 08 Jan 2021 02:54:12 -0500
+Received: by mail-pg1-x535.google.com with SMTP id n25so7179554pgb.0
+ for <qemu-devel@nongnu.org>; Thu, 07 Jan 2021 23:54:08 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=9tZHDnyKC3ZFqJ1p3gpP8aDoYHel4aC46YU8pi4h4YA=;
+ b=gqiX6XWat9QWV1CFUbqTvicmsg4oNDJ3EkOdQbr6TUby3ZzO62nhUYbbpjIKFs0BdQ
+ Qs7jafP7iJvN1Btu5uc+DG+V9KK3R2sNXHFTq4EqxAjfXHP9sjThDCT62b0bo6pKBdRR
+ +bqGPCjMHOVguD3TokymNKAYKDfKU7ZzYrieX28+F/CgSpzyWDCjWH37JQVnjKEs+pbP
+ OHh3UZnBEh6IsoEMBFh6xZBblCzo4PBFN4RMJKNzbbKdLWKYpblRHnGau+M76Yx0TbM8
+ nxGxCHhXOiGs1RDrUTBC2+1v6zvLZPBDKJKKqSpANwk2IRL6JtB69BbU8TmZxTRrCdtS
+ tmVg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=9tZHDnyKC3ZFqJ1p3gpP8aDoYHel4aC46YU8pi4h4YA=;
+ b=p9KyapRxcAvt0Uab6Rpv3noZdP+X5OuW0oAWrBIW1AR5C2KWW28TYeGzziewx8lN3P
+ r6OBV/5qMtl6MoCfBw/YWfliYoTq1CxZaYHWHTfiSv51IjvzmtMdFrkFdNHdGtoI1GIS
+ lpVtXbK20VvWVBsY8XBzMatzg6i4PuGivuJR/P8kI0aalCK/siqQqd1Q36BhTQjSanwv
+ kPmwEgJI0NbD8C7Qk+kRvvx+f9UBeI07EJYQpVMyhMwDOhiAV2dB9E+E3te8VDdIgQZC
+ 4JYuImuZ3uaxaZN5p6yaIBvnnWh02LUcS8AevNuV3pKw0iMNipsi4ElIs5HlXpQVGiij
+ Jj+A==
+X-Gm-Message-State: AOAM533wAbhhCX22ggpLeab5O5ZFRndYkpsv5gpwtocVjE/fMsyToXKV
+ zOADu6dDFVxP/xaMFp2OtPo2TmzCUdYXFVVI7b0=
+X-Google-Smtp-Source: ABdhPJxUhmlZUm3/S+Q5f3fqa1VDjB3m4dpq2VJBpoUVY/WY2hQIWQo7GTSFLfYclpRyiKuM+e91RnJ5ud/vTqJErPg=
+X-Received: by 2002:a63:77c1:: with SMTP id s184mr5740155pgc.376.1610092447371; 
+ Thu, 07 Jan 2021 23:54:07 -0800 (PST)
 MIME-Version: 1.0
-In-Reply-To: <20210107213856.34170-1-JPEWhacker@gmail.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=thuth@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=thuth@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -32
-X-Spam_score: -3.3
-X-Spam_bar: ---
-X-Spam_report: (-3.3 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.246,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.267, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+References: <CAAQ-SiP8G28ade0jHbhTcv0jtGQb4OSgL5p3mAr0MU_FH8vZ3w@mail.gmail.com>
+ <87a6tm2sxb.fsf@linaro.org>
+ <CAAQ-SiOW8OnWEb0sHUEeS139-Tw0RO2YD1Tx-1s9iuy3ZVQFgw@mail.gmail.com>
+ <878s941x85.fsf@linaro.org>
+In-Reply-To: <878s941x85.fsf@linaro.org>
+From: Shreyansh Chouhan <chouhan.shreyansh2702@gmail.com>
+Date: Fri, 8 Jan 2021 13:23:56 +0530
+Message-ID: <CAAQ-SiMo4SVKuXUN81S6RVfwFtPnccRWO8O2YBAJZ2C2WszCNw@mail.gmail.com>
+Subject: Re: VirtioSound device emulation implementation
+To: =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>
+Content-Type: multipart/alternative; boundary="0000000000006194a805b85edc50"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::535;
+ envelope-from=chouhan.shreyansh2702@gmail.com; helo=mail-pg1-x535.google.com
+X-Spam_score_int: -17
+X-Spam_score: -1.8
+X-Spam_bar: -
+X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001, HTML_MESSAGE=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -80,81 +80,198 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Stefan Weil <sw@weilnetz.de>, Yonggang Luo <luoyonggang@gmail.com>,
- Paolo Bonzini <pbonzini@redhat.com>
+Cc: qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 07/01/2021 22.38, Joshua Watt wrote:
-> There are two cases that need to be accounted for when compiling QEMU
-> for MinGW32:
->   1) A standalone distribution, where QEMU is self contained and
->      extracted by the user, such as a user would download from the QEMU
->      website. In this case, all of the QEMU files should be rooted in
->      $prefix to ensure they can be easily packaged together for
->      distribution
->   2) QEMU integrated into a distribution image/sysroot/SDK and
->      distributed with other programs. In this case, the provided
->      arguments for bindir/datadir/etc. should be respected as they for a
->      Linux build.
-> 
-> Add a configure time flags --enable-standalone-mingw and
-> --disable-standalone-mingw that allows the user to control this
-> behavior. The flag defaults to "enabled" if unspecified to retain the
-> existing build behavior
-> 
-> Signed-off-by: Joshua Watt <JPEWhacker@gmail.com>
-> ---
->   configure | 8 +++++++-
->   1 file changed, 7 insertions(+), 1 deletion(-)
-> 
-> diff --git a/configure b/configure
-> index 5860bdb77b..5c83edb502 100755
-> --- a/configure
-> +++ b/configure
-> @@ -358,6 +358,7 @@ strip_opt="yes"
->   tcg_interpreter="no"
->   bigendian="no"
->   mingw32="no"
-> +mingw32_standalone="yes"
->   gcov="no"
->   EXESUF="$default_feature"
->   HOST_DSOSUF=".so"
-> @@ -1558,6 +1559,10 @@ for opt do
->     ;;
->     --disable-fuse-lseek) fuse_lseek="disabled"
->     ;;
-> +  --enable-standalone-mingw) mingw32_standalone="yes"
-> +  ;;
-> +  --disable-standalone-mingw) mingw32_standalone="no"
-> +  ;;
->     *)
->         echo "ERROR: unknown option $opt"
->         echo "Try '$0 --help' for more information"
-> @@ -1570,7 +1575,7 @@ libdir="${libdir:-$prefix/lib}"
->   libexecdir="${libexecdir:-$prefix/libexec}"
->   includedir="${includedir:-$prefix/include}"
->   
-> -if test "$mingw32" = "yes" ; then
-> +if test "$mingw32" = "yes" && test "$mingw32_standalone" = "yes"; then
->       mandir="$prefix"
->       datadir="$prefix"
->       docdir="$prefix"
-> @@ -1897,6 +1902,7 @@ disabled with --disable-FEATURE, default is enabled if available
->     libdaxctl       libdaxctl support
->     fuse            FUSE block device export
->     fuse-lseek      SEEK_HOLE/SEEK_DATA support for FUSE exports
-> +  standalone-mingw  Build for standalone distribution on MinGW
->   
->   NOTE: The object files are built at the place where configure is launched
->   EOF
+--0000000000006194a805b85edc50
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-I think this should maybe be done independently from MinGW, so that it could 
-be used on other systems, too. Thus maybe rather name the switch 
-"--enable-standalone-distribution" or "--enable-standalone-installation" or 
-something like this? On MinGW, the value of the switch could then default to 
-"yes" while on other systems it would be "no" by default.
+On Thu, 7 Jan 2021 at 22:49, Alex Benn=C3=A9e <alex.bennee@linaro.org> wrot=
+e:
 
-  Thomas
+>
+> Shreyansh Chouhan <chouhan.shreyansh2702@gmail.com> writes:
+>
+> > On Wed, 6 Jan 2021 at 17:12, Alex Benn=C3=A9e <alex.bennee@linaro.org> =
+wrote:
+> >
+> >>
+> >> Shreyansh Chouhan <chouhan.shreyansh2702@gmail.com> writes:
+> >>
+> >> > Hey everyone!
+> >> >
+> >> > I want to work on implementing the emulation for the VritioSound
+> device.
+> >> I
+> >> > contacted the mentor for the project, (Greg), who said it's fine and
+> >> that I
+> >> > should declare it on the mailing list in order to find out if someon=
+e
+> >> else
+> >> > is already working on this project. That is what this mail is for. I
+> >> tried
+> >> > searching for "Virtio", "Sound", and "VirtioSound" in the qemu-devel
+> >> > mailing archives but couldn't find anything. If someone is already
+> >> working
+> >> > on it, please let me know, and if not then I'll start working on it
+> right
+> >> > away.
+> >>
+> >> I'm not working on it but please feel free to CC me on discussion and
+> >> patches. I have a general interest on Virtio IO implementations at the
+> >> moment.
+> >>
+> >
+> > Sure! (Though I should mention that I do not know a lot about the virti=
+o
+> > architecture yet. I am still reading up about it. So most of my mails
+> might
+> > be (silly) queries. Though I hope to learn about it soon and send in
+> > some patches and tests :)
+> >
+> >
+> >> Are you planning to make it an in-QEMU device or maybe a external
+> >> vhost-user daemon?
+> >
+> > The project page states that we need to use the QEMU audio subsystem
+> > for playing and capturing audio samples.
+>
+> Is this one of the QEMU internship projects?
+>
+Yes, it is one of the GSoC projects.
 
+>
+> > I am not entirely sure if this implies that the device should be an
+> > in-QEMU device or if it could be an external daemon.
+>
+> I think it implies having the entire emulation in-QEMU.
+>
+I see, after reading yours and Gerd's response, I think I will study/think
+about
+the implementation details and then decide which will be the best route for
+me.
+
+>
+> > What do you suggest?
+> >
+> > cc Gerd Hoffman
+> >
+> >
+> >
+> >
+> >>
+> >> --
+> >> Alex Benn=C3=A9e
+> >>
+>
+>
+> --
+> Alex Benn=C3=A9e
+>
+
+--0000000000006194a805b85edc50
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div dir=3D"ltr"><br></div><br><div class=3D"gmail_quote">=
+<div dir=3D"ltr" class=3D"gmail_attr">On Thu, 7 Jan 2021 at 22:49, Alex Ben=
+n=C3=A9e &lt;<a href=3D"mailto:alex.bennee@linaro.org">alex.bennee@linaro.o=
+rg</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"margi=
+n:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex=
+"><br>
+Shreyansh Chouhan &lt;<a href=3D"mailto:chouhan.shreyansh2702@gmail.com" ta=
+rget=3D"_blank">chouhan.shreyansh2702@gmail.com</a>&gt; writes:<br>
+<br>
+&gt; On Wed, 6 Jan 2021 at 17:12, Alex Benn=C3=A9e &lt;<a href=3D"mailto:al=
+ex.bennee@linaro.org" target=3D"_blank">alex.bennee@linaro.org</a>&gt; wrot=
+e:<br>
+&gt;<br>
+&gt;&gt;<br>
+&gt;&gt; Shreyansh Chouhan &lt;<a href=3D"mailto:chouhan.shreyansh2702@gmai=
+l.com" target=3D"_blank">chouhan.shreyansh2702@gmail.com</a>&gt; writes:<br=
+>
+&gt;&gt;<br>
+&gt;&gt; &gt; Hey everyone!<br>
+&gt;&gt; &gt;<br>
+&gt;&gt; &gt; I want to work on implementing the emulation for the VritioSo=
+und device.<br>
+&gt;&gt; I<br>
+&gt;&gt; &gt; contacted the mentor for the project, (Greg), who said it&#39=
+;s fine and<br>
+&gt;&gt; that I<br>
+&gt;&gt; &gt; should declare it on the mailing list in order to find out if=
+ someone<br>
+&gt;&gt; else<br>
+&gt;&gt; &gt; is already working on this project. That is what this mail is=
+ for. I<br>
+&gt;&gt; tried<br>
+&gt;&gt; &gt; searching for &quot;Virtio&quot;, &quot;Sound&quot;, and &quo=
+t;VirtioSound&quot; in the qemu-devel<br>
+&gt;&gt; &gt; mailing archives but couldn&#39;t find anything. If someone i=
+s already<br>
+&gt;&gt; working<br>
+&gt;&gt; &gt; on it, please let me know, and if not then I&#39;ll start wor=
+king on it right<br>
+&gt;&gt; &gt; away.<br>
+&gt;&gt;<br>
+&gt;&gt; I&#39;m not working on it but please feel free to CC me on discuss=
+ion and<br>
+&gt;&gt; patches. I have a general interest on Virtio IO implementations at=
+ the<br>
+&gt;&gt; moment.<br>
+&gt;&gt;<br>
+&gt;<br>
+&gt; Sure! (Though I should mention that I do not know a lot about the virt=
+io<br>
+&gt; architecture yet. I am still reading up about it. So most of my mails =
+might<br>
+&gt; be (silly) queries. Though I hope to learn about it soon and send in<b=
+r>
+&gt; some patches and tests :)<br>
+&gt;<br>
+&gt;<br>
+&gt;&gt; Are you planning to make it an in-QEMU device or maybe a external<=
+br>
+&gt;&gt; vhost-user daemon?<br>
+&gt;<br>
+&gt; The project page states that we need to use the QEMU audio subsystem<b=
+r>
+&gt; for playing and capturing audio samples.<br>
+<br>
+Is this one of the QEMU internship projects?<br></blockquote><div>Yes, it i=
+s one of the GSoC projects.<br></div><blockquote class=3D"gmail_quote" styl=
+e=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);paddin=
+g-left:1ex">
+<br>
+&gt; I am not entirely sure if this implies that the device should be an<br=
+>
+&gt; in-QEMU device or if it could be an external daemon.<br>
+<br>
+I think it implies having the entire emulation in-QEMU.<br></blockquote><di=
+v>I see, after reading yours and Gerd&#39;s response, I think I will study/=
+think about</div><div>the implementation details and then decide which will=
+ be the best route for</div><div>me. <br></div><blockquote class=3D"gmail_q=
+uote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,2=
+04);padding-left:1ex">
+<br>
+&gt; What do you suggest?<br>
+&gt;<br>
+&gt; cc Gerd Hoffman<br>
+&gt;<br>
+&gt;<br>
+&gt;<br>
+&gt;<br>
+&gt;&gt;<br>
+&gt;&gt; --<br>
+&gt;&gt; Alex Benn=C3=A9e<br>
+&gt;&gt;<br>
+<br>
+<br>
+-- <br>
+Alex Benn=C3=A9e<br>
+</blockquote></div></div>
+
+--0000000000006194a805b85edc50--
 
