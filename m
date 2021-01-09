@@ -2,67 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E478D2EFDB8
-	for <lists+qemu-devel@lfdr.de>; Sat,  9 Jan 2021 05:33:59 +0100 (CET)
-Received: from localhost ([::1]:46940 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3523E2EFE16
+	for <lists+qemu-devel@lfdr.de>; Sat,  9 Jan 2021 06:43:23 +0100 (CET)
+Received: from localhost ([::1]:48146 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ky5wt-0000I2-03
-	for lists+qemu-devel@lfdr.de; Fri, 08 Jan 2021 23:33:59 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41316)
+	id 1ky721-0001dN-Ps
+	for lists+qemu-devel@lfdr.de; Sat, 09 Jan 2021 00:43:21 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51294)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1ky5pl-0008HJ-22
- for qemu-devel@nongnu.org; Fri, 08 Jan 2021 23:26:37 -0500
-Received: from indium.canonical.com ([91.189.90.7]:46528)
+ (Exim 4.90_1) (envelope-from <luoyonggang@gmail.com>)
+ id 1ky70T-0000ev-Mh
+ for qemu-devel@nongnu.org; Sat, 09 Jan 2021 00:41:45 -0500
+Received: from mail-lf1-x131.google.com ([2a00:1450:4864:20::131]:40128)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1ky5pg-0006ut-SA
- for qemu-devel@nongnu.org; Fri, 08 Jan 2021 23:26:36 -0500
-Received: from loganberry.canonical.com ([91.189.90.37])
- by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1ky5pZ-0006q5-Tx
- for <qemu-devel@nongnu.org>; Sat, 09 Jan 2021 04:26:25 +0000
-Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id C559C2E8143
- for <qemu-devel@nongnu.org>; Sat,  9 Jan 2021 04:26:23 +0000 (UTC)
+ (Exim 4.90_1) (envelope-from <luoyonggang@gmail.com>)
+ id 1ky70Q-0001V8-N8
+ for qemu-devel@nongnu.org; Sat, 09 Jan 2021 00:41:45 -0500
+Received: by mail-lf1-x131.google.com with SMTP id m12so28149248lfo.7
+ for <qemu-devel@nongnu.org>; Fri, 08 Jan 2021 21:41:42 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:reply-to:from:date:message-id
+ :subject:to:cc;
+ bh=oNmIm4Ey6I4tCs0lVCGj1SZkVvAG4N1N7LghsSpyXro=;
+ b=j9lZA9VJU0WT5w2x2iIxuRK6/wHViizw+RjW3BLSUFgLSJvDZfIFiuBZUWjG9jBUVr
+ b6D0++4Q5R+aSyNiWKXplNd4u31oqgg+4Kp6PIJ8imRmjhQMa7ALt9WC1r8tzfX0mwye
+ ooNKw901vhLWPZn54bxqbP5yrCDLGKGX9m7t706M/3FLYGUt4UkCvgVBVH/wFtAAlPvI
+ 5/AYdcmiDjDHD5KjUbTTPneoS2O4/uMJQ5GmnOFQ33053Ee8PKOjluNw82598suuoSDw
+ 8jBYjjOUcDLbDVrYylxmVvsIrozFkT+VvWo4xsKMYpjj1vyYFE70ZPnI93Y6fjo0ZDy6
+ 93pg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:reply-to
+ :from:date:message-id:subject:to:cc;
+ bh=oNmIm4Ey6I4tCs0lVCGj1SZkVvAG4N1N7LghsSpyXro=;
+ b=C+AdZf7tJ+KZ3ccYq4XXyAWtBuqV0+Ot6KI1lAdpZp+nypnTMoweSZ+rJvuZOPH/Fh
+ JDTXksp4GIJGAmO+88A2f1K1i7PlNMC+WQT7A4yaZtONLGnj1tQ0ZuLZkaa8vXnbqPnB
+ v1ydIPEsIzhDSt9AF/hjJ9gWdoSGJ0O8lTnvtUzNIO77LgCM3EW71jQ0AUQ/YMiNAvVT
+ uNNItDJYwHjBTkaTNzmAHABhVlorEWroHldZQWkldjrk95UWzIhX+Bf3nzQaB3b+eHMN
+ bb/oy4I5PvhxO/dKSs9QZ+lX3IPJvmc33anzmN4+O86nicLxycwSLN5d+wCObrrnYaP2
+ uyhw==
+X-Gm-Message-State: AOAM532PSQ71pMZ+Ku/pMGG3bA5qJ0SMJZX7zBltkP6D3Va18ztI28n5
+ EU/iOMA/gMV5jZakQWgm3ymvIX+J57By0sfFy+A=
+X-Google-Smtp-Source: ABdhPJyHh+qo7Ph7wTPddIdFozl0LJRU5jCEb7lD2T/50Owv1gRBMslnuK4S7IN6EG2WsGq2EZXLWdX3NohgPUNHJWg=
+X-Received: by 2002:a19:ad4b:: with SMTP id s11mr2860034lfd.427.1610170900520; 
+ Fri, 08 Jan 2021 21:41:40 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-Date: Sat, 09 Jan 2021 04:17:56 -0000
-From: Launchpad Bug Tracker <1728635@bugs.launchpad.net>
-To: qemu-devel@nongnu.org
-X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=Expired; importance=Undecided;
- assignee=None; 
-X-Launchpad-Bug-Information-Type: Public
-X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: janitor jnsnow nasastry th-huth
-X-Launchpad-Bug-Reporter: R.Nageswara Sastry (nasastry)
-X-Launchpad-Bug-Modifier: Launchpad Janitor (janitor)
-References: <150937733573.9476.8069037004745261138.malonedeb@wampee.canonical.com>
-Message-Id: <161016587698.8490.2677420075811114730.malone@loganberry.canonical.com>
-Subject: [Bug 1728635] Re: qemu-io crashes with SIGSEGV when did -c aio_write
- 9233408 28160 on a image_fuzzer image
-X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
-X-Launchpad-Message-For: qemu-devel-ml
-Precedence: bulk
-X-Generated-By: Launchpad (canonical.com);
- Revision="fd9c5a87183d01004404fa6027cd262eaa7f6fcf"; Instance="production"
-X-Launchpad-Hash: 4f53a0e9dfbb512acb1369960e580373899a70f4
-Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
- helo=indium.canonical.com
-X-Spam_score_int: -65
-X-Spam_score: -6.6
-X-Spam_bar: ------
-X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9,
- HEADER_FROM_DIFFERENT_DOMAINS=0.248, RCVD_IN_DNSWL_HI=-5,
- RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=ham autolearn_force=no
+References: <20210108180952.358947-1-f4bug@amsat.org>
+ <20210108185823.GB54056@habkost.net>
+In-Reply-To: <20210108185823.GB54056@habkost.net>
+From: =?UTF-8?B?572X5YuH5YiaKFlvbmdnYW5nIEx1byk=?= <luoyonggang@gmail.com>
+Date: Fri, 8 Jan 2021 21:41:29 -0800
+Message-ID: <CAE2XoE_rkg3Ei-68qKg8Sz76APCme=ikfXyXvCnugZ0wLBdRBw@mail.gmail.com>
+Subject: Re: [PATCH v2] decodetree: Open files with encoding='utf-8'
+To: Eduardo Habkost <ehabkost@redhat.com>
+Content-Type: multipart/alternative; boundary="0000000000008da33705b8712011"
+Received-SPF: pass client-ip=2a00:1450:4864:20::131;
+ envelope-from=luoyonggang@gmail.com; helo=mail-lf1-x131.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -71,259 +78,197 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1728635 <1728635@bugs.launchpad.net>
+Reply-To: luoyonggang@gmail.com
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>,
+ qemu-level <qemu-devel@nongnu.org>, Cleber Rosa <crosa@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-[Expired for QEMU because there has been no activity for 60 days.]
+--0000000000008da33705b8712011
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-** Changed in: qemu
-       Status: Incomplete =3D> Expired
+On Fri, Jan 8, 2021 at 10:58 AM Eduardo Habkost <ehabkost@redhat.com> wrote=
+:
+>
+> On Fri, Jan 08, 2021 at 07:09:52PM +0100, Philippe Mathieu-Daud=C3=A9 wro=
+te:
+> > When decodetree.py was added in commit 568ae7efae7, QEMU was
+> > using Python 2 which happily reads UTF-8 files in text mode.
+> > Python 3 requires either UTF-8 locale or an explicit encoding
+> > passed to open(). Now that Python 3 is required, explicit
+> > UTF-8 encoding for decodetree source files.
+> >
+> > To avoid further problems with the user locale, also explicit
+> > UTF-8 encoding for the generated C files.
+> >
+> > Explicit both input/output are plain text by using the 't' mode.
+>
+> I believe the 't' is unnecessary.  But it's harmless and makes it
+> more explicit.
+>
+> >
+> > This fixes:
+> >
+> >   $ /usr/bin/python3 scripts/decodetree.py test.decode
+> >   Traceback (most recent call last):
+> >     File "scripts/decodetree.py", line 1397, in <module>
+> >       main()
+> >     File "scripts/decodetree.py", line 1308, in main
+> >       parse_file(f, toppat)
+> >     File "scripts/decodetree.py", line 994, in parse_file
+> >       for line in f:
+> >     File "/usr/lib/python3.6/encodings/ascii.py", line 26, in decode
+> >       return codecs.ascii_decode(input, self.errors)[0]
+> >   UnicodeDecodeError: 'ascii' codec can't decode byte 0xc3 in position
+80:
+> >   ordinal not in range(128)
+> >
+> > Reported-by: Peter Maydell <peter.maydell@linaro.org>
+> > Signed-off-by: Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>
+>
+> Reviewed-by: Eduardo Habkost <ehabkost@redhat.com>
+>
+> However:
+>
+> > ---
+> > v2: utf-8 output too (Peter)
+> >     explicit default text mode.
+> > ---
+> >  scripts/decodetree.py | 4 ++--
+> >  1 file changed, 2 insertions(+), 2 deletions(-)
+> >
+> > diff --git a/scripts/decodetree.py b/scripts/decodetree.py
+> > index 47aa9caf6d1..d3857066cfc 100644
+> > --- a/scripts/decodetree.py
+> > +++ b/scripts/decodetree.py
+> > @@ -1304,7 +1304,7 @@ def main():
+> >
+> >      for filename in args:
+> >          input_file =3D filename
+> > -        f =3D open(filename, 'r')
+> > +        f =3D open(filename, 'rt', encoding=3D'utf-8')
+> >          parse_file(f, toppat)
+> >          f.close()
+> >
+> > @@ -1324,7 +1324,7 @@ def main():
+> >          prop_size(stree)
+> >
+> >      if output_file:
+> > -        output_fd =3D open(output_file, 'w')
+> > +        output_fd =3D open(output_file, 'wt', encoding=3D'utf-8')
 
--- =
+I misunderstand the cause, this is a better way
 
-You received this bug notification because you are a member of qemu-
-devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1728635
+> >      else:
+> >          output_fd =3D sys.stdout
+>
+> This will still use the user locale encoding for sys.stdout.  Can
+> be solved with:
+>
+>     output_fd =3D io.TextIOWrapper(sys.stdout.buffer, encoding=3D'utf-8')
 
-Title:
-  qemu-io crashes with SIGSEGV when did  -c aio_write 9233408 28160 on a
-  image_fuzzer image
+For output to console/terminal. I suggest to use
+   sys.stdout =3D io.TextIOWrapper(sys.stdout.buffer,
+encoding=3Dsys.stdout.encoding, errors=3D"ignore")
+When the console/terminal encoding still can not represent the char in the
+decodetree, still won't
+cause script failure. And that failure can not be fixed by other means.
+  errors=3D"ignore" are important, from my experince, even there is `char`
+can not represent
+in utf8
 
-Status in QEMU:
-  Expired
 
-Bug description:
-  git is at HEAD a93ece47fd9edbd4558db24300056c9a57d3bcd4
-  This is on ppc64le architecture.
+>
+> (Based on a suggestion from Yonggang Luo)
+>
+> --
+> Eduardo
+>
 
-  Re-production steps:
 
-  1. Copy the attached file named test.img to a directory
-  2. And customize the following command to point to the above directory an=
-d run the same.
-  # cp test.img copy.img
-  # qemu/qemu-io <path to>/copy.img -c "aio_write 9233408 28160"
+--
+         =E6=AD=A4=E8=87=B4
+=E7=A4=BC
+=E7=BD=97=E5=8B=87=E5=88=9A
+Yours
+    sincerely,
+Yonggang Luo
 
-  from gdb:
-  Program terminated with signal 11, Segmentation fault.
-  #0  0x00003fffa0077644 in __memcpy_power7 () from /lib64/libc.so.6
-  Missing separate debuginfos, use: debuginfo-install cyrus-sasl-lib-2.1.26=
--21.el7.ppc64le glib2-2.50.3-3.el7.ppc64le glibc-2.17-196.el7.ppc64le gmp-6=
-.0.0-15.el7.ppc64le gnutls-3.3.26-9.el7.ppc64le keyutils-libs-1.5.8-3.el7.p=
-pc64le krb5-libs-1.15.1-8.el7.ppc64le libaio-0.3.109-13.el7.ppc64le libcom_=
-err-1.42.9-10.el7.ppc64le libcurl-7.29.0-42.el7.ppc64le libffi-3.0.13-18.el=
-7.ppc64le libgcc-4.8.5-16.el7_4.1.ppc64le libidn-1.28-4.el7.ppc64le libseli=
-nux-2.5-11.el7.ppc64le libssh2-1.4.3-10.el7_2.1.ppc64le libstdc++-4.8.5-16.=
-el7_4.1.ppc64le libtasn1-4.10-1.el7.ppc64le nettle-2.7.1-8.el7.ppc64le nspr=
--4.13.1-1.0.el7_3.ppc64le nss-3.28.4-15.el7_4.ppc64le nss-softokn-freebl-3.=
-28.3-8.el7_4.ppc64le nss-util-3.28.4-3.el7.ppc64le openldap-2.4.44-5.el7.pp=
-c64le openssl-libs-1.0.2k-8.el7.ppc64le p11-kit-0.23.5-3.el7.ppc64le pcre-8=
-.32-17.el7.ppc64le zlib-1.2.7-17.el7.ppc64le
-  (gdb) bt
-  #0  0x00003fffa0077644 in __memcpy_power7 () from /lib64/libc.so.6
-  #1  0x0000000010056738 in qcow2_refcount_area (bs=3D0x25f56f60, start_off=
-set=3D137438953472, additional_clusters=3D0, exact_size=3Dfalse, new_refblo=
-ck_index=3D0,
-      new_refblock_offset=3D524288) at block/qcow2-refcount.c:573
-  #2  0x0000000010056374 in alloc_refcount_block (bs=3D0x25f56f60, cluster_=
-index=3D0, refcount_block=3D0x3fff9dadf838) at block/qcow2-refcount.c:479
-  #3  0x0000000010057520 in update_refcount (bs=3D0x25f56f60, offset=3D0, l=
-ength=3D524288, addend=3D1, decrease=3Dfalse, type=3DQCOW2_DISCARD_NEVER)
-      at block/qcow2-refcount.c:834
-  #4  0x0000000010057c24 in qcow2_alloc_clusters (bs=3D0x25f56f60, size=3D5=
-24288) at block/qcow2-refcount.c:996
-  #5  0x0000000010063684 in do_alloc_cluster_offset (bs=3D0x25f56f60, guest=
-_offset=3D9233408, host_offset=3D0x3fff9dadf9e0, nb_clusters=3D0x3fff9dadf9=
-d8)
-      at block/qcow2-cluster.c:1213
-  #6  0x0000000010063afc in handle_alloc (bs=3D0x25f56f60, guest_offset=3D9=
-233408, host_offset=3D0x3fff9dadfab0, bytes=3D0x3fff9dadfab8, m=3D0x3fff9da=
-dfb60)
-      at block/qcow2-cluster.c:1324
-  #7  0x0000000010064178 in qcow2_alloc_cluster_offset (bs=3D0x25f56f60, of=
-fset=3D9233408, bytes=3D0x3fff9dadfb4c, host_offset=3D0x3fff9dadfb58, m=3D0=
-x3fff9dadfb60)
-      at block/qcow2-cluster.c:1511
-  #8  0x000000001004d3f4 in qcow2_co_pwritev (bs=3D0x25f56f60, offset=3D923=
-3408, bytes=3D28160, qiov=3D0x25f6fa08, flags=3D0) at block/qcow2.c:1919
-  #9  0x00000000100a9648 in bdrv_driver_pwritev (bs=3D0x25f56f60, offset=3D=
-9233408, bytes=3D28160, qiov=3D0x25f6fa08, flags=3D16) at block/io.c:898
-  #10 0x00000000100ab630 in bdrv_aligned_pwritev (child=3D0x25f627f0, req=
-=3D0x3fff9dadfdd8, offset=3D9233408, bytes=3D28160, align=3D1, qiov=3D0x25f=
-6fa08, flags=3D16)
-      at block/io.c:1440
-  #11 0x00000000100ac4ac in bdrv_co_pwritev (child=3D0x25f627f0, offset=3D9=
-233408, bytes=3D28160, qiov=3D0x25f6fa08, flags=3DBDRV_REQ_FUA) at block/io=
-.c:1691
-  #12 0x000000001008da0c in blk_co_pwritev (blk=3D0x25f49410, offset=3D9233=
-408, bytes=3D28160, qiov=3D0x25f6fa08, flags=3DBDRV_REQ_FUA) at block/block=
--backend.c:1085
-  #13 0x000000001008e718 in blk_aio_write_entry (opaque=3D0x25f6fa70) at bl=
-ock/block-backend.c:1276
-  #14 0x00000000101aa444 in coroutine_trampoline (i0=3D636902032, i1=3D0) a=
-t util/coroutine-ucontext.c:79
-  #15 0x00003fffa0022b9c in makecontext () from /lib64/libc.so.6
-  #16 0x0000000000000000 in ?? ()
-  (gdb) bt full
-  #0  0x00003fffa0077644 in __memcpy_power7 () from /lib64/libc.so.6
-  No symbol table info available.
-  #1  0x0000000010056738 in qcow2_refcount_area (bs=3D0x25f56f60, start_off=
-set=3D137438953472, additional_clusters=3D0, exact_size=3Dfalse, new_refblo=
-ck_index=3D0,
-      new_refblock_offset=3D524288) at block/qcow2-refcount.c:573
-          s =3D 0x25f63210
-          total_refblock_count_u64 =3D 2
-          additional_refblock_count =3D 0
-          total_refblock_count =3D 2
-          table_size =3D 65536
-          area_reftable_index =3D 1
-          table_clusters =3D 1
-          i =3D 0
-          table_offset =3D 268870620
-          block_offset =3D 70367094634128
-          end_offset =3D 636891296
-          ret =3D 636786432
-          new_table =3D 0x3fff9d940010
-          __PRETTY_FUNCTION__ =3D "qcow2_refcount_area"
-          data =3D {d64 =3D 636841824, d32 =3D 1}
-          old_table_offset =3D 70367094634552
-          old_table_size =3D 636786432
-  #2  0x0000000010056374 in alloc_refcount_block (bs=3D0x25f56f60, cluster_=
-index=3D0, refcount_block=3D0x3fff9dadf838) at block/qcow2-refcount.c:479
-          s =3D 0x25f63210
-          refcount_table_index =3D 0
-          ret =3D 0
-          new_block =3D 524288
-          blocks_used =3D 1
-          meta_offset =3D 137438953472
-  #3  0x0000000010057520 in update_refcount (bs=3D0x25f56f60, offset=3D0, l=
-ength=3D524288, addend=3D1, decrease=3Dfalse, type=3DQCOW2_DISCARD_NEVER)
-      at block/qcow2-refcount.c:834
-          block_index =3D 268794524
-          refcount =3D 4563798300
-          cluster_index =3D 0
-          table_index =3D 0
-          s =3D 0x25f63210
-          start =3D 0
-          last =3D 0
-          cluster_offset =3D 0
-          refcount_block =3D 0x0
-          old_table_index =3D -1
-          ret =3D 0
-  #4  0x0000000010057c24 in qcow2_alloc_clusters (bs=3D0x25f56f60, size=3D5=
-24288) at block/qcow2-refcount.c:996
-          offset =3D 0
-          ret =3D 0
-  #5  0x0000000010063684 in do_alloc_cluster_offset (bs=3D0x25f56f60, guest=
-_offset=3D9233408, host_offset=3D0x3fff9dadf9e0, nb_clusters=3D0x3fff9dadf9=
-d8)
-      at block/qcow2-cluster.c:1213
-          cluster_offset =3D 0
-          s =3D 0x25f63210
-  #6  0x0000000010063afc in handle_alloc (bs=3D0x25f56f60, guest_offset=3D9=
-233408, host_offset=3D0x3fff9dadfab0, bytes=3D0x3fff9dadfab8, m=3D0x3fff9da=
-dfb60)
-      at block/qcow2-cluster.c:1324
-  ---Type <return> to continue, or q <return> to quit---
-          s =3D 0x25f63210
-          l2_index =3D 17
-          l2_table =3D 0x0
-          entry =3D 0
-          nb_clusters =3D 1
-          ret =3D 0
-          keep_old_clusters =3D false
-          alloc_cluster_offset =3D 0
-          __PRETTY_FUNCTION__ =3D "handle_alloc"
-          requested_bytes =3D 73651285856
-          avail_bytes =3D -1649542304
-          nb_bytes =3D 16383
-          old_m =3D 0x3fff00000000
-  #7  0x0000000010064178 in qcow2_alloc_cluster_offset (bs=3D0x25f56f60, of=
-fset=3D9233408, bytes=3D0x3fff9dadfb4c, host_offset=3D0x3fff9dadfb58, m=3D0=
-x3fff9dadfb60)
-      at block/qcow2-cluster.c:1511
-          s =3D 0x25f63210
-          start =3D 9233408
-          remaining =3D 28160
-          cluster_offset =3D 0
-          cur_bytes =3D 28160
-          ret =3D 0
-          __PRETTY_FUNCTION__ =3D "qcow2_alloc_cluster_offset"
-  #8  0x000000001004d3f4 in qcow2_co_pwritev (bs=3D0x25f56f60, offset=3D923=
-3408, bytes=3D28160, qiov=3D0x25f6fa08, flags=3D0) at block/qcow2.c:1919
-          s =3D 0x25f63210
-          offset_in_cluster =3D 320512
-          ret =3D 0
-          cur_bytes =3D 28160
-          cluster_offset =3D 0
-          hd_qiov =3D {iov =3D 0x25f285a0, niov =3D 0, nalloc =3D 1, size =
-=3D 0}
-          bytes_done =3D 0
-          cluster_data =3D 0x0
-          l2meta =3D 0x0
-          __PRETTY_FUNCTION__ =3D "qcow2_co_pwritev"
-  #9  0x00000000100a9648 in bdrv_driver_pwritev (bs=3D0x25f56f60, offset=3D=
-9233408, bytes=3D28160, qiov=3D0x25f6fa08, flags=3D16) at block/io.c:898
-          drv =3D 0x102036f0 <bdrv_qcow2>
-          sector_num =3D 636854560
-          nb_sectors =3D 598850083
-          ret =3D -1802855680
-          __PRETTY_FUNCTION__ =3D "bdrv_driver_pwritev"
-  #10 0x00000000100ab630 in bdrv_aligned_pwritev (child=3D0x25f627f0, req=
-=3D0x3fff9dadfdd8, offset=3D9233408, bytes=3D28160, align=3D1, qiov=3D0x25f=
-6fa08, flags=3D16)
-      at block/io.c:1440
-          bs =3D 0x25f56f60
-          drv =3D 0x102036f0 <bdrv_qcow2>
-          waited =3D false
-          ret =3D 0
-          end_sector =3D 18089
-          bytes_remaining =3D 28160
-          max_transfer =3D 2147483647
-          __PRETTY_FUNCTION__ =3D "bdrv_aligned_pwritev"
-  #11 0x00000000100ac4ac in bdrv_co_pwritev (child=3D0x25f627f0, offset=3D9=
-233408, bytes=3D28160, qiov=3D0x25f6fa08, flags=3DBDRV_REQ_FUA) at block/io=
-.c:1691
-  ---Type <return> to continue, or q <return> to quit---
-          bs =3D 0x25f56f60
-          req =3D {bs =3D 0x25f56f60, offset =3D 9233408, bytes =3D 28160, =
-type =3D BDRV_TRACKED_WRITE, serialising =3D false, overlap_offset =3D 9233=
-408,
-            overlap_bytes =3D 28160, list =3D {le_next =3D 0x0, le_prev =3D=
- 0x25f5a1d8}, co =3D 0x25f65a90, wait_queue =3D {entries =3D {sqh_first =3D=
- 0x0,
-                sqh_last =3D 0x3fff9dadfe20}}, waiting_for =3D 0x0}
-          align =3D 1
-          head_buf =3D 0x0
-          tail_buf =3D 0x0
-          local_qiov =3D {iov =3D 0x3fff9dadfdb0, niov =3D -1649541648, nal=
-loc =3D 16383, size =3D 9233408}
-          use_local_qiov =3D false
-          ret =3D 0
-          __PRETTY_FUNCTION__ =3D "bdrv_co_pwritev"
-  #12 0x000000001008da0c in blk_co_pwritev (blk=3D0x25f49410, offset=3D9233=
-408, bytes=3D28160, qiov=3D0x25f6fa08, flags=3DBDRV_REQ_FUA) at block/block=
--backend.c:1085
-          ret =3D 0
-          bs =3D 0x25f56f60
-  #13 0x000000001008e718 in blk_aio_write_entry (opaque=3D0x25f6fa70) at bl=
-ock/block-backend.c:1276
-          acb =3D 0x25f6fa70
-          rwco =3D 0x25f6fa98
-          __PRETTY_FUNCTION__ =3D "blk_aio_write_entry"
-  #14 0x00000000101aa444 in coroutine_trampoline (i0=3D636902032, i1=3D0) a=
-t util/coroutine-ucontext.c:79
-          arg =3D {p =3D 0x25f65a90, i =3D {636902032, 0}}
-          self =3D 0x25f65a90
-          co =3D 0x25f65a90
-  #15 0x00003fffa0022b9c in makecontext () from /lib64/libc.so.6
-  No symbol table info available.
-  #16 0x0000000000000000 in ?? ()
-  No symbol table info available.
+--0000000000008da33705b8712011
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-  Will be attaching image_fuzzer image
+<div dir=3D"ltr"><br><br>On Fri, Jan 8, 2021 at 10:58 AM Eduardo Habkost &l=
+t;<a href=3D"mailto:ehabkost@redhat.com">ehabkost@redhat.com</a>&gt; wrote:=
+<br>&gt;<br>&gt; On Fri, Jan 08, 2021 at 07:09:52PM +0100, Philippe Mathieu=
+-Daud=C3=A9 wrote:<br>&gt; &gt; When decodetree.py was added in commit 568a=
+e7efae7, QEMU was<br>&gt; &gt; using Python 2 which happily reads UTF-8 fil=
+es in text mode.<br>&gt; &gt; Python 3 requires either UTF-8 locale or an e=
+xplicit encoding<br>&gt; &gt; passed to open(). Now that Python 3 is requir=
+ed, explicit<br>&gt; &gt; UTF-8 encoding for decodetree source files.<br>&g=
+t; &gt;<br>&gt; &gt; To avoid further problems with the user locale, also e=
+xplicit<br>&gt; &gt; UTF-8 encoding for the generated C files.<br>&gt; &gt;=
+<br>&gt; &gt; Explicit both input/output are plain text by using the &#39;t=
+&#39; mode.<br>&gt;<br>&gt; I believe the &#39;t&#39; is unnecessary.=C2=A0=
+ But it&#39;s harmless and makes it<br>&gt; more explicit.<br>&gt;<br>&gt; =
+&gt;<br>&gt; &gt; This fixes:<br>&gt; &gt;<br>&gt; &gt; =C2=A0 $ /usr/bin/p=
+ython3 scripts/decodetree.py test.decode<br>&gt; &gt; =C2=A0 Traceback (mos=
+t recent call last):<br>&gt; &gt; =C2=A0 =C2=A0 File &quot;scripts/decodetr=
+ee.py&quot;, line 1397, in &lt;module&gt;<br>&gt; &gt; =C2=A0 =C2=A0 =C2=A0=
+ main()<br>&gt; &gt; =C2=A0 =C2=A0 File &quot;scripts/decodetree.py&quot;, =
+line 1308, in main<br>&gt; &gt; =C2=A0 =C2=A0 =C2=A0 parse_file(f, toppat)<=
+br>&gt; &gt; =C2=A0 =C2=A0 File &quot;scripts/decodetree.py&quot;, line 994=
+, in parse_file<br>&gt; &gt; =C2=A0 =C2=A0 =C2=A0 for line in f:<br>&gt; &g=
+t; =C2=A0 =C2=A0 File &quot;/usr/lib/python3.6/encodings/ascii.py&quot;, li=
+ne 26, in decode<br>&gt; &gt; =C2=A0 =C2=A0 =C2=A0 return codecs.ascii_deco=
+de(input, self.errors)[0]<br>&gt; &gt; =C2=A0 UnicodeDecodeError: &#39;asci=
+i&#39; codec can&#39;t decode byte 0xc3 in position 80:<br>&gt; &gt; =C2=A0=
+ ordinal not in range(128)<br>&gt; &gt;<br>&gt; &gt; Reported-by: Peter May=
+dell &lt;<a href=3D"mailto:peter.maydell@linaro.org">peter.maydell@linaro.o=
+rg</a>&gt;<br>&gt; &gt; Signed-off-by: Philippe Mathieu-Daud=C3=A9 &lt;<a h=
+ref=3D"mailto:f4bug@amsat.org">f4bug@amsat.org</a>&gt;<br>&gt;<br>&gt; Revi=
+ewed-by: Eduardo Habkost &lt;<a href=3D"mailto:ehabkost@redhat.com">ehabkos=
+t@redhat.com</a>&gt;<br>&gt;<br>&gt; However:<br>&gt;<br>&gt; &gt; ---<br>&=
+gt; &gt; v2: utf-8 output too (Peter)<br>&gt; &gt; =C2=A0 =C2=A0 explicit d=
+efault text mode.<br>&gt; &gt; ---<br>&gt; &gt; =C2=A0scripts/decodetree.py=
+ | 4 ++--<br>&gt; &gt; =C2=A01 file changed, 2 insertions(+), 2 deletions(-=
+)<br>&gt; &gt;<br>&gt; &gt; diff --git a/scripts/decodetree.py b/scripts/de=
+codetree.py<br>&gt; &gt; index 47aa9caf6d1..d3857066cfc 100644<br>&gt; &gt;=
+ --- a/scripts/decodetree.py<br>&gt; &gt; +++ b/scripts/decodetree.py<br>&g=
+t; &gt; @@ -1304,7 +1304,7 @@ def main():<br>&gt; &gt; <br>&gt; &gt; =C2=A0=
+ =C2=A0 =C2=A0for filename in args:<br>&gt; &gt; =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0input_file =3D filename<br>&gt; &gt; - =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0f =3D open(filename, &#39;r&#39;)<br>&gt; &gt; + =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0f =3D open(filename, &#39;rt&#39;, encoding=3D&#39;utf-8&#39;)<br>&gt=
+; &gt; =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0parse_file(f, toppat)<br>&gt; &gt;=
+ =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0f.close()<br>&gt; &gt; <br>&gt; &gt; @@ =
+-1324,7 +1324,7 @@ def main():<br>&gt; &gt; =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0prop_size(stree)<br>&gt; &gt; <br>&gt; &gt; =C2=A0 =C2=A0 =C2=A0if outpu=
+t_file:<br>&gt; &gt; - =C2=A0 =C2=A0 =C2=A0 =C2=A0output_fd =3D open(output=
+_file, &#39;w&#39;)<br>&gt; &gt; + =C2=A0 =C2=A0 =C2=A0 =C2=A0output_fd =3D=
+ open(output_file, &#39;wt&#39;, encoding=3D&#39;utf-8&#39;)<div><br></div>=
+<div> I misunderstand the cause, this is a better way<br></div><div><br>&gt=
+; &gt; =C2=A0 =C2=A0 =C2=A0else:<br>&gt; &gt; =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0output_fd =3D sys.stdout<br>&gt;<br>&gt; This will still use the user=
+ locale encoding for sys.stdout.=C2=A0 Can<br>&gt; be solved with:<br>&gt;<=
+br>&gt; =C2=A0 =C2=A0 output_fd =3D io.TextIOWrapper(sys.stdout.buffer, enc=
+oding=3D&#39;utf-8&#39;)</div><div><br></div><div>For output to console/ter=
+minal. I suggest to use</div><div>=C2=A0 =C2=A0sys.stdout =3D io.TextIOWrap=
+per(sys.stdout.buffer, encoding=3Dsys.stdout.encoding, errors=3D&quot;ignor=
+e&quot;)</div><div>When the console/terminal encoding still can not represe=
+nt the char in the decodetree, still won&#39;t=C2=A0</div><div>cause script=
+ failure. And that failure can not be fixed by other means.</div><div>=C2=
+=A0 errors=3D&quot;ignore&quot; are important, from my experince, even ther=
+e is `char` can not represent</div><div>in utf8</div><div><br></div><div>=
+=C2=A0<br></div><div>&gt;<br>&gt; (Based on a suggestion from Yonggang Luo)=
+<br>&gt;</div><div><div>&gt; --<br>&gt; Eduardo<br>&gt;<br><br><br>--<br>=
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=E6=AD=A4=E8=87=B4<br>=E7=A4=BC<br>=E7=BD=
+=97=E5=8B=87=E5=88=9A<br>Yours<br>=C2=A0 =C2=A0 sincerely,<br>Yonggang Luo<=
+/div></div></div>
 
-To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1728635/+subscriptions
+--0000000000008da33705b8712011--
 
