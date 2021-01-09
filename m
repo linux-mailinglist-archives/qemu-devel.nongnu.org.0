@@ -2,35 +2,35 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7ADF22EFDB5
-	for <lists+qemu-devel@lfdr.de>; Sat,  9 Jan 2021 05:31:35 +0100 (CET)
-Received: from localhost ([::1]:39062 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3FC632EFDBD
+	for <lists+qemu-devel@lfdr.de>; Sat,  9 Jan 2021 05:37:39 +0100 (CET)
+Received: from localhost ([::1]:58870 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ky5uY-00058l-GO
-	for lists+qemu-devel@lfdr.de; Fri, 08 Jan 2021 23:31:34 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41386)
+	id 1ky60Q-0005dB-B2
+	for lists+qemu-devel@lfdr.de; Fri, 08 Jan 2021 23:37:38 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41384)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1ky5po-0008NZ-Ma
+ id 1ky5po-0008NL-Ja
  for qemu-devel@nongnu.org; Fri, 08 Jan 2021 23:26:40 -0500
-Received: from indium.canonical.com ([91.189.90.7]:47242)
+Received: from indium.canonical.com ([91.189.90.7]:47178)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1ky5pm-0006zq-V3
+ id 1ky5pl-0006yW-Kk
  for qemu-devel@nongnu.org; Fri, 08 Jan 2021 23:26:40 -0500
 Received: from loganberry.canonical.com ([91.189.90.37])
  by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1ky5pj-0007QW-5d
- for <qemu-devel@nongnu.org>; Sat, 09 Jan 2021 04:26:35 +0000
+ id 1ky5pi-0007Hc-6c
+ for <qemu-devel@nongnu.org>; Sat, 09 Jan 2021 04:26:34 +0000
 Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 382ED2E8183
- for <qemu-devel@nongnu.org>; Sat,  9 Jan 2021 04:26:32 +0000 (UTC)
+ by loganberry.canonical.com (Postfix) with ESMTP id 3DD412E81A7
+ for <qemu-devel@nongnu.org>; Sat,  9 Jan 2021 04:26:31 +0000 (UTC)
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
-Date: Sat, 09 Jan 2021 04:17:49 -0000
-From: Launchpad Bug Tracker <1702798@bugs.launchpad.net>
+Date: Sat, 09 Jan 2021 04:17:50 -0000
+From: Launchpad Bug Tracker <1706825@bugs.launchpad.net>
 To: qemu-devel@nongnu.org
 X-Launchpad-Notification-Type: bug
 X-Launchpad-Bug: product=qemu; status=Expired; importance=Undecided;
@@ -38,18 +38,18 @@ X-Launchpad-Bug: product=qemu; status=Expired; importance=Undecided;
 X-Launchpad-Bug-Information-Type: Public
 X-Launchpad-Bug-Private: no
 X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: janitor pork-prince th-huth zhangckid
-X-Launchpad-Bug-Reporter: junchi (pork-prince)
+X-Launchpad-Bug-Commenters: janitor kb9vqf th-huth
+X-Launchpad-Bug-Reporter: Timothy Pearson (kb9vqf)
 X-Launchpad-Bug-Modifier: Launchpad Janitor (janitor)
-References: <149938892775.6469.8247493589075671817.malonedeb@gac.canonical.com>
-Message-Id: <161016586960.8490.16858482182263283941.malone@loganberry.canonical.com>
-Subject: [Bug 1702798] Re: colo: secondary vm can't receive any packet
+References: <150111850209.31878.14522576992993433144.malonedeb@gac.canonical.com>
+Message-Id: <161016587023.8490.5830843704838906139.malone@loganberry.canonical.com>
+Subject: [Bug 1706825] Re: qemu-user fails to run wineserver on ppc64el host
 X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
 X-Launchpad-Message-For: qemu-devel-ml
 Precedence: bulk
 X-Generated-By: Launchpad (canonical.com);
  Revision="fd9c5a87183d01004404fa6027cd262eaa7f6fcf"; Instance="production"
-X-Launchpad-Hash: a3c61a25505d8aa42c903dde988a6da045a52fae
+X-Launchpad-Hash: f99a596cda0734804f3889506e17673608fde9c7
 Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
  helo=indium.canonical.com
 X-Spam_score_int: -65
@@ -70,7 +70,7 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1702798 <1702798@bugs.launchpad.net>
+Reply-To: Bug 1706825 <1706825@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
@@ -83,42 +83,27 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 You received this bug notification because you are a member of qemu-
 devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1702798
+https://bugs.launchpad.net/bugs/1706825
 
 Title:
-  colo: secondary vm can't receive any packet
+  qemu-user fails to run wineserver on ppc64el host
 
 Status in QEMU:
   Expired
 
 Bug description:
-  Following document 'COLO-FT.txt', I test colo feature on my hosts. It see=
-ms goes well,but I found the secondary vm can't receive any packets. I atta=
-ched the process and find out the reason as follow, the filter-redirector(r=
-ed0) didn't flush it's queue because the secondary vm in migrate state(RUN_=
-STATE_INMIGRATE) :
-  int qemu_can_send_packet(NetClientState *sender)
-  {
-      int vm_running =3D runstate_is_running():
+  When attempting to run wineserver on a 64-bit ppc64el host via QEMU's
+  user-mode i386 emulation, a file locking operation fails.
 
-      if (!vm_running) {         // it will return false on the secondary vm
-          return 0;
-      }
-      ------
-  }
+  Command line:
+  qemu-i386-static /usr/lib/wine-development/wineserver32
 
-  How does it produce outbound packets in the secondary vm as it in migrate=
- state?
-  static void *qemu_kvm_cpu_thread_fn(void *arg)
-  {
-      ------
-      do {
-          if (cpu_can_run(cpu)) {      // it will return false on the secon=
-dary vm
-              r =3D kvm_cpu_exec(cpu);
-      ------
-  }
+  Output:
+  wineserver: fcntl /tmp/.wine-0/server-17-14d21bf/lock: Invalid argument
+
+  Relevant portion of strace:
+  fcntl(6, F_SETLK64, 0x3fffe8802218) =3D -1 EINVAL (Invalid argument)
 
 To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1702798/+subscriptions
+https://bugs.launchpad.net/qemu/+bug/1706825/+subscriptions
 
