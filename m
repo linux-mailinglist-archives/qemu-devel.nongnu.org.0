@@ -2,35 +2,35 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DA35D2EFDCC
-	for <lists+qemu-devel@lfdr.de>; Sat,  9 Jan 2021 05:42:58 +0100 (CET)
-Received: from localhost ([::1]:41986 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8964C2EFDBB
+	for <lists+qemu-devel@lfdr.de>; Sat,  9 Jan 2021 05:35:50 +0100 (CET)
+Received: from localhost ([::1]:53154 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ky65Z-0002Bh-6C
-	for lists+qemu-devel@lfdr.de; Fri, 08 Jan 2021 23:42:58 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41550)
+	id 1ky5yf-00038E-L6
+	for lists+qemu-devel@lfdr.de; Fri, 08 Jan 2021 23:35:49 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41530)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1ky5qC-0000Go-3e
- for qemu-devel@nongnu.org; Fri, 08 Jan 2021 23:27:04 -0500
-Received: from indium.canonical.com ([91.189.90.7]:47696)
+ id 1ky5qB-0000F4-0q
+ for qemu-devel@nongnu.org; Fri, 08 Jan 2021 23:27:03 -0500
+Received: from indium.canonical.com ([91.189.90.7]:47606)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1ky5q2-00074A-7k
- for qemu-devel@nongnu.org; Fri, 08 Jan 2021 23:27:03 -0500
+ id 1ky5q1-000737-Eg
+ for qemu-devel@nongnu.org; Fri, 08 Jan 2021 23:27:02 -0500
 Received: from loganberry.canonical.com ([91.189.90.37])
  by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1ky5pp-0006qk-O8
- for <qemu-devel@nongnu.org>; Sat, 09 Jan 2021 04:26:41 +0000
+ id 1ky5po-0006q8-Lb
+ for <qemu-devel@nongnu.org>; Sat, 09 Jan 2021 04:26:40 +0000
 Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 2FA202E819F
- for <qemu-devel@nongnu.org>; Sat,  9 Jan 2021 04:26:39 +0000 (UTC)
+ by loganberry.canonical.com (Postfix) with ESMTP id BB1FA2E818A
+ for <qemu-devel@nongnu.org>; Sat,  9 Jan 2021 04:26:37 +0000 (UTC)
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
-Date: Sat, 09 Jan 2021 04:17:41 -0000
-From: Launchpad Bug Tracker <1687270@bugs.launchpad.net>
+Date: Sat, 09 Jan 2021 04:17:42 -0000
+From: Launchpad Bug Tracker <1687569@bugs.launchpad.net>
 To: qemu-devel@nongnu.org
 X-Launchpad-Notification-Type: bug
 X-Launchpad-Bug: product=qemu; status=Expired; importance=Undecided;
@@ -38,18 +38,18 @@ X-Launchpad-Bug: product=qemu; status=Expired; importance=Undecided;
 X-Launchpad-Bug-Information-Type: Public
 X-Launchpad-Bug-Private: no
 X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: janitor manuel-reimer schoenebeck th-huth
-X-Launchpad-Bug-Reporter: Manuel Reimer (manuel-reimer)
+X-Launchpad-Bug-Commenters: janitor jemmy858585 th-huth
+X-Launchpad-Bug-Reporter: Lidong Chen (jemmy858585)
 X-Launchpad-Bug-Modifier: Launchpad Janitor (janitor)
-References: <20170430094752.26847.19558.malonedeb@chaenomeles.canonical.com>
-Message-Id: <161016586162.8490.6878240066330894268.malone@loganberry.canonical.com>
-Subject: [Bug 1687270] Re: Can't write to 9p shared folder with qemu 2.9.0
+References: <20170502084810.2931.3440.malonedeb@soybean.canonical.com>
+Message-Id: <161016586247.8490.8900929332379941877.malone@loganberry.canonical.com>
+Subject: [Bug 1687569] Re: when migration cancel, qemu main thread hung
 X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
 X-Launchpad-Message-For: qemu-devel-ml
 Precedence: bulk
 X-Generated-By: Launchpad (canonical.com);
  Revision="fd9c5a87183d01004404fa6027cd262eaa7f6fcf"; Instance="production"
-X-Launchpad-Hash: 0a50702095e665dd71dd2c22590b50d4a5c6ea41
+X-Launchpad-Hash: c6447b3cc4178517105cd4e2c0175c2bb752cd08
 Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
  helo=indium.canonical.com
 X-Spam_score_int: -65
@@ -70,7 +70,7 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1687270 <1687270@bugs.launchpad.net>
+Reply-To: Bug 1687569 <1687569@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
@@ -83,29 +83,102 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 You received this bug notification because you are a member of qemu-
 devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1687270
+https://bugs.launchpad.net/bugs/1687569
 
 Title:
-  Can't write to 9p shared folder with qemu 2.9.0
+  when migration cancel, qemu main thread hung
 
 Status in QEMU:
   Expired
 
 Bug description:
-  When running a virtual machine with qemu 2.9.0 with this parameter for
-  sharing a folder:
+  qemu version:v2.9.0-rc5 release
 
-  -virtfs
-  local,id=3Dfsdev1,path=3D$HOME/git,security_model=3Dnone,mount_tag=3Dgit
+  1.virsh migrate --live 165cf436-312f-47e7-90f2-f8aa63f34893 --copy-storag=
+e-all qemu+ssh://10.59.163.38/system
+  2.press Ctrl+C cancel migrate
 
-  then the folder is shared to the VM but in some subfolders I can't
-  delete files. The guest system then reports that the file, I want to
-  delete, is "no file or folder".
+   qemu main thread hung
 
-  I've downgraded to 2.8.0 now, which re-enables deleting my files.
+  (gdb) bt
+  #0  0x00007fca9f4574b7 in ppoll () from /lib64/libc.so.6
+  #1  0x0000000000944970 in qemu_poll_ns (fds=3D0x293e6e0, nfds=3D1, timeou=
+t=3D-1) at util/qemu-timer.c:322
+  #2  0x0000000000947e16 in aio_poll (ctx=3D0x291d4b0, blocking=3Dtrue) at =
+util/aio-posix.c:622
+  #3  0x00000000008b6094 in nbd_teardown_connection (bs=3D0x29ccdc0) at blo=
+ck/nbd-client.c:59
+  #4  0x00000000008b6df1 in nbd_client_close (bs=3D0x29ccdc0) at block/nbd-=
+client.c:377
+  #5  0x00000000008b5988 in nbd_close (bs=3D0x29ccdc0) at block/nbd.c:488
+  #6  0x00000000008435de in bdrv_close (bs=3D0x29ccdc0) at block.c:2919
+  #7  0x0000000000843c86 in bdrv_delete (bs=3D0x29ccdc0) at block.c:3100
+  #8  0x000000000084620b in bdrv_unref (bs=3D0x29ccdc0) at block.c:4087
+  #9  0x00000000008411d1 in bdrv_root_unref_child (child=3D0x30e4800) at bl=
+ock.c:1891
+  #10 0x000000000084128a in bdrv_unref_child (parent=3D0x29c0660, child=3D0=
+x30e4800) at block.c:1915
+  #11 0x000000000084362a in bdrv_close (bs=3D0x29c0660) at block.c:2925
+  #12 0x0000000000843c86 in bdrv_delete (bs=3D0x29c0660) at block.c:3100
+  #13 0x000000000084620b in bdrv_unref (bs=3D0x29c0660) at block.c:4087
+  #14 0x00000000008411d1 in bdrv_root_unref_child (child=3D0x3013910) at bl=
+ock.c:1891
+  #15 0x0000000000848149 in block_job_remove_all_bdrv (job=3D0x3fa7800) at =
+blockjob.c:154
+  #16 0x00000000008a8dd8 in mirror_exit (job=3D0x3fa7800, opaque=3D0x7fca90=
+000bf0) at block/mirror.c:576
+  #17 0x0000000000849e22 in block_job_defer_to_main_loop_bh (opaque=3D0x7fc=
+a90000d90) at blockjob.c:794
+  #18 0x00000000009420c4 in aio_bh_call (bh=3D0x7fca90000dc0) at util/async=
+.c:90
+  #19 0x000000000094216f in aio_bh_poll (ctx=3D0x291d4b0) at util/async.c:1=
+18
+  #20 0x00000000009480d9 in aio_poll (ctx=3D0x291d4b0, blocking=3Dtrue) at =
+util/aio-posix.c:682
+  #21 0x00000000008b6094 in nbd_teardown_connection (bs=3D0x2921350) at blo=
+ck/nbd-client.c:59
+  #22 0x00000000008b6df1 in nbd_client_close (bs=3D0x2921350) at block/nbd-=
+client.c:377
+  #23 0x00000000008b5988 in nbd_close (bs=3D0x2921350) at block/nbd.c:488
+  #24 0x00000000008435de in bdrv_close (bs=3D0x2921350) at block.c:2919
+  #25 0x0000000000843c86 in bdrv_delete (bs=3D0x2921350) at block.c:3100
+  #26 0x000000000084620b in bdrv_unref (bs=3D0x2921350) at block.c:4087
+  #27 0x00000000008411d1 in bdrv_root_unref_child (child=3D0x390d180) at bl=
+ock.c:1891
+  #28 0x000000000084128a in bdrv_unref_child (parent=3D0x4eba200, child=3D0=
+x390d180) at block.c:1915
+  #29 0x000000000084362a in bdrv_close (bs=3D0x4eba200) at block.c:2925
+  #30 0x0000000000843c86 in bdrv_delete (bs=3D0x4eba200) at block.c:3100
+  #31 0x000000000084620b in bdrv_unref (bs=3D0x4eba200) at block.c:4087
+  #32 0x00000000008411d1 in bdrv_root_unref_child (child=3D0x4ebf990) at bl=
+ock.c:1891
+  #33 0x0000000000848149 in block_job_remove_all_bdrv (job=3D0x4ea85b0) at =
+blockjob.c:154
+  #34 0x00000000008a8dd8 in mirror_exit (job=3D0x4ea85b0, opaque=3D0x7fca98=
+000bf0) at block/mirror.c:576
+  #35 0x0000000000849e22 in block_job_defer_to_main_loop_bh (opaque=3D0x7fc=
+a980013d0) at blockjob.c:794
+  #36 0x00000000009420c4 in aio_bh_call (bh=3D0x7fca9801e0c0) at util/async=
+.c:90
+  #37 0x000000000094216f in aio_bh_poll (ctx=3D0x291d4b0) at util/async.c:1=
+18
+  ---Type <return> to continue, or q <return> to quit---  =
 
-  Is this a known bug which will be fixed with a future version?
+  #38 0x00000000009476ae in aio_dispatch (ctx=3D0x291d4b0) at util/aio-posi=
+x.c:429
+  #39 0x00000000009425e4 in aio_ctx_dispatch (source=3D0x291d4b0, callback=
+=3D0, user_data=3D0x0) at util/async.c:261
+  #40 0x00007fcaa0101f0e in g_main_context_dispatch () from /lib64/libglib-=
+2.0.so.0
+  #41 0x0000000000945d86 in glib_pollfds_poll () at util/main-loop.c:213
+  #42 0x0000000000945ea7 in os_host_main_loop_wait (timeout=3D124777230) at=
+ util/main-loop.c:261
+  #43 0x0000000000945f72 in main_loop_wait (nonblocking=3D0) at util/main-l=
+oop.c:517
+  #44 0x00000000005c7794 in main_loop () at vl.c:1898
+  #45 0x00000000005cec57 in main (argc=3D64, argv=3D0x7fffe7020c58, envp=3D=
+0x7fffe7020e60) at vl.c:4709
 
 To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1687270/+subscriptions
+https://bugs.launchpad.net/qemu/+bug/1687569/+subscriptions
 
