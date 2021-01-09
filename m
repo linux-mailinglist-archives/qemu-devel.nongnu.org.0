@@ -2,49 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D1C4F2F042E
-	for <lists+qemu-devel@lfdr.de>; Sat,  9 Jan 2021 23:56:33 +0100 (CET)
-Received: from localhost ([::1]:55344 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 719692F046A
+	for <lists+qemu-devel@lfdr.de>; Sun, 10 Jan 2021 00:36:35 +0100 (CET)
+Received: from localhost ([::1]:41356 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kyN9s-0003bZ-Fp
-	for lists+qemu-devel@lfdr.de; Sat, 09 Jan 2021 17:56:32 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34874)
+	id 1kyNmc-0004tB-2g
+	for lists+qemu-devel@lfdr.de; Sat, 09 Jan 2021 18:36:34 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41158)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
- id 1kyN85-0001uh-9u; Sat, 09 Jan 2021 17:54:41 -0500
-Received: from zero.eik.bme.hu ([152.66.115.2]:42129)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
- id 1kyN81-0006kB-ST; Sat, 09 Jan 2021 17:54:40 -0500
-Received: from zero.eik.bme.hu (blah.eik.bme.hu [152.66.115.182])
- by localhost (Postfix) with SMTP id 2F64674646C;
- Sat,  9 Jan 2021 23:54:32 +0100 (CET)
-Received: by zero.eik.bme.hu (Postfix, from userid 432)
- id 6F69B74645F; Sat,  9 Jan 2021 23:54:31 +0100 (CET)
-Received: from localhost (localhost [127.0.0.1])
- by zero.eik.bme.hu (Postfix) with ESMTP id 6A56E74645B;
- Sat,  9 Jan 2021 23:54:31 +0100 (CET)
-Date: Sat, 9 Jan 2021 23:54:31 +0100 (CET)
-From: BALATON Zoltan <balaton@eik.bme.hu>
-To: =?ISO-8859-15?Q?Philippe_Mathieu-Daud=E9?= <f4bug@amsat.org>
-Subject: Re: [RFC PATCH 0/2] Pegasos2 emulation
-In-Reply-To: <f3d46697-6371-9bd6-67b4-d1c1255fdcf3@amsat.org>
-Message-ID: <acd2a1c4-a16d-6998-4744-e939b63a22c9@eik.bme.hu>
-References: <cover.1609973005.git.balaton@eik.bme.hu>
- <fc421134-788a-4c62-db25-7e2453104539@eik.bme.hu>
- <f3d46697-6371-9bd6-67b4-d1c1255fdcf3@amsat.org>
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1kyNkf-0003Zg-En
+ for qemu-devel@nongnu.org; Sat, 09 Jan 2021 18:34:33 -0500
+Received: from mail-wm1-x32c.google.com ([2a00:1450:4864:20::32c]:34960)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1kyNkd-0003ve-U1
+ for qemu-devel@nongnu.org; Sat, 09 Jan 2021 18:34:33 -0500
+Received: by mail-wm1-x32c.google.com with SMTP id e25so11568729wme.0
+ for <qemu-devel@nongnu.org>; Sat, 09 Jan 2021 15:34:31 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=sender:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=EQmWTMNEnmOXFRLXHxzUIYYQ8gDqL9FEvBCfnJalq6c=;
+ b=U14EFcDqfKNPTVzEWQiJvs5ZLPzpx9rLgs5NfW2Eg53PO/dDedUXnTwm0An/9NQlvv
+ pV+n93jyHYYhDP6ygOSupW5BJyOKvXVJ1b7X4FC/tGfR2EoQDoN+0twxETw7zgZKsU+/
+ T3THWKPux18GoyEIuGlPA3+1ZTiFV/ICaHN4/JYo903xprYQ/RXKvAX8XNyVzoXBypff
+ EIvdox0xqe+hlypgccSsN53T7pdugT81ji9o3hxDslXPdxdALT/KY+s+c/4eXMBVSqH3
+ +jOKGa/0v4r8CE6uD6ss1xjaQqX+20dls1xk4B6Ltj/3FYkQZ9eM0k9uE7iKHn9I5Zox
+ JI4w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
+ :mime-version:content-transfer-encoding;
+ bh=EQmWTMNEnmOXFRLXHxzUIYYQ8gDqL9FEvBCfnJalq6c=;
+ b=R0mjdzbSE4VD5Jz7yi63gQ04KSmV6SHgJnd0/vhriKvyXKwzsltZmjTQmPSLEnekJq
+ Eq+Wgv35zco5CJID/QlOrR0PnSNKzKcDGjQ9pGxBRhcPlSqoDdHmsosbRB6QcCZUMYaJ
+ tzdNdozecFO/ZoNa7pQH5hB4fDW0nCdXoMUUCGSM5Uhk7ylrfh+RRnahbV3HVdjib2GR
+ SefM3Oq1P3bH5Y5UmPi239FnFeRVmsjO+xGWzCcznfxHpW2fQPaO6tAp+ziREK3iG6Rm
+ DUVdZ3woy6JS0sq1lTXeoZFWvp9/T/yNWm771tH5pgReBWrLhpEye6GOihRGn5V5QBGb
+ H+7w==
+X-Gm-Message-State: AOAM531FIGAnQpi5VdV5odLbK4jHlNNJ0XYA4WDhKGKrmH0+RwDeegCr
+ IxyTZMYOaCxAukRzG9Y9Yz99dBz/3H0=
+X-Google-Smtp-Source: ABdhPJypgxDLZgSKmXiyD2xpt4/sj1QhW08frsyAEhyzAefeItPed9+B3b3kqcvIsushFPWnrYlQ5Q==
+X-Received: by 2002:a1c:99d7:: with SMTP id b206mr8864753wme.12.1610235270090; 
+ Sat, 09 Jan 2021 15:34:30 -0800 (PST)
+Received: from localhost.localdomain (129.red-88-21-205.staticip.rima-tde.net.
+ [88.21.205.129])
+ by smtp.gmail.com with ESMTPSA id j2sm18627240wrt.35.2021.01.09.15.34.28
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Sat, 09 Jan 2021 15:34:29 -0800 (PST)
+From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
+To: qemu-devel@nongnu.org
+Subject: [PATCH] target/i386: Use X86Seg enum for segment registers
+Date: Sun, 10 Jan 2021 00:34:27 +0100
+Message-Id: <20210109233427.749748-1-f4bug@amsat.org>
+X-Mailer: git-send-email 2.26.2
 MIME-Version: 1.0
-Content-Type: multipart/mixed;
- boundary="3866299591-1061120116-1610232871=:51580"
-X-Spam-Probability: 9%
-Received-SPF: pass client-ip=152.66.115.2; envelope-from=balaton@eik.bme.hu;
- helo=zero.eik.bme.hu
-X-Spam_score_int: -41
-X-Spam_score: -4.2
-X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::32c;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x32c.google.com
+X-Spam_score_int: -14
+X-Spam_score: -1.5
+X-Spam_bar: -
+X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.25,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -57,171 +83,121 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>, qemu-ppc@nongnu.org,
- qemu-devel@nongnu.org, David Gibson <david@gibson.dropbear.id.au>
+Cc: Paolo Bonzini <pbonzini@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ Eduardo Habkost <ehabkost@redhat.com>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-  This message is in MIME format.  The first part should be readable text,
-  while the remaining parts are likely unreadable without MIME-aware tools.
+Use the dedicated X86Seg enum type for segment registers.
 
---3866299591-1061120116-1610232871=:51580
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 8BIT
+Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+---
+ target/i386/cpu.h            | 4 ++--
+ target/i386/gdbstub.c        | 2 +-
+ target/i386/tcg/seg_helper.c | 8 ++++----
+ target/i386/tcg/translate.c  | 6 +++---
+ 4 files changed, 10 insertions(+), 10 deletions(-)
 
-On Thu, 7 Jan 2021, Philippe Mathieu-Daudé wrote:
-> On 1/7/21 2:15 AM, BALATON Zoltan wrote:
->> On Wed, 6 Jan 2021, BALATON Zoltan wrote:
->>> Hello,
->>>
->>> This is adding a new PPC board called pegasos2 currently posted as RFC
->>> because it depends on not yet merged VT8231 emulation currently on the
->>> list:
->>>
->>> https://patchew.org/QEMU/cover.1609967638.git.balaton@eik.bme.hu/
->
-> This note ^^^ ...
->
->>>
->>> and may need some changes like a test case but I'm posting it now for
->>> getting feedback on what's needed to merge this. More info on it can
->>> be found at:
->>>
->>> https://osdn.net/projects/qmiga/wiki/SubprojectPegasos2
->>>
->>> Currently it needs a firmware ROM image that I cannot include due to
->>> original copyright holder (bPlan) did not release it under a free
->>> licence but I have plans to write a replacement in the future. With
->>> that firmware it can boot MorphOS now as:
->>>
->>> qemu-system-ppc -M pegasos2 -cdrom morphos.iso -device
->>> ati-vga,romfile="" -serial stdio
->>>
->>> then enter "boot cd boot.img" at the firmware "ok" prompt as described
->>> in the MorphOS.readme. To boot Linux use same command line with e.g.
->>> -cdrom debian-8.11.0-powerpc-netinst.iso then enter
->>> "boot cd install/pegasos"
->>>
->>> Patch 2 adds the actual board code after patch 1 adding MV64361 system
->>> controller chip. The mv643xx.h header file is taken from Linux and
->>> produces a bunch of checkpatch warnings due to different formatting
->>> rules it follows, I'm not sure we want to adopt it or keep it as it is
->>> given that it does not appear any more in recent Linux versions so we
->>> could reformat it as it's unlikely to get updated in the future.
->>
->> Interestingly it applies for patchew while this was accidentally based
->> on my previous series that has hw/ppc/Kconfig reverts so it does not
->> apply on current master.
->
-> ... can be passed as hint to patchew as a tag:
->
-> Based-on: <cover.1609967638.git.balaton@eik.bme.hu>
->
->> Also missing a file so does not compile but
->> other than that the content could be reviewed. I've now updated this repo:
->>
->> https://osdn.net/projects/qmiga/scm/git/qemu/tree/pegasos2/
->>
->> which contains all the needed patches over QEMU master at one place in
->> case somebody wants to try this. I'll send an updated version later
->> after I get some feedback.
->>
->> The command lines above also need -bios /path/to/firmware.rom
->
-> An integration test similar to the Fuloong PMON would be highly
-> appreciated :)
->
-> https://www.mail-archive.com/qemu-devel@nongnu.org/msg752605.html
+diff --git a/target/i386/cpu.h b/target/i386/cpu.h
+index af130512e22..d23a5b340a8 100644
+--- a/target/i386/cpu.h
++++ b/target/i386/cpu.h
+@@ -1807,7 +1807,7 @@ void cpu_sync_bndcs_hflags(CPUX86State *env);
+ /* this function must always be used to load data in the segment
+    cache: it synchronizes the hflags with the segment cache values */
+ static inline void cpu_x86_load_seg_cache(CPUX86State *env,
+-                                          int seg_reg, unsigned int selector,
++                                          X86Seg seg_reg, unsigned int selector,
+                                           target_ulong base,
+                                           unsigned int limit,
+                                           unsigned int flags)
+@@ -1896,7 +1896,7 @@ int cpu_x86_get_descr_debug(CPUX86State *env, unsigned int selector,
+ /* cpu-exec.c */
+ /* the following helpers are only usable in user mode simulation as
+    they can trigger unexpected exceptions */
+-void cpu_x86_load_seg(CPUX86State *s, int seg_reg, int selector);
++void cpu_x86_load_seg(CPUX86State *s, X86Seg seg_reg, int selector);
+ void cpu_x86_fsave(CPUX86State *s, target_ulong ptr, int data32);
+ void cpu_x86_frstor(CPUX86State *s, target_ulong ptr, int data32);
+ void cpu_x86_fxsave(CPUX86State *s, target_ulong ptr);
+diff --git a/target/i386/gdbstub.c b/target/i386/gdbstub.c
+index 4a3de5f69da..41e265fc67a 100644
+--- a/target/i386/gdbstub.c
++++ b/target/i386/gdbstub.c
+@@ -232,7 +232,7 @@ int x86_cpu_gdb_read_register(CPUState *cs, GByteArray *mem_buf, int n)
+     return 0;
+ }
+ 
+-static int x86_cpu_gdb_load_seg(X86CPU *cpu, int sreg, uint8_t *mem_buf)
++static int x86_cpu_gdb_load_seg(X86CPU *cpu, X86Seg sreg, uint8_t *mem_buf)
+ {
+     CPUX86State *env = &cpu->env;
+     uint16_t selector = ldl_p(mem_buf);
+diff --git a/target/i386/tcg/seg_helper.c b/target/i386/tcg/seg_helper.c
+index 5f2ee6aa7ea..180d47f0e9b 100644
+--- a/target/i386/tcg/seg_helper.c
++++ b/target/i386/tcg/seg_helper.c
+@@ -176,8 +176,8 @@ static inline void get_ss_esp_from_tss(CPUX86State *env, uint32_t *ss_ptr,
+     }
+ }
+ 
+-static void tss_load_seg(CPUX86State *env, int seg_reg, int selector, int cpl,
+-                         uintptr_t retaddr)
++static void tss_load_seg(CPUX86State *env, X86Seg seg_reg, int selector,
++                         int cpl, uintptr_t retaddr)
+ {
+     uint32_t e1, e2;
+     int rpl, dpl;
+@@ -2098,7 +2098,7 @@ void helper_iret_real(CPUX86State *env, int shift)
+     env->hflags2 &= ~HF2_NMI_MASK;
+ }
+ 
+-static inline void validate_seg(CPUX86State *env, int seg_reg, int cpl)
++static inline void validate_seg(CPUX86State *env, X86Seg seg_reg, int cpl)
+ {
+     int dpl;
+     uint32_t e2;
+@@ -2623,7 +2623,7 @@ void helper_verw(CPUX86State *env, target_ulong selector1)
+ }
+ 
+ #if defined(CONFIG_USER_ONLY)
+-void cpu_x86_load_seg(CPUX86State *env, int seg_reg, int selector)
++void cpu_x86_load_seg(CPUX86State *env, X86Seg seg_reg, int selector)
+ {
+     if (!(env->cr[0] & CR0_PE_MASK) || (env->eflags & VM_MASK)) {
+         int dpl = (env->eflags & VM_MASK) ? 3 : 0;
+diff --git a/target/i386/tcg/translate.c b/target/i386/tcg/translate.c
+index 11db2f3c8d2..6a4c31f933b 100644
+--- a/target/i386/tcg/translate.c
++++ b/target/i386/tcg/translate.c
+@@ -2287,13 +2287,13 @@ static void gen_cmovcc1(CPUX86State *env, DisasContext *s, MemOp ot, int b,
+     }
+ }
+ 
+-static inline void gen_op_movl_T0_seg(DisasContext *s, int seg_reg)
++static inline void gen_op_movl_T0_seg(DisasContext *s, X86Seg seg_reg)
+ {
+     tcg_gen_ld32u_tl(s->T0, cpu_env,
+                      offsetof(CPUX86State,segs[seg_reg].selector));
+ }
+ 
+-static inline void gen_op_movl_seg_T0_vm(DisasContext *s, int seg_reg)
++static inline void gen_op_movl_seg_T0_vm(DisasContext *s, X86Seg seg_reg)
+ {
+     tcg_gen_ext16u_tl(s->T0, s->T0);
+     tcg_gen_st32_tl(s->T0, cpu_env,
+@@ -2303,7 +2303,7 @@ static inline void gen_op_movl_seg_T0_vm(DisasContext *s, int seg_reg)
+ 
+ /* move T0 to seg_reg and compute if the CPU state may change. Never
+    call this function with seg_reg == R_CS */
+-static void gen_movl_seg_T0(DisasContext *s, int seg_reg)
++static void gen_movl_seg_T0(DisasContext *s, X86Seg seg_reg)
+ {
+     if (s->pe && !s->vm86) {
+         tcg_gen_trunc_tl_i32(s->tmp2_i32, s->T0);
+-- 
+2.26.2
 
-This does not seem to be in master so I could copy and modify. I also have 
-no way to test this test so maybe you could help writing and testing the 
-necessary module. Basically we need to download a boot iso from here:
-
-https://www.morphos-team.net/morphos-3.15.iso
-
-For the pegasos2.rom the easiest may be to extract it from an update still 
-available here:
-
-https://morph.zone/modules/newbb_plus/viewtopic.php?forum=11&topic_id=11892&post_id=129768&viewmode=flat&sortorder=0&showonepost=1
-
-which links to
-
-http://web.archive.org/web/20071021223056/http://www.bplan-gmbh.de/up050404/up050404
-
-that has the actual file as the original site does not have it any more 
-(used to be here: 
-http://www.bplan-gmbh.de/flash_update_for_pegasos_ii_en.html ). Then the 
-rom can be extracted with:
-
-https://osdn.net/projects/qmiga/wiki/SubprojectPegasos2/attach/extract_rom_from_updater
-
-To get a binary with MD5 sum 3248e02596480f2dba5944bd219ecfad
-
-Then running it like this should produce the following output:
-
-$ qemu-system-ppc -M pegasos2 -bios pegasos2.rom -device ati-vga,romfile="" -cdrom morphos-3.15.iso -serial stdio
-
-PegasosII Boot Strap (c) 2002-2003 bplan GmbH
-Running on CPU PVR:000C0209
-Enable L1 ICache...                                                   Done.
-Reading W83194 :                                                      FAILED.
-Setting Front Side Bus to 133MHz...                                   FAILED.
-Configuring DDR...                                                    Done.
-Configuring PCI0...                                                   Done.
-Configuring PCI1...                                                   Done.
-Configuring ETH...                                                    Done.
-Releasing IDE reset ...                                	              Done.
-Configuring Legacy Devices
-Initializing KBD...                                                   Done.
-Testing 10000000 Bytes, Pass: 00000000 Failed: 00000000
-RAM TEST (fill linear)...                                             Done.
-FFFFFFFF
-
-SmartFirmware:
-cpu0: PowerPC,G4 CPUClock 599 Mhz BUSClock 133 Mhz (Version 0x000C,0x0209)
-no/bad nvramrc - performing default startup script
-channel 1 unit 0 : atapi | QEMU DVD-ROM                             | 2.5+ 
-ATA device not present or not responding
-
-
-
-Welcome to SmartFirmware(tm) for bplan Pegasos2 version 1.1 (20040405172512)
-SmartFirmware(tm) Copyright 1996-2001 by CodeGen, Inc.
-All Rights Reserved.
-Pegasos BIOS Extensions Copyright 2001-2003 by bplan GmbH.
-All Rights Reserved.
-entering main read/eval loop...
-ok boot cd boot.img
-ISO-9660 filesystem:  System-ID: "MORPHOS"  Volume-ID: "MorphOSBoot"
-Root dir: "" flags=0x2 extent=0x20 size=0x1800
-Memory used before SYS_Init: 9MB
-
-
-ABox 1.30 (2.7.2018) © 1999-2018 by Ralph Schmidt, Emmanuel Lesueur, Teemu Suikki, Harry Sintonen
-PCI ATA/ATAPI Driver@2: PIO Mode 4
-PCI ATA/ATAPI Driver@2: UDMA Mode 5
-ide.device@2: QEMU     QEMU DVD-ROM     <CDROM>
-ide.device@2:  CDRom <CD001>,<MORPHOS > found, bootable
-ide.device@2:  Mount <CD0>
-ide.device@2:  Partition <CD0> DosType 0x43444653 BootPri 127
-
-Maybe you should wait for the "Welcome to SmartFirmware" banner or 
-"entering main read/eval loop" followed by the "ok" prompt where you 
-should send "boot cd boot.img" string then wait for the "ide.device@2: 
-Mount <CD0>" string to confirm it found the boot CD at which point it 
-should be working which also tests that via-ide DMA works (it it doesn't 
-it won't find the CD). This tests mv64361, vt8231 (including via-ide 
-half-native mode). Also uses ati-vga but that's already tested by other 
-tests and these texts on serial do not confirm it works with ati-vga, 
-that's just so you can also see it boot if you let it running further. The 
-romfile="" is needed to disable vgabios-ati.bin which the firmware cannot 
-handle.
-
-Can you turn this into a python script implementing a test case based on 
-your other similar tests? I think you have more experience with this and 
-have a way to actually test it that I lack.
-
-Regards,
-BALATON Zoltan
---3866299591-1061120116-1610232871=:51580--
 
