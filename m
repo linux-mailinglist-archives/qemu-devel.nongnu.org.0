@@ -2,69 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5086C2F046D
-	for <lists+qemu-devel@lfdr.de>; Sun, 10 Jan 2021 00:44:04 +0100 (CET)
-Received: from localhost ([::1]:46218 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4A0FD2F0474
+	for <lists+qemu-devel@lfdr.de>; Sun, 10 Jan 2021 00:46:32 +0100 (CET)
+Received: from localhost ([::1]:49004 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kyNtr-0007IP-4A
-	for lists+qemu-devel@lfdr.de; Sat, 09 Jan 2021 18:44:03 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41942)
+	id 1kyNwF-00007S-C8
+	for lists+qemu-devel@lfdr.de; Sat, 09 Jan 2021 18:46:31 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42278)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1kyNsj-0006d0-F1
- for qemu-devel@nongnu.org; Sat, 09 Jan 2021 18:42:53 -0500
-Received: from mail-wr1-x42c.google.com ([2a00:1450:4864:20::42c]:41255)
+ id 1kyNue-0007nQ-Mv; Sat, 09 Jan 2021 18:44:52 -0500
+Received: from mail-wr1-x42c.google.com ([2a00:1450:4864:20::42c]:41263)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1kyNsi-0006jb-5r
- for qemu-devel@nongnu.org; Sat, 09 Jan 2021 18:42:53 -0500
-Received: by mail-wr1-x42c.google.com with SMTP id a12so12490285wrv.8
- for <qemu-devel@nongnu.org>; Sat, 09 Jan 2021 15:42:51 -0800 (PST)
+ id 1kyNuc-0007IZ-92; Sat, 09 Jan 2021 18:44:51 -0500
+Received: by mail-wr1-x42c.google.com with SMTP id a12so12492330wrv.8;
+ Sat, 09 Jan 2021 15:44:48 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:subject:to:cc:references:from:message-id:date:user-agent
  :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=jbDwyvvR5thLzYR7Xrm04p5NfaXN/IRuwxT/6QmhNa4=;
- b=exLbaLfCV4aZxoZjAZdAOCYUtxBrmwF8f+pB8eKOxkHplp66A38naUt6povCXwUiws
- 2J4Rte7zhXzbFOKZaFls6ub5ATjIvhJlN3nywJsZ/51eBVyXJRX97ZW0PDofOIk9pj3x
- hbpGMcWFiI4RCGMpZAel1eqV73pVjERA3TgXs1pWf/p0lmP7iBdDqL6o1jPD7c9VDzm7
- FZnK6FyHQX8h8MCPBQUzI9Dz1+X1sk8bbwlN2W9xc2BFiIAAhjTafs8sZ8LqOOwUSs5f
- 5UlwLfDm+lxXZpQl8lVPg9A2jSTkVWFGZBcrQv1MY1ww5yPWhckwEPCHkUipIvc7TOQ1
- br4A==
+ bh=m2B51YU1ND6bTL8D+R24rsL0MVIflY5eujeOzJPTZ6Y=;
+ b=NkVvmTuJe9QsDe6qZGw9cluI9lLRWUyjKZ/lDa4yx6XV8oys7laL7zZR6p9Y2PZc0T
+ vp/EqjzbkUPpriG9IsvJLWtACP6VFlU0YACDgz/QLFrC6SVWZ+PHr+DD4BWs1SEMD5iU
+ Rijf57D5rBvhsuIja8tyFHe4fLFqVm6isE281ts2gtwkGKlhG90xI/5HZE4PH2lGq6pd
+ 2YPHBcShGRff15FoJ4YG+3V71lbjBAyrDUdEFPtWzt1Ah6p5ZeYi/ltc0gks+KJmZyEe
+ Wh8y3lDMRhrpkkpDV663OvnCBkhJXglNDti0FvMaXn2E+nL7/uaLceuQqnrIEYcxxA+t
+ BCBg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
  :date:user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=jbDwyvvR5thLzYR7Xrm04p5NfaXN/IRuwxT/6QmhNa4=;
- b=Gz1nbMQMlbj7zMhMTCJ725JS0ACwvqayJwIJDCm/CHropZVq9/sb/yHR3oorM447nH
- h7+g5kgZXaDZtvb1qUw/16ypLfIZgBugei1TpOqPh06OdBRdh8wi8CJXJnPY4cJrwMo4
- aUK5h+qiW70XVxzS4dnPVJ4SvwyN3TKUvMLBXTDHU+JApvHHRkaHpRlAwHDfnhuzEoHH
- nyl+e6whhRD0kwFrxrqfALPAw+FZJ/TaTdNcQ9iKepq7Y14tr8h1l4DfNvbkTiIGBhyY
- 5QRc9Vv4oVpoxEWoIApVWq1qYst0DUWnon1qwCcxBnG/JYO5+L0RIxY4ExtMK1QxytLb
- J12g==
-X-Gm-Message-State: AOAM531fZUEiIMFvaN56OFWbgGGxqXAHd+iKNx5Ol93fWLvlsrkTjDAO
- WoTGkdDpV+y6bnxiIaBz1Xk=
-X-Google-Smtp-Source: ABdhPJy0RuNrl2GwbXJG0XDESjWmUHZq+ywcu9vz6q1oBYXlGkYN9dOmsl7xPJC6qWUsGbHa/AD0Lg==
-X-Received: by 2002:adf:a3c3:: with SMTP id m3mr10062581wrb.105.1610235770725; 
- Sat, 09 Jan 2021 15:42:50 -0800 (PST)
+ bh=m2B51YU1ND6bTL8D+R24rsL0MVIflY5eujeOzJPTZ6Y=;
+ b=dFY3HXfv99c/goFOnDbNAbhP9zorosU9oRhC1QcZC2L23lz6jyNRvYXJMJDrNN0I6Q
+ S3LiaX4wQgyMumsp3CP8lxcMF+IufEm4teO1szYg6LJ5pnLrlh90Tl5iOzF9IaF7nJXI
+ cRs85hiRlR10KTm8z7OMURe6MrzxkzYw554l5dVS/aPRHarGo22nUmptKw7fjVQNG7Xo
+ ceDGIfTtpEpCp+jyMQLjSevRIqf1SzpVG60/YGdyYIxEJ00Ubsq2zqcrpTEEpWMJMkYY
+ p8ESrH0zHKZH80zX0Zza+iI1iFFn7baEXk3UHsV0hsH6NFkpzhkxww6E3ng7ElZ27Xcm
+ cZJQ==
+X-Gm-Message-State: AOAM533W5yGi/bmyGKzs5keqB0sIQvss7KOlf93h1XDiz000fm3mPDL2
+ 1gVLIAVx+ZVCdM1ubzIRbdq1yk1yTjM=
+X-Google-Smtp-Source: ABdhPJxn3ebwGT64KKY3pcR3a1/WYYorY0G+S94Nv9olgAB90WQJj+qAujpY1HMHCOgi9vj3r2AqDg==
+X-Received: by 2002:adf:d085:: with SMTP id y5mr10127441wrh.41.1610235887683; 
+ Sat, 09 Jan 2021 15:44:47 -0800 (PST)
 Received: from [192.168.1.36] (129.red-88-21-205.staticip.rima-tde.net.
  [88.21.205.129])
- by smtp.gmail.com with ESMTPSA id r82sm17564481wma.18.2021.01.09.15.42.49
+ by smtp.gmail.com with ESMTPSA id g192sm16852469wme.48.2021.01.09.15.44.46
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sat, 09 Jan 2021 15:42:50 -0800 (PST)
-Subject: Re: [PATCH v2 06/13] vt82c686: Make vt82c686b-pm an abstract base
- class and add vt8231-pm based on it
-To: BALATON Zoltan <balaton@eik.bme.hu>, qemu-devel@nongnu.org
-References: <cover.1610223396.git.balaton@eik.bme.hu>
- <34969fc7be984fa070479bfb9f748993a0aef31b.1610223397.git.balaton@eik.bme.hu>
+ Sat, 09 Jan 2021 15:44:46 -0800 (PST)
+Subject: Re: [PATCH] hw/riscv: sifive_u: Use SIFIVE_U_CPU for
+ mc->default_cpu_type
+To: Bin Meng <bmeng.cn@gmail.com>, Alistair Francis
+ <Alistair.Francis@wdc.com>, qemu-riscv@nongnu.org, qemu-devel@nongnu.org
+References: <20210109143637.29645-1-bmeng.cn@gmail.com>
 From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
-Message-ID: <0421b1be-60bb-b75d-1372-be96595be070@amsat.org>
-Date: Sun, 10 Jan 2021 00:42:49 +0100
+Message-ID: <cc2521ed-9fb7-bd0a-6275-3e90cd6418f6@amsat.org>
+Date: Sun, 10 Jan 2021 00:44:45 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.6.0
 MIME-Version: 1.0
-In-Reply-To: <34969fc7be984fa070479bfb9f748993a0aef31b.1610223397.git.balaton@eik.bme.hu>
+In-Reply-To: <20210109143637.29645-1-bmeng.cn@gmail.com>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 8bit
@@ -90,22 +88,21 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Huacai Chen <chenhuacai@kernel.org>
+Cc: Bin Meng <bin.meng@windriver.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 1/9/21 9:16 PM, BALATON Zoltan wrote:
-> The vt82c686b-pm model can be shared between VT82C686B and VT8231. The
-> only difference between the two is the device id in what we emulate so
-> make an abstract via-pm model by renaming appropriately and add types
-> for vt82c686b-pm and vt8231-pm based on it.
+On 1/9/21 3:36 PM, Bin Meng wrote:
+> From: Bin Meng <bin.meng@windriver.com>
 > 
-> Signed-off-by: BALATON Zoltan <balaton@eik.bme.hu>
+> SIFIVE_U_CPU is conditionally set to SIFIVE_U34 or SIFIVE_U54, hence
+> there is no need to use #idef to set the mc->default_cpu_type.
+> 
+> Signed-off-by: Bin Meng <bin.meng@windriver.com>
 > ---
->  hw/isa/vt82c686.c         | 84 ++++++++++++++++++++++++++-------------
->  include/hw/isa/vt82c686.h |  1 +
->  include/hw/pci/pci_ids.h  |  3 +-
->  3 files changed, 59 insertions(+), 29 deletions(-)
+> 
+>  hw/riscv/sifive_u.c | 6 +-----
+>  1 file changed, 1 insertion(+), 5 deletions(-)
 
 Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 
