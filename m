@@ -2,70 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CD5522EFC4B
-	for <lists+qemu-devel@lfdr.de>; Sat,  9 Jan 2021 01:46:47 +0100 (CET)
-Received: from localhost ([::1]:56698 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C1BC22EFD16
+	for <lists+qemu-devel@lfdr.de>; Sat,  9 Jan 2021 03:14:40 +0100 (CET)
+Received: from localhost ([::1]:39974 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ky2P0-0002zS-F0
-	for lists+qemu-devel@lfdr.de; Fri, 08 Jan 2021 19:46:46 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43384)
+	id 1ky3m3-0007IL-FI
+	for lists+qemu-devel@lfdr.de; Fri, 08 Jan 2021 21:14:39 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55834)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <keithp@keithp.com>)
- id 1ky2Mn-0002Uu-V2; Fri, 08 Jan 2021 19:44:30 -0500
-Received: from home.keithp.com ([63.227.221.253]:35078 helo=elaine.keithp.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <keithp@keithp.com>)
- id 1ky2Mi-0007jS-7d; Fri, 08 Jan 2021 19:44:29 -0500
-Received: from localhost (localhost [127.0.0.1])
- by elaine.keithp.com (Postfix) with ESMTP id 670433F2E5B0;
- Fri,  8 Jan 2021 16:44:18 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=keithp.com; s=mail;
- t=1610153058; bh=kUjl9mivrTbW/TkqoczqwjF/nkzL3deTzPeVcgh3t9s=;
- h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
- b=JgJVg/oE5zhxCJCa45olcsjGPSnNqcFtemH7RZXZPGTZzX+epsRqiFEe8QVwhzRy6
- b/qbjXECBrVe2GI9xHALFyqAGftOEUI0OMLTdA97huBr9vVK9sfm8iZUpN7bT2adAt
- tU+25myoHvqxmDt8GJ8P099e/9KiQecH9i16+H2OyraVLfm+euWRqBx5dWMij9yuYd
- SduuSU/yLN7Qjvasr52hKUl5iF39/FfZSNFwcL4hztLstddVGRbEr+Fg9CA1FEF0Gh
- jOf6ptRai3OzFTFiTniJXkUXX4ZaJsKTXhtTYqNVwYPlGG/fxqqZPWSh1W4p5hReUv
- lKwZgGorRQ4vA==
-X-Virus-Scanned: Debian amavisd-new at keithp.com
-Received: from elaine.keithp.com ([127.0.0.1])
- by localhost (elaine.keithp.com [127.0.0.1]) (amavisd-new, port 10024)
- with LMTP id iadNZGcf4_Yx; Fri,  8 Jan 2021 16:44:18 -0800 (PST)
-Received: from keithp.com (koto.keithp.com [10.0.0.2])
- by elaine.keithp.com (Postfix) with ESMTPSA id EA6F53F2E38B;
- Fri,  8 Jan 2021 16:44:17 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=keithp.com; s=mail;
- t=1610153057; bh=kUjl9mivrTbW/TkqoczqwjF/nkzL3deTzPeVcgh3t9s=;
- h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
- b=qaP/3UvyNU/CyEDT9B02YJrFj8MnsehX95BxLqk5Oe6Idto2xDX6vdY6UN2wXhHhC
- KJZAiTTEeozZoaZN8Lbb+z7btpHhzkVkWVs5w2saA2o+Gv0yVoVsoDX+SaOAF2sxTC
- W/Sd4ozLXsn0Bbu8PYd/I34t0rnVILlrL+ndBIsfsb3B7ZA0TLGQ2tx8dYwxZEuWxa
- t3fxYvu4ap4oAmFjco2EPkFOoiS3onfELR1ghRmmDU52OIVSPd/eaqraSSBo6K4wkf
- BxkbiLqGk9/9n++PGkx0nDOMJmh7m0ypfAioggRAdct0moySiyoczvtBoEQNwScYJM
- u2Yg5wiNZgh1Q==
-Received: by keithp.com (Postfix, from userid 1000)
- id B68CC15821D9; Fri,  8 Jan 2021 16:44:17 -0800 (PST)
-To: Alistair Francis <alistair23@gmail.com>, Alex =?utf-8?Q?Benn=C3=A9e?=
- <alex.bennee@linaro.org>
-Subject: Re: [PATCH v1 16/20] riscv: Add semihosting support
-In-Reply-To: <CAKmqyKOLLXqjeGO6-k1d_Y_23Q5Tt1uKYUUwCjPDPPMJB3GXVQ@mail.gmail.com>
-References: <20210108224256.2321-1-alex.bennee@linaro.org>
- <20210108224256.2321-17-alex.bennee@linaro.org>
- <CAKmqyKOLLXqjeGO6-k1d_Y_23Q5Tt1uKYUUwCjPDPPMJB3GXVQ@mail.gmail.com>
-Date: Fri, 08 Jan 2021 16:44:17 -0800
-Message-ID: <87wnwnndlq.fsf@keithp.com>
+ (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
+ id 1ky3kp-0006ku-HA; Fri, 08 Jan 2021 21:13:23 -0500
+Received: from mail-yb1-xb36.google.com ([2607:f8b0:4864:20::b36]:40695)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
+ id 1ky3km-0004jz-UU; Fri, 08 Jan 2021 21:13:23 -0500
+Received: by mail-yb1-xb36.google.com with SMTP id b64so11199776ybg.7;
+ Fri, 08 Jan 2021 18:13:20 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=AmzsnuS1/ptNkKeTubhLjde1fJ6lG71g4whwGDpBGaY=;
+ b=CBmP99owggPuceNfVdRnDsAnlejjE1yh0JxCqwh7HAOTy2PXc9/W630y3zpDbY77nq
+ HdPm9r+ehFP8n4xZuikewgrKWyRSatHg4swDsfy0ovQLwI+aEfsSuP3lpQKLX6hT6N10
+ 3aWgMns8HBle9SYs/cQatzk2mUhs1FoL/N7XrqubnETV/tNuF0DxaXNOJwjwBoUkw0NZ
+ LrwoMWupm9T+HXJb8MiYIHmaPy4MM+q81shuWmVZ6r8fjjM2JNqu/MNNJtXECq8jY4fI
+ 3IPzCj/eZXPHmM8b1mIb8qo5wEgP1joL58dG5edcD555hs4X0bC02kNc30ZcIR5EWEsg
+ al7Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=AmzsnuS1/ptNkKeTubhLjde1fJ6lG71g4whwGDpBGaY=;
+ b=dCMQhauTIdrw+E7w9ib47vtw41EOmHFShYv7sXNnAM1sDODSRZhu+NjYcRERgbBcmD
+ Y68l62NoObVmF1N4Blu++lFkwGUxXF2i6J9/5LEmKXL6QNlLU52svEeTe1fU+mSn3AWD
+ HWEnYQL4RzJ9BICAyd8+xmyNvfCCsKKdB+D29o+zj9RQjT4jgbQaN1IZEcWe8vMA+Aom
+ O/pEuirIFcwmOoMa+XOkxjxcEsjHeZxMouAITkGsRZh4akqO8Vqfixe0SF1qzWyTyCzW
+ xqLfO0s1yjduXxx+5ocNqX8puh7raXfn/pH/rhi50rBQv3phKlJUgcI9t2/aPjPdelX9
+ uBbg==
+X-Gm-Message-State: AOAM5302H7dnjVPAYQtc9qGPuhVki70MT5tdmFYZSwH5JohKBzqEx3sR
+ ZVCN7OzWjyGfWrvP0W30Jok9abCRyoUm3dyHBrA=
+X-Google-Smtp-Source: ABdhPJxo6TIj5DvFFetxTsPK12HerL0jMOo4BOzcjguyClc/AvzfRKUPTE7zayeMRL/Bo0m4qDwh03TF++QG/4N7PZc=
+X-Received: by 2002:a25:4744:: with SMTP id u65mr10641312yba.239.1610158399626; 
+ Fri, 08 Jan 2021 18:13:19 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: multipart/signed; boundary="=-=-=";
- micalg=pgp-sha256; protocol="application/pgp-signature"
-Received-SPF: pass client-ip=63.227.221.253; envelope-from=keithp@keithp.com;
- helo=elaine.keithp.com
+References: <1608182913-54603-1-git-send-email-bmeng.cn@gmail.com>
+ <1608182913-54603-2-git-send-email-bmeng.cn@gmail.com>
+ <CAFEAcA84tudyJ7NBkKb1YGhV3p5EMZ+6dD7DJicNT_hk0w1sVg@mail.gmail.com>
+In-Reply-To: <CAFEAcA84tudyJ7NBkKb1YGhV3p5EMZ+6dD7DJicNT_hk0w1sVg@mail.gmail.com>
+From: Bin Meng <bmeng.cn@gmail.com>
+Date: Sat, 9 Jan 2021 10:13:08 +0800
+Message-ID: <CAEUhbmV0cRrocZYFBaFmBw3rWv7Pf2bLfzocMN2zRPtc_BNx2Q@mail.gmail.com>
+Subject: Re: [PATCH 2/2] hw/ssi: imx_spi: Correct tx and rx fifo endianness
+To: Peter Maydell <peter.maydell@linaro.org>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::b36;
+ envelope-from=bmeng.cn@gmail.com; helo=mail-yb1-xb36.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -79,49 +76,123 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "open list:RISC-V TCG CPUs" <qemu-riscv@nongnu.org>,
- Sagar Karandikar <sagark@eecs.berkeley.edu>,
- Bastian Koppelmann <kbastian@mail.uni-paderborn.de>,
- "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
- Laurent Vivier <laurent@vivier.eu>, Palmer Dabbelt <palmer@dabbelt.com>,
- Alistair Francis <Alistair.Francis@wdc.com>
+Cc: Bin Meng <bin.meng@windriver.com>, qemu-arm <qemu-arm@nongnu.org>,
+ Alistair Francis <alistair.francis@wdc.com>,
+ QEMU Developers <qemu-devel@nongnu.org>,
+ Jean-Christophe Dubois <jcd@tribudubois.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
-Reply-to: Keith Packard <keithp@keithp.com>
-From: Keith Packard via <qemu-devel@nongnu.org>
 
---=-=-=
-Content-Type: text/plain
-Content-Transfer-Encoding: quoted-printable
+Hi Peter,
 
-Alistair Francis <alistair23@gmail.com> writes:
+On Fri, Jan 8, 2021 at 10:49 PM Peter Maydell <peter.maydell@linaro.org> wrote:
+>
+> On Thu, 17 Dec 2020 at 05:28, Bin Meng <bmeng.cn@gmail.com> wrote:
+> >
+> > From: Bin Meng <bin.meng@windriver.com>
+> >
+> > The endianness of data exchange between tx and rx fifo is incorrect.
+> > Earlier bytes are supposed to show up on MSB and later bytes on LSB,
+> > ie: in big endian. The manual does not explicitly say this, but the
+> > U-Boot and Linux driver codes have a swap on the data transferred
+> > to tx fifo and from rx fifo.
+>
+> To check my understanding, if we have a burst length of 16 bits, say,
+> when we do the fifo32_pop() of a 32 bit word, where in that
+> word and which way round are the 2 bytes we are going to transfer ?
 
-> Whoops, I thought I had already reviewed this commit.
+Say the fifo was written with a value of 0x00001234 when the burst
+length is 16 bits, 0x12 will be transferred first then followed by
+0x34.
 
-You had provided quite extensive review with lots of useful comments,
-but never added the magic tag for this commit :-)
+>
+> > With this change, U-Boot read from / write to SPI flash tests pass.
+> >
+> >   => sf test 1ff000 1000
+> >   SPI flash test:
+> >   0 erase: 0 ticks, 4096000 KiB/s 32768.000 Mbps
+> >   1 check: 3 ticks, 1333 KiB/s 10.664 Mbps
+> >   2 write: 235 ticks, 17 KiB/s 0.136 Mbps
+> >   3 read: 2 ticks, 2000 KiB/s 16.000 Mbps
+> >   Test passed
+> >   0 erase: 0 ticks, 4096000 KiB/s 32768.000 Mbps
+> >   1 check: 3 ticks, 1333 KiB/s 10.664 Mbps
+> >   2 write: 235 ticks, 17 KiB/s 0.136 Mbps
+> >   3 read: 2 ticks, 2000 KiB/s 16.000 Mbps
+> >
+> > Fixes: c906a3a01582 ("i.MX: Add the Freescale SPI Controller")
+> > Signed-off-by: Bin Meng <bin.meng@windriver.com>
+> >
+> > ---
+> >
+> >  hw/ssi/imx_spi.c | 16 ++++++++++++----
+> >  1 file changed, 12 insertions(+), 4 deletions(-)
+> >
+> > diff --git a/hw/ssi/imx_spi.c b/hw/ssi/imx_spi.c
+> > index 509fb9f..71f0902 100644
+> > --- a/hw/ssi/imx_spi.c
+> > +++ b/hw/ssi/imx_spi.c
+> > @@ -156,13 +156,14 @@ static void imx_spi_flush_txfifo(IMXSPIState *s)
+> >  {
+> >      uint32_t tx;
+> >      uint32_t rx;
+> > +    uint32_t data;
+> > +    uint8_t byte;
+> >
+> >      DPRINTF("Begin: TX Fifo Size = %d, RX Fifo Size = %d\n",
+> >              fifo32_num_used(&s->tx_fifo), fifo32_num_used(&s->rx_fifo));
+> >
+> >      while (!fifo32_is_empty(&s->tx_fifo)) {
+> >          int tx_burst = 0;
+> > -        int index = 0;
+> >
+> >          if (s->burst_length <= 0) {
+> >              s->burst_length = imx_spi_burst_length(s);
+> > @@ -183,10 +184,18 @@ static void imx_spi_flush_txfifo(IMXSPIState *s)
+> >              tx_burst = 32;
+> >          }
+> >
+> > +        data = 0;
+> > +        for (int i = 0; i < tx_burst / 8; i++) {
+> > +            byte = tx & 0xff;
+> > +            tx = tx >> 8;
+> > +            data = (data << 8) | byte;
+> > +        }
+> > +        tx = data;
+> > +
+>
+> Why carefully reverse the order of bytes in the word and then
+> take a byte at a time from the bottom of the word in the loop below,
+> when you could change the loop to take bytes from the top of the word
+> instead ?
 
-=2D-=20
-=2Dkeith
+Ah, yes, this can be rewritten to simplify a little.
 
---=-=-=
-Content-Type: application/pgp-signature; name="signature.asc"
+>
+> >          rx = 0;
+> >
+> >          while (tx_burst > 0) {
+> > -            uint8_t byte = tx & 0xff;
+> > +            byte = tx & 0xff;
+> >
+> >              DPRINTF("writing 0x%02x\n", (uint32_t)byte);
+> >
+> > @@ -196,12 +205,11 @@ static void imx_spi_flush_txfifo(IMXSPIState *s)
+> >              DPRINTF("0x%02x read\n", (uint32_t)byte);
+> >
+> >              tx = tx >> 8;
+> > -            rx |= (byte << (index * 8));
+> > +            rx = (rx << 8) | byte;
+> >
+> >              /* Remove 8 bits from the actual burst */
+> >              tx_burst -= 8;
+> >              s->burst_length -= 8;
+> > -            index++;
+> >          }
+> >
+> >          DPRINTF("data rx:0x%08x\n", rx);
+> > --
 
------BEGIN PGP SIGNATURE-----
-
-iQIzBAEBCAAdFiEEw4O3eCVWE9/bQJ2R2yIaaQAAABEFAl/4/GEACgkQ2yIaaQAA
-ABFsqg/+K59HEjdV86AzCVB6pUIY/QPySX8+gqRhTVsnWJX8NAZtVWCz2WeOClVs
-wZY9C6W71cDOanHEgl1QS8NoHJ1o73HEUZODIkjrrTEKDzpUKawCoaCTVnVqZRTU
-cPrVfyq+GCnnVrBofB4pSxtbKU2axBYTu8seKyyDND0Z2lmtappeb2X5l1SzZaRx
-P3s/1gh1ccafES7+5cD9EoyAJ36JQo/a8fOHoOiiLq7DdPRlIXmee5keOjCDILOF
-KEp/6iZ157TvhNb7MBzHGKdSUvwNAsAwxQc3GoT637ryIGaeS4K0Bhf3rlgI3X/C
-URVOZ4VgdLfE7AF/fW87hm2R2s0j2hCxZha/yS1m1gqNtJDfyxAeLccJNg29XVqF
-VB8AjOTVuXAvbKo3lygcPssq63BxYO5H++1RlAJfpg0OsezSHDiMRr+RAWYinqVU
-5pm6cYBfVMYaQWGD9E4tSZhZqcyZkyFnWYCdTmeiR462agmdZwA58Uo7knEqZ3O5
-ikcqeHugbCdvC8867LSCrYzZ6UY3BUo5QfERz5uLeZ3nZDHnTbSXNQPeJ9fr7u/t
-S2nj3/cqR2CdCNzNZ3fb+/13FEU9QVfmcS71hlqJHsPAmE1J8+DkYXIQxAm95eaw
-i8EUfZ6dl2LWZvdPoaxf6Dr9Kp8aiU+KcU5KgIGtYspkft6+yyQ=
-=NlZq
------END PGP SIGNATURE-----
---=-=-=--
+Regards,
+Bin
 
