@@ -2,35 +2,35 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DB6EC2EFDAF
-	for <lists+qemu-devel@lfdr.de>; Sat,  9 Jan 2021 05:28:45 +0100 (CET)
-Received: from localhost ([::1]:58380 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DD5472EFDB7
+	for <lists+qemu-devel@lfdr.de>; Sat,  9 Jan 2021 05:33:59 +0100 (CET)
+Received: from localhost ([::1]:47030 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ky5ro-0001TY-P8
-	for lists+qemu-devel@lfdr.de; Fri, 08 Jan 2021 23:28:44 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41302)
+	id 1ky5ws-0000Ke-V5
+	for lists+qemu-devel@lfdr.de; Fri, 08 Jan 2021 23:33:58 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41514)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1ky5pj-0008GT-Pl
- for qemu-devel@nongnu.org; Fri, 08 Jan 2021 23:26:35 -0500
-Received: from indium.canonical.com ([91.189.90.7]:46534)
+ id 1ky5qA-0000EX-8b
+ for qemu-devel@nongnu.org; Fri, 08 Jan 2021 23:27:02 -0500
+Received: from indium.canonical.com ([91.189.90.7]:47718)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1ky5pg-0006uy-SA
- for qemu-devel@nongnu.org; Fri, 08 Jan 2021 23:26:35 -0500
+ id 1ky5q2-00074U-B3
+ for qemu-devel@nongnu.org; Fri, 08 Jan 2021 23:27:02 -0500
 Received: from loganberry.canonical.com ([91.189.90.37])
  by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1ky5pZ-0006rC-2v
- for <qemu-devel@nongnu.org>; Sat, 09 Jan 2021 04:26:25 +0000
+ id 1ky5pq-0007Hm-8j
+ for <qemu-devel@nongnu.org>; Sat, 09 Jan 2021 04:26:42 +0000
 Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id E3CBF2E8166
- for <qemu-devel@nongnu.org>; Sat,  9 Jan 2021 04:26:22 +0000 (UTC)
+ by loganberry.canonical.com (Postfix) with ESMTP id 288BA2E8138
+ for <qemu-devel@nongnu.org>; Sat,  9 Jan 2021 04:26:40 +0000 (UTC)
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
-Date: Sat, 09 Jan 2021 04:17:57 -0000
-From: Launchpad Bug Tracker <1731347@bugs.launchpad.net>
+Date: Sat, 09 Jan 2021 04:17:39 -0000
+From: Launchpad Bug Tracker <1687214@bugs.launchpad.net>
 To: qemu-devel@nongnu.org
 X-Launchpad-Notification-Type: bug
 X-Launchpad-Bug: product=qemu; status=Expired; importance=Undecided;
@@ -38,19 +38,19 @@ X-Launchpad-Bug: product=qemu; status=Expired; importance=Undecided;
 X-Launchpad-Bug-Information-Type: Public
 X-Launchpad-Bug-Private: no
 X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: bigboy0822 janitor jfalke th-huth
-X-Launchpad-Bug-Reporter: Johannes Falke (jfalke)
+X-Launchpad-Bug-Commenters: alamot janitor th-huth
+X-Launchpad-Bug-Reporter: Alamot (alamot)
 X-Launchpad-Bug-Modifier: Launchpad Janitor (janitor)
-References: <151026612898.3153.4753501294134415779.malonedeb@gac.canonical.com>
-Message-Id: <161016587760.8490.17899211753630111756.malone@loganberry.canonical.com>
-Subject: [Bug 1731347] Re: VFIO Passthrough of SAS2008-based HBA card fails on
- E3-1225v3 due to failed DMA mapping (-14)
+References: <20170429175305.26812.79902.malonedeb@gac.canonical.com>
+Message-Id: <161016586011.8490.16331632271455566116.malone@loganberry.canonical.com>
+Subject: [Bug 1687214] Re: Rapid tremendous memory hog when using -net nic,
+ vlan=0 -net user, vlan=0
 X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
 X-Launchpad-Message-For: qemu-devel-ml
 Precedence: bulk
 X-Generated-By: Launchpad (canonical.com);
  Revision="fd9c5a87183d01004404fa6027cd262eaa7f6fcf"; Instance="production"
-X-Launchpad-Hash: 4e11a4686d14f9378cc99100ecaafce1569fb202
+X-Launchpad-Hash: e32299844752d3fcd1ed37f5e64e0ff795c0a514
 Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
  helo=indium.canonical.com
 X-Spam_score_int: -65
@@ -71,7 +71,7 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1731347 <1731347@bugs.launchpad.net>
+Reply-To: Bug 1687214 <1687214@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
@@ -84,54 +84,36 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 You received this bug notification because you are a member of qemu-
 devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1731347
+https://bugs.launchpad.net/bugs/1687214
 
 Title:
-  VFIO Passthrough of SAS2008-based HBA card fails on E3-1225v3 due to
-  failed DMA mapping (-14)
+  Rapid tremendous memory hog when using -net nic,vlan=3D0 -net
+  user,vlan=3D0
 
 Status in QEMU:
   Expired
 
 Bug description:
-  There is a bug preventing multiple people with my combination of
-  hardware from using PCI passthrough. I am not actually sure whether
-  the bug is in kernel/kvm, vfio or qemu, however, as qemu is the
-  highest-level of these, I am reporting the bug here as you will likely
-  know better where the origin of the bug may be found.
+  A rapid tremendous memory hog is occuring when I use -net nic,vlan=3D0
+  -net user,vlan=3D0. Tested with QEMU 2.8.0 & 2.9.0 in Gentoo. All
+  available memory (8GB) + swap (over 20GB) is exhausted very rapidly.
 
-  When attempting to pass through this device to a KVM using VFIO, this
-  results in error -14 (Bad Address):
+  This bug is possibly related to =
 
-  # qemu-system-x86_64 -enable-kvm -m 10G -net none -monitor stdio -serial
-  # none -parallel none -vnc :1 -device vfio-pci,host=3D1:00.0 -S
-  QEMU 2.9.1 monitor - type 'help' for more information
-  (qemu) c
-  (qemu) qemu-system-x86_64: VFIO_MAP_DMA: -14
-  qemu-system-x86_64: vfio_dma_map(0x7f548f0a1fc0, 0xfebd0000, 0x2000, 0x7f=
-54a909d000) =3D -14 (Bad address)
-  qemu: hardware error: vfio: DMA mapping failed, unable to continue
+  https://bugs.launchpad.net/qemu/+bug/1310714 =
 
-  See also:
-  https://bugzilla.proxmox.com/show_bug.cgi?id=3D1556
-  https://www.redhat.com/archives/vfio-users/2016-May/msg00088.html
+  and maybe to
+  https://bugs.launchpad.net/qemu/+bug/1288620
 
-  This has occurred on Proxmox (Proxmox and Debian packages, Ubuntu kernel)=
-, Ubuntu,
-  and pure Debian packages and kernel on Proxmox. However, this error
-  reportedly does NOT occur for:
+  The bug IS present wheh I use -net nic,vlan=3D0 -net user,vlan=3D0 (tested
+  with no model and model=3De1000 and model=3Dvirtio, with all these the bug
+  is present)
 
-  - different distributions(!) (Fedora 24, 25)
-  - different HBA cards (SAS2308, SAS3008)
-  - different CPU (E3-1220v5)
+  The bug is NOT present with I use this:
+  -netdev type=3Duser,id=3Dmynet0 -device virtio-net-pci,netdev=3Dmynet0
 
-  I would be thankful for any input and I'll be happy to provide any
-  further info necessary. This is my first time delving this deep into
-  anything close to the kernel.
-
-  Thanks and best regards,
-  Johannes Falke
+  I tested this bug only using windows guests (Windows XP & Windows 8).
 
 To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1731347/+subscriptions
+https://bugs.launchpad.net/qemu/+bug/1687214/+subscriptions
 
