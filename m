@@ -2,82 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EA9F02F0421
-	for <lists+qemu-devel@lfdr.de>; Sat,  9 Jan 2021 23:42:40 +0100 (CET)
-Received: from localhost ([::1]:44588 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D1C4F2F042E
+	for <lists+qemu-devel@lfdr.de>; Sat,  9 Jan 2021 23:56:33 +0100 (CET)
+Received: from localhost ([::1]:55344 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kyMwR-00064D-Ee
-	for lists+qemu-devel@lfdr.de; Sat, 09 Jan 2021 17:42:39 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:32930)
+	id 1kyN9s-0003bZ-Fp
+	for lists+qemu-devel@lfdr.de; Sat, 09 Jan 2021 17:56:32 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34874)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1kyMvf-0005dk-O0
- for qemu-devel@nongnu.org; Sat, 09 Jan 2021 17:41:51 -0500
-Received: from mail-wr1-x430.google.com ([2a00:1450:4864:20::430]:39085)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1kyMvd-0001ys-RD
- for qemu-devel@nongnu.org; Sat, 09 Jan 2021 17:41:51 -0500
-Received: by mail-wr1-x430.google.com with SMTP id c5so12430504wrp.6
- for <qemu-devel@nongnu.org>; Sat, 09 Jan 2021 14:41:49 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=+Ek30evsZkta/5F/5YqGQdsxRuWcgHFdWmvkeQMXCrA=;
- b=U2Jwsre0b/lIbsWWXk0ie5pYfG85wLcLsB075yGEyIP5Z70nn99P0UnOencKWvCjku
- Z2Tm1OrXDQUSbOByFSTFAoANa8jVTwvbWiBk3Cd78TlCPBvSQljUL6UNR5ENMeimoXde
- KbVWtiz+mmmMsuSRDlNXYOT1CInquxYeOPwV1GLdzLmpFUJe4X5uTnALsPSvhqe5APVB
- AigwPiQS7hU+JGImgMbLPCdnqGXTrOV6o3KTkxMBE5PLl6NhOyLrVfL27I/T6r4Q1q9V
- NhDlEn43B9l7mmN85KRtU89hYoUgy6Hq/5LZxYaWrTVu9OgZBKcw+DSkEJwB3AschMhi
- L9dw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
- :date:user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=+Ek30evsZkta/5F/5YqGQdsxRuWcgHFdWmvkeQMXCrA=;
- b=fS9VFsh++2HW4EoHD/rk7wOOQIkO/0Op5IidmB6HbObIea9JEUYmP0lxQ25ZWkz2F9
- tpYZzxClD62NoBEnQIHRASehYIbI/rBVSL+tfBhHcdOL0RM9FDAm3mPMqA/Q9T0wTAKD
- Y5/DO60iFefFOry0tFzxgUl/aiSQtEDIXN52fRUY9T0amnGc6wB9BjxwBTTxfo0OOP0w
- fr5sus6EmOBmOt2NWtkGyq5JMi5SH27kEaZYvLwyqdOTURLufgSxTOwZyWhGjLD7bvie
- S6+Ui1R+kikhTVJnmA6U4wQX5Eas4PhABlD/nLobyv76HX53362ES5LpGgjnfKHBZ/Ur
- KV2A==
-X-Gm-Message-State: AOAM530B+tyacBqDXgVzn5WpNpbYAIcBVGIASEE3koU4nTVpvOzRBRs+
- 0tVOXbL0gxrQ9N9B+R3SPP0=
-X-Google-Smtp-Source: ABdhPJxvddLWyD2+sONLXbi/r08gftcsQt4fDELk8Xi1NKTzUo7Vq0mGk/YLuMd2nOqtXPGJQPMJmw==
-X-Received: by 2002:a05:6000:1043:: with SMTP id
- c3mr9514912wrx.34.1610232107824; 
- Sat, 09 Jan 2021 14:41:47 -0800 (PST)
-Received: from [192.168.1.36] (129.red-88-21-205.staticip.rima-tde.net.
- [88.21.205.129])
- by smtp.gmail.com with ESMTPSA id m18sm18642546wrw.43.2021.01.09.14.41.45
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sat, 09 Jan 2021 14:41:46 -0800 (PST)
-Subject: Re: [PATCH v6 14/35] Hexagon (target/hexagon) instruction printing
-To: Taylor Simpson <tsimpson@quicinc.com>, qemu-devel@nongnu.org
-References: <1610080146-14968-1-git-send-email-tsimpson@quicinc.com>
- <1610080146-14968-15-git-send-email-tsimpson@quicinc.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
-Message-ID: <3f82176f-7e18-ebab-f9cd-7c6909e0375f@amsat.org>
-Date: Sat, 9 Jan 2021 23:41:45 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.6.0
+ (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
+ id 1kyN85-0001uh-9u; Sat, 09 Jan 2021 17:54:41 -0500
+Received: from zero.eik.bme.hu ([152.66.115.2]:42129)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
+ id 1kyN81-0006kB-ST; Sat, 09 Jan 2021 17:54:40 -0500
+Received: from zero.eik.bme.hu (blah.eik.bme.hu [152.66.115.182])
+ by localhost (Postfix) with SMTP id 2F64674646C;
+ Sat,  9 Jan 2021 23:54:32 +0100 (CET)
+Received: by zero.eik.bme.hu (Postfix, from userid 432)
+ id 6F69B74645F; Sat,  9 Jan 2021 23:54:31 +0100 (CET)
+Received: from localhost (localhost [127.0.0.1])
+ by zero.eik.bme.hu (Postfix) with ESMTP id 6A56E74645B;
+ Sat,  9 Jan 2021 23:54:31 +0100 (CET)
+Date: Sat, 9 Jan 2021 23:54:31 +0100 (CET)
+From: BALATON Zoltan <balaton@eik.bme.hu>
+To: =?ISO-8859-15?Q?Philippe_Mathieu-Daud=E9?= <f4bug@amsat.org>
+Subject: Re: [RFC PATCH 0/2] Pegasos2 emulation
+In-Reply-To: <f3d46697-6371-9bd6-67b4-d1c1255fdcf3@amsat.org>
+Message-ID: <acd2a1c4-a16d-6998-4744-e939b63a22c9@eik.bme.hu>
+References: <cover.1609973005.git.balaton@eik.bme.hu>
+ <fc421134-788a-4c62-db25-7e2453104539@eik.bme.hu>
+ <f3d46697-6371-9bd6-67b4-d1c1255fdcf3@amsat.org>
 MIME-Version: 1.0
-In-Reply-To: <1610080146-14968-15-git-send-email-tsimpson@quicinc.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::430;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x430.google.com
-X-Spam_score_int: -17
-X-Spam_score: -1.8
-X-Spam_bar: -
-X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.25, NICE_REPLY_A=-0.255,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+Content-Type: multipart/mixed;
+ boundary="3866299591-1061120116-1610232871=:51580"
+X-Spam-Probability: 9%
+Received-SPF: pass client-ip=152.66.115.2; envelope-from=balaton@eik.bme.hu;
+ helo=zero.eik.bme.hu
+X-Spam_score_int: -41
+X-Spam_score: -4.2
+X-Spam_bar: ----
+X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -90,175 +57,171 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: ale@rev.ng, bcain@quicinc.com, richard.henderson@linaro.org,
- laurent@vivier.eu
+Cc: Peter Maydell <peter.maydell@linaro.org>, qemu-ppc@nongnu.org,
+ qemu-devel@nongnu.org, David Gibson <david@gibson.dropbear.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi Taylor,
+  This message is in MIME format.  The first part should be readable text,
+  while the remaining parts are likely unreadable without MIME-aware tools.
 
-On 1/8/21 5:28 AM, Taylor Simpson wrote:
-> Signed-off-by: Taylor Simpson <tsimpson@quicinc.com>
-> ---
->  target/hexagon/printinsn.h |  28 ++++++++
->  target/hexagon/printinsn.c | 158 +++++++++++++++++++++++++++++++++++++++++++++
->  2 files changed, 186 insertions(+)
->  create mode 100644 target/hexagon/printinsn.h
->  create mode 100644 target/hexagon/printinsn.c
-> 
-> diff --git a/target/hexagon/printinsn.h b/target/hexagon/printinsn.h
-> new file mode 100644
-> index 0000000..0e629b2
-> --- /dev/null
-> +++ b/target/hexagon/printinsn.h
-> @@ -0,0 +1,28 @@
-> +/*
-> + *  Copyright(c) 2019-2020 Qualcomm Innovation Center, Inc. All Rights Reserved.
+--3866299591-1061120116-1610232871=:51580
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 8BIT
 
-(Again, 2019-2021, SPDX).
+On Thu, 7 Jan 2021, Philippe Mathieu-Daudé wrote:
+> On 1/7/21 2:15 AM, BALATON Zoltan wrote:
+>> On Wed, 6 Jan 2021, BALATON Zoltan wrote:
+>>> Hello,
+>>>
+>>> This is adding a new PPC board called pegasos2 currently posted as RFC
+>>> because it depends on not yet merged VT8231 emulation currently on the
+>>> list:
+>>>
+>>> https://patchew.org/QEMU/cover.1609967638.git.balaton@eik.bme.hu/
+>
+> This note ^^^ ...
+>
+>>>
+>>> and may need some changes like a test case but I'm posting it now for
+>>> getting feedback on what's needed to merge this. More info on it can
+>>> be found at:
+>>>
+>>> https://osdn.net/projects/qmiga/wiki/SubprojectPegasos2
+>>>
+>>> Currently it needs a firmware ROM image that I cannot include due to
+>>> original copyright holder (bPlan) did not release it under a free
+>>> licence but I have plans to write a replacement in the future. With
+>>> that firmware it can boot MorphOS now as:
+>>>
+>>> qemu-system-ppc -M pegasos2 -cdrom morphos.iso -device
+>>> ati-vga,romfile="" -serial stdio
+>>>
+>>> then enter "boot cd boot.img" at the firmware "ok" prompt as described
+>>> in the MorphOS.readme. To boot Linux use same command line with e.g.
+>>> -cdrom debian-8.11.0-powerpc-netinst.iso then enter
+>>> "boot cd install/pegasos"
+>>>
+>>> Patch 2 adds the actual board code after patch 1 adding MV64361 system
+>>> controller chip. The mv643xx.h header file is taken from Linux and
+>>> produces a bunch of checkpatch warnings due to different formatting
+>>> rules it follows, I'm not sure we want to adopt it or keep it as it is
+>>> given that it does not appear any more in recent Linux versions so we
+>>> could reformat it as it's unlikely to get updated in the future.
+>>
+>> Interestingly it applies for patchew while this was accidentally based
+>> on my previous series that has hw/ppc/Kconfig reverts so it does not
+>> apply on current master.
+>
+> ... can be passed as hint to patchew as a tag:
+>
+> Based-on: <cover.1609967638.git.balaton@eik.bme.hu>
+>
+>> Also missing a file so does not compile but
+>> other than that the content could be reviewed. I've now updated this repo:
+>>
+>> https://osdn.net/projects/qmiga/scm/git/qemu/tree/pegasos2/
+>>
+>> which contains all the needed patches over QEMU master at one place in
+>> case somebody wants to try this. I'll send an updated version later
+>> after I get some feedback.
+>>
+>> The command lines above also need -bios /path/to/firmware.rom
+>
+> An integration test similar to the Fuloong PMON would be highly
+> appreciated :)
+>
+> https://www.mail-archive.com/qemu-devel@nongnu.org/msg752605.html
 
-> + *
-> + *  This program is free software; you can redistribute it and/or modify
-> + *  it under the terms of the GNU General Public License as published by
-> + *  the Free Software Foundation; either version 2 of the License, or
-> + *  (at your option) any later version.
-> + *
-> + *  This program is distributed in the hope that it will be useful,
-> + *  but WITHOUT ANY WARRANTY; without even the implied warranty of
-> + *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-> + *  GNU General Public License for more details.
-> + *
-> + *  You should have received a copy of the GNU General Public License
-> + *  along with this program; if not, see <http://www.gnu.org/licenses/>.
-> + */
-> +
-> +#ifndef HEXAGON_PRINTINSN_H
-> +#define HEXAGON_PRINTINSN_H
-> +
-> +#include "qemu/osdep.h"
-> +#include "insn.h"
-> +
-> +extern void snprint_a_pkt_disas(char *buf, int n, Packet *pkt, uint32_t *words,
-> +                                target_ulong pc);
-> +extern void snprint_a_pkt_debug(char *buf, int n, Packet *pkt);
-> +
-> +#endif
-> diff --git a/target/hexagon/printinsn.c b/target/hexagon/printinsn.c
-> new file mode 100644
-> index 0000000..8315d56
-> --- /dev/null
-> +++ b/target/hexagon/printinsn.c
-...
+This does not seem to be in master so I could copy and modify. I also have 
+no way to test this test so maybe you could help writing and testing the 
+necessary module. Basically we need to download a boot iso from here:
 
-> +void snprint_a_pkt_disas(char *buf, int n, Packet *pkt, uint32_t *words,
-> +                         target_ulong pc)
-> +{
-> +    char tmpbuf[128];
-> +    buf[0] = '\0';
-> +    bool has_endloop0 = false;
-> +    bool has_endloop1 = false;
-> +    bool has_endloop01 = false;
-> +
-> +    for (int i = 0; i < pkt->num_insns; i++) {
-> +        if (pkt->insn[i].part1) {
-> +            continue;
-> +        }
-> +
-> +        /* We'll print the endloop's at the end of the packet */
-> +        if (pkt->insn[i].opcode == J2_endloop0) {
-> +            has_endloop0 = true;
-> +            continue;
-> +        }
-> +        if (pkt->insn[i].opcode == J2_endloop1) {
-> +            has_endloop1 = true;
-> +            continue;
-> +        }
-> +        if (pkt->insn[i].opcode == J2_endloop01) {
-> +            has_endloop01 = true;
-> +            continue;
-> +        }
-> +
-> +        snprintf(tmpbuf, 127, "0x" TARGET_FMT_lx "\t", words[i]);
-> +        strncat(buf, tmpbuf, n);
-> +
-> +        if (i == 0) {
-> +            strncat(buf, "{", n);
-> +        }
-> +
-> +        snprintinsn(tmpbuf, 127, &(pkt->insn[i]));
-> +        strncat(buf, "\t", n);
-> +        strncat(buf, tmpbuf, n);
-> +
-> +        if (i < pkt->num_insns - 1) {
-> +            /*
-> +             * Subinstructions are two instructions encoded
-> +             * in the same word. Print them on the same line.
-> +             */
-> +            if (GET_ATTRIB(pkt->insn[i].opcode, A_SUBINSN)) {
-> +                strncat(buf, "; ", n);
-> +                snprintinsn(tmpbuf, 127, &(pkt->insn[i + 1]));
-> +                strncat(buf, tmpbuf, n);
-> +                i++;
-> +            } else if (pkt->insn[i + 1].opcode != J2_endloop0 &&
-> +                       pkt->insn[i + 1].opcode != J2_endloop1 &&
-> +                       pkt->insn[i + 1].opcode != J2_endloop01) {
-> +                pc += 4;
-> +                snprintf(tmpbuf, 127, "\n0x" TARGET_FMT_lx ":  ", pc);
-> +                strncat(buf, tmpbuf, n);
-> +            }
-> +        }
-> +    }
-> +    strncat(buf, " }", n);
-> +    if (has_endloop0) {
-> +        strncat(buf, "  :endloop0", n);
-> +    }
-> +    if (has_endloop1) {
-> +        strncat(buf, "  :endloop1", n);
-> +    }
-> +    if (has_endloop01) {
-> +        strncat(buf, "  :endloop01", n);
-> +    }
-> +    strncat(buf, "\n", n);
-> +}
-> +
-> +void snprint_a_pkt_debug(char *buf, int n, Packet *pkt)
-> +{
-> +    char tmpbuf[128];
-> +    buf[0] = '\0';
-> +    int slot, opcode;
-> +
-> +    if (pkt->num_insns > 1) {
-> +        strncat(buf, "\n{\n", n);
-> +    }
-> +
-> +    for (int i = 0; i < pkt->num_insns; i++) {
-> +        if (pkt->insn[i].part1) {
-> +            continue;
-> +        }
-> +        snprintinsn(tmpbuf, 127, &(pkt->insn[i]));
-> +        strncat(buf, "\t", n);
-> +        strncat(buf, tmpbuf, n);
-> +
-> +        if (GET_ATTRIB(pkt->insn[i].opcode, A_SUBINSN)) {
-> +            strncat(buf, " //subinsn", n);
-> +        }
-> +        if (pkt->insn[i].extension_valid) {
-> +            strncat(buf, " //constant extended", n);
-> +        }
-> +        slot = pkt->insn[i].slot;
-> +        opcode = pkt->insn[i].opcode;
-> +        snprintf(tmpbuf, 127, " //slot=%d:tag=%s", slot, opcode_names[opcode]);
-> +        strncat(buf, tmpbuf, n);
-> +
-> +        strncat(buf, "\n", n);
-> +    }
-> +    if (pkt->num_insns > 1) {
-> +        strncat(buf, "}\n", n);
-> +    }
-> +}
+https://www.morphos-team.net/morphos-3.15.iso
 
-Nowadays we prefer to use the GString rather than <string.h>.
+For the pegasos2.rom the easiest may be to extract it from an update still 
+available here:
 
-Patch looks good, so:
-Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+https://morph.zone/modules/newbb_plus/viewtopic.php?forum=11&topic_id=11892&post_id=129768&viewmode=flat&sortorder=0&showonepost=1
+
+which links to
+
+http://web.archive.org/web/20071021223056/http://www.bplan-gmbh.de/up050404/up050404
+
+that has the actual file as the original site does not have it any more 
+(used to be here: 
+http://www.bplan-gmbh.de/flash_update_for_pegasos_ii_en.html ). Then the 
+rom can be extracted with:
+
+https://osdn.net/projects/qmiga/wiki/SubprojectPegasos2/attach/extract_rom_from_updater
+
+To get a binary with MD5 sum 3248e02596480f2dba5944bd219ecfad
+
+Then running it like this should produce the following output:
+
+$ qemu-system-ppc -M pegasos2 -bios pegasos2.rom -device ati-vga,romfile="" -cdrom morphos-3.15.iso -serial stdio
+
+PegasosII Boot Strap (c) 2002-2003 bplan GmbH
+Running on CPU PVR:000C0209
+Enable L1 ICache...                                                   Done.
+Reading W83194 :                                                      FAILED.
+Setting Front Side Bus to 133MHz...                                   FAILED.
+Configuring DDR...                                                    Done.
+Configuring PCI0...                                                   Done.
+Configuring PCI1...                                                   Done.
+Configuring ETH...                                                    Done.
+Releasing IDE reset ...                                	              Done.
+Configuring Legacy Devices
+Initializing KBD...                                                   Done.
+Testing 10000000 Bytes, Pass: 00000000 Failed: 00000000
+RAM TEST (fill linear)...                                             Done.
+FFFFFFFF
+
+SmartFirmware:
+cpu0: PowerPC,G4 CPUClock 599 Mhz BUSClock 133 Mhz (Version 0x000C,0x0209)
+no/bad nvramrc - performing default startup script
+channel 1 unit 0 : atapi | QEMU DVD-ROM                             | 2.5+ 
+ATA device not present or not responding
+
+
+
+Welcome to SmartFirmware(tm) for bplan Pegasos2 version 1.1 (20040405172512)
+SmartFirmware(tm) Copyright 1996-2001 by CodeGen, Inc.
+All Rights Reserved.
+Pegasos BIOS Extensions Copyright 2001-2003 by bplan GmbH.
+All Rights Reserved.
+entering main read/eval loop...
+ok boot cd boot.img
+ISO-9660 filesystem:  System-ID: "MORPHOS"  Volume-ID: "MorphOSBoot"
+Root dir: "" flags=0x2 extent=0x20 size=0x1800
+Memory used before SYS_Init: 9MB
+
+
+ABox 1.30 (2.7.2018) © 1999-2018 by Ralph Schmidt, Emmanuel Lesueur, Teemu Suikki, Harry Sintonen
+PCI ATA/ATAPI Driver@2: PIO Mode 4
+PCI ATA/ATAPI Driver@2: UDMA Mode 5
+ide.device@2: QEMU     QEMU DVD-ROM     <CDROM>
+ide.device@2:  CDRom <CD001>,<MORPHOS > found, bootable
+ide.device@2:  Mount <CD0>
+ide.device@2:  Partition <CD0> DosType 0x43444653 BootPri 127
+
+Maybe you should wait for the "Welcome to SmartFirmware" banner or 
+"entering main read/eval loop" followed by the "ok" prompt where you 
+should send "boot cd boot.img" string then wait for the "ide.device@2: 
+Mount <CD0>" string to confirm it found the boot CD at which point it 
+should be working which also tests that via-ide DMA works (it it doesn't 
+it won't find the CD). This tests mv64361, vt8231 (including via-ide 
+half-native mode). Also uses ati-vga but that's already tested by other 
+tests and these texts on serial do not confirm it works with ati-vga, 
+that's just so you can also see it boot if you let it running further. The 
+romfile="" is needed to disable vgabios-ati.bin which the firmware cannot 
+handle.
+
+Can you turn this into a python script implementing a test case based on 
+your other similar tests? I think you have more experience with this and 
+have a way to actually test it that I lack.
+
+Regards,
+BALATON Zoltan
+--3866299591-1061120116-1610232871=:51580--
 
