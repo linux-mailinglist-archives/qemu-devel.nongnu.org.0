@@ -2,31 +2,33 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 10B102F0376
-	for <lists+qemu-devel@lfdr.de>; Sat,  9 Jan 2021 21:33:11 +0100 (CET)
-Received: from localhost ([::1]:42948 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EAAA72F0381
+	for <lists+qemu-devel@lfdr.de>; Sat,  9 Jan 2021 21:37:52 +0100 (CET)
+Received: from localhost ([::1]:57140 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kyKv8-0001tJ-0s
-	for lists+qemu-devel@lfdr.de; Sat, 09 Jan 2021 15:33:10 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41954)
+	id 1kyKzf-0007tm-G9
+	for lists+qemu-devel@lfdr.de; Sat, 09 Jan 2021 15:37:51 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42030)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
- id 1kyKsD-0008OR-AR
- for qemu-devel@nongnu.org; Sat, 09 Jan 2021 15:30:11 -0500
-Received: from zero.eik.bme.hu ([2001:738:2001:2001::2001]:33368)
+ id 1kyKsN-0008Sb-9q
+ for qemu-devel@nongnu.org; Sat, 09 Jan 2021 15:30:19 -0500
+Received: from zero.eik.bme.hu ([2001:738:2001:2001::2001]:33412)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
- id 1kyKs5-00078T-On
- for qemu-devel@nongnu.org; Sat, 09 Jan 2021 15:30:09 -0500
+ id 1kyKsI-0007DZ-SD
+ for qemu-devel@nongnu.org; Sat, 09 Jan 2021 15:30:19 -0500
 Received: from zero.eik.bme.hu (blah.eik.bme.hu [152.66.115.182])
- by localhost (Postfix) with SMTP id C764A747619;
- Sat,  9 Jan 2021 21:29:57 +0100 (CET)
+ by localhost (Postfix) with SMTP id 896B4747603;
+ Sat,  9 Jan 2021 21:29:58 +0100 (CET)
 Received: by zero.eik.bme.hu (Postfix, from userid 432)
- id 4668074646C; Sat,  9 Jan 2021 21:29:57 +0100 (CET)
-Message-Id: <cover.1610223396.git.balaton@eik.bme.hu>
+ id 923FF74760F; Sat,  9 Jan 2021 21:29:57 +0100 (CET)
+Message-Id: <882243e3f6d222d08f67a363d24c820e4431d4d5.1610223397.git.balaton@eik.bme.hu>
+In-Reply-To: <cover.1610223396.git.balaton@eik.bme.hu>
+References: <cover.1610223396.git.balaton@eik.bme.hu>
 From: BALATON Zoltan <balaton@eik.bme.hu>
-Subject: [PATCH v2 00/13] vt82c686b clean ups and vt8231 emulation
+Subject: [PATCH v2 12/13] vt82c686: Add VT8231_SUPERIO based on VIA_SUPERIO
 Date: Sat, 09 Jan 2021 21:16:36 +0100
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
@@ -56,39 +58,156 @@ Cc: Huacai Chen <chenhuacai@kernel.org>, f4bug@amsat.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Version 2 of remaining patches for VT8231 emulation addressing review
-comments:
+The VT8231 south bridge is very similar to VT82C686B but there are
+some differences in register addresses and functionality, e.g. the
+VT8231 only has one serial port. This commit adds VT8231_SUPERIO
+subclass based on the abstract VIA_SUPERIO class to emulate the
+superio part of VT8231.
 
-- Split off making vt82c686b-pm an abstract class to separate patch
-- Use constants for PCI IDs
+Signed-off-by: BALATON Zoltan <balaton@eik.bme.hu>
+---
+ hw/isa/vt82c686.c | 121 ++++++++++++++++++++++++++++++++++++++++++++++
+ 1 file changed, 121 insertions(+)
 
-Regards,
-BALATON Zoltan
-
-
-BALATON Zoltan (13):
-  vt82c686: Move superio memory region to SuperIOConfig struct
-  vt82c686: Reorganise code
-  vt82c686: Fix SMBus IO base and configuration registers
-  vt82c686: Fix up power management io base and config
-  vt82c686: Set user_creatable=false for VT82C686B_PM
-  vt82c686: Make vt82c686b-pm an abstract base class and add vt8231-pm
-    based on it
-  vt82c686: Simplify vt82c686b_realize()
-  vt82c686: Move creation of ISA devices to the ISA bridge
-  vt82c686: Fix superio_cfg_{read,write}() functions
-  vt82c686: Implement control of serial port io ranges via config regs
-  vt82c686: QOM-ify superio related functionality
-  vt82c686: Add VT8231_SUPERIO based on VIA_SUPERIO
-  vt82c686: Add emulation of VT8231 south bridge
-
- hw/isa/trace-events       |   2 +
- hw/isa/vt82c686.c         | 891 ++++++++++++++++++++++++++++----------
- hw/mips/fuloong2e.c       |  33 +-
- include/hw/isa/vt82c686.h |   3 +-
- include/hw/pci/pci_ids.h  |   6 +-
- 5 files changed, 684 insertions(+), 251 deletions(-)
-
+diff --git a/hw/isa/vt82c686.c b/hw/isa/vt82c686.c
+index f23fb2ea25..f27aea1643 100644
+--- a/hw/isa/vt82c686.c
++++ b/hw/isa/vt82c686.c
+@@ -489,6 +489,126 @@ static const TypeInfo vt82c686b_superio_info = {
+ };
+ 
+ 
++#define TYPE_VT8231_SUPERIO "vt8231-superio"
++
++static void vt8231_superio_cfg_write(void *opaque, hwaddr addr,
++                                     uint64_t data, unsigned size)
++{
++    ViaSuperIOState *sc = opaque;
++    uint8_t idx = sc->regs[0];
++
++    if (addr == 0) { /* config index register */
++        sc->regs[0] = data;
++        return;
++    }
++
++    /* config data register */
++    trace_via_superio_write(idx, data);
++    switch (idx) {
++    case 0x00 ... 0xdf:
++    case 0xe7 ... 0xef:
++    case 0xf0 ... 0xf1:
++    case 0xf5:
++    case 0xf8:
++    case 0xfd:
++        /* ignore write to read only registers */
++        return;
++    case 0xf2: /* Function select */
++    {
++        data &= 0x17;
++        if (data & BIT(2)) { /* Serial port enable */
++            ISADevice *dev = sc->superio.serial[0];
++            if (!memory_region_is_mapped(sc->serial_io[0])) {
++                memory_region_add_subregion(isa_address_space_io(dev),
++                                            dev->ioport_id, sc->serial_io[0]);
++            }
++        } else {
++            MemoryRegion *io = isa_address_space_io(sc->superio.serial[0]);
++            if (memory_region_is_mapped(sc->serial_io[0])) {
++                memory_region_del_subregion(io, sc->serial_io[0]);
++            }
++        }
++        break;
++    }
++    case 0xf4: /* Serial port io base address */
++    {
++        data &= 0xfe;
++        sc->superio.serial[0]->ioport_id = data << 2;
++        if (memory_region_is_mapped(sc->serial_io[0])) {
++            memory_region_set_address(sc->serial_io[0], data << 2);
++        }
++        break;
++    }
++    default:
++        qemu_log_mask(LOG_UNIMP,
++                      "via_superio_cfg: unimplemented register 0x%x\n", idx);
++        break;
++    }
++    sc->regs[idx] = data;
++}
++
++static const MemoryRegionOps vt8231_superio_cfg_ops = {
++    .read = via_superio_cfg_read,
++    .write = vt8231_superio_cfg_write,
++    .endianness = DEVICE_NATIVE_ENDIAN,
++    .impl = {
++        .min_access_size = 1,
++        .max_access_size = 1,
++    },
++};
++
++static void vt8231_superio_reset(DeviceState *dev)
++{
++    ViaSuperIOState *s = VIA_SUPERIO(dev);
++
++    memset(s->regs, 0, sizeof(s->regs));
++    /* Device ID */
++    s->regs[0xf0] = 0x3c;
++    /* Device revision */
++    s->regs[0xf1] = 0x01;
++    /* Function select - all disabled */
++    vt8231_superio_cfg_write(s, 0, 0xf2, 1);
++    vt8231_superio_cfg_write(s, 1, 0x03, 1);
++    /* Serial port base addr */
++    vt8231_superio_cfg_write(s, 0, 0xf4, 1);
++    vt8231_superio_cfg_write(s, 1, 0xfe, 1);
++    /* Parallel port base addr */
++    vt8231_superio_cfg_write(s, 0, 0xf6, 1);
++    vt8231_superio_cfg_write(s, 1, 0xde, 1);
++    /* Floppy ctrl base addr */
++    vt8231_superio_cfg_write(s, 0, 0xf7, 1);
++    vt8231_superio_cfg_write(s, 1, 0xfc, 1);
++
++    vt8231_superio_cfg_write(s, 0, 0, 1);
++}
++
++static void vt8231_superio_init(Object *obj)
++{
++    VIA_SUPERIO(obj)->io_ops = &vt8231_superio_cfg_ops;
++}
++
++static void vt8231_superio_class_init(ObjectClass *klass, void *data)
++{
++    DeviceClass *dc = DEVICE_CLASS(klass);
++    ISASuperIOClass *sc = ISA_SUPERIO_CLASS(klass);
++
++    dc->reset = vt8231_superio_reset;
++    sc->serial.count = 1;
++    sc->parallel.count = 1;
++    sc->ide.count = 0; /* emulated by via-ide */
++    sc->floppy.count = 1;
++}
++
++static const TypeInfo vt8231_superio_info = {
++    .name          = TYPE_VT8231_SUPERIO,
++    .parent        = TYPE_VIA_SUPERIO,
++    .instance_size = sizeof(ViaSuperIOState),
++    .instance_init = vt8231_superio_init,
++    .class_size    = sizeof(ISASuperIOClass),
++    .class_init    = vt8231_superio_class_init,
++};
++
++
+ OBJECT_DECLARE_SIMPLE_TYPE(VT82C686BISAState, VT82C686B_ISA)
+ 
+ struct VT82C686BISAState {
+@@ -612,6 +732,7 @@ static void vt82c686b_register_types(void)
+     type_register_static(&vt8231_pm_info);
+     type_register_static(&via_superio_info);
+     type_register_static(&vt82c686b_superio_info);
++    type_register_static(&vt8231_superio_info);
+     type_register_static(&via_info);
+ }
+ 
 -- 
 2.21.3
 
