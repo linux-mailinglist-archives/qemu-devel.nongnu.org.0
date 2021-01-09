@@ -2,75 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CBF172F0479
-	for <lists+qemu-devel@lfdr.de>; Sun, 10 Jan 2021 00:54:20 +0100 (CET)
-Received: from localhost ([::1]:57926 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1C8CF2F047A
+	for <lists+qemu-devel@lfdr.de>; Sun, 10 Jan 2021 00:56:24 +0100 (CET)
+Received: from localhost ([::1]:60742 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kyO3n-0004CR-UB
-	for lists+qemu-devel@lfdr.de; Sat, 09 Jan 2021 18:54:19 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43710)
+	id 1kyO5n-0005Wc-6O
+	for lists+qemu-devel@lfdr.de; Sat, 09 Jan 2021 18:56:23 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43980)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1kyO2t-0003gT-QA; Sat, 09 Jan 2021 18:53:23 -0500
-Received: from mail-wr1-x430.google.com ([2a00:1450:4864:20::430]:45464)
+ id 1kyO4e-0004r7-DB; Sat, 09 Jan 2021 18:55:12 -0500
+Received: from mail-wm1-x32c.google.com ([2a00:1450:4864:20::32c]:51479)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1kyO2s-0001te-Ct; Sat, 09 Jan 2021 18:53:23 -0500
-Received: by mail-wr1-x430.google.com with SMTP id d26so12500661wrb.12;
- Sat, 09 Jan 2021 15:53:21 -0800 (PST)
+ id 1kyO4c-0002R9-Cw; Sat, 09 Jan 2021 18:55:11 -0500
+Received: by mail-wm1-x32c.google.com with SMTP id v14so10684479wml.1;
+ Sat, 09 Jan 2021 15:55:09 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:subject:to:cc:references:from:message-id:date:user-agent
  :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=Tvlx/ZmwUjNy/B8izp1OjAX4REEqpf323WM5Y2nSLXk=;
- b=KEsGZhqayegqmJaeF1k84v5ZadT1+Mxqsdx+D8149FpLWobtETZhoBlxC7jHKSkvZO
- Aabb2qidl0F4DF2UkPB/QNpVCS4GPIfmGc3rkXe/Nwjy8107k2Ga9LKJwae+5ZhN9qFm
- VJ2zRWkqTebvOCx+xJV9lHYxi+03gIJtEGiXRktf9Ixlr2YaqQgO5DyQksZUf1vasKCC
- ZStcrncUJaLTd1R59sF92vqd8P00zcCPnTcE8bJleLwQwTk+i4w5VwzqP6OshyWlMT+3
- Jlon/2yAWpOaeCWvQ4E5jww6AKbfm455b+t8xDA4ewyoDMIuq7YEGR8kBuvRiYaRhOd4
- odCw==
+ bh=vijG4FFreQy6BJ60KhlPviZ62YJiRPrEV+PjAUukHhY=;
+ b=qWuNT32Phdvc7LAOanhFdba1eloGqKA2ViJP7EQJnhg94OiFjenn00Jwl08RTrQ4/0
+ mWhAf4ybj0KvU6qAcmr9nqmW0fpoRmQOHxDyMoY77pC6D84RHmCQeGRxLZsdghZCdjNE
+ Jj9aK1lEq6zkoTBuYz5M0a3oaSTchUNPYwhLqlptJgD68W1pkG2hPFsaYIKf5c/O/XEa
+ v6iydhnbWA/9gpj360dSwqPugQYnSg5oPhRUEBttL4CqfX8hsE03oqgj3GTU4NkekTWF
+ FZD3CKeCT70gbfVS2jQ0Z9wneFCUA3UspWBzSLDyFlelGssLPBe0Vu+w5UdoLznmp2Vy
+ Lu0g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
  :date:user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=Tvlx/ZmwUjNy/B8izp1OjAX4REEqpf323WM5Y2nSLXk=;
- b=DQO+iNWtYbkfGcOJI47/faE3IkpTFWv4PtPUq+Yf2fVhqhNWH5sAPd84EMuhid8Mfi
- 4PvVOEJqi9XX37Jvy0FgiKIFvQD2vh36uGOU+ED54nvVEHCuQmrJTIBAJPq4dQuGHksU
- L7Wt62dnh7npxtAJZxeU1O3AbfkykIYqJTCBnI7U0djP/fCm/xYmreETZRtTpQzTof2R
- Lizohm8rffHGDfV6bwqRc0ImHmu0yOjRPKls+AtpNoHZSCA//t9RhTFlMNFdHB0pNpWk
- KgbyKjEUHRvl6U91g4QrfRgSV17ZZVGH1AFq1YK0YyqQSv11kLazv5Y4rNCM26LOr86d
- uU8A==
-X-Gm-Message-State: AOAM531Ic08YabAJ6oIOgG831ckBMLP0l8gkSJYLFyX9e25/Ejpap3KG
- Gt+tx6UCrmafjDJU9wahtQ8=
-X-Google-Smtp-Source: ABdhPJzb+uFtFjq8s7WkW8KssnlvPxSkMu20hB90mRiCqowVcoW1mBtuSJWP1YiMyBDtqeKN1u02Rg==
-X-Received: by 2002:adf:f78e:: with SMTP id q14mr9869152wrp.320.1610236400822; 
- Sat, 09 Jan 2021 15:53:20 -0800 (PST)
+ bh=vijG4FFreQy6BJ60KhlPviZ62YJiRPrEV+PjAUukHhY=;
+ b=g3eE0vV0h+WoYq1nvGgM7kzpMfhhJkLd+kmbumwO0rbnS5FOjBb2Lr7b5Ar/j93V0L
+ chWwVnQpzsKH6isAdAjscBUio+j+uNHfTdv7ADmMSQXZ28KzfWr5ds/kGiF5E/m58fdD
+ A2oyVqaz6st1BiMFQ5/MKLcfePRp3wC1GF6u7x0kulY4s2ftK3sLS3/7iKA+cktb+JMN
+ swhF6Xz1cZEVHvydxd/C8ggtueOqMZO7zWA//AAepqKgNnAte4BzR9OY9XRsDa7tnvSv
+ Oe1tShmPMij5HTF9afkcWTfw89shTfJz6nWLnfA9St692zWeAbNlaDeVxUp8Zk5/kSJP
+ IJUg==
+X-Gm-Message-State: AOAM531j4nSx+fFQ9IpB6OyKCD0w+UdEPRSsrFowEpq0t1TwiMMv8kbP
+ CbNkgXLzvTuOiJlOK3Me1d4=
+X-Google-Smtp-Source: ABdhPJxmHg43O0NlN/rjDbI/dXqs7nTLQW7A21md0OXZH5q4GfWkFH/Od+r38QmKdypq/v4CHGMmTg==
+X-Received: by 2002:a1c:220a:: with SMTP id i10mr8667970wmi.93.1610236507989; 
+ Sat, 09 Jan 2021 15:55:07 -0800 (PST)
 Received: from [192.168.1.36] (129.red-88-21-205.staticip.rima-tde.net.
  [88.21.205.129])
- by smtp.gmail.com with ESMTPSA id v20sm19929879wra.19.2021.01.09.15.53.19
+ by smtp.gmail.com with ESMTPSA id k1sm18892921wrn.46.2021.01.09.15.55.06
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sat, 09 Jan 2021 15:53:19 -0800 (PST)
-Subject: Re: [PATCH v3 3/6] hw/ssi: imx_spi: Remove imx_spi_update_irq() in
- imx_spi_reset()
+ Sat, 09 Jan 2021 15:55:07 -0800 (PST)
+Subject: Re: [PATCH v3 4/6] hw/ssi: imx_spi: Log unimplemented burst length
 To: Bin Meng <bmeng.cn@gmail.com>, Peter Maydell <peter.maydell@linaro.org>,
  Jean-Christophe Dubois <jcd@tribudubois.net>,
  Alistair Francis <alistair.francis@wdc.com>, qemu-arm@nongnu.org,
  qemu-devel@nongnu.org
 References: <20210109123545.12001-1-bmeng.cn@gmail.com>
- <20210109123545.12001-4-bmeng.cn@gmail.com>
+ <20210109123545.12001-5-bmeng.cn@gmail.com>
 From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
-Message-ID: <ca66c21a-c3f8-8e96-033e-56548280b4b1@amsat.org>
-Date: Sun, 10 Jan 2021 00:53:18 +0100
+Message-ID: <7c966c4e-eccd-3fe9-7811-b5b2c6c65c69@amsat.org>
+Date: Sun, 10 Jan 2021 00:55:06 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.6.0
 MIME-Version: 1.0
-In-Reply-To: <20210109123545.12001-4-bmeng.cn@gmail.com>
+In-Reply-To: <20210109123545.12001-5-bmeng.cn@gmail.com>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::430;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x430.google.com
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::32c;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x32c.google.com
 X-Spam_score_int: -17
 X-Spam_score: -1.8
 X-Spam_bar: -
@@ -98,78 +97,52 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 On 1/9/21 1:35 PM, Bin Meng wrote:
 > From: Bin Meng <bin.meng@windriver.com>
 > 
-> Usually the approach is that the device on the other end of the line
-> is going to reset its state anyway, so there's no need to actively
-> signal an irq line change during the reset hook.
+> Current implementation of the imx spi controller expects the burst
+> length to be multiple of 8, which is the most normal use case.
+
+s/normal/common/?
+
 > 
-> Move imx_spi_update_irq() out of imx_spi_reset(), along with the
-> disabling of chip selects, to a new function imx_spi_soft_reset()
-> that is called when the controller is disabled.
-
-Now I read this patch, forget my comment on previous patch.
-
+> In case the burst length is not what we expect, log it to give user
+> a chance to notice it.
 > 
 > Signed-off-by: Bin Meng <bin.meng@windriver.com>
 > 
 > ---
 > 
 > Changes in v3:
-> - new patch: remove imx_spi_update_irq() in imx_spi_reset()
+> - new patch: log unimplemented burst length
 > 
->  hw/ssi/imx_spi.c | 21 ++++++++++++++-------
->  1 file changed, 14 insertions(+), 7 deletions(-)
+>  hw/ssi/imx_spi.c | 11 ++++++++++-
+>  1 file changed, 10 insertions(+), 1 deletion(-)
 > 
 > diff --git a/hw/ssi/imx_spi.c b/hw/ssi/imx_spi.c
-> index 8d429e703f..880939f595 100644
+> index 880939f595..609d4b658e 100644
 > --- a/hw/ssi/imx_spi.c
 > +++ b/hw/ssi/imx_spi.c
-> @@ -241,9 +241,20 @@ static void imx_spi_reset(DeviceState *dev)
->      imx_spi_rxfifo_reset(s);
->      imx_spi_txfifo_reset(s);
+> @@ -128,7 +128,16 @@ static uint8_t imx_spi_selected_channel(IMXSPIState *s)
 >  
-> +    s->burst_length = 0;
-> +}
+>  static uint32_t imx_spi_burst_length(IMXSPIState *s)
+>  {
+> -    return EXTRACT(s->regs[ECSPI_CONREG], ECSPI_CONREG_BURST_LENGTH) + 1;
+> +    uint32_t burst;
 > +
-> +static void imx_spi_soft_reset(IMXSPIState *s)
-> +{
-> +    int i;
-> +
-> +    imx_spi_reset(DEVICE(s));
+> +    burst = EXTRACT(s->regs[ECSPI_CONREG], ECSPI_CONREG_BURST_LENGTH) + 1;
+> +    if (burst % 8) {
+> +        qemu_log_mask(LOG_UNIMP,
+> +                      "[%s]%s: burst length not multiple of 8!\n",
+> +                      TYPE_IMX_SPI, __func__);
 
-Hmm usually hard reset include soft reset.
+Please log the burst length value in the log message.
 
-> +
->      imx_spi_update_irq(s);
->  
-> -    s->burst_length = 0;
-> +    for (i = 0; i < ECSPI_NUM_CS; i++) {
-> +        qemu_set_irq(s->cs_lines[i], 1);
-
-Isn't this part of the hard reset?
+With it:
+Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 
 > +    }
+> +
+> +    return burst;
 >  }
 >  
->  static uint64_t imx_spi_read(void *opaque, hwaddr offset, unsigned size)
-> @@ -351,12 +362,8 @@ static void imx_spi_write(void *opaque, hwaddr offset, uint64_t value,
->          s->regs[ECSPI_CONREG] = value;
->  
->          if (!imx_spi_is_enabled(s)) {
-> -            /* device is disabled, so this is a reset */
-> -            imx_spi_reset(DEVICE(s));
-> -
-> -            for (int i = 0; i < ECSPI_NUM_CS; i++) {
-> -                qemu_set_irq(s->cs_lines[i], 1);
-> -            }
-> +            /* device is disabled, so this is a soft reset */
-> +            imx_spi_soft_reset(s);
-
-Maybe you can restructure patches 2/3, first introduce
-imx_spi_soft_reset() - this patch - then fix ECSPI_CONREG
-- the previous patch -.
-
->  
->              return;
->          }
+>  static bool imx_spi_is_enabled(IMXSPIState *s)
 > 
 
