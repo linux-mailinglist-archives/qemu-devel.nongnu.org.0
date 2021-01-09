@@ -2,75 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 094EC2F0476
-	for <lists+qemu-devel@lfdr.de>; Sun, 10 Jan 2021 00:49:24 +0100 (CET)
-Received: from localhost ([::1]:54930 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CBF172F0479
+	for <lists+qemu-devel@lfdr.de>; Sun, 10 Jan 2021 00:54:20 +0100 (CET)
+Received: from localhost ([::1]:57926 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kyNz1-0002gD-4P
-	for lists+qemu-devel@lfdr.de; Sat, 09 Jan 2021 18:49:23 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42894)
+	id 1kyO3n-0004CR-UB
+	for lists+qemu-devel@lfdr.de; Sat, 09 Jan 2021 18:54:19 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43710)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1kyNyG-00028o-AC; Sat, 09 Jan 2021 18:48:36 -0500
-Received: from mail-wr1-x432.google.com ([2a00:1450:4864:20::432]:40142)
+ id 1kyO2t-0003gT-QA; Sat, 09 Jan 2021 18:53:23 -0500
+Received: from mail-wr1-x430.google.com ([2a00:1450:4864:20::430]:45464)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1kyNyE-0000Bx-QM; Sat, 09 Jan 2021 18:48:36 -0500
-Received: by mail-wr1-x432.google.com with SMTP id 91so12538945wrj.7;
- Sat, 09 Jan 2021 15:48:33 -0800 (PST)
+ id 1kyO2s-0001te-Ct; Sat, 09 Jan 2021 18:53:23 -0500
+Received: by mail-wr1-x430.google.com with SMTP id d26so12500661wrb.12;
+ Sat, 09 Jan 2021 15:53:21 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:subject:to:cc:references:from:message-id:date:user-agent
  :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=AahDlJxVPatn9sJ1ZQtpyj7Ll4wMRUx+//C+VUoI0GQ=;
- b=pKLtd+aMhKGbgAthXHlv0BwAEGzQUy/xbLEgaJrMR2IjstpJOY/KCovQLLh99SwQYe
- FX0Cc2ogMYQD00GSz9fQ28ZtVlGVCiBWk/Dm3n/ofuC5wsbdIBAt3YUlLbppkUymGBI8
- X2sPBuXmLRCCYrcLXeYv48uO0vUW1WcfhYUc9yKcnXk6ejgGaOTAwxvkd1Qa+WJ5V29Z
- QsiGqIaT+eSKO9lMl13APPUq3iLPB5ouIxTnFAhMFptHYX5vfWZAJCWObNelNLtSnfOz
- DWc38hhcwNLNSM6ckbgkLWzYddVVOBAwe9izoBH/IdANl3CVNu/z8lMoSYJ9QqadaYA1
- mSfQ==
+ bh=Tvlx/ZmwUjNy/B8izp1OjAX4REEqpf323WM5Y2nSLXk=;
+ b=KEsGZhqayegqmJaeF1k84v5ZadT1+Mxqsdx+D8149FpLWobtETZhoBlxC7jHKSkvZO
+ Aabb2qidl0F4DF2UkPB/QNpVCS4GPIfmGc3rkXe/Nwjy8107k2Ga9LKJwae+5ZhN9qFm
+ VJ2zRWkqTebvOCx+xJV9lHYxi+03gIJtEGiXRktf9Ixlr2YaqQgO5DyQksZUf1vasKCC
+ ZStcrncUJaLTd1R59sF92vqd8P00zcCPnTcE8bJleLwQwTk+i4w5VwzqP6OshyWlMT+3
+ Jlon/2yAWpOaeCWvQ4E5jww6AKbfm455b+t8xDA4ewyoDMIuq7YEGR8kBuvRiYaRhOd4
+ odCw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
  :date:user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=AahDlJxVPatn9sJ1ZQtpyj7Ll4wMRUx+//C+VUoI0GQ=;
- b=YreFpp9PCQMmMNDSuatd/zbZHfIMYyyCpuDdeUUaKzR/cM4+c0Rrkk0YnWbJ6dVkiH
- 2qvWoHGhPtEUVJVvWZUOiuxKoXR80GmVkD6rvXOD56m0FUxcCtm4QHRbcBNaiORBc/bU
- lxSGhTHuibW0B4xEN2bEsoeHaRktZ8nep5vQeEVI8Sz1qutK4tULUqRTGQvo0dkGZpd0
- BQ82S83/cKMLKsk1kayD9dD30RLglKVBTsL/wYEdDSP6j/4K6702RxdZF2xJcDgTDDd6
- mlJeZkwik10WbfWvcdZwXhOk8hmzL1ChuAR+TNsAldCE2X3etK5EA/6EfimQw18kSeJM
- pgHQ==
-X-Gm-Message-State: AOAM5319BoyShaKjX1IwODDv+JCGeX0ueNZsyeCvTHOyWtNMqzYAhWuT
- EeP5mNXa+XU/PVvxeM2ofPY=
-X-Google-Smtp-Source: ABdhPJxnkuhJfAC9nlU6gfnMMGAL2wMUFepRXizOmSIQ05S/5Eeudlypshm5F/TpxPKE9id+dh6IVg==
-X-Received: by 2002:adf:97d2:: with SMTP id t18mr9879421wrb.228.1610236112644; 
- Sat, 09 Jan 2021 15:48:32 -0800 (PST)
+ bh=Tvlx/ZmwUjNy/B8izp1OjAX4REEqpf323WM5Y2nSLXk=;
+ b=DQO+iNWtYbkfGcOJI47/faE3IkpTFWv4PtPUq+Yf2fVhqhNWH5sAPd84EMuhid8Mfi
+ 4PvVOEJqi9XX37Jvy0FgiKIFvQD2vh36uGOU+ED54nvVEHCuQmrJTIBAJPq4dQuGHksU
+ L7Wt62dnh7npxtAJZxeU1O3AbfkykIYqJTCBnI7U0djP/fCm/xYmreETZRtTpQzTof2R
+ Lizohm8rffHGDfV6bwqRc0ImHmu0yOjRPKls+AtpNoHZSCA//t9RhTFlMNFdHB0pNpWk
+ KgbyKjEUHRvl6U91g4QrfRgSV17ZZVGH1AFq1YK0YyqQSv11kLazv5Y4rNCM26LOr86d
+ uU8A==
+X-Gm-Message-State: AOAM531Ic08YabAJ6oIOgG831ckBMLP0l8gkSJYLFyX9e25/Ejpap3KG
+ Gt+tx6UCrmafjDJU9wahtQ8=
+X-Google-Smtp-Source: ABdhPJzb+uFtFjq8s7WkW8KssnlvPxSkMu20hB90mRiCqowVcoW1mBtuSJWP1YiMyBDtqeKN1u02Rg==
+X-Received: by 2002:adf:f78e:: with SMTP id q14mr9869152wrp.320.1610236400822; 
+ Sat, 09 Jan 2021 15:53:20 -0800 (PST)
 Received: from [192.168.1.36] (129.red-88-21-205.staticip.rima-tde.net.
  [88.21.205.129])
- by smtp.gmail.com with ESMTPSA id w189sm17182044wmg.31.2021.01.09.15.48.31
+ by smtp.gmail.com with ESMTPSA id v20sm19929879wra.19.2021.01.09.15.53.19
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sat, 09 Jan 2021 15:48:31 -0800 (PST)
-Subject: Re: [PATCH v3 2/6] hw/ssi: imx_spi: Disable chip selects when
- controller is disabled
+ Sat, 09 Jan 2021 15:53:19 -0800 (PST)
+Subject: Re: [PATCH v3 3/6] hw/ssi: imx_spi: Remove imx_spi_update_irq() in
+ imx_spi_reset()
 To: Bin Meng <bmeng.cn@gmail.com>, Peter Maydell <peter.maydell@linaro.org>,
  Jean-Christophe Dubois <jcd@tribudubois.net>,
  Alistair Francis <alistair.francis@wdc.com>, qemu-arm@nongnu.org,
  qemu-devel@nongnu.org
 References: <20210109123545.12001-1-bmeng.cn@gmail.com>
- <20210109123545.12001-3-bmeng.cn@gmail.com>
+ <20210109123545.12001-4-bmeng.cn@gmail.com>
 From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
-Message-ID: <444f895d-7758-88f6-fd02-118ce67d431e@amsat.org>
-Date: Sun, 10 Jan 2021 00:48:30 +0100
+Message-ID: <ca66c21a-c3f8-8e96-033e-56548280b4b1@amsat.org>
+Date: Sun, 10 Jan 2021 00:53:18 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.6.0
 MIME-Version: 1.0
-In-Reply-To: <20210109123545.12001-3-bmeng.cn@gmail.com>
+In-Reply-To: <20210109123545.12001-4-bmeng.cn@gmail.com>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::432;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x432.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::430;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x430.google.com
 X-Spam_score_int: -17
 X-Spam_score: -1.8
 X-Spam_bar: -
@@ -91,49 +91,85 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Xuzhou Cheng <xuzhou.cheng@windriver.com>,
- Bin Meng <bin.meng@windriver.com>
+Cc: Bin Meng <bin.meng@windriver.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi,
-
 On 1/9/21 1:35 PM, Bin Meng wrote:
-> From: Xuzhou Cheng <xuzhou.cheng@windriver.com>
+> From: Bin Meng <bin.meng@windriver.com>
 > 
-> When a write to ECSPI_CONREG register to disable the SPI controller,
-> imx_spi_reset() is called to reset the controller, but chip select
-> lines should have been disabled, otherwise the state machine of any
-> devices (e.g.: SPI flashes) connected to the SPI master is stuck to
-> its last state and responds incorrectly to any follow-up commands.
+> Usually the approach is that the device on the other end of the line
+> is going to reset its state anyway, so there's no need to actively
+> signal an irq line change during the reset hook.
 > 
-> Fixes: c906a3a01582 ("i.MX: Add the Freescale SPI Controller")
-> Signed-off-by: Xuzhou Cheng <xuzhou.cheng@windriver.com>
+> Move imx_spi_update_irq() out of imx_spi_reset(), along with the
+> disabling of chip selects, to a new function imx_spi_soft_reset()
+> that is called when the controller is disabled.
+
+Now I read this patch, forget my comment on previous patch.
+
+> 
 > Signed-off-by: Bin Meng <bin.meng@windriver.com>
 > 
 > ---
 > 
 > Changes in v3:
-> - Move the chip selects disable out of imx_spi_reset()
+> - new patch: remove imx_spi_update_irq() in imx_spi_reset()
 > 
-> Changes in v2:
-> - Fix the "Fixes" tag in the commit message
-> 
->  hw/ssi/imx_spi.c | 5 +++++
->  1 file changed, 5 insertions(+)
+>  hw/ssi/imx_spi.c | 21 ++++++++++++++-------
+>  1 file changed, 14 insertions(+), 7 deletions(-)
 > 
 > diff --git a/hw/ssi/imx_spi.c b/hw/ssi/imx_spi.c
-> index e605049a21..8d429e703f 100644
+> index 8d429e703f..880939f595 100644
 > --- a/hw/ssi/imx_spi.c
 > +++ b/hw/ssi/imx_spi.c
-> @@ -353,6 +353,11 @@ static void imx_spi_write(void *opaque, hwaddr offset, uint64_t value,
->          if (!imx_spi_is_enabled(s)) {
->              /* device is disabled, so this is a reset */
->              imx_spi_reset(DEVICE(s));
+> @@ -241,9 +241,20 @@ static void imx_spi_reset(DeviceState *dev)
+>      imx_spi_rxfifo_reset(s);
+>      imx_spi_txfifo_reset(s);
+>  
+> +    s->burst_length = 0;
+> +}
 > +
-> +            for (int i = 0; i < ECSPI_NUM_CS; i++) {
-> +                qemu_set_irq(s->cs_lines[i], 1);
-> +            }
+> +static void imx_spi_soft_reset(IMXSPIState *s)
+> +{
+> +    int i;
+> +
+> +    imx_spi_reset(DEVICE(s));
 
-Shouldn't this be done in imx_spi_reset()?
+Hmm usually hard reset include soft reset.
+
+> +
+>      imx_spi_update_irq(s);
+>  
+> -    s->burst_length = 0;
+> +    for (i = 0; i < ECSPI_NUM_CS; i++) {
+> +        qemu_set_irq(s->cs_lines[i], 1);
+
+Isn't this part of the hard reset?
+
+> +    }
+>  }
+>  
+>  static uint64_t imx_spi_read(void *opaque, hwaddr offset, unsigned size)
+> @@ -351,12 +362,8 @@ static void imx_spi_write(void *opaque, hwaddr offset, uint64_t value,
+>          s->regs[ECSPI_CONREG] = value;
+>  
+>          if (!imx_spi_is_enabled(s)) {
+> -            /* device is disabled, so this is a reset */
+> -            imx_spi_reset(DEVICE(s));
+> -
+> -            for (int i = 0; i < ECSPI_NUM_CS; i++) {
+> -                qemu_set_irq(s->cs_lines[i], 1);
+> -            }
+> +            /* device is disabled, so this is a soft reset */
+> +            imx_spi_soft_reset(s);
+
+Maybe you can restructure patches 2/3, first introduce
+imx_spi_soft_reset() - this patch - then fix ECSPI_CONREG
+- the previous patch -.
+
+>  
+>              return;
+>          }
+> 
 
