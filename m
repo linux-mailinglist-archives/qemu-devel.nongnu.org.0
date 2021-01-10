@@ -2,74 +2,54 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 688222F05F5
-	for <lists+qemu-devel@lfdr.de>; Sun, 10 Jan 2021 09:27:25 +0100 (CET)
-Received: from localhost ([::1]:37488 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D2A2E2F063D
+	for <lists+qemu-devel@lfdr.de>; Sun, 10 Jan 2021 11:02:49 +0100 (CET)
+Received: from localhost ([::1]:51500 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kyW4K-00033w-H7
-	for lists+qemu-devel@lfdr.de; Sun, 10 Jan 2021 03:27:24 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47890)
+	id 1kyXYe-0000kh-Bx
+	for lists+qemu-devel@lfdr.de; Sun, 10 Jan 2021 05:02:48 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57378)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <chouhan.shreyansh2702@gmail.com>)
- id 1kyW3B-0002ZK-8g
- for qemu-devel@nongnu.org; Sun, 10 Jan 2021 03:26:14 -0500
-Received: from mail-pg1-x52b.google.com ([2607:f8b0:4864:20::52b]:34863)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <chouhan.shreyansh2702@gmail.com>)
- id 1kyW38-0002Wq-3v
- for qemu-devel@nongnu.org; Sun, 10 Jan 2021 03:26:12 -0500
-Received: by mail-pg1-x52b.google.com with SMTP id n7so10585771pgg.2
- for <qemu-devel@nongnu.org>; Sun, 10 Jan 2021 00:26:09 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=U7m68xnFbWFkto9L7vRNFRRGPahBhKm69BfkH9JlObg=;
- b=IQWLVYJ5qecBTteAZ8xYi05hWiC9fsz5aiX5ytZqQYqgKjb71rSikD68VwXXEgTxbm
- 05m2gPxo4PnahhdjeEuukmAJT3JD1OTVvEKGYupNqQ2U318lK1zgRIBD9w8uJ0nynbu3
- U/LrrCeHObOAIvybptLl3UmzwG+JLPfrrGfTxZbX3hu/rjmGguxFaANf1P20ws/AZbpm
- JXPC1v2PCBUz4zjBYZEuHN/d9qEvG7eDinlsPf0NegGnxMNSjZKoDWJ5KZq+RKK8PQjr
- jUvkj3QwP1VuLyeRpMcuSkybC/9o9Om/rV9H5Es2+XnFzkkzsF7BENG2gofjCJFK+pkg
- TTJw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=U7m68xnFbWFkto9L7vRNFRRGPahBhKm69BfkH9JlObg=;
- b=Ixln1o44Mh1PUZSo8YxXTxEi7BrZCXlG64PkUDSzud6Z+if+kZMeSd1KDOPzvb1yvZ
- zf2mIg5YJes83nUzwmykHZRjx9x2B8BdmB72z8MliqGoSIjlgnNxIuP0BSZJXNth6xB4
- U8c1llJWRtcszyMNeFEVyUdsQA/XnHTPtniBstnWmnRvfu8uIyspi/C+jOamRt5L04+X
- utsKfUAp+sHq3UHkQaV5pKfzPvnkcA+pynraSIBsHJUfKbGawIR2ZdMgtbEizEv196DT
- Y4GFi27/oa6ibzNdx16rN5WfcNjz31bnY71pdcPq1qvm4AXW5Cwl5xeX5CYBfa8uyNp0
- o19g==
-X-Gm-Message-State: AOAM530Y2nyxIys39/KkciPq6jr5FlPJe6Z1+bGTdImHYZroFsbHPMaY
- oj5zD3DnlqjOvsHNUBjS7IPvcOR/BEO1WXCQiIs=
-X-Google-Smtp-Source: ABdhPJxbU9vypP0dZdfQj7NLlMEwzATdNq46SYTSnC2cqvIKPaPf+/TrluY0hFoalKP7JhetjGWxYg4CZAb6133AfZw=
-X-Received: by 2002:aa7:9357:0:b029:1a5:43da:b90d with SMTP id
- 23-20020aa793570000b02901a543dab90dmr11606733pfn.54.1610267167847; Sun, 10
- Jan 2021 00:26:07 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <vr_qemu@t-online.de>)
+ id 1kyXXT-0000FA-Pd
+ for qemu-devel@nongnu.org; Sun, 10 Jan 2021 05:01:35 -0500
+Received: from mailout02.t-online.de ([194.25.134.17]:46426)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <vr_qemu@t-online.de>)
+ id 1kyXXR-0004kM-El
+ for qemu-devel@nongnu.org; Sun, 10 Jan 2021 05:01:35 -0500
+Received: from fwd21.aul.t-online.de (fwd21.aul.t-online.de [172.20.27.66])
+ by mailout02.t-online.de (Postfix) with SMTP id D609941EA816;
+ Sun, 10 Jan 2021 11:01:29 +0100 (CET)
+Received: from [192.168.211.200]
+ (ESlfq2ZDQh9OMj9x-MPX8vqTtGjIS4Iu5DHsg2kdAHGWkKdBLS+6zekz5ei1wcmZ9f@[93.236.152.29])
+ by fwd21.t-online.de
+ with (TLSv1.2:ECDHE-RSA-AES256-GCM-SHA384 encrypted)
+ esmtp id 1kyXXN-1QZfjE0; Sun, 10 Jan 2021 11:01:29 +0100
+From: =?UTF-8?Q?Volker_R=c3=bcmelin?= <vr_qemu@t-online.de>
+Subject: [PATCH 00/23] next round of audio patches
+To: Gerd Hoffmann <kraxel@redhat.com>, Eric Blake <eblake@redhat.com>,
+ Markus Armbruster <armbru@redhat.com>
+Message-ID: <9315afe5-5958-c0b4-ea1e-14769511a9d5@t-online.de>
+Date: Sun, 10 Jan 2021 11:01:29 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.6.0
 MIME-Version: 1.0
-References: <CAAQ-SiP8G28ade0jHbhTcv0jtGQb4OSgL5p3mAr0MU_FH8vZ3w@mail.gmail.com>
- <87a6tm2sxb.fsf@linaro.org>
- <CAAQ-SiOW8OnWEb0sHUEeS139-Tw0RO2YD1Tx-1s9iuy3ZVQFgw@mail.gmail.com>
- <878s941x85.fsf@linaro.org>
- <20210108083433.pfzhxrd4rezk6yxe@sirius.home.kraxel.org>
-In-Reply-To: <20210108083433.pfzhxrd4rezk6yxe@sirius.home.kraxel.org>
-From: Shreyansh Chouhan <chouhan.shreyansh2702@gmail.com>
-Date: Sun, 10 Jan 2021 13:55:56 +0530
-Message-ID: <CAAQ-SiO4VvVTo77J2ga1FmUZ9yrwopeASweO6-AFaakrAUZ80w@mail.gmail.com>
-Subject: Re: VirtioSound device emulation implementation
-To: Gerd Hoffmann <kraxel@redhat.com>
-Content-Type: multipart/alternative; boundary="00000000000088788d05b8878a1a"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::52b;
- envelope-from=chouhan.shreyansh2702@gmail.com; helo=mail-pg1-x52b.google.com
-X-Spam_score_int: -17
-X-Spam_score: -1.8
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 8bit
+Content-Language: en-US
+X-ID: ESlfq2ZDQh9OMj9x-MPX8vqTtGjIS4Iu5DHsg2kdAHGWkKdBLS+6zekz5ei1wcmZ9f
+X-TOI-EXPURGATEID: 150726::1610272889-0000D063-0178DC0E/0/0 CLEAN NORMAL
+X-TOI-MSGID: 9a0cddaa-9a78-4b28-b535-b411c0ca139e
+Received-SPF: none client-ip=194.25.134.17; envelope-from=vr_qemu@t-online.de;
+ helo=mailout02.t-online.de
+X-Spam_score_int: -18
+X-Spam_score: -1.9
 X-Spam_bar: -
-X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001, HTML_MESSAGE=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -82,104 +62,95 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>,
- qemu-devel@nongnu.org
+Cc: qemu-devel@nongnu.org,
+ =?UTF-8?B?Wm9sdMOhbiBLxZF2w6Fnw7M=?= <dirty.ice.hu@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---00000000000088788d05b8878a1a
-Content-Type: text/plain; charset="UTF-8"
+A mix of bug fixes and improvements.
 
-Hi,
+Patches 01/23 - 11/23 have a few SDL fixes and add audio recording
+functions to the SDL audio backend.
 
-I have been reading about the virtio and vhost specifications, however I
-have a few doubts. I tried looking for them but I still
-do not understand them clearly enough. From what I understand, there are
-two protocols:
+Patch 12/23 removes unnecessary code from audio/audio.c.
 
-The virtio protocol: The one that specifies how we can have common
-emulation for virtual devices. The front end drivers
-interact with these devices, and these devices could then process the
-information that they have received either in QEMU,
-or somewhere else. From what I understand the front driver uses mmaps to
-communicate with the virtio device.
+Patches 13/23 - 16/23 fix a few PulseAudio backend bugs.
 
-The vhost protocol: The one that specifies how we can _offload_ the
-processing from QEMU to a separate process. We
-want to offload so that we do not have to stop the guest when we are
-processing information passed to a virtio device. This
-service could either be implemented in the host kernel or the host
-userspace. Now when we offload the processing, we map the
-memory of the device to this vhost service, so that this service has all
-the information that it should process.
-  Also, this process can generate the vCPU interrupts, and this process
-responds to the ioeventfd notifications.
+Patch 17/23 shows a PulseAudio backend bug. So far I don't think I
+broke any fine tuned user settings and I don't want to do it here.
 
-What I do not understand is, once we have this vhost service, either in
-userspace or in kernel space, which does the information processing,
-why do we need a virtio device still emulated in QEMU? Is it only to pass
-on the configurations between the driver and the
-vhost service? I know that the vhost service doesn't emulate anything, but
-then what is the difference between "processing" the
-information and "emulating" a device?
+Patches 18/23 - 19/23 are the first steps towards glitch free and
+lower latency PulseAudio playback and recording. Currently qemu
+uses incredibly large buffers in the PulseAudio backend. For
+playback this just increases the playback latency but doesn't
+improve dropout safety, because PulseAudio can't access this buffer
+directly. With these patches it's possible to move the large qemu
+buffer to the PulseAudio server side and just keep a small buffer
+on the qemu side. On the PulseAudio server side PulseAudio tries
+to place a part of these buffers directly on the hardware and
+PulseAudio runs with a higher priority than qemu, so it has a
+better chance to deliver audio data in time.
 
-Also, from article[3], moving the vhost-net service to userspace was faster
-somehow. I am assuming this was only the case for
-networking devices, and would not be true in general. Since there would be
-more context switches between user and kernel space?
-(KVM receives the irq/ioevent notification and then transfers control back
-to user space, as opposed to when vhost was in kernel
-space.)
+Here is an example to show how this works:
+-device intel-hda -device hda-duplex,audiodev=audio0
+-machine pcspk-audiodev=audio0 -audiodev pa,id=audio0,
+out.buffer-length=14000,out.latency=46440,in.latency=46440
 
-For context, I've been reading the following:
-[1]
-https://www.redhat.com/en/blog/introduction-virtio-networking-and-vhost-net
-[2] https://www.redhat.com/en/blog/deep-dive-virtio-networking-and-vhost-net
-[3] https://www.redhat.com/en/blog/journey-vhost-users-realm
+Due to a bug in the PulseAudio backend, these command line options
+actually decrease the playback latency compared to current defaults.
+For playback with defaults (16 bits, stereo, 44100 samples/s)
+we have a 15ms server side buffer + 2 * 46.44ms qemu audio buffer
++ 23.22ms hda codec buffer = 131.1ms latency. With my example it's
+46.44ms + 2 * 14ms + 23.22ms = 97.66ms latency and I guess you
+won't hear any drop outs. Btw.: 14ms = 10ms timer-period + 4ms
+additional playback data the hda codec can produce in timer-period
+time.
 
---00000000000088788d05b8878a1a
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Patches 20/23 - 23/23 fix small issues with DirectSound.
 
-<div dir=3D"ltr"><div>Hi,</div><div><br></div><div>I have been reading abou=
-t the virtio and vhost specifications, however I have a few doubts. I tried=
- looking for them but I still</div><div>do not understand them clearly enou=
-gh. From what I understand, there are two protocols:</div><div><br></div><d=
-iv>The virtio protocol: The one that specifies how we can have common emula=
-tion for virtual devices. The front end drivers</div><div>interact with the=
-se devices, and these devices could then process the information that they =
-have received either in QEMU,</div><div>or somewhere else. From what I unde=
-rstand the front driver uses mmaps to communicate with the virtio device. <=
-br></div><div><br></div><div>The vhost protocol: The one that specifies how=
- we can _offload_ the processing from QEMU to a separate process. We</div><=
-div>want to offload so that we do not have to stop the guest when we are pr=
-ocessing information passed to a virtio device. This</div><div>service coul=
-d either be implemented in the host kernel or the host userspace. Now when =
-we offload the processing, we map the</div><div>memory of the device to thi=
-s vhost service, so that this service has all the information that it shoul=
-d process.</div><div>=C2=A0 Also, this process can generate the vCPU interr=
-upts, and this process responds to the ioeventfd notifications. <br></div><=
-div><br></div><div>What I do not understand is, once we have this vhost ser=
-vice, either in userspace or in kernel space, which does the information pr=
-ocessing,</div><div>why do we need a virtio device still emulated in QEMU? =
-Is it only to pass on the configurations between the driver and the</div><d=
-iv>vhost service? I know that the vhost service doesn&#39;t emulate anythin=
-g, but then what is the difference between &quot;processing&quot; the</div>=
-<div>information and &quot;emulating&quot; a device?</div><div><br></div><d=
-iv>Also, from article[3], moving the vhost-net service to userspace was fas=
-ter somehow. I am assuming this was only the case for</div><div>networking =
-devices, and would not be true in general. Since there would be more contex=
-t switches between user and kernel space?</div><div>(KVM receives the irq/i=
-oevent notification and then transfers control back to user space, as oppos=
-ed to when vhost was in kernel</div><div>space.)<br></div><div><br></div><d=
-iv>For context, I&#39;ve been reading the following:</div><div>[1] <a href=
-=3D"https://www.redhat.com/en/blog/introduction-virtio-networking-and-vhost=
--net">https://www.redhat.com/en/blog/introduction-virtio-networking-and-vho=
-st-net</a></div><div>[2] <a href=3D"https://www.redhat.com/en/blog/deep-div=
-e-virtio-networking-and-vhost-net">https://www.redhat.com/en/blog/deep-dive=
--virtio-networking-and-vhost-net</a></div><div>[3] <a href=3D"https://www.r=
-edhat.com/en/blog/journey-vhost-users-realm">https://www.redhat.com/en/blog=
-/journey-vhost-users-realm</a></div><div><br> </div></div>
+Volker Rümelin (23):
+  sdlaudio: remove leftover SDL1.2 code
+  audio: fix bit-rotted code
+  sdlaudio: add -audiodev sdl,out.buffer-count option
+  sdlaudio: don't start playback in init routine
+  sdlaudio: always clear the sample buffer
+  sdlaudio: fill remaining sample buffer with silence
+  sdlaudio: replace legacy functions with modern ones
+  audio: split pcm_ops function get_buffer_in
+  sdlaudio: add recording functions
+  audio: break generic buffer dependency on mixing-engine
+  sdlaudio: enable (in|out).mixing-engine=off
+  audio: remove remaining unused plive code
+  paaudio: avoid to clip samples multiple times
+  paaudio: wait for PA_STREAM_READY in qpa_write()
+  paaudio: wait until the playback stream is ready
+  paaudio: remove unneeded code
+  paaudio: comment bugs in functions qpa_init_*
+  paaudio: limit minreq to 75% of audio timer_rate
+  paaudio: send recorded data in smaller chunks
+  dsoundaudio: replace GetForegroundWindow()
+  dsoundaudio: rename dsound_open()
+  dsoundaudio: enable f32 audio sample format
+  dsoundaudio: fix log message
 
---00000000000088788d05b8878a1a--
+ audio/alsaaudio.c       |   3 +-
+ audio/audio.c           |  48 +++----
+ audio/audio_int.h       |   2 +
+ audio/audio_legacy.c    |   3 +-
+ audio/audio_template.h  |   2 +-
+ audio/audio_win_int.c   |  73 ++++++----
+ audio/dsound_template.h |   2 +-
+ audio/dsoundaudio.c     |   6 +-
+ audio/jackaudio.c       |   1 +
+ audio/noaudio.c         |   1 +
+ audio/ossaudio.c        |   1 +
+ audio/paaudio.c         |  71 ++++++++--
+ audio/sdlaudio.c        | 305 ++++++++++++++++++++++++++++------------
+ audio/spiceaudio.c      |   1 +
+ qapi/audio.json         |  33 ++++-
+ qemu-options.hx         |   8 +-
+ 16 files changed, 399 insertions(+), 161 deletions(-)
+
+-- 
+2.26.2
 
