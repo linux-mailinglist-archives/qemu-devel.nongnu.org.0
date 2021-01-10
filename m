@@ -2,70 +2,55 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 578692F094D
-	for <lists+qemu-devel@lfdr.de>; Sun, 10 Jan 2021 20:11:04 +0100 (CET)
-Received: from localhost ([::1]:43448 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D44EE2F0956
+	for <lists+qemu-devel@lfdr.de>; Sun, 10 Jan 2021 20:27:48 +0100 (CET)
+Received: from localhost ([::1]:51984 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kyg7C-0000q5-VQ
-	for lists+qemu-devel@lfdr.de; Sun, 10 Jan 2021 14:11:02 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59216)
+	id 1kygNP-0005Lw-Ce
+	for lists+qemu-devel@lfdr.de; Sun, 10 Jan 2021 14:27:47 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33556)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <luoyonggang@gmail.com>)
- id 1kyg4l-0007zY-Io
- for qemu-devel@nongnu.org; Sun, 10 Jan 2021 14:08:31 -0500
-Received: from mail-lf1-x136.google.com ([2a00:1450:4864:20::136]:42102)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <luoyonggang@gmail.com>)
- id 1kyg4j-0002t2-9x
- for qemu-devel@nongnu.org; Sun, 10 Jan 2021 14:08:31 -0500
-Received: by mail-lf1-x136.google.com with SMTP id b26so34723448lff.9
- for <qemu-devel@nongnu.org>; Sun, 10 Jan 2021 11:08:28 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:reply-to:from:date:message-id
- :subject:to:cc;
- bh=w2JSh9jzqKWndW7zhRcP8mtflKr30F+Nvu+Y358mYpw=;
- b=MvkJ/h6sJp/5XgvcjaQuXVzqj5wXC70sYwNVNaA2+nXxSLTNcAUBD7n4gJjlJw8mDD
- w0rXArf/jVbuB3KdVJKJbH6/HYZ6mfQiR9t3gRjNIBZLDeTZjB1n+Yx0awIiw2J7t2FM
- KjQ4DaEX8nUFbtpN6/F5JnNSmyItoRiaaP47zLhGDRriBBA2F/2I2HzYuALw22Ja7Ktm
- IwOjlXj544w5p6Hed5389XT6m++C7PPJWdGHZDk09Fw18CMZevBaJXqWU0/blTtuiOOi
- zMeQTUFr0vyR/Wo/OVFe/ODuBCSUWFaGqKkRjj138Ljyf1eEKFHPOq6Sa+CF4R+CNSBH
- oAZA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:reply-to
- :from:date:message-id:subject:to:cc;
- bh=w2JSh9jzqKWndW7zhRcP8mtflKr30F+Nvu+Y358mYpw=;
- b=uIez5/pyg8To2TbT2oDIhd6GIc62qcfJmGpg4Kg0qeU0Hs488Q+LoTS8os8Tke0iJ6
- UvjJMV24rYw8dI/JISYvMV8Szb0rW1Rf8rLrhbXIUxCq+96Gc7hZCEgUxm3qsaaiP8lh
- rMcFSbIwyo6aDm5cir4VAMGJcwnhCAZ7T4AsRROQYcD4uQBrKvZTvdCl/F4kfG2c4ExH
- rSdnYdRJjhoetHgv3mrG8XvseTvWMwy95eKyOAoM2Shy7vlnmBxIOGYohfVLnWPWCHNJ
- U6c0XnNE5UDu2uK4bPjUQQEHfNgx/cobpyE7RsXxrFvXVwa9uKq3sey8afiQzISenQp6
- G9ww==
-X-Gm-Message-State: AOAM531v8nvbxk2w8yXWwwZ4c/iE+4mB7G/KEpi3W5/iERrzQp+fn4yV
- mtvou5CWQunKUdKKWQ/voWoKGXfil/Ifx2qmlxs=
-X-Google-Smtp-Source: ABdhPJwSqC4fCI4hmtgnoRFIDNyn7iQCwOu0xyII49pF+QJHOQW7gcDBhhCh+uhf41udfAhCkhMCYiXpeia+eo3EVKM=
-X-Received: by 2002:a19:ecb:: with SMTP id 194mr5473475lfo.70.1610305706880;
- Sun, 10 Jan 2021 11:08:26 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
+ id 1kygLh-0004tU-V5
+ for qemu-devel@nongnu.org; Sun, 10 Jan 2021 14:26:01 -0500
+Received: from zero.eik.bme.hu ([152.66.115.2]:64055)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
+ id 1kygLe-0008Ur-PO
+ for qemu-devel@nongnu.org; Sun, 10 Jan 2021 14:26:01 -0500
+Received: from zero.eik.bme.hu (blah.eik.bme.hu [152.66.115.182])
+ by localhost (Postfix) with SMTP id 14E617470F0;
+ Sun, 10 Jan 2021 20:25:55 +0100 (CET)
+Received: by zero.eik.bme.hu (Postfix, from userid 432)
+ id C51807470EE; Sun, 10 Jan 2021 20:25:54 +0100 (CET)
+Received: from localhost (localhost [127.0.0.1])
+ by zero.eik.bme.hu (Postfix) with ESMTP id C27AB74645B;
+ Sun, 10 Jan 2021 20:25:54 +0100 (CET)
+Date: Sun, 10 Jan 2021 20:25:54 +0100 (CET)
+From: BALATON Zoltan <balaton@eik.bme.hu>
+To: =?ISO-8859-15?Q?Philippe_Mathieu-Daud=E9?= <f4bug@amsat.org>
+Subject: Re: [PATCH v2 08/13] vt82c686: Move creation of ISA devices to the
+ ISA bridge
+In-Reply-To: <2a45450d-8357-c03e-7e11-bd59bffa61ae@amsat.org>
+Message-ID: <1b55216e-4526-6f50-eac2-f91797a64e7@eik.bme.hu>
+References: <cover.1610223396.git.balaton@eik.bme.hu>
+ <bf9400cc8e4ddd3129aa5678de4d3cf38384805f.1610223397.git.balaton@eik.bme.hu>
+ <f77d6471-d19d-a1c2-e447-18181d55ba86@amsat.org>
+ <5c5ce8b9-f5c4-c58d-6f8a-76c47ad8db4d@eik.bme.hu>
+ <2a45450d-8357-c03e-7e11-bd59bffa61ae@amsat.org>
 MIME-Version: 1.0
-References: <20210108153621.3868-1-peter.maydell@linaro.org>
- <CAFEAcA93-13NZY_om35rRYOXimWDHMndGdxjY8NwGarzbgDwwQ@mail.gmail.com>
-In-Reply-To: <CAFEAcA93-13NZY_om35rRYOXimWDHMndGdxjY8NwGarzbgDwwQ@mail.gmail.com>
-From: =?UTF-8?B?572X5YuH5YiaKFlvbmdnYW5nIEx1byk=?= <luoyonggang@gmail.com>
-Date: Mon, 11 Jan 2021 03:08:15 +0800
-Message-ID: <CAE2XoE_1q+vq8Qb6=wWPWansBRjqZ=UOBgTefVK2fA_K64r5Ng@mail.gmail.com>
-Subject: Re: [PULL 00/23] target-arm queue
-To: Peter Maydell <peter.maydell@linaro.org>
-Content-Type: multipart/alternative; boundary="000000000000a3722e05b89083ea"
-Received-SPF: pass client-ip=2a00:1450:4864:20::136;
- envelope-from=luoyonggang@gmail.com; helo=mail-lf1-x136.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: multipart/mixed;
+ BOUNDARY="3866299591-1720538710-1610306052=:16201"
+Content-ID: <7fa7933a-36e0-a43-4b2f-59765d1596b@eik.bme.hu>
+X-Spam-Probability: 9%
+Received-SPF: pass client-ip=152.66.115.2; envelope-from=balaton@eik.bme.hu;
+ helo=zero.eik.bme.hu
+X-Spam_score_int: -41
+X-Spam_score: -4.2
+X-Spam_bar: ----
+X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -78,126 +63,141 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: luoyonggang@gmail.com
-Cc: QEMU Developers <qemu-devel@nongnu.org>
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ "Michael S. Tsirkin" <mst@redhat.com>, Huacai Chen <chenhuacai@kernel.org>,
+ Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>, qemu-devel@nongnu.org,
+ =?ISO-8859-15?Q?Herv=E9_Poussineau?= <hpoussin@reactos.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---000000000000a3722e05b89083ea
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+  This message is in MIME format.  The first part should be readable text,
+  while the remaining parts are likely unreadable without MIME-aware tools.
 
-On Sat, Jan 9, 2021 at 1:51 AM Peter Maydell <peter.maydell@linaro.org>
-wrote:
+--3866299591-1720538710-1610306052=:16201
+Content-Type: text/plain; CHARSET=ISO-8859-15; format=flowed
+Content-Transfer-Encoding: 8BIT
+Content-ID: <3f15b4e-2f68-4c6f-9f42-d9717f569ffe@eik.bme.hu>
+
+On Sun, 10 Jan 2021, Philippe Mathieu-Daudé wrote:
+> +PCI experts
 >
-> On Fri, 8 Jan 2021 at 15:36, Peter Maydell <peter.maydell@linaro.org>
-wrote:
-> >
-> > Nothing too exciting, but does include the last bits of v8.1M support
-work.
-> >
-> > -- PMM
-> >
-> > The following changes since commit
-e79de63ab1bd1f6550e7b915e433bec1ad1a870a:
-> >
-> >   Merge remote-tracking branch
-'remotes/rth-gitlab/tags/pull-tcg-20210107' into staging (2021-01-07
-20:34:05 +0000)
-> >
-> > are available in the Git repository at:
-> >
-> >   https://git.linaro.org/people/pmaydell/qemu-arm.git
-tags/pull-target-arm-20210108
-> >
-> > for you to fetch changes up to c9f8511ea8d2b80723af0fea1f716d752c1b5208=
-:
-> >
-> >   docs/system: arm: Add sabrelite board description (2021-01-08
-15:13:39 +0000)
-> >
-> > ----------------------------------------------------------------
-> > target-arm queue:
-> >  * intc/arm_gic: Fix gic_irq_signaling_enabled() for vCPUs
-> >  * target/arm: Fix MTE0_ACTIVE
-> >  * target/arm: Implement v8.1M and Cortex-M55 model
-> >  * hw/arm/highbank: Drop dead KVM support code
-> >  * util/qemu-timer: Make timer_free() imply timer_del()
-> >  * various devices: Use ptimer_free() in finalize function
-> >  * docs/system: arm: Add sabrelite board description
-> >  * sabrelite: Minor fixes to allow booting U-Boot
+> On 1/10/21 1:43 AM, BALATON Zoltan wrote:
+>> On Sun, 10 Jan 2021, Philippe Mathieu-Daudé wrote:
+>>> Hi Zoltan,
+>>>
+>>> On 1/9/21 9:16 PM, BALATON Zoltan wrote:
+>>>> Currently the ISA devices that are part of the VIA south bridge,
+>>>> superio chip are wired up by board code. Move creation of these ISA
+>>>> devices to the VIA ISA bridge model so that board code does not need
+>>>> to access ISA bus. This also allows vt82c686b-superio to be made
+>>>> internal to vt82c686 which allows implementing its configuration via
+>>>> registers in subseqent commits.
+>>>
+>>> Is this patch dependent of the VT82C686B_PM changes
+>>> or can it be applied before them?
+>>
+>> I don't know but why would that be better? I thought it's clearer to
+>> clean up pm related parts first before moving more stuff to this file so
+>> that's why this patch comes after (and also because that's the order I
+>> did it).
 >
+> Not any better, but easier for me to get your patches integrated,
+> as I'm reviewing your patches slowly. Finding other reviewers
+> would certainly help.
+
+No problem, I'll wait for your review. Merging parts of the series does 
+not help much because the whole series is needed for vt8231 which is 
+prerequisite for pegasos2 so eventually all of these are needed so it does 
+not matter if this one patch gets in earlier or later.
+
+Not sure who could help with review. Maybe Jiaxun or Huacai as this is 
+used by fuloong2e so they might be interested and could have info on this 
+chip. Most of these patches just cleaning up the vt82c686b and adding some 
+missing features so these can be reused by the vt8231 model in last 3 
+patches (which is very similar to 686b only some reg addresses and ids 
+seem to be different for what we are concerned).
+
+>>>> Signed-off-by: BALATON Zoltan <balaton@eik.bme.hu>
+>>>> ---
+>>>>  hw/isa/vt82c686.c   | 20 ++++++++++++++++++++
+>>>>  hw/mips/fuloong2e.c | 29 +++++------------------------
+>>>>  2 files changed, 25 insertions(+), 24 deletions(-)
+>>>>
+>>>> diff --git a/hw/isa/vt82c686.c b/hw/isa/vt82c686.c
+>>>> index 58c0bba1d0..5df9be8ff4 100644
+>>>> --- a/hw/isa/vt82c686.c
+>>>> +++ b/hw/isa/vt82c686.c
+>>>> @@ -16,6 +16,11 @@
+>>>>  #include "hw/qdev-properties.h"
+>>>>  #include "hw/isa/isa.h"
+>>>>  #include "hw/isa/superio.h"
+>>>> +#include "hw/intc/i8259.h"
+>>>> +#include "hw/irq.h"
+>>>> +#include "hw/dma/i8257.h"
+>>>> +#include "hw/timer/i8254.h"
+>>>> +#include "hw/rtc/mc146818rtc.h"
+>>>>  #include "migration/vmstate.h"
+>>>>  #include "hw/isa/apm.h"
+>>>>  #include "hw/acpi/acpi.h"
+>>>> @@ -307,9 +312,16 @@ OBJECT_DECLARE_SIMPLE_TYPE(VT82C686BISAState,
+>>>> VT82C686B_ISA)
+>>>>
+>>>>  struct VT82C686BISAState {
+>>>>      PCIDevice dev;
+>>>> +    qemu_irq cpu_intr;
+>>>>      SuperIOConfig superio_cfg;
+>>>>  };
+>>>>
+>>>> +static void via_isa_request_i8259_irq(void *opaque, int irq, int level)
+>>>> +{
+>>>> +    VT82C686BISAState *s = opaque;
+>>>> +    qemu_set_irq(s->cpu_intr, level);
+>>>> +}
+>>>> +
+>>>>  static void vt82c686b_write_config(PCIDevice *d, uint32_t addr,
+>>>>                                     uint32_t val, int len)
+>>>>  {
+>>>> @@ -365,10 +377,18 @@ static void vt82c686b_realize(PCIDevice *d,
+>>>> Error **errp)
+>>>>      VT82C686BISAState *s = VT82C686B_ISA(d);
+>>>>      DeviceState *dev = DEVICE(d);
+>>>>      ISABus *isa_bus;
+>>>> +    qemu_irq *isa_irq;
+>>>>      int i;
+>>>>
+>>>> +    qdev_init_gpio_out(dev, &s->cpu_intr, 1);
+>>>
+>>> Why not use the SysBus API?
+>>
+>> How? This is a PCIDevice not a SysBusDevice.
 >
-> Applied, thanks.
+> Indeed :)
 >
-> Please update the changelog at https://wiki.qemu.org/ChangeLog/6.0
-> for any user-visible changes.
+>>>> +    isa_irq = qemu_allocate_irqs(via_isa_request_i8259_irq, s, 1);
+>>>>      isa_bus = isa_bus_new(dev, get_system_memory(),
+>>>> pci_address_space_io(d),
+>>>>                            &error_fatal);
+>>>
+>>> Isn't it get_system_memory() -> pci_address_space(d)?
+>>
+>> I don't really know. Most other places that create an isa bus seem to
+>> also use get_system_memory(), only piix4 uses pci_address_space(dev) so
+>> I thought if those others are OK this should be too.
 >
-> -- PMM
+> I'm not a PCI expert but my understanding is PCI device functions are
+> restricted to the PCI bus address space. The host bridge may map this
+> space within the host.
 >
-Caused win32 CI failure
+> QEMU might be using get_system_memory() because for some host bridge
+> the mapping is not implemented so it was easier this way?
 
-https://cirrus-ci.com/task/6055645751279616?command=3Dtest#L593
+Maybe, also one less indirection which if not really needed is a good 
+thing for performance so unless it's found to be needed to use another 
+address space here I'm happy with this as it matches what other similar 
+devices do and it seems to work. Maybe a separate address space is only 
+really needed if we have an iommu?
 
-
-MALLOC_PERTURB_=3D${MALLOC_PERTURB_:-$(( ${RANDOM:-0} % 255 + 1))}
-G_TEST_SRCDIR=3DC:/Users/ContainerAdministrator/AppData/Local/Temp/cirrus-c=
-i-build/tests
-G_TEST_BUILDDIR=3DC:/Users/ContainerAdministrator/AppData/Local/Temp/cirrus=
--ci-build/build/tests
-tests/test-qht.exe --tap -k
-ERROR test-qht - too few tests run (expected 2, got 0)
-make: *** [Makefile.mtest:256: run-test-30] Error 1
---
-         =E6=AD=A4=E8=87=B4
-=E7=A4=BC
-=E7=BD=97=E5=8B=87=E5=88=9A
-Yours
-    sincerely,
-Yonggang Luo
-
---000000000000a3722e05b89083ea
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><br><br>On Sat, Jan 9, 2021 at 1:51 AM Peter Maydell &lt;<=
-a href=3D"mailto:peter.maydell@linaro.org">peter.maydell@linaro.org</a>&gt;=
- wrote:<br>&gt;<br>&gt; On Fri, 8 Jan 2021 at 15:36, Peter Maydell &lt;<a h=
-ref=3D"mailto:peter.maydell@linaro.org">peter.maydell@linaro.org</a>&gt; wr=
-ote:<br>&gt; &gt;<br>&gt; &gt; Nothing too exciting, but does include the l=
-ast bits of v8.1M support work.<br>&gt; &gt;<br>&gt; &gt; -- PMM<br>&gt; &g=
-t;<br>&gt; &gt; The following changes since commit e79de63ab1bd1f6550e7b915=
-e433bec1ad1a870a:<br>&gt; &gt;<br>&gt; &gt; =C2=A0 Merge remote-tracking br=
-anch &#39;remotes/rth-gitlab/tags/pull-tcg-20210107&#39; into staging (2021=
--01-07 20:34:05 +0000)<br>&gt; &gt;<br>&gt; &gt; are available in the Git r=
-epository at:<br>&gt; &gt;<br>&gt; &gt; =C2=A0 <a href=3D"https://git.linar=
-o.org/people/pmaydell/qemu-arm.git">https://git.linaro.org/people/pmaydell/=
-qemu-arm.git</a> tags/pull-target-arm-20210108<br>&gt; &gt;<br>&gt; &gt; fo=
-r you to fetch changes up to c9f8511ea8d2b80723af0fea1f716d752c1b5208:<br>&=
-gt; &gt;<br>&gt; &gt; =C2=A0 docs/system: arm: Add sabrelite board descript=
-ion (2021-01-08 15:13:39 +0000)<br>&gt; &gt;<br>&gt; &gt; -----------------=
------------------------------------------------<br>&gt; &gt; target-arm que=
-ue:<br>&gt; &gt; =C2=A0* intc/arm_gic: Fix gic_irq_signaling_enabled() for =
-vCPUs<br>&gt; &gt; =C2=A0* target/arm: Fix MTE0_ACTIVE<br>&gt; &gt; =C2=A0*=
- target/arm: Implement v8.1M and Cortex-M55 model<br>&gt; &gt; =C2=A0* hw/a=
-rm/highbank: Drop dead KVM support code<br>&gt; &gt; =C2=A0* util/qemu-time=
-r: Make timer_free() imply timer_del()<br>&gt; &gt; =C2=A0* various devices=
-: Use ptimer_free() in finalize function<br>&gt; &gt; =C2=A0* docs/system: =
-arm: Add sabrelite board description<br>&gt; &gt; =C2=A0* sabrelite: Minor =
-fixes to allow booting U-Boot<br>&gt;<br>&gt;<br>&gt; Applied, thanks.<br>&=
-gt;<br>&gt; Please update the changelog at <a href=3D"https://wiki.qemu.org=
-/ChangeLog/6.0">https://wiki.qemu.org/ChangeLog/6.0</a><br>&gt; for any use=
-r-visible changes.<br>&gt;<br>&gt; -- PMM<br>&gt;<br>Caused win32 CI failur=
-e<br><br><a href=3D"https://cirrus-ci.com/task/6055645751279616?command=3Dt=
-est#L593">https://cirrus-ci.com/task/6055645751279616?command=3Dtest#L593</=
-a><br><br><br>MALLOC_PERTURB_=3D${MALLOC_PERTURB_:-$(( ${RANDOM:-0} % 255 +=
- 1))} G_TEST_SRCDIR=3DC:/Users/ContainerAdministrator/AppData/Local/Temp/ci=
-rrus-ci-build/tests G_TEST_BUILDDIR=3DC:/Users/ContainerAdministrator/AppDa=
-ta/Local/Temp/cirrus-ci-build/build/tests tests/test-qht.exe --tap -k<br>ER=
-ROR test-qht - too few tests run (expected 2, got 0)<br>make: *** [Makefile=
-.mtest:256: run-test-30] Error 1<br>--<br>=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0=E6=AD=A4=E8=87=B4<br>=E7=A4=BC<br>=E7=BD=97=E5=8B=87=E5=88=9A<br>Yours<=
-br>=C2=A0 =C2=A0 sincerely,<br>Yonggang Luo<br></div>
-
---000000000000a3722e05b89083ea--
+Regards,
+BALATON Zoltan
+--3866299591-1720538710-1610306052=:16201--
 
