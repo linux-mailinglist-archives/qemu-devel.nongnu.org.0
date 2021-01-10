@@ -2,71 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F058A2F04B9
-	for <lists+qemu-devel@lfdr.de>; Sun, 10 Jan 2021 02:42:38 +0100 (CET)
-Received: from localhost ([::1]:39236 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C2F9E2F04BC
+	for <lists+qemu-devel@lfdr.de>; Sun, 10 Jan 2021 02:47:29 +0100 (CET)
+Received: from localhost ([::1]:42650 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kyPkb-0005GL-Kv
-	for lists+qemu-devel@lfdr.de; Sat, 09 Jan 2021 20:42:37 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56668)
+	id 1kyPpI-0006uq-Rj
+	for lists+qemu-devel@lfdr.de; Sat, 09 Jan 2021 20:47:28 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58782)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
- id 1kyPjf-0004hB-EK; Sat, 09 Jan 2021 20:41:39 -0500
-Received: from mail-yb1-xb30.google.com ([2607:f8b0:4864:20::b30]:43880)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
- id 1kyPjd-0004pC-BQ; Sat, 09 Jan 2021 20:41:39 -0500
-Received: by mail-yb1-xb30.google.com with SMTP id y128so13351385ybf.10;
- Sat, 09 Jan 2021 17:41:36 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=gIjULYWuqJ1F49GLhY2vgT82AIUwduomrfCmJVdsDwk=;
- b=t2fxiP7XfkaBv7tUSVql5HnMX1NcPEQ+d2JVrp27r7931ruUQPzeP20Bk0VOUDitio
- ENquTruoG2URu37Yg7hyHCPHR2DwlXAUcLGwyzRWNYS4SqBpm50oBZ8x+iUIY0Zjn6N1
- ZddTKM/p8v/xtpEsnsGQ/41Rg69piA1IJty9268M5+S+70FnrWKNlDXWHR0g3jJ3lAgO
- w8qTaUILXXga+6BMSqdO/dO60+2AzZsybc0iTrodRm/13TrHPJ4ECcpqkx8JZF9Sd556
- ljlkgBNue5EZf9CWsnyhetvKC1OMQxLdWueCUN3+gh+pRGW7TA+0X9QjKQPo3+PzrB58
- yc7A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=gIjULYWuqJ1F49GLhY2vgT82AIUwduomrfCmJVdsDwk=;
- b=QqoXjxg/ylFX/ZTCpXPD3YNBKIAsUpvfc+xeZAzu920UM8AfsmmJ3/Cgxo48EgE1Zy
- l+mq/B47JSAxdulAnXv4iE+MSoQFL8i58GsNNoXJ7/xZs7qq5s+3WIVoIsHZC7eu6O0a
- nhO2lUIMHXTg9IYh+fpWEtDDY1F8umQMkk1Ww9xYN8tPX2EbYMECYaHrtf4fauRXrAHZ
- 65CSIubc8qsbgzAQoFAjbubrqYmCBn44QY8sjk0+Ho+Qln+nv8MyFwNnXVegRPNnyUk0
- PVCYipop5j3UpKoA/wjH9NtTxKWqPJSd7cEXab8dXrJzt0ga5g7WtCnjduYlk0jMQMRS
- I8JQ==
-X-Gm-Message-State: AOAM533a2ywe3+mzecNXhDgjYopAmPM0wXOZM9ybAl/fKL6in1b27AXv
- 8jZcPwVCSKpsfzgUHAgnngB+AB+bWdTASdyCkHI=
-X-Google-Smtp-Source: ABdhPJx6J4hTMdhlbv2voj8NXY0L6f+kbkIb9oFjHH9ULsXRYpbH1PKy1T0RB6jhY/tFLG9+7l3A7B1aVwYrBnzH8Ko=
-X-Received: by 2002:a25:aaee:: with SMTP id
- t101mr14666001ybi.517.1610242895594; 
- Sat, 09 Jan 2021 17:41:35 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <r.bolshakov@yadro.com>)
+ id 1kyPo2-0006Kv-F3
+ for qemu-devel@nongnu.org; Sat, 09 Jan 2021 20:46:10 -0500
+Received: from mta-02.yadro.com ([89.207.88.252]:33232 helo=mta-01.yadro.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <r.bolshakov@yadro.com>)
+ id 1kyPnz-0006fl-Ky
+ for qemu-devel@nongnu.org; Sat, 09 Jan 2021 20:46:10 -0500
+Received: from localhost (unknown [127.0.0.1])
+ by mta-01.yadro.com (Postfix) with ESMTP id A0E1C412D1;
+ Sun, 10 Jan 2021 01:46:05 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=yadro.com; h=
+ in-reply-to:content-disposition:content-type:content-type
+ :mime-version:references:message-id:subject:subject:from:from
+ :date:date:received:received:received; s=mta-01; t=1610243164;
+ x=1612057565; bh=gYdhGU/Fi7MbCrmA+fQIJQVhErHdSig+PeF+f7E5eVs=; b=
+ OcwKjO4/OR4gkSOasoN3wE9tg9NnDliCbgt7VAiwI/SlEvNgCNh/h90+ymq5ONHo
+ ESIRXy0WxXNgFjQAgfrjvGZdq3CxKDDDV070xc48OsoOgcrcj8ZFgwzkO6L9Un2k
+ 7YzTOlbKq0BeafgqPCVdWtp1Z12HDn1xzitnErX3/K4=
+X-Virus-Scanned: amavisd-new at yadro.com
+Received: from mta-01.yadro.com ([127.0.0.1])
+ by localhost (mta-01.yadro.com [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id lNIhHj3OSWWI; Sun, 10 Jan 2021 04:46:04 +0300 (MSK)
+Received: from T-EXCH-03.corp.yadro.com (t-exch-03.corp.yadro.com
+ [172.17.100.103])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by mta-01.yadro.com (Postfix) with ESMTPS id AC6E44120B;
+ Sun, 10 Jan 2021 04:46:03 +0300 (MSK)
+Received: from localhost (172.17.204.212) by T-EXCH-03.corp.yadro.com
+ (172.17.100.103) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384_P384) id 15.1.669.32; Sun, 10
+ Jan 2021 04:46:03 +0300
+Date: Sun, 10 Jan 2021 04:46:26 +0300
+From: Roman Bolshakov <r.bolshakov@yadro.com>
+To: Peter Maydell <peter.maydell@linaro.org>, Hill Ma <maahiuzeon@gmail.com>
+Subject: Re: [PATCH] hvf: guard xgetbv call.
+Message-ID: <X/pccrqIQ9/N57j6@SPB-NB-133.local>
+References: <X91h2yoy7qVrO1kv@Hills-Mac-Pro.local>
+ <X/lDozXFWfR4AZAU@SPB-NB-133.local>
+ <CAFEAcA9bMbPFj=xFiHgDVg1X14kZOt0Bre-uH0fcjJzsaSk0qA@mail.gmail.com>
 MIME-Version: 1.0
-References: <20210109123545.12001-1-bmeng.cn@gmail.com>
- <20210109123545.12001-4-bmeng.cn@gmail.com>
- <ca66c21a-c3f8-8e96-033e-56548280b4b1@amsat.org>
-In-Reply-To: <ca66c21a-c3f8-8e96-033e-56548280b4b1@amsat.org>
-From: Bin Meng <bmeng.cn@gmail.com>
-Date: Sun, 10 Jan 2021 09:41:24 +0800
-Message-ID: <CAEUhbmU-MC7ue_G551ezkiQdcQi5JxwCsJMsT_NOpsMdmGegYQ@mail.gmail.com>
-Subject: Re: [PATCH v3 3/6] hw/ssi: imx_spi: Remove imx_spi_update_irq() in
- imx_spi_reset()
-To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2607:f8b0:4864:20::b30;
- envelope-from=bmeng.cn@gmail.com; helo=mail-yb1-xb30.google.com
+Content-Type: text/plain; charset="us-ascii"
+Content-Disposition: inline
+In-Reply-To: <CAFEAcA9bMbPFj=xFiHgDVg1X14kZOt0Bre-uH0fcjJzsaSk0qA@mail.gmail.com>
+X-Originating-IP: [172.17.204.212]
+X-ClientProxiedBy: T-EXCH-01.corp.yadro.com (172.17.10.101) To
+ T-EXCH-03.corp.yadro.com (172.17.100.103)
+Received-SPF: pass client-ip=89.207.88.252; envelope-from=r.bolshakov@yadro.com;
+ helo=mta-01.yadro.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -80,102 +79,84 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>, Bin Meng <bin.meng@windriver.com>,
- "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
- Jean-Christophe Dubois <jcd@tribudubois.net>, qemu-arm <qemu-arm@nongnu.org>,
- Alistair Francis <alistair.francis@wdc.com>
+Cc: John Arbuckle <programmingkidx@gmail.com>,
+ Paolo Bonzini <pbonzini@redhat.com>, QEMU Developers <qemu-devel@nongnu.org>,
+ Cameron Esfahani <dirty@apple.com>, Richard Henderson <rth@twiddle.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi Philippe,
+On Sat, Jan 09, 2021 at 11:42:18AM +0000, Peter Maydell wrote:
+> On Sat, 9 Jan 2021 at 05:49, Roman Bolshakov <r.bolshakov@yadro.com> wrote:
+> >
+> > On Fri, Dec 18, 2020 at 06:13:47PM -0800, Hill Ma wrote:
+> > > This prevents illegal instruction on cpus do not support xgetbv.
+> > >
+> > > Buglink: https://bugs.launchpad.net/qemu/+bug/1758819
+> > > Signed-off-by: Hill Ma <maahiuzeon@gmail.com>
+> > > ---
+> > >  target/i386/hvf/x86_cpuid.c | 11 ++++++++---
+> > >  1 file changed, 8 insertions(+), 3 deletions(-)
+> > >
+> >
+> > Hi Hill,
+> >
+> > I'm sorry for delay with the review.
+> 
+> So, hvf added a third use of inline asm execution of "xgetbv" to
+> the two we had already. Now we have:
+>  * this in hvf
+>  * a use in tcg_target_init() in tcg/i386/tcg-target.c.inc
+>  * a use in init_cpuid_cache() in util/bufferiszero.c
+> 
+> Is it possible to abstract this out so we have one version
+> of this, not three ? I note that the other two got the "avoid
+> executing an illegal insn" tests right...
 
-On Sun, Jan 10, 2021 at 7:53 AM Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.or=
-g> wrote:
->
-> On 1/9/21 1:35 PM, Bin Meng wrote:
-> > From: Bin Meng <bin.meng@windriver.com>
-> >
-> > Usually the approach is that the device on the other end of the line
-> > is going to reset its state anyway, so there's no need to actively
-> > signal an irq line change during the reset hook.
-> >
-> > Move imx_spi_update_irq() out of imx_spi_reset(), along with the
-> > disabling of chip selects, to a new function imx_spi_soft_reset()
-> > that is called when the controller is disabled.
->
-> Now I read this patch, forget my comment on previous patch.
->
-> >
-> > Signed-off-by: Bin Meng <bin.meng@windriver.com>
-> >
-> > ---
-> >
-> > Changes in v3:
-> > - new patch: remove imx_spi_update_irq() in imx_spi_reset()
-> >
-> >  hw/ssi/imx_spi.c | 21 ++++++++++++++-------
-> >  1 file changed, 14 insertions(+), 7 deletions(-)
-> >
-> > diff --git a/hw/ssi/imx_spi.c b/hw/ssi/imx_spi.c
-> > index 8d429e703f..880939f595 100644
-> > --- a/hw/ssi/imx_spi.c
-> > +++ b/hw/ssi/imx_spi.c
-> > @@ -241,9 +241,20 @@ static void imx_spi_reset(DeviceState *dev)
-> >      imx_spi_rxfifo_reset(s);
-> >      imx_spi_txfifo_reset(s);
-> >
-> > +    s->burst_length =3D 0;
-> > +}
-> > +
-> > +static void imx_spi_soft_reset(IMXSPIState *s)
-> > +{
-> > +    int i;
-> > +
-> > +    imx_spi_reset(DEVICE(s));
->
-> Hmm usually hard reset include soft reset.
+It surely is. If xgetbv() is extended like below and moved out of hvf,
+we can reuse it in all other places and no duplication of #UD avoidance
+will happen.
 
-That's my understanding as well.
+diff --git a/target/i386/hvf/x86_cpuid.c b/target/i386/hvf/x86_cpuid.c
+index a6842912f5..7994f92d96 100644
+--- a/target/i386/hvf/x86_cpuid.c
++++ b/target/i386/hvf/x86_cpuid.c
+@@ -27,15 +27,21 @@
+ #include "vmx.h"
+ #include "sysemu/hvf.h"
 
->
-> > +
-> >      imx_spi_update_irq(s);
-> >
-> > -    s->burst_length =3D 0;
-> > +    for (i =3D 0; i < ECSPI_NUM_CS; i++) {
-> > +        qemu_set_irq(s->cs_lines[i], 1);
->
-> Isn't this part of the hard reset?
->
+-static uint64_t xgetbv(uint32_t xcr)
++static int xgetbv(uint32_t cpuid_ecx, uint32_t idx, uint64_t *xcr)
+ {
+-    uint32_t eax, edx;
++    uint32_t xcrl, xcrh;
 
-I think we can rename the name to imx_spi_hard_reset() to avoid such confus=
-ion.
+-    __asm__ volatile ("xgetbv"
+-                      : "=a" (eax), "=d" (edx)
+-                      : "c" (xcr));
++    if (cpuid_ecx && CPUID_EXT_OSXSAVE) {
++        /* The xgetbv instruction is not available to older versions of
++         * the assembler, so we encode the instruction manually.
++         */
++        asm(".byte 0x0f, 0x01, 0xd0" : "=a" (xcrl), "=d" (xcrh) : "c" (idx));
 
-> > +    }
-> >  }
-> >
-> >  static uint64_t imx_spi_read(void *opaque, hwaddr offset, unsigned siz=
-e)
-> > @@ -351,12 +362,8 @@ static void imx_spi_write(void *opaque, hwaddr off=
-set, uint64_t value,
-> >          s->regs[ECSPI_CONREG] =3D value;
-> >
-> >          if (!imx_spi_is_enabled(s)) {
-> > -            /* device is disabled, so this is a reset */
-> > -            imx_spi_reset(DEVICE(s));
-> > -
-> > -            for (int i =3D 0; i < ECSPI_NUM_CS; i++) {
-> > -                qemu_set_irq(s->cs_lines[i], 1);
-> > -            }
-> > +            /* device is disabled, so this is a soft reset */
-> > +            imx_spi_soft_reset(s);
->
-> Maybe you can restructure patches 2/3, first introduce
-> imx_spi_soft_reset() - this patch - then fix ECSPI_CONREG
-> - the previous patch -.
+-    return (((uint64_t)edx) << 32) | eax;
++        *xcr = (((uint64_t)xcrh) << 32) | xcrl;
++        return 0;
++    }
++
++    return 1;
+ }
 
-Sure.
+ uint32_t hvf_get_supported_cpuid(uint32_t func, uint32_t idx,
 
-Regards,
-Bin
+
+Hill, feel free to update the three places Peter mentioned.  If it's
+more convenient for you I can make complete patch.
+
+Thanks,
+Roman
+
+> 
+> thanks
+> -- PMM
 
