@@ -2,49 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 399832F064C
-	for <lists+qemu-devel@lfdr.de>; Sun, 10 Jan 2021 11:12:15 +0100 (CET)
-Received: from localhost ([::1]:45006 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CEBF72F064E
+	for <lists+qemu-devel@lfdr.de>; Sun, 10 Jan 2021 11:12:27 +0100 (CET)
+Received: from localhost ([::1]:45782 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kyXhl-0001kv-QH
-	for lists+qemu-devel@lfdr.de; Sun, 10 Jan 2021 05:12:13 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57622)
+	id 1kyXhy-00029E-S5
+	for lists+qemu-devel@lfdr.de; Sun, 10 Jan 2021 05:12:26 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57624)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <volker.ruemelin@t-online.de>)
- id 1kyXYy-0001eF-Fi
+ id 1kyXYy-0001eO-HM
  for qemu-devel@nongnu.org; Sun, 10 Jan 2021 05:03:09 -0500
-Received: from mailout05.t-online.de ([194.25.134.82]:42452)
+Received: from mailout02.t-online.de ([194.25.134.17]:47530)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <volker.ruemelin@t-online.de>)
- id 1kyXYv-0005Nx-Jn
+ id 1kyXYw-0005OX-6t
  for qemu-devel@nongnu.org; Sun, 10 Jan 2021 05:03:08 -0500
-Received: from fwd02.aul.t-online.de (fwd02.aul.t-online.de [172.20.26.148])
- by mailout05.t-online.de (Postfix) with SMTP id C1C8F42030A9;
- Sun, 10 Jan 2021 11:03:03 +0100 (CET)
+Received: from fwd24.aul.t-online.de (fwd24.aul.t-online.de [172.20.26.129])
+ by mailout02.t-online.de (Postfix) with SMTP id 4DFCA41E6F16;
+ Sun, 10 Jan 2021 11:03:04 +0100 (CET)
 Received: from linpower.localnet
- (S+XvpwZJQhn0wpPsj8C6QVk4zdB7+SGXuP+JxvfgEkHo0Y2apZkzGQeOAslIsJ6g5D@[93.236.152.29])
- by fwd02.t-online.de
+ (TlWkeiZEohU29xyeIn2SauYaNY4ilCVq2kijrcTGwRmiLgJCC4d2tVCiw6x0lpRZvu@[93.236.152.29])
+ by fwd24.t-online.de
  with (TLSv1.2:ECDHE-RSA-AES256-GCM-SHA384 encrypted)
- esmtp id 1kyXYo-0oGNGa0; Sun, 10 Jan 2021 11:02:58 +0100
+ esmtp id 1kyXYr-4Omn320; Sun, 10 Jan 2021 11:03:01 +0100
 Received: by linpower.localnet (Postfix, from userid 1000)
- id EC5FE200632; Sun, 10 Jan 2021 11:02:39 +0100 (CET)
+ id EE9E8200633; Sun, 10 Jan 2021 11:02:39 +0100 (CET)
 From: =?UTF-8?q?Volker=20R=C3=BCmelin?= <vr_qemu@t-online.de>
 To: Gerd Hoffmann <kraxel@redhat.com>
-Subject: [PATCH 08/23] audio: split pcm_ops function get_buffer_in
-Date: Sun, 10 Jan 2021 11:02:24 +0100
-Message-Id: <20210110100239.27588-8-vr_qemu@t-online.de>
+Subject: [PATCH 09/23] sdlaudio: add recording functions
+Date: Sun, 10 Jan 2021 11:02:25 +0100
+Message-Id: <20210110100239.27588-9-vr_qemu@t-online.de>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <9315afe5-5958-c0b4-ea1e-14769511a9d5@t-online.de>
 References: <9315afe5-5958-c0b4-ea1e-14769511a9d5@t-online.de>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-ID: S+XvpwZJQhn0wpPsj8C6QVk4zdB7+SGXuP+JxvfgEkHo0Y2apZkzGQeOAslIsJ6g5D
-X-TOI-EXPURGATEID: 150726::1610272978-0000F958-3D93CCA5/0/0 CLEAN NORMAL
-X-TOI-MSGID: dcba654d-95cf-469e-bb85-3dbe2e9c8345
-Received-SPF: none client-ip=194.25.134.82;
- envelope-from=volker.ruemelin@t-online.de; helo=mailout05.t-online.de
+X-ID: TlWkeiZEohU29xyeIn2SauYaNY4ilCVq2kijrcTGwRmiLgJCC4d2tVCiw6x0lpRZvu
+X-TOI-EXPURGATEID: 150726::1610272981-00005513-6D7F08C5/0/0 CLEAN NORMAL
+X-TOI-MSGID: 3296169b-f124-4822-99a7-22f125d5dbbb
+Received-SPF: none client-ip=194.25.134.17;
+ envelope-from=volker.ruemelin@t-online.de; helo=mailout02.t-online.de
 X-Spam_score_int: -18
 X-Spam_score: -1.9
 X-Spam_bar: -
@@ -68,154 +68,210 @@ Cc: QEMU <qemu-devel@nongnu.org>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Split off pcm_ops function run_buffer_in from get_buffer_in and
-call run_buffer_in before get_buffer_in.
-
-The next patch only needs the generic buffer management part
-from audio_generic_get_buffer_in().
+Add audio recording functions. SDL 2.0.5 or later is required to
+use the recording functions. Playback continues to work with
+earlier SDL 2.0 versions.
 
 Signed-off-by: Volker Rümelin <vr_qemu@t-online.de>
 ---
- audio/alsaaudio.c  |  1 +
- audio/audio.c      | 18 ++++++++++++++----
- audio/audio_int.h  |  2 ++
- audio/jackaudio.c  |  1 +
- audio/noaudio.c    |  1 +
- audio/ossaudio.c   |  1 +
- audio/spiceaudio.c |  1 +
- 7 files changed, 21 insertions(+), 4 deletions(-)
+ audio/sdlaudio.c | 142 ++++++++++++++++++++++++++++++++++++++++++++++-
+ 1 file changed, 139 insertions(+), 3 deletions(-)
 
-diff --git a/audio/alsaaudio.c b/audio/alsaaudio.c
-index 6787e91bc1..5a871aaf6b 100644
---- a/audio/alsaaudio.c
-+++ b/audio/alsaaudio.c
-@@ -929,6 +929,7 @@ static struct audio_pcm_ops alsa_pcm_ops = {
-     .init_in  = alsa_init_in,
-     .fini_in  = alsa_fini_in,
-     .read     = alsa_read,
-+    .run_buffer_in = audio_generic_run_buffer_in,
-     .enable_in = alsa_enable_in,
- };
+diff --git a/audio/sdlaudio.c b/audio/sdlaudio.c
+index 47968c5020..445cae8de5 100644
+--- a/audio/sdlaudio.c
++++ b/audio/sdlaudio.c
+@@ -47,6 +47,14 @@ typedef struct SDLVoiceOut {
+     SDL_AudioDeviceID devid;
+ } SDLVoiceOut;
  
-diff --git a/audio/audio.c b/audio/audio.c
-index d048d26283..480b3cce1f 100644
---- a/audio/audio.c
-+++ b/audio/audio.c
-@@ -1241,6 +1241,10 @@ static size_t audio_pcm_hw_run_in(HWVoiceIn *hw, size_t samples)
-     size_t conv = 0;
-     STSampleBuffer *conv_buf = hw->conv_buf;
- 
-+    if (hw->pcm_ops->run_buffer_in) {
-+        hw->pcm_ops->run_buffer_in(hw);
-+    }
++typedef struct SDLVoiceIn {
++    HWVoiceIn hw;
++    int exit;
++    int initialized;
++    Audiodev *dev;
++    SDL_AudioDeviceID devid;
++} SDLVoiceIn;
 +
-     while (samples) {
-         size_t proc;
-         size_t size = samples * hw->info.bytes_per_frame;
-@@ -1381,10 +1385,8 @@ void audio_run(AudioState *s, const char *msg)
- #endif
+ static void GCC_FMT_ATTR (1, 2) sdl_logerr (const char *fmt, ...)
+ {
+     va_list ap;
+@@ -240,6 +248,45 @@ static void sdl_callback_out(void *opaque, Uint8 *buf, int len)
+     }
  }
  
--void *audio_generic_get_buffer_in(HWVoiceIn *hw, size_t *size)
-+void audio_generic_run_buffer_in(HWVoiceIn *hw)
- {
--    ssize_t start;
--
-     if (unlikely(!hw->buf_emul)) {
-         size_t calc_size = hw->conv_buf->size * hw->info.bytes_per_frame;
-         hw->buf_emul = g_malloc(calc_size);
-@@ -1403,8 +1405,12 @@ void *audio_generic_get_buffer_in(HWVoiceIn *hw, size_t *size)
-             break;
-         }
-     }
++static void sdl_close_in(SDLVoiceIn *sdl)
++{
++    if (sdl->initialized) {
++        SDL_LockAudioDevice(sdl->devid);
++        sdl->exit = 1;
++        SDL_UnlockAudioDevice(sdl->devid);
++        SDL_PauseAudioDevice(sdl->devid, 1);
++        sdl->initialized = 0;
++    }
++    if (sdl->devid) {
++        SDL_CloseAudioDevice(sdl->devid);
++        sdl->devid = 0;
++    }
 +}
 +
-+void *audio_generic_get_buffer_in(HWVoiceIn *hw, size_t *size)
++static void sdl_callback_in(void *opaque, Uint8 *buf, int len)
 +{
-+    ssize_t start = (ssize_t)hw->pos_emul - hw->pending_emul;
- 
--    start = ((ssize_t) hw->pos_emul) - hw->pending_emul;
-     if (start < 0) {
-         start += hw->size_emul;
-     }
-@@ -1505,6 +1511,10 @@ size_t audio_generic_read(HWVoiceIn *hw, void *buf, size_t size)
- {
-     size_t total = 0;
- 
-+    if (hw->pcm_ops->run_buffer_in) {
-+        hw->pcm_ops->run_buffer_in(hw);
++    SDLVoiceIn *sdl = opaque;
++    HWVoiceIn *hw = &sdl->hw;
++
++    if (sdl->exit) {
++        return;
 +    }
 +
-     while (total < size) {
-         size_t src_size = size - total;
-         void *src = hw->pcm_ops->get_buffer_in(hw, &src_size);
-diff --git a/audio/audio_int.h b/audio/audio_int.h
-index 4775857bf2..06f0913835 100644
---- a/audio/audio_int.h
-+++ b/audio/audio_int.h
-@@ -172,12 +172,14 @@ struct audio_pcm_ops {
-     int    (*init_in) (HWVoiceIn *hw, audsettings *as, void *drv_opaque);
-     void   (*fini_in) (HWVoiceIn *hw);
-     size_t (*read)    (HWVoiceIn *hw, void *buf, size_t size);
-+    void   (*run_buffer_in)(HWVoiceIn *hw);
-     void  *(*get_buffer_in)(HWVoiceIn *hw, size_t *size);
-     void   (*put_buffer_in)(HWVoiceIn *hw, void *buf, size_t size);
-     void   (*enable_in)(HWVoiceIn *hw, bool enable);
-     void   (*volume_in)(HWVoiceIn *hw, Volume *vol);
++    /* dolog("callback_in: len=%d pending=%zu\n", len, hw->pending_emul); */
++
++    while (hw->pending_emul < hw->size_emul && len) {
++        size_t read_len = MIN(len, MIN(hw->size_emul - hw->pos_emul,
++                                       hw->size_emul - hw->pending_emul));
++
++        memcpy(hw->buf_emul + hw->pos_emul, buf, read_len);
++
++        hw->pending_emul += read_len;
++        hw->pos_emul = (hw->pos_emul + read_len) % hw->size_emul;
++        len -= read_len;
++        buf += read_len;
++    }
++}
++
+ #define SDL_WRAPPER_FUNC(name, ret_type, args_decl, args, dir) \
+     static ret_type glue(sdl_, name)args_decl                  \
+     {                                                          \
+@@ -253,13 +300,30 @@ static void sdl_callback_out(void *opaque, Uint8 *buf, int len)
+         return ret;                                            \
+     }
+ 
++#define SDL_WRAPPER_VOID_FUNC(name, args_decl, args, dir)      \
++    static void glue(sdl_, name)args_decl                      \
++    {                                                          \
++        glue(SDLVoice, dir) *sdl = (glue(SDLVoice, dir) *)hw;  \
++                                                               \
++        SDL_LockAudioDevice(sdl->devid);                       \
++        glue(audio_generic_, name)args;                        \
++        SDL_UnlockAudioDevice(sdl->devid);                     \
++    }
++
+ SDL_WRAPPER_FUNC(get_buffer_out, void *, (HWVoiceOut *hw, size_t *size),
+                  (hw, size), Out)
+ SDL_WRAPPER_FUNC(put_buffer_out, size_t,
+                  (HWVoiceOut *hw, void *buf, size_t size), (hw, buf, size), Out)
+ SDL_WRAPPER_FUNC(write, size_t,
+                  (HWVoiceOut *hw, void *buf, size_t size), (hw, buf, size), Out)
++SDL_WRAPPER_FUNC(read, size_t, (HWVoiceIn *hw, void *buf, size_t size),
++                 (hw, buf, size), In)
++SDL_WRAPPER_FUNC(get_buffer_in, void *, (HWVoiceIn *hw, size_t *size),
++                 (hw, size), In)
++SDL_WRAPPER_VOID_FUNC(put_buffer_in, (HWVoiceIn *hw, void *buf, size_t size),
++                      (hw, buf, size), In)
+ #undef SDL_WRAPPER_FUNC
++#undef SDL_WRAPPER_VOID_FUNC
+ 
+ static void sdl_fini_out(HWVoiceOut *hw)
+ {
+@@ -325,6 +389,69 @@ static void sdl_enable_out(HWVoiceOut *hw, bool enable)
+     SDL_PauseAudioDevice(sdl->devid, !enable);
+ }
+ 
++static void sdl_fini_in(HWVoiceIn *hw)
++{
++    SDLVoiceIn *sdl = (SDLVoiceIn *)hw;
++
++    sdl_close_in(sdl);
++}
++
++static int sdl_init_in(HWVoiceIn *hw, audsettings *as, void *drv_opaque)
++{
++    SDLVoiceIn *sdl = (SDLVoiceIn *)hw;
++    SDL_AudioSpec req, obt;
++    int endianness;
++    int err;
++    AudioFormat effective_fmt;
++    Audiodev *dev = drv_opaque;
++    AudiodevSdlPerDirectionOptions *spdo = dev->u.sdl.in;
++    struct audsettings obt_as;
++
++    req.freq = as->freq;
++    req.format = aud_to_sdlfmt(as->fmt);
++    req.channels = as->nchannels;
++    /* SDL samples are QEMU frames */
++    req.samples = audio_buffer_frames(
++        qapi_AudiodevSdlPerDirectionOptions_base(spdo), as, 11610);
++    req.callback = sdl_callback_in;
++    req.userdata = sdl;
++
++    sdl->dev = dev;
++    sdl->devid = sdl_open(&req, &obt, 1);
++    if (!sdl->devid) {
++        return -1;
++    }
++
++    err = sdl_to_audfmt(obt.format, &effective_fmt, &endianness);
++    if (err) {
++        sdl_close_in(sdl);
++        return -1;
++    }
++
++    obt_as.freq = obt.freq;
++    obt_as.nchannels = obt.channels;
++    obt_as.fmt = effective_fmt;
++    obt_as.endianness = endianness;
++
++    audio_pcm_init_info(&hw->info, &obt_as);
++    hw->samples = (spdo->has_buffer_count ? spdo->buffer_count : 4) *
++        obt.samples;
++    hw->size_emul = hw->samples * hw->info.bytes_per_frame;
++    hw->buf_emul = g_malloc(hw->size_emul);
++    hw->pos_emul = hw->pending_emul = 0;
++
++    sdl->initialized = 1;
++    sdl->exit = 0;
++    return 0;
++}
++
++static void sdl_enable_in(HWVoiceIn *hw, bool enable)
++{
++    SDLVoiceIn *sdl = (SDLVoiceIn *)hw;
++
++    SDL_PauseAudioDevice(sdl->devid, !enable);
++}
++
+ static void *sdl_audio_init(Audiodev *dev)
+ {
+     if (SDL_InitSubSystem (SDL_INIT_AUDIO)) {
+@@ -350,6 +477,15 @@ static struct audio_pcm_ops sdl_pcm_ops = {
+   /* wrapper for audio_generic_put_buffer_out */
+     .put_buffer_out = sdl_put_buffer_out,
+     .enable_out = sdl_enable_out,
++    .init_in = sdl_init_in,
++    .fini_in = sdl_fini_in,
++  /* wrapper for audio_generic_read */
++    .read = sdl_read,
++  /* wrapper for audio_generic_get_buffer_in */
++    .get_buffer_in = sdl_get_buffer_in,
++  /* wrapper for audio_generic_put_buffer_in */
++    .put_buffer_in = sdl_put_buffer_in,
++    .enable_in = sdl_enable_in,
  };
  
-+void audio_generic_run_buffer_in(HWVoiceIn *hw);
- void *audio_generic_get_buffer_in(HWVoiceIn *hw, size_t *size);
- void audio_generic_put_buffer_in(HWVoiceIn *hw, void *buf, size_t size);
- void audio_generic_run_buffer_out(HWVoiceOut *hw);
-diff --git a/audio/jackaudio.c b/audio/jackaudio.c
-index 3b7c18443d..f8afb5cc31 100644
---- a/audio/jackaudio.c
-+++ b/audio/jackaudio.c
-@@ -657,6 +657,7 @@ static struct audio_pcm_ops jack_pcm_ops = {
-     .init_in        = qjack_init_in,
-     .fini_in        = qjack_fini_in,
-     .read           = qjack_read,
-+    .run_buffer_in  = audio_generic_run_buffer_in,
-     .enable_in      = qjack_enable_in
+ static struct audio_driver sdl_audio_driver = {
+@@ -360,9 +496,9 @@ static struct audio_driver sdl_audio_driver = {
+     .pcm_ops        = &sdl_pcm_ops,
+     .can_be_default = 1,
+     .max_voices_out = 1,
+-    .max_voices_in  = 0,
+-    .voice_size_out = sizeof (SDLVoiceOut),
+-    .voice_size_in  = 0
++    .max_voices_in  = 1,
++    .voice_size_out = sizeof(SDLVoiceOut),
++    .voice_size_in  = sizeof(SDLVoiceIn),
  };
  
-diff --git a/audio/noaudio.c b/audio/noaudio.c
-index 05798ea210..aac87dbc93 100644
---- a/audio/noaudio.c
-+++ b/audio/noaudio.c
-@@ -124,6 +124,7 @@ static struct audio_pcm_ops no_pcm_ops = {
-     .init_in  = no_init_in,
-     .fini_in  = no_fini_in,
-     .read     = no_read,
-+    .run_buffer_in = audio_generic_run_buffer_in,
-     .enable_in = no_enable_in
- };
- 
-diff --git a/audio/ossaudio.c b/audio/ossaudio.c
-index a7dcaa31ad..c1db89f233 100644
---- a/audio/ossaudio.c
-+++ b/audio/ossaudio.c
-@@ -762,6 +762,7 @@ static struct audio_pcm_ops oss_pcm_ops = {
-     .init_in  = oss_init_in,
-     .fini_in  = oss_fini_in,
-     .read     = oss_read,
-+    .run_buffer_in = audio_generic_run_buffer_in,
-     .enable_in = oss_enable_in
- };
- 
-diff --git a/audio/spiceaudio.c b/audio/spiceaudio.c
-index 8967cca129..999bfbde47 100644
---- a/audio/spiceaudio.c
-+++ b/audio/spiceaudio.c
-@@ -293,6 +293,7 @@ static struct audio_pcm_ops audio_callbacks = {
-     .init_in  = line_in_init,
-     .fini_in  = line_in_fini,
-     .read     = line_in_read,
-+    .run_buffer_in = audio_generic_run_buffer_in,
-     .enable_in = line_in_enable,
- #if ((SPICE_INTERFACE_RECORD_MAJOR >= 2) && (SPICE_INTERFACE_RECORD_MINOR >= 2))
-     .volume_in = line_in_volume,
+ static void register_audio_sdl(void)
 -- 
 2.26.2
 
