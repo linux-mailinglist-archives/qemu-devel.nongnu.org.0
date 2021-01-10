@@ -2,83 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E01B52F0915
-	for <lists+qemu-devel@lfdr.de>; Sun, 10 Jan 2021 19:41:23 +0100 (CET)
-Received: from localhost ([::1]:38016 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D67402F091E
+	for <lists+qemu-devel@lfdr.de>; Sun, 10 Jan 2021 19:55:08 +0100 (CET)
+Received: from localhost ([::1]:49626 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kyfeV-0002K3-0g
-	for lists+qemu-devel@lfdr.de; Sun, 10 Jan 2021 13:41:23 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54136)
+	id 1kyfrn-000806-JH
+	for lists+qemu-devel@lfdr.de; Sun, 10 Jan 2021 13:55:07 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56390)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1kyfbv-0001sh-Qf
- for qemu-devel@nongnu.org; Sun, 10 Jan 2021 13:38:43 -0500
-Received: from mail-pl1-x632.google.com ([2607:f8b0:4864:20::632]:34655)
+ (Exim 4.90_1) (envelope-from <baturo.alexey@gmail.com>)
+ id 1kyfoG-0004r2-Dw; Sun, 10 Jan 2021 13:51:29 -0500
+Received: from mail-lj1-x231.google.com ([2a00:1450:4864:20::231]:41336)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1kyfbu-0002Jy-CF
- for qemu-devel@nongnu.org; Sun, 10 Jan 2021 13:38:43 -0500
-Received: by mail-pl1-x632.google.com with SMTP id t6so8339690plq.1
- for <qemu-devel@nongnu.org>; Sun, 10 Jan 2021 10:38:42 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=FO/HyCvLsxofLpoWFNpy0PrFoKfOdbv8M9gG/dRNdy4=;
- b=qy8xxY1apgDNBgzybRmj3P0vS5jvV6j0PZfd/wUGi4crNT3oSBnIsW5fmpybd854rW
- nwRfnGu625cKxeiaS1nptIN3vD/pNB6SWrwYIaec5GUn1H4zd23fMTJ6fJlSiAr/zTlY
- mPpWir0oHo+l9tUWD8ZlY9RsY6Is/t+Zj/NwhZ6N3PwHQFZdOjeFIx0VCPw25qvuICPa
- 89KCgryRIJN1IXyzmP/CNOP/gDOw8L6NpZ/kUUogzcBl6aOPeWACj3PfIAKQ5+a5KXcf
- 9nXhGUJSG9iMjhTLIbeGFts+4WucHKXm/s47bmIg1gFKxjNwINZZjqikwmzpkt6qFJDM
- p+Yw==
+ (Exim 4.90_1) (envelope-from <baturo.alexey@gmail.com>)
+ id 1kyfo9-0006ef-7k; Sun, 10 Jan 2021 13:51:28 -0500
+Received: by mail-lj1-x231.google.com with SMTP id f11so1157054ljm.8;
+ Sun, 10 Jan 2021 10:51:20 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=6SemjBIwjpXuOfoEY2veCoBfp8YfJTJwjg1tzL1XKKs=;
+ b=Ws3GpzGJYYZAMit5SG+lNseTPl/d8FoYbDJz3z5pPI0y8+8Jltn/OtvOpEYtkZtHRx
+ CZATSzi/Squ5kkHARbvdHeMHCGpe4Zwcf17H5WmIIAH0y49wkeIKI6Qbsl2FFBSdoFdE
+ RZcxE+fQDYGGlAZJMKX0w2wfOtpA3E3azmoMst98iQBlJQJgf2NwS7YAqVNGXq2Ov45m
+ BCWt0j5fy5ovhVU5r6MhCVJhTB8ge+M+QQRARN8b+FlmlDSA/XV8px4ecuYCpsUsoIen
+ xdRX7n+F9KY9oW27CcArRgwjOE4XpHNA/EpOq1YqL29SBcqZAGTsjReMWS2cPlO0e2W9
+ jqYA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
  :content-transfer-encoding;
- bh=FO/HyCvLsxofLpoWFNpy0PrFoKfOdbv8M9gG/dRNdy4=;
- b=WUeWXE/JUyTyvFB6MNeRC00w5u8Ag6zNCHSP42/7afaQtlpv3hRFu/5CqoOnLEleGz
- 5Qr9l9eu8q00C6QRvq96CdtizkBOfUGqy6QkWabEM5PTToGPN1tk85Xn/mt1MVHCJXxL
- laSf8QhwsW3i7G7buyD5VYHVIk8Fz7sal7ry1G+vqIYDkzuYAngeGIpR4LtiS+QWWZM4
- NElrRoQB/NFRAmN3OhPvvMAztjOsVUwbmJ5KjOUE17v7oYGrDU/EdeFv+Tah3T5Bfesy
- g40zBfq6eYHceSA8LfaZ9vpzDiaWwOs6qgy7GO0sdGfQquIiCEzXgDAhfZZ2jVEqi0f6
- 7Q3A==
-X-Gm-Message-State: AOAM532ys8mUT1B7wlHP7fkaM6mJCLKh+MuhNYlnkJtUVxoUxC0a8e2z
- Fko8kehuxU8aj8nY8b+TFqiyLg==
-X-Google-Smtp-Source: ABdhPJwZLQD9hukSWh//3veL8M3jkcTMFqkOaPsW8aI9+eUefI5OOXvHW0bBt/bKR0hfVaxhsOaVOA==
-X-Received: by 2002:a17:90a:708b:: with SMTP id
- g11mr13700180pjk.23.1610303920910; 
- Sun, 10 Jan 2021 10:38:40 -0800 (PST)
-Received: from [10.25.18.117] (rrcs-173-197-107-21.west.biz.rr.com.
- [173.197.107.21])
- by smtp.gmail.com with ESMTPSA id y16sm16774308pfb.83.2021.01.10.10.38.38
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sun, 10 Jan 2021 10:38:40 -0800 (PST)
-Subject: Re: [PATCH] hvf: guard xgetbv call.
-To: Roman Bolshakov <r.bolshakov@yadro.com>,
- Peter Maydell <peter.maydell@linaro.org>, Hill Ma <maahiuzeon@gmail.com>
-References: <X91h2yoy7qVrO1kv@Hills-Mac-Pro.local>
- <X/lDozXFWfR4AZAU@SPB-NB-133.local>
- <CAFEAcA9bMbPFj=xFiHgDVg1X14kZOt0Bre-uH0fcjJzsaSk0qA@mail.gmail.com>
- <X/pccrqIQ9/N57j6@SPB-NB-133.local>
- <8da22f7f-7379-cffe-5fdd-94fd5ddece32@linaro.org>
-From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <4a24ae1a-8114-a840-b6bf-ae3a301f6232@linaro.org>
-Date: Sun, 10 Jan 2021 08:38:36 -1000
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
+ bh=6SemjBIwjpXuOfoEY2veCoBfp8YfJTJwjg1tzL1XKKs=;
+ b=D3EMvNt3L32mt2OBdrMaCNQWjs4WqsIPIygvnBDzkAw21GpkxqCngsfvmh6zkIwcgK
+ kuVWGd/Ebbu4bDAlGlWOgadlnaPxlY8Hcg3jPqZ0qaxnM9wIySXObflS1cOMsSO8kxss
+ pJCbeLXLtXPnoEk1H2ctYuuOhOMj5y01jVGvnyy29anf9trssOnzHZqnZqrul5uBp0TB
+ NTolAMIiuy0OuhBOZQOBumvyNb3+tZDQfhSsQoz+NULaOkSiMiER6Q5rzSJFLWMLJRhB
+ Y2wLXm5jJJ5XyHtJiyGdBw6kxJHOKwnPF0rYPz42EbXw9wR7UXfz4ux2zOtpI4jQKHCd
+ URIA==
+X-Gm-Message-State: AOAM531Ej8zasopff3pJ/v2WuyReYcdIvGo5oH+uhdMXzQSJcuzUID+6
+ RlVCZwKjqUeZE0g6wNWHoEk=
+X-Google-Smtp-Source: ABdhPJxCHOIDEUGeaAfHffK/kLwzWDA2dpKcxq2QwQ79E1b1eJj08ZXvR7sWiNKOdJpZCahNc2LiXw==
+X-Received: by 2002:a2e:8947:: with SMTP id b7mr6300703ljk.116.1610304678749; 
+ Sun, 10 Jan 2021 10:51:18 -0800 (PST)
+Received: from neptune.lab ([46.39.229.36])
+ by smtp.googlemail.com with ESMTPSA id l1sm2795267lfk.201.2021.01.10.10.51.17
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Sun, 10 Jan 2021 10:51:18 -0800 (PST)
+From: Alexey Baturo <baturo.alexey@gmail.com>
+X-Google-Original-From: Alexey Baturo <space.monkey.delivers@gmail.com>
+To: 
+Subject: [PATCH v7 0/6] RISC-V Pointer Masking implementation
+Date: Sun, 10 Jan 2021 21:51:03 +0300
+Message-Id: <20210110185109.29841-1-space.monkey.delivers@gmail.com>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-In-Reply-To: <8da22f7f-7379-cffe-5fdd-94fd5ddece32@linaro.org>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::632;
- envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x632.google.com
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::231;
+ envelope-from=baturo.alexey@gmail.com; helo=mail-lj1-x231.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.012,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -93,46 +79,54 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: John Arbuckle <programmingkidx@gmail.com>,
- Richard Henderson <rth@twiddle.net>, QEMU Developers <qemu-devel@nongnu.org>,
- Cameron Esfahani <dirty@apple.com>, Paolo Bonzini <pbonzini@redhat.com>
+Cc: baturo.alexey@gmail.com, qemu-riscv@nongnu.org, sagark@eecs.berkeley.edu,
+ kbastian@mail.uni-paderborn.de, richard.henderson@linaro.org,
+ qemu-devel@nongnu.org, space.monkey.delivers@gmail.com,
+ Alistair.Francis@wdc.com, kupokupokupopo@gmail.com, palmer@dabbelt.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 1/10/21 8:34 AM, Richard Henderson wrote:
-> On 1/9/21 3:46 PM, Roman Bolshakov wrote:
->> +static int xgetbv(uint32_t cpuid_ecx, uint32_t idx, uint64_t *xcr)
->>  {
->> -    uint32_t eax, edx;
->> +    uint32_t xcrl, xcrh;
->>
->> -    __asm__ volatile ("xgetbv"
->> -                      : "=a" (eax), "=d" (edx)
->> -                      : "c" (xcr));
->> +    if (cpuid_ecx && CPUID_EXT_OSXSAVE) {
->> +        /* The xgetbv instruction is not available to older versions of
->> +         * the assembler, so we encode the instruction manually.
->> +         */
->> +        asm(".byte 0x0f, 0x01, 0xd0" : "=a" (xcrl), "=d" (xcrh) : "c" (idx));
->>
->> -    return (((uint64_t)edx) << 32) | eax;
->> +        *xcr = (((uint64_t)xcrh) << 32) | xcrl;
->> +        return 0;
->> +    }
->> +
->> +    return 1;
->>  }
-> 
-> Not to bikeshed too much, but this looks like it should return bool, and true
-> on success, not the other way around.
+Hi folks,
 
-Also, if we're going to put this some place common, forcing the caller to do
-the cpuid that feeds this, then we should probably make all of the startup
-cpuid stuff common as well.
+Sorry it took me almost 3 month to provide the reply and fixes: it was a really busy EOY.
+This series contains fixed @Alistair suggestion on enabling J-ext.
 
-Note that we'd probably have to use constructor priorities to get that right
-for util/bufferiszero.c.
+As for @Richard comments:
+- Indeed I've missed appending review-by to the approved commits. Now I've restored them except for the fourth commit. @Richard could you please tell if you think it's still ok to commit it as is, or should I support masking mem ops for RVV first?
+- These patches don't have any support for load/store masking for RVV and RVH extensions, so no support for special load/store for Hypervisor in particular.
 
+If this patch series would be accepted, I think my further attention would be to:
+- Support pm for memory operations for RVV
+- Add proper csr and support pm for memory operations for Hypervisor mode
+- Support address wrapping on unaligned accesses as @Richard mentioned previously
 
-r~
+Thanks!
+
+Alexey Baturo (5):
+  [RISCV_PM] Add J-extension into RISC-V
+  [RISCV_PM] Support CSRs required for RISC-V PM extension except for
+    the ones required for hypervisor mode
+  [RISCV_PM] Print new PM CSRs in QEMU logs
+  [RISCV_PM] Support pointer masking for RISC-V for i/c/f/d/a types of
+    instructions
+  [RISCV_PM] Allow experimental J-ext to be turned on
+
+Anatoly Parshintsev (1):
+  [RISCV_PM] Implement address masking functions required for RISC-V
+    Pointer Masking extension
+
+ target/riscv/cpu.c                      |  30 +++
+ target/riscv/cpu.h                      |  33 +++
+ target/riscv/cpu_bits.h                 |  66 ++++++
+ target/riscv/csr.c                      | 271 ++++++++++++++++++++++++
+ target/riscv/insn_trans/trans_rva.c.inc |   3 +
+ target/riscv/insn_trans/trans_rvd.c.inc |   2 +
+ target/riscv/insn_trans/trans_rvf.c.inc |   2 +
+ target/riscv/insn_trans/trans_rvi.c.inc |   2 +
+ target/riscv/translate.c                |  44 ++++
+ 9 files changed, 453 insertions(+)
+
+-- 
+2.20.1
+
 
