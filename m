@@ -2,49 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0584A2F065D
-	for <lists+qemu-devel@lfdr.de>; Sun, 10 Jan 2021 11:20:03 +0100 (CET)
-Received: from localhost ([::1]:42692 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A3F1A2F065B
+	for <lists+qemu-devel@lfdr.de>; Sun, 10 Jan 2021 11:18:02 +0100 (CET)
+Received: from localhost ([::1]:40160 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kyXpK-0004M5-0t
-	for lists+qemu-devel@lfdr.de; Sun, 10 Jan 2021 05:20:02 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57838)
+	id 1kyXnN-0003Gj-Nn
+	for lists+qemu-devel@lfdr.de; Sun, 10 Jan 2021 05:18:01 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57832)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <volker.ruemelin@t-online.de>)
- id 1kyXZP-0002JJ-JM
- for qemu-devel@nongnu.org; Sun, 10 Jan 2021 05:03:35 -0500
-Received: from mailout05.t-online.de ([194.25.134.82]:42692)
+ id 1kyXZN-0002Ip-Aa
+ for qemu-devel@nongnu.org; Sun, 10 Jan 2021 05:03:33 -0500
+Received: from mailout04.t-online.de ([194.25.134.18]:55038)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <volker.ruemelin@t-online.de>)
- id 1kyXZJ-0005b9-VF
- for qemu-devel@nongnu.org; Sun, 10 Jan 2021 05:03:35 -0500
-Received: from fwd27.aul.t-online.de (fwd27.aul.t-online.de [172.20.26.132])
- by mailout05.t-online.de (Postfix) with SMTP id 6A58F42030A8;
+ id 1kyXZJ-0005b7-7r
+ for qemu-devel@nongnu.org; Sun, 10 Jan 2021 05:03:33 -0500
+Received: from fwd39.aul.t-online.de (fwd39.aul.t-online.de [172.20.27.138])
+ by mailout04.t-online.de (Postfix) with SMTP id 048DB41AA781;
  Sun, 10 Jan 2021 11:03:28 +0100 (CET)
 Received: from linpower.localnet
- (XRs0VMZbZha5tNOVl7KXal1KCepQjBNkcgbJaR-q53PoJFBLZAwZEuIAvPDaSHSwhd@[93.236.152.29])
- by fwd27.t-online.de
+ (EAVH5mZToh23QiYENvIVgbpDE3zBdDG-aOxfNzdjuaMHUxE8F1isBX4h+uA+litZrS@[93.236.152.29])
+ by fwd39.t-online.de
  with (TLSv1.2:ECDHE-RSA-AES256-GCM-SHA384 encrypted)
- esmtp id 1kyXZE-095AA40; Sun, 10 Jan 2021 11:03:24 +0100
+ esmtp id 1kyXZG-2rw17A0; Sun, 10 Jan 2021 11:03:26 +0100
 Received: by linpower.localnet (Postfix, from userid 1000)
- id 0E18D2006C1; Sun, 10 Jan 2021 11:02:40 +0100 (CET)
+ id 102BD2006C2; Sun, 10 Jan 2021 11:02:40 +0100 (CET)
 From: =?UTF-8?q?Volker=20R=C3=BCmelin?= <vr_qemu@t-online.de>
 To: Gerd Hoffmann <kraxel@redhat.com>
-Subject: [PATCH 18/23] paaudio: limit minreq to 75% of audio timer_rate
-Date: Sun, 10 Jan 2021 11:02:34 +0100
-Message-Id: <20210110100239.27588-18-vr_qemu@t-online.de>
+Subject: [PATCH 19/23] paaudio: send recorded data in smaller chunks
+Date: Sun, 10 Jan 2021 11:02:35 +0100
+Message-Id: <20210110100239.27588-19-vr_qemu@t-online.de>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <9315afe5-5958-c0b4-ea1e-14769511a9d5@t-online.de>
 References: <9315afe5-5958-c0b4-ea1e-14769511a9d5@t-online.de>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-ID: XRs0VMZbZha5tNOVl7KXal1KCepQjBNkcgbJaR-q53PoJFBLZAwZEuIAvPDaSHSwhd
-X-TOI-EXPURGATEID: 150726::1610273004-0000CED0-BC938EA4/0/0 CLEAN NORMAL
-X-TOI-MSGID: a267f9ea-efe3-4a38-8799-5de0a5c0005d
-Received-SPF: none client-ip=194.25.134.82;
- envelope-from=volker.ruemelin@t-online.de; helo=mailout05.t-online.de
+X-ID: EAVH5mZToh23QiYENvIVgbpDE3zBdDG-aOxfNzdjuaMHUxE8F1isBX4h+uA+litZrS
+X-TOI-EXPURGATEID: 150726::1610273007-00000BD0-353D45A1/0/0 CLEAN NORMAL
+X-TOI-MSGID: cf1b0246-e2bf-474a-8fff-4524f33d5335
+Received-SPF: none client-ip=194.25.134.18;
+ envelope-from=volker.ruemelin@t-online.de; helo=mailout04.t-online.de
 X-Spam_score_int: -18
 X-Spam_score: -1.9
 X-Spam_bar: -
@@ -68,30 +68,34 @@ Cc: QEMU <qemu-devel@nongnu.org>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Currently with the playback buffer attribute minreq = -1 and flag
-PA_STREAM_EARLY_REQUESTS PulseAudio uses minreq = tlength / 4.
-To improve audio playback with larger PulseAudio server side
-buffers, limit minreq to a maximum of 75% of audio timer_rate.
-That way there is a good chance qemu receives a stream buffer
-size update before it tries to write data to the playback stream.
+Tell PulseAudio to send recorded audio data in smaller chunks
+than timer_period, so there's a good chance that qemu can read
+recorded audio data every time it looks for new data.
+
+PulseAudio tries to send buffer updates at a fragsize / 2 rate.
+With fragsize = timer_period / 2 * 3 the update rate is 75% of
+timer_period. The lower limit for the recording buffer size
+maxlength is fragsize * 2.
 
 Signed-off-by: Volker Rümelin <vr_qemu@t-online.de>
 ---
- audio/paaudio.c | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+ audio/paaudio.c | 5 +++--
+ 1 file changed, 3 insertions(+), 2 deletions(-)
 
 diff --git a/audio/paaudio.c b/audio/paaudio.c
-index ff3dd01c96..3186868294 100644
+index 3186868294..1e6f4448ce 100644
 --- a/audio/paaudio.c
 +++ b/audio/paaudio.c
-@@ -517,7 +517,8 @@ static int qpa_init_out(HWVoiceOut *hw, struct audsettings *as,
+@@ -568,8 +568,9 @@ static int qpa_init_in(HWVoiceIn *hw, struct audsettings *as, void *drv_opaque)
+     ss.channels = as->nchannels;
      ss.rate = as->freq;
  
-     ba.tlength = pa_usec_to_bytes(ppdo->latency, &ss);
--    ba.minreq = -1;
-+    ba.minreq = pa_usec_to_bytes(MIN(ppdo->latency >> 2,
-+                                     (g->dev->timer_period >> 2) * 3), &ss);
-     ba.maxlength = -1;
+-    ba.fragsize = pa_usec_to_bytes(ppdo->latency, &ss);
+-    ba.maxlength = pa_usec_to_bytes(ppdo->latency * 2, &ss);
++    ba.fragsize = pa_usec_to_bytes((g->dev->timer_period >> 1) * 3, &ss);
++    ba.maxlength = pa_usec_to_bytes(
++        MAX(ppdo->latency, g->dev->timer_period * 3), &ss);
+     ba.minreq = -1;
      ba.prebuf = -1;
  
 -- 
