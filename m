@@ -2,67 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2A23C2F0865
-	for <lists+qemu-devel@lfdr.de>; Sun, 10 Jan 2021 17:29:40 +0100 (CET)
-Received: from localhost ([::1]:53978 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B04672F0866
+	for <lists+qemu-devel@lfdr.de>; Sun, 10 Jan 2021 17:29:43 +0100 (CET)
+Received: from localhost ([::1]:54338 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kydb0-0007ks-AT
-	for lists+qemu-devel@lfdr.de; Sun, 10 Jan 2021 11:29:38 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57704)
+	id 1kydb4-0007tj-Nv
+	for lists+qemu-devel@lfdr.de; Sun, 10 Jan 2021 11:29:42 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57716)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1kydZE-0006PW-1X
- for qemu-devel@nongnu.org; Sun, 10 Jan 2021 11:27:48 -0500
-Received: from mail-wr1-x433.google.com ([2a00:1450:4864:20::433]:37572)
+ id 1kydZG-0006TQ-J9
+ for qemu-devel@nongnu.org; Sun, 10 Jan 2021 11:27:50 -0500
+Received: from mail-wr1-x42c.google.com ([2a00:1450:4864:20::42c]:36340)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1kydZB-00055r-Sd
- for qemu-devel@nongnu.org; Sun, 10 Jan 2021 11:27:47 -0500
-Received: by mail-wr1-x433.google.com with SMTP id i9so13958482wrc.4
- for <qemu-devel@nongnu.org>; Sun, 10 Jan 2021 08:27:44 -0800 (PST)
+ id 1kydZF-00056B-3k
+ for qemu-devel@nongnu.org; Sun, 10 Jan 2021 11:27:50 -0500
+Received: by mail-wr1-x42c.google.com with SMTP id t16so13969366wra.3
+ for <qemu-devel@nongnu.org>; Sun, 10 Jan 2021 08:27:48 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=5sBJ6qHYMgl0aQ6BjikwmI/1EXpvh3CReocM7PWJU8g=;
- b=BDvj3iC/LLhBO1RMMRd54jThMZFjo99kY2GG9hKEMXgOnHD4xEvx29zUmF1BijMmOt
- OuhOmpeu28ngc1mDJI0G/9OD9qbj7rar/F0heoNI+Z0hBMUqaNNTQDITK13Docst+oRN
- Yu6jYyI9GJ3W8oVLPtEbXnDXNw8KvXMJ3Q+ObuYCVl+yi73rRAXleRB5HT5ozUrRI95j
- 3c50IvcEJO8K6csc/CsPf9EozC6XOBXO+k/MW0DlHpQjk6WgDccxfx1uBzBFKq4zbzQ0
- 8dzcpelNXiZcK7LAJcrgqikx4M+9aRKiFjbG0pjq+FnEYVRoGRqWkpotVII0WFdNF1q/
- VUhQ==
+ h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=0+4vsOPmrQO4utyVrt8o/jV8z8vNVPPVZFmm8srnerg=;
+ b=hvP9c+JVznCJAn8SCw7UM1yCaAatXMVA8pubf8dZNedDOwcPW44Q8ipjTratoNTz32
+ TwdFdOrlr6EcVpGaKXawVFW+/r03hJgp64sV4rQWB2fcQSh9sx1VO90bOd/Pd1KJCRDA
+ CqPvHH1ubLBdBemFydK5gn7ngN+wvULCOvRXo+z+CZfBTIRl90PR74+UE2QZ6C0ABVMU
+ 0wKKoXimxA5RUvqC4z1GLljUZhdDNCiipf9Czd7YVTPLnkcDlM2EaNhhgjBfNnADJzIc
+ zBvSWPy7HTifneCMkb0Kx8K4LEeupRj3V2JNlHDPJ9MSM9QzE2jX3BjwtzeylFltE6MX
+ wdtw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
- :mime-version:content-transfer-encoding;
- bh=5sBJ6qHYMgl0aQ6BjikwmI/1EXpvh3CReocM7PWJU8g=;
- b=giMUn/h4KlQIJwcTnlBzVX7u16xeoa6A2SYo++FAYohjobzNM1WYO6nZ985OjRT9s7
- ByByPS1Dk3/GWcOg42RJhDuTh9kiZxcGQMjYr1/MTW/98K09dX5KRbP6+GuJZYFakxTd
- 6oJwwjSKAbJj66MZukrA5oYqOKf5AzL3ZGjjwJR0fCqEZNhAesqXVF0UBP7NHDJcxWdm
- qkn5DYn0bcF2NyTG5CPhvtgDlFFtzkwIOU5f6v4IibBIrgNgryO1hyZ6o4QRxN4SYTBG
- YlIb8qxGKRtNkBsGPja528SjIk4PAcm6/2Hl0d3kPrZJCJJ6EOIfKMeCn3oAdkP10VV8
- P1Tw==
-X-Gm-Message-State: AOAM530F2EC8CwtB+MClVv6oFXZDex3da3UluqMPwOJFmjfaRmSVpkBV
- FbWGjnepmhOBBUMACBoyAByLlAJAxEY=
-X-Google-Smtp-Source: ABdhPJyL4R+poCmOFsvqJyTyctDC2kouFQU/d5b5fcJ62SZZTlVcLHFDTBuMDVfDUvVHFAN/MVDgCw==
-X-Received: by 2002:adf:f58a:: with SMTP id f10mr13257167wro.338.1610296062522; 
- Sun, 10 Jan 2021 08:27:42 -0800 (PST)
+ :in-reply-to:references:mime-version:content-transfer-encoding;
+ bh=0+4vsOPmrQO4utyVrt8o/jV8z8vNVPPVZFmm8srnerg=;
+ b=Ejvq8fYHzdvTXT/D+uicYwS+C/IClT2tuUe+abu62X2WaAGemIptsb8c8lDv14VjH5
+ u+zZSlOeDJom9tAM1KGXRtBo5PERJyFx/pphGQImFUyL3KX8pqYBRBE47c3Dqv7pkWQ0
+ +UGMWOYDNGQ7X4CN6DES6+BkiP2xZ52YEKCYPyIRGKw68QmgAiqrg7qPf6Vx5yVY4Zjs
+ 2E4LJFujdmVPLitcHDZ9ONPbo9hTyFdMV5VFT0rNReFm6wdAGzqehpLrKeq9C8qTQ6e0
+ qDZQ5tq8526XK3XXmhMd5tYghH6DbcYjs01KG6X8TJY5bAdcuqjzA1RZDZyTn09wkUEn
+ Jl+g==
+X-Gm-Message-State: AOAM531K0JFBRjpgrU4NS/8xyxYxTg/AD9VPDZfxG5WgtghW7Q720OQc
+ C7w8fqlY1o2aoppj2ic1yE8jBJ2+Zb0=
+X-Google-Smtp-Source: ABdhPJw/yf4ZPS35rOCQ6jsL51zpHvEEACkLto8VQFocNIG5JwaFkGeQViKbAzNu6Z2NUgBWcynYhg==
+X-Received: by 2002:a5d:4f82:: with SMTP id d2mr12655827wru.87.1610296067517; 
+ Sun, 10 Jan 2021 08:27:47 -0800 (PST)
 Received: from localhost.localdomain (129.red-88-21-205.staticip.rima-tde.net.
  [88.21.205.129])
- by smtp.gmail.com with ESMTPSA id h4sm20413792wrt.65.2021.01.10.08.27.40
+ by smtp.gmail.com with ESMTPSA id v7sm19238555wma.26.2021.01.10.08.27.46
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 10 Jan 2021 08:27:41 -0800 (PST)
+ Sun, 10 Jan 2021 08:27:46 -0800 (PST)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 0/2] tcg/tci: Fix Clang build
-Date: Sun, 10 Jan 2021 17:27:37 +0100
-Message-Id: <20210110162739.858087-1-f4bug@amsat.org>
+Subject: [PATCH 1/2] tcg: Mark more tcg_out*() functions with attribute
+ 'unused'
+Date: Sun, 10 Jan 2021 17:27:38 +0100
+Message-Id: <20210110162739.858087-2-f4bug@amsat.org>
 X-Mailer: git-send-email 2.26.2
+In-Reply-To: <20210110162739.858087-1-f4bug@amsat.org>
+References: <20210110162739.858087-1-f4bug@amsat.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::433;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x433.google.com
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::42c;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x42c.google.com
 X-Spam_score_int: -14
 X-Spam_score: -1.5
 X-Spam_bar: -
@@ -93,20 +96,75 @@ Cc: Thomas Huth <thuth@redhat.com>, Stefan Weil <sw@weilnetz.de>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Fix the build failure reported by Wataru Ashihara on [*]=0D
-and add a CI test to catch future problems.=0D
-=0D
-[*] https://www.mail-archive.com/qemu-devel@nongnu.org/msg771326.html=0D
-=0D
-Philippe Mathieu-Daud=C3=A9 (2):=0D
-  tcg: Mark more tcg_out*() functions with attribute 'unused'=0D
-  gitlab-ci: Add a job building TCI with Clang=0D
-=0D
- tcg/tcg.c      | 30 +++++++++++++++++++++---------=0D
- .gitlab-ci.yml | 22 ++++++++++++++++++++--=0D
- 2 files changed, 41 insertions(+), 11 deletions(-)=0D
-=0D
--- =0D
-2.26.2=0D
-=0D
+The tcg_out* functions are utility routines that may or
+may not be used by a particular backend. Similarly to commit
+4196dca63b8, mark them with the 'unused' attribute to suppress
+spurious warnings if they aren't used.
+
+This fixes the build with --enable-tcg-interpreter:
+
+  [98/151] Compiling C object libqemu-arm-softmmu.fa.p/tcg_tcg.c.o
+  FAILED: libqemu-arm-softmmu.fa.p/tcg_tcg.c.o
+  clang [...] -o libqemu-arm-softmmu.fa.p/tcg_tcg.c.o -c ../tcg/tcg.c
+  ../tcg/tcg.c:136:20: error: unused function 'tcg_out_dupi_vec' [-Werror,-Wunused-function]
+
+Reported-by: Wataru Ashihara <wataash@wataash.com>
+Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+---
+ tcg/tcg.c | 30 +++++++++++++++++++++---------
+ 1 file changed, 21 insertions(+), 9 deletions(-)
+
+diff --git a/tcg/tcg.c b/tcg/tcg.c
+index 472bf1755bf..a7fc2043cbf 100644
+--- a/tcg/tcg.c
++++ b/tcg/tcg.c
+@@ -123,24 +123,36 @@ static void tcg_out_vec_op(TCGContext *s, TCGOpcode opc, unsigned vecl,
+                            unsigned vece, const TCGArg *args,
+                            const int *const_args);
+ #else
+-static inline bool tcg_out_dup_vec(TCGContext *s, TCGType type, unsigned vece,
+-                                   TCGReg dst, TCGReg src)
++static __attribute__((unused)) inline bool tcg_out_dup_vec(TCGContext *s,
++                                                           TCGType type,
++                                                           unsigned vece,
++                                                           TCGReg dst,
++                                                           TCGReg src)
+ {
+     g_assert_not_reached();
+ }
+-static inline bool tcg_out_dupm_vec(TCGContext *s, TCGType type, unsigned vece,
+-                                    TCGReg dst, TCGReg base, intptr_t offset)
++static __attribute__((unused)) inline bool tcg_out_dupm_vec(TCGContext *s,
++                                                            TCGType type,
++                                                            unsigned vece,
++                                                            TCGReg dst,
++                                                            TCGReg base,
++                                                            intptr_t offset)
+ {
+     g_assert_not_reached();
+ }
+-static inline void tcg_out_dupi_vec(TCGContext *s, TCGType type,
+-                                    TCGReg dst, tcg_target_long arg)
++static __attribute__((unused)) inline void tcg_out_dupi_vec(TCGContext *s,
++                                                            TCGType type,
++                                                            TCGReg dst,
++                                                            tcg_target_long arg)
+ {
+     g_assert_not_reached();
+ }
+-static inline void tcg_out_vec_op(TCGContext *s, TCGOpcode opc, unsigned vecl,
+-                                  unsigned vece, const TCGArg *args,
+-                                  const int *const_args)
++static __attribute__((unused)) inline void tcg_out_vec_op(TCGContext *s,
++                                                          TCGOpcode opc,
++                                                          unsigned vecl,
++                                                          unsigned vece,
++                                                          const TCGArg *args,
++                                                          const int *const_args)
+ {
+     g_assert_not_reached();
+ }
+-- 
+2.26.2
+
 
