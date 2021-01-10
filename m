@@ -2,74 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BE69C2F090B
-	for <lists+qemu-devel@lfdr.de>; Sun, 10 Jan 2021 19:33:07 +0100 (CET)
-Received: from localhost ([::1]:57262 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 70ECB2F0911
+	for <lists+qemu-devel@lfdr.de>; Sun, 10 Jan 2021 19:36:59 +0100 (CET)
+Received: from localhost ([::1]:35264 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kyfWU-0006jj-I8
-	for lists+qemu-devel@lfdr.de; Sun, 10 Jan 2021 13:33:06 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53180)
+	id 1kyfaE-00014q-6a
+	for lists+qemu-devel@lfdr.de; Sun, 10 Jan 2021 13:36:58 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53496)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1kyfV2-0006Hv-4W
- for qemu-devel@nongnu.org; Sun, 10 Jan 2021 13:31:36 -0500
-Received: from mail-pl1-x62e.google.com ([2607:f8b0:4864:20::62e]:37980)
+ id 1kyfY8-0007XN-1M
+ for qemu-devel@nongnu.org; Sun, 10 Jan 2021 13:34:48 -0500
+Received: from mail-pf1-x42e.google.com ([2607:f8b0:4864:20::42e]:35562)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1kyfUx-0008Kq-KR
- for qemu-devel@nongnu.org; Sun, 10 Jan 2021 13:31:35 -0500
-Received: by mail-pl1-x62e.google.com with SMTP id 4so8316334plk.5
- for <qemu-devel@nongnu.org>; Sun, 10 Jan 2021 10:31:31 -0800 (PST)
+ id 1kyfY6-0000ow-IV
+ for qemu-devel@nongnu.org; Sun, 10 Jan 2021 13:34:47 -0500
+Received: by mail-pf1-x42e.google.com with SMTP id c79so9625694pfc.2
+ for <qemu-devel@nongnu.org>; Sun, 10 Jan 2021 10:34:46 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=subject:to:cc:references:from:message-id:date:user-agent
  :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=zO6dcZPOxHPbFbpThbflMtNgqfTRdsVIvmotWRlEgZE=;
- b=nP9UPXgNGFjkQeWfN8XQFByQqp6sC3hKQu8B9KpFW1U7rgPRn3rPv9T66VKHCFqmMn
- 1ITeSsBliAO0aJ0Snb4wetp3lMICPXDxVLt6gqRokP/AfAboHLXnQa6kENx3hSOEk1HD
- /ZJrAk1vtze9myE84RZlC5odJBShwKWEVlzX4X/jGwW3vkzw4KsX505bbG1kVkFUt/Ai
- RQohJysOn1ofhP3x8FFpMBsA/5SSsaPX7bAqlZlG1l2sM8Xy1ZOO4HUTtW3zLF112Wvz
- oW57dmCr9rBUNlC7dmodl858SXYB+huXlW+VG/mkb010LEYvB0yo11qHlgSx2Q2CrFRM
- LxRw==
+ bh=ILGvm8hLxribOAi8C2B/bryKYfvdt634X9gv2zNbfDA=;
+ b=PIPT+cWPrPojt0kpyN9ybWEfAk0IApeV8yphPZQ688jXvrhjDsztsIbHQ23f2ekLbJ
+ Vm2ztMCyw3Op1Wz1+d/dQe/XETL/eHuC3PNfluHbP++vNfq6YR/L4wz9r07SKcSRuHLQ
+ sxNmFjrbfdb9mP0RxR2tpTU4oUKy9EAddJoEAG6z6XFb5CBfE/GAzjDTY4LlnUphewzf
+ WPO+N5kDnihMITD9RUUVsT0LJFAo+UXs+pom7pWu9niVwMpEBzyZZSTyxVQAD1uxDPQ0
+ Jp8BPVxXcRnc8OOQW40OkIewE5hfdML2IGcYOmjQgA+Qx84B1QH/cQtcAXrmaajPUJjM
+ UBcA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:subject:to:cc:references:from:message-id:date
  :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=zO6dcZPOxHPbFbpThbflMtNgqfTRdsVIvmotWRlEgZE=;
- b=UxNE3qstQtyh86Ku3mNUPKrOE4CZG40HtBZ4B5XtgpcQjUhU91TG5EdROYN/Dtex4+
- u+DYhXeSuujYkwxEF39llVX6YuIVDACrKEUgQA/GsdTJeo7PRiEvvu/PW67iOmRLJyuz
- llmTLqdtbDKad4aHKY6N7/HnHA++rzdj73erKtaB7m/xrLDRYrP5Odv1XwEzv6Lr99cK
- tIYbxStc64SuZLm9fysfq0p7RZeiSEyn5fAw8ByittjFv/aCZCDMaWN8PLsbjLZY5MTi
- Cj7ISdf7hsYnc0daI9YDXw5Rx1XPXAnvTF+n7VbXXKsNaBWN41bWjBmrgAsCie5U6b3Z
- Y3NA==
-X-Gm-Message-State: AOAM531xvF/bBw9f0Tn41LNLr0wKlOpgdLK+2r2/PlZZuM970GNHYoDr
- RisrCiy3wIx5BRpPMRVtTyRheA==
-X-Google-Smtp-Source: ABdhPJytP07MvvwC4v7r9up8M+L3skZH/SzFwqbTrSjV0m6GyuDiY/Ci4dnoxACBtcEipvRaLeBa1g==
-X-Received: by 2002:a17:902:aa84:b029:da:f114:6022 with SMTP id
- d4-20020a170902aa84b02900daf1146022mr16083152plr.46.1610303490082; 
- Sun, 10 Jan 2021 10:31:30 -0800 (PST)
+ bh=ILGvm8hLxribOAi8C2B/bryKYfvdt634X9gv2zNbfDA=;
+ b=ENFhbQlSgWVXqiGX3Ry601pU16Ci2VlNIG4yE2Di1QZsHaljTK9tN0fPEOp3SvOgi/
+ rXoOC7v9S3oD2kPmVCuAHMYFbHvzl69LLl/j7UPUVx9OtohKU1PTDcrikzGtPqr5D5/N
+ eLuL0ARVoMFIhBX5eo++om0n5zBOCMAT8XIidp3PU9B6rfI1FA4mizSU9pqQ4W7BPDG3
+ nj4cc7nD6Vk6/3n/bTGKIUZSsRAdW9Ab9DsbVkrq10/Iz9YUP1xYhzcvM+5Hpqfv2gQY
+ E2b0yDyKB/0ll9B52bVMGldFvZYgdpCGKJ9wStP1QFdV3c3O/ozuCe1bqcCaMOi24MXh
+ Os/w==
+X-Gm-Message-State: AOAM5312q6WDteRnG/WZ6tEuHKzwgRt00xqY8rn7lt0TyklhyeKHjDCs
+ kVeqDKCC2yWD1wG8tIqrDmrURA==
+X-Google-Smtp-Source: ABdhPJz2QesEVqKiTQwWRDxDuFreWD6IBmUQhL4W1b25EsHSUjoFTh/pbWDLv7NaQ43XMjJda7D8Ig==
+X-Received: by 2002:a62:2606:0:b029:1a5:a755:5568 with SMTP id
+ m6-20020a6226060000b02901a5a7555568mr13099650pfm.65.1610303685259; 
+ Sun, 10 Jan 2021 10:34:45 -0800 (PST)
 Received: from [10.25.18.117] (rrcs-173-197-107-21.west.biz.rr.com.
  [173.197.107.21])
- by smtp.gmail.com with ESMTPSA id k9sm14771845pjj.8.2021.01.10.10.31.28
+ by smtp.gmail.com with ESMTPSA id f92sm16588899pjk.54.2021.01.10.10.34.43
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sun, 10 Jan 2021 10:31:29 -0800 (PST)
-Subject: Re: [PATCH] target/i386: Use X86Seg enum for segment registers
-To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
- qemu-devel@nongnu.org
-References: <20210109233427.749748-1-f4bug@amsat.org>
+ Sun, 10 Jan 2021 10:34:44 -0800 (PST)
+Subject: Re: [PATCH] hvf: guard xgetbv call.
+To: Roman Bolshakov <r.bolshakov@yadro.com>,
+ Peter Maydell <peter.maydell@linaro.org>, Hill Ma <maahiuzeon@gmail.com>
+References: <X91h2yoy7qVrO1kv@Hills-Mac-Pro.local>
+ <X/lDozXFWfR4AZAU@SPB-NB-133.local>
+ <CAFEAcA9bMbPFj=xFiHgDVg1X14kZOt0Bre-uH0fcjJzsaSk0qA@mail.gmail.com>
+ <X/pccrqIQ9/N57j6@SPB-NB-133.local>
 From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <2f72248d-7c86-9fa0-bd33-9bc6c75d4464@linaro.org>
-Date: Sun, 10 Jan 2021 08:31:25 -1000
+Message-ID: <8da22f7f-7379-cffe-5fdd-94fd5ddece32@linaro.org>
+Date: Sun, 10 Jan 2021 08:34:40 -1000
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.10.0
 MIME-Version: 1.0
-In-Reply-To: <20210109233427.749748-1-f4bug@amsat.org>
+In-Reply-To: <X/pccrqIQ9/N57j6@SPB-NB-133.local>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::62e;
- envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x62e.google.com
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::42e;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x42e.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -89,22 +92,38 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Paolo Bonzini <pbonzini@redhat.com>, Eduardo Habkost <ehabkost@redhat.com>
+Cc: John Arbuckle <programmingkidx@gmail.com>,
+ Richard Henderson <rth@twiddle.net>, QEMU Developers <qemu-devel@nongnu.org>,
+ Cameron Esfahani <dirty@apple.com>, Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 1/9/21 1:34 PM, Philippe Mathieu-Daudé wrote:
-> Use the dedicated X86Seg enum type for segment registers.
+On 1/9/21 3:46 PM, Roman Bolshakov wrote:
+> +static int xgetbv(uint32_t cpuid_ecx, uint32_t idx, uint64_t *xcr)
+>  {
+> -    uint32_t eax, edx;
+> +    uint32_t xcrl, xcrh;
 > 
-> Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
-> ---
->  target/i386/cpu.h            | 4 ++--
->  target/i386/gdbstub.c        | 2 +-
->  target/i386/tcg/seg_helper.c | 8 ++++----
->  target/i386/tcg/translate.c  | 6 +++---
->  4 files changed, 10 insertions(+), 10 deletions(-)
+> -    __asm__ volatile ("xgetbv"
+> -                      : "=a" (eax), "=d" (edx)
+> -                      : "c" (xcr));
+> +    if (cpuid_ecx && CPUID_EXT_OSXSAVE) {
+> +        /* The xgetbv instruction is not available to older versions of
+> +         * the assembler, so we encode the instruction manually.
+> +         */
+> +        asm(".byte 0x0f, 0x01, 0xd0" : "=a" (xcrl), "=d" (xcrh) : "c" (idx));
+> 
+> -    return (((uint64_t)edx) << 32) | eax;
+> +        *xcr = (((uint64_t)xcrh) << 32) | xcrl;
+> +        return 0;
+> +    }
+> +
+> +    return 1;
+>  }
 
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+Not to bikeshed too much, but this looks like it should return bool, and true
+on success, not the other way around.
+
 
 r~
 
