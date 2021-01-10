@@ -2,46 +2,83 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D5B662F09CE
-	for <lists+qemu-devel@lfdr.de>; Sun, 10 Jan 2021 22:19:24 +0100 (CET)
-Received: from localhost ([::1]:50626 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 79DD82F09E3
+	for <lists+qemu-devel@lfdr.de>; Sun, 10 Jan 2021 22:34:12 +0100 (CET)
+Received: from localhost ([::1]:58908 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kyi7P-0001CN-Gw
-	for lists+qemu-devel@lfdr.de; Sun, 10 Jan 2021 16:19:23 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48224)
+	id 1kyiLj-0005fE-3S
+	for lists+qemu-devel@lfdr.de; Sun, 10 Jan 2021 16:34:11 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50478)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1kyi5u-0000OL-6U
- for qemu-devel@nongnu.org; Sun, 10 Jan 2021 16:17:50 -0500
-Received: from mx2.suse.de ([195.135.220.15]:36008)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1kyi5r-0002fm-J7
- for qemu-devel@nongnu.org; Sun, 10 Jan 2021 16:17:49 -0500
-X-Virus-Scanned: by amavisd-new at test-mx.suse.de
-Received: from relay2.suse.de (unknown [195.135.221.27])
- by mx2.suse.de (Postfix) with ESMTP id AF064AEFE;
- Sun, 10 Jan 2021 21:17:45 +0000 (UTC)
-From: Claudio Fontana <cfontana@suse.de>
-Subject: check-tcg HOWTO?
-To: Alex Bennee <alex.bennee@linaro.org>
-References: <f14c22bf-aecb-3e38-347b-1b9119ad8baa@suse.de>
-Message-ID: <1301fc86-b356-b4a8-42c1-bf7705419a5e@suse.de>
-Date: Sun, 10 Jan 2021 22:17:44 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.12.0
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1kyiKL-0005Dd-OJ
+ for qemu-devel@nongnu.org; Sun, 10 Jan 2021 16:32:45 -0500
+Received: from mail-ej1-x635.google.com ([2a00:1450:4864:20::635]:38507)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1kyiKK-0007hD-1V
+ for qemu-devel@nongnu.org; Sun, 10 Jan 2021 16:32:45 -0500
+Received: by mail-ej1-x635.google.com with SMTP id 6so21983695ejz.5
+ for <qemu-devel@nongnu.org>; Sun, 10 Jan 2021 13:32:43 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=sender:subject:to:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=PKV5RMI1CKeXsFFHYvHhc73cpluLNSOIXlDWQoKdMSI=;
+ b=n+FFks9xop4F9QCQZJziZqhwwLk4ffar53gt77Bq3JAIm20XkT5yxMnvdeVjCb1fIo
+ Nea1igObd+mnol6zPnmTUmmgxq/LqNqXCirOetzTZr8n6xYrqOfUInKyr4v0Lub6JESF
+ wT11fsDH/LUk1AY89BcGVB8vg9i7+Dpzt97oloibIIwEkhSQ4bZO54PPL/ryYJ9nDQsh
+ iNk7GK0xnaueDx2uVmZ0ZfN8nPXPm6j+jwYdtFVYBE3oGg4cnaGzJw44ukh1pYRO/gPi
+ yi9YoVhEUOL5A/l5HgIbpcp4xKqQhHZcvbip7biU1wJA4+/tpmg+uJzW6M3n1+RZd6dX
+ cr2g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:sender:subject:to:references:from:message-id
+ :date:user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=PKV5RMI1CKeXsFFHYvHhc73cpluLNSOIXlDWQoKdMSI=;
+ b=cMf8AzzQDrS3wiBLqulWN5NRm9kazr7kfUOik5nil5jX6hRb+EepY2PzZuuVfNrlvq
+ yrCtm6a+oOTC1M0rRpj/LYoYhh/ZGEq6IcidUoAZf66iY+umJx/MqPLyhfNd2N0QNttd
+ SmREPGE72m8HT/86z9TQ+diOOjXhjjhQhBOSVWfnM8fBmlwd1AP1T0N/OcwNMoS3dK4y
+ Qceibufy6FYQCnlQp8h6U+2Phi4KcFYSiDK6KMtGeSgd90ci7WnPu8ilmHWqCQWWVsZA
+ rwX2CkGKj0RN4FOoyZkcWyzLjBZ0TyQNsDlX6IiavPgne2t4KpjyGisSytU0THvNmWLK
+ wjBQ==
+X-Gm-Message-State: AOAM530vFNmAL+5faCrErWz0CnxGVRam6euQ9131oh1CzcOh9sdBr4FR
+ O3N6FjNkXeyrfC0ZOlCPzd/3E2HaHIs=
+X-Google-Smtp-Source: ABdhPJyK4ONJ18ieKhDdAku40beKU5HzsVZ0xYjMs01XYR1+eo+cOqU39voDHsAQY5yUoup7CsLodA==
+X-Received: by 2002:a17:906:710b:: with SMTP id
+ x11mr9308267ejj.433.1610314362227; 
+ Sun, 10 Jan 2021 13:32:42 -0800 (PST)
+Received: from [192.168.1.36] (129.red-88-21-205.staticip.rima-tde.net.
+ [88.21.205.129])
+ by smtp.gmail.com with ESMTPSA id p24sm6702671edr.65.2021.01.10.13.32.40
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Sun, 10 Jan 2021 13:32:41 -0800 (PST)
+Subject: Re: [PATCH] tcg: Remove unused tcg_out_dupi_vec() stub
+To: Richard Henderson <richard.henderson@linaro.org>,
+ Wataru Ashihara <wataash@wataash.com>, qemu-devel@nongnu.org
+References: <20210110041039.512225-1-wataash@wataash.com>
+ <7ee330fa-62e7-353d-333f-cd4ed7a065a5@linaro.org>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
+Message-ID: <b35a3b47-e9d1-3d0a-9142-2f1703c0e115@amsat.org>
+Date: Sun, 10 Jan 2021 22:32:40 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.6.0
 MIME-Version: 1.0
-In-Reply-To: <f14c22bf-aecb-3e38-347b-1b9119ad8baa@suse.de>
+In-Reply-To: <7ee330fa-62e7-353d-333f-cd4ed7a065a5@linaro.org>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=195.135.220.15; envelope-from=cfontana@suse.de;
- helo=mx2.suse.de
-X-Spam_score_int: -41
-X-Spam_score: -4.2
-X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
- RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Transfer-Encoding: base64
+Received-SPF: pass client-ip=2a00:1450:4864:20::635;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-ej1-x635.google.com
+X-Spam_score_int: -14
+X-Spam_score: -1.5
+X-Spam_bar: -
+X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249, NICE_REPLY_A=-0.012,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -54,55 +91,45 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Paolo Bonzini <pbonzini@redhat.com>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
- qemu-devel <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi Alex,
-
-happy new year,
-
-I am trying to get check-tcg to run reliably,
-as I am doing some substantial refactoring of tcg cpu operations, so I need to verify that TCG is fine.
-
-This is an overall getting started question, is there a how-to on how to use check-tcg and how to fix things when things don't go smoothly?
-
-I get different results on different machines for check-tcg, although the runs are containerized,
-on one machine the tests for aarch64 tcg are SKIPPED completely (so no errors),
-
-on the other machine I get:
-
-qemu-system-aarch64: terminating on signal 15 from pid 18583 (timeout)
-qemu-system-aarch64: terminating on signal 15 from pid 18584 (timeout)
-qemu-system-aarch64: terminating on signal 15 from pid 18585 (timeout)
-make[2]: *** [../Makefile.target:162: run-hello] Error 124
-make[2]: *** Waiting for unfinished jobs....
-make[2]: *** [../Makefile.target:162: run-pauth-3] Error 124
-make[2]: *** [../Makefile.target:162: run-memory] Error 124
-
-Both are configured with 
-
-configure --enable-tcg
-
-Anything more than V=1 to get more output?
-How do I debug and get logs and cores out of containers?
-
-in tests/tcg/ there is:
-
-a README (with no hint unfortunately) ,
-Makefile.qemu
-Makefile.prereqs
-Makefile.target
-
-There are a bunch of variables in these files, which seem to be possible to configure, am I expected to set some of those?
-
-I think that it would be beneficial to have either more documentation or more immediately actionable information out of make check failures;
-
-Any help you could give me to make some progess?
-
-Thanks,
-
-Claudio
+T24gMS8xMC8yMSA3OjIzIFBNLCBSaWNoYXJkIEhlbmRlcnNvbiB3cm90ZToNCj4gT24gMS85
+LzIxIDY6MTAgUE0sIFdhdGFydSBBc2hpaGFyYSB3cm90ZToNCj4+IFRoaXMgZml4ZXMgdGhl
+IGJ1aWxkIHdpdGggLS1lbmFibGUtdGNnLWludGVycHJldGVyOg0KPj4NCj4+ICAgY2xhbmcg
+LUlsaWJxZW11LWFybS1zb2Z0bW11LmZhLnAgLUkuIC1JLi4gLUl0YXJnZXQvYXJtIC1JLi4v
+dGFyZ2V0L2FybSAtSS4uL2R0Yy9saWJmZHQgLUkuLi9jYXBzdG9uZS9pbmNsdWRlL2NhcHN0
+b25lIC1JcWFwaSAtSXRyYWNlIC1JdWkgLUl1aS9zaGFkZXIgLUkvdXNyL2luY2x1ZGUvcGl4
+bWFuLTEgLUkvdXNyL2luY2x1ZGUvZ2xpYi0yLjAgLUkvdXNyL2xpYi94ODZfNjQtbGludXgt
+Z251L2dsaWItMi4wL2luY2x1ZGUgLVhjbGFuZyAtZmNvbG9yLWRpYWdub3N0aWNzIC1waXBl
+IC1XYWxsIC1XaW52YWxpZC1wY2ggLVdlcnJvciAtc3RkPWdudTk5IC1nIC1tNjQgLW1jeDE2
+IC1EX0dOVV9TT1VSQ0UgLURfRklMRV9PRkZTRVRfQklUUz02NCAtRF9MQVJHRUZJTEVfU09V
+UkNFIC1Xc3RyaWN0LXByb3RvdHlwZXMgLVdyZWR1bmRhbnQtZGVjbHMgLVd1bmRlZiAtV3dy
+aXRlLXN0cmluZ3MgLVdtaXNzaW5nLXByb3RvdHlwZXMgLWZuby1zdHJpY3QtYWxpYXNpbmcg
+LWZuby1jb21tb24gLWZ3cmFwdiAtV29sZC1zdHlsZS1kZWZpbml0aW9uIC1XdHlwZS1saW1p
+dHMgLVdmb3JtYXQtc2VjdXJpdHkgLVdmb3JtYXQteTJrIC1XaW5pdC1zZWxmIC1XaWdub3Jl
+ZC1xdWFsaWZpZXJzIC1XZW1wdHktYm9keSAtV25lc3RlZC1leHRlcm5zIC1XZW5kaWYtbGFi
+ZWxzIC1XZXhwYW5zaW9uLXRvLWRlZmluZWQgLVduby1pbml0aWFsaXplci1vdmVycmlkZXMg
+LVduby1taXNzaW5nLWluY2x1ZGUtZGlycyAtV25vLXNoaWZ0LW5lZ2F0aXZlLXZhbHVlIC1X
+bm8tc3RyaW5nLXBsdXMtaW50IC1Xbm8tdHlwZWRlZi1yZWRlZmluaXRpb24gLVduby10YXV0
+b2xvZ2ljYWwtdHlwZS1saW1pdC1jb21wYXJlIC1mc3RhY2stcHJvdGVjdG9yLXN0cm9uZyAt
+aXN5c3RlbSAvaG9tZS93c2gvcWMvcWVtdS9saW51eC1oZWFkZXJzIC1pc3lzdGVtIGxpbnV4
+LWhlYWRlcnMgLWlxdW90ZSAvaG9tZS93c2gvcWMvcWVtdS90Y2cvdGNpIC1pcXVvdGUgLiAt
+aXF1b3RlIC9ob21lL3dzaC9xYy9xZW11IC1pcXVvdGUgL2hvbWUvd3NoL3FjL3FlbXUvYWNj
+ZWwvdGNnIC1pcXVvdGUgL2hvbWUvd3NoL3FjL3FlbXUvaW5jbHVkZSAtaXF1b3RlIC9ob21l
+L3dzaC9xYy9xZW11L2Rpc2FzL2xpYnZpeGwgLXB0aHJlYWQgLWZQSUMgLWlzeXN0ZW0uLi9s
+aW51eC1oZWFkZXJzIC1pc3lzdGVtbGludXgtaGVhZGVycyAtRE5FRURfQ1BVX0ggJy1EQ09O
+RklHX1RBUkdFVD0iYXJtLXNvZnRtbXUtY29uZmlnLXRhcmdldC5oIicgJy1EQ09ORklHX0RF
+VklDRVM9ImFybS1zb2Z0bW11LWNvbmZpZy1kZXZpY2VzLmgiJyAtTUQgLU1RIGxpYnFlbXUt
+YXJtLXNvZnRtbXUuZmEucC90Y2dfdGNnLmMubyAtTUYgbGlicWVtdS1hcm0tc29mdG1tdS5m
+YS5wL3RjZ190Y2cuYy5vLmQgLW8gbGlicWVtdS1hcm0tc29mdG1tdS5mYS5wL3RjZ190Y2cu
+Yy5vIC1jIC4uL3RjZy90Y2cuYw0KPj4gICAuLi90Y2cvdGNnLmM6MTM2OjIwOiBlcnJvcjog
+dW51c2VkIGZ1bmN0aW9uICd0Y2dfb3V0X2R1cGlfdmVjJyBbLVdlcnJvciwtV3VudXNlZC1m
+dW5jdGlvbl0NCj4gDQo+IA0KPiBXaGF0IHZlcnNpb24gb2YgY2xhbmc/DQo+IFdpdGggY2xh
+bmcgMTAsIEkgY2FuJ3QgZXZlbiBydW4gY29uZmlndXJlIHdpdGhvdXQgLS1kaXNhYmxlLXdl
+cnJvci4NCg0KY2xhbmcgdmVyc2lvbiAxMC4wLjEgKEZlZG9yYSAxMC4wLjEtMy5mYzMyKQ0K
+DQpJIHRlc3RlZCB1c2luZzoNCg0KLi4vY29uZmlndXJlICctLWNjPWNsYW5nJyAnLS1jeHg9
+Y2xhbmcrKycgXA0KICctLWV4dHJhLWNmbGFncz0tV3VudXNlZC1mdW5jdGlvbicgJy0tZW5h
+YmxlLXRjZy1pbnRlcnByZXRlcicgXA0KICctLWRpc2FibGUtdG9vbHMnICctLXRhcmdldC1s
+aXN0PWFybS1zb2Z0bW11Jw0K
 
