@@ -2,71 +2,109 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C147D2F06FF
-	for <lists+qemu-devel@lfdr.de>; Sun, 10 Jan 2021 13:06:25 +0100 (CET)
-Received: from localhost ([::1]:53284 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 73ABA2F075D
+	for <lists+qemu-devel@lfdr.de>; Sun, 10 Jan 2021 14:13:19 +0100 (CET)
+Received: from localhost ([::1]:52082 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kyZUG-0004eK-B6
-	for lists+qemu-devel@lfdr.de; Sun, 10 Jan 2021 07:06:24 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45682)
+	id 1kyaX0-0003qF-25
+	for lists+qemu-devel@lfdr.de; Sun, 10 Jan 2021 08:13:18 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55474)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
- id 1kyZST-00045Q-6g; Sun, 10 Jan 2021 07:04:33 -0500
-Received: from mail-yb1-xb35.google.com ([2607:f8b0:4864:20::b35]:42420)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
- id 1kyZSI-000110-NN; Sun, 10 Jan 2021 07:04:32 -0500
-Received: by mail-yb1-xb35.google.com with SMTP id j17so14133172ybt.9;
- Sun, 10 Jan 2021 04:04:22 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=xG8U7TIsKlN/tujt2SnC5DAcpADsKwXN5jx1HZq7xoA=;
- b=N+6y8fmHIRt6FXQcqTurEgi6FseIdbSInE3gCZWiDPaYoiNXy2y6hM/gdPx4FPsem3
- NrCgzcKhPby7JX9FJGsIiKKJyoucyktGuOIEn3A9gs3bf+3A00Vty4JbK1reqeb25oTp
- 8xdzxOHGd7v7JUWgVeKqSpK4KILcSgyHkuZBeJmTnO9wnGB1lQjC4JXlpn4hF9b8P5UW
- yfmWuNItHgJP0fqB6kk5vRQrd3djDSzAqR/Ibbgw+c0zzW00l7Gz/gGQWcU72H11Xcwe
- f1Iv1fpncfv1r9y4dqEYYnM+gZ/d7Sx96LEZh8AFHK56wB4GG/fn6zaFIuCV2xbVE+jq
- DOww==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=xG8U7TIsKlN/tujt2SnC5DAcpADsKwXN5jx1HZq7xoA=;
- b=LZ/RpEMoTVEcCxWRIgNpqof7g73e3s4sMlnQAUaAVvq/vJw3sF1qVPXhIHTBqQ5CGK
- wEbY465w22a4HFOY+6UF/dTpGfvJ9MnyxjFeXXpfjhPw+yImnw85Nu35Hh0AcL0+a8VG
- arjtQ6X83Ey0axBdW4KHYud3q360rhnCnAmaPfO2vqZm7P1mA4jDn6w07tbHTPdjtZ1w
- nnxUqGviBGUYyu0FlE+/iAE4NU1X07kh0fVx4kxsaZWB818YcQR5Agnvyav0eyFV+4ri
- GZCY1Wp/vJEMm9EqPQMVZpTeVYHqecaSfybyeaxg82rV3Zs5Ip3dx5PI5XGzZiYHbgd2
- i3ww==
-X-Gm-Message-State: AOAM531luXcevwxY+26+5uept8OIJQ4ZQVptON5KlpMtUTU/LtAdaPqG
- Wj26/E/fe5HnVQJCp47cMFA2cKiIAwiNpMIueuA=
-X-Google-Smtp-Source: ABdhPJyRMupABjSS3SGTjilsXdils6rBU/t3FdPii3/U+zYgfqlG/xrrm2m5ooq+M0GttqC1QXSHcyUIR7lvX5l6eAo=
-X-Received: by 2002:a25:690b:: with SMTP id e11mr17502703ybc.314.1610280261611; 
- Sun, 10 Jan 2021 04:04:21 -0800 (PST)
-MIME-Version: 1.0
-References: <20210110081429.10126-1-bmeng.cn@gmail.com>
- <20210110081429.10126-3-bmeng.cn@gmail.com>
- <40b62e4a-6139-7427-77bc-b33436687f92@amsat.org>
-In-Reply-To: <40b62e4a-6139-7427-77bc-b33436687f92@amsat.org>
-From: Bin Meng <bmeng.cn@gmail.com>
-Date: Sun, 10 Jan 2021 20:04:10 +0800
-Message-ID: <CAEUhbmXkfikgjOMoOqf6DSmngftZPci5hRpGpDVU9aJvp7QB8g@mail.gmail.com>
-Subject: Re: [PATCH v4 2/6] hw/ssi: imx_spi: Remove imx_spi_update_irq() in
- imx_spi_reset()
-To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>
+ (Exim 4.90_1) (envelope-from <Qiuhao.Li@outlook.com>)
+ id 1kyaUq-000356-80
+ for qemu-devel@nongnu.org; Sun, 10 Jan 2021 08:11:04 -0500
+Received: from mail-oln040092253043.outbound.protection.outlook.com
+ ([40.92.253.43]:13035 helo=APC01-SG2-obe.outbound.protection.outlook.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <Qiuhao.Li@outlook.com>)
+ id 1kyaUn-0000zK-6P
+ for qemu-devel@nongnu.org; Sun, 10 Jan 2021 08:11:03 -0500
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=cVIK7MUI+v4OpOXdbjs7pADxe7ATKetmA+IOaHmGUFW1o3sdJtr7Zuq0uYf3u4X4iJhKKrDs5fqbavS49VXmbaQV0X2OsTJvpHMfaznNFD+XZpIMLtCypdTXgcmVd/zy/dzVZhUbvOsaZMvLD0MqKaV2WTQNWpIMrQm+hHGfIi6ICuhhYa/dg6S8s9seMIhXsvRtxrfFUCk29E8kHxRSljz4lsNf8EQsea1I6k8nhtl7sISKsCsfd0RAVaLUuOV9gVDHwm4Ykdi4TEaS0LQpp63o+ZAF2W0NWSl8VlP+3YVD6iVzHMgJ6XBFP5hOsuqTwlFaxNeCSJS73SWkicHUkg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=zVOUVMmC/aVT3Jh3evjONtVxGeA2STIyhf/SqJiJrUY=;
+ b=lhR1WWYPnKS+B65b1rgFp9jLuz8ygL64q7TlYtXB81IWFnquQUHpziqImRLDWzMBGe0U3Z4+weQp51V0u2YM8hAFAF8+zSVT7GEdSZZC0bh39l4pxPU57zjSBf/M+YW9KlfMB0Vv+uE8Hnnhi3EHh3FpI2GSEhwPDJAFPray4j2ky5zQISCk2xbrHR+yjJ1m+gDfatGwgyHWN1XCCYIJvCEr4qklnuDL6vxnEuNIlApmOX613EGwUPw207tSddIzDYiqQXDLFgYGQtc+FS7qZC9jUnWea1Vkm5AhS0s4c3Fs8U01/DEe9/6CmvZ6wKSBhZIeAgm/Yn+NUdOo8ChueA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=none; dmarc=none;
+ dkim=none; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=outlook.com;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=zVOUVMmC/aVT3Jh3evjONtVxGeA2STIyhf/SqJiJrUY=;
+ b=j711TiuaYeEtbqlLp3/PYOU70hgtbv0L+iPQiXjFwQeV8n/WWAWpZ6rlS9WM2DysEEs9jwuo2OQ73Fuz9DGs6BIWgRxteEoH2YKN1WWBT+Bff1qIvk98ds+JY6wCGgYWpOGzhiNYbSXYtXn6JlZ5zUmeaNY9/xHDFwCJSZDuvZHyNTvzcN7qw/fpkAocAUaTnlboOhcW4RzM6X18xjBqny+lJzeL28EX8SLRiZCmqO7XZhYq8xFYvmm3wuDaReEqH8Nig8xNaWE2ENqZK3G8wxK7Pvcb2Ncd5wD8PP3CgGUGsQ3yUb6W2myzqs4wghINrbB8ENOwwigswXvEEAvjsg==
+Received: from HK2APC01FT043.eop-APC01.prod.protection.outlook.com
+ (2a01:111:e400:7ebc::52) by
+ HK2APC01HT037.eop-APC01.prod.protection.outlook.com (2a01:111:e400:7ebc::345)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3742.6; Sun, 10 Jan
+ 2021 13:10:40 +0000
+Received: from SYCPR01MB3502.ausprd01.prod.outlook.com
+ (2a01:111:e400:7ebc::4f) by HK2APC01FT043.mail.protection.outlook.com
+ (2a01:111:e400:7ebc::348) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3742.6 via Frontend
+ Transport; Sun, 10 Jan 2021 13:10:40 +0000
+X-IncomingTopHeaderMarker: OriginalChecksum:15773A3FF76325E0D7FEFA0F10A0FD7F5332796F79425AEE9CF8D88FC5091F61;
+ UpperCasedChecksum:C9F400BE80EFE5E9B4A2E78620229DF0CF8B1FB8311C11B6088CD5ED191E6051;
+ SizeAsReceived:8818; Count:47
+Received: from SYCPR01MB3502.ausprd01.prod.outlook.com
+ ([fe80::b5dd:6210:81a:7780]) by SYCPR01MB3502.ausprd01.prod.outlook.com
+ ([fe80::b5dd:6210:81a:7780%5]) with mapi id 15.20.3742.011; Sun, 10 Jan 2021
+ 13:10:40 +0000
+Message-ID: <SYCPR01MB35026BAE41BDF24E076ABBF1FCAC0@SYCPR01MB3502.ausprd01.prod.outlook.com>
+Subject: Re: [PATCH v4 1/7] fuzz: accelerate non-crash detection
+From: Qiuhao Li <Qiuhao.Li@outlook.com>
+To: Alexander Bulekov <alxndr@bu.edu>
+Date: Sun, 10 Jan 2021 21:10:27 +0800
+In-Reply-To: <20210107041827.sztisz72urbhxflx@mozz.bu.edu>
+References: <ME3P282MB17456B93AE422008F433C50DFCD80@ME3P282MB1745.AUSP282.PROD.OUTLOOK.COM>
+ <ME3P282MB174544643E941EFC9EAA2287FCD80@ME3P282MB1745.AUSP282.PROD.OUTLOOK.COM>
+ <20210107041827.sztisz72urbhxflx@mozz.bu.edu>
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2607:f8b0:4864:20::b35;
- envelope-from=bmeng.cn@gmail.com; helo=mail-yb1-xb35.google.com
+User-Agent: Evolution 3.36.4-0ubuntu1 
+Content-Transfer-Encoding: 7bit
+X-TMN: [a7rl0TuWNlOaU8mGGC4vjuHGB/atMjyK]
+X-ClientProxiedBy: SJ0PR03CA0119.namprd03.prod.outlook.com
+ (2603:10b6:a03:333::34) To SYCPR01MB3502.ausprd01.prod.outlook.com
+ (2603:10c6:10:3e::12)
+X-Microsoft-Original-Message-ID: <f37a1c2726c61a6fcc69c247a04f2a675ac832e4.camel@outlook.com>
+MIME-Version: 1.0
+X-MS-Exchange-MessageSentRepresentingType: 1
+Received: from localhost (104.225.148.19) by
+ SJ0PR03CA0119.namprd03.prod.outlook.com (2603:10b6:a03:333::34) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3742.6 via Frontend
+ Transport; Sun, 10 Jan 2021 13:10:35 +0000
+X-MS-PublicTrafficType: Email
+X-IncomingHeaderCount: 47
+X-EOPAttributedMessage: 0
+X-MS-Office365-Filtering-Correlation-Id: dbc7789c-e863-41ce-c2e7-08d8b5692149
+X-MS-TrafficTypeDiagnostic: HK2APC01HT037:
+X-MS-Exchange-MinimumUrlDomainAge: launchpad.net#6194
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: 8u16qDGzV9NLtuiL3xhQu93PxCzWoNph51EEE4OqKiYihnAUBtlCl7AJq3tx/Fi0P2PNp4twGG59+Ejr3iRUxnYmKEVARo2QSo4q+M4oHDaMAcfkgZRmCDSbgp+l1SAg5K19K0MDK3oQEKfL7s8JhoSvn4rRYBO1uIa5q1Z8UlGlwaqdhw+xYyHDXk6bGHqrrliFU/zbUnHXs8jsz36WN45Q1BNZhzDwSUtBSOzO4LZ2O14jRSK2EOCIfrb1nmV8rq6qaR1SvpZRdHEWEPV3X8NoS7uS0IXuu0hYTyw3qtM=
+X-MS-Exchange-AntiSpam-MessageData: 2OtJioxAEqrPO5cR4N8CqQN4aQ6bV8Orey3oWKi1salWF9tnhLmwxaZV0bNn3Iih65HpIU8XO+bGFC50qbaRwvyI2GO/Qh55k6pGAQdivAfXBYCZUEdKUbnM1z8RTk/oSFX7cYTvIuPzloW1C4C0iw==
+X-OriginatorOrg: outlook.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 10 Jan 2021 13:10:40.7141 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 84df9e7f-e9f6-40af-b435-aaaaaaaaaaaa
+X-MS-Exchange-CrossTenant-Network-Message-Id: dbc7789c-e863-41ce-c2e7-08d8b5692149
+X-MS-Exchange-CrossTenant-AuthSource: HK2APC01FT043.eop-APC01.prod.protection.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: Internet
+X-MS-Exchange-CrossTenant-RMS-PersistedConsumerOrg: 00000000-0000-0000-0000-000000000000
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: HK2APC01HT037
+Received-SPF: pass client-ip=40.92.253.43; envelope-from=Qiuhao.Li@outlook.com;
+ helo=APC01-SG2-obe.outbound.protection.outlook.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ MSGID_FROM_MTA_HEADER=0.001, RCVD_IN_DNSWL_NONE=-0.0001,
+ RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_PASS=-0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -79,98 +117,167 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>, Bin Meng <bin.meng@windriver.com>,
- "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
- Jean-Christophe Dubois <jcd@tribudubois.net>, qemu-arm <qemu-arm@nongnu.org>,
- Alistair Francis <alistair.francis@wdc.com>
+Cc: thuth@redhat.com, qemu-devel@nongnu.org, darren.kenny@oracle.com,
+ bsd@redhat.com, stefanha@redhat.com, pbonzini@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi Philippe,
-
-On Sun, Jan 10, 2021 at 7:15 PM Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.or=
-g> wrote:
->
-> On 1/10/21 9:14 AM, Bin Meng wrote:
-> > From: Bin Meng <bin.meng@windriver.com>
-> >
-> > Usually the approach is that the device on the other end of the line
-> > is going to reset its state anyway, so there's no need to actively
-> > signal an irq line change during the reset hook.
-> >
-> > Move imx_spi_update_irq() out of imx_spi_reset(), to a new function
-> > imx_spi_hard_reset() that is called when the controller is disabled.
-> >
-> > Signed-off-by: Bin Meng <bin.meng@windriver.com>
-> >
+On Wed, 2021-01-06 at 23:18 -0500, Alexander Bulekov wrote:
+> On 201229 1240, Qiuhao Li wrote:
+> > We spend much time waiting for the timeout program during the
+> > minimization
+> > process until it passes a time limit. This patch hacks the CLOSED
+> > (indicates
+> > the redirection file closed) notification in QTest's output if it
+> > doesn't
+> > crash.
+> > 
+> > Test with quadrupled trace input at:
+> >   https://bugs.launchpad.net/qemu/+bug/1890333/comments/1
+> > 
+> > Original version:
+> >   real	1m37.246s
+> >   user	0m13.069s
+> >   sys	0m8.399s
+> > 
+> > Refined version:
+> >   real	0m45.904s
+> >   user	0m16.874s
+> >   sys	0m10.042s
+> > 
+> > Signed-off-by: Qiuhao Li <Qiuhao.Li@outlook.com>
 > > ---
-> >
-> > Changes in v4:
-> > - adujst the patch 2,3 order
-> > - rename imx_spi_soft_reset() to imx_spi_hard_reset() to avoid confusio=
-n
-> >
-> > Changes in v3:
-> > - new patch: remove imx_spi_update_irq() in imx_spi_reset()
-> >
-> >  hw/ssi/imx_spi.c | 14 ++++++++++----
-> >  1 file changed, 10 insertions(+), 4 deletions(-)
-> >
-> > diff --git a/hw/ssi/imx_spi.c b/hw/ssi/imx_spi.c
-> > index e605049a21..2c4c5ec1b8 100644
-> > --- a/hw/ssi/imx_spi.c
-> > +++ b/hw/ssi/imx_spi.c
-> > @@ -241,11 +241,16 @@ static void imx_spi_reset(DeviceState *dev)
-> >      imx_spi_rxfifo_reset(s);
-> >      imx_spi_txfifo_reset(s);
-> >
-> > -    imx_spi_update_irq(s);
+> >  scripts/oss-fuzz/minimize_qtest_trace.py | 41 ++++++++++++++++--
+> > ------
+> >  1 file changed, 28 insertions(+), 13 deletions(-)
+> > 
+> > diff --git a/scripts/oss-fuzz/minimize_qtest_trace.py
+> > b/scripts/oss-fuzz/minimize_qtest_trace.py
+> > index 5e405a0d5f..aa69c7963e 100755
+> > --- a/scripts/oss-fuzz/minimize_qtest_trace.py
+> > +++ b/scripts/oss-fuzz/minimize_qtest_trace.py
+> > @@ -29,30 +29,46 @@ whether the crash occred. Optionally, manually
+> > set a string that idenitifes the
+> >  crash by setting CRASH_TOKEN=
+> >  """.format((sys.argv[0])))
+> >  
+> > +deduplication_note = """\n\
+> > +Note: While trimming the input, sometimes the mutated trace
+> > triggers a different
+> > +crash output but indicates the same bug. Under this situation, our
+> > minimizer is
+> > +incapable of recognizing and stopped from removing it. In the
+> > future, we may
+> > +use a more sophisticated crash case deduplication method.
+> > +\n"""
+> > +
+> >  def check_if_trace_crashes(trace, path):
+> > -    global CRASH_TOKEN
+> >      with open(path, "w") as tracefile:
+> >          tracefile.write("".join(trace))
+> >  
+> > -    rc = subprocess.Popen("timeout -s 9 {timeout}s {qemu_path}
+> > {qemu_args} 2>&1\
+> > +    proc = subprocess.Popen("timeout {timeout}s {qemu_path}
+> > {qemu_args} 2>&1\
+> 
+> Why remove the -s 9 here? I ran into a case where the minimizer got
+> stuck on one iteration. Adding back "sigkill" to the timeout can be a
+> safety net to catch those bad cases.
+> -Alex
+
+Hi Alex,
+
+After reviewed this patch again, I think this get-stuck bug may be
+caused by code:
+
+-    return CRASH_TOKEN in output
++    for line in iter(rc.stdout.readline, b''):
++        if "CLOSED" in line:
++            return False
++        if CRASH_TOKEN in line:
++            return True
+
+I assumed there are only two end cases in lines of stdout, but while we
+are trimming the trace input, the crash output (second-to-last line)
+may changes, in which case we will go through the output and fail to
+find "CLOSED" and CRASH_TOKEN, thus get stuck in the loop above.
+
+To fix this bug and get a more trimmed input trace, we can:
+
+Use the first three words of the second-to-last line instead of the
+whole string, which indicate the type of crash as the token.
+
+-        CRASH_TOKEN = output.splitlines()[-2]
++        CRASH_TOKEN = " ".join(outs.splitlines()[-2].split()[0:3])
+
+If we reach the end of a subprocess' output, return False.
+
++        if line == "":
++            return False
+
+I fix it in [PATCH v7 1/7] and give an example. Could you review again?
+Thanks :-)
+
+FYI, I mentioned this situation firstly in [PATCH 1/4], where I gave a
+more detailed example:
+
+https://lists.gnu.org/archive/html/qemu-devel/2020-12/msg05888.html
+
+> 
+> >      < {trace_path}".format(timeout=TIMEOUT,
+> >                             qemu_path=QEMU_PATH,
+> >                             qemu_args=QEMU_ARGS,
+> >                             trace_path=path),
+> >                            shell=True,
+> >                            stdin=subprocess.PIPE,
+> > -                          stdout=subprocess.PIPE)
+> > -    stdo = rc.communicate()[0]
+> > -    output = stdo.decode('unicode_escape')
+> > -    if rc.returncode == 137:    # Timed Out
+> > -        return False
+> > -    if len(output.splitlines()) < 2:
+> > -        return False
 > > -
-> >      s->burst_length =3D 0;
-> >  }
-> >
-> > +static void imx_spi_hard_reset(IMXSPIState *s)
-> > +{
-> > +    imx_spi_reset(DEVICE(s));
+> > +                          stdout=subprocess.PIPE,
+> > +                          encoding="utf-8")
+> > +    global CRASH_TOKEN
+> >      if CRASH_TOKEN is None:
+> > -        CRASH_TOKEN = output.splitlines()[-2]
+> > +        try:
+> > +            outs, _ = proc.communicate(timeout=5)
+> > +            CRASH_TOKEN = outs.splitlines()[-2]
+> > +        except subprocess.TimeoutExpired:
+> > +            print("subprocess.TimeoutExpired")
+> > +            return False
+> > +        print("Identifying Crashes by this string:
+> > {}".format(CRASH_TOKEN))
+> > +        global deduplication_note
+> > +        print(deduplication_note)
+> > +        return True
+> >  
+> > -    return CRASH_TOKEN in output
+> > +    for line in iter(proc.stdout.readline, b''):
+> > +        if "CLOSED" in line:
+> > +            return False
+> > +        if CRASH_TOKEN in line:
+> > +            return True
 > > +
-> > +    imx_spi_update_irq(s);
-> > +}
-> > +
-> >  static uint64_t imx_spi_read(void *opaque, hwaddr offset, unsigned siz=
-e)
-> >  {
-> >      uint32_t value =3D 0;
-> > @@ -351,8 +356,9 @@ static void imx_spi_write(void *opaque, hwaddr offs=
-et, uint64_t value,
-> >          s->regs[ECSPI_CONREG] =3D value;
-> >
-> >          if (!imx_spi_is_enabled(s)) {
-> > -            /* device is disabled, so this is a reset */
-> > -            imx_spi_reset(DEVICE(s));
-> > +            /* device is disabled, so this is a hard reset */
-> > +            imx_spi_hard_reset(s);
-> > +
-> >              return;
-> >          }
-> >
->
-> Almost good :)
->
-> DeviceReset handler is a hard reset, so you need:
->
->   dc->reset =3D imx_spi_hard_reset;
->
-> Thus you also need this function prototype:
->
-> void imx_spi_hard_reset(DeviceState *dev)
->
-> Eventually renaming imx_spi_reset() -> imx_spi_soft_reset()
-> will make things even easier.
+> > +    return False
+> >  
+> >  
+> >  def minimize_trace(inpath, outpath):
+> > @@ -66,7 +82,6 @@ def minimize_trace(inpath, outpath):
+> >      print("Crashed in {} seconds".format(end-start))
+> >      TIMEOUT = (end-start)*5
+> >      print("Setting the timeout for {} seconds".format(TIMEOUT))
+> > -    print("Identifying Crashes by this string:
+> > {}".format(CRASH_TOKEN))
+> >  
+> >      i = 0
+> >      newtrace = trace[:]
+> > -- 
+> > 2.25.1
+> > 
 
-Now I am confused. The v3 patch did the above already, but you
-mentioned that usually the hard reset includes the soft reset. But in
-the hard reset the imx_spi_update_irq() does not need to be called.
-
-Regards,
-Bin
 
