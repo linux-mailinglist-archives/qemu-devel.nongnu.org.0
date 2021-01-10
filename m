@@ -2,76 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B26ED2F05EE
-	for <lists+qemu-devel@lfdr.de>; Sun, 10 Jan 2021 09:22:20 +0100 (CET)
-Received: from localhost ([::1]:35082 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 688222F05F5
+	for <lists+qemu-devel@lfdr.de>; Sun, 10 Jan 2021 09:27:25 +0100 (CET)
+Received: from localhost ([::1]:37488 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kyVzP-0001Hz-Qq
-	for lists+qemu-devel@lfdr.de; Sun, 10 Jan 2021 03:22:19 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46976)
+	id 1kyW4K-00033w-H7
+	for lists+qemu-devel@lfdr.de; Sun, 10 Jan 2021 03:27:24 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47890)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
- id 1kyVst-0003KB-OW; Sun, 10 Jan 2021 03:15:37 -0500
-Received: from mail-pl1-x633.google.com ([2607:f8b0:4864:20::633]:42085)
+ (Exim 4.90_1) (envelope-from <chouhan.shreyansh2702@gmail.com>)
+ id 1kyW3B-0002ZK-8g
+ for qemu-devel@nongnu.org; Sun, 10 Jan 2021 03:26:14 -0500
+Received: from mail-pg1-x52b.google.com ([2607:f8b0:4864:20::52b]:34863)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
- id 1kyVsp-0006AE-Go; Sun, 10 Jan 2021 03:15:35 -0500
-Received: by mail-pl1-x633.google.com with SMTP id s15so7881972plr.9;
- Sun, 10 Jan 2021 00:15:30 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <chouhan.shreyansh2702@gmail.com>)
+ id 1kyW38-0002Wq-3v
+ for qemu-devel@nongnu.org; Sun, 10 Jan 2021 03:26:12 -0500
+Received: by mail-pg1-x52b.google.com with SMTP id n7so10585771pgg.2
+ for <qemu-devel@nongnu.org>; Sun, 10 Jan 2021 00:26:09 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=Jc5qCCv8yOqGsR9K5aIOE6SIqlfFPiNl3jIRInfxLho=;
- b=FpDSXqOIAPy2ER5fSbuJzBOGRXd/ke6d5nLDhQOV3qm3lgIz4p0BYQXJth275HT8T5
- ijDJ0PGUh/5J5Wd4qqPxWemCadQErF8zioyGvNs9Mvfmp0t2ATnj9z3xMdL8UTrSwv8q
- NvYZAEZ5YLZthljph77KW8gnzWtvZm4ULbANpKyiWcGiNkmCB/wd9Vq1z7B65s5b4YKi
- CZ1Cj0vwWAxORoHM/njN06TTX7ghUU90PAyAGmL9wUqbmB1vhT+trPyRoQBUTudwqXU4
- fn33GIxwlqtng86943W0FE/qYJ52BISm0xAIeVXZtVJFNZLMAXyWxBWqn1h6q8bbFo6l
- Datg==
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=U7m68xnFbWFkto9L7vRNFRRGPahBhKm69BfkH9JlObg=;
+ b=IQWLVYJ5qecBTteAZ8xYi05hWiC9fsz5aiX5ytZqQYqgKjb71rSikD68VwXXEgTxbm
+ 05m2gPxo4PnahhdjeEuukmAJT3JD1OTVvEKGYupNqQ2U318lK1zgRIBD9w8uJ0nynbu3
+ U/LrrCeHObOAIvybptLl3UmzwG+JLPfrrGfTxZbX3hu/rjmGguxFaANf1P20ws/AZbpm
+ JXPC1v2PCBUz4zjBYZEuHN/d9qEvG7eDinlsPf0NegGnxMNSjZKoDWJ5KZq+RKK8PQjr
+ jUvkj3QwP1VuLyeRpMcuSkybC/9o9Om/rV9H5Es2+XnFzkkzsF7BENG2gofjCJFK+pkg
+ TTJw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=Jc5qCCv8yOqGsR9K5aIOE6SIqlfFPiNl3jIRInfxLho=;
- b=XMyTUOiJPgEDoO17qSIL/qTAW4xdpxGCHiX8ZfGF54dhTsocxG7HJtjgDOhaDpkYDz
- nUE+uKGjkPhpB71SOHj1Tdvy6JhoPxXRqcHM+McZVByrbP6aQFliifAmHCex8ENZrvYz
- rAuY7L6r0XfIsZIB7fYy3EAxwg5Fft6I7PmxxJvZlmyfhOCY2gJP6w3J84TCT3VPr9CD
- +RMKLSog39F6HO3j/mvB6QfIjKsTG/WbH2vk2uHT0969IYtZXKD8CobiL5hIUWg3SuVe
- 8FUHHCjqVJtMnEX8VMBhmuqqst7LnB66hAenqKCRvFKuuIHt97x7IINVZVmDFrtZNomr
- qM+g==
-X-Gm-Message-State: AOAM532zJvni0gfy2W9Lv+lyMCIvQ5Yq3c6Q/DlbbaIKyTxlLz/32MbA
- gPqzGeKzsvo4D+VbHseC6Tc=
-X-Google-Smtp-Source: ABdhPJzdQkVJKgjc8+6VQAccRhh7AVaBrNnTZh1crqoYj+05CL+Wz/qWdY/mNmF4qdUYP4h+LBT9qg==
-X-Received: by 2002:a17:90a:4d84:: with SMTP id
- m4mr12168444pjh.145.1610266529858; 
- Sun, 10 Jan 2021 00:15:29 -0800 (PST)
-Received: from i9-aorus-gtx1080.localdomain (144.168.56.201.16clouds.com.
- [144.168.56.201])
- by smtp.gmail.com with ESMTPSA id jx4sm13519070pjb.24.2021.01.10.00.15.27
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 10 Jan 2021 00:15:29 -0800 (PST)
-From: Bin Meng <bmeng.cn@gmail.com>
-To: Peter Maydell <peter.maydell@linaro.org>,
- Jean-Christophe Dubois <jcd@tribudubois.net>,
- Alistair Francis <alistair.francis@wdc.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
- qemu-arm@nongnu.org, qemu-devel@nongnu.org
-Subject: [PATCH v4 6/6] hw/ssi: imx_spi: Correct tx and rx fifo endianness
-Date: Sun, 10 Jan 2021 16:14:29 +0800
-Message-Id: <20210110081429.10126-7-bmeng.cn@gmail.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20210110081429.10126-1-bmeng.cn@gmail.com>
-References: <20210110081429.10126-1-bmeng.cn@gmail.com>
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=U7m68xnFbWFkto9L7vRNFRRGPahBhKm69BfkH9JlObg=;
+ b=Ixln1o44Mh1PUZSo8YxXTxEi7BrZCXlG64PkUDSzud6Z+if+kZMeSd1KDOPzvb1yvZ
+ zf2mIg5YJes83nUzwmykHZRjx9x2B8BdmB72z8MliqGoSIjlgnNxIuP0BSZJXNth6xB4
+ U8c1llJWRtcszyMNeFEVyUdsQA/XnHTPtniBstnWmnRvfu8uIyspi/C+jOamRt5L04+X
+ utsKfUAp+sHq3UHkQaV5pKfzPvnkcA+pynraSIBsHJUfKbGawIR2ZdMgtbEizEv196DT
+ Y4GFi27/oa6ibzNdx16rN5WfcNjz31bnY71pdcPq1qvm4AXW5Cwl5xeX5CYBfa8uyNp0
+ o19g==
+X-Gm-Message-State: AOAM530Y2nyxIys39/KkciPq6jr5FlPJe6Z1+bGTdImHYZroFsbHPMaY
+ oj5zD3DnlqjOvsHNUBjS7IPvcOR/BEO1WXCQiIs=
+X-Google-Smtp-Source: ABdhPJxbU9vypP0dZdfQj7NLlMEwzATdNq46SYTSnC2cqvIKPaPf+/TrluY0hFoalKP7JhetjGWxYg4CZAb6133AfZw=
+X-Received: by 2002:aa7:9357:0:b029:1a5:43da:b90d with SMTP id
+ 23-20020aa793570000b02901a543dab90dmr11606733pfn.54.1610267167847; Sun, 10
+ Jan 2021 00:26:07 -0800 (PST)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::633;
- envelope-from=bmeng.cn@gmail.com; helo=mail-pl1-x633.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+References: <CAAQ-SiP8G28ade0jHbhTcv0jtGQb4OSgL5p3mAr0MU_FH8vZ3w@mail.gmail.com>
+ <87a6tm2sxb.fsf@linaro.org>
+ <CAAQ-SiOW8OnWEb0sHUEeS139-Tw0RO2YD1Tx-1s9iuy3ZVQFgw@mail.gmail.com>
+ <878s941x85.fsf@linaro.org>
+ <20210108083433.pfzhxrd4rezk6yxe@sirius.home.kraxel.org>
+In-Reply-To: <20210108083433.pfzhxrd4rezk6yxe@sirius.home.kraxel.org>
+From: Shreyansh Chouhan <chouhan.shreyansh2702@gmail.com>
+Date: Sun, 10 Jan 2021 13:55:56 +0530
+Message-ID: <CAAQ-SiO4VvVTo77J2ga1FmUZ9yrwopeASweO6-AFaakrAUZ80w@mail.gmail.com>
+Subject: Re: VirtioSound device emulation implementation
+To: Gerd Hoffmann <kraxel@redhat.com>
+Content-Type: multipart/alternative; boundary="00000000000088788d05b8878a1a"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::52b;
+ envelope-from=chouhan.shreyansh2702@gmail.com; helo=mail-pg1-x52b.google.com
+X-Spam_score_int: -17
+X-Spam_score: -1.8
+X-Spam_bar: -
+X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001, HTML_MESSAGE=0.001,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -86,82 +82,104 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Bin Meng <bin.meng@windriver.com>
+Cc: =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>,
+ qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Bin Meng <bin.meng@windriver.com>
+--00000000000088788d05b8878a1a
+Content-Type: text/plain; charset="UTF-8"
 
-The endianness of data exchange between tx and rx fifo is incorrect.
-Earlier bytes are supposed to show up on MSB and later bytes on LSB,
-ie: in big endian. The manual does not explicitly say this, but the
-U-Boot and Linux driver codes have a swap on the data transferred
-to tx fifo and from rx fifo.
+Hi,
 
-With this change, U-Boot read from / write to SPI flash tests pass.
+I have been reading about the virtio and vhost specifications, however I
+have a few doubts. I tried looking for them but I still
+do not understand them clearly enough. From what I understand, there are
+two protocols:
 
-  => sf test 1ff000 1000
-  SPI flash test:
-  0 erase: 0 ticks, 4096000 KiB/s 32768.000 Mbps
-  1 check: 3 ticks, 1333 KiB/s 10.664 Mbps
-  2 write: 235 ticks, 17 KiB/s 0.136 Mbps
-  3 read: 2 ticks, 2000 KiB/s 16.000 Mbps
-  Test passed
-  0 erase: 0 ticks, 4096000 KiB/s 32768.000 Mbps
-  1 check: 3 ticks, 1333 KiB/s 10.664 Mbps
-  2 write: 235 ticks, 17 KiB/s 0.136 Mbps
-  3 read: 2 ticks, 2000 KiB/s 16.000 Mbps
+The virtio protocol: The one that specifies how we can have common
+emulation for virtual devices. The front end drivers
+interact with these devices, and these devices could then process the
+information that they have received either in QEMU,
+or somewhere else. From what I understand the front driver uses mmaps to
+communicate with the virtio device.
 
-Fixes: c906a3a01582 ("i.MX: Add the Freescale SPI Controller")
-Signed-off-by: Bin Meng <bin.meng@windriver.com>
+The vhost protocol: The one that specifies how we can _offload_ the
+processing from QEMU to a separate process. We
+want to offload so that we do not have to stop the guest when we are
+processing information passed to a virtio device. This
+service could either be implemented in the host kernel or the host
+userspace. Now when we offload the processing, we map the
+memory of the device to this vhost service, so that this service has all
+the information that it should process.
+  Also, this process can generate the vCPU interrupts, and this process
+responds to the ioeventfd notifications.
 
----
+What I do not understand is, once we have this vhost service, either in
+userspace or in kernel space, which does the information processing,
+why do we need a virtio device still emulated in QEMU? Is it only to pass
+on the configurations between the driver and the
+vhost service? I know that the vhost service doesn't emulate anything, but
+then what is the difference between "processing" the
+information and "emulating" a device?
 
-(no changes since v3)
+Also, from article[3], moving the vhost-net service to userspace was faster
+somehow. I am assuming this was only the case for
+networking devices, and would not be true in general. Since there would be
+more context switches between user and kernel space?
+(KVM receives the irq/ioevent notification and then transfers control back
+to user space, as opposed to when vhost was in kernel
+space.)
 
-Changes in v3:
-- Simplify the tx fifo endianness handling
+For context, I've been reading the following:
+[1]
+https://www.redhat.com/en/blog/introduction-virtio-networking-and-vhost-net
+[2] https://www.redhat.com/en/blog/deep-dive-virtio-networking-and-vhost-net
+[3] https://www.redhat.com/en/blog/journey-vhost-users-realm
 
- hw/ssi/imx_spi.c | 7 ++-----
- 1 file changed, 2 insertions(+), 5 deletions(-)
+--00000000000088788d05b8878a1a
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-diff --git a/hw/ssi/imx_spi.c b/hw/ssi/imx_spi.c
-index 47c8a0f572..b5124a6426 100644
---- a/hw/ssi/imx_spi.c
-+++ b/hw/ssi/imx_spi.c
-@@ -171,7 +171,6 @@ static void imx_spi_flush_txfifo(IMXSPIState *s)
- 
-     while (!fifo32_is_empty(&s->tx_fifo)) {
-         int tx_burst = 0;
--        int index = 0;
- 
-         if (s->burst_length <= 0) {
-             s->burst_length = imx_spi_burst_length(s);
-@@ -192,7 +191,7 @@ static void imx_spi_flush_txfifo(IMXSPIState *s)
-         rx = 0;
- 
-         while (tx_burst > 0) {
--            uint8_t byte = tx & 0xff;
-+            uint8_t byte = tx >> (tx_burst - 8);
- 
-             DPRINTF("writing 0x%02x\n", (uint32_t)byte);
- 
-@@ -201,13 +200,11 @@ static void imx_spi_flush_txfifo(IMXSPIState *s)
- 
-             DPRINTF("0x%02x read\n", (uint32_t)byte);
- 
--            tx = tx >> 8;
--            rx |= (byte << (index * 8));
-+            rx = (rx << 8) | byte;
- 
-             /* Remove 8 bits from the actual burst */
-             tx_burst -= 8;
-             s->burst_length -= 8;
--            index++;
-         }
- 
-         DPRINTF("data rx:0x%08x\n", rx);
--- 
-2.25.1
+<div dir=3D"ltr"><div>Hi,</div><div><br></div><div>I have been reading abou=
+t the virtio and vhost specifications, however I have a few doubts. I tried=
+ looking for them but I still</div><div>do not understand them clearly enou=
+gh. From what I understand, there are two protocols:</div><div><br></div><d=
+iv>The virtio protocol: The one that specifies how we can have common emula=
+tion for virtual devices. The front end drivers</div><div>interact with the=
+se devices, and these devices could then process the information that they =
+have received either in QEMU,</div><div>or somewhere else. From what I unde=
+rstand the front driver uses mmaps to communicate with the virtio device. <=
+br></div><div><br></div><div>The vhost protocol: The one that specifies how=
+ we can _offload_ the processing from QEMU to a separate process. We</div><=
+div>want to offload so that we do not have to stop the guest when we are pr=
+ocessing information passed to a virtio device. This</div><div>service coul=
+d either be implemented in the host kernel or the host userspace. Now when =
+we offload the processing, we map the</div><div>memory of the device to thi=
+s vhost service, so that this service has all the information that it shoul=
+d process.</div><div>=C2=A0 Also, this process can generate the vCPU interr=
+upts, and this process responds to the ioeventfd notifications. <br></div><=
+div><br></div><div>What I do not understand is, once we have this vhost ser=
+vice, either in userspace or in kernel space, which does the information pr=
+ocessing,</div><div>why do we need a virtio device still emulated in QEMU? =
+Is it only to pass on the configurations between the driver and the</div><d=
+iv>vhost service? I know that the vhost service doesn&#39;t emulate anythin=
+g, but then what is the difference between &quot;processing&quot; the</div>=
+<div>information and &quot;emulating&quot; a device?</div><div><br></div><d=
+iv>Also, from article[3], moving the vhost-net service to userspace was fas=
+ter somehow. I am assuming this was only the case for</div><div>networking =
+devices, and would not be true in general. Since there would be more contex=
+t switches between user and kernel space?</div><div>(KVM receives the irq/i=
+oevent notification and then transfers control back to user space, as oppos=
+ed to when vhost was in kernel</div><div>space.)<br></div><div><br></div><d=
+iv>For context, I&#39;ve been reading the following:</div><div>[1] <a href=
+=3D"https://www.redhat.com/en/blog/introduction-virtio-networking-and-vhost=
+-net">https://www.redhat.com/en/blog/introduction-virtio-networking-and-vho=
+st-net</a></div><div>[2] <a href=3D"https://www.redhat.com/en/blog/deep-div=
+e-virtio-networking-and-vhost-net">https://www.redhat.com/en/blog/deep-dive=
+-virtio-networking-and-vhost-net</a></div><div>[3] <a href=3D"https://www.r=
+edhat.com/en/blog/journey-vhost-users-realm">https://www.redhat.com/en/blog=
+/journey-vhost-users-realm</a></div><div><br> </div></div>
 
+--00000000000088788d05b8878a1a--
 
