@@ -2,65 +2,84 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B6C582F099B
-	for <lists+qemu-devel@lfdr.de>; Sun, 10 Jan 2021 21:02:44 +0100 (CET)
-Received: from localhost ([::1]:42920 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 715DF2F09C4
+	for <lists+qemu-devel@lfdr.de>; Sun, 10 Jan 2021 22:03:16 +0100 (CET)
+Received: from localhost ([::1]:36754 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kygvD-0006b3-FJ
-	for lists+qemu-devel@lfdr.de; Sun, 10 Jan 2021 15:02:43 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38760)
+	id 1kyhrn-0002TK-1I
+	for lists+qemu-devel@lfdr.de; Sun, 10 Jan 2021 16:03:15 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46360)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1kyguC-00069g-HM
- for qemu-devel@nongnu.org; Sun, 10 Jan 2021 15:01:40 -0500
-Received: from mail-ed1-x534.google.com ([2a00:1450:4864:20::534]:44403)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1kyhqd-00022G-6P
+ for qemu-devel@nongnu.org; Sun, 10 Jan 2021 16:02:03 -0500
+Received: from mail-ed1-x530.google.com ([2a00:1450:4864:20::530]:35550)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1kyguA-00031S-GG
- for qemu-devel@nongnu.org; Sun, 10 Jan 2021 15:01:40 -0500
-Received: by mail-ed1-x534.google.com with SMTP id p22so16595403edu.11
- for <qemu-devel@nongnu.org>; Sun, 10 Jan 2021 12:01:37 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:from:date:message-id:subject:to:cc;
- bh=vZ4kuMWCWQSWURlKS8DVUIkEj3IOMcRQOGTCjgYC6WQ=;
- b=s0PJKFxDcptXFjNmxuyd63hItRWaapIMa5f8lViV38PUrlGWEF+4pmr5jHCpluW3hM
- Rg2AdIeRPolqRAxW4kW24oU7BZcvLkHVEhlCmZlXV03ZFQ0Z0rHXmRba/qXMpfBtKgZc
- xgPQ9dJxtcuyouipEnap1WadF4hyQA+W8yMZMmrqZSP4P8KaS4r2clHVHurkKs1GKwiC
- UfF00z8Ozbb3JziOXUtNlhyBMoqVRG/9LkXZqKLxp6FVBPtzVb/JZYMdr2SNfrU4FnLu
- rSukTH5vzcBGrMn37pEhgTmUhUWuMJbIfF8T9T870wGVEgO0iYBDypqirnQHVWfLhlJL
- 8T1w==
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1kyhqb-0005rJ-Hs
+ for qemu-devel@nongnu.org; Sun, 10 Jan 2021 16:02:02 -0500
+Received: by mail-ed1-x530.google.com with SMTP id u19so16816629edx.2
+ for <qemu-devel@nongnu.org>; Sun, 10 Jan 2021 13:02:01 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=sender:subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=9q/Fvk+28GOFVvHrftWBgEwjNFjsnhXFMpnrj5ogdLQ=;
+ b=PjNhD6A42MyifQ87WIRIZcM1r+3x3T0q5go3OvUlxFmFQHLq/1PKLwKBOM29i67bB5
+ oKy3cTHIztJkHSwXM2y9pESkbEAhGtTgSj1tzlbCC2NgpQ2BPiYfSC5zwjI7md2uNPay
+ wA63oPKk6hlaWOQZjeJCLp7Unb7mQavfsnws3ABdpJG/iuwj6qB3DExkwtBwwrE/OJgq
+ /G1qVBc6s1zlufxyiqPQJzguUrsR5uVsl1t6GeONk1Av0/8Vq4j98g90cRnsPDrRP9v3
+ U93swJTUrB3F7E7jPbqUcwTbPw1TgzduFxgI4M7TRQ6G7nzip0WLus9hCKj/whR4ca6G
+ Rq5Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:from:date:message-id:subject:to:cc;
- bh=vZ4kuMWCWQSWURlKS8DVUIkEj3IOMcRQOGTCjgYC6WQ=;
- b=lIz2TgfAoycJvrl4HhlGpmDKSi8e+3vmeCWYKKTvnN/0GdrIcXuj1msNE1Tj0sEyjI
- sqZHTkCsF09r7ZgZofNXM/8RNbxGDGoOxrxBmsubyxFzP2i2G6+xgJYuA7+FJh5O18Ji
- lcSEgk/yEtBx0pdc7W1MPRku5jy272OuN8Jo/BazrSc/xVL8vpLxIuOxDGwFL3P13hwY
- sRfKddn+gleYrien8BFb1vCSWw6o/eMOxjCsmJTkrMU5SvXXT+0RU/Mdk66az43d6Orw
- aw6ERY/SYPMnv1/kjq4dtZ75umB4gm0Bu0pJju4yCAzRQoOtIhT2+9y2UaKGdSgTUwr9
- 1GBQ==
-X-Gm-Message-State: AOAM533N5fPXdsnx+hLIE8dUHPoZUmCXlf244/QxrTP/LecIzgniNGUM
- Rc25yFPEdhgC2HaTzkHUvLq+9jLm5uclhvhldWmNlaklaTrpGA==
-X-Google-Smtp-Source: ABdhPJyW0dRuK9XXANtzid5ujCMfC92rsS7DENYH8SWkfZMeH8NmtdwNIf5vJQ2KY3xmShf1DYgjAbzu3re9K1kK6fU=
-X-Received: by 2002:aa7:cdc3:: with SMTP id h3mr11812194edw.52.1610308896171; 
- Sun, 10 Jan 2021 12:01:36 -0800 (PST)
+ h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
+ :date:user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=9q/Fvk+28GOFVvHrftWBgEwjNFjsnhXFMpnrj5ogdLQ=;
+ b=NdzscExaKtPT6BwIoYIClUvqftYocspvsioy5XO3RjGYeYVHHuMQCguiuFQfUocfoD
+ IUSKeRilyC1NDnMarO+txggOx9ct2b0nIMFtvhc6TqMb0nHeWWYWJTxgXzaDAPALv7gS
+ M5Bmz9rHFlGpMbdN04FoSUG+GJqYFYYuuI7p4VOhFNHnL0SgoV40aJGEDjP0OySETrZJ
+ htM2zer18iDGVi+Tcm4eL+8+7faXC7XbHf4ubjg4G83+OCfoavG0MR2uKlhm8prtOioG
+ jmRQYDwWAOiCivURzy6Vms3dVZAjPWpoL7ARYkBAC4wN7/MHeRm4YyZY7C6kARSjdgH4
+ etuA==
+X-Gm-Message-State: AOAM533GXM+M89OhW6MRV9xZ/4+F93ZoZcrbH0R40Jn+ZnXCPavZMr6X
+ hClSeh4IMvmi8UV0aGnoe3o=
+X-Google-Smtp-Source: ABdhPJzm9Wr1t8enC8qO/aVbeRHB8SBh655oWit0pde2cg/G3DZuwkTN0JhSJ0hwEdB+3tbhEaeXnQ==
+X-Received: by 2002:a05:6402:312b:: with SMTP id
+ dd11mr12344708edb.308.1610312520087; 
+ Sun, 10 Jan 2021 13:02:00 -0800 (PST)
+Received: from [192.168.1.36] (129.red-88-21-205.staticip.rima-tde.net.
+ [88.21.205.129])
+ by smtp.gmail.com with ESMTPSA id p24sm6677906edr.65.2021.01.10.13.01.58
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Sun, 10 Jan 2021 13:01:59 -0800 (PST)
+Subject: Re: [PATCH 1/2] tcg: Mark more tcg_out*() functions with attribute
+ 'unused'
+To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
+References: <20210110162739.858087-1-f4bug@amsat.org>
+ <20210110162739.858087-2-f4bug@amsat.org>
+ <6aa1a388-6493-259f-a3d2-817c30d29655@linaro.org>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
+Message-ID: <023e738e-ae2c-252b-8475-98a8e579ee6a@amsat.org>
+Date: Sun, 10 Jan 2021 22:01:57 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.6.0
 MIME-Version: 1.0
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Sun, 10 Jan 2021 20:01:25 +0000
-Message-ID: <CAFEAcA8zF4aOPpjdks32H0Ay8XvvyAz+rU7AjcELnurDtFnGbg@mail.gmail.com>
-Subject: coverity warning about possible missing error check in v9fs_request()
-To: QEMU Developers <qemu-devel@nongnu.org>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2a00:1450:4864:20::534;
- envelope-from=peter.maydell@linaro.org; helo=mail-ed1-x534.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+In-Reply-To: <6aa1a388-6493-259f-a3d2-817c30d29655@linaro.org>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::530;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-ed1-x530.google.com
+X-Spam_score_int: -14
+X-Spam_score: -1.5
+X-Spam_bar: -
+X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249, NICE_REPLY_A=-0.012,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -73,30 +92,45 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Christian Schoenebeck <qemu_oss@crudebyte.com>, Greg Kurz <groug@kaod.org>
+Cc: Thomas Huth <thuth@redhat.com>, Stefan Weil <sw@weilnetz.de>,
+ Wataru Ashihara <wataash@wataash.com>,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
+ Wainer dos Santos Moschetta <wainersm@redhat.com>,
+ =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi; Coverity has just come up with a new warning (CID 1438968) about
-an unchecked error return value in the 9pfs code. (I'm not sure why
-now -- the code in question is unchanged since 2011; probably some
-other callsites changed enough to trigger the "other callsites check
-return value" heuristic.)
+On 1/10/21 6:51 PM, Richard Henderson wrote:
+> On 1/10/21 6:27 AM, Philippe Mathieu-Daudé wrote:
+>> The tcg_out* functions are utility routines that may or
+>> may not be used by a particular backend. Similarly to commit
+>> 4196dca63b8, mark them with the 'unused' attribute to suppress
+>> spurious warnings if they aren't used.
+>>
+>> This fixes the build with --enable-tcg-interpreter:
+>>
+>>   [98/151] Compiling C object libqemu-arm-softmmu.fa.p/tcg_tcg.c.o
+>>   FAILED: libqemu-arm-softmmu.fa.p/tcg_tcg.c.o
+>>   clang [...] -o libqemu-arm-softmmu.fa.p/tcg_tcg.c.o -c ../tcg/tcg.c
+>>   ../tcg/tcg.c:136:20: error: unused function 'tcg_out_dupi_vec' [-Werror,-Wunused-function]
+>>
+>> Reported-by: Wataru Ashihara <wataash@wataash.com>
+>> Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+>> ---
+>>  tcg/tcg.c | 30 +++++++++++++++++++++---------
+>>  1 file changed, 21 insertions(+), 9 deletions(-)
+> 
+> 
+> This does too much to fix that Werror, as all of the other functions are
+> unconditionally used.
+> 
+> Alternately, I'll re-test and merge my tcg constant branch, which will make
+> tcg_out_dupi_vec also unconditionally used.  Then we don't need
+> __attribute__((unused)) at all.
 
-Anyway, in the middle of v9fs_request() is this code:
+OK, better then.
 
-    /* marshal the header details */
-    proxy_marshal(iovec, 0, "dd", header.type, header.size);
-    header.size += PROXY_HDR_SZ;
+Regards,
 
-    retval = qemu_write_full(proxy->sockfd, iovec->iov_base, header.size);
-    if (retval != header.size) {
-        goto close_error;
-    }
-
-This is apparently the only call to proxy_marshal() that does not
-check its return value -- is it missing a check?
-
-thanks
--- PMM
+Phil.
 
