@@ -2,64 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3069C2F0967
-	for <lists+qemu-devel@lfdr.de>; Sun, 10 Jan 2021 20:51:28 +0100 (CET)
-Received: from localhost ([::1]:36718 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C21402F0994
+	for <lists+qemu-devel@lfdr.de>; Sun, 10 Jan 2021 20:56:50 +0100 (CET)
+Received: from localhost ([::1]:40414 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kygkE-0003QX-On
-	for lists+qemu-devel@lfdr.de; Sun, 10 Jan 2021 14:51:23 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37002)
+	id 1kygpV-0005GZ-SR
+	for lists+qemu-devel@lfdr.de; Sun, 10 Jan 2021 14:56:49 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37982)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1kygj4-00030R-M2
- for qemu-devel@nongnu.org; Sun, 10 Jan 2021 14:50:10 -0500
-Received: from mail-ed1-x532.google.com ([2a00:1450:4864:20::532]:35158)
+ id 1kygoA-0004Ck-CI
+ for qemu-devel@nongnu.org; Sun, 10 Jan 2021 14:55:26 -0500
+Received: from mail-ej1-x632.google.com ([2a00:1450:4864:20::632]:34903)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1kygj2-0007Ww-QS
- for qemu-devel@nongnu.org; Sun, 10 Jan 2021 14:50:10 -0500
-Received: by mail-ed1-x532.google.com with SMTP id u19so16711666edx.2
- for <qemu-devel@nongnu.org>; Sun, 10 Jan 2021 11:50:07 -0800 (PST)
+ id 1kygo8-0000xv-Mx
+ for qemu-devel@nongnu.org; Sun, 10 Jan 2021 14:55:26 -0500
+Received: by mail-ej1-x632.google.com with SMTP id q22so21854843eja.2
+ for <qemu-devel@nongnu.org>; Sun, 10 Jan 2021 11:55:24 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=ALS+DJRbxmf8BDgI+5i7dVPzbv2zUtzQYjPNwramy5E=;
- b=qWgBIuhH9K48rRrp7z4jbuL1HA4fbEGedPm3I1oLuCEYIXQYLcWXrn7a0Wl648PqsK
- OsQAp//SnCOaq0+DFPapien31qMkj7HXJfDjhi5y+lKc4qf+mVmLU/eyn5b2BfY3TkDl
- 7hW3SUGGmmDrK+24yr6l63+7VvV2xNGA7cWVq74/l7/drvpYlLUjGzHuZNi+nSdGYPWY
- 3UE0N1ltQ17IAI9Z2OxQIg6G/siU16pvqltd5hC/zulGh9YF/wm9qNi03JawVYp9u3w9
- 3gwQooi3uxIKhfOfuLKE7AUOaDeTToT7EmkNj/AvqRfFXZLkhh/FlHTAWyegR4QINZpl
- JkpQ==
+ :cc; bh=S/EM89EUv+PB2w1BDJKeAgJS8aHkWG3TS7mJXDTfkls=;
+ b=Felei3Vm4UtLJAfaxXyQHvFY+V+xHLKAr/6zFhEKHxsDHeJJCN45wucCRLenERRY2k
+ Bu0IJi706bDIk3KDB1yiMIFjsGLNvxt1auOK+zcTGNTwNTabEGUbyiHhbIoaK4PZe0qT
+ 4juj8Hq9PAixXXWYR0JSdjoLirf8rbjqMhDkw9Fib0HY/oZxuPYPAz9ZiN6VWhGWvexB
+ 0McZUFtXbCkvQVWVPRh6deJ+9/yEgT6wR0LPZYBu1U5fLsVK9Ah56u52XmdLgomUzIeO
+ 91EiBCImMMQUAwStlrdJnECme3kk2RfRp/0mBmVDoReXNTCfzd1vtfzXQ5JiEOGQH1Nc
+ 1TXw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=ALS+DJRbxmf8BDgI+5i7dVPzbv2zUtzQYjPNwramy5E=;
- b=TqAl+uyWhcwcTYJdRYZbFkbL+mX+8INVcKvSCUG7QiP7M81gLAiUSRWIlw4I6nUXjQ
- iKePUiQ3OGkRC/h+Y1D2rCbFAbVYuFGE9bM9pQbS4DKPVKPMN6RzzO57M6L4Ge75so1t
- 8KCVl+suRgu00kWkQvDiHhWoyVNCzRx0cyq4EaX0670+ak3ldsigS5S58KhCeOHWJm70
- wtrEXJhdSkDk5TIIM4rq7m1lSEH0CTfBnhDhjnghTttItxZbvbVu9Ok2XgdnIQ4EGWfz
- F62Vw7wCIixDVADGZ13Jk7FmibtH/LLTXj1Qmnu8sG+ryO2Y63kSlxZyOnPh4f4glDIL
- va9Q==
-X-Gm-Message-State: AOAM533qdtDENgpjJskOuUmHfJ16UxbJmy6lviPo2ThzG4PraTk5wQUQ
- sz/NJJ9hGcpm0GZlOvKsZgARNv3JV/zqcmsIFTYj+w==
-X-Google-Smtp-Source: ABdhPJxG++bEESfXA+j2bj7FqEuNwSKRKXWdcAeiXHeuVxxrFB22WvNScr9ddabmFzNcavZbSEfAngkMyVmL1haOnPU=
-X-Received: by 2002:aa7:c353:: with SMTP id j19mr11954538edr.204.1610308206796; 
- Sun, 10 Jan 2021 11:50:06 -0800 (PST)
+ :message-id:subject:to:cc;
+ bh=S/EM89EUv+PB2w1BDJKeAgJS8aHkWG3TS7mJXDTfkls=;
+ b=nzOXlOVqSBDVOHo/xb9x8M6QNdAA0k7zciVvRxoCGNcCwdV1xWbUH/uA3uH8fNiHnH
+ fEJ9QELDbr1c/JPbqRRdMoyQxkEY5KiwYKHik/Iz8Jj2SKeHTtFosdoxEjhmTa4I4uI2
+ ylisf3sNQYzp8Wv6xQ7VTKezy+z1O0aiEdKHB45/7em4JtiMRRyIApY5yeCYChhmGXpQ
+ tMiaakdydjNztwnByFBsNrSWQ+s2WTLNommjPz3P0QwxU4plVMPEKiC0l1o+WTr3lkrp
+ CskRRLQxLA36HzOo3TQJ1YFBCUh3UIWNO+sqYZHvb3LJT9ZwQrqG+pPeyIkRs9f+Vkck
+ yN8w==
+X-Gm-Message-State: AOAM531ABHRJx9eVlVDzVRx/aErQyf2B6KgkrymOIrsjxYRfPRmElydQ
+ 2Zr66QSHH+qFT04M5B3N7s8qS/tsoWX16kPciVO7oA==
+X-Google-Smtp-Source: ABdhPJz1KYgo/b18rREjFV+ot+aE46rI5bxn7s9vDnp2jSFgYL7Eu9vfFz6AUrSMJn/f4ybLE+8XxTqOkW0CwMO9hE0=
+X-Received: by 2002:a17:906:6b88:: with SMTP id
+ l8mr8866806ejr.482.1610308523021; 
+ Sun, 10 Jan 2021 11:55:23 -0800 (PST)
 MIME-Version: 1.0
-References: <20210103205021.2837760-1-f4bug@amsat.org>
- <20210103205021.2837760-24-f4bug@amsat.org>
-In-Reply-To: <20210103205021.2837760-24-f4bug@amsat.org>
+References: <20201218060114.3591217-1-alistair.francis@wdc.com>
+ <20201218060114.3591217-23-alistair.francis@wdc.com>
+In-Reply-To: <20201218060114.3591217-23-alistair.francis@wdc.com>
 From: Peter Maydell <peter.maydell@linaro.org>
-Date: Sun, 10 Jan 2021 19:49:55 +0000
-Message-ID: <CAFEAcA_YqAiiLRY08-gACmKOCf2mat3AaBGnyRK0Jc+aK-iuOw@mail.gmail.com>
-Subject: Re: [PULL 23/35] hw/intc: Rework Loongson LIOINTC
-To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>
+Date: Sun, 10 Jan 2021 19:55:11 +0000
+Message-ID: <CAFEAcA-FF0SC-LSWUxwDdQ_vutYEB=1UMB1nua2BEQm+_E8SdA@mail.gmail.com>
+Subject: Re: [PULL 22/23] hw/riscv: Use the CPU to determine if 32-bit
+To: Alistair Francis <alistair.francis@wdc.com>
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::532;
- envelope-from=peter.maydell@linaro.org; helo=mail-ed1-x532.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::632;
+ envelope-from=peter.maydell@linaro.org; helo=mail-ej1-x632.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -79,91 +78,41 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Huacai Chen <chenhuacai@kernel.org>,
- QEMU Developers <qemu-devel@nongnu.org>, Aurelien Jarno <aurelien@aurel32.net>
+Cc: Alistair Francis <alistair23@gmail.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Sun, 3 Jan 2021 at 21:11, Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org> =
-wrote:
+On Fri, 18 Dec 2020 at 06:01, Alistair Francis <alistair.francis@wdc.com> wrote:
 >
-> From: Huacai Chen <chenhuacai@kernel.org>
+> Instead of using string compares to determine if a RISC-V machine is
+> using 32-bit or 64-bit CPUs we can use the initalised CPUs. This avoids
+> us having to maintain a list of CPU names to compare against.
 >
-> As suggested by Philippe Mathieu-Daud=C3=A9, rework Loongson's liointc:
-> 1, Move macro definitions to loongson_liointc.h;
-> 2, Remove magic values and use macros instead;
-> 3, Replace dead D() code by trace events.
+> This commit also fixes the name of the function to match the
+> riscv_cpu_is_32bit() function.
 >
-> Suggested-by: Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>
-> Signed-off-by: Huacai Chen <chenhuacai@kernel.org>
-> Tested-by: Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>
-> Reviewed-by: Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>
-> Message-Id: <20201221110538.3186646-2-chenhuacai@kernel.org>
-> Signed-off-by: Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>
-> ---
->  include/hw/intc/loongson_liointc.h | 22 ++++++++++++++++++
->  hw/intc/loongson_liointc.c         | 36 +++++++++++++-----------------
->  2 files changed, 38 insertions(+), 20 deletions(-)
->  create mode 100644 include/hw/intc/loongson_liointc.h
+> Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
+> Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+> Message-id: 8ab7614e5df93ab5267788b73dcd75f9f5615e82.1608142916.git.alistair.francis@wdc.com
 
-Hi; Coverity complains about a possible array overrun
-in this commit:
+Hi; coverity points out a probably-unintentional inefficiency here
+(CID 1438099, CID 1438100, CID 1438101):
 
-
-> @@ -40,13 +39,10 @@
->  #define R_IEN                   0x24
->  #define R_IEN_SET               0x28
->  #define R_IEN_CLR               0x2c
-> -#define R_PERCORE_ISR(x)        (0x40 + 0x8 * x)
-> +#define R_ISR_SIZE              0x8
-> +#define R_START                 0x40
->  #define R_END                   0x64
+> --- a/hw/riscv/boot.c
+> +++ b/hw/riscv/boot.c
+> @@ -33,28 +33,16 @@
 >
-> -#define TYPE_LOONGSON_LIOINTC "loongson.liointc"
-> -DECLARE_INSTANCE_CHECKER(struct loongson_liointc, LOONGSON_LIOINTC,
-> -                         TYPE_LOONGSON_LIOINTC)
-> -
->  struct loongson_liointc {
->      SysBusDevice parent_obj;
+>  #include <libfdt.h>
 >
-> @@ -123,14 +119,13 @@ liointc_read(void *opaque, hwaddr addr, unsigned in=
-t size)
->          goto out;
->      }
->
-> -    /* Rest is 4 byte */
-> +    /* Rest are 4 bytes */
->      if (size !=3D 4 || (addr % 4)) {
->          goto out;
->      }
->
-> -    if (addr >=3D R_PERCORE_ISR(0) &&
-> -        addr < R_PERCORE_ISR(NUM_CORES)) {
-> -        int core =3D (addr - R_PERCORE_ISR(0)) / 8;
-> +    if (addr >=3D R_START && addr < R_END) {
-> +        int core =3D (addr - R_START) / R_ISR_SIZE;
+> -bool riscv_is_32_bit(MachineState *machine)
+> +bool riscv_is_32bit(RISCVHartArrayState harts)
 
-R_END is 0x64 and R_START is 0x40, so if addr is 0x60
-then addr - R_START is 0x32 and so core here is 4.
-However p->per_core_isr[] only has 4 entries, so this will
-be off the end of the array.
-
-This is CID 1438965.
-
->          r =3D p->per_core_isr[core];
->          goto out;
->      }
-
-> -    if (addr >=3D R_PERCORE_ISR(0) &&
-> -        addr < R_PERCORE_ISR(NUM_CORES)) {
-> -        int core =3D (addr - R_PERCORE_ISR(0)) / 8;
-> +    if (addr >=3D R_START && addr < R_END) {
-> +        int core =3D (addr - R_START) / R_ISR_SIZE;
->          p->per_core_isr[core] =3D value;
->          goto out;
->      }
-
-Same thing here, CID 1438967.
+The RISCVHartArrayState type is 824 bytes long. That's a very
+big type to be passing by value. You probably wanted to pass a
+pointer to it instead. Similarly for the arguments to
+riscv_calc_kernel_start_addr() and riscv_setup_rom_reset_vec().
 
 thanks
 -- PMM
