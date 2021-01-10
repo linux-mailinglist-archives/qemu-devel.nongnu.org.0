@@ -2,58 +2,54 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5AE092F0524
-	for <lists+qemu-devel@lfdr.de>; Sun, 10 Jan 2021 05:36:46 +0100 (CET)
-Received: from localhost ([::1]:49570 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 74E472F051C
+	for <lists+qemu-devel@lfdr.de>; Sun, 10 Jan 2021 05:33:45 +0100 (CET)
+Received: from localhost ([::1]:37820 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kyST7-0006UV-Fm
-	for lists+qemu-devel@lfdr.de; Sat, 09 Jan 2021 23:36:45 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45734)
+	id 1kySQC-0001WL-GJ
+	for lists+qemu-devel@lfdr.de; Sat, 09 Jan 2021 23:33:44 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45322)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1kySN2-0005nQ-Nh
- for qemu-devel@nongnu.org; Sat, 09 Jan 2021 23:30:29 -0500
-Received: from indium.canonical.com ([91.189.90.7]:41250)
+ id 1kySIl-0007ml-Q9
+ for qemu-devel@nongnu.org; Sat, 09 Jan 2021 23:26:03 -0500
+Received: from indium.canonical.com ([91.189.90.7]:40506)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1kySN0-0002ai-4M
- for qemu-devel@nongnu.org; Sat, 09 Jan 2021 23:30:28 -0500
+ id 1kySIj-0000gY-Ai
+ for qemu-devel@nongnu.org; Sat, 09 Jan 2021 23:26:03 -0500
 Received: from loganberry.canonical.com ([91.189.90.37])
  by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1kySMy-000122-HS
- for <qemu-devel@nongnu.org>; Sun, 10 Jan 2021 04:30:24 +0000
+ id 1kySIh-0000ME-D6
+ for <qemu-devel@nongnu.org>; Sun, 10 Jan 2021 04:25:59 +0000
 Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 82C642E8137
- for <qemu-devel@nongnu.org>; Sun, 10 Jan 2021 04:30:24 +0000 (UTC)
+ by loganberry.canonical.com (Postfix) with ESMTP id 4B6822E8144
+ for <qemu-devel@nongnu.org>; Sun, 10 Jan 2021 04:25:59 +0000 (UTC)
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
-Date: Sun, 10 Jan 2021 04:17:43 -0000
-From: Launchpad Bug Tracker <1174654@bugs.launchpad.net>
+Date: Sun, 10 Jan 2021 04:17:47 -0000
+From: Launchpad Bug Tracker <1738507@bugs.launchpad.net>
 To: qemu-devel@nongnu.org
 X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=Expired; importance=High; assignee=None; 
-X-Launchpad-Bug: distribution=ubuntu; sourcepackage=qemu; component=main;
- status=Invalid; importance=High; assignee=None; 
-X-Launchpad-Bug-Tags: windows windows-xp
+X-Launchpad-Bug: product=qemu; status=Expired; importance=Undecided;
+ assignee=None; 
 X-Launchpad-Bug-Information-Type: Public
 X-Launchpad-Bug-Private: no
 X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: bonzini denc716 fgouget hexmode j1n-po5ias-xqt
- janitor jbasila jyrgen katmeef laplandersan serge-hallyn th-huth varacanero
-X-Launchpad-Bug-Reporter: Maxim Loparev (laplandersan)
+X-Launchpad-Bug-Commenters: janitor th-huth webczat-200-deactivatedaccount
+X-Launchpad-Bug-Reporter: webczat (webczat-200-deactivatedaccount)
 X-Launchpad-Bug-Modifier: Launchpad Janitor (janitor)
-References: <20130430080722.32341.54160.malonedeb@gac.canonical.com>
-Message-Id: <161025226398.18863.3907953309828541344.malone@loganberry.canonical.com>
-Subject: [Bug 1174654] Re: qemu-system-x86_64 takes 100% CPU after host
- machine resumed from suspend to ram
+References: <151338646328.26229.15531211351993382335.malonedeb@wampee.canonical.com>
+Message-Id: <161025226719.18863.213174148871972564.malone@loganberry.canonical.com>
+Subject: [Bug 1738507] Re: qemu sometimes stuck when booting windows 10
 X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
 X-Launchpad-Message-For: qemu-devel-ml
 Precedence: bulk
 X-Generated-By: Launchpad (canonical.com);
  Revision="fd9c5a87183d01004404fa6027cd262eaa7f6fcf"; Instance="production"
-X-Launchpad-Hash: f6ed88f298207104f5a8ece81e470a4f6dadf01e
+X-Launchpad-Hash: 3c650d1194630618ba7cf1e9d1d72c07561a9e3f
 Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
  helo=indium.canonical.com
 X-Spam_score_int: -65
@@ -74,7 +70,7 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1174654 <1174654@bugs.launchpad.net>
+Reply-To: Bug 1738507 <1738507@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
@@ -87,27 +83,40 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 You received this bug notification because you are a member of qemu-
 devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1174654
+https://bugs.launchpad.net/bugs/1738507
 
 Title:
-  qemu-system-x86_64 takes 100% CPU after host machine resumed from
-  suspend to ram
+  qemu sometimes stuck when booting windows 10
 
 Status in QEMU:
   Expired
-Status in qemu package in Ubuntu:
-  Invalid
 
 Bug description:
-  I have Windows XP SP3  inside qemu VM. All works fine in 12.10. But
-  after upgraiding to 13.04 i have to restart the VM each time i
-  resuming my host machine, because qemu process starts to take CPU
-  cycles and OS inside VM is very slow and sluggish. However it's still
-  controllable and could be shutdown by itself.
-
-  According to the taskmgr any active process takes 99% CPU. It's not
-  stuck on some single process.
+  I am using qemu-2.10.1, or actually libvirt, to create a virtual machine,=
+ running microsoft windows 10 pro operating system.
+  It installed fine and was actually working, however sometimes when trying=
+ to boot the vm, the whole boot process gets stuck.
+  For some reason, it seemed to happen only when enough physical memory is =
+taken so that, when booting a windows vm that has 4gb of available ram, hos=
+t starts swapping some other processes. It is not always happening there, b=
+ut often it happens, and I do not remember seeing any case of this happenin=
+g when not swapping, maybe a kind of a timing issue?
+  When this happens, I usually try to hard reset the machine by libvirt res=
+et command or equivalent system_reset on qemu monitor, however the whole re=
+set does not happen, and the command is a noop. That makes me think it is a=
+ qemu bug, not windows refusing operation. At the time of this event, qemu =
+monitor and spice server are working correctly, are not stuck, and even doi=
+ng things like system reset does not result in a monitor hang. It is also p=
+ossible to quit qemu normally.
+  I tried to workaround the bug by guessing what may cause it. Switched fro=
+m bios to uefi, changed virtio-scsi to ahci temporarily, and disabled virti=
+o-balloon in case it would be buggy, with no visible change.
+  I will attach a libvirt log, because it contains qemu command line. I wil=
+l also attach an example qemu backtrace.
+  From what i know, both vcpu threads are working normally, at least none o=
+f them is stuck in a vcpu, nor deadlocked, etc. So backtrace could be diffe=
+rent each time I tried to get it.
 
 To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1174654/+subscriptions
+https://bugs.launchpad.net/qemu/+bug/1738507/+subscriptions
 
