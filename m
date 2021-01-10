@@ -2,63 +2,58 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C21402F0994
-	for <lists+qemu-devel@lfdr.de>; Sun, 10 Jan 2021 20:56:50 +0100 (CET)
-Received: from localhost ([::1]:40414 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B6C582F099B
+	for <lists+qemu-devel@lfdr.de>; Sun, 10 Jan 2021 21:02:44 +0100 (CET)
+Received: from localhost ([::1]:42920 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kygpV-0005GZ-SR
-	for lists+qemu-devel@lfdr.de; Sun, 10 Jan 2021 14:56:49 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37982)
+	id 1kygvD-0006b3-FJ
+	for lists+qemu-devel@lfdr.de; Sun, 10 Jan 2021 15:02:43 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38760)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1kygoA-0004Ck-CI
- for qemu-devel@nongnu.org; Sun, 10 Jan 2021 14:55:26 -0500
-Received: from mail-ej1-x632.google.com ([2a00:1450:4864:20::632]:34903)
+ id 1kyguC-00069g-HM
+ for qemu-devel@nongnu.org; Sun, 10 Jan 2021 15:01:40 -0500
+Received: from mail-ed1-x534.google.com ([2a00:1450:4864:20::534]:44403)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1kygo8-0000xv-Mx
- for qemu-devel@nongnu.org; Sun, 10 Jan 2021 14:55:26 -0500
-Received: by mail-ej1-x632.google.com with SMTP id q22so21854843eja.2
- for <qemu-devel@nongnu.org>; Sun, 10 Jan 2021 11:55:24 -0800 (PST)
+ id 1kyguA-00031S-GG
+ for qemu-devel@nongnu.org; Sun, 10 Jan 2021 15:01:40 -0500
+Received: by mail-ed1-x534.google.com with SMTP id p22so16595403edu.11
+ for <qemu-devel@nongnu.org>; Sun, 10 Jan 2021 12:01:37 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=S/EM89EUv+PB2w1BDJKeAgJS8aHkWG3TS7mJXDTfkls=;
- b=Felei3Vm4UtLJAfaxXyQHvFY+V+xHLKAr/6zFhEKHxsDHeJJCN45wucCRLenERRY2k
- Bu0IJi706bDIk3KDB1yiMIFjsGLNvxt1auOK+zcTGNTwNTabEGUbyiHhbIoaK4PZe0qT
- 4juj8Hq9PAixXXWYR0JSdjoLirf8rbjqMhDkw9Fib0HY/oZxuPYPAz9ZiN6VWhGWvexB
- 0McZUFtXbCkvQVWVPRh6deJ+9/yEgT6wR0LPZYBu1U5fLsVK9Ah56u52XmdLgomUzIeO
- 91EiBCImMMQUAwStlrdJnECme3kk2RfRp/0mBmVDoReXNTCfzd1vtfzXQ5JiEOGQH1Nc
- 1TXw==
+ h=mime-version:from:date:message-id:subject:to:cc;
+ bh=vZ4kuMWCWQSWURlKS8DVUIkEj3IOMcRQOGTCjgYC6WQ=;
+ b=s0PJKFxDcptXFjNmxuyd63hItRWaapIMa5f8lViV38PUrlGWEF+4pmr5jHCpluW3hM
+ Rg2AdIeRPolqRAxW4kW24oU7BZcvLkHVEhlCmZlXV03ZFQ0Z0rHXmRba/qXMpfBtKgZc
+ xgPQ9dJxtcuyouipEnap1WadF4hyQA+W8yMZMmrqZSP4P8KaS4r2clHVHurkKs1GKwiC
+ UfF00z8Ozbb3JziOXUtNlhyBMoqVRG/9LkXZqKLxp6FVBPtzVb/JZYMdr2SNfrU4FnLu
+ rSukTH5vzcBGrMn37pEhgTmUhUWuMJbIfF8T9T870wGVEgO0iYBDypqirnQHVWfLhlJL
+ 8T1w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=S/EM89EUv+PB2w1BDJKeAgJS8aHkWG3TS7mJXDTfkls=;
- b=nzOXlOVqSBDVOHo/xb9x8M6QNdAA0k7zciVvRxoCGNcCwdV1xWbUH/uA3uH8fNiHnH
- fEJ9QELDbr1c/JPbqRRdMoyQxkEY5KiwYKHik/Iz8Jj2SKeHTtFosdoxEjhmTa4I4uI2
- ylisf3sNQYzp8Wv6xQ7VTKezy+z1O0aiEdKHB45/7em4JtiMRRyIApY5yeCYChhmGXpQ
- tMiaakdydjNztwnByFBsNrSWQ+s2WTLNommjPz3P0QwxU4plVMPEKiC0l1o+WTr3lkrp
- CskRRLQxLA36HzOo3TQJ1YFBCUh3UIWNO+sqYZHvb3LJT9ZwQrqG+pPeyIkRs9f+Vkck
- yN8w==
-X-Gm-Message-State: AOAM531ABHRJx9eVlVDzVRx/aErQyf2B6KgkrymOIrsjxYRfPRmElydQ
- 2Zr66QSHH+qFT04M5B3N7s8qS/tsoWX16kPciVO7oA==
-X-Google-Smtp-Source: ABdhPJz1KYgo/b18rREjFV+ot+aE46rI5bxn7s9vDnp2jSFgYL7Eu9vfFz6AUrSMJn/f4ybLE+8XxTqOkW0CwMO9hE0=
-X-Received: by 2002:a17:906:6b88:: with SMTP id
- l8mr8866806ejr.482.1610308523021; 
- Sun, 10 Jan 2021 11:55:23 -0800 (PST)
+ h=x-gm-message-state:mime-version:from:date:message-id:subject:to:cc;
+ bh=vZ4kuMWCWQSWURlKS8DVUIkEj3IOMcRQOGTCjgYC6WQ=;
+ b=lIz2TgfAoycJvrl4HhlGpmDKSi8e+3vmeCWYKKTvnN/0GdrIcXuj1msNE1Tj0sEyjI
+ sqZHTkCsF09r7ZgZofNXM/8RNbxGDGoOxrxBmsubyxFzP2i2G6+xgJYuA7+FJh5O18Ji
+ lcSEgk/yEtBx0pdc7W1MPRku5jy272OuN8Jo/BazrSc/xVL8vpLxIuOxDGwFL3P13hwY
+ sRfKddn+gleYrien8BFb1vCSWw6o/eMOxjCsmJTkrMU5SvXXT+0RU/Mdk66az43d6Orw
+ aw6ERY/SYPMnv1/kjq4dtZ75umB4gm0Bu0pJju4yCAzRQoOtIhT2+9y2UaKGdSgTUwr9
+ 1GBQ==
+X-Gm-Message-State: AOAM533N5fPXdsnx+hLIE8dUHPoZUmCXlf244/QxrTP/LecIzgniNGUM
+ Rc25yFPEdhgC2HaTzkHUvLq+9jLm5uclhvhldWmNlaklaTrpGA==
+X-Google-Smtp-Source: ABdhPJyW0dRuK9XXANtzid5ujCMfC92rsS7DENYH8SWkfZMeH8NmtdwNIf5vJQ2KY3xmShf1DYgjAbzu3re9K1kK6fU=
+X-Received: by 2002:aa7:cdc3:: with SMTP id h3mr11812194edw.52.1610308896171; 
+ Sun, 10 Jan 2021 12:01:36 -0800 (PST)
 MIME-Version: 1.0
-References: <20201218060114.3591217-1-alistair.francis@wdc.com>
- <20201218060114.3591217-23-alistair.francis@wdc.com>
-In-Reply-To: <20201218060114.3591217-23-alistair.francis@wdc.com>
 From: Peter Maydell <peter.maydell@linaro.org>
-Date: Sun, 10 Jan 2021 19:55:11 +0000
-Message-ID: <CAFEAcA-FF0SC-LSWUxwDdQ_vutYEB=1UMB1nua2BEQm+_E8SdA@mail.gmail.com>
-Subject: Re: [PULL 22/23] hw/riscv: Use the CPU to determine if 32-bit
-To: Alistair Francis <alistair.francis@wdc.com>
+Date: Sun, 10 Jan 2021 20:01:25 +0000
+Message-ID: <CAFEAcA8zF4aOPpjdks32H0Ay8XvvyAz+rU7AjcELnurDtFnGbg@mail.gmail.com>
+Subject: coverity warning about possible missing error check in v9fs_request()
+To: QEMU Developers <qemu-devel@nongnu.org>
 Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2a00:1450:4864:20::632;
- envelope-from=peter.maydell@linaro.org; helo=mail-ej1-x632.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::534;
+ envelope-from=peter.maydell@linaro.org; helo=mail-ed1-x534.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -78,41 +73,29 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Alistair Francis <alistair23@gmail.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- QEMU Developers <qemu-devel@nongnu.org>
+Cc: Christian Schoenebeck <qemu_oss@crudebyte.com>, Greg Kurz <groug@kaod.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, 18 Dec 2020 at 06:01, Alistair Francis <alistair.francis@wdc.com> wrote:
->
-> Instead of using string compares to determine if a RISC-V machine is
-> using 32-bit or 64-bit CPUs we can use the initalised CPUs. This avoids
-> us having to maintain a list of CPU names to compare against.
->
-> This commit also fixes the name of the function to match the
-> riscv_cpu_is_32bit() function.
->
-> Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
-> Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-> Message-id: 8ab7614e5df93ab5267788b73dcd75f9f5615e82.1608142916.git.alistair.francis@wdc.com
+Hi; Coverity has just come up with a new warning (CID 1438968) about
+an unchecked error return value in the 9pfs code. (I'm not sure why
+now -- the code in question is unchanged since 2011; probably some
+other callsites changed enough to trigger the "other callsites check
+return value" heuristic.)
 
-Hi; coverity points out a probably-unintentional inefficiency here
-(CID 1438099, CID 1438100, CID 1438101):
+Anyway, in the middle of v9fs_request() is this code:
 
-> --- a/hw/riscv/boot.c
-> +++ b/hw/riscv/boot.c
-> @@ -33,28 +33,16 @@
->
->  #include <libfdt.h>
->
-> -bool riscv_is_32_bit(MachineState *machine)
-> +bool riscv_is_32bit(RISCVHartArrayState harts)
+    /* marshal the header details */
+    proxy_marshal(iovec, 0, "dd", header.type, header.size);
+    header.size += PROXY_HDR_SZ;
 
-The RISCVHartArrayState type is 824 bytes long. That's a very
-big type to be passing by value. You probably wanted to pass a
-pointer to it instead. Similarly for the arguments to
-riscv_calc_kernel_start_addr() and riscv_setup_rom_reset_vec().
+    retval = qemu_write_full(proxy->sockfd, iovec->iov_base, header.size);
+    if (retval != header.size) {
+        goto close_error;
+    }
+
+This is apparently the only call to proxy_marshal() that does not
+check its return value -- is it missing a check?
 
 thanks
 -- PMM
