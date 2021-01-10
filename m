@@ -2,35 +2,35 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D9C0F2F0516
-	for <lists+qemu-devel@lfdr.de>; Sun, 10 Jan 2021 05:29:53 +0100 (CET)
-Received: from localhost ([::1]:53004 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BE9DB2F0525
+	for <lists+qemu-devel@lfdr.de>; Sun, 10 Jan 2021 05:37:45 +0100 (CET)
+Received: from localhost ([::1]:52672 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kySMS-0004O3-UV
-	for lists+qemu-devel@lfdr.de; Sat, 09 Jan 2021 23:29:52 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45354)
+	id 1kySU4-0007mU-S6
+	for lists+qemu-devel@lfdr.de; Sat, 09 Jan 2021 23:37:44 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45732)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1kySIn-0007p2-N0
- for qemu-devel@nongnu.org; Sat, 09 Jan 2021 23:26:05 -0500
-Received: from indium.canonical.com ([91.189.90.7]:40558)
+ id 1kySN2-0005mq-21
+ for qemu-devel@nongnu.org; Sat, 09 Jan 2021 23:30:28 -0500
+Received: from indium.canonical.com ([91.189.90.7]:41142)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1kySIk-0000gq-0B
- for qemu-devel@nongnu.org; Sat, 09 Jan 2021 23:26:04 -0500
+ id 1kySMv-0002Yv-Us
+ for qemu-devel@nongnu.org; Sat, 09 Jan 2021 23:30:27 -0500
 Received: from loganberry.canonical.com ([91.189.90.37])
  by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1kySIh-0000E0-W0
- for <qemu-devel@nongnu.org>; Sun, 10 Jan 2021 04:26:00 +0000
+ id 1kySMt-0000z5-VD
+ for <qemu-devel@nongnu.org>; Sun, 10 Jan 2021 04:30:19 +0000
 Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id D0C3E2E8147
- for <qemu-devel@nongnu.org>; Sun, 10 Jan 2021 04:25:59 +0000 (UTC)
+ by loganberry.canonical.com (Postfix) with ESMTP id EB3282E8135
+ for <qemu-devel@nongnu.org>; Sun, 10 Jan 2021 04:30:19 +0000 (UTC)
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
-Date: Sun, 10 Jan 2021 04:17:45 -0000
-From: Launchpad Bug Tracker <1738434@bugs.launchpad.net>
+Date: Sun, 10 Jan 2021 04:17:25 -0000
+From: Launchpad Bug Tracker <1604303@bugs.launchpad.net>
 To: qemu-devel@nongnu.org
 X-Launchpad-Notification-Type: bug
 X-Launchpad-Bug: product=qemu; status=Expired; importance=Undecided;
@@ -38,18 +38,19 @@ X-Launchpad-Bug: product=qemu; status=Expired; importance=Undecided;
 X-Launchpad-Bug-Information-Type: Public
 X-Launchpad-Bug-Private: no
 X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: boleg janitor th-huth
-X-Launchpad-Bug-Reporter: Oleg Boyarchuk (boleg)
+X-Launchpad-Bug-Commenters: janitor th-huth z-j
+X-Launchpad-Bug-Reporter: Jan Vlug (z-j)
 X-Launchpad-Bug-Modifier: Launchpad Janitor (janitor)
-References: <151335284270.18775.11956593413249795656.malonedeb@chaenomeles.canonical.com>
-Message-Id: <161025226611.18863.958358089086065369.malone@loganberry.canonical.com>
-Subject: [Bug 1738434] Re: CALL FWORD PTR [ESP] handled incorrectly
+References: <20160719090202.9299.92930.malonedeb@soybean.canonical.com>
+Message-Id: <161025224564.18863.12203391908481637894.malone@loganberry.canonical.com>
+Subject: [Bug 1604303] Re: Solaris on KVM/QEMU: WARNING rtls0: Failure
+ resetting PHY
 X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
 X-Launchpad-Message-For: qemu-devel-ml
 Precedence: bulk
 X-Generated-By: Launchpad (canonical.com);
  Revision="fd9c5a87183d01004404fa6027cd262eaa7f6fcf"; Instance="production"
-X-Launchpad-Hash: cf43fb94349544cbf9a299713532726f37e77502
+X-Launchpad-Hash: dd6d884c31bb7d6c7d78591cc4e333bc5408fc9e
 Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
  helo=indium.canonical.com
 X-Spam_score_int: -65
@@ -70,7 +71,7 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1738434 <1738434@bugs.launchpad.net>
+Reply-To: Bug 1604303 <1604303@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
@@ -83,52 +84,28 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 You received this bug notification because you are a member of qemu-
 devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1738434
+https://bugs.launchpad.net/bugs/1604303
 
 Title:
-  CALL FWORD PTR [ESP] handled incorrectly
+  Solaris on KVM/QEMU: WARNING rtls0: Failure resetting PHY
 
 Status in QEMU:
   Expired
 
 Bug description:
-  To keep the story short, this 32-bit code crashes on 64-bit Windows
-  whereas it works fine on real system and VMware:
+  When running Solaris (both version 10 and 11) on a QEMU/KVM virtual host,=
+ the Solaris guest displays this warning just after starting the system:
+  WARNING rtls0: Failure resetting PHY.
 
-      push 33h
-      push offset _far_call
-      call fword ptr[esp]
-      jmp _ret
-  _far_call:
-      retf
-  _ret:
+  Although the networking seems to work fine.
 
-  32-bit code running under WoW64 on 64-bit Windows has the ability to
-  switch to the 64-bit mode via so called "Heaven's gate". In order to
-  do that you have to make a far call/jmp by 0x33 selector how the code
-  snippet above shows. QEMU throws an access violation exception whereas
-  the code snippet runs with no problems on real CPU and VMware. By the
-  way, this code works fine under QEMU, I hope it gives you a hint where
-  to look:
+  I have this network device model selected for the Solaris guest:
+  rtl8139
 
-      push 23h
-      push offset _far_call
-      call fword ptr[esp]
-      jmp _ret
-  _far_call:
-      retf
-  _ret:
-
-  0x23 is a default 32-bit selector for 32-bit processes running under
-  WoW64.
-
-  Environment:
-  QEMU: 2.10.93, command line: qemu-system-x86_64.exe -m 2G -snapshot -cdro=
-m full_path_to_iso fullP_path_to_img
-  Guest OS: Windows 7 x64 SP1 build 7601 or Windows 10 version 1709 build 1=
-6299.19
-  Host OS: Windows 10 x64 version 1703 build 15063.786
+  See also:
+  http://www.linux-kvm.org/page/Guest_Support_Status#UNIX_Family:_Solaris.2=
+FOpenSolaris
 
 To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1738434/+subscriptions
+https://bugs.launchpad.net/qemu/+bug/1604303/+subscriptions
 
