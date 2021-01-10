@@ -2,55 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D44EE2F0956
-	for <lists+qemu-devel@lfdr.de>; Sun, 10 Jan 2021 20:27:48 +0100 (CET)
-Received: from localhost ([::1]:51984 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3069C2F0967
+	for <lists+qemu-devel@lfdr.de>; Sun, 10 Jan 2021 20:51:28 +0100 (CET)
+Received: from localhost ([::1]:36718 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kygNP-0005Lw-Ce
-	for lists+qemu-devel@lfdr.de; Sun, 10 Jan 2021 14:27:47 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33556)
+	id 1kygkE-0003QX-On
+	for lists+qemu-devel@lfdr.de; Sun, 10 Jan 2021 14:51:23 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37002)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
- id 1kygLh-0004tU-V5
- for qemu-devel@nongnu.org; Sun, 10 Jan 2021 14:26:01 -0500
-Received: from zero.eik.bme.hu ([152.66.115.2]:64055)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
- id 1kygLe-0008Ur-PO
- for qemu-devel@nongnu.org; Sun, 10 Jan 2021 14:26:01 -0500
-Received: from zero.eik.bme.hu (blah.eik.bme.hu [152.66.115.182])
- by localhost (Postfix) with SMTP id 14E617470F0;
- Sun, 10 Jan 2021 20:25:55 +0100 (CET)
-Received: by zero.eik.bme.hu (Postfix, from userid 432)
- id C51807470EE; Sun, 10 Jan 2021 20:25:54 +0100 (CET)
-Received: from localhost (localhost [127.0.0.1])
- by zero.eik.bme.hu (Postfix) with ESMTP id C27AB74645B;
- Sun, 10 Jan 2021 20:25:54 +0100 (CET)
-Date: Sun, 10 Jan 2021 20:25:54 +0100 (CET)
-From: BALATON Zoltan <balaton@eik.bme.hu>
-To: =?ISO-8859-15?Q?Philippe_Mathieu-Daud=E9?= <f4bug@amsat.org>
-Subject: Re: [PATCH v2 08/13] vt82c686: Move creation of ISA devices to the
- ISA bridge
-In-Reply-To: <2a45450d-8357-c03e-7e11-bd59bffa61ae@amsat.org>
-Message-ID: <1b55216e-4526-6f50-eac2-f91797a64e7@eik.bme.hu>
-References: <cover.1610223396.git.balaton@eik.bme.hu>
- <bf9400cc8e4ddd3129aa5678de4d3cf38384805f.1610223397.git.balaton@eik.bme.hu>
- <f77d6471-d19d-a1c2-e447-18181d55ba86@amsat.org>
- <5c5ce8b9-f5c4-c58d-6f8a-76c47ad8db4d@eik.bme.hu>
- <2a45450d-8357-c03e-7e11-bd59bffa61ae@amsat.org>
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1kygj4-00030R-M2
+ for qemu-devel@nongnu.org; Sun, 10 Jan 2021 14:50:10 -0500
+Received: from mail-ed1-x532.google.com ([2a00:1450:4864:20::532]:35158)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1kygj2-0007Ww-QS
+ for qemu-devel@nongnu.org; Sun, 10 Jan 2021 14:50:10 -0500
+Received: by mail-ed1-x532.google.com with SMTP id u19so16711666edx.2
+ for <qemu-devel@nongnu.org>; Sun, 10 Jan 2021 11:50:07 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=ALS+DJRbxmf8BDgI+5i7dVPzbv2zUtzQYjPNwramy5E=;
+ b=qWgBIuhH9K48rRrp7z4jbuL1HA4fbEGedPm3I1oLuCEYIXQYLcWXrn7a0Wl648PqsK
+ OsQAp//SnCOaq0+DFPapien31qMkj7HXJfDjhi5y+lKc4qf+mVmLU/eyn5b2BfY3TkDl
+ 7hW3SUGGmmDrK+24yr6l63+7VvV2xNGA7cWVq74/l7/drvpYlLUjGzHuZNi+nSdGYPWY
+ 3UE0N1ltQ17IAI9Z2OxQIg6G/siU16pvqltd5hC/zulGh9YF/wm9qNi03JawVYp9u3w9
+ 3gwQooi3uxIKhfOfuLKE7AUOaDeTToT7EmkNj/AvqRfFXZLkhh/FlHTAWyegR4QINZpl
+ JkpQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=ALS+DJRbxmf8BDgI+5i7dVPzbv2zUtzQYjPNwramy5E=;
+ b=TqAl+uyWhcwcTYJdRYZbFkbL+mX+8INVcKvSCUG7QiP7M81gLAiUSRWIlw4I6nUXjQ
+ iKePUiQ3OGkRC/h+Y1D2rCbFAbVYuFGE9bM9pQbS4DKPVKPMN6RzzO57M6L4Ge75so1t
+ 8KCVl+suRgu00kWkQvDiHhWoyVNCzRx0cyq4EaX0670+ak3ldsigS5S58KhCeOHWJm70
+ wtrEXJhdSkDk5TIIM4rq7m1lSEH0CTfBnhDhjnghTttItxZbvbVu9Ok2XgdnIQ4EGWfz
+ F62Vw7wCIixDVADGZ13Jk7FmibtH/LLTXj1Qmnu8sG+ryO2Y63kSlxZyOnPh4f4glDIL
+ va9Q==
+X-Gm-Message-State: AOAM533qdtDENgpjJskOuUmHfJ16UxbJmy6lviPo2ThzG4PraTk5wQUQ
+ sz/NJJ9hGcpm0GZlOvKsZgARNv3JV/zqcmsIFTYj+w==
+X-Google-Smtp-Source: ABdhPJxG++bEESfXA+j2bj7FqEuNwSKRKXWdcAeiXHeuVxxrFB22WvNScr9ddabmFzNcavZbSEfAngkMyVmL1haOnPU=
+X-Received: by 2002:aa7:c353:: with SMTP id j19mr11954538edr.204.1610308206796; 
+ Sun, 10 Jan 2021 11:50:06 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: multipart/mixed;
- BOUNDARY="3866299591-1720538710-1610306052=:16201"
-Content-ID: <7fa7933a-36e0-a43-4b2f-59765d1596b@eik.bme.hu>
-X-Spam-Probability: 9%
-Received-SPF: pass client-ip=152.66.115.2; envelope-from=balaton@eik.bme.hu;
- helo=zero.eik.bme.hu
-X-Spam_score_int: -41
-X-Spam_score: -4.2
-X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+References: <20210103205021.2837760-1-f4bug@amsat.org>
+ <20210103205021.2837760-24-f4bug@amsat.org>
+In-Reply-To: <20210103205021.2837760-24-f4bug@amsat.org>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Sun, 10 Jan 2021 19:49:55 +0000
+Message-ID: <CAFEAcA_YqAiiLRY08-gACmKOCf2mat3AaBGnyRK0Jc+aK-iuOw@mail.gmail.com>
+Subject: Re: [PULL 23/35] hw/intc: Rework Loongson LIOINTC
+To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2a00:1450:4864:20::532;
+ envelope-from=peter.maydell@linaro.org; helo=mail-ed1-x532.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -63,141 +79,92 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- "Michael S. Tsirkin" <mst@redhat.com>, Huacai Chen <chenhuacai@kernel.org>,
- Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>, qemu-devel@nongnu.org,
- =?ISO-8859-15?Q?Herv=E9_Poussineau?= <hpoussin@reactos.org>
+Cc: Huacai Chen <chenhuacai@kernel.org>,
+ QEMU Developers <qemu-devel@nongnu.org>, Aurelien Jarno <aurelien@aurel32.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-  This message is in MIME format.  The first part should be readable text,
-  while the remaining parts are likely unreadable without MIME-aware tools.
-
---3866299591-1720538710-1610306052=:16201
-Content-Type: text/plain; CHARSET=ISO-8859-15; format=flowed
-Content-Transfer-Encoding: 8BIT
-Content-ID: <3f15b4e-2f68-4c6f-9f42-d9717f569ffe@eik.bme.hu>
-
-On Sun, 10 Jan 2021, Philippe Mathieu-Daudé wrote:
-> +PCI experts
+On Sun, 3 Jan 2021 at 21:11, Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org> =
+wrote:
 >
-> On 1/10/21 1:43 AM, BALATON Zoltan wrote:
->> On Sun, 10 Jan 2021, Philippe Mathieu-Daudé wrote:
->>> Hi Zoltan,
->>>
->>> On 1/9/21 9:16 PM, BALATON Zoltan wrote:
->>>> Currently the ISA devices that are part of the VIA south bridge,
->>>> superio chip are wired up by board code. Move creation of these ISA
->>>> devices to the VIA ISA bridge model so that board code does not need
->>>> to access ISA bus. This also allows vt82c686b-superio to be made
->>>> internal to vt82c686 which allows implementing its configuration via
->>>> registers in subseqent commits.
->>>
->>> Is this patch dependent of the VT82C686B_PM changes
->>> or can it be applied before them?
->>
->> I don't know but why would that be better? I thought it's clearer to
->> clean up pm related parts first before moving more stuff to this file so
->> that's why this patch comes after (and also because that's the order I
->> did it).
+> From: Huacai Chen <chenhuacai@kernel.org>
 >
-> Not any better, but easier for me to get your patches integrated,
-> as I'm reviewing your patches slowly. Finding other reviewers
-> would certainly help.
-
-No problem, I'll wait for your review. Merging parts of the series does 
-not help much because the whole series is needed for vt8231 which is 
-prerequisite for pegasos2 so eventually all of these are needed so it does 
-not matter if this one patch gets in earlier or later.
-
-Not sure who could help with review. Maybe Jiaxun or Huacai as this is 
-used by fuloong2e so they might be interested and could have info on this 
-chip. Most of these patches just cleaning up the vt82c686b and adding some 
-missing features so these can be reused by the vt8231 model in last 3 
-patches (which is very similar to 686b only some reg addresses and ids 
-seem to be different for what we are concerned).
-
->>>> Signed-off-by: BALATON Zoltan <balaton@eik.bme.hu>
->>>> ---
->>>>  hw/isa/vt82c686.c   | 20 ++++++++++++++++++++
->>>>  hw/mips/fuloong2e.c | 29 +++++------------------------
->>>>  2 files changed, 25 insertions(+), 24 deletions(-)
->>>>
->>>> diff --git a/hw/isa/vt82c686.c b/hw/isa/vt82c686.c
->>>> index 58c0bba1d0..5df9be8ff4 100644
->>>> --- a/hw/isa/vt82c686.c
->>>> +++ b/hw/isa/vt82c686.c
->>>> @@ -16,6 +16,11 @@
->>>>  #include "hw/qdev-properties.h"
->>>>  #include "hw/isa/isa.h"
->>>>  #include "hw/isa/superio.h"
->>>> +#include "hw/intc/i8259.h"
->>>> +#include "hw/irq.h"
->>>> +#include "hw/dma/i8257.h"
->>>> +#include "hw/timer/i8254.h"
->>>> +#include "hw/rtc/mc146818rtc.h"
->>>>  #include "migration/vmstate.h"
->>>>  #include "hw/isa/apm.h"
->>>>  #include "hw/acpi/acpi.h"
->>>> @@ -307,9 +312,16 @@ OBJECT_DECLARE_SIMPLE_TYPE(VT82C686BISAState,
->>>> VT82C686B_ISA)
->>>>
->>>>  struct VT82C686BISAState {
->>>>      PCIDevice dev;
->>>> +    qemu_irq cpu_intr;
->>>>      SuperIOConfig superio_cfg;
->>>>  };
->>>>
->>>> +static void via_isa_request_i8259_irq(void *opaque, int irq, int level)
->>>> +{
->>>> +    VT82C686BISAState *s = opaque;
->>>> +    qemu_set_irq(s->cpu_intr, level);
->>>> +}
->>>> +
->>>>  static void vt82c686b_write_config(PCIDevice *d, uint32_t addr,
->>>>                                     uint32_t val, int len)
->>>>  {
->>>> @@ -365,10 +377,18 @@ static void vt82c686b_realize(PCIDevice *d,
->>>> Error **errp)
->>>>      VT82C686BISAState *s = VT82C686B_ISA(d);
->>>>      DeviceState *dev = DEVICE(d);
->>>>      ISABus *isa_bus;
->>>> +    qemu_irq *isa_irq;
->>>>      int i;
->>>>
->>>> +    qdev_init_gpio_out(dev, &s->cpu_intr, 1);
->>>
->>> Why not use the SysBus API?
->>
->> How? This is a PCIDevice not a SysBusDevice.
+> As suggested by Philippe Mathieu-Daud=C3=A9, rework Loongson's liointc:
+> 1, Move macro definitions to loongson_liointc.h;
+> 2, Remove magic values and use macros instead;
+> 3, Replace dead D() code by trace events.
 >
-> Indeed :)
->
->>>> +    isa_irq = qemu_allocate_irqs(via_isa_request_i8259_irq, s, 1);
->>>>      isa_bus = isa_bus_new(dev, get_system_memory(),
->>>> pci_address_space_io(d),
->>>>                            &error_fatal);
->>>
->>> Isn't it get_system_memory() -> pci_address_space(d)?
->>
->> I don't really know. Most other places that create an isa bus seem to
->> also use get_system_memory(), only piix4 uses pci_address_space(dev) so
->> I thought if those others are OK this should be too.
->
-> I'm not a PCI expert but my understanding is PCI device functions are
-> restricted to the PCI bus address space. The host bridge may map this
-> space within the host.
->
-> QEMU might be using get_system_memory() because for some host bridge
-> the mapping is not implemented so it was easier this way?
+> Suggested-by: Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>
+> Signed-off-by: Huacai Chen <chenhuacai@kernel.org>
+> Tested-by: Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>
+> Reviewed-by: Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>
+> Message-Id: <20201221110538.3186646-2-chenhuacai@kernel.org>
+> Signed-off-by: Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>
+> ---
+>  include/hw/intc/loongson_liointc.h | 22 ++++++++++++++++++
+>  hw/intc/loongson_liointc.c         | 36 +++++++++++++-----------------
+>  2 files changed, 38 insertions(+), 20 deletions(-)
+>  create mode 100644 include/hw/intc/loongson_liointc.h
 
-Maybe, also one less indirection which if not really needed is a good 
-thing for performance so unless it's found to be needed to use another 
-address space here I'm happy with this as it matches what other similar 
-devices do and it seems to work. Maybe a separate address space is only 
-really needed if we have an iommu?
+Hi; Coverity complains about a possible array overrun
+in this commit:
 
-Regards,
-BALATON Zoltan
---3866299591-1720538710-1610306052=:16201--
+
+> @@ -40,13 +39,10 @@
+>  #define R_IEN                   0x24
+>  #define R_IEN_SET               0x28
+>  #define R_IEN_CLR               0x2c
+> -#define R_PERCORE_ISR(x)        (0x40 + 0x8 * x)
+> +#define R_ISR_SIZE              0x8
+> +#define R_START                 0x40
+>  #define R_END                   0x64
+>
+> -#define TYPE_LOONGSON_LIOINTC "loongson.liointc"
+> -DECLARE_INSTANCE_CHECKER(struct loongson_liointc, LOONGSON_LIOINTC,
+> -                         TYPE_LOONGSON_LIOINTC)
+> -
+>  struct loongson_liointc {
+>      SysBusDevice parent_obj;
+>
+> @@ -123,14 +119,13 @@ liointc_read(void *opaque, hwaddr addr, unsigned in=
+t size)
+>          goto out;
+>      }
+>
+> -    /* Rest is 4 byte */
+> +    /* Rest are 4 bytes */
+>      if (size !=3D 4 || (addr % 4)) {
+>          goto out;
+>      }
+>
+> -    if (addr >=3D R_PERCORE_ISR(0) &&
+> -        addr < R_PERCORE_ISR(NUM_CORES)) {
+> -        int core =3D (addr - R_PERCORE_ISR(0)) / 8;
+> +    if (addr >=3D R_START && addr < R_END) {
+> +        int core =3D (addr - R_START) / R_ISR_SIZE;
+
+R_END is 0x64 and R_START is 0x40, so if addr is 0x60
+then addr - R_START is 0x32 and so core here is 4.
+However p->per_core_isr[] only has 4 entries, so this will
+be off the end of the array.
+
+This is CID 1438965.
+
+>          r =3D p->per_core_isr[core];
+>          goto out;
+>      }
+
+> -    if (addr >=3D R_PERCORE_ISR(0) &&
+> -        addr < R_PERCORE_ISR(NUM_CORES)) {
+> -        int core =3D (addr - R_PERCORE_ISR(0)) / 8;
+> +    if (addr >=3D R_START && addr < R_END) {
+> +        int core =3D (addr - R_START) / R_ISR_SIZE;
+>          p->per_core_isr[core] =3D value;
+>          goto out;
+>      }
+
+Same thing here, CID 1438967.
+
+thanks
+-- PMM
 
