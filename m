@@ -2,55 +2,55 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 398212F0653
-	for <lists+qemu-devel@lfdr.de>; Sun, 10 Jan 2021 11:14:48 +0100 (CET)
-Received: from localhost ([::1]:57122 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 559BE2F0652
+	for <lists+qemu-devel@lfdr.de>; Sun, 10 Jan 2021 11:14:16 +0100 (CET)
+Received: from localhost ([::1]:54418 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kyXkF-0006v9-9J
-	for lists+qemu-devel@lfdr.de; Sun, 10 Jan 2021 05:14:47 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57782)
+	id 1kyXjj-0005hd-B1
+	for lists+qemu-devel@lfdr.de; Sun, 10 Jan 2021 05:14:15 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57724)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <volker.ruemelin@t-online.de>)
- id 1kyXZC-00027r-Nq
- for qemu-devel@nongnu.org; Sun, 10 Jan 2021 05:03:22 -0500
-Received: from mailout07.t-online.de ([194.25.134.83]:59858)
+ id 1kyXZ5-0001os-V0
+ for qemu-devel@nongnu.org; Sun, 10 Jan 2021 05:03:15 -0500
+Received: from mailout09.t-online.de ([194.25.134.84]:40508)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <volker.ruemelin@t-online.de>)
- id 1kyXZA-0005Wl-Mj
- for qemu-devel@nongnu.org; Sun, 10 Jan 2021 05:03:22 -0500
-Received: from fwd19.aul.t-online.de (fwd19.aul.t-online.de [172.20.27.65])
- by mailout07.t-online.de (Postfix) with SMTP id 7234D42DAAD1;
- Sun, 10 Jan 2021 11:03:19 +0100 (CET)
+ id 1kyXZ3-0005S3-6B
+ for qemu-devel@nongnu.org; Sun, 10 Jan 2021 05:03:15 -0500
+Received: from fwd37.aul.t-online.de (fwd37.aul.t-online.de [172.20.27.137])
+ by mailout09.t-online.de (Postfix) with SMTP id B00EA42C88CD;
+ Sun, 10 Jan 2021 11:03:11 +0100 (CET)
 Received: from linpower.localnet
- (EX69uYZrrhX73Qye7hJAYo+vBEbH4cFar-iPZOKHspH9B5DdyWparAiHPKR7JIqwFZ@[93.236.152.29])
- by fwd19.t-online.de
+ (bjcJ-iZYrhLnw4oQl9gXdXdEpFAQv7YsR2kzbqFSJNupXXu59HsCWCnXbJLCFf5gqX@[93.236.152.29])
+ by fwd37.t-online.de
  with (TLSv1.2:ECDHE-RSA-AES256-GCM-SHA384 encrypted)
- esmtp id 1kyXYy-4AWRlI0; Sun, 10 Jan 2021 11:03:08 +0100
+ esmtp id 1kyXZ1-3tUVxQ0; Sun, 10 Jan 2021 11:03:11 +0100
 Received: by linpower.localnet (Postfix, from userid 1000)
- id 00E7F20063A; Sun, 10 Jan 2021 11:02:39 +0100 (CET)
+ id 032FC20063B; Sun, 10 Jan 2021 11:02:40 +0100 (CET)
 From: =?UTF-8?q?Volker=20R=C3=BCmelin?= <vr_qemu@t-online.de>
 To: Gerd Hoffmann <kraxel@redhat.com>
-Subject: [PATCH 12/23] audio: remove remaining unused plive code
-Date: Sun, 10 Jan 2021 11:02:28 +0100
-Message-Id: <20210110100239.27588-12-vr_qemu@t-online.de>
+Subject: [PATCH 13/23] paaudio: avoid to clip samples multiple times
+Date: Sun, 10 Jan 2021 11:02:29 +0100
+Message-Id: <20210110100239.27588-13-vr_qemu@t-online.de>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <9315afe5-5958-c0b4-ea1e-14769511a9d5@t-online.de>
 References: <9315afe5-5958-c0b4-ea1e-14769511a9d5@t-online.de>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-ID: EX69uYZrrhX73Qye7hJAYo+vBEbH4cFar-iPZOKHspH9B5DdyWparAiHPKR7JIqwFZ
-X-TOI-EXPURGATEID: 150726::1610272989-00008954-54B0D0A2/0/0 CLEAN NORMAL
-X-TOI-MSGID: d60598f8-040c-4e4f-b808-548f0e079ba3
-Received-SPF: none client-ip=194.25.134.83;
- envelope-from=volker.ruemelin@t-online.de; helo=mailout07.t-online.de
+X-ID: bjcJ-iZYrhLnw4oQl9gXdXdEpFAQv7YsR2kzbqFSJNupXXu59HsCWCnXbJLCFf5gqX
+X-TOI-EXPURGATEID: 150726::1610272991-0000D445-CF5BC4D1/0/0 CLEAN NORMAL
+X-TOI-MSGID: 8be1d8f8-6c48-47c0-adf6-ed953f4b3fd7
+Received-SPF: none client-ip=194.25.134.84;
+ envelope-from=volker.ruemelin@t-online.de; helo=mailout09.t-online.de
 X-Spam_score_int: -18
 X-Spam_score: -1.9
 X-Spam_bar: -
 X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -68,62 +68,100 @@ Cc: QEMU <qemu-devel@nongnu.org>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Commit 73ad33ef7b "audio: remove plive" forgot to remove this code.
+The pulseaudio backend currently converts, clips and copies audio
+playback samples in the mixing-engine sample buffer multiple
+times.
+
+In qpa_get_buffer_out() the function pa_stream_begin_write()
+returns a rather large buffer and this allows audio_pcm_hw_run_out()
+in audio/audio.c to copy all samples in the mixing-engine buffer
+to the pulse audio buffer. Immediately after copying, qpa_write()
+notices with a call to pa_stream_writable_size() that pulse audio
+only needs a smaller part of the copied samples and ignores the
+rest. This copy and ignore process happens several times for each
+audio sample.
+
+To fix this behaviour, call pa_stream_writable_size() in
+qpa_get_buffer_out() to limit the number of samples
+audio_pcm_hw_run_out() will convert. With this change the
+pulseaudio pcm_ops functions put_buffer_out and write are no
+longer identical and a separate qpa_put_buffer_out is needed.
 
 Signed-off-by: Volker Rümelin <vr_qemu@t-online.de>
 ---
- audio/audio.c | 17 +----------------
- 1 file changed, 1 insertion(+), 16 deletions(-)
+ audio/paaudio.c | 32 +++++++++++++++++++++++++++++++-
+ 1 file changed, 31 insertions(+), 1 deletion(-)
 
-diff --git a/audio/audio.c b/audio/audio.c
-index 22d769db0c..34c9cb9182 100644
---- a/audio/audio.c
-+++ b/audio/audio.c
-@@ -1132,7 +1132,7 @@ static void audio_run_out (AudioState *s)
+diff --git a/audio/paaudio.c b/audio/paaudio.c
+index b052084698..229bcfcae8 100644
+--- a/audio/paaudio.c
++++ b/audio/paaudio.c
+@@ -207,6 +207,7 @@ static void *qpa_get_buffer_out(HWVoiceOut *hw, size_t *size)
+     PAVoiceOut *p = (PAVoiceOut *) hw;
+     PAConnection *c = p->g->conn;
+     void *ret;
++    size_t l;
+     int r;
  
-     while ((hw = audio_pcm_hw_find_any_enabled_out(s, hw))) {
-         size_t played, live, prev_rpos, free;
--        int nb_live, cleanup_required;
-+        int nb_live;
+     pa_threaded_mainloop_lock(c->mainloop);
+@@ -214,12 +215,19 @@ static void *qpa_get_buffer_out(HWVoiceOut *hw, size_t *size)
+     CHECK_DEAD_GOTO(c, p->stream, unlock_and_fail,
+                     "pa_threaded_mainloop_lock failed\n");
  
-         live = audio_pcm_hw_get_live_out (hw, &nb_live);
-         if (!nb_live) {
-@@ -1194,7 +1194,6 @@ static void audio_run_out (AudioState *s)
-             audio_capture_mix_and_clear (hw, prev_rpos, played);
-         }
++    l = pa_stream_writable_size(p->stream);
++    CHECK_SUCCESS_GOTO(c, l != (size_t) -1, unlock_and_fail,
++                       "pa_stream_writable_size failed\n");
++
+     *size = -1;
+     r = pa_stream_begin_write(p->stream, &ret, size);
+     CHECK_SUCCESS_GOTO(c, r >= 0, unlock_and_fail,
+                        "pa_stream_begin_write failed\n");
  
--        cleanup_required = 0;
-         for (sw = hw->sw_head.lh_first; sw; sw = sw->entries.le_next) {
-             if (!sw->active && sw->empty) {
-                 continue;
-@@ -1210,7 +1209,6 @@ static void audio_run_out (AudioState *s)
+     pa_threaded_mainloop_unlock(c->mainloop);
++    if (*size > l) {
++        *size = l;
++    }
+     return ret;
  
-             if (!sw->total_hw_samples_mixed) {
-                 sw->empty = 1;
--                cleanup_required |= !sw->active && !sw->callback.fn;
-             }
- 
-             if (sw->active) {
-@@ -1220,19 +1218,6 @@ static void audio_run_out (AudioState *s)
-                 }
-             }
-         }
--
--        if (cleanup_required) {
--            SWVoiceOut *sw1;
--
--            sw = hw->sw_head.lh_first;
--            while (sw) {
--                sw1 = sw->entries.le_next;
--                if (!sw->active && !sw->callback.fn) {
--                    audio_close_out (sw);
--                }
--                sw = sw1;
--            }
--        }
-     }
+ unlock_and_fail:
+@@ -228,6 +236,28 @@ unlock_and_fail:
+     return NULL;
  }
  
++static size_t qpa_put_buffer_out(HWVoiceOut *hw, void *data, size_t length)
++{
++    PAVoiceOut *p = (PAVoiceOut *)hw;
++    PAConnection *c = p->g->conn;
++    int r;
++
++    pa_threaded_mainloop_lock(c->mainloop);
++
++    CHECK_DEAD_GOTO(c, p->stream, unlock_and_fail,
++                    "pa_threaded_mainloop_lock failed\n");
++
++    r = pa_stream_write(p->stream, data, length, NULL, 0LL, PA_SEEK_RELATIVE);
++    CHECK_SUCCESS_GOTO(c, r >= 0, unlock_and_fail, "pa_stream_write failed\n");
++
++    pa_threaded_mainloop_unlock(c->mainloop);
++    return length;
++
++unlock_and_fail:
++    pa_threaded_mainloop_unlock(c->mainloop);
++    return 0;
++}
++
+ static size_t qpa_write(HWVoiceOut *hw, void *data, size_t length)
+ {
+     PAVoiceOut *p = (PAVoiceOut *) hw;
+@@ -861,7 +891,7 @@ static struct audio_pcm_ops qpa_pcm_ops = {
+     .fini_out = qpa_fini_out,
+     .write    = qpa_write,
+     .get_buffer_out = qpa_get_buffer_out,
+-    .put_buffer_out = qpa_write, /* pa handles it */
++    .put_buffer_out = qpa_put_buffer_out,
+     .volume_out = qpa_volume_out,
+ 
+     .init_in  = qpa_init_in,
 -- 
 2.26.2
 
