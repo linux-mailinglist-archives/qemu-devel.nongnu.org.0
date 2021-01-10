@@ -2,71 +2,51 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 59B622F0495
-	for <lists+qemu-devel@lfdr.de>; Sun, 10 Jan 2021 01:32:40 +0100 (CET)
-Received: from localhost ([::1]:48222 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1E7652F049B
+	for <lists+qemu-devel@lfdr.de>; Sun, 10 Jan 2021 01:45:19 +0100 (CET)
+Received: from localhost ([::1]:52170 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kyOet-0006jI-59
-	for lists+qemu-devel@lfdr.de; Sat, 09 Jan 2021 19:32:39 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47968)
+	id 1kyOr7-0000zY-Hb
+	for lists+qemu-devel@lfdr.de; Sat, 09 Jan 2021 19:45:17 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49680)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <r.bolshakov@yadro.com>)
- id 1kyOdO-0006HA-JY
- for qemu-devel@nongnu.org; Sat, 09 Jan 2021 19:31:06 -0500
-Received: from mta-02.yadro.com ([89.207.88.252]:59706 helo=mta-01.yadro.com)
+ (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
+ id 1kyOpI-0000Yw-Gb
+ for qemu-devel@nongnu.org; Sat, 09 Jan 2021 19:43:29 -0500
+Received: from zero.eik.bme.hu ([2001:738:2001:2001::2001]:23725)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <r.bolshakov@yadro.com>)
- id 1kyOdI-0006Gh-Js
- for qemu-devel@nongnu.org; Sat, 09 Jan 2021 19:31:06 -0500
-Received: from localhost (unknown [127.0.0.1])
- by mta-01.yadro.com (Postfix) with ESMTP id 2DC93412ED;
- Sun, 10 Jan 2021 00:30:58 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=yadro.com; h=
- in-reply-to:content-disposition:content-type:content-type
- :mime-version:references:message-id:subject:subject:from:from
- :date:date:received:received:received; s=mta-01; t=1610238656;
- x=1612053057; bh=hcLhiB6ZXNdpL4eoUb9QB0daB6UhmnAreqYbPAL5q9A=; b=
- k8eZQtCrYJPJbzuuuHLyXKH3StUJgoOaOHABoYp5tOcFQHnfhdKFHeS9Iz0qoaRB
- VJjSwFqEehTbX80irrf8TBeIqOjBWbmYhtIZ6djrgmbL93lTb5ltarMABOScbERa
- a8ED9Mo5mHU8AO209owS5KjPpryLAhROLm9mkheK01g=
-X-Virus-Scanned: amavisd-new at yadro.com
-Received: from mta-01.yadro.com ([127.0.0.1])
- by localhost (mta-01.yadro.com [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id kof2kyjX4gPL; Sun, 10 Jan 2021 03:30:56 +0300 (MSK)
-Received: from T-EXCH-03.corp.yadro.com (t-exch-03.corp.yadro.com
- [172.17.100.103])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-SHA384 (256/256 bits))
- (No client certificate requested)
- by mta-01.yadro.com (Postfix) with ESMTPS id 12DB741209;
- Sun, 10 Jan 2021 03:30:56 +0300 (MSK)
-Received: from localhost (172.17.204.212) by T-EXCH-03.corp.yadro.com
- (172.17.100.103) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384_P384) id 15.1.669.32; Sun, 10
- Jan 2021 03:30:55 +0300
-Date: Sun, 10 Jan 2021 03:31:18 +0300
-From: Roman Bolshakov <r.bolshakov@yadro.com>
-To: Christian Schoenebeck <qemu_oss@crudebyte.com>
-Subject: Re: [PATCH v2] ui/cocoa: Fix openFile: deprecation on Big Sur
-Message-ID: <X/pK1lsz4MZKqSgg@SPB-NB-133.local>
-References: <20210102150718.47618-1-r.bolshakov@yadro.com>
- <X/jJ7dTlBW8Pg65q@SPB-NB-133.local>
- <e585d6ab-2dc8-4d1d-fbf7-96ecfdaa79@eik.bme.hu>
- <1716563.tmi89dmfaR@silver>
+ (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
+ id 1kyOpD-0001qE-Nm
+ for qemu-devel@nongnu.org; Sat, 09 Jan 2021 19:43:23 -0500
+Received: from zero.eik.bme.hu (blah.eik.bme.hu [152.66.115.182])
+ by localhost (Postfix) with SMTP id 68A5A7470E6;
+ Sun, 10 Jan 2021 01:43:15 +0100 (CET)
+Received: by zero.eik.bme.hu (Postfix, from userid 432)
+ id 25B3D74645F; Sun, 10 Jan 2021 01:43:15 +0100 (CET)
+Received: from localhost (localhost [127.0.0.1])
+ by zero.eik.bme.hu (Postfix) with ESMTP id 2430674645B;
+ Sun, 10 Jan 2021 01:43:15 +0100 (CET)
+Date: Sun, 10 Jan 2021 01:43:15 +0100 (CET)
+From: BALATON Zoltan <balaton@eik.bme.hu>
+To: =?ISO-8859-15?Q?Philippe_Mathieu-Daud=E9?= <f4bug@amsat.org>
+Subject: Re: [PATCH v2 08/13] vt82c686: Move creation of ISA devices to the
+ ISA bridge
+In-Reply-To: <f77d6471-d19d-a1c2-e447-18181d55ba86@amsat.org>
+Message-ID: <5c5ce8b9-f5c4-c58d-6f8a-76c47ad8db4d@eik.bme.hu>
+References: <cover.1610223396.git.balaton@eik.bme.hu>
+ <bf9400cc8e4ddd3129aa5678de4d3cf38384805f.1610223397.git.balaton@eik.bme.hu>
+ <f77d6471-d19d-a1c2-e447-18181d55ba86@amsat.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="us-ascii"
-Content-Disposition: inline
-In-Reply-To: <1716563.tmi89dmfaR@silver>
-X-Originating-IP: [172.17.204.212]
-X-ClientProxiedBy: T-EXCH-01.corp.yadro.com (172.17.10.101) To
- T-EXCH-03.corp.yadro.com (172.17.100.103)
-Received-SPF: pass client-ip=89.207.88.252; envelope-from=r.bolshakov@yadro.com;
- helo=mta-01.yadro.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
+Content-Type: multipart/mixed;
+ boundary="3866299591-1178407161-1610239395=:68897"
+X-Spam-Probability: 9%
+Received-SPF: pass client-ip=2001:738:2001:2001::2001;
+ envelope-from=balaton@eik.bme.hu; helo=zero.eik.bme.hu
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -80,96 +60,195 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>, qemu-devel@nongnu.org,
- Gerd Hoffmann <kraxel@redhat.com>
+Cc: Huacai Chen <chenhuacai@kernel.org>, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Sat, Jan 09, 2021 at 01:25:44PM +0100, Christian Schoenebeck via wrote:
-> On Samstag, 9. Januar 2021 00:13:36 CET BALATON Zoltan wrote:
-> > On Sat, 9 Jan 2021, Roman Bolshakov wrote:
-> > > On Fri, Jan 08, 2021 at 03:00:07PM +0000, Peter Maydell wrote:
-> > >> On Fri, 8 Jan 2021 at 13:50, Peter Maydell <peter.maydell@linaro.org> 
-> wrote:
-> > >>> On Sat, 2 Jan 2021 at 15:14, Roman Bolshakov <r.bolshakov@yadro.com> 
-> wrote:
-> > >>>> ui/cocoa.m:1188:44: warning: 'openFile:' is deprecated: first
-> > >>>> deprecated in macOS 11.0 - Use -[NSWorkspace openURL:] instead.>>>> 
-> > >>>>       [-Wdeprecated-declarations]
-> > >>>>       
-> > >>>>         if ([[NSWorkspace sharedWorkspace] openFile: full_file_path] ==
-> > >>>>         YES) {
-> > >>>>         
-> > >>>>                                            ^
-> > >>>> 
-> > >>>> /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/System/Library/
-> Frameworks/AppKit.framework/Headers/NSWorkspace.h:350:1: note:
-> > >>>>       'openFile:' has been explicitly marked deprecated here
-> > >>>> 
-> > >>>> - (BOOL)openFile:(NSString *)fullPath API_DEPRECATED("Use -[NSWorkspace
-> > >>>> openURL:] instead.", macos(10.0, 11.0)); ^
-> > >>>> 
-> > >>>> Signed-off-by: Roman Bolshakov <r.bolshakov@yadro.com>
-> > >>>> ---
-> > >>> 
-> > >>> Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
-> > >> 
-> > >> So I was just trying to test this patch, and I found that at least
-> > >> for me the osx menu bar has stopped working in QEMU -- keyboard
-> > >> shortcuts to it still work but none of the menu buttons respond
-> > >> to the mouse. Does that happen for anybody else?
-> > > 
-> > > There's an old bug when QEMU menu bar is not responsive because it's not
-> > > properly activated. If you click off qemu and click on the qemu dock
-> > > icon then it "gets fixed" (cmd-tab works too). Do you hit the issue as
-> > > described in the article [1]? The code in the article does exactly the
-> > > same what I'm doing manually. I wanted to fix it but somehow it got
-> > > postponed for like a whole year :) I might try to make a fix this but
-> > > note, the issue is not related to the patch.
-> > 
-> > This does not sound like the best solution to the problem. There's some
-> > info on this here (and blog post linked from it):
-> > 
-> > https://stackoverflow.com/questions/7460092/nswindow-makekeyandorderfront-ma
-> > kes-window-appear-but-not-key-or-front
-> > 
-> > Maybe we call makeKeyAndOrderFront: too early before the app is active and
-> > that's causing the problem? Would it work better if that's moved after
-> > [NSApp run]? (Maybe we also need canBecomeKey: somewhere but I don't see
-> > why would that be needed for normal windows.)
-> > 
-> > Regards,
-> > BALATON Zoltan
-> 
-> JFYI: I'm not sure whether that's related to this, but there was a general 
-> event handling issue with Gtk3 on macOS which caused mouse events being 
-> dropped:
-> 
-> https://gitlab.gnome.org/GNOME/gtk/-/issues/986
+  This message is in MIME format.  The first part should be readable text,
+  while the remaining parts are likely unreadable without MIME-aware tools.
 
-Hi Christian,
+--3866299591-1178407161-1610239395=:68897
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 8BIT
 
-Thanks for the reference. I've looked at the patch and I'm not sure if
-the Cocoa issues are related to GTK. It's likely something different.
+On Sun, 10 Jan 2021, Philippe Mathieu-Daudé wrote:
+> Hi Zoltan,
+>
+> On 1/9/21 9:16 PM, BALATON Zoltan wrote:
+>> Currently the ISA devices that are part of the VIA south bridge,
+>> superio chip are wired up by board code. Move creation of these ISA
+>> devices to the VIA ISA bridge model so that board code does not need
+>> to access ISA bus. This also allows vt82c686b-superio to be made
+>> internal to vt82c686 which allows implementing its configuration via
+>> registers in subseqent commits.
+>
+> Is this patch dependent of the VT82C686B_PM changes
+> or can it be applied before them?
 
-After skimming over QT bug tracker I found a mathcing ticket that
-confirms findings of earlier email:
+I don't know but why would that be better? I thought it's clearer to clean 
+up pm related parts first before moving more stuff to this file so that's 
+why this patch comes after (and also because that's the order I did it).
 
-  https://bugreports.qt.io/browse/QTBUG-89436
+>> Signed-off-by: BALATON Zoltan <balaton@eik.bme.hu>
+>> ---
+>>  hw/isa/vt82c686.c   | 20 ++++++++++++++++++++
+>>  hw/mips/fuloong2e.c | 29 +++++------------------------
+>>  2 files changed, 25 insertions(+), 24 deletions(-)
+>>
+>> diff --git a/hw/isa/vt82c686.c b/hw/isa/vt82c686.c
+>> index 58c0bba1d0..5df9be8ff4 100644
+>> --- a/hw/isa/vt82c686.c
+>> +++ b/hw/isa/vt82c686.c
+>> @@ -16,6 +16,11 @@
+>>  #include "hw/qdev-properties.h"
+>>  #include "hw/isa/isa.h"
+>>  #include "hw/isa/superio.h"
+>> +#include "hw/intc/i8259.h"
+>> +#include "hw/irq.h"
+>> +#include "hw/dma/i8257.h"
+>> +#include "hw/timer/i8254.h"
+>> +#include "hw/rtc/mc146818rtc.h"
+>>  #include "migration/vmstate.h"
+>>  #include "hw/isa/apm.h"
+>>  #include "hw/acpi/acpi.h"
+>> @@ -307,9 +312,16 @@ OBJECT_DECLARE_SIMPLE_TYPE(VT82C686BISAState, VT82C686B_ISA)
+>>
+>>  struct VT82C686BISAState {
+>>      PCIDevice dev;
+>> +    qemu_irq cpu_intr;
+>>      SuperIOConfig superio_cfg;
+>>  };
+>>
+>> +static void via_isa_request_i8259_irq(void *opaque, int irq, int level)
+>> +{
+>> +    VT82C686BISAState *s = opaque;
+>> +    qemu_set_irq(s->cpu_intr, level);
+>> +}
+>> +
+>>  static void vt82c686b_write_config(PCIDevice *d, uint32_t addr,
+>>                                     uint32_t val, int len)
+>>  {
+>> @@ -365,10 +377,18 @@ static void vt82c686b_realize(PCIDevice *d, Error **errp)
+>>      VT82C686BISAState *s = VT82C686B_ISA(d);
+>>      DeviceState *dev = DEVICE(d);
+>>      ISABus *isa_bus;
+>> +    qemu_irq *isa_irq;
+>>      int i;
+>>
+>> +    qdev_init_gpio_out(dev, &s->cpu_intr, 1);
+>
+> Why not use the SysBus API?
 
-  Workaround is to build app as app bundle. Or manually deactivate and
-  re-activate the app, like the JavaFX workaround does.
+How? This is a PCIDevice not a SysBusDevice.
+
+>> +    isa_irq = qemu_allocate_irqs(via_isa_request_i8259_irq, s, 1);
+>>      isa_bus = isa_bus_new(dev, get_system_memory(), pci_address_space_io(d),
+>>                            &error_fatal);
+>
+> Isn't it get_system_memory() -> pci_address_space(d)?
+
+I don't really know. Most other places that create an isa bus seem to also 
+use get_system_memory(), only piix4 uses pci_address_space(dev) so I 
+thought if those others are OK this should be too.
 
 Regards,
-Roman
+BALATON Zoltan
 
-> 
-> According to the response, they seem to have fixed it meanwhile with a 
-> different patch than suggested by me, but I haven't tested theirs.
-> 
-> Best regards,
-> Christian Schoenebeck
-> 
-> 
-> 
+>> +    isa_bus_irqs(isa_bus, i8259_init(isa_bus, *isa_irq));
+>> +    i8254_pit_init(isa_bus, 0x40, 0, NULL);
+>> +    i8257_dma_init(isa_bus, 0);
+>> +    isa_create_simple(isa_bus, TYPE_VT82C686B_SUPERIO);
+>> +    mc146818_rtc_init(isa_bus, 2000, NULL);
+>>
+>>      for (i = 0; i < PCI_CONFIG_HEADER_SIZE; i++) {
+>>          if (i < PCI_COMMAND || i >= PCI_REVISION_ID) {
+>> diff --git a/hw/mips/fuloong2e.c b/hw/mips/fuloong2e.c
+>> index fbdd6122b3..0fc3288556 100644
+>> --- a/hw/mips/fuloong2e.c
+>> +++ b/hw/mips/fuloong2e.c
+>> @@ -25,9 +25,6 @@
+>>  #include "qapi/error.h"
+>>  #include "cpu.h"
+>>  #include "hw/clock.h"
+>> -#include "hw/intc/i8259.h"
+>> -#include "hw/dma/i8257.h"
+>> -#include "hw/isa/superio.h"
+>>  #include "net/net.h"
+>>  #include "hw/boards.h"
+>>  #include "hw/i2c/smbus_eeprom.h"
+>> @@ -38,13 +35,13 @@
+>>  #include "qemu/log.h"
+>>  #include "hw/loader.h"
+>>  #include "hw/ide/pci.h"
+>> +#include "hw/qdev-properties.h"
+>>  #include "elf.h"
+>>  #include "hw/isa/vt82c686.h"
+>> -#include "hw/rtc/mc146818rtc.h"
+>> -#include "hw/timer/i8254.h"
+>>  #include "exec/address-spaces.h"
+>>  #include "sysemu/qtest.h"
+>>  #include "sysemu/reset.h"
+>> +#include "sysemu/sysemu.h"
+>>  #include "qemu/error-report.h"
+>>
+>>  #define ENVP_PADDR              0x2000
+>> @@ -224,26 +221,13 @@ static void main_cpu_reset(void *opaque)
+>>  }
+>>
+>>  static void vt82c686b_southbridge_init(PCIBus *pci_bus, int slot, qemu_irq intc,
+>> -                                       I2CBus **i2c_bus, ISABus **p_isa_bus)
+>> +                                       I2CBus **i2c_bus)
+>>  {
+>> -    qemu_irq *i8259;
+>> -    ISABus *isa_bus;
+>>      PCIDevice *dev;
+>>
+>>      dev = pci_create_simple_multifunction(pci_bus, PCI_DEVFN(slot, 0), true,
+>>                                            TYPE_VT82C686B_ISA);
+>> -    isa_bus = ISA_BUS(qdev_get_child_bus(DEVICE(dev), "isa.0"));
+>> -    assert(isa_bus);
+>> -    *p_isa_bus = isa_bus;
+>> -    /* Interrupt controller */
+>> -    /* The 8259 -> IP5  */
+>> -    i8259 = i8259_init(isa_bus, intc);
+>> -    isa_bus_irqs(isa_bus, i8259);
+>> -    /* init other devices */
+>> -    i8254_pit_init(isa_bus, 0x40, 0, NULL);
+>> -    i8257_dma_init(isa_bus, 0);
+>> -    /* Super I/O */
+>> -    isa_create_simple(isa_bus, TYPE_VT82C686B_SUPERIO);
+>> +    qdev_connect_gpio_out(DEVICE(dev), 0, intc);
+>>
+>>      dev = pci_create_simple(pci_bus, PCI_DEVFN(slot, 1), "via-ide");
+>>      pci_ide_create_devs(dev);
+>> @@ -290,7 +274,6 @@ static void mips_fuloong2e_init(MachineState *machine)
+>>      uint64_t kernel_entry;
+>>      PCIDevice *pci_dev;
+>>      PCIBus *pci_bus;
+>> -    ISABus *isa_bus;
+>>      I2CBus *smbus;
+>>      Clock *cpuclk;
+>>      MIPSCPU *cpu;
+>> @@ -357,7 +340,7 @@ static void mips_fuloong2e_init(MachineState *machine)
+>>
+>>      /* South bridge -> IP5 */
+>>      vt82c686b_southbridge_init(pci_bus, FULOONG2E_VIA_SLOT, env->irq[5],
+>> -                               &smbus, &isa_bus);
+>> +                               &smbus);
+>>
+>>      /* GPU */
+>>      if (vga_interface_type != VGA_NONE) {
+>> @@ -372,8 +355,6 @@ static void mips_fuloong2e_init(MachineState *machine)
+>>      spd_data = spd_data_generate(DDR, machine->ram_size);
+>>      smbus_eeprom_init_one(smbus, 0x50, spd_data);
+>>
+>> -    mc146818_rtc_init(isa_bus, 2000, NULL);
+>> -
+>>      /* Network card: RTL8139D */
+>>      network_init(pci_bus);
+>>  }
+>>
+>
+>
+--3866299591-1178407161-1610239395=:68897--
 
