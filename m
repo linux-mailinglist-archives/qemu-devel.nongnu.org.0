@@ -2,35 +2,35 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 032062F051E
-	for <lists+qemu-devel@lfdr.de>; Sun, 10 Jan 2021 05:33:46 +0100 (CET)
-Received: from localhost ([::1]:37938 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 98EEB2F051A
+	for <lists+qemu-devel@lfdr.de>; Sun, 10 Jan 2021 05:31:50 +0100 (CET)
+Received: from localhost ([::1]:60012 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kySQE-0001ZG-0x
-	for lists+qemu-devel@lfdr.de; Sat, 09 Jan 2021 23:33:46 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45378)
+	id 1kySOL-0007QT-LK
+	for lists+qemu-devel@lfdr.de; Sat, 09 Jan 2021 23:31:49 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45352)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1kySIx-0007uD-Qp
- for qemu-devel@nongnu.org; Sat, 09 Jan 2021 23:26:17 -0500
-Received: from indium.canonical.com ([91.189.90.7]:40710)
+ id 1kySIn-0007p0-Lx
+ for qemu-devel@nongnu.org; Sat, 09 Jan 2021 23:26:05 -0500
+Received: from indium.canonical.com ([91.189.90.7]:40672)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1kySIv-0000iN-U4
- for qemu-devel@nongnu.org; Sat, 09 Jan 2021 23:26:15 -0500
+ id 1kySIl-0000iG-GV
+ for qemu-devel@nongnu.org; Sat, 09 Jan 2021 23:26:05 -0500
 Received: from loganberry.canonical.com ([91.189.90.37])
  by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1kySIk-0000Ch-DA
- for <qemu-devel@nongnu.org>; Sun, 10 Jan 2021 04:26:02 +0000
+ id 1kySIj-0000E8-MD
+ for <qemu-devel@nongnu.org>; Sun, 10 Jan 2021 04:26:01 +0000
 Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 546BD2E8144
- for <qemu-devel@nongnu.org>; Sun, 10 Jan 2021 04:26:02 +0000 (UTC)
+ by loganberry.canonical.com (Postfix) with ESMTP id 5BBF12E8145
+ for <qemu-devel@nongnu.org>; Sun, 10 Jan 2021 04:26:01 +0000 (UTC)
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
 Date: Sun, 10 Jan 2021 04:17:40 -0000
-From: Launchpad Bug Tracker <1732177@bugs.launchpad.net>
+From: Launchpad Bug Tracker <1735082@bugs.launchpad.net>
 To: qemu-devel@nongnu.org
 X-Launchpad-Notification-Type: bug
 X-Launchpad-Bug: product=qemu; status=Expired; importance=Undecided;
@@ -38,18 +38,18 @@ X-Launchpad-Bug: product=qemu; status=Expired; importance=Undecided;
 X-Launchpad-Bug-Information-Type: Public
 X-Launchpad-Bug-Private: no
 X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: janitor netrolller-3d th-huth
-X-Launchpad-Bug-Reporter: Googulator (netrolller-3d)
+X-Launchpad-Bug-Commenters: janitor nitin981 th-huth
+X-Launchpad-Bug-Reporter: Nitin (nitin981)
 X-Launchpad-Bug-Modifier: Launchpad Janitor (janitor)
-References: <151066478781.7464.15116659457637721936.malonedeb@soybean.canonical.com>
-Message-Id: <161025226019.18863.6230570356323293214.malone@loganberry.canonical.com>
-Subject: [Bug 1732177] Re: SBSA ACS test freezes inside qemu-system-aarch64
+References: <151193824666.10852.4284580382497408043.malonedeb@wampee.canonical.com>
+Message-Id: <161025226164.18863.8581655885216202774.malone@loganberry.canonical.com>
+Subject: [Bug 1735082] Re: NVME pass through in th eguest VM
 X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
 X-Launchpad-Message-For: qemu-devel-ml
 Precedence: bulk
 X-Generated-By: Launchpad (canonical.com);
  Revision="fd9c5a87183d01004404fa6027cd262eaa7f6fcf"; Instance="production"
-X-Launchpad-Hash: 0d19f806751186101b408c6900d03c065c2b8235
+X-Launchpad-Hash: 91410e37a25a82dceb4cbe174e664b9ba80de52e
 Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
  helo=indium.canonical.com
 X-Spam_score_int: -65
@@ -70,7 +70,7 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1732177 <1732177@bugs.launchpad.net>
+Reply-To: Bug 1735082 <1735082@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
@@ -83,30 +83,46 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 You received this bug notification because you are a member of qemu-
 devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1732177
+https://bugs.launchpad.net/bugs/1735082
 
 Title:
-  SBSA ACS test freezes inside qemu-system-aarch64
+  NVME pass through in th eguest VM
 
 Status in QEMU:
   Expired
 
 Bug description:
-  In an effort to get Windows 10 for ARM64 (which is supposed to boot on
-  SBSA/SBBR-compliant platforms) to boot inside qemu, I tried to run the
-  SBSA ACS test suite. I used the UEFI image from the latest Linaro
-  snapshot, and built the SBSA ACS UEFI application from
-  https://github.com/ARM-software/sbsa-acs myself using a Linaro aarch64
-  compiler.
+  Hi Qemu Team
 
-  Test #8 causes an infinite exception loop, as the exception vectors
-  themselves somehow become inaccessible, and accessing them triggers
-  another exception to be handled by the same vector. (With some older
-  Linaro UEFI images, the hard lockup is avoided, and the SBSA UEFI app
-  crashes instead.) If I disable that test, the testsuite locks up in
-  other tests in very similar ways. We aren't even able to get a
-  pass/fail score from the app because of this.
+  i am new in qemu and trying for nvme pass through ..
+  for that i used  below git repo for nvme =
+
+
+  https://github.com/famz/qemu/tree/nvme
+
+  and trying to launch the VM by below qemu command ..
+
+  /usr/local/bin/qemu-system-x86_64 -name sl7.0=E2=80=82=E2=80=82-m 1024 -o=
+bject memory-
+  backend-file,id=3Dmem,size=3D1G,mem-path=3D/dev/hugepages,share=3Don
+  -nographic -no-user-config -nodefaults -serial
+  mon:telnet:localhost:7704,server,nowait -monitor
+  mon:telnet:localhost:8804,server,nowait -numa node,memdev=3Dmem -drive
+  file=3D/home/qemu/qcows,format=3Dqcow2,if=3Dnone,id=3Ddisk -device ide-
+  hd,drive=3Ddisk,bootindex=3D0 -drive
+  file=3Dnvme://0000:d8:00.0,if=3Dnone,id=3Ddrive0 -device virtio-
+  blk,drive=3Ddrive0,id=3Dvirtio0 --enable-kvm
+
+  i am getting kernel panic and not proceed further..please help
+
+  PS:-  our guest VM version is
+
+  Scientific Linux 7.0 (Nitrogen)
+  Kernel 3.10.0-123.el7.x86_64 on an x86_64
+
+  Regards
+  Nitin
 
 To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1732177/+subscriptions
+https://bugs.launchpad.net/qemu/+bug/1735082/+subscriptions
 
