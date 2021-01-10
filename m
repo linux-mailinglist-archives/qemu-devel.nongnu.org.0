@@ -2,66 +2,80 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 74E472F051C
-	for <lists+qemu-devel@lfdr.de>; Sun, 10 Jan 2021 05:33:45 +0100 (CET)
-Received: from localhost ([::1]:37820 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5F8032F05E7
+	for <lists+qemu-devel@lfdr.de>; Sun, 10 Jan 2021 09:17:27 +0100 (CET)
+Received: from localhost ([::1]:51656 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kySQC-0001WL-GJ
-	for lists+qemu-devel@lfdr.de; Sat, 09 Jan 2021 23:33:44 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45322)
+	id 1kyVug-0004mi-Do
+	for lists+qemu-devel@lfdr.de; Sun, 10 Jan 2021 03:17:26 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46868)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1kySIl-0007ml-Q9
- for qemu-devel@nongnu.org; Sat, 09 Jan 2021 23:26:03 -0500
-Received: from indium.canonical.com ([91.189.90.7]:40506)
+ (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
+ id 1kyVsc-0002pS-2P; Sun, 10 Jan 2021 03:15:18 -0500
+Received: from mail-pg1-x52f.google.com ([2607:f8b0:4864:20::52f]:42226)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1kySIj-0000gY-Ai
- for qemu-devel@nongnu.org; Sat, 09 Jan 2021 23:26:03 -0500
-Received: from loganberry.canonical.com ([91.189.90.37])
- by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1kySIh-0000ME-D6
- for <qemu-devel@nongnu.org>; Sun, 10 Jan 2021 04:25:59 +0000
-Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 4B6822E8144
- for <qemu-devel@nongnu.org>; Sun, 10 Jan 2021 04:25:59 +0000 (UTC)
+ (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
+ id 1kyVsa-0005wV-9A; Sun, 10 Jan 2021 03:15:17 -0500
+Received: by mail-pg1-x52f.google.com with SMTP id g15so10546158pgu.9;
+ Sun, 10 Jan 2021 00:15:15 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=Uth7qFYZcAGIlpDOu6/OFlBV9OZB6Hp44dj92RTEM2Y=;
+ b=aj6nIjKftcjdfPVQivkwQ1BVAO+XE4P9ILDpZV6dlITFk+zxIPFqYbbTnYFC3BzC0q
+ 45TwuCIzcbWlSlkExS/akjD5DLQHPNUDaSi+GTL4tnXZjUldppclIcCCHJWvW4Vatiad
+ P9kYfckqggtpPv99Cb9/CpjgfD6C6m3DOqlnm+A+uB+Ls7gUnxlVCqZiDjGSkRG3IhtG
+ hN+9m+vwvCG2HZEqm++lEVxegm5U+ZtMIR45b4c7WtCSXfEvhT0YaGKISdiew3Z/iQ7b
+ vU99eQaXWCP58ZL62AvA9h5L3RiGxTJ1qOfntIIBORCxYI29N/O9/WNu0uU+w/9ACeTR
+ EkRQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=Uth7qFYZcAGIlpDOu6/OFlBV9OZB6Hp44dj92RTEM2Y=;
+ b=Oj7Xce5Y3KxxleID+Oq9ybrrEbeUjmJwwReRmiT7Zytz5CcXnbCJaXxPIU3NT9BSYz
+ NXzqeGg4JgL+knEXOVnbVXfm2whJe9lbds3NiNTfhVyS8Yjbn6Y3EPLMszqsqYuquYI7
+ zv4vZRwqLM088OvubS6wmPEcOyAXgXhdlPaRL+1KqcT6t8PXUVEKNcTSAfeIVTFmOOPT
+ TEnzgsXzLEsOty1nDBpV5aNxc+NYX3m0yICVlrMJwWRnXTsyL/zdMzD9qXYKCb7GIFMZ
+ hWa+NCpNSI1Ao/EOJdYMcUrJf/JkaQ8vaAfGcrGJqGm9TWlFsNuE0wjMM08aE4oeFr5z
+ WwnA==
+X-Gm-Message-State: AOAM532rUV7BZIzLeI1QrVDyUpOtaa4pn1f0wxTjZEGunDDAyxNEcvbL
+ tmGIQlwPSo308PuenZ7TXPM=
+X-Google-Smtp-Source: ABdhPJxi0nX+MxBktlLtavI/gTen/FDHpyrYlkwkn/Am7JOaXZlztnn+QfqRqbY0M5T5gLvpH6GPAg==
+X-Received: by 2002:a63:5d10:: with SMTP id r16mr14606872pgb.406.1610266514474; 
+ Sun, 10 Jan 2021 00:15:14 -0800 (PST)
+Received: from i9-aorus-gtx1080.localdomain (144.168.56.201.16clouds.com.
+ [144.168.56.201])
+ by smtp.gmail.com with ESMTPSA id jx4sm13519070pjb.24.2021.01.10.00.15.11
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Sun, 10 Jan 2021 00:15:13 -0800 (PST)
+From: Bin Meng <bmeng.cn@gmail.com>
+To: Peter Maydell <peter.maydell@linaro.org>,
+ Jean-Christophe Dubois <jcd@tribudubois.net>,
+ Alistair Francis <alistair.francis@wdc.com>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
+ qemu-arm@nongnu.org, qemu-devel@nongnu.org
+Subject: [PATCH v4 0/6] hw/ssi: imx_spi: Fix various bugs in the imx_spi model
+Date: Sun, 10 Jan 2021 16:14:23 +0800
+Message-Id: <20210110081429.10126-1-bmeng.cn@gmail.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-Date: Sun, 10 Jan 2021 04:17:47 -0000
-From: Launchpad Bug Tracker <1738507@bugs.launchpad.net>
-To: qemu-devel@nongnu.org
-X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=Expired; importance=Undecided;
- assignee=None; 
-X-Launchpad-Bug-Information-Type: Public
-X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: janitor th-huth webczat-200-deactivatedaccount
-X-Launchpad-Bug-Reporter: webczat (webczat-200-deactivatedaccount)
-X-Launchpad-Bug-Modifier: Launchpad Janitor (janitor)
-References: <151338646328.26229.15531211351993382335.malonedeb@wampee.canonical.com>
-Message-Id: <161025226719.18863.213174148871972564.malone@loganberry.canonical.com>
-Subject: [Bug 1738507] Re: qemu sometimes stuck when booting windows 10
-X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
-X-Launchpad-Message-For: qemu-devel-ml
-Precedence: bulk
-X-Generated-By: Launchpad (canonical.com);
- Revision="fd9c5a87183d01004404fa6027cd262eaa7f6fcf"; Instance="production"
-X-Launchpad-Hash: 3c650d1194630618ba7cf1e9d1d72c07561a9e3f
-Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
- helo=indium.canonical.com
-X-Spam_score_int: -65
-X-Spam_score: -6.6
-X-Spam_bar: ------
-X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9,
- HEADER_FROM_DIFFERENT_DOMAINS=0.25, RCVD_IN_DNSWL_HI=-5,
- RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::52f;
+ envelope-from=bmeng.cn@gmail.com; helo=mail-pg1-x52f.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -70,53 +84,54 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1738507 <1738507@bugs.launchpad.net>
+Cc: Bin Meng <bin.meng@windriver.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-[Expired for QEMU because there has been no activity for 60 days.]
+From: Bin Meng <bin.meng@windriver.com>
 
-** Changed in: qemu
-       Status: Incomplete =3D> Expired
+This series fixes a bunch of bugs in current implementation of the imx
+spi controller, including the following issues:
 
--- =
+- chip select signal was not lower down when spi controller is disabled
+- remove imx_spi_update_irq() in imx_spi_reset()
+- transfer incorrect data when the burst length is larger than 32 bit
+- spi controller tx and rx fifo endianness is incorrect
 
-You received this bug notification because you are a member of qemu-
-devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1738507
+Tested with upstream U-Boot v2020.10 (polling mode) and VxWorks 7
+(interrupt mode).
 
-Title:
-  qemu sometimes stuck when booting windows 10
+Changes in v4:
+- adujst the patch 2,3 order
+- rename imx_spi_soft_reset() to imx_spi_hard_reset() to avoid confusion
+- s/normal/common/ in the commit message
+- log the burst length value in the log message
 
-Status in QEMU:
-  Expired
+Changes in v3:
+- new patch: remove imx_spi_update_irq() in imx_spi_reset()
+- Move the chip selects disable out of imx_spi_reset()
+- new patch: log unimplemented burst length
+- Simplify the tx fifo endianness handling
 
-Bug description:
-  I am using qemu-2.10.1, or actually libvirt, to create a virtual machine,=
- running microsoft windows 10 pro operating system.
-  It installed fine and was actually working, however sometimes when trying=
- to boot the vm, the whole boot process gets stuck.
-  For some reason, it seemed to happen only when enough physical memory is =
-taken so that, when booting a windows vm that has 4gb of available ram, hos=
-t starts swapping some other processes. It is not always happening there, b=
-ut often it happens, and I do not remember seeing any case of this happenin=
-g when not swapping, maybe a kind of a timing issue?
-  When this happens, I usually try to hard reset the machine by libvirt res=
-et command or equivalent system_reset on qemu monitor, however the whole re=
-set does not happen, and the command is a noop. That makes me think it is a=
- qemu bug, not windows refusing operation. At the time of this event, qemu =
-monitor and spice server are working correctly, are not stuck, and even doi=
-ng things like system reset does not result in a monitor hang. It is also p=
-ossible to quit qemu normally.
-  I tried to workaround the bug by guessing what may cause it. Switched fro=
-m bios to uefi, changed virtio-scsi to ahci temporarily, and disabled virti=
-o-balloon in case it would be buggy, with no visible change.
-  I will attach a libvirt log, because it contains qemu command line. I wil=
-l also attach an example qemu backtrace.
-  From what i know, both vcpu threads are working normally, at least none o=
-f them is stuck in a vcpu, nor deadlocked, etc. So backtrace could be diffe=
-rent each time I tried to get it.
+Changes in v2:
+- Fix the "Fixes" tag in the commit message
+- Use ternary operator as Philippe suggested
 
-To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1738507/+subscriptions
+Bin Meng (5):
+  hw/ssi: imx_spi: Use a macro for number of chip selects supported
+  hw/ssi: imx_spi: Remove imx_spi_update_irq() in imx_spi_reset()
+  hw/ssi: imx_spi: Log unimplemented burst length
+  hw/ssi: imx_spi: Correct the burst length > 32 bit transfer logic
+  hw/ssi: imx_spi: Correct tx and rx fifo endianness
+
+Xuzhou Cheng (1):
+  hw/ssi: imx_spi: Disable chip selects when controller is disabled
+
+ include/hw/ssi/imx_spi.h |  5 ++++-
+ hw/ssi/imx_spi.c         | 42 ++++++++++++++++++++++++++++------------
+ 2 files changed, 34 insertions(+), 13 deletions(-)
+
+-- 
+2.25.1
+
 
