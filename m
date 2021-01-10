@@ -2,49 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 082BF2F0645
-	for <lists+qemu-devel@lfdr.de>; Sun, 10 Jan 2021 11:09:02 +0100 (CET)
-Received: from localhost ([::1]:36700 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 62A032F064F
+	for <lists+qemu-devel@lfdr.de>; Sun, 10 Jan 2021 11:12:31 +0100 (CET)
+Received: from localhost ([::1]:46216 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kyXef-0006Ul-2L
-	for lists+qemu-devel@lfdr.de; Sun, 10 Jan 2021 05:09:01 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57620)
+	id 1kyXi2-0002KO-8k
+	for lists+qemu-devel@lfdr.de; Sun, 10 Jan 2021 05:12:30 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57716)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <volker.ruemelin@t-online.de>)
- id 1kyXYx-0001d3-Ok
- for qemu-devel@nongnu.org; Sun, 10 Jan 2021 05:03:07 -0500
-Received: from mailout03.t-online.de ([194.25.134.81]:57036)
+ id 1kyXZ5-0001nB-CA
+ for qemu-devel@nongnu.org; Sun, 10 Jan 2021 05:03:15 -0500
+Received: from mailout04.t-online.de ([194.25.134.18]:54870)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <volker.ruemelin@t-online.de>)
- id 1kyXYv-0005Ny-4S
- for qemu-devel@nongnu.org; Sun, 10 Jan 2021 05:03:06 -0500
-Received: from fwd39.aul.t-online.de (fwd39.aul.t-online.de [172.20.27.138])
- by mailout03.t-online.de (Postfix) with SMTP id 075C74217779;
- Sun, 10 Jan 2021 11:03:04 +0100 (CET)
+ id 1kyXZ1-0005Qd-Er
+ for qemu-devel@nongnu.org; Sun, 10 Jan 2021 05:03:15 -0500
+Received: from fwd15.aul.t-online.de (fwd15.aul.t-online.de [172.20.27.63])
+ by mailout04.t-online.de (Postfix) with SMTP id A488841882AC;
+ Sun, 10 Jan 2021 11:03:09 +0100 (CET)
 Received: from linpower.localnet
- (EPZUScZHghU5OdQsaS4N+3zlg2g4BU+7+KzhIpjklF9B3+2ETWR+xHi7rAvhhevZXJ@[93.236.152.29])
- by fwd39.t-online.de
+ (Th3+qYZlrhGAagdA7KJDS8oYS3kQM5qVnzTCCsCF4lY4zsBbtEOr3126d5XCFcMZvM@[93.236.152.29])
+ by fwd15.t-online.de
  with (TLSv1.2:ECDHE-RSA-AES256-GCM-SHA384 encrypted)
- esmtp id 1kyXYt-2DO80G0; Sun, 10 Jan 2021 11:03:03 +0100
+ esmtp id 1kyXYw-1u8ynI0; Sun, 10 Jan 2021 11:03:06 +0100
 Received: by linpower.localnet (Postfix, from userid 1000)
- id F0E9C200637; Sun, 10 Jan 2021 11:02:39 +0100 (CET)
+ id F303C200638; Sun, 10 Jan 2021 11:02:39 +0100 (CET)
 From: =?UTF-8?q?Volker=20R=C3=BCmelin?= <vr_qemu@t-online.de>
 To: Gerd Hoffmann <kraxel@redhat.com>
-Subject: [PATCH 10/23] audio: break generic buffer dependency on mixing-engine
-Date: Sun, 10 Jan 2021 11:02:26 +0100
-Message-Id: <20210110100239.27588-10-vr_qemu@t-online.de>
+Subject: [PATCH 11/23] sdlaudio: enable (in|out).mixing-engine=off
+Date: Sun, 10 Jan 2021 11:02:27 +0100
+Message-Id: <20210110100239.27588-11-vr_qemu@t-online.de>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <9315afe5-5958-c0b4-ea1e-14769511a9d5@t-online.de>
 References: <9315afe5-5958-c0b4-ea1e-14769511a9d5@t-online.de>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-ID: EPZUScZHghU5OdQsaS4N+3zlg2g4BU+7+KzhIpjklF9B3+2ETWR+xHi7rAvhhevZXJ
-X-TOI-EXPURGATEID: 150726::1610272983-00000BD0-AC32E848/0/0 CLEAN NORMAL
-X-TOI-MSGID: 678f67c7-0fee-488e-99c9-26f0ae5f0329
-Received-SPF: none client-ip=194.25.134.81;
- envelope-from=volker.ruemelin@t-online.de; helo=mailout03.t-online.de
+X-ID: Th3+qYZlrhGAagdA7KJDS8oYS3kQM5qVnzTCCsCF4lY4zsBbtEOr3126d5XCFcMZvM
+X-TOI-EXPURGATEID: 150726::1610272986-0000E7A1-57FCDB25/0/0 CLEAN NORMAL
+X-TOI-MSGID: 6fe58f68-43bf-4757-ad0d-5018d3940918
+Received-SPF: none client-ip=194.25.134.18;
+ envelope-from=volker.ruemelin@t-online.de; helo=mailout04.t-online.de
 X-Spam_score_int: -18
 X-Spam_score: -1.9
 X-Spam_bar: -
@@ -68,43 +68,29 @@ Cc: QEMU <qemu-devel@nongnu.org>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Break the unnecessary dependency of the generic buffer management
-code on mixing-engine. This is required for the next patch.
+Enable the SDL2 backend options -audiodev sdl,out.mixing-
+engine=off,in.mixing-engine=off.
 
 Signed-off-by: Volker Rümelin <vr_qemu@t-online.de>
 ---
- audio/audio.c | 11 ++++-------
- 1 file changed, 4 insertions(+), 7 deletions(-)
+ audio/sdlaudio.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/audio/audio.c b/audio/audio.c
-index 480b3cce1f..22d769db0c 100644
---- a/audio/audio.c
-+++ b/audio/audio.c
-@@ -1388,9 +1388,8 @@ void audio_run(AudioState *s, const char *msg)
- void audio_generic_run_buffer_in(HWVoiceIn *hw)
- {
-     if (unlikely(!hw->buf_emul)) {
--        size_t calc_size = hw->conv_buf->size * hw->info.bytes_per_frame;
--        hw->buf_emul = g_malloc(calc_size);
--        hw->size_emul = calc_size;
-+        hw->size_emul = hw->samples * hw->info.bytes_per_frame;
-+        hw->buf_emul = g_malloc(hw->size_emul);
-         hw->pos_emul = hw->pending_emul = 0;
-     }
- 
-@@ -1452,10 +1451,8 @@ void audio_generic_run_buffer_out(HWVoiceOut *hw)
- void *audio_generic_get_buffer_out(HWVoiceOut *hw, size_t *size)
- {
-     if (unlikely(!hw->buf_emul)) {
--        size_t calc_size = hw->mix_buf->size * hw->info.bytes_per_frame;
--
--        hw->buf_emul = g_malloc(calc_size);
--        hw->size_emul = calc_size;
-+        hw->size_emul = hw->samples * hw->info.bytes_per_frame;
-+        hw->buf_emul = g_malloc(hw->size_emul);
-         hw->pos_emul = hw->pending_emul = 0;
-     }
- 
+diff --git a/audio/sdlaudio.c b/audio/sdlaudio.c
+index 445cae8de5..c68c62a3e4 100644
+--- a/audio/sdlaudio.c
++++ b/audio/sdlaudio.c
+@@ -495,8 +495,8 @@ static struct audio_driver sdl_audio_driver = {
+     .fini           = sdl_audio_fini,
+     .pcm_ops        = &sdl_pcm_ops,
+     .can_be_default = 1,
+-    .max_voices_out = 1,
+-    .max_voices_in  = 1,
++    .max_voices_out = INT_MAX,
++    .max_voices_in  = INT_MAX,
+     .voice_size_out = sizeof(SDLVoiceOut),
+     .voice_size_in  = sizeof(SDLVoiceIn),
+ };
 -- 
 2.26.2
 
