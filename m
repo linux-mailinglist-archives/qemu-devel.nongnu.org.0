@@ -2,76 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D64502F1B6A
-	for <lists+qemu-devel@lfdr.de>; Mon, 11 Jan 2021 17:49:49 +0100 (CET)
-Received: from localhost ([::1]:46598 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7FBF22F1BC1
+	for <lists+qemu-devel@lfdr.de>; Mon, 11 Jan 2021 18:06:41 +0100 (CET)
+Received: from localhost ([::1]:56690 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kz0O4-0006TE-U8
-	for lists+qemu-devel@lfdr.de; Mon, 11 Jan 2021 11:49:48 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43700)
+	id 1kz0eO-0005L4-0z
+	for lists+qemu-devel@lfdr.de; Mon, 11 Jan 2021 12:06:40 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47224)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1kz0Lp-0005EB-59
- for qemu-devel@nongnu.org; Mon, 11 Jan 2021 11:47:29 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:55526)
+ (Exim 4.90_1) (envelope-from <cohuck@redhat.com>) id 1kz0Xs-0002rQ-Tt
+ for qemu-devel@nongnu.org; Mon, 11 Jan 2021 11:59:58 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:29817)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1kz0Lg-0002IM-Qk
- for qemu-devel@nongnu.org; Mon, 11 Jan 2021 11:47:26 -0500
+ (Exim 4.90_1) (envelope-from <cohuck@redhat.com>) id 1kz0Xq-0004H9-Hn
+ for qemu-devel@nongnu.org; Mon, 11 Jan 2021 11:59:56 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1610383640;
+ s=mimecast20190719; t=1610384393;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=WhLQRIkRT/MixTT13zCojBr4LRPuuKkPFUU1/Q75WJg=;
- b=Vd/Fr4rHUlDTz7TmHLAvO4C4zjy5uKpbFNA2XPOCuVtYhdNOA4CDHtVS8Vl2h8Leadry8f
- hDRWTUtbLcciB3RWd2wVzuNyluuSGCHmkGqOiACMqjt1sb0KZzAy8RGTJvq0haRRZb1gjJ
- GghfymRRfLIVnJccBkWkOG1XZreKXR4=
+ bh=dAbia5X5Wfsy+2KYaMzsoyacoja8ZI6cmkAKrusv3O8=;
+ b=hZH2ftebHIJ53jR2DOUIGpU69e/+mKs7vvd6Yq3h77ArUbhiBiaVJfYJ1yIyQqcG6+k0iM
+ nvD10rcUA/l3+L4oOsnLP2YT7rCAYQ6CYQXK7oOmPkk03IkKhxq5w8wQOWaduXCds6VlII
+ eoVkyenDbFzCycy+DWvQTi15cMh8cEc=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-365-D58guFNgPP6nZHyx7J9QDA-1; Mon, 11 Jan 2021 11:47:16 -0500
-X-MC-Unique: D58guFNgPP6nZHyx7J9QDA-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
+ us-mta-20-RNd2wBhmMKmZafH7QugEPQ-1; Mon, 11 Jan 2021 11:59:49 -0500
+X-MC-Unique: RNd2wBhmMKmZafH7QugEPQ-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id B7B409CC18;
- Mon, 11 Jan 2021 16:47:13 +0000 (UTC)
-Received: from dresden.str.redhat.com (ovpn-115-17.ams2.redhat.com
- [10.36.115.17])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 837C46EF46;
- Mon, 11 Jan 2021 16:47:06 +0000 (UTC)
-Subject: Re: [PATCH v3 05/25] block/block-copy: add max_chunk and max_workers
- parameters
-To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
- qemu-block@nongnu.org
-References: <20201026171815.13233-1-vsementsov@virtuozzo.com>
- <20201026171815.13233-6-vsementsov@virtuozzo.com>
-From: Max Reitz <mreitz@redhat.com>
-Message-ID: <29772c89-63ef-3f91-551f-5c62d479a714@redhat.com>
-Date: Mon, 11 Jan 2021 17:47:04 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.5.0
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 537E19CC15;
+ Mon, 11 Jan 2021 16:59:47 +0000 (UTC)
+Received: from gondolin (ovpn-112-169.ams2.redhat.com [10.36.112.169])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 0AD795DA6F;
+ Mon, 11 Jan 2021 16:59:16 +0000 (UTC)
+Date: Mon, 11 Jan 2021 17:59:14 +0100
+From: Cornelia Huck <cohuck@redhat.com>
+To: Ram Pai <linuxram@us.ibm.com>
+Subject: Re: [for-6.0 v5 11/13] spapr: PEF: prevent migration
+Message-ID: <20210111175914.13adfa2e.cohuck@redhat.com>
+In-Reply-To: <20210105204125.GE4102@ram-ibm-com.ibm.com>
+References: <20201204054415.579042-12-david@gibson.dropbear.id.au>
+ <20201214182240.2abd85eb.cohuck@redhat.com>
+ <20201217054736.GH310465@yekko.fritz.box>
+ <20201217123842.51063918.cohuck@redhat.com>
+ <20201217151530.54431f0e@bahia.lan>
+ <20201218124111.4957eb50.cohuck@redhat.com>
+ <20210104071550.GA22585@ram-ibm-com.ibm.com>
+ <20210104134629.49997b53.pasic@linux.ibm.com>
+ <20210104184026.GD4102@ram-ibm-com.ibm.com>
+ <20210105115614.7daaadd6.pasic@linux.ibm.com>
+ <20210105204125.GE4102@ram-ibm-com.ibm.com>
+Organization: Red Hat GmbH
 MIME-Version: 1.0
-In-Reply-To: <20201026171815.13233-6-vsementsov@virtuozzo.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mreitz@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
+Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=mreitz@redhat.com;
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=cohuck@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -29
 X-Spam_score: -3.0
 X-Spam_bar: ---
 X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.251,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -84,20 +83,73 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: kwolf@redhat.com, wencongyang2@huawei.com, xiechanglong.d@gmail.com,
- qemu-devel@nongnu.org, armbru@redhat.com, den@openvz.org, jsnow@redhat.com
+Cc: pair@us.ibm.com, brijesh.singh@amd.com, kvm@vger.kernel.org, "Michael S.
+ Tsirkin" <mst@redhat.com>, qemu-devel@nongnu.org, frankja@linux.ibm.com,
+ david@redhat.com, mdroth@linux.vnet.ibm.com, Halil Pasic <pasic@linux.ibm.com>,
+ borntraeger@de.ibm.com, David Gibson <david@gibson.dropbear.id.au>,
+ thuth@redhat.com, Eduardo Habkost <ehabkost@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>, Greg Kurz <groug@kaod.org>,
+ dgilbert@redhat.com, qemu-s390x@nongnu.org, rth@twiddle.net,
+ berrange@redhat.com, Marcelo Tosatti <mtosatti@redhat.com>,
+ qemu-ppc@nongnu.org, pbonzini@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 26.10.20 18:17, Vladimir Sementsov-Ogievskiy wrote:
-> They will be used for backup.
-> 
-> Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-> ---
->   include/block/block-copy.h |  6 ++++++
->   block/block-copy.c         | 11 +++++++++--
->   2 files changed, 15 insertions(+), 2 deletions(-)
+On Tue, 5 Jan 2021 12:41:25 -0800
+Ram Pai <linuxram@us.ibm.com> wrote:
 
-Reviewed-by: Max Reitz <mreitz@redhat.com>
+> On Tue, Jan 05, 2021 at 11:56:14AM +0100, Halil Pasic wrote:
+> > On Mon, 4 Jan 2021 10:40:26 -0800
+> > Ram Pai <linuxram@us.ibm.com> wrote:
+
+> > > The main difference between my proposal and the other proposal is...
+> > > 
+> > >   In my proposal the guest makes the compatibility decision and acts
+> > >   accordingly.  In the other proposal QEMU makes the compatibility
+> > >   decision and acts accordingly. I argue that QEMU cannot make a good
+> > >   compatibility decision, because it wont know in advance, if the guest
+> > >   will or will-not switch-to-secure.
+> > >   
+> > 
+> > You have a point there when you say that QEMU does not know in advance,
+> > if the guest will or will-not switch-to-secure. I made that argument
+> > regarding VIRTIO_F_ACCESS_PLATFORM (iommu_platform) myself. My idea
+> > was to flip that property on demand when the conversion occurs. David
+> > explained to me that this is not possible for ppc, and that having the
+> > "securable-guest-memory" property (or whatever the name will be)
+> > specified is a strong indication, that the VM is intended to be used as
+> > a secure VM (thus it is OK to hurt the case where the guest does not
+> > try to transition). That argument applies here as well.  
+> 
+> As suggested by Cornelia Huck, what if QEMU disabled the
+> "securable-guest-memory" property if 'must-support-migrate' is enabled?
+> Offcourse; this has to be done with a big fat warning stating
+> "secure-guest-memory" feature is disabled on the machine.
+> Doing so, will continue to support guest that do not try to transition.
+> Guest that try to transition will fail and terminate themselves.
+
+Just to recap the s390x situation:
+
+- We currently offer a cpu feature that indicates secure execution to
+  be available to the guest if the host supports it.
+- When we introduce the secure object, we still need to support
+  previous configurations and continue to offer the cpu feature, even
+  if the secure object is not specified.
+- As migration is currently not supported for secured guests, we add a
+  blocker once the guest actually transitions. That means that
+  transition fails if --only-migratable was specified on the command
+  line. (Guests not transitioning will obviously not notice anything.)
+- With the secure object, we will already fail starting QEMU if
+  --only-migratable was specified.
+
+My suggestion is now that we don't even offer the cpu feature if
+--only-migratable has been specified. For a guest that does not want to
+transition to secure mode, nothing changes; a guest that wants to
+transition to secure mode will notice that the feature is not available
+and fail appropriately (or ultimately, when the ultravisor call fails).
+We'd still fail starting QEMU for the secure object + --only-migratable
+combination.
+
+Does that make sense?
 
 
