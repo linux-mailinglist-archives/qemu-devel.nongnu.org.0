@@ -2,67 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 783A82F1023
-	for <lists+qemu-devel@lfdr.de>; Mon, 11 Jan 2021 11:33:27 +0100 (CET)
-Received: from localhost ([::1]:60458 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id ED5062F102D
+	for <lists+qemu-devel@lfdr.de>; Mon, 11 Jan 2021 11:35:36 +0100 (CET)
+Received: from localhost ([::1]:34914 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kyuVq-00085r-Ia
-	for lists+qemu-devel@lfdr.de; Mon, 11 Jan 2021 05:33:26 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33528)
+	id 1kyuXw-0000qD-0x
+	for lists+qemu-devel@lfdr.de; Mon, 11 Jan 2021 05:35:36 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34266)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent.desnogues@gmail.com>)
- id 1kyuU1-00075s-Pb; Mon, 11 Jan 2021 05:31:33 -0500
-Received: from mail-il1-x130.google.com ([2607:f8b0:4864:20::130]:45571)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <laurent.desnogues@gmail.com>)
- id 1kyuTz-0004Cb-P5; Mon, 11 Jan 2021 05:31:33 -0500
-Received: by mail-il1-x130.google.com with SMTP id y13so9857146ilm.12;
- Mon, 11 Jan 2021 02:31:31 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=aKeTIQ6k7Ajw6Y8Kt8KUnyrc9f8sIz2BFeY2ErOSnbw=;
- b=QEXyS5ndrsIZ1MDUjrVZ+lKqCrV6p9HMN9wKt0Wlp0cqMZl/TOYh3NwC4iotGE3FVt
- lwaHqa/MYV5yeFmWk3ru3KNydmHGMSlLJOdtziFMwvnVSnHP4toiJhw1iZyYP7DP/Twf
- o2iF/4IK1m+zDX25nP31wCXkHm7M++wYMTRpmtUos6XabuSI+ubwGcgsX0yDvIsPNowI
- ffhuhZG5BBsLaCOZEeN2U4RM3Cw7Y5Yl/BqjoOZEgnRsCh2wmwWANyJeOn1oHW7YwPBt
- 61cJ5oO3tLZbkTldkUVW706Pxe6UN0w522Sf7EkI0GJqG6O13zVKzD2QPs6ToVkLYXJ2
- NQjw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=aKeTIQ6k7Ajw6Y8Kt8KUnyrc9f8sIz2BFeY2ErOSnbw=;
- b=nHIw2XoBeWMRXlCsu9PUgJyIW4tpqj45c/737Us693MPuxcyQ1qPZIOdAKc9HdSRJQ
- leb7UkhsilReMM0yQxdSklY6e/zswNvaqsYk3Ub1XrQGcI43VCWgbnDXptMYKPf0iryH
- lUjLJodqHzpz2V83bY4Xg6ORGD9HpJ8c5jPJsWQPZeRBHRxPeO6eyNktCFd3WQmVzMiZ
- +qbBr+f4VuilmP7Fpm13Q5KXqXSY2lmgNMtsEvSHMZJfFGG/Z+iUyUnVkR3+xeFp0dlg
- upL9x2WHV9KefTT6dCmKWvyJ/tpVomUjw5HUJQ3zddNQpFhtwRf59Wj9g9WVCUhiUhNV
- YsUQ==
-X-Gm-Message-State: AOAM5306Eq95MoTPQYiNrZJIpt1gPnR/9pv42OxIlPIbus/2UNwa4/8e
- tfEvSfCuFMdm4VQoZxN+O79LgVm3dk9cMyAX/WD1dkXWaV4=
-X-Google-Smtp-Source: ABdhPJwUWpeStzZVStcTtMkB9sVhcBEQ0zBxC1Y+XUQuDq3K664tWjllfL2a80kV0Al4VEie8UBk6YqgBtg96L8MKY0=
-X-Received: by 2002:a92:c052:: with SMTP id o18mr14598479ilf.245.1610361090342; 
- Mon, 11 Jan 2021 02:31:30 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1kyuWm-0000QB-AO
+ for qemu-devel@nongnu.org; Mon, 11 Jan 2021 05:34:24 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:46321)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1kyuWj-0005TP-QZ
+ for qemu-devel@nongnu.org; Mon, 11 Jan 2021 05:34:24 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1610361260;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=PUiMZl4QLGgUnkalhqWWbfOGFVnmnbUtmAlVlZTERbE=;
+ b=MTBS6y+x0KJLuYKMRXimzEDlfPHvrAv0yyT7aiMzHXLbtLYl9bjcMa8mKobJhCjvAYS5Tv
+ hvClvu6BBWwDaw9as0pcKyTSTSH63iTM/OEpR0PoMW1kgsdAgcIm1iFXpEnyvfGHMOaKgG
+ MkYZD/U2gN/i6ZBeKWD+OgoUK6pjlhc=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-206-hZ8S94viOiuHgoJJDdE5bQ-1; Mon, 11 Jan 2021 05:34:16 -0500
+X-MC-Unique: hZ8S94viOiuHgoJJDdE5bQ-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 771C98145E0;
+ Mon, 11 Jan 2021 10:34:15 +0000 (UTC)
+Received: from thuth.com (ovpn-112-147.ams2.redhat.com [10.36.112.147])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id B1BE65D9F6;
+ Mon, 11 Jan 2021 10:34:13 +0000 (UTC)
+From: Thomas Huth <thuth@redhat.com>
+To: qemu-devel@nongnu.org
+Subject: [PATCH] cirrus.yml: Replace the hard-coded python-sphinx version with
+ the generic one
+Date: Mon, 11 Jan 2021 11:34:10 +0100
+Message-Id: <20210111103410.144797-1-thuth@redhat.com>
 MIME-Version: 1.0
-References: <20210108185154.8108-1-leif@nuviainc.com>
- <20210108185154.8108-4-leif@nuviainc.com>
-In-Reply-To: <20210108185154.8108-4-leif@nuviainc.com>
-From: Laurent Desnogues <laurent.desnogues@gmail.com>
-Date: Mon, 11 Jan 2021 11:31:42 +0100
-Message-ID: <CABoDooP_z68nwT6bi_xsZ156040tiP1qD1W=GOVAjg2D5Xg1pw@mail.gmail.com>
-Subject: Re: [PATCH v3 3/6] target/arm: make ARMCPU.ctr 64-bit
-To: Leif Lindholm <leif@nuviainc.com>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::130;
- envelope-from=laurent.desnogues@gmail.com; helo=mail-il1-x130.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=thuth@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="US-ASCII"
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=thuth@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -30
+X-Spam_score: -3.1
+X-Spam_bar: ---
+X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.251,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -75,43 +74,44 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>, qemu-arm <qemu-arm@nongnu.org>,
- "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>
+Cc: Yonggang Luo <luoyonggang@gmail.com>,
+ =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, Jan 8, 2021 at 7:51 PM Leif Lindholm <leif@nuviainc.com> wrote:
->
-> When FEAT_MTE is implemented, the AArch64 view of CTR_EL0 adds the
-> TminLine field in bits [37:32].
-> Extend the ctr field to be able to hold this context.
->
-> Signed-off-by: Leif Lindholm <leif@nuviainc.com>
+The mingw-w64-x86_64-python-sphinx-2.3.1 package has been removed from
+the server, so the windows_msys2_task is currently failing. Replace the
+old version with the current generic one to fix the issue (the current
+version seems to work fine now, too).
 
-Reviewed-by: Laurent Desnogues <laurent.desnogues@gmail.com>
+Signed-off-by: Thomas Huth <thuth@redhat.com>
+---
+ Successful run (with sphinx building the docs) can be seen here:
+ https://cirrus-ci.com/task/6568987054047232
 
-Thanks,
+ .cirrus.yml | 6 +-----
+ 1 file changed, 1 insertion(+), 5 deletions(-)
 
-Laurent
+diff --git a/.cirrus.yml b/.cirrus.yml
+index 3907e036da..886addedd3 100644
+--- a/.cirrus.yml
++++ b/.cirrus.yml
+@@ -117,12 +117,8 @@ windows_msys2_task:
+           mingw-w64-x86_64-curl \
+           mingw-w64-x86_64-gnutls \
+           mingw-w64-x86_64-libnfs \
++          mingw-w64-x86_64-python-sphinx
+           "
+-        bitsadmin /transfer msys_download /dynamic /download /priority FOREGROUND `
+-          https://repo.msys2.org/mingw/x86_64/mingw-w64-x86_64-python-sphinx-2.3.1-1-any.pkg.tar.xz `
+-          C:\tools\mingw-w64-x86_64-python-sphinx-2.3.1-1-any.pkg.tar.xz
+-        C:\tools\msys64\usr\bin\bash.exe -lc "pacman --noconfirm -U /c/tools/mingw-w64-x86_64-python-sphinx-2.3.1-1-any.pkg.tar.xz"
+-        del C:\tools\mingw-w64-x86_64-python-sphinx-2.3.1-1-any.pkg.tar.xz
+         C:\tools\msys64\usr\bin\bash.exe -lc "rm -rf /var/cache/pacman/pkg/*"
+         cd C:\tools\msys64
+         echo "Start archive"
+-- 
+2.27.0
 
-> ---
->  target/arm/cpu.h | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
->
-> diff --git a/target/arm/cpu.h b/target/arm/cpu.h
-> index fadd1a47df..063228de2a 100644
-> --- a/target/arm/cpu.h
-> +++ b/target/arm/cpu.h
-> @@ -931,7 +931,7 @@ struct ARMCPU {
->      uint64_t midr;
->      uint32_t revidr;
->      uint32_t reset_fpsid;
-> -    uint32_t ctr;
-> +    uint64_t ctr;
->      uint32_t reset_sctlr;
->      uint64_t pmceid0;
->      uint64_t pmceid1;
-> --
-> 2.20.1
->
 
