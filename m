@@ -2,70 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C36112F2335
-	for <lists+qemu-devel@lfdr.de>; Tue, 12 Jan 2021 01:00:40 +0100 (CET)
-Received: from localhost ([::1]:56596 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D6B8D2F2338
+	for <lists+qemu-devel@lfdr.de>; Tue, 12 Jan 2021 01:03:49 +0100 (CET)
+Received: from localhost ([::1]:34754 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kz771-0007lG-PX
-	for lists+qemu-devel@lfdr.de; Mon, 11 Jan 2021 19:00:39 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33808)
+	id 1kz7A4-00029m-O6
+	for lists+qemu-devel@lfdr.de; Mon, 11 Jan 2021 19:03:48 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33702)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1kz74M-0005Tj-NN
- for qemu-devel@nongnu.org; Mon, 11 Jan 2021 18:57:55 -0500
-Received: from mail-pg1-x532.google.com ([2607:f8b0:4864:20::532]:39654)
+ id 1kz74E-0005Pv-Qr
+ for qemu-devel@nongnu.org; Mon, 11 Jan 2021 18:57:46 -0500
+Received: from mail-pf1-x429.google.com ([2607:f8b0:4864:20::429]:46754)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1kz74K-0003W3-3H
- for qemu-devel@nongnu.org; Mon, 11 Jan 2021 18:57:54 -0500
-Received: by mail-pg1-x532.google.com with SMTP id 30so218665pgr.6
- for <qemu-devel@nongnu.org>; Mon, 11 Jan 2021 15:57:51 -0800 (PST)
+ id 1kz74D-0003Ux-Fe
+ for qemu-devel@nongnu.org; Mon, 11 Jan 2021 18:57:46 -0500
+Received: by mail-pf1-x429.google.com with SMTP id w2so244465pfc.13
+ for <qemu-devel@nongnu.org>; Mon, 11 Jan 2021 15:57:45 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=uSqBlmmaV2nVJPAfpMvtZ9TuNPcVPPBGEyURqCr9eR8=;
- b=CRTRbErTNODBug8HUhEufRXM0LFFPOgyd/FFOsAp7DwXzHbzeAzvFbUQl617faWuVZ
- vCXGHbzXUYk8qGLXh49EdFtGADBs70lUXjCI4PrMvSBqa79QLzH5+4YsubK0ywK+g3Rg
- /xJf43mRWig5c+nrC1j0GZlFPiVNgwAfjquXn3Q2qOytJWZLbbE9DQYiRkqoSI0bOsUR
- KlffeN9RokTJOV/94dPahkIBOVugEIPePSYzA0eXfTBDRnHf7ZMqim/ha6n+bFPXjkOn
- zKflrdLKSJNJtnnVYka3iwbHueQrDkZrHgI4QvEjdMlv9cLWPLwotFLEnFXeX83lQdpk
- SBuA==
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=zatfyXOxSXAm72pAS+OrSbicSsn0LfrDrs51sewnb54=;
+ b=Frk1CPUujx4N30J9g24nO3Nim0kcrYUFCfyGK12O+bxMTwKx99ZWIkbJq3SkajgOgS
+ N4Noo0C50FhowCOK4ZMaFhzP+HRmUhrRIlCenQKNiNx1r9wEZJjKw33V1gQusgs17iGD
+ DLTOu7uSEG4P/jDS7zH3drazljXe7fGNfKkI2ypzfx4paxfedkIgUGfgOo9C3rgx6X5l
+ kY9X3fEVHs84ZK+D3G5J3c0Qa989loUgErBc2CPs+hM0pH9HbMMk7kd+iNBwpjugyI3f
+ W1SCKOmn8gJrNvai/JmPnHFlGvhHY4EHKIXkNLTg3rXJhKzzw5pL6ZojjrmNLJNVfdYg
+ lN6Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=uSqBlmmaV2nVJPAfpMvtZ9TuNPcVPPBGEyURqCr9eR8=;
- b=Fh2tEqvbXaMaQe9NgNjM7Z+yTs4DQzelZK8T1CKP6/9uOgedrePMFGv0uPe4ovN9Pk
- W8/PmzZWTPEtKR7nr4Y2cAkz51ENqVGwmNITPH5mjoVwQ37xTH6U9z348khVogl3ark/
- CqILt1uZxuPMcZOtNlHhN9V6LSIMZ+axIP+Q5mOjh7i+oTeYcUw62opWBPvm60L5wlxk
- e5Y47fO5mBp+DCOtmS/rV7wYGu/gCRoB7DLvjiXoWMWS1t80o8p7GuptaLLzY5YvdfEp
- X0bBuE8q1mri0l22eO2YDVm0ikp+tQdRUoOCqjIpvoIi5Lyase86y/9W+5IAtpuv2e/6
- gfFA==
-X-Gm-Message-State: AOAM532r/OGTMeNxLsix7WHmRm9R8uECwslYOkkTFEmlpZaSyNpnlgvx
- uAn+90762peiM46RlL483j1A3Cb7wPUsKw==
-X-Google-Smtp-Source: ABdhPJy0QBZlWu0C4JT5COwQYjy+w/y8WWuxylPq3IYTba2WLcl5Z8ma1jy4NBI63vAQTeu+AE9gEA==
-X-Received: by 2002:aa7:9706:0:b029:19d:a2c6:aeb with SMTP id
- a6-20020aa797060000b029019da2c60aebmr1788490pfg.36.1610409469678; 
- Mon, 11 Jan 2021 15:57:49 -0800 (PST)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=zatfyXOxSXAm72pAS+OrSbicSsn0LfrDrs51sewnb54=;
+ b=N69G1Ag1YwumBFOenuJvVhAvmUmg0kxw3CD6Jz3A0q71+FCzB40ieEXYTO59qmVW9P
+ +dRoBcB2Jhwv6OqnDdA/O7OEiJP7JrVUeVzr0ikvjlUglg3GjixnB7Ll4SzZ5MJd5jjg
+ Msh1f/CDK7LMtMVyWVNpMQgyXOR/IXl9Q6w4yMKYe8EqdTmQcjp/JYNtubA2p0J8qU0S
+ ytQBNm1xZ2ZGWo8FGpz7o/UA1xS0dLPpWsWjmx0Vxkm4cjuNfq4ZjrmWT9ghxFxcev8e
+ wrgoLu5Wxq+CRBA2N9HVvmTRWb3VF6WpDDGfAJddHaS0bzBt3FXAXuO1kNLqJS2l8Wmw
+ D02Q==
+X-Gm-Message-State: AOAM530qZenYBsHyMdtAKwqu0+5/76jeWo/Xmdzp9LQGjd0jt4tXiFNs
+ fOYbtz1/Gj/6q4aae9UajEz9/gAWOLZaFA==
+X-Google-Smtp-Source: ABdhPJzn3bMna8qhMfzwrektrzzWWIh4B6fK5NX9QW4AnZ6fhzcbivfjZ5T96lpefxDnoWSlNtfRMA==
+X-Received: by 2002:a63:d246:: with SMTP id t6mr1844270pgi.283.1610409463690; 
+ Mon, 11 Jan 2021 15:57:43 -0800 (PST)
 Received: from localhost.localdomain (rrcs-173-197-107-21.west.biz.rr.com.
  [173.197.107.21])
- by smtp.gmail.com with ESMTPSA id s67sm872220pgb.60.2021.01.11.15.57.48
+ by smtp.gmail.com with ESMTPSA id s67sm872220pgb.60.2021.01.11.15.57.42
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 11 Jan 2021 15:57:49 -0800 (PST)
+ Mon, 11 Jan 2021 15:57:42 -0800 (PST)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v7 3/3] target/arm: Use object_property_add_bool for "sve"
- property
-Date: Mon, 11 Jan 2021 13:57:40 -1000
-Message-Id: <20210111235740.462469-4-richard.henderson@linaro.org>
+Subject: [PATCH v7 0/3] target/arm: Implement an IMPDEF pauth algorithm
+Date: Mon, 11 Jan 2021 13:57:37 -1000
+Message-Id: <20210111235740.462469-1-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20210111235740.462469-1-richard.henderson@linaro.org>
-References: <20210111235740.462469-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::532;
- envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x532.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::429;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x429.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -85,77 +81,40 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: peter.maydell@linaro.org, Andrew Jones <drjones@redhat.com>,
- qemu-arm@nongnu.org
+Cc: peter.maydell@linaro.org, qemu-arm@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The interface for object_property_add_bool is simpler,
-making the code easier to understand.
+The architected pauth algorithm is quite slow without
+hardware support, and boot times for kernels that enable
+use of the feature have been significantly impacted.
+  
+Version 7 changes:
+  * Fix rebase error (drjones).
 
-Reviewed-by: Andrew Jones <drjones@redhat.com>
-Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
----
- target/arm/cpu64.c | 24 ++++++++++--------------
- 1 file changed, 10 insertions(+), 14 deletions(-)
+Version 6 changes:
+  * Rearrange xxhash64 (pmm).
+  * Add documentation (pmm).
+ 
+ 
+r~
 
-diff --git a/target/arm/cpu64.c b/target/arm/cpu64.c
-index d9feaa9cdb..8e1fad00bb 100644
---- a/target/arm/cpu64.c
-+++ b/target/arm/cpu64.c
-@@ -488,6 +488,12 @@ static void cpu_max_set_sve_max_vq(Object *obj, Visitor *v, const char *name,
-     cpu->sve_max_vq = max_vq;
- }
- 
-+/*
-+ * Note that cpu_arm_get/set_sve_vq cannot use the simpler
-+ * object_property_add_bool interface because they make use
-+ * of the contents of "name" to determine which bit on which
-+ * to operate.
-+ */
- static void cpu_arm_get_sve_vq(Object *obj, Visitor *v, const char *name,
-                                void *opaque, Error **errp)
- {
-@@ -529,26 +535,17 @@ static void cpu_arm_set_sve_vq(Object *obj, Visitor *v, const char *name,
-     set_bit(vq - 1, cpu->sve_vq_init);
- }
- 
--static void cpu_arm_get_sve(Object *obj, Visitor *v, const char *name,
--                            void *opaque, Error **errp)
-+static bool cpu_arm_get_sve(Object *obj, Error **errp)
- {
-     ARMCPU *cpu = ARM_CPU(obj);
--    bool value = cpu_isar_feature(aa64_sve, cpu);
--
--    visit_type_bool(v, name, &value, errp);
-+    return cpu_isar_feature(aa64_sve, cpu);
- }
- 
--static void cpu_arm_set_sve(Object *obj, Visitor *v, const char *name,
--                            void *opaque, Error **errp)
-+static void cpu_arm_set_sve(Object *obj, bool value, Error **errp)
- {
-     ARMCPU *cpu = ARM_CPU(obj);
--    bool value;
-     uint64_t t;
- 
--    if (!visit_type_bool(v, name, &value, errp)) {
--        return;
--    }
--
-     if (value && kvm_enabled() && !kvm_arm_sve_supported()) {
-         error_setg(errp, "'sve' feature not supported by KVM on this host");
-         return;
-@@ -563,8 +560,7 @@ void aarch64_add_sve_properties(Object *obj)
- {
-     uint32_t vq;
- 
--    object_property_add(obj, "sve", "bool", cpu_arm_get_sve,
--                        cpu_arm_set_sve, NULL, NULL);
-+    object_property_add_bool(obj, "sve", cpu_arm_get_sve, cpu_arm_set_sve);
- 
-     for (vq = 1; vq <= ARM_MAX_VQ; ++vq) {
-         char name[8];
+
+Richard Henderson (3):
+  target/arm: Implement an IMPDEF pauth algorithm
+  target/arm: Add cpu properties to control pauth
+  target/arm: Use object_property_add_bool for "sve" property
+
+ docs/system/arm/cpu-features.rst | 21 +++++++
+ include/qemu/xxhash.h            | 98 ++++++++++++++++++++++++++++++++
+ target/arm/cpu.h                 | 25 ++++++--
+ target/arm/cpu.c                 | 13 +++++
+ target/arm/cpu64.c               | 64 +++++++++++++++------
+ target/arm/monitor.c             |  1 +
+ target/arm/pauth_helper.c        | 27 +++++++--
+ tests/qtest/arm-cpu-features.c   | 13 +++++
+ 8 files changed, 235 insertions(+), 27 deletions(-)
+
 -- 
 2.25.1
 
