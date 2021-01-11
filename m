@@ -2,51 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1B5822F0D44
-	for <lists+qemu-devel@lfdr.de>; Mon, 11 Jan 2021 08:37:04 +0100 (CET)
-Received: from localhost ([::1]:35892 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CD7812F0D45
+	for <lists+qemu-devel@lfdr.de>; Mon, 11 Jan 2021 08:38:25 +0100 (CET)
+Received: from localhost ([::1]:38030 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kyrl9-0006Kp-4T
-	for lists+qemu-devel@lfdr.de; Mon, 11 Jan 2021 02:37:03 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51196)
+	id 1kyrmS-0007EY-Tk
+	for lists+qemu-devel@lfdr.de; Mon, 11 Jan 2021 02:38:24 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51398)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <zhukeqian1@huawei.com>)
- id 1kyrjF-0005gM-Ae; Mon, 11 Jan 2021 02:35:05 -0500
-Received: from szxga07-in.huawei.com ([45.249.212.35]:2631)
+ (Exim 4.90_1) (envelope-from <prvs=638b306d3=acatan@amazon.com>)
+ id 1kyrjt-00065O-6L
+ for qemu-devel@nongnu.org; Mon, 11 Jan 2021 02:35:45 -0500
+Received: from smtp-fw-6002.amazon.com ([52.95.49.90]:16451)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <zhukeqian1@huawei.com>)
- id 1kyrjB-0005Kf-S3; Mon, 11 Jan 2021 02:35:04 -0500
-Received: from DGGEMS404-HUB.china.huawei.com (unknown [172.30.72.58])
- by szxga07-in.huawei.com (SkyGuard) with ESMTP id 4DDlnS18f9z7Sdj;
- Mon, 11 Jan 2021 15:33:48 +0800 (CST)
-Received: from DESKTOP-5IS4806.china.huawei.com (10.174.184.42) by
- DGGEMS404-HUB.china.huawei.com (10.3.19.204) with Microsoft SMTP Server id
- 14.3.498.0; Mon, 11 Jan 2021 15:34:40 +0800
-From: Keqian Zhu <zhukeqian1@huawei.com>
-To: Kirti Wankhede <kwankhede@nvidia.com>, Alex Williamson
- <alex.williamson@redhat.com>, <qemu-devel@nongnu.org>, <qemu-arm@nongnu.org>
-Subject: [PATCH] vfio/migrate: Move switch of dirty tracking into
- vfio_memory_listener
-Date: Mon, 11 Jan 2021 15:34:39 +0800
-Message-ID: <20210111073439.20236-1-zhukeqian1@huawei.com>
-X-Mailer: git-send-email 2.8.4.windows.1
+ (Exim 4.90_1) (envelope-from <prvs=638b306d3=acatan@amazon.com>)
+ id 1kyrjq-0005jD-Pz
+ for qemu-devel@nongnu.org; Mon, 11 Jan 2021 02:35:44 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=amazon.com; i=@amazon.com; q=dns/txt; s=amazon201209;
+ t=1610350543; x=1641886543;
+ h=to:cc:references:from:subject:message-id:date:
+ mime-version:in-reply-to;
+ bh=6edAcGaAmpssgV65Yi9Q83CvIX17uG9aNCIk803opqo=;
+ b=IK4yMmRcYXs46Ew08Pgp41qFOyzxG4QBA1H1veoWv5NxxTLOKNcCrBKF
+ cwaZ05N4DfKf3qCmo4+CsBuO1q4+kLnOroSpZUAGrDqEVP32bIIL3SpQF
+ Toi05UQ8lrb/vhwgaDu1WoMnYCRVArMfvZxrgZsiwP5iVxEIpt8j0xkfN A=;
+X-IronPort-AV: E=Sophos;i="5.79,337,1602547200"; d="scan'208,217";a="76661893"
+Received: from iad12-co-svc-p1-lb1-vlan2.amazon.com (HELO
+ email-inbound-relay-1d-5dd976cd.us-east-1.amazon.com) ([10.43.8.2])
+ by smtp-border-fw-out-6002.iad6.amazon.com with ESMTP;
+ 11 Jan 2021 07:35:34 +0000
+Received: from EX13D08EUB004.ant.amazon.com
+ (iad12-ws-svc-p26-lb9-vlan3.iad.amazon.com [10.40.163.38])
+ by email-inbound-relay-1d-5dd976cd.us-east-1.amazon.com (Postfix) with ESMTPS
+ id EC9F4A1ADE; Mon, 11 Jan 2021 07:35:21 +0000 (UTC)
+Received: from 4c32759f87cf.ant.amazon.com (10.43.160.48) by
+ EX13D08EUB004.ant.amazon.com (10.43.166.158) with Microsoft SMTP Server (TLS)
+ id 15.0.1497.2; Mon, 11 Jan 2021 07:35:08 +0000
+To: Alexander Graf <graf@amazon.de>, "Eric W. Biederman"
+ <ebiederm@xmission.com>
+References: <3E05451B-A9CD-4719-99D0-72750A304044@amazon.com>
+ <300d4404-3efe-880e-ef30-692eabbff5f7@de.ibm.com>
+ <da1a1fa7-a1de-d0e6-755b-dd587687765e@amazon.de>
+ <20201119173800.GD8537@kernel.org>
+ <1cdb6fac-0d50-3399-74a6-24c119ebbaa5@amazon.de>
+ <106f56ca-49bc-7cad-480f-4b26656e90ce@gmail.com>
+ <96625ce2-66c6-34b8-ef81-7c17c05b4c7a@amazon.com>
+ <145eaa0b-a118-1d80-7f2c-d73f0d3f1db0@amazon.de>
+Subject: Re: [PATCH v3] drivers/virt: vmgenid: add vm generation id driver
+Message-ID: <96326843-d4cd-a371-98a7-d9862cbe331b@amazon.com>
+Date: Mon, 11 Jan 2021 09:35:03 +0200
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.14; rv:78.0)
+ Gecko/20100101 Thunderbird/78.6.0
 MIME-Version: 1.0
-Content-Type: text/plain
-X-Originating-IP: [10.174.184.42]
-X-CFilter-Loop: Reflected
-Received-SPF: pass client-ip=45.249.212.35; envelope-from=zhukeqian1@huawei.com;
- helo=szxga07-in.huawei.com
-X-Spam_score_int: -41
-X-Spam_score: -4.2
-X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
+In-Reply-To: <145eaa0b-a118-1d80-7f2c-d73f0d3f1db0@amazon.de>
+Content-Type: multipart/alternative;
+ boundary="------------1C9121B6C676C58A828258F5"
+Content-Language: en-US
+X-Originating-IP: [10.43.160.48]
+X-ClientProxiedBy: EX13D35UWB003.ant.amazon.com (10.43.161.65) To
+ EX13D08EUB004.ant.amazon.com (10.43.166.158)
+Precedence: Bulk
+Received-SPF: pass client-ip=52.95.49.90;
+ envelope-from=prvs=638b306d3=acatan@amazon.com; helo=smtp-fw-6002.amazon.com
+X-Spam_score_int: -121
+X-Spam_score: -12.2
+X-Spam_bar: ------------
+X-Spam_report: (-12.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.251,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ HTML_MESSAGE=0.001, NICE_REPLY_A=-0.012, RCVD_IN_DNSWL_MED=-2.3,
  RCVD_IN_MSPIKE_H4=-0.01, RCVD_IN_MSPIKE_WL=-0.01, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ SPF_PASS=-0.001, USER_IN_DEF_SPF_WL=-7.5 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -55,195 +85,248 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>, Andrew Jones <drjones@redhat.com>,
- Eduardo Habkost <ehabkost@redhat.com>, wanghaibin.wang@huawei.com,
- jiangkunkun@huawei.com, "Dr . David Alan Gilbert" <dgilbert@redhat.com>,
- Peter Xu <peterx@redhat.com>, Stefan
- Hajnoczi <stefanha@redhat.com>, Igor Mammedov <imammedo@redhat.com>,
- Zenghui Yu <yuzenghui@huawei.com>, Paolo Bonzini <pbonzini@redhat.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
+Cc: "Jason A. Donenfeld" <Jason@zx2c4.com>,
+ "dgunigun@redhat.com" <dgunigun@redhat.com>, KVM list <kvm@vger.kernel.org>,
+ "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+ "ghammer@redhat.com" <ghammer@redhat.com>,
+ "vijaysun@ca.ibm.com" <vijaysun@ca.ibm.com>, "Weiss,
+ Radu" <raduweis@amazon.com>, Qemu Developers <qemu-devel@nongnu.org>,
+ Michal Hocko <mhocko@kernel.org>, Andrey Vagin <avagin@gmail.com>,
+ Pavel Machek <pavel@ucw.cz>, Pavel Tikhomirov <ptikhomirov@virtuozzo.com>,
+ linux-s390 <linux-s390@vger.kernel.org>, Jonathan Corbet <corbet@lwn.net>,
+ "mpe@ellerman.id.au" <mpe@ellerman.id.au>,
+ "Michael S. Tsirkin" <mst@redhat.com>, Eric Biggers <ebiggers@kernel.org>,
+ Christian Borntraeger <borntraeger@de.ibm.com>, "Singh,
+ Balbir" <sblbir@amazon.com>, "Eric W. Biederman" <ebiederm@xmission.com>,
+ "bonzini@gnu.org" <bonzini@gnu.org>, Jann Horn <jannh@google.com>,
+ "asmehra@redhat.com" <asmehra@redhat.com>,
+ "oridgar@gmail.com" <oridgar@gmail.com>, Andy Lutomirski <luto@kernel.org>,
+ "gil@azul.com" <gil@azul.com>, "MacCarthaigh, Colm" <colmmacc@amazon.com>,
+ "Theodore Y. Ts'o" <tytso@mit.edu>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ "areber@redhat.com" <areber@redhat.com>,
+ kernel list <linux-kernel@vger.kernel.org>,
+ Pavel Emelyanov <ovzxemul@gmail.com>, Mike Rapoport <rppt@kernel.org>,
+ Linux API <linux-api@vger.kernel.org>, "Rafael J. Wysocki" <rafael@kernel.org>,
+ Willy Tarreau <w@1wt.eu>, "Woodhouse, David" <dwmw@amazon.co.uk>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
+Reply-to: "Catangiu, Adrian Costin" <acatan@amazon.com>
+From: "Catangiu, Adrian Costin" via <qemu-devel@nongnu.org>
 
-For now the switch of vfio dirty page tracking is integrated into
-the vfio_save_handler, it causes some problems [1].
+--------------1C9121B6C676C58A828258F5
+Content-Type: text/plain; charset="utf-8"
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
 
-The object of dirty tracking is guest memory, but the object of
-the vfio_save_handler is device state. This mixed logic produces
-unnecessary coupling and conflicts:
+KyBFcmljIFcuIEJpZWRlcm1hbgoKRXJpYydzIGVtYWlsIHdhcyBmaWx0ZXJlZCBieSBteSBzZXJ2
+ZXIgZm9yIHNvbWUgcmVhc29uIHNvIEkgY2FuJ3QKZGlyZWN0bHkgcmVwbHkgdG8gaXQsIHRoaXMg
+aXMgdGhlIGNsb3Nlc3QgdGhyZWFkIHJlbGF0aXZlIEkgY291bGQgYW5zd2VyIG9uLgoKT24gMDEv
+MTIvMjAyMCAxMjowMCwgRXJpYyBXLiBCaWVkZXJtYW4gd3JvdGU6Cj4KPgo+IE9uIDI3LjExLjIw
+IDE5OjI2LCBDYXRhbmdpdSwgQWRyaWFuIENvc3RpbiB3cm90ZToKPj4gLSBCYWNrZ3JvdW5kCj4+
+Cj4+IFRoZSBWTSBHZW5lcmF0aW9uIElEIGlzIGEgZmVhdHVyZSBkZWZpbmVkIGJ5IE1pY3Jvc29m
+dCAocGFwZXI6Cj4+IGh0dHA6Ly9nby5taWNyb3NvZnQuY29tL2Z3bGluay8/TGlua0lkPTI2MDcw
+OSkgYW5kIHN1cHBvcnRlZCBieQo+PiBtdWx0aXBsZSBoeXBlcnZpc29yIHZlbmRvcnMuCj4+Cj4+
+IFRoZSBmZWF0dXJlIGlzIHJlcXVpcmVkIGluIHZpcnR1YWxpemVkIGVudmlyb25tZW50cyBieSBh
+cHBzIHRoYXQgd29yawo+PiB3aXRoIGxvY2FsIGNvcGllcy9jYWNoZXMgb2Ygd29ybGQtdW5pcXVl
+IGRhdGEgc3VjaCBhcyByYW5kb20gdmFsdWVzLAo+PiB1dWlkcywgbW9ub3RvbmljYWxseSBpbmNy
+ZWFzaW5nIGNvdW50ZXJzLCBldGMuCj4+IFN1Y2ggYXBwcyBjYW4gYmUgbmVnYXRpdmVseSBhZmZl
+Y3RlZCBieSBWTSBzbmFwc2hvdHRpbmcgd2hlbiB0aGUgVk0KPj4gaXMgZWl0aGVyIGNsb25lZCBv
+ciByZXR1cm5lZCB0byBhbiBlYXJsaWVyIHBvaW50IGluIHRpbWUuCj4+Cj4gSG93IGRvZXMgdGhp
+cyBkaWZmZXIgZnJvbSAvcHJvYy9zeXMva2VybmVsL3JhbmRvbS9ib290X2lkPwpUaGUgYm9vdF9p
+ZCBvbmx5IGNoYW5nZXMgYXQgT1MgYm9vdCB3aGVyZWFzIHdlIG5lZWQgdGhlIGdlbmVyYXRpb24g
+aWQgdG8KY2hhbmdlIF93aGlsZV8gdGhlIHN5c3RlbS9ndWVzdC1vcyBpcyBydW5uaW5nIC0gZ2Vu
+ZXJhdGlvbiBjaGFuZ2VzIGJlY2F1c2UKdW5kZXJseWluZ1ZNIG9yIGNvbnRhaW5lciBnb2VzIHRo
+cm91Z2ggYSBzbmFwc2hvdCByZXN0b3JlIGV2ZW50IHdoaWNoIGlzCm90aGVyd2lzZXRyYW5zcGFy
+ZW50IHRvIGd1ZXN0IHN5c3RlbS4KPj4KPj4gVGhlIFZNIEdlbmVyYXRpb24gSUQgaXMgYSBzaW1w
+bGUgY29uY2VwdCBtZWFudCB0byBhbGxldmlhdGUgdGhlIGlzc3VlCj4+IGJ5IHByb3ZpZGluZyBh
+IHVuaXF1ZSBJRCB0aGF0IGNoYW5nZXMgZWFjaCB0aW1lIHRoZSBWTSBpcyByZXN0b3JlZAo+PiBm
+cm9tIGEgc25hcHNob3QuIFRoZSBodyBwcm92aWRlZCBVVUlEIHZhbHVlIGNhbiBiZSB1c2VkIHRv
+Cj4+IGRpZmZlcmVudGlhdGUgYmV0d2VlbiBWTXMgb3IgZGlmZmVyZW50IGdlbmVyYXRpb25zIG9m
+IHRoZSBzYW1lIFZNLgo+Pgo+IERvZXMgdGhlIFZNIGdlbmVyYXRpb24gSUQgY2hhbmdlIGluIGEg
+cnVubmluZyB0aGF0IGVmZmVjdGl2ZWx5IHRoaW5ncyBpdAo+IGlzIHJ1bm5pbmc/ClllcywgdGhl
+IGdlbmVyYXRpb24gaWQgY2hhbmdlcyB3aGlsZSBndWVzdCBPUyBpcyBydW5uaW5nLCB0aGUgZ2Vu
+ZXJhdGlvbgpjaGFuZ2UgaXRzZWxmIGlzIHdoYXQgbGV0cyB0aGUgZ3Vlc3QgT1MgYW5kIGd1ZXN0
+IHVzZXJzcGFjZSBrbm93IHRoZXJlJ3MKYmVlbiBhIFZNIG9yIGNvbnRhaW5lciBzbmFwc2hvdCBy
+ZXN0b3JlIGV2ZW50Lgo+Pgo+PiAtIFByb2JsZW0KPj4KPj4gVGhlIFZNIEdlbmVyYXRpb24gSUQg
+aXMgZXhwb3NlZCB0aHJvdWdoIGFuIEFDUEkgZGV2aWNlIGJ5IG11bHRpcGxlCj4+IGh5cGVydmlz
+b3IgdmVuZG9ycyBidXQgbmVpdGhlciB0aGUgdmVuZG9ycyBvciB1cHN0cmVhbSBMaW51eCBoYXZl
+IG5vCj4+IGRlZmF1bHQgZHJpdmVyIGZvciBpdCBsZWF2aW5nIHVzZXJzIHRvIGZlbmQgZm9yIHRo
+ZW1zZWx2ZXMuCj4+Cj4+IEZ1cnRoZXJtb3JlLCBzaW1wbHkgZmluZGluZyBvdXQgYWJvdXQgYSBW
+TSBnZW5lcmF0aW9uIGNoYW5nZSBpcyBvbmx5Cj4+IHRoZSBzdGFydGluZyBwb2ludCBvZiBhIHBy
+b2Nlc3MgdG8gcmVuZXcgaW50ZXJuYWwgc3RhdGVzIG9mIHBvc3NpYmx5Cj4+IG11bHRpcGxlIGFw
+cGxpY2F0aW9ucyBhY3Jvc3MgdGhlIHN5c3RlbS4gVGhpcyBwcm9jZXNzIGNvdWxkIGJlbmVmaXQK
+Pj4gZnJvbSBhIGRyaXZlciB0aGF0IHByb3ZpZGVzIGFuIGludGVyZmFjZSB0aHJvdWdoIHdoaWNo
+IG9yY2hlc3RyYXRpb24KPj4gY2FuIGJlIGVhc2lseSBkb25lLgo+Pgo+PiAtIFNvbHV0aW9uCj4+
+Cj4+IFRoaXMgcGF0Y2ggaXMgYSBkcml2ZXIgdGhhdCBleHBvc2VzIGEgbW9ub3RvbmljIGluY3Jl
+bWVudGFsIFZpcnR1YWwKPj4gTWFjaGluZSBHZW5lcmF0aW9uIHUzMiBjb3VudGVyIHZpYSBhIGNo
+YXItZGV2IEZTIGludGVyZmFjZS4KPiBFYXJsaWVyIGl0IHdhcyBhIFVVSUQgbm93IGl0IGlzIDMy
+Yml0IG51bWJlcj8KVGhlIGdlbmVyYXRpb24gaWQgZXhwb3NlZCB0byB1c2Vyc3BhY2UgaXMgYSAz
+MmJpdCBtb25vdG9uaWMgaW5jcmVtZW50YWwKY291bnRlci4gVGhpcyBjb3VudGVyIGlzIGludGVy
+bmFsbHkgZHJpdmVuIGJ5IHRoZSBhY3BpIHZtZ2VuaWQgZGV2aWNlLiBUaGUKMTI4LWJpdCB2bWdl
+bmlkLWRldmljZS1wcm92aWRlZCBVVUlEIGlzIG9ubHkgdXNlZCBpbnRlcm5hbGx5IGJ5IHRoZSBk
+cml2ZXIuCgpJIHdpbGwgbWFrZSBhbGwgb2YgdGhpcyBjbGVhcmVyIGluIHRoZSBuZXh0IHBhdGNo
+IHZlcnNpb24uCgo+PiBUaGUgRlMKPj4gaW50ZXJmYWNlIHByb3ZpZGVzIHN5bmMgYW5kIGFzeW5j
+IFZtR2VuIGNvdW50ZXIgdXBkYXRlcyBub3RpZmljYXRpb25zLgo+PiBJdCBhbHNvIHByb3ZpZGVz
+IFZtR2VuIGNvdW50ZXIgcmV0cmlldmFsIGFuZCBjb25maXJtYXRpb24gbWVjaGFuaXNtcy4KPj4K
+Pj4gVGhlIGdlbmVyYXRpb24gY291bnRlciBhbmQgdGhlIGludGVyZmFjZSB0aHJvdWdoIHdoaWNo
+IGl0IGlzIGV4cG9zZWQKPj4gYXJlIGF2YWlsYWJsZSBldmVuIHdoZW4gdGhlcmUgaXMgbm8gYWNw
+aSBkZXZpY2UgcHJlc2VudC4KPj4KPj4gV2hlbiB0aGUgZGV2aWNlIGlzIHByZXNlbnQsIHRoZSBo
+dyBwcm92aWRlZCBVVUlEIGlzIG5vdCBleHBvc2VkIHRvCj4+IHVzZXJzcGFjZSwgaXQgaXMgaW50
+ZXJuYWxseSB1c2VkIGJ5IHRoZSBkcml2ZXIgdG8ga2VlcCBhY2NvdW50aW5nIGZvcgo+PiB0aGUg
+ZXhwb3NlZCBWbUdlbiBjb3VudGVyLiBUaGUgY291bnRlciBzdGFydHMgZnJvbSB6ZXJvIHdoZW4g
+dGhlCj4+IGRyaXZlciBpcyBpbml0aWFsaXplZCBhbmQgbW9ub3RvbmljYWxseSBpbmNyZW1lbnRz
+IGV2ZXJ5IHRpbWUgdGhlIGh3Cj4+IFVVSUQgY2hhbmdlcyAodGhlIFZNIGdlbmVyYXRpb24gY2hh
+bmdlcykuCj4+IE9uIGVhY2ggaHcgVVVJRCBjaGFuZ2UsIHRoZSBuZXcgaHlwZXJ2aXNvci1wcm92
+aWRlZCBVVUlEIGlzIGFsc28gZmVkCj4+IHRvIHRoZSBrZXJuZWwgUk5HLgo+IFNob3VsZCB0aGlz
+IGJlIGEgaG90cGx1ZyBldmVuIHJhdGhlciB0aGFuIGEgbmV3IGNoYXJhY3RlciBkZXZpY2U/Cj4K
+PiBXaXRob3V0IHBsdWdnaW5nIGludG8gdWRldiBhbmQgdGhlIHJlc3Qgb2YgdGhlIGhvdHBsdWcg
+aW5mcmFzdHJ1Y3R1cmUKPiBJIHN1c3BlY3QgdGhpbmdzIHdpbGwgYmUgbWlzc2VkLgpUaGF0J3Mg
+YSBnb29kIGlkZWEsIEkgd2lsbCBsb29rIGludG8gaXQuCj4+Cj4+IElmIHRoZXJlIGlzIG5vIGFj
+cGkgdm1nZW5pZCBkZXZpY2UgcHJlc2VudCwgdGhlIGdlbmVyYXRpb24gY2hhbmdlcyBhcmUKPj4g
+bm90IGRyaXZlbiBieSBodyB2bWdlbmlkIGV2ZW50cyBidXQgY2FuIGJlIGRyaXZlbiBieSBzb2Z0
+d2FyZSB0aHJvdWdoCj4+IGEgZGVkaWNhdGVkIGRyaXZlciBpb2N0bC4KPj4KPj4gVGhpcyBwYXRj
+aCBidWlsZHMgb24gdG9wIG9mIE9yIElkZ2FyIDxvcmlkZ2FyQGdtYWlsLmNvbT4ncyBwcm9wb3Nh
+bAo+PiBodHRwczovL2xrbWwub3JnL2xrbWwvMjAxOC8zLzEvNDk4Cj4gRXJpYwo+CgoKCkFtYXpv
+biBEZXZlbG9wbWVudCBDZW50ZXIgKFJvbWFuaWEpIFMuUi5MLiByZWdpc3RlcmVkIG9mZmljZTog
+MjdBIFNmLiBMYXphciBTdHJlZXQsIFVCQzUsIGZsb29yIDIsIElhc2ksIElhc2kgQ291bnR5LCA3
+MDAwNDUsIFJvbWFuaWEuIFJlZ2lzdGVyZWQgaW4gUm9tYW5pYS4gUmVnaXN0cmF0aW9uIG51bWJl
+ciBKMjIvMjYyMS8yMDA1Lgo=
 
-1. Coupling: Their saving granule is different (perVM vs perDevice).
-   vfio will enable dirty_page_tracking for each devices, actually
-   once is enough.
-2. Conflicts: The ram_save_setup() traverses all memory_listeners
-   to execute their log_start() and log_sync() hooks to get the
-   first round dirty bitmap, which is used by the bulk stage of
-   ram saving. However, it can't get dirty bitmap from vfio, as
-   @savevm_ram_handlers is registered before @vfio_save_handler.
+--------------1C9121B6C676C58A828258F5
+Content-Type: text/html; charset="utf-8"
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
 
-Move the switch of vfio dirty_page_tracking into vfio_memory_listener
-can solve above problems. Besides, Do not require devices in SAVING
-state for vfio_sync_dirty_bitmap().
+PGh0bWw+CiAgPGhlYWQ+CiAgICA8bWV0YSBodHRwLWVxdWl2PSJDb250ZW50LVR5cGUiIGNvbnRl
+bnQ9InRleHQvaHRtbDsgY2hhcnNldD1VVEYtOCI+CiAgPC9oZWFkPgogIDxib2R5PgogICAgPHA+
+KyBFcmljIFcuIEJpZWRlcm1hbjwvcD4KICAgIDxwPkVyaWMncyBlbWFpbCB3YXMgZmlsdGVyZWQg
+YnkgbXkgc2VydmVyIGZvciBzb21lIHJlYXNvbiBzbyBJIGNhbid0CiAgICAgIGRpcmVjdGx5IHJl
+cGx5IHRvIGl0LCB0aGlzIGlzIHRoZSBjbG9zZXN0IHRocmVhZCByZWxhdGl2ZSBJIGNvdWxkCiAg
+ICAgIGFuc3dlciBvbi48L3A+CiAgICA8ZGl2IGNsYXNzPSJtb3otY2l0ZS1wcmVmaXgiPk9uIDAx
+LzEyLzIwMjAgMTI6MDAsIEVyaWMgVy4gQmllZGVybWFuCiAgICAgIHdyb3RlOjxicj4KICAgIDwv
+ZGl2PgogICAgPGJsb2NrcXVvdGUgdHlwZT0iY2l0ZSIKICAgICAgY2l0ZT0ibWlkOjE0NWVhYTBi
+LWExMTgtMWQ4MC03ZjJjLWQ3M2YwZDNmMWRiMEBhbWF6b24uZGUiPgogICAgICA8YnI+CiAgICAg
+IDxicj4KICAgICAgT24gMjcuMTEuMjAgMTk6MjYsIENhdGFuZ2l1LCBBZHJpYW4gQ29zdGluIHdy
+b3RlOgogICAgICA8YnI+CiAgICAgIDxibG9ja3F1b3RlIHR5cGU9ImNpdGUiPi0gQmFja2dyb3Vu
+ZAogICAgICAgIDxicj4KICAgICAgICA8YnI+CiAgICAgICAgVGhlIFZNIEdlbmVyYXRpb24gSUQg
+aXMgYSBmZWF0dXJlIGRlZmluZWQgYnkgTWljcm9zb2Z0IChwYXBlcjoKICAgICAgICA8YnI+CiAg
+ICAgICAgPGEgY2xhc3M9Im1vei10eHQtbGluay1mcmVldGV4dCIgaHJlZj0iaHR0cDovL2dvLm1p
+Y3Jvc29mdC5jb20vZndsaW5rLz9MaW5rSWQ9MjYwNzA5Ij5odHRwOi8vZ28ubWljcm9zb2Z0LmNv
+bS9md2xpbmsvP0xpbmtJZD0yNjA3MDk8L2E+KSBhbmQgc3VwcG9ydGVkIGJ5CiAgICAgICAgPGJy
+PgogICAgICAgIG11bHRpcGxlIGh5cGVydmlzb3IgdmVuZG9ycy4KICAgICAgICA8YnI+CiAgICAg
+ICAgPGJyPgogICAgICAgIFRoZSBmZWF0dXJlIGlzIHJlcXVpcmVkIGluIHZpcnR1YWxpemVkIGVu
+dmlyb25tZW50cyBieSBhcHBzIHRoYXQKICAgICAgICB3b3JrCiAgICAgICAgPGJyPgogICAgICAg
+IHdpdGggbG9jYWwgY29waWVzL2NhY2hlcyBvZiB3b3JsZC11bmlxdWUgZGF0YSBzdWNoIGFzIHJh
+bmRvbQogICAgICAgIHZhbHVlcywKICAgICAgICA8YnI+CiAgICAgICAgdXVpZHMsIG1vbm90b25p
+Y2FsbHkgaW5jcmVhc2luZyBjb3VudGVycywgZXRjLgogICAgICAgIDxicj4KICAgICAgICBTdWNo
+IGFwcHMgY2FuIGJlIG5lZ2F0aXZlbHkgYWZmZWN0ZWQgYnkgVk0gc25hcHNob3R0aW5nIHdoZW4g
+dGhlCiAgICAgICAgVk0KICAgICAgICA8YnI+CiAgICAgICAgaXMgZWl0aGVyIGNsb25lZCBvciBy
+ZXR1cm5lZCB0byBhbiBlYXJsaWVyIHBvaW50IGluIHRpbWUuCiAgICAgICAgPGJyPgogICAgICAg
+IDxicj4KICAgICAgPC9ibG9ja3F1b3RlPgogICAgICA8cHJlIGl0ZW1wcm9wPSJhcnRpY2xlQm9k
+eSI+SG93IGRvZXMgdGhpcyBkaWZmZXIgZnJvbSAvcHJvYy9zeXMva2VybmVsL3JhbmRvbS9ib290
+X2lkPwo8L3ByZT4KICAgIDwvYmxvY2txdW90ZT4KICAgIDxmb250IGZhY2U9Im1vbm9zcGFjZSI+
+VGhlIGJvb3RfaWQgb25seSBjaGFuZ2VzIGF0IE9TIGJvb3Qgd2hlcmVhcwogICAgICB3ZSBuZWVk
+IHRoZSBnZW5lcmF0aW9uIGlkIHRvPC9mb250Pjxicj4KICAgIDxmb250IGZhY2U9Im1vbm9zcGFj
+ZSI+Y2hhbmdlIF93aGlsZV8gdGhlIHN5c3RlbS9ndWVzdC1vcyBpcyBydW5uaW5nCiAgICAgIC0g
+Z2VuZXJhdGlvbiBjaGFuZ2VzIGJlY2F1c2U8L2ZvbnQ+PGJyPgogICAgPGZvbnQgZmFjZT0ibW9u
+b3NwYWNlIj51bmRlcmx5aW5nPC9mb250Pjxmb250IGZhY2U9Im1vbm9zcGFjZSI+IFZNCiAgICAg
+IG9yIGNvbnRhaW5lciBnb2VzIHRocm91Z2ggYSBzbmFwc2hvdCByZXN0b3JlIGV2ZW50IHdoaWNo
+IGlzPC9mb250Pjxicj4KICAgIDxmb250IGZhY2U9Im1vbm9zcGFjZSI+b3RoZXJ3aXNlPC9mb250
+Pjxmb250IGZhY2U9Im1vbm9zcGFjZSI+CiAgICAgIHRyYW5zcGFyZW50IHRvIGd1ZXN0IHN5c3Rl
+bS48L2ZvbnQ+PGJyPgogICAgPGJsb2NrcXVvdGUgdHlwZT0iY2l0ZSIKICAgICAgY2l0ZT0ibWlk
+OjE0NWVhYTBiLWExMTgtMWQ4MC03ZjJjLWQ3M2YwZDNmMWRiMEBhbWF6b24uZGUiPgogICAgICA8
+YmxvY2txdW90ZSB0eXBlPSJjaXRlIj4KICAgICAgICA8YnI+CiAgICAgICAgVGhlIFZNIEdlbmVy
+YXRpb24gSUQgaXMgYSBzaW1wbGUgY29uY2VwdCBtZWFudCB0byBhbGxldmlhdGUgdGhlCiAgICAg
+ICAgaXNzdWUKICAgICAgICA8YnI+CiAgICAgICAgYnkgcHJvdmlkaW5nIGEgdW5pcXVlIElEIHRo
+YXQgY2hhbmdlcyBlYWNoIHRpbWUgdGhlIFZNIGlzCiAgICAgICAgcmVzdG9yZWQKICAgICAgICA8
+YnI+CiAgICAgICAgZnJvbSBhIHNuYXBzaG90LiBUaGUgaHcgcHJvdmlkZWQgVVVJRCB2YWx1ZSBj
+YW4gYmUgdXNlZCB0bwogICAgICAgIDxicj4KICAgICAgICBkaWZmZXJlbnRpYXRlIGJldHdlZW4g
+Vk1zIG9yIGRpZmZlcmVudCBnZW5lcmF0aW9ucyBvZiB0aGUgc2FtZQogICAgICAgIFZNLgogICAg
+ICAgIDxicj4KICAgICAgICA8YnI+CiAgICAgIDwvYmxvY2txdW90ZT4KICAgICAgPHByZSBpdGVt
+cHJvcD0iYXJ0aWNsZUJvZHkiPkRvZXMgdGhlIFZNIGdlbmVyYXRpb24gSUQgY2hhbmdlIGluIGEg
+cnVubmluZyB0aGF0IGVmZmVjdGl2ZWx5IHRoaW5ncyBpdAppcyBydW5uaW5nPzwvcHJlPgogICAg
+PC9ibG9ja3F1b3RlPgogICAgPGZvbnQgZmFjZT0ibW9ub3NwYWNlIj5ZZXMsIHRoZSBnZW5lcmF0
+aW9uIGlkIGNoYW5nZXMgd2hpbGUgZ3Vlc3QgT1MKICAgICAgaXMgcnVubmluZywgdGhlIGdlbmVy
+YXRpb248YnI+CiAgICAgIGNoYW5nZSBpdHNlbGYgaXMgd2hhdCBsZXRzIHRoZSBndWVzdCBPUyBh
+bmQgZ3Vlc3QgdXNlcnNwYWNlIGtub3cKICAgICAgdGhlcmUnczxicj4KICAgICAgYmVlbiBhIFZN
+IG9yIGNvbnRhaW5lciBzbmFwc2hvdCByZXN0b3JlIGV2ZW50LjwvZm9udD48YnI+CiAgICA8Ymxv
+Y2txdW90ZSB0eXBlPSJjaXRlIgogICAgICBjaXRlPSJtaWQ6MTQ1ZWFhMGItYTExOC0xZDgwLTdm
+MmMtZDczZjBkM2YxZGIwQGFtYXpvbi5kZSI+CiAgICAgIDxibG9ja3F1b3RlIHR5cGU9ImNpdGUi
+PgogICAgICAgIDxicj4KICAgICAgICAtIFByb2JsZW0KICAgICAgICA8YnI+CiAgICAgICAgPGJy
+PgogICAgICAgIFRoZSBWTSBHZW5lcmF0aW9uIElEIGlzIGV4cG9zZWQgdGhyb3VnaCBhbiBBQ1BJ
+IGRldmljZSBieQogICAgICAgIG11bHRpcGxlCiAgICAgICAgPGJyPgogICAgICAgIGh5cGVydmlz
+b3IgdmVuZG9ycyBidXQgbmVpdGhlciB0aGUgdmVuZG9ycyBvciB1cHN0cmVhbSBMaW51eAogICAg
+ICAgIGhhdmUgbm8KICAgICAgICA8YnI+CiAgICAgICAgZGVmYXVsdCBkcml2ZXIgZm9yIGl0IGxl
+YXZpbmcgdXNlcnMgdG8gZmVuZCBmb3IgdGhlbXNlbHZlcy4KICAgICAgICA8YnI+CiAgICAgICAg
+PGJyPgogICAgICAgIEZ1cnRoZXJtb3JlLCBzaW1wbHkgZmluZGluZyBvdXQgYWJvdXQgYSBWTSBn
+ZW5lcmF0aW9uIGNoYW5nZSBpcwogICAgICAgIG9ubHkKICAgICAgICA8YnI+CiAgICAgICAgdGhl
+IHN0YXJ0aW5nIHBvaW50IG9mIGEgcHJvY2VzcyB0byByZW5ldyBpbnRlcm5hbCBzdGF0ZXMgb2YK
+ICAgICAgICBwb3NzaWJseQogICAgICAgIDxicj4KICAgICAgICBtdWx0aXBsZSBhcHBsaWNhdGlv
+bnMgYWNyb3NzIHRoZSBzeXN0ZW0uIFRoaXMgcHJvY2VzcyBjb3VsZAogICAgICAgIGJlbmVmaXQK
+ICAgICAgICA8YnI+CiAgICAgICAgZnJvbSBhIGRyaXZlciB0aGF0IHByb3ZpZGVzIGFuIGludGVy
+ZmFjZSB0aHJvdWdoIHdoaWNoCiAgICAgICAgb3JjaGVzdHJhdGlvbgogICAgICAgIDxicj4KICAg
+ICAgICBjYW4gYmUgZWFzaWx5IGRvbmUuCiAgICAgICAgPGJyPgogICAgICAgIDxicj4KICAgICAg
+ICAtIFNvbHV0aW9uCiAgICAgICAgPGJyPgogICAgICAgIDxicj4KICAgICAgICBUaGlzIHBhdGNo
+IGlzIGEgZHJpdmVyIHRoYXQgZXhwb3NlcyBhIG1vbm90b25pYyBpbmNyZW1lbnRhbAogICAgICAg
+IFZpcnR1YWwKICAgICAgICA8YnI+CiAgICAgICAgTWFjaGluZSBHZW5lcmF0aW9uIHUzMiBjb3Vu
+dGVyIHZpYSBhIGNoYXItZGV2IEZTIGludGVyZmFjZS48L2Jsb2NrcXVvdGU+CiAgICAgIDxwcmUg
+aXRlbXByb3A9ImFydGljbGVCb2R5Ij5FYXJsaWVyIGl0IHdhcyBhIFVVSUQgbm93IGl0IGlzIDMy
+Yml0IG51bWJlcj88L3ByZT4KICAgIDwvYmxvY2txdW90ZT4KICAgIDxmb250IGZhY2U9Im1vbm9z
+cGFjZSI+VGhlIGdlbmVyYXRpb24gaWQgZXhwb3NlZCB0byB1c2Vyc3BhY2UgaXMgYQogICAgICAz
+MmJpdCBtb25vdG9uaWMgaW5jcmVtZW50YWw8YnI+CiAgICAgIGNvdW50ZXIuIFRoaXMgY291bnRl
+ciBpcyBpbnRlcm5hbGx5IGRyaXZlbiBieSB0aGUgYWNwaSB2bWdlbmlkCiAgICAgIGRldmljZS4g
+VGhlPGJyPgogICAgICAxMjgtYml0IHZtZ2VuaWQtZGV2aWNlLXByb3ZpZGVkIFVVSUQgaXMgb25s
+eSB1c2VkIGludGVybmFsbHkgYnkKICAgICAgdGhlIGRyaXZlci48YnI+CiAgICA8L2ZvbnQ+CiAg
+ICA8cD48Zm9udCBmYWNlPSJtb25vc3BhY2UiPkkgd2lsbCBtYWtlIGFsbCBvZiB0aGlzIGNsZWFy
+ZXIgaW4gdGhlCiAgICAgICAgbmV4dCBwYXRjaCB2ZXJzaW9uLjwvZm9udD48L3A+CiAgICA8Ymxv
+Y2txdW90ZSB0eXBlPSJjaXRlIgogICAgICBjaXRlPSJtaWQ6MTQ1ZWFhMGItYTExOC0xZDgwLTdm
+MmMtZDczZjBkM2YxZGIwQGFtYXpvbi5kZSI+CiAgICAgIDxibG9ja3F1b3RlIHR5cGU9ImNpdGUi
+PgogICAgICAgIFRoZSBGUwogICAgICAgIDxicj4KICAgICAgICBpbnRlcmZhY2UgcHJvdmlkZXMg
+c3luYyBhbmQgYXN5bmMgVm1HZW4gY291bnRlciB1cGRhdGVzCiAgICAgICAgbm90aWZpY2F0aW9u
+cy4KICAgICAgICA8YnI+CiAgICAgICAgSXQgYWxzbyBwcm92aWRlcyBWbUdlbiBjb3VudGVyIHJl
+dHJpZXZhbCBhbmQgY29uZmlybWF0aW9uCiAgICAgICAgbWVjaGFuaXNtcy4KICAgICAgICA8YnI+
+CiAgICAgICAgPGJyPgogICAgICAgIFRoZSBnZW5lcmF0aW9uIGNvdW50ZXIgYW5kIHRoZSBpbnRl
+cmZhY2UgdGhyb3VnaCB3aGljaCBpdCBpcwogICAgICAgIGV4cG9zZWQKICAgICAgICA8YnI+CiAg
+ICAgICAgYXJlIGF2YWlsYWJsZSBldmVuIHdoZW4gdGhlcmUgaXMgbm8gYWNwaSBkZXZpY2UgcHJl
+c2VudC4KICAgICAgICA8YnI+CiAgICAgICAgPGJyPgogICAgICAgIFdoZW4gdGhlIGRldmljZSBp
+cyBwcmVzZW50LCB0aGUgaHcgcHJvdmlkZWQgVVVJRCBpcyBub3QgZXhwb3NlZAogICAgICAgIHRv
+CiAgICAgICAgPGJyPgogICAgICAgIHVzZXJzcGFjZSwgaXQgaXMgaW50ZXJuYWxseSB1c2VkIGJ5
+IHRoZSBkcml2ZXIgdG8ga2VlcAogICAgICAgIGFjY291bnRpbmcgZm9yCiAgICAgICAgPGJyPgog
+ICAgICAgIHRoZSBleHBvc2VkIFZtR2VuIGNvdW50ZXIuIFRoZSBjb3VudGVyIHN0YXJ0cyBmcm9t
+IHplcm8gd2hlbiB0aGUKICAgICAgICA8YnI+CiAgICAgICAgZHJpdmVyIGlzIGluaXRpYWxpemVk
+IGFuZCBtb25vdG9uaWNhbGx5IGluY3JlbWVudHMgZXZlcnkgdGltZQogICAgICAgIHRoZSBodwog
+ICAgICAgIDxicj4KICAgICAgICBVVUlEIGNoYW5nZXMgKHRoZSBWTSBnZW5lcmF0aW9uIGNoYW5n
+ZXMpLgogICAgICAgIDxicj4KICAgICAgICBPbiBlYWNoIGh3IFVVSUQgY2hhbmdlLCB0aGUgbmV3
+IGh5cGVydmlzb3ItcHJvdmlkZWQgVVVJRCBpcyBhbHNvCiAgICAgICAgZmVkCiAgICAgICAgPGJy
+PgogICAgICAgIHRvIHRoZSBrZXJuZWwgUk5HLgogICAgICAgIDxicj4KICAgICAgPC9ibG9ja3F1
+b3RlPgogICAgPC9ibG9ja3F1b3RlPgogICAgPGJsb2NrcXVvdGUgdHlwZT0iY2l0ZSIKICAgICAg
+Y2l0ZT0ibWlkOjE0NWVhYTBiLWExMTgtMWQ4MC03ZjJjLWQ3M2YwZDNmMWRiMEBhbWF6b24uZGUi
+PgogICAgICA8cHJlIGl0ZW1wcm9wPSJhcnRpY2xlQm9keSI+U2hvdWxkIHRoaXMgYmUgYSBob3Rw
+bHVnIGV2ZW4gcmF0aGVyIHRoYW4gYSBuZXcgY2hhcmFjdGVyIGRldmljZT8KCldpdGhvdXQgcGx1
+Z2dpbmcgaW50byB1ZGV2IGFuZCB0aGUgcmVzdCBvZiB0aGUgaG90cGx1ZyBpbmZyYXN0cnVjdHVy
+ZQpJIHN1c3BlY3QgdGhpbmdzIHdpbGwgYmUgbWlzc2VkLjwvcHJlPgogICAgPC9ibG9ja3F1b3Rl
+PgogICAgPGZvbnQgZmFjZT0ibW9ub3NwYWNlIj5UaGF0J3MgYSBnb29kIGlkZWEsIEkgd2lsbCBs
+b29rIGludG8gaXQuPC9mb250Pjxicj4KICAgIDxibG9ja3F1b3RlIHR5cGU9ImNpdGUiCiAgICAg
+IGNpdGU9Im1pZDoxNDVlYWEwYi1hMTE4LTFkODAtN2YyYy1kNzNmMGQzZjFkYjBAYW1hem9uLmRl
+Ij4KICAgICAgPGJsb2NrcXVvdGUgdHlwZT0iY2l0ZSI+CiAgICAgICAgPGJyPgogICAgICAgIElm
+IHRoZXJlIGlzIG5vIGFjcGkgdm1nZW5pZCBkZXZpY2UgcHJlc2VudCwgdGhlIGdlbmVyYXRpb24K
+ICAgICAgICBjaGFuZ2VzIGFyZQogICAgICAgIDxicj4KICAgICAgICBub3QgZHJpdmVuIGJ5IGh3
+IHZtZ2VuaWQgZXZlbnRzIGJ1dCBjYW4gYmUgZHJpdmVuIGJ5IHNvZnR3YXJlCiAgICAgICAgdGhy
+b3VnaAogICAgICAgIDxicj4KICAgICAgICBhIGRlZGljYXRlZCBkcml2ZXIgaW9jdGwuCiAgICAg
+ICAgPGJyPgogICAgICAgIDxicj4KICAgICAgICBUaGlzIHBhdGNoIGJ1aWxkcyBvbiB0b3Agb2Yg
+T3IgSWRnYXIgPGEgY2xhc3M9Im1vei10eHQtbGluay1yZmMyMzk2RSIgaHJlZj0ibWFpbHRvOm9y
+aWRnYXJAZ21haWwuY29tIj4mbHQ7b3JpZGdhckBnbWFpbC5jb20mZ3Q7PC9hPidzCiAgICAgICAg
+cHJvcG9zYWwKICAgICAgICA8YnI+CiAgICAgICAgPGEgY2xhc3M9Im1vei10eHQtbGluay1mcmVl
+dGV4dCIgaHJlZj0iaHR0cHM6Ly9sa21sLm9yZy9sa21sLzIwMTgvMy8xLzQ5OCI+aHR0cHM6Ly9s
+a21sLm9yZy9sa21sLzIwMTgvMy8xLzQ5ODwvYT4KICAgICAgICA8YnI+CiAgICAgIDwvYmxvY2tx
+dW90ZT4KICAgICAgPHByZSBpdGVtcHJvcD0iYXJ0aWNsZUJvZHkiPkVyaWMKCjwvcHJlPgogICAg
+PC9ibG9ja3F1b3RlPgogIDxwPjwvcD4KCjxwPjxicj4KQW1hem9uIERldmVsb3BtZW50IENlbnRl
+ciAoUm9tYW5pYSkgUy5SLkwuIHJlZ2lzdGVyZWQgb2ZmaWNlOiAyN0EgU2YuIExhemFyIFN0cmVl
+dCwgVUJDNSwgZmxvb3IgMiwgSWFzaSwgSWFzaSBDb3VudHksIDcwMDA0NSwgUm9tYW5pYS4gUmVn
+aXN0ZXJlZCBpbiBSb21hbmlhLiBSZWdpc3RyYXRpb24gbnVtYmVyIEoyMi8yNjIxLzIwMDUuPC9w
+Pgo8L2JvZHk+CjwvaHRtbD4K
 
-[1] https://www.spinics.net/lists/kvm/msg229967.html
-
-Reported-by: Zenghui Yu <yuzenghui@huawei.com>
-Signed-off-by: Keqian Zhu <zhukeqian1@huawei.com>
----
- hw/vfio/common.c    | 53 +++++++++++++++++++++++++++++++++++++--------
- hw/vfio/migration.c | 35 ------------------------------
- 2 files changed, 44 insertions(+), 44 deletions(-)
-
-diff --git a/hw/vfio/common.c b/hw/vfio/common.c
-index 6ff1daa763..9128cd7ee1 100644
---- a/hw/vfio/common.c
-+++ b/hw/vfio/common.c
-@@ -311,7 +311,7 @@ bool vfio_mig_active(void)
-     return true;
- }
- 
--static bool vfio_devices_all_saving(VFIOContainer *container)
-+static bool vfio_devices_all_dirty_tracking(VFIOContainer *container)
- {
-     VFIOGroup *group;
-     VFIODevice *vbasedev;
-@@ -329,13 +329,8 @@ static bool vfio_devices_all_saving(VFIOContainer *container)
-                 return false;
-             }
- 
--            if (migration->device_state & VFIO_DEVICE_STATE_SAVING) {
--                if ((vbasedev->pre_copy_dirty_page_tracking == ON_OFF_AUTO_OFF)
--                    && (migration->device_state & VFIO_DEVICE_STATE_RUNNING)) {
--                        return false;
--                }
--                continue;
--            } else {
-+            if ((vbasedev->pre_copy_dirty_page_tracking == ON_OFF_AUTO_OFF)
-+                && (migration->device_state & VFIO_DEVICE_STATE_RUNNING)) {
-                 return false;
-             }
-         }
-@@ -987,6 +982,44 @@ static void vfio_listener_region_del(MemoryListener *listener,
-     }
- }
- 
-+static void vfio_set_dirty_page_tracking(VFIOContainer *container, bool start)
-+{
-+    int ret;
-+    struct vfio_iommu_type1_dirty_bitmap dirty = {
-+        .argsz = sizeof(dirty),
-+    };
-+
-+    if (start) {
-+        dirty.flags = VFIO_IOMMU_DIRTY_PAGES_FLAG_START;
-+    } else {
-+        dirty.flags = VFIO_IOMMU_DIRTY_PAGES_FLAG_STOP;
-+    }
-+
-+    ret = ioctl(container->fd, VFIO_IOMMU_DIRTY_PAGES, &dirty);
-+    if (ret) {
-+        error_report("Failed to set dirty tracking flag 0x%x errno: %d",
-+                     dirty.flags, errno);
-+    }
-+}
-+
-+static void vfio_listener_log_start(MemoryListener *listener,
-+                                    MemoryRegionSection *section,
-+                                    int old, int new)
-+{
-+    VFIOContainer *container = container_of(listener, VFIOContainer, listener);
-+
-+    vfio_set_dirty_page_tracking(container, true);
-+}
-+
-+static void vfio_listener_log_stop(MemoryListener *listener,
-+                                   MemoryRegionSection *section,
-+                                   int old, int new)
-+{
-+    VFIOContainer *container = container_of(listener, VFIOContainer, listener);
-+
-+    vfio_set_dirty_page_tracking(container, false);
-+}
-+
- static int vfio_get_dirty_bitmap(VFIOContainer *container, uint64_t iova,
-                                  uint64_t size, ram_addr_t ram_addr)
- {
-@@ -1128,7 +1161,7 @@ static void vfio_listerner_log_sync(MemoryListener *listener,
-         return;
-     }
- 
--    if (vfio_devices_all_saving(container)) {
-+    if (vfio_devices_all_dirty_tracking(container)) {
-         vfio_sync_dirty_bitmap(container, section);
-     }
- }
-@@ -1136,6 +1169,8 @@ static void vfio_listerner_log_sync(MemoryListener *listener,
- static const MemoryListener vfio_memory_listener = {
-     .region_add = vfio_listener_region_add,
-     .region_del = vfio_listener_region_del,
-+    .log_start = vfio_listener_log_start,
-+    .log_stop = vfio_listener_log_stop,
-     .log_sync = vfio_listerner_log_sync,
- };
- 
-diff --git a/hw/vfio/migration.c b/hw/vfio/migration.c
-index 00daa50ed8..c0f646823a 100644
---- a/hw/vfio/migration.c
-+++ b/hw/vfio/migration.c
-@@ -395,40 +395,10 @@ static int vfio_load_device_config_state(QEMUFile *f, void *opaque)
-     return qemu_file_get_error(f);
- }
- 
--static int vfio_set_dirty_page_tracking(VFIODevice *vbasedev, bool start)
--{
--    int ret;
--    VFIOMigration *migration = vbasedev->migration;
--    VFIOContainer *container = vbasedev->group->container;
--    struct vfio_iommu_type1_dirty_bitmap dirty = {
--        .argsz = sizeof(dirty),
--    };
--
--    if (start) {
--        if (migration->device_state & VFIO_DEVICE_STATE_SAVING) {
--            dirty.flags = VFIO_IOMMU_DIRTY_PAGES_FLAG_START;
--        } else {
--            return -EINVAL;
--        }
--    } else {
--            dirty.flags = VFIO_IOMMU_DIRTY_PAGES_FLAG_STOP;
--    }
--
--    ret = ioctl(container->fd, VFIO_IOMMU_DIRTY_PAGES, &dirty);
--    if (ret) {
--        error_report("Failed to set dirty tracking flag 0x%x errno: %d",
--                     dirty.flags, errno);
--        return -errno;
--    }
--    return ret;
--}
--
- static void vfio_migration_cleanup(VFIODevice *vbasedev)
- {
-     VFIOMigration *migration = vbasedev->migration;
- 
--    vfio_set_dirty_page_tracking(vbasedev, false);
--
-     if (migration->region.mmaps) {
-         vfio_region_unmap(&migration->region);
-     }
-@@ -469,11 +439,6 @@ static int vfio_save_setup(QEMUFile *f, void *opaque)
-         return ret;
-     }
- 
--    ret = vfio_set_dirty_page_tracking(vbasedev, true);
--    if (ret) {
--        return ret;
--    }
--
-     qemu_put_be64(f, VFIO_MIG_FLAG_END_OF_STATE);
- 
-     ret = qemu_file_get_error(f);
--- 
-2.19.1
+--------------1C9121B6C676C58A828258F5--
 
 
