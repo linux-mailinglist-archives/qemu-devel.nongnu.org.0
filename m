@@ -2,81 +2,95 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A16BD2F1DC1
-	for <lists+qemu-devel@lfdr.de>; Mon, 11 Jan 2021 19:15:24 +0100 (CET)
-Received: from localhost ([::1]:50270 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 173DA2F1DB3
+	for <lists+qemu-devel@lfdr.de>; Mon, 11 Jan 2021 19:14:42 +0100 (CET)
+Received: from localhost ([::1]:51868 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kz1it-00087h-Fg
-	for lists+qemu-devel@lfdr.de; Mon, 11 Jan 2021 13:15:23 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36124)
+	id 1kz1iD-0000Oa-6y
+	for lists+qemu-devel@lfdr.de; Mon, 11 Jan 2021 13:14:41 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36902)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
- id 1kz1di-0006ZQ-57; Mon, 11 Jan 2021 13:10:02 -0500
-Received: from out4-smtp.messagingengine.com ([66.111.4.28]:51029)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
- id 1kz1df-0008Eu-MS; Mon, 11 Jan 2021 13:10:01 -0500
-Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
- by mailout.nyi.internal (Postfix) with ESMTP id 5E0295C01DE;
- Mon, 11 Jan 2021 13:09:57 -0500 (EST)
-Received: from mailfrontend2 ([10.202.2.163])
- by compute4.internal (MEProxy); Mon, 11 Jan 2021 13:09:57 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=irrelevant.dk;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding; s=fm2; bh=o7cn/qypveFzilLYrFu4PRL7NT
- tXvSooCBs7ATd4mw4=; b=EVkbVq+mzAPtC7ft0YLZgmXSMiUD0c353LpGFlHZMw
- 7Cjq88JEOO8tItVXFwEJyi6Oi0LUsZAf25vjcbAikw1PCfWl78gi+lY15sMF9koX
- lpYuMf4iPw8QA9mssPimVFal0s8/uAgOb9k8CUv7FkYiHYhM57Qs9jz1OpARROXU
- MvG8wPVYEWXAnDrUmoXxNMhkTbcJhg5gW/SUWJYAe8/EghRlJSD6zlK0zNQhyB+Q
- VpkfsmpK21Jia5ys+bdoGfxYvuOh1zdZkHck5ibcSIydYn/iAgARXTHBNown/ogw
- YoQbNzb1fWAAou6NKDstB4tlnGOkuLtgEsRf3WD1KsFQ==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:content-transfer-encoding:date:from
- :message-id:mime-version:subject:to:x-me-proxy:x-me-proxy
- :x-me-sender:x-me-sender:x-sasl-enc; s=fm1; bh=o7cn/qypveFzilLYr
- Fu4PRL7NTtXvSooCBs7ATd4mw4=; b=D2o7lA7KTnDjsId3R/C5hSiYI7aAVOlFO
- FlbLyYo8ro9oxFUMq9qp1OBAOJvbMZ9xKsIctcK4ddPsn5hC6oT0uL3DmHq6tmOJ
- DdoVZg9CHYqfxrsBeYbKp7qNmTyUtdMX3mQMfIjzTn5LMbMlowZVJ2yN5Ma9B2QW
- +9LGPeIsKngrtPyo36//4BnR5mpFd1gIAr4LVaaaNTJJPaoM7kcmb1REGGQOFlCs
- Z8vsfT/DpobnvpIM8mN5UcQWAf2HtpWvZE5UKkYDrqlhCkadQNmRX5N7aoCo+M36
- Zss/7uwprF/61yLauOCndy5vMK4J68Qyd0q71X3a2TmwN9suXkSQA==
-X-ME-Sender: <xms:c5T8Xx939i7eVXodAyhuWTTuSUAmsJ4z1GgaY57j0uVbvsk2UMN4wg>
- <xme:c5T8X1uugGiEbnhBvG17RAXuiXudriLaGRxZOzbiKtEajaF-QLjULfdn3jFK1OAfy
- sweKQFmmLTH4oPDbIc>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedujedrvdehuddguddutdcutefuodetggdotefrod
- ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfgh
- necuuegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmd
- enucfjughrpefhvffufffkofgggfestdekredtredttdenucfhrhhomhepmfhlrghushcu
- lfgvnhhsvghnuceoihhtshesihhrrhgvlhgvvhgrnhhtrdgukheqnecuggftrfgrthhtvg
- hrnhepfeevledvieekudeuffetgeegfeehvdffffejueeuleduhedvgeejveejhfdtteeh
- necukfhppeektddrudeijedrleekrdduledtnecuvehluhhsthgvrhfuihiivgeptdenuc
- frrghrrghmpehmrghilhhfrhhomhepihhtshesihhrrhgvlhgvvhgrnhhtrdgukh
-X-ME-Proxy: <xmx:c5T8X_BWtLj63P9tAJzLQ1epa8Y8xKeGRPDhcftNK22C99IFSgKGuA>
- <xmx:c5T8X1cQCDWQHUaIbUK2EScaRHYH9eYzeiAu88rpA87n_7eJpFpurQ>
- <xmx:c5T8X2PjlJGus7HdxHJjVYviSwgYP4zPBFnDbf46vPk9xMAqM5chbw>
- <xmx:dZT8X91BcUh-arrYN7SZKllZG92iJhnLxKl6Csb_0iPghhdAV1TYKQ>
-Received: from apples.local (80-167-98-190-cable.dk.customer.tdc.net
- [80.167.98.190])
- by mail.messagingengine.com (Postfix) with ESMTPA id CA5C01080057;
- Mon, 11 Jan 2021 13:09:54 -0500 (EST)
-From: Klaus Jensen <its@irrelevant.dk>
-To: qemu-devel@nongnu.org
-Subject: [PATCH] hw/block/nvme: conditionally enable DULBE for zoned namespaces
-Date: Mon, 11 Jan 2021 19:09:52 +0100
-Message-Id: <20210111180952.112488-1-its@irrelevant.dk>
-X-Mailer: git-send-email 2.30.0
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kz1h9-0008BC-QT
+ for qemu-devel@nongnu.org; Mon, 11 Jan 2021 13:13:35 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:47364)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kz1h8-0000EC-2f
+ for qemu-devel@nongnu.org; Mon, 11 Jan 2021 13:13:35 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1610388813;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=XMVqNDXhVBfgYasHU7WbnA7Bzjgx7oMA1MPdLnO9iGY=;
+ b=da3GkfOm6GMoaiz5WVWzRS0sYGhskBOlPsIbzLJNGSpxnI8SoznC5jlPoS915J0Zl/S7Ql
+ Ykxwaat5q1wYWaKp6YgXgvc1k0F9FxBtY2Xuhlnfpcq68B1WbScWeZIRQzGneakb7AviO3
+ S05Gs86QrCm8EVmxTm8E+aCMyxGcXns=
+Received: from mail-ej1-f69.google.com (mail-ej1-f69.google.com
+ [209.85.218.69]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-119-52QmIf3aOSqjLDm-xfYpdQ-1; Mon, 11 Jan 2021 13:13:31 -0500
+X-MC-Unique: 52QmIf3aOSqjLDm-xfYpdQ-1
+Received: by mail-ej1-f69.google.com with SMTP id m4so224398ejc.14
+ for <qemu-devel@nongnu.org>; Mon, 11 Jan 2021 10:13:31 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=XMVqNDXhVBfgYasHU7WbnA7Bzjgx7oMA1MPdLnO9iGY=;
+ b=AaxsaTQWfrQ0kU9Me3xhUy08Ek+FjF2+KNSbCOY3CkXsrqUVxrG7MyznQAYMs2uZwT
+ 84ACmHpiPCnhwZ0KJnZ612QaUma+HOt1v3M1qPDxoiRSJqIGUp6SSiLaZx5MhCmJZk4m
+ q2/yOb+H69NwuUENMadgEON8cyd3hAjkmOKL5yPxdTu+05oZQ4rXAG4lNYVEaDmhV5+F
+ +lN+m6OQWGIE8nB/vWYjbZyhCznlmKhG8F6g1su/wsOO+crbrmpN+pgbWioL7/S5u2up
+ EyY47Y4MVeGfM2+K58QNNFV0ANmq3D1tGxQWDRvTnmcCPLzf/gYj511E03jpz1AfmqXZ
+ qSvw==
+X-Gm-Message-State: AOAM533zr41VHIGQUiFDc/7j25+2aKxn386GyyHzpW/yvlbWdyZeCeIN
+ gyzlUftYSUh+TNrbzwVeNaz+4MaVMIF/6u18SrqHBHd+UweD+oS69EvooxReRf6LLanRo3t+a/M
+ zbsl7f6fqDqhKvZ0=
+X-Received: by 2002:a17:906:234d:: with SMTP id
+ m13mr507841eja.270.1610388810463; 
+ Mon, 11 Jan 2021 10:13:30 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJy2VUws8bJTsf90eDubNx6PHzyPCAFdFVEZ+6itmXCzLLMigPo9Pqp3tf2gYBxIpCha9PLMow==
+X-Received: by 2002:a17:906:234d:: with SMTP id
+ m13mr507825eja.270.1610388810318; 
+ Mon, 11 Jan 2021 10:13:30 -0800 (PST)
+Received: from [192.168.1.36] (129.red-88-21-205.staticip.rima-tde.net.
+ [88.21.205.129])
+ by smtp.gmail.com with ESMTPSA id h12sm137927eja.113.2021.01.11.10.13.28
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 11 Jan 2021 10:13:29 -0800 (PST)
+Subject: Re: [for-6.0 v5 06/13] securable guest memory: Decouple
+ kvm_memcrypt_*() helpers from KVM
+To: David Gibson <david@gibson.dropbear.id.au>, pair@us.ibm.com,
+ pbonzini@redhat.com, frankja@linux.ibm.com, brijesh.singh@amd.com,
+ dgilbert@redhat.com, qemu-devel@nongnu.org
+References: <20201204054415.579042-1-david@gibson.dropbear.id.au>
+ <20201204054415.579042-7-david@gibson.dropbear.id.au>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+Message-ID: <e8c1f2a7-e5b9-8181-2c7b-0287699ac9c9@redhat.com>
+Date: Mon, 11 Jan 2021 19:13:27 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.6.0
 MIME-Version: 1.0
+In-Reply-To: <20201204054415.579042-7-david@gibson.dropbear.id.au>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=66.111.4.28; envelope-from=its@irrelevant.dk;
- helo=out4-smtp.messagingengine.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
-X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=philmd@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -29
+X-Spam_score: -3.0
+X-Spam_bar: ---
+X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.251,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -89,65 +103,58 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, qemu-block@nongnu.org,
- Dmitry Fomichev <dmitry.fomichev@wdc.com>, Klaus Jensen <k.jensen@samsung.com>,
- Max Reitz <mreitz@redhat.com>, Keith Busch <kbusch@kernel.org>,
- Klaus Jensen <its@irrelevant.dk>
+Cc: thuth@redhat.com, Marcelo Tosatti <mtosatti@redhat.com>,
+ berrange@redhat.com, Eduardo Habkost <ehabkost@redhat.com>,
+ kvm@vger.kernel.org, "Michael S. Tsirkin" <mst@redhat.com>, cohuck@redhat.com,
+ Richard Henderson <richard.henderson@linaro.org>, mdroth@linux.vnet.ibm.com,
+ pasic@linux.ibm.com, borntraeger@de.ibm.com, qemu-s390x@nongnu.org,
+ qemu-ppc@nongnu.org, david@redhat.com, rth@twiddle.net
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Klaus Jensen <k.jensen@samsung.com>
+On 12/4/20 6:44 AM, David Gibson wrote:
+> The kvm_memcrypt_enabled() and kvm_memcrypt_encrypt_data() helper functions
+> don't conceptually have any connection to KVM (although it's not possible
+> in practice to use them without it).
+> 
+> They also rely on looking at the global KVMState.  But the same information
+> is available from the machine, and the only existing callers have natural
+> access to the machine state.
+> 
+> Therefore, move and rename them to helpers in securable-guest-memory.h,
+> taking an explicit machine parameter.
+> 
+> Signed-off-by: David Gibson <david@gibson.dropbear.id.au>
+> Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+> ---
+>  accel/kvm/kvm-all.c                   | 27 --------------------
+>  accel/stubs/kvm-stub.c                | 10 --------
+>  hw/i386/pc_sysfw.c                    |  6 +++--
+>  include/exec/securable-guest-memory.h | 36 +++++++++++++++++++++++++++
+>  include/sysemu/kvm.h                  | 17 -------------
+>  5 files changed, 40 insertions(+), 56 deletions(-)
+...
 
-The device uses the BDRV_BLOCK_ZERO flag to determine the "deallocated"
-status of logical blocks. Since the zoned namespaces command set
-specification defines that logical blocks SHALL be marked as deallocated
-when the zone is in the Empty or Offline states, DULBE can only be
-supported if the zone size is a multiple of the calculated deallocation
-granularity (reported in NPDG) which depends on the underlying block
-device cluster size (if applicable) or the configured
-discard_granularity.
+> +static inline int securable_guest_memory_encrypt(MachineState *machine,
+> +                                              uint8_t *ptr, uint64_t len)
+> +{
+> +    SecurableGuestMemory *sgm = machine->sgm;
+> +
+> +    if (sgm) {
+> +        SecurableGuestMemoryClass *sgmc = SECURABLE_GUEST_MEMORY_GET_CLASS(sgm);
+> +
+> +        if (sgmc->encrypt_data) {
 
-Signed-off-by: Klaus Jensen <k.jensen@samsung.com>
----
- hw/block/nvme-ns.c | 17 +++++++++++++++++
- 1 file changed, 17 insertions(+)
+Can this ever happen? Maybe use assert(sgmc->encrypt_data) instead?
 
-diff --git a/hw/block/nvme-ns.c b/hw/block/nvme-ns.c
-index a4972ac23d8f..274eaf61b721 100644
---- a/hw/block/nvme-ns.c
-+++ b/hw/block/nvme-ns.c
-@@ -16,6 +16,7 @@
- #include "qemu/units.h"
- #include "qemu/cutils.h"
- #include "qemu/log.h"
-+#include "qemu/error-report.h"
- #include "hw/block/block.h"
- #include "hw/pci/pci.h"
- #include "sysemu/sysemu.h"
-@@ -226,6 +227,22 @@ static void nvme_ns_init_zoned(NvmeCtrl *n, NvmeNamespace *ns, int lba_index)
-     ns->id_ns.ncap = ns->id_ns.nsze;
-     ns->id_ns.nuse = ns->id_ns.ncap;
- 
-+    /*
-+     * The device uses the BDRV_BLOCK_ZERO flag to determine the "deallocated"
-+     * status of logical blocks. Since the spec defines that logical blocks
-+     * SHALL be deallocated when then zone is in the Empty or Offline states,
-+     * we can only support DULBE if the zone size is a multiple of the
-+     * calculated NPDG.
-+     */
-+    if (ns->zone_size % (ns->id_ns.npdg + 1)) {
-+        warn_report("the zone size (%"PRIu64" blocks) is not a multiple of "
-+                    "the calculated deallocation granularity "
-+                    "(%"PRIu16" blocks); DULBE support disabled",
-+                    ns->zone_size, ns->id_ns.npdg + 1);
-+
-+        ns->id_ns.nsfeat &= ~0x4;
-+    }
-+
-     ns->id_ns_zoned = id_ns_z;
- }
- 
--- 
-2.30.0
+Otherwise:
+Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+
+> +            return sgmc->encrypt_data(sgm, ptr, len);
+> +        }
+> +    }
+> +
+> +    return 1;
+> +}
 
 
