@@ -2,53 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D73282F0AD2
-	for <lists+qemu-devel@lfdr.de>; Mon, 11 Jan 2021 02:36:45 +0100 (CET)
-Received: from localhost ([::1]:58412 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 07D982F0AD7
+	for <lists+qemu-devel@lfdr.de>; Mon, 11 Jan 2021 02:40:03 +0100 (CET)
+Received: from localhost ([::1]:60584 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kym8S-0005M3-Gi
-	for lists+qemu-devel@lfdr.de; Sun, 10 Jan 2021 20:36:44 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36042)
+	id 1kymBe-0006KZ-3w
+	for lists+qemu-devel@lfdr.de; Sun, 10 Jan 2021 20:40:02 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36418)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <jiaxun.yang@flygoat.com>)
- id 1kym68-0004pa-T1
- for qemu-devel@nongnu.org; Sun, 10 Jan 2021 20:34:20 -0500
-Received: from new4-smtp.messagingengine.com ([66.111.4.230]:48695)
+ id 1kymAS-0005tk-DX
+ for qemu-devel@nongnu.org; Sun, 10 Jan 2021 20:38:50 -0500
+Received: from new4-smtp.messagingengine.com ([66.111.4.230]:49517)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <jiaxun.yang@flygoat.com>)
- id 1kym66-0006IE-Rn
- for qemu-devel@nongnu.org; Sun, 10 Jan 2021 20:34:20 -0500
+ id 1kymAQ-0007nk-4R
+ for qemu-devel@nongnu.org; Sun, 10 Jan 2021 20:38:48 -0500
 Received: from compute6.internal (compute6.nyi.internal [10.202.2.46])
- by mailnew.nyi.internal (Postfix) with ESMTP id 1BFF558059F;
- Sun, 10 Jan 2021 20:34:16 -0500 (EST)
+ by mailnew.nyi.internal (Postfix) with ESMTP id 8CE1E58058D;
+ Sun, 10 Jan 2021 20:38:45 -0500 (EST)
 Received: from imap1 ([10.202.2.51])
- by compute6.internal (MEProxy); Sun, 10 Jan 2021 20:34:16 -0500
+ by compute6.internal (MEProxy); Sun, 10 Jan 2021 20:38:45 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=flygoat.com; h=
  mime-version:message-id:in-reply-to:references:date:from:to:cc
- :subject:content-type:content-transfer-encoding; s=fm1; bh=+Fchs
- mVtK6CFH+E0s0mqCyGdUH/X4oT9wbxoPT3e5z4=; b=Ss/OneWNIMHOguezkcsT1
- R8mqJBPaP1kTBiIT9JPeQIHA2YYAL3htUp7tcyKHLRbeF2fEEHlYujrR/BTysrPz
- 80BxLk81o2LcuGphjR97h7Lec8LzFSHAZx0bjCTskGsptZs0QL5WaV+8BJAF+Mqh
- hKRg/5Mg2ezbeOl8LTqLNWcU6wFsIBqdLnLPAAjp/VS3LpkSEHgyOKWSMObVqVgH
- qAiixGd5/+rl1QNaTJZ+g7FuNHS9kLRPvTk0TPCpOjt3C+3NLe9RdV64/gwF581v
- M2HbJHXYwSnxHJ3EHzK7DW57B9MnmeWBgaREm4XawKl3e6UQWjumkJ+bbqJbtevq
- g==
+ :subject:content-type:content-transfer-encoding; s=fm1; bh=+UVVN
+ IdP1wx51YrNbr92ow+G0QYbHHbwFb74sD6jMY8=; b=hGDrnuR8BlOBGpp4HsxE3
+ 3Qvh+nATcE5Hqxuww4Kz0mbBXjbb6Iv0LkjG7mqEmVfJqTwOA03LG2klk1gyoNLs
+ 1CUrt5xuAzy1cW74+oeDomXCgiIO9uiY0e8qf0WhJ+gTdL5KLPBPAl314m0+nan1
+ k5Dq5eZZ3Zbca9dgf312qr0+l0uDmJ3IMh0o1gzSVlLOkG+cPpmbrsU9ARbHhWMs
+ R0S6eGtCawJ44EWJSA+Xmxla1H7PIf8RKnK5DD70jbvquYCEigO38OW3UjQA6EAF
+ IsvUiJ0H9kcWtQY53I0PwCqg+5NT6l2ro82jQZEA0fu4rsbIlnuQwQdKaqQgCX8U
+ w==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
  messagingengine.com; h=cc:content-transfer-encoding:content-type
  :date:from:in-reply-to:message-id:mime-version:references
  :subject:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender
- :x-sasl-enc; s=fm1; bh=+FchsmVtK6CFH+E0s0mqCyGdUH/X4oT9wbxoPT3e5
- z4=; b=ZGrCgi6w4sV73lxPoHBhIARnkuCAqEUw9NoR8zyvjQiuLRpxfzYFPSF/f
- TM2pZLh2Sj9ALy1qT3iNyLfDupwtKZj5ijS0S7Fv0kfW8b5ijOsW59LtHk2NKga8
- CzGtmTv8atzpH+LJqx1KNFtaeGTA2G4pEBdSBPrc47Taa83VC23+0HhQDtoX9GBH
- 8cQk/celAzLWTnhefOXBAEOOz64nmORM5zRiMcEHVEpJgOo9FrUfmnA3k/jjhABc
- uvBaFl/f8coOU0dSd1cW/9EH7wq1mjH4iDw6K4EtK+fqexXvBIQcR/GXIleX5aFL
- cFrFS6HnoMvb1Ep2IzOIrRR7nyBfw==
-X-ME-Sender: <xms:Fqv7X39rF3IbIJY2HGIEclD9VBNfP19grea5FQAB8L53L8KIHogtPw>
- <xme:Fqv7Xzv7liFjJ3F-CqI1g9rc0_J5bq3DHtiOtsa27Sj7L10uc_mtD2OQsh58KeX9T
- yFzOCES2VlYrMbGACA>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedujedrvdehtddgfeefucetufdoteggodetrfdotf
+ :x-sasl-enc; s=fm1; bh=+UVVNIdP1wx51YrNbr92ow+G0QYbHHbwFb74sD6jM
+ Y8=; b=TXSTikdMgAcZ92gToWtBMRRJqq//oU8LBqt92iceUxO2vQXsjltRWHVZr
+ FtAHyJxoXu2ycurgtcyK5CGnuT/5x3k4lWMCWN/izxO0yUB1o8nGFvHJ+8Wk+c4N
+ fml26IiwsntK0dsgZgNYyqMXcGU/dZFupLc3jOjlMeu6P5oLw/TNgV/Yan7EtGSx
+ TTTQZwe4NcdWNRU0K0TG/7mwLdNQRbYlgSvSYeAeeOOeBSbucxAHPgW8lnDjsRA6
+ 4pFG+81MUsFDyfHFHh6uzHFNLYNjfHA2UrxYOZYgMzFqtJ3+r2uMD4fk7oVIijaU
+ DMOmkPL/5fSdm5mEx2YYRqEV0FqUg==
+X-ME-Sender: <xms:I6z7X_uU0U-ocgV5sbeYHTymxW2Gv5XJt4JkawO8oElKv-DEy1M4_w>
+ <xme:I6z7XwcNcJH0a00Qbf1X-sw8WWdkjNBdjiK7E1BACeBU2YESalk2_27QEFERqV_2t
+ X_EGvoP-6SXbHF16Qw>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedujedrvdehtddgfeegucetufdoteggodetrfdotf
  fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
  uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
  cujfgurhepofgfggfkjghffffhvffutgfgsehtqhertderreejnecuhfhrohhmpedflfhi
@@ -56,28 +56,29 @@ X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedujedrvdehtddgfeefucetufdoteggod
  eqnecuggftrfgrthhtvghrnhepfeetgeekveeftefhgfduheegvdeuuddvieefvddvlefh
  feehkeetfeeukedtfeejnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrg
  hilhhfrhhomhepjhhirgiguhhnrdihrghnghesfhhlhihgohgrthdrtghomh
-X-ME-Proxy: <xmx:Fqv7X1BSxK7vm6m6SruBWb3-81sHKGbl-3d4UQWmpssukD3GkI_7Uw>
- <xmx:Fqv7XzdYLlJk97rYkac2etzthAsXdQxkZ7UTlOIr48smNgIfcngSPA>
- <xmx:Fqv7X8O99OExNDm5984EWOARKY8ox7ZWvjlFHe-2aCUWwWj9EB-x_g>
- <xmx:F6v7X1agYmmLb9L9eWs5lzR433Ccf6VFDBFvswO0zo3kJ05zw0cK5A>
+X-ME-Proxy: <xmx:I6z7XywuPqRfgh0PSPvDVaanSv9m2on0ym4KpJB1lmVCI748Uwe-Tw>
+ <xmx:I6z7X-OcaMkC5CIAjnLe0e7rHMNDz_VieS1LTEx9Ik0qfkBjs_Im6g>
+ <xmx:I6z7X_-CBnb2s6phFXnc065Sxd0C398dcu6IB_2iux4iNcjzhY7GoA>
+ <xmx:Jaz7X6novX80flkyGUG2alHPK49Bp8FNVZ8oRE9GIHEbZblLoT3kqg>
 Received: by mailuser.nyi.internal (Postfix, from userid 501)
- id 3885DC200A5; Sun, 10 Jan 2021 20:34:14 -0500 (EST)
+ id C8A61C200A5; Sun, 10 Jan 2021 20:38:43 -0500 (EST)
 X-Mailer: MessagingEngine.com Webmail Interface
 User-Agent: Cyrus-JMAP/3.5.0-alpha0-45-g4839256-fm-20210104.001-g48392560
 Mime-Version: 1.0
-Message-Id: <3f383a52-6583-4c60-8f24-a24e6b95c068@www.fastmail.com>
-In-Reply-To: <CAAhV-H71-wrTfDWN9zH2gU4gdJkCpMk5EDfAi1W1d4jXA3OkZg@mail.gmail.com>
-References: <20210103205021.2837760-1-f4bug@amsat.org>
- <20210103205021.2837760-24-f4bug@amsat.org>
- <CAFEAcA_YqAiiLRY08-gACmKOCf2mat3AaBGnyRK0Jc+aK-iuOw@mail.gmail.com>
- <b2dd6d33-d8e9-21a3-7b76-bdf44e117128@amsat.org>
- <3aece87-60ff-b195-8bd-c696bf461cb6@eik.bme.hu>
- <CAAhV-H71-wrTfDWN9zH2gU4gdJkCpMk5EDfAi1W1d4jXA3OkZg@mail.gmail.com>
-Date: Mon, 11 Jan 2021 09:33:51 +0800
+Message-Id: <f5466f0b-cc4f-4a71-8c06-7971198a7602@www.fastmail.com>
+In-Reply-To: <1b55216e-4526-6f50-eac2-f91797a64e7@eik.bme.hu>
+References: <cover.1610223396.git.balaton@eik.bme.hu>
+ <bf9400cc8e4ddd3129aa5678de4d3cf38384805f.1610223397.git.balaton@eik.bme.hu>
+ <f77d6471-d19d-a1c2-e447-18181d55ba86@amsat.org>
+ <5c5ce8b9-f5c4-c58d-6f8a-76c47ad8db4d@eik.bme.hu>
+ <2a45450d-8357-c03e-7e11-bd59bffa61ae@amsat.org>
+ <1b55216e-4526-6f50-eac2-f91797a64e7@eik.bme.hu>
+Date: Mon, 11 Jan 2021 09:38:22 +0800
 From: "Jiaxun Yang" <jiaxun.yang@flygoat.com>
-To: "Huacai Chen" <chenhuacai@kernel.org>,
- "BALATON Zoltan" <balaton@eik.bme.hu>
-Subject: Re: [PULL 23/35] hw/intc: Rework Loongson LIOINTC
+To: "BALATON Zoltan" <balaton@eik.bme.hu>,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
+Subject: =?UTF-8?Q?Re:_[PATCH_v2_08/13]_vt82c686:_Move_creation_of_ISA_devices_to?=
+ =?UTF-8?Q?_the_ISA_bridge?=
 Content-Type: text/plain;charset=utf-8
 Content-Transfer-Encoding: quoted-printable
 Received-SPF: permerror client-ip=66.111.4.230;
@@ -102,146 +103,54 @@ List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: Peter Maydell <peter.maydell@linaro.org>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
- Aurelien Jarno <aurelien@aurel32.net>,
- BALATON Zoltan via <qemu-devel@nongnu.org>
+ "Michael S. Tsirkin" <mst@redhat.com>, Huacai Chen <chenhuacai@kernel.org>,
+ Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
+ BALATON Zoltan via <qemu-devel@nongnu.org>,
+ =?UTF-8?Q?Herv=C3=A9_Poussineau?= <hpoussin@reactos.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 
 
-On Mon, Jan 11, 2021, at 8:36 AM, Huacai Chen wrote:
-> I think R_END should be 0x60, Jiaxun, what do you think?
+On Mon, Jan 11, 2021, at 3:25 AM, BALATON Zoltan wrote:
+> On Sun, 10 Jan 2021, Philippe Mathieu-Daud=C3=A9 wrote:
+> > +PCI experts
+> >
+> > On 1/10/21 1:43 AM, BALATON Zoltan wrote:
+> >> On Sun, 10 Jan 2021, Philippe Mathieu-Daud=C3=A9 wrote:
 
-U r right.
-The manual is misleading.
+[...]
 
-Thanks.
+> > I'm not a PCI expert but my understanding is PCI device functions ar=
+e
+> > restricted to the PCI bus address space. The host bridge may map thi=
+s
+> > space within the host.
+> >
+> > QEMU might be using get_system_memory() because for some host bridge=
 
-- Jiaxun
+> > the mapping is not implemented so it was easier this way?
+>=20
+> Maybe, also one less indirection which if not really needed is a good=20=
+
+> thing for performance so unless it's found to be needed to use another=
+=20
+> address space here I'm happy with this as it matches what other simila=
+r=20
+> devices do and it seems to work. Maybe a separate address space is onl=
+y=20
+> really needed if we have an iommu?
+
+Hi Zoltan,
+
+It is possible for bonito to remap PCI address space so maybe it's essen=
+tial for bonito.
+
+Appreciate for your work. I'm going to help with reviewing as well.
 
 >=20
-> Huacai
->=20
-> On Mon, Jan 11, 2021 at 5:51 AM BALATON Zoltan <balaton@eik.bme.hu> wr=
-ote:
-> >
-> > On Sun, 10 Jan 2021, Philippe Mathieu-Daud=C3=A9 wrote:
-> > > Hi Peter, Huacai,
-> > >
-> > > On 1/10/21 8:49 PM, Peter Maydell wrote:
-> > >> On Sun, 3 Jan 2021 at 21:11, Philippe Mathieu-Daud=C3=A9 <f4bug@a=
-msat.org> wrote:
-> > >>>
-> > >>> From: Huacai Chen <chenhuacai@kernel.org>
-> > >>>
-> > >>> As suggested by Philippe Mathieu-Daud=C3=A9, rework Loongson's l=
-iointc:
-> > >>> 1, Move macro definitions to loongson_liointc.h;
-> > >>> 2, Remove magic values and use macros instead;
-> > >>> 3, Replace dead D() code by trace events.
-> > >>>
-> > >>> Suggested-by: Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>
-> > >>> Signed-off-by: Huacai Chen <chenhuacai@kernel.org>
-> > >>> Tested-by: Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>
-> > >>> Reviewed-by: Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>
-> > >>> Message-Id: <20201221110538.3186646-2-chenhuacai@kernel.org>
-> > >>> Signed-off-by: Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>
-> > >>> ---
-> > >>>  include/hw/intc/loongson_liointc.h | 22 ++++++++++++++++++
-> > >>>  hw/intc/loongson_liointc.c         | 36 +++++++++++++----------=
--------
-> > >>>  2 files changed, 38 insertions(+), 20 deletions(-)
-> > >>>  create mode 100644 include/hw/intc/loongson_liointc.h
-> > >>
-> > >> Hi; Coverity complains about a possible array overrun
-> > >> in this commit:
-> > >>
-> > >>
-> > >>> @@ -40,13 +39,10 @@
-> > >>>  #define R_IEN                   0x24
-> > >>>  #define R_IEN_SET               0x28
-> > >>>  #define R_IEN_CLR               0x2c
-> > >>> -#define R_PERCORE_ISR(x)        (0x40 + 0x8 * x)
-> > >>> +#define R_ISR_SIZE              0x8
-> > >>> +#define R_START                 0x40
-> > >>>  #define R_END                   0x64
-> > >>>
-> > >>> -#define TYPE_LOONGSON_LIOINTC "loongson.liointc"
-> > >>> -DECLARE_INSTANCE_CHECKER(struct loongson_liointc, LOONGSON_LIOI=
-NTC,
-> > >>> -                         TYPE_LOONGSON_LIOINTC)
-> > >>> -
-> > >>>  struct loongson_liointc {
-> > >>>      SysBusDevice parent_obj;
-> > >>>
-> > >>> @@ -123,14 +119,13 @@ liointc_read(void *opaque, hwaddr addr, un=
-signed int size)
-> > >>>          goto out;
-> > >>>      }
-> > >>>
-> > >>> -    /* Rest is 4 byte */
-> > >>> +    /* Rest are 4 bytes */
-> > >>>      if (size !=3D 4 || (addr % 4)) {
-> > >>>          goto out;
-> > >>>      }
-> > >>>
-> >
-> > Expanding macros in the following:
-> >
-> > >>> -    if (addr >=3D R_PERCORE_ISR(0) &&
-> > >>> -        addr < R_PERCORE_ISR(NUM_CORES)) {
-> > >>> -        int core =3D (addr - R_PERCORE_ISR(0)) / 8;
-> >
-> > if (addr >=3D (0x40 + 0x8 * 0) && addr < (0x40 + 0x8 * 4))
-> > ->
-> > if (addr >=3D 0x40 && addr < 0x60)
-> > int core =3D (addr - 0x40) / 8;
-> >
-> >
-> > >>> +    if (addr >=3D R_START && addr < R_END) {
-> > >>> +        int core =3D (addr - R_START) / R_ISR_SIZE;
-> >
-> > if (addr >=3D 0x40 && addr < 0x64)
-> > int core =3D (addr - 0x40) / 0x8;
-> >
-> > R_END seems to be off by 4 in the above. Should it be 0x60?
-> >
-> > Regards,
-> > BALATON Zoltan
-> >
-> > >> R_END is 0x64 and R_START is 0x40, so if addr is 0x60
-> > >> then addr - R_START is 0x32 and so core here is 4.
-> > >> However p->per_core_isr[] only has 4 entries, so this will
-> > >> be off the end of the array.
-> > >>
-> > >> This is CID 1438965.
-> > >>
-> > >>>          r =3D p->per_core_isr[core];
-> > >>>          goto out;
-> > >>>      }
-> > >>
-> > >>> -    if (addr >=3D R_PERCORE_ISR(0) &&
-> > >>> -        addr < R_PERCORE_ISR(NUM_CORES)) {
-> > >>> -        int core =3D (addr - R_PERCORE_ISR(0)) / 8;
-> > >>> +    if (addr >=3D R_START && addr < R_END) {
-> > >>> +        int core =3D (addr - R_START) / R_ISR_SIZE;
-> > >>>          p->per_core_isr[core] =3D value;
-> > >>>          goto out;
-> > >>>      }
-> > >>
-> > >> Same thing here, CID 1438967.
-> > >
-> > > Thanks Peter.
-> > >
-> > > Huacai, can you have a look please?
-> > >
-> > > Thanks,
-> > >
-> > > Phil.
-> > >
-> > >
->
+> Regards,
+> BALATON Zoltan
 
 --=20
 - Jiaxun
