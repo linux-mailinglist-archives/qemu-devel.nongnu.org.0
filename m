@@ -2,34 +2,34 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1FD4F2F0AE1
+	by mail.lfdr.de (Postfix) with ESMTPS id 667CD2F0AE2
 	for <lists+qemu-devel@lfdr.de>; Mon, 11 Jan 2021 03:03:20 +0100 (CET)
-Received: from localhost ([::1]:38556 helo=lists1p.gnu.org)
+Received: from localhost ([::1]:38678 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kymYA-0002EJ-Jm
-	for lists+qemu-devel@lfdr.de; Sun, 10 Jan 2021 21:03:18 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39074)
+	id 1kymYB-0002H8-GD
+	for lists+qemu-devel@lfdr.de; Sun, 10 Jan 2021 21:03:19 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39120)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1kymWD-0001Cc-U9
- for qemu-devel@nongnu.org; Sun, 10 Jan 2021 21:01:19 -0500
-Received: from indium.canonical.com ([91.189.90.7]:54926)
+ id 1kymWF-0001Cl-KO
+ for qemu-devel@nongnu.org; Sun, 10 Jan 2021 21:01:21 -0500
+Received: from indium.canonical.com ([91.189.90.7]:54950)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1kymW9-0006kP-No
- for qemu-devel@nongnu.org; Sun, 10 Jan 2021 21:01:17 -0500
+ id 1kymWA-0006lA-6o
+ for qemu-devel@nongnu.org; Sun, 10 Jan 2021 21:01:19 -0500
 Received: from loganberry.canonical.com ([91.189.90.37])
  by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1kymW7-0005Oh-QE
- for <qemu-devel@nongnu.org>; Mon, 11 Jan 2021 02:01:11 +0000
+ id 1kymW9-0005OJ-1u
+ for <qemu-devel@nongnu.org>; Mon, 11 Jan 2021 02:01:13 +0000
 Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id C55982E8138
- for <qemu-devel@nongnu.org>; Mon, 11 Jan 2021 02:01:11 +0000 (UTC)
+ by loganberry.canonical.com (Postfix) with ESMTP id 0D3042E8047
+ for <qemu-devel@nongnu.org>; Mon, 11 Jan 2021 02:01:13 +0000 (UTC)
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
-Date: Mon, 11 Jan 2021 01:53:52 -0000
+Date: Mon, 11 Jan 2021 01:54:37 -0000
 From: Francois Gouget <1658141@bugs.launchpad.net>
 To: qemu-devel@nongnu.org
 X-Launchpad-Notification-Type: bug
@@ -41,7 +41,7 @@ X-Launchpad-Bug-Commenters: aldelaro5 fgouget janitor th-huth
 X-Launchpad-Bug-Reporter: Francois Gouget (fgouget)
 X-Launchpad-Bug-Modifier: Francois Gouget (fgouget)
 References: <20170120163946.25029.76236.malonedeb@wampee.canonical.com>
-Message-Id: <161033003254.24718.908540878327419858.malone@chaenomeles.canonical.com>
+Message-Id: <161033007900.1471.1163291346605707603.malone@gac.canonical.com>
 Subject: [Bug 1658141] Re: QEMU's default msrs handling causes Windows 10 64
  bit to crash
 X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
@@ -49,7 +49,7 @@ X-Launchpad-Message-For: qemu-devel-ml
 Precedence: bulk
 X-Generated-By: Launchpad (canonical.com);
  Revision="fd9c5a87183d01004404fa6027cd262eaa7f6fcf"; Instance="production"
-X-Launchpad-Hash: 2037b7dde3caf7cf1a40479abf4051dcecb9f61f
+X-Launchpad-Hash: e2b1e06745eada1c68456c1f6fbebc391e7e7f3f
 Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
  helo=indium.canonical.com
 X-Spam_score_int: -66
@@ -74,9 +74,10 @@ Reply-To: Bug 1658141 <1658141@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This bug is still present.
-However the "ignore_msrs=3D1" workaround does not work with QEmu 3.1 anymor=
-e. To prevent Windows 10 from crashing one must upgrade QEmu to 5.0.14.
+The bug is still present so changing the status back to New.
+
+** Changed in: qemu
+       Status: Expired =3D> New
 
 -- =
 
