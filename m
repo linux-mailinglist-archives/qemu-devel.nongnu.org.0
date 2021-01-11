@@ -2,104 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 22FC22F139F
-	for <lists+qemu-devel@lfdr.de>; Mon, 11 Jan 2021 14:12:22 +0100 (CET)
-Received: from localhost ([::1]:41704 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7246E2F135D
+	for <lists+qemu-devel@lfdr.de>; Mon, 11 Jan 2021 14:08:31 +0100 (CET)
+Received: from localhost ([::1]:35300 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kywzd-0002ZD-7G
-	for lists+qemu-devel@lfdr.de; Mon, 11 Jan 2021 08:12:21 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44034)
+	id 1kywvu-00089A-Ae
+	for lists+qemu-devel@lfdr.de; Mon, 11 Jan 2021 08:08:30 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43408)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <borntraeger@de.ibm.com>)
- id 1kywv7-00083G-N3; Mon, 11 Jan 2021 08:07:41 -0500
-Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:37444)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <borntraeger@de.ibm.com>)
- id 1kywv5-0003JV-UQ; Mon, 11 Jan 2021 08:07:41 -0500
-Received: from pps.filterd (m0098393.ppops.net [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id
- 10BD2K6c069656; Mon, 11 Jan 2021 08:07:38 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
- h=subject : to : cc :
- references : from : message-id : date : mime-version : in-reply-to :
- content-type : content-transfer-encoding; s=pp1;
- bh=iTgi2uwgC2CqgYtFrqz69Llwz2xEUqxKh6gHNLSeg9o=;
- b=nifMzeueauwKWH9j7HdlICsj+P9dX6Bnqi4lG9Gufksi80UEek/3iTrkm8P0yfvyGN+p
- AFH/ndM/ZGP618aVD5cxHjENhRuf5uqZFheL+OcwsMPuudrrwhpNtU8yAnmTFH9GskLo
- PvePsxXAclkudIBcl1pYt0SQuCZoKjMeVxvWQ3G3h5Hi2XQ5h273fLT7p4fQhrZeT+xM
- +c7bBWvJkhDZI6ThENAAKlGXzL7C3ehgCBF8xicXxTgRqPcEQ7PBkiy52eXkTDqK0YLH
- roNSJVji07pfa75cigdPRdtLM8s8EpE3aBSCQN8TpRT3a/eADL/NrQrzICihj132WdUk 3A== 
-Received: from pps.reinject (localhost [127.0.0.1])
- by mx0a-001b2d01.pphosted.com with ESMTP id 360p1qtda8-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Mon, 11 Jan 2021 08:07:38 -0500
-Received: from m0098393.ppops.net (m0098393.ppops.net [127.0.0.1])
- by pps.reinject (8.16.0.36/8.16.0.36) with SMTP id 10BD2RZj070456;
- Mon, 11 Jan 2021 08:07:37 -0500
-Received: from ppma04fra.de.ibm.com (6a.4a.5195.ip4.static.sl-reverse.com
- [149.81.74.106])
- by mx0a-001b2d01.pphosted.com with ESMTP id 360p1qtd8p-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Mon, 11 Jan 2021 08:07:37 -0500
-Received: from pps.filterd (ppma04fra.de.ibm.com [127.0.0.1])
- by ppma04fra.de.ibm.com (8.16.0.42/8.16.0.42) with SMTP id 10BCxAg2000397;
- Mon, 11 Jan 2021 13:02:35 GMT
-Received: from b06cxnps4075.portsmouth.uk.ibm.com
- (d06relay12.portsmouth.uk.ibm.com [9.149.109.197])
- by ppma04fra.de.ibm.com with ESMTP id 3604h98fjx-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Mon, 11 Jan 2021 13:02:35 +0000
-Received: from d06av22.portsmouth.uk.ibm.com (d06av22.portsmouth.uk.ibm.com
- [9.149.105.58])
- by b06cxnps4075.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 10BD2X8V37290442
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Mon, 11 Jan 2021 13:02:33 GMT
-Received: from d06av22.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id EB5A74C059;
- Mon, 11 Jan 2021 13:02:32 +0000 (GMT)
-Received: from d06av22.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id A55454C040;
- Mon, 11 Jan 2021 13:02:32 +0000 (GMT)
-Received: from oc7455500831.ibm.com (unknown [9.171.58.41])
- by d06av22.portsmouth.uk.ibm.com (Postfix) with ESMTP;
- Mon, 11 Jan 2021 13:02:32 +0000 (GMT)
-Subject: Re: [RHEL7 qemu-kvm PATCH 2/3] s390x: Fix vm name copy length
-To: Thomas Huth <thuth@redhat.com>, Miroslav Rezanina <mrezanin@redhat.com>
-References: <cover.1610364304.git.mrezanin@redhat.com>
- <e1ad733af7b23929456d05aacae693ce6462d4b3.1610364304.git.mrezanin@redhat.com>
- <5acb5521-fdd2-e511-9cc3-176086183dd5@redhat.com>
- <88c2eb01-f8f5-18d5-6513-57322930cc77@redhat.com>
- <115622555.32388560.1610368920610.JavaMail.zimbra@redhat.com>
- <f4c3ce8c-7688-461b-8ed2-2c8befc561a3@redhat.com>
-From: Christian Borntraeger <borntraeger@de.ibm.com>
-Message-ID: <7631e12a-5422-3167-51fd-1e853a119f8f@de.ibm.com>
-Date: Mon, 11 Jan 2021 14:02:32 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.5.0
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1kywtI-00078M-OS
+ for qemu-devel@nongnu.org; Mon, 11 Jan 2021 08:05:48 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:45446)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1kywtF-00031l-OH
+ for qemu-devel@nongnu.org; Mon, 11 Jan 2021 08:05:48 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1610370343;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=AvLEURk5qT3RQCZrwcDkIdE4y79Kt1wcCQbxBtdW6gM=;
+ b=T5chBlFjczOXLf6cF5Y+asb1xT48mYrigkSrNhYBN3gOaolskuwerl/rFwanJRYjiIB/ZI
+ SIHLEwAaiVZWF8FJUvMKk1fdoVJ08vBQBZoD9nahypbNIcq/ZOhXW8MHm1BDe3RigC/vXE
+ up6hhMW7CKtAGU+qLXFaPlQ23p2UH2Y=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-392-I4th_mpYMpKk1P2muWE4Pw-1; Mon, 11 Jan 2021 08:05:41 -0500
+X-MC-Unique: I4th_mpYMpKk1P2muWE4Pw-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id E06DCA0C06;
+ Mon, 11 Jan 2021 13:05:40 +0000 (UTC)
+Received: from blackfin.pond.sub.org (ovpn-112-172.ams2.redhat.com
+ [10.36.112.172])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 954146EF53;
+ Mon, 11 Jan 2021 13:05:40 +0000 (UTC)
+Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
+ id 26DE911386A7; Mon, 11 Jan 2021 14:05:39 +0100 (CET)
+From: Markus Armbruster <armbru@redhat.com>
+To: Paolo Bonzini <pbonzini@redhat.com>
+Subject: Re: [PATCH 18/20] keyval: Use GString to accumulate value strings
+References: <20201211171152.146877-1-armbru@redhat.com>
+ <20201211171152.146877-19-armbru@redhat.com>
+ <ee46bd65-e6bd-929b-74d1-1fb8110879c1@redhat.com>
+Date: Mon, 11 Jan 2021 14:05:39 +0100
+In-Reply-To: <ee46bd65-e6bd-929b-74d1-1fb8110879c1@redhat.com> (Paolo
+ Bonzini's message of "Tue, 22 Dec 2020 10:56:29 +0100")
+Message-ID: <87lfczk4ik.fsf@dusky.pond.sub.org>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.1 (gnu/linux)
 MIME-Version: 1.0
-In-Reply-To: <f4c3ce8c-7688-461b-8ed2-2c8befc561a3@redhat.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-X-TM-AS-GCONF: 00
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.343, 18.0.737
- definitions=2021-01-11_23:2021-01-11,
- 2021-01-11 signatures=0
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- bulkscore=0 spamscore=0
- adultscore=0 malwarescore=0 mlxlogscore=999 priorityscore=1501 mlxscore=0
- suspectscore=0 impostorscore=0 lowpriorityscore=0 phishscore=0
- clxscore=1015 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2009150000 definitions=main-2101110075
-Received-SPF: pass client-ip=148.163.156.1;
- envelope-from=borntraeger@de.ibm.com; helo=mx0a-001b2d01.pphosted.com
-X-Spam_score_int: -26
-X-Spam_score: -2.7
-X-Spam_bar: --
-X-Spam_report: (-2.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=armbru@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=armbru@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -29
+X-Spam_score: -3.0
+X-Spam_bar: ---
+X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.251,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -114,69 +81,37 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-s390x <qemu-s390x@nongnu.org>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
- qemu-devel@nongnu.org
+Cc: qemu-devel@nongnu.org, mdroth@linux.vnet.ibm.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+Paolo Bonzini <pbonzini@redhat.com> writes:
 
+> On 11/12/20 18:11, Markus Armbruster wrote:
+>> QString supports modifying its string, but it's quite limited: you can
+>> only append.  The remaining callers use it for building an initial
+>> string, never for modifying it later.
+>> Change keyval_parse_one() to do build the initial string with
+>> GString.
+>> This is another step towards making QString immutable.
+>> Signed-off-by: Markus Armbruster <armbru@redhat.com>
+>
+> It's a bit unfortunate that the infamous "keyval: accept escaped
+> commas in implied option" patch was already getting rid of mutable
+> QString.
+>
+> It used a completely different mechanism, namely unescaping the string
+> in place.  This means that my patch was doing n+1 allocations, versus
+> a best case of n and a generic case of O(n) for this patch.  The 
+> difference does not really matter, though I still like my code better.
 
-On 11.01.21 13:54, Thomas Huth wrote:
-> On 11/01/2021 13.42, Miroslav Rezanina wrote:
->>
->>
->> ----- Original Message -----
->>> From: "Thomas Huth" <thuth@redhat.com>
->>> To: "Philippe Mathieu-Daudé" <philmd@redhat.com>, mrezanin@redhat.com, qemu-devel@nongnu.org, "qemu-s390x"
->>> <qemu-s390x@nongnu.org>
->>> Sent: Monday, January 11, 2021 1:24:57 PM
->>> Subject: Re: [RHEL7 qemu-kvm PATCH 2/3] s390x: Fix vm name copy length
->>>
->>> On 11/01/2021 13.10, Philippe Mathieu-Daudé wrote:
->>>> Hi Miroslav,
->>>>
->>>> On 1/11/21 12:30 PM, mrezanin@redhat.com wrote:
->>>>> From: Miroslav Rezanina <mrezanin@redhat.com>
->>>>>
->>>>> There are two cases when vm name is copied but closing \0 can be lost
->>>>> in case name is too long (>=256 characters).
->>>>>
->>>>> Updating length to copy so there is space for closing \0.
->>>>>
->>>>> Signed-off-by: Miroslav Rezanina <mrezanin@redhat.com>
->>>>> ---
->>>>>    target/s390x/kvm.c         | 2 +-
->>>>>    target/s390x/misc_helper.c | 4 +++-
->>>>>    2 files changed, 4 insertions(+), 2 deletions(-)
->>>>>
->>>>> diff --git a/target/s390x/kvm.c b/target/s390x/kvm.c
->>>>> index b8385e6b95..2313b5727e 100644
->>>>> --- a/target/s390x/kvm.c
->>>>> +++ b/target/s390x/kvm.c
->>>>> @@ -1918,7 +1918,7 @@ static void insert_stsi_3_2_2(S390CPU *cpu, __u64
->>>>> addr, uint8_t ar)
->>>>>         */
->>>>>        if (qemu_name) {
->>>>>            strncpy((char *)sysib.ext_names[0], qemu_name,
->>>>> -                sizeof(sysib.ext_names[0]));
->>>>> +                sizeof(sysib.ext_names[0]) - 1);
->>>>>        } else {
->>>>>            strcpy((char *)sysib.ext_names[0], "KVMguest");
->>>>>        }
->>>>
->>>> What about using strpadcpy() instead?
->>>
->>> Yes, strpadcpy is the better way here - this field has to be padded with
->>> zeroes, so doing "- 1" is wrong here.
->>
->> Hi Thomas,
->>
->> as I wrote in reply to Phillipe - the array is memset to zeroes before the if so we
->> are sure it's padded with zeroes (in this occurrence, not true for second one).
-> 
-> Ok, but dropping the last character is still wrong here. The ext_names do not need to be terminated with a \0 if they have the full length.
-The current code is actually correct. We are perfectly fine without the final \n if the string is really 256 bytes.
+My patch is not intended as a replacement of yours.  Mine does much
+less.
 
-Replacing memset + strncpy with strpadcpy is certainly a good cleanup. Is it necessary? No.
+I had to choose between creating a conflict and holding back my series
+while we figure out what to do with your patch.  The dilemma is my own
+doing; your patch is waiting just for me.  I picked the conflict.
+
+I can look into rebasing your patch on top of mine.
+
 
