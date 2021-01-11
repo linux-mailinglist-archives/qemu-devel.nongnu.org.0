@@ -2,102 +2,83 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9FBD52F0F66
-	for <lists+qemu-devel@lfdr.de>; Mon, 11 Jan 2021 10:47:27 +0100 (CET)
-Received: from localhost ([::1]:47970 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D31C02F0F71
+	for <lists+qemu-devel@lfdr.de>; Mon, 11 Jan 2021 10:51:00 +0100 (CET)
+Received: from localhost ([::1]:52710 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kytnK-0005Rb-O8
-	for lists+qemu-devel@lfdr.de; Mon, 11 Jan 2021 04:47:26 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51158)
+	id 1kytql-0007ZQ-Ts
+	for lists+qemu-devel@lfdr.de; Mon, 11 Jan 2021 04:50:59 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51798)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <borntraeger@de.ibm.com>)
- id 1kytmH-0004z1-6Y; Mon, 11 Jan 2021 04:46:21 -0500
-Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:32800
- helo=mx0a-001b2d01.pphosted.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <borntraeger@de.ibm.com>)
- id 1kytmA-0007yD-Gk; Mon, 11 Jan 2021 04:46:20 -0500
-Received: from pps.filterd (m0098414.ppops.net [127.0.0.1])
- by mx0b-001b2d01.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id
- 10B9i1SP010588; Mon, 11 Jan 2021 04:46:11 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
- h=subject : to : cc :
- references : from : message-id : date : mime-version : in-reply-to :
- content-type : content-transfer-encoding; s=pp1;
- bh=ItrIfx1YNuyHTNeOf33J+V0QCsMMJ872rZLTmqbNzT8=;
- b=eW8p9s+apV4yn68mQd5n9R0CyxfKLKBTcc2u4c5HUFwDaCe+ASqOrZCALP1k7OlOabCT
- 8NVcAqMhT6Xuy+ULaGm+Ri4bj8vBeH2dcGOg1PrpncxloVfgLZzR3p/vEB/zTaWKsP6Z
- frsd1g/MtJ/eMI3AK0HQcznNDTTD5NvS8GdXvyEMGXp7zDfN3jwo1qn/rEbHO/MFf1tR
- 15KgV7LbfodpJCKq4CAGfJcwDCdYAKvJcECmIaTLR5CsjjiJAsILr/hijETSI72vCgH1
- 7RrqdEHEdCMJSSQYtPduaUGrexa7z3mJ2lRDVTqThOkhEj0ESgpdI1G7jQ/XqPeFuy5W eQ== 
-Received: from pps.reinject (localhost [127.0.0.1])
- by mx0b-001b2d01.pphosted.com with ESMTP id 360ma301ah-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Mon, 11 Jan 2021 04:46:11 -0500
-Received: from m0098414.ppops.net (m0098414.ppops.net [127.0.0.1])
- by pps.reinject (8.16.0.36/8.16.0.36) with SMTP id 10B9jngi013969;
- Mon, 11 Jan 2021 04:46:11 -0500
-Received: from ppma03fra.de.ibm.com (6b.4a.5195.ip4.static.sl-reverse.com
- [149.81.74.107])
- by mx0b-001b2d01.pphosted.com with ESMTP id 360ma3019t-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Mon, 11 Jan 2021 04:46:11 -0500
-Received: from pps.filterd (ppma03fra.de.ibm.com [127.0.0.1])
- by ppma03fra.de.ibm.com (8.16.0.42/8.16.0.42) with SMTP id 10B9XPHi001192;
- Mon, 11 Jan 2021 09:46:09 GMT
-Received: from b06avi18626390.portsmouth.uk.ibm.com
- (b06avi18626390.portsmouth.uk.ibm.com [9.149.26.192])
- by ppma03fra.de.ibm.com with ESMTP id 35y4489324-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Mon, 11 Jan 2021 09:46:09 +0000
-Received: from d06av25.portsmouth.uk.ibm.com (d06av25.portsmouth.uk.ibm.com
- [9.149.105.61])
- by b06avi18626390.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP
- id 10B9k22231261058
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Mon, 11 Jan 2021 09:46:02 GMT
-Received: from d06av25.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 2C1F511C04C;
- Mon, 11 Jan 2021 09:46:07 +0000 (GMT)
-Received: from d06av25.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id A9D1A11C04A;
- Mon, 11 Jan 2021 09:46:06 +0000 (GMT)
-Received: from oc7455500831.ibm.com (unknown [9.171.14.9])
- by d06av25.portsmouth.uk.ibm.com (Postfix) with ESMTP;
- Mon, 11 Jan 2021 09:46:06 +0000 (GMT)
-Subject: Re: [PATCH] vhost-user-fs: add the "bootindex" property
-To: Laszlo Ersek <lersek@redhat.com>, qemu devel list <qemu-devel@nongnu.org>
-References: <20210104132401.5100-1-lersek@redhat.com>
-From: Christian Borntraeger <borntraeger@de.ibm.com>
-Message-ID: <f296274e-3c4b-bb90-ca4a-273c3bd97f7f@de.ibm.com>
-Date: Mon, 11 Jan 2021 10:46:06 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.5.0
+ (Exim 4.90_1) (envelope-from <pizhenwei@bytedance.com>)
+ id 1kytpR-0006zz-51
+ for qemu-devel@nongnu.org; Mon, 11 Jan 2021 04:49:37 -0500
+Received: from mail-pj1-x102a.google.com ([2607:f8b0:4864:20::102a]:50928)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <pizhenwei@bytedance.com>)
+ id 1kytpH-00015p-JA
+ for qemu-devel@nongnu.org; Mon, 11 Jan 2021 04:49:35 -0500
+Received: by mail-pj1-x102a.google.com with SMTP id lj6so7487631pjb.0
+ for <qemu-devel@nongnu.org>; Mon, 11 Jan 2021 01:49:26 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=bytedance-com.20150623.gappssmtp.com; s=20150623;
+ h=subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=Q1iEf947VCghePgSJ74LaLv2dmH3vzHIZoLAV+/bBUI=;
+ b=pBVTSHVOY/QS8yD6vKY15uHg1cdsFgeE9rw0vZ6eKzgL5XJIPeQkGjBDXeKDWuzrp2
+ 1Q9prQ6/1zs3rCOYggIxF24aXLG5WV4ENZj8QUqfiUstmT3Wcei2WcKSCdQSGoLu/Tdx
+ SrPxZxJNYdRy2bw2iSzFH4eKjlgGXgkQQRZ1qSHEwTh/nqfLh4mHeFDASv2xssJ5JbIf
+ pKHNv51zqCvEpypWy/VGRnVYjj4Afg3wb4uQtSwrbCdDj91uDxRy7sqRH1Ps+RS6QFmZ
+ 20KTYwPuSJ45ojJQa3vJRWxGHTNX/d8JCKeuDkGkDFZieWcu128UupWV6B/PkPFijtcH
+ l6dw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=Q1iEf947VCghePgSJ74LaLv2dmH3vzHIZoLAV+/bBUI=;
+ b=iWiyjigy84yaC8R695WaWBzXVO7aLVkCFDZ+xSZD2rSNDN0NxEz8F+PBy+x4HEvdzT
+ zgSmfIjl/kdt8fGQU9davSW85wTTMNSticPWNDuB7ckAgBObzEvkmeVbNEXhldyt3t6u
+ 9gSs5KXhXdOtF8p+Hr+PR5TR9tUa8hv78Vyktz1at2xqdBdfLJsGGzxmpkYs9ojuJDBw
+ loUOei4HqN+8kKsTY/r14t6AAm+zBF7euED5zWdjnR0yzxFLNddH3zpJuUpIKLGzPKWW
+ OqNTxrNQQ2d9JEl2IaQaXZtNPt3r415f/tZYylC7rJCG7K1FclwimRbzAkjKffMJ7A5K
+ SWsg==
+X-Gm-Message-State: AOAM531QB9YWewAIQMWdFoGOYM45RGMMcxCGMRDuLY7MtFIqEGrR7YYZ
+ sCwA0nIzGK85aFEDmax/7pymFA==
+X-Google-Smtp-Source: ABdhPJyyrlqcs2vbkC2CjNPhg+y+uoS+m9hoVTbx8tlvg+hOwBkDWbU5iGPwGziwkX7P9QBN+TlZkA==
+X-Received: by 2002:a17:90b:19d2:: with SMTP id
+ nm18mr17825571pjb.159.1610358564924; 
+ Mon, 11 Jan 2021 01:49:24 -0800 (PST)
+Received: from [10.2.24.220] ([61.120.150.77])
+ by smtp.gmail.com with ESMTPSA id s7sm14999908pgi.69.2021.01.11.01.49.22
+ (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
+ Mon, 11 Jan 2021 01:49:24 -0800 (PST)
+Subject: Re: [External] Re: [PATCH] hw/block/nvme: add smart_critical_warning
+ property
+To: Klaus Jensen <its@irrelevant.dk>,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+References: <20210111075003.151764-1-pizhenwei@bytedance.com>
+ <3ebda26a-2734-242b-c553-2092ba7f4b35@redhat.com>
+ <X/wYhMjr03odt+eq@apples.localdomain>
+From: zhenwei pi <pizhenwei@bytedance.com>
+Message-ID: <85e2b54b-7fb0-26b1-8bd5-73d470d3b386@bytedance.com>
+Date: Mon, 11 Jan 2021 17:49:18 +0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.6.1
 MIME-Version: 1.0
-In-Reply-To: <20210104132401.5100-1-lersek@redhat.com>
-Content-Type: text/plain; charset=utf-8
+In-Reply-To: <X/wYhMjr03odt+eq@apples.localdomain>
+Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-TM-AS-GCONF: 00
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.343, 18.0.737
- definitions=2021-01-09_13:2021-01-07,
- 2021-01-09 signatures=0
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- mlxlogscore=999
- suspectscore=0 impostorscore=0 lowpriorityscore=0 malwarescore=0
- bulkscore=0 mlxscore=0 adultscore=0 spamscore=0 clxscore=1011
- priorityscore=1501 phishscore=0 classifier=spam adjust=0 reason=mlx
- scancount=1 engine=8.12.0-2009150000 definitions=main-2101110057
-Received-SPF: pass client-ip=148.163.158.5;
- envelope-from=borntraeger@de.ibm.com; helo=mx0a-001b2d01.pphosted.com
-X-Spam_score_int: -26
-X-Spam_score: -2.7
-X-Spam_bar: --
-X-Spam_report: (-2.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.012,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::102a;
+ envelope-from=pizhenwei@bytedance.com; helo=mail-pj1-x102a.google.com
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, NICE_REPLY_A=-0.012, RCVD_IN_DNSWL_NONE=-0.0001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -110,125 +91,98 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: virtio-fs@redhat.com, "Michael S. Tsirkin" <mst@redhat.com>,
- Cornelia Huck <cohuck@redhat.com>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
- Halil Pasic <pasic@linux.ibm.com>, qemu-s390x@nongnu.org,
- Stefan Hajnoczi <stefanha@redhat.com>
+Cc: kbusch@kernel.org, kwolf@redhat.com, qemu-devel@nongnu.org,
+ qemu-block@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+On 1/11/21 5:21 PM, Klaus Jensen wrote:
+> On Jan 11 10:14, Philippe Mathieu-Daudé wrote:
+>> On 1/11/21 8:50 AM, zhenwei pi wrote:
+>>> There is a very low probability that hitting physical NVMe disk
+>>> hardware critical warning case, it's hard to write & test a monitor
+>>> agent service.
+>>>
+>>> For debugging purposes, add a new 'smart_critical_warning' property
+>>> to emulate this situation.
+>>>
+>>> Test with this patch:
+>>> 1, append 'smart_critical_warning=16' for nvme parameters.
+>>> 2, run smartctl in guest
+>>>   #smartctl -H -l error /dev/nvme0n1
+>>>
+>>>    === START OF SMART DATA SECTION ===
+>>>    SMART overall-health self-assessment test result: FAILED!
+>>>    - volatile memory backup device has failed
+>>>
+>>> Signed-off-by: zhenwei pi <pizhenwei@bytedance.com>
+>>> ---
+>>>   hw/block/nvme.c | 4 ++++
+>>>   hw/block/nvme.h | 1 +
+>>>   2 files changed, 5 insertions(+)
+>>>
+>>> diff --git a/hw/block/nvme.c b/hw/block/nvme.c
+>>> index 27d2c72716..2f0bcac91c 100644
+>>> --- a/hw/block/nvme.c
+>>> +++ b/hw/block/nvme.c
+>>> @@ -1215,6 +1215,8 @@ static uint16_t nvme_smart_info(NvmeCtrl *n, uint8_t rae, uint32_t buf_len,
+>>>   
+>>>       trans_len = MIN(sizeof(smart) - off, buf_len);
+>>>   
+>>> +    smart.critical_warning = n->params.smart_critical_warning;
+>>> +
+>>>       smart.data_units_read[0] = cpu_to_le64(DIV_ROUND_UP(stats.units_read,
+>>>                                                           1000));
+>>>       smart.data_units_written[0] = cpu_to_le64(DIV_ROUND_UP(stats.units_written,
+>>> @@ -2824,6 +2826,8 @@ static Property nvme_props[] = {
+>>>       DEFINE_PROP_UINT32("aer_max_queued", NvmeCtrl, params.aer_max_queued, 64),
+>>>       DEFINE_PROP_UINT8("mdts", NvmeCtrl, params.mdts, 7),
+>>>       DEFINE_PROP_BOOL("use-intel-id", NvmeCtrl, params.use_intel_id, false),
+>>> +    DEFINE_PROP_UINT8("smart_critical_warning", NvmeCtrl,
+>>> +                      params.smart_critical_warning, 0),
+>>>       DEFINE_PROP_END_OF_LIST(),
+>>>   };
+>>>   
+>>> diff --git a/hw/block/nvme.h b/hw/block/nvme.h
+>>> index e080a2318a..76684f5ac0 100644
+>>> --- a/hw/block/nvme.h
+>>> +++ b/hw/block/nvme.h
+>>> @@ -16,6 +16,7 @@ typedef struct NvmeParams {
+>>>       uint32_t aer_max_queued;
+>>>       uint8_t  mdts;
+>>>       bool     use_intel_id;
+>>> +    uint8_t  smart_critical_warning;
+>>>   } NvmeParams;
+>>>   
+>>>   typedef struct NvmeAsyncEvent {
+>>>
+>>
+>> This is an easy way to achieve your goal.
+>>
+>> However a better way is to add a QMP command to
+>> change NvmeCtrl->temperature.
+>>
+>> See for example tmp105_initfn() in hw/misc/tmp105.c
+>> and qmp_tmp105_set_temperature() in tests/qtest/tmp105-test.c.
+>>
+> 
+> Nice.
+> 
+> +1 for this approach.
+> 
 
+Using QMP command to change NvmeCtrl->temperature only triggers 
+NVME_SMART_TEMPERATURE warning, it's OK to test the work flow of uplayer 
+software, but it's not enough to test all the cases of each warning.
 
-On 04.01.21 14:24, Laszlo Ersek wrote:
-> virtio-fs qualifies as a bootable device minimally under OVMF, but
-> currently the necessary "bootindex" property is missing (fw_cfg kernel
-> boot notwithstanding).
-> 
-> Add the property. For completeness, add it to the CCW device as well;
-> other virtio-ccw devices seem to have "bootindex" properties too.
+ From NVMe version 1.3 to 1.4, a new bit definition has been added(bit 
+5, Persistent Memory Region has become read-only or unreliable). Before 
+we really hit this warning on a physical disk, we can use QEMU to test 
+this feature(maybe another new feature in the future).
 
-Currently we do not have boot support for virtiofs on s390x (ccw)
-Not sure if it is better if we should add the property now or whenever
-boot support is implemented. 
-As of today we do have bootindex for block and net. Maybe it is better
-to defer bootindex for virtio-fs-ccw until we can boot from it? In
-that way management software can detect if this is bootable or not?
+I don't disagree "add a QMP command" solution, but I think QEMU should 
+be able to emulate all of the warnings(not only temperature).
 
-> 
-> Example OpenFirmware device path for the "vhost-user-fs-pci" device in the
-> "bootorder" fw_cfg file:
-> 
->   /pci@i0cf8/pci-bridge@1,6/pci1af4,105a@0/filesystem@0
-> 
-> Cc: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
-> Cc: "Michael S. Tsirkin" <mst@redhat.com>
-> Cc: Christian Borntraeger <borntraeger@de.ibm.com>
-> Cc: Cornelia Huck <cohuck@redhat.com>
-> Cc: Halil Pasic <pasic@linux.ibm.com>
-> Cc: Stefan Hajnoczi <stefanha@redhat.com>
-> Cc: qemu-s390x@nongnu.org
-> Cc: virtio-fs@redhat.com
-> Signed-off-by: Laszlo Ersek <lersek@redhat.com>
-> ---
->  include/hw/virtio/vhost-user-fs.h |  1 +
->  hw/s390x/vhost-user-fs-ccw.c      |  2 ++
->  hw/virtio/vhost-user-fs-pci.c     |  2 ++
->  hw/virtio/vhost-user-fs.c         | 10 ++++++++++
->  4 files changed, 15 insertions(+)
-> 
-> diff --git a/include/hw/virtio/vhost-user-fs.h b/include/hw/virtio/vhost-user-fs.h
-> index 698575277101..0d62834c2510 100644
-> --- a/include/hw/virtio/vhost-user-fs.h
-> +++ b/include/hw/virtio/vhost-user-fs.h
-> @@ -39,6 +39,7 @@ struct VHostUserFS {
->      VhostUserState vhost_user;
->      VirtQueue **req_vqs;
->      VirtQueue *hiprio_vq;
-> +    int32_t bootindex;
->  
->      /*< public >*/
->  };
-> diff --git a/hw/s390x/vhost-user-fs-ccw.c b/hw/s390x/vhost-user-fs-ccw.c
-> index 6c6f26929301..474e97e937b8 100644
-> --- a/hw/s390x/vhost-user-fs-ccw.c
-> +++ b/hw/s390x/vhost-user-fs-ccw.c
-> @@ -47,6 +47,8 @@ static void vhost_user_fs_ccw_instance_init(Object *obj)
->      ccw_dev->force_revision_1 = true;
->      virtio_instance_init_common(obj, &dev->vdev, sizeof(dev->vdev),
->                                  TYPE_VHOST_USER_FS);
-> +    object_property_add_alias(obj, "bootindex", OBJECT(&dev->vdev),
-> +                              "bootindex");
->  }
->  
->  static void vhost_user_fs_ccw_class_init(ObjectClass *klass, void *data)
-> diff --git a/hw/virtio/vhost-user-fs-pci.c b/hw/virtio/vhost-user-fs-pci.c
-> index 8bb389bd282a..2ed8492b3fa3 100644
-> --- a/hw/virtio/vhost-user-fs-pci.c
-> +++ b/hw/virtio/vhost-user-fs-pci.c
-> @@ -68,6 +68,8 @@ static void vhost_user_fs_pci_instance_init(Object *obj)
->  
->      virtio_instance_init_common(obj, &dev->vdev, sizeof(dev->vdev),
->                                  TYPE_VHOST_USER_FS);
-> +    object_property_add_alias(obj, "bootindex", OBJECT(&dev->vdev),
-> +                              "bootindex");
->  }
->  
->  static const VirtioPCIDeviceTypeInfo vhost_user_fs_pci_info = {
-> diff --git a/hw/virtio/vhost-user-fs.c b/hw/virtio/vhost-user-fs.c
-> index ed036ad9c13f..ac4fc34b36a2 100644
-> --- a/hw/virtio/vhost-user-fs.c
-> +++ b/hw/virtio/vhost-user-fs.c
-> @@ -22,6 +22,7 @@
->  #include "qemu/error-report.h"
->  #include "hw/virtio/vhost-user-fs.h"
->  #include "monitor/monitor.h"
-> +#include "sysemu/sysemu.h"
->  
->  static void vuf_get_config(VirtIODevice *vdev, uint8_t *config)
->  {
-> @@ -279,6 +280,14 @@ static Property vuf_properties[] = {
->      DEFINE_PROP_END_OF_LIST(),
->  };
->  
-> +static void vuf_instance_init(Object *obj)
-> +{
-> +    VHostUserFS *fs = VHOST_USER_FS(obj);
-> +
-> +    device_add_bootindex_property(obj, &fs->bootindex, "bootindex",
-> +                                  "/filesystem@0", DEVICE(obj));
-> +}
-> +
->  static void vuf_class_init(ObjectClass *klass, void *data)
->  {
->      DeviceClass *dc = DEVICE_CLASS(klass);
-> @@ -300,6 +309,7 @@ static const TypeInfo vuf_info = {
->      .name = TYPE_VHOST_USER_FS,
->      .parent = TYPE_VIRTIO_DEVICE,
->      .instance_size = sizeof(VHostUserFS),
-> +    .instance_init = vuf_instance_init,
->      .class_init = vuf_class_init,
->  };
->  
-> 
+-- 
+zhenwei pi
 
