@@ -2,48 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F21F72F18E6
-	for <lists+qemu-devel@lfdr.de>; Mon, 11 Jan 2021 15:56:49 +0100 (CET)
-Received: from localhost ([::1]:35332 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 038892F1917
+	for <lists+qemu-devel@lfdr.de>; Mon, 11 Jan 2021 16:04:06 +0100 (CET)
+Received: from localhost ([::1]:47918 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kyyci-0005Fw-J2
-	for lists+qemu-devel@lfdr.de; Mon, 11 Jan 2021 09:56:48 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42386)
+	id 1kyyjk-0002a4-US
+	for lists+qemu-devel@lfdr.de; Mon, 11 Jan 2021 10:04:04 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44384)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <luc.michel@greensocs.com>)
- id 1kyyWx-0001hV-3V
- for qemu-devel@nongnu.org; Mon, 11 Jan 2021 09:50:51 -0500
-Received: from beetle.greensocs.com ([5.135.226.135]:50140)
+ (Exim 4.90_1) (envelope-from <posteuca@mutex.one>)
+ id 1kyyfq-00087B-OQ; Mon, 11 Jan 2021 10:00:02 -0500
+Received: from mail.mutex.one ([62.77.152.124]:37726)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <luc.michel@greensocs.com>)
- id 1kyyWu-0008R7-CI
- for qemu-devel@nongnu.org; Mon, 11 Jan 2021 09:50:50 -0500
-Received: from [172.17.10.14] (unknown [172.17.10.14])
- by beetle.greensocs.com (Postfix) with ESMTPSA id AEB5221C35;
- Mon, 11 Jan 2021 14:50:43 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=greensocs.com;
- s=mail; t=1610376644;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=B3qJbjEteXVYAqVIFPYk31dITi1ngRiw5JWBmHO43nc=;
- b=zPT6f31A/d8vP5WMhsf7Rf/3VQXTMXGZUT94sxNpyHRQZ0eVujFAsz1coFQ3BibVXut3bo
- kwlOAAYytTrY/oaFPlEsMW7s6r++WPrtwKF5VvxNPzpwBjheY2WkT8jZynFUB/gSakwLU0
- 5cuDND1SfnMdBIJMYRwRF8PbzmqleZA=
-To: qemu-devel@nongnu.org
-From: Luc Michel <luc.michel@greensocs.com>
-Subject: About creating machines on the command line
-Message-ID: <13ecc030-f42b-5a27-a0b3-b07921426ce9@greensocs.com>
-Date: Mon, 11 Jan 2021 15:50:58 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.6.0
+ (Exim 4.90_1) (envelope-from <posteuca@mutex.one>)
+ id 1kyyfo-00012w-UF; Mon, 11 Jan 2021 10:00:02 -0500
+Received: from localhost (localhost.localdomain [127.0.0.1])
+ by mail.mutex.one (Postfix) with ESMTP id B9A74BF4048F;
+ Mon, 11 Jan 2021 16:59:56 +0200 (EET)
+X-Virus-Scanned: Debian amavisd-new at mail.mutex.one
+Received: from mail.mutex.one ([127.0.0.1])
+ by localhost (mail.mutex.one [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id 31n7mnM33THg; Mon, 11 Jan 2021 16:59:56 +0200 (EET)
+Received: [127.0.0.1] (localhost [127.0.0.1])nknown [109.103.89.101])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by mail.mutex.one (Postfix) with ESMTPSA id EE8D5BF4010A;
+ Mon, 11 Jan 2021 16:59:55 +0200 (EET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=mutex.one; s=default;
+ t=1610377196; bh=YdTUoUk+skkqNAaKlUTiQZsyezzqhs0DzOvszAagqMQ=;
+ h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
+ b=UqNcLOAvJ/IxbvZxM2D8iAabYEQPDAMF5R+fPBVVucPDK5gAdv4zPMHAeZi8n/i2W
+ TSbHxIgBOjEYlQXByHN8k4JUh0Zm6mCqYP+IB0ksVW5DK9fM+nOivFkH5EcwEvxcpr
+ NJ7uysxeauGGiEVxmYRiominuJNFFBJa9kh4y8z0=
+From: Marian Posteuca <posteuca@mutex.one>
+To: Igor Mammedov <imammedo@redhat.com>
+Subject: Re: [PATCH v3] acpi: Permit OEM ID and OEM table ID fields to be
+ changed
+In-Reply-To: <20210106182430.6bf1823a@redhat.com>
+References: <20201230221302.26800-1-posteuca@mutex.one>
+ <20210106182430.6bf1823a@redhat.com>
+Date: Mon, 11 Jan 2021 16:59:54 +0200
+Message-ID: <87bldvldsl.fsf@mutex.one>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=5.135.226.135;
- envelope-from=luc.michel@greensocs.com; helo=beetle.greensocs.com
+Content-Type: text/plain
+Received-SPF: pass client-ip=62.77.152.124; envelope-from=posteuca@mutex.one;
+ helo=mail.mutex.one
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -62,82 +66,32 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Damien Hedde <damien.hedde@greensocs.com>, peter.maydell@linaro.org,
- richard.fuhler@sifive.com, berrange@redhat.com, sam.grove@sifive.com,
- Mark Burton <mark.burton@greensocs.com>, f4bug@amsat.org, armbru@redhat.com,
- edgar.iglesias@gmail.com
+Cc: Peter Maydell <peter.maydell@linaro.org>, Sergio Lopez <slp@redhat.com>,
+ Eduardo Habkost <ehabkost@redhat.com>, Ben Warren <ben@skyportsystems.com>,
+ "Michael S. Tsirkin" <mst@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org,
+ Dongjiu Geng <gengdongjiu@huawei.com>, Shannon Zhao <shannon.zhaosl@gmail.com>,
+ Xiang Zheng <zhengxiang9@huawei.com>, qemu-arm@nongnu.org,
+ Paolo Bonzini <pbonzini@redhat.com>,
+ Xiao Guangrong <xiaoguangrong.eric@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi,
+Igor Mammedov <imammedo@redhat.com> writes:
 
-We would like to work on improving QEMU to be able to create custom 
-machines from the command line. The goal here is to get feedback from 
-the community and shape the future developments.
+> overall looks good.
+> Please add a test case for it, see
+> tests/qtest/bios-tables-test.c for description how to do it
+> an/or at
+>   "[PATCH v3 08/12] tests/acpi: allow updates for expected data files"
+> and follow up patches on the list.
+When you say add a test case, do you mean only updating the binary
+files in tests/data/acpi/{microvm,pc,q35,virt} according to the steps
+at the start of the file bios-tables-test.c? Or do you also mean an actual
+test case to be added in bios-tables-test.c?
 
-The use case mainly comes from people working with tools to customize 
-their designs, such as SiFive Core Designer 
-(https://scs.sifive.com/core-designer). This kind of tools may allow 
-creation or customization of a whole SoC, from the number of cores, to 
-the memory and IRQ mapping of peripherals etc.
-
-The ultimate goal would be to be able to create any kind of machine on 
-the command line. However we are aware that this is a substantial amount 
-of changes in QEMU.
-
-In its current state, QEMU allows for very limited customization of 
-existing machines on the command line. We identified the following 
-limitations (feel free to add to the list):
-
-   - Most devices are not user creatable. Moreover, sysbus devices must 
-be explicitly allowed by a machine to be creatable through `-device`,
-
-   - Memory regions cannot be created on the command line,
-
-   - Device MMIO regions cannot be mapped on a bus from the command line,
-
-   - GPIOs and clocks cannot be wired from the command line,
-
-   - CPUs are not sysbus devices (and not user-creatable). They need 
-special care when creating them regarding system reset. Not being on a 
-bus means that they must be reset manually on system reset. This is done 
-in machines by registering a QEMU reset handler.
-
-   - Machine specific boot code is usually hard-coded into the machine 
-itself.  Some architectures (e.g. ARM) do factorize bootloader related 
-code, but there is no standard way of doing that in QEMU.
-
-We don't want to address all those limitations at once. We plan to start 
-with the following scenario:
-
-   - Start with a base machine that would handle CPU creation and 
-bootloader stuff. Note that the "none" machine is probably not 
-sufficient in its current shape. It does allow only one CPU and 
-obviously does not handle the boot process.
-
-   - Allow for this machine every sysbus devices we want to be user 
-command-line creatable (and mark them user_creatable if needed)
-
-   - Add command line options to create memory regions (probably ram 
-ones at first)
-
-   - Add command line options to map a memory region (including sysbus 
-device MMIO regions) onto another (memory_region_add_subregion)
-
-   - Add command line options to connect GPIOs and clocks.
-
-This would hopefully allow for simple machines creation. We would then 
-be able to use either the command line or the `-readconfig` option to 
-create the machine.
-
-Note that we are not planning to use QMP/HMP for now. From our 
-understanding, a `device_add` request is always considered as hot-plug, 
-which is not what we want here.
-
-Please tell us what do you think about this plan. Any feedback is 
-appreciated.  Then we can discuss the details of how to do this properly.
-Thanks!
-
---
-Luc
+Also the step 6 described in bios-tables-test.c mentions that the diff of
+the ACPI table must be added to the commit log, but my change touches
+all the tables for all architectures so that would mean that I would
+have to create a huge commit log. How should I approach this?
 
