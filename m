@@ -2,70 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 971242F1EA8
-	for <lists+qemu-devel@lfdr.de>; Mon, 11 Jan 2021 20:09:16 +0100 (CET)
-Received: from localhost ([::1]:33758 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9B8292F1EBA
+	for <lists+qemu-devel@lfdr.de>; Mon, 11 Jan 2021 20:14:04 +0100 (CET)
+Received: from localhost ([::1]:42568 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kz2Z1-0003qH-Ms
-	for lists+qemu-devel@lfdr.de; Mon, 11 Jan 2021 14:09:15 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47002)
+	id 1kz2df-0007Vc-K6
+	for lists+qemu-devel@lfdr.de; Mon, 11 Jan 2021 14:14:03 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47034)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1kz2RW-0005sE-I6
- for qemu-devel@nongnu.org; Mon, 11 Jan 2021 14:01:30 -0500
-Received: from mail-pf1-x429.google.com ([2607:f8b0:4864:20::429]:43268)
+ id 1kz2RY-0005vN-34
+ for qemu-devel@nongnu.org; Mon, 11 Jan 2021 14:01:32 -0500
+Received: from mail-pg1-x52d.google.com ([2607:f8b0:4864:20::52d]:35378)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1kz2RU-0006Oj-OF
- for qemu-devel@nongnu.org; Mon, 11 Jan 2021 14:01:30 -0500
-Received: by mail-pf1-x429.google.com with SMTP id c12so483910pfo.10
- for <qemu-devel@nongnu.org>; Mon, 11 Jan 2021 11:01:28 -0800 (PST)
+ id 1kz2RW-0006PW-DJ
+ for qemu-devel@nongnu.org; Mon, 11 Jan 2021 14:01:31 -0500
+Received: by mail-pg1-x52d.google.com with SMTP id n7so281392pgg.2
+ for <qemu-devel@nongnu.org>; Mon, 11 Jan 2021 11:01:29 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=5Vo6hKG+XeXChWCO/nvW6DJ7PoxmnMyeEjcU9Aitm8k=;
- b=wB8QbFzCmsJAZTXrsgIP+l7TBsqQDhPTNBcXt3a68iZP+fMcz5sVl/XBacPT/dFsCo
- r6N+1UvTNvw/Q0xtA5/G+5LU6elom4o2h9D/p8x/9cTWFsDxFl56CCgl8/zhRSGsZep2
- vkHwd+cw059z5Atmu8r7ZvJHIRuauWu9j81OHN1Glr2BNy8R2E8BscB5Qz6zmAoAL+Gj
- XKOxnbjAhzVCJGKu43BM3ZEy+g6P0jARQZqAQpXMb9DRc7tYS2wTAfsc5r9iVHBW7Wny
- 4rm4UNgPSYBl13HzA3HXiEZq8+kzCKydRscVlDPQvfz9vuEWiww0+vZ2KcZWQU0MsWHJ
- iKag==
+ bh=Eqku9olTG9KcFAe0Bboq71aa8Qg5GclGuwOXsQ8VxnQ=;
+ b=HUpgZHTqPegkXvHDjb+0RAGfu6JGta9zzUU+7Yf7+/LRQcdHUIOvEXqPN3h4xdbge7
+ gpmaCSOL+k3npdkFcE3cSzOP+qXwZdeslyYq7RPZYzGCnVMRgbrUr8FSpaC6FTn50z29
+ Dx2BHCM78hxky0jzHbmnwD6PkMOJBBDuquVyZcVA9UVUN8yPU5MMF05EiIK8vj5+CQsV
+ yM9Z9IPTj8YxYFratsg0tarEkYq+PrdsL+vgGnYgxFaCNvnIRdASSXrpLF3E8Ao+bX+z
+ JJ/qqdnLE0jcPme6nsSbwK7qcbRcLtejZWDyYi6SWEqHc8HUSEGTqVCx/2Us7FiDOIvf
+ qxYw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=5Vo6hKG+XeXChWCO/nvW6DJ7PoxmnMyeEjcU9Aitm8k=;
- b=NdKjjy69AThVFrBcYdHyUcmcf00VIYcID/dSMjFKZrkvxnB/r0ZpstcTE7HyOAkxp3
- eBdzJ9EWwt9K76O+a7ViqyQErryGPVxdlqonSVrMPpiLKSuYy+lPbqW0nVR/7NAs/BLX
- 2giAUhy7ePhPPmfMi+WmEXPtC48TJF1RxzQipULCRSHxsQ4iuO4360gkyQyuQn0zZ9Xl
- 7mXrx3CjsRA0v3ZwxZvcu3R1UYuGpMy8xW1yr4zCHuiYuM3XPjyYZryO6+NsMNUPw5W1
- 9X9ybTaYiMwPOVC3tnBfoB0IdoJV+Gofp80pcIlU8nRBb/QRhmuQ8jQj78muHKtpn9lT
- kOfQ==
-X-Gm-Message-State: AOAM531dmBTG2qT+uAV2R50nIhYQNquodnGbbQPhW3y7svQOCw+T1rbz
- N1XXovJOEzPsdLY7txkiFwwgyoGcJvu2LA==
-X-Google-Smtp-Source: ABdhPJy1TFhOmpyXVDRg+jXF2h8lxJ6Adhl1UOsF7O1PyWXmJuORIwNoV/7E9T67mYfWqWlPVFwktA==
-X-Received: by 2002:aa7:860b:0:b029:19e:2827:93b7 with SMTP id
- p11-20020aa7860b0000b029019e282793b7mr827804pfn.22.1610391686700; 
- Mon, 11 Jan 2021 11:01:26 -0800 (PST)
+ bh=Eqku9olTG9KcFAe0Bboq71aa8Qg5GclGuwOXsQ8VxnQ=;
+ b=edEuYZCzOdJkhzm28NaKKOjsUzrbh+FVmUAPrxd8zsXmCTBjT5zpxRKG0M8m/g59Xn
+ kJS30RH8s4U8ci92rwJQZsr5CyUUfdD8pzpiH8duYzUN6fYJNhocfrxBGZmFHGVE2ZGD
+ ouTRjst0LI69VJjttXzh88Zzu6j5zRz/HZfy45CUPaJVx1Axj81b38CpiuUcY95FwSlw
+ J/axxdiV4GSscdhkHAYKVJgXKOC9KYxmZ5K7owaAZ0lPG94YRvCwocgNlLXfGOt7LYSW
+ ir5N30c59EXqX3BYOviZWONKwqzWGpecPPWuswhS/eYBHztbdA8o4V6YXM3I43IurjTQ
+ tmhg==
+X-Gm-Message-State: AOAM530zfM0i+hii3we8DS+26+KwwQqCByvf+sXmsSw+bETP2IJGitAU
+ 1zG7BCD6z8HAM9vSU3vlpOQHbdCLK1Z/4w==
+X-Google-Smtp-Source: ABdhPJzcQ1sY2lV9sfRKsfTQbCwX5F2xktL7Nc0vTeuReGtxTNuzD2s7I0nIXjw5nxbx9lCLYm7eNw==
+X-Received: by 2002:a62:8f0e:0:b029:1aa:1268:fa4e with SMTP id
+ n14-20020a628f0e0000b02901aa1268fa4emr823755pfd.18.1610391688695; 
+ Mon, 11 Jan 2021 11:01:28 -0800 (PST)
 Received: from localhost.localdomain (rrcs-173-197-107-21.west.biz.rr.com.
  [173.197.107.21])
- by smtp.gmail.com with ESMTPSA id n195sm350395pfd.169.2021.01.11.11.01.25
+ by smtp.gmail.com with ESMTPSA id n195sm350395pfd.169.2021.01.11.11.01.27
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 11 Jan 2021 11:01:26 -0800 (PST)
+ Mon, 11 Jan 2021 11:01:28 -0800 (PST)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v3 06/30] target/arm: Move mode specific TB flags to
- tb->cs_base
-Date: Mon, 11 Jan 2021 09:00:49 -1000
-Message-Id: <20210111190113.303726-7-richard.henderson@linaro.org>
+Subject: [PATCH v3 07/30] target/arm: Move TBFLAG_AM32 bits to the top
+Date: Mon, 11 Jan 2021 09:00:50 -1000
+Message-Id: <20210111190113.303726-8-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20210111190113.303726-1-richard.henderson@linaro.org>
 References: <20210111190113.303726-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::429;
- envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x429.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::52d;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x52d.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -89,130 +88,100 @@ Cc: peter.maydell@linaro.org, qemu-arm@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Now that we have all of the proper macros defined, expanding
-the CPUARMTBFlags structure and populating the two TB fields
-is relatively simple.
+Now that these bits have been moved out of tb->flags,
+where TBFLAG_ANY was filling from the top, move AM32
+to fill from the top, and A32 and M32 to fill from the
+bottom.  This means fewer changes when adding new bits.
 
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- target/arm/cpu.h       | 49 ++++++++++++++++++++++++------------------
- target/arm/translate.h |  2 +-
- target/arm/helper.c    |  2 +-
- 3 files changed, 30 insertions(+), 23 deletions(-)
+ target/arm/cpu.h | 42 +++++++++++++++++++++---------------------
+ 1 file changed, 21 insertions(+), 21 deletions(-)
 
 diff --git a/target/arm/cpu.h b/target/arm/cpu.h
-index c7700c9c85..af70462cfa 100644
+index af70462cfa..43bcd21959 100644
 --- a/target/arm/cpu.h
 +++ b/target/arm/cpu.h
-@@ -221,6 +221,7 @@ typedef struct ARMPACKey {
- /* See the commentary above the TBFLAG field definitions.  */
- typedef struct CPUARMTBFlags {
-     uint32_t flags;
-+    target_ulong flags2;
- } CPUARMTBFlags;
- 
- typedef struct CPUARMState {
-@@ -3251,20 +3252,26 @@ typedef ARMCPU ArchCPU;
- #include "exec/cpu-all.h"
- 
- /*
-- * Bit usage in the TB flags field: bit 31 indicates whether we are
-- * in 32 or 64 bit mode. The meaning of the other bits depends on that.
-- * We put flags which are shared between 32 and 64 bit mode at the top
-- * of the word, and flags which apply to only one mode at the bottom.
-+ * We have more than 32-bits worth of state per TB, so we split the data
-+ * between tb->flags and tb->cs_base, which is otherwise unused for ARM.
-+ * We collect these two parts in CPUARMTBFlags where they are named
-+ * flags and flags2 respectively.
+@@ -3265,13 +3265,13 @@ typedef ARMCPU ArchCPU;
   *
-- *  31          20    18    14          9              0
-- * +--------------+-----+-----+----------+--------------+
-- * |              |     |   TBFLAG_A32   |              |
-- * |              |     +-----+----------+  TBFLAG_AM32 |
-- * |  TBFLAG_ANY  |           |TBFLAG_M32|              |
-- * |              +-----------+----------+--------------|
-- * |              |            TBFLAG_A64               |
-- * +--------------+-------------------------------------+
-- *  31          20                                     0
-+ * The flags that are shared between all execution modes, TBFLAG_ANY,
-+ * are stored in flags.  The flags that are specific to a given mode
-+ * are stores in flags2.  Since cs_base is sized on the configured
-+ * address size, flags2 always has 64-bits for A64, and a minimum of
-+ * 32-bits for A32 and M32.
-+ *
-+ * The bits for 32-bit A-profile and M-profile partially overlap:
-+ *
-+ *  18             9              0
-+ * +----------------+--------------+
-+ * |   TBFLAG_A32   |              |
-+ * +-----+----------+  TBFLAG_AM32 |
-+ * |     |TBFLAG_M32|              |
-+ * +-----+----------+--------------+
-+ *     14          9              0
+  * The bits for 32-bit A-profile and M-profile partially overlap:
+  *
+- *  18             9              0
+- * +----------------+--------------+
+- * |   TBFLAG_A32   |              |
+- * +-----+----------+  TBFLAG_AM32 |
+- * |     |TBFLAG_M32|              |
+- * +-----+----------+--------------+
+- *     14          9              0
++ *  31         23         11 10             0
++ * +-------------+----------+----------------+
++ * |             |          |   TBFLAG_A32   |
++ * | TBFLAG_AM32 |          +-----+----------+
++ * |             |                |TBFLAG_M32|
++ * +-------------+----------------+----------+
++ *  31         23                5 4        0
   *
   * Unless otherwise noted, these bits are cached in env->hflags.
   */
-@@ -3342,19 +3349,19 @@ FIELD(TBFLAG_A64, MTE0_ACTIVE, 19, 1)
- #define DP_TBFLAG_ANY(DST, WHICH, VAL) \
-     (DST.flags = FIELD_DP32(DST.flags, TBFLAG_ANY, WHICH, VAL))
- #define DP_TBFLAG_A64(DST, WHICH, VAL) \
--    (DST.flags = FIELD_DP32(DST.flags, TBFLAG_A64, WHICH, VAL))
-+    (DST.flags2 = FIELD_DP32(DST.flags2, TBFLAG_A64, WHICH, VAL))
- #define DP_TBFLAG_A32(DST, WHICH, VAL) \
--    (DST.flags = FIELD_DP32(DST.flags, TBFLAG_A32, WHICH, VAL))
-+    (DST.flags2 = FIELD_DP32(DST.flags2, TBFLAG_A32, WHICH, VAL))
- #define DP_TBFLAG_M32(DST, WHICH, VAL) \
--    (DST.flags = FIELD_DP32(DST.flags, TBFLAG_M32, WHICH, VAL))
-+    (DST.flags2 = FIELD_DP32(DST.flags2, TBFLAG_M32, WHICH, VAL))
- #define DP_TBFLAG_AM32(DST, WHICH, VAL) \
--    (DST.flags = FIELD_DP32(DST.flags, TBFLAG_AM32, WHICH, VAL))
-+    (DST.flags2 = FIELD_DP32(DST.flags2, TBFLAG_AM32, WHICH, VAL))
- 
- #define EX_TBFLAG_ANY(IN, WHICH)   FIELD_EX32(IN.flags, TBFLAG_ANY, WHICH)
--#define EX_TBFLAG_A64(IN, WHICH)   FIELD_EX32(IN.flags, TBFLAG_A64, WHICH)
--#define EX_TBFLAG_A32(IN, WHICH)   FIELD_EX32(IN.flags, TBFLAG_A32, WHICH)
--#define EX_TBFLAG_M32(IN, WHICH)   FIELD_EX32(IN.flags, TBFLAG_M32, WHICH)
--#define EX_TBFLAG_AM32(IN, WHICH)  FIELD_EX32(IN.flags, TBFLAG_AM32, WHICH)
-+#define EX_TBFLAG_A64(IN, WHICH)   FIELD_EX32(IN.flags2, TBFLAG_A64, WHICH)
-+#define EX_TBFLAG_A32(IN, WHICH)   FIELD_EX32(IN.flags2, TBFLAG_A32, WHICH)
-+#define EX_TBFLAG_M32(IN, WHICH)   FIELD_EX32(IN.flags2, TBFLAG_M32, WHICH)
-+#define EX_TBFLAG_AM32(IN, WHICH)  FIELD_EX32(IN.flags2, TBFLAG_AM32, WHICH)
- 
- /**
-  * cpu_mmu_index:
-diff --git a/target/arm/translate.h b/target/arm/translate.h
-index f30287e554..50c2aba066 100644
---- a/target/arm/translate.h
-+++ b/target/arm/translate.h
-@@ -402,7 +402,7 @@ typedef void AtomicThreeOpFn(TCGv_i64, TCGv_i64, TCGv_i64, TCGArg, MemOp);
+@@ -3288,44 +3288,44 @@ FIELD(TBFLAG_ANY, DEBUG_TARGET_EL, 20, 2)
+ /*
+  * Bit usage when in AArch32 state, both A- and M-profile.
   */
- static inline CPUARMTBFlags arm_tbflags_from_tb(const TranslationBlock *tb)
- {
--    return (CPUARMTBFlags){ tb->flags };
-+    return (CPUARMTBFlags){ tb->flags, tb->cs_base };
- }
+-FIELD(TBFLAG_AM32, CONDEXEC, 0, 8)      /* Not cached. */
+-FIELD(TBFLAG_AM32, THUMB, 8, 1)         /* Not cached. */
++FIELD(TBFLAG_AM32, CONDEXEC, 24, 8)      /* Not cached. */
++FIELD(TBFLAG_AM32, THUMB, 23, 1)         /* Not cached. */
  
  /*
-diff --git a/target/arm/helper.c b/target/arm/helper.c
-index cc73acc927..0d7c8817b6 100644
---- a/target/arm/helper.c
-+++ b/target/arm/helper.c
-@@ -13030,7 +13030,6 @@ void cpu_get_tb_cpu_state(CPUARMState *env, target_ulong *pc,
-     CPUARMTBFlags flags;
-     uint32_t pstate_for_ss;
+  * Bit usage when in AArch32 state, for A-profile only.
+  */
+-FIELD(TBFLAG_A32, VECLEN, 9, 3)         /* Not cached. */
+-FIELD(TBFLAG_A32, VECSTRIDE, 12, 2)     /* Not cached. */
++FIELD(TBFLAG_A32, VECLEN, 0, 3)         /* Not cached. */
++FIELD(TBFLAG_A32, VECSTRIDE, 3, 2)     /* Not cached. */
+ /*
+  * We store the bottom two bits of the CPAR as TB flags and handle
+  * checks on the other bits at runtime. This shares the same bits as
+  * VECSTRIDE, which is OK as no XScale CPU has VFP.
+  * Not cached, because VECLEN+VECSTRIDE are not cached.
+  */
+-FIELD(TBFLAG_A32, XSCALE_CPAR, 12, 2)
+-FIELD(TBFLAG_A32, VFPEN, 14, 1)         /* Partially cached, minus FPEXC. */
+-FIELD(TBFLAG_A32, SCTLR__B, 15, 1)      /* Cannot overlap with SCTLR_B */
+-FIELD(TBFLAG_A32, HSTR_ACTIVE, 16, 1)
++FIELD(TBFLAG_A32, XSCALE_CPAR, 5, 2)
++FIELD(TBFLAG_A32, VFPEN, 7, 1)         /* Partially cached, minus FPEXC. */
++FIELD(TBFLAG_A32, SCTLR__B, 8, 1)      /* Cannot overlap with SCTLR_B */
++FIELD(TBFLAG_A32, HSTR_ACTIVE, 9, 1)
+ /*
+  * Indicates whether cp register reads and writes by guest code should access
+  * the secure or nonsecure bank of banked registers; note that this is not
+  * the same thing as the current security state of the processor!
+  */
+-FIELD(TBFLAG_A32, NS, 17, 1)
++FIELD(TBFLAG_A32, NS, 10, 1)
  
--    *cs_base = 0;
-     assert_hflags_rebuild_correctly(env);
-     flags = env->hflags;
+ /*
+  * Bit usage when in AArch32 state, for M-profile only.
+  */
+ /* Handler (ie not Thread) mode */
+-FIELD(TBFLAG_M32, HANDLER, 9, 1)
++FIELD(TBFLAG_M32, HANDLER, 0, 1)
+ /* Whether we should generate stack-limit checks */
+-FIELD(TBFLAG_M32, STACKCHECK, 10, 1)
++FIELD(TBFLAG_M32, STACKCHECK, 1, 1)
+ /* Set if FPCCR.LSPACT is set */
+-FIELD(TBFLAG_M32, LSPACT, 11, 1)                 /* Not cached. */
++FIELD(TBFLAG_M32, LSPACT, 2, 1)                 /* Not cached. */
+ /* Set if we must create a new FP context */
+-FIELD(TBFLAG_M32, NEW_FP_CTXT_NEEDED, 12, 1)     /* Not cached. */
++FIELD(TBFLAG_M32, NEW_FP_CTXT_NEEDED, 3, 1)     /* Not cached. */
+ /* Set if FPCCR.S does not match current security state */
+-FIELD(TBFLAG_M32, FPCCR_S_WRONG, 13, 1)          /* Not cached. */
++FIELD(TBFLAG_M32, FPCCR_S_WRONG, 4, 1)          /* Not cached. */
  
-@@ -13101,6 +13100,7 @@ void cpu_get_tb_cpu_state(CPUARMState *env, target_ulong *pc,
-     }
- 
-     *pflags = flags.flags;
-+    *cs_base = flags.flags2;
- }
- 
- #ifdef TARGET_AARCH64
+ /*
+  * Bit usage when in AArch64 state
 -- 
 2.25.1
 
