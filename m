@@ -2,69 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1BA0A2F1C4F
-	for <lists+qemu-devel@lfdr.de>; Mon, 11 Jan 2021 18:29:01 +0100 (CET)
-Received: from localhost ([::1]:49270 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B82C62F1C49
+	for <lists+qemu-devel@lfdr.de>; Mon, 11 Jan 2021 18:27:13 +0100 (CET)
+Received: from localhost ([::1]:43922 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kz100-0002pO-4G
-	for lists+qemu-devel@lfdr.de; Mon, 11 Jan 2021 12:29:00 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51622)
+	id 1kz0yG-0000dT-PP
+	for lists+qemu-devel@lfdr.de; Mon, 11 Jan 2021 12:27:12 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51634)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1kz0rQ-0003A0-Bc
+ id 1kz0rQ-0003A5-Sr
  for qemu-devel@nongnu.org; Mon, 11 Jan 2021 12:20:08 -0500
-Received: from mail-pg1-x533.google.com ([2607:f8b0:4864:20::533]:34886)
+Received: from mail-pg1-x535.google.com ([2607:f8b0:4864:20::535]:46982)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1kz0rG-00006O-SW
+ id 1kz0rL-00008E-2B
  for qemu-devel@nongnu.org; Mon, 11 Jan 2021 12:20:08 -0500
-Received: by mail-pg1-x533.google.com with SMTP id n7so101325pgg.2
- for <qemu-devel@nongnu.org>; Mon, 11 Jan 2021 09:19:58 -0800 (PST)
+Received: by mail-pg1-x535.google.com with SMTP id c22so64086pgg.13
+ for <qemu-devel@nongnu.org>; Mon, 11 Jan 2021 09:20:01 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=YpDNiHW+o2iNjUonn03i++LfISaZVtNqCD0CIRtryeM=;
- b=D5SXsndCRK6+dH4IKPu52+B2GEARFsPtwbC3Ae1nQqEgVytbsqNjqf44Ilm5xvoCGa
- DQbw5+qdQCL+rGdleEzK9lP4f0TMosbXrOYCXnV8zAwr3ucp//NEVmFyhx77zBGhUQgt
- gL+PlrYgUfMc4DNCfFsMXV/UsSNRvyoujz9tJ/nqzcergZw9y1ZyRHSuSa8gD9YKLOVK
- aQss/ZHIvrGUO7YXpVGhdhy5MQC+xRVaxq+J92T9aiFBa8gLdHStK2zJ4sGHO9MYKrXO
- O++OKKRSv14fAFaAAHWz517FesihfxGiGbyhPDtjVhfB3Bh969rcnQUpGmCc94rsN0bL
- mFiQ==
+ bh=qXpykEtc7vaKX9QcxuT/1Uq7HaNn7jlaJj69OtcFcWE=;
+ b=iZRetf99lR/SOBJ83FtkVjFcBgnwBjpM5KLjCVNMP3TvPnNc81MAa0DwyafjpoBKpB
+ xj+XJCQYBttZVtyqvpPkm/aG/QZPSBwE+QupSuJ2GhXXNcERFHpNNtRdu5JATXfJ8VqQ
+ gaMA9xJZRl0HmvVymOYLJD46ZYsEULWOkBRrPqVWiNouIydz0z/RApp7+5Kr9X+AZ9yo
+ 59qTrBIUDCmte6veK9nMUt2MfhBqTp8rLEpAi5iQxzRJQShT4aUq31cejJqkJ2q0pBY8
+ Vq1JhFfF1ElqDf85GaCTO+VzcvF4Z2dC7X8dK5NbrdywameD0BUseVowuNIUAVAOxgEb
+ zSNA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=YpDNiHW+o2iNjUonn03i++LfISaZVtNqCD0CIRtryeM=;
- b=M5JCP6H96wqe3z6+K7PzR8PvtAuMvela0CwHBmY7kQ+GWmouLmVwZLJN1KpD7uRIJ4
- LBtDPiY6rSmNdGxZ3lIofpOImHWI58nQcaoqt0f8x/fcFdf4yaV2ENQ/j0ImvQF+oqlO
- wpuJBFWLHW96smdYl94Q3BAbY4CfQWCS7r5fEvVorOq26PTeWWizD28WKnDor8+DCqKO
- rBAgCLibK2NxixdMDJa3sObITHcvNU1XEA7shJD4urKmOHNMIhUmjOcoJLOUh9nZSmHk
- E/dBjah1dHQxwULJDvbc9uaA26CX4Yxi2+EM1QYfpKFx1sha+MNxHNWizcxycAhyZkgp
- oWqQ==
-X-Gm-Message-State: AOAM532cKO4yXw+q315r+1psQsN2Gr8COGtX+h3Fa+mXIu403zFK238/
- 7MzTch8M5AR4Z6w99FHHBEZ3anZroZg+Ag==
-X-Google-Smtp-Source: ABdhPJxfYrsU6v44gFx5ihXpaV1WJ9+NBmSTxX/Z6rBO62rm1SCTzdRJPwgYAxyidkPjAjApnhATKg==
-X-Received: by 2002:a65:5b0a:: with SMTP id y10mr491155pgq.337.1610385597165; 
- Mon, 11 Jan 2021 09:19:57 -0800 (PST)
+ bh=qXpykEtc7vaKX9QcxuT/1Uq7HaNn7jlaJj69OtcFcWE=;
+ b=Hs1WSUX+LQipC5Xp3lPHZXgTHT6BZenjbPa6ztR5IYnhAwLmBrKP9wec/rAW69Y4kK
+ PlCbm7aT1b2kFWbbrwFGX6Z3jDqiPlWrePKSHfhSvLzy2ToTCAFxANuMReBJ/zOf81xN
+ QSEVCdxksAOy6wZ/pkxRzWqFDOijr3Q9hrsCIJn0gD5EWc0mLzwIMw4RHW332SPsfDrO
+ asn6dCjO8/FQFx9feqjGnKGfTg4e9Yy208d0QGVP9Mfd6KuxQlHnow1lUKd+LkVY1FcR
+ hVYGCmUgvQJ3+ihOSfqTyqIRM+rB1EzP+2iyXmNeTTer4TFyVu/t3GXftK2EpjwLZ3pA
+ ufaQ==
+X-Gm-Message-State: AOAM530FI93i/Iko7+0Aag8g0ZtZbX8VucFex4rAEM8ZCqJfv2nrWDDG
+ ub5z5OXcBT+5JV4dRfi99vzBc0aKHwLQMQ==
+X-Google-Smtp-Source: ABdhPJwYwfv6qQSu9RbkDdJP/he+FqJh404+/uJrZBYo72D6bTznjkorxYElVtunZMJTzcJwgAMtCg==
+X-Received: by 2002:a63:4404:: with SMTP id r4mr510957pga.149.1610385600552;
+ Mon, 11 Jan 2021 09:20:00 -0800 (PST)
 Received: from localhost.localdomain (rrcs-173-197-107-21.west.biz.rr.com.
  [173.197.107.21])
- by smtp.gmail.com with ESMTPSA id k64sm206666pfd.75.2021.01.11.09.19.55
+ by smtp.gmail.com with ESMTPSA id k64sm206666pfd.75.2021.01.11.09.19.59
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 11 Jan 2021 09:19:56 -0800 (PST)
+ Mon, 11 Jan 2021 09:19:59 -0800 (PST)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v6 04/23] tcg: Add temp_readonly
-Date: Mon, 11 Jan 2021 07:19:27 -1000
-Message-Id: <20210111171946.219469-5-richard.henderson@linaro.org>
+Subject: [PATCH v6 06/23] tcg: Rename struct tcg_temp_info to TempOptInfo
+Date: Mon, 11 Jan 2021 07:19:29 -1000
+Message-Id: <20210111171946.219469-7-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20210111171946.219469-1-richard.henderson@linaro.org>
 References: <20210111171946.219469-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::533;
- envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x533.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::535;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x535.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -89,128 +89,128 @@ Cc: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-In most, but not all, places that we check for TEMP_FIXED,
-we are really testing that we do not modify the temporary.
+Fix this name vs our coding style.
 
 Reviewed-by: Alex Bennée <alex.bennee@linaro.org>
 Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- include/tcg/tcg.h |  5 +++++
- tcg/tcg.c         | 21 ++++++++++-----------
- 2 files changed, 15 insertions(+), 11 deletions(-)
+ tcg/optimize.c | 32 ++++++++++++++++----------------
+ 1 file changed, 16 insertions(+), 16 deletions(-)
 
-diff --git a/include/tcg/tcg.h b/include/tcg/tcg.h
-index 571d4e0fa3..2bdaeaa69c 100644
---- a/include/tcg/tcg.h
-+++ b/include/tcg/tcg.h
-@@ -679,6 +679,11 @@ struct TCGContext {
-     target_ulong gen_insn_data[TCG_MAX_INSNS][TARGET_INSN_START_WORDS];
- };
+diff --git a/tcg/optimize.c b/tcg/optimize.c
+index 2f827a9d2d..0da9750b65 100644
+--- a/tcg/optimize.c
++++ b/tcg/optimize.c
+@@ -35,20 +35,20 @@
+         glue(glue(case INDEX_op_, x), _i64):    \
+         glue(glue(case INDEX_op_, x), _vec)
  
-+static inline bool temp_readonly(TCGTemp *ts)
-+{
-+    return ts->kind == TEMP_FIXED;
-+}
-+
- extern TCGContext tcg_init_ctx;
- extern __thread TCGContext *tcg_ctx;
- extern const void *tcg_code_gen_epilogue;
-diff --git a/tcg/tcg.c b/tcg/tcg.c
-index 143794a585..e02bb71953 100644
---- a/tcg/tcg.c
-+++ b/tcg/tcg.c
-@@ -3254,7 +3254,7 @@ static void temp_load(TCGContext *, TCGTemp *, TCGRegSet, TCGRegSet, TCGRegSet);
-    mark it free; otherwise mark it dead.  */
- static void temp_free_or_dead(TCGContext *s, TCGTemp *ts, int free_or_dead)
+-struct tcg_temp_info {
++typedef struct TempOptInfo {
+     bool is_const;
+     TCGTemp *prev_copy;
+     TCGTemp *next_copy;
+     tcg_target_ulong val;
+     tcg_target_ulong mask;
+-};
++} TempOptInfo;
+ 
+-static inline struct tcg_temp_info *ts_info(TCGTemp *ts)
++static inline TempOptInfo *ts_info(TCGTemp *ts)
  {
--    if (ts->kind == TEMP_FIXED) {
-+    if (temp_readonly(ts)) {
-         return;
-     }
-     if (ts->val_type == TEMP_VAL_REG) {
-@@ -3278,7 +3278,7 @@ static inline void temp_dead(TCGContext *s, TCGTemp *ts)
- static void temp_sync(TCGContext *s, TCGTemp *ts, TCGRegSet allocated_regs,
-                       TCGRegSet preferred_regs, int free_or_dead)
- {
--    if (ts->kind == TEMP_FIXED) {
-+    if (temp_readonly(ts)) {
-         return;
-     }
-     if (!ts->mem_coherent) {
-@@ -3461,8 +3461,7 @@ static void temp_save(TCGContext *s, TCGTemp *ts, TCGRegSet allocated_regs)
- {
-     /* The liveness analysis already ensures that globals are back
-        in memory. Keep an tcg_debug_assert for safety. */
--    tcg_debug_assert(ts->val_type == TEMP_VAL_MEM
--                     || ts->kind == TEMP_FIXED);
-+    tcg_debug_assert(ts->val_type == TEMP_VAL_MEM || temp_readonly(ts));
+     return ts->state_ptr;
  }
  
- /* save globals to their canonical location and assume they can be
-@@ -3542,7 +3541,7 @@ static void tcg_reg_alloc_do_movi(TCGContext *s, TCGTemp *ots,
-                                   TCGRegSet preferred_regs)
+-static inline struct tcg_temp_info *arg_info(TCGArg arg)
++static inline TempOptInfo *arg_info(TCGArg arg)
  {
-     /* ENV should not be modified.  */
--    tcg_debug_assert(ots->kind != TEMP_FIXED);
-+    tcg_debug_assert(!temp_readonly(ots));
+     return ts_info(arg_temp(arg));
+ }
+@@ -71,9 +71,9 @@ static inline bool ts_is_copy(TCGTemp *ts)
+ /* Reset TEMP's state, possibly removing the temp for the list of copies.  */
+ static void reset_ts(TCGTemp *ts)
+ {
+-    struct tcg_temp_info *ti = ts_info(ts);
+-    struct tcg_temp_info *pi = ts_info(ti->prev_copy);
+-    struct tcg_temp_info *ni = ts_info(ti->next_copy);
++    TempOptInfo *ti = ts_info(ts);
++    TempOptInfo *pi = ts_info(ti->prev_copy);
++    TempOptInfo *ni = ts_info(ti->next_copy);
  
-     /* The movi is not explicitly generated here.  */
-     if (ots->val_type == TEMP_VAL_REG) {
-@@ -3582,7 +3581,7 @@ static void tcg_reg_alloc_mov(TCGContext *s, const TCGOp *op)
-     ts = arg_temp(op->args[1]);
+     ni->prev_copy = ti->prev_copy;
+     pi->next_copy = ti->next_copy;
+@@ -89,12 +89,12 @@ static void reset_temp(TCGArg arg)
+ }
  
-     /* ENV should not be modified.  */
--    tcg_debug_assert(ots->kind != TEMP_FIXED);
-+    tcg_debug_assert(!temp_readonly(ots));
+ /* Initialize and activate a temporary.  */
+-static void init_ts_info(struct tcg_temp_info *infos,
++static void init_ts_info(TempOptInfo *infos,
+                          TCGTempSet *temps_used, TCGTemp *ts)
+ {
+     size_t idx = temp_idx(ts);
+     if (!test_bit(idx, temps_used->l)) {
+-        struct tcg_temp_info *ti = &infos[idx];
++        TempOptInfo *ti = &infos[idx];
  
-     /* Note that otype != itype for no-op truncation.  */
-     otype = ots->type;
-@@ -3643,7 +3642,7 @@ static void tcg_reg_alloc_mov(TCGContext *s, const TCGOp *op)
-                  * Store the source register into the destination slot
-                  * and leave the destination temp as TEMP_VAL_MEM.
-                  */
--                assert(ots->kind != TEMP_FIXED);
-+                assert(!temp_readonly(ots));
-                 if (!ts->mem_allocated) {
-                     temp_allocate_frame(s, ots);
-                 }
-@@ -3680,7 +3679,7 @@ static void tcg_reg_alloc_dup(TCGContext *s, const TCGOp *op)
-     its = arg_temp(op->args[1]);
+         ts->state_ptr = ti;
+         ti->next_copy = ts;
+@@ -105,7 +105,7 @@ static void init_ts_info(struct tcg_temp_info *infos,
+     }
+ }
  
-     /* ENV should not be modified.  */
--    tcg_debug_assert(ots->kind != TEMP_FIXED);
-+    tcg_debug_assert(!temp_readonly(ots));
+-static void init_arg_info(struct tcg_temp_info *infos,
++static void init_arg_info(TempOptInfo *infos,
+                           TCGTempSet *temps_used, TCGArg arg)
+ {
+     init_ts_info(infos, temps_used, arg_temp(arg));
+@@ -171,7 +171,7 @@ static void tcg_opt_gen_movi(TCGContext *s, TCGOp *op, TCGArg dst, TCGArg val)
+     const TCGOpDef *def;
+     TCGOpcode new_op;
+     tcg_target_ulong mask;
+-    struct tcg_temp_info *di = arg_info(dst);
++    TempOptInfo *di = arg_info(dst);
  
-     itype = its->type;
-     vece = TCGOP_VECE(op);
-@@ -3912,7 +3911,7 @@ static void tcg_reg_alloc_op(TCGContext *s, const TCGOp *op)
-             ts = arg_temp(arg);
+     def = &tcg_op_defs[op->opc];
+     if (def->flags & TCG_OPF_VECTOR) {
+@@ -202,8 +202,8 @@ static void tcg_opt_gen_mov(TCGContext *s, TCGOp *op, TCGArg dst, TCGArg src)
+     TCGTemp *dst_ts = arg_temp(dst);
+     TCGTemp *src_ts = arg_temp(src);
+     const TCGOpDef *def;
+-    struct tcg_temp_info *di;
+-    struct tcg_temp_info *si;
++    TempOptInfo *di;
++    TempOptInfo *si;
+     tcg_target_ulong mask;
+     TCGOpcode new_op;
  
-             /* ENV should not be modified.  */
--            tcg_debug_assert(ts->kind != TEMP_FIXED);
-+            tcg_debug_assert(!temp_readonly(ts));
+@@ -236,7 +236,7 @@ static void tcg_opt_gen_mov(TCGContext *s, TCGOp *op, TCGArg dst, TCGArg src)
+     di->mask = mask;
  
-             if (arg_ct->oalias && !const_args[arg_ct->alias_index]) {
-                 reg = new_args[arg_ct->alias_index];
-@@ -3953,7 +3952,7 @@ static void tcg_reg_alloc_op(TCGContext *s, const TCGOp *op)
-         ts = arg_temp(op->args[i]);
+     if (src_ts->type == dst_ts->type) {
+-        struct tcg_temp_info *ni = ts_info(si->next_copy);
++        TempOptInfo *ni = ts_info(si->next_copy);
  
-         /* ENV should not be modified.  */
--        tcg_debug_assert(ts->kind != TEMP_FIXED);
-+        tcg_debug_assert(!temp_readonly(ts));
+         di->next_copy = si->next_copy;
+         di->prev_copy = src_ts;
+@@ -599,7 +599,7 @@ void tcg_optimize(TCGContext *s)
+ {
+     int nb_temps, nb_globals;
+     TCGOp *op, *op_next, *prev_mb = NULL;
+-    struct tcg_temp_info *infos;
++    TempOptInfo *infos;
+     TCGTempSet temps_used;
  
-         if (NEED_SYNC_ARG(i)) {
-             temp_sync(s, ts, o_allocated_regs, 0, IS_DEAD_ARG(i));
-@@ -4085,7 +4084,7 @@ static void tcg_reg_alloc_call(TCGContext *s, TCGOp *op)
-         ts = arg_temp(arg);
+     /* Array VALS has an element for each temp.
+@@ -610,7 +610,7 @@ void tcg_optimize(TCGContext *s)
+     nb_temps = s->nb_temps;
+     nb_globals = s->nb_globals;
+     bitmap_zero(temps_used.l, nb_temps);
+-    infos = tcg_malloc(sizeof(struct tcg_temp_info) * nb_temps);
++    infos = tcg_malloc(sizeof(TempOptInfo) * nb_temps);
  
-         /* ENV should not be modified.  */
--        tcg_debug_assert(ts->kind != TEMP_FIXED);
-+        tcg_debug_assert(!temp_readonly(ts));
- 
-         reg = tcg_target_call_oarg_regs[i];
-         tcg_debug_assert(s->reg_to_temp[reg] == NULL);
+     QTAILQ_FOREACH_SAFE(op, &s->ops, link, op_next) {
+         tcg_target_ulong mask, partmask, affected;
 -- 
 2.25.1
 
