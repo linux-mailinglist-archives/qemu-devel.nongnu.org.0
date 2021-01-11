@@ -2,56 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 531182F1096
-	for <lists+qemu-devel@lfdr.de>; Mon, 11 Jan 2021 11:54:13 +0100 (CET)
-Received: from localhost ([::1]:43604 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0A9CD2F10CB
+	for <lists+qemu-devel@lfdr.de>; Mon, 11 Jan 2021 12:06:39 +0100 (CET)
+Received: from localhost ([::1]:52048 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kyupv-0005GQ-Uh
-	for lists+qemu-devel@lfdr.de; Mon, 11 Jan 2021 05:54:11 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38902)
+	id 1kyv1y-0000v7-4M
+	for lists+qemu-devel@lfdr.de; Mon, 11 Jan 2021 06:06:38 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41882)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
- id 1kyuor-0004oU-Ol
- for qemu-devel@nongnu.org; Mon, 11 Jan 2021 05:53:06 -0500
-Received: from zero.eik.bme.hu ([2001:738:2001:2001::2001]:11153)
+ (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
+ id 1kyv0E-0008N2-6X; Mon, 11 Jan 2021 06:04:50 -0500
+Received: from ozlabs.org ([2401:3900:2:1::2]:57319)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
- id 1kyuoo-0005d5-PM
- for qemu-devel@nongnu.org; Mon, 11 Jan 2021 05:53:04 -0500
-Received: from zero.eik.bme.hu (blah.eik.bme.hu [152.66.115.182])
- by localhost (Postfix) with SMTP id 68FD1746552;
- Mon, 11 Jan 2021 11:52:57 +0100 (CET)
-Received: by zero.eik.bme.hu (Postfix, from userid 432)
- id 35B0874645F; Mon, 11 Jan 2021 11:52:57 +0100 (CET)
-Received: from localhost (localhost [127.0.0.1])
- by zero.eik.bme.hu (Postfix) with ESMTP id 33EAB74645B;
- Mon, 11 Jan 2021 11:52:57 +0100 (CET)
-Date: Mon, 11 Jan 2021 11:52:57 +0100 (CET)
-From: BALATON Zoltan <balaton@eik.bme.hu>
+ (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
+ id 1kyv0B-0002WD-Pq; Mon, 11 Jan 2021 06:04:49 -0500
+Received: by ozlabs.org (Postfix, from userid 1007)
+ id 4DDrSc4Wvkz9sW8; Mon, 11 Jan 2021 22:04:32 +1100 (AEDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=gibson.dropbear.id.au; s=201602; t=1610363072;
+ bh=Ab5vmHX/pSSAWvPadvTlF4KfKETvH5u77KGErk2vMeA=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=MzfjmUwWazU3zaGJsKJGH3JIroADXWgz+lFo5IKUaxnAwUh6Ya2KHex63TtnQ/BkS
+ JC+RooKz+8OLXu/iJ4reWdlQKB15QpG/uspImrjH6DZ+FuzgB20M7Ec+v2kLUR82CP
+ wHZg42LogAItjSy14fJ6PdfEsJHSnelexP8N031k=
+Date: Mon, 11 Jan 2021 20:23:36 +1100
+From: David Gibson <david@gibson.dropbear.id.au>
 To: Peter Maydell <peter.maydell@linaro.org>
-Subject: Re: [PULL 23/35] hw/intc: Rework Loongson LIOINTC
-In-Reply-To: <CAFEAcA8trw0PNeDaQq3dZa0q4qYoXF35ROLMHDw3qnJ=wX+vvw@mail.gmail.com>
-Message-ID: <511824ac-965b-2846-c57b-c3afa5bb85d8@eik.bme.hu>
-References: <20210103205021.2837760-1-f4bug@amsat.org>
- <20210103205021.2837760-24-f4bug@amsat.org>
- <CAFEAcA_YqAiiLRY08-gACmKOCf2mat3AaBGnyRK0Jc+aK-iuOw@mail.gmail.com>
- <b2dd6d33-d8e9-21a3-7b76-bdf44e117128@amsat.org>
- <3aece87-60ff-b195-8bd-c696bf461cb6@eik.bme.hu>
- <CAAhV-H71-wrTfDWN9zH2gU4gdJkCpMk5EDfAi1W1d4jXA3OkZg@mail.gmail.com>
- <3f383a52-6583-4c60-8f24-a24e6b95c068@www.fastmail.com>
- <29acb49a-4d1-ae6b-328d-6e3081e2ab2f@eik.bme.hu>
- <CAFEAcA8trw0PNeDaQq3dZa0q4qYoXF35ROLMHDw3qnJ=wX+vvw@mail.gmail.com>
+Subject: Re: [PATCH v2 0/4] hw/ppc: Convert UIC device to QOM
+Message-ID: <20210111092336.GA3051@yekko.fritz.box>
+References: <20210108171212.16500-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII; format=flowed
-X-Spam-Probability: 8%
-Received-SPF: pass client-ip=2001:738:2001:2001::2001;
- envelope-from=balaton@eik.bme.hu; helo=zero.eik.bme.hu
-X-Spam_score_int: -18
-X-Spam_score: -1.9
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="dDRMvlgZJXvWKvBx"
+Content-Disposition: inline
+In-Reply-To: <20210108171212.16500-1-peter.maydell@linaro.org>
+Received-SPF: pass client-ip=2401:3900:2:1::2; envelope-from=dgibson@ozlabs.org;
+ helo=ozlabs.org
+X-Spam_score_int: -17
+X-Spam_score: -1.8
 X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, HEADER_FROM_DIFFERENT_DOMAINS=0.249,
+ SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -64,48 +57,59 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Aurelien Jarno <aurelien@aurel32.net>, Huacai Chen <chenhuacai@kernel.org>,
- =?ISO-8859-15?Q?Philippe_Mathieu-Daud=E9?= <f4bug@amsat.org>,
- BALATON Zoltan via <qemu-devel@nongnu.org>
+Cc: qemu-ppc@nongnu.org, qemu-devel@nongnu.org, Greg Kurz <groug@kaod.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, 11 Jan 2021, Peter Maydell wrote:
-> On Mon, 11 Jan 2021 at 10:20, BALATON Zoltan <balaton@eik.bme.hu> wrote:
->>
->> On Mon, 11 Jan 2021, Jiaxun Yang wrote:
->>> On Mon, Jan 11, 2021, at 8:36 AM, Huacai Chen wrote:
->>>> I think R_END should be 0x60, Jiaxun, what do you think?
->>>
->>> U r right.
->>> The manual is misleading.
->>
->> The R_END constant is also used in loongson_liointc_init() for the length
->> of the memory region so you might want to revise that. If this is a 32 bit
->> register then you should decide what R_END means? Is it the end of the
->> memory region in which case the reg starts at R_END - 4 or is it the
->> address of the last reg in which case the memory region ends at R_END + 4.
->> From the above I think it's the address of the last reg so you'll probably
->> need to add 4 in loongson_liointc_init() when creating the memory region.
->
-> Mmm, or check
->  (addr >= R_START && addr < (R_START + R_ISR_SIZE * NUM_CORES))
 
-That was basically the original version just hiding the calculation in a 
-macro so we could also just drop this part of the patch and be happy with 
-it :-) "If it ain't broke, don't fix it"
+--dDRMvlgZJXvWKvBx
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-> Side note: R_ISR_SIZE is 8, but the code makes both the
-> 32-bit addresses you can read/write in that 8-byte range
-> behave the same way. Is that really what the hardware does ?
-> Or does it actually have 1 32-bit register per core, spaced
-> 8 bytes apart ?
+On Fri, Jan 08, 2021 at 05:12:08PM +0000, Peter Maydell wrote:
+> This patchseries converts the PPC UIC "Universal Interrupt
+> Controller" to a QOM device.  My main reason for doing it is that
+> this fixes a couple of long-standing trivial Coverity issues -- the
+> current ppcuic_init() function allocates an array of qemu_irqs which
+> the callers then leak.  (The leak is trivial because it happens once
+> when QEMU starts.)
+>=20
+> The first half of v1 is in master now, so this is just a
+> respin of the last four patches.
+>=20
+> Changes v1->v2:
+>  * fixed the bug in the sam460ex conversion handling of CINT
+>    (tested that this now boots AROS OK to a desktop)
+>  * other minor code style tweaks to patch 1 as per review
 
-This might turn into a bike shed thread but I just thought: would 
-range_covers_byte() or ranges_overlap() be useful here to test if addr is 
-within the regs area? I've used that in vt82c686.c::pm_write_config(). 
-That might actually be simpler if that worked.
+Applied to ppc-for-6.0, thanks.
 
-Regards,
-BALATON Zoltan
+--=20
+David Gibson			| I'll have my music baroque, and my code
+david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
+				| _way_ _around_!
+http://www.ozlabs.org/~dgibson
+
+--dDRMvlgZJXvWKvBx
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAl/8GRYACgkQbDjKyiDZ
+s5JEXxAA1OoL+5zKKK0Py0f2i1ER7AR6b2G86vbbZ7DYAA4UQgs84cKB9mc0+TRO
+7tXFlJeU26DAOHGND7+TrXI1rI/H0zXSaaKFrX0WhaKCcRdd7LjV+S3jvtMCELbF
+UOyXklGNy9QElpuwT7QlFUFjf3+k72CJ5VFZvVXJA3SVUHqoPJUYmM8ntoOMiJoW
+m/ofvwzvm/dl2taA/aMC5SJHhBXJ1wvwDkAq8XtKl78wB81V+iXKXPu61Tn6ABXE
+x7NOF8xhbPH/GHcROdVEgA44Lvx59K1itfrGxrTGzlkboEB6dzXH0cfffjssC9ot
+qrO638+jhuw/sU2nM96OoPj/tLZBRXJd6GV9R1tOSllU6rhgdG4OzrgjPuQwfGZu
+179Sq7ASCk02H7oucJRXh6cO7WDA70JD+blkxnONNK+fP72+lU/xrmUfM+S8LIJf
+jniMbbsdyKQiSRSY6Sjw2Do2bFj43C1g4G+DO16VCJRsLce9oV/1bRx835DMfGIQ
+3cHegNzpAdzH3P/9mNFGBLmPe7r0MafvcuKJnXcGrTTEjMtqO7ErKIJ/BJsP/AF/
+Wa8gYWEWeYbg3kViFn9zxJI7Y4eclngmQ51B09343S2lAw9UQPQ9CIqkV1DDWaiC
+/jXDyWN75CfDxYUuGAm4AmuC+FBmT/FIvdWltb74FRVVlgkcTCo=
+=pANK
+-----END PGP SIGNATURE-----
+
+--dDRMvlgZJXvWKvBx--
 
