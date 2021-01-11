@@ -2,87 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7ADF12F16B4
-	for <lists+qemu-devel@lfdr.de>; Mon, 11 Jan 2021 14:57:24 +0100 (CET)
-Received: from localhost ([::1]:60828 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D75E12F16ED
+	for <lists+qemu-devel@lfdr.de>; Mon, 11 Jan 2021 14:59:44 +0100 (CET)
+Received: from localhost ([::1]:37688 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kyxhD-0002jZ-H4
-	for lists+qemu-devel@lfdr.de; Mon, 11 Jan 2021 08:57:23 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54776)
+	id 1kyxjT-0004ow-Ti
+	for lists+qemu-devel@lfdr.de; Mon, 11 Jan 2021 08:59:43 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56104)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1kyxbl-0003gG-Rc
- for qemu-devel@nongnu.org; Mon, 11 Jan 2021 08:51:45 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:43440)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1kyxh6-0003RB-Aa
+ for qemu-devel@nongnu.org; Mon, 11 Jan 2021 08:57:16 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:40437)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1kyxbk-0000Yg-4K
- for qemu-devel@nongnu.org; Mon, 11 Jan 2021 08:51:45 -0500
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1kyxh3-0001KN-2T
+ for qemu-devel@nongnu.org; Mon, 11 Jan 2021 08:57:15 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1610373103;
+ s=mimecast20190719; t=1610373431;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=LMN4xdqcw0ckPYPE+EUZM6OWOnttqjuAtKGRPaQ0uZs=;
- b=OSPPkUuqOnBC3WmtqfP9+H4PpUqUwmYfWfCjQj81t5utZLaFKlVxI4sNTvOdToDftspmQL
- jBwiXos8GPGX/7km4S+cjhHTTyNaL4Ol7dXsTfZhG8ZHjBrg0zUVSMT+0i4n1AN5cdfz7B
- QSyU0CY+xMupq3Gi3Z2vfmkkH21y0kw=
-Received: from mail-ej1-f70.google.com (mail-ej1-f70.google.com
- [209.85.218.70]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-359--p0Up_gOMzSQh4WoY9ohkA-1; Mon, 11 Jan 2021 08:51:41 -0500
-X-MC-Unique: -p0Up_gOMzSQh4WoY9ohkA-1
-Received: by mail-ej1-f70.google.com with SMTP id gs3so5031323ejb.5
- for <qemu-devel@nongnu.org>; Mon, 11 Jan 2021 05:51:41 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=LMN4xdqcw0ckPYPE+EUZM6OWOnttqjuAtKGRPaQ0uZs=;
- b=Ql6jO//ha0+2r/xauceTg9RcOPUA3u2ixfw4EpaMjaNX+vUDu4crsnjk/bNpDFXx2Z
- 6KcXgkdyAVF5gQxKh0q5y0TiPdtRXMblQSskAiSvHwnaDgqszeEncpayoldROukv1YNE
- 2hg90xL5f7vcJM5zAavSTtMM3/7JxW0M1qZY7ynfCbY3Iqq572ksJ/wQ+YcJD9Gpv2/c
- UmGuXnSuqk2Zj8B2+SoHROzjufVVkowvJzlO5hhW0ZwhrwadBRfYxlWYoCDp7Ed5HqWN
- kdKlXDiXUQAeE+813g+GN7VHPXU8gwsXXc7aAGSxlkYEVHmrirF4xJVjpwTDAhTmfB5f
- mPuA==
-X-Gm-Message-State: AOAM531NIVg0j+1KOR6yMLKXIghu7Q2wu7sPh87dnJ0lhxSEsm5zQ5N8
- ddmOiCLrkxnsz5Cr3gYKl3+FZ+Lv/Ss8dzIns4PglfZIkfUFgHLEsfRm4kUmd7fvlHNrJfdTbdR
- OoMMyZ2vMveuUx38=
-X-Received: by 2002:a17:906:e247:: with SMTP id
- gq7mr11365872ejb.27.1610373100146; 
- Mon, 11 Jan 2021 05:51:40 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJxMnuS1g6IAPi0UM2Ywg5wgEVN0eH4RF9bACbO9HMm6YkDuVUnX0Euu3pb9B+ugLODlxfEuKg==
-X-Received: by 2002:a17:906:e247:: with SMTP id
- gq7mr11365862ejb.27.1610373099990; 
- Mon, 11 Jan 2021 05:51:39 -0800 (PST)
-Received: from ?IPv6:2001:b07:6468:f312:c8dd:75d4:99ab:290a?
- ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
- by smtp.gmail.com with ESMTPSA id p24sm7614616edr.65.2021.01.11.05.51.38
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 11 Jan 2021 05:51:39 -0800 (PST)
-Subject: Re: [PATCH 18/20] keyval: Use GString to accumulate value strings
-To: Markus Armbruster <armbru@redhat.com>
-References: <20201211171152.146877-1-armbru@redhat.com>
- <20201211171152.146877-19-armbru@redhat.com>
- <ee46bd65-e6bd-929b-74d1-1fb8110879c1@redhat.com>
- <87lfczk4ik.fsf@dusky.pond.sub.org>
-From: Paolo Bonzini <pbonzini@redhat.com>
-Message-ID: <bd2c3808-59f2-7087-8681-6ba914890d8a@redhat.com>
-Date: Mon, 11 Jan 2021 14:51:38 +0100
+ bh=gHy3Wl+6Mzf7iV9lBXUWZ1sx8ibE/t5IHEeBXLpucvs=;
+ b=ZRjfZ/6gZolrte/BXTi8kAg/8xiaOWSU0JG5wDiDtDg+MHYJD7F5Pf/dL/zNEUQnXeWIcW
+ RevOf1RjOCxwrJ1Faa5PhxOYydBZcvMhpoLlKQnWimVYkYnNiepP5eDvrxd3hKK5qzjudx
+ x2CrTCr4BuSeOUm6W+vXj3wLYECfmmA=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-359-EEtwaIS0O4mm0ebQXLENgQ-1; Mon, 11 Jan 2021 08:57:08 -0500
+X-MC-Unique: EEtwaIS0O4mm0ebQXLENgQ-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 9B3EA107ACF9;
+ Mon, 11 Jan 2021 13:57:07 +0000 (UTC)
+Received: from thuth.remote.csb (ovpn-112-147.ams2.redhat.com [10.36.112.147])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 317806E510;
+ Mon, 11 Jan 2021 13:57:00 +0000 (UTC)
+Subject: Re: [PULL 00/15] Testing, CI and bsd-user patches
+To: Peter Maydell <peter.maydell@linaro.org>
+References: <20210111134328.157775-1-thuth@redhat.com>
+ <CAFEAcA9RRmZd+b3hUzfpWEbUyd3Qaa_WSvyDAuDbPwHzqKixXg@mail.gmail.com>
+From: Thomas Huth <thuth@redhat.com>
+Message-ID: <a1081224-a48a-839c-d876-23d29adecf4b@redhat.com>
+Date: Mon, 11 Jan 2021 14:56:44 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.5.0
+ Thunderbird/78.4.0
 MIME-Version: 1.0
-In-Reply-To: <87lfczk4ik.fsf@dusky.pond.sub.org>
+In-Reply-To: <CAFEAcA9RRmZd+b3hUzfpWEbUyd3Qaa_WSvyDAuDbPwHzqKixXg@mail.gmail.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=pbonzini@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=thuth@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=pbonzini@redhat.com;
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=thuth@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -29
 X-Spam_score: -3.0
@@ -104,21 +81,51 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel@nongnu.org, mdroth@linux.vnet.ibm.com
+Cc: Alexander Bulekov <alxndr@bu.edu>, Warner Losh <imp@freebsd.org>,
+ QEMU Developers <qemu-devel@nongnu.org>, Qiuhao Li <Qiuhao.Li@outlook.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 11/01/21 14:05, Markus Armbruster wrote:
-> I had to choose between creating a conflict and holding back my series
-> while we figure out what to do with your patch.  The dilemma is my own
-> doing; your patch is waiting just for me.  I picked the conflict.
+On 11/01/2021 14.46, Peter Maydell wrote:
+> On Mon, 11 Jan 2021 at 13:43, Thomas Huth <thuth@redhat.com> wrote:
+>>
+>>   Hi,
+>>
+>> the following changes since commit 7b09f127738ae3d0e71716cea086fc8f847a5686:
+>>
+>>    Merge remote-tracking branch 'remotes/pmaydell/tags/pull-target-arm-20210108' into staging (2021-01-08 15:37:04 +0000)
+>>
+>> are available in the Git repository at:
+>>
+>>    https://gitlab.com/huth/qemu.git tags/pull-request-2021-01-11
+>>
+>> for you to fetch changes up to 2ee8a60bc51af853b2adfb581bf106b0db109dd9:
+>>
+>>    fuzz: map all BARs and enable PCI devices (2021-01-11 11:38:15 +0100)
+>>
+>> ----------------------------------------------------------------
+>> * Fuzzer improvements
+>> * Add OpenSUSE leap to the gitlab-CI
+>> * Some fixes to get our CI "green" again
+>> * Some initial patches to update bsd-user
+>> ----------------------------------------------------------------
 > 
-> I can look into rebasing your patch on top of mine.
+> My scripts report:
+> 
+> [staging f3ea435b40a] Merge remote-tracking branch
+> 'remotes/huth-gitlab/tags/pull-request-2021-01-11' into staging
+>   Date: Mon Jan 11 13:45:40 2021 +0000
+> Cho, Yu-Chen via (1):
+>        gitlab-ci.yml: Add openSUSE Leap 15.2 for gitlab CI/CD
+> ERROR: pull request includes commits attributed to list
+> 
+> Could you fix up the attribution in that commit and resend the pullreq,
+> please?
 
-No need to.  My patch also removes the use of GString, so the code after 
-my patch can be exactly the same.  Or in other words, squashing a revert 
-in front of my patch just works.
+Oops, sorry. I'll add a check to my pullreq script so that this does not 
+happen again.
 
-Paolo
+  Thanks,
+   Thomas
 
 
