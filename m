@@ -2,67 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7F8E62F1CEE
-	for <lists+qemu-devel@lfdr.de>; Mon, 11 Jan 2021 18:48:10 +0100 (CET)
-Received: from localhost ([::1]:42322 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5576D2F1D26
+	for <lists+qemu-devel@lfdr.de>; Mon, 11 Jan 2021 18:53:54 +0100 (CET)
+Received: from localhost ([::1]:52662 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kz1IX-0007ed-Iv
-	for lists+qemu-devel@lfdr.de; Mon, 11 Jan 2021 12:48:09 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55698)
+	id 1kz1O5-0004IM-FA
+	for lists+qemu-devel@lfdr.de; Mon, 11 Jan 2021 12:53:53 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57256)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1kz1Cm-0001dA-4P
- for qemu-devel@nongnu.org; Mon, 11 Jan 2021 12:42:12 -0500
-Received: from mail-ej1-x636.google.com ([2a00:1450:4864:20::636]:46136)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1kz1IM-0008Ky-Ek
+ for qemu-devel@nongnu.org; Mon, 11 Jan 2021 12:47:58 -0500
+Received: from mail-wr1-x42e.google.com ([2a00:1450:4864:20::42e]:37351)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1kz1Ch-0003rV-Nw
- for qemu-devel@nongnu.org; Mon, 11 Jan 2021 12:42:11 -0500
-Received: by mail-ej1-x636.google.com with SMTP id t16so748835ejf.13
- for <qemu-devel@nongnu.org>; Mon, 11 Jan 2021 09:42:07 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1kz1IH-0004u1-S4
+ for qemu-devel@nongnu.org; Mon, 11 Jan 2021 12:47:58 -0500
+Received: by mail-wr1-x42e.google.com with SMTP id i9so675258wrc.4
+ for <qemu-devel@nongnu.org>; Mon, 11 Jan 2021 09:47:53 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=Zs5bPLmYb+F4EqwZT9EmaQcbeinrAZ0cL/V9TRfTSlQ=;
- b=Sy7WeTevCvUGbC9lzdlPRrIsq7ixLyVJIHOAC6LdghRccbBeQYHlmZRi9ghBygC/qM
- 5DZ0i5GwN4YTaeBAwkuK34/jsVUu9hpuloaEhe4HX8owjbA/Y3sY6xBlx2VIltZpNG6+
- RNU6xmDk0mwVkCrTCtjdFoWUl3eL4JrjaIRndXdg7P8DmMoTFx/gYyHoUFjPoc8vs55/
- 8BV1PKsGDPM0gxxwpT+lmwoZ27x8kyJhuIH9u7Di08FQBc85sk+9Vww5pzffVWr960sn
- mmbePsyOaj3Lqmiyi27bNR7toYeBtg11lQr0a8ZlRlnOJuI/l7zuZ7MEmch/39j8Aqn4
- nJEw==
+ h=references:user-agent:from:to:cc:subject:date:in-reply-to
+ :message-id:mime-version:content-transfer-encoding;
+ bh=7PomrZU0jMeuj2pSx76rGsVMpY5/lWRJj77kNrVmTOQ=;
+ b=eN3dBxOzR44brDRBdWt3v4cXwY6j30skPdqKuTGRWe/DKoQpXBEbYCNfUfWnxSmOMu
+ XBy0JNbmcqHL9/5eTyQHRZK0TylvdmoTIQtrHYnXogIczvSNKQKMvqS2IDa41gSpOeb0
+ jCa+KqJnWspIoTNo5Vo72FWylPM+UqOOAL93Y9lhyE/E+JSasH8i1x5Qt4PEIRazuKwW
+ 47iItS+Yn4S8d/GkngwvwwLE36JBsUFx206rpGBdpMxlY9JBo+PoakQ2ux2Lr1L6YVLy
+ T4Sq750nq5cgVMPwYor3Gt9Bgx5x9vcasoQAVPtwwZubrFxLtHxMm/RPTAu3LFDIRtjD
+ wmlA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=Zs5bPLmYb+F4EqwZT9EmaQcbeinrAZ0cL/V9TRfTSlQ=;
- b=Tf0H9W4bhigjjPpNiJqHNugCwvCAcc5yNuZ8FyM49K+fwFrQsdEx7Gcpm5eaXt+e3Y
- k/fqr/dZeQoFa8zg3F/UdMb7o4Bijdlkg6XhOfKTJ2Teuv7Rqt/A4dQ3KtxbKuxDoyih
- dESMAMkEGUaJNcNH9SfaAqz53/9BNnz9FlsB1jbEMvoLB3NJQFLdWnLTeurzv1lpTB7R
- KoDR8aNhFs/u38VtXpaXIsNcg1AUwslcnWPYDAUHm8S0Q7RdYLPb9CH4CodpKK49WDxa
- 6FRy367pLK/r279xNotJvfgRJAYwaeuZ2iJ8RKQcBdF1a6sHnLqRB4vmfvyrvVRCyYnA
- 5tsg==
-X-Gm-Message-State: AOAM5330RuiOZWU0Acge4cnENASeOQ/WdybkEf9PpcPk4qBeuZX0gcMq
- kAlSG4/uA0vLtm82NGuAof63EWvT4XMtf+GEwfPPZA==
-X-Google-Smtp-Source: ABdhPJz/ilWZxgQVTWNMO3GT/AT3/HNW6kyj0TI7N2qEA4Lm3swPsu/UpC12KY9K+E/0PrEjEPOTq88WfIr60ixOfn4=
-X-Received: by 2002:a17:906:e94c:: with SMTP id
- jw12mr449849ejb.56.1610386925922; 
- Mon, 11 Jan 2021 09:42:05 -0800 (PST)
+ h=x-gm-message-state:references:user-agent:from:to:cc:subject:date
+ :in-reply-to:message-id:mime-version:content-transfer-encoding;
+ bh=7PomrZU0jMeuj2pSx76rGsVMpY5/lWRJj77kNrVmTOQ=;
+ b=GbAXhYX+t2We1J8z+VvYwp5XaV3Aj4ByfCxNyLPtayh4Pv7mENGvuxes3gU8X8JyJV
+ /BXLkzmbdjpMDYEm7X9x1k+0bQ5OnurUYYKrR+OHM8qEkN/1U7smd4lVU+m6ThSFZhwX
+ YOM6t5hB1ZaCxauE0OcmIPek9ZzQL/yXsERJ+Ht+Z+L37jAX6MQpeIwrTqUppvWJanm+
+ rCrHYFxK3INM0CnVO7V2+62G0LHLHgxj4usK85aCJIUD/1HSFFPwnxMPvlQAOQ5Y5q48
+ 57gvHkIsTekfcSdeSDO5Oc7KVO1Qj7V2IzB95QhKyKvo0ukLzdIAc2Fh6mLtTJFiQB+p
+ DVkQ==
+X-Gm-Message-State: AOAM5307PD89kdz+Vp4szUST0hvCbYM8v2hDWbZDEEWfq21gWzKHPxsf
+ JMzH/gfcNkhunY3wjiRcwQe2Qg==
+X-Google-Smtp-Source: ABdhPJyEoJCuSw+5tRtzaJyx6mVyGEBtWFwj20lKG9ywN4EzrcnynxBCh/RF0f45AqXVj56ADnb/VQ==
+X-Received: by 2002:a5d:5385:: with SMTP id d5mr269757wrv.384.1610387272416;
+ Mon, 11 Jan 2021 09:47:52 -0800 (PST)
+Received: from zen.linaroharston ([51.148.130.216])
+ by smtp.gmail.com with ESMTPSA id v20sm26616wml.34.2021.01.11.09.47.51
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 11 Jan 2021 09:47:51 -0800 (PST)
+Received: from zen (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id 8337D1FF7E;
+ Mon, 11 Jan 2021 17:47:50 +0000 (GMT)
+References: <20210111152020.1422021-1-philmd@redhat.com>
+ <20210111152020.1422021-2-philmd@redhat.com>
+User-agent: mu4e 1.5.7; emacs 28.0.50
+From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>
+Subject: Re: [PATCH 1/2] sysemu/runstate: Let runstate_is_running() return bool
+Date: Mon, 11 Jan 2021 17:46:36 +0000
+In-reply-to: <20210111152020.1422021-2-philmd@redhat.com>
+Message-ID: <87o8hvnz5l.fsf@linaro.org>
 MIME-Version: 1.0
-References: <20200901104043.91383-1-f4bug@amsat.org>
- <20200901104043.91383-5-f4bug@amsat.org>
- <20210111011117.GA215408@ubuntu-m3-large-x86>
-In-Reply-To: <20210111011117.GA215408@ubuntu-m3-large-x86>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Mon, 11 Jan 2021 17:41:54 +0000
-Message-ID: <CAFEAcA_uz3XryHh3t4DvVR38jHGCm47YFL6KMJJX4-boMih2og@mail.gmail.com>
-Subject: Re: [PATCH 4/5] hw/ppc/ppc4xx_pci: Replace pointless warning by
- assert()
-To: Nathan Chancellor <natechancellor@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::636;
- envelope-from=peter.maydell@linaro.org; helo=mail-ej1-x636.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::42e;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x42e.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -82,52 +87,41 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>,
- QEMU Developers <qemu-devel@nongnu.org>,
- Aleksandar Markovic <aleksandar.qemu.devel@gmail.com>,
- qemu-ppc <qemu-ppc@nongnu.org>, Guenter Roeck <linux@roeck-us.net>,
- Greg Kurz <groug@kaod.org>, Aurelien Jarno <aurelien@aurel32.net>,
- David Gibson <david@gibson.dropbear.id.au>
+Cc: Fam Zheng <fam@euphon.net>, Peter Maydell <peter.maydell@linaro.org>,
+ Dmitry Fleytman <dmitry.fleytman@gmail.com>, kvm@vger.kernel.org,
+ "Michael S. Tsirkin" <mst@redhat.com>, Jason Wang <jasowang@redhat.com>,
+ David Hildenbrand <david@redhat.com>, qemu-devel@nongnu.org,
+ Laurent Vivier <laurent@vivier.eu>, Thomas Huth <thuth@redhat.com>,
+ Gerd Hoffmann <kraxel@redhat.com>, Stefano Stabellini <sstabellini@kernel.org>,
+ qemu-block@nongnu.org, qemu-trivial@nongnu.org,
+ Huacai Chen <chenhuacai@kernel.org>, Halil Pasic <pasic@linux.ibm.com>,
+ Christian Borntraeger <borntraeger@de.ibm.com>,
+ Anthony Perard <anthony.perard@citrix.com>, xen-devel@lists.xenproject.org,
+ Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>,
+ Eduardo Habkost <ehabkost@redhat.com>, Amit Shah <amit@kernel.org>,
+ Richard Henderson <richard.henderson@linaro.org>, Greg Kurz <groug@kaod.org>,
+ Paul Durrant <paul@xen.org>, Alex Williamson <alex.williamson@redhat.com>,
+ qemu-arm@nongnu.org, =?utf-8?Q?C=C3=A9dric?= Le Goater <clg@kaod.org>,
+ Stefan Hajnoczi <stefanha@redhat.com>,
+ Sunil Muthuswamy <sunilmut@microsoft.com>, John Snow <jsnow@redhat.com>,
+ David Gibson <david@gibson.dropbear.id.au>, Kevin Wolf <kwolf@redhat.com>,
+ Marcelo Tosatti <mtosatti@redhat.com>, qemu-s390x@nongnu.org,
+ Max Reitz <mreitz@redhat.com>, qemu-ppc@nongnu.org,
+ Cornelia Huck <cohuck@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ Aurelien Jarno <aurelien@aurel32.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, 11 Jan 2021 at 01:11, Nathan Chancellor
-<natechancellor@gmail.com> wrote:
+
+Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com> writes:
+
+> runstate_check() returns a boolean. runstate_is_running()
+> returns what runstate_check() returns, also a boolean.
 >
-> On Tue, Sep 01, 2020 at 12:40:42PM +0200, Philippe Mathieu-Daud=C3=A9 wro=
-te:
-> > We call pci_register_root_bus() to register 4 IRQs with the
-> > ppc4xx_pci_set_irq() handler. As it can only be called with
-> > values in the [0-4[ range, replace the pointless warning by
-> > an assert().
-> >
-> > Signed-off-by: Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>
+> Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
 
-> Hopefully reporting this here is okay, I find Launchpad hard to use but
-> I can file it there if need be.
->
-> The assertion added by this patch triggers while trying to boot a
-> ppc44x_defconfig Linux kernel:
+Reviewed-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
 
-This is the same issue reported here by Guenter:
-https://lore.kernel.org/qemu-devel/3f0f8fc6-6148-a76e-1088-b7882b0bbcaf@roe=
-ck-us.net/
-It's still there in master (you can see it if you apply my fix
-https://patchew.org/QEMU/20210111171623.18871-1-peter.maydell@linaro.org/
-to get past the earlier kernel panic).
-
-The QEMU code as it stands for the Bamboo PCI interrupts is clearly
-wrong. The problem is that I don't know what the hardware's
-actual behaviour is, so it's hard to fix the model...
-A comment in hw/ppc/ppc4xx_pci.c claims
-"On Bamboo, all pins from each slot are tied to a single board IRQ."
-Code in hw/ppc/ppc440_bamboo.c wires four irq lines from the
-PCI controller up to UIC lines 25, 26, 27, 28.
-
-Does anybody have documentation for this board ? What is Linux
-expecting the PCI IRQ wiring to be (not necessarily an indication
-that that's what the h/w does, but a useful clue :-)) ?
-
-thanks
--- PMM
+--=20
+Alex Benn=C3=A9e
 
