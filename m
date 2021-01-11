@@ -2,67 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E8F432F1E7B
-	for <lists+qemu-devel@lfdr.de>; Mon, 11 Jan 2021 20:05:02 +0100 (CET)
-Received: from localhost ([::1]:52264 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 07B0A2F1E7A
+	for <lists+qemu-devel@lfdr.de>; Mon, 11 Jan 2021 20:04:59 +0100 (CET)
+Received: from localhost ([::1]:51992 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kz2Uv-0008GW-Uy
-	for lists+qemu-devel@lfdr.de; Mon, 11 Jan 2021 14:05:02 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46812)
+	id 1kz2Ur-0008A0-Fy
+	for lists+qemu-devel@lfdr.de; Mon, 11 Jan 2021 14:04:57 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46856)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1kz2RN-0005f3-0Z
- for qemu-devel@nongnu.org; Mon, 11 Jan 2021 14:01:21 -0500
-Received: from mail-pl1-x633.google.com ([2607:f8b0:4864:20::633]:36271)
+ id 1kz2RO-0005ft-Et
+ for qemu-devel@nongnu.org; Mon, 11 Jan 2021 14:01:22 -0500
+Received: from mail-pg1-x52e.google.com ([2607:f8b0:4864:20::52e]:42407)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1kz2RK-0006MN-66
- for qemu-devel@nongnu.org; Mon, 11 Jan 2021 14:01:20 -0500
-Received: by mail-pl1-x633.google.com with SMTP id j1so346529pld.3
- for <qemu-devel@nongnu.org>; Mon, 11 Jan 2021 11:01:17 -0800 (PST)
+ id 1kz2RM-0006Mg-5s
+ for qemu-devel@nongnu.org; Mon, 11 Jan 2021 14:01:22 -0500
+Received: by mail-pg1-x52e.google.com with SMTP id g15so256581pgu.9
+ for <qemu-devel@nongnu.org>; Mon, 11 Jan 2021 11:01:19 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=/F/kqeHksImGvstf5taTsaI7j9+MkxMQkwgzkDOwKP0=;
- b=DKsuor1vXPGPlQYxFbaQbgeI509RcGrRpvHlU9zKMUE+dyet4PeT7FIpHCD9F5GAJF
- Uf+r5mGGOfcp1p3oxmBfbd30TNnoaE0QWlkUteBVpfsbiDOQGDftTTGmpdz9GGhm5E4o
- a1VN/++xo/Z6axdYmGA/rxRj5AuOoeXhxYmRTf2wNOhNvlMUQRWXDmuuQo6pC0P9+OT4
- v1j7QViPDcRgODsjUZ10O+27Exb1rinIIA/HI9URDbP+IQ7j0p2S9XobouAHROQoVuvS
- 1dyPK+jpoqdOGRINqrKCXgnf6BattDrLmx15POgb653X+eF3263vjf7ZWQ1vI2ba/9gC
- lMFw==
+ h=from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=8XIA/+X37AvNazV2jisISm3ZiIWDvYr5zvekcj4Rlqc=;
+ b=cN938TE5rE+EPWVe+3ynvGY0NH2UDEeH9IIQGdwXBJ6IWOSFjRT1qQdhx758J0QVAg
+ lX9CHNXanximN3zGvU7oCdaeZSgrd+6xOrvByA9PWSH85NzmY52XhIBBshAvin+3M+W1
+ B1jr7CUGnZkK7A8Qyfk0wPumg+Ah9iLetOZIvV4QJTU7Wo/6anyhJ+E3xCWu5WrLb18e
+ qpQqLfhljYzVX7S7OF9E8zQVvc5WgOMDAO03PPAf3IitkAnBc+BDV1ARjXTYl0gRW5eI
+ Ta+IAB0rii3/I3GKQtKE9B1Ni5kDyWzAQ7Qnbv/ox0lOtPJkmqQmPiYyEuU5GaPMDapH
+ IaDg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=/F/kqeHksImGvstf5taTsaI7j9+MkxMQkwgzkDOwKP0=;
- b=Fcfx1khq0rfVhuz3IsjhVLGjupJPeOs1Hs1NYs5FLni6/P4nRHke6Skwh7LgL3pIun
- 4h2qqGoZoyN0HjNaDqVAQu7hTLQOp+TuDTbt1CMmdQ90QYe38ixLqnHb37XOm3I4eI9s
- e60kuKwQxNyBiLr1E1MptEv9ChVLYfss3TSA6AC86+o7KRy2VvrhDXuVUaq5hni55oRY
- +KUyLcLAL1fMJcSMDoK6UWvXUR+uBatiozDnSg+AubboZuq6YvPMzDCEAh9SLLGViG1U
- Yh0hEysuYJ0mqWtQflkF32IAdOSXriFpUbWE+GfapWirEmbJEl4h/XBQOBxE6gFXKGap
- 09wA==
-X-Gm-Message-State: AOAM5303spQaH1LqEuSs47A2QONRCnkvqUHN7+bUPaexC20L82eu2sq6
- wQ5ECHjWfPsk1Ir9gzQ0QTEuorM31R9NYg==
-X-Google-Smtp-Source: ABdhPJwR6jy8mvrpFHjLBze7Tbegg86o/eoL/c8qNzHb5ZSol1iNmOWLj+FDbZ5jVHYfz+kOp+32Cw==
-X-Received: by 2002:a17:90b:14d3:: with SMTP id
- jz19mr298131pjb.196.1610391676277; 
- Mon, 11 Jan 2021 11:01:16 -0800 (PST)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=8XIA/+X37AvNazV2jisISm3ZiIWDvYr5zvekcj4Rlqc=;
+ b=KZm61zj4vz7ETAXsD89jhQzUlKS4sQPz4z3m4aVLV8R7AY5CUzuyXUoZ8VCatlXYvF
+ g8Hj/WNUv0Vuu9r7OAXRG2Ydj4EMlomCNzWlEZHnRmJNwWr3oTMQLItGGgSksORCamgM
+ waI4Hjbw08+kf2yhrcnrGG5lu/aB9UApXNkuIxLzXiWsn9gysAjE0AvGJJ5Dh3AVZS2j
+ opjiaVo0rkMCJ3In4r5Lu/eqUuENfn9mwKNysHIZw5G0ALEIZMSQucnqbmf4JG3dSnBr
+ X9BfpoTerA4rhyBWesK6f7yB7+fBdVUPTqR+YcZz7dpBmGtR9FMr78XhjUib4ugR0rXO
+ 3ZNQ==
+X-Gm-Message-State: AOAM533LaywG252+AE6/Osy0W0LvDwKSRDnR7jmfK5LB7hxzwTn07smD
+ LUil1hH6h9Qtt+ztbnBckD18scaAvgkyeg==
+X-Google-Smtp-Source: ABdhPJy2SsTdEWEhpq6hGb/bnU6XX5ezhtXrC5MgDhJITpgXInM5F8ixNh5LgQB9Raw2rmv5PHgd8g==
+X-Received: by 2002:a63:5642:: with SMTP id g2mr930203pgm.434.1610391678178;
+ Mon, 11 Jan 2021 11:01:18 -0800 (PST)
 Received: from localhost.localdomain (rrcs-173-197-107-21.west.biz.rr.com.
  [173.197.107.21])
- by smtp.gmail.com with ESMTPSA id n195sm350395pfd.169.2021.01.11.11.01.14
+ by smtp.gmail.com with ESMTPSA id n195sm350395pfd.169.2021.01.11.11.01.16
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 11 Jan 2021 11:01:15 -0800 (PST)
+ Mon, 11 Jan 2021 11:01:17 -0800 (PST)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v3 00/30] target/arm: enforce alignment
-Date: Mon, 11 Jan 2021 09:00:43 -1000
-Message-Id: <20210111190113.303726-1-richard.henderson@linaro.org>
+Subject: [PATCH v3 01/30] target/arm: Fix decode of align in VLDST_single
+Date: Mon, 11 Jan 2021 09:00:44 -1000
+Message-Id: <20210111190113.303726-2-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.25.1
+In-Reply-To: <20210111190113.303726-1-richard.henderson@linaro.org>
+References: <20210111190113.303726-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::633;
- envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x633.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::52e;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x52e.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -86,73 +87,53 @@ Cc: peter.maydell@linaro.org, qemu-arm@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-As reported in https://bugs.launchpad.net/bugs/1905356
+The encoding of size = 2 and size = 3 had the incorrect decode
+for align, overlapping the stride field.  This error was hidden
+by what should have been unnecessary masking in translate.
 
-Changes for v3:
+Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
+Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+---
+ target/arm/neon-ls.decode       | 4 ++--
+ target/arm/translate-neon.c.inc | 4 ++--
+ 2 files changed, 4 insertions(+), 4 deletions(-)
 
-* Move TBFLAG_{A64,A32,M32,AM32} to tb->cs_base, leaving only
-  TBFLAG_ANY in tb->flags.  This solves our current problem of
-  running out of bits in tb->flags.
-
-* Dropped "Enforce alignment for sve unpredicated LDR/STR";
-  there are more changes required for SVE, and I think I'll
-  integrate those into my SVE2 patch set.
-
-Changes for v2:
-
-* Rearranged things a bit, which has made it easy to support
-  SCTLR.A/CCR.UNALIGN_TRAP.  At least for non-sve code, where
-  we issue tcg load/store operations.  Predicated sve load/stores
-  will require more work within the helpers.
-
-
-r~
-
-
-Richard Henderson (30):
-  target/arm: Fix decode of align in VLDST_single
-  target/arm: Rename TBFLAG_A32, SCTLR_B
-  target/arm: Rename TBFLAG_ANY, PSTATE_SS
-  target/arm: Add wrapper macros for accessing tbflags
-  target/arm: Introduce CPUARMTBFlags
-  target/arm: Move mode specific TB flags to tb->cs_base
-  target/arm: Move TBFLAG_AM32 bits to the top
-  target/arm: Move TBFLAG_ANY bits to the bottom
-  target/arm: Add ALIGN_MEM to TBFLAG_ANY
-  target/arm: Adjust gen_aa32_{ld,st}_i32 for align+endianness
-  target/arm: Merge gen_aa32_frob64 into gen_aa32_ld_i64
-  target/arm: Fix SCTLR_B test for TCGv_i64 load/store
-  target/arm: Adjust gen_aa32_{ld,st}_i64 for align+endianness
-  target/arm: Enforce word alignment for LDRD/STRD
-  target/arm: Enforce alignment for LDA/LDAH/STL/STLH
-  target/arm: Enforce alignment for LDM/STM
-  target/arm: Enforce alignment for RFE
-  target/arm: Enforce alignment for SRS
-  target/arm: Enforce alignment for VLDM/VSTM
-  target/arm: Enforce alignment for VLDR/VSTR
-  target/arm: Enforce alignment for VLDn (all lanes)
-  target/arm: Enforce alignment for VLDn/VSTn (multiple)
-  target/arm: Enforce alignment for VLDn/VSTn (single)
-  target/arm: Use finalize_memop for aa64 gpr load/store
-  target/arm: Use finalize_memop for aa64 fpr load/store
-  target/arm: Enforce alignment for aa64 load-acq/store-rel
-  target/arm: Use MemOp for size + endian in aa64 vector ld/st
-  target/arm: Enforce alignment for aa64 vector LDn/STn (multiple)
-  target/arm: Enforce alignment for aa64 vector LDn/STn (single)
-  target/arm: Enforce alignment for sve LD1R
-
- target/arm/cpu.h                | 105 ++++++++-----
- target/arm/translate.h          |  38 +++++
- target/arm/neon-ls.decode       |   4 +-
- target/arm/helper-a64.c         |   2 +-
- target/arm/helper.c             | 160 +++++++++++---------
- target/arm/translate-a64.c      | 214 +++++++++++++-------------
- target/arm/translate-sve.c      |   2 +-
- target/arm/translate.c          | 258 +++++++++++++++++---------------
- target/arm/translate-neon.c.inc | 117 ++++++++++++---
- target/arm/translate-vfp.c.inc  |  20 +--
- 10 files changed, 555 insertions(+), 365 deletions(-)
-
+diff --git a/target/arm/neon-ls.decode b/target/arm/neon-ls.decode
+index c17f5019e3..0a2a0e15db 100644
+--- a/target/arm/neon-ls.decode
++++ b/target/arm/neon-ls.decode
+@@ -46,7 +46,7 @@ VLD_all_lanes  1111 0100 1 . 1 0 rn:4 .... 11 n:2 size:2 t:1 a:1 rm:4 \
+ 
+ VLDST_single   1111 0100 1 . l:1 0 rn:4 .... 00 n:2 reg_idx:3 align:1 rm:4 \
+                vd=%vd_dp size=0 stride=1
+-VLDST_single   1111 0100 1 . l:1 0 rn:4 .... 01 n:2 reg_idx:2 align:2 rm:4 \
++VLDST_single   1111 0100 1 . l:1 0 rn:4 .... 01 n:2 reg_idx:2 . align:1 rm:4 \
+                vd=%vd_dp size=1 stride=%imm1_5_p1
+-VLDST_single   1111 0100 1 . l:1 0 rn:4 .... 10 n:2 reg_idx:1 align:3 rm:4 \
++VLDST_single   1111 0100 1 . l:1 0 rn:4 .... 10 n:2 reg_idx:1 . align:2 rm:4 \
+                vd=%vd_dp size=2 stride=%imm1_6_p1
+diff --git a/target/arm/translate-neon.c.inc b/target/arm/translate-neon.c.inc
+index f6c68e30ab..0e5828744b 100644
+--- a/target/arm/translate-neon.c.inc
++++ b/target/arm/translate-neon.c.inc
+@@ -606,7 +606,7 @@ static bool trans_VLDST_single(DisasContext *s, arg_VLDST_single *a)
+     switch (nregs) {
+     case 1:
+         if (((a->align & (1 << a->size)) != 0) ||
+-            (a->size == 2 && ((a->align & 3) == 1 || (a->align & 3) == 2))) {
++            (a->size == 2 && (a->align == 1 || a->align == 2))) {
+             return false;
+         }
+         break;
+@@ -621,7 +621,7 @@ static bool trans_VLDST_single(DisasContext *s, arg_VLDST_single *a)
+         }
+         break;
+     case 4:
+-        if ((a->size == 2) && ((a->align & 3) == 3)) {
++        if (a->size == 2 && a->align == 3) {
+             return false;
+         }
+         break;
 -- 
 2.25.1
 
