@@ -2,73 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CF0B52F0B8F
-	for <lists+qemu-devel@lfdr.de>; Mon, 11 Jan 2021 04:46:31 +0100 (CET)
-Received: from localhost ([::1]:51054 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1DB822F0BC4
+	for <lists+qemu-devel@lfdr.de>; Mon, 11 Jan 2021 05:22:01 +0100 (CET)
+Received: from localhost ([::1]:54862 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kyoA2-0007tu-Un
-	for lists+qemu-devel@lfdr.de; Sun, 10 Jan 2021 22:46:30 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49804)
+	id 1kyoiN-0003M8-KM
+	for lists+qemu-devel@lfdr.de; Sun, 10 Jan 2021 23:21:59 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53956)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <luoyonggang@gmail.com>)
- id 1kyo8g-0007Sf-R7
- for qemu-devel@nongnu.org; Sun, 10 Jan 2021 22:45:06 -0500
-Received: from mail-lj1-x22e.google.com ([2a00:1450:4864:20::22e]:34042)
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1kyoh7-0002u3-SA
+ for qemu-devel@nongnu.org; Sun, 10 Jan 2021 23:20:41 -0500
+Received: from indium.canonical.com ([91.189.90.7]:38338)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <luoyonggang@gmail.com>)
- id 1kyo8f-00010b-33
- for qemu-devel@nongnu.org; Sun, 10 Jan 2021 22:45:06 -0500
-Received: by mail-lj1-x22e.google.com with SMTP id m10so1992751lji.1
- for <qemu-devel@nongnu.org>; Sun, 10 Jan 2021 19:45:04 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:reply-to:from:date:message-id
- :subject:to:cc;
- bh=4SpCCzsVU5GqI3m5V/WjFmkbUQs/PkFeZF7A0wSlWHs=;
- b=snTi62DQDOiPVgluQCi/Ety4mwmAO+RSMd2mB85FA7CWJoAH+si1aXZBcOupo4d/wV
- xwQwBvCaQ/BCtqWlo7gnR3ocFtYph4VmdoiP78rqeifKoFFrCXrDYpi6SB/OOiZkGa14
- 2zd1ZVwfub235NfFF91hv1uk9mcTwbWNKfA/aubkGwjLLzdBYAvpgiAvWgMt7NWORu95
- JAiQlIBT+cnwiHi5/BYtYh970xkVZJGUbMNXZulgs1/UwfCc6WvyEB1IPHgtPCpWTB8d
- YjujuNX1OyDhYMTpPzcOD5Jid8MI5SRcoAgVFxJjS5mysUv3xsfioQOxg4oZgBLeSPak
- 4+cA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:reply-to
- :from:date:message-id:subject:to:cc;
- bh=4SpCCzsVU5GqI3m5V/WjFmkbUQs/PkFeZF7A0wSlWHs=;
- b=UndL/X22VUh/UcWMBHult9FKivRyEimTTJwUtVYTgk3XDX3E/jK8i1ZUzZindS8gSA
- 6jG4H6V9INAMd0CBetA7aHs91idvYy9BT6/TE68yvOZARyFKbyTGfeHkfTCgBk+euS3O
- Dmn3Bae5WaL4tVUHUixRUpxnsSURA5DyqRBCQim7vmQVb58S6ReGw9wHkwnj4+RUFKP2
- jm1+QgzMhp4GkcqOIt7Euy+UJdwTC+A12nvdAWtyP3dgp1CZlgqzOPN7cg+567Ps0LgE
- LPR5ioOWHxm0hKVo5f/RPK2f7hmdiZeYFzj2ysN/QHfS85xs4hT69uRSBMr2DmDIVFBX
- MnHQ==
-X-Gm-Message-State: AOAM531E+xMLZ/2i0TI+SpGSQP068V6hPqXz6QxjXr+xKFbl5rNqzwrz
- kwe6DPoP6mAkz6KCV03HQMcDCSwIIWlZ/JZkLrw=
-X-Google-Smtp-Source: ABdhPJwGpni2KNkr49d5/0FRuIyqtXOgVwiu6Yy+HboD/a6S5KG1+OvaCmj9OMchM5wlv+ni9Jal7U7QwpUQ1UAWh5Y=
-X-Received: by 2002:a2e:b80c:: with SMTP id u12mr6379964ljo.490.1610336703115; 
- Sun, 10 Jan 2021 19:45:03 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1kyoh5-0000eO-7Q
+ for qemu-devel@nongnu.org; Sun, 10 Jan 2021 23:20:41 -0500
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1kyoh2-0006Pr-UH
+ for <qemu-devel@nongnu.org>; Mon, 11 Jan 2021 04:20:36 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id E32DB2E8047
+ for <qemu-devel@nongnu.org>; Mon, 11 Jan 2021 04:20:36 +0000 (UTC)
 MIME-Version: 1.0
-References: <20210111001606.1122983-1-f4bug@amsat.org>
-In-Reply-To: <20210111001606.1122983-1-f4bug@amsat.org>
-From: =?UTF-8?B?572X5YuH5YiaKFlvbmdnYW5nIEx1byk=?= <luoyonggang@gmail.com>
-Date: Sun, 10 Jan 2021 19:44:50 -0800
-Message-ID: <CAE2XoE8YaeuyWTzi6LZTQzO4W1WH8sfbAuFSCBOpaxMFfysKRQ@mail.gmail.com>
-Subject: Re: [PATCH] util/oslib-win32: Fix _aligned_malloc() arguments order
-To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>
-Content-Type: multipart/alternative; boundary="0000000000002877a905b897bbb2"
-Received-SPF: pass client-ip=2a00:1450:4864:20::22e;
- envelope-from=luoyonggang@gmail.com; helo=mail-lj1-x22e.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Date: Mon, 11 Jan 2021 04:09:00 -0000
+From: Alexander Bulekov <1910941@bugs.launchpad.net>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: a1xndr cwmyung
+X-Launchpad-Bug-Reporter: Cheol-Woo,Myung (cwmyung)
+X-Launchpad-Bug-Modifier: Alexander Bulekov (a1xndr)
+References: <161033323107.21336.4834306381083745301.malonedeb@wampee.canonical.com>
+Message-Id: <161033814017.22168.8409169910657111242.malone@wampee.canonical.com>
+Subject: [Bug 1910941] Re: Assertion `addr < cache->len && 2 <= cache->len -
+ addr' in virtio-blk
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="fd9c5a87183d01004404fa6027cd262eaa7f6fcf"; Instance="production"
+X-Launchpad-Hash: 4d96563ed7162de0765764b10e0bcac5e57799b0
+Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
+ helo=indium.canonical.com
+X-Spam_score_int: -66
+X-Spam_score: -6.7
+X-Spam_bar: ------
+X-Spam_report: (-6.7 / 5.0 requ) BAYES_00=-1.9,
+ HEADER_FROM_DIFFERENT_DOMAINS=0.249, RCVD_IN_DNSWL_HI=-5,
+ RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001, WEIRD_PORT=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -77,115 +70,201 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: luoyonggang@gmail.com
-Cc: Stefan Weil <sw@weilnetz.de>, Thomas Huth <thuth@redhat.com>,
- =?UTF-8?Q?Volker_R=C3=BCmelin?= <vr_qemu@t-online.de>,
- Richard Henderson <richard.henderson@linaro.org>,
- qemu-level <qemu-devel@nongnu.org>
+Reply-To: Bug 1910941 <1910941@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---0000000000002877a905b897bbb2
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+This is OSS-Fuzz Issue 26797
 
-On Sun, Jan 10, 2021 at 4:16 PM Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.or=
-g>
-wrote:
->
-> Commit dfbd0b873a8 inadvertently swapped the arguments
-> of _aligned_malloc(), correct it to fix [*]:
->
->
-G_TEST_SRCDIR=3DC:/Users/ContainerAdministrator/AppData/Local/Temp/cirrus-c=
-i-build/tests
->
-G_TEST_BUILDDIR=3DC:/Users/ContainerAdministrator/AppData/Local/Temp/cirrus=
--ci-build/build/tests
->   tests/test-qht.exe --tap -k
->   ERROR test-qht - too few tests run (expected 2, got 0)
->   make: *** [Makefile.mtest:256: run-test-30] Error 1
->
-> [*] https://cirrus-ci.com/task/6055645751279616?command=3Dtest#L593
->
-> Fixes: dfbd0b873a8 ("util/oslib-win32: Use _aligned_malloc for
-qemu_try_memalign")
-> Reported-by: Yonggang Luo <luoyonggang@gmail.com>
-> Reported-by: Volker R=C3=BCmelin <vr_qemu@t-online.de>
-> Suggested-by: Volker R=C3=BCmelin <vr_qemu@t-online.de>
-> Signed-off-by: Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>
-> ---
->  util/oslib-win32.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
->
-> diff --git a/util/oslib-win32.c b/util/oslib-win32.c
-> index e6f83e10edb..f68b8012bb8 100644
-> --- a/util/oslib-win32.c
-> +++ b/util/oslib-win32.c
-> @@ -59,7 +59,7 @@ void *qemu_try_memalign(size_t alignment, size_t size)
->
->      g_assert(size !=3D 0);
->      g_assert(is_power_of_2(alignment));
-> -    ptr =3D _aligned_malloc(alignment, size);
-> +    ptr =3D _aligned_malloc(size, alignment);
->      trace_qemu_memalign(alignment, size, ptr);
->      return ptr;
->  }
-> --
-> 2.26.2
->
+=3D=3D=3D Reproducer =3D=3D=3D
+cat << EOF | ./qemu-system-i386 -machine q35 \
+-device virtio-blk,drive=3Ddisk0 \
+-drive file=3Dnull-co://,id=3Ddisk0,if=3Dnone,format=3Draw \
+-serial none -monitor none -qtest stdio -nographic =
 
-Oh, sorry, you 've fixed this. ignore my patch
+outl 0xcf8 0x80001890
+outl 0xcfc 0x4
+outl 0xcf8 0x8000188a
+outl 0xcfc 0xd4624
+outl 0xcf8 0x80001894
+outl 0xcfc 0x20000002
+outl 0xcf8 0x80001889
+outl 0xcfc 0x18000000
+outl 0xcf8 0x80001896
+outl 0xcfc 0x0
+outl 0xcf8 0x8000188c
+outw 0xcfc 0x20
+outl 0xcf8 0x80001894
+outl 0xcfc 0x1
+outl 0xcf8 0x8000188c
+outw 0xcfc 0x1c
+outl 0xcf8 0x80001895
+outl 0xcfc 0x0
+outl 0xcf8 0x80001889
+outl 0xcfc 0x18000000
+outl 0xcf8 0x80001894
+outl 0xcfc 0x40
+outl 0xcf8 0x8000188c
+outw 0xcfc 0x14
+outl 0xcf8 0x80001894
+outl 0xcfc 0x1004
+EOF
 
-Reviewed-by: Yonggang Luo <luoyonggang@gmail.com>
+=3D=3D=3D Stack Trace =3D=3D=3D
+qemu-fuzz-i386-target-generic-fuzz-virtio-blk: /src/qemu/include/exec/memor=
+y_ldst_cached.h.inc:88: void address_space_stw_le_cached(MemoryRegionCache =
+*, hwaddr, uint32_t, MemTxAttrs, MemTxResult *): Assertion `addr < cache->l=
+en && 2 <=3D cache->len - addr' failed.
 
---
-         =E6=AD=A4=E8=87=B4
-=E7=A4=BC
-=E7=BD=97=E5=8B=87=E5=88=9A
-Yours
-    sincerely,
-Yonggang Luo
+=3D=3D2382430=3D=3D ERROR: libFuzzer: deadly signal
+#8 address_space_stw_le_cached /src/qemu/include/exec/memory_ldst_cached.h.=
+inc:88:5
+#9 stw_le_phys_cached /src/qemu/include/exec/memory_ldst_phys.h.inc:121:5
+#10 virtio_stw_phys_cached /src/qemu/include/hw/virtio/virtio-access.h:196:9
+#11 vring_set_avail_event /src/qemu/hw/virtio/virtio.c:429:5
+#12 virtio_queue_split_set_notification /src/qemu/hw/virtio/virtio.c:438:9
+#13 virtio_queue_set_notification /src/qemu/hw/virtio/virtio.c:499:9
+#14 virtio_blk_handle_vq /src/qemu/hw/block/virtio-blk.c:795:13
+#15 virtio_blk_data_plane_handle_output /src/qemu/hw/block/dataplane/virtio=
+-blk.c:165:12
+#16 virtio_queue_notify_aio_vq /src/qemu/hw/virtio/virtio.c:2326:15
+#17 virtio_queue_host_notifier_aio_read /src/qemu/hw/virtio/virtio.c:3533:9
+#18 aio_dispatch_handler /src/qemu/util/aio-posix.c:329:9
+#19 aio_dispatch_handlers /src/qemu/util/aio-posix.c:372:20
+#20 aio_dispatch /src/qemu/util/aio-posix.c:382:5
+#21 aio_ctx_dispatch /src/qemu/util/async.c:306:5
+#22 g_main_context_dispatch
+#23 glib_pollfds_poll /src/qemu/util/main-loop.c:232:9
+#24 os_host_main_loop_wait /src/qemu/util/main-loop.c:255:5
+#25 main_loop_wait /src/qemu/util/main-loop.c:531:11
+#26 flush_events /src/qemu/tests/qtest/fuzz/fuzz.c:49:9
+#27 generic_fuzz /src/qemu/tests/qtest/fuzz/generic_fuzz.c:683:17
 
---0000000000002877a905b897bbb2
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+https://bugs.chromium.org/p/oss-fuzz/issues/detail?id=3D2qemu-fuzz-i386
+-target-generic-fuzz-virtio-blk:
+/src/qemu/include/exec/memory_ldst_cached.h.inc:88: void
+address_space_stw_le_cached(MemoryRegionCache *, hwaddr, uint32_t,
+MemTxAttrs, MemTxResult *): Assertion `addr < cache->len && 2 <=3D
+cache->len - addr' failed.6797
 
-<div dir=3D"ltr"><br><br>On Sun, Jan 10, 2021 at 4:16 PM Philippe Mathieu-D=
-aud=C3=A9 &lt;<a href=3D"mailto:f4bug@amsat.org">f4bug@amsat.org</a>&gt; wr=
-ote:<br>&gt;<br>&gt; Commit dfbd0b873a8 inadvertently swapped the arguments=
-<br>&gt; of _aligned_malloc(), correct it to fix [*]:<br>&gt;<br>&gt; =C2=
-=A0 G_TEST_SRCDIR=3DC:/Users/ContainerAdministrator/AppData/Local/Temp/cirr=
-us-ci-build/tests<br>&gt; =C2=A0 G_TEST_BUILDDIR=3DC:/Users/ContainerAdmini=
-strator/AppData/Local/Temp/cirrus-ci-build/build/tests<br>&gt; =C2=A0 tests=
-/test-qht.exe --tap -k<br>&gt; =C2=A0 ERROR test-qht - too few tests run (e=
-xpected 2, got 0)<br>&gt; =C2=A0 make: *** [Makefile.mtest:256: run-test-30=
-] Error 1<br>&gt;<br>&gt; [*] <a href=3D"https://cirrus-ci.com/task/6055645=
-751279616?command=3Dtest#L593">https://cirrus-ci.com/task/6055645751279616?=
-command=3Dtest#L593</a><br>&gt;<br>&gt; Fixes: dfbd0b873a8 (&quot;util/osli=
-b-win32: Use _aligned_malloc for qemu_try_memalign&quot;)<br>&gt; Reported-=
-by: Yonggang Luo &lt;<a href=3D"mailto:luoyonggang@gmail.com">luoyonggang@g=
-mail.com</a>&gt;<br>&gt; Reported-by: Volker R=C3=BCmelin &lt;<a href=3D"ma=
-ilto:vr_qemu@t-online.de">vr_qemu@t-online.de</a>&gt;<br>&gt; Suggested-by:=
- Volker R=C3=BCmelin &lt;<a href=3D"mailto:vr_qemu@t-online.de">vr_qemu@t-o=
-nline.de</a>&gt;<br>&gt; Signed-off-by: Philippe Mathieu-Daud=C3=A9 &lt;<a =
-href=3D"mailto:f4bug@amsat.org">f4bug@amsat.org</a>&gt;<br>&gt; ---<br>&gt;=
- =C2=A0util/oslib-win32.c | 2 +-<br>&gt; =C2=A01 file changed, 1 insertion(=
-+), 1 deletion(-)<br>&gt;<br>&gt; diff --git a/util/oslib-win32.c b/util/os=
-lib-win32.c<br>&gt; index e6f83e10edb..f68b8012bb8 100644<br>&gt; --- a/uti=
-l/oslib-win32.c<br>&gt; +++ b/util/oslib-win32.c<br>&gt; @@ -59,7 +59,7 @@ =
-void *qemu_try_memalign(size_t alignment, size_t size)<br>&gt;<br>&gt; =C2=
-=A0 =C2=A0 =C2=A0g_assert(size !=3D 0);<br>&gt; =C2=A0 =C2=A0 =C2=A0g_asser=
-t(is_power_of_2(alignment));<br>&gt; - =C2=A0 =C2=A0ptr =3D _aligned_malloc=
-(alignment, size);<br>&gt; + =C2=A0 =C2=A0ptr =3D _aligned_malloc(size, ali=
-gnment);<br>&gt; =C2=A0 =C2=A0 =C2=A0trace_qemu_memalign(alignment, size, p=
-tr);<br>&gt; =C2=A0 =C2=A0 =C2=A0return ptr;<br>&gt; =C2=A0}<br>&gt; --<br>=
-&gt; 2.26.2<br>&gt;<br><br>Oh, sorry, you &#39;ve fixed this. ignore my pat=
-ch<br><br>Reviewed-by: Yonggang Luo &lt;<a href=3D"mailto:luoyonggang@gmail=
-.com">luoyonggang@gmail.com</a>&gt;
-<br>=C2=A0<br>--<br>=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=E6=AD=A4=E8=87=B4<br=
->=E7=A4=BC<br>=E7=BD=97=E5=8B=87=E5=88=9A<br>Yours<br>=C2=A0 =C2=A0 sincere=
-ly,<br>Yonggang Luo<br></div>
+-- =
 
---0000000000002877a905b897bbb2--
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1910941
+
+Title:
+  Assertion `addr < cache->len && 2 <=3D cache->len - addr' in virtio-blk
+
+Status in QEMU:
+  New
+
+Bug description:
+  Hello,
+
+  Using hypervisor fuzzer, hyfuzz, I found an assertion failure through
+  virtio-blk emulator.
+
+  A malicious guest user/process could use this flaw to abort the QEMU
+  process on the host, resulting in a denial of service.
+
+  This was found in version 5.2.0 (master)
+
+  ```
+
+  qemu-system-i386: /home/cwmyung/prj/hyfuzz/src/qemu-master/include/exec/m=
+emory_ldst_cached.h.inc:88: void address_space_stw_le_cached(MemoryRegionCa=
+che *, hwaddr, uint32_t, MemTxAttrs, MemTxResult *): Assertion `addr < cach=
+e->len && 2 <=3D cache->len - addr' failed.
+  [1]    1877 abort (core dumped)  /home/cwmyung/prj/hyfuzz/src/qemu-master=
+/build/i386-softmmu/qemu-system-i386
+
+  Program terminated with signal SIGABRT, Aborted.
+  #0  0x00007f71cc171f47 in __GI_raise (sig=3Dsig@entry=3D0x6) at ../sysdep=
+s/unix/sysv/linux/raise.c:51
+  #1  0x00007f71cc1738b1 in __GI_abort () at abort.c:79
+  #2  0x00007f71cc16342a in __assert_fail_base (fmt=3D0x7f71cc2eaa38 "%s%s%=
+s:%u: %s%sAssertion `%s' failed.\n%n", assertion=3Dassertion@entry=3D0x5653=
+7b324230 "addr < cache->len && 2 <=3D cache->len - addr", file=3Dfile@entry=
+=3D0x56537b32425c "/home/cwmyung/prj/hyfuzz/src/qemu-master/include/exec/me=
+mory_ldst_cached.h.inc", line=3Dline@entry=3D0x58, function=3Dfunction@entr=
+y=3D0x56537b3242ab "void address_space_stw_le_cached(MemoryRegionCache *, h=
+waddr, uint32_t, MemTxAttrs, MemTxResult *)") at assert.c:92
+  #3  0x00007f71cc1634a2 in __GI___assert_fail (assertion=3D0x56537b324230 =
+"addr < cache->len && 2 <=3D cache->len - addr", file=3D0x56537b32425c "/ho=
+me/cwmyung/prj/hyfuzz/src/qemu-master/include/exec/memory_ldst_cached.h.inc=
+", line=3D0x58, function=3D0x56537b3242ab "void address_space_stw_le_cached=
+(MemoryRegionCache *, hwaddr, uint32_t, MemTxAttrs, MemTxResult *)") at ass=
+ert.c:101
+  #4  0x000056537af3c917 in address_space_stw_le_cached (attrs=3D..., resul=
+t=3D<optimized out>, cache=3D<optimized out>, addr=3D<optimized out>, val=
+=3D<optimized out>) at /home/cwmyung/prj/hyfuzz/src/qemu-master/include/exe=
+c/memory_ldst_cached.h.inc:88
+  #5  0x000056537af3c917 in stw_le_phys_cached (cache=3D<optimized out>, ad=
+dr=3D<optimized out>, val=3D<optimized out>) at /home/cwmyung/prj/hyfuzz/sr=
+c/qemu-master/include/exec/memory_ldst_phys.h.inc:121
+  #6  0x000056537af3c917 in virtio_stw_phys_cached (vdev=3D<optimized out>,=
+ cache=3D<optimized out>, pa=3D<optimized out>, value=3D<optimized out>) at=
+ /home/cwmyung/prj/hyfuzz/src/qemu-master/include/hw/virtio/virtio-access.h=
+:196
+  #7  0x000056537af2b809 in vring_set_avail_event (vq=3D<optimized out>, va=
+l=3D0x0) at ../hw/virtio/virtio.c:429
+  #8  0x000056537af2b809 in virtio_queue_split_set_notification (vq=3D<opti=
+mized out>, enable=3D<optimized out>) at ../hw/virtio/virtio.c:438
+  #9  0x000056537af2b809 in virtio_queue_set_notification (vq=3D<optimized =
+out>, enable=3D0x1) at ../hw/virtio/virtio.c:499
+  #10 0x000056537b07ce1c in virtio_blk_handle_vq (s=3D0x56537d6bb3a0, vq=3D=
+0x56537d6c0680) at ../hw/block/virtio-blk.c:795
+  #11 0x000056537af3eb4d in virtio_queue_notify_aio_vq (vq=3D0x56537d6c0680=
+) at ../hw/virtio/virtio.c:2326
+  #12 0x000056537af3ba04 in virtio_queue_host_notifier_aio_read (n=3D<optim=
+ized out>) at ../hw/virtio/virtio.c:3533
+  #13 0x000056537b20901c in aio_dispatch_handler (ctx=3D0x56537c4179f0, nod=
+e=3D0x7f71a810b370) at ../util/aio-posix.c:329
+  #14 0x000056537b20838c in aio_dispatch_handlers (ctx=3D<optimized out>) a=
+t ../util/aio-posix.c:372
+  #15 0x000056537b20838c in aio_dispatch (ctx=3D0x56537c4179f0) at ../util/=
+aio-posix.c:382
+  #16 0x000056537b1f99cb in aio_ctx_dispatch (source=3D0x2, callback=3D0x7f=
+fc8add9f90, user_data=3D0x0) at ../util/async.c:306
+  #17 0x00007f71d1c10417 in g_main_context_dispatch () at /usr/lib/x86_64-l=
+inux-gnu/libglib-2.0.so.0
+  #18 0x000056537b1f1bab in glib_pollfds_poll () at ../util/main-loop.c:232
+  #19 0x000056537b1f1bab in os_host_main_loop_wait (timeout=3D<optimized ou=
+t>) at ../util/main-loop.c:255
+  #20 0x000056537b1f1bab in main_loop_wait (nonblocking=3D<optimized out>) =
+at ../util/main-loop.c:531
+  #21 0x000056537af879d7 in qemu_main_loop () at ../softmmu/runstate.c:720
+  #22 0x000056537a928a3b in main (argc=3D<optimized out>, argc@entry=3D0x15=
+, argv=3D<optimized out>, argv@entry=3D0x7ffc8adda718, envp=3D<optimized ou=
+t>) at ../softmmu/main.c:50
+  #23 0x00007f71cc154b97 in __libc_start_main (main=3D0x56537a928a30 <main>=
+, argc=3D0x15, argv=3D0x7ffc8adda718, init=3D<optimized out>, fini=3D<optim=
+ized out>, rtld_fini=3D<optimized out>, stack_end=3D0x7ffc8adda708) at ../c=
+su/libc-start.c:310
+  #24 0x000056537a92894a in _start ()
+
+  ```
+
+  To reproduce this issue, please run the QEMU with the following
+  command line.
+
+  ```
+
+  # To reproduce this issue, please run the QEMU process with the
+  following command line.
+
+  $ qemu-system-i386 -m 512  -drive
+  file=3Dhyfuzz.img,index=3D0,media=3Ddisk,format=3Draw -device virtio-blk-
+  pci,drive=3Ddrive0,id=3Dvirtblk0,num-queues=3D4 -drive
+  file=3Ddisk.img,if=3Dnone,id=3Ddrive0
+
+  ```
+
+  Please let me know if I can provide any further info.
+
+  Thank you.
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1910941/+subscriptions
 
