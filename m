@@ -2,72 +2,108 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4243B2F1FBA
-	for <lists+qemu-devel@lfdr.de>; Mon, 11 Jan 2021 20:48:02 +0100 (CET)
-Received: from localhost ([::1]:33056 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B5ACE2F2041
+	for <lists+qemu-devel@lfdr.de>; Mon, 11 Jan 2021 21:00:52 +0100 (CET)
+Received: from localhost ([::1]:51212 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kz3AX-0006LV-6T
-	for lists+qemu-devel@lfdr.de; Mon, 11 Jan 2021 14:48:01 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51926)
+	id 1kz3Mv-0006RE-D5
+	for lists+qemu-devel@lfdr.de; Mon, 11 Jan 2021 15:00:51 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59550)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
- id 1kz2ne-0000gL-E9
- for qemu-devel@nongnu.org; Mon, 11 Jan 2021 14:24:25 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:32124)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
- id 1kz2nb-000194-1I
- for qemu-devel@nongnu.org; Mon, 11 Jan 2021 14:24:21 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1610393042;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=r2mxFIi3v4zgPeSdBudHxaoU/iLZxzphoG7C1sMttQQ=;
- b=dlYY1jQI37mYCifKURCNB3yI4Xjm9tPYtEcSgprgx686RVWq/ZSmNJHmyvTXgoZEW3sOOO
- 0BZNy1yfC3Xonxb7J0QDwi8nAt4tt8Np0GSUgmJbMZ5iGTR6Rh6hbS9SjcfQHRgKjAjKoy
- Dwack7Txo8HlDz3LWZ29lUE4FDbRt1I=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-304-N8Z_Ud21OaqTBB9j-nxZVQ-1; Mon, 11 Jan 2021 14:24:01 -0500
-X-MC-Unique: N8Z_Ud21OaqTBB9j-nxZVQ-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 17D02AFA83;
- Mon, 11 Jan 2021 19:23:59 +0000 (UTC)
-Received: from localhost (unknown [10.40.208.23])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 48F6B60854;
- Mon, 11 Jan 2021 19:23:48 +0000 (UTC)
-Date: Mon, 11 Jan 2021 20:23:47 +0100
-From: Igor Mammedov <imammedo@redhat.com>
-To: Marian Posteuca <posteuca@mutex.one>
-Subject: Re: [PATCH v3] acpi: Permit OEM ID and OEM table ID fields to be
- changed
-Message-ID: <20210111202347.41b65fd5@redhat.com>
-In-Reply-To: <87bldvldsl.fsf@mutex.one>
-References: <20201230221302.26800-1-posteuca@mutex.one>
- <20210106182430.6bf1823a@redhat.com> <87bldvldsl.fsf@mutex.one>
+ (Exim 4.90_1) (envelope-from <linuxram@us.ibm.com>)
+ id 1kz3LA-0005qD-My; Mon, 11 Jan 2021 14:59:00 -0500
+Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:37944)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <linuxram@us.ibm.com>)
+ id 1kz3L8-0005kv-3c; Mon, 11 Jan 2021 14:59:00 -0500
+Received: from pps.filterd (m0127361.ppops.net [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id
+ 10BJgskZ196225; Mon, 11 Jan 2021 14:58:45 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
+ h=date : from : to : cc :
+ message-id : reply-to : references : mime-version : content-type :
+ in-reply-to : subject; s=pp1;
+ bh=HlnbdNAo/94mEI3tW5H4udb4sNucEjNi1gf15FFs+2g=;
+ b=WOtrlOc2dHAfPVKG8WVaHzwIXAhGWs9l+IRZw9edGTWr5UKnBx6L7JXGUFbHapsskZss
+ tR2l6eRZkh3Vi/rZZZfMypAc4NlyVQL4HtmJiBS+xjgAzCXNqPQE7qXHzH4qeWLTaELy
+ 82lpx0/kkutbP5YTfMbVO9s2Mn4ypsK8woa4ql+rMrQruOJ4mILZqzAGh+WsZS6IRwYx
+ JqjPZHJV/Mvg6a/2pYhGeStDnKxsYpm9eOEjm6BcVj6mBzJ4eqBQLwaKDwCSobnF0K/A
+ 3aargxd8gv6rl8C6scmVFL+11vaPAVmDGoF6OnJWsWcSOMfyDe7t3Y9oJvV7CRshSrTu UA== 
+Received: from pps.reinject (localhost [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com with ESMTP id 360w2sgaqx-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Mon, 11 Jan 2021 14:58:44 -0500
+Received: from m0127361.ppops.net (m0127361.ppops.net [127.0.0.1])
+ by pps.reinject (8.16.0.36/8.16.0.36) with SMTP id 10BJhLWa000880;
+ Mon, 11 Jan 2021 14:58:44 -0500
+Received: from ppma05fra.de.ibm.com (6c.4a.5195.ip4.static.sl-reverse.com
+ [149.81.74.108])
+ by mx0a-001b2d01.pphosted.com with ESMTP id 360w2sgaqd-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Mon, 11 Jan 2021 14:58:44 -0500
+Received: from pps.filterd (ppma05fra.de.ibm.com [127.0.0.1])
+ by ppma05fra.de.ibm.com (8.16.0.42/8.16.0.42) with SMTP id 10BJwg2x025212;
+ Mon, 11 Jan 2021 19:58:42 GMT
+Received: from b06cxnps3075.portsmouth.uk.ibm.com
+ (d06relay10.portsmouth.uk.ibm.com [9.149.109.195])
+ by ppma05fra.de.ibm.com with ESMTP id 35y4489br1-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Mon, 11 Jan 2021 19:58:42 +0000
+Received: from d06av26.portsmouth.uk.ibm.com (d06av26.portsmouth.uk.ibm.com
+ [9.149.105.62])
+ by b06cxnps3075.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 10BJwd8x43319708
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Mon, 11 Jan 2021 19:58:39 GMT
+Received: from d06av26.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 1D668AE053;
+ Mon, 11 Jan 2021 19:58:39 +0000 (GMT)
+Received: from d06av26.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 5D80EAE051;
+ Mon, 11 Jan 2021 19:58:33 +0000 (GMT)
+Received: from ram-ibm-com.ibm.com (unknown [9.163.29.145])
+ by d06av26.portsmouth.uk.ibm.com (Postfix) with ESMTPS;
+ Mon, 11 Jan 2021 19:58:33 +0000 (GMT)
+Date: Mon, 11 Jan 2021 11:58:30 -0800
+From: Ram Pai <linuxram@us.ibm.com>
+To: Cornelia Huck <cohuck@redhat.com>
+Message-ID: <20210111195830.GA23898@ram-ibm-com.ibm.com>
+References: <20201217054736.GH310465@yekko.fritz.box>
+ <20201217123842.51063918.cohuck@redhat.com>
+ <20201217151530.54431f0e@bahia.lan>
+ <20201218124111.4957eb50.cohuck@redhat.com>
+ <20210104071550.GA22585@ram-ibm-com.ibm.com>
+ <20210104134629.49997b53.pasic@linux.ibm.com>
+ <20210104184026.GD4102@ram-ibm-com.ibm.com>
+ <20210105115614.7daaadd6.pasic@linux.ibm.com>
+ <20210105204125.GE4102@ram-ibm-com.ibm.com>
+ <20210111175914.13adfa2e.cohuck@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=imammedo@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=imammedo@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -29
-X-Spam_score: -3.0
-X-Spam_bar: ---
-X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.251,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20210111175914.13adfa2e.cohuck@redhat.com>
+User-Agent: Mutt/1.5.21 (2010-09-15)
+X-TM-AS-GCONF: 00
+Subject: RE: [for-6.0 v5 11/13] spapr: PEF: prevent migration
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.343, 18.0.737
+ definitions=2021-01-11_30:2021-01-11,
+ 2021-01-11 signatures=0
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ bulkscore=0 mlxlogscore=999
+ impostorscore=0 malwarescore=0 adultscore=0 clxscore=1015
+ lowpriorityscore=0 mlxscore=0 suspectscore=0 priorityscore=1501
+ spamscore=0 phishscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2009150000 definitions=main-2101110105
+Received-SPF: pass client-ip=148.163.158.5; envelope-from=linuxram@us.ibm.com;
+ helo=mx0b-001b2d01.pphosted.com
+X-Spam_score_int: -26
+X-Spam_score: -2.7
+X-Spam_bar: --
+X-Spam_report: (-2.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_DNSWL_LOW=-0.7,
+ RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -80,40 +116,94 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>, Sergio Lopez <slp@redhat.com>,
- Eduardo Habkost <ehabkost@redhat.com>, Ben Warren <ben@skyportsystems.com>,
- "Michael S. Tsirkin" <mst@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org,
- Dongjiu Geng <gengdongjiu@huawei.com>, Shannon Zhao <shannon.zhaosl@gmail.com>,
- Xiang Zheng <zhengxiang9@huawei.com>, qemu-arm@nongnu.org,
- Paolo Bonzini <pbonzini@redhat.com>,
- Xiao Guangrong <xiaoguangrong.eric@gmail.com>
+Reply-To: Ram Pai <linuxram@us.ibm.com>
+Cc: pair@us.ibm.com, brijesh.singh@amd.com, kvm@vger.kernel.org,
+ "Michael S. Tsirkin" <mst@redhat.com>, qemu-devel@nongnu.org,
+ frankja@linux.ibm.com, david@redhat.com, mdroth@linux.vnet.ibm.com,
+ Halil Pasic <pasic@linux.ibm.com>, borntraeger@de.ibm.com,
+ David Gibson <david@gibson.dropbear.id.au>, thuth@redhat.com,
+ Eduardo Habkost <ehabkost@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>, Greg Kurz <groug@kaod.org>,
+ dgilbert@redhat.com, qemu-s390x@nongnu.org, rth@twiddle.net,
+ berrange@redhat.com, Marcelo Tosatti <mtosatti@redhat.com>,
+ qemu-ppc@nongnu.org, pbonzini@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, 11 Jan 2021 16:59:54 +0200
-Marian Posteuca <posteuca@mutex.one> wrote:
-
-> Igor Mammedov <imammedo@redhat.com> writes:
+On Mon, Jan 11, 2021 at 05:59:14PM +0100, Cornelia Huck wrote:
+> On Tue, 5 Jan 2021 12:41:25 -0800
+> Ram Pai <linuxram@us.ibm.com> wrote:
 > 
-> > overall looks good.
-> > Please add a test case for it, see
-> > tests/qtest/bios-tables-test.c for description how to do it
-> > an/or at
-> >   "[PATCH v3 08/12] tests/acpi: allow updates for expected data files"
-> > and follow up patches on the list.  
-> When you say add a test case, do you mean only updating the binary
-> files in tests/data/acpi/{microvm,pc,q35,virt} according to the steps
-> at the start of the file bios-tables-test.c? Or do you also mean an actual
-> test case to be added in bios-tables-test.c?
-an new test in bios-tables-test.c, which will test that new option works as expected.
+> > On Tue, Jan 05, 2021 at 11:56:14AM +0100, Halil Pasic wrote:
+> > > On Mon, 4 Jan 2021 10:40:26 -0800
+> > > Ram Pai <linuxram@us.ibm.com> wrote:
+> 
+> > > > The main difference between my proposal and the other proposal is...
+> > > > 
+> > > >   In my proposal the guest makes the compatibility decision and acts
+> > > >   accordingly.  In the other proposal QEMU makes the compatibility
+> > > >   decision and acts accordingly. I argue that QEMU cannot make a good
+> > > >   compatibility decision, because it wont know in advance, if the guest
+> > > >   will or will-not switch-to-secure.
+> > > >   
+> > > 
+> > > You have a point there when you say that QEMU does not know in advance,
+> > > if the guest will or will-not switch-to-secure. I made that argument
+> > > regarding VIRTIO_F_ACCESS_PLATFORM (iommu_platform) myself. My idea
+> > > was to flip that property on demand when the conversion occurs. David
+> > > explained to me that this is not possible for ppc, and that having the
+> > > "securable-guest-memory" property (or whatever the name will be)
+> > > specified is a strong indication, that the VM is intended to be used as
+> > > a secure VM (thus it is OK to hurt the case where the guest does not
+> > > try to transition). That argument applies here as well.  
+> > 
+> > As suggested by Cornelia Huck, what if QEMU disabled the
+> > "securable-guest-memory" property if 'must-support-migrate' is enabled?
+> > Offcourse; this has to be done with a big fat warning stating
+> > "secure-guest-memory" feature is disabled on the machine.
+> > Doing so, will continue to support guest that do not try to transition.
+> > Guest that try to transition will fail and terminate themselves.
+> 
+> Just to recap the s390x situation:
+> 
+> - We currently offer a cpu feature that indicates secure execution to
+>   be available to the guest if the host supports it.
+> - When we introduce the secure object, we still need to support
+>   previous configurations and continue to offer the cpu feature, even
+>   if the secure object is not specified.
+> - As migration is currently not supported for secured guests, we add a
+>   blocker once the guest actually transitions. That means that
+>   transition fails if --only-migratable was specified on the command
+>   line. (Guests not transitioning will obviously not notice anything.)
+> - With the secure object, we will already fail starting QEMU if
+>   --only-migratable was specified.
+> 
+> My suggestion is now that we don't even offer the cpu feature if
+> --only-migratable has been specified. For a guest that does not want to
+> transition to secure mode, nothing changes; a guest that wants to
+> transition to secure mode will notice that the feature is not available
+> and fail appropriately (or ultimately, when the ultravisor call fails).
 
-> Also the step 6 described in bios-tables-test.c mentions that the diff of
-> the ACPI table must be added to the commit log, but my change touches
-> all the tables for all architectures so that would mean that I would
-> have to create a huge commit log. How should I approach this?
-I don't think that large commit message is problem, it helps reviewer
-to see expected changes (if|before one actually tests)
+
+On POWER, secure-execution is not **automatically** enabled even when
+the host supports it.  The feature is enabled only if the secure-object
+is configured, and the host supports it.
+
+However the behavior proposed above will be consistent on POWER and
+on s390x,  when '--only-migratable' is specified and 'secure-object'
+is NOT specified.
+
+So I am in agreement till now. 
 
 
+> We'd still fail starting QEMU for the secure object + --only-migratable
+> combination.
+
+Why fail? 
+
+Instead, print a warning and  disable the secure-object; which will
+disable your cpu-feature. Guests that do not transition to secure, will
+continue to operate, and guests that transition to secure, will fail.
+
+RP
 
