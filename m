@@ -2,84 +2,91 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 453A22F120B
-	for <lists+qemu-devel@lfdr.de>; Mon, 11 Jan 2021 13:02:58 +0100 (CET)
-Received: from localhost ([::1]:52596 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8A4DC2F1227
+	for <lists+qemu-devel@lfdr.de>; Mon, 11 Jan 2021 13:11:46 +0100 (CET)
+Received: from localhost ([::1]:55928 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kyvuT-0001aS-AM
-	for lists+qemu-devel@lfdr.de; Mon, 11 Jan 2021 07:02:57 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54732)
+	id 1kyw2z-0003Mc-63
+	for lists+qemu-devel@lfdr.de; Mon, 11 Jan 2021 07:11:45 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56606)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1kyvt8-00019q-Ci
- for qemu-devel@nongnu.org; Mon, 11 Jan 2021 07:01:34 -0500
-Received: from mail-wm1-x32b.google.com ([2a00:1450:4864:20::32b]:38692)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1kyvt3-00038R-B9
- for qemu-devel@nongnu.org; Mon, 11 Jan 2021 07:01:33 -0500
-Received: by mail-wm1-x32b.google.com with SMTP id g185so14813486wmf.3
- for <qemu-devel@nongnu.org>; Mon, 11 Jan 2021 04:01:28 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=references:user-agent:from:to:cc:subject:date:in-reply-to
- :message-id:mime-version:content-transfer-encoding;
- bh=qmLiGWF6aFMRpI/OI6NYuFaTqvT2DUkAlGt+G2nDphM=;
- b=EmNRzg2MSaiZe9YB9uDuz39990KPW07GO3oDoULlugMqh8MDRymzZZNVZp4IByfRlI
- Fd0q2sA69N3IVLSEkOOduHSyE72I4cS2VW2o9u7vdEw4yuGYeXbNn9MNlj7EUQ0QXbck
- OQa0DZEd4CYFKdjwOR8KV9nrktO0bC34isF8q6RcgrWCFRI8U0+cMZp6ErZl1mrkf6H6
- JmankZP+aqVk3DNng87rBSfW/CQ/UJAryR4/3R8ryC6Ucfa0XmG0UtelvLJeFtlApzEn
- UaBp4Q0+Fgta0nEVEAKClNnTH8pPjzYSJnLLpyF8gSK7tl3zoMXYlFxjSz/P/jERWWdk
- kCFw==
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kyw1Y-0002pg-Ei
+ for qemu-devel@nongnu.org; Mon, 11 Jan 2021 07:10:16 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:28921)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kyw1W-000434-1p
+ for qemu-devel@nongnu.org; Mon, 11 Jan 2021 07:10:15 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1610367013;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=UxE5ezHhgoKlNGWNFScNQrbalNoziohZpuUamMzPxHc=;
+ b=LhTSb8Ur86+O6VREWtPCHls+mPLsjIaMuLuNdMrivjpGoapcPyYGDU67mWvv3XlIrN/Ybu
+ EAch9Qx02G0/ZoKFNUEUulKRghcDCpIsId0X+zvd2bsjYiA5V3CdiwrMt1G4a7oKTtrqM/
+ uDJk7SBCANrHN1uWApbQwnKa38ZMnvQ=
+Received: from mail-ej1-f71.google.com (mail-ej1-f71.google.com
+ [209.85.218.71]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-76-DuJbh8etPu-tpmoivzDh1w-1; Mon, 11 Jan 2021 07:10:11 -0500
+X-MC-Unique: DuJbh8etPu-tpmoivzDh1w-1
+Received: by mail-ej1-f71.google.com with SMTP id m4so4920684ejc.14
+ for <qemu-devel@nongnu.org>; Mon, 11 Jan 2021 04:10:11 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:references:user-agent:from:to:cc:subject:date
- :in-reply-to:message-id:mime-version:content-transfer-encoding;
- bh=qmLiGWF6aFMRpI/OI6NYuFaTqvT2DUkAlGt+G2nDphM=;
- b=pGF5Lz7uGHmzbJqbv7v1evDs4kxJi8mkGxlY7ylhgT+jidLWeSu5t3XrDHFxb/39yf
- qHDX+LVC/5E7onkpG32bCCEMydbWBzP7bIuc8UOo+fvaI7N3vwpYFaIx9uxKWg9G0xDO
- USf9DEQfFAghPtwruHSczhM4vXBYhnq+wQt7BfkU+1GHRc15rksN35eo5Um9iNMWYFID
- QlRiEAMfpMAnTg21EepPuQijmOQxZUNnt4Inlr5ntJQYHyrU688IDLWYNNgi1Fnir1rr
- CRK0zZjsYhCFmhzEe4FxHCLvvzU/+MW0VQ91M+kyLprgLct9xaavRGsEDaSpaw2PG4s/
- wzYQ==
-X-Gm-Message-State: AOAM531BY8xuCOzfWX168OcTb6LhB1z1+IiVfkjNQYulzNBhCqDNTcjW
- YAVUDGH75s0cfk0SRFPpKCbepw==
-X-Google-Smtp-Source: ABdhPJzO+I+BBF0xNZ8/EgDrnCvqJunYSg4TaAnBMJ7IKen/JH4/tougRicHMtuqZLv5lkAKCIJkhg==
-X-Received: by 2002:a1c:ba44:: with SMTP id k65mr14364913wmf.188.1610366486882; 
- Mon, 11 Jan 2021 04:01:26 -0800 (PST)
-Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id m14sm23759647wrh.94.2021.01.11.04.01.25
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 11 Jan 2021 04:01:25 -0800 (PST)
-Received: from zen (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 8FE8E1FF7E;
- Mon, 11 Jan 2021 12:01:24 +0000 (GMT)
-References: <CAAQ-SiP8G28ade0jHbhTcv0jtGQb4OSgL5p3mAr0MU_FH8vZ3w@mail.gmail.com>
- <87a6tm2sxb.fsf@linaro.org>
- <CAAQ-SiOW8OnWEb0sHUEeS139-Tw0RO2YD1Tx-1s9iuy3ZVQFgw@mail.gmail.com>
- <878s941x85.fsf@linaro.org>
- <20210108083433.pfzhxrd4rezk6yxe@sirius.home.kraxel.org>
- <CAAQ-SiO4VvVTo77J2ga1FmUZ9yrwopeASweO6-AFaakrAUZ80w@mail.gmail.com>
- <CAAQ-SiPiq5NQN=2mvP3isZ9PtYO2Bu64kVEvE6T+3OJd5B-U5A@mail.gmail.com>
- <CAAQ-SiMkJGBnxWSnybJqMD0LSASMtvA_wbrPDQcg-S+Y1ddjJA@mail.gmail.com>
-User-agent: mu4e 1.5.7; emacs 28.0.50
-From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: Shreyansh Chouhan <chouhan.shreyansh2702@gmail.com>
-Subject: Re: Fwd: VirtioSound device emulation implementation
-Date: Mon, 11 Jan 2021 11:59:52 +0000
-In-reply-to: <CAAQ-SiMkJGBnxWSnybJqMD0LSASMtvA_wbrPDQcg-S+Y1ddjJA@mail.gmail.com>
-Message-ID: <878s8zptrf.fsf@linaro.org>
+ h=x-gm-message-state:subject:to:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=UxE5ezHhgoKlNGWNFScNQrbalNoziohZpuUamMzPxHc=;
+ b=PeDcVKsrUncK2BAzNXMlHi1+R1F6mQdlAsXRODovDRyz8M9I3fjrF2FHIDqH5NN+6c
+ 62j0aZS1Dpqs+R3AS0T6ZgrBeNGnFHJZfk5Uuk0C6n8iX2X48NpPG9DRAKX7MeepPtr2
+ QoODvGSquBQvGAIzyuTNrZYEzav2k62fu5kUis2FXxa4raghGsflXx4qfnFtpNGDho6/
+ ygUajZk3agMydEUBg5AJprr+BMCIXZcIvm8MmiBSvzxRwvXFvpXOcqF+//eY94mk72vP
+ uo6WU7WyJTySNMc5Emh2KjdJTlTpgu1xsBoHf1eMy3wGxdcugvRpO6M37xrr4+dzVUSv
+ 2CMA==
+X-Gm-Message-State: AOAM530rwyXKcxo6Rbu8jVKxs/wOITxkI18adOnXwRb8ds6gQ+IdmeNj
+ dfC+Pz0uL3UFovrdF6vA3+xTK1LxXsMYAMAqTx2hS8IoiEUAhuOVGBf68iT6k0IrHqagV++tNFL
+ WCgtDKezBtIK6Zyyvs4NfupariZfvAPfKBDbdYhg27or2iBBQDHUo+6m1i609L8ze
+X-Received: by 2002:a17:906:af49:: with SMTP id
+ ly9mr10158353ejb.38.1610367009550; 
+ Mon, 11 Jan 2021 04:10:09 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJwHaMxJNshztZNMpkTsR/b6sV455fSMEBxcYaSqE4HHuTGB4WT/vyvcExhDf5nbRY9mhNbYKg==
+X-Received: by 2002:a17:906:af49:: with SMTP id
+ ly9mr10158335ejb.38.1610367009189; 
+ Mon, 11 Jan 2021 04:10:09 -0800 (PST)
+Received: from [192.168.1.36] (129.red-88-21-205.staticip.rima-tde.net.
+ [88.21.205.129])
+ by smtp.gmail.com with ESMTPSA id z12sm7005960ejr.17.2021.01.11.04.10.08
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 11 Jan 2021 04:10:08 -0800 (PST)
+Subject: Re: [RHEL7 qemu-kvm PATCH 2/3] s390x: Fix vm name copy length
+To: mrezanin@redhat.com, qemu-devel@nongnu.org
+References: <cover.1610364304.git.mrezanin@redhat.com>
+ <e1ad733af7b23929456d05aacae693ce6462d4b3.1610364304.git.mrezanin@redhat.com>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+Message-ID: <5acb5521-fdd2-e511-9cc3-176086183dd5@redhat.com>
+Date: Mon, 11 Jan 2021 13:10:07 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.6.0
 MIME-Version: 1.0
+In-Reply-To: <e1ad733af7b23929456d05aacae693ce6462d4b3.1610364304.git.mrezanin@redhat.com>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::32b;
- envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x32b.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=philmd@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -30
+X-Spam_score: -3.1
+X-Spam_bar: ---
+X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.251,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.012, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=-0.01,
+ RCVD_IN_MSPIKE_WL=-0.01, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -93,107 +100,68 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+Hi Miroslav,
 
-Shreyansh Chouhan <chouhan.shreyansh2702@gmail.com> writes:
+On 1/11/21 12:30 PM, mrezanin@redhat.com wrote:
+> From: Miroslav Rezanina <mrezanin@redhat.com>
+> 
+> There are two cases when vm name is copied but closing \0 can be lost
+> in case name is too long (>=256 characters).
+> 
+> Updating length to copy so there is space for closing \0.
+> 
+> Signed-off-by: Miroslav Rezanina <mrezanin@redhat.com>
+> ---
+>  target/s390x/kvm.c         | 2 +-
+>  target/s390x/misc_helper.c | 4 +++-
+>  2 files changed, 4 insertions(+), 2 deletions(-)
+> 
+> diff --git a/target/s390x/kvm.c b/target/s390x/kvm.c
+> index b8385e6b95..2313b5727e 100644
+> --- a/target/s390x/kvm.c
+> +++ b/target/s390x/kvm.c
+> @@ -1918,7 +1918,7 @@ static void insert_stsi_3_2_2(S390CPU *cpu, __u64 addr, uint8_t ar)
+>       */
+>      if (qemu_name) {
+>          strncpy((char *)sysib.ext_names[0], qemu_name,
+> -                sizeof(sysib.ext_names[0]));
+> +                sizeof(sysib.ext_names[0]) - 1);
+>      } else {
+>          strcpy((char *)sysib.ext_names[0], "KVMguest");
+>      }
 
-> ---------- Forwarded message ---------
-> From: Shreyansh Chouhan <chouhan.shreyansh2702@gmail.com>
-> Date: Mon, 11 Jan 2021 at 11:59
-> Subject: Re: VirtioSound device emulation implementation
-> To: Gerd Hoffmann <kraxel@redhat.com>
->
->
->
->
-> On Sun, 10 Jan 2021 at 13:55, Shreyansh Chouhan <
-> chouhan.shreyansh2702@gmail.com> wrote:
->
->> Hi,
->>
->> I have been reading about the virtio and vhost specifications, however I
->> have a few doubts. I tried looking for them but I still
->> do not understand them clearly enough. From what I understand, there are
->> two protocols:
->>
->> The virtio protocol: The one that specifies how we can have common
->> emulation for virtual devices. The front end drivers
->> interact with these devices, and these devices could then process the
->> information that they have received either in QEMU,
->> or somewhere else. From what I understand the front driver uses mmaps to
->> communicate with the virtio device.
->>
->> The vhost protocol: The one that specifies how we can _offload_ the
->> processing from QEMU to a separate process. We
->> want to offload so that we do not have to stop the guest when we are
->> processing information passed to a virtio device. This
->> service could either be implemented in the host kernel or the host
->> userspace. Now when we offload the processing, we map the
->> memory of the device to this vhost service, so that this service has all
->> the information that it should process.
->>   Also, this process can generate the vCPU interrupts, and this process
->> responds to the ioeventfd notifications.
->>
->> What I do not understand is, once we have this vhost service, either in
->> userspace or in kernel space, which does the information processing,
->> why do we need a virtio device still emulated in QEMU? Is it only to pass
->> on the configurations between the driver and the
->> vhost service? I know that the vhost service doesn't emulate anything, b=
-ut
->> then what is the difference between "processing" the
->> information and "emulating" a device?
->>
->> Also, from article[3], moving the vhost-net service to userspace was
->> faster somehow. I am assuming this was only the case for
->> networking devices, and would not be true in general. Since there would =
-be
->> more context switches between user and kernel space?
->> (KVM receives the irq/ioevent notification and then transfers control ba=
-ck
->> to user space, as opposed to when vhost was in kernel
->> space.)
->>
->> For context, I've been reading the following:
->> [1]
->> https://www.redhat.com/en/blog/introduction-virtio-networking-and-vhost-=
-net
->> [2]
->> https://www.redhat.com/en/blog/deep-dive-virtio-networking-and-vhost-net
->> [3] https://www.redhat.com/en/blog/journey-vhost-users-realm
->>
->>
-> Found the answers in this blog:
-> http://blog.vmsplice.net/2011/09/qemu-internals-vhost-architecture.html
-> In short, yes, the configuration plane still remains with QEMU. The
-> frontend driver interacts with the PCI
-> adapter emulated in QEMU, for configurations and memory map setup. Only t=
-he
-> data plane is forwarded
-> to the vhost service. This makes sense since we would only want to
-> configure the device once, and hence
-> having that emulated in QEMU is not a performance issue, as much as having
-> the data plane was.
+What about using strpadcpy() instead?
 
-Also if you are running a pure TCG emulation QEMU can pass along the
-signalled events from the guest to the vhost-user daemon as well.
+    strpadcpy((char *)sysib.sysib_322.ext_names[0],
+              sizeof(sysib.sysib_322.ext_names[0]),
+              qemu_name ?: "KVMguest", '\0');
 
-> There is still a little confusion in my mind regarding a few things, but I
-> think looking at the source code
-> of the already implemented drivers will clear that up for me. So that is
-> what I will be doing next.
->
-> I will start looking at the source code for in-QEMU and vhost
-> implementations of other virtio drivers, and then decide which one I'd li=
-ke
-> to
-> go with. I will probably follow that decision with an implementation
-> plan/timeline so that everyone can follow the progress on the
-> development of this project.
+> diff --git a/target/s390x/misc_helper.c b/target/s390x/misc_helper.c
+> index 58dbc023eb..7c478b9e58 100644
+> --- a/target/s390x/misc_helper.c
+> +++ b/target/s390x/misc_helper.c
+> @@ -369,8 +369,10 @@ uint32_t HELPER(stsi)(CPUS390XState *env, uint64_t a0, uint64_t r0, uint64_t r1)
+>                  ebcdic_put(sysib.sysib_322.vm[0].name, qemu_name,
+>                             MIN(sizeof(sysib.sysib_322.vm[0].name),
+>                                 strlen(qemu_name)));
+> +		memset((char *)sysib.sysib_322.ext_names[0], 0, 
+> +		       sizeof(sysib.sysib_322.ext_names[0]));
+>                  strncpy((char *)sysib.sysib_322.ext_names[0], qemu_name,
+> -                        sizeof(sysib.sysib_322.ext_names[0]));
+> +                        sizeof(sysib.sysib_322.ext_names[0]) - 1);
 
+And here:
 
---=20
-Alex Benn=C3=A9e
+               strpadcpy((char *)sysib.sysib_322.ext_names[0],
+                         sizeof(sysib.sysib_322.ext_names[0]),
+                         qemu_name, '\0');
+
+>              } else {
+>                  ebcdic_put(sysib.sysib_322.vm[0].name, "TCGguest", 8);
+>                  strcpy((char *)sysib.sysib_322.ext_names[0], "TCGguest");
+> 
+
 
