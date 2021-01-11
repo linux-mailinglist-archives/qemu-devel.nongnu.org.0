@@ -2,73 +2,84 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id ECF0A2F12FD
-	for <lists+qemu-devel@lfdr.de>; Mon, 11 Jan 2021 14:03:35 +0100 (CET)
-Received: from localhost ([::1]:57856 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B42322F1347
+	for <lists+qemu-devel@lfdr.de>; Mon, 11 Jan 2021 14:06:57 +0100 (CET)
+Received: from localhost ([::1]:60744 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kywr8-0005Wh-Ps
-	for lists+qemu-devel@lfdr.de; Mon, 11 Jan 2021 08:03:34 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38114)
+	id 1kywuO-0006uv-Q5
+	for lists+qemu-devel@lfdr.de; Mon, 11 Jan 2021 08:06:56 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41650)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1kywdq-00040W-VQ
- for qemu-devel@nongnu.org; Mon, 11 Jan 2021 07:49:51 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:33310)
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1kywoZ-0004Ha-CM
+ for qemu-devel@nongnu.org; Mon, 11 Jan 2021 08:00:55 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:43334)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1kywdl-0000Vq-I1
- for qemu-devel@nongnu.org; Mon, 11 Jan 2021 07:49:48 -0500
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1kywoX-0002HB-HC
+ for qemu-devel@nongnu.org; Mon, 11 Jan 2021 08:00:55 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1610369384;
+ s=mimecast20190719; t=1610370052;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=G50AcNmNUzXteh02pa00nGdMyEXtmxfUvw2I1CVab+o=;
- b=Qarwn9F83kDqleSX2QGdxSlagr8Ref+rWO6XBIDsLaJuO9VVGlRLfSBoxoTIAP6sGetr8j
- w4sYIFodTsrgaACTLasVpX+wwCpa3lfDYwMmFcQwfyCzHVtgxuj2m/hZdCzjLePq9MubRO
- x1hjunEYGDKMN6IXrdfZwq17KN+78fM=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-117-u1TysVP4PtKhdUm3HtbOjQ-1; Mon, 11 Jan 2021 07:49:40 -0500
-X-MC-Unique: u1TysVP4PtKhdUm3HtbOjQ-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 65E691084D66;
- Mon, 11 Jan 2021 12:49:38 +0000 (UTC)
-Received: from thuth.remote.csb (ovpn-112-147.ams2.redhat.com [10.36.112.147])
- by smtp.corp.redhat.com (Postfix) with ESMTP id F274360C67;
- Mon, 11 Jan 2021 12:49:34 +0000 (UTC)
-Subject: Re: qemu bsd-user plans
-To: Peter Maydell <peter.maydell@linaro.org>, Warner Losh <imp@bsdimp.com>
-References: <CANCZdfo_CDqyG339HwNQb_K+sbsV0t+3nJMXVFf=mYrS3nsv-Q@mail.gmail.com>
- <CAFEAcA-UUFng5AwFgOEKiQqR3XQEQa+pBejisuFvhUqqfxMA8Q@mail.gmail.com>
-From: Thomas Huth <thuth@redhat.com>
-Message-ID: <b92f9183-d552-d294-89a8-d18f17c679b1@redhat.com>
-Date: Mon, 11 Jan 2021 13:49:33 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.4.0
+ bh=SaB5XYOWLr705pPFzmGzwiZhjZu5MoF9x8WntSjLBHE=;
+ b=FK7XMAWnR9WkmdEZUSAF9//U3q2zZrpi5eDa5wwAXmvTa+KmzD4ane29GhFFUEOcyOBBHc
+ UHoPzlMtn1DFTmdSNwW/5ncGNkwig3aqepPKZD9fTI/vGhzZeeKsO577ud3Ej5pLVD9bO8
+ e5LJ4dE6YfuITNDi+trgamHvgOr33a0=
+Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
+ [209.85.221.69]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-482-ht1xYo65NqCcRbbZz2lNAg-1; Mon, 11 Jan 2021 08:00:50 -0500
+X-MC-Unique: ht1xYo65NqCcRbbZz2lNAg-1
+Received: by mail-wr1-f69.google.com with SMTP id w5so7730351wrl.9
+ for <qemu-devel@nongnu.org>; Mon, 11 Jan 2021 05:00:50 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=SaB5XYOWLr705pPFzmGzwiZhjZu5MoF9x8WntSjLBHE=;
+ b=EOCpP6EPM2Vlm663XABdj0JW9556J40SBUc9yoGJ5bODjOQcBNJ5wTsf7VGS1y4vGg
+ Vy0rZyU8KxziPM9klny/7ubWXGT2igLFTLYQ73m1Up6JGZkAXyJRorwXVJsK2vnnu41X
+ mFt0n8WqCGUJfR/VFXxJqgifyF4Wew6QVmiTDl6La3yR5Nzz2O9avPdCVkKjAQQD4hMW
+ AFrQ/BzKaZLM4lzb9s3yVqzcp2oi5ejliWKDvSaJaEzPLhx9VkwVtpE84Eyj9CZwPPJf
+ F1hk4WEvA1gVk61XmrJPeNi7bq6vr7e9Iih/UT2d+bNIi2SCq6KAM5axaKofDvZFd68l
+ 7tdw==
+X-Gm-Message-State: AOAM531ZEYfeu2eJ1Xfjc5zxj12W0rcJutiglHmEz5pS80ZI6wjQHUsz
+ jeYOy2IP7NggJ2+kR1qmglF0zrK5qA03WQn0q0lcwaCtJW+1LbNnrK+Xdddh2qy49wlx290vPcW
+ a3uxQOTO/lNnKWs0=
+X-Received: by 2002:adf:dd11:: with SMTP id a17mr16318257wrm.360.1610370049671; 
+ Mon, 11 Jan 2021 05:00:49 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJzqF4wBfBvfgJ6ePE3H0xhobFzvMuO7X/1P3OnLpdKjjVGuH676xOeiA4SVmbnngkwuNg0q/Q==
+X-Received: by 2002:adf:dd11:: with SMTP id a17mr16318230wrm.360.1610370049406; 
+ Mon, 11 Jan 2021 05:00:49 -0800 (PST)
+Received: from redhat.com (bzq-79-178-32-166.red.bezeqint.net. [79.178.32.166])
+ by smtp.gmail.com with ESMTPSA id v1sm21818104wmj.31.2021.01.11.05.00.46
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 11 Jan 2021 05:00:48 -0800 (PST)
+Date: Mon, 11 Jan 2021 08:00:45 -0500
+From: "Michael S. Tsirkin" <mst@redhat.com>
+To: Cornelia Huck <cohuck@redhat.com>
+Subject: Re: [PATCH v3 2/3] Update linux headers to 5.11-rc2
+Message-ID: <20210111075950-mutt-send-email-mst@kernel.org>
+References: <20210104202057.48048-1-farman@linux.ibm.com>
+ <20210104202057.48048-3-farman@linux.ibm.com>
+ <20210111135404.52f18200.cohuck@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <CAFEAcA-UUFng5AwFgOEKiQqR3XQEQa+pBejisuFvhUqqfxMA8Q@mail.gmail.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+In-Reply-To: <20210111135404.52f18200.cohuck@redhat.com>
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=thuth@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mst@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=thuth@redhat.com;
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=mst@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -29
 X-Spam_score: -3.0
 X-Spam_bar: ---
 X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.251,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -81,36 +92,113 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Ed Maste <emaste@freebsd.org>, Kamil Rytarowski <kamil@netbsd.org>,
- QEMU Developers <qemu-devel@nongnu.org>, Sean Bruno <sbruno@freebsd.org>,
- "Daniel P. Berrange" <berrange@redhat.com>,
- =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
- Li-Wen Hsu <lwhsu@freebsd.org>, Brad <brad@comstyle.com>
+Cc: Thomas Huth <thuth@redhat.com>, qemu-s390x@nongnu.org,
+ Eric Farman <farman@linux.ibm.com>, qemu-devel@nongnu.org,
+ Alex Williamson <alex.williamson@redhat.com>, stefanha@redhat.com,
+ Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 08/01/2021 20.56, Peter Maydell wrote:
-> Adding the people to the CC list who were on the previous discussion thread...
+On Mon, Jan 11, 2021 at 01:54:04PM +0100, Cornelia Huck wrote:
+> On Mon,  4 Jan 2021 21:20:56 +0100
+> Eric Farman <farman@linux.ibm.com> wrote:
 > 
-> -- PMM
+> > Signed-off-by: Eric Farman <farman@linux.ibm.com>
+> > ---
+> >  .../infiniband/hw/vmw_pvrdma/pvrdma_ring.h    |  14 +-
+> >  .../infiniband/hw/vmw_pvrdma/pvrdma_verbs.h   |   2 +-
+> >  include/standard-headers/drm/drm_fourcc.h     | 175 +++++++++++++++++-
+> >  include/standard-headers/linux/const.h        |  36 ++++
+> >  include/standard-headers/linux/ethtool.h      |   2 +-
+> >  include/standard-headers/linux/fuse.h         |  30 ++-
+> >  include/standard-headers/linux/kernel.h       |   9 +-
+> >  include/standard-headers/linux/pci_regs.h     |  16 ++
+> >  include/standard-headers/linux/vhost_types.h  |   9 +
+> >  include/standard-headers/linux/virtio_gpu.h   |  82 ++++++++
+> >  include/standard-headers/linux/virtio_ids.h   |  44 +++--
+> >  linux-headers/asm-arm64/kvm.h                 |   3 -
+> >  linux-headers/asm-generic/unistd.h            |   6 +-
+> >  linux-headers/asm-mips/unistd_n32.h           |   1 +
+> >  linux-headers/asm-mips/unistd_n64.h           |   1 +
+> >  linux-headers/asm-mips/unistd_o32.h           |   1 +
+> >  linux-headers/asm-powerpc/unistd_32.h         |   1 +
+> >  linux-headers/asm-powerpc/unistd_64.h         |   1 +
+> >  linux-headers/asm-s390/unistd_32.h            |   1 +
+> >  linux-headers/asm-s390/unistd_64.h            |   1 +
+> >  linux-headers/asm-x86/kvm.h                   |   1 +
+> >  linux-headers/asm-x86/unistd_32.h             |   1 +
+> >  linux-headers/asm-x86/unistd_64.h             |   1 +
+> >  linux-headers/asm-x86/unistd_x32.h            |   1 +
+> >  linux-headers/linux/kvm.h                     |  56 +++++-
+> >  linux-headers/linux/userfaultfd.h             |   9 +
+> >  linux-headers/linux/vfio.h                    |   1 +
+> >  linux-headers/linux/vhost.h                   |   4 +
+> >  28 files changed, 461 insertions(+), 48 deletions(-)
+> >  create mode 100644 include/standard-headers/linux/const.h
+> > 
+> > diff --git a/include/standard-headers/drivers/infiniband/hw/vmw_pvrdma/pvrdma_ring.h b/include/standard-headers/drivers/infiniband/hw/vmw_pvrdma/pvrdma_ring.h
+> > index 7b4062a1a1..acd4c8346d 100644
+> > --- a/include/standard-headers/drivers/infiniband/hw/vmw_pvrdma/pvrdma_ring.h
+> > +++ b/include/standard-headers/drivers/infiniband/hw/vmw_pvrdma/pvrdma_ring.h
+> > @@ -68,7 +68,7 @@ static inline int pvrdma_idx_valid(uint32_t idx, uint32_t max_elems)
+> >  
+> >  static inline int32_t pvrdma_idx(int *var, uint32_t max_elems)
+> >  {
+> > -	const unsigned int idx = qatomic_read(var);
+> > +	const unsigned int idx = atomic_read(var);
 > 
+> Hm, what was the state of these qatomic* instances in this header? Is
+> it ok to rename them, or do we need to do some munging in the import
+> script?
 > 
-> On Fri, 8 Jan 2021 at 19:43, Warner Losh <imp@bsdimp.com> wrote:
-[...]
->> So, my new plan is to rebase what changes I can to the tip of master and submit those for review. I'll work with the developers on the FreeBSD side to ensure they are included in reviews in addition to the normal qemu-devel list. This will allow us to pare down the deltas between our code and upstream to allow us to make progress. The changes will be held to the standard 'makes things better'. Given how broken bsd-user is today in qemu upstream, at first that will a very easy standard to make.
->>
->> The first patch I'll submit will be changing MAINTAINERS to point to me, since I'm acting as the point person in this effort. I'll then re-submit some other changes that I've submitted in the past, but CC the FreeBSD folks that are currently active (they were only CC'd to former developers who lack the time to review).
->>
->> But before I get too far down this path, I thought I'd send out what's going on to qemu-devel so I can get feedback and adjust the plan into something that's mutually agreeable so time I put towards this is not wasted.
->>
->> So, what do people think of these plans?
+> (Sorry, it's been a while.)
 
-Sounds like a good way forward. Are you familiar with sending git pull 
-requests? I think once the patch to MAINTAINERS has been accepted, it's 
-maybe best if you send out pull request on your own once the patches got 
-reviewed on the mailing list - otherwise it might get cumbersome to find a 
-maintainers tree where the patches can go through.
 
-  Thomas
+Yea looks like it was done manually last time:
+
+commit d73415a315471ac0b127ed3fad45c8ec5d711de1
+Author: Stefan Hajnoczi <stefanha@redhat.com>
+Date:   Wed Sep 23 11:56:46 2020 +0100
+
+    qemu/atomic.h: rename atomic_ to qatomic_
+
+
+
+> >  
+> >  	if (pvrdma_idx_valid(idx, max_elems))
+> >  		return idx & (max_elems - 1);
+> > @@ -77,17 +77,17 @@ static inline int32_t pvrdma_idx(int *var, uint32_t max_elems)
+> >  
+> >  static inline void pvrdma_idx_ring_inc(int *var, uint32_t max_elems)
+> >  {
+> > -	uint32_t idx = qatomic_read(var) + 1;	/* Increment. */
+> > +	uint32_t idx = atomic_read(var) + 1;	/* Increment. */
+> >  
+> >  	idx &= (max_elems << 1) - 1;		/* Modulo size, flip gen. */
+> > -	qatomic_set(var, idx);
+> > +	atomic_set(var, idx);
+> >  }
+> >  
+> >  static inline int32_t pvrdma_idx_ring_has_space(const struct pvrdma_ring *r,
+> >  					      uint32_t max_elems, uint32_t *out_tail)
+> >  {
+> > -	const uint32_t tail = qatomic_read(&r->prod_tail);
+> > -	const uint32_t head = qatomic_read(&r->cons_head);
+> > +	const uint32_t tail = atomic_read(&r->prod_tail);
+> > +	const uint32_t head = atomic_read(&r->cons_head);
+> >  
+> >  	if (pvrdma_idx_valid(tail, max_elems) &&
+> >  	    pvrdma_idx_valid(head, max_elems)) {
+> > @@ -100,8 +100,8 @@ static inline int32_t pvrdma_idx_ring_has_space(const struct pvrdma_ring *r,
+> >  static inline int32_t pvrdma_idx_ring_has_data(const struct pvrdma_ring *r,
+> >  					     uint32_t max_elems, uint32_t *out_head)
+> >  {
+> > -	const uint32_t tail = qatomic_read(&r->prod_tail);
+> > -	const uint32_t head = qatomic_read(&r->cons_head);
+> > +	const uint32_t tail = atomic_read(&r->prod_tail);
+> > +	const uint32_t head = atomic_read(&r->cons_head);
+> >  
+> >  	if (pvrdma_idx_valid(tail, max_elems) &&
+> >  	    pvrdma_idx_valid(head, max_elems)) {
 
 
