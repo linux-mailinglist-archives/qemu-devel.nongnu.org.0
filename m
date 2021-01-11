@@ -2,75 +2,55 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 460522F1010
-	for <lists+qemu-devel@lfdr.de>; Mon, 11 Jan 2021 11:28:06 +0100 (CET)
-Received: from localhost ([::1]:53452 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D1B6F2F1012
+	for <lists+qemu-devel@lfdr.de>; Mon, 11 Jan 2021 11:29:46 +0100 (CET)
+Received: from localhost ([::1]:55716 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kyuQf-00050I-Ag
-	for lists+qemu-devel@lfdr.de; Mon, 11 Jan 2021 05:28:05 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60386)
+	id 1kyuSH-0005yz-VM
+	for lists+qemu-devel@lfdr.de; Mon, 11 Jan 2021 05:29:45 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60982)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1kyuPL-0004Ko-Ip
- for qemu-devel@nongnu.org; Mon, 11 Jan 2021 05:26:44 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:53777)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1kyuPI-0001wH-HF
- for qemu-devel@nongnu.org; Mon, 11 Jan 2021 05:26:42 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1610360797;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=AIUbAAChlK0RbVt5zmLRBVBw18tMKILQLRJzqrokvJ4=;
- b=Lgvq1BuJ/zNJwJNbkzu5W8R8qvwf4F3rhLfzH43msvANPoIwL2mZIKMFKTF3GM0EoWUvpT
- Z30VvkA6hQgGi++lc+tHBAJXSzOB2wQpc8p2KYhy86jiMjC+R+IuLcoNV8Hm4LR2XbFiAU
- uN56QN3liHJUP+r8i70GNt200pwFLfk=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-16-rzcf2jy8NnuXB0G7BhKcrQ-1; Mon, 11 Jan 2021 05:26:34 -0500
-X-MC-Unique: rzcf2jy8NnuXB0G7BhKcrQ-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 256E8801B14;
- Mon, 11 Jan 2021 10:26:33 +0000 (UTC)
-Received: from thuth.remote.csb (ovpn-112-147.ams2.redhat.com [10.36.112.147])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 5F28C5D769;
- Mon, 11 Jan 2021 10:26:23 +0000 (UTC)
-Subject: Re: [PATCH v8 5/7] fuzz: set bits in operand of write/out to zero
-To: Qiuhao Li <Qiuhao.Li@outlook.com>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
- qemu-devel@nongnu.org
-References: <SYCPR01MB3502FA4DB12C240DD3CFF1E0FCAB0@SYCPR01MB3502.ausprd01.prod.outlook.com>
- <SYCPR01MB3502C84B6346A3E3DE708C7BFCAB0@SYCPR01MB3502.ausprd01.prod.outlook.com>
- <d3294c04-28c5-470a-d011-80dc975c7a62@redhat.com>
- <SYCPR01MB35029A99852F6063CC7C644CFCAB0@SYCPR01MB3502.ausprd01.prod.outlook.com>
-From: Thomas Huth <thuth@redhat.com>
-Message-ID: <fc36e336-7295-53f0-85c4-bd3a4e63857f@redhat.com>
-Date: Mon, 11 Jan 2021 11:26:22 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.4.0
+ (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
+ id 1kyuRM-0005YI-GS
+ for qemu-devel@nongnu.org; Mon, 11 Jan 2021 05:28:49 -0500
+Received: from zero.eik.bme.hu ([2001:738:2001:2001::2001]:60367)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
+ id 1kyuRI-0002pP-Tp
+ for qemu-devel@nongnu.org; Mon, 11 Jan 2021 05:28:48 -0500
+Received: from zero.eik.bme.hu (blah.eik.bme.hu [152.66.115.182])
+ by localhost (Postfix) with SMTP id F423F7470E7;
+ Mon, 11 Jan 2021 11:28:40 +0100 (CET)
+Received: by zero.eik.bme.hu (Postfix, from userid 432)
+ id B8EC17470E3; Mon, 11 Jan 2021 11:28:40 +0100 (CET)
+Received: from localhost (localhost [127.0.0.1])
+ by zero.eik.bme.hu (Postfix) with ESMTP id B6FA27470DD;
+ Mon, 11 Jan 2021 11:28:40 +0100 (CET)
+Date: Mon, 11 Jan 2021 11:28:40 +0100 (CET)
+From: BALATON Zoltan <balaton@eik.bme.hu>
+To: Jiaxun Yang <jiaxun.yang@flygoat.com>
+Subject: Re: [PATCH v2 08/13] vt82c686: Move creation of ISA devices to the
+ ISA bridge
+In-Reply-To: <f5466f0b-cc4f-4a71-8c06-7971198a7602@www.fastmail.com>
+Message-ID: <2e29d39-8622-3232-d6cd-80d77beb98@eik.bme.hu>
+References: <cover.1610223396.git.balaton@eik.bme.hu>
+ <bf9400cc8e4ddd3129aa5678de4d3cf38384805f.1610223397.git.balaton@eik.bme.hu>
+ <f77d6471-d19d-a1c2-e447-18181d55ba86@amsat.org>
+ <5c5ce8b9-f5c4-c58d-6f8a-76c47ad8db4d@eik.bme.hu>
+ <2a45450d-8357-c03e-7e11-bd59bffa61ae@amsat.org>
+ <1b55216e-4526-6f50-eac2-f91797a64e7@eik.bme.hu>
+ <f5466f0b-cc4f-4a71-8c06-7971198a7602@www.fastmail.com>
 MIME-Version: 1.0
-In-Reply-To: <SYCPR01MB35029A99852F6063CC7C644CFCAB0@SYCPR01MB3502.ausprd01.prod.outlook.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=thuth@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=thuth@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -23
-X-Spam_score: -2.4
-X-Spam_bar: --
-X-Spam_report: (-2.4 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.251,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.012, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+Content-Type: multipart/mixed;
+ boundary="3866299591-2085507900-1610360920=:96624"
+X-Spam-Probability: 9%
+Received-SPF: pass client-ip=2001:738:2001:2001::2001;
+ envelope-from=balaton@eik.bme.hu; helo=zero.eik.bme.hu
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -84,31 +64,67 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: alxndr@bu.edu, bsd@redhat.com, pbonzini@redhat.com, stefanha@redhat.com,
- darren.kenny@oracle.com
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ "Michael S. Tsirkin" <mst@redhat.com>, Huacai Chen <chenhuacai@kernel.org>,
+ Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
+ =?ISO-8859-15?Q?Philippe_Mathieu-Daud=E9?= <f4bug@amsat.org>,
+ BALATON Zoltan via <qemu-devel@nongnu.org>,
+ =?ISO-8859-15?Q?Herv=E9_Poussineau?= <hpoussin@reactos.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 11/01/2021 10.39, Qiuhao Li wrote:
-> On Mon, 2021-01-11 at 10:01 +0100, Philippe Mathieu-Daudé wrote:
->> On 1/11/21 7:11 AM, Qiuhao Li wrote:
->>> Simplifying the crash cases by opportunistically setting bits in
->>> operands of
->>> out/write to zero may help to debug, since usually bit one means
->>> turn on or
->>> trigger a function while zero is the default turn-off setting.
+  This message is in MIME format.  The first part should be readable text,
+  while the remaining parts are likely unreadable without MIME-aware tools.
+
+--3866299591-2085507900-1610360920=:96624
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 8BIT
+
+On Mon, 11 Jan 2021, Jiaxun Yang wrote:
+> On Mon, Jan 11, 2021, at 3:25 AM, BALATON Zoltan wrote:
+>> On Sun, 10 Jan 2021, Philippe Mathieu-Daudé wrote:
+>>> +PCI experts
 >>>
->>> Tested Bug 1908062.
+>>> On 1/10/21 1:43 AM, BALATON Zoltan wrote:
+>>>> On Sun, 10 Jan 2021, Philippe Mathieu-Daudé wrote:
+>
+> [...]
+>
+>>> I'm not a PCI expert but my understanding is PCI device functions are
+>>> restricted to the PCI bus address space. The host bridge may map this
+>>> space within the host.
+>>>
+>>> QEMU might be using get_system_memory() because for some host bridge
+>>> the mapping is not implemented so it was easier this way?
 >>
->> Please use the full link as reference:
->> https://bugs.launchpad.net/qemu/+bug/1908062
-> 
-> Ok, should I submit a new version patch? Or just change the commit
-> messages and submit this series again?
+>> Maybe, also one less indirection which if not really needed is a good
+>> thing for performance so unless it's found to be needed to use another
+>> address space here I'm happy with this as it matches what other similar
+>> devices do and it seems to work. Maybe a separate address space is only
+>> really needed if we have an iommu?
+>
+> Hi Zoltan,
+>
+> It is possible for bonito to remap PCI address space so maybe it's essential for bonito.
 
-I can fix this when picking up the patches, no need to respin just because 
-of this.
+I'm still not sure it's needed or how that would work. Maybe while it's 
+possible to remap these, all guests just map these one-to-one (otherwise 
+they may need to do some address translation which is much better avoided) 
+so in practice we don't need to emulate this. If we use a different memory 
+region maybe we also need some additional iommu code somewhere to connect 
+the two but I'm not sure, I haven't tried since most other isa bridges do 
+the same way using system_memory and this seems to work. I'm also a bit 
+concerned about additional overhead which we could avoid if possible. Just 
+to model something that's not really used I don't think it's worth the 
+additional complexity and possible performance loss unless it's found to 
+be needed to get some guests work.
 
-  Thomas
+> Appreciate for your work. I'm going to help with reviewing as well.
 
+Thanks, I hope to get these in now before the freeze so testing and 
+reviewing is really appreciated.
+
+Regards,
+BALATON Zoltan
+--3866299591-2085507900-1610360920=:96624--
 
