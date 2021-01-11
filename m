@@ -2,66 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id ED5062F102D
-	for <lists+qemu-devel@lfdr.de>; Mon, 11 Jan 2021 11:35:36 +0100 (CET)
-Received: from localhost ([::1]:34914 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8E5942F1032
+	for <lists+qemu-devel@lfdr.de>; Mon, 11 Jan 2021 11:37:13 +0100 (CET)
+Received: from localhost ([::1]:37082 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kyuXw-0000qD-0x
-	for lists+qemu-devel@lfdr.de; Mon, 11 Jan 2021 05:35:36 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34266)
+	id 1kyuZU-0001pp-MW
+	for lists+qemu-devel@lfdr.de; Mon, 11 Jan 2021 05:37:12 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34404)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1kyuWm-0000QB-AO
- for qemu-devel@nongnu.org; Mon, 11 Jan 2021 05:34:24 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:46321)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1kyuWj-0005TP-QZ
- for qemu-devel@nongnu.org; Mon, 11 Jan 2021 05:34:24 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1610361260;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=PUiMZl4QLGgUnkalhqWWbfOGFVnmnbUtmAlVlZTERbE=;
- b=MTBS6y+x0KJLuYKMRXimzEDlfPHvrAv0yyT7aiMzHXLbtLYl9bjcMa8mKobJhCjvAYS5Tv
- hvClvu6BBWwDaw9as0pcKyTSTSH63iTM/OEpR0PoMW1kgsdAgcIm1iFXpEnyvfGHMOaKgG
- MkYZD/U2gN/i6ZBeKWD+OgoUK6pjlhc=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-206-hZ8S94viOiuHgoJJDdE5bQ-1; Mon, 11 Jan 2021 05:34:16 -0500
-X-MC-Unique: hZ8S94viOiuHgoJJDdE5bQ-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 771C98145E0;
- Mon, 11 Jan 2021 10:34:15 +0000 (UTC)
-Received: from thuth.com (ovpn-112-147.ams2.redhat.com [10.36.112.147])
- by smtp.corp.redhat.com (Postfix) with ESMTP id B1BE65D9F6;
- Mon, 11 Jan 2021 10:34:13 +0000 (UTC)
-From: Thomas Huth <thuth@redhat.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH] cirrus.yml: Replace the hard-coded python-sphinx version with
- the generic one
-Date: Mon, 11 Jan 2021 11:34:10 +0100
-Message-Id: <20210111103410.144797-1-thuth@redhat.com>
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1kyuXe-00014f-Qj
+ for qemu-devel@nongnu.org; Mon, 11 Jan 2021 05:35:19 -0500
+Received: from mail-ed1-x531.google.com ([2a00:1450:4864:20::531]:33131)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1kyuXb-0005sf-RZ
+ for qemu-devel@nongnu.org; Mon, 11 Jan 2021 05:35:17 -0500
+Received: by mail-ed1-x531.google.com with SMTP id j16so18315306edr.0
+ for <qemu-devel@nongnu.org>; Mon, 11 Jan 2021 02:35:15 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=VoOsJETvYJ4VEH1qC/CQvIplIkXSS3q/3t16LUfuHAQ=;
+ b=Ft1LWyzSUjdKMVDGNj152zjy4xzJuUOe/WMAwMizRtNP/loj+n8zLZpl3SKCaSETjO
+ GKETNsgs5ZwEspVLrEF7jzt/OtzEasNyewPb4em6UyfTfCn80BSDw8kkhaA8w0vXB6Y5
+ mTcJg3e3hE1sm1Py+pNZhrxCema3cpyTaKe1BdUIhstLmdsQWrk0fl1P6n8tH8fYmBmM
+ 8Z0G8G4tak7ha6WFUAKQX590XpkTVz6GUk4qXyurxxME8nDzxdnThIrIClyQYZLWNfGx
+ RCxZLa9IPNVnu+ffOOzzOGS9m/lSOruhJ4PmrImGeAH68haoWxPragbJ6rxDkzdCFRlJ
+ Dbqw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=VoOsJETvYJ4VEH1qC/CQvIplIkXSS3q/3t16LUfuHAQ=;
+ b=FktAfh5I0H0zfkMj5YG0Dn+ETMcY+JagNecr6nQuBOVyB5MbERztHwoXAlsqOp8I35
+ 8q35Z9aDR2ARuXRJ95QPABhcle2lECtR9RjxMBYdy7OQoHy33WTLhNMNFCwzajdvWWgs
+ 96aWvnPoI1VScADvcqLN+Nm5jL+qyFx7hVZaeKQTOGr/hc79H1UbKOYWeggPA6FbFc+Y
+ F2DdDnjaEs67KM4bZMwl+nFN5mYJ71xpJU7wL8ruJGB8OvFvmfvyTijBOJUdDf2hYWCa
+ P7725L1I/gN7ZOMh9WnhOzRdp8bj6cSElQLQFZ+UwxLscceRkrMpFMAoxGC1jvwax8Jt
+ 1F2A==
+X-Gm-Message-State: AOAM533jMLqv7tz716t3i4l2ua/8+ABbuzPzQkCeY+atcUhwxzMaUHO/
+ omJKgSecxocNBzN8CXzH3NbhY8AV/5SNtettyB2ZBg==
+X-Google-Smtp-Source: ABdhPJzMvCUPQJRZPqjQryMUkAljKYoCfUj6NArT6kzdqUpdjDPKYfUqlMKEAnQgxux0yNR3NicU2sv1ZFnWUdfrKso=
+X-Received: by 2002:a05:6402:366:: with SMTP id
+ s6mr13307134edw.44.1610361313769; 
+ Mon, 11 Jan 2021 02:35:13 -0800 (PST)
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=thuth@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=thuth@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -30
-X-Spam_score: -3.1
-X-Spam_bar: ---
-X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.251,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+References: <20210103205021.2837760-1-f4bug@amsat.org>
+ <20210103205021.2837760-24-f4bug@amsat.org>
+ <CAFEAcA_YqAiiLRY08-gACmKOCf2mat3AaBGnyRK0Jc+aK-iuOw@mail.gmail.com>
+ <b2dd6d33-d8e9-21a3-7b76-bdf44e117128@amsat.org>
+ <3aece87-60ff-b195-8bd-c696bf461cb6@eik.bme.hu>
+ <CAAhV-H71-wrTfDWN9zH2gU4gdJkCpMk5EDfAi1W1d4jXA3OkZg@mail.gmail.com>
+ <3f383a52-6583-4c60-8f24-a24e6b95c068@www.fastmail.com>
+ <29acb49a-4d1-ae6b-328d-6e3081e2ab2f@eik.bme.hu>
+In-Reply-To: <29acb49a-4d1-ae6b-328d-6e3081e2ab2f@eik.bme.hu>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Mon, 11 Jan 2021 10:35:01 +0000
+Message-ID: <CAFEAcA8trw0PNeDaQq3dZa0q4qYoXF35ROLMHDw3qnJ=wX+vvw@mail.gmail.com>
+Subject: Re: [PULL 23/35] hw/intc: Rework Loongson LIOINTC
+To: BALATON Zoltan <balaton@eik.bme.hu>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2a00:1450:4864:20::531;
+ envelope-from=peter.maydell@linaro.org; helo=mail-ed1-x531.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -74,44 +84,38 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Yonggang Luo <luoyonggang@gmail.com>,
- =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
+Cc: Aurelien Jarno <aurelien@aurel32.net>, Huacai Chen <chenhuacai@kernel.org>,
+ =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>,
+ BALATON Zoltan via <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The mingw-w64-x86_64-python-sphinx-2.3.1 package has been removed from
-the server, so the windows_msys2_task is currently failing. Replace the
-old version with the current generic one to fix the issue (the current
-version seems to work fine now, too).
+On Mon, 11 Jan 2021 at 10:20, BALATON Zoltan <balaton@eik.bme.hu> wrote:
+>
+> On Mon, 11 Jan 2021, Jiaxun Yang wrote:
+> > On Mon, Jan 11, 2021, at 8:36 AM, Huacai Chen wrote:
+> >> I think R_END should be 0x60, Jiaxun, what do you think?
+> >
+> > U r right.
+> > The manual is misleading.
+>
+> The R_END constant is also used in loongson_liointc_init() for the length
+> of the memory region so you might want to revise that. If this is a 32 bit
+> register then you should decide what R_END means? Is it the end of the
+> memory region in which case the reg starts at R_END - 4 or is it the
+> address of the last reg in which case the memory region ends at R_END + 4.
+> From the above I think it's the address of the last reg so you'll probably
+> need to add 4 in loongson_liointc_init() when creating the memory region.
 
-Signed-off-by: Thomas Huth <thuth@redhat.com>
----
- Successful run (with sphinx building the docs) can be seen here:
- https://cirrus-ci.com/task/6568987054047232
+Mmm, or check
+  (addr >= R_START && addr < (R_START + R_ISR_SIZE * NUM_CORES))
 
- .cirrus.yml | 6 +-----
- 1 file changed, 1 insertion(+), 5 deletions(-)
+Side note: R_ISR_SIZE is 8, but the code makes both the
+32-bit addresses you can read/write in that 8-byte range
+behave the same way. Is that really what the hardware does ?
+Or does it actually have 1 32-bit register per core, spaced
+8 bytes apart ?
 
-diff --git a/.cirrus.yml b/.cirrus.yml
-index 3907e036da..886addedd3 100644
---- a/.cirrus.yml
-+++ b/.cirrus.yml
-@@ -117,12 +117,8 @@ windows_msys2_task:
-           mingw-w64-x86_64-curl \
-           mingw-w64-x86_64-gnutls \
-           mingw-w64-x86_64-libnfs \
-+          mingw-w64-x86_64-python-sphinx
-           "
--        bitsadmin /transfer msys_download /dynamic /download /priority FOREGROUND `
--          https://repo.msys2.org/mingw/x86_64/mingw-w64-x86_64-python-sphinx-2.3.1-1-any.pkg.tar.xz `
--          C:\tools\mingw-w64-x86_64-python-sphinx-2.3.1-1-any.pkg.tar.xz
--        C:\tools\msys64\usr\bin\bash.exe -lc "pacman --noconfirm -U /c/tools/mingw-w64-x86_64-python-sphinx-2.3.1-1-any.pkg.tar.xz"
--        del C:\tools\mingw-w64-x86_64-python-sphinx-2.3.1-1-any.pkg.tar.xz
-         C:\tools\msys64\usr\bin\bash.exe -lc "rm -rf /var/cache/pacman/pkg/*"
-         cd C:\tools\msys64
-         echo "Start archive"
--- 
-2.27.0
-
+thanks
+-- PMM
 
