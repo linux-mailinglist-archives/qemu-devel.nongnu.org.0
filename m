@@ -2,48 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2C5672F205F
-	for <lists+qemu-devel@lfdr.de>; Mon, 11 Jan 2021 21:06:34 +0100 (CET)
-Received: from localhost ([::1]:54216 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 832592F207D
+	for <lists+qemu-devel@lfdr.de>; Mon, 11 Jan 2021 21:15:30 +0100 (CET)
+Received: from localhost ([::1]:59306 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kz3SS-000881-Ss
-	for lists+qemu-devel@lfdr.de; Mon, 11 Jan 2021 15:06:32 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60970)
+	id 1kz3b7-0002GC-6O
+	for lists+qemu-devel@lfdr.de; Mon, 11 Jan 2021 15:15:29 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34924)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
- id 1kz3Qv-0007Zn-Pk
- for qemu-devel@nongnu.org; Mon, 11 Jan 2021 15:04:57 -0500
-Received: from zero.eik.bme.hu ([152.66.115.2]:56342)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
- id 1kz3Qs-0006P7-Bh
- for qemu-devel@nongnu.org; Mon, 11 Jan 2021 15:04:56 -0500
-Received: from zero.eik.bme.hu (blah.eik.bme.hu [152.66.115.182])
- by localhost (Postfix) with SMTP id 56DCA7470DD;
- Mon, 11 Jan 2021 21:04:51 +0100 (CET)
-Received: by zero.eik.bme.hu (Postfix, from userid 432)
- id 0EF24746552; Mon, 11 Jan 2021 21:04:51 +0100 (CET)
-Received: from localhost (localhost [127.0.0.1])
- by zero.eik.bme.hu (Postfix) with ESMTP id 0D10774645B;
- Mon, 11 Jan 2021 21:04:51 +0100 (CET)
-Date: Mon, 11 Jan 2021 21:04:51 +0100 (CET)
-From: BALATON Zoltan <balaton@eik.bme.hu>
-To: Luc Michel <luc.michel@greensocs.com>
-Subject: Re: About creating machines on the command line
-In-Reply-To: <13ecc030-f42b-5a27-a0b3-b07921426ce9@greensocs.com>
-Message-ID: <eb4ac5c9-b1d0-90eb-ed2a-2710d3149482@eik.bme.hu>
-References: <13ecc030-f42b-5a27-a0b3-b07921426ce9@greensocs.com>
+ (Exim 4.90_1) (envelope-from <luoyonggang@gmail.com>)
+ id 1kz3Ze-0001WE-NT
+ for qemu-devel@nongnu.org; Mon, 11 Jan 2021 15:13:58 -0500
+Received: from mail-lf1-x12d.google.com ([2a00:1450:4864:20::12d]:34318)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <luoyonggang@gmail.com>)
+ id 1kz3Zb-00080A-Jg
+ for qemu-devel@nongnu.org; Mon, 11 Jan 2021 15:13:58 -0500
+Received: by mail-lf1-x12d.google.com with SMTP id o19so1442636lfo.1
+ for <qemu-devel@nongnu.org>; Mon, 11 Jan 2021 12:13:54 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:reply-to:from:date:message-id
+ :subject:to:cc;
+ bh=aoM/3CNTxJyesOGrY5tXtlXRchjT9ygqaKabRJRQ7to=;
+ b=iLP6bhR45751+/DAhstWkjYcTM0TunINDIWq+c/VodXv+jDBK12gznNE4uztNDswPc
+ 44XXpvvZD/N57lhmFl87opNqM8O0UpOlf7zIGuhVVerO2VxP4SVYObpSsJlcZNAtAms1
+ MFuJ2VKPFptrjuOLWquI8hxmqanHtyyYg4iL44ROOSFzXomf77XaEl8P9ixWjg6i+56Z
+ neV3hr0avEoz1inMrML550UqmAybJMwgYjZAbSZJ3wA6gDdFbD321RQMelbGPZrIz8VW
+ f9p1WGx8hfW6srB/wPkA4Zu+r00kUM+QYNn70N25kfE5lPBgrVbTlZNZZx6fSnPnh0SF
+ uZ3Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:reply-to
+ :from:date:message-id:subject:to:cc;
+ bh=aoM/3CNTxJyesOGrY5tXtlXRchjT9ygqaKabRJRQ7to=;
+ b=hOUOGPiBLOuZ8AD0ViAXyviyWBaZZwoA3cUBeRULjNhDPFmixQJfEjrf3f5Hdl4tk2
+ jpFjmVLqHwVX0/9WtmNoaG8+7pSseQ0XzNkHDGuvILm++qc0aV6ObA4EKl4wX6emgf6d
+ 0YHfPMGtuAdIMydPjxBRNBvSrQThwJSeVsi97tUQC0DxMcfA3zeAK69Vo0cGJe09iwdu
+ hzOeQUTDGyV/xNRSi19A4spFW2NRDsAzcstR8aAVYrQWcj7ZLcONeyeL2k9DRQ+YGXLt
+ snmKVEO+VXqorODal0HlP06nDedn1J9WKsLm1SkXtfCcAaHJP7DIt8s/lc5TVBQFZGZ6
+ Mxbg==
+X-Gm-Message-State: AOAM5303xA5Up5oFJktz7DgiBT8LYeuXoRijAFytw2yZTnMveuMYzUMP
+ OLJIOv1m910z0bPCnwCrVYyscwLtavcCxUPlVQM=
+X-Google-Smtp-Source: ABdhPJyygbA8J6D15H85ZViHattBcDzce+HZtwKz2lCPyrSzudFX482UFBIBwjEbj6BwRPVOHztg4vt2S7RWabhwfeM=
+X-Received: by 2002:a19:6a1a:: with SMTP id u26mr503461lfu.497.1610396033070; 
+ Mon, 11 Jan 2021 12:13:53 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII; format=flowed
-X-Spam-Probability: 8%
-Received-SPF: pass client-ip=152.66.115.2; envelope-from=balaton@eik.bme.hu;
- helo=zero.eik.bme.hu
-X-Spam_score_int: -41
-X-Spam_score: -4.2
-X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+References: <cover.1610339529.git.jag.raman@oracle.com>
+ <CAE2XoE8ycXRGE6PWnCCR4TbGM0j=W7Osuv_bq+3=cD0xf5TQyw@mail.gmail.com>
+ <C66E6ACB-EE4C-4465-9DD2-1C3308D9CF07@oracle.com>
+In-Reply-To: <C66E6ACB-EE4C-4465-9DD2-1C3308D9CF07@oracle.com>
+From: =?UTF-8?B?572X5YuH5YiaKFlvbmdnYW5nIEx1byk=?= <luoyonggang@gmail.com>
+Date: Tue, 12 Jan 2021 04:13:40 +0800
+Message-ID: <CAE2XoE_A=mX418VyL_Lxt=0+sZ0YY1RpK6yNWEJQdZ+52tndRQ@mail.gmail.com>
+Subject: Re: [PATCH v16 00/20] Initial support for multi-process Qemu
+To: Jag Raman <jag.raman@oracle.com>
+Content-Type: multipart/alternative; boundary="0000000000007fbdfb05b8a58b4a"
+Received-SPF: pass client-ip=2a00:1450:4864:20::12d;
+ envelope-from=luoyonggang@gmail.com; helo=mail-lf1-x12d.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -56,111 +79,522 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Damien Hedde <damien.hedde@greensocs.com>, peter.maydell@linaro.org,
- berrange@redhat.com, sam.grove@sifive.com, armbru@redhat.com,
- Mark Burton <mark.burton@greensocs.com>, qemu-devel@nongnu.org,
- richard.fuhler@sifive.com, edgar.iglesias@gmail.com, f4bug@amsat.org
+Reply-To: luoyonggang@gmail.com
+Cc: Elena Ufimtseva <elena.ufimtseva@oracle.com>, Fam Zheng <fam@euphon.net>,
+ Swapnil Ingle <swapnil.ingle@nutanix.com>,
+ John G Johnson <john.g.johnson@oracle.com>, qemu-level <qemu-devel@nongnu.org>,
+ Gerd Hoffmann <kraxel@redhat.com>, Juan Quintela <quintela@redhat.com>,
+ "Michael S. Tsirkin" <mst@redhat.com>, Markus Armbruster <armbru@redhat.com>,
+ kanth.ghatraju@oracle.com, Felipe Franciosi <felipe@nutanix.com>,
+ Thomas Huth <thuth@redhat.com>, Eduardo Habkost <ehabkost@redhat.com>,
+ konrad.wilk@oracle.com, "Dr . David Alan Gilbert" <dgilbert@redhat.com>,
+ alex.williamson@redhat.com, Stefan Hajnoczi <stefanha@redhat.com>,
+ thanos.makatos@nutanix.com, Kevin Wolf <kwolf@redhat.com>,
+ =?UTF-8?Q?Daniel_P=2E_Berrang=C3=A9?= <berrange@redhat.com>,
+ Max Reitz <mreitz@redhat.com>, ross.lagerwall@citrix.com,
+ =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@gmail.com>,
+ Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, 11 Jan 2021, Luc Michel wrote:
-> Hi,
->
-> We would like to work on improving QEMU to be able to create custom machines 
-> from the command line. The goal here is to get feedback from the community 
-> and shape the future developments.
->
-> The use case mainly comes from people working with tools to customize their 
-> designs, such as SiFive Core Designer (https://scs.sifive.com/core-designer). 
-> This kind of tools may allow creation or customization of a whole SoC, from 
-> the number of cores, to the memory and IRQ mapping of peripherals etc.
->
-> The ultimate goal would be to be able to create any kind of machine on the 
-> command line. However we are aware that this is a substantial amount of 
-> changes in QEMU.
->
-> In its current state, QEMU allows for very limited customization of existing 
-> machines on the command line. We identified the following limitations (feel 
-> free to add to the list):
->
->  - Most devices are not user creatable. Moreover, sysbus devices must be 
-> explicitly allowed by a machine to be creatable through `-device`,
->
->  - Memory regions cannot be created on the command line,
->
->  - Device MMIO regions cannot be mapped on a bus from the command line,
->
->  - GPIOs and clocks cannot be wired from the command line,
->
->  - CPUs are not sysbus devices (and not user-creatable). They need special 
-> care when creating them regarding system reset. Not being on a bus means that 
-> they must be reset manually on system reset. This is done in machines by 
-> registering a QEMU reset handler.
->
->  - Machine specific boot code is usually hard-coded into the machine itself. 
-> Some architectures (e.g. ARM) do factorize bootloader related code, but there 
-> is no standard way of doing that in QEMU.
->
-> We don't want to address all those limitations at once. We plan to start with 
-> the following scenario:
->
->  - Start with a base machine that would handle CPU creation and bootloader 
-> stuff. Note that the "none" machine is probably not sufficient in its current 
-> shape. It does allow only one CPU and obviously does not handle the boot 
-> process.
->
->  - Allow for this machine every sysbus devices we want to be user 
-> command-line creatable (and mark them user_creatable if needed)
->
->  - Add command line options to create memory regions (probably ram ones at 
-> first)
->
->  - Add command line options to map a memory region (including sysbus device 
-> MMIO regions) onto another (memory_region_add_subregion)
->
->  - Add command line options to connect GPIOs and clocks.
+--0000000000007fbdfb05b8a58b4a
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-I'm not sure the command line would be the best interface for this, it's 
-already hard enough to get a simple VM running, adding more options would 
-just make it more obscure for mere users who just want to use existing 
-machines to create a VM. So I think some kind of config file to define the 
-machine would be better.
+On Tue, Jan 12, 2021 at 2:02 AM Jag Raman <jag.raman@oracle.com> wrote:
+>
+>
+>
+> > On Jan 11, 2021, at 12:20 AM, =E7=BD=97=E5=8B=87=E5=88=9A(Yonggang Luo)=
+ <luoyonggang@gmail.com>
+wrote:
+> >
+> > I have a question, does this support/test on Windows?
+>
+> Hi Yonggang, we have not tested this on Windows. The project only builds
+on Linux for now.
+>
+> Thank you!
+I may interested add Windows support, what's the hard part?
+If we add Windows/OSX support, we can create same code base for all three
+platforms, and reduce #ifdef _WIN32 like macros
 
-Another issue with command line was backward compatibility that it's hard 
-to change if it's used as an interface in scripts, etc. My personal 
-opinion is that the command line should be a user interface to run VMs but 
-for management apps and this kind of dynamic machine creation a better 
-defined API might be better. But I'm not in any way authorative to decide 
-so this is just my input to this.
 
-> This would hopefully allow for simple machines creation. We would then be 
-> able to use either the command line or the `-readconfig` option to create the 
-> machine.
+> =E2=80=94
+> Jag
+>
+> >
+> > On Mon, Jan 11, 2021 at 1:08 PM Jagannathan Raman <jag.raman@oracle.com=
+>
+wrote:
+> > >
+> > > Hi
+> > >
+> > > This is the v16 of the patchset. Thank you for your time reviewing
+v15.
+> > >
+> > > This version has the following changes:
+> > >
+> > > [PATCH v16 04/20] multi-process: Add config option for multi-process
+QEMU
+> > >   - Using =E2=80=9Cdefault_feature=E2=80=9D value to enable/disable m=
+ultiprocess
+> > >
+> > > [PATCH v16 07/20] io: add qio_channel_writev_full_all helper
+> > >   - Removed local variable in qio_channel_writev_full_all(), setting
+arguments
+> > >     directly
+> > >   - Fixed indentation issues
+> > >   - Updated commit message
+> > >
+> > > [PATCH v16 08/20] io: add qio_channel_readv_full_all_eof &
+> > >                   qio_channel_readv_full_all helpers
+> > >   - Added two variants of readv - _full_all_eof & _full_all based on
+feedback
+> > >   - Dropped errno return value
+> > >   - Updated commit message
+> > >   - Unable to remove local variables and set arguments directly as th=
+e
+> > >     arguments are later needed for cleanup (g_free/close) during
+failure
+> > >
+> > > Switched to using OBJECT_DECLARE_{SIMPLE_TYPE, TYPE} macros in the
+> > > following patches:
+> > >   - [PATCH v16 05/20] multi-process: setup PCI host bridge for remote
+device
+> > >   - [PATCH v16 06/20] multi-process: setup a machine object for
+remote device
+> > >                       process
+> > >   - [PATCH v16 11/20] multi-process: Associate fd of a PCIDevice with
+its object
+> > >   - [PATCH v16 13/20] multi-process: introduce proxy object
+> > >
+> > > Updated copyright text to use the year 2021 in the files that show
+them.
+> > >
+> > > To touch upon the history of this project, we posted the Proof Of
+Concept
+> > > patches before the BoF session in 2018. Subsequently, we have posted
+15
+> > > versions on the qemu-devel mailing list. You can find them by
+following
+> > > the links below ([1] - [15]). Following people contributed to the
+design and
+> > > implementation of this project:
+> > > Jagannathan Raman <jag.raman@oracle.com>
+> > > Elena Ufimtseva <elena.ufimtseva@oracle.com>
+> > > John G Johnson <john.g.johnson@oracle.com>
+> > > Stefan Hajnoczi <stefanha@redhat.com>
+> > > Konrad Wilk <konrad.wilk@oracle.com>
+> > > Kanth Ghatraju <kanth.ghatraju@oracle.com>
+> > >
+> > > We would like to thank the QEMU community for your feedback in the
+> > > design and implementation of this project. Qemu wiki page:
+> > > https://wiki.qemu.org/Features/MultiProcessQEMU
+> > >
+> > > For the full concept writeup about QEMU multi-process, please
+> > > refer to docs/devel/qemu-multiprocess.rst. Also, see
+> > > docs/qemu-multiprocess.txt for usage information.
+> > >
+> > > Thank you for reviewing this series!
+> > >
+> > > [POC]:
+https://www.mail-archive.com/qemu-devel@nongnu.org/msg566538.html
+> > > [1]: https://www.mail-archive.com/qemu-devel@nongnu.org/msg602285.htm=
+l
+> > > [2]: https://www.mail-archive.com/qemu-devel@nongnu.org/msg624877.htm=
+l
+> > > [3]: https://www.mail-archive.com/qemu-devel@nongnu.org/msg642000.htm=
+l
+> > > [4]: https://www.mail-archive.com/qemu-devel@nongnu.org/msg655118.htm=
+l
+> > > [5]: https://www.mail-archive.com/qemu-devel@nongnu.org/msg682429.htm=
+l
+> > > [6]: https://www.mail-archive.com/qemu-devel@nongnu.org/msg697484.htm=
+l
+> > > [7]:
+https://patchew.org/QEMU/cover.1593273671.git.elena.ufimtseva@oracle.com/
+> > > [8]: https://www.mail-archive.com/qemu-devel@nongnu.org/msg727007.htm=
+l
+> > > [9]: https://www.mail-archive.com/qemu-devel@nongnu.org/msg734275.htm=
+l
+> > > [10]:
+https://www.mail-archive.com/qemu-devel@nongnu.org/msg747638.html
+> > > [11]:
+https://www.mail-archive.com/qemu-devel@nongnu.org/msg750972.html
+> > > [12]:
+https://patchew.org/QEMU/cover.1606853298.git.jag.raman@oracle.com/
+> > > [13]:
+https://www.mail-archive.com/qemu-devel@nongnu.org/msg766825.html
+> > > [14]:
+https://www.mail-archive.com/qemu-devel@nongnu.org/msg768376.html
+> > > [15]:
+https://www.mail-archive.com/qemu-devel@nongnu.org/msg769178.html
+> > >
+> > > Elena Ufimtseva (8):
+> > >   multi-process: add configure and usage information
+> > >   io: add qio_channel_writev_full_all helper
+> > >   io: add qio_channel_readv_full_all_eof & qio_channel_readv_full_all
+> > >     helpers
+> > >   multi-process: define MPQemuMsg format and transmission functions
+> > >   multi-process: introduce proxy object
+> > >   multi-process: add proxy communication functions
+> > >   multi-process: Forward PCI config space acceses to the remote
+process
+> > >   multi-process: perform device reset in the remote process
+> > >
+> > > Jagannathan Raman (11):
+> > >   memory: alloc RAM from file at offset
+> > >   multi-process: Add config option for multi-process QEMU
+> > >   multi-process: setup PCI host bridge for remote device
+> > >   multi-process: setup a machine object for remote device process
+> > >   multi-process: Initialize message handler in remote device
+> > >   multi-process: Associate fd of a PCIDevice with its object
+> > >   multi-process: setup memory manager for remote device
+> > >   multi-process: PCI BAR read/write handling for proxy & remote
+> > >     endpoints
+> > >   multi-process: Synchronize remote memory
+> > >   multi-process: create IOHUB object to handle irq
+> > >   multi-process: Retrieve PCI info from remote process
+> > >
+> > > John G Johnson (1):
+> > >   multi-process: add the concept description to
+> > >     docs/devel/qemu-multiprocess
+> > >
+> > >  docs/devel/index.rst                      |   1 +
+> > >  docs/devel/multi-process.rst              | 966
+++++++++++++++++++++++++++++++
+> > >  docs/multi-process.rst                    |  64 ++
+> > >  configure                                 |  10 +
+> > >  meson.build                               |   5 +-
+> > >  hw/remote/trace.h                         |   1 +
+> > >  include/exec/memory.h                     |   2 +
+> > >  include/exec/ram_addr.h                   |   2 +-
+> > >  include/hw/pci-host/remote.h              |  30 +
+> > >  include/hw/pci/pci_ids.h                  |   3 +
+> > >  include/hw/remote/iohub.h                 |  42 ++
+> > >  include/hw/remote/machine.h               |  38 ++
+> > >  include/hw/remote/memory.h                |  19 +
+> > >  include/hw/remote/mpqemu-link.h           |  99 +++
+> > >  include/hw/remote/proxy-memory-listener.h |  28 +
+> > >  include/hw/remote/proxy.h                 |  48 ++
+> > >  include/io/channel.h                      |  76 +++
+> > >  include/qemu/mmap-alloc.h                 |   4 +-
+> > >  include/sysemu/iothread.h                 |   6 +
+> > >  backends/hostmem-memfd.c                  |   2 +-
+> > >  hw/misc/ivshmem.c                         |   3 +-
+> > >  hw/pci-host/remote.c                      |  75 +++
+> > >  hw/remote/iohub.c                         | 119 ++++
+> > >  hw/remote/machine.c                       |  80 +++
+> > >  hw/remote/memory.c                        |  65 ++
+> > >  hw/remote/message.c                       | 230 +++++++
+> > >  hw/remote/mpqemu-link.c                   | 267 +++++++++
+> > >  hw/remote/proxy-memory-listener.c         | 227 +++++++
+> > >  hw/remote/proxy.c                         | 379 ++++++++++++
+> > >  hw/remote/remote-obj.c                    | 203 +++++++
+> > >  io/channel.c                              |  88 ++-
+> > >  iothread.c                                |   6 +
+> > >  softmmu/memory.c                          |   3 +-
+> > >  softmmu/physmem.c                         |  11 +-
+> > >  util/mmap-alloc.c                         |   7 +-
+> > >  util/oslib-posix.c                        |   2 +-
+> > >  Kconfig.host                              |   4 +
+> > >  MAINTAINERS                               |  24 +
+> > >  hw/Kconfig                                |   1 +
+> > >  hw/meson.build                            |   1 +
+> > >  hw/pci-host/Kconfig                       |   3 +
+> > >  hw/pci-host/meson.build                   |   1 +
+> > >  hw/remote/Kconfig                         |   4 +
+> > >  hw/remote/meson.build                     |  13 +
+> > >  hw/remote/trace-events                    |   4 +
+> > >  45 files changed, 3234 insertions(+), 32 deletions(-)
+> > >  create mode 100644 docs/devel/multi-process.rst
+> > >  create mode 100644 docs/multi-process.rst
+> > >  create mode 100644 hw/remote/trace.h
+> > >  create mode 100644 include/hw/pci-host/remote.h
+> > >  create mode 100644 include/hw/remote/iohub.h
+> > >  create mode 100644 include/hw/remote/machine.h
+> > >  create mode 100644 include/hw/remote/memory.h
+> > >  create mode 100644 include/hw/remote/mpqemu-link.h
+> > >  create mode 100644 include/hw/remote/proxy-memory-listener.h
+> > >  create mode 100644 include/hw/remote/proxy.h
+> > >  create mode 100644 hw/pci-host/remote.c
+> > >  create mode 100644 hw/remote/iohub.c
+> > >  create mode 100644 hw/remote/machine.c
+> > >  create mode 100644 hw/remote/memory.c
+> > >  create mode 100644 hw/remote/message.c
+> > >  create mode 100644 hw/remote/mpqemu-link.c
+> > >  create mode 100644 hw/remote/proxy-memory-listener.c
+> > >  create mode 100644 hw/remote/proxy.c
+> > >  create mode 100644 hw/remote/remote-obj.c
+> > >  create mode 100644 hw/remote/Kconfig
+> > >  create mode 100644 hw/remote/meson.build
+> > >  create mode 100644 hw/remote/trace-events
+> > >
+> > > --
+> > > 1.8.3.1
+> > >
+> > >
+> >
+> >
+> > --
+> >          =E6=AD=A4=E8=87=B4
+> > =E7=A4=BC
+> > =E7=BD=97=E5=8B=87=E5=88=9A
+> > Yours
+> >     sincerely,
+> > Yonggang Luo
+>
 
-It was found that readconfig is limited and cannot even handle its current 
-purpose so it probably would need to be rewritten. This might be a good 
-opportunity for that. Maybe you need a better format than ini file that 
-can actually describe the machine parts and their connections you want to 
-create in a managable way. Question arises how general this has to be to 
-describe all the properties of objects and their connections and if you'll 
-end up with somthing like still needing to write a board code which is the 
-current situation just instead of writing C you'd use some other language 
-and call it a "config file". What do you really want here? Avoid writing C 
-or avoid recompiling QEMU to experiment with devices? In the latter case 
-better support from the QEMU monitor to create machines interactively 
-could also be a solution and if you could run scripts with monitor 
-commands in it that could be your config file.
 
-> Note that we are not planning to use QMP/HMP for now. From our understanding, 
-> a `device_add` request is always considered as hot-plug, which is not what we 
-> want here.
+--
+         =E6=AD=A4=E8=87=B4
+=E7=A4=BC
+=E7=BD=97=E5=8B=87=E5=88=9A
+Yours
+    sincerely,
+Yonggang Luo
 
-Is that something that cannot be solved? Maybe by adding another command 
-or a state where starting with -S and adding devices before continue would 
-not be hotplug?
+--0000000000007fbdfb05b8a58b4a
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-These are just some random thoughts I had, feel free to ignore any of it.
+<div dir=3D"ltr"><br><br>On Tue, Jan 12, 2021 at 2:02 AM Jag Raman &lt;<a h=
+ref=3D"mailto:jag.raman@oracle.com">jag.raman@oracle.com</a>&gt; wrote:<br>=
+&gt;<br>&gt;<br>&gt;<br>&gt; &gt; On Jan 11, 2021, at 12:20 AM, =E7=BD=97=
+=E5=8B=87=E5=88=9A(Yonggang Luo) &lt;<a href=3D"mailto:luoyonggang@gmail.co=
+m">luoyonggang@gmail.com</a>&gt; wrote:<br>&gt; &gt;<br>&gt; &gt; I have a =
+question, does this support/test on Windows?<br>&gt;<br>&gt; Hi Yonggang, w=
+e have not tested this on Windows. The project only builds on Linux for now=
+.<br>&gt;<br>&gt; Thank you!<div>I may interested add Windows support, what=
+&#39;s the hard part?</div><div>If we add Windows/OSX support, we can creat=
+e same code base for all three platforms, and reduce #ifdef _WIN32 like mac=
+ros</div><div><br></div><div><br>&gt; =E2=80=94<br>&gt; Jag<br>&gt;<br>&gt;=
+ &gt;<br>&gt; &gt; On Mon, Jan 11, 2021 at 1:08 PM Jagannathan Raman &lt;<a=
+ href=3D"mailto:jag.raman@oracle.com">jag.raman@oracle.com</a>&gt; wrote:<b=
+r>&gt; &gt; &gt;<br>&gt; &gt; &gt; Hi<br>&gt; &gt; &gt;<br>&gt; &gt; &gt; T=
+his is the v16 of the patchset. Thank you for your time reviewing v15.<br>&=
+gt; &gt; &gt;<br>&gt; &gt; &gt; This version has the following changes:<br>=
+&gt; &gt; &gt;<br>&gt; &gt; &gt; [PATCH v16 04/20] multi-process: Add confi=
+g option for multi-process QEMU<br>&gt; &gt; &gt; =C2=A0 - Using =E2=80=9Cd=
+efault_feature=E2=80=9D value to enable/disable multiprocess<br>&gt; &gt; &=
+gt;<br>&gt; &gt; &gt; [PATCH v16 07/20] io: add qio_channel_writev_full_all=
+ helper<br>&gt; &gt; &gt; =C2=A0 - Removed local variable in qio_channel_wr=
+itev_full_all(), setting arguments<br>&gt; &gt; &gt; =C2=A0 =C2=A0 directly=
+<br>&gt; &gt; &gt; =C2=A0 - Fixed indentation issues<br>&gt; &gt; &gt; =C2=
+=A0 - Updated commit message<br>&gt; &gt; &gt;<br>&gt; &gt; &gt; [PATCH v16=
+ 08/20] io: add qio_channel_readv_full_all_eof &amp;<br>&gt; &gt; &gt; =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 qio_channel_rea=
+dv_full_all helpers<br>&gt; &gt; &gt; =C2=A0 - Added two variants of readv =
+- _full_all_eof &amp; _full_all based on feedback<br>&gt; &gt; &gt; =C2=A0 =
+- Dropped errno return value<br>&gt; &gt; &gt; =C2=A0 - Updated commit mess=
+age<br>&gt; &gt; &gt; =C2=A0 - Unable to remove local variables and set arg=
+uments directly as the<br>&gt; &gt; &gt; =C2=A0 =C2=A0 arguments are later =
+needed for cleanup (g_free/close) during failure<br>&gt; &gt; &gt;<br>&gt; =
+&gt; &gt; Switched to using OBJECT_DECLARE_{SIMPLE_TYPE, TYPE} macros in th=
+e<br>&gt; &gt; &gt; following patches:<br>&gt; &gt; &gt; =C2=A0 - [PATCH v1=
+6 05/20] multi-process: setup PCI host bridge for remote device<br>&gt; &gt=
+; &gt; =C2=A0 - [PATCH v16 06/20] multi-process: setup a machine object for=
+ remote device<br>&gt; &gt; &gt; =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 process<br>&gt; &gt; &gt; =C2=A0 - [PATC=
+H v16 11/20] multi-process: Associate fd of a PCIDevice with its object<br>=
+&gt; &gt; &gt; =C2=A0 - [PATCH v16 13/20] multi-process: introduce proxy ob=
+ject<br>&gt; &gt; &gt;<br>&gt; &gt; &gt; Updated copyright text to use the =
+year 2021 in the files that show them.<br>&gt; &gt; &gt;<br>&gt; &gt; &gt; =
+To touch upon the history of this project, we posted the Proof Of Concept<b=
+r>&gt; &gt; &gt; patches before the BoF session in 2018. Subsequently, we h=
+ave posted 15<br>&gt; &gt; &gt; versions on the qemu-devel mailing list. Yo=
+u can find them by following<br>&gt; &gt; &gt; the links below ([1] - [15])=
+. Following people contributed to the design and<br>&gt; &gt; &gt; implemen=
+tation of this project:<br>&gt; &gt; &gt; Jagannathan Raman &lt;<a href=3D"=
+mailto:jag.raman@oracle.com">jag.raman@oracle.com</a>&gt;<br>&gt; &gt; &gt;=
+ Elena Ufimtseva &lt;<a href=3D"mailto:elena.ufimtseva@oracle.com">elena.uf=
+imtseva@oracle.com</a>&gt;<br>&gt; &gt; &gt; John G Johnson &lt;<a href=3D"=
+mailto:john.g.johnson@oracle.com">john.g.johnson@oracle.com</a>&gt;<br>&gt;=
+ &gt; &gt; Stefan Hajnoczi &lt;<a href=3D"mailto:stefanha@redhat.com">stefa=
+nha@redhat.com</a>&gt;<br>&gt; &gt; &gt; Konrad Wilk &lt;<a href=3D"mailto:=
+konrad.wilk@oracle.com">konrad.wilk@oracle.com</a>&gt;<br>&gt; &gt; &gt; Ka=
+nth Ghatraju &lt;<a href=3D"mailto:kanth.ghatraju@oracle.com">kanth.ghatraj=
+u@oracle.com</a>&gt;<br>&gt; &gt; &gt;<br>&gt; &gt; &gt; We would like to t=
+hank the QEMU community for your feedback in the<br>&gt; &gt; &gt; design a=
+nd implementation of this project. Qemu wiki page:<br>&gt; &gt; &gt; <a hre=
+f=3D"https://wiki.qemu.org/Features/MultiProcessQEMU">https://wiki.qemu.org=
+/Features/MultiProcessQEMU</a><br>&gt; &gt; &gt;<br>&gt; &gt; &gt; For the =
+full concept writeup about QEMU multi-process, please<br>&gt; &gt; &gt; ref=
+er to docs/devel/qemu-multiprocess.rst. Also, see<br>&gt; &gt; &gt; docs/qe=
+mu-multiprocess.txt for usage information.<br>&gt; &gt; &gt;<br>&gt; &gt; &=
+gt; Thank you for reviewing this series!<br>&gt; &gt; &gt;<br>&gt; &gt; &gt=
+; [POC]: <a href=3D"https://www.mail-archive.com/qemu-devel@nongnu.org/msg5=
+66538.html">https://www.mail-archive.com/qemu-devel@nongnu.org/msg566538.ht=
+ml</a><br>&gt; &gt; &gt; [1]: <a href=3D"https://www.mail-archive.com/qemu-=
+devel@nongnu.org/msg602285.html">https://www.mail-archive.com/qemu-devel@no=
+ngnu.org/msg602285.html</a><br>&gt; &gt; &gt; [2]: <a href=3D"https://www.m=
+ail-archive.com/qemu-devel@nongnu.org/msg624877.html">https://www.mail-arch=
+ive.com/qemu-devel@nongnu.org/msg624877.html</a><br>&gt; &gt; &gt; [3]: <a =
+href=3D"https://www.mail-archive.com/qemu-devel@nongnu.org/msg642000.html">=
+https://www.mail-archive.com/qemu-devel@nongnu.org/msg642000.html</a><br>&g=
+t; &gt; &gt; [4]: <a href=3D"https://www.mail-archive.com/qemu-devel@nongnu=
+.org/msg655118.html">https://www.mail-archive.com/qemu-devel@nongnu.org/msg=
+655118.html</a><br>&gt; &gt; &gt; [5]: <a href=3D"https://www.mail-archive.=
+com/qemu-devel@nongnu.org/msg682429.html">https://www.mail-archive.com/qemu=
+-devel@nongnu.org/msg682429.html</a><br>&gt; &gt; &gt; [6]: <a href=3D"http=
+s://www.mail-archive.com/qemu-devel@nongnu.org/msg697484.html">https://www.=
+mail-archive.com/qemu-devel@nongnu.org/msg697484.html</a><br>&gt; &gt; &gt;=
+ [7]: <a href=3D"https://patchew.org/QEMU/cover.1593273671.git.elena.ufimts=
+eva@oracle.com/">https://patchew.org/QEMU/cover.1593273671.git.elena.ufimts=
+eva@oracle.com/</a><br>&gt; &gt; &gt; [8]: <a href=3D"https://www.mail-arch=
+ive.com/qemu-devel@nongnu.org/msg727007.html">https://www.mail-archive.com/=
+qemu-devel@nongnu.org/msg727007.html</a><br>&gt; &gt; &gt; [9]: <a href=3D"=
+https://www.mail-archive.com/qemu-devel@nongnu.org/msg734275.html">https://=
+www.mail-archive.com/qemu-devel@nongnu.org/msg734275.html</a><br>&gt; &gt; =
+&gt; [10]: <a href=3D"https://www.mail-archive.com/qemu-devel@nongnu.org/ms=
+g747638.html">https://www.mail-archive.com/qemu-devel@nongnu.org/msg747638.=
+html</a><br>&gt; &gt; &gt; [11]: <a href=3D"https://www.mail-archive.com/qe=
+mu-devel@nongnu.org/msg750972.html">https://www.mail-archive.com/qemu-devel=
+@nongnu.org/msg750972.html</a><br>&gt; &gt; &gt; [12]: <a href=3D"https://p=
+atchew.org/QEMU/cover.1606853298.git.jag.raman@oracle.com/">https://patchew=
+.org/QEMU/cover.1606853298.git.jag.raman@oracle.com/</a><br>&gt; &gt; &gt; =
+[13]: <a href=3D"https://www.mail-archive.com/qemu-devel@nongnu.org/msg7668=
+25.html">https://www.mail-archive.com/qemu-devel@nongnu.org/msg766825.html<=
+/a><br>&gt; &gt; &gt; [14]: <a href=3D"https://www.mail-archive.com/qemu-de=
+vel@nongnu.org/msg768376.html">https://www.mail-archive.com/qemu-devel@nong=
+nu.org/msg768376.html</a><br>&gt; &gt; &gt; [15]: <a href=3D"https://www.ma=
+il-archive.com/qemu-devel@nongnu.org/msg769178.html">https://www.mail-archi=
+ve.com/qemu-devel@nongnu.org/msg769178.html</a><br>&gt; &gt; &gt;<br>&gt; &=
+gt; &gt; Elena Ufimtseva (8):<br>&gt; &gt; &gt; =C2=A0 multi-process: add c=
+onfigure and usage information<br>&gt; &gt; &gt; =C2=A0 io: add qio_channel=
+_writev_full_all helper<br>&gt; &gt; &gt; =C2=A0 io: add qio_channel_readv_=
+full_all_eof &amp; qio_channel_readv_full_all<br>&gt; &gt; &gt; =C2=A0 =C2=
+=A0 helpers<br>&gt; &gt; &gt; =C2=A0 multi-process: define MPQemuMsg format=
+ and transmission functions<br>&gt; &gt; &gt; =C2=A0 multi-process: introdu=
+ce proxy object<br>&gt; &gt; &gt; =C2=A0 multi-process: add proxy communica=
+tion functions<br>&gt; &gt; &gt; =C2=A0 multi-process: Forward PCI config s=
+pace acceses to the remote process<br>&gt; &gt; &gt; =C2=A0 multi-process: =
+perform device reset in the remote process<br>&gt; &gt; &gt;<br>&gt; &gt; &=
+gt; Jagannathan Raman (11):<br>&gt; &gt; &gt; =C2=A0 memory: alloc RAM from=
+ file at offset<br>&gt; &gt; &gt; =C2=A0 multi-process: Add config option f=
+or multi-process QEMU<br>&gt; &gt; &gt; =C2=A0 multi-process: setup PCI hos=
+t bridge for remote device<br>&gt; &gt; &gt; =C2=A0 multi-process: setup a =
+machine object for remote device process<br>&gt; &gt; &gt; =C2=A0 multi-pro=
+cess: Initialize message handler in remote device<br>&gt; &gt; &gt; =C2=A0 =
+multi-process: Associate fd of a PCIDevice with its object<br>&gt; &gt; &gt=
+; =C2=A0 multi-process: setup memory manager for remote device<br>&gt; &gt;=
+ &gt; =C2=A0 multi-process: PCI BAR read/write handling for proxy &amp; rem=
+ote<br>&gt; &gt; &gt; =C2=A0 =C2=A0 endpoints<br>&gt; &gt; &gt; =C2=A0 mult=
+i-process: Synchronize remote memory<br>&gt; &gt; &gt; =C2=A0 multi-process=
+: create IOHUB object to handle irq<br>&gt; &gt; &gt; =C2=A0 multi-process:=
+ Retrieve PCI info from remote process<br>&gt; &gt; &gt;<br>&gt; &gt; &gt; =
+John G Johnson (1):<br>&gt; &gt; &gt; =C2=A0 multi-process: add the concept=
+ description to<br>&gt; &gt; &gt; =C2=A0 =C2=A0 docs/devel/qemu-multiproces=
+s<br>&gt; &gt; &gt;<br>&gt; &gt; &gt; =C2=A0docs/devel/index.rst =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0| =C2=A0 =
+1 +<br>&gt; &gt; &gt; =C2=A0docs/devel/multi-process.rst =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0| 966 ++++++++++++++++++++++++++++++<br>&gt;=
+ &gt; &gt; =C2=A0docs/multi-process.rst =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0| =C2=A064 ++<br>&gt; &gt; &gt; =C2=A0con=
+figure =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 | =C2=A010 +<br>&gt; &gt; &gt=
+; =C2=A0meson.build =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
+ =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 | =C2=A0 5 +-<br>&gt; &gt=
+; &gt; =C2=A0hw/remote/trace.h =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 | =C2=A0 1 +<br>&gt; &gt; &gt; =
+=C2=A0include/exec/memory.h =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 | =C2=A0 2 +<br>&gt; &gt; &gt; =C2=A0include/exec/=
+ram_addr.h =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 |=
+ =C2=A0 2 +-<br>&gt; &gt; &gt; =C2=A0include/hw/pci-host/remote.h =C2=A0 =
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0| =C2=A030 +<br>&gt; &gt; &gt; =C2=
+=A0include/hw/pci/pci_ids.h =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0| =C2=A0 3 +<br>&gt; &gt; &gt; =C2=A0include/hw/remote/ioh=
+ub.h =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 | =C2=A042 ++<=
+br>&gt; &gt; &gt; =C2=A0include/hw/remote/machine.h =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 | =C2=A038 ++<br>&gt; &gt; &gt; =C2=A0include/h=
+w/remote/memory.h =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0| =
+=C2=A019 +<br>&gt; &gt; &gt; =C2=A0include/hw/remote/mpqemu-link.h =C2=A0 =
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 | =C2=A099 +++<br>&gt; &gt; &gt; =C2=A0include/=
+hw/remote/proxy-memory-listener.h | =C2=A028 +<br>&gt; &gt; &gt; =C2=A0incl=
+ude/hw/remote/proxy.h =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 | =C2=A048 ++<br>&gt; &gt; &gt; =C2=A0include/io/channel.h =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0| =C2=A07=
+6 +++<br>&gt; &gt; &gt; =C2=A0include/qemu/mmap-alloc.h =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 | =C2=A0 4 +-<br>&gt; &gt; &gt; =C2=
+=A0include/sysemu/iothread.h =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 | =C2=A0 6 +<br>&gt; &gt; &gt; =C2=A0backends/hostmem-memfd.c =
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0| =C2=A0 2 +-=
+<br>&gt; &gt; &gt; =C2=A0hw/misc/ivshmem.c =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 | =C2=A0 3 +-<br>&gt; =
+&gt; &gt; =C2=A0hw/pci-host/remote.c =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0| =C2=A075 +++<br>&gt; &gt; &gt; =C2=
+=A0hw/remote/iohub.c =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 | 119 ++++<br>&gt; &gt; &gt; =C2=A0hw/remot=
+e/machine.c =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 | =C2=A080 +++<br>&gt; &gt; &gt; =C2=A0hw/remote/memory.c =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0| =C2=A065 ++<br>&gt; &gt; &gt; =C2=A0hw/remote/message.c =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 | 230 ++=
++++++<br>&gt; &gt; &gt; =C2=A0hw/remote/mpqemu-link.c =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 | 267 +++++++++<br>&gt; &gt; &gt;=
+ =C2=A0hw/remote/proxy-memory-listener.c =C2=A0 =C2=A0 =C2=A0 =C2=A0 | 227 =
++++++++<br>&gt; &gt; &gt; =C2=A0hw/remote/proxy.c =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 | 379 +++++++++=
++++<br>&gt; &gt; &gt; =C2=A0hw/remote/remote-obj.c =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0| 203 +++++++<br>&gt; &gt; &gt=
+; =C2=A0io/channel.c =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0| =C2=A088 ++-<br>&gt; =
+&gt; &gt; =C2=A0iothread.c =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
+ =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0| =C2=A0 6 +=
+<br>&gt; &gt; &gt; =C2=A0softmmu/memory.c =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0| =C2=A0 3 +-<br=
+>&gt; &gt; &gt; =C2=A0softmmu/physmem.c =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 | =C2=A011 +-<br>&gt; &gt;=
+ &gt; =C2=A0util/mmap-alloc.c =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 | =C2=A0 7 +-<br>&gt; &gt; &gt; =C2=
+=A0util/oslib-posix.c =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0| =C2=A0 2 +-<br>&gt; &gt; &gt; =C2=A0Kconfi=
+g.host =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0| =C2=A0 4 +<br>&gt; &gt; &gt; =C2=A0=
+MAINTAINERS =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 | =C2=A024 +<br>&gt; &gt; &gt; =
+=C2=A0hw/Kconfig =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0| =C2=A0 1 +<br>&gt;=
+ &gt; &gt; =C2=A0hw/meson.build =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0| =C2=A0 1 +<br>&gt;=
+ &gt; &gt; =C2=A0hw/pci-host/Kconfig =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 | =C2=A0 3 +<br>&gt; &gt; &gt; =C2=
+=A0hw/pci-host/meson.build =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
+ =C2=A0 =C2=A0 | =C2=A0 1 +<br>&gt; &gt; &gt; =C2=A0hw/remote/Kconfig =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 | =C2=A0 4 +<br>&gt; &gt; &gt; =C2=A0hw/remote/meson.build =C2=A0 =
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 | =C2=A013 +=
+<br>&gt; &gt; &gt; =C2=A0hw/remote/trace-events =C2=A0 =C2=A0 =C2=A0 =C2=A0=
+ =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0| =C2=A0 4 +<br>&gt; &gt; &gt; =
+=C2=A045 files changed, 3234 insertions(+), 32 deletions(-)<br>&gt; &gt; &g=
+t; =C2=A0create mode 100644 docs/devel/multi-process.rst<br>&gt; &gt; &gt; =
+=C2=A0create mode 100644 docs/multi-process.rst<br>&gt; &gt; &gt; =C2=A0cre=
+ate mode 100644 hw/remote/trace.h<br>&gt; &gt; &gt; =C2=A0create mode 10064=
+4 include/hw/pci-host/remote.h<br>&gt; &gt; &gt; =C2=A0create mode 100644 i=
+nclude/hw/remote/iohub.h<br>&gt; &gt; &gt; =C2=A0create mode 100644 include=
+/hw/remote/machine.h<br>&gt; &gt; &gt; =C2=A0create mode 100644 include/hw/=
+remote/memory.h<br>&gt; &gt; &gt; =C2=A0create mode 100644 include/hw/remot=
+e/mpqemu-link.h<br>&gt; &gt; &gt; =C2=A0create mode 100644 include/hw/remot=
+e/proxy-memory-listener.h<br>&gt; &gt; &gt; =C2=A0create mode 100644 includ=
+e/hw/remote/proxy.h<br>&gt; &gt; &gt; =C2=A0create mode 100644 hw/pci-host/=
+remote.c<br>&gt; &gt; &gt; =C2=A0create mode 100644 hw/remote/iohub.c<br>&g=
+t; &gt; &gt; =C2=A0create mode 100644 hw/remote/machine.c<br>&gt; &gt; &gt;=
+ =C2=A0create mode 100644 hw/remote/memory.c<br>&gt; &gt; &gt; =C2=A0create=
+ mode 100644 hw/remote/message.c<br>&gt; &gt; &gt; =C2=A0create mode 100644=
+ hw/remote/mpqemu-link.c<br>&gt; &gt; &gt; =C2=A0create mode 100644 hw/remo=
+te/proxy-memory-listener.c<br>&gt; &gt; &gt; =C2=A0create mode 100644 hw/re=
+mote/proxy.c<br>&gt; &gt; &gt; =C2=A0create mode 100644 hw/remote/remote-ob=
+j.c<br>&gt; &gt; &gt; =C2=A0create mode 100644 hw/remote/Kconfig<br>&gt; &g=
+t; &gt; =C2=A0create mode 100644 hw/remote/meson.build<br>&gt; &gt; &gt; =
+=C2=A0create mode 100644 hw/remote/trace-events<br>&gt; &gt; &gt;<br>&gt; &=
+gt; &gt; --<br>&gt; &gt; &gt; 1.8.3.1<br>&gt; &gt; &gt;<br>&gt; &gt; &gt;<b=
+r>&gt; &gt;<br>&gt; &gt;<br>&gt; &gt; --<br>&gt; &gt; =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0=E6=AD=A4=E8=87=B4<br>&gt; &gt; =E7=A4=BC<br>&gt; &gt; =E7=BD=
+=97=E5=8B=87=E5=88=9A<br>&gt; &gt; Yours<br>&gt; &gt; =C2=A0 =C2=A0 sincere=
+ly,<br>&gt; &gt; Yonggang Luo<br>&gt;<br><br><br>--<br>=C2=A0 =C2=A0 =C2=A0=
+ =C2=A0 =C2=A0=E6=AD=A4=E8=87=B4<br>=E7=A4=BC<br>=E7=BD=97=E5=8B=87=E5=88=
+=9A<br>Yours<br>=C2=A0 =C2=A0 sincerely,<br>Yonggang Luo</div></div>
 
-Regards,
-BALATON Zoltan
+--0000000000007fbdfb05b8a58b4a--
 
