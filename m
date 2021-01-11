@@ -2,49 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 78F572F118B
-	for <lists+qemu-devel@lfdr.de>; Mon, 11 Jan 2021 12:35:06 +0100 (CET)
-Received: from localhost ([::1]:49452 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BDB6E2F1188
+	for <lists+qemu-devel@lfdr.de>; Mon, 11 Jan 2021 12:32:50 +0100 (CET)
+Received: from localhost ([::1]:44574 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kyvTV-0004Ir-JW
-	for lists+qemu-devel@lfdr.de; Mon, 11 Jan 2021 06:35:05 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47930)
+	id 1kyvRJ-0002Jd-Pv
+	for lists+qemu-devel@lfdr.de; Mon, 11 Jan 2021 06:32:49 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47664)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <mrezanin@redhat.com>)
- id 1kyvQd-00024X-Qq
- for qemu-devel@nongnu.org; Mon, 11 Jan 2021 06:32:08 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:29021)
+ id 1kyvPO-0000ts-QK
+ for qemu-devel@nongnu.org; Mon, 11 Jan 2021 06:30:52 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:28073)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <mrezanin@redhat.com>)
- id 1kyvQY-0006kY-Ja
- for qemu-devel@nongnu.org; Mon, 11 Jan 2021 06:32:07 -0500
+ id 1kyvPK-0006C3-4g
+ for qemu-devel@nongnu.org; Mon, 11 Jan 2021 06:30:50 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1610364721;
+ s=mimecast20190719; t=1610364644;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:content-type:content-type:in-reply-to:in-reply-to:
- references:references; bh=vkyynJjgaTFyNhQ8kiTv/cdtlQ7wy4Pps2zJPjXPrRc=;
- b=clS5dHmgro/VCwOBNobZN3M+ZRV1xXG1GjtTqeIjiNVlzl6QYRvUSKH4AZ1TRVVYfGrrB3
- P+Uv/pUmPiwFGHbM9yGdHgcDNTgIi+4GrrWnML1IPloZVwqGse7bkwRby7shWOXPrvbGIz
- ypmuEoLmTBXoHE4155Ut8LoD1kCuk04=
+ references:references; bh=RadEWp2tgvOsq3z8poaAdp82sJpHsXnHF3C3wmp+MFw=;
+ b=g6MTknWxBhb6PNCqLERV0BlWcD0m7Oia930U1ptiLA+ddjz5mVtcHPPy2Uhgzc3Kl8nVLw
+ GA6ZYj/HmRZr7af03/qBxMPpZzHVV95RSxAUovNn62sUfRGXbBUzgcRApi5CxGkqz7/yqZ
+ eQ4Vy4647V0V2oUOLQRKR2AEEAG2O7c=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-546-Xp2seipdNVCtl8IIdDSm3A-1; Mon, 11 Jan 2021 06:30:42 -0500
-X-MC-Unique: Xp2seipdNVCtl8IIdDSm3A-1
+ us-mta-389-2Awd-z91N5-yEdal_62nXg-1; Mon, 11 Jan 2021 06:30:42 -0500
+X-MC-Unique: 2Awd-z91N5-yEdal_62nXg-1
 Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
  [10.5.11.23])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 7D2248049C2
- for <qemu-devel@nongnu.org>; Mon, 11 Jan 2021 11:30:40 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 8598F180A09F
+ for <qemu-devel@nongnu.org>; Mon, 11 Jan 2021 11:30:41 +0000 (UTC)
 Received: from workimage2020.rezanina.moe.rezanina.moe (unknown [10.40.192.93])
- by smtp.corp.redhat.com (Postfix) with ESMTP id D22911972B
- for <qemu-devel@nongnu.org>; Mon, 11 Jan 2021 11:30:39 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id DB5DD1972B
+ for <qemu-devel@nongnu.org>; Mon, 11 Jan 2021 11:30:40 +0000 (UTC)
 From: mrezanin@redhat.com
 To: qemu-devel@nongnu.org
-Subject: [RHEL7 qemu-kvm PATCH 1/3] Fix net.c warning on GCC 11
-Date: Mon, 11 Jan 2021 12:30:35 +0100
-Message-Id: <25f6c760c09c2238ad9bdaab97e4ae13bf5af339.1610364304.git.mrezanin@redhat.com>
+Subject: [RHEL7 qemu-kvm PATCH 2/3] s390x: Fix vm name copy length
+Date: Mon, 11 Jan 2021 12:30:36 +0100
+Message-Id: <e1ad733af7b23929456d05aacae693ce6462d4b3.1610364304.git.mrezanin@redhat.com>
 In-Reply-To: <cover.1610364304.git.mrezanin@redhat.com>
 References: <cover.1610364304.git.mrezanin@redhat.com>
 X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
@@ -79,42 +79,46 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Miroslav Rezanina <mrezanin@redhat.com>
 
-When building qemu with GCC 11, compiling eth.c file produce following warning:
+There are two cases when vm name is copied but closing \0 can be lost
+in case name is too long (>=256 characters).
 
-   warning: array subscript 'struct ip6_ext_hdr_routing[0]' is partly outside array bounds of 'struct ip6_ext_hdr[1]' [-Warray-bounds]
-
-This caused by retyping from ip6_ext_hdr to ip6_ext_hdr_routing that has more
-attributes.
-
-As this usage is expected, suppress the warning temporarily through the function
-using this retyping.
+Updating length to copy so there is space for closing \0.
 
 Signed-off-by: Miroslav Rezanina <mrezanin@redhat.com>
 ---
- net/eth.c | 3 +++
- 1 file changed, 3 insertions(+)
+ target/s390x/kvm.c         | 2 +-
+ target/s390x/misc_helper.c | 4 +++-
+ 2 files changed, 4 insertions(+), 2 deletions(-)
 
-diff --git a/net/eth.c b/net/eth.c
-index 1e0821c5f8..b9bdd0435c 100644
---- a/net/eth.c
-+++ b/net/eth.c
-@@ -405,6 +405,8 @@ _eth_get_rss_ex_dst_addr(const struct iovec *pkt, int pkt_frags,
-                         struct ip6_ext_hdr *ext_hdr,
-                         struct in6_address *dst_addr)
- {
-+#pragma GCC diagnostic push
-+#pragma GCC diagnostic ignored "-Warray-bounds"
-     struct ip6_ext_hdr_routing *rthdr = (struct ip6_ext_hdr_routing *) ext_hdr;
- 
-     if ((rthdr->rtype == 2) &&
-@@ -426,6 +428,7 @@ _eth_get_rss_ex_dst_addr(const struct iovec *pkt, int pkt_frags,
+diff --git a/target/s390x/kvm.c b/target/s390x/kvm.c
+index b8385e6b95..2313b5727e 100644
+--- a/target/s390x/kvm.c
++++ b/target/s390x/kvm.c
+@@ -1918,7 +1918,7 @@ static void insert_stsi_3_2_2(S390CPU *cpu, __u64 addr, uint8_t ar)
+      */
+     if (qemu_name) {
+         strncpy((char *)sysib.ext_names[0], qemu_name,
+-                sizeof(sysib.ext_names[0]));
++                sizeof(sysib.ext_names[0]) - 1);
+     } else {
+         strcpy((char *)sysib.ext_names[0], "KVMguest");
      }
- 
-     return false;
-+#pragma GCC diagnostic pop
- }
- 
- static bool
+diff --git a/target/s390x/misc_helper.c b/target/s390x/misc_helper.c
+index 58dbc023eb..7c478b9e58 100644
+--- a/target/s390x/misc_helper.c
++++ b/target/s390x/misc_helper.c
+@@ -369,8 +369,10 @@ uint32_t HELPER(stsi)(CPUS390XState *env, uint64_t a0, uint64_t r0, uint64_t r1)
+                 ebcdic_put(sysib.sysib_322.vm[0].name, qemu_name,
+                            MIN(sizeof(sysib.sysib_322.vm[0].name),
+                                strlen(qemu_name)));
++		memset((char *)sysib.sysib_322.ext_names[0], 0, 
++		       sizeof(sysib.sysib_322.ext_names[0]));
+                 strncpy((char *)sysib.sysib_322.ext_names[0], qemu_name,
+-                        sizeof(sysib.sysib_322.ext_names[0]));
++                        sizeof(sysib.sysib_322.ext_names[0]) - 1);
+             } else {
+                 ebcdic_put(sysib.sysib_322.vm[0].name, "TCGguest", 8);
+                 strcpy((char *)sysib.sysib_322.ext_names[0], "TCGguest");
 -- 
 2.18.4
 
