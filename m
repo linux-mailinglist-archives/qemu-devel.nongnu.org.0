@@ -2,47 +2,82 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4DD972F18A8
-	for <lists+qemu-devel@lfdr.de>; Mon, 11 Jan 2021 15:49:20 +0100 (CET)
-Received: from localhost ([::1]:52926 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7A8DC2F18B7
+	for <lists+qemu-devel@lfdr.de>; Mon, 11 Jan 2021 15:52:07 +0100 (CET)
+Received: from localhost ([::1]:57432 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kyyVS-0000Xe-Uw
-	for lists+qemu-devel@lfdr.de; Mon, 11 Jan 2021 09:49:18 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41170)
+	id 1kyyYA-0002c6-JB
+	for lists+qemu-devel@lfdr.de; Mon, 11 Jan 2021 09:52:06 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42264)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1kyyTN-0008UR-Cy
- for qemu-devel@nongnu.org; Mon, 11 Jan 2021 09:47:09 -0500
-Received: from mx2.suse.de ([195.135.220.15]:37722)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1kyyTL-0007ya-AD
- for qemu-devel@nongnu.org; Mon, 11 Jan 2021 09:47:09 -0500
-X-Virus-Scanned: by amavisd-new at test-mx.suse.de
-Received: from relay2.suse.de (unknown [195.135.221.27])
- by mx2.suse.de (Postfix) with ESMTP id A9C5CAB3E;
- Mon, 11 Jan 2021 14:47:05 +0000 (UTC)
-Subject: Re: check-tcg HOWTO?
+ (Exim 4.90_1) (envelope-from <luis.machado@linaro.org>)
+ id 1kyyWb-0001O0-Io
+ for qemu-devel@nongnu.org; Mon, 11 Jan 2021 09:50:29 -0500
+Received: from mail-qk1-x733.google.com ([2607:f8b0:4864:20::733]:33724)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <luis.machado@linaro.org>)
+ id 1kyyWY-0008PJ-Bo
+ for qemu-devel@nongnu.org; Mon, 11 Jan 2021 09:50:29 -0500
+Received: by mail-qk1-x733.google.com with SMTP id f26so14768027qka.0
+ for <qemu-devel@nongnu.org>; Mon, 11 Jan 2021 06:50:25 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=SQhJjiT30eyMG2iIN9BvDrzibRA2vr/Sy8VxkTsg2pg=;
+ b=DTu01/QnQlCC1jLeJdymYmtLykHi/w8A9FD1Kioojq4K/uH+2Q3jYTaOQaSEQGfBy9
+ B/ap7cGLuOuqWqU/JrUVkeUd7yqKGodWOjcuwCP6wLFVslJ9ko2yuBPBezY/7fgQ+zI3
+ 5UlFiHd9MHFb9uI8ZS/j9cI8+D1kotVwllQH7sAk3UZbcnfCa5FM8onIFZITyrvfRMQd
+ 8JKbIpqIzwBKuGtSFx4v/+9HQ+a0eIeq5ghAlmWp/ORThZGBf7O3dkJ+l7engzRuFE0i
+ s0J6zGPwbx0e7lmNasE/0NAM1kxYfRL4G1fMwjYjlOHgz7B6oqZ6n1z1uCbvMqtJ6O9O
+ qb6Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=SQhJjiT30eyMG2iIN9BvDrzibRA2vr/Sy8VxkTsg2pg=;
+ b=ZTWi2QDjPkIAoD8AGrBLkjw6b4hHzUlMQkImTfVoqFsydvZ3TMxDciuMfcjzJXtfUN
+ E31vw9teEkpTH1URB6jPWs1sWR/wyFmtb0dH5Bj8MkrzxBQUyjj+09X4xxKoZysb5fEQ
+ heaIhvUJTRJ2LNUZGc9yiW2sYIsjZuY1Dkf3fAoJg/4JC0m0dCmjrAbejym1vHuF3A3/
+ m6HVWxASVSbdkMs0tT0VwwZr/wUZy0ouGJGvzvwNp2SUtAwbl4EBkFPqR/5Xv1oQIoCG
+ WrnqUk1m6NldeLQty7h1lHy+bs9tKVG1JUoXi1qvykIXl3SsrU5340vJbtuA+xNr5Kad
+ 5Yzg==
+X-Gm-Message-State: AOAM532S2bqVMElJWRwlPnra1Af5WelEWbRwgLZ72yFWLM/nq/ac8SvV
+ rko0P+vz+Iz2iSTxHyqtL+DVyA==
+X-Google-Smtp-Source: ABdhPJzP9bsY5iTjF7UMC44syih9U8GSMoE/3BVnBK/GCDk2tSocPfx4Gta2iwRzFeopuebzjJz+eA==
+X-Received: by 2002:a37:a8a:: with SMTP id 132mr16382414qkk.327.1610376624245; 
+ Mon, 11 Jan 2021 06:50:24 -0800 (PST)
+Received: from ?IPv6:2804:7f0:8284:874d:20e9:a3d4:1db5:c30a?
+ ([2804:7f0:8284:874d:20e9:a3d4:1db5:c30a])
+ by smtp.gmail.com with ESMTPSA id i129sm8265616qkd.114.2021.01.11.06.50.22
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 11 Jan 2021 06:50:23 -0800 (PST)
+Subject: Re: [PATCH v1 10/20] target/arm: use official org.gnu.gdb.aarch64.sve
+ layout for registers
 To: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>
-References: <f14c22bf-aecb-3e38-347b-1b9119ad8baa@suse.de>
- <1301fc86-b356-b4a8-42c1-bf7705419a5e@suse.de> <8735z7pnzv.fsf@linaro.org>
-From: Claudio Fontana <cfontana@suse.de>
-Message-ID: <7df502c2-a792-3fff-7ec7-0a99270274b9@suse.de>
-Date: Mon, 11 Jan 2021 15:47:04 +0100
+References: <20210108224256.2321-1-alex.bennee@linaro.org>
+ <20210108224256.2321-11-alex.bennee@linaro.org>
+ <9ee1443e-821d-9cec-c29a-6111385937ad@linaro.org> <87zh1fo7yd.fsf@linaro.org>
+From: Luis Machado <luis.machado@linaro.org>
+Message-ID: <50da05ee-f7fb-1a18-391d-a707b5df2dba@linaro.org>
+Date: Mon, 11 Jan 2021 11:50:20 -0300
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.12.0
+ Thunderbird/68.10.0
 MIME-Version: 1.0
-In-Reply-To: <8735z7pnzv.fsf@linaro.org>
-Content-Type: text/plain; charset=utf-8
+In-Reply-To: <87zh1fo7yd.fsf@linaro.org>
+Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=195.135.220.15; envelope-from=cfontana@suse.de;
- helo=mx2.suse.de
-X-Spam_score_int: -41
-X-Spam_score: -4.2
-X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_MED=-2.3, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Received-SPF: pass client-ip=2607:f8b0:4864:20::733;
+ envelope-from=luis.machado@linaro.org; helo=mail-qk1-x733.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -55,180 +90,243 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Paolo Bonzini <pbonzini@redhat.com>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
- qemu-devel <qemu-devel@nongnu.org>
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ "open list:ARM TCG CPUs" <qemu-arm@nongnu.org>, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Ciao Alex,
+Hi,
 
-thanks for your answer,
+On 1/11/21 11:36 AM, Alex Bennée wrote:
+> 
+> Luis Machado <luis.machado@linaro.org> writes:
+> 
+>> For the record, the layout looks OK to me.
+> 
+> So a Reviewed-by?
+> 
 
-On 1/11/21 2:35 PM, Alex Bennée wrote:
+Yes.
+
+>> Just a reminder that GDB will soon support bfloat16 types. A patch may
+>> be pushed this month.
 > 
-> Claudio Fontana <cfontana@suse.de> writes:
+> Will we be able to probe for the support - or will an older GDB silently
+> accept and drop any bfloat16 fields?
 > 
->> Hi Alex,
+
+No probing unfortunately. I think GDB wouldn't handle it nicely. Older 
+GDB's not supporting bfloat16 may throw an internal error when they see 
+an unknown type.
+
+That may need to be corrected to make it more robust.
+
 >>
->> happy new year,
->>
->> I am trying to get check-tcg to run reliably,
->> as I am doing some substantial refactoring of tcg cpu operations, so I need to verify that TCG is fine.
->>
->> This is an overall getting started question, is there a how-to on how
->> to use check-tcg and how to fix things when things don't go smoothly?
+>> On 1/8/21 7:42 PM, Alex Bennée wrote:
+>>> While GDB can work with any XML description given to it there is
+>>> special handling for SVE registers on the GDB side which makes the
+>>> users life a little better. The changes aren't that major and all the
+>>> registers save the $vg reported the same. All that changes is:
+>>>
+>>>     - report org.gnu.gdb.aarch64.sve
+>>>     - use gdb nomenclature for names and types
+>>>     - minor re-ordering of the types to match reference
+>>>     - re-enable ieee_half (as we know gdb supports it now)
+>>>     - $vg is now a 64 bit int
+>>>     - check $vN and $zN aliasing in test
+>>>
+>>> Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
+>>> Cc: Luis Machado <luis.machado@linaro.org>
+>>> Message-Id: <20201218112707.28348-10-alex.bennee@linaro.org>
+>>> Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
+>>> ---
+>>>    target/arm/gdbstub.c                        | 75 ++++++++-------------
+>>>    target/arm/helper.c                         |  2 +-
+>>>    tests/tcg/aarch64/gdbstub/test-sve-ioctl.py | 11 +++
+>>>    3 files changed, 41 insertions(+), 47 deletions(-)
+>>>
+>>> diff --git a/target/arm/gdbstub.c b/target/arm/gdbstub.c
+>>> index 866595b4f1..a8fff2a3d0 100644
+>>> --- a/target/arm/gdbstub.c
+>>> +++ b/target/arm/gdbstub.c
+>>> @@ -195,22 +195,17 @@ static const struct TypeSize vec_lanes[] = {
+>>>        { "uint128", 128, 'q', 'u' },
+>>>        { "int128", 128, 'q', 's' },
+>>>        /* 64 bit */
+>>> +    { "ieee_double", 64, 'd', 'f' },
+>>>        { "uint64", 64, 'd', 'u' },
+>>>        { "int64", 64, 'd', 's' },
+>>> -    { "ieee_double", 64, 'd', 'f' },
+>>>        /* 32 bit */
+>>> +    { "ieee_single", 32, 's', 'f' },
+>>>        { "uint32", 32, 's', 'u' },
+>>>        { "int32", 32, 's', 's' },
+>>> -    { "ieee_single", 32, 's', 'f' },
+>>>        /* 16 bit */
+>>> +    { "ieee_half", 16, 'h', 'f' },
+>>>        { "uint16", 16, 'h', 'u' },
+>>>        { "int16", 16, 'h', 's' },
+>>> -    /*
+>>> -     * TODO: currently there is no reliable way of telling
+>>> -     * if the remote gdb actually understands ieee_half so
+>>> -     * we don't expose it in the target description for now.
+>>> -     * { "ieee_half", 16, 'h', 'f' },
+>>> -     */
+>>>        /* bytes */
+>>>        { "uint8", 8, 'b', 'u' },
+>>>        { "int8", 8, 'b', 's' },
+>>> @@ -223,17 +218,16 @@ int arm_gen_dynamic_svereg_xml(CPUState *cs, int base_reg)
+>>>        GString *s = g_string_new(NULL);
+>>>        DynamicGDBXMLInfo *info = &cpu->dyn_svereg_xml;
+>>>        g_autoptr(GString) ts = g_string_new("");
+>>> -    int i, bits, reg_width = (cpu->sve_max_vq * 128);
+>>> +    int i, j, bits, reg_width = (cpu->sve_max_vq * 128);
+>>>        info->num = 0;
+>>>        g_string_printf(s, "<?xml version=\"1.0\"?>");
+>>>        g_string_append_printf(s, "<!DOCTYPE target SYSTEM \"gdb-target.dtd\">");
+>>> -    g_string_append_printf(s, "<feature name=\"org.qemu.gdb.aarch64.sve\">");
+>>> +    g_string_append_printf(s, "<feature name=\"org.gnu.gdb.aarch64.sve\">");
+>>>    
+>>>        /* First define types and totals in a whole VL */
+>>>        for (i = 0; i < ARRAY_SIZE(vec_lanes); i++) {
+>>>            int count = reg_width / vec_lanes[i].size;
+>>> -        g_string_printf(ts, "vq%d%c%c", count,
+>>> -                        vec_lanes[i].sz, vec_lanes[i].suffix);
+>>> +        g_string_printf(ts, "svev%c%c", vec_lanes[i].sz, vec_lanes[i].suffix);
+>>>            g_string_append_printf(s,
+>>>                                   "<vector id=\"%s\" type=\"%s\" count=\"%d\"/>",
+>>>                                   ts->str, vec_lanes[i].gdb_type, count);
+>>> @@ -243,39 +237,37 @@ int arm_gen_dynamic_svereg_xml(CPUState *cs, int base_reg)
+>>>         * signed and potentially float versions of each size from 128 to
+>>>         * 8 bits.
+>>>         */
+>>> -    for (bits = 128; bits >= 8; bits /= 2) {
+>>> -        int count = reg_width / bits;
+>>> -        g_string_append_printf(s, "<union id=\"vq%dn\">", count);
+>>> -        for (i = 0; i < ARRAY_SIZE(vec_lanes); i++) {
+>>> -            if (vec_lanes[i].size == bits) {
+>>> -                g_string_append_printf(s, "<field name=\"%c\" type=\"vq%d%c%c\"/>",
+>>> -                                       vec_lanes[i].suffix,
+>>> -                                       count,
+>>> -                                       vec_lanes[i].sz, vec_lanes[i].suffix);
+>>> +    for (bits = 128, i = 0; bits >= 8; bits /= 2, i++) {
+>>> +        const char suf[] = { 'q', 'd', 's', 'h', 'b' };
+>>> +        g_string_append_printf(s, "<union id=\"svevn%c\">", suf[i]);
+>>> +        for (j = 0; j < ARRAY_SIZE(vec_lanes); j++) {
+>>> +            if (vec_lanes[j].size == bits) {
+>>> +                g_string_append_printf(s, "<field name=\"%c\" type=\"svev%c%c\"/>",
+>>> +                                       vec_lanes[j].suffix,
+>>> +                                       vec_lanes[j].sz, vec_lanes[j].suffix);
+>>>                }
+>>>            }
+>>>            g_string_append(s, "</union>");
+>>>        }
+>>>        /* And now the final union of unions */
+>>> -    g_string_append(s, "<union id=\"vq\">");
+>>> -    for (bits = 128; bits >= 8; bits /= 2) {
+>>> -        int count = reg_width / bits;
+>>> -        for (i = 0; i < ARRAY_SIZE(vec_lanes); i++) {
+>>> -            if (vec_lanes[i].size == bits) {
+>>> -                g_string_append_printf(s, "<field name=\"%c\" type=\"vq%dn\"/>",
+>>> -                                       vec_lanes[i].sz, count);
+>>> -                break;
+>>> -            }
+>>> -        }
+>>> +    g_string_append(s, "<union id=\"svev\">");
+>>> +    for (bits = 128, i = 0; bits >= 8; bits /= 2, i++) {
+>>> +        const char suf[] = { 'q', 'd', 's', 'h', 'b' };
+>>> +        g_string_append_printf(s, "<field name=\"%c\" type=\"svevn%c\"/>",
+>>> +                               suf[i], suf[i]);
+>>>        }
+>>>        g_string_append(s, "</union>");
+>>>    
+>>> +    /* Finally the sve prefix type */
+>>> +    g_string_append_printf(s,
+>>> +                           "<vector id=\"svep\" type=\"uint8\" count=\"%d\"/>",
+>>> +                           reg_width / 8);
+>>> +
+>>>        /* Then define each register in parts for each vq */
+>>>        for (i = 0; i < 32; i++) {
+>>>            g_string_append_printf(s,
+>>>                                   "<reg name=\"z%d\" bitsize=\"%d\""
+>>> -                               " regnum=\"%d\" group=\"vector\""
+>>> -                               " type=\"vq\"/>",
+>>> +                               " regnum=\"%d\" type=\"svev\"/>",
+>>>                                   i, reg_width, base_reg++);
+>>>            info->num++;
+>>>        }
+>>> @@ -287,31 +279,22 @@ int arm_gen_dynamic_svereg_xml(CPUState *cs, int base_reg)
+>>>                               " regnum=\"%d\" group=\"float\""
+>>>                               " type=\"int\"/>", base_reg++);
+>>>        info->num += 2;
+>>> -    /*
+>>> -     * Predicate registers aren't so big they are worth splitting up
+>>> -     * but we do need to define a type to hold the array of quad
+>>> -     * references.
+>>> -     */
+>>> -    g_string_append_printf(s,
+>>> -                           "<vector id=\"vqp\" type=\"uint16\" count=\"%d\"/>",
+>>> -                           cpu->sve_max_vq);
+>>> +
+>>>        for (i = 0; i < 16; i++) {
+>>>            g_string_append_printf(s,
+>>>                                   "<reg name=\"p%d\" bitsize=\"%d\""
+>>> -                               " regnum=\"%d\" group=\"vector\""
+>>> -                               " type=\"vqp\"/>",
+>>> +                               " regnum=\"%d\" type=\"svep\"/>",
+>>>                                   i, cpu->sve_max_vq * 16, base_reg++);
+>>>            info->num++;
+>>>        }
+>>>        g_string_append_printf(s,
+>>>                               "<reg name=\"ffr\" bitsize=\"%d\""
+>>>                               " regnum=\"%d\" group=\"vector\""
+>>> -                           " type=\"vqp\"/>",
+>>> +                           " type=\"svep\"/>",
+>>>                               cpu->sve_max_vq * 16, base_reg++);
+>>>        g_string_append_printf(s,
+>>>                               "<reg name=\"vg\" bitsize=\"64\""
+>>> -                           " regnum=\"%d\" group=\"vector\""
+>>> -                           " type=\"uint32\"/>",
+>>> +                           " regnum=\"%d\" type=\"int\"/>",
+>>>                               base_reg++);
+>>>        info->num += 2;
+>>>        g_string_append_printf(s, "</feature>");
+>>> diff --git a/target/arm/helper.c b/target/arm/helper.c
+>>> index d077dd9ef5..d434044f07 100644
+>>> --- a/target/arm/helper.c
+>>> +++ b/target/arm/helper.c
+>>> @@ -276,7 +276,7 @@ static int arm_gdb_get_svereg(CPUARMState *env, GByteArray *buf, int reg)
+>>>             * while the ZCR works in Vector Quads (VQ) which is 128bit chunks.
+>>>             */
+>>>            int vq = sve_zcr_len_for_el(env, arm_current_el(env)) + 1;
+>>> -        return gdb_get_reg32(buf, vq * 2);
+>>> +        return gdb_get_reg64(buf, vq * 2);
+>>>        }
+>>>        default:
+>>>            /* gdbstub asked for something out our range */
+>>> diff --git a/tests/tcg/aarch64/gdbstub/test-sve-ioctl.py b/tests/tcg/aarch64/gdbstub/test-sve-ioctl.py
+>>> index 972cf73c31..b9ef169c1a 100644
+>>> --- a/tests/tcg/aarch64/gdbstub/test-sve-ioctl.py
+>>> +++ b/tests/tcg/aarch64/gdbstub/test-sve-ioctl.py
+>>> @@ -40,6 +40,17 @@ class TestBreakpoint(gdb.Breakpoint):
+>>>            except gdb.error:
+>>>                report(False, "checking zregs (out of range)")
+>>>    
+>>> +        # Check the aliased V registers are set and GDB has correctly
+>>> +        # created them for us having recognised and handled SVE.
+>>> +        try:
+>>> +            for i in range(0, 16):
+>>> +                val_z = gdb.parse_and_eval("$z0.b.u[%d]" % i)
+>>> +                val_v = gdb.parse_and_eval("$v0.b.u[%d]" % i)
+>>> +                report(int(val_z) == int(val_v),
+>>> +                       "v0.b.u[%d] == z0.b.u[%d]" % (i, i))
+>>> +        except gdb.error:
+>>> +            report(False, "checking vregs (out of range)")
+>>> +
+>>>    
+>>>    def run_test():
+>>>        "Run through the tests one by one"
+>>>
 > 
-> Not really but I could certainly add something. Generally I just run the
-> tests manually in gdb when I'm trying to debug stuff.
-
-Right, I plan to do the same, if I get to the command line to run.
-I think it does make sense to add something similar to what was explained here in documentation, with a pointer maybe from README?
-
-
 > 
->> I get different results on different machines for check-tcg, although the runs are containerized,
->> on one machine the tests for aarch64 tcg are SKIPPED completely (so no
->> errors),
-> 
-> The compiles *may* be containerized - the runs are always in your host
-> environment. It's one of the reasons the binaries are built as static
-> images so you don't need to mess about with dynamic linking and
-> libraries.
-> 
-
-Ah good to know, thanks. So everything is actually run in the host environment in the end.
-
-> The only reason some tests get skipped is if you have a locally
-> installed cross compiler which doesn't support some architecture
-> features (e.g. CROSS_CC_HAS_SVE).
-
-
-hmm I will have to check then how to make sure that the test does not see these cross compilers...?
-
-
-> 
->> on the other machine I get:
->>
->> qemu-system-aarch64: terminating on signal 15 from pid 18583 (timeout)
->> qemu-system-aarch64: terminating on signal 15 from pid 18584 (timeout)
->> qemu-system-aarch64: terminating on signal 15 from pid 18585 (timeout)
->> make[2]: *** [../Makefile.target:162: run-hello] Error 124
->> make[2]: *** Waiting for unfinished jobs....
->> make[2]: *** [../Makefile.target:162: run-pauth-3] Error 124
->> make[2]: *** [../Makefile.target:162: run-memory] Error 124
-> 
-> Given it's timing out on hello I guess it's the shutdown deadlocking.
-> Running with V=1 will give you the command line but the semihosting
-> config is setup for redirect. So I usually build my own command line. e.g.:
-> 
->   ./qemu-system-aarch64 -monitor none -display none \
->     -chardev stdio,id=output  \
->     -M virt -cpu max -display none \
->     -semihosting-config enable=on,target=native,chardev=output \
->     -kernel tests/tcg/aarch64-softmmu/hello
-> 
-
-
-Would it be possible for check-tcg (and possibly even make check in general where applicable)
-to automatically spew the command line to reproduce the error, similar to what you have shown here?
-
-
-I think this is would be of great value for anyone to be able to act on the errors reported.
-
-
-> There is nothing particularly special apart from making sure semihosting
-> is wired up for the output. Apart from some special cases like
-> test-mmap-XXXX most tests don't take any arguments.
-> 
->>
->> Both are configured with 
->>
->> configure --enable-tcg
->>
->> Anything more than V=1 to get more output?
-> 
-> The output is normally dumped in $TESTNAME.out in the appropriate
-> $BUILDDIR/tests/tcg/$TARGET/ directory.
-> 
->> How do I debug and get logs and cores out of containers?
-> 
-> As I mentioned above the tests are not run in containers, just the
-> compiles (if local compilers are missing).
-
-Thanks for clearing this up!
-
-> 
->>
->> in tests/tcg/ there is:
->>
->> a README (with no hint unfortunately) ,
-> 
-> Woefully out of date I'm afraid. What docs we have are in docs/devel/testing.rst
-
-maybe a
-
-+ Please see docs/devel/testing.rst for hints on how to run make-tcg and reproduce its results from the cmdline.
-
-> 
->> Makefile.qemu
-> 
-> Links into the main tests/Makefile.include - invoked for each target
-> 
->> Makefile.prereqs
-> 
-> This ensures docker images are built (if required) for each set of tests.
-> 
->> Makefile.target
-> 
-> This is the main (rather simple) makefile which provides the build and
-> run targets. You can run directly if you are in the right build dir, eg:
-> 
->   13:58:10 [alex@zen:~/l/q/b/a/t/t/aarch64-softmmu] |✔ + pwd
->   /home/alex/lsrc/qemu.git/builds/arm.all/tests/tcg/aarch64-softmmu
->   13:58:57 [alex@zen:~/l/q/b/a/t/t/aarch64-softmmu] |✔ +
->   make  -f ~/lsrc/qemu.git/tests/tcg/Makefile.target TARGET="aarch64-softmmu" SRC_PATH="/home/alex/lsrc/qemu.git" run
-> 
-> But TBH this is functionally equivalent to calling:
-> 
->   make run-tcg-tests-aarch64-softmmu
-> 
-> in your main build directory.
-
-Thanks, that's helpful.
-
-> 
->> There are a bunch of variables in these files, which seem to be
->> possible to configure, am I expected to set some of those?
-> 
-> Not really. Most of the magic variables from:
-> 
->   tests/tcg/config-$TARGET.mak
-> 
-> which is built by tests/tcg/configure.sh during the configure step.
-> 
->> I think that it would be beneficial to have either more documentation
->> or more immediately actionable information out of make check failures;
-> 
-> V=1 should show the command lines run and then you should be able to run
-> the tests directly yourself.
-
-
-Hmm V=1 did not show the command line to me, but maybe I just missed it somehow?
-Or it contained some sockets that cannot be manually connected?
-
-> 
->> Any help you could give me to make some progess?
-> 
-> Hope that helps.
-
-It does, I wonder if this could be fed into docs/ with a pointer to it from README,
-and also if this new feature for the tests could be developed, ie, producing a command line useful for reproducing the error,
-something that can be run directly without further editing, sanitizing etc...
-
-Thanks a lot,
-
-Claudio
-
-
 
