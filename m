@@ -2,70 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EA0812F1CCB
-	for <lists+qemu-devel@lfdr.de>; Mon, 11 Jan 2021 18:43:32 +0100 (CET)
-Received: from localhost ([::1]:59490 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7F8E62F1CEE
+	for <lists+qemu-devel@lfdr.de>; Mon, 11 Jan 2021 18:48:10 +0100 (CET)
+Received: from localhost ([::1]:42322 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kz1E3-0002Wf-Vy
-	for lists+qemu-devel@lfdr.de; Mon, 11 Jan 2021 12:43:32 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54922)
+	id 1kz1IX-0007ed-Iv
+	for lists+qemu-devel@lfdr.de; Mon, 11 Jan 2021 12:48:09 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55698)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1kz19b-0005aU-7Y
- for qemu-devel@nongnu.org; Mon, 11 Jan 2021 12:38:55 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:25322)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1kz19X-0003AM-I3
- for qemu-devel@nongnu.org; Mon, 11 Jan 2021 12:38:54 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1610386730;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=6wpJyISTldBb84OCXQRoYv1biOPxAGWn8qpb2qoMTRg=;
- b=bRq5aJaMMa2z/rlqLBhgZ/N7mubRAdvtXHB1piKrRA7myqMCjelNUhbLnUeds1d4wuT4bz
- e4PZNWEq0dsMGNFnqAIC1siaF83WF+ORYn4x8vQJFXZWmi7MiYxI8gVYyrQKPmkTrlJRta
- 0pTBPexcF08f47TLPnWctzGD6c7YlFk=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-423-OvNyM-h8OtSVTO_UaLiFEQ-1; Mon, 11 Jan 2021 12:38:48 -0500
-X-MC-Unique: OvNyM-h8OtSVTO_UaLiFEQ-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id B97801007484;
- Mon, 11 Jan 2021 17:38:47 +0000 (UTC)
-Received: from work-vm (ovpn-115-72.ams2.redhat.com [10.36.115.72])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 459176ACE0;
- Mon, 11 Jan 2021 17:38:30 +0000 (UTC)
-Date: Mon, 11 Jan 2021 17:38:27 +0000
-From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
-To: Laszlo Ersek <lersek@redhat.com>
-Subject: Re: [PATCH] vhost-user-fs: add the "bootindex" property
-Message-ID: <20210111173827.GO2965@work-vm>
-References: <20210104132401.5100-1-lersek@redhat.com>
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1kz1Cm-0001dA-4P
+ for qemu-devel@nongnu.org; Mon, 11 Jan 2021 12:42:12 -0500
+Received: from mail-ej1-x636.google.com ([2a00:1450:4864:20::636]:46136)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1kz1Ch-0003rV-Nw
+ for qemu-devel@nongnu.org; Mon, 11 Jan 2021 12:42:11 -0500
+Received: by mail-ej1-x636.google.com with SMTP id t16so748835ejf.13
+ for <qemu-devel@nongnu.org>; Mon, 11 Jan 2021 09:42:07 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=Zs5bPLmYb+F4EqwZT9EmaQcbeinrAZ0cL/V9TRfTSlQ=;
+ b=Sy7WeTevCvUGbC9lzdlPRrIsq7ixLyVJIHOAC6LdghRccbBeQYHlmZRi9ghBygC/qM
+ 5DZ0i5GwN4YTaeBAwkuK34/jsVUu9hpuloaEhe4HX8owjbA/Y3sY6xBlx2VIltZpNG6+
+ RNU6xmDk0mwVkCrTCtjdFoWUl3eL4JrjaIRndXdg7P8DmMoTFx/gYyHoUFjPoc8vs55/
+ 8BV1PKsGDPM0gxxwpT+lmwoZ27x8kyJhuIH9u7Di08FQBc85sk+9Vww5pzffVWr960sn
+ mmbePsyOaj3Lqmiyi27bNR7toYeBtg11lQr0a8ZlRlnOJuI/l7zuZ7MEmch/39j8Aqn4
+ nJEw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=Zs5bPLmYb+F4EqwZT9EmaQcbeinrAZ0cL/V9TRfTSlQ=;
+ b=Tf0H9W4bhigjjPpNiJqHNugCwvCAcc5yNuZ8FyM49K+fwFrQsdEx7Gcpm5eaXt+e3Y
+ k/fqr/dZeQoFa8zg3F/UdMb7o4Bijdlkg6XhOfKTJ2Teuv7Rqt/A4dQ3KtxbKuxDoyih
+ dESMAMkEGUaJNcNH9SfaAqz53/9BNnz9FlsB1jbEMvoLB3NJQFLdWnLTeurzv1lpTB7R
+ KoDR8aNhFs/u38VtXpaXIsNcg1AUwslcnWPYDAUHm8S0Q7RdYLPb9CH4CodpKK49WDxa
+ 6FRy367pLK/r279xNotJvfgRJAYwaeuZ2iJ8RKQcBdF1a6sHnLqRB4vmfvyrvVRCyYnA
+ 5tsg==
+X-Gm-Message-State: AOAM5330RuiOZWU0Acge4cnENASeOQ/WdybkEf9PpcPk4qBeuZX0gcMq
+ kAlSG4/uA0vLtm82NGuAof63EWvT4XMtf+GEwfPPZA==
+X-Google-Smtp-Source: ABdhPJz/ilWZxgQVTWNMO3GT/AT3/HNW6kyj0TI7N2qEA4Lm3swPsu/UpC12KY9K+E/0PrEjEPOTq88WfIr60ixOfn4=
+X-Received: by 2002:a17:906:e94c:: with SMTP id
+ jw12mr449849ejb.56.1610386925922; 
+ Mon, 11 Jan 2021 09:42:05 -0800 (PST)
 MIME-Version: 1.0
-In-Reply-To: <20210104132401.5100-1-lersek@redhat.com>
-User-Agent: Mutt/1.14.6 (2020-07-11)
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=dgilbert@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=dgilbert@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -29
-X-Spam_score: -3.0
-X-Spam_bar: ---
-X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.251,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+References: <20200901104043.91383-1-f4bug@amsat.org>
+ <20200901104043.91383-5-f4bug@amsat.org>
+ <20210111011117.GA215408@ubuntu-m3-large-x86>
+In-Reply-To: <20210111011117.GA215408@ubuntu-m3-large-x86>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Mon, 11 Jan 2021 17:41:54 +0000
+Message-ID: <CAFEAcA_uz3XryHh3t4DvVR38jHGCm47YFL6KMJJX4-boMih2og@mail.gmail.com>
+Subject: Re: [PATCH 4/5] hw/ppc/ppc4xx_pci: Replace pointless warning by
+ assert()
+To: Nathan Chancellor <natechancellor@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2a00:1450:4864:20::636;
+ envelope-from=peter.maydell@linaro.org; helo=mail-ej1-x636.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -78,127 +82,52 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: virtio-fs@redhat.com, "Michael S. Tsirkin" <mst@redhat.com>,
- Cornelia Huck <cohuck@redhat.com>, qemu devel list <qemu-devel@nongnu.org>,
- Halil Pasic <pasic@linux.ibm.com>,
- Christian Borntraeger <borntraeger@de.ibm.com>, qemu-s390x@nongnu.org,
- Stefan Hajnoczi <stefanha@redhat.com>
+Cc: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>,
+ QEMU Developers <qemu-devel@nongnu.org>,
+ Aleksandar Markovic <aleksandar.qemu.devel@gmail.com>,
+ qemu-ppc <qemu-ppc@nongnu.org>, Guenter Roeck <linux@roeck-us.net>,
+ Greg Kurz <groug@kaod.org>, Aurelien Jarno <aurelien@aurel32.net>,
+ David Gibson <david@gibson.dropbear.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-* Laszlo Ersek (lersek@redhat.com) wrote:
-> virtio-fs qualifies as a bootable device minimally under OVMF, but
-> currently the necessary "bootindex" property is missing (fw_cfg kernel
-> boot notwithstanding).
-> 
-> Add the property. For completeness, add it to the CCW device as well;
-> other virtio-ccw devices seem to have "bootindex" properties too.
-> 
-> Example OpenFirmware device path for the "vhost-user-fs-pci" device in the
-> "bootorder" fw_cfg file:
-> 
->   /pci@i0cf8/pci-bridge@1,6/pci1af4,105a@0/filesystem@0
-> 
-> Cc: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
-> Cc: "Michael S. Tsirkin" <mst@redhat.com>
-> Cc: Christian Borntraeger <borntraeger@de.ibm.com>
-> Cc: Cornelia Huck <cohuck@redhat.com>
-> Cc: Halil Pasic <pasic@linux.ibm.com>
-> Cc: Stefan Hajnoczi <stefanha@redhat.com>
-> Cc: qemu-s390x@nongnu.org
-> Cc: virtio-fs@redhat.com
-> Signed-off-by: Laszlo Ersek <lersek@redhat.com>
-> ---
->  include/hw/virtio/vhost-user-fs.h |  1 +
->  hw/s390x/vhost-user-fs-ccw.c      |  2 ++
->  hw/virtio/vhost-user-fs-pci.c     |  2 ++
->  hw/virtio/vhost-user-fs.c         | 10 ++++++++++
->  4 files changed, 15 insertions(+)
-> 
+On Mon, 11 Jan 2021 at 01:11, Nathan Chancellor
+<natechancellor@gmail.com> wrote:
+>
+> On Tue, Sep 01, 2020 at 12:40:42PM +0200, Philippe Mathieu-Daud=C3=A9 wro=
+te:
+> > We call pci_register_root_bus() to register 4 IRQs with the
+> > ppc4xx_pci_set_irq() handler. As it can only be called with
+> > values in the [0-4[ range, replace the pointless warning by
+> > an assert().
+> >
+> > Signed-off-by: Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>
 
-That looks reasonable; although I'm not familiar with the bootindex
-system; so 
+> Hopefully reporting this here is okay, I find Launchpad hard to use but
+> I can file it there if need be.
+>
+> The assertion added by this patch triggers while trying to boot a
+> ppc44x_defconfig Linux kernel:
 
-Acked-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
+This is the same issue reported here by Guenter:
+https://lore.kernel.org/qemu-devel/3f0f8fc6-6148-a76e-1088-b7882b0bbcaf@roe=
+ck-us.net/
+It's still there in master (you can see it if you apply my fix
+https://patchew.org/QEMU/20210111171623.18871-1-peter.maydell@linaro.org/
+to get past the earlier kernel panic).
 
+The QEMU code as it stands for the Bamboo PCI interrupts is clearly
+wrong. The problem is that I don't know what the hardware's
+actual behaviour is, so it's hard to fix the model...
+A comment in hw/ppc/ppc4xx_pci.c claims
+"On Bamboo, all pins from each slot are tied to a single board IRQ."
+Code in hw/ppc/ppc440_bamboo.c wires four irq lines from the
+PCI controller up to UIC lines 25, 26, 27, 28.
 
-> diff --git a/include/hw/virtio/vhost-user-fs.h b/include/hw/virtio/vhost-user-fs.h
-> index 698575277101..0d62834c2510 100644
-> --- a/include/hw/virtio/vhost-user-fs.h
-> +++ b/include/hw/virtio/vhost-user-fs.h
-> @@ -39,6 +39,7 @@ struct VHostUserFS {
->      VhostUserState vhost_user;
->      VirtQueue **req_vqs;
->      VirtQueue *hiprio_vq;
-> +    int32_t bootindex;
->  
->      /*< public >*/
->  };
-> diff --git a/hw/s390x/vhost-user-fs-ccw.c b/hw/s390x/vhost-user-fs-ccw.c
-> index 6c6f26929301..474e97e937b8 100644
-> --- a/hw/s390x/vhost-user-fs-ccw.c
-> +++ b/hw/s390x/vhost-user-fs-ccw.c
-> @@ -47,6 +47,8 @@ static void vhost_user_fs_ccw_instance_init(Object *obj)
->      ccw_dev->force_revision_1 = true;
->      virtio_instance_init_common(obj, &dev->vdev, sizeof(dev->vdev),
->                                  TYPE_VHOST_USER_FS);
-> +    object_property_add_alias(obj, "bootindex", OBJECT(&dev->vdev),
-> +                              "bootindex");
->  }
->  
->  static void vhost_user_fs_ccw_class_init(ObjectClass *klass, void *data)
-> diff --git a/hw/virtio/vhost-user-fs-pci.c b/hw/virtio/vhost-user-fs-pci.c
-> index 8bb389bd282a..2ed8492b3fa3 100644
-> --- a/hw/virtio/vhost-user-fs-pci.c
-> +++ b/hw/virtio/vhost-user-fs-pci.c
-> @@ -68,6 +68,8 @@ static void vhost_user_fs_pci_instance_init(Object *obj)
->  
->      virtio_instance_init_common(obj, &dev->vdev, sizeof(dev->vdev),
->                                  TYPE_VHOST_USER_FS);
-> +    object_property_add_alias(obj, "bootindex", OBJECT(&dev->vdev),
-> +                              "bootindex");
->  }
->  
->  static const VirtioPCIDeviceTypeInfo vhost_user_fs_pci_info = {
-> diff --git a/hw/virtio/vhost-user-fs.c b/hw/virtio/vhost-user-fs.c
-> index ed036ad9c13f..ac4fc34b36a2 100644
-> --- a/hw/virtio/vhost-user-fs.c
-> +++ b/hw/virtio/vhost-user-fs.c
-> @@ -22,6 +22,7 @@
->  #include "qemu/error-report.h"
->  #include "hw/virtio/vhost-user-fs.h"
->  #include "monitor/monitor.h"
-> +#include "sysemu/sysemu.h"
->  
->  static void vuf_get_config(VirtIODevice *vdev, uint8_t *config)
->  {
-> @@ -279,6 +280,14 @@ static Property vuf_properties[] = {
->      DEFINE_PROP_END_OF_LIST(),
->  };
->  
-> +static void vuf_instance_init(Object *obj)
-> +{
-> +    VHostUserFS *fs = VHOST_USER_FS(obj);
-> +
-> +    device_add_bootindex_property(obj, &fs->bootindex, "bootindex",
-> +                                  "/filesystem@0", DEVICE(obj));
-> +}
-> +
->  static void vuf_class_init(ObjectClass *klass, void *data)
->  {
->      DeviceClass *dc = DEVICE_CLASS(klass);
-> @@ -300,6 +309,7 @@ static const TypeInfo vuf_info = {
->      .name = TYPE_VHOST_USER_FS,
->      .parent = TYPE_VIRTIO_DEVICE,
->      .instance_size = sizeof(VHostUserFS),
-> +    .instance_init = vuf_instance_init,
->      .class_init = vuf_class_init,
->  };
->  
-> -- 
-> 2.19.1.3.g30247aa5d201
-> 
--- 
-Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
+Does anybody have documentation for this board ? What is Linux
+expecting the PCI IRQ wiring to be (not necessarily an indication
+that that's what the h/w does, but a useful clue :-)) ?
 
+thanks
+-- PMM
 
