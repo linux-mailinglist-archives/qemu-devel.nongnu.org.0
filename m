@@ -2,69 +2,80 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A1F682F1D02
-	for <lists+qemu-devel@lfdr.de>; Mon, 11 Jan 2021 18:49:41 +0100 (CET)
-Received: from localhost ([::1]:45818 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 612182F1D2E
+	for <lists+qemu-devel@lfdr.de>; Mon, 11 Jan 2021 18:56:58 +0100 (CET)
+Received: from localhost ([::1]:56442 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kz1K0-0000x5-PP
-	for lists+qemu-devel@lfdr.de; Mon, 11 Jan 2021 12:49:40 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57102)
+	id 1kz1R3-0005xf-6Q
+	for lists+qemu-devel@lfdr.de; Mon, 11 Jan 2021 12:56:57 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57546)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1kz1Hx-000818-QU
- for qemu-devel@nongnu.org; Mon, 11 Jan 2021 12:47:33 -0500
-Received: from mail-ej1-x629.google.com ([2a00:1450:4864:20::629]:41647)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1kz1JI-00019B-I4
+ for qemu-devel@nongnu.org; Mon, 11 Jan 2021 12:48:56 -0500
+Received: from mail-wm1-x32b.google.com ([2a00:1450:4864:20::32b]:34832)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1kz1Hw-0004r1-2T
- for qemu-devel@nongnu.org; Mon, 11 Jan 2021 12:47:33 -0500
-Received: by mail-ej1-x629.google.com with SMTP id ce23so829346ejb.8
- for <qemu-devel@nongnu.org>; Mon, 11 Jan 2021 09:47:31 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1kz1JF-000549-R4
+ for qemu-devel@nongnu.org; Mon, 11 Jan 2021 12:48:56 -0500
+Received: by mail-wm1-x32b.google.com with SMTP id e25so66986wme.0
+ for <qemu-devel@nongnu.org>; Mon, 11 Jan 2021 09:48:53 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=7H5ai7q+5Ij8piKUv98iOCkHyc+4BIO8i4DES0Riw7w=;
- b=kfBPzd4Muv3JXUloHCEHamAkGkg+jDoSDPvLSbve+EJ3OypCMKcCU38vBXblGq1HzS
- l1a0Y0c2vTD9zdR5x89aCsZ7JXxNfg7zERNZupxsnSfuogAEAFSZZsu/7A8iIpfW3qRU
- IInkd/amFK2soCTITk1M4YBqGApyFz54Q/xuZK1UyHfXDfQB/ZueJ3FNypSt0uEHDQbM
- zSL2Egxwv9SXb0MIPPE2rirrJ2jlaM/MEDbSpbE5ovj2Yxcj1K0DtKoTDFfRGTuR+btZ
- BNfr35lDLrilOkdQgG6RRzJMChnqoPr/5MYrcjKS5TpCKERE6eW6yI2nQui9UXjh/pkO
- cmvg==
+ h=references:user-agent:from:to:cc:subject:date:in-reply-to
+ :message-id:mime-version:content-transfer-encoding;
+ bh=HjFjB02VUOcj2JDmR/K56mtMUPw1JqKruxO3gsfgtG0=;
+ b=Z1BLHnk/IllfoIqIlxKJ0XD2wgjI2evX/5XsMH9aGtoY/foB5Zp0OZr8+O18Z54N3P
+ vFsoIVlUr7x9Y30UZt1g+VOvY8vJ0NhhFFf2vN/wzVP3Kpz1pVqYsTLQ3muqdwj0v8Y5
+ F9VbBO51j75TEHi3Hsgg7/C+0sYNIOp0sLXBtkDC9Q/35JGz6cyiqvyi3+ptkFR33Rvf
+ 3RBT2H7VMu8ETRySwN8DK70ixgS2jWeoVWpQS1Wylo7thAyY7nH2Kq28D8Zatl3+Bobs
+ TdnNFPVrst4l7kXfPxCLsQ62wZ5e8A8OpP+u3d7lU4jKfBn2zsMJ+iKqTpkuPX5Vqm2S
+ db4w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=7H5ai7q+5Ij8piKUv98iOCkHyc+4BIO8i4DES0Riw7w=;
- b=YVmJodERGG87hWVkpdXcsGIEiCN3joEh2Vw8hv7ql9ZSasUgvlwZ7MegcpMCX4z7To
- 9qdic1hUv/1YVoBPvNqJPTlHgFTS1NKwqDpVz3IdmNMBJzdV5UTjEuZCL+Srhc3D9i8y
- 3ECMhMuYJ/1iscahwFiPzu8L7ZrWFyI11qovr+rz27Jlh+YOfKLi0++O6SUXnKy3ltYq
- sYDYo/p+1hp7hmL/q7UlG4Yy+nMWC2VjzLfCq3cYW3saFrfoLO0qfRCLJu7hRHnxVkSI
- Hi+iW7yru4uaV3+Mn+EOV7h4fGMNKoM6pLmuPbvASrBj2g6DzELDD5RWIA/1jDpk8SBo
- UM3Q==
-X-Gm-Message-State: AOAM531oEDUl5aasbwaOIF6CeDdNwJ2vuYRX5hrFWjDw45+t0YVmTmVX
- qPqDnSi0sp1GRj8G8zvEg4woRJzwr8UHRr87gIUHNg==
-X-Google-Smtp-Source: ABdhPJy49hLLjh56VxYdBNUDvfwluSxUZrnEBsDs1ybRrtPuupVBzcT1Hqki/4mM0LetPYfC7iu5fMEXkLicCU7t3l4=
-X-Received: by 2002:a17:906:31d2:: with SMTP id
- f18mr395787ejf.407.1610387250608; 
- Mon, 11 Jan 2021 09:47:30 -0800 (PST)
+ h=x-gm-message-state:references:user-agent:from:to:cc:subject:date
+ :in-reply-to:message-id:mime-version:content-transfer-encoding;
+ bh=HjFjB02VUOcj2JDmR/K56mtMUPw1JqKruxO3gsfgtG0=;
+ b=TLF0RKjIBfBeN5Zq48Ibi3ML2t/CGJ3fYcI9ZqLBIfiq38Rkat0Yiv0EsxKmJHlJNZ
+ p0AwD7oW3J1HS+1i9ap+GBgxi3tNrkKvis6/a3KScjX8sJi8yXufZOdCXlu/fIwWdcXe
+ j69/XPneVSh2zpMWfYRmecNBs8Brlq8G5TETCIiLr3Jg4dygCpRr57Zd/Ds4tKxXV4n4
+ MhknoZmntSTJz23ORa2sA9tGmkCaHTPCTZJ0Hmklc7pc0K38wWsnTt6Nv0XljLDy7DtR
+ jmL5dmt9HdfZgvlYSs4Nk5cAVT3EfCLdbUVT1msXizIl+h0BNjLjUOPVlwPkY8rUCTuA
+ p2ng==
+X-Gm-Message-State: AOAM531TQp1dCE8Dnc1f17LQLvtZhubXvFxY7Xx06/FVf9evnJFRpfCe
+ qmz1gmpt0/eD5FKIkoAEYwaG8A==
+X-Google-Smtp-Source: ABdhPJxFl0pGJIm5UheooE53gyVfAACVfyEjNoEnS7yM3rBuAokl0gYAMKI4jSlEoOleDrcPABVpeg==
+X-Received: by 2002:a1c:7213:: with SMTP id n19mr15554wmc.14.1610387332427;
+ Mon, 11 Jan 2021 09:48:52 -0800 (PST)
+Received: from zen.linaroharston ([51.148.130.216])
+ by smtp.gmail.com with ESMTPSA id o3sm396503wrc.93.2021.01.11.09.48.51
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 11 Jan 2021 09:48:51 -0800 (PST)
+Received: from zen (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id B2CE01FF7E;
+ Mon, 11 Jan 2021 17:48:50 +0000 (GMT)
+References: <20210111152020.1422021-1-philmd@redhat.com>
+ <20210111152020.1422021-3-philmd@redhat.com>
+User-agent: mu4e 1.5.7; emacs 28.0.50
+From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>
+Subject: Re: [PATCH 2/2] sysemu: Let VMChangeStateHandler take boolean
+ 'running' argument
+Date: Mon, 11 Jan 2021 17:48:41 +0000
+In-reply-to: <20210111152020.1422021-3-philmd@redhat.com>
+Message-ID: <87lfcznz3x.fsf@linaro.org>
 MIME-Version: 1.0
-References: <20210111140602.159377-1-thuth@redhat.com>
-In-Reply-To: <20210111140602.159377-1-thuth@redhat.com>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Mon, 11 Jan 2021 17:47:19 +0000
-Message-ID: <CAFEAcA-8FQjRpHgLccArXj9ALeErRyFJmMcMsHphi+KT_NOVCw@mail.gmail.com>
-Subject: Re: [PULL v2 00/15] Testing, CI and bsd-user patches
-To: Thomas Huth <thuth@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2a00:1450:4864:20::629;
- envelope-from=peter.maydell@linaro.org; helo=mail-ej1-x629.google.com
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2a00:1450:4864:20::32b;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x32b.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -77,36 +88,43 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: QEMU Developers <qemu-devel@nongnu.org>, acho@suse.com
+Cc: Fam Zheng <fam@euphon.net>, Peter Maydell <peter.maydell@linaro.org>,
+ Dmitry Fleytman <dmitry.fleytman@gmail.com>, kvm@vger.kernel.org,
+ "Michael S. Tsirkin" <mst@redhat.com>, Jason Wang <jasowang@redhat.com>,
+ David Hildenbrand <david@redhat.com>, qemu-devel@nongnu.org,
+ Laurent Vivier <laurent@vivier.eu>, Thomas Huth <thuth@redhat.com>,
+ Gerd Hoffmann <kraxel@redhat.com>, Stefano Stabellini <sstabellini@kernel.org>,
+ qemu-block@nongnu.org, qemu-trivial@nongnu.org,
+ Huacai Chen <chenhuacai@kernel.org>, Halil Pasic <pasic@linux.ibm.com>,
+ Christian Borntraeger <borntraeger@de.ibm.com>,
+ Anthony Perard <anthony.perard@citrix.com>, xen-devel@lists.xenproject.org,
+ Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>,
+ Eduardo Habkost <ehabkost@redhat.com>, Amit Shah <amit@kernel.org>,
+ Richard Henderson <richard.henderson@linaro.org>, Greg Kurz <groug@kaod.org>,
+ Paul Durrant <paul@xen.org>, Alex Williamson <alex.williamson@redhat.com>,
+ qemu-arm@nongnu.org, =?utf-8?Q?C=C3=A9dric?= Le Goater <clg@kaod.org>,
+ Stefan Hajnoczi <stefanha@redhat.com>,
+ Sunil Muthuswamy <sunilmut@microsoft.com>, John Snow <jsnow@redhat.com>,
+ David Gibson <david@gibson.dropbear.id.au>, Kevin Wolf <kwolf@redhat.com>,
+ Marcelo Tosatti <mtosatti@redhat.com>, qemu-s390x@nongnu.org,
+ Max Reitz <mreitz@redhat.com>, qemu-ppc@nongnu.org,
+ Cornelia Huck <cohuck@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ Aurelien Jarno <aurelien@aurel32.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, 11 Jan 2021 at 14:06, Thomas Huth <thuth@redhat.com> wrote:
->
-> The following changes since commit 7b09f127738ae3d0e71716cea086fc8f847a5686:
->
->   Merge remote-tracking branch 'remotes/pmaydell/tags/pull-target-arm-20210108' into staging (2021-01-08 15:37:04 +0000)
->
-> are available in the Git repository at:
->
->   https://gitlab.com/huth/qemu.git tags/pull-request-2021-01-11v2
->
-> for you to fetch changes up to b677001d70529df271a5d9314440bb201da40acf:
->
->   fuzz: map all BARs and enable PCI devices (2021-01-11 14:59:21 +0100)
->
-> ----------------------------------------------------------------
-> * Fuzzer improvements
-> * Add OpenSUSE leap to the gitlab-CI
-> * Some fixes to get our CI "green" again
-> * Some initial patches to update bsd-user
-> ----------------------------------------------------------------
 
+Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com> writes:
 
-Applied, thanks.
+> The 'running' argument from VMChangeStateHandler does not require
+> other value than 0 / 1. Make it a plain boolean.
+>
+> Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
 
-Please update the changelog at https://wiki.qemu.org/ChangeLog/6.0
-for any user-visible changes.
+Seems reasonable
 
--- PMM
+Reviewed-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
+
+--=20
+Alex Benn=C3=A9e
 
