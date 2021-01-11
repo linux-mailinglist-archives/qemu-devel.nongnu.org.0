@@ -2,69 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3E29F2F1F60
-	for <lists+qemu-devel@lfdr.de>; Mon, 11 Jan 2021 20:31:01 +0100 (CET)
-Received: from localhost ([::1]:51440 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EB5932F1F2E
+	for <lists+qemu-devel@lfdr.de>; Mon, 11 Jan 2021 20:24:38 +0100 (CET)
+Received: from localhost ([::1]:34864 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kz2u4-0006G5-7h
-	for lists+qemu-devel@lfdr.de; Mon, 11 Jan 2021 14:31:00 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47420)
+	id 1kz2nt-0007jt-Kf
+	for lists+qemu-devel@lfdr.de; Mon, 11 Jan 2021 14:24:37 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47438)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1kz2Ry-0006Cr-Mh
- for qemu-devel@nongnu.org; Mon, 11 Jan 2021 14:01:58 -0500
-Received: from mail-pl1-x62e.google.com ([2607:f8b0:4864:20::62e]:46001)
+ id 1kz2Rz-0006EL-Cs
+ for qemu-devel@nongnu.org; Mon, 11 Jan 2021 14:01:59 -0500
+Received: from mail-pj1-x1030.google.com ([2607:f8b0:4864:20::1030]:55533)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1kz2Rr-0006T3-8L
- for qemu-devel@nongnu.org; Mon, 11 Jan 2021 14:01:58 -0500
-Received: by mail-pl1-x62e.google.com with SMTP id e2so318725plt.12
- for <qemu-devel@nongnu.org>; Mon, 11 Jan 2021 11:01:47 -0800 (PST)
+ id 1kz2Ru-0006TS-3J
+ for qemu-devel@nongnu.org; Mon, 11 Jan 2021 14:01:59 -0500
+Received: by mail-pj1-x1030.google.com with SMTP id p12so89253pju.5
+ for <qemu-devel@nongnu.org>; Mon, 11 Jan 2021 11:01:50 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=3EgLd6X/0agUdbULg+xeQ+A6feCfdo22IS1O1cQHk+s=;
- b=W/912atkVSpxgETV5g5kzwGkqmDJ/rSYF0QyMHjRD0ee8kXwfitHLXkATfjMCrK7/f
- qw7oc8mZ4W7E8qnJy/tAG+oSV9DPrNvznHGeGjSnz+KcnOj0uFnWX96l4J4mb6nJRLnB
- njQ+f3CzXnlzmSJuDAH4XjOmUtL8bZMYTdWRaCUoKgt+o1xjZQUjFWfrF1MJhpJInA67
- miC/Ax/gkMJN2KI3iPAIxvW+B86EjYW9Zf/3zQdfTismeMQU/uLnbZTyBmTzv3Plcvth
- jsuc1WtpWBIq/J7u3RmPky1O27F1dCXKj2d6veN7aBVEGfV9WgZCsVAfpHJ2jKBlg3h8
- Z1xQ==
+ bh=KALA1eSooGUfBo7CGQXBooa38v23DHVbjR3um2cG8+w=;
+ b=yTYN5j5PV/Sn4apB7FQIwW7cOCtXtWz/RYzpgF/tzc61sWSU1ZFFYfjuSBFHLGwYBi
+ koHarkKTbwK0cNa1oZDWdP1AWuaTvLvNGz3pWlBle0IxnS1vuxq6erpm5gBI2vVXbFSL
+ VgDDtnKZbxs5nFq7bdo6Zc4Tdw7XcfnTVQAxfmubReyxeWCA3HAcWBzM66lUbXbyKYgS
+ 56DIMIdri+7gNlwc+k9ABCcGT3Dpp89fGfD+szgglAm0FTE1uLyj00sWJxcMQ6nF/Q0b
+ Q5P5bXdlUuS3ldxBy0Erst7kTmlR4ioDxJglPj2mopMKN7PQcrDGLvjUakBlmq+ZwlyV
+ Hy0Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=3EgLd6X/0agUdbULg+xeQ+A6feCfdo22IS1O1cQHk+s=;
- b=hsXVHZ7qXIYOQp4vHInFjgi880JBkQw1CCPfTf0BrbAaPmWMpgQeUSKTKdoIg6NOPw
- 7b8vc7TpejD2WrMSdHuhHbQz07eVPHyUuanNZ15YD26vWLbo7e1kibpjyuqgWXKue/nh
- ZC6h3IhLJyZnedq7UrEXWwyF03ykC03vdakzobDisbwnn0JhPYKmRo0wVA+iVanpNZZb
- U0uIbOQ993y/J/98nB6UMfj4wqGyx8G2RIeh731mSozdO/q9jfZl0Cmb8wjSeETjlCAm
- axBWt73nRzmXfG/RAPYOT2vXi9TZz6Ty7fkYq+3zEoY6n4z+5W2q0j2mBGTNLxSc9m2X
- gtiA==
-X-Gm-Message-State: AOAM533GzzPgmKnphoj4OiZhHkNOAHwLfNOczWFUpjgHrDlqMLV9qB4H
- 8N1sM6jfyKuoE3JvJqK8ZH4L40dz8WgZvw==
-X-Google-Smtp-Source: ABdhPJyWq9mCDaK9z3RNY9hnLtwzlX5O8/z70RXQvNYv8vFwbUPGjqoWOKf98QXA5cjxzj6aUzqf5w==
-X-Received: by 2002:a17:90b:338d:: with SMTP id
- ke13mr317770pjb.48.1610391706203; 
- Mon, 11 Jan 2021 11:01:46 -0800 (PST)
+ bh=KALA1eSooGUfBo7CGQXBooa38v23DHVbjR3um2cG8+w=;
+ b=I7c22w60ZRinyNVagK494rG01CDG+XDS4+08K7iCLl/cscu3A8AVm7n77JDirCleMx
+ UaBkykznn04eaem0rS8qkev9KEzbdZvSkMTonea51TOKHt5nmHOKPo6bENi+0qlV0IV3
+ y7G/mpsJFTchVBFadsTc0Dd0YFs+YrzMy/CsrkWtqYHfgLThRjdl2k7gE8LN9V6vx8Rl
+ NvJSpvv9L1C+vIkwrKUjDSPMbqC8va5sb7N1l8iqjibMIl8uUdokHR+FBUpuRGsqjkb/
+ Sy1KsSGGWUsikgj1sz7EbiMTeVjQ8YKSUFsU0dOJT7MfY1M9O5OSu7I63JPavxNNHvMR
+ 0+RQ==
+X-Gm-Message-State: AOAM53077w+pwXp6+dKcG8+Djbcy/U0HZo8x+x1A2GU7DRWUiKhqN3jt
+ upLF+hKuSMBwVSUICJJxyfojM10xi8D99g==
+X-Google-Smtp-Source: ABdhPJykhtsQdq5zrfLQwZBgccYT6grNv/tgb7cBtRZunOVB1KVJqa0RcBBrf+CNl7L4UcPKmiR6Iw==
+X-Received: by 2002:a17:90a:674c:: with SMTP id
+ c12mr304733pjm.98.1610391709680; 
+ Mon, 11 Jan 2021 11:01:49 -0800 (PST)
 Received: from localhost.localdomain (rrcs-173-197-107-21.west.biz.rr.com.
  [173.197.107.21])
- by smtp.gmail.com with ESMTPSA id n195sm350395pfd.169.2021.01.11.11.01.44
+ by smtp.gmail.com with ESMTPSA id n195sm350395pfd.169.2021.01.11.11.01.48
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 11 Jan 2021 11:01:45 -0800 (PST)
+ Mon, 11 Jan 2021 11:01:49 -0800 (PST)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v3 17/30] target/arm: Enforce alignment for RFE
-Date: Mon, 11 Jan 2021 09:01:00 -1000
-Message-Id: <20210111190113.303726-18-richard.henderson@linaro.org>
+Subject: [PATCH v3 19/30] target/arm: Enforce alignment for VLDM/VSTM
+Date: Mon, 11 Jan 2021 09:01:02 -1000
+Message-Id: <20210111190113.303726-20-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20210111190113.303726-1-richard.henderson@linaro.org>
 References: <20210111190113.303726-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::62e;
- envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x62e.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1030;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1030.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -91,26 +91,43 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- target/arm/translate.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ target/arm/translate-vfp.c.inc | 8 ++++----
+ 1 file changed, 4 insertions(+), 4 deletions(-)
 
-diff --git a/target/arm/translate.c b/target/arm/translate.c
-index dbe74e2c34..a0d543ec1f 100644
---- a/target/arm/translate.c
-+++ b/target/arm/translate.c
-@@ -8304,10 +8304,10 @@ static bool trans_RFE(DisasContext *s, arg_RFE *a)
- 
-     /* Load PC into tmp and CPSR into tmp2.  */
-     t1 = tcg_temp_new_i32();
--    gen_aa32_ld32u(s, t1, addr, get_mem_index(s));
-+    gen_aa32_ld_i32(s, t1, addr, get_mem_index(s), MO_UL | MO_ALIGN);
-     tcg_gen_addi_i32(addr, addr, 4);
-     t2 = tcg_temp_new_i32();
--    gen_aa32_ld32u(s, t2, addr, get_mem_index(s));
-+    gen_aa32_ld_i32(s, t2, addr, get_mem_index(s), MO_UL | MO_ALIGN);
- 
-     if (a->w) {
-         /* Base writeback.  */
+diff --git a/target/arm/translate-vfp.c.inc b/target/arm/translate-vfp.c.inc
+index 10766f210c..f50afb23e7 100644
+--- a/target/arm/translate-vfp.c.inc
++++ b/target/arm/translate-vfp.c.inc
+@@ -1503,12 +1503,12 @@ static bool trans_VLDM_VSTM_sp(DisasContext *s, arg_VLDM_VSTM_sp *a)
+     for (i = 0; i < n; i++) {
+         if (a->l) {
+             /* load */
+-            gen_aa32_ld32u(s, tmp, addr, get_mem_index(s));
++            gen_aa32_ld_i32(s, tmp, addr, get_mem_index(s), MO_UL | MO_ALIGN);
+             vfp_store_reg32(tmp, a->vd + i);
+         } else {
+             /* store */
+             vfp_load_reg32(tmp, a->vd + i);
+-            gen_aa32_st32(s, tmp, addr, get_mem_index(s));
++            gen_aa32_st_i32(s, tmp, addr, get_mem_index(s), MO_UL | MO_ALIGN);
+         }
+         tcg_gen_addi_i32(addr, addr, offset);
+     }
+@@ -1586,12 +1586,12 @@ static bool trans_VLDM_VSTM_dp(DisasContext *s, arg_VLDM_VSTM_dp *a)
+     for (i = 0; i < n; i++) {
+         if (a->l) {
+             /* load */
+-            gen_aa32_ld64(s, tmp, addr, get_mem_index(s));
++            gen_aa32_ld_i64(s, tmp, addr, get_mem_index(s), MO_Q | MO_ALIGN_4);
+             vfp_store_reg64(tmp, a->vd + i);
+         } else {
+             /* store */
+             vfp_load_reg64(tmp, a->vd + i);
+-            gen_aa32_st64(s, tmp, addr, get_mem_index(s));
++            gen_aa32_st_i64(s, tmp, addr, get_mem_index(s), MO_Q | MO_ALIGN_4);
+         }
+         tcg_gen_addi_i32(addr, addr, offset);
+     }
 -- 
 2.25.1
 
