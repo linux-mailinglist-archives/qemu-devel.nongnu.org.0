@@ -2,72 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F00902F1C34
-	for <lists+qemu-devel@lfdr.de>; Mon, 11 Jan 2021 18:23:01 +0100 (CET)
-Received: from localhost ([::1]:59734 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DEA3D2F1C43
+	for <lists+qemu-devel@lfdr.de>; Mon, 11 Jan 2021 18:25:05 +0100 (CET)
+Received: from localhost ([::1]:38346 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kz0uC-0003Tl-4C
-	for lists+qemu-devel@lfdr.de; Mon, 11 Jan 2021 12:23:00 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50994)
+	id 1kz0wC-0006di-TX
+	for lists+qemu-devel@lfdr.de; Mon, 11 Jan 2021 12:25:04 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51498)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1kz0nu-0000cB-4O
- for qemu-devel@nongnu.org; Mon, 11 Jan 2021 12:16:30 -0500
-Received: from mail-wm1-x32c.google.com ([2a00:1450:4864:20::32c]:52849)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1kz0rB-00030W-LA
+ for qemu-devel@nongnu.org; Mon, 11 Jan 2021 12:19:53 -0500
+Received: from mail-pf1-x431.google.com ([2607:f8b0:4864:20::431]:34077)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1kz0nr-0007s4-GI
- for qemu-devel@nongnu.org; Mon, 11 Jan 2021 12:16:29 -0500
-Received: by mail-wm1-x32c.google.com with SMTP id a6so472533wmc.2
- for <qemu-devel@nongnu.org>; Mon, 11 Jan 2021 09:16:27 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1kz0r9-0008WV-OT
+ for qemu-devel@nongnu.org; Mon, 11 Jan 2021 12:19:53 -0500
+Received: by mail-pf1-x431.google.com with SMTP id m6so333512pfk.1
+ for <qemu-devel@nongnu.org>; Mon, 11 Jan 2021 09:19:51 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:cc:subject:date:message-id:mime-version
+ h=from:to:subject:date:message-id:mime-version
  :content-transfer-encoding;
- bh=qX/PZINiDr8xnpaMD6rBL/j68/0CMVgrGZ7MHx5ETLk=;
- b=djhyi1WTo+oqtQB5hSkU/kF5uQ72VcF82QsrJNzlpEbBSen7ZD5rjsjNOUzZlYmKZu
- DoTKy4xNSFBJxu9lTazjWU0biZGkFTeML+/v80OZG4NLrWV+RhelfHIX2E06JZsHx/wh
- wvReqCqinl4DRghyPlBP41tuzkvmt9g1YLUa1xHujrVQkXRpnosKU4ycKq8EpfPGBW7H
- LQlkFZmDWZcnPT4Uy8ghHNN/xcAMti7KhiTVcBeFHw2Z7Al3NE/abAbaRXuy36YsSRpm
- byXZvKKIDcc13kvLp/XU7piaov6O5AjBkB+utaQShGrCG4q4ms/qO91emRwfRrYXLyUV
- AiPA==
+ bh=EGOdfJedeZkUbzwXSObgSFTXXj7WGsh9bQTSB/2402k=;
+ b=GlCNW1Hppk2i0sfkwOD+oEp+MzSNluJViwkoFVvNm/flwjjQJkZFMEI4nzSmtdgzbM
+ 62r6OTN9pI/XfRSxD4z963UJiQpXivKtmUuopr4MZNiuFzJCmisrCZblsqK/tWOunmcj
+ 7ZPUQ49iwCEFtw6w2XxstkmokYZt2FwHHUNcwfGiv3IqkWTWU3cribRUWoLbd0H0P718
+ Srd1UTAR5O3gnB16OzBPlZEo0KTtS1zObdbQzWboF8jOXLILAQOQSxuhufsH1tWd27Ja
+ URtQYdJqV36f66fsrW8Oz4B0zn2NpXRI/ed80lqxkqxG+anfDlFdc1Ya2yRyaqhyXIrr
+ msQQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ h=x-gm-message-state:from:to:subject:date:message-id:mime-version
  :content-transfer-encoding;
- bh=qX/PZINiDr8xnpaMD6rBL/j68/0CMVgrGZ7MHx5ETLk=;
- b=ga6ltMzMcQZJrKRmFYrLFeaWwqGnf3gqIjorY3IvYRG/N+yj275EQdgcqCVA2o4d0z
- TaAggvH9JVccnME4acnPo7F6hzF4xCFKvYQh0w9xYy9UlnB3YieThAXgT4ZodqCOJ1bI
- ZaLXpogi2HAMYSlcKGtX7pddtT6rEZ6pfy80mt9TU8FZ+sABiQdkbrHQ6r25Uuvy1+Rb
- /N4dt0sDWcv6Zh4OwPBG5b8vVY+X9JDky8NujWtiguW0aSbX2YY3xKyJUraPTY323EX3
- CE+bBdp/nIvExXVG7bhCdJFThjJFP4jpFZs82kAhSEK7IeVY5soa9W1gXxOPuwo8cMY+
- YcSw==
-X-Gm-Message-State: AOAM533dmxGZL/+nRPy53lyYRE6EasyvCweApQiEZgHDveGENeMcGCpd
- DL+9eFtZ8SV45IHK3eU1RIqF/rYK4B1N0A==
-X-Google-Smtp-Source: ABdhPJzu+mEY1OdlBQBMu2duWWl58PAnVfhzQyy6j0K4G5nxGCrSY8AY2ndLin6EybICCsIN/K7Big==
-X-Received: by 2002:a1c:bc41:: with SMTP id m62mr664152wmf.46.1610385385543;
- Mon, 11 Jan 2021 09:16:25 -0800 (PST)
-Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
- by smtp.gmail.com with ESMTPSA id l8sm354533wrb.73.2021.01.11.09.16.24
+ bh=EGOdfJedeZkUbzwXSObgSFTXXj7WGsh9bQTSB/2402k=;
+ b=F/nSwFw4hQ4UjjxZqKq/cuK5f47Go0tXr5LVrv2LxIGtLqe2UGj05ClYUexKY7KP6+
+ K8efx3R9Lq/ydmcGa0XQtRzFkDeFwdcKEsYyWmk9G/Mpx+Pxoe3BhKd4l0+xVfSS1qFB
+ KA69Bn9vXhoGbswevrV2q6+cQGwCCThG9vFD1Cq+TV7aEzMfJNPif7A2GMsy+bciSNol
+ zP/AFnFSfkwxmrcW7/Ngt8VspoawII/aap1269mcjuKatVehiX1MDfXX8Y5oyOVZRo/0
+ T2olsZheox4mB2q7khU5zWIOZw3WpX/bgaJllsGMybq8dToTFBVseLBB2dc+TnUSEo3G
+ 6lJQ==
+X-Gm-Message-State: AOAM533wKd6QSiIRA+s9bL4LQl5yzTCl+vz/GzScENDsx0jjvoXYlSF2
+ 3hjSoS9S4acZIZyWyq544Gew24wyh2FD4w==
+X-Google-Smtp-Source: ABdhPJwr80MYWFr9svvxucRMBLh8++4XQ/s0jAtAg0j22Oi8SuRxFtoQI2UBsCTnwgL/1wZV2pBS2g==
+X-Received: by 2002:a63:4082:: with SMTP id n124mr542896pga.340.1610385589801; 
+ Mon, 11 Jan 2021 09:19:49 -0800 (PST)
+Received: from localhost.localdomain (rrcs-173-197-107-21.west.biz.rr.com.
+ [173.197.107.21])
+ by smtp.gmail.com with ESMTPSA id k64sm206666pfd.75.2021.01.11.09.19.48
+ for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 11 Jan 2021 09:16:25 -0800 (PST)
-From: Peter Maydell <peter.maydell@linaro.org>
+ Mon, 11 Jan 2021 09:19:48 -0800 (PST)
+From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH] hw/ppc/ppc400_bamboo: Set dcr-base correctly when creating UIC
-Date: Mon, 11 Jan 2021 17:16:23 +0000
-Message-Id: <20210111171623.18871-1-peter.maydell@linaro.org>
-X-Mailer: git-send-email 2.20.1
+Subject: [PATCH v6 00/23] tcg: Better handling of constants
+Date: Mon, 11 Jan 2021 07:19:23 -1000
+Message-Id: <20210111171946.219469-1-richard.henderson@linaro.org>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::32c;
- envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x32c.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::431;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x431.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -80,42 +83,90 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-ppc@nongnu.org, Greg Kurz <groug@kaod.org>,
- David Gibson <david@gibson.dropbear.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-In commit 0270d74ef8862350 we switched from ppcuic_init() to directly
-creating the UIC device, but I missed that the Bamboo's UIC has a
-non-standard DCR base register value (0xc0 rather than the default
-of 0x30). This made Linux panic early in the boot process.
+Changes for v6:
 
-Specify the correct dcr-base property value when creating the UIC.
+Minor rebase conflict fixed.
 
-Fixes: 0270d74ef8862350
-Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
----
-With this fix Nathan's test case goes on to eventually hit
-a QEMU assert:
-qemu-system-ppc: ../../hw/pci/pci.c:255: pci_bus_change_irq_level: Assertion `irq_num >= 0' failed.
-but it was doing that on 5.2 as well.
----
- hw/ppc/ppc440_bamboo.c | 1 +
- 1 file changed, 1 insertion(+)
+Changes for v5:
 
-diff --git a/hw/ppc/ppc440_bamboo.c b/hw/ppc/ppc440_bamboo.c
-index b156bcb9990..2c7a578ba73 100644
---- a/hw/ppc/ppc440_bamboo.c
-+++ b/hw/ppc/ppc440_bamboo.c
-@@ -198,6 +198,7 @@ static void bamboo_init(MachineState *machine)
-     uicdev = qdev_new(TYPE_PPC_UIC);
-     uicsbd = SYS_BUS_DEVICE(uicdev);
- 
-+    qdev_prop_set_uint32(uicdev, "dcr-base", 0xc0);
-     object_property_set_link(OBJECT(uicdev), "cpu", OBJECT(cpu),
-                              &error_fatal);
-     sysbus_realize_and_unref(uicsbd, &error_fatal);
+Moved the clearing of the hash table from the end of compilation
+to the beginning of compilation.  We skip the former when we long
+jump out of the translator loop, e.g. touching a code page that
+is unmapped.
+
+Patches without review:
+
+02-tcg-Increase-tcg_out_dupi_vec-immediate-to-int64_.patch
+05-tcg-Expand-TCGTemp.val-to-64-bits.patch
+07-tcg-Expand-TempOptInfo-to-64-bits.patch
+08-tcg-Introduce-TYPE_CONST-temporaries.patch
+09-tcg-optimize-Improve-find_better_copy.patch
+11-tcg-optimize-Use-tcg_constant_internal-with-const.patch
+12-tcg-Convert-tcg_gen_dupi_vec-to-TCG_CONST.patch
+14-tcg-Use-tcg_constant_-i32-i64-with-tcg-int-expand.patch
+16-tcg-Use-tcg_constant_-i32-i64-vec-with-gvec-expan.patch
+19-tcg-Add-tcg_reg_alloc_dup2.patch
+22-tcg-ppc-Use-tcg_constant_vec-with-tcg-vec-expande.patch
+23-tcg-aarch64-Use-tcg_constant_vec-with-tcg-vec-exp.patch
+
+Note that patch 1 fixes the clang Werror reported here:
+https://lists.gnu.org/archive/html/qemu-devel/2021-01/msg01572.html
+
+
+r~
+
+
+Richard Henderson (23):
+  tcg: Use tcg_out_dupi_vec from temp_load
+  tcg: Increase tcg_out_dupi_vec immediate to int64_t
+  tcg: Consolidate 3 bits into enum TCGTempKind
+  tcg: Add temp_readonly
+  tcg: Expand TCGTemp.val to 64-bits
+  tcg: Rename struct tcg_temp_info to TempOptInfo
+  tcg: Expand TempOptInfo to 64-bits
+  tcg: Introduce TYPE_CONST temporaries
+  tcg/optimize: Improve find_better_copy
+  tcg/optimize: Adjust TempOptInfo allocation
+  tcg/optimize: Use tcg_constant_internal with constant folding
+  tcg: Convert tcg_gen_dupi_vec to TCG_CONST
+  tcg: Use tcg_constant_i32 with icount expander
+  tcg: Use tcg_constant_{i32,i64} with tcg int expanders
+  tcg: Use tcg_constant_{i32,i64} with tcg plugins
+  tcg: Use tcg_constant_{i32,i64,vec} with gvec expanders
+  tcg/tci: Add special tci_movi_{i32,i64} opcodes
+  tcg: Remove movi and dupi opcodes
+  tcg: Add tcg_reg_alloc_dup2
+  tcg/i386: Use tcg_constant_vec with tcg vec expanders
+  tcg: Remove tcg_gen_dup{8,16,32,64}i_vec
+  tcg/ppc: Use tcg_constant_vec with tcg vec expanders
+  tcg/aarch64: Use tcg_constant_vec with tcg vec expanders
+
+ include/exec/gen-icount.h    |  25 +-
+ include/tcg/tcg-op.h         |  17 +-
+ include/tcg/tcg-opc.h        |  11 +-
+ include/tcg/tcg.h            |  50 +++-
+ accel/tcg/plugin-gen.c       |  49 ++--
+ tcg/optimize.c               | 249 +++++++++---------
+ tcg/tcg-op-gvec.c            | 129 ++++-----
+ tcg/tcg-op-vec.c             |  52 +---
+ tcg/tcg-op.c                 | 227 ++++++++--------
+ tcg/tcg.c                    | 488 +++++++++++++++++++++++++++--------
+ tcg/tci.c                    |   4 +-
+ tcg/aarch64/tcg-target.c.inc |  32 +--
+ tcg/arm/tcg-target.c.inc     |   1 -
+ tcg/i386/tcg-target.c.inc    | 112 ++++----
+ tcg/mips/tcg-target.c.inc    |   2 -
+ tcg/ppc/tcg-target.c.inc     |  90 ++++---
+ tcg/riscv/tcg-target.c.inc   |   2 -
+ tcg/s390/tcg-target.c.inc    |   2 -
+ tcg/sparc/tcg-target.c.inc   |   2 -
+ tcg/tci/tcg-target.c.inc     |   6 +-
+ 20 files changed, 884 insertions(+), 666 deletions(-)
+
 -- 
-2.20.1
+2.25.1
 
 
