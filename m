@@ -2,102 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 81E0C2F0FB1
-	for <lists+qemu-devel@lfdr.de>; Mon, 11 Jan 2021 11:08:49 +0100 (CET)
-Received: from localhost ([::1]:44686 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D49782F0FED
+	for <lists+qemu-devel@lfdr.de>; Mon, 11 Jan 2021 11:21:47 +0100 (CET)
+Received: from localhost ([::1]:50380 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kyu80-0000C5-K3
-	for lists+qemu-devel@lfdr.de; Mon, 11 Jan 2021 05:08:48 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56516)
+	id 1kyuKY-0003QD-Co
+	for lists+qemu-devel@lfdr.de; Mon, 11 Jan 2021 05:21:46 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59272)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <borntraeger@de.ibm.com>)
- id 1kyu6T-0007sl-1t; Mon, 11 Jan 2021 05:07:13 -0500
-Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:55814)
+ (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
+ id 1kyuJR-0002re-24
+ for qemu-devel@nongnu.org; Mon, 11 Jan 2021 05:20:37 -0500
+Received: from zero.eik.bme.hu ([152.66.115.2]:51862)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <borntraeger@de.ibm.com>)
- id 1kyu6R-000159-21; Mon, 11 Jan 2021 05:07:12 -0500
-Received: from pps.filterd (m0127361.ppops.net [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id
- 10BA2Qn7147954; Mon, 11 Jan 2021 05:07:09 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
- h=subject : to : cc :
- references : from : message-id : date : mime-version : in-reply-to :
- content-type : content-transfer-encoding; s=pp1;
- bh=E3MS8czFYe/3mwAwIxpa2VYBSzm/0iEA9DvDdJcWklk=;
- b=ds+kjwwM/e41IZ4hkRtc1Y5gasJnUHNUIrvF2gdb80q8ZFYOccCpRxy34jwPX6zz8Mg0
- 9ikQ3kZN+547A7Ony2DHH8BmhoTRlica6SymnmR2AzpkPyuowUCou6K5LAunEUSs2oy4
- POFHYvqL3u6a4To/oVICUJuGsrN7GW29StrZeG8h5SSkkMWvg96nV1Ns84rJml1ZSVFC
- SLbN00NmJcM6SSJvwfEBP3r5ZDJl8s3u1xMkYkQIvPGeNGMfjM9ZpJVMYZVygJcM1RYS
- jGBXyWGVOFtHdxOvJzybAISzUYvW9xAbayw6ehAIpOZrDT41N6Xzho/I+eIAbl01ND7R eA== 
-Received: from pps.reinject (localhost [127.0.0.1])
- by mx0a-001b2d01.pphosted.com with ESMTP id 360mg408tf-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Mon, 11 Jan 2021 05:07:09 -0500
-Received: from m0127361.ppops.net (m0127361.ppops.net [127.0.0.1])
- by pps.reinject (8.16.0.36/8.16.0.36) with SMTP id 10BA2gR6149235;
- Mon, 11 Jan 2021 05:07:08 -0500
-Received: from ppma04ams.nl.ibm.com (63.31.33a9.ip4.static.sl-reverse.com
- [169.51.49.99])
- by mx0a-001b2d01.pphosted.com with ESMTP id 360mg408sk-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Mon, 11 Jan 2021 05:07:08 -0500
-Received: from pps.filterd (ppma04ams.nl.ibm.com [127.0.0.1])
- by ppma04ams.nl.ibm.com (8.16.0.42/8.16.0.42) with SMTP id 10BA26Hj031878;
- Mon, 11 Jan 2021 10:07:06 GMT
-Received: from b06cxnps3074.portsmouth.uk.ibm.com
- (d06relay09.portsmouth.uk.ibm.com [9.149.109.194])
- by ppma04ams.nl.ibm.com with ESMTP id 35y448a5e6-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Mon, 11 Jan 2021 10:07:06 +0000
-Received: from d06av26.portsmouth.uk.ibm.com (d06av26.portsmouth.uk.ibm.com
- [9.149.105.62])
- by b06cxnps3074.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 10BA74ZU38142376
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Mon, 11 Jan 2021 10:07:04 GMT
-Received: from d06av26.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 1AB58AE057;
- Mon, 11 Jan 2021 10:07:04 +0000 (GMT)
-Received: from d06av26.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id A505DAE059;
- Mon, 11 Jan 2021 10:07:03 +0000 (GMT)
-Received: from oc7455500831.ibm.com (unknown [9.171.58.41])
- by d06av26.portsmouth.uk.ibm.com (Postfix) with ESMTP;
- Mon, 11 Jan 2021 10:07:03 +0000 (GMT)
-Subject: Re: [PATCH] vhost-user-fs: add the "bootindex" property
-To: Laszlo Ersek <lersek@redhat.com>, qemu devel list <qemu-devel@nongnu.org>
-References: <20210104132401.5100-1-lersek@redhat.com>
- <f296274e-3c4b-bb90-ca4a-273c3bd97f7f@de.ibm.com>
- <d9f913fa-9d1b-8d52-d98b-ae558e4406ca@redhat.com>
-From: Christian Borntraeger <borntraeger@de.ibm.com>
-Message-ID: <656f8775-aeb4-3feb-0373-5f9024c6c7aa@de.ibm.com>
-Date: Mon, 11 Jan 2021 11:07:03 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.5.0
+ (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
+ id 1kyuJK-0007HT-Tc
+ for qemu-devel@nongnu.org; Mon, 11 Jan 2021 05:20:35 -0500
+Received: from zero.eik.bme.hu (blah.eik.bme.hu [152.66.115.182])
+ by localhost (Postfix) with SMTP id B38187470EE;
+ Mon, 11 Jan 2021 11:20:25 +0100 (CET)
+Received: by zero.eik.bme.hu (Postfix, from userid 432)
+ id 73FB07470E3; Mon, 11 Jan 2021 11:20:25 +0100 (CET)
+Received: from localhost (localhost [127.0.0.1])
+ by zero.eik.bme.hu (Postfix) with ESMTP id 722AD74645B;
+ Mon, 11 Jan 2021 11:20:25 +0100 (CET)
+Date: Mon, 11 Jan 2021 11:20:25 +0100 (CET)
+From: BALATON Zoltan <balaton@eik.bme.hu>
+To: Jiaxun Yang <jiaxun.yang@flygoat.com>
+Subject: Re: [PULL 23/35] hw/intc: Rework Loongson LIOINTC
+In-Reply-To: <3f383a52-6583-4c60-8f24-a24e6b95c068@www.fastmail.com>
+Message-ID: <29acb49a-4d1-ae6b-328d-6e3081e2ab2f@eik.bme.hu>
+References: <20210103205021.2837760-1-f4bug@amsat.org>
+ <20210103205021.2837760-24-f4bug@amsat.org>
+ <CAFEAcA_YqAiiLRY08-gACmKOCf2mat3AaBGnyRK0Jc+aK-iuOw@mail.gmail.com>
+ <b2dd6d33-d8e9-21a3-7b76-bdf44e117128@amsat.org>
+ <3aece87-60ff-b195-8bd-c696bf461cb6@eik.bme.hu>
+ <CAAhV-H71-wrTfDWN9zH2gU4gdJkCpMk5EDfAi1W1d4jXA3OkZg@mail.gmail.com>
+ <3f383a52-6583-4c60-8f24-a24e6b95c068@www.fastmail.com>
 MIME-Version: 1.0
-In-Reply-To: <d9f913fa-9d1b-8d52-d98b-ae558e4406ca@redhat.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-TM-AS-GCONF: 00
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.343, 18.0.737
- definitions=2021-01-09_13:2021-01-07,
- 2021-01-09 signatures=0
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- phishscore=0 malwarescore=0
- lowpriorityscore=0 spamscore=0 suspectscore=0 bulkscore=0 clxscore=1015
- mlxscore=0 mlxlogscore=759 adultscore=0 priorityscore=1501 impostorscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2009150000
- definitions=main-2101110059
-Received-SPF: pass client-ip=148.163.158.5;
- envelope-from=borntraeger@de.ibm.com; helo=mx0b-001b2d01.pphosted.com
-X-Spam_score_int: -26
-X-Spam_score: -2.7
-X-Spam_bar: --
-X-Spam_report: (-2.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.012,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
+Content-Type: multipart/mixed; boundary="3866299591-16891760-1610360425=:96624"
+X-Spam-Probability: 9%
+Received-SPF: pass client-ip=152.66.115.2; envelope-from=balaton@eik.bme.hu;
+ helo=zero.eik.bme.hu
+X-Spam_score_int: -41
+X-Spam_score: -4.2
+X-Spam_bar: ----
+X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -111,39 +62,160 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: virtio-fs@redhat.com, "Michael S. Tsirkin" <mst@redhat.com>,
- Cornelia Huck <cohuck@redhat.com>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
- Halil Pasic <pasic@linux.ibm.com>, qemu-s390x@nongnu.org,
- Stefan Hajnoczi <stefanha@redhat.com>
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ Huacai Chen <chenhuacai@kernel.org>,
+ =?ISO-8859-15?Q?Philippe_Mathieu-Daud=E9?= <f4bug@amsat.org>,
+ Aurelien Jarno <aurelien@aurel32.net>,
+ BALATON Zoltan via <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+  This message is in MIME format.  The first part should be readable text,
+  while the remaining parts are likely unreadable without MIME-aware tools.
 
+--3866299591-16891760-1610360425=:96624
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 8BIT
 
-On 11.01.21 11:05, Laszlo Ersek wrote:
-> On 01/11/21 10:46, Christian Borntraeger wrote:
+On Mon, 11 Jan 2021, Jiaxun Yang wrote:
+> On Mon, Jan 11, 2021, at 8:36 AM, Huacai Chen wrote:
+>> I think R_END should be 0x60, Jiaxun, what do you think?
+>
+> U r right.
+> The manual is misleading.
+
+The R_END constant is also used in loongson_liointc_init() for the length 
+of the memory region so you might want to revise that. If this is a 32 bit 
+register then you should decide what R_END means? Is it the end of the 
+memory region in which case the reg starts at R_END - 4 or is it the 
+address of the last reg in which case the memory region ends at R_END + 4. 
+From the above I think it's the address of the last reg so you'll probably 
+need to add 4 in loongson_liointc_init() when creating the memory region.
+
+Regards,
+BALATON Zoltan
+
+> Thanks.
+>
+> - Jiaxun
+>
 >>
+>> Huacai
 >>
->> On 04.01.21 14:24, Laszlo Ersek wrote:
->>> virtio-fs qualifies as a bootable device minimally under OVMF, but
->>> currently the necessary "bootindex" property is missing (fw_cfg kernel
->>> boot notwithstanding).
+>> On Mon, Jan 11, 2021 at 5:51 AM BALATON Zoltan <balaton@eik.bme.hu> wrote:
 >>>
->>> Add the property. For completeness, add it to the CCW device as well;
->>> other virtio-ccw devices seem to have "bootindex" properties too.
+>>> On Sun, 10 Jan 2021, Philippe Mathieu-Daudé wrote:
+>>>> Hi Peter, Huacai,
+>>>>
+>>>> On 1/10/21 8:49 PM, Peter Maydell wrote:
+>>>>> On Sun, 3 Jan 2021 at 21:11, Philippe Mathieu-Daudé <f4bug@amsat.org> wrote:
+>>>>>>
+>>>>>> From: Huacai Chen <chenhuacai@kernel.org>
+>>>>>>
+>>>>>> As suggested by Philippe Mathieu-Daudé, rework Loongson's liointc:
+>>>>>> 1, Move macro definitions to loongson_liointc.h;
+>>>>>> 2, Remove magic values and use macros instead;
+>>>>>> 3, Replace dead D() code by trace events.
+>>>>>>
+>>>>>> Suggested-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+>>>>>> Signed-off-by: Huacai Chen <chenhuacai@kernel.org>
+>>>>>> Tested-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+>>>>>> Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+>>>>>> Message-Id: <20201221110538.3186646-2-chenhuacai@kernel.org>
+>>>>>> Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+>>>>>> ---
+>>>>>>  include/hw/intc/loongson_liointc.h | 22 ++++++++++++++++++
+>>>>>>  hw/intc/loongson_liointc.c         | 36 +++++++++++++-----------------
+>>>>>>  2 files changed, 38 insertions(+), 20 deletions(-)
+>>>>>>  create mode 100644 include/hw/intc/loongson_liointc.h
+>>>>>
+>>>>> Hi; Coverity complains about a possible array overrun
+>>>>> in this commit:
+>>>>>
+>>>>>
+>>>>>> @@ -40,13 +39,10 @@
+>>>>>>  #define R_IEN                   0x24
+>>>>>>  #define R_IEN_SET               0x28
+>>>>>>  #define R_IEN_CLR               0x2c
+>>>>>> -#define R_PERCORE_ISR(x)        (0x40 + 0x8 * x)
+>>>>>> +#define R_ISR_SIZE              0x8
+>>>>>> +#define R_START                 0x40
+>>>>>>  #define R_END                   0x64
+>>>>>>
+>>>>>> -#define TYPE_LOONGSON_LIOINTC "loongson.liointc"
+>>>>>> -DECLARE_INSTANCE_CHECKER(struct loongson_liointc, LOONGSON_LIOINTC,
+>>>>>> -                         TYPE_LOONGSON_LIOINTC)
+>>>>>> -
+>>>>>>  struct loongson_liointc {
+>>>>>>      SysBusDevice parent_obj;
+>>>>>>
+>>>>>> @@ -123,14 +119,13 @@ liointc_read(void *opaque, hwaddr addr, unsigned int size)
+>>>>>>          goto out;
+>>>>>>      }
+>>>>>>
+>>>>>> -    /* Rest is 4 byte */
+>>>>>> +    /* Rest are 4 bytes */
+>>>>>>      if (size != 4 || (addr % 4)) {
+>>>>>>          goto out;
+>>>>>>      }
+>>>>>>
+>>>
+>>> Expanding macros in the following:
+>>>
+>>>>>> -    if (addr >= R_PERCORE_ISR(0) &&
+>>>>>> -        addr < R_PERCORE_ISR(NUM_CORES)) {
+>>>>>> -        int core = (addr - R_PERCORE_ISR(0)) / 8;
+>>>
+>>> if (addr >= (0x40 + 0x8 * 0) && addr < (0x40 + 0x8 * 4))
+>>> ->
+>>> if (addr >= 0x40 && addr < 0x60)
+>>> int core = (addr - 0x40) / 8;
+>>>
+>>>
+>>>>>> +    if (addr >= R_START && addr < R_END) {
+>>>>>> +        int core = (addr - R_START) / R_ISR_SIZE;
+>>>
+>>> if (addr >= 0x40 && addr < 0x64)
+>>> int core = (addr - 0x40) / 0x8;
+>>>
+>>> R_END seems to be off by 4 in the above. Should it be 0x60?
+>>>
+>>> Regards,
+>>> BALATON Zoltan
+>>>
+>>>>> R_END is 0x64 and R_START is 0x40, so if addr is 0x60
+>>>>> then addr - R_START is 0x32 and so core here is 4.
+>>>>> However p->per_core_isr[] only has 4 entries, so this will
+>>>>> be off the end of the array.
+>>>>>
+>>>>> This is CID 1438965.
+>>>>>
+>>>>>>          r = p->per_core_isr[core];
+>>>>>>          goto out;
+>>>>>>      }
+>>>>>
+>>>>>> -    if (addr >= R_PERCORE_ISR(0) &&
+>>>>>> -        addr < R_PERCORE_ISR(NUM_CORES)) {
+>>>>>> -        int core = (addr - R_PERCORE_ISR(0)) / 8;
+>>>>>> +    if (addr >= R_START && addr < R_END) {
+>>>>>> +        int core = (addr - R_START) / R_ISR_SIZE;
+>>>>>>          p->per_core_isr[core] = value;
+>>>>>>          goto out;
+>>>>>>      }
+>>>>>
+>>>>> Same thing here, CID 1438967.
+>>>>
+>>>> Thanks Peter.
+>>>>
+>>>> Huacai, can you have a look please?
+>>>>
+>>>> Thanks,
+>>>>
+>>>> Phil.
+>>>>
+>>>>
 >>
->> Currently we do not have boot support for virtiofs on s390x (ccw)
->> Not sure if it is better if we should add the property now or whenever
->> boot support is implemented. 
->> As of today we do have bootindex for block and net. Maybe it is better
->> to defer bootindex for virtio-fs-ccw until we can boot from it? In
->> that way management software can detect if this is bootable or not?
-> 
-> Sure, I can drop the "vhost-user-fs-ccw.c hunk".
-> 
-> (I guess I could even lift the property itself (replacing the alias) to
-> "vhost-user-fs-pci.c", for now -- what's everyone's take on that?)
-
-Keep it as is. This would simplify a later addition to ccw.
+>
+>
+--3866299591-16891760-1610360425=:96624--
 
