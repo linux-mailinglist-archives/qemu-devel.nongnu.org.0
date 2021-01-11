@@ -2,70 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9F2582F1EAA
-	for <lists+qemu-devel@lfdr.de>; Mon, 11 Jan 2021 20:09:52 +0100 (CET)
-Received: from localhost ([::1]:35900 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 24A8B2F1ED2
+	for <lists+qemu-devel@lfdr.de>; Mon, 11 Jan 2021 20:19:40 +0100 (CET)
+Received: from localhost ([::1]:52578 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kz2Zb-0004iU-M8
-	for lists+qemu-devel@lfdr.de; Mon, 11 Jan 2021 14:09:51 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47294)
+	id 1kz2j5-0003IY-4K
+	for lists+qemu-devel@lfdr.de; Mon, 11 Jan 2021 14:19:39 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47286)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1kz2Ru-00066f-Fm
+ id 1kz2Ru-00066e-Gd
  for qemu-devel@nongnu.org; Mon, 11 Jan 2021 14:01:56 -0500
-Received: from mail-pg1-x52b.google.com ([2607:f8b0:4864:20::52b]:45957)
+Received: from mail-pj1-x102f.google.com ([2607:f8b0:4864:20::102f]:51059)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1kz2Rd-0006RS-Fg
- for qemu-devel@nongnu.org; Mon, 11 Jan 2021 14:01:51 -0500
-Received: by mail-pg1-x52b.google.com with SMTP id v19so248674pgj.12
- for <qemu-devel@nongnu.org>; Mon, 11 Jan 2021 11:01:36 -0800 (PST)
+ id 1kz2Rh-0006Ry-Ah
+ for qemu-devel@nongnu.org; Mon, 11 Jan 2021 14:01:53 -0500
+Received: by mail-pj1-x102f.google.com with SMTP id lj6so106260pjb.0
+ for <qemu-devel@nongnu.org>; Mon, 11 Jan 2021 11:01:38 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=9xtb+ptQ+2FmtaEsBjHPl225W/jJkhKr+UDtc5NzbLQ=;
- b=ghTHlB3AKLnw5BwdMC4s99hJGi7DeX9MFTsiDssviiLVkX4UfhFLfxyqRRcm863Il9
- a893BR6xkjSrvLIN5YB0th5dSrjNXLbcukzrhRRuhkOCX9qecSYKRfgPBDjPZkDdpjoM
- Jugs2qBSQpJH3CulZtSwrjRTUTk7Xe1Vpnp8eGTAZaFm/HljV/Ldjjomy+CEulJQv1Zs
- /8nRGfAFYOygm7mL2euGu40kMgDZhJVLqxJtQEPJD6aqxKmOHFoACNVrXL5CH+UfqYTT
- y3TYNBZgXJsaj8lgAn9aqLhYdRRfnRkQEqECjza3AE7ieebrN0zu9zSHUD+v51yObhDw
- Nlfg==
+ bh=jFhFnE5ZXuq9dWAVT2u9B69HDlRNyiFEVFvSvAG4Tcg=;
+ b=lIpNzQmuxaYXUBXXW6RpE/j7sfGjRVTAZvHZdHCC7EnXk19y2ck/Y/R+9p6XugvIcg
+ 8yOVrjjCNXdfOLTZjk0yE5XXajZ1S3T9spTPEcnvLuqxdsplrtjtci461SB67bBvbmFT
+ TwehNfNHaSA1jyQSy7YxTMZEoLwOi/CMWS8wzCP/CBU51NZ9aRfwhSDpEveLzCTK2x1p
+ cWxaFmco8IQLIX5lvLxG/Qwn/iW1KxUdbJ1vkv8w4RXoVVbVM6jWyumvNWsOGSXAXCit
+ /3+nDqABSGvN0VO7SPFnVDRVfrv/uyc/VIC1d9GYQd0ZBUlgOeYCjKmX3z0yAyyfiyPr
+ snug==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=9xtb+ptQ+2FmtaEsBjHPl225W/jJkhKr+UDtc5NzbLQ=;
- b=AaZhRHfZwP9E3qDEgpqkocm6Af5ndBOH9AQOvCCpPp2vnKzTmZMUk4Y5G2StHR3V82
- Xf+gWaSbRPvF2lh+dLwophXiTdmifOHvKxN5qyukE9cx+Y9Y/u0Zt+JdQetp0dvqbwQh
- mu5dvf6GKn6W6/TGARi9msbo87aGoF+H0eNJq2PL7ctspjIm5gAMcs2o14vZqu0Cpq88
- VTR6rn08t1VXDw6oBXQwUlngxw1ilWGcviuUbasURanABXWSneedJQsZJOIOZj6trK9h
- 5IR61X8BJWRaE8QNJtfsMYFCxEirv1GHlLSTlCWKHAalp89gB9nNdKsrVbiztz5FTwzH
- QwMg==
-X-Gm-Message-State: AOAM533BFdgBtbOaJ4sm0UPuEBMyvgyb2MteRsiQw+jehcVEJs2LppQR
- MSwyCqumM6OVn2DRpciuf3NDaOxPgwaPoA==
-X-Google-Smtp-Source: ABdhPJwNBr5n3mfEdioyA8LlN161AtvdbM64KxFCEUzpXu3QnRH3mx5w9eWfK66nTYvd0OLIdIdKDw==
-X-Received: by 2002:aa7:8d86:0:b029:19e:cb57:2849 with SMTP id
- i6-20020aa78d860000b029019ecb572849mr821632pfr.54.1610391695729; 
- Mon, 11 Jan 2021 11:01:35 -0800 (PST)
+ bh=jFhFnE5ZXuq9dWAVT2u9B69HDlRNyiFEVFvSvAG4Tcg=;
+ b=XQmEMd6l1VqMxMLws2zayptKYMrVpcx8eEyM2ibW7RZfko7fQFg1ob5IaVz1GoUovk
+ 1KFIr5/EHFDmwePS3X2v/I3LTMB887R70rFfC4m1eE3U0rT4cOUy5bQFEy8uPDff3vTt
+ 3qlI+hTQgSVTdYkwX4z5vtg4Ba7RM6VzZsm5wZFqK3V+nNYgg2O8S3xjP3kctCY9JfOn
+ lt2qGhgflpKk+nrU/maADRJj/I5/853QP4jHM7LXG8MURaI2N9p/6c047BIc6srC6OQ5
+ 5T7/waNtb6kcWpUjJHmjk3M2EtC3KUPEk20nhKCR0jwYcknngaA3AaRuhjrmqjUUAioC
+ wZOg==
+X-Gm-Message-State: AOAM531kjpOmgoMgvJ5vXEw73xA4sEe5bA/PCi2jjaWDXWyKqI2phwHE
+ oZMJjU2A7FLTPowvT8qXdDxANliuRdtucQ==
+X-Google-Smtp-Source: ABdhPJyr1BhEZz6uJFQ5aKp2OdGltURHhLFte3ysz1oUB8c+V1E0Ry/uZOftGkxdQCL4Fz3doH3MNg==
+X-Received: by 2002:a17:90a:8c87:: with SMTP id
+ b7mr313582pjo.158.1610391697398; 
+ Mon, 11 Jan 2021 11:01:37 -0800 (PST)
 Received: from localhost.localdomain (rrcs-173-197-107-21.west.biz.rr.com.
  [173.197.107.21])
- by smtp.gmail.com with ESMTPSA id n195sm350395pfd.169.2021.01.11.11.01.34
+ by smtp.gmail.com with ESMTPSA id n195sm350395pfd.169.2021.01.11.11.01.36
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 11 Jan 2021 11:01:35 -0800 (PST)
+ Mon, 11 Jan 2021 11:01:36 -0800 (PST)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v3 11/30] target/arm: Merge gen_aa32_frob64 into
- gen_aa32_ld_i64
-Date: Mon, 11 Jan 2021 09:00:54 -1000
-Message-Id: <20210111190113.303726-12-richard.henderson@linaro.org>
+Subject: [PATCH v3 12/30] target/arm: Fix SCTLR_B test for TCGv_i64 load/store
+Date: Mon, 11 Jan 2021 09:00:55 -1000
+Message-Id: <20210111190113.303726-13-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20210111190113.303726-1-richard.henderson@linaro.org>
 References: <20210111190113.303726-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::52b;
- envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x52b.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::102f;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x102f.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -89,88 +88,41 @@ Cc: peter.maydell@linaro.org, qemu-arm@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This is the only caller.  Adjust some commentary to talk
-about SCTLR_B instead of the vanishing function.
+Just because operating on a TCGv_i64 temporary does not
+mean that we're performing a 64-bit operation.  Restrict
+the frobbing to actual 64-bit operations.
+
+This bug is not currently visible because all current
+users of these two functions always pass MO_64.
 
 Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- target/arm/translate.c | 37 ++++++++++++++++---------------------
- 1 file changed, 16 insertions(+), 21 deletions(-)
+ target/arm/translate.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
 diff --git a/target/arm/translate.c b/target/arm/translate.c
-index 8e6f8dd57a..efcb393b99 100644
+index efcb393b99..bf1c0f7279 100644
 --- a/target/arm/translate.c
 +++ b/target/arm/translate.c
-@@ -975,20 +975,17 @@ static void gen_aa32_st_i32(DisasContext *s, TCGv_i32 val, TCGv_i32 a32,
-         gen_aa32_st_i32(s, val, a32, index, OPC);                       \
+@@ -982,7 +982,7 @@ static void gen_aa32_ld_i64(DisasContext *s, TCGv_i64 val, TCGv_i32 a32,
+     tcg_gen_qemu_ld_i64(val, addr, index, opc);
+ 
+     /* Not needed for user-mode BE32, where we use MO_BE instead.  */
+-    if (!IS_USER_ONLY && s->sctlr_b) {
++    if (!IS_USER_ONLY && s->sctlr_b && (opc & MO_SIZE) == MO_64) {
+         tcg_gen_rotri_i64(val, val, 32);
      }
  
--static inline void gen_aa32_frob64(DisasContext *s, TCGv_i64 val)
--{
--    /* Not needed for user-mode BE32, where we use MO_BE instead.  */
--    if (!IS_USER_ONLY && s->sctlr_b) {
--        tcg_gen_rotri_i64(val, val, 32);
--    }
--}
--
- static void gen_aa32_ld_i64(DisasContext *s, TCGv_i64 val, TCGv_i32 a32,
-                             int index, MemOp opc)
- {
+@@ -1001,7 +1001,7 @@ static void gen_aa32_st_i64(DisasContext *s, TCGv_i64 val, TCGv_i32 a32,
      TCGv addr = gen_aa32_addr(s, a32, opc);
-     tcg_gen_qemu_ld_i64(val, addr, index, opc);
--    gen_aa32_frob64(s, val);
-+
-+    /* Not needed for user-mode BE32, where we use MO_BE instead.  */
-+    if (!IS_USER_ONLY && s->sctlr_b) {
-+        tcg_gen_rotri_i64(val, val, 32);
-+    }
-+
-     tcg_temp_free(addr);
- }
  
-@@ -4957,16 +4954,13 @@ static void gen_load_exclusive(DisasContext *s, int rt, int rt2,
-         TCGv_i32 tmp2 = tcg_temp_new_i32();
-         TCGv_i64 t64 = tcg_temp_new_i64();
- 
--        /* For AArch32, architecturally the 32-bit word at the lowest
-+        /*
-+         * For AArch32, architecturally the 32-bit word at the lowest
-          * address is always Rt and the one at addr+4 is Rt2, even if
-          * the CPU is big-endian. That means we don't want to do a
--         * gen_aa32_ld_i64(), which invokes gen_aa32_frob64() as if
--         * for an architecturally 64-bit access, but instead do a
--         * 64-bit access using MO_BE if appropriate and then split
--         * the two halves.
--         * This only makes a difference for BE32 user-mode, where
--         * frob64() must not flip the two halves of the 64-bit data
--         * but this code must treat BE32 user-mode like BE32 system.
-+         * gen_aa32_ld_i64(), which checks SCTLR_B as if for an
-+         * architecturally 64-bit access, but instead do a 64-bit access
-+         * using MO_BE if appropriate and then split the two halves.
-          */
-         TCGv taddr = gen_aa32_addr(s, addr, opc);
- 
-@@ -5026,14 +5020,15 @@ static void gen_store_exclusive(DisasContext *s, int rd, int rt, int rt2,
-         TCGv_i64 n64 = tcg_temp_new_i64();
- 
-         t2 = load_reg(s, rt2);
--        /* For AArch32, architecturally the 32-bit word at the lowest
-+
-+        /*
-+         * For AArch32, architecturally the 32-bit word at the lowest
-          * address is always Rt and the one at addr+4 is Rt2, even if
-          * the CPU is big-endian. Since we're going to treat this as a
-          * single 64-bit BE store, we need to put the two halves in the
-          * opposite order for BE to LE, so that they end up in the right
--         * places.
--         * We don't want gen_aa32_frob64() because that does the wrong
--         * thing for BE32 usermode.
-+         * places.  We don't want gen_aa32_st_i64, because that checks
-+         * SCTLR_B as if for an architectural 64-bit access.
-          */
-         if (s->be_data == MO_BE) {
-             tcg_gen_concat_i32_i64(n64, t2, t1);
+     /* Not needed for user-mode BE32, where we use MO_BE instead.  */
+-    if (!IS_USER_ONLY && s->sctlr_b) {
++    if (!IS_USER_ONLY && s->sctlr_b && (opc & MO_SIZE) == MO_64) {
+         TCGv_i64 tmp = tcg_temp_new_i64();
+         tcg_gen_rotri_i64(tmp, val, 32);
+         tcg_gen_qemu_st_i64(tmp, addr, index, opc);
 -- 
 2.25.1
 
