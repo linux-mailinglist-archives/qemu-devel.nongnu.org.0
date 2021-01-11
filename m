@@ -2,69 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F0D4B2F178A
-	for <lists+qemu-devel@lfdr.de>; Mon, 11 Jan 2021 15:08:36 +0100 (CET)
-Received: from localhost ([::1]:49256 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0F92A2F17BA
+	for <lists+qemu-devel@lfdr.de>; Mon, 11 Jan 2021 15:12:29 +0100 (CET)
+Received: from localhost ([::1]:56710 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kyxs3-0001iG-Vu
-	for lists+qemu-devel@lfdr.de; Mon, 11 Jan 2021 09:08:36 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58966)
+	id 1kyxvn-00050c-V7
+	for lists+qemu-devel@lfdr.de; Mon, 11 Jan 2021 09:12:27 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59790)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1kyxq0-0000qC-82
- for qemu-devel@nongnu.org; Mon, 11 Jan 2021 09:06:29 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:35119)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1kyxpm-0002Qf-Ul
- for qemu-devel@nongnu.org; Mon, 11 Jan 2021 09:06:27 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1610373971;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=+zwOP7XwugONw6Xhf05CLT7PmKsp1sQOpIThdZy11IY=;
- b=fJcUW/DB8dQdlvBB5yZr7hHjtyVrW9Xhyo24oasE2ZyRMcJ5UcyPAscN72UV45y9JC/ayB
- mgWzhb7KayyqOSvrWuVGuS12GMF8wJSRP1YlQiWh6zwzFYQ8g2JfIipf9zaLBQCm+vR0HQ
- p6Ob+UMkYQxqtSKTBnTt3ASqAheNGvU=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-455-qSoaEzdbP-KDWKveFtiRVw-1; Mon, 11 Jan 2021 09:06:09 -0500
-X-MC-Unique: qSoaEzdbP-KDWKveFtiRVw-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 161C287950D;
- Mon, 11 Jan 2021 14:06:08 +0000 (UTC)
-Received: from thuth.com (ovpn-112-147.ams2.redhat.com [10.36.112.147])
- by smtp.corp.redhat.com (Postfix) with ESMTP id CDF655D762;
- Mon, 11 Jan 2021 14:06:06 +0000 (UTC)
-From: Thomas Huth <thuth@redhat.com>
-To: qemu-devel@nongnu.org,
-	Peter Maydell <peter.maydell@linaro.org>
-Subject: [PULL 01/15] gitlab-ci.yml: Add openSUSE Leap 15.2 for gitlab CI/CD
-Date: Mon, 11 Jan 2021 15:06:02 +0100
-Message-Id: <20210111140602.159377-2-thuth@redhat.com>
-In-Reply-To: <20210111140602.159377-1-thuth@redhat.com>
-References: <20210111140602.159377-1-thuth@redhat.com>
+ (Exim 4.90_1) (envelope-from <marcandre.lureau@gmail.com>)
+ id 1kyxtW-0003yX-1t; Mon, 11 Jan 2021 09:10:06 -0500
+Received: from mail-ej1-x632.google.com ([2a00:1450:4864:20::632]:35798)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <marcandre.lureau@gmail.com>)
+ id 1kyxtU-0002oo-2G; Mon, 11 Jan 2021 09:10:05 -0500
+Received: by mail-ej1-x632.google.com with SMTP id q22so24974817eja.2;
+ Mon, 11 Jan 2021 06:10:00 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=KowXmvOxKcdkD+mVyHjxb3Mae/sgl0/kRtQasN6FSYY=;
+ b=fMEgA5rw3cDrd9hxo7xF/NQO9WouNX5CLHzHUFZS1EMjefBCL7i+yZqRA/NY4Eh3HY
+ LJf5Ozn/L6jkr2S4XTS/I141MT0l+tPmjkGRKN+hW9LuOpDNK+c0ciR0K0OTlAxg94B7
+ feBWUCjN4nuNVl3jdhrNzfXnWejciPqz1BbArgQ85Z/Zh59TuKHMxUDEgfbZedbnpb/X
+ gc6CdHWAK819PZSXWMCNh/+8OIee/z+mgds1dbf/Cvxixe9S87fTotbU53CGMB2Wvx5L
+ qd7sEQHPx1r1zcnBSzauOVTh2Ib35NUREXw2y1R98k7aNrEFjsOPbU8YsZriKQfvPTcr
+ mK1Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=KowXmvOxKcdkD+mVyHjxb3Mae/sgl0/kRtQasN6FSYY=;
+ b=sRtT8A2zRnQYQLwgJQa6Rn9V1VFlUPO1X30A4wFjSxKdTSrGj3VfZce8pcsJpJ25DA
+ OcH+k6BNmHfZI4PYMNMvTI9SJeNV0SwDMWQp3HpzuxAY+xkI+qRobcIxIQbTmP3uOm+k
+ rR66Nvb9zk0GiHxWXmljbHw3dPlDWaCRx26vq3x+LKjVoE75hZPDrS6H2wHkcmT8jVg4
+ +aavpv1+OExbnG46AWeLOWHY15fzJhiddk8BO0fHCPXAeMW6csc2Uf4V0pebatm0iPHy
+ wbxq+6Y27VBewRzBEaFt6umMpJ+zuz+U9qI2pYWZRlzF3RCIBjNgK7l8SSuumKGJEDVl
+ Nptg==
+X-Gm-Message-State: AOAM5321/2DJEFHg5dXJ5XITXz/RTEdnKzjkiF+4u4Pefj8LU11dX6co
+ Oa/iymEbKzOiNvbkSmovkhlh55pOLDiqht7feoI=
+X-Google-Smtp-Source: ABdhPJzTvU9spyzOy5Bo2P0aOVUvugee6q+9c8/p2mXGZyCeG0JZ21avPCAclto24ldAlaNTUyPjsF7NHvezksbEQs8=
+X-Received: by 2002:a17:906:98d4:: with SMTP id
+ zd20mr10942343ejb.532.1610374199530; 
+ Mon, 11 Jan 2021 06:09:59 -0800 (PST)
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=thuth@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=thuth@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -29
-X-Spam_score: -3.0
-X-Spam_bar: ---
-X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.251,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+References: <cover.1609167865.git.lukasstraub2@web.de>
+ <69934ceacfd33a7dfe53db145ecc630ad39ee47c.1609167865.git.lukasstraub2@web.de>
+ <CAJ+F1CLLiHca4Lf_nL7p2+Q3MT5JA0Qn9W6g14q0MYtYoROOdA@mail.gmail.com>
+ <87ft374myk.fsf@dusky.pond.sub.org>
+In-Reply-To: <87ft374myk.fsf@dusky.pond.sub.org>
+From: =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@gmail.com>
+Date: Mon, 11 Jan 2021 18:09:45 +0400
+Message-ID: <CAJ+F1C+osNqR_7FBVoVh2Fg65axrQVWoOVbbuRtjiNysj=k+HQ@mail.gmail.com>
+Subject: Re: [PATCH v14 1/7] Introduce yank feature
+To: Markus Armbruster <armbru@redhat.com>
+Content-Type: multipart/alternative; boundary="0000000000001e5a6905b8a076a5"
+Received-SPF: pass client-ip=2a00:1450:4864:20::632;
+ envelope-from=marcandre.lureau@gmail.com; helo=mail-ej1-x632.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -77,144 +78,108 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: acho@suse.com
+Cc: Kevin Wolf <kwolf@redhat.com>, Lukas Straub <lukasstraub2@web.de>,
+ =?UTF-8?B?RGFuaWVsIFAuIEJlcnJhbmfDqVw=?= <berrange@redhat.com>,
+ qemu-block <qemu-block@nongnu.org>, Juan Quintela <quintela@redhat.com>,
+ qemu-devel <qemu-devel@nongnu.org>, Max Reitz <mreitz@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: "Cho, Yu-Chen" <acho@suse.com>
+--0000000000001e5a6905b8a076a5
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Add build-system-opensuse jobs and opensuse-leap.docker dockerfile.
-Use openSUSE Leap 15.2 container image in the gitlab-CI.
+On Mon, Jan 11, 2021 at 5:34 PM Markus Armbruster <armbru@redhat.com> wrote=
+:
 
-Signed-off-by: Cho, Yu-Chen <acho@suse.com>
-Tested-by: Wainer dos Santos Moschetta <wainersm@redhat.com>
-Reviewed-by: Wainer dos Santos Moschetta <wainersm@redhat.com>
-Message-Id: <20201229085046.8536-1-acho@suse.com>
-Signed-off-by: Thomas Huth <thuth@redhat.com>
----
- .gitlab-ci.d/containers.yml                   |  5 ++
- .gitlab-ci.yml                                | 31 +++++++++++
- tests/docker/dockerfiles/opensuse-leap.docker | 55 +++++++++++++++++++
- 3 files changed, 91 insertions(+)
- create mode 100644 tests/docker/dockerfiles/opensuse-leap.docker
+> Marc-Andr=C3=A9 Lureau <marcandre.lureau@gmail.com> writes:
+>
+> > Hi
+> >
+> > On Mon, Dec 28, 2020 at 7:08 PM Lukas Straub <lukasstraub2@web.de>
+> wrote:
+> >
+> >> The yank feature allows to recover from hanging qemu by "yanking"
+> >> at various parts. Other qemu systems can register themselves and
+> >> multiple yank functions. Then all yank functions for selected
+> >> instances can be called by the 'yank' out-of-band qmp command.
+> >> Available instances can be queried by a 'query-yank' oob command.
+> >>
+> >
+> > Looking at the changes and API usage, I wonder if it wouldn't have been
+> > simpler to associate the yank function directly with the YankInstance
+> > (removing the need for register/unregister functions - tracking the sta=
+te
+> > left to the callback). Have you tried that approach? If not, I could
+> check
+> > if this idea would work.
+>
+> Considering we're at v14...  would it make sense to commit the current
+> approach, then explore the alternative approach on top?
+>
+>
+works for me
 
-diff --git a/.gitlab-ci.d/containers.yml b/.gitlab-ci.d/containers.yml
-index 892ca8d838..910754a699 100644
---- a/.gitlab-ci.d/containers.yml
-+++ b/.gitlab-ci.d/containers.yml
-@@ -246,3 +246,8 @@ amd64-ubuntu-container:
-   <<: *container_job_definition
-   variables:
-     NAME: ubuntu
-+
-+amd64-opensuse-leap-container:
-+  <<: *container_job_definition
-+  variables:
-+    NAME: opensuse-leap
-diff --git a/.gitlab-ci.yml b/.gitlab-ci.yml
-index 01c9e46410..4532f1718a 100644
---- a/.gitlab-ci.yml
-+++ b/.gitlab-ci.yml
-@@ -200,6 +200,37 @@ acceptance-system-centos:
-     MAKE_CHECK_ARGS: check-acceptance
-   <<: *acceptance_definition
- 
-+build-system-opensuse:
-+  <<: *native_build_job_definition
-+  variables:
-+    IMAGE: opensuse-leap
-+    TARGETS: s390x-softmmu x86_64-softmmu aarch64-softmmu
-+    MAKE_CHECK_ARGS: check-build
-+  artifacts:
-+    expire_in: 2 days
-+    paths:
-+      - build
-+
-+check-system-opensuse:
-+  <<: *native_test_job_definition
-+  needs:
-+    - job: build-system-opensuse
-+      artifacts: true
-+  variables:
-+    IMAGE: opensuse-leap
-+    MAKE_CHECK_ARGS: check
-+
-+acceptance-system-opensuse:
-+   <<: *native_test_job_definition
-+   needs:
-+     - job: build-system-opensuse
-+       artifacts: true
-+   variables:
-+     IMAGE: opensuse-leap
-+     MAKE_CHECK_ARGS: check-acceptance
-+   <<: *acceptance_definition
-+
-+
- build-disabled:
-   <<: *native_build_job_definition
-   variables:
-diff --git a/tests/docker/dockerfiles/opensuse-leap.docker b/tests/docker/dockerfiles/opensuse-leap.docker
-new file mode 100644
-index 0000000000..0e64893e4a
---- /dev/null
-+++ b/tests/docker/dockerfiles/opensuse-leap.docker
-@@ -0,0 +1,55 @@
-+FROM opensuse/leap:15.2
-+
-+# Please keep this list sorted alphabetically
-+ENV PACKAGES \
-+    bc \
-+    brlapi-devel \
-+    bzip2 \
-+    cyrus-sasl-devel \
-+    gcc \
-+    gcc-c++ \
-+    mkisofs \
-+    gettext-runtime \
-+    git \
-+    glib2-devel \
-+    glusterfs-devel \
-+    libgnutls-devel \
-+    gtk3-devel \
-+    libaio-devel \
-+    libattr-devel \
-+    libcap-ng-devel \
-+    libepoxy-devel \
-+    libfdt-devel \
-+    libiscsi-devel \
-+    libjpeg8-devel \
-+    libpmem-devel \
-+    libpng16-devel \
-+    librbd-devel \
-+    libseccomp-devel \
-+    libssh-devel \
-+    lzo-devel \
-+    make \
-+    libSDL2_image-devel \
-+    ncurses-devel \
-+    ninja \
-+    libnuma-devel \
-+    perl \
-+    libpixman-1-0-devel \
-+    python3-base \
-+    python3-virtualenv \
-+    rdma-core-devel \
-+    libSDL2-devel \
-+    snappy-devel \
-+    libspice-server-devel \
-+    systemd-devel \
-+    systemtap-sdt-devel \
-+    tar \
-+    usbredir-devel \
-+    virglrenderer-devel \
-+    xen-devel \
-+    vte-devel \
-+    zlib-devel
-+ENV QEMU_CONFIGURE_OPTS --python=/usr/bin/python3.6
-+
-+RUN zypper update -y && zypper --non-interactive install -y $PACKAGES
-+RUN rpm -q $PACKAGES | sort > /packages.txt
--- 
-2.27.0
+If yes, is v14 committable as is?
+>
+>
+Acked-by: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
 
+--=20
+Marc-Andr=C3=A9 Lureau
+
+--0000000000001e5a6905b8a076a5
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div dir=3D"ltr"><br></div><br><div class=3D"gmail_quote">=
+<div dir=3D"ltr" class=3D"gmail_attr">On Mon, Jan 11, 2021 at 5:34 PM Marku=
+s Armbruster &lt;<a href=3D"mailto:armbru@redhat.com">armbru@redhat.com</a>=
+&gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0px =
+0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">Marc=
+-Andr=C3=A9 Lureau &lt;<a href=3D"mailto:marcandre.lureau@gmail.com" target=
+=3D"_blank">marcandre.lureau@gmail.com</a>&gt; writes:<br>
+<br>
+&gt; Hi<br>
+&gt;<br>
+&gt; On Mon, Dec 28, 2020 at 7:08 PM Lukas Straub &lt;<a href=3D"mailto:luk=
+asstraub2@web.de" target=3D"_blank">lukasstraub2@web.de</a>&gt; wrote:<br>
+&gt;<br>
+&gt;&gt; The yank feature allows to recover from hanging qemu by &quot;yank=
+ing&quot;<br>
+&gt;&gt; at various parts. Other qemu systems can register themselves and<b=
+r>
+&gt;&gt; multiple yank functions. Then all yank functions for selected<br>
+&gt;&gt; instances can be called by the &#39;yank&#39; out-of-band qmp comm=
+and.<br>
+&gt;&gt; Available instances can be queried by a &#39;query-yank&#39; oob c=
+ommand.<br>
+&gt;&gt;<br>
+&gt;<br>
+&gt; Looking at the changes and API usage, I wonder if it wouldn&#39;t have=
+ been<br>
+&gt; simpler to associate the yank function directly with the YankInstance<=
+br>
+&gt; (removing the need for register/unregister functions - tracking the st=
+ate<br>
+&gt; left to the callback). Have you tried that approach? If not, I could c=
+heck<br>
+&gt; if this idea would work.<br>
+<br>
+Considering we&#39;re at v14...=C2=A0 would it make sense to commit the cur=
+rent<br>
+approach, then explore the alternative approach on top?<br>
+<br></blockquote><div><br></div><div>works for me</div><div> <br></div><blo=
+ckquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left=
+:1px solid rgb(204,204,204);padding-left:1ex">
+If yes, is v14 committable as is?<br>
+<br>
+</blockquote></div><br clear=3D"all"><div>Acked-by: Marc-Andr=C3=A9 Lureau =
+&lt;<a href=3D"mailto:marcandre.lureau@redhat.com">marcandre.lureau@redhat.=
+com</a>&gt;</div><div><br></div>-- <br><div dir=3D"ltr" class=3D"gmail_sign=
+ature">Marc-Andr=C3=A9 Lureau<br></div></div>
+
+--0000000000001e5a6905b8a076a5--
 
