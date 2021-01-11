@@ -2,98 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 07D982F0AD7
-	for <lists+qemu-devel@lfdr.de>; Mon, 11 Jan 2021 02:40:03 +0100 (CET)
-Received: from localhost ([::1]:60584 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1FD4F2F0AE1
+	for <lists+qemu-devel@lfdr.de>; Mon, 11 Jan 2021 03:03:20 +0100 (CET)
+Received: from localhost ([::1]:38556 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kymBe-0006KZ-3w
-	for lists+qemu-devel@lfdr.de; Sun, 10 Jan 2021 20:40:02 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36418)
+	id 1kymYA-0002EJ-Jm
+	for lists+qemu-devel@lfdr.de; Sun, 10 Jan 2021 21:03:18 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39074)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jiaxun.yang@flygoat.com>)
- id 1kymAS-0005tk-DX
- for qemu-devel@nongnu.org; Sun, 10 Jan 2021 20:38:50 -0500
-Received: from new4-smtp.messagingengine.com ([66.111.4.230]:49517)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jiaxun.yang@flygoat.com>)
- id 1kymAQ-0007nk-4R
- for qemu-devel@nongnu.org; Sun, 10 Jan 2021 20:38:48 -0500
-Received: from compute6.internal (compute6.nyi.internal [10.202.2.46])
- by mailnew.nyi.internal (Postfix) with ESMTP id 8CE1E58058D;
- Sun, 10 Jan 2021 20:38:45 -0500 (EST)
-Received: from imap1 ([10.202.2.51])
- by compute6.internal (MEProxy); Sun, 10 Jan 2021 20:38:45 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=flygoat.com; h=
- mime-version:message-id:in-reply-to:references:date:from:to:cc
- :subject:content-type:content-transfer-encoding; s=fm1; bh=+UVVN
- IdP1wx51YrNbr92ow+G0QYbHHbwFb74sD6jMY8=; b=hGDrnuR8BlOBGpp4HsxE3
- 3Qvh+nATcE5Hqxuww4Kz0mbBXjbb6Iv0LkjG7mqEmVfJqTwOA03LG2klk1gyoNLs
- 1CUrt5xuAzy1cW74+oeDomXCgiIO9uiY0e8qf0WhJ+gTdL5KLPBPAl314m0+nan1
- k5Dq5eZZ3Zbca9dgf312qr0+l0uDmJ3IMh0o1gzSVlLOkG+cPpmbrsU9ARbHhWMs
- R0S6eGtCawJ44EWJSA+Xmxla1H7PIf8RKnK5DD70jbvquYCEigO38OW3UjQA6EAF
- IsvUiJ0H9kcWtQY53I0PwCqg+5NT6l2ro82jQZEA0fu4rsbIlnuQwQdKaqQgCX8U
- w==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:content-transfer-encoding:content-type
- :date:from:in-reply-to:message-id:mime-version:references
- :subject:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender
- :x-sasl-enc; s=fm1; bh=+UVVNIdP1wx51YrNbr92ow+G0QYbHHbwFb74sD6jM
- Y8=; b=TXSTikdMgAcZ92gToWtBMRRJqq//oU8LBqt92iceUxO2vQXsjltRWHVZr
- FtAHyJxoXu2ycurgtcyK5CGnuT/5x3k4lWMCWN/izxO0yUB1o8nGFvHJ+8Wk+c4N
- fml26IiwsntK0dsgZgNYyqMXcGU/dZFupLc3jOjlMeu6P5oLw/TNgV/Yan7EtGSx
- TTTQZwe4NcdWNRU0K0TG/7mwLdNQRbYlgSvSYeAeeOOeBSbucxAHPgW8lnDjsRA6
- 4pFG+81MUsFDyfHFHh6uzHFNLYNjfHA2UrxYOZYgMzFqtJ3+r2uMD4fk7oVIijaU
- DMOmkPL/5fSdm5mEx2YYRqEV0FqUg==
-X-ME-Sender: <xms:I6z7X_uU0U-ocgV5sbeYHTymxW2Gv5XJt4JkawO8oElKv-DEy1M4_w>
- <xme:I6z7XwcNcJH0a00Qbf1X-sw8WWdkjNBdjiK7E1BACeBU2YESalk2_27QEFERqV_2t
- X_EGvoP-6SXbHF16Qw>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedujedrvdehtddgfeegucetufdoteggodetrfdotf
- fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
- uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
- cujfgurhepofgfggfkjghffffhvffutgfgsehtqhertderreejnecuhfhrohhmpedflfhi
- rgiguhhnucgjrghnghdfuceojhhirgiguhhnrdihrghnghesfhhlhihgohgrthdrtghomh
- eqnecuggftrfgrthhtvghrnhepfeetgeekveeftefhgfduheegvdeuuddvieefvddvlefh
- feehkeetfeeukedtfeejnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrg
- hilhhfrhhomhepjhhirgiguhhnrdihrghnghesfhhlhihgohgrthdrtghomh
-X-ME-Proxy: <xmx:I6z7XywuPqRfgh0PSPvDVaanSv9m2on0ym4KpJB1lmVCI748Uwe-Tw>
- <xmx:I6z7X-OcaMkC5CIAjnLe0e7rHMNDz_VieS1LTEx9Ik0qfkBjs_Im6g>
- <xmx:I6z7X_-CBnb2s6phFXnc065Sxd0C398dcu6IB_2iux4iNcjzhY7GoA>
- <xmx:Jaz7X6novX80flkyGUG2alHPK49Bp8FNVZ8oRE9GIHEbZblLoT3kqg>
-Received: by mailuser.nyi.internal (Postfix, from userid 501)
- id C8A61C200A5; Sun, 10 Jan 2021 20:38:43 -0500 (EST)
-X-Mailer: MessagingEngine.com Webmail Interface
-User-Agent: Cyrus-JMAP/3.5.0-alpha0-45-g4839256-fm-20210104.001-g48392560
-Mime-Version: 1.0
-Message-Id: <f5466f0b-cc4f-4a71-8c06-7971198a7602@www.fastmail.com>
-In-Reply-To: <1b55216e-4526-6f50-eac2-f91797a64e7@eik.bme.hu>
-References: <cover.1610223396.git.balaton@eik.bme.hu>
- <bf9400cc8e4ddd3129aa5678de4d3cf38384805f.1610223397.git.balaton@eik.bme.hu>
- <f77d6471-d19d-a1c2-e447-18181d55ba86@amsat.org>
- <5c5ce8b9-f5c4-c58d-6f8a-76c47ad8db4d@eik.bme.hu>
- <2a45450d-8357-c03e-7e11-bd59bffa61ae@amsat.org>
- <1b55216e-4526-6f50-eac2-f91797a64e7@eik.bme.hu>
-Date: Mon, 11 Jan 2021 09:38:22 +0800
-From: "Jiaxun Yang" <jiaxun.yang@flygoat.com>
-To: "BALATON Zoltan" <balaton@eik.bme.hu>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
-Subject: =?UTF-8?Q?Re:_[PATCH_v2_08/13]_vt82c686:_Move_creation_of_ISA_devices_to?=
- =?UTF-8?Q?_the_ISA_bridge?=
-Content-Type: text/plain;charset=utf-8
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1kymWD-0001Cc-U9
+ for qemu-devel@nongnu.org; Sun, 10 Jan 2021 21:01:19 -0500
+Received: from indium.canonical.com ([91.189.90.7]:54926)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1kymW9-0006kP-No
+ for qemu-devel@nongnu.org; Sun, 10 Jan 2021 21:01:17 -0500
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1kymW7-0005Oh-QE
+ for <qemu-devel@nongnu.org>; Mon, 11 Jan 2021 02:01:11 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id C55982E8138
+ for <qemu-devel@nongnu.org>; Mon, 11 Jan 2021 02:01:11 +0000 (UTC)
+MIME-Version: 1.0
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
-Received-SPF: permerror client-ip=66.111.4.230;
- envelope-from=jiaxun.yang@flygoat.com; helo=new4-smtp.messagingengine.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
-X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_PASS=-0.001,
- T_SPF_PERMERROR=0.01 autolearn=ham autolearn_force=no
+Date: Mon, 11 Jan 2021 01:53:52 -0000
+From: Francois Gouget <1658141@bugs.launchpad.net>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: aldelaro5 fgouget janitor th-huth
+X-Launchpad-Bug-Reporter: Francois Gouget (fgouget)
+X-Launchpad-Bug-Modifier: Francois Gouget (fgouget)
+References: <20170120163946.25029.76236.malonedeb@wampee.canonical.com>
+Message-Id: <161033003254.24718.908540878327419858.malone@chaenomeles.canonical.com>
+Subject: [Bug 1658141] Re: QEMU's default msrs handling causes Windows 10 64
+ bit to crash
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="fd9c5a87183d01004404fa6027cd262eaa7f6fcf"; Instance="production"
+X-Launchpad-Hash: 2037b7dde3caf7cf1a40479abf4051dcecb9f61f
+Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
+ helo=indium.canonical.com
+X-Spam_score_int: -66
+X-Spam_score: -6.7
+X-Spam_bar: ------
+X-Spam_report: (-6.7 / 5.0 requ) BAYES_00=-1.9,
+ HEADER_FROM_DIFFERENT_DOMAINS=0.249, RCVD_IN_DNSWL_HI=-5,
+ RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -102,56 +70,94 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- "Michael S. Tsirkin" <mst@redhat.com>, Huacai Chen <chenhuacai@kernel.org>,
- Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
- BALATON Zoltan via <qemu-devel@nongnu.org>,
- =?UTF-8?Q?Herv=C3=A9_Poussineau?= <hpoussin@reactos.org>
+Reply-To: Bug 1658141 <1658141@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+This bug is still present.
+However the "ignore_msrs=3D1" workaround does not work with QEmu 3.1 anymor=
+e. To prevent Windows 10 from crashing one must upgrade QEmu to 5.0.14.
 
+-- =
 
-On Mon, Jan 11, 2021, at 3:25 AM, BALATON Zoltan wrote:
-> On Sun, 10 Jan 2021, Philippe Mathieu-Daud=C3=A9 wrote:
-> > +PCI experts
-> >
-> > On 1/10/21 1:43 AM, BALATON Zoltan wrote:
-> >> On Sun, 10 Jan 2021, Philippe Mathieu-Daud=C3=A9 wrote:
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1658141
 
-[...]
+Title:
+  QEMU's default msrs handling causes Windows 10 64 bit to crash
 
-> > I'm not a PCI expert but my understanding is PCI device functions ar=
-e
-> > restricted to the PCI bus address space. The host bridge may map thi=
-s
-> > space within the host.
-> >
-> > QEMU might be using get_system_memory() because for some host bridge=
+Status in QEMU:
+  New
 
-> > the mapping is not implemented so it was easier this way?
->=20
-> Maybe, also one less indirection which if not really needed is a good=20=
+Bug description:
+  Wine uses QEMU to run its conformance test suite on Windows virtual
+  machines. Wine's conformance tests check the behavior of various
+  Windows APIs and verify that they behave as expected.
 
-> thing for performance so unless it's found to be needed to use another=
-=20
-> address space here I'm happy with this as it matches what other simila=
-r=20
-> devices do and it seems to work. Maybe a separate address space is onl=
-y=20
-> really needed if we have an iommu?
+  One such test checks handling of exceptions down. When run on Windows 10 =
+64 bit in QEMU it triggers a "KMOD_EXCEPTION_NOT_HANDLED" BSOD in the VM. S=
+ee:
+  https://bugs.winehq.org/show_bug.cgi?id=3D40240
 
-Hi Zoltan,
+  =
 
-It is possible for bonito to remap PCI address space so maybe it's essen=
-tial for bonito.
+  To reproduce this bug:
+  * Pick a Windows 10 64 bit VM on an Intel host.
 
-Appreciate for your work. I'm going to help with reviewing as well.
+  * Start the VM. I'm pretty sure any qemu command will do but here's what =
+I used:
+    qemu-system-x86_64 -machine pc-i440fx-2.1,accel=3Dkvm -cpu core2duo,+nx=
+ -m 2048 -hda /var/lib/libvirt/images/wtbw1064.qcow2
 
->=20
-> Regards,
-> BALATON Zoltan
+  * Grab the attached source code. The tar file is a bit big at 85KB
+  because I had to include some Wine headers. However the source file
+  proper, exception.c, is only 85 lines, including the LGPL header.
 
---=20
-- Jiaxun
+  * Compile the source code with MinGW by typing 'make'. This produces a
+  32 bit exception.exe executable. I'll attach it for good measure.
+
+  * Put exception.exe on the VM and run it.
+
+  =
+
+  After investigation it turns out this happens:
+   * Only for Windows 10 64 bit guests. Windows 10 32 bit and older Windows=
+ versions are unaffected.
+
+   * Only on Intel hosts. At least both my Xeon E3-1226 v3 and i7-4790K
+  hosts are impacted but not my Opteron 6128 one.
+
+   * It does not seem to depend on the emulated CPU type: on the Intel host=
+s this happened with both =
+
+  core2duo,nx and 'copy the host configuration' and did not depend on the n=
+umber of emulated cpus/cores.
+
+   * This happened with both QEMU 2.1 and 2.7, and both the 3.16.0 and
+  4.8.11 Linux kernels, both on Debian 8.6 and Debian Testing.
+
+  =
+
+  After searching for quite some time I discovered that the kvm kernel modu=
+le was sneaking the following messages into /var/log/syslog precisely when =
+the BSOD happens:
+
+  Dec 16 13:43:48 vm3 kernel: [  191.624802] kvm [2064]: vcpu0, guest rIP: =
+0xfffff803cb3c0bf3 kvm_set_msr_common: MSR_IA32_DEBUGCTLMSR 0x1, nop
+  Dec 16 13:43:48 vm3 kernel: [  191.624835] kvm [2064]: vcpu0, guest rIP: =
+0xfffff803cb3c0c5c unhandled rdmsr: 0x1c9
+
+  A search on the Internet turned up a post suggesting to change kvm's
+  ignore_msrs setting:
+
+     echo 1 >/sys/module/kvm/parameters/ignore_msrs
+
+  https://www.reddit.com/r/VFIO/comments/42dj7n/some_games_crash_to_biosboo=
+t_on_launch/
+
+  This does actually work and provides a workaround at least.
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1658141/+subscriptions
 
