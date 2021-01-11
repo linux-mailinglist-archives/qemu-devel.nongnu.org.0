@@ -2,72 +2,82 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 566C92F0B64
-	for <lists+qemu-devel@lfdr.de>; Mon, 11 Jan 2021 04:12:15 +0100 (CET)
-Received: from localhost ([::1]:39020 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3252A2F0B6C
+	for <lists+qemu-devel@lfdr.de>; Mon, 11 Jan 2021 04:22:06 +0100 (CET)
+Received: from localhost ([::1]:41446 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kyncr-0000xb-T9
-	for lists+qemu-devel@lfdr.de; Sun, 10 Jan 2021 22:12:13 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46338)
+	id 1kynmP-0002dn-8P
+	for lists+qemu-devel@lfdr.de; Sun, 10 Jan 2021 22:22:05 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47434)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <luoyonggang@gmail.com>)
- id 1kynbi-0000VF-Fe
- for qemu-devel@nongnu.org; Sun, 10 Jan 2021 22:11:02 -0500
-Received: from mail-lj1-x229.google.com ([2a00:1450:4864:20::229]:38853)
+ (Exim 4.90_1) (envelope-from <wataash@wataash.com>)
+ id 1kynjx-00027d-8O
+ for qemu-devel@nongnu.org; Sun, 10 Jan 2021 22:19:33 -0500
+Received: from mail-pl1-x635.google.com ([2607:f8b0:4864:20::635]:44204)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <luoyonggang@gmail.com>)
- id 1kynbg-0004zo-FH
- for qemu-devel@nongnu.org; Sun, 10 Jan 2021 22:11:02 -0500
-Received: by mail-lj1-x229.google.com with SMTP id n11so1949294lji.5
- for <qemu-devel@nongnu.org>; Sun, 10 Jan 2021 19:11:00 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:reply-to:from:date:message-id
- :subject:to:cc;
- bh=+GD9W1+Z492fxlBiKfi82jm3xIjWEQ7HCqV0DqCDeBA=;
- b=Ze5l5ODCFjJAAluy59SsmDx5KAyoqiTlrU7cpIwMsH2aZqOaY+etEn4OiHnwxVod/S
- X6heHGThCSUQuSyiN4kz3ID4yq+ZDQYFlvzU3ko7mszpiGUTzp4Tq8LQGgOK/yRoE/Mv
- 1n5qxwLgRL/1lwp0a0PohqxmJJFzTy0gLL8BzrksZup1yKtNj+5kIwwq588z/Xeo751T
- czCe/MYAhcrFk3E7YX3louvY5+t7EpfbiR4oRSsJktMPKeDXWnRmwndUJxWKbG7H3pUx
- oGMamrKIr1daNEqNBCI4RXxCL7YM9rzG3EjB4Tqc5cNi5BwwY26B+2NTh+V+tb1u2QB0
- Qcxw==
+ (Exim 4.90_1) (envelope-from <wataash@wataash.com>)
+ id 1kynju-0007s3-S4
+ for qemu-devel@nongnu.org; Sun, 10 Jan 2021 22:19:32 -0500
+Received: by mail-pl1-x635.google.com with SMTP id r4so8758293pls.11
+ for <qemu-devel@nongnu.org>; Sun, 10 Jan 2021 19:19:30 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=wataash-com.20150623.gappssmtp.com; s=20150623;
+ h=subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=/jn32dDeM8C7WaNEnqpZJIQkb09OTkglE0Ep6+m7bAc=;
+ b=iaNH+g63OVrJKwXfYTSfuDyaunFjQjheYIcYgRhzp8JWzkRFm0Lz6JH7xGyOXUgUQp
+ +bCM0Fg/s9af2oP6mgvfCCyXKinSz8JUaU7VTXVN8cZZxBpVzpri1M3DHILZXWHiC4op
+ EOjteoxoms0xfFsC4bNE/SC5bTR93aCknYKiGk1aDxqkU+AI5EtYwM8pMDKKQ7wu4PrG
+ KNk/jJji0abGok1sb4a+NRbKEU5kAdafpZvvwboWWaLqF6xmLf34u9YmQeLIPYkquPPm
+ N9VG00pM5/pHHah1EJqYRAn9fEr6eeY997he9mt1oHZJyTjHsn1M+XBq9c/ejrDdapEU
+ 33bw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:reply-to
- :from:date:message-id:subject:to:cc;
- bh=+GD9W1+Z492fxlBiKfi82jm3xIjWEQ7HCqV0DqCDeBA=;
- b=m4uIQcRKB3Ly8RtP6O+X7qPbVsF7RxRP90vqsg0nDOV3Fiwf/CCuFMCLconpr8tbMi
- CPN+m6xHHYcRjlP3LUc/iDotehtw3t/MT80NU5K2N6C7AmEZdmMmCNHUyoxkjuWIvYoQ
- iMmv2UHdcNFdhBXl4n7vzTsLNykstl7rocXl2WtVYxwbG7awVQX4872Wo7QKD6DRoQM9
- 1t2ClgVBAvGemcN5yfg9WzNXSg8Rdm9yMrjHEJzTWPXTI7XXVfO0dDjS8QOA1Fel9tV7
- q+FpbeVH4Rni54YuXoFskkQrvBGs0TJY4hulTO5NgdcpmJGJP/S45nWwMp1zSJ1oIknz
- vilA==
-X-Gm-Message-State: AOAM532m/met/Pnif7Mt1upK+piNwh2TJyoo1O5kWzhLTQE4gyj0tZRL
- Cm1wILimLiobWlDzdLpRG0n5ylnafSs4uD17a2c=
-X-Google-Smtp-Source: ABdhPJyqKq66BJCwgZpYAT6HE4vUr9AoM7+cSonl7augh3lNefq0RG1c4FxVqEECoqusEEKbPxWfQ0YtQUU36bfzhrc=
-X-Received: by 2002:a2e:7119:: with SMTP id m25mr6288254ljc.229.1610334658479; 
- Sun, 10 Jan 2021 19:10:58 -0800 (PST)
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=/jn32dDeM8C7WaNEnqpZJIQkb09OTkglE0Ep6+m7bAc=;
+ b=DAwQUJXMRQ6C/W2b8a71A8+AEq8mNB1UC4b8DcT+UtgUcT/tQQBAC5vNX+JljfKPZ1
+ G8duiDaMF2dYPDTEVXjhZZnf5LqCuCNfODvzR5OaOFbGdcHext2LxU0yAi8JGkJA4Wlq
+ pKi6+6O8u+kHlxuoEBRLCKRHnuq+QEzbUxQFcpjAR1GJUEg7BhXX6VCK5o/MzGoWV+t/
+ NyRMVLAqGpsMwborGgmjoJKjIPjPhPRLhygSAKubI0Q/2wFzGe3BebdHyIm3h/DwqWek
+ Q3oz3WktwRE508py8h449V55ZG/9ulOPdTU+vhvgTOB+PWj9VcMdj3ZqkXkUVP0cncFV
+ Nisg==
+X-Gm-Message-State: AOAM533Vctjse+bI/XWSPA4N1eWLuq/kXsnBBcHZPp1RaIA9vsaSWrvJ
+ hHGvDglThrj1c8MJHE8r0KxdzwP5USL7/dQpVzk=
+X-Google-Smtp-Source: ABdhPJw1eCnBq8Jr1WV6StB/x5QbqkxAT7YXaOE6YHfaXlXzNgg4CXYsTfgxoHSSQA4qXHyekS7WtQ==
+X-Received: by 2002:a17:90a:68ca:: with SMTP id
+ q10mr16240062pjj.15.1610335168902; 
+ Sun, 10 Jan 2021 19:19:28 -0800 (PST)
+Received: from [10.68.201.25] (143.140.5.103.wi-fi.wi2.ne.jp. [103.5.140.143])
+ by smtp.gmail.com with ESMTPSA id
+ fs12sm12880081pjb.49.2021.01.10.19.19.26
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Sun, 10 Jan 2021 19:19:28 -0800 (PST)
+Subject: Re: [PATCH] tcg: Remove unused tcg_out_dupi_vec() stub
+To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
+ Stefan Weil <sw@weilnetz.de>
+References: <20210110041039.512225-1-wataash@wataash.com>
+ <dab09234-8bff-f29f-ff16-402dc2a559c3@amsat.org>
+From: Wataru Ashihara <wataash@wataash.com>
+Message-ID: <b24c035a-7b0b-dcc3-1d6a-6c72d9b370ea@wataash.com>
+Date: Mon, 11 Jan 2021 12:19:25 +0900
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
 MIME-Version: 1.0
-References: <20210107201448.1152301-1-richard.henderson@linaro.org>
- <20210107201448.1152301-5-richard.henderson@linaro.org>
- <167e3961-f402-a551-b6b5-e75335208346@t-online.de>
-In-Reply-To: <167e3961-f402-a551-b6b5-e75335208346@t-online.de>
-From: =?UTF-8?B?572X5YuH5YiaKFlvbmdnYW5nIEx1byk=?= <luoyonggang@gmail.com>
-Date: Sun, 10 Jan 2021 19:10:46 -0800
-Message-ID: <CAE2XoE-YUzoC3gH487Tmx6bn7h=A+91xCnEi7eco-rPA8BCD=Q@mail.gmail.com>
-Subject: Re: [PULL 04/47] util/oslib-win32: Use _aligned_malloc for
- qemu_try_memalign
-To: =?UTF-8?Q?Volker_R=C3=BCmelin?= <vr_qemu@t-online.de>
-Content-Type: multipart/alternative; boundary="00000000000049cb7c05b89741ba"
-Received-SPF: pass client-ip=2a00:1450:4864:20::229;
- envelope-from=luoyonggang@gmail.com; helo=mail-lj1-x229.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <dab09234-8bff-f29f-ff16-402dc2a559c3@amsat.org>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: base64
+Received-SPF: none client-ip=2607:f8b0:4864:20::635;
+ envelope-from=wataash@wataash.com; helo=mail-pl1-x635.google.com
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, NICE_REPLY_A=-0.012, RCVD_IN_DNSWL_NONE=-0.0001,
+ SPF_HELO_NONE=0.001, SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -80,167 +90,79 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: luoyonggang@gmail.com
-Cc: Richard Henderson <richard.henderson@linaro.org>,
- qemu-level <qemu-devel@nongnu.org>
+Cc: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---00000000000049cb7c05b89741ba
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-On Sun, Jan 10, 2021 at 3:19 PM Volker R=C3=BCmelin <vr_qemu@t-online.de> w=
-rote:
->
-> > We do not need or want to be allocating page sized quanta.
-> >
-> > Reviewed-by: Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>
-> > Reviewed-by: Stefan Weil <sw@weilnetz.de>
-> > Message-Id: <20201018164836.1149452-1-richard.henderson@linaro.org>
-> > Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
-> > Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
-> > ---
-> >  util/oslib-win32.c | 11 ++++-------
-> >  1 file changed, 4 insertions(+), 7 deletions(-)
-> >
-> > diff --git a/util/oslib-win32.c b/util/oslib-win32.c
-> > index 01787df74c..8adc651259 100644
-> > --- a/util/oslib-win32.c
-> > +++ b/util/oslib-win32.c
-> > @@ -39,6 +39,7 @@
-> >  #include "trace.h"
-> >  #include "qemu/sockets.h"
-> >  #include "qemu/cutils.h"
-> > +#include <malloc.h>
-> >
-> >  /* this must come after including "trace.h" */
-> >  #include <shlobj.h>
-> > @@ -56,10 +57,8 @@ void *qemu_try_memalign(size_t alignment, size_t
-size)
-> >  {
-> >      void *ptr;
-> >
-> > -    if (!size) {
-> > -        abort();
-> > -    }
-> > -    ptr =3D VirtualAlloc(NULL, size, MEM_COMMIT, PAGE_READWRITE);
-> > +    g_assert(size !=3D 0);
-> > +    ptr =3D _aligned_malloc(alignment, size);
->
-> Hi Richard,
->
-> this doesn't work really well. The _aligned_malloc parameters are
-swapped. ptr =3D _aligned_malloc(size, alignment) is correct.
->
-> With best regards,
-> Volker
->
-> >      trace_qemu_memalign(alignment, size, ptr);
-> >      return ptr;
-> >  }
-> > @@ -93,9 +92,7 @@ void *qemu_anon_ram_alloc(size_t size, uint64_t
-*align, bool shared)
-> >  void qemu_vfree(void *ptr)
-> >  {
-> >      trace_qemu_vfree(ptr);
-> > -    if (ptr) {
-> > -        VirtualFree(ptr, 0, MEM_RELEASE);
-> > -    }
-> > +    _aligned_free(ptr);
-> >  }
-> >
-> >  void qemu_anon_ram_free(void *ptr, size_t size)
->
->
-
-Dos this the cause of this failure?
-https://cirrus-ci.com/task/6055645751279616?command=3Dtest#L593
-
-
-MALLOC_PERTURB_=3D${MALLOC_PERTURB_:-$(( ${RANDOM:-0} % 255 + 1))}
-G_TEST_SRCDIR=3DC:/Users/ContainerAdministrator/AppData/Local/Temp/cirrus-c=
-i-build/tests
-G_TEST_BUILDDIR=3DC:/Users/ContainerAdministrator/AppData/Local/Temp/cirrus=
--ci-build/build/tests
-tests/test-qht.exe --tap -k
-ERROR test-qht - too few tests run (expected 2, got 0)
-make: *** [Makefile.mtest:256: run-test-30] Error 1
---
-         =E6=AD=A4=E8=87=B4
-=E7=A4=BC
-=E7=BD=97=E5=8B=87=E5=88=9A
-Yours
-    sincerely,
-Yonggang Luo
-
-
---
-         =E6=AD=A4=E8=87=B4
-=E7=A4=BC
-=E7=BD=97=E5=8B=87=E5=88=9A
-Yours
-    sincerely,
-Yonggang Luo
-
---00000000000049cb7c05b89741ba
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><br><br>On Sun, Jan 10, 2021 at 3:19 PM Volker R=C3=BCmeli=
-n &lt;<a href=3D"mailto:vr_qemu@t-online.de">vr_qemu@t-online.de</a>&gt; wr=
-ote:<br>&gt;<br>&gt; &gt; We do not need or want to be allocating page size=
-d quanta.<br>&gt; &gt;<br>&gt; &gt; Reviewed-by: Philippe Mathieu-Daud=C3=
-=A9 &lt;<a href=3D"mailto:f4bug@amsat.org">f4bug@amsat.org</a>&gt;<br>&gt; =
-&gt; Reviewed-by: Stefan Weil &lt;<a href=3D"mailto:sw@weilnetz.de">sw@weil=
-netz.de</a>&gt;<br>&gt; &gt; Message-Id: &lt;<a href=3D"mailto:202010181648=
-36.1149452-1-richard.henderson@linaro.org">20201018164836.1149452-1-richard=
-.henderson@linaro.org</a>&gt;<br>&gt; &gt; Signed-off-by: Philippe Mathieu-=
-Daud=C3=A9 &lt;<a href=3D"mailto:philmd@redhat.com">philmd@redhat.com</a>&g=
-t;<br>&gt; &gt; Signed-off-by: Richard Henderson &lt;<a href=3D"mailto:rich=
-ard.henderson@linaro.org">richard.henderson@linaro.org</a>&gt;<br>&gt; &gt;=
- ---<br>&gt; &gt; =C2=A0util/oslib-win32.c | 11 ++++-------<br>&gt; &gt; =
-=C2=A01 file changed, 4 insertions(+), 7 deletions(-)<br>&gt; &gt;<br>&gt; =
-&gt; diff --git a/util/oslib-win32.c b/util/oslib-win32.c<br>&gt; &gt; inde=
-x 01787df74c..8adc651259 100644<br>&gt; &gt; --- a/util/oslib-win32.c<br>&g=
-t; &gt; +++ b/util/oslib-win32.c<br>&gt; &gt; @@ -39,6 +39,7 @@<br>&gt; &gt=
-; =C2=A0#include &quot;trace.h&quot;<br>&gt; &gt; =C2=A0#include &quot;qemu=
-/sockets.h&quot;<br>&gt; &gt; =C2=A0#include &quot;qemu/cutils.h&quot;<br>&=
-gt; &gt; +#include &lt;malloc.h&gt;<br>&gt; &gt; <br>&gt; &gt; =C2=A0/* thi=
-s must come after including &quot;trace.h&quot; */<br>&gt; &gt; =C2=A0#incl=
-ude &lt;shlobj.h&gt;<br>&gt; &gt; @@ -56,10 +57,8 @@ void *qemu_try_memalig=
-n(size_t alignment, size_t size)<br>&gt; &gt; =C2=A0{<br>&gt; &gt; =C2=A0 =
-=C2=A0 =C2=A0void *ptr;<br>&gt; &gt; <br>&gt; &gt; - =C2=A0 =C2=A0if (!size=
-) {<br>&gt; &gt; - =C2=A0 =C2=A0 =C2=A0 =C2=A0abort();<br>&gt; &gt; - =C2=
-=A0 =C2=A0}<br>&gt; &gt; - =C2=A0 =C2=A0ptr =3D VirtualAlloc(NULL, size, ME=
-M_COMMIT, PAGE_READWRITE);<br>&gt; &gt; + =C2=A0 =C2=A0g_assert(size !=3D 0=
-);<br>&gt; &gt; + =C2=A0 =C2=A0ptr =3D _aligned_malloc(alignment, size);<br=
->&gt;<br>&gt; Hi Richard,<br>&gt;<br>&gt; this doesn&#39;t work really well=
-. The _aligned_malloc parameters are swapped. ptr =3D _aligned_malloc(size,=
- alignment) is correct.<br>&gt;<br>&gt; With best regards,<br>&gt; Volker<b=
-r>&gt;<br>&gt; &gt; =C2=A0 =C2=A0 =C2=A0trace_qemu_memalign(alignment, size=
-, ptr);<br>&gt; &gt; =C2=A0 =C2=A0 =C2=A0return ptr;<br>&gt; &gt; =C2=A0}<b=
-r>&gt; &gt; @@ -93,9 +92,7 @@ void *qemu_anon_ram_alloc(size_t size, uint64=
-_t *align, bool shared)<br>&gt; &gt; =C2=A0void qemu_vfree(void *ptr)<br>&g=
-t; &gt; =C2=A0{<br>&gt; &gt; =C2=A0 =C2=A0 =C2=A0trace_qemu_vfree(ptr);<br>=
-&gt; &gt; - =C2=A0 =C2=A0if (ptr) {<br>&gt; &gt; - =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0VirtualFree(ptr, 0, MEM_RELEASE);<br>&gt; &gt; - =C2=A0 =C2=A0}<br>&gt; =
-&gt; + =C2=A0 =C2=A0_aligned_free(ptr);<br>&gt; &gt; =C2=A0}<br>&gt; &gt; <=
-br>&gt; &gt; =C2=A0void qemu_anon_ram_free(void *ptr, size_t size)<br>&gt;<=
-br>&gt;<br><br>Dos this the cause of this failure?<br><a href=3D"https://ci=
-rrus-ci.com/task/6055645751279616?command=3Dtest#L593" target=3D"_blank">ht=
-tps://cirrus-ci.com/task/6055645751279616?command=3Dtest#L593</a><br><br><b=
-r>MALLOC_PERTURB_=3D${MALLOC_PERTURB_:-$(( ${RANDOM:-0} % 255 + 1))} G_TEST=
-_SRCDIR=3DC:/Users/ContainerAdministrator/AppData/Local/Temp/cirrus-ci-buil=
-d/tests G_TEST_BUILDDIR=3DC:/Users/ContainerAdministrator/AppData/Local/Tem=
-p/cirrus-ci-build/build/tests tests/test-qht.exe --tap -k<br>ERROR test-qht=
- - too few tests run (expected 2, got 0)<br>make: *** [Makefile.mtest:256: =
-run-test-30] Error 1<br>--<br>=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=E6=AD=A4=
-=E8=87=B4<br>=E7=A4=BC<br>=E7=BD=97=E5=8B=87=E5=88=9A<br>Yours<br>=C2=A0 =
-=C2=A0 sincerely,<br>Yonggang Luo<div class=3D"gmail-yj6qo"></div><div clas=
-s=3D"gmail-adL"><br></div><br>--<br>=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=E6=
-=AD=A4=E8=87=B4<br>=E7=A4=BC<br>=E7=BD=97=E5=8B=87=E5=88=9A<br>Yours<br>=C2=
-=A0 =C2=A0 sincerely,<br>Yonggang Luo</div>
-
---00000000000049cb7c05b89741ba--
+UGhpbGlwcGUsIFJpY2hhcmQsIHRoYW5rIHlvdSBmb3IgcmV2aWV3aW5nLg0KDQpPbiAyMDIx
+LzAxLzExIDE6MTcsIFBoaWxpcHBlIE1hdGhpZXUtRGF1ZMOpIHdyb3RlOg0KPiBDYydpbmcg
+U3RlZmFuLg0KPiANCj4gT24gMS8xMC8yMSA1OjEwIEFNLCBXYXRhcnUgQXNoaWhhcmEgd3Jv
+dGU6DQo+PiBUaGlzIGZpeGVzIHRoZSBidWlsZCB3aXRoIC0tZW5hYmxlLXRjZy1pbnRlcnBy
+ZXRlcjoNCj4+DQo+PiAgIGNsYW5nIC1JbGlicWVtdS1hcm0tc29mdG1tdS5mYS5wIC1JLiAt
+SS4uIC1JdGFyZ2V0L2FybSAtSS4uL3RhcmdldC9hcm0gLUkuLi9kdGMvbGliZmR0IC1JLi4v
+Y2Fwc3RvbmUvaW5jbHVkZS9jYXBzdG9uZSAtSXFhcGkgLUl0cmFjZSAtSXVpIC1JdWkvc2hh
+ZGVyIC1JL3Vzci9pbmNsdWRlL3BpeG1hbi0xIC1JL3Vzci9pbmNsdWRlL2dsaWItMi4wIC1J
+L3Vzci9saWIveDg2XzY0LWxpbnV4LWdudS9nbGliLTIuMC9pbmNsdWRlIC1YY2xhbmcgLWZj
+b2xvci1kaWFnbm9zdGljcyAtcGlwZSAtV2FsbCAtV2ludmFsaWQtcGNoIC1XZXJyb3IgLXN0
+ZD1nbnU5OSAtZyAtbTY0IC1tY3gxNiAtRF9HTlVfU09VUkNFIC1EX0ZJTEVfT0ZGU0VUX0JJ
+VFM9NjQgLURfTEFSR0VGSUxFX1NPVVJDRSAtV3N0cmljdC1wcm90b3R5cGVzIC1XcmVkdW5k
+YW50LWRlY2xzIC1XdW5kZWYgLVd3cml0ZS1zdHJpbmdzIC1XbWlzc2luZy1wcm90b3R5cGVz
+IC1mbm8tc3RyaWN0LWFsaWFzaW5nIC1mbm8tY29tbW9uIC1md3JhcHYgLVdvbGQtc3R5bGUt
+ZGVmaW5pdGlvbiAtV3R5cGUtbGltaXRzIC1XZm9ybWF0LXNlY3VyaXR5IC1XZm9ybWF0LXky
+ayAtV2luaXQtc2VsZiAtV2lnbm9yZWQtcXVhbGlmaWVycyAtV2VtcHR5LWJvZHkgLVduZXN0
+ZWQtZXh0ZXJucyAtV2VuZGlmLWxhYmVscyAtV2V4cGFuc2lvbi10by1kZWZpbmVkIC1Xbm8t
+aW5pdGlhbGl6ZXItb3ZlcnJpZGVzIC1Xbm8tbWlzc2luZy1pbmNsdWRlLWRpcnMgLVduby1z
+aGlmdC1uZWdhdGl2ZS12YWx1ZSAtV25vLXN0cmluZy1wbHVzLWludCAtV25vLXR5cGVkZWYt
+cmVkZWZpbml0aW9uIC1Xbm8tdGF1dG9sb2dpY2FsLXR5cGUtbGltaXQtY29tcGFyZSAtZnN0
+YWNrLXByb3RlY3Rvci1zdHJvbmcgLWlzeXN0ZW0gL2hvbWUvd3NoL3FjL3FlbXUvbGludXgt
+aGVhZGVycyAtaXN5c3RlbSBsaW51eC1oZWFkZXJzIC1pcXVvdGUgL2hvbWUvd3NoL3FjL3Fl
+bXUvdGNnL3RjaSAtaXF1b3RlIC4gLWlxdW90ZSAvaG9tZS93c2gvcWMvcWVtdSAtaXF1b3Rl
+IC9ob21lL3dzaC9xYy9xZW11L2FjY2VsL3RjZyAtaXF1b3RlIC9ob21lL3dzaC9xYy9xZW11
+L2luY2x1ZGUgLWlxdW90ZSAvaG9tZS93c2gvcWMvcWVtdS9kaXNhcy9saWJ2aXhsIC1wdGhy
+ZWFkIC1mUElDIC1pc3lzdGVtLi4vbGludXgtaGVhZGVycyAtaXN5c3RlbWxpbnV4LWhlYWRl
+cnMgLURORUVEX0NQVV9IICctRENPTkZJR19UQVJHRVQ9ImFybS1zb2Z0bW11LWNvbmZpZy10
+YXJnZXQuaCInICctRENPTkZJR19ERVZJQ0VTPSJhcm0tc29mdG1tdS1jb25maWctZGV2aWNl
+cy5oIicgLU1EIC1NUSBsaWJxZW11LWFybS1zb2Z0bW11LmZhLnAvdGNnX3RjZy5jLm8gLU1G
+IGxpYnFlbXUtYXJtLXNvZnRtbXUuZmEucC90Y2dfdGNnLmMuby5kIC1vIGxpYnFlbXUtYXJt
+LXNvZnRtbXUuZmEucC90Y2dfdGNnLmMubyAtYyAuLi90Y2cvdGNnLmMNCj4+ICAgLi4vdGNn
+L3RjZy5jOjEzNjoyMDogZXJyb3I6IHVudXNlZCBmdW5jdGlvbiAndGNnX291dF9kdXBpX3Zl
+YycgWy1XZXJyb3IsLVd1bnVzZWQtZnVuY3Rpb25dDQo+Pg0KPj4gU2lnbmVkLW9mZi1ieTog
+V2F0YXJ1IEFzaGloYXJhIDx3YXRhYXNoQHdhdGFhc2guY29tPg0KPj4gLS0tDQo+PiAgdGNn
+L3RjZy5jIHwgNyAtLS0tLS0tDQo+PiAgMSBmaWxlIGNoYW5nZWQsIDcgZGVsZXRpb25zKC0p
+DQo+Pg0KPj4gZGlmZiAtLWdpdCBhL3RjZy90Y2cuYyBiL3RjZy90Y2cuYw0KPj4gaW5kZXgg
+NDcyYmYxNzU1Yi4uMzJkZjE0OWIxMiAxMDA2NDQNCj4+IC0tLSBhL3RjZy90Y2cuYw0KPj4g
+KysrIGIvdGNnL3RjZy5jDQo+PiBAQCAtMTE3LDggKzExNyw2IEBAIHN0YXRpYyBib29sIHRj
+Z19vdXRfZHVwX3ZlYyhUQ0dDb250ZXh0ICpzLCBUQ0dUeXBlIHR5cGUsIHVuc2lnbmVkIHZl
+Y2UsDQo+PiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIFRDR1JlZyBkc3QsIFRDR1Jl
+ZyBzcmMpOw0KPj4gIHN0YXRpYyBib29sIHRjZ19vdXRfZHVwbV92ZWMoVENHQ29udGV4dCAq
+cywgVENHVHlwZSB0eXBlLCB1bnNpZ25lZCB2ZWNlLA0KPj4gICAgICAgICAgICAgICAgICAg
+ICAgICAgICAgICAgVENHUmVnIGRzdCwgVENHUmVnIGJhc2UsIGludHB0cl90IG9mZnNldCk7
+DQo+PiAtc3RhdGljIHZvaWQgdGNnX291dF9kdXBpX3ZlYyhUQ0dDb250ZXh0ICpzLCBUQ0dU
+eXBlIHR5cGUsDQo+PiAtICAgICAgICAgICAgICAgICAgICAgICAgICAgICBUQ0dSZWcgZHN0
+LCB0Y2dfdGFyZ2V0X2xvbmcgYXJnKTsNCj4+ICBzdGF0aWMgdm9pZCB0Y2dfb3V0X3ZlY19v
+cChUQ0dDb250ZXh0ICpzLCBUQ0dPcGNvZGUgb3BjLCB1bnNpZ25lZCB2ZWNsLA0KPj4gICAg
+ICAgICAgICAgICAgICAgICAgICAgICAgIHVuc2lnbmVkIHZlY2UsIGNvbnN0IFRDR0FyZyAq
+YXJncywNCj4+ICAgICAgICAgICAgICAgICAgICAgICAgICAgICBjb25zdCBpbnQgKmNvbnN0
+X2FyZ3MpOw0KPj4gQEAgLTEzMywxMSArMTMxLDYgQEAgc3RhdGljIGlubGluZSBib29sIHRj
+Z19vdXRfZHVwbV92ZWMoVENHQ29udGV4dCAqcywgVENHVHlwZSB0eXBlLCB1bnNpZ25lZCB2
+ZWNlLA0KPj4gIHsNCj4+ICAgICAgZ19hc3NlcnRfbm90X3JlYWNoZWQoKTsNCj4+ICB9DQo+
+PiAtc3RhdGljIGlubGluZSB2b2lkIHRjZ19vdXRfZHVwaV92ZWMoVENHQ29udGV4dCAqcywg
+VENHVHlwZSB0eXBlLA0KPj4gLSAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
+IFRDR1JlZyBkc3QsIHRjZ190YXJnZXRfbG9uZyBhcmcpDQo+PiAtew0KPj4gLSAgICBnX2Fz
+c2VydF9ub3RfcmVhY2hlZCgpOw0KPj4gLX0NCj4+ICBzdGF0aWMgaW5saW5lIHZvaWQgdGNn
+X291dF92ZWNfb3AoVENHQ29udGV4dCAqcywgVENHT3Bjb2RlIG9wYywgdW5zaWduZWQgdmVj
+bCwNCj4+ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgdW5zaWduZWQgdmVj
+ZSwgY29uc3QgVENHQXJnICphcmdzLA0KPj4gICAgICAgICAgICAgICAgICAgICAgICAgICAg
+ICAgICAgICBjb25zdCBpbnQgKmNvbnN0X2FyZ3MpDQo+IA0KPiBBRkFJSyBUQ0kgZG9lcyBu
+b3Qgc3VwcG9ydCB2ZWN0b3JzLCB1c2luZyB0aGVtIHdvdWxkIHRyaWdnZXINCj4gdGNnX2Rl
+YnVnX2Fzc2VydCh0eXBlID09IFRDR19UWVBFX0k2NCkgaW4gdGNnX291dF9tb3ZpKCkuDQo+
+IA0KPiBBcyB5b3VyIGFwcHJvYWNoIG1pZ2h0IGJyZWFrIG90aGVyIGJhY2tlbmRzLCBJJ20g
+Z29pbmcgdG8NCj4gc2VuZCBhbiBhbHRlcm5hdGUgcGF0Y2ggdXNpbmcgX19hdHRyaWJ1dGVf
+XygodW51c2VkKSkuDQoNCkN1cnJlbnRseSBpdCBkb2Vzbid0LiBVbmxpa2UgYWxsIHRoZSBv
+dGhlciB0Y2dfb3V0XyooKSwNCnRjZ19vdXRfZHVwaV92ZWMoKSBpcyBub3QgdXNlZCBpbiB0
+Y2cuYyBhcyBkaXNjdXNzZWQgaW4gWzFdLg0KDQo+IA0KPiBUaGFua3MgZm9yIHJlcG9ydGlu
+ZyB0aGlzLA0KPiANCj4gUGhpbC4NCj4gDQoNCkkgZGlzY2FyZCB0aGlzIHBhdGNoIGluIGZh
+dm9yIG9mIHRoZSB1bmNvbmRpdGlvbmFsbHktdXNpbmcgd2F5IG1lbnRpb25lZA0KaW4gWzFd
+Lg0KDQpUaGFua3MuDQoNClsxXTogaHR0cHM6Ly9saXN0cy5ub25nbnUub3JnL2FyY2hpdmUv
+aHRtbC9xZW11LWRldmVsLzIwMjEtMDEvbXNnMDE2NDcuaHRtbA0K
 
