@@ -2,49 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 99CCA2F1263
-	for <lists+qemu-devel@lfdr.de>; Mon, 11 Jan 2021 13:39:35 +0100 (CET)
-Received: from localhost ([::1]:47496 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 71FF72F127C
+	for <lists+qemu-devel@lfdr.de>; Mon, 11 Jan 2021 13:44:14 +0100 (CET)
+Received: from localhost ([::1]:52596 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kywTt-0004cI-B5
-	for lists+qemu-devel@lfdr.de; Mon, 11 Jan 2021 07:39:33 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33148)
+	id 1kywYP-0006sq-C6
+	for lists+qemu-devel@lfdr.de; Mon, 11 Jan 2021 07:44:13 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33182)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
- id 1kywN7-0002PF-3w; Mon, 11 Jan 2021 07:32:33 -0500
-Received: from wout5-smtp.messagingengine.com ([64.147.123.21]:37939)
+ id 1kywN8-0002QC-9D; Mon, 11 Jan 2021 07:32:34 -0500
+Received: from wout5-smtp.messagingengine.com ([64.147.123.21]:52653)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
- id 1kywN5-0006rO-0O; Mon, 11 Jan 2021 07:32:32 -0500
+ id 1kywN6-0006s0-8n; Mon, 11 Jan 2021 07:32:34 -0500
 Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
- by mailout.west.internal (Postfix) with ESMTP id 1843B25D4;
- Mon, 11 Jan 2021 07:32:29 -0500 (EST)
+ by mailout.west.internal (Postfix) with ESMTP id 4F0992625;
+ Mon, 11 Jan 2021 07:32:30 -0500 (EST)
 Received: from mailfrontend2 ([10.202.2.163])
- by compute4.internal (MEProxy); Mon, 11 Jan 2021 07:32:29 -0500
+ by compute4.internal (MEProxy); Mon, 11 Jan 2021 07:32:30 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=irrelevant.dk;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding; s=fm2; bh=hMXrkCHmnF210
- sq0C9gh99fzq712fpTo7ozj3Lht6EE=; b=y28r4WEhrFv07B25gWyLjlkEha7vn
- KjkIyFtd9oyVdlojiNudSb2c/i3uhIeeI28LvjcXNskIVnIyZjxB0kMQsxRjtC2U
- jPhjPu9Wb1Nq9lsPddo3U3bKexN/znIyF8QFaBStPYBZP9BXn+dS62htHCI5MXUj
- Xf6b2Mt64kSvP0D+iS+ECEv2n09q3qXx2EEpAC1MGIGryyySVepfCMEbwo2yMTgx
- 7VUugoWwzBoPLE3cxmSd5S/5HC/P2iIk9GPK24YmIw3CO/YRs9WHAFg8H1UerofX
- S4EWGaewfnXSbXeq+wghcraEFijwq3GCX0IxVmmYVtNy0TItig2vVsoig==
+ :mime-version:content-transfer-encoding; s=fm2; bh=yaC//JjLJmIFT
+ bBrZW4NBVptvALMn2zsj/kaY44uCII=; b=jGfYZHL4Tz6lOSmM4XVYr84E3xrXM
+ UZYwXwd0NmQRj3YHWNd3aGoTUVpdkEzMOgTh4e26ZAfv5v7ItaKvRmnCCpeHjcw0
+ RVf4pc5CjDtdkxgN1M+zTq4n7wc+pKol9/CoWazfzZani2YAnyfcPCD/IxpFzgpE
+ DTR08C9/xjjhvc+ccewQGf2UTfbZoPM5ZoD5ktjt0sVpKljXrNIP9HPrE/QY+6VV
+ tnwOXqqiqfs3mo7FqMPxyxIQW0M58U8RsU8Y65bP9goCl5jrpbiPkeSJR5cTO//W
+ 9kNMV/lNAH1cREBxrFDqyMv1e+hqmgi21TZy2XoyocfWYuqPYBowkES5Q==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
  messagingengine.com; h=cc:content-transfer-encoding:date:from
  :in-reply-to:message-id:mime-version:references:subject:to
  :x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
- fm1; bh=hMXrkCHmnF210sq0C9gh99fzq712fpTo7ozj3Lht6EE=; b=lWuFgtUm
- etr+4+3BwM+ac+8M++XL5AxjKDiK8t9G5fPb6gDsFRZAlBXXXwr46G1bwNHLdzQc
- qi2Jf60F0yPt3tXxd4Ry17BkefL3W6qSGREBVXzkdlpqqi8l8B1eXPyRkISqGuIC
- PJAaq2WouslTAvvYNH4iJxWr/XjeD7Y8FkEmjkSZBr9e+ox81SG0ZWJkCZ/EZ6BO
- SW986NgYei5pBdXoAS+SBBQSaRLMnhdWFDxAG9FA4huzoD2JVAe3REq3WQIVmHb1
- EsgwEpr7qQXQdvj75yX+coJzreJ3fclZyAP+Y9rRV+o1bdZiVynyNQ76w6joKLCd
- 406TOOu3yiEj7w==
-X-ME-Sender: <xms:XEX8Xwg78awX_pbO8LtGn6-DECUIZuvS9tb_gnKyPGkCxklwLTV8EQ>
- <xme:XEX8X4_TlCEaUAIlejV8LHSjxnhRvcd3DtpQVtvTI9xKDeJPZhcRbFoTgEbtXvoMS
- tUgLJJhn3Dw4Z2ACHI>
+ fm1; bh=yaC//JjLJmIFTbBrZW4NBVptvALMn2zsj/kaY44uCII=; b=IGyK6Ked
+ I2xFqdeawX3i8eIx8kMvhd3L80eFrIowwF2AQhaPAB40cZtAMv6Sz4OkDjzX0aF/
+ 1qfVZ/3MdiiYIYUVoSrvSOlageVmEyZzdmuTNUuoGsNZ227JpMWYx5VngeQULuq8
+ urhOANFiDRYu81DJ6/7i8H18Nzqxbe6P3m5DVBjuzHhcosB79nJe9nkVBYhraVzf
+ ht1+ym3Ii83MSKikyqnL+1ieXOvtSwMtJ0ESKHZX+yzKyqEzLQ5nWognyYzXdPXn
+ ywtnTNOi25FaV1/OYDzoAVY+/sTvZ2/UVC/6T97JMRb5SSDV9/z173GU1Zrak37w
+ k3Q+tGOL3IzMdA==
+X-ME-Sender: <xms:XUX8Xy2P44lR9LBLnv2teIH2H2lGJwbokeNIRunVpJJtSpKSgFHRmw>
+ <xme:XUX8X8EkMY_OmphzWE8Zzuc0MsEZTr8TngGEKpkXNPFRFjRQC1TdRgAGLHybRpan7
+ lYpJ3grXbTvEb64hkU>
 X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedujedrvdehuddggedvucetufdoteggodetrfdotf
  fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
  uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
@@ -53,20 +53,19 @@ X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedujedrvdehuddggedvucetufdoteggod
  gvrhhnpeeuleetgeeiuefhgfekfefgveejiefgteekiedtgfdtieefhfdthfefueffvefg
  keenucfkphepkedtrdduieejrdelkedrudeltdenucevlhhushhtvghrufhiiigvpedtne
  curfgrrhgrmhepmhgrihhlfhhrohhmpehithhssehirhhrvghlvghvrghnthdrughk
-X-ME-Proxy: <xmx:XEX8X0-Daa15U8hbSx85wRRbSjWyPV_YpNlu-DU7KeSbQ0MSE0SZnA>
- <xmx:XEX8X5DPZPI8n3h-rg4YOdp7GO_Qe_-wjaKkmskbwKIm27px_gMLKw>
- <xmx:XEX8X8zJJg-tsm0880Ennqg6uyVfTrPVzmrfldF0P2SMFIulyY523g>
- <xmx:XEX8X1MQZ_UDhnHOwOMTCzDiMaCqfZHArfafGfUVJ0GLcrRzJ_2h-Q>
+X-ME-Proxy: <xmx:XUX8X_4ZyMwdbsUu8IrhT7EDLeSZKqncdJQlvHSv8EtxR2EUY2q-jw>
+ <xmx:XUX8XytT1QsQ6gbX24XGmXDFK403-_BsU8xtugvTFF9noiv7eBxo4g>
+ <xmx:XUX8Xw5BclV60KeKjMuoHNCNQu75d5pzM5x186ZotTXRZw1itiQ3eA>
+ <xmx:XUX8X-BZBRDMjwhz0f3rMMevk_zdY_Ud11M8YuHHL0mkGAA7tr9HEA>
 Received: from apples.local (80-167-98-190-cable.dk.customer.tdc.net
  [80.167.98.190])
- by mail.messagingengine.com (Postfix) with ESMTPA id 9AAD8108006B;
- Mon, 11 Jan 2021 07:32:27 -0500 (EST)
+ by mail.messagingengine.com (Postfix) with ESMTPA id D94611080057;
+ Mon, 11 Jan 2021 07:32:28 -0500 (EST)
 From: Klaus Jensen <its@irrelevant.dk>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 2/6] hw/block/nvme: merge implicitly/explicitly opened
- processing masks
-Date: Mon, 11 Jan 2021 13:32:19 +0100
-Message-Id: <20210111123223.76248-3-its@irrelevant.dk>
+Subject: [PATCH 3/6] hw/block/nvme: enum style fix
+Date: Mon, 11 Jan 2021 13:32:20 +0100
+Message-Id: <20210111123223.76248-4-its@irrelevant.dk>
 X-Mailer: git-send-email 2.30.0
 In-Reply-To: <20210111123223.76248-1-its@irrelevant.dk>
 References: <20210111123223.76248-1-its@irrelevant.dk>
@@ -102,94 +101,142 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Klaus Jensen <k.jensen@samsung.com>
 
-Implicitly and explicitly opended zones are always bulk processed
-together, so merge the two processing masks.
+Align with existing style and use a typedef for header-file enums.
 
 Signed-off-by: Klaus Jensen <k.jensen@samsung.com>
 ---
- hw/block/nvme.c | 27 +++++++++++----------------
- 1 file changed, 11 insertions(+), 16 deletions(-)
+ hw/block/nvme-ns.h   |  4 ++--
+ include/block/nvme.h |  4 ++--
+ hw/block/nvme.c      | 19 +++++++++----------
+ 3 files changed, 13 insertions(+), 14 deletions(-)
 
+diff --git a/hw/block/nvme-ns.h b/hw/block/nvme-ns.h
+index f8f3c28c360b..a0baa5f6d44c 100644
+--- a/hw/block/nvme-ns.h
++++ b/hw/block/nvme-ns.h
+@@ -102,12 +102,12 @@ static inline size_t nvme_l2b(NvmeNamespace *ns, uint64_t lba)
+ 
+ typedef struct NvmeCtrl NvmeCtrl;
+ 
+-static inline enum NvmeZoneState nvme_get_zone_state(NvmeZone *zone)
++static inline NvmeZoneState nvme_get_zone_state(NvmeZone *zone)
+ {
+     return zone->d.zs >> 4;
+ }
+ 
+-static inline void nvme_set_zone_state(NvmeZone *zone, enum NvmeZoneState state)
++static inline void nvme_set_zone_state(NvmeZone *zone, NvmeZoneState state)
+ {
+     zone->d.zs = state << 4;
+ }
+diff --git a/include/block/nvme.h b/include/block/nvme.h
+index 9494246f1f59..45b2678db1f0 100644
+--- a/include/block/nvme.h
++++ b/include/block/nvme.h
+@@ -1212,7 +1212,7 @@ typedef struct QEMU_PACKED NvmeZoneDescr {
+     uint8_t     rsvd32[32];
+ } NvmeZoneDescr;
+ 
+-enum NvmeZoneState {
++typedef enum NvmeZoneState {
+     NVME_ZONE_STATE_RESERVED         = 0x00,
+     NVME_ZONE_STATE_EMPTY            = 0x01,
+     NVME_ZONE_STATE_IMPLICITLY_OPEN  = 0x02,
+@@ -1221,7 +1221,7 @@ enum NvmeZoneState {
+     NVME_ZONE_STATE_READ_ONLY        = 0x0D,
+     NVME_ZONE_STATE_FULL             = 0x0E,
+     NVME_ZONE_STATE_OFFLINE          = 0x0F,
+-};
++} NvmeZoneState;
+ 
+ static inline void _nvme_check_size(void)
+ {
 diff --git a/hw/block/nvme.c b/hw/block/nvme.c
-index cba509e90537..8b25c509c6b5 100644
+index 8b25c509c6b5..7c2ec17ad7d9 100644
 --- a/hw/block/nvme.c
 +++ b/hw/block/nvme.c
-@@ -1740,11 +1740,10 @@ typedef uint16_t (*op_handler_t)(NvmeNamespace *, NvmeZone *,
+@@ -198,7 +198,7 @@ static uint16_t nvme_sqid(NvmeRequest *req)
+ }
+ 
+ static void nvme_assign_zone_state(NvmeNamespace *ns, NvmeZone *zone,
+-                                   enum NvmeZoneState state)
++                                   NvmeZoneState state)
+ {
+     if (QTAILQ_IN_USE(zone, entry)) {
+         switch (nvme_get_zone_state(zone)) {
+@@ -1735,8 +1735,7 @@ static uint16_t nvme_get_mgmt_zone_slba_idx(NvmeNamespace *ns, NvmeCmd *c,
+     return NVME_SUCCESS;
+ }
+ 
+-typedef uint16_t (*op_handler_t)(NvmeNamespace *, NvmeZone *,
+-                                 enum NvmeZoneState);
++typedef uint16_t (*op_handler_t)(NvmeNamespace *, NvmeZone *, NvmeZoneState);
  
  enum NvmeZoneProcessingMask {
      NVME_PROC_CURRENT_ZONE    = 0,
--    NVME_PROC_IMP_OPEN_ZONES  = 1 << 0,
--    NVME_PROC_EXP_OPEN_ZONES  = 1 << 1,
--    NVME_PROC_CLOSED_ZONES    = 1 << 2,
--    NVME_PROC_READ_ONLY_ZONES = 1 << 3,
--    NVME_PROC_FULL_ZONES      = 1 << 4,
-+    NVME_PROC_OPENED_ZONES    = 1 << 0,
-+    NVME_PROC_CLOSED_ZONES    = 1 << 1,
-+    NVME_PROC_READ_ONLY_ZONES = 1 << 2,
-+    NVME_PROC_FULL_ZONES      = 1 << 3,
+@@ -1747,7 +1746,7 @@ enum NvmeZoneProcessingMask {
  };
  
  static uint16_t nvme_open_zone(NvmeNamespace *ns, NvmeZone *zone,
-@@ -1885,10 +1884,8 @@ static uint16_t nvme_bulk_proc_zone(NvmeNamespace *ns, NvmeZone *zone,
+-                               enum NvmeZoneState state)
++                               NvmeZoneState state)
+ {
+     uint16_t status;
+ 
+@@ -1780,7 +1779,7 @@ static uint16_t nvme_open_zone(NvmeNamespace *ns, NvmeZone *zone,
+ }
+ 
+ static uint16_t nvme_close_zone(NvmeNamespace *ns, NvmeZone *zone,
+-                                enum NvmeZoneState state)
++                                NvmeZoneState state)
+ {
+     switch (state) {
+     case NVME_ZONE_STATE_EXPLICITLY_OPEN:
+@@ -1796,7 +1795,7 @@ static uint16_t nvme_close_zone(NvmeNamespace *ns, NvmeZone *zone,
+ }
+ 
+ static uint16_t nvme_finish_zone(NvmeNamespace *ns, NvmeZone *zone,
+-                                 enum NvmeZoneState state)
++                                 NvmeZoneState state)
+ {
+     switch (state) {
+     case NVME_ZONE_STATE_EXPLICITLY_OPEN:
+@@ -1819,7 +1818,7 @@ static uint16_t nvme_finish_zone(NvmeNamespace *ns, NvmeZone *zone,
+ }
+ 
+ static uint16_t nvme_reset_zone(NvmeNamespace *ns, NvmeZone *zone,
+-                                enum NvmeZoneState state)
++                                NvmeZoneState state)
+ {
+     switch (state) {
+     case NVME_ZONE_STATE_EXPLICITLY_OPEN:
+@@ -1842,7 +1841,7 @@ static uint16_t nvme_reset_zone(NvmeNamespace *ns, NvmeZone *zone,
+ }
+ 
+ static uint16_t nvme_offline_zone(NvmeNamespace *ns, NvmeZone *zone,
+-                                  enum NvmeZoneState state)
++                                  NvmeZoneState state)
+ {
+     switch (state) {
+     case NVME_ZONE_STATE_READ_ONLY:
+@@ -1879,7 +1878,7 @@ static uint16_t nvme_bulk_proc_zone(NvmeNamespace *ns, NvmeZone *zone,
+                                     op_handler_t op_hndlr)
+ {
+     uint16_t status = NVME_SUCCESS;
+-    enum NvmeZoneState zs = nvme_get_zone_state(zone);
++    NvmeZoneState zs = nvme_get_zone_state(zone);
+     bool proc_zone;
  
      switch (zs) {
-     case NVME_ZONE_STATE_IMPLICITLY_OPEN:
--        proc_zone = proc_mask & NVME_PROC_IMP_OPEN_ZONES;
--        break;
-     case NVME_ZONE_STATE_EXPLICITLY_OPEN:
--        proc_zone = proc_mask & NVME_PROC_EXP_OPEN_ZONES;
-+        proc_zone = proc_mask & NVME_PROC_OPENED_ZONES;
-         break;
-     case NVME_ZONE_STATE_CLOSED:
-         proc_zone = proc_mask & NVME_PROC_CLOSED_ZONES;
-@@ -1929,15 +1926,14 @@ static uint16_t nvme_do_zone_op(NvmeNamespace *ns, NvmeZone *zone,
-                 }
-             }
-         }
--        if (proc_mask & NVME_PROC_IMP_OPEN_ZONES) {
-+        if (proc_mask & NVME_PROC_OPENED_ZONES) {
-             QTAILQ_FOREACH_SAFE(zone, &ns->imp_open_zones, entry, next) {
-                 status = nvme_bulk_proc_zone(ns, zone, proc_mask, op_hndlr);
-                 if (status != NVME_SUCCESS) {
-                     goto out;
-                 }
-             }
--        }
--        if (proc_mask & NVME_PROC_EXP_OPEN_ZONES) {
-+
-             QTAILQ_FOREACH_SAFE(zone, &ns->exp_open_zones, entry, next) {
-                 status = nvme_bulk_proc_zone(ns, zone, proc_mask, op_hndlr);
-                 if (status != NVME_SUCCESS) {
-@@ -2012,7 +2008,7 @@ static uint16_t nvme_zone_mgmt_send(NvmeCtrl *n, NvmeRequest *req)
+@@ -2077,7 +2076,7 @@ static uint16_t nvme_zone_mgmt_send(NvmeCtrl *n, NvmeRequest *req)
  
-     case NVME_ZONE_ACTION_CLOSE:
-         if (all) {
--            proc_mask = NVME_PROC_IMP_OPEN_ZONES | NVME_PROC_EXP_OPEN_ZONES;
-+            proc_mask = NVME_PROC_OPENED_ZONES;
-         }
-         trace_pci_nvme_close_zone(slba, zone_idx, all);
-         status = nvme_do_zone_op(ns, zone, proc_mask, nvme_close_zone);
-@@ -2020,8 +2016,7 @@ static uint16_t nvme_zone_mgmt_send(NvmeCtrl *n, NvmeRequest *req)
+ static bool nvme_zone_matches_filter(uint32_t zafs, NvmeZone *zl)
+ {
+-    enum NvmeZoneState zs = nvme_get_zone_state(zl);
++    NvmeZoneState zs = nvme_get_zone_state(zl);
  
-     case NVME_ZONE_ACTION_FINISH:
-         if (all) {
--            proc_mask = NVME_PROC_IMP_OPEN_ZONES | NVME_PROC_EXP_OPEN_ZONES |
--                        NVME_PROC_CLOSED_ZONES;
-+            proc_mask = NVME_PROC_OPENED_ZONES | NVME_PROC_CLOSED_ZONES;
-         }
-         trace_pci_nvme_finish_zone(slba, zone_idx, all);
-         status = nvme_do_zone_op(ns, zone, proc_mask, nvme_finish_zone);
-@@ -2029,8 +2024,8 @@ static uint16_t nvme_zone_mgmt_send(NvmeCtrl *n, NvmeRequest *req)
- 
-     case NVME_ZONE_ACTION_RESET:
-         if (all) {
--            proc_mask = NVME_PROC_IMP_OPEN_ZONES | NVME_PROC_EXP_OPEN_ZONES |
--                        NVME_PROC_CLOSED_ZONES | NVME_PROC_FULL_ZONES;
-+            proc_mask = NVME_PROC_OPENED_ZONES | NVME_PROC_CLOSED_ZONES |
-+                NVME_PROC_FULL_ZONES;
-         }
-         trace_pci_nvme_reset_zone(slba, zone_idx, all);
-         status = nvme_do_zone_op(ns, zone, proc_mask, nvme_reset_zone);
+     switch (zafs) {
+     case NVME_ZONE_REPORT_ALL:
 -- 
 2.30.0
 
