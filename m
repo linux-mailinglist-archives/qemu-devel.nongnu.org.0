@@ -2,41 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CB6C02F1FBB
-	for <lists+qemu-devel@lfdr.de>; Mon, 11 Jan 2021 20:48:04 +0100 (CET)
-Received: from localhost ([::1]:33484 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4243B2F1FBA
+	for <lists+qemu-devel@lfdr.de>; Mon, 11 Jan 2021 20:48:02 +0100 (CET)
+Received: from localhost ([::1]:33056 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kz3AZ-0006WP-SP
-	for lists+qemu-devel@lfdr.de; Mon, 11 Jan 2021 14:48:03 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51006)
+	id 1kz3AX-0006LV-6T
+	for lists+qemu-devel@lfdr.de; Mon, 11 Jan 2021 14:48:01 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51926)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <balaton@jedlik.phy.bme.hu>)
- id 1kz2ix-0004WZ-0r; Mon, 11 Jan 2021 14:19:31 -0500
-Received: from jedlik.phy.bme.hu ([152.66.102.83]:59582)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <balaton@jedlik.phy.bme.hu>)
- id 1kz2iu-0000TB-TK; Mon, 11 Jan 2021 14:19:30 -0500
-Received: by jedlik.phy.bme.hu (Postfix, from userid 1000)
- id CB2E8A00F9; Mon, 11 Jan 2021 20:19:25 +0100 (CET)
-Date: Mon, 11 Jan 2021 20:19:25 +0100 (CET)
-From: BALATON Zoltan <balaton@eik.bme.hu>
-To: Peter Maydell <peter.maydell@linaro.org>
-Subject: Re: [PATCH] hw/ppc/ppc400_bamboo: Set dcr-base correctly when creating
- UIC
-In-Reply-To: <20210111171623.18871-1-peter.maydell@linaro.org>
-Message-ID: <alpine.LMD.2.03.2101112015580.7627@eik.bme.hu>
-References: <20210111171623.18871-1-peter.maydell@linaro.org>
-User-Agent: Alpine 2.03 (LMD 1266 2009-07-14)
+ (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
+ id 1kz2ne-0000gL-E9
+ for qemu-devel@nongnu.org; Mon, 11 Jan 2021 14:24:25 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:32124)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
+ id 1kz2nb-000194-1I
+ for qemu-devel@nongnu.org; Mon, 11 Jan 2021 14:24:21 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1610393042;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=r2mxFIi3v4zgPeSdBudHxaoU/iLZxzphoG7C1sMttQQ=;
+ b=dlYY1jQI37mYCifKURCNB3yI4Xjm9tPYtEcSgprgx686RVWq/ZSmNJHmyvTXgoZEW3sOOO
+ 0BZNy1yfC3Xonxb7J0QDwi8nAt4tt8Np0GSUgmJbMZ5iGTR6Rh6hbS9SjcfQHRgKjAjKoy
+ Dwack7Txo8HlDz3LWZ29lUE4FDbRt1I=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-304-N8Z_Ud21OaqTBB9j-nxZVQ-1; Mon, 11 Jan 2021 14:24:01 -0500
+X-MC-Unique: N8Z_Ud21OaqTBB9j-nxZVQ-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 17D02AFA83;
+ Mon, 11 Jan 2021 19:23:59 +0000 (UTC)
+Received: from localhost (unknown [10.40.208.23])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 48F6B60854;
+ Mon, 11 Jan 2021 19:23:48 +0000 (UTC)
+Date: Mon, 11 Jan 2021 20:23:47 +0100
+From: Igor Mammedov <imammedo@redhat.com>
+To: Marian Posteuca <posteuca@mutex.one>
+Subject: Re: [PATCH v3] acpi: Permit OEM ID and OEM table ID fields to be
+ changed
+Message-ID: <20210111202347.41b65fd5@redhat.com>
+In-Reply-To: <87bldvldsl.fsf@mutex.one>
+References: <20201230221302.26800-1-posteuca@mutex.one>
+ <20210106182430.6bf1823a@redhat.com> <87bldvldsl.fsf@mutex.one>
 MIME-Version: 1.0
-Content-Type: TEXT/PLAIN; charset=US-ASCII; format=flowed
-Received-SPF: none client-ip=152.66.102.83;
- envelope-from=balaton@jedlik.phy.bme.hu; helo=jedlik.phy.bme.hu
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=ham autolearn_force=no
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=imammedo@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=imammedo@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -29
+X-Spam_score: -3.0
+X-Spam_bar: ---
+X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.251,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -49,59 +80,40 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: David Gibson <david@gibson.dropbear.id.au>, qemu-ppc@nongnu.org,
- qemu-devel@nongnu.org, Greg Kurz <groug@kaod.org>
+Cc: Peter Maydell <peter.maydell@linaro.org>, Sergio Lopez <slp@redhat.com>,
+ Eduardo Habkost <ehabkost@redhat.com>, Ben Warren <ben@skyportsystems.com>,
+ "Michael S. Tsirkin" <mst@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org,
+ Dongjiu Geng <gengdongjiu@huawei.com>, Shannon Zhao <shannon.zhaosl@gmail.com>,
+ Xiang Zheng <zhengxiang9@huawei.com>, qemu-arm@nongnu.org,
+ Paolo Bonzini <pbonzini@redhat.com>,
+ Xiao Guangrong <xiaoguangrong.eric@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, 11 Jan 2021, Peter Maydell wrote:
-> In commit 0270d74ef8862350 we switched from ppcuic_init() to directly
-> creating the UIC device, but I missed that the Bamboo's UIC has a
-> non-standard DCR base register value (0xc0 rather than the default
-> of 0x30). This made Linux panic early in the boot process.
->
-> Specify the correct dcr-base property value when creating the UIC.
->
-> Fixes: 0270d74ef8862350
-> Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
+On Mon, 11 Jan 2021 16:59:54 +0200
+Marian Posteuca <posteuca@mutex.one> wrote:
 
-Reported-by?
+> Igor Mammedov <imammedo@redhat.com> writes:
+> 
+> > overall looks good.
+> > Please add a test case for it, see
+> > tests/qtest/bios-tables-test.c for description how to do it
+> > an/or at
+> >   "[PATCH v3 08/12] tests/acpi: allow updates for expected data files"
+> > and follow up patches on the list.  
+> When you say add a test case, do you mean only updating the binary
+> files in tests/data/acpi/{microvm,pc,q35,virt} according to the steps
+> at the start of the file bios-tables-test.c? Or do you also mean an actual
+> test case to be added in bios-tables-test.c?
+an new test in bios-tables-test.c, which will test that new option works as expected.
 
-> ---
-> With this fix Nathan's test case goes on to eventually hit
-> a QEMU assert:
-> qemu-system-ppc: ../../hw/pci/pci.c:255: pci_bus_change_irq_level: Assertion `irq_num >= 0' failed.
-> but it was doing that on 5.2 as well.
-> ---
-> hw/ppc/ppc440_bamboo.c | 1 +
-> 1 file changed, 1 insertion(+)
->
-> diff --git a/hw/ppc/ppc440_bamboo.c b/hw/ppc/ppc440_bamboo.c
-> index b156bcb9990..2c7a578ba73 100644
-> --- a/hw/ppc/ppc440_bamboo.c
-> +++ b/hw/ppc/ppc440_bamboo.c
-> @@ -198,6 +198,7 @@ static void bamboo_init(MachineState *machine)
->     uicdev = qdev_new(TYPE_PPC_UIC);
->     uicsbd = SYS_BUS_DEVICE(uicdev);
->
-> +    qdev_prop_set_uint32(uicdev, "dcr-base", 0xc0);
+> Also the step 6 described in bios-tables-test.c mentions that the diff of
+> the ACPI table must be added to the commit log, but my change touches
+> all the tables for all architectures so that would mean that I would
+> have to create a huge commit log. How should I approach this?
+I don't think that large commit message is problem, it helps reviewer
+to see expected changes (if|before one actually tests)
 
-This fixes Bamboo but not virtex and 405 which seem to have same problem 
-as I've just shown in replies to those patches. So maybe this is better 
-fixed by changing default value in ppc-uic.c to 0xc0 then. You say in 
-commit message that 0xc0 is non-standard but most boards seem to use that 
-than the default you have now. I don't know if there's a standard by the 
-way or every CPU implementation just puts DCRs where they want.
 
-Regards,
-BALATON Zoltan
-
->     object_property_set_link(OBJECT(uicdev), "cpu", OBJECT(cpu),
->                              &error_fatal);
->     sysbus_realize_and_unref(uicsbd, &error_fatal);
-> -- 
-> 2.20.1
->
->
->
 
