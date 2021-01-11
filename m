@@ -2,64 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4410D2F0C11
-	for <lists+qemu-devel@lfdr.de>; Mon, 11 Jan 2021 06:08:34 +0100 (CET)
-Received: from localhost ([::1]:32840 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 134412F0C16
+	for <lists+qemu-devel@lfdr.de>; Mon, 11 Jan 2021 06:10:25 +0100 (CET)
+Received: from localhost ([::1]:41548 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kypRR-0002qH-8w
-	for lists+qemu-devel@lfdr.de; Mon, 11 Jan 2021 00:08:33 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60026)
+	id 1kypTC-0006LZ-M7
+	for lists+qemu-devel@lfdr.de; Mon, 11 Jan 2021 00:10:23 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60074)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <jag.raman@oracle.com>)
- id 1kypPa-00019e-RA
- for qemu-devel@nongnu.org; Mon, 11 Jan 2021 00:06:38 -0500
-Received: from aserp2130.oracle.com ([141.146.126.79]:52900)
+ id 1kypPd-0001BK-0Z
+ for qemu-devel@nongnu.org; Mon, 11 Jan 2021 00:06:41 -0500
+Received: from aserp2120.oracle.com ([141.146.126.78]:59428)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <jag.raman@oracle.com>)
- id 1kypPY-0005mp-Fm
- for qemu-devel@nongnu.org; Mon, 11 Jan 2021 00:06:38 -0500
-Received: from pps.filterd (aserp2130.oracle.com [127.0.0.1])
- by aserp2130.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 10B55oSv136700;
+ id 1kypPZ-0005mq-94
+ for qemu-devel@nongnu.org; Mon, 11 Jan 2021 00:06:40 -0500
+Received: from pps.filterd (aserp2120.oracle.com [127.0.0.1])
+ by aserp2120.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 10B55xjP104804;
  Mon, 11 Jan 2021 05:06:25 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com;
  h=from : to : cc :
  subject : date : message-id : in-reply-to : references : in-reply-to :
- references; s=corp-2020-01-29;
- bh=yA1DSyjZv0tMR3CRKNLqGplsnYYljWkHjZm4skfaUb4=;
- b=NAxFv7H+64MzfcnGRrc7aHr8HADEJDQx0UYT6e5xXJJPcAc3jizFYh5+Ytg1+jN1Foik
- KRtY9IpzhHwpExs1DsCqRA6MgKszfMO9gx0spja0G+dQJTv2BfqDDBsc41C/OWQGJAjq
- 5QW6/Mdgsw+mchzU/Qe3AROTd/zF76zIcY4YD2C3R0BAXwUJthGxRAZxMeLQL6Lf5etV
- fSNQzu5WxrgeZzxKSIFZe9UZ2vbNlHzg460Tn009hfHrc9xLwNYfA71EhwIaRlG+247K
- ov4riR5/tOlCN/h7tHDOvmDXT0Sa2K2zXfDHdrRT+zOfYkN3gECEOYSxVeR2BofSL6+c lA== 
+ references : mime-version : content-type : content-transfer-encoding;
+ s=corp-2020-01-29; bh=u1hR9SHwHIWgr7HskuiMqqtkc1k2Yy+T61jm9qoxLAw=;
+ b=mCMZ1HAVHBsmi7lC2mMVDC7EiDj8x0e5UytmGQ65a0P2+vGogOVOKD+K5Rh6zjTlgYh5
+ AQb/Es6W0VIj3O8Tl84AhHEOdioMCzgPleuZl94wsuDZ7zTDKr7Jy7W0tdAcwHfRiu/p
+ Yj81yXFAaJj1Q01OEMAk/5v8M64IpBeHiLo46La0pPbrBVk0cy5OBTeTXztDJuxiK/bn
+ 3wEXlw6j02Zph2d0GqFqqfqnLWIlAzbChhEyr8h5FBDxBJrOEE3giKZGDp7vvJUYPGnp
+ K4cc7ru9NO2968nQ3kNpdr2fsDZfpCwBXwwEf9fr2PhgZNFRAvGVw3yAKY9lpHAI5pU4 gQ== 
 Received: from aserp3030.oracle.com (aserp3030.oracle.com [141.146.126.71])
- by aserp2130.oracle.com with ESMTP id 35yknhsyq4-1
+ by aserp2120.oracle.com with ESMTP id 35y4ekk5ru-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=FAIL);
  Mon, 11 Jan 2021 05:06:25 +0000
 Received: from pps.filterd (aserp3030.oracle.com [127.0.0.1])
- by aserp3030.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 10B50ibR139508;
+ by aserp3030.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 10B50h2q139327;
  Mon, 11 Jan 2021 05:06:25 GMT
-Received: from userv0121.oracle.com (userv0121.oracle.com [156.151.31.72])
- by aserp3030.oracle.com with ESMTP id 35yp2k9cmf-1
+Received: from aserv0122.oracle.com (aserv0122.oracle.com [141.146.126.236])
+ by aserp3030.oracle.com with ESMTP id 35yp2k9cmn-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
  Mon, 11 Jan 2021 05:06:25 +0000
 Received: from abhmp0015.oracle.com (abhmp0015.oracle.com [141.146.116.21])
- by userv0121.oracle.com (8.14.4/8.13.8) with ESMTP id 10B56MVw005251;
- Mon, 11 Jan 2021 05:06:23 GMT
+ by aserv0122.oracle.com (8.14.4/8.14.4) with ESMTP id 10B56OIv002999;
+ Mon, 11 Jan 2021 05:06:24 GMT
 Received: from jaraman-bur-1.us.oracle.com (/10.152.33.39)
  by default (Oracle Beehive Gateway v4.0)
- with ESMTP ; Sun, 10 Jan 2021 21:06:22 -0800
+ with ESMTP ; Sun, 10 Jan 2021 21:06:24 -0800
 From: Jagannathan Raman <jag.raman@oracle.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v16 04/20] multi-process: Add config option for multi-process
- QEMU
-Date: Mon, 11 Jan 2021 00:05:49 -0500
-Message-Id: <8a85eacf313264416713f10717dccd25bac617ab.1610339529.git.jag.raman@oracle.com>
+Subject: [PATCH v16 05/20] multi-process: setup PCI host bridge for remote
+ device
+Date: Mon, 11 Jan 2021 00:05:50 -0500
+Message-Id: <ccea4714ebc36de2e96f32a69ac429f072d6de9e.1610339529.git.jag.raman@oracle.com>
 X-Mailer: git-send-email 1.8.3.1
 In-Reply-To: <cover.1610339529.git.jag.raman@oracle.com>
 References: <cover.1610339529.git.jag.raman@oracle.com>
 In-Reply-To: <cover.1610339529.git.jag.raman@oracle.com>
 References: <cover.1610339529.git.jag.raman@oracle.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9860
  signatures=668683
 X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 bulkscore=0
@@ -69,14 +72,14 @@ X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 bulkscore=0
  definitions=main-2101110030
 X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9860
  signatures=668683
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 mlxscore=0
- suspectscore=0 phishscore=0
- clxscore=1015 mlxlogscore=999 lowpriorityscore=0 adultscore=0
- malwarescore=0 bulkscore=0 spamscore=0 impostorscore=0 priorityscore=1501
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2009150000
- definitions=main-2101110030
-Received-SPF: pass client-ip=141.146.126.79; envelope-from=jag.raman@oracle.com;
- helo=aserp2130.oracle.com
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 malwarescore=0
+ bulkscore=0
+ mlxlogscore=999 suspectscore=0 adultscore=0 phishscore=0
+ priorityscore=1501 spamscore=0 lowpriorityscore=0 clxscore=1015
+ impostorscore=0 mlxscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2009150000 definitions=main-2101110030
+Received-SPF: pass client-ip=141.146.126.78; envelope-from=jag.raman@oracle.com;
+ helo=aserp2120.oracle.com
 X-Spam_score_int: -46
 X-Spam_score: -4.7
 X-Spam_bar: ----
@@ -107,125 +110,188 @@ Cc: elena.ufimtseva@oracle.com, fam@euphon.net, swapnil.ingle@nutanix.com,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Add configuration options to enable or disable multiprocess QEMU code
+PCI host bridge is setup for the remote device process. It is
+implemented using remote-pcihost object. It is an extension of the PCI
+host bridge setup by QEMU.
+Remote-pcihost configures a PCI bus which could be used by the remote
+PCI device to latch on to.
 
-Signed-off-by: John G Johnson <john.g.johnson@oracle.com>
 Signed-off-by: Jagannathan Raman <jag.raman@oracle.com>
+Signed-off-by: John G Johnson <john.g.johnson@oracle.com>
 Signed-off-by: Elena Ufimtseva <elena.ufimtseva@oracle.com>
 Reviewed-by: Stefan Hajnoczi <stefanha@redhat.com>
 ---
- configure         | 10 ++++++++++
- meson.build       |  4 +++-
- Kconfig.host      |  4 ++++
- hw/Kconfig        |  1 +
- hw/remote/Kconfig |  3 +++
- 5 files changed, 21 insertions(+), 1 deletion(-)
- create mode 100644 hw/remote/Kconfig
+ include/hw/pci-host/remote.h | 29 +++++++++++++++++
+ hw/pci-host/remote.c         | 75 ++++++++++++++++++++++++++++++++++++++++++++
+ MAINTAINERS                  |  2 ++
+ hw/pci-host/Kconfig          |  3 ++
+ hw/pci-host/meson.build      |  1 +
+ hw/remote/Kconfig            |  1 +
+ 6 files changed, 111 insertions(+)
+ create mode 100644 include/hw/pci-host/remote.h
+ create mode 100644 hw/pci-host/remote.c
 
-diff --git a/configure b/configure
-index 5860bdb..f82dc2c 100755
---- a/configure
-+++ b/configure
-@@ -458,6 +458,7 @@ skip_meson=no
- gettext="auto"
- fuse="auto"
- fuse_lseek="auto"
-+multiprocess="no"
- 
- malloc_trim="auto"
- 
-@@ -804,6 +805,7 @@ Linux)
-   linux="yes"
-   linux_user="yes"
-   vhost_user=${default_feature:-yes}
-+  multiprocess=${default_feature:-yes}
- ;;
- esac
- 
-@@ -1558,6 +1560,10 @@ for opt do
-   ;;
-   --disable-fuse-lseek) fuse_lseek="disabled"
-   ;;
-+  --enable-multiprocess) multiprocess="yes"
-+  ;;
-+  --disable-multiprocess) multiprocess="no"
-+  ;;
-   *)
-       echo "ERROR: unknown option $opt"
-       echo "Try '$0 --help' for more information"
-@@ -1897,6 +1903,7 @@ disabled with --disable-FEATURE, default is enabled if available
-   libdaxctl       libdaxctl support
-   fuse            FUSE block device export
-   fuse-lseek      SEEK_HOLE/SEEK_DATA support for FUSE exports
-+  multiprocess    Multiprocess QEMU support
- 
- NOTE: The object files are built at the place where configure is launched
- EOF
-@@ -6208,6 +6215,9 @@ fi
- if test "$have_mlockall" = "yes" ; then
-   echo "HAVE_MLOCKALL=y" >> $config_host_mak
- fi
-+if test "$multiprocess" = "yes" ; then
-+  echo "CONFIG_MULTIPROCESS_ALLOWED=y" >> $config_host_mak
-+fi
- if test "$fuzzing" = "yes" ; then
-   # If LIB_FUZZING_ENGINE is set, assume we are running on OSS-Fuzz, and the
-   # needed CFLAGS have already been provided
-diff --git a/meson.build b/meson.build
-index 563688d..5e27bb5 100644
---- a/meson.build
-+++ b/meson.build
-@@ -1177,7 +1177,8 @@ host_kconfig = \
-   ('CONFIG_VHOST_KERNEL' in config_host ? ['CONFIG_VHOST_KERNEL=y'] : []) + \
-   (have_virtfs ? ['CONFIG_VIRTFS=y'] : []) + \
-   ('CONFIG_LINUX' in config_host ? ['CONFIG_LINUX=y'] : []) + \
--  ('CONFIG_PVRDMA' in config_host ? ['CONFIG_PVRDMA=y'] : [])
-+  ('CONFIG_PVRDMA' in config_host ? ['CONFIG_PVRDMA=y'] : []) + \
-+  ('CONFIG_MULTIPROCESS_ALLOWED' in config_host ? ['CONFIG_MULTIPROCESS_ALLOWED=y'] : [])
- 
- ignored = [ 'TARGET_XML_FILES', 'TARGET_ABI_DIR', 'TARGET_ARCH' ]
- 
-@@ -2489,6 +2490,7 @@ summary_info += {'rng-none':          config_host.has_key('CONFIG_RNG_NONE')}
- summary_info += {'Linux keyring':     config_host.has_key('CONFIG_SECRET_KEYRING')}
- summary_info += {'FUSE exports':      fuse.found()}
- summary_info += {'FUSE lseek':        fuse_lseek.found()}
-+summary_info += {'Multiprocess QEMU': config_host.has_key('CONFIG_MULTIPROCESS_ALLOWED')}
- summary(summary_info, bool_yn: true)
- 
- if not supported_cpus.contains(cpu)
-diff --git a/Kconfig.host b/Kconfig.host
-index a9a55a9..24255ef 100644
---- a/Kconfig.host
-+++ b/Kconfig.host
-@@ -37,3 +37,7 @@ config VIRTFS
- 
- config PVRDMA
-     bool
-+
-+config MULTIPROCESS_ALLOWED
-+    bool
-+    imply MULTIPROCESS
-diff --git a/hw/Kconfig b/hw/Kconfig
-index 5ad3c6b..525fb52 100644
---- a/hw/Kconfig
-+++ b/hw/Kconfig
-@@ -27,6 +27,7 @@ source pci-host/Kconfig
- source pcmcia/Kconfig
- source pci/Kconfig
- source rdma/Kconfig
-+source remote/Kconfig
- source rtc/Kconfig
- source scsi/Kconfig
- source sd/Kconfig
-diff --git a/hw/remote/Kconfig b/hw/remote/Kconfig
+diff --git a/include/hw/pci-host/remote.h b/include/hw/pci-host/remote.h
 new file mode 100644
-index 0000000..5484446
+index 0000000..06b8a83
 --- /dev/null
-+++ b/hw/remote/Kconfig
-@@ -0,0 +1,3 @@
-+config MULTIPROCESS
++++ b/include/hw/pci-host/remote.h
+@@ -0,0 +1,29 @@
++/*
++ * PCI Host for remote device
++ *
++ * Copyright © 2018, 2021 Oracle and/or its affiliates.
++ *
++ * This work is licensed under the terms of the GNU GPL, version 2 or later.
++ * See the COPYING file in the top-level directory.
++ *
++ */
++
++#ifndef REMOTE_PCIHOST_H
++#define REMOTE_PCIHOST_H
++
++#include "exec/memory.h"
++#include "hw/pci/pcie_host.h"
++
++#define TYPE_REMOTE_PCIHOST "remote-pcihost"
++OBJECT_DECLARE_SIMPLE_TYPE(RemotePCIHost, REMOTE_PCIHOST)
++
++struct RemotePCIHost {
++    /*< private >*/
++    PCIExpressHost parent_obj;
++    /*< public >*/
++
++    MemoryRegion *mr_pci_mem;
++    MemoryRegion *mr_sys_io;
++};
++
++#endif
+diff --git a/hw/pci-host/remote.c b/hw/pci-host/remote.c
+new file mode 100644
+index 0000000..eee4544
+--- /dev/null
++++ b/hw/pci-host/remote.c
+@@ -0,0 +1,75 @@
++/*
++ * Remote PCI host device
++ *
++ * Unlike PCI host devices that model physical hardware, the purpose
++ * of this PCI host is to host multi-process QEMU devices.
++ *
++ * Multi-process QEMU extends the PCI host of a QEMU machine into a
++ * remote process. Any PCI device attached to the remote process is
++ * visible in the QEMU guest. This allows existing QEMU device models
++ * to be reused in the remote process.
++ *
++ * This PCI host is purely a container for PCI devices. It's fake in the
++ * sense that the guest never sees this PCI host and has no way of
++ * accessing it. Its job is just to provide the environment that QEMU
++ * PCI device models need when running in a remote process.
++ *
++ * Copyright © 2018, 2021 Oracle and/or its affiliates.
++ *
++ * This work is licensed under the terms of the GNU GPL, version 2 or later.
++ * See the COPYING file in the top-level directory.
++ *
++ */
++
++#include "qemu/osdep.h"
++#include "qemu-common.h"
++
++#include "hw/pci/pci.h"
++#include "hw/pci/pci_host.h"
++#include "hw/pci/pcie_host.h"
++#include "hw/qdev-properties.h"
++#include "hw/pci-host/remote.h"
++#include "exec/memory.h"
++
++static const char *remote_pcihost_root_bus_path(PCIHostState *host_bridge,
++                                                PCIBus *rootbus)
++{
++    return "0000:00";
++}
++
++static void remote_pcihost_realize(DeviceState *dev, Error **errp)
++{
++    PCIHostState *pci = PCI_HOST_BRIDGE(dev);
++    RemotePCIHost *s = REMOTE_PCIHOST(dev);
++
++    pci->bus = pci_root_bus_new(DEVICE(s), "remote-pci",
++                                s->mr_pci_mem, s->mr_sys_io,
++                                0, TYPE_PCIE_BUS);
++}
++
++static void remote_pcihost_class_init(ObjectClass *klass, void *data)
++{
++    DeviceClass *dc = DEVICE_CLASS(klass);
++    PCIHostBridgeClass *hc = PCI_HOST_BRIDGE_CLASS(klass);
++
++    hc->root_bus_path = remote_pcihost_root_bus_path;
++    dc->realize = remote_pcihost_realize;
++
++    dc->user_creatable = false;
++    set_bit(DEVICE_CATEGORY_BRIDGE, dc->categories);
++    dc->fw_name = "pci";
++}
++
++static const TypeInfo remote_pcihost_info = {
++    .name = TYPE_REMOTE_PCIHOST,
++    .parent = TYPE_PCIE_HOST_BRIDGE,
++    .instance_size = sizeof(RemotePCIHost),
++    .class_init = remote_pcihost_class_init,
++};
++
++static void remote_pcihost_register(void)
++{
++    type_register_static(&remote_pcihost_info);
++}
++
++type_init(remote_pcihost_register)
+diff --git a/MAINTAINERS b/MAINTAINERS
+index da7f735..c5dc042 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -3180,6 +3180,8 @@ M: John G Johnson <john.g.johnson@oracle.com>
+ S: Maintained
+ F: docs/devel/multi-process.rst
+ F: docs/multi-process.rst
++F: hw/pci-host/remote.c
++F: include/hw/pci-host/remote.h
+ 
+ Build and test automation
+ -------------------------
+diff --git a/hw/pci-host/Kconfig b/hw/pci-host/Kconfig
+index eb03f04..8b8c763 100644
+--- a/hw/pci-host/Kconfig
++++ b/hw/pci-host/Kconfig
+@@ -65,3 +65,6 @@ config PCI_POWERNV
+     select PCI_EXPRESS
+     select MSI_NONBROKEN
+     select PCIE_PORT
++
++config REMOTE_PCIHOST
 +    bool
-+    depends on PCI && KVM
+diff --git a/hw/pci-host/meson.build b/hw/pci-host/meson.build
+index da9d1a9..1847c69 100644
+--- a/hw/pci-host/meson.build
++++ b/hw/pci-host/meson.build
+@@ -9,6 +9,7 @@ pci_ss.add(when: 'CONFIG_PCI_EXPRESS_XILINX', if_true: files('xilinx-pcie.c'))
+ pci_ss.add(when: 'CONFIG_PCI_I440FX', if_true: files('i440fx.c'))
+ pci_ss.add(when: 'CONFIG_PCI_SABRE', if_true: files('sabre.c'))
+ pci_ss.add(when: 'CONFIG_XEN_IGD_PASSTHROUGH', if_true: files('xen_igd_pt.c'))
++pci_ss.add(when: 'CONFIG_REMOTE_PCIHOST', if_true: files('remote.c'))
+ 
+ # PPC devices
+ pci_ss.add(when: 'CONFIG_PREP_PCI', if_true: files('prep.c'))
+diff --git a/hw/remote/Kconfig b/hw/remote/Kconfig
+index 5484446..504fd6a 100644
+--- a/hw/remote/Kconfig
++++ b/hw/remote/Kconfig
+@@ -1,3 +1,4 @@
+ config MULTIPROCESS
+     bool
+     depends on PCI && KVM
++    select REMOTE_PCIHOST
 -- 
 1.8.3.1
 
