@@ -2,75 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3A1D22F1237
-	for <lists+qemu-devel@lfdr.de>; Mon, 11 Jan 2021 13:19:00 +0100 (CET)
-Received: from localhost ([::1]:33360 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D2C0B2F1238
+	for <lists+qemu-devel@lfdr.de>; Mon, 11 Jan 2021 13:19:57 +0100 (CET)
+Received: from localhost ([::1]:36368 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kyw9z-0005tN-AW
-	for lists+qemu-devel@lfdr.de; Mon, 11 Jan 2021 07:18:59 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57574)
+	id 1kywAu-00078P-VA
+	for lists+qemu-devel@lfdr.de; Mon, 11 Jan 2021 07:19:56 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58136)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kyw83-00053O-8S
- for qemu-devel@nongnu.org; Mon, 11 Jan 2021 07:16:59 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:20662)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kyw9m-0006Jr-H0
+ for qemu-devel@nongnu.org; Mon, 11 Jan 2021 07:18:46 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:41068)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kyw81-0004s5-PM
- for qemu-devel@nongnu.org; Mon, 11 Jan 2021 07:16:59 -0500
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kyw9f-00051R-Dp
+ for qemu-devel@nongnu.org; Mon, 11 Jan 2021 07:18:46 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1610367417;
+ s=mimecast20190719; t=1610367518;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=3piF4Rp00dJP7X5tKD6ZUfebhyZeASP1t049+HfATnU=;
- b=PYkPa3FvBq0Z+Ti3XCoI8HCSniKstL8/J8Ffrbsdj5Gvg13xPPa6gsx8Uld27a/u4/uJ7W
- FMlDeb3LQoswG5p2tDG57xTsq7X5TJwBRRwTXIl1XTp4el/dgyju4jF6Pvyq7kqDirQyrC
- HgNB+5qQ0uH4zGvPA8WMiyRCys6FC9c=
-Received: from mail-ej1-f70.google.com (mail-ej1-f70.google.com
- [209.85.218.70]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-187-uKngUr77OPaQPlbIZi2_CQ-1; Mon, 11 Jan 2021 07:16:55 -0500
-X-MC-Unique: uKngUr77OPaQPlbIZi2_CQ-1
-Received: by mail-ej1-f70.google.com with SMTP id w6so4945270ejo.2
- for <qemu-devel@nongnu.org>; Mon, 11 Jan 2021 04:16:55 -0800 (PST)
+ bh=1AjvC5+dw4Qw073mtSYIgTURdRW1Ay/E2tYBqZ2woyQ=;
+ b=XL1SW0lJJU/NK2T+BV/UEWbKflvtI6p7mpj99oUzFUstne/sBq8D9CeEMz2oFfDx4b1sMh
+ uHWQCKf5Em9YA9Lggy70x9RpELcCkvQLZUN2bAJl84I0citu8qGl+TT2jnmdc4PtgZrtxR
+ 4QGXlMKolB/t93CGyuHBIlRAf5/8tW0=
+Received: from mail-ed1-f69.google.com (mail-ed1-f69.google.com
+ [209.85.208.69]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-269-Z8V9cXd0PxSg4vV6R7YPpg-1; Mon, 11 Jan 2021 07:18:35 -0500
+X-MC-Unique: Z8V9cXd0PxSg4vV6R7YPpg-1
+Received: by mail-ed1-f69.google.com with SMTP id g25so8171839edu.4
+ for <qemu-devel@nongnu.org>; Mon, 11 Jan 2021 04:18:35 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:subject:to:cc:references:from:message-id:date
  :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=3piF4Rp00dJP7X5tKD6ZUfebhyZeASP1t049+HfATnU=;
- b=Ax+wCGRBJh/uCtTUHRDoFZhwkXr/tLyQPnrnV4WHatKa+l8DqLJeCkHVCJFenHYw92
- XtYliLP5lrBZZ307mOHg4wX630jcG3gEDAAZBB9xxPczJ8zLFaoymaDSj0zdF69r7yck
- w1jeSVBBBaTujU4XVcoN7wZj9pTHIbX20daxi+fdxdqBjT8Q4UKX9SJRch7YMFpEzyNz
- ZjKVO5/VjzD+aJ1a9vt3DmTK7mQdq/DZBYJjdiTInerfTdbWItsJB10oTEWZMLBP/vp8
- F2Dmt+MCIab0d6fMDVIsILQFezUohIWIxqiKWjaHFXlEBqYQvVHy9hwDIVOePC/K8uZ4
- WE/Q==
-X-Gm-Message-State: AOAM5317FHYhvcpQ37wWBja1H7w7gshdOAFiYkubu6iTx/3ubk+YpERO
- AkgdNOmExQ20g7Zcs07F1BfKfG90YEQd43t18Joq4s6aSR+JCXyIzzPpCXazC9KEXcm5hQmRsjH
- nc5P1APbtHTb6gxg=
-X-Received: by 2002:a05:6402:50ca:: with SMTP id
- h10mr13612390edb.181.1610367414162; 
- Mon, 11 Jan 2021 04:16:54 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJy1CKCFSmx3I/qTmfT7HBRVwF/voUBLRz9JIDhOxqcVUeT3jGT3HPbZ6zfP5Gw8kJe1AJTxxA==
-X-Received: by 2002:a05:6402:50ca:: with SMTP id
- h10mr13612370edb.181.1610367413989; 
- Mon, 11 Jan 2021 04:16:53 -0800 (PST)
+ bh=1AjvC5+dw4Qw073mtSYIgTURdRW1Ay/E2tYBqZ2woyQ=;
+ b=lrfupuQjbDL2jHeF4gnOyKeStPmhQTBloFUO7SPqM07yPd9pBHXzo46pQcIuE7avFW
+ rICFHZW8CrNLfOKcJm2aOE09tO+Bcos+duVD+dBHKvXFGbpMlSwHZZ4HycDEJeyh2VbX
+ TFori2eD/4FPMzeT00wllw2Lxvgq+zgQ+kM63zFmZaKQWPUJX6NxxRCvWIrbpUeTfdxV
+ nWdlhwDEQ3pnpO8h4FzttwtXCIM1eidvkne1q/aciAlOr3skRcQE7Ln9rGUrX0sQSF9S
+ DCUu1zsjCBV2PM1BZhR0JCo8Hm9muA/3/fd4UuLR4vkM1zw6jybY76BAiMsvr1iEoCqP
+ Z2WQ==
+X-Gm-Message-State: AOAM531gFYBlZhv2n36uR+2Pw51owBDuWqIhvHnMKxrklkyoagloMKtl
+ BTp5YHsUn+XZGwXXIuDiH6lYNx/g1k0yJaDA3jxMqj2ZOD7YgAN48W3sXr7Zq04namUHdHfjdnp
+ Lxr8LHTZ9nmZ28AQ=
+X-Received: by 2002:a50:f604:: with SMTP id c4mr14792757edn.307.1610367514589; 
+ Mon, 11 Jan 2021 04:18:34 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJyiliHETxgMmb6mEn1z8idujtjg5Lf7fvClL78UJC0P/AiZuReqKxOXNPfvGMdZgqC66hcKEA==
+X-Received: by 2002:a50:f604:: with SMTP id c4mr14792744edn.307.1610367514475; 
+ Mon, 11 Jan 2021 04:18:34 -0800 (PST)
 Received: from [192.168.1.36] (129.red-88-21-205.staticip.rima-tde.net.
  [88.21.205.129])
- by smtp.gmail.com with ESMTPSA id f8sm7610037eds.19.2021.01.11.04.16.52
+ by smtp.gmail.com with ESMTPSA id f11sm6946756ejd.40.2021.01.11.04.18.33
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 11 Jan 2021 04:16:53 -0800 (PST)
-Subject: Re: [PATCH 3/6] gitlab-ci: remove redundant GitLab repo URL command
+ Mon, 11 Jan 2021 04:18:33 -0800 (PST)
+Subject: Re: [PATCH 6/6] get_maintainer: update repo URL to GitLab
 To: Stefan Hajnoczi <stefanha@redhat.com>, qemu-devel@nongnu.org
 References: <20210111115017.156802-1-stefanha@redhat.com>
- <20210111115017.156802-4-stefanha@redhat.com>
+ <20210111115017.156802-7-stefanha@redhat.com>
 From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-Message-ID: <1ccfc782-7fb1-d305-9194-2f9f0ca4f373@redhat.com>
-Date: Mon, 11 Jan 2021 13:16:52 +0100
+Message-ID: <0ef3e086-1839-f6af-c940-7d6a800ba3b5@redhat.com>
+Date: Mon, 11 Jan 2021 13:18:32 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.6.0
 MIME-Version: 1.0
-In-Reply-To: <20210111115017.156802-4-stefanha@redhat.com>
+In-Reply-To: <20210111115017.156802-7-stefanha@redhat.com>
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
 X-Mimecast-Spam-Score: 0
@@ -109,13 +107,14 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On 1/11/21 12:50 PM, Stefan Hajnoczi wrote:
-> It is no longer necessary to point .gitmodules at GitLab repos when
-> running in GitLab CI since they are now used all the time.
+> qemu.org is running out of bandwidth and the QEMU project is moving
+> towards a gating CI on GitLab. Use the GitLab repos instead of qemu.org
+> (they will become mirrors).
 > 
 > Signed-off-by: Stefan Hajnoczi <stefanha@redhat.com>
 > ---
->  .gitlab-ci.yml | 1 -
->  1 file changed, 1 deletion(-)
+>  scripts/get_maintainer.pl | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
 
 Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 
