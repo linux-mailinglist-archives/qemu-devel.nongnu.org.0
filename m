@@ -2,73 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C30DE2F1AD9
-	for <lists+qemu-devel@lfdr.de>; Mon, 11 Jan 2021 17:24:24 +0100 (CET)
-Received: from localhost ([::1]:42040 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 334592F1AF9
+	for <lists+qemu-devel@lfdr.de>; Mon, 11 Jan 2021 17:32:36 +0100 (CET)
+Received: from localhost ([::1]:46416 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kyzzT-0007Yj-Ss
-	for lists+qemu-devel@lfdr.de; Mon, 11 Jan 2021 11:24:23 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37388)
+	id 1kz07N-0001IC-OH
+	for lists+qemu-devel@lfdr.de; Mon, 11 Jan 2021 11:32:33 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38454)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1kyzyE-0006kJ-Ru
- for qemu-devel@nongnu.org; Mon, 11 Jan 2021 11:23:06 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:54687)
+ (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1kz034-0000Ff-RO
+ for qemu-devel@nongnu.org; Mon, 11 Jan 2021 11:28:06 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:30854)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1kyzyB-0006Fe-Vx
- for qemu-devel@nongnu.org; Mon, 11 Jan 2021 11:23:06 -0500
+ (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1kz032-00071Y-Tj
+ for qemu-devel@nongnu.org; Mon, 11 Jan 2021 11:28:06 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1610382183;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:
+ s=mimecast20190719; t=1610382483;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=7B6AjH8s9sN2jWgOEGhT6HqmB0CEdb14Ra6HMav1854=;
- b=WEGp0OpujHOjV0KJzDpTnIW/JuSzDEdTU4KJHO/f5mI7y+JJNihwTez7gzjna+6qc2LeqW
- bv8zSM4ViQd0mCDhdFnIOkVappzlHpJqu5CnJZ/jp2hx7PiDWhEDq8t0WWrmD6fsFFB+KW
- CHlO+qveI1a6Vcueu49Di4LHr7/nDTM=
+ bh=li6Lx077uD+/vjiBes6jITRYS6cW0balQKu94jk9PPg=;
+ b=OPyobf+K6eukpRwQYJNp5DtC93ydj1MYkwBwR5tOmowmuHObkef6EIqMl7sbggV9O73CkT
+ g9cGgngEBvbkUlOl95EwHL9Oduol7LTPSoraMqNjPX+fa8xVkzhCenjbl8XD80LwOALRtN
+ sTc4UBaNgl5wDtui+IJYgKN7BBw5qFQ=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-72-ZkxdWb2rP6q-cq_BsHVmOg-1; Mon, 11 Jan 2021 11:22:58 -0500
-X-MC-Unique: ZkxdWb2rP6q-cq_BsHVmOg-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
+ us-mta-466-vqOv-1SePn6ZX2xE4ywkpQ-1; Mon, 11 Jan 2021 11:28:01 -0500
+X-MC-Unique: vqOv-1SePn6ZX2xE4ywkpQ-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 5AEB6800050;
- Mon, 11 Jan 2021 16:22:57 +0000 (UTC)
-Received: from redhat.com (ovpn-115-108.ams2.redhat.com [10.36.115.108])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 47FE86E510;
- Mon, 11 Jan 2021 16:22:55 +0000 (UTC)
-Date: Mon, 11 Jan 2021 16:22:53 +0000
-From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-To: =?utf-8?B?5rGf6Iqz5p2w?= <18401698361@126.com>
-Subject: Re: Ask for suggestions for CVE-2019-12928
-Message-ID: <20210111162253.GJ1172772@redhat.com>
-References: <74ca794a.6063.176f21e2fca.Coremail.18401698361@126.com>
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id E60AB9CDA2;
+ Mon, 11 Jan 2021 16:27:59 +0000 (UTC)
+Received: from dresden.str.redhat.com (ovpn-115-17.ams2.redhat.com
+ [10.36.115.17])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 2AF4560BE2;
+ Mon, 11 Jan 2021 16:27:55 +0000 (UTC)
+Subject: Re: [PATCH v3 04/25] block/block-copy: implement block_copy_async
+To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
+ qemu-block@nongnu.org
+References: <20201026171815.13233-1-vsementsov@virtuozzo.com>
+ <20201026171815.13233-5-vsementsov@virtuozzo.com>
+From: Max Reitz <mreitz@redhat.com>
+Message-ID: <0f6163c9-b3c8-f154-1c42-04f478a74c6b@redhat.com>
+Date: Mon, 11 Jan 2021 17:27:53 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.5.0
 MIME-Version: 1.0
-In-Reply-To: <74ca794a.6063.176f21e2fca.Coremail.18401698361@126.com>
-User-Agent: Mutt/1.14.6 (2020-07-11)
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+In-Reply-To: <20201026171815.13233-5-vsementsov@virtuozzo.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=berrange@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mreitz@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=berrange@redhat.com;
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=mreitz@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -29
 X-Spam_score: -3.0
 X-Spam_bar: ---
 X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.251,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -81,32 +83,20 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-Cc: qemu-devel@nongnu.org, pjp@fedoraproject.org
+Cc: kwolf@redhat.com, wencongyang2@huawei.com, xiechanglong.d@gmail.com,
+ qemu-devel@nongnu.org, armbru@redhat.com, den@openvz.org, jsnow@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, Jan 11, 2021 at 11:43:53PM +0800, 江芳杰 wrote:
-> Hi:
->     Sorry to bother you~
->     I have read the discussions about CVE--2019-12928 ( https://lists.gnu.org/archive/html/qemu-devel/2019-07/msg01153.html).
-> But, for the scenario of PC users, which is no requirement of network access to QMP, there are some mitigating proposes.
-> 1. Modify the compilation options to disable QMP.
-> 2. Modify command line parsing function to discard the QMP parameters with network configurations.
-> 3. PC manager or other manage software make sure only the trusted user can use QMP.
-> 4. Other ideas?
+On 26.10.20 18:17, Vladimir Sementsov-Ogievskiy wrote:
+> We'll need async block-copy invocation to use in backup directly.
+> 
+> Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+> ---
+>   include/block/block-copy.h | 26 ++++++++++++
+>   block/block-copy.c         | 81 ++++++++++++++++++++++++++++++++++++--
+>   2 files changed, 103 insertions(+), 4 deletions(-)
 
-No code changes are required at all. The described scenario was simply a
-user mis-configuration.
-
-In rare case there can be valid reasons to use QMP on a public IP address,
-but anyone doing so must ensure their usage is secure.
-
-Regards,
-Daniel
--- 
-|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
-|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
-|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
+Reviewed-by: Max Reitz <mreitz@redhat.com>
 
 
