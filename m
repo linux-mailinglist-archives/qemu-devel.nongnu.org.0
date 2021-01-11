@@ -2,52 +2,47 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5658F2F0D3C
-	for <lists+qemu-devel@lfdr.de>; Mon, 11 Jan 2021 08:33:22 +0100 (CET)
-Received: from localhost ([::1]:33410 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1B5822F0D44
+	for <lists+qemu-devel@lfdr.de>; Mon, 11 Jan 2021 08:37:04 +0100 (CET)
+Received: from localhost ([::1]:35892 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kyrhY-000573-UZ
-	for lists+qemu-devel@lfdr.de; Mon, 11 Jan 2021 02:33:20 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50696)
+	id 1kyrl9-0006Kp-4T
+	for lists+qemu-devel@lfdr.de; Mon, 11 Jan 2021 02:37:03 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51196)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <sw@weilnetz.de>) id 1kyrea-0004Vc-8j
- for qemu-devel@nongnu.org; Mon, 11 Jan 2021 02:30:19 -0500
-Received: from mail.weilnetz.de ([37.120.169.71]:38698
- helo=mail.v2201612906741603.powersrv.de)
+ (Exim 4.90_1) (envelope-from <zhukeqian1@huawei.com>)
+ id 1kyrjF-0005gM-Ae; Mon, 11 Jan 2021 02:35:05 -0500
+Received: from szxga07-in.huawei.com ([45.249.212.35]:2631)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <sw@weilnetz.de>) id 1kyreT-0003dq-CF
- for qemu-devel@nongnu.org; Mon, 11 Jan 2021 02:30:15 -0500
-Received: from edv-macbook-pro.fritz.box (p5b1511bf.dip0.t-ipconnect.de
- [91.21.17.191])
- (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
- key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
- (No client certificate requested)
- by mail.v2201612906741603.powersrv.de (Postfix) with ESMTPSA id 2CA41DA004B;
- Mon, 11 Jan 2021 08:30:00 +0100 (CET)
-To: Thomas Huth <thuth@redhat.com>, Joshua Watt <jpewhacker@gmail.com>,
- qemu-devel@nongnu.org
-References: <20210107213856.34170-1-JPEWhacker@gmail.com>
- <8ea87ea1-093d-81b0-13d6-60caa9fcdad4@redhat.com>
- <0e956e41-4862-f979-3247-40d03c5054e4@gmail.com>
- <e2885e2e-cf8a-51f7-6dd8-a28ac4871eef@redhat.com>
-From: Stefan Weil <sw@weilnetz.de>
-Subject: Re: [PATCH] configure: Add flags for MinGW32 standalone build
-Message-ID: <a0cbc0c3-7c5b-ed81-8cfa-2129dda6a268@weilnetz.de>
-Date: Mon, 11 Jan 2021 08:29:59 +0100
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.16; rv:78.0)
- Gecko/20100101 Thunderbird/78.6.0
+ (Exim 4.90_1) (envelope-from <zhukeqian1@huawei.com>)
+ id 1kyrjB-0005Kf-S3; Mon, 11 Jan 2021 02:35:04 -0500
+Received: from DGGEMS404-HUB.china.huawei.com (unknown [172.30.72.58])
+ by szxga07-in.huawei.com (SkyGuard) with ESMTP id 4DDlnS18f9z7Sdj;
+ Mon, 11 Jan 2021 15:33:48 +0800 (CST)
+Received: from DESKTOP-5IS4806.china.huawei.com (10.174.184.42) by
+ DGGEMS404-HUB.china.huawei.com (10.3.19.204) with Microsoft SMTP Server id
+ 14.3.498.0; Mon, 11 Jan 2021 15:34:40 +0800
+From: Keqian Zhu <zhukeqian1@huawei.com>
+To: Kirti Wankhede <kwankhede@nvidia.com>, Alex Williamson
+ <alex.williamson@redhat.com>, <qemu-devel@nongnu.org>, <qemu-arm@nongnu.org>
+Subject: [PATCH] vfio/migrate: Move switch of dirty tracking into
+ vfio_memory_listener
+Date: Mon, 11 Jan 2021 15:34:39 +0800
+Message-ID: <20210111073439.20236-1-zhukeqian1@huawei.com>
+X-Mailer: git-send-email 2.8.4.windows.1
 MIME-Version: 1.0
-In-Reply-To: <e2885e2e-cf8a-51f7-6dd8-a28ac4871eef@redhat.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=37.120.169.71; envelope-from=sw@weilnetz.de;
- helo=mail.v2201612906741603.powersrv.de
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.012,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain
+X-Originating-IP: [10.174.184.42]
+X-CFilter-Loop: Reflected
+Received-SPF: pass client-ip=45.249.212.35; envelope-from=zhukeqian1@huawei.com;
+ helo=szxga07-in.huawei.com
+X-Spam_score_int: -41
+X-Spam_score: -4.2
+X-Spam_bar: ----
+X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
+ RCVD_IN_MSPIKE_H4=-0.01, RCVD_IN_MSPIKE_WL=-0.01, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -60,125 +55,195 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Paolo Bonzini <pbonzini@redhat.com>, Yonggang Luo <luoyonggang@gmail.com>
+Cc: Peter Maydell <peter.maydell@linaro.org>, Andrew Jones <drjones@redhat.com>,
+ Eduardo Habkost <ehabkost@redhat.com>, wanghaibin.wang@huawei.com,
+ jiangkunkun@huawei.com, "Dr . David Alan Gilbert" <dgilbert@redhat.com>,
+ Peter Xu <peterx@redhat.com>, Stefan
+ Hajnoczi <stefanha@redhat.com>, Igor Mammedov <imammedo@redhat.com>,
+ Zenghui Yu <yuzenghui@huawei.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Am 11.01.21 um 08:04 schrieb Thomas Huth:
+For now the switch of vfio dirty page tracking is integrated into
+the vfio_save_handler, it causes some problems [1].
 
-> On 08/01/2021 19.30, Joshua Watt wrote:
->>
->> On 1/8/21 1:25 AM, Thomas Huth wrote:
->>> On 07/01/2021 22.38, Joshua Watt wrote:
->>>> There are two cases that need to be accounted for when compiling QEM=
-U
->>>> for MinGW32:
->>>> =C2=A0 1) A standalone distribution, where QEMU is self contained an=
-d
->>>> =C2=A0=C2=A0=C2=A0=C2=A0 extracted by the user, such as a user would=
- download from the=20
->>>> QEMU
->>>> =C2=A0=C2=A0=C2=A0=C2=A0 website. In this case, all of the QEMU file=
-s should be rooted in
->>>> =C2=A0=C2=A0=C2=A0=C2=A0 $prefix to ensure they can be easily packag=
-ed together for
->>>> =C2=A0=C2=A0=C2=A0=C2=A0 distribution
->>>> =C2=A0 2) QEMU integrated into a distribution image/sysroot/SDK and
->>>> =C2=A0=C2=A0=C2=A0=C2=A0 distributed with other programs. In this ca=
-se, the provided
->>>> =C2=A0=C2=A0=C2=A0=C2=A0 arguments for bindir/datadir/etc. should be=
- respected as they=20
->>>> for a
->>>> =C2=A0=C2=A0=C2=A0=C2=A0 Linux build.
->>>>
->>>> Add a configure time flags --enable-standalone-mingw and
->>>> --disable-standalone-mingw that allows the user to control this
->>>> behavior. The flag defaults to "enabled" if unspecified to retain th=
-e
->>>> existing build behavior
->>>>
->>>> Signed-off-by: Joshua Watt <JPEWhacker@gmail.com>
->>>> ---
->>>> =C2=A0 configure | 8 +++++++-
->>>> =C2=A0 1 file changed, 7 insertions(+), 1 deletion(-)
->>>>
->>>> diff --git a/configure b/configure
->>>> index 5860bdb77b..5c83edb502 100755
->>>> --- a/configure
->>>> +++ b/configure
->>>> @@ -358,6 +358,7 @@ strip_opt=3D"yes"
->>>> =C2=A0 tcg_interpreter=3D"no"
->>>> =C2=A0 bigendian=3D"no"
->>>> =C2=A0 mingw32=3D"no"
->>>> +mingw32_standalone=3D"yes"
->>>> =C2=A0 gcov=3D"no"
->>>> =C2=A0 EXESUF=3D"$default_feature"
->>>> =C2=A0 HOST_DSOSUF=3D".so"
->>>> @@ -1558,6 +1559,10 @@ for opt do
->>>> =C2=A0=C2=A0=C2=A0 ;;
->>>> =C2=A0=C2=A0=C2=A0 --disable-fuse-lseek) fuse_lseek=3D"disabled"
->>>> =C2=A0=C2=A0=C2=A0 ;;
->>>> +=C2=A0 --enable-standalone-mingw) mingw32_standalone=3D"yes"
->>>> +=C2=A0 ;;
->>>> +=C2=A0 --disable-standalone-mingw) mingw32_standalone=3D"no"
->>>> +=C2=A0 ;;
->>>> =C2=A0=C2=A0=C2=A0 *)
->>>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 echo "ERROR: unknown opti=
-on $opt"
->>>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 echo "Try '$0 --help' for=
- more information"
->>>> @@ -1570,7 +1575,7 @@ libdir=3D"${libdir:-$prefix/lib}"
->>>> =C2=A0 libexecdir=3D"${libexecdir:-$prefix/libexec}"
->>>> =C2=A0 includedir=3D"${includedir:-$prefix/include}"
->>>> =C2=A0 -if test "$mingw32" =3D "yes" ; then
->>>> +if test "$mingw32" =3D "yes" && test "$mingw32_standalone" =3D "yes=
-";=20
->>>> then
->>>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 mandir=3D"$prefix"
->>>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 datadir=3D"$prefix"
->>>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 docdir=3D"$prefix"
->>>> @@ -1897,6 +1902,7 @@ disabled with --disable-FEATURE, default is=20
->>>> enabled if available
->>>> =C2=A0=C2=A0=C2=A0 libdaxctl=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 lib=
-daxctl support
->>>> =C2=A0=C2=A0=C2=A0 fuse=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0 FUSE block device export
->>>> =C2=A0=C2=A0=C2=A0 fuse-lseek=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 SEEK_HOL=
-E/SEEK_DATA support for FUSE exports
->>>> +=C2=A0 standalone-mingw=C2=A0 Build for standalone distribution on =
-MinGW
->>>> =C2=A0 =C2=A0 NOTE: The object files are built at the place where co=
-nfigure=20
->>>> is launched
->>>> =C2=A0 EOF
->>>
->>> I think this should maybe be done independently from MinGW, so that=20
->>> it could be used on other systems, too. Thus maybe rather name the=20
->>> switch "--enable-standalone-distribution" or=20
->>> "--enable-standalone-installation" or something like this? On MinGW, =
+The object of dirty tracking is guest memory, but the object of
+the vfio_save_handler is device state. This mixed logic produces
+unnecessary coupling and conflicts:
 
->>> the value of the switch could then default to "yes" while on other=20
->>> systems it would be "no" by default.
->>
->> We could, but I'm curious how useful that is? Does that make the=20
->> option just a shorthand for "--mandir=3D$prefix --bindir=3D$prefix=20
->> --datadir=3D$prefix etc..." for all builds?
->
-> Yes, that would basically be a shorthand for that. Could be useful for =
+1. Coupling: Their saving granule is different (perVM vs perDevice).
+   vfio will enable dirty_page_tracking for each devices, actually
+   once is enough.
+2. Conflicts: The ram_save_setup() traverses all memory_listeners
+   to execute their log_start() and log_sync() hooks to get the
+   first round dirty bitmap, which is used by the bulk stage of
+   ram saving. However, it can't get dirty bitmap from vfio, as
+   @savevm_ram_handlers is registered before @vfio_save_handler.
 
-> people who want to create standalone binaries on Linux etc., too.
->
-> =C2=A0Thomas
+Move the switch of vfio dirty_page_tracking into vfio_memory_listener
+can solve above problems. Besides, Do not require devices in SAVING
+state for vfio_sync_dirty_bitmap().
 
+[1] https://www.spinics.net/lists/kvm/msg229967.html
 
-Aren't nearly all files already rooted in $prefix? The only exception I=20
-know is /etc/qemu.
+Reported-by: Zenghui Yu <yuzenghui@huawei.com>
+Signed-off-by: Keqian Zhu <zhukeqian1@huawei.com>
+---
+ hw/vfio/common.c    | 53 +++++++++++++++++++++++++++++++++++++--------
+ hw/vfio/migration.c | 35 ------------------------------
+ 2 files changed, 44 insertions(+), 44 deletions(-)
 
-Rooting in $prefix still allows hierarchical subdirectories. I'd prefer=20
-them for MinGW, too.
-
-Stefan
-
-
+diff --git a/hw/vfio/common.c b/hw/vfio/common.c
+index 6ff1daa763..9128cd7ee1 100644
+--- a/hw/vfio/common.c
++++ b/hw/vfio/common.c
+@@ -311,7 +311,7 @@ bool vfio_mig_active(void)
+     return true;
+ }
+ 
+-static bool vfio_devices_all_saving(VFIOContainer *container)
++static bool vfio_devices_all_dirty_tracking(VFIOContainer *container)
+ {
+     VFIOGroup *group;
+     VFIODevice *vbasedev;
+@@ -329,13 +329,8 @@ static bool vfio_devices_all_saving(VFIOContainer *container)
+                 return false;
+             }
+ 
+-            if (migration->device_state & VFIO_DEVICE_STATE_SAVING) {
+-                if ((vbasedev->pre_copy_dirty_page_tracking == ON_OFF_AUTO_OFF)
+-                    && (migration->device_state & VFIO_DEVICE_STATE_RUNNING)) {
+-                        return false;
+-                }
+-                continue;
+-            } else {
++            if ((vbasedev->pre_copy_dirty_page_tracking == ON_OFF_AUTO_OFF)
++                && (migration->device_state & VFIO_DEVICE_STATE_RUNNING)) {
+                 return false;
+             }
+         }
+@@ -987,6 +982,44 @@ static void vfio_listener_region_del(MemoryListener *listener,
+     }
+ }
+ 
++static void vfio_set_dirty_page_tracking(VFIOContainer *container, bool start)
++{
++    int ret;
++    struct vfio_iommu_type1_dirty_bitmap dirty = {
++        .argsz = sizeof(dirty),
++    };
++
++    if (start) {
++        dirty.flags = VFIO_IOMMU_DIRTY_PAGES_FLAG_START;
++    } else {
++        dirty.flags = VFIO_IOMMU_DIRTY_PAGES_FLAG_STOP;
++    }
++
++    ret = ioctl(container->fd, VFIO_IOMMU_DIRTY_PAGES, &dirty);
++    if (ret) {
++        error_report("Failed to set dirty tracking flag 0x%x errno: %d",
++                     dirty.flags, errno);
++    }
++}
++
++static void vfio_listener_log_start(MemoryListener *listener,
++                                    MemoryRegionSection *section,
++                                    int old, int new)
++{
++    VFIOContainer *container = container_of(listener, VFIOContainer, listener);
++
++    vfio_set_dirty_page_tracking(container, true);
++}
++
++static void vfio_listener_log_stop(MemoryListener *listener,
++                                   MemoryRegionSection *section,
++                                   int old, int new)
++{
++    VFIOContainer *container = container_of(listener, VFIOContainer, listener);
++
++    vfio_set_dirty_page_tracking(container, false);
++}
++
+ static int vfio_get_dirty_bitmap(VFIOContainer *container, uint64_t iova,
+                                  uint64_t size, ram_addr_t ram_addr)
+ {
+@@ -1128,7 +1161,7 @@ static void vfio_listerner_log_sync(MemoryListener *listener,
+         return;
+     }
+ 
+-    if (vfio_devices_all_saving(container)) {
++    if (vfio_devices_all_dirty_tracking(container)) {
+         vfio_sync_dirty_bitmap(container, section);
+     }
+ }
+@@ -1136,6 +1169,8 @@ static void vfio_listerner_log_sync(MemoryListener *listener,
+ static const MemoryListener vfio_memory_listener = {
+     .region_add = vfio_listener_region_add,
+     .region_del = vfio_listener_region_del,
++    .log_start = vfio_listener_log_start,
++    .log_stop = vfio_listener_log_stop,
+     .log_sync = vfio_listerner_log_sync,
+ };
+ 
+diff --git a/hw/vfio/migration.c b/hw/vfio/migration.c
+index 00daa50ed8..c0f646823a 100644
+--- a/hw/vfio/migration.c
++++ b/hw/vfio/migration.c
+@@ -395,40 +395,10 @@ static int vfio_load_device_config_state(QEMUFile *f, void *opaque)
+     return qemu_file_get_error(f);
+ }
+ 
+-static int vfio_set_dirty_page_tracking(VFIODevice *vbasedev, bool start)
+-{
+-    int ret;
+-    VFIOMigration *migration = vbasedev->migration;
+-    VFIOContainer *container = vbasedev->group->container;
+-    struct vfio_iommu_type1_dirty_bitmap dirty = {
+-        .argsz = sizeof(dirty),
+-    };
+-
+-    if (start) {
+-        if (migration->device_state & VFIO_DEVICE_STATE_SAVING) {
+-            dirty.flags = VFIO_IOMMU_DIRTY_PAGES_FLAG_START;
+-        } else {
+-            return -EINVAL;
+-        }
+-    } else {
+-            dirty.flags = VFIO_IOMMU_DIRTY_PAGES_FLAG_STOP;
+-    }
+-
+-    ret = ioctl(container->fd, VFIO_IOMMU_DIRTY_PAGES, &dirty);
+-    if (ret) {
+-        error_report("Failed to set dirty tracking flag 0x%x errno: %d",
+-                     dirty.flags, errno);
+-        return -errno;
+-    }
+-    return ret;
+-}
+-
+ static void vfio_migration_cleanup(VFIODevice *vbasedev)
+ {
+     VFIOMigration *migration = vbasedev->migration;
+ 
+-    vfio_set_dirty_page_tracking(vbasedev, false);
+-
+     if (migration->region.mmaps) {
+         vfio_region_unmap(&migration->region);
+     }
+@@ -469,11 +439,6 @@ static int vfio_save_setup(QEMUFile *f, void *opaque)
+         return ret;
+     }
+ 
+-    ret = vfio_set_dirty_page_tracking(vbasedev, true);
+-    if (ret) {
+-        return ret;
+-    }
+-
+     qemu_put_be64(f, VFIO_MIG_FLAG_END_OF_STATE);
+ 
+     ret = qemu_file_get_error(f);
+-- 
+2.19.1
 
 
