@@ -2,54 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D49782F0FED
-	for <lists+qemu-devel@lfdr.de>; Mon, 11 Jan 2021 11:21:47 +0100 (CET)
-Received: from localhost ([::1]:50380 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 460522F1010
+	for <lists+qemu-devel@lfdr.de>; Mon, 11 Jan 2021 11:28:06 +0100 (CET)
+Received: from localhost ([::1]:53452 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kyuKY-0003QD-Co
-	for lists+qemu-devel@lfdr.de; Mon, 11 Jan 2021 05:21:46 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59272)
+	id 1kyuQf-00050I-Ag
+	for lists+qemu-devel@lfdr.de; Mon, 11 Jan 2021 05:28:05 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60386)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
- id 1kyuJR-0002re-24
- for qemu-devel@nongnu.org; Mon, 11 Jan 2021 05:20:37 -0500
-Received: from zero.eik.bme.hu ([152.66.115.2]:51862)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
- id 1kyuJK-0007HT-Tc
- for qemu-devel@nongnu.org; Mon, 11 Jan 2021 05:20:35 -0500
-Received: from zero.eik.bme.hu (blah.eik.bme.hu [152.66.115.182])
- by localhost (Postfix) with SMTP id B38187470EE;
- Mon, 11 Jan 2021 11:20:25 +0100 (CET)
-Received: by zero.eik.bme.hu (Postfix, from userid 432)
- id 73FB07470E3; Mon, 11 Jan 2021 11:20:25 +0100 (CET)
-Received: from localhost (localhost [127.0.0.1])
- by zero.eik.bme.hu (Postfix) with ESMTP id 722AD74645B;
- Mon, 11 Jan 2021 11:20:25 +0100 (CET)
-Date: Mon, 11 Jan 2021 11:20:25 +0100 (CET)
-From: BALATON Zoltan <balaton@eik.bme.hu>
-To: Jiaxun Yang <jiaxun.yang@flygoat.com>
-Subject: Re: [PULL 23/35] hw/intc: Rework Loongson LIOINTC
-In-Reply-To: <3f383a52-6583-4c60-8f24-a24e6b95c068@www.fastmail.com>
-Message-ID: <29acb49a-4d1-ae6b-328d-6e3081e2ab2f@eik.bme.hu>
-References: <20210103205021.2837760-1-f4bug@amsat.org>
- <20210103205021.2837760-24-f4bug@amsat.org>
- <CAFEAcA_YqAiiLRY08-gACmKOCf2mat3AaBGnyRK0Jc+aK-iuOw@mail.gmail.com>
- <b2dd6d33-d8e9-21a3-7b76-bdf44e117128@amsat.org>
- <3aece87-60ff-b195-8bd-c696bf461cb6@eik.bme.hu>
- <CAAhV-H71-wrTfDWN9zH2gU4gdJkCpMk5EDfAi1W1d4jXA3OkZg@mail.gmail.com>
- <3f383a52-6583-4c60-8f24-a24e6b95c068@www.fastmail.com>
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1kyuPL-0004Ko-Ip
+ for qemu-devel@nongnu.org; Mon, 11 Jan 2021 05:26:44 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:53777)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1kyuPI-0001wH-HF
+ for qemu-devel@nongnu.org; Mon, 11 Jan 2021 05:26:42 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1610360797;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=AIUbAAChlK0RbVt5zmLRBVBw18tMKILQLRJzqrokvJ4=;
+ b=Lgvq1BuJ/zNJwJNbkzu5W8R8qvwf4F3rhLfzH43msvANPoIwL2mZIKMFKTF3GM0EoWUvpT
+ Z30VvkA6hQgGi++lc+tHBAJXSzOB2wQpc8p2KYhy86jiMjC+R+IuLcoNV8Hm4LR2XbFiAU
+ uN56QN3liHJUP+r8i70GNt200pwFLfk=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-16-rzcf2jy8NnuXB0G7BhKcrQ-1; Mon, 11 Jan 2021 05:26:34 -0500
+X-MC-Unique: rzcf2jy8NnuXB0G7BhKcrQ-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+ [10.5.11.15])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 256E8801B14;
+ Mon, 11 Jan 2021 10:26:33 +0000 (UTC)
+Received: from thuth.remote.csb (ovpn-112-147.ams2.redhat.com [10.36.112.147])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 5F28C5D769;
+ Mon, 11 Jan 2021 10:26:23 +0000 (UTC)
+Subject: Re: [PATCH v8 5/7] fuzz: set bits in operand of write/out to zero
+To: Qiuhao Li <Qiuhao.Li@outlook.com>,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
+ qemu-devel@nongnu.org
+References: <SYCPR01MB3502FA4DB12C240DD3CFF1E0FCAB0@SYCPR01MB3502.ausprd01.prod.outlook.com>
+ <SYCPR01MB3502C84B6346A3E3DE708C7BFCAB0@SYCPR01MB3502.ausprd01.prod.outlook.com>
+ <d3294c04-28c5-470a-d011-80dc975c7a62@redhat.com>
+ <SYCPR01MB35029A99852F6063CC7C644CFCAB0@SYCPR01MB3502.ausprd01.prod.outlook.com>
+From: Thomas Huth <thuth@redhat.com>
+Message-ID: <fc36e336-7295-53f0-85c4-bd3a4e63857f@redhat.com>
+Date: Mon, 11 Jan 2021 11:26:22 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.4.0
 MIME-Version: 1.0
-Content-Type: multipart/mixed; boundary="3866299591-16891760-1610360425=:96624"
-X-Spam-Probability: 9%
-Received-SPF: pass client-ip=152.66.115.2; envelope-from=balaton@eik.bme.hu;
- helo=zero.eik.bme.hu
-X-Spam_score_int: -41
-X-Spam_score: -4.2
-X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <SYCPR01MB35029A99852F6063CC7C644CFCAB0@SYCPR01MB3502.ausprd01.prod.outlook.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=thuth@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=thuth@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -23
+X-Spam_score: -2.4
+X-Spam_bar: --
+X-Spam_report: (-2.4 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.251,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.012, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -62,160 +84,31 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- Huacai Chen <chenhuacai@kernel.org>,
- =?ISO-8859-15?Q?Philippe_Mathieu-Daud=E9?= <f4bug@amsat.org>,
- Aurelien Jarno <aurelien@aurel32.net>,
- BALATON Zoltan via <qemu-devel@nongnu.org>
+Cc: alxndr@bu.edu, bsd@redhat.com, pbonzini@redhat.com, stefanha@redhat.com,
+ darren.kenny@oracle.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-  This message is in MIME format.  The first part should be readable text,
-  while the remaining parts are likely unreadable without MIME-aware tools.
-
---3866299591-16891760-1610360425=:96624
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 8BIT
-
-On Mon, 11 Jan 2021, Jiaxun Yang wrote:
-> On Mon, Jan 11, 2021, at 8:36 AM, Huacai Chen wrote:
->> I think R_END should be 0x60, Jiaxun, what do you think?
->
-> U r right.
-> The manual is misleading.
-
-The R_END constant is also used in loongson_liointc_init() for the length 
-of the memory region so you might want to revise that. If this is a 32 bit 
-register then you should decide what R_END means? Is it the end of the 
-memory region in which case the reg starts at R_END - 4 or is it the 
-address of the last reg in which case the memory region ends at R_END + 4. 
-From the above I think it's the address of the last reg so you'll probably 
-need to add 4 in loongson_liointc_init() when creating the memory region.
-
-Regards,
-BALATON Zoltan
-
-> Thanks.
->
-> - Jiaxun
->
+On 11/01/2021 10.39, Qiuhao Li wrote:
+> On Mon, 2021-01-11 at 10:01 +0100, Philippe Mathieu-Daudé wrote:
+>> On 1/11/21 7:11 AM, Qiuhao Li wrote:
+>>> Simplifying the crash cases by opportunistically setting bits in
+>>> operands of
+>>> out/write to zero may help to debug, since usually bit one means
+>>> turn on or
+>>> trigger a function while zero is the default turn-off setting.
+>>>
+>>> Tested Bug 1908062.
 >>
->> Huacai
->>
->> On Mon, Jan 11, 2021 at 5:51 AM BALATON Zoltan <balaton@eik.bme.hu> wrote:
->>>
->>> On Sun, 10 Jan 2021, Philippe Mathieu-Daudé wrote:
->>>> Hi Peter, Huacai,
->>>>
->>>> On 1/10/21 8:49 PM, Peter Maydell wrote:
->>>>> On Sun, 3 Jan 2021 at 21:11, Philippe Mathieu-Daudé <f4bug@amsat.org> wrote:
->>>>>>
->>>>>> From: Huacai Chen <chenhuacai@kernel.org>
->>>>>>
->>>>>> As suggested by Philippe Mathieu-Daudé, rework Loongson's liointc:
->>>>>> 1, Move macro definitions to loongson_liointc.h;
->>>>>> 2, Remove magic values and use macros instead;
->>>>>> 3, Replace dead D() code by trace events.
->>>>>>
->>>>>> Suggested-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
->>>>>> Signed-off-by: Huacai Chen <chenhuacai@kernel.org>
->>>>>> Tested-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
->>>>>> Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
->>>>>> Message-Id: <20201221110538.3186646-2-chenhuacai@kernel.org>
->>>>>> Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
->>>>>> ---
->>>>>>  include/hw/intc/loongson_liointc.h | 22 ++++++++++++++++++
->>>>>>  hw/intc/loongson_liointc.c         | 36 +++++++++++++-----------------
->>>>>>  2 files changed, 38 insertions(+), 20 deletions(-)
->>>>>>  create mode 100644 include/hw/intc/loongson_liointc.h
->>>>>
->>>>> Hi; Coverity complains about a possible array overrun
->>>>> in this commit:
->>>>>
->>>>>
->>>>>> @@ -40,13 +39,10 @@
->>>>>>  #define R_IEN                   0x24
->>>>>>  #define R_IEN_SET               0x28
->>>>>>  #define R_IEN_CLR               0x2c
->>>>>> -#define R_PERCORE_ISR(x)        (0x40 + 0x8 * x)
->>>>>> +#define R_ISR_SIZE              0x8
->>>>>> +#define R_START                 0x40
->>>>>>  #define R_END                   0x64
->>>>>>
->>>>>> -#define TYPE_LOONGSON_LIOINTC "loongson.liointc"
->>>>>> -DECLARE_INSTANCE_CHECKER(struct loongson_liointc, LOONGSON_LIOINTC,
->>>>>> -                         TYPE_LOONGSON_LIOINTC)
->>>>>> -
->>>>>>  struct loongson_liointc {
->>>>>>      SysBusDevice parent_obj;
->>>>>>
->>>>>> @@ -123,14 +119,13 @@ liointc_read(void *opaque, hwaddr addr, unsigned int size)
->>>>>>          goto out;
->>>>>>      }
->>>>>>
->>>>>> -    /* Rest is 4 byte */
->>>>>> +    /* Rest are 4 bytes */
->>>>>>      if (size != 4 || (addr % 4)) {
->>>>>>          goto out;
->>>>>>      }
->>>>>>
->>>
->>> Expanding macros in the following:
->>>
->>>>>> -    if (addr >= R_PERCORE_ISR(0) &&
->>>>>> -        addr < R_PERCORE_ISR(NUM_CORES)) {
->>>>>> -        int core = (addr - R_PERCORE_ISR(0)) / 8;
->>>
->>> if (addr >= (0x40 + 0x8 * 0) && addr < (0x40 + 0x8 * 4))
->>> ->
->>> if (addr >= 0x40 && addr < 0x60)
->>> int core = (addr - 0x40) / 8;
->>>
->>>
->>>>>> +    if (addr >= R_START && addr < R_END) {
->>>>>> +        int core = (addr - R_START) / R_ISR_SIZE;
->>>
->>> if (addr >= 0x40 && addr < 0x64)
->>> int core = (addr - 0x40) / 0x8;
->>>
->>> R_END seems to be off by 4 in the above. Should it be 0x60?
->>>
->>> Regards,
->>> BALATON Zoltan
->>>
->>>>> R_END is 0x64 and R_START is 0x40, so if addr is 0x60
->>>>> then addr - R_START is 0x32 and so core here is 4.
->>>>> However p->per_core_isr[] only has 4 entries, so this will
->>>>> be off the end of the array.
->>>>>
->>>>> This is CID 1438965.
->>>>>
->>>>>>          r = p->per_core_isr[core];
->>>>>>          goto out;
->>>>>>      }
->>>>>
->>>>>> -    if (addr >= R_PERCORE_ISR(0) &&
->>>>>> -        addr < R_PERCORE_ISR(NUM_CORES)) {
->>>>>> -        int core = (addr - R_PERCORE_ISR(0)) / 8;
->>>>>> +    if (addr >= R_START && addr < R_END) {
->>>>>> +        int core = (addr - R_START) / R_ISR_SIZE;
->>>>>>          p->per_core_isr[core] = value;
->>>>>>          goto out;
->>>>>>      }
->>>>>
->>>>> Same thing here, CID 1438967.
->>>>
->>>> Thanks Peter.
->>>>
->>>> Huacai, can you have a look please?
->>>>
->>>> Thanks,
->>>>
->>>> Phil.
->>>>
->>>>
->>
->
->
---3866299591-16891760-1610360425=:96624--
+>> Please use the full link as reference:
+>> https://bugs.launchpad.net/qemu/+bug/1908062
+> 
+> Ok, should I submit a new version patch? Or just change the commit
+> messages and submit this series again?
+
+I can fix this when picking up the patches, no need to respin just because 
+of this.
+
+  Thomas
+
 
