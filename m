@@ -2,64 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 105F52F1C12
-	for <lists+qemu-devel@lfdr.de>; Mon, 11 Jan 2021 18:17:55 +0100 (CET)
-Received: from localhost ([::1]:54530 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id F00902F1C34
+	for <lists+qemu-devel@lfdr.de>; Mon, 11 Jan 2021 18:23:01 +0100 (CET)
+Received: from localhost ([::1]:59734 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kz0pG-0000xB-4M
-	for lists+qemu-devel@lfdr.de; Mon, 11 Jan 2021 12:17:54 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50756)
+	id 1kz0uC-0003Tl-4C
+	for lists+qemu-devel@lfdr.de; Mon, 11 Jan 2021 12:23:00 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50994)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1kz0ma-0008I6-Fe
- for qemu-devel@nongnu.org; Mon, 11 Jan 2021 12:15:11 -0500
-Received: from mail-ej1-x635.google.com ([2a00:1450:4864:20::635]:42989)
+ id 1kz0nu-0000cB-4O
+ for qemu-devel@nongnu.org; Mon, 11 Jan 2021 12:16:30 -0500
+Received: from mail-wm1-x32c.google.com ([2a00:1450:4864:20::32c]:52849)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1kz0mX-0007VW-02
- for qemu-devel@nongnu.org; Mon, 11 Jan 2021 12:15:08 -0500
-Received: by mail-ej1-x635.google.com with SMTP id d17so663771ejy.9
- for <qemu-devel@nongnu.org>; Mon, 11 Jan 2021 09:15:03 -0800 (PST)
+ id 1kz0nr-0007s4-GI
+ for qemu-devel@nongnu.org; Mon, 11 Jan 2021 12:16:29 -0500
+Received: by mail-wm1-x32c.google.com with SMTP id a6so472533wmc.2
+ for <qemu-devel@nongnu.org>; Mon, 11 Jan 2021 09:16:27 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=FHH51Ky5Z5iO2qLfE5CJZXdUQNuS8/VjtHYKB1+yRz4=;
- b=qbhPB2rGr8M4/Rme+F2CGihnQLkLpPd7qP9CHhqSuv+Jqp97Lb1dFf54dvFP7nX/ei
- r6uKtLEFP2ynYEWijvHXFOqTEBnGqV0Q5SSzrHnYOhU60s+2rjBcBvTu4ArduTJII7Fs
- VFiDS74zFnDzvFLty5JZwjP3huC0UEo05vZxKCs4QsU5VUlrOkiDmM6z3hKr0vraJth7
- NGzn7TiJzrZJPDNGISr1NSbcC4Jdb4caT3Xt6p6gAR8GHmqzGIzn7/dErjRvggZBxhTn
- 2OGnS+rg/qu/8LmfarSxFemtSYSm2HtB4Yc6g/dpg7SwbcpN9/9xYRcRzOK/jT5WkQG8
- 78tQ==
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=qX/PZINiDr8xnpaMD6rBL/j68/0CMVgrGZ7MHx5ETLk=;
+ b=djhyi1WTo+oqtQB5hSkU/kF5uQ72VcF82QsrJNzlpEbBSen7ZD5rjsjNOUzZlYmKZu
+ DoTKy4xNSFBJxu9lTazjWU0biZGkFTeML+/v80OZG4NLrWV+RhelfHIX2E06JZsHx/wh
+ wvReqCqinl4DRghyPlBP41tuzkvmt9g1YLUa1xHujrVQkXRpnosKU4ycKq8EpfPGBW7H
+ LQlkFZmDWZcnPT4Uy8ghHNN/xcAMti7KhiTVcBeFHw2Z7Al3NE/abAbaRXuy36YsSRpm
+ byXZvKKIDcc13kvLp/XU7piaov6O5AjBkB+utaQShGrCG4q4ms/qO91emRwfRrYXLyUV
+ AiPA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=FHH51Ky5Z5iO2qLfE5CJZXdUQNuS8/VjtHYKB1+yRz4=;
- b=ZJZTNA1F51d7U6yUH4y7vz8Mngv00unjbSJOR5tjo3nH5GBiAx0qUspvPyer+tddHv
- je/QD9ZLutzOBonpIMbc3nls3dXty7ORu9bl9bh8ahJbCSQzmC7J/pLNu/KDNzP4WlL0
- mwbwPjtbCgdgE1DYdJzNBDuQL/OHe26/e4RfuXK+Y4GJ4QeQ332nHCr7Az6lrtzA4H+L
- KwMpKIsfy5W053bZVx5O6gvcYtVB7SXgTmDEiYT1IHwk0TTMznNQD9Ky61TZJvHZteMP
- vKjcKSLEeMLsMIQL91EugmqHOYt3ySq2K9Vl+uouez9maGxdAajyIjg6kk+IQu0p+/Iw
- PyFw==
-X-Gm-Message-State: AOAM530l5L7wafNrpYLRaZJGuWMCw8Hs/UFj0I2cARd1LDFJHsicj1f0
- +nXwtrPxzfNWltIzoL1fbN8PsCRndd+BCHhOrK7htg==
-X-Google-Smtp-Source: ABdhPJz4O2Brcs/vFSLE5GpJd8xQQqdJQ8/2am6ggTO9RFUOMZRIUtTiNh8QnCMEVyMT5UbP/IskEMyp3Pj5+7v62o4=
-X-Received: by 2002:a17:906:31d2:: with SMTP id
- f18mr307702ejf.407.1610385302531; 
- Mon, 11 Jan 2021 09:15:02 -0800 (PST)
-MIME-Version: 1.0
-References: <20201212001537.24520-1-peter.maydell@linaro.org>
- <20201212001537.24520-5-peter.maydell@linaro.org>
- <20210111010028.GA3499905@ubuntu-m3-large-x86>
-In-Reply-To: <20210111010028.GA3499905@ubuntu-m3-large-x86>
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=qX/PZINiDr8xnpaMD6rBL/j68/0CMVgrGZ7MHx5ETLk=;
+ b=ga6ltMzMcQZJrKRmFYrLFeaWwqGnf3gqIjorY3IvYRG/N+yj275EQdgcqCVA2o4d0z
+ TaAggvH9JVccnME4acnPo7F6hzF4xCFKvYQh0w9xYy9UlnB3YieThAXgT4ZodqCOJ1bI
+ ZaLXpogi2HAMYSlcKGtX7pddtT6rEZ6pfy80mt9TU8FZ+sABiQdkbrHQ6r25Uuvy1+Rb
+ /N4dt0sDWcv6Zh4OwPBG5b8vVY+X9JDky8NujWtiguW0aSbX2YY3xKyJUraPTY323EX3
+ CE+bBdp/nIvExXVG7bhCdJFThjJFP4jpFZs82kAhSEK7IeVY5soa9W1gXxOPuwo8cMY+
+ YcSw==
+X-Gm-Message-State: AOAM533dmxGZL/+nRPy53lyYRE6EasyvCweApQiEZgHDveGENeMcGCpd
+ DL+9eFtZ8SV45IHK3eU1RIqF/rYK4B1N0A==
+X-Google-Smtp-Source: ABdhPJzu+mEY1OdlBQBMu2duWWl58PAnVfhzQyy6j0K4G5nxGCrSY8AY2ndLin6EybICCsIN/K7Big==
+X-Received: by 2002:a1c:bc41:: with SMTP id m62mr664152wmf.46.1610385385543;
+ Mon, 11 Jan 2021 09:16:25 -0800 (PST)
+Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
+ by smtp.gmail.com with ESMTPSA id l8sm354533wrb.73.2021.01.11.09.16.24
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 11 Jan 2021 09:16:25 -0800 (PST)
 From: Peter Maydell <peter.maydell@linaro.org>
-Date: Mon, 11 Jan 2021 17:14:51 +0000
-Message-ID: <CAFEAcA9EFdDq+cLY=Z_R=w-u+N1pCZ-Mnq+ckFQ-z2_1jQckuA@mail.gmail.com>
-Subject: Re: [PATCH 4/8] hw/ppc/ppc440_bamboo: Drop use of ppcuic_init()
-To: Nathan Chancellor <natechancellor@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2a00:1450:4864:20::635;
- envelope-from=peter.maydell@linaro.org; helo=mail-ej1-x635.google.com
+To: qemu-devel@nongnu.org
+Subject: [PATCH] hw/ppc/ppc400_bamboo: Set dcr-base correctly when creating UIC
+Date: Mon, 11 Jan 2021 17:16:23 +0000
+Message-Id: <20210111171623.18871-1-peter.maydell@linaro.org>
+X-Mailer: git-send-email 2.20.1
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::32c;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x32c.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -79,35 +80,42 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "Edgar E. Iglesias" <edgar.iglesias@gmail.com>,
- qemu-ppc <qemu-ppc@nongnu.org>, QEMU Developers <qemu-devel@nongnu.org>,
+Cc: qemu-ppc@nongnu.org, Greg Kurz <groug@kaod.org>,
  David Gibson <david@gibson.dropbear.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, 11 Jan 2021 at 01:00, Nathan Chancellor
-<natechancellor@gmail.com> wrote:
->
-> On Sat, Dec 12, 2020 at 12:15:33AM +0000, Peter Maydell wrote:
-> > Switch the bamboo board to directly creating and configuring the UIC,
-> > rather than doing it via the old ppcuic_init() helper function.
+In commit 0270d74ef8862350 we switched from ppcuic_init() to directly
+creating the UIC device, but I missed that the Bamboo's UIC has a
+non-standard DCR base register value (0xc0 rather than the default
+of 0x30). This made Linux panic early in the boot process.
 
-> Hopefully reporting this here is okay, I find Launchpad hard to use but
-> I can file it there if need be.
+Specify the correct dcr-base property value when creating the UIC.
 
-Email reports are fine, thanks.
+Fixes: 0270d74ef8862350
+Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
+---
+With this fix Nathan's test case goes on to eventually hit
+a QEMU assert:
+qemu-system-ppc: ../../hw/pci/pci.c:255: pci_bus_change_irq_level: Assertion `irq_num >= 0' failed.
+but it was doing that on 5.2 as well.
+---
+ hw/ppc/ppc440_bamboo.c | 1 +
+ 1 file changed, 1 insertion(+)
 
-> This patch causes a panic while trying to boot a ppc44x_defconfig Linux
-> kernel:
+diff --git a/hw/ppc/ppc440_bamboo.c b/hw/ppc/ppc440_bamboo.c
+index b156bcb9990..2c7a578ba73 100644
+--- a/hw/ppc/ppc440_bamboo.c
++++ b/hw/ppc/ppc440_bamboo.c
+@@ -198,6 +198,7 @@ static void bamboo_init(MachineState *machine)
+     uicdev = qdev_new(TYPE_PPC_UIC);
+     uicsbd = SYS_BUS_DEVICE(uicdev);
+ 
++    qdev_prop_set_uint32(uicdev, "dcr-base", 0xc0);
+     object_property_set_link(OBJECT(uicdev), "cpu", OBJECT(cpu),
+                              &error_fatal);
+     sysbus_realize_and_unref(uicsbd, &error_fatal);
+-- 
+2.20.1
 
-Sorry, yes, this is a bug in this commit of mine. I didn't notice
-in the conversion that Bamboo has a non-standard DCR base register
-value. I'll just send a patch for this in a second.
-
-Thanks for the repro case.
-
-NB: with the fix for the the kernel proceeds on to the PCI
-related assert that it hit in 5.2.
-
--- PMM
 
