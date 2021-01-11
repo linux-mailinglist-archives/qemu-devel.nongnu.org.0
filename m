@@ -2,108 +2,48 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B5ACE2F2041
-	for <lists+qemu-devel@lfdr.de>; Mon, 11 Jan 2021 21:00:52 +0100 (CET)
-Received: from localhost ([::1]:51212 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2C5672F205F
+	for <lists+qemu-devel@lfdr.de>; Mon, 11 Jan 2021 21:06:34 +0100 (CET)
+Received: from localhost ([::1]:54216 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kz3Mv-0006RE-D5
-	for lists+qemu-devel@lfdr.de; Mon, 11 Jan 2021 15:00:51 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59550)
+	id 1kz3SS-000881-Ss
+	for lists+qemu-devel@lfdr.de; Mon, 11 Jan 2021 15:06:32 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60970)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <linuxram@us.ibm.com>)
- id 1kz3LA-0005qD-My; Mon, 11 Jan 2021 14:59:00 -0500
-Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:37944)
+ (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
+ id 1kz3Qv-0007Zn-Pk
+ for qemu-devel@nongnu.org; Mon, 11 Jan 2021 15:04:57 -0500
+Received: from zero.eik.bme.hu ([152.66.115.2]:56342)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <linuxram@us.ibm.com>)
- id 1kz3L8-0005kv-3c; Mon, 11 Jan 2021 14:59:00 -0500
-Received: from pps.filterd (m0127361.ppops.net [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id
- 10BJgskZ196225; Mon, 11 Jan 2021 14:58:45 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
- h=date : from : to : cc :
- message-id : reply-to : references : mime-version : content-type :
- in-reply-to : subject; s=pp1;
- bh=HlnbdNAo/94mEI3tW5H4udb4sNucEjNi1gf15FFs+2g=;
- b=WOtrlOc2dHAfPVKG8WVaHzwIXAhGWs9l+IRZw9edGTWr5UKnBx6L7JXGUFbHapsskZss
- tR2l6eRZkh3Vi/rZZZfMypAc4NlyVQL4HtmJiBS+xjgAzCXNqPQE7qXHzH4qeWLTaELy
- 82lpx0/kkutbP5YTfMbVO9s2Mn4ypsK8woa4ql+rMrQruOJ4mILZqzAGh+WsZS6IRwYx
- JqjPZHJV/Mvg6a/2pYhGeStDnKxsYpm9eOEjm6BcVj6mBzJ4eqBQLwaKDwCSobnF0K/A
- 3aargxd8gv6rl8C6scmVFL+11vaPAVmDGoF6OnJWsWcSOMfyDe7t3Y9oJvV7CRshSrTu UA== 
-Received: from pps.reinject (localhost [127.0.0.1])
- by mx0a-001b2d01.pphosted.com with ESMTP id 360w2sgaqx-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Mon, 11 Jan 2021 14:58:44 -0500
-Received: from m0127361.ppops.net (m0127361.ppops.net [127.0.0.1])
- by pps.reinject (8.16.0.36/8.16.0.36) with SMTP id 10BJhLWa000880;
- Mon, 11 Jan 2021 14:58:44 -0500
-Received: from ppma05fra.de.ibm.com (6c.4a.5195.ip4.static.sl-reverse.com
- [149.81.74.108])
- by mx0a-001b2d01.pphosted.com with ESMTP id 360w2sgaqd-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Mon, 11 Jan 2021 14:58:44 -0500
-Received: from pps.filterd (ppma05fra.de.ibm.com [127.0.0.1])
- by ppma05fra.de.ibm.com (8.16.0.42/8.16.0.42) with SMTP id 10BJwg2x025212;
- Mon, 11 Jan 2021 19:58:42 GMT
-Received: from b06cxnps3075.portsmouth.uk.ibm.com
- (d06relay10.portsmouth.uk.ibm.com [9.149.109.195])
- by ppma05fra.de.ibm.com with ESMTP id 35y4489br1-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Mon, 11 Jan 2021 19:58:42 +0000
-Received: from d06av26.portsmouth.uk.ibm.com (d06av26.portsmouth.uk.ibm.com
- [9.149.105.62])
- by b06cxnps3075.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 10BJwd8x43319708
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Mon, 11 Jan 2021 19:58:39 GMT
-Received: from d06av26.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 1D668AE053;
- Mon, 11 Jan 2021 19:58:39 +0000 (GMT)
-Received: from d06av26.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 5D80EAE051;
- Mon, 11 Jan 2021 19:58:33 +0000 (GMT)
-Received: from ram-ibm-com.ibm.com (unknown [9.163.29.145])
- by d06av26.portsmouth.uk.ibm.com (Postfix) with ESMTPS;
- Mon, 11 Jan 2021 19:58:33 +0000 (GMT)
-Date: Mon, 11 Jan 2021 11:58:30 -0800
-From: Ram Pai <linuxram@us.ibm.com>
-To: Cornelia Huck <cohuck@redhat.com>
-Message-ID: <20210111195830.GA23898@ram-ibm-com.ibm.com>
-References: <20201217054736.GH310465@yekko.fritz.box>
- <20201217123842.51063918.cohuck@redhat.com>
- <20201217151530.54431f0e@bahia.lan>
- <20201218124111.4957eb50.cohuck@redhat.com>
- <20210104071550.GA22585@ram-ibm-com.ibm.com>
- <20210104134629.49997b53.pasic@linux.ibm.com>
- <20210104184026.GD4102@ram-ibm-com.ibm.com>
- <20210105115614.7daaadd6.pasic@linux.ibm.com>
- <20210105204125.GE4102@ram-ibm-com.ibm.com>
- <20210111175914.13adfa2e.cohuck@redhat.com>
+ (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
+ id 1kz3Qs-0006P7-Bh
+ for qemu-devel@nongnu.org; Mon, 11 Jan 2021 15:04:56 -0500
+Received: from zero.eik.bme.hu (blah.eik.bme.hu [152.66.115.182])
+ by localhost (Postfix) with SMTP id 56DCA7470DD;
+ Mon, 11 Jan 2021 21:04:51 +0100 (CET)
+Received: by zero.eik.bme.hu (Postfix, from userid 432)
+ id 0EF24746552; Mon, 11 Jan 2021 21:04:51 +0100 (CET)
+Received: from localhost (localhost [127.0.0.1])
+ by zero.eik.bme.hu (Postfix) with ESMTP id 0D10774645B;
+ Mon, 11 Jan 2021 21:04:51 +0100 (CET)
+Date: Mon, 11 Jan 2021 21:04:51 +0100 (CET)
+From: BALATON Zoltan <balaton@eik.bme.hu>
+To: Luc Michel <luc.michel@greensocs.com>
+Subject: Re: About creating machines on the command line
+In-Reply-To: <13ecc030-f42b-5a27-a0b3-b07921426ce9@greensocs.com>
+Message-ID: <eb4ac5c9-b1d0-90eb-ed2a-2710d3149482@eik.bme.hu>
+References: <13ecc030-f42b-5a27-a0b3-b07921426ce9@greensocs.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20210111175914.13adfa2e.cohuck@redhat.com>
-User-Agent: Mutt/1.5.21 (2010-09-15)
-X-TM-AS-GCONF: 00
-Subject: RE: [for-6.0 v5 11/13] spapr: PEF: prevent migration
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.343, 18.0.737
- definitions=2021-01-11_30:2021-01-11,
- 2021-01-11 signatures=0
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- bulkscore=0 mlxlogscore=999
- impostorscore=0 malwarescore=0 adultscore=0 clxscore=1015
- lowpriorityscore=0 mlxscore=0 suspectscore=0 priorityscore=1501
- spamscore=0 phishscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2009150000 definitions=main-2101110105
-Received-SPF: pass client-ip=148.163.158.5; envelope-from=linuxram@us.ibm.com;
- helo=mx0b-001b2d01.pphosted.com
-X-Spam_score_int: -26
-X-Spam_score: -2.7
-X-Spam_bar: --
-X-Spam_report: (-2.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_DNSWL_LOW=-0.7,
- RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset=US-ASCII; format=flowed
+X-Spam-Probability: 8%
+Received-SPF: pass client-ip=152.66.115.2; envelope-from=balaton@eik.bme.hu;
+ helo=zero.eik.bme.hu
+X-Spam_score_int: -41
+X-Spam_score: -4.2
+X-Spam_bar: ----
+X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -116,94 +56,111 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Ram Pai <linuxram@us.ibm.com>
-Cc: pair@us.ibm.com, brijesh.singh@amd.com, kvm@vger.kernel.org,
- "Michael S. Tsirkin" <mst@redhat.com>, qemu-devel@nongnu.org,
- frankja@linux.ibm.com, david@redhat.com, mdroth@linux.vnet.ibm.com,
- Halil Pasic <pasic@linux.ibm.com>, borntraeger@de.ibm.com,
- David Gibson <david@gibson.dropbear.id.au>, thuth@redhat.com,
- Eduardo Habkost <ehabkost@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>, Greg Kurz <groug@kaod.org>,
- dgilbert@redhat.com, qemu-s390x@nongnu.org, rth@twiddle.net,
- berrange@redhat.com, Marcelo Tosatti <mtosatti@redhat.com>,
- qemu-ppc@nongnu.org, pbonzini@redhat.com
+Cc: Damien Hedde <damien.hedde@greensocs.com>, peter.maydell@linaro.org,
+ berrange@redhat.com, sam.grove@sifive.com, armbru@redhat.com,
+ Mark Burton <mark.burton@greensocs.com>, qemu-devel@nongnu.org,
+ richard.fuhler@sifive.com, edgar.iglesias@gmail.com, f4bug@amsat.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, Jan 11, 2021 at 05:59:14PM +0100, Cornelia Huck wrote:
-> On Tue, 5 Jan 2021 12:41:25 -0800
-> Ram Pai <linuxram@us.ibm.com> wrote:
-> 
-> > On Tue, Jan 05, 2021 at 11:56:14AM +0100, Halil Pasic wrote:
-> > > On Mon, 4 Jan 2021 10:40:26 -0800
-> > > Ram Pai <linuxram@us.ibm.com> wrote:
-> 
-> > > > The main difference between my proposal and the other proposal is...
-> > > > 
-> > > >   In my proposal the guest makes the compatibility decision and acts
-> > > >   accordingly.  In the other proposal QEMU makes the compatibility
-> > > >   decision and acts accordingly. I argue that QEMU cannot make a good
-> > > >   compatibility decision, because it wont know in advance, if the guest
-> > > >   will or will-not switch-to-secure.
-> > > >   
-> > > 
-> > > You have a point there when you say that QEMU does not know in advance,
-> > > if the guest will or will-not switch-to-secure. I made that argument
-> > > regarding VIRTIO_F_ACCESS_PLATFORM (iommu_platform) myself. My idea
-> > > was to flip that property on demand when the conversion occurs. David
-> > > explained to me that this is not possible for ppc, and that having the
-> > > "securable-guest-memory" property (or whatever the name will be)
-> > > specified is a strong indication, that the VM is intended to be used as
-> > > a secure VM (thus it is OK to hurt the case where the guest does not
-> > > try to transition). That argument applies here as well.  
-> > 
-> > As suggested by Cornelia Huck, what if QEMU disabled the
-> > "securable-guest-memory" property if 'must-support-migrate' is enabled?
-> > Offcourse; this has to be done with a big fat warning stating
-> > "secure-guest-memory" feature is disabled on the machine.
-> > Doing so, will continue to support guest that do not try to transition.
-> > Guest that try to transition will fail and terminate themselves.
-> 
-> Just to recap the s390x situation:
-> 
-> - We currently offer a cpu feature that indicates secure execution to
->   be available to the guest if the host supports it.
-> - When we introduce the secure object, we still need to support
->   previous configurations and continue to offer the cpu feature, even
->   if the secure object is not specified.
-> - As migration is currently not supported for secured guests, we add a
->   blocker once the guest actually transitions. That means that
->   transition fails if --only-migratable was specified on the command
->   line. (Guests not transitioning will obviously not notice anything.)
-> - With the secure object, we will already fail starting QEMU if
->   --only-migratable was specified.
-> 
-> My suggestion is now that we don't even offer the cpu feature if
-> --only-migratable has been specified. For a guest that does not want to
-> transition to secure mode, nothing changes; a guest that wants to
-> transition to secure mode will notice that the feature is not available
-> and fail appropriately (or ultimately, when the ultravisor call fails).
+On Mon, 11 Jan 2021, Luc Michel wrote:
+> Hi,
+>
+> We would like to work on improving QEMU to be able to create custom machines 
+> from the command line. The goal here is to get feedback from the community 
+> and shape the future developments.
+>
+> The use case mainly comes from people working with tools to customize their 
+> designs, such as SiFive Core Designer (https://scs.sifive.com/core-designer). 
+> This kind of tools may allow creation or customization of a whole SoC, from 
+> the number of cores, to the memory and IRQ mapping of peripherals etc.
+>
+> The ultimate goal would be to be able to create any kind of machine on the 
+> command line. However we are aware that this is a substantial amount of 
+> changes in QEMU.
+>
+> In its current state, QEMU allows for very limited customization of existing 
+> machines on the command line. We identified the following limitations (feel 
+> free to add to the list):
+>
+>  - Most devices are not user creatable. Moreover, sysbus devices must be 
+> explicitly allowed by a machine to be creatable through `-device`,
+>
+>  - Memory regions cannot be created on the command line,
+>
+>  - Device MMIO regions cannot be mapped on a bus from the command line,
+>
+>  - GPIOs and clocks cannot be wired from the command line,
+>
+>  - CPUs are not sysbus devices (and not user-creatable). They need special 
+> care when creating them regarding system reset. Not being on a bus means that 
+> they must be reset manually on system reset. This is done in machines by 
+> registering a QEMU reset handler.
+>
+>  - Machine specific boot code is usually hard-coded into the machine itself. 
+> Some architectures (e.g. ARM) do factorize bootloader related code, but there 
+> is no standard way of doing that in QEMU.
+>
+> We don't want to address all those limitations at once. We plan to start with 
+> the following scenario:
+>
+>  - Start with a base machine that would handle CPU creation and bootloader 
+> stuff. Note that the "none" machine is probably not sufficient in its current 
+> shape. It does allow only one CPU and obviously does not handle the boot 
+> process.
+>
+>  - Allow for this machine every sysbus devices we want to be user 
+> command-line creatable (and mark them user_creatable if needed)
+>
+>  - Add command line options to create memory regions (probably ram ones at 
+> first)
+>
+>  - Add command line options to map a memory region (including sysbus device 
+> MMIO regions) onto another (memory_region_add_subregion)
+>
+>  - Add command line options to connect GPIOs and clocks.
 
+I'm not sure the command line would be the best interface for this, it's 
+already hard enough to get a simple VM running, adding more options would 
+just make it more obscure for mere users who just want to use existing 
+machines to create a VM. So I think some kind of config file to define the 
+machine would be better.
 
-On POWER, secure-execution is not **automatically** enabled even when
-the host supports it.  The feature is enabled only if the secure-object
-is configured, and the host supports it.
+Another issue with command line was backward compatibility that it's hard 
+to change if it's used as an interface in scripts, etc. My personal 
+opinion is that the command line should be a user interface to run VMs but 
+for management apps and this kind of dynamic machine creation a better 
+defined API might be better. But I'm not in any way authorative to decide 
+so this is just my input to this.
 
-However the behavior proposed above will be consistent on POWER and
-on s390x,  when '--only-migratable' is specified and 'secure-object'
-is NOT specified.
+> This would hopefully allow for simple machines creation. We would then be 
+> able to use either the command line or the `-readconfig` option to create the 
+> machine.
 
-So I am in agreement till now. 
+It was found that readconfig is limited and cannot even handle its current 
+purpose so it probably would need to be rewritten. This might be a good 
+opportunity for that. Maybe you need a better format than ini file that 
+can actually describe the machine parts and their connections you want to 
+create in a managable way. Question arises how general this has to be to 
+describe all the properties of objects and their connections and if you'll 
+end up with somthing like still needing to write a board code which is the 
+current situation just instead of writing C you'd use some other language 
+and call it a "config file". What do you really want here? Avoid writing C 
+or avoid recompiling QEMU to experiment with devices? In the latter case 
+better support from the QEMU monitor to create machines interactively 
+could also be a solution and if you could run scripts with monitor 
+commands in it that could be your config file.
 
+> Note that we are not planning to use QMP/HMP for now. From our understanding, 
+> a `device_add` request is always considered as hot-plug, which is not what we 
+> want here.
 
-> We'd still fail starting QEMU for the secure object + --only-migratable
-> combination.
+Is that something that cannot be solved? Maybe by adding another command 
+or a state where starting with -S and adding devices before continue would 
+not be hotplug?
 
-Why fail? 
+These are just some random thoughts I had, feel free to ignore any of it.
 
-Instead, print a warning and  disable the secure-object; which will
-disable your cpu-feature. Guests that do not transition to secure, will
-continue to operate, and guests that transition to secure, will fail.
-
-RP
+Regards,
+BALATON Zoltan
 
