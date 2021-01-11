@@ -2,77 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 074662F1CAC
-	for <lists+qemu-devel@lfdr.de>; Mon, 11 Jan 2021 18:41:37 +0100 (CET)
-Received: from localhost ([::1]:50404 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E9EF72F1C94
+	for <lists+qemu-devel@lfdr.de>; Mon, 11 Jan 2021 18:38:05 +0100 (CET)
+Received: from localhost ([::1]:41298 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kz1CB-00073Z-WF
-	for lists+qemu-devel@lfdr.de; Mon, 11 Jan 2021 12:41:36 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51960)
+	id 1kz18m-0003C2-UX
+	for lists+qemu-devel@lfdr.de; Mon, 11 Jan 2021 12:38:04 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51976)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1kz0rv-0003NM-Nl
- for qemu-devel@nongnu.org; Mon, 11 Jan 2021 12:20:46 -0500
-Received: from mail-pf1-x431.google.com ([2607:f8b0:4864:20::431]:36070)
+ id 1kz0s3-0003PO-K7
+ for qemu-devel@nongnu.org; Mon, 11 Jan 2021 12:20:47 -0500
+Received: from mail-pj1-x102e.google.com ([2607:f8b0:4864:20::102e]:54623)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1kz0ri-0000Mv-3A
- for qemu-devel@nongnu.org; Mon, 11 Jan 2021 12:20:39 -0500
-Received: by mail-pf1-x431.google.com with SMTP id t22so326436pfl.3
- for <qemu-devel@nongnu.org>; Mon, 11 Jan 2021 09:20:25 -0800 (PST)
+ id 1kz0rk-0000NU-Bk
+ for qemu-devel@nongnu.org; Mon, 11 Jan 2021 12:20:46 -0500
+Received: by mail-pj1-x102e.google.com with SMTP id f14so8175976pju.4
+ for <qemu-devel@nongnu.org>; Mon, 11 Jan 2021 09:20:27 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=0x8eNDWEM7nOVHNLi9Be+OYkh0XXgSMfT6fpLIKIzjI=;
- b=yJMU8lfWlViiRhe5NypYOBGHv/+mgCemNJ0FtQfUwBJVCsSBJpmLs1P61VQU9uYZjY
- mMaYKcQBDShgRBQ0x+eWtg+b/vhWTOAdEcm5PgGeHEWLz5yfTPXa11Pc1AvJ9lapbv4X
- LQjmlQ3L70In0injN3XPfL3Bhs3YUY9eJPRs9In8JHJTcwBCnTo764ATF0T+rVqrfJZD
- Eem1YAri7KubilJ7RCQ2wLhK4V1ZZOpoQ19vJVQps/A3KOPwEqORkqdt1/hsdN/VdEQX
- OvJgByzWR3s1pfcK/gqVpViWDAxcR4SFM/9/5nBMwDqlIo0WnwDr6hRMLCejBGOF0KJr
- nM6Q==
+ h=from:to:subject:date:message-id:in-reply-to:references:mime-version
+ :content-transfer-encoding;
+ bh=VLAvWvNnNgLaMZdiybYsc0aBns7VEvbUJaVjvegbPqs=;
+ b=l1SfREUWrV9sgwvRTwhKkn2XzPX+OiDX1GybN2nOllY/IttV4kBmQGPKQzCwBp7614
+ HjJ5IfFozAlrnDEfhAheYMFBFNORX/iDZrT+K29C5/voP2DNXh+mrCxwOtFxaCSFfTp6
+ 6yiAe0Yu8P8fW7op7WdApKM1gchtILIHTG1cr8F1KBEjAPFqEEOQCY+16lgXSGZ5E8Ib
+ 6oo+lK0f5dAOe0VVBC8lxg4/yRJd5iidxQ49p1W3FqXc23wS8CdrfGe6YKqLewxuiuiJ
+ 9YrJl9705w7DgD/etkfcP/qRa20O9bVLJbLFOnmM109aFr5xZAPg7cV2oPQQvWXb+WJd
+ jiVQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+ h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=0x8eNDWEM7nOVHNLi9Be+OYkh0XXgSMfT6fpLIKIzjI=;
- b=c+U43aGzXyceXRa5IvwrH970+8flzHQIFCYf5Ks9PLsiiZct+X/SyBbx9FWFBk4QFX
- iPayyqKr36ONtNY5UkwVwsoPpBC8BAuWC7MV+fhpsD+SgqMVBrdoPzReZkc1MO6Kzpdk
- /A1QQTZhL1nO2enx7/y+SFEV0YZEMSGPNzaI5iEbF+HGsgMpO5PpEekUUQPNw4aYkPMp
- +GN1Wi5KjCVBTvBcZz9e9rQ++VBIzdMknz6v3SBjc1PUUzGDtE7O8OaINg6JzbKN/60H
- 9JqOvlq6gRsOTnOn5s2ksAhEN4D5KCU1Rnlph3LM3JKPmfSuSPuudGC2BUDNCsmLl2rr
- ZHtA==
-X-Gm-Message-State: AOAM530Iqp7ei/BzcRxD/HxxB1pXdZiRBozaWu1hcvkykfAwWbStKh+F
- 1gdxfn+po1qlevhSr+BQykFtKvXzf4mquQ==
-X-Google-Smtp-Source: ABdhPJzW9nEb4k/g3jq3ASZTRQXjH0MK0/RaiTFy+q2J+YOOHfuLXIwLwqsd5iI8QXVttYfuuPMjXg==
-X-Received: by 2002:aa7:8517:0:b029:19d:d70f:86ec with SMTP id
- v23-20020aa785170000b029019dd70f86ecmr377698pfn.19.1610385624609; 
- Mon, 11 Jan 2021 09:20:24 -0800 (PST)
+ bh=VLAvWvNnNgLaMZdiybYsc0aBns7VEvbUJaVjvegbPqs=;
+ b=H9hWIdtbHy0UcuyChEswiPRRZYwBUyYivFjCMrBRxv12ToZUIXJkwgkI9X7xMdmb4f
+ yLIQmDe8R51iah1VDPyJhsCsXEYms/qYogzqVS6zs9DUM9rkxfmThb5J7FhOHYRdV/Uo
+ x1tH7iy1VXPKJSqiPdVgbGiXTBD0yHiORWGgmZTQ9ooFF8xxjSi9ZB6zJMa3RfmF2EMf
+ ZEL0pWbldG3vcthx76CLAcBjfbbObmx0ZrdjlYetda1UsatwBEr0yp/O1PjvVXDBkCY8
+ nImKzYa9ALev9UP6MSsvwe+3Bxate70Rjmw57Q+Y6pTsB+xUXprndxoVPOmQlDZ+ENej
+ a51g==
+X-Gm-Message-State: AOAM530mKIXHoI7JCnH0NOQt+2A1/1Fnw6Vv+gLvIsgA6nxeecM/dPew
+ 2BjppFLfvlydFPHMcJenXXTgvP0U4U6MIg==
+X-Google-Smtp-Source: ABdhPJzqX52yrcgW6Bap16OcIazSdVV6kom/jqonIccS1n2lGJAIWPG7nVeeXl8xL65S7VZsv0eyyw==
+X-Received: by 2002:a17:90a:f3c5:: with SMTP id
+ ha5mr266829pjb.61.1610385626006; 
+ Mon, 11 Jan 2021 09:20:26 -0800 (PST)
 Received: from localhost.localdomain (rrcs-173-197-107-21.west.biz.rr.com.
  [173.197.107.21])
- by smtp.gmail.com with ESMTPSA id k64sm206666pfd.75.2021.01.11.09.20.23
+ by smtp.gmail.com with ESMTPSA id k64sm206666pfd.75.2021.01.11.09.20.24
+ for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 11 Jan 2021 09:20:24 -0800 (PST)
+ Mon, 11 Jan 2021 09:20:25 -0800 (PST)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v6 21/23] tcg: Remove tcg_gen_dup{8,16,32,64}i_vec
-Date: Mon, 11 Jan 2021 07:19:44 -1000
-Message-Id: <20210111171946.219469-22-richard.henderson@linaro.org>
+Subject: [PATCH v6 22/23] tcg/ppc: Use tcg_constant_vec with tcg vec expanders
+Date: Mon, 11 Jan 2021 07:19:45 -1000
+Message-Id: <20210111171946.219469-23-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20210111171946.219469-1-richard.henderson@linaro.org>
 References: <20210111171946.219469-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::431;
- envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x431.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::102e;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x102e.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -85,66 +85,93 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-These interfaces have been replaced by tcg_gen_dupi_vec
-and tcg_constant_vec.
+Improve expand_vec_shi to use sign-extraction for MO_32.
+This allows a single VSPLTISB instruction to load all of
+the valid shift constants.
 
-Reviewed-by: Alex Bennée <alex.bennee@linaro.org>
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- include/tcg/tcg-op.h |  4 ----
- tcg/tcg-op-vec.c     | 20 --------------------
- 2 files changed, 24 deletions(-)
+ tcg/ppc/tcg-target.c.inc | 44 ++++++++++++++++++++++++----------------
+ 1 file changed, 27 insertions(+), 17 deletions(-)
 
-diff --git a/include/tcg/tcg-op.h b/include/tcg/tcg-op.h
-index ed8de045e2..2cd1faf9c4 100644
---- a/include/tcg/tcg-op.h
-+++ b/include/tcg/tcg-op.h
-@@ -959,10 +959,6 @@ void tcg_gen_mov_vec(TCGv_vec, TCGv_vec);
- void tcg_gen_dup_i32_vec(unsigned vece, TCGv_vec, TCGv_i32);
- void tcg_gen_dup_i64_vec(unsigned vece, TCGv_vec, TCGv_i64);
- void tcg_gen_dup_mem_vec(unsigned vece, TCGv_vec, TCGv_ptr, tcg_target_long);
--void tcg_gen_dup8i_vec(TCGv_vec, uint32_t);
--void tcg_gen_dup16i_vec(TCGv_vec, uint32_t);
--void tcg_gen_dup32i_vec(TCGv_vec, uint32_t);
--void tcg_gen_dup64i_vec(TCGv_vec, uint64_t);
- void tcg_gen_dupi_vec(unsigned vece, TCGv_vec, uint64_t);
- void tcg_gen_add_vec(unsigned vece, TCGv_vec r, TCGv_vec a, TCGv_vec b);
- void tcg_gen_sub_vec(unsigned vece, TCGv_vec r, TCGv_vec a, TCGv_vec b);
-diff --git a/tcg/tcg-op-vec.c b/tcg/tcg-op-vec.c
-index ce0d2f6e0e..d19aa7373e 100644
---- a/tcg/tcg-op-vec.c
-+++ b/tcg/tcg-op-vec.c
-@@ -241,26 +241,6 @@ TCGv_vec tcg_const_ones_vec_matching(TCGv_vec m)
-     return tcg_const_ones_vec(t->base_type);
+diff --git a/tcg/ppc/tcg-target.c.inc b/tcg/ppc/tcg-target.c.inc
+index 1fbb1b6db0..cf64892295 100644
+--- a/tcg/ppc/tcg-target.c.inc
++++ b/tcg/ppc/tcg-target.c.inc
+@@ -3336,13 +3336,22 @@ static void tcg_out_vec_op(TCGContext *s, TCGOpcode opc,
+ static void expand_vec_shi(TCGType type, unsigned vece, TCGv_vec v0,
+                            TCGv_vec v1, TCGArg imm, TCGOpcode opci)
+ {
+-    TCGv_vec t1 = tcg_temp_new_vec(type);
++    TCGv_vec t1;
+ 
+-    /* Splat w/bytes for xxspltib.  */
+-    tcg_gen_dupi_vec(MO_8, t1, imm & ((8 << vece) - 1));
++    if (vece == MO_32) {
++        /*
++         * Only 5 bits are significant, and VSPLTISB can represent -16..15.
++         * So using negative numbers gets us the 4th bit easily.
++         */
++        imm = sextract32(imm, 0, 5);
++    } else {
++        imm &= (8 << vece) - 1;
++    }
++
++    /* Splat w/bytes for xxspltib when 2.07 allows MO_64. */
++    t1 = tcg_constant_vec(type, MO_8, imm);
+     vec_gen_3(opci, type, vece, tcgv_vec_arg(v0),
+               tcgv_vec_arg(v1), tcgv_vec_arg(t1));
+-    tcg_temp_free_vec(t1);
  }
  
--void tcg_gen_dup64i_vec(TCGv_vec r, uint64_t a)
--{
--    tcg_gen_dupi_vec(MO_64, r, a);
--}
--
--void tcg_gen_dup32i_vec(TCGv_vec r, uint32_t a)
--{
--    tcg_gen_dupi_vec(MO_32, r, a);
--}
--
--void tcg_gen_dup16i_vec(TCGv_vec r, uint32_t a)
--{
--    tcg_gen_dupi_vec(MO_16, r, a);
--}
--
--void tcg_gen_dup8i_vec(TCGv_vec r, uint32_t a)
--{
--    tcg_gen_dupi_vec(MO_8, r, a);
--}
--
- void tcg_gen_dupi_vec(unsigned vece, TCGv_vec r, uint64_t a)
+ static void expand_vec_cmp(TCGType type, unsigned vece, TCGv_vec v0,
+@@ -3400,7 +3409,7 @@ static void expand_vec_mul(TCGType type, unsigned vece, TCGv_vec v0,
  {
-     TCGTemp *rt = tcgv_vec_temp(r);
+     TCGv_vec t1 = tcg_temp_new_vec(type);
+     TCGv_vec t2 = tcg_temp_new_vec(type);
+-    TCGv_vec t3, t4;
++    TCGv_vec c0, c16;
+ 
+     switch (vece) {
+     case MO_8:
+@@ -3419,21 +3428,22 @@ static void expand_vec_mul(TCGType type, unsigned vece, TCGv_vec v0,
+ 
+     case MO_32:
+         tcg_debug_assert(!have_isa_2_07);
+-        t3 = tcg_temp_new_vec(type);
+-        t4 = tcg_temp_new_vec(type);
+-        tcg_gen_dupi_vec(MO_8, t4, -16);
++        /*
++         * Only 5 bits are significant, and VSPLTISB can represent -16..15.
++         * So using -16 is a quick way to represent 16.
++         */
++        c16 = tcg_constant_vec(type, MO_8, -16);
++        c0 = tcg_constant_vec(type, MO_8, 0);
++
+         vec_gen_3(INDEX_op_rotlv_vec, type, MO_32, tcgv_vec_arg(t1),
+-                  tcgv_vec_arg(v2), tcgv_vec_arg(t4));
++                  tcgv_vec_arg(v2), tcgv_vec_arg(c16));
+         vec_gen_3(INDEX_op_ppc_mulou_vec, type, MO_16, tcgv_vec_arg(t2),
+                   tcgv_vec_arg(v1), tcgv_vec_arg(v2));
+-        tcg_gen_dupi_vec(MO_8, t3, 0);
+-        vec_gen_4(INDEX_op_ppc_msum_vec, type, MO_16, tcgv_vec_arg(t3),
+-                  tcgv_vec_arg(v1), tcgv_vec_arg(t1), tcgv_vec_arg(t3));
+-        vec_gen_3(INDEX_op_shlv_vec, type, MO_32, tcgv_vec_arg(t3),
+-                  tcgv_vec_arg(t3), tcgv_vec_arg(t4));
+-        tcg_gen_add_vec(MO_32, v0, t2, t3);
+-        tcg_temp_free_vec(t3);
+-        tcg_temp_free_vec(t4);
++        vec_gen_4(INDEX_op_ppc_msum_vec, type, MO_16, tcgv_vec_arg(t1),
++                  tcgv_vec_arg(v1), tcgv_vec_arg(t1), tcgv_vec_arg(c0));
++        vec_gen_3(INDEX_op_shlv_vec, type, MO_32, tcgv_vec_arg(t1),
++                  tcgv_vec_arg(t1), tcgv_vec_arg(c16));
++        tcg_gen_add_vec(MO_32, v0, t1, t2);
+         break;
+ 
+     default:
 -- 
 2.25.1
 
