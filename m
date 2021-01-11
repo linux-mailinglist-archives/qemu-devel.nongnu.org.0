@@ -2,49 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8BB312F1296
-	for <lists+qemu-devel@lfdr.de>; Mon, 11 Jan 2021 13:52:54 +0100 (CET)
-Received: from localhost ([::1]:36958 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A3A972F1273
+	for <lists+qemu-devel@lfdr.de>; Mon, 11 Jan 2021 13:42:03 +0100 (CET)
+Received: from localhost ([::1]:50506 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kywgm-0004Mt-1s
-	for lists+qemu-devel@lfdr.de; Mon, 11 Jan 2021 07:52:52 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33222)
+	id 1kywWI-0005tS-KR
+	for lists+qemu-devel@lfdr.de; Mon, 11 Jan 2021 07:42:02 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33236)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
- id 1kywNA-0002SI-Fq; Mon, 11 Jan 2021 07:32:36 -0500
-Received: from wout5-smtp.messagingengine.com ([64.147.123.21]:36153)
+ id 1kywNB-0002Th-Vg; Mon, 11 Jan 2021 07:32:38 -0500
+Received: from wout5-smtp.messagingengine.com ([64.147.123.21]:48321)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
- id 1kywN8-0006tO-RU; Mon, 11 Jan 2021 07:32:36 -0500
+ id 1kywNA-0006tf-62; Mon, 11 Jan 2021 07:32:37 -0500
 Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
- by mailout.west.internal (Postfix) with ESMTP id E1A8D28EF;
- Mon, 11 Jan 2021 07:32:32 -0500 (EST)
+ by mailout.west.internal (Postfix) with ESMTP id 2FBCC25D4;
+ Mon, 11 Jan 2021 07:32:34 -0500 (EST)
 Received: from mailfrontend2 ([10.202.2.163])
- by compute4.internal (MEProxy); Mon, 11 Jan 2021 07:32:33 -0500
+ by compute4.internal (MEProxy); Mon, 11 Jan 2021 07:32:34 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=irrelevant.dk;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding; s=fm2; bh=ndtceV/Hor0Gs
- qXeBPqIl4CkzXMOk2D3Hvp1dStxsPQ=; b=oAySnfKGEbWGEm1COV/bZQGxX2U2N
- s5FY1lV7OjN7YGQtyw6x83DcsoWnDlKvUYGz9RxUeCSBOkh45BZOpnd4Ee6JgoM6
- frCVJ6ozdC1AkmoEh2jX1IW5iYy9Ss8OAPKycjUov/GYfG9v2C/p4dBzLL5e3AvW
- iP14oJKKu7/bjllbiK+Gp142WzBUz/DD29T8HhFWfvhtuee6udN9/4EXxPGzUH5b
- 1kYvEbdXbGd0DRcdj/KlfppcuuRXGUenFB7zjTITSaZhklkVmH8mJoxysbKGYsky
- Z1k813X3JUNYBQ+R0X3D4mJIL+17p2BMDRSV4sXGyVTR1Hp1fIMB3QEHw==
+ :mime-version:content-transfer-encoding; s=fm2; bh=adtGXhYc66V9Y
+ uG6CN04y44WiSyTghbjeZIAb9k/xaM=; b=IGXtQfN2nbvJImRwguniR3m9it+Xl
+ yeo0DKwCLLZGM9Lq3legn0VzXetR2pSV5ovfWg9lRfJD4w6fAhNgMIxdRWiUAYi3
+ 10lW+5+u3vfsk336ATWeK8+I5iM40HqYmlZghkIY7J8bqk6W5AjPQc2vnz0bySRc
+ 72yd3R/XkKwH2UjGaUxRzDwZkB8HWUqzOuNIYGbrSF2wSYMmXbi+jvOmZ5lgVhBV
+ DbkiJ9qePO3cKGU2xYNpF9SJWS56GkQlPA0Yjalb65DXOMwJpX1n0PlpduzzCUbg
+ FZZb3GgqqccNEaWHUkUTiFX1rnDwW6yMPhQ0tQzi40G5dfIXk+ESOzskQ==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
  messagingengine.com; h=cc:content-transfer-encoding:date:from
  :in-reply-to:message-id:mime-version:references:subject:to
  :x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
- fm1; bh=ndtceV/Hor0GsqXeBPqIl4CkzXMOk2D3Hvp1dStxsPQ=; b=H94DVCjm
- rbMJYexfsOUXxIpZc9MmP3MtnX2/nBq1ryfSBfWtBvKTASfig81LiYVW5T6JK+qU
- slYZsl/bznRMQ6pwwj2SNfsFTog+QJXJqGfhsjbeY5DLUAnKV+gUETa/z99Ecl8r
- 0hIFNztfXcIvyXrlykpSA7ItgsaGop0bUmFZGf3Lz0zlUOr3+VCsz9jASxtlyI/3
- vLdGDtG8YaAfafVaipAhSq3Dg6qS2KxgNctA0+q1fKN6DjM7lg7lKmh9mMa6QY03
- 7j0nh8jyuIK2o1HdDbviRzD1jPBgQ81S1rFDZEwK7C3FcFlBw060gU789zAGYNSo
- 9xBoAcF6kOgj3w==
-X-ME-Sender: <xms:YEX8X5EJgqC-RKlJBxDfKgG_Jrpalmqk_pRyhgp8VeG8uWbKaM_-dw>
- <xme:YEX8X-V0mAMaREFdZszLR6hqmVvnbAAfsOAYUjxvnDeAvAwj6WuxKzqXLYe_6R7O3
- b_u1a_oi6c7pSEN5pk>
+ fm1; bh=adtGXhYc66V9YuG6CN04y44WiSyTghbjeZIAb9k/xaM=; b=EbtdhqGx
+ eK4x29o/Tg0ui+Zfzdm5Yfv+TFMGa/TIBdMXe9qfKXBLZeVbZSiqDPuh1LhM324B
+ NsClr6ry4DcqthFirh5oUXpwa5/j/3kRxwLHNwMfwOdw8ZCOwgYgDB4ePQveAY5J
+ q0IMm+cXOJyo/OtEazjiv7mAW8Kr660uS8+HAm7uaYKU/Dk8q4PqV74eOD4xvqNB
+ 1+zk6isb63RSWPjTxaah70XQ+DCLnaJiVwigscHKEytmENuqKShYUiwpVk54cXV0
+ yJGBzOhoPmNEzhxwg8WbRTGbhlQnUN2ewaeub4RDl1sg1VlPEHyMgIL8QCakQ7g5
+ pLbMU6/MIoEP1g==
+X-ME-Sender: <xms:YUX8X110pP3K1Qf7WOlkrJHVlVXwVdbC6POYQnn6OufKSeadOll2Mw>
+ <xme:YUX8X8E1Q_OZzRV9UntuE7NaxxiQWchnI8dunNk1cyvutBi48o8FKFkVhKDBL6umf
+ SY4IQIvZMz9eBLn6UI>
 X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedujedrvdehuddggedvucetufdoteggodetrfdotf
  fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
  uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
@@ -53,20 +53,19 @@ X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedujedrvdehuddggedvucetufdoteggod
  gvrhhnpeeuleetgeeiuefhgfekfefgveejiefgteekiedtgfdtieefhfdthfefueffvefg
  keenucfkphepkedtrdduieejrdelkedrudeltdenucevlhhushhtvghrufhiiigvpedtne
  curfgrrhgrmhepmhgrihhlfhhrohhmpehithhssehirhhrvghlvghvrghnthdrughk
-X-ME-Proxy: <xmx:YEX8X7Lba9GMt_E7Y8jexQ1EsPQRqksSVHasxTEAy6YJmdOrQiVcZA>
- <xmx:YEX8X_HiSTsxaiasi7KTrg09dhnidTC7hI05GxZAxF8FSeB3vtQWmA>
- <xmx:YEX8X_XqyRB4Lx3xex-7k7UfSGI5s8rB37ULCi4dRN2crLnMJasrHQ>
- <xmx:YEX8X1ex17cC3s4G0OkoM2dubwHcRKegAKVLI_XDoJN_hRMajgonkQ>
+X-ME-Proxy: <xmx:YUX8X16hNdl3IkomfrhujpvKiSd_M7QjKxmQ73RHi-kKtvx9czwuGQ>
+ <xmx:YUX8Xy2VWza82dp0dGDFhF31FrUXRfKLEOrRep-x7lcDBLkg-xEuww>
+ <xmx:YUX8X4G2xDSEcIiV6ndXQrKkI-cJjpiN6Qz10zdYWqZXc5sha9S_Vw>
+ <xmx:YUX8X9OOK0QfOMTAiAKcrC-aEnkX1amfY4Nnqe4DWGTiIER6_m0osw>
 Received: from apples.local (80-167-98-190-cable.dk.customer.tdc.net
  [80.167.98.190])
- by mail.messagingengine.com (Postfix) with ESMTPA id 608281080057;
- Mon, 11 Jan 2021 07:32:31 -0500 (EST)
+ by mail.messagingengine.com (Postfix) with ESMTPA id 9BBA3108005C;
+ Mon, 11 Jan 2021 07:32:32 -0500 (EST)
 From: Klaus Jensen <its@irrelevant.dk>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 5/6] hw/block/nvme: add missing string representations for
- commands
-Date: Mon, 11 Jan 2021 13:32:22 +0100
-Message-Id: <20210111123223.76248-6-its@irrelevant.dk>
+Subject: [PATCH 6/6] hw/block/nvme: remove unnecessary check for append
+Date: Mon, 11 Jan 2021 13:32:23 +0100
+Message-Id: <20210111123223.76248-7-its@irrelevant.dk>
 X-Mailer: git-send-email 2.30.0
 In-Reply-To: <20210111123223.76248-1-its@irrelevant.dk>
 References: <20210111123223.76248-1-its@irrelevant.dk>
@@ -102,30 +101,29 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Klaus Jensen <k.jensen@samsung.com>
 
-Add missing string representations for a couple of new commands.
+nvme_io_cmd already checks if the namespace supports the Zone Append
+command, so the removed check is dead code.
 
 Signed-off-by: Klaus Jensen <k.jensen@samsung.com>
 ---
- hw/block/nvme.h | 4 ++++
- 1 file changed, 4 insertions(+)
+ hw/block/nvme.c | 4 ----
+ 1 file changed, 4 deletions(-)
 
-diff --git a/hw/block/nvme.h b/hw/block/nvme.h
-index b7fbcca39d9f..65540b650e1d 100644
---- a/hw/block/nvme.h
-+++ b/hw/block/nvme.h
-@@ -64,8 +64,12 @@ static inline const char *nvme_io_opc_str(uint8_t opc)
-     case NVME_CMD_FLUSH:            return "NVME_NVM_CMD_FLUSH";
-     case NVME_CMD_WRITE:            return "NVME_NVM_CMD_WRITE";
-     case NVME_CMD_READ:             return "NVME_NVM_CMD_READ";
-+    case NVME_CMD_COMPARE:          return "NVME_NVM_CMD_COMPARE";
-     case NVME_CMD_WRITE_ZEROES:     return "NVME_NVM_CMD_WRITE_ZEROES";
-     case NVME_CMD_DSM:              return "NVME_NVM_CMD_DSM";
-+    case NVME_CMD_ZONE_MGMT_SEND:   return "NVME_ZONED_CMD_MGMT_SEND";
-+    case NVME_CMD_ZONE_MGMT_RECV:   return "NVME_ZONED_CMD_MGMT_RECV";
-+    case NVME_CMD_ZONE_APPEND:      return "NVME_ZONED_CMD_ZONE_APPEND";
-     default:                        return "NVME_NVM_CMD_UNKNOWN";
+diff --git a/hw/block/nvme.c b/hw/block/nvme.c
+index b3658595fe1b..1f175c7f8256 100644
+--- a/hw/block/nvme.c
++++ b/hw/block/nvme.c
+@@ -1707,10 +1707,6 @@ static uint16_t nvme_do_write(NvmeCtrl *n, NvmeRequest *req, bool append,
+         }
+ 
+         res->slba = nvme_advance_zone_wp(ns, zone, nlb);
+-    } else if (append) {
+-        trace_pci_nvme_err_invalid_opc(rw->opcode);
+-        status = NVME_INVALID_OPCODE;
+-        goto invalid;
      }
- }
+ 
+     data_offset = nvme_l2b(ns, slba);
 -- 
 2.30.0
 
