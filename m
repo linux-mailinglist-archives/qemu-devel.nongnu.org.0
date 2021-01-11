@@ -2,57 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1D4BE2F17A5
-	for <lists+qemu-devel@lfdr.de>; Mon, 11 Jan 2021 15:09:45 +0100 (CET)
-Received: from localhost ([::1]:53012 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id F0D4B2F178A
+	for <lists+qemu-devel@lfdr.de>; Mon, 11 Jan 2021 15:08:36 +0100 (CET)
+Received: from localhost ([::1]:49256 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kyxtA-0003KA-7A
-	for lists+qemu-devel@lfdr.de; Mon, 11 Jan 2021 09:09:44 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58962)
+	id 1kyxs3-0001iG-Vu
+	for lists+qemu-devel@lfdr.de; Mon, 11 Jan 2021 09:08:36 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58966)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1kyxq0-0000qA-8J
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1kyxq0-0000qC-82
  for qemu-devel@nongnu.org; Mon, 11 Jan 2021 09:06:29 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:53782)
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:35119)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1kyxpl-0002Qc-54
- for qemu-devel@nongnu.org; Mon, 11 Jan 2021 09:06:25 -0500
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1kyxpm-0002Qf-Ul
+ for qemu-devel@nongnu.org; Mon, 11 Jan 2021 09:06:27 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
  s=mimecast20190719; t=1610373971;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=RFIGJRu3zPy5hLLoELI7Y1RN9mQnsnJUpiihsWnpeZo=;
- b=bS5IfOJVn6+u9ElCefCdBbdKnCXgACdzyQYdr8gj6d8N3jeBeOHXMbLAtJHSM9aK9yVMR6
- imgrXwLxtKS125GKV3D8raIRUAlRFlPwT7r8ra3ROvotvnKiwHC888lKXjEDUL3e9SxW6a
- CTORmmucpgpJ4ma27rLiaP+hkWGKzXc=
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=+zwOP7XwugONw6Xhf05CLT7PmKsp1sQOpIThdZy11IY=;
+ b=fJcUW/DB8dQdlvBB5yZr7hHjtyVrW9Xhyo24oasE2ZyRMcJ5UcyPAscN72UV45y9JC/ayB
+ mgWzhb7KayyqOSvrWuVGuS12GMF8wJSRP1YlQiWh6zwzFYQ8g2JfIipf9zaLBQCm+vR0HQ
+ p6Ob+UMkYQxqtSKTBnTt3ASqAheNGvU=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-269-_vFWcEIiPYmpNfB2dwNhyA-1; Mon, 11 Jan 2021 09:06:07 -0500
-X-MC-Unique: _vFWcEIiPYmpNfB2dwNhyA-1
+ us-mta-455-qSoaEzdbP-KDWKveFtiRVw-1; Mon, 11 Jan 2021 09:06:09 -0500
+X-MC-Unique: qSoaEzdbP-KDWKveFtiRVw-1
 Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
  [10.5.11.15])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 5C39F802B40;
- Mon, 11 Jan 2021 14:06:06 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 161C287950D;
+ Mon, 11 Jan 2021 14:06:08 +0000 (UTC)
 Received: from thuth.com (ovpn-112-147.ams2.redhat.com [10.36.112.147])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 037EE5B693;
- Mon, 11 Jan 2021 14:06:04 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id CDF655D762;
+ Mon, 11 Jan 2021 14:06:06 +0000 (UTC)
 From: Thomas Huth <thuth@redhat.com>
 To: qemu-devel@nongnu.org,
 	Peter Maydell <peter.maydell@linaro.org>
-Subject: [PULL v2 00/15] Testing, CI and bsd-user patches
-Date: Mon, 11 Jan 2021 15:06:01 +0100
-Message-Id: <20210111140602.159377-1-thuth@redhat.com>
+Subject: [PULL 01/15] gitlab-ci.yml: Add openSUSE Leap 15.2 for gitlab CI/CD
+Date: Mon, 11 Jan 2021 15:06:02 +0100
+Message-Id: <20210111140602.159377-2-thuth@redhat.com>
+In-Reply-To: <20210111140602.159377-1-thuth@redhat.com>
+References: <20210111140602.159377-1-thuth@redhat.com>
 MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=thuth@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="US-ASCII"
 Received-SPF: pass client-ip=216.205.24.124; envelope-from=thuth@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -29
@@ -78,101 +81,140 @@ Cc: acho@suse.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The following changes since commit 7b09f127738ae3d0e71716cea086fc8f847a5686:
+From: "Cho, Yu-Chen" <acho@suse.com>
 
-  Merge remote-tracking branch 'remotes/pmaydell/tags/pull-target-arm-20210108' into staging (2021-01-08 15:37:04 +0000)
+Add build-system-opensuse jobs and opensuse-leap.docker dockerfile.
+Use openSUSE Leap 15.2 container image in the gitlab-CI.
 
-are available in the Git repository at:
-
-  https://gitlab.com/huth/qemu.git tags/pull-request-2021-01-11v2
-
-for you to fetch changes up to b677001d70529df271a5d9314440bb201da40acf:
-
-  fuzz: map all BARs and enable PCI devices (2021-01-11 14:59:21 +0100)
-
-----------------------------------------------------------------
-* Fuzzer improvements
-* Add OpenSUSE leap to the gitlab-CI
-* Some fixes to get our CI "green" again
-* Some initial patches to update bsd-user
-----------------------------------------------------------------
-
-v2: Fixed the author field in the first patch
-
-Alexander Bulekov (1):
-      fuzz: map all BARs and enable PCI devices
-
-Cho, Yu-Chen (1):
-      gitlab-ci.yml: Add openSUSE Leap 15.2 for gitlab CI/CD
-
-Gan Qixin (1):
-      qtest/libqtest: fix heap-buffer-overflow in qtest_cb_for_every_machine()
-
-Philippe Mathieu-Daudé (1):
-      util/oslib-win32: Fix _aligned_malloc() arguments order
-
-Qiuhao Li (7):
-      fuzz: accelerate non-crash detection
-      fuzz: double the IOs to remove for every loop
-      fuzz: split write operand using binary approach
-      fuzz: remove IO commands iteratively
-      fuzz: set bits in operand of write/out to zero
-      fuzz: add minimization options
-      fuzz: heuristic split write based on past IOs
-
-Stacey Son (1):
-      bsd-user: move strace OS/arch dependent code to host/arch dirs
-
-Thomas Huth (1):
-      tests/acceptance: Fix race conditions in s390x tests & skip fedora on gitlab-CI
-
-Warner Losh (2):
-      bsd-user: regenerate FreeBSD's system call numbers
-      bsd-user: Update strace.list for FreeBSD's latest syscalls
-
- .gitlab-ci.d/containers.yml                   |   5 +
- .gitlab-ci.yml                                |  31 ++
- bsd-user/arm/target_arch_sysarch.h            |  78 +++
- bsd-user/arm/target_syscall.h                 |  36 ++
- bsd-user/freebsd/os-strace.h                  |  29 ++
- bsd-user/freebsd/strace.list                  |  65 ++-
- bsd-user/freebsd/syscall_nr.h                 | 695 ++++++++++++++------------
- bsd-user/i386/target_arch_sysarch.h           |  77 +++
- bsd-user/i386/target_syscall.h                |  19 +
- bsd-user/mips/target_arch_sysarch.h           |  69 +++
- bsd-user/mips/target_syscall.h                |  52 ++
- bsd-user/mips64/target_arch_sysarch.h         |  69 +++
- bsd-user/mips64/target_syscall.h              |  53 ++
- bsd-user/netbsd/os-strace.h                   |   1 +
- bsd-user/openbsd/os-strace.h                  |   1 +
- bsd-user/sparc/target_arch_sysarch.h          |  52 ++
- bsd-user/sparc/target_syscall.h               |  24 +-
- bsd-user/sparc64/target_arch_sysarch.h        |  52 ++
- bsd-user/sparc64/target_syscall.h             |  24 +-
- bsd-user/strace.c                             |  11 +
- bsd-user/x86_64/target_arch_sysarch.h         |  76 +++
- bsd-user/x86_64/target_syscall.h              |  21 +-
- meson.build                                   |   1 +
- scripts/oss-fuzz/minimize_qtest_trace.py      | 260 ++++++++--
- tests/acceptance/machine_s390_ccw_virtio.py   |  14 +-
- tests/docker/dockerfiles/opensuse-leap.docker |  55 ++
- tests/qtest/fuzz/generic_fuzz.c               |  24 +
- tests/qtest/libqtest.c                        |   2 +-
- util/oslib-win32.c                            |   2 +-
- 29 files changed, 1521 insertions(+), 377 deletions(-)
- create mode 100644 bsd-user/arm/target_arch_sysarch.h
- create mode 100644 bsd-user/arm/target_syscall.h
- create mode 100644 bsd-user/freebsd/os-strace.h
- create mode 100644 bsd-user/i386/target_arch_sysarch.h
- create mode 100644 bsd-user/mips/target_arch_sysarch.h
- create mode 100644 bsd-user/mips/target_syscall.h
- create mode 100644 bsd-user/mips64/target_arch_sysarch.h
- create mode 100644 bsd-user/mips64/target_syscall.h
- create mode 100644 bsd-user/netbsd/os-strace.h
- create mode 100644 bsd-user/openbsd/os-strace.h
- create mode 100644 bsd-user/sparc/target_arch_sysarch.h
- create mode 100644 bsd-user/sparc64/target_arch_sysarch.h
- create mode 100644 bsd-user/x86_64/target_arch_sysarch.h
+Signed-off-by: Cho, Yu-Chen <acho@suse.com>
+Tested-by: Wainer dos Santos Moschetta <wainersm@redhat.com>
+Reviewed-by: Wainer dos Santos Moschetta <wainersm@redhat.com>
+Message-Id: <20201229085046.8536-1-acho@suse.com>
+Signed-off-by: Thomas Huth <thuth@redhat.com>
+---
+ .gitlab-ci.d/containers.yml                   |  5 ++
+ .gitlab-ci.yml                                | 31 +++++++++++
+ tests/docker/dockerfiles/opensuse-leap.docker | 55 +++++++++++++++++++
+ 3 files changed, 91 insertions(+)
  create mode 100644 tests/docker/dockerfiles/opensuse-leap.docker
+
+diff --git a/.gitlab-ci.d/containers.yml b/.gitlab-ci.d/containers.yml
+index 892ca8d838..910754a699 100644
+--- a/.gitlab-ci.d/containers.yml
++++ b/.gitlab-ci.d/containers.yml
+@@ -246,3 +246,8 @@ amd64-ubuntu-container:
+   <<: *container_job_definition
+   variables:
+     NAME: ubuntu
++
++amd64-opensuse-leap-container:
++  <<: *container_job_definition
++  variables:
++    NAME: opensuse-leap
+diff --git a/.gitlab-ci.yml b/.gitlab-ci.yml
+index 01c9e46410..4532f1718a 100644
+--- a/.gitlab-ci.yml
++++ b/.gitlab-ci.yml
+@@ -200,6 +200,37 @@ acceptance-system-centos:
+     MAKE_CHECK_ARGS: check-acceptance
+   <<: *acceptance_definition
+ 
++build-system-opensuse:
++  <<: *native_build_job_definition
++  variables:
++    IMAGE: opensuse-leap
++    TARGETS: s390x-softmmu x86_64-softmmu aarch64-softmmu
++    MAKE_CHECK_ARGS: check-build
++  artifacts:
++    expire_in: 2 days
++    paths:
++      - build
++
++check-system-opensuse:
++  <<: *native_test_job_definition
++  needs:
++    - job: build-system-opensuse
++      artifacts: true
++  variables:
++    IMAGE: opensuse-leap
++    MAKE_CHECK_ARGS: check
++
++acceptance-system-opensuse:
++   <<: *native_test_job_definition
++   needs:
++     - job: build-system-opensuse
++       artifacts: true
++   variables:
++     IMAGE: opensuse-leap
++     MAKE_CHECK_ARGS: check-acceptance
++   <<: *acceptance_definition
++
++
+ build-disabled:
+   <<: *native_build_job_definition
+   variables:
+diff --git a/tests/docker/dockerfiles/opensuse-leap.docker b/tests/docker/dockerfiles/opensuse-leap.docker
+new file mode 100644
+index 0000000000..0e64893e4a
+--- /dev/null
++++ b/tests/docker/dockerfiles/opensuse-leap.docker
+@@ -0,0 +1,55 @@
++FROM opensuse/leap:15.2
++
++# Please keep this list sorted alphabetically
++ENV PACKAGES \
++    bc \
++    brlapi-devel \
++    bzip2 \
++    cyrus-sasl-devel \
++    gcc \
++    gcc-c++ \
++    mkisofs \
++    gettext-runtime \
++    git \
++    glib2-devel \
++    glusterfs-devel \
++    libgnutls-devel \
++    gtk3-devel \
++    libaio-devel \
++    libattr-devel \
++    libcap-ng-devel \
++    libepoxy-devel \
++    libfdt-devel \
++    libiscsi-devel \
++    libjpeg8-devel \
++    libpmem-devel \
++    libpng16-devel \
++    librbd-devel \
++    libseccomp-devel \
++    libssh-devel \
++    lzo-devel \
++    make \
++    libSDL2_image-devel \
++    ncurses-devel \
++    ninja \
++    libnuma-devel \
++    perl \
++    libpixman-1-0-devel \
++    python3-base \
++    python3-virtualenv \
++    rdma-core-devel \
++    libSDL2-devel \
++    snappy-devel \
++    libspice-server-devel \
++    systemd-devel \
++    systemtap-sdt-devel \
++    tar \
++    usbredir-devel \
++    virglrenderer-devel \
++    xen-devel \
++    vte-devel \
++    zlib-devel
++ENV QEMU_CONFIGURE_OPTS --python=/usr/bin/python3.6
++
++RUN zypper update -y && zypper --non-interactive install -y $PACKAGES
++RUN rpm -q $PACKAGES | sort > /packages.txt
+-- 
+2.27.0
 
 
