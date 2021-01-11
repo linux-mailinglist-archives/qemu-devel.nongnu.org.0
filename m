@@ -2,50 +2,50 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id ABE1A2F162F
-	for <lists+qemu-devel@lfdr.de>; Mon, 11 Jan 2021 14:50:02 +0100 (CET)
-Received: from localhost ([::1]:34712 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7E4412F1664
+	for <lists+qemu-devel@lfdr.de>; Mon, 11 Jan 2021 14:52:53 +0100 (CET)
+Received: from localhost ([::1]:42884 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kyxa5-0007zn-Mr
-	for lists+qemu-devel@lfdr.de; Mon, 11 Jan 2021 08:50:01 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52694)
+	id 1kyxcq-0003PM-JI
+	for lists+qemu-devel@lfdr.de; Mon, 11 Jan 2021 08:52:52 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52750)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1kyxUJ-0002h2-00
- for qemu-devel@nongnu.org; Mon, 11 Jan 2021 08:44:03 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:36651)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1kyxUN-0002j8-KF
+ for qemu-devel@nongnu.org; Mon, 11 Jan 2021 08:44:07 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:29114)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1kyxU8-00082S-L1
- for qemu-devel@nongnu.org; Mon, 11 Jan 2021 08:44:02 -0500
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1kyxUE-00082i-Va
+ for qemu-devel@nongnu.org; Mon, 11 Jan 2021 08:44:07 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1610372629;
+ s=mimecast20190719; t=1610372633;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=hqdGg1DmuVBLQCME0XMtrCACu1/74eKOoo5haog/gaM=;
- b=Hs1ibNu1lz2KDEUS5LG3ZjSEcAwNGZvw5AOWQG4lZEoafT3knr6gPaVz0KKx7jNIAS4pVs
- N/914/PXV1/YB3Y2hQw+KVsm2mtYvOMj3xah+8zNoCtNcktkqGYUoyeg9aIwGWfRAVKv20
- 5IH5m4ixt7H44s80qCeou6UlfWffYUI=
+ bh=tpXo9NxnStxZTiwWw1rETdyPzvAR8Hk9md1s67byzNs=;
+ b=ZprC77DCHLp4aznZd/jARBQ2rrD/y5mFcXGeKkwZa0tP9z+K0BGDSuJ/zyAkroXsEHNPYL
+ Xb4IrbLAW7K3PQiXLZGvMBd1NWmOizm8MUWmmeAeK7DzDP1jKd+hFNrBZxanQTeM8R/3D/
+ /eo1YL7jZwN1oapNdAu7wfHIGLQ4J/8=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-109-5RuXzlPeMkWw78VILk1DzA-1; Mon, 11 Jan 2021 08:43:47 -0500
-X-MC-Unique: 5RuXzlPeMkWw78VILk1DzA-1
+ us-mta-399-3zid_wITNP6NHd4mnMRIOw-1; Mon, 11 Jan 2021 08:43:49 -0500
+X-MC-Unique: 3zid_wITNP6NHd4mnMRIOw-1
 Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
  [10.5.11.11])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id C6BFA19251C1;
- Mon, 11 Jan 2021 13:43:45 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 7AE69107ACF8;
+ Mon, 11 Jan 2021 13:43:48 +0000 (UTC)
 Received: from thuth.com (ovpn-112-147.ams2.redhat.com [10.36.112.147])
- by smtp.corp.redhat.com (Postfix) with ESMTP id BCCF317C5F;
- Mon, 11 Jan 2021 13:43:43 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 51B0B17C5F;
+ Mon, 11 Jan 2021 13:43:46 +0000 (UTC)
 From: Thomas Huth <thuth@redhat.com>
 To: qemu-devel@nongnu.org,
 	Peter Maydell <peter.maydell@linaro.org>
-Subject: [PULL 03/15] util/oslib-win32: Fix _aligned_malloc() arguments order
-Date: Mon, 11 Jan 2021 14:43:16 +0100
-Message-Id: <20210111134328.157775-4-thuth@redhat.com>
+Subject: [PULL 04/15] fuzz: accelerate non-crash detection
+Date: Mon, 11 Jan 2021 14:43:17 +0100
+Message-Id: <20210111134328.157775-5-thuth@redhat.com>
 In-Reply-To: <20210111134328.157775-1-thuth@redhat.com>
 References: <20210111134328.157775-1-thuth@redhat.com>
 MIME-Version: 1.0
@@ -54,8 +54,8 @@ Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=thuth@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="US-ASCII"
 Received-SPF: pass client-ip=216.205.24.124; envelope-from=thuth@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -29
@@ -82,44 +82,132 @@ Cc: Alexander Bulekov <alxndr@bu.edu>, Warner Losh <imp@freebsd.org>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Philippe Mathieu-Daudé <f4bug@amsat.org>
+From: Qiuhao Li <Qiuhao.Li@outlook.com>
 
-Commit dfbd0b873a8 inadvertently swapped the arguments
-of _aligned_malloc(), correct it to fix [*]:
+We spend much time waiting for the timeout program during the minimization
+process until it passes a time limit. This patch hacks the CLOSED (indicates
+the redirection file closed) notification in QTest's output if it doesn't
+crash.
 
-  G_TEST_SRCDIR=C:/Users/ContainerAdministrator/AppData/Local/Temp/cirrus-ci-build/tests
-  G_TEST_BUILDDIR=C:/Users/ContainerAdministrator/AppData/Local/Temp/cirrus-ci-build/build/tests
-  tests/test-qht.exe --tap -k
-  ERROR test-qht - too few tests run (expected 2, got 0)
-  make: *** [Makefile.mtest:256: run-test-30] Error 1
+Test with quadrupled trace input at:
+  https://bugs.launchpad.net/qemu/+bug/1890333/comments/1
 
-[*] https://cirrus-ci.com/task/6055645751279616?command=test#L593
+Original version:
+  real	1m37.246s
+  user	0m13.069s
+  sys	0m8.399s
 
-Fixes: dfbd0b873a8 ("util/oslib-win32: Use _aligned_malloc for qemu_try_memalign")
-Reported-by: Yonggang Luo <luoyonggang@gmail.com>
-Reported-by: Volker Rümelin <vr_qemu@t-online.de>
-Suggested-by: Volker Rümelin <vr_qemu@t-online.de>
-Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
-Reviewed-by: Yonggang Luo <luoyonggang@gmail.com>
-Message-Id: <20210111001606.1122983-1-f4bug@amsat.org>
+Refined version:
+  real	0m45.904s
+  user	0m16.874s
+  sys	0m10.042s
+
+Note:
+
+Sometimes the mutated or the same trace may trigger a different crash
+summary (second-to-last line) but indicates the same bug. For example, Bug
+1910826 [1], which will trigger a stack overflow, may output summaries
+like:
+
+SUMMARY: AddressSanitizer: stack-overflow
+/home/qiuhao/hack/qemu/build/../softmmu/physmem.c:488 in
+flatview_do_translate
+
+or
+
+SUMMARY: AddressSanitizer: stack-overflow
+(/home/qiuhao/hack/qemu/build/qemu-system-i386+0x27ca049) in __asan_memcpy
+
+Etc.
+
+If we use the whole summary line as the token, we may be prevented from
+further minimization. So in this patch, we only use the first three words
+which indicate the type of crash:
+
+SUMMARY: AddressSanitizer: stack-overflow
+
+[1] https://bugs.launchpad.net/qemu/+bug/1910826
+
+Signed-off-by: Qiuhao Li <Qiuhao.Li@outlook.com>
+Reviewed-by: Alexander Bulekov <alxndr@bu.edu>
+Tested-by: Alexander Bulekov <alxndr@bu.edu>
+Message-Id: <SYCPR01MB350251DC04003450348FAF68FCAB0@SYCPR01MB3502.ausprd01.prod.outlook.com>
 Signed-off-by: Thomas Huth <thuth@redhat.com>
 ---
- util/oslib-win32.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ scripts/oss-fuzz/minimize_qtest_trace.py | 44 +++++++++++++++++-------
+ 1 file changed, 31 insertions(+), 13 deletions(-)
 
-diff --git a/util/oslib-win32.c b/util/oslib-win32.c
-index e6f83e10ed..f68b8012bb 100644
---- a/util/oslib-win32.c
-+++ b/util/oslib-win32.c
-@@ -59,7 +59,7 @@ void *qemu_try_memalign(size_t alignment, size_t size)
+diff --git a/scripts/oss-fuzz/minimize_qtest_trace.py b/scripts/oss-fuzz/minimize_qtest_trace.py
+index 5e405a0d5f..a28913a2a7 100755
+--- a/scripts/oss-fuzz/minimize_qtest_trace.py
++++ b/scripts/oss-fuzz/minimize_qtest_trace.py
+@@ -29,8 +29,14 @@ whether the crash occred. Optionally, manually set a string that idenitifes the
+ crash by setting CRASH_TOKEN=
+ """.format((sys.argv[0])))
  
-     g_assert(size != 0);
-     g_assert(is_power_of_2(alignment));
--    ptr = _aligned_malloc(alignment, size);
-+    ptr = _aligned_malloc(size, alignment);
-     trace_qemu_memalign(alignment, size, ptr);
-     return ptr;
- }
++deduplication_note = """\n\
++Note: While trimming the input, sometimes the mutated trace triggers a different
++type crash but indicates the same bug. Under this situation, our minimizer is
++incapable of recognizing and stopped from removing it. In the future, we may
++use a more sophisticated crash case deduplication method.
++\n"""
++
+ def check_if_trace_crashes(trace, path):
+-    global CRASH_TOKEN
+     with open(path, "w") as tracefile:
+         tracefile.write("".join(trace))
+ 
+@@ -41,18 +47,31 @@ def check_if_trace_crashes(trace, path):
+                            trace_path=path),
+                           shell=True,
+                           stdin=subprocess.PIPE,
+-                          stdout=subprocess.PIPE)
+-    stdo = rc.communicate()[0]
+-    output = stdo.decode('unicode_escape')
+-    if rc.returncode == 137:    # Timed Out
+-        return False
+-    if len(output.splitlines()) < 2:
+-        return False
+-
++                          stdout=subprocess.PIPE,
++                          encoding="utf-8")
++    global CRASH_TOKEN
+     if CRASH_TOKEN is None:
+-        CRASH_TOKEN = output.splitlines()[-2]
+-
+-    return CRASH_TOKEN in output
++        try:
++            outs, _ = rc.communicate(timeout=5)
++            CRASH_TOKEN = " ".join(outs.splitlines()[-2].split()[0:3])
++        except subprocess.TimeoutExpired:
++            print("subprocess.TimeoutExpired")
++            return False
++        print("Identifying Crashes by this string: {}".format(CRASH_TOKEN))
++        global deduplication_note
++        print(deduplication_note)
++        return True
++
++    for line in iter(rc.stdout.readline, ""):
++        if "CLOSED" in line:
++            return False
++        if CRASH_TOKEN in line:
++            return True
++
++    print("\nWarning:")
++    print("  There is no 'CLOSED'or CRASH_TOKEN in the stdout of subprocess.")
++    print("  Usually this indicates a different type of crash.\n")
++    return False
+ 
+ 
+ def minimize_trace(inpath, outpath):
+@@ -66,7 +85,6 @@ def minimize_trace(inpath, outpath):
+     print("Crashed in {} seconds".format(end-start))
+     TIMEOUT = (end-start)*5
+     print("Setting the timeout for {} seconds".format(TIMEOUT))
+-    print("Identifying Crashes by this string: {}".format(CRASH_TOKEN))
+ 
+     i = 0
+     newtrace = trace[:]
 -- 
 2.27.0
 
