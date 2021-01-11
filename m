@@ -2,92 +2,47 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7FFAF2F187D
-	for <lists+qemu-devel@lfdr.de>; Mon, 11 Jan 2021 15:42:51 +0100 (CET)
-Received: from localhost ([::1]:43412 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4DD972F18A8
+	for <lists+qemu-devel@lfdr.de>; Mon, 11 Jan 2021 15:49:20 +0100 (CET)
+Received: from localhost ([::1]:52926 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kyyPC-0004ep-AJ
-	for lists+qemu-devel@lfdr.de; Mon, 11 Jan 2021 09:42:50 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39408)
+	id 1kyyVS-0000Xe-Uw
+	for lists+qemu-devel@lfdr.de; Mon, 11 Jan 2021 09:49:18 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41170)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kyyNE-00041N-4A
- for qemu-devel@nongnu.org; Mon, 11 Jan 2021 09:40:48 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:26687)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kyyN8-00070C-Gx
- for qemu-devel@nongnu.org; Mon, 11 Jan 2021 09:40:46 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1610376038;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=jWhGbkroVANXIUD1K77vMVeXoL3o/YmS7M19/i6588I=;
- b=KKttpgCnhlzx37/QMC0l7Q3ydQCgHm+ZjiXjKLh0tiDyAZUDRFEtMmGxESLcDa6GUvbOG5
- 8dyEDpYzeL7Rrx7kuTwGtvLM8h03c6OEDM45fjVYjp/3cSh+9CeU2BYNJLv51MPkQx/cQu
- jE3AyuBLdt3JyYSx/Phn1qUqQVyNRto=
-Received: from mail-ed1-f70.google.com (mail-ed1-f70.google.com
- [209.85.208.70]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-583-SMRe5i8YPhqM7mdgSHZoTg-1; Mon, 11 Jan 2021 09:40:36 -0500
-X-MC-Unique: SMRe5i8YPhqM7mdgSHZoTg-1
-Received: by mail-ed1-f70.google.com with SMTP id g25so8323307edu.4
- for <qemu-devel@nongnu.org>; Mon, 11 Jan 2021 06:40:36 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=jWhGbkroVANXIUD1K77vMVeXoL3o/YmS7M19/i6588I=;
- b=pMGvdh8lREJnYVAl/nwf5GPJOpqSK2/0JStaTF7wwVL4z0z5tNE6Q8a4n9/uCA161S
- 2vDUCLm13L/Y9AjL3E5eSSfLAMzQhNQqYOA9a/rvc9wGhM5ZZlFb2wP+L3lOcjhLDYkH
- z3maqCcLAG0oZQVjQeUw5lxgzj+Ao9R+U6kJN8MUx5/haOKIzDnIKUbzAHsonXzA+TLz
- 3WIEYmKk+Opy55eMstQzQxgAhusQ2Mtb2q/wBc+svdsDbDGd9JwQYf7655ZDDX4NHT7o
- PEXIirYYeonGDB736zvswgKrca5n2fgRsFvgT5NFkQT7AK3GFZ+0KETPMdHiUJ1bLDbY
- P8Ww==
-X-Gm-Message-State: AOAM530Vewga3aGxpT1kuqf6OqisGAI+k9zbJc0V6rgpIS6teqCk2z2i
- RDnDcJNK2K2o7qc0uf4K3RJTYjf8i2DwL0R/RaNRTZsRxX6HcMsbZP2Qqy6gHSNFvwpIVOaxP4j
- bcTZ4g3KbIKGNltI=
-X-Received: by 2002:a17:906:2681:: with SMTP id
- t1mr10948922ejc.29.1610376035170; 
- Mon, 11 Jan 2021 06:40:35 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJy/OVt+5/3A7+HhPRc2Y9fU5/sSux0BBl0wkqIbcwAYKX/xefnZcifr/fF+NPFMEZROaiKPWg==
-X-Received: by 2002:a17:906:2681:: with SMTP id
- t1mr10948915ejc.29.1610376035003; 
- Mon, 11 Jan 2021 06:40:35 -0800 (PST)
-Received: from [192.168.1.36] (129.red-88-21-205.staticip.rima-tde.net.
- [88.21.205.129])
- by smtp.gmail.com with ESMTPSA id r7sm7151670ejo.20.2021.01.11.06.40.33
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 11 Jan 2021 06:40:34 -0800 (PST)
-Subject: Re: [PULL v2 00/15] Testing, CI and bsd-user patches
-To: Thomas Huth <thuth@redhat.com>, qemu-devel@nongnu.org,
- Peter Maydell <peter.maydell@linaro.org>
-References: <20210111140602.159377-1-thuth@redhat.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-Message-ID: <c3ff4be3-0962-8566-10aa-b2adb4304937@redhat.com>
-Date: Mon, 11 Jan 2021 15:40:33 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.6.0
+ (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1kyyTN-0008UR-Cy
+ for qemu-devel@nongnu.org; Mon, 11 Jan 2021 09:47:09 -0500
+Received: from mx2.suse.de ([195.135.220.15]:37722)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1kyyTL-0007ya-AD
+ for qemu-devel@nongnu.org; Mon, 11 Jan 2021 09:47:09 -0500
+X-Virus-Scanned: by amavisd-new at test-mx.suse.de
+Received: from relay2.suse.de (unknown [195.135.221.27])
+ by mx2.suse.de (Postfix) with ESMTP id A9C5CAB3E;
+ Mon, 11 Jan 2021 14:47:05 +0000 (UTC)
+Subject: Re: check-tcg HOWTO?
+To: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>
+References: <f14c22bf-aecb-3e38-347b-1b9119ad8baa@suse.de>
+ <1301fc86-b356-b4a8-42c1-bf7705419a5e@suse.de> <8735z7pnzv.fsf@linaro.org>
+From: Claudio Fontana <cfontana@suse.de>
+Message-ID: <7df502c2-a792-3fff-7ec7-0a99270274b9@suse.de>
+Date: Mon, 11 Jan 2021 15:47:04 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.12.0
 MIME-Version: 1.0
-In-Reply-To: <20210111140602.159377-1-thuth@redhat.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
+In-Reply-To: <8735z7pnzv.fsf@linaro.org>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=philmd@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -29
-X-Spam_score: -3.0
-X-Spam_bar: ---
-X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.251,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=195.135.220.15; envelope-from=cfontana@suse.de;
+ helo=mx2.suse.de
+X-Spam_score_int: -41
+X-Spam_score: -4.2
+X-Spam_bar: ----
+X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_MED=-2.3, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -100,31 +55,180 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: acho@suse.com
+Cc: Paolo Bonzini <pbonzini@redhat.com>,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
+ qemu-devel <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 1/11/21 3:06 PM, Thomas Huth wrote:
-> The following changes since commit 7b09f127738ae3d0e71716cea086fc8f847a5686:
-> 
->   Merge remote-tracking branch 'remotes/pmaydell/tags/pull-target-arm-20210108' into staging (2021-01-08 15:37:04 +0000)
-> 
-> are available in the Git repository at:
-> 
->   https://gitlab.com/huth/qemu.git tags/pull-request-2021-01-11v2
-> 
-> for you to fetch changes up to b677001d70529df271a5d9314440bb201da40acf:
-> 
->   fuzz: map all BARs and enable PCI devices (2021-01-11 14:59:21 +0100)
-> 
-> ----------------------------------------------------------------
-> * Fuzzer improvements
-> * Add OpenSUSE leap to the gitlab-CI
-> * Some fixes to get our CI "green" again
-> * Some initial patches to update bsd-user
-> ----------------------------------------------------------------
+Ciao Alex,
 
-Doh, missed the Shippable-CI job reduction :/
-https://www.mail-archive.com/qemu-devel@nongnu.org/msg771079.html
+thanks for your answer,
+
+On 1/11/21 2:35 PM, Alex Bennée wrote:
+> 
+> Claudio Fontana <cfontana@suse.de> writes:
+> 
+>> Hi Alex,
+>>
+>> happy new year,
+>>
+>> I am trying to get check-tcg to run reliably,
+>> as I am doing some substantial refactoring of tcg cpu operations, so I need to verify that TCG is fine.
+>>
+>> This is an overall getting started question, is there a how-to on how
+>> to use check-tcg and how to fix things when things don't go smoothly?
+> 
+> Not really but I could certainly add something. Generally I just run the
+> tests manually in gdb when I'm trying to debug stuff.
+
+Right, I plan to do the same, if I get to the command line to run.
+I think it does make sense to add something similar to what was explained here in documentation, with a pointer maybe from README?
+
+
+> 
+>> I get different results on different machines for check-tcg, although the runs are containerized,
+>> on one machine the tests for aarch64 tcg are SKIPPED completely (so no
+>> errors),
+> 
+> The compiles *may* be containerized - the runs are always in your host
+> environment. It's one of the reasons the binaries are built as static
+> images so you don't need to mess about with dynamic linking and
+> libraries.
+> 
+
+Ah good to know, thanks. So everything is actually run in the host environment in the end.
+
+> The only reason some tests get skipped is if you have a locally
+> installed cross compiler which doesn't support some architecture
+> features (e.g. CROSS_CC_HAS_SVE).
+
+
+hmm I will have to check then how to make sure that the test does not see these cross compilers...?
+
+
+> 
+>> on the other machine I get:
+>>
+>> qemu-system-aarch64: terminating on signal 15 from pid 18583 (timeout)
+>> qemu-system-aarch64: terminating on signal 15 from pid 18584 (timeout)
+>> qemu-system-aarch64: terminating on signal 15 from pid 18585 (timeout)
+>> make[2]: *** [../Makefile.target:162: run-hello] Error 124
+>> make[2]: *** Waiting for unfinished jobs....
+>> make[2]: *** [../Makefile.target:162: run-pauth-3] Error 124
+>> make[2]: *** [../Makefile.target:162: run-memory] Error 124
+> 
+> Given it's timing out on hello I guess it's the shutdown deadlocking.
+> Running with V=1 will give you the command line but the semihosting
+> config is setup for redirect. So I usually build my own command line. e.g.:
+> 
+>   ./qemu-system-aarch64 -monitor none -display none \
+>     -chardev stdio,id=output  \
+>     -M virt -cpu max -display none \
+>     -semihosting-config enable=on,target=native,chardev=output \
+>     -kernel tests/tcg/aarch64-softmmu/hello
+> 
+
+
+Would it be possible for check-tcg (and possibly even make check in general where applicable)
+to automatically spew the command line to reproduce the error, similar to what you have shown here?
+
+
+I think this is would be of great value for anyone to be able to act on the errors reported.
+
+
+> There is nothing particularly special apart from making sure semihosting
+> is wired up for the output. Apart from some special cases like
+> test-mmap-XXXX most tests don't take any arguments.
+> 
+>>
+>> Both are configured with 
+>>
+>> configure --enable-tcg
+>>
+>> Anything more than V=1 to get more output?
+> 
+> The output is normally dumped in $TESTNAME.out in the appropriate
+> $BUILDDIR/tests/tcg/$TARGET/ directory.
+> 
+>> How do I debug and get logs and cores out of containers?
+> 
+> As I mentioned above the tests are not run in containers, just the
+> compiles (if local compilers are missing).
+
+Thanks for clearing this up!
+
+> 
+>>
+>> in tests/tcg/ there is:
+>>
+>> a README (with no hint unfortunately) ,
+> 
+> Woefully out of date I'm afraid. What docs we have are in docs/devel/testing.rst
+
+maybe a
+
++ Please see docs/devel/testing.rst for hints on how to run make-tcg and reproduce its results from the cmdline.
+
+> 
+>> Makefile.qemu
+> 
+> Links into the main tests/Makefile.include - invoked for each target
+> 
+>> Makefile.prereqs
+> 
+> This ensures docker images are built (if required) for each set of tests.
+> 
+>> Makefile.target
+> 
+> This is the main (rather simple) makefile which provides the build and
+> run targets. You can run directly if you are in the right build dir, eg:
+> 
+>   13:58:10 [alex@zen:~/l/q/b/a/t/t/aarch64-softmmu] |✔ + pwd
+>   /home/alex/lsrc/qemu.git/builds/arm.all/tests/tcg/aarch64-softmmu
+>   13:58:57 [alex@zen:~/l/q/b/a/t/t/aarch64-softmmu] |✔ +
+>   make  -f ~/lsrc/qemu.git/tests/tcg/Makefile.target TARGET="aarch64-softmmu" SRC_PATH="/home/alex/lsrc/qemu.git" run
+> 
+> But TBH this is functionally equivalent to calling:
+> 
+>   make run-tcg-tests-aarch64-softmmu
+> 
+> in your main build directory.
+
+Thanks, that's helpful.
+
+> 
+>> There are a bunch of variables in these files, which seem to be
+>> possible to configure, am I expected to set some of those?
+> 
+> Not really. Most of the magic variables from:
+> 
+>   tests/tcg/config-$TARGET.mak
+> 
+> which is built by tests/tcg/configure.sh during the configure step.
+> 
+>> I think that it would be beneficial to have either more documentation
+>> or more immediately actionable information out of make check failures;
+> 
+> V=1 should show the command lines run and then you should be able to run
+> the tests directly yourself.
+
+
+Hmm V=1 did not show the command line to me, but maybe I just missed it somehow?
+Or it contained some sockets that cannot be manually connected?
+
+> 
+>> Any help you could give me to make some progess?
+> 
+> Hope that helps.
+
+It does, I wonder if this could be fed into docs/ with a pointer to it from README,
+and also if this new feature for the tests could be developed, ie, producing a command line useful for reproducing the error,
+something that can be run directly without further editing, sanitizing etc...
+
+Thanks a lot,
+
+Claudio
+
 
 
