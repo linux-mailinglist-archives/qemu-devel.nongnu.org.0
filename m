@@ -2,50 +2,50 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7E4412F1664
-	for <lists+qemu-devel@lfdr.de>; Mon, 11 Jan 2021 14:52:53 +0100 (CET)
-Received: from localhost ([::1]:42884 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CF71A2F15DF
+	for <lists+qemu-devel@lfdr.de>; Mon, 11 Jan 2021 14:47:12 +0100 (CET)
+Received: from localhost ([::1]:54862 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kyxcq-0003PM-JI
-	for lists+qemu-devel@lfdr.de; Mon, 11 Jan 2021 08:52:52 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52750)
+	id 1kyxXL-0004Zd-TP
+	for lists+qemu-devel@lfdr.de; Mon, 11 Jan 2021 08:47:11 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52736)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1kyxUN-0002j8-KF
- for qemu-devel@nongnu.org; Mon, 11 Jan 2021 08:44:07 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:29114)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1kyxUM-0002hs-ST
+ for qemu-devel@nongnu.org; Mon, 11 Jan 2021 08:44:06 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:55097)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1kyxUE-00082i-Va
- for qemu-devel@nongnu.org; Mon, 11 Jan 2021 08:44:07 -0500
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1kyxUE-00082r-W0
+ for qemu-devel@nongnu.org; Mon, 11 Jan 2021 08:44:06 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1610372633;
+ s=mimecast20190719; t=1610372636;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=tpXo9NxnStxZTiwWw1rETdyPzvAR8Hk9md1s67byzNs=;
- b=ZprC77DCHLp4aznZd/jARBQ2rrD/y5mFcXGeKkwZa0tP9z+K0BGDSuJ/zyAkroXsEHNPYL
- Xb4IrbLAW7K3PQiXLZGvMBd1NWmOizm8MUWmmeAeK7DzDP1jKd+hFNrBZxanQTeM8R/3D/
- /eo1YL7jZwN1oapNdAu7wfHIGLQ4J/8=
+ bh=9OyA7s3fu9/RJlUjnURCpan4t4/LnXrI2eQKIq33aXc=;
+ b=eA9/5Pg+QYlW2GbUPe39Y8uFVX+F9iudMDtXkrbovNc13BL2+8WPARxUkDbk/+P86s9LBU
+ 8+ELCtPJXzzfMA+oR5PuGx4YCWJaNKxEsN2ui0YiE/7WrXYnlsh1rV8FEthq9XEU8cKRfb
+ KM4W/eeWCmI4Odi0ii2J8GjgPNuyd48=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-399-3zid_wITNP6NHd4mnMRIOw-1; Mon, 11 Jan 2021 08:43:49 -0500
-X-MC-Unique: 3zid_wITNP6NHd4mnMRIOw-1
+ us-mta-219-otO8p-xsPvSIj8fp84JNGw-1; Mon, 11 Jan 2021 08:43:52 -0500
+X-MC-Unique: otO8p-xsPvSIj8fp84JNGw-1
 Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
  [10.5.11.11])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 7AE69107ACF8;
- Mon, 11 Jan 2021 13:43:48 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id D0FC4DF8A4;
+ Mon, 11 Jan 2021 13:43:50 +0000 (UTC)
 Received: from thuth.com (ovpn-112-147.ams2.redhat.com [10.36.112.147])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 51B0B17C5F;
- Mon, 11 Jan 2021 13:43:46 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 16C4D2BFE9;
+ Mon, 11 Jan 2021 13:43:48 +0000 (UTC)
 From: Thomas Huth <thuth@redhat.com>
 To: qemu-devel@nongnu.org,
 	Peter Maydell <peter.maydell@linaro.org>
-Subject: [PULL 04/15] fuzz: accelerate non-crash detection
-Date: Mon, 11 Jan 2021 14:43:17 +0100
-Message-Id: <20210111134328.157775-5-thuth@redhat.com>
+Subject: [PULL 05/15] fuzz: double the IOs to remove for every loop
+Date: Mon, 11 Jan 2021 14:43:18 +0100
+Message-Id: <20210111134328.157775-6-thuth@redhat.com>
 In-Reply-To: <20210111134328.157775-1-thuth@redhat.com>
 References: <20210111134328.157775-1-thuth@redhat.com>
 MIME-Version: 1.0
@@ -84,130 +84,96 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Qiuhao Li <Qiuhao.Li@outlook.com>
 
-We spend much time waiting for the timeout program during the minimization
-process until it passes a time limit. This patch hacks the CLOSED (indicates
-the redirection file closed) notification in QTest's output if it doesn't
-crash.
+Instead of removing IO instructions one by one, we can try deleting multiple
+instructions at once. According to the locality of reference, we double the
+number of instructions to remove for the next round and recover it to one
+once we fail.
+
+This patch is usually significant for large input.
 
 Test with quadrupled trace input at:
   https://bugs.launchpad.net/qemu/+bug/1890333/comments/1
 
-Original version:
-  real	1m37.246s
-  user	0m13.069s
-  sys	0m8.399s
+Patched 1/6 version:
+  real  0m45.904s
+  user  0m16.874s
+  sys   0m10.042s
 
 Refined version:
-  real	0m45.904s
-  user	0m16.874s
-  sys	0m10.042s
-
-Note:
-
-Sometimes the mutated or the same trace may trigger a different crash
-summary (second-to-last line) but indicates the same bug. For example, Bug
-1910826 [1], which will trigger a stack overflow, may output summaries
-like:
-
-SUMMARY: AddressSanitizer: stack-overflow
-/home/qiuhao/hack/qemu/build/../softmmu/physmem.c:488 in
-flatview_do_translate
-
-or
-
-SUMMARY: AddressSanitizer: stack-overflow
-(/home/qiuhao/hack/qemu/build/qemu-system-i386+0x27ca049) in __asan_memcpy
-
-Etc.
-
-If we use the whole summary line as the token, we may be prevented from
-further minimization. So in this patch, we only use the first three words
-which indicate the type of crash:
-
-SUMMARY: AddressSanitizer: stack-overflow
-
-[1] https://bugs.launchpad.net/qemu/+bug/1910826
+  real  0m11.412s
+  user  0m6.888s
+  sys   0m3.325s
 
 Signed-off-by: Qiuhao Li <Qiuhao.Li@outlook.com>
 Reviewed-by: Alexander Bulekov <alxndr@bu.edu>
 Tested-by: Alexander Bulekov <alxndr@bu.edu>
-Message-Id: <SYCPR01MB350251DC04003450348FAF68FCAB0@SYCPR01MB3502.ausprd01.prod.outlook.com>
+Message-Id: <SYCPR01MB350280A67BB55C3FADF173E3FCAB0@SYCPR01MB3502.ausprd01.prod.outlook.com>
 Signed-off-by: Thomas Huth <thuth@redhat.com>
 ---
- scripts/oss-fuzz/minimize_qtest_trace.py | 44 +++++++++++++++++-------
- 1 file changed, 31 insertions(+), 13 deletions(-)
+ scripts/oss-fuzz/minimize_qtest_trace.py | 33 +++++++++++++++---------
+ 1 file changed, 21 insertions(+), 12 deletions(-)
 
 diff --git a/scripts/oss-fuzz/minimize_qtest_trace.py b/scripts/oss-fuzz/minimize_qtest_trace.py
-index 5e405a0d5f..a28913a2a7 100755
+index a28913a2a7..cacabf2638 100755
 --- a/scripts/oss-fuzz/minimize_qtest_trace.py
 +++ b/scripts/oss-fuzz/minimize_qtest_trace.py
-@@ -29,8 +29,14 @@ whether the crash occred. Optionally, manually set a string that idenitifes the
- crash by setting CRASH_TOKEN=
- """.format((sys.argv[0])))
- 
-+deduplication_note = """\n\
-+Note: While trimming the input, sometimes the mutated trace triggers a different
-+type crash but indicates the same bug. Under this situation, our minimizer is
-+incapable of recognizing and stopped from removing it. In the future, we may
-+use a more sophisticated crash case deduplication method.
-+\n"""
-+
- def check_if_trace_crashes(trace, path):
--    global CRASH_TOKEN
-     with open(path, "w") as tracefile:
-         tracefile.write("".join(trace))
- 
-@@ -41,18 +47,31 @@ def check_if_trace_crashes(trace, path):
-                            trace_path=path),
-                           shell=True,
-                           stdin=subprocess.PIPE,
--                          stdout=subprocess.PIPE)
--    stdo = rc.communicate()[0]
--    output = stdo.decode('unicode_escape')
--    if rc.returncode == 137:    # Timed Out
--        return False
--    if len(output.splitlines()) < 2:
--        return False
--
-+                          stdout=subprocess.PIPE,
-+                          encoding="utf-8")
-+    global CRASH_TOKEN
-     if CRASH_TOKEN is None:
--        CRASH_TOKEN = output.splitlines()[-2]
--
--    return CRASH_TOKEN in output
-+        try:
-+            outs, _ = rc.communicate(timeout=5)
-+            CRASH_TOKEN = " ".join(outs.splitlines()[-2].split()[0:3])
-+        except subprocess.TimeoutExpired:
-+            print("subprocess.TimeoutExpired")
-+            return False
-+        print("Identifying Crashes by this string: {}".format(CRASH_TOKEN))
-+        global deduplication_note
-+        print(deduplication_note)
-+        return True
-+
-+    for line in iter(rc.stdout.readline, ""):
-+        if "CLOSED" in line:
-+            return False
-+        if CRASH_TOKEN in line:
-+            return True
-+
-+    print("\nWarning:")
-+    print("  There is no 'CLOSED'or CRASH_TOKEN in the stdout of subprocess.")
-+    print("  Usually this indicates a different type of crash.\n")
-+    return False
- 
- 
- def minimize_trace(inpath, outpath):
-@@ -66,7 +85,6 @@ def minimize_trace(inpath, outpath):
-     print("Crashed in {} seconds".format(end-start))
-     TIMEOUT = (end-start)*5
-     print("Setting the timeout for {} seconds".format(TIMEOUT))
--    print("Identifying Crashes by this string: {}".format(CRASH_TOKEN))
+@@ -88,19 +88,28 @@ def minimize_trace(inpath, outpath):
  
      i = 0
      newtrace = trace[:]
+-    # For each line
++    remove_step = 1
+     while i < len(newtrace):
+-        # 1.) Try to remove it completely and reproduce the crash. If it works,
+-        # we're done.
+-        prior = newtrace[i]
+-        print("Trying to remove {}".format(newtrace[i]))
+-        # Try to remove the line completely
+-        newtrace[i] = ""
++        # 1.) Try to remove lines completely and reproduce the crash.
++        # If it works, we're done.
++        if (i+remove_step) >= len(newtrace):
++            remove_step = 1
++        prior = newtrace[i:i+remove_step]
++        for j in range(i, i+remove_step):
++            newtrace[j] = ""
++        print("Removing {lines} ...".format(lines=prior))
+         if check_if_trace_crashes(newtrace, outpath):
+-            i += 1
++            i += remove_step
++            # Double the number of lines to remove for next round
++            remove_step *= 2
+             continue
+-        newtrace[i] = prior
+-
++        # Failed to remove multiple IOs, fast recovery
++        if remove_step > 1:
++            for j in range(i, i+remove_step):
++                newtrace[j] = prior[j-i]
++            remove_step = 1
++            continue
++        newtrace[i] = prior[0] # remove_step = 1
+         # 2.) Try to replace write{bwlq} commands with a write addr, len
+         # command. Since this can require swapping endianness, try both LE and
+         # BE options. We do this, so we can "trim" the writes in (3)
+@@ -121,7 +130,7 @@ def minimize_trace(inpath, outpath):
+                 if(check_if_trace_crashes(newtrace, outpath)):
+                     break
+             else:
+-                newtrace[i] = prior
++                newtrace[i] = prior[0]
+ 
+         # 3.) If it is a qtest write command: write addr len data, try to split
+         # it into two separate write commands. If splitting the write down the
+@@ -154,7 +163,7 @@ def minimize_trace(inpath, outpath):
+                 if check_if_trace_crashes(newtrace, outpath):
+                     i -= 1
+                 else:
+-                    newtrace[i] = prior
++                    newtrace[i] = prior[0]
+                     del newtrace[i+1]
+         i += 1
+     check_if_trace_crashes(newtrace, outpath)
 -- 
 2.27.0
 
