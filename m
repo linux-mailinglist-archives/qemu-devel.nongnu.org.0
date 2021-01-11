@@ -2,76 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DB23A2F0CF1
-	for <lists+qemu-devel@lfdr.de>; Mon, 11 Jan 2021 07:32:54 +0100 (CET)
-Received: from localhost ([::1]:50150 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B02A42F0D17
+	for <lists+qemu-devel@lfdr.de>; Mon, 11 Jan 2021 08:06:41 +0100 (CET)
+Received: from localhost ([::1]:57684 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kyql3-0004ul-WD
-	for lists+qemu-devel@lfdr.de; Mon, 11 Jan 2021 01:32:54 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42962)
+	id 1kyrHk-0001dg-Cc
+	for lists+qemu-devel@lfdr.de; Mon, 11 Jan 2021 02:06:40 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46724)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <chouhan.shreyansh2702@gmail.com>)
- id 1kyqiR-0004E3-4O
- for qemu-devel@nongnu.org; Mon, 11 Jan 2021 01:30:11 -0500
-Received: from mail-pj1-x1034.google.com ([2607:f8b0:4864:20::1034]:34030)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <chouhan.shreyansh2702@gmail.com>)
- id 1kyqiO-0002Y3-Qe
- for qemu-devel@nongnu.org; Mon, 11 Jan 2021 01:30:10 -0500
-Received: by mail-pj1-x1034.google.com with SMTP id n3so7779410pjm.1
- for <qemu-devel@nongnu.org>; Sun, 10 Jan 2021 22:30:08 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to;
- bh=uBu3x2ia8Pr2SliR1n/xLZYzgvkVxLyp02q3qrd1zC4=;
- b=NOwWvCqn4j5NTOvnF9REsfy1vgQAqvcpQO+lGhxZu1DsiOrZDY+D5eUkcydwsKxPaG
- lxxC0PHNrC2Av5RQspTV1EhE5swX4+iwi+81XfNxWUHP5WocGmqHEwOsQG48CEgaL1uJ
- K7N85rGfZM02ecMRupN6d02rjLGF/BpBU2mUWUrG1ccwnbd7g4ASbN2XEHQHgjU4txaD
- GHXOTWe+RGS78J0pcJiVfbOhRY2JeiSiDCAoH/PK5xoBz2QkA+JkFD6bT5p5bC6lLL2s
- rtvYsDGu5sowGh2mrlR/GolHyDjY8B7bkiqHElbW2KMFHduyBvFKkNEyCbZMlmWJFNeA
- 3cqw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to;
- bh=uBu3x2ia8Pr2SliR1n/xLZYzgvkVxLyp02q3qrd1zC4=;
- b=UTvdEbVsjcvpqX4eJHEuYjLiQiY4eQVbrJFKv477UQpUqYQW+K5HQ6jKhMlASekdaQ
- TEfoq/db1xccKtZOpWqd6ywLHlAlIKJ0ygej1jnHRdLlMYL4V7F2jy3fgudP9hvrFZYn
- hGDQ3u+JG8K3ezqz/QGi5bZMLAz+bdrCQZgyfDZsmSCoYKD5A3YixQChCSIA6tV313zM
- Ny6JuNazP1GShDZTqI0BJiCfHM5BY5Hu8/A5sU6daiNyPWTapOAzK+eTVMOFhp3zB46E
- KxZgjIM1T/kiw73VcrvZwYCO3QHd2fsX4snFbbfQYFl12euam30iiEl9VR7GWacE4W/r
- Lv0g==
-X-Gm-Message-State: AOAM5318fixvEOYne9aj/t8EPgZ112xSZ0UboV8rEy363KelGERWfAGv
- AIkHwmXQal3RsPAIe+SI40lpkvVZx+XEiR+8ccET9sUuZl8=
-X-Google-Smtp-Source: ABdhPJxLZK3lLIMZlKCMfAtonfMTBJmvr5fCgNm6kR8zVuCoVGvcrnPgsvEYHzBn0ljI+Wp8EZ5rYNE1XfSOJS+4220=
-X-Received: by 2002:a17:902:8341:b029:dc:27b:be2d with SMTP id
- z1-20020a1709028341b02900dc027bbe2dmr15462243pln.30.1610346606585; Sun, 10
- Jan 2021 22:30:06 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1kyrFV-0001CA-ST
+ for qemu-devel@nongnu.org; Mon, 11 Jan 2021 02:04:21 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:52277)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1kyrFS-0000dI-Uu
+ for qemu-devel@nongnu.org; Mon, 11 Jan 2021 02:04:20 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1610348657;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=RePwEzwFFoS7naIkINbE+Mcvt4gIt61Bd/MuId9ybd8=;
+ b=QznROa43CNrX0kn4LozpDOr6Z6/PxGDgtmTrrCxCN90u3M6bnaWulUwPHX8fHzUYsLL1eT
+ n2TzL9A41MrNh7O3redoqxzCrwzND8Zll3dv2aOq7gK2Ta8ighD9yCBt/ORRHfK6RRs7Bu
+ q5wFOb636Sg2lDqly62e59r6zH98yPk=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-14-mSw88-IKP4u9wPQ8Rx4bfg-1; Mon, 11 Jan 2021 02:04:15 -0500
+X-MC-Unique: mSw88-IKP4u9wPQ8Rx4bfg-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 18DD1801B12;
+ Mon, 11 Jan 2021 07:04:14 +0000 (UTC)
+Received: from thuth.remote.csb (ovpn-112-147.ams2.redhat.com [10.36.112.147])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id C358F5D9F1;
+ Mon, 11 Jan 2021 07:04:11 +0000 (UTC)
+Subject: Re: [PATCH] configure: Add flags for MinGW32 standalone build
+To: Joshua Watt <jpewhacker@gmail.com>, qemu-devel@nongnu.org
+References: <20210107213856.34170-1-JPEWhacker@gmail.com>
+ <8ea87ea1-093d-81b0-13d6-60caa9fcdad4@redhat.com>
+ <0e956e41-4862-f979-3247-40d03c5054e4@gmail.com>
+From: Thomas Huth <thuth@redhat.com>
+Message-ID: <e2885e2e-cf8a-51f7-6dd8-a28ac4871eef@redhat.com>
+Date: Mon, 11 Jan 2021 08:04:10 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.4.0
 MIME-Version: 1.0
-References: <CAAQ-SiP8G28ade0jHbhTcv0jtGQb4OSgL5p3mAr0MU_FH8vZ3w@mail.gmail.com>
- <87a6tm2sxb.fsf@linaro.org>
- <CAAQ-SiOW8OnWEb0sHUEeS139-Tw0RO2YD1Tx-1s9iuy3ZVQFgw@mail.gmail.com>
- <878s941x85.fsf@linaro.org>
- <20210108083433.pfzhxrd4rezk6yxe@sirius.home.kraxel.org>
- <CAAQ-SiO4VvVTo77J2ga1FmUZ9yrwopeASweO6-AFaakrAUZ80w@mail.gmail.com>
- <CAAQ-SiPiq5NQN=2mvP3isZ9PtYO2Bu64kVEvE6T+3OJd5B-U5A@mail.gmail.com>
-In-Reply-To: <CAAQ-SiPiq5NQN=2mvP3isZ9PtYO2Bu64kVEvE6T+3OJd5B-U5A@mail.gmail.com>
-From: Shreyansh Chouhan <chouhan.shreyansh2702@gmail.com>
-Date: Mon, 11 Jan 2021 11:59:54 +0530
-Message-ID: <CAAQ-SiMkJGBnxWSnybJqMD0LSASMtvA_wbrPDQcg-S+Y1ddjJA@mail.gmail.com>
-Subject: Fwd: VirtioSound device emulation implementation
-To: qemu-devel@nongnu.org,
- =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>
-Content-Type: multipart/alternative; boundary="000000000000736a1505b89a0989"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1034;
- envelope-from=chouhan.shreyansh2702@gmail.com; helo=mail-pj1-x1034.google.com
-X-Spam_score_int: -17
-X-Spam_score: -1.8
-X-Spam_bar: -
-X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001, HTML_MESSAGE=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+In-Reply-To: <0e956e41-4862-f979-3247-40d03c5054e4@gmail.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=thuth@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=thuth@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -23
+X-Spam_score: -2.4
+X-Spam_bar: --
+X-Spam_report: (-2.4 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.251,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.012, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -85,171 +81,91 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: Stefan Weil <sw@weilnetz.de>, Yonggang Luo <luoyonggang@gmail.com>,
+ Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---000000000000736a1505b89a0989
-Content-Type: text/plain; charset="UTF-8"
+On 08/01/2021 19.30, Joshua Watt wrote:
+> 
+> On 1/8/21 1:25 AM, Thomas Huth wrote:
+>> On 07/01/2021 22.38, Joshua Watt wrote:
+>>> There are two cases that need to be accounted for when compiling QEMU
+>>> for MinGW32:
+>>>   1) A standalone distribution, where QEMU is self contained and
+>>>      extracted by the user, such as a user would download from the QEMU
+>>>      website. In this case, all of the QEMU files should be rooted in
+>>>      $prefix to ensure they can be easily packaged together for
+>>>      distribution
+>>>   2) QEMU integrated into a distribution image/sysroot/SDK and
+>>>      distributed with other programs. In this case, the provided
+>>>      arguments for bindir/datadir/etc. should be respected as they for a
+>>>      Linux build.
+>>>
+>>> Add a configure time flags --enable-standalone-mingw and
+>>> --disable-standalone-mingw that allows the user to control this
+>>> behavior. The flag defaults to "enabled" if unspecified to retain the
+>>> existing build behavior
+>>>
+>>> Signed-off-by: Joshua Watt <JPEWhacker@gmail.com>
+>>> ---
+>>>   configure | 8 +++++++-
+>>>   1 file changed, 7 insertions(+), 1 deletion(-)
+>>>
+>>> diff --git a/configure b/configure
+>>> index 5860bdb77b..5c83edb502 100755
+>>> --- a/configure
+>>> +++ b/configure
+>>> @@ -358,6 +358,7 @@ strip_opt="yes"
+>>>   tcg_interpreter="no"
+>>>   bigendian="no"
+>>>   mingw32="no"
+>>> +mingw32_standalone="yes"
+>>>   gcov="no"
+>>>   EXESUF="$default_feature"
+>>>   HOST_DSOSUF=".so"
+>>> @@ -1558,6 +1559,10 @@ for opt do
+>>>     ;;
+>>>     --disable-fuse-lseek) fuse_lseek="disabled"
+>>>     ;;
+>>> +  --enable-standalone-mingw) mingw32_standalone="yes"
+>>> +  ;;
+>>> +  --disable-standalone-mingw) mingw32_standalone="no"
+>>> +  ;;
+>>>     *)
+>>>         echo "ERROR: unknown option $opt"
+>>>         echo "Try '$0 --help' for more information"
+>>> @@ -1570,7 +1575,7 @@ libdir="${libdir:-$prefix/lib}"
+>>>   libexecdir="${libexecdir:-$prefix/libexec}"
+>>>   includedir="${includedir:-$prefix/include}"
+>>>   -if test "$mingw32" = "yes" ; then
+>>> +if test "$mingw32" = "yes" && test "$mingw32_standalone" = "yes"; then
+>>>       mandir="$prefix"
+>>>       datadir="$prefix"
+>>>       docdir="$prefix"
+>>> @@ -1897,6 +1902,7 @@ disabled with --disable-FEATURE, default is enabled 
+>>> if available
+>>>     libdaxctl       libdaxctl support
+>>>     fuse            FUSE block device export
+>>>     fuse-lseek      SEEK_HOLE/SEEK_DATA support for FUSE exports
+>>> +  standalone-mingw  Build for standalone distribution on MinGW
+>>>     NOTE: The object files are built at the place where configure is 
+>>> launched
+>>>   EOF
+>>
+>> I think this should maybe be done independently from MinGW, so that it 
+>> could be used on other systems, too. Thus maybe rather name the switch 
+>> "--enable-standalone-distribution" or "--enable-standalone-installation" 
+>> or something like this? On MinGW, the value of the switch could then 
+>> default to "yes" while on other systems it would be "no" by default.
+> 
+> We could, but I'm curious how useful that is? Does that make the option just 
+> a shorthand for "--mandir=$prefix --bindir=$prefix --datadir=$prefix etc..." 
+> for all builds?
 
----------- Forwarded message ---------
-From: Shreyansh Chouhan <chouhan.shreyansh2702@gmail.com>
-Date: Mon, 11 Jan 2021 at 11:59
-Subject: Re: VirtioSound device emulation implementation
-To: Gerd Hoffmann <kraxel@redhat.com>
+Yes, that would basically be a shorthand for that. Could be useful for 
+people who want to create standalone binaries on Linux etc., too.
 
+  Thomas
 
-
-
-On Sun, 10 Jan 2021 at 13:55, Shreyansh Chouhan <
-chouhan.shreyansh2702@gmail.com> wrote:
-
-> Hi,
->
-> I have been reading about the virtio and vhost specifications, however I
-> have a few doubts. I tried looking for them but I still
-> do not understand them clearly enough. From what I understand, there are
-> two protocols:
->
-> The virtio protocol: The one that specifies how we can have common
-> emulation for virtual devices. The front end drivers
-> interact with these devices, and these devices could then process the
-> information that they have received either in QEMU,
-> or somewhere else. From what I understand the front driver uses mmaps to
-> communicate with the virtio device.
->
-> The vhost protocol: The one that specifies how we can _offload_ the
-> processing from QEMU to a separate process. We
-> want to offload so that we do not have to stop the guest when we are
-> processing information passed to a virtio device. This
-> service could either be implemented in the host kernel or the host
-> userspace. Now when we offload the processing, we map the
-> memory of the device to this vhost service, so that this service has all
-> the information that it should process.
->   Also, this process can generate the vCPU interrupts, and this process
-> responds to the ioeventfd notifications.
->
-> What I do not understand is, once we have this vhost service, either in
-> userspace or in kernel space, which does the information processing,
-> why do we need a virtio device still emulated in QEMU? Is it only to pass
-> on the configurations between the driver and the
-> vhost service? I know that the vhost service doesn't emulate anything, but
-> then what is the difference between "processing" the
-> information and "emulating" a device?
->
-> Also, from article[3], moving the vhost-net service to userspace was
-> faster somehow. I am assuming this was only the case for
-> networking devices, and would not be true in general. Since there would be
-> more context switches between user and kernel space?
-> (KVM receives the irq/ioevent notification and then transfers control back
-> to user space, as opposed to when vhost was in kernel
-> space.)
->
-> For context, I've been reading the following:
-> [1]
-> https://www.redhat.com/en/blog/introduction-virtio-networking-and-vhost-net
-> [2]
-> https://www.redhat.com/en/blog/deep-dive-virtio-networking-and-vhost-net
-> [3] https://www.redhat.com/en/blog/journey-vhost-users-realm
->
->
-Found the answers in this blog:
-http://blog.vmsplice.net/2011/09/qemu-internals-vhost-architecture.html
-In short, yes, the configuration plane still remains with QEMU. The
-frontend driver interacts with the PCI
-adapter emulated in QEMU, for configurations and memory map setup. Only the
-data plane is forwarded
-to the vhost service. This makes sense since we would only want to
-configure the device once, and hence
-having that emulated in QEMU is not a performance issue, as much as having
-the data plane was.
-
-There is still a little confusion in my mind regarding a few things, but I
-think looking at the source code
-of the already implemented drivers will clear that up for me. So that is
-what I will be doing next.
-
-I will start looking at the source code for in-QEMU and vhost
-implementations of other virtio drivers, and then decide which one I'd like
-to
-go with. I will probably follow that decision with an implementation
-plan/timeline so that everyone can follow the progress on the
-development of this project.
-
---000000000000736a1505b89a0989
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><br><br><div class=3D"gmail_quote"><div dir=3D"ltr" class=
-=3D"gmail_attr">---------- Forwarded message ---------<br>From: <b class=3D=
-"gmail_sendername" dir=3D"auto">Shreyansh Chouhan</b> <span dir=3D"auto">&l=
-t;<a href=3D"mailto:chouhan.shreyansh2702@gmail.com">chouhan.shreyansh2702@=
-gmail.com</a>&gt;</span><br>Date: Mon, 11 Jan 2021 at 11:59<br>Subject: Re:=
- VirtioSound device emulation implementation<br>To: Gerd Hoffmann &lt;<a hr=
-ef=3D"mailto:kraxel@redhat.com">kraxel@redhat.com</a>&gt;<br></div><br><br>=
-<div dir=3D"ltr"><div dir=3D"ltr"><br></div><br><div class=3D"gmail_quote">=
-<div dir=3D"ltr" class=3D"gmail_attr">On Sun, 10 Jan 2021 at 13:55, Shreyan=
-sh Chouhan &lt;<a href=3D"mailto:chouhan.shreyansh2702@gmail.com" target=3D=
-"_blank">chouhan.shreyansh2702@gmail.com</a>&gt; wrote:<br></div><blockquot=
-e class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px s=
-olid rgb(204,204,204);padding-left:1ex"><div dir=3D"ltr"><div>Hi,</div><div=
-><br></div><div>I have been reading about the virtio and vhost specificatio=
-ns, however I have a few doubts. I tried looking for them but I still</div>=
-<div>do not understand them clearly enough. From what I understand, there a=
-re two protocols:</div><div><br></div><div>The virtio protocol: The one tha=
-t specifies how we can have common emulation for virtual devices. The front=
- end drivers</div><div>interact with these devices, and these devices could=
- then process the information that they have received either in QEMU,</div>=
-<div>or somewhere else. From what I understand the front driver uses mmaps =
-to communicate with the virtio device. <br></div><div><br></div><div>The vh=
-ost protocol: The one that specifies how we can _offload_ the processing fr=
-om QEMU to a separate process. We</div><div>want to offload so that we do n=
-ot have to stop the guest when we are processing information passed to a vi=
-rtio device. This</div><div>service could either be implemented in the host=
- kernel or the host userspace. Now when we offload the processing, we map t=
-he</div><div>memory of the device to this vhost service, so that this servi=
-ce has all the information that it should process.</div><div>=C2=A0 Also, t=
-his process can generate the vCPU interrupts, and this process responds to =
-the ioeventfd notifications. <br></div><div><br></div><div>What I do not un=
-derstand is, once we have this vhost service, either in userspace or in ker=
-nel space, which does the information processing,</div><div>why do we need =
-a virtio device still emulated in QEMU? Is it only to pass on the configura=
-tions between the driver and the</div><div>vhost service? I know that the v=
-host service doesn&#39;t emulate anything, but then what is the difference =
-between &quot;processing&quot; the</div><div>information and &quot;emulatin=
-g&quot; a device?</div><div><br></div><div>Also, from article[3], moving th=
-e vhost-net service to userspace was faster somehow. I am assuming this was=
- only the case for</div><div>networking devices, and would not be true in g=
-eneral. Since there would be more context switches between user and kernel =
-space?</div><div>(KVM receives the irq/ioevent notification and then transf=
-ers control back to user space, as opposed to when vhost was in kernel</div=
-><div>space.)<br></div><div><br></div><div>For context, I&#39;ve been readi=
-ng the following:</div><div>[1] <a href=3D"https://www.redhat.com/en/blog/i=
-ntroduction-virtio-networking-and-vhost-net" target=3D"_blank">https://www.=
-redhat.com/en/blog/introduction-virtio-networking-and-vhost-net</a></div><d=
-iv>[2] <a href=3D"https://www.redhat.com/en/blog/deep-dive-virtio-networkin=
-g-and-vhost-net" target=3D"_blank">https://www.redhat.com/en/blog/deep-dive=
--virtio-networking-and-vhost-net</a></div><div>[3] <a href=3D"https://www.r=
-edhat.com/en/blog/journey-vhost-users-realm" target=3D"_blank">https://www.=
-redhat.com/en/blog/journey-vhost-users-realm</a></div><div><br></div></div>=
-</blockquote><div><br></div><div>Found the answers in this blog: <a href=3D=
-"http://blog.vmsplice.net/2011/09/qemu-internals-vhost-architecture.html" t=
-arget=3D"_blank">http://blog.vmsplice.net/2011/09/qemu-internals-vhost-arch=
-itecture.html</a></div><div>In short, yes, the configuration plane still re=
-mains with QEMU. The frontend driver interacts with the PCI</div><div>adapt=
-er emulated in QEMU, for configurations and memory map setup. Only the data=
- plane is forwarded</div><div>to the vhost service. This makes sense since =
-we would only want to configure the device once, and hence</div><div>having=
- that emulated in QEMU is not a performance issue, as much as having the da=
-ta plane was. <br></div><div><br></div><div>There is still a little confusi=
-on in my mind regarding a few things, but I think looking at the source cod=
-e</div><div>of the already implemented drivers will clear that up for me. S=
-o that is what I will be doing next.<br></div><div><br></div><div>I will st=
-art looking at the source code for in-QEMU and vhost implementations of oth=
-er virtio drivers, and then decide which one I&#39;d like to</div><div>go w=
-ith. I will probably follow that decision with an implementation plan/timel=
-ine so that everyone can follow the progress on the</div><div>development o=
-f this project.<br> </div></div></div>
-</div></div>
-
---000000000000736a1505b89a0989--
 
