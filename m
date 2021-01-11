@@ -2,109 +2,102 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D940B2F0F4B
-	for <lists+qemu-devel@lfdr.de>; Mon, 11 Jan 2021 10:41:19 +0100 (CET)
-Received: from localhost ([::1]:45012 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9FBD52F0F66
+	for <lists+qemu-devel@lfdr.de>; Mon, 11 Jan 2021 10:47:27 +0100 (CET)
+Received: from localhost ([::1]:47970 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kythO-0003w1-HQ
-	for lists+qemu-devel@lfdr.de; Mon, 11 Jan 2021 04:41:18 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49886)
+	id 1kytnK-0005Rb-O8
+	for lists+qemu-devel@lfdr.de; Mon, 11 Jan 2021 04:47:26 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51158)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <Qiuhao.Li@outlook.com>)
- id 1kytg2-00038f-Ja
- for qemu-devel@nongnu.org; Mon, 11 Jan 2021 04:39:54 -0500
-Received: from mail-oln040092253086.outbound.protection.outlook.com
- ([40.92.253.86]:6103 helo=APC01-SG2-obe.outbound.protection.outlook.com)
+ (Exim 4.90_1) (envelope-from <borntraeger@de.ibm.com>)
+ id 1kytmH-0004z1-6Y; Mon, 11 Jan 2021 04:46:21 -0500
+Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:32800
+ helo=mx0a-001b2d01.pphosted.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <Qiuhao.Li@outlook.com>)
- id 1kytfz-0004yN-VA
- for qemu-devel@nongnu.org; Mon, 11 Jan 2021 04:39:54 -0500
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=EUnpPFYN6gE5M0+UOBSCpCBds0AjNE7sHdY6IdF1XyJey2LcW/s9d/RCh9Iuh+vW/CyMX8eM3rOeTsxdA4GQNH9eHLS80tVgCS9gZRoUQEhKb65N7twTEQgwH0Z6AWfIobPUiDLqBJOZ0tMLIgXXwipUAtVu/dNCz8SGpIV4xKeR38n0dt/izn0+hejWe2QxQQAtjAk69GzuX7NMTv2E5/6TBIr4OGw10i5ccBrxyFqn5yVCWQS8dMI7ZscU+xi/JhZdH1MuwBO2HbwWI/YkvCsuTg8Adl3/QJZhhyMRezx7aGrc8VurjnaKqXyB8IztxezYMm23Ll8W5CcfzyYCdg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=ke1PjGYmJzOnj/HJKFsJef5HvGHC7uQOqMolib8tDtE=;
- b=S37yjpEr+oiq+679u0DJdUiDob5RudANY1YRixeWkeUNwLStl7MH2Pb293uwnjgrICPZ8Y1th9ihPhMy+Ngr2gOYx8TFPzzODdhhHweL0ccAGhn2FaLQTLWs2CZOUT3clMm0GRoO6s1tLpPPeLqG2qLUqcUd+GyWZL3TvnouKA0h+x45r4qzQE4cQ+oktK+RabW54XYbqscyZiltjpVxbqPmXxZyiDnlumkmCilSF1KivIEolmElEWspa+n5KrwfALiiv83UuyO1qQOIUVhe8MlyeK9/DqyGuHlmyAjW5eB7v4TMW103O5Tb73ooakPubRS4kdJwayASh/ah2zNGFw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=none; dmarc=none;
- dkim=none; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=outlook.com;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=ke1PjGYmJzOnj/HJKFsJef5HvGHC7uQOqMolib8tDtE=;
- b=NgJpF4DlhorE54cBMHRqO8+3T6a4KOEQabHCo8ZfXM1afdPXFRrKCFSzskiDRh8NZL1Pesb0qLb2AzA03ievkD2OzhvQjPDaCz5TaHFeEgBPygf9yAsaCAp2oCv4Cu+JwdofLebwNbSV/pTkgIrqavIzF8EM5hXIn3mSY4rGXKxmrF4bMY7w5Vw7pBAElAMrBuGXq4AWrXltUysByJclgFumnOQ5xBqPz0WieIPEUaPXtLRy7t+oeLSeYPmENJfHL0r6kR+cZcf09R/swqv+46RRXOg7DlqAFlwGCk2SYiMEV8L8B4fMfuSrFOMPQxieYjTMB704cL3feP05N9h9eQ==
-Received: from SG2APC01FT054.eop-APC01.prod.protection.outlook.com
- (2a01:111:e400:7ebd::50) by
- SG2APC01HT137.eop-APC01.prod.protection.outlook.com (2a01:111:e400:7ebd::381)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3742.6; Mon, 11 Jan
- 2021 09:39:43 +0000
-Received: from SYCPR01MB3502.ausprd01.prod.outlook.com
- (2a01:111:e400:7ebd::46) by SG2APC01FT054.mail.protection.outlook.com
- (2a01:111:e400:7ebd::246) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3742.6 via Frontend
- Transport; Mon, 11 Jan 2021 09:39:43 +0000
-X-IncomingTopHeaderMarker: OriginalChecksum:FAB55FF2444BEAF2BDF8F9BE2C4CF0FE982FA439ED69B5D81965B1C94448DE23;
- UpperCasedChecksum:8843631270CA10E5C77E55BCC6145A381C43F44BC060BCCCC762819D7FD3C149;
- SizeAsReceived:8904; Count:47
-Received: from SYCPR01MB3502.ausprd01.prod.outlook.com
- ([fe80::b5dd:6210:81a:7780]) by SYCPR01MB3502.ausprd01.prod.outlook.com
- ([fe80::b5dd:6210:81a:7780%5]) with mapi id 15.20.3742.012; Mon, 11 Jan 2021
- 09:39:43 +0000
-Message-ID: <SYCPR01MB35029A99852F6063CC7C644CFCAB0@SYCPR01MB3502.ausprd01.prod.outlook.com>
-Subject: Re: [PATCH v8 5/7] fuzz: set bits in operand of write/out to zero
-From: Qiuhao Li <Qiuhao.Li@outlook.com>
-To: Philippe =?ISO-8859-1?Q?Mathieu-Daud=E9?= <philmd@redhat.com>, 
- qemu-devel@nongnu.org
-Date: Mon, 11 Jan 2021 17:39:30 +0800
-In-Reply-To: <d3294c04-28c5-470a-d011-80dc975c7a62@redhat.com>
-References: <SYCPR01MB3502FA4DB12C240DD3CFF1E0FCAB0@SYCPR01MB3502.ausprd01.prod.outlook.com>
- <SYCPR01MB3502C84B6346A3E3DE708C7BFCAB0@SYCPR01MB3502.ausprd01.prod.outlook.com>
- <d3294c04-28c5-470a-d011-80dc975c7a62@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-User-Agent: Evolution 3.36.4-0ubuntu1 
-Content-Transfer-Encoding: 8bit
-X-TMN: [xGmq1Qcu+PLTQbdxfS+MlRxYqYZ3EsBz]
-X-ClientProxiedBy: SJ0PR03CA0014.namprd03.prod.outlook.com
- (2603:10b6:a03:33a::19) To SYCPR01MB3502.ausprd01.prod.outlook.com
- (2603:10c6:10:3e::12)
-X-Microsoft-Original-Message-ID: <babe7c93e4a2f4cd097d65f8fa457c00ef5c6003.camel@outlook.com>
+ (Exim 4.90_1) (envelope-from <borntraeger@de.ibm.com>)
+ id 1kytmA-0007yD-Gk; Mon, 11 Jan 2021 04:46:20 -0500
+Received: from pps.filterd (m0098414.ppops.net [127.0.0.1])
+ by mx0b-001b2d01.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id
+ 10B9i1SP010588; Mon, 11 Jan 2021 04:46:11 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
+ h=subject : to : cc :
+ references : from : message-id : date : mime-version : in-reply-to :
+ content-type : content-transfer-encoding; s=pp1;
+ bh=ItrIfx1YNuyHTNeOf33J+V0QCsMMJ872rZLTmqbNzT8=;
+ b=eW8p9s+apV4yn68mQd5n9R0CyxfKLKBTcc2u4c5HUFwDaCe+ASqOrZCALP1k7OlOabCT
+ 8NVcAqMhT6Xuy+ULaGm+Ri4bj8vBeH2dcGOg1PrpncxloVfgLZzR3p/vEB/zTaWKsP6Z
+ frsd1g/MtJ/eMI3AK0HQcznNDTTD5NvS8GdXvyEMGXp7zDfN3jwo1qn/rEbHO/MFf1tR
+ 15KgV7LbfodpJCKq4CAGfJcwDCdYAKvJcECmIaTLR5CsjjiJAsILr/hijETSI72vCgH1
+ 7RrqdEHEdCMJSSQYtPduaUGrexa7z3mJ2lRDVTqThOkhEj0ESgpdI1G7jQ/XqPeFuy5W eQ== 
+Received: from pps.reinject (localhost [127.0.0.1])
+ by mx0b-001b2d01.pphosted.com with ESMTP id 360ma301ah-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Mon, 11 Jan 2021 04:46:11 -0500
+Received: from m0098414.ppops.net (m0098414.ppops.net [127.0.0.1])
+ by pps.reinject (8.16.0.36/8.16.0.36) with SMTP id 10B9jngi013969;
+ Mon, 11 Jan 2021 04:46:11 -0500
+Received: from ppma03fra.de.ibm.com (6b.4a.5195.ip4.static.sl-reverse.com
+ [149.81.74.107])
+ by mx0b-001b2d01.pphosted.com with ESMTP id 360ma3019t-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Mon, 11 Jan 2021 04:46:11 -0500
+Received: from pps.filterd (ppma03fra.de.ibm.com [127.0.0.1])
+ by ppma03fra.de.ibm.com (8.16.0.42/8.16.0.42) with SMTP id 10B9XPHi001192;
+ Mon, 11 Jan 2021 09:46:09 GMT
+Received: from b06avi18626390.portsmouth.uk.ibm.com
+ (b06avi18626390.portsmouth.uk.ibm.com [9.149.26.192])
+ by ppma03fra.de.ibm.com with ESMTP id 35y4489324-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Mon, 11 Jan 2021 09:46:09 +0000
+Received: from d06av25.portsmouth.uk.ibm.com (d06av25.portsmouth.uk.ibm.com
+ [9.149.105.61])
+ by b06avi18626390.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP
+ id 10B9k22231261058
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Mon, 11 Jan 2021 09:46:02 GMT
+Received: from d06av25.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 2C1F511C04C;
+ Mon, 11 Jan 2021 09:46:07 +0000 (GMT)
+Received: from d06av25.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id A9D1A11C04A;
+ Mon, 11 Jan 2021 09:46:06 +0000 (GMT)
+Received: from oc7455500831.ibm.com (unknown [9.171.14.9])
+ by d06av25.portsmouth.uk.ibm.com (Postfix) with ESMTP;
+ Mon, 11 Jan 2021 09:46:06 +0000 (GMT)
+Subject: Re: [PATCH] vhost-user-fs: add the "bootindex" property
+To: Laszlo Ersek <lersek@redhat.com>, qemu devel list <qemu-devel@nongnu.org>
+References: <20210104132401.5100-1-lersek@redhat.com>
+From: Christian Borntraeger <borntraeger@de.ibm.com>
+Message-ID: <f296274e-3c4b-bb90-ca4a-273c3bd97f7f@de.ibm.com>
+Date: Mon, 11 Jan 2021 10:46:06 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.5.0
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-Received: from localhost (104.225.148.19) by
- SJ0PR03CA0014.namprd03.prod.outlook.com (2603:10b6:a03:33a::19) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3742.6 via Frontend
- Transport; Mon, 11 Jan 2021 09:39:37 +0000
-X-MS-PublicTrafficType: Email
-X-IncomingHeaderCount: 47
-X-EOPAttributedMessage: 0
-X-MS-Office365-Filtering-Correlation-Id: 79ecf9e7-fc12-4485-f0d4-08d8b614d327
-X-MS-TrafficTypeDiagnostic: SG2APC01HT137:
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: NRjppA/u5aREsqbkNqmj7gOf7jSeI18D4rE5/uvdHiCN0fcixS7cXuu/qOVCZMaxpbskBgWDCF2f2DXS92m+XYkGHhOJRV/A6HV/U5UJTYC26Nn2MbFpqgvtv4Bpm65W15HaFbrQem+L+Cjy1JNDTjHemjwp/EeS+vmgbWY4bfmiw53w0El9O3P3mAn+otlHDeqmTGTN641qn/xFeyNCbIfg/Fhr/0+8OXna19E07wO4NITM8JPi7VcivpcCP23EbFWOHwweR8Ww63asRRvlcXXfesgd9/nn9hj3CxJVvhw=
-X-MS-Exchange-AntiSpam-MessageData: duXCweQ/BYWxt5zMsHLaJood2R8IKaQrtCjWtxlc1lyzA5FONR0qOqbQk87JmtV6phL8cO0w//92hfusalpcBH+JhgM6yGkVOnn6KG2GiZ2h3lD1MwEAAylnAh44T2sqSzHUPpSmiGzeD7CuXVVQVg==
-X-OriginatorOrg: outlook.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 11 Jan 2021 09:39:42.9717 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 84df9e7f-e9f6-40af-b435-aaaaaaaaaaaa
-X-MS-Exchange-CrossTenant-Network-Message-Id: 79ecf9e7-fc12-4485-f0d4-08d8b614d327
-X-MS-Exchange-CrossTenant-AuthSource: SG2APC01FT054.eop-APC01.prod.protection.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: Internet
-X-MS-Exchange-CrossTenant-RMS-PersistedConsumerOrg: 00000000-0000-0000-0000-000000000000
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SG2APC01HT137
-Received-SPF: pass client-ip=40.92.253.86; envelope-from=Qiuhao.Li@outlook.com;
- helo=APC01-SG2-obe.outbound.protection.outlook.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+In-Reply-To: <20210104132401.5100-1-lersek@redhat.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-TM-AS-GCONF: 00
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.343, 18.0.737
+ definitions=2021-01-09_13:2021-01-07,
+ 2021-01-09 signatures=0
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ mlxlogscore=999
+ suspectscore=0 impostorscore=0 lowpriorityscore=0 malwarescore=0
+ bulkscore=0 mlxscore=0 adultscore=0 spamscore=0 clxscore=1011
+ priorityscore=1501 phishscore=0 classifier=spam adjust=0 reason=mlx
+ scancount=1 engine=8.12.0-2009150000 definitions=main-2101110057
+Received-SPF: pass client-ip=148.163.158.5;
+ envelope-from=borntraeger@de.ibm.com; helo=mx0a-001b2d01.pphosted.com
+X-Spam_score_int: -26
+X-Spam_score: -2.7
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- MSGID_FROM_MTA_HEADER=0.001, RCVD_IN_DNSWL_NONE=-0.0001,
- RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_PASS=-0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.012,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -117,46 +110,125 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: thuth@redhat.com, darren.kenny@oracle.com, alxndr@bu.edu, bsd@redhat.com,
- stefanha@redhat.com, pbonzini@redhat.com
+Cc: virtio-fs@redhat.com, "Michael S. Tsirkin" <mst@redhat.com>,
+ Cornelia Huck <cohuck@redhat.com>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
+ Halil Pasic <pasic@linux.ibm.com>, qemu-s390x@nongnu.org,
+ Stefan Hajnoczi <stefanha@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, 2021-01-11 at 10:01 +0100, Philippe Mathieu-Daudé wrote:
-> On 1/11/21 7:11 AM, Qiuhao Li wrote:
-> > Simplifying the crash cases by opportunistically setting bits in
-> > operands of
-> > out/write to zero may help to debug, since usually bit one means
-> > turn on or
-> > trigger a function while zero is the default turn-off setting.
-> > 
-> > Tested Bug 1908062.
-> 
-> Please use the full link as reference:
-> https://bugs.launchpad.net/qemu/+bug/1908062
 
-Ok, should I submit a new version patch? Or just change the commit
-messages and submit this series again?
 
-Thank you.
+On 04.01.21 14:24, Laszlo Ersek wrote:
+> virtio-fs qualifies as a bootable device minimally under OVMF, but
+> currently the necessary "bootindex" property is missing (fw_cfg kernel
+> boot notwithstanding).
+> 
+> Add the property. For completeness, add it to the CCW device as well;
+> other virtio-ccw devices seem to have "bootindex" properties too.
+
+Currently we do not have boot support for virtiofs on s390x (ccw)
+Not sure if it is better if we should add the property now or whenever
+boot support is implemented. 
+As of today we do have bootindex for block and net. Maybe it is better
+to defer bootindex for virtio-fs-ccw until we can boot from it? In
+that way management software can detect if this is bootable or not?
 
 > 
-> (since this series is fully reviewed, can the
-> maintainer applying the series do the change
-> in place?)
+> Example OpenFirmware device path for the "vhost-user-fs-pci" device in the
+> "bootorder" fw_cfg file:
 > 
-> Thanks,
+>   /pci@i0cf8/pci-bridge@1,6/pci1af4,105a@0/filesystem@0
 > 
-> Phil.
+> Cc: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+> Cc: "Michael S. Tsirkin" <mst@redhat.com>
+> Cc: Christian Borntraeger <borntraeger@de.ibm.com>
+> Cc: Cornelia Huck <cohuck@redhat.com>
+> Cc: Halil Pasic <pasic@linux.ibm.com>
+> Cc: Stefan Hajnoczi <stefanha@redhat.com>
+> Cc: qemu-s390x@nongnu.org
+> Cc: virtio-fs@redhat.com
+> Signed-off-by: Laszlo Ersek <lersek@redhat.com>
+> ---
+>  include/hw/virtio/vhost-user-fs.h |  1 +
+>  hw/s390x/vhost-user-fs-ccw.c      |  2 ++
+>  hw/virtio/vhost-user-fs-pci.c     |  2 ++
+>  hw/virtio/vhost-user-fs.c         | 10 ++++++++++
+>  4 files changed, 15 insertions(+)
 > 
-> > Signed-off-by: Qiuhao Li <Qiuhao.Li@outlook.com>
-> > Reviewed-by: Alexander Bulekov <alxndr@bu.edu>
-> > Tested-by: Alexander Bulekov <alxndr@bu.edu>
-> > ---
-> >  scripts/oss-fuzz/minimize_qtest_trace.py | 39
-> > ++++++++++++++++++++++++
-> >  1 file changed, 39 insertions(+)
+> diff --git a/include/hw/virtio/vhost-user-fs.h b/include/hw/virtio/vhost-user-fs.h
+> index 698575277101..0d62834c2510 100644
+> --- a/include/hw/virtio/vhost-user-fs.h
+> +++ b/include/hw/virtio/vhost-user-fs.h
+> @@ -39,6 +39,7 @@ struct VHostUserFS {
+>      VhostUserState vhost_user;
+>      VirtQueue **req_vqs;
+>      VirtQueue *hiprio_vq;
+> +    int32_t bootindex;
+>  
+>      /*< public >*/
+>  };
+> diff --git a/hw/s390x/vhost-user-fs-ccw.c b/hw/s390x/vhost-user-fs-ccw.c
+> index 6c6f26929301..474e97e937b8 100644
+> --- a/hw/s390x/vhost-user-fs-ccw.c
+> +++ b/hw/s390x/vhost-user-fs-ccw.c
+> @@ -47,6 +47,8 @@ static void vhost_user_fs_ccw_instance_init(Object *obj)
+>      ccw_dev->force_revision_1 = true;
+>      virtio_instance_init_common(obj, &dev->vdev, sizeof(dev->vdev),
+>                                  TYPE_VHOST_USER_FS);
+> +    object_property_add_alias(obj, "bootindex", OBJECT(&dev->vdev),
+> +                              "bootindex");
+>  }
+>  
+>  static void vhost_user_fs_ccw_class_init(ObjectClass *klass, void *data)
+> diff --git a/hw/virtio/vhost-user-fs-pci.c b/hw/virtio/vhost-user-fs-pci.c
+> index 8bb389bd282a..2ed8492b3fa3 100644
+> --- a/hw/virtio/vhost-user-fs-pci.c
+> +++ b/hw/virtio/vhost-user-fs-pci.c
+> @@ -68,6 +68,8 @@ static void vhost_user_fs_pci_instance_init(Object *obj)
+>  
+>      virtio_instance_init_common(obj, &dev->vdev, sizeof(dev->vdev),
+>                                  TYPE_VHOST_USER_FS);
+> +    object_property_add_alias(obj, "bootindex", OBJECT(&dev->vdev),
+> +                              "bootindex");
+>  }
+>  
+>  static const VirtioPCIDeviceTypeInfo vhost_user_fs_pci_info = {
+> diff --git a/hw/virtio/vhost-user-fs.c b/hw/virtio/vhost-user-fs.c
+> index ed036ad9c13f..ac4fc34b36a2 100644
+> --- a/hw/virtio/vhost-user-fs.c
+> +++ b/hw/virtio/vhost-user-fs.c
+> @@ -22,6 +22,7 @@
+>  #include "qemu/error-report.h"
+>  #include "hw/virtio/vhost-user-fs.h"
+>  #include "monitor/monitor.h"
+> +#include "sysemu/sysemu.h"
+>  
+>  static void vuf_get_config(VirtIODevice *vdev, uint8_t *config)
+>  {
+> @@ -279,6 +280,14 @@ static Property vuf_properties[] = {
+>      DEFINE_PROP_END_OF_LIST(),
+>  };
+>  
+> +static void vuf_instance_init(Object *obj)
+> +{
+> +    VHostUserFS *fs = VHOST_USER_FS(obj);
+> +
+> +    device_add_bootindex_property(obj, &fs->bootindex, "bootindex",
+> +                                  "/filesystem@0", DEVICE(obj));
+> +}
+> +
+>  static void vuf_class_init(ObjectClass *klass, void *data)
+>  {
+>      DeviceClass *dc = DEVICE_CLASS(klass);
+> @@ -300,6 +309,7 @@ static const TypeInfo vuf_info = {
+>      .name = TYPE_VHOST_USER_FS,
+>      .parent = TYPE_VIRTIO_DEVICE,
+>      .instance_size = sizeof(VHostUserFS),
+> +    .instance_init = vuf_instance_init,
+>      .class_init = vuf_class_init,
+>  };
+>  
 > 
-> 
-
 
