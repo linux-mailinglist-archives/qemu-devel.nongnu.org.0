@@ -2,77 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0436A2F19DE
-	for <lists+qemu-devel@lfdr.de>; Mon, 11 Jan 2021 16:41:28 +0100 (CET)
-Received: from localhost ([::1]:36790 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id F00472F1A03
+	for <lists+qemu-devel@lfdr.de>; Mon, 11 Jan 2021 16:49:01 +0100 (CET)
+Received: from localhost ([::1]:44740 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kyzJs-0002ab-OB
-	for lists+qemu-devel@lfdr.de; Mon, 11 Jan 2021 10:41:24 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53848)
+	id 1kyzRE-0006lc-Hw
+	for lists+qemu-devel@lfdr.de; Mon, 11 Jan 2021 10:49:00 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56570)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kyzD8-0005aU-0R
- for qemu-devel@nongnu.org; Mon, 11 Jan 2021 10:34:26 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:34187)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kyzOc-00057f-0X
+ for qemu-devel@nongnu.org; Mon, 11 Jan 2021 10:46:18 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:22385)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kyzD5-0005z7-Jb
- for qemu-devel@nongnu.org; Mon, 11 Jan 2021 10:34:25 -0500
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kyzOZ-0007cL-02
+ for qemu-devel@nongnu.org; Mon, 11 Jan 2021 10:46:17 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1610379263;
+ s=mimecast20190719; t=1610379974;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=lM+jdFO86j9foXQsJJLV0yH/AxIpWuravSnIwRVQSIM=;
- b=bCmME8ryoMVWmw59SNu4uEn7G8J7xrZ6t42r+GZ+EL8xYsE0L8wQzXoyyx4Jj3xIT1J3+a
- vo4Xgp1fKFqC4FHi7r8XLCazzRJc2f6g49lcBQN91y5E2vzCm8tNtVvMDhi/thdZPyQYnj
- 4SV5FgpAKSrEYJXXjpLfjbVdSNsArok=
-Received: from mail-ej1-f69.google.com (mail-ej1-f69.google.com
- [209.85.218.69]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-409-4L04lYNkOnKfsL2Z4gJ3gw-1; Mon, 11 Jan 2021 10:34:19 -0500
-X-MC-Unique: 4L04lYNkOnKfsL2Z4gJ3gw-1
-Received: by mail-ej1-f69.google.com with SMTP id dv25so47309ejb.15
- for <qemu-devel@nongnu.org>; Mon, 11 Jan 2021 07:34:19 -0800 (PST)
+ bh=0xRYk4aYqXFkNtZPxQXZaXbFCshIPXtqYxoLwPPDwhs=;
+ b=i4gJIpGiJZHzxPxlMhnzv+lMZuZKXJ4VggBA2bROKC9bWrm74apO4qphfzR/OY2cC7yFgV
+ voKxORJtqAcqg43S23j1pMYEjTnoOI0lcuoJ7TTikqJWf63h8oMHfJNYmHpZmi9iOeq4ek
+ 18F9tHTesKEzoS4k1kRXKZivWpUOAMc=
+Received: from mail-ed1-f72.google.com (mail-ed1-f72.google.com
+ [209.85.208.72]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-479-ZdjDxJOBMWicspS4p8qhTQ-1; Mon, 11 Jan 2021 10:46:12 -0500
+X-MC-Unique: ZdjDxJOBMWicspS4p8qhTQ-1
+Received: by mail-ed1-f72.google.com with SMTP id dc6so8387950edb.14
+ for <qemu-devel@nongnu.org>; Mon, 11 Jan 2021 07:46:12 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:subject:to:cc:references:from:message-id:date
  :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=lM+jdFO86j9foXQsJJLV0yH/AxIpWuravSnIwRVQSIM=;
- b=OaUUPlbAXPekYsVmEt0KOcgd32pRhOnGGaeILXKBK2HzwpM8YW8PfT+qpQp8abEfp+
- FtCIqqUdiOWLJ9DqwPUE2mdHnKx/xvE95d6RB/xmYbs5rEWGVNll5w+mtInfN/nMZDBF
- P7VuTWxY1niGO4cq9Id9vmfTGO4fLyGKaq06SbXvDS7CFt+Qpadt6iJhf4iJwyFTxe99
- +AeCGNQbuE8PzCG4e8dXKToUApxf1BZvT7AVusnZOrj4mozBZYd0IZ5f6ErSVyuKs7Yr
- M6+mGk/EYglg49QDQLEdkJ0FIoWrLAtIRywcjvlN8X8s6mBJUgRvrQjYTScB6IUOF48T
- izSA==
-X-Gm-Message-State: AOAM533IQVZhiBNdLiP0o90erEjBYjLpW3b31aUMrejlDF0hJfvx46Un
- /rmC8bvKDf+ZIcKToz3GyzydzXZm64bChJnMsqw/S0sF0tnekKNo6A0rFKhWb/Hf2omhggtiM4G
- qoul8dOzDd4byOOs=
-X-Received: by 2002:a05:6402:a5b:: with SMTP id
- bt27mr14731974edb.222.1610379258749; 
- Mon, 11 Jan 2021 07:34:18 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJxSrZn/HzjbSm+Mx2MBp74Kvk3UMEgnEdHPRS/9wyRBby9gHoUtcG27VxFrIW8Kl5ylMVxPVg==
-X-Received: by 2002:a05:6402:a5b:: with SMTP id
- bt27mr14731958edb.222.1610379258539; 
- Mon, 11 Jan 2021 07:34:18 -0800 (PST)
+ bh=0xRYk4aYqXFkNtZPxQXZaXbFCshIPXtqYxoLwPPDwhs=;
+ b=CsjsgyE+qmJt/qspyPJYbrWXkDHjDyDHlGz2VTtLPM6K//r6/Si/xw9amkQOHorQR5
+ GUDKp20oet2bTT16OxwIUTdZss6YxL0zEovtbvti7LQGUu8wGtgq1eVlvPPKhiyiQ+B0
+ ZvX35Ylax2bzI3PDH/+DveoqfqCw+lyO2Rv4HtkzPQ1XgrcPs8q0Kt4OQpeXOqsK8Iaq
+ 3dHpxX02U55lQbkuSxWnVk5VXY/Bxr67/4LVxLsUh0bkwQs0lQgrI/NuAHlB2EJCGigT
+ DwbmLvajevx060AcyVt5jaWEYdrPrdR2aoDY3CNWVaXKD0JaNlU952RC5UMhc2laRH0A
+ U8pw==
+X-Gm-Message-State: AOAM531TPkkkE5d1wfSh5gKgiNwPak6yEGSyEbI/3xa/6Xbxp2uJeayx
+ FZxlnV98IayI5wQ3/+yntJuG6tAEJzGQ/LLOqgYkfVEU44BqPh3KGxY+U6nILdAyXvq6tlTFIji
+ 8l3tElPCcLH3Jyq0=
+X-Received: by 2002:a17:906:9388:: with SMTP id l8mr89939ejx.22.1610379971146; 
+ Mon, 11 Jan 2021 07:46:11 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJwIIBXjYeFGZXiQLnQBwv8zhnz2UzaOY8kmn8fD3rZQbbLl+SoQ+OZ4KRJ7n4mYUxNeGNqezg==
+X-Received: by 2002:a17:906:9388:: with SMTP id l8mr89919ejx.22.1610379970926; 
+ Mon, 11 Jan 2021 07:46:10 -0800 (PST)
 Received: from [192.168.1.36] (129.red-88-21-205.staticip.rima-tde.net.
  [88.21.205.129])
- by smtp.gmail.com with ESMTPSA id d4sm99773edq.36.2021.01.11.07.34.16
+ by smtp.gmail.com with ESMTPSA id d13sm7204083ejc.44.2021.01.11.07.46.09
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 11 Jan 2021 07:34:17 -0800 (PST)
-Subject: Re: [PATCH v1 13/20] semihosting: Change common-semi API to be
- architecture-independent
+ Mon, 11 Jan 2021 07:46:10 -0800 (PST)
+Subject: Re: [PATCH v1 12/20] semihosting: Move ARM semihosting code to shared
+ directories
 To: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
  qemu-devel@nongnu.org
 References: <20210108224256.2321-1-alex.bennee@linaro.org>
- <20210108224256.2321-14-alex.bennee@linaro.org>
+ <20210108224256.2321-13-alex.bennee@linaro.org>
 From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-Message-ID: <3e3340c7-7eac-9385-1fb4-707be4a1f598@redhat.com>
-Date: Mon, 11 Jan 2021 16:34:15 +0100
+Message-ID: <60effd22-55a1-1021-ecbe-4899e68ea9cd@redhat.com>
+Date: Mon, 11 Jan 2021 16:46:08 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.6.0
 MIME-Version: 1.0
-In-Reply-To: <20210108224256.2321-14-alex.bennee@linaro.org>
+In-Reply-To: <20210108224256.2321-13-alex.bennee@linaro.org>
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
 X-Mimecast-Spam-Score: 0
@@ -89,7 +87,7 @@ X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.251,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001,
  RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -112,68 +110,57 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 On 1/8/21 11:42 PM, Alex Bennée wrote:
 > From: Keith Packard <keithp@keithp.com>
 > 
-> The public API is now defined in
-> hw/semihosting/common-semi.h. do_common_semihosting takes CPUState *
-> instead of CPUARMState *. All internal functions have been renamed
-> common_semi_ instead of arm_semi_ or arm_. Aside from the API change,
-> there are no functional changes in this patch.
+> This commit renames two files which provide ARM semihosting support so
+> that they can be shared by other architectures:
+> 
+>  1. target/arm/arm-semi.c     -> hw/semihosting/common-semi.c
+>  2. linux-user/arm/semihost.c -> linux-user/semihost.c
+> 
+> The build system was modified use a new config variable,
+> CONFIG_ARM_COMPATIBLE_SEMIHOSTING, which has been added to the ARM
+> softmmu and linux-user default configs. The contents of the source
+> files has not been changed in this patch.
 > 
 > Signed-off-by: Keith Packard <keithp@keithp.com>
 > Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
-> Message-Id: <20210107170717.2098982-3-keithp@keithp.com>
 > Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
+> Message-Id: <20210107170717.2098982-2-keithp@keithp.com>
 > ---
->  hw/semihosting/common-semi.h  | 36 +++++++++++++++++++++++++++++++++++
->  target/arm/cpu.h              |  8 --------
->  hw/semihosting/common-semi.c  | 16 ++++++++++------
->  linux-user/aarch64/cpu_loop.c |  3 ++-
->  linux-user/arm/cpu_loop.c     |  3 ++-
->  target/arm/helper.c           |  5 +++--
->  target/arm/m_helper.c         |  7 ++++++-
->  7 files changed, 59 insertions(+), 19 deletions(-)
->  create mode 100644 hw/semihosting/common-semi.h
-> 
-> diff --git a/hw/semihosting/common-semi.h b/hw/semihosting/common-semi.h
-> new file mode 100644
-> index 0000000000..bc53e92c79
-> --- /dev/null
-> +++ b/hw/semihosting/common-semi.h
-> @@ -0,0 +1,36 @@
-> +/*
-> + *  Semihosting support for systems modeled on the Arm "Angel"
-> + *  semihosting syscalls design.
-> + *
-> + *  Copyright (c) 2005, 2007 CodeSourcery.
-> + *  Copyright (c) 2019 Linaro
-> + *  Written by Paul Brook.
-> + *
-> + *  Copyright © 2020 by Keith Packard <keithp@keithp.com>
-> + *  Adapted for systems other than ARM, including RISC-V, by Keith Packard
-> + *
-> + *  This program is free software; you can redistribute it and/or modify
-> + *  it under the terms of the GNU General Public License as published by
-> + *  the Free Software Foundation; either version 2 of the License, or
-> + *  (at your option) any later version.
-> + *
-> + *  This program is distributed in the hope that it will be useful,
-> + *  but WITHOUT ANY WARRANTY; without even the implied warranty of
-> + *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-> + *  GNU General Public License for more details.
-> + *
-> + *  You should have received a copy of the GNU General Public License
-> + *  along with this program; if not, see <http://www.gnu.org/licenses/>.
-> + *
-> + *  ARM Semihosting is documented in:
-> + *     Semihosting for AArch32 and AArch64 Release 2.0
-> + *     https://static.docs.arm.com/100863/0200/semihosting.pdf
-> + *
-> + */
-> +
-> +#ifndef COMMON_SEMI_H
-> +#define COMMON_SEMI_H
-> +
-> +target_ulong do_common_semihosting(CPUState *cs);
+>  default-configs/devices/arm-softmmu.mak               | 1 +
+>  default-configs/targets/aarch64-linux-user.mak        | 1 +
+>  default-configs/targets/aarch64_be-linux-user.mak     | 1 +
+>  default-configs/targets/arm-linux-user.mak            | 1 +
+>  default-configs/targets/armeb-linux-user.mak          | 1 +
+>  target/arm/arm-semi.c => hw/semihosting/common-semi.c | 0
+>  linux-user/{arm => }/semihost.c                       | 0
+>  hw/semihosting/Kconfig                                | 3 +++
+>  hw/semihosting/meson.build                            | 3 +++
+>  linux-user/arm/meson.build                            | 3 ---
+>  linux-user/meson.build                                | 1 +
+>  target/arm/meson.build                                | 2 --
+>  12 files changed, 12 insertions(+), 5 deletions(-)
+>  rename target/arm/arm-semi.c => hw/semihosting/common-semi.c (100%)
+>  rename linux-user/{arm => }/semihost.c (100%)
+...
 
-Can we name this do_arm_compat_semihosting(CPUState *cs)?
+> diff --git a/hw/semihosting/Kconfig b/hw/semihosting/Kconfig
+> index efe0a30734..4c30dc6b16 100644
+> --- a/hw/semihosting/Kconfig
+> +++ b/hw/semihosting/Kconfig
+> @@ -1,3 +1,6 @@
+>  
+>  config SEMIHOSTING
+>         bool
+> +
+> +config ARM_COMPATIBLE_SEMIHOSTING
+> +       bool
+
+This misses:
+
+          "select SEMIHOSTING"
+
+'SEMIHOSTING' is a bit confusing. Wondering about better names,
+maybe SEMIHOSTING_HOST_CONSOLE is clearer? (question not related
+to this patch).
 
 
