@@ -2,105 +2,82 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5A0092F1438
-	for <lists+qemu-devel@lfdr.de>; Mon, 11 Jan 2021 14:22:28 +0100 (CET)
-Received: from localhost ([::1]:56608 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8BC162F143A
+	for <lists+qemu-devel@lfdr.de>; Mon, 11 Jan 2021 14:22:56 +0100 (CET)
+Received: from localhost ([::1]:57422 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kyx9P-0000s3-DY
-	for lists+qemu-devel@lfdr.de; Mon, 11 Jan 2021 08:22:27 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47164)
+	id 1kyx9r-0001CI-Jx
+	for lists+qemu-devel@lfdr.de; Mon, 11 Jan 2021 08:22:55 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47336)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <borntraeger@de.ibm.com>)
- id 1kyx73-0007my-NU; Mon, 11 Jan 2021 08:20:01 -0500
-Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:7600)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <borntraeger@de.ibm.com>)
- id 1kyx71-0004yp-KS; Mon, 11 Jan 2021 08:20:01 -0500
-Received: from pps.filterd (m0127361.ppops.net [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id
- 10BD5eSZ060011; Mon, 11 Jan 2021 08:19:58 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
- h=subject : to : cc :
- references : from : message-id : date : mime-version : in-reply-to :
- content-type : content-transfer-encoding; s=pp1;
- bh=tgZFn8p+HQz61KiYktsJuzVtp5GQQmtA8sC7jzf3X4Q=;
- b=tQ1b4UwvIr+D73mOZ1wcZGWsno7AgWtDpdg0lk0ILdJ65CrhkrY4BOewLI6tVhRaz8V+
- I++8RGaMz1XK7ikfQws7yOpUcM0R+Sl2LpWyym0y5VB92btoONjgpw3xpJUkYycCBVTi
- EaAKPejdv9G/KRfMbOKqXC3hOs1xOv63uidSPU0nL3cmpS3tgfACvMxeOO6TQau2/rLM
- jKXHmzuI8e7GhYkrPvdwZETH2zPjWhnNvTXqPfg5WvuXZjJdGoZTFtc6jKtiSF9N7MNf
- FIP7N19v6Q6bD3NgKGu+d8rWrPtnoDghhuHLyn018k3W86U30k+J2W3l5tQntfkz1Sr0 3w== 
-Received: from pps.reinject (localhost [127.0.0.1])
- by mx0a-001b2d01.pphosted.com with ESMTP id 360pfy9nt7-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Mon, 11 Jan 2021 08:19:57 -0500
-Received: from m0127361.ppops.net (m0127361.ppops.net [127.0.0.1])
- by pps.reinject (8.16.0.36/8.16.0.36) with SMTP id 10BCWiFe060064;
- Mon, 11 Jan 2021 08:19:56 -0500
-Received: from ppma05fra.de.ibm.com (6c.4a.5195.ip4.static.sl-reverse.com
- [149.81.74.108])
- by mx0a-001b2d01.pphosted.com with ESMTP id 360pfy9nsh-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Mon, 11 Jan 2021 08:19:56 -0500
-Received: from pps.filterd (ppma05fra.de.ibm.com [127.0.0.1])
- by ppma05fra.de.ibm.com (8.16.0.42/8.16.0.42) with SMTP id 10BDJsfV016543;
- Mon, 11 Jan 2021 13:19:54 GMT
-Received: from b06cxnps4076.portsmouth.uk.ibm.com
- (d06relay13.portsmouth.uk.ibm.com [9.149.109.198])
- by ppma05fra.de.ibm.com with ESMTP id 35y44895xv-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Mon, 11 Jan 2021 13:19:54 +0000
-Received: from d06av21.portsmouth.uk.ibm.com (d06av21.portsmouth.uk.ibm.com
- [9.149.105.232])
- by b06cxnps4076.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 10BDJqh115270178
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Mon, 11 Jan 2021 13:19:52 GMT
-Received: from d06av21.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 3BF6852052;
- Mon, 11 Jan 2021 13:19:52 +0000 (GMT)
-Received: from oc7455500831.ibm.com (unknown [9.171.58.41])
- by d06av21.portsmouth.uk.ibm.com (Postfix) with ESMTP id F0F5D52054;
- Mon, 11 Jan 2021 13:19:51 +0000 (GMT)
-Subject: Re: [RHEL7 qemu-kvm PATCH 2/3] s390x: Fix vm name copy length
-To: Miroslav Rezanina <mrezanin@redhat.com>
-References: <cover.1610364304.git.mrezanin@redhat.com>
- <e1ad733af7b23929456d05aacae693ce6462d4b3.1610364304.git.mrezanin@redhat.com>
- <5acb5521-fdd2-e511-9cc3-176086183dd5@redhat.com>
- <88c2eb01-f8f5-18d5-6513-57322930cc77@redhat.com>
- <115622555.32388560.1610368920610.JavaMail.zimbra@redhat.com>
- <f4c3ce8c-7688-461b-8ed2-2c8befc561a3@redhat.com>
- <7631e12a-5422-3167-51fd-1e853a119f8f@de.ibm.com>
- <187831554.32408075.1610371044488.JavaMail.zimbra@redhat.com>
-From: Christian Borntraeger <borntraeger@de.ibm.com>
-Message-ID: <6be00402-052d-cfe9-eb3d-8acf535dc813@de.ibm.com>
-Date: Mon, 11 Jan 2021 14:19:51 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.5.0
+ (Exim 4.90_1) (envelope-from <luis.machado@linaro.org>)
+ id 1kyx88-00089C-Q3
+ for qemu-devel@nongnu.org; Mon, 11 Jan 2021 08:21:09 -0500
+Received: from mail-qk1-x72a.google.com ([2607:f8b0:4864:20::72a]:38054)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <luis.machado@linaro.org>)
+ id 1kyx7x-00057Y-Tb
+ for qemu-devel@nongnu.org; Mon, 11 Jan 2021 08:21:07 -0500
+Received: by mail-qk1-x72a.google.com with SMTP id w79so14501082qkb.5
+ for <qemu-devel@nongnu.org>; Mon, 11 Jan 2021 05:20:53 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=vDQkcZI0wWmNt8h50euO1l/PLOOvX4eDx8P1AuC31Sw=;
+ b=hN1BLfbMipyFtSETZB+dZ+AyD3OTI3oLT6JrpMb5LfVL1y7h+W8QmJjLrVG82TgZdz
+ kBMCLxx4GqjCZdHkGZAV8BzgrsRoguiMP3EQEh2ZdDP5g3lfLaYb/iVprnTunWp2cMZn
+ GjPWAhTc6I0ZPxZX4gnr+IMJrhiRLFo8ln8GzyTbyrubTvSeuWDReNrYwhhekUyDGEMN
+ tJV279RYajk4MDr2oL/4bbnAy8yy/T6d+pvmJ+ChMcWxoxC6A7iq6zAQA9GeibF4i/nS
+ R1d7mDcZiBNMuZRkXSrQxSSqwt1GaYS3u1fu9qmMFb6xzQIHJ4Teii0ArHZMvuLV6iDO
+ LHYQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=vDQkcZI0wWmNt8h50euO1l/PLOOvX4eDx8P1AuC31Sw=;
+ b=EvfqzQzLvauFCgOu+acChRJ0DGFdhxolHX9PNt9VkmCHCGdqsYgKn7yYbTuIRswo6F
+ NNjiDv7H0MN/AxTWuc8tkawwr0UefLYUFoAscQGAEAXHP3EzyC1pDThU7tuLEe0sAbHA
+ BRspTc+R4Pa9T7GB2mZMhsZvjQ+LnWmGvIzoEfeY/rJ2lJyk+L3604P7KMjK5A8tpUHg
+ 6iDy66RL0bbuXBGXnHWJPQ+xmct+qCD2HnlnWvL2ZMeEmxyEOmR2JspZQxjxuLfUbGrM
+ OjNwH0D9QgWPIVayDFeu2Pp0Ia0jtO0g23UIL0aRF+KUhd5DP3J+NclUrmV90e/xnvBF
+ 9g6A==
+X-Gm-Message-State: AOAM530fRfEKsK/VduW/OEoy8Y9I1CAycJiOa0lr/7lgcxSNVNxPO9Mx
+ DhZMFbbbxLOmA2NL+tY4K67pkQ==
+X-Google-Smtp-Source: ABdhPJxx1t9yuVPNExmTzuvmlsy5uoNzwHIY26vJjppVr+/0oSV28eBl0Ox85eb9vJQe0JWB5tDInw==
+X-Received: by 2002:a37:744:: with SMTP id 65mr15363384qkh.71.1610371252956;
+ Mon, 11 Jan 2021 05:20:52 -0800 (PST)
+Received: from ?IPv6:2804:7f0:8284:874d:20e9:a3d4:1db5:c30a?
+ ([2804:7f0:8284:874d:20e9:a3d4:1db5:c30a])
+ by smtp.gmail.com with ESMTPSA id c139sm8439799qke.24.2021.01.11.05.20.49
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 11 Jan 2021 05:20:51 -0800 (PST)
+Subject: Re: [PATCH v1 10/20] target/arm: use official org.gnu.gdb.aarch64.sve
+ layout for registers
+To: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
+ qemu-devel@nongnu.org
+References: <20210108224256.2321-1-alex.bennee@linaro.org>
+ <20210108224256.2321-11-alex.bennee@linaro.org>
+From: Luis Machado <luis.machado@linaro.org>
+Message-ID: <9ee1443e-821d-9cec-c29a-6111385937ad@linaro.org>
+Date: Mon, 11 Jan 2021 10:20:48 -0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
 MIME-Version: 1.0
-In-Reply-To: <187831554.32408075.1610371044488.JavaMail.zimbra@redhat.com>
-Content-Type: text/plain; charset=utf-8
+In-Reply-To: <20210108224256.2321-11-alex.bennee@linaro.org>
+Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-X-TM-AS-GCONF: 00
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.343, 18.0.737
- definitions=2021-01-11_23:2021-01-11,
- 2021-01-11 signatures=0
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- mlxlogscore=999 adultscore=0
- lowpriorityscore=0 mlxscore=0 suspectscore=0 priorityscore=1501
- bulkscore=0 spamscore=0 malwarescore=0 impostorscore=0 phishscore=0
- clxscore=1015 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2009150000 definitions=main-2101110075
-Received-SPF: pass client-ip=148.163.158.5;
- envelope-from=borntraeger@de.ibm.com; helo=mx0b-001b2d01.pphosted.com
-X-Spam_score_int: -26
-X-Spam_score: -2.7
+Received-SPF: pass client-ip=2607:f8b0:4864:20::72a;
+ envelope-from=luis.machado@linaro.org; helo=mail-qk1-x72a.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -113,94 +90,219 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Thomas Huth <thuth@redhat.com>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
- qemu-s390x <qemu-s390x@nongnu.org>, qemu-devel@nongnu.org
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ "open list:ARM TCG CPUs" <qemu-arm@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+For the record, the layout looks OK to me.
 
+Just a reminder that GDB will soon support bfloat16 types. A patch may 
+be pushed this month.
 
-On 11.01.21 14:17, Miroslav Rezanina wrote:
+On 1/8/21 7:42 PM, Alex Bennée wrote:
+> While GDB can work with any XML description given to it there is
+> special handling for SVE registers on the GDB side which makes the
+> users life a little better. The changes aren't that major and all the
+> registers save the $vg reported the same. All that changes is:
 > 
+>    - report org.gnu.gdb.aarch64.sve
+>    - use gdb nomenclature for names and types
+>    - minor re-ordering of the types to match reference
+>    - re-enable ieee_half (as we know gdb supports it now)
+>    - $vg is now a 64 bit int
+>    - check $vN and $zN aliasing in test
 > 
-> ----- Original Message -----
->> From: "Christian Borntraeger" <borntraeger@de.ibm.com>
->> To: "Thomas Huth" <thuth@redhat.com>, "Miroslav Rezanina" <mrezanin@redhat.com>
->> Cc: "qemu-s390x" <qemu-s390x@nongnu.org>, "Philippe Mathieu-Daudé" <philmd@redhat.com>, qemu-devel@nongnu.org
->> Sent: Monday, January 11, 2021 2:02:32 PM
->> Subject: Re: [RHEL7 qemu-kvm PATCH 2/3] s390x: Fix vm name copy length
->>
->>
->>
->> On 11.01.21 13:54, Thomas Huth wrote:
->>> On 11/01/2021 13.42, Miroslav Rezanina wrote:
->>>>
->>>>
->>>> ----- Original Message -----
->>>>> From: "Thomas Huth" <thuth@redhat.com>
->>>>> To: "Philippe Mathieu-Daudé" <philmd@redhat.com>, mrezanin@redhat.com,
->>>>> qemu-devel@nongnu.org, "qemu-s390x"
->>>>> <qemu-s390x@nongnu.org>
->>>>> Sent: Monday, January 11, 2021 1:24:57 PM
->>>>> Subject: Re: [RHEL7 qemu-kvm PATCH 2/3] s390x: Fix vm name copy length
->>>>>
->>>>> On 11/01/2021 13.10, Philippe Mathieu-Daudé wrote:
->>>>>> Hi Miroslav,
->>>>>>
->>>>>> On 1/11/21 12:30 PM, mrezanin@redhat.com wrote:
->>>>>>> From: Miroslav Rezanina <mrezanin@redhat.com>
->>>>>>>
->>>>>>> There are two cases when vm name is copied but closing \0 can be lost
->>>>>>> in case name is too long (>=256 characters).
->>>>>>>
->>>>>>> Updating length to copy so there is space for closing \0.
->>>>>>>
->>>>>>> Signed-off-by: Miroslav Rezanina <mrezanin@redhat.com>
->>>>>>> ---
->>>>>>>    target/s390x/kvm.c         | 2 +-
->>>>>>>    target/s390x/misc_helper.c | 4 +++-
->>>>>>>    2 files changed, 4 insertions(+), 2 deletions(-)
->>>>>>>
->>>>>>> diff --git a/target/s390x/kvm.c b/target/s390x/kvm.c
->>>>>>> index b8385e6b95..2313b5727e 100644
->>>>>>> --- a/target/s390x/kvm.c
->>>>>>> +++ b/target/s390x/kvm.c
->>>>>>> @@ -1918,7 +1918,7 @@ static void insert_stsi_3_2_2(S390CPU *cpu, __u64
->>>>>>> addr, uint8_t ar)
->>>>>>>         */
->>>>>>>        if (qemu_name) {
->>>>>>>            strncpy((char *)sysib.ext_names[0], qemu_name,
->>>>>>> -                sizeof(sysib.ext_names[0]));
->>>>>>> +                sizeof(sysib.ext_names[0]) - 1);
->>>>>>>        } else {
->>>>>>>            strcpy((char *)sysib.ext_names[0], "KVMguest");
->>>>>>>        }
->>>>>>
->>>>>> What about using strpadcpy() instead?
->>>>>
->>>>> Yes, strpadcpy is the better way here - this field has to be padded with
->>>>> zeroes, so doing "- 1" is wrong here.
->>>>
->>>> Hi Thomas,
->>>>
->>>> as I wrote in reply to Phillipe - the array is memset to zeroes before the
->>>> if so we
->>>> are sure it's padded with zeroes (in this occurrence, not true for second
->>>> one).
->>>
->>> Ok, but dropping the last character is still wrong here. The ext_names do
->>> not need to be terminated with a \0 if they have the full length.
->> The current code is actually correct. We are perfectly fine without the final
->> \n if the string is really 256 bytes.
->>
->> Replacing memset + strncpy with strpadcpy is certainly a good cleanup. Is it
->> necessary? No.
+> Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
+> Cc: Luis Machado <luis.machado@linaro.org>
+> Message-Id: <20201218112707.28348-10-alex.bennee@linaro.org>
+> Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
+> ---
+>   target/arm/gdbstub.c                        | 75 ++++++++-------------
+>   target/arm/helper.c                         |  2 +-
+>   tests/tcg/aarch64/gdbstub/test-sve-ioctl.py | 11 +++
+>   3 files changed, 41 insertions(+), 47 deletions(-)
 > 
-> Yes, it is necessary because otherwise compiler (GCC 11) produce warning and so
-> build fail when --enable-werror is used.
-
-Fair enough. But that actually means that the compiler warning is wrong, because
-we use strncpy exactly in the way as described (allowing for the final \n to be
-missing). But let us use strpadcpy then.
+> diff --git a/target/arm/gdbstub.c b/target/arm/gdbstub.c
+> index 866595b4f1..a8fff2a3d0 100644
+> --- a/target/arm/gdbstub.c
+> +++ b/target/arm/gdbstub.c
+> @@ -195,22 +195,17 @@ static const struct TypeSize vec_lanes[] = {
+>       { "uint128", 128, 'q', 'u' },
+>       { "int128", 128, 'q', 's' },
+>       /* 64 bit */
+> +    { "ieee_double", 64, 'd', 'f' },
+>       { "uint64", 64, 'd', 'u' },
+>       { "int64", 64, 'd', 's' },
+> -    { "ieee_double", 64, 'd', 'f' },
+>       /* 32 bit */
+> +    { "ieee_single", 32, 's', 'f' },
+>       { "uint32", 32, 's', 'u' },
+>       { "int32", 32, 's', 's' },
+> -    { "ieee_single", 32, 's', 'f' },
+>       /* 16 bit */
+> +    { "ieee_half", 16, 'h', 'f' },
+>       { "uint16", 16, 'h', 'u' },
+>       { "int16", 16, 'h', 's' },
+> -    /*
+> -     * TODO: currently there is no reliable way of telling
+> -     * if the remote gdb actually understands ieee_half so
+> -     * we don't expose it in the target description for now.
+> -     * { "ieee_half", 16, 'h', 'f' },
+> -     */
+>       /* bytes */
+>       { "uint8", 8, 'b', 'u' },
+>       { "int8", 8, 'b', 's' },
+> @@ -223,17 +218,16 @@ int arm_gen_dynamic_svereg_xml(CPUState *cs, int base_reg)
+>       GString *s = g_string_new(NULL);
+>       DynamicGDBXMLInfo *info = &cpu->dyn_svereg_xml;
+>       g_autoptr(GString) ts = g_string_new("");
+> -    int i, bits, reg_width = (cpu->sve_max_vq * 128);
+> +    int i, j, bits, reg_width = (cpu->sve_max_vq * 128);
+>       info->num = 0;
+>       g_string_printf(s, "<?xml version=\"1.0\"?>");
+>       g_string_append_printf(s, "<!DOCTYPE target SYSTEM \"gdb-target.dtd\">");
+> -    g_string_append_printf(s, "<feature name=\"org.qemu.gdb.aarch64.sve\">");
+> +    g_string_append_printf(s, "<feature name=\"org.gnu.gdb.aarch64.sve\">");
+>   
+>       /* First define types and totals in a whole VL */
+>       for (i = 0; i < ARRAY_SIZE(vec_lanes); i++) {
+>           int count = reg_width / vec_lanes[i].size;
+> -        g_string_printf(ts, "vq%d%c%c", count,
+> -                        vec_lanes[i].sz, vec_lanes[i].suffix);
+> +        g_string_printf(ts, "svev%c%c", vec_lanes[i].sz, vec_lanes[i].suffix);
+>           g_string_append_printf(s,
+>                                  "<vector id=\"%s\" type=\"%s\" count=\"%d\"/>",
+>                                  ts->str, vec_lanes[i].gdb_type, count);
+> @@ -243,39 +237,37 @@ int arm_gen_dynamic_svereg_xml(CPUState *cs, int base_reg)
+>        * signed and potentially float versions of each size from 128 to
+>        * 8 bits.
+>        */
+> -    for (bits = 128; bits >= 8; bits /= 2) {
+> -        int count = reg_width / bits;
+> -        g_string_append_printf(s, "<union id=\"vq%dn\">", count);
+> -        for (i = 0; i < ARRAY_SIZE(vec_lanes); i++) {
+> -            if (vec_lanes[i].size == bits) {
+> -                g_string_append_printf(s, "<field name=\"%c\" type=\"vq%d%c%c\"/>",
+> -                                       vec_lanes[i].suffix,
+> -                                       count,
+> -                                       vec_lanes[i].sz, vec_lanes[i].suffix);
+> +    for (bits = 128, i = 0; bits >= 8; bits /= 2, i++) {
+> +        const char suf[] = { 'q', 'd', 's', 'h', 'b' };
+> +        g_string_append_printf(s, "<union id=\"svevn%c\">", suf[i]);
+> +        for (j = 0; j < ARRAY_SIZE(vec_lanes); j++) {
+> +            if (vec_lanes[j].size == bits) {
+> +                g_string_append_printf(s, "<field name=\"%c\" type=\"svev%c%c\"/>",
+> +                                       vec_lanes[j].suffix,
+> +                                       vec_lanes[j].sz, vec_lanes[j].suffix);
+>               }
+>           }
+>           g_string_append(s, "</union>");
+>       }
+>       /* And now the final union of unions */
+> -    g_string_append(s, "<union id=\"vq\">");
+> -    for (bits = 128; bits >= 8; bits /= 2) {
+> -        int count = reg_width / bits;
+> -        for (i = 0; i < ARRAY_SIZE(vec_lanes); i++) {
+> -            if (vec_lanes[i].size == bits) {
+> -                g_string_append_printf(s, "<field name=\"%c\" type=\"vq%dn\"/>",
+> -                                       vec_lanes[i].sz, count);
+> -                break;
+> -            }
+> -        }
+> +    g_string_append(s, "<union id=\"svev\">");
+> +    for (bits = 128, i = 0; bits >= 8; bits /= 2, i++) {
+> +        const char suf[] = { 'q', 'd', 's', 'h', 'b' };
+> +        g_string_append_printf(s, "<field name=\"%c\" type=\"svevn%c\"/>",
+> +                               suf[i], suf[i]);
+>       }
+>       g_string_append(s, "</union>");
+>   
+> +    /* Finally the sve prefix type */
+> +    g_string_append_printf(s,
+> +                           "<vector id=\"svep\" type=\"uint8\" count=\"%d\"/>",
+> +                           reg_width / 8);
+> +
+>       /* Then define each register in parts for each vq */
+>       for (i = 0; i < 32; i++) {
+>           g_string_append_printf(s,
+>                                  "<reg name=\"z%d\" bitsize=\"%d\""
+> -                               " regnum=\"%d\" group=\"vector\""
+> -                               " type=\"vq\"/>",
+> +                               " regnum=\"%d\" type=\"svev\"/>",
+>                                  i, reg_width, base_reg++);
+>           info->num++;
+>       }
+> @@ -287,31 +279,22 @@ int arm_gen_dynamic_svereg_xml(CPUState *cs, int base_reg)
+>                              " regnum=\"%d\" group=\"float\""
+>                              " type=\"int\"/>", base_reg++);
+>       info->num += 2;
+> -    /*
+> -     * Predicate registers aren't so big they are worth splitting up
+> -     * but we do need to define a type to hold the array of quad
+> -     * references.
+> -     */
+> -    g_string_append_printf(s,
+> -                           "<vector id=\"vqp\" type=\"uint16\" count=\"%d\"/>",
+> -                           cpu->sve_max_vq);
+> +
+>       for (i = 0; i < 16; i++) {
+>           g_string_append_printf(s,
+>                                  "<reg name=\"p%d\" bitsize=\"%d\""
+> -                               " regnum=\"%d\" group=\"vector\""
+> -                               " type=\"vqp\"/>",
+> +                               " regnum=\"%d\" type=\"svep\"/>",
+>                                  i, cpu->sve_max_vq * 16, base_reg++);
+>           info->num++;
+>       }
+>       g_string_append_printf(s,
+>                              "<reg name=\"ffr\" bitsize=\"%d\""
+>                              " regnum=\"%d\" group=\"vector\""
+> -                           " type=\"vqp\"/>",
+> +                           " type=\"svep\"/>",
+>                              cpu->sve_max_vq * 16, base_reg++);
+>       g_string_append_printf(s,
+>                              "<reg name=\"vg\" bitsize=\"64\""
+> -                           " regnum=\"%d\" group=\"vector\""
+> -                           " type=\"uint32\"/>",
+> +                           " regnum=\"%d\" type=\"int\"/>",
+>                              base_reg++);
+>       info->num += 2;
+>       g_string_append_printf(s, "</feature>");
+> diff --git a/target/arm/helper.c b/target/arm/helper.c
+> index d077dd9ef5..d434044f07 100644
+> --- a/target/arm/helper.c
+> +++ b/target/arm/helper.c
+> @@ -276,7 +276,7 @@ static int arm_gdb_get_svereg(CPUARMState *env, GByteArray *buf, int reg)
+>            * while the ZCR works in Vector Quads (VQ) which is 128bit chunks.
+>            */
+>           int vq = sve_zcr_len_for_el(env, arm_current_el(env)) + 1;
+> -        return gdb_get_reg32(buf, vq * 2);
+> +        return gdb_get_reg64(buf, vq * 2);
+>       }
+>       default:
+>           /* gdbstub asked for something out our range */
+> diff --git a/tests/tcg/aarch64/gdbstub/test-sve-ioctl.py b/tests/tcg/aarch64/gdbstub/test-sve-ioctl.py
+> index 972cf73c31..b9ef169c1a 100644
+> --- a/tests/tcg/aarch64/gdbstub/test-sve-ioctl.py
+> +++ b/tests/tcg/aarch64/gdbstub/test-sve-ioctl.py
+> @@ -40,6 +40,17 @@ class TestBreakpoint(gdb.Breakpoint):
+>           except gdb.error:
+>               report(False, "checking zregs (out of range)")
+>   
+> +        # Check the aliased V registers are set and GDB has correctly
+> +        # created them for us having recognised and handled SVE.
+> +        try:
+> +            for i in range(0, 16):
+> +                val_z = gdb.parse_and_eval("$z0.b.u[%d]" % i)
+> +                val_v = gdb.parse_and_eval("$v0.b.u[%d]" % i)
+> +                report(int(val_z) == int(val_v),
+> +                       "v0.b.u[%d] == z0.b.u[%d]" % (i, i))
+> +        except gdb.error:
+> +            report(False, "checking vregs (out of range)")
+> +
+>   
+>   def run_test():
+>       "Run through the tests one by one"
+> 
 
