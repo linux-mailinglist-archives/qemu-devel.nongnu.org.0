@@ -2,84 +2,106 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B42322F1347
-	for <lists+qemu-devel@lfdr.de>; Mon, 11 Jan 2021 14:06:57 +0100 (CET)
-Received: from localhost ([::1]:60744 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 22FC22F139F
+	for <lists+qemu-devel@lfdr.de>; Mon, 11 Jan 2021 14:12:22 +0100 (CET)
+Received: from localhost ([::1]:41704 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kywuO-0006uv-Q5
-	for lists+qemu-devel@lfdr.de; Mon, 11 Jan 2021 08:06:56 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41650)
+	id 1kywzd-0002ZD-7G
+	for lists+qemu-devel@lfdr.de; Mon, 11 Jan 2021 08:12:21 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44034)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1kywoZ-0004Ha-CM
- for qemu-devel@nongnu.org; Mon, 11 Jan 2021 08:00:55 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:43334)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1kywoX-0002HB-HC
- for qemu-devel@nongnu.org; Mon, 11 Jan 2021 08:00:55 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1610370052;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=SaB5XYOWLr705pPFzmGzwiZhjZu5MoF9x8WntSjLBHE=;
- b=FK7XMAWnR9WkmdEZUSAF9//U3q2zZrpi5eDa5wwAXmvTa+KmzD4ane29GhFFUEOcyOBBHc
- UHoPzlMtn1DFTmdSNwW/5ncGNkwig3aqepPKZD9fTI/vGhzZeeKsO577ud3Ej5pLVD9bO8
- e5LJ4dE6YfuITNDi+trgamHvgOr33a0=
-Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
- [209.85.221.69]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-482-ht1xYo65NqCcRbbZz2lNAg-1; Mon, 11 Jan 2021 08:00:50 -0500
-X-MC-Unique: ht1xYo65NqCcRbbZz2lNAg-1
-Received: by mail-wr1-f69.google.com with SMTP id w5so7730351wrl.9
- for <qemu-devel@nongnu.org>; Mon, 11 Jan 2021 05:00:50 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=SaB5XYOWLr705pPFzmGzwiZhjZu5MoF9x8WntSjLBHE=;
- b=EOCpP6EPM2Vlm663XABdj0JW9556J40SBUc9yoGJ5bODjOQcBNJ5wTsf7VGS1y4vGg
- Vy0rZyU8KxziPM9klny/7ubWXGT2igLFTLYQ73m1Up6JGZkAXyJRorwXVJsK2vnnu41X
- mFt0n8WqCGUJfR/VFXxJqgifyF4Wew6QVmiTDl6La3yR5Nzz2O9avPdCVkKjAQQD4hMW
- AFrQ/BzKaZLM4lzb9s3yVqzcp2oi5ejliWKDvSaJaEzPLhx9VkwVtpE84Eyj9CZwPPJf
- F1hk4WEvA1gVk61XmrJPeNi7bq6vr7e9Iih/UT2d+bNIi2SCq6KAM5axaKofDvZFd68l
- 7tdw==
-X-Gm-Message-State: AOAM531ZEYfeu2eJ1Xfjc5zxj12W0rcJutiglHmEz5pS80ZI6wjQHUsz
- jeYOy2IP7NggJ2+kR1qmglF0zrK5qA03WQn0q0lcwaCtJW+1LbNnrK+Xdddh2qy49wlx290vPcW
- a3uxQOTO/lNnKWs0=
-X-Received: by 2002:adf:dd11:: with SMTP id a17mr16318257wrm.360.1610370049671; 
- Mon, 11 Jan 2021 05:00:49 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJzqF4wBfBvfgJ6ePE3H0xhobFzvMuO7X/1P3OnLpdKjjVGuH676xOeiA4SVmbnngkwuNg0q/Q==
-X-Received: by 2002:adf:dd11:: with SMTP id a17mr16318230wrm.360.1610370049406; 
- Mon, 11 Jan 2021 05:00:49 -0800 (PST)
-Received: from redhat.com (bzq-79-178-32-166.red.bezeqint.net. [79.178.32.166])
- by smtp.gmail.com with ESMTPSA id v1sm21818104wmj.31.2021.01.11.05.00.46
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 11 Jan 2021 05:00:48 -0800 (PST)
-Date: Mon, 11 Jan 2021 08:00:45 -0500
-From: "Michael S. Tsirkin" <mst@redhat.com>
-To: Cornelia Huck <cohuck@redhat.com>
-Subject: Re: [PATCH v3 2/3] Update linux headers to 5.11-rc2
-Message-ID: <20210111075950-mutt-send-email-mst@kernel.org>
-References: <20210104202057.48048-1-farman@linux.ibm.com>
- <20210104202057.48048-3-farman@linux.ibm.com>
- <20210111135404.52f18200.cohuck@redhat.com>
+ (Exim 4.90_1) (envelope-from <borntraeger@de.ibm.com>)
+ id 1kywv7-00083G-N3; Mon, 11 Jan 2021 08:07:41 -0500
+Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:37444)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <borntraeger@de.ibm.com>)
+ id 1kywv5-0003JV-UQ; Mon, 11 Jan 2021 08:07:41 -0500
+Received: from pps.filterd (m0098393.ppops.net [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id
+ 10BD2K6c069656; Mon, 11 Jan 2021 08:07:38 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
+ h=subject : to : cc :
+ references : from : message-id : date : mime-version : in-reply-to :
+ content-type : content-transfer-encoding; s=pp1;
+ bh=iTgi2uwgC2CqgYtFrqz69Llwz2xEUqxKh6gHNLSeg9o=;
+ b=nifMzeueauwKWH9j7HdlICsj+P9dX6Bnqi4lG9Gufksi80UEek/3iTrkm8P0yfvyGN+p
+ AFH/ndM/ZGP618aVD5cxHjENhRuf5uqZFheL+OcwsMPuudrrwhpNtU8yAnmTFH9GskLo
+ PvePsxXAclkudIBcl1pYt0SQuCZoKjMeVxvWQ3G3h5Hi2XQ5h273fLT7p4fQhrZeT+xM
+ +c7bBWvJkhDZI6ThENAAKlGXzL7C3ehgCBF8xicXxTgRqPcEQ7PBkiy52eXkTDqK0YLH
+ roNSJVji07pfa75cigdPRdtLM8s8EpE3aBSCQN8TpRT3a/eADL/NrQrzICihj132WdUk 3A== 
+Received: from pps.reinject (localhost [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com with ESMTP id 360p1qtda8-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Mon, 11 Jan 2021 08:07:38 -0500
+Received: from m0098393.ppops.net (m0098393.ppops.net [127.0.0.1])
+ by pps.reinject (8.16.0.36/8.16.0.36) with SMTP id 10BD2RZj070456;
+ Mon, 11 Jan 2021 08:07:37 -0500
+Received: from ppma04fra.de.ibm.com (6a.4a.5195.ip4.static.sl-reverse.com
+ [149.81.74.106])
+ by mx0a-001b2d01.pphosted.com with ESMTP id 360p1qtd8p-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Mon, 11 Jan 2021 08:07:37 -0500
+Received: from pps.filterd (ppma04fra.de.ibm.com [127.0.0.1])
+ by ppma04fra.de.ibm.com (8.16.0.42/8.16.0.42) with SMTP id 10BCxAg2000397;
+ Mon, 11 Jan 2021 13:02:35 GMT
+Received: from b06cxnps4075.portsmouth.uk.ibm.com
+ (d06relay12.portsmouth.uk.ibm.com [9.149.109.197])
+ by ppma04fra.de.ibm.com with ESMTP id 3604h98fjx-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Mon, 11 Jan 2021 13:02:35 +0000
+Received: from d06av22.portsmouth.uk.ibm.com (d06av22.portsmouth.uk.ibm.com
+ [9.149.105.58])
+ by b06cxnps4075.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 10BD2X8V37290442
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Mon, 11 Jan 2021 13:02:33 GMT
+Received: from d06av22.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id EB5A74C059;
+ Mon, 11 Jan 2021 13:02:32 +0000 (GMT)
+Received: from d06av22.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id A55454C040;
+ Mon, 11 Jan 2021 13:02:32 +0000 (GMT)
+Received: from oc7455500831.ibm.com (unknown [9.171.58.41])
+ by d06av22.portsmouth.uk.ibm.com (Postfix) with ESMTP;
+ Mon, 11 Jan 2021 13:02:32 +0000 (GMT)
+Subject: Re: [RHEL7 qemu-kvm PATCH 2/3] s390x: Fix vm name copy length
+To: Thomas Huth <thuth@redhat.com>, Miroslav Rezanina <mrezanin@redhat.com>
+References: <cover.1610364304.git.mrezanin@redhat.com>
+ <e1ad733af7b23929456d05aacae693ce6462d4b3.1610364304.git.mrezanin@redhat.com>
+ <5acb5521-fdd2-e511-9cc3-176086183dd5@redhat.com>
+ <88c2eb01-f8f5-18d5-6513-57322930cc77@redhat.com>
+ <115622555.32388560.1610368920610.JavaMail.zimbra@redhat.com>
+ <f4c3ce8c-7688-461b-8ed2-2c8befc561a3@redhat.com>
+From: Christian Borntraeger <borntraeger@de.ibm.com>
+Message-ID: <7631e12a-5422-3167-51fd-1e853a119f8f@de.ibm.com>
+Date: Mon, 11 Jan 2021 14:02:32 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.5.0
 MIME-Version: 1.0
-In-Reply-To: <20210111135404.52f18200.cohuck@redhat.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mst@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=mst@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -29
-X-Spam_score: -3.0
-X-Spam_bar: ---
-X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.251,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+In-Reply-To: <f4c3ce8c-7688-461b-8ed2-2c8befc561a3@redhat.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+X-TM-AS-GCONF: 00
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.343, 18.0.737
+ definitions=2021-01-11_23:2021-01-11,
+ 2021-01-11 signatures=0
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ bulkscore=0 spamscore=0
+ adultscore=0 malwarescore=0 mlxlogscore=999 priorityscore=1501 mlxscore=0
+ suspectscore=0 impostorscore=0 lowpriorityscore=0 phishscore=0
+ clxscore=1015 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2009150000 definitions=main-2101110075
+Received-SPF: pass client-ip=148.163.156.1;
+ envelope-from=borntraeger@de.ibm.com; helo=mx0a-001b2d01.pphosted.com
+X-Spam_score_int: -26
+X-Spam_score: -2.7
+X-Spam_bar: --
+X-Spam_report: (-2.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
  RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -92,113 +114,69 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Thomas Huth <thuth@redhat.com>, qemu-s390x@nongnu.org,
- Eric Farman <farman@linux.ibm.com>, qemu-devel@nongnu.org,
- Alex Williamson <alex.williamson@redhat.com>, stefanha@redhat.com,
- Paolo Bonzini <pbonzini@redhat.com>
+Cc: qemu-s390x <qemu-s390x@nongnu.org>,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
+ qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, Jan 11, 2021 at 01:54:04PM +0100, Cornelia Huck wrote:
-> On Mon,  4 Jan 2021 21:20:56 +0100
-> Eric Farman <farman@linux.ibm.com> wrote:
+
+
+On 11.01.21 13:54, Thomas Huth wrote:
+> On 11/01/2021 13.42, Miroslav Rezanina wrote:
+>>
+>>
+>> ----- Original Message -----
+>>> From: "Thomas Huth" <thuth@redhat.com>
+>>> To: "Philippe Mathieu-Daudé" <philmd@redhat.com>, mrezanin@redhat.com, qemu-devel@nongnu.org, "qemu-s390x"
+>>> <qemu-s390x@nongnu.org>
+>>> Sent: Monday, January 11, 2021 1:24:57 PM
+>>> Subject: Re: [RHEL7 qemu-kvm PATCH 2/3] s390x: Fix vm name copy length
+>>>
+>>> On 11/01/2021 13.10, Philippe Mathieu-Daudé wrote:
+>>>> Hi Miroslav,
+>>>>
+>>>> On 1/11/21 12:30 PM, mrezanin@redhat.com wrote:
+>>>>> From: Miroslav Rezanina <mrezanin@redhat.com>
+>>>>>
+>>>>> There are two cases when vm name is copied but closing \0 can be lost
+>>>>> in case name is too long (>=256 characters).
+>>>>>
+>>>>> Updating length to copy so there is space for closing \0.
+>>>>>
+>>>>> Signed-off-by: Miroslav Rezanina <mrezanin@redhat.com>
+>>>>> ---
+>>>>>    target/s390x/kvm.c         | 2 +-
+>>>>>    target/s390x/misc_helper.c | 4 +++-
+>>>>>    2 files changed, 4 insertions(+), 2 deletions(-)
+>>>>>
+>>>>> diff --git a/target/s390x/kvm.c b/target/s390x/kvm.c
+>>>>> index b8385e6b95..2313b5727e 100644
+>>>>> --- a/target/s390x/kvm.c
+>>>>> +++ b/target/s390x/kvm.c
+>>>>> @@ -1918,7 +1918,7 @@ static void insert_stsi_3_2_2(S390CPU *cpu, __u64
+>>>>> addr, uint8_t ar)
+>>>>>         */
+>>>>>        if (qemu_name) {
+>>>>>            strncpy((char *)sysib.ext_names[0], qemu_name,
+>>>>> -                sizeof(sysib.ext_names[0]));
+>>>>> +                sizeof(sysib.ext_names[0]) - 1);
+>>>>>        } else {
+>>>>>            strcpy((char *)sysib.ext_names[0], "KVMguest");
+>>>>>        }
+>>>>
+>>>> What about using strpadcpy() instead?
+>>>
+>>> Yes, strpadcpy is the better way here - this field has to be padded with
+>>> zeroes, so doing "- 1" is wrong here.
+>>
+>> Hi Thomas,
+>>
+>> as I wrote in reply to Phillipe - the array is memset to zeroes before the if so we
+>> are sure it's padded with zeroes (in this occurrence, not true for second one).
 > 
-> > Signed-off-by: Eric Farman <farman@linux.ibm.com>
-> > ---
-> >  .../infiniband/hw/vmw_pvrdma/pvrdma_ring.h    |  14 +-
-> >  .../infiniband/hw/vmw_pvrdma/pvrdma_verbs.h   |   2 +-
-> >  include/standard-headers/drm/drm_fourcc.h     | 175 +++++++++++++++++-
-> >  include/standard-headers/linux/const.h        |  36 ++++
-> >  include/standard-headers/linux/ethtool.h      |   2 +-
-> >  include/standard-headers/linux/fuse.h         |  30 ++-
-> >  include/standard-headers/linux/kernel.h       |   9 +-
-> >  include/standard-headers/linux/pci_regs.h     |  16 ++
-> >  include/standard-headers/linux/vhost_types.h  |   9 +
-> >  include/standard-headers/linux/virtio_gpu.h   |  82 ++++++++
-> >  include/standard-headers/linux/virtio_ids.h   |  44 +++--
-> >  linux-headers/asm-arm64/kvm.h                 |   3 -
-> >  linux-headers/asm-generic/unistd.h            |   6 +-
-> >  linux-headers/asm-mips/unistd_n32.h           |   1 +
-> >  linux-headers/asm-mips/unistd_n64.h           |   1 +
-> >  linux-headers/asm-mips/unistd_o32.h           |   1 +
-> >  linux-headers/asm-powerpc/unistd_32.h         |   1 +
-> >  linux-headers/asm-powerpc/unistd_64.h         |   1 +
-> >  linux-headers/asm-s390/unistd_32.h            |   1 +
-> >  linux-headers/asm-s390/unistd_64.h            |   1 +
-> >  linux-headers/asm-x86/kvm.h                   |   1 +
-> >  linux-headers/asm-x86/unistd_32.h             |   1 +
-> >  linux-headers/asm-x86/unistd_64.h             |   1 +
-> >  linux-headers/asm-x86/unistd_x32.h            |   1 +
-> >  linux-headers/linux/kvm.h                     |  56 +++++-
-> >  linux-headers/linux/userfaultfd.h             |   9 +
-> >  linux-headers/linux/vfio.h                    |   1 +
-> >  linux-headers/linux/vhost.h                   |   4 +
-> >  28 files changed, 461 insertions(+), 48 deletions(-)
-> >  create mode 100644 include/standard-headers/linux/const.h
-> > 
-> > diff --git a/include/standard-headers/drivers/infiniband/hw/vmw_pvrdma/pvrdma_ring.h b/include/standard-headers/drivers/infiniband/hw/vmw_pvrdma/pvrdma_ring.h
-> > index 7b4062a1a1..acd4c8346d 100644
-> > --- a/include/standard-headers/drivers/infiniband/hw/vmw_pvrdma/pvrdma_ring.h
-> > +++ b/include/standard-headers/drivers/infiniband/hw/vmw_pvrdma/pvrdma_ring.h
-> > @@ -68,7 +68,7 @@ static inline int pvrdma_idx_valid(uint32_t idx, uint32_t max_elems)
-> >  
-> >  static inline int32_t pvrdma_idx(int *var, uint32_t max_elems)
-> >  {
-> > -	const unsigned int idx = qatomic_read(var);
-> > +	const unsigned int idx = atomic_read(var);
-> 
-> Hm, what was the state of these qatomic* instances in this header? Is
-> it ok to rename them, or do we need to do some munging in the import
-> script?
-> 
-> (Sorry, it's been a while.)
+> Ok, but dropping the last character is still wrong here. The ext_names do not need to be terminated with a \0 if they have the full length.
+The current code is actually correct. We are perfectly fine without the final \n if the string is really 256 bytes.
 
-
-Yea looks like it was done manually last time:
-
-commit d73415a315471ac0b127ed3fad45c8ec5d711de1
-Author: Stefan Hajnoczi <stefanha@redhat.com>
-Date:   Wed Sep 23 11:56:46 2020 +0100
-
-    qemu/atomic.h: rename atomic_ to qatomic_
-
-
-
-> >  
-> >  	if (pvrdma_idx_valid(idx, max_elems))
-> >  		return idx & (max_elems - 1);
-> > @@ -77,17 +77,17 @@ static inline int32_t pvrdma_idx(int *var, uint32_t max_elems)
-> >  
-> >  static inline void pvrdma_idx_ring_inc(int *var, uint32_t max_elems)
-> >  {
-> > -	uint32_t idx = qatomic_read(var) + 1;	/* Increment. */
-> > +	uint32_t idx = atomic_read(var) + 1;	/* Increment. */
-> >  
-> >  	idx &= (max_elems << 1) - 1;		/* Modulo size, flip gen. */
-> > -	qatomic_set(var, idx);
-> > +	atomic_set(var, idx);
-> >  }
-> >  
-> >  static inline int32_t pvrdma_idx_ring_has_space(const struct pvrdma_ring *r,
-> >  					      uint32_t max_elems, uint32_t *out_tail)
-> >  {
-> > -	const uint32_t tail = qatomic_read(&r->prod_tail);
-> > -	const uint32_t head = qatomic_read(&r->cons_head);
-> > +	const uint32_t tail = atomic_read(&r->prod_tail);
-> > +	const uint32_t head = atomic_read(&r->cons_head);
-> >  
-> >  	if (pvrdma_idx_valid(tail, max_elems) &&
-> >  	    pvrdma_idx_valid(head, max_elems)) {
-> > @@ -100,8 +100,8 @@ static inline int32_t pvrdma_idx_ring_has_space(const struct pvrdma_ring *r,
-> >  static inline int32_t pvrdma_idx_ring_has_data(const struct pvrdma_ring *r,
-> >  					     uint32_t max_elems, uint32_t *out_head)
-> >  {
-> > -	const uint32_t tail = qatomic_read(&r->prod_tail);
-> > -	const uint32_t head = qatomic_read(&r->cons_head);
-> > +	const uint32_t tail = atomic_read(&r->prod_tail);
-> > +	const uint32_t head = atomic_read(&r->cons_head);
-> >  
-> >  	if (pvrdma_idx_valid(tail, max_elems) &&
-> >  	    pvrdma_idx_valid(head, max_elems)) {
-
+Replacing memset + strncpy with strpadcpy is certainly a good cleanup. Is it necessary? No.
 
