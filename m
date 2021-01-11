@@ -2,78 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4C9B62F1F4A
-	for <lists+qemu-devel@lfdr.de>; Mon, 11 Jan 2021 20:29:45 +0100 (CET)
-Received: from localhost ([::1]:49354 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 417642F1FB3
+	for <lists+qemu-devel@lfdr.de>; Mon, 11 Jan 2021 20:45:47 +0100 (CET)
+Received: from localhost ([::1]:56318 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kz2sq-0005OC-8e
-	for lists+qemu-devel@lfdr.de; Mon, 11 Jan 2021 14:29:44 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47840)
+	id 1kz38M-0003t9-9d
+	for lists+qemu-devel@lfdr.de; Mon, 11 Jan 2021 14:45:46 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34042)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1kz2SH-0006VD-Bi
- for qemu-devel@nongnu.org; Mon, 11 Jan 2021 14:02:18 -0500
-Received: from mail-pj1-x1031.google.com ([2607:f8b0:4864:20::1031]:54409)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1kz2S7-0006YA-D3
- for qemu-devel@nongnu.org; Mon, 11 Jan 2021 14:02:17 -0500
-Received: by mail-pj1-x1031.google.com with SMTP id f14so93426pju.4
- for <qemu-devel@nongnu.org>; Mon, 11 Jan 2021 11:02:06 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=ujOKDZy3uoTEqD4vP5J9dsO4Br90YqivAcCQm5Xm+7U=;
- b=aNZiTbIFFzVjIqUwovXPTXh2ftYT/zs5MttzANqbMh1aVHo/lEb4ayoFE9lSP0Osye
- 5vH69wEVGeBG7i9IXXfwiTAFX7UF6fCjwEFB/5bbiTmnBEDiS+N3DHcB3JMW9Ipqwd1g
- ogAvkTgH+KR5PhmPVlIcrUk56gQ0dSp+moJnmpZz41sEsoIZbFd06JgdzP7B8BXAk550
- paeQdHz0TRYtUio/bK0FkiIC6e6ck5oXHJCa4DzJter8mZMt/bzmrf4C53GmOXA5fjYs
- D1wOcGg7k25XzWfthIenL/T2dKaHWiabUPNgcD2tA6yPeG4sIEmUZFzJExdmwzENvFbZ
- Ijqw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=ujOKDZy3uoTEqD4vP5J9dsO4Br90YqivAcCQm5Xm+7U=;
- b=paagAvZaWSrWPqjuw2gDevZGT5JoOiQIHzfwYqqCN7NSFTBZmaFPoocWLqMDaWKiR3
- HkVyk2uN7SyuaNpeXpT2kf6lOXAfP6mC6C54WSfV5CEn/NWEQkcF47nlZTN2+CV4Kn3j
- HwcICiFYU/ldbb3jCyfY6S3hyrvSnOr4KhaA+Y9POAbV84d8BqF3E4iDfSgsrp/lbfWR
- CfYSTq8jdNf+rF1BT86X8WBnfIr6WaMvxrme1eY4I5dGS8H9V6apM43gqDX3J610BbbC
- 4VzpDjGJmts9Ygnp69Q8nWRWfqhkkqNIgHMXMuPoKaJcV8461pEh4yk1wuVY2Gzxt72w
- 27zQ==
-X-Gm-Message-State: AOAM5319ypWfr22UnZtbjr8sNUqOIo3oF/oWMQjMa+Zoia27lXJvUCbZ
- C03T+aXfu9st1kaxiN5ZnE73oGAsXjdrIA==
-X-Google-Smtp-Source: ABdhPJwq5ccfkkT2XWJWexJvMNOr13ce8v9ACpGScyPpZAWPOMQybzziBBvHEXffl8reN4rCVUXeRA==
-X-Received: by 2002:a17:90a:df12:: with SMTP id
- gp18mr283095pjb.43.1610391725601; 
- Mon, 11 Jan 2021 11:02:05 -0800 (PST)
-Received: from localhost.localdomain (rrcs-173-197-107-21.west.biz.rr.com.
- [173.197.107.21])
- by smtp.gmail.com with ESMTPSA id n195sm350395pfd.169.2021.01.11.11.02.04
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 11 Jan 2021 11:02:05 -0800 (PST)
-From: Richard Henderson <richard.henderson@linaro.org>
+ (Exim 4.90_1) (envelope-from <18401698361@126.com>)
+ id 1kyzjD-0006vP-VG
+ for qemu-devel@nongnu.org; Mon, 11 Jan 2021 11:07:35 -0500
+Received: from [220.181.15.65] (port=21758 helo=m1565.mail.126.com)
+ by eggs.gnu.org with esmtps (TLS1.2:DHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <18401698361@126.com>)
+ id 1kyzj6-0002wS-5C
+ for qemu-devel@nongnu.org; Mon, 11 Jan 2021 11:07:34 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=126.com;
+ s=s110527; h=Date:From:Subject:MIME-Version:Message-ID; bh=DCYKi
+ AFOIheC4i+6z7vvXNZo291sU4JIC8gfOQoMG1s=; b=FDHo2yG3ZKHyxMmeQQyUV
+ M95CJk/afF7TrUOwxcLaidOEg+/xUjNT+6GH/wemzu0MEqzMs9d5MuYvruKGUQ4E
+ 9mb5Fbr6ObjJV0g4tq8T0o2LV2oz8wQp3VlZlSeHIPO43f3fsZG8EUbHMrR5N4z2
+ mFPpTmHqcv7KwtT5fxGIt8=
+Received: from 18401698361$126.com ( [120.245.132.83] ) by
+ ajax-webmail-wmsvr65 (Coremail) ; Mon, 11 Jan 2021 23:36:12 +0800 (CST)
+X-Originating-IP: [120.245.132.83]
+Date: Mon, 11 Jan 2021 23:36:12 +0800 (CST)
+From: =?GBK?B?va23vL3c?= <18401698361@126.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v3 28/30] target/arm: Enforce alignment for aa64 vector
- LDn/STn (multiple)
-Date: Mon, 11 Jan 2021 09:01:11 -1000
-Message-Id: <20210111190113.303726-29-richard.henderson@linaro.org>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20210111190113.303726-1-richard.henderson@linaro.org>
-References: <20210111190113.303726-1-richard.henderson@linaro.org>
+Subject: =?GBK?Q?=C0=B4=D7=D4JackJF=B5=C4=D3=CA=BC=FE?=
+X-Priority: 3
+X-Mailer: Coremail Webmail Server Version XT5.0.13 build 20201118(ab4b390f)
+ Copyright (c) 2002-2021 www.mailtech.cn 126com
+Content-Type: multipart/alternative; 
+ boundary="----=_Part_89688_1017487375.1610379372435"
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1031;
- envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1031.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+Message-ID: <57d49983.6048.176f2172793.Coremail.18401698361@126.com>
+X-Coremail-Locale: zh_CN
+X-CM-TRANSID: QcqowED5sUFtcPxfOhMOAQ--.6591W
+X-CM-SenderInfo: xvkxvxpdqbuqqrswhudrp/1tbiew0Xq1pEBe8g7AACsw
+X-Coremail-Antispam: 1U5529EdanIXcx71UUUUU7vcSsGvfC2KfnxnUU==
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 220.181.15.65 (deferred)
+Received-SPF: pass client-ip=220.181.15.65; envelope-from=18401698361@126.com;
+ helo=m1565.mail.126.com
+X-Spam_score_int: 46
+X-Spam_score: 4.6
+X-Spam_bar: ++++
+X-Spam_report: (4.6 / 5.0 requ) BAYES_00=-1.9, CHARSET_FARAWAY_HEADER=3.2,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001, FROM_LOCAL_DIGITS=0.001,
+ FROM_LOCAL_HEX=0.006, HTML_MESSAGE=0.001, MIME_CHARSET_FARAWAY=2.45,
+ RDNS_NONE=0.793, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
+X-Mailman-Approved-At: Mon, 11 Jan 2021 14:19:27 -0500
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -85,69 +68,45 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: peter.maydell@linaro.org, qemu-arm@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
-Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
----
- target/arm/translate-a64.c | 15 +++++++++++----
- 1 file changed, 11 insertions(+), 4 deletions(-)
+------=_Part_89688_1017487375.1610379372435
+Content-Type: text/plain; charset=GBK
+Content-Transfer-Encoding: base64
 
-diff --git a/target/arm/translate-a64.c b/target/arm/translate-a64.c
-index 296cd430ab..7765c15e0c 100644
---- a/target/arm/translate-a64.c
-+++ b/target/arm/translate-a64.c
-@@ -3606,7 +3606,7 @@ static void disas_ldst_multiple_struct(DisasContext *s, uint32_t insn)
-     bool is_postidx = extract32(insn, 23, 1);
-     bool is_q = extract32(insn, 30, 1);
-     TCGv_i64 clean_addr, tcg_rn, tcg_ebytes;
--    MemOp endian = s->be_data;
-+    MemOp endian, align, mop;
- 
-     int total;    /* total bytes */
-     int elements; /* elements per vector */
-@@ -3674,6 +3674,7 @@ static void disas_ldst_multiple_struct(DisasContext *s, uint32_t insn)
-     }
- 
-     /* For our purposes, bytes are always little-endian.  */
-+    endian = s->be_data;
-     if (size == 0) {
-         endian = MO_LE;
-     }
-@@ -3692,11 +3693,17 @@ static void disas_ldst_multiple_struct(DisasContext *s, uint32_t insn)
-      * Consecutive little-endian elements from a single register
-      * can be promoted to a larger little-endian operation.
-      */
-+    align = MO_ALIGN;
-     if (selem == 1 && endian == MO_LE) {
-+        align = pow2_align(size);
-         size = 3;
-     }
--    elements = (is_q ? 16 : 8) >> size;
-+    if (!s->align_mem) {
-+        align = 0;
-+    }
-+    mop = endian | size | align;
- 
-+    elements = (is_q ? 16 : 8) >> size;
-     tcg_ebytes = tcg_const_i64(1 << size);
-     for (r = 0; r < rpt; r++) {
-         int e;
-@@ -3705,9 +3712,9 @@ static void disas_ldst_multiple_struct(DisasContext *s, uint32_t insn)
-             for (xs = 0; xs < selem; xs++) {
-                 int tt = (rt + r + xs) % 32;
-                 if (is_store) {
--                    do_vec_st(s, tt, e, clean_addr, size | endian);
-+                    do_vec_st(s, tt, e, clean_addr, mop);
-                 } else {
--                    do_vec_ld(s, tt, e, clean_addr, size | endian);
-+                    do_vec_ld(s, tt, e, clean_addr, mop);
-                 }
-                 tcg_gen_add_i64(clean_addr, clean_addr, tcg_ebytes);
-             }
--- 
-2.25.1
+SGk6CiAgICBTb3JyeSB0byBib3RoZXIgeW91fgogICAgSSBoYXZlIHJlYWQgdGhlIGRpc2N1c3Np
+b25zIGFib3V0IENWRS0tMjAxOS0xMjkyOCAoIGh0dHBzOi8vbGlzdHMuZ251Lm9yZy9hcmNoaXZl
+L2h0bWwvcWVtdS1kZXZlbC8yMDE5LTA3L21zZzAxMTUzLmh0bWwpLgpCdXQsIGZvciB0aGUgc2Nl
+bmFyaW8gb2YgUEMgdXNlcnMsIHdoaWNoIGlzIG5vIHJlcXVpcmVtZW50IG9mIG5ldHdvcmsgYWNj
+ZXNzIHRvIFFNUCwgdGhlcmUgYXJlIHNvbWUgbWl0aWdhdGluZyBwcm9wb3Nlcy4KSSB3YW50IHRv
+IGhhdmUgeW91ciBzdWdnZXN0aW9ucy4=
+------=_Part_89688_1017487375.1610379372435
+Content-Type: text/html; charset=GBK
+Content-Transfer-Encoding: base64
+
+PGRpdiBzdHlsZT0ibGluZS1oZWlnaHQ6MS43O2NvbG9yOiMwMDAwMDA7Zm9udC1zaXplOjE0cHg7
+Zm9udC1mYW1pbHk6QXJpYWwiPjxkaXYgc3R5bGU9Im1hcmdpbjowOyI+SGk6PC9kaXY+PGRpdiBz
+dHlsZT0ibWFyZ2luOjA7Ij4mbmJzcDsgJm5ic3A7IFNvcnJ5IHRvIGJvdGhlciB5b3V+PC9kaXY+
+PGRpdiBzdHlsZT0ibWFyZ2luOjA7Ij4mbmJzcDsgJm5ic3A7IEkgaGF2ZSByZWFkIHRoZSBkaXNj
+dXNzaW9ucyBhYm91dCBDVkUtPHNwYW4gc3R5bGU9ImZvbnQtZmFtaWx5OiBhcmlhbDsgd2hpdGUt
+c3BhY2U6IHByZS13cmFwOyI+LTIwMTktMTI5MjggKCA8L3NwYW4+PGZvbnQgZmFjZT0iYXJpYWwi
+PjxzcGFuIHN0eWxlPSJ3aGl0ZS1zcGFjZTogcHJlLXdyYXA7Ij48YSBocmVmPSJodHRwczovL2xp
+c3RzLmdudS5vcmcvYXJjaGl2ZS9odG1sL3FlbXUtZGV2ZWwvMjAxOS0wNy9tc2cwMTE1My5odG1s
+KS4iIF9zcmM9Imh0dHBzOi8vbGlzdHMuZ251Lm9yZy9hcmNoaXZlL2h0bWwvcWVtdS1kZXZlbC8y
+MDE5LTA3L21zZzAxMTUzLmh0bWwpLiI+aHR0cHM6Ly9saXN0cy5nbnUub3JnL2FyY2hpdmUvaHRt
+bC9xZW11LWRldmVsLzIwMTktMDcvbXNnMDExNTMuaHRtbCkuPC9hPjwvc3Bhbj48L2ZvbnQ+PC9k
+aXY+PGRpdiBzdHlsZT0ibWFyZ2luOjA7Ij48Zm9udCBmYWNlPSJhcmlhbCI+PHNwYW4gc3R5bGU9
+IndoaXRlLXNwYWNlOiBwcmUtd3JhcDsiPiAgICBCdXQsIGZvciB0aGUgc2NlbmFyaW8gb2YgUEMg
+dXNlcnMsIHdoaWNoIGlzIG5vIHJlcXVpcmVtZW50IG9mIG5ldHdvcmsgYWNjZXNzIHRvIFFNUCwg
+dGhlcmUgYXJlIHNvbWUgbWl0aWdhdGluZyBwcm9wb3Nlcy48L3NwYW4+PC9mb250PjwvZGl2Pjxk
+aXYgc3R5bGU9Im1hcmdpbjowOyI+PGZvbnQgZmFjZT0iYXJpYWwiPjxzcGFuIHN0eWxlPSJ3aGl0
+ZS1zcGFjZTogcHJlLXdyYXA7Ij4gICAgPC9zcGFuPjwvZm9udD48L2Rpdj48ZGl2IHN0eWxlPSJt
+YXJnaW46MDsiPjxmb250IGZhY2U9ImFyaWFsIj48c3BhbiBzdHlsZT0id2hpdGUtc3BhY2U6IHBy
+ZS13cmFwOyI+SSB3YW50IHRvIGhhdmUgeW91ciBzdWdnZXN0aW9ucy48L3NwYW4+PC9mb250Pjwv
+ZGl2PjxkaXYgc3R5bGU9Im1hcmdpbjowOyI+PGZvbnQgZmFjZT0iYXJpYWwiPjxzcGFuIHN0eWxl
+PSJ3aGl0ZS1zcGFjZTogcHJlLXdyYXA7Ij4gICAgIDwvc3Bhbj48L2ZvbnQ+PC9kaXY+PC9kaXY+
+
+------=_Part_89688_1017487375.1610379372435--
 
 
