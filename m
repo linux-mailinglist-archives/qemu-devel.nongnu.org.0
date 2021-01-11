@@ -2,86 +2,109 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4D6322F0EFF
-	for <lists+qemu-devel@lfdr.de>; Mon, 11 Jan 2021 10:25:25 +0100 (CET)
-Received: from localhost ([::1]:41050 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D940B2F0F4B
+	for <lists+qemu-devel@lfdr.de>; Mon, 11 Jan 2021 10:41:19 +0100 (CET)
+Received: from localhost ([::1]:45012 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kytS0-0001Sl-7U
-	for lists+qemu-devel@lfdr.de; Mon, 11 Jan 2021 04:25:24 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46440)
+	id 1kythO-0003w1-HQ
+	for lists+qemu-devel@lfdr.de; Mon, 11 Jan 2021 04:41:18 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49886)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
- id 1kytO5-0000tc-BN; Mon, 11 Jan 2021 04:21:21 -0500
-Received: from wout4-smtp.messagingengine.com ([64.147.123.20]:49779)
+ (Exim 4.90_1) (envelope-from <Qiuhao.Li@outlook.com>)
+ id 1kytg2-00038f-Ja
+ for qemu-devel@nongnu.org; Mon, 11 Jan 2021 04:39:54 -0500
+Received: from mail-oln040092253086.outbound.protection.outlook.com
+ ([40.92.253.86]:6103 helo=APC01-SG2-obe.outbound.protection.outlook.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
- id 1kytO2-00053O-KS; Mon, 11 Jan 2021 04:21:21 -0500
-Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
- by mailout.west.internal (Postfix) with ESMTP id 2D0B5271D;
- Mon, 11 Jan 2021 04:21:14 -0500 (EST)
-Received: from mailfrontend2 ([10.202.2.163])
- by compute4.internal (MEProxy); Mon, 11 Jan 2021 04:21:14 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=irrelevant.dk;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-type:in-reply-to; s=fm2; bh=6MocgUdhbNqs3xUZHc5dclQeHs0
- eueg9sGz+hKU/06A=; b=Wbc74H6GjI63L6xwskDTRcXHkPsb3AWx6JBdMafapEg
- gMXH2PBXFIeGc54BYDx9vJ5ZyHdUSNRbLrN8UsxOdnUc6XqN6AX5oP61Bcw85Pgm
- +y8jb54SxVQ46Ee2Sm/KEWjUxhnTX0oSL1BRXWsj/15ojoGJkZ85uml1AqiMVsAK
- JH1a3vTqGqPxVUCaJbMek+Alwzcm8lRnBn2KfUTVbJm8vtUPvxUbi++jqQfHZuJI
- 5Rf2mDPTbHM8yBryvIGOE8oJfsy5gfjPg0sb5jFrPoC5cOJDLRhZXIA1KtE+q/i9
- d9kmin4aSY4F+vUajNOjth8DDEDQhT/wxPzRhZg/h/g==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:content-type:date:from:in-reply-to
- :message-id:mime-version:references:subject:to:x-me-proxy
- :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; bh=6MocgU
- dhbNqs3xUZHc5dclQeHs0eueg9sGz+hKU/06A=; b=nI1XAQwOVYarZpBLpXTbku
- QjD3qmHIBeaq1tN/R3CYZJKmWFI4glKivKS+CdzvoV/AybjixkonhzwpQsUOSkNm
- soMuSMuUEStBIt6tAvzJnn/bPoqfPJ8SEjgnAuBDTQqo9+cR9ZCs/PAFgbTO0y7T
- 4CFkZG1hj7nLrep13ENm9X5bTtJhVju99/NMYLkk0g+bD9vhZK35ZKsyvw/UpQuM
- F/a8szugJQJNO2sunS4LKyyZx1FVjex09P1/ihSjPF3Gov/e7gyQYkt09DL1SDh8
- S+sz4tT6PziZVhA/Tmo9zQ9miajewOdL5s+yT2Ke3uke/DEd+Q6BNgbYwYasE6SQ
- ==
-X-ME-Sender: <xms:iBj8XyEnP7f-oHHrDWTaqpVtuQ2CRbHzMTwX3UWNGM8wdoTMfFnBYw>
- <xme:iBj8XzVrbbvWtnmpygwJW2jByfTyUanmcWLdPsUzt3gNELiflNCG9LmJWmnYWc7lM
- c_eth32h4FVqxdSWFw>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedujedrvdehuddgtddvucetufdoteggodetrfdotf
- fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
- uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
- cujfgurhepfffhvffukfhfgggtuggjsehgtderredttdejnecuhfhrohhmpefmlhgruhhs
- ucflvghnshgvnhcuoehithhssehirhhrvghlvghvrghnthdrughkqeenucggtffrrghtth
- gvrhhnpeejgeduffeuieetkeeileekvdeuleetveejudeileduffefjeegfffhuddvudff
- keenucfkphepkedtrdduieejrdelkedrudeltdenucevlhhushhtvghrufhiiigvpedtne
- curfgrrhgrmhepmhgrihhlfhhrohhmpehithhssehirhhrvghlvghvrghnthdrughk
-X-ME-Proxy: <xmx:iBj8X8KbJN7Eu32HHiXsn8ZGzVwzG8FapSaMbICXxc6SrYIT0YlwSA>
- <xmx:iBj8X8EJQpHuSQy0ZUworujpNz05Sm_0tnsWH4TP_VKgeDtgy5VWkQ>
- <xmx:iBj8X4VREcY8cQDJxMn3uf5NusXEGDJFlkQXMzcfYheaV0TAN1xvgg>
- <xmx:iRj8X2zfAZ7Hh_oq-NDB0poeYhwr_DxtMwxyqr5xflhhCRtHfTCBXQ>
-Received: from apples.localdomain (80-167-98-190-cable.dk.customer.tdc.net
- [80.167.98.190])
- by mail.messagingengine.com (Postfix) with ESMTPA id 499CA1080067;
- Mon, 11 Jan 2021 04:21:11 -0500 (EST)
-Date: Mon, 11 Jan 2021 10:21:08 +0100
-From: Klaus Jensen <its@irrelevant.dk>
-To: Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>
-Subject: Re: [PATCH] hw/block/nvme: add smart_critical_warning property
-Message-ID: <X/wYhMjr03odt+eq@apples.localdomain>
-References: <20210111075003.151764-1-pizhenwei@bytedance.com>
- <3ebda26a-2734-242b-c553-2092ba7f4b35@redhat.com>
+ (Exim 4.90_1) (envelope-from <Qiuhao.Li@outlook.com>)
+ id 1kytfz-0004yN-VA
+ for qemu-devel@nongnu.org; Mon, 11 Jan 2021 04:39:54 -0500
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=EUnpPFYN6gE5M0+UOBSCpCBds0AjNE7sHdY6IdF1XyJey2LcW/s9d/RCh9Iuh+vW/CyMX8eM3rOeTsxdA4GQNH9eHLS80tVgCS9gZRoUQEhKb65N7twTEQgwH0Z6AWfIobPUiDLqBJOZ0tMLIgXXwipUAtVu/dNCz8SGpIV4xKeR38n0dt/izn0+hejWe2QxQQAtjAk69GzuX7NMTv2E5/6TBIr4OGw10i5ccBrxyFqn5yVCWQS8dMI7ZscU+xi/JhZdH1MuwBO2HbwWI/YkvCsuTg8Adl3/QJZhhyMRezx7aGrc8VurjnaKqXyB8IztxezYMm23Ll8W5CcfzyYCdg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=ke1PjGYmJzOnj/HJKFsJef5HvGHC7uQOqMolib8tDtE=;
+ b=S37yjpEr+oiq+679u0DJdUiDob5RudANY1YRixeWkeUNwLStl7MH2Pb293uwnjgrICPZ8Y1th9ihPhMy+Ngr2gOYx8TFPzzODdhhHweL0ccAGhn2FaLQTLWs2CZOUT3clMm0GRoO6s1tLpPPeLqG2qLUqcUd+GyWZL3TvnouKA0h+x45r4qzQE4cQ+oktK+RabW54XYbqscyZiltjpVxbqPmXxZyiDnlumkmCilSF1KivIEolmElEWspa+n5KrwfALiiv83UuyO1qQOIUVhe8MlyeK9/DqyGuHlmyAjW5eB7v4TMW103O5Tb73ooakPubRS4kdJwayASh/ah2zNGFw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=none; dmarc=none;
+ dkim=none; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=outlook.com;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=ke1PjGYmJzOnj/HJKFsJef5HvGHC7uQOqMolib8tDtE=;
+ b=NgJpF4DlhorE54cBMHRqO8+3T6a4KOEQabHCo8ZfXM1afdPXFRrKCFSzskiDRh8NZL1Pesb0qLb2AzA03ievkD2OzhvQjPDaCz5TaHFeEgBPygf9yAsaCAp2oCv4Cu+JwdofLebwNbSV/pTkgIrqavIzF8EM5hXIn3mSY4rGXKxmrF4bMY7w5Vw7pBAElAMrBuGXq4AWrXltUysByJclgFumnOQ5xBqPz0WieIPEUaPXtLRy7t+oeLSeYPmENJfHL0r6kR+cZcf09R/swqv+46RRXOg7DlqAFlwGCk2SYiMEV8L8B4fMfuSrFOMPQxieYjTMB704cL3feP05N9h9eQ==
+Received: from SG2APC01FT054.eop-APC01.prod.protection.outlook.com
+ (2a01:111:e400:7ebd::50) by
+ SG2APC01HT137.eop-APC01.prod.protection.outlook.com (2a01:111:e400:7ebd::381)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3742.6; Mon, 11 Jan
+ 2021 09:39:43 +0000
+Received: from SYCPR01MB3502.ausprd01.prod.outlook.com
+ (2a01:111:e400:7ebd::46) by SG2APC01FT054.mail.protection.outlook.com
+ (2a01:111:e400:7ebd::246) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3742.6 via Frontend
+ Transport; Mon, 11 Jan 2021 09:39:43 +0000
+X-IncomingTopHeaderMarker: OriginalChecksum:FAB55FF2444BEAF2BDF8F9BE2C4CF0FE982FA439ED69B5D81965B1C94448DE23;
+ UpperCasedChecksum:8843631270CA10E5C77E55BCC6145A381C43F44BC060BCCCC762819D7FD3C149;
+ SizeAsReceived:8904; Count:47
+Received: from SYCPR01MB3502.ausprd01.prod.outlook.com
+ ([fe80::b5dd:6210:81a:7780]) by SYCPR01MB3502.ausprd01.prod.outlook.com
+ ([fe80::b5dd:6210:81a:7780%5]) with mapi id 15.20.3742.012; Mon, 11 Jan 2021
+ 09:39:43 +0000
+Message-ID: <SYCPR01MB35029A99852F6063CC7C644CFCAB0@SYCPR01MB3502.ausprd01.prod.outlook.com>
+Subject: Re: [PATCH v8 5/7] fuzz: set bits in operand of write/out to zero
+From: Qiuhao Li <Qiuhao.Li@outlook.com>
+To: Philippe =?ISO-8859-1?Q?Mathieu-Daud=E9?= <philmd@redhat.com>, 
+ qemu-devel@nongnu.org
+Date: Mon, 11 Jan 2021 17:39:30 +0800
+In-Reply-To: <d3294c04-28c5-470a-d011-80dc975c7a62@redhat.com>
+References: <SYCPR01MB3502FA4DB12C240DD3CFF1E0FCAB0@SYCPR01MB3502.ausprd01.prod.outlook.com>
+ <SYCPR01MB3502C84B6346A3E3DE708C7BFCAB0@SYCPR01MB3502.ausprd01.prod.outlook.com>
+ <d3294c04-28c5-470a-d011-80dc975c7a62@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+User-Agent: Evolution 3.36.4-0ubuntu1 
+Content-Transfer-Encoding: 8bit
+X-TMN: [xGmq1Qcu+PLTQbdxfS+MlRxYqYZ3EsBz]
+X-ClientProxiedBy: SJ0PR03CA0014.namprd03.prod.outlook.com
+ (2603:10b6:a03:33a::19) To SYCPR01MB3502.ausprd01.prod.outlook.com
+ (2603:10c6:10:3e::12)
+X-Microsoft-Original-Message-ID: <babe7c93e4a2f4cd097d65f8fa457c00ef5c6003.camel@outlook.com>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="AIvcd1/RNOwBZOyI"
-Content-Disposition: inline
-In-Reply-To: <3ebda26a-2734-242b-c553-2092ba7f4b35@redhat.com>
-Received-SPF: pass client-ip=64.147.123.20; envelope-from=its@irrelevant.dk;
- helo=wout4-smtp.messagingengine.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
+X-MS-Exchange-MessageSentRepresentingType: 1
+Received: from localhost (104.225.148.19) by
+ SJ0PR03CA0014.namprd03.prod.outlook.com (2603:10b6:a03:33a::19) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3742.6 via Frontend
+ Transport; Mon, 11 Jan 2021 09:39:37 +0000
+X-MS-PublicTrafficType: Email
+X-IncomingHeaderCount: 47
+X-EOPAttributedMessage: 0
+X-MS-Office365-Filtering-Correlation-Id: 79ecf9e7-fc12-4485-f0d4-08d8b614d327
+X-MS-TrafficTypeDiagnostic: SG2APC01HT137:
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: NRjppA/u5aREsqbkNqmj7gOf7jSeI18D4rE5/uvdHiCN0fcixS7cXuu/qOVCZMaxpbskBgWDCF2f2DXS92m+XYkGHhOJRV/A6HV/U5UJTYC26Nn2MbFpqgvtv4Bpm65W15HaFbrQem+L+Cjy1JNDTjHemjwp/EeS+vmgbWY4bfmiw53w0El9O3P3mAn+otlHDeqmTGTN641qn/xFeyNCbIfg/Fhr/0+8OXna19E07wO4NITM8JPi7VcivpcCP23EbFWOHwweR8Ww63asRRvlcXXfesgd9/nn9hj3CxJVvhw=
+X-MS-Exchange-AntiSpam-MessageData: duXCweQ/BYWxt5zMsHLaJood2R8IKaQrtCjWtxlc1lyzA5FONR0qOqbQk87JmtV6phL8cO0w//92hfusalpcBH+JhgM6yGkVOnn6KG2GiZ2h3lD1MwEAAylnAh44T2sqSzHUPpSmiGzeD7CuXVVQVg==
+X-OriginatorOrg: outlook.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 11 Jan 2021 09:39:42.9717 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 84df9e7f-e9f6-40af-b435-aaaaaaaaaaaa
+X-MS-Exchange-CrossTenant-Network-Message-Id: 79ecf9e7-fc12-4485-f0d4-08d8b614d327
+X-MS-Exchange-CrossTenant-AuthSource: SG2APC01FT054.eop-APC01.prod.protection.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: Internet
+X-MS-Exchange-CrossTenant-RMS-PersistedConsumerOrg: 00000000-0000-0000-0000-000000000000
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SG2APC01HT137
+Received-SPF: pass client-ip=40.92.253.86; envelope-from=Qiuhao.Li@outlook.com;
+ helo=APC01-SG2-obe.outbound.protection.outlook.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
- SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ MSGID_FROM_MTA_HEADER=0.001, RCVD_IN_DNSWL_NONE=-0.0001,
+ RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_PASS=-0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -94,109 +117,46 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: kbusch@kernel.org, kwolf@redhat.com, qemu-block@nongnu.org,
- qemu-devel@nongnu.org, zhenwei pi <pizhenwei@bytedance.com>
+Cc: thuth@redhat.com, darren.kenny@oracle.com, alxndr@bu.edu, bsd@redhat.com,
+ stefanha@redhat.com, pbonzini@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+On Mon, 2021-01-11 at 10:01 +0100, Philippe Mathieu-Daudé wrote:
+> On 1/11/21 7:11 AM, Qiuhao Li wrote:
+> > Simplifying the crash cases by opportunistically setting bits in
+> > operands of
+> > out/write to zero may help to debug, since usually bit one means
+> > turn on or
+> > trigger a function while zero is the default turn-off setting.
+> > 
+> > Tested Bug 1908062.
+> 
+> Please use the full link as reference:
+> https://bugs.launchpad.net/qemu/+bug/1908062
 
---AIvcd1/RNOwBZOyI
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Ok, should I submit a new version patch? Or just change the commit
+messages and submit this series again?
 
-On Jan 11 10:14, Philippe Mathieu-Daud=C3=A9 wrote:
-> On 1/11/21 8:50 AM, zhenwei pi wrote:
-> > There is a very low probability that hitting physical NVMe disk
-> > hardware critical warning case, it's hard to write & test a monitor
-> > agent service.
-> >=20
-> > For debugging purposes, add a new 'smart_critical_warning' property
-> > to emulate this situation.
-> >=20
-> > Test with this patch:
-> > 1, append 'smart_critical_warning=3D16' for nvme parameters.
-> > 2, run smartctl in guest
-> >  #smartctl -H -l error /dev/nvme0n1
-> >=20
-> >   =3D=3D=3D START OF SMART DATA SECTION =3D=3D=3D
-> >   SMART overall-health self-assessment test result: FAILED!
-> >   - volatile memory backup device has failed
-> >=20
-> > Signed-off-by: zhenwei pi <pizhenwei@bytedance.com>
+Thank you.
+
+> 
+> (since this series is fully reviewed, can the
+> maintainer applying the series do the change
+> in place?)
+> 
+> Thanks,
+> 
+> Phil.
+> 
+> > Signed-off-by: Qiuhao Li <Qiuhao.Li@outlook.com>
+> > Reviewed-by: Alexander Bulekov <alxndr@bu.edu>
+> > Tested-by: Alexander Bulekov <alxndr@bu.edu>
 > > ---
-> >  hw/block/nvme.c | 4 ++++
-> >  hw/block/nvme.h | 1 +
-> >  2 files changed, 5 insertions(+)
-> >=20
-> > diff --git a/hw/block/nvme.c b/hw/block/nvme.c
-> > index 27d2c72716..2f0bcac91c 100644
-> > --- a/hw/block/nvme.c
-> > +++ b/hw/block/nvme.c
-> > @@ -1215,6 +1215,8 @@ static uint16_t nvme_smart_info(NvmeCtrl *n, uint=
-8_t rae, uint32_t buf_len,
-> > =20
-> >      trans_len =3D MIN(sizeof(smart) - off, buf_len);
-> > =20
-> > +    smart.critical_warning =3D n->params.smart_critical_warning;
-> > +
-> >      smart.data_units_read[0] =3D cpu_to_le64(DIV_ROUND_UP(stats.units_=
-read,
-> >                                                          1000));
-> >      smart.data_units_written[0] =3D cpu_to_le64(DIV_ROUND_UP(stats.uni=
-ts_written,
-> > @@ -2824,6 +2826,8 @@ static Property nvme_props[] =3D {
-> >      DEFINE_PROP_UINT32("aer_max_queued", NvmeCtrl, params.aer_max_queu=
-ed, 64),
-> >      DEFINE_PROP_UINT8("mdts", NvmeCtrl, params.mdts, 7),
-> >      DEFINE_PROP_BOOL("use-intel-id", NvmeCtrl, params.use_intel_id, fa=
-lse),
-> > +    DEFINE_PROP_UINT8("smart_critical_warning", NvmeCtrl,
-> > +                      params.smart_critical_warning, 0),
-> >      DEFINE_PROP_END_OF_LIST(),
-> >  };
-> > =20
-> > diff --git a/hw/block/nvme.h b/hw/block/nvme.h
-> > index e080a2318a..76684f5ac0 100644
-> > --- a/hw/block/nvme.h
-> > +++ b/hw/block/nvme.h
-> > @@ -16,6 +16,7 @@ typedef struct NvmeParams {
-> >      uint32_t aer_max_queued;
-> >      uint8_t  mdts;
-> >      bool     use_intel_id;
-> > +    uint8_t  smart_critical_warning;
-> >  } NvmeParams;
-> > =20
-> >  typedef struct NvmeAsyncEvent {
-> >=20
->=20
-> This is an easy way to achieve your goal.
->=20
-> However a better way is to add a QMP command to
-> change NvmeCtrl->temperature.
->=20
-> See for example tmp105_initfn() in hw/misc/tmp105.c
-> and qmp_tmp105_set_temperature() in tests/qtest/tmp105-test.c.
->=20
+> >  scripts/oss-fuzz/minimize_qtest_trace.py | 39
+> > ++++++++++++++++++++++++
+> >  1 file changed, 39 insertions(+)
+> 
+> 
 
-Nice.
-
-+1 for this approach.
-
---AIvcd1/RNOwBZOyI
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEEUigzqnXi3OaiR2bATeGvMW1PDekFAl/8GIEACgkQTeGvMW1P
-Dek1oAf/X8jpmqwQnMgbf6tEb5K/yCu+J5ZSP7yMOz/+VBuR72TXiYpAl2bEy2N5
-x0TJL8rlAm0MNOOUpTFu+niaTUZHOikowNLT3h5TmphS4K2XKTUo/aEK9wtbTxif
-VviJLbIc7MJxgOryPQlfK0qGgw6LRXIGP3tZeUz96vSI6lNyIxZfEwHY5JIXvWB6
-pzCO8lV5HnM0R33R7xYwkVPPXXg7Dls2ulPRzX0xcI8NxnEbbVL5cqGTqERtAdAo
-eaBH237N5rF8WNpGdqQLKLWpNkilUW8184J1mDQ0DfgMwke1f5M9MHC8VS2C7Sne
-CVtXAt+FxFApWx5Yck3ipVjtboT2FA==
-=vsTh
------END PGP SIGNATURE-----
-
---AIvcd1/RNOwBZOyI--
 
