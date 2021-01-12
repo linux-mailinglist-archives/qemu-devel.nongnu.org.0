@@ -2,66 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A2A922F3BBC
-	for <lists+qemu-devel@lfdr.de>; Tue, 12 Jan 2021 22:08:52 +0100 (CET)
-Received: from localhost ([::1]:43834 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B3C692F3BBD
+	for <lists+qemu-devel@lfdr.de>; Tue, 12 Jan 2021 22:09:12 +0100 (CET)
+Received: from localhost ([::1]:44902 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kzQuJ-0002WY-NF
-	for lists+qemu-devel@lfdr.de; Tue, 12 Jan 2021 16:08:51 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36236)
+	id 1kzQud-0002yE-QI
+	for lists+qemu-devel@lfdr.de; Tue, 12 Jan 2021 16:09:11 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36526)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <keithp@keithp.com>) id 1kzQq9-0007N5-JH
- for qemu-devel@nongnu.org; Tue, 12 Jan 2021 16:04:33 -0500
-Received: from home.keithp.com ([63.227.221.253]:41552 helo=elaine.keithp.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <keithp@keithp.com>) id 1kzQq6-0000AI-WF
- for qemu-devel@nongnu.org; Tue, 12 Jan 2021 16:04:33 -0500
-Received: from localhost (localhost [127.0.0.1])
- by elaine.keithp.com (Postfix) with ESMTP id CBB213F2E77B;
- Tue, 12 Jan 2021 13:04:27 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=keithp.com; s=mail;
- t=1610485467; bh=ld1gKjzLv+O7RWaahWAnmnHTLDHyIytV9VjtlF0mN2U=;
- h=From:To:Cc:Subject:Date:From;
- b=QoI6jnoRpbtq1RhWGDdijkNwHnfN8yW6mm1Yzu3lideyDZ49r0xlf4bAgNHqecO/J
- A+LtyYfDvgWCbLuh2W9fT0pTPkjUXUUu6UZxMJ6pmDYU0bAarVw6sG5PatUbmX/gkf
- 0vUFwykwCTT6yeyi9lCDkvQzcrpv7h2urXuTG+rXAUnKpdVLQ7oI+Ju/N+b5U4rmDl
- Srv/iMcPZudT+o3Bs2y5ERipakvzcBerFfhdOCfGfZO6VP6QBHgaB6lMUoNsblykLa
- +9D0CPx7M0tJzYUNNA+Qjmt9AfA5VBwy4BbvPLeb55IvuAPoFla0Y2KELQuL7jPjGZ
- x3GwHw5dGG4Bw==
-X-Virus-Scanned: Debian amavisd-new at keithp.com
-Received: from elaine.keithp.com ([127.0.0.1])
- by localhost (elaine.keithp.com [127.0.0.1]) (amavisd-new, port 10024)
- with LMTP id BUR8CZLgFRWy; Tue, 12 Jan 2021 13:04:27 -0800 (PST)
-Received: from keithp.com (koto.keithp.com [10.0.0.2])
- by elaine.keithp.com (Postfix) with ESMTPSA id 518E13F2E776;
- Tue, 12 Jan 2021 13:04:27 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=keithp.com; s=mail;
- t=1610485467; bh=ld1gKjzLv+O7RWaahWAnmnHTLDHyIytV9VjtlF0mN2U=;
- h=From:To:Cc:Subject:Date:From;
- b=QoI6jnoRpbtq1RhWGDdijkNwHnfN8yW6mm1Yzu3lideyDZ49r0xlf4bAgNHqecO/J
- A+LtyYfDvgWCbLuh2W9fT0pTPkjUXUUu6UZxMJ6pmDYU0bAarVw6sG5PatUbmX/gkf
- 0vUFwykwCTT6yeyi9lCDkvQzcrpv7h2urXuTG+rXAUnKpdVLQ7oI+Ju/N+b5U4rmDl
- Srv/iMcPZudT+o3Bs2y5ERipakvzcBerFfhdOCfGfZO6VP6QBHgaB6lMUoNsblykLa
- +9D0CPx7M0tJzYUNNA+Qjmt9AfA5VBwy4BbvPLeb55IvuAPoFla0Y2KELQuL7jPjGZ
- x3GwHw5dGG4Bw==
-Received: by keithp.com (Postfix, from userid 1000)
- id 2DAA91582498; Tue, 12 Jan 2021 13:04:27 -0800 (PST)
-To: qemu-devel@nongnu.org
-Subject: [PATCH] Create API for checking and clearing GDB connection status
-Date: Tue, 12 Jan 2021 13:04:18 -0800
-Message-Id: <20210112210418.1471412-1-keithp@keithp.com>
-X-Mailer: git-send-email 2.30.0
+ (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
+ id 1kzQr0-000062-BI
+ for qemu-devel@nongnu.org; Tue, 12 Jan 2021 16:05:26 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:55807)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
+ id 1kzQqw-0000Uo-JY
+ for qemu-devel@nongnu.org; Tue, 12 Jan 2021 16:05:25 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1610485520;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=UVLok+8gRCB9IZRwUWy/49Gd7vikgPYuo4ChbbkCvZc=;
+ b=ZgAF1Eeii4dSZF6//MAoW8RrT6Nbfq468lYPiE8npqtD/2SZOQGEvH+Ciwdfno1bsiIc46
+ QB2YOBfxb4uR6ISHxH51LulfoOJM6HHvB/BgRXrZDoKeyYuSien1JAWaTcqAwXub2kgPiN
+ I+6VKun2BncgRu09V4s7qWrQN3E/LWw=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-560-ldg31yQCOCWfjgJafVI3HQ-1; Tue, 12 Jan 2021 16:05:18 -0500
+X-MC-Unique: ldg31yQCOCWfjgJafVI3HQ-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id B7290100F344;
+ Tue, 12 Jan 2021 21:05:17 +0000 (UTC)
+Received: from localhost (ovpn-119-212.rdu2.redhat.com [10.10.119.212])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 74CC160C5D;
+ Tue, 12 Jan 2021 21:05:17 +0000 (UTC)
+Date: Tue, 12 Jan 2021 16:05:16 -0500
+From: Eduardo Habkost <ehabkost@redhat.com>
+To: Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
+Subject: Re: [PATCH] decodetree: Allow 'dot' in opcode names
+Message-ID: <20210112210516.GB4161@habkost.net>
+References: <20210112184156.2014305-1-f4bug@amsat.org>
 MIME-Version: 1.0
+In-Reply-To: <20210112184156.2014305-1-f4bug@amsat.org>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=ehabkost@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=63.227.221.253; envelope-from=keithp@keithp.com;
- helo=elaine.keithp.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=ehabkost@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -29
+X-Spam_score: -3.0
+X-Spam_bar: ---
+X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.251,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -74,179 +79,61 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
- Keith Packard <keithp@keithp.com>,
- =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
+Cc: Paolo Bonzini <pbonzini@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org,
+ Cleber Rosa <crosa@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
-Reply-to: Keith Packard <keithp@keithp.com>
-From: Keith Packard via <qemu-devel@nongnu.org>
 
-When checking whether there is a live gdb connection, code shouldn't
-use 'gdbserver_state.init' as that value is set when the
-gdbserver_state structure is initialized in init_gdbserver_state, not
-when the gdb socket has a valid connection.
+On Tue, Jan 12, 2021 at 07:41:56PM +0100, Philippe Mathieu-Daudé wrote:
+> Some ISA use a dot in their opcodes. Allow the decodetree
+> script to process them. The dot is replaced by an underscore
+> in the generated code.
 
-I've created two new functions to manage the gdb connection status:
+Will something break if we just use underscores instead of dots
+in the input file?
 
-	/* Check whether GDB is currently connected */
-	static int gdb_is_connected(void)
+> 
+> Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+> ---
+>  scripts/decodetree.py | 3 ++-
+>  1 file changed, 2 insertions(+), 1 deletion(-)
+> 
+> diff --git a/scripts/decodetree.py b/scripts/decodetree.py
+> index 47aa9caf6d1..b7572589e64 100644
+> --- a/scripts/decodetree.py
+> +++ b/scripts/decodetree.py
+> @@ -49,7 +49,7 @@
+>  re_arg_ident = '&[a-zA-Z0-9_]*'
+>  re_fld_ident = '%[a-zA-Z0-9_]*'
+>  re_fmt_ident = '@[a-zA-Z0-9_]*'
+> -re_pat_ident = '[a-zA-Z0-9_]*'
+> +re_pat_ident = '[a-zA-Z0-9_.]*'
 
-	#ifdef CONFIG_USER_ONLY
+If pattern identifiers are going to follow different rules,
+doesn't this need to be documented at docs/devel/decodetree.rst?
 
-	/* Close GDB connection */
-	static void gdb_disconnect(void)
+>  
+>  def error_with_file(file, lineno, *args):
+>      """Print an error message from file:line and args and exit."""
+> @@ -1082,6 +1082,7 @@ def parse_file(f, parent_pat):
+>          elif re.fullmatch(re_fmt_ident, name):
+>              parse_generic(start_lineno, None, name[1:], toks)
+>          elif re.fullmatch(re_pat_ident, name):
+> +            name = name.replace('.', '_')
+>              parse_generic(start_lineno, parent_pat, name, toks)
 
-	#endif
+Do we want error messages generated by the script to use the
+modified identifier with underscores, or the original identifier
+with dots?  (This patch does the former)
 
-The first checks whether there is an active GDB connection, the second
-closes that connection and resets the connection status indication.
+>          else:
+>              error(lineno, 'invalid token "{0}"'.format(name))
+> -- 
+> 2.26.2
+> 
 
-The 'handle_detach' function used 'gdbserver_state.c_cpu' as an
-indication of whether there is a connection, so I've used the same in
-gdb_is_connected as that is independent of CONFIG_USER_ONLY.
-
-This avoids a segfault when qemu is run with the '-s' flag (create a
-gdb protocol socket), but without the '-S' flag (delay until 'c'
-command is received).
-
-Signed-off-by: Keith Packard <keithp@keithp.com>
----
- gdbstub.c | 51 +++++++++++++++++++++++++++++++++------------------
- 1 file changed, 33 insertions(+), 18 deletions(-)
-
-diff --git a/gdbstub.c b/gdbstub.c
-index d99bc0bf2e..8ee7e442d5 100644
---- a/gdbstub.c
-+++ b/gdbstub.c
-@@ -413,8 +413,28 @@ static void reset_gdbserver_state(void)
- 
- bool gdb_has_xml;
- 
-+/* Check whether GDB is currently connected */
-+static int gdb_is_connected(void)
-+{
-+    /*
-+     * XXX c_cpu is NULL until gdb_accept_init has been called, so use
-+     * this as a proxy for whether the gdb connection is active
-+     */
-+    return gdbserver_state.c_cpu != NULL;
-+}
-+
- #ifdef CONFIG_USER_ONLY
- 
-+/* Close GDB connection */
-+static void gdb_disconnect(void)
-+{
-+    if (gdb_is_connected()) {
-+        close(gdbserver_state.fd);
-+        gdbserver_state.fd = -1;
-+        gdbserver_state.c_cpu = NULL;
-+    }
-+}
-+
- static int get_char(void)
- {
-     uint8_t ch;
-@@ -424,12 +444,11 @@ static int get_char(void)
-         ret = qemu_recv(gdbserver_state.fd, &ch, 1, 0);
-         if (ret < 0) {
-             if (errno == ECONNRESET)
--                gdbserver_state.fd = -1;
-+                gdb_disconnect();
-             if (errno != EINTR)
-                 return -1;
-         } else if (ret == 0) {
--            close(gdbserver_state.fd);
--            gdbserver_state.fd = -1;
-+            gdb_disconnect();
-             return -1;
-         } else {
-             break;
-@@ -2796,7 +2815,7 @@ void gdb_do_syscallv(gdb_syscall_complete_cb cb, const char *fmt, va_list va)
-     target_ulong addr;
-     uint64_t i64;
- 
--    if (!gdbserver_state.init) {
-+    if (!gdb_is_connected()) {
-         return;
-     }
- 
-@@ -3025,9 +3044,9 @@ void gdb_exit(CPUArchState *env, int code)
-   if (gdbserver_state.socket_path) {
-       unlink(gdbserver_state.socket_path);
-   }
--  if (gdbserver_state.fd < 0) {
--      return;
--  }
-+    if (!gdb_is_connected()) {
-+        return;
-+    }
- #endif
- 
-   trace_gdbstub_op_exiting((uint8_t)code);
-@@ -3072,7 +3091,7 @@ gdb_handlesig(CPUState *cpu, int sig)
-     char buf[256];
-     int n;
- 
--    if (!gdbserver_state.init || gdbserver_state.fd < 0) {
-+    if (!gdb_is_connected()) {
-         return sig;
-     }
- 
-@@ -3086,14 +3105,14 @@ gdb_handlesig(CPUState *cpu, int sig)
-     }
-     /* put_packet() might have detected that the peer terminated the
-        connection.  */
--    if (gdbserver_state.fd < 0) {
-+    if (!gdb_is_connected()) {
-         return sig;
-     }
- 
-     sig = 0;
-     gdbserver_state.state = RS_IDLE;
-     gdbserver_state.running_state = 0;
--    while (gdbserver_state.running_state == 0) {
-+    while (gdbserver_state.running_state == 0 && gdb_is_connected()) {
-         n = read(gdbserver_state.fd, buf, 256);
-         if (n > 0) {
-             int i;
-@@ -3104,10 +3123,7 @@ gdb_handlesig(CPUState *cpu, int sig)
-         } else {
-             /* XXX: Connection closed.  Should probably wait for another
-                connection before continuing.  */
--            if (n == 0) {
--                close(gdbserver_state.fd);
--            }
--            gdbserver_state.fd = -1;
-+            gdb_disconnect();
-             return sig;
-         }
-     }
-@@ -3121,7 +3137,7 @@ void gdb_signalled(CPUArchState *env, int sig)
- {
-     char buf[4];
- 
--    if (!gdbserver_state.init || gdbserver_state.fd < 0) {
-+    if (!gdb_is_connected()) {
-         return;
-     }
- 
-@@ -3280,11 +3296,10 @@ int gdbserver_start(const char *port_or_path)
- /* Disable gdb stub for child processes.  */
- void gdbserver_fork(CPUState *cpu)
- {
--    if (!gdbserver_state.init || gdbserver_state.fd < 0) {
-+    if (!gdb_is_connected()) {
-         return;
-     }
--    close(gdbserver_state.fd);
--    gdbserver_state.fd = -1;
-+    gdb_disconnect();
-     cpu_breakpoint_remove_all(cpu, BP_GDB);
-     cpu_watchpoint_remove_all(cpu, BP_GDB);
- }
 -- 
-2.30.0
+Eduardo
 
 
