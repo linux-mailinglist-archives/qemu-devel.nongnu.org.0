@@ -2,30 +2,30 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 03A5E2F2DA3
-	for <lists+qemu-devel@lfdr.de>; Tue, 12 Jan 2021 12:13:33 +0100 (CET)
-Received: from localhost ([::1]:35078 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 272A02F2D69
+	for <lists+qemu-devel@lfdr.de>; Tue, 12 Jan 2021 12:08:49 +0100 (CET)
+Received: from localhost ([::1]:46732 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kzHcC-0008QA-2j
-	for lists+qemu-devel@lfdr.de; Tue, 12 Jan 2021 06:13:32 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52754)
+	id 1kzHXc-0001Ya-4Y
+	for lists+qemu-devel@lfdr.de; Tue, 12 Jan 2021 06:08:48 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52994)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <remi@remlab.net>)
- id 1kzHB6-0003db-Au; Tue, 12 Jan 2021 05:45:32 -0500
-Received: from poy.remlab.net ([2001:41d0:2:5a1a::]:56722
+ id 1kzHBT-0003vD-O5; Tue, 12 Jan 2021 05:45:57 -0500
+Received: from poy.remlab.net ([2001:41d0:2:5a1a::]:56726
  helo=ns207790.ip-94-23-215.eu)
  by eggs.gnu.org with esmtp (Exim 4.90_1)
  (envelope-from <remi@remlab.net>)
- id 1kzHB2-0003Sw-Hc; Tue, 12 Jan 2021 05:45:31 -0500
+ id 1kzHBO-0003UH-6G; Tue, 12 Jan 2021 05:45:54 -0500
 Received: from basile.remlab.net (ip6-localhost [IPv6:::1])
- by ns207790.ip-94-23-215.eu (Postfix) with ESMTP id 1BDC46040D;
+ by ns207790.ip-94-23-215.eu (Postfix) with ESMTP id 9845B604F4;
  Tue, 12 Jan 2021 11:45:14 +0100 (CET)
 From: remi.denis.courmont@huawei.com
 To: qemu-arm@nongnu.org
-Subject: [PATCH 10/19] target/arm: handle VMID change in secure state
-Date: Tue, 12 Jan 2021 12:45:02 +0200
-Message-Id: <20210112104511.36576-10-remi.denis.courmont@huawei.com>
+Subject: [PATCH 12/19] target/arm: translate NS bit in page-walks
+Date: Tue, 12 Jan 2021 12:45:04 +0200
+Message-Id: <20210112104511.36576-12-remi.denis.courmont@huawei.com>
 X-Mailer: git-send-email 2.30.0
 In-Reply-To: <12681824.uLZWGnKmhe@basile.remlab.net>
 References: <12681824.uLZWGnKmhe@basile.remlab.net>
@@ -58,39 +58,35 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Rémi Denis-Courmont <remi.denis.courmont@huawei.com>
 
-The VTTBR write callback so far assumes that the underlying VM lies in
-non-secure state. This handles the secure state scenario.
-
 Signed-off-by: Rémi Denis-Courmont <remi.denis.courmont@huawei.com>
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- target/arm/helper.c | 13 +++++++++----
- 1 file changed, 9 insertions(+), 4 deletions(-)
+ target/arm/helper.c | 12 ++++++++++++
+ 1 file changed, 12 insertions(+)
 
 diff --git a/target/arm/helper.c b/target/arm/helper.c
-index 7f84662dfa..3e6b1c548b 100644
+index 7d96897f9a..fe95c2965d 100644
 --- a/target/arm/helper.c
 +++ b/target/arm/helper.c
-@@ -4017,10 +4017,15 @@ static void vttbr_write(CPUARMState *env, const ARMCPRegInfo *ri,
-      * the combined stage 1&2 tlbs (EL10_1 and EL10_0).
-      */
-     if (raw_read(env, ri) != value) {
--        tlb_flush_by_mmuidx(cs,
--                            ARMMMUIdxBit_E10_1 |
--                            ARMMMUIdxBit_E10_1_PAN |
--                            ARMMMUIdxBit_E10_0);
-+        uint16_t mask = ARMMMUIdxBit_E10_1 |
-+                        ARMMMUIdxBit_E10_1_PAN |
-+                        ARMMMUIdxBit_E10_0;
+@@ -10429,6 +10429,18 @@ static hwaddr S1_ptw_translate(CPUARMState *env, ARMMMUIdx mmu_idx,
+             fi->s1ptw = true;
+             return ~0;
+         }
 +
 +        if (arm_is_secure_below_el3(env)) {
-+            mask >>= ARM_MMU_IDX_A_NS;
++            /* Check if page table walk is to secure or non-secure PA space. */
++            if (*is_secure) {
++                *is_secure = !(env->cp15.vstcr_el2.raw_tcr & VSTCR_SW);
++            } else {
++                *is_secure = !(env->cp15.vtcr_el2.raw_tcr & VTCR_NSW);
++            }
++        } else {
++            assert(!*is_secure);
 +        }
 +
-+        tlb_flush_by_mmuidx(cs, mask);
-         raw_write(env, ri, value);
+         addr = s2pa;
      }
- }
+     return addr;
 -- 
 2.30.0
 
