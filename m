@@ -2,48 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CAD242F3872
-	for <lists+qemu-devel@lfdr.de>; Tue, 12 Jan 2021 19:20:18 +0100 (CET)
-Received: from localhost ([::1]:35170 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 46F372F38DD
+	for <lists+qemu-devel@lfdr.de>; Tue, 12 Jan 2021 19:29:51 +0100 (CET)
+Received: from localhost ([::1]:34472 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kzOHB-0006uf-9g
-	for lists+qemu-devel@lfdr.de; Tue, 12 Jan 2021 13:20:17 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48256)
+	id 1kzOQQ-00030T-1E
+	for lists+qemu-devel@lfdr.de; Tue, 12 Jan 2021 13:29:50 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53624)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1kzO1Q-0005h2-QL
- for qemu-devel@nongnu.org; Tue, 12 Jan 2021 13:04:00 -0500
-Received: from mx2.suse.de ([195.135.220.15]:34286)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1kzO1L-0004zY-Ok
- for qemu-devel@nongnu.org; Tue, 12 Jan 2021 13:04:00 -0500
-X-Virus-Scanned: by amavisd-new at test-mx.suse.de
-Received: from relay2.suse.de (unknown [195.135.221.27])
- by mx2.suse.de (Postfix) with ESMTP id 9E693AF80;
- Tue, 12 Jan 2021 18:03:38 +0000 (UTC)
-From: Claudio Fontana <cfontana@suse.de>
-To: Paolo Bonzini <pbonzini@redhat.com>, Thomas Huth <thuth@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- Stefano Stabellini <sstabellini@kernel.org>,
- Wenchao Wang <wenchao.wang@intel.com>,
- Roman Bolshakov <r.bolshakov@yadro.com>,
- Sunil Muthuswamy <sunilmut@microsoft.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
-Subject: [PATCH v12 22/22] accel: introduce new accessor functions
-Date: Tue, 12 Jan 2021 19:03:12 +0100
-Message-Id: <20210112180312.26043-23-cfontana@suse.de>
-X-Mailer: git-send-email 2.26.2
-In-Reply-To: <20210112180312.26043-1-cfontana@suse.de>
-References: <20210112180312.26043-1-cfontana@suse.de>
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1kzOOj-0001ZU-V4
+ for qemu-devel@nongnu.org; Tue, 12 Jan 2021 13:28:05 -0500
+Received: from mail-wm1-x333.google.com ([2a00:1450:4864:20::333]:36255)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1kzOOi-0004b6-5b
+ for qemu-devel@nongnu.org; Tue, 12 Jan 2021 13:28:05 -0500
+Received: by mail-wm1-x333.google.com with SMTP id y23so3065050wmi.1
+ for <qemu-devel@nongnu.org>; Tue, 12 Jan 2021 10:28:03 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=references:user-agent:from:to:cc:subject:date:in-reply-to
+ :message-id:mime-version:content-transfer-encoding;
+ bh=GYO2ccOsqbRiWFoW2+NqjBaOx9fjBfH3osNfKj9vS38=;
+ b=CyQHrqkm9i+Sdsg7+sjevtbC7ysNL5tENPnXO3lU/PSf2YKnMd43CNVafb4E88o8WP
+ 6vAhstRRcfRdoKRY5v1FlTfcD86rUwAvhMTrslZ3EoOLUQ5EPeRY1CxybohJev3wqom1
+ gxZNDFPm9WAZPA65LCw7AgF5FhaVaBvUrBFMeMG6fgCgSIze0/l+oDSsiFVKbzwQKi07
+ v79ZQOIqsM1a22VWP1f8dZmY7Gi1BFr+McCwGeqSzoMZza7tf92g7FMgAQdkW7G2XFBK
+ lFJJPvkCQBvvYaHqs38CA+h25q1ibVxPotH/CfzIqd1I/Gst5triGd9YdUbeXbuM69fg
+ M6tQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:references:user-agent:from:to:cc:subject:date
+ :in-reply-to:message-id:mime-version:content-transfer-encoding;
+ bh=GYO2ccOsqbRiWFoW2+NqjBaOx9fjBfH3osNfKj9vS38=;
+ b=bQIQeJTV6qanvuh0QBCZ3rKY9ayFMSwl1qJZ8vY6ctimucyRt6NyYPC1HQh7KwFgdE
+ WTsTeo4EXF2zVWq2whn2AT0jmvb4K8V7bs7nptxdj3Hhitw7kp87LHQsUgXF3nLOm7dT
+ g8zEBTUq2b7CdeKBlOKtK6SCdo15IU9niO7XTEpUbDAjLLM1NpLXWIUasiMFtUCTaiT8
+ GOjR+u/MElfvAKPg2wJ2tMQVHA4w7zFwXyADoOv9IcwCWeBscvrNmAt3juDTXz35sJvn
+ CGgI18bxNcxr2WFxS9Ow8GKrTZH789X+opQyfK7V505i75WUu2aYZn8uH5AYbedNXbAu
+ slAA==
+X-Gm-Message-State: AOAM530AmLsRjPti3p5IViLPJT4wjFQEnz6xRzFWx6aNzRDdxJCUDUzN
+ log4ROUuqysIYCqep6VGZQxgug==
+X-Google-Smtp-Source: ABdhPJyhciVNeQ9TZaEcLj39E17ZC8NMDlj/bk7Jg+Cu+LggjBiQriYOJjg4qwHXR7ENBt7RjLN/Uw==
+X-Received: by 2002:a1c:1d85:: with SMTP id d127mr517151wmd.39.1610476082366; 
+ Tue, 12 Jan 2021 10:28:02 -0800 (PST)
+Received: from zen.linaroharston ([51.148.130.216])
+ by smtp.gmail.com with ESMTPSA id h184sm5389198wmh.23.2021.01.12.10.28.00
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 12 Jan 2021 10:28:00 -0800 (PST)
+Received: from zen (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id 4D6621FF7E;
+ Tue, 12 Jan 2021 18:28:00 +0000 (GMT)
+References: <1610080146-14968-1-git-send-email-tsimpson@quicinc.com>
+ <1610080146-14968-35-git-send-email-tsimpson@quicinc.com>
+ <874kjmnz71.fsf@linaro.org> <20210112145319.1c9440a9@orange>
+User-agent: mu4e 1.5.7; emacs 28.0.50
+From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: Alessandro Di Federico <ale@rev.ng>
+Subject: Re: [PATCH v6 34/35] Auto-import Docker support files
+Date: Tue, 12 Jan 2021 18:26:29 +0000
+In-reply-to: <20210112145319.1c9440a9@orange>
+Message-ID: <87h7nmm2mn.fsf@linaro.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=195.135.220.15; envelope-from=cfontana@suse.de;
- helo=mx2.suse.de
-X-Spam_score_int: -41
-X-Spam_score: -4.2
-X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
- RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2a00:1450:4864:20::333;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x333.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -57,171 +88,48 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Laurent Vivier <lvivier@redhat.com>,
- Peter Maydell <peter.maydell@linaro.org>,
- Eduardo Habkost <ehabkost@redhat.com>, Paul Durrant <paul@xen.org>,
- Jason Wang <jasowang@redhat.com>, Marcelo Tosatti <mtosatti@redhat.com>,
- qemu-devel@nongnu.org, Peter Xu <peterx@redhat.com>,
- Dario Faggioli <dfaggioli@suse.com>, Cameron Esfahani <dirty@apple.com>,
- haxm-team@intel.com, Claudio Fontana <cfontana@suse.de>,
- Anthony Perard <anthony.perard@citrix.com>, Bruce Rogers <brogers@suse.com>,
- Olaf Hering <ohering@suse.de>, "Emilio G . Cota" <cota@braap.org>,
- Colin Xu <colin.xu@intel.com>
+Cc: Fam
+ Zheng <fam@euphon.net>, bcain@quicinc.com, richard.henderson@linaro.org,
+ qemu-devel@nongnu.org, laurent@vivier.eu,
+ Taylor Simpson <tsimpson@quicinc.com>, philmd@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-avoid open coding the accesses to cpu->accel_cpu interfaces,
-and instead introduce:
 
-accel_cpu_instance_init,
-accel_cpu_realizefn
+Alessandro Di Federico <ale@rev.ng> writes:
 
-to be used by the targets/ initfn code,
-and by cpu_exec_realizefn respectively.
+> On Tue, 12 Jan 2021 11:58:30 +0000
+> Alex Benn=C3=A9e <alex.bennee@linaro.org> wrote:
+>
+>> > -            for filename in args.extra_files or []:
+>> > +            extra_files =3D args.extra_files or []
+>> > +            extra_files +=3D glob(basename + ".*")
+>> > +            for filename in extra_files:=20=20
+>>=20
+>> Hmm not so sure about this magic. What's wrong with the existing
+>> --extra-files mechanism?=20
+>
+> I'd be OK with using that, but how can I automate it?
+>
+> It is my understanding that `--extra-files` is only set by through the
+> EXTRA_FILES environment variable. Therefore the user should do
+> something like this:
+>
+>     make check-tcg \
+>         DOCKER_IMAGE=3Ddebian-hexagon-cross \
+>         DOCKER_CROSS_CC_GUEST=3Dhexagon-unknown-linux-musl-clang \
+>         EXTRA_FILES=3D"..."
 
-Add warnings about the use of target-specific headers.
+I'm confused - extra-files is while building the docker image, not
+running it.
 
-Signed-off-by: Claudio Fontana <cfontana@suse.de>
----
- include/hw/core/accel-cpu.h | 11 +++++++----
- include/qemu/accel.h        | 13 +++++++++++++
- accel/accel-common.c        | 19 +++++++++++++++++++
- cpu.c                       |  6 +-----
- target/i386/cpu.c           |  9 ++-------
- 5 files changed, 42 insertions(+), 16 deletions(-)
+>
+> Or am I missing some part of how this works?
 
-diff --git a/include/hw/core/accel-cpu.h b/include/hw/core/accel-cpu.h
-index 246b3e2fcb..2edecd026a 100644
---- a/include/hw/core/accel-cpu.h
-+++ b/include/hw/core/accel-cpu.h
-@@ -1,5 +1,6 @@
- /*
-  * Accelerator interface, specializes CPUClass
-+ * This header is used only by target-specific code.
-  *
-  * Copyright 2020 SUSE LLC
-  *
-@@ -11,10 +12,12 @@
- #define ACCEL_CPU_H
- 
- /*
-- * these defines cannot be in cpu.h, because we are using
-- * CPU_RESOLVING_TYPE here.
-- * Use this header to define your accelerator-specific
-- * cpu-specific accelerator interfaces.
-+ * This header is used to define new accelerator-specific target-specific
-+ * accelerator cpu subclasses.
-+ * It uses CPU_RESOLVING_TYPE, so this is clearly target-specific.
-+ *
-+ * Do not try to use for any other purpose than the implementation of new
-+ * subclasses in target/, or the accel implementation itself in accel/
-  */
- 
- #define TYPE_ACCEL_CPU "accel-" CPU_RESOLVING_TYPE
-diff --git a/include/qemu/accel.h b/include/qemu/accel.h
-index b9d6d69eb8..da0c8ab523 100644
---- a/include/qemu/accel.h
-+++ b/include/qemu/accel.h
-@@ -78,4 +78,17 @@ int accel_init_machine(AccelState *accel, MachineState *ms);
- void accel_setup_post(MachineState *ms);
- #endif /* !CONFIG_USER_ONLY */
- 
-+/**
-+ * accel_cpu_instance_init:
-+ * @cpu: The CPU that needs to do accel-specific object initializations.
-+ */
-+void accel_cpu_instance_init(CPUState *cpu);
-+
-+/**
-+ * accel_cpu_realizefn:
-+ * @cpu: The CPU that needs to call accel-specific cpu realization.
-+ * @errp: currently unused.
-+ */
-+void accel_cpu_realizefn(CPUState *cpu, Error **errp);
-+
- #endif /* QEMU_ACCEL_H */
-diff --git a/accel/accel-common.c b/accel/accel-common.c
-index 9901b0531c..0f6fb4fb66 100644
---- a/accel/accel-common.c
-+++ b/accel/accel-common.c
-@@ -89,6 +89,25 @@ void accel_init_interfaces(AccelClass *ac)
-     accel_init_cpu_interfaces(ac);
- }
- 
-+void accel_cpu_instance_init(CPUState *cpu)
-+{
-+    CPUClass *cc = CPU_GET_CLASS(cpu);
-+
-+    if (cc->accel_cpu && cc->accel_cpu->cpu_instance_init) {
-+        cc->accel_cpu->cpu_instance_init(cpu);
-+    }
-+}
-+
-+void accel_cpu_realizefn(CPUState *cpu, Error **errp)
-+{
-+    CPUClass *cc = CPU_GET_CLASS(cpu);
-+
-+    if (cc->accel_cpu && cc->accel_cpu->cpu_realizefn) {
-+        /* NB: errp parameter is unused currently */
-+        cc->accel_cpu->cpu_realizefn(cpu, errp);
-+    }
-+}
-+
- static const TypeInfo accel_cpu_type = {
-     .name = TYPE_ACCEL_CPU,
-     .parent = TYPE_OBJECT,
-diff --git a/cpu.c b/cpu.c
-index ba5d272c1e..25e6fbfa2c 100644
---- a/cpu.c
-+++ b/cpu.c
-@@ -130,11 +130,7 @@ void cpu_exec_realizefn(CPUState *cpu, Error **errp)
-     CPUClass *cc = CPU_GET_CLASS(cpu);
- 
-     cpu_list_add(cpu);
--
--    if (cc->accel_cpu) {
--        /* NB: errp parameter is unused currently */
--        cc->accel_cpu->cpu_realizefn(cpu, errp);
--    }
-+    accel_cpu_realizefn(cpu, errp);
- 
- #ifdef CONFIG_TCG
-     /* NB: errp parameter is unused currently */
-diff --git a/target/i386/cpu.c b/target/i386/cpu.c
-index 83c474e270..c79123811f 100644
---- a/target/i386/cpu.c
-+++ b/target/i386/cpu.c
-@@ -28,7 +28,6 @@
- #include "sysemu/kvm.h"
- #include "sysemu/reset.h"
- #include "sysemu/hvf.h"
--#include "hw/core/accel-cpu.h"
- #include "sysemu/xen.h"
- #include "sysemu/whpx.h"
- #include "kvm/kvm_i386.h"
-@@ -6680,8 +6679,6 @@ static void x86_cpu_initfn(Object *obj)
- {
-     X86CPU *cpu = X86_CPU(obj);
-     X86CPUClass *xcc = X86_CPU_GET_CLASS(obj);
--    CPUClass *cc = CPU_CLASS(xcc);
--
-     CPUX86State *env = &cpu->env;
- 
-     env->nr_dies = 1;
-@@ -6730,10 +6727,8 @@ static void x86_cpu_initfn(Object *obj)
-         x86_cpu_load_model(cpu, xcc->model);
-     }
- 
--    /* if required, do the accelerator-specific cpu initialization */
--    if (cc->accel_cpu) {
--        cc->accel_cpu->cpu_instance_init(CPU(obj));
--    }
-+    /* if required, do accelerator-specific cpu initializations */
-+    accel_cpu_instance_init(CPU(obj));
- }
- 
- static int64_t x86_cpu_get_arch_id(CPUState *cs)
--- 
-2.26.2
+Add an explicit rule in Makefile.include:
 
+  docker-image-debian-hexagon-cross: EXTRA_FILES=3Dfoo.bar
+
+--=20
+Alex Benn=C3=A9e
 
