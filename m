@@ -2,67 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DC54B2F3711
-	for <lists+qemu-devel@lfdr.de>; Tue, 12 Jan 2021 18:28:17 +0100 (CET)
-Received: from localhost ([::1]:50340 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4F5B32F3701
+	for <lists+qemu-devel@lfdr.de>; Tue, 12 Jan 2021 18:24:51 +0100 (CET)
+Received: from localhost ([::1]:39032 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kzNSq-0002DB-TY
-	for lists+qemu-devel@lfdr.de; Tue, 12 Jan 2021 12:28:16 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35174)
+	id 1kzNPW-0005ef-AF
+	for lists+qemu-devel@lfdr.de; Tue, 12 Jan 2021 12:24:50 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35312)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1kzNFw-0003XA-Ja
- for qemu-devel@nongnu.org; Tue, 12 Jan 2021 12:14:58 -0500
-Received: from mail-ed1-x533.google.com ([2a00:1450:4864:20::533]:43828)
+ id 1kzNG7-0003eT-Nm
+ for qemu-devel@nongnu.org; Tue, 12 Jan 2021 12:15:07 -0500
+Received: from mail-ej1-x62e.google.com ([2a00:1450:4864:20::62e]:44341)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1kzNFu-0004q8-BV
- for qemu-devel@nongnu.org; Tue, 12 Jan 2021 12:14:55 -0500
-Received: by mail-ed1-x533.google.com with SMTP id by27so2935378edb.10
- for <qemu-devel@nongnu.org>; Tue, 12 Jan 2021 09:14:53 -0800 (PST)
+ id 1kzNG4-0004tR-0E
+ for qemu-devel@nongnu.org; Tue, 12 Jan 2021 12:15:07 -0500
+Received: by mail-ej1-x62e.google.com with SMTP id w1so4547247ejf.11
+ for <qemu-devel@nongnu.org>; Tue, 12 Jan 2021 09:15:01 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:from:to:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=18sPMynKkOtU4L2paxwQnr/WWSKuGv1Nncftn33NL/o=;
- b=Ph5/ltTZucqfY1FOiw7uZP2KTN50dGTAKhsAEJbZIh3FrzfJD7faulGE/Ag/Phct1i
- a3NIPc6ONn5uu2af1QXjJYvAsBi67yDQX/Dd/clKWaERkOFlc/fKp3spQPkqRTMpB8Cx
- XnGYukXTspb67X/4MKsV8w7ooBMiZIuoSOQAulVUwDMO0DDUwX1vWD9oDpbUB9gCZTgS
- u0ixWbyXHRMQOTdd7KY0ZQyL0acynZp9BOL9A+FmffN4x0+Zh7ObQR6CM+x54Xhsy3Ux
- G4XFr+IZO8WWD0/q1L2q8UtMQFkeXpsXOuE+m/KR0J6GjumpEFcTtw67MVlRjiXY9oB8
- Hzaw==
+ h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=MYwXQkjkGyHa6d3oKH/TvhkJ1MzQV0+oIcuJEspAGwE=;
+ b=ViXJ9PCJdFmPqnYCysr6cD1igywMN69t76NSAaktnE6Sdtotd6NogzP0UAWY/crok8
+ 6gOtvU9hwgdf9tXepB0A0imcp0vZHgMSuhN4CWToYCA41Ce4912DaStc3VrzcU66FPV1
+ zpj5roRuxHXuosAmgCbZGVcbRJGN32GhE7fFHKZ5hZ5fUJOD61+RemwcOtE3KQ/s7zst
+ xyoBNl3Pw+YaKAggEu0lyeB/1aBdcoH8FfEfzTnV8BBhLlBzq0UDXUyirOztC0mOO40W
+ e0Gd4Sa9ZxFw6oaT7eC6TGWl2oglYWXlTMniqDAw835ZXP+EsGikOYMm7qCDaCvWaJDe
+ 3oXg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:from:to:subject:date:message-id
- :mime-version:content-transfer-encoding;
- bh=18sPMynKkOtU4L2paxwQnr/WWSKuGv1Nncftn33NL/o=;
- b=bvJC5g82wIP2ft5shufBBFFmafwu0dGTPEQkWUmHZ9FUrdSiR/PRejq/p+uZCuLbWC
- ZI1mvTD5mTzSOj2G+85IYTpAdVrkIvNdI8wOPNJ0dprM3IoZAvM6HxAxbTlxZjoKRFN0
- yXmey50eMVm/T+BZRLgfWrNWI69wKxHDXFyPlQji29lhYZenmEEPHXZGUHzj3BIFYdZp
- 9t9eMrr+m/pkaLh/JcxLLwuTEJo0P2sSwubAWC71bcUgXgdyaLKBEQbapHB0X8vpYlmF
- WUzFmiIGWkMXDk9WFED1+wNSqCmIZb8TQ/R0EATEo92WgJ6tlnGAiJRR0MP3VNWe6Hvg
- AoIw==
-X-Gm-Message-State: AOAM531cTrr/y6sYjuZZB8KGsfLYRU1ynzu4CMGnnz81VmAuz/TkDaIV
- JNEFf62SwUvTJ0yLzSR2mjluAc8Y/ekz2g==
-X-Google-Smtp-Source: ABdhPJwQcXNNHokZ+aW7tq9+cY96ebDNnbOZX1ZrmJZzUUuoNBbRrB8i3a3LdXPkyS0HUKk0vtWymw==
-X-Received: by 2002:a50:d757:: with SMTP id i23mr149701edj.116.1610471692508; 
- Tue, 12 Jan 2021 09:14:52 -0800 (PST)
+ h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
+ :in-reply-to:references:mime-version:content-transfer-encoding;
+ bh=MYwXQkjkGyHa6d3oKH/TvhkJ1MzQV0+oIcuJEspAGwE=;
+ b=mvHqoJi1bIZPaXBLpsWBinGTDev3HgoKNB3jd/YjXVb4vWfTRomykYdMdgQgJFNhPR
+ Ez898B7W6ilkqFtPpN2UrQehMN3s/fmX+B2gbpHa/+X51lUWFB9A5B9IrOq81mnv1pD5
+ uKeMMFadUPTvVxs/Rcx0zQ9Nd9RTmLuAxTuJxS4IcK3I5rm5Y+9xNkb6I8MyqWYPUO0a
+ sho1oYJCaGXgbUB7EMnO+JxQMVOqePuiQwpQOOBeSYGYyeTh5bjL5f2rJUQnIVs1XU3Q
+ VT80tqpHq9yY/Xeck6QbduFph2WCSIE2eY5phMB0VIA+nvlvFvkjfvufP5hMKXC05BnE
+ lFjA==
+X-Gm-Message-State: AOAM533ZTGGKkon7w7OGJ8pbGJlWWXsCqmDnZW4efRBxpBW1sB6VB9e6
+ 6oPzA+zrPJKrRcAB7Ik/zfN06vBzdxZKPg==
+X-Google-Smtp-Source: ABdhPJytCZ1DpCPRuGLOv8G8yKUlQqXDC6g+c02ypGjd3LYbIQba5twZ2/VcGsvh5jQuq2L/2ErYHA==
+X-Received: by 2002:a17:906:8292:: with SMTP id
+ h18mr4030953ejx.481.1610471701162; 
+ Tue, 12 Jan 2021 09:15:01 -0800 (PST)
 Received: from avogadro.lan ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
- by smtp.gmail.com with ESMTPSA id k22sm397302edv.33.2021.01.12.09.14.51
- for <qemu-devel@nongnu.org>
+ by smtp.gmail.com with ESMTPSA id k22sm397302edv.33.2021.01.12.09.15.00
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 12 Jan 2021 09:14:51 -0800 (PST)
+ Tue, 12 Jan 2021 09:15:00 -0800 (PST)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 00/20] Misc patches for 2021-01-12
-Date: Tue, 12 Jan 2021 18:14:30 +0100
-Message-Id: <20210112171450.791427-1-pbonzini@redhat.com>
+Subject: [PULL 10/20] scripts/gdb: implement 'qemu bt'
+Date: Tue, 12 Jan 2021 18:14:40 +0100
+Message-Id: <20210112171450.791427-11-pbonzini@redhat.com>
 X-Mailer: git-send-email 2.29.2
+In-Reply-To: <20210112171450.791427-1-pbonzini@redhat.com>
+References: <20210112171450.791427-1-pbonzini@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::533;
- envelope-from=paolo.bonzini@gmail.com; helo=mail-ed1-x533.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::62e;
+ envelope-from=paolo.bonzini@gmail.com; helo=mail-ej1-x62e.google.com
 X-Spam_score_int: -14
 X-Spam_score: -1.5
 X-Spam_bar: -
@@ -83,95 +84,85 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: Maxim Levitsky <mlevitsk@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The following changes since commit b3f846c59d8405bb87c551187721fc92ff2f1b92:
+From: Maxim Levitsky <mlevitsk@redhat.com>
 
-  Merge remote-tracking branch 'remotes/huth-gitlab/tags/pull-request-2021-01-11v2' into staging (2021-01-11 15:15:35 +0000)
+This script first runs the regular gdb's 'bt' command, and then if we are in a
+coroutine it prints the coroutines backtraces in the order in which they
+were called.
 
-are available in the Git repository at:
+Signed-off-by: Maxim Levitsky <mlevitsk@redhat.com>
+Message-Id: <20201217155436.927320-3-mlevitsk@redhat.com>
+Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
+---
+ scripts/qemu-gdb.py          |  1 +
+ scripts/qemugdb/coroutine.py | 28 +++++++++++++++++++++++++++-
+ 2 files changed, 28 insertions(+), 1 deletion(-)
 
-  https://gitlab.com/bonzini/qemu.git tags/for-upstream
-
-for you to fetch changes up to c117e5b11a21598205f1701a15965e825959d59f:
-
-  target/i386: Use X86Seg enum for segment registers (2021-01-12 17:05:10 +0100)
-
-----------------------------------------------------------------
-* UI configury cleanups and Meson conversion
-* scripts/gdb improvements
-* WHPX cleanups and fixes
-* cirrus win32 CI improvements
-* meson gnutls workaround
-
-----------------------------------------------------------------
-Chris Hofstaedtler (1):
-      meson: fix Cocoa option in summary
-
-Hannes Reinecke (1):
-      virtio-scsi: trace events
-
-Keqian Zhu (1):
-      Docs/RCU: Correct sample code of qatomic_rcu_set
-
-Maxim Levitsky (2):
-      scripts/gdb: fix 'qemu coroutine' when users selects a non topmost stack frame
-      scripts/gdb: implement 'qemu bt'
-
-Paolo Bonzini (9):
-      meson: do not use CONFIG_VIRTFS
-      whpx: rename whp-dispatch to whpx-internal.h
-      whpx: move internal definitions to whpx-internal.h
-      cocoa: do not enable coreaudio automatically
-      gtk: remove CONFIG_GTK_GL
-      configure: move X11 detection to Meson
-      configure: move GTK+ detection to Meson
-      configure: move Cocoa incompatibility checks to Meson
-      configure: quote command line arguments in config.status
-
-Philippe Mathieu-Daudé (1):
-      target/i386: Use X86Seg enum for segment registers
-
-Roman Bolshakov (1):
-      meson: Propagate gnutls dependency
-
-Yonggang Luo (4):
-      cirrus/msys2: Exit powershell with $LastExitCode
-      cirrus/msys2: Cache msys2 mingw in a better way.
-      maintainers: Add me as Windows Hosted Continuous Integration maintainer
-      whpx: move whpx_lapic_state from header to c file
-
- .cirrus.yml                                        | 119 ++++++++++++---------
- MAINTAINERS                                        |   6 ++
- block/meson.build                                  |   2 +-
- configure                                          |  93 ++--------------
- docs/devel/rcu.txt                                 |   2 +-
- fsdev/meson.build                                  |   2 +-
- hw/scsi/trace-events                               |   9 ++
- hw/scsi/virtio-scsi.c                              |  30 +++++-
- include/sysemu/whpx.h                              |  22 +---
- io/meson.build                                     |   2 +-
- meson.build                                        |  57 ++++++----
- meson_options.txt                                  |   2 +
- scripts/qemu-gdb.py                                |   1 +
- scripts/qemugdb/coroutine.py                       |  35 +++++-
- storage-daemon/meson.build                         |   2 +-
- target/i386/cpu.h                                  |   4 +-
- target/i386/gdbstub.c                              |   2 +-
- target/i386/tcg/seg_helper.c                       |   8 +-
- target/i386/tcg/translate.c                        |   6 +-
- target/i386/whpx/whpx-all.c                        |   9 +-
- target/i386/whpx/whpx-apic.c                       |   9 +-
- target/i386/whpx/whpx-cpus.c                       |   4 +-
- .../i386/whpx/{whp-dispatch.h => whpx-internal.h}  |  17 ++-
- tests/meson.build                                  |   6 +-
- tests/qtest/meson.build                            |   4 +-
- ui/gtk.c                                           |  16 +--
- ui/meson.build                                     |  11 +-
- 27 files changed, 261 insertions(+), 219 deletions(-)
- rename target/i386/whpx/{whp-dispatch.h => whpx-internal.h} (93%)
+diff --git a/scripts/qemu-gdb.py b/scripts/qemu-gdb.py
+index e0bfa7b5a4..4d2a9f6c43 100644
+--- a/scripts/qemu-gdb.py
++++ b/scripts/qemu-gdb.py
+@@ -40,6 +40,7 @@ timers.TimersCommand()
+ 
+ coroutine.CoroutineSPFunction()
+ coroutine.CoroutinePCFunction()
++coroutine.CoroutineBt()
+ 
+ # Default to silently passing through SIGUSR1, because QEMU sends it
+ # to itself a lot.
+diff --git a/scripts/qemugdb/coroutine.py b/scripts/qemugdb/coroutine.py
+index e1399211e6..7db46d4b68 100644
+--- a/scripts/qemugdb/coroutine.py
++++ b/scripts/qemugdb/coroutine.py
+@@ -88,8 +88,11 @@ def bt_jmpbuf(jmpbuf):
+ 
+     selected_frame.select()
+ 
++def co_cast(co):
++    return co.cast(gdb.lookup_type('CoroutineUContext').pointer())
++
+ def coroutine_to_jmpbuf(co):
+-    coroutine_pointer = co.cast(gdb.lookup_type('CoroutineUContext').pointer())
++    coroutine_pointer = co_cast(co)
+     return coroutine_pointer['env']['__jmpbuf']
+ 
+ 
+@@ -107,6 +110,29 @@ class CoroutineCommand(gdb.Command):
+ 
+         bt_jmpbuf(coroutine_to_jmpbuf(gdb.parse_and_eval(argv[0])))
+ 
++class CoroutineBt(gdb.Command):
++    '''Display backtrace including coroutine switches'''
++    def __init__(self):
++        gdb.Command.__init__(self, 'qemu bt', gdb.COMMAND_STACK,
++                             gdb.COMPLETE_NONE)
++
++    def invoke(self, arg, from_tty):
++
++        gdb.execute("bt")
++
++        if gdb.parse_and_eval("qemu_in_coroutine()") == False:
++            return
++
++        co_ptr = gdb.parse_and_eval("qemu_coroutine_self()")
++
++        while True:
++            co = co_cast(co_ptr)
++            co_ptr = co["base"]["caller"]
++            if co_ptr == 0:
++                break
++            gdb.write("Coroutine at " + str(co_ptr) + ":\n")
++            bt_jmpbuf(coroutine_to_jmpbuf(co_ptr))
++
+ class CoroutineSPFunction(gdb.Function):
+     def __init__(self):
+         gdb.Function.__init__(self, 'qemu_coroutine_sp')
 -- 
 2.29.2
+
 
 
