@@ -2,83 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D73832F363B
-	for <lists+qemu-devel@lfdr.de>; Tue, 12 Jan 2021 17:55:59 +0100 (CET)
-Received: from localhost ([::1]:54712 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0DC4C2F365E
+	for <lists+qemu-devel@lfdr.de>; Tue, 12 Jan 2021 18:01:46 +0100 (CET)
+Received: from localhost ([::1]:34706 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kzMxa-0007kV-VY
-	for lists+qemu-devel@lfdr.de; Tue, 12 Jan 2021 11:55:59 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57740)
+	id 1kzN3A-00034J-Qr
+	for lists+qemu-devel@lfdr.de; Tue, 12 Jan 2021 12:01:44 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58666)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1kzMvv-00070G-Oj
- for qemu-devel@nongnu.org; Tue, 12 Jan 2021 11:54:15 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:39002)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1kzMvs-0005aA-K0
- for qemu-devel@nongnu.org; Tue, 12 Jan 2021 11:54:15 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1610470450;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=bGHAPi2t51r5n5A2jmtc3ypL9s1SnQD5AFgAeLZmfX8=;
- b=eybYV4BUw9VJ3dk/lWDxiO0zwA9DVAqPJrLI8pHghPceCdDj8AWvDhPsFwiioAUTKTKkff
- TrTfJ39OZzCPfOR3cehiiqSIOUNP5i0B6CWR9q0meMoIz1TokZG+xKoVnwK9H+f8WxiiXA
- zOVPW8t2aanzS+PTTE3WcuCTOEhtAnA=
-Received: from mail-pg1-f197.google.com (mail-pg1-f197.google.com
- [209.85.215.197]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-594--exVPoOdNp6-euroBhQw1w-1; Tue, 12 Jan 2021 11:54:08 -0500
-X-MC-Unique: -exVPoOdNp6-euroBhQw1w-1
-Received: by mail-pg1-f197.google.com with SMTP id 18so2009738pgp.22
- for <qemu-devel@nongnu.org>; Tue, 12 Jan 2021 08:54:08 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1kzMzV-0001Q0-D0
+ for qemu-devel@nongnu.org; Tue, 12 Jan 2021 11:57:57 -0500
+Received: from mail-wr1-x429.google.com ([2a00:1450:4864:20::429]:37794)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1kzMzS-0006v7-6S
+ for qemu-devel@nongnu.org; Tue, 12 Jan 2021 11:57:56 -0500
+Received: by mail-wr1-x429.google.com with SMTP id i9so3239763wrc.4
+ for <qemu-devel@nongnu.org>; Tue, 12 Jan 2021 08:57:53 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=from:to:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=b60faFjynFuGhvGHbbTD6kAorHJJFmjBjdmrPqPG5i8=;
+ b=ioYqWr4Xmk/Z16DOSgdk3oaVFzxd7yIuGMHfA3piI1xkXkf16iQ4x2XTCZ55AvDkNq
+ xFZq4bCmAHIjFnadcBt7F1gm1QHPNgYczUwaDH3HhT+eNtOxesFsWhJAjINZzuxPi52/
+ rleDriRUlxoyUdfZwNszXdj5q+zZvTUZmequ0KfHXM+uWWkxYulSHE5I6TxXmgogTtF5
+ 8wNjzRBRdPB6d8gLmbmxmZYL5KldVQ5LKWF1atExWpkZgeL9hJCEBAAjR9bgfEsCSIXG
+ XXbRZaEmSDcJbKp0E8Mp2QRbex/UUhIQFuQTs+B7Ssc8DLKuBndRLpfCl+sHVaFHVuxX
+ Qx5g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=bGHAPi2t51r5n5A2jmtc3ypL9s1SnQD5AFgAeLZmfX8=;
- b=aYmcvC89kPEnFRN+44zt52EJU7/GaGB6Grn7GHmhBjrYY9EQzFMzSxy/BZjCiBTzSt
- vtxEuxHhOH5DFPhASJImkBA28l7xoBwrmvRVaoJM4UwdlSSqYhqWsRPHM0O+fGnyq6Vm
- 8aDrjiu3uphnAQU38n/7RBN5Gf16YAH5RHHD2Ga+XE21MoiYUcYfC5zh+zgOGUlI1tEI
- eLnLc8eHzvPqER179Q0qbYiNsEsQdMMRs/r+tc/MvALrW2tRKZT1gcDKm/QH33MIf4l/
- PCTNxHz9HdpDhMJCLraN4+X9lEBFMbNPQuUHYrVNw/KxOhG2gzfOtIm9mNSxVbaupyg4
- +p0w==
-X-Gm-Message-State: AOAM5331rwISYiob0ZunmBBr0x1wYqmAZXW4yz4CVmNZwLDWINZSr5/I
- kJDk7TEfIoM2ZK5nWqHmzDrfMJmPr3ChYNiSvt9FYT1psBjZ3jfB1vdi5E55Z8i5d37tMGcvLPo
- 16fqW7hfbsc5IxHQcE2bpNF74nl2Z8To=
-X-Received: by 2002:a17:902:6903:b029:da:f458:798c with SMTP id
- j3-20020a1709026903b02900daf458798cmr297163plk.68.1610470447027; 
- Tue, 12 Jan 2021 08:54:07 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJxvg66/GvN5MgOb9lCaKSUf4ACWhO9+eIeHZhBeRY1B8xSr1kFuu6TjLCcqgIXGMuFpJLIdBsFKp37l47R74c0=
-X-Received: by 2002:a17:902:6903:b029:da:f458:798c with SMTP id
- j3-20020a1709026903b02900daf458798cmr297140plk.68.1610470446683; Tue, 12 Jan
- 2021 08:54:06 -0800 (PST)
+ h=x-gm-message-state:from:to:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=b60faFjynFuGhvGHbbTD6kAorHJJFmjBjdmrPqPG5i8=;
+ b=cA33sEluOE1ny8nERkitMvOax/1rpgs/oZXOWlNBYlZ9e/4Rf8SHqDudF3mIC9eLJh
+ b9jynGg6JpD6C+q9FZ058R1sm2IKCJZNY6JyDGZzHNcnUX4Q+1Q2u8ZD69I0I3BOZ4kh
+ wKNpZsz3mcnRCyrKGmUs6U/MjCNjWhskAS0HRfGNiLhrZs07tcpSPRjaIUwussqAGOZr
+ y8hyGvS5g1zPHOJQXnTiV5N5fYuNciVpYI0Rk0e6EZ/d1jXy+cwEwvQ0WmKa+YDVGr4v
+ 2DOVa+0rOokKsoEyoIMbJ1zYyMHtCxBXon84UKvp/Hc9IjtlMeXiueDFMLAovSNgXomB
+ AGFA==
+X-Gm-Message-State: AOAM5337C2as11G8+/kYhY70P9U1Sk3LlD8lDb2W0Ybto2+vmaknxYzB
+ u3HRft7ASvT01M2/GbY9O68Y0CPCD+zW2g==
+X-Google-Smtp-Source: ABdhPJyha0xHTedVBC05fxZMoaDg+IAMF+qnypWBh3PfNsMlmfGvmJNBkfrKPiK8ZtB5F31SHUW98Q==
+X-Received: by 2002:adf:e552:: with SMTP id z18mr5496625wrm.29.1610470672205; 
+ Tue, 12 Jan 2021 08:57:52 -0800 (PST)
+Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
+ by smtp.gmail.com with ESMTPSA id i18sm6210083wrp.74.2021.01.12.08.57.51
+ for <qemu-devel@nongnu.org>
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 12 Jan 2021 08:57:51 -0800 (PST)
+From: Peter Maydell <peter.maydell@linaro.org>
+To: qemu-devel@nongnu.org
+Subject: [PULL 00/21] target-arm queue
+Date: Tue, 12 Jan 2021 16:57:29 +0000
+Message-Id: <20210112165750.30475-1-peter.maydell@linaro.org>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-References: <abd662c1-9a4a-9c77-6533-875ab1924695@0bits.com>
- <c9b36f34-8783-9c11-ffb9-afd25fdf9ac0@redhat.com>
- <428592f1-a5fd-7e6a-f181-28f31343518a@0bits.com>
-In-Reply-To: <428592f1-a5fd-7e6a-f181-28f31343518a@0bits.com>
-From: Paolo Bonzini <pbonzini@redhat.com>
-Date: Tue, 12 Jan 2021 17:53:55 +0100
-Message-ID: <CABgObfaZECGDvgsvebx44h84okDMKWZFw1ZtqcXk8W9SaD38Zg@mail.gmail.com>
-Subject: Re: absolute firmware path made relocatable in qemu 5.2.0
-To: Dave <dave@0bits.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=pbonzini@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: multipart/alternative; boundary="000000000000e570cd05b8b6de76"
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=pbonzini@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -29
-X-Spam_score: -3.0
-X-Spam_bar: ---
-X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.251,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- HTML_MESSAGE=0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::429;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x429.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -92,189 +82,128 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---000000000000e570cd05b8b6de76
-Content-Type: text/plain; charset="UTF-8"
+Arm queue; not huge but I figured I might as well send it out since
+I've been doing code review today and there's no queue of unprocessed
+pullreqs...
 
-Il mar 12 gen 2021, 17:48 Dave <dave@0bits.com> ha scritto:
+thanks
+-- PMM
 
-> Hi Paolo,
->
-> While this (option 2) partially works, it will still search for
-> /nonexistent/libexec/qemu-bridge-helper for example so seems that some
-> paths are still absolute and some relative.
->
+The following changes since commit b3f846c59d8405bb87c551187721fc92ff2f1b92:
 
-Ok, that's a bug that can be fixed in 5.2.1. Are there other instances?
+  Merge remote-tracking branch 'remotes/huth-gitlab/tags/pull-request-2021-01-11v2' into staging (2021-01-11 15:15:35 +0000)
 
+are available in the Git repository at:
 
-> To explain, what we are expecting that we compile one binary with the
-> relevant options, test that and then it goes into production. If we
-> compile with --prefix=/usr (it's final resting place will be /usr/bin)
-> then everything works as expected once it is in production (since
-> /usr/share/qemu, /usr/libexec, /etc/qemu exists as expected).  However
-> when we are testing the binary in a directory /root/qemu/5.2.0 with
-> --prefix=/usr it breaks since it converts the firmware and bios paths to
-> /root/qemu/5.2.0/../share/qemu. This means we need to recompile twice
-> with relevant prefixes since if i use --prefix=/nonexistent then we
-> can't find the qemu-bridge-helper when the binary goes into production.
->
-> It would be nicer with the relocatable binary took some fixed paths from
-> /etc/qemu.conf for the bridge-helper, firmware, bios, qemu-ifup/down.
->
-> thanks
-> Dave
->
->
-> On 12/01/2021 18:48, Paolo Bonzini wrote:
-> > On 12/01/21 15:05, Dave wrote:
-> >> Is seem that absolute firmwarepath compilation option is converted  to
-> >> relocatable in 5.2.0 qemu.
-> >>
-> >> # QEMU configure log Tue 12 Jan 14:46:41 GST 2021
-> >> # Configured with: '../configure' '--prefix=/usr'
-> >> '--sysconfdir=/etc/qemu' '--disable-bochs'
-> >> '*--firmwarepath=/usr/share/qemu:/usr/share/qemu-firmware*'
-> >> #
-> >
-> > Yes, all paths within the prefix are relocated.  The workaround is
-> > simply to configure the intended prefix with configure:
-> >
-> > ./configure --prefix=/root/qemu ...
-> >
-> > or if you don't know the prefix:
-> >
-> > ./configure --prefix=/nonexistent ...
-> >
-> > Because /usr/share/qemu and /usr/share/qemu-firmware are outside /usr,
-> > they will be treated as absolute just like /etc/qemu.
-> >
-> > Thanks,
-> >
-> > Paolo
-> >
-> >> And trying to run the executable
-> >>
-> >>     bash-5.1# ./qemu-system-x86_64
-> >>     qemu: could not load PC BIOS 'bios-256k.bin'
-> >>
-> >> If i print out the resultant binary paths
-> >>
-> >>     bash-5.1# ./qemu-system-x86_64 -L help
-> >>     /root/qemu/../share/qemu
-> >>     /root/qemu/../share/qemu-firmware
-> >>
-> >> So there is no way to have a absolute path for firmware /bios and all
-> >> qemu's that we test need to be at the right directory nesting to find
-> >> firmware, bios etc or else they all need their own duplicate firmware
-> >> files. Firmware path needs to honor the absolute paths i believe.
-> >>
-> >
->
->
+  https://git.linaro.org/people/pmaydell/qemu-arm.git tags/pull-target-arm-20210112
 
---000000000000e570cd05b8b6de76
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+for you to fetch changes up to 19d131395ccaf503db21dadd8257e6dc9fc1d7de:
 
-<div dir=3D"auto"><div><br><br><div class=3D"gmail_quote"><div dir=3D"ltr" =
-class=3D"gmail_attr">Il mar 12 gen 2021, 17:48 Dave &lt;<a href=3D"mailto:d=
-ave@0bits.com" target=3D"_blank" rel=3D"noreferrer">dave@0bits.com</a>&gt; =
-ha scritto:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0 0 =
-0 .8ex;border-left:1px #ccc solid;padding-left:1ex">Hi Paolo,<br>
-<br>
-While this (option 2) partially works, it will still search for <br>
-/nonexistent/libexec/qemu-bridge-helper for example so seems that some <br>
-paths are still absolute and some relative.<br></blockquote></div></div><di=
-v dir=3D"auto"><br></div><div dir=3D"auto">Ok, that&#39;s a bug that can be=
- fixed in 5.2.1. Are there other instances?</div><div dir=3D"auto"><br></di=
-v><div dir=3D"auto"><div class=3D"gmail_quote"><blockquote class=3D"gmail_q=
-uote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1e=
-x">
-<br>
-To explain, what we are expecting that we compile one binary with the <br>
-relevant options, test that and then it goes into production. If we <br>
-compile with --prefix=3D/usr (it&#39;s final resting place will be /usr/bin=
-) <br>
-then everything works as expected once it is in production (since <br>
-/usr/share/qemu, /usr/libexec, /etc/qemu exists as expected).=C2=A0 However=
- <br>
-when we are testing the binary in a directory /root/qemu/5.2.0 with <br>
---prefix=3D/usr it breaks since it converts the firmware and bios paths to =
-<br>
-/root/qemu/5.2.0/../share/qemu. This means we need to recompile twice <br>
-with relevant prefixes since if i use --prefix=3D/nonexistent then we <br>
-can&#39;t find the qemu-bridge-helper when the binary goes into production.=
-<br>
-<br>
-It would be nicer with the relocatable binary took some fixed paths from <b=
-r>
-/etc/qemu.conf for the bridge-helper, firmware, bios, qemu-ifup/down.<br>
-<br>
-thanks<br>
-Dave<br>
-<br>
-<br>
-On 12/01/2021 18:48, Paolo Bonzini wrote:<br>
-&gt; On 12/01/21 15:05, Dave wrote:<br>
-&gt;&gt; Is seem that absolute firmwarepath compilation option is converted=
-=C2=A0 to <br>
-&gt;&gt; relocatable in 5.2.0 qemu.<br>
-&gt;&gt;<br>
-&gt;&gt; # QEMU configure log Tue 12 Jan 14:46:41 GST 2021<br>
-&gt;&gt; # Configured with: &#39;../configure&#39; &#39;--prefix=3D/usr&#39=
-; <br>
-&gt;&gt; &#39;--sysconfdir=3D/etc/qemu&#39; &#39;--disable-bochs&#39; <br>
-&gt;&gt; &#39;*--firmwarepath=3D/usr/share/qemu:/usr/share/qemu-firmware*&#=
-39;<br>
-&gt;&gt; #<br>
-&gt; <br>
-&gt; Yes, all paths within the prefix are relocated.=C2=A0 The workaround i=
-s <br>
-&gt; simply to configure the intended prefix with configure:<br>
-&gt; <br>
-&gt; ./configure --prefix=3D/root/qemu ...<br>
-&gt; <br>
-&gt; or if you don&#39;t know the prefix:<br>
-&gt; <br>
-&gt; ./configure --prefix=3D/nonexistent ...<br>
-&gt; <br>
-&gt; Because /usr/share/qemu and /usr/share/qemu-firmware are outside /usr,=
- <br>
-&gt; they will be treated as absolute just like /etc/qemu.<br>
-&gt; <br>
-&gt; Thanks,<br>
-&gt; <br>
-&gt; Paolo<br>
-&gt; <br>
-&gt;&gt; And trying to run the executable<br>
-&gt;&gt;<br>
-&gt;&gt; =C2=A0=C2=A0=C2=A0 bash-5.1# ./qemu-system-x86_64<br>
-&gt;&gt; =C2=A0=C2=A0=C2=A0 qemu: could not load PC BIOS &#39;bios-256k.bin=
-&#39;<br>
-&gt;&gt;<br>
-&gt;&gt; If i print out the resultant binary paths<br>
-&gt;&gt;<br>
-&gt;&gt; =C2=A0=C2=A0=C2=A0 bash-5.1# ./qemu-system-x86_64 -L help<br>
-&gt;&gt; =C2=A0=C2=A0=C2=A0 /root/qemu/../share/qemu<br>
-&gt;&gt; =C2=A0=C2=A0=C2=A0 /root/qemu/../share/qemu-firmware<br>
-&gt;&gt;<br>
-&gt;&gt; So there is no way to have a absolute path for firmware /bios and =
-all <br>
-&gt;&gt; qemu&#39;s that we test need to be at the right directory nesting =
-to find <br>
-&gt;&gt; firmware, bios etc or else they all need their own duplicate firmw=
-are <br>
-&gt;&gt; files. Firmware path needs to honor the absolute paths i believe.<=
-br>
-&gt;&gt;<br>
-&gt; <br>
-<br>
-</blockquote></div></div></div>
+  ui/cocoa: Fix openFile: deprecation on Big Sur (2021-01-12 11:38:37 +0000)
 
---000000000000e570cd05b8b6de76--
+----------------------------------------------------------------
+target-arm queue:
+ * arm: Support emulation of ARMv8.4-TTST extension
+ * arm: Update cpu.h ID register field definitions
+ * arm: Fix breakage of XScale instruction emulation
+ * hw/net/lan9118: Fix RX Status FIFO PEEK value
+ * npcm7xx: Add ADC and PWM emulation
+ * ui/cocoa: Make "open docs" help menu entry work again when binary
+   is run from the build tree
+ * ui/cocoa: Fix openFile: deprecation on Big Sur
+ * docs: Add qemu-storage-daemon(1) manpage to meson.build
+ * docs: Build and install all the docs in a single manual
 
+----------------------------------------------------------------
+Hao Wu (6):
+      hw/misc: Add clock converter in NPCM7XX CLK module
+      hw/timer: Refactor NPCM7XX Timer to use CLK clock
+      hw/adc: Add an ADC module for NPCM7XX
+      hw/misc: Add a PWM module for NPCM7XX
+      hw/misc: Add QTest for NPCM7XX PWM Module
+      hw/*: Use type casting for SysBusDevice in NPCM7XX
+
+Leif Lindholm (6):
+      target/arm: fix typo in cpu.h ID_AA64PFR1 field name
+      target/arm: make ARMCPU.clidr 64-bit
+      target/arm: make ARMCPU.ctr 64-bit
+      target/arm: add descriptions of CLIDR_EL1, CCSIDR_EL1, CTR_EL0 to cpu.h
+      target/arm: add aarch64 ID register fields to cpu.h
+      target/arm: add aarch32 ID register fields to cpu.h
+
+Peter Maydell (5):
+      docs: Add qemu-storage-daemon(1) manpage to meson.build
+      docs: Build and install all the docs in a single manual
+      target/arm: Don't decode insns in the XScale/iWMMXt space as cp insns
+      hw/net/lan9118: Fix RX Status FIFO PEEK value
+      hw/net/lan9118: Add symbolic constants for register offsets
+
+Roman Bolshakov (2):
+      ui/cocoa: Update path to docs in build tree
+      ui/cocoa: Fix openFile: deprecation on Big Sur
+
+Rémi Denis-Courmont (2):
+      target/arm: ARMv8.4-TTST extension
+      target/arm: enable Small Translation tables in max CPU
+
+ docs/conf.py                     |  46 ++-
+ docs/devel/conf.py               |  15 -
+ docs/index.html.in               |  17 -
+ docs/interop/conf.py             |  28 --
+ docs/meson.build                 |  65 ++--
+ docs/specs/conf.py               |  16 -
+ docs/system/arm/nuvoton.rst      |   4 +-
+ docs/system/conf.py              |  28 --
+ docs/tools/conf.py               |  37 --
+ docs/user/conf.py                |  15 -
+ meson.build                      |   1 +
+ hw/adc/trace.h                   |   1 +
+ include/hw/adc/npcm7xx_adc.h     |  69 ++++
+ include/hw/arm/npcm7xx.h         |   4 +
+ include/hw/misc/npcm7xx_clk.h    | 146 ++++++-
+ include/hw/misc/npcm7xx_pwm.h    | 105 +++++
+ include/hw/timer/npcm7xx_timer.h |   1 +
+ target/arm/cpu.h                 |  85 ++++-
+ hw/adc/npcm7xx_adc.c             | 301 +++++++++++++++
+ hw/arm/npcm7xx.c                 |  55 ++-
+ hw/arm/npcm7xx_boards.c          |   2 +-
+ hw/mem/npcm7xx_mc.c              |   2 +-
+ hw/misc/npcm7xx_clk.c            | 807 ++++++++++++++++++++++++++++++++++++++-
+ hw/misc/npcm7xx_gcr.c            |   2 +-
+ hw/misc/npcm7xx_pwm.c            | 550 ++++++++++++++++++++++++++
+ hw/misc/npcm7xx_rng.c            |   2 +-
+ hw/net/lan9118.c                 |  26 +-
+ hw/nvram/npcm7xx_otp.c           |   2 +-
+ hw/ssi/npcm7xx_fiu.c             |   2 +-
+ hw/timer/npcm7xx_timer.c         |  39 +-
+ target/arm/cpu64.c               |   1 +
+ target/arm/helper.c              |  15 +-
+ target/arm/translate.c           |   7 +
+ tests/qtest/npcm7xx_adc-test.c   | 377 ++++++++++++++++++
+ tests/qtest/npcm7xx_pwm-test.c   | 490 ++++++++++++++++++++++++
+ hw/adc/meson.build               |   1 +
+ hw/adc/trace-events              |   5 +
+ hw/misc/meson.build              |   1 +
+ hw/misc/trace-events             |   6 +
+ tests/qtest/meson.build          |   4 +-
+ ui/cocoa.m                       |   7 +-
+ 41 files changed, 3124 insertions(+), 263 deletions(-)
+ delete mode 100644 docs/devel/conf.py
+ delete mode 100644 docs/index.html.in
+ delete mode 100644 docs/interop/conf.py
+ delete mode 100644 docs/specs/conf.py
+ delete mode 100644 docs/system/conf.py
+ delete mode 100644 docs/tools/conf.py
+ delete mode 100644 docs/user/conf.py
+ create mode 100644 hw/adc/trace.h
+ create mode 100644 include/hw/adc/npcm7xx_adc.h
+ create mode 100644 include/hw/misc/npcm7xx_pwm.h
+ create mode 100644 hw/adc/npcm7xx_adc.c
+ create mode 100644 hw/misc/npcm7xx_pwm.c
+ create mode 100644 tests/qtest/npcm7xx_adc-test.c
+ create mode 100644 tests/qtest/npcm7xx_pwm-test.c
+ create mode 100644 hw/adc/trace-events
 
