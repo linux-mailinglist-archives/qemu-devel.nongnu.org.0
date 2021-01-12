@@ -2,44 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B69462F2D98
-	for <lists+qemu-devel@lfdr.de>; Tue, 12 Jan 2021 12:11:50 +0100 (CET)
-Received: from localhost ([::1]:55272 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D95A32F2DD7
+	for <lists+qemu-devel@lfdr.de>; Tue, 12 Jan 2021 12:25:08 +0100 (CET)
+Received: from localhost ([::1]:43042 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kzHaX-00056k-Ou
-	for lists+qemu-devel@lfdr.de; Tue, 12 Jan 2021 06:11:49 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53036)
+	id 1kzHnP-0006It-O0
+	for lists+qemu-devel@lfdr.de; Tue, 12 Jan 2021 06:25:07 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53190)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <remi@remlab.net>)
- id 1kzHBV-0003vv-ME; Tue, 12 Jan 2021 05:45:57 -0500
-Received: from poy.remlab.net ([2001:41d0:2:5a1a::]:56722
- helo=ns207790.ip-94-23-215.eu)
- by eggs.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <remi@remlab.net>)
- id 1kzHBQ-0003Sw-UU; Tue, 12 Jan 2021 05:45:57 -0500
-Received: from basile.remlab.net (ip6-localhost [IPv6:::1])
- by ns207790.ip-94-23-215.eu (Postfix) with ESMTP id DFF9B60605;
- Tue, 12 Jan 2021 11:45:15 +0100 (CET)
-From: remi.denis.courmont@huawei.com
-To: qemu-arm@nongnu.org
-Subject: [PATCH 17/19] target/arm: add ARMv8.4-SEL2 extension
-Date: Tue, 12 Jan 2021 12:45:09 +0200
-Message-Id: <20210112104511.36576-17-remi.denis.courmont@huawei.com>
-X-Mailer: git-send-email 2.30.0
-In-Reply-To: <12681824.uLZWGnKmhe@basile.remlab.net>
-References: <12681824.uLZWGnKmhe@basile.remlab.net>
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1kzHBx-0004TX-6N
+ for qemu-devel@nongnu.org; Tue, 12 Jan 2021 05:46:25 -0500
+Received: from mail-ed1-x532.google.com ([2a00:1450:4864:20::532]:38292)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1kzHBv-0003mn-1B
+ for qemu-devel@nongnu.org; Tue, 12 Jan 2021 05:46:24 -0500
+Received: by mail-ed1-x532.google.com with SMTP id w10so840753edu.5
+ for <qemu-devel@nongnu.org>; Tue, 12 Jan 2021 02:46:22 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=bZLwrZ3xxdQz7uKoyvX1GiJCdl4sjF6OsI7zd0fu4rU=;
+ b=eAVVUDtr9wGPdzlYYg+Hui3CJh3BU9Q5DyppwGfYEnhbFnSZNPV0M//NYInKK+kHVy
+ Ei3Nu+u+2+9WES8MNTCNArTK/U9uAU0m4rgFVo59HhWGjZBMt48B5kt3E9LDoLXo397V
+ QYUby8IhQhnmVPepdgy25Mqf8KHiETLRxu4ypqVKjPt5xIjfeCtCB3wz3buTCtJhWX5m
+ XO+OJJsnyf/U+XynaRpX4vldVhZg2QcLv7Kuy6yHqt+pY6GFn2yN0WhHxbFrcscrh9p8
+ VeZ18aKk47RxJVbzLf4pQwDe7XzbfBB/ZQSskinIwJkgrYvBzUTE579+wKgQdgxTFtT/
+ A97A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=bZLwrZ3xxdQz7uKoyvX1GiJCdl4sjF6OsI7zd0fu4rU=;
+ b=Leb3hvkdbJ1Ug9nV4WrleSb/Y3L5CqIAtYWY3RkJNg6ovcOELINQ4hP95TxB/s1/g3
+ YvYoPcvt4qOEGixi/pR8ZoUKd+swFax/eX/h0JiGsSlUGk9FiiuFMZYPMBZzrheb0Nvq
+ EfhlPYQf08SLlCeY9rZDlVfVCeI0DsM2Z2OO8IYlfOoGL3TWDymvb37rBHbUIi1/w0xZ
+ YT+W8yGj+QWYEkKDRPE/8ja+5fbkXnzTKf7Fo44N6y04gmz5MLWRYHH0lBPjHLoa76Mj
+ O6KYfDzFfqqkBmEPmbTVr+teq2fojo3q1jq/cRjvIXXju3udU+AWiXk643Wb6gKur8pm
+ 2CHg==
+X-Gm-Message-State: AOAM533UT8Hd+AM5i6c3tHS7ZsqFYhUv6VecnrfYNlEGhJZJY3XXlP2y
+ YRV+MBX107nwpHMAe6FN1+VxPpjE64yCuIgB8OgeHg==
+X-Google-Smtp-Source: ABdhPJx3tpUpoVT7CZqdWtJZfneCzOb0lsSPVvQWxLEhyBsWCMYILwf/7zi2Vj1Ar+QydaToXjjfNmlT+WhXu8MxP5o=
+X-Received: by 2002:a05:6402:366:: with SMTP id
+ s6mr2825367edw.44.1610448381006; 
+ Tue, 12 Jan 2021 02:46:21 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2001:41d0:2:5a1a::; envelope-from=remi@remlab.net;
- helo=ns207790.ip-94-23-215.eu
-X-Spam_score_int: -16
-X-Spam_score: -1.7
-X-Spam_bar: -
-X-Spam_report: (-1.7 / 5.0 requ) BAYES_00=-1.9,
- HEADER_FROM_DIFFERENT_DOMAINS=0.249, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+References: <20210110081429.10126-1-bmeng.cn@gmail.com>
+ <20210110081429.10126-7-bmeng.cn@gmail.com>
+In-Reply-To: <20210110081429.10126-7-bmeng.cn@gmail.com>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Tue, 12 Jan 2021 10:46:09 +0000
+Message-ID: <CAFEAcA-RPxLHSVuGDk=Wn-+2kGG6+L_VQfkiaGNEfJ8X1-Mkzg@mail.gmail.com>
+Subject: Re: [PATCH v4 6/6] hw/ssi: imx_spi: Correct tx and rx fifo endianness
+To: Bin Meng <bmeng.cn@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2a00:1450:4864:20::532;
+ envelope-from=peter.maydell@linaro.org; helo=mail-ed1-x532.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -52,157 +78,95 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel@nongnu.org
+Cc: Bin Meng <bin.meng@windriver.com>, QEMU Developers <qemu-devel@nongnu.org>,
+ =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>,
+ qemu-arm <qemu-arm@nongnu.org>, Alistair Francis <alistair.francis@wdc.com>,
+ Jean-Christophe Dubois <jcd@tribudubois.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Rémi Denis-Courmont <remi.denis.courmont@huawei.com>
+On Sun, 10 Jan 2021 at 08:15, Bin Meng <bmeng.cn@gmail.com> wrote:
+>
+> From: Bin Meng <bin.meng@windriver.com>
+>
+> The endianness of data exchange between tx and rx fifo is incorrect.
+> Earlier bytes are supposed to show up on MSB and later bytes on LSB,
+> ie: in big endian. The manual does not explicitly say this, but the
+> U-Boot and Linux driver codes have a swap on the data transferred
+> to tx fifo and from rx fifo.
+>
+> With this change, U-Boot read from / write to SPI flash tests pass.
+>
+>   => sf test 1ff000 1000
+>   SPI flash test:
+>   0 erase: 0 ticks, 4096000 KiB/s 32768.000 Mbps
+>   1 check: 3 ticks, 1333 KiB/s 10.664 Mbps
+>   2 write: 235 ticks, 17 KiB/s 0.136 Mbps
+>   3 read: 2 ticks, 2000 KiB/s 16.000 Mbps
+>   Test passed
+>   0 erase: 0 ticks, 4096000 KiB/s 32768.000 Mbps
+>   1 check: 3 ticks, 1333 KiB/s 10.664 Mbps
+>   2 write: 235 ticks, 17 KiB/s 0.136 Mbps
+>   3 read: 2 ticks, 2000 KiB/s 16.000 Mbps
+>
+> Fixes: c906a3a01582 ("i.MX: Add the Freescale SPI Controller")
+> Signed-off-by: Bin Meng <bin.meng@windriver.com>
+>
+> ---
+>
+> (no changes since v3)
+>
+> Changes in v3:
+> - Simplify the tx fifo endianness handling
+>
+>  hw/ssi/imx_spi.c | 7 ++-----
+>  1 file changed, 2 insertions(+), 5 deletions(-)
+>
+> diff --git a/hw/ssi/imx_spi.c b/hw/ssi/imx_spi.c
+> index 47c8a0f572..b5124a6426 100644
+> --- a/hw/ssi/imx_spi.c
+> +++ b/hw/ssi/imx_spi.c
+> @@ -171,7 +171,6 @@ static void imx_spi_flush_txfifo(IMXSPIState *s)
+>
+>      while (!fifo32_is_empty(&s->tx_fifo)) {
+>          int tx_burst = 0;
+> -        int index = 0;
+>
+>          if (s->burst_length <= 0) {
+>              s->burst_length = imx_spi_burst_length(s);
+> @@ -192,7 +191,7 @@ static void imx_spi_flush_txfifo(IMXSPIState *s)
+>          rx = 0;
+>
+>          while (tx_burst > 0) {
+> -            uint8_t byte = tx & 0xff;
+> +            uint8_t byte = tx >> (tx_burst - 8);
+>
+>              DPRINTF("writing 0x%02x\n", (uint32_t)byte);
+>
+> @@ -201,13 +200,11 @@ static void imx_spi_flush_txfifo(IMXSPIState *s)
+>
+>              DPRINTF("0x%02x read\n", (uint32_t)byte);
+>
+> -            tx = tx >> 8;
+> -            rx |= (byte << (index * 8));
+> +            rx = (rx << 8) | byte;
+>
+>              /* Remove 8 bits from the actual burst */
+>              tx_burst -= 8;
+>              s->burst_length -= 8;
+> -            index++;
+>          }
 
-This adds handling for the SCR_EL3.EEL2 bit.
+This version of the loop definitely looks a lot neater. However,
+looking at the code I don't think there's anything that forces the
+guest to set a burst length that's a multiple of 8, so you need
+to handle that somehow. Otherwise on the last time through the
+loop (tx_burst - 8) can be negative, which is undefined behaviour
+when you try to shift by it.
 
-Signed-off-by: Rémi Denis-Courmont <remi.denis.courmont@huawei.com>
----
- target/arm/cpu.c       |  2 +-
- target/arm/cpu.h       |  8 ++++++--
- target/arm/helper.c    | 19 ++++++++++++++++---
- target/arm/translate.c | 14 ++++++++++++--
- 4 files changed, 35 insertions(+), 8 deletions(-)
+I think just rounding tx_burst up to a multiple of 8 before
+the start of the loop would do the right thing ?
 
-diff --git a/target/arm/cpu.c b/target/arm/cpu.c
-index 5530874686..b85b644941 100644
---- a/target/arm/cpu.c
-+++ b/target/arm/cpu.c
-@@ -480,7 +480,7 @@ static inline bool arm_excp_unmasked(CPUState *cs, unsigned int excp_idx,
-              * masked from Secure state. The HCR and SCR settings
-              * don't affect the masking logic, only the interrupt routing.
-              */
--            if (target_el == 3 || !secure) {
-+            if (target_el == 3 || !secure || (env->cp15.scr_el3 & SCR_EEL2)) {
-                 unmasked = true;
-             }
-         } else {
-diff --git a/target/arm/cpu.h b/target/arm/cpu.h
-index e605791e47..df510114f6 100644
---- a/target/arm/cpu.h
-+++ b/target/arm/cpu.h
-@@ -2094,7 +2094,10 @@ static inline bool arm_is_secure(CPUARMState *env)
- static inline bool arm_is_el2_enabled(CPUARMState *env)
- {
-     if (arm_feature(env, ARM_FEATURE_EL2)) {
--        return !arm_is_secure_below_el3(env);
-+        if (arm_is_secure_below_el3(env)) {
-+            return (env->cp15.scr_el3 & SCR_EEL2) != 0;
-+        }
-+        return true;
-     }
-     return false;
- }
-@@ -2141,7 +2144,8 @@ static inline bool arm_el_is_aa64(CPUARMState *env, int el)
-         return aa64;
-     }
- 
--    if (arm_feature(env, ARM_FEATURE_EL3)) {
-+    if (arm_feature(env, ARM_FEATURE_EL3) &&
-+        ((env->cp15.scr_el3 & SCR_NS) || !(env->cp15.scr_el3 & SCR_EEL2))) {
-         aa64 = aa64 && (env->cp15.scr_el3 & SCR_RW);
-     }
- 
-diff --git a/target/arm/helper.c b/target/arm/helper.c
-index 7648f6fb97..32fc72d9ed 100644
---- a/target/arm/helper.c
-+++ b/target/arm/helper.c
-@@ -532,6 +532,9 @@ static CPAccessResult access_trap_aa32s_el1(CPUARMState *env,
-         return CP_ACCESS_OK;
-     }
-     if (arm_is_secure_below_el3(env)) {
-+        if (env->cp15.scr_el3 & SCR_EEL2) {
-+            return CP_ACCESS_TRAP_EL2;
-+        }
-         return CP_ACCESS_TRAP_EL3;
-     }
-     /* This will be EL1 NS and EL2 NS, which just UNDEF */
-@@ -2029,6 +2032,9 @@ static void scr_write(CPUARMState *env, const ARMCPRegInfo *ri, uint64_t value)
-         if (cpu_isar_feature(aa64_pauth, cpu)) {
-             valid_mask |= SCR_API | SCR_APK;
-         }
-+        if (cpu_isar_feature(aa64_sel2, cpu)) {
-+            valid_mask |= SCR_EEL2;
-+        }
-         if (cpu_isar_feature(aa64_mte, cpu)) {
-             valid_mask |= SCR_ATA;
-         }
-@@ -3387,13 +3393,16 @@ static CPAccessResult ats_access(CPUARMState *env, const ARMCPRegInfo *ri,
-                                  bool isread)
- {
-     if (ri->opc2 & 4) {
--        /* The ATS12NSO* operations must trap to EL3 if executed in
-+        /* The ATS12NSO* operations must trap to EL3 or EL2 if executed in
-          * Secure EL1 (which can only happen if EL3 is AArch64).
-          * They are simply UNDEF if executed from NS EL1.
-          * They function normally from EL2 or EL3.
-          */
-         if (arm_current_el(env) == 1) {
-             if (arm_is_secure_below_el3(env)) {
-+                if (env->cp15.scr_el3 & SCR_EEL2) {
-+                    return CP_ACCESS_TRAP_UNCATEGORIZED_EL2;
-+                }
-                 return CP_ACCESS_TRAP_UNCATEGORIZED_EL3;
-             }
-             return CP_ACCESS_TRAP_UNCATEGORIZED;
-@@ -3656,7 +3665,8 @@ static void ats1h_write(CPUARMState *env, const ARMCPRegInfo *ri,
- static CPAccessResult at_s1e2_access(CPUARMState *env, const ARMCPRegInfo *ri,
-                                      bool isread)
- {
--    if (arm_current_el(env) == 3 && !(env->cp15.scr_el3 & SCR_NS)) {
-+    if (arm_current_el(env) == 3 &&
-+        !(env->cp15.scr_el3 & (SCR_NS | SCR_EEL2))) {
-         return CP_ACCESS_TRAP;
-     }
-     return CP_ACCESS_OK;
-@@ -5755,12 +5765,15 @@ static CPAccessResult nsacr_access(CPUARMState *env, const ARMCPRegInfo *ri,
-                                    bool isread)
- {
-     /* The NSACR is RW at EL3, and RO for NS EL1 and NS EL2.
--     * At Secure EL1 it traps to EL3.
-+     * At Secure EL1 it traps to EL3 or EL2.
-      */
-     if (arm_current_el(env) == 3) {
-         return CP_ACCESS_OK;
-     }
-     if (arm_is_secure_below_el3(env)) {
-+        if (env->cp15.scr_el3 & SCR_EEL2) {
-+            return CP_ACCESS_TRAP_EL2;
-+        }
-         return CP_ACCESS_TRAP_EL3;
-     }
-     /* Accesses from EL1 NS and EL2 NS are UNDEF for write but allow reads. */
-diff --git a/target/arm/translate.c b/target/arm/translate.c
-index 8b6b7355c9..688cd41684 100644
---- a/target/arm/translate.c
-+++ b/target/arm/translate.c
-@@ -2832,9 +2832,19 @@ static bool msr_banked_access_decode(DisasContext *s, int r, int sysm, int rn,
-         }
-         if (s->current_el == 1) {
-             /* If we're in Secure EL1 (which implies that EL3 is AArch64)
--             * then accesses to Mon registers trap to EL3
-+             * then accesses to Mon registers trap to Secure EL2, if it exists,
-+             * otherwise EL3.
-              */
--            TCGv_i32 tcg_el = tcg_const_i32(3);
-+            TCGv_i32 tcg_el;
-+
-+            if (dc_isar_feature(aa64_sel2, s)) {
-+                /* Target EL is EL<3 minus SCR_EL3.EEL2> */
-+                tcg_el = load_cpu_field(cp15.scr_el3);
-+                tcg_gen_sextract_i32(tcg_el, tcg_el, ctz32(SCR_EEL2), 1);
-+                tcg_gen_addi_i32(tcg_el, tcg_el, 3);
-+            } else {
-+                tcg_el = tcg_const_i32(3);
-+            }
- 
-             gen_exception_el(s, EXCP_UDEF, syn_uncategorized(), tcg_el);
-             tcg_temp_free_i32(tcg_el);
--- 
-2.30.0
-
+thanks
+-- PMM
 
