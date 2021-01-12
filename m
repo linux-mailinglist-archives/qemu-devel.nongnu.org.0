@@ -2,76 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DE4272F2943
-	for <lists+qemu-devel@lfdr.de>; Tue, 12 Jan 2021 08:54:25 +0100 (CET)
-Received: from localhost ([::1]:45466 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8B9E52F293A
+	for <lists+qemu-devel@lfdr.de>; Tue, 12 Jan 2021 08:52:13 +0100 (CET)
+Received: from localhost ([::1]:39816 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kzEVV-0005dI-04
-	for lists+qemu-devel@lfdr.de; Tue, 12 Jan 2021 02:54:25 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40516)
+	id 1kzETM-0003CD-Gq
+	for lists+qemu-devel@lfdr.de; Tue, 12 Jan 2021 02:52:12 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40628)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <r.bolshakov@yadro.com>)
- id 1kzEQV-0001H0-Qy
- for qemu-devel@nongnu.org; Tue, 12 Jan 2021 02:49:15 -0500
-Received: from mta-02.yadro.com ([89.207.88.252]:57452 helo=mta-01.yadro.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <r.bolshakov@yadro.com>)
- id 1kzEQQ-0002ZW-Jr
- for qemu-devel@nongnu.org; Tue, 12 Jan 2021 02:49:15 -0500
-Received: from localhost (unknown [127.0.0.1])
- by mta-01.yadro.com (Postfix) with ESMTP id 5008441281;
- Tue, 12 Jan 2021 07:49:09 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=yadro.com; h=
- in-reply-to:content-disposition:content-type:content-type
- :mime-version:references:message-id:subject:subject:from:from
- :date:date:received:received:received; s=mta-01; t=1610437748;
- x=1612252149; bh=c32G32UNidd+PrbbuZoCj/w4KoLbbHTQ8HClasD67Gc=; b=
- aVX6hnTZL1aB+RLxIFkJnnvOjONBScCRYFEQBAAgMME8qZVNpt49Vqh3tyOSenTk
- 3HVZsbwN0VTghGaTj/85W693vydwmXc7ZZNe8RnnZh2VjQaWYMstjB7s97jz3vzq
- saMWBDZNrkoUXHCpcXqkmkHr5lwQQMdTJrnOw9MtUDw=
-X-Virus-Scanned: amavisd-new at yadro.com
-Received: from mta-01.yadro.com ([127.0.0.1])
- by localhost (mta-01.yadro.com [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id 2L2Umezj_fH6; Tue, 12 Jan 2021 10:49:08 +0300 (MSK)
-Received: from T-EXCH-03.corp.yadro.com (t-exch-03.corp.yadro.com
- [172.17.100.103])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-SHA384 (256/256 bits))
- (No client certificate requested)
- by mta-01.yadro.com (Postfix) with ESMTPS id 053C1412FC;
- Tue, 12 Jan 2021 10:49:08 +0300 (MSK)
-Received: from localhost (172.17.204.212) by T-EXCH-03.corp.yadro.com
- (172.17.100.103) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384_P384) id 15.1.669.32; Tue, 12
- Jan 2021 10:49:07 +0300
-Date: Tue, 12 Jan 2021 10:49:07 +0300
-From: Roman Bolshakov <r.bolshakov@yadro.com>
-To: Richard Henderson <richard.henderson@linaro.org>
-Subject: Re: [PATCH] hvf: guard xgetbv call.
-Message-ID: <X/1Uc7Ohb+lqEFsU@SPB-NB-133.local>
-References: <X91h2yoy7qVrO1kv@Hills-Mac-Pro.local>
- <X/lDozXFWfR4AZAU@SPB-NB-133.local>
- <CAFEAcA9bMbPFj=xFiHgDVg1X14kZOt0Bre-uH0fcjJzsaSk0qA@mail.gmail.com>
- <X/pccrqIQ9/N57j6@SPB-NB-133.local>
- <8da22f7f-7379-cffe-5fdd-94fd5ddece32@linaro.org>
- <4a24ae1a-8114-a840-b6bf-ae3a301f6232@linaro.org>
- <X/vUjHCd81PvEflw@SPB-NB-133.local>
- <259b9e96-1f69-4e4a-16ef-7034e19ed1ef@linaro.org>
+ (Exim 4.90_1) (envelope-from <pizhenwei@bytedance.com>)
+ id 1kzEQu-0001Yq-OH
+ for qemu-devel@nongnu.org; Tue, 12 Jan 2021 02:49:40 -0500
+Received: from mail-pj1-x102b.google.com ([2607:f8b0:4864:20::102b]:35656)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <pizhenwei@bytedance.com>)
+ id 1kzEQo-0002fW-Vt
+ for qemu-devel@nongnu.org; Tue, 12 Jan 2021 02:49:37 -0500
+Received: by mail-pj1-x102b.google.com with SMTP id b5so1146879pjl.0
+ for <qemu-devel@nongnu.org>; Mon, 11 Jan 2021 23:49:33 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=bytedance-com.20150623.gappssmtp.com; s=20150623;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=SBBrdrqRqLZbtY/JIW+pUTNmAvBkkd7n15BhnNFw+y4=;
+ b=pI7kkHAe/c4EvtE0mPNvfIpja6+0H40p5UHDicRON6OnfUp8WzSlYhfFciDFZmaq9l
+ CBBZmoUEtuFXPrIk5bChO4pwq1UvaUr7GXCw6lVvbviJ7iia+UsH8gFI/oEavHrUYsLq
+ Via3SDYb3DGEPPaVp6Vwnrwrurd0TLRBIxZqY3aJyqkVvXkoCLw1Yf6q4D4LGTWK7+m1
+ 7A/S5k/GAzO+YKfjAS8qjlUvjvEA0V8RrKDCio9qcgF69UI2mnFnLW+c+gXgoZh9rLFY
+ 9rN0xhHuCk4LRSY6QI5zIgvgfJNT2kxt9gvB/Lban8Kr40gBoUVu+m2UwgAcbNREz33v
+ sf7Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=SBBrdrqRqLZbtY/JIW+pUTNmAvBkkd7n15BhnNFw+y4=;
+ b=l36FSJM7fHK3PFC269V3d/j/S0vtn2YkJN24j+kAbHneM6I7ge8kDU6reP8X+ppmFJ
+ 54Xqou+kN5fxRlCbu7+5k7eoM9xYddpyjqAonlZg8Cc2XWBwrOoTgxV6LZ9kJCmsldwP
+ QV5l217BLGiyzy7Zsr0eoi5OPNUq2IYg+dHkJxWc8WFcyiIzCRcYjxXIrcjOgteEehqd
+ omCi9qh24W+8dbLWs0XqXnEwYyk5v32vYH6YOMLyygZ+RiXGpzQ5WiCHMICXY/UzCGau
+ 6ujdJraCvGGZ4eVOPfPvV2DUXLNRHao7jIvNmPpg+/f1ytwkoLi4SmuCu+zM4nlF+HQ6
+ Lb0A==
+X-Gm-Message-State: AOAM531KfztBnpUAR6Nz8N6+MGrR6LzFwFsOgSgPRXv/HZrF+OGj6qZm
+ kq6OiqR2dhYhzvlwkmrnd68aQA==
+X-Google-Smtp-Source: ABdhPJzhdA0GolRi9PX5GJQIydHRWUAU+kRa0xSdGlMiSMe427zYTv1Qjzgtzs9Zm67c1hiQhojaVg==
+X-Received: by 2002:a17:90a:4817:: with SMTP id
+ a23mr3239782pjh.16.1610437772781; 
+ Mon, 11 Jan 2021 23:49:32 -0800 (PST)
+Received: from always-libai.bytedance.net ([61.120.150.71])
+ by smtp.gmail.com with ESMTPSA id 193sm2144582pfz.36.2021.01.11.23.49.29
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 11 Jan 2021 23:49:32 -0800 (PST)
+From: zhenwei pi <pizhenwei@bytedance.com>
+To: kbusch@kernel.org, its@irrelevant.dk, kwolf@redhat.com, mreitz@redhat.com
+Subject: [PATCH v2 0/1] add smart_critical_warning property for nvme
+Date: Tue, 12 Jan 2021 15:49:23 +0800
+Message-Id: <20210112074924.217862-1-pizhenwei@bytedance.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset="us-ascii"
-Content-Disposition: inline
-In-Reply-To: <259b9e96-1f69-4e4a-16ef-7034e19ed1ef@linaro.org>
-X-Originating-IP: [172.17.204.212]
-X-ClientProxiedBy: T-EXCH-01.corp.yadro.com (172.17.10.101) To
- T-EXCH-03.corp.yadro.com (172.17.100.103)
-Received-SPF: pass client-ip=89.207.88.252; envelope-from=r.bolshakov@yadro.com;
- helo=mta-01.yadro.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::102b;
+ envelope-from=pizhenwei@bytedance.com; helo=mail-pj1-x102b.google.com
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -84,39 +81,26 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- QEMU Developers <qemu-devel@nongnu.org>, Cameron Esfahani <dirty@apple.com>,
- John Arbuckle <programmingkidx@gmail.com>, Hill Ma <maahiuzeon@gmail.com>,
- Paolo Bonzini <pbonzini@redhat.com>, Richard Henderson <rth@twiddle.net>
+Cc: zhenwei pi <pizhenwei@bytedance.com>, philmd@redhat.com,
+ qemu-devel@nongnu.org, qemu-block@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, Jan 11, 2021 at 07:06:22AM -1000, Richard Henderson wrote:
-> On 1/10/21 6:31 PM, Roman Bolshakov wrote:
-> >> Also, if we're going to put this some place common, forcing the caller to do
-> >> the cpuid that feeds this, then we should probably make all of the startup
-> >> cpuid stuff common as well.
-> >>
-> > 
-> > I proposed the version because all callers of xgetbv instruction already
-> > call cpuid before invoking inline xgetbv.
-> > 
-> >> Note that we'd probably have to use constructor priorities to get that right
-> >> for util/bufferiszero.c.
-> >>
-> > 
-> > Please correct me if I read this wrong. What you're saying is we should
-> > initialize cpuid in constructors and then use cached cpuid ecx in
-> > xgetbv() (and drop one argument, respectively)?
-> 
-> I would have xgetbv and all of the cpuid values cached at startup, and all
-> three places would read global variables.
-> 
+v1 -> v2:
+Suggested by Philippe & Klaus, set/get smart_critical_warning by QMP.
 
-It makes sense, thanks for the clarification.
+v1:
+Add smart_critical_warning for nvme device which can be set by QEMU
+command line to emulate hardware error.
 
-Do you think it should be part of the change Hill is doing or it might
-be a follow-up cleanup patch?
+Zhenwei Pi (1):
+  hw/block/nvme: add smart_critical_warning property
 
--Roman
+ hw/block/nvme.c | 28 ++++++++++++++++++++++++++++
+ hw/block/nvme.h |  1 +
+ 2 files changed, 29 insertions(+)
+
+-- 
+2.25.1
+
 
