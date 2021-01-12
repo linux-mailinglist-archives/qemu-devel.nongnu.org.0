@@ -2,81 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 89A7C2F3BE0
-	for <lists+qemu-devel@lfdr.de>; Tue, 12 Jan 2021 22:37:48 +0100 (CET)
-Received: from localhost ([::1]:43850 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3698A2F3BF5
+	for <lists+qemu-devel@lfdr.de>; Tue, 12 Jan 2021 22:57:00 +0100 (CET)
+Received: from localhost ([::1]:51602 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kzRMJ-0007VW-LL
-	for lists+qemu-devel@lfdr.de; Tue, 12 Jan 2021 16:37:47 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44566)
+	id 1kzRes-0003gs-Q5
+	for lists+qemu-devel@lfdr.de; Tue, 12 Jan 2021 16:56:58 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49700)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1kzRJd-0006nj-Es
- for qemu-devel@nongnu.org; Tue, 12 Jan 2021 16:35:01 -0500
-Received: from mail-pg1-x529.google.com ([2607:f8b0:4864:20::529]:44013)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1kzRd9-0002TF-I0
+ for qemu-devel@nongnu.org; Tue, 12 Jan 2021 16:55:11 -0500
+Received: from mail-wm1-x32e.google.com ([2a00:1450:4864:20::32e]:34439)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1kzRJb-0002nv-Or
- for qemu-devel@nongnu.org; Tue, 12 Jan 2021 16:35:01 -0500
-Received: by mail-pg1-x529.google.com with SMTP id n10so24950pgl.10
- for <qemu-devel@nongnu.org>; Tue, 12 Jan 2021 13:34:59 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=dZj82sEVov6fXBeIcSncP+rbxd60wMDd4L6xpNDC9XU=;
- b=QJbp4V7zptML935Ur08IA4JS17+5FhBZfp12df+RnmAR5KcyyUDNXg9kXb/8hfi4nG
- ZzeE4MN/4hDeiM2xN5vYUSn8zemSq8v1o4WdY0WpF7KF22gqktw2Vajw1Qo0AoVg2KOw
- RRX/Ecb1iAactOkZM8RIK6kZGIdPUg50NWQPS4SgEATyOzTUeGO0dwFBAgg8vk5ntp0v
- QGLDypVa7vfIS/l9qtmjiwod1bDc+/DhzMhL6hqQ+qYQpuY/Gk7JPHgX9R34OQHcNioD
- INGFkRLsneTPZZNZTZHhjHZvcjm6FXLVsMoQKcQ2ZeU77XC/Ajy+wZP0/C8tiYAubs2R
- qDoA==
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1kzRd8-0001Pt-69
+ for qemu-devel@nongnu.org; Tue, 12 Jan 2021 16:55:11 -0500
+Received: by mail-wm1-x32e.google.com with SMTP id g25so2521992wmh.1
+ for <qemu-devel@nongnu.org>; Tue, 12 Jan 2021 13:55:09 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=sender:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=KyGpzYvDqquV01cMQ6FO0Y9bwAkFKJ08rQRuKQ1kOGY=;
+ b=lOPD1j9evPX5a5DXGKo4uKk+0KBEgItIlw3dMtaXgLbbJCTIDCHZA20MldBnpu4YsF
+ djt0hXYw8sq/q1Lm/TLjqC9vLZJDcpNomwDhx7exQz6RYe5iZrVW8ztSkv+Mdy4uzFls
+ G9WqKvIuFgwrMUUHmWjx3WZFpRIgotwpotHEjqxOH3OyysA1YnYndvDX9rEpfR4eIZII
+ enM6LG5bKfs1V9v4zXDIlhKRWQa/56Z8tuXcUehCQeaMRLbeobx2L6oONorcUE+wicNn
+ qmccq/2IA4rJk+/qZWCXeXTagVlEb/ImhKUgrB08delm5GvE4uNT/GQBxFnJyFcFoZrO
+ ACiw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=dZj82sEVov6fXBeIcSncP+rbxd60wMDd4L6xpNDC9XU=;
- b=aZxbJg4GYt79D2e9fh3gJXIb8BioOcZbZVwUMLBFqrjk+0hSNdOf2KIkIqc3dRh2HS
- FDGFXN7Kwzf/L3Bftxh0nAXc15B0HNbecynG+0/wgsnezF9RpwpetioLth7WU84SUSkW
- MBQhfdYpBGpxd9edhTNdikjuKxfblToneu2Mvb0slxoTCTwVeLAkQJV19pCuKk7HmTZX
- P56ifBhI98rpWg1fBTMuQ4uqE/rVbC/hz64FvJDg5XjKgG9OK9XDFHScZJzYjc3IxS6x
- 3Rjt6SMyxL8CuL82d+cUdOu/1LM+neQbHrgfXhRkaYPttR2o1V8s6uzk/jHBjab9/niN
- dv/Q==
-X-Gm-Message-State: AOAM531EOYsAJXb7glsxnn5BhoCg0YuqgsQAkOQakx5WgBJP46JiVZb1
- PKeFaVB5uz3KDA7/FBJhAV1wNg==
-X-Google-Smtp-Source: ABdhPJx34jO9ijOJW0NU5Z0knATRasCcu+DdERtGp5WxwP5KNEqasmfIt6Pi3LMbpt3z7hIq/RpYsw==
-X-Received: by 2002:aa7:8749:0:b029:1a5:63e6:56fe with SMTP id
- g9-20020aa787490000b02901a563e656femr1112489pfo.32.1610487298307; 
- Tue, 12 Jan 2021 13:34:58 -0800 (PST)
-Received: from [10.25.18.36] (rrcs-173-197-107-21.west.biz.rr.com.
- [173.197.107.21])
- by smtp.gmail.com with ESMTPSA id e24sm4417796pjt.16.2021.01.12.13.34.56
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 12 Jan 2021 13:34:57 -0800 (PST)
-Subject: Re: [PATCH 0/3] target/mips: Remove vendor specific CPU definitions
-To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
- qemu-devel@nongnu.org
-References: <20210112210152.2072996-1-f4bug@amsat.org>
-From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <afcfe36b-93c6-001f-52e4-094fda87e89a@linaro.org>
-Date: Tue, 12 Jan 2021 11:34:53 -1000
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
+ h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
+ :mime-version:content-transfer-encoding;
+ bh=KyGpzYvDqquV01cMQ6FO0Y9bwAkFKJ08rQRuKQ1kOGY=;
+ b=VuCF8JxTG9cBiocv52QgGaS50UBlas99Po1DtB1UXGhFORQp657Lz9H2/0J+Eq/2x0
+ O4iOFfDOERj9NPK8zOqnIvgBTJGadsFa/1VVOMaiEN4QdrzKz1EF93tQ3iM9A++QW5Sj
+ HtGYT1e/Jr8uOO8VYFDIfrouC28cmzaftX3WXFdMPO4OMZcWurvV29zYBowbeprrfp44
+ 5AuCMEgTics527pBmbhtUeUKahn1g/tspjuaa9TzwPH5ErQVpRLusbe7gtGFQ/VuaEIW
+ VmnqT+1F8IC0XqgQiiMGbtpnFsL3JMLyjBIH3+O77MvRnkjyygcpb6vn4pXBc/Xco9X+
+ fydQ==
+X-Gm-Message-State: AOAM5315obclmtHpc5KqgvNvyYw6slgwsuyIIFqZryGNk/knFWmCYzkr
+ WgW4hLSXpxtZN/qEUNe32S6doIO+zUo=
+X-Google-Smtp-Source: ABdhPJzEr5tXdSiZd2tucKVmEy/bjaDpzCddL1jajnjsvP/h1dQD1mFtZAVNC0ONeMiP1E4gHPuqpA==
+X-Received: by 2002:a1c:f70c:: with SMTP id v12mr1104499wmh.77.1610488507713; 
+ Tue, 12 Jan 2021 13:55:07 -0800 (PST)
+Received: from x1w.redhat.com (190.red-83-57-173.dynamicip.rima-tde.net.
+ [83.57.173.190])
+ by smtp.gmail.com with ESMTPSA id i7sm7387151wrv.12.2021.01.12.13.55.06
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 12 Jan 2021 13:55:06 -0800 (PST)
+From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
+To: qemu-devel@nongnu.org
+Subject: [PATCH 0/6] target/mips: Convert Loongson LEXT opcodes to decodetree
+Date: Tue, 12 Jan 2021 22:54:58 +0100
+Message-Id: <20210112215504.2093955-1-f4bug@amsat.org>
+X-Mailer: git-send-email 2.26.2
 MIME-Version: 1.0
-In-Reply-To: <20210112210152.2072996-1-f4bug@amsat.org>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::529;
- envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x529.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2a00:1450:4864:20::32e;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x32e.google.com
+X-Spam_score_int: -14
+X-Spam_score: -1.5
+X-Spam_bar: -
+X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -90,27 +84,48 @@ List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>,
- Huacai Chen <chenhuacai@kernel.org>, Aurelien Jarno <aurelien@aurel32.net>
+ Huacai Chen <chenhuacai@kernel.org>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
+ Aurelien Jarno <aurelien@aurel32.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 1/12/21 11:01 AM, Philippe Mathieu-Daudé wrote:
-> Trivial patches to sanitize MIPS CPU definitions.
-> 
-> Based-on: mips-next
-> 
-> Philippe Mathieu-Daudé (3):
->   target/mips: Remove CPU_R5900 definition
->   target/mips: Remove CPU_NANOMIPS32 definition
->   target/mips: Remove vendor specific CPU definitions
-> 
->  target/mips/mips-defs.h    |  9 ---------
->  target/mips/cpu-defs.c.inc | 16 +++++++++-------
->  2 files changed, 9 insertions(+), 16 deletions(-)
-> 
-
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-
-
-r~
+Loongson is next step in the "MIPS decodetree conversion" epic.=0D
+Start with the simplest extension.=0D
+=0D
+The diffstat addition comes from the TCG functions expanded.=0D
+The code is easier to review now.=0D
+IMO this is also a good template to show how easy a decodetree=0D
+conversion can be (and how nice the .decode file is to review) :P=0D
+=0D
+Please review,=0D
+=0D
+Phil.=0D
+=0D
+Based-on: <20210112184156.2014305-1-f4bug@amsat.org>=0D
+          "decodetree: Allow 'dot' in opcode names"=0D
+=0D
+Philippe Mathieu-Daud=C3=A9 (6):=0D
+  target/mips: Re-introduce OPC_ADDUH_QB_DSP and OPC_MUL_PH_DSP=0D
+  target/mips: Convert Loongson DDIV.G opcodes to decodetree=0D
+  target/mips: Convert Loongson DIV.G opcodes to decodetree=0D
+  target/mips: Convert Loongson [D]DIVU.G opcodes to decodetree=0D
+  target/mips: Convert Loongson [D]MOD[U].G opcodes to decodetree=0D
+  target/mips: Convert Loongson [D]MULT[U].G opcodes to decodetree=0D
+=0D
+ target/mips/translate.h       |   1 +=0D
+ target/mips/godson2.decode    |  29 +++=0D
+ target/mips/loong-ext.decode  |  30 +++=0D
+ target/mips/loong_translate.c | 334 ++++++++++++++++++++++++++++++++++=0D
+ target/mips/translate.c       | 287 ++---------------------------=0D
+ target/mips/meson.build       |   3 +=0D
+ 6 files changed, 409 insertions(+), 275 deletions(-)=0D
+ create mode 100644 target/mips/godson2.decode=0D
+ create mode 100644 target/mips/loong-ext.decode=0D
+ create mode 100644 target/mips/loong_translate.c=0D
+=0D
+-- =0D
+2.26.2=0D
+=0D
 
