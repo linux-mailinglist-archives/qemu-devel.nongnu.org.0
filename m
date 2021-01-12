@@ -2,53 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E71EA2F2E42
-	for <lists+qemu-devel@lfdr.de>; Tue, 12 Jan 2021 12:46:54 +0100 (CET)
-Received: from localhost ([::1]:47058 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2599E2F2E76
+	for <lists+qemu-devel@lfdr.de>; Tue, 12 Jan 2021 12:56:24 +0100 (CET)
+Received: from localhost ([::1]:43456 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kzI8T-0007VJ-W6
-	for lists+qemu-devel@lfdr.de; Tue, 12 Jan 2021 06:46:54 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35428)
+	id 1kzIHf-0000sr-70
+	for lists+qemu-devel@lfdr.de; Tue, 12 Jan 2021 06:56:23 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40332)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <ganqixin@huawei.com>)
- id 1kzHsB-0004iW-II; Tue, 12 Jan 2021 06:30:03 -0500
-Received: from szxga06-in.huawei.com ([45.249.212.32]:2583)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <ganqixin@huawei.com>)
- id 1kzHs6-0001PT-O0; Tue, 12 Jan 2021 06:30:03 -0500
-Received: from DGGEMS412-HUB.china.huawei.com (unknown [172.30.72.60])
- by szxga06-in.huawei.com (SkyGuard) with ESMTP id 4DFSyQ315lzj5Qt;
- Tue, 12 Jan 2021 19:29:02 +0800 (CST)
-Received: from huawei.com (10.175.104.175) by DGGEMS412-HUB.china.huawei.com
- (10.3.19.212) with Microsoft SMTP Server id 14.3.498.0; Tue, 12 Jan 2021
- 19:29:44 +0800
-From: Gan Qixin <ganqixin@huawei.com>
-To: <qemu-devel@nongnu.org>, <qemu-trivial@nongnu.org>
-Subject: [PATCH v3 2/2] misc/mos6522: Use timer_free() in the finalize
- function to avoid memleak
-Date: Tue, 12 Jan 2021 19:27:05 +0800
-Message-ID: <20210112112705.380534-3-ganqixin@huawei.com>
-X-Mailer: git-send-email 2.27.0
-In-Reply-To: <20210112112705.380534-1-ganqixin@huawei.com>
-References: <20210112112705.380534-1-ganqixin@huawei.com>
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1kzI8f-0000Rc-RQ
+ for qemu-devel@nongnu.org; Tue, 12 Jan 2021 06:47:05 -0500
+Received: from indium.canonical.com ([91.189.90.7]:35938)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1kzI8d-0007oi-EG
+ for qemu-devel@nongnu.org; Tue, 12 Jan 2021 06:47:05 -0500
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1kzI8Z-0004PW-Mg
+ for <qemu-devel@nongnu.org>; Tue, 12 Jan 2021 11:47:00 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id 704F42E8170
+ for <qemu-devel@nongnu.org>; Tue, 12 Jan 2021 11:46:57 +0000 (UTC)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-Originating-IP: [10.175.104.175]
-X-CFilter-Loop: Reflected
-Received-SPF: pass client-ip=45.249.212.32; envelope-from=ganqixin@huawei.com;
- helo=szxga06-in.huawei.com
-X-Spam_score_int: -41
-X-Spam_score: -4.2
-X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
- RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Date: Tue, 12 Jan 2021 11:27:41 -0000
+From: =?utf-8?q?Philippe_Mathieu-Daud=C3=A9?= <1911075@bugs.launchpad.net>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=Confirmed; importance=Undecided;
+ assignee=jsnow@redhat.com; 
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: a1xndr philmd
+X-Launchpad-Bug-Reporter: Alexander Bulekov (a1xndr)
+X-Launchpad-Bug-Modifier: =?utf-8?q?Philippe_Mathieu-Daud=C3=A9_=28philmd?=
+ =?utf-8?q?=29?=
+References: <161041171173.17462.15833722387991998017.malonedeb@gac.canonical.com>
+Message-Id: <161045086186.3466.7750214821510211374.malone@chaenomeles.canonical.com>
+Subject: [Bug 1911075] Re: [OSS-Fuzz] ahci: stack overflow in
+ ahci_cond_start_engines
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="fe617ea08df036edd5c842aded2b315e1c090677"; Instance="production"
+X-Launchpad-Hash: b875e88991cd99a5ce6dc7132b4828bd53a3ee96
+Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
+ helo=indium.canonical.com
+X-Spam_score_int: -65
+X-Spam_score: -6.6
+X-Spam_bar: ------
+X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9,
+ HEADER_FROM_DIFFERENT_DOMAINS=0.249, RCVD_IN_DNSWL_HI=-5,
+ RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -57,68 +72,94 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: peter.maydell@linaro.org, zhang.zhanghailiang@huawei.com,
- Gan Qixin <ganqixin@huawei.com>, Euler Robot <euler.robot@huawei.com>,
- kuhn.chenqun@huawei.com, david@gibson.dropbear.id.au
+Reply-To: Bug 1911075 <1911075@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-When running device-introspect-test, a memory leak occurred in the mos6522_init
-function, this patch use timer_free() in the finalize function to fix it.
+And ahci_port_write(AHCI_PORT_REG_CMD) doesn't check
+ahci_cond_start_engines() return value, calling
+ahci_init_d2h() even if former failed.
 
-ASAN shows memory leak stack:
+-- =
 
-Direct leak of 96 byte(s) in 2 object(s) allocated from:
-    #0 0xfffd5fe9e1f0 in __interceptor_calloc (/lib64/libasan.so.5+0xee1f0)
-    #1 0xfffd5f7b6800 in g_malloc0 (/lib64/libglib-2.0.so.0+0x56800)
-    #2 0xaaae50303d0c in timer_new_full qemu/include/qemu/timer.h:523
-    #3 0xaaae50303d0c in timer_new qemu/include/qemu/timer.h:544
-    #4 0xaaae50303d0c in timer_new_ns qemu/include/qemu/timer.h:562
-    #5 0xaaae50303d0c in mos6522_init qemu/hw/misc/mos6522.c:490
-    #6 0xaaae50b77d70 in object_init_with_type qemu/qom/object.c:371
-    #7 0xaaae50b7ae84 in object_initialize_with_type qemu/qom/object.c:515
-    #8 0xaaae50b7b0f8 in object_new_with_type qemu/qom/object.c:729
-    #9 0xaaae50bb6d58 in qmp_device_list_properties qemu/qom/qom-qmp-cmds.c:153
-    #10 0xaaae50d7e1dc in qmp_marshal_device_list_properties qemu/qapi/qapi-commands-qdev.c:59
-    #11 0xaaae50dc87a0 in do_qmp_dispatch_bh qemu/qapi/qmp-dispatch.c:110
-    #12 0xaaae50d931a0 in aio_bh_call qemu/util/async.c:136
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1911075
 
-Reported-by: Euler Robot <euler.robot@huawei.com>
-Signed-off-by: Gan Qixin <ganqixin@huawei.com>
----
-Cc: David Gibson <david@gibson.dropbear.id.au>
----
- hw/misc/mos6522.c | 9 +++++++++
- 1 file changed, 9 insertions(+)
+Title:
+  [OSS-Fuzz] ahci: stack overflow in ahci_cond_start_engines
 
-diff --git a/hw/misc/mos6522.c b/hw/misc/mos6522.c
-index ac4cd1d58e..1c57332b40 100644
---- a/hw/misc/mos6522.c
-+++ b/hw/misc/mos6522.c
-@@ -490,6 +490,14 @@ static void mos6522_init(Object *obj)
-     s->timers[1].timer = timer_new_ns(QEMU_CLOCK_VIRTUAL, mos6522_timer2, s);
- }
- 
-+static void mos6522_finalize(Object *obj)
-+{
-+    MOS6522State *s = MOS6522(obj);
-+
-+    timer_free(s->timers[0].timer);
-+    timer_free(s->timers[1].timer);
-+}
-+
- static Property mos6522_properties[] = {
-     DEFINE_PROP_UINT64("frequency", MOS6522State, frequency, 0),
-     DEFINE_PROP_END_OF_LIST()
-@@ -519,6 +527,7 @@ static const TypeInfo mos6522_type_info = {
-     .parent = TYPE_SYS_BUS_DEVICE,
-     .instance_size = sizeof(MOS6522State),
-     .instance_init = mos6522_init,
-+    .instance_finalize = mos6522_finalize,
-     .abstract = true,
-     .class_size = sizeof(MOS6522DeviceClass),
-     .class_init = mos6522_class_init,
--- 
-2.27.0
+Status in QEMU:
+  Confirmed
 
+Bug description:
+  =3D=3D=3D Reproducer =3D=3D=3D
+  while true; do cat << EOF; done | ./qemu-system-i386 -machine q35 -nodefa=
+ults -nographic -qtest stdio -accel qtest
+  outl 0xcf8 0x8000fa27
+  outl 0xcfc 0x37414537
+  outl 0xcf8 0x8000fa01
+  outl 0xcfc 0x4606ce74
+  writew 0x37000f01 0x215a
+  writeq 0x37000100 0xfffaf
+  writeq 0x37000115 0xffff373d27004037
+  outl 0xcf8 0x8000fa01
+  outl 0xcfc 0x4606ce74
+  writeq 0x370000ff 0x3700011500
+  writeq 0x37000115 0xc41ffffff035a5a
+  outl 0xcf8 0x8000ea04
+  outb 0xcfc 0x15
+  outl 0xcf8 0x8000ea00
+  outw 0xcfc 0x5a1f
+  writeq 0x37000115 0x100007765746972
+  writeq 0x37000115 0xbf00000000000000
+  outl 0xcf8 0x8000ea04
+  outb 0xcfc 0x15
+  outl 0xcf8 0x8000fa46
+  outb 0xcfc 0xff
+  clock_step
+  writeq 0x37000115 0xaf
+  writeq 0x37000115 0x6301275541af7415
+  writeq 0x37000115 0xafaf5a5a743715
+  outb 0x64 0xfe
+  EOF
+
+  =3D=3D=3D Stack Trace =3D=3D=3D
+  =3D=3D887446=3D=3DERROR: UndefinedBehaviorSanitizer: stack-overflow on ad=
+dress 0x7ffe567cae0c (pc 0x7fdd9100819e bp 0x7ffe567cb2b0 sp 0x7ffe567cad40=
+ T887446)
+
+  #0 vfprintf
+  #1 fprintf
+  #2 ahci_mem_write /src/qemu/hw/ide/ahci.c:468:9
+  #3 memory_region_write_accessor /src/qemu/softmmu/memory.c:491:5
+  #4 access_with_adjusted_size /src/qemu/softmmu/memory.c:552:18
+  #5 memory_region_dispatch_write /src/qemu/softmmu/memory.c:0:13
+  #6 flatview_write_continue /src/qemu/softmmu/physmem.c:2759:23
+  #7 flatview_write /src/qemu/softmmu/physmem.c:2799:14
+  #8 address_space_write /src/qemu/softmmu/physmem.c:2891:18
+  #9 address_space_unmap /src/qemu/softmmu/physmem.c:3217:9
+  #10 dma_memory_unmap /src/qemu/include/sysemu/dma.h:226:5
+  #11 map_page /src/qemu/hw/ide/ahci.c:249:9
+  #12 ahci_map_clb_address /src/qemu/hw/ide/ahci.c:748:5
+  #13 ahci_cond_start_engines /src/qemu/hw/ide/ahci.c:276:14
+  #14 ahci_port_write /src/qemu/hw/ide/ahci.c:339:9
+  #15 ahci_mem_write /src/qemu/hw/ide/ahci.c:513:9
+  #16 memory_region_write_accessor /src/qemu/softmmu/memory.c:491:5
+  #17 access_with_adjusted_size /src/qemu/softmmu/memory.c:552:18
+  #18 memory_region_dispatch_write /src/qemu/softmmu/memory.c:0:13
+  #19 flatview_write_continue /src/qemu/softmmu/physmem.c:2759:23
+  #20 flatview_write /src/qemu/softmmu/physmem.c:2799:14
+  #21 address_space_write /src/qemu/softmmu/physmem.c:2891:18
+  #22 address_space_unmap /src/qemu/softmmu/physmem.c:3217:9
+  #23 dma_memory_unmap /src/qemu/include/sysemu/dma.h:226:5
+  #24 map_page /src/qemu/hw/ide/ahci.c:249:9
+  #25 ahci_map_clb_address /src/qemu/hw/ide/ahci.c:748:5
+  #26 ahci_cond_start_engines /src/qemu/hw/ide/ahci.c:276:14
+  #27 ahci_port_write /src/qemu/hw/ide/ahci.c:339:9
+  #28 ahci_mem_write /src/qemu/hw/ide/ahci.c:513:9
+  ... Repeat until we run out of stack
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1911075/+subscriptions
 
