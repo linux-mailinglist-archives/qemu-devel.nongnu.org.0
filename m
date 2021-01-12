@@ -2,68 +2,48 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 448082F2D3D
-	for <lists+qemu-devel@lfdr.de>; Tue, 12 Jan 2021 11:54:33 +0100 (CET)
-Received: from localhost ([::1]:43806 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DAD0D2F2D46
+	for <lists+qemu-devel@lfdr.de>; Tue, 12 Jan 2021 11:57:28 +0100 (CET)
+Received: from localhost ([::1]:50628 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kzHJo-0005Cy-9L
-	for lists+qemu-devel@lfdr.de; Tue, 12 Jan 2021 05:54:32 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45172)
+	id 1kzHMd-00087l-V9
+	for lists+qemu-devel@lfdr.de; Tue, 12 Jan 2021 05:57:27 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46976)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1kzGfG-0004ho-Dn
- for qemu-devel@nongnu.org; Tue, 12 Jan 2021 05:12:38 -0500
-Received: from mail-ej1-x62c.google.com ([2a00:1450:4864:20::62c]:34586)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1kzGfE-0000hy-Rq
- for qemu-devel@nongnu.org; Tue, 12 Jan 2021 05:12:38 -0500
-Received: by mail-ej1-x62c.google.com with SMTP id g20so2728403ejb.1
- for <qemu-devel@nongnu.org>; Tue, 12 Jan 2021 02:12:36 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=3/Y7ppQtuS3fpbvTdFYBXtOH/K4xhXeo13718pbsi7w=;
- b=T2Lo5AapG/JU9dByJ+7LcCJwR3tSTlaWBFWfDclNmZTqg0IqKwQo3xES1dRlZzd224
- Zngzfo76MS5hrKPz0IHSrpU0iJBy8r986grm17/l552Mwr7Q1Y9F4sgOf00fYJ7OsKHt
- ZUbMuJUqRqXc1V8wm2hFvwvYUlcE52BytT+3uMQu7VJrfE8WmFn3fblL8D9Nh+TNlEev
- g0W7CpiSD8B/GL6YvN7FX0pJIPO7AoaiDVXG8lLiTNF4XP5y796FGGMWkgS5kWLcxKys
- DdqmceMd7zce7LLcMz7c9ARhIEJQzlRB20NbtDjKEE3h4rZ0qCXPoF9kSm0ZD5LX68Sr
- yyPg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=3/Y7ppQtuS3fpbvTdFYBXtOH/K4xhXeo13718pbsi7w=;
- b=tQUfYSwvxwdAR1VEqFORFoY9vafbd0apSBsjXE9bt+1CGgw7SVASz2lYZyGixd0J3h
- FCZ4m+g/GN1hRMqf9VWqbJmE6GB9N5u1c9t2dziruy5l6RNfE2d8TnfD1sjW8EH+7fgC
- 8e4+po8S1B/UEwm51qrCWlkfUFmZolrNtGnJc6edNeSCjY8cfCplRzpj6LVmc3Nsy2wV
- tUhqzg3lRNd/56rG1XozgObw9K1DJYXc4gWfCfTgpkesKzYEVaZDW1bT420lZbY+xOy8
- UQqB3MHJ1iRZa0tw0pN/UnGg2ZAKJAVN+jC0sg6AQW7JIc5MhIDsZJGajYVIph1Qtyhv
- NM2Q==
-X-Gm-Message-State: AOAM5305v4bY70+/9V8TSRTlaELSZ/+pnG3XDow57cGeBuWryO1vWVCN
- HvFyTvpl+KOTsFNIa2ShSL3D2DjHhl26kaVSbmLwYQ==
-X-Google-Smtp-Source: ABdhPJxIEqPc+S6f5Mix5z88ll5pR/5CINYN/VWV6LUZgNtzRfsfQQOeTHd2tKp94CBp8D5oRScMADJ95pV0en/tkqQ=
-X-Received: by 2002:a17:906:31d2:: with SMTP id
- f18mr2622714ejf.407.1610446355490; 
- Tue, 12 Jan 2021 02:12:35 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <ganqixin@huawei.com>)
+ id 1kzGnW-00062B-H5; Tue, 12 Jan 2021 05:21:10 -0500
+Received: from szxga04-in.huawei.com ([45.249.212.190]:2911)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <ganqixin@huawei.com>)
+ id 1kzGnU-0003PW-HI; Tue, 12 Jan 2021 05:21:10 -0500
+Received: from DGGEMS403-HUB.china.huawei.com (unknown [172.30.72.58])
+ by szxga04-in.huawei.com (SkyGuard) with ESMTP id 4DFRQd0HYzz15pGV;
+ Tue, 12 Jan 2021 18:19:53 +0800 (CST)
+Received: from huawei.com (10.175.104.175) by DGGEMS403-HUB.china.huawei.com
+ (10.3.19.203) with Microsoft SMTP Server id 14.3.498.0; Tue, 12 Jan 2021
+ 18:20:45 +0800
+From: Gan Qixin <ganqixin@huawei.com>
+To: <qemu-devel@nongnu.org>, <qemu-trivial@nongnu.org>
+Subject: [PATCH v2 1/2] pl031: Use timer_free() in the finalize function to
+ avoid memleaks
+Date: Tue, 12 Jan 2021 18:17:45 +0800
+Message-ID: <20210112101746.379517-2-ganqixin@huawei.com>
+X-Mailer: git-send-email 2.27.0
+In-Reply-To: <20210112101746.379517-1-ganqixin@huawei.com>
+References: <20210112101746.379517-1-ganqixin@huawei.com>
 MIME-Version: 1.0
-References: <20210108185154.8108-1-leif@nuviainc.com>
-In-Reply-To: <20210108185154.8108-1-leif@nuviainc.com>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Tue, 12 Jan 2021 10:12:24 +0000
-Message-ID: <CAFEAcA_YnV7dOUAGtxqVm==wg3W9PoVNrh4U0EJHK1C8o8f5dw@mail.gmail.com>
-Subject: Re: [PATCH v3 0/6] target/arm: various changes to cpu.h
-To: Leif Lindholm <leif@nuviainc.com>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2a00:1450:4864:20::62c;
- envelope-from=peter.maydell@linaro.org; helo=mail-ej1-x62c.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-Originating-IP: [10.175.104.175]
+X-CFilter-Loop: Reflected
+Received-SPF: pass client-ip=45.249.212.190; envelope-from=ganqixin@huawei.com;
+ helo=szxga04-in.huawei.com
+X-Spam_score_int: -41
+X-Spam_score: -4.2
+X-Spam_bar: ----
+X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
+ RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -77,31 +57,68 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Laurent Desnogues <laurent.desnogues@gmail.com>,
- qemu-arm <qemu-arm@nongnu.org>, QEMU Developers <qemu-devel@nongnu.org>
+Cc: peter.maydell@linaro.org, zhang.zhanghailiang@huawei.com,
+ Gan Qixin <ganqixin@huawei.com>, Euler Robot <euler.robot@huawei.com>,
+ kuhn.chenqun@huawei.com, david@gibson.dropbear.id.au
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, 8 Jan 2021 at 18:51, Leif Lindholm <leif@nuviainc.com> wrote:
->
-> First, fix a typo in ID_AA64PFR1 (SBSS -> SSBS).
->
-> Second, turn clidr in the ARMCPU struct 64-bit, to support all fields defined
-> by the ARM ARM.
->
-> Third, add field definitions for CLIDR (excepting the Ttype<n> fields, since
-> I was unsure of prefererred naming - Ttype7-Ttype1?).
->
-> Fourth add all ID_AA64 registers/fields present in ARM DDI 0487F.c,
->
-> Lastly, add all ID_ (aarch32) registers/fields.
->
-> Some of the ID_AA64 fields will be used by some patches Rebecca Cran will be
-> submitting shortly, and some of those features also exist for aarch32.
+When running device-introspect-test, a memory leak occurred in the pl031_init
+function, this patch use timer_free() in the finalize function to fix it.
 
+ASAN shows memory leak stack:
 
+Direct leak of 48 byte(s) in 1 object(s) allocated from:
+    #0 0xffffab97e1f0 in __interceptor_calloc (/lib64/libasan.so.5+0xee1f0)
+    #1 0xffffab256800 in g_malloc0 (/lib64/libglib-2.0.so.0+0x56800)
+    #2 0xaaabf5621cfc in timer_new_full qemu/include/qemu/timer.h:523
+    #3 0xaaabf5621cfc in timer_new qemu/include/qemu/timer.h:544
+    #4 0xaaabf5621cfc in timer_new_ns qemu/include/qemu/timer.h:562
+    #5 0xaaabf5621cfc in pl031_init qemu/hw/rtc/pl031.c:194
+    #6 0xaaabf6339f6c in object_initialize_with_type qemu/qom/object.c:515
+    #7 0xaaabf633a1e0 in object_new_with_type qemu/qom/object.c:729
+    #8 0xaaabf6375e40 in qmp_device_list_properties qemu/qom/qom-qmp-cmds.c:153
+    #9 0xaaabf5a95540 in qdev_device_help qemu/softmmu/qdev-monitor.c:283
+    #10 0xaaabf5a96940 in qmp_device_add qemu/softmmu/qdev-monitor.c:801
+    #11 0xaaabf5a96e70 in hmp_device_add qemu/softmmu/qdev-monitor.c:916
+    #12 0xaaabf5ac0a2c in handle_hmp_command qemu/monitor/hmp.c:1100
 
-Applied to target-arm.next, thanks.
+Reported-by: Euler Robot <euler.robot@huawei.com>
+Signed-off-by: Gan Qixin <ganqixin@huawei.com>
+---
+Cc: Peter Maydell <peter.maydell@linaro.org>
+---
+ hw/rtc/pl031.c | 9 +++++++++
+ 1 file changed, 9 insertions(+)
 
--- PMM
+diff --git a/hw/rtc/pl031.c b/hw/rtc/pl031.c
+index ae47f09635..f0981e6c21 100644
+--- a/hw/rtc/pl031.c
++++ b/hw/rtc/pl031.c
+@@ -194,6 +194,14 @@ static void pl031_init(Object *obj)
+     s->timer = timer_new_ns(rtc_clock, pl031_interrupt, s);
+ }
+ 
++static void pl031_finalize(Object *obj)
++{
++    PL031State *s = PL031(obj);
++
++    timer_del(s->timer);
++    timer_free(s->timer);
++}
++
+ static int pl031_pre_save(void *opaque)
+ {
+     PL031State *s = opaque;
+@@ -329,6 +337,7 @@ static const TypeInfo pl031_info = {
+     .parent        = TYPE_SYS_BUS_DEVICE,
+     .instance_size = sizeof(PL031State),
+     .instance_init = pl031_init,
++    .instance_finalize = pl031_finalize,
+     .class_init    = pl031_class_init,
+ };
+ 
+-- 
+2.27.0
+
 
