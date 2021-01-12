@@ -2,76 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 226262F3661
-	for <lists+qemu-devel@lfdr.de>; Tue, 12 Jan 2021 18:01:56 +0100 (CET)
-Received: from localhost ([::1]:35592 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6EECD2F368E
+	for <lists+qemu-devel@lfdr.de>; Tue, 12 Jan 2021 18:05:29 +0100 (CET)
+Received: from localhost ([::1]:43868 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kzN3L-0003Ui-4d
-	for lists+qemu-devel@lfdr.de; Tue, 12 Jan 2021 12:01:55 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58790)
+	id 1kzN6m-0007Ys-Gs
+	for lists+qemu-devel@lfdr.de; Tue, 12 Jan 2021 12:05:28 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58908)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1kzMzg-0001ZH-AN
- for qemu-devel@nongnu.org; Tue, 12 Jan 2021 11:58:08 -0500
-Received: from mail-wm1-x32c.google.com ([2a00:1450:4864:20::32c]:52692)
+ id 1kzMzk-0001jE-1X
+ for qemu-devel@nongnu.org; Tue, 12 Jan 2021 11:58:12 -0500
+Received: from mail-wm1-x32a.google.com ([2a00:1450:4864:20::32a]:55959)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1kzMzb-0006yf-8Y
- for qemu-devel@nongnu.org; Tue, 12 Jan 2021 11:58:04 -0500
-Received: by mail-wm1-x32c.google.com with SMTP id a6so2528272wmc.2
- for <qemu-devel@nongnu.org>; Tue, 12 Jan 2021 08:58:02 -0800 (PST)
+ id 1kzMzc-0006zA-Cs
+ for qemu-devel@nongnu.org; Tue, 12 Jan 2021 11:58:11 -0500
+Received: by mail-wm1-x32a.google.com with SMTP id c124so2504978wma.5
+ for <qemu-devel@nongnu.org>; Tue, 12 Jan 2021 08:58:04 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:subject:date:message-id:in-reply-to:references:mime-version
  :content-transfer-encoding;
- bh=1dXUdK68h8mQB0EcDIIjKiAW9VItxuUaUHaQgWP73tA=;
- b=SKugNu4rc1NSWxjzGL2iRmWgNlyxE56iMCmngw2mlyRh7rYT9s3UbMMS2fZYz5jcSw
- DEZHEYVdiOp2JtWbmFkZbFDdn2dsI/WoRKR2w4BxBOul/g3qu/h0ginP7Nr151Vx2byQ
- qRbLTbO6piOa+u1WlXHz7Us39D1rVjNWNkmYpo8zMD32cNV6xKzw2VTl+9btqCzb3mLz
- SssIXjuR/h9A8+gqkSskgQunOWld6iNePL0XgF/VNosGEB8MVE1qsDRBs+fkbJeaXi63
- 0jKrv4//3kRSCysqUk8TEcVPdQp+pfAKUcCqdLmFiRAdwsR2doP1nORbXjwXQT/3/iNj
- U5vA==
+ bh=+x0GRYuxDvnfEkeYpYvCTsDtGQEJLh4PF7p7x0+/Bzg=;
+ b=vGzxxiBlOVOF3NHI/eMgVCjsIuU3AadLFswtZT1iTSNaY/fl/l02Wyq3gTxbrat/m5
+ /krotvMEp/yl5+1nMbxtXZlfr5U9KhjXjxgTy6PvQUlLxvku307YovxGJBzJUbddbcOn
+ u7DcIHItF8IQqG49sCeQquCp7p8I6ih7fdrJbioBYEeWV83ycEP/qLC6ENzTc0bCddyE
+ PaW3I/fwzdYdXU3y5mZryJdl1WWIwdLKPQW2XJz8vWVQ3U0KxW8SwRdPSj1SBQvAAXx/
+ pc9xiHT1rlHm9xGTbj/m9JYRBsWIDxD4WrmAAt5mcVyBj+qfDph2c0xC9zpOQKB808YL
+ M57A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=1dXUdK68h8mQB0EcDIIjKiAW9VItxuUaUHaQgWP73tA=;
- b=p94wWr41/E13j6GIv5yUS9uP2x7+znZVsntlk8eSd5g0vm1fuVAhwcFg9I5TjXZfOL
- KEUxsVnTEp+PvttQpp6nRlXU1AQZjnGCy/k9FCHr4he2vysLNa9IUHGY1fTZh36e4ckp
- UU1h03eJjUjHdOIiUG48jCU74+MgtRKbkNMs8sVYKEkBdChzb+WqhFiCWqIwSkPotJrN
- JovL5AE0aBcePkEu9wTjIVbf8UnfyrxD21kubyXs30Qj6xEdszoAfQdZgXEhVw85/zvR
- CJyRt/fKPKuMrvoT+8lStCUwewETcpSJK4NM//gvCKQUBK+eXsi+qI37biP4Iq6DThg8
- 4eKQ==
-X-Gm-Message-State: AOAM530F6VJUnLhrQGA/Iu1vQ+wJgSbJEaE2CSwQ1Y+NMDryU7sG63+p
- SaIOWohfnzi9vSogTJoISQiuKbhHvpDA/A==
-X-Google-Smtp-Source: ABdhPJxPjSapxKw5CM3WSAf0Ca6Xgign6aVp7Oa+J39Q0g8nUdCV7JRBk+urrZwlNYEsq75tzF3yaQ==
-X-Received: by 2002:a05:600c:4152:: with SMTP id
- h18mr215698wmm.110.1610470681728; 
- Tue, 12 Jan 2021 08:58:01 -0800 (PST)
+ bh=+x0GRYuxDvnfEkeYpYvCTsDtGQEJLh4PF7p7x0+/Bzg=;
+ b=n63KKfeESEShrM331QzCCDHKYpRxIK+0w5UZ8q115rNM6N7SvXwieFyq+Xak4cvQ4r
+ D/sJxeVPDSRsXQLQJByLiV/G5msAGu+YF+bgR1+ht4b3alcDkntA3FONOC/B9l4suQyk
+ 7P+Yx2emyxXN97R46Rj2BOc1dhxqYPqIM9ptF3jMxILqySxroJLRCPpH1qWZ5nt1FSiK
+ tOWPsZSy+52bRYMDCexDUEfNkLcmqoVLhdMDEHJHnoVzrHpluqAXvbbC4OKTZSGDRa8G
+ hmsVHb8M7SAcRRKwPVrmxGJOCs5RE034uVK9+oUghZob0PJG4iult57OKkR0N5q6dbVm
+ QDOg==
+X-Gm-Message-State: AOAM530tpvYMf0kaE8BpYo7Dx+FC6TQX37KHwgJ5nNPDAOUmG0VRsdYh
+ eIQgrxyaKQ0fGICk1PSCJqsPQOLb3pzFkg==
+X-Google-Smtp-Source: ABdhPJxgZ1U8gZXHg0bcX1t9QHIZLAGVQiGtRsUwqAjlwSItYzTyzx/X/1evI3hLsyYOm+jLhkONWQ==
+X-Received: by 2002:a1c:6506:: with SMTP id z6mr176455wmb.55.1610470682905;
+ Tue, 12 Jan 2021 08:58:02 -0800 (PST)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
- by smtp.gmail.com with ESMTPSA id i18sm6210083wrp.74.2021.01.12.08.58.00
+ by smtp.gmail.com with ESMTPSA id i18sm6210083wrp.74.2021.01.12.08.58.01
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 12 Jan 2021 08:58:00 -0800 (PST)
+ Tue, 12 Jan 2021 08:58:02 -0800 (PST)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 08/21] target/arm: add aarch32 ID register fields to cpu.h
-Date: Tue, 12 Jan 2021 16:57:37 +0000
-Message-Id: <20210112165750.30475-9-peter.maydell@linaro.org>
+Subject: [PULL 09/21] ui/cocoa: Update path to docs in build tree
+Date: Tue, 12 Jan 2021 16:57:38 +0000
+Message-Id: <20210112165750.30475-10-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20210112165750.30475-1-peter.maydell@linaro.org>
 References: <20210112165750.30475-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::32c;
- envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x32c.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::32a;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x32a.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- UPPERCASE_50_75=0.008 autolearn=no autolearn_force=no
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -87,86 +86,34 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Leif Lindholm <leif@nuviainc.com>
+From: Roman Bolshakov <r.bolshakov@yadro.com>
 
-Add entries present in ARM DDI 0487F.c (August 2020).
+QEMU documentation can't be opened if QEMU is run from build tree
+because executables are placed in the top of build tree after conversion
+to meson.
 
-Signed-off-by: Leif Lindholm <leif@nuviainc.com>
+Signed-off-by: Roman Bolshakov <r.bolshakov@yadro.com>
+Reported-by: Peter Maydell <peter.maydell@linaro.org>
+Message-id: 20210108213815.64678-1-r.bolshakov@yadro.com
 Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
-Reviewed-by: Laurent Desnogues <laurent.desnogues@gmail.com>
-Message-id: 20210108185154.8108-7-leif@nuviainc.com
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 ---
- target/arm/cpu.h | 28 ++++++++++++++++++++++++++++
- 1 file changed, 28 insertions(+)
+ ui/cocoa.m | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/target/arm/cpu.h b/target/arm/cpu.h
-index d8fb8c845ca..f3bca73d987 100644
---- a/target/arm/cpu.h
-+++ b/target/arm/cpu.h
-@@ -1830,6 +1830,8 @@ FIELD(ID_ISAR6, DP, 4, 4)
- FIELD(ID_ISAR6, FHM, 8, 4)
- FIELD(ID_ISAR6, SB, 12, 4)
- FIELD(ID_ISAR6, SPECRES, 16, 4)
-+FIELD(ID_ISAR6, BF16, 20, 4)
-+FIELD(ID_ISAR6, I8MM, 24, 4)
+diff --git a/ui/cocoa.m b/ui/cocoa.m
+index f32adc3074f..e913a514455 100644
+--- a/ui/cocoa.m
++++ b/ui/cocoa.m
+@@ -1176,7 +1176,7 @@ QemuCocoaView *cocoaView;
+ - (void) openDocumentation: (NSString *) filename
+ {
+     /* Where to look for local files */
+-    NSString *path_array[] = {@"../share/doc/qemu/", @"../doc/qemu/", @"../docs/"};
++    NSString *path_array[] = {@"../share/doc/qemu/", @"../doc/qemu/", @"docs/"};
+     NSString *full_file_path;
  
- FIELD(ID_MMFR0, VMSA, 0, 4)
- FIELD(ID_MMFR0, PMSA, 4, 4)
-@@ -1840,6 +1842,24 @@ FIELD(ID_MMFR0, AUXREG, 20, 4)
- FIELD(ID_MMFR0, FCSE, 24, 4)
- FIELD(ID_MMFR0, INNERSHR, 28, 4)
- 
-+FIELD(ID_MMFR1, L1HVDVA, 0, 4)
-+FIELD(ID_MMFR1, L1UNIVA, 4, 4)
-+FIELD(ID_MMFR1, L1HVDSW, 8, 4)
-+FIELD(ID_MMFR1, L1UNISW, 12, 4)
-+FIELD(ID_MMFR1, L1HVD, 16, 4)
-+FIELD(ID_MMFR1, L1UNI, 20, 4)
-+FIELD(ID_MMFR1, L1TSTCLN, 24, 4)
-+FIELD(ID_MMFR1, BPRED, 28, 4)
-+
-+FIELD(ID_MMFR2, L1HVDFG, 0, 4)
-+FIELD(ID_MMFR2, L1HVDBG, 4, 4)
-+FIELD(ID_MMFR2, L1HVDRNG, 8, 4)
-+FIELD(ID_MMFR2, HVDTLB, 12, 4)
-+FIELD(ID_MMFR2, UNITLB, 16, 4)
-+FIELD(ID_MMFR2, MEMBARR, 20, 4)
-+FIELD(ID_MMFR2, WFISTALL, 24, 4)
-+FIELD(ID_MMFR2, HWACCFLG, 28, 4)
-+
- FIELD(ID_MMFR3, CMAINTVA, 0, 4)
- FIELD(ID_MMFR3, CMAINTSW, 4, 4)
- FIELD(ID_MMFR3, BPMAINT, 8, 4)
-@@ -1858,6 +1878,8 @@ FIELD(ID_MMFR4, LSM, 20, 4)
- FIELD(ID_MMFR4, CCIDX, 24, 4)
- FIELD(ID_MMFR4, EVT, 28, 4)
- 
-+FIELD(ID_MMFR5, ETS, 0, 4)
-+
- FIELD(ID_PFR0, STATE0, 0, 4)
- FIELD(ID_PFR0, STATE1, 4, 4)
- FIELD(ID_PFR0, STATE2, 8, 4)
-@@ -1876,6 +1898,10 @@ FIELD(ID_PFR1, SEC_FRAC, 20, 4)
- FIELD(ID_PFR1, VIRT_FRAC, 24, 4)
- FIELD(ID_PFR1, GIC, 28, 4)
- 
-+FIELD(ID_PFR2, CSV3, 0, 4)
-+FIELD(ID_PFR2, SSBS, 4, 4)
-+FIELD(ID_PFR2, RAS_FRAC, 8, 4)
-+
- FIELD(ID_AA64ISAR0, AES, 4, 4)
- FIELD(ID_AA64ISAR0, SHA1, 8, 4)
- FIELD(ID_AA64ISAR0, SHA2, 12, 4)
-@@ -1990,6 +2016,8 @@ FIELD(ID_DFR0, MPROFDBG, 20, 4)
- FIELD(ID_DFR0, PERFMON, 24, 4)
- FIELD(ID_DFR0, TRACEFILT, 28, 4)
- 
-+FIELD(ID_DFR1, MTPMU, 0, 4)
-+
- FIELD(DBGDIDR, SE_IMP, 12, 1)
- FIELD(DBGDIDR, NSUHD_IMP, 14, 1)
- FIELD(DBGDIDR, VERSION, 16, 4)
+     /* iterate thru the possible paths until the file is found */
 -- 
 2.20.1
 
