@@ -2,60 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1245A2F2E34
-	for <lists+qemu-devel@lfdr.de>; Tue, 12 Jan 2021 12:44:11 +0100 (CET)
-Received: from localhost ([::1]:40784 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CC6FD2F2E33
+	for <lists+qemu-devel@lfdr.de>; Tue, 12 Jan 2021 12:44:06 +0100 (CET)
+Received: from localhost ([::1]:40398 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kzI5q-0004li-3X
-	for lists+qemu-devel@lfdr.de; Tue, 12 Jan 2021 06:44:10 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34906)
+	id 1kzI5l-0004bq-TY
+	for lists+qemu-devel@lfdr.de; Tue, 12 Jan 2021 06:44:05 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35468)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <groug@kaod.org>)
- id 1kzHqC-0002Q3-MD; Tue, 12 Jan 2021 06:28:00 -0500
-Received: from smtpout1.mo529.mail-out.ovh.net ([178.32.125.2]:38163)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <groug@kaod.org>)
- id 1kzHq8-0000p7-H7; Tue, 12 Jan 2021 06:28:00 -0500
-Received: from mxplan5.mail.ovh.net (unknown [10.109.143.210])
- by mo529.mail-out.ovh.net (Postfix) with ESMTPS id AB2C27AFF3E5;
- Tue, 12 Jan 2021 12:27:52 +0100 (CET)
-Received: from kaod.org (37.59.142.97) by DAG8EX1.mxp5.local (172.16.2.71)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2044.4; Tue, 12 Jan
- 2021 12:27:51 +0100
-Authentication-Results: garm.ovh; auth=pass
- (GARM-97G002ebb4cf28-d6e8-467f-ad7a-111004548e1e,
- D7A3512486C53AB1907B5452A8D2CB06296403FA) smtp.auth=groug@kaod.org
-X-OVh-ClientIp: 82.253.208.248
-Date: Tue, 12 Jan 2021 12:27:50 +0100
-From: Greg Kurz <groug@kaod.org>
-To: David Gibson <david@gibson.dropbear.id.au>
-Subject: Re: [PATCH v6 10/13] spapr: Add PEF based confidential guest support
-Message-ID: <20210112122750.5dcd995c@bahia.lan>
-In-Reply-To: <20210112044508.427338-11-david@gibson.dropbear.id.au>
-References: <20210112044508.427338-1-david@gibson.dropbear.id.au>
- <20210112044508.427338-11-david@gibson.dropbear.id.au>
-X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1kzHsF-0004kM-2c
+ for qemu-devel@nongnu.org; Tue, 12 Jan 2021 06:30:07 -0500
+Received: from mail-ej1-x630.google.com ([2a00:1450:4864:20::630]:34783)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1kzHs8-0001Rh-52
+ for qemu-devel@nongnu.org; Tue, 12 Jan 2021 06:30:06 -0500
+Received: by mail-ej1-x630.google.com with SMTP id g20so3047591ejb.1
+ for <qemu-devel@nongnu.org>; Tue, 12 Jan 2021 03:29:59 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=Q/fRAJM1ajfNwQd5upbxc/igAiZlzPCEuC0QiXaTWaI=;
+ b=z3V/2afBjagaqzONjYB9cmQBojWCWLmj6w8hpySF5No9Jkiw4LXWsEuErh9joXeSAl
+ c8kTkR/AamYBRuzflismdda8rgcsdKtFRTFN03GhW8AmjrR8MMyvk9+mGRo3g1sQx7qI
+ hI6lKZteUAN42LJoRtb2KYggvDqKYZlJc/aWTAKbgKNKaLSsRYYND1Zi4c+OpV7G7FYH
+ 6ExRIkoNKHq/Q86jB5ngKKoteAoYDTHzs1cepXgEQRrwo3cFsOpO1DQTY0MR7MTAZAjs
+ hRaxCKEz/rYBTW3g7UBNpOJStCiw4Elj03rzjdilATbhF2ON2kOoDGR923Cd/LtnxWt0
+ JJew==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=Q/fRAJM1ajfNwQd5upbxc/igAiZlzPCEuC0QiXaTWaI=;
+ b=MHYCerQ23Sg+sBGvcCSn6gj1e4iD6tHLoauSzD5856gfEpyDMSXCmwG4FKwNRuUeai
+ 9zt9+8LkObb//RlznHwd7FX4Oa4h6dfrSIUc4+1gSom0R4q//goofuMbQ7/XadbDNlHD
+ yMQ5ZN0Z+1A0BeNrKULrYZJX7gsTPtptAx5YxRSaL1lxoDMWaAHrS1Vlxs3Dti6iG3wD
+ KHlwvs9QAgAd6FkJyEldvtb+xBUcp3YDJiC5nYdEFUJNGSMJhmuwQAyWPRutuVmp2sVf
+ 1soshZ62DZFEZSQd7rNwLTMcxqVvThVdTwkmXCxrg+JrEYxiKPVH6JwnpjKWRGzaaVVX
+ c+dA==
+X-Gm-Message-State: AOAM531H+Qpoa6LSGQL8ZPdqdKGuxdKft8Iraf6ex0lSsX8/+fJxlqlF
+ XCAc3NxPiP7iXwZfwJ39cwaSnJ+29Xsf7t5Oq4nHcw==
+X-Google-Smtp-Source: ABdhPJw4eMYSiv8BN0ZFKMfV0Ak99x6j7RISLBBhNH3pY76s6gX0+MsdbkOY8rADDVFChgDBdUtABTaXOKwlhjHzl4E=
+X-Received: by 2002:a17:906:3d4a:: with SMTP id
+ q10mr2907537ejf.85.1610450998050; 
+ Tue, 12 Jan 2021 03:29:58 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset="US-ASCII"
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [37.59.142.97]
-X-ClientProxiedBy: DAG1EX1.mxp5.local (172.16.2.1) To DAG8EX1.mxp5.local
- (172.16.2.71)
-X-Ovh-Tracer-GUID: 83186ca1-108e-4be5-a9e4-c963f47b79f0
-X-Ovh-Tracer-Id: 9779566592246258015
-X-VR-SPAMSTATE: OK
-X-VR-SPAMSCORE: -100
-X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedujedrvdehgedgudekucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuqfggjfdpvefjgfevmfevgfenuceurghilhhouhhtmecuhedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhepfffhvffukfgjfhfogggtgfhisehtjeertdertddvnecuhfhrohhmpefirhgvghcumfhurhiiuceoghhrohhugheskhgrohgurdhorhhgqeenucggtffrrghtthgvrhhnpeefuddtieejjeevheekieeltefgleetkeetheettdeifeffvefhffelffdtfeeljeenucfkpheptddrtddrtddrtddpfeejrdehledrudegvddrleejnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmohguvgepshhmthhpqdhouhhtpdhhvghlohepmhigphhlrghnhedrmhgrihhlrdhovhhhrdhnvghtpdhinhgvtheptddrtddrtddrtddpmhgrihhlfhhrohhmpehgrhhouhhgsehkrghougdrohhrghdprhgtphhtthhopehjuhhnrdhnrghkrghjihhmrgesihhnthgvlhdrtghomh
-Received-SPF: pass client-ip=178.32.125.2; envelope-from=groug@kaod.org;
- helo=smtpout1.mo529.mail-out.ovh.net
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
- RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+References: <20210108190945.949196-1-wuhaotsh@google.com>
+ <20210108190945.949196-4-wuhaotsh@google.com>
+In-Reply-To: <20210108190945.949196-4-wuhaotsh@google.com>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Tue, 12 Jan 2021 11:29:46 +0000
+Message-ID: <CAFEAcA9LCEwjDfG-Gq+jokZtOjs6J_B_jJaazsRpYY0FVL9dww@mail.gmail.com>
+Subject: Re: [PATCH v5 3/6] hw/adc: Add an ADC module for NPCM7XX
+To: Hao Wu <wuhaotsh@google.com>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2a00:1450:4864:20::630;
+ envelope-from=peter.maydell@linaro.org; helo=mail-ej1-x630.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -68,372 +78,47 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: pair@us.ibm.com, Marcelo Tosatti <mtosatti@redhat.com>,
- brijesh.singh@amd.com, kvm@vger.kernel.org, david@redhat.com,
- qemu-devel@nongnu.org, frankja@linux.ibm.com, pragyansri.pathi@intel.com,
- mst@redhat.com, mdroth@linux.vnet.ibm.com, pasic@linux.ibm.com,
- Christian Borntraeger <borntraeger@de.ibm.com>, andi.kleen@intel.com,
- thuth@redhat.com, Eduardo Habkost <ehabkost@redhat.com>,
- richard.henderson@linaro.org, dgilbert@redhat.com, qemu-s390x@nongnu.org,
- jun.nakajima@intel.com,
- "Daniel P. =?UTF-8?B?QmVycmFuZ8Op?=" <berrange@redhat.com>,
- Cornelia Huck <cohuck@redhat.com>, qemu-ppc@nongnu.org,
- Paolo Bonzini <pbonzini@redhat.com>
+Cc: Corey Minyard <minyard@acm.org>, Patrick Venture <venture@google.com>,
+ Havard Skinnemoen <hskinnemoen@google.com>,
+ QEMU Developers <qemu-devel@nongnu.org>, CS20 KFTing <kfting@nuvoton.com>,
+ qemu-arm <qemu-arm@nongnu.org>, IS20 Avi Fishman <Avi.Fishman@nuvoton.com>,
+ =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, 12 Jan 2021 15:45:05 +1100
-David Gibson <david@gibson.dropbear.id.au> wrote:
-
-> Some upcoming POWER machines have a system called PEF (Protected
-> Execution Facility) which uses a small ultravisor to allow guests to
-> run in a way that they can't be eavesdropped by the hypervisor.  The
-> effect is roughly similar to AMD SEV, although the mechanisms are
-> quite different.
-> 
-> Most of the work of this is done between the guest, KVM and the
-> ultravisor, with little need for involvement by qemu.  However qemu
-> does need to tell KVM to allow secure VMs.
-> 
-> Because the availability of secure mode is a guest visible difference
-> which depends on having the right hardware and firmware, we don't
-> enable this by default.  In order to run a secure guest you need to
-> create a "pef-guest" object and set the confidential-guest-support
-> property to point to it.
-> 
-> Note that this just *allows* secure guests, the architecture of PEF is
-> such that the guest still needs to talk to the ultravisor to enter
-> secure mode.  Qemu has no directl way of knowing if the guest is in
-> secure mode, and certainly can't know until well after machine
-> creation time.
-> 
-> To start a PEF-capable guest, use the command line options:
->     -object pef-guest,id=pef0 -machine confidential-guest-support=pef0
-> 
-> Signed-off-by: David Gibson <david@gibson.dropbear.id.au>
+On Fri, 8 Jan 2021 at 19:10, Hao Wu <wuhaotsh@google.com> wrote:
+>
+> The ADC is part of NPCM7XX Module. Its behavior is controled by the
+> ADC_CON register. It converts one of the eight analog inputs into a
+> digital input and stores it in the ADC_DATA register when enabled.
+>
+> Users can alter input value by using qom-set QMP command.
+>
+> Reviewed-by: Havard Skinnemoen <hskinnemoen@google.com>
+> Reviewed-by: Tyrone Ting <kfting@nuvoton.com>
+> Signed-off-by: Hao Wu <wuhaotsh@google.com>
 > ---
->  docs/confidential-guest-support.txt |   2 +
->  docs/papr-pef.txt                   |  30 ++++++++
->  hw/ppc/meson.build                  |   1 +
->  hw/ppc/pef.c                        | 115 ++++++++++++++++++++++++++++
->  hw/ppc/spapr.c                      |  10 +++
->  include/hw/ppc/pef.h                |  26 +++++++
->  target/ppc/kvm.c                    |  18 -----
->  target/ppc/kvm_ppc.h                |   6 --
->  8 files changed, 184 insertions(+), 24 deletions(-)
->  create mode 100644 docs/papr-pef.txt
->  create mode 100644 hw/ppc/pef.c
->  create mode 100644 include/hw/ppc/pef.h
-> 
-> diff --git a/docs/confidential-guest-support.txt b/docs/confidential-guest-support.txt
-> index 2790425b38..d466aa79d5 100644
-> --- a/docs/confidential-guest-support.txt
-> +++ b/docs/confidential-guest-support.txt
-> @@ -40,4 +40,6 @@ Currently supported confidential guest mechanisms are:
->  AMD Secure Encrypted Virtualization (SEV)
->      docs/amd-memory-encryption.txt
->  
-> +POWER Protected Execution Facility (PEF)
+>  docs/system/arm/nuvoton.rst    |   2 +-
+>  hw/adc/meson.build             |   1 +
+>  hw/adc/npcm7xx_adc.c           | 301 ++++++++++++++++++++++++++
+>  hw/adc/trace-events            |   5 +
+>  hw/arm/npcm7xx.c               |  24 ++-
+>  include/hw/adc/npcm7xx_adc.h   |  69 ++++++
+>  include/hw/arm/npcm7xx.h       |   2 +
+>  meson.build                    |   1 +
+>  tests/qtest/meson.build        |   3 +-
+>  tests/qtest/npcm7xx_adc-test.c | 377 +++++++++++++++++++++++++++++++++
 
-Maybe add:
+Adding trace events to a directory for the first time
+requires also adding the hw/adc/trace.h file (which just has
+a single line '#include "trace/trace-hw_adc.h"'), otherwise
+this doesn't compile. I think that's the only issue with this
+patchset, though, so I'll just fix it up locally.
 
-    /docs/papr-pef.txt
+(Stefan is going to send a patch fixing docs/devel/tracing.txt,
+which failed to mention the need for this step when adding
+a new subdir to tracing.)
 
-> +
->  Other mechanisms may be supported in future.
-> diff --git a/docs/papr-pef.txt b/docs/papr-pef.txt
-> new file mode 100644
-> index 0000000000..798e39f3ed
-> --- /dev/null
-> +++ b/docs/papr-pef.txt
-> @@ -0,0 +1,30 @@
-> +POWER (PAPR) Protected Execution Facility (PEF)
-> +===============================================
-> +
-> +Protected Execution Facility (PEF), also known as Secure Guest support
-> +is a feature found on IBM POWER9 and POWER10 processors.
-> +
-> +If a suitable firmware including an Ultravisor is installed, it adds
-> +an extra memory protection mode to the CPU.  The ultravisor manages a
-> +pool of secure memory which cannot be accessed by the hypervisor.
-> +
-> +When this feature is enabled in qemu, a guest can use ultracalls to
-> +enter "secure mode".  This transfers most of its memory to secure
-> +memory, where it cannot be eavesdropped by a compromised hypervisor.
-> +
-> +Launching
-> +---------
-> +
-> +To launch a guest which will be permitted to enter PEF secure mode:
-> +
-> +# ${QEMU} \
-> +    -object pef-guest \
-
-Add missing id=pef0
-
-> +    -machine confidential-guest-support=pef0 \
-> +    ...
-> +
-> +Live Migration
-> +----------------
-> +
-> +Live migration is not yet implemented for PEF guests.  For
-> +consistency, we currently prevent migration if the PEF feature is
-> +enabled, whether or not the guest has actuall entered secure mode.
-
-actually
-
-> diff --git a/hw/ppc/meson.build b/hw/ppc/meson.build
-> index ffa2ec37fa..218631c883 100644
-> --- a/hw/ppc/meson.build
-> +++ b/hw/ppc/meson.build
-> @@ -27,6 +27,7 @@ ppc_ss.add(when: 'CONFIG_PSERIES', if_true: files(
->    'spapr_nvdimm.c',
->    'spapr_rtas_ddw.c',
->    'spapr_numa.c',
-> +  'pef.c',
->  ))
->  ppc_ss.add(when: 'CONFIG_SPAPR_RNG', if_true: files('spapr_rng.c'))
->  ppc_ss.add(when: ['CONFIG_PSERIES', 'CONFIG_LINUX'], if_true: files(
-> diff --git a/hw/ppc/pef.c b/hw/ppc/pef.c
-> new file mode 100644
-> index 0000000000..b227dc6905
-> --- /dev/null
-> +++ b/hw/ppc/pef.c
-> @@ -0,0 +1,115 @@
-> +/*
-> + * PEF (Protected Execution Facility) for POWER support
-> + *
-> + * Copyright David Gibson, Redhat Inc. 2020
-> + *
-> + * This work is licensed under the terms of the GNU GPL, version 2 or later.
-> + * See the COPYING file in the top-level directory.
-> + *
-> + */
-> +
-> +#include "qemu/osdep.h"
-> +
-> +#include "qapi/error.h"
-> +#include "qom/object_interfaces.h"
-> +#include "sysemu/kvm.h"
-> +#include "migration/blocker.h"
-> +#include "exec/confidential-guest-support.h"
-> +#include "hw/ppc/pef.h"
-> +
-> +#define TYPE_PEF_GUEST "pef-guest"
-> +#define PEF_GUEST(obj)                                  \
-> +    OBJECT_CHECK(PefGuestState, (obj), TYPE_PEF_GUEST)
-> +
-> +typedef struct PefGuestState PefGuestState;
-> +
-
-Maybe convert to:
-
-#define TYPE_PEF_GUEST "pef-guest"
-OBJECT_DECLARE_SIMPLE_TYPE(PefGuestState, PEF_GUEST);
-
-> +/**
-> + * PefGuestState:
-> + *
-> + * The PefGuestState object is used for creating and managing a PEF
-> + * guest.
-> + *
-> + * # $QEMU \
-> + *         -object pef-guest,id=pef0 \
-> + *         -machine ...,confidential-guest-support=pef0
-> + */
-> +struct PefGuestState {
-> +    Object parent_obj;
-> +};
-> +
-> +#ifdef CONFIG_KVM
-> +static int kvmppc_svm_init(Error **errp)
-> +{
-> +    if (!kvm_check_extension(kvm_state, KVM_CAP_PPC_SECURE_GUEST)) {
-> +        error_setg(errp,
-> +                   "KVM implementation does not support Secure VMs (is an ultravisor running?)");
-> +        return -1;
-> +    } else {
-> +        int ret = kvm_vm_enable_cap(kvm_state, KVM_CAP_PPC_SECURE_GUEST, 0, 1);
-> +
-> +        if (ret < 0) {
-> +            error_setg(errp,
-> +                       "Error enabling PEF with KVM");
-> +            return -1;
-> +        }
-> +    }
-> +
-> +    return 0;
-> +}
-> +
-> +/*
-> + * Don't set error if KVM_PPC_SVM_OFF ioctl is invoked on kernels
-> + * that don't support this ioctl.
-> + */
-> +void kvmppc_svm_off(Error **errp)
-> +{
-> +    int rc;
-> +
-> +    if (!kvm_enabled()) {
-> +        return;
-> +    }
-> +
-> +    rc = kvm_vm_ioctl(KVM_STATE(current_accel()), KVM_PPC_SVM_OFF);
-> +    if (rc && rc != -ENOTTY) {
-> +        error_setg_errno(errp, -rc, "KVM_PPC_SVM_OFF ioctl failed");
-> +    }
-> +}
-> +#else
-> +static int kvmppc_svm_init(Error **errp)
-> +{
-> +    g_assert_not_reached();
-> +}
-> +#endif
-> +
-> +int pef_kvm_init(ConfidentialGuestSupport *cgs, Error **errp)
-> +{
-> +    if (!object_dynamic_cast(OBJECT(cgs), TYPE_PEF_GUEST)) {
-> +        return 0;
-> +    }
-> +
-> +    if (!kvm_enabled()) {
-> +        error_setg(errp, "PEF requires KVM");
-> +        return -1;
-> +    }
-> +
-> +    return kvmppc_svm_init(errp);
-> +}
-> +
-> +static const TypeInfo pef_guest_info = {
-> +    .parent = TYPE_OBJECT,
-> +    .name = TYPE_PEF_GUEST,
-> +    .instance_size = sizeof(PefGuestState),
-> +    .interfaces = (InterfaceInfo[]) {
-> +        { TYPE_CONFIDENTIAL_GUEST_SUPPORT },
-> +        { TYPE_USER_CREATABLE },
-> +        { }
-> +    }
-> +};
-> +
-> +static void
-> +pef_register_types(void)
-> +{
-> +    type_register_static(&pef_guest_info);
-> +}
-> +
-> +type_init(pef_register_types);
-> diff --git a/hw/ppc/spapr.c b/hw/ppc/spapr.c
-> index 2c403b574e..5d0009cae7 100644
-> --- a/hw/ppc/spapr.c
-> +++ b/hw/ppc/spapr.c
-> @@ -83,6 +83,7 @@
->  #include "hw/ppc/spapr_tpm_proxy.h"
->  #include "hw/ppc/spapr_nvdimm.h"
->  #include "hw/ppc/spapr_numa.h"
-> +#include "hw/ppc/pef.h"
->  
->  #include "monitor/monitor.h"
->  
-> @@ -2657,6 +2658,15 @@ static void spapr_machine_init(MachineState *machine)
->      long load_limit, fw_size;
->      char *filename;
->      Error *resize_hpt_err = NULL;
-> +    Error *local_err = NULL;
-> +
-> +    /*
-> +     * if Secure VM (PEF) support is configured, then initialize it
-> +     */
-> +    if (pef_kvm_init(machine->cgs, &local_err) < 0) {
-> +        error_report_err(local_err);
-> +        exit(1);
-
-It looks like you just need to pass &error_fatal to pef_kvm_init().
-
-> +    }
->  
->      msi_nonbroken = true;
->  
-> diff --git a/include/hw/ppc/pef.h b/include/hw/ppc/pef.h
-> new file mode 100644
-> index 0000000000..7c92391177
-> --- /dev/null
-> +++ b/include/hw/ppc/pef.h
-> @@ -0,0 +1,26 @@
-> +/*
-> + * PEF (Protected Execution Facility) for POWER support
-> + *
-> + * Copyright David Gibson, Redhat Inc. 2020
-> + *
-> + * This work is licensed under the terms of the GNU GPL, version 2 or later.
-> + * See the COPYING file in the top-level directory.
-> + *
-> + */
-> +
-> +#ifndef HW_PPC_PEF_H
-> +#define HW_PPC_PEF_H
-> +
-> +int pef_kvm_init(ConfidentialGuestSupport *cgs, Error **errp);
-> +
-> +#ifdef CONFIG_KVM
-> +void kvmppc_svm_off(Error **errp);
-> +#else
-> +static inline void kvmppc_svm_off(Error **errp)
-> +{
-> +}
-> +#endif
-> +
-> +
-> +#endif /* HW_PPC_PEF_H */
-> +
-> diff --git a/target/ppc/kvm.c b/target/ppc/kvm.c
-> index daf690a678..0c5056dd5b 100644
-> --- a/target/ppc/kvm.c
-> +++ b/target/ppc/kvm.c
-> @@ -2929,21 +2929,3 @@ void kvmppc_set_reg_tb_offset(PowerPCCPU *cpu, int64_t tb_offset)
->          kvm_set_one_reg(cs, KVM_REG_PPC_TB_OFFSET, &tb_offset);
->      }
->  }
-> -
-> -/*
-> - * Don't set error if KVM_PPC_SVM_OFF ioctl is invoked on kernels
-> - * that don't support this ioctl.
-> - */
-> -void kvmppc_svm_off(Error **errp)
-> -{
-> -    int rc;
-> -
-> -    if (!kvm_enabled()) {
-> -        return;
-> -    }
-> -
-> -    rc = kvm_vm_ioctl(KVM_STATE(current_accel()), KVM_PPC_SVM_OFF);
-> -    if (rc && rc != -ENOTTY) {
-> -        error_setg_errno(errp, -rc, "KVM_PPC_SVM_OFF ioctl failed");
-> -    }
-> -}
-> diff --git a/target/ppc/kvm_ppc.h b/target/ppc/kvm_ppc.h
-> index 73ce2bc951..989f61ace0 100644
-> --- a/target/ppc/kvm_ppc.h
-> +++ b/target/ppc/kvm_ppc.h
-> @@ -39,7 +39,6 @@ int kvmppc_booke_watchdog_enable(PowerPCCPU *cpu);
->  target_ulong kvmppc_configure_v3_mmu(PowerPCCPU *cpu,
->                                       bool radix, bool gtse,
->                                       uint64_t proc_tbl);
-> -void kvmppc_svm_off(Error **errp);
->  #ifndef CONFIG_USER_ONLY
->  bool kvmppc_spapr_use_multitce(void);
->  int kvmppc_spapr_enable_inkernel_multitce(void);
-> @@ -216,11 +215,6 @@ static inline target_ulong kvmppc_configure_v3_mmu(PowerPCCPU *cpu,
->      return 0;
->  }
->  
-> -static inline void kvmppc_svm_off(Error **errp)
-> -{
-> -    return;
-> -}
-> -
->  static inline void kvmppc_set_reg_ppc_online(PowerPCCPU *cpu,
->                                               unsigned int online)
->  {
-
+thanks
+-- PMM
 
