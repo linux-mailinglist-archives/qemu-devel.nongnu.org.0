@@ -2,25 +2,25 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AA1532F38E9
-	for <lists+qemu-devel@lfdr.de>; Tue, 12 Jan 2021 19:33:01 +0100 (CET)
-Received: from localhost ([::1]:42710 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8725E2F38F1
+	for <lists+qemu-devel@lfdr.de>; Tue, 12 Jan 2021 19:35:10 +0100 (CET)
+Received: from localhost ([::1]:48242 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kzOTU-0006U8-Pp
-	for lists+qemu-devel@lfdr.de; Tue, 12 Jan 2021 13:33:00 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48152)
+	id 1kzOVZ-0000Ho-Lo
+	for lists+qemu-devel@lfdr.de; Tue, 12 Jan 2021 13:35:09 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48164)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1kzO1I-0005RX-Ta
- for qemu-devel@nongnu.org; Tue, 12 Jan 2021 13:03:52 -0500
-Received: from mx2.suse.de ([195.135.220.15]:33688)
+ (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1kzO1L-0005Sg-2y
+ for qemu-devel@nongnu.org; Tue, 12 Jan 2021 13:03:55 -0500
+Received: from mx2.suse.de ([195.135.220.15]:33762)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1kzO13-0004wB-UD
- for qemu-devel@nongnu.org; Tue, 12 Jan 2021 13:03:52 -0500
+ (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1kzO15-0004wP-PM
+ for qemu-devel@nongnu.org; Tue, 12 Jan 2021 13:03:53 -0500
 X-Virus-Scanned: by amavisd-new at test-mx.suse.de
 Received: from relay2.suse.de (unknown [195.135.221.27])
- by mx2.suse.de (Postfix) with ESMTP id 3A9FDAE39;
- Tue, 12 Jan 2021 18:03:26 +0000 (UTC)
+ by mx2.suse.de (Postfix) with ESMTP id 4D465AD5C;
+ Tue, 12 Jan 2021 18:03:28 +0000 (UTC)
 From: Claudio Fontana <cfontana@suse.de>
 To: Paolo Bonzini <pbonzini@redhat.com>, Thomas Huth <thuth@redhat.com>,
  Richard Henderson <richard.henderson@linaro.org>,
@@ -29,14 +29,13 @@ To: Paolo Bonzini <pbonzini@redhat.com>, Thomas Huth <thuth@redhat.com>,
  Roman Bolshakov <r.bolshakov@yadro.com>,
  Sunil Muthuswamy <sunilmut@microsoft.com>,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
-Subject: [PATCH v12 10/22] cpu: move cc->transaction_failed to tcg_ops
-Date: Tue, 12 Jan 2021 19:03:00 +0100
-Message-Id: <20210112180312.26043-11-cfontana@suse.de>
+Subject: [PATCH v12 12/22] physmem: make watchpoint checking code TCG-only
+Date: Tue, 12 Jan 2021 19:03:02 +0100
+Message-Id: <20210112180312.26043-13-cfontana@suse.de>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20210112180312.26043-1-cfontana@suse.de>
 References: <20210112180312.26043-1-cfontana@suse.de>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 Received-SPF: pass client-ip=195.135.220.15; envelope-from=cfontana@suse.de;
  helo=mx2.suse.de
@@ -45,7 +44,7 @@ X-Spam_score: -4.2
 X-Spam_bar: ----
 X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
  RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -61,7 +60,6 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Cc: Laurent Vivier <lvivier@redhat.com>,
  Peter Maydell <peter.maydell@linaro.org>,
  Eduardo Habkost <ehabkost@redhat.com>, Paul Durrant <paul@xen.org>,
- =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
  Jason Wang <jasowang@redhat.com>, Marcelo Tosatti <mtosatti@redhat.com>,
  qemu-devel@nongnu.org, Peter Xu <peterx@redhat.com>,
  Dario Faggioli <dfaggioli@suse.com>, Cameron Esfahani <dirty@apple.com>,
@@ -72,304 +70,179 @@ Cc: Laurent Vivier <lvivier@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Signed-off-by: Claudio Fontana <cfontana@suse.de>
-Reviewed-by: Alex Bennée <alex.bennee@linaro.org>
-Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-
-[claudio: replaced !CONFIG_USER_ONLY with CONFIG_SOFTMMU in cpu.h]
-
-this is working around a dangerous issue of different parts of the code
-seeing the struct TcgCpuOperations as different, because common_ss
-sources never see target configuration macros like CONFIG_USER_ONLY.
-
-We will keep conditional parts of the struct at the end,
-so that no other fields' starting addresses can be screwed up by
-different views of the struct.
-
-This will be further improved in a later patch, where we change
-the CPUClass struct member into a forward declared pointer.
-
-code in hw/core/cpu.c and include/hw/core/cpu.h, as well as
-other code outside of target, in headers, contains other uses of
-CONFIG_USER_ONLY, and they are potential issues.
-
-CONFIG_USER_ONLY should be poisoned, and in general one must be
-always wary of using CONFIG_ macros in common_ss code.
+cpu_check_watchpoint, watchpoint_address_matches are TCG-only.
 
 Signed-off-by: Claudio Fontana <cfontana@suse.de>
 ---
- include/hw/core/cpu.h     | 32 ++++++++++++++++++++++----------
- hw/mips/jazz.c            |  9 +++++++--
- target/alpha/cpu.c        |  2 +-
- target/arm/cpu.c          |  4 ++--
- target/m68k/cpu.c         |  2 +-
- target/microblaze/cpu.c   |  2 +-
- target/mips/cpu.c         |  4 +++-
- target/riscv/cpu.c        |  2 +-
- target/riscv/cpu_helper.c |  2 +-
- target/sparc/cpu.c        |  2 +-
- target/xtensa/cpu.c       |  2 +-
- target/xtensa/helper.c    |  4 ++--
- 12 files changed, 43 insertions(+), 24 deletions(-)
+ softmmu/physmem.c | 141 +++++++++++++++++++++++-----------------------
+ 1 file changed, 72 insertions(+), 69 deletions(-)
 
-diff --git a/include/hw/core/cpu.h b/include/hw/core/cpu.h
-index 8fcdd55494..fbd8a9e5c7 100644
---- a/include/hw/core/cpu.h
-+++ b/include/hw/core/cpu.h
-@@ -121,6 +121,20 @@ typedef struct TcgCpuOperations {
-     /** @debug_excp_handler: Callback for handling debug exceptions */
-     void (*debug_excp_handler)(CPUState *cpu);
- 
-+#ifdef NEED_CPU_H
-+#ifdef CONFIG_SOFTMMU
-+    /**
-+     * @do_transaction_failed: Callback for handling failed memory transactions
-+     * (ie bus faults or external aborts; not MMU faults)
-+     */
-+    void (*do_transaction_failed)(CPUState *cpu, hwaddr physaddr, vaddr addr,
-+                                  unsigned size, MMUAccessType access_type,
-+                                  int mmu_idx, MemTxAttrs attrs,
-+                                  MemTxResult response, uintptr_t retaddr);
-+
-+#endif /* CONFIG_SOFTMMU */
-+#endif /* NEED_CPU_H */
-+
- } TcgCpuOperations;
- #endif /* CONFIG_TCG */
- 
-@@ -133,8 +147,6 @@ typedef struct TcgCpuOperations {
-  * @has_work: Callback for checking if there is work to do.
-  * @do_unaligned_access: Callback for unaligned access handling, if
-  * the target defines #TARGET_ALIGNED_ONLY.
-- * @do_transaction_failed: Callback for handling failed memory transactions
-- * (ie bus faults or external aborts; not MMU faults)
-  * @virtio_is_big_endian: Callback to return %true if a CPU which supports
-  * runtime configurable endianness is currently big-endian. Non-configurable
-  * CPUs can use the default implementation of this method. This method should
-@@ -203,10 +215,6 @@ struct CPUClass {
-     void (*do_unaligned_access)(CPUState *cpu, vaddr addr,
-                                 MMUAccessType access_type,
-                                 int mmu_idx, uintptr_t retaddr);
--    void (*do_transaction_failed)(CPUState *cpu, hwaddr physaddr, vaddr addr,
--                                  unsigned size, MMUAccessType access_type,
--                                  int mmu_idx, MemTxAttrs attrs,
--                                  MemTxResult response, uintptr_t retaddr);
-     bool (*virtio_is_big_endian)(CPUState *cpu);
-     int (*memory_rw_debug)(CPUState *cpu, vaddr addr,
-                            uint8_t *buf, int len, bool is_write);
-@@ -893,6 +901,7 @@ static inline void cpu_unaligned_access(CPUState *cpu, vaddr addr,
-     cc->do_unaligned_access(cpu, addr, access_type, mmu_idx, retaddr);
+diff --git a/softmmu/physmem.c b/softmmu/physmem.c
+index 6301f4f0a5..9e7c50e0db 100644
+--- a/softmmu/physmem.c
++++ b/softmmu/physmem.c
+@@ -840,6 +840,7 @@ void cpu_watchpoint_remove_all(CPUState *cpu, int mask)
+     }
  }
  
 +#ifdef CONFIG_TCG
- static inline void cpu_transaction_failed(CPUState *cpu, hwaddr physaddr,
-                                           vaddr addr, unsigned size,
-                                           MMUAccessType access_type,
-@@ -902,12 +911,15 @@ static inline void cpu_transaction_failed(CPUState *cpu, hwaddr physaddr,
- {
-     CPUClass *cc = CPU_GET_CLASS(cpu);
- 
--    if (!cpu->ignore_memory_transaction_failures && cc->do_transaction_failed) {
--        cc->do_transaction_failed(cpu, physaddr, addr, size, access_type,
--                                  mmu_idx, attrs, response, retaddr);
-+    if (!cpu->ignore_memory_transaction_failures &&
-+        cc->tcg_ops.do_transaction_failed) {
-+        cc->tcg_ops.do_transaction_failed(cpu, physaddr, addr, size,
-+                                          access_type, mmu_idx, attrs,
-+                                          response, retaddr);
-     }
+ /* Return true if this watchpoint address matches the specified
+  * access (ie the address range covered by the watchpoint overlaps
+  * partially or completely with the address range covered by the
+@@ -873,6 +874,77 @@ int cpu_watchpoint_address_matches(CPUState *cpu, vaddr addr, vaddr len)
+     return ret;
  }
--#endif
-+#endif /* CONFIG_TCG */
-+#endif /* CONFIG_SOFTMMU */
  
- #endif /* NEED_CPU_H */
- 
-diff --git a/hw/mips/jazz.c b/hw/mips/jazz.c
-index f9442731dd..46c71a0ac8 100644
---- a/hw/mips/jazz.c
-+++ b/hw/mips/jazz.c
-@@ -116,6 +116,8 @@ static const MemoryRegionOps dma_dummy_ops = {
- #define MAGNUM_BIOS_SIZE_MAX 0x7e000
- #define MAGNUM_BIOS_SIZE                                                       \
-         (BIOS_SIZE < MAGNUM_BIOS_SIZE_MAX ? BIOS_SIZE : MAGNUM_BIOS_SIZE_MAX)
++/* Generate a debug exception if a watchpoint has been hit.  */
++void cpu_check_watchpoint(CPUState *cpu, vaddr addr, vaddr len,
++                          MemTxAttrs attrs, int flags, uintptr_t ra)
++{
++    CPUClass *cc = CPU_GET_CLASS(cpu);
++    CPUWatchpoint *wp;
 +
-+#if defined(CONFIG_TCG) && !defined(CONFIG_USER_ONLY)
- static void (*real_do_transaction_failed)(CPUState *cpu, hwaddr physaddr,
-                                           vaddr addr, unsigned size,
-                                           MMUAccessType access_type,
-@@ -137,6 +139,7 @@ static void mips_jazz_do_transaction_failed(CPUState *cs, hwaddr physaddr,
-     (*real_do_transaction_failed)(cs, physaddr, addr, size, access_type,
-                                   mmu_idx, attrs, response, retaddr);
- }
-+#endif /* CONFIG_TCG && !CONFIG_USER_ONLY */
- 
- static void mips_jazz_init(MachineState *machine,
-                            enum jazz_model_e jazz_model)
-@@ -205,8 +208,10 @@ static void mips_jazz_init(MachineState *machine,
-      * memory region that catches all memory accesses, as we do on Malta.
-      */
-     cc = CPU_GET_CLASS(cpu);
--    real_do_transaction_failed = cc->do_transaction_failed;
--    cc->do_transaction_failed = mips_jazz_do_transaction_failed;
-+#if defined(CONFIG_TCG) && !defined(CONFIG_USER_ONLY)
-+    real_do_transaction_failed = cc->tcg_ops.do_transaction_failed;
-+    cc->tcg_ops.do_transaction_failed = mips_jazz_do_transaction_failed;
-+#endif /* CONFIG_TCG && !CONFIG_USER_ONLY */
- 
-     /* allocate RAM */
-     memory_region_add_subregion(address_space, 0, machine->ram);
-diff --git a/target/alpha/cpu.c b/target/alpha/cpu.c
-index 66f1166672..a1696bebeb 100644
---- a/target/alpha/cpu.c
-+++ b/target/alpha/cpu.c
-@@ -225,7 +225,7 @@ static void alpha_cpu_class_init(ObjectClass *oc, void *data)
-     cc->gdb_write_register = alpha_cpu_gdb_write_register;
-     cc->tcg_ops.tlb_fill = alpha_cpu_tlb_fill;
- #ifndef CONFIG_USER_ONLY
--    cc->do_transaction_failed = alpha_cpu_do_transaction_failed;
-+    cc->tcg_ops.do_transaction_failed = alpha_cpu_do_transaction_failed;
-     cc->do_unaligned_access = alpha_cpu_do_unaligned_access;
-     cc->get_phys_page_debug = alpha_cpu_get_phys_page_debug;
-     dc->vmsd = &vmstate_alpha_cpu;
-diff --git a/target/arm/cpu.c b/target/arm/cpu.c
-index 8c9ca29025..cab8e06baf 100644
---- a/target/arm/cpu.c
-+++ b/target/arm/cpu.c
-@@ -2270,11 +2270,11 @@ static void arm_cpu_class_init(ObjectClass *oc, void *data)
-     cc->debug_check_watchpoint = arm_debug_check_watchpoint;
-     cc->do_unaligned_access = arm_cpu_do_unaligned_access;
- #if !defined(CONFIG_USER_ONLY)
--    cc->do_transaction_failed = arm_cpu_do_transaction_failed;
-+    cc->tcg_ops.do_transaction_failed = arm_cpu_do_transaction_failed;
-     cc->adjust_watchpoint_address = arm_adjust_watchpoint_address;
-     cc->tcg_ops.do_interrupt = arm_cpu_do_interrupt;
- #endif /* CONFIG_TCG && !CONFIG_USER_ONLY */
--#endif
++    assert(tcg_enabled());
++    if (cpu->watchpoint_hit) {
++        /*
++         * We re-entered the check after replacing the TB.
++         * Now raise the debug interrupt so that it will
++         * trigger after the current instruction.
++         */
++        qemu_mutex_lock_iothread();
++        cpu_interrupt(cpu, CPU_INTERRUPT_DEBUG);
++        qemu_mutex_unlock_iothread();
++        return;
++    }
++
++    addr = cc->adjust_watchpoint_address(cpu, addr, len);
++    QTAILQ_FOREACH(wp, &cpu->watchpoints, entry) {
++        if (watchpoint_address_matches(wp, addr, len)
++            && (wp->flags & flags)) {
++            if (replay_running_debug()) {
++                /*
++                 * Don't process the watchpoints when we are
++                 * in a reverse debugging operation.
++                 */
++                replay_breakpoint();
++                return;
++            }
++            if (flags == BP_MEM_READ) {
++                wp->flags |= BP_WATCHPOINT_HIT_READ;
++            } else {
++                wp->flags |= BP_WATCHPOINT_HIT_WRITE;
++            }
++            wp->hitaddr = MAX(addr, wp->vaddr);
++            wp->hitattrs = attrs;
++            if (!cpu->watchpoint_hit) {
++                if (wp->flags & BP_CPU &&
++                    !cc->debug_check_watchpoint(cpu, wp)) {
++                    wp->flags &= ~BP_WATCHPOINT_HIT;
++                    continue;
++                }
++                cpu->watchpoint_hit = wp;
++
++                mmap_lock();
++                tb_check_watchpoint(cpu, ra);
++                if (wp->flags & BP_STOP_BEFORE_ACCESS) {
++                    cpu->exception_index = EXCP_DEBUG;
++                    mmap_unlock();
++                    cpu_loop_exit_restore(cpu, ra);
++                } else {
++                    /* Force execution of one insn next time.  */
++                    cpu->cflags_next_tb = 1 | curr_cflags();
++                    mmap_unlock();
++                    if (ra) {
++                        cpu_restore_state(cpu, ra, true);
++                    }
++                    cpu_loop_exit_noexc(cpu);
++                }
++            }
++        } else {
++            wp->flags &= ~BP_WATCHPOINT_HIT;
++        }
++    }
++}
++
 +#endif /* CONFIG_TCG */
++
+ /* Called from RCU critical section */
+ static RAMBlock *qemu_get_ram_block(ram_addr_t addr)
+ {
+@@ -2355,75 +2427,6 @@ ram_addr_t qemu_ram_addr_from_host(void *ptr)
+     return block->offset + offset;
  }
  
- #ifdef CONFIG_KVM
-diff --git a/target/m68k/cpu.c b/target/m68k/cpu.c
-index 69093a621f..e68b933c84 100644
---- a/target/m68k/cpu.c
-+++ b/target/m68k/cpu.c
-@@ -473,7 +473,7 @@ static void m68k_cpu_class_init(ObjectClass *c, void *data)
-     cc->gdb_write_register = m68k_cpu_gdb_write_register;
-     cc->tcg_ops.tlb_fill = m68k_cpu_tlb_fill;
- #if defined(CONFIG_SOFTMMU)
--    cc->do_transaction_failed = m68k_cpu_transaction_failed;
-+    cc->tcg_ops.do_transaction_failed = m68k_cpu_transaction_failed;
-     cc->get_phys_page_debug = m68k_cpu_get_phys_page_debug;
-     dc->vmsd = &vmstate_m68k_cpu;
- #endif
-diff --git a/target/microblaze/cpu.c b/target/microblaze/cpu.c
-index b0b133b5be..4770c44aac 100644
---- a/target/microblaze/cpu.c
-+++ b/target/microblaze/cpu.c
-@@ -328,7 +328,7 @@ static void mb_cpu_class_init(ObjectClass *oc, void *data)
-     cc->gdb_write_register = mb_cpu_gdb_write_register;
-     cc->tcg_ops.tlb_fill = mb_cpu_tlb_fill;
- #ifndef CONFIG_USER_ONLY
--    cc->do_transaction_failed = mb_cpu_transaction_failed;
-+    cc->tcg_ops.do_transaction_failed = mb_cpu_transaction_failed;
-     cc->get_phys_page_debug = mb_cpu_get_phys_page_debug;
-     dc->vmsd = &vmstate_mb_cpu;
- #endif
-diff --git a/target/mips/cpu.c b/target/mips/cpu.c
-index d72ddc3b21..4234f60c29 100644
---- a/target/mips/cpu.c
-+++ b/target/mips/cpu.c
-@@ -482,7 +482,6 @@ static void mips_cpu_class_init(ObjectClass *c, void *data)
-     cc->gdb_read_register = mips_cpu_gdb_read_register;
-     cc->gdb_write_register = mips_cpu_gdb_write_register;
- #ifndef CONFIG_USER_ONLY
--    cc->do_transaction_failed = mips_cpu_do_transaction_failed;
-     cc->do_unaligned_access = mips_cpu_do_unaligned_access;
-     cc->get_phys_page_debug = mips_cpu_get_phys_page_debug;
-     cc->vmsd = &vmstate_mips_cpu;
-@@ -494,6 +493,9 @@ static void mips_cpu_class_init(ObjectClass *c, void *data)
-     cc->tcg_ops.cpu_exec_interrupt = mips_cpu_exec_interrupt;
-     cc->tcg_ops.synchronize_from_tb = mips_cpu_synchronize_from_tb;
-     cc->tcg_ops.tlb_fill = mips_cpu_tlb_fill;
-+#ifndef CONFIG_USER_ONLY
-+    cc->tcg_ops.do_transaction_failed = mips_cpu_do_transaction_failed;
-+#endif /* CONFIG_USER_ONLY */
- #endif /* CONFIG_TCG */
- 
-     cc->gdb_num_core_regs = 73;
-diff --git a/target/riscv/cpu.c b/target/riscv/cpu.c
-index 86ca452479..59557aac47 100644
---- a/target/riscv/cpu.c
-+++ b/target/riscv/cpu.c
-@@ -586,7 +586,7 @@ static void riscv_cpu_class_init(ObjectClass *c, void *data)
-     cc->gdb_stop_before_watchpoint = true;
-     cc->disas_set_info = riscv_cpu_disas_set_info;
- #ifndef CONFIG_USER_ONLY
--    cc->do_transaction_failed = riscv_cpu_do_transaction_failed;
-+    cc->tcg_ops.do_transaction_failed = riscv_cpu_do_transaction_failed;
-     cc->do_unaligned_access = riscv_cpu_do_unaligned_access;
-     cc->get_phys_page_debug = riscv_cpu_get_phys_page_debug;
-     /* For now, mark unmigratable: */
-diff --git a/target/riscv/cpu_helper.c b/target/riscv/cpu_helper.c
-index a2afb95fa1..3ddc43257c 100644
---- a/target/riscv/cpu_helper.c
-+++ b/target/riscv/cpu_helper.c
-@@ -670,7 +670,7 @@ void riscv_cpu_do_unaligned_access(CPUState *cs, vaddr addr,
-     env->badaddr = addr;
-     riscv_raise_exception(env, cs->exception_index, retaddr);
- }
--#endif
-+#endif /* !CONFIG_USER_ONLY */
- 
- bool riscv_cpu_tlb_fill(CPUState *cs, vaddr address, int size,
-                         MMUAccessType access_type, int mmu_idx,
-diff --git a/target/sparc/cpu.c b/target/sparc/cpu.c
-index 871b2a83c6..8d6d7c1f83 100644
---- a/target/sparc/cpu.c
-+++ b/target/sparc/cpu.c
-@@ -875,7 +875,7 @@ static void sparc_cpu_class_init(ObjectClass *oc, void *data)
-     cc->gdb_write_register = sparc_cpu_gdb_write_register;
-     cc->tcg_ops.tlb_fill = sparc_cpu_tlb_fill;
- #ifndef CONFIG_USER_ONLY
--    cc->do_transaction_failed = sparc_cpu_do_transaction_failed;
-+    cc->tcg_ops.do_transaction_failed = sparc_cpu_do_transaction_failed;
-     cc->do_unaligned_access = sparc_cpu_do_unaligned_access;
-     cc->get_phys_page_debug = sparc_cpu_get_phys_page_debug;
-     cc->vmsd = &vmstate_sparc_cpu;
-diff --git a/target/xtensa/cpu.c b/target/xtensa/cpu.c
-index 3ff025f0fe..fc52fde696 100644
---- a/target/xtensa/cpu.c
-+++ b/target/xtensa/cpu.c
-@@ -205,7 +205,7 @@ static void xtensa_cpu_class_init(ObjectClass *oc, void *data)
- #ifndef CONFIG_USER_ONLY
-     cc->do_unaligned_access = xtensa_cpu_do_unaligned_access;
-     cc->get_phys_page_debug = xtensa_cpu_get_phys_page_debug;
--    cc->do_transaction_failed = xtensa_cpu_do_transaction_failed;
-+    cc->tcg_ops.do_transaction_failed = xtensa_cpu_do_transaction_failed;
- #endif
-     cc->tcg_ops.debug_excp_handler = xtensa_breakpoint_handler;
-     cc->disas_set_info = xtensa_cpu_disas_set_info;
-diff --git a/target/xtensa/helper.c b/target/xtensa/helper.c
-index 05e2b7f70a..eeffee297d 100644
---- a/target/xtensa/helper.c
-+++ b/target/xtensa/helper.c
-@@ -261,7 +261,7 @@ bool xtensa_cpu_tlb_fill(CPUState *cs, vaddr address, int size,
-     cpu_loop_exit_restore(cs, retaddr);
- }
- 
--#else
-+#else /* !CONFIG_USER_ONLY */
- 
- void xtensa_cpu_do_unaligned_access(CPUState *cs,
-                                     vaddr addr, MMUAccessType access_type,
-@@ -337,4 +337,4 @@ void xtensa_runstall(CPUXtensaState *env, bool runstall)
-         qemu_cpu_kick(cpu);
-     }
- }
--#endif
-+#endif /* !CONFIG_USER_ONLY */
+-/* Generate a debug exception if a watchpoint has been hit.  */
+-void cpu_check_watchpoint(CPUState *cpu, vaddr addr, vaddr len,
+-                          MemTxAttrs attrs, int flags, uintptr_t ra)
+-{
+-    CPUClass *cc = CPU_GET_CLASS(cpu);
+-    CPUWatchpoint *wp;
+-
+-    assert(tcg_enabled());
+-    if (cpu->watchpoint_hit) {
+-        /*
+-         * We re-entered the check after replacing the TB.
+-         * Now raise the debug interrupt so that it will
+-         * trigger after the current instruction.
+-         */
+-        qemu_mutex_lock_iothread();
+-        cpu_interrupt(cpu, CPU_INTERRUPT_DEBUG);
+-        qemu_mutex_unlock_iothread();
+-        return;
+-    }
+-
+-    addr = cc->adjust_watchpoint_address(cpu, addr, len);
+-    QTAILQ_FOREACH(wp, &cpu->watchpoints, entry) {
+-        if (watchpoint_address_matches(wp, addr, len)
+-            && (wp->flags & flags)) {
+-            if (replay_running_debug()) {
+-                /*
+-                 * Don't process the watchpoints when we are
+-                 * in a reverse debugging operation.
+-                 */
+-                replay_breakpoint();
+-                return;
+-            }
+-            if (flags == BP_MEM_READ) {
+-                wp->flags |= BP_WATCHPOINT_HIT_READ;
+-            } else {
+-                wp->flags |= BP_WATCHPOINT_HIT_WRITE;
+-            }
+-            wp->hitaddr = MAX(addr, wp->vaddr);
+-            wp->hitattrs = attrs;
+-            if (!cpu->watchpoint_hit) {
+-                if (wp->flags & BP_CPU &&
+-                    !cc->debug_check_watchpoint(cpu, wp)) {
+-                    wp->flags &= ~BP_WATCHPOINT_HIT;
+-                    continue;
+-                }
+-                cpu->watchpoint_hit = wp;
+-
+-                mmap_lock();
+-                tb_check_watchpoint(cpu, ra);
+-                if (wp->flags & BP_STOP_BEFORE_ACCESS) {
+-                    cpu->exception_index = EXCP_DEBUG;
+-                    mmap_unlock();
+-                    cpu_loop_exit_restore(cpu, ra);
+-                } else {
+-                    /* Force execution of one insn next time.  */
+-                    cpu->cflags_next_tb = 1 | curr_cflags();
+-                    mmap_unlock();
+-                    if (ra) {
+-                        cpu_restore_state(cpu, ra, true);
+-                    }
+-                    cpu_loop_exit_noexc(cpu);
+-                }
+-            }
+-        } else {
+-            wp->flags &= ~BP_WATCHPOINT_HIT;
+-        }
+-    }
+-}
+-
+ static MemTxResult flatview_read(FlatView *fv, hwaddr addr,
+                                  MemTxAttrs attrs, void *buf, hwaddr len);
+ static MemTxResult flatview_write(FlatView *fv, hwaddr addr, MemTxAttrs attrs,
 -- 
 2.26.2
 
