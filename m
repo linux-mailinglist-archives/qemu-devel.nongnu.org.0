@@ -2,70 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D2B8C2F3990
-	for <lists+qemu-devel@lfdr.de>; Tue, 12 Jan 2021 20:05:06 +0100 (CET)
-Received: from localhost ([::1]:58402 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4E0752F39BE
+	for <lists+qemu-devel@lfdr.de>; Tue, 12 Jan 2021 20:13:10 +0100 (CET)
+Received: from localhost ([::1]:40408 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kzOyX-0003nh-So
-	for lists+qemu-devel@lfdr.de; Tue, 12 Jan 2021 14:05:05 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55588)
+	id 1kzP6K-0000Dk-T5
+	for lists+qemu-devel@lfdr.de; Tue, 12 Jan 2021 14:13:08 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56670)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1kzOWz-0001ws-J6; Tue, 12 Jan 2021 13:36:37 -0500
-Received: from mail-ej1-x629.google.com ([2a00:1450:4864:20::629]:38444)
+ id 1kzOcE-0007rM-Ls
+ for qemu-devel@nongnu.org; Tue, 12 Jan 2021 13:42:02 -0500
+Received: from mail-wm1-x335.google.com ([2a00:1450:4864:20::335]:38320)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1kzOWy-0007Xb-4C; Tue, 12 Jan 2021 13:36:37 -0500
-Received: by mail-ej1-x629.google.com with SMTP id 6so4938540ejz.5;
- Tue, 12 Jan 2021 10:36:35 -0800 (PST)
+ id 1kzOcD-0000mS-6G
+ for qemu-devel@nongnu.org; Tue, 12 Jan 2021 13:42:02 -0500
+Received: by mail-wm1-x335.google.com with SMTP id y187so3095053wmd.3
+ for <qemu-devel@nongnu.org>; Tue, 12 Jan 2021 10:42:00 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=URPw2976JZr7XRKyhMiAKOdcNTBQU8VnrnQ2GFeuE/U=;
- b=l20l7gwWIKPn32PIaaF39Dntbr9gVgUYcerX5b/rTYZA7TyEvIP8nd7HeayFeQK3ut
- uSpCBts9Krux9jifdRQf1QkakzQnlPS+kaCnIXyJD1M8islpFIJquKX+FaJzEbU13TrO
- WXb6rNpWZikweRuVb0O9R7GP2Sh5XUn98RmcBMHk8tpygi5E63ytZelumOVZsrCLx4F7
- qR471FnxLEEhKy1b8mFjbll+c7yfIay1OmnLuxN8mQ9g5bJbOY7Yee06O1/3qonWxTIU
- YF053G4+farbNVdkrGKWKpatA1keGPDKMgZAC6GfkocEVaXfIKjdAAhgOtC6K4G2Tww1
- 2rZw==
+ h=sender:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=2h2Lkh1nqLrN72EhYLNCgPb6E0o6hk4k8AQTBHNUFWg=;
+ b=VFa5OfI3JYt17ny4tYPs2cTxoTfl8ebc1I+/UqQPq7LSIJ6cZQpQqwA9hSePvJYwQj
+ dOegfF0ScNvCfqDPQhf5ZWb5+98aYjS/UshdbAIjBZzsq6a8RfXf81iYLXZ3LywZoVpb
+ oPHUPBj4PutquC/xJyQYNuzTNjVAflMfcnBZ5Y9BnC90HJgWIiRB+xgk0mlxXiBA3jgH
+ cdWRPTMO2iMXCIxOsa7kjijUj0JYQ1RyOfO7sG5e4tjTm0eALdNgN2RCCfEd/A4gFZEU
+ Z6+H8K4N/Dy9k+asLi5SusKLxGjo824tWz4fzYgxK148ei1Tw64smsQ8ShdTC02vxkC9
+ cf+Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
- :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=URPw2976JZr7XRKyhMiAKOdcNTBQU8VnrnQ2GFeuE/U=;
- b=iCEO1Rj+K3xI5lCDj0NkyP0Mi6Y4uCHG82E+TuZsj+AzPg1xNuuspoymzmJ8qaCVIC
- QX4LO0RfZO/gkzlXHyNYev8u/ZrhCWgtt4zqph2KOg4oQGjTkmgOGGCHoc1GCFrua8Ux
- oGDRQH0Zz6waF9bS2n+DAhhBxqcirnq0L5WtZzXxGjttCVYtcGheRZyqyojrioWmAkTt
- KIgNK3bslykUwx/37JNcG7+MROgKp3BC6rTBL6S/Rm24n1wotola7Kv+pdSiWcRstBt8
- k9rN/BYv5PbCnUTp/8KIFH3VfiUcgHvyEayI3tacMnmAbB7w6CCiTtajNEOtwTeTZzW9
- pehw==
-X-Gm-Message-State: AOAM5325PQEbyc0oN7P1fUtpiXEJrkqMhJj8RXaU+16FNoYfGHQ/cDTr
- FYh49Di+u+mlmXiLnZnnnqSvZLjoss8=
-X-Google-Smtp-Source: ABdhPJxVs7D+TeVRgmikig04ysNfEvpjXa9GxFu9bq1Fp9EL34h+nql5Lmf/X1Qb7jol/+mc9emwkg==
-X-Received: by 2002:a17:906:d8a1:: with SMTP id
- qc1mr125349ejb.294.1610476594097; 
- Tue, 12 Jan 2021 10:36:34 -0800 (PST)
+ :mime-version:content-transfer-encoding;
+ bh=2h2Lkh1nqLrN72EhYLNCgPb6E0o6hk4k8AQTBHNUFWg=;
+ b=Nwxtp1TerxDLo7+LJdfB5YwOFd3aJHirbzjHC0cF79icfvuo2gyfeV6MtBDbKX4Gty
+ IZmTbTnCNzVLmWTWK3XgH3dwZpjOw+yseeVSVGUmFDViTMXzV+/MW0qNESS/vMKmxXc/
+ qHwzEsOWC7DcX3jTO/0Y4rHeNcsvlUk0DlWsugsJqXpsOgH7EZC6VXPdgxRIyi7wVhyL
+ mmOBr07SmjudJ7kGDs7coT5syaIoSbYvp+J1TdzyGO4cQIWivQ0L6+R0b6CU/clsU78T
+ F/SMt/G5PUgpi/dkE7a5rb3uNtNmYsI5jRI2kIaHSD31ER/YRu9YwZsidN/lfybIe/PE
+ AZmQ==
+X-Gm-Message-State: AOAM532zJW+GL3wJlQCXYMVYUQdCShfjdXW94SnMnLCdruqvjsTETX32
+ ttZO89qjtsUjELIsUyOIWqo7uLxexBI=
+X-Google-Smtp-Source: ABdhPJzQm4D4K8kGXLFBDWW97Zmgdh6aY2NnpDaCQ/p0Sc0qKoBCDvyV8umWvsJtBpa1dqcDsvJgng==
+X-Received: by 2002:a1c:2b46:: with SMTP id r67mr588615wmr.162.1610476919149; 
+ Tue, 12 Jan 2021 10:41:59 -0800 (PST)
 Received: from x1w.redhat.com (190.red-83-57-173.dynamicip.rima-tde.net.
  [83.57.173.190])
- by smtp.gmail.com with ESMTPSA id k2sm1516490ejp.6.2021.01.12.10.36.32
+ by smtp.gmail.com with ESMTPSA id r13sm6016146wrt.10.2021.01.12.10.41.57
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 12 Jan 2021 10:36:33 -0800 (PST)
+ Tue, 12 Jan 2021 10:41:58 -0800 (PST)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
-To: Bin Meng <bin.meng@windriver.com>, qemu-devel@nongnu.org,
- Bin Meng <bmeng.cn@gmail.com>
-Subject: [RFC PATCH v6 09/11] hw/ssi: imx_spi: Round up the burst length to be
- multiple of 8
-Date: Tue, 12 Jan 2021 19:35:27 +0100
-Message-Id: <20210112183529.2011863-10-f4bug@amsat.org>
+To: qemu-devel@nongnu.org
+Subject: [PATCH] decodetree: Allow 'dot' in opcode names
+Date: Tue, 12 Jan 2021 19:41:56 +0100
+Message-Id: <20210112184156.2014305-1-f4bug@amsat.org>
 X-Mailer: git-send-email 2.26.2
-In-Reply-To: <20210112183529.2011863-1-f4bug@amsat.org>
-References: <20210112183529.2011863-1-f4bug@amsat.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::629;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-ej1-x629.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::335;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x335.google.com
 X-Spam_score_int: -14
 X-Spam_score: -1.5
 X-Spam_bar: -
@@ -86,55 +83,43 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- Alistair Francis <alistair@alistair23.me>,
+Cc: Paolo Bonzini <pbonzini@redhat.com>,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
- Jean-Christophe Dubois <jcd@tribudubois.net>, qemu-arm@nongnu.org,
- Peter Chubb <peter.chubb@nicta.com.au>
+ Richard Henderson <richard.henderson@linaro.org>,
+ Eduardo Habkost <ehabkost@redhat.com>, Cleber Rosa <crosa@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Bin Meng <bin.meng@windriver.com>
+Some ISA use a dot in their opcodes. Allow the decodetree
+script to process them. The dot is replaced by an underscore
+in the generated code.
 
-Current implementation of the imx spi controller expects the burst
-length to be multiple of 8, which is the most common use case.
-
-In case the burst length is not what we expect, log it to give user
-a chance to notice it, and round it up to be multiple of 8.
-
-Signed-off-by: Bin Meng <bin.meng@windriver.com>
-Message-Id: <20210112145526.31095-5-bmeng.cn@gmail.com>
 Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 ---
- hw/ssi/imx_spi.c | 15 ++++++++++++++-
- 1 file changed, 14 insertions(+), 1 deletion(-)
+ scripts/decodetree.py | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
-diff --git a/hw/ssi/imx_spi.c b/hw/ssi/imx_spi.c
-index 2f9e800dd3a..638959daa08 100644
---- a/hw/ssi/imx_spi.c
-+++ b/hw/ssi/imx_spi.c
-@@ -129,7 +129,20 @@ static uint8_t imx_spi_selected_channel(IMXSPIState *s)
+diff --git a/scripts/decodetree.py b/scripts/decodetree.py
+index 47aa9caf6d1..b7572589e64 100644
+--- a/scripts/decodetree.py
++++ b/scripts/decodetree.py
+@@ -49,7 +49,7 @@
+ re_arg_ident = '&[a-zA-Z0-9_]*'
+ re_fld_ident = '%[a-zA-Z0-9_]*'
+ re_fmt_ident = '@[a-zA-Z0-9_]*'
+-re_pat_ident = '[a-zA-Z0-9_]*'
++re_pat_ident = '[a-zA-Z0-9_.]*'
  
- static uint32_t imx_spi_burst_length(IMXSPIState *s)
- {
--    return EXTRACT(s->regs[ECSPI_CONREG], ECSPI_CONREG_BURST_LENGTH) + 1;
-+    uint32_t burst;
-+
-+    burst = EXTRACT(s->regs[ECSPI_CONREG], ECSPI_CONREG_BURST_LENGTH) + 1;
-+    if (burst % 8) {
-+        qemu_log_mask(LOG_UNIMP,
-+                      "[%s]%s: burst length (%d) not multiple of 8!\n",
-+                      TYPE_IMX_SPI, __func__, burst);
-+        burst = ROUND_UP(burst, 8);
-+        qemu_log_mask(LOG_UNIMP,
-+                      "[%s]%s: burst length rounded up to %d; this may not work.\n",
-+                      TYPE_IMX_SPI, __func__, burst);
-+    }
-+
-+    return burst;
- }
- 
- static bool imx_spi_is_enabled(IMXSPIState *s)
+ def error_with_file(file, lineno, *args):
+     """Print an error message from file:line and args and exit."""
+@@ -1082,6 +1082,7 @@ def parse_file(f, parent_pat):
+         elif re.fullmatch(re_fmt_ident, name):
+             parse_generic(start_lineno, None, name[1:], toks)
+         elif re.fullmatch(re_pat_ident, name):
++            name = name.replace('.', '_')
+             parse_generic(start_lineno, parent_pat, name, toks)
+         else:
+             error(lineno, 'invalid token "{0}"'.format(name))
 -- 
 2.26.2
 
