@@ -2,71 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8F5FA2F291B
-	for <lists+qemu-devel@lfdr.de>; Tue, 12 Jan 2021 08:43:21 +0100 (CET)
-Received: from localhost ([::1]:57832 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E44A52F291F
+	for <lists+qemu-devel@lfdr.de>; Tue, 12 Jan 2021 08:46:13 +0100 (CET)
+Received: from localhost ([::1]:60460 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kzEKm-0006sG-8e
-	for lists+qemu-devel@lfdr.de; Tue, 12 Jan 2021 02:43:20 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38804)
+	id 1kzENZ-0008B9-0X
+	for lists+qemu-devel@lfdr.de; Tue, 12 Jan 2021 02:46:13 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39564)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1kzEJK-0006NE-Gv
- for qemu-devel@nongnu.org; Tue, 12 Jan 2021 02:41:50 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:45908)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1kzEM4-0007d5-Qh
+ for qemu-devel@nongnu.org; Tue, 12 Jan 2021 02:44:40 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:30640)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1kzEJI-00007h-U7
- for qemu-devel@nongnu.org; Tue, 12 Jan 2021 02:41:50 -0500
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1kzEM3-00018h-28
+ for qemu-devel@nongnu.org; Tue, 12 Jan 2021 02:44:40 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1610437308;
+ s=mimecast20190719; t=1610437477;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=9mD5HY5Mtmlp4RZrVQRYoF/AtOYxVPslrcqcwWQz9MI=;
- b=gKE92SM4UgtSNXzsv4uZxMUlbXuLYXO+XGHMskZIjneBfy7y5MI5X0ASNxlOl3grxhROlk
- sLqi1vgyhwAolqrZLuAxQ11gy7vv18Or2YV948jRSpmquT339CrWSmE/ILgKL+YL5VIxHx
- mZ6qzV6Op0my0A9I7kMSHuIumaSaxH8=
+ bh=4WEUrCm7bWN2t/dPIgq/T4nUcvIZX15X8lK0AQyV82s=;
+ b=TlVQcFtgSCE+3oyO+rL21EcGTaP/427TwfhXzZhbut6NZlOmPHOhEbVKyWAiBcNwWti6pN
+ VvqVW+8t4v8xyZVoBMHGNb9nWApEjBjaMjTSMk3mmQ3POFa34q+Qd6biZDSaBQm1tr8p+Z
+ UAL/bHYDnwcYZS+VYkKiCLPfe3j0Y2U=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-505-hNPRZjDXMly5MSdaKOy-kw-1; Tue, 12 Jan 2021 02:41:46 -0500
-X-MC-Unique: hNPRZjDXMly5MSdaKOy-kw-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
+ us-mta-30-03A-J8ztO1a9aXbFuum2og-1; Tue, 12 Jan 2021 02:44:35 -0500
+X-MC-Unique: 03A-J8ztO1a9aXbFuum2og-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+ [10.5.11.15])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 5C719107ACF7;
- Tue, 12 Jan 2021 07:41:45 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 05C47107ACF7;
+ Tue, 12 Jan 2021 07:44:34 +0000 (UTC)
 Received: from thuth.remote.csb (ovpn-112-184.ams2.redhat.com [10.36.112.184])
- by smtp.corp.redhat.com (Postfix) with ESMTP id F05659CA0;
- Tue, 12 Jan 2021 07:41:40 +0000 (UTC)
-Subject: Re: [PATCH v3 4/5] tests/tcg/s390x: Fix EXRL tests
-To: David Hildenbrand <david@redhat.com>, qemu-devel@nongnu.org
-References: <20210111163845.18148-1-david@redhat.com>
- <20210111163845.18148-5-david@redhat.com>
+ by smtp.corp.redhat.com (Postfix) with ESMTP id BE8013A47;
+ Tue, 12 Jan 2021 07:44:32 +0000 (UTC)
+Subject: Re: [PULL v2 00/15] Testing, CI and bsd-user patches
+To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
+ qemu-devel@nongnu.org, Peter Maydell <peter.maydell@linaro.org>
+References: <20210111140602.159377-1-thuth@redhat.com>
+ <c3ff4be3-0962-8566-10aa-b2adb4304937@redhat.com>
 From: Thomas Huth <thuth@redhat.com>
-Message-ID: <fdb64ad0-463a-3a35-e68d-4ce0d0de95b5@redhat.com>
-Date: Tue, 12 Jan 2021 08:41:39 +0100
+Message-ID: <9090fd04-d8e9-08d1-0a6d-790ebbcae486@redhat.com>
+Date: Tue, 12 Jan 2021 08:44:31 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.4.0
 MIME-Version: 1.0
-In-Reply-To: <20210111163845.18148-5-david@redhat.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+In-Reply-To: <c3ff4be3-0962-8566-10aa-b2adb4304937@redhat.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=thuth@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=thuth@redhat.com;
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=thuth@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -29
 X-Spam_score: -3.0
 X-Spam_bar: ---
 X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.251,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
  RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -81,53 +82,37 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-s390x@nongnu.org, Cornelia Huck <cohuck@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>
+Cc: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>, acho@suse.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 11/01/2021 17.38, David Hildenbrand wrote:
-> The current EXRL tests crash on real machines: we must not use r0 as a base
-> register for trt/trtr, otherwise the content gets ignored. Also, we must
-> not use r0 for exrl, otherwise it gets ignored.
+On 11/01/2021 15.40, Philippe Mathieu-Daudé wrote:
+> On 1/11/21 3:06 PM, Thomas Huth wrote:
+>> The following changes since commit 7b09f127738ae3d0e71716cea086fc8f847a5686:
+>>
+>>    Merge remote-tracking branch 'remotes/pmaydell/tags/pull-target-arm-20210108' into staging (2021-01-08 15:37:04 +0000)
+>>
+>> are available in the Git repository at:
+>>
+>>    https://gitlab.com/huth/qemu.git tags/pull-request-2021-01-11v2
+>>
+>> for you to fetch changes up to b677001d70529df271a5d9314440bb201da40acf:
+>>
+>>    fuzz: map all BARs and enable PCI devices (2021-01-11 14:59:21 +0100)
+>>
+>> ----------------------------------------------------------------
+>> * Fuzzer improvements
+>> * Add OpenSUSE leap to the gitlab-CI
+>> * Some fixes to get our CI "green" again
+>> * Some initial patches to update bsd-user
+>> ----------------------------------------------------------------
 > 
-> Let's use the "a" constraint so we get a general purpose register != r0.
-> For op2, we can simply specify a memory operand directly via "Q" (Memory
-> reference without index register and with short displacement).
-> 
-> Fixes: ad8c851d2e77 ("target/s390x: add EX support for TRT and TRTR")
-> Signed-off-by: David Hildenbrand <david@redhat.com>
-> ---
->   tests/tcg/s390x/exrl-trt.c  | 8 ++++----
->   tests/tcg/s390x/exrl-trtr.c | 8 ++++----
->   2 files changed, 8 insertions(+), 8 deletions(-)
-> 
-> diff --git a/tests/tcg/s390x/exrl-trt.c b/tests/tcg/s390x/exrl-trt.c
-> index 3c5323aecb..16711a3181 100644
-> --- a/tests/tcg/s390x/exrl-trt.c
-> +++ b/tests/tcg/s390x/exrl-trt.c
-> @@ -19,7 +19,7 @@ int main(void)
->       }
->       asm volatile(
->           "    j 2f\n"
-> -        "1:  trt 0(1,%[op1]),0(%[op2])\n"
-> +        "1:  trt 0(1,%[op1]),%[op2]\n"
->           "2:  exrl %[op1_len],1b\n"
->           "    lgr %[r1],%%r1\n"
->           "    lgr %[r2],%%r2\n"
-> @@ -27,9 +27,9 @@ int main(void)
->           : [r1] "+r" (r1),
->             [r2] "+r" (r2),
->             [cc] "=r" (cc)
-> -        : [op1] "r" (&op1),
-> -          [op1_len] "r" (5),
-> -          [op2] "r" (&op2)
-> +        : [op1] "a" (&op1),
-> +          [op1_len] "a" (5),
+> Doh, missed the Shippable-CI job reduction :/
+> https://www.mail-archive.com/qemu-devel@nongnu.org/msg771079.html
 
-I think op1_len could still stay with "r" instead of "a" ... OTOH "a" also 
-does not hurt here, so:
+I don't have a shippable-CI account, so I can't test that one. I hope Alex 
+can pick that up.
 
-Reviewed-by: Thomas Huth <thuth@redhat.com>
+  Thomas
 
 
