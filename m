@@ -2,74 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D4DEA2F2DE1
-	for <lists+qemu-devel@lfdr.de>; Tue, 12 Jan 2021 12:28:33 +0100 (CET)
-Received: from localhost ([::1]:52204 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 11B812F2DA4
+	for <lists+qemu-devel@lfdr.de>; Tue, 12 Jan 2021 12:14:33 +0100 (CET)
+Received: from localhost ([::1]:36980 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kzHqi-0001ot-V6
-	for lists+qemu-devel@lfdr.de; Tue, 12 Jan 2021 06:28:32 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53846)
+	id 1kzHdA-0000kT-4a
+	for lists+qemu-devel@lfdr.de; Tue, 12 Jan 2021 06:14:32 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54032)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1kzHDh-0006vV-Py
- for qemu-devel@nongnu.org; Tue, 12 Jan 2021 05:48:13 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:52473)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1kzHDe-0004I6-SU
- for qemu-devel@nongnu.org; Tue, 12 Jan 2021 05:48:13 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1610448489;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=nb35rtweCcVfONanNeq8LpgS2IiBnXrqt6I7HCRUoeE=;
- b=cuYnHv9z8GMoeF8xg46eYnlEWQLa26JRRgYlyAxzyz0EKGjsYbEyXaOZL6I7adt8b0vMWy
- Vlbcwtyet3cGEuBwuEZaUd1fJc9jx9Y0wYE7oGsg/anP6bR/aQ1fnpDA43ZLhmrJNAmMZ4
- 9QqwySnuRSqfg8iM4FDYA8ht12uRTLg=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-65-i5o4DhYqPrCn0tEdizOBxw-1; Tue, 12 Jan 2021 05:48:07 -0500
-X-MC-Unique: i5o4DhYqPrCn0tEdizOBxw-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 43CD59CC09;
- Tue, 12 Jan 2021 10:48:06 +0000 (UTC)
-Received: from dresden.str.redhat.com (ovpn-115-161.ams2.redhat.com
- [10.36.115.161])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id B2D2310002A6;
- Tue, 12 Jan 2021 10:48:03 +0000 (UTC)
-Subject: Re: [PATCH v3 07/25] block/block-copy: add ratelimit to block-copy
-To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
- qemu-block@nongnu.org
-References: <20201026171815.13233-1-vsementsov@virtuozzo.com>
- <20201026171815.13233-8-vsementsov@virtuozzo.com>
-From: Max Reitz <mreitz@redhat.com>
-Message-ID: <e7ae11c0-600a-5ed3-9f41-72e4c6ff8e9c@redhat.com>
-Date: Tue, 12 Jan 2021 11:48:01 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.5.0
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1kzHEe-0007sX-An
+ for qemu-devel@nongnu.org; Tue, 12 Jan 2021 05:49:12 -0500
+Received: from mail-ej1-x631.google.com ([2a00:1450:4864:20::631]:41470)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1kzHEc-0004Z5-N1
+ for qemu-devel@nongnu.org; Tue, 12 Jan 2021 05:49:12 -0500
+Received: by mail-ej1-x631.google.com with SMTP id g12so662607ejf.8
+ for <qemu-devel@nongnu.org>; Tue, 12 Jan 2021 02:49:10 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=8lkWHfQzlOXdMXk/do/ry1DgXZNvjnd0HdY75a5lOcE=;
+ b=nZQPXEx1qPGrUZE6lP38/xJ0koyPuUEroU1VlNRdXhufpJL0sK74aVRceMk2PipkPY
+ mhMrTrhBfjskXJJbeAhKGI8OFsv41o11xg4aAdE7iHlKjg4NKYw6h9yK/2WHIlYQ+1pl
+ MGGU4ncbdxircYai9JS0RkmcHAkjoIHRd7pInbxbE1MQec8f4348EplW9RN3qvtEznIa
+ ObXDqHdtgBB0B67tPrwT0Tol0FsdUf/VrlGVg/vrrYf3qEEQCHoS4e67cVg9LDVKb6/W
+ eSTcz1nuUJapRcNvUP0KsmH61d+quIhMY7Uih9MyHakwmM3qpTXOcN2Uvmjqefkw50cg
+ Ersw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=8lkWHfQzlOXdMXk/do/ry1DgXZNvjnd0HdY75a5lOcE=;
+ b=RawU9c9C+BPVeJXxn6UBv87Im9BuYV0P2wRxbw2lWNy7Hhw3Dp0vlUTBooofv0TPvJ
+ 6hAKm20Q1KVdsj9u+nXxrcL8vWEx3qI8xgKpw86qypAvpScOYN/RS5XRCLqlKKnEDtQl
+ lJxxklG4W5ukKHHWY6GAkOwqbJ/QBFSZjFcT/DhBE/X3pFQOTG7O33pzUTKPiGD6W7ra
+ wdrxgkoAxiR5NWiB/yD4K+owsRxTqf0urzKDs/UCWDgGn1r4DH4c9O+MicAh0zT+wVKY
+ lUL+WIPBmEqNSbjbxkin+1pF3Ko1px9vMyZjHZvlHpVgWlo7D3xwEstt4xAxgGdqzkT6
+ WthA==
+X-Gm-Message-State: AOAM530+S4i0uqZZw7suzGg+jBDFqK10h6eL2927D+irD/oiOcxuKEyU
+ 1AWBBvguT+L3cUcTeiGiKbKrSes3Nmg0fEtceKDGXg==
+X-Google-Smtp-Source: ABdhPJynpYJ49JVvTJ4Fx0ajkzzFNpnM2hDhZvCQS/hRoAwWZ19SvlkFwT9reynJmdNgkbRZjtxo9j/C3YTtSxU7NXQ=
+X-Received: by 2002:a17:906:1151:: with SMTP id
+ i17mr2865399eja.250.1610448548948; 
+ Tue, 12 Jan 2021 02:49:08 -0800 (PST)
 MIME-Version: 1.0
-In-Reply-To: <20201026171815.13233-8-vsementsov@virtuozzo.com>
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mreitz@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=mreitz@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -29
-X-Spam_score: -3.0
-X-Spam_bar: ---
-X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.251,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+References: <20210110081429.10126-1-bmeng.cn@gmail.com>
+ <20210110081429.10126-3-bmeng.cn@gmail.com>
+In-Reply-To: <20210110081429.10126-3-bmeng.cn@gmail.com>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Tue, 12 Jan 2021 10:48:57 +0000
+Message-ID: <CAFEAcA8W8vxA8AJY-Ka+--drv_asw5soaFNO90VzVENApMMH0w@mail.gmail.com>
+Subject: Re: [PATCH v4 2/6] hw/ssi: imx_spi: Remove imx_spi_update_irq() in
+ imx_spi_reset()
+To: Bin Meng <bmeng.cn@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2a00:1450:4864:20::631;
+ envelope-from=peter.maydell@linaro.org; helo=mail-ej1-x631.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -83,43 +79,80 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: kwolf@redhat.com, wencongyang2@huawei.com, xiechanglong.d@gmail.com,
- qemu-devel@nongnu.org, armbru@redhat.com, den@openvz.org, jsnow@redhat.com
+Cc: Bin Meng <bin.meng@windriver.com>, QEMU Developers <qemu-devel@nongnu.org>,
+ =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>,
+ qemu-arm <qemu-arm@nongnu.org>, Alistair Francis <alistair.francis@wdc.com>,
+ Jean-Christophe Dubois <jcd@tribudubois.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 26.10.20 18:17, Vladimir Sementsov-Ogievskiy wrote:
-> We are going to directly use one async block-copy operation for backup
-> job, so we need rate limiter.
-> 
-> We want to maintain current backup behavior: only background copying is
-> limited and copy-before-write operations only participate in limit
-> calculation. Therefore we need one rate limiter for block-copy state
-> and boolean flag for block-copy call state for actual limitation.
-> 
-> Note, that we can't just calculate each chunk in limiter after
-> successful copying: it will not save us from starting a lot of async
-> sub-requests which will exceed limit too much. Instead let's use the
-> following scheme on sub-request creation:
-> 1. If at the moment limit is not exceeded, create the request and
-> account it immediately.
-> 2. If at the moment limit is already exceeded, drop create sub-request
-> and handle limit instead (by sleep).
-> With this approach we'll never exceed the limit more than by one
-> sub-request (which pretty much matches current backup behavior).
-> 
-> Note also, that if there is in-flight block-copy async call,
-> block_copy_kick() should be used after set-speed to apply new setup
-> faster. For that block_copy_kick() published in this patch.
-> 
-> Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+On Sun, 10 Jan 2021 at 08:15, Bin Meng <bmeng.cn@gmail.com> wrote:
+>
+> From: Bin Meng <bin.meng@windriver.com>
+>
+> Usually the approach is that the device on the other end of the line
+> is going to reset its state anyway, so there's no need to actively
+> signal an irq line change during the reset hook.
+>
+> Move imx_spi_update_irq() out of imx_spi_reset(), to a new function
+> imx_spi_hard_reset() that is called when the controller is disabled.
+>
+> Signed-off-by: Bin Meng <bin.meng@windriver.com>
+>
 > ---
->   include/block/block-copy.h |  5 ++++-
->   block/backup-top.c         |  2 +-
->   block/backup.c             |  2 +-
->   block/block-copy.c         | 46 +++++++++++++++++++++++++++++++++++++-
->   4 files changed, 51 insertions(+), 4 deletions(-)
+>
+> Changes in v4:
+> - adujst the patch 2,3 order
+> - rename imx_spi_soft_reset() to imx_spi_hard_reset() to avoid confusion
+>
+> Changes in v3:
+> - new patch: remove imx_spi_update_irq() in imx_spi_reset()
+>
+>  hw/ssi/imx_spi.c | 14 ++++++++++----
+>  1 file changed, 10 insertions(+), 4 deletions(-)
+>
+> diff --git a/hw/ssi/imx_spi.c b/hw/ssi/imx_spi.c
+> index e605049a21..2c4c5ec1b8 100644
+> --- a/hw/ssi/imx_spi.c
+> +++ b/hw/ssi/imx_spi.c
+> @@ -241,11 +241,16 @@ static void imx_spi_reset(DeviceState *dev)
+>      imx_spi_rxfifo_reset(s);
+>      imx_spi_txfifo_reset(s);
+>
+> -    imx_spi_update_irq(s);
+> -
+>      s->burst_length = 0;
+>  }
+>
+> +static void imx_spi_hard_reset(IMXSPIState *s)
+> +{
+> +    imx_spi_reset(DEVICE(s));
+> +
+> +    imx_spi_update_irq(s);
+> +}
+> +
+>  static uint64_t imx_spi_read(void *opaque, hwaddr offset, unsigned size)
+>  {
+>      uint32_t value = 0;
+> @@ -351,8 +356,9 @@ static void imx_spi_write(void *opaque, hwaddr offset, uint64_t value,
+>          s->regs[ECSPI_CONREG] = value;
+>
+>          if (!imx_spi_is_enabled(s)) {
+> -            /* device is disabled, so this is a reset */
+> -            imx_spi_reset(DEVICE(s));
+> +            /* device is disabled, so this is a hard reset */
+> +            imx_spi_hard_reset(s);
+> +
+>              return;
+>          }
 
-Reviewed-by: Max Reitz <mreitz@redhat.com>
+The function of the code is correct, but you seem to have the function
+naming backwards here. Generally:
+ * soft reset == the reset triggered by the register write
+ * hard reset == power-on reset == the dc->reset function
 
+I think this is what Philippe was trying to say.
+
+thanks
+-- PMM
 
