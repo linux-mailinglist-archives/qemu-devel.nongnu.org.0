@@ -2,61 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B6D292F2F5E
-	for <lists+qemu-devel@lfdr.de>; Tue, 12 Jan 2021 13:51:28 +0100 (CET)
-Received: from localhost ([::1]:38946 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BD18A2F2F6B
+	for <lists+qemu-devel@lfdr.de>; Tue, 12 Jan 2021 13:55:43 +0100 (CET)
+Received: from localhost ([::1]:47244 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kzJ8x-00035a-Qw
-	for lists+qemu-devel@lfdr.de; Tue, 12 Jan 2021 07:51:27 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54872)
+	id 1kzJD4-0006W4-Rf
+	for lists+qemu-devel@lfdr.de; Tue, 12 Jan 2021 07:55:42 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56132)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
- id 1kzJ6K-0001UG-1h; Tue, 12 Jan 2021 07:48:44 -0500
-Received: from mail-yb1-xb36.google.com ([2607:f8b0:4864:20::b36]:34514)
+ id 1kzJBl-0005qy-57; Tue, 12 Jan 2021 07:54:21 -0500
+Received: from mail-yb1-xb2b.google.com ([2607:f8b0:4864:20::b2b]:41295)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
- id 1kzJ6H-000388-OG; Tue, 12 Jan 2021 07:48:43 -0500
-Received: by mail-yb1-xb36.google.com with SMTP id x6so1591042ybr.1;
- Tue, 12 Jan 2021 04:48:40 -0800 (PST)
+ id 1kzJBj-0005M9-Ip; Tue, 12 Jan 2021 07:54:20 -0500
+Received: by mail-yb1-xb2b.google.com with SMTP id w127so2047895ybw.8;
+ Tue, 12 Jan 2021 04:54:18 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=9POOe9Uv0dP1f0gRGFIKg+L5i1Fh268DrexSVAThGAc=;
- b=R0HCgg5g0o7UXktJCq3bf8od7RrFGGfPfVrbszzg5smSi6au/Ln+YlWG/YOPmBnPbc
- 7fAX35itlFUx9pMlmcREj7/p9ydry4sSfDUyq7wnfro0x0tChzNahgW/QYo/+n4LjTGj
- BhAqvufKWT+Dn4Bg/b0b/AA3oH7r7d0x1RHcEqNI4tznriPAl56/HgS/RaALrbwRNbii
- 18DQw2ESdI0qKzxSpSPs0nycuPJuV0TxQ8fJy96E7ygjrh37OgdinSREgIBECTtSoeki
- 57t8gInkvECtxdZPRqkIvwvOSfFbqKt84AV/TFoYTw/Rb8Vw8a3gWymZBLcCF9sCH9LJ
- 9Zew==
+ :cc; bh=+V9p+fDZKLSr4OjbB1jdKf4hhGBIxJJobfGwO2itWTY=;
+ b=Ao49IdWdnADQjgMqngoiBjUqE+JPTv9BE9GK+9Q2itm2OOXJ8WD4wzdGm4aDbLk6v5
+ DAxcJBn2tmUWJ9riR4Wp6fM1RR1JkIsYWEYSEhXPqQ+HEVIjyF9oO/+9i7aUairvfRCR
+ Y9bVXJ6g3MgCK/Ujt2BRX9se8ts/wh1iEVergiE+iNiQrBuaRbBIyNu46tmi//nomt+3
+ 4Hdran5oeSr8VT9x5NUSGoOOeJ0BsMO5wNnOWQF7ELDUAWp4WlMDpZN6djZkfzwPfPjU
+ /Z2kOM57mjsVXmJCEdWJRSaJmOUE53xNVlJYr307+8s+lWhwpYeHThhg+XKGzTALjJtY
+ H+NQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=9POOe9Uv0dP1f0gRGFIKg+L5i1Fh268DrexSVAThGAc=;
- b=Bz0ZqBhSbwQ1mJrGgW0IaQnUMbj+8AVjF3rIiER4tHHYMitE4DS1RTDbbtwLibuo5C
- rTsJPE2G8LG8WcEoFqkf1SJ6/Xo6OiGOuBczU7t1CWa25CXU9g1CS8axVmuJfM+wQZBS
- o7Q9Zjrxji3G0EK+Y13ARU17XbClapCx7s8gk426i2aRIwyZHRug8QLWurMh7XlEFdut
- EVbFsHby73yfnORdLHe7/D1PileuxoT75zHJdE38+2ELiNwySYswvS6oBQuRswx6IOYZ
- 1MiwJrbLVVTh/e/bd1Kh9uWWXfxxiG3c41HDkQDjuYjHisbNTe/Zq6McoAWA5+5MACfW
- MR7g==
-X-Gm-Message-State: AOAM531h51cA9IqGFa9ABtLoYhnnogP5CXj0up9Y5+ISPQy57hz1zsU7
- pabIdb9w96ce20ho7iMXeCMH5/D2eeFW5DBkRA4=
-X-Google-Smtp-Source: ABdhPJy7sytdeT5R+ROamT5uavKdjkg1ompZLPf3BRjMa+t21mwp1yeCqUzYbq7Y6V6CLFsrdhQIrMWMO5Fx8tdn1PE=
-X-Received: by 2002:a25:3bc5:: with SMTP id i188mr3259533yba.332.1610455720151; 
- Tue, 12 Jan 2021 04:48:40 -0800 (PST)
+ bh=+V9p+fDZKLSr4OjbB1jdKf4hhGBIxJJobfGwO2itWTY=;
+ b=bmGgiqxIOUjie2bf5Cr4lXbjA/3nTx6Si8nH2LdbDOkUfyty7kbx3ONjeOBwNpqxej
+ 9nJlZmsRB+iwKFtJEi3gSjoCgpy7ZFrlrxJAWor87ziJLIHp0vnjkh/EWpns9Jr5t3TZ
+ UFOULRsCJNKdub5+Af9rx1JKkGK/dQvNwwF/LB+QYShHgZMfhX8W+Ka/InuurJ63lnQy
+ 2iZ8E4u9HMAvsVMes4YQ/O4uhVpsVnFwrT8BRhX/dKKWvcQiGXr7kvRakwrrIxLFIf3z
+ C5Q60cXY+aTMqhH5/VKiImx7eq0sizlexkVb1RKIV/LurZrN8WmvM6cG9pj+6CSQCIk4
+ CVYg==
+X-Gm-Message-State: AOAM531Xp9ePi75asXbq6YNe6GUyVSXhFj8ZcpNQguOyQt6Z0zxLcHQF
+ 6p1o8IvPrY2mpiaEPWtjn30brI9sNi66Ul2iebI=
+X-Google-Smtp-Source: ABdhPJxLo++A+5/7DZ2t+kTXFA5/IFYGg+Q6xfzVt2c7e9+G48xMdwysEKSi+zIUu32vcnQ0Hr8IiVf1Yn69XECkQso=
+X-Received: by 2002:a25:690b:: with SMTP id e11mr6418052ybc.314.1610456058206; 
+ Tue, 12 Jan 2021 04:54:18 -0800 (PST)
 MIME-Version: 1.0
 References: <20210110081429.10126-1-bmeng.cn@gmail.com>
- <20210110081429.10126-7-bmeng.cn@gmail.com>
- <CAFEAcA-RPxLHSVuGDk=Wn-+2kGG6+L_VQfkiaGNEfJ8X1-Mkzg@mail.gmail.com>
-In-Reply-To: <CAFEAcA-RPxLHSVuGDk=Wn-+2kGG6+L_VQfkiaGNEfJ8X1-Mkzg@mail.gmail.com>
+ <20210110081429.10126-3-bmeng.cn@gmail.com>
+ <CAFEAcA8W8vxA8AJY-Ka+--drv_asw5soaFNO90VzVENApMMH0w@mail.gmail.com>
+In-Reply-To: <CAFEAcA8W8vxA8AJY-Ka+--drv_asw5soaFNO90VzVENApMMH0w@mail.gmail.com>
 From: Bin Meng <bmeng.cn@gmail.com>
-Date: Tue, 12 Jan 2021 20:48:29 +0800
-Message-ID: <CAEUhbmX-M5XJQsZ3J_tE27+pjjG+fhcUOkVX0efSAyMorZfWFw@mail.gmail.com>
-Subject: Re: [PATCH v4 6/6] hw/ssi: imx_spi: Correct tx and rx fifo endianness
+Date: Tue, 12 Jan 2021 20:54:07 +0800
+Message-ID: <CAEUhbmW2NaTNusZ123D7FPAK6uJZtCuak=UOtEE6Nc5fNfnsHQ@mail.gmail.com>
+Subject: Re: [PATCH v4 2/6] hw/ssi: imx_spi: Remove imx_spi_update_irq() in
+ imx_spi_reset()
 To: Peter Maydell <peter.maydell@linaro.org>
 Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::b36;
- envelope-from=bmeng.cn@gmail.com; helo=mail-yb1-xb36.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::b2b;
+ envelope-from=bmeng.cn@gmail.com; helo=mail-yb1-xb2b.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -83,96 +84,81 @@ Cc: Bin Meng <bin.meng@windriver.com>, QEMU Developers <qemu-devel@nongnu.org>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, Jan 12, 2021 at 6:46 PM Peter Maydell <peter.maydell@linaro.org> wrote:
+On Tue, Jan 12, 2021 at 6:49 PM Peter Maydell <peter.maydell@linaro.org> wrote:
 >
 > On Sun, 10 Jan 2021 at 08:15, Bin Meng <bmeng.cn@gmail.com> wrote:
 > >
 > > From: Bin Meng <bin.meng@windriver.com>
 > >
-> > The endianness of data exchange between tx and rx fifo is incorrect.
-> > Earlier bytes are supposed to show up on MSB and later bytes on LSB,
-> > ie: in big endian. The manual does not explicitly say this, but the
-> > U-Boot and Linux driver codes have a swap on the data transferred
-> > to tx fifo and from rx fifo.
+> > Usually the approach is that the device on the other end of the line
+> > is going to reset its state anyway, so there's no need to actively
+> > signal an irq line change during the reset hook.
 > >
-> > With this change, U-Boot read from / write to SPI flash tests pass.
+> > Move imx_spi_update_irq() out of imx_spi_reset(), to a new function
+> > imx_spi_hard_reset() that is called when the controller is disabled.
 > >
-> >   => sf test 1ff000 1000
-> >   SPI flash test:
-> >   0 erase: 0 ticks, 4096000 KiB/s 32768.000 Mbps
-> >   1 check: 3 ticks, 1333 KiB/s 10.664 Mbps
-> >   2 write: 235 ticks, 17 KiB/s 0.136 Mbps
-> >   3 read: 2 ticks, 2000 KiB/s 16.000 Mbps
-> >   Test passed
-> >   0 erase: 0 ticks, 4096000 KiB/s 32768.000 Mbps
-> >   1 check: 3 ticks, 1333 KiB/s 10.664 Mbps
-> >   2 write: 235 ticks, 17 KiB/s 0.136 Mbps
-> >   3 read: 2 ticks, 2000 KiB/s 16.000 Mbps
-> >
-> > Fixes: c906a3a01582 ("i.MX: Add the Freescale SPI Controller")
 > > Signed-off-by: Bin Meng <bin.meng@windriver.com>
 > >
 > > ---
 > >
-> > (no changes since v3)
+> > Changes in v4:
+> > - adujst the patch 2,3 order
+> > - rename imx_spi_soft_reset() to imx_spi_hard_reset() to avoid confusion
 > >
 > > Changes in v3:
-> > - Simplify the tx fifo endianness handling
+> > - new patch: remove imx_spi_update_irq() in imx_spi_reset()
 > >
-> >  hw/ssi/imx_spi.c | 7 ++-----
-> >  1 file changed, 2 insertions(+), 5 deletions(-)
+> >  hw/ssi/imx_spi.c | 14 ++++++++++----
+> >  1 file changed, 10 insertions(+), 4 deletions(-)
 > >
 > > diff --git a/hw/ssi/imx_spi.c b/hw/ssi/imx_spi.c
-> > index 47c8a0f572..b5124a6426 100644
+> > index e605049a21..2c4c5ec1b8 100644
 > > --- a/hw/ssi/imx_spi.c
 > > +++ b/hw/ssi/imx_spi.c
-> > @@ -171,7 +171,6 @@ static void imx_spi_flush_txfifo(IMXSPIState *s)
+> > @@ -241,11 +241,16 @@ static void imx_spi_reset(DeviceState *dev)
+> >      imx_spi_rxfifo_reset(s);
+> >      imx_spi_txfifo_reset(s);
 > >
-> >      while (!fifo32_is_empty(&s->tx_fifo)) {
-> >          int tx_burst = 0;
-> > -        int index = 0;
+> > -    imx_spi_update_irq(s);
+> > -
+> >      s->burst_length = 0;
+> >  }
 > >
-> >          if (s->burst_length <= 0) {
-> >              s->burst_length = imx_spi_burst_length(s);
-> > @@ -192,7 +191,7 @@ static void imx_spi_flush_txfifo(IMXSPIState *s)
-> >          rx = 0;
+> > +static void imx_spi_hard_reset(IMXSPIState *s)
+> > +{
+> > +    imx_spi_reset(DEVICE(s));
+> > +
+> > +    imx_spi_update_irq(s);
+> > +}
+> > +
+> >  static uint64_t imx_spi_read(void *opaque, hwaddr offset, unsigned size)
+> >  {
+> >      uint32_t value = 0;
+> > @@ -351,8 +356,9 @@ static void imx_spi_write(void *opaque, hwaddr offset, uint64_t value,
+> >          s->regs[ECSPI_CONREG] = value;
 > >
-> >          while (tx_burst > 0) {
-> > -            uint8_t byte = tx & 0xff;
-> > +            uint8_t byte = tx >> (tx_burst - 8);
-> >
-> >              DPRINTF("writing 0x%02x\n", (uint32_t)byte);
-> >
-> > @@ -201,13 +200,11 @@ static void imx_spi_flush_txfifo(IMXSPIState *s)
-> >
-> >              DPRINTF("0x%02x read\n", (uint32_t)byte);
-> >
-> > -            tx = tx >> 8;
-> > -            rx |= (byte << (index * 8));
-> > +            rx = (rx << 8) | byte;
-> >
-> >              /* Remove 8 bits from the actual burst */
-> >              tx_burst -= 8;
-> >              s->burst_length -= 8;
-> > -            index++;
+> >          if (!imx_spi_is_enabled(s)) {
+> > -            /* device is disabled, so this is a reset */
+> > -            imx_spi_reset(DEVICE(s));
+> > +            /* device is disabled, so this is a hard reset */
+> > +            imx_spi_hard_reset(s);
+> > +
+> >              return;
 > >          }
 >
-> This version of the loop definitely looks a lot neater. However,
-> looking at the code I don't think there's anything that forces the
-> guest to set a burst length that's a multiple of 8, so you need
-> to handle that somehow. Otherwise on the last time through the
-> loop (tx_burst - 8) can be negative, which is undefined behaviour
-> when you try to shift by it.
+> The function of the code is correct, but you seem to have the function
+> naming backwards here. Generally:
+>  * soft reset == the reset triggered by the register write
+>  * hard reset == power-on reset == the dc->reset function
+>
+> I think this is what Philippe was trying to say.
 
-Yes, that's why I added a patch to log the unimplemented behavior to
-notify the user.
+Philippe said: "Hmm usually hard reset include soft reset."
 
-> I think just rounding tx_burst up to a multiple of 8 before
-> the start of the loop would do the right thing ?
-
-Probably. Given all flash transfers are normally multiple of 8-bits I
-am not sure what the real hardware behavior is when it is not multiple
-of 8, but I will try to add something in the next version.
+Since we are moving imx_spi_update_irq() out of imx_spi_reset() to a
+new function called imx_spi_soft_reset() (what I did in v3), that
+confused him (and I felt the same thing), so I renamed
+imx_spi_soft_reset() to imx_spi_hard_reset() in v4..
 
 Regards,
 Bin
