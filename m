@@ -2,67 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0DC4C2F365E
-	for <lists+qemu-devel@lfdr.de>; Tue, 12 Jan 2021 18:01:46 +0100 (CET)
-Received: from localhost ([::1]:34706 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1F5D52F3676
+	for <lists+qemu-devel@lfdr.de>; Tue, 12 Jan 2021 18:05:06 +0100 (CET)
+Received: from localhost ([::1]:43212 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kzN3A-00034J-Qr
-	for lists+qemu-devel@lfdr.de; Tue, 12 Jan 2021 12:01:44 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58666)
+	id 1kzN6P-0007I8-22
+	for lists+qemu-devel@lfdr.de; Tue, 12 Jan 2021 12:05:05 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58682)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1kzMzV-0001Q0-D0
- for qemu-devel@nongnu.org; Tue, 12 Jan 2021 11:57:57 -0500
-Received: from mail-wr1-x429.google.com ([2a00:1450:4864:20::429]:37794)
+ id 1kzMzV-0001Q6-W4
+ for qemu-devel@nongnu.org; Tue, 12 Jan 2021 11:57:58 -0500
+Received: from mail-wr1-x42e.google.com ([2a00:1450:4864:20::42e]:33559)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1kzMzS-0006v7-6S
- for qemu-devel@nongnu.org; Tue, 12 Jan 2021 11:57:56 -0500
-Received: by mail-wr1-x429.google.com with SMTP id i9so3239763wrc.4
- for <qemu-devel@nongnu.org>; Tue, 12 Jan 2021 08:57:53 -0800 (PST)
+ id 1kzMzT-0006vC-3S
+ for qemu-devel@nongnu.org; Tue, 12 Jan 2021 11:57:57 -0500
+Received: by mail-wr1-x42e.google.com with SMTP id t30so3280928wrb.0
+ for <qemu-devel@nongnu.org>; Tue, 12 Jan 2021 08:57:54 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:subject:date:message-id:mime-version
+ h=from:to:subject:date:message-id:in-reply-to:references:mime-version
  :content-transfer-encoding;
- bh=b60faFjynFuGhvGHbbTD6kAorHJJFmjBjdmrPqPG5i8=;
- b=ioYqWr4Xmk/Z16DOSgdk3oaVFzxd7yIuGMHfA3piI1xkXkf16iQ4x2XTCZ55AvDkNq
- xFZq4bCmAHIjFnadcBt7F1gm1QHPNgYczUwaDH3HhT+eNtOxesFsWhJAjINZzuxPi52/
- rleDriRUlxoyUdfZwNszXdj5q+zZvTUZmequ0KfHXM+uWWkxYulSHE5I6TxXmgogTtF5
- 8wNjzRBRdPB6d8gLmbmxmZYL5KldVQ5LKWF1atExWpkZgeL9hJCEBAAjR9bgfEsCSIXG
- XXbRZaEmSDcJbKp0E8Mp2QRbex/UUhIQFuQTs+B7Ssc8DLKuBndRLpfCl+sHVaFHVuxX
- Qx5g==
+ bh=RT64QSt/nocPy3bcUDYbqKLfp0TF6hHQCydKZeSEBxo=;
+ b=u9w6qhq8HUoUQH472nC8PhkgXn0ySnJDddSnWpBkobIhhStDtoB24XsrTJTpaiorcb
+ zYrMaQFJ+auZZBN4l3mHWVX369a87cTBQ+synx2btvjGG/wGUKQMJHtweXmFoPUfvcT7
+ bdeCjAjuEeWUYkAcjINqrmoHhTlK5XjFJDXMibpZBFFW8DAufI1FGDZDsYrvX/iOw6e7
+ kda8uAmMEoLGeVfGqvyaLJwij/awYN2B6kqJIPBMIZly8FVaYgTdokusDMTgn4BfezCY
+ nItxIJE6i7pt34KGlf9WFnlhCScw1lJXgy/3MHjhjW/RCND8yDcCvRytVtiEVEZAh5xc
+ tIrw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=b60faFjynFuGhvGHbbTD6kAorHJJFmjBjdmrPqPG5i8=;
- b=cA33sEluOE1ny8nERkitMvOax/1rpgs/oZXOWlNBYlZ9e/4Rf8SHqDudF3mIC9eLJh
- b9jynGg6JpD6C+q9FZ058R1sm2IKCJZNY6JyDGZzHNcnUX4Q+1Q2u8ZD69I0I3BOZ4kh
- wKNpZsz3mcnRCyrKGmUs6U/MjCNjWhskAS0HRfGNiLhrZs07tcpSPRjaIUwussqAGOZr
- y8hyGvS5g1zPHOJQXnTiV5N5fYuNciVpYI0Rk0e6EZ/d1jXy+cwEwvQ0WmKa+YDVGr4v
- 2DOVa+0rOokKsoEyoIMbJ1zYyMHtCxBXon84UKvp/Hc9IjtlMeXiueDFMLAovSNgXomB
- AGFA==
-X-Gm-Message-State: AOAM5337C2as11G8+/kYhY70P9U1Sk3LlD8lDb2W0Ybto2+vmaknxYzB
- u3HRft7ASvT01M2/GbY9O68Y0CPCD+zW2g==
-X-Google-Smtp-Source: ABdhPJyha0xHTedVBC05fxZMoaDg+IAMF+qnypWBh3PfNsMlmfGvmJNBkfrKPiK8ZtB5F31SHUW98Q==
-X-Received: by 2002:adf:e552:: with SMTP id z18mr5496625wrm.29.1610470672205; 
- Tue, 12 Jan 2021 08:57:52 -0800 (PST)
+ h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=RT64QSt/nocPy3bcUDYbqKLfp0TF6hHQCydKZeSEBxo=;
+ b=rKE2EwjGh4wbsaKwhRsuR0nkaZcZ6OLsGnTBT5r3/F8y/2Ql5Y+Rh4syKI8YP4n7zh
+ aIRU1wpW+klzxUG76smsu37v5m84nR0YqAOJxpi9vTDYaSXesDbOzlwZJf2SP+13RAf+
+ yRlf6oHFtP0X9YLSRIJU4MWR2TCcXoYlvsKHblwnURhMk5fdSDhsGMAgnD5BXTzSqvmv
+ tad0itznHAvfJ6V1LD+dC1CTvye589cI4CI5r993ZX4LO8JUpum530bQSrfgfeB/y4wf
+ 0fUUQPfrHPc2e0rfBC2mH2uBAqlxpGnSZtV1ruWuxKAGw1OJ4tCaCidcTm5oIeKmRG4x
+ NwNg==
+X-Gm-Message-State: AOAM5327Sbb1XD5rBLaNbJBc4mutdaAvDblPfv0mI4agFvHIJWJ+/o6F
+ tZHl8Kk2J9OVn4cf61HvzIDvcrnP09EmMg==
+X-Google-Smtp-Source: ABdhPJyEkFLpH0aoHDD1kt4YYmJlcwrQLrtvBx9+PjhroSkdgtYXfF97QFFBJoLrVlMW+kWYdppjBQ==
+X-Received: by 2002:a5d:4d03:: with SMTP id z3mr3605150wrt.280.1610470673394; 
+ Tue, 12 Jan 2021 08:57:53 -0800 (PST)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
- by smtp.gmail.com with ESMTPSA id i18sm6210083wrp.74.2021.01.12.08.57.51
+ by smtp.gmail.com with ESMTPSA id i18sm6210083wrp.74.2021.01.12.08.57.52
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 12 Jan 2021 08:57:51 -0800 (PST)
+ Tue, 12 Jan 2021 08:57:52 -0800 (PST)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 00/21] target-arm queue
-Date: Tue, 12 Jan 2021 16:57:29 +0000
-Message-Id: <20210112165750.30475-1-peter.maydell@linaro.org>
+Subject: [PULL 01/21] target/arm: ARMv8.4-TTST extension
+Date: Tue, 12 Jan 2021 16:57:30 +0000
+Message-Id: <20210112165750.30475-2-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.20.1
+In-Reply-To: <20210112165750.30475-1-peter.maydell@linaro.org>
+References: <20210112165750.30475-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::429;
- envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x429.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::42e;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x42e.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -85,125 +87,75 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Arm queue; not huge but I figured I might as well send it out since
-I've been doing code review today and there's no queue of unprocessed
-pullreqs...
+From: Rémi Denis-Courmont <remi.denis.courmont@huawei.com>
 
-thanks
--- PMM
+This adds for the Small Translation tables extension in AArch64 state.
 
-The following changes since commit b3f846c59d8405bb87c551187721fc92ff2f1b92:
+Signed-off-by: Rémi Denis-Courmont <remi.denis.courmont@huawei.com>
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
+---
+ target/arm/cpu.h    |  5 +++++
+ target/arm/helper.c | 15 +++++++++++++--
+ 2 files changed, 18 insertions(+), 2 deletions(-)
 
-  Merge remote-tracking branch 'remotes/huth-gitlab/tags/pull-request-2021-01-11v2' into staging (2021-01-11 15:15:35 +0000)
+diff --git a/target/arm/cpu.h b/target/arm/cpu.h
+index 7e6c881a7e2..ad37ff61c62 100644
+--- a/target/arm/cpu.h
++++ b/target/arm/cpu.h
+@@ -3936,6 +3936,11 @@ static inline bool isar_feature_aa64_uao(const ARMISARegisters *id)
+     return FIELD_EX64(id->id_aa64mmfr2, ID_AA64MMFR2, UAO) != 0;
+ }
+ 
++static inline bool isar_feature_aa64_st(const ARMISARegisters *id)
++{
++    return FIELD_EX64(id->id_aa64mmfr2, ID_AA64MMFR2, ST) != 0;
++}
++
+ static inline bool isar_feature_aa64_bti(const ARMISARegisters *id)
+ {
+     return FIELD_EX64(id->id_aa64pfr1, ID_AA64PFR1, BT) != 0;
+diff --git a/target/arm/helper.c b/target/arm/helper.c
+index d077dd9ef51..5ab3f5ace36 100644
+--- a/target/arm/helper.c
++++ b/target/arm/helper.c
+@@ -10842,7 +10842,7 @@ ARMVAParameters aa64_va_parameters(CPUARMState *env, uint64_t va,
+ {
+     uint64_t tcr = regime_tcr(env, mmu_idx)->raw_tcr;
+     bool epd, hpd, using16k, using64k;
+-    int select, tsz, tbi;
++    int select, tsz, tbi, max_tsz;
+ 
+     if (!regime_has_2_ranges(mmu_idx)) {
+         select = 0;
+@@ -10877,7 +10877,14 @@ ARMVAParameters aa64_va_parameters(CPUARMState *env, uint64_t va,
+             hpd = extract64(tcr, 42, 1);
+         }
+     }
+-    tsz = MIN(tsz, 39);  /* TODO: ARMv8.4-TTST */
++
++    if (cpu_isar_feature(aa64_st, env_archcpu(env))) {
++        max_tsz = 48 - using64k;
++    } else {
++        max_tsz = 39;
++    }
++
++    tsz = MIN(tsz, max_tsz);
+     tsz = MAX(tsz, 16);  /* TODO: ARMv8.2-LVA  */
+ 
+     /* Present TBI as a composite with TBID.  */
+@@ -11096,6 +11103,10 @@ static bool get_phys_addr_lpae(CPUARMState *env, uint64_t address,
+         if (!aarch64 || stride == 9) {
+             /* AArch32 or 4KB pages */
+             startlevel = 2 - sl0;
++
++            if (cpu_isar_feature(aa64_st, cpu)) {
++                startlevel &= 3;
++            }
+         } else {
+             /* 16KB or 64KB pages */
+             startlevel = 3 - sl0;
+-- 
+2.20.1
 
-are available in the Git repository at:
-
-  https://git.linaro.org/people/pmaydell/qemu-arm.git tags/pull-target-arm-20210112
-
-for you to fetch changes up to 19d131395ccaf503db21dadd8257e6dc9fc1d7de:
-
-  ui/cocoa: Fix openFile: deprecation on Big Sur (2021-01-12 11:38:37 +0000)
-
-----------------------------------------------------------------
-target-arm queue:
- * arm: Support emulation of ARMv8.4-TTST extension
- * arm: Update cpu.h ID register field definitions
- * arm: Fix breakage of XScale instruction emulation
- * hw/net/lan9118: Fix RX Status FIFO PEEK value
- * npcm7xx: Add ADC and PWM emulation
- * ui/cocoa: Make "open docs" help menu entry work again when binary
-   is run from the build tree
- * ui/cocoa: Fix openFile: deprecation on Big Sur
- * docs: Add qemu-storage-daemon(1) manpage to meson.build
- * docs: Build and install all the docs in a single manual
-
-----------------------------------------------------------------
-Hao Wu (6):
-      hw/misc: Add clock converter in NPCM7XX CLK module
-      hw/timer: Refactor NPCM7XX Timer to use CLK clock
-      hw/adc: Add an ADC module for NPCM7XX
-      hw/misc: Add a PWM module for NPCM7XX
-      hw/misc: Add QTest for NPCM7XX PWM Module
-      hw/*: Use type casting for SysBusDevice in NPCM7XX
-
-Leif Lindholm (6):
-      target/arm: fix typo in cpu.h ID_AA64PFR1 field name
-      target/arm: make ARMCPU.clidr 64-bit
-      target/arm: make ARMCPU.ctr 64-bit
-      target/arm: add descriptions of CLIDR_EL1, CCSIDR_EL1, CTR_EL0 to cpu.h
-      target/arm: add aarch64 ID register fields to cpu.h
-      target/arm: add aarch32 ID register fields to cpu.h
-
-Peter Maydell (5):
-      docs: Add qemu-storage-daemon(1) manpage to meson.build
-      docs: Build and install all the docs in a single manual
-      target/arm: Don't decode insns in the XScale/iWMMXt space as cp insns
-      hw/net/lan9118: Fix RX Status FIFO PEEK value
-      hw/net/lan9118: Add symbolic constants for register offsets
-
-Roman Bolshakov (2):
-      ui/cocoa: Update path to docs in build tree
-      ui/cocoa: Fix openFile: deprecation on Big Sur
-
-Rémi Denis-Courmont (2):
-      target/arm: ARMv8.4-TTST extension
-      target/arm: enable Small Translation tables in max CPU
-
- docs/conf.py                     |  46 ++-
- docs/devel/conf.py               |  15 -
- docs/index.html.in               |  17 -
- docs/interop/conf.py             |  28 --
- docs/meson.build                 |  65 ++--
- docs/specs/conf.py               |  16 -
- docs/system/arm/nuvoton.rst      |   4 +-
- docs/system/conf.py              |  28 --
- docs/tools/conf.py               |  37 --
- docs/user/conf.py                |  15 -
- meson.build                      |   1 +
- hw/adc/trace.h                   |   1 +
- include/hw/adc/npcm7xx_adc.h     |  69 ++++
- include/hw/arm/npcm7xx.h         |   4 +
- include/hw/misc/npcm7xx_clk.h    | 146 ++++++-
- include/hw/misc/npcm7xx_pwm.h    | 105 +++++
- include/hw/timer/npcm7xx_timer.h |   1 +
- target/arm/cpu.h                 |  85 ++++-
- hw/adc/npcm7xx_adc.c             | 301 +++++++++++++++
- hw/arm/npcm7xx.c                 |  55 ++-
- hw/arm/npcm7xx_boards.c          |   2 +-
- hw/mem/npcm7xx_mc.c              |   2 +-
- hw/misc/npcm7xx_clk.c            | 807 ++++++++++++++++++++++++++++++++++++++-
- hw/misc/npcm7xx_gcr.c            |   2 +-
- hw/misc/npcm7xx_pwm.c            | 550 ++++++++++++++++++++++++++
- hw/misc/npcm7xx_rng.c            |   2 +-
- hw/net/lan9118.c                 |  26 +-
- hw/nvram/npcm7xx_otp.c           |   2 +-
- hw/ssi/npcm7xx_fiu.c             |   2 +-
- hw/timer/npcm7xx_timer.c         |  39 +-
- target/arm/cpu64.c               |   1 +
- target/arm/helper.c              |  15 +-
- target/arm/translate.c           |   7 +
- tests/qtest/npcm7xx_adc-test.c   | 377 ++++++++++++++++++
- tests/qtest/npcm7xx_pwm-test.c   | 490 ++++++++++++++++++++++++
- hw/adc/meson.build               |   1 +
- hw/adc/trace-events              |   5 +
- hw/misc/meson.build              |   1 +
- hw/misc/trace-events             |   6 +
- tests/qtest/meson.build          |   4 +-
- ui/cocoa.m                       |   7 +-
- 41 files changed, 3124 insertions(+), 263 deletions(-)
- delete mode 100644 docs/devel/conf.py
- delete mode 100644 docs/index.html.in
- delete mode 100644 docs/interop/conf.py
- delete mode 100644 docs/specs/conf.py
- delete mode 100644 docs/system/conf.py
- delete mode 100644 docs/tools/conf.py
- delete mode 100644 docs/user/conf.py
- create mode 100644 hw/adc/trace.h
- create mode 100644 include/hw/adc/npcm7xx_adc.h
- create mode 100644 include/hw/misc/npcm7xx_pwm.h
- create mode 100644 hw/adc/npcm7xx_adc.c
- create mode 100644 hw/misc/npcm7xx_pwm.c
- create mode 100644 tests/qtest/npcm7xx_adc-test.c
- create mode 100644 tests/qtest/npcm7xx_pwm-test.c
- create mode 100644 hw/adc/trace-events
 
