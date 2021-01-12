@@ -2,37 +2,37 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B945A2F28EB
-	for <lists+qemu-devel@lfdr.de>; Tue, 12 Jan 2021 08:30:27 +0100 (CET)
-Received: from localhost ([::1]:47888 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 484F62F28EE
+	for <lists+qemu-devel@lfdr.de>; Tue, 12 Jan 2021 08:32:51 +0100 (CET)
+Received: from localhost ([::1]:50408 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kzE8I-0001rQ-4A
-	for lists+qemu-devel@lfdr.de; Tue, 12 Jan 2021 02:30:26 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35342)
+	id 1kzEAc-000350-CE
+	for lists+qemu-devel@lfdr.de; Tue, 12 Jan 2021 02:32:50 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35690)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <remi@remlab.net>)
- id 1kzE66-0001Ht-37; Tue, 12 Jan 2021 02:28:11 -0500
-Received: from poy.remlab.net ([2001:41d0:2:5a1a::]:54768
+ id 1kzE7g-000218-1X; Tue, 12 Jan 2021 02:29:49 -0500
+Received: from poy.remlab.net ([2001:41d0:2:5a1a::]:54780
  helo=ns207790.ip-94-23-215.eu)
  by eggs.gnu.org with esmtp (Exim 4.90_1)
  (envelope-from <remi@remlab.net>)
- id 1kzE5y-0003rw-CI; Tue, 12 Jan 2021 02:28:08 -0500
+ id 1kzE7e-0004Nf-EP; Tue, 12 Jan 2021 02:29:47 -0500
 Received: from basile.remlab.net (dzyqn8ypzhx7l91mxjsvy-3.rev.dnainternet.fi
  [IPv6:2001:14ba:a01a:be01:9434:f69e:d553:3be2])
  (Authenticated sender: remi)
- by ns207790.ip-94-23-215.eu (Postfix) with ESMTPSA id 7CAC75FCEF;
- Tue, 12 Jan 2021 08:27:57 +0100 (CET)
+ by ns207790.ip-94-23-215.eu (Postfix) with ESMTPSA id 0D8A75FCEF;
+ Tue, 12 Jan 2021 08:29:44 +0100 (CET)
 From: =?ISO-8859-1?Q?R=E9mi?= Denis-Courmont <remi.denis.courmont@huawei.com>
 To: qemu-arm@nongnu.org
 Subject: Re: [PATCH 14/18] target/arm: secure stage 2 translation regime
-Date: Tue, 12 Jan 2021 09:27:54 +0200
-Message-ID: <11670958.O9o76ZdvQC@basile.remlab.net>
+Date: Tue, 12 Jan 2021 09:29:43 +0200
+Message-ID: <5671680.lOV4Wx5bFT@basile.remlab.net>
 Organization: Huawei Technologies, Finland
-In-Reply-To: <785079cf-fb1f-a380-00bc-783126090a07@linaro.org>
+In-Reply-To: <e46f18fc-8add-fea5-f598-c10570e7895c@linaro.org>
 References: <3337797.iIbC2pHGDl@basile.remlab.net>
  <20201218103759.19929-14-remi.denis.courmont@huawei.com>
- <785079cf-fb1f-a380-00bc-783126090a07@linaro.org>
+ <e46f18fc-8add-fea5-f598-c10570e7895c@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 Content-Type: text/plain; charset="UTF-8"
@@ -60,31 +60,37 @@ Cc: qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Le tiistaina 12. tammikuuta 2021, 2.19.55 EET Richard Henderson a =C3=A9cri=
+Le tiistaina 12. tammikuuta 2021, 2.20.31 EET Richard Henderson a =C3=A9cri=
 t :
 > On 12/18/20 12:37 AM, remi.denis.courmont@huawei.com wrote:
-> > @@ -11286,8 +11299,10 @@ static bool get_phys_addr_lpae(CPUARMState *en=
-v,
-> > uint64_t address,>=20
-> >      ap =3D extract32(attrs, 4, 2);
+> > @@ -3586,10 +3586,10 @@ static void ats_write(CPUARMState *env, const
+> > ARMCPRegInfo *ri, uint64_t value)>=20
+> >              /* fall through */
+> >         =20
+> >          case 1:
+> >              if (ri->crm =3D=3D 9 && (env->uncached_cpsr & CPSR_PAN)) {
 > >=20
-> > -    if (mmu_idx =3D=3D ARMMMUIdx_Stage2) {
-> > -        ns =3D true;
-> > +    if (mmu_idx =3D=3D ARMMMUIdx_Stage2 || mmu_idx =3D=3D ARMMMUIdx_St=
-age2_S) {
-> > +        if (mmu_idx =3D=3D ARMMMUIdx_Stage2) {
-> > +            ns =3D true;
-> > +        }
+> > -                mmu_idx =3D (secure ? ARMMMUIdx_SE10_1_PAN
+> > +                mmu_idx =3D (secure ? ARMMMUIdx_Stage1_SE1_PAN
 > >=20
-> >          xn =3D extract32(attrs, 11, 2);
+> >                             : ARMMMUIdx_Stage1_E1_PAN);
+> >             =20
+> >              } else {
+> >=20
+> > -                mmu_idx =3D secure ? ARMMMUIdx_SE10_1 :
+> > ARMMMUIdx_Stage1_E1;
+> > +                mmu_idx =3D secure ? ARMMMUIdx_Stage1_SE1 :
+> > ARMMMUIdx_Stage1_E1;
+> > >=20
+> >              }
+> >              break;
 >=20
-> Does this want an unconditional
->=20
->   ns =3D mmu_idx =3D=3D ARMMMUIdx_Stage2;
->=20
-> When can ns be true and mmu_idx =3D=3D ARMMMUIdx_Stage2_S?
+> Was this a bug that we weren't treating SE10 properly vs two-stage lookup=
+?=20
+> If so, it warrants mentioning in the patch description.
 
-Actually there's a bug. ns is not set at all in secure state 2.
+I don't think so. There was no Stage1_SE1 before this patch in the first pl=
+ace.
 
 =2D-=20
 R=C3=A9mi Denis-Courmont
