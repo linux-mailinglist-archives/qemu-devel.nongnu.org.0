@@ -2,56 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E9EA72F29A0
-	for <lists+qemu-devel@lfdr.de>; Tue, 12 Jan 2021 09:03:07 +0100 (CET)
-Received: from localhost ([::1]:33092 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 668E42F29A2
+	for <lists+qemu-devel@lfdr.de>; Tue, 12 Jan 2021 09:03:34 +0100 (CET)
+Received: from localhost ([::1]:33838 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kzEdv-0004J5-0f
-	for lists+qemu-devel@lfdr.de; Tue, 12 Jan 2021 03:03:07 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42760)
+	id 1kzEeL-0004dI-Gs
+	for lists+qemu-devel@lfdr.de; Tue, 12 Jan 2021 03:03:33 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43344)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1kzEat-0002uR-PA
- for qemu-devel@nongnu.org; Tue, 12 Jan 2021 03:00:00 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:47104)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1kzEca-0003Y5-HM
+ for qemu-devel@nongnu.org; Tue, 12 Jan 2021 03:01:44 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:21701)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1kzEaq-0006BZ-Id
- for qemu-devel@nongnu.org; Tue, 12 Jan 2021 02:59:59 -0500
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1kzEcY-0006rn-N3
+ for qemu-devel@nongnu.org; Tue, 12 Jan 2021 03:01:44 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1610438395;
+ s=mimecast20190719; t=1610438501;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=GimzVMjrLLkZ6//0OAMzZl19hzoZE3dJxVxgpmIhFhI=;
- b=VVz2dkmG3waL4ehj5cv7bWBpISkLvJfjHf5MPtwWnaJ9A4d8pmdL1Ct6GdLVqj2XNlicNd
- s/r3N8pP6XNu71QJm2/peubfTEYqrFdm+EPVFkl/fcgiJXq/yV2X54u99hudTkn/gzmx+t
- LDrcDrXirzv7ohs3ZTKB+0MV4SMieiA=
+ bh=jwCxnnt1XYo6sl1TPdM/7L7oYombACDEw7Gq3mzhJ3M=;
+ b=hV83aWDxpCSKDZJvF/CBjH+bxGD6e3jqvdNtpkZukaw06EHDQIle46uW1ndb/JtfVw2+Sd
+ OqAYmk7Tq4SAkaP/s81IntBxNWdmF+jjUXkKnZ4Afz1+wljckCzYqUbzf3Vc4e9RFFSw3q
+ GBc4HVH5boi18kcJjsKyeunGgZaCkTI=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-235-nT29sjPsPjGSd1D5-k6qaw-1; Tue, 12 Jan 2021 02:59:51 -0500
-X-MC-Unique: nT29sjPsPjGSd1D5-k6qaw-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
+ us-mta-325-XcgnVTEWOPe3XOaES0GOTA-1; Tue, 12 Jan 2021 03:01:37 -0500
+X-MC-Unique: XcgnVTEWOPe3XOaES0GOTA-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id C0A151800D42;
- Tue, 12 Jan 2021 07:59:49 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 2D763100F340;
+ Tue, 12 Jan 2021 08:01:36 +0000 (UTC)
 Received: from thuth.remote.csb (ovpn-112-184.ams2.redhat.com [10.36.112.184])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 6F7565D9F4;
- Tue, 12 Jan 2021 07:59:40 +0000 (UTC)
-Subject: Re: [PATCH 5/6] pc-bios: update mirror URLs to GitLab
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 3927460BE2;
+ Tue, 12 Jan 2021 08:01:26 +0000 (UTC)
+Subject: Re: [PATCH 6/6] get_maintainer: update repo URL to GitLab
 To: Stefan Hajnoczi <stefanha@redhat.com>, qemu-devel@nongnu.org
 References: <20210111115017.156802-1-stefanha@redhat.com>
- <20210111115017.156802-6-stefanha@redhat.com>
+ <20210111115017.156802-7-stefanha@redhat.com>
 From: Thomas Huth <thuth@redhat.com>
-Message-ID: <e6b40bd8-61f0-4418-98b1-28bc81c0308a@redhat.com>
-Date: Tue, 12 Jan 2021 08:59:39 +0100
+Message-ID: <980d0b92-ccdd-b5bd-e36d-fe86e327c8f7@redhat.com>
+Date: Tue, 12 Jan 2021 09:01:25 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.4.0
 MIME-Version: 1.0
-In-Reply-To: <20210111115017.156802-6-stefanha@redhat.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+In-Reply-To: <20210111115017.156802-7-stefanha@redhat.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=thuth@redhat.com
 X-Mimecast-Spam-Score: 0
@@ -97,32 +97,19 @@ On 11/01/2021 12.50, Stefan Hajnoczi wrote:
 > 
 > Signed-off-by: Stefan Hajnoczi <stefanha@redhat.com>
 > ---
->   pc-bios/README | 4 ++--
->   1 file changed, 2 insertions(+), 2 deletions(-)
+>   scripts/get_maintainer.pl | 2 +-
+>   1 file changed, 1 insertion(+), 1 deletion(-)
 > 
-> diff --git a/pc-bios/README b/pc-bios/README
-> index 33f9754ad3..db7129ef64 100644
-> --- a/pc-bios/README
-> +++ b/pc-bios/README
-> @@ -20,7 +20,7 @@
->     legacy x86 software to communicate with an attached serial console as
->     if a video card were attached.  The master sources reside in a subversion
->     repository at http://sgabios.googlecode.com/svn/trunk.  A git mirror is
-> -  available at https://git.qemu.org/git/sgabios.git.
-> +  available at https://gitlab.com/qemu-project/sgabios.git.
->   
->   - The PXE roms come from the iPXE project. Built with BANNER_TIME 0.
->     Sources available at http://ipxe.org.  Vendor:Device ID -> ROM mapping:
-> @@ -37,7 +37,7 @@
->   
->   - The u-boot binary for e500 comes from the upstream denx u-boot project where
->     it was compiled using the qemu-ppce500 target.
-> -  A git mirror is available at: https://git.qemu.org/git/u-boot.git
-> +  A git mirror is available at: https://gitlab.com/qemu-project/u-boot.git
->     The hash used to compile the current version is: 2072e72
->   
->   - Skiboot (https://github.com/open-power/skiboot/) is an OPAL
-> 
+> diff --git a/scripts/get_maintainer.pl b/scripts/get_maintainer.pl
+> index 271f5ff42a..e5499b94b4 100755
+> --- a/scripts/get_maintainer.pl
+> +++ b/scripts/get_maintainer.pl
+> @@ -1377,7 +1377,7 @@ sub vcs_exists {
+>   	warn("$P: No supported VCS found.  Add --nogit to options?\n");
+>   	warn("Using a git repository produces better results.\n");
+>   	warn("Try latest git repository using:\n");
+> -	warn("git clone https://git.qemu.org/git/qemu.git\n");
+> +	warn("git clone https://gitlab.com/qemu-project/qemu.git\n");
 
 Reviewed-by: Thomas Huth <thuth@redhat.com>
 
