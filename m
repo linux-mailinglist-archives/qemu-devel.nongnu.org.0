@@ -2,56 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 067DE2F31EA
-	for <lists+qemu-devel@lfdr.de>; Tue, 12 Jan 2021 14:44:31 +0100 (CET)
-Received: from localhost ([::1]:41940 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4F8472F31EE
+	for <lists+qemu-devel@lfdr.de>; Tue, 12 Jan 2021 14:45:05 +0100 (CET)
+Received: from localhost ([::1]:44732 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kzJyI-0004hT-31
-	for lists+qemu-devel@lfdr.de; Tue, 12 Jan 2021 08:44:30 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39348)
+	id 1kzJyq-0005vD-Dt
+	for lists+qemu-devel@lfdr.de; Tue, 12 Jan 2021 08:45:04 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39376)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1kzJvS-0002NU-8V
- for qemu-devel@nongnu.org; Tue, 12 Jan 2021 08:41:34 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:29324)
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1kzJvU-0002Oa-7N
+ for qemu-devel@nongnu.org; Tue, 12 Jan 2021 08:41:36 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:50119)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1kzJvP-0004RJ-JO
- for qemu-devel@nongnu.org; Tue, 12 Jan 2021 08:41:33 -0500
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1kzJvR-0004Ss-7a
+ for qemu-devel@nongnu.org; Tue, 12 Jan 2021 08:41:36 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1610458889;
+ s=mimecast20190719; t=1610458892;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=EPLAXC6aaQJUHIPBk5HHgn4lxB/4Nt8pLP7B3Gjgy8c=;
- b=L/WFIte8u8RR13sc/yscxgXVBagdhbAGaPMEOEkT+LQj32q7fjjXwLYbmQ/LMKJ7NQnD5k
- RuCreRcZq9jeAREHvzqHnUsGOJWuwtDnluzXXPhivWAHPZ4wYknKI3TmVeZcRgrouGf4Ut
- uAKApQ30kNNUIXxqymtxcSrSG+xqKJI=
+ bh=BcNX9yBSn5n9zsm2MafV9PjzHdK3Ez3AqfSD04Ap6fU=;
+ b=GDoO/VIHY7ydfYyPGZ+sbyPCot4gqbJhVGMv/RH/SFTzNRjYNL1vCQfkAewf7qOh5a5myj
+ 9Zd43BSM6cOq+h+kIMMC4DmtlIDU5Pbi1wbs9fJ1e4S/cKz0MAJrYXCynK/W3loVrloYcZ
+ +Bc/kH73jlZTpV5pqvp3HeEQdmWW3BI=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-322-kwOvCKjKMFeSpjQGP9G-xA-1; Tue, 12 Jan 2021 08:41:27 -0500
-X-MC-Unique: kwOvCKjKMFeSpjQGP9G-xA-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
+ us-mta-478-dQlgcfnmMUOEBQxXfByOBw-1; Tue, 12 Jan 2021 08:41:29 -0500
+X-MC-Unique: dQlgcfnmMUOEBQxXfByOBw-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 9C94F8144FD
- for <qemu-devel@nongnu.org>; Tue, 12 Jan 2021 13:41:26 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id DCAB9107ACF9
+ for <qemu-devel@nongnu.org>; Tue, 12 Jan 2021 13:41:28 +0000 (UTC)
 Received: from sirius.home.kraxel.org (ovpn-114-197.ams2.redhat.com
  [10.36.114.197])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 934485DA30;
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id AC3E92BFEE;
  Tue, 12 Jan 2021 13:41:22 +0000 (UTC)
 Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
- id CD92C1800604; Tue, 12 Jan 2021 14:41:20 +0100 (CET)
+ id DA68E1800608; Tue, 12 Jan 2021 14:41:20 +0100 (CET)
 From: Gerd Hoffmann <kraxel@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v3 2/3] vnc: move initialization to framebuffer_update_request
-Date: Tue, 12 Jan 2021 14:41:19 +0100
-Message-Id: <20210112134120.2031837-3-kraxel@redhat.com>
+Subject: [PATCH v3 3/3] vnc: add support for extended desktop resize
+Date: Tue, 12 Jan 2021 14:41:20 +0100
+Message-Id: <20210112134120.2031837-4-kraxel@redhat.com>
 In-Reply-To: <20210112134120.2031837-1-kraxel@redhat.com>
 References: <20210112134120.2031837-1-kraxel@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kraxel@redhat.com
 X-Mimecast-Spam-Score: 0
@@ -83,57 +83,144 @@ Cc: Gerd Hoffmann <kraxel@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-qemu sends various state info like current cursor shape to newly connected
-clients in response to a set_encoding message.  This is not correct according
-to the rfb spec.  Send that information in response to a full (incremental=0)
-framebuffer update request instead.  Also send the resize information
-unconditionally, not only in case of an actual server-side change.
+The extended desktop resize encoding adds support for (a) clients
+sending resize requests to the server, and (b) multihead support.
 
-This makes the qemu vnc server conform to the spec and allows clients to
-request the complete vnc server state without reconnect.
+This patch implements (a).  All resize requests are rejected by qemu.
+Qemu can't resize the framebuffer on its own, this is in the hands of
+the guest, so all qemu can do is forward the request to the guest.
+Should the guest actually resize the framebuffer we can notify the vnc
+client later with a separate message.
+
+This requires support in the display device.  Works with virtio-gpu.
+
+https://github.com/rfbproto/rfbproto/blob/master/rfbproto.rst#extendeddesktopsize-pseudo-encoding
 
 Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
 ---
- ui/vnc.c | 11 ++++-------
- 1 file changed, 4 insertions(+), 7 deletions(-)
+ ui/vnc.h |  2 ++
+ ui/vnc.c | 64 +++++++++++++++++++++++++++++++++++++++++++++++++++++++-
+ 2 files changed, 65 insertions(+), 1 deletion(-)
 
+diff --git a/ui/vnc.h b/ui/vnc.h
+index c8d3ad9ec496..77a310947bd6 100644
+--- a/ui/vnc.h
++++ b/ui/vnc.h
+@@ -442,6 +442,7 @@ enum {
+ 
+ enum VncFeatures {
+     VNC_FEATURE_RESIZE,
++    VNC_FEATURE_RESIZE_EXT,
+     VNC_FEATURE_HEXTILE,
+     VNC_FEATURE_POINTER_TYPE_CHANGE,
+     VNC_FEATURE_WMVI,
+@@ -456,6 +457,7 @@ enum VncFeatures {
+ };
+ 
+ #define VNC_FEATURE_RESIZE_MASK              (1 << VNC_FEATURE_RESIZE)
++#define VNC_FEATURE_RESIZE_EXT_MASK          (1 << VNC_FEATURE_RESIZE_EXT)
+ #define VNC_FEATURE_HEXTILE_MASK             (1 << VNC_FEATURE_HEXTILE)
+ #define VNC_FEATURE_POINTER_TYPE_CHANGE_MASK (1 << VNC_FEATURE_POINTER_TYPE_CHANGE)
+ #define VNC_FEATURE_WMVI_MASK                (1 << VNC_FEATURE_WMVI)
 diff --git a/ui/vnc.c b/ui/vnc.c
-index 84c4972b895b..8df63b349b38 100644
+index 8df63b349b38..d4a161ac1393 100644
 --- a/ui/vnc.c
 +++ b/ui/vnc.c
-@@ -660,10 +660,6 @@ static void vnc_desktop_resize(VncState *vs)
-     if (vs->ioc == NULL || !vnc_has_feature(vs, VNC_FEATURE_RESIZE)) {
+@@ -654,10 +654,35 @@ void vnc_framebuffer_update(VncState *vs, int x, int y, int w, int h,
+     vnc_write_s32(vs, encoding);
+ }
+ 
++static void vnc_desktop_resize_ext(VncState *vs, int reject_reason)
++{
++    vnc_lock_output(vs);
++    vnc_write_u8(vs, VNC_MSG_SERVER_FRAMEBUFFER_UPDATE);
++    vnc_write_u8(vs, 0);
++    vnc_write_u16(vs, 1); /* number of rects */
++    vnc_framebuffer_update(vs,
++                           reject_reason ? 1 : 0,
++                           reject_reason,
++                           vs->client_width, vs->client_height,
++                           VNC_ENCODING_DESKTOP_RESIZE_EXT);
++    vnc_write_u8(vs, 1);  /* number of screens */
++    vnc_write_u8(vs, 0);  /* padding */
++    vnc_write_u8(vs, 0);  /* padding */
++    vnc_write_u8(vs, 0);  /* padding */
++    vnc_write_u32(vs, 0); /* screen id */
++    vnc_write_u16(vs, 0); /* screen x-pos */
++    vnc_write_u16(vs, 0); /* screen y-pos */
++    vnc_write_u16(vs, vs->client_width);
++    vnc_write_u16(vs, vs->client_height);
++    vnc_write_u32(vs, 0); /* screen flags */
++    vnc_unlock_output(vs);
++    vnc_flush(vs);
++}
+ 
+ static void vnc_desktop_resize(VncState *vs)
+ {
+-    if (vs->ioc == NULL || !vnc_has_feature(vs, VNC_FEATURE_RESIZE)) {
++    if (vs->ioc == NULL || (!vnc_has_feature(vs, VNC_FEATURE_RESIZE) &&
++                            !vnc_has_feature(vs, VNC_FEATURE_RESIZE_EXT))) {
          return;
      }
--    if (vs->client_width == pixman_image_get_width(vs->vd->server) &&
--        vs->client_height == pixman_image_get_height(vs->vd->server)) {
--        return;
--    }
  
-     assert(pixman_image_get_width(vs->vd->server) < 65536 &&
-            pixman_image_get_width(vs->vd->server) >= 0);
-@@ -2013,6 +2009,10 @@ static void framebuffer_update_request(VncState *vs, int incremental,
-     } else {
-         vs->update = VNC_STATE_UPDATE_FORCE;
-         vnc_set_area_dirty(vs->dirty, vs->vd, x, y, w, h);
-+        vnc_colordepth(vs);
-+        vnc_desktop_resize(vs);
-+        vnc_led_state_change(vs);
-+        vnc_cursor_define(vs);
-     }
- }
- 
-@@ -2136,10 +2136,7 @@ static void set_encodings(VncState *vs, int32_t *encodings, size_t n_encodings)
+@@ -667,6 +692,12 @@ static void vnc_desktop_resize(VncState *vs)
+            pixman_image_get_height(vs->vd->server) >= 0);
+     vs->client_width = pixman_image_get_width(vs->vd->server);
+     vs->client_height = pixman_image_get_height(vs->vd->server);
++
++    if (vnc_has_feature(vs, VNC_FEATURE_RESIZE_EXT)) {
++        vnc_desktop_resize_ext(vs, 0);
++        return;
++    }
++
+     vnc_lock_output(vs);
+     vnc_write_u8(vs, VNC_MSG_SERVER_FRAMEBUFFER_UPDATE);
+     vnc_write_u8(vs, 0);
+@@ -2102,6 +2133,9 @@ static void set_encodings(VncState *vs, int32_t *encodings, size_t n_encodings)
+         case VNC_ENCODING_DESKTOPRESIZE:
+             vs->features |= VNC_FEATURE_RESIZE_MASK;
+             break;
++        case VNC_ENCODING_DESKTOP_RESIZE_EXT:
++            vs->features |= VNC_FEATURE_RESIZE_EXT_MASK;
++            break;
+         case VNC_ENCODING_POINTER_TYPE_CHANGE:
+             vs->features |= VNC_FEATURE_POINTER_TYPE_CHANGE_MASK;
+             break;
+@@ -2420,6 +2454,34 @@ static int protocol_client_msg(VncState *vs, uint8_t *data, size_t len)
              break;
          }
-     }
--    vnc_desktop_resize(vs);
-     check_pointer_type_change(&vs->mouse_mode_notifier, NULL);
--    vnc_led_state_change(vs);
--    vnc_cursor_define(vs);
- }
- 
- static void set_pixel_conversion(VncState *vs)
+         break;
++    case VNC_MSG_CLIENT_SET_DESKTOP_SIZE:
++    {
++        size_t size;
++        uint8_t screens;
++
++        if (len < 8) {
++            return 8;
++        }
++
++        screens = read_u8(data, 6);
++        size    = 8 + screens * 16;
++        if (len < size) {
++            return size;
++        }
++
++        if (dpy_ui_info_supported(vs->vd->dcl.con)) {
++            QemuUIInfo info;
++            memset(&info, 0, sizeof(info));
++            info.width = read_u16(data, 2);
++            info.height = read_u16(data, 4);
++            dpy_set_ui_info(vs->vd->dcl.con, &info);
++            vnc_desktop_resize_ext(vs, 4 /* Request forwarded */);
++        } else {
++            vnc_desktop_resize_ext(vs, 3 /* Invalid screen layout */);
++        }
++
++        break;
++    }
+     default:
+         VNC_DEBUG("Msg: %d\n", data[0]);
+         vnc_client_error(vs);
 -- 
 2.29.2
 
