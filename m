@@ -2,68 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EB0DB2F2D3B
-	for <lists+qemu-devel@lfdr.de>; Tue, 12 Jan 2021 11:54:21 +0100 (CET)
-Received: from localhost ([::1]:42674 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 246B52F2D20
+	for <lists+qemu-devel@lfdr.de>; Tue, 12 Jan 2021 11:46:15 +0100 (CET)
+Received: from localhost ([::1]:46048 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kzHJd-0004ip-0A
-	for lists+qemu-devel@lfdr.de; Tue, 12 Jan 2021 05:54:21 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39902)
+	id 1kzHBl-0002dw-UA
+	for lists+qemu-devel@lfdr.de; Tue, 12 Jan 2021 05:46:13 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40808)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1kzGGG-0000pb-6W
- for qemu-devel@nongnu.org; Tue, 12 Jan 2021 04:46:49 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:24778)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1kzGGB-0000tB-Cs
- for qemu-devel@nongnu.org; Tue, 12 Jan 2021 04:46:47 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1610444800;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:in-reply-to:in-reply-to:  references:references;
- bh=ODVNYzSBgz4KYGkr1woEtTAcLg1nh9e/gD9NLL+j6AQ=;
- b=jFEj4E3fmcNQlBrtENfZxwGjxT6IfyOyh8n80tPReYu4TTSat+SIUQ2ywsxcbtavjvx1tB
- 8pJzgVw1d6S3zh0v2hL4v3vAg/lUDa+Q3J6OQTANOsrdv5dfR7iyByTdsf6TkMFE4zllXm
- F7IXtigdEX4sfbyDlyI2Qwmt2xyxHnc=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-106-Ethh6Yo1OkqBB43Yo1xOzA-1; Tue, 12 Jan 2021 04:46:36 -0500
-X-MC-Unique: Ethh6Yo1OkqBB43Yo1xOzA-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id C072215720;
- Tue, 12 Jan 2021 09:46:33 +0000 (UTC)
-Received: from redhat.com (ovpn-115-107.ams2.redhat.com [10.36.115.107])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 3BE076A8FD;
- Tue, 12 Jan 2021 09:46:19 +0000 (UTC)
-Date: Tue, 12 Jan 2021 09:46:17 +0000
-From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-To: David Gibson <david@gibson.dropbear.id.au>
-Subject: Re: [PATCH v6 02/13] confidential guest support: Introduce new
- confidential guest support class
-Message-ID: <20210112094617.GB1360503@redhat.com>
-References: <20210112044508.427338-1-david@gibson.dropbear.id.au>
- <20210112044508.427338-3-david@gibson.dropbear.id.au>
+ (Exim 4.90_1) (envelope-from <olaf@aepfle.de>) id 1kzGKq-0005PI-I3
+ for qemu-devel@nongnu.org; Tue, 12 Jan 2021 04:51:32 -0500
+Received: from mo4-p00-ob.smtp.rzone.de ([85.215.255.22]:27691)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <olaf@aepfle.de>) id 1kzGKo-0002Jf-7J
+ for qemu-devel@nongnu.org; Tue, 12 Jan 2021 04:51:32 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; t=1610445085;
+ s=strato-dkim-0002; d=aepfle.de;
+ h=Message-ID:Subject:To:From:Date:From:Subject:Sender;
+ bh=Hiz5p6VUDr5ClMtt0NTvIEdZk+0j3cDj82lDxUkoIGE=;
+ b=qKL9pjiq0e501EuEMxw34VCuI25S4FllybbJCZshvRFVQlVNeKdxOnB3BOex6OiTF0
+ R4b8bssot41E91EPMYyGw6L9tfW5luCe4OU7vXGl/Kru/z8oAd3o21YM/MC/F7LajE1j
+ vbmAVlRxrd1KphkWGUX08eOtHjwVLACbB9ZETij5qvnhkQsebam7dyFWXmpB7f82wXJD
+ BX1+4VCEz+vPCMuCcSPaTJuULKACfBH+bId1kYt5t7qyI2EEuD0sFJTN2wOkCuD/ao/z
+ 0GDyEk/AoFy8Rb73YLM0TaS9RVq18oq0SNCB2XyvjWL+f4nqGnpMnCUiZDqXEzS/L9pT
+ Gv5A==
+X-RZG-AUTH: ":P2EQZWCpfu+qG7CngxMFH1J+3q8wa/QLpd5ylWvMDXdoX8l8pYAcz5OTXuqX"
+X-RZG-CLASS-ID: mo00
+Received: from sender by smtp.strato.de (RZmta 47.12.1 SBL|AUTH)
+ with ESMTPSA id h0968ex0C9pOOGk
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256 bits))
+ (Client did not present a certificate) for <qemu-devel@nongnu.org>;
+ Tue, 12 Jan 2021 10:51:24 +0100 (CET)
+Date: Tue, 12 Jan 2021 10:51:10 +0100
+From: Olaf Hering <olaf@aepfle.de>
+To: qemu-devel@nongnu.org
+Subject: virtfs-proxy-helper fails due to bogus libattr test
+Message-ID: <20210112105110.2f0e4fbb.olaf@aepfle.de>
+X-Mailer: Claws Mail 2020.08.19 (GTK+ 2.24.32; x86_64-suse-linux-gnu)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20210112044508.427338-3-david@gibson.dropbear.id.au>
-User-Agent: Mutt/1.14.6 (2020-07-11)
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=berrange@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -29
-X-Spam_score: -3.0
-X-Spam_bar: ---
-X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.251,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ boundary="Sig_/qoeihNjiw6Y.+LNHs9d=wb."; protocol="application/pgp-signature"
+Received-SPF: none client-ip=85.215.255.22; envelope-from=olaf@aepfle.de;
+ helo=mo4-p00-ob.smtp.rzone.de
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_PASS=-0.001, SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -76,162 +64,122 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-Cc: pair@us.ibm.com, Marcelo Tosatti <mtosatti@redhat.com>,
- brijesh.singh@amd.com, kvm@vger.kernel.org, david@redhat.com,
- qemu-devel@nongnu.org, frankja@linux.ibm.com, pragyansri.pathi@intel.com,
- mst@redhat.com, mdroth@linux.vnet.ibm.com, pasic@linux.ibm.com,
- Christian Borntraeger <borntraeger@de.ibm.com>, andi.kleen@intel.com,
- thuth@redhat.com, Eduardo Habkost <ehabkost@redhat.com>,
- richard.henderson@linaro.org, dgilbert@redhat.com, Greg Kurz <groug@kaod.org>,
- qemu-s390x@nongnu.org, jun.nakajima@intel.com,
- Cornelia Huck <cohuck@redhat.com>, qemu-ppc@nongnu.org,
- Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, Jan 12, 2021 at 03:44:57PM +1100, David Gibson wrote:
-> Several architectures have mechanisms which are designed to protect guest
-> memory from interference or eavesdropping by a compromised hypervisor.  AMD
-> SEV does this with in-chip memory encryption and Intel's MKTME can do
-> similar things.  POWER's Protected Execution Framework (PEF) accomplishes a
-> similar goal using an ultravisor and new memory protection features,
-> instead of encryption.
-> 
-> To (partially) unify handling for these, this introduces a new
-> ConfidentialGuestSupport QOM base class.  "Confidential" is kind of vague,
-> but "confidential computing" seems to be the buzzword about these schemes,
-> and "secure" or "protected" are often used in connection to unrelated
-> things (such as hypervisor-from-guest or guest-from-guest security).
-> 
-> The "support" in the name is significant because in at least some of the
-> cases it requires the guest to take specific actions in order to protect
-> itself from hypervisor eavesdropping.
-> 
-> Signed-off-by: David Gibson <david@gibson.dropbear.id.au>
-> ---
->  backends/confidential-guest-support.c     | 30 +++++++++++++++
->  backends/meson.build                      |  1 +
->  include/exec/confidential-guest-support.h | 46 +++++++++++++++++++++++
->  include/qemu/typedefs.h                   |  1 +
->  target/i386/sev.c                         |  3 +-
->  5 files changed, 80 insertions(+), 1 deletion(-)
->  create mode 100644 backends/confidential-guest-support.c
->  create mode 100644 include/exec/confidential-guest-support.h
-> 
-> diff --git a/backends/confidential-guest-support.c b/backends/confidential-guest-support.c
-> new file mode 100644
-> index 0000000000..2c7793c74f
-> --- /dev/null
-> +++ b/backends/confidential-guest-support.c
-> @@ -0,0 +1,30 @@
-> +/*
-> + * QEMU Confidential Guest support
-> + *
-> + * Copyright: David Gibson, Red Hat Inc. 2020
-> + *
-> + * Authors:
-> + *  David Gibson <david@gibson.dropbear.id.au>
-> + *
-> + * This work is licensed under the terms of the GNU GPL, version 2 or
-> + * later.  See the COPYING file in the top-level directory.
-> + *
-> + */
-> +
-> +#include "qemu/osdep.h"
-> +
-> +#include "exec/confidential-guest-support.h"
-> +
-> +static const TypeInfo confidential_guest_support_info = {
-> +    .parent = TYPE_OBJECT,
-> +    .name = TYPE_CONFIDENTIAL_GUEST_SUPPORT,
-> +    .class_size = sizeof(ConfidentialGuestSupportClass),
-> +    .instance_size = sizeof(ConfidentialGuestSupport),
-> +};
-> +
-> +static void confidential_guest_support_register_types(void)
-> +{
-> +    type_register_static(&confidential_guest_support_info);
-> +}
-> +
-> +type_init(confidential_guest_support_register_types)
+--Sig_/qoeihNjiw6Y.+LNHs9d=wb.
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: quoted-printable
 
-This should all be replaced by OBJECT_DEFINE_TYPE
+Depending on the build environment, the meson test to find a suitable libat=
+tr fails. Something appends -O0 to CFLAGS.
 
-> diff --git a/backends/meson.build b/backends/meson.build
-> index 484456ece7..d4221831fc 100644
-> --- a/backends/meson.build
-> +++ b/backends/meson.build
-> @@ -6,6 +6,7 @@ softmmu_ss.add([files(
->    'rng-builtin.c',
->    'rng-egd.c',
->    'rng.c',
-> +  'confidential-guest-support.c',
->  ), numa])
->  
->  softmmu_ss.add(when: 'CONFIG_POSIX', if_true: files('rng-random.c'))
-> diff --git a/include/exec/confidential-guest-support.h b/include/exec/confidential-guest-support.h
-> new file mode 100644
-> index 0000000000..f9cf170802
-> --- /dev/null
-> +++ b/include/exec/confidential-guest-support.h
-> @@ -0,0 +1,46 @@
-> +/*
-> + * QEMU Confidential Guest support
-> + *   This interface describes the common pieces between various
-> + *   schemes for protecting guest memory or other state against a
-> + *   compromised hypervisor.  This includes memory encryption (AMD's
-> + *   SEV and Intel's MKTME) or special protection modes (PEF on POWER,
-> + *   or PV on s390x).
-> + *
-> + * Copyright: David Gibson, Red Hat Inc. 2020
-> + *
-> + * Authors:
-> + *  David Gibson <david@gibson.dropbear.id.au>
-> + *
-> + * This work is licensed under the terms of the GNU GPL, version 2 or
-> + * later.  See the COPYING file in the top-level directory.
-> + *
-> + */
-> +#ifndef QEMU_CONFIDENTIAL_GUEST_SUPPORT_H
-> +#define QEMU_CONFIDENTIAL_GUEST_SUPPORT_H
-> +
-> +#ifndef CONFIG_USER_ONLY
-> +
-> +#include "qom/object.h"
-> +
-> +#define TYPE_CONFIDENTIAL_GUEST_SUPPORT "confidential-guest-support"
-> +#define CONFIDENTIAL_GUEST_SUPPORT(obj)                                    \
-> +    OBJECT_CHECK(ConfidentialGuestSupport, (obj),                          \
-> +                 TYPE_CONFIDENTIAL_GUEST_SUPPORT)
-> +#define CONFIDENTIAL_GUEST_SUPPORT_CLASS(klass)                            \
-> +    OBJECT_CLASS_CHECK(ConfidentialGuestSupportClass, (klass),             \
-> +                       TYPE_CONFIDENTIAL_GUEST_SUPPORT)
-> +#define CONFIDENTIAL_GUEST_SUPPORT_GET_CLASS(obj)                          \
-> +    OBJECT_GET_CLASS(ConfidentialGuestSupportClass, (obj),                 \
-> +                     TYPE_CONFIDENTIAL_GUEST_SUPPORT)
-> +
+I see no "-O0" in qemu.git. This is a regression, it worked in 553032db1744=
+0f8de011390e5a1cfddd13751b0b.
 
-This should all be replaced by  OBJECT_DECLARE_TYPE
+Does anyone happen to know what is causing this?
 
+Olaf
 
-> +struct ConfidentialGuestSupport {
-> +    Object parent;
-> +};
-> +
-> +typedef struct ConfidentialGuestSupportClass {
-> +    ObjectClass parent;
-> +} ConfidentialGuestSupportClass;
-> +
-> +#endif /* !CONFIG_USER_ONLY */
-> +
-> +#endif /* QEMU_CONFIDENTIAL_GUEST_SUPPORT_H */
+./configure --host=3Dx86_64-suse-linux-gnu --build=3Dx86_64-suse-linux-gnu =
+--program-prefix=3D --disable-dependency-tracking --prefix=3D/usr --exec-pr=
+efix=3D/usr --bindir=3D/usr/bin --sbindir=3D/usr/sbin --sysconfdir=3D/etc -=
+-datadir=3D/usr/share --includedir=3D/usr/include --libdir=3D/usr/lib64 --l=
+ibexecdir=3D/usr/libexec --localstatedir=3D/var --sharedstatedir=3D/var/lib=
+ --mandir=3D/usr/share/man --infodir=3D/usr/share/info --disable-dependency=
+-tracking --cc=3D/usr/bin/gcc-10 --host-cc=3D/usr/bin/gcc-10 --cxx=3D/usr/b=
+in/g++-10 --docdir=3D/usr/share/doc/packages --firmwarepath=3D/usr/share/qe=
+mu/firmware '--target-list=3Di386-softmmu x86_64-softmmu' '--audio-drv-list=
+=3Dalsa pa' --iasl=3D/usr/bin/iasl --install=3D/usr/bin/install --objcc=3D/=
+usr/bin/false --python=3D/usr/bin/python3 --ninja=3D/usr/bin/ninja --tls-pr=
+iority=3DNORMAL --with-git=3D/usr/bin/false --with-suffix=3Dqemu --disable-=
+docs --disable-gtk --disable-libnfs --disable-opengl --disable-rbd --disabl=
+e-spice --disable-virglrenderer --disable-vte --enable-attr --disable-brlap=
+i --disable-bsd-user --enable-bzip2 --enable-cap-ng --disable-capstone --di=
+sable-cocoa --enable-coroutine-pool --disable-crypto-afalg --enable-curl --=
+enable-curses --disable-debug-info --disable-debug-mutex --disable-debug-tc=
+g --with-default-devices --enable-docs --disable-fdt --enable-gcrypt --enab=
+le-gettext --disable-git-update --disable-glusterfs --enable-gnutls --enabl=
+e-gtk --enable-guest-agent --disable-guest-agent-msi --disable-hax --disabl=
+e-hvf --enable-iconv --disable-jemalloc --disable-keyring --enable-kvm --di=
+sable-libdaxctl --disable-libiscsi --enable-libnfs --enable-libssh --enable=
+-libusb --enable-libxml2 --enable-linux-aio --disable-linux-user --enable-l=
+ive-block-migration --disable-lzo --disable-lzfse --disable-malloc-trim --d=
+isable-membarrier --enable-modules --disable-mpath --disable-netmap --disab=
+le-nettle --enable-numa --enable-opengl --enable-pie --enable-plugins --dis=
+able-qom-cast-debug --enable-rbd --disable-rdma --enable-replication --enab=
+le-rng-none --disable-safe-stack --disable-sanitizers --disable-sdl --disab=
+le-sdl-image --disable-seccomp --disable-slirp --disable-smartcard --disabl=
+e-snappy --disable-sparse --enable-spice --enable-stack-protector --disable=
+-strip --enable-system --enable-tcg --disable-tcg-interpreter --disable-tcm=
+alloc --enable-tools --disable-tpm --disable-tsan --disable-u2f --enable-us=
+b-redir --disable-user --enable-vde --enable-vhost-crypto --enable-vhost-ne=
+t --enable-vhost-scsi --enable-vhost-user --enable-vhost-user-fs --enable-v=
+host-vsock --enable-virglrenderer --enable-virtfs --disable-virtiofsd --ena=
+ble-vnc --disable-vnc-jpeg --enable-vnc-png --disable-vnc-sasl --enable-vte=
+ --disable-werror --disable-whpx --enable-xen --enable-xen-pci-passthrough =
+--enable-xfsctl
+....
+[  223s] Run-time dependency libnfs found: YES 4.0.0
+[  223s] None of 'CC_LD' are defined in the environment, not changing globa=
+l flags.
+[  223s] Running compile:
+[  223s] Working directory:  /home/abuild/rpmbuild/BUILD/qemu-20210111T1515=
+35.b3f846c59d/build/meson-private/tmpg908fqs3
+[  223s] Command line:  /usr/bin/gcc-10 -I/usr/include/ncursesw /home/abuil=
+d/rpmbuild/BUILD/qemu-20210111T151535.b3f846c59d/build/meson-private/tmpg90=
+8fqs3/testfile.c -o /home/abuild/rpmbuild/BUILD/qemu-20210111T151535.b3f846=
+c59d/build/meson-private/tmpg908fqs3/output.exe -pipe -O2 -Wall -D_FORTIFY_=
+SOURCE=3D2 -fstack-protector-strong -funwind-tables -fasynchronous-unwind-t=
+ables -fstack-clash-protection -Werror=3Dreturn-type -g -D_FILE_OFFSET_BITS=
+=3D64 -O0 -std=3Dgnu99=20
+[  223s]=20
+[  223s] Code:
+[  223s] =20
+[  223s]   #include <stddef.h>
+[  223s]   #include <sys/types.h>
+[  223s]   #ifdef CONFIG_LIBATTR
+[  223s]   #include <attr/xattr.h>
+[  223s]   #else
+[  223s]   #include <sys/xattr.h>
+[  223s]   #endif
+[  223s]   int main(void) { getxattr(NULL, NULL, NULL, 0); setxattr(NULL, N=
+ULL, NULL, 0, 0); return 0; }
+[  223s] Compiler stdout:
+[  223s] =20
+[  223s] Compiler stderr:
+[  223s]  In file included from /usr/include/sys/types.h:25,
+[  223s]                  from /home/abuild/rpmbuild/BUILD/qemu-20210111T15=
+1535.b3f846c59d/build/meson-private/tmpg908fqs3/testfile.c:3:
+[  223s] /usr/include/features.h:397:4: warning: #warning _FORTIFY_SOURCE r=
+equires compiling with optimization (-O) [-Wcpp]
+[  223s]   397 | #  warning _FORTIFY_SOURCE requires compiling with optimiz=
+ation (-O)
+[  223s]       |    ^~~~~~~
+[  223s]=20
+[  223s] Dependency libseccomp skipped: feature seccomp disabled
+....
 
-Regards,
-Daniel
--- 
-|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
-|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
-|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
+--Sig_/qoeihNjiw6Y.+LNHs9d=wb.
+Content-Type: application/pgp-signature
+Content-Description: Digitale Signatur von OpenPGP
 
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAEBCAAdFiEE97o7Um30LT3B+5b/86SN7mm1DoAFAl/9cQ4ACgkQ86SN7mm1
+DoBDMA/+KgfTa/dgI22xEGn5KOmYG12QZmtefow1QEej1DAQ8tiUbX9muNFKo508
+gKh62W7ScTuI4tA8EVM3+7NACIiHVAAwZ/iqNfh/RTcuZSNfU9wKjnvhK6IQy33e
+dlME9xol+zoeyyw8ZuBDksC6TvkZnq49sbgNsKjdmUst65X6CwfdVXa2aE9XPO+N
+PNL215Ee+s2yoxBgCeLa7AAxe/hipCZu4mf0JzKdqZyoB/glufW795Z+caHYoxfg
++dE1BqldPdhlVn2z6RjL8H3RPhvCtvow1o3ojxkG7kfypeNhOsyYgI/Sc0rtkWTO
+DQc6Yaoa+C0jkgU0BkD7aCxGh2I8iVNWK7s7zfrO7f30uKHsG6Cc55ej5/Hu05SA
+juLWaLFy5V1/3aS+n0MUc4/S+RkinyK5wHrBZB9LniWsaOrGbJFZjbbb5bmp921r
+G7fZyiOmOE+ifRZ7WLBEXBGef6VNLK2ZgxyZV3MwkCZ/FUSm4BC6SMyfpliZwmsD
+8DgpIK3UavBTsXy3VD3yLmsX0cijAk0bgr9PVyUnfev/14QhSMn7x6UNsIXo/dCp
+C4zXi8f8BwceuhBX+pJFRu4PlKRTluRFFWVkS1jcWG3ciIw85C3n7mzfEG9ZEFKP
+axk4kJdpypRW51c444l6m8Jeo0XVR2FKfzE1XX0YtplzPa3toz8=
+=PpmP
+-----END PGP SIGNATURE-----
+
+--Sig_/qoeihNjiw6Y.+LNHs9d=wb.--
 
