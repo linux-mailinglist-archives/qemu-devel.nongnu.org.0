@@ -2,70 +2,82 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CC6FD2F2E33
-	for <lists+qemu-devel@lfdr.de>; Tue, 12 Jan 2021 12:44:06 +0100 (CET)
-Received: from localhost ([::1]:40398 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DE29E2F2E5E
+	for <lists+qemu-devel@lfdr.de>; Tue, 12 Jan 2021 12:49:48 +0100 (CET)
+Received: from localhost ([::1]:55132 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kzI5l-0004bq-TY
-	for lists+qemu-devel@lfdr.de; Tue, 12 Jan 2021 06:44:05 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35468)
+	id 1kzIBH-0002Sn-Te
+	for lists+qemu-devel@lfdr.de; Tue, 12 Jan 2021 06:49:47 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35450)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1kzHsF-0004kM-2c
- for qemu-devel@nongnu.org; Tue, 12 Jan 2021 06:30:07 -0500
-Received: from mail-ej1-x630.google.com ([2a00:1450:4864:20::630]:34783)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1kzHs8-0001Rh-52
- for qemu-devel@nongnu.org; Tue, 12 Jan 2021 06:30:06 -0500
-Received: by mail-ej1-x630.google.com with SMTP id g20so3047591ejb.1
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kzHsD-0004iy-En
+ for qemu-devel@nongnu.org; Tue, 12 Jan 2021 06:30:05 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:47470)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kzHsB-0001Sy-9i
+ for qemu-devel@nongnu.org; Tue, 12 Jan 2021 06:30:05 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1610451001;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=dRiaAu9hETYu/BXG8y6YWk/SYgh2bgnB6lVdCYZbJwU=;
+ b=VzsycT9ig00Vh1e+Ax2bZpZAe0PtW2P1RCDsQU6/lbtJPTSFaueKM0vaDRCWRuE5XDRT4X
+ hQMgxvDzqei2dD16LbasqmtLVx1m6J3Nwuz+kMqxq3d/jxl8mu9sORFDH8vybtqqBPJcYd
+ R2zv+IpQzNSBjfx2ASfmWWwM6MU38ME=
+Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
+ [209.85.221.72]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-141-hRAH5Wu7Nru8Kz6vcAy1qg-1; Tue, 12 Jan 2021 06:29:59 -0500
+X-MC-Unique: hRAH5Wu7Nru8Kz6vcAy1qg-1
+Received: by mail-wr1-f72.google.com with SMTP id g16so1018935wrv.1
  for <qemu-devel@nongnu.org>; Tue, 12 Jan 2021 03:29:59 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=Q/fRAJM1ajfNwQd5upbxc/igAiZlzPCEuC0QiXaTWaI=;
- b=z3V/2afBjagaqzONjYB9cmQBojWCWLmj6w8hpySF5No9Jkiw4LXWsEuErh9joXeSAl
- c8kTkR/AamYBRuzflismdda8rgcsdKtFRTFN03GhW8AmjrR8MMyvk9+mGRo3g1sQx7qI
- hI6lKZteUAN42LJoRtb2KYggvDqKYZlJc/aWTAKbgKNKaLSsRYYND1Zi4c+OpV7G7FYH
- 6ExRIkoNKHq/Q86jB5ngKKoteAoYDTHzs1cepXgEQRrwo3cFsOpO1DQTY0MR7MTAZAjs
- hRaxCKEz/rYBTW3g7UBNpOJStCiw4Elj03rzjdilATbhF2ON2kOoDGR923Cd/LtnxWt0
- JJew==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=Q/fRAJM1ajfNwQd5upbxc/igAiZlzPCEuC0QiXaTWaI=;
- b=MHYCerQ23Sg+sBGvcCSn6gj1e4iD6tHLoauSzD5856gfEpyDMSXCmwG4FKwNRuUeai
- 9zt9+8LkObb//RlznHwd7FX4Oa4h6dfrSIUc4+1gSom0R4q//goofuMbQ7/XadbDNlHD
- yMQ5ZN0Z+1A0BeNrKULrYZJX7gsTPtptAx5YxRSaL1lxoDMWaAHrS1Vlxs3Dti6iG3wD
- KHlwvs9QAgAd6FkJyEldvtb+xBUcp3YDJiC5nYdEFUJNGSMJhmuwQAyWPRutuVmp2sVf
- 1soshZ62DZFEZSQd7rNwLTMcxqVvThVdTwkmXCxrg+JrEYxiKPVH6JwnpjKWRGzaaVVX
- c+dA==
-X-Gm-Message-State: AOAM531H+Qpoa6LSGQL8ZPdqdKGuxdKft8Iraf6ex0lSsX8/+fJxlqlF
- XCAc3NxPiP7iXwZfwJ39cwaSnJ+29Xsf7t5Oq4nHcw==
-X-Google-Smtp-Source: ABdhPJw4eMYSiv8BN0ZFKMfV0Ak99x6j7RISLBBhNH3pY76s6gX0+MsdbkOY8rADDVFChgDBdUtABTaXOKwlhjHzl4E=
-X-Received: by 2002:a17:906:3d4a:: with SMTP id
- q10mr2907537ejf.85.1610450998050; 
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=dRiaAu9hETYu/BXG8y6YWk/SYgh2bgnB6lVdCYZbJwU=;
+ b=DupqVRwpMZ1KBZOIHya2sLS4Wj9gPpGoYSAX9yGkU/IkhPj62DnHILJ8+qrUjQeg1J
+ 7V91Bi569/KVt9P3YILpgcX3f/7iPtCJ6jJiQ9+sNzsEE9yoxqat09ZpVniExenjYzVy
+ VKsSW55oto4XrZFh94r/WdKMbdLNFkdWYA4ybvVuPRjEt6iwhV8NI2yrs/iZCRmZLlMQ
+ 0nQX/yGjZjtHs6RDkOjv1N3OW0PRJaHlqHseyAr9OVF2c1s1CUZ1rcUQJoBhNy5L21Nq
+ v05xJl4bZZ4EhW25Zyfvg3XpgWG365cs9dxZLT96gJXXPtZkYppPVP9yqu/ricDDzFJq
+ CUpw==
+X-Gm-Message-State: AOAM5338AR/n9gIXNrI0jSwU1fM0sMABMP1vfkN0vzowWGFIo74ipV4q
+ dlLVYT/OF5pGujVDWkNAujAHm91FX7G7HMEuGuLmB39QAHFKNs0XQw6xDqugdiZ4j0HSfUC9Osz
+ 21pIDX1l7DlubWF+6yC0O8f7vLx71S5NKL8NVxeK9EReG92bijTUZt31aWG2meRoR
+X-Received: by 2002:adf:dc84:: with SMTP id r4mr3739687wrj.232.1610450998270; 
  Tue, 12 Jan 2021 03:29:58 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJxOCkOEWLUrR2VTOfh7upb+ZmDxb4KFoAyvMlLsnIrxZeGnKt4CZvlhL66lzNjHfSzeOppwvQ==
+X-Received: by 2002:adf:dc84:: with SMTP id r4mr3739671wrj.232.1610450998092; 
+ Tue, 12 Jan 2021 03:29:58 -0800 (PST)
+Received: from localhost.localdomain
+ (190.red-83-57-173.dynamicip.rima-tde.net. [83.57.173.190])
+ by smtp.gmail.com with ESMTPSA id j59sm5067392wrj.13.2021.01.12.03.29.56
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 12 Jan 2021 03:29:57 -0800 (PST)
+From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
+To: qemu-devel@nongnu.org
+Subject: [PATCH] hw/ide/ahci: Replace fprintf() by qemu_log_mask(GUEST_ERROR)
+Date: Tue, 12 Jan 2021 12:29:55 +0100
+Message-Id: <20210112112955.1849212-1-philmd@redhat.com>
+X-Mailer: git-send-email 2.26.2
 MIME-Version: 1.0
-References: <20210108190945.949196-1-wuhaotsh@google.com>
- <20210108190945.949196-4-wuhaotsh@google.com>
-In-Reply-To: <20210108190945.949196-4-wuhaotsh@google.com>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Tue, 12 Jan 2021 11:29:46 +0000
-Message-ID: <CAFEAcA9LCEwjDfG-Gq+jokZtOjs6J_B_jJaazsRpYY0FVL9dww@mail.gmail.com>
-Subject: Re: [PATCH v5 3/6] hw/adc: Add an ADC module for NPCM7XX
-To: Hao Wu <wuhaotsh@google.com>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2a00:1450:4864:20::630;
- envelope-from=peter.maydell@linaro.org; helo=mail-ej1-x630.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=philmd@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -29
+X-Spam_score: -3.0
+X-Spam_bar: ---
+X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.251,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -78,47 +90,46 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Corey Minyard <minyard@acm.org>, Patrick Venture <venture@google.com>,
- Havard Skinnemoen <hskinnemoen@google.com>,
- QEMU Developers <qemu-devel@nongnu.org>, CS20 KFTing <kfting@nuvoton.com>,
- qemu-arm <qemu-arm@nongnu.org>, IS20 Avi Fishman <Avi.Fishman@nuvoton.com>,
- =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>
+Cc: qemu-trivial@nongnu.org,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
+ John Snow <jsnow@redhat.com>, qemu-block@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, 8 Jan 2021 at 19:10, Hao Wu <wuhaotsh@google.com> wrote:
->
-> The ADC is part of NPCM7XX Module. Its behavior is controled by the
-> ADC_CON register. It converts one of the eight analog inputs into a
-> digital input and stores it in the ADC_DATA register when enabled.
->
-> Users can alter input value by using qom-set QMP command.
->
-> Reviewed-by: Havard Skinnemoen <hskinnemoen@google.com>
-> Reviewed-by: Tyrone Ting <kfting@nuvoton.com>
-> Signed-off-by: Hao Wu <wuhaotsh@google.com>
-> ---
->  docs/system/arm/nuvoton.rst    |   2 +-
->  hw/adc/meson.build             |   1 +
->  hw/adc/npcm7xx_adc.c           | 301 ++++++++++++++++++++++++++
->  hw/adc/trace-events            |   5 +
->  hw/arm/npcm7xx.c               |  24 ++-
->  include/hw/adc/npcm7xx_adc.h   |  69 ++++++
->  include/hw/arm/npcm7xx.h       |   2 +
->  meson.build                    |   1 +
->  tests/qtest/meson.build        |   3 +-
->  tests/qtest/npcm7xx_adc-test.c | 377 +++++++++++++++++++++++++++++++++
+Replace fprintf() calls by qemu_log_mask(LOG_GUEST_ERROR).
 
-Adding trace events to a directory for the first time
-requires also adding the hw/adc/trace.h file (which just has
-a single line '#include "trace/trace-hw_adc.h"'), otherwise
-this doesn't compile. I think that's the only issue with this
-patchset, though, so I'll just fix it up locally.
+Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+---
+ hw/ide/ahci.c | 8 +++++---
+ 1 file changed, 5 insertions(+), 3 deletions(-)
 
-(Stefan is going to send a patch fixing docs/devel/tracing.txt,
-which failed to mention the need for this step when adding
-a new subdir to tracing.)
+diff --git a/hw/ide/ahci.c b/hw/ide/ahci.c
+index 4b675b9cfd8..6d50482b8d1 100644
+--- a/hw/ide/ahci.c
++++ b/hw/ide/ahci.c
+@@ -465,8 +465,9 @@ static void ahci_mem_write(void *opaque, hwaddr addr,
+ 
+     /* Only aligned reads are allowed on AHCI */
+     if (addr & 3) {
+-        fprintf(stderr, "ahci: Mis-aligned write to addr 0x"
+-                TARGET_FMT_plx "\n", addr);
++        qemu_log_mask(LOG_GUEST_ERROR,
++                      "ahci: Mis-aligned write to addr 0x%03" HWADDR_PRIX "\n",
++                      addr);
+         return;
+     }
+ 
+@@ -1111,7 +1112,8 @@ static void process_ncq_command(AHCIState *s, int port, uint8_t *cmd_fis,
+     g_assert(is_ncq(ncq_fis->command));
+     if (ncq_tfs->used) {
+         /* error - already in use */
+-        fprintf(stderr, "%s: tag %d already used\n", __func__, tag);
++        qemu_log_mask(LOG_GUEST_ERROR, "%s: tag %d already used\n",
++                      __func__, tag);
+         return;
+     }
+ 
+-- 
+2.26.2
 
-thanks
--- PMM
 
