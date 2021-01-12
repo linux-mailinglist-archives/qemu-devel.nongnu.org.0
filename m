@@ -2,75 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1C0682F2D3C
-	for <lists+qemu-devel@lfdr.de>; Tue, 12 Jan 2021 11:54:25 +0100 (CET)
-Received: from localhost ([::1]:43018 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1035C2F2D39
+	for <lists+qemu-devel@lfdr.de>; Tue, 12 Jan 2021 11:52:39 +0100 (CET)
+Received: from localhost ([::1]:36624 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kzHJg-0004sB-6P
-	for lists+qemu-devel@lfdr.de; Tue, 12 Jan 2021 05:54:24 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43754)
+	id 1kzHHx-0002Jv-Kw
+	for lists+qemu-devel@lfdr.de; Tue, 12 Jan 2021 05:52:37 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44430)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1kzGXb-00032c-4l
- for qemu-devel@nongnu.org; Tue, 12 Jan 2021 05:04:49 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:51287)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1kzGXT-0006Yq-4r
- for qemu-devel@nongnu.org; Tue, 12 Jan 2021 05:04:41 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1610445872;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=ayGrgkN2iMX03KL0GIarf9C6/dHJuxKWOu6lONsDJXE=;
- b=JpNomAaXaWdfEv1WhnEaiHjf11DL7P85UL7aUoGt92VsPqBv68tM5/6Bh7JChdjC7LfndN
- zTEN1EzPsr71EVZeNFF2gI+vwPxmdxTneBA+reJDWmA7IRWmMPe6OA/sy3d+FBIsDlh5dd
- krHhFSF7bEIaYfqo/1VjI7oRq3CYVok=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-246-c1hJezvkOvq8SH39MGzZlw-1; Tue, 12 Jan 2021 05:04:30 -0500
-X-MC-Unique: c1hJezvkOvq8SH39MGzZlw-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 9D3871800D42;
- Tue, 12 Jan 2021 10:04:29 +0000 (UTC)
-Received: from [10.36.115.140] (ovpn-115-140.ams2.redhat.com [10.36.115.140])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 8E37050C0D;
- Tue, 12 Jan 2021 10:04:28 +0000 (UTC)
-Subject: Re: [PATCH v3 4/5] tests/tcg/s390x: Fix EXRL tests
-To: Thomas Huth <thuth@redhat.com>
-References: <fdb64ad0-463a-3a35-e68d-4ce0d0de95b5@redhat.com>
- <0171718F-8768-49AB-8018-E1307AB19292@redhat.com>
- <b01bc81a-c79a-d1c5-a85f-95939c7d8e72@redhat.com>
-From: David Hildenbrand <david@redhat.com>
-Organization: Red Hat GmbH
-Message-ID: <636eb0c5-b217-c550-f84d-4f849d901501@redhat.com>
-Date: Tue, 12 Jan 2021 11:04:27 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.5.0
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1kzGbe-0007XS-2e
+ for qemu-devel@nongnu.org; Tue, 12 Jan 2021 05:08:54 -0500
+Received: from mail-ej1-x636.google.com ([2a00:1450:4864:20::636]:36973)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1kzGbc-0007vB-0H
+ for qemu-devel@nongnu.org; Tue, 12 Jan 2021 05:08:53 -0500
+Received: by mail-ej1-x636.google.com with SMTP id ga15so2692886ejb.4
+ for <qemu-devel@nongnu.org>; Tue, 12 Jan 2021 02:08:51 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=5q8bAIKPF4oNGobaAtHavlBxUXPUiqP1WlLtWRoD35M=;
+ b=VgAuUyzCLX1cCD2bgtbLSFfP7xWXD4asi9Sq1tpKH6UKGTKENiWYNvDS67aTTO5d85
+ Oom2dWWs5Ix3EQ1bg37R/CrkVOHlh4vzpSAJNoNpqjWclb9LRQMiXNnu8eQfUmHKY3E8
+ NDjahwQKRAX59lwoF76rsL3U3ef28fCUOZo+hIQpeiM/hhG+XxYf7wu+cYeOh4HCszcv
+ 5dwWTHCNU0a0k5BSF3y7+tbYEdtPlGrzGcayJmDgDchBhQE7FMD7WuEv+RiDQIiyK/bG
+ 6iZDN6U3QWeFdAd3IPYLa12z7dGL+gTi72uZgc8Kt8Sq+c5xhFQtlEYbfifKJuZ2mptk
+ hUpw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=5q8bAIKPF4oNGobaAtHavlBxUXPUiqP1WlLtWRoD35M=;
+ b=E6RVbJ2Fxr0AW6c/pRbzwuHmFitr+3iPZoOaOWOLpfezOhSEGaFGX9ZWs3lP+SDmDk
+ Bozyvjn/x4ibFj2+XIb3urPUoxYV0GQsdu/gIwwjJvrt4UJ49ANCeWBPcCyuY6iDEbR7
+ F7kixNjpmMx4jd3WQtAAcBv+MHk9oaKkq5TO9jK9kt06VnZWWoKMLUhglBRh3/aXIYd3
+ aw0qzR0vFIYmoC5ndRwv0xWFP/SH2GfdEG/BXci4GC+uct5mUFadgjyH6xVjp0heqdpg
+ zis58vykCL4H6Vx0POV3/plNwzdqLLx8QQzqPEQOgeG109aKjDd1lFWuQCCT1BUcKCJj
+ 0h1w==
+X-Gm-Message-State: AOAM531N6ROKNsqrZyyeF/9/jzdrUtZ2WVQxo00PkMCQzunQ5EJxaPLx
+ bfAm3FIGJkjYxVopgUNS+zyC7frV2WztN4g//NFFqA==
+X-Google-Smtp-Source: ABdhPJwWDY1VHgwTduFlD06AiML7kTY5AVltEzX95ILR2K8LRmxJAEq7fSXm9xh+XTdt6xtOq/uSfZMIDtwtTpAbWS0=
+X-Received: by 2002:a17:906:e94c:: with SMTP id
+ jw12mr2774046ejb.56.1610446130316; 
+ Tue, 12 Jan 2021 02:08:50 -0800 (PST)
 MIME-Version: 1.0
-In-Reply-To: <b01bc81a-c79a-d1c5-a85f-95939c7d8e72@redhat.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=david@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=david@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -29
-X-Spam_score: -3.0
-X-Spam_bar: ---
-X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.251,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+References: <20210108090817.6127-2-remi.denis.courmont@huawei.com>
+In-Reply-To: <20210108090817.6127-2-remi.denis.courmont@huawei.com>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Tue, 12 Jan 2021 10:08:39 +0000
+Message-ID: <CAFEAcA-Rvjni4-9yohokKai8cuxGG82OEisPi_inyqjnwF_2GQ@mail.gmail.com>
+Subject: Re: [PATCHv2 2/2] target/arm: enable Small Translation tables in max
+ CPU
+To: =?UTF-8?Q?R=C3=A9mi_Denis=2DCourmont?= <remi.denis.courmont@huawei.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2a00:1450:4864:20::636;
+ envelope-from=peter.maydell@linaro.org; helo=mail-ej1-x636.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -83,72 +80,50 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-s390x@nongnu.org, Cornelia Huck <cohuck@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
+Cc: qemu-arm <qemu-arm@nongnu.org>, QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 12.01.21 09:16, Thomas Huth wrote:
-> On 12/01/2021 08.47, David Hildenbrand wrote:
->>
->>> Am 12.01.2021 um 08:41 schrieb Thomas Huth <thuth@redhat.com>:
->>>
->>> ﻿On 11/01/2021 17.38, David Hildenbrand wrote:
->>>> The current EXRL tests crash on real machines: we must not use r0 as a base
->>>> register for trt/trtr, otherwise the content gets ignored. Also, we must
->>>> not use r0 for exrl, otherwise it gets ignored.
->>>> Let's use the "a" constraint so we get a general purpose register != r0.
->>>> For op2, we can simply specify a memory operand directly via "Q" (Memory
->>>> reference without index register and with short displacement).
->>>> Fixes: ad8c851d2e77 ("target/s390x: add EX support for TRT and TRTR")
->>>> Signed-off-by: David Hildenbrand <david@redhat.com>
->>>> ---
->>>>   tests/tcg/s390x/exrl-trt.c  | 8 ++++----
->>>>   tests/tcg/s390x/exrl-trtr.c | 8 ++++----
->>>>   2 files changed, 8 insertions(+), 8 deletions(-)
->>>> diff --git a/tests/tcg/s390x/exrl-trt.c b/tests/tcg/s390x/exrl-trt.c
->>>> index 3c5323aecb..16711a3181 100644
->>>> --- a/tests/tcg/s390x/exrl-trt.c
->>>> +++ b/tests/tcg/s390x/exrl-trt.c
->>>> @@ -19,7 +19,7 @@ int main(void)
->>>>       }
->>>>       asm volatile(
->>>>           "    j 2f\n"
->>>> -        "1:  trt 0(1,%[op1]),0(%[op2])\n"
->>>> +        "1:  trt 0(1,%[op1]),%[op2]\n"
->>>>           "2:  exrl %[op1_len],1b\n"
->>>>           "    lgr %[r1],%%r1\n"
->>>>           "    lgr %[r2],%%r2\n"
->>>> @@ -27,9 +27,9 @@ int main(void)
->>>>           : [r1] "+r" (r1),
->>>>             [r2] "+r" (r2),
->>>>             [cc] "=r" (cc)
->>>> -        : [op1] "r" (&op1),
->>>> -          [op1_len] "r" (5),
->>>> -          [op2] "r" (&op2)
->>>> +        : [op1] "a" (&op1),
->>>> +          [op1_len] "a" (5),
->>>
->>> I think op1_len could still stay with "r" instead of "a" ... OTOH "a" also does not hurt here, so:
->>>
->>
->> No, otherwise exrl ignores the register content  if it ends up being r0.
-> 
-> Ah, well, sorry, I've got fooled by the description of "EXECUTE RELATIVE 
-> LONG" in the Principles of Operation since it is talking about "R1" and not 
-> "B" there ... but you're right, the detailed description there then talks 
-> about "When the R1 field is not zero ...", so we need the "a" instead of the 
-> "r" for op1_len here indeed.
+On Fri, 8 Jan 2021 at 09:08, <remi.denis.courmont@huawei.com> wrote:
+>
+> From: R=C3=A9mi Denis-Courmont <remi.denis.courmont@huawei.com>
+>
+> Signed-off-by: R=C3=A9mi Denis-Courmont <remi.denis.courmont@huawei.com>
+> ---
+>  target/arm/cpu64.c | 1 +
+>  1 file changed, 1 insertion(+)
+>
+> diff --git a/target/arm/cpu64.c b/target/arm/cpu64.c
+> index 7cf9fc4bc6..da24f94baa 100644
+> --- a/target/arm/cpu64.c
+> +++ b/target/arm/cpu64.c
+> @@ -669,6 +669,7 @@ static void aarch64_max_initfn(Object *obj)
+>          t =3D cpu->isar.id_aa64mmfr2;
+>          t =3D FIELD_DP64(t, ID_AA64MMFR2, UAO, 1);
+>          t =3D FIELD_DP64(t, ID_AA64MMFR2, CNP, 1); /* TTCNP */
+> +        t =3D FIELD_DP64(t, ID_AA64MMFR2, ST, 1); /* TTST */
+>          cpu->isar.id_aa64mmfr2 =3D t;
 
-I actually stumbled over that while fixing the test. Converting op1 and
-op2 suddenly made the test fail with "bad cc" instead of segfault. The
-compiler decided to use r0 for op1_len when not being able to use it for
-op1 and op2 ... :)
+I've applied this series to target-arm.next; thanks.
 
+It looks like you forgot to send the series as a threaded set of
+emails with a cover letter email. This confuses our tools which
+find patches in the mailing list (so your series doesn't show up
+on patchew or in the 'patches' tool's list of patches), and it
+also means I'm likely to miss it when I go through my emails
+manually. I dealt with this one manually, but it's a lot more
+work for me to do so and it was only really feasible because
+there were only two patches in the series.
 
--- 
-Thanks,
+For future submissions, please can you make sure you send
+multi-patch series with a 00/nn cover letter email and with
+all the patches in the series being followups to that cover
+letter. git send-email will get all the threading details
+right for you.
+(Single standalone patches don't need a cover letter.)
+https://wiki.qemu.org/Contribute/SubmitAPatch has more
+info on our patch submission recommendations.
 
-David / dhildenb
-
+thanks
+-- PMM
 
