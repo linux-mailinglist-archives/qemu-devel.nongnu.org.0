@@ -2,74 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1EA572F2CE5
-	for <lists+qemu-devel@lfdr.de>; Tue, 12 Jan 2021 11:32:39 +0100 (CET)
-Received: from localhost ([::1]:34304 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C132B2F2CF0
+	for <lists+qemu-devel@lfdr.de>; Tue, 12 Jan 2021 11:35:38 +0100 (CET)
+Received: from localhost ([::1]:42650 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kzGyc-0002jl-5S
-	for lists+qemu-devel@lfdr.de; Tue, 12 Jan 2021 05:32:38 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38350)
+	id 1kzH1V-0006GC-PM
+	for lists+qemu-devel@lfdr.de; Tue, 12 Jan 2021 05:35:37 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38462)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <frank.chang@sifive.com>)
- id 1kzGCp-0005s5-NV
- for qemu-devel@nongnu.org; Tue, 12 Jan 2021 04:43:17 -0500
-Received: from mail-pg1-x535.google.com ([2607:f8b0:4864:20::535]:37079)
+ id 1kzGCv-0005ve-M7
+ for qemu-devel@nongnu.org; Tue, 12 Jan 2021 04:43:21 -0500
+Received: from mail-pj1-x1036.google.com ([2607:f8b0:4864:20::1036]:53694)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <frank.chang@sifive.com>)
- id 1kzGCh-000857-0i
- for qemu-devel@nongnu.org; Tue, 12 Jan 2021 04:43:12 -0500
-Received: by mail-pg1-x535.google.com with SMTP id z21so1082397pgj.4
- for <qemu-devel@nongnu.org>; Tue, 12 Jan 2021 01:43:06 -0800 (PST)
+ id 1kzGCp-00087N-GW
+ for qemu-devel@nongnu.org; Tue, 12 Jan 2021 04:43:19 -0500
+Received: by mail-pj1-x1036.google.com with SMTP id iq13so1255790pjb.3
+ for <qemu-devel@nongnu.org>; Tue, 12 Jan 2021 01:43:14 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sifive.com; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references;
- bh=2kXd7BkSecgi1sQstKw8lugNbrgP0rsKfdX8qw3qJaw=;
- b=cR6qoomWHej5GHMzr5eBahqyzTYIHXdF38CJ4kIS4eciNvEYJX9WgTdfhg5CwzPjSJ
- 0cU9tC6J0z9BN+DDObJn2zxlts/YpF0S0AS30lnCCv89FXXwNMMZvl6q3Cmd+ynYw+9j
- prefe3s8vnB39AALUd+o65txIn2esmyFsZHl4E8JeUWvXZHEqluTix/sNPgjHUM74R0w
- Q7lO+B1M8DO8k2nUlxTdqoK2X5SM05fM1EXyvIeBr3F9wsUMLawawMeRmNXTRpubK4sf
- 073DH+ke+dphAoNmpyYzOCJNUK5cnGsi4Y1LF9bQzDaosaUhCjxLlbHGbRYemvs5uLna
- /X5Q==
+ bh=gykx41DpV2pVnOdp84JCzzJ8Ntv56iQ412atWoTAuT0=;
+ b=g4Yls9WlZWytmjrs6WK5pK2relced9exxP+C+DIiR3ydvQP/AFmJQs/Q1FxBmT8Wvb
+ KCRnkR4+8oI+AoNH635irpmtZoLJe0w/WTeGc7rSxRjDw8/akfsXkD+BPO+BHz50+Mem
+ 6GHxgq7GrEw7gMqxkJNqt/Puwh4H4whym2l/1hXpwDaymJRiPP40tw3ni5t+SPYjqLyW
+ CBII8dbYu+CbzpDObgn+IvJIfI96pKdN9jMKY4+HNO+zaWTyw5Th8xae+0sA9vxbYcDR
+ 2+JO6Va0ATcnuS304BuoI1eq8bakSxJyG+vEeedxNWIGsQ27oLGn6DkzWiXGepd51HHV
+ X/ug==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references;
- bh=2kXd7BkSecgi1sQstKw8lugNbrgP0rsKfdX8qw3qJaw=;
- b=jw9qaWDQWz2cX6b0fxCy8jWzsn3KDODwQU95Q24DKj8QVwGX5bTxILIwO5XaIUDskO
- tBWU29e7gSiGj6lhTKvDHJ8iUSrWlAVmG2Y9y7fnOore+ZJ0eLRpNXlJ6PBH0otKLL8z
- roMkpYYlXl5ixUFPZKf4UG24kzADuecrXgwdDqa9dMAwrXzsAfmRpP5TgxJX7lpSxifh
- jfttYdpDsn9vIa/Dg+A6jsq3GIedhfG+w7S9rkXGUqkanig4aborA18SvKCpALzNu2M2
- 0Et8zEGHW5fxkz7dYsF6gm1mZgbh/azvWE/Y8J76l04qI9kayMJT591PAjjP0UIu9MI6
- +3CQ==
-X-Gm-Message-State: AOAM531nDQr6eqC9sIdiGK35sMRrcp/EHZ+Pf8a7KZSJxfwE4NLXogry
- I32CfdS95t+EcQ4jf9AEUjuFhKeQOHttqcvd
-X-Google-Smtp-Source: ABdhPJzUBct05pe1ywHGRZgBHapCQWf86ve3lITKm1z4hB2RLGmpR/L0A7uYF5Ldln3bdFHs4bWHag==
-X-Received: by 2002:a63:66c3:: with SMTP id a186mr3959028pgc.198.1610444585748; 
- Tue, 12 Jan 2021 01:43:05 -0800 (PST)
+ bh=gykx41DpV2pVnOdp84JCzzJ8Ntv56iQ412atWoTAuT0=;
+ b=EdpoATOfRLImAVi/HFHKoWQ3O8pIvVDA22vVgQy4DTHl8d1rk4TVJrHjVQQqNo8+4P
+ JG4gn+1byA67o58pvqBTwu03XDTuNAN9z0lhdl3mFqAM46aj1YWamkkDjDRiZiwnrJkH
+ IQ+g6fAPb12h2Ea+Xe+7H9FGiflOw3spPZrgBBkeAwVfoIlLTOvxoRIrNT4gdOSqttmx
+ LU6HDPU2wOBhxBkJwJCLKZCMfsxEkDp/M9TK/hyU3Sy0QB3Qu6R/a+pB8JKbOAiRwgVS
+ eyHjDzFr/zYhhcgm8og7dH+TReqKOGY7m2p6vygNEU3ftq4ONSLZkroH52OhXmdcrzJE
+ xlTQ==
+X-Gm-Message-State: AOAM530M0Xcx4twL4PrrV5uJeZDRTZKVd6JJ7SJwmrAw4eR67lhdcSEF
+ bb5AC/K3Nrep+K9ZELmkLisuTZ+gIID/rBp0
+X-Google-Smtp-Source: ABdhPJyzKknNlUzYrK9SUo4X+EItWnzTh0ZrNAEfs2lH7ImCdku2ZkynQmwi/r8JQusxaV8uorRraA==
+X-Received: by 2002:a17:902:ff0a:b029:de:1d1f:8558 with SMTP id
+ f10-20020a170902ff0ab02900de1d1f8558mr1777966plj.85.1610444593615; 
+ Tue, 12 Jan 2021 01:43:13 -0800 (PST)
 Received: from frankchang-ThinkPad-T490.internal.sifive.com
  (114-34-229-221.HINET-IP.hinet.net. [114.34.229.221])
- by smtp.gmail.com with ESMTPSA id h16sm2865664pgd.62.2021.01.12.01.43.03
+ by smtp.gmail.com with ESMTPSA id h16sm2865664pgd.62.2021.01.12.01.43.11
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 12 Jan 2021 01:43:05 -0800 (PST)
+ Tue, 12 Jan 2021 01:43:13 -0800 (PST)
 From: frank.chang@sifive.com
 To: qemu-devel@nongnu.org,
 	qemu-riscv@nongnu.org
-Subject: [PATCH v6 45/72] target/riscv: rvv-1.0: single-width saturating add
- and subtract instructions
-Date: Tue, 12 Jan 2021 17:39:19 +0800
-Message-Id: <20210112093950.17530-46-frank.chang@sifive.com>
+Subject: [PATCH v6 47/72] target/riscv: rvv-1.0: floating-point compare
+ instructions
+Date: Tue, 12 Jan 2021 17:39:21 +0800
+Message-Id: <20210112093950.17530-48-frank.chang@sifive.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20210112093950.17530-1-frank.chang@sifive.com>
 References: <20210112093950.17530-1-frank.chang@sifive.com>
-Received-SPF: pass client-ip=2607:f8b0:4864:20::535;
- envelope-from=frank.chang@sifive.com; helo=mail-pg1-x535.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1036;
+ envelope-from=frank.chang@sifive.com; helo=mail-pj1-x1036.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -82,38 +83,62 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Sagar Karandikar <sagark@eecs.berkeley.edu>,
- Frank Chang <frank.chang@sifive.com>,
- Bastian Koppelmann <kbastian@mail.uni-paderborn.de>,
- Richard Henderson <richard.henderson@linaro.org>,
+Cc: Frank Chang <frank.chang@sifive.com>,
  Alistair Francis <Alistair.Francis@wdc.com>,
- Palmer Dabbelt <palmer@dabbelt.com>, LIU Zhiwei <zhiwei_liu@c-sky.com>
+ Palmer Dabbelt <palmer@dabbelt.com>,
+ Sagar Karandikar <sagark@eecs.berkeley.edu>,
+ Bastian Koppelmann <kbastian@mail.uni-paderborn.de>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Frank Chang <frank.chang@sifive.com>
 
-Sign-extend vsaddu.vi immediate value.
-
 Signed-off-by: Frank Chang <frank.chang@sifive.com>
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- target/riscv/insn_trans/trans_rvv.c.inc | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ target/riscv/vector_helper.c | 8 --------
+ 1 file changed, 8 deletions(-)
 
-diff --git a/target/riscv/insn_trans/trans_rvv.c.inc b/target/riscv/insn_trans/trans_rvv.c.inc
-index 113a20af4d7..39e2d21da5e 100644
---- a/target/riscv/insn_trans/trans_rvv.c.inc
-+++ b/target/riscv/insn_trans/trans_rvv.c.inc
-@@ -2232,7 +2232,7 @@ GEN_OPIVX_TRANS(vsaddu_vx,  opivx_check)
- GEN_OPIVX_TRANS(vsadd_vx,  opivx_check)
- GEN_OPIVX_TRANS(vssubu_vx,  opivx_check)
- GEN_OPIVX_TRANS(vssub_vx,  opivx_check)
--GEN_OPIVI_TRANS(vsaddu_vi, IMM_ZX, vsaddu_vx, opivx_check)
-+GEN_OPIVI_TRANS(vsaddu_vi, IMM_SX, vsaddu_vx, opivx_check)
- GEN_OPIVI_TRANS(vsadd_vi, IMM_SX, vsadd_vx, opivx_check)
+diff --git a/target/riscv/vector_helper.c b/target/riscv/vector_helper.c
+index 5622fb23f85..93ed6f54e99 100644
+--- a/target/riscv/vector_helper.c
++++ b/target/riscv/vector_helper.c
+@@ -3919,7 +3919,6 @@ void HELPER(NAME)(void *vd, void *v0, void *vs1, void *vs2,   \
+ {                                                             \
+     uint32_t vm = vext_vm(desc);                              \
+     uint32_t vl = env->vl;                                    \
+-    uint32_t vlmax = vext_maxsz(desc) / sizeof(ETYPE);        \
+     uint32_t i;                                               \
+                                                               \
+     for (i = 0; i < vl; i++) {                                \
+@@ -3931,9 +3930,6 @@ void HELPER(NAME)(void *vd, void *v0, void *vs1, void *vs2,   \
+         vext_set_elem_mask(vd, i,                             \
+                            DO_OP(s2, s1, &env->fp_status));   \
+     }                                                         \
+-    for (; i < vlmax; i++) {                                  \
+-        vext_set_elem_mask(vd, i, 0);                         \
+-    }                                                         \
+ }
  
- /* Vector Single-Width Averaging Add and Subtract */
+ GEN_VEXT_CMP_VV_ENV(vmfeq_vv_h, uint16_t, H2, float16_eq_quiet)
+@@ -3946,7 +3942,6 @@ void HELPER(NAME)(void *vd, void *v0, uint64_t s1, void *vs2,       \
+ {                                                                   \
+     uint32_t vm = vext_vm(desc);                                    \
+     uint32_t vl = env->vl;                                          \
+-    uint32_t vlmax = vext_max_elems(desc, ctzl(sizeof(ETYPE)));     \
+     uint32_t i;                                                     \
+                                                                     \
+     for (i = 0; i < vl; i++) {                                      \
+@@ -3957,9 +3952,6 @@ void HELPER(NAME)(void *vd, void *v0, uint64_t s1, void *vs2,       \
+         vext_set_elem_mask(vd, i,                                   \
+                            DO_OP(s2, (ETYPE)s1, &env->fp_status));  \
+     }                                                               \
+-    for (; i < vlmax; i++) {                                        \
+-        vext_set_elem_mask(vd, i, 0);                               \
+-    }                                                               \
+ }
+ 
+ GEN_VEXT_CMP_VF(vmfeq_vf_h, uint16_t, H2, float16_eq_quiet)
 -- 
 2.17.1
 
