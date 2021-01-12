@@ -2,59 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 11AD32F2DF3
-	for <lists+qemu-devel@lfdr.de>; Tue, 12 Jan 2021 12:33:52 +0100 (CET)
-Received: from localhost ([::1]:35508 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CA8032F2E21
+	for <lists+qemu-devel@lfdr.de>; Tue, 12 Jan 2021 12:38:41 +0100 (CET)
+Received: from localhost ([::1]:50394 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kzHvr-0006pN-4A
-	for lists+qemu-devel@lfdr.de; Tue, 12 Jan 2021 06:33:51 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54514)
+	id 1kzI0W-0004rJ-QC
+	for lists+qemu-devel@lfdr.de; Tue, 12 Jan 2021 06:38:40 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56766)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <ganqixin@huawei.com>)
- id 1kzHHA-00026v-Ds; Tue, 12 Jan 2021 05:51:48 -0500
-Received: from szxga02-in.huawei.com ([45.249.212.188]:2129)
+ (Exim 4.90_1) (envelope-from <groug@kaod.org>)
+ id 1kzHPK-0004Dj-Ko; Tue, 12 Jan 2021 06:00:14 -0500
+Received: from smtpout1.mo529.mail-out.ovh.net ([178.32.125.2]:37703)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <ganqixin@huawei.com>)
- id 1kzHH5-0005So-Tu; Tue, 12 Jan 2021 05:51:48 -0500
-Received: from dggemi401-hub.china.huawei.com (unknown [172.30.72.55])
- by szxga02-in.huawei.com (SkyGuard) with ESMTP id 4DFS626lBgz5GXN;
- Tue, 12 Jan 2021 18:50:34 +0800 (CST)
-Received: from DGGEMI421-HUB.china.huawei.com (10.1.199.150) by
- dggemi401-hub.china.huawei.com (10.3.17.134) with Microsoft SMTP Server (TLS)
- id 14.3.498.0; Tue, 12 Jan 2021 18:51:22 +0800
-Received: from DGGEMI525-MBS.china.huawei.com ([169.254.6.51]) by
- dggemi421-hub.china.huawei.com ([10.1.199.150]) with mapi id 14.03.0509.000;
- Tue, 12 Jan 2021 18:51:13 +0800
-From: ganqixin <ganqixin@huawei.com>
-To: Peter Maydell <peter.maydell@linaro.org>
-Subject: RE: [PATCH v2 1/2] pl031: Use timer_free() in the finalize function
- to avoid memleaks
-Thread-Topic: [PATCH v2 1/2] pl031: Use timer_free() in the finalize
- function to avoid memleaks
-Thread-Index: AQHW6Mybnw6580g4mUaCHBiRS8PgJqojQduAgACHiDA=
-Date: Tue, 12 Jan 2021 10:51:12 +0000
-Message-ID: <A5B86EC83C48EF4CB2BC58BEF3A2F49606625E97@DGGEMI525-MBS.china.huawei.com>
-References: <20210112101746.379517-1-ganqixin@huawei.com>
- <20210112101746.379517-2-ganqixin@huawei.com>
- <CAFEAcA-68F=NcqS8AyiPTToc7CQyoymPhp3Z77idQkVk7fHYXg@mail.gmail.com>
-In-Reply-To: <CAFEAcA-68F=NcqS8AyiPTToc7CQyoymPhp3Z77idQkVk7fHYXg@mail.gmail.com>
-Accept-Language: en-US
-Content-Language: zh-CN
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [10.174.185.159]
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+ (Exim 4.90_1) (envelope-from <groug@kaod.org>)
+ id 1kzHPG-0008Mz-K5; Tue, 12 Jan 2021 06:00:14 -0500
+Received: from mxplan5.mail.ovh.net (unknown [10.108.20.177])
+ by mo529.mail-out.ovh.net (Postfix) with ESMTPS id E8E827AFD0B7;
+ Tue, 12 Jan 2021 12:00:05 +0100 (CET)
+Received: from kaod.org (37.59.142.98) by DAG8EX1.mxp5.local (172.16.2.71)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2044.4; Tue, 12 Jan
+ 2021 12:00:01 +0100
+Authentication-Results: garm.ovh; auth=pass
+ (GARM-98R002aa6424c8-1bae-4fd3-90b2-bb0287a7b3cc,
+ D7A3512486C53AB1907B5452A8D2CB06296403FA) smtp.auth=groug@kaod.org
+X-OVh-ClientIp: 82.253.208.248
+Date: Tue, 12 Jan 2021 11:59:59 +0100
+From: Greg Kurz <groug@kaod.org>
+To: David Gibson <david@gibson.dropbear.id.au>
+Subject: Re: [PATCH v6 05/13] confidential guest support: Rework the
+ "memory-encryption" property
+Message-ID: <20210112115959.2c042dbb@bahia.lan>
+In-Reply-To: <20210112044508.427338-6-david@gibson.dropbear.id.au>
+References: <20210112044508.427338-1-david@gibson.dropbear.id.au>
+ <20210112044508.427338-6-david@gibson.dropbear.id.au>
+X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-X-CFilter-Loop: Reflected
-Received-SPF: pass client-ip=45.249.212.188; envelope-from=ganqixin@huawei.com;
- helo=szxga02-in.huawei.com
-X-Spam_score_int: -41
-X-Spam_score: -4.2
-X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset="US-ASCII"
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [37.59.142.98]
+X-ClientProxiedBy: DAG7EX1.mxp5.local (172.16.2.61) To DAG8EX1.mxp5.local
+ (172.16.2.71)
+X-Ovh-Tracer-GUID: ffca4688-4df4-4ccc-a6b2-4ca9940b29dd
+X-Ovh-Tracer-Id: 9310347805589936479
+X-VR-SPAMSTATE: OK
+X-VR-SPAMSCORE: -100
+X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedujedrvdehgedgudekucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuqfggjfdpvefjgfevmfevgfenuceurghilhhouhhtmecuhedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhepfffhvffukfgjfhfogggtgfhisehtjeertdertddvnecuhfhrohhmpefirhgvghcumfhurhiiuceoghhrohhugheskhgrohgurdhorhhgqeenucggtffrrghtthgvrhhnpeefuddtieejjeevheekieeltefgleetkeetheettdeifeffvefhffelffdtfeeljeenucfkpheptddrtddrtddrtddpfeejrdehledrudegvddrleeknecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmohguvgepshhmthhpqdhouhhtpdhhvghlohepmhigphhlrghnhedrmhgrihhlrdhovhhhrdhnvghtpdhinhgvtheptddrtddrtddrtddpmhgrihhlfhhrohhmpehgrhhouhhgsehkrghougdrohhrghdprhgtphhtthhopehjuhhnrdhnrghkrghjihhmrgesihhnthgvlhdrtghomh
+Received-SPF: pass client-ip=178.32.125.2; envelope-from=groug@kaod.org;
+ helo=smtpout1.mo529.mail-out.ovh.net
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
+ RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -67,62 +69,251 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Zhanghailiang <zhang.zhanghailiang@huawei.com>,
- QEMU Trivial <qemu-trivial@nongnu.org>,
- QEMU Developers <qemu-devel@nongnu.org>, Euler Robot <euler.robot@huawei.com>,
- "Chenqun \(kuhn\)" <kuhn.chenqun@huawei.com>,
- David Gibson <david@gibson.dropbear.id.au>
+Cc: pair@us.ibm.com, Marcelo Tosatti <mtosatti@redhat.com>,
+ brijesh.singh@amd.com, kvm@vger.kernel.org, david@redhat.com,
+ qemu-devel@nongnu.org, frankja@linux.ibm.com, pragyansri.pathi@intel.com,
+ mst@redhat.com, mdroth@linux.vnet.ibm.com, pasic@linux.ibm.com,
+ Christian Borntraeger <borntraeger@de.ibm.com>, andi.kleen@intel.com,
+ thuth@redhat.com, Eduardo Habkost <ehabkost@redhat.com>,
+ richard.henderson@linaro.org, dgilbert@redhat.com, qemu-s390x@nongnu.org,
+ jun.nakajima@intel.com,
+ "Daniel P. =?UTF-8?B?QmVycmFuZ8Op?=" <berrange@redhat.com>,
+ Cornelia Huck <cohuck@redhat.com>, qemu-ppc@nongnu.org,
+ Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-PiAtLS0tLU9yaWdpbmFsIE1lc3NhZ2UtLS0tLQ0KPiBGcm9tOiBQZXRlciBNYXlkZWxsIFttYWls
-dG86cGV0ZXIubWF5ZGVsbEBsaW5hcm8ub3JnXQ0KPiBTZW50OiBUdWVzZGF5LCBKYW51YXJ5IDEy
-LCAyMDIxIDY6MjIgUE0NCj4gVG86IGdhbnFpeGluIDxnYW5xaXhpbkBodWF3ZWkuY29tPg0KPiBD
-YzogUUVNVSBEZXZlbG9wZXJzIDxxZW11LWRldmVsQG5vbmdudS5vcmc+OyBRRU1VIFRyaXZpYWwN
-Cj4gPHFlbXUtdHJpdmlhbEBub25nbnUub3JnPjsgRGF2aWQgR2lic29uIDxkYXZpZEBnaWJzb24u
-ZHJvcGJlYXIuaWQuYXU+Ow0KPiBDaGVucXVuIChrdWhuKSA8a3Vobi5jaGVucXVuQGh1YXdlaS5j
-b20+OyBaaGFuZ2hhaWxpYW5nDQo+IDx6aGFuZy56aGFuZ2hhaWxpYW5nQGh1YXdlaS5jb20+OyBF
-dWxlciBSb2JvdCA8ZXVsZXIucm9ib3RAaHVhd2VpLmNvbT4NCj4gU3ViamVjdDogUmU6IFtQQVRD
-SCB2MiAxLzJdIHBsMDMxOiBVc2UgdGltZXJfZnJlZSgpIGluIHRoZSBmaW5hbGl6ZSBmdW5jdGlv
-biB0bw0KPiBhdm9pZCBtZW1sZWFrcw0KPiANCj4gT24gVHVlLCAxMiBKYW4gMjAyMSBhdCAxMDoy
-MCwgR2FuIFFpeGluIDxnYW5xaXhpbkBodWF3ZWkuY29tPiB3cm90ZToNCj4gPg0KPiA+IFdoZW4g
-cnVubmluZyBkZXZpY2UtaW50cm9zcGVjdC10ZXN0LCBhIG1lbW9yeSBsZWFrIG9jY3VycmVkIGlu
-IHRoZQ0KPiA+IHBsMDMxX2luaXQgZnVuY3Rpb24sIHRoaXMgcGF0Y2ggdXNlIHRpbWVyX2ZyZWUo
-KSBpbiB0aGUgZmluYWxpemUgZnVuY3Rpb24gdG8gZml4DQo+IGl0Lg0KPiA+DQo+ID4gQVNBTiBz
-aG93cyBtZW1vcnkgbGVhayBzdGFjazoNCj4gPg0KPiA+IERpcmVjdCBsZWFrIG9mIDQ4IGJ5dGUo
-cykgaW4gMSBvYmplY3QocykgYWxsb2NhdGVkIGZyb206DQo+ID4gICAgICMwIDB4ZmZmZmFiOTdl
-MWYwIGluIF9faW50ZXJjZXB0b3JfY2FsbG9jDQo+ICgvbGliNjQvbGliYXNhbi5zby41KzB4ZWUx
-ZjApDQo+ID4gICAgICMxIDB4ZmZmZmFiMjU2ODAwIGluIGdfbWFsbG9jMCAoL2xpYjY0L2xpYmds
-aWItMi4wLnNvLjArMHg1NjgwMCkNCj4gPiAgICAgIzIgMHhhYWFiZjU2MjFjZmMgaW4gdGltZXJf
-bmV3X2Z1bGwNCj4gcWVtdS9pbmNsdWRlL3FlbXUvdGltZXIuaDo1MjMNCj4gPiAgICAgIzMgMHhh
-YWFiZjU2MjFjZmMgaW4gdGltZXJfbmV3IHFlbXUvaW5jbHVkZS9xZW11L3RpbWVyLmg6NTQ0DQo+
-ID4gICAgICM0IDB4YWFhYmY1NjIxY2ZjIGluIHRpbWVyX25ld19ucyBxZW11L2luY2x1ZGUvcWVt
-dS90aW1lci5oOjU2Mg0KPiA+ICAgICAjNSAweGFhYWJmNTYyMWNmYyBpbiBwbDAzMV9pbml0IHFl
-bXUvaHcvcnRjL3BsMDMxLmM6MTk0DQo+ID4gICAgICM2IDB4YWFhYmY2MzM5ZjZjIGluIG9iamVj
-dF9pbml0aWFsaXplX3dpdGhfdHlwZQ0KPiBxZW11L3FvbS9vYmplY3QuYzo1MTUNCj4gPiAgICAg
-IzcgMHhhYWFiZjYzM2ExZTAgaW4gb2JqZWN0X25ld193aXRoX3R5cGUNCj4gcWVtdS9xb20vb2Jq
-ZWN0LmM6NzI5DQo+ID4gICAgICM4IDB4YWFhYmY2Mzc1ZTQwIGluIHFtcF9kZXZpY2VfbGlzdF9w
-cm9wZXJ0aWVzDQo+IHFlbXUvcW9tL3FvbS1xbXAtY21kcy5jOjE1Mw0KPiA+ICAgICAjOSAweGFh
-YWJmNWE5NTU0MCBpbiBxZGV2X2RldmljZV9oZWxwDQo+IHFlbXUvc29mdG1tdS9xZGV2LW1vbml0
-b3IuYzoyODMNCj4gPiAgICAgIzEwIDB4YWFhYmY1YTk2OTQwIGluIHFtcF9kZXZpY2VfYWRkDQo+
-IHFlbXUvc29mdG1tdS9xZGV2LW1vbml0b3IuYzo4MDENCj4gPiAgICAgIzExIDB4YWFhYmY1YTk2
-ZTcwIGluIGhtcF9kZXZpY2VfYWRkDQo+IHFlbXUvc29mdG1tdS9xZGV2LW1vbml0b3IuYzo5MTYN
-Cj4gPiAgICAgIzEyIDB4YWFhYmY1YWMwYTJjIGluIGhhbmRsZV9obXBfY29tbWFuZA0KPiBxZW11
-L21vbml0b3IvaG1wLmM6MTEwMA0KPiA+DQo+ID4gUmVwb3J0ZWQtYnk6IEV1bGVyIFJvYm90IDxl
-dWxlci5yb2JvdEBodWF3ZWkuY29tPg0KPiA+IFNpZ25lZC1vZmYtYnk6IEdhbiBRaXhpbiA8Z2Fu
-cWl4aW5AaHVhd2VpLmNvbT4NCj4gPiAtLS0NCj4gPiBDYzogUGV0ZXIgTWF5ZGVsbCA8cGV0ZXIu
-bWF5ZGVsbEBsaW5hcm8ub3JnPg0KPiA+IC0tLQ0KPiA+ICBody9ydGMvcGwwMzEuYyB8IDkgKysr
-KysrKysrDQo+ID4gIDEgZmlsZSBjaGFuZ2VkLCA5IGluc2VydGlvbnMoKykNCj4gPg0KPiA+IGRp
-ZmYgLS1naXQgYS9ody9ydGMvcGwwMzEuYyBiL2h3L3J0Yy9wbDAzMS5jIGluZGV4DQo+ID4gYWU0
-N2YwOTYzNS4uZjA5ODFlNmMyMSAxMDA2NDQNCj4gPiAtLS0gYS9ody9ydGMvcGwwMzEuYw0KPiA+
-ICsrKyBiL2h3L3J0Yy9wbDAzMS5jDQo+ID4gQEAgLTE5NCw2ICsxOTQsMTQgQEAgc3RhdGljIHZv
-aWQgcGwwMzFfaW5pdChPYmplY3QgKm9iaikNCj4gPiAgICAgIHMtPnRpbWVyID0gdGltZXJfbmV3
-X25zKHJ0Y19jbG9jaywgcGwwMzFfaW50ZXJydXB0LCBzKTsgIH0NCj4gPg0KPiA+ICtzdGF0aWMg
-dm9pZCBwbDAzMV9maW5hbGl6ZShPYmplY3QgKm9iaikgew0KPiA+ICsgICAgUEwwMzFTdGF0ZSAq
-cyA9IFBMMDMxKG9iaik7DQo+ID4gKw0KPiA+ICsgICAgdGltZXJfZGVsKHMtPnRpbWVyKTsNCj4g
-PiArICAgIHRpbWVyX2ZyZWUocy0+dGltZXIpOw0KPiANCj4gWW91IGRvbid0IG5lZWQgdG8gY2Fs
-bCB0aW1lcl9kZWwoKSBiZWZvcmUgdGltZXJfZnJlZSgpIGFueSBtb3JlOg0KPiBzZWUgY29tbWl0
-IDVmOGU5M2MzZTI2MmFiLg0KPiANCg0KVGhhbmtzIGZvciB5b3VyIHJlcGx5LCBJIGRpZG4ndCBu
-b3RpY2UgdGhpcyBuZXcgY2hhbmdlLCBJIHdpbGwgcmVzZW5kIHRoZXNlIHBhdGNoZXMgbGF0ZXIu
-DQo=
+On Tue, 12 Jan 2021 15:45:00 +1100
+David Gibson <david@gibson.dropbear.id.au> wrote:
+
+> Currently the "memory-encryption" property is only looked at once we
+> get to kvm_init().  Although protection of guest memory from the
+> hypervisor isn't something that could really ever work with TCG, it's
+> not conceptually tied to the KVM accelerator.
+> 
+> In addition, the way the string property is resolved to an object is
+> almost identical to how a QOM link property is handled.
+> 
+> So, create a new "confidential-guest-support" link property which sets
+> this QOM interface link directly in the machine.  For compatibility we
+> keep the "memory-encryption" property, but now implemented in terms of
+> the new property.
+> 
+
+Do we really want to keep "memory-encryption" in the long term ? If
+not, then maybe engage the deprecation process and add a warning in
+machine_set_memory_encryption() ?
+
+Apart from that, LGTM:
+
+Reviewed-by: Greg Kurz <groug@kaod.org>
+
+> Signed-off-by: David Gibson <david@gibson.dropbear.id.au>
+> ---
+>  accel/kvm/kvm-all.c  |  5 +++--
+>  accel/kvm/sev-stub.c |  5 +++--
+>  hw/core/machine.c    | 43 +++++++++++++++++++++++++++++++++++++------
+>  include/hw/boards.h  |  2 +-
+>  include/sysemu/sev.h |  2 +-
+>  target/i386/sev.c    | 32 ++------------------------------
+>  6 files changed, 47 insertions(+), 42 deletions(-)
+> 
+> diff --git a/accel/kvm/kvm-all.c b/accel/kvm/kvm-all.c
+> index 260ed73ffe..28ab126f70 100644
+> --- a/accel/kvm/kvm-all.c
+> +++ b/accel/kvm/kvm-all.c
+> @@ -2181,8 +2181,9 @@ static int kvm_init(MachineState *ms)
+>       * if memory encryption object is specified then initialize the memory
+>       * encryption context.
+>       */
+> -    if (ms->memory_encryption) {
+> -        ret = sev_guest_init(ms->memory_encryption);
+> +    if (ms->cgs) {
+> +        /* FIXME handle mechanisms other than SEV */
+> +        ret = sev_kvm_init(ms->cgs);
+>          if (ret < 0) {
+>              goto err;
+>          }
+> diff --git a/accel/kvm/sev-stub.c b/accel/kvm/sev-stub.c
+> index 5db9ab8f00..3d4787ae4a 100644
+> --- a/accel/kvm/sev-stub.c
+> +++ b/accel/kvm/sev-stub.c
+> @@ -15,7 +15,8 @@
+>  #include "qemu-common.h"
+>  #include "sysemu/sev.h"
+>  
+> -int sev_guest_init(const char *id)
+> +int sev_kvm_init(ConfidentialGuestSupport *cgs)
+>  {
+> -    return -1;
+> +    /* SEV can't be selected if it's not compiled */
+> +    g_assert_not_reached();
+>  }
+> diff --git a/hw/core/machine.c b/hw/core/machine.c
+> index 8909117d80..94194ab82d 100644
+> --- a/hw/core/machine.c
+> +++ b/hw/core/machine.c
+> @@ -32,6 +32,7 @@
+>  #include "hw/mem/nvdimm.h"
+>  #include "migration/global_state.h"
+>  #include "migration/vmstate.h"
+> +#include "exec/confidential-guest-support.h"
+>  
+>  GlobalProperty hw_compat_5_2[] = {};
+>  const size_t hw_compat_5_2_len = G_N_ELEMENTS(hw_compat_5_2);
+> @@ -427,16 +428,37 @@ static char *machine_get_memory_encryption(Object *obj, Error **errp)
+>  {
+>      MachineState *ms = MACHINE(obj);
+>  
+> -    return g_strdup(ms->memory_encryption);
+> +    if (ms->cgs) {
+> +        return g_strdup(object_get_canonical_path_component(OBJECT(ms->cgs)));
+> +    }
+> +
+> +    return NULL;
+>  }
+>  
+>  static void machine_set_memory_encryption(Object *obj, const char *value,
+>                                          Error **errp)
+>  {
+> -    MachineState *ms = MACHINE(obj);
+> +    Object *cgs =
+> +        object_resolve_path_component(object_get_objects_root(), value);
+> +
+> +    if (!cgs) {
+> +        error_setg(errp, "No such memory encryption object '%s'", value);
+> +        return;
+> +    }
+>  
+> -    g_free(ms->memory_encryption);
+> -    ms->memory_encryption = g_strdup(value);
+> +    object_property_set_link(obj, "confidential-guest-support", cgs, errp);
+> +}
+> +
+> +static void machine_check_confidential_guest_support(const Object *obj,
+> +                                                     const char *name,
+> +                                                     Object *new_target,
+> +                                                     Error **errp)
+> +{
+> +    /*
+> +     * So far the only constraint is that the target has the
+> +     * TYPE_CONFIDENTIAL_GUEST_SUPPORT interface, and that's checked
+> +     * by the QOM core
+> +     */
+>  }
+>  
+>  static bool machine_get_nvdimm(Object *obj, Error **errp)
+> @@ -836,6 +858,15 @@ static void machine_class_init(ObjectClass *oc, void *data)
+>      object_class_property_set_description(oc, "suppress-vmdesc",
+>          "Set on to disable self-describing migration");
+>  
+> +    object_class_property_add_link(oc, "confidential-guest-support",
+> +                                   TYPE_CONFIDENTIAL_GUEST_SUPPORT,
+> +                                   offsetof(MachineState, cgs),
+> +                                   machine_check_confidential_guest_support,
+> +                                   OBJ_PROP_LINK_STRONG);
+> +    object_class_property_set_description(oc, "confidential-guest-support",
+> +                                          "Set confidential guest scheme to support");
+> +
+> +    /* For compatibility */
+>      object_class_property_add_str(oc, "memory-encryption",
+>          machine_get_memory_encryption, machine_set_memory_encryption);
+>      object_class_property_set_description(oc, "memory-encryption",
+> @@ -1158,9 +1189,9 @@ void machine_run_board_init(MachineState *machine)
+>                      cc->deprecation_note);
+>      }
+>  
+> -    if (machine->memory_encryption) {
+> +    if (machine->cgs) {
+>          /*
+> -         * With memory encryption, the host can't see the real
+> +         * With confidential guests, the host can't see the real
+>           * contents of RAM, so there's no point in it trying to merge
+>           * areas.
+>           */
+> diff --git a/include/hw/boards.h b/include/hw/boards.h
+> index 17b1f3f0b9..1acd662fa5 100644
+> --- a/include/hw/boards.h
+> +++ b/include/hw/boards.h
+> @@ -270,7 +270,7 @@ struct MachineState {
+>      bool iommu;
+>      bool suppress_vmdesc;
+>      bool enable_graphics;
+> -    char *memory_encryption;
+> +    ConfidentialGuestSupport *cgs;
+>      char *ram_memdev_id;
+>      /*
+>       * convenience alias to ram_memdev_id backend memory region
+> diff --git a/include/sysemu/sev.h b/include/sysemu/sev.h
+> index 7335e59867..3b5b1aacf1 100644
+> --- a/include/sysemu/sev.h
+> +++ b/include/sysemu/sev.h
+> @@ -16,7 +16,7 @@
+>  
+>  #include "sysemu/kvm.h"
+>  
+> -int sev_guest_init(const char *id);
+> +int sev_kvm_init(ConfidentialGuestSupport *cgs);
+>  int sev_encrypt_flash(uint8_t *ptr, uint64_t len, Error **errp);
+>  int sev_inject_launch_secret(const char *hdr, const char *secret,
+>                               uint64_t gpa, Error **errp);
+> diff --git a/target/i386/sev.c b/target/i386/sev.c
+> index 2a4b2187d6..5399a136ad 100644
+> --- a/target/i386/sev.c
+> +++ b/target/i386/sev.c
+> @@ -335,26 +335,6 @@ static const TypeInfo sev_guest_info = {
+>      }
+>  };
+>  
+> -static SevGuestState *
+> -lookup_sev_guest_info(const char *id)
+> -{
+> -    Object *obj;
+> -    SevGuestState *info;
+> -
+> -    obj = object_resolve_path_component(object_get_objects_root(), id);
+> -    if (!obj) {
+> -        return NULL;
+> -    }
+> -
+> -    info = (SevGuestState *)
+> -            object_dynamic_cast(obj, TYPE_SEV_GUEST);
+> -    if (!info) {
+> -        return NULL;
+> -    }
+> -
+> -    return info;
+> -}
+> -
+>  bool
+>  sev_enabled(void)
+>  {
+> @@ -682,10 +662,9 @@ sev_vm_state_change(void *opaque, int running, RunState state)
+>      }
+>  }
+>  
+> -int
+> -sev_guest_init(const char *id)
+> +int sev_kvm_init(ConfidentialGuestSupport *cgs)
+>  {
+> -    SevGuestState *sev;
+> +    SevGuestState *sev = SEV_GUEST(cgs);
+>      char *devname;
+>      int ret, fw_error;
+>      uint32_t ebx;
+> @@ -698,13 +677,6 @@ sev_guest_init(const char *id)
+>          return -1;
+>      }
+>  
+> -    sev = lookup_sev_guest_info(id);
+> -    if (!sev) {
+> -        error_report("%s: '%s' is not a valid '%s' object",
+> -                     __func__, id, TYPE_SEV_GUEST);
+> -        goto err;
+> -    }
+> -
+>      sev_guest = sev;
+>      sev->state = SEV_STATE_UNINIT;
+>  
+
 
