@@ -2,41 +2,43 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B89472F2A18
-	for <lists+qemu-devel@lfdr.de>; Tue, 12 Jan 2021 09:34:11 +0100 (CET)
-Received: from localhost ([::1]:49262 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3B8852F2A65
+	for <lists+qemu-devel@lfdr.de>; Tue, 12 Jan 2021 09:55:53 +0100 (CET)
+Received: from localhost ([::1]:59296 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kzF7x-0004r1-V7
-	for lists+qemu-devel@lfdr.de; Tue, 12 Jan 2021 03:34:09 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48830)
+	id 1kzFSx-0001xh-RU
+	for lists+qemu-devel@lfdr.de; Tue, 12 Jan 2021 03:55:51 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53692)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1kzF6L-0004IB-F4; Tue, 12 Jan 2021 03:32:30 -0500
-Received: from ozlabs.org ([203.11.71.1]:54935)
+ id 1kzFQw-0001Qz-Gc; Tue, 12 Jan 2021 03:53:47 -0500
+Received: from bilbo.ozlabs.org ([203.11.71.1]:49735 helo=ozlabs.org)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1kzF6I-0000E6-QW; Tue, 12 Jan 2021 03:32:28 -0500
+ id 1kzFQu-0007kQ-1A; Tue, 12 Jan 2021 03:53:46 -0500
 Received: by ozlabs.org (Postfix, from userid 1007)
- id 4DFP2X19HVz9sf9; Tue, 12 Jan 2021 19:32:20 +1100 (AEDT)
+ id 4DFPW60FVFz9sXH; Tue, 12 Jan 2021 19:53:37 +1100 (AEDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=gibson.dropbear.id.au; s=201602; t=1610440340;
- bh=AtqpNzyn+Y9L8YUURtGReatMowRCZuDFDiAJ9L6Wh9g=;
+ d=gibson.dropbear.id.au; s=201602; t=1610441618;
+ bh=+TA4eGKgi7+nqgfxxmX3Nrl1NwY20XrjYaBaNltay9E=;
  h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=KG35xSAqPQlE0xf8OpTEvIaHSh7O+ivOfS1YVm5jV0S1bckJ2veWQxq0S3enCIDrN
- DvUk5ki6detSKF94j9y9THpLCS8WJ/LcWjjB8CZHB/2MOieCACjMEEuweMrLXb2jPA
- gp60T6rKVRE4pmo36VGExyhUImZ+fuDwJuB0ma6o=
-Date: Tue, 12 Jan 2021 17:22:26 +1100
+ b=K6Ewfaq6i2wS7AE5/prxFaflhjhM5nx26gpMoFqarrOL3RVqY3zjrBjgKXrZNQpXm
+ VWO/jxLfbWlt9sRAY6ZXvYSsteh3mpuR8EIcLPGVxmUiSV26EwophKt6pG+lTgNyHv
+ 1tUpoyrYfWJakWzTJyNdFXiravVks6xwywtMuwM8=
+Date: Tue, 12 Jan 2021 19:36:46 +1100
 From: David Gibson <david@gibson.dropbear.id.au>
-To: BALATON Zoltan <balaton@eik.bme.hu>
-Subject: Re: [PATCH v2 0/3] Fix up sam460ex fixes
-Message-ID: <20210112062226.GA427679@yekko.fritz.box>
-References: <cover.1610143658.git.balaton@eik.bme.hu>
+To: Christian Borntraeger <borntraeger@de.ibm.com>
+Subject: Re: [PATCH v6 10/13] spapr: Add PEF based confidential guest support
+Message-ID: <20210112083646.GB427679@yekko.fritz.box>
+References: <20210112044508.427338-1-david@gibson.dropbear.id.au>
+ <20210112044508.427338-11-david@gibson.dropbear.id.au>
+ <7d8775df-b3fb-deff-44f2-2e41c83a67ca@de.ibm.com>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="sm4nu43k4a2Rpi4c"
+ protocol="application/pgp-signature"; boundary="Bn2rw/3z4jIqBvZU"
 Content-Disposition: inline
-In-Reply-To: <cover.1610143658.git.balaton@eik.bme.hu>
+In-Reply-To: <7d8775df-b3fb-deff-44f2-2e41c83a67ca@de.ibm.com>
 Received-SPF: pass client-ip=203.11.71.1; envelope-from=dgibson@ozlabs.org;
  helo=ozlabs.org
 X-Spam_score_int: -17
@@ -57,36 +59,75 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>, qemu-ppc@nongnu.org,
- qemu-devel@nongnu.org, f4bug@amsat.org
+Cc: pair@us.ibm.com, Marcelo Tosatti <mtosatti@redhat.com>,
+ brijesh.singh@amd.com, kvm@vger.kernel.org, david@redhat.com,
+ qemu-devel@nongnu.org, frankja@linux.ibm.com, mst@redhat.com,
+ mdroth@linux.vnet.ibm.com, pasic@linux.ibm.com, pragyansri.pathi@intel.com,
+ andi.kleen@intel.com, thuth@redhat.com, Eduardo Habkost <ehabkost@redhat.com>,
+ richard.henderson@linaro.org, dgilbert@redhat.com, Greg Kurz <groug@kaod.org>,
+ qemu-s390x@nongnu.org, jun.nakajima@intel.com,
+ Daniel =?iso-8859-1?Q?P=2E_Berrang=E9?= <berrange@redhat.com>,
+ Cornelia Huck <cohuck@redhat.com>, qemu-ppc@nongnu.org,
+ Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 
---sm4nu43k4a2Rpi4c
+--Bn2rw/3z4jIqBvZU
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Fri, Jan 08, 2021 at 11:07:38PM +0100, BALATON Zoltan wrote:
-> Accidentally the wrong version of this series was committed, this
-> series fixes that up to the last version that was meant to be merged.
-> This v2 is rebased on Peter's UIC series and clarifies commit message
-> of last patch.
+On Tue, Jan 12, 2021 at 08:56:53AM +0100, Christian Borntraeger wrote:
 >=20
-> Based-on: <20210108171212.16500-1-peter.maydell@linaro.org>
 >=20
-> BALATON Zoltan (3):
->   Revert "sam460ex: Remove FDT_PPC dependency from KConfig"
->   Revert "ppc4xx: Move common dependency on serial to common option"
->   sam460ex: Use type cast macro instead of simple cast
+> On 12.01.21 05:45, David Gibson wrote:
+> [...]
+> > diff --git a/include/hw/ppc/pef.h b/include/hw/ppc/pef.h
+> > new file mode 100644
+> > index 0000000000..7c92391177
+> > --- /dev/null
+> > +++ b/include/hw/ppc/pef.h
+> > @@ -0,0 +1,26 @@
+> > +/*
+> > + * PEF (Protected Execution Facility) for POWER support
+> > + *
+> > + * Copyright David Gibson, Redhat Inc. 2020
+> > + *
+> > + * This work is licensed under the terms of the GNU GPL, version 2 or =
+later.
+> > + * See the COPYING file in the top-level directory.
+> > + *
+> > + */
+> > +
+> > +#ifndef HW_PPC_PEF_H
+> > +#define HW_PPC_PEF_H
+> > +
+> > +int pef_kvm_init(ConfidentialGuestSupport *cgs, Error **errp);
+> > +
+> > +#ifdef CONFIG_KVM
+> > +void kvmppc_svm_off(Error **errp);
+> > +#else
+> > +static inline void kvmppc_svm_off(Error **errp)
+> > +{
+> > +}
+> > +#endif
+> > +
+> > +
+> > +#endif /* HW_PPC_PEF_H */
+> > +
 >=20
->  hw/ppc/Kconfig    | 6 +++++-
->  hw/ppc/sam460ex.c | 7 ++-----
->  2 files changed, 7 insertions(+), 6 deletions(-)
+> In case you do a respin,=20
 >=20
+> git am says
+> Applying: confidential guest support: Update documentation
+> Applying: spapr: Add PEF based confidential guest support
+> .git/rebase-apply/patch:254: new blank line at EOF.
+> +
+> warning: 1 line adds whitespace errors.
+> Applying: spapr: PEF: prevent migration
 
-Applied to ppc-for-6.0, thanks.
+Oops, corrected.
 
 --=20
 David Gibson			| I'll have my music baroque, and my code
@@ -94,25 +135,25 @@ david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
 				| _way_ _around_!
 http://www.ozlabs.org/~dgibson
 
---sm4nu43k4a2Rpi4c
+--Bn2rw/3z4jIqBvZU
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAl/9QCAACgkQbDjKyiDZ
-s5Lugg/+MpY/xigQsoSbON/FBUvvHIlwDgxvcp0xL7Z0lxUH2lhBIGffmFWuQvkO
-f9vM8Z9bFzkk/Jw9Jbc5T6bvR5dqmNrNy/ivMpYUBEJ/Tly2sUxS5VEpwRx+uuGf
-gqbgI8iQchOFHq3wX8eUJYeq61CO6FQO1dHHP3Y0zuT1Wn8VE4d4oM0mrNsVJ6Z+
-HRen2lEvMZLFnKnojgj2rAq6SnGWzXICjjs2+NKC/VVqj7NBlr5qSAWvI6/XKtPN
-aRmADZ0K3SJUt/mtD4XRZLrGRLc1qlygC+7B1HyW99/Z/TAATsBeiISN4ADpnLXV
-APHl5Avf8HVDOhimo1AbE0ExGaSbyn7oRvRl2emVHjgAn9X2PPLwzEbisdZr1aP+
-FsRtbYzcHzpSsCJtZdvxUbbOyZfOYouZt1356YbLlGxDdCbxuTJMwFIqt/+s/v7i
-46ci2tRT/2+xIgDVFZd0mxLuUCjAudrjvjOSOXLEtJ3/DDL45oVfz3GNr+gKrx1Q
-gKzgznJouPiRyZlR20IV2QeI6kuLtw1trBJ31AzqfTDqtzHd6bgEo1ANUEm2/vxc
-sleQAMIKjRoKhTpHm7XaBGL7MEZ8tXZ5lGTjV5Dq4uFsfhjL4G68rY1R/LE5IjEA
-Q4TQQEB9fjaLVbgav0sjayLxkWUP0Y4FPoycbMIbe3p7KXenGIE=
-=G1/B
+iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAl/9X5wACgkQbDjKyiDZ
+s5LDoA//b64TM4HncZs/IndLXBQpLjxaM1GSnhMcDx5rU4LEbjQa+jZrevP8N1aj
+rLJNYdxogd5n1r0tREKWYYdil6uRw5+MfYWLFLf+fy0kqML1suUvAhq6pOgrtEAj
+Ju+bfrQa9HfId1XdhlQ3jTqY+h5jE8D9Tf2nm+zcOt1Do5Gr1d2dy9gn8G3qTNqE
+LFt/cEXZRU49Dagj4TFXGzs1yLZxv4bDMA4uOiekheRIwptXoKf67blahy2461qe
+yY2n00WNoda4uxHRbdaVq6P5OD49AaQfA4KbY/xc1jKr4eqth65+Bujh1C1f1Lnu
+QBhp1W+qNjJ1YRuBmoJGfU6wXgYWtIYF3JkiJzzQs7ubmGyGWI3i2X3766xRChk0
+CEWiXBKjq+J3jgmu0oZ3L4ENvmXR2/kMYNK6GEJXRYZowcoAEfjsx4ByP1J7ePKf
+NfrCuE7KXZiVoWS9ITfy6MKszSy6DYDRv/vlLUin/Of6/WF/7CIaGr3WDjHUKiMW
+1C9xbzR7LBDjlL22DHC+qbuk6v5spHnC/K7Vw6jpfQCrHkEfh6eLag9rpS6TIeB/
+2bmrELh/ZuAJfUvhcYZFMvXkW2zOIPVPsJ3cWlNCddekFWRbnpk8446ODYprdHlI
+X6Q00lPWrVCIsQN1LTEIgPSxDw5SybFCZz1F+5817u3KepRyoSU=
+=NYCn
 -----END PGP SIGNATURE-----
 
---sm4nu43k4a2Rpi4c--
+--Bn2rw/3z4jIqBvZU--
 
