@@ -2,55 +2,55 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A0E6A2F2719
-	for <lists+qemu-devel@lfdr.de>; Tue, 12 Jan 2021 05:33:27 +0100 (CET)
-Received: from localhost ([::1]:42646 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 523E62F2732
+	for <lists+qemu-devel@lfdr.de>; Tue, 12 Jan 2021 05:40:24 +0100 (CET)
+Received: from localhost ([::1]:35402 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kzBN0-0008L7-HH
-	for lists+qemu-devel@lfdr.de; Mon, 11 Jan 2021 23:33:26 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47138)
+	id 1kzBTj-0000L7-EU
+	for lists+qemu-devel@lfdr.de; Mon, 11 Jan 2021 23:40:23 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47178)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1kzBFv-0008Cy-2V
- for qemu-devel@nongnu.org; Mon, 11 Jan 2021 23:26:07 -0500
-Received: from indium.canonical.com ([91.189.90.7]:52408)
+ id 1kzBFw-0008GY-GE
+ for qemu-devel@nongnu.org; Mon, 11 Jan 2021 23:26:08 -0500
+Received: from indium.canonical.com ([91.189.90.7]:52370)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1kzBFs-0000u4-MG
- for qemu-devel@nongnu.org; Mon, 11 Jan 2021 23:26:06 -0500
+ id 1kzBFs-0000u0-MK
+ for qemu-devel@nongnu.org; Mon, 11 Jan 2021 23:26:08 -0500
 Received: from loganberry.canonical.com ([91.189.90.37])
  by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1kzBFf-0004Vy-Uw
+ id 1kzBFf-0004Tp-B0
  for <qemu-devel@nongnu.org>; Tue, 12 Jan 2021 04:25:51 +0000
 Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id E68602E804B
+ by loganberry.canonical.com (Postfix) with ESMTP id 4C0D02E8140
  for <qemu-devel@nongnu.org>; Tue, 12 Jan 2021 04:25:51 +0000 (UTC)
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
-Date: Tue, 12 Jan 2021 04:17:30 -0000
-From: Launchpad Bug Tracker <1781515@bugs.launchpad.net>
+Date: Tue, 12 Jan 2021 04:17:31 -0000
+From: Launchpad Bug Tracker <1782107@bugs.launchpad.net>
 To: qemu-devel@nongnu.org
 X-Launchpad-Notification-Type: bug
 X-Launchpad-Bug: product=qemu; status=Expired; importance=Undecided;
  assignee=None; 
+X-Launchpad-Bug-Tags: dh error
 X-Launchpad-Bug-Information-Type: Public
 X-Launchpad-Bug-Private: no
 X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: diego-viola fdelapena janitor th-huth
-X-Launchpad-Bug-Reporter: Diego Viola (diego-viola)
+X-Launchpad-Bug-Commenters: janitor nadavr pmaydell th-huth
+X-Launchpad-Bug-Reporter: Nadav Ruskin (nadavr)
 X-Launchpad-Bug-Modifier: Launchpad Janitor (janitor)
-References: <153144791597.24345.4188684272748961598.malonedeb@chaenomeles.canonical.com>
-Message-Id: <161042505051.10246.15005370879125462551.malone@loganberry.canonical.com>
-Subject: [Bug 1781515] Re: Resolution switch leads to the screen/image being
- corrupted
+References: <153181978967.32137.15387354948382398538.malonedeb@chaenomeles.canonical.com>
+Message-Id: <161042505136.10246.1558629790485906441.malone@loganberry.canonical.com>
+Subject: [Bug 1782107] Re: Random errors when emulating armv7 and using dh
 X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
 X-Launchpad-Message-For: qemu-devel-ml
 Precedence: bulk
 X-Generated-By: Launchpad (canonical.com);
  Revision="fe617ea08df036edd5c842aded2b315e1c090677"; Instance="production"
-X-Launchpad-Hash: 00d258818c54d89e9c2649d781576ebdfd1581e4
+X-Launchpad-Hash: 4ffa0bc74b620d32d67d3dfc256acbe85d7333b4
 Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
  helo=indium.canonical.com
 X-Spam_score_int: -65
@@ -71,7 +71,7 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1781515 <1781515@bugs.launchpad.net>
+Reply-To: Bug 1782107 <1782107@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
@@ -84,35 +84,28 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 You received this bug notification because you are a member of qemu-
 devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1781515
+https://bugs.launchpad.net/bugs/1782107
 
 Title:
-  Resolution switch leads to the screen/image being corrupted
+  Random errors when emulating armv7 and using dh
 
 Status in QEMU:
   Expired
 
 Bug description:
-  I am currently using QEMU on a Arch Linux host, the guest OS is also
-  Arch Linux.
+  Howdy,
+  I'm encountering random errors when using qemu to cross-package my projec=
+t using dh. In previous iterations of my project it would only fail once ev=
+ery two attempts. Now it fails every time.
 
-  The QEMU version is currently 2.12.0-2 packaged by Arch Linux, the
-  command line I'm using to fire an Arch VM is:
+  Example error included.
 
-  $ qemu-system-x86_64 -enable-kvm -hda archlinux.qcow2 -m 4G -smp 4
 
-  The problem I'm currently having is, after firing the VM and running
-  startx I want to change the resolution to the native resolution, which
-  is 1366x768 on my ThinkPad T450, however, after changing the
-  resolution the image on the guest gets corrupted and it's impossible
-  to see anything.
-
-  At this point I can only turn off the VM. The only workaround I found
-  is to start the VM with -vga virtio.
-
-  The problem in this case occurs with -vga std which is the default
-  video driver.
+  If you'd like to try and replicate this error, a version of my project is=
+ publicly available with simple instructions on how to package it (using qe=
+mu) here:
+  https://github.com/Nadav-Ruskin/configsite
 
 To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1781515/+subscriptions
+https://bugs.launchpad.net/qemu/+bug/1782107/+subscriptions
 
