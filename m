@@ -2,35 +2,35 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7F1052F2709
-	for <lists+qemu-devel@lfdr.de>; Tue, 12 Jan 2021 05:28:14 +0100 (CET)
-Received: from localhost ([::1]:54152 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id F34A22F2713
+	for <lists+qemu-devel@lfdr.de>; Tue, 12 Jan 2021 05:29:58 +0100 (CET)
+Received: from localhost ([::1]:34194 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kzBHx-0001LW-HS
-	for lists+qemu-devel@lfdr.de; Mon, 11 Jan 2021 23:28:13 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47012)
+	id 1kzBJd-0004h0-UH
+	for lists+qemu-devel@lfdr.de; Mon, 11 Jan 2021 23:29:57 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46998)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1kzBFc-00085O-IK
+ id 1kzBFb-00085L-Sy
  for qemu-devel@nongnu.org; Mon, 11 Jan 2021 23:25:49 -0500
-Received: from indium.canonical.com ([91.189.90.7]:51892)
+Received: from indium.canonical.com ([91.189.90.7]:51936)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1kzBFa-0000rU-6N
- for qemu-devel@nongnu.org; Mon, 11 Jan 2021 23:25:48 -0500
+ id 1kzBFa-0000ra-41
+ for qemu-devel@nongnu.org; Mon, 11 Jan 2021 23:25:47 -0500
 Received: from loganberry.canonical.com ([91.189.90.37])
  by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1kzBFX-0004Tz-F2
- for <qemu-devel@nongnu.org>; Tue, 12 Jan 2021 04:25:43 +0000
+ id 1kzBFX-0004Tp-Rx
+ for <qemu-devel@nongnu.org>; Tue, 12 Jan 2021 04:25:44 +0000
 Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 285E62E8144
+ by loganberry.canonical.com (Postfix) with ESMTP id D08462E8144
  for <qemu-devel@nongnu.org>; Tue, 12 Jan 2021 04:25:43 +0000 (UTC)
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
 Date: Tue, 12 Jan 2021 04:17:17 -0000
-From: Launchpad Bug Tracker <1796816@bugs.launchpad.net>
+From: Launchpad Bug Tracker <1795799@bugs.launchpad.net>
 To: qemu-devel@nongnu.org
 X-Launchpad-Notification-Type: bug
 X-Launchpad-Bug: product=qemu; status=Expired; importance=Undecided;
@@ -38,18 +38,18 @@ X-Launchpad-Bug: product=qemu; status=Expired; importance=Undecided;
 X-Launchpad-Bug-Information-Type: Public
 X-Launchpad-Bug-Private: no
 X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: janitor th-huth tjcw
-X-Launchpad-Bug-Reporter: Chris Ward (tjcw)
+X-Launchpad-Bug-Commenters: janitor th-huth uli-rgbg
+X-Launchpad-Bug-Reporter: 1448412 (uli-rgbg)
 X-Launchpad-Bug-Modifier: Launchpad Janitor (janitor)
-References: <153907284198.23615.17821186357944149368.malonedeb@chaenomeles.canonical.com>
-Message-Id: <161042503781.10246.5671697386866020211.malone@loganberry.canonical.com>
-Subject: [Bug 1796816] Re: Wrong keyboard in QEMU Windows for OpenSUSE PowerPC
+References: <153854876970.8093.8281977753870845379.malonedeb@soybean.canonical.com>
+Message-Id: <161042503721.10246.10068949362636995462.malone@loganberry.canonical.com>
+Subject: [Bug 1795799] Re: Cirrus video, graphical corruption, bad fonts
 X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
 X-Launchpad-Message-For: qemu-devel-ml
 Precedence: bulk
 X-Generated-By: Launchpad (canonical.com);
  Revision="fe617ea08df036edd5c842aded2b315e1c090677"; Instance="production"
-X-Launchpad-Hash: 6c381723b0324eff207b8cb8ad37e32606e5afe0
+X-Launchpad-Hash: 9abb4c6f5b5b08d521b0535b4cbee50d628cfbcb
 Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
  helo=indium.canonical.com
 X-Spam_score_int: -65
@@ -70,7 +70,7 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1796816 <1796816@bugs.launchpad.net>
+Reply-To: Bug 1795799 <1795799@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
@@ -83,40 +83,51 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 You received this bug notification because you are a member of qemu-
 devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1796816
+https://bugs.launchpad.net/bugs/1795799
 
 Title:
-  Wrong keyboard in QEMU Windows for OpenSUSE PowerPC
+  Cirrus video, graphical corruption, bad fonts
 
 Status in QEMU:
   Expired
 
 Bug description:
-  I am trying to run an OpenSUSE PowerPC Little Endian system under Microso=
-ft Windows. I have an English UK keyboard. The keyboard is basically correc=
-t (I get a 'pound' sign when I press shift-3) but some of the keys are rend=
-ered incorrectly. The wrong keys are
-  \ renders as # (just right of left hand shift key)
-  | renders as ~ (shift-\)
-  ' renders as ` (2 keys right of l)
-  @ renders as =C2=AC (shift-')
-  # renders as ' (3 keys right of l)
-  ~ renders as @ (shift-#)
+  The error
+  =3D=3D=3D
 
-  QEMU command line was
-  >"\Program Files\qemu\qemu-system-ppc64.exe" -hda opensuse.qcow2
+  I started qemu by
 
-  OpenSUSE was installed from
-  download.opensuse.org/ports/ppc/tumbleweed/iso/openSUSE-Tumbleweed-
-  DVD-ppc64le-Current.iso .
+  `shell
+  $ ./qemu-system-i386 -serial stdio -cdrom /dev/cdrom -vga cirrus
+  S1111111111S1111111111S1111111111S1111111111=E2=96=92*n*n*n*n
+  `
 
-  I am running OpenSUSE in runlevel 3 (no X11).
+  with the original suse7.0 cd 1 in the cdrom drive (I think
+  https://archive.org/details/suse-7.0_release_i386 has the image).
+  After some console output (that uses a vga framebuffer which seems to
+  work fine) the suse installer is started. It is displayed mostly
+  correct, but several text passages are completely garbled.
 
-  I don't really know whether the problem is with QEMU, the Windows port
-  of QEMU, or with OpenSUSE Tumbleweed.
+  I noticed the same type of corruption when trying to run an old XF86
+  SVGA Server on a SuSE 6.2 System using the `-vga cirrus` option.
 
-  This is with QEMU for Windows 3.0.0 from https://qemu.weilnetz.de/w64/
+  Therefore I think that the cirrus emulation might not work as intended
+  any more.
+
+  Qemu version
+  =3D=3D=3D
+
+  I used  qemu-w64-setup-20180815.exe provided by
+  https://qemu.weilnetz.de/w64/
+
+  ./qemu-system-i386 -version
+  QEMU emulator version 3.0.0 (v3.0.0-11723-ge2ddcc5879-dirty)
+  Copyright (c) 2003-2017 Fabrice Bellard and the QEMU Project developers
+
+  Hope you can fix it.
+
+  Best regards!
 
 To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1796816/+subscriptions
+https://bugs.launchpad.net/qemu/+bug/1795799/+subscriptions
 
