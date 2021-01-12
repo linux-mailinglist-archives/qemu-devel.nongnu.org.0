@@ -2,70 +2,44 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 265FB2F2DD9
-	for <lists+qemu-devel@lfdr.de>; Tue, 12 Jan 2021 12:25:57 +0100 (CET)
-Received: from localhost ([::1]:44700 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A9DFF2F2D5F
+	for <lists+qemu-devel@lfdr.de>; Tue, 12 Jan 2021 12:04:34 +0100 (CET)
+Received: from localhost ([::1]:35554 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kzHoC-0006yP-3x
-	for lists+qemu-devel@lfdr.de; Tue, 12 Jan 2021 06:25:56 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51528)
+	id 1kzHTV-0005Fr-NZ
+	for lists+qemu-devel@lfdr.de; Tue, 12 Jan 2021 06:04:33 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52466)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cohuck@redhat.com>) id 1kzH5y-0005Gs-Ry
- for qemu-devel@nongnu.org; Tue, 12 Jan 2021 05:40:14 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:24030)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <cohuck@redhat.com>) id 1kzH5x-0001cn-72
- for qemu-devel@nongnu.org; Tue, 12 Jan 2021 05:40:14 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1610448012;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=XLwhM6HBZdsA/zDqK/j1nDQCM3EK/9a9zXmTHeIPJ4I=;
- b=bH8JvAxrn6mtWZ1emsoH6K2f8vHkKahmJZag0q6NA2SDaIyYNwHhGqxxm6Jj8btetwfLw7
- B64x7/CSkRUqMXqNhfQQ4BHwacnRCENQ8YYQpIu9sCHtV4A8gfgi2h/vzggF7xNwL+grCk
- nraBcDRLGCsfeMoLtgHNX7uCUSsgEBQ=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-218-o7GTrRZhM0qUGHafsH8pfw-1; Tue, 12 Jan 2021 05:40:10 -0500
-X-MC-Unique: o7GTrRZhM0qUGHafsH8pfw-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 7547115723;
- Tue, 12 Jan 2021 10:40:09 +0000 (UTC)
-Received: from gondolin (ovpn-114-102.ams2.redhat.com [10.36.114.102])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 8349860BE2;
- Tue, 12 Jan 2021 10:40:04 +0000 (UTC)
-Date: Tue, 12 Jan 2021 11:40:02 +0100
-From: Cornelia Huck <cohuck@redhat.com>
-To: David Hildenbrand <david@redhat.com>
-Subject: Re: [PATCH v3 0/5] s390x/tcg: fix booting Linux kernels compiled
- with clang-11 and clang-12
-Message-ID: <20210112114002.6cbec9d0.cohuck@redhat.com>
-In-Reply-To: <20210111163845.18148-1-david@redhat.com>
-References: <20210111163845.18148-1-david@redhat.com>
-Organization: Red Hat GmbH
+ (Exim 4.90_1) (envelope-from <remi@remlab.net>)
+ id 1kzHAN-0002tO-73; Tue, 12 Jan 2021 05:44:47 -0500
+Received: from poy.remlab.net ([2001:41d0:2:5a1a::]:56696
+ helo=ns207790.ip-94-23-215.eu)
+ by eggs.gnu.org with esmtp (Exim 4.90_1)
+ (envelope-from <remi@remlab.net>)
+ id 1kzHAL-0003Az-1Q; Tue, 12 Jan 2021 05:44:46 -0500
+Received: from basile.remlab.net (dzyqn8ypzhx7l91mxjsvy-3.rev.dnainternet.fi
+ [IPv6:2001:14ba:a01a:be01:9434:f69e:d553:3be2])
+ (Authenticated sender: remi)
+ by ns207790.ip-94-23-215.eu (Postfix) with ESMTPSA id C06225FCEF;
+ Tue, 12 Jan 2021 11:44:41 +0100 (CET)
+From: =?ISO-8859-1?Q?R=E9mi?= Denis-Courmont <remi.denis.courmont@huawei.com>
+To: qemu-arm@nongnu.org
+Subject: [PATCHv5 00/19] ARMv8.4-A Secure EL2
+Date: Tue, 12 Jan 2021 12:44:39 +0200
+Message-ID: <12681824.uLZWGnKmhe@basile.remlab.net>
+Organization: Huawei Technologies, Finland
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=cohuck@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=cohuck@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -29
-X-Spam_score: -3.0
-X-Spam_bar: ---
-X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.251,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2001:41d0:2:5a1a::; envelope-from=remi@remlab.net;
+ helo=ns207790.ip-94-23-215.eu
+X-Spam_score_int: -16
+X-Spam_score: -1.7
+X-Spam_bar: -
+X-Spam_report: (-1.7 / 5.0 requ) BAYES_00=-1.9,
+ HEADER_FROM_DIFFERENT_DOMAINS=0.249, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -78,55 +52,59 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Thomas Huth <thuth@redhat.com>, Nick Desaulniers <ndesaulniers@google.com>,
- Heiko Carstens <hca@linux.ibm.com>,
- Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org,
- Christian Borntraeger <borntraeger@de.ibm.com>, qemu-s390x@nongnu.org,
- Guenter Roeck <linux@roeck-us.net>
+Cc: qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, 11 Jan 2021 17:38:40 +0100
-David Hildenbrand <david@redhat.com> wrote:
+	Hi,
 
-> This series fixes booting current upstream Linux kernel compiled by
-> clang-11 and clang-12 under TCG.
-> 
-> Latest version of the patches available at:
-> git@github.com:davidhildenbrand/qemu.git clang
-> 
-> v2 -> v3:
-> - Add 'tests/tcg/s390x: Fix EXRL tests'
-> -- "make check-tcg" with v2 revealed two buggy tests
-> - Added RB's/Tested-by's
-> 
-> v1 -> v2:
-> - Add 's390x/tcg: Don't ignore content in r0 when not specified via "b" or
->   "x"'
-> - Add 's390x/tcg: Ignore register content if b1/b2 is zero when handling
->   EXEUTE'
-> - "s390x/tcg: Fix ALGSI"
-> -- Fixup subject
-> - "s390x/tcg: Fix RISBHG"
-> -- Rephrase description, stating that it fixes clang-11
-> 
-> David Hildenbrand (5):
->   s390x/tcg: Fix ALGSI
->   s390x/tcg: Fix RISBHG
->   s390x/tcg: Don't ignore content in r0 when not specified via "b" or
->     "x"
->   tests/tcg/s390x: Fix EXRL tests
->   s390x/tcg: Ignore register content if b1/b2 is zero when handling
->     EXECUTE
-> 
->  target/s390x/insn-data.def  | 10 +++++-----
->  target/s390x/mem_helper.c   |  4 ++--
->  target/s390x/translate.c    | 33 +++++++++++++++++----------------
->  tests/tcg/s390x/exrl-trt.c  |  8 ++++----
->  tests/tcg/s390x/exrl-trtr.c |  8 ++++----
->  5 files changed, 32 insertions(+), 31 deletions(-)
-> 
+This adds Secure  EL2.
 
-Thanks, applied.
+Changes since version 4:
+=2D Fix NS unitialised in secure state stage 2 translation.
+=2D Remove EEL2 translation block flag in 32-bit mode.
+=2D Clarify comments on arm_is_el2_enabled().
+
+=2D---------------------------------------------------------------
+R=C3=A9mi Denis-Courmont (19):
+      target/arm: remove redundant tests
+      target/arm: add arm_is_el2_enabled() helper
+      target/arm: use arm_is_el2_enabled() where applicable
+      target/arm: use arm_hcr_el2_eff() where applicable
+      target/arm: factor MDCR_EL2 common handling
+      target/arm: declare new AA64PFR0 bit-fields
+      target/arm: add 64-bit S-EL2 to EL exception table
+      target/arm: add MMU stage 1 for Secure EL2
+      target/arm: add ARMv8.4-SEL2 system registers
+      target/arm: handle VMID change in secure state
+      target/arm: do S1_ptw_translate() before address space lookup
+      target/arm: translate NS bit in page-walks
+      target/arm: generalize 2-stage page-walk condition
+      target/arm: secure stage 2 translation regime
+      target/arm: set HPFAR_EL2.NS on secure stage 2 faults
+      target/arm: revector to run-time pick target EL
+      target/arm: add ARMv8.4-SEL2 extension
+      target/arm: enable Secure EL2 in max CPU
+      target/arm: refactor vae1_tlbmask()
+
+ target/arm/cpu-param.h     |   2 +-
+ target/arm/cpu.c           |  10 +-
+ target/arm/cpu.h           |  90 ++++++++--
+ target/arm/cpu64.c         |   1 +
+ target/arm/helper-a64.c    |   8 +-
+ target/arm/helper.c        | 414 ++++++++++++++++++++++++++++++-----------=
+=2D---
+ target/arm/internals.h     |  36 ++++
+ target/arm/op_helper.c     |   4 +-
+ target/arm/tlb_helper.c    |   3 +
+ target/arm/translate-a64.c |   4 +
+ target/arm/translate.c     |  35 +++-
+ 11 files changed, 430 insertions(+), 177 deletions(-)
+
+=2D-=20
+=E9=9B=B7=E7=B1=B3=E2=80=A7=E5=BE=B7=E5=B0=BC-=E5=BA=93=E5=B0=94=E8=92=99
+http://www.remlab.net/
+
+
 
 
