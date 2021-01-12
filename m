@@ -2,67 +2,55 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 766F22F2711
-	for <lists+qemu-devel@lfdr.de>; Tue, 12 Jan 2021 05:28:55 +0100 (CET)
-Received: from localhost ([::1]:57284 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EA84A2F26F9
+	for <lists+qemu-devel@lfdr.de>; Tue, 12 Jan 2021 05:21:04 +0100 (CET)
+Received: from localhost ([::1]:46434 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kzBIc-0002cd-Hw
-	for lists+qemu-devel@lfdr.de; Mon, 11 Jan 2021 23:28:54 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47088)
+	id 1kzBB0-00068y-JC
+	for lists+qemu-devel@lfdr.de; Mon, 11 Jan 2021 23:21:02 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45916)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1kzBFm-00087Z-81
- for qemu-devel@nongnu.org; Mon, 11 Jan 2021 23:25:58 -0500
-Received: from indium.canonical.com ([91.189.90.7]:52136)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1kzBFd-0000so-H9
- for qemu-devel@nongnu.org; Mon, 11 Jan 2021 23:25:58 -0500
-Received: from loganberry.canonical.com ([91.189.90.37])
- by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1kzBFb-0004Ty-HX
- for <qemu-devel@nongnu.org>; Tue, 12 Jan 2021 04:25:47 +0000
-Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 802932E813B
- for <qemu-devel@nongnu.org>; Tue, 12 Jan 2021 04:25:47 +0000 (UTC)
+ (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
+ id 1kzB9U-0005b3-Rn; Mon, 11 Jan 2021 23:19:29 -0500
+Received: from bilbo.ozlabs.org ([203.11.71.1]:45145 helo=ozlabs.org)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
+ id 1kzB9R-00077N-B6; Mon, 11 Jan 2021 23:19:28 -0500
+Received: by ozlabs.org (Postfix, from userid 1007)
+ id 4DFHQZ6XjQz9sjJ; Tue, 12 Jan 2021 15:19:18 +1100 (AEDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=gibson.dropbear.id.au; s=201602; t=1610425158;
+ bh=/OAbBYrsu+cIkzUMN9z6syTbCCHg7FCLMHSSzvz7h6w=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=dX4XKIR0NSQtnygnNNCyiItpkGyz6zTSnYjq3av25B6YbpzwbbdjtDgCc5nbjYAEX
+ Q7D6wnxZukiIBIMMsYAk28RYUWSMV5618UUVJr5lpXNolQaLnlSGS+3+hhIu3IzQ4O
+ qvficxhX8pw4u5X4bzEEcCgXj+MTmNzuKefISkU4=
+Date: Tue, 12 Jan 2021 15:18:05 +1100
+From: David Gibson <david@gibson.dropbear.id.au>
+To: BALATON Zoltan <balaton@eik.bme.hu>
+Subject: Re: [PATCH] hw/intc/ppc-uic: Make default dcr-base 0xc0, not 0x30
+Message-ID: <20210112041805.GM3051@yekko.fritz.box>
+References: <20210111213007.7381-1-peter.maydell@linaro.org>
+ <20210112001257.GG3051@yekko.fritz.box>
+ <alpine.LMD.2.03.2101120224300.11445@eik.bme.hu>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-Date: Tue, 12 Jan 2021 04:17:37 -0000
-From: Launchpad Bug Tracker <1793791@bugs.launchpad.net>
-To: qemu-devel@nongnu.org
-X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=Expired; importance=Undecided;
- assignee=None; 
-X-Launchpad-Bug-Information-Type: Public
-X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: eblake janitor schu-schu th-huth
-X-Launchpad-Bug-Reporter: Matthew Schumacher (schu-schu)
-X-Launchpad-Bug-Modifier: Launchpad Janitor (janitor)
-References: <153754814620.30461.9078031705394909150.malonedeb@soybean.canonical.com>
-Message-Id: <161042505728.10246.2997238944495960789.malone@loganberry.canonical.com>
-Subject: [Bug 1793791] Re: Crash with nbd_reply_chunk_iter_receive: Assertion
- `chunk->flags & NBD_REPLY_FLAG_DONE' failed
-X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
-X-Launchpad-Message-For: qemu-devel-ml
-Precedence: bulk
-X-Generated-By: Launchpad (canonical.com);
- Revision="fe617ea08df036edd5c842aded2b315e1c090677"; Instance="production"
-X-Launchpad-Hash: 8ac1919fb192a5532255d3ae1c9b8e5c2c4247ee
-Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
- helo=indium.canonical.com
-X-Spam_score_int: -65
-X-Spam_score: -6.6
-X-Spam_bar: ------
-X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9,
- HEADER_FROM_DIFFERENT_DOMAINS=0.249, RCVD_IN_DNSWL_HI=-5,
- RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=ham autolearn_force=no
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="OGW1Z2JKiS9bXo17"
+Content-Disposition: inline
+In-Reply-To: <alpine.LMD.2.03.2101120224300.11445@eik.bme.hu>
+Received-SPF: pass client-ip=203.11.71.1; envelope-from=dgibson@ozlabs.org;
+ helo=ozlabs.org
+X-Spam_score_int: -17
+X-Spam_score: -1.8
+X-Spam_bar: -
+X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, HEADER_FROM_DIFFERENT_DOMAINS=0.249,
+ SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -71,48 +59,90 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1793791 <1793791@bugs.launchpad.net>
+Cc: Peter Maydell <peter.maydell@linaro.org>, qemu-ppc@nongnu.org,
+ qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-[Expired for QEMU because there has been no activity for 60 days.]
 
-** Changed in: qemu
-       Status: Incomplete =3D> Expired
+--OGW1Z2JKiS9bXo17
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
--- =
+On Tue, Jan 12, 2021 at 02:25:58AM +0100, BALATON Zoltan wrote:
+> On Tue, 12 Jan 2021, David Gibson wrote:
+> > On Mon, Jan 11, 2021 at 09:30:07PM +0000, Peter Maydell wrote:
+> > > In commit 34d0831f38fd8 the ppc-uic device was added, with a dcr-base
+> > > property. The intention was that the default value of dcr-base should=
+ be
+> > > the one that most of our boards need, so that in the common case they
+> > > don't need to specify a property value.
+> > >=20
+> > > All QEMU boards with a UIC use a dcr-base of 0xc0, with the exception=
+ of
+> > > sam460ex which has four UICs and so puts them at 0xc0, 0xd0, 0xe0, 0x=
+f0.
+> > > So 0xc0 is the obvious right choice for the default dcr-base.
+> > >=20
+> > > The board code conversions in commits 0270d74ef88623505 (bamboo) and
+> > > c5ac9dc64fa552a6 (virtex_ml507) assumed that default was 0xc0. Unfort=
+unately
+> > > the actual default in 34d0831f38fd8 was 0x30, by mistake, so the
+> > > bamboo and virtex_ml507 boards were broken as they were converted
+> > > away from ppcuic_init() (which always specifies the dcr_base property
+> > > value explicitly).
+> > >=20
+> > > Set the default dcr-base to 0xc0 as was intended, fixing bamboo and
+> > > virtex_ml507.
+> > >=20
+> > > Fixes: 34d0831f38fd8
+> > > Reported-by: Nathan Chancellor <natechancellor@gmail.com>
+> > > Suggested-by: BALATON Zoltan <balaton@eik.bme.hu>
+> > > Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
+> >=20
+> > Applied, thanks.
+>=20
+> Will you take my series too?
+>=20
+> http://patchwork.ozlabs.org/project/qemu-devel/list/?series=3D223439
 
-You received this bug notification because you are a member of qemu-
-devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1793791
+Huh.  I will now I've seen it.
 
-Title:
-  Crash with nbd_reply_chunk_iter_receive: Assertion `chunk->flags &
-  NBD_REPLY_FLAG_DONE' failed
+> I've cc'd you but your DNS seems to not return an MX record most of the t=
+ime
+> still so these are bouncing back.
 
-Status in QEMU:
-  Expired
+Ugh.  This is weird.  I know the DNS went out for a little while, but
+some of your mails have come through, and AFAICT it's been working for
+most people most of the time since that incident.  I'm wondering if
+something on your side is negative caching for too long.
 
-Bug description:
-  Qemu version on both sides: 2.12.1
-  Host A Linux: 4.9.76
-  Host B Linux: 4.14.67
+--=20
+David Gibson			| I'll have my music baroque, and my code
+david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
+				| _way_ _around_!
+http://www.ozlabs.org/~dgibson
 
-  While calling from Host A:
-  virsh migrate virtualmachine qemu+ssh://hostB/system --live --undefinesou=
-rce --persistent --verbose --copy-storage-all
+--OGW1Z2JKiS9bXo17
+Content-Type: application/pgp-signature; name="signature.asc"
 
-  I get a qemu crash with:
+-----BEGIN PGP SIGNATURE-----
 
-  2018-09-21 16:12:23.073+0000: 14428: info : virObjectUnref:350 : OBJECT_U=
-NREF: obj=3D0x7f922c03d990
-  qemu-system-x86_64: block/nbd-client.c:606: nbd_reply_chunk_iter_receive:=
- Assertion `chunk->flags & NBD_REPLY_FLAG_DONE' failed.
-  2018-09-21 16:12:41.230+0000: shutting down, reason=3Dcrashed
-  2018-09-21 16:12:52.900+0000: shutting down, reason=3Dfailed
+iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAl/9IvsACgkQbDjKyiDZ
+s5KPtA//WxqyL5iL4Pp24XaORpaiYfCbb3TrrMmsQpbxXlxnSDG97W6BPKcit9AL
+GhpKkQiT58GYNXbtiLIEq1oACCRSrSVzbkgNutlUDD0RxbOhvTpYv6S1Bcb3XF3D
+jyVDKMs62Iji9YPctYdxcYXEnFqcEamTzbpwruFt30D80B1UPrtNu4p7gwQdeggE
+Mer0Jp3VQsvpn5HmsmYRt+ay6zFKauGEJoS70QNbnJ5yg+HmjcCzXzpBoikbGjsL
+thnKAkck/rftvfzNFOtK2ufpzbFGRAJP8wDctLHCppR+VjMcs8GUzwa52OMCDDln
+uesnke1cbXAclpib5o7WopRyy95UmbVWqSka/y/jM6ssNWywbXkFktOqqZusaKo6
+C702q+rYCTKDcfgHRpVD19EAzqTAK0JirgrHTXg0wRCNY+VA9bQgjq3ov9vE3Ugj
+w49kr330uS7tuPW+tx5EWz9me2e7xwtLB1wFPdNMVMAVxjAnMJPPdhHSBNMzvnUz
+CxU4vWhJiK17hf4gCb9dTSQsssQ2d2YCZwQS5ccMR3riNv5wPbrLqKPrx9HSn8GO
+6+ydCMaHt1mLiJscpxAFkl2AWMPcdfZjUGIxyzPucVAebixU5XuCY1pivNO6OUjh
+gTA0wT7ECg5Ir9IVbCIlUeMQpGLxPK6k8w9i4gODQ5pc6IG33oE=
+=egM+
+-----END PGP SIGNATURE-----
 
-  It doesn't do it every time, but most of the time.
-
-To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1793791/+subscriptions
+--OGW1Z2JKiS9bXo17--
 
