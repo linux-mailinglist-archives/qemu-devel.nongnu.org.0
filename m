@@ -2,86 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3A4EC2F2D41
-	for <lists+qemu-devel@lfdr.de>; Tue, 12 Jan 2021 11:56:18 +0100 (CET)
-Received: from localhost ([::1]:41744 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A30E32F2D64
+	for <lists+qemu-devel@lfdr.de>; Tue, 12 Jan 2021 12:06:22 +0100 (CET)
+Received: from localhost ([::1]:39194 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kzHLV-0004Lz-2j
-	for lists+qemu-devel@lfdr.de; Tue, 12 Jan 2021 05:56:17 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51286)
+	id 1kzHVF-0006tv-LR
+	for lists+qemu-devel@lfdr.de; Tue, 12 Jan 2021 06:06:21 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41914)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
- id 1kzH57-0004aN-He; Tue, 12 Jan 2021 05:39:21 -0500
-Received: from wout4-smtp.messagingengine.com ([64.147.123.20]:49461)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
- id 1kzH54-0001Lk-Rx; Tue, 12 Jan 2021 05:39:21 -0500
-Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
- by mailout.west.internal (Postfix) with ESMTP id 1E5661B1C;
- Tue, 12 Jan 2021 05:39:16 -0500 (EST)
-Received: from mailfrontend1 ([10.202.2.162])
- by compute4.internal (MEProxy); Tue, 12 Jan 2021 05:39:16 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=irrelevant.dk;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-type:in-reply-to; s=fm2; bh=f7DD6dGG59PZ15vEJEGDhD7RwcG
- oqtvGbZaR33P6ZeU=; b=C8UwD+OT4V7elGQmrRuTR5I/lNIc8Vq0tWz2SaErv+7
- BcY7YgXh2GnpV6gdQufZpl8E43b3f1/wJvIIhvwa48mJiOzbm98BS98magSvGgYg
- Ojq/zv5KaB465xc4/OCCf3WLgmHpYm8hTJ/I0BTz08TQBHOTepm5smul3LRQ5Gxk
- y/ue/YRsUNZ3DtT//ZvubERSiAJhxexYJNHD4dew1B4BARF5oW61an88zezZxrwj
- tkpMyK8fLdlVtnqOtaVz7aGT3MgfBn2GuMH4ZqucL6cp288WMxAAiTs65HwGHYhf
- MDEiuX1F5IwB4M0TX2pShWVpfDw/kIDbFhN2seEpMTw==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:content-type:date:from:in-reply-to
- :message-id:mime-version:references:subject:to:x-me-proxy
- :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; bh=f7DD6d
- GG59PZ15vEJEGDhD7RwcGoqtvGbZaR33P6ZeU=; b=KKxW6F4KxHMWltme3DRn33
- REv3N2R7LDv7wyFisolyAj7m/HBH7VCOQ7jyi5lV0+CB82tIxZ3PDFGZozOPJAMA
- EPmtAYmyx9jSHdqSmdggMJanxATVaZpU33PSPYRkWA7ckAbVcNU/RmhBXaFPNUl/
- Tt7KqsZZGb/te/ORB9ovktVdxv6hJ5uOe1/xRHJppPIzPNTjEo1wmWREAw+0HCbL
- KtzmlN4HMdiWAS0WEDFWfqOEY3tROd23Jcpqfwm0cqyhgC+9/BQwM/Bvn+sSk3I8
- iEQ7q6VhZn25PkzhtcRRqsk/H1gZl8QcH4yAP7ZomHPQGInOMZAeObahDtH14T3A
- ==
-X-ME-Sender: <xms:U3z9X9J4B0dx5cf4yHu1gZ5cayuZiR-uTjkDAUUdN8C8E-ZzwCvXTA>
- <xme:U3z9X5I5SbrW4U39klutfRonMrMcBBX-_dG5q4qv37yPe7YBhC6K5wSHQCfroVgrT
- Nt8kMlVZFZeTiI0p0E>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedujedrvdehgedgudeiucetufdoteggodetrfdotf
- fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
- uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
- cujfgurhepfffhvffukfhfgggtuggjsehgtderredttdejnecuhfhrohhmpefmlhgruhhs
- ucflvghnshgvnhcuoehithhssehirhhrvghlvghvrghnthdrughkqeenucggtffrrghtth
- gvrhhnpeejgeduffeuieetkeeileekvdeuleetveejudeileduffefjeegfffhuddvudff
- keenucfkphepkedtrdduieejrdelkedrudeltdenucevlhhushhtvghrufhiiigvpedtne
- curfgrrhgrmhepmhgrihhlfhhrohhmpehithhssehirhhrvghlvghvrghnthdrughk
-X-ME-Proxy: <xmx:U3z9X1sH38A5lEF-kBg70U3pUm7nmVjavBcZGQmBbgnZooZxk8ZlWw>
- <xmx:U3z9X-ZPWXasKRHMnXEY_ugVU5qyvYXmKjz6iP4lfcQQpQvt__qA0g>
- <xmx:U3z9X0ZtG_poC7UYePYmhzuIgMDo9DJY1ofpc5yuP4t7N2ZavccL8w>
- <xmx:U3z9Xzyc6vtoGhdV3bqDtEZWvJblzBTLxZXNqEiTRVHSRppP9Z_i6w>
-Received: from apples.localdomain (80-167-98-190-cable.dk.customer.tdc.net
- [80.167.98.190])
- by mail.messagingengine.com (Postfix) with ESMTPA id E975024005C;
- Tue, 12 Jan 2021 05:39:13 -0500 (EST)
-Date: Tue, 12 Jan 2021 11:39:11 +0100
-From: Klaus Jensen <its@irrelevant.dk>
-To: zhenwei pi <pizhenwei@bytedance.com>
-Subject: Re: [PATCH v2 1/1] hw/block/nvme: add smart_critical_warning property
-Message-ID: <X/18T0lAM9zhj/7k@apples.localdomain>
-References: <20210112074924.217862-1-pizhenwei@bytedance.com>
- <20210112074924.217862-2-pizhenwei@bytedance.com>
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1kzGPl-0002bI-Kh
+ for qemu-devel@nongnu.org; Tue, 12 Jan 2021 04:56:37 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:39143)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1kzGPj-00047L-7W
+ for qemu-devel@nongnu.org; Tue, 12 Jan 2021 04:56:36 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1610445394;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:in-reply-to:in-reply-to:  references:references;
+ bh=EoTYF3Nqzmbw5uYQk5er+PvY1Ren6/rSY6QOq324q5M=;
+ b=Y77th/+dosejHvIUCC+sdW+dF9mmB1v5j5HkaXhaVjWk7SrD9X7yz6Y66IzxjZPXnYVyNM
+ VnCXcnQ9RG9YgI3wWbpE6grTlkfmSohdC2v/XF6ZY+eQg2JBuIS+Qvh9rXyY86y/vW2qP1
+ cwi7ixHbd8h40z9Q1F9ZApdXC6Zm+oY=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-83-kqjjbDiVO2e2GbaY_oj61g-1; Tue, 12 Jan 2021 04:56:29 -0500
+X-MC-Unique: kqjjbDiVO2e2GbaY_oj61g-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id D8035803622;
+ Tue, 12 Jan 2021 09:56:26 +0000 (UTC)
+Received: from redhat.com (ovpn-115-107.ams2.redhat.com [10.36.115.107])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 70EEC10016F5;
+ Tue, 12 Jan 2021 09:56:15 +0000 (UTC)
+Date: Tue, 12 Jan 2021 09:56:12 +0000
+From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+To: David Gibson <david@gibson.dropbear.id.au>
+Subject: Re: [PATCH v6 10/13] spapr: Add PEF based confidential guest support
+Message-ID: <20210112095612.GE1360503@redhat.com>
+References: <20210112044508.427338-1-david@gibson.dropbear.id.au>
+ <20210112044508.427338-11-david@gibson.dropbear.id.au>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="ZIc+pXTxUHyqe9/8"
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20210112074924.217862-2-pizhenwei@bytedance.com>
-Received-SPF: pass client-ip=64.147.123.20; envelope-from=its@irrelevant.dk;
- helo=wout4-smtp.messagingengine.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
-X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+In-Reply-To: <20210112044508.427338-11-david@gibson.dropbear.id.au>
+User-Agent: Mutt/1.14.6 (2020-07-11)
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=berrange@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -29
+X-Spam_score: -3.0
+X-Spam_bar: ---
+X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.251,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -94,146 +75,84 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: kwolf@redhat.com, qemu-block@nongnu.org, qemu-devel@nongnu.org,
- mreitz@redhat.com, kbusch@kernel.org, philmd@redhat.com
+Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+Cc: pair@us.ibm.com, Marcelo Tosatti <mtosatti@redhat.com>,
+ brijesh.singh@amd.com, kvm@vger.kernel.org, david@redhat.com,
+ qemu-devel@nongnu.org, frankja@linux.ibm.com, pragyansri.pathi@intel.com,
+ mst@redhat.com, mdroth@linux.vnet.ibm.com, pasic@linux.ibm.com,
+ Christian Borntraeger <borntraeger@de.ibm.com>, andi.kleen@intel.com,
+ thuth@redhat.com, Eduardo Habkost <ehabkost@redhat.com>,
+ richard.henderson@linaro.org, dgilbert@redhat.com, Greg Kurz <groug@kaod.org>,
+ qemu-s390x@nongnu.org, jun.nakajima@intel.com,
+ Cornelia Huck <cohuck@redhat.com>, qemu-ppc@nongnu.org,
+ Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-
---ZIc+pXTxUHyqe9/8
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-
-On Jan 12 15:49, zhenwei pi wrote:
-> There is a very low probability that hitting physical NVMe disk
-> hardware critical warning case, it's hard to write & test a monitor
-> agent service.
->=20
-> For debugging purposes, add a new 'smart_critical_warning' property
-> to emulate this situation.
->=20
-> The orignal version of this change is implemented by adding a fixed
-> property which could be initialized by QEMU command line. Suggested
-> by Philippe & Klaus, rework like current version.
->=20
-> Test with this patch:
-> 1, change smart_critical_warning property for a running VM:
->  #virsh qemu-monitor-command nvme-upstream '{ "execute": "qom-set",
->   "arguments": { "path": "/machine/peripheral-anon/device[0]",
->   "property": "smart_critical_warning", "value":16 } }'
-> 2, run smartctl in guest
->  #smartctl -H -l error /dev/nvme0n1
->=20
->   =3D=3D=3D START OF SMART DATA SECTION =3D=3D=3D
->   SMART overall-health self-assessment test result: FAILED!
->   - volatile memory backup device has failed
->=20
-> Signed-off-by: zhenwei pi <pizhenwei@bytedance.com>
-
-I think we also need to check the asynchronous event configuration and
-issue an AEN if required like we do when the temperature threshold
-changes.
-
-Philippe, what are the locking semantics here? This runs under the big
-lock?
-
+On Tue, Jan 12, 2021 at 03:45:05PM +1100, David Gibson wrote:
+> Some upcoming POWER machines have a system called PEF (Protected
+> Execution Facility) which uses a small ultravisor to allow guests to
+> run in a way that they can't be eavesdropped by the hypervisor.  The
+> effect is roughly similar to AMD SEV, although the mechanisms are
+> quite different.
+> 
+> Most of the work of this is done between the guest, KVM and the
+> ultravisor, with little need for involvement by qemu.  However qemu
+> does need to tell KVM to allow secure VMs.
+> 
+> Because the availability of secure mode is a guest visible difference
+> which depends on having the right hardware and firmware, we don't
+> enable this by default.  In order to run a secure guest you need to
+> create a "pef-guest" object and set the confidential-guest-support
+> property to point to it.
+> 
+> Note that this just *allows* secure guests, the architecture of PEF is
+> such that the guest still needs to talk to the ultravisor to enter
+> secure mode.  Qemu has no directl way of knowing if the guest is in
+> secure mode, and certainly can't know until well after machine
+> creation time.
+> 
+> To start a PEF-capable guest, use the command line options:
+>     -object pef-guest,id=pef0 -machine confidential-guest-support=pef0
+> 
+> Signed-off-by: David Gibson <david@gibson.dropbear.id.au>
 > ---
->  hw/block/nvme.c | 28 ++++++++++++++++++++++++++++
->  hw/block/nvme.h |  1 +
->  2 files changed, 29 insertions(+)
->=20
-> diff --git a/hw/block/nvme.c b/hw/block/nvme.c
-> index 27d2c72716..a98757b6a1 100644
-> --- a/hw/block/nvme.c
-> +++ b/hw/block/nvme.c
-> @@ -1214,6 +1214,7 @@ static uint16_t nvme_smart_info(NvmeCtrl *n, uint8_=
-t rae, uint32_t buf_len,
->      }
-> =20
->      trans_len =3D MIN(sizeof(smart) - off, buf_len);
-> +    smart.critical_warning =3D n->smart_critical_warning;
-> =20
->      smart.data_units_read[0] =3D cpu_to_le64(DIV_ROUND_UP(stats.units_re=
-ad,
->                                                          1000));
-> @@ -2827,6 +2828,29 @@ static Property nvme_props[] =3D {
->      DEFINE_PROP_END_OF_LIST(),
->  };
-> =20
-> +
-> +static void nvme_get_smart_warning(Object *obj, Visitor *v, const char *=
-name,
-> +                                   void *opaque, Error **errp)
-> +{
-> +    NvmeCtrl *s =3D NVME(obj);
-> +    uint8_t value =3D s->smart_critical_warning;
-> +
-> +    visit_type_uint8(v, name, &value, errp);
-> +}
-> +
-> +static void nvme_set_smart_warning(Object *obj, Visitor *v, const char *=
-name,
-> +                                   void *opaque, Error **errp)
-> +{
-> +    NvmeCtrl *s =3D NVME(obj);
-> +    uint8_t value;
-> +
-> +    if (!visit_type_uint8(v, name, &value, errp)) {
-> +        return;
+>  docs/confidential-guest-support.txt |   2 +
+>  docs/papr-pef.txt                   |  30 ++++++++
+>  hw/ppc/meson.build                  |   1 +
+>  hw/ppc/pef.c                        | 115 ++++++++++++++++++++++++++++
+>  hw/ppc/spapr.c                      |  10 +++
+>  include/hw/ppc/pef.h                |  26 +++++++
+>  target/ppc/kvm.c                    |  18 -----
+>  target/ppc/kvm_ppc.h                |   6 --
+>  8 files changed, 184 insertions(+), 24 deletions(-)
+>  create mode 100644 docs/papr-pef.txt
+>  create mode 100644 hw/ppc/pef.c
+>  create mode 100644 include/hw/ppc/pef.h
+> 
+
+> +static const TypeInfo pef_guest_info = {
+> +    .parent = TYPE_OBJECT,
+> +    .name = TYPE_PEF_GUEST,
+> +    .instance_size = sizeof(PefGuestState),
+> +    .interfaces = (InterfaceInfo[]) {
+> +        { TYPE_CONFIDENTIAL_GUEST_SUPPORT },
+> +        { TYPE_USER_CREATABLE },
+> +        { }
 > +    }
-> +
-> +    s->smart_critical_warning =3D value;
-> +}
-> +
->  static const VMStateDescription nvme_vmstate =3D {
->      .name =3D "nvme",
->      .unmigratable =3D 1,
-> @@ -2857,6 +2881,10 @@ static void nvme_instance_init(Object *obj)
->                                        "bootindex", "/namespace@1,0",
->                                        DEVICE(obj));
->      }
-> +
-> +    object_property_add(obj, "smart_critical_warning", "uint8",
-> +                        nvme_get_smart_warning,
-> +                        nvme_set_smart_warning, NULL, NULL);
->  }
-> =20
->  static const TypeInfo nvme_info =3D {
-> diff --git a/hw/block/nvme.h b/hw/block/nvme.h
-> index e080a2318a..64e3497244 100644
-> --- a/hw/block/nvme.h
-> +++ b/hw/block/nvme.h
-> @@ -139,6 +139,7 @@ typedef struct NvmeCtrl {
->      uint64_t    timestamp_set_qemu_clock_ms;    /* QEMU clock time */
->      uint64_t    starttime_ms;
->      uint16_t    temperature;
-> +    uint8_t     smart_critical_warning;
-> =20
->      HostMemoryBackend *pmrdev;
-> =20
-> --=20
-> 2.25.1
->=20
->=20
+> +};
 
---=20
-One of us - No more doubt, silence or taboo about mental illness.
+IIUC, the earlier patch defines TYPE_CONFIDENTIAL_GUEST_SUPPORT
+as a object, but you're using it as an interface here. The later
+s390 patch uses it as a parent, which makes more sense given it
+is a declared as an object.
 
---ZIc+pXTxUHyqe9/8
-Content-Type: application/pgp-signature; name="signature.asc"
 
------BEGIN PGP SIGNATURE-----
+Regards,
+Daniel
+-- 
+|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
+|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
+|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
 
-iQEzBAEBCAAdFiEEUigzqnXi3OaiR2bATeGvMW1PDekFAl/9fE0ACgkQTeGvMW1P
-Dek3fAgAwBa+g5q/pFwz8TYwdI6OtWOc22VQ0BeU5/Gh0o0KEEB9twzHLDSgx44V
-gMpyoIgthC2l7oTdYm31RLCCD3RjPRSDNck8FOuUktDDmiF+MQP01lWXz9jaMKNe
-92Uft+d2Un+SWNCG8bbXcO9X9WhqS/Z71RiN0Gzg7NJNgCNapFq9wPPhB0KKFEn8
-t0tMwYk3j98tl5o6gmqH5xH0GG8K9NGtZWKDKInd0rr3nVSX1BgnmPtez61B6Rlc
-Gb03HGOprY+8z6KzKSWGGIo+wjIZk5AQG6T7+iELsK244bgK7xKyszcJVGBAKm25
-38h9kEIBNhHKBtuNwi68tx7nulvmDg==
-=E1PZ
------END PGP SIGNATURE-----
-
---ZIc+pXTxUHyqe9/8--
 
