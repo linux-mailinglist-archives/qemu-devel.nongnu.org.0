@@ -2,49 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0557E2F2775
-	for <lists+qemu-devel@lfdr.de>; Tue, 12 Jan 2021 06:02:06 +0100 (CET)
-Received: from localhost ([::1]:52370 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 28F482F2778
+	for <lists+qemu-devel@lfdr.de>; Tue, 12 Jan 2021 06:04:31 +0100 (CET)
+Received: from localhost ([::1]:57346 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kzBoj-0003PU-21
-	for lists+qemu-devel@lfdr.de; Tue, 12 Jan 2021 00:02:05 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50518)
+	id 1kzBr4-0005Y0-8T
+	for lists+qemu-devel@lfdr.de; Tue, 12 Jan 2021 00:04:30 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51520)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1kzBYi-0002M5-Gr; Mon, 11 Jan 2021 23:45:35 -0500
-Received: from ozlabs.org ([203.11.71.1]:39021)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1kzBYf-000840-Tv; Mon, 11 Jan 2021 23:45:31 -0500
-Received: by ozlabs.org (Postfix, from userid 1007)
- id 4DFJ0S6Qvcz9t1C; Tue, 12 Jan 2021 15:45:12 +1100 (AEDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=gibson.dropbear.id.au; s=201602; t=1610426712;
- bh=OcbftV4TaBeWLdIFmmCYtwJPLQ7qc1qO7U5/JY6NWog=;
- h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=CcyVNJkraDAJlDemoreWu2R3se4bXAIU+S2GyMIRdexan+DOTpwFvVNwHaoICAmmu
- Q+a0E/34JMyknq0ZsNmT08iheLBPcoX4iunBDGwj42Pw1FMZab3bGoZga7BX861uGG
- ieNKU8zB40fIIk5jMaDZ7G2YYFndze2TmUALKTwU=
-From: David Gibson <david@gibson.dropbear.id.au>
-To: pasic@linux.ibm.com, brijesh.singh@amd.com, pair@us.ibm.com,
- dgilbert@redhat.com, qemu-devel@nongnu.org
-Subject: [PATCH v6 13/13] s390: Recognize confidential-guest-support option
-Date: Tue, 12 Jan 2021 15:45:08 +1100
-Message-Id: <20210112044508.427338-14-david@gibson.dropbear.id.au>
-X-Mailer: git-send-email 2.29.2
-In-Reply-To: <20210112044508.427338-1-david@gibson.dropbear.id.au>
-References: <20210112044508.427338-1-david@gibson.dropbear.id.au>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=203.11.71.1; envelope-from=dgibson@ozlabs.org;
- helo=ozlabs.org
-X-Spam_score_int: -17
-X-Spam_score: -1.8
-X-Spam_bar: -
-X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, HEADER_FROM_DIFFERENT_DOMAINS=0.249,
- SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=no autolearn_force=no
+ (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
+ id 1kzBfC-0000xi-EC; Mon, 11 Jan 2021 23:52:14 -0500
+Received: from mail-qk1-x72e.google.com ([2607:f8b0:4864:20::72e]:41897)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
+ id 1kzBfA-0001hI-5M; Mon, 11 Jan 2021 23:52:14 -0500
+Received: by mail-qk1-x72e.google.com with SMTP id 19so883388qkm.8;
+ Mon, 11 Jan 2021 20:52:11 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=from:to:cc:subject:date:message-id;
+ bh=o+drKs7Fjj3+XOK6USpNt42SKZl44x4gNsfqshr4X/w=;
+ b=onEbDYEHa4Oup1WWupF9nDXZNPoiHUFIM1Nt3UvB+tihTdVmT29xs9wh3PJ49OwxB+
+ Gmyup9teIRA0brU7xEU2PlP5BJmUdIZNwWIyiA8VrPXVPmA9L6sfpJIb8GT7Uewb+n6Z
+ ueGb994rhz6MHcTXZ/MU1uQll9Sa7TbD3j3xC/p6zVl8AZvbv/Puw8akc+XbGQyCxrq9
+ IpTANYVBJXCcyRrK0gQ2Zn5pSKRZa8K6PTx7l8Z2HekPcTRPwKdfD36mZfBy6NEDYy7U
+ wXzaW3uyYDWvx5vTjWi/Gk0otMGb4h1dXNLb2D1P/5iBQ2drNhu+0yXsp0WXOrEjDxcI
+ IZMA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id;
+ bh=o+drKs7Fjj3+XOK6USpNt42SKZl44x4gNsfqshr4X/w=;
+ b=TsVUNeY4b8Xg6vga5Zban1yje/Gfk027QFcnpfU9KMoy7NacGYkjsX3OaN9u+okXPo
+ CDxmG4xbyuf5HPu1DLGWsjFqep5LMV3S2+ryOTz7mgLaPLnQ93hHjYnjU7OtwL1WolO6
+ dnrg5Dmc6pFjm3BA6kreP9U3EVJEaRkOErVaQ+7lMWYg3ivLp4epCJYnmIH/XatFhSMR
+ a/VWas+njjeaxjKwIb85sgsXkWm+TLUdVHnWL8QvWK8tiRxFGATzAnA+Mkqo5rdTr/+W
+ U2roRRNNQEoLj5iUKX3KWFlnNsZes/oeRSZ/CWEAtndPVBMsl+K0UrcqdH3DeJpPvsQY
+ KLqA==
+X-Gm-Message-State: AOAM532Q/O+quDwECgzUqWHQSA0hjF8+w/gZ+hk0WIFrWWMcD0tIMn33
+ QxJHFEIhIODyr0G+PosgFRY=
+X-Google-Smtp-Source: ABdhPJyNuosDUq1yOz4Ryy62B1DK40w9paXdnqs2LAWifDDRebN0YWhyU5Ot53nSHTL1ehI8A6vtGw==
+X-Received: by 2002:a37:c0b:: with SMTP id 11mr2832831qkm.32.1610427130893;
+ Mon, 11 Jan 2021 20:52:10 -0800 (PST)
+Received: from pek-vx-bsp2.wrs.com (unknown-124-94.windriver.com.
+ [147.11.124.94])
+ by smtp.gmail.com with ESMTPSA id b67sm863814qkc.44.2021.01.11.20.52.08
+ (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
+ Mon, 11 Jan 2021 20:52:10 -0800 (PST)
+From: Bin Meng <bmeng.cn@gmail.com>
+To: Jim Wilson <jimw@sifive.com>, Alistair Francis <alistair.francis@wdc.com>
+Subject: [PATCH 0/4] target/riscv: Generate the GDB XML file for CSR registers
+ dynamically
+Date: Tue, 12 Jan 2021 12:52:00 +0800
+Message-Id: <1610427124-49887-1-git-send-email-bmeng.cn@gmail.com>
+X-Mailer: git-send-email 2.7.4
+Received-SPF: pass client-ip=2607:f8b0:4864:20::72e;
+ envelope-from=bmeng.cn@gmail.com; helo=mail-qk1-x72e.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -57,203 +76,53 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: thuth@redhat.com, Cornelia Huck <cohuck@redhat.com>,
- =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
- frankja@linux.ibm.com, kvm@vger.kernel.org, david@redhat.com,
- jun.nakajima@intel.com, mst@redhat.com, Marcelo Tosatti <mtosatti@redhat.com>,
- richard.henderson@linaro.org, Greg Kurz <groug@kaod.org>,
- Eduardo Habkost <ehabkost@redhat.com>, mdroth@linux.vnet.ibm.com,
- Christian Borntraeger <borntraeger@de.ibm.com>, qemu-s390x@nongnu.org,
- qemu-ppc@nongnu.org, pragyansri.pathi@intel.com, andi.kleen@intel.com,
- Paolo Bonzini <pbonzini@redhat.com>,
- David Gibson <david@gibson.dropbear.id.au>
+Cc: Bin Meng <bin.meng@windriver.com>, qemu-riscv@nongnu.org,
+ qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-At least some s390 cpu models support "Protected Virtualization" (PV),
-a mechanism to protect guests from eavesdropping by a compromised
-hypervisor.
+From: Bin Meng <bin.meng@windriver.com>
 
-This is similar in function to other mechanisms like AMD's SEV and
-POWER's PEF, which are controlled by the "confidential-guest-support"
-machine option.  s390 is a slightly special case, because we already
-supported PV, simply by using a CPU model with the required feature
-(S390_FEAT_UNPACK).
 
-To integrate this with the option used by other platforms, we
-implement the following compromise:
+At present QEMU RISC-V uses a hardcoded XML to report the feature
+"org.gnu.gdb.riscv.csr" [1]. There are two major issues with the
+approach being used currently:
 
- - When the confidential-guest-support option is set, s390 will
-   recognize it, verify that the CPU can support PV (failing if not)
-   and set virtio default options necessary for encrypted or protected
-   guests, as on other platforms.  i.e. if confidential-guest-support
-   is set, we will either create a guest capable of entering PV mode,
-   or fail outright.
+- The XML does not specify the "regnum" field of a CSR entry, hence
+  consecutive numbers are used by the remote GDB client to access
+  CSRs. In QEMU we have to maintain a map table to convert the GDB
+  number to the hardware number which is error prone.
+- The XML contains some CSRs that QEMU does not implement at all,
+  which causes an "E14" response sent to remote GDB client.
 
- - If confidential-guest-support is not set, guests might still be
-   able to enter PV mode, if the CPU has the right model.  This may be
-   a little surprising, but shouldn't actually be harmful.
+Change to generate the CSR register list dynamically, based on the
+availability presented in the CSR function table. This new approach
+will reflect a correct list of CSRs that QEMU actually implements.
 
-To start a guest supporting Protected Virtualization using the new
-option use the command line arguments:
-    -object s390-pv-guest,id=pv0 -machine confidential-guest-support=pv0
+[1] https://sourceware.org/gdb/current/onlinedocs/gdb/RISC_002dV-Features.html#RISC_002dV-Features
 
-Signed-off-by: David Gibson <david@gibson.dropbear.id.au>
----
- docs/confidential-guest-support.txt |  3 ++
- docs/system/s390x/protvirt.rst      | 19 +++++++---
- hw/s390x/pv.c                       | 58 +++++++++++++++++++++++++++++
- include/hw/s390x/pv.h               |  1 +
- target/s390x/kvm.c                  |  3 ++
- 5 files changed, 78 insertions(+), 6 deletions(-)
 
-diff --git a/docs/confidential-guest-support.txt b/docs/confidential-guest-support.txt
-index d466aa79d5..b4912f66c2 100644
---- a/docs/confidential-guest-support.txt
-+++ b/docs/confidential-guest-support.txt
-@@ -42,4 +42,7 @@ AMD Secure Encrypted Virtualization (SEV)
- 
- POWER Protected Execution Facility (PEF)
- 
-+s390x Protected Virtualization (PV)
-+    docs/system/s390x/protvirt.rst
-+
- Other mechanisms may be supported in future.
-diff --git a/docs/system/s390x/protvirt.rst b/docs/system/s390x/protvirt.rst
-index 712974ad87..0f481043d9 100644
---- a/docs/system/s390x/protvirt.rst
-+++ b/docs/system/s390x/protvirt.rst
-@@ -22,15 +22,22 @@ If those requirements are met, the capability `KVM_CAP_S390_PROTECTED`
- will indicate that KVM can support PVMs on that LPAR.
- 
- 
--QEMU Settings
---------------
-+Running a Protected Virtual Machine
-+-----------------------------------
- 
--To indicate to the VM that it can transition into protected mode, the
-+To run a PVM you will need to select a CPU model which includes the
- `Unpack facility` (stfle bit 161 represented by the feature
--`unpack`/`S390_FEAT_UNPACK`) needs to be part of the cpu model of
--the VM.
-+`unpack`/`S390_FEAT_UNPACK`), and add these options to the command line::
-+
-+    -object s390-pv-guest,id=pv0 \
-+    -machine confidential-guest-support=pv0
-+
-+Adding these options will:
-+
-+* Ensure the `unpack` facility is available
-+* Enable the IOMMU by default for all I/O devices
-+* Initialize the PV mechanism
- 
--All I/O devices need to use the IOMMU.
- Passthrough (vfio) devices are currently not supported.
- 
- Host huge page backings are not supported. However guests can use huge
-diff --git a/hw/s390x/pv.c b/hw/s390x/pv.c
-index ab3a2482aa..85592e100a 100644
---- a/hw/s390x/pv.c
-+++ b/hw/s390x/pv.c
-@@ -14,8 +14,11 @@
- #include <linux/kvm.h>
- 
- #include "cpu.h"
-+#include "qapi/error.h"
- #include "qemu/error-report.h"
- #include "sysemu/kvm.h"
-+#include "qom/object_interfaces.h"
-+#include "exec/confidential-guest-support.h"
- #include "hw/s390x/ipl.h"
- #include "hw/s390x/pv.h"
- 
-@@ -111,3 +114,58 @@ void s390_pv_inject_reset_error(CPUState *cs)
-     /* Report that we are unable to enter protected mode */
-     env->regs[r1 + 1] = DIAG_308_RC_INVAL_FOR_PV;
- }
-+
-+#define TYPE_S390_PV_GUEST "s390-pv-guest"
-+#define S390_PV_GUEST(obj)                              \
-+    OBJECT_CHECK(S390PVGuestState, (obj), TYPE_S390_PV_GUEST)
-+
-+typedef struct S390PVGuestState S390PVGuestState;
-+
-+/**
-+ * S390PVGuestState:
-+ *
-+ * The S390PVGuestState object is basically a dummy used to tell the
-+ * confidential guest support system to use s390's PV mechanism.
-+ *
-+ * # $QEMU \
-+ *         -object s390-pv-guest,id=pv0 \
-+ *         -machine ...,confidential-guest-support=pv0
-+ */
-+struct S390PVGuestState {
-+    Object parent_obj;
-+};
-+
-+int s390_pv_init(ConfidentialGuestSupport *cgs, Error **errp)
-+{
-+    if (!object_dynamic_cast(OBJECT(cgs), TYPE_S390_PV_GUEST)) {
-+        return 0;
-+    }
-+
-+    if (!s390_has_feat(S390_FEAT_UNPACK)) {
-+        error_setg(errp,
-+                   "CPU model does not support Protected Virtualization");
-+        return -1;
-+    }
-+
-+    cgs->ready = true;
-+
-+    return 0;
-+}
-+
-+static const TypeInfo s390_pv_guest_info = {
-+    .parent = TYPE_CONFIDENTIAL_GUEST_SUPPORT,
-+    .name = TYPE_S390_PV_GUEST,
-+    .instance_size = sizeof(S390PVGuestState),
-+    .interfaces = (InterfaceInfo[]) {
-+        { TYPE_USER_CREATABLE },
-+        { }
-+    }
-+};
-+
-+static void
-+s390_pv_register_types(void)
-+{
-+    type_register_static(&s390_pv_guest_info);
-+}
-+
-+type_init(s390_pv_register_types);
-diff --git a/include/hw/s390x/pv.h b/include/hw/s390x/pv.h
-index aee758bc2d..9bbf66f356 100644
---- a/include/hw/s390x/pv.h
-+++ b/include/hw/s390x/pv.h
-@@ -43,6 +43,7 @@ void s390_pv_prep_reset(void);
- int s390_pv_verify(void);
- void s390_pv_unshare(void);
- void s390_pv_inject_reset_error(CPUState *cs);
-+int s390_pv_init(ConfidentialGuestSupport *cgs, Error **errp);
- #else /* CONFIG_KVM */
- static inline bool s390_is_pv(void) { return false; }
- static inline int s390_pv_vm_enable(void) { return 0; }
-diff --git a/target/s390x/kvm.c b/target/s390x/kvm.c
-index b8385e6b95..d2435664dc 100644
---- a/target/s390x/kvm.c
-+++ b/target/s390x/kvm.c
-@@ -387,6 +387,9 @@ int kvm_arch_init(MachineState *ms, KVMState *s)
-     }
- 
-     kvm_set_max_memslot_size(KVM_SLOT_MAX_BYTES);
-+
-+    s390_pv_init(ms->cgs, &error_fatal);
-+
-     return 0;
- }
- 
+Bin Meng (4):
+  target/riscv: Make csr_ops[CSR_TABLE_SIZE] external
+  target/riscv: Add CSR name in the CSR function table
+  target/riscv: Generate the GDB XML file for CSR registers dynamically
+  target/riscv: Remove built-in GDB XML files for CSRs
+
+ default-configs/targets/riscv32-linux-user.mak |   2 +-
+ default-configs/targets/riscv32-softmmu.mak    |   2 +-
+ default-configs/targets/riscv64-linux-user.mak |   2 +-
+ default-configs/targets/riscv64-softmmu.mak    |   2 +-
+ target/riscv/cpu.h                             |  11 +
+ target/riscv/cpu.c                             |  12 +
+ target/riscv/csr.c                             | 342 ++++++++++++++++++-------
+ target/riscv/gdbstub.c                         | 308 ++++------------------
+ gdb-xml/riscv-32bit-csr.xml                    | 250 ------------------
+ gdb-xml/riscv-64bit-csr.xml                    | 250 ------------------
+ 10 files changed, 320 insertions(+), 861 deletions(-)
+ delete mode 100644 gdb-xml/riscv-32bit-csr.xml
+ delete mode 100644 gdb-xml/riscv-64bit-csr.xml
+
 -- 
-2.29.2
+2.7.4
 
 
