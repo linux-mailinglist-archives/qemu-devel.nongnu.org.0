@@ -2,65 +2,103 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9CB762F244D
-	for <lists+qemu-devel@lfdr.de>; Tue, 12 Jan 2021 01:43:06 +0100 (CET)
-Received: from localhost ([::1]:57264 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6F2522F2449
+	for <lists+qemu-devel@lfdr.de>; Tue, 12 Jan 2021 01:37:46 +0100 (CET)
+Received: from localhost ([::1]:53520 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kz7m5-0000SA-Fj
-	for lists+qemu-devel@lfdr.de; Mon, 11 Jan 2021 19:43:05 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42568)
+	id 1kz7gv-00070Z-Bh
+	for lists+qemu-devel@lfdr.de; Mon, 11 Jan 2021 19:37:45 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41694)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1kz7jv-0008MN-CE
- for qemu-devel@nongnu.org; Mon, 11 Jan 2021 19:40:51 -0500
-Received: from indium.canonical.com ([91.189.90.7]:34824)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1kz7js-00008s-IF
- for qemu-devel@nongnu.org; Mon, 11 Jan 2021 19:40:51 -0500
-Received: from loganberry.canonical.com ([91.189.90.37])
- by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1kz7jp-0008Vv-Tj
- for <qemu-devel@nongnu.org>; Tue, 12 Jan 2021 00:40:45 +0000
-Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id DAC562E8139
- for <qemu-devel@nongnu.org>; Tue, 12 Jan 2021 00:40:45 +0000 (UTC)
+ (Exim 4.90_1) (envelope-from <jiaxun.yang@flygoat.com>)
+ id 1kz7em-0005nm-3Z
+ for qemu-devel@nongnu.org; Mon, 11 Jan 2021 19:35:33 -0500
+Received: from new4-smtp.messagingengine.com ([66.111.4.230]:50989)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <jiaxun.yang@flygoat.com>)
+ id 1kz7ek-0007s0-4c
+ for qemu-devel@nongnu.org; Mon, 11 Jan 2021 19:35:31 -0500
+Received: from compute6.internal (compute6.nyi.internal [10.202.2.46])
+ by mailnew.nyi.internal (Postfix) with ESMTP id 5F7AA58066E;
+ Mon, 11 Jan 2021 19:35:29 -0500 (EST)
+Received: from mailfrontend1 ([10.202.2.162])
+ by compute6.internal (MEProxy); Mon, 11 Jan 2021 19:35:29 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=flygoat.com; h=
+ subject:to:cc:references:from:message-id:date:mime-version
+ :in-reply-to:content-type:content-transfer-encoding; s=fm1; bh=8
+ ECw2ui1DSz9RsQPvyjBTRfZymZzp4AdIegc3WoQ6B4=; b=KqdP4HoWz/2//yxe6
+ 7Q21+DI2k7i75Ohdku40/x5GZJImUI1cdRXRI1m+TYA5SpSOWkinwiEVrVjna84J
+ q2DL33GJ1Ww7Oyam3FafA++EIS6y3lRmpJlnyHcLyrdKxdcdQnqwfr1plTx7Yk3s
+ FLOAVYuChxBdD+JNex9j6w3IiSkP4BUJT4Jp3ij38Zza69dZkobjTCEzJrqliKVc
+ Rje1j6THELA5RjeHJ9ijBF+TB6VDuojfOsyVFHfGgZUmtlK8HgKrEQ+N+rPpL1Cm
+ vg2h+WrWVdzx2ENuz0n3JGP0dMQzMBRLp6zp5zFTLVhHWPLybnsA5/7rPvNKX17K
+ +5/Dw==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+ messagingengine.com; h=cc:content-transfer-encoding:content-type
+ :date:from:in-reply-to:message-id:mime-version:references
+ :subject:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender
+ :x-sasl-enc; s=fm1; bh=8ECw2ui1DSz9RsQPvyjBTRfZymZzp4AdIegc3WoQ6
+ B4=; b=cw8UPmoIs+d/Bb13NAULUH7QSvl77x2v4IFJDThVcwpo4mz8TSgbgLck0
+ VATGXCugxiW8TviBuq8xZFH7cd//XoZroYSgNezATvEpHpZBM1HdfIzmEicxY6wc
+ +Qcx9H8XBHSMMivyr2ICS26+ifqzSIz7CFHG9Ykm+ADvz2VQ3FFzV3xjKFzoMiNo
+ FssXolcxgQfgJSjzbhDgrfszcWelVTmkRnzM6wqQsGo2tipxIrIbF6L/MflJUvB6
+ rMZ7xQ/XHnyQnGZvPuUWlPJHcY4dtF+ppE6/5JgI7yrScI/J+ZAVJyH2FL4E2ml1
+ ifkm6868NPVGT23M5GGl97KjjjVaA==
+X-ME-Sender: <xms:0O78X5WDVOrxqQpCjXt3FBt9uzTV2je3Pjlwcc70x2qUB96K1d2hKA>
+ <xme:0O78X5kAhn__SsQBLXeF70XJCP1lYVFBFAdQFscc_MZUiPU2mvdUSdJxkTZ0Rydu2
+ jtidOfzYsvCVT4CJwI>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedujedrvdehvddgvddvucetufdoteggodetrfdotf
+ fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+ uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
+ cujfgurhepuffvfhfhkffffgggjggtgfesthekredttdefjeenucfhrhhomheplfhirgig
+ uhhnucgjrghnghcuoehjihgrgihunhdrhigrnhhgsehflhihghhorghtrdgtohhmqeenuc
+ ggtffrrghtthgvrhhnpeeihffghfeikedugeejvefgffevgeevgeehfffhudeiieffffev
+ ffeugeevfefgfeenucfkphepgeehrdeffedrhedtrddvheegnecuvehluhhsthgvrhfuih
+ iivgeptdenucfrrghrrghmpehmrghilhhfrhhomhepjhhirgiguhhnrdihrghnghesfhhl
+ hihgohgrthdrtghomh
+X-ME-Proxy: <xmx:0O78X1YPBOOL1q48ODBkn7f0qqwc5jhKCzfvgauR3B3x1xUSPHeYfA>
+ <xmx:0O78X8U3rUrS60KoxXvx1OtsYoXDlkjKQxAmZ1OltjDVixVN4IUvdw>
+ <xmx:0O78XzmBu-fXkUYoV6tOb5_v1MtJpMW9FjE5krCurSJFKISTBT3nGA>
+ <xmx:0e78X4wcdiWOuil6A_yRiHy5a8Ba3zzcQHRdAcoVvnv4jrKcxpSqvQ>
+Received: from [0.0.0.0] (li1000-254.members.linode.com [45.33.50.254])
+ by mail.messagingengine.com (Postfix) with ESMTPA id F33C8240057;
+ Mon, 11 Jan 2021 19:35:25 -0500 (EST)
+Subject: Re: [PULL 23/35] hw/intc: Rework Loongson LIOINTC
+To: Peter Maydell <peter.maydell@linaro.org>,
+ BALATON Zoltan <balaton@eik.bme.hu>
+References: <20210103205021.2837760-1-f4bug@amsat.org>
+ <20210103205021.2837760-24-f4bug@amsat.org>
+ <CAFEAcA_YqAiiLRY08-gACmKOCf2mat3AaBGnyRK0Jc+aK-iuOw@mail.gmail.com>
+ <b2dd6d33-d8e9-21a3-7b76-bdf44e117128@amsat.org>
+ <3aece87-60ff-b195-8bd-c696bf461cb6@eik.bme.hu>
+ <CAAhV-H71-wrTfDWN9zH2gU4gdJkCpMk5EDfAi1W1d4jXA3OkZg@mail.gmail.com>
+ <3f383a52-6583-4c60-8f24-a24e6b95c068@www.fastmail.com>
+ <29acb49a-4d1-ae6b-328d-6e3081e2ab2f@eik.bme.hu>
+ <CAFEAcA8trw0PNeDaQq3dZa0q4qYoXF35ROLMHDw3qnJ=wX+vvw@mail.gmail.com>
+From: Jiaxun Yang <jiaxun.yang@flygoat.com>
+Message-ID: <9ccb0e6a-4b80-eea2-b9f5-4eec6f8e1fad@flygoat.com>
+Date: Tue, 12 Jan 2021 08:35:21 +0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.6.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-Date: Tue, 12 Jan 2021 00:35:11 -0000
-From: Alexander Bulekov <1911075@bugs.launchpad.net>
-To: qemu-devel@nongnu.org
-X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
-X-Launchpad-Bug-Information-Type: Public
-X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: a1xndr
-X-Launchpad-Bug-Reporter: Alexander Bulekov (a1xndr)
-X-Launchpad-Bug-Modifier: Alexander Bulekov (a1xndr)
-Message-Id: <161041171173.17462.15833722387991998017.malonedeb@gac.canonical.com>
-Subject: [Bug 1911075] [NEW] [OSS-Fuzz] ahci: stack overflow in
- ahci_cond_start_engines
-X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
-X-Launchpad-Message-For: qemu-devel-ml
-Precedence: bulk
-X-Generated-By: Launchpad (canonical.com);
- Revision="fe617ea08df036edd5c842aded2b315e1c090677"; Instance="production"
-X-Launchpad-Hash: 8c5e3a2f489520e16869538b0c2e22b415e0a1b2
-Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
- helo=indium.canonical.com
-X-Spam_score_int: -65
-X-Spam_score: -6.6
-X-Spam_bar: ------
-X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9,
- HEADER_FROM_DIFFERENT_DOMAINS=0.249, RCVD_IN_DNSWL_HI=-5,
- RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <CAFEAcA8trw0PNeDaQq3dZa0q4qYoXF35ROLMHDw3qnJ=wX+vvw@mail.gmail.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 8bit
+Content-Language: en-US
+Received-SPF: permerror client-ip=66.111.4.230;
+ envelope-from=jiaxun.yang@flygoat.com; helo=new4-smtp.messagingengine.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
+X-Spam_bar: --
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_PASS=-0.001,
+ T_SPF_PERMERROR=0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -69,163 +107,51 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1911075 <1911075@bugs.launchpad.net>
+Cc: Huacai Chen <chenhuacai@kernel.org>,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
+ Aurelien Jarno <aurelien@aurel32.net>,
+ BALATON Zoltan via <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Public bug reported:
+在 2021/1/11 下午6:35, Peter Maydell 写道:
+> On Mon, 11 Jan 2021 at 10:20, BALATON Zoltan <balaton@eik.bme.hu> wrote:
+>> On Mon, 11 Jan 2021, Jiaxun Yang wrote:
+>>> On Mon, Jan 11, 2021, at 8:36 AM, Huacai Chen wrote:
+>>>> I think R_END should be 0x60, Jiaxun, what do you think?
+>>> U r right.
+>>> The manual is misleading.
+>> The R_END constant is also used in loongson_liointc_init() for the length
+>> of the memory region so you might want to revise that. If this is a 32 bit
+>> register then you should decide what R_END means? Is it the end of the
+>> memory region in which case the reg starts at R_END - 4 or is it the
+>> address of the last reg in which case the memory region ends at R_END + 4.
+>>  From the above I think it's the address of the last reg so you'll probably
+>> need to add 4 in loongson_liointc_init() when creating the memory region.
+> Mmm, or check
+>    (addr >= R_START && addr < (R_START + R_ISR_SIZE * NUM_CORES))
+>
+> Side note: R_ISR_SIZE is 8, but the code makes both the
+> 32-bit addresses you can read/write in that 8-byte range
+> behave the same way. Is that really what the hardware does ?
+> Or does it actually have 1 32-bit register per core, spaced
+> 8 bytes apart ?
 
-=3D=3D=3D Reproducer =3D=3D=3D
-while true; do cat << EOF; done | ./qemu-system-i386 -machine q35 -nodefaul=
-ts -nographic -qtest stdio -accel qtest
-outl 0xcf8 0x8000fa27
-outl 0xcfc 0x37414537
-outl 0xcf8 0x8000fa01
-outl 0xcfc 0x4606ce74
-writew 0x37000f01 0x215a
-writeq 0x37000100 0xfffaf
-writeq 0x37000115 0xffff373d27004037
-outl 0xcf8 0x8000fa01
-outl 0xcfc 0x4606ce74
-writeq 0x370000ff 0x3700011500
-writeq 0x37000115 0xc41ffffff035a5a
-outl 0xcf8 0x8000ea04
-outb 0xcfc 0x15
-outl 0xcf8 0x8000ea00
-outw 0xcfc 0x5a1f
-writeq 0x37000115 0x100007765746972
-writeq 0x37000115 0xbf00000000000000
-outl 0xcf8 0x8000ea04
-outb 0xcfc 0x15
-outl 0xcf8 0x8000fa46
-outb 0xcfc 0xff
-clock_step
-writeq 0x37000115 0xaf
-writeq 0x37000115 0x6301275541af7415
-writeq 0x37000115 0xafaf5a5a743715
-outb 0x64 0xfe
-EOF
+Yes, the hardware was designed like that. It have 1 32-bit register
+per core but spaced 8 bytes apart.
 
-=3D=3D=3D Stack Trace =3D=3D=3D
-=3D=3D887446=3D=3DERROR: UndefinedBehaviorSanitizer: stack-overflow on addr=
-ess 0x7ffe567cae0c (pc 0x7fdd9100819e bp 0x7ffe567cb2b0 sp 0x7ffe567cad40 T=
-887446)
+I assume they were planing to add more ISRs in the future but as the
+product line have been ceased I'm not going to handle that.
 
-#0 vfprintf
-#1 fprintf
-#2 ahci_mem_write /src/qemu/hw/ide/ahci.c:468:9
-#3 memory_region_write_accessor /src/qemu/softmmu/memory.c:491:5
-#4 access_with_adjusted_size /src/qemu/softmmu/memory.c:552:18
-#5 memory_region_dispatch_write /src/qemu/softmmu/memory.c:0:13
-#6 flatview_write_continue /src/qemu/softmmu/physmem.c:2759:23
-#7 flatview_write /src/qemu/softmmu/physmem.c:2799:14
-#8 address_space_write /src/qemu/softmmu/physmem.c:2891:18
-#9 address_space_unmap /src/qemu/softmmu/physmem.c:3217:9
-#10 dma_memory_unmap /src/qemu/include/sysemu/dma.h:226:5
-#11 map_page /src/qemu/hw/ide/ahci.c:249:9
-#12 ahci_map_clb_address /src/qemu/hw/ide/ahci.c:748:5
-#13 ahci_cond_start_engines /src/qemu/hw/ide/ahci.c:276:14
-#14 ahci_port_write /src/qemu/hw/ide/ahci.c:339:9
-#15 ahci_mem_write /src/qemu/hw/ide/ahci.c:513:9
-#16 memory_region_write_accessor /src/qemu/softmmu/memory.c:491:5
-#17 access_with_adjusted_size /src/qemu/softmmu/memory.c:552:18
-#18 memory_region_dispatch_write /src/qemu/softmmu/memory.c:0:13
-#19 flatview_write_continue /src/qemu/softmmu/physmem.c:2759:23
-#20 flatview_write /src/qemu/softmmu/physmem.c:2799:14
-#21 address_space_write /src/qemu/softmmu/physmem.c:2891:18
-#22 address_space_unmap /src/qemu/softmmu/physmem.c:3217:9
-#23 dma_memory_unmap /src/qemu/include/sysemu/dma.h:226:5
-#24 map_page /src/qemu/hw/ide/ahci.c:249:9
-#25 ahci_map_clb_address /src/qemu/hw/ide/ahci.c:748:5
-#26 ahci_cond_start_engines /src/qemu/hw/ide/ahci.c:276:14
-#27 ahci_port_write /src/qemu/hw/ide/ahci.c:339:9
-#28 ahci_mem_write /src/qemu/hw/ide/ahci.c:513:9
-... Repeat until we run out of stack
+I'll send a patch for fix.
 
-** Affects: qemu
-     Importance: Undecided
-         Status: New
+Thanks.
 
--- =
+- Jiaxun
 
-You received this bug notification because you are a member of qemu-
-devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1911075
 
-Title:
-  [OSS-Fuzz] ahci: stack overflow in ahci_cond_start_engines
+>
+> thanks
+> -- PMM
 
-Status in QEMU:
-  New
-
-Bug description:
-  =3D=3D=3D Reproducer =3D=3D=3D
-  while true; do cat << EOF; done | ./qemu-system-i386 -machine q35 -nodefa=
-ults -nographic -qtest stdio -accel qtest
-  outl 0xcf8 0x8000fa27
-  outl 0xcfc 0x37414537
-  outl 0xcf8 0x8000fa01
-  outl 0xcfc 0x4606ce74
-  writew 0x37000f01 0x215a
-  writeq 0x37000100 0xfffaf
-  writeq 0x37000115 0xffff373d27004037
-  outl 0xcf8 0x8000fa01
-  outl 0xcfc 0x4606ce74
-  writeq 0x370000ff 0x3700011500
-  writeq 0x37000115 0xc41ffffff035a5a
-  outl 0xcf8 0x8000ea04
-  outb 0xcfc 0x15
-  outl 0xcf8 0x8000ea00
-  outw 0xcfc 0x5a1f
-  writeq 0x37000115 0x100007765746972
-  writeq 0x37000115 0xbf00000000000000
-  outl 0xcf8 0x8000ea04
-  outb 0xcfc 0x15
-  outl 0xcf8 0x8000fa46
-  outb 0xcfc 0xff
-  clock_step
-  writeq 0x37000115 0xaf
-  writeq 0x37000115 0x6301275541af7415
-  writeq 0x37000115 0xafaf5a5a743715
-  outb 0x64 0xfe
-  EOF
-
-  =3D=3D=3D Stack Trace =3D=3D=3D
-  =3D=3D887446=3D=3DERROR: UndefinedBehaviorSanitizer: stack-overflow on ad=
-dress 0x7ffe567cae0c (pc 0x7fdd9100819e bp 0x7ffe567cb2b0 sp 0x7ffe567cad40=
- T887446)
-
-  #0 vfprintf
-  #1 fprintf
-  #2 ahci_mem_write /src/qemu/hw/ide/ahci.c:468:9
-  #3 memory_region_write_accessor /src/qemu/softmmu/memory.c:491:5
-  #4 access_with_adjusted_size /src/qemu/softmmu/memory.c:552:18
-  #5 memory_region_dispatch_write /src/qemu/softmmu/memory.c:0:13
-  #6 flatview_write_continue /src/qemu/softmmu/physmem.c:2759:23
-  #7 flatview_write /src/qemu/softmmu/physmem.c:2799:14
-  #8 address_space_write /src/qemu/softmmu/physmem.c:2891:18
-  #9 address_space_unmap /src/qemu/softmmu/physmem.c:3217:9
-  #10 dma_memory_unmap /src/qemu/include/sysemu/dma.h:226:5
-  #11 map_page /src/qemu/hw/ide/ahci.c:249:9
-  #12 ahci_map_clb_address /src/qemu/hw/ide/ahci.c:748:5
-  #13 ahci_cond_start_engines /src/qemu/hw/ide/ahci.c:276:14
-  #14 ahci_port_write /src/qemu/hw/ide/ahci.c:339:9
-  #15 ahci_mem_write /src/qemu/hw/ide/ahci.c:513:9
-  #16 memory_region_write_accessor /src/qemu/softmmu/memory.c:491:5
-  #17 access_with_adjusted_size /src/qemu/softmmu/memory.c:552:18
-  #18 memory_region_dispatch_write /src/qemu/softmmu/memory.c:0:13
-  #19 flatview_write_continue /src/qemu/softmmu/physmem.c:2759:23
-  #20 flatview_write /src/qemu/softmmu/physmem.c:2799:14
-  #21 address_space_write /src/qemu/softmmu/physmem.c:2891:18
-  #22 address_space_unmap /src/qemu/softmmu/physmem.c:3217:9
-  #23 dma_memory_unmap /src/qemu/include/sysemu/dma.h:226:5
-  #24 map_page /src/qemu/hw/ide/ahci.c:249:9
-  #25 ahci_map_clb_address /src/qemu/hw/ide/ahci.c:748:5
-  #26 ahci_cond_start_engines /src/qemu/hw/ide/ahci.c:276:14
-  #27 ahci_port_write /src/qemu/hw/ide/ahci.c:339:9
-  #28 ahci_mem_write /src/qemu/hw/ide/ahci.c:513:9
-  ... Repeat until we run out of stack
-
-To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1911075/+subscriptions
 
