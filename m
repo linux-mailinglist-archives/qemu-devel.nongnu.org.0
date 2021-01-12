@@ -2,72 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0A00D2F32F1
-	for <lists+qemu-devel@lfdr.de>; Tue, 12 Jan 2021 15:28:37 +0100 (CET)
-Received: from localhost ([::1]:38112 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2B9112F32F6
+	for <lists+qemu-devel@lfdr.de>; Tue, 12 Jan 2021 15:32:35 +0100 (CET)
+Received: from localhost ([::1]:43830 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kzKey-0003T0-Ic
-	for lists+qemu-devel@lfdr.de; Tue, 12 Jan 2021 09:28:36 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49796)
+	id 1kzKio-0005or-0C
+	for lists+qemu-devel@lfdr.de; Tue, 12 Jan 2021 09:32:34 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49928)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <marcandre.lureau@gmail.com>)
- id 1kzKdm-0002iA-SZ; Tue, 12 Jan 2021 09:27:22 -0500
-Received: from mail-ed1-x52c.google.com ([2a00:1450:4864:20::52c]:36011)
+ (Exim 4.90_1) (envelope-from <biboshan23@gmail.com>)
+ id 1kzFCb-0005iJ-Nq
+ for qemu-devel@nongnu.org; Tue, 12 Jan 2021 03:38:57 -0500
+Received: from mail-pg1-x52b.google.com ([2607:f8b0:4864:20::52b]:37687)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <marcandre.lureau@gmail.com>)
- id 1kzKdl-0003Tx-86; Tue, 12 Jan 2021 09:27:22 -0500
-Received: by mail-ed1-x52c.google.com with SMTP id b2so2523818edm.3;
- Tue, 12 Jan 2021 06:27:20 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <biboshan23@gmail.com>)
+ id 1kzFCZ-0002Oh-Qq
+ for qemu-devel@nongnu.org; Tue, 12 Jan 2021 03:38:57 -0500
+Received: by mail-pg1-x52b.google.com with SMTP id z21so978385pgj.4
+ for <qemu-devel@nongnu.org>; Tue, 12 Jan 2021 00:38:54 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=7VFukBH4KjfFcT1bix3AmAiCf6+j2YE6QgnZsD20hXk=;
- b=cjq7wh7jWth3Az+RXlyMCNyX/vTTLS8Ga0r5Kpr3Q1HxN8RrjWMa3BmIzauwTcD0xB
- ZVjWDQoeIS85nyACJ9atxUqS9BFh/1UeMUvxtpNPzT//CqpvPTzBhULJ076iTU+ySa8J
- L0JnmfD4ur50Hegoxo2ZzvxFtVN101o181O8OGFqtQqfE9Wdji5PNBnX1KIKob8jNJAv
- gVL62bpkEwWQ92moNUWVuwC1LTLywujLdLx/e9uD3+fVp3paDwzBfdgc5YQiUdh+NFpJ
- t+GR6xpI2mYvbtY8gdXqNNiHuZt+L+WEd49OoC8MAjreYWoQllUREJGwrx7Q4XqzoW8t
- ufPw==
+ h=mime-version:from:date:message-id:subject:to;
+ bh=wl57iA6uDUEf1OyE494fWe5Grtef4ryEENlC/tjj8eA=;
+ b=GvNUQrG1t2IuMLugTnC2P0+KWFR7E/+HAb+EwstHMJ/UThwatbSQeF0d8Ugf9oMadN
+ 2xbVeHnlRbD9lPseVACUhCtdRt85LmRYtxDUGc1HsaNGD4e/3rRZWHX749MrgQWu94r6
+ sBCSs6/GnpCXNyamJxpuinv16D6AjnHZUb0+LsIMLl2lqx7mxQZ5eF09yC7xSMbvpl+Y
+ +YWqAA4fCP8EzIT0DeziZizGA3CSN2hEWfigwF6X1kZqQRQG5gmQrLhleVapgrNhCCLR
+ wJvqo+fjLxt/Qojj/RMHaxb8K271sPr4t/m3qEx1P6DxygF7iU24OSnnJ/CIbAVKopDs
+ D8AQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=7VFukBH4KjfFcT1bix3AmAiCf6+j2YE6QgnZsD20hXk=;
- b=gVa2O/pJ/C5NC4t/pvZX9r0xp8Z+xf7UPosL8FaNfkYq5fN3u1G2GuFYvABLyMYFre
- ZrGwdoFWehPeFLcniKu5xEIOumbxgT5wal4SmZm7h1M4nYgM8CnEw+TGVYm79vOV8f4P
- pN48uukwg+LqXemXqsuLr5Y237NYhS2GALFhp1aYRjTVG3c947Q/szlKdMO/8LGMQCbO
- NmqFOpkiH2CUdhHRmlteWcRVwtqIny/YFldTBTEChIqH2rK01oHLguoULon5x6ljetwJ
- EVeaTFhcubkNNwPC7fAaR3ZQ80sZsz2DuI5scWl0LoosuGOYtBTrLr1dIAGGSCApNiTd
- OLNQ==
-X-Gm-Message-State: AOAM530iye0ny8/c3QYZamVYbHN7oWHenCf37qDcb6vjxIn9J/cn21Zp
- kPO6R7QixJm+yd2uGlvBBj2pVr653GXVt1aqXU0=
-X-Google-Smtp-Source: ABdhPJwdcgyHJj7hAfosyu5xUKNUeOSqily0VR9mkcRV4Kbw9xwK8RHttLYSpo77eyyT2HQWZcwr+Tshz+liqz+qt9g=
-X-Received: by 2002:aa7:c558:: with SMTP id s24mr3727086edr.257.1610461638951; 
- Tue, 12 Jan 2021 06:27:18 -0800 (PST)
+ h=x-gm-message-state:mime-version:from:date:message-id:subject:to;
+ bh=wl57iA6uDUEf1OyE494fWe5Grtef4ryEENlC/tjj8eA=;
+ b=l5n1dyoN4/6nIPpzDTik6ezCc/bhq9ctPsYkGWzo00M+ww691/Qx7q+INRDvgSh8qG
+ qXjgV2al3LdZ2CTzS8D0rnqk1u42sMixEyBkSDw+LYHL1CW++Ii/owbtHC2ol5oLkYTk
+ Ovj2kSVcZMYNeoKPZtmxW73vi8RVufMSj0JtJZBrrZqRtSfqAiLJ6zkUUhxv53Vv3r04
+ hsA5EWoW9+otRX+/vrCYDvFZlqsWT7sYwDiVa8YRsmcfLEluiTnsz8wGW0gshIgPDMPw
+ sP9d8/a0wF581tlJMEtz4ZYLGTyi9f8TEWeGnC72NNBWowPmu1XAhi44dL6fKnQd8nHf
+ FkMQ==
+X-Gm-Message-State: AOAM53351GWwg4BtXYkiXFoUVM3Q3f4/1OlH/xuHbdqH15q5u1Tx2wsL
+ wM5q9kBboxPzVpMcXwM90jrK2j0mYyxPOrQufUGmn+K74NihrA==
+X-Google-Smtp-Source: ABdhPJwErdoVi8t+VuLNL+gsSCpNUocXUr0h9is0kPdu9dqB87aC+RmI9du6t1kkTojB7P+nFL3G56W+1OXhugXdP24=
+X-Received: by 2002:a62:d113:0:b029:1a3:6213:d598 with SMTP id
+ z19-20020a62d1130000b02901a36213d598mr3526200pfg.71.1610440733461; Tue, 12
+ Jan 2021 00:38:53 -0800 (PST)
 MIME-Version: 1.0
-References: <cover.1609167865.git.lukasstraub2@web.de>
- <69934ceacfd33a7dfe53db145ecc630ad39ee47c.1609167865.git.lukasstraub2@web.de>
- <CAJ+F1CLLiHca4Lf_nL7p2+Q3MT5JA0Qn9W6g14q0MYtYoROOdA@mail.gmail.com>
- <87ft374myk.fsf@dusky.pond.sub.org>
- <CAJ+F1C+osNqR_7FBVoVh2Fg65axrQVWoOVbbuRtjiNysj=k+HQ@mail.gmail.com>
- <87pn2ansrv.fsf@dusky.pond.sub.org>
-In-Reply-To: <87pn2ansrv.fsf@dusky.pond.sub.org>
-From: =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@gmail.com>
-Date: Tue, 12 Jan 2021 18:27:06 +0400
-Message-ID: <CAJ+F1CKm-BFeu2Od4gm_JSVEEk_XB4vym1Mqgimk6pubAW5zkw@mail.gmail.com>
-Subject: Re: [PATCH v14 1/7] Introduce yank feature
-To: Markus Armbruster <armbru@redhat.com>
-Content-Type: multipart/alternative; boundary="000000000000ea052405b8b4d174"
-Received-SPF: pass client-ip=2a00:1450:4864:20::52c;
- envelope-from=marcandre.lureau@gmail.com; helo=mail-ed1-x52c.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+From: Biboshan Banerjee <biboshan23@gmail.com>
+Date: Tue, 12 Jan 2021 14:08:42 +0530
+Message-ID: <CAJeDGJiuhhad_fk-1cdLpP=GDEoYG0rtBKX5uMh68LrDefmXOg@mail.gmail.com>
+Subject: MCFG File missing
+To: qemu-devel@nongnu.org
+Content-Type: multipart/mixed; boundary="000000000000dae8c205b8aff36e"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::52b;
+ envelope-from=biboshan23@gmail.com; helo=mail-pg1-x52b.google.com
+X-Spam_score_int: -17
+X-Spam_score: -1.8
+X-Spam_bar: -
+X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001, HTML_MESSAGE=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
+X-Mailman-Approved-At: Tue, 12 Jan 2021 09:28:44 -0500
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -79,138 +76,92 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, Lukas Straub <lukasstraub2@web.de>,
- =?UTF-8?B?RGFuaWVsIFAuIEJlcnJhbmfDqVw=?= <berrange@redhat.com>,
- qemu-block <qemu-block@nongnu.org>, Juan Quintela <quintela@redhat.com>,
- qemu-devel <qemu-devel@nongnu.org>, Max Reitz <mreitz@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---000000000000ea052405b8b4d174
+--000000000000dae8c205b8aff36e
+Content-Type: multipart/alternative; boundary="000000000000dae8be05b8aff36c"
+
+--000000000000dae8be05b8aff36c
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 
-On Tue, Jan 12, 2021 at 6:18 PM Markus Armbruster <armbru@redhat.com> wrote=
-:
+ Hi All,
 
-> Marc-Andr=C3=A9 Lureau <marcandre.lureau@gmail.com> writes:
->
-> > On Mon, Jan 11, 2021 at 5:34 PM Markus Armbruster <armbru@redhat.com>
-> wrote:
-> >
-> >> Marc-Andr=C3=A9 Lureau <marcandre.lureau@gmail.com> writes:
-> >>
-> >> > Hi
-> >> >
-> >> > On Mon, Dec 28, 2020 at 7:08 PM Lukas Straub <lukasstraub2@web.de>
-> >> wrote:
-> >> >
-> >> >> The yank feature allows to recover from hanging qemu by "yanking"
-> >> >> at various parts. Other qemu systems can register themselves and
-> >> >> multiple yank functions. Then all yank functions for selected
-> >> >> instances can be called by the 'yank' out-of-band qmp command.
-> >> >> Available instances can be queried by a 'query-yank' oob command.
-> >> >>
-> >> >
-> >> > Looking at the changes and API usage, I wonder if it wouldn't have
-> been
-> >> > simpler to associate the yank function directly with the YankInstanc=
-e
-> >> > (removing the need for register/unregister functions - tracking the
-> state
-> >> > left to the callback). Have you tried that approach? If not, I could
-> >> check
-> >> > if this idea would work.
-> >>
-> >> Considering we're at v14...  would it make sense to commit the current
-> >> approach, then explore the alternative approach on top?
-> >>
-> >>
-> > works for me
-> >
-> >> If yes, is v14 committable as is?
-> >>
-> >>
-> > Acked-by: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
->
-> Thanks!  Does your ACK apply to the series, or just to PATCH 1?
->
+I am trying to run the PCM tool ( https://github.com/opcm/pcm ) on a VM
+running CentOS 7.4 running on the host OS CentOS 7.4.
 
-I didn't look much at the rest of the series, but PATCH 3 too, I'll reply
-there.
+The tool is trying to access  the " /sys/firmware/acpi/tables/MCFG " file.
+The file is available on the host OS but not on the VM.   ( The error logs
+are attached. )
 
+How can this file be generated? on the VM?
+I am using Qemu version 4.1.94
 
---=20
-Marc-Andr=C3=A9 Lureau
+Thanks
+Biboshan Banerjee.
 
---000000000000ea052405b8b4d174
+--000000000000dae8be05b8aff36c
 Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-<div dir=3D"ltr"><div dir=3D"ltr"><br></div><br><div class=3D"gmail_quote">=
-<div dir=3D"ltr" class=3D"gmail_attr">On Tue, Jan 12, 2021 at 6:18 PM Marku=
-s Armbruster &lt;<a href=3D"mailto:armbru@redhat.com">armbru@redhat.com</a>=
-&gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0px =
-0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">Marc=
--Andr=C3=A9 Lureau &lt;<a href=3D"mailto:marcandre.lureau@gmail.com" target=
-=3D"_blank">marcandre.lureau@gmail.com</a>&gt; writes:<br>
-<br>
-&gt; On Mon, Jan 11, 2021 at 5:34 PM Markus Armbruster &lt;<a href=3D"mailt=
-o:armbru@redhat.com" target=3D"_blank">armbru@redhat.com</a>&gt; wrote:<br>
-&gt;<br>
-&gt;&gt; Marc-Andr=C3=A9 Lureau &lt;<a href=3D"mailto:marcandre.lureau@gmai=
-l.com" target=3D"_blank">marcandre.lureau@gmail.com</a>&gt; writes:<br>
-&gt;&gt;<br>
-&gt;&gt; &gt; Hi<br>
-&gt;&gt; &gt;<br>
-&gt;&gt; &gt; On Mon, Dec 28, 2020 at 7:08 PM Lukas Straub &lt;<a href=3D"m=
-ailto:lukasstraub2@web.de" target=3D"_blank">lukasstraub2@web.de</a>&gt;<br=
->
-&gt;&gt; wrote:<br>
-&gt;&gt; &gt;<br>
-&gt;&gt; &gt;&gt; The yank feature allows to recover from hanging qemu by &=
-quot;yanking&quot;<br>
-&gt;&gt; &gt;&gt; at various parts. Other qemu systems can register themsel=
-ves and<br>
-&gt;&gt; &gt;&gt; multiple yank functions. Then all yank functions for sele=
-cted<br>
-&gt;&gt; &gt;&gt; instances can be called by the &#39;yank&#39; out-of-band=
- qmp command.<br>
-&gt;&gt; &gt;&gt; Available instances can be queried by a &#39;query-yank&#=
-39; oob command.<br>
-&gt;&gt; &gt;&gt;<br>
-&gt;&gt; &gt;<br>
-&gt;&gt; &gt; Looking at the changes and API usage, I wonder if it wouldn&#=
-39;t have been<br>
-&gt;&gt; &gt; simpler to associate the yank function directly with the Yank=
-Instance<br>
-&gt;&gt; &gt; (removing the need for register/unregister functions - tracki=
-ng the state<br>
-&gt;&gt; &gt; left to the callback). Have you tried that approach? If not, =
-I could<br>
-&gt;&gt; check<br>
-&gt;&gt; &gt; if this idea would work.<br>
-&gt;&gt;<br>
-&gt;&gt; Considering we&#39;re at v14...=C2=A0 would it make sense to commi=
-t the current<br>
-&gt;&gt; approach, then explore the alternative approach on top?<br>
-&gt;&gt;<br>
-&gt;&gt;<br>
-&gt; works for me<br>
-&gt;<br>
-&gt;&gt; If yes, is v14 committable as is?<br>
-&gt;&gt;<br>
-&gt;&gt;<br>
-&gt; Acked-by: Marc-Andr=C3=A9 Lureau &lt;<a href=3D"mailto:marcandre.lurea=
-u@redhat.com" target=3D"_blank">marcandre.lureau@redhat.com</a>&gt;<br>
-<br>
-Thanks!=C2=A0 Does your ACK apply to the series, or just to PATCH 1?<br></b=
-lockquote><div><br></div><div>I didn&#39;t look much at the rest of the ser=
-ies, but PATCH 3 too, I&#39;ll reply there.<br></div></div><br clear=3D"all=
-"><br>-- <br><div dir=3D"ltr" class=3D"gmail_signature">Marc-Andr=C3=A9 Lur=
-eau<br></div></div>
+<div dir=3D"ltr">=C2=A0Hi All,=C2=A0<div><br></div><div>I am trying to run =
+the PCM tool (=C2=A0<a href=3D"https://github.com/opcm/pcm" target=3D"_blan=
+k">https://github.com/opcm/pcm</a> ) on a VM running CentOS 7.4 running on =
+the host OS CentOS 7.4.=C2=A0</div><div><br></div><div>The tool is trying t=
+o access=C2=A0 the &quot; /sys/firmware/acpi/tables/MCFG &quot; file.=C2=A0=
+</div><div>The file is available on the host OS but not on the VM.=C2=A0 =
+=C2=A0( The error logs are attached. )=C2=A0</div><div><br></div><div>How c=
+an this file be generated? on the VM?=C2=A0<br></div><div>I am using Qemu v=
+ersion 4.1.94=C2=A0</div><div><br></div><div>Thanks=C2=A0</div><div>Bibosha=
+n Banerjee.=C2=A0</div></div>
 
---000000000000ea052405b8b4d174--
+--000000000000dae8be05b8aff36c--
+
+--000000000000dae8c205b8aff36e
+Content-Type: text/plain; charset="US-ASCII"; name="pcm-memory_ERROR.txt"
+Content-Disposition: attachment; filename="pcm-memory_ERROR.txt"
+Content-Transfer-Encoding: base64
+Content-ID: <f_kjtqto8z0>
+X-Attachment-Id: f_kjtqto8z0
+
+W3Jvb3RAbG9jYWxob3N0IHBjbV0jIC4vcGNtLW1lbW9yeS54DQoNCiBQcm9jZXNzb3IgQ291bnRl
+ciBNb25pdG9yOiBNZW1vcnkgQmFuZHdpZHRoIE1vbml0b3JpbmcgVXRpbGl0eSAgKCRGb3JtYXQ6
+JWNpIElEPSVoJCkNCg0KIFRoaXMgdXRpbGl0eSBtZWFzdXJlcyBtZW1vcnkgYmFuZHdpZHRoIHBl
+ciBjaGFubmVsIG9yIHBlciBESU1NIHJhbmsgaW4gcmVhbC10aW1lDQoNCkRldGVjdGVkIGEgaHlw
+ZXJ2aXNvci92aXJ0dWFsaXphdGlvbiB0ZWNobm9sb2d5LiBTb21lIG1ldHJpY3MgbWlnaHQgbm90
+IGJlIGF2YWlsYWJsZSBkdWUgdG8gY29uZmlndXJhdGlvbiBvciBhdmFpbGFiaWxpdHkgb2Ygdmly
+dHVhbCBoYXJkd2FyZSBmZWF0dXJlcy4NCkxpbnV4IGFyY2hfcGVyZm1vbiBmbGFnICA6IHllcw0K
+SUJSUyBhbmQgSUJQQiBzdXBwb3J0ZWQgIDogeWVzDQpTVElCUCBzdXBwb3J0ZWQgICAgICAgICAg
+OiBubw0KU3BlYyBhcmNoIGNhcHMgc3VwcG9ydGVkIDogeWVzDQpJTkZPOiBSZWR1Y2luZyB0aGUg
+bnVtYmVyIG9mIHByb2dyYW1tYWJsZSBjb3VudGVycyB0byAzIHRvIHdvcmthcm91bmQgdGhlIGZp
+eGVkIGN5Y2xlIGNvdW50ZXIgdmlydHVhbGl6YXRpb24gaXNzdWUgb24gQVdTLg0KICAgICAgWW91
+IGNhbiBkaXNhYmxlIHRoZSB3b3JrYXJvdW5kIGJ5IHNldHRpbmcgUENNX05PX0FXU19XT1JLQVJP
+VU5EPTEgZW52aXJvbm1lbnQgdmFyaWFibGUNCk51bWJlciBvZiBwaHlzaWNhbCBjb3JlczogMTgN
+Ck51bWJlciBvZiBsb2dpY2FsIGNvcmVzOiAxOA0KTnVtYmVyIG9mIG9ubGluZSBsb2dpY2FsIGNv
+cmVzOiAxOA0KVGhyZWFkcyAobG9naWNhbCBjb3JlcykgcGVyIHBoeXNpY2FsIGNvcmU6IDENCk51
+bSBzb2NrZXRzOiAxOA0KUGh5c2ljYWwgY29yZXMgcGVyIHNvY2tldDogMQ0KQ29yZSBQTVUgKHBl
+cmZtb24pIHZlcnNpb246IDINCk51bWJlciBvZiBjb3JlIFBNVSBnZW5lcmljIChwcm9ncmFtbWFi
+bGUpIGNvdW50ZXJzOiAzDQpXaWR0aCBvZiBnZW5lcmljIChwcm9ncmFtbWFibGUpIGNvdW50ZXJz
+OiA0OCBiaXRzDQpOdW1iZXIgb2YgY29yZSBQTVUgZml4ZWQgY291bnRlcnM6IDMNCldpZHRoIG9m
+IGZpeGVkIGNvdW50ZXJzOiA0OCBiaXRzDQpOb21pbmFsIGNvcmUgZnJlcXVlbmN5OiAyMTAwMDAw
+MDAwIEh6DQpJQlJTIGVuYWJsZWQgaW4gdGhlIGtlcm5lbCAgIDogeWVzDQpTVElCUCBlbmFibGVk
+IGluIHRoZSBrZXJuZWwgIDogbm8NClRoZSBwcm9jZXNzb3IgaXMgbm90IHN1c2NlcHRpYmxlIHRv
+IFJvZ3VlIERhdGEgQ2FjaGUgTG9hZDogeWVzDQpUaGUgcHJvY2Vzc29yIHN1cHBvcnRzIGVuaGFu
+Y2VkIElCUlMgICAgICAgICAgICAgICAgICAgICA6IHllcw0KUGFja2FnZSB0aGVybWFsIHNwZWMg
+cG93ZXI6IDAgV2F0dDsgUGFja2FnZSBtaW5pbXVtIHBvd2VyOiAwIFdhdHQ7IFBhY2thZ2UgbWF4
+aW11bSBwb3dlcjogMCBXYXR0Ow0KQ2FuJ3Qgb3BlbiBNQ0ZHIHRhYmxlLiBDaGVjayBwZXJtaXNz
+aW9uIG9mIC9zeXMvZmlybXdhcmUvYWNwaS90YWJsZXMvTUNGRw0KQ2FuJ3Qgb3BlbiBNQ0ZHIHRh
+YmxlLiBDaGVjayBwZXJtaXNzaW9uIG9mIC9zeXMvZmlybXdhcmUvYWNwaS90YWJsZXMvTUNGRzEN
+CkNhbid0IG9wZW4gTUNGRyB0YWJsZS4gQ2hlY2sgcGVybWlzc2lvbiBvZiAvcGNtL3N5cy9maXJt
+d2FyZS9hY3BpL3RhYmxlcy9NQ0ZHDQpDYW4ndCBvcGVuIE1DRkcgdGFibGUuIENoZWNrIHBlcm1p
+c3Npb24gb2YgL3BjbS9zeXMvZmlybXdhcmUvYWNwaS90YWJsZXMvTUNGRzENCkNhbiBub3QgYWNj
+ZXNzIHNlcnZlciB1bmNvcmUgUENJIGNvbmZpZ3VyYXRpb24gc3BhY2UuIEFjY2VzcyB0byB1bmNv
+cmUgY291bnRlcnMgKG1lbW9yeSBhbmQgUVBJIGJhbmR3aWR0aCkgaXMgZGlzYWJsZWQuDQpZb3Ug
+bXVzdCBiZSByb290IHRvIGFjY2VzcyBzZXJ2ZXIgdW5jb3JlIGNvdW50ZXJzIGluIFBDTS4NCg0K
+RGV0ZWN0ZWQgSW50ZWwoUikgWGVvbihSKSBHb2xkIDYyMzhNIENQVSBAIDIuMTBHSHogIkludGVs
+KHIpIG1pY3JvYXJjaGl0ZWN0dXJlIGNvZGVuYW1lIENhc2NhZGUgTGFrZS1TUCIgc3RlcHBpbmcg
+NyBtaWNyb2NvZGUgbGV2ZWwgMHgxDQpBY2Nlc3MgdG8gUHJvY2Vzc29yIENvdW50ZXIgTW9uaXRv
+ciBoYXMgZGVuaWVkIChubyBNU1Igb3IgUENJIENGRyBzcGFjZSBhY2Nlc3MpLg0KQ2xlYW5pbmcg
+dXANCiBaZXJvZWQgdW5jb3JlIFBNVSByZWdpc3RlcnM=
+--000000000000dae8c205b8aff36e--
 
