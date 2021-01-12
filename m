@@ -2,69 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 80E482F38FA
-	for <lists+qemu-devel@lfdr.de>; Tue, 12 Jan 2021 19:37:54 +0100 (CET)
-Received: from localhost ([::1]:54460 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BC9C92F391E
+	for <lists+qemu-devel@lfdr.de>; Tue, 12 Jan 2021 19:46:01 +0100 (CET)
+Received: from localhost ([::1]:43160 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kzOYD-000336-GR
-	for lists+qemu-devel@lfdr.de; Tue, 12 Jan 2021 13:37:53 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55416)
+	id 1kzOg2-0001fH-MA
+	for lists+qemu-devel@lfdr.de; Tue, 12 Jan 2021 13:46:00 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55462)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1kzOWW-0001Kt-Ka; Tue, 12 Jan 2021 13:36:08 -0500
-Received: from mail-ed1-x529.google.com ([2a00:1450:4864:20::529]:40521)
+ id 1kzOWc-0001XF-6P; Tue, 12 Jan 2021 13:36:14 -0500
+Received: from mail-ej1-x62f.google.com ([2a00:1450:4864:20::62f]:38446)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1kzOWV-0007Ma-4N; Tue, 12 Jan 2021 13:36:08 -0500
-Received: by mail-ed1-x529.google.com with SMTP id h16so3452689edt.7;
- Tue, 12 Jan 2021 10:36:06 -0800 (PST)
+ id 1kzOWa-0007RU-Kg; Tue, 12 Jan 2021 13:36:13 -0500
+Received: by mail-ej1-x62f.google.com with SMTP id 6so4937015ejz.5;
+ Tue, 12 Jan 2021 10:36:11 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=R0MM0ZvXm81S3gxFhlsST007qT204dpEehr2O4ofqxQ=;
- b=KjFZd81utKeR/XF08XMBeTVS9v7vUehzuq1k00/ZDOdHUVHbexNITTyQzD8t9rnSLI
- RU3252frLzqIYQB3voniiNW+NJfI7NA+68e3c+ZcpPtOaPF1ZIZmJnFc5EreipzHs0KN
- AS3PvI/ukfRcgkE9gWQrBOQxMVr0+QCOJq295MUREv8TEqcc8FeKat9gvYfYffg+jmW8
- t/sBZJ6GcEvlTZlr2J34IO1VJ+OwAoxpGa2MKlHTfGy5nngPsbyBncpSzC/qZnm4BlUr
- 9fWVahkQ+b3s2mPXWn8Ck5TNSd8IP4euMjv8w47TNvIkKtPUTWWALx2fTOvk1jftc3TY
- tA8A==
+ bh=sTf/aemsAO2NtfPs8v4zrOflI4yUb4IKKFkIlDtQdrA=;
+ b=nt3Sr93wmoNyIKcCz30xibARHh/Rs7H3fHH6D446KnXhwTyWIkulJq7KfkrYodKvru
+ aXDJt50D9ItyavdSgWtYPl7yFpSNv2eF7V/MuiMFrZwZZkOPbndH9iryksotchCc+8F/
+ TOEbXjMKvj45tc74hvq5C1imH7Q9FJFvFzBTXtnFEgMk0TMOxXQGHQHDjOK6XvGEodVd
+ 8BuSpizxXUtxillHfEMKT5BmMdhEmCGeoP0pVo0AMXBL+/vaqJy9gCJStJ9fgfODvBBk
+ NgpIAB00M16eVPPiKuFDFGYCuPLCQx1t4945XaqZtfKyVMm4rBvnUmIX/+Zkfpo1Nwnc
+ Kk3Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=R0MM0ZvXm81S3gxFhlsST007qT204dpEehr2O4ofqxQ=;
- b=MbdwDwYPma1NPjjv1qggLE2fL6BjmwJDSYHAN6+WLXmztJXuUUMt+gmidvrBWPMEH2
- GGEH4U8u7MH2Z+jLlQF3C8gmJKEZxzk7uF1at75EMqcE9uvJNT23zzj5L5wE1zb1s6ZN
- mTxv/nkxZx884ythKHvMo59to1n79u0RknBLAGpI0YXOXLnHotsC9oyxSiH/7O9JS+kv
- VJ3rCXobWswvGIT7o3hNcL7eEZt8HlDS+TviksPIThlkcKP67AQKUUvyGDOD0YVivWry
- Yaed8Yl+XA5Xa+QTV+UxF+gGvpTSxIvNdGfEWgBRLTwixOnD4dyM0c2e3uFtgVpp7R/H
- uLDQ==
-X-Gm-Message-State: AOAM532M9Mj2VVCcW0chPhy55vY3tfFUePPwun1LKBG7/qzk1zN3RlKs
- +FUtszERGJtRaMAJXjJrMEcJaxmF77Q=
-X-Google-Smtp-Source: ABdhPJx3CqJDao2pbNTliZ/mlAU1Sgl2f2xIQ2UdeyLer7cPCC4f/IRYkdl/W7uAQA+9WD6KPU/pcA==
-X-Received: by 2002:a50:8a90:: with SMTP id j16mr364550edj.334.1610476565506; 
- Tue, 12 Jan 2021 10:36:05 -0800 (PST)
+ bh=sTf/aemsAO2NtfPs8v4zrOflI4yUb4IKKFkIlDtQdrA=;
+ b=r0bJ2rakuVu7A7nuSuFEDvhsQ3C3Ks6t4FCFDJVW4g1vG50dxuC73vWo2jK5s1WeMd
+ ia4npmxvZ1AetBjpVhaUGjEFDkTMi5r5umK2w1J2XcHChIgMiTy6UWNc15uepXpkENM8
+ lMbPDQnqYdPQ0cH64Dd8Zu6Yv0D5/NixI1rgqz2sTCrrZDrtoBV6OsRSpHxz9xDUfusl
+ nwlA/2YzMG0BpsqP1b5bw5ozOR2NBbROeNVTfHPbV/lVQNoOUqx7/D0dX9kGEaoqgZy2
+ PEDuYwPBKmq+JZaXeEbGiVVQXUQ2eCBm0RtFIcayDKhXc0QbkFGmaMHMf1mfkK5igdYq
+ xDDA==
+X-Gm-Message-State: AOAM530HGW1UOD+Bcq2+LJSBgURyHxd1eJnaGQVADlORXETlRMuGhSd0
+ eKenE0EawOVhVkoOqHUzMtI=
+X-Google-Smtp-Source: ABdhPJyTLFYq815QTQiMct9wfSoFn3sulj1+mU2xMypZG7hgK72rzLWTWoiZ7LNFLtGEt9U8PIJUPw==
+X-Received: by 2002:a17:907:206a:: with SMTP id
+ qp10mr124370ejb.432.1610476571090; 
+ Tue, 12 Jan 2021 10:36:11 -0800 (PST)
 Received: from x1w.redhat.com (190.red-83-57-173.dynamicip.rima-tde.net.
  [83.57.173.190])
- by smtp.gmail.com with ESMTPSA id bo20sm1862004edb.1.2021.01.12.10.36.03
+ by smtp.gmail.com with ESMTPSA id d8sm1823526edm.75.2021.01.12.10.36.09
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 12 Jan 2021 10:36:04 -0800 (PST)
+ Tue, 12 Jan 2021 10:36:10 -0800 (PST)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 To: Bin Meng <bin.meng@windriver.com>, qemu-devel@nongnu.org,
  Bin Meng <bmeng.cn@gmail.com>
-Subject: [RFC PATCH v6 04/11] hw/ssi: imx_spi: Reduce 'change_mask' variable
- scope
-Date: Tue, 12 Jan 2021 19:35:22 +0100
-Message-Id: <20210112183529.2011863-5-f4bug@amsat.org>
+Subject: [RFC PATCH v6 05/11] hw/ssi: imx_spi: Rework imx_spi_reset() to keep
+ CONREG register value
+Date: Tue, 12 Jan 2021 19:35:23 +0100
+Message-Id: <20210112183529.2011863-6-f4bug@amsat.org>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20210112183529.2011863-1-f4bug@amsat.org>
 References: <20210112183529.2011863-1-f4bug@amsat.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::529;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-ed1-x529.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::62f;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-ej1-x62f.google.com
 X-Spam_score_int: -14
 X-Spam_score: -1.5
 X-Spam_bar: -
@@ -93,39 +94,49 @@ Cc: Peter Maydell <peter.maydell@linaro.org>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+When the block is disabled, all registers are reset with the
+exception of the ECSPI_CONREG. It is initialized to zero
+when the instance is created.
+
+Ref: i.MX 6DQ Applications Processor Reference Manual (IMX6DQRM),
+     chapter 21.7.3: Control Register (ECSPIx_CONREG)
+
 Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 ---
- hw/ssi/imx_spi.c | 3 +--
- 1 file changed, 1 insertion(+), 2 deletions(-)
+ hw/ssi/imx_spi.c | 17 ++++++++++++++---
+ 1 file changed, 14 insertions(+), 3 deletions(-)
 
 diff --git a/hw/ssi/imx_spi.c b/hw/ssi/imx_spi.c
-index 35ab33c0511..bcc535f2893 100644
+index bcc535f2893..96aecc8fa28 100644
 --- a/hw/ssi/imx_spi.c
 +++ b/hw/ssi/imx_spi.c
-@@ -303,7 +303,6 @@ static void imx_spi_write(void *opaque, hwaddr offset, uint64_t value,
+@@ -232,12 +232,23 @@ static void imx_spi_flush_txfifo(IMXSPIState *s)
+ static void imx_spi_reset(DeviceState *dev)
  {
-     IMXSPIState *s = opaque;
-     uint32_t index = offset >> 2;
--    uint32_t change_mask;
+     IMXSPIState *s = IMX_SPI(dev);
++    unsigned i;
  
-     if (index >=  ECSPI_MAX) {
-         qemu_log_mask(LOG_GUEST_ERROR, "[%s]%s: Bad register at offset 0x%"
-@@ -313,7 +312,6 @@ static void imx_spi_write(void *opaque, hwaddr offset, uint64_t value,
+     trace_imx_spi_reset();
  
-     trace_imx_spi_write(index, imx_spi_reg_name(index), value);
+-    memset(s->regs, 0, sizeof(s->regs));
+-
+-    s->regs[ECSPI_STATREG] = 0x00000003;
++    for (i = 0; i < ARRAY_SIZE(s->regs); i++) {
++        switch (i) {
++        case ECSPI_CONREG:
++            /* CONREG is not updated on reset */
++            break;
++        case ECSPI_STATREG:
++            s->regs[i] = 0x00000003;
++            break;
++        default:
++            s->regs[i] = 0;
++            break;
++        }
++    }
  
--    change_mask = s->regs[index] ^ value;
- 
-     switch (index) {
-     case ECSPI_RXDATA:
-@@ -357,6 +355,7 @@ static void imx_spi_write(void *opaque, hwaddr offset, uint64_t value,
-         }
- 
-         if (imx_spi_channel_is_master(s)) {
-+            uint32_t change_mask = s->regs[index] ^ value;
-             int i;
- 
-             /* We are in master mode */
+     imx_spi_rxfifo_reset(s);
+     imx_spi_txfifo_reset(s);
 -- 
 2.26.2
 
