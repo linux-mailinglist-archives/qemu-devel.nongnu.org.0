@@ -2,66 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D03702F304D
-	for <lists+qemu-devel@lfdr.de>; Tue, 12 Jan 2021 14:09:03 +0100 (CET)
-Received: from localhost ([::1]:58312 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EC7732F304F
+	for <lists+qemu-devel@lfdr.de>; Tue, 12 Jan 2021 14:09:56 +0100 (CET)
+Received: from localhost ([::1]:59142 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kzJPy-0003QH-CD
-	for lists+qemu-devel@lfdr.de; Tue, 12 Jan 2021 08:09:02 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59512)
+	id 1kzJQq-0003nV-23
+	for lists+qemu-devel@lfdr.de; Tue, 12 Jan 2021 08:09:56 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60014)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1kzJMm-00025Y-Fc
- for qemu-devel@nongnu.org; Tue, 12 Jan 2021 08:05:44 -0500
-Received: from indium.canonical.com ([91.189.90.7]:35720)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1kzJMg-0000zP-5R
- for qemu-devel@nongnu.org; Tue, 12 Jan 2021 08:05:44 -0500
-Received: from loganberry.canonical.com ([91.189.90.37])
- by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1kzJMe-0002Ak-40
- for <qemu-devel@nongnu.org>; Tue, 12 Jan 2021 13:05:36 +0000
-Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id F2C8F2E813B
- for <qemu-devel@nongnu.org>; Tue, 12 Jan 2021 13:05:35 +0000 (UTC)
+ (Exim 4.90_1) (envelope-from <gregkh@linuxfoundation.org>)
+ id 1kzJOC-0002tc-Cy
+ for qemu-devel@nongnu.org; Tue, 12 Jan 2021 08:07:12 -0500
+Received: from mail.kernel.org ([198.145.29.99]:59948)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <gregkh@linuxfoundation.org>)
+ id 1kzJO9-0001ct-Iq
+ for qemu-devel@nongnu.org; Tue, 12 Jan 2021 08:07:11 -0500
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 6B8702311B;
+ Tue, 12 Jan 2021 13:07:06 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+ s=korg; t=1610456827;
+ bh=AAVThBMSN6NMX4AAzXi3Ln1jtkaPVvhGY2TI/Z+L7Rg=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=fgNjEF4bQdQXvkrVWWOBJEs9lwF3zlEYBpaLq2P7eKlpF9UPyUE6NJAvZm8wN9W82
+ ggBNPpR194gK7PWvF53LvENanWLNE2Xc4euoiB+XV703LhvaVvRBf+gAz7lq1/mVsG
+ ESqElFii2bw4Tp2l0o/2c7sKMM98oMS3tHStF1Do=
+Date: Tue, 12 Jan 2021 14:08:15 +0100
+From: Greg KH <gregkh@linuxfoundation.org>
+To: Adrian Catangiu <acatan@amazon.com>
+Subject: Re: [PATCH v4 1/2] drivers/misc: sysgenid: add system generation id
+ driver
+Message-ID: <X/2fP9LNWXvp7up9@kroah.com>
+References: <1610453760-13812-1-git-send-email-acatan@amazon.com>
+ <1610453760-13812-2-git-send-email-acatan@amazon.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-Date: Tue, 12 Jan 2021 12:59:59 -0000
-From: Daniel Berrange <1911188@bugs.launchpad.net>
-To: qemu-devel@nongnu.org
-X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
-X-Launchpad-Bug-Information-Type: Public
-X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: berrange phidica
-X-Launchpad-Bug-Reporter: Violet (phidica)
-X-Launchpad-Bug-Modifier: Daniel Berrange (berrange)
-References: <161045460597.3279.18327990327654492890.malonedeb@chaenomeles.canonical.com>
-Message-Id: <161045639956.30218.3367991586311362191.malone@chaenomeles.canonical.com>
-Subject: [Bug 1911188] Re: qemu-system-x86_64 prints obscure error message and
- exits when encountering an empty argument
-X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
-X-Launchpad-Message-For: qemu-devel-ml
-Precedence: bulk
-X-Generated-By: Launchpad (canonical.com);
- Revision="511b4a3b6512aa3d421c5f7d74f3527e78bff26e"; Instance="production"
-X-Launchpad-Hash: 889d5a5eb73b7c9178e310ad0146ba4175c23d49
-Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
- helo=indium.canonical.com
-X-Spam_score_int: -65
-X-Spam_score: -6.6
-X-Spam_bar: ------
-X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9,
- HEADER_FROM_DIFFERENT_DOMAINS=0.249, RCVD_IN_DNSWL_HI=-5,
- RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <1610453760-13812-2-git-send-email-acatan@amazon.com>
+Received-SPF: pass client-ip=198.145.29.99;
+ envelope-from=gregkh@linuxfoundation.org; helo=mail.kernel.org
+X-Spam_score_int: -70
+X-Spam_score: -7.1
+X-Spam_bar: -------
+X-Spam_report: (-7.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_DNSWL_HI=-5,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -70,57 +60,78 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1911188 <1911188@bugs.launchpad.net>
+Cc: Jason@zx2c4.com, dgunigun@redhat.com, kvm@vger.kernel.org,
+ linux-doc@vger.kernel.org, ghammer@redhat.com, vijaysun@ca.ibm.com,
+ 0x7f454c46@gmail.com, qemu-devel@nongnu.org, mhocko@kernel.org,
+ oridgar@gmail.com, avagin@gmail.com, pavel@ucw.cz, ptikhomirov@virtuozzo.com,
+ linux-s390@vger.kernel.org, corbet@lwn.net, mpe@ellerman.id.au, mst@redhat.com,
+ ebiggers@kernel.org, borntraeger@de.ibm.com, sblbir@amazon.com,
+ bonzini@gnu.org, arnd@arndb.de, jannh@google.com, raduweis@amazon.com,
+ asmehra@redhat.com, graf@amazon.com, rppt@kernel.org, luto@kernel.org,
+ gil@azul.com, colmmacc@amazon.com, tytso@mit.edu, ovzxemul@gmail.com,
+ areber@redhat.com, linux-kernel@vger.kernel.org, ebiederm@xmission.com,
+ rafael@kernel.org, w@1wt.eu, dwmw@amazon.co.uk
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-If QEMU receives an argument that isn't an option flag, then it
-considers it to be the path to a disk. The block code treats the empty
-string as indicating that no backing file should be opened for the
-device. This only makes sense for devices that support removable media
-(ie CDROM, floppy), hence getting an error message for the ide-hd disk.
+On Tue, Jan 12, 2021 at 02:15:59PM +0200, Adrian Catangiu wrote:
+> +``read()``:
+> +  Read is meant to provide the *new* system generation counter when a
+> +  generation change takes place. The read operation blocks until the
+> +  associated counter is no longer up to date, at which point the new
+> +  counter is provided/returned.
+> +  Nonblocking ``read()`` uses ``EAGAIN`` to signal that there is no
+> +  *new* counter value available. The generation counter is considered
+> +  *new* for each open file descriptor that hasn't confirmed the new
+> +  value following a generation change. Therefore, once a generation
+> +  change takes place, all ``read()`` calls will immediately return the
+> +  new generation counter and will continue to do so until the
+> +  new value is confirmed back to the driver through ``write()``.
+> +  Partial reads are not allowed - read buffer needs to be at least
+> +  ``sizeof(unsigned)`` in size.
 
-So weird as this message might seem, I believe it does ultimately make
-sense, and I don't think we can just ignore the empty string without
-potentially breaking other things.
+"sizeof(unsigned)"?  How about being specific and making this a real "X
+bits big" value please.
 
--- =
+"unsigned" does not work well across user/kernel boundries.  Ok, that's
+on understatement, the correct thing is "does not work at all".
 
-You received this bug notification because you are a member of qemu-
-devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1911188
+Please be specific in your apis.
 
-Title:
-  qemu-system-x86_64 prints obscure error message and exits when
-  encountering an empty argument
+This is listed elsewhere also.
 
-Status in QEMU:
-  New
+> +``write()``:
+> +  Write is used to confirm the up-to-date Sys Gen counter back to the
+> +  driver.
+> +  Following a VM generation change, all existing watchers are marked
+> +  as *outdated*. Each file descriptor will maintain the *outdated*
+> +  status until a ``write()`` confirms the up-to-date counter back to
+> +  the driver.
+> +  Partial writes are not allowed - write buffer should be exactly
+> +  ``sizeof(unsigned)`` in size.
+> +
+> +``poll()``:
+> +  Poll is implemented to allow polling for generation counter updates.
+> +  Such updates result in ``EPOLLIN`` polling status until the new
+> +  up-to-date counter is confirmed back to the driver through a
+> +  ``write()``.
+> +
+> +``ioctl()``:
+> +  The driver also adds support for tracking count of open file
+> +  descriptors that haven't acknowledged a generation counter update,
+> +  as well as a mechanism for userspace to *force* a generation update:
+> +
+> +  - SYSGENID_GET_OUTDATED_WATCHERS: immediately returns the number of
+> +    *outdated* watchers - number of file descriptors that were open
+> +    during a system generation change, and which have not yet confirmed
+> +    the new generation counter.
 
-Bug description:
-  QEMU emulator version 4.2.1 (qemu-4.2.1-1.fc32) on Fedora 32.
+But this number can instantly change after it is read, what good is it?
+It should never be relied on, so why is this needed at all?
 
-  When writing a script to start qemu automatically, I ran into a very
-  confusing error message due to a bug in my script and had trouble
-  understanding it. I isolated the problem to the following:
+What can userspace do with this information?
 
-  $ qemu-system-x86_64 ""
-  qemu-system-x86_64: Initialization of device ide-hd failed: Device needs =
-media, but drive is empty
+thanks,
 
-  As you can see, running qemu with an empty argument prints a seemingly
-  random and unrelated error message about an ide-hd device, and the
-  program immediately exits with code 1. This happens when an empty
-  argument appears anywhere in the arguments list, always causing the
-  program to immediately die with this error.
-
-  This is a simply baffling message to be encountering when the problem
-  is really an empty argument.
-
-  Expected behaviour: Either flatly ignore the empty argument, or at
-  most trigger a warning (eg, "warning: saw empty argument"). It should
-  not at all prevent the program from running.
-
-To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1911188/+subscriptions
+greg k-h
 
