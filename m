@@ -2,74 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id ED1132F3BB9
-	for <lists+qemu-devel@lfdr.de>; Tue, 12 Jan 2021 22:08:08 +0100 (CET)
-Received: from localhost ([::1]:42688 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3A4852F3BB8
+	for <lists+qemu-devel@lfdr.de>; Tue, 12 Jan 2021 22:06:19 +0100 (CET)
+Received: from localhost ([::1]:37710 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kzQtb-00023D-Us
-	for lists+qemu-devel@lfdr.de; Tue, 12 Jan 2021 16:08:07 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35754)
+	id 1kzQrq-0008Jt-9Q
+	for lists+qemu-devel@lfdr.de; Tue, 12 Jan 2021 16:06:18 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36178)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jpewhacker@gmail.com>)
- id 1kzQoO-0004kx-NL
- for qemu-devel@nongnu.org; Tue, 12 Jan 2021 16:02:44 -0500
-Received: from mail-oi1-x22a.google.com ([2607:f8b0:4864:20::22a]:46938)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1kzQps-000721-6p
+ for qemu-devel@nongnu.org; Tue, 12 Jan 2021 16:04:16 -0500
+Received: from mail-pl1-x631.google.com ([2607:f8b0:4864:20::631]:35458)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <jpewhacker@gmail.com>)
- id 1kzQoN-00081s-4m
- for qemu-devel@nongnu.org; Tue, 12 Jan 2021 16:02:44 -0500
-Received: by mail-oi1-x22a.google.com with SMTP id q205so3795637oig.13
- for <qemu-devel@nongnu.org>; Tue, 12 Jan 2021 13:02:42 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=wA1Olew9SX3UK3sLbOhqAXGgUJnTyIMPBI7bKnFIgQc=;
- b=QVb05CB+SFhGTXwQfoVfFu2tcIPGp5/y5tVwEVHM3NbDLYemzgB6oUpdQHLtjhFaTm
- 4M6ztBp7cvPHEx9ReSNINsPVNu/mmZ9f3t6cDfTdxIL0zVPfsOhiD00/nOI56YsGq1aN
- +ijhL4trl+ODUFuL4X4NFn8XtkfhbFFUn1+qenSGSNVbOH7h0g0LUo2d3wRslx68WTgQ
- 3UbhICjf9SpIED4oWw4ODqlbK1chD7UYRXpgKfa4JCSv7ConoF0FJQeWk+ny3joQ7knB
- 1sS8TmO/zygloRVZFdAJBIVFqFty7QoIlIqkA/Jk2XHyRYpvwIEFE3QPcfIU/kRQkM6Z
- 5pwg==
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1kzQpq-00006L-KG
+ for qemu-devel@nongnu.org; Tue, 12 Jan 2021 16:04:15 -0500
+Received: by mail-pl1-x631.google.com with SMTP id g3so2105873plp.2
+ for <qemu-devel@nongnu.org>; Tue, 12 Jan 2021 13:04:14 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=QHWJqvdEGGlIyfckLRxXx1RAqWiM08vwqtkSa+jKPsw=;
+ b=VHWbVERk3eASe+NY+azbQeG9Ji6JMY7RniVKQpTVEdaSS3PZTsLmb4w/dwqFMp/Cfa
+ T4fLReQI1mWerWmMwb935OInX4KgTUoi4hpgrEm6wR1G4BARlrSf9JeHLWAhPYoOJ0YR
+ /uE1F621uT2THzmHTAoTg83h2/ykrmL5t69dgqRTCnmXe2RoajH5bKOQ0COwC83vkabX
+ uToWGsjPw9pdlAPxWkq1aIdG/+RvU4/WBNKrv1dQBzOHrS1Qb3Dk2gLnwhcKfMFSHfjp
+ r+lgFb738cZc4wa0xoUyApC7NqfIZeudj35gMrbJg2tlTsrqDSN3Q5OhEUA9oQyFF+aE
+ BPZA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=wA1Olew9SX3UK3sLbOhqAXGgUJnTyIMPBI7bKnFIgQc=;
- b=DZ52I7oHYXYckZuTTWur/YLW7lzyFKJObfsrz+ctTl0+jGEKxJi2mCs4K2Q8u3VuWO
- YFOrfBYWnKoYINOrohHT1bSAg+C5xQtxknjc60MpLPEWN8MbY+NMEC3dNwZvVNCCAdtw
- oWJrCHRpG1P6tsaqaf2O7as15vYlGUzHVGV36h1PjPVe1w50ZGU/cOeBb43/cCsevNSC
- fd41s/iuzLYER7zvxeWqKfRsTOJaugx2cXKnvQ/3s1vj8546G9h4irF6l2xVMngn9Xbt
- keqMxikzTAQ9o2sNQxTdkPrdTLsYTN4Fw1ZAyF+RWdsILELf7OVTJq/lJCISEqtDcuF0
- JqKQ==
-X-Gm-Message-State: AOAM532Z8x+8RyHqTIfZkjQVmXgQ10UqdLoUgB95lsOJ/ChX0P0J3OKh
- zmNqOhkiMesqcQR+aCiGyr4i8lokNYiUBQ==
-X-Google-Smtp-Source: ABdhPJwHyDoSDtpbnM9l0DJfy9VxJD30kCInY9CukDCu6uAw0QF7RvAfNhOmh2KO2DU2YpgVBYFWKg==
-X-Received: by 2002:aca:5e42:: with SMTP id s63mr670540oib.96.1610485361250;
- Tue, 12 Jan 2021 13:02:41 -0800 (PST)
-Received: from localhost.localdomain ([2605:a601:ac3d:c100:e3e8:d9:3a56:e27d])
- by smtp.gmail.com with ESMTPSA id
- e10sm880160otl.38.2021.01.12.13.02.40
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 12 Jan 2021 13:02:40 -0800 (PST)
-From: Joshua Watt <jpewhacker@gmail.com>
-X-Google-Original-From: Joshua Watt <JPEWhacker@gmail.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH v2] configure: MinGW respect --bindir argument
-Date: Tue, 12 Jan 2021 15:02:39 -0600
-Message-Id: <20210112210239.28836-1-JPEWhacker@gmail.com>
-X-Mailer: git-send-email 2.30.0
-In-Reply-To: <20210107213856.34170-1-JPEWhacker@gmail.com>
-References: <20210107213856.34170-1-JPEWhacker@gmail.com>
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=QHWJqvdEGGlIyfckLRxXx1RAqWiM08vwqtkSa+jKPsw=;
+ b=Hl2QRtK5Uu8x1QnchRaFyYME5ujZw4qqLksU0gEuJqokt5wa4chkI4O0M1cCFGb5Ay
+ d5ZgYS7rYqLLnHn8QwqMDultC+Jr21QLVWzB/aldIIaZTS5y79XmUhZMJyaPYlUbRo2y
+ 9ZvHH5demg1Z9dkS1Spe8Qe+/2OR8M+Gan6jIrh30bddFeU6c2f0oFKeCwINy7fldbG/
+ vS8idZw5nwQq8hGaGpAwra5L8H49wmgVPRML+lzNAcNDlZFL0rfk6UHfDZwT7PEwqwiG
+ a+R6xYDRGKsIs4mVZwUKXoC/MCNfPkGp5pAGCJMUxoA1yI0TckgBSbgSHlfhahhS/XSW
+ 46vA==
+X-Gm-Message-State: AOAM531oqBfrlM+Oa7BsgokMtVp/t8wVp9WJUkn4IVbRbVBq8OYLznmo
+ khGqp2p3UPyX4EZjJvRG4t3uiT33CGanPQ==
+X-Google-Smtp-Source: ABdhPJwP9MqE39LtHCA4pypQdbguFUurujF/pS1UgBQjuN/HrfrBpzzlKhVk2JQ/uw34alv3Zi7KEQ==
+X-Received: by 2002:a17:90a:4209:: with SMTP id
+ o9mr1047118pjg.75.1610485452844; 
+ Tue, 12 Jan 2021 13:04:12 -0800 (PST)
+Received: from [10.25.18.36] (rrcs-173-197-107-21.west.biz.rr.com.
+ [173.197.107.21])
+ by smtp.gmail.com with ESMTPSA id g2sm4962214pjd.18.2021.01.12.13.04.11
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 12 Jan 2021 13:04:12 -0800 (PST)
+Subject: Re: [PATCH 16/19] target/arm: revector to run-time pick target EL
+To: remi.denis.courmont@huawei.com, qemu-arm@nongnu.org
+References: <12681824.uLZWGnKmhe@basile.remlab.net>
+ <20210112104511.36576-16-remi.denis.courmont@huawei.com>
+From: Richard Henderson <richard.henderson@linaro.org>
+Message-ID: <f8bc3a75-363b-f1f0-b97a-c11447ff2e85@linaro.org>
+Date: Tue, 12 Jan 2021 11:04:09 -1000
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
 MIME-Version: 1.0
+In-Reply-To: <20210112104511.36576-16-remi.denis.courmont@huawei.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::22a;
- envelope-from=jpewhacker@gmail.com; helo=mail-oi1-x22a.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::631;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x631.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -84,68 +89,25 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: pbonzini@redhat.com, thuth@redhat.com, luoyonggang@gmail.com,
- Joshua Watt <JPEWhacker@gmail.com>
+Cc: qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-There are two cases that need to be accounted for when compiling QEMU
-for MinGW32:
- 1) A standalone distribution, where QEMU is self contained and
-    extracted by the user, such as a user would download from the QEMU
-    website. In this case, all the QEMU executable files should be
-    rooted in $prefix to ensure they can be easily found by the user
- 2) QEMU integrated into a distribution image/sysroot/SDK and
-    distributed with other programs. In this case, the provided
-    arguments for bindir/datadir/etc. should be respected as they for a
-    Linux build.
+On 1/12/21 12:45 AM, remi.denis.courmont@huawei.com wrote:
+> From: Rémi Denis-Courmont <remi.denis.courmont@huawei.com>
+> 
+> On ARMv8-A, accesses by 32-bit secure EL1 to monitor registers trap to
+> the upper (64-bit) EL. With Secure EL2 support, we can no longer assume
+> that that is always EL3, so make room for the value to be computed at
+> run-time.
+> 
+> Signed-off-by: Rémi Denis-Courmont <remi.denis.courmont@huawei.com>
+> ---
+>  target/arm/translate.c | 23 +++++++++++++++++++++--
+>  1 file changed, 21 insertions(+), 2 deletions(-)
 
-Restructures the MinGW path configuration so that all of the paths
-except bindir use the same rules as when building for other platforms.
-This satisfies #2 and #1 since these files do not need to be directly in
-$prefix anyway.
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 
-The handling for --bindir is changed so that it defaults to $prefix on
-MinGW (maintaining the compatibility with #1), but if the user specifies
-a specific path when configuring it can also satisfy #2.
 
-Signed-off-by: Joshua Watt <JPEWhacker@gmail.com>
----
- configure | 17 ++++++-----------
- 1 file changed, 6 insertions(+), 11 deletions(-)
-
-diff --git a/configure b/configure
-index 5860bdb77b..092e2926bc 100755
---- a/configure
-+++ b/configure
-@@ -1571,20 +1571,15 @@ libexecdir="${libexecdir:-$prefix/libexec}"
- includedir="${includedir:-$prefix/include}"
- 
- if test "$mingw32" = "yes" ; then
--    mandir="$prefix"
--    datadir="$prefix"
--    docdir="$prefix"
--    bindir="$prefix"
--    sysconfdir="$prefix"
--    local_statedir="$prefix"
-+    bindir="${bindir:-$prefix}"
- else
--    mandir="${mandir:-$prefix/share/man}"
--    datadir="${datadir:-$prefix/share}"
--    docdir="${docdir:-$prefix/share/doc}"
-     bindir="${bindir:-$prefix/bin}"
--    sysconfdir="${sysconfdir:-$prefix/etc}"
--    local_statedir="${local_statedir:-$prefix/var}"
- fi
-+mandir="${mandir:-$prefix/share/man}"
-+datadir="${datadir:-$prefix/share}"
-+docdir="${docdir:-$prefix/share/doc}"
-+sysconfdir="${sysconfdir:-$prefix/etc}"
-+local_statedir="${local_statedir:-$prefix/var}"
- firmwarepath="${firmwarepath:-$datadir/qemu-firmware}"
- localedir="${localedir:-$datadir/locale}"
- 
--- 
-2.30.0
-
+r~
 
