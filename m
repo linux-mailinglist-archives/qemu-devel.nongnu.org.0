@@ -2,37 +2,37 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 484F62F28EE
-	for <lists+qemu-devel@lfdr.de>; Tue, 12 Jan 2021 08:32:51 +0100 (CET)
-Received: from localhost ([::1]:50408 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 03AFC2F2900
+	for <lists+qemu-devel@lfdr.de>; Tue, 12 Jan 2021 08:35:51 +0100 (CET)
+Received: from localhost ([::1]:53054 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kzEAc-000350-CE
-	for lists+qemu-devel@lfdr.de; Tue, 12 Jan 2021 02:32:50 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35690)
+	id 1kzEDW-0004KG-4n
+	for lists+qemu-devel@lfdr.de; Tue, 12 Jan 2021 02:35:50 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36870)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <remi@remlab.net>)
- id 1kzE7g-000218-1X; Tue, 12 Jan 2021 02:29:49 -0500
-Received: from poy.remlab.net ([2001:41d0:2:5a1a::]:54780
+ id 1kzEBn-0003jb-3i; Tue, 12 Jan 2021 02:34:03 -0500
+Received: from poy.remlab.net ([2001:41d0:2:5a1a::]:54816
  helo=ns207790.ip-94-23-215.eu)
  by eggs.gnu.org with esmtp (Exim 4.90_1)
  (envelope-from <remi@remlab.net>)
- id 1kzE7e-0004Nf-EP; Tue, 12 Jan 2021 02:29:47 -0500
+ id 1kzEBl-0005sJ-CU; Tue, 12 Jan 2021 02:34:02 -0500
 Received: from basile.remlab.net (dzyqn8ypzhx7l91mxjsvy-3.rev.dnainternet.fi
  [IPv6:2001:14ba:a01a:be01:9434:f69e:d553:3be2])
  (Authenticated sender: remi)
- by ns207790.ip-94-23-215.eu (Postfix) with ESMTPSA id 0D8A75FCEF;
- Tue, 12 Jan 2021 08:29:44 +0100 (CET)
+ by ns207790.ip-94-23-215.eu (Postfix) with ESMTPSA id A13DC5FCEF;
+ Tue, 12 Jan 2021 08:33:58 +0100 (CET)
 From: =?ISO-8859-1?Q?R=E9mi?= Denis-Courmont <remi.denis.courmont@huawei.com>
 To: qemu-arm@nongnu.org
-Subject: Re: [PATCH 14/18] target/arm: secure stage 2 translation regime
-Date: Tue, 12 Jan 2021 09:29:43 +0200
-Message-ID: <5671680.lOV4Wx5bFT@basile.remlab.net>
+Subject: Re: [PATCH 16/18] target/arm: add ARMv8.4-SEL2 extension
+Date: Tue, 12 Jan 2021 09:33:58 +0200
+Message-ID: <4284205.LvFx2qVVIh@basile.remlab.net>
 Organization: Huawei Technologies, Finland
-In-Reply-To: <e46f18fc-8add-fea5-f598-c10570e7895c@linaro.org>
+In-Reply-To: <4e32ca89-51aa-85d1-0a8f-e9aa7e037be4@linaro.org>
 References: <3337797.iIbC2pHGDl@basile.remlab.net>
- <20201218103759.19929-14-remi.denis.courmont@huawei.com>
- <e46f18fc-8add-fea5-f598-c10570e7895c@linaro.org>
+ <20201218103759.19929-16-remi.denis.courmont@huawei.com>
+ <4e32ca89-51aa-85d1-0a8f-e9aa7e037be4@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 Content-Type: text/plain; charset="UTF-8"
@@ -60,37 +60,47 @@ Cc: qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Le tiistaina 12. tammikuuta 2021, 2.20.31 EET Richard Henderson a =C3=A9cri=
+Le tiistaina 12. tammikuuta 2021, 2.13.29 EET Richard Henderson a =C3=A9cri=
 t :
 > On 12/18/20 12:37 AM, remi.denis.courmont@huawei.com wrote:
-> > @@ -3586,10 +3586,10 @@ static void ats_write(CPUARMState *env, const
-> > ARMCPRegInfo *ri, uint64_t value)>=20
-> >              /* fall through */
-> >         =20
-> >          case 1:
-> >              if (ri->crm =3D=3D 9 && (env->uncached_cpsr & CPSR_PAN)) {
+> > @@ -3297,7 +3301,7 @@ typedef ARMCPU ArchCPU;
 > >=20
-> > -                mmu_idx =3D (secure ? ARMMMUIdx_SE10_1_PAN
-> > +                mmu_idx =3D (secure ? ARMMMUIdx_Stage1_SE1_PAN
+> >   * We put flags which are shared between 32 and 64 bit mode at the top
+> >   * of the word, and flags which apply to only one mode at the bottom.
+> >   *
 > >=20
-> >                             : ARMMMUIdx_Stage1_E1_PAN);
-> >             =20
-> >              } else {
+> > - *  31          20    18    14          9              0
+> > + *  31          20    19    14          9              0
 > >=20
-> > -                mmu_idx =3D secure ? ARMMMUIdx_SE10_1 :
-> > ARMMMUIdx_Stage1_E1;
-> > +                mmu_idx =3D secure ? ARMMMUIdx_Stage1_SE1 :
-> > ARMMMUIdx_Stage1_E1;
-> > >=20
-> >              }
-> >              break;
+> >   * +--------------+-----+-----+----------+--------------+
+> >   * |              |     |   TBFLAG_A32   |              |
+> >   * |              |     +-----+----------+  TBFLAG_AM32 |
+> >=20
+> > @@ -3346,6 +3350,7 @@ FIELD(TBFLAG_A32, HSTR_ACTIVE, 16, 1)
+> >=20
+> >   * the same thing as the current security state of the processor!
+> >   */
+> > =20
+> >  FIELD(TBFLAG_A32, NS, 17, 1)
+> >=20
+> > +FIELD(TBFLAG_A32, EEL2, 18, 1)
 >=20
-> Was this a bug that we weren't treating SE10 properly vs two-stage lookup=
-?=20
-> If so, it warrants mentioning in the patch description.
+> Note that via other in-flight patch sets we have run out of bits here.  I=
+'ve
+> rearranged them in
+>=20
+> https://patchew.org/QEMU/20210111190113.303726-1-richard.henderson@linaro=
+=2Eor
+> g/
+>=20
+> This should be nothing but a minor confict to fix up.
 
-I don't think so. There was no Stage1_SE1 before this patch in the first pl=
-ace.
+I think we should get rid of that flag that's hardly if at all ever going t=
+o be=20
+used. It should be possible to bypass gen_exception*() straight to=20
+gen_helper_exception_with_syndrome(), so that the target EL can be computed=
+ at=20
+run-time.
 
 =2D-=20
 R=C3=A9mi Denis-Courmont
