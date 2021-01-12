@@ -2,70 +2,48 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 207142F3870
-	for <lists+qemu-devel@lfdr.de>; Tue, 12 Jan 2021 19:19:39 +0100 (CET)
-Received: from localhost ([::1]:33628 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A1C9F2F38CC
+	for <lists+qemu-devel@lfdr.de>; Tue, 12 Jan 2021 19:27:24 +0100 (CET)
+Received: from localhost ([::1]:55352 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kzOGY-0006HF-59
-	for lists+qemu-devel@lfdr.de; Tue, 12 Jan 2021 13:19:38 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45796)
+	id 1kzOO3-0008NK-FS
+	for lists+qemu-devel@lfdr.de; Tue, 12 Jan 2021 13:27:23 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47900)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <wuhaotsh@google.com>)
- id 1kzNu7-0001Bd-8T
- for qemu-devel@nongnu.org; Tue, 12 Jan 2021 12:56:27 -0500
-Received: from mail-lf1-x135.google.com ([2a00:1450:4864:20::135]:34902)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <wuhaotsh@google.com>)
- id 1kzNu2-0002p2-I3
- for qemu-devel@nongnu.org; Tue, 12 Jan 2021 12:56:26 -0500
-Received: by mail-lf1-x135.google.com with SMTP id u25so4713374lfc.2
- for <qemu-devel@nongnu.org>; Tue, 12 Jan 2021 09:56:20 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=KO6qDQIbEVkoF4M7Euju23RL8XH28UtY0vMBbtDUReM=;
- b=hCmYdERKuPZ7R/+6QpEFUdRydSaiWz5cEUp4TIG6b6oovl0vXZF8K4CeXaNNGb2DwG
- cSEqqT191373odWbZhVZp72WOL6yxg9bXKssFc3pquGy1cgFyxSGByfyK0lHFsE+Oglg
- GMtLtdSjh/fXOXgUnXTKFr5AECdydygoW9gHF/+YZx8NZ9c8/xgs/XsSzcRjINoezsh1
- 5ueadS44s+KCiMSanreOfIrPTyr40dn53pO28US67neCP2WvrDbYsmktY1b76GgT3mpY
- i9jVgbIn4G8R3by+7ZwlKiJg8NfX8YiYkrpRQA8J+F6emNqxWHmTnbLhPpK5TaWy8krR
- DnoQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=KO6qDQIbEVkoF4M7Euju23RL8XH28UtY0vMBbtDUReM=;
- b=sUezbmqCYxyVp2WIKtveXicCDP31z1tmoa3TRScJo5+HK216GGkLW6h4uToctdmjvk
- ZTPRtARnePUkPV+5j2OeBj4MsCnvYhHcJM4F4E4k2mpHxUjcUZAFYV8UncS7SwRRtDbs
- xB3UovDTZ6xkFRYAM5/3VNdMov8o6uA+VRGsqBh1BlErrIK/uep3EsgKEfvbbS5xk59D
- mmZFOC+t6+Kz5c0hht6+SU3geJ1U+KTps22Num0GknziHMVxt5p0LcTcH+6a2pfeDINd
- XiDIhK1PuyINrm44avrDDh63qzn2AZr5TuN6O14B7dgycU5OjcgFYSZqgFZjrneqZOPk
- 3ULg==
-X-Gm-Message-State: AOAM531FeSZ+1Vlcpp6mjczzBboe90SbH9BLKuBWgi4yHDIBxdE1w/tV
- ybjKk3n76FmDH8J9MEfZaVrFqz+l8tRm+EmfNGPScA==
-X-Google-Smtp-Source: ABdhPJykji0NDh7S1S1HcRqwfKA+FoIidauZvzWV8HkRzpwMiuekXGL0LBcY+fkjil7gnq+P7ebQfuV6VLOt8XSRirg=
-X-Received: by 2002:ac2:5689:: with SMTP id 9mr45549lfr.175.1610474178824;
- Tue, 12 Jan 2021 09:56:18 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1kzO0m-0005D0-GK
+ for qemu-devel@nongnu.org; Tue, 12 Jan 2021 13:03:20 -0500
+Received: from mx2.suse.de ([195.135.220.15]:33296)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1kzO0j-0004sJ-NZ
+ for qemu-devel@nongnu.org; Tue, 12 Jan 2021 13:03:20 -0500
+X-Virus-Scanned: by amavisd-new at test-mx.suse.de
+Received: from relay2.suse.de (unknown [195.135.221.27])
+ by mx2.suse.de (Postfix) with ESMTP id DDA0AACAD;
+ Tue, 12 Jan 2021 18:03:15 +0000 (UTC)
+From: Claudio Fontana <cfontana@suse.de>
+To: Paolo Bonzini <pbonzini@redhat.com>, Thomas Huth <thuth@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ Stefano Stabellini <sstabellini@kernel.org>,
+ Wenchao Wang <wenchao.wang@intel.com>,
+ Roman Bolshakov <r.bolshakov@yadro.com>,
+ Sunil Muthuswamy <sunilmut@microsoft.com>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
+Subject: [PATCH v12 00/22] i386 cleanup PART 2
+Date: Tue, 12 Jan 2021 19:02:50 +0100
+Message-Id: <20210112180312.26043-1-cfontana@suse.de>
+X-Mailer: git-send-email 2.26.2
 MIME-Version: 1.0
-References: <20210112143058.12159-1-maxim.uvarov@linaro.org>
- <20210112143058.12159-2-maxim.uvarov@linaro.org>
-In-Reply-To: <20210112143058.12159-2-maxim.uvarov@linaro.org>
-Date: Tue, 12 Jan 2021 09:56:05 -0800
-Message-ID: <CAGcCb130kODs-LWoYSm_RbuB3A7AqSfqoQg4ktq4Ssn0ab+FYw@mail.gmail.com>
-Subject: Re: [PATCHv4 1/2] hw: gpio: implement gpio-pwr driver for qemu
- reset/poweroff
-To: Maxim Uvarov <maxim.uvarov@linaro.org>
-Content-Type: multipart/alternative; boundary="00000000000059a4a205b8b7bd8f"
-Received-SPF: pass client-ip=2a00:1450:4864:20::135;
- envelope-from=wuhaotsh@google.com; helo=mail-lf1-x135.google.com
-X-Spam_score_int: -175
-X-Spam_score: -17.6
-X-Spam_bar: -----------------
-X-Spam_report: (-17.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_MED=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- ENV_AND_HDR_SPF_MATCH=-0.5, HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001, USER_IN_DEF_DKIM_WL=-7.5,
- USER_IN_DEF_SPF_WL=-7.5 autolearn=unavailable autolearn_force=no
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=195.135.220.15; envelope-from=cfontana@suse.de;
+ helo=mx2.suse.de
+X-Spam_score_int: -41
+X-Spam_score: -4.2
+X-Spam_bar: ----
+X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
+ RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -78,291 +56,380 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>, Jose.Marinho@arm.com,
- QEMU Developers <qemu-devel@nongnu.org>,
- =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>,
- tf-a@lists.trustedfirmware.org, qemu-arm <qemu-arm@nongnu.org>
+Cc: Laurent Vivier <lvivier@redhat.com>,
+ Peter Maydell <peter.maydell@linaro.org>,
+ Eduardo Habkost <ehabkost@redhat.com>, Paul Durrant <paul@xen.org>,
+ Jason Wang <jasowang@redhat.com>, Marcelo Tosatti <mtosatti@redhat.com>,
+ qemu-devel@nongnu.org, Peter Xu <peterx@redhat.com>,
+ Dario Faggioli <dfaggioli@suse.com>, Cameron Esfahani <dirty@apple.com>,
+ haxm-team@intel.com, Claudio Fontana <cfontana@suse.de>,
+ Anthony Perard <anthony.perard@citrix.com>, Bruce Rogers <brogers@suse.com>,
+ Olaf Hering <ohering@suse.de>, "Emilio G . Cota" <cota@braap.org>,
+ Colin Xu <colin.xu@intel.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
-Reply-to: Hao Wu <wuhaotsh@google.com>
-From: Hao Wu via <qemu-devel@nongnu.org>
 
---00000000000059a4a205b8b7bd8f
-Content-Type: text/plain; charset="UTF-8"
+Hello, this is version 12 of the cleanup, PART 2.
 
-On Tue, Jan 12, 2021 at 6:36 AM Maxim Uvarov <maxim.uvarov@linaro.org>
-wrote:
+v11 -> v12: reordered patches and improved tcg_ops
 
-> Implement gpio-pwr driver to allow reboot and poweroff machine.
-> This is simple driver with just 2 gpios lines. Current use case
-> is to reboot and poweroff virt machine in secure mode. Secure
-> pl066 gpio chip is needed for that.
->
-> Signed-off-by: Maxim Uvarov <maxim.uvarov@linaro.org>
->
-Reviewed-by: Hao Wu <wuhaotsh@google.com>
+* reordered all TcgCpuOperations stuff so it is at the beginning
 
-> ---
->  hw/gpio/Kconfig     |  3 ++
->  hw/gpio/gpio_pwr.c  | 70 +++++++++++++++++++++++++++++++++++++++++++++
->  hw/gpio/meson.build |  1 +
->  3 files changed, 74 insertions(+)
->  create mode 100644 hw/gpio/gpio_pwr.c
->
-> diff --git a/hw/gpio/Kconfig b/hw/gpio/Kconfig
-> index b6fdaa2586..f0e7405f6e 100644
-> --- a/hw/gpio/Kconfig
-> +++ b/hw/gpio/Kconfig
-> @@ -8,5 +8,8 @@ config PL061
->  config GPIO_KEY
->      bool
->
-> +config GPIO_PWR
-> +    bool
-> +
->  config SIFIVE_GPIO
->      bool
-> diff --git a/hw/gpio/gpio_pwr.c b/hw/gpio/gpio_pwr.c
-> new file mode 100644
-> index 0000000000..8ed8d5d24f
-> --- /dev/null
-> +++ b/hw/gpio/gpio_pwr.c
-> @@ -0,0 +1,70 @@
-> +/*
-> + * GPIO qemu power controller
-> + *
-> + * Copyright (c) 2020 Linaro Limited
-> + *
-> + * Author: Maxim Uvarov <maxim.uvarov@linaro.org>
-> + *
-> + * Virtual gpio driver which can be used on top of pl061
-> + * to reboot and shutdown qemu virtual machine. One of use
-> + * case is gpio driver for secure world application (ARM
-> + * Trusted Firmware.).
-> + *
-> + * This work is licensed under the terms of the GNU GPL, version 2 or
-> later.
-> + * See the COPYING file in the top-level directory.
-> + * SPDX-License-Identifier: GPL-2.0-or-later
-> + */
-> +
-> +/*
-> + * QEMU interface:
-> + * two named input GPIO lines:
-> + *   'reset' : when asserted, trigger system reset
-> + *   'shutdown' : when asserted, trigger system shutdown
-> + */
-> +
-> +#include "qemu/osdep.h"
-> +#include "hw/sysbus.h"
-> +#include "sysemu/runstate.h"
-> +
-> +#define TYPE_GPIOPWR "gpio-pwr"
-> +OBJECT_DECLARE_SIMPLE_TYPE(GPIO_PWR_State, GPIOPWR)
-> +
-> +struct GPIO_PWR_State {
-> +    SysBusDevice parent_obj;
-> +};
-> +
-> +static void gpio_pwr_reset(void *opaque, int n, int level)
-> +{
-> +    if (!level) {
-> +        qemu_system_reset_request(SHUTDOWN_CAUSE_GUEST_RESET);
-> +    }
-> +}
-> +
-> +static void gpio_pwr_shutdown(void *opaque, int n, int level)
-> +{
-> +    if (!level) {
-> +        qemu_system_reset_request(SHUTDOWN_CAUSE_GUEST_SHUTDOWN);
-> +    }
-> +}
-> +
-> +static void gpio_pwr_init(Object *obj)
-> +{
-> +    DeviceState *dev = DEVICE(obj);
-> +
-> +    qdev_init_gpio_in_named(dev, gpio_pwr_reset, "reset", 1);
-> +    qdev_init_gpio_in_named(dev, gpio_pwr_shutdown, "shutdown", 1);
-> +}
-> +
-> +static const TypeInfo gpio_pwr_info = {
-> +    .name          = TYPE_GPIOPWR,
-> +    .parent        = TYPE_SYS_BUS_DEVICE,
-> +    .instance_size = sizeof(GPIO_PWR_State),
-> +    .instance_init = gpio_pwr_init,
-> +};
-> +
-> +static void gpio_pwr_register_types(void)
-> +{
-> +    type_register_static(&gpio_pwr_info);
-> +}
-> +
-> +type_init(gpio_pwr_register_types)
-> diff --git a/hw/gpio/meson.build b/hw/gpio/meson.build
-> index 5c0a7d7b95..79568f00ce 100644
-> --- a/hw/gpio/meson.build
-> +++ b/hw/gpio/meson.build
-> @@ -1,5 +1,6 @@
->  softmmu_ss.add(when: 'CONFIG_E500', if_true: files('mpc8xxx.c'))
->  softmmu_ss.add(when: 'CONFIG_GPIO_KEY', if_true: files('gpio_key.c'))
-> +softmmu_ss.add(when: 'CONFIG_GPIO_PWR', if_true: files('gpio_pwr.c'))
->  softmmu_ss.add(when: 'CONFIG_MAX7310', if_true: files('max7310.c'))
->  softmmu_ss.add(when: 'CONFIG_PL061', if_true: files('pl061.c'))
->  softmmu_ss.add(when: 'CONFIG_PUV3', if_true: files('puv3_gpio.c'))
-> --
-> 2.17.1
->
->
->
+* added patches for ARM-specific tcg ops
+  debug_check_watchpoint and adjust_watchpoint_address
 
---00000000000059a4a205b8b7bd8f
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+* added a patch that puts a forward declared pointer in the struct,
+  so as to reduce the change of misuse between common_ss and specific_ss code,
+  and tidy up as a consequence all targets, by defining dedicated structs.
 
-<div dir=3D"ltr"><div dir=3D"ltr"><br></div><br><div class=3D"gmail_quote">=
-<div dir=3D"ltr" class=3D"gmail_attr">On Tue, Jan 12, 2021 at 6:36 AM Maxim=
- Uvarov &lt;<a href=3D"mailto:maxim.uvarov@linaro.org">maxim.uvarov@linaro.=
-org</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"marg=
-in:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1e=
-x">Implement gpio-pwr driver to allow reboot and poweroff machine.<br>
-This is simple driver with just 2 gpios lines. Current use case<br>
-is to reboot and poweroff virt machine in secure mode. Secure<br>
-pl066 gpio chip is needed for that.<br>
-<br>
-Signed-off-by: Maxim Uvarov &lt;<a href=3D"mailto:maxim.uvarov@linaro.org" =
-target=3D"_blank">maxim.uvarov@linaro.org</a>&gt;<br></blockquote><div>Revi=
-ewed-by: Hao Wu &lt;<a href=3D"mailto:wuhaotsh@google.com">wuhaotsh@google.=
-com</a>&gt;=C2=A0</div><blockquote class=3D"gmail_quote" style=3D"margin:0p=
-x 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">
----<br>
-=C2=A0hw/gpio/Kconfig=C2=A0 =C2=A0 =C2=A0|=C2=A0 3 ++<br>
-=C2=A0hw/gpio/gpio_pwr.c=C2=A0 | 70 +++++++++++++++++++++++++++++++++++++++=
-++++++<br>
-=C2=A0hw/gpio/meson.build |=C2=A0 1 +<br>
-=C2=A03 files changed, 74 insertions(+)<br>
-=C2=A0create mode 100644 hw/gpio/gpio_pwr.c<br>
-<br>
-diff --git a/hw/gpio/Kconfig b/hw/gpio/Kconfig<br>
-index b6fdaa2586..f0e7405f6e 100644<br>
---- a/hw/gpio/Kconfig<br>
-+++ b/hw/gpio/Kconfig<br>
-@@ -8,5 +8,8 @@ config PL061<br>
-=C2=A0config GPIO_KEY<br>
-=C2=A0 =C2=A0 =C2=A0bool<br>
-<br>
-+config GPIO_PWR<br>
-+=C2=A0 =C2=A0 bool<br>
-+<br>
-=C2=A0config SIFIVE_GPIO<br>
-=C2=A0 =C2=A0 =C2=A0bool<br>
-diff --git a/hw/gpio/gpio_pwr.c b/hw/gpio/gpio_pwr.c<br>
-new file mode 100644<br>
-index 0000000000..8ed8d5d24f<br>
---- /dev/null<br>
-+++ b/hw/gpio/gpio_pwr.c<br>
-@@ -0,0 +1,70 @@<br>
-+/*<br>
-+ * GPIO qemu power controller<br>
-+ *<br>
-+ * Copyright (c) 2020 Linaro Limited<br>
-+ *<br>
-+ * Author: Maxim Uvarov &lt;<a href=3D"mailto:maxim.uvarov@linaro.org" tar=
-get=3D"_blank">maxim.uvarov@linaro.org</a>&gt;<br>
-+ *<br>
-+ * Virtual gpio driver which can be used on top of pl061<br>
-+ * to reboot and shutdown qemu virtual machine. One of use<br>
-+ * case is gpio driver for secure world application (ARM<br>
-+ * Trusted Firmware.).<br>
-+ *<br>
-+ * This work is licensed under the terms of the GNU GPL, version 2 or late=
-r.<br>
-+ * See the COPYING file in the top-level directory.<br>
-+ * SPDX-License-Identifier: GPL-2.0-or-later<br>
-+ */<br>
-+<br>
-+/*<br>
-+ * QEMU interface:<br>
-+ * two named input GPIO lines:<br>
-+ *=C2=A0 =C2=A0&#39;reset&#39; : when asserted, trigger system reset<br>
-+ *=C2=A0 =C2=A0&#39;shutdown&#39; : when asserted, trigger system shutdown=
-<br>
-+ */<br>
-+<br>
-+#include &quot;qemu/osdep.h&quot;<br>
-+#include &quot;hw/sysbus.h&quot;<br>
-+#include &quot;sysemu/runstate.h&quot;<br>
-+<br>
-+#define TYPE_GPIOPWR &quot;gpio-pwr&quot;<br>
-+OBJECT_DECLARE_SIMPLE_TYPE(GPIO_PWR_State, GPIOPWR)<br>
-+<br>
-+struct GPIO_PWR_State {<br>
-+=C2=A0 =C2=A0 SysBusDevice parent_obj;<br>
-+};<br>
-+<br>
-+static void gpio_pwr_reset(void *opaque, int n, int level)<br>
-+{<br>
-+=C2=A0 =C2=A0 if (!level) {<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 qemu_system_reset_request(SHUTDOWN_CAUSE_GUEST=
-_RESET);<br>
-+=C2=A0 =C2=A0 }<br>
-+}<br>
-+<br>
-+static void gpio_pwr_shutdown(void *opaque, int n, int level)<br>
-+{<br>
-+=C2=A0 =C2=A0 if (!level) {<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 qemu_system_reset_request(SHUTDOWN_CAUSE_GUEST=
-_SHUTDOWN);<br>
-+=C2=A0 =C2=A0 }<br>
-+}<br>
-+<br>
-+static void gpio_pwr_init(Object *obj)<br>
-+{<br>
-+=C2=A0 =C2=A0 DeviceState *dev =3D DEVICE(obj);<br>
-+<br>
-+=C2=A0 =C2=A0 qdev_init_gpio_in_named(dev, gpio_pwr_reset, &quot;reset&quo=
-t;, 1);<br>
-+=C2=A0 =C2=A0 qdev_init_gpio_in_named(dev, gpio_pwr_shutdown, &quot;shutdo=
-wn&quot;, 1);<br>
-+}<br>
-+<br>
-+static const TypeInfo gpio_pwr_info =3D {<br>
-+=C2=A0 =C2=A0 .name=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =3D TYPE_GPIOPWR,<br=
->
-+=C2=A0 =C2=A0 .parent=C2=A0 =C2=A0 =C2=A0 =C2=A0 =3D TYPE_SYS_BUS_DEVICE,<=
-br>
-+=C2=A0 =C2=A0 .instance_size =3D sizeof(GPIO_PWR_State),<br>
-+=C2=A0 =C2=A0 .instance_init =3D gpio_pwr_init,<br>
-+};<br>
-+<br>
-+static void gpio_pwr_register_types(void)<br>
-+{<br>
-+=C2=A0 =C2=A0 type_register_static(&amp;gpio_pwr_info);<br>
-+}<br>
-+<br>
-+type_init(gpio_pwr_register_types)<br>
-diff --git a/hw/gpio/meson.build b/hw/gpio/meson.build<br>
-index 5c0a7d7b95..79568f00ce 100644<br>
---- a/hw/gpio/meson.build<br>
-+++ b/hw/gpio/meson.build<br>
-@@ -1,5 +1,6 @@<br>
-=C2=A0softmmu_ss.add(when: &#39;CONFIG_E500&#39;, if_true: files(&#39;mpc8x=
-xx.c&#39;))<br>
-=C2=A0softmmu_ss.add(when: &#39;CONFIG_GPIO_KEY&#39;, if_true: files(&#39;g=
-pio_key.c&#39;))<br>
-+softmmu_ss.add(when: &#39;CONFIG_GPIO_PWR&#39;, if_true: files(&#39;gpio_p=
-wr.c&#39;))<br>
-=C2=A0softmmu_ss.add(when: &#39;CONFIG_MAX7310&#39;, if_true: files(&#39;ma=
-x7310.c&#39;))<br>
-=C2=A0softmmu_ss.add(when: &#39;CONFIG_PL061&#39;, if_true: files(&#39;pl06=
-1.c&#39;))<br>
-=C2=A0softmmu_ss.add(when: &#39;CONFIG_PUV3&#39;, if_true: files(&#39;puv3_=
-gpio.c&#39;))<br>
--- <br>
-2.17.1<br>
-<br>
-<br>
-</blockquote></div></div>
+v10 -> v11: split off PART 2,
 
---00000000000059a4a205b8b7bd8f--
+no further changes to PART 2 other than the split.
+
+v9 -> v10: minor tweaks and fixes
+
+* in "i386: split cpu accelerators from cpu.c",
+
+use kvm/kvm-cpu.c, hvf/hvf-cpu.c, tcg/tcg-cpu.c.
+Easier to understand compared to editing multiple cpu.c files,
+and matches the header files if needed (kvm-cpu.h).
+
+* in "accel: replace struct CpusAccel with AccelOpsClass",
+
+make it a bit more consistent, by naming the files defining
+the AccelOpsClass types "...-accel-ops.c" instead of the old
+naming "...-cpus.c".
+
+* in "cpu: move cc->transaction_failed to tcg_ops",
+
+protect with CONFIG_TCG the use of tcg_ops for hw/misc/jazz.c,
+
+ #include "exec/memattrs.h" (Philippe, Eduardo)
+
+* in "cpu: Move synchronize_from_tb() to tcg_ops",
+
+ #include "hw/core/cpu.h" (Philippe, Eduardo)
+
+do not remove the comment about struct TcgCpuOperations (Philippe)
+
+* in "accel/tcg: split TCG-only code from cpu_exec_realizefn",
+
+invert tcg_target_initialized set order (Alex)
+
+* in "i386: move TCG cpu class initialization out of helper.c",
+
+extract helper-tcg.h, tcg-cpu.c, and tcg-cpu.h directly into
+tcg/, avoiding the extra move later to tcg/ (Alex)
+
+
+
+v8 -> v9: move additional methods to CPUClass->tcg_ops
+
+do_unaligned_access, transaction_failed and do_interrupt.
+
+do_interrupt is a bit tricky, as the same code is reused
+(albeit not usually directly) for KVM under certain odd conditions.
+
+Change arm, as the only user of do_interrupt callback for KVM,
+to instead call the target function directly arm_do_interrupt.
+
+v7 -> v8: add missing CONFIG_TCGs, fix bugs
+
+* add the prerequisite patches for "3 tcg" at the beginning of the
+  series for convenience (already reviewed, queued by RH).
+
+* add CONFIG_TCG to TCGCpuOperations and tcg_ops variable use
+
+* reduce the scope of the realizefn refactoring, do not
+  introduce a separate cpu_accel_realize, and instead use the
+  existing cpu_exec_realizefn, there is not enough benefit
+  to introduce a new function.
+
+* fix bugs in user mode due to attempt to move the tcg_region_init()
+  early, so it could be done just once in tcg_init() for both
+  softmmu and user mode. Unfortunately it needs to remain deferred
+  for user mode, as it needs to be done after prologue init and
+  after the GUEST_BASE has been set.
+
+v6 -> v7: integrate TCGCpuOperations, refactored cpu_exec_realizefn
+
+* integrate TCGCpuOperations (Eduardo)
+
+Taken some refactoring from Eduardo for Tcg-only operations on
+CPUClass.
+
+* refactored cpu_exec_realizefn
+
+The other main change is a refactoring of cpu_exec_realizefn,
+directly linked to the effort of making many cpu_exec operations
+TCG-only (Eduardo series above):
+
+cpu_exec_realizefn is actually a TCG-only thing, with the
+exception of a couple things that can be done in base cpu code.
+
+This changes all targets realizefn, so I guess I have to Cc:
+the Multiverse? (Universe was already CCed for all accelerators).
+
+
+v5 -> v6: remove MODULE_INIT_ACCEL_CPU
+
+
+instead, use a call to accel_init_interfaces().
+
+* The class lookups are now general and performed in accel/
+
+  new AccelCPUClass for new archs are supported as new
+  ones appear in the class hierarchy, no need for stubs.
+
+* Split the code a bit better
+
+
+v4 -> v5: centralized and simplified initializations
+
+I put in Cc: Emilio G. Cota, specifically because in patch 8
+I (re)moved for user-mode the call to tcg_regions_init().
+
+The call happens now inside the tcg AccelClass machine_init,
+(so earlier). This seems to work fine, but thought to get the
+author opinion on this.
+
+Rebased on "tcg-cpus: split into 3 tcg variants" series
+(queued by Richard), to avoid some code churn:
+
+
+https://lists.gnu.org/archive/html/qemu-devel/2020-10/msg04356.html
+
+
+* Extended AccelClass to user-mode.
+
+user-mode now does not call tcg_exec_init directly,
+instead it uses the tcg accel class, and its init_machine method.
+
+Since user-mode does not define or use a machine state,
+the machine is just passed as NULL.
+
+The immediate advantage is that now we can call current_accel()
+from both user mode and softmmu, so we can work out the correct
+class to use for accelerator initializations.
+
+* QOMification of CpusAccelOps
+
+simple QOMification of CpusAccelOps abstract class.
+
+* Centralized all accel_cpu_init, so only one per cpu-arch,
+  plus one for all accels will remain.
+
+  So we can expect accel_cpu_init() to be limited to:
+  
+  softmmu/cpus.c - initializes the chosen softmmu accel ops for the cpus module.
+  target/ARCH/cpu.c - initializes the chosen arch-specific cpu accelerator.
+  
+These changes are meant to address concerns/issues (Paolo):
+
+1) the use of if (tcg_enabled()) and similar in the module_init call path
+
+2) the excessive number of accel_cpu_init() to hunt down in the codebase.
+
+
+* Fixed wrong use of host_cpu_class_init (Eduardo)
+
+
+v3 -> v4: QOMification of X86CPUAccelClass
+
+
+In this version I basically QOMified X86CPUAccel, taking the
+suggestions from Eduardo as the starting point,
+but stopping just short of making it an actual QOM interface,
+using a plain abstract class, and then subclasses for the
+actual objects.
+
+Initialization is still using the existing qemu initialization
+framework (module_call_init), which is I still think is better
+than the alternatives proposed, in the current state.
+
+Possibly some improvements could be developed in the future here.
+In this case, effort should be put in keeping things extendible,
+in order not to be blocked once accelerators also become modules.
+
+Motivation and higher level steps:
+
+https://lists.gnu.org/archive/html/qemu-devel/2020-05/msg04628.html
+
+Looking forward to your comments on this proposal,
+
+Ciao,
+
+Claudio
+
+
+Claudio Fontana (17):
+  target/riscv: remove CONFIG_TCG, as it is always TCG
+  accel/tcg: split TCG-only code from cpu_exec_realizefn
+  target/arm: do not use cc->do_interrupt for KVM directly
+  cpu: move cc->do_interrupt to tcg_ops
+  cpu: move cc->transaction_failed to tcg_ops
+  cpu: move do_unaligned_access to tcg_ops
+  physmem: make watchpoint checking code TCG-only
+  cpu: move adjust_watchpoint_address to tcg_ops
+  cpu: move debug_check_watchpoint to tcg_ops
+  cpu: tcg_ops: move to tcg-cpu-ops.h, keep a pointer in CPUClass
+  accel: extend AccelState and AccelClass to user-mode
+  accel: replace struct CpusAccel with AccelOpsClass
+  accel: introduce AccelCPUClass extending CPUClass
+  i386: split cpu accelerators from cpu.c, using AccelCPUClass
+  cpu: call AccelCPUClass::cpu_realizefn in cpu_exec_realizefn
+  hw/core/cpu: call qemu_init_vcpu in cpu_common_realizefn
+  accel: introduce new accessor functions
+
+Eduardo Habkost (5):
+  cpu: Introduce TCGCpuOperations struct
+  cpu: Move synchronize_from_tb() to tcg_ops
+  cpu: Move cpu_exec_* to tcg_ops
+  cpu: Move tlb_fill to tcg_ops
+  cpu: Move debug_excp_handler to tcg_ops
+
+ accel/accel-softmmu.h                         |  15 +
+ accel/kvm/kvm-cpus.h                          |   2 -
+ ...g-cpus-icount.h => tcg-accel-ops-icount.h} |   2 +
+ accel/tcg/tcg-accel-ops-mttcg.h               |  19 +
+ .../tcg/{tcg-cpus-rr.h => tcg-accel-ops-rr.h} |   0
+ accel/tcg/{tcg-cpus.h => tcg-accel-ops.h}     |   6 +-
+ include/exec/cpu-all.h                        |  11 +-
+ include/hw/boards.h                           |   2 +-
+ include/hw/core/accel-cpu.h                   |  38 ++
+ include/hw/core/cpu.h                         |  92 +---
+ include/hw/core/tcg-cpu-ops.h                 |  95 +++++
+ include/{sysemu => qemu}/accel.h              |  27 +-
+ include/sysemu/accel-ops.h                    |  45 ++
+ include/sysemu/cpus.h                         |  26 +-
+ include/sysemu/hvf.h                          |   2 +-
+ include/sysemu/kvm.h                          |   2 +-
+ include/sysemu/kvm_int.h                      |   2 +-
+ target/arm/internals.h                        |   6 +
+ target/i386/cpu.h                             |  20 +-
+ .../i386/hax/{hax-cpus.h => hax-accel-ops.h}  |   2 -
+ target/i386/hax/hax-windows.h                 |   2 +-
+ target/i386/host-cpu.h                        |  19 +
+ .../i386/hvf/{hvf-cpus.h => hvf-accel-ops.h}  |   2 -
+ target/i386/hvf/hvf-i386.h                    |   2 +-
+ target/i386/kvm/kvm-cpu.h                     |  41 ++
+ target/i386/tcg/tcg-cpu.h                     |  15 -
+ .../whpx/{whpx-cpus.h => whpx-accel-ops.h}    |   2 -
+ accel/accel-common.c                          | 124 ++++++
+ accel/{accel.c => accel-softmmu.c}            |  60 ++-
+ accel/accel-user.c                            |  24 ++
+ accel/kvm/{kvm-cpus.c => kvm-accel-ops.c}     |  26 +-
+ accel/kvm/kvm-all.c                           |   2 -
+ accel/qtest/qtest.c                           |  25 +-
+ accel/tcg/cpu-exec.c                          |  53 ++-
+ accel/tcg/cputlb.c                            |  34 +-
+ ...g-cpus-icount.c => tcg-accel-ops-icount.c} |  21 +-
+ ...tcg-cpus-mttcg.c => tcg-accel-ops-mttcg.c} |  14 +-
+ .../tcg/{tcg-cpus-rr.c => tcg-accel-ops-rr.c} |  13 +-
+ accel/tcg/{tcg-cpus.c => tcg-accel-ops.c}     |  47 +-
+ accel/tcg/tcg-all.c                           |  19 +-
+ accel/tcg/user-exec.c                         |   8 +-
+ accel/xen/xen-all.c                           |  24 +-
+ bsd-user/main.c                               |  11 +-
+ cpu.c                                         |  68 +--
+ hw/core/cpu.c                                 |  23 +-
+ hw/i386/pc_piix.c                             |   1 +
+ hw/mips/jazz.c                                |  12 +-
+ linux-user/main.c                             |   7 +-
+ softmmu/cpus.c                                |  12 +-
+ softmmu/memory.c                              |   2 +-
+ softmmu/physmem.c                             | 149 ++++---
+ softmmu/qtest.c                               |   2 +-
+ softmmu/vl.c                                  |   9 +-
+ target/alpha/cpu.c                            |  26 +-
+ target/arm/cpu.c                              |  53 ++-
+ target/arm/cpu64.c                            |   9 +-
+ target/arm/cpu_tcg.c                          |  32 +-
+ target/arm/helper.c                           |   4 +
+ target/arm/kvm64.c                            |   6 +-
+ target/avr/cpu.c                              |  22 +-
+ target/avr/helper.c                           |   5 +-
+ target/cris/cpu.c                             |  45 +-
+ target/cris/helper.c                          |   5 +-
+ target/hppa/cpu.c                             |  25 +-
+ target/i386/cpu.c                             | 401 ++----------------
+ .../i386/hax/{hax-cpus.c => hax-accel-ops.c}  |  31 +-
+ target/i386/hax/hax-all.c                     |   7 +-
+ target/i386/hax/hax-mem.c                     |   2 +-
+ target/i386/hax/hax-posix.c                   |   2 +-
+ target/i386/hax/hax-windows.c                 |   2 +-
+ target/i386/host-cpu.c                        | 198 +++++++++
+ .../i386/hvf/{hvf-cpus.c => hvf-accel-ops.c}  |  29 +-
+ target/i386/hvf/hvf-cpu.c                     |  65 +++
+ target/i386/hvf/hvf.c                         |   5 +-
+ target/i386/hvf/x86_task.c                    |   2 +-
+ target/i386/hvf/x86hvf.c                      |   2 +-
+ target/i386/kvm/kvm-cpu.c                     | 151 +++++++
+ target/i386/kvm/kvm.c                         |   3 +-
+ target/i386/tcg/tcg-cpu.c                     | 139 +++++-
+ .../whpx/{whpx-cpus.c => whpx-accel-ops.c}    |  31 +-
+ target/i386/whpx/whpx-all.c                   |   6 +-
+ target/lm32/cpu.c                             |  22 +-
+ target/m68k/cpu.c                             |  21 +-
+ target/microblaze/cpu.c                       |  34 +-
+ target/mips/cpu.c                             |  37 +-
+ target/moxie/cpu.c                            |  19 +-
+ target/nios2/cpu.c                            |  22 +-
+ target/openrisc/cpu.c                         |  21 +-
+ target/riscv/cpu.c                            |  34 +-
+ target/riscv/cpu_helper.c                     |   2 +-
+ target/rx/cpu.c                               |  28 +-
+ target/s390x/cpu.c                            |  36 +-
+ target/s390x/excp_helper.c                    |   2 +-
+ target/sh4/cpu.c                              |  23 +-
+ target/sparc/cpu.c                            |  29 +-
+ target/tilegx/cpu.c                           |  19 +-
+ target/tricore/cpu.c                          |  14 +-
+ target/unicore32/cpu.c                        |  23 +-
+ target/xtensa/cpu.c                           |  25 +-
+ target/xtensa/helper.c                        |   4 +-
+ target/ppc/translate_init.c.inc               |  44 +-
+ MAINTAINERS                                   |   9 +-
+ accel/kvm/meson.build                         |   2 +-
+ accel/meson.build                             |   4 +-
+ accel/tcg/meson.build                         |  10 +-
+ target/i386/hax/meson.build                   |   2 +-
+ target/i386/hvf/meson.build                   |   3 +-
+ target/i386/kvm/meson.build                   |   7 +-
+ target/i386/meson.build                       |   6 +-
+ target/i386/whpx/meson.build                  |   2 +-
+ 110 files changed, 2029 insertions(+), 1070 deletions(-)
+ create mode 100644 accel/accel-softmmu.h
+ rename accel/tcg/{tcg-cpus-icount.h => tcg-accel-ops-icount.h} (88%)
+ create mode 100644 accel/tcg/tcg-accel-ops-mttcg.h
+ rename accel/tcg/{tcg-cpus-rr.h => tcg-accel-ops-rr.h} (100%)
+ rename accel/tcg/{tcg-cpus.h => tcg-accel-ops.h} (72%)
+ create mode 100644 include/hw/core/accel-cpu.h
+ create mode 100644 include/hw/core/tcg-cpu-ops.h
+ rename include/{sysemu => qemu}/accel.h (84%)
+ create mode 100644 include/sysemu/accel-ops.h
+ rename target/i386/hax/{hax-cpus.h => hax-accel-ops.h} (95%)
+ create mode 100644 target/i386/host-cpu.h
+ rename target/i386/hvf/{hvf-cpus.h => hvf-accel-ops.h} (94%)
+ create mode 100644 target/i386/kvm/kvm-cpu.h
+ delete mode 100644 target/i386/tcg/tcg-cpu.h
+ rename target/i386/whpx/{whpx-cpus.h => whpx-accel-ops.h} (96%)
+ create mode 100644 accel/accel-common.c
+ rename accel/{accel.c => accel-softmmu.c} (64%)
+ create mode 100644 accel/accel-user.c
+ rename accel/kvm/{kvm-cpus.c => kvm-accel-ops.c} (72%)
+ rename accel/tcg/{tcg-cpus-icount.c => tcg-accel-ops-icount.c} (89%)
+ rename accel/tcg/{tcg-cpus-mttcg.c => tcg-accel-ops-mttcg.c} (92%)
+ rename accel/tcg/{tcg-cpus-rr.c => tcg-accel-ops-rr.c} (97%)
+ rename accel/tcg/{tcg-cpus.c => tcg-accel-ops.c} (63%)
+ rename target/i386/hax/{hax-cpus.c => hax-accel-ops.c} (69%)
+ create mode 100644 target/i386/host-cpu.c
+ rename target/i386/hvf/{hvf-cpus.c => hvf-accel-ops.c} (84%)
+ create mode 100644 target/i386/hvf/hvf-cpu.c
+ create mode 100644 target/i386/kvm/kvm-cpu.c
+ rename target/i386/whpx/{whpx-cpus.c => whpx-accel-ops.c} (72%)
+
+-- 
+2.26.2
+
 
