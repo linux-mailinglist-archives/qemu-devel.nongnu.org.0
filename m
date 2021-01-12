@@ -2,35 +2,35 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1CFAD2F2708
-	for <lists+qemu-devel@lfdr.de>; Tue, 12 Jan 2021 05:28:11 +0100 (CET)
-Received: from localhost ([::1]:53944 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 766F22F2711
+	for <lists+qemu-devel@lfdr.de>; Tue, 12 Jan 2021 05:28:55 +0100 (CET)
+Received: from localhost ([::1]:57284 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kzBHt-0001GI-Ch
-	for lists+qemu-devel@lfdr.de; Mon, 11 Jan 2021 23:28:09 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46970)
+	id 1kzBIc-0002cd-Hw
+	for lists+qemu-devel@lfdr.de; Mon, 11 Jan 2021 23:28:54 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47088)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1kzBFY-00084r-05
- for qemu-devel@nongnu.org; Mon, 11 Jan 2021 23:25:44 -0500
-Received: from indium.canonical.com ([91.189.90.7]:51512)
+ id 1kzBFm-00087Z-81
+ for qemu-devel@nongnu.org; Mon, 11 Jan 2021 23:25:58 -0500
+Received: from indium.canonical.com ([91.189.90.7]:52136)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1kzBFU-0000pX-1n
- for qemu-devel@nongnu.org; Mon, 11 Jan 2021 23:25:43 -0500
+ id 1kzBFd-0000so-H9
+ for qemu-devel@nongnu.org; Mon, 11 Jan 2021 23:25:58 -0500
 Received: from loganberry.canonical.com ([91.189.90.37])
  by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1kzBFQ-0004Nv-VS
- for <qemu-devel@nongnu.org>; Tue, 12 Jan 2021 04:25:37 +0000
+ id 1kzBFb-0004Ty-HX
+ for <qemu-devel@nongnu.org>; Tue, 12 Jan 2021 04:25:47 +0000
 Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id CF1732E813B
- for <qemu-devel@nongnu.org>; Tue, 12 Jan 2021 04:25:36 +0000 (UTC)
+ by loganberry.canonical.com (Postfix) with ESMTP id 802932E813B
+ for <qemu-devel@nongnu.org>; Tue, 12 Jan 2021 04:25:47 +0000 (UTC)
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
 Date: Tue, 12 Jan 2021 04:17:37 -0000
-From: Launchpad Bug Tracker <1903833@bugs.launchpad.net>
+From: Launchpad Bug Tracker <1793791@bugs.launchpad.net>
 To: qemu-devel@nongnu.org
 X-Launchpad-Notification-Type: bug
 X-Launchpad-Bug: product=qemu; status=Expired; importance=Undecided;
@@ -38,19 +38,19 @@ X-Launchpad-Bug: product=qemu; status=Expired; importance=Undecided;
 X-Launchpad-Bug-Information-Type: Public
 X-Launchpad-Bug-Private: no
 X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: janitor rth ulasevich
-X-Launchpad-Bug-Reporter: Boris (ulasevich)
+X-Launchpad-Bug-Commenters: eblake janitor schu-schu th-huth
+X-Launchpad-Bug-Reporter: Matthew Schumacher (schu-schu)
 X-Launchpad-Bug-Modifier: Launchpad Janitor (janitor)
-References: <160508996361.28374.9424687449463676251.malonedeb@gac.canonical.com>
-Message-Id: <161042505811.10246.10284699805695023572.malone@loganberry.canonical.com>
-Subject: [Bug 1903833] Re: User mode qemu-aarch: SIGGSEGV signal handler works
- wrong
+References: <153754814620.30461.9078031705394909150.malonedeb@soybean.canonical.com>
+Message-Id: <161042505728.10246.2997238944495960789.malone@loganberry.canonical.com>
+Subject: [Bug 1793791] Re: Crash with nbd_reply_chunk_iter_receive: Assertion
+ `chunk->flags & NBD_REPLY_FLAG_DONE' failed
 X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
 X-Launchpad-Message-For: qemu-devel-ml
 Precedence: bulk
 X-Generated-By: Launchpad (canonical.com);
  Revision="fe617ea08df036edd5c842aded2b315e1c090677"; Instance="production"
-X-Launchpad-Hash: c97081e8683a6b7bc99d0c46fa9f9938c5b2ab8d
+X-Launchpad-Hash: 8ac1919fb192a5532255d3ae1c9b8e5c2c4247ee
 Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
  helo=indium.canonical.com
 X-Spam_score_int: -65
@@ -71,7 +71,7 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1903833 <1903833@bugs.launchpad.net>
+Reply-To: Bug 1793791 <1793791@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
@@ -84,33 +84,35 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 You received this bug notification because you are a member of qemu-
 devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1903833
+https://bugs.launchpad.net/bugs/1793791
 
 Title:
-  User mode qemu-aarch: SIGGSEGV signal handler works wrong
+  Crash with nbd_reply_chunk_iter_receive: Assertion `chunk->flags &
+  NBD_REPLY_FLAG_DONE' failed
 
 Status in QEMU:
   Expired
 
 Bug description:
-  I have a user mode qemu-aarch issue. Program with SIGSEGV signal handler =
-works wrong under qemu-aarch: =
+  Qemu version on both sides: 2.12.1
+  Host A Linux: 4.9.76
+  Host B Linux: 4.14.67
 
-  once the progam handles the SEGV signal, qemu marks the program's page pr=
-otected, and signal handler gets SEGV on each subsequent memory access inst=
-ruction within a program.
+  While calling from Host A:
+  virsh migrate virtualmachine qemu+ssh://hostB/system --live --undefinesou=
+rce --persistent --verbose --copy-storage-all
 
-  The issue is reproduced on WSL Ubuntu 20.04 under Windows 10, qemu-aarch6=
-4 version 5.1.50
-  The issue is also reproducible on the latest upstream qemu-aarch build.
+  I get a qemu crash with:
 
-  The following workaround disables mprotect call and fixes the issue:
-  https://github.com/BorisUlasevich/qemu/commit/3063d9a64f8395185d65c6b6710=
-d28ee92cd8be5
+  2018-09-21 16:12:23.073+0000: 14428: info : virObjectUnref:350 : OBJECT_U=
+NREF: obj=3D0x7f922c03d990
+  qemu-system-x86_64: block/nbd-client.c:606: nbd_reply_chunk_iter_receive:=
+ Assertion `chunk->flags & NBD_REPLY_FLAG_DONE' failed.
+  2018-09-21 16:12:41.230+0000: shutting down, reason=3Dcrashed
+  2018-09-21 16:12:52.900+0000: shutting down, reason=3Dfailed
 
-  The issue can be reproduced on OpenJDK which reports SIGSEGV
-  immediately after start. The small reproducer program is attached.
+  It doesn't do it every time, but most of the time.
 
 To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1903833/+subscriptions
+https://bugs.launchpad.net/qemu/+bug/1793791/+subscriptions
 
