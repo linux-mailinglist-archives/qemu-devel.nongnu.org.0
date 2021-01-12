@@ -2,73 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7C45E2F2AE4
-	for <lists+qemu-devel@lfdr.de>; Tue, 12 Jan 2021 10:14:55 +0100 (CET)
-Received: from localhost ([::1]:46062 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B09C52F2B32
+	for <lists+qemu-devel@lfdr.de>; Tue, 12 Jan 2021 10:25:07 +0100 (CET)
+Received: from localhost ([::1]:52192 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kzFlO-0000i5-Ip
-	for lists+qemu-devel@lfdr.de; Tue, 12 Jan 2021 04:14:54 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58264)
+	id 1kzFvG-0003rw-9B
+	for lists+qemu-devel@lfdr.de; Tue, 12 Jan 2021 04:25:06 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60892)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1kzFjY-0008Sn-SC
- for qemu-devel@nongnu.org; Tue, 12 Jan 2021 04:13:00 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:47288)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1kzFjW-00062F-Ky
- for qemu-devel@nongnu.org; Tue, 12 Jan 2021 04:13:00 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1610442775;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=XvbxEpiuVHQbiKn6NPQiyO0vwhO0SFB+n4H+UuqIZ90=;
- b=GCvZImCJRrfiwQJwS/54c88ZeiVeY85Ztk/gxOImMuMYRXxW2Rb6N64a7v+UgCa0EiNWy6
- uqgR3GihHdVaOeISoLm41DJqKPE5OgBWKbZu+hi5CJu2c/XXtY4wuj67+RkmXUq9YdWpHi
- mZC4MRIh9ifz2ZzW//w9gm6zCRMUPe8=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-497-hd-WjqluNxOI63yjj1dUeA-1; Tue, 12 Jan 2021 04:12:51 -0500
-X-MC-Unique: hd-WjqluNxOI63yjj1dUeA-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 62841107ACF7;
- Tue, 12 Jan 2021 09:12:50 +0000 (UTC)
-Received: from thuth.remote.csb (ovpn-112-184.ams2.redhat.com [10.36.112.184])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 2687F1972B;
- Tue, 12 Jan 2021 09:12:48 +0000 (UTC)
-Subject: Re: [PATCH] cirrus.yml: Replace the hard-coded python-sphinx version
- with the generic one
-To: luoyonggang@gmail.com
-References: <20210111103410.144797-1-thuth@redhat.com>
- <CAE2XoE_pKkoW9=CojK1TumH10uf_rCDSKNLS-AAPH51QXP2DzA@mail.gmail.com>
-From: Thomas Huth <thuth@redhat.com>
-Message-ID: <d7e3d0cf-f8d3-0772-1098-f98af7d27e94@redhat.com>
-Date: Tue, 12 Jan 2021 10:12:48 +0100
+ (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1kzFtd-0002qP-7A
+ for qemu-devel@nongnu.org; Tue, 12 Jan 2021 04:23:25 -0500
+Received: from 6.mo52.mail-out.ovh.net ([188.165.49.222]:50638)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1kzFta-00014R-QY
+ for qemu-devel@nongnu.org; Tue, 12 Jan 2021 04:23:24 -0500
+Received: from mxplan5.mail.ovh.net (unknown [10.109.143.58])
+ by mo52.mail-out.ovh.net (Postfix) with ESMTPS id 32265232319;
+ Tue, 12 Jan 2021 10:23:10 +0100 (CET)
+Received: from kaod.org (37.59.142.98) by DAG4EX1.mxp5.local (172.16.2.31)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2044.4; Tue, 12 Jan
+ 2021 10:23:10 +0100
+Authentication-Results: garm.ovh; auth=pass
+ (GARM-98R00218f14a55-1911-4197-83ec-146c038adeb9,
+ 2257B073617FA9ABCC7BD76A51E96555772B3A24) smtp.auth=clg@kaod.org
+X-OVh-ClientIp: 82.64.250.170
+Subject: Re: What's the correct way to implement rfi and related instruction.
+To: <luoyonggang@gmail.com>
+References: <CAE2XoE84K6vdQ23upRa1MaCNWSycUGKja9DrTpVCQ4bdY7bZuQ@mail.gmail.com>
+ <db5077c9-4b20-08f1-131e-0bbc7ae15313@kaod.org>
+ <CAE2XoE-Fc3Tc51uiDN70_6suHPwczdp9EcS_LirLK-txzgS+yw@mail.gmail.com>
+ <ef0eb70c-5b56-9850-2ad3-f12591cd6b4b@kaod.org>
+ <CAE2XoE-VAMPYwNcGYK_3fqKgy138VOx6JaaSHD+bvz-fkH_jZA@mail.gmail.com>
+From: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>
+Message-ID: <96e02d87-3326-748d-9c97-de910b5b1533@kaod.org>
+Date: Tue, 12 Jan 2021 10:23:09 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.4.0
+ Thunderbird/78.6.0
 MIME-Version: 1.0
-In-Reply-To: <CAE2XoE_pKkoW9=CojK1TumH10uf_rCDSKNLS-AAPH51QXP2DzA@mail.gmail.com>
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=thuth@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8; format=flowed
+In-Reply-To: <CAE2XoE-VAMPYwNcGYK_3fqKgy138VOx6JaaSHD+bvz-fkH_jZA@mail.gmail.com>
+Content-Type: text/plain; charset="utf-8"
 Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=thuth@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -29
-X-Spam_score: -3.0
-X-Spam_bar: ---
-X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.251,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+X-Originating-IP: [37.59.142.98]
+X-ClientProxiedBy: DAG8EX2.mxp5.local (172.16.2.72) To DAG4EX1.mxp5.local
+ (172.16.2.31)
+X-Ovh-Tracer-GUID: 70bffaf1-d32d-4f28-a7ee-afc211b4ba19
+X-Ovh-Tracer-Id: 7673570818062912361
+X-VR-SPAMSTATE: OK
+X-VR-SPAMSCORE: -100
+X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedujedrvdehgedgtdduucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuqfggjfdpvefjgfevmfevgfenuceurghilhhouhhtmecuhedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhepuffvfhfhkffffgggjggtgfhisehtkeertddtfeejnecuhfhrohhmpeevrogurhhitggpnfgvpgfiohgrthgvrhcuoegtlhhgsehkrghougdrohhrgheqnecuggftrfgrthhtvghrnhepjeekudeuudevleegudeugeekleffveeludejteffiedvledvgfekueefudehheefnecukfhppedtrddtrddtrddtpdefjedrheelrddugedvrdelkeenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhhouggvpehsmhhtphdqohhuthdphhgvlhhopehmgihplhgrnhehrdhmrghilhdrohhvhhdrnhgvthdpihhnvghtpedtrddtrddtrddtpdhmrghilhhfrhhomheptghlgheskhgrohgurdhorhhgpdhrtghpthhtoheplhhuohihohhnghhgrghnghesghhmrghilhdrtghomh
+Received-SPF: pass client-ip=188.165.49.222; envelope-from=clg@kaod.org;
+ helo=6.mo52.mail-out.ovh.net
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -82,67 +73,76 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
- qemu-level <qemu-devel@nongnu.org>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
+Cc: qemu-level <qemu-devel@nongnu.org>, qemu-ppc@nongnu.org,
+ Thomas Monjalon <thomas@monjalon.net>, Aurelien Jarno <aurelien@aurel32.net>,
+ David Gibson <david@gibson.dropbear.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 11/01/2021 21.16, 罗勇刚(Yonggang Luo) wrote:
+> QEMU 5.2.x, an e300 based machine ppc603 are impacted.
+> Here is my fix, narrowed down to  MSR_TGPR and  MSR_ILE
+> ```
+> From 42ce41671f1e6c4dd44e6fb481bbda9df09320bd Mon Sep 17 00:00:00 2001
+> From: Yonggang Luo <luoyonggang@gmail.com <mailto:luoyonggang@gmail.com>>
+> Date: Sun, 10 Jan 2021 00:08:00 -0800
+> Subject: [PATCH] ppc: Fix rfi/rfid/hrfi/... emulation again
 > 
+> This revert part mask bits for ppc603/ppc4x that disabled in  a2e71b28e832346409efc795ecd1f0a2bcb705a3.
+> Remove redundant macro MSR_BOOK3S_MASK.
+> Fixes boot VxWorks on e300
 > 
-> On Mon, Jan 11, 2021 at 6:34 PM Thomas Huth <thuth@redhat.com 
-> <mailto:thuth@redhat.com>> wrote:
->  >
->  > The mingw-w64-x86_64-python-sphinx-2.3.1 package has been removed from
->  > the server, so the windows_msys2_task is currently failing. Replace the
->  > old version with the current generic one to fix the issue (the current
->  > version seems to work fine now, too).
->  >
->  > Signed-off-by: Thomas Huth <thuth@redhat.com <mailto:thuth@redhat.com>>
->  > ---
->  >  Successful run (with sphinx building the docs) can be seen here:
->  > https://cirrus-ci.com/task/6568987054047232 
-> <https://cirrus-ci.com/task/6568987054047232>
->  >
->  >  .cirrus.yml | 6 +-----
->  >  1 file changed, 1 insertion(+), 5 deletions(-)
->  >
->  > diff --git a/.cirrus.yml b/.cirrus.yml
->  > index 3907e036da..886addedd3 100644
->  > --- a/.cirrus.yml
->  > +++ b/.cirrus.yml
->  > @@ -117,12 +117,8 @@ windows_msys2_task:
->  >            mingw-w64-x86_64-curl \
->  >            mingw-w64-x86_64-gnutls \
->  >            mingw-w64-x86_64-libnfs \
->  > +          mingw-w64-x86_64-python-sphinx
->  >            "
->  > -        bitsadmin /transfer msys_download /dynamic /download /priority 
-> FOREGROUND `
->  > - 
-> https://repo.msys2.org/mingw/x86_64/mingw-w64-x86_64-python-sphinx-2.3.1-1-any.pkg.tar.xz 
-> <https://repo.msys2.org/mingw/x86_64/mingw-w64-x86_64-python-sphinx-2.3.1-1-any.pkg.tar.xz> 
-> `
->  > -          C:\tools\mingw-w64-x86_64-python-sphinx-2.3.1-1-any.pkg.tar.xz
->  > -        C:\tools\msys64\usr\bin\bash.exe -lc "pacman --noconfirm -U 
-> /c/tools/mingw-w64-x86_64-python-sphinx-2.3.1-1-any.pkg.tar.xz"
->  > -        del C:\tools\mingw-w64-x86_64-python-sphinx-2.3.1-1-any.pkg.tar.xz
->  >          C:\tools\msys64\usr\bin\bash.exe -lc "rm -rf 
-> /var/cache/pacman/pkg/*"
->  >          cd C:\tools\msys64
->  >          echo "Start archive"
->  > --
->  > 2.27.0
->  >
-> Hi, I've done that in my previous patch and queued by Paolo Bonzini 4 days, 
-> 8 hours ago
+> Signed-off-by: Yonggang Luo <luoyonggang@gmail.com <mailto:luoyonggang@gmail.com>>
+> ---
+>  target/ppc/excp_helper.c | 5 +++--
+>  1 file changed, 3 insertions(+), 2 deletions(-)
 > 
-> https://patchew.org/QEMU/20210107101919.80-1-luoyonggang@gmail.com/ 
+> diff --git a/target/ppc/excp_helper.c b/target/ppc/excp_helper.c
+> index 1c48b9fdf6..df70c5a4e8 100644
+> --- a/target/ppc/excp_helper.c
+> +++ b/target/ppc/excp_helper.c
+> @@ -1156,8 +1156,10 @@ static inline void do_rfi(CPUPPCState *env, target_ulong nip, target_ulong msr)
+>  {
+>      CPUState *cs = env_cpu(env);
+>  
+> -    /* MSR:POW cannot be set by any form of rfi */
+> +    /* MSR:POW,TGPR,ILE cannot be set by any form of rfi */
+>      msr &= ~(1ULL << MSR_POW);
+> +    msr &= ~(1ULL << MSR_TGPR);
 
-Ah, alright, then please ignore my patch here!
+Indeed. The e300 user manual says that TGPR is cleared by rfi. We should 
+add a per-cpu family mask and not a global setting.
 
-  Thanks,
-   Thomas
+> +    msr &= ~(1ULL << MSR_ILE);
+
+that's curious. I am still trying to understand that part. May be this is 
+due to the lack of HID2 modeling which contains a "True little-endian" bit.
+
+Is your image Little endian ? 
+
+C. 
+
+>  
+>  #if defined(TARGET_PPC64)
+>      /* Switching to 32-bit ? Crop the nip */
+> @@ -1190,7 +1192,6 @@ void helper_rfi(CPUPPCState *env)
+>      do_rfi(env, env->spr[SPR_SRR0], env->spr[SPR_SRR1] & 0xfffffffful);
+>  }
+>  
+> -#define MSR_BOOK3S_MASK
+>  #if defined(TARGET_PPC64)
+>  void helper_rfid(CPUPPCState *env)
+>  {
+> -- 
+> 2.29.2.windows.3
+> 
+> ```
+> 
+> --
+>          此致
+> 礼
+> 罗勇刚
+> Yours
+>     sincerely,
+> Yonggang Luo
 
 
