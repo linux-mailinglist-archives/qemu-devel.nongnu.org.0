@@ -2,99 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6F2522F2449
-	for <lists+qemu-devel@lfdr.de>; Tue, 12 Jan 2021 01:37:46 +0100 (CET)
-Received: from localhost ([::1]:53520 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 074952F2456
+	for <lists+qemu-devel@lfdr.de>; Tue, 12 Jan 2021 02:12:45 +0100 (CET)
+Received: from localhost ([::1]:60924 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kz7gv-00070Z-Bh
-	for lists+qemu-devel@lfdr.de; Mon, 11 Jan 2021 19:37:45 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41694)
+	id 1kz8Em-0003vP-C8
+	for lists+qemu-devel@lfdr.de; Mon, 11 Jan 2021 20:12:44 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46840)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jiaxun.yang@flygoat.com>)
- id 1kz7em-0005nm-3Z
- for qemu-devel@nongnu.org; Mon, 11 Jan 2021 19:35:33 -0500
-Received: from new4-smtp.messagingengine.com ([66.111.4.230]:50989)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jiaxun.yang@flygoat.com>)
- id 1kz7ek-0007s0-4c
- for qemu-devel@nongnu.org; Mon, 11 Jan 2021 19:35:31 -0500
-Received: from compute6.internal (compute6.nyi.internal [10.202.2.46])
- by mailnew.nyi.internal (Postfix) with ESMTP id 5F7AA58066E;
- Mon, 11 Jan 2021 19:35:29 -0500 (EST)
-Received: from mailfrontend1 ([10.202.2.162])
- by compute6.internal (MEProxy); Mon, 11 Jan 2021 19:35:29 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=flygoat.com; h=
- subject:to:cc:references:from:message-id:date:mime-version
- :in-reply-to:content-type:content-transfer-encoding; s=fm1; bh=8
- ECw2ui1DSz9RsQPvyjBTRfZymZzp4AdIegc3WoQ6B4=; b=KqdP4HoWz/2//yxe6
- 7Q21+DI2k7i75Ohdku40/x5GZJImUI1cdRXRI1m+TYA5SpSOWkinwiEVrVjna84J
- q2DL33GJ1Ww7Oyam3FafA++EIS6y3lRmpJlnyHcLyrdKxdcdQnqwfr1plTx7Yk3s
- FLOAVYuChxBdD+JNex9j6w3IiSkP4BUJT4Jp3ij38Zza69dZkobjTCEzJrqliKVc
- Rje1j6THELA5RjeHJ9ijBF+TB6VDuojfOsyVFHfGgZUmtlK8HgKrEQ+N+rPpL1Cm
- vg2h+WrWVdzx2ENuz0n3JGP0dMQzMBRLp6zp5zFTLVhHWPLybnsA5/7rPvNKX17K
- +5/Dw==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:content-transfer-encoding:content-type
- :date:from:in-reply-to:message-id:mime-version:references
- :subject:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender
- :x-sasl-enc; s=fm1; bh=8ECw2ui1DSz9RsQPvyjBTRfZymZzp4AdIegc3WoQ6
- B4=; b=cw8UPmoIs+d/Bb13NAULUH7QSvl77x2v4IFJDThVcwpo4mz8TSgbgLck0
- VATGXCugxiW8TviBuq8xZFH7cd//XoZroYSgNezATvEpHpZBM1HdfIzmEicxY6wc
- +Qcx9H8XBHSMMivyr2ICS26+ifqzSIz7CFHG9Ykm+ADvz2VQ3FFzV3xjKFzoMiNo
- FssXolcxgQfgJSjzbhDgrfszcWelVTmkRnzM6wqQsGo2tipxIrIbF6L/MflJUvB6
- rMZ7xQ/XHnyQnGZvPuUWlPJHcY4dtF+ppE6/5JgI7yrScI/J+ZAVJyH2FL4E2ml1
- ifkm6868NPVGT23M5GGl97KjjjVaA==
-X-ME-Sender: <xms:0O78X5WDVOrxqQpCjXt3FBt9uzTV2je3Pjlwcc70x2qUB96K1d2hKA>
- <xme:0O78X5kAhn__SsQBLXeF70XJCP1lYVFBFAdQFscc_MZUiPU2mvdUSdJxkTZ0Rydu2
- jtidOfzYsvCVT4CJwI>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedujedrvdehvddgvddvucetufdoteggodetrfdotf
- fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
- uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
- cujfgurhepuffvfhfhkffffgggjggtgfesthekredttdefjeenucfhrhhomheplfhirgig
- uhhnucgjrghnghcuoehjihgrgihunhdrhigrnhhgsehflhihghhorghtrdgtohhmqeenuc
- ggtffrrghtthgvrhhnpeeihffghfeikedugeejvefgffevgeevgeehfffhudeiieffffev
- ffeugeevfefgfeenucfkphepgeehrdeffedrhedtrddvheegnecuvehluhhsthgvrhfuih
- iivgeptdenucfrrghrrghmpehmrghilhhfrhhomhepjhhirgiguhhnrdihrghnghesfhhl
- hihgohgrthdrtghomh
-X-ME-Proxy: <xmx:0O78X1YPBOOL1q48ODBkn7f0qqwc5jhKCzfvgauR3B3x1xUSPHeYfA>
- <xmx:0O78X8U3rUrS60KoxXvx1OtsYoXDlkjKQxAmZ1OltjDVixVN4IUvdw>
- <xmx:0O78XzmBu-fXkUYoV6tOb5_v1MtJpMW9FjE5krCurSJFKISTBT3nGA>
- <xmx:0e78X4wcdiWOuil6A_yRiHy5a8Ba3zzcQHRdAcoVvnv4jrKcxpSqvQ>
-Received: from [0.0.0.0] (li1000-254.members.linode.com [45.33.50.254])
- by mail.messagingengine.com (Postfix) with ESMTPA id F33C8240057;
- Mon, 11 Jan 2021 19:35:25 -0500 (EST)
-Subject: Re: [PULL 23/35] hw/intc: Rework Loongson LIOINTC
-To: Peter Maydell <peter.maydell@linaro.org>,
- BALATON Zoltan <balaton@eik.bme.hu>
-References: <20210103205021.2837760-1-f4bug@amsat.org>
- <20210103205021.2837760-24-f4bug@amsat.org>
- <CAFEAcA_YqAiiLRY08-gACmKOCf2mat3AaBGnyRK0Jc+aK-iuOw@mail.gmail.com>
- <b2dd6d33-d8e9-21a3-7b76-bdf44e117128@amsat.org>
- <3aece87-60ff-b195-8bd-c696bf461cb6@eik.bme.hu>
- <CAAhV-H71-wrTfDWN9zH2gU4gdJkCpMk5EDfAi1W1d4jXA3OkZg@mail.gmail.com>
- <3f383a52-6583-4c60-8f24-a24e6b95c068@www.fastmail.com>
- <29acb49a-4d1-ae6b-328d-6e3081e2ab2f@eik.bme.hu>
- <CAFEAcA8trw0PNeDaQq3dZa0q4qYoXF35ROLMHDw3qnJ=wX+vvw@mail.gmail.com>
-From: Jiaxun Yang <jiaxun.yang@flygoat.com>
-Message-ID: <9ccb0e6a-4b80-eea2-b9f5-4eec6f8e1fad@flygoat.com>
-Date: Tue, 12 Jan 2021 08:35:21 +0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.6.0
+ (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
+ id 1kz8Cq-0003JF-6v; Mon, 11 Jan 2021 20:10:44 -0500
+Received: from mail-yb1-xb2b.google.com ([2607:f8b0:4864:20::b2b]:39121)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
+ id 1kz8Co-00031i-0T; Mon, 11 Jan 2021 20:10:44 -0500
+Received: by mail-yb1-xb2b.google.com with SMTP id k4so620897ybp.6;
+ Mon, 11 Jan 2021 17:10:40 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=esExt44YhvyML9m95zy5xQeG2nSvFNiy4vdIH7mB8FE=;
+ b=NCn8RdnHvkdXCn3ScY8TAgiVPnO8zJfP/QwY6ACXHsVLjt8XeY7AZ2bk8E3UCa83hp
+ dp44OB/BtRgBgcSwvOQSiFbFbhXYdY1bD5/n+BFhUBykf4KJ4r0PkduM0Pab6jgsb8f2
+ kKAVu2BzeMI1chyJ7zG+BOxXhkgYJF1j1zJqAibNhDcxy5jsXS5KsLlrF3Jts9DwXFOj
+ 9SWzwihurj7TiwXtI/NYkbMvmPU0VckLexhTWSXSf4L3Dcc2rHK07EuXzhSFa8ebhtqh
+ vyYf/oZ6jy6QAFDEoQzBKggvvPcBt88/icRr9zcmq6MvB5eB5geyhsV1jf7RT7bOX0Jx
+ +8Mw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=esExt44YhvyML9m95zy5xQeG2nSvFNiy4vdIH7mB8FE=;
+ b=cS2NjIZhx6t6gZ+xdRhsVspSYexcRZfkzgEhxiw5g4E8RDIFLV84svkWCVXJgSseYh
+ FDWzxFQwso+HMMdCpZ0yHNehx40+epLyQ/PiRQ3DTUPQKP8u5R4wnIU+L0zlt5FXYhUM
+ Xbhv/bylwofCocbrJ2LlZ57FA99tqd4Wws7SGcLNxPdYSKfnhqE6tdiOLzMeR2QsjEvu
+ oaK2hTJIMGPCNY6kacKPnpDXEATjkOxp3ZzNFf40+Tx+ozwj1kYieMYHxQXfDJ8AUPNx
+ //mr+IasQbNuxCkipSo04plZ+6/sEe94hVE7wMoOS0ixycLis0+tUdNzmEx2LHhfm4YD
+ FM0w==
+X-Gm-Message-State: AOAM532wCEJsYXGhGpG27CbLPWOBwuca1Ok9jD3nxK+jpo326lVHCDJ0
+ UBDERZRN/IMLJtbPuNwpHOxojHoHtGj+ZGY97xo=
+X-Google-Smtp-Source: ABdhPJzWZTeNwOA1qJ1dVzeQY/2WuuIg4h2YZjhj28MIiUyEGIC3SSRS/1kxXG6xntWYEPSztS6lNOOpYROPt8/fF2o=
+X-Received: by 2002:a25:4d7:: with SMTP id 206mr3635411ybe.306.1610413840205; 
+ Mon, 11 Jan 2021 17:10:40 -0800 (PST)
 MIME-Version: 1.0
-In-Reply-To: <CAFEAcA8trw0PNeDaQq3dZa0q4qYoXF35ROLMHDw3qnJ=wX+vvw@mail.gmail.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Content-Language: en-US
-Received-SPF: permerror client-ip=66.111.4.230;
- envelope-from=jiaxun.yang@flygoat.com; helo=new4-smtp.messagingengine.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
+References: <20201204104652.GA16865@fralle-dell>
+ <CAEUhbmWAFf2sJLfb4i5JxhQgT88cVf54AzREuGrn+0C17ShxoQ@mail.gmail.com>
+ <20201204112847.GA16964@fralle-dell>
+ <CAEUhbmVo268ks+t1tLBcNLFYs4DAM6hexhYzXx=2B+YU31kR3w@mail.gmail.com>
+ <20201211151641.GA12361@fralle-msi>
+ <CAEUhbmXMfETY2LOkDn3x8a9ia74+hQgkEh4jbC8yKamP+qBFJw@mail.gmail.com>
+ <20201211161146.GB12361@fralle-msi>
+ <CAEUhbmXsZtGnMrw5gNJM=Gvqg3GQFejsfsggbTOpY+6eYLiBAg@mail.gmail.com>
+ <20201212092406.GA32260@fralle-msi>
+ <CAEUhbmUNZ5gctB+MEVfbrfmiZBOzm8unCEn+DZJjsMjcY_YGxg@mail.gmail.com>
+ <20201215164051.GA9899@fralle-msi>
+ <CAEUhbmWNHBvH5Dsgc3H3uL7832-DqVSn_Y20LnHgFMfcEVK0sA@mail.gmail.com>
+ <CAEUhbmXpn-u-MnM_ah53TrqfkTjuk+xJgAiGG25oCCxQ_hS9Nw@mail.gmail.com>
+ <CAEUhbmVxSM0N5YcX11Z4ph+vxYOr6EFKdxVkcAuHJqrbGWL4DQ@mail.gmail.com>
+In-Reply-To: <CAEUhbmVxSM0N5YcX11Z4ph+vxYOr6EFKdxVkcAuHJqrbGWL4DQ@mail.gmail.com>
+From: Bin Meng <bmeng.cn@gmail.com>
+Date: Tue, 12 Jan 2021 09:10:28 +0800
+Message-ID: <CAEUhbmUGvLgdP48QWaWXUKUmh0oSAUCAmTihb_xveMamgR_ivA@mail.gmail.com>
+Subject: Re: [PATCH] hw/block: m25p80: Fix fast read for SST flashes
+To: Francisco Iglesias <frasse.iglesias@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::b2b;
+ envelope-from=bmeng.cn@gmail.com; helo=mail-yb1-xb2b.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_PASS=-0.001,
- T_SPF_PERMERROR=0.01 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -107,51 +87,233 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Huacai Chen <chenhuacai@kernel.org>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
- Aurelien Jarno <aurelien@aurel32.net>,
- BALATON Zoltan via <qemu-devel@nongnu.org>
+Cc: Kevin Wolf <kwolf@redhat.com>, Alistair Francis <alistair@alistair23.me>,
+ Qemu-block <qemu-block@nongnu.org>, Bin Meng <bin.meng@windriver.com>,
+ "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
+ Max Reitz <mreitz@redhat.com>, Alistair Francis <alistair23@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-在 2021/1/11 下午6:35, Peter Maydell 写道:
-> On Mon, 11 Jan 2021 at 10:20, BALATON Zoltan <balaton@eik.bme.hu> wrote:
->> On Mon, 11 Jan 2021, Jiaxun Yang wrote:
->>> On Mon, Jan 11, 2021, at 8:36 AM, Huacai Chen wrote:
->>>> I think R_END should be 0x60, Jiaxun, what do you think?
->>> U r right.
->>> The manual is misleading.
->> The R_END constant is also used in loongson_liointc_init() for the length
->> of the memory region so you might want to revise that. If this is a 32 bit
->> register then you should decide what R_END means? Is it the end of the
->> memory region in which case the reg starts at R_END - 4 or is it the
->> address of the last reg in which case the memory region ends at R_END + 4.
->>  From the above I think it's the address of the last reg so you'll probably
->> need to add 4 in loongson_liointc_init() when creating the memory region.
-> Mmm, or check
->    (addr >= R_START && addr < (R_START + R_ISR_SIZE * NUM_CORES))
+On Wed, Jan 6, 2021 at 10:21 PM Bin Meng <bmeng.cn@gmail.com> wrote:
 >
-> Side note: R_ISR_SIZE is 8, but the code makes both the
-> 32-bit addresses you can read/write in that 8-byte range
-> behave the same way. Is that really what the hardware does ?
-> Or does it actually have 1 32-bit register per core, spaced
-> 8 bytes apart ?
-
-Yes, the hardware was designed like that. It have 1 32-bit register
-per core but spaced 8 bytes apart.
-
-I assume they were planing to add more ISRs in the future but as the
-product line have been ceased I'm not going to handle that.
-
-I'll send a patch for fix.
-
-Thanks.
-
-- Jiaxun
-
-
+> Hi Francisco,
 >
-> thanks
-> -- PMM
+> On Tue, Dec 22, 2020 at 9:40 AM Bin Meng <bmeng.cn@gmail.com> wrote:
+> >
+> > Hi Francisco,
+> >
+> > On Wed, Dec 16, 2020 at 6:11 PM Bin Meng <bmeng.cn@gmail.com> wrote:
+> > >
+> > > Hi Francisco,
+> > >
+> > > On Wed, Dec 16, 2020 at 12:40 AM Francisco Iglesias
+> > > <frasse.iglesias@gmail.com> wrote:
+> > > >
+> > > > Hello Bin,
+> > > >
+> > > > On [2020 Dec 12] Sat 17:44:27, Bin Meng wrote:
+> > > > > Hi Francisco,
+> > > > >
+> > > > > On Sat, Dec 12, 2020 at 5:24 PM Francisco Iglesias
+> > > > > <frasse.iglesias@gmail.com> wrote:
+> > > > > >
+> > > > > > Hi bin,
+> > > > > >
+> > > > > > On [2020 Dec 12] Sat 16:16:59, Bin Meng wrote:
+> > > > > > > Hi Francisco,
+> > > > > > >
+> > > > > > > On Sat, Dec 12, 2020 at 12:11 AM Francisco Iglesias
+> > > > > > > <frasse.iglesias@gmail.com> wrote:
+> > > > > > > >
+> > > > > > > > Hello Bin,
+> > > > > > > >
+> > > > > > > > On [2020 Dec 11] Fri 23:29:16, Bin Meng wrote:
+> > > > > > > > > Hi Francisco,
+> > > > > > > > >
+> > > > > > > > > On Fri, Dec 11, 2020 at 11:16 PM Francisco Iglesias
+> > > > > > > > > <frasse.iglesias@gmail.com> wrote:
+> > > > > > > > > >
+> > > > > > > > > > Hello Bin,
+> > > > > > > > > >
+> > > > > > > > > > On [2020 Dec 11] Fri 14:07:21, Bin Meng wrote:
+> > > > > > > > > > > Hi Francisco,
+> > > > > > > > > > >
+> > > > > > > > > > > On Fri, Dec 4, 2020 at 7:28 PM Francisco Iglesias
+> > > > > > > > > > > <frasse.iglesias@gmail.com> wrote:
+> > > > > > > > > > > >
+> > > > > > > > > > > > Hello Bin,
+> > > > > > > > > > > >
+> > > > > > > > > > > > On [2020 Dec 04] Fri 18:52:50, Bin Meng wrote:
+> > > > > > > > > > > > > Hi Francisco,
+> > > > > > > > > > > > >
+> > > > > > > > > > > > > On Fri, Dec 4, 2020 at 6:46 PM Francisco Iglesias
+> > > > > > > > > > > > > <frasse.iglesias@gmail.com> wrote:
+> > > > > > > > > > > > > >
+> > > > > > > > > > > > > > Hello Bin,
+> > > > > > > > > > > > > >
+> > > > > > > > > > > > > > On [2020 Dec 04] Fri 15:52:12, Bin Meng wrote:
+> > > > > > > > > > > > > > > Hi Francisco,
+> > > > > > > > > > > > > > >
+> > > > > > > > > > > > > > > On Thu, Dec 3, 2020 at 4:38 PM Francisco Iglesias
+> > > > > > > > > > > > > > > <frasse.iglesias@gmail.com> wrote:
+> > > > > > > > > > > > > > > >
+> > > > > > > > > > > > > > > > Hi Bin and Alistair,
+> > > > > > > > > > > > > > > >
+> > > > > > > > > > > > > > > > On [2020 Dec 02] Wed 11:40:11, Alistair Francis wrote:
+> > > > > > > > > > > > > > > > > On Sun, Nov 29, 2020 at 6:55 PM Bin Meng <bmeng.cn@gmail.com> wrote:
+> > > > > > > > > > > > > > > > > >
+> > > > > > > > > > > > > > > > > > From: Bin Meng <bin.meng@windriver.com>
+> > > > > > > > > > > > > > > > > >
+> > > > > > > > > > > > > > > > > > SST flashes require a dummy byte after the address bits.
+> > > > > > > > > > > > > > > > > >
+> > > > > > > > > > > > > > > > > > Signed-off-by: Bin Meng <bin.meng@windriver.com>
+> > > > > > > > > > > > > > > > >
+> > > > > > > > > > > > > > > > > I couldn't find a datasheet that says this... But the actual code
+> > > > > > > > > > > > > > > > > change looks fine, so:
+> > > > > > > > > > > > > > > > >
+> > > > > > > > > > > > > > > > > Acked-by: Alistair Francis <alistair.francis@wdc.com>
+> > > > > > > > > > > > > > > > >
+> > > > > > > > > > > > > > > > > Alistair
+> > > > > > > > > > > > > > > > >
+> > > > > > > > > > > > > > > > > > ---
+> > > > > > > > > > > > > > > > > >
+> > > > > > > > > > > > > > > > > >  hw/block/m25p80.c | 3 +++
+> > > > > > > > > > > > > > > > > >  1 file changed, 3 insertions(+)
+> > > > > > > > > > > > > > > > > >
+> > > > > > > > > > > > > > > > > > diff --git a/hw/block/m25p80.c b/hw/block/m25p80.c
+> > > > > > > > > > > > > > > > > > index 483925f..9b36762 100644
+> > > > > > > > > > > > > > > > > > --- a/hw/block/m25p80.c
+> > > > > > > > > > > > > > > > > > +++ b/hw/block/m25p80.c
+> > > > > > > > > > > > > > > > > > @@ -825,6 +825,9 @@ static void decode_fast_read_cmd(Flash *s)
+> > > > > > > > > > > > > > > > > >      s->needed_bytes = get_addr_length(s);
+> > > > > > > > > > > > > > > > > >      switch (get_man(s)) {
+> > > > > > > > > > > > > > > > > >      /* Dummy cycles - modeled with bytes writes instead of bits */
+> > > > > > > > > > > > > > > > > > +    case MAN_SST:
+> > > > > > > > > > > > > > > > > > +        s->needed_bytes += 1;
+> > > > > > > > > > > > > > > >
+> > > > > > > > > > > > > > > > 1 dummy clk cycle is modelled as 1 byte write (see the comment above), so 1
+> > > > > > > > > > > > > > > > dummy byte (8 dummy clk cycles) will need +8 above.
+> > > > > > > > > > > > > > >
+> > > > > > > > > > > > > > > I think you were confused by the WINBOND codes. The comments are
+> > > > > > > > > > > > > > > correct. It is modeled with bytes instead of bits, so we should +=1.
+> > > > > > > > > > > > > >
+> > > > > > > > > > > > > > What the comment says is (perhaps not superclear) that 1 dummy clock cycle
+> > > > > > > > > > > > > > is modeled as one 1 byte write into the flash (meaining that 8 byte writes
+> > > > > > > > > > > > > > are needed for 1 dummy byte). Perhaps it is easier to understand
+> > > > > > > > > > > > > > looking into how the controllers issue the command towards the flash model
+> > > > > > > > > > > > > > (for example the xilinx_spips), the start of the FAST_READ cmd is issued
+> > > > > > > > > > > > > > as writing the following into the flash: 1 byte (cmd), 3 bytes (address),
+> > > > > > > > > > > > > > 8 bytes (8 dummy cycles -> 1 dummy byte).
+> > > > > > > > > > > > > >
+> > > > > > > > > > > > >
+> > > > > > > > > > > > > My interpretation of the comments are opposite: one cycle is a bit,
+> > > > > > > > > > > > > but we are not using bits, instead we are using bytes.
+> > > > > > > > > > > >
+> > > > > > > > > > > > Yes, the mentioning of 'bits' in the comment makes it not very clear at first read.
+> > > > > > > > > > > > Maybe just bellow would have been better:
+> > > > > > > > > > > >
+> > > > > > > > > > > > /* Dummy clock cycles - modeled with bytes writes */
+> > > > > > > > > > > >
+> > > > > > > > > > > > >
+> > > > > > > > > > > > > Testing shows that +=1 is the correct way with the imx_spi controller,
+> > > > > > > > > > > > > and with my SiFive SPI model in my local tree (not upstreamed yet)
+> > > > > > > > > > > >
+> > > > > > > > > > > > Perhaps an option could be to look into how the aspeed_smc, xilinx_spips or the
+> > > > > > > > > > > > npcm7xx_fiu generate dummy clock cycles and see if a similar solution to one of
+> > > > > > > > > > > > those could work aswell for the imx_spi?
+> > > > > > > > > > > >
+> > > > > > > > > > >
+> > > > > > > > > > > Thanks for pointing this out. So there is some inconsistency among
+> > > > > > > > > > > different SPI controller modeling.
+> > > > > > > > > >
+> > > > > > > > > > I'm not sure I understand you correctly but the controllers supporting
+> > > > > > > > > > commands with dummy clock cycles can only do it following the modeled
+> > > > > > > > > > approach, so I would rather say it is pretty consistent across the
+> > > > > > > > > > controllers (not all controllers support these commands though).
+> > > > > > > > >
+> > > > > > > > > I mean there are 2 approaches to emulate the dummy cycles for
+> > > > > > > >
+> > > > > > > > There is currently only 1 way of modeling dummy clock cycles. All commands that
+> > > > > > > > require / support them in m25p80 goes with that approach. An the controllers
+> > > > > > > > that support dummy clock cycles uses that approach.
+> > > > > > >
+> > > > > > > No, there are 2 ways. One way is how aspeed_smc, xilinx_spips and
+> > > > > > > npcm7xx do for dummy cycles. For these controllers, there are hardware
+> > > > > > > registers for dummy cycles, and software does not need to write
+> > > > > > > anything into the tx fifo. These models emulate one dummy cycle by
+> > > > > > > transferring one byte one the SPI line so we see there are actually a
+> > > > > > > number of (bit * 8) bytes needed in decode_fast_read_cmd(). The other
+> > > > > > > way is how imx_spi, mss-spi, pl022, stm32f2xx_spi and xilinx_spi. For
+> > > > > > > these controllers, they just transfer whatever is written by guest
+> > > > > > > software to tx fifo without any special awareness of dummy cycles.
+> > > > > >
+> > > > > >
+> > > > > > The xilinx_spips supports above way of transferring a command so you can look
+> > > > > > into that one for an example of how to handle a command pushed into a txfifo
+> > > > > > with regards to the dummy clock cycles. Not all controllers support generating
+> > > > > > dummy clock cycles, meaning that not all do the dummy byte -> dummy clock cycle
+> > > > > > conversion. The controllers that do not do this currently does not support
+> > > > > > issuing commands requiring them towards m25p80 (as FAST_READ, DOR, QOR etc..).
+> > > > >
+> > > > > No, I don't think inspecting tx fifo to decode the SPI command, and to
+> > > > > insert dummy cycles when seeing FAST_READ is the correct way for these
+> > > > > SPI controllers like imx_spi. The real hardware does not do this and
+> > > > > we should not make them behave like xilinx_spips.
+> > > >
+> > > > Above is not correct, the xilinx_spips does not insert dummy clock cycles, it
+> > > > converts the dummy bytes in the txfifo into the correct amount of dummy clock
+> > > > cycles needed to be generated for the dummy byte based on the command and state
+> > >
+> > > I was referring to aspeed_smc codes. It multiplies the dummy cycles by
+> > > 8 and calls ssi_transfer(). This to me is wrong. However I am not
+> > > familiar with xilinx-spips and I surely could be wrong, like you said.
+> > >
+> > > > of the controller. For example if the command (as DOR) uses 2 lines when
+> > > > transmitting the dummy byte it will issue 4 dummy clock cycles, if the command
+> > > > uses 4 lines (example QIOR) it converts the dummy bytes into 2 dummy clock
+> > > > cycles each.
+> > >
+> > > I will take some time to check the xilinx-spips spec. This might need some time.
+> > >
+> > > >
+> > > > How the hardware really works and how QEMU models it is not necessarly the
+> > > > same, for the FAST_READ command the hardware will generate 8 dummy cycles of
+> > >
+> > > Agree, they should not be necessarily the same but for this case I was
+> > > saying that type of hardware has no way to inspect the content being
+> > > transferred hence for QEMU it's impossible to do that either.
+> > >
+> > > > the dummy byte (probably by shifting out the byte), currently the only way to
+> > > > model this in QEMU is by making the controller convert the dummy
+> > > > byte into 8 byte writes into m25p80 (there's no command in m25p80 modeling
+> > > > this differently). If you would like to change this I think it is better if you
+> > > > post a patch series demonstrating a solution that is better and also solves all
+> > > > problems currently solved by the current one. Example problems (but not all)
+> > > > are the ones mentioned above.
+> > > >
+> > >
+> > > Anyway I will take a look at the xilinx_spips and propose something later.
+> >
+> > It looks like the xilinx_spips.c supports 3 types of SPI controllers:
+> >
+> > static void xilinx_spips_register_types(void)
+> > {
+> >     type_register_static(&xilinx_spips_info);
+> >     type_register_static(&xilinx_qspips_info);
+> >     type_register_static(&xlnx_zynqmp_qspips_info);
+> > }
+> >
+> > Dummy cycle handling happens in xilinx_qspips and xilinz_zynqmp_qspips codes.
+> >
+> > Could you please provide some instructions on how to test these 2
+> > controllers with upstream U-Boot or Linux?
+> > I tried Zynqmp upstream U-Boot but it does not boot on QEMU. I
+> > probably missed something.
+>
+> Ping?
+>
+> Could you kindly provide instructions of using QEMU to boot upstream
+> U-Boot or Linux?
 
+Ping?
 
