@@ -2,61 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 04EEF2F2DCE
-	for <lists+qemu-devel@lfdr.de>; Tue, 12 Jan 2021 12:22:47 +0100 (CET)
-Received: from localhost ([::1]:35860 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 265FB2F2DD9
+	for <lists+qemu-devel@lfdr.de>; Tue, 12 Jan 2021 12:25:57 +0100 (CET)
+Received: from localhost ([::1]:44700 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kzHl8-0003Or-2G
-	for lists+qemu-devel@lfdr.de; Tue, 12 Jan 2021 06:22:46 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51458)
+	id 1kzHoC-0006yP-3x
+	for lists+qemu-devel@lfdr.de; Tue, 12 Jan 2021 06:25:56 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51528)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <groug@kaod.org>) id 1kzH5m-0004yw-Eb
- for qemu-devel@nongnu.org; Tue, 12 Jan 2021 05:40:02 -0500
-Received: from 3.mo51.mail-out.ovh.net ([188.165.32.156]:34556)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <groug@kaod.org>) id 1kzH5j-0001XI-8K
- for qemu-devel@nongnu.org; Tue, 12 Jan 2021 05:40:02 -0500
-Received: from mxplan5.mail.ovh.net (unknown [10.109.156.98])
- by mo51.mail-out.ovh.net (Postfix) with ESMTPS id 1B305256F17;
- Tue, 12 Jan 2021 11:39:51 +0100 (CET)
-Received: from kaod.org (37.59.142.106) by DAG8EX1.mxp5.local (172.16.2.71)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2044.4; Tue, 12 Jan
- 2021 11:39:50 +0100
-Authentication-Results: garm.ovh; auth=pass
- (GARM-106R0064082f10f-1a97-47d7-b54e-cbd194b2417e,
- D7A3512486C53AB1907B5452A8D2CB06296403FA) smtp.auth=groug@kaod.org
-X-OVh-ClientIp: 82.253.208.248
-Date: Tue, 12 Jan 2021 11:39:47 +0100
-From: Greg Kurz <groug@kaod.org>
-To: David Gibson <david@gibson.dropbear.id.au>
-Subject: Re: [PATCH v6 04/13] confidential guest support: Move side effect
- out of machine_set_memory_encryption()
-Message-ID: <20210112113947.4419cca2@bahia.lan>
-In-Reply-To: <20210112044508.427338-5-david@gibson.dropbear.id.au>
-References: <20210112044508.427338-1-david@gibson.dropbear.id.au>
- <20210112044508.427338-5-david@gibson.dropbear.id.au>
-X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
+ (Exim 4.90_1) (envelope-from <cohuck@redhat.com>) id 1kzH5y-0005Gs-Ry
+ for qemu-devel@nongnu.org; Tue, 12 Jan 2021 05:40:14 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:24030)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <cohuck@redhat.com>) id 1kzH5x-0001cn-72
+ for qemu-devel@nongnu.org; Tue, 12 Jan 2021 05:40:14 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1610448012;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=XLwhM6HBZdsA/zDqK/j1nDQCM3EK/9a9zXmTHeIPJ4I=;
+ b=bH8JvAxrn6mtWZ1emsoH6K2f8vHkKahmJZag0q6NA2SDaIyYNwHhGqxxm6Jj8btetwfLw7
+ B64x7/CSkRUqMXqNhfQQ4BHwacnRCENQ8YYQpIu9sCHtV4A8gfgi2h/vzggF7xNwL+grCk
+ nraBcDRLGCsfeMoLtgHNX7uCUSsgEBQ=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-218-o7GTrRZhM0qUGHafsH8pfw-1; Tue, 12 Jan 2021 05:40:10 -0500
+X-MC-Unique: o7GTrRZhM0qUGHafsH8pfw-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 7547115723;
+ Tue, 12 Jan 2021 10:40:09 +0000 (UTC)
+Received: from gondolin (ovpn-114-102.ams2.redhat.com [10.36.114.102])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 8349860BE2;
+ Tue, 12 Jan 2021 10:40:04 +0000 (UTC)
+Date: Tue, 12 Jan 2021 11:40:02 +0100
+From: Cornelia Huck <cohuck@redhat.com>
+To: David Hildenbrand <david@redhat.com>
+Subject: Re: [PATCH v3 0/5] s390x/tcg: fix booting Linux kernels compiled
+ with clang-11 and clang-12
+Message-ID: <20210112114002.6cbec9d0.cohuck@redhat.com>
+In-Reply-To: <20210111163845.18148-1-david@redhat.com>
+References: <20210111163845.18148-1-david@redhat.com>
+Organization: Red Hat GmbH
 MIME-Version: 1.0
-Content-Type: text/plain; charset="US-ASCII"
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=cohuck@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 7bit
-X-Originating-IP: [37.59.142.106]
-X-ClientProxiedBy: DAG6EX1.mxp5.local (172.16.2.51) To DAG8EX1.mxp5.local
- (172.16.2.71)
-X-Ovh-Tracer-GUID: 4600777d-acbe-4a0f-a9be-16b23e926f56
-X-Ovh-Tracer-Id: 8968637186831391071
-X-VR-SPAMSTATE: OK
-X-VR-SPAMSCORE: -100
-X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedujedrvdehgedgudejucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuqfggjfdpvefjgfevmfevgfenuceurghilhhouhhtmecuhedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhepfffhvffukfgjfhfogggtgfhisehtjeertdertddvnecuhfhrohhmpefirhgvghcumfhurhiiuceoghhrohhugheskhgrohgurdhorhhgqeenucggtffrrghtthgvrhhnpeefuddtieejjeevheekieeltefgleetkeetheettdeifeffvefhffelffdtfeeljeenucfkpheptddrtddrtddrtddpfeejrdehledrudegvddruddtieenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhhouggvpehsmhhtphdqohhuthdphhgvlhhopehmgihplhgrnhehrdhmrghilhdrohhvhhdrnhgvthdpihhnvghtpedtrddtrddtrddtpdhmrghilhhfrhhomhepghhrohhugheskhgrohgurdhorhhgpdhrtghpthhtohepjhhunhdrnhgrkhgrjhhimhgrsehinhhtvghlrdgtohhm
-Received-SPF: pass client-ip=188.165.32.156; envelope-from=groug@kaod.org;
- helo=3.mo51.mail-out.ovh.net
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
- RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=cohuck@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -29
+X-Spam_score: -3.0
+X-Spam_bar: ---
+X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.251,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -69,78 +78,55 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: pair@us.ibm.com, Marcelo Tosatti <mtosatti@redhat.com>,
- brijesh.singh@amd.com, kvm@vger.kernel.org, david@redhat.com,
- qemu-devel@nongnu.org, frankja@linux.ibm.com, pragyansri.pathi@intel.com,
- mst@redhat.com, mdroth@linux.vnet.ibm.com, pasic@linux.ibm.com,
- Christian Borntraeger <borntraeger@de.ibm.com>, andi.kleen@intel.com,
- thuth@redhat.com, Eduardo Habkost <ehabkost@redhat.com>,
- richard.henderson@linaro.org, dgilbert@redhat.com, qemu-s390x@nongnu.org,
- jun.nakajima@intel.com,
- "Daniel P. =?UTF-8?B?QmVycmFuZ8Op?=" <berrange@redhat.com>,
- Cornelia Huck <cohuck@redhat.com>, qemu-ppc@nongnu.org,
- Paolo Bonzini <pbonzini@redhat.com>
+Cc: Thomas Huth <thuth@redhat.com>, Nick Desaulniers <ndesaulniers@google.com>,
+ Heiko Carstens <hca@linux.ibm.com>,
+ Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org,
+ Christian Borntraeger <borntraeger@de.ibm.com>, qemu-s390x@nongnu.org,
+ Guenter Roeck <linux@roeck-us.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, 12 Jan 2021 15:44:59 +1100
-David Gibson <david@gibson.dropbear.id.au> wrote:
+On Mon, 11 Jan 2021 17:38:40 +0100
+David Hildenbrand <david@redhat.com> wrote:
 
-> When the "memory-encryption" property is set, we also disable KSM
-> merging for the guest, since it won't accomplish anything.
+> This series fixes booting current upstream Linux kernel compiled by
+> clang-11 and clang-12 under TCG.
 > 
-> We want that, but doing it in the property set function itself is
-> thereoretically incorrect, in the unlikely event of some configuration
-> environment that set the property then cleared it again before
-> constructing the guest.
+> Latest version of the patches available at:
+> git@github.com:davidhildenbrand/qemu.git clang
 > 
-> More importantly, it makes some other cleanups we want more difficult.
-> So, instead move this logic to machine_run_board_init() conditional on
-> the final value of the property.
+> v2 -> v3:
+> - Add 'tests/tcg/s390x: Fix EXRL tests'
+> -- "make check-tcg" with v2 revealed two buggy tests
+> - Added RB's/Tested-by's
 > 
-> Signed-off-by: David Gibson <david@gibson.dropbear.id.au>
-> Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-> ---
+> v1 -> v2:
+> - Add 's390x/tcg: Don't ignore content in r0 when not specified via "b" or
+>   "x"'
+> - Add 's390x/tcg: Ignore register content if b1/b2 is zero when handling
+>   EXEUTE'
+> - "s390x/tcg: Fix ALGSI"
+> -- Fixup subject
+> - "s390x/tcg: Fix RISBHG"
+> -- Rephrase description, stating that it fixes clang-11
+> 
+> David Hildenbrand (5):
+>   s390x/tcg: Fix ALGSI
+>   s390x/tcg: Fix RISBHG
+>   s390x/tcg: Don't ignore content in r0 when not specified via "b" or
+>     "x"
+>   tests/tcg/s390x: Fix EXRL tests
+>   s390x/tcg: Ignore register content if b1/b2 is zero when handling
+>     EXECUTE
+> 
+>  target/s390x/insn-data.def  | 10 +++++-----
+>  target/s390x/mem_helper.c   |  4 ++--
+>  target/s390x/translate.c    | 33 +++++++++++++++++----------------
+>  tests/tcg/s390x/exrl-trt.c  |  8 ++++----
+>  tests/tcg/s390x/exrl-trtr.c |  8 ++++----
+>  5 files changed, 32 insertions(+), 31 deletions(-)
+> 
 
-Reviewed-by: Greg Kurz <groug@kaod.org>
-
->  hw/core/machine.c | 17 +++++++++--------
->  1 file changed, 9 insertions(+), 8 deletions(-)
-> 
-> diff --git a/hw/core/machine.c b/hw/core/machine.c
-> index de3b8f1b31..8909117d80 100644
-> --- a/hw/core/machine.c
-> +++ b/hw/core/machine.c
-> @@ -437,14 +437,6 @@ static void machine_set_memory_encryption(Object *obj, const char *value,
->  
->      g_free(ms->memory_encryption);
->      ms->memory_encryption = g_strdup(value);
-> -
-> -    /*
-> -     * With memory encryption, the host can't see the real contents of RAM,
-> -     * so there's no point in it trying to merge areas.
-> -     */
-> -    if (value) {
-> -        machine_set_mem_merge(obj, false, errp);
-> -    }
->  }
->  
->  static bool machine_get_nvdimm(Object *obj, Error **errp)
-> @@ -1166,6 +1158,15 @@ void machine_run_board_init(MachineState *machine)
->                      cc->deprecation_note);
->      }
->  
-> +    if (machine->memory_encryption) {
-> +        /*
-> +         * With memory encryption, the host can't see the real
-> +         * contents of RAM, so there's no point in it trying to merge
-> +         * areas.
-> +         */
-> +        machine_set_mem_merge(OBJECT(machine), false, &error_abort);
-> +    }
-> +
->      machine_class->init(machine);
->      phase_advance(PHASE_MACHINE_INITIALIZED);
->  }
+Thanks, applied.
 
 
