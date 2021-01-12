@@ -2,78 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EC9522F3344
-	for <lists+qemu-devel@lfdr.de>; Tue, 12 Jan 2021 15:54:07 +0100 (CET)
-Received: from localhost ([::1]:54482 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 442C02F3362
+	for <lists+qemu-devel@lfdr.de>; Tue, 12 Jan 2021 15:57:57 +0100 (CET)
+Received: from localhost ([::1]:33908 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kzL3e-00066m-PM
-	for lists+qemu-devel@lfdr.de; Tue, 12 Jan 2021 09:54:06 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55556)
+	id 1kzL7M-0000vv-Aa
+	for lists+qemu-devel@lfdr.de; Tue, 12 Jan 2021 09:57:56 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56138)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1kzL2S-0004tn-GJ
- for qemu-devel@nongnu.org; Tue, 12 Jan 2021 09:52:52 -0500
-Received: from mail-wr1-x42b.google.com ([2a00:1450:4864:20::42b]:43330)
+ (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
+ id 1kzL5E-0007l9-FS; Tue, 12 Jan 2021 09:55:44 -0500
+Received: from mail-pj1-x102e.google.com ([2607:f8b0:4864:20::102e]:55195)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1kzL2P-0003XU-CI
- for qemu-devel@nongnu.org; Tue, 12 Jan 2021 09:52:52 -0500
-Received: by mail-wr1-x42b.google.com with SMTP id y17so2757404wrr.10
- for <qemu-devel@nongnu.org>; Tue, 12 Jan 2021 06:52:47 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=references:user-agent:from:to:cc:subject:date:in-reply-to
- :message-id:mime-version:content-transfer-encoding;
- bh=xN4oyTmaVBXFHBkXbWQoXDdfaGr7J/UclJC+4K0IxrU=;
- b=US0h2s5EcFVW33+hIvuTNkmlOXtoGMRyKkA+4xyidx1TKsT0CftSKusDYnZsbvdzcq
- bv0QmVCelFJtSo42hEyhkHAG9EIxmZFS9N6Fg5yjH/q40jRt/zzKAc8pn3qEeBfB5qvJ
- hCcZ+P5+w1Eew4fELND0lvHfxeaQWTOrdPHchuwQNRlmb+rTRZPJQV0LFMJ/xXe2R3M1
- mkoGCrl96EDOmPDmDvqFnf2cabMkeuzOF9nepDMxt2wOSCMamPDSvbPaTo7ssrnS0u75
- LdReILS8JikY+HlwRq7rq/A1YAYnhZ/boOKxGRmMbMrH5qc79T46/KTZlMw2r45alKc3
- n+Yw==
+ (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
+ id 1kzL5B-0004j5-Ou; Tue, 12 Jan 2021 09:55:44 -0500
+Received: by mail-pj1-x102e.google.com with SMTP id cq1so1540862pjb.4;
+ Tue, 12 Jan 2021 06:55:41 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=6JkyBkYAckjgDlGoWxaUiUStT7GzBw8f+Vd8Us2poEQ=;
+ b=RktSvR9thgQCq59D/Uxp3WROn6CZ09IZDh7WG2lSKjEV3i9I/BAk4tnmJeZ90WOKgw
+ /GFtfnQCrerqS5rbQ6rdSdqy2LTAozypY2gkbPciDcyjsEa84NxhONdm52zVn1dl8RqD
+ Ip+NtMLWXlIfREfCYTBzmieAN2HaBPaTK8j8USIi8ynS/eGfcIYhrQjKFnNBjaQIlVJD
+ EnjjMWuv3OiUadcjoc9qZfFeXnjaoG0R5U9f2vNY7k+NCu2DCMv6Vt04ziKKAkNTE2UM
+ P5p/2iGYq34w/7Lyv8U2AnLh0gfzQyWSNzl/Z68wusAmbOyZDhaEQ2/1eIpYAls38NmS
+ F3iA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:references:user-agent:from:to:cc:subject:date
- :in-reply-to:message-id:mime-version:content-transfer-encoding;
- bh=xN4oyTmaVBXFHBkXbWQoXDdfaGr7J/UclJC+4K0IxrU=;
- b=WmK9h3LSGejHPOSvlMnOaizUeUTJtQy4c4aS7hcSGvJfxIrjkIMU3w63YmhsjpwRAV
- 1O4mMpodg4IJIcsi6KtU1WWyG0txhXsiKYwaoYQcADiKxUe/dZKpxr5y7l/pXlBPiGTo
- KQOwhEyNQXfI0BL5ia5JfXKT+9sGJvQcMXBCwNQbIt9+EcEVZ5t6INtoj5xuAuyMAHQ2
- LKaP10VOr0DbMm2TGPgDDFQWgVrkDCw86dv6Nu4CU/e0V1uOdWoIHCOrsXdi5EweiUmk
- XPpB63H2ufQbVikqDBWRztm6TKfYgdbikWUV/RHpd11CKYEyXzc85LdysDMjdpK8lDRb
- Y6Xg==
-X-Gm-Message-State: AOAM533y5y17X8Ot9wMehTq9VEPAVDPnMo2YpWHokDOK+le8h75DE959
- 6k8n0dBYvVlKOh21T/mZM7oWEg==
-X-Google-Smtp-Source: ABdhPJxAHZw7lV+RCGOHjs6Ax7YgqqhTHdXxNGMuw1SKvPfYecvfv0JzhEtcPyhAJiIg8lEsTbF2cA==
-X-Received: by 2002:a05:6000:90:: with SMTP id
- m16mr4788459wrx.165.1610463166796; 
- Tue, 12 Jan 2021 06:52:46 -0800 (PST)
-Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id u17sm4190012wmj.35.2021.01.12.06.52.45
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=6JkyBkYAckjgDlGoWxaUiUStT7GzBw8f+Vd8Us2poEQ=;
+ b=KDwtLqZmkEpXAaoH6w+8wWlsaubkFI/jqHawo9IMBUffBvH3rTBUf2arOOkEM2wSaX
+ i5fddN36504s8ovjqWpLRQVt2aE5SGblPKxlBno74D16gClML7RXsErqzL8v62G230u4
+ lXsZD4pVYRdjpGDgH6MBfAJz2PVbe0dSp8swYS6Eahp8cMHZgdE1O8tCPsJF5mLO14b9
+ wdLWAxontBigut0thchWJetIemQsj/BQluZ+aJjoJ9g8ydMGsDXZDRc95MJG9MXTLwe8
+ qmst+ViEGdmMoKiPidCY1NOTjHgIau9ouhUa5s2xO+OzJP+RkVmSQzhQrwcm9dswk+oW
+ G+QA==
+X-Gm-Message-State: AOAM532bR0+qCeyxCwFXeWAGv/sdRun28h8ry2Si+v/c6Rf6WJ4MtOhC
+ eJYfRRI4w+JnklxpLm0YCdI=
+X-Google-Smtp-Source: ABdhPJxouh1w1J4FT1OWPI+/KHOKk2bZNs9RKletchAolCTesmfVn/Bg80CPsdb+N/XJOXvBAOrWRA==
+X-Received: by 2002:a17:90a:de94:: with SMTP id
+ n20mr5206727pjv.196.1610463340191; 
+ Tue, 12 Jan 2021 06:55:40 -0800 (PST)
+Received: from i9-aorus-gtx1080.localdomain (144.168.56.201.16clouds.com.
+ [144.168.56.201])
+ by smtp.gmail.com with ESMTPSA id l141sm3593938pfd.124.2021.01.12.06.55.37
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 12 Jan 2021 06:52:45 -0800 (PST)
-Received: from zen (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id C83A71FF7E;
- Tue, 12 Jan 2021 14:52:44 +0000 (GMT)
-References: <20201216160923.722894-1-stefanha@redhat.com>
- <20201216160923.722894-3-stefanha@redhat.com>
-User-agent: mu4e 1.5.7; emacs 28.0.50
-From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: Stefan Hajnoczi <stefanha@redhat.com>
-Subject: Re: [PATCH v2 2/3] tracing: convert documentation to rST
-Date: Tue, 12 Jan 2021 14:52:39 +0000
-In-reply-to: <20201216160923.722894-3-stefanha@redhat.com>
-Message-ID: <87mtxemclf.fsf@linaro.org>
+ Tue, 12 Jan 2021 06:55:39 -0800 (PST)
+From: Bin Meng <bmeng.cn@gmail.com>
+To: Peter Maydell <peter.maydell@linaro.org>,
+ Jean-Christophe Dubois <jcd@tribudubois.net>,
+ Alistair Francis <alistair.francis@wdc.com>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
+ qemu-arm@nongnu.org, qemu-devel@nongnu.org
+Subject: [PATCH v5 0/6] hw/ssi: imx_spi: Fix various bugs in the imx_spi model
+Date: Tue, 12 Jan 2021 22:55:20 +0800
+Message-Id: <20210112145526.31095-1-bmeng.cn@gmail.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::42b;
- envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x42b.google.com
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::102e;
+ envelope-from=bmeng.cn@gmail.com; helo=mail-pj1-x102e.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -88,20 +85,59 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>, qemu-devel@nongnu.org
+Cc: Bin Meng <bin.meng@windriver.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+From: Bin Meng <bin.meng@windriver.com>
 
-Stefan Hajnoczi <stefanha@redhat.com> writes:
+This series fixes a bunch of bugs in current implementation of the imx
+spi controller, including the following issues:
 
-> This is a simple rST conversion of the documentation.
->
-> Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
-> Signed-off-by: Stefan Hajnoczi <stefanha@redhat.com>
+- chip select signal was not lower down when spi controller is disabled
+- remove imx_spi_update_irq() in imx_spi_reset()
+- round up the tx burst length to be multiple of 8
+- transfer incorrect data when the burst length is larger than 32 bit
+- spi controller tx and rx fifo endianness is incorrect
 
-Reviewed-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
+Tested with upstream U-Boot v2020.10 (polling mode) and VxWorks 7
+(interrupt mode).
 
---=20
-Alex Benn=C3=A9e
+Changes in v5:
+- rename imx_spi_hard_reset() to imx_spi_soft_reset()
+- round up the burst length to be multiple of 8
+
+Changes in v4:
+- adujst the patch 2,3 order
+- rename imx_spi_soft_reset() to imx_spi_hard_reset() to avoid confusion
+- s/normal/common/ in the commit message
+- log the burst length value in the log message
+
+Changes in v3:
+- new patch: remove imx_spi_update_irq() in imx_spi_reset()
+- Move the chip selects disable out of imx_spi_reset()
+- new patch: log unimplemented burst length
+- Simplify the tx fifo endianness handling
+
+Changes in v2:
+- Fix the "Fixes" tag in the commit message
+- Use ternary operator as Philippe suggested
+
+Bin Meng (5):
+  hw/ssi: imx_spi: Use a macro for number of chip selects supported
+  hw/ssi: imx_spi: Remove imx_spi_update_irq() in imx_spi_reset()
+  hw/ssi: imx_spi: Round up the burst length to be multiple of 8
+  hw/ssi: imx_spi: Correct the burst length > 32 bit transfer logic
+  hw/ssi: imx_spi: Correct tx and rx fifo endianness
+
+Xuzhou Cheng (1):
+  hw/ssi: imx_spi: Disable chip selects when controller is disabled
+
+ include/hw/ssi/imx_spi.h |  5 ++++-
+ hw/ssi/imx_spi.c         | 46 +++++++++++++++++++++++++++++-----------
+ 2 files changed, 38 insertions(+), 13 deletions(-)
+
+-- 
+2.25.1
+
 
