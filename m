@@ -2,68 +2,91 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BD18A2F2F6B
-	for <lists+qemu-devel@lfdr.de>; Tue, 12 Jan 2021 13:55:43 +0100 (CET)
-Received: from localhost ([::1]:47244 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CDF162F2FB8
+	for <lists+qemu-devel@lfdr.de>; Tue, 12 Jan 2021 14:00:44 +0100 (CET)
+Received: from localhost ([::1]:51410 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kzJD4-0006W4-Rf
-	for lists+qemu-devel@lfdr.de; Tue, 12 Jan 2021 07:55:42 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56132)
+	id 1kzJHv-0008Ng-PF
+	for lists+qemu-devel@lfdr.de; Tue, 12 Jan 2021 08:00:43 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56480)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
- id 1kzJBl-0005qy-57; Tue, 12 Jan 2021 07:54:21 -0500
-Received: from mail-yb1-xb2b.google.com ([2607:f8b0:4864:20::b2b]:41295)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
- id 1kzJBj-0005M9-Ip; Tue, 12 Jan 2021 07:54:20 -0500
-Received: by mail-yb1-xb2b.google.com with SMTP id w127so2047895ybw.8;
- Tue, 12 Jan 2021 04:54:18 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=+V9p+fDZKLSr4OjbB1jdKf4hhGBIxJJobfGwO2itWTY=;
- b=Ao49IdWdnADQjgMqngoiBjUqE+JPTv9BE9GK+9Q2itm2OOXJ8WD4wzdGm4aDbLk6v5
- DAxcJBn2tmUWJ9riR4Wp6fM1RR1JkIsYWEYSEhXPqQ+HEVIjyF9oO/+9i7aUairvfRCR
- Y9bVXJ6g3MgCK/Ujt2BRX9se8ts/wh1iEVergiE+iNiQrBuaRbBIyNu46tmi//nomt+3
- 4Hdran5oeSr8VT9x5NUSGoOOeJ0BsMO5wNnOWQF7ELDUAWp4WlMDpZN6djZkfzwPfPjU
- /Z2kOM57mjsVXmJCEdWJRSaJmOUE53xNVlJYr307+8s+lWhwpYeHThhg+XKGzTALjJtY
- H+NQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=+V9p+fDZKLSr4OjbB1jdKf4hhGBIxJJobfGwO2itWTY=;
- b=bmGgiqxIOUjie2bf5Cr4lXbjA/3nTx6Si8nH2LdbDOkUfyty7kbx3ONjeOBwNpqxej
- 9nJlZmsRB+iwKFtJEi3gSjoCgpy7ZFrlrxJAWor87ziJLIHp0vnjkh/EWpns9Jr5t3TZ
- UFOULRsCJNKdub5+Af9rx1JKkGK/dQvNwwF/LB+QYShHgZMfhX8W+Ka/InuurJ63lnQy
- 2iZ8E4u9HMAvsVMes4YQ/O4uhVpsVnFwrT8BRhX/dKKWvcQiGXr7kvRakwrrIxLFIf3z
- C5Q60cXY+aTMqhH5/VKiImx7eq0sizlexkVb1RKIV/LurZrN8WmvM6cG9pj+6CSQCIk4
- CVYg==
-X-Gm-Message-State: AOAM531Xp9ePi75asXbq6YNe6GUyVSXhFj8ZcpNQguOyQt6Z0zxLcHQF
- 6p1o8IvPrY2mpiaEPWtjn30brI9sNi66Ul2iebI=
-X-Google-Smtp-Source: ABdhPJxLo++A+5/7DZ2t+kTXFA5/IFYGg+Q6xfzVt2c7e9+G48xMdwysEKSi+zIUu32vcnQ0Hr8IiVf1Yn69XECkQso=
-X-Received: by 2002:a25:690b:: with SMTP id e11mr6418052ybc.314.1610456058206; 
- Tue, 12 Jan 2021 04:54:18 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <jiaxun.yang@flygoat.com>)
+ id 1kzJE7-0007P8-5E
+ for qemu-devel@nongnu.org; Tue, 12 Jan 2021 07:56:47 -0500
+Received: from new4-smtp.messagingengine.com ([66.111.4.230]:48555)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <jiaxun.yang@flygoat.com>)
+ id 1kzJE2-0006Cw-CD
+ for qemu-devel@nongnu.org; Tue, 12 Jan 2021 07:56:46 -0500
+Received: from compute6.internal (compute6.nyi.internal [10.202.2.46])
+ by mailnew.nyi.internal (Postfix) with ESMTP id 561045807FD;
+ Tue, 12 Jan 2021 07:56:40 -0500 (EST)
+Received: from mailfrontend2 ([10.202.2.163])
+ by compute6.internal (MEProxy); Tue, 12 Jan 2021 07:56:40 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=flygoat.com; h=
+ subject:to:cc:references:from:message-id:date:mime-version
+ :in-reply-to:content-type:content-transfer-encoding; s=fm1; bh=i
+ yOa4PdqfrvenJUDeNKH1BBoSg5u3DdmUxlurlpM0oA=; b=FuFSQPeSKkxZH1HfT
+ 4U8aH7oWlvCKEj3eQAMotPZU1+f55/jQMlBIx8Sw8VOTpvVBXcublTxD1yjK5Rfi
+ edvWWACZdp2YouZ/JN8CXxKnh9gS7Kj7aEoUCwzih24sHPReGuoj8plVPcFd0dLm
+ CZ6KoP0PI3h+Pfi4g45PTDyw5fe834ZrHEt+jNuTnegNB5eQNGjpKZynI6tCEl/h
+ +zGjMqZ+G3PSyBouFuQmtKPERwxrzSWdJZn4Pgj4hT1T2GwepuSbFRiokFICC6ED
+ geqNYWQE9kD4SBMKHKgufJflNwRx3EG+zJSei/0XzhC3Maheg7xsYSK8NHD2PFgj
+ deUYw==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+ messagingengine.com; h=cc:content-transfer-encoding:content-type
+ :date:from:in-reply-to:message-id:mime-version:references
+ :subject:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender
+ :x-sasl-enc; s=fm1; bh=iyOa4PdqfrvenJUDeNKH1BBoSg5u3DdmUxlurlpM0
+ oA=; b=Pwcedlx/4eHACVRYniO4tRtRsxDFoOOC6z7TZibZOnA3LUGH1dlJZT3vg
+ ENWYkIb+OXqNDbiopttub9T5oT/vRhGW9yDMadZUHQWIcNM84zvfA1Qc8FyaS2FB
+ AZXsdYx5nBY1W2k9+tQZN5Hjbkh7ZBydqlqU90RSZ5jotOVlbd+Jr9wyBaBrOND4
+ llFsFBYc/03OhZPHel5qQM1iiIsDFahZVghoKs5xOtUCPikgPWF7b6RQed8mW/AQ
+ jlXHEp97r03/B2uol1F9/fw0sdApIg1JL9yLCTNIc+2S8/pSiZTswn+sZ3UjAT5G
+ 47/ou76DtI0G6qse6NPCvFkH+qzKg==
+X-ME-Sender: <xms:h5z9X_xCFJ3Cp-Cc47HlFxSJrB9Pwwk8FsoPVL3ucx9EmEgaVbqz2A>
+ <xme:h5z9X3QJFaZNuP1n_yj1kvBZXyeI8ZLysnbjZZi4DbKyUUo7eaYlIZFLUXLtFqgpK
+ oGl1Lpf2cZLqrkjSok>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedukedrtddtgddufecutefuodetggdotefrodftvf
+ curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
+ uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
+ fjughrpefuvfhfhffkffgfgggjtgfgsehtkeertddtfeejnecuhfhrohhmpeflihgrgihu
+ nhcujggrnhhguceojhhirgiguhhnrdihrghnghesfhhlhihgohgrthdrtghomheqnecugg
+ ftrfgrthhtvghrnhepiefhgffhieekudegjeevgfffveegveegheffhfduieeiffffveff
+ ueegveefgfefnecukfhppeeghedrfeefrdehtddrvdehgeenucevlhhushhtvghrufhiii
+ gvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehjihgrgihunhdrhigrnhhgsehflhih
+ ghhorghtrdgtohhm
+X-ME-Proxy: <xmx:h5z9X5WWw-PB4IUYhL5ixmzNs39qsLmiNETI8V-CNEksmawjM4an1Q>
+ <xmx:h5z9X5hn0P-Hw6GwU004cyBgLlvgd32-kq93ywXrVZnDPMkoQK05Vg>
+ <xmx:h5z9XxBwMrWao16u5LclBF4KWoYAuakUtTYzcr5Q0qYxl33b-m-uQQ>
+ <xmx:h5z9X-7Ng-acXC28_AHS2MrXXUHGgcE7SBIctP_4bKbGR1Le2dN8aA>
+Received: from [0.0.0.0] (li1000-254.members.linode.com [45.33.50.254])
+ by mail.messagingengine.com (Postfix) with ESMTPA id 69C8E1080057;
+ Tue, 12 Jan 2021 07:54:53 -0500 (EST)
+Subject: Re: [PATCH v2 03/13] vt82c686: Fix SMBus IO base and configuration
+ registers
+To: BALATON Zoltan <balaton@eik.bme.hu>, qemu-devel@nongnu.org
+References: <cover.1610223396.git.balaton@eik.bme.hu>
+ <f2ca2ad5f08ba8cee07afd9d67b4e75cda21db09.1610223397.git.balaton@eik.bme.hu>
+From: Jiaxun Yang <jiaxun.yang@flygoat.com>
+Message-ID: <f01fb9b0-133f-325d-9d34-e97af14e3c4d@flygoat.com>
+Date: Tue, 12 Jan 2021 20:54:48 +0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.6.0
 MIME-Version: 1.0
-References: <20210110081429.10126-1-bmeng.cn@gmail.com>
- <20210110081429.10126-3-bmeng.cn@gmail.com>
- <CAFEAcA8W8vxA8AJY-Ka+--drv_asw5soaFNO90VzVENApMMH0w@mail.gmail.com>
-In-Reply-To: <CAFEAcA8W8vxA8AJY-Ka+--drv_asw5soaFNO90VzVENApMMH0w@mail.gmail.com>
-From: Bin Meng <bmeng.cn@gmail.com>
-Date: Tue, 12 Jan 2021 20:54:07 +0800
-Message-ID: <CAEUhbmW2NaTNusZ123D7FPAK6uJZtCuak=UOtEE6Nc5fNfnsHQ@mail.gmail.com>
-Subject: Re: [PATCH v4 2/6] hw/ssi: imx_spi: Remove imx_spi_update_irq() in
- imx_spi_reset()
-To: Peter Maydell <peter.maydell@linaro.org>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::b2b;
- envelope-from=bmeng.cn@gmail.com; helo=mail-yb1-xb2b.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+In-Reply-To: <f2ca2ad5f08ba8cee07afd9d67b4e75cda21db09.1610223397.git.balaton@eik.bme.hu>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 8bit
+Content-Language: en-US
+Received-SPF: pass client-ip=66.111.4.230;
+ envelope-from=jiaxun.yang@flygoat.com; helo=new4-smtp.messagingengine.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_PASS=-0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -77,89 +100,113 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Bin Meng <bin.meng@windriver.com>, QEMU Developers <qemu-devel@nongnu.org>,
- =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>,
- qemu-arm <qemu-arm@nongnu.org>, Alistair Francis <alistair.francis@wdc.com>,
- Jean-Christophe Dubois <jcd@tribudubois.net>
+Cc: Huacai Chen <chenhuacai@kernel.org>, f4bug@amsat.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, Jan 12, 2021 at 6:49 PM Peter Maydell <peter.maydell@linaro.org> wrote:
+在 2021/1/10 上午4:16, BALATON Zoltan 写道:
+> The base address of the SMBus io ports and its enabled status is set
+> by registers in the PCI config space but this was not correctly
+> emulated. Instead the SMBus registers were mapped on realize to the
+> base address set by a property to the address expected by fuloong2e
+> firmware.
 >
-> On Sun, 10 Jan 2021 at 08:15, Bin Meng <bmeng.cn@gmail.com> wrote:
-> >
-> > From: Bin Meng <bin.meng@windriver.com>
-> >
-> > Usually the approach is that the device on the other end of the line
-> > is going to reset its state anyway, so there's no need to actively
-> > signal an irq line change during the reset hook.
-> >
-> > Move imx_spi_update_irq() out of imx_spi_reset(), to a new function
-> > imx_spi_hard_reset() that is called when the controller is disabled.
-> >
-> > Signed-off-by: Bin Meng <bin.meng@windriver.com>
-> >
-> > ---
-> >
-> > Changes in v4:
-> > - adujst the patch 2,3 order
-> > - rename imx_spi_soft_reset() to imx_spi_hard_reset() to avoid confusion
-> >
-> > Changes in v3:
-> > - new patch: remove imx_spi_update_irq() in imx_spi_reset()
-> >
-> >  hw/ssi/imx_spi.c | 14 ++++++++++----
-> >  1 file changed, 10 insertions(+), 4 deletions(-)
-> >
-> > diff --git a/hw/ssi/imx_spi.c b/hw/ssi/imx_spi.c
-> > index e605049a21..2c4c5ec1b8 100644
-> > --- a/hw/ssi/imx_spi.c
-> > +++ b/hw/ssi/imx_spi.c
-> > @@ -241,11 +241,16 @@ static void imx_spi_reset(DeviceState *dev)
-> >      imx_spi_rxfifo_reset(s);
-> >      imx_spi_txfifo_reset(s);
-> >
-> > -    imx_spi_update_irq(s);
-> > -
-> >      s->burst_length = 0;
-> >  }
-> >
-> > +static void imx_spi_hard_reset(IMXSPIState *s)
-> > +{
-> > +    imx_spi_reset(DEVICE(s));
-> > +
-> > +    imx_spi_update_irq(s);
-> > +}
-> > +
-> >  static uint64_t imx_spi_read(void *opaque, hwaddr offset, unsigned size)
-> >  {
-> >      uint32_t value = 0;
-> > @@ -351,8 +356,9 @@ static void imx_spi_write(void *opaque, hwaddr offset, uint64_t value,
-> >          s->regs[ECSPI_CONREG] = value;
-> >
-> >          if (!imx_spi_is_enabled(s)) {
-> > -            /* device is disabled, so this is a reset */
-> > -            imx_spi_reset(DEVICE(s));
-> > +            /* device is disabled, so this is a hard reset */
-> > +            imx_spi_hard_reset(s);
-> > +
-> >              return;
-> >          }
+> Fix the base and config register handling to more closely model
+> hardware which allows to remove the property and allows the guest to
+> control this mapping. Do all this in reset instead of realize so it's
+> correctly updated on reset.
+
+Hi,
+
+Thanks for your patch!
+
 >
-> The function of the code is correct, but you seem to have the function
-> naming backwards here. Generally:
->  * soft reset == the reset triggered by the register write
->  * hard reset == power-on reset == the dc->reset function
+> Signed-off-by: BALATON Zoltan <balaton@eik.bme.hu>
+> ---
+>   hw/isa/vt82c686.c   | 49 +++++++++++++++++++++++++++++++++------------
+>   hw/mips/fuloong2e.c |  4 +---
+>   2 files changed, 37 insertions(+), 16 deletions(-)
 >
-> I think this is what Philippe was trying to say.
+> diff --git a/hw/isa/vt82c686.c b/hw/isa/vt82c686.c
+> index fe8961b057..9c4d153022 100644
+> --- a/hw/isa/vt82c686.c
+> +++ b/hw/isa/vt82c686.c
+> @@ -22,6 +22,7 @@
+>   #include "hw/i2c/pm_smbus.h"
+>   #include "qapi/error.h"
+>   #include "qemu/module.h"
+> +#include "qemu/range.h"
+>   #include "qemu/timer.h"
+>   #include "exec/address-spaces.h"
+>   #include "trace.h"
+> @@ -34,7 +35,6 @@ struct VT686PMState {
+>       ACPIREGS ar;
+>       APMState apm;
+>       PMSMBus smb;
+> -    uint32_t smb_io_base;
+>   };
+>   
+>   static void pm_io_space_update(VT686PMState *s)
+> @@ -50,11 +50,22 @@ static void pm_io_space_update(VT686PMState *s)
+>       memory_region_transaction_commit();
+>   }
+>   
+> +static void smb_io_space_update(VT686PMState *s)
+> +{
+> +    uint32_t smbase = pci_get_long(s->dev.config + 0x90) & 0xfff0UL;
+> +
+> +    memory_region_transaction_begin();
+> +    memory_region_set_address(&s->smb.io, smbase);
+> +    memory_region_set_enabled(&s->smb.io, s->dev.config[0xd2] & BIT(0));
+> +    memory_region_transaction_commit();
+> +}
+> +
+>   static int vmstate_acpi_post_load(void *opaque, int version_id)
+>   {
+>       VT686PMState *s = opaque;
+>   
+>       pm_io_space_update(s);
+> +    smb_io_space_update(s);
+>       return 0;
+>   }
+>   
+> @@ -77,8 +88,18 @@ static const VMStateDescription vmstate_acpi = {
+>   
+>   static void pm_write_config(PCIDevice *d, uint32_t addr, uint32_t val, int len)
+>   {
+> +    VT686PMState *s = VT82C686B_PM(d);
+> +
+>       trace_via_pm_write(addr, val, len);
+>       pci_default_write_config(d, addr, val, len);
+> +    if (ranges_overlap(addr, len, 0x90, 4)) {
+> +        uint32_t v = pci_get_long(s->dev.config + 0x90);
+> +        pci_set_long(s->dev.config + 0x90, (v & 0xfff0UL) | 1);
 
-Philippe said: "Hmm usually hard reset include soft reset."
+What does this "or 1" do?
+The datasheet I found only mentioned the default value of BASE is 0000 0001
+but didn't say anything about it's function :-/
 
-Since we are moving imx_spi_update_irq() out of imx_spi_reset() to a
-new function called imx_spi_soft_reset() (what I did in v3), that
-confused him (and I felt the same thing), so I renamed
-imx_spi_soft_reset() to imx_spi_hard_reset() in v4..
+> +    }
+> +    if (range_covers_byte(addr, len, 0xd2)) {
+> +        s->dev.config[0xd2] &= 0xf;
+> +        smb_io_space_update(s);
+> +    }
+>   }
+>   
+>   static void pm_update_sci(VT686PMState *s)
+> @@ -103,6 +124,17 @@ static void pm_tmr_timer(ACPIREGS *ar)
+>       pm_update_sci(s);
+>   }
+>   
+> +static void vt82c686b_pm_reset(DeviceState *d)
+> +{
+> +    VT686PMState *s = VT82C686B_PM(d);
+> +
+> +    /* SMBus IO base */
+> +    pci_set_long(s->dev.config + 0x90, 1);
 
-Regards,
-Bin
+Theoretically this kind of magic number should be avoided but
+as the rest of the file was written in such style it seems fine for me.
+
+[...]
 
