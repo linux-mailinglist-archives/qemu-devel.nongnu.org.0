@@ -2,87 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7DFBF2F3C78
-	for <lists+qemu-devel@lfdr.de>; Tue, 12 Jan 2021 23:49:14 +0100 (CET)
-Received: from localhost ([::1]:51264 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C6FFE2F3C82
+	for <lists+qemu-devel@lfdr.de>; Wed, 13 Jan 2021 00:06:58 +0100 (CET)
+Received: from localhost ([::1]:55288 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kzSTR-00044A-2G
-	for lists+qemu-devel@lfdr.de; Tue, 12 Jan 2021 17:49:13 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35620)
+	id 1kzSkb-0006jL-Bg
+	for lists+qemu-devel@lfdr.de; Tue, 12 Jan 2021 18:06:57 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40274)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1kzSR2-0003Qp-75
- for qemu-devel@nongnu.org; Tue, 12 Jan 2021 17:46:44 -0500
-Received: from mail-wr1-x42f.google.com ([2a00:1450:4864:20::42f]:32802)
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1kzSjW-0006IR-3x
+ for qemu-devel@nongnu.org; Tue, 12 Jan 2021 18:05:50 -0500
+Received: from indium.canonical.com ([91.189.90.7]:32846)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1kzSR0-0002nS-FX
- for qemu-devel@nongnu.org; Tue, 12 Jan 2021 17:46:43 -0500
-Received: by mail-wr1-x42f.google.com with SMTP id t30so138873wrb.0
- for <qemu-devel@nongnu.org>; Tue, 12 Jan 2021 14:46:42 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=AZ/shsSriOu99emqyJXr7o78dUsIal8F9HD+es97O38=;
- b=iW+e1E0LAvlA9/AgLrQs/bvCEvkYDaKw0Fi96EXxmzbOOEqcsKj8qK+9iWrRZCBa1F
- f73I9NNpwSJs1mkUDo7kCFq04rftfGrV00TaWVQ6an12NJ5l74I27sARuu7uKB8+pOqJ
- E5kYCq8rkzrMcxpDwP9/r49OPqPRjrajNKvvl9E+eq9kIyoXI9K2F2mrbzczgf8qj9No
- BcsFAujVZ3rDuVCO0/h+1SWp5vCGxL5+BLUuvmlyKaO1jNzt8Mux0R6JbPw5lqhhYMfj
- S6yvnJv/kHZ6NF9vENc8ipu6+5NhQVnhWCurVAwrXd55eG7j1jfUhb1N5GRY+oeW136y
- opeg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
- :date:user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=AZ/shsSriOu99emqyJXr7o78dUsIal8F9HD+es97O38=;
- b=tLxouA9JAxImIK/iLXKCSFClAF4f07stDAhBAInN96zwQ+g2E0ZoUbcAuBh1JJ4+9k
- rH/9ioplpZXH7r+xf9C6Gep8cFXTEjoO9cFjilXjuB7NxWAWaEGhKFjIilIfm3n7wZxj
- oOH2xmQ8JCM4eFjOR95z2rBemr5/1lTic5omvCfsa22Fh+XaQevdE1EO2+Lox+W1Cem2
- uk/hPjYlrj5wAJzd7w+Il6M0yQAy2gQNXOukDMUSl0hUQro7Y7n5EsFxiK0cRXX/3yeE
- 42Z2Qajpqw15+1IUpJuFFLjywwtoOddiDbDF6cDJtJb+gMEBKnxD0RGv9vLdoZ1MaF+S
- L8wQ==
-X-Gm-Message-State: AOAM531SEnqETrCiUEZv1HOZM+/IUxUAn0RbBlQaGCi8sNZfWvH0Ux1o
- VQTkr1BBJ61x2Z65rP7Ox+M=
-X-Google-Smtp-Source: ABdhPJyfA/FVy2PHFx/vFeUktb6+3T8B3hLeMPIGUfnDqlMfoWsMsZKgglpzKGNbuddn6SrOk/8fcw==
-X-Received: by 2002:a5d:4307:: with SMTP id h7mr934214wrq.353.1610491600895;
- Tue, 12 Jan 2021 14:46:40 -0800 (PST)
-Received: from [192.168.1.36] (190.red-83-57-173.dynamicip.rima-tde.net.
- [83.57.173.190])
- by smtp.gmail.com with ESMTPSA id f7sm7378813wmc.1.2021.01.12.14.46.39
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 12 Jan 2021 14:46:40 -0800 (PST)
-Subject: Re: [PATCH] decodetree: Allow 'dot' in opcode names
-To: Eduardo Habkost <ehabkost@redhat.com>
-References: <20210112184156.2014305-1-f4bug@amsat.org>
- <7fd434f1-aa6d-f4db-b741-564a33a8540a@linaro.org>
- <2d6ffc43-51b1-e565-6dc5-6985ed43ccc5@amsat.org>
- <20210112222809.GD4161@habkost.net>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
-Message-ID: <eb05a6b3-0a2b-f794-1525-c44ed48fc8f6@amsat.org>
-Date: Tue, 12 Jan 2021 23:46:38 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.6.0
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1kzSjR-0000k5-Um
+ for qemu-devel@nongnu.org; Tue, 12 Jan 2021 18:05:49 -0500
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1kzSjO-0007jG-LQ
+ for <qemu-devel@nongnu.org>; Tue, 12 Jan 2021 23:05:42 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id 911202E8138
+ for <qemu-devel@nongnu.org>; Tue, 12 Jan 2021 23:05:42 +0000 (UTC)
 MIME-Version: 1.0
-In-Reply-To: <20210112222809.GD4161@habkost.net>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::42f;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x42f.google.com
-X-Spam_score_int: -14
-X-Spam_score: -1.5
-X-Spam_bar: -
-X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Date: Tue, 12 Jan 2021 22:58:24 -0000
+From: Marco <1911351@bugs.launchpad.net>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: charco
+X-Launchpad-Bug-Reporter: Marco (charco)
+X-Launchpad-Bug-Modifier: Marco (charco)
+Message-Id: <161049230444.13717.10732991676985431455.malonedeb@gac.canonical.com>
+Subject: [Bug 1911351] [NEW] x86-64 MTTCG Does not update page table entries
+ atomically
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="511b4a3b6512aa3d421c5f7d74f3527e78bff26e"; Instance="production"
+X-Launchpad-Hash: 98ee522ad3e2674d2d0a3cf120a6c67512a01a1c
+Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
+ helo=indium.canonical.com
+X-Spam_score_int: -65
+X-Spam_score: -6.6
+X-Spam_bar: ------
+X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9,
+ HEADER_FROM_DIFFERENT_DOMAINS=0.249, RCVD_IN_DNSWL_HI=-5,
+ RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -91,65 +69,142 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Paolo Bonzini <pbonzini@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org,
- Cleber Rosa <crosa@redhat.com>
+Reply-To: Bug 1911351 <1911351@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 1/12/21 11:28 PM, Eduardo Habkost wrote:
-> On Tue, Jan 12, 2021 at 11:15:38PM +0100, Philippe Mathieu-Daudé wrote:
->> On 1/12/21 9:44 PM, Richard Henderson wrote:
->>> On 1/12/21 8:41 AM, Philippe Mathieu-Daudé wrote:
->>>> Some ISA use a dot in their opcodes. Allow the decodetree
->>>> script to process them. The dot is replaced by an underscore
->>>> in the generated code.
->>>
->>> Given that you then have to remember to use '_' on the C side, what advantage
->>> does this give?
->>
->> The direct advantage is you can copy/paste the opcode in a PDF viewer
->> without having to edit it :)
->>
->> See i.e. some Loongson opcodes [*]:
->>
->> MULT.G          011100 ..... ..... ..... 00000 010000   @rs_rt_rd
->> DMULT.G         011100 ..... ..... ..... 00000 010001   @rs_rt_rd
->> MULTU.G         011100 ..... ..... ..... 00000 010010   @rs_rt_rd
->> DMULTU.G        011100 ..... ..... ..... 00000 010011   @rs_rt_rd
->>
->> DIV.G           011100 ..... ..... ..... 00000 010100   @rs_rt_rd
->> DDIV.G          011100 ..... ..... ..... 00000 010101   @rs_rt_rd
->> DIVU.G          011100 ..... ..... ..... 00000 010110   @rs_rt_rd
->> DDIVU.G         011100 ..... ..... ..... 00000 010111   @rs_rt_rd
->>
->> MOD.G           011100 ..... ..... ..... 00000 011100   @rs_rt_rd
->> DMOD.G          011100 ..... ..... ..... 00000 011101   @rs_rt_rd
->> MODU.G          011100 ..... ..... ..... 00000 011110   @rs_rt_rd
->> DMODU.G         011100 ..... ..... ..... 00000 011111   @rs_rt_rd
->>
->> The other - remote - advantage I see is when using a disassembler
->> based on decodetree (as AVR does), the opcode displayed also matches
->> the specs. We are not yet there with MIPS, but I have something in
->> progress...
-> 
-> Interesting.  So, the decodetree format is not used exclusively
-> inside the QEMU source tree, but also by other projects?  Is
-> there a specification somewhere else?
+Public bug reported:
 
-"as AVR does in QEMU", see commit 9d8caa67a24
-("target/avr: Add support for disassembling via option '-d in_asm'").
+It seems like the qemu tcg code for x86-64 doesn't write the access and
+dirty flags of the page table entries atomically. Instead, they first
+read the entry, see if they need to set the page table entry, and then
+overwrite the entry. So if you have two threads running at the same
+time, one accessing the virtual address over and over again, and the
+other modifying the page table entry, it is possible that after the
+second thread modifies the page table entry, qemu overwrites the value
+with the old page table entry value, with the access/dirty flags set.
 
-What seduces me with decodetree is we don't need to match QEMU
-instruction class with each CPU capabilities. IOW we can use the
-same decoder for TCG and disassembly, and the disassembly matches
-the instruction set of the CPU (with all the specific instructions).
+Here's a unit test that reproduces this behavior:
 
-Currently some specific opcodes are displayed as generic ones (or
-as unknown via hexadecimal value). Unfortunately not something we
-can show with QEMU AVR target because the ISA is very simple.
+https://github.com/mvanotti/kvm-unit-
+tests/commit/09f9722807271226a714b04f25174776454b19cd
 
-Regards,
+You can run it with:
 
-Phil.
+```
+/usr/bin/qemu-system-x86_64 --no-reboot -nodefaults \
+-device pc-testdev -device isa-debug-exit,iobase=3D0xf4,iosize=3D0x4 \
+-vnc none -serial stdio -device pci-testdev \
+-smp 4 -machine q35 --accel tcg,thread=3Dmulti \
+-kernel x86/mmu-race.flat # -initrd /tmp/tmp.avvPpezMFf
+```
+
+Expected output (failure):
+
+```
+kvm-unit-tests$ make && /usr/bin/qemu-system-x86_64 --no-reboot -nodefaults=
+ -device pc-testdev -device isa-debug-exit,iobase=3D0xf4,iosize=3D0x4 -vnc =
+none -serial stdio -device pci-testdev -smp 4 -machine q35 --accel tcg,thre=
+ad=3Dmulti  -kernel x86/mmu-race.flat # -initrd /tmp/tmp.avvPpezMFf
+enabling apic
+enabling apic
+enabling apic
+enabling apic
+paging enabled
+cr0 =3D 80010011
+cr3 =3D 627000
+cr4 =3D 20
+found 4 cpus
+PASS: Need more than 1 CPU
+Detected overwritten PTE:
+        want: 0x000000000062e007
+        got:  0x000000000062d027
+FAIL: PTE not overwritten
+PASS: All Reads were zero
+SUMMARY: 3 tests, 1 unexpected failures
+```
+
+This bug has allows user-to-root privilege escalation inside the guest
+VM: if the user is able overwrite an entry that belongs to a second-to-
+last level page table, and is able to allocate the referenced page, then
+the user would be in control of a last-level page table, being able to
+map any memory they want. This is not uncommon in situations where
+memory is being decomitted.
+
+** Affects: qemu
+     Importance: Undecided
+         Status: New
+
+-- =
+
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1911351
+
+Title:
+  x86-64 MTTCG Does not update page table entries atomically
+
+Status in QEMU:
+  New
+
+Bug description:
+  It seems like the qemu tcg code for x86-64 doesn't write the access
+  and dirty flags of the page table entries atomically. Instead, they
+  first read the entry, see if they need to set the page table entry,
+  and then overwrite the entry. So if you have two threads running at
+  the same time, one accessing the virtual address over and over again,
+  and the other modifying the page table entry, it is possible that
+  after the second thread modifies the page table entry, qemu overwrites
+  the value with the old page table entry value, with the access/dirty
+  flags set.
+
+  Here's a unit test that reproduces this behavior:
+
+  https://github.com/mvanotti/kvm-unit-
+  tests/commit/09f9722807271226a714b04f25174776454b19cd
+
+  You can run it with:
+
+  ```
+  /usr/bin/qemu-system-x86_64 --no-reboot -nodefaults \
+  -device pc-testdev -device isa-debug-exit,iobase=3D0xf4,iosize=3D0x4 \
+  -vnc none -serial stdio -device pci-testdev \
+  -smp 4 -machine q35 --accel tcg,thread=3Dmulti \
+  -kernel x86/mmu-race.flat # -initrd /tmp/tmp.avvPpezMFf
+  ```
+
+  Expected output (failure):
+
+  ```
+  kvm-unit-tests$ make && /usr/bin/qemu-system-x86_64 --no-reboot -nodefaul=
+ts -device pc-testdev -device isa-debug-exit,iobase=3D0xf4,iosize=3D0x4 -vn=
+c none -serial stdio -device pci-testdev -smp 4 -machine q35 --accel tcg,th=
+read=3Dmulti  -kernel x86/mmu-race.flat # -initrd /tmp/tmp.avvPpezMFf
+  enabling apic
+  enabling apic
+  enabling apic
+  enabling apic
+  paging enabled
+  cr0 =3D 80010011
+  cr3 =3D 627000
+  cr4 =3D 20
+  found 4 cpus
+  PASS: Need more than 1 CPU
+  Detected overwritten PTE:
+          want: 0x000000000062e007
+          got:  0x000000000062d027
+  FAIL: PTE not overwritten
+  PASS: All Reads were zero
+  SUMMARY: 3 tests, 1 unexpected failures
+  ```
+
+  This bug has allows user-to-root privilege escalation inside the guest
+  VM: if the user is able overwrite an entry that belongs to a second-
+  to-last level page table, and is able to allocate the referenced page,
+  then the user would be in control of a last-level page table, being
+  able to map any memory they want. This is not uncommon in situations
+  where memory is being decomitted.
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1911351/+subscriptions
 
