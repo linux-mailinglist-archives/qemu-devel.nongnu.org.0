@@ -2,65 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9F1F52F34FD
-	for <lists+qemu-devel@lfdr.de>; Tue, 12 Jan 2021 17:04:55 +0100 (CET)
-Received: from localhost ([::1]:43910 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5D9312F34EB
+	for <lists+qemu-devel@lfdr.de>; Tue, 12 Jan 2021 17:03:14 +0100 (CET)
+Received: from localhost ([::1]:38014 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kzMAA-0000ys-Mo
-	for lists+qemu-devel@lfdr.de; Tue, 12 Jan 2021 11:04:54 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43652)
+	id 1kzM8W-0006sR-V7
+	for lists+qemu-devel@lfdr.de; Tue, 12 Jan 2021 11:03:12 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43576)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1kzM6F-0005xX-Ak
- for qemu-devel@nongnu.org; Tue, 12 Jan 2021 11:00:51 -0500
-Received: from indium.canonical.com ([91.189.90.7]:43040)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1kzM62-0005ob-6j
+ for qemu-devel@nongnu.org; Tue, 12 Jan 2021 11:00:38 -0500
+Received: from mail-ej1-x62e.google.com ([2a00:1450:4864:20::62e]:36494)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1kzM6D-0002IE-3i
- for qemu-devel@nongnu.org; Tue, 12 Jan 2021 11:00:51 -0500
-Received: from loganberry.canonical.com ([91.189.90.37])
- by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1kzM6B-0006Gl-0F
- for <qemu-devel@nongnu.org>; Tue, 12 Jan 2021 16:00:47 +0000
-Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id D8D1D2E8137
- for <qemu-devel@nongnu.org>; Tue, 12 Jan 2021 16:00:46 +0000 (UTC)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1kzM60-0002Ad-EL
+ for qemu-devel@nongnu.org; Tue, 12 Jan 2021 11:00:37 -0500
+Received: by mail-ej1-x62e.google.com with SMTP id lt17so4269365ejb.3
+ for <qemu-devel@nongnu.org>; Tue, 12 Jan 2021 08:00:35 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=DfjIkZdzdlD/vkJuzL+98clXFddLOtIlz/ZDcf2SDn0=;
+ b=c0B2cDrzJtDJuv6NSsL5WIVXRXs8cZaqDUXpllyKQzWDvEhBQXju6s/8aQmRyezzDi
+ WuVXBjJnqnvwJE9qeqm3FQ2Ux/ZejlqOePQg5cl8JZkBZse4CxRYcz/65TImkTE1RC9E
+ 6VfGb6+VMeqoDdb8Le6PnXbb8/tZtijyVjAMzPm5qaDMu/G0QT+UhB58ycY2kpMH4wBp
+ UMpXAhaWQlhyEju0z6pwdABbU1WG4QwCoxdkTW5Ujw7UQwQSuvznbHby6BQqBfOANDx4
+ g+Jsqagsi1AW5X3GeD5A6dKdd/mvBD90+AwQGl/DbPiE+OmauFLDoTEY9M7+yM4pDYx1
+ /36A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=DfjIkZdzdlD/vkJuzL+98clXFddLOtIlz/ZDcf2SDn0=;
+ b=qFHWkRiOILNukilmw63pHaQKVnAg0lNlhajrDVjj2mCoInBxMwwUaVtpLfjLAs6qHX
+ ZEi97wX5X2ABI1I8seFmqlkAnkAjUEVKoU50j0unVumvHPD7Yq7VhSytQDAvzGF624vR
+ dKmKDyKCZT1yEe08CTYzrcaRnucO/kYUBuyKi5mnH+5xWpVM+vkUWOx6s6jfubV5RLWr
+ cFqce4OuSZgsm/wpmC5X5TlXLpynmrUGw/nkFcLE/LvYUk8cWxSUppWE/C7xGxM0nzG/
+ zNFhdOeOInYyfnX+HfjAqSOVaqDf3VXkXG+tFctZK4cfkg+PzxUOZ8Y8vAf4Abjfwa83
+ drnw==
+X-Gm-Message-State: AOAM532WfXQ0DYy2J7qurFBQXRMAM6xYhT8ZfM55ATgaUuWEjwFkQI2m
+ amkAx1V71ozQ7TYHnWaJ4noKQoOQQzdZ2FeQarZ0kw==
+X-Google-Smtp-Source: ABdhPJytCj0zYUunJIBz2Gr+5ohIOhMFAFhp3bccekjD+wACS4JtlIuOz5HgOd3VrRzuq1IdXx3rm+F1/5FxXNOY0/4=
+X-Received: by 2002:a17:906:1151:: with SMTP id
+ i17mr3833214eja.250.1610467234324; 
+ Tue, 12 Jan 2021 08:00:34 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-Date: Tue, 12 Jan 2021 15:53:03 -0000
-From: Gaoning Pan <1911216@bugs.launchpad.net>
-To: qemu-devel@nongnu.org
-X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
-X-Launchpad-Bug-Information-Type: Public
-X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: hades0506
-X-Launchpad-Bug-Reporter: Gaoning Pan (hades0506)
-X-Launchpad-Bug-Modifier: Gaoning Pan (hades0506)
-Message-Id: <161046678346.29947.74345360490259273.malonedeb@chaenomeles.canonical.com>
-Subject: [Bug 1911216] [NEW] abort issue locates in
- hw/usb/hcd-ohci.c:1297:ohci_frame_boundary
-X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
-X-Launchpad-Message-For: qemu-devel-ml
-Precedence: bulk
-X-Generated-By: Launchpad (canonical.com);
- Revision="511b4a3b6512aa3d421c5f7d74f3527e78bff26e"; Instance="production"
-X-Launchpad-Hash: d33aa05d028c01235241db9019d269648f5c24e4
-Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
- helo=indium.canonical.com
-X-Spam_score_int: -65
-X-Spam_score: -6.6
-X-Spam_bar: ------
-X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9,
- HEADER_FROM_DIFFERENT_DOMAINS=0.249, RCVD_IN_DNSWL_HI=-5,
- RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=ham autolearn_force=no
+References: <20210112143058.12159-1-maxim.uvarov@linaro.org>
+ <20210112143058.12159-3-maxim.uvarov@linaro.org>
+ <20210112153542.oqahdubzeoipyvun@kamzik.brq.redhat.com>
+In-Reply-To: <20210112153542.oqahdubzeoipyvun@kamzik.brq.redhat.com>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Tue, 12 Jan 2021 16:00:23 +0000
+Message-ID: <CAFEAcA9O2kHpcvoofo0v3ahXNOQtw8cxaVC2hn+AjpH6A9RciA@mail.gmail.com>
+Subject: Re: [PATCHv4 2/2] arm-virt: add secure pl061 for reset/power down
+To: Andrew Jones <drjones@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2a00:1450:4864:20::62e;
+ envelope-from=peter.maydell@linaro.org; helo=mail-ej1-x62e.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -69,124 +79,55 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1911216 <1911216@bugs.launchpad.net>
+Cc: Maxim Uvarov <maxim.uvarov@linaro.org>, Jose.Marinho@arm.com,
+ QEMU Developers <qemu-devel@nongnu.org>,
+ =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>,
+ tf-a@lists.trustedfirmware.org, qemu-arm <qemu-arm@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Public bug reported:
+On Tue, 12 Jan 2021 at 15:35, Andrew Jones <drjones@redhat.com> wrote:
+>
+> On Tue, Jan 12, 2021 at 05:30:58PM +0300, Maxim Uvarov wrote:
+> > Add secure pl061 for reset/power down machine from
+> > the secure world (Arm Trusted Firmware). Connect it
+> > with gpio-pwr driver.
 
-Hello,
+> > +    /* connect secure pl061 to gpio-pwr */
+> > +    qdev_connect_gpio_out(pl061_dev, ATF_GPIO_POWEROFF,
+> > +                          qdev_get_gpio_in_named(gpio_pwr_dev, "reset", 0));
+> > +    qdev_connect_gpio_out(pl061_dev, ATF_GPIO_REBOOT,
+> > +                          qdev_get_gpio_in_named(gpio_pwr_dev, "shutdown", 0));
+>
+> I don't know anything about secure world, but it seems odd that we don't
+> need to add anything to the DTB.
 
-I found an assertion failure in hw/usb/hcd-ohci.c:1297
-
-This was found in latest version 5.2.0.
-
-my reproduced environment is as follows:
-    Host: ubuntu 18.04
-    Guest: ubuntu 18.04
-
-QEMU boot command line:
-qemu-system-x86_64 -enable-kvm -boot c -m 4G -drive format=3Dqcow2,file=3D.=
-/ubuntu.img -nic user,hostfwd=3Dtcp:0.0.0.0:5555-:22 -display none -device =
-pci-ohci,id=3Dohci -device usb-tablet,bus=3Dohci.0,port=3D1,id=3Dusbdev1
+We should be adding something to the DTB, yes. Look at
+how create_uart() does this -- you set the 'status' and
+'secure-status' properties to indicate that the device is
+secure-world only.
 
 
-backtrace is as follows =
 
-pwndbg> bt
-#0  0x00007fdf392aa438 in __GI_raise (sig=3Dsig@entry=3D6) at ../sysdeps/un=
-ix/sysv/linux/raise.c:54
-#1  0x00007fdf392ac03a in __GI_abort () at abort.c:89
-#2  0x000055c613721118 in ohci_frame_boundary (opaque=3D0x6270000191f0) at =
-hw/usb/hcd-ohci.c:1297
-#3  0x000055c6140bdf0e in timerlist_run_timers (timer_list=3D0x60b00005bcc0=
-) at util/qemu-timer.c:572
-#4  0x000055c6140be15a in qemu_clock_run_timers (type=3DQEMU_CLOCK_VIRTUAL)=
- at util/qemu-timer.c:586
-#5  0x000055c6140beac7 in qemu_clock_run_all_timers () at util/qemu-timer.c=
-:672
-#6  0x000055c6140a1938 in main_loop_wait (nonblocking=3D0) at util/main-loo=
-p.c:523
-#7  0x000055c6125d87e9 in qemu_main_loop () at /home/dell/qemu5-hypervisor/=
-vm/fuzz-seedpool/hcd-ohci/qemu-5.1.0/softmmu/vl.c:1676
-#8  0x000055c613f216ea in main (argc=3D7, argv=3D0x7fff174cdd28, envp=3D0x7=
-fff174cdd68) at /home/dell/qemu5-hypervisor/vm/fuzz-seedpool/hcd-ohci/qemu-=
-5.1.0/softmmu/main.c:49
-#9  0x00007fdf39295840 in __libc_start_main (main=3D0x55c613f21699 <main>, =
-argc=3D7, argv=3D0x7fff174cdd28, init=3D<optimized out>, fini=3D<optimized =
-out>, rtld_fini=3D<optimized out>, stack_end=3D0x7fff174cdd18) at ../csu/li=
-bc-start.c:291
-#10 0x000055c6120a4349 in _start ()
+> > +    if (vmc->no_secure_gpio) {
+> > +        vms->secure_gpio = false;
+> > +    }  else {
+> > +        vms->secure_gpio = true;
+> > +    }
+>
+> nit: vms->secure_gpio = !vmc->no_secure_gpio
+>
+> But do we even need vms->secure_gpio? Why not just do
+>
+>  if (vms->secure && !vmc->no_secure_gpio) {
+>      create_gpio_secure(vms, secure_sysmem);
+>  }
+>
+> in machvirt_init() ?
 
-The poc is attached.
+We're just following the same pattern as vmc->no_its/vms->its,
+aren't we ?
 
-** Affects: qemu
-     Importance: Undecided
-         Status: New
-
-** Attachment added: "poc-ohci-abort.c"
-   https://bugs.launchpad.net/bugs/1911216/+attachment/5452326/+files/poc-o=
-hci-abort.c
-
--- =
-
-You received this bug notification because you are a member of qemu-
-devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1911216
-
-Title:
-  abort issue locates in hw/usb/hcd-ohci.c:1297:ohci_frame_boundary
-
-Status in QEMU:
-  New
-
-Bug description:
-  Hello,
-
-  I found an assertion failure in hw/usb/hcd-ohci.c:1297
-
-  This was found in latest version 5.2.0.
-
-  my reproduced environment is as follows:
-      Host: ubuntu 18.04
-      Guest: ubuntu 18.04
-
-  QEMU boot command line:
-  qemu-system-x86_64 -enable-kvm -boot c -m 4G -drive format=3Dqcow2,file=
-=3D./ubuntu.img -nic user,hostfwd=3Dtcp:0.0.0.0:5555-:22 -display none -dev=
-ice pci-ohci,id=3Dohci -device usb-tablet,bus=3Dohci.0,port=3D1,id=3Dusbdev1
-
-  =
-
-  backtrace is as follows =
-
-  pwndbg> bt
-  #0  0x00007fdf392aa438 in __GI_raise (sig=3Dsig@entry=3D6) at ../sysdeps/=
-unix/sysv/linux/raise.c:54
-  #1  0x00007fdf392ac03a in __GI_abort () at abort.c:89
-  #2  0x000055c613721118 in ohci_frame_boundary (opaque=3D0x6270000191f0) a=
-t hw/usb/hcd-ohci.c:1297
-  #3  0x000055c6140bdf0e in timerlist_run_timers (timer_list=3D0x60b00005bc=
-c0) at util/qemu-timer.c:572
-  #4  0x000055c6140be15a in qemu_clock_run_timers (type=3DQEMU_CLOCK_VIRTUA=
-L) at util/qemu-timer.c:586
-  #5  0x000055c6140beac7 in qemu_clock_run_all_timers () at util/qemu-timer=
-.c:672
-  #6  0x000055c6140a1938 in main_loop_wait (nonblocking=3D0) at util/main-l=
-oop.c:523
-  #7  0x000055c6125d87e9 in qemu_main_loop () at /home/dell/qemu5-hyperviso=
-r/vm/fuzz-seedpool/hcd-ohci/qemu-5.1.0/softmmu/vl.c:1676
-  #8  0x000055c613f216ea in main (argc=3D7, argv=3D0x7fff174cdd28, envp=3D0=
-x7fff174cdd68) at /home/dell/qemu5-hypervisor/vm/fuzz-seedpool/hcd-ohci/qem=
-u-5.1.0/softmmu/main.c:49
-  #9  0x00007fdf39295840 in __libc_start_main (main=3D0x55c613f21699 <main>=
-, argc=3D7, argv=3D0x7fff174cdd28, init=3D<optimized out>, fini=3D<optimize=
-d out>, rtld_fini=3D<optimized out>, stack_end=3D0x7fff174cdd18) at ../csu/=
-libc-start.c:291
-  #10 0x000055c6120a4349 in _start ()
-
-  The poc is attached.
-
-To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1911216/+subscriptions
+thanks
+-- PMM
 
