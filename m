@@ -2,84 +2,86 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BDA182F2D28
-	for <lists+qemu-devel@lfdr.de>; Tue, 12 Jan 2021 11:49:04 +0100 (CET)
-Received: from localhost ([::1]:54594 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3A4EC2F2D41
+	for <lists+qemu-devel@lfdr.de>; Tue, 12 Jan 2021 11:56:18 +0100 (CET)
+Received: from localhost ([::1]:41744 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kzHET-0006Px-0J
-	for lists+qemu-devel@lfdr.de; Tue, 12 Jan 2021 05:49:01 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50820)
+	id 1kzHLV-0004Lz-2j
+	for lists+qemu-devel@lfdr.de; Tue, 12 Jan 2021 05:56:17 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51286)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1kzH3U-0002LD-FX
- for qemu-devel@nongnu.org; Tue, 12 Jan 2021 05:37:40 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:55718)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1kzH3S-0000hu-0s
- for qemu-devel@nongnu.org; Tue, 12 Jan 2021 05:37:40 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1610447856;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=xfI1F9Bo+Dy2J52NpVC904akhvvvhqi/6WVSaQ8uEJU=;
- b=UEQ/JZiR8bqJEsWcOvaNWwhU7AsZny4XEZ0JKoZHRUEXNtKu4oDE7/zc9cpkjLdw9jSJIG
- 6zwIk83wGMDyt2GK7qXmtaA03TK3Jz0TOCCVFboLmaUImdArrTHBxzl/kY+46T+wxxsw+F
- xsSrOQMaJsn1VPk8z31dKU5PGOCAvfo=
-Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
- [209.85.221.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-430-VlhEFma2Nu2YuFrc4et1bQ-1; Tue, 12 Jan 2021 05:37:34 -0500
-X-MC-Unique: VlhEFma2Nu2YuFrc4et1bQ-1
-Received: by mail-wr1-f72.google.com with SMTP id g16so958005wrv.1
- for <qemu-devel@nongnu.org>; Tue, 12 Jan 2021 02:37:34 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=xfI1F9Bo+Dy2J52NpVC904akhvvvhqi/6WVSaQ8uEJU=;
- b=c68tw+FsgtLa+Ae4KSk2xk5oZ95/ayyrbCz2SRXo7Bk0hkytlZv8IDRGLXfQ7c3GFD
- +ZKKnX2rSjgMvFY56fbRkzgF4nSg6hrJUXZQmim7NpHDLcKNf6t1nQL/WVfNW5l+VxUx
- yPLYTcMQDupw15syWyWi1W8CMPbAwuqEEHGxTLT4hfZFaey7N6YSYT4WWb4Ey2pbD5g1
- lgGfaJaw894kciJFgNOwwU8PT3sr9oWtVGKAqb6+d8T3aTQkxFobmSx4mLsZKsDAk6xG
- QtTJ1fSou39TCC0Lo/6FBY3+U/TTG3e6XQ9yVXQ4f+X/s0ot5qWd5tKz4OQYJqmMOYSR
- wp8g==
-X-Gm-Message-State: AOAM531PtyQRxThhHXUiw019NKKATOxelPfR/vllBbi0XVzSdNG7F5Wl
- 3B+S8VjeOHKgNLLfaL4BUvYSZJSsdJMtCBKEmrEUsmU+1MPyep+W00vapaG9qwfP9222pVYrKBR
- JiceEqxthm6G4qwA=
-X-Received: by 2002:adf:e710:: with SMTP id c16mr3597495wrm.295.1610447853560; 
- Tue, 12 Jan 2021 02:37:33 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJyTaRRYMe9HaG/AEqD87xo4N9VnQ1/8NFreQFZMGWnx6FWaMzBLFFcMQ1CZ0QLH8HvRhp1kmA==
-X-Received: by 2002:adf:e710:: with SMTP id c16mr3597470wrm.295.1610447853401; 
- Tue, 12 Jan 2021 02:37:33 -0800 (PST)
-Received: from redhat.com (bzq-79-178-32-166.red.bezeqint.net. [79.178.32.166])
- by smtp.gmail.com with ESMTPSA id k18sm4567381wrd.45.2021.01.12.02.37.31
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 12 Jan 2021 02:37:32 -0800 (PST)
-Date: Tue, 12 Jan 2021 05:37:29 -0500
-From: "Michael S. Tsirkin" <mst@redhat.com>
-To: Jiahui Cen <cenjiahui@huawei.com>
-Subject: Re: [PATCH v4 0/8] acpi: Some fixes for pxb support for ARM virt
- machine
-Message-ID: <20210112053711-mutt-send-email-mst@kernel.org>
-References: <20210107114043.9624-1-cenjiahui@huawei.com>
- <18883fc1-5fc6-1c9e-b9d8-475809c9c1de@huawei.com>
+ (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
+ id 1kzH57-0004aN-He; Tue, 12 Jan 2021 05:39:21 -0500
+Received: from wout4-smtp.messagingengine.com ([64.147.123.20]:49461)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
+ id 1kzH54-0001Lk-Rx; Tue, 12 Jan 2021 05:39:21 -0500
+Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
+ by mailout.west.internal (Postfix) with ESMTP id 1E5661B1C;
+ Tue, 12 Jan 2021 05:39:16 -0500 (EST)
+Received: from mailfrontend1 ([10.202.2.162])
+ by compute4.internal (MEProxy); Tue, 12 Jan 2021 05:39:16 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=irrelevant.dk;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-type:in-reply-to; s=fm2; bh=f7DD6dGG59PZ15vEJEGDhD7RwcG
+ oqtvGbZaR33P6ZeU=; b=C8UwD+OT4V7elGQmrRuTR5I/lNIc8Vq0tWz2SaErv+7
+ BcY7YgXh2GnpV6gdQufZpl8E43b3f1/wJvIIhvwa48mJiOzbm98BS98magSvGgYg
+ Ojq/zv5KaB465xc4/OCCf3WLgmHpYm8hTJ/I0BTz08TQBHOTepm5smul3LRQ5Gxk
+ y/ue/YRsUNZ3DtT//ZvubERSiAJhxexYJNHD4dew1B4BARF5oW61an88zezZxrwj
+ tkpMyK8fLdlVtnqOtaVz7aGT3MgfBn2GuMH4ZqucL6cp288WMxAAiTs65HwGHYhf
+ MDEiuX1F5IwB4M0TX2pShWVpfDw/kIDbFhN2seEpMTw==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+ messagingengine.com; h=cc:content-type:date:from:in-reply-to
+ :message-id:mime-version:references:subject:to:x-me-proxy
+ :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; bh=f7DD6d
+ GG59PZ15vEJEGDhD7RwcGoqtvGbZaR33P6ZeU=; b=KKxW6F4KxHMWltme3DRn33
+ REv3N2R7LDv7wyFisolyAj7m/HBH7VCOQ7jyi5lV0+CB82tIxZ3PDFGZozOPJAMA
+ EPmtAYmyx9jSHdqSmdggMJanxATVaZpU33PSPYRkWA7ckAbVcNU/RmhBXaFPNUl/
+ Tt7KqsZZGb/te/ORB9ovktVdxv6hJ5uOe1/xRHJppPIzPNTjEo1wmWREAw+0HCbL
+ KtzmlN4HMdiWAS0WEDFWfqOEY3tROd23Jcpqfwm0cqyhgC+9/BQwM/Bvn+sSk3I8
+ iEQ7q6VhZn25PkzhtcRRqsk/H1gZl8QcH4yAP7ZomHPQGInOMZAeObahDtH14T3A
+ ==
+X-ME-Sender: <xms:U3z9X9J4B0dx5cf4yHu1gZ5cayuZiR-uTjkDAUUdN8C8E-ZzwCvXTA>
+ <xme:U3z9X5I5SbrW4U39klutfRonMrMcBBX-_dG5q4qv37yPe7YBhC6K5wSHQCfroVgrT
+ Nt8kMlVZFZeTiI0p0E>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedujedrvdehgedgudeiucetufdoteggodetrfdotf
+ fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+ uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
+ cujfgurhepfffhvffukfhfgggtuggjsehgtderredttdejnecuhfhrohhmpefmlhgruhhs
+ ucflvghnshgvnhcuoehithhssehirhhrvghlvghvrghnthdrughkqeenucggtffrrghtth
+ gvrhhnpeejgeduffeuieetkeeileekvdeuleetveejudeileduffefjeegfffhuddvudff
+ keenucfkphepkedtrdduieejrdelkedrudeltdenucevlhhushhtvghrufhiiigvpedtne
+ curfgrrhgrmhepmhgrihhlfhhrohhmpehithhssehirhhrvghlvghvrghnthdrughk
+X-ME-Proxy: <xmx:U3z9X1sH38A5lEF-kBg70U3pUm7nmVjavBcZGQmBbgnZooZxk8ZlWw>
+ <xmx:U3z9X-ZPWXasKRHMnXEY_ugVU5qyvYXmKjz6iP4lfcQQpQvt__qA0g>
+ <xmx:U3z9X0ZtG_poC7UYePYmhzuIgMDo9DJY1ofpc5yuP4t7N2ZavccL8w>
+ <xmx:U3z9Xzyc6vtoGhdV3bqDtEZWvJblzBTLxZXNqEiTRVHSRppP9Z_i6w>
+Received: from apples.localdomain (80-167-98-190-cable.dk.customer.tdc.net
+ [80.167.98.190])
+ by mail.messagingengine.com (Postfix) with ESMTPA id E975024005C;
+ Tue, 12 Jan 2021 05:39:13 -0500 (EST)
+Date: Tue, 12 Jan 2021 11:39:11 +0100
+From: Klaus Jensen <its@irrelevant.dk>
+To: zhenwei pi <pizhenwei@bytedance.com>
+Subject: Re: [PATCH v2 1/1] hw/block/nvme: add smart_critical_warning property
+Message-ID: <X/18T0lAM9zhj/7k@apples.localdomain>
+References: <20210112074924.217862-1-pizhenwei@bytedance.com>
+ <20210112074924.217862-2-pizhenwei@bytedance.com>
 MIME-Version: 1.0
-In-Reply-To: <18883fc1-5fc6-1c9e-b9d8-475809c9c1de@huawei.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mst@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="ZIc+pXTxUHyqe9/8"
 Content-Disposition: inline
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=mst@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -29
-X-Spam_score: -3.0
-X-Spam_bar: ---
-X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.251,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <20210112074924.217862-2-pizhenwei@bytedance.com>
+Received-SPF: pass client-ip=64.147.123.20; envelope-from=its@irrelevant.dk;
+ helo=wout4-smtp.messagingengine.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
+X-Spam_bar: --
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -92,69 +94,146 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: xieyingtai@huawei.com, Eduardo Habkost <ehabkost@redhat.com>,
- Ard Biesheuvel <ard.biesheuvel@arm.com>,
- Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org,
- Paolo Bonzini <pbonzini@redhat.com>, Igor Mammedov <imammedo@redhat.com>,
- Laszlo Ersek <lersek@redhat.com>, wu.wubin@huawei.com
+Cc: kwolf@redhat.com, qemu-block@nongnu.org, qemu-devel@nongnu.org,
+ mreitz@redhat.com, kbusch@kernel.org, philmd@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Looks good to me. Igor, want to ack before I apply this?
 
-On Tue, Jan 12, 2021 at 06:19:03PM +0800, Jiahui Cen wrote:
-> Kindly ping...
-> 
-> Thanks,
-> Jiahui
-> 
-> On 2021/1/7 19:40, Jiahui Cen wrote:
-> > This patch series adds some fixes for ARM virt machine pxb support.
-> > 1. Pass addr offset for IO, MMIO and bus number when builing crs, because
-> > the addr_trans is needed to describe an addr resource. [1]
-> > 2. Inform guest os not to ignore the resource map generated by firmware as
-> > the x86 default way. [2]
-> > 3. Enable pxb for ARM virt machine by default.
-> > 4. Update expected DSDT files with the above changes and enable the pxb
-> > unit-test.
-> > 
-> > v3->v4:
-> > * Separate the patch of ordering root buses for further discussion. [3]
-> > 
-> > v2->v3:
-> > * Reorder the root bridges.
-> > * Exclude resources of extra root bridges from main root bridge's _CRS.
-> > 
-> > v1->v2:
-> > * Update expected DSDT files.
-> > * Quote PCI Firmware spec as comments.
-> > 
-> > [1]: https://lore.kernel.org/qemu-devel/20201217132747.4744-1-cenjiahui@huawei.com/
-> > [2]: https://lore.kernel.org/qemu-devel/20201217132926.4812-1-cenjiahui@huawei.com/
-> > [3]: https://lore.kernel.org/qemu-devel/dca69f55-dfd1-3f97-dc3f-13eeedec5027@huawei.com/
-> > 
-> > Jiahui Cen (8):
-> >   acpi: Allow DSDT acpi table changes
-> >   acpi: Fix unmatched expected DSDT.pxb file
-> >   acpi: Add addr offset in build_crs
-> >   acpi/gpex: Inform os to keep firmware resource map
-> >   acpi/gpex: Exclude pxb's resources from PCI0
-> >   Kconfig: Compile PXB for ARM_VIRT
-> >   acpi: Enable pxb unit-test for ARM virt machine
-> >   acpi: Update _DSM method in expected files
-> > 
-> >  hw/acpi/aml-build.c               |  18 ++--
-> >  hw/i386/acpi-build.c              |   3 +-
-> >  hw/pci-bridge/Kconfig             |   2 +-
-> >  hw/pci-host/gpex-acpi.c           |  87 ++++++++++++++------
-> >  include/hw/acpi/aml-build.h       |   4 +-
-> >  tests/data/acpi/microvm/DSDT.pcie | Bin 3023 -> 3031 bytes
-> >  tests/data/acpi/virt/DSDT         | Bin 5196 -> 5204 bytes
-> >  tests/data/acpi/virt/DSDT.memhp   | Bin 6557 -> 6565 bytes
-> >  tests/data/acpi/virt/DSDT.numamem | Bin 5196 -> 5204 bytes
-> >  tests/data/acpi/virt/DSDT.pxb     | Bin 7802 -> 7689 bytes
-> >  tests/qtest/bios-tables-test.c    |   4 -
-> >  11 files changed, 79 insertions(+), 39 deletions(-)
-> > 
+--ZIc+pXTxUHyqe9/8
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
+On Jan 12 15:49, zhenwei pi wrote:
+> There is a very low probability that hitting physical NVMe disk
+> hardware critical warning case, it's hard to write & test a monitor
+> agent service.
+>=20
+> For debugging purposes, add a new 'smart_critical_warning' property
+> to emulate this situation.
+>=20
+> The orignal version of this change is implemented by adding a fixed
+> property which could be initialized by QEMU command line. Suggested
+> by Philippe & Klaus, rework like current version.
+>=20
+> Test with this patch:
+> 1, change smart_critical_warning property for a running VM:
+>  #virsh qemu-monitor-command nvme-upstream '{ "execute": "qom-set",
+>   "arguments": { "path": "/machine/peripheral-anon/device[0]",
+>   "property": "smart_critical_warning", "value":16 } }'
+> 2, run smartctl in guest
+>  #smartctl -H -l error /dev/nvme0n1
+>=20
+>   =3D=3D=3D START OF SMART DATA SECTION =3D=3D=3D
+>   SMART overall-health self-assessment test result: FAILED!
+>   - volatile memory backup device has failed
+>=20
+> Signed-off-by: zhenwei pi <pizhenwei@bytedance.com>
+
+I think we also need to check the asynchronous event configuration and
+issue an AEN if required like we do when the temperature threshold
+changes.
+
+Philippe, what are the locking semantics here? This runs under the big
+lock?
+
+> ---
+>  hw/block/nvme.c | 28 ++++++++++++++++++++++++++++
+>  hw/block/nvme.h |  1 +
+>  2 files changed, 29 insertions(+)
+>=20
+> diff --git a/hw/block/nvme.c b/hw/block/nvme.c
+> index 27d2c72716..a98757b6a1 100644
+> --- a/hw/block/nvme.c
+> +++ b/hw/block/nvme.c
+> @@ -1214,6 +1214,7 @@ static uint16_t nvme_smart_info(NvmeCtrl *n, uint8_=
+t rae, uint32_t buf_len,
+>      }
+> =20
+>      trans_len =3D MIN(sizeof(smart) - off, buf_len);
+> +    smart.critical_warning =3D n->smart_critical_warning;
+> =20
+>      smart.data_units_read[0] =3D cpu_to_le64(DIV_ROUND_UP(stats.units_re=
+ad,
+>                                                          1000));
+> @@ -2827,6 +2828,29 @@ static Property nvme_props[] =3D {
+>      DEFINE_PROP_END_OF_LIST(),
+>  };
+> =20
+> +
+> +static void nvme_get_smart_warning(Object *obj, Visitor *v, const char *=
+name,
+> +                                   void *opaque, Error **errp)
+> +{
+> +    NvmeCtrl *s =3D NVME(obj);
+> +    uint8_t value =3D s->smart_critical_warning;
+> +
+> +    visit_type_uint8(v, name, &value, errp);
+> +}
+> +
+> +static void nvme_set_smart_warning(Object *obj, Visitor *v, const char *=
+name,
+> +                                   void *opaque, Error **errp)
+> +{
+> +    NvmeCtrl *s =3D NVME(obj);
+> +    uint8_t value;
+> +
+> +    if (!visit_type_uint8(v, name, &value, errp)) {
+> +        return;
+> +    }
+> +
+> +    s->smart_critical_warning =3D value;
+> +}
+> +
+>  static const VMStateDescription nvme_vmstate =3D {
+>      .name =3D "nvme",
+>      .unmigratable =3D 1,
+> @@ -2857,6 +2881,10 @@ static void nvme_instance_init(Object *obj)
+>                                        "bootindex", "/namespace@1,0",
+>                                        DEVICE(obj));
+>      }
+> +
+> +    object_property_add(obj, "smart_critical_warning", "uint8",
+> +                        nvme_get_smart_warning,
+> +                        nvme_set_smart_warning, NULL, NULL);
+>  }
+> =20
+>  static const TypeInfo nvme_info =3D {
+> diff --git a/hw/block/nvme.h b/hw/block/nvme.h
+> index e080a2318a..64e3497244 100644
+> --- a/hw/block/nvme.h
+> +++ b/hw/block/nvme.h
+> @@ -139,6 +139,7 @@ typedef struct NvmeCtrl {
+>      uint64_t    timestamp_set_qemu_clock_ms;    /* QEMU clock time */
+>      uint64_t    starttime_ms;
+>      uint16_t    temperature;
+> +    uint8_t     smart_critical_warning;
+> =20
+>      HostMemoryBackend *pmrdev;
+> =20
+> --=20
+> 2.25.1
+>=20
+>=20
+
+--=20
+One of us - No more doubt, silence or taboo about mental illness.
+
+--ZIc+pXTxUHyqe9/8
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEEUigzqnXi3OaiR2bATeGvMW1PDekFAl/9fE0ACgkQTeGvMW1P
+Dek3fAgAwBa+g5q/pFwz8TYwdI6OtWOc22VQ0BeU5/Gh0o0KEEB9twzHLDSgx44V
+gMpyoIgthC2l7oTdYm31RLCCD3RjPRSDNck8FOuUktDDmiF+MQP01lWXz9jaMKNe
+92Uft+d2Un+SWNCG8bbXcO9X9WhqS/Z71RiN0Gzg7NJNgCNapFq9wPPhB0KKFEn8
+t0tMwYk3j98tl5o6gmqH5xH0GG8K9NGtZWKDKInd0rr3nVSX1BgnmPtez61B6Rlc
+Gb03HGOprY+8z6KzKSWGGIo+wjIZk5AQG6T7+iELsK244bgK7xKyszcJVGBAKm25
+38h9kEIBNhHKBtuNwi68tx7nulvmDg==
+=E1PZ
+-----END PGP SIGNATURE-----
+
+--ZIc+pXTxUHyqe9/8--
 
