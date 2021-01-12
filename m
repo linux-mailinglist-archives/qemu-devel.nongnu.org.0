@@ -2,57 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D44082F31B1
-	for <lists+qemu-devel@lfdr.de>; Tue, 12 Jan 2021 14:29:46 +0100 (CET)
-Received: from localhost ([::1]:56644 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C87EA2F31D8
+	for <lists+qemu-devel@lfdr.de>; Tue, 12 Jan 2021 14:37:18 +0100 (CET)
+Received: from localhost ([::1]:33734 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kzJk1-0006q7-CD
-	for lists+qemu-devel@lfdr.de; Tue, 12 Jan 2021 08:29:45 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36208)
+	id 1kzJrJ-0000y5-RC
+	for lists+qemu-devel@lfdr.de; Tue, 12 Jan 2021 08:37:17 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37930)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <fangying1@huawei.com>)
- id 1kzJhj-0005ke-Kp; Tue, 12 Jan 2021 08:27:23 -0500
-Received: from szxga04-in.huawei.com ([45.249.212.190]:2914)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <fangying1@huawei.com>)
- id 1kzJgu-0007dj-07; Tue, 12 Jan 2021 08:27:23 -0500
-Received: from DGGEMS404-HUB.china.huawei.com (unknown [172.30.72.58])
- by szxga04-in.huawei.com (SkyGuard) with ESMTP id 4DFWXH2sT5z15s2h;
- Tue, 12 Jan 2021 21:25:03 +0800 (CST)
-Received: from [10.174.186.67] (10.174.186.67) by
- DGGEMS404-HUB.china.huawei.com (10.3.19.204) with Microsoft SMTP Server id
- 14.3.498.0; Tue, 12 Jan 2021 21:25:56 +0800
-Subject: Re: [RFC PATCH v3 10/13] target/arm/cpu: Add cpu cache description
- for arm
-To: Peter Maydell <peter.maydell@linaro.org>
-References: <20201109030452.2197-1-fangying1@huawei.com>
- <20201109030452.2197-11-fangying1@huawei.com>
- <CAFEAcA-CuagYtA_9c7KrkvoBJqKnUNnT7M=C_MN1EnU4k1kAxQ@mail.gmail.com>
-From: Ying Fang <fangying1@huawei.com>
-Message-ID: <41e9d848-c478-8873-769b-e1cc85253db7@huawei.com>
-Date: Tue, 12 Jan 2021 21:25:56 +0800
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
- Thunderbird/78.6.0
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1kzJpb-0000Rx-Ov
+ for qemu-devel@nongnu.org; Tue, 12 Jan 2021 08:35:31 -0500
+Received: from indium.canonical.com ([91.189.90.7]:41544)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1kzJpZ-0002MZ-NB
+ for qemu-devel@nongnu.org; Tue, 12 Jan 2021 08:35:31 -0500
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1kzJpX-0005Yl-P6
+ for <qemu-devel@nongnu.org>; Tue, 12 Jan 2021 13:35:27 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id A95152E813B
+ for <qemu-devel@nongnu.org>; Tue, 12 Jan 2021 13:35:27 +0000 (UTC)
 MIME-Version: 1.0
-In-Reply-To: <CAFEAcA-CuagYtA_9c7KrkvoBJqKnUNnT7M=C_MN1EnU4k1kAxQ@mail.gmail.com>
-Content-Type: text/plain; charset="utf-8"; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.174.186.67]
-X-CFilter-Loop: Reflected
-Received-SPF: pass client-ip=45.249.212.190; envelope-from=fangying1@huawei.com;
- helo=szxga04-in.huawei.com
-X-Spam_score_int: -41
-X-Spam_score: -4.2
-X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_MED=-2.3, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Date: Tue, 12 Jan 2021 13:28:35 -0000
+From: Violet <1911188@bugs.launchpad.net>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: berrange phidica
+X-Launchpad-Bug-Reporter: Violet (phidica)
+X-Launchpad-Bug-Modifier: Violet (phidica)
+References: <161045460597.3279.18327990327654492890.malonedeb@chaenomeles.canonical.com>
+Message-Id: <161045811510.23111.5710034873953234624.malone@soybean.canonical.com>
+Subject: [Bug 1911188] Re: qemu-system-x86_64 prints obscure error message and
+ exits when encountering an empty argument
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="511b4a3b6512aa3d421c5f7d74f3527e78bff26e"; Instance="production"
+X-Launchpad-Hash: 735fbd82fb6ea5cbd3e3390334561d8144f2186d
+Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
+ helo=indium.canonical.com
+X-Spam_score_int: -65
+X-Spam_score: -6.6
+X-Spam_bar: ------
+X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9,
+ HEADER_FROM_DIFFERENT_DOMAINS=0.249, RCVD_IN_DNSWL_HI=-5,
+ RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -61,75 +70,60 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Andrew Jones <drjones@redhat.com>,
- zhanghailiang <zhang.zhanghailiang@huawei.com>,
- QEMU Developers <qemu-devel@nongnu.org>,
- Shannon Zhao <shannon.zhaosl@gmail.com>, qemu-arm <qemu-arm@nongnu.org>,
- Alistair Francis <alistair.francis@wdc.com>,
- Igor Mammedov <imammedo@redhat.com>, salil.mehta@huawei.com
+Reply-To: Bug 1911188 <1911188@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+Thanks for the quick reply Daniel. I've looked at the qemu man page many
+times but somehow never noticed that it can take one non-option argument
+alongside any other options. That does explain what is going on here. In
+that case I'm not going to push for a potentially breaking change.
 
+Perhaps it would still be beneficial to emit a warning about the empty
+string, at least when it has occurred in conjunction with a non-
+removable drive (I suppose one is created automatically if no other
+options are present?) which doesn't make sense to get such a path. I
+feel like the scenario in which it is intended might be less common than
+the scenario in which it has happened accidentally. Maybe I'm biased
+though ;)
 
-On 11/30/2020 9:00 PM, Peter Maydell wrote:
-> On Mon, 9 Nov 2020 at 03:05, Ying Fang <fangying1@huawei.com> wrote:
->>
->> Add the CPUCacheInfo structure to hold cpu cache information for ARM cpus.
->> A classic three level cache topology is used here. The default cache
->> capacity is given and userspace can overwrite these values.
->>
->> Signed-off-by: Ying Fang <fangying1@huawei.com>
->> ---
->>   target/arm/cpu.c | 42 ++++++++++++++++++++++++++++++++++++++++++
->>   target/arm/cpu.h | 27 +++++++++++++++++++++++++++
->>   2 files changed, 69 insertions(+)
->>
->> diff --git a/target/arm/cpu.c b/target/arm/cpu.c
->> index 056319859f..f1bac7452c 100644
->> --- a/target/arm/cpu.c
->> +++ b/target/arm/cpu.c
->> @@ -27,6 +27,7 @@
->>   #include "qapi/visitor.h"
->>   #include "cpu.h"
->>   #include "internals.h"
->> +#include "qemu/units.h"
->>   #include "exec/exec-all.h"
->>   #include "hw/qdev-properties.h"
->>   #if !defined(CONFIG_USER_ONLY)
->> @@ -997,6 +998,45 @@ uint64_t arm_cpu_mp_affinity(int idx, uint8_t clustersz)
->>       return (Aff1 << ARM_AFF1_SHIFT) | Aff0;
->>   }
->>
->> +static CPUCaches default_cache_info = {
->> +    .l1d_cache = &(CPUCacheInfo) {
->> +    .type = DATA_CACHE,
->> +        .level = 1,
->> +        .size = 64 * KiB,
->> +        .line_size = 64,
->> +        .associativity = 4,
->> +        .sets = 256,
->> +        .attributes = 0x02,
->> +    },
-> 
-> Would it be possible to populate this structure from the
-> CLIDR/CCSIDR ID register values, rather than having to
-> specify the same thing in two places?
+-- =
 
-Sorry I missed this reply.
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1911188
 
-I had tried to fetch CLIDR/CCSID ID register values of host cpu
-from KVM, however I did not get the value expected. May I made
-some mistakes in KVM side.
+Title:
+  qemu-system-x86_64 prints obscure error message and exits when
+  encountering an empty argument
 
-Thanks for your guide, I'll try to populate them again.
+Status in QEMU:
+  New
 
-> 
-> thanks
-> -- PMM
-> .
-> 
+Bug description:
+  QEMU emulator version 4.2.1 (qemu-4.2.1-1.fc32) on Fedora 32.
 
-Thanks.
-Ying.
+  When writing a script to start qemu automatically, I ran into a very
+  confusing error message due to a bug in my script and had trouble
+  understanding it. I isolated the problem to the following:
+
+  $ qemu-system-x86_64 ""
+  qemu-system-x86_64: Initialization of device ide-hd failed: Device needs =
+media, but drive is empty
+
+  As you can see, running qemu with an empty argument prints a seemingly
+  random and unrelated error message about an ide-hd device, and the
+  program immediately exits with code 1. This happens when an empty
+  argument appears anywhere in the arguments list, always causing the
+  program to immediately die with this error.
+
+  This is a simply baffling message to be encountering when the problem
+  is really an empty argument.
+
+  Expected behaviour: Either flatly ignore the empty argument, or at
+  most trigger a warning (eg, "warning: saw empty argument"). It should
+  not at all prevent the program from running.
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1911188/+subscriptions
 
