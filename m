@@ -2,81 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C717A2F2CB6
-	for <lists+qemu-devel@lfdr.de>; Tue, 12 Jan 2021 11:26:11 +0100 (CET)
-Received: from localhost ([::1]:38030 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1EA572F2CE5
+	for <lists+qemu-devel@lfdr.de>; Tue, 12 Jan 2021 11:32:39 +0100 (CET)
+Received: from localhost ([::1]:34304 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kzGsM-0000ou-Iz
-	for lists+qemu-devel@lfdr.de; Tue, 12 Jan 2021 05:26:10 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38030)
+	id 1kzGyc-0002jl-5S
+	for lists+qemu-devel@lfdr.de; Tue, 12 Jan 2021 05:32:38 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38350)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
- id 1kzGCM-0005Ih-IR; Tue, 12 Jan 2021 04:42:46 -0500
-Received: from wout4-smtp.messagingengine.com ([64.147.123.20]:58699)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
- id 1kzGCK-0007wd-7J; Tue, 12 Jan 2021 04:42:46 -0500
-Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
- by mailout.west.internal (Postfix) with ESMTP id EBBD91D1E;
- Tue, 12 Jan 2021 04:42:39 -0500 (EST)
-Received: from mailfrontend2 ([10.202.2.163])
- by compute4.internal (MEProxy); Tue, 12 Jan 2021 04:42:40 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=irrelevant.dk;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding; s=fm2; bh=HLAQQIA8GM2FmwKmkjh+WE5cKc
- BjpRwoaSU6jxVpDjA=; b=YLDbBQAV5MryJUGGmiO51MyCYJhhjvWX9U1kMjo4WD
- E785pn8nPlwCo6NJY3XXkbLssi987FIBa1E2OnHLj5ejum7o7N+5Xei2sTMQbXge
- zaTajbrs5ugXR6xRr0T6urWjcUkKW7mz1k+i9cvpk+eTY1mpwsG/TFngtZbrID4p
- sLnbpfa/Y8Lx3ICxGAsENlsn8fHfhXVI8jte3QUToQn4bSUgNSeyWKyJ1yhh9g6a
- nG3Yhd1znLYKOo/Bsnp1NtSONz+p9dCpC23nRTrT0NSk0nSg5dGOEC+V79kal6ip
- R8EA4jNl6HPdn/dSVtDVkWev6V2wv7s9EJ57MYSqhG2w==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:content-transfer-encoding:date:from
- :message-id:mime-version:subject:to:x-me-proxy:x-me-proxy
- :x-me-sender:x-me-sender:x-sasl-enc; s=fm1; bh=HLAQQIA8GM2FmwKmk
- jh+WE5cKcBjpRwoaSU6jxVpDjA=; b=Hanq3dIlMVWThrnXGvJTdR2CyH80EFRCQ
- dfDTugQI+CS4irjuM6XJoJCwdKGoux0UxiAtI/NQI3NG79z9V2l2xwkNl4ZltTt7
- VBQPQ740JAbo13HZc8/lGMwEjZR8VPiVSUqZ0zAaWHImUQCaLwWXOpJLzq+iC6Qq
- ZwnmHaAShPjrW1BwAdgNJN7fN1kHDJQka+XtOolSExYHDqXsQskEAHWc1ebk9s8j
- InH5N+SZXnZmCNoMx61+ojXMVv4JENFH8s7gRCZ5+zpXcQoJZ12mOuN0B+kcXatJ
- XnCi+Ni4UhSpAejKYKJKHv7QbiK+D2mW1qA3EP5MXDkBEKmeb8S2w==
-X-ME-Sender: <xms:D2_9XxgLNZisdmOrM_PYpsMBQW8Vjh8AtmljE3Jn4Y3AnEqw_drldQ>
- <xme:D2_9X2Blo8irmqA6ldNFeEa93ru8zRNaw_yZ_E03O6JJwoUJHSp433MuS_wswAdkD
- Ze5mnEsQeGUZYfA3Ts>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedujedrvdehgedgtdehucetufdoteggodetrfdotf
- fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
- uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
- cujfgurhephffvufffkffoggfgsedtkeertdertddtnecuhfhrohhmpefmlhgruhhsucfl
- vghnshgvnhcuoehithhssehirhhrvghlvghvrghnthdrughkqeenucggtffrrghtthgvrh
- hnpeefveelvdeikeduueffteeggeefhedvffffjeeuueeludehvdegjeevjefhtdetheen
- ucfkphepkedtrdduieejrdelkedrudeltdenucevlhhushhtvghrufhiiigvpedtnecurf
- grrhgrmhepmhgrihhlfhhrohhmpehithhssehirhhrvghlvghvrghnthdrughk
-X-ME-Proxy: <xmx:D2_9XxHChuYjJOS5C4gDtyJ3044s0fylUYtBo3iW9mAkYfaLvAAYXA>
- <xmx:D2_9X2RTSyQCGjsANlEIfpzjdW3exTGhHsOs1MYWx1xwG1lNJCIfjA>
- <xmx:D2_9X-wdcvUSki3hhk1MSmm3ByyAFjVOR0jzqpq3XO1UWRkMhH-UAg>
- <xmx:D2_9X1qnoz2et4PNX_hQ9wbl-WQjPLqCSeu6W2deRl350euExmHu_w>
-Received: from apples.local (80-167-98-190-cable.dk.customer.tdc.net
- [80.167.98.190])
- by mail.messagingengine.com (Postfix) with ESMTPA id 02A14108005C;
- Tue, 12 Jan 2021 04:42:37 -0500 (EST)
-From: Klaus Jensen <its@irrelevant.dk>
-To: qemu-devel@nongnu.org
-Subject: [PATCH] hw/block/nvme: fix zone write finalize
-Date: Tue, 12 Jan 2021 10:42:35 +0100
-Message-Id: <20210112094235.188686-1-its@irrelevant.dk>
-X-Mailer: git-send-email 2.30.0
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=64.147.123.20; envelope-from=its@irrelevant.dk;
- helo=wout4-smtp.messagingengine.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
+ (Exim 4.90_1) (envelope-from <frank.chang@sifive.com>)
+ id 1kzGCp-0005s5-NV
+ for qemu-devel@nongnu.org; Tue, 12 Jan 2021 04:43:17 -0500
+Received: from mail-pg1-x535.google.com ([2607:f8b0:4864:20::535]:37079)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <frank.chang@sifive.com>)
+ id 1kzGCh-000857-0i
+ for qemu-devel@nongnu.org; Tue, 12 Jan 2021 04:43:12 -0500
+Received: by mail-pg1-x535.google.com with SMTP id z21so1082397pgj.4
+ for <qemu-devel@nongnu.org>; Tue, 12 Jan 2021 01:43:06 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sifive.com; s=google;
+ h=from:to:cc:subject:date:message-id:in-reply-to:references;
+ bh=2kXd7BkSecgi1sQstKw8lugNbrgP0rsKfdX8qw3qJaw=;
+ b=cR6qoomWHej5GHMzr5eBahqyzTYIHXdF38CJ4kIS4eciNvEYJX9WgTdfhg5CwzPjSJ
+ 0cU9tC6J0z9BN+DDObJn2zxlts/YpF0S0AS30lnCCv89FXXwNMMZvl6q3Cmd+ynYw+9j
+ prefe3s8vnB39AALUd+o65txIn2esmyFsZHl4E8JeUWvXZHEqluTix/sNPgjHUM74R0w
+ Q7lO+B1M8DO8k2nUlxTdqoK2X5SM05fM1EXyvIeBr3F9wsUMLawawMeRmNXTRpubK4sf
+ 073DH+ke+dphAoNmpyYzOCJNUK5cnGsi4Y1LF9bQzDaosaUhCjxLlbHGbRYemvs5uLna
+ /X5Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+ :references;
+ bh=2kXd7BkSecgi1sQstKw8lugNbrgP0rsKfdX8qw3qJaw=;
+ b=jw9qaWDQWz2cX6b0fxCy8jWzsn3KDODwQU95Q24DKj8QVwGX5bTxILIwO5XaIUDskO
+ tBWU29e7gSiGj6lhTKvDHJ8iUSrWlAVmG2Y9y7fnOore+ZJ0eLRpNXlJ6PBH0otKLL8z
+ roMkpYYlXl5ixUFPZKf4UG24kzADuecrXgwdDqa9dMAwrXzsAfmRpP5TgxJX7lpSxifh
+ jfttYdpDsn9vIa/Dg+A6jsq3GIedhfG+w7S9rkXGUqkanig4aborA18SvKCpALzNu2M2
+ 0Et8zEGHW5fxkz7dYsF6gm1mZgbh/azvWE/Y8J76l04qI9kayMJT591PAjjP0UIu9MI6
+ +3CQ==
+X-Gm-Message-State: AOAM531nDQr6eqC9sIdiGK35sMRrcp/EHZ+Pf8a7KZSJxfwE4NLXogry
+ I32CfdS95t+EcQ4jf9AEUjuFhKeQOHttqcvd
+X-Google-Smtp-Source: ABdhPJzUBct05pe1ywHGRZgBHapCQWf86ve3lITKm1z4hB2RLGmpR/L0A7uYF5Ldln3bdFHs4bWHag==
+X-Received: by 2002:a63:66c3:: with SMTP id a186mr3959028pgc.198.1610444585748; 
+ Tue, 12 Jan 2021 01:43:05 -0800 (PST)
+Received: from frankchang-ThinkPad-T490.internal.sifive.com
+ (114-34-229-221.HINET-IP.hinet.net. [114.34.229.221])
+ by smtp.gmail.com with ESMTPSA id h16sm2865664pgd.62.2021.01.12.01.43.03
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 12 Jan 2021 01:43:05 -0800 (PST)
+From: frank.chang@sifive.com
+To: qemu-devel@nongnu.org,
+	qemu-riscv@nongnu.org
+Subject: [PATCH v6 45/72] target/riscv: rvv-1.0: single-width saturating add
+ and subtract instructions
+Date: Tue, 12 Jan 2021 17:39:19 +0800
+Message-Id: <20210112093950.17530-46-frank.chang@sifive.com>
+X-Mailer: git-send-email 2.17.1
+In-Reply-To: <20210112093950.17530-1-frank.chang@sifive.com>
+References: <20210112093950.17530-1-frank.chang@sifive.com>
+Received-SPF: pass client-ip=2607:f8b0:4864:20::535;
+ envelope-from=frank.chang@sifive.com; helo=mail-pg1-x535.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -89,56 +82,39 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, qemu-block@nongnu.org,
- Dmitry Fomichev <dmitry.fomichev@wdc.com>, Klaus Jensen <k.jensen@samsung.com>,
- Max Reitz <mreitz@redhat.com>, Klaus Jensen <its@irrelevant.dk>,
- Keith Busch <kbusch@kernel.org>
+Cc: Sagar Karandikar <sagark@eecs.berkeley.edu>,
+ Frank Chang <frank.chang@sifive.com>,
+ Bastian Koppelmann <kbastian@mail.uni-paderborn.de>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ Alistair Francis <Alistair.Francis@wdc.com>,
+ Palmer Dabbelt <palmer@dabbelt.com>, LIU Zhiwei <zhiwei_liu@c-sky.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Klaus Jensen <k.jensen@samsung.com>
+From: Frank Chang <frank.chang@sifive.com>
 
-The zone write pointer is unconditionally advanced, even for write
-faults. Make sure that the zone is always transitioned to Full if the
-write pointer reaches zone capacity.
+Sign-extend vsaddu.vi immediate value.
 
-Signed-off-by: Klaus Jensen <k.jensen@samsung.com>
-Cc: Dmitry Fomichev <dmitry.fomichev@wdc.com>
+Signed-off-by: Frank Chang <frank.chang@sifive.com>
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- hw/block/nvme.c | 10 +++++-----
- 1 file changed, 5 insertions(+), 5 deletions(-)
+ target/riscv/insn_trans/trans_rvv.c.inc | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/hw/block/nvme.c b/hw/block/nvme.c
-index 0854ee307227..280b31b4459d 100644
---- a/hw/block/nvme.c
-+++ b/hw/block/nvme.c
-@@ -1268,10 +1268,13 @@ static void nvme_finalize_zoned_write(NvmeNamespace *ns, NvmeRequest *req,
-     nlb = le16_to_cpu(rw->nlb) + 1;
-     zone = nvme_get_zone_by_slba(ns, slba);
+diff --git a/target/riscv/insn_trans/trans_rvv.c.inc b/target/riscv/insn_trans/trans_rvv.c.inc
+index 113a20af4d7..39e2d21da5e 100644
+--- a/target/riscv/insn_trans/trans_rvv.c.inc
++++ b/target/riscv/insn_trans/trans_rvv.c.inc
+@@ -2232,7 +2232,7 @@ GEN_OPIVX_TRANS(vsaddu_vx,  opivx_check)
+ GEN_OPIVX_TRANS(vsadd_vx,  opivx_check)
+ GEN_OPIVX_TRANS(vssubu_vx,  opivx_check)
+ GEN_OPIVX_TRANS(vssub_vx,  opivx_check)
+-GEN_OPIVI_TRANS(vsaddu_vi, IMM_ZX, vsaddu_vx, opivx_check)
++GEN_OPIVI_TRANS(vsaddu_vi, IMM_SX, vsaddu_vx, opivx_check)
+ GEN_OPIVI_TRANS(vsadd_vi, IMM_SX, vsadd_vx, opivx_check)
  
-+    zone->d.wp += nlb;
-+
-     if (failed) {
-         res->slba = 0;
--        zone->d.wp += nlb;
--    } else if (zone->w_ptr == nvme_zone_wr_boundary(zone)) {
-+    }
-+
-+    if (zone->d.wp == nvme_zone_wr_boundary(zone)) {
-         switch (nvme_get_zone_state(zone)) {
-         case NVME_ZONE_STATE_IMPLICITLY_OPEN:
-         case NVME_ZONE_STATE_EXPLICITLY_OPEN:
-@@ -1288,9 +1291,6 @@ static void nvme_finalize_zoned_write(NvmeNamespace *ns, NvmeRequest *req,
-         default:
-             assert(false);
-         }
--        zone->d.wp = zone->w_ptr;
--    } else {
--        zone->d.wp += nlb;
-     }
- }
- 
+ /* Vector Single-Width Averaging Add and Subtract */
 -- 
-2.30.0
+2.17.1
 
 
