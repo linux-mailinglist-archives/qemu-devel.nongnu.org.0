@@ -2,70 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9AFF32F390F
-	for <lists+qemu-devel@lfdr.de>; Tue, 12 Jan 2021 19:42:55 +0100 (CET)
-Received: from localhost ([::1]:37298 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B549C2F392B
+	for <lists+qemu-devel@lfdr.de>; Tue, 12 Jan 2021 19:49:30 +0100 (CET)
+Received: from localhost ([::1]:51038 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kzOd4-0007dv-JE
-	for lists+qemu-devel@lfdr.de; Tue, 12 Jan 2021 13:42:54 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55518)
+	id 1kzOjR-00052z-En
+	for lists+qemu-devel@lfdr.de; Tue, 12 Jan 2021 13:49:29 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55558)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1kzOWq-0001oR-Bv; Tue, 12 Jan 2021 13:36:28 -0500
-Received: from mail-ej1-x629.google.com ([2a00:1450:4864:20::629]:40595)
+ id 1kzOWu-0001qp-4u; Tue, 12 Jan 2021 13:36:32 -0500
+Received: from mail-ej1-x62d.google.com ([2a00:1450:4864:20::62d]:43323)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1kzOWm-0007UX-Et; Tue, 12 Jan 2021 13:36:27 -0500
-Received: by mail-ej1-x629.google.com with SMTP id f4so3840454ejx.7;
- Tue, 12 Jan 2021 10:36:23 -0800 (PST)
+ id 1kzOWr-0007WO-St; Tue, 12 Jan 2021 13:36:31 -0500
+Received: by mail-ej1-x62d.google.com with SMTP id jx16so4892396ejb.10;
+ Tue, 12 Jan 2021 10:36:29 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=UUrqq49b0H8vT1YH+cv+uaCjRkYF+aPQPM0uhg4pceE=;
- b=EJJMRxbbJxh8UJwD7/C898SYLP5gBXoO4/wgs1dvDaZnTWJuXj2ATH9mQEW4gy7pAW
- EsE4BG1osS3BWvEDnKmmVpsJlm5PkjrhCkD8pNTcHfG8MpleSoWlNBrG7/fYEuuOkayV
- p5CGVDXtiB/MWb0JF2hkkau8XqI7lTFAc+TyMJJ5Fwv2XPOR6Skpt3o41isDM7Xt2ztt
- Egkchq+1lLr1RLF+K7HD/ajsyudnSufvwgtHHm8CqrvXh+r8DgkZ0UdL46srdnOj49lg
- HHPsdVpRc3tNSz5doC4fHaFD51nIVYrlYbXMJEoM8kWt/Diroi3njSvErLYqO1/0y2iO
- kujg==
+ bh=3oL8bC8x9VFwiA/xc6ZokDU2TIJ+D0ZdajpMhJAtRjE=;
+ b=pzLiDzMgO2qqe2xY1cGknoalgMmhRxSV1G3RrQhEbCujzyXMOPbxqRLBBZh8ioK+QC
+ JSOBJWrEv+/WfBDGtrj1o1uuMDav0IQXvK7K21u4+v2oY0ZivsHgnRik7wkYZsWRzazS
+ AdWAY7UqPK2MnePUxrTKaZUP99Fhc1XAvhzraM52iOTf85rv9T2a0WlKugOgfoK2AGnO
+ MEt/uV9mlP0iyoS0pLf/uf5qVldhU+eNCHg4khq7OuA6dddSVlDGrbm/pHqL3od20eY1
+ Dt4hKixGQrE9LYy/JTomthxBKyfCQ00mwDxYDtpU8NbRXfrNWuGkTYg4QfZriqo8VWXJ
+ J6Lw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=UUrqq49b0H8vT1YH+cv+uaCjRkYF+aPQPM0uhg4pceE=;
- b=qiseRPbuUMHtXZkeDooCq3ZC9EX02ZQx1GRxfdM3zipWFYbHkPxu3zuXl7qL/cNoQL
- gU/9IQOjsfXUJVeeUTsOyN/X3dCaWrY0/HIjNb0wbgB4s24vIqHoh23xdYNmdRMNr47n
- ScgT0eiM8Q68fY1aOV11BV07SH+7p+zqrv4aTfLtDx8V6ozthHOPWhDbniLZ5NRHhTns
- D3yLKyKZGtK6B7kM6+KpHt8uptOYvlSCvKA4AAq9tcDFx921luHkttDIkx7BzAKFYj1/
- PjuphdqB630QyzEBKV0yM+t73u+SqzmpzvTZiZJ+etQzJeatVlaJCGSrPNQ3JJqw1eUg
- 2Xcg==
-X-Gm-Message-State: AOAM531V9k3VnXxRnK08C2ca/xo6aC5ZSzbdOcgVLQuTvOnlBWzfrfvV
- 6+eMuDQd6uawG1XqF1FqYPo=
-X-Google-Smtp-Source: ABdhPJznm2QYUQ6cpnSpv5X4F2y1tDvJrjYXJC9L5neUa8ZZ7s69gJ6ar8bMbCxEjjQ9D4bPIfPhWA==
-X-Received: by 2002:a17:906:878d:: with SMTP id
- za13mr98547ejb.395.1610476582574; 
- Tue, 12 Jan 2021 10:36:22 -0800 (PST)
+ bh=3oL8bC8x9VFwiA/xc6ZokDU2TIJ+D0ZdajpMhJAtRjE=;
+ b=JZAfOJzuhlMUAum/xVpZdUm/DEVXhvOh4hiplz6ykEa5co69bgD3Q/y50UJubHqJM0
+ V1c7kntjtyTsBUr+v4XMBrWOnPNV6QeI2hOg5ZjRo3SMZtkwAZj/d0GbyJGBlE36XgU5
+ TAdgxQy5ra0s5y8ssQgor2QByO0jf8i57WYFVBi44eHDERMNC5zH0nEWmg51ke5U6nyg
+ r+Tt3em1Zwt7JXw9gqH5CyzED1r9nMvEVk6wG3QXERso+2STd4woQV77NGzm2V1zjkhT
+ 9lf52ZjfsreRMyz8g0B22n0M2RCiUthyLpu1N8Yjdi5G4ddONogo8G+f7bj3+/l/Hz9H
+ uXLw==
+X-Gm-Message-State: AOAM5317kOdhdIAofY1itsGUq/qBxXmO4Ia5KVB+Xx72enAcSfaD6yJS
+ 8mpMlTsWVQyb/8NDcDRwehw=
+X-Google-Smtp-Source: ABdhPJzNVjPNHTWfdTDu4WsmxLITpifXl/wpM6+l3N1UEWB9deJNBPNSw+YabAM7dHGcuTVg3j30VQ==
+X-Received: by 2002:a17:906:90d6:: with SMTP id
+ v22mr139279ejw.88.1610476588169; 
+ Tue, 12 Jan 2021 10:36:28 -0800 (PST)
 Received: from x1w.redhat.com (190.red-83-57-173.dynamicip.rima-tde.net.
  [83.57.173.190])
- by smtp.gmail.com with ESMTPSA id r21sm1779423eds.91.2021.01.12.10.36.20
+ by smtp.gmail.com with ESMTPSA id k15sm1503481ejc.79.2021.01.12.10.36.26
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 12 Jan 2021 10:36:21 -0800 (PST)
+ Tue, 12 Jan 2021 10:36:27 -0800 (PST)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 To: Bin Meng <bin.meng@windriver.com>, qemu-devel@nongnu.org,
  Bin Meng <bmeng.cn@gmail.com>
-Subject: [RFC PATCH v6 07/11] hw/ssi: imx_spi: Rework imx_spi_write() to
- handle block disabled
-Date: Tue, 12 Jan 2021 19:35:25 +0100
-Message-Id: <20210112183529.2011863-8-f4bug@amsat.org>
+Subject: [RFC PATCH v6 08/11] hw/ssi: imx_spi: Disable chip selects when
+ controller is disabled
+Date: Tue, 12 Jan 2021 19:35:26 +0100
+Message-Id: <20210112183529.2011863-9-f4bug@amsat.org>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20210112183529.2011863-1-f4bug@amsat.org>
 References: <20210112183529.2011863-1-f4bug@amsat.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::629;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-ej1-x629.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::62d;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-ej1-x62d.google.com
 X-Spam_score_int: -14
 X-Spam_score: -1.5
 X-Spam_bar: -
@@ -87,6 +87,7 @@ List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: Peter Maydell <peter.maydell@linaro.org>,
+ Xuzhou Cheng <xuzhou.cheng@windriver.com>,
  Alistair Francis <alistair@alistair23.me>,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
  Jean-Christophe Dubois <jcd@tribudubois.net>, qemu-arm@nongnu.org,
@@ -94,71 +95,39 @@ Cc: Peter Maydell <peter.maydell@linaro.org>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-When the block is disabled, only the ECSPI_CONREG register can
-be modified. Setting the EN bit enabled the device, clearing it
-"disables the block and resets the internal logic with the
-exception of the ECSPI_CONREG" register.
+From: Xuzhou Cheng <xuzhou.cheng@windriver.com>
 
-Move the imx_spi_is_enabled() check earlier.
+When a write to ECSPI_CONREG register to disable the SPI controller,
+imx_spi_reset() is called to reset the controller, but chip select
+lines should have been disabled, otherwise the state machine of any
+devices (e.g.: SPI flashes) connected to the SPI master is stuck to
+its last state and responds incorrectly to any follow-up commands.
 
-Ref: i.MX 6DQ Applications Processor Reference Manual (IMX6DQRM),
-     chapter 21.7.3: Control Register (ECSPIx_CONREG)
-
+Fixes: c906a3a01582 ("i.MX: Add the Freescale SPI Controller")
+Signed-off-by: Xuzhou Cheng <xuzhou.cheng@windriver.com>
+Signed-off-by: Bin Meng <bin.meng@windriver.com>
+Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+Message-Id: <20210112145526.31095-4-bmeng.cn@gmail.com>
 Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 ---
- hw/ssi/imx_spi.c | 25 +++++++++++++++----------
- 1 file changed, 15 insertions(+), 10 deletions(-)
+ hw/ssi/imx_spi.c | 4 ++++
+ 1 file changed, 4 insertions(+)
 
 diff --git a/hw/ssi/imx_spi.c b/hw/ssi/imx_spi.c
-index 7ac9da0f1d2..801daa5cbfa 100644
+index 801daa5cbfa..2f9e800dd3a 100644
 --- a/hw/ssi/imx_spi.c
 +++ b/hw/ssi/imx_spi.c
-@@ -321,6 +321,20 @@ static void imx_spi_write(void *opaque, hwaddr offset, uint64_t value,
+@@ -255,6 +255,10 @@ static void imx_spi_reset(DeviceState *dev)
  
-     trace_imx_spi_write(index, imx_spi_reg_name(index), value);
+     imx_spi_update_irq(s);
  
-+    if (!imx_spi_is_enabled(s)) {
-+        /* Block is disabled */
-+        if (index != ECSPI_CONREG) {
-+            /* Ignore access */
-+            return;
-+        }
-+        s->regs[ECSPI_CONREG] = value;
-+        if (value & ECSPI_CONREG_EN) {
-+            /* Keep disabled */
-+            return;
-+        }
-+        /* Enable the block */
-+        imx_spi_reset(DEVICE(s));
++    for (i = 0; i < ECSPI_NUM_CS; i++) {
++        qemu_set_irq(s->cs_lines[i], 1);
 +    }
++
+     s->burst_length = 0;
+ }
  
-     switch (index) {
-     case ECSPI_RXDATA:
-@@ -328,10 +342,7 @@ static void imx_spi_write(void *opaque, hwaddr offset, uint64_t value,
-                       TYPE_IMX_SPI, __func__);
-         break;
-     case ECSPI_TXDATA:
--        if (!imx_spi_is_enabled(s)) {
--            /* Ignore writes if device is disabled */
--            break;
--        } else if (fifo32_is_full(&s->tx_fifo)) {
-+        if (fifo32_is_full(&s->tx_fifo)) {
-             /* Ignore writes if queue is full */
-             break;
-         }
-@@ -357,12 +368,6 @@ static void imx_spi_write(void *opaque, hwaddr offset, uint64_t value,
-     case ECSPI_CONREG:
-         s->regs[ECSPI_CONREG] = value;
- 
--        if (!imx_spi_is_enabled(s)) {
--            /* device is disabled, so this is a reset */
--            imx_spi_reset(DEVICE(s));
--            return;
--        }
--
-         if (imx_spi_channel_is_master(s)) {
-             uint32_t change_mask = s->regs[index] ^ value;
-             int i;
 -- 
 2.26.2
 
