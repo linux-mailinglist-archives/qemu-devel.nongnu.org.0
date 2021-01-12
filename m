@@ -2,68 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 22D8F2F3942
-	for <lists+qemu-devel@lfdr.de>; Tue, 12 Jan 2021 19:53:53 +0100 (CET)
-Received: from localhost ([::1]:60054 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CA8842F3946
+	for <lists+qemu-devel@lfdr.de>; Tue, 12 Jan 2021 19:57:10 +0100 (CET)
+Received: from localhost ([::1]:40524 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kzOng-0000fm-6i
-	for lists+qemu-devel@lfdr.de; Tue, 12 Jan 2021 13:53:52 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55248)
+	id 1kzOqr-0004G0-SL
+	for lists+qemu-devel@lfdr.de; Tue, 12 Jan 2021 13:57:09 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55320)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1kzOVz-0000ls-Mh; Tue, 12 Jan 2021 13:35:36 -0500
-Received: from mail-ej1-x62b.google.com ([2a00:1450:4864:20::62b]:44366)
+ id 1kzOWC-0000uC-68; Tue, 12 Jan 2021 13:35:48 -0500
+Received: from mail-ej1-x62f.google.com ([2a00:1450:4864:20::62f]:41991)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1kzOVy-00079j-0Q; Tue, 12 Jan 2021 13:35:35 -0500
-Received: by mail-ej1-x62b.google.com with SMTP id w1so4883906ejf.11;
- Tue, 12 Jan 2021 10:35:33 -0800 (PST)
+ id 1kzOW8-0007Ct-Sy; Tue, 12 Jan 2021 13:35:46 -0500
+Received: by mail-ej1-x62f.google.com with SMTP id d17so4903257ejy.9;
+ Tue, 12 Jan 2021 10:35:44 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=txiwHr22GtoLnJcNkS7jAaB6MxcoOFxIFFZX9K+PMVM=;
- b=iK9hCcaaKvGDpLrFwfXALuQ9M1fRQ8IYBrvMWmqeMoDJ2orrltHDZSN8oyCwTDCbkS
- pzgwRkKt/KuAF0nA/EDVX1h26F/e2Uc7qHCE21JuODDPhYczu8d60l7jimlJ0DRMoTa8
- WCuIhgXL3IIPY48ZsgyZ0467lmJy8UiOAY0xFaM1Kw5q4aZ2vevyX7r0kcZH0i+hBq9J
- /qImht5PtKHBXCBCcqYTB5rQtEjTbiBjuZqCf++BPikEBGCG0RoOCFiIy1p9owxsF8vF
- t73hUOmrwIOGPmUV2gD7t/RGa4HjnC2LwiQIApF70DiSaEkdf/mZEY/FqKLE07MexwbW
- Y6WA==
+ h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=RZVE/UnVAR8oa3ZhuHDdsTxvOv0WljPZECYmmW3fajI=;
+ b=Wms8QeQpxumW7CSLPWDKIvgbOB+oAf6n8Bvufw9QCT2PviPTndhs1RiHBq4D2uVm8O
+ qHfP/tjTFWskh5eKabSiQzJcGIMxTx57Tngsj+ZePrDzYxrxfDDd1E9/eOxeFMKj4zNn
+ zz17M1dL3bLL6XSi8yJBceKJGZZIU3RlHXeDyd+1P7SGc4uTau0CI6htE7kJZZgj8JGp
+ WcF18GbccxvgiaLqFX2DYb9CA/qCQFEuGDqBVudocUmSzXai4Yo82ImACsizEq5WpEhr
+ IN/j89MFWW+OJXjyq63bTHSnt6lh+lg1Vg7jdcBfYKjjOBQVTpsjtai528kb0ADt4V4i
+ YytQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
- :mime-version:content-transfer-encoding;
- bh=txiwHr22GtoLnJcNkS7jAaB6MxcoOFxIFFZX9K+PMVM=;
- b=pgt93BDKMk18C3O2hLTvOicJcseOF4qvBj9eGxpJ+4Ujz3coKQ/oOHWSkTTZgQHgax
- Zv2O+rTDU/J3DuYouP/LqGEs5kwPGl+Xcz+TzrURsiXYqvy+i/8XfCo0a36aGISrAm3P
- ZKxRlBJKQkWZrLmLgbOZ7fUBEAVDt14Y8RduPeIhP6QRbcrUMHCOTbIyPBXqUURrlz77
- k0xBYzjpEnvJAmzku/oTtFXs19jkVr/r6yqR72bzH+in9GgKALc9+jtaLKPhR3lMGGqZ
- Ss8HcFrWEqJw8GaktBKG70i5Ru7rCD5L5tUMza3pDEzx3ch1J8v80j+jkr9O4R33+LkN
- v9PQ==
-X-Gm-Message-State: AOAM532iK7tNj11hJVIUG9eDFDC2mcx1xEcfC03BQwVhkrYGo11PGXkv
- eqnEubnNMjp/ifewwEBKjeU=
-X-Google-Smtp-Source: ABdhPJzJKMye2vRhBrbXNR2+bfKkKHJrQcUxdZunZ7FJNOL55ZhGtH57740UYk+DqVhE4UPRYcUqBw==
-X-Received: by 2002:a17:906:d93c:: with SMTP id
- rn28mr135261ejb.50.1610476532195; 
- Tue, 12 Jan 2021 10:35:32 -0800 (PST)
+ :in-reply-to:references:mime-version:content-transfer-encoding;
+ bh=RZVE/UnVAR8oa3ZhuHDdsTxvOv0WljPZECYmmW3fajI=;
+ b=cOO7wau8OFZbzybNSDdIiGYJUP1GdiNWb9V5Ed2EhKapkhb3fiEvbUVoj38mvW8tZf
+ e78GdbH38LRGYDkfZozoTexci1OZqr3peyUi1iWKzkK8NH3iKjOAC2vn1P8hNDBKWGuv
+ qhuEANzJyTVJHXzhjd6ahy1A9RU3lIcY0u9M9GLxJwwlCgwOM18FioS8V08Vrrh74IJ2
+ DEFUDuK56N/+gHI85WAZBaR8/50AQ6DdB/eA0Z29jWp1HKNK6CszP6vywl0ezaA6n+N5
+ 971vDzcPxZepVZ+Et1DgFcEc/IKb4odHOAq4sD05pDzePM+cB4BnPsbRAScKSphUHI3T
+ iDdg==
+X-Gm-Message-State: AOAM532B9xZrzUTD06X9M8PyQUN6GZfqixrEmG4r8LpV/zY4a36bnEg9
+ jLctoc10P4aXopO35Mpz6uk=
+X-Google-Smtp-Source: ABdhPJz5oMQInJX8nXmHfJ5ctksM/LhaqxLrcwSJR9BQErSlE68VcG1bXYZ0wp0Iaht3fbFYOUGXvQ==
+X-Received: by 2002:a17:906:fb9b:: with SMTP id
+ lr27mr110910ejb.175.1610476543295; 
+ Tue, 12 Jan 2021 10:35:43 -0800 (PST)
 Received: from x1w.redhat.com (190.red-83-57-173.dynamicip.rima-tde.net.
  [83.57.173.190])
- by smtp.gmail.com with ESMTPSA id d8sm1822878edm.75.2021.01.12.10.35.30
+ by smtp.gmail.com with ESMTPSA id w17sm839127ejk.124.2021.01.12.10.35.41
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 12 Jan 2021 10:35:31 -0800 (PST)
+ Tue, 12 Jan 2021 10:35:42 -0800 (PST)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 To: Bin Meng <bin.meng@windriver.com>, qemu-devel@nongnu.org,
  Bin Meng <bmeng.cn@gmail.com>
-Subject: [RFC PATCH v6 00/11] hw/ssi: imx_spi: Fix various bugs in the imx_spi
- model
-Date: Tue, 12 Jan 2021 19:35:18 +0100
-Message-Id: <20210112183529.2011863-1-f4bug@amsat.org>
+Subject: [RFC PATCH v6 01/11] hw/ssi: imx_spi: Use a macro for number of chip
+ selects supported
+Date: Tue, 12 Jan 2021 19:35:19 +0100
+Message-Id: <20210112183529.2011863-2-f4bug@amsat.org>
 X-Mailer: git-send-email 2.26.2
+In-Reply-To: <20210112183529.2011863-1-f4bug@amsat.org>
+References: <20210112183529.2011863-1-f4bug@amsat.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::62b;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-ej1-x62b.google.com
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::62f;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-ej1-x62f.google.com
 X-Spam_score_int: -14
 X-Spam_score: -1.5
 X-Spam_bar: -
@@ -88,100 +90,72 @@ Cc: Peter Maydell <peter.maydell@linaro.org>,
  Alistair Francis <alistair@alistair23.me>,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
  Jean-Christophe Dubois <jcd@tribudubois.net>, qemu-arm@nongnu.org,
+ Alistair Francis <alistair.francis@wdc.com>,
  Peter Chubb <peter.chubb@nicta.com.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi,=0D
-=0D
-As it is sometimes harder for me to express myself in plain=0D
-English, I found it easier to write the patches I was thinking=0D
-about. I know this doesn't scale.=0D
-=0D
-So this is how I understand the ecSPI reset works, after=0D
-looking at the IMX6DQRM.pdf datasheet.=0D
-=0D
-This is a respin of Ben's v5 series [*].=0D
-Tagged RFC because I have not tested it :)=0D
-=0D
-Sometimes changing device reset to better match hardware gives=0D
-trouble when using '-kernel ...' because there is no bootloader=0D
-setting the device in the state Linux expects it.=0D
-=0D
-Copy of Ben's v5 cover:=0D
-=0D
-  This series fixes a bunch of bugs in current implementation of the imx=0D
-  spi controller, including the following issues:=0D
-=0D
-  - chip select signal was not lower down when spi controller is disabled=0D
-  - remove imx_spi_update_irq() in imx_spi_reset()=0D
-  - round up the tx burst length to be multiple of 8=0D
-  - transfer incorrect data when the burst length is larger than 32 bit=0D
-  - spi controller tx and rx fifo endianness is incorrect=0D
-=0D
-[*] https://lists.gnu.org/archive/html/qemu-devel/2021-01/msg02333.html=0D
-=0D
-Diff with Ben's v5:=0D
-=0D
-Key:=0D
-[----] : patches are identical=0D
-[####] : number of functional differences between upstream/downstream patch=
-=0D
-[down] : patch is downstream-only=0D
-The flags [FC] indicate (F)unctional and (C)ontextual differences, respecti=
-ve=3D=0D
-ly=0D
-=0D
-001/11:[----] [--] 'hw/ssi: imx_spi: Use a macro for number of chip selects=
- s=3D=0D
-upported'=0D
-002/11:[down] 'hw/ssi: imx_spi: Remove pointless variable initialization'=0D
-003/11:[down] 'hw/ssi: imx_spi: Convert some debug printf()s to trace event=
-s'=0D
-004/11:[down] 'hw/ssi: imx_spi: Reduce 'change_mask' variable scope'=0D
-005/11:[down] 'hw/ssi: imx_spi: Rework imx_spi_reset() to keep CONREG regis=
-te=3D=0D
-r value'=0D
-006/11:[down] 'hw/ssi: imx_spi: Rework imx_spi_read() to handle block disab=
-le=3D=0D
-d'=0D
-007/11:[down] 'hw/ssi: imx_spi: Rework imx_spi_write() to handle block disa=
-bl=3D=0D
-ed'=0D
-008/11:[0004] [FC] 'hw/ssi: imx_spi: Disable chip selects when controller i=
-s =3D=0D
-disabled'=0D
-009/11:[----] [--] 'hw/ssi: imx_spi: Round up the burst length to be multip=
-le=3D=0D
- of 8'=0D
-010/11:[----] [--] 'hw/ssi: imx_spi: Correct the burst length > 32 bit tran=
-sf=3D=0D
-er logic'=0D
-011/11:[----] [--] 'hw/ssi: imx_spi: Correct tx and rx fifo endianness'=0D
-=0D
-Bin Meng (4):=0D
-  hw/ssi: imx_spi: Use a macro for number of chip selects supported=0D
-  hw/ssi: imx_spi: Round up the burst length to be multiple of 8=0D
-  hw/ssi: imx_spi: Correct the burst length > 32 bit transfer logic=0D
-  hw/ssi: imx_spi: Correct tx and rx fifo endianness=0D
-=0D
-Philippe Mathieu-Daud=3DC3=3DA9 (6):=0D
-  hw/ssi: imx_spi: Remove pointless variable initialization=0D
-  hw/ssi: imx_spi: Convert some debug printf()s to trace events=0D
-  hw/ssi: imx_spi: Reduce 'change_mask' variable scope=0D
-  hw/ssi: imx_spi: Rework imx_spi_reset() to keep CONREG register value=0D
-  hw/ssi: imx_spi: Rework imx_spi_read() to handle block disabled=0D
-  hw/ssi: imx_spi: Rework imx_spi_write() to handle block disabled=0D
-=0D
-Xuzhou Cheng (1):=0D
-  hw/ssi: imx_spi: Disable chip selects when controller is disabled=0D
-=0D
- include/hw/ssi/imx_spi.h |   5 +-=0D
- hw/ssi/imx_spi.c         | 147 +++++++++++++++++++++++----------------=0D
- hw/ssi/trace-events      |   7 ++=0D
- 3 files changed, 97 insertions(+), 62 deletions(-)=0D
-=0D
---=3D20=0D
-2.26.2=0D
-=0D
+From: Bin Meng <bin.meng@windriver.com>
+
+Avoid using a magic number (4) everywhere for the number of chip
+selects supported.
+
+Signed-off-by: Bin Meng <bin.meng@windriver.com>
+Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
+Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+Message-Id: <20210112145526.31095-2-bmeng.cn@gmail.com>
+Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+---
+ include/hw/ssi/imx_spi.h | 5 ++++-
+ hw/ssi/imx_spi.c         | 4 ++--
+ 2 files changed, 6 insertions(+), 3 deletions(-)
+
+diff --git a/include/hw/ssi/imx_spi.h b/include/hw/ssi/imx_spi.h
+index b82b17f3643..eeaf49bbac3 100644
+--- a/include/hw/ssi/imx_spi.h
++++ b/include/hw/ssi/imx_spi.h
+@@ -77,6 +77,9 @@
+ 
+ #define EXTRACT(value, name) extract32(value, name##_SHIFT, name##_LENGTH)
+ 
++/* number of chip selects supported */
++#define ECSPI_NUM_CS 4
++
+ #define TYPE_IMX_SPI "imx.spi"
+ OBJECT_DECLARE_SIMPLE_TYPE(IMXSPIState, IMX_SPI)
+ 
+@@ -89,7 +92,7 @@ struct IMXSPIState {
+ 
+     qemu_irq irq;
+ 
+-    qemu_irq cs_lines[4];
++    qemu_irq cs_lines[ECSPI_NUM_CS];
+ 
+     SSIBus *bus;
+ 
+diff --git a/hw/ssi/imx_spi.c b/hw/ssi/imx_spi.c
+index d8885ae454e..e605049a213 100644
+--- a/hw/ssi/imx_spi.c
++++ b/hw/ssi/imx_spi.c
+@@ -361,7 +361,7 @@ static void imx_spi_write(void *opaque, hwaddr offset, uint64_t value,
+ 
+             /* We are in master mode */
+ 
+-            for (i = 0; i < 4; i++) {
++            for (i = 0; i < ECSPI_NUM_CS; i++) {
+                 qemu_set_irq(s->cs_lines[i],
+                              i == imx_spi_selected_channel(s) ? 0 : 1);
+             }
+@@ -424,7 +424,7 @@ static void imx_spi_realize(DeviceState *dev, Error **errp)
+     sysbus_init_mmio(SYS_BUS_DEVICE(dev), &s->iomem);
+     sysbus_init_irq(SYS_BUS_DEVICE(dev), &s->irq);
+ 
+-    for (i = 0; i < 4; ++i) {
++    for (i = 0; i < ECSPI_NUM_CS; ++i) {
+         sysbus_init_irq(SYS_BUS_DEVICE(dev), &s->cs_lines[i]);
+     }
+ 
+-- 
+2.26.2
+
 
