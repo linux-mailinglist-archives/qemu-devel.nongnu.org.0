@@ -2,71 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A86242F371E
-	for <lists+qemu-devel@lfdr.de>; Tue, 12 Jan 2021 18:30:02 +0100 (CET)
-Received: from localhost ([::1]:54590 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0B9E62F36C0
+	for <lists+qemu-devel@lfdr.de>; Tue, 12 Jan 2021 18:14:23 +0100 (CET)
+Received: from localhost ([::1]:39114 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kzNUX-0004BU-Lm
-	for lists+qemu-devel@lfdr.de; Tue, 12 Jan 2021 12:30:01 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59252)
+	id 1kzNFO-0001gL-3G
+	for lists+qemu-devel@lfdr.de; Tue, 12 Jan 2021 12:14:22 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59708)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1kzN0u-0002sr-8J
- for qemu-devel@nongnu.org; Tue, 12 Jan 2021 11:59:24 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:34046)
+ id 1kzN2U-0003Ln-KP
+ for qemu-devel@nongnu.org; Tue, 12 Jan 2021 12:01:02 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:47207)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1kzN0r-0007LT-TC
- for qemu-devel@nongnu.org; Tue, 12 Jan 2021 11:59:23 -0500
+ id 1kzN2O-0007we-FB
+ for qemu-devel@nongnu.org; Tue, 12 Jan 2021 12:01:02 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1610470758;
+ s=mimecast20190719; t=1610470855;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=IdO0iipLxY4DLMMSegvE5TJJhUonNfMd8o/MPM8aBsc=;
- b=T8MEbouAjIqzlaV+7wTK7FLPn1drFh3BaWpUnpuNESbxwp5QC0H+buqtvteHviXSDOVAtE
- d+JIR/oxy9ILzCvuNf7lW/f3UfdBrOlOVsQgrCO3WhEy7ciHt29oOY3ggRKdIuivk9YsOI
- KKa8YgC0v/KIIs6zMw19U2tkvz86v/g=
+ bh=bvjTondmR2XDfCNBElowjMeh856PAZu9guIH1I2ZhRs=;
+ b=MQFmIb5oRnSsizJd8/FwbgmwJGSlleRSBxhJi98OPtF0NcFudOJAcihww6gj50KhNXy3UM
+ 6Kl7OIg2vNVXLzIAgFL8H/SWYcvf3Msxl8aR4s73+QwmRXEPXpcTs5d+OAPq8JyYtgC4le
+ 5DgczBTccnrqIuokTOzBPvfGzi8UOKM=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-497-sN-XV2_vPUi4S6DRObEvpw-1; Tue, 12 Jan 2021 11:59:14 -0500
-X-MC-Unique: sN-XV2_vPUi4S6DRObEvpw-1
+ us-mta-134-GRlOTjyZO6WQI4DrkfWO1A-1; Tue, 12 Jan 2021 12:00:52 -0500
+X-MC-Unique: GRlOTjyZO6WQI4DrkfWO1A-1
 Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
  [10.5.11.15])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 698F31081B30;
- Tue, 12 Jan 2021 16:59:13 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 9DEDC1081B2C;
+ Tue, 12 Jan 2021 17:00:51 +0000 (UTC)
 Received: from localhost (ovpn-115-99.ams2.redhat.com [10.36.115.99])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 7C5365D762;
- Tue, 12 Jan 2021 16:59:09 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 384195D762;
+ Tue, 12 Jan 2021 17:00:51 +0000 (UTC)
+Date: Tue, 12 Jan 2021 17:00:50 +0000
 From: Stefan Hajnoczi <stefanha@redhat.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH 2/2] trace: update docs with meson build information
-Date: Tue, 12 Jan 2021 16:58:59 +0000
-Message-Id: <20210112165859.225534-3-stefanha@redhat.com>
-In-Reply-To: <20210112165859.225534-1-stefanha@redhat.com>
-References: <20210112165859.225534-1-stefanha@redhat.com>
+To: BALATON Zoltan <balaton@eik.bme.hu>
+Subject: Re: [PATCH v2 3/3] trace: recommend "log" backend for getting
+ started with tracing
+Message-ID: <20210112170050.GB203591@stefanha-x1.localdomain>
+References: <20201216160923.722894-1-stefanha@redhat.com>
+ <20201216160923.722894-4-stefanha@redhat.com>
+ <CAFEAcA8_cFGtU=_6a7XzD6ky-fvn1k9_usjaKrwjBxAP2Ls3Yg@mail.gmail.com>
+ <8b81184b-b0b6-2b1b-62c-8de94c279e70@eik.bme.hu>
 MIME-Version: 1.0
+In-Reply-To: <8b81184b-b0b6-2b1b-62c-8de94c279e70@eik.bme.hu>
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=stefanha@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Transfer-Encoding: base64
-Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=stefanha@redhat.com;
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="v9Ux+11Zm5mwPlX6"
+Content-Disposition: inline
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=stefanha@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -12
-X-Spam_score: -1.3
-X-Spam_bar: -
-X-Spam_report: (-1.3 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.251,
+X-Spam_score_int: -29
+X-Spam_score: -3.0
+X-Spam_bar: ---
+X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.251,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- MIME_BASE64_TEXT=1.741, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -80,95 +83,110 @@ List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: Peter Maydell <peter.maydell@linaro.org>,
- Stefan Hajnoczi <stefanha@redhat.com>
+ QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-VGhlIGRvY3VtZW50YXRpb24gc3RpbGwgcmVmZXJzIHRvIHRoZSBtYWtlZmlsZSBhbmQgdGhlIG9s
-ZCBzdWItZGlyZWN0b3J5CmxheW91dC4gTWVzb24gd29ya3MgZGlmZmVyZW50bHk6IHRyYWNldG9v
-bCBvdXRwdXQgaXMgcGxhY2VkIGludG8gdGhlCmJ1aWxkZGlyIHdpdGggbWFuZ2xlZCBmaWxlbmFt
-ZXMgbGlrZSA8YnVpbGRkaXI+L3RyYWNlL3RyYWNlLWFjY2VsX2t2bS5oCmZvciB0aGUgYWNjZWwv
-a3ZtLyB0cmFjZS5oIGRlZmluaXRpb24uCgpUaGlzIG1lc29uIHNldHVwIGFsc28gcmVxdWlyZXMg
-YSBtYW51YWxseS1jcmVhdGVkIGFjY2VsL2t2bS90cmFjZS5oIGZpbGUKdGhhdCAjaW5jbHVkZXMg
-dGhlIDxidWlsZGRpcj4vdHJhY2UvdHJhY2UtYWNjZWxfa3ZtLmggZmlsZS4gRG9jdW1lbnQKdGhp
-cyEKClJlcG9ydGVkLWJ5OiBQZXRlciBNYXlkZWxsIDxwZXRlci5tYXlkZWxsQGxpbmFyby5vcmc+
-ClNpZ25lZC1vZmYtYnk6IFN0ZWZhbiBIYWpub2N6aSA8c3RlZmFuaGFAcmVkaGF0LmNvbT4KLS0t
-CiBkb2NzL2RldmVsL3RyYWNpbmcucnN0IHwgNTcgKysrKysrKysrKysrKysrKysrKysrKysrKy0t
-LS0tLS0tLS0tLS0tLS0tCiAxIGZpbGUgY2hhbmdlZCwgMzQgaW5zZXJ0aW9ucygrKSwgMjMgZGVs
-ZXRpb25zKC0pCgpkaWZmIC0tZ2l0IGEvZG9jcy9kZXZlbC90cmFjaW5nLnJzdCBiL2RvY3MvZGV2
-ZWwvdHJhY2luZy5yc3QKaW5kZXggODc3N2MxOWQxNC4uYjU4YjM3MTc1ZCAxMDA2NDQKLS0tIGEv
-ZG9jcy9kZXZlbC90cmFjaW5nLnJzdAorKysgYi9kb2NzL2RldmVsL3RyYWNpbmcucnN0CkBAIC0z
-OSw0MCArMzksNTEgQEAgVHJhY2UgZXZlbnRzCiBTdWItZGlyZWN0b3J5IHNldHVwCiAtLS0tLS0t
-LS0tLS0tLS0tLS0tCiAKLUVhY2ggZGlyZWN0b3J5IGluIHRoZSBzb3VyY2UgdHJlZSBjYW4gZGVj
-bGFyZSBhIHNldCBvZiBzdGF0aWMgdHJhY2UgZXZlbnRzCi1pbiBhIGxvY2FsICJ0cmFjZS1ldmVu
-dHMiIGZpbGUuIEFsbCBkaXJlY3RvcmllcyB3aGljaCBjb250YWluICJ0cmFjZS1ldmVudHMiCi1m
-aWxlcyBtdXN0IGJlIGxpc3RlZCBpbiB0aGUgInRyYWNlLWV2ZW50cy1zdWJkaXJzIiBtYWtlIHZh
-cmlhYmxlIGluIHRoZSB0b3AKLWxldmVsIE1ha2VmaWxlLm9ianMuIER1cmluZyBidWlsZCwgdGhl
-ICJ0cmFjZS1ldmVudHMiIGZpbGUgaW4gZWFjaCBsaXN0ZWQKLXN1YmRpcmVjdG9yeSB3aWxsIGJl
-IHByb2Nlc3NlZCBieSB0aGUgInRyYWNldG9vbCIgc2NyaXB0IHRvIGdlbmVyYXRlIGNvZGUgZm9y
-Ci10aGUgdHJhY2UgZXZlbnRzLgorRWFjaCBkaXJlY3RvcnkgaW4gdGhlIHNvdXJjZSB0cmVlIGNh
-biBkZWNsYXJlIGEgc2V0IG9mIHRyYWNlIGV2ZW50cyBpbiBhIGxvY2FsCisidHJhY2UtZXZlbnRz
-IiBmaWxlLiBBbGwgZGlyZWN0b3JpZXMgd2hpY2ggY29udGFpbiAidHJhY2UtZXZlbnRzIiBmaWxl
-cyBtdXN0IGJlCitsaXN0ZWQgaW4gdGhlICJ0cmFjZV9ldmVudHNfc3ViZGlycyIgdmFyaWFibGUg
-aW4gdGhlIHRvcCBsZXZlbCBtZXNvbi5idWlsZAorZmlsZS4gRHVyaW5nIGJ1aWxkLCB0aGUgInRy
-YWNlLWV2ZW50cyIgZmlsZSBpbiBlYWNoIGxpc3RlZCBzdWJkaXJlY3Rvcnkgd2lsbCBiZQorcHJv
-Y2Vzc2VkIGJ5IHRoZSAidHJhY2V0b29sIiBzY3JpcHQgdG8gZ2VuZXJhdGUgY29kZSBmb3IgdGhl
-IHRyYWNlIGV2ZW50cy4KIAogVGhlIGluZGl2aWR1YWwgInRyYWNlLWV2ZW50cyIgZmlsZXMgYXJl
-IG1lcmdlZCBpbnRvIGEgInRyYWNlLWV2ZW50cy1hbGwiIGZpbGUsCiB3aGljaCBpcyBhbHNvIGlu
-c3RhbGxlZCBpbnRvICIvdXNyL3NoYXJlL3FlbXUiIHdpdGggdGhlIG5hbWUgInRyYWNlLWV2ZW50
-cyIuCiBUaGlzIG1lcmdlZCBmaWxlIGlzIHRvIGJlIHVzZWQgYnkgdGhlICJzaW1wbGV0cmFjZS5w
-eSIgc2NyaXB0IHRvIGxhdGVyIGFuYWx5c2UKIHRyYWNlcyBpbiB0aGUgc2ltcGxldHJhY2UgZGF0
-YSBmb3JtYXQuCiAKLUluIHRoZSBzdWItZGlyZWN0b3J5IHRoZSBmb2xsb3dpbmcgZmlsZXMgd2ls
-bCBiZSBhdXRvbWF0aWNhbGx5IGdlbmVyYXRlZAorVGhlIGZvbGxvd2luZyBmaWxlcyBhcmUgYXV0
-b21hdGljYWxseSBnZW5lcmF0ZWQgaW4gPGJ1aWxkZGlyPi90cmFjZS8gZHVyaW5nIHRoZQorYnVp
-bGQ6CiAKLSAtIHRyYWNlLmMgLSB0aGUgdHJhY2UgZXZlbnQgc3RhdGUgZGVjbGFyYXRpb25zCi0g
-LSB0cmFjZS5oIC0gdGhlIHRyYWNlIGV2ZW50IGVudW1zIGFuZCBwcm9iZSBmdW5jdGlvbnMKLSAt
-IHRyYWNlLWR0cmFjZS5oIC0gRFRyYWNlIGV2ZW50IHByb2JlIHNwZWNpZmljYXRpb24KLSAtIHRy
-YWNlLWR0cmFjZS5kdHJhY2UgLSBEVHJhY2UgZXZlbnQgcHJvYmUgaGVscGVyIGRlY2xhcmF0aW9u
-Ci0gLSB0cmFjZS1kdHJhY2UubyAtIGJpbmFyeSBEVHJhY2UgcHJvdmlkZXIgKGdlbmVyYXRlZCBi
-eSBkdHJhY2UpCi0gLSB0cmFjZS11c3QuaCAtIFVTVCBldmVudCBwcm9iZSBoZWxwZXIgZGVjbGFy
-YXRpb25zCisgLSB0cmFjZS08c3ViZGlyPi5jIC0gdGhlIHRyYWNlIGV2ZW50IHN0YXRlIGRlY2xh
-cmF0aW9ucworIC0gdHJhY2UtPHN1YmRpcj4uaCAtIHRoZSB0cmFjZSBldmVudCBlbnVtcyBhbmQg
-cHJvYmUgZnVuY3Rpb25zCisgLSB0cmFjZS1kdHJhY2UtPHN1YmRpcj4uaCAtIERUcmFjZSBldmVu
-dCBwcm9iZSBzcGVjaWZpY2F0aW9uCisgLSB0cmFjZS1kdHJhY2UtPHN1YmRpcj4uZHRyYWNlIC0g
-RFRyYWNlIGV2ZW50IHByb2JlIGhlbHBlciBkZWNsYXJhdGlvbgorIC0gdHJhY2UtZHRyYWNlLTxz
-dWJkaXI+Lm8gLSBiaW5hcnkgRFRyYWNlIHByb3ZpZGVyIChnZW5lcmF0ZWQgYnkgZHRyYWNlKQor
-IC0gdHJhY2UtdXN0LTxzdWJkaXI+LmggLSBVU1QgZXZlbnQgcHJvYmUgaGVscGVyIGRlY2xhcmF0
-aW9ucwogCi1Tb3VyY2UgZmlsZXMgaW4gdGhlIHN1Yi1kaXJlY3Rvcnkgc2hvdWxkICNpbmNsdWRl
-IHRoZSBsb2NhbCAndHJhY2UuaCcgZmlsZSwKLXdpdGhvdXQgYW55IHN1Yi1kaXJlY3RvcnkgcGF0
-aCBwcmVmaXguIGVnIGlvL2NoYW5uZWwtYnVmZmVyLmMgd291bGQgZG86OgorSGVyZSA8c3ViZGly
-PiBpcyB0aGUgc3ViLWRpcmVjdG9yeSBwYXRoIHdpdGggJy8nIHJlcGxhY2VkIGJ5ICdfJy4gRm9y
-IGV4YW1wbGUsCisiYWNjZWwva3ZtIiBiZWNvbWVzICJhY2NlbF9rdm0iIGFuZCB0aGUgZmluYWwg
-ZmlsZW5hbWUgZm9yICJ0cmFjZS08c3ViZGlyPi5jIgorYmVjb21lcyAidHJhY2UtYWNjZWxfa3Zt
-LmMiLgorCitTb3VyY2UgZmlsZXMgaW4gdGhlIHNvdXJjZSB0cmVlIGRvIG5vdCBkaXJlY3RseSBp
-bmNsdWRlIGdlbmVyYXRlZCBmaWxlcyBpbgorIjxidWlsZGRpcj4vdHJhY2UvIi4gSW5zdGVhZCB0
-aGV5ICNpbmNsdWRlIHRoZSBsb2NhbCAidHJhY2UuaCIgZmlsZSwgd2l0aG91dAorYW55IHN1Yi1k
-aXJlY3RvcnkgcGF0aCBwcmVmaXguIGVnIGlvL2NoYW5uZWwtYnVmZmVyLmMgd291bGQgZG86Ogog
-CiAgICNpbmNsdWRlICJ0cmFjZS5oIgogCi1UbyBhY2Nlc3MgdGhlICdpby90cmFjZS5oJyBmaWxl
-LiBXaGlsZSBpdCBpcyBwb3NzaWJsZSB0byBpbmNsdWRlIGEgdHJhY2UuaAotZmlsZSBmcm9tIG91
-dHNpZGUgYSBzb3VyY2UgZmlsZSdzIG93biBzdWItZGlyZWN0b3J5LCB0aGlzIGlzIGRpc2NvdXJh
-Z2VkIGluCi1nZW5lcmFsLiBJdCBpcyBzdHJvbmdseSBwcmVmZXJyZWQgdGhhdCBhbGwgZXZlbnRz
-IGJlIGRlY2xhcmVkIGRpcmVjdGx5IGluCi10aGUgc3ViLWRpcmVjdG9yeSB0aGF0IHVzZXMgdGhl
-bS4gVGhlIG9ubHkgZXhjZXB0aW9uIGlzIHdoZXJlIHRoZXJlIGFyZSBzb21lCi1zaGFyZWQgdHJh
-Y2UgZXZlbnRzIGRlZmluZWQgaW4gdGhlIHRvcCBsZXZlbCBkaXJlY3RvcnkgdHJhY2UtZXZlbnRz
-IGZpbGUuCi1UaGUgdG9wIGxldmVsIGRpcmVjdG9yeSBnZW5lcmF0ZXMgdHJhY2UgZmlsZXMgd2l0
-aCBhIGZpbGVuYW1lIHByZWZpeCBvZgotInRyYWNlL3RyYWNlLXJvb3QiIGluc3RlYWQgb2YganVz
-dCAidHJhY2UiLiBUaGlzIGlzIHRvIGF2b2lkIGFtYmlndWl0eSBiZXR3ZWVuCi1hIHRyYWNlLmgg
-aW4gdGhlIGN1cnJlbnQgZGlyZWN0b3J5LCB2cyB0aGUgdG9wIGxldmVsIGRpcmVjdG9yeS4KK1Ro
-ZSAiaW8vdHJhY2UuaCIgZmlsZSBtdXN0IGJlIGNyZWF0ZWQgbWFudWFsbHkgd2l0aCBhbiAjaW5j
-bHVkZSBvZiB0aGUKK2NvcnJlc3BvbmRpbmcgInRyYWNlL3RyYWNlLTxzdWJkaXI+LmgiIGZpbGUg
-dGhhdCB3aWxsIGJlIGdlbmVyYXRlZCBpbiB0aGUKK2J1aWxkZGlyOjoKKworICAkIGVjaG8gJyNp
-bmNsdWRlICJ0cmFjZS90cmFjZS1pby5oIicgPmlvL3RyYWNlLmgKKworV2hpbGUgaXQgaXMgcG9z
-c2libGUgdG8gaW5jbHVkZSBhIHRyYWNlLmggZmlsZSBmcm9tIG91dHNpZGUgYSBzb3VyY2UgZmls
-ZSdzIG93bgorc3ViLWRpcmVjdG9yeSwgdGhpcyBpcyBkaXNjb3VyYWdlZCBpbiBnZW5lcmFsLiBJ
-dCBpcyBzdHJvbmdseSBwcmVmZXJyZWQgdGhhdAorYWxsIGV2ZW50cyBiZSBkZWNsYXJlZCBkaXJl
-Y3RseSBpbiB0aGUgc3ViLWRpcmVjdG9yeSB0aGF0IHVzZXMgdGhlbS4gVGhlIG9ubHkKK2V4Y2Vw
-dGlvbiBpcyB3aGVyZSB0aGVyZSBhcmUgc29tZSBzaGFyZWQgdHJhY2UgZXZlbnRzIGRlZmluZWQg
-aW4gdGhlIHRvcCBsZXZlbAorZGlyZWN0b3J5IHRyYWNlLWV2ZW50cyBmaWxlLiAgVGhlIHRvcCBs
-ZXZlbCBkaXJlY3RvcnkgZ2VuZXJhdGVzIHRyYWNlIGZpbGVzCit3aXRoIGEgZmlsZW5hbWUgcHJl
-Zml4IG9mICJ0cmFjZS90cmFjZS1yb290IiBpbnN0ZWFkIG9mIGp1c3QgInRyYWNlIi4gVGhpcyBp
-cwordG8gYXZvaWQgYW1iaWd1aXR5IGJldHdlZW4gYSB0cmFjZS5oIGluIHRoZSBjdXJyZW50IGRp
-cmVjdG9yeSwgdnMgdGhlIHRvcCBsZXZlbAorZGlyZWN0b3J5LgogCiBVc2luZyB0cmFjZSBldmVu
-dHMKIC0tLS0tLS0tLS0tLS0tLS0tLQotLSAKMi4yOS4yCgo=
+--v9Ux+11Zm5mwPlX6
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+
+On Thu, Dec 31, 2020 at 09:36:50PM +0100, BALATON Zoltan wrote:
+> On Thu, 31 Dec 2020, Peter Maydell wrote:
+> > On Wed, 16 Dec 2020 at 16:09, Stefan Hajnoczi <stefanha@redhat.com> wro=
+te:
+> > >=20
+> > > The "simple" backend is actually more complicated to use than the "lo=
+g"
+> > > backend. Update the quickstart documentation to feature the "log"
+> > > backend instead of the "simple" backend.
+> > >=20
+> > > Suggested-by: Peter Maydell <peter.maydell@linaro.org>
+> > > Signed-off-by: Stefan Hajnoczi <stefanha@redhat.com>
+> > > ---
+> > >  docs/devel/tracing.rst | 35 ++++++++++++++++++-----------------
+> > >  1 file changed, 18 insertions(+), 17 deletions(-)
+> > >=20
+> > > diff --git a/docs/devel/tracing.rst b/docs/devel/tracing.rst
+> > > index 76cc1b24fa..e60058bf55 100644
+> > > --- a/docs/devel/tracing.rst
+> > > +++ b/docs/devel/tracing.rst
+> > > @@ -11,22 +11,22 @@ for debugging, profiling, and observing execution=
+.
+> > >  Quickstart
+> > >  =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+> > >=20
+> > > -1. Build with the 'simple' trace backend::
+> > > +Enable tracing of ``memory_region_ops_read`` and ``memory_region_ops=
+_write``
+> > > +events::
+> > >=20
+> > > -    ./configure --enable-trace-backends=3Dsimple
+> > > -    make
+> > > +    $ qemu --trace "memory_region_ops_*" ...
+> > > +    ...
+> > > +    719585@1608130130.441188:memory_region_ops_read cpu 0 mr 0x562fd=
+fbb3820 addr 0x3cc value 0x67 size 1
+> > > +    719585@1608130130.441190:memory_region_ops_write cpu 0 mr 0x562f=
+dfbd2f00 addr 0x3d4 value 0x70e size 2
+> > >=20
+> > > -2. Create a file with the events you want to trace::
+> > > +This output comes from the "log" trace backend that is enabled by de=
+fault when
+> > > +``./configure --enable-trace-backends=3DBACKENDS`` was not explicitl=
+y specified.
+> > >=20
+> > > -    echo memory_region_ops_read >/tmp/events
+> > > +More than one trace event pattern can be specified by providing a fi=
+le
+> > > +instead::
+> >=20
+> > Does --trace really not let you specify more than one pattern
+> > without resorting to putting them into a file? That sounds like a
+> > deficiency compared to -d (which allows -d trace:PATTERN,trace:PATTERN.=
+..)
+> > that we could look at fixing...
+>=20
+> Ir's possible to give more patterns in multiple options, I'm using that,
+> such as:
+>=20
+> -trace enable=3D"pci*" -trace enable=3D"ide*"
+>=20
+> For a lot of patterns using a file may be clearer though.
+>=20
+> This reminds me to the plainlog backend I've submitted. What happened to
+> that? See:
+>=20
+> https://lists.nongnu.org/archive/html/qemu-devel/2020-06/msg07296.html
+>=20
+> I'd like a solution that can be set at compile time and does not need
+> another command line option to turn off time stamps. (Timestamps are
+> annoyong when comparing logs that's often necessary to check changes.) I'=
+m
+> still using my plainlog patch but I have to disable that when bisecting.
+
+Thanks for reminding me. I don't remember what happened to that, sorry!
+
+I will revisit the plainlog series and let you know.
+
+Stefan
+
+--v9Ux+11Zm5mwPlX6
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAl/91cIACgkQnKSrs4Gr
+c8ghXQgAhAPZKQZ1TIayvs6reojCg5Qx+oEF9Jwk2arIhQ8Emuy1KXZifAviM3Q6
+EFDBr9+cTV1oCPphrMVzz4FmImjZkwk8gy6O8kKWKDBIwuq4/ImQI9wlG/+BEij+
+dIOG8E9sI+hxmxUQ4OmDvkNyMms6wKWprbEcl59+BGTgBld7Eba4vomKJhNLCftZ
+VUuAwAMO0DFrE/fFHfTNDNRunsXxksehfVd54dKTEqJJEUi7tyn/p3HFhmSG+rdf
+jVQCNMo2E1j/8ABAmLPYSCKYLq49K64FoDGSo2vYigmb57mETWYJLhnpl8j7YN9+
+SVRnW74GhDoxcMs4FaG/0vKI6IFWDQ==
+=bd3t
+-----END PGP SIGNATURE-----
+
+--v9Ux+11Zm5mwPlX6--
 
 
