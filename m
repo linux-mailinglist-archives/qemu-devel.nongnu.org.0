@@ -2,36 +2,36 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 51B972F275E
-	for <lists+qemu-devel@lfdr.de>; Tue, 12 Jan 2021 05:52:23 +0100 (CET)
-Received: from localhost ([::1]:52294 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A55E72F2765
+	for <lists+qemu-devel@lfdr.de>; Tue, 12 Jan 2021 05:57:41 +0100 (CET)
+Received: from localhost ([::1]:38994 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kzBfI-0008SD-RZ
-	for lists+qemu-devel@lfdr.de; Mon, 11 Jan 2021 23:52:20 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50432)
+	id 1kzBkS-0006OM-KL
+	for lists+qemu-devel@lfdr.de; Mon, 11 Jan 2021 23:57:40 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50486)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1kzBYd-0002Hq-47; Mon, 11 Jan 2021 23:45:27 -0500
-Received: from bilbo.ozlabs.org ([2401:3900:2:1::2]:38301 helo=ozlabs.org)
+ id 1kzBYf-0002J3-FE; Mon, 11 Jan 2021 23:45:32 -0500
+Received: from bilbo.ozlabs.org ([2401:3900:2:1::2]:53149 helo=ozlabs.org)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1kzBYb-000800-Do; Mon, 11 Jan 2021 23:45:26 -0500
+ id 1kzBYb-00080D-LG; Mon, 11 Jan 2021 23:45:28 -0500
 Received: by ozlabs.org (Postfix, from userid 1007)
- id 4DFJ0S1qsDz9t15; Tue, 12 Jan 2021 15:45:12 +1100 (AEDT)
+ id 4DFJ0S42M5z9t18; Tue, 12 Jan 2021 15:45:12 +1100 (AEDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=gibson.dropbear.id.au; s=201602; t=1610426712;
- bh=XAe7Xx+YpNUPHcyhxW/cHKgMuEbgQoNbc1c/1ol/ah8=;
+ bh=U34ioj+EjS4wgtSHG2jFZVWN7LCIU1LR2wuCkfl/yQg=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=gsgUbwoe/uiSnZj4VGfKpGe5Ib+aKheRMxqeX9Ln6sYcVvmJg1D53AAky24w2MF96
- VvM0yqUgiQzuZbqTtB08ba0jsQBdyg8VlrWvHr6WVAKfeNyns5k4kRX/oyZwG5X4Ox
- QE3wVg4PCZ3eUco9uBmCLYgUm08Epv/kF+W/HQTA=
+ b=MHlNPvTs2cVT4cdB4OoM2f6kPlbweBcyVlgDWwLL0deqq6QjZOtUnzBPtTC5AAEao
+ MUf085r+zcwFu5na/WvmN6CPmh7/7lHFD2/66ApEtHtKx3KSFhu/73XUFxrxOwoXgn
+ V23aCD/QVnyVwmZaMtSCz8QYgV36R/CL9xP4NTgs=
 From: David Gibson <david@gibson.dropbear.id.au>
 To: pasic@linux.ibm.com, brijesh.singh@amd.com, pair@us.ibm.com,
  dgilbert@redhat.com, qemu-devel@nongnu.org
-Subject: [PATCH v6 09/13] confidential guest support: Update documentation
-Date: Tue, 12 Jan 2021 15:45:04 +1100
-Message-Id: <20210112044508.427338-10-david@gibson.dropbear.id.au>
+Subject: [PATCH v6 11/13] spapr: PEF: prevent migration
+Date: Tue, 12 Jan 2021 15:45:06 +1100
+Message-Id: <20210112044508.427338-12-david@gibson.dropbear.id.au>
 X-Mailer: git-send-email 2.29.2
 In-Reply-To: <20210112044508.427338-1-david@gibson.dropbear.id.au>
 References: <20210112044508.427338-1-david@gibson.dropbear.id.au>
@@ -70,82 +70,42 @@ Cc: thuth@redhat.com, Cornelia Huck <cohuck@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Now that we've implemented a generic machine option for configuring various
-confidential guest support mechanisms:
-  1. Update docs/amd-memory-encryption.txt to reference this rather than
-     the earlier SEV specific option
-  2. Add a docs/confidential-guest-support.txt to cover the generalities of
-     the confidential guest support scheme
+We haven't yet implemented the fairly involved handshaking that will be
+needed to migrate PEF protected guests.  For now, just use a migration
+blocker so we get a meaningful error if someone attempts this (this is the
+same approach used by AMD SEV).
 
 Signed-off-by: David Gibson <david@gibson.dropbear.id.au>
+Reviewed-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
 ---
- docs/amd-memory-encryption.txt      |  2 +-
- docs/confidential-guest-support.txt | 43 +++++++++++++++++++++++++++++
- 2 files changed, 44 insertions(+), 1 deletion(-)
- create mode 100644 docs/confidential-guest-support.txt
+ hw/ppc/pef.c | 7 +++++++
+ 1 file changed, 7 insertions(+)
 
-diff --git a/docs/amd-memory-encryption.txt b/docs/amd-memory-encryption.txt
-index 80b8eb00e9..145896aec7 100644
---- a/docs/amd-memory-encryption.txt
-+++ b/docs/amd-memory-encryption.txt
-@@ -73,7 +73,7 @@ complete flow chart.
- To launch a SEV guest
+diff --git a/hw/ppc/pef.c b/hw/ppc/pef.c
+index b227dc6905..822668d9ae 100644
+--- a/hw/ppc/pef.c
++++ b/hw/ppc/pef.c
+@@ -38,6 +38,8 @@ struct PefGuestState {
+ };
  
- # ${QEMU} \
--    -machine ...,memory-encryption=sev0 \
-+    -machine ...,confidential-guest-support=sev0 \
-     -object sev-guest,id=sev0,cbitpos=47,reduced-phys-bits=1
+ #ifdef CONFIG_KVM
++static Error *pef_mig_blocker;
++
+ static int kvmppc_svm_init(Error **errp)
+ {
+     if (!kvm_check_extension(kvm_state, KVM_CAP_PPC_SECURE_GUEST)) {
+@@ -54,6 +56,11 @@ static int kvmppc_svm_init(Error **errp)
+         }
+     }
  
- Debugging
-diff --git a/docs/confidential-guest-support.txt b/docs/confidential-guest-support.txt
-new file mode 100644
-index 0000000000..2790425b38
---- /dev/null
-+++ b/docs/confidential-guest-support.txt
-@@ -0,0 +1,43 @@
-+Confidential Guest Support
-+==========================
++    /* add migration blocker */
++    error_setg(&pef_mig_blocker, "PEF: Migration is not implemented");
++    /* NB: This can fail if --only-migratable is used */
++    migrate_add_blocker(pef_mig_blocker, &error_fatal);
 +
-+Traditionally, hypervisors such as qemu have complete access to a
-+guest's memory and other state, meaning that a compromised hypervisor
-+can compromise any of its guests.  A number of platforms have added
-+mechanisms in hardware and/or firmware which give guests at least some
-+protection from a compromised hypervisor.  This is obviously
-+especially desirable for public cloud environments.
-+
-+These mechanisms have different names and different modes of
-+operation, but are often referred to as Secure Guests or Confidential
-+Guests.  We use the term "Confidential Guest Support" to distinguish
-+this from other aspects of guest security (such as security against
-+attacks from other guests, or from network sources).
-+
-+Running a Confidential Guest
-+----------------------------
-+
-+To run a confidential guest you need to add two command line parameters:
-+
-+1. Use "-object" to create a "confidential guest support" object.  The
-+   type and parameters will vary with the specific mechanism to be
-+   used
-+2. Set the "confidential-guest-support" machine parameter to the ID of
-+   the object from (1).
-+
-+Example (for AMD SEV)::
-+
-+    qemu-system-x86_64 \
-+        <other parameters> \
-+        -machine ...,confidential-guest-support=sev0 \
-+        -object sev-guest,id=sev0,cbitpos=47,reduced-phys-bits=1
-+
-+Supported mechanisms
-+--------------------
-+
-+Currently supported confidential guest mechanisms are:
-+
-+AMD Secure Encrypted Virtualization (SEV)
-+    docs/amd-memory-encryption.txt
-+
-+Other mechanisms may be supported in future.
+     return 0;
+ }
+ 
 -- 
 2.29.2
 
