@@ -2,65 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3E6CE2F2909
-	for <lists+qemu-devel@lfdr.de>; Tue, 12 Jan 2021 08:40:25 +0100 (CET)
-Received: from localhost ([::1]:55456 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8F5FA2F291B
+	for <lists+qemu-devel@lfdr.de>; Tue, 12 Jan 2021 08:43:21 +0100 (CET)
+Received: from localhost ([::1]:57832 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kzEHw-0005eO-Bc
-	for lists+qemu-devel@lfdr.de; Tue, 12 Jan 2021 02:40:24 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38144)
+	id 1kzEKm-0006sG-8e
+	for lists+qemu-devel@lfdr.de; Tue, 12 Jan 2021 02:43:20 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38804)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mprivozn@redhat.com>)
- id 1kzEH8-0005Da-Sk
- for qemu-devel@nongnu.org; Tue, 12 Jan 2021 02:39:35 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:29376)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1kzEJK-0006NE-Gv
+ for qemu-devel@nongnu.org; Tue, 12 Jan 2021 02:41:50 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:45908)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <mprivozn@redhat.com>)
- id 1kzEH6-0007dD-5b
- for qemu-devel@nongnu.org; Tue, 12 Jan 2021 02:39:34 -0500
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1kzEJI-00007h-U7
+ for qemu-devel@nongnu.org; Tue, 12 Jan 2021 02:41:50 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1610437168;
+ s=mimecast20190719; t=1610437308;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=3yeWyOfcXxXr2qy81TjT4y/5i/ixOWJK5gQnDyWwOAI=;
- b=Oaap+8DPW9AuJQqZ8Ll8KtH9emez1ZCe9KCu6BTQXv7CeLxos51xdtZQ63Q+BKtLe1maeH
- kW1EkCExBj+KMV8apaiHvHqtflVD6ac7uWuvbvLTmWVoWEo1r4vhcnggvQ74kzolzIRrFD
- 3mHKf6l2u1yRmUGuJDpzNOjTTYEG3TE=
+ bh=9mD5HY5Mtmlp4RZrVQRYoF/AtOYxVPslrcqcwWQz9MI=;
+ b=gKE92SM4UgtSNXzsv4uZxMUlbXuLYXO+XGHMskZIjneBfy7y5MI5X0ASNxlOl3grxhROlk
+ sLqi1vgyhwAolqrZLuAxQ11gy7vv18Or2YV948jRSpmquT339CrWSmE/ILgKL+YL5VIxHx
+ mZ6qzV6Op0my0A9I7kMSHuIumaSaxH8=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-165-WHskFh9xNoiFAAeidnF-Fw-1; Tue, 12 Jan 2021 02:39:26 -0500
-X-MC-Unique: WHskFh9xNoiFAAeidnF-Fw-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
+ us-mta-505-hNPRZjDXMly5MSdaKOy-kw-1; Tue, 12 Jan 2021 02:41:46 -0500
+X-MC-Unique: hNPRZjDXMly5MSdaKOy-kw-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id B132E100C660
- for <qemu-devel@nongnu.org>; Tue, 12 Jan 2021 07:39:25 +0000 (UTC)
-Received: from [10.40.195.39] (unknown [10.40.195.39])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id CDF823A47;
- Tue, 12 Jan 2021 07:39:24 +0000 (UTC)
-Subject: Re: [PATCH] machine: add missing doc for memory-backend option
-To: Igor Mammedov <imammedo@redhat.com>, qemu-devel@nongnu.org
-References: <20210111222729.757402-1-imammedo@redhat.com>
-From: Michal Privoznik <mprivozn@redhat.com>
-Message-ID: <53870093-3b5d-2c4a-8f0e-04c78996db70@redhat.com>
-Date: Tue, 12 Jan 2021 08:39:23 +0100
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 5C719107ACF7;
+ Tue, 12 Jan 2021 07:41:45 +0000 (UTC)
+Received: from thuth.remote.csb (ovpn-112-184.ams2.redhat.com [10.36.112.184])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id F05659CA0;
+ Tue, 12 Jan 2021 07:41:40 +0000 (UTC)
+Subject: Re: [PATCH v3 4/5] tests/tcg/s390x: Fix EXRL tests
+To: David Hildenbrand <david@redhat.com>, qemu-devel@nongnu.org
+References: <20210111163845.18148-1-david@redhat.com>
+ <20210111163845.18148-5-david@redhat.com>
+From: Thomas Huth <thuth@redhat.com>
+Message-ID: <fdb64ad0-463a-3a35-e68d-4ce0d0de95b5@redhat.com>
+Date: Tue, 12 Jan 2021 08:41:39 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.6.0
+ Thunderbird/78.4.0
 MIME-Version: 1.0
-In-Reply-To: <20210111222729.757402-1-imammedo@redhat.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+In-Reply-To: <20210111163845.18148-5-david@redhat.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mprivozn@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=thuth@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=mprivozn@redhat.com;
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=thuth@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -29
 X-Spam_score: -3.0
@@ -82,26 +81,53 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: pbonzini@redhat.com, ehabkost@redhat.com
+Cc: qemu-s390x@nongnu.org, Cornelia Huck <cohuck@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 1/11/21 11:27 PM, Igor Mammedov wrote:
-> Add documentation for '-machine memory-backend' CLI option and
-> how to use it.
+On 11/01/2021 17.38, David Hildenbrand wrote:
+> The current EXRL tests crash on real machines: we must not use r0 as a base
+> register for trt/trtr, otherwise the content gets ignored. Also, we must
+> not use r0 for exrl, otherwise it gets ignored.
 > 
-> PS:
-> While at it add a comment to x-use-canonical-path-for-ramblock-id,
-> to make sure it won't go away by accident.
+> Let's use the "a" constraint so we get a general purpose register != r0.
+> For op2, we can simply specify a memory operand directly via "Q" (Memory
+> reference without index register and with short displacement).
 > 
-> Signed-off-by: Igor Mammedov <imammedo@redhat.com>
+> Fixes: ad8c851d2e77 ("target/s390x: add EX support for TRT and TRTR")
+> Signed-off-by: David Hildenbrand <david@redhat.com>
 > ---
->   backends/hostmem.c |  8 ++++++++
->   qemu-options.hx    | 25 ++++++++++++++++++++++++-
->   2 files changed, 32 insertions(+), 1 deletion(-)
+>   tests/tcg/s390x/exrl-trt.c  | 8 ++++----
+>   tests/tcg/s390x/exrl-trtr.c | 8 ++++----
+>   2 files changed, 8 insertions(+), 8 deletions(-)
+> 
+> diff --git a/tests/tcg/s390x/exrl-trt.c b/tests/tcg/s390x/exrl-trt.c
+> index 3c5323aecb..16711a3181 100644
+> --- a/tests/tcg/s390x/exrl-trt.c
+> +++ b/tests/tcg/s390x/exrl-trt.c
+> @@ -19,7 +19,7 @@ int main(void)
+>       }
+>       asm volatile(
+>           "    j 2f\n"
+> -        "1:  trt 0(1,%[op1]),0(%[op2])\n"
+> +        "1:  trt 0(1,%[op1]),%[op2]\n"
+>           "2:  exrl %[op1_len],1b\n"
+>           "    lgr %[r1],%%r1\n"
+>           "    lgr %[r2],%%r2\n"
+> @@ -27,9 +27,9 @@ int main(void)
+>           : [r1] "+r" (r1),
+>             [r2] "+r" (r2),
+>             [cc] "=r" (cc)
+> -        : [op1] "r" (&op1),
+> -          [op1_len] "r" (5),
+> -          [op2] "r" (&op2)
+> +        : [op1] "a" (&op1),
+> +          [op1_len] "a" (5),
 
-Reviewed-by: Michal Privoznik <mprivozn@redhat.com>
+I think op1_len could still stay with "r" instead of "a" ... OTOH "a" also 
+does not hurt here, so:
 
-Michal
+Reviewed-by: Thomas Huth <thuth@redhat.com>
 
 
