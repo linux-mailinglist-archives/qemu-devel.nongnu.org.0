@@ -2,75 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 227952F2649
-	for <lists+qemu-devel@lfdr.de>; Tue, 12 Jan 2021 03:31:26 +0100 (CET)
-Received: from localhost ([::1]:51128 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CA4DD2F265C
+	for <lists+qemu-devel@lfdr.de>; Tue, 12 Jan 2021 03:41:00 +0100 (CET)
+Received: from localhost ([::1]:39706 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kz9Sv-00039j-6k
-	for lists+qemu-devel@lfdr.de; Mon, 11 Jan 2021 21:31:25 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58400)
+	id 1kz9cB-0001yx-UP
+	for lists+qemu-devel@lfdr.de; Mon, 11 Jan 2021 21:40:59 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33142)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <frank.chang@sifive.com>)
- id 1kz9JK-0001Zt-PZ
- for qemu-devel@nongnu.org; Mon, 11 Jan 2021 21:21:34 -0500
-Received: from mail-pj1-x102b.google.com ([2607:f8b0:4864:20::102b]:51485)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <frank.chang@sifive.com>)
- id 1kz9JF-0002HW-KC
- for qemu-devel@nongnu.org; Mon, 11 Jan 2021 21:21:30 -0500
-Received: by mail-pj1-x102b.google.com with SMTP id y12so676249pji.1
- for <qemu-devel@nongnu.org>; Mon, 11 Jan 2021 18:21:24 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sifive.com; s=google;
- h=from:to:cc:subject:date:message-id:in-reply-to:references;
- bh=5HXgmt6k/G8n17p6GbhXA6B9PdJjhLw8veADH8tZoHg=;
- b=gL3moGeyO92ikwW+1bK67EMseK4g7Lgjy++B8dpDgw4guL+TcclAXkLMaz01lOPC3A
- EM0Bl/FYmAh9eHsJ2tTBRS9Nq7J/s9YWAg8/nOTbtFp16R1H8Mrjt/geeiXaASxPo3ig
- +WHW7SnAyXmafROB1ATeCSk6ZqIlH4BH8POQm6WZM+gSmzbUjqMec9R0fqZZwgfr+615
- xuO4XtPOnkqwqTTQm2VhAVfXtqMoc131CEx95bm8wy2OOlqA9d3lRx23vdROhzYvJJA2
- +Oyw5edTVPBFpmxg6cTzjNn0FKtssGoVAdYBWJDA9aepEM85JzBabWPmq3X86pgT+HvZ
- yCww==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references;
- bh=5HXgmt6k/G8n17p6GbhXA6B9PdJjhLw8veADH8tZoHg=;
- b=P0Sy03m74CKcOFrNqhD1wraTKx4iCvAn+7x4f5ixD4Ec/ZL8q8sw6xsb7xwFOZC7Gm
- mcliY2xcVV7DYRrOkZRkIldp5/X54KT2WdTsAV1IBINLIFsei/sEtM1QSAvTXZdR3KU5
- 1aaLCAO/IAIaXgw0k1+GEKbkwYm2qMgepUoXXiPfCO6PdlKduGy0hKHk8RuD9oUdlEJg
- PiIOTbcuYrtZZuoQij3gquCSyvJloL8COsGEJ9H25Tg68Xwk5YHRrqrWG298aMof2WOb
- imDLTmVYd8ybrryjYIKuapmkmrqBGDSzOtpQE7pzqLVzLy7MTnebs8jCeu00rx/8FxPv
- +Tsg==
-X-Gm-Message-State: AOAM5312YqZ54hWlB9fn0IJM5I9N5ocHoX1Kv2Ihw1bmOdlS8c9IHvJw
- X5pfJG/C77NIhUKv3A7PHnTJlk3mlctuWUdT
-X-Google-Smtp-Source: ABdhPJxPRFrxgXSHJPrfNjSGKFXOITRVz8cNBLqDuji8QqW5oGH6KIgnJIJAwKJVM0eHBal8Y3DHOA==
-X-Received: by 2002:a17:90a:f48b:: with SMTP id
- bx11mr1960463pjb.48.1610418083591; 
- Mon, 11 Jan 2021 18:21:23 -0800 (PST)
-Received: from frankchang-ThinkPad-T490.internal.sifive.com
- (114-34-229-221.HINET-IP.hinet.net. [114.34.229.221])
- by smtp.gmail.com with ESMTPSA id x14sm981326pfp.77.2021.01.11.18.21.21
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 11 Jan 2021 18:21:23 -0800 (PST)
-From: frank.chang@sifive.com
-To: qemu-devel@nongnu.org,
-	qemu-riscv@nongnu.org
-Subject: [RFC v3 16/16] target/riscv: rvb: support and turn on B-extension
- from command line
-Date: Tue, 12 Jan 2021 10:19:57 +0800
-Message-Id: <20210112022001.20521-17-frank.chang@sifive.com>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20210112022001.20521-1-frank.chang@sifive.com>
-References: <20210112022001.20521-1-frank.chang@sifive.com>
-Received-SPF: pass client-ip=2607:f8b0:4864:20::102b;
- envelope-from=frank.chang@sifive.com; helo=mail-pj1-x102b.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ (Exim 4.90_1) (envelope-from <changzihao1@huawei.com>)
+ id 1kz9an-0001ZD-3G; Mon, 11 Jan 2021 21:39:33 -0500
+Received: from szxga01-in.huawei.com ([45.249.212.187]:2495)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <changzihao1@huawei.com>)
+ id 1kz9ak-0004Gy-CZ; Mon, 11 Jan 2021 21:39:32 -0500
+Received: from DGGEMM404-HUB.china.huawei.com (unknown [172.30.72.53])
+ by szxga01-in.huawei.com (SkyGuard) with ESMTP id 4DFF9N4k1qzVyyf;
+ Tue, 12 Jan 2021 10:37:44 +0800 (CST)
+Received: from dggema758-chm.china.huawei.com (10.1.198.200) by
+ DGGEMM404-HUB.china.huawei.com (10.3.20.212) with Microsoft SMTP Server (TLS)
+ id 14.3.498.0; Tue, 12 Jan 2021 10:39:22 +0800
+Received: from [10.174.186.85] (10.174.186.85) by
+ dggema758-chm.china.huawei.com (10.1.198.200) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id
+ 15.1.1913.5; Tue, 12 Jan 2021 10:39:22 +0800
+Subject: Re: [PATCH] scsi: allow user to set werror as report
+To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>, Fam Zheng
+ <fam@euphon.net>, <pbonzini@redhat.com>, Kevin Wolf <kwolf@redhat.com>, "Max
+ Reitz" <mreitz@redhat.com>
+References: <20201103061240.1364-1-changzihao1@huawei.com>
+ <33fd8330630defb91feb6c627800a3ca952a4b55.camel@euphon.net>
+ <8e53dc93-2312-375e-b67e-4df1b6901890@huawei.com>
+ <2130de2b-d1cd-cfb9-51ee-a775e253d4a6@huawei.com>
+ <37acb898-8d6d-725b-6b48-f6d4a2cfa9fd@redhat.com>
+From: Zihao Chang <changzihao1@huawei.com>
+Message-ID: <28061a94-ace7-93d2-cfec-f3939914441e@huawei.com>
+Date: Tue, 12 Jan 2021 10:39:21 +0800
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
+ Thunderbird/78.4.0
+MIME-Version: 1.0
+In-Reply-To: <37acb898-8d6d-725b-6b48-f6d4a2cfa9fd@redhat.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+X-Originating-IP: [10.174.186.85]
+X-ClientProxiedBy: dggeme710-chm.china.huawei.com (10.1.199.106) To
+ dggema758-chm.china.huawei.com (10.1.198.200)
+X-CFilter-Loop: Reflected
+Received-SPF: pass client-ip=45.249.212.187;
+ envelope-from=changzihao1@huawei.com; helo=szxga01-in.huawei.com
+X-Spam_score_int: -41
+X-Spam_score: -4.2
+X-Spam_bar: ----
+X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_MED=-2.3, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -83,70 +70,78 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Sagar Karandikar <sagark@eecs.berkeley.edu>,
- Frank Chang <frank.chang@sifive.com>,
- Bastian Koppelmann <kbastian@mail.uni-paderborn.de>,
- Alistair Francis <Alistair.Francis@wdc.com>,
- Palmer Dabbelt <palmer@dabbelt.com>, Kito Cheng <kito.cheng@sifive.com>
+Cc: Qemu-block <qemu-block@nongnu.org>, qemu-devel@nongnu.org,
+ xiexiangyou@huawei.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Kito Cheng <kito.cheng@sifive.com>
+Ping again? Another month has passed, whose tree should it go via?
+Or did I miss any response?
 
-B-extension is default off, use cpu rv32 or rv64 with x-b=true to
-enable B-extension.
+Thanks
+Zihao
 
-Signed-off-by: Kito Cheng <kito.cheng@sifive.com>
-Signed-off-by: Frank Chang <frank.chang@sifive.com>
-Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
----
- target/riscv/cpu.c | 4 ++++
- target/riscv/cpu.h | 2 ++
- 2 files changed, 6 insertions(+)
-
-diff --git a/target/riscv/cpu.c b/target/riscv/cpu.c
-index 8227d7aea9d..7379a0abc6c 100644
---- a/target/riscv/cpu.c
-+++ b/target/riscv/cpu.c
-@@ -472,6 +472,9 @@ static void riscv_cpu_realize(DeviceState *dev, Error **errp)
-         if (cpu->cfg.ext_h) {
-             target_misa |= RVH;
-         }
-+        if (cpu->cfg.ext_b) {
-+            target_misa |= RVB;
-+        }
-         if (cpu->cfg.ext_v) {
-             target_misa |= RVV;
-             if (!is_power_of_2(cpu->cfg.vlen)) {
-@@ -542,6 +545,7 @@ static Property riscv_cpu_properties[] = {
-     DEFINE_PROP_BOOL("s", RISCVCPU, cfg.ext_s, true),
-     DEFINE_PROP_BOOL("u", RISCVCPU, cfg.ext_u, true),
-     /* This is experimental so mark with 'x-' */
-+    DEFINE_PROP_BOOL("x-b", RISCVCPU, cfg.ext_b, false),
-     DEFINE_PROP_BOOL("x-h", RISCVCPU, cfg.ext_h, false),
-     DEFINE_PROP_BOOL("x-v", RISCVCPU, cfg.ext_v, false),
-     DEFINE_PROP_BOOL("Counters", RISCVCPU, cfg.ext_counters, true),
-diff --git a/target/riscv/cpu.h b/target/riscv/cpu.h
-index 6339e848192..d5271906db4 100644
---- a/target/riscv/cpu.h
-+++ b/target/riscv/cpu.h
-@@ -72,6 +72,7 @@
- #define RVS RV('S')
- #define RVU RV('U')
- #define RVH RV('H')
-+#define RVB RV('B')
- 
- /* S extension denotes that Supervisor mode exists, however it is possible
-    to have a core that support S mode but does not have an MMU and there
-@@ -282,6 +283,7 @@ struct RISCVCPU {
-         bool ext_f;
-         bool ext_d;
-         bool ext_c;
-+        bool ext_b;
-         bool ext_s;
-         bool ext_u;
-         bool ext_h;
--- 
-2.17.1
-
+On 2020/12/3 17:53, Philippe Mathieu-Daudé wrote:
+> On 12/3/20 3:55 AM, Zihao Chang wrote:
+>> Ping? This is a fix patch which has been reviewed, whose tree should it go via?
+> 
+> The change itself is in-between 'Block layer' and 'SCSI'
+> subsystems, so either Paolo or Kevin (Cc'ing qemu-block@).
+> 
+>>
+>> Thanks
+>> Zihao
+>>
+>> On 2020/11/3 22:03, Zihao Chang wrote:
+>>>
+>>>
+>>> On 2020/11/3 18:52, Fam Zheng wrote:
+>>>> On Tue, 2020-11-03 at 14:12 +0800, Zihao Chang wrote:
+>>>>> 'enospc' is the default for -drive, but qemu allows user to set
+>>>>> drive option werror. If werror of scsi-generic is set to 'report'
+>>>>> by user, qemu will not allow vm to start.
+>>>>>
+>>>>> This patch allow user to set werror as 'report' for scsi-generic.
+>>>>>
+>>>>> Signed-off-by: Zihao Chang <changzihao1@huawei.com>
+>>>>> ---
+>>>>>  hw/scsi/scsi-generic.c | 3 ++-
+>>>>>  1 file changed, 2 insertions(+), 1 deletion(-)
+>>>>>
+>>>>> diff --git a/hw/scsi/scsi-generic.c b/hw/scsi/scsi-generic.c
+>>>>> index 2cb23ca891..2730e37d63 100644
+>>>>> --- a/hw/scsi/scsi-generic.c
+>>>>> +++ b/hw/scsi/scsi-generic.c
+>>>>> @@ -664,7 +664,8 @@ static void scsi_generic_realize(SCSIDevice *s,
+>>>>> Error **errp)
+>>>>>          return;
+>>>>>      }
+>>>>>  
+>>>>> -    if (blk_get_on_error(s->conf.blk, 0) !=
+>>>>> BLOCKDEV_ON_ERROR_ENOSPC) {
+>>>>> +    if (blk_get_on_error(s->conf.blk, 0) != BLOCKDEV_ON_ERROR_ENOSPC
+>>>>> &&
+>>>>> +        blk_get_on_error(s->conf.blk, 0) !=
+>>>>> BLOCKDEV_ON_ERROR_REPORT) {
+>>>>>          error_setg(errp, "Device doesn't support drive option
+>>>>> werror");
+>>>>>          return;
+>>>>>      }
+>>>>
+>>>> Accepting the report sounds sane to me, it matches what we actually
+>>>> (always) do. Is the idea to allow users to spell it out explicitly in
+>>>> the command line?
+>>>>
+>>> Actually, qemu supports user to spell it out explicitly in the command
+>>> line like "enospc", "report" & "action". This patch just allows user to
+>>> set werror as "report" for scsi-generic, which is a common scenario.
+>>>
+>>>> Reviewed-by: Fam Zheng <fam@euphon.net>
+>>>>
+>>>> .
+>>>>
+>>
+> 
+> .
+> 
 
