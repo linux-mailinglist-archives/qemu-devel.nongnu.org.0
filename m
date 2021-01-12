@@ -2,42 +2,44 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id ADBAC2F26D4
-	for <lists+qemu-devel@lfdr.de>; Tue, 12 Jan 2021 04:52:15 +0100 (CET)
-Received: from localhost ([::1]:32930 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A10902F26D5
+	for <lists+qemu-devel@lfdr.de>; Tue, 12 Jan 2021 04:52:16 +0100 (CET)
+Received: from localhost ([::1]:32982 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kzAj8-0007GD-Nf
-	for lists+qemu-devel@lfdr.de; Mon, 11 Jan 2021 22:52:14 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42044)
+	id 1kzAj9-0007HL-NQ
+	for lists+qemu-devel@lfdr.de; Mon, 11 Jan 2021 22:52:15 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42058)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1kzAgr-0005pw-Qo; Mon, 11 Jan 2021 22:49:54 -0500
-Received: from bilbo.ozlabs.org ([2401:3900:2:1::2]:51929 helo=ozlabs.org)
+ id 1kzAgt-0005q9-6o; Mon, 11 Jan 2021 22:49:55 -0500
+Received: from bilbo.ozlabs.org ([2401:3900:2:1::2]:33399 helo=ozlabs.org)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1kzAgo-00061g-JA; Mon, 11 Jan 2021 22:49:53 -0500
+ id 1kzAgo-00061h-OE; Mon, 11 Jan 2021 22:49:54 -0500
 Received: by ozlabs.org (Postfix, from userid 1007)
- id 4DFGmS0mCjz9sXb; Tue, 12 Jan 2021 14:49:43 +1100 (AEDT)
+ id 4DFGmR6wtWz9sWL; Tue, 12 Jan 2021 14:49:43 +1100 (AEDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=gibson.dropbear.id.au; s=201602; t=1610423384;
- bh=btmVH3UE3ShVXpQ3NbbiNduitqKhghwHg9P22JeqMZc=;
+ d=gibson.dropbear.id.au; s=201602; t=1610423383;
+ bh=GOPARHl2Um0wlY8mSkWS1A+Okstbf4+CZEKk7OTEAuc=;
  h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=J263AgD7rwcibc8HJ+ZqsDGjtMjb/cdAjxrJWOLQMxO68SMyASi1nOa3utfRUK5ao
- Dkq5HFDlmk/65X9E5GSBD7aI+37hiF9DAhLZRb2QIOH4t/m9PocoSK7JH+O5Mou//E
- lOv+AsEMns0PYhUwvI9AxPRV6D+RbKEgzjssFwrI=
-Date: Tue, 12 Jan 2021 14:02:30 +1100
+ b=GizeGJ8fT5fZp0PaNju9Vhw2AQ64lxlUzkkXtPdhEKC+G84KceTrjQE2zSBLbMVFX
+ abcyYNdjZWcEj0vYuJxZMcCq6ZKD0Wy3KBqKqi75iZaqVEKYnHLMf4UWixjC1X0FTd
+ GNDHtfV0Y1VUOgrA4PN2ljilC0YIulkGThPDnHrU=
+Date: Tue, 12 Jan 2021 14:03:22 +1100
 From: David Gibson <david@gibson.dropbear.id.au>
-To: Daniel =?iso-8859-1?Q?P=2E_Berrang=E9?= <berrange@redhat.com>
-Subject: Re: [for-6.0 v5 00/13] Generalize memory encryption models
-Message-ID: <20210112030230.GJ3051@yekko.fritz.box>
+To: Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <philmd@redhat.com>
+Subject: Re: [for-6.0 v5 06/13] securable guest memory: Decouple
+ kvm_memcrypt_*() helpers from KVM
+Message-ID: <20210112030322.GK3051@yekko.fritz.box>
 References: <20201204054415.579042-1-david@gibson.dropbear.id.au>
- <20201204095005.GB3056135@redhat.com>
+ <20201204054415.579042-7-david@gibson.dropbear.id.au>
+ <e8c1f2a7-e5b9-8181-2c7b-0287699ac9c9@redhat.com>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="DesjdUuHQDwS2t4N"
+ protocol="application/pgp-signature"; boundary="zYjDATHXTWnytHRU"
 Content-Disposition: inline
-In-Reply-To: <20201204095005.GB3056135@redhat.com>
+In-Reply-To: <e8c1f2a7-e5b9-8181-2c7b-0287699ac9c9@redhat.com>
 Received-SPF: pass client-ip=2401:3900:2:1::2; envelope-from=dgibson@ozlabs.org;
  helo=ozlabs.org
 X-Spam_score_int: -17
@@ -58,57 +60,78 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: pair@us.ibm.com, cohuck@redhat.com, brijesh.singh@amd.com,
- frankja@linux.ibm.com, kvm@vger.kernel.org,
- "Michael S. Tsirkin" <mst@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- Marcelo Tosatti <mtosatti@redhat.com>, david@redhat.com, qemu-devel@nongnu.org,
+Cc: pair@us.ibm.com, Marcelo Tosatti <mtosatti@redhat.com>,
+ brijesh.singh@amd.com, frankja@linux.ibm.com, kvm@vger.kernel.org,
+ "Michael S. Tsirkin" <mst@redhat.com>, cohuck@redhat.com,
+ Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org,
  dgilbert@redhat.com, pasic@linux.ibm.com, borntraeger@de.ibm.com,
- qemu-s390x@nongnu.org, qemu-ppc@nongnu.org, thuth@redhat.com,
- pbonzini@redhat.com, rth@twiddle.net, mdroth@linux.vnet.ibm.com,
- Eduardo Habkost <ehabkost@redhat.com>
+ qemu-s390x@nongnu.org, qemu-ppc@nongnu.org, berrange@redhat.com,
+ thuth@redhat.com, pbonzini@redhat.com, david@redhat.com, rth@twiddle.net,
+ mdroth@linux.vnet.ibm.com, Eduardo Habkost <ehabkost@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 
---DesjdUuHQDwS2t4N
+--zYjDATHXTWnytHRU
 Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Fri, Dec 04, 2020 at 09:50:05AM +0000, Daniel P. Berrang=E9 wrote:
-> On Fri, Dec 04, 2020 at 04:44:02PM +1100, David Gibson wrote:
-> > A number of hardware platforms are implementing mechanisms whereby the
-> > hypervisor does not have unfettered access to guest memory, in order
-> > to mitigate the security impact of a compromised hypervisor.
+On Mon, Jan 11, 2021 at 07:13:27PM +0100, Philippe Mathieu-Daud=E9 wrote:
+> On 12/4/20 6:44 AM, David Gibson wrote:
+> > The kvm_memcrypt_enabled() and kvm_memcrypt_encrypt_data() helper funct=
+ions
+> > don't conceptually have any connection to KVM (although it's not possib=
+le
+> > in practice to use them without it).
 > >=20
-> > AMD's SEV implements this with in-cpu memory encryption, and Intel has
-> > its own memory encryption mechanism.  POWER has an upcoming mechanism
-> > to accomplish this in a different way, using a new memory protection
-> > level plus a small trusted ultravisor.  s390 also has a protected
-> > execution environment.
+> > They also rely on looking at the global KVMState.  But the same informa=
+tion
+> > is available from the machine, and the only existing callers have natur=
+al
+> > access to the machine state.
 > >=20
-> > The current code (committed or draft) for these features has each
-> > platform's version configured entirely differently.  That doesn't seem
-> > ideal for users, or particularly for management layers.
+> > Therefore, move and rename them to helpers in securable-guest-memory.h,
+> > taking an explicit machine parameter.
 > >=20
-> > AMD SEV introduces a notionally generic machine option
-> > "machine-encryption", but it doesn't actually cover any cases other
-> > than SEV.
-> >=20
-> > This series is a proposal to at least partially unify configuration
-> > for these mechanisms, by renaming and generalizing AMD's
-> > "memory-encryption" property.  It is replaced by a
-> > "securable-guest-memory" property pointing to a platform specific
-> > object which configures and manages the specific details.
+> > Signed-off-by: David Gibson <david@gibson.dropbear.id.au>
+> > Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+> > ---
+> >  accel/kvm/kvm-all.c                   | 27 --------------------
+> >  accel/stubs/kvm-stub.c                | 10 --------
+> >  hw/i386/pc_sysfw.c                    |  6 +++--
+> >  include/exec/securable-guest-memory.h | 36 +++++++++++++++++++++++++++
+> >  include/sysemu/kvm.h                  | 17 -------------
+> >  5 files changed, 40 insertions(+), 56 deletions(-)
+> ...
 >=20
-> There's no docs updated or added in this series.
+> > +static inline int securable_guest_memory_encrypt(MachineState *machine,
+> > +                                              uint8_t *ptr, uint64_t l=
+en)
+> > +{
+> > +    SecurableGuestMemory *sgm =3D machine->sgm;
+> > +
+> > +    if (sgm) {
+> > +        SecurableGuestMemoryClass *sgmc =3D SECURABLE_GUEST_MEMORY_GET=
+_CLASS(sgm);
+> > +
+> > +        if (sgmc->encrypt_data) {
 >=20
-> docs/amd-memory-encryption.txt needs an update at least, and
-> there ought to be a doc added describing how this series is
-> to be used for s390/ppc
+> Can this ever happen? Maybe use assert(sgmc->encrypt_data) instead?
 
-Fair point, I've made a bunch of doc updates for the next spin.
+It's made moot by changes in the next spin.
+
+>=20
+> Otherwise:
+> Reviewed-by: Philippe Mathieu-Daud=E9 <philmd@redhat.com>
+>=20
+> > +            return sgmc->encrypt_data(sgm, ptr, len);
+> > +        }
+> > +    }
+> > +
+> > +    return 1;
+> > +}
+>=20
 
 --=20
 David Gibson			| I'll have my music baroque, and my code
@@ -116,25 +139,25 @@ david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
 				| _way_ _around_!
 http://www.ozlabs.org/~dgibson
 
---DesjdUuHQDwS2t4N
+--zYjDATHXTWnytHRU
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAl/9EUQACgkQbDjKyiDZ
-s5JzAQ//SvrT3nuK8XyVRauAL7EhoV1epcnrl2exKWQteytnpnCW3Mw0x95IfC6w
-ukVrdcGbN84Xt6YcsXj+ajhi3G97MFMt675PUourF18qBgoPzlXTTEIJQ99z3kOm
-ZARhaxGen02w0TiuZjdvxoG9b7EJYOb9Ie8gSgb7twgDImB64xiXqnh3iDSFoxLr
-Ia90xBQMLPg8fg/7yxj4TkHqnRwDyTUrWH5A0b5i5cBI4YSy8855x5tA0Xp6VVPw
-tzY5Ky8qSPcTKr6lL3y/sU+pk47KqcwgFvqgUWU0+IUBZ0/Ntl/ECTVSBhgRexlo
-XF+duybxFoQ172mz/IW7psAhHpBs245BZ8vycB6FPEfbl4rUAJujulzgmBgSib2g
-d5g4j8uIpnpoJrp+x1OrofvrSdNicC/2YWlwMmmybBW6V8UAoV+Dpx9LnNIlHzjI
-5r9NBMDr0gf74UGS93DSgrkcq1rn/TiISIeZu6/QKStInGptChZcXjFaOlKTMYu8
-LDNwF+ihad2N8lacXIl+6tjHViTUH0IXJJEatLhGj2G7GwIQHCYgjo5bkls4guBT
-n7umTEIFCPlICEUfZi6zCsc+z/NInlGhF2E56bR1XCtLJpidF7xoORYkcz5qZfZc
-g5SwJwo9gLSRqZgDnMhgdKgL49E9jdhqUw0DzYdXub6Ty0iH8Us=
-=4wXi
+iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAl/9EXoACgkQbDjKyiDZ
+s5KvzQ/9EugoRV/WIF4Cga4OBwqfG0O80793x36mlNZm4fotE3mrayRqFRAhQ5jF
+E4xbG69Bp5GPK+9YzDAOWrGlNBBw9z0LSGQlBytS9hEODtAOFJfRsUT4Tn5eohJr
+liADZgHG9cQtOCZTpX8zp5LDT2XSsiLhorfuHXG7QzOJmEzTJRXLccpmdbOyQnYO
+wsHHXy/ZEocPVSsHCJU015hoB67JJYnIRj/tEv9WbasWFf3QlQF/IvB3oetmemZ1
+uTPwUAfD58PAf6G7/JQ3Qkj1HqpRBou/n7rp3pBtj4t+zqL4shv2SH1sJBICRvJK
+l9CLHpkNfUhPERZMKTw76EyqZWttBKyhlaxSgRBvnZXsRBdW/LX02ytC35r4g1wc
+eMVpb/1HAJjOnhS97O+F0BivaOvz5t3/TSUuR0Nkdlhk8bOJyb7pXIW81YGuLcio
+OJa7O38z3nyOd8CNtfm0NHCpUYI/OYR5APkVTqmKNBsLttWRvGVv8NNM+7hs0kZh
+KUSg/x2JSm2MkgwIU4E1wkF8V38wDXPJsWOelzWLRZSfUELOWRjSveuNeH3PLjHx
+fFdwDEY4G19X4/IIegPoC2TWZDngKot5bD3qiOqUxLfnpaCe2jN5k8hmk9ImWYqe
+3SUuZXrWZyFsbBugLr/LLPUcDbZWuCxuV+4f1ntHeqlySS5Z/r4=
+=2yF9
 -----END PGP SIGNATURE-----
 
---DesjdUuHQDwS2t4N--
+--zYjDATHXTWnytHRU--
 
