@@ -2,55 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EA84A2F26F9
-	for <lists+qemu-devel@lfdr.de>; Tue, 12 Jan 2021 05:21:04 +0100 (CET)
-Received: from localhost ([::1]:46434 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 14AEF2F2722
+	for <lists+qemu-devel@lfdr.de>; Tue, 12 Jan 2021 05:36:25 +0100 (CET)
+Received: from localhost ([::1]:52028 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kzBB0-00068y-JC
-	for lists+qemu-devel@lfdr.de; Mon, 11 Jan 2021 23:21:02 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45916)
+	id 1kzBPs-0003t8-5C
+	for lists+qemu-devel@lfdr.de; Mon, 11 Jan 2021 23:36:24 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47072)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1kzB9U-0005b3-Rn; Mon, 11 Jan 2021 23:19:29 -0500
-Received: from bilbo.ozlabs.org ([203.11.71.1]:45145 helo=ozlabs.org)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1kzB9R-00077N-B6; Mon, 11 Jan 2021 23:19:28 -0500
-Received: by ozlabs.org (Postfix, from userid 1007)
- id 4DFHQZ6XjQz9sjJ; Tue, 12 Jan 2021 15:19:18 +1100 (AEDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=gibson.dropbear.id.au; s=201602; t=1610425158;
- bh=/OAbBYrsu+cIkzUMN9z6syTbCCHg7FCLMHSSzvz7h6w=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=dX4XKIR0NSQtnygnNNCyiItpkGyz6zTSnYjq3av25B6YbpzwbbdjtDgCc5nbjYAEX
- Q7D6wnxZukiIBIMMsYAk28RYUWSMV5618UUVJr5lpXNolQaLnlSGS+3+hhIu3IzQ4O
- qvficxhX8pw4u5X4bzEEcCgXj+MTmNzuKefISkU4=
-Date: Tue, 12 Jan 2021 15:18:05 +1100
-From: David Gibson <david@gibson.dropbear.id.au>
-To: BALATON Zoltan <balaton@eik.bme.hu>
-Subject: Re: [PATCH] hw/intc/ppc-uic: Make default dcr-base 0xc0, not 0x30
-Message-ID: <20210112041805.GM3051@yekko.fritz.box>
-References: <20210111213007.7381-1-peter.maydell@linaro.org>
- <20210112001257.GG3051@yekko.fritz.box>
- <alpine.LMD.2.03.2101120224300.11445@eik.bme.hu>
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1kzBFk-00086y-91
+ for qemu-devel@nongnu.org; Mon, 11 Jan 2021 23:25:57 -0500
+Received: from indium.canonical.com ([91.189.90.7]:52038)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1kzBFb-0000sF-6z
+ for qemu-devel@nongnu.org; Mon, 11 Jan 2021 23:25:56 -0500
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1kzBFZ-0004Vt-Od
+ for <qemu-devel@nongnu.org>; Tue, 12 Jan 2021 04:25:45 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id B5AC62E813C
+ for <qemu-devel@nongnu.org>; Tue, 12 Jan 2021 04:25:45 +0000 (UTC)
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="OGW1Z2JKiS9bXo17"
-Content-Disposition: inline
-In-Reply-To: <alpine.LMD.2.03.2101120224300.11445@eik.bme.hu>
-Received-SPF: pass client-ip=203.11.71.1; envelope-from=dgibson@ozlabs.org;
- helo=ozlabs.org
-X-Spam_score_int: -17
-X-Spam_score: -1.8
-X-Spam_bar: -
-X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, HEADER_FROM_DIFFERENT_DOMAINS=0.249,
- SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=no autolearn_force=no
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Date: Tue, 12 Jan 2021 04:17:15 -0000
+From: Launchpad Bug Tracker <1794950@bugs.launchpad.net>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=Expired; importance=Undecided;
+ assignee=None; 
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: fdmanana2 janitor th-huth
+X-Launchpad-Bug-Reporter: Filipe Manana (fdmanana2)
+X-Launchpad-Bug-Modifier: Launchpad Janitor (janitor)
+References: <153813115023.24445.9281522775132548105.malonedeb@gac.canonical.com>
+Message-Id: <161042503573.10246.7446214052028719738.malone@loganberry.canonical.com>
+Subject: [Bug 1794950] Re: qemu hangs when guest is using linux kernel 4.16+
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="fe617ea08df036edd5c842aded2b315e1c090677"; Instance="production"
+X-Launchpad-Hash: c58d9029236f4edb0da9cb8e22275588b350e3d4
+Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
+ helo=indium.canonical.com
+X-Spam_score_int: -65
+X-Spam_score: -6.6
+X-Spam_bar: ------
+X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9,
+ HEADER_FROM_DIFFERENT_DOMAINS=0.249, RCVD_IN_DNSWL_HI=-5,
+ RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -59,90 +70,137 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>, qemu-ppc@nongnu.org,
- qemu-devel@nongnu.org
+Reply-To: Bug 1794950 <1794950@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+[Expired for QEMU because there has been no activity for 60 days.]
 
---OGW1Z2JKiS9bXo17
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+** Changed in: qemu
+       Status: Incomplete =3D> Expired
 
-On Tue, Jan 12, 2021 at 02:25:58AM +0100, BALATON Zoltan wrote:
-> On Tue, 12 Jan 2021, David Gibson wrote:
-> > On Mon, Jan 11, 2021 at 09:30:07PM +0000, Peter Maydell wrote:
-> > > In commit 34d0831f38fd8 the ppc-uic device was added, with a dcr-base
-> > > property. The intention was that the default value of dcr-base should=
- be
-> > > the one that most of our boards need, so that in the common case they
-> > > don't need to specify a property value.
-> > >=20
-> > > All QEMU boards with a UIC use a dcr-base of 0xc0, with the exception=
- of
-> > > sam460ex which has four UICs and so puts them at 0xc0, 0xd0, 0xe0, 0x=
-f0.
-> > > So 0xc0 is the obvious right choice for the default dcr-base.
-> > >=20
-> > > The board code conversions in commits 0270d74ef88623505 (bamboo) and
-> > > c5ac9dc64fa552a6 (virtex_ml507) assumed that default was 0xc0. Unfort=
-unately
-> > > the actual default in 34d0831f38fd8 was 0x30, by mistake, so the
-> > > bamboo and virtex_ml507 boards were broken as they were converted
-> > > away from ppcuic_init() (which always specifies the dcr_base property
-> > > value explicitly).
-> > >=20
-> > > Set the default dcr-base to 0xc0 as was intended, fixing bamboo and
-> > > virtex_ml507.
-> > >=20
-> > > Fixes: 34d0831f38fd8
-> > > Reported-by: Nathan Chancellor <natechancellor@gmail.com>
-> > > Suggested-by: BALATON Zoltan <balaton@eik.bme.hu>
-> > > Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
-> >=20
-> > Applied, thanks.
->=20
-> Will you take my series too?
->=20
-> http://patchwork.ozlabs.org/project/qemu-devel/list/?series=3D223439
+-- =
 
-Huh.  I will now I've seen it.
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1794950
 
-> I've cc'd you but your DNS seems to not return an MX record most of the t=
-ime
-> still so these are bouncing back.
+Title:
+  qemu hangs when guest is using linux kernel 4.16+
 
-Ugh.  This is weird.  I know the DNS went out for a little while, but
-some of your mails have come through, and AFAICT it's been working for
-most people most of the time since that incident.  I'm wondering if
-something on your side is negative caching for too long.
+Status in QEMU:
+  Expired
 
---=20
-David Gibson			| I'll have my music baroque, and my code
-david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
-				| _way_ _around_!
-http://www.ozlabs.org/~dgibson
+Bug description:
+  I have been using qemu on daily basis 5+ years in order to do btrfs
+  development and testing and it always worked perfectly, until I
+  upgraded the linux kernel of the guests to 4.16. With 4.16+ kernels,
+  when running all the fstests (previously called xfstests), the qemu
+  process hangs (console unresponsive, can't ping or ssh the guest
+  anymore, etc) and stays in a state Sl+ according to 'ps'.
 
---OGW1Z2JKiS9bXo17
-Content-Type: application/pgp-signature; name="signature.asc"
+  This happens on two different physical machines, one running openSUSE
+  tumbleweed (which I don't access at the moment to check kernel
+  version) and another running xubuntu (tried kernels 4.15.0-32-generic
+  and vanilla 4.18.0). Using any kernel from 4.16 to 4.19-rc5 in the
+  guests (they use different debian versions) makes qemu hang running
+  the fstests suite (after about 30 to 40 minutes, either at test
+  generic/299 or test generic/451).
 
------BEGIN PGP SIGNATURE-----
+  I tried different qemu versions, 2.11.2, 2.12.1 and 3.0.0, and it
+  happens with all of them (all built from the sources available at
+  https://www.qemu.org/download/#source).
 
-iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAl/9IvsACgkQbDjKyiDZ
-s5KPtA//WxqyL5iL4Pp24XaORpaiYfCbb3TrrMmsQpbxXlxnSDG97W6BPKcit9AL
-GhpKkQiT58GYNXbtiLIEq1oACCRSrSVzbkgNutlUDD0RxbOhvTpYv6S1Bcb3XF3D
-jyVDKMs62Iji9YPctYdxcYXEnFqcEamTzbpwruFt30D80B1UPrtNu4p7gwQdeggE
-Mer0Jp3VQsvpn5HmsmYRt+ay6zFKauGEJoS70QNbnJ5yg+HmjcCzXzpBoikbGjsL
-thnKAkck/rftvfzNFOtK2ufpzbFGRAJP8wDctLHCppR+VjMcs8GUzwa52OMCDDln
-uesnke1cbXAclpib5o7WopRyy95UmbVWqSka/y/jM6ssNWywbXkFktOqqZusaKo6
-C702q+rYCTKDcfgHRpVD19EAzqTAK0JirgrHTXg0wRCNY+VA9bQgjq3ov9vE3Ugj
-w49kr330uS7tuPW+tx5EWz9me2e7xwtLB1wFPdNMVMAVxjAnMJPPdhHSBNMzvnUz
-CxU4vWhJiK17hf4gCb9dTSQsssQ2d2YCZwQS5ccMR3riNv5wPbrLqKPrx9HSn8GO
-6+ydCMaHt1mLiJscpxAFkl2AWMPcdfZjUGIxyzPucVAebixU5XuCY1pivNO6OUjh
-gTA0wT7ECg5Ir9IVbCIlUeMQpGLxPK6k8w9i4gODQ5pc6IG33oE=
-=egM+
------END PGP SIGNATURE-----
+  I built 3.0.0 with debug enabled, using the following parameters for
+  'configure':
 
---OGW1Z2JKiS9bXo17--
+  --prefix=3D/home/fdmanana/qemu-3.0.0 --enable-tools --enable-linux-aio
+  --enable-kvm --enable-vnc --enable-vnc-png --enable-debug --extra-
+  cflags=3D"-O0 -g3 -fno-omit-frame-pointer"
+
+  And captured a coredump of the qemu process, available at:
+
+  https://www.dropbox.com/s/d1tlsimahykwhla/core_dump_debug.tar.xz?dl=3D0
+
+  the stack traces of all threads, for a quick look:
+
+  https://friendpaste.com/zqkz2pD0WgSdeSKITHPDf
+
+  qemu is being invoked with the following script:
+
+  #!/bin/bash -x
+
+  sudo modprobe tun
+  sudo modprobe kvm
+  sudo modprobe kvm-intel
+
+  sudo tunctl -t tap5 -u fdmanana
+  sudo ifconfig tap5 up
+  sudo brctl addif br0 tap5
+
+  sudo umount /mnt/tmp5
+  sudo mkdir -p /mnt/tmp5
+  sudo mount -t tmpfs -o size=3D14G tmpfs /mnt/tmp5
+  for ((i =3D 2; i <=3D 7; i++)); do
+          sudo qemu-img create -f qcow2 /mnt/tmp5/disk$i 13G
+  done
+  sudo chown fdmanana /mnt/tmp5/disk*
+
+  qemu-system-x86_64 -m 4G \
+          -device virtio-scsi-pci \
+          -boot c \
+  \
+          -drive if=3Dnone,file=3Ddebian5.qcow2,cache=3Dnone,aio=3Dnative,c=
+ache.direct=3Don,format=3Dqcow2,id=3Ddrive0,discard=3Don \
+          -device scsi-hd,drive=3Ddrive0,bus=3Dscsi.0 \
+  \
+          -drive if=3Dnone,file=3D/mnt/tmp5/disk2,cache=3Dwriteback,format=
+=3Dqcow2,id=3Ddrive1,discard=3Don \
+          -device scsi-hd,drive=3Ddrive1,bus=3Dscsi.0 \
+  \
+          -drive if=3Dnone,file=3D/mnt/tmp5/disk3,cache=3Dwriteback,format=
+=3Dqcow2,id=3Ddrive2,discard=3Don \
+          -device scsi-hd,drive=3Ddrive2,bus=3Dscsi.0 \
+  \
+          -drive if=3Dnone,file=3D/mnt/tmp5/disk4,cache=3Dwriteback,format=
+=3Dqcow2,id=3Ddrive3,discard=3Don \
+          -device scsi-hd,drive=3Ddrive3,bus=3Dscsi.0 \
+  \
+          -drive if=3Dnone,file=3D/mnt/tmp5/disk5,cache=3Dwriteback,format=
+=3Dqcow2,id=3Ddrive4,discard=3Don \
+          -device scsi-hd,drive=3Ddrive4,bus=3Dscsi.0 \
+  \
+          -drive if=3Dnone,file=3D/mnt/tmp5/disk6,cache=3Dwriteback,format=
+=3Dqcow2,id=3Ddrive5,discard=3Don \
+          -device scsi-hd,drive=3Ddrive5,bus=3Dscsi.0 \
+  \
+          -drive if=3Dnone,file=3D/mnt/tmp5/disk7,cache=3Dwriteback,format=
+=3Dqcow2,id=3Ddrive6,discard=3Don \
+          -device scsi-hd,drive=3Ddrive6,bus=3Dscsi.0 \
+  \
+          -drive if=3Dnone,file=3Ddisk8,cache=3Dwriteback,aio=3Dnative,cach=
+e.direct=3Don,format=3Dqcow2,id=3Ddrive7,discard=3Don \
+          -device scsi-hd,drive=3Ddrive7,bus=3Dscsi.0 \
+  \
+          -drive if=3Dnone,file=3Ddisk9,cache=3Dwriteback,aio=3Dnative,cach=
+e.direct=3Don,format=3Dqcow2,id=3Ddrive8,discard=3Don \
+          -device scsi-hd,drive=3Ddrive8,bus=3Dscsi.0 \
+  \
+          -drive if=3Dnone,file=3Ddisk10,cache=3Dwriteback,aio=3Dnative,cac=
+he.direct=3Don,format=3Dqcow2,id=3Ddrive9,discard=3Don \
+          -device scsi-hd,drive=3Ddrive9,bus=3Dscsi.0 \
+  \
+          -net nic,macaddr=3D52:54:00:12:34:fa -net tap,ifname=3Dtap5,scrip=
+t=3Dno,downscript=3Dno \
+          -rtc base=3Dlocaltime -enable-kvm -machine accel=3Dkvm -smp 4 -cp=
+u host \
+          -k pt -serial tcp:127.0.0.1:9997 -display vnc=3D:5
+
+
+  Is there anything else I can provided to help debug this?
+
+  Thanks.
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1794950/+subscriptions
 
