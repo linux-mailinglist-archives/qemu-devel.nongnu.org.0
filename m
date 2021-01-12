@@ -2,56 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 246B52F2D20
-	for <lists+qemu-devel@lfdr.de>; Tue, 12 Jan 2021 11:46:15 +0100 (CET)
-Received: from localhost ([::1]:46048 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 819CD2F2D29
+	for <lists+qemu-devel@lfdr.de>; Tue, 12 Jan 2021 11:49:13 +0100 (CET)
+Received: from localhost ([::1]:54866 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kzHBl-0002dw-UA
-	for lists+qemu-devel@lfdr.de; Tue, 12 Jan 2021 05:46:13 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40808)
+	id 1kzHEe-0006Wl-JD
+	for lists+qemu-devel@lfdr.de; Tue, 12 Jan 2021 05:49:12 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41020)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <olaf@aepfle.de>) id 1kzGKq-0005PI-I3
- for qemu-devel@nongnu.org; Tue, 12 Jan 2021 04:51:32 -0500
-Received: from mo4-p00-ob.smtp.rzone.de ([85.215.255.22]:27691)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <olaf@aepfle.de>) id 1kzGKo-0002Jf-7J
- for qemu-devel@nongnu.org; Tue, 12 Jan 2021 04:51:32 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; t=1610445085;
- s=strato-dkim-0002; d=aepfle.de;
- h=Message-ID:Subject:To:From:Date:From:Subject:Sender;
- bh=Hiz5p6VUDr5ClMtt0NTvIEdZk+0j3cDj82lDxUkoIGE=;
- b=qKL9pjiq0e501EuEMxw34VCuI25S4FllybbJCZshvRFVQlVNeKdxOnB3BOex6OiTF0
- R4b8bssot41E91EPMYyGw6L9tfW5luCe4OU7vXGl/Kru/z8oAd3o21YM/MC/F7LajE1j
- vbmAVlRxrd1KphkWGUX08eOtHjwVLACbB9ZETij5qvnhkQsebam7dyFWXmpB7f82wXJD
- BX1+4VCEz+vPCMuCcSPaTJuULKACfBH+bId1kYt5t7qyI2EEuD0sFJTN2wOkCuD/ao/z
- 0GDyEk/AoFy8Rb73YLM0TaS9RVq18oq0SNCB2XyvjWL+f4nqGnpMnCUiZDqXEzS/L9pT
- Gv5A==
-X-RZG-AUTH: ":P2EQZWCpfu+qG7CngxMFH1J+3q8wa/QLpd5ylWvMDXdoX8l8pYAcz5OTXuqX"
-X-RZG-CLASS-ID: mo00
-Received: from sender by smtp.strato.de (RZmta 47.12.1 SBL|AUTH)
- with ESMTPSA id h0968ex0C9pOOGk
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256 bits))
- (Client did not present a certificate) for <qemu-devel@nongnu.org>;
- Tue, 12 Jan 2021 10:51:24 +0100 (CET)
-Date: Tue, 12 Jan 2021 10:51:10 +0100
-From: Olaf Hering <olaf@aepfle.de>
-To: qemu-devel@nongnu.org
-Subject: virtfs-proxy-helper fails due to bogus libattr test
-Message-ID: <20210112105110.2f0e4fbb.olaf@aepfle.de>
-X-Mailer: Claws Mail 2020.08.19 (GTK+ 2.24.32; x86_64-suse-linux-gnu)
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1kzGLn-0006WX-UT
+ for qemu-devel@nongnu.org; Tue, 12 Jan 2021 04:52:32 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:40985)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1kzGLf-0002a3-Fy
+ for qemu-devel@nongnu.org; Tue, 12 Jan 2021 04:52:30 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1610445142;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:in-reply-to:in-reply-to:  references:references;
+ bh=svdoJqewurzhnd48QrfHO28PiRZBp7LBFgvNrNgI/JA=;
+ b=fH6VBPrCxqLNdpn4txzU/F3nTxK5y7Rk+rGi9knh79FuCXTU35ohkFdoLcuEXMykLy0rEZ
+ sbQw80L4Z8n08KD2vKs45oP0D0umU1cQ4j5dA8SwDm/usRtHXYMFYpoRAfvCA59FnGExK5
+ A+4m0ao4HdDo910ABVg+vzXerFYv/mo=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-284-HnyDRtxKPlWTSgObeQSKEg-1; Tue, 12 Jan 2021 04:52:19 -0500
+X-MC-Unique: HnyDRtxKPlWTSgObeQSKEg-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id AE03D107ACF8;
+ Tue, 12 Jan 2021 09:52:16 +0000 (UTC)
+Received: from redhat.com (ovpn-115-107.ams2.redhat.com [10.36.115.107])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id E545C5D9DB;
+ Tue, 12 Jan 2021 09:52:02 +0000 (UTC)
+Date: Tue, 12 Jan 2021 09:52:00 +0000
+From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+To: David Gibson <david@gibson.dropbear.id.au>
+Subject: Re: [PATCH v6 10/13] spapr: Add PEF based confidential guest support
+Message-ID: <20210112095200.GC1360503@redhat.com>
+References: <20210112044508.427338-1-david@gibson.dropbear.id.au>
+ <20210112044508.427338-11-david@gibson.dropbear.id.au>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- boundary="Sig_/qoeihNjiw6Y.+LNHs9d=wb."; protocol="application/pgp-signature"
-Received-SPF: none client-ip=85.215.255.22; envelope-from=olaf@aepfle.de;
- helo=mo4-p00-ob.smtp.rzone.de
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_PASS=-0.001, SPF_NONE=0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20210112044508.427338-11-david@gibson.dropbear.id.au>
+User-Agent: Mutt/1.14.6 (2020-07-11)
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=berrange@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -29
+X-Spam_score: -3.0
+X-Spam_bar: ---
+X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.251,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -64,122 +75,199 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+Cc: pair@us.ibm.com, Marcelo Tosatti <mtosatti@redhat.com>,
+ brijesh.singh@amd.com, kvm@vger.kernel.org, david@redhat.com,
+ qemu-devel@nongnu.org, frankja@linux.ibm.com, pragyansri.pathi@intel.com,
+ mst@redhat.com, mdroth@linux.vnet.ibm.com, pasic@linux.ibm.com,
+ Christian Borntraeger <borntraeger@de.ibm.com>, andi.kleen@intel.com,
+ thuth@redhat.com, Eduardo Habkost <ehabkost@redhat.com>,
+ richard.henderson@linaro.org, dgilbert@redhat.com, Greg Kurz <groug@kaod.org>,
+ qemu-s390x@nongnu.org, jun.nakajima@intel.com,
+ Cornelia Huck <cohuck@redhat.com>, qemu-ppc@nongnu.org,
+ Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---Sig_/qoeihNjiw6Y.+LNHs9d=wb.
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: quoted-printable
+On Tue, Jan 12, 2021 at 03:45:05PM +1100, David Gibson wrote:
+> Some upcoming POWER machines have a system called PEF (Protected
+> Execution Facility) which uses a small ultravisor to allow guests to
+> run in a way that they can't be eavesdropped by the hypervisor.  The
+> effect is roughly similar to AMD SEV, although the mechanisms are
+> quite different.
+> 
+> Most of the work of this is done between the guest, KVM and the
+> ultravisor, with little need for involvement by qemu.  However qemu
+> does need to tell KVM to allow secure VMs.
+> 
+> Because the availability of secure mode is a guest visible difference
+> which depends on having the right hardware and firmware, we don't
+> enable this by default.  In order to run a secure guest you need to
+> create a "pef-guest" object and set the confidential-guest-support
+> property to point to it.
+> 
+> Note that this just *allows* secure guests, the architecture of PEF is
+> such that the guest still needs to talk to the ultravisor to enter
+> secure mode.  Qemu has no directl way of knowing if the guest is in
+> secure mode, and certainly can't know until well after machine
+> creation time.
+> 
+> To start a PEF-capable guest, use the command line options:
+>     -object pef-guest,id=pef0 -machine confidential-guest-support=pef0
+> 
+> Signed-off-by: David Gibson <david@gibson.dropbear.id.au>
+> ---
+>  docs/confidential-guest-support.txt |   2 +
+>  docs/papr-pef.txt                   |  30 ++++++++
+>  hw/ppc/meson.build                  |   1 +
+>  hw/ppc/pef.c                        | 115 ++++++++++++++++++++++++++++
+>  hw/ppc/spapr.c                      |  10 +++
+>  include/hw/ppc/pef.h                |  26 +++++++
+>  target/ppc/kvm.c                    |  18 -----
+>  target/ppc/kvm_ppc.h                |   6 --
+>  8 files changed, 184 insertions(+), 24 deletions(-)
+>  create mode 100644 docs/papr-pef.txt
+>  create mode 100644 hw/ppc/pef.c
+>  create mode 100644 include/hw/ppc/pef.h
+> 
 
-Depending on the build environment, the meson test to find a suitable libat=
-tr fails. Something appends -O0 to CFLAGS.
 
-I see no "-O0" in qemu.git. This is a regression, it worked in 553032db1744=
-0f8de011390e5a1cfddd13751b0b.
+> diff --git a/hw/ppc/pef.c b/hw/ppc/pef.c
+> new file mode 100644
+> index 0000000000..b227dc6905
+> --- /dev/null
+> +++ b/hw/ppc/pef.c
+> @@ -0,0 +1,115 @@
+> +/*
+> + * PEF (Protected Execution Facility) for POWER support
+> + *
+> + * Copyright David Gibson, Redhat Inc. 2020
+> + *
+> + * This work is licensed under the terms of the GNU GPL, version 2 or later.
+> + * See the COPYING file in the top-level directory.
+> + *
+> + */
+> +
+> +#include "qemu/osdep.h"
+> +
+> +#include "qapi/error.h"
+> +#include "qom/object_interfaces.h"
+> +#include "sysemu/kvm.h"
+> +#include "migration/blocker.h"
+> +#include "exec/confidential-guest-support.h"
+> +#include "hw/ppc/pef.h"
+> +
+> +#define TYPE_PEF_GUEST "pef-guest"
+> +#define PEF_GUEST(obj)                                  \
+> +    OBJECT_CHECK(PefGuestState, (obj), TYPE_PEF_GUEST)
+> +
+> +typedef struct PefGuestState PefGuestState;
 
-Does anyone happen to know what is causing this?
+Can use  OBJECT_DECLARE_TYPE.
 
-Olaf
+Also the struct naming ought to match the type naming.
+eg use PefGuest for the struct, to match TYPE_PEF_GUEST.
 
-./configure --host=3Dx86_64-suse-linux-gnu --build=3Dx86_64-suse-linux-gnu =
---program-prefix=3D --disable-dependency-tracking --prefix=3D/usr --exec-pr=
-efix=3D/usr --bindir=3D/usr/bin --sbindir=3D/usr/sbin --sysconfdir=3D/etc -=
--datadir=3D/usr/share --includedir=3D/usr/include --libdir=3D/usr/lib64 --l=
-ibexecdir=3D/usr/libexec --localstatedir=3D/var --sharedstatedir=3D/var/lib=
- --mandir=3D/usr/share/man --infodir=3D/usr/share/info --disable-dependency=
--tracking --cc=3D/usr/bin/gcc-10 --host-cc=3D/usr/bin/gcc-10 --cxx=3D/usr/b=
-in/g++-10 --docdir=3D/usr/share/doc/packages --firmwarepath=3D/usr/share/qe=
-mu/firmware '--target-list=3Di386-softmmu x86_64-softmmu' '--audio-drv-list=
-=3Dalsa pa' --iasl=3D/usr/bin/iasl --install=3D/usr/bin/install --objcc=3D/=
-usr/bin/false --python=3D/usr/bin/python3 --ninja=3D/usr/bin/ninja --tls-pr=
-iority=3DNORMAL --with-git=3D/usr/bin/false --with-suffix=3Dqemu --disable-=
-docs --disable-gtk --disable-libnfs --disable-opengl --disable-rbd --disabl=
-e-spice --disable-virglrenderer --disable-vte --enable-attr --disable-brlap=
-i --disable-bsd-user --enable-bzip2 --enable-cap-ng --disable-capstone --di=
-sable-cocoa --enable-coroutine-pool --disable-crypto-afalg --enable-curl --=
-enable-curses --disable-debug-info --disable-debug-mutex --disable-debug-tc=
-g --with-default-devices --enable-docs --disable-fdt --enable-gcrypt --enab=
-le-gettext --disable-git-update --disable-glusterfs --enable-gnutls --enabl=
-e-gtk --enable-guest-agent --disable-guest-agent-msi --disable-hax --disabl=
-e-hvf --enable-iconv --disable-jemalloc --disable-keyring --enable-kvm --di=
-sable-libdaxctl --disable-libiscsi --enable-libnfs --enable-libssh --enable=
--libusb --enable-libxml2 --enable-linux-aio --disable-linux-user --enable-l=
-ive-block-migration --disable-lzo --disable-lzfse --disable-malloc-trim --d=
-isable-membarrier --enable-modules --disable-mpath --disable-netmap --disab=
-le-nettle --enable-numa --enable-opengl --enable-pie --enable-plugins --dis=
-able-qom-cast-debug --enable-rbd --disable-rdma --enable-replication --enab=
-le-rng-none --disable-safe-stack --disable-sanitizers --disable-sdl --disab=
-le-sdl-image --disable-seccomp --disable-slirp --disable-smartcard --disabl=
-e-snappy --disable-sparse --enable-spice --enable-stack-protector --disable=
--strip --enable-system --enable-tcg --disable-tcg-interpreter --disable-tcm=
-alloc --enable-tools --disable-tpm --disable-tsan --disable-u2f --enable-us=
-b-redir --disable-user --enable-vde --enable-vhost-crypto --enable-vhost-ne=
-t --enable-vhost-scsi --enable-vhost-user --enable-vhost-user-fs --enable-v=
-host-vsock --enable-virglrenderer --enable-virtfs --disable-virtiofsd --ena=
-ble-vnc --disable-vnc-jpeg --enable-vnc-png --disable-vnc-sasl --enable-vte=
- --disable-werror --disable-whpx --enable-xen --enable-xen-pci-passthrough =
---enable-xfsctl
-....
-[  223s] Run-time dependency libnfs found: YES 4.0.0
-[  223s] None of 'CC_LD' are defined in the environment, not changing globa=
-l flags.
-[  223s] Running compile:
-[  223s] Working directory:  /home/abuild/rpmbuild/BUILD/qemu-20210111T1515=
-35.b3f846c59d/build/meson-private/tmpg908fqs3
-[  223s] Command line:  /usr/bin/gcc-10 -I/usr/include/ncursesw /home/abuil=
-d/rpmbuild/BUILD/qemu-20210111T151535.b3f846c59d/build/meson-private/tmpg90=
-8fqs3/testfile.c -o /home/abuild/rpmbuild/BUILD/qemu-20210111T151535.b3f846=
-c59d/build/meson-private/tmpg908fqs3/output.exe -pipe -O2 -Wall -D_FORTIFY_=
-SOURCE=3D2 -fstack-protector-strong -funwind-tables -fasynchronous-unwind-t=
-ables -fstack-clash-protection -Werror=3Dreturn-type -g -D_FILE_OFFSET_BITS=
-=3D64 -O0 -std=3Dgnu99=20
-[  223s]=20
-[  223s] Code:
-[  223s] =20
-[  223s]   #include <stddef.h>
-[  223s]   #include <sys/types.h>
-[  223s]   #ifdef CONFIG_LIBATTR
-[  223s]   #include <attr/xattr.h>
-[  223s]   #else
-[  223s]   #include <sys/xattr.h>
-[  223s]   #endif
-[  223s]   int main(void) { getxattr(NULL, NULL, NULL, 0); setxattr(NULL, N=
-ULL, NULL, 0, 0); return 0; }
-[  223s] Compiler stdout:
-[  223s] =20
-[  223s] Compiler stderr:
-[  223s]  In file included from /usr/include/sys/types.h:25,
-[  223s]                  from /home/abuild/rpmbuild/BUILD/qemu-20210111T15=
-1535.b3f846c59d/build/meson-private/tmpg908fqs3/testfile.c:3:
-[  223s] /usr/include/features.h:397:4: warning: #warning _FORTIFY_SOURCE r=
-equires compiling with optimization (-O) [-Wcpp]
-[  223s]   397 | #  warning _FORTIFY_SOURCE requires compiling with optimiz=
-ation (-O)
-[  223s]       |    ^~~~~~~
-[  223s]=20
-[  223s] Dependency libseccomp skipped: feature seccomp disabled
-....
+> +
+> +/**
+> + * PefGuestState:
+> + *
+> + * The PefGuestState object is used for creating and managing a PEF
+> + * guest.
+> + *
+> + * # $QEMU \
+> + *         -object pef-guest,id=pef0 \
+> + *         -machine ...,confidential-guest-support=pef0
+> + */
+> +struct PefGuestState {
+> +    Object parent_obj;
+> +};
+> +
+> +#ifdef CONFIG_KVM
+> +static int kvmppc_svm_init(Error **errp)
+> +{
+> +    if (!kvm_check_extension(kvm_state, KVM_CAP_PPC_SECURE_GUEST)) {
+> +        error_setg(errp,
+> +                   "KVM implementation does not support Secure VMs (is an ultravisor running?)");
+> +        return -1;
+> +    } else {
+> +        int ret = kvm_vm_enable_cap(kvm_state, KVM_CAP_PPC_SECURE_GUEST, 0, 1);
+> +
+> +        if (ret < 0) {
+> +            error_setg(errp,
+> +                       "Error enabling PEF with KVM");
+> +            return -1;
+> +        }
+> +    }
+> +
+> +    return 0;
+> +}
+> +
+> +/*
+> + * Don't set error if KVM_PPC_SVM_OFF ioctl is invoked on kernels
+> + * that don't support this ioctl.
+> + */
+> +void kvmppc_svm_off(Error **errp)
+> +{
+> +    int rc;
+> +
+> +    if (!kvm_enabled()) {
+> +        return;
+> +    }
+> +
+> +    rc = kvm_vm_ioctl(KVM_STATE(current_accel()), KVM_PPC_SVM_OFF);
+> +    if (rc && rc != -ENOTTY) {
+> +        error_setg_errno(errp, -rc, "KVM_PPC_SVM_OFF ioctl failed");
+> +    }
+> +}
+> +#else
+> +static int kvmppc_svm_init(Error **errp)
+> +{
+> +    g_assert_not_reached();
+> +}
+> +#endif
+> +
+> +int pef_kvm_init(ConfidentialGuestSupport *cgs, Error **errp)
+> +{
+> +    if (!object_dynamic_cast(OBJECT(cgs), TYPE_PEF_GUEST)) {
+> +        return 0;
+> +    }
+> +
+> +    if (!kvm_enabled()) {
+> +        error_setg(errp, "PEF requires KVM");
+> +        return -1;
+> +    }
+> +
+> +    return kvmppc_svm_init(errp);
+> +}
+> +
+> +static const TypeInfo pef_guest_info = {
+> +    .parent = TYPE_OBJECT,
+> +    .name = TYPE_PEF_GUEST,
+> +    .instance_size = sizeof(PefGuestState),
+> +    .interfaces = (InterfaceInfo[]) {
+> +        { TYPE_CONFIDENTIAL_GUEST_SUPPORT },
+> +        { TYPE_USER_CREATABLE },
+> +        { }
+> +    }
+> +};
+> +
+> +static void
+> +pef_register_types(void)
+> +{
+> +    type_register_static(&pef_guest_info);
+> +}
+> +
+> +type_init(pef_register_types);
 
---Sig_/qoeihNjiw6Y.+LNHs9d=wb.
-Content-Type: application/pgp-signature
-Content-Description: Digitale Signatur von OpenPGP
+Can use OBJECT_DEFINE_TYPE_WITH_INTERFACES here
 
------BEGIN PGP SIGNATURE-----
 
-iQIzBAEBCAAdFiEE97o7Um30LT3B+5b/86SN7mm1DoAFAl/9cQ4ACgkQ86SN7mm1
-DoBDMA/+KgfTa/dgI22xEGn5KOmYG12QZmtefow1QEej1DAQ8tiUbX9muNFKo508
-gKh62W7ScTuI4tA8EVM3+7NACIiHVAAwZ/iqNfh/RTcuZSNfU9wKjnvhK6IQy33e
-dlME9xol+zoeyyw8ZuBDksC6TvkZnq49sbgNsKjdmUst65X6CwfdVXa2aE9XPO+N
-PNL215Ee+s2yoxBgCeLa7AAxe/hipCZu4mf0JzKdqZyoB/glufW795Z+caHYoxfg
-+dE1BqldPdhlVn2z6RjL8H3RPhvCtvow1o3ojxkG7kfypeNhOsyYgI/Sc0rtkWTO
-DQc6Yaoa+C0jkgU0BkD7aCxGh2I8iVNWK7s7zfrO7f30uKHsG6Cc55ej5/Hu05SA
-juLWaLFy5V1/3aS+n0MUc4/S+RkinyK5wHrBZB9LniWsaOrGbJFZjbbb5bmp921r
-G7fZyiOmOE+ifRZ7WLBEXBGef6VNLK2ZgxyZV3MwkCZ/FUSm4BC6SMyfpliZwmsD
-8DgpIK3UavBTsXy3VD3yLmsX0cijAk0bgr9PVyUnfev/14QhSMn7x6UNsIXo/dCp
-C4zXi8f8BwceuhBX+pJFRu4PlKRTluRFFWVkS1jcWG3ciIw85C3n7mzfEG9ZEFKP
-axk4kJdpypRW51c444l6m8Jeo0XVR2FKfzE1XX0YtplzPa3toz8=
-=PpmP
------END PGP SIGNATURE-----
+Regards,
+Daniel
+-- 
+|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
+|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
+|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
 
---Sig_/qoeihNjiw6Y.+LNHs9d=wb.--
 
