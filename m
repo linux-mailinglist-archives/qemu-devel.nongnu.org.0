@@ -2,71 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 48B672F2E87
-	for <lists+qemu-devel@lfdr.de>; Tue, 12 Jan 2021 12:59:54 +0100 (CET)
-Received: from localhost ([::1]:52898 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 910732F2E92
+	for <lists+qemu-devel@lfdr.de>; Tue, 12 Jan 2021 13:02:25 +0100 (CET)
+Received: from localhost ([::1]:56902 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kzIL3-0004mS-9k
-	for lists+qemu-devel@lfdr.de; Tue, 12 Jan 2021 06:59:53 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42628)
+	id 1kzINU-0006QZ-K8
+	for lists+qemu-devel@lfdr.de; Tue, 12 Jan 2021 07:02:24 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41160)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1kzIGd-0000aG-RE
- for qemu-devel@nongnu.org; Tue, 12 Jan 2021 06:55:19 -0500
-Received: from mail-ej1-x62e.google.com ([2a00:1450:4864:20::62e]:43454)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1kzIGa-00022Z-VE
- for qemu-devel@nongnu.org; Tue, 12 Jan 2021 06:55:19 -0500
-Received: by mail-ej1-x62e.google.com with SMTP id jx16so3071548ejb.10
- for <qemu-devel@nongnu.org>; Tue, 12 Jan 2021 03:55:15 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=AEzhZCfrtTtH2u81Qqj+uLzON3bRIk4OeXsy2LlLF2w=;
- b=VCutpBU91tOwgT5Zr9RGMORAglY40JFgBR8csExIpHDLFHdfOyirZOmeKA+riw+Nr3
- zxbUqMQOKzG0t7d9sDsvjP2AFMYYlMY1Pjb+TUmOlIuykdEnaO/0iICFTYjEe7/Gqly5
- VF8ARMJnx2HpgsljDrjpQE4Oslq6XoaiwGtybhe0V6z1bk1qpqqr35qFWGtuPuTMJ4QQ
- zcl7caAyCjOgmEIFshdmjXbf9L/8NlG01BSTqEtuxiLQdQx4UdyDjTdIGYR35BqdhUHe
- KsXysuaJm7R71/LfKl8iRT9gUrVQlZpuueZZJF20gvxhx/RglQRkYEychjsurij518wy
- DwjQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=AEzhZCfrtTtH2u81Qqj+uLzON3bRIk4OeXsy2LlLF2w=;
- b=S5iPxAKAeWuUMmAZGsY73st6s9w4bBpKvNBmcdNS1DpODHeZpBEpf2bKX7o/hRb9xB
- LwQvpIijxArRldCgHp/2izdk7dmth5gYcFLUBBrPkBy8zeiEcw99ulnpO3RvRBCDNOGn
- He8zBTU7PZl/b+oHHTS7R6kieIE8a18amKxouhvfUoUpz+U1NtbjUyikNC58tHGBFDyQ
- HlQBcEsTnisiCtUgLQhuIsyLebESYe7uuvZlbAIQl4y3dMvfOkVk0eptYIxth3ApcchO
- JF5SwXWZ12eMLX+jCY2LlcLb6TyPvPFhobMvkwkCyuMBmb2LQMLK2x/bh4vLDoBhtr98
- LuzQ==
-X-Gm-Message-State: AOAM533LW+xCjgQatw0I6X4DDDyKe4eC7XshczY15r//3LnuIVh9Vsr7
- 3T0+GgxCIebKaNiE4T0dg81F1IPY4Dbc5HwWN6y2iQ==
-X-Google-Smtp-Source: ABdhPJy4yIsCmAW8+Y2k4Zu03Zd0/G6OQDSlr8CuIWVSr8SIo/mGFU9UWg3TubMunDzwYjJG7JopHEz2jijzi6WuHLk=
-X-Received: by 2002:a17:906:6b88:: with SMTP id
- l8mr3002388ejr.482.1610452514641; 
- Tue, 12 Jan 2021 03:55:14 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1kzIBQ-00043b-BI
+ for qemu-devel@nongnu.org; Tue, 12 Jan 2021 06:49:56 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:24512)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1kzIBM-0000GG-Fb
+ for qemu-devel@nongnu.org; Tue, 12 Jan 2021 06:49:56 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1610452191;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:in-reply-to:in-reply-to:  references:references;
+ bh=wF92suEHUUdnkBTHhVOLjTPtyZvBqmafJGqVYdU07Bw=;
+ b=ET2EIe//47ovAKwSBdieJGZG/FKzpixLU7Fqv/DRpIr/QehUDAWtcpEG6FgdURIw9IFV/D
+ VLe9TULL5SSsnff1hvu20u8wPfiVvr4idxDC2LxZmbCdLjxz95bJlLSO6J+t+U7HWwuK/Y
+ mghlM3rTTa7mjCnI8vBwieLPvf4qzag=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-295-y0BMXZfNMACzIg9zdWc7Eg-1; Tue, 12 Jan 2021 06:49:35 -0500
+X-MC-Unique: y0BMXZfNMACzIg9zdWc7Eg-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id D8B451005D53;
+ Tue, 12 Jan 2021 11:49:32 +0000 (UTC)
+Received: from redhat.com (ovpn-115-107.ams2.redhat.com [10.36.115.107])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id D1F8B60BE2;
+ Tue, 12 Jan 2021 11:49:16 +0000 (UTC)
+Date: Tue, 12 Jan 2021 11:49:13 +0000
+From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+To: Cornelia Huck <cohuck@redhat.com>
+Subject: Re: [PATCH v6 13/13] s390: Recognize confidential-guest-support option
+Message-ID: <20210112114913.GG1360503@redhat.com>
+References: <20210112044508.427338-1-david@gibson.dropbear.id.au>
+ <20210112044508.427338-14-david@gibson.dropbear.id.au>
+ <fcafba03-3701-93af-8eb7-17bd0d14d167@de.ibm.com>
+ <20210112123607.39597e3d.cohuck@redhat.com>
 MIME-Version: 1.0
-References: <20201223060204.576856-1-richard.henderson@linaro.org>
- <20201223060204.576856-14-richard.henderson@linaro.org>
-In-Reply-To: <20201223060204.576856-14-richard.henderson@linaro.org>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Tue, 12 Jan 2021 11:55:03 +0000
-Message-ID: <CAFEAcA8RQpapqB11rza_yyi_XkEO2-tb41Mh9cvWfX_zKJLiJA@mail.gmail.com>
-Subject: Re: [PATCH 13/22] tcg: Split out constraint sets to
- tcg-target-conset.h
-To: Richard Henderson <richard.henderson@linaro.org>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2a00:1450:4864:20::62e;
- envelope-from=peter.maydell@linaro.org; helo=mail-ej1-x62e.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20210112123607.39597e3d.cohuck@redhat.com>
+User-Agent: Mutt/1.14.6 (2020-07-11)
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=berrange@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -29
+X-Spam_score: -3.0
+X-Spam_bar: ---
+X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.251,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -79,53 +77,85 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: QEMU Developers <qemu-devel@nongnu.org>
+Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+Cc: pair@us.ibm.com, brijesh.singh@amd.com, kvm@vger.kernel.org,
+ david@redhat.com, qemu-devel@nongnu.org, frankja@linux.ibm.com,
+ pragyansri.pathi@intel.com, mst@redhat.com, mdroth@linux.vnet.ibm.com,
+ pasic@linux.ibm.com, Christian Borntraeger <borntraeger@de.ibm.com>,
+ andi.kleen@intel.com, thuth@redhat.com, Eduardo Habkost <ehabkost@redhat.com>,
+ richard.henderson@linaro.org, Greg Kurz <groug@kaod.org>, dgilbert@redhat.com,
+ qemu-s390x@nongnu.org, jun.nakajima@intel.com,
+ David Gibson <david@gibson.dropbear.id.au>,
+ Marcelo Tosatti <mtosatti@redhat.com>, qemu-ppc@nongnu.org,
+ Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, 23 Dec 2020 at 06:20, Richard Henderson
-<richard.henderson@linaro.org> wrote:
->
-> This exports the constraint sets from tcg_target_op_def to
-> a place we will be able to manipulate more in future.
->
-> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
-> ---
->  tcg/i386/tcg-target-conset.h |  44 ++++++++
->  tcg/i386/tcg-target.h        |   1 +
->  tcg/tcg.c                    | 126 +++++++++++++++++++++++
->  tcg/i386/tcg-target.c.inc    | 189 ++++++++++++-----------------------
->  4 files changed, 236 insertions(+), 124 deletions(-)
->  create mode 100644 tcg/i386/tcg-target-conset.h
->
-> diff --git a/tcg/i386/tcg-target-conset.h b/tcg/i386/tcg-target-conset.h
-> new file mode 100644
-> index 0000000000..5a4f991d78
-> --- /dev/null
-> +++ b/tcg/i386/tcg-target-conset.h
-> @@ -0,0 +1,44 @@
-> +/* SPDX-License-Identifier: MIT */
-> +/*
-> + * i386 target-specific constaint sets.
+On Tue, Jan 12, 2021 at 12:36:07PM +0100, Cornelia Huck wrote:
+> On Tue, 12 Jan 2021 09:15:26 +0100
+> Christian Borntraeger <borntraeger@de.ibm.com> wrote:
+> 
+> > On 12.01.21 05:45, David Gibson wrote:
+> > > At least some s390 cpu models support "Protected Virtualization" (PV),
+> > > a mechanism to protect guests from eavesdropping by a compromised
+> > > hypervisor.
+> > > 
+> > > This is similar in function to other mechanisms like AMD's SEV and
+> > > POWER's PEF, which are controlled by the "confidential-guest-support"
+> > > machine option.  s390 is a slightly special case, because we already
+> > > supported PV, simply by using a CPU model with the required feature
+> > > (S390_FEAT_UNPACK).
+> > > 
+> > > To integrate this with the option used by other platforms, we
+> > > implement the following compromise:
+> > > 
+> > >  - When the confidential-guest-support option is set, s390 will
+> > >    recognize it, verify that the CPU can support PV (failing if not)
+> > >    and set virtio default options necessary for encrypted or protected
+> > >    guests, as on other platforms.  i.e. if confidential-guest-support
+> > >    is set, we will either create a guest capable of entering PV mode,
+> > >    or fail outright.
+> > > 
+> > >  - If confidential-guest-support is not set, guests might still be
+> > >    able to enter PV mode, if the CPU has the right model.  This may be
+> > >    a little surprising, but shouldn't actually be harmful.
+> > > 
+> > > To start a guest supporting Protected Virtualization using the new
+> > > option use the command line arguments:
+> > >     -object s390-pv-guest,id=pv0 -machine confidential-guest-support=pv0  
+> > 
+> > 
+> > This results in
+> > 
+> > [cborntra@t35lp61 qemu]$ qemu-system-s390x -enable-kvm -nographic -m 2G -kernel ~/full.normal 
+> > **
+> > ERROR:../qom/object.c:317:type_initialize: assertion failed: (parent->instance_size <= ti->instance_size)
+> > Bail out! ERROR:../qom/object.c:317:type_initialize: assertion failed: (parent->instance_size <= ti->instance_size)
+> > Aborted (core dumped)
+> > 
+> 
+> > > +static const TypeInfo s390_pv_guest_info = {
+> > > +    .parent = TYPE_CONFIDENTIAL_GUEST_SUPPORT,
+> > > +    .name = TYPE_S390_PV_GUEST,
+> > > +    .instance_size = sizeof(S390PVGuestState),
+> > > +    .interfaces = (InterfaceInfo[]) {
+> > > +        { TYPE_USER_CREATABLE },
+> > > +        { }
+> > > +    }
+> > > +};
+> 
+> I think this needs TYPE_OBJECT in .parent and
+> TYPE_CONFIDENTIAL_GUEST_SUPPORT as an interface to fix the crash.
 
-"constraint"
+Except TYPE_CONFIDENTIAL_GUEST_SUPPORT is declared as an object, not
+an interface. Clearly something in this series is wrong though, as
+the ppc impl uses it as if it were an interface. 
 
-> + * Copyright (c) 2020 Linaro
-> + */
-> +
-> +C_O0_I1(r)
-> +C_O0_I2(L, L)
-> +C_O0_I2(qi, r)
-> +C_O0_I2(re, r)
-> +C_O0_I2(ri, r)
-> +C_O0_I2(r, re)
-> +C_O0_I2(x, r)
+Regards,
+Daniel
+-- 
+|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
+|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
+|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
 
-I'm afraid this is completely incomprehensible to me.
-Can we have some documentation of what these macros are doing
-(which we can then reference in the comment at the top of each
-conset.h file)?
-
-thanks
--- PMM
 
