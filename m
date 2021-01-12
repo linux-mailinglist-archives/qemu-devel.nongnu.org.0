@@ -2,69 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 033FC2F373A
-	for <lists+qemu-devel@lfdr.de>; Tue, 12 Jan 2021 18:36:11 +0100 (CET)
-Received: from localhost ([::1]:39964 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 24D332F37CB
+	for <lists+qemu-devel@lfdr.de>; Tue, 12 Jan 2021 18:59:36 +0100 (CET)
+Received: from localhost ([::1]:45188 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kzNaU-0001Uj-1q
-	for lists+qemu-devel@lfdr.de; Tue, 12 Jan 2021 12:36:10 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35280)
+	id 1kzNx9-00035L-7d
+	for lists+qemu-devel@lfdr.de; Tue, 12 Jan 2021 12:59:35 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35346)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1kzNG6-0003bX-AE
- for qemu-devel@nongnu.org; Tue, 12 Jan 2021 12:15:06 -0500
-Received: from mail-ej1-x629.google.com ([2a00:1450:4864:20::629]:43286)
+ id 1kzNG8-0003gM-HU; Tue, 12 Jan 2021 12:15:08 -0500
+Received: from mail-ej1-x634.google.com ([2a00:1450:4864:20::634]:36587)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1kzNG2-0004se-4M
- for qemu-devel@nongnu.org; Tue, 12 Jan 2021 12:15:04 -0500
-Received: by mail-ej1-x629.google.com with SMTP id jx16so4551560ejb.10
- for <qemu-devel@nongnu.org>; Tue, 12 Jan 2021 09:15:01 -0800 (PST)
+ id 1kzNG5-0004uA-UY; Tue, 12 Jan 2021 12:15:08 -0500
+Received: by mail-ej1-x634.google.com with SMTP id lt17so4622880ejb.3;
+ Tue, 12 Jan 2021 09:15:02 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=yWr91yo72rto7Dn2uyOSF5tkbrOpQMoyc3mdj2af5Ig=;
- b=FoBTKFCJwSo1yndhD3JJHqih8G8Js0uKDd9uWQtEQcIBlYkQGwtZoAfbmLgSahE2DP
- 3I2W9DiFxPKG7LDxMRSCPjrHbL06DNnZL2VoPvN0fbxM7AMqYqDhXhmzRz3CWzxulwko
- wMtGz815UB4/Zcbpbzoj4O8fSMTv0jrzPHPSR/ByL2jx0X3mrKn1UdPTj6ROZRk2B6Lq
- DckYLk3dl63Kngaiul72LmzXSN/nKUuUZ+h5x68rDtlrii7oIf+bb/v5OIcBy66QS5KP
- AU9QfrfbP+RA7mazv9r1BkRihKeNRCAPXsJsYLRzkhd9tRRyS3kD4vbe4UHx6FRFaj7l
- vdgQ==
+ bh=E32qdYLqzFMMYrI5MZeNvAqG0VE5UJ2Fib0kQ0NVFVk=;
+ b=X7Pml1zifvQRoawinF3/zdcGSvahvUQzlo2RTNAW4ouJOUZjIwyYxifxO8Zdd1TEdM
+ 6smXy2SbxMbWE27zFy/vbs4OGu/Y4qBKFQBjCqR4KBa9Xikg8sVJtdqTvxgDxvvgqj/U
+ U6OVlKxy1gENM9EDlwKAsMvgEH50FPV0dv/p2ue8iF0rFEcRlVvNX2vndE/yn1paTg4Y
+ oLb/M0UB2k987hFT+ervjaArmNFic6dzxGYvzr7o6ZwCwLk2OCzWVCXFg8Ng3HPHy0dW
+ flAodCZrdlSc0fIHhUqklhEEHTxWiFZehxAIOokxzqnO7dsUKcHy555vvL7ARTikg1FR
+ eqYQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=yWr91yo72rto7Dn2uyOSF5tkbrOpQMoyc3mdj2af5Ig=;
- b=FS42UklZAY1LQiOOwfNULchEZ1aCXjXWmjXLtc8z84zGeP+SymWatQQzY1Wps1rDLu
- VydcEbFTIvFu880qbRAIKXv1bsP7vOEy5g/NJCroxAmpmweFXxvyVQ2q0bZw/D0Mc1gJ
- bUIbRelHOJlFU4HfSOE35kABwzNwgRRf3ACMp6k2fFgfLKOIbbcZ3LZD1fljtQBQM+GT
- +3GMQIRvsTQBMOz6gvuzdiJsUHeRaRfZVFcwVJt217DHZG6U/LXzrWs1TB+O9282bpHM
- DraE54fSb4BeM3IoQqqol3bfVRcIdOylbNan2loURPOkAUrGslUp4GNgRAj93cwHqsGK
- Ckzg==
-X-Gm-Message-State: AOAM532Q6k+Usu6zVA1XBdurvSHzx9s0/PP8AVz+EXvv5ESt8szxMqy2
- xGjoXbiWU9peBt1Nck8eNcXuXqkSANz4Ww==
-X-Google-Smtp-Source: ABdhPJzwccGRnK7rZ6AIGMePII6n3E3kdHN7YLPcOng2qLLqQiInwucZuj+zRVpLl19QCmkIF06xtQ==
-X-Received: by 2002:a17:906:3949:: with SMTP id
- g9mr3716201eje.493.1610471700299; 
- Tue, 12 Jan 2021 09:15:00 -0800 (PST)
+ bh=E32qdYLqzFMMYrI5MZeNvAqG0VE5UJ2Fib0kQ0NVFVk=;
+ b=Qa6sZTV63A3Ql3pX+n5E0vl6Bw9Uo/2qDQZX3XdI3+jTLRPoeR2k5FDONSZbpavij1
+ vrrrENLIgLyD831mUedohqlrNQr96rjPvvCDA+LMy5MQ0bifhGLqEEXLeTtoOE0YyPvI
+ 1GaLUV2fwDDNoUL/z1D5CLZjfBizVYuSsgTPm/BgInWjPHi9C5BIV5JgH/segXgzazFI
+ 4SVAyaV5+3nrnamlr7HXUHvjGY4pLzlPUVDyXBlKlOUN/FrJzPHUzLa+wPXykyEVnDsB
+ KD7For8SNtEV848MdfHyUmZgeu36e4pwyIAQSRYiS+JgVu2207hdeCGaaFG2ePRgHiOo
+ UeIA==
+X-Gm-Message-State: AOAM532yagIimHWT9q3Yqpfmx5PW4f0YgqhKEYJRMjtO8ZCfAg2O7Hfn
+ lm6cU3rd4vEB3oTh1Pj8oIA9Ey1OEgGC6w==
+X-Google-Smtp-Source: ABdhPJxInmw1C5G5ffimbSjDXD2DAoodXC8WGcyoSGrpjBFlpPuH8hkD/tDfgYNVD5gXDYMN4POq8Q==
+X-Received: by 2002:a17:906:4d52:: with SMTP id
+ b18mr3686728ejv.405.1610471702048; 
+ Tue, 12 Jan 2021 09:15:02 -0800 (PST)
 Received: from avogadro.lan ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
- by smtp.gmail.com with ESMTPSA id k22sm397302edv.33.2021.01.12.09.14.59
+ by smtp.gmail.com with ESMTPSA id k22sm397302edv.33.2021.01.12.09.15.01
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 12 Jan 2021 09:14:59 -0800 (PST)
+ Tue, 12 Jan 2021 09:15:01 -0800 (PST)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 09/20] scripts/gdb: fix 'qemu coroutine' when users selects a
- non topmost stack frame
-Date: Tue, 12 Jan 2021 18:14:39 +0100
-Message-Id: <20210112171450.791427-10-pbonzini@redhat.com>
+Subject: [PULL 11/20] Docs/RCU: Correct sample code of qatomic_rcu_set
+Date: Tue, 12 Jan 2021 18:14:41 +0100
+Message-Id: <20210112171450.791427-12-pbonzini@redhat.com>
 X-Mailer: git-send-email 2.29.2
 In-Reply-To: <20210112171450.791427-1-pbonzini@redhat.com>
 References: <20210112171450.791427-1-pbonzini@redhat.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::629;
- envelope-from=paolo.bonzini@gmail.com; helo=mail-ej1-x629.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::634;
+ envelope-from=paolo.bonzini@gmail.com; helo=mail-ej1-x634.google.com
 X-Spam_score_int: -14
 X-Spam_score: -1.5
 X-Spam_bar: -
@@ -85,59 +82,38 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Maxim Levitsky <mlevitsk@redhat.com>
+Cc: qemu-trivial@nongnu.org, Keqian Zhu <zhukeqian1@huawei.com>,
+ Peter Xu <peterx@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Maxim Levitsky <mlevitsk@redhat.com>
+From: Keqian Zhu <zhukeqian1@huawei.com>
 
-The code that dumps the stack frame works like that:
-* save current registers
-* overwrite current registers (including rip/rsp) with coroutine snapshot
-  in the jmpbuf
-* print backtrace
-* restore the saved registers.
+Correct sample code to avoid confusing readers.
 
-If the user has currently selected a non topmost stack frame in gdb,
-the above code will still restore the selected frame registers,
-but the gdb will then lose the selected frame index, which makes it impossible
-to switch back to frame 0, to continue debugging the executable.
-
-Therefore switch temporarily to the topmost frame of the stack
-for the above code.
-
-Signed-off-by: Maxim Levitsky <mlevitsk@redhat.com>
-Message-Id: <20201217155436.927320-2-mlevitsk@redhat.com>
+Signed-off-by: Keqian Zhu <zhukeqian1@huawei.com>
+Cc: qemu-trivial@nongnu.org
+Reviewed-by: Paolo Bonzini <pbonzini@redhat.com>
+Reviewed-by: Peter Xu <peterx@redhat.com>
+Message-Id: <20210106071710.15836-1-zhukeqian1@huawei.com>
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- scripts/qemugdb/coroutine.py | 7 +++++++
- 1 file changed, 7 insertions(+)
+ docs/devel/rcu.txt | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/scripts/qemugdb/coroutine.py b/scripts/qemugdb/coroutine.py
-index db61389022..e1399211e6 100644
---- a/scripts/qemugdb/coroutine.py
-+++ b/scripts/qemugdb/coroutine.py
-@@ -70,6 +70,11 @@ def bt_jmpbuf(jmpbuf):
-     regs = get_jmpbuf_regs(jmpbuf)
-     old = dict()
+diff --git a/docs/devel/rcu.txt b/docs/devel/rcu.txt
+index cdf002edd8..2e6cc607a1 100644
+--- a/docs/devel/rcu.txt
++++ b/docs/devel/rcu.txt
+@@ -392,7 +392,7 @@ Instead, we store the size of the array with the array itself:
  
-+    # remember current stack frame and select the topmost
-+    # so that register modifications don't wreck it
-+    selected_frame = gdb.selected_frame()
-+    gdb.newest_frame().select()
-+
-     for i in regs:
-         old[i] = gdb.parse_and_eval('(uint64_t)$%s' % i)
+             /* Removal phase.  */
+             old_array = global_array;
+-            qatomic_rcu_set(&new_array->data, new_array);
++            qatomic_rcu_set(&global_array, new_array);
+             synchronize_rcu();
  
-@@ -81,6 +86,8 @@ def bt_jmpbuf(jmpbuf):
-     for i in regs:
-         gdb.execute('set $%s = %s' % (i, old[i]))
- 
-+    selected_frame.select()
-+
- def coroutine_to_jmpbuf(co):
-     coroutine_pointer = co.cast(gdb.lookup_type('CoroutineUContext').pointer())
-     return coroutine_pointer['env']['__jmpbuf']
+             /* Reclamation phase.  */
 -- 
 2.29.2
 
