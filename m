@@ -2,73 +2,80 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8CCDD2F3C44
-	for <lists+qemu-devel@lfdr.de>; Tue, 12 Jan 2021 23:22:13 +0100 (CET)
-Received: from localhost ([::1]:50874 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7DC262F3C45
+	for <lists+qemu-devel@lfdr.de>; Tue, 12 Jan 2021 23:22:37 +0100 (CET)
+Received: from localhost ([::1]:51620 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kzS3I-0007tO-Bh
-	for lists+qemu-devel@lfdr.de; Tue, 12 Jan 2021 17:22:12 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57254)
+	id 1kzS3g-0008BV-Ia
+	for lists+qemu-devel@lfdr.de; Tue, 12 Jan 2021 17:22:36 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57548)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <osy86dev@gmail.com>)
- id 1kzS0B-0006cK-T4
- for qemu-devel@nongnu.org; Tue, 12 Jan 2021 17:18:59 -0500
-Received: from mail-io1-f45.google.com ([209.85.166.45]:40013)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1kzS15-0006t2-Nc
+ for qemu-devel@nongnu.org; Tue, 12 Jan 2021 17:19:56 -0500
+Received: from mail-wm1-x32a.google.com ([2a00:1450:4864:20::32a]:50543)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <osy86dev@gmail.com>)
- id 1kzS07-0001Kh-Kz
- for qemu-devel@nongnu.org; Tue, 12 Jan 2021 17:18:57 -0500
-Received: by mail-io1-f45.google.com with SMTP id r9so7507724ioo.7
- for <qemu-devel@nongnu.org>; Tue, 12 Jan 2021 14:18:55 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1kzS13-0001Yz-Hu
+ for qemu-devel@nongnu.org; Tue, 12 Jan 2021 17:19:55 -0500
+Received: by mail-wm1-x32a.google.com with SMTP id 190so3271110wmz.0
+ for <qemu-devel@nongnu.org>; Tue, 12 Jan 2021 14:19:53 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=sender:subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=e3Px7M/V4tuoVvPuEf5ywbUNHF6NMHXkmYFcbWb/MpY=;
+ b=G5YgU/ctK6Qfp9erok+hQ2lBxOwhgda3eskFgrtZR/nb8QJX7tmmQHVUxhds4COpPw
+ DUmTHqAdX7/NFP+lCHH7HU8F2b9Il668EY1JDBvrK5ljb8gr9aTIHLQzsufXEYaiHX9V
+ urD+oNW1GnZHw7Pn+0keZlV4Rgc36ryG5x4RoriZJ/Zdp2j45P/EGetWDGBBQ9PNHbGH
+ 90YHzbclfB8wLjdPdvSr+Ohjhtn1esPn5zjXt43CSI2UAWMkLpgurbWvQAtK0gjcsxxa
+ 6+mcuaiQXxWs45eCFnL9zXEUiAKcXoOW9ccVp2Z1PAOY0GxSaj1Jiq/18FsPIH/TLsda
+ xpqA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=GG9UAuFnZ/29cRZy18Bvt03NhxvC/y8PtmzS/mcO23g=;
- b=Vx26grU71nz1vxhdDsUu9nonMmyuVwv8kTC4nPYPSWotxH9VnvTN9V9MbFh2oticV+
- q7f03ucNt+6dK/8spH2AyO53ae7Iqr3x8trhWqohFDaGxgGqydIvkRR/IM4c6aLpbbP7
- Xuq2YYdi21mmVZ0x5DNQ9w6wMhlYOQIeoh+FMJyoAehKR6V+RwMfs5SlVYiz1fxh4ZNs
- H80f54fxmNF7n0H2HP0vMJ2zebgJY++F6I84Ozob70tkeyhuQs7kDV9CEhlMKUO3qbu8
- O8lDhht7Cu2o/Z1L5v3iU8fPwsatVkP57wsA4mFIX1qRz+YoSgzxXjT2w3AkimqQGM98
- VVlA==
-X-Gm-Message-State: AOAM533tBZL3aRPiJCTTLcLLSq+l/j+wFfRzHORgvjVSrNPpPdRrgGYK
- zTCT4KI8ZaL04ptd5qBa5RpU30H6i+Q=
-X-Google-Smtp-Source: ABdhPJy/r0JGn+jwtIP9sKfVBhX6/Qd3G92PRyRQIGIyA1H4x9njyYGv5ueC8rIHHbEgRCchD1Nk2Q==
-X-Received: by 2002:a92:d58f:: with SMTP id a15mr1198600iln.291.1610489934537; 
- Tue, 12 Jan 2021 14:18:54 -0800 (PST)
-Received: from mail-io1-f48.google.com (mail-io1-f48.google.com.
- [209.85.166.48])
- by smtp.gmail.com with ESMTPSA id x22sm74104ion.3.2021.01.12.14.18.54
- for <qemu-devel@nongnu.org>
+ h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
+ :date:user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=e3Px7M/V4tuoVvPuEf5ywbUNHF6NMHXkmYFcbWb/MpY=;
+ b=jjgbYUTmyzksKEzdBFDrIb+dRr9Vh/yoJZVGO4jVXByDFPmubps49jATmxnubWS53E
+ rekNJsGoYeZwX4kg+/440fvqZjHlfzNxYAnH70NH61pN6fiSd+FF44ksOCJcWuItVZte
+ XCkLqIzmXhmETmoawuNfQpMtcOgS2d2ivoXu2B178TOHYubmHEnn32m5OP+Opd5eETB4
+ TRKlVF/4ih0EONRk+6QsU4fudvfleIRbNu1g8xNf/15gCGToF7BWhYehWEGO7TagDII6
+ b0qdzZXdyttlWLEXTusWdjLRJ+12+dzAljc3wr97mKXhNWJagUc9NsqWGTKbdwX7Dg5A
+ Q/hA==
+X-Gm-Message-State: AOAM532dejd3+iyv0uEusBwczibG1F0qJDAYkdR910ai/BvP0m/1NR34
+ caXW19VmaN2wslQkqqiJ/Zw=
+X-Google-Smtp-Source: ABdhPJxanEJIOYcTopaBi84Rb55WBoAzfG9Yq2uq+98ZHjF2PDkwiynCbTMWgG7ZckxMcu0ZxD/2Ww==
+X-Received: by 2002:a1c:3c04:: with SMTP id j4mr1195757wma.147.1610489992092; 
+ Tue, 12 Jan 2021 14:19:52 -0800 (PST)
+Received: from [192.168.1.36] (190.red-83-57-173.dynamicip.rima-tde.net.
+ [83.57.173.190])
+ by smtp.gmail.com with ESMTPSA id h184sm6162753wmh.23.2021.01.12.14.19.50
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 12 Jan 2021 14:18:54 -0800 (PST)
-Received: by mail-io1-f48.google.com with SMTP id q137so7506295iod.9
- for <qemu-devel@nongnu.org>; Tue, 12 Jan 2021 14:18:54 -0800 (PST)
-X-Received: by 2002:a92:cccd:: with SMTP id u13mr1239970ilq.273.1610489933994; 
- Tue, 12 Jan 2021 14:18:53 -0800 (PST)
+ Tue, 12 Jan 2021 14:19:51 -0800 (PST)
+Subject: Re: [PATCH] decodetree: Allow 'dot' in opcode names
+To: Eduardo Habkost <ehabkost@redhat.com>
+References: <20210112184156.2014305-1-f4bug@amsat.org>
+ <20210112210516.GB4161@habkost.net>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
+Message-ID: <07d6b362-8d32-5c8e-2d65-aa29a1a38e42@amsat.org>
+Date: Tue, 12 Jan 2021 23:19:49 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.6.0
 MIME-Version: 1.0
-References: <20210105022055.12113-1-j@getutm.app>
- <20210105022055.12113-4-j@getutm.app>
- <f8134df0-6896-9112-1465-4698081a9981@redhat.com>
-In-Reply-To: <f8134df0-6896-9112-1465-4698081a9981@redhat.com>
-From: Joelle van Dyne <j@getutm.app>
-Date: Tue, 12 Jan 2021 14:18:43 -0800
-X-Gmail-Original-Message-ID: <CA+E+eSD5v0bnN=hHqW87F0X-L7TdpVo5FKk3msQ1xTtLyH=9fA@mail.gmail.com>
-Message-ID: <CA+E+eSD5v0bnN=hHqW87F0X-L7TdpVo5FKk3msQ1xTtLyH=9fA@mail.gmail.com>
-Subject: Re: [PATCH v6 3/7] qemu: add support for iOS host
-To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=209.85.166.45; envelope-from=osy86dev@gmail.com;
- helo=mail-io1-f45.google.com
-X-Spam_score_int: -13
-X-Spam_score: -1.4
+In-Reply-To: <20210112210516.GB4161@habkost.net>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::32a;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x32a.google.com
+X-Spam_score_int: -14
+X-Spam_score: -1.5
 X-Spam_bar: -
-X-Spam_report: (-1.4 / 5.0 requ) BAYES_00=-1.9,
- FREEMAIL_FORGED_FROMDOMAIN=0.249, FREEMAIL_FROM=0.001,
- HEADER_FROM_DIFFERENT_DOMAINS=0.249, RCVD_IN_DNSWL_NONE=-0.0001,
- RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -82,96 +89,66 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: QEMU Developers <qemu-devel@nongnu.org>
+Cc: Paolo Bonzini <pbonzini@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org,
+ Cleber Rosa <crosa@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-I think this was discussed before but the main issue right now is that
-there's no packaging system (like homebrew) for iOS cross building on
-Mac. Stefan suggested caching built libraries in an external location
-to use with the CI. I think this can be done but would require some
-thought to it. I am open to other ideas as well (like pretending to
-build for iOS while actually building for macOS).
+On 1/12/21 10:05 PM, Eduardo Habkost wrote:
+> On Tue, Jan 12, 2021 at 07:41:56PM +0100, Philippe Mathieu-Daudé wrote:
+>> Some ISA use a dot in their opcodes. Allow the decodetree
+>> script to process them. The dot is replaced by an underscore
+>> in the generated code.
+> 
+> Will something break if we just use underscores instead of dots
+> in the input file?
 
--j
+No, but then the opcode doesn't really match the spec.
 
-On Tue, Jan 12, 2021 at 3:56 AM Philippe Mathieu-Daud=C3=A9
-<philmd@redhat.com> wrote:
->
-> Hi Joelle,
->
-> On 1/5/21 3:20 AM, Joelle van Dyne wrote:
-> > This introduces support for building for iOS hosts. When the correct Xc=
-ode
-> > toolchain is used, iOS host will be detected automatically.
-> >
-> > * block: disable features not supported by iOS sandbox
-> > * slirp: disable SMB features for iOS
-> > * osdep: disable system() calls for iOS
-> >
-> > Signed-off-by: Joelle van Dyne <j@getutm.app>
-> > ---
-> >  docs/devel/index.rst    |  1 +
-> >  docs/devel/ios.rst      | 28 +++++++++++++++++++++++++++
-> >  configure               | 43 ++++++++++++++++++++++++++++++++++++++++-
-> >  meson.build             |  2 +-
-> >  include/qemu/osdep.h    | 11 +++++++++++
-> >  block.c                 |  2 +-
-> >  block/file-posix.c      | 31 +++++++++++++++++------------
-> >  net/slirp.c             | 16 +++++++--------
-> >  qga/commands-posix.c    |  6 ++++++
-> >  MAINTAINERS             |  7 +++++++
-> >  tests/qtest/meson.build |  7 +++----
-> >  11 files changed, 127 insertions(+), 27 deletions(-)
-> >  create mode 100644 docs/devel/ios.rst
->
-> >
-> > diff --git a/docs/devel/index.rst b/docs/devel/index.rst
-> > index f10ed77e4c..2cc8a13ebe 100644
-> > --- a/docs/devel/index.rst
-> > +++ b/docs/devel/index.rst
-> > @@ -35,3 +35,4 @@ Contents:
-> >     clocks
-> >     qom
-> >     block-coroutine-wrapper
-> > +   ios
-> > diff --git a/docs/devel/ios.rst b/docs/devel/ios.rst
-> > new file mode 100644
-> > index 0000000000..b4ab11bec1
-> > --- /dev/null
-> > +++ b/docs/devel/ios.rst
-> > @@ -0,0 +1,28 @@
-> > +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-> > +iOS Support
-> > +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-> > +
-> > +To run qemu on the iOS platform, some modifications were required. Mos=
-t of the
-> > +modifications are conditioned on the ``CONFIG_IOS`` and configuration =
-variable.
-> > +
-> > +Build support
-> > +-------------
-> > +
-> > +For the code to compile, certain changes in the block driver and the s=
-lirp
-> > +driver had to be made. There is no ``system()`` call, so it has been r=
-eplaced
-> > +with an assertion error. There should be no code path that call system=
-() from
-> > +iOS.
-> > +
-> > +``ucontext`` support is broken on iOS. The implementation from ``libuc=
-ontext``
-> > +is used instead.
->
-> Do you have a CI testing plan for these builds?
->
-> Is it possible to add a Gitlab-CI job? If not, on Cirrus-CI?
->
-> Thanks,
->
-> Phil.
->
->
+> 
+>>
+>> Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+>> ---
+>>  scripts/decodetree.py | 3 ++-
+>>  1 file changed, 2 insertions(+), 1 deletion(-)
+>>
+>> diff --git a/scripts/decodetree.py b/scripts/decodetree.py
+>> index 47aa9caf6d1..b7572589e64 100644
+>> --- a/scripts/decodetree.py
+>> +++ b/scripts/decodetree.py
+>> @@ -49,7 +49,7 @@
+>>  re_arg_ident = '&[a-zA-Z0-9_]*'
+>>  re_fld_ident = '%[a-zA-Z0-9_]*'
+>>  re_fmt_ident = '@[a-zA-Z0-9_]*'
+>> -re_pat_ident = '[a-zA-Z0-9_]*'
+>> +re_pat_ident = '[a-zA-Z0-9_.]*'
+> 
+> If pattern identifiers are going to follow different rules,
+> doesn't this need to be documented at docs/devel/decodetree.rst?
+
+I checked and luckily for me the opcode pattern identifiers is
+not documented <:)
+
+> 
+>>  
+>>  def error_with_file(file, lineno, *args):
+>>      """Print an error message from file:line and args and exit."""
+>> @@ -1082,6 +1082,7 @@ def parse_file(f, parent_pat):
+>>          elif re.fullmatch(re_fmt_ident, name):
+>>              parse_generic(start_lineno, None, name[1:], toks)
+>>          elif re.fullmatch(re_pat_ident, name):
+>> +            name = name.replace('.', '_')
+>>              parse_generic(start_lineno, parent_pat, name, toks)
+> 
+> Do we want error messages generated by the script to use the
+> modified identifier with underscores, or the original identifier
+> with dots?  (This patch does the former)
+
+You are right, we want the former in the error message (the input
+format).
+
+Thanks,
+
+Phil.
 
