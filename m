@@ -2,77 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 317272F2B76
-	for <lists+qemu-devel@lfdr.de>; Tue, 12 Jan 2021 10:37:00 +0100 (CET)
-Received: from localhost ([::1]:36920 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 12B6C2F2B86
+	for <lists+qemu-devel@lfdr.de>; Tue, 12 Jan 2021 10:43:25 +0100 (CET)
+Received: from localhost ([::1]:42886 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kzG6l-0001QD-Ai
-	for lists+qemu-devel@lfdr.de; Tue, 12 Jan 2021 04:36:59 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35310)
+	id 1kzGCx-0004Te-No
+	for lists+qemu-devel@lfdr.de; Tue, 12 Jan 2021 04:43:23 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36328)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1kzG5e-0000me-LW
- for qemu-devel@nongnu.org; Tue, 12 Jan 2021 04:35:50 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:30828)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1kzG5b-0005PV-Gz
- for qemu-devel@nongnu.org; Tue, 12 Jan 2021 04:35:50 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1610444144;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=S0eoEdRLwgS483gKCvvMWhCtb9tiT28JY3FSzQZGhbs=;
- b=KryiOWcYRQZQmdsAro8FDQfk+v23YWl+k1fe8mBohN/iouCTNFvmgtsc+SaVDvpSstEm9H
- LBrBLsq3HO14iTgBbw3JmY9Ynqs3lnji8SBNA4ME9PH7lzAy/4K9VhNA27FY1FbyzLV5iU
- aOvOl1eTKwzuXYnZutcU54Rx2e5+dhk=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-328-eCECMoiTODmYPhHkJjo5Dw-1; Tue, 12 Jan 2021 04:35:32 -0500
-X-MC-Unique: eCECMoiTODmYPhHkJjo5Dw-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 4EF388143E5;
- Tue, 12 Jan 2021 09:35:30 +0000 (UTC)
-Received: from redhat.com (ovpn-115-107.ams2.redhat.com [10.36.115.107])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 56C0B5D9F4;
- Tue, 12 Jan 2021 09:35:27 +0000 (UTC)
-Date: Tue, 12 Jan 2021 09:35:24 +0000
-From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-To: Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
-Subject: Re: [PATCH v6 05/35] Hexagon (disas) disassembler
-Message-ID: <20210112093524.GA1360503@redhat.com>
-References: <1610080146-14968-1-git-send-email-tsimpson@quicinc.com>
- <1610080146-14968-6-git-send-email-tsimpson@quicinc.com>
- <6da5929b-1c66-1e08-7998-1823aa716c60@amsat.org>
- <BYAPR02MB48868E6F215E4C1315543246DEAB0@BYAPR02MB4886.namprd02.prod.outlook.com>
- <8d39b0b1-3056-e407-6feb-e27b0b5ada60@amsat.org>
-MIME-Version: 1.0
-In-Reply-To: <8d39b0b1-3056-e407-6feb-e27b0b5ada60@amsat.org>
-User-Agent: Mutt/1.14.6 (2020-07-11)
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=berrange@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=berrange@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -29
-X-Spam_score: -3.0
-X-Spam_bar: ---
-X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.251,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ (Exim 4.90_1) (envelope-from <frank.chang@sifive.com>)
+ id 1kzG9h-0002XY-BD
+ for qemu-devel@nongnu.org; Tue, 12 Jan 2021 04:40:02 -0500
+Received: from mail-pl1-x62d.google.com ([2607:f8b0:4864:20::62d]:42685)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <frank.chang@sifive.com>)
+ id 1kzG9e-0006qN-Ac
+ for qemu-devel@nongnu.org; Tue, 12 Jan 2021 04:40:01 -0500
+Received: by mail-pl1-x62d.google.com with SMTP id s15so1098198plr.9
+ for <qemu-devel@nongnu.org>; Tue, 12 Jan 2021 01:39:57 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sifive.com; s=google;
+ h=from:to:cc:subject:date:message-id;
+ bh=VNxJfcazFhow5tlTwHNbLkJoFR4Zys8mq4Lym2fMYoU=;
+ b=G5jv3x5Frou9eWvxsUo5R956nv8NwWXPvS/GSqjLm4y3ludCFbDQ9vgHJe2gYwOI6f
+ SGrcqefWgAN6CE14wAyxmMIgAe64cKl+/a57lRt1dhmy56llgCM2Ky28QRCg+yuheUqa
+ CTh5r/09RgPcD9VMXzSDHuJzf59XAnc5tNN6xnVCh4B9FsyUhmLazxC8Iu/cDYaBOoDX
+ 5ZDY7EUn+1ek+3YRULiUwa15NmUabDD4NlnS3hIGrHXuiiTJ5zBJENUf+sB9aSCTCZ+4
+ 3CRP/JE1BCXMP0O4RPusE1qIHinkLJnAYv2mddxxcQanAmscWr+X5Qp8WC/YmcbSALgW
+ 8e+g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id;
+ bh=VNxJfcazFhow5tlTwHNbLkJoFR4Zys8mq4Lym2fMYoU=;
+ b=e24Nh4NtZ8rK3VnDZy1pwg6lhAsTIp2z9IgpXrgX21keF29SQpwtsNr4+iFY4Jvmh+
+ sw/LEoEpKKh+IOKosmER/bcYGptdTxfCyKuHxfhgoWlrUgP6DXVKnfPQXRQifT5IluqV
+ qtz8nZGmlf6taggHC4Ya2edZ4XfhsWpx+7GysAkdkllvuBbqhMs/+qGZW51OClk9wiTx
+ YKYCB7GzILqfKmn3FDOHojCxdaypYT2EJzmvg3KkqCsY3U8IP86lGfmJqcwg5E5RmbUZ
+ FfCUXeul1HD0DvbowNuLxWPkYkoY+M3rcDt39I9YBJQNeUc1rbfJpm9okBfBnZgrxO/V
+ TNrQ==
+X-Gm-Message-State: AOAM532HhiU0vXYCm8LbeVS8YjTSGu0RXGsse7lHvOZzDST09Vbl5f8Z
+ qSmOcmzma0cLHjXHU4T9m3FYATDatN2aENpu
+X-Google-Smtp-Source: ABdhPJwy434BRQmHDoh0u4+y3rxdVAApoldW2Usbw4BfwG3wanKHcIgM8kl2sf0Gohbmp+Ox+9FHew==
+X-Received: by 2002:a17:90a:e2cb:: with SMTP id
+ fr11mr3630438pjb.169.1610444395914; 
+ Tue, 12 Jan 2021 01:39:55 -0800 (PST)
+Received: from frankchang-ThinkPad-T490.internal.sifive.com
+ (114-34-229-221.HINET-IP.hinet.net. [114.34.229.221])
+ by smtp.gmail.com with ESMTPSA id h16sm2865664pgd.62.2021.01.12.01.39.54
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 12 Jan 2021 01:39:55 -0800 (PST)
+From: frank.chang@sifive.com
+To: qemu-devel@nongnu.org,
+	qemu-riscv@nongnu.org
+Subject: [PATCH v6 00/72] support vector extension v1.0
+Date: Tue, 12 Jan 2021 17:38:34 +0800
+Message-Id: <20210112093950.17530-1-frank.chang@sifive.com>
+X-Mailer: git-send-email 2.17.1
+Received-SPF: pass client-ip=2607:f8b0:4864:20::62d;
+ envelope-from=frank.chang@sifive.com; helo=mail-pl1-x62d.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -85,102 +79,190 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-Cc: "ale@rev.ng" <ale@rev.ng>, Peter Maydell <peter.maydell@linaro.org>,
- Thomas Huth <thuth@redhat.com>, Brian Cain <bcain@quicinc.com>,
- "richard.henderson@linaro.org" <richard.henderson@linaro.org>,
- "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
- "laurent@vivier.eu" <laurent@vivier.eu>, Taylor Simpson <tsimpson@quicinc.com>
+Cc: Frank Chang <frank.chang@sifive.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, Jan 11, 2021 at 11:20:27PM +0100, Philippe Mathieu-Daudé wrote:
-> +Thomas/Daniel/Peter.
-> 
-> On 1/11/21 10:14 PM, Taylor Simpson wrote:
-> >> -----Original Message-----
-> >> From: Qemu-devel <qemu-devel-
-> >> bounces+tsimpson=quicinc.com@nongnu.org> On Behalf Of Philippe
-> >> Mathieu-Daudé
-> >> Sent: Saturday, January 9, 2021 3:38 PM
-> >> To: Taylor Simpson <tsimpson@quicinc.com>; qemu-devel@nongnu.org
-> >> Cc: ale@rev.ng; Brian Cain <bcain@quicinc.com>;
-> >> richard.henderson@linaro.org; laurent@vivier.eu
-> >> Subject: Re: [PATCH v6 05/35] Hexagon (disas) disassembler
-> >>
-> >> Hi Taylor,
-> >>
-> >> On 1/8/21 5:28 AM, Taylor Simpson wrote:
-> >>> +/*
-> >>> + *  Copyright(c) 2019-2020 Qualcomm Innovation Center, Inc. All Rights
-> >> Reserved.
-> >>
-> >> 2019-2021 :)
-> >>
-> >>> + *
-> >>> + *  This program is free software; you can redistribute it and/or modify
-> >>> + *  it under the terms of the GNU General Public License as published by
-> >>> + *  the Free Software Foundation; either version 2 of the License, or
-> >>> + *  (at your option) any later version.
-> >>> + *
-> >>> + *  This program is distributed in the hope that it will be useful,
-> >>> + *  but WITHOUT ANY WARRANTY; without even the implied warranty of
-> >>> + *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-> >>> + *  GNU General Public License for more details.
-> >>> + *
-> >>> + *  You should have received a copy of the GNU General Public License
-> >>> + *  along with this program; if not, see <http://www.gnu.org/licenses/>.
-> >>
-> >> If possible please also include the SPDX identifier (or simply it):
-> >>
-> >> SPDX-License-Identifier: GPL-2.0-or-later
-> > 
-> > I'll confirm with our legal department.  Which is preferred - the identifier alone or the text and the identifier?
-> 
-> Obviously IANAL, but my understanding from explanations from Thomas and
-> Daniel is -- if one day QEMU switches to using SPDX -- when both are
-> provided, it is very hard to remove a text license (which often is
-> copy/pasted with mistakes). So the identifier alone is better (assuming
-> your legal department confirms it has the same value).
-> 
-> Now if you ask if there is any plan QEMU switch to SPDX, I'd say this
-> is a gray zone. Peter expressively said he prefers a full switch or
-> nothing. We don't have the resources for it. Meanwhile some companies
-> prefer their employees to send new contributions with SPDX as it eases
-> their compliance audit tools.
-> 
-> I guess Thomas spend 1 week on this topic. TBH I spent more than 2 weeks
-> and barely added the SPDX tag to a bit more than 30% of the codebase
-> then had to give up because my time was over (this was when I understood
-> I couldn't remove the text and had to redo the work).
-> 
-> Not sure how this can be coordinated. As long as there is no strong
-> corporate interest, this might stay in this gray zone...
+From: Frank Chang <frank.chang@sifive.com>
 
-I can't see us removing all existing license boilerplate because
-of the legal challenges that involves. The amount of work does not
-justify the potential payoff, as compared to all the other useful
-things that could be worked on in QEMU.
+This patchset implements the vector extension v1.0 for RISC-V on QEMU.
 
-My expectation is that all files should have license header for the
-sake of consistency across the codebase, and may optionally have SPDX.
+As vector extension specification is near to be ratified, this patchset is
+sent as formal patchset for review.
 
-With all this in mind, IMHO reviewers should NOT be raising with
-contributions to QEMU, as it creates a burden for contributors
-to talk to their legal teams. The amount of new files being added to
-QEMU are negligible compared to what's already in tree, so any new files
-we accept aren't making the situation measurably worse.
+The port is available here:
+https://github.com/sifive/qemu/tree/rvv-1.0-upstream-v6
 
-Just accept files with normal license headers as we've always done.
+You can change the cpu argument: vext_spec to v1.0 (i.e. vext_spec=v1.0)
+to run with RVV v1.0 instructions.
 
-Anything involving SPDX in future will just need to bulk updates
-everything.
+Note: This patchset depends on another patchset listed in Based-on
+      section below so it might not able to be built unless the patchset
+	  is applied.
 
-Regards,
-Daniel
--- 
-|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
-|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
-|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
+Changelog:
+
+v6
+  * add vector floating-point reciprocal estimate instruction.
+  * add vector floating-point reciprocal square-root estimate instruction.
+  * update check rules for segment register groups, each segment register
+    group has to follow overlap rules.
+  * update viota.m instruction check rules.
+
+v5
+  * refactor RVV v1.0 check functions.
+    (Thanks to Richard Henderson's bitwise tricks.)
+  * relax RV_VLEN_MAX to 1024-bits.
+  * implement vstart CSR's behaviors.
+  * trigger illegal instruction exception if frm is not valid for
+    vector floating-point instructions.
+  * rebase on riscv-to-apply.next.
+
+v4
+  * remove explicit float flmul variable in DisasContext.
+  * replace floating-point calculations with shift operations to
+    improve performance.
+  * relax RV_VLEN_MAX to 512-bits.
+
+v3
+  * apply nan-box helpers from Richard Henderson.
+  * remove fp16 api changes as they are sent independently in another
+    pathcset by Chih-Min Chao.
+  * remove all tail elements clear functions as tail elements can
+    retain unchanged for either VTA set to undisturbed or agnostic.
+  * add fp16 nan-box check generator function.
+  * add floating-point rounding mode enum.
+  * replace flmul arithmetic with shifts to avoid floating-point
+    conversions.
+  * add Zvqmac extension.
+  * replace gdbstub vector register xml files with dynamic generator.
+  * bumped to RVV v1.0.
+  * RVV v1.0 related changes:
+    * add vl<nf>re<eew>.v and vs<nf>r.v vector whole register
+      load/store instructions
+    * add vrgatherei16 instruction.
+    * rearranged bits in vtype to make vlmul bits into a contiguous
+      field.
+
+v2
+  * drop v0.7.1 support.
+  * replace invisible return check macros with functions.
+  * move mark_vs_dirty() to translators.
+  * add SSTATUS_VS flag for s-mode.
+  * nan-box scalar fp register for floating-point operations.
+  * add gdbstub files for vector registers to allow system-mode
+    debugging with GDB.
+
+Based-on: <1596102747-20226-1-git-send-email-chihmin.chao@sifive.com/>
+
+Frank Chang (66):
+  target/riscv: drop vector 0.7.1 and add 1.0 support
+  target/riscv: Use FIELD_EX32() to extract wd field
+  target/riscv: rvv-1.0: introduce writable misa.v field
+  target/riscv: rvv-1.0: add translation-time vector context status
+  target/riscv: rvv-1.0: remove rvv related codes from fcsr registers
+  target/riscv: rvv-1.0: check MSTATUS_VS when accessing vector csr
+    registers
+  target/riscv: rvv-1.0: remove MLEN calculations
+  target/riscv: rvv-1.0: add fractional LMUL
+  target/riscv: rvv-1.0: add VMA and VTA
+  target/riscv: rvv-1.0: update check functions
+  target/riscv: introduce more imm value modes in translator functions
+  target/riscv: rvv:1.0: add translation-time nan-box helper function
+  target/riscv: rvv-1.0: configure instructions
+  target/riscv: rvv-1.0: stride load and store instructions
+  target/riscv: rvv-1.0: index load and store instructions
+  target/riscv: rvv-1.0: fix address index overflow bug of indexed
+    load/store insns
+  target/riscv: rvv-1.0: fault-only-first unit stride load
+  target/riscv: rvv-1.0: amo operations
+  target/riscv: rvv-1.0: load/store whole register instructions
+  target/riscv: rvv-1.0: update vext_max_elems() for load/store insns
+  target/riscv: rvv-1.0: take fractional LMUL into vector max elements
+    calculation
+  target/riscv: rvv-1.0: floating-point square-root instruction
+  target/riscv: rvv-1.0: floating-point classify instructions
+  target/riscv: rvv-1.0: mask population count instruction
+  target/riscv: rvv-1.0: find-first-set mask bit instruction
+  target/riscv: rvv-1.0: set-X-first mask bit instructions
+  target/riscv: rvv-1.0: iota instruction
+  target/riscv: rvv-1.0: element index instruction
+  target/riscv: rvv-1.0: allow load element with sign-extended
+  target/riscv: rvv-1.0: register gather instructions
+  target/riscv: rvv-1.0: integer scalar move instructions
+  target/riscv: rvv-1.0: floating-point move instruction
+  target/riscv: rvv-1.0: floating-point scalar move instructions
+  target/riscv: rvv-1.0: whole register move instructions
+  target/riscv: rvv-1.0: integer extension instructions
+  target/riscv: rvv-1.0: single-width averaging add and subtract
+    instructions
+  target/riscv: rvv-1.0: single-width bit shift instructions
+  target/riscv: rvv-1.0: integer add-with-carry/subtract-with-borrow
+  target/riscv: rvv-1.0: narrowing integer right shift instructions
+  target/riscv: rvv-1.0: widening integer multiply-add instructions
+  target/riscv: rvv-1.0: single-width saturating add and subtract
+    instructions
+  target/riscv: rvv-1.0: integer comparison instructions
+  target/riscv: rvv-1.0: floating-point compare instructions
+  target/riscv: rvv-1.0: mask-register logical instructions
+  target/riscv: rvv-1.0: slide instructions
+  target/riscv: rvv-1.0: floating-point slide instructions
+  target/riscv: rvv-1.0: narrowing fixed-point clip instructions
+  target/riscv: rvv-1.0: single-width floating-point reduction
+  target/riscv: rvv-1.0: widening floating-point reduction instructions
+  target/riscv: rvv-1.0: single-width scaling shift instructions
+  target/riscv: rvv-1.0: remove widening saturating scaled multiply-add
+  target/riscv: rvv-1.0: remove vmford.vv and vmford.vf
+  target/riscv: rvv-1.0: remove integer extract instruction
+  target/riscv: rvv-1.0: floating-point min/max instructions
+  target/riscv: introduce floating-point rounding mode enum
+  target/riscv: rvv-1.0: floating-point/integer type-convert
+    instructions
+  target/riscv: rvv-1.0: widening floating-point/integer type-convert
+  target/riscv: add "set round to odd" rounding mode helper function
+  target/riscv: rvv-1.0: narrowing floating-point/integer type-convert
+  target/riscv: rvv-1.0: relax RV_VLEN_MAX to 1024-bits
+  target/riscv: rvv-1.0: implement vstart CSR
+  target/riscv: rvv-1.0: trigger illegal instruction exception if frm is
+    not valid
+  target/riscv: rvv-1.0: set mstatus.SD bit when writing vector CSRs
+  target/riscv: rvv-1.0: floating-point reciprocal square-root estimate
+    instruction
+  target/riscv: rvv-1.0: floating-point reciprocal estimate instruction
+  target/riscv: set mstatus.SD bit when writing fp CSRs
+
+Greentime Hu (1):
+  target/riscv: rvv-1.0: add vlenb register
+
+Hsiangkai Wang (2):
+  target/riscv: gdb: modify gdb csr xml file to align with csr register
+    map
+  target/riscv: gdb: support vector registers for rv64 & rv32
+
+LIU Zhiwei (3):
+  target/riscv: rvv-1.0: add mstatus VS field
+  target/riscv: rvv-1.0: add sstatus VS field
+  target/riscv: rvv-1.0: add vcsr register
+
+ gdb-xml/riscv-32bit-csr.xml             |   18 +-
+ gdb-xml/riscv-64bit-csr.xml             |   18 +-
+ target/riscv/cpu.c                      |   11 +-
+ target/riscv/cpu.h                      |   98 +-
+ target/riscv/cpu_bits.h                 |   10 +
+ target/riscv/cpu_helper.c               |   15 +-
+ target/riscv/csr.c                      |   85 +-
+ target/riscv/fpu_helper.c               |   17 +-
+ target/riscv/gdbstub.c                  |  177 +-
+ target/riscv/helper.h                   |  503 ++-
+ target/riscv/insn32-64.decode           |   18 +-
+ target/riscv/insn32.decode              |  290 +-
+ target/riscv/insn_trans/trans_rvv.c.inc | 2475 ++++++++++-----
+ target/riscv/internals.h                |   24 +-
+ target/riscv/translate.c                |   72 +-
+ target/riscv/vector_helper.c            | 3690 ++++++++++++-----------
+ 16 files changed, 4531 insertions(+), 2990 deletions(-)
+
+--
+2.17.1
 
 
