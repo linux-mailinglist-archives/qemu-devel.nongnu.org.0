@@ -2,83 +2,41 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6EDA22F2561
-	for <lists+qemu-devel@lfdr.de>; Tue, 12 Jan 2021 02:28:06 +0100 (CET)
-Received: from localhost ([::1]:38742 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 723B52F2560
+	for <lists+qemu-devel@lfdr.de>; Tue, 12 Jan 2021 02:27:54 +0100 (CET)
+Received: from localhost ([::1]:38696 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kz8Td-0007Ql-HP
-	for lists+qemu-devel@lfdr.de; Mon, 11 Jan 2021 20:28:05 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48484)
+	id 1kz8TQ-0007Pl-W1
+	for lists+qemu-devel@lfdr.de; Mon, 11 Jan 2021 20:27:53 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48540)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jiaxun.yang@flygoat.com>)
- id 1kz8RS-0006Lb-K1
- for qemu-devel@nongnu.org; Mon, 11 Jan 2021 20:25:50 -0500
-Received: from new4-smtp.messagingengine.com ([66.111.4.230]:46755)
+ (Exim 4.90_1) (envelope-from <balaton@jedlik.phy.bme.hu>)
+ id 1kz8Rk-0006Ul-2E; Mon, 11 Jan 2021 20:26:08 -0500
+Received: from jedlik.phy.bme.hu ([152.66.102.83]:59608)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jiaxun.yang@flygoat.com>)
- id 1kz8RP-0004Zv-71
- for qemu-devel@nongnu.org; Mon, 11 Jan 2021 20:25:48 -0500
-Received: from compute6.internal (compute6.nyi.internal [10.202.2.46])
- by mailnew.nyi.internal (Postfix) with ESMTP id 86721580626;
- Mon, 11 Jan 2021 20:25:46 -0500 (EST)
-Received: from mailfrontend1 ([10.202.2.162])
- by compute6.internal (MEProxy); Mon, 11 Jan 2021 20:25:46 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=flygoat.com; h=
- from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding; s=fm1; bh=b/0LcBWxGeivY5XSxd1tWLYCCR
- ozE7CkKoA2Pg1+4b8=; b=J60Vwy6AFexgkPi7WVHzDSekXGryJB8+/FxNPHFLjn
- NUDDICGVisoGDjIjS4MOJMs40Zej8UJdIvy8r+JNGKM8PNUR9Q7X7YaMWjfx+itn
- gcAUWmlETPKrtX5YNzaL2N0xWKwrNaj+hsbVria+B6vkqywMGFQOm2MkGxlhK9Rq
- LQLnGzUzvgZmZPnykR3EaMr3Ysc7T0rJG1uisVGnsnjE+5d/IrhlmaLTh+ZeD2w5
- uhRXAzggUpOOzYI59aeAVPWLJvFT/I73xSuzan7DDFXKgPb5GcLeHiJfJFYeIvV2
- 5apl0amMReEcjqtc3wtlprpS8ST40T4kv5Kbia4bj/mg==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:content-transfer-encoding:date:from
- :message-id:mime-version:subject:to:x-me-proxy:x-me-proxy
- :x-me-sender:x-me-sender:x-sasl-enc; s=fm1; bh=b/0LcBWxGeivY5XSx
- d1tWLYCCRozE7CkKoA2Pg1+4b8=; b=JVnpxgvFCPlYbD5hHanZqV52wD57SsjZo
- 8FvkMRM0dABQZBL6wV3hRSi+mb74vOTzjO6EvZ8QOkiCEkcVv52YsdA1yCv9uaIl
- XsNDyNsHcG4hBSTX6+dFqhMYniVcMKl55PszFlBRhTgxPbQkpRpZXWpWAOcryJMe
- DEtsyxa6+MtKlbQBsw7NatXOgJidPjuHjJiPhGOJKsaD2Xy9VuNSt/qwyJKGbtLY
- Ormm80aOwGDEZRqVDo6Iv0PhtU5//TzeXzKN4G2S/hRx3qWvGA9bm5ykTZyr3vJq
- NYnNKu0Rn2mftnJjW1HTgVp2SWS6SHeZGqrY3cOyNAsTEMC5QrIwA==
-X-ME-Sender: <xms:mfr8X6R0m-H1oB-BWziEe-HF3u6KlM9as8-jVxmUBAAm4B_8oPahbA>
- <xme:mfr8X_wdIsEQwAtNkHYAlIDqRK4GtjEpLd7FNuyg9PoKWujvZxfNAXSz5kOtPLYN8
- 2Mk5Kym8JvGeubaSIs>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedujedrvdehvddgfeefucetufdoteggodetrfdotf
- fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
- uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
- cujfgurhephffvufffkffoggfgsedtkeertdertddtnecuhfhrohhmpeflihgrgihunhcu
- jggrnhhguceojhhirgiguhhnrdihrghnghesfhhlhihgohgrthdrtghomheqnecuggftrf
- grthhtvghrnhephfejtdektdeuhedtieefteekveffteejteefgeekveegffetvddugfel
- iefhtddunecukfhppeduudeirddvvdekrdekgedrvdenucevlhhushhtvghrufhiiigvpe
- dtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehjihgrgihunhdrhigrnhhgsehflhihghho
- rghtrdgtohhm
-X-ME-Proxy: <xmx:mfr8X32EJwasRvj7RGD97aeV10dovEXswHMmWe3fRot-Xzf5MGWsxg>
- <xmx:mfr8X2Aj--3AF5AXmPPL5aiH7v570aAtmzEqbRKKHFfPt65renz7FQ>
- <xmx:mfr8XzgUeg6DgMf6qIucRXPMnOHaRN3xxTc9d11sZjWzWNbfe25JvA>
- <xmx:mvr8X1eUNV8scl0t0Dvf3qygxnMozmMNQ3uEGK_w2ItHu4pBW97hPQ>
-Received: from strike.U-LINK.com (unknown [116.228.84.2])
- by mail.messagingengine.com (Postfix) with ESMTPA id ECB4E24005B;
- Mon, 11 Jan 2021 20:25:43 -0500 (EST)
-From: Jiaxun Yang <jiaxun.yang@flygoat.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH] hw/intc/loongson_liointc: Fix per core ISR handling
-Date: Tue, 12 Jan 2021 09:25:27 +0800
-Message-Id: <20210112012527.28927-1-jiaxun.yang@flygoat.com>
-X-Mailer: git-send-email 2.30.0
+ (Exim 4.90_1) (envelope-from <balaton@jedlik.phy.bme.hu>)
+ id 1kz8Rf-0004ab-Bq; Mon, 11 Jan 2021 20:26:07 -0500
+Received: by jedlik.phy.bme.hu (Postfix, from userid 1000)
+ id ABDC2A00F9; Tue, 12 Jan 2021 02:25:58 +0100 (CET)
+Date: Tue, 12 Jan 2021 02:25:58 +0100 (CET)
+From: BALATON Zoltan <balaton@eik.bme.hu>
+To: David Gibson <david@gibson.dropbear.id.au>
+Subject: Re: [PATCH] hw/intc/ppc-uic: Make default dcr-base 0xc0, not 0x30
+In-Reply-To: <20210112001257.GG3051@yekko.fritz.box>
+Message-ID: <alpine.LMD.2.03.2101120224300.11445@eik.bme.hu>
+References: <20210111213007.7381-1-peter.maydell@linaro.org>
+ <20210112001257.GG3051@yekko.fritz.box>
+User-Agent: Alpine 2.03 (LMD 1266 2009-07-14)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Received-SPF: permerror client-ip=66.111.4.230;
- envelope-from=jiaxun.yang@flygoat.com; helo=new4-smtp.messagingengine.com
-X-Spam_score_int: -12
-X-Spam_score: -1.3
+Content-Type: TEXT/PLAIN; charset=US-ASCII; format=flowed
+Received-SPF: none client-ip=152.66.102.83;
+ envelope-from=balaton@jedlik.phy.bme.hu; helo=jedlik.phy.bme.hu
+X-Spam_score_int: -18
+X-Spam_score: -1.9
 X-Spam_bar: -
-X-Spam_report: (-1.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_SORBS_WEB=1.5, SPF_HELO_PASS=-0.001,
- T_SPF_PERMERROR=0.01 autolearn=no autolearn_force=no
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -91,61 +49,81 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Huacai Chen <chenhuacai@kernel.org>
+Cc: Peter Maydell <peter.maydell@linaro.org>, qemu-ppc@nongnu.org,
+ qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Per core ISR is a set of 32-bit registers spaced by 8 bytes.
-This patch fixed calculation of it's size and also added check
-of alignment at reading & writing.
+On Tue, 12 Jan 2021, David Gibson wrote:
+> On Mon, Jan 11, 2021 at 09:30:07PM +0000, Peter Maydell wrote:
+>> In commit 34d0831f38fd8 the ppc-uic device was added, with a dcr-base
+>> property. The intention was that the default value of dcr-base should be
+>> the one that most of our boards need, so that in the common case they
+>> don't need to specify a property value.
+>>
+>> All QEMU boards with a UIC use a dcr-base of 0xc0, with the exception of
+>> sam460ex which has four UICs and so puts them at 0xc0, 0xd0, 0xe0, 0xf0.
+>> So 0xc0 is the obvious right choice for the default dcr-base.
+>>
+>> The board code conversions in commits 0270d74ef88623505 (bamboo) and
+>> c5ac9dc64fa552a6 (virtex_ml507) assumed that default was 0xc0. Unfortunately
+>> the actual default in 34d0831f38fd8 was 0x30, by mistake, so the
+>> bamboo and virtex_ml507 boards were broken as they were converted
+>> away from ppcuic_init() (which always specifies the dcr_base property
+>> value explicitly).
+>>
+>> Set the default dcr-base to 0xc0 as was intended, fixing bamboo and
+>> virtex_ml507.
+>>
+>> Fixes: 34d0831f38fd8
+>> Reported-by: Nathan Chancellor <natechancellor@gmail.com>
+>> Suggested-by: BALATON Zoltan <balaton@eik.bme.hu>
+>> Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
+>
+> Applied, thanks.
 
-Signed-off-by: Jiaxun Yang <jiaxun.yang@flygoat.com>
----
- hw/intc/loongson_liointc.c | 16 +++++++++++++---
- 1 file changed, 13 insertions(+), 3 deletions(-)
+Will you take my series too?
 
-diff --git a/hw/intc/loongson_liointc.c b/hw/intc/loongson_liointc.c
-index f823d484e0..cc11b544cb 100644
---- a/hw/intc/loongson_liointc.c
-+++ b/hw/intc/loongson_liointc.c
-@@ -41,7 +41,7 @@
- #define R_IEN_CLR               0x2c
- #define R_ISR_SIZE              0x8
- #define R_START                 0x40
--#define R_END                   0x64
-+#define R_END                   (R_START + R_ISR_SIZE * NUM_CORES)
- 
- struct loongson_liointc {
-     SysBusDevice parent_obj;
-@@ -125,7 +125,12 @@ liointc_read(void *opaque, hwaddr addr, unsigned int size)
-     }
- 
-     if (addr >= R_START && addr < R_END) {
--        int core = (addr - R_START) / R_ISR_SIZE;
-+        hwaddr offset = addr - R_START;
-+        int core = offset / R_ISR_SIZE;
-+
-+        if (offset % R_ISR_SIZE) {
-+            goto out;
-+        }
-         r = p->per_core_isr[core];
-         goto out;
-     }
-@@ -169,7 +174,12 @@ liointc_write(void *opaque, hwaddr addr,
-     }
- 
-     if (addr >= R_START && addr < R_END) {
--        int core = (addr - R_START) / R_ISR_SIZE;
-+        hwaddr offset = addr - R_START;
-+        int core = offset / R_ISR_SIZE;
-+
-+        if (offset % R_ISR_SIZE) {
-+            goto out;
-+        }
-         p->per_core_isr[core] = value;
-         goto out;
-     }
--- 
-2.30.0
+http://patchwork.ozlabs.org/project/qemu-devel/list/?series=223439
 
+I've cc'd you but your DNS seems to not return an MX record most of the 
+time still so these are bouncing back.
+
+Regards,
+BALATON Zoltan
+
+>> ---
+>> This is the right way to fix the bug I was trying to fix with
+>> "hw/ppc/ppc400_bamboo: Set dcr-base correctly when creating UIC".
+>>
+>> David: you probably want to put this patch in your ppc queue
+>> before "hw/ppc/ppc405_uc: Drop use of ppcuic_init()", as that patch
+>> also assumes the 0xc0 default.
+>
+> Done.
+>
+>>
+>>  hw/intc/ppc-uic.c | 2 +-
+>>  1 file changed, 1 insertion(+), 1 deletion(-)
+>>
+>> diff --git a/hw/intc/ppc-uic.c b/hw/intc/ppc-uic.c
+>> index b21951eea83..7171de7b355 100644
+>> --- a/hw/intc/ppc-uic.c
+>> +++ b/hw/intc/ppc-uic.c
+>> @@ -274,7 +274,7 @@ static void ppc_uic_realize(DeviceState *dev, Error **errp)
+>>
+>>  static Property ppc_uic_properties[] = {
+>>      DEFINE_PROP_LINK("cpu", PPCUIC, cpu, TYPE_CPU, CPUState *),
+>> -    DEFINE_PROP_UINT32("dcr-base", PPCUIC, dcr_base, 0x30),
+>> +    DEFINE_PROP_UINT32("dcr-base", PPCUIC, dcr_base, 0xc0),
+>>      DEFINE_PROP_BOOL("use-vectors", PPCUIC, use_vectors, true),
+>>      DEFINE_PROP_END_OF_LIST()
+>>  };
+>
+> -- 
+> David Gibson			| I'll have my music baroque, and my code
+> david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
+> 				| _way_ _around_!
+> http://www.ozlabs.org/~dgibson
+>
 
