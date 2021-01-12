@@ -2,69 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B05BB2F34FC
-	for <lists+qemu-devel@lfdr.de>; Tue, 12 Jan 2021 17:04:28 +0100 (CET)
-Received: from localhost ([::1]:42018 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AFC092F354D
+	for <lists+qemu-devel@lfdr.de>; Tue, 12 Jan 2021 17:18:25 +0100 (CET)
+Received: from localhost ([::1]:54544 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kzM9j-00005O-QB
-	for lists+qemu-devel@lfdr.de; Tue, 12 Jan 2021 11:04:27 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44198)
+	id 1kzMNE-0007DV-7h
+	for lists+qemu-devel@lfdr.de; Tue, 12 Jan 2021 11:18:24 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47804)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1kzM8L-0007Fz-In
- for qemu-devel@nongnu.org; Tue, 12 Jan 2021 11:03:01 -0500
-Received: from mail-ej1-x634.google.com ([2a00:1450:4864:20::634]:40525)
+ id 1kzMLA-0005xR-9l
+ for qemu-devel@nongnu.org; Tue, 12 Jan 2021 11:16:16 -0500
+Received: from mail-wm1-x32f.google.com ([2a00:1450:4864:20::32f]:40586)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1kzM8J-0002yf-T3
- for qemu-devel@nongnu.org; Tue, 12 Jan 2021 11:03:01 -0500
-Received: by mail-ej1-x634.google.com with SMTP id f4so3156145ejx.7
- for <qemu-devel@nongnu.org>; Tue, 12 Jan 2021 08:02:59 -0800 (PST)
+ id 1kzML7-0008Hf-T7
+ for qemu-devel@nongnu.org; Tue, 12 Jan 2021 11:16:16 -0500
+Received: by mail-wm1-x32f.google.com with SMTP id r4so2636665wmh.5
+ for <qemu-devel@nongnu.org>; Tue, 12 Jan 2021 08:16:12 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=fvvAvkfzomGmZkcpTZmyW/lMBUyS96cULmvrvWiRkg4=;
- b=wCK8OBupFFvppyGpZy/MXqm1Nd0/LNX/yjmXycJJuT8LKRkrckg+m4szR0x6zr5WNJ
- HLG7JpjrpNAz6Z0Sf6KcsmvlkLV6wRvRbmB0oZI9m5t6zWYkoYn2yQRHo6ruZqt26bY3
- Y3iaHU+s5+2QUHol45tlQOOP1BTbnGkD0zPT9DPMvKATOQVy5QGa8uW9Ld8Zl6cnkSHa
- xuLOlj4pFysU57YpTBK4cmvSEMRvlED4oH0o/H2kH1lUTmTm5tPrLQAFaTG5X3+pGh03
- k2MYKjRFKv6Ndwo4Hz6csyC1BDa39LaFXME1Pa7znlB+AXQGrZJhWhr6Paqq5Hfz6JSN
- 8apg==
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=6s1AwCaLK/CUqXxViLf0QxnciSlkvphZJyETdGYuiaM=;
+ b=oRpIo2Y1rRJ8DVtP1zR1KfwHRvXkg5EyW2QPFWSRXfEiLIB5+m9nJBH5rtoJ88kJno
+ 5SH1mJ4JiWUB1H3rw6I8S2F7oW49AoQTHjUXB6greCuTNmGq5EDKvwudrsgZz69LqXIS
+ YM2I0uub7h/1QfvSrdZZkGYfJguALNsBZCIxpWYfSqQZ6aY4zX76DsUZwfmzN/uxwUpf
+ ZvDhqNXKm/VsoqXh6dhxSVL54BFfpPQspoOGkTb42MzziCPtqjZqljrDkV7quQlocDzB
+ WEAPZLeDh6rTs1K4Qm/zn+GcDr9BiQgeiRJj0VyiGmWvCjlfACqvvATLJ3ZCalxCf/Yv
+ N4wg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=fvvAvkfzomGmZkcpTZmyW/lMBUyS96cULmvrvWiRkg4=;
- b=BMBk9PGKX6NNjYyoUfMU4XcTwIuzhThYac7STrrIgxkwH0m5ozvkV5MyuBC+G43DZh
- XaSVHVJbYMrNDXq8O3DDbATeiyGW4r2jf8SzNyydvqHVnNaF3GedoVzpfqZYQMOaRDqo
- sYJrfq2shUatyAU79lc7CoWRDcti+yfFezPHJEamx3zLe8fQB0aRRkL7eWegWbrUdcng
- DTmCvULd1ZQxbdsKTmXHCIj/orjzOznfkHD8l2iYfAYm3bw4ZaEZQbDlGHdDSeHfPV6F
- HTWyN440bkBU/ANKkghkg+6VVMu0egJwR9v5dbhCgVJwuiJnOa0b27JcsCKafqwBV5A5
- 6cRw==
-X-Gm-Message-State: AOAM531GAvN51nomTmQhmTZ4xio8N03SxJr5p5GnByrG2Z/AN9Rk35ha
- hlivjz3AZDQxqQ4E0xLwKxZ8aKJl6TT56xl4jEzqlQ==
-X-Google-Smtp-Source: ABdhPJyoTy74QJB5i3xe0kyRRoR3JgHzV12mKBdpx/NlZIExiDddIOuZJXtYPuaBt3JZrHjXqbti32Nv93RXgCLAb1Y=
-X-Received: by 2002:a17:906:e250:: with SMTP id
- gq16mr3583739ejb.382.1610467378468; 
- Tue, 12 Jan 2021 08:02:58 -0800 (PST)
-MIME-Version: 1.0
-References: <SYCPR01MB3502B0D05FEB1ED21532219EFCAA0@SYCPR01MB3502.ausprd01.prod.outlook.com>
-In-Reply-To: <SYCPR01MB3502B0D05FEB1ED21532219EFCAA0@SYCPR01MB3502.ausprd01.prod.outlook.com>
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=6s1AwCaLK/CUqXxViLf0QxnciSlkvphZJyETdGYuiaM=;
+ b=iFztXYkZ5iK65/JsL+c60rV4cfXFiX5Nj4Jb2AccwJRYi8YIyX94A7jwe/AFMDQoP8
+ l0fzX0ov5sJGi+ob32bGkfLmHV0kOyIeybm7vy0hKnfV3ZAfX5STVGbGpu6clmUmKD0c
+ JB6VQsswZEAog5pLn+tRto+gXHvMQ1cLZQXuwkP3RF6/ggbo651T9hPz+W5tQBqi2LUr
+ UNcU88MCT4rNWjhIF6iImIDSuVhZAULbFWjSl9J4H7S+/gLM/30ACuEUcaXCcOXtKgny
+ YsDD3v6ul1TdMD/inksxLBMXPcxopQrrsp5uX5g46oEEjSAKyy7szJqL6tGeTVMwzxg9
+ 42lg==
+X-Gm-Message-State: AOAM530PWb00HvWwsdB8RljfxFsIhhYNNVWCYgZ5fOFVr/q4tPZtA27Z
+ LUwHxYafV94a24sfs9npPCaKcBI7s5nVjQ==
+X-Google-Smtp-Source: ABdhPJyu/eQS4osi3GVbLAa+7CPvd1hVdMHzdVb/LomyWVkC08xPWNBD0FYZu5DoeDIlzSX6qMjybg==
+X-Received: by 2002:a1c:df85:: with SMTP id w127mr44939wmg.166.1610468171073; 
+ Tue, 12 Jan 2021 08:16:11 -0800 (PST)
+Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
+ by smtp.gmail.com with ESMTPSA id j2sm5840061wrh.78.2021.01.12.08.16.10
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 12 Jan 2021 08:16:10 -0800 (PST)
 From: Peter Maydell <peter.maydell@linaro.org>
-Date: Tue, 12 Jan 2021 16:02:47 +0000
-Message-ID: <CAFEAcA9Wpc_-pcwGU+=MbRpEb5x5=qPsBP2APvdRe4gK6+WAVA@mail.gmail.com>
-Subject: Re: [RFC PATCH] rtl8139: fix stack overflow if RxBuf overlaps MMIO
-To: Qiuhao Li <Qiuhao.Li@outlook.com>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2a00:1450:4864:20::634;
- envelope-from=peter.maydell@linaro.org; helo=mail-ej1-x634.google.com
-X-Spam_score_int: 0
-X-Spam_score: -0.1
-X-Spam_bar: /
-X-Spam_report: (-0.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+To: qemu-devel@nongnu.org
+Subject: [PATCH] hw/display/vmware_vga: Remove dependency on VNC header
+Date: Tue, 12 Jan 2021 16:16:08 +0000
+Message-Id: <20210112161608.16055-1-peter.maydell@linaro.org>
+X-Mailer: git-send-email 2.20.1
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::32f;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x32f.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- URI_DOTEDU=1.999 autolearn=no autolearn_force=no
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -77,49 +80,56 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Alexander Bulekov <alxndr@bu.edu>, "Michael S. Tsirkin" <mst@redhat.com>,
- Alistair Francis <alistair.francis@wdc.com>,
- QEMU Developers <qemu-devel@nongnu.org>,
- =?UTF-8?Q?C=C3=A9dric_Le_Goater?= <clg@kaod.org>
+Cc: qemu-trivial@nongnu.org, Gerd Hoffmann <kraxel@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, 12 Jan 2021 at 15:23, Qiuhao Li <Qiuhao.Li@outlook.com> wrote:
->
-> Fix Bug 1910826 [1] / OSS-Fuzz Issue 29224 [2].
->
-> In rtl8139.c, the function rtl8139_RxBuf_write, which sets the RxBuf
-> (Receive Buffer Start Address), doesn't check if this buffer overlaps our
-> MMIO region. So if the guest machine set the transmit mode to loopback, put
-> the RxBuf at the address of TSD (Transmit Status of Descriptor, MMIO), and
-> trigger a frame transfer by directly writing to the TSD, an infinite
-> recursion will occur:
->
-> rtl8139_ioport_write (to TSD) -> rtl8139_io_writel -> rtl8139_transmit ->
-> rtl8139_transmit_one -> rtl8139_transfer_frame -> rtl8139_do_receive ->
-> rtl8139_write_buffer -> pci_dma_write (to TSD) -> ... ->
-> rtl8139_ioport_write (to TSD)
->
-> This patch adds a check to ensure the maximum possible RxBuf [3] won't
-> overlap the MMIO region.
->
-> P.S. There is a more concise reproducer with comments [4], which may help :)
->
-> [1] https://bugs.launchpad.net/bugs/1910826
-> [2] https://bugs.chromium.org/p/oss-fuzz/issues/detail?id=29224
-> [3] https://www.cs.usfca.edu/~cruse/cs326f04/RTL8139D_DataSheet.pdf
->     5.7 Transmit Configuration Register
-> [4] https://bugs.launchpad.net/qemu/+bug/1910826/comments/1
->
-> Signed-off-by: Qiuhao Li <Qiuhao.Li@outlook.com>
-> Reported-by: Alexander Bulekov <alxndr@bu.edu>
+In commit 2f487a3d40faff1 we fixed a problem observed with using the
+vmware-vga device and the VNC UI frontend in a belt-and-braces
+manner:
+ * we made the VNC frontend handle non-multiple-of-16 surface widths
+ * we rounded up the vmware-vga display width to a multiple of 16
 
-This looks like a single-device workaround for the generic
-class of problems where a device can be configured to
-do DMA to itself. Why is rtl8139 special ?
+However this introduced a spurious dependency of a device model on a
+UI frontend header.  vmware-vga isn't special and should not care
+about what UI frontend it is using, and the VNC frontend needs to
+handle arbitrary surface widths because other display device models
+could use them.  Moreover, even if the maximum width in vmware-vga is
+made a multiple of 16, the guest itself can always program a
+different width.
 
-(I have on my todo list to think about the general problem.)
+Remove the dependency on the VNC header.  Since we have been using
+the rounded-up width value since 2014, stick with it rather than
+introducing a behaviour change, but don't calculate it by rounding up
+to VNC_DIRTY_BITS_PER_PIXEL any more.
 
-thanks
--- PMM
+Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
+---
+ hw/display/vmware_vga.c | 3 +--
+ 1 file changed, 1 insertion(+), 2 deletions(-)
+
+diff --git a/hw/display/vmware_vga.c b/hw/display/vmware_vga.c
+index bef0d7d69a7..e2969a6c81c 100644
+--- a/hw/display/vmware_vga.c
++++ b/hw/display/vmware_vga.c
+@@ -29,7 +29,6 @@
+ #include "qemu/log.h"
+ #include "hw/loader.h"
+ #include "trace.h"
+-#include "ui/vnc.h"
+ #include "hw/pci/pci.h"
+ #include "hw/qdev-properties.h"
+ #include "migration/vmstate.h"
+@@ -220,7 +219,7 @@ enum {
+ 
+ /* These values can probably be changed arbitrarily.  */
+ #define SVGA_SCRATCH_SIZE               0x8000
+-#define SVGA_MAX_WIDTH                  ROUND_UP(2360, VNC_DIRTY_PIXELS_PER_BIT)
++#define SVGA_MAX_WIDTH                  2368
+ #define SVGA_MAX_HEIGHT                 1770
+ 
+ #ifdef VERBOSE
+-- 
+2.20.1
+
 
