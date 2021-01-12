@@ -2,71 +2,95 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4EB3C2F2EE6
-	for <lists+qemu-devel@lfdr.de>; Tue, 12 Jan 2021 13:20:26 +0100 (CET)
-Received: from localhost ([::1]:58820 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5FFA72F2EF2
+	for <lists+qemu-devel@lfdr.de>; Tue, 12 Jan 2021 13:23:50 +0100 (CET)
+Received: from localhost ([::1]:36138 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kzIev-0003CQ-B7
-	for lists+qemu-devel@lfdr.de; Tue, 12 Jan 2021 07:20:25 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48496)
+	id 1kzIiD-0005fl-F3
+	for lists+qemu-devel@lfdr.de; Tue, 12 Jan 2021 07:23:49 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48620)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <prvs=639db6d60=acatan@amazon.com>)
- id 1kzIbu-0001q7-Sp
- for qemu-devel@nongnu.org; Tue, 12 Jan 2021 07:17:22 -0500
-Received: from smtp-fw-6002.amazon.com ([52.95.49.90]:21319)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <prvs=639db6d60=acatan@amazon.com>)
- id 1kzIbh-0001I6-OG
- for qemu-devel@nongnu.org; Tue, 12 Jan 2021 07:17:18 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=amazon.com; i=@amazon.com; q=dns/txt; s=amazon201209;
- t=1610453825; x=1641989825;
- h=from:to:cc:subject:date:message-id:in-reply-to:
- references:mime-version;
- bh=EOW6juggGEXAs6hvV4WJ47XDoCr9RDgvKznLdz0LphA=;
- b=WXpSbC2LDnJQRo/mWyXrwjY+vzJAjZBsW5EgH3ofB1fXBtg9ps6E7nZx
- 0HmXjEuccJhM9kb4AsgSPwWoAgGoWCeLPO2TZxIB0X55/4vuVXi2LR6eM
- hOY3soP+lFDiSsHCSys/+cMp5Wgr4Md3Vk0x5qG6XCbKAojV6H/rILR3e w=;
-X-IronPort-AV: E=Sophos;i="5.79,341,1602547200"; d="scan'208";a="77011827"
-Received: from iad12-co-svc-p1-lb1-vlan2.amazon.com (HELO
- email-inbound-relay-1a-715bee71.us-east-1.amazon.com) ([10.43.8.2])
- by smtp-border-fw-out-6002.iad6.amazon.com with ESMTP;
- 12 Jan 2021 12:17:00 +0000
-Received: from EX13D08EUB004.ant.amazon.com
- (iad12-ws-svc-p26-lb9-vlan2.iad.amazon.com [10.40.163.34])
- by email-inbound-relay-1a-715bee71.us-east-1.amazon.com (Postfix) with ESMTPS
- id 2965EA1DB6; Tue, 12 Jan 2021 12:16:57 +0000 (UTC)
-Received: from uf6ed9c851f4556.ant.amazon.com (10.43.161.68) by
- EX13D08EUB004.ant.amazon.com (10.43.166.158) with Microsoft SMTP Server (TLS)
- id 15.0.1497.2; Tue, 12 Jan 2021 12:16:43 +0000
-To: <linux-doc@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
- <qemu-devel@nongnu.org>, <kvm@vger.kernel.org>, <linux-s390@vger.kernel.org>
-Subject: [PATCH v4 2/2] drivers/virt: vmgenid: add vm generation id driver
-Date: Tue, 12 Jan 2021 14:16:00 +0200
-Message-ID: <1610453760-13812-3-git-send-email-acatan@amazon.com>
-X-Mailer: git-send-email 2.7.4
-In-Reply-To: <1610453760-13812-1-git-send-email-acatan@amazon.com>
-References: <1610453760-13812-1-git-send-email-acatan@amazon.com>
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kzIcC-0001zU-GL
+ for qemu-devel@nongnu.org; Tue, 12 Jan 2021 07:17:36 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:44512)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kzIcB-0001RM-1o
+ for qemu-devel@nongnu.org; Tue, 12 Jan 2021 07:17:36 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1610453854;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=uAUyZBsa04A6Am3+mCJMywqqLqXJ6wZLHseqHSSXZ3E=;
+ b=drvioeNaBZn5U2YH/egnLm3YbNQ+PnBaDCW2UD2gLZ/PpX4pj53DBQ1h2m8zA3vYyGOO7M
+ qsaVnckZlz3k+umnyZk6Y29hEPZSSS9fD2Nb2XZ7xlbidIMNSAJXUJ558svHgtgZ0wQjUL
+ WmOlUaGxtj05YLmNr3THn/PyFNxIGVU=
+Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
+ [209.85.128.71]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-14-wbcQR8cdOemWsFLDLFN4uA-1; Tue, 12 Jan 2021 07:17:30 -0500
+X-MC-Unique: wbcQR8cdOemWsFLDLFN4uA-1
+Received: by mail-wm1-f71.google.com with SMTP id s185so406073wme.0
+ for <qemu-devel@nongnu.org>; Tue, 12 Jan 2021 04:17:30 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=uAUyZBsa04A6Am3+mCJMywqqLqXJ6wZLHseqHSSXZ3E=;
+ b=nTOLIA0UZt69E5jb3Ps3M84xje2KA2IJjjKkYqkN9RZ+gtP1pj2qd2NE96mWvEEbEt
+ CiFf5kDwDRX+8Xc55Kn0Ol82guXm+IEVBZD2zj0Z6NSts89MoBwgn8reChg/INqlwC+U
+ usMaz9m4oTJakbOiN5tthUTKS/oy853gVBwakKFSWKdMExE97FR+eduJppd+4td047Ks
+ 1zkxa6qCiOddvTfhXBHxlcfGKhu/yiunPqESmdrPD1cUhJaxJ2qsEw0QZHFmrLBbxhmp
+ oB/drtEc3yXdfXQkWVzdztVvkOXjnJbbxn31DG73D2xTbOaKeMrxxLArxbAybzMKjMqn
+ 8Ktg==
+X-Gm-Message-State: AOAM533y2e+OrC9s26TmAb23uZ0vzw2qTysn5MteZQtJv2PgywIc+i+M
+ 3ZT3K1Ec2XlrJsydNQj38Z6M+YgPQApSv12d5AlmyrdI4rnk07SqPJtWgF3j2tVN7TOaswMH5t+
+ ngoBWssNKrLleWts=
+X-Received: by 2002:a1c:5406:: with SMTP id i6mr3280974wmb.137.1610453849352; 
+ Tue, 12 Jan 2021 04:17:29 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJyg7Q3nJIWPHm0tCAvuS7ietSfBuyDkJG3bdb54ee8Xc1Hjb6No8JsoJTLzj+aotnYPadyAyA==
+X-Received: by 2002:a1c:5406:: with SMTP id i6mr3280945wmb.137.1610453849089; 
+ Tue, 12 Jan 2021 04:17:29 -0800 (PST)
+Received: from [192.168.1.36] (190.red-83-57-173.dynamicip.rima-tde.net.
+ [83.57.173.190])
+ by smtp.gmail.com with ESMTPSA id y68sm4185801wmc.0.2021.01.12.04.17.28
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 12 Jan 2021 04:17:28 -0800 (PST)
+Subject: Re: [PATCH v3 2/2] misc/mos6522: Use timer_free() in the finalize
+ function to avoid memleak
+To: Gan Qixin <ganqixin@huawei.com>, qemu-devel@nongnu.org,
+ qemu-trivial@nongnu.org, david@gibson.dropbear.id.au
+References: <20210112112705.380534-1-ganqixin@huawei.com>
+ <20210112112705.380534-3-ganqixin@huawei.com>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+Message-ID: <b1e528e4-fb5b-2348-4d4a-d420413e9e56@redhat.com>
+Date: Tue, 12 Jan 2021 13:17:27 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.6.0
 MIME-Version: 1.0
-Content-Type: text/plain
-X-Originating-IP: [10.43.161.68]
-X-ClientProxiedBy: EX13D50UWC001.ant.amazon.com (10.43.162.96) To
- EX13D08EUB004.ant.amazon.com (10.43.166.158)
-Precedence: Bulk
-Received-SPF: pass client-ip=52.95.49.90;
- envelope-from=prvs=639db6d60=acatan@amazon.com; helo=smtp-fw-6002.amazon.com
-X-Spam_score_int: -120
-X-Spam_score: -12.1
-X-Spam_bar: ------------
-X-Spam_report: (-12.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.251,
+In-Reply-To: <20210112112705.380534-3-ganqixin@huawei.com>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=philmd@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -23
+X-Spam_score: -2.4
+X-Spam_bar: --
+X-Spam_report: (-2.4 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.251,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_MED=-2.3, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- USER_IN_DEF_SPF_WL=-7.5 autolearn=ham autolearn_force=no
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -75,319 +99,73 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Jason@zx2c4.com, dgunigun@redhat.com, mst@redhat.com, ghammer@redhat.com,
- vijaysun@ca.ibm.com, 0x7f454c46@gmail.com, mhocko@kernel.org,
- oridgar@gmail.com, avagin@gmail.com, pavel@ucw.cz, ptikhomirov@virtuozzo.com,
- corbet@lwn.net, mpe@ellerman.id.au, rafael@kernel.org, ebiggers@kernel.org,
- borntraeger@de.ibm.com, sblbir@amazon.com, bonzini@gnu.org, arnd@arndb.de,
- jannh@google.com, raduweis@amazon.com, asmehra@redhat.com,
- Adrian Catangiu <acatan@amazon.com>, graf@amazon.com, rppt@kernel.org,
- luto@kernel.org, gil@azul.com, colmmacc@amazon.com, tytso@mit.edu,
- gregkh@linuxfoundation.org, areber@redhat.com, ebiederm@xmission.com,
- ovzxemul@gmail.com, w@1wt.eu, dwmw@amazon.co.uk
+Cc: peter.maydell@linaro.org, zhang.zhanghailiang@huawei.com,
+ kuhn.chenqun@huawei.com, Euler Robot <euler.robot@huawei.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
-Reply-to: Adrian Catangiu <acatan@amazon.com>
-From: Adrian Catangiu via <qemu-devel@nongnu.org>
 
-- Background
+On 1/12/21 12:27 PM, Gan Qixin wrote:
+> When running device-introspect-test, a memory leak occurred in the mos6522_init
+> function, this patch use timer_free() in the finalize function to fix it.
+> 
+> ASAN shows memory leak stack:
+> 
+> Direct leak of 96 byte(s) in 2 object(s) allocated from:
+>     #0 0xfffd5fe9e1f0 in __interceptor_calloc (/lib64/libasan.so.5+0xee1f0)
+>     #1 0xfffd5f7b6800 in g_malloc0 (/lib64/libglib-2.0.so.0+0x56800)
+>     #2 0xaaae50303d0c in timer_new_full qemu/include/qemu/timer.h:523
+>     #3 0xaaae50303d0c in timer_new qemu/include/qemu/timer.h:544
+>     #4 0xaaae50303d0c in timer_new_ns qemu/include/qemu/timer.h:562
+>     #5 0xaaae50303d0c in mos6522_init qemu/hw/misc/mos6522.c:490
+>     #6 0xaaae50b77d70 in object_init_with_type qemu/qom/object.c:371
+>     #7 0xaaae50b7ae84 in object_initialize_with_type qemu/qom/object.c:515
+>     #8 0xaaae50b7b0f8 in object_new_with_type qemu/qom/object.c:729
+>     #9 0xaaae50bb6d58 in qmp_device_list_properties qemu/qom/qom-qmp-cmds.c:153
+>     #10 0xaaae50d7e1dc in qmp_marshal_device_list_properties qemu/qapi/qapi-commands-qdev.c:59
+>     #11 0xaaae50dc87a0 in do_qmp_dispatch_bh qemu/qapi/qmp-dispatch.c:110
+>     #12 0xaaae50d931a0 in aio_bh_call qemu/util/async.c:136
+> 
+> Reported-by: Euler Robot <euler.robot@huawei.com>
+> Signed-off-by: Gan Qixin <ganqixin@huawei.com>
 
-The VM Generation ID is a feature defined by Microsoft (paper:
-http://go.microsoft.com/fwlink/?LinkId=260709) and supported by
-multiple hypervisor vendors.
+As the change from v2 -> v3 is a rebase suggested by
+Peter, you can keep David's tag IMO:
 
-The feature can be used to drive the `sysgenid` mechanism required in
-virtualized environments by software that works with local copies and
-caches of world-unique data such as random values, uuids, monotonically
-increasing counters, etc.
+Acked-by: David Gibson <david@gibson.dropbear.id.au>
 
-- Solution
-
-The VM Generation ID is a hypervisor/hardware provided 128-bit unique
-ID that changes each time the VM is restored from a snapshot. It can be
-used to differentiate between VMs or different generations of the same
-VM.
-This VM Generation ID is exposed through an ACPI device by multiple
-hypervisor vendors.
-
-The `vmgenid` driver uses ACPI events to be notified by hardware
-changes to the 128-bit Vm Gen Id HW UUID. The UUID is not exposed to
-userspace, it is added by the driver as device randomness to improve
-kernel entropy following VM snapshot events.
-
-This driver also acts as a backend for the `sysgenid` kernel module
-(`drivers/misc/sysgenid.c`, `Documentation/misc-devices/sysgenid.rst`)
-to drive changes to the "System Generation Id" which is further exposed
-to userspace as a system-wide monotonically increasing counter.
-
-This patch builds on top of Or Idgar <oridgar@gmail.com>'s proposal
-https://lkml.org/lkml/2018/3/1/498
-
-- Future improvements
-
-Ideally we would want the driver to register itself based on devices'
-_CID and not _HID, but unfortunately I couldn't find a way to do that.
-The problem is that ACPI device matching is done by
-'__acpi_match_device()' which exclusively looks at
-'acpi_hardware_id *hwid'.
-
-There is a path for platform devices to match on _CID when _HID is
-'PRP0001' - but this is not the case for the Qemu vmgenid device.
-
-Guidance and help here would be greatly appreciated.
-
-Signed-off-by: Adrian Catangiu <acatan@amazon.com>
----
- Documentation/virt/vmgenid.rst |  34 +++++++++
- drivers/virt/Kconfig           |  14 ++++
- drivers/virt/Makefile          |   1 +
- drivers/virt/vmgenid.c         | 153 +++++++++++++++++++++++++++++++++++++++++
- 4 files changed, 202 insertions(+)
- create mode 100644 Documentation/virt/vmgenid.rst
- create mode 100644 drivers/virt/vmgenid.c
-
-diff --git a/Documentation/virt/vmgenid.rst b/Documentation/virt/vmgenid.rst
-new file mode 100644
-index 0000000..2106354
---- /dev/null
-+++ b/Documentation/virt/vmgenid.rst
-@@ -0,0 +1,34 @@
-+.. SPDX-License-Identifier: GPL-2.0
-+
-+=======
-+VMGENID
-+=======
-+
-+The VM Generation ID is a feature defined by Microsoft (paper:
-+http://go.microsoft.com/fwlink/?LinkId=260709) and supported by
-+multiple hypervisor vendors.
-+
-+The feature is required in virtualized environments by applications
-+that work with local copies/caches of world-unique data such as random
-+values, UUIDs, monotonically increasing counters, etc.
-+Such applications can be negatively affected by VM snapshotting when
-+the VM is either cloned or returned to an earlier point in time.
-+
-+The VM Generation ID is a simple concept meant to alleviate the issue
-+by providing a unique ID that changes each time the VM is restored
-+from a snapshot. The hardware provided UUID value can be used to
-+differentiate between VMs or different generations of the same VM.
-+
-+The VM Generation ID is exposed through an ACPI device by multiple
-+hypervisor vendors. The driver for it lives at
-+``drivers/virt/vmgenid.c``
-+
-+The ``vmgenid`` driver uses ACPI events to be notified by hardware
-+changes to the 128-bit Vm Gen Id UUID. This UUID is not exposed to
-+userspace, it is added by the driver as device randomness to improve
-+kernel entropy following VM snapshot events.
-+
-+This driver also acts as a backend for the ``sysgenid`` kernel module
-+(``drivers/misc/sysgenid.c``, ``Documentation/misc-devices/sysgenid.rst``)
-+to drive changes to the "System Generation Id" which is further exposed
-+to userspace as a monotonically increasing counter.
-diff --git a/drivers/virt/Kconfig b/drivers/virt/Kconfig
-index 80c5f9c1..4771633 100644
---- a/drivers/virt/Kconfig
-+++ b/drivers/virt/Kconfig
-@@ -13,6 +13,20 @@ menuconfig VIRT_DRIVERS
- 
- if VIRT_DRIVERS
- 
-+config VMGENID
-+	tristate "Virtual Machine Generation ID driver"
-+	depends on ACPI && SYSGENID
-+	default N
-+	help
-+	  The driver uses the hypervisor provided Virtual Machine Generation ID
-+	  to drive the system generation counter mechanism exposed by sysgenid.
-+	  The vmgenid changes on VM snapshots or VM cloning. The hypervisor
-+	  provided 128-bit vmgenid is also used as device randomness to improve
-+	  kernel entropy following VM snapshot events.
-+
-+	  To compile this driver as a module, choose M here: the
-+	  module will be called vmgenid.
-+
- config FSL_HV_MANAGER
- 	tristate "Freescale hypervisor management driver"
- 	depends on FSL_SOC
-diff --git a/drivers/virt/Makefile b/drivers/virt/Makefile
-index f28425c..889be01 100644
---- a/drivers/virt/Makefile
-+++ b/drivers/virt/Makefile
-@@ -4,6 +4,7 @@
- #
- 
- obj-$(CONFIG_FSL_HV_MANAGER)	+= fsl_hypervisor.o
-+obj-$(CONFIG_VMGENID)		+= vmgenid.o
- obj-y				+= vboxguest/
- 
- obj-$(CONFIG_NITRO_ENCLAVES)	+= nitro_enclaves/
-diff --git a/drivers/virt/vmgenid.c b/drivers/virt/vmgenid.c
-new file mode 100644
-index 0000000..d9d089a
---- /dev/null
-+++ b/drivers/virt/vmgenid.c
-@@ -0,0 +1,153 @@
-+// SPDX-License-Identifier: GPL-2.0
-+/*
-+ * Virtual Machine Generation ID driver
-+ *
-+ * Copyright (C) 2018 Red Hat Inc. All rights reserved.
-+ *
-+ * Copyright (C) 2020 Amazon. All rights reserved.
-+ *
-+ *	Authors:
-+ *	  Adrian Catangiu <acatan@amazon.com>
-+ *	  Or Idgar <oridgar@gmail.com>
-+ *	  Gal Hammer <ghammer@redhat.com>
-+ *
-+ */
-+#include <linux/acpi.h>
-+#include <linux/kernel.h>
-+#include <linux/module.h>
-+#include <linux/random.h>
-+#include <linux/uuid.h>
-+#include <linux/sysgenid.h>
-+
-+#define DEV_NAME "vmgenid"
-+ACPI_MODULE_NAME(DEV_NAME);
-+
-+struct vmgenid_data {
-+	uuid_t uuid;
-+	void *uuid_iomap;
-+};
-+static struct vmgenid_data vmgenid_data;
-+
-+static int vmgenid_acpi_map(struct vmgenid_data *priv, acpi_handle handle)
-+{
-+	int i;
-+	phys_addr_t phys_addr;
-+	struct acpi_buffer buffer = { ACPI_ALLOCATE_BUFFER, NULL };
-+	acpi_status status;
-+	union acpi_object *pss;
-+	union acpi_object *element;
-+
-+	status = acpi_evaluate_object(handle, "ADDR", NULL, &buffer);
-+	if (ACPI_FAILURE(status)) {
-+		ACPI_EXCEPTION((AE_INFO, status, "Evaluating ADDR"));
-+		return -ENODEV;
-+	}
-+	pss = buffer.pointer;
-+	if (!pss || pss->type != ACPI_TYPE_PACKAGE || pss->package.count != 2)
-+		return -EINVAL;
-+
-+	phys_addr = 0;
-+	for (i = 0; i < pss->package.count; i++) {
-+		element = &(pss->package.elements[i]);
-+		if (element->type != ACPI_TYPE_INTEGER)
-+			return -EINVAL;
-+		phys_addr |= element->integer.value << i * 32;
-+	}
-+
-+	priv->uuid_iomap = acpi_os_map_memory(phys_addr, sizeof(uuid_t));
-+	if (!priv->uuid_iomap) {
-+		pr_err("Could not map memory at 0x%llx, size %u\n",
-+			   phys_addr,
-+			   (u32) sizeof(uuid_t));
-+		return -ENOMEM;
-+	}
-+
-+	memcpy_fromio(&priv->uuid, priv->uuid_iomap, sizeof(uuid_t));
-+
-+	return 0;
-+}
-+
-+static int vmgenid_acpi_add(struct acpi_device *device)
-+{
-+	int ret;
-+
-+	if (!device)
-+		return -EINVAL;
-+	device->driver_data = &vmgenid_data;
-+
-+	ret = vmgenid_acpi_map(device->driver_data, device->handle);
-+	if (ret < 0) {
-+		pr_err("vmgenid: failed to map acpi device\n");
-+		device->driver_data = NULL;
-+	}
-+
-+	return ret;
-+}
-+
-+static int vmgenid_acpi_remove(struct acpi_device *device)
-+{
-+	if (!device || acpi_driver_data(device) != &vmgenid_data)
-+		return -EINVAL;
-+	device->driver_data = NULL;
-+
-+	if (vmgenid_data.uuid_iomap)
-+		acpi_os_unmap_memory(vmgenid_data.uuid_iomap, sizeof(uuid_t));
-+	vmgenid_data.uuid_iomap = NULL;
-+
-+	return 0;
-+}
-+
-+static void vmgenid_acpi_notify(struct acpi_device *device, u32 event)
-+{
-+	uuid_t old_uuid;
-+
-+	if (!device || acpi_driver_data(device) != &vmgenid_data) {
-+		pr_err("VMGENID notify with unexpected driver private data\n");
-+		return;
-+	}
-+
-+	/* update VM Generation UUID */
-+	old_uuid = vmgenid_data.uuid;
-+	memcpy_fromio(&vmgenid_data.uuid, vmgenid_data.uuid_iomap, sizeof(uuid_t));
-+
-+	if (memcmp(&old_uuid, &vmgenid_data.uuid, sizeof(uuid_t))) {
-+		/* HW uuid updated */
-+		sysgenid_bump_generation();
-+		add_device_randomness(&vmgenid_data.uuid, sizeof(uuid_t));
-+	}
-+}
-+
-+static const struct acpi_device_id vmgenid_ids[] = {
-+	{"VMGENID", 0},
-+	{"QEMUVGID", 0},
-+	{"", 0},
-+};
-+
-+static struct acpi_driver acpi_vmgenid_driver = {
-+	.name = "vm_generation_id",
-+	.ids = vmgenid_ids,
-+	.owner = THIS_MODULE,
-+	.ops = {
-+		.add = vmgenid_acpi_add,
-+		.remove = vmgenid_acpi_remove,
-+		.notify = vmgenid_acpi_notify,
-+	}
-+};
-+
-+static int __init vmgenid_init(void)
-+{
-+	return acpi_bus_register_driver(&acpi_vmgenid_driver);
-+}
-+
-+static void __exit vmgenid_exit(void)
-+{
-+	acpi_bus_unregister_driver(&acpi_vmgenid_driver);
-+}
-+
-+module_init(vmgenid_init);
-+module_exit(vmgenid_exit);
-+
-+MODULE_AUTHOR("Adrian Catangiu");
-+MODULE_DESCRIPTION("Virtual Machine Generation ID");
-+MODULE_LICENSE("GPL");
-+MODULE_VERSION("0.1");
--- 
-2.7.4
-
-
-
-
-Amazon Development Center (Romania) S.R.L. registered office: 27A Sf. Lazar Street, UBC5, floor 2, Iasi, Iasi County, 700045, Romania. Registered in Romania. Registration number J22/2621/2005.
+> ---
+> Cc: David Gibson <david@gibson.dropbear.id.au>
+> ---
+>  hw/misc/mos6522.c | 9 +++++++++
+>  1 file changed, 9 insertions(+)
+> 
+> diff --git a/hw/misc/mos6522.c b/hw/misc/mos6522.c
+> index ac4cd1d58e..1c57332b40 100644
+> --- a/hw/misc/mos6522.c
+> +++ b/hw/misc/mos6522.c
+> @@ -490,6 +490,14 @@ static void mos6522_init(Object *obj)
+>      s->timers[1].timer = timer_new_ns(QEMU_CLOCK_VIRTUAL, mos6522_timer2, s);
+>  }
+>  
+> +static void mos6522_finalize(Object *obj)
+> +{
+> +    MOS6522State *s = MOS6522(obj);
+> +
+> +    timer_free(s->timers[0].timer);
+> +    timer_free(s->timers[1].timer);
+> +}
+> +
+>  static Property mos6522_properties[] = {
+>      DEFINE_PROP_UINT64("frequency", MOS6522State, frequency, 0),
+>      DEFINE_PROP_END_OF_LIST()
+> @@ -519,6 +527,7 @@ static const TypeInfo mos6522_type_info = {
+>      .parent = TYPE_SYS_BUS_DEVICE,
+>      .instance_size = sizeof(MOS6522State),
+>      .instance_init = mos6522_init,
+> +    .instance_finalize = mos6522_finalize,
+>      .abstract = true,
+>      .class_size = sizeof(MOS6522DeviceClass),
+>      .class_init = mos6522_class_init,
+> 
 
 
