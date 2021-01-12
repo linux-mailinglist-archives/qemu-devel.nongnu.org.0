@@ -2,65 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 24AD52F2F37
-	for <lists+qemu-devel@lfdr.de>; Tue, 12 Jan 2021 13:37:05 +0100 (CET)
-Received: from localhost ([::1]:54804 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3E9BF2F2F23
+	for <lists+qemu-devel@lfdr.de>; Tue, 12 Jan 2021 13:33:29 +0100 (CET)
+Received: from localhost ([::1]:52144 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kzIv2-0005UT-6x
-	for lists+qemu-devel@lfdr.de; Tue, 12 Jan 2021 07:37:04 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52284)
+	id 1kzIrY-0004Bm-Ai
+	for lists+qemu-devel@lfdr.de; Tue, 12 Jan 2021 07:33:28 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51716)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1kzIti-0004v5-Nk
- for qemu-devel@nongnu.org; Tue, 12 Jan 2021 07:35:42 -0500
-Received: from indium.canonical.com ([91.189.90.7]:51538)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1kzIte-0007Mg-SS
- for qemu-devel@nongnu.org; Tue, 12 Jan 2021 07:35:42 -0500
-Received: from loganberry.canonical.com ([91.189.90.37])
- by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1kzItc-0004UO-7i
- for <qemu-devel@nongnu.org>; Tue, 12 Jan 2021 12:35:36 +0000
-Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 349122E8137
- for <qemu-devel@nongnu.org>; Tue, 12 Jan 2021 12:35:36 +0000 (UTC)
+ (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1kzIqj-0003jT-Ew
+ for qemu-devel@nongnu.org; Tue, 12 Jan 2021 07:32:37 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:46074)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1kzIqg-0006K7-LB
+ for qemu-devel@nongnu.org; Tue, 12 Jan 2021 07:32:36 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1610454753;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=U7MyHzrD1Bw1CtJe78FCUfqPUswjQK58KIFsZEJ7wnM=;
+ b=VBBIAC/RX0zB80pwlNH0IYxwSKMKvSox4JDen2n/s3KhVrhKDI6VYSOaNAIbsHSG7hwyii
+ LSjndxgYqKTRjgRyRstpxf1skQAZs8IG1BjMYa7zX7pscrNdmSqnDTjgeffoVO/SgOJ16n
+ PjrEj84tFmXMgrZ4R/c1OC2haPHdcT0=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-171-_yA6w2VNP_WlaJdXcbo6Dw-1; Tue, 12 Jan 2021 07:32:32 -0500
+X-MC-Unique: _yA6w2VNP_WlaJdXcbo6Dw-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+ [10.5.11.15])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 988BA192D786;
+ Tue, 12 Jan 2021 12:32:30 +0000 (UTC)
+Received: from dresden.str.redhat.com (ovpn-115-161.ams2.redhat.com
+ [10.36.115.161])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 635BD5D722;
+ Tue, 12 Jan 2021 12:32:28 +0000 (UTC)
+Subject: Re: [PATCH v3 15/25] iotests: 219: prepare for backup over block-copy
+To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
+ qemu-block@nongnu.org
+References: <20201026171815.13233-1-vsementsov@virtuozzo.com>
+ <20201026171815.13233-16-vsementsov@virtuozzo.com>
+From: Max Reitz <mreitz@redhat.com>
+Message-ID: <b4e23f47-5b8c-fb47-2ff6-2a1f92b08d39@redhat.com>
+Date: Tue, 12 Jan 2021 13:32:26 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.5.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-Date: Tue, 12 Jan 2021 12:30:05 -0000
-From: Violet <1911188@bugs.launchpad.net>
-To: qemu-devel@nongnu.org
-X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
-X-Launchpad-Bug-Information-Type: Public
-X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: phidica
-X-Launchpad-Bug-Reporter: Violet (phidica)
-X-Launchpad-Bug-Modifier: Violet (phidica)
-Message-Id: <161045460597.3279.18327990327654492890.malonedeb@chaenomeles.canonical.com>
-Subject: [Bug 1911188] [NEW] qemu-system-x86_64 prints obscure error message
- and exits when encountering an empty argument
-X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
-X-Launchpad-Message-For: qemu-devel-ml
-Precedence: bulk
-X-Generated-By: Launchpad (canonical.com);
- Revision="fe617ea08df036edd5c842aded2b315e1c090677"; Instance="production"
-X-Launchpad-Hash: 895cc9adee846a685933b7fd297308d0a0b228d1
-Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
- helo=indium.canonical.com
-X-Spam_score_int: -65
-X-Spam_score: -6.6
-X-Spam_bar: ------
-X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9,
- HEADER_FROM_DIFFERENT_DOMAINS=0.249, RCVD_IN_DNSWL_HI=-5,
- RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <20201026171815.13233-16-vsementsov@virtuozzo.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mreitz@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=mreitz@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -29
+X-Spam_score: -3.0
+X-Spam_bar: ---
+X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.251,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -69,76 +83,23 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1911188 <1911188@bugs.launchpad.net>
+Cc: kwolf@redhat.com, wencongyang2@huawei.com, xiechanglong.d@gmail.com,
+ qemu-devel@nongnu.org, armbru@redhat.com, den@openvz.org, jsnow@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Public bug reported:
+On 26.10.20 18:18, Vladimir Sementsov-Ogievskiy wrote:
+> The further change of moving backup to be a one block-copy call will
+> make copying chunk-size and cluster-size two separate things. So, even
+> with 64k cluster sized qcow2 image, default chunk would be 1M.
+> Test 219 depends on specified chunk-size. Update it for explicit
+> chunk-size for backup as for mirror.
+> 
+> Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+> ---
+>   tests/qemu-iotests/219 | 13 +++++++------
+>   1 file changed, 7 insertions(+), 6 deletions(-)
 
-QEMU emulator version 4.2.1 (qemu-4.2.1-1.fc32) on Fedora 32.
+Reviewed-by: Max Reitz <mreitz@redhat.com>
 
-When writing a script to start qemu automatically, I ran into a very
-confusing error message due to a bug in my script and had trouble
-understanding it. I isolated the problem to the following:
-
-$ qemu-system-x86_64 ""
-qemu-system-x86_64: Initialization of device ide-hd failed: Device needs me=
-dia, but drive is empty
-
-As you can see, running qemu with an empty argument prints a seemingly
-random and unrelated error message about an ide-hd device, and the
-program immediately exits with code 1. This happens when an empty
-argument appears anywhere in the arguments list, always causing the
-program to immediately die with this error.
-
-This is a simply baffling message to be encountering when the problem is
-really an empty argument.
-
-Expected behaviour: Either flatly ignore the empty argument, or at most
-trigger a warning (eg, "warning: saw empty argument"). It should not at
-all prevent the program from running.
-
-** Affects: qemu
-     Importance: Undecided
-         Status: New
-
--- =
-
-You received this bug notification because you are a member of qemu-
-devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1911188
-
-Title:
-  qemu-system-x86_64 prints obscure error message and exits when
-  encountering an empty argument
-
-Status in QEMU:
-  New
-
-Bug description:
-  QEMU emulator version 4.2.1 (qemu-4.2.1-1.fc32) on Fedora 32.
-
-  When writing a script to start qemu automatically, I ran into a very
-  confusing error message due to a bug in my script and had trouble
-  understanding it. I isolated the problem to the following:
-
-  $ qemu-system-x86_64 ""
-  qemu-system-x86_64: Initialization of device ide-hd failed: Device needs =
-media, but drive is empty
-
-  As you can see, running qemu with an empty argument prints a seemingly
-  random and unrelated error message about an ide-hd device, and the
-  program immediately exits with code 1. This happens when an empty
-  argument appears anywhere in the arguments list, always causing the
-  program to immediately die with this error.
-
-  This is a simply baffling message to be encountering when the problem
-  is really an empty argument.
-
-  Expected behaviour: Either flatly ignore the empty argument, or at
-  most trigger a warning (eg, "warning: saw empty argument"). It should
-  not at all prevent the program from running.
-
-To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1911188/+subscriptions
 
