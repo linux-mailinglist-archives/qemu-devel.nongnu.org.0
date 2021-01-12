@@ -2,63 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 600892F2E94
-	for <lists+qemu-devel@lfdr.de>; Tue, 12 Jan 2021 13:02:56 +0100 (CET)
-Received: from localhost ([::1]:59394 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CA5932F2E93
+	for <lists+qemu-devel@lfdr.de>; Tue, 12 Jan 2021 13:02:32 +0100 (CET)
+Received: from localhost ([::1]:57506 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kzINz-0007ZR-DO
-	for lists+qemu-devel@lfdr.de; Tue, 12 Jan 2021 07:02:55 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43246)
+	id 1kzINb-0006fR-RV
+	for lists+qemu-devel@lfdr.de; Tue, 12 Jan 2021 07:02:31 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43704)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1kzIJH-0004Ol-I5
- for qemu-devel@nongnu.org; Tue, 12 Jan 2021 06:58:03 -0500
-Received: from mail-ed1-x52a.google.com ([2a00:1450:4864:20::52a]:42913)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1kzIKe-0005G6-2y
+ for qemu-devel@nongnu.org; Tue, 12 Jan 2021 06:59:29 -0500
+Received: from mail-wm1-x32c.google.com ([2a00:1450:4864:20::32c]:39194)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1kzIJC-00031L-WC
- for qemu-devel@nongnu.org; Tue, 12 Jan 2021 06:58:01 -0500
-Received: by mail-ed1-x52a.google.com with SMTP id g24so1974678edw.9
- for <qemu-devel@nongnu.org>; Tue, 12 Jan 2021 03:57:57 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1kzIKT-0003PO-Gy
+ for qemu-devel@nongnu.org; Tue, 12 Jan 2021 06:59:27 -0500
+Received: by mail-wm1-x32c.google.com with SMTP id 3so1860322wmg.4
+ for <qemu-devel@nongnu.org>; Tue, 12 Jan 2021 03:59:16 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=VMMw09GdGZoCxxvVBLTcEqEk/ba+EdXnfJmz5lC2Sxg=;
- b=DcwctnUMsv699E0WOu4qAqEZVhsQD3dptDpSMTgdSBRzh6lfAWY4prZSGaXZhuZDo1
- XaLAPf8XLcDmelv4e4kljrTterh7gCelX9QI8VMLaW3LOIBruvMKawW6BPWw53uj7ueG
- 6UJaXBcCNDPSYc+jWwKPredIHyDz4YLjBs0+lbncB4PSx1LZCO3MGSsLt8js9rlrN3bb
- tkMrWvm6QdJfQOV7FZH+lBtkNzCfqOHPeYa0UhCd8V3XeXHyUuw6LKYw6HBoYqvbgznY
- uxIWXAwEUQ5a2qnKFJaOHiJ6uoywlRy16aKvY+ERWymCTICwTEHvsnxgqrKCbIOdGkL2
- 9zEg==
+ h=references:user-agent:from:to:cc:subject:date:in-reply-to
+ :message-id:mime-version:content-transfer-encoding;
+ bh=Xr0SAgzyBEZ/n5lACGNcKiklOcmXSqTpp7d7eFA62B8=;
+ b=wVCZrZc8a5JhWqzZLxqFvCyqmAlXOumhAGp3qMHd5baV8M1n51PEZbNql3VKtxwOhI
+ n+G6UtyK0X2DYdnLnsyyrRGHsdpN5JSXXdAKc4DnS2wLM9o6BVXn9FNXcuhX93Thov68
+ Yjcf0DJ97zUbVv3NF5/RYfcA4M3eGsg6y8Y0013SaYKrSIQszezk1KpI5/y303iKGOMO
+ 0LrbChQ1VxaNz2KJDydfUGYAAXSZQFVStHkJwXzRMoPNMrYguRbfLrmwf8G2PU31LZqb
+ KylpcCZl6r7aU2duM/BvIv12xT9B2rS6jn2vGF2AQhjjdX+WW0w7xleZsLu5rI4QEPqX
+ LxhA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=VMMw09GdGZoCxxvVBLTcEqEk/ba+EdXnfJmz5lC2Sxg=;
- b=X1MWg6yyIsjxoqlWY9wgGP8m0C6DqUvXDpQXO10ZLgiuO3tVEHCrzFV3Mukb+Wzu5t
- 5OmaVd1DCMalVYQjq06GbNrtqDFClC+qohywI7reKdrlKUUCsGx5h91+ig6/+VAggNCj
- sBuG0qb+rVg/Pos5yDRHL777vJtoTvp1k/qYHDvp22AW5xFVjZ8IhU5pFZ/mUdB/0Ipq
- V0jE/uKVD4zgFQtCt6elFiOcmMxtol49XG9Szcsc4DKIgrfcZmWEmMRtLLXWQ5RQTcGX
- XeETErpErvexFWUp7LsNr1zISWBn1BKMMKCl9wUBa8KM+HMZsE+p7VS3J5DHCSInHjWo
- hbOg==
-X-Gm-Message-State: AOAM5304sQ6F1pNX6Ctkrg3iRYl1t7XqiZjbADM3qerNj3mxfUaLTWme
- wXxEgSSQ0Ybwl3SW8vB+WbtWPzaimoZ0G0MbTlCPqgviINE=
-X-Google-Smtp-Source: ABdhPJxj5sb5nr9Y4oVN8uyN/SepEOcCsf5lPRno4VyCGqJ7oivnUO+R3CBNEwWV5mmoVkY5j6JQ9foezOrE+LZUB+Y=
-X-Received: by 2002:aa7:cdc3:: with SMTP id h3mr3060757edw.52.1610452676329;
- Tue, 12 Jan 2021 03:57:56 -0800 (PST)
+ h=x-gm-message-state:references:user-agent:from:to:cc:subject:date
+ :in-reply-to:message-id:mime-version:content-transfer-encoding;
+ bh=Xr0SAgzyBEZ/n5lACGNcKiklOcmXSqTpp7d7eFA62B8=;
+ b=DXt1y3YkaCvCY6UqWYcL3jU4Hb4uoH99RpuF48T88dbsIb9m9+z933hw8jrWnZx/21
+ mcG+HQPALAyaIhw+Qb5NrJkqNvGoNCexv3OebV9+RXrzT4udm/bkFzNcy/mNec4rCWMf
+ nIoMvby7k56Xf5sAE3MHUtJKRJ7Q9eFIkkhNuCyDYfDSycuMWpzF2kZo+gU5aw3x2Z7N
+ /HvYooKxTZNTS9nismGc4lYF2093hdY32zcPSE/bRGc3A6jFzJHV3Q7Bww4ou9f64tfW
+ +90O8k0vh7ZvJ6qpD1XYMYKFY1vFCnWI/bZ6vVXu6nkmLkart4aEzMmfrO6MpDF9STX+
+ UsWA==
+X-Gm-Message-State: AOAM531K8H7dAf6rKNoucHUh05wdD3ttEkrmCrg5uf683Z6Pq/pCLj8E
+ xVSvLqPubP4L0N9otNSSK1WcKw==
+X-Google-Smtp-Source: ABdhPJwxvFbDlPLLt58Al/7MrPSHWHgxNmI68h2Bn1toPQKEwvollCJnQKROxW2Gm+vSO75MdIzsVg==
+X-Received: by 2002:a1c:2b05:: with SMTP id r5mr3202881wmr.179.1610452755872; 
+ Tue, 12 Jan 2021 03:59:15 -0800 (PST)
+Received: from zen.linaroharston ([51.148.130.216])
+ by smtp.gmail.com with ESMTPSA id n17sm3465033wmc.33.2021.01.12.03.59.14
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 12 Jan 2021 03:59:14 -0800 (PST)
+Received: from zen (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id 0B39F1FF7E;
+ Tue, 12 Jan 2021 11:59:14 +0000 (GMT)
+References: <1610080146-14968-1-git-send-email-tsimpson@quicinc.com>
+ <1610080146-14968-35-git-send-email-tsimpson@quicinc.com>
+User-agent: mu4e 1.5.7; emacs 28.0.50
+From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: Taylor Simpson <tsimpson@quicinc.com>
+Subject: Re: [PATCH v6 34/35] Auto-import Docker support files
+Date: Tue, 12 Jan 2021 11:58:30 +0000
+In-reply-to: <1610080146-14968-35-git-send-email-tsimpson@quicinc.com>
+Message-ID: <874kjmnz71.fsf@linaro.org>
 MIME-Version: 1.0
-References: <20201223060204.576856-1-richard.henderson@linaro.org>
- <20201223060204.576856-4-richard.henderson@linaro.org>
-In-Reply-To: <20201223060204.576856-4-richard.henderson@linaro.org>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Tue, 12 Jan 2021 11:57:45 +0000
-Message-ID: <CAFEAcA9WvBRWwcZOD0sTLn=aUM+vVcio6pz5nLDZY9tEePttNg@mail.gmail.com>
-Subject: Re: [PATCH 03/22] tcg: Split out target constraints to
- tcg-target-constr.h
-To: Richard Henderson <richard.henderson@linaro.org>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2a00:1450:4864:20::52a;
- envelope-from=peter.maydell@linaro.org; helo=mail-ed1-x52a.google.com
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2a00:1450:4864:20::32c;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x32c.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -78,67 +87,60 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: QEMU Developers <qemu-devel@nongnu.org>
+Cc: ale@rev.ng, bcain@quicinc.com, richard.henderson@linaro.org,
+ qemu-devel@nongnu.org, laurent@vivier.eu, Fam Zheng <fam@euphon.net>,
+ philmd@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, 23 Dec 2020 at 06:09, Richard Henderson
-<richard.henderson@linaro.org> wrote:
+
+Taylor Simpson <tsimpson@quicinc.com> writes:
+
+> From: Alessandro Di Federico <ale@rev.ng>
 >
-> This eliminates the target-specific function target_parse_constraint
-> and folds it into the single caller, process_op_defs.  Since this is
-> done directly into the switch statement, duplicates are compilation
-> errors rather than silently ignored at runtime.
->
-> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+> Signed-off-by: Alessandro Di Federico <ale@rev.ng>
 > ---
->  tcg/i386/tcg-target-constr.h | 26 ++++++++++++++
->  tcg/i386/tcg-target.h        |  1 +
->  tcg/tcg.c                    | 33 ++++++++++++++---
->  tcg/i386/tcg-target.c.inc    | 70 ++----------------------------------
->  4 files changed, 58 insertions(+), 72 deletions(-)
->  create mode 100644 tcg/i386/tcg-target-constr.h
+>  tests/docker/docker.py | 8 ++++++--
+>  1 file changed, 6 insertions(+), 2 deletions(-)
 >
-> diff --git a/tcg/i386/tcg-target-constr.h b/tcg/i386/tcg-target-constr.h
-> new file mode 100644
-> index 0000000000..e4a4886b6c
-> --- /dev/null
-> +++ b/tcg/i386/tcg-target-constr.h
-> @@ -0,0 +1,26 @@
-> +/* SPDX-License-Identifier: MIT */
-> +/*
-> + * i386 target-specific operand constaints.
+> diff --git a/tests/docker/docker.py b/tests/docker/docker.py
+> index 36b7868..d473566 100755
+> --- a/tests/docker/docker.py
+> +++ b/tests/docker/docker.py
+> @@ -28,6 +28,7 @@ from io import StringIO, BytesIO
+>  from shutil import copy, rmtree
+>  from pwd import getpwuid
+>  from datetime import datetime, timedelta
+> +from glob import glob
+>=20=20
+>=20=20
+>  FILTERED_ENV_NAMES =3D ['ftp_proxy', 'http_proxy', 'https_proxy']
+> @@ -466,7 +467,8 @@ class BuildCommand(SubCommand):
+>                      return 1
+>=20=20
+>              # Is there a .pre file to run in the build context?
+> -            docker_pre =3D os.path.splitext(args.dockerfile)[0]+".pre"
+> +            basename =3D os.path.splitext(args.dockerfile)[0]
+> +            docker_pre =3D basename + ".pre"
+>              if os.path.exists(docker_pre):
+>                  stdout =3D DEVNULL if args.quiet else None
+>                  rc =3D subprocess.call(os.path.realpath(docker_pre),
+> @@ -488,7 +490,9 @@ class BuildCommand(SubCommand):
+>                  _copy_binary_with_libs(args.include_executable,
+>                                         qpath, docker_dir)
+>=20=20
+> -            for filename in args.extra_files or []:
+> +            extra_files =3D args.extra_files or []
+> +            extra_files +=3D glob(basename + ".*")
+> +            for filename in extra_files:
 
-"constraints"
+Hmm not so sure about this magic. What's wrong with the existing
+--extra-files mechanism?=20
 
-> + * Copyright (c) 2020 Linaro
-> + */
-> +
-> +REGS('a', 1u << TCG_REG_EAX)
-> +REGS('b', 1u << TCG_REG_EBX)
-> +REGS('c', 1u << TCG_REG_ECX)
-> +REGS('d', 1u << TCG_REG_EDX)
-> +REGS('S', 1u << TCG_REG_ESI)
-> +REGS('D', 1u << TCG_REG_EDI)
-> +
-> +REGS('r', ALL_GENERAL_REGS)
-> +REGS('x', ALL_VECTOR_REGS)
-> +/* A register that can be used as a byte operand.  */
-> +REGS('q', ALL_BYTEL_REGS)
-> +/* A register with an addressable second byte (e.g. %ah).  */
-> +REGS('Q', ALL_BYTEH_REGS)
-> +/* qemu_ld/st address constraint */
-> +REGS('L', ALL_GENERAL_REGS & ~((1 << TCG_REG_L0) | (1 << TCG_REG_L1)))
-> +
-> +CONST('e', TCG_CT_CONST_S32)
-> +CONST('I', TCG_CT_CONST_I32)
-> +CONST('W', TCG_CT_CONST_WSZ)
-> +CONST('Z', TCG_CT_CONST_U32)
+>                  _copy_with_mkdir(filename, docker_dir)
+>                  cksum +=3D [(filename, _file_checksum(filename))]
 
-This is a little bit less obscure than the conset.h macros,
-but it would still be nice to have some documentation of
-what's actually going on here.
 
-thanks
--- PMM
+--=20
+Alex Benn=C3=A9e
 
