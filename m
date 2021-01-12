@@ -2,31 +2,30 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6F8752F2DF5
-	for <lists+qemu-devel@lfdr.de>; Tue, 12 Jan 2021 12:34:32 +0100 (CET)
-Received: from localhost ([::1]:39292 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0A02A2F2E09
+	for <lists+qemu-devel@lfdr.de>; Tue, 12 Jan 2021 12:37:42 +0100 (CET)
+Received: from localhost ([::1]:45534 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kzHwV-0008S9-EN
-	for lists+qemu-devel@lfdr.de; Tue, 12 Jan 2021 06:34:31 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52762)
+	id 1kzHzZ-0002lg-1a
+	for lists+qemu-devel@lfdr.de; Tue, 12 Jan 2021 06:37:41 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53034)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <remi@remlab.net>)
- id 1kzHB6-0003e6-Ft; Tue, 12 Jan 2021 05:45:34 -0500
-Received: from poy.remlab.net ([2001:41d0:2:5a1a::]:56724
+ id 1kzHBV-0003vs-Mz; Tue, 12 Jan 2021 05:45:57 -0500
+Received: from poy.remlab.net ([2001:41d0:2:5a1a::]:56732
  helo=ns207790.ip-94-23-215.eu)
  by eggs.gnu.org with esmtp (Exim 4.90_1)
  (envelope-from <remi@remlab.net>)
- id 1kzHB2-0003T1-NS; Tue, 12 Jan 2021 05:45:32 -0500
+ id 1kzHBO-0003UK-7G; Tue, 12 Jan 2021 05:45:56 -0500
 Received: from basile.remlab.net (ip6-localhost [IPv6:::1])
- by ns207790.ip-94-23-215.eu (Postfix) with ESMTP id 58F9360413;
- Tue, 12 Jan 2021 11:45:14 +0100 (CET)
+ by ns207790.ip-94-23-215.eu (Postfix) with ESMTP id 6294960573;
+ Tue, 12 Jan 2021 11:45:15 +0100 (CET)
 From: remi.denis.courmont@huawei.com
 To: qemu-arm@nongnu.org
-Subject: [PATCH 11/19] target/arm: do S1_ptw_translate() before address space
- lookup
-Date: Tue, 12 Jan 2021 12:45:03 +0200
-Message-Id: <20210112104511.36576-11-remi.denis.courmont@huawei.com>
+Subject: [PATCH 15/19] target/arm: set HPFAR_EL2.NS on secure stage 2 faults
+Date: Tue, 12 Jan 2021 12:45:07 +0200
+Message-Id: <20210112104511.36576-15-remi.denis.courmont@huawei.com>
 X-Mailer: git-send-email 2.30.0
 In-Reply-To: <12681824.uLZWGnKmhe@basile.remlab.net>
 References: <12681824.uLZWGnKmhe@basile.remlab.net>
@@ -59,61 +58,100 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Rémi Denis-Courmont <remi.denis.courmont@huawei.com>
 
-In the secure stage 2 translation regime, the VSTCR.SW and VTCR.NSW
-bits can invert the secure flag for pagetable walks. This patchset
-allows S1_ptw_translate() to change the non-secure bit.
-
 Signed-off-by: Rémi Denis-Courmont <remi.denis.courmont@huawei.com>
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- target/arm/helper.c | 9 ++++++---
- 1 file changed, 6 insertions(+), 3 deletions(-)
+ target/arm/cpu.h        | 2 ++
+ target/arm/helper.c     | 6 ++++++
+ target/arm/internals.h  | 2 ++
+ target/arm/tlb_helper.c | 3 +++
+ 4 files changed, 13 insertions(+)
 
+diff --git a/target/arm/cpu.h b/target/arm/cpu.h
+index 0f90c772d7..e605791e47 100644
+--- a/target/arm/cpu.h
++++ b/target/arm/cpu.h
+@@ -1482,6 +1482,8 @@ static inline void xpsr_write(CPUARMState *env, uint32_t val, uint32_t mask)
+ #define HCR_TWEDEN    (1ULL << 59)
+ #define HCR_TWEDEL    MAKE_64BIT_MASK(60, 4)
+ 
++#define HPFAR_NS      (1ULL << 63)
++
+ #define SCR_NS                (1U << 0)
+ #define SCR_IRQ               (1U << 1)
+ #define SCR_FIQ               (1U << 2)
 diff --git a/target/arm/helper.c b/target/arm/helper.c
-index 3e6b1c548b..7d96897f9a 100644
+index f451f281f6..7648f6fb97 100644
 --- a/target/arm/helper.c
 +++ b/target/arm/helper.c
-@@ -10392,7 +10392,7 @@ static bool get_level1_table_address(CPUARMState *env, ARMMMUIdx mmu_idx,
+@@ -3444,6 +3444,9 @@ static uint64_t do_ats_write(CPUARMState *env, uint64_t value,
+                 target_el = 3;
+             } else {
+                 env->cp15.hpfar_el2 = extract64(fi.s2addr, 12, 47) << 4;
++                if (arm_is_secure_below_el3(env) && fi.s1ns) {
++                    env->cp15.hpfar_el2 |= HPFAR_NS;
++                }
+                 target_el = 2;
+             }
+             take_exc = true;
+@@ -10426,6 +10429,7 @@ static hwaddr S1_ptw_translate(CPUARMState *env, ARMMMUIdx mmu_idx,
+             fi->s2addr = addr;
+             fi->stage2 = true;
+             fi->s1ptw = true;
++            fi->s1ns = !*is_secure;
+             return ~0;
+         }
+         if ((arm_hcr_el2_eff(env) & HCR_PTW) &&
+@@ -10438,6 +10442,7 @@ static hwaddr S1_ptw_translate(CPUARMState *env, ARMMMUIdx mmu_idx,
+             fi->s2addr = addr;
+             fi->stage2 = true;
+             fi->s1ptw = true;
++            fi->s1ns = !*is_secure;
+             return ~0;
+         }
  
- /* Translate a S1 pagetable walk through S2 if needed.  */
- static hwaddr S1_ptw_translate(CPUARMState *env, ARMMMUIdx mmu_idx,
--                               hwaddr addr, MemTxAttrs txattrs,
-+                               hwaddr addr, bool *is_secure,
-                                ARMMMUFaultInfo *fi)
- {
-     if (arm_mmu_idx_is_stage1_of_2(mmu_idx) &&
-@@ -10402,6 +10402,9 @@ static hwaddr S1_ptw_translate(CPUARMState *env, ARMMMUIdx mmu_idx,
-         int s2prot;
-         int ret;
-         ARMCacheAttrs cacheattrs = {};
-+        MemTxAttrs txattrs = {};
-+
-+        assert(!*is_secure); /* TODO: S-EL2 */
+@@ -11355,6 +11360,7 @@ do_fault:
+     /* Tag the error as S2 for failed S1 PTW at S2 or ordinary S2.  */
+     fi->stage2 = fi->s1ptw || (mmu_idx == ARMMMUIdx_Stage2 ||
+                                mmu_idx == ARMMMUIdx_Stage2_S);
++    fi->s1ns = mmu_idx == ARMMMUIdx_Stage2;
+     return true;
+ }
  
-         ret = get_phys_addr_lpae(env, addr, MMU_DATA_LOAD, ARMMMUIdx_Stage2,
-                                  false,
-@@ -10442,9 +10445,9 @@ static uint32_t arm_ldl_ptw(CPUState *cs, hwaddr addr, bool is_secure,
-     AddressSpace *as;
-     uint32_t data;
+diff --git a/target/arm/internals.h b/target/arm/internals.h
+index 3aec10263e..27cc93f15a 100644
+--- a/target/arm/internals.h
++++ b/target/arm/internals.h
+@@ -593,6 +593,7 @@ typedef enum ARMFaultType {
+  * @s2addr: Address that caused a fault at stage 2
+  * @stage2: True if we faulted at stage 2
+  * @s1ptw: True if we faulted at stage 2 while doing a stage 1 page-table walk
++ * @s1ns: True if we faulted on a non-secure IPA while in secure state
+  * @ea: True if we should set the EA (external abort type) bit in syndrome
+  */
+ typedef struct ARMMMUFaultInfo ARMMMUFaultInfo;
+@@ -603,6 +604,7 @@ struct ARMMMUFaultInfo {
+     int domain;
+     bool stage2;
+     bool s1ptw;
++    bool s1ns;
+     bool ea;
+ };
  
-+    addr = S1_ptw_translate(env, mmu_idx, addr, &is_secure, fi);
-     attrs.secure = is_secure;
-     as = arm_addressspace(cs, attrs);
--    addr = S1_ptw_translate(env, mmu_idx, addr, attrs, fi);
-     if (fi->s1ptw) {
-         return 0;
+diff --git a/target/arm/tlb_helper.c b/target/arm/tlb_helper.c
+index b35dc8a011..df85079d9f 100644
+--- a/target/arm/tlb_helper.c
++++ b/target/arm/tlb_helper.c
+@@ -63,6 +63,9 @@ static void QEMU_NORETURN arm_deliver_fault(ARMCPU *cpu, vaddr addr,
+     if (fi->stage2) {
+         target_el = 2;
+         env->cp15.hpfar_el2 = extract64(fi->s2addr, 12, 47) << 4;
++        if (arm_is_secure_below_el3(env) && fi->s1ns) {
++            env->cp15.hpfar_el2 |= HPFAR_NS;
++        }
      }
-@@ -10471,9 +10474,9 @@ static uint64_t arm_ldq_ptw(CPUState *cs, hwaddr addr, bool is_secure,
-     AddressSpace *as;
-     uint64_t data;
+     same_el = (arm_current_el(env) == target_el);
  
-+    addr = S1_ptw_translate(env, mmu_idx, addr, &is_secure, fi);
-     attrs.secure = is_secure;
-     as = arm_addressspace(cs, attrs);
--    addr = S1_ptw_translate(env, mmu_idx, addr, attrs, fi);
-     if (fi->s1ptw) {
-         return 0;
-     }
 -- 
 2.30.0
 
