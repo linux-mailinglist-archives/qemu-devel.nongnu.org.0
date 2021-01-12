@@ -2,75 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 81EE72F2938
-	for <lists+qemu-devel@lfdr.de>; Tue, 12 Jan 2021 08:52:07 +0100 (CET)
-Received: from localhost ([::1]:39372 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 51C8D2F2942
+	for <lists+qemu-devel@lfdr.de>; Tue, 12 Jan 2021 08:54:23 +0100 (CET)
+Received: from localhost ([::1]:45304 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kzETG-000317-I5
-	for lists+qemu-devel@lfdr.de; Tue, 12 Jan 2021 02:52:06 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40654)
+	id 1kzEVS-0005ZH-1v
+	for lists+qemu-devel@lfdr.de; Tue, 12 Jan 2021 02:54:22 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40788)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pizhenwei@bytedance.com>)
- id 1kzEQu-0001bV-HV
- for qemu-devel@nongnu.org; Tue, 12 Jan 2021 02:49:40 -0500
-Received: from mail-pl1-x630.google.com ([2607:f8b0:4864:20::630]:38807)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <pizhenwei@bytedance.com>)
- id 1kzEQs-0002iR-7N
- for qemu-devel@nongnu.org; Tue, 12 Jan 2021 02:49:40 -0500
-Received: by mail-pl1-x630.google.com with SMTP id d4so153058plh.5
- for <qemu-devel@nongnu.org>; Mon, 11 Jan 2021 23:49:37 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=bytedance-com.20150623.gappssmtp.com; s=20150623;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=iirlCwjvMpIb0qx3Fc7xuD+1vEwlFlrqkaNXF92YMa0=;
- b=oX2Gy+uvi+Nrj+umcySclfD4OBg9Jrd0E+yXJNzV+859hmxGwN++k5T+RioPCstfBp
- J830gXPkbV2wVFUul4YMBtUwQUQCBbVGW59BMqU0XJeLNAgGvF2SV8bbE/sGaKJAGFBQ
- 9kR8Cdr+nCjdPLy1up/JXwCpJi9du8kG9Uf1NiRtuOP9JzPez9wXqIRbreLRY7kkVHRe
- xV+1OZLdJTlQGtCG5Q0kADtfrVGbwK65NyeD0roLhvOD79odCS9kzVtuaKXofMFj8GeK
- OIcoXQiCBrE3RFzckLsGC2bpcbAsPqAMj61OZ8wxM7frueSlU+6IUChJSFfoRtmL+neH
- y0kA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=iirlCwjvMpIb0qx3Fc7xuD+1vEwlFlrqkaNXF92YMa0=;
- b=tat54Vpcnvn2YIG3koPYD+D11Ysh3fO6BjDTzsnMPbjrfmVdfX3l/2gOI/mPdzoJzo
- 7d/gMUBy1ZYIdcFtofsiHfxFCYciQWWjpgYPHHTzr4qbEgjPCaplC6KJOqEYM9o0RUhR
- n2/f3D11p6P10YKeW1zLwp5C+uI4bdvI3RxPXLtUFsnMSiyd3tBf4NiH9i8upJX76DDl
- LK0gXT0vJefpwGv7SvDRb3I+TuPSzwtNIBJ2gxkcXz+FmLbn5fe/Tp3t4hAmUTn+uURt
- OXCWCOepKA8mqyZzNB/yORYM4KA6dowEPgnDERbLGUFx2pN6CohAKLys5qXDc6Re3Jug
- ve5g==
-X-Gm-Message-State: AOAM530Pzs8Dq8S2F4FfpXJSacHavk7OYuMAZInKKI1TdwUgDNXNeuu0
- eJW6HIol6hA4NEJmTzBd1wvVQw==
-X-Google-Smtp-Source: ABdhPJzp3WHv16M66FQLbiYhoY6eE4bCNnw0B9+wBsDlYpEjBEW+GP5k7iuIxfyayGkYOp4KkWKfhw==
-X-Received: by 2002:a17:90a:66ce:: with SMTP id
- z14mr3204107pjl.153.1610437776950; 
- Mon, 11 Jan 2021 23:49:36 -0800 (PST)
-Received: from always-libai.bytedance.net ([61.120.150.71])
- by smtp.gmail.com with ESMTPSA id 193sm2144582pfz.36.2021.01.11.23.49.33
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 11 Jan 2021 23:49:36 -0800 (PST)
-From: zhenwei pi <pizhenwei@bytedance.com>
-To: kbusch@kernel.org, its@irrelevant.dk, kwolf@redhat.com, mreitz@redhat.com
-Subject: [PATCH v2 1/1] hw/block/nvme: add smart_critical_warning property
-Date: Tue, 12 Jan 2021 15:49:24 +0800
-Message-Id: <20210112074924.217862-2-pizhenwei@bytedance.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20210112074924.217862-1-pizhenwei@bytedance.com>
-References: <20210112074924.217862-1-pizhenwei@bytedance.com>
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1kzERV-0002FQ-9A
+ for qemu-devel@nongnu.org; Tue, 12 Jan 2021 02:50:18 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:49585)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1kzERT-0002tM-As
+ for qemu-devel@nongnu.org; Tue, 12 Jan 2021 02:50:16 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1610437814;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=gGsdLoAM0a87AYsE7RhudV5R4OEred+sNvtPJlC26hA=;
+ b=FZwA7Pk2SprN///GAbMcY5MIiVf7gpEs2cTsXOdUXiJJrzPYo0IsudBofvMUDbZp453mGl
+ jKsL5QLGwwob0BcdHqxfbtwEWc+0YdiHdIm8PQeBmsQ9RblevArD/db81NpqXRaDacff4Y
+ Dn+z0E++G49/qxbaUiQ/HDCvB1jMGnY=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-394-zi8MhvlsOsKJub94PALNPA-1; Tue, 12 Jan 2021 02:50:11 -0500
+X-MC-Unique: zi8MhvlsOsKJub94PALNPA-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+ [10.5.11.15])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 329F6190B2A1;
+ Tue, 12 Jan 2021 07:50:10 +0000 (UTC)
+Received: from thuth.remote.csb (ovpn-112-184.ams2.redhat.com [10.36.112.184])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 545E83A47;
+ Tue, 12 Jan 2021 07:49:56 +0000 (UTC)
+Subject: Re: [PATCH 1/6] .github: point Repo Lockdown bot to GitLab repo
+To: =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
+ Stefan Hajnoczi <stefanha@redhat.com>
+References: <20210111115017.156802-1-stefanha@redhat.com>
+ <20210111115017.156802-2-stefanha@redhat.com>
+ <20210111115149.GC1172772@redhat.com>
+From: Thomas Huth <thuth@redhat.com>
+Message-ID: <0db7e143-d31b-c067-716c-6a82fad60383@redhat.com>
+Date: Tue, 12 Jan 2021 08:49:55 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.4.0
 MIME-Version: 1.0
+In-Reply-To: <20210111115149.GC1172772@redhat.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=thuth@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::630;
- envelope-from=pizhenwei@bytedance.com; helo=mail-pl1-x630.google.com
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=thuth@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -29
+X-Spam_score: -3.0
+X-Spam_bar: ---
+X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.251,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -83,106 +83,51 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: zhenwei pi <pizhenwei@bytedance.com>, philmd@redhat.com,
- qemu-devel@nongnu.org, qemu-block@nongnu.org
+Cc: Fam Zheng <fam@euphon.net>, Peter Maydell <peter.maydell@linaro.org>,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
+ qemu-devel@nongnu.org, Wainer dos Santos Moschetta <wainersm@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>,
+ =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-There is a very low probability that hitting physical NVMe disk
-hardware critical warning case, it's hard to write & test a monitor
-agent service.
+On 11/01/2021 12.51, Daniel P. Berrangé wrote:
+> On Mon, Jan 11, 2021 at 11:50:12AM +0000, Stefan Hajnoczi wrote:
+>> Use the GitLab repo URL as the main repo location in order to reduce
+>> load on qemu.org.
+>>
+>> Signed-off-by: Stefan Hajnoczi <stefanha@redhat.com>
+>> ---
+>>   .github/lockdown.yml | 8 ++++----
+>>   1 file changed, 4 insertions(+), 4 deletions(-)
+>>
+>> diff --git a/.github/lockdown.yml b/.github/lockdown.yml
+>> index 9acc393f1c..07fc2f31ee 100644
+>> --- a/.github/lockdown.yml
+>> +++ b/.github/lockdown.yml
+>> @@ -10,8 +10,8 @@ issues:
+>>     comment: |
+>>       Thank you for your interest in the QEMU project.
+>>   
+>> -    This repository is a read-only mirror of the project's master
+>> -    repostories hosted on https://git.qemu.org/git/qemu.git.
+>> +    This repository is a read-only mirror of the project's repostories hosted
+>> +    at https://gitlab.com/qemu-project/qemu.git.
+> 
+> NB this URL triggers a redirect to strip the .git suffix
+> 
+>            https://gitlab.com/qemu-project/qemu
 
-For debugging purposes, add a new 'smart_critical_warning' property
-to emulate this situation.
+If you try to do:
 
-The orignal version of this change is implemented by adding a fixed
-property which could be initialized by QEMU command line. Suggested
-by Philippe & Klaus, rework like current version.
+  git clone https://gitlab.com/qemu-project/qemu
 
-Test with this patch:
-1, change smart_critical_warning property for a running VM:
- #virsh qemu-monitor-command nvme-upstream '{ "execute": "qom-set",
-  "arguments": { "path": "/machine/peripheral-anon/device[0]",
-  "property": "smart_critical_warning", "value":16 } }'
-2, run smartctl in guest
- #smartctl -H -l error /dev/nvme0n1
+You get this warning message instead:
 
-  === START OF SMART DATA SECTION ===
-  SMART overall-health self-assessment test result: FAILED!
-  - volatile memory backup device has failed
+  warning: redirecting to https://gitlab.com/qemu-project/qemu.git/
 
-Signed-off-by: zhenwei pi <pizhenwei@bytedance.com>
----
- hw/block/nvme.c | 28 ++++++++++++++++++++++++++++
- hw/block/nvme.h |  1 +
- 2 files changed, 29 insertions(+)
+So I think the patch is fine.
 
-diff --git a/hw/block/nvme.c b/hw/block/nvme.c
-index 27d2c72716..a98757b6a1 100644
---- a/hw/block/nvme.c
-+++ b/hw/block/nvme.c
-@@ -1214,6 +1214,7 @@ static uint16_t nvme_smart_info(NvmeCtrl *n, uint8_t rae, uint32_t buf_len,
-     }
- 
-     trans_len = MIN(sizeof(smart) - off, buf_len);
-+    smart.critical_warning = n->smart_critical_warning;
- 
-     smart.data_units_read[0] = cpu_to_le64(DIV_ROUND_UP(stats.units_read,
-                                                         1000));
-@@ -2827,6 +2828,29 @@ static Property nvme_props[] = {
-     DEFINE_PROP_END_OF_LIST(),
- };
- 
-+
-+static void nvme_get_smart_warning(Object *obj, Visitor *v, const char *name,
-+                                   void *opaque, Error **errp)
-+{
-+    NvmeCtrl *s = NVME(obj);
-+    uint8_t value = s->smart_critical_warning;
-+
-+    visit_type_uint8(v, name, &value, errp);
-+}
-+
-+static void nvme_set_smart_warning(Object *obj, Visitor *v, const char *name,
-+                                   void *opaque, Error **errp)
-+{
-+    NvmeCtrl *s = NVME(obj);
-+    uint8_t value;
-+
-+    if (!visit_type_uint8(v, name, &value, errp)) {
-+        return;
-+    }
-+
-+    s->smart_critical_warning = value;
-+}
-+
- static const VMStateDescription nvme_vmstate = {
-     .name = "nvme",
-     .unmigratable = 1,
-@@ -2857,6 +2881,10 @@ static void nvme_instance_init(Object *obj)
-                                       "bootindex", "/namespace@1,0",
-                                       DEVICE(obj));
-     }
-+
-+    object_property_add(obj, "smart_critical_warning", "uint8",
-+                        nvme_get_smart_warning,
-+                        nvme_set_smart_warning, NULL, NULL);
- }
- 
- static const TypeInfo nvme_info = {
-diff --git a/hw/block/nvme.h b/hw/block/nvme.h
-index e080a2318a..64e3497244 100644
---- a/hw/block/nvme.h
-+++ b/hw/block/nvme.h
-@@ -139,6 +139,7 @@ typedef struct NvmeCtrl {
-     uint64_t    timestamp_set_qemu_clock_ms;    /* QEMU clock time */
-     uint64_t    starttime_ms;
-     uint16_t    temperature;
-+    uint8_t     smart_critical_warning;
- 
-     HostMemoryBackend *pmrdev;
- 
--- 
-2.25.1
+Reviewed-by: Thomas Huth <thuth@redhat.com>
 
 
