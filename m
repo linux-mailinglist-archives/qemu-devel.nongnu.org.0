@@ -2,50 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 133B92F2771
-	for <lists+qemu-devel@lfdr.de>; Tue, 12 Jan 2021 05:59:35 +0100 (CET)
-Received: from localhost ([::1]:46646 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 59C362F2761
+	for <lists+qemu-devel@lfdr.de>; Tue, 12 Jan 2021 05:55:25 +0100 (CET)
+Received: from localhost ([::1]:58752 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kzBmI-00014n-1l
-	for lists+qemu-devel@lfdr.de; Mon, 11 Jan 2021 23:59:34 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50494)
+	id 1kzBiG-0002rk-CU
+	for lists+qemu-devel@lfdr.de; Mon, 11 Jan 2021 23:55:24 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51534)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1kzBYf-0002JJ-Gr; Mon, 11 Jan 2021 23:45:32 -0500
-Received: from bilbo.ozlabs.org ([2401:3900:2:1::2]:36389 helo=ozlabs.org)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1kzBYb-00080G-Jp; Mon, 11 Jan 2021 23:45:28 -0500
-Received: by ozlabs.org (Postfix, from userid 1007)
- id 4DFJ0S4ppQz9t19; Tue, 12 Jan 2021 15:45:12 +1100 (AEDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=gibson.dropbear.id.au; s=201602; t=1610426712;
- bh=jDlQh4dkOChKe9I+7t8fXV6AkND1gF3W8x1pj2YrgnI=;
- h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=BSc8LaAZyfK2Z+AIy8zflV4xZJRJrMFMR4Bq9ofE49vUji5vlDitGnheQQEgayLX6
- DuRmQvHUllwj1EJWlC07dQv8la3vRAZtXqUkXqRvqR6iDEQkMYFMcJlL3wpy7HDYYc
- Y4Mb1XnI2L2i0U/Gp/OLROhzadu3oyaX59o5YUVA=
-From: David Gibson <david@gibson.dropbear.id.au>
-To: pasic@linux.ibm.com, brijesh.singh@amd.com, pair@us.ibm.com,
- dgilbert@redhat.com, qemu-devel@nongnu.org
-Subject: [PATCH v6 12/13] confidential guest support: Alter virtio default
- properties for protected guests
-Date: Tue, 12 Jan 2021 15:45:07 +1100
-Message-Id: <20210112044508.427338-13-david@gibson.dropbear.id.au>
-X-Mailer: git-send-email 2.29.2
-In-Reply-To: <20210112044508.427338-1-david@gibson.dropbear.id.au>
-References: <20210112044508.427338-1-david@gibson.dropbear.id.au>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2401:3900:2:1::2; envelope-from=dgibson@ozlabs.org;
- helo=ozlabs.org
-X-Spam_score_int: -17
-X-Spam_score: -1.8
-X-Spam_bar: -
-X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, HEADER_FROM_DIFFERENT_DOMAINS=0.249,
- SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=no autolearn_force=no
+ (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
+ id 1kzBfF-0000zn-CX; Mon, 11 Jan 2021 23:52:18 -0500
+Received: from mail-qv1-xf35.google.com ([2607:f8b0:4864:20::f35]:44038)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
+ id 1kzBfC-0001iH-Qg; Mon, 11 Jan 2021 23:52:17 -0500
+Received: by mail-qv1-xf35.google.com with SMTP id d11so408083qvo.11;
+ Mon, 11 Jan 2021 20:52:14 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=from:to:cc:subject:date:message-id:in-reply-to:references;
+ bh=u8DEazBQHMt8t61oENXWf0bQTSKivVZaKe9kaYJ0ezY=;
+ b=tL/hMN3EClj+1ynhfLMvUcQtPIH8RFAu89O6h6746UP4u/kehK4JVE+wV3+cUrUlZP
+ FsRDl7ehXms5hi1ihSMIo7uvT+XcOCA7WKOQfz7unH9/FXcqacwv9PZ/1DyMJpjKgvRi
+ NKgmD6jacMd808Wwbbu0MHJBQfWh7n+B2s2rgnelS5GHAzo6P6c+FUFx6UwjJsyxayXe
+ bLr+w3fj1DdCBP1++X2neMfCWbaqA6pXEnQj8+o3zb3HIJzsvXotLDUecLD7lQ1OvMQD
+ FTpCMpZzJCYt1HfJRRhg/OPPlTsjI5xY/aWOmFpn4g9VKjqm/wDbNUxo81HhYrfI0qIk
+ gWJQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+ :references;
+ bh=u8DEazBQHMt8t61oENXWf0bQTSKivVZaKe9kaYJ0ezY=;
+ b=CAlnwGTnZBWw0+QJiJ7xhPgNe2MPQyzyR4FBrcHkvwkBfihqoyej/AYQYieSvDQVVs
+ tgK98Bj4YfGzn0vfirLFGhHQPyFuFSIqXi3wxDCKkJ9NEYh0oeAvFm59guzffXK2+hq+
+ PEONYdHIAjAUyAvI8b1WIM+mH22TGajzbBR2rzHQRJguXhUVVZPTgqUtKxlCzrrRR6Ip
+ nqfFXWZ8/K7ut/1bpVRUq8BLSIR0Z8QN7arpmPBjtX5WVfyQaTN10e71we7mOcS52zvF
+ DYfFLW65UziZ+0GbODghjmy/1Kd1GTTFETt5hUeqNjG2QuOQMyuyHq6MM36kJfJmIo/w
+ xjvg==
+X-Gm-Message-State: AOAM532Ii1w+J9Lq3kAo3gYfWRsIZ1Nv5f8uSNVcgO8AssMMH8dnhCve
+ hOnPKrm3PMluQYpVycIWGiY=
+X-Google-Smtp-Source: ABdhPJx4yAKYQpSPWLPPYhjO8zNqc+Z7vNl/FaN2R/S1tG+/nAIfoBWQw4Enpy0NtMX5UlUAwA7L0Q==
+X-Received: by 2002:a05:6214:13a3:: with SMTP id
+ h3mr2943759qvz.5.1610427133647; 
+ Mon, 11 Jan 2021 20:52:13 -0800 (PST)
+Received: from pek-vx-bsp2.wrs.com (unknown-124-94.windriver.com.
+ [147.11.124.94])
+ by smtp.gmail.com with ESMTPSA id b67sm863814qkc.44.2021.01.11.20.52.11
+ (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
+ Mon, 11 Jan 2021 20:52:13 -0800 (PST)
+From: Bin Meng <bmeng.cn@gmail.com>
+To: Jim Wilson <jimw@sifive.com>, Alistair Francis <alistair.francis@wdc.com>
+Subject: [PATCH 1/4] target/riscv: Make csr_ops[CSR_TABLE_SIZE] external
+Date: Tue, 12 Jan 2021 12:52:01 +0800
+Message-Id: <1610427124-49887-2-git-send-email-bmeng.cn@gmail.com>
+X-Mailer: git-send-email 2.7.4
+In-Reply-To: <1610427124-49887-1-git-send-email-bmeng.cn@gmail.com>
+References: <1610427124-49887-1-git-send-email-bmeng.cn@gmail.com>
+Received-SPF: pass client-ip=2607:f8b0:4864:20::f35;
+ envelope-from=bmeng.cn@gmail.com; helo=mail-qv1-xf35.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -58,68 +79,72 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: thuth@redhat.com, Cornelia Huck <cohuck@redhat.com>,
- =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
- frankja@linux.ibm.com, kvm@vger.kernel.org, david@redhat.com,
- jun.nakajima@intel.com, mst@redhat.com, Marcelo Tosatti <mtosatti@redhat.com>,
- richard.henderson@linaro.org, Greg Kurz <groug@kaod.org>,
- Eduardo Habkost <ehabkost@redhat.com>, mdroth@linux.vnet.ibm.com,
- Christian Borntraeger <borntraeger@de.ibm.com>, qemu-s390x@nongnu.org,
- qemu-ppc@nongnu.org, pragyansri.pathi@intel.com, andi.kleen@intel.com,
- Paolo Bonzini <pbonzini@redhat.com>,
- David Gibson <david@gibson.dropbear.id.au>
+Cc: Bin Meng <bin.meng@windriver.com>, qemu-riscv@nongnu.org,
+ qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The default behaviour for virtio devices is not to use the platforms normal
-DMA paths, but instead to use the fact that it's running in a hypervisor
-to directly access guest memory.  That doesn't work if the guest's memory
-is protected from hypervisor access, such as with AMD's SEV or POWER's PEF.
+From: Bin Meng <bin.meng@windriver.com>
 
-So, if a confidential guest mechanism is enabled, then apply the
-iommu_platform=on option so it will go through normal DMA mechanisms.
-Those will presumably have some way of marking memory as shared with
-the hypervisor or hardware so that DMA will work.
+In preparation to generate the CSR register list for GDB stub
+dynamically, change csr_ops[] to non-static so that it can be
+referenced externally.
 
-Signed-off-by: David Gibson <david@gibson.dropbear.id.au>
-Reviewed-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
-Reviewed-by: Cornelia Huck <cohuck@redhat.com>
+Signed-off-by: Bin Meng <bin.meng@windriver.com>
 ---
- hw/core/machine.c | 13 +++++++++++++
- 1 file changed, 13 insertions(+)
 
-diff --git a/hw/core/machine.c b/hw/core/machine.c
-index 5a7433332b..61ae363559 100644
---- a/hw/core/machine.c
-+++ b/hw/core/machine.c
-@@ -33,6 +33,8 @@
- #include "migration/global_state.h"
- #include "migration/vmstate.h"
- #include "exec/confidential-guest-support.h"
-+#include "hw/virtio/virtio.h"
-+#include "hw/virtio/virtio-pci.h"
+ target/riscv/cpu.h |  8 ++++++++
+ target/riscv/csr.c | 10 +---------
+ 2 files changed, 9 insertions(+), 9 deletions(-)
+
+diff --git a/target/riscv/cpu.h b/target/riscv/cpu.h
+index 2649949..6f9e1cc 100644
+--- a/target/riscv/cpu.h
++++ b/target/riscv/cpu.h
+@@ -482,6 +482,14 @@ typedef struct {
+     riscv_csr_op_fn op;
+ } riscv_csr_operations;
  
- GlobalProperty hw_compat_5_2[] = {};
- const size_t hw_compat_5_2_len = G_N_ELEMENTS(hw_compat_5_2);
-@@ -1204,6 +1206,17 @@ void machine_run_board_init(MachineState *machine)
-          * areas.
-          */
-         machine_set_mem_merge(OBJECT(machine), false, &error_abort);
++/* CSR function table constants */
++enum {
++    CSR_TABLE_SIZE = 0x1000
++};
 +
-+        /*
-+         * Virtio devices can't count on directly accessing guest
-+         * memory, so they need iommu_platform=on to use normal DMA
-+         * mechanisms.  That requires also disabling legacy virtio
-+         * support for those virtio pci devices which allow it.
-+         */
-+        object_register_sugar_prop(TYPE_VIRTIO_PCI, "disable-legacy",
-+                                   "on", true);
-+        object_register_sugar_prop(TYPE_VIRTIO_DEVICE, "iommu_platform",
-+                                   "on", false);
-     }
++/* CSR function table */
++extern riscv_csr_operations csr_ops[];
++
+ void riscv_get_csr_ops(int csrno, riscv_csr_operations *ops);
+ void riscv_set_csr_ops(int csrno, riscv_csr_operations *ops);
  
-     machine_class->init(machine);
+diff --git a/target/riscv/csr.c b/target/riscv/csr.c
+index 10ab82e..507e8ee 100644
+--- a/target/riscv/csr.c
++++ b/target/riscv/csr.c
+@@ -23,14 +23,6 @@
+ #include "qemu/main-loop.h"
+ #include "exec/exec-all.h"
+ 
+-/* CSR function table */
+-static riscv_csr_operations csr_ops[];
+-
+-/* CSR function table constants */
+-enum {
+-    CSR_TABLE_SIZE = 0x1000
+-};
+-
+ /* CSR function table public API */
+ void riscv_get_csr_ops(int csrno, riscv_csr_operations *ops)
+ {
+@@ -1378,7 +1370,7 @@ int riscv_csrrw_debug(CPURISCVState *env, int csrno, target_ulong *ret_value,
+ }
+ 
+ /* Control and Status Register function table */
+-static riscv_csr_operations csr_ops[CSR_TABLE_SIZE] = {
++riscv_csr_operations csr_ops[CSR_TABLE_SIZE] = {
+     /* User Floating-Point CSRs */
+     [CSR_FFLAGS] =              { fs,   read_fflags,      write_fflags      },
+     [CSR_FRM] =                 { fs,   read_frm,         write_frm         },
 -- 
-2.29.2
+2.7.4
 
 
