@@ -2,74 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9ED592F233C
-	for <lists+qemu-devel@lfdr.de>; Tue, 12 Jan 2021 01:07:43 +0100 (CET)
-Received: from localhost ([::1]:43430 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3642F2F2340
+	for <lists+qemu-devel@lfdr.de>; Tue, 12 Jan 2021 01:11:36 +0100 (CET)
+Received: from localhost ([::1]:49212 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kz7Dq-0005ux-MD
-	for lists+qemu-devel@lfdr.de; Mon, 11 Jan 2021 19:07:42 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35158)
+	id 1kz7Ha-0008RP-5I
+	for lists+qemu-devel@lfdr.de; Mon, 11 Jan 2021 19:11:34 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35402)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1kz7As-00046B-7t
- for qemu-devel@nongnu.org; Mon, 11 Jan 2021 19:04:38 -0500
-Received: from mail-pj1-x102a.google.com ([2607:f8b0:4864:20::102a]:55389)
+ id 1kz7Bs-00053C-0N
+ for qemu-devel@nongnu.org; Mon, 11 Jan 2021 19:05:40 -0500
+Received: from mail-pf1-x42a.google.com ([2607:f8b0:4864:20::42a]:46786)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1kz7Ap-0004AC-KT
- for qemu-devel@nongnu.org; Mon, 11 Jan 2021 19:04:38 -0500
-Received: by mail-pj1-x102a.google.com with SMTP id p12so500391pju.5
- for <qemu-devel@nongnu.org>; Mon, 11 Jan 2021 16:04:35 -0800 (PST)
+ id 1kz7Bp-0004Ei-PM
+ for qemu-devel@nongnu.org; Mon, 11 Jan 2021 19:05:39 -0500
+Received: by mail-pf1-x42a.google.com with SMTP id w2so256043pfc.13
+ for <qemu-devel@nongnu.org>; Mon, 11 Jan 2021 16:05:37 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=subject:to:cc:references:from:message-id:date:user-agent
  :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=LJNA0ymU8hi3RERfT9NjYqnA2IoQ4wFCQxB8JLyAW/Q=;
- b=M1q6X9dSodIo6VLP26CmHfkuNU2smANxSU/9Z9xJNiKUhnaWDjT0LllzRfsm89/Q/w
- 9AQXQzTyyoB1JQ0gXebFAvTeEdBZc/mwrBkW1SJN72h3HU8eksdvhXaoVT2nHVpeH14v
- 9vEYBD1rqSBUjOttPVNtg6ZY+xrjjWYSCGuWRUFTCWVDVtixEX/yEI7vGiHbakp9QPUl
- twzK5TipXTlfq16q9TUDPTYnYXB+dIi04qan37y0Nm+4TRiwsTdj9J5L2aDKiMlRXy6q
- EcVnA1U6/Q/flG4helwSHvSzm2qXdsK09mG5t55IRcnr0RSHHIYPQpJzbjtjG4wjy2CX
- Rr3w==
+ bh=ulNC+wVGmUmcJ5b/YZvDBl+z1bvwMpgx0vSChiFkux0=;
+ b=lXt8gsepYT6nura0aTzs6RE3ABWLYv0Km8GmGBiCogpFfpHO+0z5JkDOp5r/61bzdC
+ 8O6Osupb12v/geKOY+kiV4OWWUSWLpwrDkAwYMagvUGZXBMHIxl6nVMjlmXcZKkZ961m
+ CLbMsEtV9s8khVj0g1ptsQpAkDoh+CdVU90XsKcYKnF9n2q8uEiDVx5StVmqaOFmIo5g
+ eUjLYgpzUw6xF8OwVYf0fWnXTDyL1iKXOfg5YnzOeNitHpkx7GrLJb4Hlf2X3vfXbaGk
+ ZeObHLlVuk0YbUVRxl/NSpl6xYaJbZ9eUngAC643q4nU8iKRjm9ND6fRcAALWT/r+4J5
+ zH2g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:subject:to:cc:references:from:message-id:date
  :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=LJNA0ymU8hi3RERfT9NjYqnA2IoQ4wFCQxB8JLyAW/Q=;
- b=V6QJFs7Wu6eeQi8yJwOTskJSNWmYYHug3UusgpZDZWdYhBSQOylOM/GOdrehuNzsHO
- 4Cf49HEAKOk3udf3wfycLUZOWmf05TVCEuiTTXpCmQGbEvll9A+Yjr5Hwxu/+OIKIuzd
- b5HT7Vjvzw8uEB6bRAyBzTAXNnZZhXB2kWucHEBZLmG3qoY5c91LhbGqJR+zF05djufD
- oC+YxJERZiverpgcbEMlP/ajAIRt7mGk10CxY3hYFfN2408zEGa4v1bcWJ3nY7IYu95s
- gQ1iQWH7QAa7TCWcHkpkuAhqb2ho6c8G/GYv3kjb8fD/VOm75nHtf7+LxRfB7sfXG2ge
- JtvA==
-X-Gm-Message-State: AOAM530q6xPxOev4TyUnetXD9XosOk8eoxxOj6nS+xUDMPbE9b8oUJlW
- LDASvgUznuV8Rv4FdyQkjkxRlI5wMy+Jxw==
-X-Google-Smtp-Source: ABdhPJwou5BEYWSd/xUxT2GeNB16rp4kcBoAqcHUIvEKaNQ2yShNSPgWx+KoP9xDhXk68ZK2YTAcEg==
-X-Received: by 2002:a17:90a:414d:: with SMTP id
- m13mr1398726pjg.229.1610409874174; 
- Mon, 11 Jan 2021 16:04:34 -0800 (PST)
+ bh=ulNC+wVGmUmcJ5b/YZvDBl+z1bvwMpgx0vSChiFkux0=;
+ b=T8s5Hbe9cRTvs9Y5JspME8MH3jGaI78zNnaz1/12Bc/aylzx0IDS0whRmyshN7RfcT
+ mJfAc/7JsNrZJFgtX7KTI8shN0NYkI2YsCjqCpeNZzqt9gTDslFRNavQNo7I9T+s7/LV
+ iREbE2J+VOJU8f0Pn9rfIZdCEr/HPed9WtLiaVouI9j1ldmg6royb5V/ey3L7aRBS1aT
+ fVUmZ0jQrMlQXK0U2erirAfs/eaKw/3COzWCeOzbcvRwq7UKzqWhcABrn6B1f+RUnleV
+ zeFiE0VMQCi/ao6DtFkKyBV5wEEXH2dqF6s0LkEUYSk9UtRNtujlFAs9+cm/lMrdVTnH
+ vvBw==
+X-Gm-Message-State: AOAM53134Cu0J0vlWmdfL2a9aVApCQduIFS9wK7Nagws4wmK/iMHjZLz
+ xsXXSqmApnnV6rfCWsIV9An+4mlLOZmBVg==
+X-Google-Smtp-Source: ABdhPJyPEH8JkdwOtOytQKQJ1fIl7VbRc/kM+F1udWXNkgeysDNiGKAA3xpaxdHMQTYWVp/5vB0psw==
+X-Received: by 2002:a65:488d:: with SMTP id n13mr1828443pgs.315.1610409935972; 
+ Mon, 11 Jan 2021 16:05:35 -0800 (PST)
 Received: from [10.25.18.119] (rrcs-173-197-107-21.west.biz.rr.com.
  [173.197.107.21])
- by smtp.gmail.com with ESMTPSA id i10sm924251pgt.85.2021.01.11.16.04.32
+ by smtp.gmail.com with ESMTPSA id a131sm810273pfd.171.2021.01.11.16.05.34
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 11 Jan 2021 16:04:33 -0800 (PST)
-Subject: Re: [PATCH 07/18] target/arm: add 64-bit S-EL2 to EL exception table
+ Mon, 11 Jan 2021 16:05:35 -0800 (PST)
+Subject: Re: [PATCH 09/18] target/arm: add ARMv8.4-SEL2 system registers
 To: remi.denis.courmont@huawei.com, qemu-arm@nongnu.org
 References: <3337797.iIbC2pHGDl@basile.remlab.net>
- <20201218103759.19929-7-remi.denis.courmont@huawei.com>
+ <20201218103759.19929-9-remi.denis.courmont@huawei.com>
 From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <6e1eec7e-35de-4276-68ec-7e12cb73a699@linaro.org>
-Date: Mon, 11 Jan 2021 14:04:30 -1000
+Message-ID: <7179fb23-01b9-83d3-3aac-64ed3d4649d1@linaro.org>
+Date: Mon, 11 Jan 2021 14:05:32 -1000
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.10.0
 MIME-Version: 1.0
-In-Reply-To: <20201218103759.19929-7-remi.denis.courmont@huawei.com>
+In-Reply-To: <20201218103759.19929-9-remi.denis.courmont@huawei.com>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::102a;
- envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x102a.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::42a;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x42a.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -96,23 +95,11 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 On 12/18/20 12:37 AM, remi.denis.courmont@huawei.com wrote:
 > From: Rémi Denis-Courmont <remi.denis.courmont@huawei.com>
 > 
-> With the ARMv8.4-SEL2 extension, EL2 is a legal exception level in
-> secure mode, though it can only be AArch64.
-> 
-> This patch adds the target EL for exceptions from 64-bit S-EL2.
-> 
-> It also fixes the target EL to EL2 when HCR.{A,F,I}MO are set in secure
-> mode. Those values were never used in practice as the effective value of
-> HCR was always 0 in secure mode.
-> 
 > Signed-off-by: Rémi Denis-Courmont <remi.denis.courmont@huawei.com>
 > ---
->  target/arm/helper.c    | 10 +++++-----
->  target/arm/op_helper.c |  4 ++--
->  2 files changed, 7 insertions(+), 7 deletions(-)
-
-At some point I think it would be worthwhile to convert that target_el_table
-back to code.  It is really hard to follow with 6 indicies.  Not your fault.
+>  target/arm/cpu.h    |  7 +++++++
+>  target/arm/helper.c | 24 ++++++++++++++++++++++++
+>  2 files changed, 31 insertions(+)
 
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 
