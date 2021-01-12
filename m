@@ -2,70 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 01F522F36EE
-	for <lists+qemu-devel@lfdr.de>; Tue, 12 Jan 2021 18:21:20 +0100 (CET)
-Received: from localhost ([::1]:57204 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 897232F36FF
+	for <lists+qemu-devel@lfdr.de>; Tue, 12 Jan 2021 18:24:43 +0100 (CET)
+Received: from localhost ([::1]:38296 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kzNM7-0001A1-0f
-	for lists+qemu-devel@lfdr.de; Tue, 12 Jan 2021 12:21:19 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58940)
+	id 1kzNPO-0005J7-JJ
+	for lists+qemu-devel@lfdr.de; Tue, 12 Jan 2021 12:24:42 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58970)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1kzMzm-0001pl-Iw
- for qemu-devel@nongnu.org; Tue, 12 Jan 2021 11:58:14 -0500
-Received: from mail-wm1-x32d.google.com ([2a00:1450:4864:20::32d]:55963)
+ id 1kzMzo-0001u5-4m
+ for qemu-devel@nongnu.org; Tue, 12 Jan 2021 11:58:16 -0500
+Received: from mail-wr1-x430.google.com ([2a00:1450:4864:20::430]:38430)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1kzMzi-00070G-Bx
- for qemu-devel@nongnu.org; Tue, 12 Jan 2021 11:58:14 -0500
-Received: by mail-wm1-x32d.google.com with SMTP id c124so2505375wma.5
- for <qemu-devel@nongnu.org>; Tue, 12 Jan 2021 08:58:09 -0800 (PST)
+ id 1kzMzk-00071V-HV
+ for qemu-devel@nongnu.org; Tue, 12 Jan 2021 11:58:15 -0500
+Received: by mail-wr1-x430.google.com with SMTP id r7so3246250wrc.5
+ for <qemu-devel@nongnu.org>; Tue, 12 Jan 2021 08:58:12 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:subject:date:message-id:in-reply-to:references:mime-version
  :content-transfer-encoding;
- bh=XIToQXuXYWfGEUbgT12NG+i3OudvqvCJSkXTNgJtBfE=;
- b=VJ7eift+frZtzE3Nvrb4hNe66udIxJtiSUodx3ClckCjQvSMEKForiBygauIcZRL6W
- 6+T1nF9VGDepYSy67/lsUNDAgb9/0SXaVCSlR2DCktvKUWQjgLwAZvIFGoz6qIkqlCJs
- gbEmdvfsftyo927WYSZpTqmqhazmsEEYCpiFG3/eMbjOkjs4Rj94eTW0W2PEkYSvCynM
- kZVHt9eVXAgx4jO4KgSj/zW5sfociuuaXMqo2amBw1mkzNidSezL50+u0R5yD2l/L//M
- k9SmclOMeBZJJxmCa+vscb81w3nvssbVSHWyYWIz2QWgZwzyiiL0o0vW2bBB+e8WrSx4
- Z+uA==
+ bh=6nWn4AHavEYK2e+JK6ye9vjc5+qhENfILsI/oABYtSU=;
+ b=vVzhBW9DYPJgQXVmS4i5rY289yRlPFhQsjKV24s/kERxXgzceDMA7KQZkoKMA7NbmL
+ 2YZGkb+UpZvxKTlkTffiqTOYEA51tmvvAVVvMIzOG9/gGTvnl9vfzucvndFGBUL/gFMm
+ QTN9sWK3ePMkT1PAIFYAcN4LkH2FDawzEFYJ62YBNQ65EHHWSNL0Zf0dzm0e+c9mUihq
+ LrT5QgsH6Leg1E0va2z6y14G+NVWOMN+S+Ry9TPdgy5dAqm//ke7kzEK/bblG1JA3MI0
+ 2CKGrQWavxKbxMwAdnm2EOcqN+fIw4M1ptlWcG8NgZtvoYAl73jsaocuozGNJBheN7y8
+ jVhQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=XIToQXuXYWfGEUbgT12NG+i3OudvqvCJSkXTNgJtBfE=;
- b=SA9sCjmPl8e4B1fVt/St3jmoQiq5/CIfw9YfyHEjh+vtLdtAa/ZIahxHgifGxQRTfb
- N4FXqC/7DHsRBxdvy9iABZ0/qC6itsrLAl2Nbwup4rCI/nfrXLkntVuIUt46kRTuBDiy
- H5aaWr+dy3ckLik2y1y9CeXpMakrBBbwaC8ZoVlHXRk4x9wgTjdwq2EQsTkNFfGeiyWz
- +i76+nY4SD6elubWOESMyaJKNNhpSaSWem/0UBqMqFbStQt8ZsJ3Cu4+RZit3sX35gye
- iPKbvj8FCUucvslgG2QlZGt/EL2qXr2obEyrFWOmHwiWj8TDsdLI70LmM8D2Fv9u+ae0
- Q0BQ==
-X-Gm-Message-State: AOAM530DBgYh5NUydWha/oQpAgORxtCCy+SZf6ZKS4Bd2hUbqJzoJLXz
- qBl4pSqqSBdbP/Ubusk9Mi83mhkt4WHV1g==
-X-Google-Smtp-Source: ABdhPJzr3h0UyahZ7lL/igsYrdJeSYB0/JjSHnawwVYKxaHnh0umlRSoObjMHCcBRHUz4D+sNFHFnw==
-X-Received: by 2002:a1c:4489:: with SMTP id r131mr240922wma.24.1610470688902; 
- Tue, 12 Jan 2021 08:58:08 -0800 (PST)
+ bh=6nWn4AHavEYK2e+JK6ye9vjc5+qhENfILsI/oABYtSU=;
+ b=EiGURXsfhlhnQ017tNAXs8gwRgT3QCpKt/7/8BL8XKsoi+JGjrQ7GaamM6jrmeQHrn
+ x8iZdpjgmOPJc8LmyIlxsqdSbD6svcGCMlIygtw0tOAxyJIyv5xJl3AKZsouYvr9dCA5
+ jQGIUwVQKkI1eQru+KY5E1IS+wxfJlH7eBg/v/c2XCFmKTeSq05Mr8111rOX4YLNvncV
+ 3BdejtSbaWTxDO5/xTHxSfbhiNF/m53CY8VsOaLnTiLvqcsQkwktd/VOuP6Xuy+Woydc
+ Xw3OMWr6c0PpMD2sVMIOnBf0PpbSOCDfUnCs6gtryE3ihoAYuDXpGwElTPnSTJAnj1Ul
+ 0afw==
+X-Gm-Message-State: AOAM533CsxUlkpHFChAvWiOs2VJWJETMyoKCHX+IUEmXVbOJwjqNFIin
+ Y30Whky0S7Lw8o/k+EV4e5ggU7JOl0f79Q==
+X-Google-Smtp-Source: ABdhPJw1ENRws/tugAyGnUqnWNk/CQO8+Izkj1DkjbRJ3zMNj5wc0N2x0qc/kEL1e7AvkIenyR9Nwg==
+X-Received: by 2002:a05:6000:1884:: with SMTP id
+ a4mr5133619wri.42.1610470690558; 
+ Tue, 12 Jan 2021 08:58:10 -0800 (PST)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
- by smtp.gmail.com with ESMTPSA id i18sm6210083wrp.74.2021.01.12.08.58.07
+ by smtp.gmail.com with ESMTPSA id i18sm6210083wrp.74.2021.01.12.08.58.08
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 12 Jan 2021 08:58:08 -0800 (PST)
+ Tue, 12 Jan 2021 08:58:09 -0800 (PST)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 14/21] hw/net/lan9118: Add symbolic constants for register
- offsets
-Date: Tue, 12 Jan 2021 16:57:43 +0000
-Message-Id: <20210112165750.30475-15-peter.maydell@linaro.org>
+Subject: [PULL 15/21] hw/misc: Add clock converter in NPCM7XX CLK module
+Date: Tue, 12 Jan 2021 16:57:44 +0000
+Message-Id: <20210112165750.30475-16-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20210112165750.30475-1-peter.maydell@linaro.org>
 References: <20210112165750.30475-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::32d;
- envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x32d.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::430;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x430.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -88,76 +87,1098 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The lan9118 code mostly uses symbolic constants for register offsets;
-the exceptions are those which the datasheet doesn't give an official
-symbolic name to.
+From: Hao Wu <wuhaotsh@google.com>
 
-Add some names for the registers which don't already have them, based
-on the longer names they are given in the memory map.
+This patch allows NPCM7XX CLK module to compute clocks that are used by
+other NPCM7XX modules.
 
+Add a new struct NPCM7xxClockConverterState which represents a
+single converter.  Each clock converter in CLK module represents one
+converter in NPCM7XX CLK Module(PLL, SEL or Divider). Each converter
+takes one or more input clocks and converts them into one output clock.
+They form a clock hierarchy in the CLK module and are responsible for
+outputing clocks for various other modules in an NPCM7XX SoC.
+
+Each converter has a function pointer called "convert" which represents
+the unique logic for that converter.
+
+The clock contains two initialization information: ConverterInitInfo and
+ConverterConnectionInfo. They represent the vertices and edges in the
+clock diagram respectively.
+
+Reviewed-by: Havard Skinnemoen <hskinnemoen@google.com>
+Reviewed-by: Tyrone Ting <kfting@nuvoton.com>
+Signed-off-by: Hao Wu <wuhaotsh@google.com>
+Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
+Message-id: 20210108190945.949196-2-wuhaotsh@google.com
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
-Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
-Message-id: 20210108180401.2263-3-peter.maydell@linaro.org
 ---
- hw/net/lan9118.c | 24 ++++++++++++++++++------
- 1 file changed, 18 insertions(+), 6 deletions(-)
+ include/hw/misc/npcm7xx_clk.h | 140 +++++-
+ hw/misc/npcm7xx_clk.c         | 805 +++++++++++++++++++++++++++++++++-
+ 2 files changed, 932 insertions(+), 13 deletions(-)
 
-diff --git a/hw/net/lan9118.c b/hw/net/lan9118.c
-index 13d469fe24f..abc796285ab 100644
---- a/hw/net/lan9118.c
-+++ b/hw/net/lan9118.c
-@@ -40,6 +40,17 @@ do { hw_error("lan9118: error: " fmt , ## __VA_ARGS__);} while (0)
- do { fprintf(stderr, "lan9118: error: " fmt , ## __VA_ARGS__);} while (0)
- #endif
+diff --git a/include/hw/misc/npcm7xx_clk.h b/include/hw/misc/npcm7xx_clk.h
+index 2338fbbdb5d..f641f95f3e6 100644
+--- a/include/hw/misc/npcm7xx_clk.h
++++ b/include/hw/misc/npcm7xx_clk.h
+@@ -17,6 +17,7 @@
+ #define NPCM7XX_CLK_H
  
-+/* The tx and rx fifo ports are a range of aliased 32-bit registers */
-+#define RX_DATA_FIFO_PORT_FIRST 0x00
-+#define RX_DATA_FIFO_PORT_LAST 0x1f
-+#define TX_DATA_FIFO_PORT_FIRST 0x20
-+#define TX_DATA_FIFO_PORT_LAST 0x3f
-+
-+#define RX_STATUS_FIFO_PORT 0x40
-+#define RX_STATUS_FIFO_PEEK 0x44
-+#define TX_STATUS_FIFO_PORT 0x48
-+#define TX_STATUS_FIFO_PEEK 0x4c
-+
- #define CSR_ID_REV      0x50
- #define CSR_IRQ_CFG     0x54
- #define CSR_INT_STS     0x58
-@@ -1020,7 +1031,8 @@ static void lan9118_writel(void *opaque, hwaddr offset,
-     offset &= 0xff;
+ #include "exec/memory.h"
++#include "hw/clock.h"
+ #include "hw/sysbus.h"
  
-     //DPRINTF("Write reg 0x%02x = 0x%08x\n", (int)offset, val);
--    if (offset >= 0x20 && offset < 0x40) {
-+    if (offset >= TX_DATA_FIFO_PORT_FIRST &&
-+        offset <= TX_DATA_FIFO_PORT_LAST) {
-         /* TX FIFO */
-         tx_fifo_push(s, val);
+ /*
+@@ -33,16 +34,151 @@
+ 
+ #define NPCM7XX_WATCHDOG_RESET_GPIO_IN "npcm7xx-clk-watchdog-reset-gpio-in"
+ 
+-typedef struct NPCM7xxCLKState {
++/* Maximum amount of clock inputs in a SEL module. */
++#define NPCM7XX_CLK_SEL_MAX_INPUT 5
++
++/* PLLs in CLK module. */
++typedef enum NPCM7xxClockPLL {
++    NPCM7XX_CLOCK_PLL0,
++    NPCM7XX_CLOCK_PLL1,
++    NPCM7XX_CLOCK_PLL2,
++    NPCM7XX_CLOCK_PLLG,
++    NPCM7XX_CLOCK_NR_PLLS,
++} NPCM7xxClockPLL;
++
++/* SEL/MUX in CLK module. */
++typedef enum NPCM7xxClockSEL {
++    NPCM7XX_CLOCK_PIXCKSEL,
++    NPCM7XX_CLOCK_MCCKSEL,
++    NPCM7XX_CLOCK_CPUCKSEL,
++    NPCM7XX_CLOCK_CLKOUTSEL,
++    NPCM7XX_CLOCK_UARTCKSEL,
++    NPCM7XX_CLOCK_TIMCKSEL,
++    NPCM7XX_CLOCK_SDCKSEL,
++    NPCM7XX_CLOCK_GFXMSEL,
++    NPCM7XX_CLOCK_SUCKSEL,
++    NPCM7XX_CLOCK_NR_SELS,
++} NPCM7xxClockSEL;
++
++/* Dividers in CLK module. */
++typedef enum NPCM7xxClockDivider {
++    NPCM7XX_CLOCK_PLL1D2, /* PLL1/2 */
++    NPCM7XX_CLOCK_PLL2D2, /* PLL2/2 */
++    NPCM7XX_CLOCK_MC_DIVIDER,
++    NPCM7XX_CLOCK_AXI_DIVIDER,
++    NPCM7XX_CLOCK_AHB_DIVIDER,
++    NPCM7XX_CLOCK_AHB3_DIVIDER,
++    NPCM7XX_CLOCK_SPI0_DIVIDER,
++    NPCM7XX_CLOCK_SPIX_DIVIDER,
++    NPCM7XX_CLOCK_APB1_DIVIDER,
++    NPCM7XX_CLOCK_APB2_DIVIDER,
++    NPCM7XX_CLOCK_APB3_DIVIDER,
++    NPCM7XX_CLOCK_APB4_DIVIDER,
++    NPCM7XX_CLOCK_APB5_DIVIDER,
++    NPCM7XX_CLOCK_CLKOUT_DIVIDER,
++    NPCM7XX_CLOCK_UART_DIVIDER,
++    NPCM7XX_CLOCK_TIMER_DIVIDER,
++    NPCM7XX_CLOCK_ADC_DIVIDER,
++    NPCM7XX_CLOCK_MMC_DIVIDER,
++    NPCM7XX_CLOCK_SDHC_DIVIDER,
++    NPCM7XX_CLOCK_GFXM_DIVIDER, /* divide by 3 */
++    NPCM7XX_CLOCK_UTMI_DIVIDER,
++    NPCM7XX_CLOCK_NR_DIVIDERS,
++} NPCM7xxClockConverter;
++
++typedef struct NPCM7xxCLKState NPCM7xxCLKState;
++
++/**
++ * struct NPCM7xxClockPLLState - A PLL module in CLK module.
++ * @name: The name of the module.
++ * @clk: The CLK module that owns this module.
++ * @clock_in: The input clock of this module.
++ * @clock_out: The output clock of this module.
++ * @reg: The control registers for this PLL module.
++ */
++typedef struct NPCM7xxClockPLLState {
++    DeviceState parent;
++
++    const char *name;
++    NPCM7xxCLKState *clk;
++    Clock *clock_in;
++    Clock *clock_out;
++
++    int reg;
++} NPCM7xxClockPLLState;
++
++/**
++ * struct NPCM7xxClockSELState - A SEL module in CLK module.
++ * @name: The name of the module.
++ * @clk: The CLK module that owns this module.
++ * @input_size: The size of inputs of this module.
++ * @clock_in: The input clocks of this module.
++ * @clock_out: The output clocks of this module.
++ * @offset: The offset of this module in the control register.
++ * @len: The length of this module in the control register.
++ */
++typedef struct NPCM7xxClockSELState {
++    DeviceState parent;
++
++    const char *name;
++    NPCM7xxCLKState *clk;
++    uint8_t input_size;
++    Clock *clock_in[NPCM7XX_CLK_SEL_MAX_INPUT];
++    Clock *clock_out;
++
++    int offset;
++    int len;
++} NPCM7xxClockSELState;
++
++/**
++ * struct NPCM7xxClockDividerState - A Divider module in CLK module.
++ * @name: The name of the module.
++ * @clk: The CLK module that owns this module.
++ * @clock_in: The input clock of this module.
++ * @clock_out: The output clock of this module.
++ * @divide: The function the divider uses to divide the input.
++ * @reg: The index of the control register that contains the divisor.
++ * @offset: The offset of the divisor in the control register.
++ * @len: The length of the divisor in the control register.
++ * @divisor: The divisor for a constant divisor
++ */
++typedef struct NPCM7xxClockDividerState {
++    DeviceState parent;
++
++    const char *name;
++    NPCM7xxCLKState *clk;
++    Clock *clock_in;
++    Clock *clock_out;
++
++    uint32_t (*divide)(struct NPCM7xxClockDividerState *s);
++    union {
++        struct {
++            int reg;
++            int offset;
++            int len;
++        };
++        int divisor;
++    };
++} NPCM7xxClockDividerState;
++
++struct NPCM7xxCLKState {
+     SysBusDevice parent;
+ 
+     MemoryRegion iomem;
+ 
++    /* Clock converters */
++    NPCM7xxClockPLLState plls[NPCM7XX_CLOCK_NR_PLLS];
++    NPCM7xxClockSELState sels[NPCM7XX_CLOCK_NR_SELS];
++    NPCM7xxClockDividerState dividers[NPCM7XX_CLOCK_NR_DIVIDERS];
++
+     uint32_t regs[NPCM7XX_CLK_NR_REGS];
+ 
+     /* Time reference for SECCNT and CNTR25M, initialized by power on reset */
+     int64_t ref_ns;
+-} NPCM7xxCLKState;
++
++    /* The incoming reference clock. */
++    Clock *clkref;
++};
+ 
+ #define TYPE_NPCM7XX_CLK "npcm7xx-clk"
+ #define NPCM7XX_CLK(obj) OBJECT_CHECK(NPCM7xxCLKState, (obj), TYPE_NPCM7XX_CLK)
+diff --git a/hw/misc/npcm7xx_clk.c b/hw/misc/npcm7xx_clk.c
+index 6732437fe22..48bc9bdda55 100644
+--- a/hw/misc/npcm7xx_clk.c
++++ b/hw/misc/npcm7xx_clk.c
+@@ -18,6 +18,7 @@
+ 
+ #include "hw/misc/npcm7xx_clk.h"
+ #include "hw/timer/npcm7xx_timer.h"
++#include "hw/qdev-clock.h"
+ #include "migration/vmstate.h"
+ #include "qemu/error-report.h"
+ #include "qemu/log.h"
+@@ -27,9 +28,22 @@
+ #include "trace.h"
+ #include "sysemu/watchdog.h"
+ 
++/*
++ * The reference clock hz, and the SECCNT and CNTR25M registers in this module,
++ * is always 25 MHz.
++ */
++#define NPCM7XX_CLOCK_REF_HZ            (25000000)
++
++/* Register Field Definitions */
++#define NPCM7XX_CLK_WDRCR_CA9C  BIT(0) /* Cortex A9 Cores */
++
+ #define PLLCON_LOKI     BIT(31)
+ #define PLLCON_LOKS     BIT(30)
+ #define PLLCON_PWDEN    BIT(12)
++#define PLLCON_FBDV(con) extract32((con), 16, 12)
++#define PLLCON_OTDV2(con) extract32((con), 13, 3)
++#define PLLCON_OTDV1(con) extract32((con), 8, 3)
++#define PLLCON_INDV(con) extract32((con), 0, 6)
+ 
+ enum NPCM7xxCLKRegisters {
+     NPCM7XX_CLK_CLKEN1,
+@@ -89,12 +103,609 @@ static const uint32_t cold_reset_values[NPCM7XX_CLK_NR_REGS] = {
+     [NPCM7XX_CLK_AHBCKFI]       = 0x000000c8,
+ };
+ 
+-/* Register Field Definitions */
+-#define NPCM7XX_CLK_WDRCR_CA9C  BIT(0) /* Cortex A9 Cores */
+-
+ /* The number of watchdogs that can trigger a reset. */
+ #define NPCM7XX_NR_WATCHDOGS    (3)
+ 
++/* Clock converter functions */
++
++#define TYPE_NPCM7XX_CLOCK_PLL "npcm7xx-clock-pll"
++#define NPCM7XX_CLOCK_PLL(obj) OBJECT_CHECK(NPCM7xxClockPLLState, \
++        (obj), TYPE_NPCM7XX_CLOCK_PLL)
++#define TYPE_NPCM7XX_CLOCK_SEL "npcm7xx-clock-sel"
++#define NPCM7XX_CLOCK_SEL(obj) OBJECT_CHECK(NPCM7xxClockSELState, \
++        (obj), TYPE_NPCM7XX_CLOCK_SEL)
++#define TYPE_NPCM7XX_CLOCK_DIVIDER "npcm7xx-clock-divider"
++#define NPCM7XX_CLOCK_DIVIDER(obj) OBJECT_CHECK(NPCM7xxClockDividerState, \
++        (obj), TYPE_NPCM7XX_CLOCK_DIVIDER)
++
++static void npcm7xx_clk_update_pll(void *opaque)
++{
++    NPCM7xxClockPLLState *s = opaque;
++    uint32_t con = s->clk->regs[s->reg];
++    uint64_t freq;
++
++    /* The PLL is grounded if it is not locked yet. */
++    if (con & PLLCON_LOKI) {
++        freq = clock_get_hz(s->clock_in);
++        freq *= PLLCON_FBDV(con);
++        freq /= PLLCON_INDV(con) * PLLCON_OTDV1(con) * PLLCON_OTDV2(con);
++    } else {
++        freq = 0;
++    }
++
++    clock_update_hz(s->clock_out, freq);
++}
++
++static void npcm7xx_clk_update_sel(void *opaque)
++{
++    NPCM7xxClockSELState *s = opaque;
++    uint32_t index = extract32(s->clk->regs[NPCM7XX_CLK_CLKSEL], s->offset,
++            s->len);
++
++    if (index >= s->input_size) {
++        qemu_log_mask(LOG_GUEST_ERROR,
++                      "%s: SEL index: %u out of range\n",
++                      __func__, index);
++        index = 0;
++    }
++    clock_update_hz(s->clock_out, clock_get_hz(s->clock_in[index]));
++}
++
++static void npcm7xx_clk_update_divider(void *opaque)
++{
++    NPCM7xxClockDividerState *s = opaque;
++    uint32_t freq;
++
++    freq = s->divide(s);
++    clock_update_hz(s->clock_out, freq);
++}
++
++static uint32_t divide_by_constant(NPCM7xxClockDividerState *s)
++{
++    return clock_get_hz(s->clock_in) / s->divisor;
++}
++
++static uint32_t divide_by_reg_divisor(NPCM7xxClockDividerState *s)
++{
++    return clock_get_hz(s->clock_in) /
++            (extract32(s->clk->regs[s->reg], s->offset, s->len) + 1);
++}
++
++static uint32_t divide_by_reg_divisor_times_2(NPCM7xxClockDividerState *s)
++{
++    return divide_by_reg_divisor(s) / 2;
++}
++
++static uint32_t shift_by_reg_divisor(NPCM7xxClockDividerState *s)
++{
++    return clock_get_hz(s->clock_in) >>
++        extract32(s->clk->regs[s->reg], s->offset, s->len);
++}
++
++static NPCM7xxClockPLL find_pll_by_reg(enum NPCM7xxCLKRegisters reg)
++{
++    switch (reg) {
++    case NPCM7XX_CLK_PLLCON0:
++        return NPCM7XX_CLOCK_PLL0;
++    case NPCM7XX_CLK_PLLCON1:
++        return NPCM7XX_CLOCK_PLL1;
++    case NPCM7XX_CLK_PLLCON2:
++        return NPCM7XX_CLOCK_PLL2;
++    case NPCM7XX_CLK_PLLCONG:
++        return NPCM7XX_CLOCK_PLLG;
++    default:
++        g_assert_not_reached();
++    }
++}
++
++static void npcm7xx_clk_update_all_plls(NPCM7xxCLKState *clk)
++{
++    int i;
++
++    for (i = 0; i < NPCM7XX_CLOCK_NR_PLLS; ++i) {
++        npcm7xx_clk_update_pll(&clk->plls[i]);
++    }
++}
++
++static void npcm7xx_clk_update_all_sels(NPCM7xxCLKState *clk)
++{
++    int i;
++
++    for (i = 0; i < NPCM7XX_CLOCK_NR_SELS; ++i) {
++        npcm7xx_clk_update_sel(&clk->sels[i]);
++    }
++}
++
++static void npcm7xx_clk_update_all_dividers(NPCM7xxCLKState *clk)
++{
++    int i;
++
++    for (i = 0; i < NPCM7XX_CLOCK_NR_DIVIDERS; ++i) {
++        npcm7xx_clk_update_divider(&clk->dividers[i]);
++    }
++}
++
++static void npcm7xx_clk_update_all_clocks(NPCM7xxCLKState *clk)
++{
++    clock_update_hz(clk->clkref, NPCM7XX_CLOCK_REF_HZ);
++    npcm7xx_clk_update_all_plls(clk);
++    npcm7xx_clk_update_all_sels(clk);
++    npcm7xx_clk_update_all_dividers(clk);
++}
++
++/* Types of clock sources. */
++typedef enum ClockSrcType {
++    CLKSRC_REF,
++    CLKSRC_PLL,
++    CLKSRC_SEL,
++    CLKSRC_DIV,
++} ClockSrcType;
++
++typedef struct PLLInitInfo {
++    const char *name;
++    ClockSrcType src_type;
++    int src_index;
++    int reg;
++    const char *public_name;
++} PLLInitInfo;
++
++typedef struct SELInitInfo {
++    const char *name;
++    uint8_t input_size;
++    ClockSrcType src_type[NPCM7XX_CLK_SEL_MAX_INPUT];
++    int src_index[NPCM7XX_CLK_SEL_MAX_INPUT];
++    int offset;
++    int len;
++    const char *public_name;
++} SELInitInfo;
++
++typedef struct DividerInitInfo {
++    const char *name;
++    ClockSrcType src_type;
++    int src_index;
++    uint32_t (*divide)(NPCM7xxClockDividerState *s);
++    int reg; /* not used when type == CONSTANT */
++    int offset; /* not used when type == CONSTANT */
++    int len; /* not used when type == CONSTANT */
++    int divisor; /* used only when type == CONSTANT */
++    const char *public_name;
++} DividerInitInfo;
++
++static const PLLInitInfo pll_init_info_list[] = {
++    [NPCM7XX_CLOCK_PLL0] = {
++        .name = "pll0",
++        .src_type = CLKSRC_REF,
++        .reg = NPCM7XX_CLK_PLLCON0,
++    },
++    [NPCM7XX_CLOCK_PLL1] = {
++        .name = "pll1",
++        .src_type = CLKSRC_REF,
++        .reg = NPCM7XX_CLK_PLLCON1,
++    },
++    [NPCM7XX_CLOCK_PLL2] = {
++        .name = "pll2",
++        .src_type = CLKSRC_REF,
++        .reg = NPCM7XX_CLK_PLLCON2,
++    },
++    [NPCM7XX_CLOCK_PLLG] = {
++        .name = "pllg",
++        .src_type = CLKSRC_REF,
++        .reg = NPCM7XX_CLK_PLLCONG,
++    },
++};
++
++static const SELInitInfo sel_init_info_list[] = {
++    [NPCM7XX_CLOCK_PIXCKSEL] = {
++        .name = "pixcksel",
++        .input_size = 2,
++        .src_type = {CLKSRC_PLL, CLKSRC_REF},
++        .src_index = {NPCM7XX_CLOCK_PLLG, 0},
++        .offset = 5,
++        .len = 1,
++        .public_name = "pixel-clock",
++    },
++    [NPCM7XX_CLOCK_MCCKSEL] = {
++        .name = "mccksel",
++        .input_size = 4,
++        .src_type = {CLKSRC_DIV, CLKSRC_REF, CLKSRC_REF,
++            /*MCBPCK, shouldn't be used in normal operation*/
++            CLKSRC_REF},
++        .src_index = {NPCM7XX_CLOCK_PLL1D2, 0, 0, 0},
++        .offset = 12,
++        .len = 2,
++        .public_name = "mc-phy-clock",
++    },
++    [NPCM7XX_CLOCK_CPUCKSEL] = {
++        .name = "cpucksel",
++        .input_size = 4,
++        .src_type = {CLKSRC_PLL, CLKSRC_DIV, CLKSRC_REF,
++            /*SYSBPCK, shouldn't be used in normal operation*/
++            CLKSRC_REF},
++        .src_index = {NPCM7XX_CLOCK_PLL0, NPCM7XX_CLOCK_PLL1D2, 0, 0},
++        .offset = 0,
++        .len = 2,
++        .public_name = "system-clock",
++    },
++    [NPCM7XX_CLOCK_CLKOUTSEL] = {
++        .name = "clkoutsel",
++        .input_size = 5,
++        .src_type = {CLKSRC_PLL, CLKSRC_DIV, CLKSRC_REF,
++            CLKSRC_PLL, CLKSRC_DIV},
++        .src_index = {NPCM7XX_CLOCK_PLL0, NPCM7XX_CLOCK_PLL1D2, 0,
++            NPCM7XX_CLOCK_PLLG, NPCM7XX_CLOCK_PLL2D2},
++        .offset = 18,
++        .len = 3,
++        .public_name = "tock",
++    },
++    [NPCM7XX_CLOCK_UARTCKSEL] = {
++        .name = "uartcksel",
++        .input_size = 4,
++        .src_type = {CLKSRC_PLL, CLKSRC_DIV, CLKSRC_REF, CLKSRC_DIV},
++        .src_index = {NPCM7XX_CLOCK_PLL0, NPCM7XX_CLOCK_PLL1D2, 0,
++            NPCM7XX_CLOCK_PLL2D2},
++        .offset = 8,
++        .len = 2,
++    },
++    [NPCM7XX_CLOCK_TIMCKSEL] = {
++        .name = "timcksel",
++        .input_size = 4,
++        .src_type = {CLKSRC_PLL, CLKSRC_DIV, CLKSRC_REF, CLKSRC_DIV},
++        .src_index = {NPCM7XX_CLOCK_PLL0, NPCM7XX_CLOCK_PLL1D2, 0,
++            NPCM7XX_CLOCK_PLL2D2},
++        .offset = 14,
++        .len = 2,
++    },
++    [NPCM7XX_CLOCK_SDCKSEL] = {
++        .name = "sdcksel",
++        .input_size = 4,
++        .src_type = {CLKSRC_PLL, CLKSRC_DIV, CLKSRC_REF, CLKSRC_DIV},
++        .src_index = {NPCM7XX_CLOCK_PLL0, NPCM7XX_CLOCK_PLL1D2, 0,
++            NPCM7XX_CLOCK_PLL2D2},
++        .offset = 6,
++        .len = 2,
++    },
++    [NPCM7XX_CLOCK_GFXMSEL] = {
++        .name = "gfxmksel",
++        .input_size = 2,
++        .src_type = {CLKSRC_REF, CLKSRC_PLL},
++        .src_index = {0, NPCM7XX_CLOCK_PLL2},
++        .offset = 21,
++        .len = 1,
++    },
++    [NPCM7XX_CLOCK_SUCKSEL] = {
++        .name = "sucksel",
++        .input_size = 4,
++        .src_type = {CLKSRC_PLL, CLKSRC_DIV, CLKSRC_REF, CLKSRC_DIV},
++        .src_index = {NPCM7XX_CLOCK_PLL0, NPCM7XX_CLOCK_PLL1D2, 0,
++            NPCM7XX_CLOCK_PLL2D2},
++        .offset = 10,
++        .len = 2,
++    },
++};
++
++static const DividerInitInfo divider_init_info_list[] = {
++    [NPCM7XX_CLOCK_PLL1D2] = {
++        .name = "pll1d2",
++        .src_type = CLKSRC_PLL,
++        .src_index = NPCM7XX_CLOCK_PLL1,
++        .divide = divide_by_constant,
++        .divisor = 2,
++    },
++    [NPCM7XX_CLOCK_PLL2D2] = {
++        .name = "pll2d2",
++        .src_type = CLKSRC_PLL,
++        .src_index = NPCM7XX_CLOCK_PLL2,
++        .divide = divide_by_constant,
++        .divisor = 2,
++    },
++    [NPCM7XX_CLOCK_MC_DIVIDER] = {
++        .name = "mc-divider",
++        .src_type = CLKSRC_SEL,
++        .src_index = NPCM7XX_CLOCK_MCCKSEL,
++        .divide = divide_by_constant,
++        .divisor = 2,
++        .public_name = "mc-clock"
++    },
++    [NPCM7XX_CLOCK_AXI_DIVIDER] = {
++        .name = "axi-divider",
++        .src_type = CLKSRC_SEL,
++        .src_index = NPCM7XX_CLOCK_CPUCKSEL,
++        .divide = shift_by_reg_divisor,
++        .reg = NPCM7XX_CLK_CLKDIV1,
++        .offset = 0,
++        .len = 1,
++        .public_name = "clk2"
++    },
++    [NPCM7XX_CLOCK_AHB_DIVIDER] = {
++        .name = "ahb-divider",
++        .src_type = CLKSRC_DIV,
++        .src_index = NPCM7XX_CLOCK_AXI_DIVIDER,
++        .divide = divide_by_reg_divisor,
++        .reg = NPCM7XX_CLK_CLKDIV1,
++        .offset = 26,
++        .len = 2,
++        .public_name = "clk4"
++    },
++    [NPCM7XX_CLOCK_AHB3_DIVIDER] = {
++        .name = "ahb3-divider",
++        .src_type = CLKSRC_DIV,
++        .src_index = NPCM7XX_CLOCK_AHB_DIVIDER,
++        .divide = divide_by_reg_divisor,
++        .reg = NPCM7XX_CLK_CLKDIV1,
++        .offset = 6,
++        .len = 5,
++        .public_name = "ahb3-spi3-clock"
++    },
++    [NPCM7XX_CLOCK_SPI0_DIVIDER] = {
++        .name = "spi0-divider",
++        .src_type = CLKSRC_DIV,
++        .src_index = NPCM7XX_CLOCK_AHB_DIVIDER,
++        .divide = divide_by_reg_divisor,
++        .reg = NPCM7XX_CLK_CLKDIV3,
++        .offset = 6,
++        .len = 5,
++        .public_name = "spi0-clock",
++    },
++    [NPCM7XX_CLOCK_SPIX_DIVIDER] = {
++        .name = "spix-divider",
++        .src_type = CLKSRC_DIV,
++        .src_index = NPCM7XX_CLOCK_AHB_DIVIDER,
++        .divide = divide_by_reg_divisor,
++        .reg = NPCM7XX_CLK_CLKDIV3,
++        .offset = 1,
++        .len = 5,
++        .public_name = "spix-clock",
++    },
++    [NPCM7XX_CLOCK_APB1_DIVIDER] = {
++        .name = "apb1-divider",
++        .src_type = CLKSRC_DIV,
++        .src_index = NPCM7XX_CLOCK_AHB_DIVIDER,
++        .divide = shift_by_reg_divisor,
++        .reg = NPCM7XX_CLK_CLKDIV2,
++        .offset = 24,
++        .len = 2,
++        .public_name = "apb1-clock",
++    },
++    [NPCM7XX_CLOCK_APB2_DIVIDER] = {
++        .name = "apb2-divider",
++        .src_type = CLKSRC_DIV,
++        .src_index = NPCM7XX_CLOCK_AHB_DIVIDER,
++        .divide = shift_by_reg_divisor,
++        .reg = NPCM7XX_CLK_CLKDIV2,
++        .offset = 26,
++        .len = 2,
++        .public_name = "apb2-clock",
++    },
++    [NPCM7XX_CLOCK_APB3_DIVIDER] = {
++        .name = "apb3-divider",
++        .src_type = CLKSRC_DIV,
++        .src_index = NPCM7XX_CLOCK_AHB_DIVIDER,
++        .divide = shift_by_reg_divisor,
++        .reg = NPCM7XX_CLK_CLKDIV2,
++        .offset = 28,
++        .len = 2,
++        .public_name = "apb3-clock",
++    },
++    [NPCM7XX_CLOCK_APB4_DIVIDER] = {
++        .name = "apb4-divider",
++        .src_type = CLKSRC_DIV,
++        .src_index = NPCM7XX_CLOCK_AHB_DIVIDER,
++        .divide = shift_by_reg_divisor,
++        .reg = NPCM7XX_CLK_CLKDIV2,
++        .offset = 30,
++        .len = 2,
++        .public_name = "apb4-clock",
++    },
++    [NPCM7XX_CLOCK_APB5_DIVIDER] = {
++        .name = "apb5-divider",
++        .src_type = CLKSRC_DIV,
++        .src_index = NPCM7XX_CLOCK_AHB_DIVIDER,
++        .divide = shift_by_reg_divisor,
++        .reg = NPCM7XX_CLK_CLKDIV2,
++        .offset = 22,
++        .len = 2,
++        .public_name = "apb5-clock",
++    },
++    [NPCM7XX_CLOCK_CLKOUT_DIVIDER] = {
++        .name = "clkout-divider",
++        .src_type = CLKSRC_SEL,
++        .src_index = NPCM7XX_CLOCK_CLKOUTSEL,
++        .divide = divide_by_reg_divisor,
++        .reg = NPCM7XX_CLK_CLKDIV2,
++        .offset = 16,
++        .len = 5,
++        .public_name = "clkout",
++    },
++    [NPCM7XX_CLOCK_UART_DIVIDER] = {
++        .name = "uart-divider",
++        .src_type = CLKSRC_SEL,
++        .src_index = NPCM7XX_CLOCK_UARTCKSEL,
++        .divide = divide_by_reg_divisor,
++        .reg = NPCM7XX_CLK_CLKDIV1,
++        .offset = 16,
++        .len = 5,
++        .public_name = "uart-clock",
++    },
++    [NPCM7XX_CLOCK_TIMER_DIVIDER] = {
++        .name = "timer-divider",
++        .src_type = CLKSRC_SEL,
++        .src_index = NPCM7XX_CLOCK_TIMCKSEL,
++        .divide = divide_by_reg_divisor,
++        .reg = NPCM7XX_CLK_CLKDIV1,
++        .offset = 21,
++        .len = 5,
++        .public_name = "timer-clock",
++    },
++    [NPCM7XX_CLOCK_ADC_DIVIDER] = {
++        .name = "adc-divider",
++        .src_type = CLKSRC_DIV,
++        .src_index = NPCM7XX_CLOCK_TIMER_DIVIDER,
++        .divide = shift_by_reg_divisor,
++        .reg = NPCM7XX_CLK_CLKDIV1,
++        .offset = 28,
++        .len = 3,
++        .public_name = "adc-clock",
++    },
++    [NPCM7XX_CLOCK_MMC_DIVIDER] = {
++        .name = "mmc-divider",
++        .src_type = CLKSRC_SEL,
++        .src_index = NPCM7XX_CLOCK_SDCKSEL,
++        .divide = divide_by_reg_divisor,
++        .reg = NPCM7XX_CLK_CLKDIV1,
++        .offset = 11,
++        .len = 5,
++        .public_name = "mmc-clock",
++    },
++    [NPCM7XX_CLOCK_SDHC_DIVIDER] = {
++        .name = "sdhc-divider",
++        .src_type = CLKSRC_SEL,
++        .src_index = NPCM7XX_CLOCK_SDCKSEL,
++        .divide = divide_by_reg_divisor_times_2,
++        .reg = NPCM7XX_CLK_CLKDIV2,
++        .offset = 0,
++        .len = 4,
++        .public_name = "sdhc-clock",
++    },
++    [NPCM7XX_CLOCK_GFXM_DIVIDER] = {
++        .name = "gfxm-divider",
++        .src_type = CLKSRC_SEL,
++        .src_index = NPCM7XX_CLOCK_GFXMSEL,
++        .divide = divide_by_constant,
++        .divisor = 3,
++        .public_name = "gfxm-clock",
++    },
++    [NPCM7XX_CLOCK_UTMI_DIVIDER] = {
++        .name = "utmi-divider",
++        .src_type = CLKSRC_SEL,
++        .src_index = NPCM7XX_CLOCK_SUCKSEL,
++        .divide = divide_by_reg_divisor,
++        .reg = NPCM7XX_CLK_CLKDIV2,
++        .offset = 8,
++        .len = 5,
++        .public_name = "utmi-clock",
++    },
++};
++
++static void npcm7xx_clk_pll_init(Object *obj)
++{
++    NPCM7xxClockPLLState *pll = NPCM7XX_CLOCK_PLL(obj);
++
++    pll->clock_in = qdev_init_clock_in(DEVICE(pll), "clock-in",
++            npcm7xx_clk_update_pll, pll);
++    pll->clock_out = qdev_init_clock_out(DEVICE(pll), "clock-out");
++}
++
++static void npcm7xx_clk_sel_init(Object *obj)
++{
++    int i;
++    NPCM7xxClockSELState *sel = NPCM7XX_CLOCK_SEL(obj);
++
++    for (i = 0; i < NPCM7XX_CLK_SEL_MAX_INPUT; ++i) {
++        sel->clock_in[i] = qdev_init_clock_in(DEVICE(sel),
++                g_strdup_printf("clock-in[%d]", i),
++                npcm7xx_clk_update_sel, sel);
++    }
++    sel->clock_out = qdev_init_clock_out(DEVICE(sel), "clock-out");
++}
++static void npcm7xx_clk_divider_init(Object *obj)
++{
++    NPCM7xxClockDividerState *div = NPCM7XX_CLOCK_DIVIDER(obj);
++
++    div->clock_in = qdev_init_clock_in(DEVICE(div), "clock-in",
++            npcm7xx_clk_update_divider, div);
++    div->clock_out = qdev_init_clock_out(DEVICE(div), "clock-out");
++}
++
++static void npcm7xx_init_clock_pll(NPCM7xxClockPLLState *pll,
++        NPCM7xxCLKState *clk, const PLLInitInfo *init_info)
++{
++    pll->name = init_info->name;
++    pll->clk = clk;
++    pll->reg = init_info->reg;
++    if (init_info->public_name != NULL) {
++        qdev_alias_clock(DEVICE(pll), "clock-out", DEVICE(clk),
++                init_info->public_name);
++    }
++}
++
++static void npcm7xx_init_clock_sel(NPCM7xxClockSELState *sel,
++        NPCM7xxCLKState *clk, const SELInitInfo *init_info)
++{
++    int input_size = init_info->input_size;
++
++    sel->name = init_info->name;
++    sel->clk = clk;
++    sel->input_size = init_info->input_size;
++    g_assert(input_size <= NPCM7XX_CLK_SEL_MAX_INPUT);
++    sel->offset = init_info->offset;
++    sel->len = init_info->len;
++    if (init_info->public_name != NULL) {
++        qdev_alias_clock(DEVICE(sel), "clock-out", DEVICE(clk),
++                init_info->public_name);
++    }
++}
++
++static void npcm7xx_init_clock_divider(NPCM7xxClockDividerState *div,
++        NPCM7xxCLKState *clk, const DividerInitInfo *init_info)
++{
++    div->name = init_info->name;
++    div->clk = clk;
++
++    div->divide = init_info->divide;
++    if (div->divide == divide_by_constant) {
++        div->divisor = init_info->divisor;
++    } else {
++        div->reg = init_info->reg;
++        div->offset = init_info->offset;
++        div->len = init_info->len;
++    }
++    if (init_info->public_name != NULL) {
++        qdev_alias_clock(DEVICE(div), "clock-out", DEVICE(clk),
++                init_info->public_name);
++    }
++}
++
++static Clock *npcm7xx_get_clock(NPCM7xxCLKState *clk, ClockSrcType type,
++        int index)
++{
++    switch (type) {
++    case CLKSRC_REF:
++        return clk->clkref;
++    case CLKSRC_PLL:
++        return clk->plls[index].clock_out;
++    case CLKSRC_SEL:
++        return clk->sels[index].clock_out;
++    case CLKSRC_DIV:
++        return clk->dividers[index].clock_out;
++    default:
++        g_assert_not_reached();
++    }
++}
++
++static void npcm7xx_connect_clocks(NPCM7xxCLKState *clk)
++{
++    int i, j;
++    Clock *src;
++
++    for (i = 0; i < NPCM7XX_CLOCK_NR_PLLS; ++i) {
++        src = npcm7xx_get_clock(clk, pll_init_info_list[i].src_type,
++                pll_init_info_list[i].src_index);
++        clock_set_source(clk->plls[i].clock_in, src);
++    }
++    for (i = 0; i < NPCM7XX_CLOCK_NR_SELS; ++i) {
++        for (j = 0; j < sel_init_info_list[i].input_size; ++j) {
++            src = npcm7xx_get_clock(clk, sel_init_info_list[i].src_type[j],
++                    sel_init_info_list[i].src_index[j]);
++            clock_set_source(clk->sels[i].clock_in[j], src);
++        }
++    }
++    for (i = 0; i < NPCM7XX_CLOCK_NR_DIVIDERS; ++i) {
++        src = npcm7xx_get_clock(clk, divider_init_info_list[i].src_type,
++                divider_init_info_list[i].src_index);
++        clock_set_source(clk->dividers[i].clock_in, src);
++    }
++}
++
+ static uint64_t npcm7xx_clk_read(void *opaque, hwaddr offset, unsigned size)
+ {
+     uint32_t reg = offset / sizeof(uint32_t);
+@@ -129,7 +740,7 @@ static uint64_t npcm7xx_clk_read(void *opaque, hwaddr offset, unsigned size)
+          *
+          * The 4 LSBs are always zero: (1e9 / 640) << 4 = 25000000.
+          */
+-        value = (((now_ns - s->ref_ns) / 640) << 4) % NPCM7XX_TIMER_REF_HZ;
++        value = (((now_ns - s->ref_ns) / 640) << 4) % NPCM7XX_CLOCK_REF_HZ;
+         break;
+ 
+     default:
+@@ -183,6 +794,20 @@ static void npcm7xx_clk_write(void *opaque, hwaddr offset,
+                 value |= (value & PLLCON_LOKS);
+             }
+         }
++        /* Only update PLL when it is locked. */
++        if (value & PLLCON_LOKI) {
++            npcm7xx_clk_update_pll(&s->plls[find_pll_by_reg(reg)]);
++        }
++        break;
++
++    case NPCM7XX_CLK_CLKSEL:
++        npcm7xx_clk_update_all_sels(s);
++        break;
++
++    case NPCM7XX_CLK_CLKDIV1:
++    case NPCM7XX_CLK_CLKDIV2:
++    case NPCM7XX_CLK_CLKDIV3:
++        npcm7xx_clk_update_all_dividers(s);
+         break;
+ 
+     case NPCM7XX_CLK_CNTR25M:
+@@ -234,6 +859,7 @@ static void npcm7xx_clk_enter_reset(Object *obj, ResetType type)
+     case RESET_TYPE_COLD:
+         memcpy(s->regs, cold_reset_values, sizeof(cold_reset_values));
+         s->ref_ns = qemu_clock_get_ns(QEMU_CLOCK_VIRTUAL);
++        npcm7xx_clk_update_all_clocks(s);
          return;
-@@ -1198,18 +1210,18 @@ static uint64_t lan9118_readl(void *opaque, hwaddr offset,
-     lan9118_state *s = (lan9118_state *)opaque;
- 
-     //DPRINTF("Read reg 0x%02x\n", (int)offset);
--    if (offset < 0x20) {
-+    if (offset <= RX_DATA_FIFO_PORT_LAST) {
-         /* RX FIFO */
-         return rx_fifo_pop(s);
      }
-     switch (offset) {
--    case 0x40:
-+    case RX_STATUS_FIFO_PORT:
-         return rx_status_fifo_pop(s);
--    case 0x44:
-+    case RX_STATUS_FIFO_PEEK:
-         return s->rx_status_fifo[s->rx_status_fifo_head];
--    case 0x48:
-+    case TX_STATUS_FIFO_PORT:
-         return tx_status_fifo_pop(s);
--    case 0x4c:
-+    case TX_STATUS_FIFO_PEEK:
-         return s->tx_status_fifo[s->tx_status_fifo_head];
-     case CSR_ID_REV:
-         return 0x01180001;
+ 
+@@ -245,6 +871,42 @@ static void npcm7xx_clk_enter_reset(Object *obj, ResetType type)
+                   __func__, type);
+ }
+ 
++static void npcm7xx_clk_init_clock_hierarchy(NPCM7xxCLKState *s)
++{
++    int i;
++
++    s->clkref = qdev_init_clock_in(DEVICE(s), "clkref", NULL, NULL);
++
++    /* First pass: init all converter modules */
++    QEMU_BUILD_BUG_ON(ARRAY_SIZE(pll_init_info_list) != NPCM7XX_CLOCK_NR_PLLS);
++    QEMU_BUILD_BUG_ON(ARRAY_SIZE(sel_init_info_list) != NPCM7XX_CLOCK_NR_SELS);
++    QEMU_BUILD_BUG_ON(ARRAY_SIZE(divider_init_info_list)
++            != NPCM7XX_CLOCK_NR_DIVIDERS);
++    for (i = 0; i < NPCM7XX_CLOCK_NR_PLLS; ++i) {
++        object_initialize_child(OBJECT(s), pll_init_info_list[i].name,
++                &s->plls[i], TYPE_NPCM7XX_CLOCK_PLL);
++        npcm7xx_init_clock_pll(&s->plls[i], s,
++                &pll_init_info_list[i]);
++    }
++    for (i = 0; i < NPCM7XX_CLOCK_NR_SELS; ++i) {
++        object_initialize_child(OBJECT(s), sel_init_info_list[i].name,
++                &s->sels[i], TYPE_NPCM7XX_CLOCK_SEL);
++        npcm7xx_init_clock_sel(&s->sels[i], s,
++                &sel_init_info_list[i]);
++    }
++    for (i = 0; i < NPCM7XX_CLOCK_NR_DIVIDERS; ++i) {
++        object_initialize_child(OBJECT(s), divider_init_info_list[i].name,
++                &s->dividers[i], TYPE_NPCM7XX_CLOCK_DIVIDER);
++        npcm7xx_init_clock_divider(&s->dividers[i], s,
++                &divider_init_info_list[i]);
++    }
++
++    /* Second pass: connect converter modules */
++    npcm7xx_connect_clocks(s);
++
++    clock_update_hz(s->clkref, NPCM7XX_CLOCK_REF_HZ);
++}
++
+ static void npcm7xx_clk_init(Object *obj)
+ {
+     NPCM7xxCLKState *s = NPCM7XX_CLK(obj);
+@@ -252,21 +914,114 @@ static void npcm7xx_clk_init(Object *obj)
+     memory_region_init_io(&s->iomem, obj, &npcm7xx_clk_ops, s,
+                           TYPE_NPCM7XX_CLK, 4 * KiB);
+     sysbus_init_mmio(&s->parent, &s->iomem);
+-    qdev_init_gpio_in_named(DEVICE(s), npcm7xx_clk_perform_watchdog_reset,
+-            NPCM7XX_WATCHDOG_RESET_GPIO_IN, NPCM7XX_NR_WATCHDOGS);
+ }
+ 
+-static const VMStateDescription vmstate_npcm7xx_clk = {
+-    .name = "npcm7xx-clk",
++static int npcm7xx_clk_post_load(void *opaque, int version_id)
++{
++    if (version_id >= 1) {
++        NPCM7xxCLKState *clk = opaque;
++
++        npcm7xx_clk_update_all_clocks(clk);
++    }
++
++    return 0;
++}
++
++static void npcm7xx_clk_realize(DeviceState *dev, Error **errp)
++{
++    int i;
++    NPCM7xxCLKState *s = NPCM7XX_CLK(dev);
++
++    qdev_init_gpio_in_named(DEVICE(s), npcm7xx_clk_perform_watchdog_reset,
++            NPCM7XX_WATCHDOG_RESET_GPIO_IN, NPCM7XX_NR_WATCHDOGS);
++    npcm7xx_clk_init_clock_hierarchy(s);
++
++    /* Realize child devices */
++    for (i = 0; i < NPCM7XX_CLOCK_NR_PLLS; ++i) {
++        if (!qdev_realize(DEVICE(&s->plls[i]), NULL, errp)) {
++            return;
++        }
++    }
++    for (i = 0; i < NPCM7XX_CLOCK_NR_SELS; ++i) {
++        if (!qdev_realize(DEVICE(&s->sels[i]), NULL, errp)) {
++            return;
++        }
++    }
++    for (i = 0; i < NPCM7XX_CLOCK_NR_DIVIDERS; ++i) {
++        if (!qdev_realize(DEVICE(&s->dividers[i]), NULL, errp)) {
++            return;
++        }
++    }
++}
++
++static const VMStateDescription vmstate_npcm7xx_clk_pll = {
++    .name = "npcm7xx-clock-pll",
+     .version_id = 0,
+     .minimum_version_id = 0,
+-    .fields = (VMStateField[]) {
+-        VMSTATE_UINT32_ARRAY(regs, NPCM7xxCLKState, NPCM7XX_CLK_NR_REGS),
+-        VMSTATE_INT64(ref_ns, NPCM7xxCLKState),
++    .fields =  (VMStateField[]) {
++        VMSTATE_CLOCK(clock_in, NPCM7xxClockPLLState),
+         VMSTATE_END_OF_LIST(),
+     },
+ };
+ 
++static const VMStateDescription vmstate_npcm7xx_clk_sel = {
++    .name = "npcm7xx-clock-sel",
++    .version_id = 0,
++    .minimum_version_id = 0,
++    .fields =  (VMStateField[]) {
++        VMSTATE_ARRAY_OF_POINTER_TO_STRUCT(clock_in, NPCM7xxClockSELState,
++                NPCM7XX_CLK_SEL_MAX_INPUT, 0, vmstate_clock, Clock),
++        VMSTATE_END_OF_LIST(),
++    },
++};
++
++static const VMStateDescription vmstate_npcm7xx_clk_divider = {
++    .name = "npcm7xx-clock-divider",
++    .version_id = 0,
++    .minimum_version_id = 0,
++    .fields =  (VMStateField[]) {
++        VMSTATE_CLOCK(clock_in, NPCM7xxClockDividerState),
++        VMSTATE_END_OF_LIST(),
++    },
++};
++
++static const VMStateDescription vmstate_npcm7xx_clk = {
++    .name = "npcm7xx-clk",
++    .version_id = 1,
++    .minimum_version_id = 1,
++    .post_load = npcm7xx_clk_post_load,
++    .fields = (VMStateField[]) {
++        VMSTATE_UINT32_ARRAY(regs, NPCM7xxCLKState, NPCM7XX_CLK_NR_REGS),
++        VMSTATE_INT64(ref_ns, NPCM7xxCLKState),
++        VMSTATE_CLOCK(clkref, NPCM7xxCLKState),
++        VMSTATE_END_OF_LIST(),
++    },
++};
++
++static void npcm7xx_clk_pll_class_init(ObjectClass *klass, void *data)
++{
++    DeviceClass *dc = DEVICE_CLASS(klass);
++
++    dc->desc = "NPCM7xx Clock PLL Module";
++    dc->vmsd = &vmstate_npcm7xx_clk_pll;
++}
++
++static void npcm7xx_clk_sel_class_init(ObjectClass *klass, void *data)
++{
++    DeviceClass *dc = DEVICE_CLASS(klass);
++
++    dc->desc = "NPCM7xx Clock SEL Module";
++    dc->vmsd = &vmstate_npcm7xx_clk_sel;
++}
++
++static void npcm7xx_clk_divider_class_init(ObjectClass *klass, void *data)
++{
++    DeviceClass *dc = DEVICE_CLASS(klass);
++
++    dc->desc = "NPCM7xx Clock Divider Module";
++    dc->vmsd = &vmstate_npcm7xx_clk_divider;
++}
++
+ static void npcm7xx_clk_class_init(ObjectClass *klass, void *data)
+ {
+     ResettableClass *rc = RESETTABLE_CLASS(klass);
+@@ -276,9 +1031,34 @@ static void npcm7xx_clk_class_init(ObjectClass *klass, void *data)
+ 
+     dc->desc = "NPCM7xx Clock Control Registers";
+     dc->vmsd = &vmstate_npcm7xx_clk;
++    dc->realize = npcm7xx_clk_realize;
+     rc->phases.enter = npcm7xx_clk_enter_reset;
+ }
+ 
++static const TypeInfo npcm7xx_clk_pll_info = {
++    .name               = TYPE_NPCM7XX_CLOCK_PLL,
++    .parent             = TYPE_DEVICE,
++    .instance_size      = sizeof(NPCM7xxClockPLLState),
++    .instance_init      = npcm7xx_clk_pll_init,
++    .class_init         = npcm7xx_clk_pll_class_init,
++};
++
++static const TypeInfo npcm7xx_clk_sel_info = {
++    .name               = TYPE_NPCM7XX_CLOCK_SEL,
++    .parent             = TYPE_DEVICE,
++    .instance_size      = sizeof(NPCM7xxClockSELState),
++    .instance_init      = npcm7xx_clk_sel_init,
++    .class_init         = npcm7xx_clk_sel_class_init,
++};
++
++static const TypeInfo npcm7xx_clk_divider_info = {
++    .name               = TYPE_NPCM7XX_CLOCK_DIVIDER,
++    .parent             = TYPE_DEVICE,
++    .instance_size      = sizeof(NPCM7xxClockDividerState),
++    .instance_init      = npcm7xx_clk_divider_init,
++    .class_init         = npcm7xx_clk_divider_class_init,
++};
++
+ static const TypeInfo npcm7xx_clk_info = {
+     .name               = TYPE_NPCM7XX_CLK,
+     .parent             = TYPE_SYS_BUS_DEVICE,
+@@ -289,6 +1069,9 @@ static const TypeInfo npcm7xx_clk_info = {
+ 
+ static void npcm7xx_clk_register_type(void)
+ {
++    type_register_static(&npcm7xx_clk_pll_info);
++    type_register_static(&npcm7xx_clk_sel_info);
++    type_register_static(&npcm7xx_clk_divider_info);
+     type_register_static(&npcm7xx_clk_info);
+ }
+ type_init(npcm7xx_clk_register_type);
 -- 
 2.20.1
 
