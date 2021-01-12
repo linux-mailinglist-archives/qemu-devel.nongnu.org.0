@@ -2,65 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BF3D22F332D
-	for <lists+qemu-devel@lfdr.de>; Tue, 12 Jan 2021 15:48:43 +0100 (CET)
-Received: from localhost ([::1]:42148 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 514862F3361
+	for <lists+qemu-devel@lfdr.de>; Tue, 12 Jan 2021 15:57:16 +0100 (CET)
+Received: from localhost ([::1]:33246 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kzKyQ-0000u9-Ry
-	for lists+qemu-devel@lfdr.de; Tue, 12 Jan 2021 09:48:42 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54446)
+	id 1kzL6h-0000f6-9L
+	for lists+qemu-devel@lfdr.de; Tue, 12 Jan 2021 09:57:15 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56124)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <olaf@aepfle.de>) id 1kzKx7-0008RC-J9
- for qemu-devel@nongnu.org; Tue, 12 Jan 2021 09:47:21 -0500
-Received: from mo4-p01-ob.smtp.rzone.de ([85.215.255.50]:28694)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <olaf@aepfle.de>) id 1kzKx5-0001g9-NF
- for qemu-devel@nongnu.org; Tue, 12 Jan 2021 09:47:21 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; t=1610462836;
- s=strato-dkim-0002; d=aepfle.de;
- h=References:In-Reply-To:Message-ID:Subject:Cc:To:From:Date:From:
- Subject:Sender;
- bh=pxgn2IdkQ/GKxMCr5I6xIHIfVzXx1iHDrrESbYhTC/o=;
- b=VuoF82CfTXHEgiRHbEk7pODGcEEnPbb2LDjyAkGD8S0eruJfrFSu0CNL8nPCktAWD9
- C0DA7s0lHItv2T16CAJiDIzBJp+7YY43dz2kZLY51cgDkwf6jzr5Iq3auh1UXpTd0D7X
- o8Yg6bJjTXfhiWlGiUOfk1bCxJBTjftThoq/DB42LOJ8NmN48G2V3r2vWHWNCmT7TRb9
- CfUqSavkM/0XgOhb8oTDCOmfIcpT5v04yg7PXtxsGTcyeCkj+g7h8YA9YQD1hKSLTT1S
- MYE6T6hVQPmeySXZcSVx/AKEbsjZ3QvhWtNonBXN7mU8TEEQkyNZLWC5gtcc3i5WC338
- 88jQ==
-X-RZG-AUTH: ":P2EQZWCpfu+qG7CngxMFH1J+3q8wa/QLpd5ylWvMDXdoX8l8pYAcz5OTXuqX"
-X-RZG-CLASS-ID: mo00
-Received: from sender by smtp.strato.de (RZmta 47.12.1 SBL|AUTH)
- with ESMTPSA id h0968ex0CEl9Q4i
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256 bits))
- (Client did not present a certificate);
- Tue, 12 Jan 2021 15:47:09 +0100 (CET)
-Date: Tue, 12 Jan 2021 15:47:00 +0100
-From: Olaf Hering <olaf@aepfle.de>
-To: Paolo Bonzini <pbonzini@redhat.com>
-Subject: Re: virtfs-proxy-helper fails due to bogus libattr test
-Message-ID: <20210112154700.41c1cb87.olaf@aepfle.de>
-In-Reply-To: <13c2a785-a8a8-6a17-3265-b3597fc5d734@redhat.com>
-References: <20210112105110.2f0e4fbb.olaf@aepfle.de>
- <2315616.PpvBb8DKss@silver> <20210112122900.GH1360503@redhat.com>
- <13c2a785-a8a8-6a17-3265-b3597fc5d734@redhat.com>
-X-Mailer: Claws Mail 2020.08.19 (GTK+ 2.24.32; x86_64-suse-linux-gnu)
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1kzL5A-0007ip-Lv
+ for qemu-devel@nongnu.org; Tue, 12 Jan 2021 09:55:40 -0500
+Received: from indium.canonical.com ([91.189.90.7]:57418)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1kzL57-0004h1-B7
+ for qemu-devel@nongnu.org; Tue, 12 Jan 2021 09:55:40 -0500
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1kzL54-0006g2-Kr
+ for <qemu-devel@nongnu.org>; Tue, 12 Jan 2021 14:55:34 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id 8CABE2E813B
+ for <qemu-devel@nongnu.org>; Tue, 12 Jan 2021 14:55:34 +0000 (UTC)
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- boundary="Sig_/Xg3p=tKbDKpfKnHRvKiLWYt"; protocol="application/pgp-signature"
-Received-SPF: none client-ip=85.215.255.50; envelope-from=olaf@aepfle.de;
- helo=mo4-p01-ob.smtp.rzone.de
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_PASS=-0.001, SPF_NONE=0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Date: Tue, 12 Jan 2021 14:47:20 -0000
+From: Qiuhao Li <1910826@bugs.launchpad.net>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: a1xndr qiuhao
+X-Launchpad-Bug-Reporter: Alexander Bulekov (a1xndr)
+X-Launchpad-Bug-Modifier: Qiuhao Li (qiuhao)
+References: <161014511656.1595.5916687449177710884.malonedeb@gac.canonical.com>
+Message-Id: <161046284101.6753.12409762927917394791.malone@wampee.canonical.com>
+Subject: [Bug 1910826] Re: [OSS-Fuzz] Issue 29224 rtl8139: Stack-overflow in
+ rtlNUMBER_transmit_one
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="511b4a3b6512aa3d421c5f7d74f3527e78bff26e"; Instance="production"
+X-Launchpad-Hash: e903c3591b03ef9f804c88dab4e406810364fb32
+Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
+ helo=indium.canonical.com
+X-Spam_score_int: -65
+X-Spam_score: -6.6
+X-Spam_bar: ------
+X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9,
+ HEADER_FROM_DIFFERENT_DOMAINS=0.249, RCVD_IN_DNSWL_HI=-5,
+ RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -69,51 +70,129 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Christian Schoenebeck <qemu_oss@crudebyte.com>,
- "Daniel P. =?UTF-8?B?QmVycmFuZ8Op?=" <berrange@redhat.com>,
- qemu-devel@nongnu.org, Greg Kurz <groug@kaod.org>
+Reply-To: Bug 1910826 <1910826@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---Sig_/Xg3p=tKbDKpfKnHRvKiLWYt
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: quoted-printable
+A more concise version and corresponding notes. Might help :)
 
-Am Tue, 12 Jan 2021 14:08:31 +0100
-schrieb Paolo Bonzini <pbonzini@redhat.com>:
+-- [ Reproducer
 
-> Olaf, can you expand on that?
+cat << EOF | ../build/qemu-system-i386 -machine q35 \
+-nodefaults  -device rtl8139,netdev=3Dnet0 \
+-netdev user,id=3Dnet0 -display none -qtest stdio
+outl 0xcf8 0x80000804
+outb 0xcfc 0x06
+outl 0xcf8 0x80000817
+outb 0xcfc 0xff
+write 0xff000037 0x1 0x0c
+writel 0xff000030 0xff000010
+write 0xff000040 0x4 0x100006
+write 0xff000044 0x4 0x01
+write 0xff000010 0x4 0x01
+EOF
 
-The full log is here:
-https://build.opensuse.org/public/build/home:olh:xen-unstable/openSUSE_15.1=
-/x86_64/qemu/_log
+-- [ Notes
 
-I browsed configure and meson.build to make a guess which variable is false=
-, so virtfs-proxy-helper is not built anymore.
+/* Make the MMIO region start from 0xff000000 */
+outl 0xcf8 0x80000817
+outb 0xcfc 0xff
 
+/*Command Register: enable receiver and transmitter*/
+write 0xff000037 0x1 0x0c
 
-Olaf
+/* set Receive (Rx) Buffer Start Address at 0xff000010 */
+/* Note: 0xff000010 - 0xff000000 =3D 0x10 is the offset of TSD0*/
+writel 0xff000030 0xff000010
 
---Sig_/Xg3p=tKbDKpfKnHRvKiLWYt
-Content-Type: application/pgp-signature
-Content-Description: Digitale Signatur von OpenPGP
+/* TXRR, Tx Retry Count =3D 1 */
+/* set transmit mode into the loopback */
+write 0xff000040 0x4 0x100006
 
------BEGIN PGP SIGNATURE-----
+/* Receive Configuration Register: Accept All Packets */
+write 0xff000044 0x4 0x01
 
-iQIzBAEBCAAdFiEE97o7Um30LT3B+5b/86SN7mm1DoAFAl/9tmQACgkQ86SN7mm1
-DoBWQw/+MHYTOYxd3L3EZZDzkvF2tnbhLKqHEAvfzuPZLvZa4hb8djGv9c2lwOQ+
-VUiAlx11DxUZEI0XYuEXKGp/7YKPyHE6hRz8V8C8Odi6qycbgv0NHKZJnabcxLD7
-4qpsbgxn52UQcR4KE8wrG7vGcNSo4N45ZjiyaZF+s4XH5vSsegPratw724ynw9UO
-Oz3fpkjTUo1VAIqZSyX4CqOWu9G0hxbpRq53tDRyMLUle+CGGCb41nFmasGDCd+t
-RmPCTrE6VQ5+Ecc8NbDjtrcPG/TWGgLCEP3neBUPZhiLrYdXZWaxEPj7juS/U5hQ
-gdkRi15BHOh0hMcxoWoftxQYXNyOCer2txjy+dgPf2LGARJpMsuY57Js2V1fblI5
-DZojxHMooNELtdfA7LNAIQReO+WGE1Bq5DsurW32DiWZ99isp1PlZrenT0+WOb34
-n95YVqeoMywzsfawnPSmSos4a0D2DPkYUVQ8pBfL9NmcQ4h94oujiBo7DleZf1L0
-dqlOsLtlfCWc8Y2KapbK3jnmPDTuUF77N6nIzafI3c4RK9YzBo4FhxRiInN4K2VC
-A8SEsF+h9otCOvEGZqEJu+OoANcNMKaYVBlYSQImJiR6Ix9dq4G2y6rmb1PsjImW
-qgMWakN8/YoifSnV/Eh/TP31CnJxYBAuAS/K8HeUCHOLOigz1LU=
-=CXs0
------END PGP SIGNATURE-----
+/* TSD0: set Descriptor Size to 1 and trigger a tranfer*/
+write 0xff000010 0x4 0x01
 
---Sig_/Xg3p=tKbDKpfKnHRvKiLWYt--
+-- =
+
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1910826
+
+Title:
+  [OSS-Fuzz] Issue 29224 rtl8139: Stack-overflow in
+  rtlNUMBER_transmit_one
+
+Status in QEMU:
+  New
+
+Bug description:
+  =3D=3D=3D Reproducer =3D=3D=3D
+  cat << EOF | ../build/qemu-system-i386 -machine q35 \
+  -nodefaults  -device rtl8139,netdev=3Dnet0 \
+  -netdev user,id=3Dnet0 -display none -qtest stdio
+  outl 0xcf8 0x80000804
+  outb 0xcfc 0x26
+  outl 0xcf8 0x80000817
+  outb 0xcfc 0xff
+  write 0x1 0x1 0x42
+  write 0x5 0x1 0x42
+  write 0x9 0x1 0x42
+  write 0xd 0x1 0x42
+  write 0xff000044 0x4 0x11
+  write 0xff000037 0x1 0x1c
+  writel 0xff000030 0xff000000
+  write 0xff000040 0x4 0x100006
+  write 0xff000010 0x4 0x01020
+  EOF
+
+  =3D=3D=3D Stack Trace =3D=3D=3D
+  =3D=3D2819215=3D=3DERROR: AddressSanitizer: stack-overflow on address 0x7=
+ffd2c714040 (pc 0x5639b3a933d9 bp 0x7ffd2c716210 sp 0x7ffd2c714040 T0)
+  #0 rtl8139_transmit_one /src/qemu/hw/net/rtl8139.c:1815
+  #1 rtl8139_transmit /src/qemu/hw/net/rtl8139.c:2388:9
+  #2 rtl8139_TxStatus_write /src/qemu/hw/net/rtl8139.c:2442:5
+  #3 rtl8139_io_writel /src/qemu/hw/net/rtl8139.c:2865:13
+  #4 rtl8139_ioport_write /src/qemu/hw/net/rtl8139.c:3290:9
+  #5 memory_region_write_accessor /src/qemu/softmmu/memory.c:491:5
+  #6 access_with_adjusted_size /src/qemu/softmmu/memory.c:552:18
+  #7 memory_region_dispatch_write /src/qemu/softmmu/memory.c:0:13
+  #8 flatview_write_continue /src/qemu/softmmu/physmem.c:2759:23
+  #9 flatview_write /src/qemu/softmmu/physmem.c:2799:14
+  #10 address_space_write /src/qemu/softmmu/physmem.c:2891:18
+  #11 address_space_rw /src/qemu/softmmu/physmem.c:2901:16
+  #12 dma_memory_rw_relaxed /src/qemu/include/sysemu/dma.h:88:12
+  #13 dma_memory_rw /src/qemu/include/sysemu/dma.h:127:12
+  #14 pci_dma_rw /src/qemu/include/hw/pci/pci.h:801:12
+  #15 pci_dma_write /src/qemu/include/hw/pci/pci.h:837:12
+  #16 rtl8139_write_buffer /src/qemu/hw/net/rtl8139.c:778:5
+  #17 rtl8139_do_receive /src/qemu/hw/net/rtl8139.c:1172:9
+  #18 rtl8139_transfer_frame /src/qemu/hw/net/rtl8139.c:1798:9
+  #19 rtl8139_transmit_one /src/qemu/hw/net/rtl8139.c:1845:5
+  #20 rtl8139_transmit /src/qemu/hw/net/rtl8139.c:2388:9
+  #21 rtl8139_TxStatus_write /src/qemu/hw/net/rtl8139.c:2442:5
+  #22 rtl8139_io_writel /src/qemu/hw/net/rtl8139.c:2865:13
+  #23 rtl8139_ioport_write /src/qemu/hw/net/rtl8139.c:3290:9
+  #24 memory_region_write_accessor /src/qemu/softmmu/memory.c:491:5
+  #25 access_with_adjusted_size /src/qemu/softmmu/memory.c:552:18
+  #26 memory_region_dispatch_write /src/qemu/softmmu/memory.c:0:13
+  #27 flatview_write_continue /src/qemu/softmmu/physmem.c:2759:23
+  #28 flatview_write /src/qemu/softmmu/physmem.c:2799:14
+  #29 address_space_write /src/qemu/softmmu/physmem.c:2891:18
+  #30 address_space_rw /src/qemu/softmmu/physmem.c:2901:16
+  #31 dma_memory_rw_relaxed /src/qemu/include/sysemu/dma.h:88:12
+  #32 dma_memory_rw /src/qemu/include/sysemu/dma.h:127:12
+  #33 pci_dma_rw /src/qemu/include/hw/pci/pci.h:801:12
+  #34 pci_dma_write /src/qemu/include/hw/pci/pci.h:837:12
+  #35 rtl8139_write_buffer /src/qemu/hw/net/rtl8139.c:778:5
+  #36 rtl8139_do_receive /src/qemu/hw/net/rtl8139.c:1172:9
+  #37 rtl8139_transfer_frame /src/qemu/hw/net/rtl8139.c:1798:9
+  Repeat until we run out of stack
+
+  https://bugs.chromium.org/p/oss-fuzz/issues/detail?id=3D29224
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1910826/+subscriptions
 
