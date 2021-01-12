@@ -2,57 +2,57 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5F1C22F3C56
-	for <lists+qemu-devel@lfdr.de>; Tue, 12 Jan 2021 23:30:18 +0100 (CET)
-Received: from localhost ([::1]:33430 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 213102F3C59
+	for <lists+qemu-devel@lfdr.de>; Tue, 12 Jan 2021 23:32:23 +0100 (CET)
+Received: from localhost ([::1]:37308 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kzSB7-00049B-4H
-	for lists+qemu-devel@lfdr.de; Tue, 12 Jan 2021 17:30:17 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59870)
+	id 1kzSD8-0005r5-7D
+	for lists+qemu-devel@lfdr.de; Tue, 12 Jan 2021 17:32:22 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60180)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
- id 1kzS9H-0003Xe-GC
- for qemu-devel@nongnu.org; Tue, 12 Jan 2021 17:28:23 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:48630)
+ id 1kzSB0-0004kp-UO
+ for qemu-devel@nongnu.org; Tue, 12 Jan 2021 17:30:11 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:60199)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
- id 1kzS9E-0004cm-05
- for qemu-devel@nongnu.org; Tue, 12 Jan 2021 17:28:22 -0500
+ id 1kzSAy-0005LZ-Jp
+ for qemu-devel@nongnu.org; Tue, 12 Jan 2021 17:30:10 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1610490497;
+ s=mimecast20190719; t=1610490606;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=wB3b/cQWqJOAl35Zte45QxPGkw6EOcR3psFNYLVadf4=;
- b=RU6hVQRKxNvv0GcCyIysGeu+aZFi0nWYYpawJvEDOZG66WFps5CM963Z6xMhHvZlmAjBpp
- XhZti40eEvDw/z15JUOTmPpFcnVzSbGhi0c4WgKDf72DYyKr+zSi4p6UIv054cMaHUBpfT
- j+oM+W7cCdUPCq3KKiKgTb6BOmogvUc=
+ bh=GMNCMUrbpRel3eAw3zRWBQfHOPeZiVBmXcoQkK/ewf0=;
+ b=K5EF7OPatEQ02dOf/vrx9lKZ/vFUGFmiZRl+aAHv2WjYLl0akgCgYEI/bNg2hqtk5W6jv6
+ Vallc4Y9TkokpxDx9WKQDPwtrhSnx4wGYZ82zSGJ6xz68+fMj/OvBmoldTN7AnfhZ0Lmnl
+ ZPGrHv6efDc5imMwPHgoVwuT+LYbu6g=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-175-_FdhzN1WP6OYZV7H7rRHYg-1; Tue, 12 Jan 2021 17:28:12 -0500
-X-MC-Unique: _FdhzN1WP6OYZV7H7rRHYg-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
+ us-mta-369-9pOGBlvGMdK3mZSIZRbPEA-1; Tue, 12 Jan 2021 17:30:04 -0500
+X-MC-Unique: 9pOGBlvGMdK3mZSIZRbPEA-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 7883D8030A0;
- Tue, 12 Jan 2021 22:28:11 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A5D7A1800D42;
+ Tue, 12 Jan 2021 22:30:03 +0000 (UTC)
 Received: from localhost (ovpn-119-212.rdu2.redhat.com [10.10.119.212])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 155705C1B4;
- Tue, 12 Jan 2021 22:28:10 +0000 (UTC)
-Date: Tue, 12 Jan 2021 17:28:09 -0500
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 545DF39A4E;
+ Tue, 12 Jan 2021 22:30:03 +0000 (UTC)
+Date: Tue, 12 Jan 2021 17:30:02 -0500
 From: Eduardo Habkost <ehabkost@redhat.com>
 To: Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 Subject: Re: [PATCH] decodetree: Allow 'dot' in opcode names
-Message-ID: <20210112222809.GD4161@habkost.net>
+Message-ID: <20210112223002.GE4161@habkost.net>
 References: <20210112184156.2014305-1-f4bug@amsat.org>
- <7fd434f1-aa6d-f4db-b741-564a33a8540a@linaro.org>
- <2d6ffc43-51b1-e565-6dc5-6985ed43ccc5@amsat.org>
+ <20210112210516.GB4161@habkost.net>
+ <07d6b362-8d32-5c8e-2d65-aa29a1a38e42@amsat.org>
 MIME-Version: 1.0
-In-Reply-To: <2d6ffc43-51b1-e565-6dc5-6985ed43ccc5@amsat.org>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+In-Reply-To: <07d6b362-8d32-5c8e-2d65-aa29a1a38e42@amsat.org>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=ehabkost@redhat.com
 X-Mimecast-Spam-Score: 0
@@ -87,48 +87,28 @@ Cc: Paolo Bonzini <pbonzini@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, Jan 12, 2021 at 11:15:38PM +0100, Philippe Mathieu-Daudé wrote:
-> On 1/12/21 9:44 PM, Richard Henderson wrote:
-> > On 1/12/21 8:41 AM, Philippe Mathieu-Daudé wrote:
-> >> Some ISA use a dot in their opcodes. Allow the decodetree
-> >> script to process them. The dot is replaced by an underscore
-> >> in the generated code.
+On Tue, Jan 12, 2021 at 11:19:49PM +0100, Philippe Mathieu-Daudé wrote:
+> On 1/12/21 10:05 PM, Eduardo Habkost wrote:
+[...]
+> >> diff --git a/scripts/decodetree.py b/scripts/decodetree.py
+> >> index 47aa9caf6d1..b7572589e64 100644
+> >> --- a/scripts/decodetree.py
+> >> +++ b/scripts/decodetree.py
+> >> @@ -49,7 +49,7 @@
+> >>  re_arg_ident = '&[a-zA-Z0-9_]*'
+> >>  re_fld_ident = '%[a-zA-Z0-9_]*'
+> >>  re_fmt_ident = '@[a-zA-Z0-9_]*'
+> >> -re_pat_ident = '[a-zA-Z0-9_]*'
+> >> +re_pat_ident = '[a-zA-Z0-9_.]*'
 > > 
-> > Given that you then have to remember to use '_' on the C side, what advantage
-> > does this give?
+> > If pattern identifiers are going to follow different rules,
+> > doesn't this need to be documented at docs/devel/decodetree.rst?
 > 
-> The direct advantage is you can copy/paste the opcode in a PDF viewer
-> without having to edit it :)
-> 
-> See i.e. some Loongson opcodes [*]:
-> 
-> MULT.G          011100 ..... ..... ..... 00000 010000   @rs_rt_rd
-> DMULT.G         011100 ..... ..... ..... 00000 010001   @rs_rt_rd
-> MULTU.G         011100 ..... ..... ..... 00000 010010   @rs_rt_rd
-> DMULTU.G        011100 ..... ..... ..... 00000 010011   @rs_rt_rd
-> 
-> DIV.G           011100 ..... ..... ..... 00000 010100   @rs_rt_rd
-> DDIV.G          011100 ..... ..... ..... 00000 010101   @rs_rt_rd
-> DIVU.G          011100 ..... ..... ..... 00000 010110   @rs_rt_rd
-> DDIVU.G         011100 ..... ..... ..... 00000 010111   @rs_rt_rd
-> 
-> MOD.G           011100 ..... ..... ..... 00000 011100   @rs_rt_rd
-> DMOD.G          011100 ..... ..... ..... 00000 011101   @rs_rt_rd
-> MODU.G          011100 ..... ..... ..... 00000 011110   @rs_rt_rd
-> DMODU.G         011100 ..... ..... ..... 00000 011111   @rs_rt_rd
-> 
-> The other - remote - advantage I see is when using a disassembler
-> based on decodetree (as AVR does), the opcode displayed also matches
-> the specs. We are not yet there with MIPS, but I have something in
-> progress...
+> I checked and luckily for me the opcode pattern identifiers is
+> not documented <:)
 
-Interesting.  So, the decodetree format is not used exclusively
-inside the QEMU source tree, but also by other projects?  Is
-there a specification somewhere else?
-
-> 
-> [*] https://lists.gnu.org/archive/html/qemu-devel/2021-01/msg02509.html
-> 
+The format is not documented, but the specification grammar
+implies the same rules apply to all identifiers.
 
 -- 
 Eduardo
