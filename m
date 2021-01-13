@@ -2,71 +2,80 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 633702F4E71
-	for <lists+qemu-devel@lfdr.de>; Wed, 13 Jan 2021 16:24:36 +0100 (CET)
-Received: from localhost ([::1]:36524 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E26FE2F4E93
+	for <lists+qemu-devel@lfdr.de>; Wed, 13 Jan 2021 16:29:12 +0100 (CET)
+Received: from localhost ([::1]:49406 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kzi0h-0005ry-Eb
-	for lists+qemu-devel@lfdr.de; Wed, 13 Jan 2021 10:24:35 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38178)
+	id 1kzi59-0002rV-V4
+	for lists+qemu-devel@lfdr.de; Wed, 13 Jan 2021 10:29:11 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40144)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1kzhuh-0001dZ-Di
- for qemu-devel@nongnu.org; Wed, 13 Jan 2021 10:18:23 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:31977)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1kzhuf-00024A-Cg
- for qemu-devel@nongnu.org; Wed, 13 Jan 2021 10:18:23 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1610551100;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=zkUiFlO/nJXpnvriu/i42N3099DysBt194WS//HtZZY=;
- b=D8dHA/fAdRjgzi85QjuoK/v1OeOsPjSB8qRiyxoO8hFrqkEj8Pf9IeBRsEB3bwuAI8t9Tk
- vkgh9D5TNMT2vdTcvUQl9Eq73hi6/qWDLlwRx4BE9sYslzbDFHQwywM5UrMTYaZtwHGD3X
- aKx4YPxf4oSyLJgnjycg/YhFfYmiOng=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-145-vAXRcca8PruUuQdGJmnelQ-1; Wed, 13 Jan 2021 10:18:18 -0500
-X-MC-Unique: vAXRcca8PruUuQdGJmnelQ-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 1D569806660
- for <qemu-devel@nongnu.org>; Wed, 13 Jan 2021 15:18:17 +0000 (UTC)
-Received: from localhost (ovpn-115-141.ams2.redhat.com [10.36.115.141])
- by smtp.corp.redhat.com (Postfix) with ESMTP id B87E55D9EF;
- Wed, 13 Jan 2021 15:18:16 +0000 (UTC)
-Date: Wed, 13 Jan 2021 15:18:15 +0000
-From: Stefan Hajnoczi <stefanha@redhat.com>
-To: Daniel =?iso-8859-1?Q?P=2E_Berrang=E9?= <berrange@redhat.com>
-Subject: Re: [PATCH v2] tracetool: also strip %l and %ll from systemtap
- format strings
-Message-ID: <20210113151815.GH255928@stefanha-x1.localdomain>
-References: <20210106130239.1004729-1-berrange@redhat.com>
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1kzi1Z-0008LV-4T; Wed, 13 Jan 2021 10:25:29 -0500
+Received: from mail-wr1-x42b.google.com ([2a00:1450:4864:20::42b]:36617)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1kzi1X-00054T-AJ; Wed, 13 Jan 2021 10:25:28 -0500
+Received: by mail-wr1-x42b.google.com with SMTP id t16so2545315wra.3;
+ Wed, 13 Jan 2021 07:25:25 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=sender:subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=5rWxAeownMudbjh3CcVSYu0Z8YPxhgj9UkyNzmUJkhc=;
+ b=M4Fnz4v2HXR1N743FJRHCAyh3+Vs29dQdXNWY0YkNAneL3KiqhVorGrbACu6H5nPy3
+ oMQEJq0yTp/lTpqgFE4Gv1KoAM5eekwz2/r23FbORV6okNSmiBEaGvVI00l9fuXHR0xd
+ cODAJINp1ArF1Tp2973omlyeiSJG0XAvycwpQNFIBFNR48r48fry9yjEBQQMWCzjOb3e
+ YXgb+PVIWuiG0RcNTaI8b8DWEOC/5KV5tZ1i7boBID8ZEHeq0+SHetmvJCVB8lyH01pd
+ 59TWXVuLgn8XYijQJzrq9ZRPIvrNdpPMQ6Ebc1FZfcQiU5is8c0SK2Ya0DJdL80Yr214
+ KdIw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
+ :date:user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=5rWxAeownMudbjh3CcVSYu0Z8YPxhgj9UkyNzmUJkhc=;
+ b=r0sqRG6k6cJfImgc9wpBbKy1C2FXV7gOykAPEFBCwQD0H1mZDJj8V8CBYfaWH7T9ZZ
+ 5OYtgdIbW3l/dHiX9fct3PqAN4tLpYMvdwnLANa4hQtS+hKSZ3etaA0QhMBpebhfVQgg
+ /wLedG5FN6ToXFnbI7FNzbGr7Dd1jisZ2+RhMVwi+tEcJNDmhxAAvsycD8iNwW0RTN5w
+ shkgLjNkqIdHdGb7cKyHk2xYOev+hJh2JpLH5S6/iwePmcnAU6U1MG1XLSEc9XGZtuRJ
+ tJ5HKfAI8VwsPA59Z2ewb69R/NvDEbPJS0wEPfE7LUrVOPh/wzpXx2YeVngkI3BZunyw
+ mt8Q==
+X-Gm-Message-State: AOAM533Yr66rvbtp8cCbihpyD79gYmJrjUvqk/Z9+7EoxCci8Bc3cAXY
+ UABSLCvfI48R5ZG299Y2MGQ=
+X-Google-Smtp-Source: ABdhPJx9SY0B1tRzFySR7PtYXwTWL2LjA4n3sCCLoQSdXGs1Lw7sQX6zqoibImlv66++aeSNe/JbQw==
+X-Received: by 2002:a5d:4fcf:: with SMTP id h15mr3082800wrw.323.1610551524339; 
+ Wed, 13 Jan 2021 07:25:24 -0800 (PST)
+Received: from [192.168.1.36] (13.red-83-57-169.dynamicip.rima-tde.net.
+ [83.57.169.13])
+ by smtp.gmail.com with ESMTPSA id b132sm3659535wmh.21.2021.01.13.07.25.22
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 13 Jan 2021 07:25:23 -0800 (PST)
+Subject: Re: [PATCH 2/5] tcg/ppc: Hoist common argument loads in tcg_out_op()
+To: Richard Henderson <richard.henderson@linaro.org>,
+ Miroslav Rezanina <mrezanin@redhat.com>
+References: <20210111150114.1415930-1-f4bug@amsat.org>
+ <20210111150114.1415930-3-f4bug@amsat.org>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
+Message-ID: <fa4c5ea6-3ca6-6aa4-6dea-5b400bc7ccd1@amsat.org>
+Date: Wed, 13 Jan 2021 16:25:22 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.6.0
 MIME-Version: 1.0
-In-Reply-To: <20210106130239.1004729-1-berrange@redhat.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=stefanha@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="tcC6YSqBgqqkz7Sb"
-Content-Disposition: inline
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=stefanha@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -29
-X-Spam_score: -3.0
-X-Spam_bar: ---
-X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.25,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <20210111150114.1415930-3-f4bug@amsat.org>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::42b;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x42b.google.com
+X-Spam_score_int: -14
+X-Spam_score: -1.5
+X-Spam_bar: -
+X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.248, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -79,59 +88,42 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Laurent Vivier <lvivier@redhat.com>, William Cohen <wcohen@redhat.com>,
- qemu-devel@nongnu.org
+Cc: Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>,
+ Huacai Chen <chenhuacai@kernel.org>, qemu-riscv@nongnu.org,
+ Stefan Weil <sw@weilnetz.de>, Cornelia Huck <cohuck@redhat.com>,
+ qemu-devel@nongnu.org, qemu-s390x@nongnu.org, qemu-arm@nongnu.org,
+ Alistair Francis <Alistair.Francis@wdc.com>, Thomas Huth <thuth@redhat.com>,
+ Palmer Dabbelt <palmer@dabbelt.com>, Aurelien Jarno <aurelien@aurel32.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---tcC6YSqBgqqkz7Sb
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-
-On Wed, Jan 06, 2021 at 01:02:39PM +0000, Daniel P. Berrang=E9 wrote:
-> All variables are 64-bit and so %l / %ll are not required, and the
-> latter is actually invalid:
->=20
->   $ sudo stap -e 'probe begin{printf ("BEGIN")}'  -I .
->   parse error: invalid or missing conversion specifier
->           saw: operator ',' at ./qemu-system-x86_64-log.stp:15118:101
->        source:     printf("%d@%d vhost_vdpa_set_log_base dev: %p base: 0x=
-%x size: %llu
-> refcnt: %d fd: %d log: %p\n", pid(), gettimeofday_ns(), dev, base, size, =
-refcnt, fd, log)
->=20
->                        ^
->=20
-> Signed-off-by: Daniel P. Berrang=E9 <berrange@redhat.com>
+On 1/11/21 4:01 PM, Philippe Mathieu-Daudé wrote:
+> Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 > ---
->  scripts/tracetool/format/log_stap.py | 7 ++++++-
->  1 file changed, 6 insertions(+), 1 deletion(-)
->=20
-> In v2:
->=20
->  - Change existing logic that stripped %z to handle %l/%ll too
+>  tcg/ppc/tcg-target.c.inc | 294 ++++++++++++++++++---------------------
+>  1 file changed, 138 insertions(+), 156 deletions(-)
+...
 
-Thanks, applied to my tracing tree with Laurent's typo fix:
-https://gitlab.com/stefanha/qemu/commits/tracing
+> @@ -2818,10 +2805,9 @@ static void tcg_out_op(TCGContext *s, TCGOpcode opc, const TCGArg *args,
+>      case INDEX_op_bswap32_i32:
+>      case INDEX_op_bswap32_i64:
+>          /* Stolen from gcc's builtin_bswap32 */
+> -        a1 = args[1];
+> -        a0 = args[0] == a1 ? TCG_REG_R0 : args[0];
+> +        a0 = a0 == a1 ? TCG_REG_R0 : a0;
 
-Stefan
+Oops... Here is probably the regression reported by Miroslav,
+I shouldn't have changed this line, simply remove the a1
+assignment:
 
---tcC6YSqBgqqkz7Sb
-Content-Type: application/pgp-signature; name="signature.asc"
+  -        a1 = args[1];
+           a0 = args[0] == a1 ? TCG_REG_R0 : args[0];
 
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAl//DzcACgkQnKSrs4Gr
-c8hHxwgAh2qFOe29ZVBjKspGZbXHBYaQyhScDJeUXaacZkFXvm0rMjQcPtQLcVry
-3jR9GEi97ASnvSg1xy/JxGcFdnxmMqpE1DyIP6D8u8NCiLis6T0JEFfyUH/Q3qw3
-0g0RxE1pYjD2rCSsmQmHRg9ZebHRKXtPXmk6ZOlpvP1G+wvgQr1MqKkEV5bX26OE
-CZ3fniPKjGaE1tgNhoph+Haldqi0oCisic7THi0ezBVGlG1+08MqemoQo8u1NJph
-/9SoYr4ZCk7Ab8nxviN//8vWKkuxA98frnELst62tCn5mjxTuUfhoCDbviuao1LA
-UKCUpJOyBpUIj/BfV2EIWUvnO1AOww==
-=dcG8
------END PGP SIGNATURE-----
-
---tcC6YSqBgqqkz7Sb--
-
+>  
+> -        /* a1 = args[1] # abcd */
+> +        /* a1 = a1 # abcd */
+>          /* a0 = rotate_left (a1, 8) # bcda */
+>          tcg_out_rlw(s, RLWINM, a0, a1, 8, 0, 31);
+>          /* a0 = (a0 & ~0xff000000) | ((a1 r<< 24) & 0xff000000) # dcda */
+...
 
