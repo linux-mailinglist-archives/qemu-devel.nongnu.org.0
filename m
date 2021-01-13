@@ -2,72 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F1D082F47A8
-	for <lists+qemu-devel@lfdr.de>; Wed, 13 Jan 2021 10:36:28 +0100 (CET)
-Received: from localhost ([::1]:33002 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2B4002F47B6
+	for <lists+qemu-devel@lfdr.de>; Wed, 13 Jan 2021 10:39:41 +0100 (CET)
+Received: from localhost ([::1]:41406 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kzcZn-0002gB-UV
-	for lists+qemu-devel@lfdr.de; Wed, 13 Jan 2021 04:36:27 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58344)
+	id 1kzccu-0006Ld-6d
+	for lists+qemu-devel@lfdr.de; Wed, 13 Jan 2021 04:39:40 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58368)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1kzcUq-0005tN-8p
- for qemu-devel@nongnu.org; Wed, 13 Jan 2021 04:31:20 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:50101)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1kzcUk-0002xe-CD
- for qemu-devel@nongnu.org; Wed, 13 Jan 2021 04:31:19 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1610530273;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=h75iak/bbCWrSRfC26SSu6eLIUokCgUIkNAwELbATaE=;
- b=bC5FJe2Oo6oZgaF1PWFIqia27n4Lrr56EydH4QUIN895jLsKMnhfNOeRQGEP6zCWVDaO4m
- 2ZkixZBOcHNA5weenqa7JSxqHZsD7wqo86D9ReKXS2jP9L6oojeAi+8HrCwf+SlJ3ZuSHG
- j3iPSjP9ICQhWbaseLJfDglPDUGS8tI=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-311-PbiSRMNoO4mWY0y3fmePdw-1; Wed, 13 Jan 2021 04:31:09 -0500
-X-MC-Unique: PbiSRMNoO4mWY0y3fmePdw-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 52233DF8A5;
- Wed, 13 Jan 2021 09:31:08 +0000 (UTC)
-Received: from blackfin.pond.sub.org (ovpn-112-172.ams2.redhat.com
- [10.36.112.172])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 1EE0E1002393;
- Wed, 13 Jan 2021 09:31:08 +0000 (UTC)
-Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id 9B92411385D4; Wed, 13 Jan 2021 10:31:01 +0100 (CET)
-From: Markus Armbruster <armbru@redhat.com>
-To: qemu-devel@nongnu.org
-Subject: [PULL 7/7] tests/test-char.c: Wait for the chardev to connect in
- char_socket_client_dupid_test
-Date: Wed, 13 Jan 2021 10:31:01 +0100
-Message-Id: <20210113093101.550964-8-armbru@redhat.com>
-In-Reply-To: <20210113093101.550964-1-armbru@redhat.com>
-References: <20210113093101.550964-1-armbru@redhat.com>
+ (Exim 4.90_1) (envelope-from <shiliyang@huawei.com>)
+ id 1kzcUs-0005xx-E6
+ for qemu-devel@nongnu.org; Wed, 13 Jan 2021 04:31:22 -0500
+Received: from szxga04-in.huawei.com ([45.249.212.190]:2850)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <shiliyang@huawei.com>)
+ id 1kzcUp-0002ye-Su
+ for qemu-devel@nongnu.org; Wed, 13 Jan 2021 04:31:22 -0500
+Received: from DGGEMS403-HUB.china.huawei.com (unknown [172.30.72.60])
+ by szxga04-in.huawei.com (SkyGuard) with ESMTP id 4DG2GZ0c2Fzl4XT;
+ Wed, 13 Jan 2021 17:29:58 +0800 (CST)
+Received: from [10.108.235.13] (10.108.235.13) by
+ DGGEMS403-HUB.china.huawei.com (10.3.19.203) with Microsoft SMTP Server id
+ 14.3.498.0; Wed, 13 Jan 2021 17:31:08 +0800
+Subject: [PATCH V3 1/4] bsd-user: "foo * bar" should be "foo *bar"
+References: <b820b729-88a8-1103-b7a7-b66b637947d9@huawei.com>
+To: <qemu-devel@nongnu.org>, <peter.maydell@linaro.org>
+From: shiliyang <shiliyang@huawei.com>
+Message-ID: <5a05a173-2c54-155f-f34d-3a5758c1c4d5@huawei.com>
+Date: Wed, 13 Jan 2021 17:31:08 +0800
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
+ Thunderbird/78.4.0
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=armbru@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=armbru@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -29
-X-Spam_score: -3.0
-X-Spam_bar: ---
-X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.251,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <b820b729-88a8-1103-b7a7-b66b637947d9@huawei.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.108.235.13]
+X-CFilter-Loop: Reflected
+Received-SPF: pass client-ip=45.249.212.190; envelope-from=shiliyang@huawei.com;
+ helo=szxga04-in.huawei.com
+X-Spam_score_int: -41
+X-Spam_score: -4.2
+X-Spam_bar: ----
+X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
+ RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -80,41 +60,167 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: peter.maydell@linaro.org, lukasstraub2@web.de,
- =?UTF-8?q?Daniel=20P=20=2E=20Berrang=C3=A9?= <berrange@redhat.com>
+Cc: alex.chen@huawei.com, hunongda@huawei.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Lukas Straub <lukasstraub2@web.de>
+This patch fixes error style problems found by checkpatch.pl:
+ERROR: "foo ** bar" should be "foo **bar".
+ERROR: "foo * bar" should be "foo *bar"
 
-A connecting chardev object has an additional reference by the connecting
-thread, so if the chardev is still connecting by the end of the test,
-then the chardev object won't be freed. This in turn means that the yank
-instance won't be unregistered and when running the next test-case
-yank_register_instance will abort, because the yank instance is
-already/still registered.
+Signed-off-by: Liyang Shi <shiliyang@huawei.com>
 
-Signed-off-by: Lukas Straub <lukasstraub2@web.de>
-Reviewed-by: Daniel P. Berrangé <berrange@redhat.com>
-Message-Id: <1445e97a5800e3f2ba024ad52b500a0315701632.1609167865.git.lukasstraub2@web.de>
-Signed-off-by: Markus Armbruster <armbru@redhat.com>
 ---
- tests/test-char.c | 1 +
- 1 file changed, 1 insertion(+)
+ bsd-user/bsdload.c |  6 +++---
+ bsd-user/elfload.c | 22 +++++++++++-----------
+ bsd-user/qemu.h    | 14 +++++++-------
+ 3 files changed, 21 insertions(+), 21 deletions(-)
 
-diff --git a/tests/test-char.c b/tests/test-char.c
-index 06102977b6..469d25989c 100644
---- a/tests/test-char.c
-+++ b/tests/test-char.c
-@@ -937,6 +937,7 @@ static void char_socket_client_dupid_test(gconstpointer opaque)
-     g_assert_nonnull(opts);
-     chr1 = qemu_chr_new_from_opts(opts, NULL, &error_abort);
-     g_assert_nonnull(chr1);
-+    qemu_chr_wait_connected(chr1, &error_abort);
- 
-     chr2 = qemu_chr_new_from_opts(opts, NULL, &local_err);
-     g_assert_null(chr2);
+diff --git a/bsd-user/bsdload.c b/bsd-user/bsdload.c
+index f38c4faacf..b2f352c041 100644
+--- a/bsd-user/bsdload.c
++++ b/bsd-user/bsdload.c
+@@ -20,7 +20,7 @@ abi_long memcpy_to_target(abi_ulong dest, const void *src,
+     return 0;
+ }
+
+-static int count(char ** vec)
++static int count(char **vec)
+ {
+     int         i;
+
+@@ -125,8 +125,8 @@ abi_ulong loader_build_argptr(int envc, int argc, abi_ulong sp,
+     return sp;
+ }
+
+-int loader_exec(const char * filename, char ** argv, char ** envp,
+-             struct target_pt_regs * regs, struct image_info *infop)
++int loader_exec(const char *filename, char **argv, char **envp,
++             struct target_pt_regs *regs, struct image_info *infop)
+ {
+     struct linux_binprm bprm;
+     int retval;
+diff --git a/bsd-user/elfload.c b/bsd-user/elfload.c
+index 32378af7b2..35c340f13a 100644
+--- a/bsd-user/elfload.c
++++ b/bsd-user/elfload.c
+@@ -547,12 +547,12 @@ struct exec
+
+ #define DLINFO_ITEMS 12
+
+-static inline void memcpy_fromfs(void * to, const void * from, unsigned long n)
++static inline void memcpy_fromfs(void *to, const void *from, unsigned long n)
+ {
+         memcpy(to, from, n);
+ }
+
+-static int load_aout_interp(void * exptr, int interp_fd);
++static int load_aout_interp(void *exptr, int interp_fd);
+
+ #ifdef BSWAP_NEEDED
+ static void bswap_ehdr(struct elfhdr *ehdr)
+@@ -613,7 +613,7 @@ static void bswap_sym(struct elf_sym *sym)
+  * to be put directly into the top of new user memory.
+  *
+  */
+-static abi_ulong copy_elf_strings(int argc,char ** argv, void **page,
++static abi_ulong copy_elf_strings(int argc, char **argv, void **page,
+                                   abi_ulong p)
+ {
+     char *tmp, *tmp1, *pag = NULL;
+@@ -756,7 +756,7 @@ static void padzero(abi_ulong elf_bss, abi_ulong last_bss)
+
+
+ static abi_ulong create_elf_tables(abi_ulong p, int argc, int envc,
+-                                   struct elfhdr * exec,
++                                   struct elfhdr *exec,
+                                    abi_ulong load_addr,
+                                    abi_ulong load_bias,
+                                    abi_ulong interp_load_addr, int ibcs,
+@@ -834,7 +834,7 @@ static abi_ulong create_elf_tables(abi_ulong p, int argc, int envc,
+ }
+
+
+-static abi_ulong load_elf_interp(struct elfhdr * interp_elf_ex,
++static abi_ulong load_elf_interp(struct elfhdr *interp_elf_ex,
+                                  int interpreter_fd,
+                                  abi_ulong *interp_load_addr)
+ {
+@@ -1143,8 +1143,8 @@ static void load_symbols(struct elfhdr *hdr, int fd)
+     syminfos = s;
+ }
+
+-int load_elf_binary(struct linux_binprm * bprm, struct target_pt_regs * regs,
+-                    struct image_info * info)
++int load_elf_binary(struct linux_binprm *bprm, struct target_pt_regs *regs,
++                    struct image_info *info)
+ {
+     struct elfhdr elf_ex;
+     struct elfhdr interp_elf_ex;
+@@ -1155,11 +1155,11 @@ int load_elf_binary(struct linux_binprm * bprm, struct target_pt_regs * regs,
+     unsigned int interpreter_type = INTERPRETER_NONE;
+     unsigned char ibcs2_interpreter;
+     int i;
+-    struct elf_phdr * elf_ppnt;
++    struct elf_phdr *elf_ppnt;
+     struct elf_phdr *elf_phdata;
+     abi_ulong elf_bss, k, elf_brk;
+     int retval;
+-    char * elf_interpreter;
++    char *elf_interpreter;
+     abi_ulong elf_entry, interp_load_addr = 0;
+     abi_ulong start_code, end_code, start_data, end_data;
+     abi_ulong reloc_func_desc = 0;
+@@ -1334,7 +1334,7 @@ int load_elf_binary(struct linux_binprm * bprm, struct target_pt_regs * regs,
+        and then start this sucker up */
+
+     {
+-        char * passed_p;
++        char *passed_p;
+
+         if (interpreter_type == INTERPRETER_AOUT) {
+             snprintf(passed_fileno, sizeof(passed_fileno), "%d", bprm->fd);
+@@ -1553,7 +1553,7 @@ int load_elf_binary(struct linux_binprm * bprm, struct target_pt_regs * regs,
+     return 0;
+ }
+
+-static int load_aout_interp(void * exptr, int interp_fd)
++static int load_aout_interp(void *exptr, int interp_fd)
+ {
+     printf("a.out interpreter not yet supported\n");
+     return(0);
+diff --git a/bsd-user/qemu.h b/bsd-user/qemu.h
+index f8bb1e5459..cbf42129e4 100644
+--- a/bsd-user/qemu.h
++++ b/bsd-user/qemu.h
+@@ -123,19 +123,19 @@ struct linux_binprm {
+         int argc, envc;
+         char **argv;
+         char **envp;
+-        char * filename;        /* Name of binary */
++        char *filename;        /* Name of binary */
+ };
+
+ void do_init_thread(struct target_pt_regs *regs, struct image_info *infop);
+ abi_ulong loader_build_argptr(int envc, int argc, abi_ulong sp,
+                               abi_ulong stringp, int push_ptr);
+-int loader_exec(const char * filename, char ** argv, char ** envp,
+-             struct target_pt_regs * regs, struct image_info *infop);
++int loader_exec(const char *filename, char **argv, char **envp,
++             struct target_pt_regs *regs, struct image_info *infop);
+
+-int load_elf_binary(struct linux_binprm * bprm, struct target_pt_regs * regs,
+-                    struct image_info * info);
+-int load_flt_binary(struct linux_binprm * bprm, struct target_pt_regs * regs,
+-                    struct image_info * info);
++int load_elf_binary(struct linux_binprm *bprm, struct target_pt_regs *regs,
++                    struct image_info *info);
++int load_flt_binary(struct linux_binprm *bprm, struct target_pt_regs *regs,
++                    struct image_info *info);
+
+ abi_long memcpy_to_target(abi_ulong dest, const void *src,
+                           unsigned long len);
 -- 
-2.26.2
+2.29.1.59.gf9b6481aed
 
 
