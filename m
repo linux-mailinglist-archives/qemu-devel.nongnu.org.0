@@ -2,74 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 23E812F4F22
-	for <lists+qemu-devel@lfdr.de>; Wed, 13 Jan 2021 16:49:17 +0100 (CET)
-Received: from localhost ([::1]:54486 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EA2272F4F3D
+	for <lists+qemu-devel@lfdr.de>; Wed, 13 Jan 2021 16:53:41 +0100 (CET)
+Received: from localhost ([::1]:40294 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kziOa-0000S0-5X
-	for lists+qemu-devel@lfdr.de; Wed, 13 Jan 2021 10:49:16 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46038)
+	id 1kziSr-0006LH-1o
+	for lists+qemu-devel@lfdr.de; Wed, 13 Jan 2021 10:53:41 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46696)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1kziLw-0007ET-MM
- for qemu-devel@nongnu.org; Wed, 13 Jan 2021 10:46:32 -0500
-Received: from mail-ed1-x536.google.com ([2a00:1450:4864:20::536]:37225)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1kziOW-0001a3-H0; Wed, 13 Jan 2021 10:49:16 -0500
+Received: from mail-wr1-x435.google.com ([2a00:1450:4864:20::435]:33639)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1kziLu-0006Sc-S7
- for qemu-devel@nongnu.org; Wed, 13 Jan 2021 10:46:32 -0500
-Received: by mail-ed1-x536.google.com with SMTP id g1so1773667edu.4
- for <qemu-devel@nongnu.org>; Wed, 13 Jan 2021 07:46:30 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=tqMrdI/H1zT4pl0FFSAi7YNxrAlX3fH1mqVuob8rtKE=;
- b=AidDCg2DbC7syG+pZ6T1p0q7axfthqTg68Lf9y8FKy4H2RFBfNQSMG6XhNvzcIuCoe
- nYKT8OZ5EMJMJzk1phWb+6ocaoWHgnrELutm2/1Kh1nhVcJJIOdKPdEBd0mmnxihrP/N
- W0H+wLrScepCnqkSE6V5YYmnDXOhPryE5iwYqmAq3GNIncsq6gaGZkuetWuW+jQ2JKye
- Qmwcv8IKzJ2A6DSi5UWJrGqAy/XYrbH3Ybp9sd6DPujzNkQBB1k4adkVSMo7xxaO2k4m
- RU0dd6Ami7vhH9I7BCn4CrukZInmI1mpEGESd8WWLoFBUs4AVZcJvUvKuuC45sZbrpr0
- 5r7Q==
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1kziOU-0007SV-Mq; Wed, 13 Jan 2021 10:49:12 -0500
+Received: by mail-wr1-x435.google.com with SMTP id t30so2651233wrb.0;
+ Wed, 13 Jan 2021 07:49:09 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=sender:subject:from:to:cc:references:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=E3wtd3qw+as/QhriapeELz91lcwVZj53Ki+3VVGHMIo=;
+ b=lRERm5/a6+e0PR7yITwbZz0zBMitGnOHodpIAzsmy5hUnTLynr5H5AMwf6YagyvQNf
+ vZdZlqpf/fsrKs6qBWIssLILvIqGWl66l15Ha3f7UJ+7ywwqJQQj+zqgyvW7dRw/jNiA
+ uWblShfWz75D8odJGXhfZcmqtkZzxGvgZZERhnUCjooZN1sme9IYB/WwJQ6TSYaRHxYh
+ Sj1xkcjtqomO+irafd8SI04pVE1bJvi83p+sTCSYpsV6lKyqTFLiHsSsoFMzMKjq0FRU
+ vvpD+dErypWnPqKLsHUPJU3Xlexpq/nVOAXoi3rq7H2n9o/G51wEQUACkv3Mmw9t9YaC
+ r1Og==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=tqMrdI/H1zT4pl0FFSAi7YNxrAlX3fH1mqVuob8rtKE=;
- b=jQ5S1juUOol+nggQIu2WZqBjSWGvMGxf8Y3LM2+afwVB8dX50Uea23kAbZoL2ZWR8x
- ULEURgJDiAv/fE7sJaWA1EqVe93uvY/HrJ1lHCVIY33YtZrEm/4kViDJUK4LZmDaQsoW
- 8pnZ+sKrIgRm9S1r4SN9vuu7+/JJCF2LD06KyykPxjrPEtyYyT/n8ZPQdIfwIblKmpqv
- OWpv8Sy8U0sWZoDOuKEtYJCr1U1XOEht4scUkscDh6BZlwfcXnwJzrFzWymua7+FkjQo
- s8yu5DZGCD1WCv/8eqxyG4uTUHuGpWRfdp87L7yrjlwubhCuEl2yVRRv0/QwyeWo6gu/
- MK+Q==
-X-Gm-Message-State: AOAM531x/SbiD3aQwLyxJq1ys9TeXJurI9mMbsQIFzeRaTBkB1GJQ9Rc
- vqgZJfrsInNSB7ELNaMLlLIPjmaDa4s8Lf4St6vgsQ==
-X-Google-Smtp-Source: ABdhPJwQ/+QH28IHsxvEFCaY3Z9WC95rmOi6jHB++/UJcocPyJYjAyiXhzRjUUHsjBb1COYXq6Tgq23xDclAWnItX/c=
-X-Received: by 2002:a05:6402:366:: with SMTP id
- s6mr2235708edw.44.1610552789113; 
- Wed, 13 Jan 2021 07:46:29 -0800 (PST)
+ h=x-gm-message-state:sender:subject:from:to:cc:references:message-id
+ :date:user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=E3wtd3qw+as/QhriapeELz91lcwVZj53Ki+3VVGHMIo=;
+ b=Gnvr/J6S2R8bPwKiwt/rZNcSowfrPxs+q3Zu4yIeVwvSXv57zXA0Yuzs5Fxd0zhdxT
+ PuGlqD5DO7oMaNRq/zMs2DqR/RWG+lVwlafoQiAS/dAWIATh3H38P7ME3lE8qVyc0NeQ
+ sKG9pw8mmHtjCSHVHl7AlnvC9ZlJdF/z3YTwHUndCa5vL9fbYqUEUktszrYBaOPNI5Ud
+ Vz9CpSQV/oJlLQt3mxXh1BvxA5msap9mr+V6e7jag7WJcL4+YTIJGg5m2Mkq3M3Nn8Ko
+ m02VbgZTvdCywtx/FSP8msVz5hbYL/pZ+Td6s81cX9tjYvKyaYVDvgQbq622Lxd3IbZm
+ WCAg==
+X-Gm-Message-State: AOAM53091cyo0i2q9zFcYO8UGK3deIVHFuNn/Ys9yjJy1KGtHKuX7DxR
+ oLiV27kFXYNMugq2lW701Rs=
+X-Google-Smtp-Source: ABdhPJwET/K9IzbD8Ledf8orVIZKqRYZ2BFiTBrSXQDL2phDXJgYeYbGB8Cr6N/WJ2gpomW5iq8CRQ==
+X-Received: by 2002:adf:dc87:: with SMTP id r7mr3293743wrj.305.1610552948124; 
+ Wed, 13 Jan 2021 07:49:08 -0800 (PST)
+Received: from [192.168.1.36] (13.red-83-57-169.dynamicip.rima-tde.net.
+ [83.57.169.13])
+ by smtp.gmail.com with ESMTPSA id o14sm3721342wri.48.2021.01.13.07.49.06
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 13 Jan 2021 07:49:07 -0800 (PST)
+Subject: Re: [PATCH 2/5] tcg/ppc: Hoist common argument loads in tcg_out_op()
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
+To: Richard Henderson <richard.henderson@linaro.org>,
+ Miroslav Rezanina <mrezanin@redhat.com>
+References: <20210111150114.1415930-1-f4bug@amsat.org>
+ <20210111150114.1415930-3-f4bug@amsat.org>
+ <fa4c5ea6-3ca6-6aa4-6dea-5b400bc7ccd1@amsat.org>
+Message-ID: <7baba218-340a-9426-6933-0024e0d4110d@amsat.org>
+Date: Wed, 13 Jan 2021 16:49:05 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.6.0
 MIME-Version: 1.0
-References: <20210113151408.27939-1-alex.bennee@linaro.org>
- <20210113151408.27939-10-alex.bennee@linaro.org>
- <20210113153728.GF1568240@redhat.com>
-In-Reply-To: <20210113153728.GF1568240@redhat.com>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Wed, 13 Jan 2021 15:46:17 +0000
-Message-ID: <CAFEAcA_VJV_rUweM_mwd1AXNWHYQKYZ0uQbwAe+xZYJvozjrmA@mail.gmail.com>
-Subject: Re: [PATCH v1 9/9] gitlab: move docs and tools build across from
- Travis
-To: =?UTF-8?Q?Daniel_P=2E_Berrang=C3=A9?= <berrange@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::536;
- envelope-from=peter.maydell@linaro.org; helo=mail-ed1-x536.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+In-Reply-To: <fa4c5ea6-3ca6-6aa4-6dea-5b400bc7ccd1@amsat.org>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::435;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x435.google.com
+X-Spam_score_int: -14
+X-Spam_score: -1.5
+X-Spam_bar: -
+X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.248, NICE_REPLY_A=-0.001,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -82,47 +89,54 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Fam Zheng <fam@euphon.net>, Thomas Huth <thuth@redhat.com>,
- =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>,
- QEMU Developers <qemu-devel@nongnu.org>,
- Wainer dos Santos Moschetta <wainersm@redhat.com>,
- =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>
+Cc: Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>,
+ Cornelia Huck <cohuck@redhat.com>, qemu-riscv@nongnu.org,
+ Stefan Weil <sw@weilnetz.de>, Huacai Chen <chenhuacai@kernel.org>,
+ qemu-devel@nongnu.org, qemu-s390x@nongnu.org, qemu-arm@nongnu.org,
+ Alistair Francis <Alistair.Francis@wdc.com>, Thomas Huth <thuth@redhat.com>,
+ Palmer Dabbelt <palmer@dabbelt.com>, Aurelien Jarno <aurelien@aurel32.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, 13 Jan 2021 at 15:40, Daniel P. Berrang=C3=A9 <berrange@redhat.com>=
- wrote:
->
-> On Wed, Jan 13, 2021 at 03:14:08PM +0000, Alex Benn=C3=A9e wrote:
-> > While we are at it we might as well check the tag generation. For
-> > bonus points we run GNU globals htags into the public pages directory
-> > for publishing with the auto generated pages.
+On 1/13/21 4:25 PM, Philippe Mathieu-Daudé wrote:
+> On 1/11/21 4:01 PM, Philippe Mathieu-Daudé wrote:
+>> Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+>> ---
+>>  tcg/ppc/tcg-target.c.inc | 294 ++++++++++++++++++---------------------
+>>  1 file changed, 138 insertions(+), 156 deletions(-)
+> ...
+> 
+>> @@ -2818,10 +2805,9 @@ static void tcg_out_op(TCGContext *s, TCGOpcode opc, const TCGArg *args,
+>>      case INDEX_op_bswap32_i32:
+>>      case INDEX_op_bswap32_i64:
+>>          /* Stolen from gcc's builtin_bswap32 */
+>> -        a1 = args[1];
+>> -        a0 = args[0] == a1 ? TCG_REG_R0 : args[0];
+>> +        a0 = a0 == a1 ? TCG_REG_R0 : a0;
+> 
+> Oops... Here is probably the regression reported by Miroslav,
+> I shouldn't have changed this line, simply remove the a1
 
-> > +build-tools-and-docs-debian:
-> > +  <<: *native_build_job_definition
-> > +  variables:
-> > +    IMAGE: debian-amd64
-> > +    MAKE_CHECK_ARGS: ctags gtags TAGS cscope
-> > +    CONFIGURE_ARGS: --enable-docs --enable-tools
-> > +  artifacts:
-> > +    expire_in: 2 days
-> > +    paths:
-> > +      - build
->
-> Do we actually need this job at all ?
->
-> Assuming the depenedancies are in the dockerfile, then all the
-> build jobs will be testing docs and tools already, as meson will
-> auto enable it.
+Oops^2, wrong hunk =) Following one...
 
-What I would like to see is a set of "just build the docs"
-CI jobs which test all our supported Sphinx versions
-(eg 1.6, 2.0, 2.4, 3.0, 3.2), since we've found that Sphinx
-is not great about consistency of accepted syntax from
-version to version. (Somebody sent a patch for this ages
-ago, but it was for a Travis CI job IIRC, which we're trying
-to move away from.)
+> 
+>>  
+>> -        /* a1 = args[1] # abcd */
+>> +        /* a1 = a1 # abcd */
+>>          /* a0 = rotate_left (a1, 8) # bcda */
+>>          tcg_out_rlw(s, RLWINM, a0, a1, 8, 0, 31);
+>>          /* a0 = (a0 & ~0xff000000) | ((a1 r<< 24) & 0xff000000) # dcda */
+@@ -2830,12 +2816,12 @@ static void tcg_out_op(TCGContext *s, TCGOpcode
+opc, const TCGArg *args,
+         tcg_out_rlw(s, RLWIMI, a0, a1, 24, 16, 23);
 
-thanks
--- PMM
+Here, is the line I shouldn't have changed:
+
+         if (a0 == TCG_REG_R0) {
+-            tcg_out_mov(s, TCG_TYPE_REG, args[0], a0);
++            tcg_out_mov(s, TCG_TYPE_REG, a0, a0);
+         }
+         break;
+
+(multiple occurrences).
 
