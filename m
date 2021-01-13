@@ -2,37 +2,36 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 481F22F557D
-	for <lists+qemu-devel@lfdr.de>; Thu, 14 Jan 2021 01:15:02 +0100 (CET)
-Received: from localhost ([::1]:40010 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5B1AF2F556C
+	for <lists+qemu-devel@lfdr.de>; Thu, 14 Jan 2021 01:05:12 +0100 (CET)
+Received: from localhost ([::1]:41114 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kzqI1-00088H-Ba
-	for lists+qemu-devel@lfdr.de; Wed, 13 Jan 2021 19:15:01 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36522)
+	id 1kzq8V-00055T-Dd
+	for lists+qemu-devel@lfdr.de; Wed, 13 Jan 2021 19:05:11 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36516)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1kzq28-0007Kd-M5; Wed, 13 Jan 2021 18:58:36 -0500
-Received: from ozlabs.org ([2401:3900:2:1::2]:34313)
+ id 1kzq28-0007J8-2m; Wed, 13 Jan 2021 18:58:36 -0500
+Received: from ozlabs.org ([2401:3900:2:1::2]:42003)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1kzq25-0006fG-Tv; Wed, 13 Jan 2021 18:58:36 -0500
+ id 1kzq25-0006fH-Ts; Wed, 13 Jan 2021 18:58:35 -0500
 Received: by ozlabs.org (Postfix, from userid 1007)
- id 4DGPXR1Tr1z9sXb; Thu, 14 Jan 2021 10:58:14 +1100 (AEDT)
+ id 4DGPXR0hDnz9sX1; Thu, 14 Jan 2021 10:58:15 +1100 (AEDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=gibson.dropbear.id.au; s=201602; t=1610582295;
- bh=DVHvwIFYF5zIwyyGLWDcCato2JVKksJgBlh9j+VQqL0=;
+ bh=XAe7Xx+YpNUPHcyhxW/cHKgMuEbgQoNbc1c/1ol/ah8=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=jTlVEvch3zry53tRmBDlCkK4cf+QcvmCRDcfLu/b5oIXVVQY5077CPMkSyEjN3U8s
- g5PBBzdxOqRo3z+l7T9m+S4pqmIV3le8DKxYkdbteZXEytSD9p7MbM1Evo3zsytRN8
- jrfQK8ZJtUmeLoUSk8ZvXAY/Jr6RG6t2NX0tH6lg=
+ b=WHrQo0CpGmuAyajbdwUMx7qgn9Kr7iTclU8Uk3Goi3mgJfMWU9Nzex3+mn0SUfPIy
+ xecXjdlhCJ1+mTEjl5fbqWu0n2T0lKHXdsVYiVX+tGC9y732Yulz2rRkTGA0sx0BfA
+ V3fI8nw9ocNIb/PNhEsP0m0vgGwV8LbBBaXzbDoM=
 From: David Gibson <david@gibson.dropbear.id.au>
 To: brijesh.singh@amd.com, pair@us.ibm.com, dgilbert@redhat.com,
  pasic@linux.ibm.com, qemu-devel@nongnu.org
-Subject: [PATCH v7 08/13] confidential guest support: Move SEV initialization
- into arch specific code
-Date: Thu, 14 Jan 2021 10:58:06 +1100
-Message-Id: <20210113235811.1909610-9-david@gibson.dropbear.id.au>
+Subject: [PATCH v7 09/13] confidential guest support: Update documentation
+Date: Thu, 14 Jan 2021 10:58:07 +1100
+Message-Id: <20210113235811.1909610-10-david@gibson.dropbear.id.au>
 X-Mailer: git-send-email 2.29.2
 In-Reply-To: <20210113235811.1909610-1-david@gibson.dropbear.id.au>
 References: <20210113235811.1909610-1-david@gibson.dropbear.id.au>
@@ -71,111 +70,82 @@ Cc: qemu-ppc@nongnu.org, thuth@redhat.com,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-While we've abstracted some (potential) differences between mechanisms for
-securing guest memory, the initialization is still specific to SEV.  Given
-that, move it into x86's kvm_arch_init() code, rather than the generic
-kvm_init() code.
+Now that we've implemented a generic machine option for configuring various
+confidential guest support mechanisms:
+  1. Update docs/amd-memory-encryption.txt to reference this rather than
+     the earlier SEV specific option
+  2. Add a docs/confidential-guest-support.txt to cover the generalities of
+     the confidential guest support scheme
 
 Signed-off-by: David Gibson <david@gibson.dropbear.id.au>
 ---
- accel/kvm/kvm-all.c   | 14 --------------
- accel/kvm/sev-stub.c  |  4 ++--
- target/i386/kvm/kvm.c | 12 ++++++++++++
- target/i386/sev.c     |  7 ++++++-
- 4 files changed, 20 insertions(+), 17 deletions(-)
+ docs/amd-memory-encryption.txt      |  2 +-
+ docs/confidential-guest-support.txt | 43 +++++++++++++++++++++++++++++
+ 2 files changed, 44 insertions(+), 1 deletion(-)
+ create mode 100644 docs/confidential-guest-support.txt
 
-diff --git a/accel/kvm/kvm-all.c b/accel/kvm/kvm-all.c
-index c5b0750fd0..adf27c1864 100644
---- a/accel/kvm/kvm-all.c
-+++ b/accel/kvm/kvm-all.c
-@@ -2177,20 +2177,6 @@ static int kvm_init(MachineState *ms)
+diff --git a/docs/amd-memory-encryption.txt b/docs/amd-memory-encryption.txt
+index 80b8eb00e9..145896aec7 100644
+--- a/docs/amd-memory-encryption.txt
++++ b/docs/amd-memory-encryption.txt
+@@ -73,7 +73,7 @@ complete flow chart.
+ To launch a SEV guest
  
-     kvm_state = s;
+ # ${QEMU} \
+-    -machine ...,memory-encryption=sev0 \
++    -machine ...,confidential-guest-support=sev0 \
+     -object sev-guest,id=sev0,cbitpos=47,reduced-phys-bits=1
  
--    /*
--     * if memory encryption object is specified then initialize the memory
--     * encryption context.
--     */
--    if (ms->cgs) {
--        Error *local_err = NULL;
--        /* FIXME handle mechanisms other than SEV */
--        ret = sev_kvm_init(ms->cgs, &local_err);
--        if (ret < 0) {
--            error_report_err(local_err);
--            goto err;
--        }
--    }
--
-     ret = kvm_arch_init(ms, s);
-     if (ret < 0) {
-         goto err;
-diff --git a/accel/kvm/sev-stub.c b/accel/kvm/sev-stub.c
-index 512e205f7f..9587d1b2a3 100644
---- a/accel/kvm/sev-stub.c
-+++ b/accel/kvm/sev-stub.c
-@@ -17,6 +17,6 @@
- 
- int sev_kvm_init(ConfidentialGuestSupport *cgs, Error **errp)
- {
--    /* SEV can't be selected if it's not compiled */
--    g_assert_not_reached();
-+    /* If we get here, cgs must be some non-SEV thing */
-+    return 0;
- }
-diff --git a/target/i386/kvm/kvm.c b/target/i386/kvm/kvm.c
-index 6dc1ee052d..e8b9dc48a2 100644
---- a/target/i386/kvm/kvm.c
-+++ b/target/i386/kvm/kvm.c
-@@ -42,6 +42,7 @@
- #include "hw/i386/intel_iommu.h"
- #include "hw/i386/x86-iommu.h"
- #include "hw/i386/e820_memory_layout.h"
-+#include "sysemu/sev.h"
- 
- #include "hw/pci/pci.h"
- #include "hw/pci/msi.h"
-@@ -2135,6 +2136,17 @@ int kvm_arch_init(MachineState *ms, KVMState *s)
-     uint64_t shadow_mem;
-     int ret;
-     struct utsname utsname;
-+    Error *local_err = NULL;
+ Debugging
+diff --git a/docs/confidential-guest-support.txt b/docs/confidential-guest-support.txt
+new file mode 100644
+index 0000000000..2790425b38
+--- /dev/null
++++ b/docs/confidential-guest-support.txt
+@@ -0,0 +1,43 @@
++Confidential Guest Support
++==========================
 +
-+    /*
-+     * if memory encryption object is specified then initialize the
-+     * memory encryption context (no-op otherwise)
-+     */
-+    ret = sev_kvm_init(ms->cgs, &local_err);
-+    if (ret < 0) {
-+        error_report_err(local_err);
-+        return ret;
-+    }
- 
-     if (!kvm_check_extension(s, KVM_CAP_IRQ_ROUTING)) {
-         error_report("kvm: KVM_CAP_IRQ_ROUTING not supported by KVM");
-diff --git a/target/i386/sev.c b/target/i386/sev.c
-index 3d94635397..aa79cacabe 100644
---- a/target/i386/sev.c
-+++ b/target/i386/sev.c
-@@ -664,13 +664,18 @@ sev_vm_state_change(void *opaque, int running, RunState state)
- 
- int sev_kvm_init(ConfidentialGuestSupport *cgs, Error **errp)
- {
--    SevGuestState *sev = SEV_GUEST(cgs);
-+    SevGuestState *sev
-+        = (SevGuestState *)object_dynamic_cast(OBJECT(cgs), TYPE_SEV_GUEST);
-     char *devname;
-     int ret, fw_error;
-     uint32_t ebx;
-     uint32_t host_cbitpos;
-     struct sev_user_data_status status = {};
- 
-+    if (!sev) {
-+        return 0;
-+    }
++Traditionally, hypervisors such as qemu have complete access to a
++guest's memory and other state, meaning that a compromised hypervisor
++can compromise any of its guests.  A number of platforms have added
++mechanisms in hardware and/or firmware which give guests at least some
++protection from a compromised hypervisor.  This is obviously
++especially desirable for public cloud environments.
 +
-     ret = ram_block_discard_disable(true);
-     if (ret) {
-         error_report("%s: cannot disable RAM discard", __func__);
++These mechanisms have different names and different modes of
++operation, but are often referred to as Secure Guests or Confidential
++Guests.  We use the term "Confidential Guest Support" to distinguish
++this from other aspects of guest security (such as security against
++attacks from other guests, or from network sources).
++
++Running a Confidential Guest
++----------------------------
++
++To run a confidential guest you need to add two command line parameters:
++
++1. Use "-object" to create a "confidential guest support" object.  The
++   type and parameters will vary with the specific mechanism to be
++   used
++2. Set the "confidential-guest-support" machine parameter to the ID of
++   the object from (1).
++
++Example (for AMD SEV)::
++
++    qemu-system-x86_64 \
++        <other parameters> \
++        -machine ...,confidential-guest-support=sev0 \
++        -object sev-guest,id=sev0,cbitpos=47,reduced-phys-bits=1
++
++Supported mechanisms
++--------------------
++
++Currently supported confidential guest mechanisms are:
++
++AMD Secure Encrypted Virtualization (SEV)
++    docs/amd-memory-encryption.txt
++
++Other mechanisms may be supported in future.
 -- 
 2.29.2
 
