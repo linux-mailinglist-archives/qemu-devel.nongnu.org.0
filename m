@@ -2,76 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D61D62F54A3
-	for <lists+qemu-devel@lfdr.de>; Wed, 13 Jan 2021 22:44:11 +0100 (CET)
-Received: from localhost ([::1]:45840 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D8FD82F54B4
+	for <lists+qemu-devel@lfdr.de>; Wed, 13 Jan 2021 22:59:57 +0100 (CET)
+Received: from localhost ([::1]:50894 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kznw2-0002NX-CU
-	for lists+qemu-devel@lfdr.de; Wed, 13 Jan 2021 16:44:10 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39396)
+	id 1kzoBI-0005sw-Ca
+	for lists+qemu-devel@lfdr.de; Wed, 13 Jan 2021 16:59:56 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41824)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1kznur-0001m9-AL
- for qemu-devel@nongnu.org; Wed, 13 Jan 2021 16:42:57 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:42178)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1kznuo-00010K-Kp
- for qemu-devel@nongnu.org; Wed, 13 Jan 2021 16:42:56 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1610574172;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=QKghBVHrM3lpAnbstL3EcBpMiHuwE5jSXH7yRuerylc=;
- b=SHPAUqPYYI5A1k7XibddmxcBBhi7bUslMB4U/kX2x4j4k3k2BhIJzc8ribJSGq+xK6AQmq
- z8xjzTnVnS5TTZuHRBQuZK7Y/Sw4r+dOfRCzElI63fBZ6TeqW2sZ/PA6V6roxosRs2VjSR
- SXkQJ1gYvClnj3lakQR43ZOgserg1nQ=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-270-mfFHYGriM0yXx1IR_dFePw-1; Wed, 13 Jan 2021 16:42:49 -0500
-X-MC-Unique: mfFHYGriM0yXx1IR_dFePw-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id D3ACB1922961;
- Wed, 13 Jan 2021 21:42:47 +0000 (UTC)
-Received: from [10.10.120.151] (ovpn-120-151.rdu2.redhat.com [10.10.120.151])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 602BD6A254;
- Wed, 13 Jan 2021 21:42:43 +0000 (UTC)
-Subject: Re: [PATCH 1/2] trace: document how to specify multiple --trace
- patterns
-To: Stefan Hajnoczi <stefanha@redhat.com>, BALATON Zoltan <balaton@eik.bme.hu>
-References: <20210112165859.225534-1-stefanha@redhat.com>
- <20210112165859.225534-2-stefanha@redhat.com>
- <542c6083-37ef-8a7c-7b24-f1e4f8dbff3@eik.bme.hu>
- <20210113094804.GA250553@stefanha-x1.localdomain>
-From: John Snow <jsnow@redhat.com>
-Message-ID: <f13a4aac-2d9a-9762-2664-3e3e09376f4d@redhat.com>
-Date: Wed, 13 Jan 2021 16:42:42 -0500
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.6.0
+ (Exim 4.90_1) (envelope-from <mforney@mforney.org>)
+ id 1kzo97-0005Oh-KM
+ for qemu-devel@nongnu.org; Wed, 13 Jan 2021 16:57:41 -0500
+Received: from mail-pj1-x1029.google.com ([2607:f8b0:4864:20::1029]:40605)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <mforney@mforney.org>)
+ id 1kzo95-0005sj-Gf
+ for qemu-devel@nongnu.org; Wed, 13 Jan 2021 16:57:41 -0500
+Received: by mail-pj1-x1029.google.com with SMTP id m5so2025659pjv.5
+ for <qemu-devel@nongnu.org>; Wed, 13 Jan 2021 13:57:37 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=mforney-org.20150623.gappssmtp.com; s=20150623;
+ h=from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=ESmcMAnWBHSju3uQEPj3whFpqEMjgBqgGp2w8gcr9E8=;
+ b=UbL36ckuCBomOWV22TdRQ2YiffoVyevA/2Dt/OoWE8fKYLGSyW6JSY2bN5EEGHQajm
+ 2jDcIrLyloa2wsyBPfdYXjO22F42XePxRdRErZVxbTEHri6WrUb2HrOBJ8N82pYWj6bm
+ zSgFyfNYP0L0Zs62ISrmfbHUl4RXu4wndTyQ4644RLHuVISPZkqxE33i0y1Fj5od5vcN
+ xBfvg1oFXauXjc20cDDUVjDTMsVnVtZWmkHH1ydq8OVT0D4gcdsP1SEv6ga8sdx/0hSl
+ NAhoDeisPh/MvVLrbHwPLqsVPOpdK7bXhl+nB8j0FKKKqteoujwkm7AWLANjwWNpxIQy
+ i/Cw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=ESmcMAnWBHSju3uQEPj3whFpqEMjgBqgGp2w8gcr9E8=;
+ b=o+mQZOyrgOo7e6wwjdquhVSEv2uDOXPjhLh9cXlGCFMwDJTqHKvYGoBJXQg12QtKME
+ 0q5gDwjAnWwNR4xNKSlrSFmA69d0/FRKCcMse5NlRJudzAgvRFvLrji5n13IpYehAzch
+ Y8XhfaFIhlB2TRDMK1GtEqLHF60A2RbVrdwcgoNhGGEcnSNrdlgACPFmpaWq8jioRbdI
+ 7D09gpFELRcq3ak7rHu18PE69fTBCuz1BB0neYCqqTYHRgOsbI8g0Drtt/BspMA+vphz
+ HytCzmVOBbP0slGfrzEnoqcwp7E4O9j6DwSMywLhLhB3fVnIN7lwsvsTaBZP3QKUToQd
+ nukQ==
+X-Gm-Message-State: AOAM5330n/Y5XDOOI5dnyBd/TtffHqgnX5Ze1zrd79ElxnvE+9olBmu3
+ vnsbjR+8BB+IPfM+d6X6Uizy3YhJ6df/dDP8Oa4=
+X-Google-Smtp-Source: ABdhPJwvQapnkMFi4dWdcg3lGLIHT5/ad1uUxLRwlozz/YgXQW/o9QA+IXphtESAm8ENB1E39V0GcQ==
+X-Received: by 2002:a17:902:b097:b029:dc:5c:a986 with SMTP id
+ p23-20020a170902b097b02900dc005ca986mr4242617plr.59.1610575056102; 
+ Wed, 13 Jan 2021 13:57:36 -0800 (PST)
+Received: from localhost ([2601:647:5180:4570:c90:56ff:fe92:3a06])
+ by smtp.gmail.com with ESMTPSA id p15sm3542138pgl.19.2021.01.13.13.57.34
+ (version=TLS1_2 cipher=ECDHE-ECDSA-CHACHA20-POLY1305 bits=256/256);
+ Wed, 13 Jan 2021 13:57:34 -0800 (PST)
+From: Michael Forney <mforney@mforney.org>
+To: qemu-devel@nongnu.org
+Subject: [PATCH v2] osdep.h: Remove <sys/signal.h> include
+Date: Wed, 13 Jan 2021 13:56:00 -0800
+Message-Id: <20210113215600.16100-1-mforney@mforney.org>
+X-Mailer: git-send-email 2.29.2
+In-Reply-To: <20201027003848.10920-1-mforney@mforney.org>
+References: <20201027003848.10920-1-mforney@mforney.org>
 MIME-Version: 1.0
-In-Reply-To: <20210113094804.GA250553@stefanha-x1.localdomain>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=jsnow@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=windows-1252; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=jsnow@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -29
-X-Spam_score: -3.0
-X-Spam_bar: ---
-X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.25,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Transfer-Encoding: 8bit
+Received-SPF: none client-ip=2607:f8b0:4864:20::1029;
+ envelope-from=mforney@mforney.org; helo=mail-pj1-x1029.google.com
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -84,31 +83,65 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>, qemu-devel@nongnu.org,
- Markus Armbruster <armbru@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>
+Cc: qemu-trivial@nongnu.org, Thomas Huth <thuth@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 1/13/21 4:48 AM, Stefan Hajnoczi wrote:
->> QEMU options are single dash with double dash accepted for compatibility but
->> help and other docs have single dash so these (and below) should be -trace.
->> (Also a bit less typing for otherwise already way too long command lines.)
-> Is this documented somewhere?
-> 
-> I was under the impression that '-' is legacy syntax and '--' is the
-> preferred syntax. There are examples of '--' on the QEMU man page.
-> 
-> Let's reach agreement, document it, and then make the documentation
-> consistent.
-> 
-> Stefan
+Prior to 2a4b472c3c, sys/signal.h was only included on OpenBSD
+(apart from two .c files). The POSIX standard location for this
+header is just <signal.h> and in fact, OpenBSD's signal.h includes
+sys/signal.h itself.
 
-My naive impression was that double-dash is the preferred idiom in 
-linuxdom in general for any multi-character option.
+Unconditionally including <sys/signal.h> on musl causes warnings
+for just about every source file:
 
-We might hang on to single-dash for backwards compatibility, but I doubt 
-we want to enshrine that as our preferred way.
+  /usr/include/sys/signal.h:1:2: warning: #warning redirecting incorrect #include <sys/signal.h> to <signal.h> [-Wcpp]
+      1 | #warning redirecting incorrect #include <sys/signal.h> to <signal.h>
+        |  ^~~~~~~
 
-Is there a reasoning I am unaware of?
+Since there don't seem to be any platforms which require including
+<sys/signal.h> in addition to <signal.h>, and some platforms like
+Haiku lack it completely, just remove it.
+
+Tested building on OpenBSD after removing this include.
+
+Signed-off-by: Michael Forney <mforney@mforney.org>
+Reviewed-by: Eric Blake <eblake@redhat.com>
+---
+Changes since v1: rebase on latest master
+
+ include/qemu/osdep.h | 4 ----
+ meson.build          | 1 -
+ 2 files changed, 5 deletions(-)
+
+diff --git a/include/qemu/osdep.h b/include/qemu/osdep.h
+index f9ec8c84e9..a434382c58 100644
+--- a/include/qemu/osdep.h
++++ b/include/qemu/osdep.h
+@@ -104,10 +104,6 @@ extern int daemon(int, int);
+ #include <setjmp.h>
+ #include <signal.h>
+ 
+-#ifdef HAVE_SYS_SIGNAL_H
+-#include <sys/signal.h>
+-#endif
+-
+ #ifndef _WIN32
+ #include <sys/wait.h>
+ #else
+diff --git a/meson.build b/meson.build
+index 3d889857a0..af2bc89741 100644
+--- a/meson.build
++++ b/meson.build
+@@ -1113,7 +1113,6 @@ config_host_data.set('HAVE_DRM_H', cc.has_header('libdrm/drm.h'))
+ config_host_data.set('HAVE_PTY_H', cc.has_header('pty.h'))
+ config_host_data.set('HAVE_SYS_IOCCOM_H', cc.has_header('sys/ioccom.h'))
+ config_host_data.set('HAVE_SYS_KCOV_H', cc.has_header('sys/kcov.h'))
+-config_host_data.set('HAVE_SYS_SIGNAL_H', cc.has_header('sys/signal.h'))
+ 
+ ignored = ['CONFIG_QEMU_INTERP_PREFIX'] # actually per-target
+ arrays = ['CONFIG_AUDIO_DRIVERS', 'CONFIG_BDRV_RW_WHITELIST', 'CONFIG_BDRV_RO_WHITELIST']
+-- 
+2.30.0
 
 
