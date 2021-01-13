@@ -2,96 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 926DB2F4B3A
-	for <lists+qemu-devel@lfdr.de>; Wed, 13 Jan 2021 13:27:50 +0100 (CET)
-Received: from localhost ([::1]:55398 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E30D72F4B8B
+	for <lists+qemu-devel@lfdr.de>; Wed, 13 Jan 2021 13:45:12 +0100 (CET)
+Received: from localhost ([::1]:40528 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kzfFd-0000uC-4u
-	for lists+qemu-devel@lfdr.de; Wed, 13 Jan 2021 07:27:49 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51788)
+	id 1kzfWR-0007N5-Dj
+	for lists+qemu-devel@lfdr.de; Wed, 13 Jan 2021 07:45:11 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55454)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1kzfEb-0000Kg-Jm
- for qemu-devel@nongnu.org; Wed, 13 Jan 2021 07:26:45 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:20747)
+ (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
+ id 1kzfUE-0006Av-GY
+ for qemu-devel@nongnu.org; Wed, 13 Jan 2021 07:42:56 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:36801)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1kzfEZ-0001qB-0T
- for qemu-devel@nongnu.org; Wed, 13 Jan 2021 07:26:44 -0500
+ (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
+ id 1kzfUA-0000hy-3s
+ for qemu-devel@nongnu.org; Wed, 13 Jan 2021 07:42:52 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1610540800;
+ s=mimecast20190719; t=1610541762;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=JZhHWfDQdMFbk/gNjwiRE/D2FZxMUYorlbUKzXcPMvM=;
- b=Fwvs2EZ+bDUe/RttxUGS0bESp/H6zaDcoqySQ7ErHsMrXQkI7P8gAhdxylkp5OmZksi/KG
- jJkfEydXZ8uLDQ1HWMWQ30EekUfgMFY3QxkeZcaej2Ofu8u1f/FdSvOH9M34M+j1UBuGz/
- KlR5QDtCmJKTUf4HEWMW6SJlfBDW4uo=
-Received: from mail-ej1-f72.google.com (mail-ej1-f72.google.com
- [209.85.218.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-570-vJXavx8pNOuJlsgL4-eCUg-1; Wed, 13 Jan 2021 07:26:38 -0500
-X-MC-Unique: vJXavx8pNOuJlsgL4-eCUg-1
-Received: by mail-ej1-f72.google.com with SMTP id f26so810304ejy.9
- for <qemu-devel@nongnu.org>; Wed, 13 Jan 2021 04:26:38 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:to:cc:references:from:subject:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=JZhHWfDQdMFbk/gNjwiRE/D2FZxMUYorlbUKzXcPMvM=;
- b=a+5D9v/NxtzgTaFDjZugNM/UH4tsGbIpUdSJH1xRpgQ6q/AzOS+dE2uDUGSHd/HUlj
- RiZqO+X1TMz4tj2Jk+3veOQXfW6EwM9P7rRsJvdLYzqDpjwIN1wXHlfDzVOqV2IggECz
- m7J8DGLWYF3a0oFRinXPHt8Cp6Yfd35ZRwDcyrTp9hIsZ5xSltuFOv6MxNQTiNjtgNRT
- iT0y5EjcTlfzkDra/CIg6J7tOdzq5n0+PfDUYCEi1eTuzxKRaGhc2KYi1xxOU62T+y0y
- j/CIG/YM43DMT0TOst3Suckuee1oaF9e1uvFqWzR8YJCkbhvm1brwFN/5QfOVJ2Kbffi
- zjYg==
-X-Gm-Message-State: AOAM532ljNItpCoz9qtFUTuNKx0BWVl7YoX89EOd1jiS21ATeivHursW
- FFcFNruI2ysXxp1Z8ns9KwK6VEDdT8pad7itYddMd431DmtTIQYC2A3u1wNV/dj6hYlGZ3+kUu8
- eAuIFGgmHNh4S13k=
-X-Received: by 2002:a17:906:5958:: with SMTP id
- g24mr503029ejr.217.1610540797405; 
- Wed, 13 Jan 2021 04:26:37 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJzC1u8A4dlViR2cRtAh9m9t3o1Rl6qTzKmMjz5TMd0LU/JWQW6f3MbZDk0Mg0QkgMjyEEmjVw==
-X-Received: by 2002:a17:906:5958:: with SMTP id
- g24mr503004ejr.217.1610540797077; 
- Wed, 13 Jan 2021 04:26:37 -0800 (PST)
-Received: from ?IPv6:2001:b07:6468:f312:c8dd:75d4:99ab:290a?
- ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
- by smtp.gmail.com with ESMTPSA id l14sm777478edq.35.2021.01.13.04.26.36
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 13 Jan 2021 04:26:36 -0800 (PST)
-To: =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>
-References: <20210107140039.467969-1-pbonzini@redhat.com>
- <20210107140039.467969-9-pbonzini@redhat.com>
- <20210113103143.GA1568240@redhat.com>
-From: Paolo Bonzini <pbonzini@redhat.com>
-Subject: Re: [PATCH 8/8] configure: automatically parse command line for meson
- -D options
-Message-ID: <4acc194b-04cd-3276-3cb9-44b133095bee@redhat.com>
-Date: Wed, 13 Jan 2021 13:26:35 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.5.0
+ bh=noQ2RnJbyfA77PNOeg25mR4hnS8qT2ggMdMukleu3so=;
+ b=jF1M3I8F6Lk1cJ5tGM882k/q3mSyoDlTL4Yedyl1aINfMO6WTEoOKt5iUZCU41nbKfkstl
+ LmeL6T3p0/uAerDZvXgO/tdcKSjdw2o0mX5e09+vgiZJ5g5dsxGUZtWizTbLzZSWd3A1nb
+ kkdVX2lSqm8i2Up8cdLzjSIFzO4w+PQ=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-197-AkD2W-bUMEqIykQ7qsjUgg-1; Wed, 13 Jan 2021 07:42:41 -0500
+X-MC-Unique: AkD2W-bUMEqIykQ7qsjUgg-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A98388030A0;
+ Wed, 13 Jan 2021 12:42:38 +0000 (UTC)
+Received: from work-vm (ovpn-112-200.ams2.redhat.com [10.36.112.200])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 7DE8710074E1;
+ Wed, 13 Jan 2021 12:42:28 +0000 (UTC)
+Date: Wed, 13 Jan 2021 12:42:26 +0000
+From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+To: Cornelia Huck <cohuck@redhat.com>
+Subject: Re: [for-6.0 v5 11/13] spapr: PEF: prevent migration
+Message-ID: <20210113124226.GH2938@work-vm>
+References: <20201217054736.GH310465@yekko.fritz.box>
+ <20201217123842.51063918.cohuck@redhat.com>
+ <20201217151530.54431f0e@bahia.lan>
+ <20201218124111.4957eb50.cohuck@redhat.com>
+ <20210104071550.GA22585@ram-ibm-com.ibm.com>
+ <20210104134629.49997b53.pasic@linux.ibm.com>
+ <20210104184026.GD4102@ram-ibm-com.ibm.com>
+ <20210105115614.7daaadd6.pasic@linux.ibm.com>
+ <20210105204125.GE4102@ram-ibm-com.ibm.com>
+ <20210111175914.13adfa2e.cohuck@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <20210113103143.GA1568240@redhat.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=pbonzini@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=pbonzini@redhat.com;
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20210111175914.13adfa2e.cohuck@redhat.com>
+User-Agent: Mutt/1.14.6 (2020-07-11)
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=dgilbert@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -29
 X-Spam_score: -3.0
 X-Spam_bar: ---
 X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.25,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -104,36 +83,85 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: marcandre.lureau@redhat.com, alex.bennee@linaro.org, qemu-devel@nongnu.org,
- stefanha@redhat.com
+Cc: pair@us.ibm.com, brijesh.singh@amd.com, kvm@vger.kernel.org,
+ "Michael S. Tsirkin" <mst@redhat.com>, Ram Pai <linuxram@us.ibm.com>,
+ qemu-devel@nongnu.org, frankja@linux.ibm.com, david@redhat.com,
+ mdroth@linux.vnet.ibm.com, Halil Pasic <pasic@linux.ibm.com>,
+ borntraeger@de.ibm.com, David Gibson <david@gibson.dropbear.id.au>,
+ thuth@redhat.com, Eduardo Habkost <ehabkost@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>, Greg Kurz <groug@kaod.org>,
+ qemu-s390x@nongnu.org, rth@twiddle.net, berrange@redhat.com,
+ Marcelo Tosatti <mtosatti@redhat.com>, qemu-ppc@nongnu.org,
+ pbonzini@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 13/01/21 11:31, Daniel P. Berrangé wrote:
->>
->> - because we need to run the script to generate the full help, we
->>    cannot rely on the user supplying the path to a Python interpreter
->>    with --python.  For this reason, the script is written in Perl.
->>    Perl 5 is universally available as "/usr/bin/env perl", while
->>    (even ignoring the Python 2/3 difference) some systems do not
->>    have a "python" or "python3" binary on the path.
+* Cornelia Huck (cohuck@redhat.com) wrote:
+> On Tue, 5 Jan 2021 12:41:25 -0800
+> Ram Pai <linuxram@us.ibm.com> wrote:
 > 
-> Can't we just use  "/usr/bin/env python3", and if that doesn't
-> exist in $PATH, simply show truncated --help output, with a
-> message requesting that they pass --python to see full help.
+> > On Tue, Jan 05, 2021 at 11:56:14AM +0100, Halil Pasic wrote:
+> > > On Mon, 4 Jan 2021 10:40:26 -0800
+> > > Ram Pai <linuxram@us.ibm.com> wrote:
+> 
+> > > > The main difference between my proposal and the other proposal is...
+> > > > 
+> > > >   In my proposal the guest makes the compatibility decision and acts
+> > > >   accordingly.  In the other proposal QEMU makes the compatibility
+> > > >   decision and acts accordingly. I argue that QEMU cannot make a good
+> > > >   compatibility decision, because it wont know in advance, if the guest
+> > > >   will or will-not switch-to-secure.
+> > > >   
+> > > 
+> > > You have a point there when you say that QEMU does not know in advance,
+> > > if the guest will or will-not switch-to-secure. I made that argument
+> > > regarding VIRTIO_F_ACCESS_PLATFORM (iommu_platform) myself. My idea
+> > > was to flip that property on demand when the conversion occurs. David
+> > > explained to me that this is not possible for ppc, and that having the
+> > > "securable-guest-memory" property (or whatever the name will be)
+> > > specified is a strong indication, that the VM is intended to be used as
+> > > a secure VM (thus it is OK to hurt the case where the guest does not
+> > > try to transition). That argument applies here as well.  
+> > 
+> > As suggested by Cornelia Huck, what if QEMU disabled the
+> > "securable-guest-memory" property if 'must-support-migrate' is enabled?
+> > Offcourse; this has to be done with a big fat warning stating
+> > "secure-guest-memory" feature is disabled on the machine.
+> > Doing so, will continue to support guest that do not try to transition.
+> > Guest that try to transition will fail and terminate themselves.
+> 
+> Just to recap the s390x situation:
+> 
+> - We currently offer a cpu feature that indicates secure execution to
+>   be available to the guest if the host supports it.
+> - When we introduce the secure object, we still need to support
+>   previous configurations and continue to offer the cpu feature, even
+>   if the secure object is not specified.
+> - As migration is currently not supported for secured guests, we add a
+>   blocker once the guest actually transitions. That means that
+>   transition fails if --only-migratable was specified on the command
+>   line. (Guests not transitioning will obviously not notice anything.)
+> - With the secure object, we will already fail starting QEMU if
+>   --only-migratable was specified.
+> 
+> My suggestion is now that we don't even offer the cpu feature if
+> --only-migratable has been specified. For a guest that does not want to
+> transition to secure mode, nothing changes; a guest that wants to
+> transition to secure mode will notice that the feature is not available
+> and fail appropriately (or ultimately, when the ultravisor call fails).
+> We'd still fail starting QEMU for the secure object + --only-migratable
+> combination.
+> 
+> Does that make sense?
 
-We can and it's what the RFC did, but I found it to be ugly for the 
-user.  For example the rest of the build defaults not to "/usr/bin/env 
-python3" but to whatever Python interpreter /usr/bin/meson uses.
+It's a little unusual; I don't think we have any other cases where
+--only-migratable changes the behaviour; I think it normally only stops
+you doing something that would have made it unmigratable or causes
+an operation that would make it unmigratable to fail.
 
-Not that Perl is pretty, :) but developer ugliness ranks a notch lower 
-than user-visible ugliness.  I cannot think of anything else that is 
-already required to build QEMU and can parse JSON.
+Dave
 
-I don't expect this script to see any change ever, except for 
-occasionally updating SKIP_OPTIONS.  Meson introspection data is 
-backwards-compatible.
-
-Paolo
+-- 
+Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
 
 
