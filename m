@@ -2,40 +2,42 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AF2D92F4F9E
-	for <lists+qemu-devel@lfdr.de>; Wed, 13 Jan 2021 17:13:47 +0100 (CET)
-Received: from localhost ([::1]:43776 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 286A62F4F9F
+	for <lists+qemu-devel@lfdr.de>; Wed, 13 Jan 2021 17:13:51 +0100 (CET)
+Received: from localhost ([::1]:44094 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kzimI-0004j7-Pd
-	for lists+qemu-devel@lfdr.de; Wed, 13 Jan 2021 11:13:46 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53886)
+	id 1kzimM-0004qm-64
+	for lists+qemu-devel@lfdr.de; Wed, 13 Jan 2021 11:13:50 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53946)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1kzikH-00034r-Jw; Wed, 13 Jan 2021 11:11:41 -0500
-Received: from mail.ilande.co.uk ([2001:41c9:1:41f::167]:39938
+ id 1kzikL-00038l-1s; Wed, 13 Jan 2021 11:11:45 -0500
+Received: from mail.ilande.co.uk ([2001:41c9:1:41f::167]:39942
  helo=mail.default.ilande.uk0.bigv.io)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1kzikF-0001JN-M2; Wed, 13 Jan 2021 11:11:41 -0500
+ id 1kzikJ-0001OW-FY; Wed, 13 Jan 2021 11:11:44 -0500
 Received: from host109-146-177-189.range109-146.btcentralplus.com
  ([109.146.177.189] helo=kentang.home)
  by mail.default.ilande.uk0.bigv.io with esmtpsa
  (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
  (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1kzikJ-0001mR-1Y; Wed, 13 Jan 2021 16:11:47 +0000
+ id 1kzikN-0001mR-MZ; Wed, 13 Jan 2021 16:11:53 +0000
 From: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
 To: peter.maydell@linaro.org,
 	qemu-devel@nongnu.org,
 	qemu-ppc@nongnu.org
-Date: Wed, 13 Jan 2021 16:11:21 +0000
-Message-Id: <20210113161128.3156-1-mark.cave-ayland@ilande.co.uk>
+Date: Wed, 13 Jan 2021 16:11:22 +0000
+Message-Id: <20210113161128.3156-2-mark.cave-ayland@ilande.co.uk>
 X-Mailer: git-send-email 2.20.1
+In-Reply-To: <20210113161128.3156-1-mark.cave-ayland@ilande.co.uk>
+References: <20210113161128.3156-1-mark.cave-ayland@ilande.co.uk>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-SA-Exim-Connect-IP: 109.146.177.189
 X-SA-Exim-Mail-From: mark.cave-ayland@ilande.co.uk
-Subject: [PULL 0/7] qemu-macppc queue 20210113
+Subject: [PULL 1/7] mac_oldworld: remove duplicate bus check for PPC_INPUT(env)
 X-SA-Exim-Version: 4.2.1 (built Wed, 08 May 2019 21:11:16 +0000)
 X-SA-Exim-Scanned: Yes (on mail.default.ilande.uk0.bigv.io)
 Received-SPF: pass client-ip=2001:41c9:1:41f::167;
@@ -61,36 +63,35 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The following changes since commit f8e1d8852e393b3fd524fb005e38590063d99bc0:
+This condition will have already been caught when wiring the heathrow PIC
+IRQs to the CPU.
 
-  Merge remote-tracking branch 'remotes/pmaydell/tags/pull-target-arm-20210112-1' into staging (2021-01-12 21:23:25 +0000)
+Signed-off-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
+Reviewed-by: David Gibson <david@gibson.dropbear.id.au>
+Message-Id: <20201229175619.6051-2-mark.cave-ayland@ilande.co.uk>
+Signed-off-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
+---
+ hw/ppc/mac_oldworld.c | 6 ------
+ 1 file changed, 6 deletions(-)
 
-are available in the Git repository at:
+diff --git a/hw/ppc/mac_oldworld.c b/hw/ppc/mac_oldworld.c
+index 04f98a4d81..2ead34bdf1 100644
+--- a/hw/ppc/mac_oldworld.c
++++ b/hw/ppc/mac_oldworld.c
+@@ -251,12 +251,6 @@ static void ppc_heathrow_init(MachineState *machine)
+         tbfreq = TBFREQ;
+     }
+ 
+-    /* init basic PC hardware */
+-    if (PPC_INPUT(env) != PPC_FLAGS_INPUT_6xx) {
+-        error_report("Only 6xx bus is supported on heathrow machine");
+-        exit(1);
+-    }
+-
+     /* Grackle PCI host bridge */
+     dev = qdev_new(TYPE_GRACKLE_PCI_HOST_BRIDGE);
+     qdev_prop_set_uint32(dev, "ofw-addr", 0x80000000);
+-- 
+2.20.1
 
-  git://github.com/mcayland/qemu.git tags/qemu-macppc-20210113
-
-for you to fetch changes up to 7b3180f9110e1cee00e9acb36cb4d16bd7efabee:
-
-  macio: don't set user_creatable to false (2021-01-13 12:21:21 +0000)
-
-----------------------------------------------------------------
-qemu-macppc updates
-
-----------------------------------------------------------------
-Mark Cave-Ayland (7):
-      mac_oldworld: remove duplicate bus check for PPC_INPUT(env)
-      mac_oldworld: move initialisation of grackle before heathrow
-      macio: move heathrow PIC inside macio-oldworld device
-      mac_newworld: delay wiring of PCI IRQs in New World machine
-      macio: move OpenPIC inside macio-newworld device
-      macio: wire macio GPIOs to OpenPIC using sysbus IRQs
-      macio: don't set user_creatable to false
-
- hw/misc/macio/gpio.c          | 24 +++-----------
- hw/misc/macio/macio.c         | 53 +++++++++++++++---------------
- hw/ppc/mac_newworld.c         | 71 +++++++++++++++++++++-------------------
- hw/ppc/mac_oldworld.c         | 76 +++++++++++++++++++------------------------
- include/hw/misc/macio/gpio.h  |  2 --
- include/hw/misc/macio/macio.h |  4 +--
- 6 files changed, 104 insertions(+), 126 deletions(-)
 
