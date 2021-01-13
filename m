@@ -2,90 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3BBA92F5536
-	for <lists+qemu-devel@lfdr.de>; Thu, 14 Jan 2021 00:31:26 +0100 (CET)
-Received: from localhost ([::1]:38024 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9941A2F5538
+	for <lists+qemu-devel@lfdr.de>; Thu, 14 Jan 2021 00:32:05 +0100 (CET)
+Received: from localhost ([::1]:40090 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kzpbp-0006ti-9q
-	for lists+qemu-devel@lfdr.de; Wed, 13 Jan 2021 18:31:25 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58196)
+	id 1kzpcS-0007qy-Mh
+	for lists+qemu-devel@lfdr.de; Wed, 13 Jan 2021 18:32:04 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58312)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kzpa7-00069t-07
- for qemu-devel@nongnu.org; Wed, 13 Jan 2021 18:29:39 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:22516)
+ (Exim 4.90_1) (envelope-from <alex.williamson@redhat.com>)
+ id 1kzpb4-0006ty-ON
+ for qemu-devel@nongnu.org; Wed, 13 Jan 2021 18:30:38 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:24354)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kzpa2-0003qB-Qx
- for qemu-devel@nongnu.org; Wed, 13 Jan 2021 18:29:38 -0500
+ (Exim 4.90_1) (envelope-from <alex.williamson@redhat.com>)
+ id 1kzpb2-0004Ie-HQ
+ for qemu-devel@nongnu.org; Wed, 13 Jan 2021 18:30:38 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1610580573;
+ s=mimecast20190719; t=1610580635;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=fif37q7xRFd66DR0whtSibS93whJ6zeQDCaP5SPREV4=;
- b=G5PZjsduNlEpcubt2NNbbaHYq7gD512/yOTh5THHoD+FyBdLIG7dD8nU+y7kn54GPhkdCn
- QT1hvhf3OcH9hcKPFX2WusJ9ElF0z7wD3ULeOpdNAy8DHJGyFXugmuktwfdXj2wCY7rYka
- 3C6hOB7E2HoOP9PpzEaf65cSt0kSeXc=
-Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
- [209.85.221.71]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-418-5atE0lvzPh2TsZ86soBd0A-1; Wed, 13 Jan 2021 18:29:32 -0500
-X-MC-Unique: 5atE0lvzPh2TsZ86soBd0A-1
-Received: by mail-wr1-f71.google.com with SMTP id u29so1704295wru.6
- for <qemu-devel@nongnu.org>; Wed, 13 Jan 2021 15:29:32 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=fif37q7xRFd66DR0whtSibS93whJ6zeQDCaP5SPREV4=;
- b=Gks36GmD1+BCqP+imCz2HszuvJmQl9iMtZP92J3frjrTUckUBA96HJ1qbOpRg4SHs0
- 65pux+d7s9cvFg3wqcP7o6YVyj+frpWzMyt5ZyfSDH0aIOtssHqgtl7dZHsSqF83tgTD
- gBejp6qCEFI4rIxKJu9tn98mu6UQ+fwERJPbwg9KpV3BJQ7/tnVCr6xDI9EoBq3zsYjY
- 11MrmCRcxeYZfP7+kp7itCJbs/sNvWMrPL5tV225vS2fiEyQchE4GqUsGKXOGvUrF217
- ZQZVmGISCl0d/Jnb8SN7NXsfeh4lffh8I4RV3kTLELgCUmgr1f/7azvIkcDBL710VqZE
- vNWQ==
-X-Gm-Message-State: AOAM530JripICFznBYiGWEC+wURBdfO6pesI/GImft1FTvCr1OrJ5Tjb
- vJRdpFnTNBzLbOwurLODlrJBon2eyaP0oj9YDTJNGtByvQnIeBDynKU+/JihnrlkRQSm+biQFH3
- LNa4RtJrFZlDsqcSFDiQhY1bOwzwDcVqrU2hgjejLqaJSQhu1ENElpTqudN0iE4P2
-X-Received: by 2002:adf:f4d0:: with SMTP id h16mr4975162wrp.30.1610580570913; 
- Wed, 13 Jan 2021 15:29:30 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJzUvWFbqC92jAmHWuoiiPuN8eBx7wubl8iV1+Q1XOE4XaNT7FvsD0u9fZGL934En4TbZRlcFQ==
-X-Received: by 2002:adf:f4d0:: with SMTP id h16mr4975145wrp.30.1610580570665; 
- Wed, 13 Jan 2021 15:29:30 -0800 (PST)
-Received: from [192.168.1.36] (13.red-83-57-169.dynamicip.rima-tde.net.
- [83.57.169.13])
- by smtp.gmail.com with ESMTPSA id z6sm5958234wrw.58.2021.01.13.15.29.29
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 13 Jan 2021 15:29:29 -0800 (PST)
-Subject: Re: [PATCH 0/2] MAINTAINERS cleanups
-To: John Snow <jsnow@redhat.com>, QEMU Trivial <qemu-trivial@nongnu.org>
-References: <20201030153416.429791-1-jsnow@redhat.com>
- <2e2482ad-0d71-d34c-320a-b95117559a53@redhat.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-Message-ID: <6fb0c5c9-f248-036f-f9f0-6c1f85ab5484@redhat.com>
-Date: Thu, 14 Jan 2021 00:29:29 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.6.0
+ bh=9s8xXMhP3349S7DgBXXSywAhuSU3GIOPcuvfMgiHumM=;
+ b=Oykcq+oV3r3VOp4dWIcnOQsL0Jxz5fcMOBKIlC3WipfQnG51P6IFC9NBuvzUjmmSOWsIqO
+ oF1mDZXBanLMKs3+C97SGLXTxqn90M0fMl/jSQG+X7sAlemwvK3ogcvE439Zkzjq1NoKIo
+ t7acojK3J42FZnIpN8ChrAqzkqgaHlM=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-467-W7bsYTEkO5q2vBMKdkspWA-1; Wed, 13 Jan 2021 18:30:33 -0500
+X-MC-Unique: W7bsYTEkO5q2vBMKdkspWA-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 94F05180A09B;
+ Wed, 13 Jan 2021 23:30:32 +0000 (UTC)
+Received: from omen.home.shazbot.org (ovpn-112-255.phx2.redhat.com
+ [10.3.112.255])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 5E68B5B4BA;
+ Wed, 13 Jan 2021 23:30:20 +0000 (UTC)
+Date: Wed, 13 Jan 2021 16:30:20 -0700
+From: Alex Williamson <alex.williamson@redhat.com>
+To: David Hildenbrand <david@redhat.com>
+Subject: Re: [PATCH v4 05/11] vfio: Query and store the maximum number of
+ possible DMA mappings
+Message-ID: <20210113163020.2eaa9871@omen.home.shazbot.org>
+In-Reply-To: <20210107133423.44964-6-david@redhat.com>
+References: <20210107133423.44964-1-david@redhat.com>
+ <20210107133423.44964-6-david@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <2e2482ad-0d71-d34c-320a-b95117559a53@redhat.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=alex.williamson@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=philmd@redhat.com;
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=216.205.24.124;
+ envelope-from=alex.williamson@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -29
 X-Spam_score: -3.0
 X-Spam_bar: ---
 X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.25,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -98,24 +82,79 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>, qemu-devel@nongnu.org
+Cc: Pankaj Gupta <pankaj.gupta.linux@gmail.com>,
+ Wei Yang <richard.weiyang@linux.alibaba.com>,
+ "Michael S. Tsirkin" <mst@redhat.com>,
+ Jonathan Cameron <Jonathan.Cameron@huawei.com>, qemu-devel@nongnu.org,
+ Peter Xu <peterx@redhat.com>, "Dr . David Alan Gilbert" <dgilbert@redhat.com>,
+ Auger Eric <eric.auger@redhat.com>, teawater <teawaterz@linux.alibaba.com>,
+ Igor Mammedov <imammedo@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ Marek Kedzierski <mkedzier@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Cc'ing qemu-trivial@
+On Thu,  7 Jan 2021 14:34:17 +0100
+David Hildenbrand <david@redhat.com> wrote:
 
-On 1/13/21 11:08 PM, John Snow wrote:
-> On 10/30/20 11:34 AM, John Snow wrote:
->>
->>
->> John Snow (2):
->>    MAINTAINERS: Remove Ben Warren
->>    MAINTAINERS: Make status spellings consistent
->>
->>   MAINTAINERS | 13 ++++++-------
->>   1 file changed, 6 insertions(+), 7 deletions(-)
->>
+> Let's query the maximum number of possible DMA mappings by querying the
+> available mappings when creating the container (before any mappings are
+> created). We'll use this informaton soon to perform some sanity checks
+> and warn the user.
 > 
-> A little late for 5.2 now, but ... ping?
+> Cc: Paolo Bonzini <pbonzini@redhat.com>
+> Cc: "Michael S. Tsirkin" <mst@redhat.com>
+> Cc: Alex Williamson <alex.williamson@redhat.com>
+> Cc: Dr. David Alan Gilbert <dgilbert@redhat.com>
+> Cc: Igor Mammedov <imammedo@redhat.com>
+> Cc: Pankaj Gupta <pankaj.gupta.linux@gmail.com>
+> Cc: Peter Xu <peterx@redhat.com>
+> Cc: Auger Eric <eric.auger@redhat.com>
+> Cc: Wei Yang <richard.weiyang@linux.alibaba.com>
+> Cc: teawater <teawaterz@linux.alibaba.com>
+> Cc: Marek Kedzierski <mkedzier@redhat.com>
+> Signed-off-by: David Hildenbrand <david@redhat.com>
+> ---
+>  hw/vfio/common.c              | 4 ++++
+>  include/hw/vfio/vfio-common.h | 1 +
+>  2 files changed, 5 insertions(+)
+> 
+> diff --git a/hw/vfio/common.c b/hw/vfio/common.c
+> index 2bd219cf1d..1babb6bb99 100644
+> --- a/hw/vfio/common.c
+> +++ b/hw/vfio/common.c
+> @@ -1934,6 +1934,7 @@ static int vfio_connect_container(VFIOGroup *group, AddressSpace *as,
+>      container->fd = fd;
+>      container->error = NULL;
+>      container->dirty_pages_supported = false;
+> +    container->dma_max_mappings = 0;
+>      QLIST_INIT(&container->giommu_list);
+>      QLIST_INIT(&container->hostwin_list);
+>      QLIST_INIT(&container->vrdl_list);
+> @@ -1965,7 +1966,10 @@ static int vfio_connect_container(VFIOGroup *group, AddressSpace *as,
+>          vfio_host_win_add(container, 0, (hwaddr)-1, info->iova_pgsizes);
+>          container->pgsizes = info->iova_pgsizes;
+>  
+> +        /* The default in the kernel ("dma_entry_limit") is 65535. */
+> +        container->dma_max_mappings = 65535;
+>          if (!ret) {
+> +            vfio_get_info_dma_avail(info, &container->dma_max_mappings);
+>              vfio_get_iommu_info_migration(container, info);
+>          }
+>          g_free(info);
+> diff --git a/include/hw/vfio/vfio-common.h b/include/hw/vfio/vfio-common.h
+> index af6f8d1b22..4b28c6e8ac 100644
+> --- a/include/hw/vfio/vfio-common.h
+> +++ b/include/hw/vfio/vfio-common.h
+> @@ -88,6 +88,7 @@ typedef struct VFIOContainer {
+>      uint64_t dirty_pgsizes;
+>      uint64_t max_dirty_bitmap_size;
+>      unsigned long pgsizes;
+> +    unsigned int dma_max_mappings;
+>      QLIST_HEAD(, VFIOGuestIOMMU) giommu_list;
+>      QLIST_HEAD(, VFIOHostDMAWindow) hostwin_list;
+>      QLIST_HEAD(, VFIOGroup) group_list;
+
+Reviewed-by: Alex Williamson <alex.williamson@redhat.com>
+Acked-by: Alex Williamson <alex.williamson@redhat.com>
 
 
