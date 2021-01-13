@@ -2,75 +2,96 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E30D72F4B8B
-	for <lists+qemu-devel@lfdr.de>; Wed, 13 Jan 2021 13:45:12 +0100 (CET)
-Received: from localhost ([::1]:40528 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 99DF62F4BDB
+	for <lists+qemu-devel@lfdr.de>; Wed, 13 Jan 2021 13:57:23 +0100 (CET)
+Received: from localhost ([::1]:44376 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kzfWR-0007N5-Dj
-	for lists+qemu-devel@lfdr.de; Wed, 13 Jan 2021 07:45:11 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55454)
+	id 1kzfiE-0001CZ-8M
+	for lists+qemu-devel@lfdr.de; Wed, 13 Jan 2021 07:57:22 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57910)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1kzfUE-0006Av-GY
- for qemu-devel@nongnu.org; Wed, 13 Jan 2021 07:42:56 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:36801)
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1kzfgy-0000h1-2I
+ for qemu-devel@nongnu.org; Wed, 13 Jan 2021 07:56:04 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:54723)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1kzfUA-0000hy-3s
- for qemu-devel@nongnu.org; Wed, 13 Jan 2021 07:42:52 -0500
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1kzfgv-0006oK-8f
+ for qemu-devel@nongnu.org; Wed, 13 Jan 2021 07:56:03 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1610541762;
+ s=mimecast20190719; t=1610542559;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=noQ2RnJbyfA77PNOeg25mR4hnS8qT2ggMdMukleu3so=;
- b=jF1M3I8F6Lk1cJ5tGM882k/q3mSyoDlTL4Yedyl1aINfMO6WTEoOKt5iUZCU41nbKfkstl
- LmeL6T3p0/uAerDZvXgO/tdcKSjdw2o0mX5e09+vgiZJ5g5dsxGUZtWizTbLzZSWd3A1nb
- kkdVX2lSqm8i2Up8cdLzjSIFzO4w+PQ=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-197-AkD2W-bUMEqIykQ7qsjUgg-1; Wed, 13 Jan 2021 07:42:41 -0500
-X-MC-Unique: AkD2W-bUMEqIykQ7qsjUgg-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A98388030A0;
- Wed, 13 Jan 2021 12:42:38 +0000 (UTC)
-Received: from work-vm (ovpn-112-200.ams2.redhat.com [10.36.112.200])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 7DE8710074E1;
- Wed, 13 Jan 2021 12:42:28 +0000 (UTC)
-Date: Wed, 13 Jan 2021 12:42:26 +0000
-From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
-To: Cornelia Huck <cohuck@redhat.com>
-Subject: Re: [for-6.0 v5 11/13] spapr: PEF: prevent migration
-Message-ID: <20210113124226.GH2938@work-vm>
-References: <20201217054736.GH310465@yekko.fritz.box>
- <20201217123842.51063918.cohuck@redhat.com>
- <20201217151530.54431f0e@bahia.lan>
- <20201218124111.4957eb50.cohuck@redhat.com>
- <20210104071550.GA22585@ram-ibm-com.ibm.com>
- <20210104134629.49997b53.pasic@linux.ibm.com>
- <20210104184026.GD4102@ram-ibm-com.ibm.com>
- <20210105115614.7daaadd6.pasic@linux.ibm.com>
- <20210105204125.GE4102@ram-ibm-com.ibm.com>
- <20210111175914.13adfa2e.cohuck@redhat.com>
+ bh=HgQnr8OMRtUaMKLra3UBviLbVVg32+UgBl8S110Q81o=;
+ b=MU2jTGyXfj+6t0vfRoiAgrdFWViDKBnwEzLzXknH6LKofip+YCSrT+qCe63H8B4oaBfvBe
+ toygSR8rqMsVaM+3zDv1A73ax1Rj98VKRlmkJqYCCAhL2mI7vTyn5VzQBfMNibWkw6Y8NY
+ 9SSp6B4dQKlgIEg6guJ/jE4QU8/Rn7g=
+Received: from mail-ej1-f71.google.com (mail-ej1-f71.google.com
+ [209.85.218.71]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-180-UiKyO4H8PjWUcoTeiyo3tA-1; Wed, 13 Jan 2021 07:55:57 -0500
+X-MC-Unique: UiKyO4H8PjWUcoTeiyo3tA-1
+Received: by mail-ej1-f71.google.com with SMTP id ov1so843064ejb.1
+ for <qemu-devel@nongnu.org>; Wed, 13 Jan 2021 04:55:57 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=HgQnr8OMRtUaMKLra3UBviLbVVg32+UgBl8S110Q81o=;
+ b=C5rHVz5gp+hKHWXk/BKtsQzkQfxLWng+TpILGfL2CNzwqcCgaHYfFiOM4l1k6b+7Y1
+ JjHFx11lZmI+2bR/4tmIvheWnYk+Pg2rh6sngakp6CclVM6kJUl8olDaKYWAv9OTZ9qP
+ 5UIxN/W1QqoOTLBGgMAWqXCAvTf/JgCRPqSXvmrlKEWrS9HRUMGxp0+rhaSf2vH4Tvki
+ P1phuD6dPHZjhLEydgX2VwAhuYxQjcHJnbRnG3r4u2pZl6B4PJXemGe4sfvWVGBK7h/X
+ KaQ0q2pUX7LIRyliqQXVzkdxXCtkDdPS0aKTfj4YzTFQzen06TUdTNECb8PC+3vUo50e
+ 41Mg==
+X-Gm-Message-State: AOAM532VOwGlfukvM4kPPRfxNKr4t8TkncAbk3YDoq+WgsqDYBQSErZ1
+ ylhGAOAwUJwquaT5u83Z9OfRfIo88Qne9MABND/3r9+HqSgy3Xhbe73LW6b3282RH+ramuPzfye
+ 3YXH7LymkoxsT+XY=
+X-Received: by 2002:a05:6402:45:: with SMTP id
+ f5mr1640603edu.273.1610542556300; 
+ Wed, 13 Jan 2021 04:55:56 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJzSU0EcKNtmi7L0mx5nxt2SOJvOBgshLW4nWd532bjufjcBsgLM88hRGUz5c2Weu+WLHpjV3g==
+X-Received: by 2002:a05:6402:45:: with SMTP id
+ f5mr1640590edu.273.1610542556077; 
+ Wed, 13 Jan 2021 04:55:56 -0800 (PST)
+Received: from ?IPv6:2001:b07:6468:f312:c8dd:75d4:99ab:290a?
+ ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
+ by smtp.gmail.com with ESMTPSA id hr31sm669662ejc.125.2021.01.13.04.55.54
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 13 Jan 2021 04:55:55 -0800 (PST)
+Subject: Re: [PATCH] scsi: allow user to set werror as report
+To: Zihao Chang <changzihao1@huawei.com>, Fam Zheng <fam@euphon.net>
+References: <20201103061240.1364-1-changzihao1@huawei.com>
+ <33fd8330630defb91feb6c627800a3ca952a4b55.camel@euphon.net>
+ <8e53dc93-2312-375e-b67e-4df1b6901890@huawei.com>
+ <2130de2b-d1cd-cfb9-51ee-a775e253d4a6@huawei.com>
+From: Paolo Bonzini <pbonzini@redhat.com>
+Message-ID: <e7b91a1f-0c7e-25bc-c51c-6240b2982a7b@redhat.com>
+Date: Wed, 13 Jan 2021 13:55:54 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.5.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20210111175914.13adfa2e.cohuck@redhat.com>
-User-Agent: Mutt/1.14.6 (2020-07-11)
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=dgilbert@redhat.com;
+In-Reply-To: <2130de2b-d1cd-cfb9-51ee-a775e253d4a6@huawei.com>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=pbonzini@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=pbonzini@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -29
 X-Spam_score: -3.0
 X-Spam_bar: ---
 X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.25,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -83,85 +104,68 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: pair@us.ibm.com, brijesh.singh@amd.com, kvm@vger.kernel.org,
- "Michael S. Tsirkin" <mst@redhat.com>, Ram Pai <linuxram@us.ibm.com>,
- qemu-devel@nongnu.org, frankja@linux.ibm.com, david@redhat.com,
- mdroth@linux.vnet.ibm.com, Halil Pasic <pasic@linux.ibm.com>,
- borntraeger@de.ibm.com, David Gibson <david@gibson.dropbear.id.au>,
- thuth@redhat.com, Eduardo Habkost <ehabkost@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>, Greg Kurz <groug@kaod.org>,
- qemu-s390x@nongnu.org, rth@twiddle.net, berrange@redhat.com,
- Marcelo Tosatti <mtosatti@redhat.com>, qemu-ppc@nongnu.org,
- pbonzini@redhat.com
+Cc: qemu-devel@nongnu.org, xiexiangyou@huawei.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-* Cornelia Huck (cohuck@redhat.com) wrote:
-> On Tue, 5 Jan 2021 12:41:25 -0800
-> Ram Pai <linuxram@us.ibm.com> wrote:
+On 03/12/20 03:55, Zihao Chang wrote:
+> Ping? This is a fix patch which has been reviewed, whose tree should it go via?
 > 
-> > On Tue, Jan 05, 2021 at 11:56:14AM +0100, Halil Pasic wrote:
-> > > On Mon, 4 Jan 2021 10:40:26 -0800
-> > > Ram Pai <linuxram@us.ibm.com> wrote:
+> Thanks
+> Zihao
 > 
-> > > > The main difference between my proposal and the other proposal is...
-> > > > 
-> > > >   In my proposal the guest makes the compatibility decision and acts
-> > > >   accordingly.  In the other proposal QEMU makes the compatibility
-> > > >   decision and acts accordingly. I argue that QEMU cannot make a good
-> > > >   compatibility decision, because it wont know in advance, if the guest
-> > > >   will or will-not switch-to-secure.
-> > > >   
-> > > 
-> > > You have a point there when you say that QEMU does not know in advance,
-> > > if the guest will or will-not switch-to-secure. I made that argument
-> > > regarding VIRTIO_F_ACCESS_PLATFORM (iommu_platform) myself. My idea
-> > > was to flip that property on demand when the conversion occurs. David
-> > > explained to me that this is not possible for ppc, and that having the
-> > > "securable-guest-memory" property (or whatever the name will be)
-> > > specified is a strong indication, that the VM is intended to be used as
-> > > a secure VM (thus it is OK to hurt the case where the guest does not
-> > > try to transition). That argument applies here as well.  
-> > 
-> > As suggested by Cornelia Huck, what if QEMU disabled the
-> > "securable-guest-memory" property if 'must-support-migrate' is enabled?
-> > Offcourse; this has to be done with a big fat warning stating
-> > "secure-guest-memory" feature is disabled on the machine.
-> > Doing so, will continue to support guest that do not try to transition.
-> > Guest that try to transition will fail and terminate themselves.
+> On 2020/11/3 22:03, Zihao Chang wrote:
+>>
+>>
+>> On 2020/11/3 18:52, Fam Zheng wrote:
+>>> On Tue, 2020-11-03 at 14:12 +0800, Zihao Chang wrote:
+>>>> 'enospc' is the default for -drive, but qemu allows user to set
+>>>> drive option werror. If werror of scsi-generic is set to 'report'
+>>>> by user, qemu will not allow vm to start.
+>>>>
+>>>> This patch allow user to set werror as 'report' for scsi-generic.
+>>>>
+>>>> Signed-off-by: Zihao Chang <changzihao1@huawei.com>
+>>>> ---
+>>>>   hw/scsi/scsi-generic.c | 3 ++-
+>>>>   1 file changed, 2 insertions(+), 1 deletion(-)
+>>>>
+>>>> diff --git a/hw/scsi/scsi-generic.c b/hw/scsi/scsi-generic.c
+>>>> index 2cb23ca891..2730e37d63 100644
+>>>> --- a/hw/scsi/scsi-generic.c
+>>>> +++ b/hw/scsi/scsi-generic.c
+>>>> @@ -664,7 +664,8 @@ static void scsi_generic_realize(SCSIDevice *s,
+>>>> Error **errp)
+>>>>           return;
+>>>>       }
+>>>>   
+>>>> -    if (blk_get_on_error(s->conf.blk, 0) !=
+>>>> BLOCKDEV_ON_ERROR_ENOSPC) {
+>>>> +    if (blk_get_on_error(s->conf.blk, 0) != BLOCKDEV_ON_ERROR_ENOSPC
+>>>> &&
+>>>> +        blk_get_on_error(s->conf.blk, 0) !=
+>>>> BLOCKDEV_ON_ERROR_REPORT) {
+>>>>           error_setg(errp, "Device doesn't support drive option
+>>>> werror");
+>>>>           return;
+>>>>       }
+>>>
+>>> Accepting the report sounds sane to me, it matches what we actually
+>>> (always) do. Is the idea to allow users to spell it out explicitly in
+>>> the command line?
+>>>
+>> Actually, qemu supports user to spell it out explicitly in the command
+>> line like "enospc", "report" & "action". This patch just allows user to
+>> set werror as "report" for scsi-generic, which is a common scenario.
+>>
+>>> Reviewed-by: Fam Zheng <fam@euphon.net>
+>>>
+>>> .
+>>>
 > 
-> Just to recap the s390x situation:
-> 
-> - We currently offer a cpu feature that indicates secure execution to
->   be available to the guest if the host supports it.
-> - When we introduce the secure object, we still need to support
->   previous configurations and continue to offer the cpu feature, even
->   if the secure object is not specified.
-> - As migration is currently not supported for secured guests, we add a
->   blocker once the guest actually transitions. That means that
->   transition fails if --only-migratable was specified on the command
->   line. (Guests not transitioning will obviously not notice anything.)
-> - With the secure object, we will already fail starting QEMU if
->   --only-migratable was specified.
-> 
-> My suggestion is now that we don't even offer the cpu feature if
-> --only-migratable has been specified. For a guest that does not want to
-> transition to secure mode, nothing changes; a guest that wants to
-> transition to secure mode will notice that the feature is not available
-> and fail appropriately (or ultimately, when the ultravisor call fails).
-> We'd still fail starting QEMU for the secure object + --only-migratable
-> combination.
-> 
-> Does that make sense?
 
-It's a little unusual; I don't think we have any other cases where
---only-migratable changes the behaviour; I think it normally only stops
-you doing something that would have made it unmigratable or causes
-an operation that would make it unmigratable to fail.
+Queued, thanks.
 
-Dave
-
--- 
-Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
+Paolo
 
 
