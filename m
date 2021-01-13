@@ -2,107 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5F6872F410E
-	for <lists+qemu-devel@lfdr.de>; Wed, 13 Jan 2021 02:21:49 +0100 (CET)
-Received: from localhost ([::1]:41152 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0B12C2F4128
+	for <lists+qemu-devel@lfdr.de>; Wed, 13 Jan 2021 02:25:21 +0100 (CET)
+Received: from localhost ([::1]:46630 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kzUr5-0004MY-E1
-	for lists+qemu-devel@lfdr.de; Tue, 12 Jan 2021 20:21:47 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42684)
+	id 1kzUuV-0006uK-Uz
+	for lists+qemu-devel@lfdr.de; Tue, 12 Jan 2021 20:25:19 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42938)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <Qiuhao.Li@outlook.com>)
- id 1kzUoW-0003QA-Sy
- for qemu-devel@nongnu.org; Tue, 12 Jan 2021 20:19:09 -0500
-Received: from mail-oln040092253081.outbound.protection.outlook.com
- ([40.92.253.81]:40352 helo=APC01-SG2-obe.outbound.protection.outlook.com)
+ (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
+ id 1kzUqW-0004pK-Qx; Tue, 12 Jan 2021 20:21:13 -0500
+Received: from bilbo.ozlabs.org ([203.11.71.1]:51291 helo=ozlabs.org)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <Qiuhao.Li@outlook.com>)
- id 1kzUoU-0005k1-Gc
- for qemu-devel@nongnu.org; Tue, 12 Jan 2021 20:19:08 -0500
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=c7Fm2vsv0OdzgSslmJaxCRFfowaz5rcGbqxKBG9SNImYYJUy97wjsRSB9Px0q/WO+U/tHSloDfvpiiUdZUGEaLiKVSERt+fEppNzuw6+f9vikAuTAXkH21bDkRwLWPzmjmEFia+itu/UrPOu7KVQ4tEE4VHY6BUX+TX3Eidsh0YobQE9qXpobn9tiogYdyDSRdxMHKdjqfWVA7oCIKqxCpLO2Tdhv790dYVYO+YJ+1W93yuiHL2f+qs4xWhbq1DRs2h7tQgsJeietLCILiWlzx/qH0Rg+z40AUKcqxgaA4HX2+HxZ1XTxP8L+4rSByGy8hePMR94TUklrd7SIT4tSg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=+yKBeti+j4KsESFwjv3eGsJ8hvaJG8UON7e+giDVbo0=;
- b=X0vCrGpKi5SuHkDoh4rr5fQ0jzBF5X0l8D1zHSToFQLCaof59OH7Okc+G5mi8XofDJWKEFapjQqfNF4wwrvxygkbgAY2gQ1RrI8vI91GUNAFjQszacSj6ElEgphKtrMJeYGjjToVPvZsneqth/WWbrC1nI2lcvuCemiHLMewnNsIpy+VIRUreWIaRhv33yGCk/0m4z2Jr3Qbdn5oIH8b363Y8gSSnfgoPdelrBqVzvXEYNRiRAcGJ6I5rksCPzLg1WWQWRpG7FgqedHvjDYxaeMSJFXr0KXN2Y/L28fSLfJ1NBFK8wAbqpX/zOaznzbmuy2FN1TvjX+Uijh9iCnwxw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=none; dmarc=none;
- dkim=none; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=outlook.com;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=+yKBeti+j4KsESFwjv3eGsJ8hvaJG8UON7e+giDVbo0=;
- b=DRlz3RdqcX0xEBTzu5KfUyxTBlDNcxF6nCuPE4whjBBukK+ZInloV1ypUpfyyEZpXwPGF0W3URZu1jzQHUvyKDtqEYzIoKYGMaqgCr26Fqyhc8d+ju9dwwh75RT+yMhuBlKFKcxQLRK/6K3J2QH+cZAJkx0Qqdx8W58CVtyfwHOKxG9sghspLsHbuq9B/YE6BJQ0j6Wdc2kaaEek+QC+PCRUfCvtk7uDOsSKvrSdbeVBEL2nwrOs4hbQAeKE8U7p6+IMS0Tdb3QxSUnh8a83rn1dfNC6QxXcfLsmevJ4D8YtCtRJsusenngb822rkBzBpKBmn9USUmHVaGFWB6lgCg==
-Received: from HK2APC01FT004.eop-APC01.prod.protection.outlook.com
- (2a01:111:e400:7ebc::46) by
- HK2APC01HT150.eop-APC01.prod.protection.outlook.com (2a01:111:e400:7ebc::448)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3763.10; Wed, 13 Jan
- 2021 01:18:53 +0000
-Received: from SYCPR01MB3502.ausprd01.prod.outlook.com
- (2a01:111:e400:7ebc::44) by HK2APC01FT004.mail.protection.outlook.com
- (2a01:111:e400:7ebc::125) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3742.6 via Frontend
- Transport; Wed, 13 Jan 2021 01:18:53 +0000
-X-IncomingTopHeaderMarker: OriginalChecksum:DFA7426CEF45683E3EE2F38EA2CF6F89B6E2B09A175BC7356B3004C127F12D1F;
- UpperCasedChecksum:D277DBC91EE8ACCAE45FBE1313DD7CA17F75A2FA786BDD4C2EA670C5F3BEF9B2;
- SizeAsReceived:8906; Count:47
-Received: from SYCPR01MB3502.ausprd01.prod.outlook.com
- ([fe80::b5dd:6210:81a:7780]) by SYCPR01MB3502.ausprd01.prod.outlook.com
- ([fe80::b5dd:6210:81a:7780%5]) with mapi id 15.20.3742.012; Wed, 13 Jan 2021
- 01:18:53 +0000
-Message-ID: <SYCPR01MB350211DD760B451B1B9B7E57FCA90@SYCPR01MB3502.ausprd01.prod.outlook.com>
-Subject: Re: [RFC PATCH] rtl8139: fix stack overflow if RxBuf overlaps MMIO
-From: Qiuhao Li <Qiuhao.Li@outlook.com>
-To: Peter Maydell <peter.maydell@linaro.org>
-Date: Wed, 13 Jan 2021 09:18:42 +0800
-In-Reply-To: <CAFEAcA9Wpc_-pcwGU+=MbRpEb5x5=qPsBP2APvdRe4gK6+WAVA@mail.gmail.com>
-References: <SYCPR01MB3502B0D05FEB1ED21532219EFCAA0@SYCPR01MB3502.ausprd01.prod.outlook.com>
- <CAFEAcA9Wpc_-pcwGU+=MbRpEb5x5=qPsBP2APvdRe4gK6+WAVA@mail.gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-User-Agent: Evolution 3.36.4-0ubuntu1 
-Content-Transfer-Encoding: 7bit
-X-TMN: [20ZgyPQ3+ETzdMflghQr1lpRVGMeHFrf]
-X-ClientProxiedBy: BYAPR11CA0073.namprd11.prod.outlook.com
- (2603:10b6:a03:f4::14) To SYCPR01MB3502.ausprd01.prod.outlook.com
- (2603:10c6:10:3e::12)
-X-Microsoft-Original-Message-ID: <ae3f521bdb98fc0d574c0f4aec8d692eceaefe0a.camel@outlook.com>
+ (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
+ id 1kzUqU-0006Tx-8G; Tue, 12 Jan 2021 20:21:12 -0500
+Received: by ozlabs.org (Postfix, from userid 1007)
+ id 4DFqQT6Yjtz9sWr; Wed, 13 Jan 2021 12:21:05 +1100 (AEDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=gibson.dropbear.id.au; s=201602; t=1610500865;
+ bh=sZIVH+CZu1TxpNvU1X1FxGUjx+7JXcpnKHzPCoUWr/0=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=hXqUpOULlbnfLFaEjNRxpCbqz0bar3n1QMlISX3Gv5RTJDPuBZAThqP9lPokd0x2b
+ HLhIa7DAGQ8SdyJO4XS5B96NW5n5HjsN2eMZWWkP0K5RqwkDI91sZWOI5aeRwcNc/0
+ CRJkFxB5sh5DMf/JxDrgCOXsHw2bEuYcTLNW21mU=
+Date: Wed, 13 Jan 2021 12:20:58 +1100
+From: David Gibson <david@gibson.dropbear.id.au>
+To: Greg Kurz <groug@kaod.org>
+Subject: Re: [PATCH] spapr: Improve handling of memory unplug with old guests
+Message-ID: <20210113012058.GJ435587@yekko.fritz.box>
+References: <161012708715.801107.11418801796987916516.stgit@bahia.lan>
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-Received: from localhost (104.225.148.19) by
- BYAPR11CA0073.namprd11.prod.outlook.com (2603:10b6:a03:f4::14) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.3763.9 via Frontend Transport; Wed, 13 Jan 2021 01:18:49 +0000
-X-MS-PublicTrafficType: Email
-X-IncomingHeaderCount: 47
-X-EOPAttributedMessage: 0
-X-MS-Office365-Filtering-Correlation-Id: e4d64243-a1ef-48b9-51f1-08d8b7613103
-X-MS-TrafficTypeDiagnostic: HK2APC01HT150:
-X-MS-Exchange-MinimumUrlDomainAge: launchpad.net#6197
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: V+o5I1AIDU6/L0J9ULnDKBSv3zap5AuApXg6B7/gU/eiwvOku+8XEL0zW1KIGpZZVrUphSaSxebZf+5EddjWlnW7chEeNWCPQVvHi3nvvt8VRwMsl+D1JTf7SdjjBrxLwYcIU3fBiemy9uLWDIq2o1A+L5zb6N/LEB1NIg4a5ObBXEw+YI+l3OE3psbn5e7TfQd7yZT+HUDBqZO9a7mfGxDlTOwigwv2dcMVocVEPkYrnNkM4P2ceYm+rw5ZlVCZKNfpk4TTv16I6ZlgLiYGpqtlKDkS6DC3X7Dy0asQpMk=
-X-MS-Exchange-AntiSpam-MessageData: QmZn1Jmy/uH8ut5hk9XL/MVjur4AWFb7q8JXlEXM/7GRxtI/9qOIVTDqQ6Ckt6oEUT1wB3LkVDBWmjLbUhYgjKYZDkjZI630BeQ4xJ8dDgAssZG6RZFJSdD0vl2igBb2ReR1ceSiUW7AkUFXjFHNvw==
-X-OriginatorOrg: outlook.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 13 Jan 2021 01:18:53.4387 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 84df9e7f-e9f6-40af-b435-aaaaaaaaaaaa
-X-MS-Exchange-CrossTenant-Network-Message-Id: e4d64243-a1ef-48b9-51f1-08d8b7613103
-X-MS-Exchange-CrossTenant-AuthSource: HK2APC01FT004.eop-APC01.prod.protection.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: Internet
-X-MS-Exchange-CrossTenant-RMS-PersistedConsumerOrg: 00000000-0000-0000-0000-000000000000
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: HK2APC01HT150
-Received-SPF: pass client-ip=40.92.253.81; envelope-from=Qiuhao.Li@outlook.com;
- helo=APC01-SG2-obe.outbound.protection.outlook.com
-X-Spam_score_int: 0
-X-Spam_score: -0.1
-X-Spam_bar: /
-X-Spam_report: (-0.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- MSGID_FROM_MTA_HEADER=0.001, RCVD_IN_DNSWL_NONE=-0.0001,
- RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_PASS=-0.001, SPF_PASS=-0.001,
- URI_DOTEDU=1.999 autolearn=no autolearn_force=no
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="BOmey7/79ja+7F5w"
+Content-Disposition: inline
+In-Reply-To: <161012708715.801107.11418801796987916516.stgit@bahia.lan>
+Received-SPF: pass client-ip=203.11.71.1; envelope-from=dgibson@ozlabs.org;
+ helo=ozlabs.org
+X-Spam_score_int: -17
+X-Spam_score: -1.8
+X-Spam_bar: -
+X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, HEADER_FROM_DIFFERENT_DOMAINS=0.249,
+ SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -115,66 +57,219 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Alexander Bulekov <alxndr@bu.edu>, "Michael S. Tsirkin" <mst@redhat.com>,
- Alistair Francis <alistair.francis@wdc.com>,
- QEMU Developers <qemu-devel@nongnu.org>,
- =?ISO-8859-1?Q?C=E9dric?= Le Goater <clg@kaod.org>
+Cc: qemu-ppc@nongnu.org, qemu-devel@nongnu.org,
+ Laurent Vivier <laurent@vivier.eu>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, 2021-01-12 at 16:02 +0000, Peter Maydell wrote:
-> On Tue, 12 Jan 2021 at 15:23, Qiuhao Li <Qiuhao.Li@outlook.com>
-> wrote:
-> > Fix Bug 1910826 [1] / OSS-Fuzz Issue 29224 [2].
-> > 
-> > In rtl8139.c, the function rtl8139_RxBuf_write, which sets the
-> > RxBuf
-> > (Receive Buffer Start Address), doesn't check if this buffer
-> > overlaps our
-> > MMIO region. So if the guest machine set the transmit mode to
-> > loopback, put
-> > the RxBuf at the address of TSD (Transmit Status of Descriptor,
-> > MMIO), and
-> > trigger a frame transfer by directly writing to the TSD, an
-> > infinite
-> > recursion will occur:
-> > 
-> > rtl8139_ioport_write (to TSD) -> rtl8139_io_writel ->
-> > rtl8139_transmit ->
-> > rtl8139_transmit_one -> rtl8139_transfer_frame ->
-> > rtl8139_do_receive ->
-> > rtl8139_write_buffer -> pci_dma_write (to TSD) -> ... ->
-> > rtl8139_ioport_write (to TSD)
-> > 
-> > This patch adds a check to ensure the maximum possible RxBuf [3]
-> > won't
-> > overlap the MMIO region.
-> > 
-> > P.S. There is a more concise reproducer with comments [4], which
-> > may help :)
-> > 
-> > [1] https://bugs.launchpad.net/bugs/1910826
-> > [2] https://bugs.chromium.org/p/oss-fuzz/issues/detail?id=29224
-> > [3] https://www.cs.usfca.edu/~cruse/cs326f04/RTL8139D_DataSheet.pdf
-> >     5.7 Transmit Configuration Register
-> > [4] https://bugs.launchpad.net/qemu/+bug/1910826/comments/1
-> > 
-> > Signed-off-by: Qiuhao Li <Qiuhao.Li@outlook.com>
-> > Reported-by: Alexander Bulekov <alxndr@bu.edu>
-> 
-> This looks like a single-device workaround for the generic
-> class of problems where a device can be configured to
-> do DMA to itself. Why is rtl8139 special ?
 
-Understand. I thought it is the device's duty to avoid doing DMA to
-itself.
+--BOmey7/79ja+7F5w
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Thank you.
-  Qiuhao Li
-> 
-> (I have on my todo list to think about the general problem.)
-> 
-> thanks
-> -- PMM
+On Fri, Jan 08, 2021 at 06:31:27PM +0100, Greg Kurz wrote:
+> Since commit 1e8b5b1aa16b ("spapr: Allow memory unplug to always succeed")
+> trying to unplug memory from a guest that doesn't support it (eg. rhel6)
+> no longer generates an error like it used to. Instead, it leaves the
+> memory around : only a subsequent reboot or manual use of drmgr within
+> the guest can complete the hot-unplug sequence. A flag was added to
+> SpaprMachineClass so that this new behavior only applies to the default
+> machine type.
+>=20
+> We can do better. CAS processes all pending hot-unplug requests. This
+> means that we don't really care about what the guest supports if
+> the hot-unplug request happens before CAS.
+>=20
+> All guests that we care for, even old ones, set enough bits in OV5
+> that lead to a non-empty bitmap in spapr->ov5_cas. Use that as a
+> heuristic to decide if CAS has already occured or not.
+>=20
+> Always accept unplug requests that happen before CAS since CAS will
+> process them. Restore the previous behavior of rejecting them after
+> CAS when we know that the guest doesn't support memory hot-unplug.
+>=20
+> This behavior is suitable for all machine types : this allows to
+> drop the pre_6_0_memory_unplug flag.
+>=20
+> Fixes: 1e8b5b1aa16b ("spapr: Allow memory unplug to always succeed")
+> Signed-off-by: Greg Kurz <groug@kaod.org>
 
+Applied, sorry it too me so long.
+
+> ---
+>  hw/ppc/spapr.c              |   24 +++++++++++++-----------
+>  hw/ppc/spapr_events.c       |    3 +--
+>  hw/ppc/spapr_ovec.c         |    7 +++++++
+>  include/hw/ppc/spapr.h      |    2 +-
+>  include/hw/ppc/spapr_ovec.h |    1 +
+>  5 files changed, 23 insertions(+), 14 deletions(-)
+>=20
+> diff --git a/hw/ppc/spapr.c b/hw/ppc/spapr.c
+> index 2c403b574e37..6c47466fc2f1 100644
+> --- a/hw/ppc/spapr.c
+> +++ b/hw/ppc/spapr.c
+> @@ -4048,6 +4048,18 @@ static void spapr_machine_device_unplug(HotplugHan=
+dler *hotplug_dev,
+>      }
+>  }
+> =20
+> +bool spapr_memory_hot_unplug_supported(SpaprMachineState *spapr)
+> +{
+> +    return spapr_ovec_test(spapr->ov5_cas, OV5_HP_EVT) ||
+> +        /*
+> +         * CAS will process all pending unplug requests.
+> +         *
+> +         * HACK: a guest could theoretically have cleared all bits in OV=
+5,
+> +         * but none of the guests we care for do.
+> +         */
+
+Hrm.  This is pretty ugly - I thought we had a better canonical way of
+determining if CAS had already happened this boot, but it appears
+not.  I don't want to delay this patch, since it is an important fix,
+but it would be nice if you could do a later cleanup to have a nicer
+way of detecting CAS-hasn't-happened.
+
+> +        spapr_ovec_empty(spapr->ov5_cas);
+> +}
+> +
+>  static void spapr_machine_device_unplug_request(HotplugHandler *hotplug_=
+dev,
+>                                                  DeviceState *dev, Error =
+**errp)
+>  {
+> @@ -4056,16 +4068,9 @@ static void spapr_machine_device_unplug_request(Ho=
+tplugHandler *hotplug_dev,
+>      SpaprMachineClass *smc =3D SPAPR_MACHINE_CLASS(mc);
+> =20
+>      if (object_dynamic_cast(OBJECT(dev), TYPE_PC_DIMM)) {
+> -        if (!smc->pre_6_0_memory_unplug ||
+> -            spapr_ovec_test(sms->ov5_cas, OV5_HP_EVT)) {
+> +        if (spapr_memory_hot_unplug_supported(sms)) {
+>              spapr_memory_unplug_request(hotplug_dev, dev, errp);
+>          } else {
+> -            /* NOTE: this means there is a window after guest reset, pri=
+or to
+> -             * CAS negotiation, where unplug requests will fail due to t=
+he
+> -             * capability not being detected yet. This is a bit differen=
+t than
+> -             * the case with PCI unplug, where the events will be queued=
+ and
+> -             * eventually handled by the guest after boot
+> -             */
+>              error_setg(errp, "Memory hot unplug not supported for this g=
+uest");
+>          }
+>      } else if (object_dynamic_cast(OBJECT(dev), TYPE_SPAPR_CPU_CORE)) {
+> @@ -4543,11 +4548,8 @@ DEFINE_SPAPR_MACHINE(6_0, "6.0", true);
+>   */
+>  static void spapr_machine_5_2_class_options(MachineClass *mc)
+>  {
+> -    SpaprMachineClass *smc =3D SPAPR_MACHINE_CLASS(mc);
+> -
+>      spapr_machine_6_0_class_options(mc);
+>      compat_props_add(mc->compat_props, hw_compat_5_2, hw_compat_5_2_len);
+> -    smc->pre_6_0_memory_unplug =3D true;
+>  }
+> =20
+>  DEFINE_SPAPR_MACHINE(5_2, "5.2", false);
+> diff --git a/hw/ppc/spapr_events.c b/hw/ppc/spapr_events.c
+> index 6aedd988b3d0..d51daedfa6e0 100644
+> --- a/hw/ppc/spapr_events.c
+> +++ b/hw/ppc/spapr_events.c
+> @@ -658,8 +658,7 @@ static void spapr_hotplug_req_event(uint8_t hp_id, ui=
+nt8_t hp_action,
+>          /* we should not be using count_indexed value unless the guest
+>           * supports dedicated hotplug event source
+>           */
+> -        g_assert(!SPAPR_MACHINE_GET_CLASS(spapr)->pre_6_0_memory_unplug =
+||
+> -                 spapr_ovec_test(spapr->ov5_cas, OV5_HP_EVT));
+> +        g_assert(spapr_memory_hot_unplug_supported(spapr));
+>          hp->drc_id.count_indexed.count =3D
+>              cpu_to_be32(drc_id->count_indexed.count);
+>          hp->drc_id.count_indexed.index =3D
+> diff --git a/hw/ppc/spapr_ovec.c b/hw/ppc/spapr_ovec.c
+> index dd003f1763fd..b2567caa5cf4 100644
+> --- a/hw/ppc/spapr_ovec.c
+> +++ b/hw/ppc/spapr_ovec.c
+> @@ -125,6 +125,13 @@ bool spapr_ovec_test(SpaprOptionVector *ov, long bit=
+nr)
+>      return test_bit(bitnr, ov->bitmap) ? true : false;
+>  }
+> =20
+> +bool spapr_ovec_empty(SpaprOptionVector *ov)
+> +{
+> +    g_assert(ov);
+> +
+> +    return bitmap_empty(ov->bitmap, OV_MAXBITS);
+> +}
+> +
+>  static void guest_byte_to_bitmap(uint8_t entry, unsigned long *bitmap,
+>                                   long bitmap_offset)
+>  {
+> diff --git a/include/hw/ppc/spapr.h b/include/hw/ppc/spapr.h
+> index 1cc19575f548..3ad2ff713279 100644
+> --- a/include/hw/ppc/spapr.h
+> +++ b/include/hw/ppc/spapr.h
+> @@ -142,7 +142,6 @@ struct SpaprMachineClass {
+>      hwaddr rma_limit;          /* clamp the RMA to this size */
+>      bool pre_5_1_assoc_refpoints;
+>      bool pre_5_2_numa_associativity;
+> -    bool pre_6_0_memory_unplug;
+> =20
+>      bool (*phb_placement)(SpaprMachineState *spapr, uint32_t index,
+>                            uint64_t *buid, hwaddr *pio,=20
+> @@ -950,4 +949,5 @@ bool spapr_check_pagesize(SpaprMachineState *spapr, h=
+waddr pagesize,
+> =20
+>  void spapr_set_all_lpcrs(target_ulong value, target_ulong mask);
+>  hwaddr spapr_get_rtas_addr(void);
+> +bool spapr_memory_hot_unplug_supported(SpaprMachineState *spapr);
+>  #endif /* HW_SPAPR_H */
+> diff --git a/include/hw/ppc/spapr_ovec.h b/include/hw/ppc/spapr_ovec.h
+> index d4dee9e06a01..48b716a060c2 100644
+> --- a/include/hw/ppc/spapr_ovec.h
+> +++ b/include/hw/ppc/spapr_ovec.h
+> @@ -71,6 +71,7 @@ void spapr_ovec_cleanup(SpaprOptionVector *ov);
+>  void spapr_ovec_set(SpaprOptionVector *ov, long bitnr);
+>  void spapr_ovec_clear(SpaprOptionVector *ov, long bitnr);
+>  bool spapr_ovec_test(SpaprOptionVector *ov, long bitnr);
+> +bool spapr_ovec_empty(SpaprOptionVector *ov);
+>  SpaprOptionVector *spapr_ovec_parse_vector(target_ulong table_addr, int =
+vector);
+>  int spapr_dt_ovec(void *fdt, int fdt_offset,
+>                    SpaprOptionVector *ov, const char *name);
+>=20
+>=20
+
+--=20
+David Gibson			| I'll have my music baroque, and my code
+david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
+				| _way_ _around_!
+http://www.ozlabs.org/~dgibson
+
+--BOmey7/79ja+7F5w
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAl/+SvoACgkQbDjKyiDZ
+s5IfhRAA1vJ1ReFC92PVYGafUPOuUDet3b+Ui9Ju10Nmd8sCltUn1I6WsBollx3g
+6lX6aeBnQ0oNsUKWmd7xq6MMapR+YYGbiCx/rEliqSDIMCMUl+FBOoABS6YVxRi4
+OdQ18Ljo3o0gWfHHc7mxVlCtnmI/vW4YN9HAndJas+57lFGz5+ssp8FbGSA1bI79
+VOlZIT+zI0hMsa0Xkn2YCN0bjfyZpBznmEjVjnWHlMQYYo2jJ+dQ6/TTbxXb/839
+QAghuEjjO5kvHbt+J7d4xNYdCui0HvDDwFNNPY4lhg6l/VPNDJa2Ej6XWT6F3BOs
+GN+0/fQtOX+l+N51+4yIJzsuuCjHFvc4mSw1eR828rF/cYPWr0jiN5qZ+3zczVQK
+OjEcEMIZdazYNKRfpY3EiNI0pfgvlm12EP0xddS6mh/+fnpmwzo/pAbC59BZSrxE
+BylDXMuHDYsO0+MyWDDRbBVa845Ygm/I8ZPHY5IkpyAc74dtkElw6GGiDZ41TRXv
+uPKWiK1X+oKyJoFyqgIRAbnDbNjbcbNwr/cUoUEq6L+epJQM7hs8v7S0wvUE49cP
+mBkuYsnZ5lRtj8TrAakLMlsjz9QZHW6fBmsNcyeyxxNZf6qqv2G406pZeYiv2xg9
+d5nNbPL+EZkYjgoGY6DPgjTW9GpQgj/rm9qrosZ2ezgv+/h3ypM=
+=HycG
+-----END PGP SIGNATURE-----
+
+--BOmey7/79ja+7F5w--
 
