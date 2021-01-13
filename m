@@ -2,49 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C64232F54D8
-	for <lists+qemu-devel@lfdr.de>; Wed, 13 Jan 2021 23:14:41 +0100 (CET)
-Received: from localhost ([::1]:39992 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 00FBD2F54DB
+	for <lists+qemu-devel@lfdr.de>; Wed, 13 Jan 2021 23:16:35 +0100 (CET)
+Received: from localhost ([::1]:44086 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kzoPY-0005Pr-S6
-	for lists+qemu-devel@lfdr.de; Wed, 13 Jan 2021 17:14:40 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44730)
+	id 1kzoRO-00076Y-2c
+	for lists+qemu-devel@lfdr.de; Wed, 13 Jan 2021 17:16:34 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44756)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1kzoLY-0001Jz-Vz
- for qemu-devel@nongnu.org; Wed, 13 Jan 2021 17:10:34 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:46296)
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1kzoLa-0001KA-Re
+ for qemu-devel@nongnu.org; Wed, 13 Jan 2021 17:10:35 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:32279)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1kzoLM-0001hD-NR
- for qemu-devel@nongnu.org; Wed, 13 Jan 2021 17:10:32 -0500
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1kzoLP-0001iu-P3
+ for qemu-devel@nongnu.org; Wed, 13 Jan 2021 17:10:34 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1610575819;
+ s=mimecast20190719; t=1610575822;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=BMFdqO9E25eW/8JwnsSaPPQ4utTcuPrvy+4EgiwA7Mg=;
- b=aCcV4J+eH+T/7rZ7ewpYZMKkUXS1i18Q6bi0RdTv+CqYWcLqqs3TEFMhr7nbBvwaK/66np
- oZPTKWloV3k67d6BJo1kNn04cXd4/USebNjZSlhbhW94ya/ir/t/wRkqIvSWivks8FNaaE
- 6P5QVeVjI9kEhV5a/hGSGaWZF8H7qTw=
+ bh=HvRm14N5gc5L2Vm3/eIwg6y25D08xuhVkD08X5eyYWY=;
+ b=J+msSTHspSXmk6Hn5a1qDf8T0lfM0VsnAuLLkxe9xgSLVsyZhojVkS9/jNOoAegBSe80T5
+ A4d9wNd9V2pcCEV3J5Ya54y70452V3Jup/c9VmRSzBMhZJtiNaQUW8PXz7QYR84nJXElbJ
+ pOyXNyAwgKjVV0RvxUd7HF8XWhn8k7E=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-251-zjtBfFDENNO76jlXM0a7iw-1; Wed, 13 Jan 2021 17:10:18 -0500
-X-MC-Unique: zjtBfFDENNO76jlXM0a7iw-1
+ us-mta-521-Sv0f45JFPx2rWqx5Pg8_DA-1; Wed, 13 Jan 2021 17:10:18 -0500
+X-MC-Unique: Sv0f45JFPx2rWqx5Pg8_DA-1
 Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
  [10.5.11.22])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 0ED7A10766C7;
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 9AD6B192D78B;
  Wed, 13 Jan 2021 22:10:17 +0000 (UTC)
 Received: from blue.redhat.com (ovpn-113-36.phx2.redhat.com [10.3.113.36])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 86D7B10016FF;
- Wed, 13 Jan 2021 22:10:16 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 3B6F510016F7;
+ Wed, 13 Jan 2021 22:10:17 +0000 (UTC)
 From: Eric Blake <eblake@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v4 2/5] qapi: A couple more QAPI_LIST_PREPEND() stragglers
-Date: Wed, 13 Jan 2021 16:10:10 -0600
-Message-Id: <20210113221013.390592-3-eblake@redhat.com>
+Subject: [PATCH v4 3/5] qapi: Introduce QAPI_LIST_APPEND
+Date: Wed, 13 Jan 2021 16:10:11 -0600
+Message-Id: <20210113221013.390592-4-eblake@redhat.com>
 In-Reply-To: <20210113221013.390592-1-eblake@redhat.com>
 References: <20210113221013.390592-1-eblake@redhat.com>
 MIME-Version: 1.0
@@ -76,103 +76,44 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: vsementsov@virtuozzo.com, armbru@redhat.com,
- Eduardo Habkost <ehabkost@redhat.com>
+Cc: Michael Roth <michael.roth@amd.com>, vsementsov@virtuozzo.com,
+ armbru@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Commit 54aa3de72e switched multiple sites to use QAPI_LIST_PREPEND
-instead of open-coding, but missed a couple of spots.
+Similar to the existing QAPI_LIST_PREPEND, but designed for use where
+we want to preserve insertion order.  Callers will be added in
+upcoming patches.  Note the difference in signature: PREPEND takes
+List*, APPEND takes List**.
 
 Signed-off-by: Eric Blake <eblake@redhat.com>
+Reviewed-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 ---
- hw/core/machine-qmp-cmds.c | 32 +++++++++++---------------------
- monitor/qmp-cmds-control.c |  9 ++++-----
- 2 files changed, 15 insertions(+), 26 deletions(-)
+ include/qapi/util.h | 13 +++++++++++++
+ 1 file changed, 13 insertions(+)
 
-diff --git a/hw/core/machine-qmp-cmds.c b/hw/core/machine-qmp-cmds.c
-index affffe0c4abf..156223a344ed 100644
---- a/hw/core/machine-qmp-cmds.c
-+++ b/hw/core/machine-qmp-cmds.c
-@@ -293,41 +293,31 @@ void qmp_set_numa_node(NumaOptions *cmd, Error **errp)
- static int query_memdev(Object *obj, void *opaque)
- {
-     MemdevList **list = opaque;
--    MemdevList *m = NULL;
-+    Memdev *m;
-     QObject *host_nodes;
-     Visitor *v;
+diff --git a/include/qapi/util.h b/include/qapi/util.h
+index 6178e98e97a5..d7bfb30e25c6 100644
+--- a/include/qapi/util.h
++++ b/include/qapi/util.h
+@@ -37,4 +37,17 @@ int parse_qapi_name(const char *name, bool complete);
+     (list) = _tmp; \
+ } while (0)
 
-     if (object_dynamic_cast(obj, TYPE_MEMORY_BACKEND)) {
-         m = g_malloc0(sizeof(*m));
-
--        m->value = g_malloc0(sizeof(*m->value));
-+        m->id = g_strdup(object_get_canonical_path_component(obj));
-+        m->has_id = !!m->id;
-
--        m->value->id = g_strdup(object_get_canonical_path_component(obj));
--        m->value->has_id = !!m->value->id;
--
--        m->value->size = object_property_get_uint(obj, "size",
--                                                  &error_abort);
--        m->value->merge = object_property_get_bool(obj, "merge",
--                                                   &error_abort);
--        m->value->dump = object_property_get_bool(obj, "dump",
--                                                  &error_abort);
--        m->value->prealloc = object_property_get_bool(obj,
--                                                      "prealloc",
--                                                      &error_abort);
--        m->value->policy = object_property_get_enum(obj,
--                                                    "policy",
--                                                    "HostMemPolicy",
--                                                    &error_abort);
-+        m->size = object_property_get_uint(obj, "size", &error_abort);
-+        m->merge = object_property_get_bool(obj, "merge", &error_abort);
-+        m->dump = object_property_get_bool(obj, "dump", &error_abort);
-+        m->prealloc = object_property_get_bool(obj, "prealloc", &error_abort);
-+        m->policy = object_property_get_enum(obj, "policy", "HostMemPolicy",
-+                                             &error_abort);
-         host_nodes = object_property_get_qobject(obj,
-                                                  "host-nodes",
-                                                  &error_abort);
-         v = qobject_input_visitor_new(host_nodes);
--        visit_type_uint16List(v, NULL, &m->value->host_nodes, &error_abort);
-+        visit_type_uint16List(v, NULL, &m->host_nodes, &error_abort);
-         visit_free(v);
-         qobject_unref(host_nodes);
-
--        m->next = *list;
--        *list = m;
-+        QAPI_LIST_PREPEND(*list, m);
-     }
-
-     return 0;
-diff --git a/monitor/qmp-cmds-control.c b/monitor/qmp-cmds-control.c
-index 17514f495965..509ae870bd31 100644
---- a/monitor/qmp-cmds-control.c
-+++ b/monitor/qmp-cmds-control.c
-@@ -104,17 +104,16 @@ VersionInfo *qmp_query_version(Error **errp)
-
- static void query_commands_cb(const QmpCommand *cmd, void *opaque)
- {
--    CommandInfoList *info, **list = opaque;
-+    CommandInfo *info;
-+    CommandInfoList **list = opaque;
-
-     if (!cmd->enabled) {
-         return;
-     }
-
-     info = g_malloc0(sizeof(*info));
--    info->value = g_malloc0(sizeof(*info->value));
--    info->value->name = g_strdup(cmd->name);
--    info->next = *list;
--    *list = info;
-+    info->name = g_strdup(cmd->name);
-+    QAPI_LIST_PREPEND(*list, info);
- }
-
- CommandInfoList *qmp_query_commands(Error **errp)
++/*
++ * For any pointer to a GenericList @tail (usually the 'next' member of a
++ * list element), insert @element at the back and update the tail.
++ *
++ * Note that this macro evaluates @element exactly once, so it is safe
++ * to have side-effects with that argument.
++ */
++#define QAPI_LIST_APPEND(tail, element) do { \
++    *(tail) = g_malloc0(sizeof(**(tail))); \
++    (*(tail))->value = (element); \
++    (tail) = &(*(tail))->next; \
++} while (0)
++
+ #endif
 -- 
 2.30.0
 
