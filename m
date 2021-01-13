@@ -2,58 +2,58 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 083EF2F5060
-	for <lists+qemu-devel@lfdr.de>; Wed, 13 Jan 2021 17:50:55 +0100 (CET)
-Received: from localhost ([::1]:38210 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 87B5B2F5047
+	for <lists+qemu-devel@lfdr.de>; Wed, 13 Jan 2021 17:46:01 +0100 (CET)
+Received: from localhost ([::1]:57976 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kzjMD-0003hc-Sf
-	for lists+qemu-devel@lfdr.de; Wed, 13 Jan 2021 11:50:53 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33026)
+	id 1kzjHT-000834-NU
+	for lists+qemu-devel@lfdr.de; Wed, 13 Jan 2021 11:45:59 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33012)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <jag.raman@oracle.com>)
- id 1kzjEd-0006Jb-5o
- for qemu-devel@nongnu.org; Wed, 13 Jan 2021 11:43:03 -0500
-Received: from userp2130.oracle.com ([156.151.31.86]:60060)
+ id 1kzjEb-0006JF-S1
+ for qemu-devel@nongnu.org; Wed, 13 Jan 2021 11:43:01 -0500
+Received: from aserp2130.oracle.com ([141.146.126.79]:43612)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <jag.raman@oracle.com>)
- id 1kzjEY-0007oh-RJ
- for qemu-devel@nongnu.org; Wed, 13 Jan 2021 11:43:02 -0500
-Received: from pps.filterd (userp2130.oracle.com [127.0.0.1])
- by userp2130.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 10DGfcg2181646;
- Wed, 13 Jan 2021 16:42:46 GMT
+ id 1kzjEY-0007oe-B1
+ for qemu-devel@nongnu.org; Wed, 13 Jan 2021 11:43:01 -0500
+Received: from pps.filterd (aserp2130.oracle.com [127.0.0.1])
+ by aserp2130.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 10DGfPll179858;
+ Wed, 13 Jan 2021 16:42:48 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com;
  h=from : to : cc :
  subject : date : message-id : in-reply-to : references : in-reply-to :
  references; s=corp-2020-01-29;
- bh=ZCF/U0ySQGHVMmHt52g6Zmz60PZM9RaElNHJQ79aGXQ=;
- b=s7f+PsuW6bF7rN9EU8VG58PE1pcgN26kO3XvG1WLR5fYR10WQDbt4eAw0XuyuNlYWsgy
- KUqWyi7RzAal+1V60qeiiO9dKw0zpOycg2Dj2SqBv6Qj4nL1kJBcmNExFnJqQfONTpGq
- 6Y5+LCeWQBnBGq3YNflQMSEG+5hRwQbP31qfbwNkfXNlZyuko1tMudX3T3vs523yFz2t
- 9rLbII4YL+8F9N647cKXBr4STydqeyZVhv4nXyzzSI79ZQ1yuTL6rRqJGKzucPkwYx0p
- tl2sPo1Q1AaQ9+pDCWhXLtG6pwN09zdf/dpTPe0ECWZ7hdgM2r4/9ry5oAAZg1vPaSEp Cw== 
+ bh=LnLOzmDa5T3JMJMlHyI2N+DKckhRbqWiYe6fNdWlaZg=;
+ b=n+YtUwtJXHd7z9EZAsy5WQ0TUgYOqx/dQN/Mvw2dpOganhSjscGAM6xoepyK1ApJ6QQl
+ SAyOo/JkirGs+Lm2C8d03THTwwFhFADCW/ANtKa7fP0R2DlkdOHEnArUgxpdEgci7agk
+ qLaG0HnrfdyT8bxDe+My65IHJH521BknnhDLOS20fsmjOHXy0WlFVmmxHBxjS8AgfOiL
+ YLJzyYemURg13nvZmLwOaEiL+snRjDXmDJcnJFZU+A67plMth8Jf8ORdAfU/9vvmBYmb
+ rcJdpaY0qtz4cJvVyy2slzEiZSC5r072UZscjrwQSP+8z8zy3WHMrb8re1QZySi4mu1r +g== 
 Received: from aserp3030.oracle.com (aserp3030.oracle.com [141.146.126.71])
- by userp2130.oracle.com with ESMTP id 360kvk4bru-1
+ by aserp2130.oracle.com with ESMTP id 360kg1vej8-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Wed, 13 Jan 2021 16:42:46 +0000
+ Wed, 13 Jan 2021 16:42:48 +0000
 Received: from pps.filterd (aserp3030.oracle.com [127.0.0.1])
- by aserp3030.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 10DGe9Aw190594;
- Wed, 13 Jan 2021 16:42:45 GMT
+ by aserp3030.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 10DGe9Fe190599;
+ Wed, 13 Jan 2021 16:42:48 GMT
 Received: from aserv0122.oracle.com (aserv0122.oracle.com [141.146.126.236])
- by aserp3030.oracle.com with ESMTP id 360kf0vqdf-1
+ by aserp3030.oracle.com with ESMTP id 360kf0vqfc-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Wed, 13 Jan 2021 16:42:45 +0000
+ Wed, 13 Jan 2021 16:42:48 +0000
 Received: from abhmp0011.oracle.com (abhmp0011.oracle.com [141.146.116.17])
- by aserv0122.oracle.com (8.14.4/8.14.4) with ESMTP id 10DGgi16028314;
- Wed, 13 Jan 2021 16:42:45 GMT
+ by aserv0122.oracle.com (8.14.4/8.14.4) with ESMTP id 10DGgl9j028336;
+ Wed, 13 Jan 2021 16:42:47 GMT
 Received: from jaraman-bur-1.us.oracle.com (/10.152.33.39)
  by default (Oracle Beehive Gateway v4.0)
- with ESMTP ; Wed, 13 Jan 2021 08:42:44 -0800
+ with ESMTP ; Wed, 13 Jan 2021 08:42:46 -0800
 From: Jagannathan Raman <jag.raman@oracle.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v17 02/20] multi-process: add configure and usage information
-Date: Wed, 13 Jan 2021 11:42:14 -0500
-Message-Id: <6c87587b0d64326d9377231b820ce439e5aece4e.1610556046.git.jag.raman@oracle.com>
+Subject: [PATCH v17 03/20] memory: alloc RAM from file at offset
+Date: Wed, 13 Jan 2021 11:42:15 -0500
+Message-Id: <435fcc68b9734b9e3ad57eda3cb7f7c2f326f0c6.1610556046.git.jag.raman@oracle.com>
 X-Mailer: git-send-email 1.8.3.1
 In-Reply-To: <cover.1610556046.git.jag.raman@oracle.com>
 References: <cover.1610556046.git.jag.raman@oracle.com>
@@ -68,14 +68,14 @@ X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 phishscore=0
  definitions=main-2101130101
 X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9863
  signatures=668683
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 mlxlogscore=999
- phishscore=0
- lowpriorityscore=0 bulkscore=0 priorityscore=1501 malwarescore=0
- clxscore=1015 impostorscore=0 spamscore=0 mlxscore=0 suspectscore=0
- adultscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2009150000 definitions=main-2101130100
-Received-SPF: pass client-ip=156.151.31.86; envelope-from=jag.raman@oracle.com;
- helo=userp2130.oracle.com
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 malwarescore=0
+ suspectscore=0
+ clxscore=1015 impostorscore=0 spamscore=0 priorityscore=1501 mlxscore=0
+ phishscore=0 mlxlogscore=999 bulkscore=0 adultscore=0 lowpriorityscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2009150000
+ definitions=main-2101130100
+Received-SPF: pass client-ip=141.146.126.79; envelope-from=jag.raman@oracle.com;
+ helo=aserp2130.oracle.com
 X-Spam_score_int: -46
 X-Spam_score: -4.7
 X-Spam_bar: ----
@@ -106,103 +106,224 @@ Cc: elena.ufimtseva@oracle.com, fam@euphon.net, swapnil.ingle@nutanix.com,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Elena Ufimtseva <elena.ufimtseva@oracle.com>
+Allow RAM MemoryRegion to be created from an offset in a file, instead
+of allocating at offset of 0 by default. This is needed to synchronize
+RAM between QEMU & remote process.
 
-Adds documentation explaining the command-line arguments needed
-to use multi-process.
-
-Signed-off-by: Elena Ufimtseva <elena.ufimtseva@oracle.com>
 Signed-off-by: Jagannathan Raman <jag.raman@oracle.com>
 Signed-off-by: John G Johnson <john.g.johnson@oracle.com>
+Signed-off-by: Elena Ufimtseva <elena.ufimtseva@oracle.com>
 Reviewed-by: Stefan Hajnoczi <stefanha@redhat.com>
 ---
- docs/multi-process.rst | 64 ++++++++++++++++++++++++++++++++++++++++++++++++++
- MAINTAINERS            |  1 +
- 2 files changed, 65 insertions(+)
- create mode 100644 docs/multi-process.rst
+ include/exec/memory.h     |  2 ++
+ include/exec/ram_addr.h   |  2 +-
+ include/qemu/mmap-alloc.h |  4 +++-
+ backends/hostmem-memfd.c  |  2 +-
+ hw/misc/ivshmem.c         |  3 ++-
+ softmmu/memory.c          |  3 ++-
+ softmmu/physmem.c         | 11 +++++++----
+ util/mmap-alloc.c         |  7 ++++---
+ util/oslib-posix.c        |  2 +-
+ 9 files changed, 23 insertions(+), 13 deletions(-)
 
-diff --git a/docs/multi-process.rst b/docs/multi-process.rst
-new file mode 100644
-index 0000000..46bb0ca
---- /dev/null
-+++ b/docs/multi-process.rst
-@@ -0,0 +1,64 @@
-+Multi-process QEMU
-+==================
-+
-+This document describes how to configure and use multi-process qemu.
-+For the design document refer to docs/devel/qemu-multiprocess.
-+
-+1) Configuration
-+----------------
-+
-+multi-process is enabled by default for targets that enable KVM
-+
-+
-+2) Usage
-+--------
-+
-+Multi-process QEMU requires an orchestrator to launch.
-+
-+Following is a description of command-line used to launch mpqemu.
-+
-+* Orchestrator:
-+
-+  - The Orchestrator creates a unix socketpair
-+
-+  - It launches the remote process and passes one of the
-+    sockets to it via command-line.
-+
-+  - It then launches QEMU and specifies the other socket as an option
-+    to the Proxy device object
-+
-+* Remote Process:
-+
-+  - QEMU can enter remote process mode by using the "remote" machine
-+    option.
-+
-+  - The orchestrator creates a "remote-object" with details about
-+    the device and the file descriptor for the device
-+
-+  - The remaining options are no different from how one launches QEMU with
-+    devices.
-+
-+  - Example command-line for the remote process is as follows:
-+
-+      /usr/bin/qemu-system-x86_64                                        \
-+      -machine x-remote                                                  \
-+      -device lsi53c895a,id=lsi0                                         \
-+      -drive id=drive_image2,file=/build/ol7-nvme-test-1.qcow2           \
-+      -device scsi-hd,id=drive2,drive=drive_image2,bus=lsi0.0,scsi-id=0  \
-+      -object x-remote-object,id=robj1,devid=lsi1,fd=4,
-+
-+* QEMU:
-+
-+  - Since parts of the RAM are shared between QEMU & remote process, a
-+    memory-backend-memfd is required to facilitate this, as follows:
-+
-+    -object memory-backend-memfd,id=mem,size=2G
-+
-+  - A "x-pci-proxy-dev" device is created for each of the PCI devices emulated
-+    in the remote process. A "socket" sub-option specifies the other end of
-+    unix channel created by orchestrator. The "id" sub-option must be specified
-+    and should be the same as the "id" specified for the remote PCI device
-+
-+  - Example commandline for QEMU is as follows:
-+
-+      -device x-pci-proxy-dev,id=lsi0,socket=3
-diff --git a/MAINTAINERS b/MAINTAINERS
-index 03fd67d..358e825 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -3179,6 +3179,7 @@ M: Jagannathan Raman <jag.raman@oracle.com>
- M: John G Johnson <john.g.johnson@oracle.com>
- S: Maintained
- F: docs/devel/multi-process.rst
-+F: docs/multi-process.rst
+diff --git a/include/exec/memory.h b/include/exec/memory.h
+index 521d990..a9d2b66 100644
+--- a/include/exec/memory.h
++++ b/include/exec/memory.h
+@@ -990,6 +990,7 @@ void memory_region_init_ram_from_file(MemoryRegion *mr,
+  * @size: size of the region.
+  * @share: %true if memory must be mmaped with the MAP_SHARED flag
+  * @fd: the fd to mmap.
++ * @offset: offset within the file referenced by fd
+  * @errp: pointer to Error*, to store an error if it happens.
+  *
+  * Note that this function does not do anything to cause the data in the
+@@ -1001,6 +1002,7 @@ void memory_region_init_ram_from_fd(MemoryRegion *mr,
+                                     uint64_t size,
+                                     bool share,
+                                     int fd,
++                                    ram_addr_t offset,
+                                     Error **errp);
+ #endif
  
- Build and test automation
- -------------------------
+diff --git a/include/exec/ram_addr.h b/include/exec/ram_addr.h
+index c6d2ef1..d465a48 100644
+--- a/include/exec/ram_addr.h
++++ b/include/exec/ram_addr.h
+@@ -121,7 +121,7 @@ RAMBlock *qemu_ram_alloc_from_file(ram_addr_t size, MemoryRegion *mr,
+                                    Error **errp);
+ RAMBlock *qemu_ram_alloc_from_fd(ram_addr_t size, MemoryRegion *mr,
+                                  uint32_t ram_flags, int fd,
+-                                 Error **errp);
++                                 off_t offset, Error **errp);
+ 
+ RAMBlock *qemu_ram_alloc_from_ptr(ram_addr_t size, void *host,
+                                   MemoryRegion *mr, Error **errp);
+diff --git a/include/qemu/mmap-alloc.h b/include/qemu/mmap-alloc.h
+index e786266..b096ffb 100644
+--- a/include/qemu/mmap-alloc.h
++++ b/include/qemu/mmap-alloc.h
+@@ -16,6 +16,7 @@ size_t qemu_mempath_getpagesize(const char *mem_path);
+  *          otherwise, the alignment in use will be determined by QEMU.
+  *  @shared: map has RAM_SHARED flag.
+  *  @is_pmem: map has RAM_PMEM flag.
++ *  @map_offset: map starts at offset of map_offset from the start of fd
+  *
+  * Return:
+  *  On success, return a pointer to the mapped area.
+@@ -25,7 +26,8 @@ void *qemu_ram_mmap(int fd,
+                     size_t size,
+                     size_t align,
+                     bool shared,
+-                    bool is_pmem);
++                    bool is_pmem,
++                    off_t map_offset);
+ 
+ void qemu_ram_munmap(int fd, void *ptr, size_t size);
+ 
+diff --git a/backends/hostmem-memfd.c b/backends/hostmem-memfd.c
+index e5626d4..69b0ae3 100644
+--- a/backends/hostmem-memfd.c
++++ b/backends/hostmem-memfd.c
+@@ -55,7 +55,7 @@ memfd_backend_memory_alloc(HostMemoryBackend *backend, Error **errp)
+     name = host_memory_backend_get_name(backend);
+     memory_region_init_ram_from_fd(&backend->mr, OBJECT(backend),
+                                    name, backend->size,
+-                                   backend->share, fd, errp);
++                                   backend->share, fd, 0, errp);
+     g_free(name);
+ }
+ 
+diff --git a/hw/misc/ivshmem.c b/hw/misc/ivshmem.c
+index 0505b52..603e992 100644
+--- a/hw/misc/ivshmem.c
++++ b/hw/misc/ivshmem.c
+@@ -495,7 +495,8 @@ static void process_msg_shmem(IVShmemState *s, int fd, Error **errp)
+ 
+     /* mmap the region and map into the BAR2 */
+     memory_region_init_ram_from_fd(&s->server_bar2, OBJECT(s),
+-                                   "ivshmem.bar2", size, true, fd, &local_err);
++                                   "ivshmem.bar2", size, true, fd, 0,
++                                   &local_err);
+     if (local_err) {
+         error_propagate(errp, local_err);
+         return;
+diff --git a/softmmu/memory.c b/softmmu/memory.c
+index 333e1ed..fa65f45 100644
+--- a/softmmu/memory.c
++++ b/softmmu/memory.c
+@@ -1609,6 +1609,7 @@ void memory_region_init_ram_from_fd(MemoryRegion *mr,
+                                     uint64_t size,
+                                     bool share,
+                                     int fd,
++                                    ram_addr_t offset,
+                                     Error **errp)
+ {
+     Error *err = NULL;
+@@ -1618,7 +1619,7 @@ void memory_region_init_ram_from_fd(MemoryRegion *mr,
+     mr->destructor = memory_region_destructor_ram;
+     mr->ram_block = qemu_ram_alloc_from_fd(size, mr,
+                                            share ? RAM_SHARED : 0,
+-                                           fd, &err);
++                                           fd, offset, &err);
+     if (err) {
+         mr->size = int128_zero();
+         object_unparent(OBJECT(mr));
+diff --git a/softmmu/physmem.c b/softmmu/physmem.c
+index 6301f4f..31afdf6 100644
+--- a/softmmu/physmem.c
++++ b/softmmu/physmem.c
+@@ -1461,6 +1461,7 @@ static void *file_ram_alloc(RAMBlock *block,
+                             ram_addr_t memory,
+                             int fd,
+                             bool truncate,
++                            off_t offset,
+                             Error **errp)
+ {
+     void *area;
+@@ -1511,7 +1512,8 @@ static void *file_ram_alloc(RAMBlock *block,
+     }
+ 
+     area = qemu_ram_mmap(fd, memory, block->mr->align,
+-                         block->flags & RAM_SHARED, block->flags & RAM_PMEM);
++                         block->flags & RAM_SHARED, block->flags & RAM_PMEM,
++                         offset);
+     if (area == MAP_FAILED) {
+         error_setg_errno(errp, errno,
+                          "unable to map backing store for guest RAM");
+@@ -1943,7 +1945,7 @@ static void ram_block_add(RAMBlock *new_block, Error **errp, bool shared)
+ #ifdef CONFIG_POSIX
+ RAMBlock *qemu_ram_alloc_from_fd(ram_addr_t size, MemoryRegion *mr,
+                                  uint32_t ram_flags, int fd,
+-                                 Error **errp)
++                                 off_t offset, Error **errp)
+ {
+     RAMBlock *new_block;
+     Error *local_err = NULL;
+@@ -1996,7 +1998,8 @@ RAMBlock *qemu_ram_alloc_from_fd(ram_addr_t size, MemoryRegion *mr,
+     new_block->used_length = size;
+     new_block->max_length = size;
+     new_block->flags = ram_flags;
+-    new_block->host = file_ram_alloc(new_block, size, fd, !file_size, errp);
++    new_block->host = file_ram_alloc(new_block, size, fd, !file_size, offset,
++                                     errp);
+     if (!new_block->host) {
+         g_free(new_block);
+         return NULL;
+@@ -2026,7 +2029,7 @@ RAMBlock *qemu_ram_alloc_from_file(ram_addr_t size, MemoryRegion *mr,
+         return NULL;
+     }
+ 
+-    block = qemu_ram_alloc_from_fd(size, mr, ram_flags, fd, errp);
++    block = qemu_ram_alloc_from_fd(size, mr, ram_flags, fd, 0, errp);
+     if (!block) {
+         if (created) {
+             unlink(mem_path);
+diff --git a/util/mmap-alloc.c b/util/mmap-alloc.c
+index 27dcccd..ddffa0d 100644
+--- a/util/mmap-alloc.c
++++ b/util/mmap-alloc.c
+@@ -86,7 +86,8 @@ void *qemu_ram_mmap(int fd,
+                     size_t size,
+                     size_t align,
+                     bool shared,
+-                    bool is_pmem)
++                    bool is_pmem,
++                    off_t map_offset)
+ {
+     int flags;
+     int map_sync_flags = 0;
+@@ -147,7 +148,7 @@ void *qemu_ram_mmap(int fd,
+     offset = QEMU_ALIGN_UP((uintptr_t)guardptr, align) - (uintptr_t)guardptr;
+ 
+     ptr = mmap(guardptr + offset, size, PROT_READ | PROT_WRITE,
+-               flags | map_sync_flags, fd, 0);
++               flags | map_sync_flags, fd, map_offset);
+ 
+     if (ptr == MAP_FAILED && map_sync_flags) {
+         if (errno == ENOTSUP) {
+@@ -172,7 +173,7 @@ void *qemu_ram_mmap(int fd,
+          * we will remove these flags to handle compatibility.
+          */
+         ptr = mmap(guardptr + offset, size, PROT_READ | PROT_WRITE,
+-                   flags, fd, 0);
++                   flags, fd, map_offset);
+     }
+ 
+     if (ptr == MAP_FAILED) {
+diff --git a/util/oslib-posix.c b/util/oslib-posix.c
+index 359c52d..3041e9f 100644
+--- a/util/oslib-posix.c
++++ b/util/oslib-posix.c
+@@ -230,7 +230,7 @@ void *qemu_memalign(size_t alignment, size_t size)
+ void *qemu_anon_ram_alloc(size_t size, uint64_t *alignment, bool shared)
+ {
+     size_t align = QEMU_VMALLOC_ALIGN;
+-    void *ptr = qemu_ram_mmap(-1, size, align, shared, false);
++    void *ptr = qemu_ram_mmap(-1, size, align, shared, false, 0);
+ 
+     if (ptr == MAP_FAILED) {
+         return NULL;
 -- 
 1.8.3.1
 
