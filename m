@@ -2,71 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 96C102F4E6D
-	for <lists+qemu-devel@lfdr.de>; Wed, 13 Jan 2021 16:22:45 +0100 (CET)
-Received: from localhost ([::1]:59598 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E6CE12F4E4D
+	for <lists+qemu-devel@lfdr.de>; Wed, 13 Jan 2021 16:16:47 +0100 (CET)
+Received: from localhost ([::1]:48066 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kzhyu-0003hy-ME
-	for lists+qemu-devel@lfdr.de; Wed, 13 Jan 2021 10:22:44 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36700)
+	id 1kzht8-0007D5-W5
+	for lists+qemu-devel@lfdr.de; Wed, 13 Jan 2021 10:16:47 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36730)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1kzhqi-0005OY-Kd
- for qemu-devel@nongnu.org; Wed, 13 Jan 2021 10:14:16 -0500
-Received: from mail-wr1-x42c.google.com ([2a00:1450:4864:20::42c]:41214)
+ id 1kzhqk-0005SA-SV
+ for qemu-devel@nongnu.org; Wed, 13 Jan 2021 10:14:18 -0500
+Received: from mail-wm1-x32a.google.com ([2a00:1450:4864:20::32a]:33307)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1kzhqh-0008Si-0b
- for qemu-devel@nongnu.org; Wed, 13 Jan 2021 10:14:16 -0500
-Received: by mail-wr1-x42c.google.com with SMTP id a12so2480325wrv.8
- for <qemu-devel@nongnu.org>; Wed, 13 Jan 2021 07:14:14 -0800 (PST)
+ id 1kzhqj-0008UJ-0W
+ for qemu-devel@nongnu.org; Wed, 13 Jan 2021 10:14:18 -0500
+Received: by mail-wm1-x32a.google.com with SMTP id n16so3807754wmc.0
+ for <qemu-devel@nongnu.org>; Wed, 13 Jan 2021 07:14:16 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=EvR0AZKqAEJE1jZSnKHKNZ6eUSpG9JBFccb7SlwK3GI=;
- b=N67YEKZh6dPCedDsZb77/n70kqFPI1dY35eSq+5lI3asL9DcqO3uYOmr66/j420wpp
- UbQJmM1DvVq+rsD6hNEoSz54NfnO72xrg5+WrKtJou5s/JB2XEWhslBRkx+PWrhoJLT3
- 41GxpcSHeTaZJ38AZf+B+DavEECJz6QrMTUdt5xGz2iNMkBibFEL7Q5pbdch3XKcKA3W
- IZQmbD/LBHRxaRfNQ/XKAReOYrIctYmweZQy2AwZhd1nDQPEDHvn01M20lyZ0J1KHGZ2
- y/54aweYopGqn5Km/W+JqYxfuU+UDDPZkN+xlpiFMEYsCXSLYwo3STBXcF8P8bMqsmTZ
- e/ng==
+ bh=sHG6iE5XpiFzundF/bz1yqHKc9e6/PGKTf+tg0nbrXM=;
+ b=QQfwcpiI3AUDYvnARVqLRLDkO558uEcdWlxpmmBPftlvcuUXyvbkfDoxL0jmplPKq5
+ MzWIZK6GHVf3CEL8koBKPNfx0ID+zC0uRRSuOlCvhvF9cuirhHlM+A41LzUNpRC3huxB
+ H8FfobcMr75O12f6n+jqp1yOtcMzEIdY6sp2JUXbaKdztsvUOT0vQeTd2TrWVOdhGtqM
+ u719JGVJHAcEeEW30PBVIetGGvXlBc/bQjQ78PkR+5yO231tBW94yWIA1M/VfvmNFLGO
+ 1ABPKDEGSnJ8fYwfg7pPfPRfVwCuSeRcEyRUZ1klZECs2gixjVvskmqm+Y32R365KKxx
+ cRIQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=EvR0AZKqAEJE1jZSnKHKNZ6eUSpG9JBFccb7SlwK3GI=;
- b=BW0mGxtnBQBSYYd1iPh6ltOpOr1I1aF8lb83JBO0DQavtsj2IgLvfkjAmR/SMj4riQ
- yOXmSCy7outr2ou/ArNwXlT8ezhzuLjoL6qoFrjb80aUvBer/Ak1gO2EKg88tVJ7s6DD
- xn45kuJh5rqKw+jj0KUMVrxKZFyoHTtnoGD2vVWb7cUW04bDB5ig3eCZuQpTJkazQuiJ
- Grbb7/Qu1koB6vzum4qlAuJIThiQqsp8jf3NUIUISSDy0vlnV10sVRYy8IwTjXh1GPe9
- 3pMxdPM1SGvZzR6rbzKX2XvsN7BvYHdBXlw69F0U/3ahFWbiizGB+TpEaQVH7rIPRuFe
- XzuQ==
-X-Gm-Message-State: AOAM531FvPK8xoisQWaeCYDI4QlvAcugTeiRXEKWDaR4PmSDDxXArPd6
- pI+kdSMcM4gBPER5mknE1MfFLHDq3Y7kVw==
-X-Google-Smtp-Source: ABdhPJzqAHAD5UaHMMadMi10q40eRuj2AQQIRE5KY45UV3/IqxrZV4l6X6c3pdiDmBZRW24e3I7e4Q==
-X-Received: by 2002:a5d:6983:: with SMTP id g3mr3138060wru.168.1610550853624; 
- Wed, 13 Jan 2021 07:14:13 -0800 (PST)
+ bh=sHG6iE5XpiFzundF/bz1yqHKc9e6/PGKTf+tg0nbrXM=;
+ b=IumKKmf5YYzhptATIxf6L7+zyFy98GmwEpKtwmPhZ3OqKbtigHh0nnnLzRdIz6FJcJ
+ 99XMs2hx84KFwiAOo3D0b/7ywds/yjfEev0gbKOw5j7hUFfpTIEMeWJkP3NOQp2DPYPy
+ bxQZ7VOEvLoYiqfqLznyzR6KIic0AvwvLhdWXiyKxlRfUeUSOsi1Pa2binSA9/TOW7UC
+ xRnAM6bu0PxV2UGSTYmt6lG/jHIifcrAEz7ojnrVeCFNqyxbmnFyz9Doetc6PCfaoTrs
+ odReWypXs3ErWE/RsbDBKw6esn3FiMrC5PNfKMgAYGJxnxN0eqA2FuDVoWH26kS9QiYW
+ Xeig==
+X-Gm-Message-State: AOAM533RcrgZ+0mW47bqZAyKlQtsInf1hju8gX1t63Z1wrbEz8HbvDc+
+ ysVwAbagrWy+5avRkV7BSZ0KqA==
+X-Google-Smtp-Source: ABdhPJw7B8V9uEqcMJk+AeaQ+a7VqLRoDBm5RWRCS0tkikJ5NkmZe/stGqPnxGgAJW+ecPvfBP2kIw==
+X-Received: by 2002:a1c:7f8c:: with SMTP id a134mr2679950wmd.184.1610550855730; 
+ Wed, 13 Jan 2021 07:14:15 -0800 (PST)
 Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id l11sm3591958wrt.23.2021.01.13.07.14.09
+ by smtp.gmail.com with ESMTPSA id h187sm3259760wmf.30.2021.01.13.07.14.09
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 13 Jan 2021 07:14:09 -0800 (PST)
+ Wed, 13 Jan 2021 07:14:13 -0800 (PST)
 Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id BF1381FF8C;
+ by zen.linaroharston (Postfix) with ESMTP id D5B331FF8F;
  Wed, 13 Jan 2021 15:14:08 +0000 (GMT)
 From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH  v1 2/9] Makefile: add GNU global tags support
-Date: Wed, 13 Jan 2021 15:14:01 +0000
-Message-Id: <20210113151408.27939-3-alex.bennee@linaro.org>
+Subject: [PATCH  v1 3/9] shippable.yml: Remove jobs duplicated on Gitlab-CI
+Date: Wed, 13 Jan 2021 15:14:02 +0000
+Message-Id: <20210113151408.27939-4-alex.bennee@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20210113151408.27939-1-alex.bennee@linaro.org>
 References: <20210113151408.27939-1-alex.bennee@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::42c;
- envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x42c.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::32a;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x32a.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -86,75 +86,90 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
+Cc: Fam Zheng <fam@euphon.net>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
+ =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-GNU Global is another tags engine which is more like cscope in being
-able to support finding both references and definitions. You will be
-un-surprised to know it also integrates well with Emacs.
+From: Philippe Mathieu-Daudé <f4bug@amsat.org>
 
-The main benefit of integrating it into find-src-path is it takes less
-time to rebuild the database from scratch when you have a lot of build
-directories under your source tree.
+The following jobs are duplicated on Gitlab-CI since commit
+6bcb5fc0f7a ("gitlab-ci: Add cross-compiling build tests"):
 
-Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
+- IMAGE=debian-armel-cross
 
+  TARGET_LIST=arm-softmmu               -> cross-armel-system
+  TARGET_LIST=arm-linux-user            -> cross-armel-user
+  TARGET_LIST=armeb-linux-user          -> cross-armel-user
+
+- IMAGE=debian-armhf-cross
+
+  TARGET_LIST=arm-softmmu               -> cross-armhf-system
+  TARGET_LIST=arm-linux-user            -> cross-armhf-user
+  TARGET_LIST=armeb-linux-user          -> cross-armhf-user
+
+- IMAGE=debian-arm64-cross
+
+  TARGET_LIST=aarch64-softmmu           -> cross-arm64-system
+  TARGET_LIST=aarch64-linux-user        -> cross-arm64-user
+
+- IMAGE=debian-s390x-cross
+
+  TARGET_LIST=s390x-softmmu             -> cross-s390x-system
+  TARGET_LIST=s390x-linux-user          -> cross-s390x-user
+
+- IMAGE=debian-mips-cross
+
+  TARGET_LIST=mipsel-linux-user         -> cross-mips-user
+
+- IMAGE=debian-mips64el-cross
+
+  TARGET_LIST=mips64el-softmmu          -> cross-mips64el-system
+  TARGET_LIST=mips64el-linux-user       -> cross-mips64el-user
+
+- IMAGE=debian-ppc64el-cross
+
+  TARGET_LIST=ppc64-softmmu             -> cross-ppc64el-system
+  TARGET_LIST=ppc64-linux-user          -> cross-ppc64el-user
+  TARGET_LIST=ppc64abi32-linux-user     -> cross-ppc64el-user
+
+Remove them from Shippable CI.
+
+Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+Acked-by: Alex Bennée <alex.bennee@linaro.org>
+Message-Id: <20210108145103.269353-1-f4bug@amsat.org>
 ---
-v2
-  - run in SRC_PATH
-  - wrap in quiet-command
----
- Makefile   | 14 +++++++++++++-
- .gitignore |  3 +++
- 2 files changed, 16 insertions(+), 1 deletion(-)
+ .shippable.yml | 14 +-------------
+ 1 file changed, 1 insertion(+), 13 deletions(-)
 
-diff --git a/Makefile b/Makefile
-index fb9923ff22..0c509a7704 100644
---- a/Makefile
-+++ b/Makefile
-@@ -253,6 +253,18 @@ ctags:
- 	rm -f "$(SRC_PATH)/"tags
- 	$(find-src-path) -exec ctags -f "$(SRC_PATH)/"tags --append {} +
- 
-+.PHONY: gtags
-+gtags:
-+	$(call quiet-command, 			\
-+		rm -f "$(SRC_PATH)/"GTAGS; 	\
-+		rm -f "$(SRC_PATH)/"GRTAGS; 	\
-+		rm -f "$(SRC_PATH)/"GPATH, 	\
-+		"GTAGS", "Remove old $@ files")
-+	$(call quiet-command, 				\
-+	        (cd $(SRC_PATH) && 			\
-+		 $(find-src-path) | gtags -f -), 	\
-+		"GTAGS", "Re-index $(SRC_PATH)")
-+
- .PHONY: TAGS
- TAGS:
- 	rm -f "$(SRC_PATH)/"TAGS
-@@ -279,7 +291,7 @@ help:
- 	$(call print-help,all,Build all)
- 	$(call print-help,dir/file.o,Build specified target only)
- 	$(call print-help,install,Install QEMU, documentation and tools)
--	$(call print-help,ctags/TAGS,Generate tags file for editors)
-+	$(call print-help,ctags/gtags/TAGS,Generate tags file for editors)
- 	$(call print-help,cscope,Generate cscope index)
- 	$(call print-help,sparse,Run sparse on the QEMU source)
- 	@echo  ''
-diff --git a/.gitignore b/.gitignore
-index b32bca1315..75a4be0724 100644
---- a/.gitignore
-+++ b/.gitignore
-@@ -7,6 +7,9 @@
- cscope.*
- tags
- TAGS
-+GPATH
-+GRTAGS
-+GTAGS
- *~
- *.ast_raw
- *.depend_raw
+diff --git a/.shippable.yml b/.shippable.yml
+index 14350e6de8..97bfa2a0f3 100644
+--- a/.shippable.yml
++++ b/.shippable.yml
+@@ -7,20 +7,8 @@ env:
+   matrix:
+     - IMAGE=debian-amd64
+       TARGET_LIST=x86_64-softmmu,x86_64-linux-user
+-    - IMAGE=debian-armel-cross
+-      TARGET_LIST=arm-softmmu,arm-linux-user,armeb-linux-user
+-    - IMAGE=debian-armhf-cross
+-      TARGET_LIST=arm-softmmu,arm-linux-user,armeb-linux-user
+-    - IMAGE=debian-arm64-cross
+-      TARGET_LIST=aarch64-softmmu,aarch64-linux-user
+-    - IMAGE=debian-s390x-cross
+-      TARGET_LIST=s390x-softmmu,s390x-linux-user
+     - IMAGE=debian-mips-cross
+-      TARGET_LIST=mips-softmmu,mipsel-linux-user
+-    - IMAGE=debian-mips64el-cross
+-      TARGET_LIST=mips64el-softmmu,mips64el-linux-user
+-    - IMAGE=debian-ppc64el-cross
+-      TARGET_LIST=ppc64-softmmu,ppc64-linux-user,ppc64abi32-linux-user
++      TARGET_LIST=mips-softmmu
+ build:
+   pre_ci_boot:
+     image_name: registry.gitlab.com/qemu-project/qemu/qemu/${IMAGE}
 -- 
 2.20.1
 
