@@ -2,72 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A14052F4AC8
-	for <lists+qemu-devel@lfdr.de>; Wed, 13 Jan 2021 12:58:37 +0100 (CET)
-Received: from localhost ([::1]:37396 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EFE1B2F4AE6
+	for <lists+qemu-devel@lfdr.de>; Wed, 13 Jan 2021 13:06:39 +0100 (CET)
+Received: from localhost ([::1]:42620 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kzenM-0000Qo-7G
-	for lists+qemu-devel@lfdr.de; Wed, 13 Jan 2021 06:58:36 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45216)
+	id 1kzev8-0002tV-FH
+	for lists+qemu-devel@lfdr.de; Wed, 13 Jan 2021 07:06:38 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46634)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mrezanin@redhat.com>)
- id 1kzelr-000842-SY
- for qemu-devel@nongnu.org; Wed, 13 Jan 2021 06:57:03 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:44998)
+ (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
+ id 1kzest-0002Iq-Qn
+ for qemu-devel@nongnu.org; Wed, 13 Jan 2021 07:04:19 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:31328)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <mrezanin@redhat.com>)
- id 1kzeln-00055V-8C
- for qemu-devel@nongnu.org; Wed, 13 Jan 2021 06:57:03 -0500
+ (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
+ id 1kzesq-0008I8-BO
+ for qemu-devel@nongnu.org; Wed, 13 Jan 2021 07:04:19 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1610539016;
+ s=mimecast20190719; t=1610539455;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=L0RvnvH2KViIeOa6XMFVti+qF1Pl86CY47En+Mt8Veo=;
- b=byRGSXr0vtb63Gd0TZN5lQBIQ5g1zmLJCWGULsgfU225iLtfKB9zASuarTpXkboxQFC01N
- AXdFzMYNkuLmlmQ3e7mjEHHJdHg47tZXsrjnCxQU4j/qr08vpCfapXXCPFOCBedZMIbSwd
- 9kLMNID7qsLi8qtBv2rZGF9FPf3jBlA=
+ bh=zS8Kuje3Zrd0mSCmvEursDP8tBxHOEE7k+k/eJZre3U=;
+ b=hPPg+eopuRRwf0KL9C71djcdahLGpRFg3+84CTsebJWloRY94YrKY1wWxdFO8PaKWAXjF+
+ iJhY8T7B1uw4Q4C2N1R20ZF4T2aamOXPnBGx702jMIG7hisJ9Izy5a/DI0l0chjzJPKO1a
+ qvP4VODPPh215CHmUAUG1E5JgRvFMaA=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-250-hqBf9LccMj-FX2BFHyGHZg-1; Wed, 13 Jan 2021 06:56:54 -0500
-X-MC-Unique: hqBf9LccMj-FX2BFHyGHZg-1
+ us-mta-411-vnjKxs6KM9GwgpKiTztn5Q-1; Wed, 13 Jan 2021 07:04:07 -0500
+X-MC-Unique: vnjKxs6KM9GwgpKiTztn5Q-1
 Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
  [10.5.11.13])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 91D9ABBEE1;
- Wed, 13 Jan 2021 11:56:52 +0000 (UTC)
-Received: from lws.brq.redhat.com (unknown [10.40.195.31])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id DD40F60CE0;
- Wed, 13 Jan 2021 11:56:47 +0000 (UTC)
-Date: Wed, 13 Jan 2021 12:56:44 +0100
-From: Miroslav Rezanina <mrezanin@redhat.com>
-To: Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
-Subject: Re: [PATCH 3/5] tcg/s390: Hoist common argument loads in tcg_out_op()
-Message-ID: <20210113115644.bemac6oxc5243t4f@lws.brq.redhat.com>
-References: <20210111150114.1415930-1-f4bug@amsat.org>
- <20210111150114.1415930-4-f4bug@amsat.org>
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id D1F3381DFAC;
+ Wed, 13 Jan 2021 12:04:04 +0000 (UTC)
+Received: from work-vm (ovpn-112-200.ams2.redhat.com [10.36.112.200])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 330EE60871;
+ Wed, 13 Jan 2021 12:03:53 +0000 (UTC)
+Date: Wed, 13 Jan 2021 12:03:51 +0000
+From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+To: David Gibson <david@gibson.dropbear.id.au>
+Subject: Re: [PATCH v6 05/13] confidential guest support: Rework the
+ "memory-encryption" property
+Message-ID: <20210113120351.GG2938@work-vm>
+References: <20210112044508.427338-1-david@gibson.dropbear.id.au>
+ <20210112044508.427338-6-david@gibson.dropbear.id.au>
+ <20210112115959.2c042dbb@bahia.lan>
+ <20210113005032.GA435587@yekko.fritz.box>
 MIME-Version: 1.0
-In-Reply-To: <20210111150114.1415930-4-f4bug@amsat.org>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mrezanin@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=mrezanin@redhat.com;
+In-Reply-To: <20210113005032.GA435587@yekko.fritz.box>
+User-Agent: Mutt/1.14.6 (2020-07-11)
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=dgilbert@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -29
 X-Spam_score: -3.0
 X-Spam_bar: ---
 X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.251,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -80,610 +78,275 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>,
- Huacai Chen <chenhuacai@kernel.org>, qemu-riscv@nongnu.org,
- Stefan Weil <sw@weilnetz.de>, Cornelia Huck <cohuck@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org,
- qemu-s390x@nongnu.org, qemu-arm@nongnu.org,
- Alistair Francis <Alistair.Francis@wdc.com>, Thomas Huth <thuth@redhat.com>,
- Palmer Dabbelt <palmer@dabbelt.com>, Aurelien Jarno <aurelien@aurel32.net>
+Cc: pair@us.ibm.com, Marcelo Tosatti <mtosatti@redhat.com>,
+ brijesh.singh@amd.com, kvm@vger.kernel.org, david@redhat.com,
+ qemu-devel@nongnu.org, frankja@linux.ibm.com, pragyansri.pathi@intel.com,
+ mst@redhat.com, mdroth@linux.vnet.ibm.com, pasic@linux.ibm.com,
+ Christian Borntraeger <borntraeger@de.ibm.com>, andi.kleen@intel.com,
+ thuth@redhat.com, Eduardo Habkost <ehabkost@redhat.com>,
+ richard.henderson@linaro.org, Greg Kurz <groug@kaod.org>,
+ qemu-s390x@nongnu.org, jun.nakajima@intel.com,
+ Daniel =?iso-8859-1?Q?P=2E_Berrang=E9?= <berrange@redhat.com>,
+ Cornelia Huck <cohuck@redhat.com>, qemu-ppc@nongnu.org,
+ Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, Jan 11, 2021 at 04:01:12PM +0100, Philippe Mathieu-Daudé wrote:
-> Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
-> ---
->  tcg/s390/tcg-target.c.inc | 252 ++++++++++++++++++--------------------
->  1 file changed, 122 insertions(+), 130 deletions(-)
+* David Gibson (david@gibson.dropbear.id.au) wrote:
+> On Tue, Jan 12, 2021 at 11:59:59AM +0100, Greg Kurz wrote:
+> > On Tue, 12 Jan 2021 15:45:00 +1100
+> > David Gibson <david@gibson.dropbear.id.au> wrote:
+> > 
+> > > Currently the "memory-encryption" property is only looked at once we
+> > > get to kvm_init().  Although protection of guest memory from the
+> > > hypervisor isn't something that could really ever work with TCG, it's
+> > > not conceptually tied to the KVM accelerator.
+> > > 
+> > > In addition, the way the string property is resolved to an object is
+> > > almost identical to how a QOM link property is handled.
+> > > 
+> > > So, create a new "confidential-guest-support" link property which sets
+> > > this QOM interface link directly in the machine.  For compatibility we
+> > > keep the "memory-encryption" property, but now implemented in terms of
+> > > the new property.
+> > 
+> > Do we really want to keep "memory-encryption" in the long term ? If
+> > not, then maybe engage the deprecation process and add a warning in
+> > machine_set_memory_encryption() ?
 > 
-> diff --git a/tcg/s390/tcg-target.c.inc b/tcg/s390/tcg-target.c.inc
-> index d7ef0790556..74b2314c78a 100644
-> --- a/tcg/s390/tcg-target.c.inc
-> +++ b/tcg/s390/tcg-target.c.inc
-> @@ -1732,15 +1732,23 @@ static void tcg_out_qemu_st(TCGContext* s, TCGReg data_reg, TCGReg addr_reg,
->          case glue(glue(INDEX_op_,x),_i64)
->  
->  static inline void tcg_out_op(TCGContext *s, TCGOpcode opc,
-> -                const TCGArg *args, const int *const_args)
-> +                              const TCGArg args[TCG_MAX_OP_ARGS],
-> +                              const int const_args[TCG_MAX_OP_ARGS])
->  {
->      S390Opcode op, op2;
->      TCGArg a0, a1, a2;
-> +    int c2, c3, c4;
-> +
-> +    a0 = args[0];
-> +    a1 = args[1];
-> +    a2 = args[2];
-> +    c2 = const_args[2];
-> +    c3 = const_args[3];
-> +    c4 = const_args[4];
->  
+> Hmm.. I kind of think that's up to the SEV people to decide on the
+> timetable (if any) for deprecation - it's their existing option.  In
+> any case I'd prefer to leave that to a separate patch.
+> 
+> Dave (Gilbert), any opinions?
 
-Hi Philippe,
+Well, the first thing would be to get libvirt to know about the new
+mechanism; only when it's happy can we even think about deprecating the
+old one;  but yes in the long term it makes sense.
 
-why isn't c1 declared? You are using it in the code?
+Dave
 
-
->      switch (opc) {
->      case INDEX_op_exit_tb:
->          /* Reuse the zeroing that exists for goto_ptr.  */
-> -        a0 = args[0];
->          if (a0 == 0) {
->              tgen_gotoi(s, S390_CC_ALWAYS, tcg_code_gen_epilogue);
->          } else {
-> @@ -1750,7 +1758,6 @@ static inline void tcg_out_op(TCGContext *s, TCGOpcode opc,
->          break;
->  
->      case INDEX_op_goto_tb:
-> -        a0 = args[0];
->          if (s->tb_jmp_insn_offset) {
->              /*
->               * branch displacement must be aligned for atomic patching;
-> @@ -1784,7 +1791,6 @@ static inline void tcg_out_op(TCGContext *s, TCGOpcode opc,
->          break;
->  
->      case INDEX_op_goto_ptr:
-> -        a0 = args[0];
->          if (USE_REG_TB) {
->              tcg_out_mov(s, TCG_TYPE_PTR, TCG_REG_TB, a0);
->          }
-> @@ -1794,45 +1800,43 @@ static inline void tcg_out_op(TCGContext *s, TCGOpcode opc,
->      OP_32_64(ld8u):
->          /* ??? LLC (RXY format) is only present with the extended-immediate
->             facility, whereas LLGC is always present.  */
-> -        tcg_out_mem(s, 0, RXY_LLGC, args[0], args[1], TCG_REG_NONE, args[2]);
-> +        tcg_out_mem(s, 0, RXY_LLGC, a0, a1, TCG_REG_NONE, a2);
->          break;
->  
->      OP_32_64(ld8s):
->          /* ??? LB is no smaller than LGB, so no point to using it.  */
-> -        tcg_out_mem(s, 0, RXY_LGB, args[0], args[1], TCG_REG_NONE, args[2]);
-> +        tcg_out_mem(s, 0, RXY_LGB, a0, a1, TCG_REG_NONE, a2);
->          break;
->  
->      OP_32_64(ld16u):
->          /* ??? LLH (RXY format) is only present with the extended-immediate
->             facility, whereas LLGH is always present.  */
-> -        tcg_out_mem(s, 0, RXY_LLGH, args[0], args[1], TCG_REG_NONE, args[2]);
-> +        tcg_out_mem(s, 0, RXY_LLGH, a0, a1, TCG_REG_NONE, a2);
->          break;
->  
->      case INDEX_op_ld16s_i32:
-> -        tcg_out_mem(s, RX_LH, RXY_LHY, args[0], args[1], TCG_REG_NONE, args[2]);
-> +        tcg_out_mem(s, RX_LH, RXY_LHY, a0, a1, TCG_REG_NONE, a2);
->          break;
->  
->      case INDEX_op_ld_i32:
-> -        tcg_out_ld(s, TCG_TYPE_I32, args[0], args[1], args[2]);
-> +        tcg_out_ld(s, TCG_TYPE_I32, a0, a1, a2);
->          break;
->  
->      OP_32_64(st8):
-> -        tcg_out_mem(s, RX_STC, RXY_STCY, args[0], args[1],
-> -                    TCG_REG_NONE, args[2]);
-> +        tcg_out_mem(s, RX_STC, RXY_STCY, a0, a1, TCG_REG_NONE, a2);
->          break;
->  
->      OP_32_64(st16):
-> -        tcg_out_mem(s, RX_STH, RXY_STHY, args[0], args[1],
-> -                    TCG_REG_NONE, args[2]);
-> +        tcg_out_mem(s, RX_STH, RXY_STHY, a0, a1, TCG_REG_NONE, a2);
->          break;
->  
->      case INDEX_op_st_i32:
-> -        tcg_out_st(s, TCG_TYPE_I32, args[0], args[1], args[2]);
-> +        tcg_out_st(s, TCG_TYPE_I32, a0, a1, a2);
->          break;
->  
->      case INDEX_op_add_i32:
-> -        a0 = args[0], a1 = args[1], a2 = (int32_t)args[2];
-> -        if (const_args[2]) {
-> +        a2 = (int32_t)a2;
-> +        if (c2) {
->          do_addi_32:
->              if (a0 == a1) {
->                  if (a2 == (int16_t)a2) {
-> @@ -1852,8 +1856,8 @@ static inline void tcg_out_op(TCGContext *s, TCGOpcode opc,
->          }
->          break;
->      case INDEX_op_sub_i32:
-> -        a0 = args[0], a1 = args[1], a2 = (int32_t)args[2];
-> -        if (const_args[2]) {
-> +        a2 = (int32_t)a2;
-> +        if (c2) {
->              a2 = -a2;
->              goto do_addi_32;
->          } else if (a0 == a1) {
-> @@ -1864,8 +1868,8 @@ static inline void tcg_out_op(TCGContext *s, TCGOpcode opc,
->          break;
->  
->      case INDEX_op_and_i32:
-> -        a0 = args[0], a1 = args[1], a2 = (uint32_t)args[2];
-> -        if (const_args[2]) {
-> +        a2 = (uint32_t)a2;
-> +        if (c2) {
->              tcg_out_mov(s, TCG_TYPE_I32, a0, a1);
->              tgen_andi(s, TCG_TYPE_I32, a0, a2);
->          } else if (a0 == a1) {
-> @@ -1875,8 +1879,8 @@ static inline void tcg_out_op(TCGContext *s, TCGOpcode opc,
->          }
->          break;
->      case INDEX_op_or_i32:
-> -        a0 = args[0], a1 = args[1], a2 = (uint32_t)args[2];
-> -        if (const_args[2]) {
-> +        a2 = (uint32_t)a2;
-> +        if (c2) {
->              tcg_out_mov(s, TCG_TYPE_I32, a0, a1);
->              tgen_ori(s, TCG_TYPE_I32, a0, a2);
->          } else if (a0 == a1) {
-> @@ -1886,30 +1890,30 @@ static inline void tcg_out_op(TCGContext *s, TCGOpcode opc,
->          }
->          break;
->      case INDEX_op_xor_i32:
-> -        a0 = args[0], a1 = args[1], a2 = (uint32_t)args[2];
-> -        if (const_args[2]) {
-> +        a2 = (uint32_t)a2;
-> +        if (c2) {
->              tcg_out_mov(s, TCG_TYPE_I32, a0, a1);
->              tgen_xori(s, TCG_TYPE_I32, a0, a2);
->          } else if (a0 == a1) {
-> -            tcg_out_insn(s, RR, XR, args[0], args[2]);
-> +            tcg_out_insn(s, RR, XR, a0, a2);
->          } else {
->              tcg_out_insn(s, RRF, XRK, a0, a1, a2);
->          }
->          break;
->  
->      case INDEX_op_neg_i32:
-> -        tcg_out_insn(s, RR, LCR, args[0], args[1]);
-> +        tcg_out_insn(s, RR, LCR, a0, a1);
->          break;
->  
->      case INDEX_op_mul_i32:
-> -        if (const_args[2]) {
-> -            if ((int32_t)args[2] == (int16_t)args[2]) {
-> -                tcg_out_insn(s, RI, MHI, args[0], args[2]);
-> +        if (c2) {
-> +            if ((int32_t)a2 == (int16_t)a2) {
-> +                tcg_out_insn(s, RI, MHI, a0, a2);
->              } else {
-> -                tcg_out_insn(s, RIL, MSFI, args[0], args[2]);
-> +                tcg_out_insn(s, RIL, MSFI, a0, a2);
->              }
->          } else {
-> -            tcg_out_insn(s, RRE, MSR, args[0], args[2]);
-> +            tcg_out_insn(s, RRE, MSR, a0, a2);
->          }
->          break;
->  
-> @@ -1924,16 +1928,16 @@ static inline void tcg_out_op(TCGContext *s, TCGOpcode opc,
->          op = RS_SLL;
->          op2 = RSY_SLLK;
->      do_shift32:
-> -        a0 = args[0], a1 = args[1], a2 = (int32_t)args[2];
-> +        a2 = (int32_t)a2;
->          if (a0 == a1) {
-> -            if (const_args[2]) {
-> +            if (c2) {
->                  tcg_out_sh32(s, op, a0, TCG_REG_NONE, a2);
->              } else {
->                  tcg_out_sh32(s, op, a0, a2, 0);
->              }
->          } else {
->              /* Using tcg_out_sh64 here for the format; it is a 32-bit shift.  */
-> -            if (const_args[2]) {
-> +            if (c2) {
->                  tcg_out_sh64(s, op2, a0, a1, TCG_REG_NONE, a2);
->              } else {
->                  tcg_out_sh64(s, op2, a0, a1, a2, 0);
-> @@ -1951,112 +1955,108 @@ static inline void tcg_out_op(TCGContext *s, TCGOpcode opc,
->  
->      case INDEX_op_rotl_i32:
->          /* ??? Using tcg_out_sh64 here for the format; it is a 32-bit rol.  */
-> -        if (const_args[2]) {
-> -            tcg_out_sh64(s, RSY_RLL, args[0], args[1], TCG_REG_NONE, args[2]);
-> +        if (c2) {
-> +            tcg_out_sh64(s, RSY_RLL, a0, a1, TCG_REG_NONE, a2);
->          } else {
-> -            tcg_out_sh64(s, RSY_RLL, args[0], args[1], args[2], 0);
-> +            tcg_out_sh64(s, RSY_RLL, a0, a1, a2, 0);
->          }
->          break;
->      case INDEX_op_rotr_i32:
-> -        if (const_args[2]) {
-> -            tcg_out_sh64(s, RSY_RLL, args[0], args[1],
-> -                         TCG_REG_NONE, (32 - args[2]) & 31);
-> +        if (c2) {
-> +            tcg_out_sh64(s, RSY_RLL, a0, a1,
-> +                         TCG_REG_NONE, (32 - a2) & 31);
->          } else {
-> -            tcg_out_insn(s, RR, LCR, TCG_TMP0, args[2]);
-> -            tcg_out_sh64(s, RSY_RLL, args[0], args[1], TCG_TMP0, 0);
-> +            tcg_out_insn(s, RR, LCR, TCG_TMP0, a2);
-> +            tcg_out_sh64(s, RSY_RLL, a0, a1, TCG_TMP0, 0);
->          }
->          break;
->  
->      case INDEX_op_ext8s_i32:
-> -        tgen_ext8s(s, TCG_TYPE_I32, args[0], args[1]);
-> +        tgen_ext8s(s, TCG_TYPE_I32, a0, a1);
->          break;
->      case INDEX_op_ext16s_i32:
-> -        tgen_ext16s(s, TCG_TYPE_I32, args[0], args[1]);
-> +        tgen_ext16s(s, TCG_TYPE_I32, a0, a1);
->          break;
->      case INDEX_op_ext8u_i32:
-> -        tgen_ext8u(s, TCG_TYPE_I32, args[0], args[1]);
-> +        tgen_ext8u(s, TCG_TYPE_I32, a0, a1);
->          break;
->      case INDEX_op_ext16u_i32:
-> -        tgen_ext16u(s, TCG_TYPE_I32, args[0], args[1]);
-> +        tgen_ext16u(s, TCG_TYPE_I32, a0, a1);
->          break;
->  
->      OP_32_64(bswap16):
->          /* The TCG bswap definition requires bits 0-47 already be zero.
->             Thus we don't need the G-type insns to implement bswap16_i64.  */
-> -        tcg_out_insn(s, RRE, LRVR, args[0], args[1]);
-> -        tcg_out_sh32(s, RS_SRL, args[0], TCG_REG_NONE, 16);
-> +        tcg_out_insn(s, RRE, LRVR, a0, a1);
-> +        tcg_out_sh32(s, RS_SRL, a0, TCG_REG_NONE, 16);
->          break;
->      OP_32_64(bswap32):
-> -        tcg_out_insn(s, RRE, LRVR, args[0], args[1]);
-> +        tcg_out_insn(s, RRE, LRVR, a0, a1);
->          break;
->  
->      case INDEX_op_add2_i32:
-> -        if (const_args[4]) {
-> -            tcg_out_insn(s, RIL, ALFI, args[0], args[4]);
-> +        if (c4) {
-> +            tcg_out_insn(s, RIL, ALFI, a0, args[4]);
->          } else {
-> -            tcg_out_insn(s, RR, ALR, args[0], args[4]);
-> +            tcg_out_insn(s, RR, ALR, a0, args[4]);
->          }
-> -        tcg_out_insn(s, RRE, ALCR, args[1], args[5]);
-> +        tcg_out_insn(s, RRE, ALCR, a1, args[5]);
->          break;
->      case INDEX_op_sub2_i32:
-> -        if (const_args[4]) {
-> -            tcg_out_insn(s, RIL, SLFI, args[0], args[4]);
-> +        if (c4) {
-> +            tcg_out_insn(s, RIL, SLFI, a0, args[4]);
->          } else {
-> -            tcg_out_insn(s, RR, SLR, args[0], args[4]);
-> +            tcg_out_insn(s, RR, SLR, a0, args[4]);
->          }
-> -        tcg_out_insn(s, RRE, SLBR, args[1], args[5]);
-> +        tcg_out_insn(s, RRE, SLBR, a1, args[5]);
->          break;
->  
->      case INDEX_op_br:
-> -        tgen_branch(s, S390_CC_ALWAYS, arg_label(args[0]));
-> +        tgen_branch(s, S390_CC_ALWAYS, arg_label(a0));
->          break;
->  
->      case INDEX_op_brcond_i32:
-> -        tgen_brcond(s, TCG_TYPE_I32, args[2], args[0],
-> -                    args[1], const_args[1], arg_label(args[3]));
-> +        tgen_brcond(s, TCG_TYPE_I32, a2, a0, a1, c1, arg_label(args[3]));
-
-This is the place os usage c1 - not defined before.
-
-
->          break;
->      case INDEX_op_setcond_i32:
-> -        tgen_setcond(s, TCG_TYPE_I32, args[3], args[0], args[1],
-> -                     args[2], const_args[2]);
-> +        tgen_setcond(s, TCG_TYPE_I32, args[3], a0, a1, a2, c2);
->          break;
->      case INDEX_op_movcond_i32:
-> -        tgen_movcond(s, TCG_TYPE_I32, args[5], args[0], args[1],
-> -                     args[2], const_args[2], args[3], const_args[3]);
-> +        tgen_movcond(s, TCG_TYPE_I32, args[5], a0, a1, a2, c2, args[3], c3);
->          break;
->  
->      case INDEX_op_qemu_ld_i32:
->          /* ??? Technically we can use a non-extending instruction.  */
->      case INDEX_op_qemu_ld_i64:
-> -        tcg_out_qemu_ld(s, args[0], args[1], args[2]);
-> +        tcg_out_qemu_ld(s, a0, a1, a2);
->          break;
->      case INDEX_op_qemu_st_i32:
->      case INDEX_op_qemu_st_i64:
-> -        tcg_out_qemu_st(s, args[0], args[1], args[2]);
-> +        tcg_out_qemu_st(s, a0, a1, a2);
->          break;
->  
->      case INDEX_op_ld16s_i64:
-> -        tcg_out_mem(s, 0, RXY_LGH, args[0], args[1], TCG_REG_NONE, args[2]);
-> +        tcg_out_mem(s, 0, RXY_LGH, a0, a1, TCG_REG_NONE, a2);
->          break;
->      case INDEX_op_ld32u_i64:
-> -        tcg_out_mem(s, 0, RXY_LLGF, args[0], args[1], TCG_REG_NONE, args[2]);
-> +        tcg_out_mem(s, 0, RXY_LLGF, a0, a1, TCG_REG_NONE, a2);
->          break;
->      case INDEX_op_ld32s_i64:
-> -        tcg_out_mem(s, 0, RXY_LGF, args[0], args[1], TCG_REG_NONE, args[2]);
-> +        tcg_out_mem(s, 0, RXY_LGF, a0, a1, TCG_REG_NONE, a2);
->          break;
->      case INDEX_op_ld_i64:
-> -        tcg_out_ld(s, TCG_TYPE_I64, args[0], args[1], args[2]);
-> +        tcg_out_ld(s, TCG_TYPE_I64, a0, a1, a2);
->          break;
->  
->      case INDEX_op_st32_i64:
-> -        tcg_out_st(s, TCG_TYPE_I32, args[0], args[1], args[2]);
-> +        tcg_out_st(s, TCG_TYPE_I32, a0, a1, a2);
->          break;
->      case INDEX_op_st_i64:
-> -        tcg_out_st(s, TCG_TYPE_I64, args[0], args[1], args[2]);
-> +        tcg_out_st(s, TCG_TYPE_I64, a0, a1, a2);
->          break;
->  
->      case INDEX_op_add_i64:
-> -        a0 = args[0], a1 = args[1], a2 = args[2];
-> -        if (const_args[2]) {
-> +        if (c2) {
->          do_addi_64:
->              if (a0 == a1) {
->                  if (a2 == (int16_t)a2) {
-> @@ -2084,8 +2084,7 @@ static inline void tcg_out_op(TCGContext *s, TCGOpcode opc,
->          }
->          break;
->      case INDEX_op_sub_i64:
-> -        a0 = args[0], a1 = args[1], a2 = args[2];
-> -        if (const_args[2]) {
-> +        if (c2) {
->              a2 = -a2;
->              goto do_addi_64;
->          } else if (a0 == a1) {
-> @@ -2096,19 +2095,17 @@ static inline void tcg_out_op(TCGContext *s, TCGOpcode opc,
->          break;
->  
->      case INDEX_op_and_i64:
-> -        a0 = args[0], a1 = args[1], a2 = args[2];
-> -        if (const_args[2]) {
-> +        if (c2) {
->              tcg_out_mov(s, TCG_TYPE_I64, a0, a1);
-> -            tgen_andi(s, TCG_TYPE_I64, args[0], args[2]);
-> +            tgen_andi(s, TCG_TYPE_I64, a0, a2);
->          } else if (a0 == a1) {
-> -            tcg_out_insn(s, RRE, NGR, args[0], args[2]);
-> +            tcg_out_insn(s, RRE, NGR, a0, a2);
->          } else {
->              tcg_out_insn(s, RRF, NGRK, a0, a1, a2);
->          }
->          break;
->      case INDEX_op_or_i64:
-> -        a0 = args[0], a1 = args[1], a2 = args[2];
-> -        if (const_args[2]) {
-> +        if (c2) {
->              tcg_out_mov(s, TCG_TYPE_I64, a0, a1);
->              tgen_ori(s, TCG_TYPE_I64, a0, a2);
->          } else if (a0 == a1) {
-> @@ -2118,8 +2115,7 @@ static inline void tcg_out_op(TCGContext *s, TCGOpcode opc,
->          }
->          break;
->      case INDEX_op_xor_i64:
-> -        a0 = args[0], a1 = args[1], a2 = args[2];
-> -        if (const_args[2]) {
-> +        if (c2) {
->              tcg_out_mov(s, TCG_TYPE_I64, a0, a1);
->              tgen_xori(s, TCG_TYPE_I64, a0, a2);
->          } else if (a0 == a1) {
-> @@ -2130,21 +2126,21 @@ static inline void tcg_out_op(TCGContext *s, TCGOpcode opc,
->          break;
->  
->      case INDEX_op_neg_i64:
-> -        tcg_out_insn(s, RRE, LCGR, args[0], args[1]);
-> +        tcg_out_insn(s, RRE, LCGR, a0, a1);
->          break;
->      case INDEX_op_bswap64_i64:
-> -        tcg_out_insn(s, RRE, LRVGR, args[0], args[1]);
-> +        tcg_out_insn(s, RRE, LRVGR, a0, a1);
->          break;
->  
->      case INDEX_op_mul_i64:
-> -        if (const_args[2]) {
-> -            if (args[2] == (int16_t)args[2]) {
-> -                tcg_out_insn(s, RI, MGHI, args[0], args[2]);
-> +        if (c2) {
-> +            if (a2 == (int16_t)a2) {
-> +                tcg_out_insn(s, RI, MGHI, a0, a2);
->              } else {
-> -                tcg_out_insn(s, RIL, MSGFI, args[0], args[2]);
-> +                tcg_out_insn(s, RIL, MSGFI, a0, a2);
->              }
->          } else {
-> -            tcg_out_insn(s, RRE, MSGR, args[0], args[2]);
-> +            tcg_out_insn(s, RRE, MSGR, a0, a2);
->          }
->          break;
->  
-> @@ -2165,10 +2161,10 @@ static inline void tcg_out_op(TCGContext *s, TCGOpcode opc,
->      case INDEX_op_shl_i64:
->          op = RSY_SLLG;
->      do_shift64:
-> -        if (const_args[2]) {
-> -            tcg_out_sh64(s, op, args[0], args[1], TCG_REG_NONE, args[2]);
-> +        if (c2) {
-> +            tcg_out_sh64(s, op, a0, a1, TCG_REG_NONE, a2);
->          } else {
-> -            tcg_out_sh64(s, op, args[0], args[1], args[2], 0);
-> +            tcg_out_sh64(s, op, a0, a1, a2, 0);
->          }
->          break;
->      case INDEX_op_shr_i64:
-> @@ -2179,87 +2175,83 @@ static inline void tcg_out_op(TCGContext *s, TCGOpcode opc,
->          goto do_shift64;
->  
->      case INDEX_op_rotl_i64:
-> -        if (const_args[2]) {
-> -            tcg_out_sh64(s, RSY_RLLG, args[0], args[1],
-> -                         TCG_REG_NONE, args[2]);
-> +        if (c2) {
-> +            tcg_out_sh64(s, RSY_RLLG, a0, a1,
-> +                         TCG_REG_NONE, a2);
->          } else {
-> -            tcg_out_sh64(s, RSY_RLLG, args[0], args[1], args[2], 0);
-> +            tcg_out_sh64(s, RSY_RLLG, a0, a1, a2, 0);
->          }
->          break;
->      case INDEX_op_rotr_i64:
-> -        if (const_args[2]) {
-> -            tcg_out_sh64(s, RSY_RLLG, args[0], args[1],
-> -                         TCG_REG_NONE, (64 - args[2]) & 63);
-> +        if (c2) {
-> +            tcg_out_sh64(s, RSY_RLLG, a0, a1,
-> +                         TCG_REG_NONE, (64 - a2) & 63);
->          } else {
->              /* We can use the smaller 32-bit negate because only the
->                 low 6 bits are examined for the rotate.  */
-> -            tcg_out_insn(s, RR, LCR, TCG_TMP0, args[2]);
-> -            tcg_out_sh64(s, RSY_RLLG, args[0], args[1], TCG_TMP0, 0);
-> +            tcg_out_insn(s, RR, LCR, TCG_TMP0, a2);
-> +            tcg_out_sh64(s, RSY_RLLG, a0, a1, TCG_TMP0, 0);
->          }
->          break;
->  
->      case INDEX_op_ext8s_i64:
-> -        tgen_ext8s(s, TCG_TYPE_I64, args[0], args[1]);
-> +        tgen_ext8s(s, TCG_TYPE_I64, a0, a1);
->          break;
->      case INDEX_op_ext16s_i64:
-> -        tgen_ext16s(s, TCG_TYPE_I64, args[0], args[1]);
-> +        tgen_ext16s(s, TCG_TYPE_I64, a0, a1);
->          break;
->      case INDEX_op_ext_i32_i64:
->      case INDEX_op_ext32s_i64:
-> -        tgen_ext32s(s, args[0], args[1]);
-> +        tgen_ext32s(s, a0, a1);
->          break;
->      case INDEX_op_ext8u_i64:
-> -        tgen_ext8u(s, TCG_TYPE_I64, args[0], args[1]);
-> +        tgen_ext8u(s, TCG_TYPE_I64, a0, a1);
->          break;
->      case INDEX_op_ext16u_i64:
-> -        tgen_ext16u(s, TCG_TYPE_I64, args[0], args[1]);
-> +        tgen_ext16u(s, TCG_TYPE_I64, a0, a1);
->          break;
->      case INDEX_op_extu_i32_i64:
->      case INDEX_op_ext32u_i64:
-> -        tgen_ext32u(s, args[0], args[1]);
-> +        tgen_ext32u(s, a0, a1);
->          break;
->  
->      case INDEX_op_add2_i64:
-> -        if (const_args[4]) {
-> +        if (c4) {
->              if ((int64_t)args[4] >= 0) {
-> -                tcg_out_insn(s, RIL, ALGFI, args[0], args[4]);
-> +                tcg_out_insn(s, RIL, ALGFI, a0, args[4]);
->              } else {
-> -                tcg_out_insn(s, RIL, SLGFI, args[0], -args[4]);
-> +                tcg_out_insn(s, RIL, SLGFI, a0, -args[4]);
->              }
->          } else {
-> -            tcg_out_insn(s, RRE, ALGR, args[0], args[4]);
-> +            tcg_out_insn(s, RRE, ALGR, a0, args[4]);
->          }
-> -        tcg_out_insn(s, RRE, ALCGR, args[1], args[5]);
-> +        tcg_out_insn(s, RRE, ALCGR, a1, args[5]);
->          break;
->      case INDEX_op_sub2_i64:
-> -        if (const_args[4]) {
-> +        if (c4) {
->              if ((int64_t)args[4] >= 0) {
-> -                tcg_out_insn(s, RIL, SLGFI, args[0], args[4]);
-> +                tcg_out_insn(s, RIL, SLGFI, a0, args[4]);
->              } else {
-> -                tcg_out_insn(s, RIL, ALGFI, args[0], -args[4]);
-> +                tcg_out_insn(s, RIL, ALGFI, a0, -args[4]);
->              }
->          } else {
-> -            tcg_out_insn(s, RRE, SLGR, args[0], args[4]);
-> +            tcg_out_insn(s, RRE, SLGR, a0, args[4]);
->          }
-> -        tcg_out_insn(s, RRE, SLBGR, args[1], args[5]);
-> +        tcg_out_insn(s, RRE, SLBGR, a1, args[5]);
->          break;
->  
->      case INDEX_op_brcond_i64:
-> -        tgen_brcond(s, TCG_TYPE_I64, args[2], args[0],
-> -                    args[1], const_args[1], arg_label(args[3]));
-> +        tgen_brcond(s, TCG_TYPE_I64, a2, a0, a1, c1, arg_label(args[3]));
-
-Another c1 usage.
-
->          break;
->      case INDEX_op_setcond_i64:
-> -        tgen_setcond(s, TCG_TYPE_I64, args[3], args[0], args[1],
-> -                     args[2], const_args[2]);
-> +        tgen_setcond(s, TCG_TYPE_I64, args[3], a0, a1, a2, c2);
->          break;
->      case INDEX_op_movcond_i64:
-> -        tgen_movcond(s, TCG_TYPE_I64, args[5], args[0], args[1],
-> -                     args[2], const_args[2], args[3], const_args[3]);
-> +        tgen_movcond(s, TCG_TYPE_I64, args[5], a0, a1, a2, c2, args[3], c3);
->          break;
->  
->      OP_32_64(deposit):
-> -        a0 = args[0], a1 = args[1], a2 = args[2];
-> -        if (const_args[1]) {
-> +        if (c1) {
-
-Another c1 usage.
-
->              tgen_deposit(s, a0, a2, args[3], args[4], 1);
->          } else {
->              /* Since we can't support "0Z" as a constraint, we allow a1 in
-> @@ -2277,17 +2269,17 @@ static inline void tcg_out_op(TCGContext *s, TCGOpcode opc,
->          break;
->  
->      OP_32_64(extract):
-> -        tgen_extract(s, args[0], args[1], args[2], args[3]);
-> +        tgen_extract(s, a0, a1, a2, args[3]);
->          break;
->  
->      case INDEX_op_clz_i64:
-> -        tgen_clz(s, args[0], args[1], args[2], const_args[2]);
-> +        tgen_clz(s, a0, a1, a2, c2);
->          break;
->  
->      case INDEX_op_mb:
->          /* The host memory model is quite strong, we simply need to
->             serialize the instruction stream.  */
-> -        if (args[0] & TCG_MO_ST_LD) {
-> +        if (a0 & TCG_MO_ST_LD) {
->              tcg_out_insn(s, RR, BCR,
->                           s390_facilities & FACILITY_FAST_BCR_SER ? 14 : 15, 0);
->          }
+> > Apart from that, LGTM:
+> > 
+> > Reviewed-by: Greg Kurz <groug@kaod.org>
+> > 
+> > > Signed-off-by: David Gibson <david@gibson.dropbear.id.au>
+> > > ---
+> > >  accel/kvm/kvm-all.c  |  5 +++--
+> > >  accel/kvm/sev-stub.c |  5 +++--
+> > >  hw/core/machine.c    | 43 +++++++++++++++++++++++++++++++++++++------
+> > >  include/hw/boards.h  |  2 +-
+> > >  include/sysemu/sev.h |  2 +-
+> > >  target/i386/sev.c    | 32 ++------------------------------
+> > >  6 files changed, 47 insertions(+), 42 deletions(-)
+> > > 
+> > > diff --git a/accel/kvm/kvm-all.c b/accel/kvm/kvm-all.c
+> > > index 260ed73ffe..28ab126f70 100644
+> > > --- a/accel/kvm/kvm-all.c
+> > > +++ b/accel/kvm/kvm-all.c
+> > > @@ -2181,8 +2181,9 @@ static int kvm_init(MachineState *ms)
+> > >       * if memory encryption object is specified then initialize the memory
+> > >       * encryption context.
+> > >       */
+> > > -    if (ms->memory_encryption) {
+> > > -        ret = sev_guest_init(ms->memory_encryption);
+> > > +    if (ms->cgs) {
+> > > +        /* FIXME handle mechanisms other than SEV */
+> > > +        ret = sev_kvm_init(ms->cgs);
+> > >          if (ret < 0) {
+> > >              goto err;
+> > >          }
+> > > diff --git a/accel/kvm/sev-stub.c b/accel/kvm/sev-stub.c
+> > > index 5db9ab8f00..3d4787ae4a 100644
+> > > --- a/accel/kvm/sev-stub.c
+> > > +++ b/accel/kvm/sev-stub.c
+> > > @@ -15,7 +15,8 @@
+> > >  #include "qemu-common.h"
+> > >  #include "sysemu/sev.h"
+> > >  
+> > > -int sev_guest_init(const char *id)
+> > > +int sev_kvm_init(ConfidentialGuestSupport *cgs)
+> > >  {
+> > > -    return -1;
+> > > +    /* SEV can't be selected if it's not compiled */
+> > > +    g_assert_not_reached();
+> > >  }
+> > > diff --git a/hw/core/machine.c b/hw/core/machine.c
+> > > index 8909117d80..94194ab82d 100644
+> > > --- a/hw/core/machine.c
+> > > +++ b/hw/core/machine.c
+> > > @@ -32,6 +32,7 @@
+> > >  #include "hw/mem/nvdimm.h"
+> > >  #include "migration/global_state.h"
+> > >  #include "migration/vmstate.h"
+> > > +#include "exec/confidential-guest-support.h"
+> > >  
+> > >  GlobalProperty hw_compat_5_2[] = {};
+> > >  const size_t hw_compat_5_2_len = G_N_ELEMENTS(hw_compat_5_2);
+> > > @@ -427,16 +428,37 @@ static char *machine_get_memory_encryption(Object *obj, Error **errp)
+> > >  {
+> > >      MachineState *ms = MACHINE(obj);
+> > >  
+> > > -    return g_strdup(ms->memory_encryption);
+> > > +    if (ms->cgs) {
+> > > +        return g_strdup(object_get_canonical_path_component(OBJECT(ms->cgs)));
+> > > +    }
+> > > +
+> > > +    return NULL;
+> > >  }
+> > >  
+> > >  static void machine_set_memory_encryption(Object *obj, const char *value,
+> > >                                          Error **errp)
+> > >  {
+> > > -    MachineState *ms = MACHINE(obj);
+> > > +    Object *cgs =
+> > > +        object_resolve_path_component(object_get_objects_root(), value);
+> > > +
+> > > +    if (!cgs) {
+> > > +        error_setg(errp, "No such memory encryption object '%s'", value);
+> > > +        return;
+> > > +    }
+> > >  
+> > > -    g_free(ms->memory_encryption);
+> > > -    ms->memory_encryption = g_strdup(value);
+> > > +    object_property_set_link(obj, "confidential-guest-support", cgs, errp);
+> > > +}
+> > > +
+> > > +static void machine_check_confidential_guest_support(const Object *obj,
+> > > +                                                     const char *name,
+> > > +                                                     Object *new_target,
+> > > +                                                     Error **errp)
+> > > +{
+> > > +    /*
+> > > +     * So far the only constraint is that the target has the
+> > > +     * TYPE_CONFIDENTIAL_GUEST_SUPPORT interface, and that's checked
+> > > +     * by the QOM core
+> > > +     */
+> > >  }
+> > >  
+> > >  static bool machine_get_nvdimm(Object *obj, Error **errp)
+> > > @@ -836,6 +858,15 @@ static void machine_class_init(ObjectClass *oc, void *data)
+> > >      object_class_property_set_description(oc, "suppress-vmdesc",
+> > >          "Set on to disable self-describing migration");
+> > >  
+> > > +    object_class_property_add_link(oc, "confidential-guest-support",
+> > > +                                   TYPE_CONFIDENTIAL_GUEST_SUPPORT,
+> > > +                                   offsetof(MachineState, cgs),
+> > > +                                   machine_check_confidential_guest_support,
+> > > +                                   OBJ_PROP_LINK_STRONG);
+> > > +    object_class_property_set_description(oc, "confidential-guest-support",
+> > > +                                          "Set confidential guest scheme to support");
+> > > +
+> > > +    /* For compatibility */
+> > >      object_class_property_add_str(oc, "memory-encryption",
+> > >          machine_get_memory_encryption, machine_set_memory_encryption);
+> > >      object_class_property_set_description(oc, "memory-encryption",
+> > > @@ -1158,9 +1189,9 @@ void machine_run_board_init(MachineState *machine)
+> > >                      cc->deprecation_note);
+> > >      }
+> > >  
+> > > -    if (machine->memory_encryption) {
+> > > +    if (machine->cgs) {
+> > >          /*
+> > > -         * With memory encryption, the host can't see the real
+> > > +         * With confidential guests, the host can't see the real
+> > >           * contents of RAM, so there's no point in it trying to merge
+> > >           * areas.
+> > >           */
+> > > diff --git a/include/hw/boards.h b/include/hw/boards.h
+> > > index 17b1f3f0b9..1acd662fa5 100644
+> > > --- a/include/hw/boards.h
+> > > +++ b/include/hw/boards.h
+> > > @@ -270,7 +270,7 @@ struct MachineState {
+> > >      bool iommu;
+> > >      bool suppress_vmdesc;
+> > >      bool enable_graphics;
+> > > -    char *memory_encryption;
+> > > +    ConfidentialGuestSupport *cgs;
+> > >      char *ram_memdev_id;
+> > >      /*
+> > >       * convenience alias to ram_memdev_id backend memory region
+> > > diff --git a/include/sysemu/sev.h b/include/sysemu/sev.h
+> > > index 7335e59867..3b5b1aacf1 100644
+> > > --- a/include/sysemu/sev.h
+> > > +++ b/include/sysemu/sev.h
+> > > @@ -16,7 +16,7 @@
+> > >  
+> > >  #include "sysemu/kvm.h"
+> > >  
+> > > -int sev_guest_init(const char *id);
+> > > +int sev_kvm_init(ConfidentialGuestSupport *cgs);
+> > >  int sev_encrypt_flash(uint8_t *ptr, uint64_t len, Error **errp);
+> > >  int sev_inject_launch_secret(const char *hdr, const char *secret,
+> > >                               uint64_t gpa, Error **errp);
+> > > diff --git a/target/i386/sev.c b/target/i386/sev.c
+> > > index 2a4b2187d6..5399a136ad 100644
+> > > --- a/target/i386/sev.c
+> > > +++ b/target/i386/sev.c
+> > > @@ -335,26 +335,6 @@ static const TypeInfo sev_guest_info = {
+> > >      }
+> > >  };
+> > >  
+> > > -static SevGuestState *
+> > > -lookup_sev_guest_info(const char *id)
+> > > -{
+> > > -    Object *obj;
+> > > -    SevGuestState *info;
+> > > -
+> > > -    obj = object_resolve_path_component(object_get_objects_root(), id);
+> > > -    if (!obj) {
+> > > -        return NULL;
+> > > -    }
+> > > -
+> > > -    info = (SevGuestState *)
+> > > -            object_dynamic_cast(obj, TYPE_SEV_GUEST);
+> > > -    if (!info) {
+> > > -        return NULL;
+> > > -    }
+> > > -
+> > > -    return info;
+> > > -}
+> > > -
+> > >  bool
+> > >  sev_enabled(void)
+> > >  {
+> > > @@ -682,10 +662,9 @@ sev_vm_state_change(void *opaque, int running, RunState state)
+> > >      }
+> > >  }
+> > >  
+> > > -int
+> > > -sev_guest_init(const char *id)
+> > > +int sev_kvm_init(ConfidentialGuestSupport *cgs)
+> > >  {
+> > > -    SevGuestState *sev;
+> > > +    SevGuestState *sev = SEV_GUEST(cgs);
+> > >      char *devname;
+> > >      int ret, fw_error;
+> > >      uint32_t ebx;
+> > > @@ -698,13 +677,6 @@ sev_guest_init(const char *id)
+> > >          return -1;
+> > >      }
+> > >  
+> > > -    sev = lookup_sev_guest_info(id);
+> > > -    if (!sev) {
+> > > -        error_report("%s: '%s' is not a valid '%s' object",
+> > > -                     __func__, id, TYPE_SEV_GUEST);
+> > > -        goto err;
+> > > -    }
+> > > -
+> > >      sev_guest = sev;
+> > >      sev->state = SEV_STATE_UNINIT;
+> > >  
+> > 
+> 
 > -- 
-> 2.26.2
-> 
-> 
+> David Gibson			| I'll have my music baroque, and my code
+> david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
+> 				| _way_ _around_!
+> http://www.ozlabs.org/~dgibson
+
+
+-- 
+Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
 
 
