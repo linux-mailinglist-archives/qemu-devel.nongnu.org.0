@@ -2,63 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8714C2F450B
-	for <lists+qemu-devel@lfdr.de>; Wed, 13 Jan 2021 08:18:15 +0100 (CET)
-Received: from localhost ([::1]:49718 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4C6E42F4519
+	for <lists+qemu-devel@lfdr.de>; Wed, 13 Jan 2021 08:21:01 +0100 (CET)
+Received: from localhost ([::1]:57434 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kzaQ2-0000CI-Hn
-	for lists+qemu-devel@lfdr.de; Wed, 13 Jan 2021 02:18:14 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48622)
+	id 1kzaSi-0003kx-9i
+	for lists+qemu-devel@lfdr.de; Wed, 13 Jan 2021 02:21:00 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48678)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <frank.chang@sifive.com>)
- id 1kzaLx-0006gJ-Sy
- for qemu-devel@nongnu.org; Wed, 13 Jan 2021 02:14:02 -0500
-Received: from mail-pf1-x436.google.com ([2607:f8b0:4864:20::436]:41614)
+ id 1kzaM6-0006lg-QI
+ for qemu-devel@nongnu.org; Wed, 13 Jan 2021 02:14:12 -0500
+Received: from mail-pj1-x1035.google.com ([2607:f8b0:4864:20::1035]:33494)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <frank.chang@sifive.com>)
- id 1kzaLu-0003hR-6q
- for qemu-devel@nongnu.org; Wed, 13 Jan 2021 02:14:01 -0500
-Received: by mail-pf1-x436.google.com with SMTP id q20so672966pfu.8
- for <qemu-devel@nongnu.org>; Tue, 12 Jan 2021 23:13:56 -0800 (PST)
+ id 1kzaM2-0003m3-NU
+ for qemu-devel@nongnu.org; Wed, 13 Jan 2021 02:14:09 -0500
+Received: by mail-pj1-x1035.google.com with SMTP id w1so2700411pjc.0
+ for <qemu-devel@nongnu.org>; Tue, 12 Jan 2021 23:14:05 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sifive.com; s=google;
- h=from:to:cc:subject:date:message-id;
- bh=0k5VWgUZmBykkLgQPNEXBKI1BcCXiLtvx6YuEbb6Vsc=;
- b=SoHdg1NJ+Je663oIlDKORYyG/lW9DdCEvlehdSAIiPylK8r38WYU9ZL1aH7FyMJYyU
- bcSecHDwFdoPEKaJZZFL5NfMOEVxfeOpsPrEjzk2duYyblfoGrgmHhnN+z8fKdoN3t4q
- UFZd2q7B6Nlkg7DbeiEa5cnfrfGMEI1pmiba/RklVFJDNxaJKy+l0PzhuWV7L1kyM+Eu
- 4I09hX069LhZUeTVW972gNE4UgWIZK/F00G+jSTUVa1g9WLtoWSTTdlKuyf0P3uViwfk
- N+2Pd3NGhzq4FvXh2tsUon0Vbw884slO2UuVNZ41eo3ijbjohM4iOaPgv1Zx37iFKnpN
- WGYw==
+ h=from:to:cc:subject:date:message-id:in-reply-to:references;
+ bh=BgZikz4sJLs+w0Gy/WgD2VLy+0WnxAYabQZ2ZyT4YKc=;
+ b=aMywIBnSI83XT3/IkaO5F7ZSwOZ00BefYHJBDoTIbZ/DSNl63KizHkv34ZT/XQkKym
+ LVR5ggMJ9xv0l2yvcpmsQ3g3bxya/k+qGktlO392gVzqCgQ4/Ln3HMkmvEK1JEkHGq67
+ hQvn/8NrFzJecTgP6dcBLrI5OpCnd51/D/NgimbJ1UtBYum40LFlMGcVSsEcYPKk7ZA1
+ g2uvK2yds1iNAq/L7tVvh8vcQtO6B9Db5XaVvp7gPTrmYb8TzCk51JJj6Ro9gDIUPPOa
+ 57S4eSuG9FW2qMbrxLmdbX4i0IOtOOWfXiILy6xLYjTsxmUKuL0/8luygfGntj72oDlv
+ vwGw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id;
- bh=0k5VWgUZmBykkLgQPNEXBKI1BcCXiLtvx6YuEbb6Vsc=;
- b=TiUEA98cNI8mxgcdKDbOsdabgk4jDRk2BuedQzfO0+rHhDd9zKh3EgtbZWgZTyDzJb
- tdffZfwTMq3yytaq6PDyYO2Kw2i1uG7/J/YCRbNeDQBes1j+vIooay12VMQwhZvVDx8B
- z+mDTWN7VG+otGKWi5E6FGpwjvGqeVI4J/mUgya3nTjbpRhWIEuro0rZoASSDrT0BvSe
- feZOCnNYrZ9ij9E/w1y2HmqtQXNMVT6hI8mZHp+lATWekbIuzRPiGjm4B7VEZAu3jOgI
- fhagK+fYMVzvydOCjhMsafJKriFdEGkUrQBAtWeK5hSMuaL1N1cYSxljIif1+cbKoHw2
- kJyw==
-X-Gm-Message-State: AOAM530cUQ4xv3XY4cySUAyC0HJ2MMfDriq/SZcyzIHlCO4Pb3jiNmSf
- M7QN0sX7TyD5hVY3/hQeAF84/z/MSDJLJJYK
-X-Google-Smtp-Source: ABdhPJzlzkt1QJCRiHW+UpGPVOkT/cGipYGFzqOjcAK7yu50f7Sfx0Hv+pufFIgHKtLXGWu+irQeOg==
-X-Received: by 2002:a65:608e:: with SMTP id t14mr840773pgu.436.1610522035497; 
- Tue, 12 Jan 2021 23:13:55 -0800 (PST)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+ :references;
+ bh=BgZikz4sJLs+w0Gy/WgD2VLy+0WnxAYabQZ2ZyT4YKc=;
+ b=i1uBJfor9yW7aijjOHU2u9A0Du/qp9iD4T6GADqbYasAgNAwo1/wal3VZoai3xPdzl
+ Ks4tVpJYLbu1X2Wsf5YJw8KvWnDQwU8HWRXdylfHccoNYwXDW6SZRxCVjE7EKtlhqIK4
+ 6LVIvGZk2OnaX90tf/STPPUw2aXCJzY/D9Tc70A/4whVOkZONSSxugWV9p2ARlgvLXW3
+ L9XXqstGMna9DB2bHy3MzoUKSxAczCX3TPvlYNRZIe6Qhd/Wd+zZvpVwGnkAcTKk/Yzy
+ 6GTijbB9S5aOoMOMc1srnGrV2V+0Tp5AXZnQMs615aT2vh34o1Vl6Adoxq14Xi97c55L
+ 7HOw==
+X-Gm-Message-State: AOAM532ID16U7Hp+B5N7wgI0yG3QbmZvux+gI6Atyt1mA6vVsCR4dKQH
+ dEMQoqHYY2kPdOzEiPw3Asou5U+HdEQXBXi4
+X-Google-Smtp-Source: ABdhPJzFZeT9UTPg0iStY9LzqCNXY0l2cXUS3WDZHQBNLaqv/c0gdJeNWtmII4/rddXfcLRLBruy3g==
+X-Received: by 2002:a17:90a:46c2:: with SMTP id x2mr832741pjg.15.1610522044052; 
+ Tue, 12 Jan 2021 23:14:04 -0800 (PST)
 Received: from frankchang-ThinkPad-T490.internal.sifive.com
  (114-34-229-221.HINET-IP.hinet.net. [114.34.229.221])
- by smtp.gmail.com with ESMTPSA id l7sm1361888pjy.29.2021.01.12.23.13.53
+ by smtp.gmail.com with ESMTPSA id l7sm1361888pjy.29.2021.01.12.23.14.01
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 12 Jan 2021 23:13:54 -0800 (PST)
+ Tue, 12 Jan 2021 23:14:03 -0800 (PST)
 From: frank.chang@sifive.com
 To: qemu-devel@nongnu.org,
 	qemu-riscv@nongnu.org
-Subject: [RFC v4 00/16] support subsets of bitmanip extension
-Date: Wed, 13 Jan 2021 15:13:32 +0800
-Message-Id: <20210113071350.24852-1-frank.chang@sifive.com>
+Subject: [RFC v4 01/16] target/riscv: reformat @sh format encoding for
+ B-extension
+Date: Wed, 13 Jan 2021 15:13:33 +0800
+Message-Id: <20210113071350.24852-2-frank.chang@sifive.com>
 X-Mailer: git-send-email 2.17.1
-Received-SPF: pass client-ip=2607:f8b0:4864:20::436;
- envelope-from=frank.chang@sifive.com; helo=mail-pf1-x436.google.com
+In-Reply-To: <20210113071350.24852-1-frank.chang@sifive.com>
+References: <20210113071350.24852-1-frank.chang@sifive.com>
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1035;
+ envelope-from=frank.chang@sifive.com; helo=mail-pj1-x1035.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -78,79 +82,59 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Frank Chang <frank.chang@sifive.com>
+Cc: Sagar Karandikar <sagark@eecs.berkeley.edu>,
+ Frank Chang <frank.chang@sifive.com>,
+ Bastian Koppelmann <kbastian@mail.uni-paderborn.de>,
+ Alistair Francis <Alistair.Francis@wdc.com>,
+ Palmer Dabbelt <palmer@dabbelt.com>, Kito Cheng <kito.cheng@sifive.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Frank Chang <frank.chang@sifive.com>
+From: Kito Cheng <kito.cheng@sifive.com>
 
-This patchset implements RISC-V B-extension 0.93 version Zbb, Zbs and
-Zba subset instructions. Some Zbp instructions are also implemented as
-they have similar behavior with their Zbb-, Zbs- and Zba-family
-instructions or for Zbb pseudo instructions (e.g. rev8, orc.b).
+Signed-off-by: Kito Cheng <kito.cheng@sifive.com>
+Signed-off-by: Frank Chang <frank.chang@sifive.com>
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+---
+ target/riscv/insn32.decode | 10 +++++-----
+ 1 file changed, 5 insertions(+), 5 deletions(-)
 
-Specification:
-https://github.com/riscv/riscv-bitmanip/blob/master/bitmanip-0.93.pdf
-
-The port is available here:
-https://github.com/sifive/qemu/tree/rvb-upstream-v4
-
-To test rvb implementation, specify cpu argument with 'x-b=true' to
-enable B-extension support.
-
-Changelog:
-
-v4:
- * Remove 'rd != 0' checks from immediate shift instructions.
-
-v3:
- * Convert existing immediate shift instructions to use gen_shifti()
-   and gen_shiftiw() interfaces.
- * Rename *u.w instructions to *.uw.
- * Rename sb* instructions to b*.
- * Rename pcnt* instructions to cpop*.
-
-v2:
- * Add gen_shifti(), gen_shiftw(), gen_shiftiw() helper functions.
- * Remove addwu, subwu and addiwu instructions as they are not longer
-   exist in latest draft.
- * Optimize implementation with cleaner tcg ops.
-
-Frank Chang (4):
-  target/riscv: rvb: count bits set
-  target/riscv: add gen_shifti() and gen_shiftiw() helper functions
-  target/riscv: rvb: generalized reverse
-  target/riscv: rvb: generalized or-combine
-
-Kito Cheng (12):
-  target/riscv: reformat @sh format encoding for B-extension
-  target/riscv: rvb: count leading/trailing zeros
-  target/riscv: rvb: logic-with-negate
-  target/riscv: rvb: pack two words into one register
-  target/riscv: rvb: min/max instructions
-  target/riscv: rvb: sign-extend instructions
-  target/riscv: rvb: single-bit instructions
-  target/riscv: rvb: shift ones
-  target/riscv: rvb: rotate (left/right)
-  target/riscv: rvb: address calculation
-  target/riscv: rvb: add/shift with prefix zero-extend
-  target/riscv: rvb: support and turn on B-extension from command line
-
- target/riscv/bitmanip_helper.c          | 102 ++++++
- target/riscv/cpu.c                      |   4 +
- target/riscv/cpu.h                      |   2 +
- target/riscv/helper.h                   |   9 +
- target/riscv/insn32-64.decode           |  33 ++
- target/riscv/insn32.decode              |  54 ++-
- target/riscv/insn_trans/trans_rvb.c.inc | 415 ++++++++++++++++++++++++
- target/riscv/insn_trans/trans_rvi.c.inc |  54 +--
- target/riscv/meson.build                |   1 +
- target/riscv/translate.c                | 314 ++++++++++++++++++
- 10 files changed, 932 insertions(+), 56 deletions(-)
- create mode 100644 target/riscv/bitmanip_helper.c
- create mode 100644 target/riscv/insn_trans/trans_rvb.c.inc
-
---
+diff --git a/target/riscv/insn32.decode b/target/riscv/insn32.decode
+index 84080dd18ca..3823b3ea800 100644
+--- a/target/riscv/insn32.decode
++++ b/target/riscv/insn32.decode
+@@ -22,7 +22,7 @@
+ %rs1       15:5
+ %rd        7:5
+ 
+-%sh10    20:10
++%sh7    20:7
+ %csr    20:12
+ %rm     12:3
+ %nf     29:3                     !function=ex_plus_1
+@@ -58,7 +58,7 @@
+ @u       ....................      ..... ....... &u      imm=%imm_u          %rd
+ @j       ....................      ..... ....... &j      imm=%imm_j          %rd
+ 
+-@sh      ......  ...... .....  ... ..... ....... &shift  shamt=%sh10      %rs1 %rd
++@sh      ......  ...... .....  ... ..... ....... &shift  shamt=%sh7     %rs1 %rd
+ @csr     ............   .....  ... ..... .......               %csr     %rs1 %rd
+ 
+ @atom_ld ..... aq:1 rl:1 ..... ........ ..... ....... &atomic rs2=0     %rs1 %rd
+@@ -122,9 +122,9 @@ sltiu    ............     ..... 011 ..... 0010011 @i
+ xori     ............     ..... 100 ..... 0010011 @i
+ ori      ............     ..... 110 ..... 0010011 @i
+ andi     ............     ..... 111 ..... 0010011 @i
+-slli     00.... ......    ..... 001 ..... 0010011 @sh
+-srli     00.... ......    ..... 101 ..... 0010011 @sh
+-srai     01.... ......    ..... 101 ..... 0010011 @sh
++slli     00000. ......    ..... 001 ..... 0010011 @sh
++srli     00000. ......    ..... 101 ..... 0010011 @sh
++srai     01000. ......    ..... 101 ..... 0010011 @sh
+ add      0000000 .....    ..... 000 ..... 0110011 @r
+ sub      0100000 .....    ..... 000 ..... 0110011 @r
+ sll      0000000 .....    ..... 001 ..... 0110011 @r
+-- 
 2.17.1
 
 
