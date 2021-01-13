@@ -2,68 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4817A2F512A
-	for <lists+qemu-devel@lfdr.de>; Wed, 13 Jan 2021 18:33:34 +0100 (CET)
-Received: from localhost ([::1]:51226 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 153782F5138
+	for <lists+qemu-devel@lfdr.de>; Wed, 13 Jan 2021 18:38:08 +0100 (CET)
+Received: from localhost ([::1]:58518 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kzk1V-0006h1-B0
-	for lists+qemu-devel@lfdr.de; Wed, 13 Jan 2021 12:33:33 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41692)
+	id 1kzk5v-0001j4-19
+	for lists+qemu-devel@lfdr.de; Wed, 13 Jan 2021 12:38:07 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41778)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1kzjtq-000099-MR; Wed, 13 Jan 2021 12:25:43 -0500
-Received: from mail-wm1-x32c.google.com ([2a00:1450:4864:20::32c]:54171)
+ id 1kzjtx-0000BN-NF; Wed, 13 Jan 2021 12:25:47 -0500
+Received: from mail-wm1-x333.google.com ([2a00:1450:4864:20::333]:37064)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1kzjtl-0006AW-OA; Wed, 13 Jan 2021 12:25:35 -0500
-Received: by mail-wm1-x32c.google.com with SMTP id k10so2301946wmi.3;
- Wed, 13 Jan 2021 09:25:28 -0800 (PST)
+ id 1kzjtr-0006Hs-Dl; Wed, 13 Jan 2021 12:25:45 -0500
+Received: by mail-wm1-x333.google.com with SMTP id g10so2334698wmh.2;
+ Wed, 13 Jan 2021 09:25:33 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=nbTY58aO/0J5mVZOizL8/L5H+yZ4rt3Ds459buh/Uo4=;
- b=uoa946qK+eG5eMCIzS2cz6yzKuNu/TbYio49p1yhcciT51de1vXX8hnCRTN6lZxLdh
- 2CPDKNODcNGqKK0ZMIUo3lLiFGnqCz95hUZSZdEggWPdpRPlKUlm/ccrw2XniCjE/cCo
- xWJyBtNpoYNy2Ro8lrTqpIF9QiRdAALofRFxiIVAqiiFUQT7Cw8NeZfu3yHdWoysQNB9
- uIlLcQcfiMaxFiNjjkcXv3CU5tS4iiSi4+ZvpZO4VAnBtlxELdaNOFdMYqt4rlqFr+4u
- Mznwtep1Hp5wvKAA1Xukf28WicT5hAO2ARCgWEI8wAPIoLPN5D0AFijUCTjpAGivhv4b
- yAxA==
+ bh=CsrU5PzWJOqWBM621BtsUfkniXFxs+sJ0jZIwq4bvko=;
+ b=tZYvrIRroKpXLJ5e/pihISRDSjdwOQ93ujRXBjbefwCHz1KbtyPkMV031mAsWRrJoc
+ 7rwBIF0eyiQvMcOM1N0HRz2kO4jzmzxx7RMN/sVKOhNWbRucyuqoxpRAd9FGxs3rgVMa
+ pMUVcxsUE87I3JT4F52vFREa6b+kPsymTRW5c2bHiJkdmi9PZBRxVLPpcsPwQC04kPxH
+ pezV3qHV3zfAzqqf96lc4dc0SBIoeCxZx4JJI/sfWW8RzbmrWReU+T5yaGv+2dtnOL5w
+ 3puQ833pgroSlrDZr8aavGBT1DdHiGuhEa9sh1+x50DBoLWaLmtbGwpW2Xbnhda7n+4a
+ 4Nfg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=nbTY58aO/0J5mVZOizL8/L5H+yZ4rt3Ds459buh/Uo4=;
- b=LsRiI0A34qU9zVnjDAp8QzxlFPhobhvlk9cDmSlO8svxmqc5nvNcAX/aN7FmgZ9Jt9
- n90oFeyQULTo6j/YVS0fCsWOP2/3iKYoq8O6CFtXcUa28eqwnMFli7T4/3AnJtZ1Ejcw
- 9kRcZ06wXyfJ3ElyFfN0DzvDSb/6QzFrt7GxnPh39sLHUHUVj1OQQC5g6ZH7ijBt0d8Z
- sfPgCL9/UUnoh3vwzOK8lJMLhpWrX3oOisJDQc1PoTnSkXqF0oZe8XH13J1hDgxkWgFw
- qjjNZZxom6QEbE8c7IQiJROfdZ58BmrLZ8A/EKdCJizssOTkSd1WPEqUMT6Rp5xQ36Zw
- VuWw==
-X-Gm-Message-State: AOAM533ZTiyRufhC1FQXiazDFCdyAK3WFvy12pxz4+REW7AlInufxAg3
- CdDkuLQMpU2gX1btjJJexQhqgdzxg2A=
-X-Google-Smtp-Source: ABdhPJxR03gA0wrsFd/XfrZXq8/5cAsQbe8rZGIFSVwI83fvnhK3DyuI357dOUM4Sy7cVHORHVggqg==
-X-Received: by 2002:a1c:a583:: with SMTP id o125mr258893wme.91.1610558727675; 
- Wed, 13 Jan 2021 09:25:27 -0800 (PST)
+ bh=CsrU5PzWJOqWBM621BtsUfkniXFxs+sJ0jZIwq4bvko=;
+ b=tgeEFaF/rkBnZHE38lbPHBi4BhzHgqDIDykV1g6Hv9FDSz62ngCdbpIDbNJFhrwU4o
+ Rq/NpFaJjoU1IiZKQb6vO2xuDsRdLZR5i90cW7UKfbSb2qciCUl23iyRwhoAXLbLe2R2
+ 327WipdkGDuA4C7YVeLJ7LM8NRGdfVeJfIqCZ1tixJ1sm/rBovFOgh1HCEdDXsBs5NBl
+ CAZ7geuiesY6pqyABK59t1wLRlpd7bgom7H4t73a0uO4SYhFHj3Do296CUtYQAcoD2HD
+ nk44/1pi8wb2hZgwqteGS6nwTGQNFdmMUxLCehjZ4lKgR3fjqIYMKMWuD9MkFYbAunCT
+ MtOQ==
+X-Gm-Message-State: AOAM533+BpaTna7atrcjdxs50+z1NCdba9yD5UkDEhiT5zip0W0G0mGt
+ bC0XouGC4zRhr0nxiFu81k0LzO7V4u4=
+X-Google-Smtp-Source: ABdhPJye576eM2Ebv7gU2u8PS2+2AyG7/UyRx2o3UsvGh7li2vvj1bw6ncnm9r8ciqfb2y4nUj3CDQ==
+X-Received: by 2002:a1c:40d6:: with SMTP id n205mr323192wma.0.1610558732781;
+ Wed, 13 Jan 2021 09:25:32 -0800 (PST)
 Received: from x1w.redhat.com (13.red-83-57-169.dynamicip.rima-tde.net.
  [83.57.169.13])
- by smtp.gmail.com with ESMTPSA id 125sm3862219wmc.27.2021.01.13.09.25.26
+ by smtp.gmail.com with ESMTPSA id u83sm4066965wmu.12.2021.01.13.09.25.31
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 13 Jan 2021 09:25:27 -0800 (PST)
+ Wed, 13 Jan 2021 09:25:32 -0800 (PST)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 5/6] tcg: Restrict tcg_out_op() to arrays of
+Subject: [PATCH v2 6/6] tcg: Restrict tcg_out_vec_op() to arrays of
  TCG_MAX_OP_ARGS elements
-Date: Wed, 13 Jan 2021 18:24:58 +0100
-Message-Id: <20210113172459.2481060-6-f4bug@amsat.org>
+Date: Wed, 13 Jan 2021 18:24:59 +0100
+Message-Id: <20210113172459.2481060-7-f4bug@amsat.org>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20210113172459.2481060-1-f4bug@amsat.org>
 References: <20210113172459.2481060-1-f4bug@amsat.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::32c;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x32c.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::333;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x333.google.com
 X-Spam_score_int: -14
 X-Spam_score: -1.5
 X-Spam_bar: -
@@ -99,111 +99,89 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 tcg_reg_alloc_op() allocates arrays of TCG_MAX_OP_ARGS elements.
 
-The Aarch64 target already does this since commit 8d8db193f25
-("tcg-aarch64: Hoist common argument loads in tcg_out_op"),
-SPARC since commit b357f902bff ("tcg-sparc: Hoist common argument
-loads in tcg_out_op").
-
-RISCV missed it upon introduction in commit bdf503819ee
-("tcg/riscv: Add the out op decoder"), MIPS since commit
-22ee3a987d5 ("tcg-mips: Hoist args loads") and i386 since
-commit 42d5b514928 ("tcg/i386: Hoist common arguments in
-tcg_out_op").
-
-Provide this information as a hint to the compiler in the function
-prototype, and update the funtion definitions.
-
-This fixes this warning (using GCC 11):
-
-    tcg/aarch64/tcg-target.c.inc:1855:37: error: argument 3 of type 'const TCGArg[16]' {aka 'const long unsigned int[16]'} with mismatched bound [-Werror=array-parameter=]
-    tcg/aarch64/tcg-target.c.inc:1856:34: error: argument 4 of type 'const int[16]' with mismatched bound [-Werror=array-parameter=]
-
-Reported-by: Miroslav Rezanina <mrezanin@redhat.com>
-Reviewed-by: Miroslav Rezanina <mrezanin@redhat.com>
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 ---
- tcg/tcg.c                  | 5 +++--
- tcg/i386/tcg-target.c.inc  | 3 ++-
- tcg/mips/tcg-target.c.inc  | 3 ++-
- tcg/riscv/tcg-target.c.inc | 3 ++-
- tcg/tci/tcg-target.c.inc   | 5 +++--
- 5 files changed, 12 insertions(+), 7 deletions(-)
+ tcg/tcg.c                    | 14 ++++++++------
+ tcg/aarch64/tcg-target.c.inc |  3 ++-
+ tcg/i386/tcg-target.c.inc    |  3 ++-
+ tcg/ppc/tcg-target.c.inc     |  3 ++-
+ 4 files changed, 14 insertions(+), 9 deletions(-)
 
 diff --git a/tcg/tcg.c b/tcg/tcg.c
-index 472bf1755bf..97d074d8fab 100644
+index 97d074d8fab..3a20327f9cb 100644
 --- a/tcg/tcg.c
 +++ b/tcg/tcg.c
-@@ -110,8 +110,9 @@ static void tcg_out_ld(TCGContext *s, TCGType type, TCGReg ret, TCGReg arg1,
- static bool tcg_out_mov(TCGContext *s, TCGType type, TCGReg ret, TCGReg arg);
- static void tcg_out_movi(TCGContext *s, TCGType type,
-                          TCGReg ret, tcg_target_long arg);
--static void tcg_out_op(TCGContext *s, TCGOpcode opc, const TCGArg *args,
--                       const int *const_args);
-+static void tcg_out_op(TCGContext *s, TCGOpcode opc,
-+                       const TCGArg args[TCG_MAX_OP_ARGS],
-+                       const int const_args[TCG_MAX_OP_ARGS]);
- #if TCG_TARGET_MAYBE_vec
- static bool tcg_out_dup_vec(TCGContext *s, TCGType type, unsigned vece,
-                             TCGReg dst, TCGReg src);
+@@ -120,9 +120,10 @@ static bool tcg_out_dupm_vec(TCGContext *s, TCGType type, unsigned vece,
+                              TCGReg dst, TCGReg base, intptr_t offset);
+ static void tcg_out_dupi_vec(TCGContext *s, TCGType type,
+                              TCGReg dst, tcg_target_long arg);
+-static void tcg_out_vec_op(TCGContext *s, TCGOpcode opc, unsigned vecl,
+-                           unsigned vece, const TCGArg *args,
+-                           const int *const_args);
++static void tcg_out_vec_op(TCGContext *s, TCGOpcode opc,
++                           unsigned vecl, unsigned vece,
++                           const TCGArg args[TCG_MAX_OP_ARGS],
++                           const int const_args[TCG_MAX_OP_ARGS]);
+ #else
+ static inline bool tcg_out_dup_vec(TCGContext *s, TCGType type, unsigned vece,
+                                    TCGReg dst, TCGReg src)
+@@ -139,9 +140,10 @@ static inline void tcg_out_dupi_vec(TCGContext *s, TCGType type,
+ {
+     g_assert_not_reached();
+ }
+-static inline void tcg_out_vec_op(TCGContext *s, TCGOpcode opc, unsigned vecl,
+-                                  unsigned vece, const TCGArg *args,
+-                                  const int *const_args)
++static inline void tcg_out_vec_op(TCGContext *s, TCGOpcode opc,
++                                  unsigned vecl, unsigned vece,
++                                  const TCGArg args[TCG_MAX_OP_ARGS],
++                                  const int const_args[TCG_MAX_OP_ARGS])
+ {
+     g_assert_not_reached();
+ }
+diff --git a/tcg/aarch64/tcg-target.c.inc b/tcg/aarch64/tcg-target.c.inc
+index ab199b143f3..32811976e78 100644
+--- a/tcg/aarch64/tcg-target.c.inc
++++ b/tcg/aarch64/tcg-target.c.inc
+@@ -2276,7 +2276,8 @@ static void tcg_out_op(TCGContext *s, TCGOpcode opc,
+ 
+ static void tcg_out_vec_op(TCGContext *s, TCGOpcode opc,
+                            unsigned vecl, unsigned vece,
+-                           const TCGArg *args, const int *const_args)
++                           const TCGArg args[TCG_MAX_OP_ARGS],
++                           const int const_args[TCG_MAX_OP_ARGS])
+ {
+     static const AArch64Insn cmp_insn[16] = {
+         [TCG_COND_EQ] = I3616_CMEQ,
 diff --git a/tcg/i386/tcg-target.c.inc b/tcg/i386/tcg-target.c.inc
-index 46e856f4421..d121dca8789 100644
+index d121dca8789..87bf75735a1 100644
 --- a/tcg/i386/tcg-target.c.inc
 +++ b/tcg/i386/tcg-target.c.inc
-@@ -2215,7 +2215,8 @@ static void tcg_out_qemu_st(TCGContext *s, const TCGArg *args, bool is64)
- }
+@@ -2654,7 +2654,8 @@ static inline void tcg_out_op(TCGContext *s, TCGOpcode opc,
  
- static inline void tcg_out_op(TCGContext *s, TCGOpcode opc,
--                              const TCGArg *args, const int *const_args)
-+                              const TCGArg args[TCG_MAX_OP_ARGS],
-+                              const int const_args[TCG_MAX_OP_ARGS])
+ static void tcg_out_vec_op(TCGContext *s, TCGOpcode opc,
+                            unsigned vecl, unsigned vece,
+-                           const TCGArg *args, const int *const_args)
++                           const TCGArg args[TCG_MAX_OP_ARGS],
++                           const int const_args[TCG_MAX_OP_ARGS])
  {
-     TCGArg a0, a1, a2;
-     int c, const_a2, vexop, rexw = 0;
-diff --git a/tcg/mips/tcg-target.c.inc b/tcg/mips/tcg-target.c.inc
-index add157f6c32..b9bb54f0ecc 100644
---- a/tcg/mips/tcg-target.c.inc
-+++ b/tcg/mips/tcg-target.c.inc
-@@ -1691,7 +1691,8 @@ static void tcg_out_clz(TCGContext *s, MIPSInsn opcv2, MIPSInsn opcv6,
- }
+     static int const add_insn[4] = {
+         OPC_PADDB, OPC_PADDW, OPC_PADDD, OPC_PADDQ
+diff --git a/tcg/ppc/tcg-target.c.inc b/tcg/ppc/tcg-target.c.inc
+index 70b747a8a30..b8f5f8a53e1 100644
+--- a/tcg/ppc/tcg-target.c.inc
++++ b/tcg/ppc/tcg-target.c.inc
+@@ -3137,7 +3137,8 @@ static bool tcg_out_dupm_vec(TCGContext *s, TCGType type, unsigned vece,
  
- static inline void tcg_out_op(TCGContext *s, TCGOpcode opc,
--                              const TCGArg *args, const int *const_args)
-+                              const TCGArg args[TCG_MAX_OP_ARGS],
-+                              const int const_args[TCG_MAX_OP_ARGS])
+ static void tcg_out_vec_op(TCGContext *s, TCGOpcode opc,
+                            unsigned vecl, unsigned vece,
+-                           const TCGArg *args, const int *const_args)
++                           const TCGArg args[TCG_MAX_OP_ARGS],
++                           const int const_args[TCG_MAX_OP_ARGS])
  {
-     MIPSInsn i1, i2;
-     TCGArg a0, a1, a2;
-diff --git a/tcg/riscv/tcg-target.c.inc b/tcg/riscv/tcg-target.c.inc
-index c60b91ba58f..5bf0d069532 100644
---- a/tcg/riscv/tcg-target.c.inc
-+++ b/tcg/riscv/tcg-target.c.inc
-@@ -1238,7 +1238,8 @@ static void tcg_out_qemu_st(TCGContext *s, const TCGArg *args, bool is_64)
- static const tcg_insn_unit *tb_ret_addr;
- 
- static void tcg_out_op(TCGContext *s, TCGOpcode opc,
--                       const TCGArg *args, const int *const_args)
-+                       const TCGArg args[TCG_MAX_OP_ARGS],
-+                       const int const_args[TCG_MAX_OP_ARGS])
- {
-     TCGArg a0 = args[0];
-     TCGArg a1 = args[1];
-diff --git a/tcg/tci/tcg-target.c.inc b/tcg/tci/tcg-target.c.inc
-index d5a4d9d37cf..60464524f3d 100644
---- a/tcg/tci/tcg-target.c.inc
-+++ b/tcg/tci/tcg-target.c.inc
-@@ -553,8 +553,9 @@ static inline void tcg_out_call(TCGContext *s, const tcg_insn_unit *arg)
-     old_code_ptr[1] = s->code_ptr - old_code_ptr;
- }
- 
--static void tcg_out_op(TCGContext *s, TCGOpcode opc, const TCGArg *args,
--                       const int *const_args)
-+static void tcg_out_op(TCGContext *s, TCGOpcode opc,
-+                       const TCGArg args[TCG_MAX_OP_ARGS],
-+                       const int const_args[TCG_MAX_OP_ARGS])
- {
-     uint8_t *old_code_ptr = s->code_ptr;
- 
+     static const uint32_t
+         add_op[4] = { VADDUBM, VADDUHM, VADDUWM, VADDUDM },
 -- 
 2.26.2
 
