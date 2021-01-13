@@ -2,69 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id ED7172F4D36
-	for <lists+qemu-devel@lfdr.de>; Wed, 13 Jan 2021 15:36:35 +0100 (CET)
-Received: from localhost ([::1]:33444 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 73A602F4D37
+	for <lists+qemu-devel@lfdr.de>; Wed, 13 Jan 2021 15:36:49 +0100 (CET)
+Received: from localhost ([::1]:34792 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kzhGE-0001JK-Vo
-	for lists+qemu-devel@lfdr.de; Wed, 13 Jan 2021 09:36:35 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51494)
+	id 1kzhGS-0001sk-DW
+	for lists+qemu-devel@lfdr.de; Wed, 13 Jan 2021 09:36:48 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51656)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1kzgzO-0006TM-9h
- for qemu-devel@nongnu.org; Wed, 13 Jan 2021 09:19:10 -0500
-Received: from mail-ej1-x630.google.com ([2a00:1450:4864:20::630]:33794)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1kzgzM-0000aZ-3m
- for qemu-devel@nongnu.org; Wed, 13 Jan 2021 09:19:09 -0500
-Received: by mail-ej1-x630.google.com with SMTP id hs11so971173ejc.1
- for <qemu-devel@nongnu.org>; Wed, 13 Jan 2021 06:19:06 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=4ba04nNMTsC5ftrLqyU3H6IlZep1iCyrhQrz+n8zN9s=;
- b=XOsvBm9cpd+x0jD27MgMRA1cSKS25F7KuqMrglhtjykOq1RJxtEzHdAXi0KA878fYw
- z65tiql6k4Ao0NaEE47kX3YYLFSHAVVvoQ54KtKQ5pfTl1OKTHCbOn0SNOLaCrLu4rPv
- 7cofrHjRceMpIlP2sDbMq0PWB505IUAvnUuRIg9qdws/pZNXrwIrhed7PAgKzwkxv3dC
- XfyirhH3gKhiR6v7D8gFRbYU1yeLSOCBCIoV4v1BKAyDCNBPHvJtZM2NiQEMgUFMOB+9
- fJyWsOEh1pK28KB1bLogLj1xm28pXmEfKWyvFW2KfwvjnVWfyKzjiftuRCoTIGD9rFek
- gHAQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=4ba04nNMTsC5ftrLqyU3H6IlZep1iCyrhQrz+n8zN9s=;
- b=T/COu2R6tz8Aep8PoKDPkqvH/zZdmQUtTMbwdcSyU9j9GgAseAC7euD0apx1yZs9jZ
- On4vg4HggRxVlg4R34SfNr5r8kg5Zr7QfKiDVlHCW8ePtAKIh1PUO+XzVilDsgJ+aFA8
- GR1yE+nF1w1Tp7WpzzRipNjZHKvw5kgtXE+zYGb2NKfcs6H8AJd/H+IQ8llJUQg0ckLX
- MDOCCC3ulhGfw6Orry6O0ye3WazWxnG26T5LfuTOib7K1ikBVKLcVBc7I4L6RzcaS595
- 43G9BkUsl2InhStJNHz3Cv1odqYagCzAwAEwJ88vfwBmk4kaSH/okotf2XZrFepp5xMD
- 7ndQ==
-X-Gm-Message-State: AOAM531llZRZtwqoq2XuWUO8TPGhEZbQZmhjf/LNuPxyfEW9GtJBJRsp
- edGoW82/96/+qHMMU2v7/PYaHXEWhGZTIr1g0ItUhg==
-X-Google-Smtp-Source: ABdhPJx3cHkwsGopU5fsAHgrDoLYfb690Yc28TJGXzoF9YHB4+XbkliI3+zcacMLqWQVViU6tt3fOAPOacqf/Tu6+9Y=
-X-Received: by 2002:a17:906:31d2:: with SMTP id
- f18mr1672555ejf.407.1610547545580; 
- Wed, 13 Jan 2021 06:19:05 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1kzh0B-0007C6-Pp
+ for qemu-devel@nongnu.org; Wed, 13 Jan 2021 09:19:59 -0500
+Received: from 8.mo52.mail-out.ovh.net ([46.105.37.156]:47711)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1kzh09-0000np-O0
+ for qemu-devel@nongnu.org; Wed, 13 Jan 2021 09:19:59 -0500
+Received: from mxplan5.mail.ovh.net (unknown [10.108.20.2])
+ by mo52.mail-out.ovh.net (Postfix) with ESMTPS id 950352275A4;
+ Wed, 13 Jan 2021 15:19:43 +0100 (CET)
+Received: from kaod.org (37.59.142.97) by DAG4EX1.mxp5.local (172.16.2.31)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2044.4; Wed, 13 Jan
+ 2021 15:19:42 +0100
+Authentication-Results: garm.ovh; auth=pass
+ (GARM-97G0023663f81f-6b16-4ba3-8110-13f1b6800503,
+ 69814ACA4A0B6466BFE1559A3F030A21FAE98BAC) smtp.auth=clg@kaod.org
+X-OVh-ClientIp: 82.64.250.170
+Subject: Re: What's the correct way to implement rfi and related instruction.
+To: <luoyonggang@gmail.com>
+References: <CAE2XoE84K6vdQ23upRa1MaCNWSycUGKja9DrTpVCQ4bdY7bZuQ@mail.gmail.com>
+ <db5077c9-4b20-08f1-131e-0bbc7ae15313@kaod.org>
+ <CAE2XoE-Fc3Tc51uiDN70_6suHPwczdp9EcS_LirLK-txzgS+yw@mail.gmail.com>
+ <ef0eb70c-5b56-9850-2ad3-f12591cd6b4b@kaod.org>
+ <CAE2XoE-VAMPYwNcGYK_3fqKgy138VOx6JaaSHD+bvz-fkH_jZA@mail.gmail.com>
+ <96e02d87-3326-748d-9c97-de910b5b1533@kaod.org>
+ <CAE2XoE-QDj2=o-WZBFh8R2cDxqRLGvDVC6kt0q0xap_R7pB0Rg@mail.gmail.com>
+From: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>
+Message-ID: <0ad3cf87-7850-97a0-baf2-044547a0e575@kaod.org>
+Date: Wed, 13 Jan 2021 15:19:41 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.6.0
 MIME-Version: 1.0
-References: <20210112171450.791427-1-pbonzini@redhat.com>
-In-Reply-To: <20210112171450.791427-1-pbonzini@redhat.com>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Wed, 13 Jan 2021 14:18:54 +0000
-Message-ID: <CAFEAcA_Y58k69WwUHi2vcX7hxtfM+yMYq4XqBuYAkQ3iM8R7Xg@mail.gmail.com>
-Subject: Re: [PULL 00/20] Misc patches for 2021-01-12
-To: Paolo Bonzini <pbonzini@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2a00:1450:4864:20::630;
- envelope-from=peter.maydell@linaro.org; helo=mail-ej1-x630.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <CAE2XoE-QDj2=o-WZBFh8R2cDxqRLGvDVC6kt0q0xap_R7pB0Rg@mail.gmail.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+X-Originating-IP: [37.59.142.97]
+X-ClientProxiedBy: DAG2EX2.mxp5.local (172.16.2.12) To DAG4EX1.mxp5.local
+ (172.16.2.31)
+X-Ovh-Tracer-GUID: 02229049-0c20-4718-9e76-c2dc486b2d47
+X-Ovh-Tracer-Id: 107804916197591913
+X-VR-SPAMSTATE: OK
+X-VR-SPAMSCORE: -100
+X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedukedrtdefgdeifecutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfqggfjpdevjffgvefmvefgnecuuegrihhlohhuthemucehtddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpefuvfhfhffkffgfgggjtgfgihesthekredttdefjeenucfhrhhomhepveorughrihgtpgfnvggpifhorghtvghruceotghlgheskhgrohgurdhorhhgqeenucggtffrrghtthgvrhhnpeektedvveeltddvheehleegleefgeekveeuvdegjefhgeevffeiieekhffgfefggfenucffohhmrghinhepnhigphdrtghomhenucfkpheptddrtddrtddrtddpfeejrdehledrudegvddrleejnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmohguvgepshhmthhpqdhouhhtpdhhvghlohepmhigphhlrghnhedrmhgrihhlrdhovhhhrdhnvghtpdhinhgvtheptddrtddrtddrtddpmhgrihhlfhhrohhmpegtlhhgsehkrghougdrohhrghdprhgtphhtthhopehluhhohihonhhgghgrnhhgsehgmhgrihhlrdgtohhm
+Received-SPF: pass client-ip=46.105.37.156; envelope-from=clg@kaod.org;
+ helo=8.mo52.mail-out.ovh.net
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -77,37 +75,77 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: QEMU Developers <qemu-devel@nongnu.org>
+Cc: qemu-level <qemu-devel@nongnu.org>, qemu-ppc@nongnu.org,
+ Thomas Monjalon <thomas@monjalon.net>, Aurelien Jarno <aurelien@aurel32.net>,
+ David Gibson <david@gibson.dropbear.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, 12 Jan 2021 at 17:28, Paolo Bonzini <pbonzini@redhat.com> wrote:
->
-> The following changes since commit b3f846c59d8405bb87c551187721fc92ff2f1b92:
->
->   Merge remote-tracking branch 'remotes/huth-gitlab/tags/pull-request-2021-01-11v2' into staging (2021-01-11 15:15:35 +0000)
->
-> are available in the Git repository at:
->
->   https://gitlab.com/bonzini/qemu.git tags/for-upstream
->
-> for you to fetch changes up to c117e5b11a21598205f1701a15965e825959d59f:
->
->   target/i386: Use X86Seg enum for segment registers (2021-01-12 17:05:10 +0100)
->
-> ----------------------------------------------------------------
-> * UI configury cleanups and Meson conversion
-> * scripts/gdb improvements
-> * WHPX cleanups and fixes
-> * cirrus win32 CI improvements
-> * meson gnutls workaround
->
+On 1/12/21 2:52 PM, 罗勇刚(Yonggang Luo) wrote:
+> 
+> 
+> On Tue, Jan 12, 2021 at 5:23 PM Cédric Le Goater <clg@kaod.org <mailto:clg@kaod.org>> wrote:
+>>
+>> > QEMU 5.2.x, an e300 based machine ppc603 are impacted.
+>> > Here is my fix, narrowed down to  MSR_TGPR and  MSR_ILE
+>> > ```
+>> > From 42ce41671f1e6c4dd44e6fb481bbda9df09320bd Mon Sep 17 00:00:00 2001
+>> > From: Yonggang Luo <luoyonggang@gmail.com <mailto:luoyonggang@gmail.com> <mailto:luoyonggang@gmail.com <mailto:luoyonggang@gmail.com>>>
+>> > Date: Sun, 10 Jan 2021 00:08:00 -0800
+>> > Subject: [PATCH] ppc: Fix rfi/rfid/hrfi/... emulation again
+>> >
+>> > This revert part mask bits for ppc603/ppc4x that disabled in  a2e71b28e832346409efc795ecd1f0a2bcb705a3.
+>> > Remove redundant macro MSR_BOOK3S_MASK.
+>> > Fixes boot VxWorks on e300
+>> >
+>> > Signed-off-by: Yonggang Luo <luoyonggang@gmail.com <mailto:luoyonggang@gmail.com> <mailto:luoyonggang@gmail.com <mailto:luoyonggang@gmail.com>>>
+>> > ---
+>> >  target/ppc/excp_helper.c | 5 +++--
+>> >  1 file changed, 3 insertions(+), 2 deletions(-)
+>> >
+>> > diff --git a/target/ppc/excp_helper.c b/target/ppc/excp_helper.c
+>> > index 1c48b9fdf6..df70c5a4e8 100644
+>> > --- a/target/ppc/excp_helper.c
+>> > +++ b/target/ppc/excp_helper.c
+>> > @@ -1156,8 +1156,10 @@ static inline void do_rfi(CPUPPCState *env, target_ulong nip, target_ulong msr)
+>> >  {
+>> >      CPUState *cs = env_cpu(env);
+>> >  
+>> > -    /* MSR:POW cannot be set by any form of rfi */
+>> > +    /* MSR:POW,TGPR,ILE cannot be set by any form of rfi */
+>> >      msr &= ~(1ULL << MSR_POW);
+>> > +    msr &= ~(1ULL << MSR_TGPR);
+>>
+>> Indeed. The e300 user manual says that TGPR is cleared by rfi. We should
+>> add a per-cpu family mask and not a global setting.
+> Refer to https://www.nxp.com/docs/en/reference-manual/e300coreRM.pdf <https://www.nxp.com/docs/en/reference-manual/e300coreRM.pdf>
+> 
+> `Table 2-4. MSR Bit Settings`
+> 
+> ```
+>   Temporary GPR remapping (implementation-specific) 0 Normal operation 1 TGPR mode. GPR0–GPR3 are remapped to TGPR0–TGPR3 for use by TLB miss routines. The contents of GPR0–GPR3 remain unchanged while MSR[TGPR] = 1. Attempts to use GPR4–GPR31 with MSR[TGPR] = 1 yield undefined results. Temporarily replaces TGPR0–TGPR3 with GPR0–GPR3 for use by TLB miss routines. The TGPR bit is set when either an instruction TLB miss, data read miss, or data write miss interrupt is taken. The TGPR bit is cleared by an rfi instruction.  
+> ```
+>   
+>>
+>> > +    msr &= ~(1ULL << MSR_ILE);
+>>
+>> that's curious. I am still trying to understand that part. May be this is
+>> due to the lack of HID2 modeling which contains a "True little-endian" bit.
+> 
+> Don't understand this part, I am running VxWorks 6.9 on MPC8349EA
+> https://www.nxp.com/docs/en/reference-manual/MPC8349EARM.pdf <https://www.nxp.com/docs/en/reference-manual/MPC8349EARM.pdf>
+> 
+> Didn't got any idea about why  MSR_ILE are set
+> 
+>>
+>> Is your image Little endian ?
+>>
+> Big Endian vxworks image.
 
 
-Applied, thanks.
+Can you share the image ? and the QEMU command line ?
 
-Please update the changelog at https://wiki.qemu.org/ChangeLog/6.0
-for any user-visible changes.
+Thanks,
 
--- PMM
+C. 
 
