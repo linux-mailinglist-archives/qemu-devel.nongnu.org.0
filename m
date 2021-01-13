@@ -2,67 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B098B2F51C8
-	for <lists+qemu-devel@lfdr.de>; Wed, 13 Jan 2021 19:18:01 +0100 (CET)
-Received: from localhost ([::1]:55122 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E45522F5201
+	for <lists+qemu-devel@lfdr.de>; Wed, 13 Jan 2021 19:29:19 +0100 (CET)
+Received: from localhost ([::1]:37844 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kzkiW-0001mR-OE
-	for lists+qemu-devel@lfdr.de; Wed, 13 Jan 2021 13:18:00 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53748)
+	id 1kzktS-0007r6-EQ
+	for lists+qemu-devel@lfdr.de; Wed, 13 Jan 2021 13:29:18 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58266)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1kzkcR-0005LI-6R; Wed, 13 Jan 2021 13:11:43 -0500
-Received: from mail-io1-xd29.google.com ([2607:f8b0:4864:20::d29]:41496)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1kzkcO-0005tS-SM; Wed, 13 Jan 2021 13:11:42 -0500
-Received: by mail-io1-xd29.google.com with SMTP id q1so5971732ion.8;
- Wed, 13 Jan 2021 10:11:38 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=ChPvUSF+Da/Ky3+8I2uwkqQn2O3s/I/de+edvRfCnHo=;
- b=KNztZjMeJTghFee7C3GCN4TQTjl84vW2YhH2Fr1ysiWd+K6Sn6QKBpE6+a5YLa/lPx
- BVv1L1J/ArhYiQ2AkWyEv+4fRm1VFkfM/v1JyppFW4lyRqoKhKFte8YaW2VoRSY21ZuT
- s0lrkCw6/3y91M1n2DVyr3agGWqsUMV1d/eUw8tHugtmXGhp5pIZfhHoLkT/McliEPfb
- jkq3yDFv0GALlHO/Dk/hAS4na3tec9w58Rq8oNbb7XYlte+hbQ0uePq+NCBJNuktk7/+
- SFvC0tAcsgjlu7x2gyzZxyjb0KbHdDi9WqqqdsUYFl+nnn6AtCaYDkR8BDyGIU8y0UxB
- nWWQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=ChPvUSF+Da/Ky3+8I2uwkqQn2O3s/I/de+edvRfCnHo=;
- b=qZHv0h4RNOGUIAr8rJzIGaVwyrfgL2C0hnI0hfIbfoS53lneulc8C4hVNZzYzHUsiw
- Fuyh5wRvc/gEInnDc9S/wBJC+1ZrW3bOBZ/F/6ZyNPHHilhOjBnbm0oWD7zlDNIaoFo5
- fF6et3/I4CO4T4pioLN0VisPLqK8L6tNP5riANoFPtPHljzgu+JCabn70A4RLd7xxoSA
- 5j5wabC8hyueWZ7+ZokOUy3L+kkD7vm4ZshqU+4NSXnUfcaCJ+TVMW19QD5+noimR941
- tpdffPOjk7pxYqI/VaOtu2wVkMvEqg+uGjcOCkOm+LnGbGIH+BIcjIImTGtbpSlI1zAv
- uwvg==
-X-Gm-Message-State: AOAM532Dr/836Oz+q2GW97AkBmWe7MMe967XFeZjXvRrT8wjHbCMewIN
- qM/hbuUz4TXLwqIKvENe+8zWTTKZZsxLv5nqRnk=
-X-Google-Smtp-Source: ABdhPJzWKpZg2ElOH8x/7uPdatS9DYBxK4KAvDG8k9fPx/FvQ8VJj8GU7kNJhfYbUo7wLY07B3HQkh3SEm8NcIhlBkk=
-X-Received: by 2002:a5d:9514:: with SMTP id d20mr1313308iom.118.1610561498110; 
- Wed, 13 Jan 2021 10:11:38 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1kzkrz-0007MV-83
+ for qemu-devel@nongnu.org; Wed, 13 Jan 2021 13:27:47 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:54520)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1kzkrv-0002uj-Qa
+ for qemu-devel@nongnu.org; Wed, 13 Jan 2021 13:27:46 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1610562461;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=pMKKe6Y8ibf7/cwVFF7j0hjWm4biY1ZOge9XnwjBr7c=;
+ b=YXPDmKEoaRtmHTJXiAkhK74D0IB4z5fTORcV+rqFpFDszIocWwfXZWR6oN0Dii2icZ29lm
+ FnKYy+UE6KDnm6HDYeTzG8bE03QBvzCTanKFsux0Q3MHUo7sPnOFoEV3GT5rD0gxb3HWR0
+ y/J4Lgeoyn/pcj3fUvGnEHtmT4Aj+rg=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-568-hNPZJ08uNgKGk58kGirrnw-1; Wed, 13 Jan 2021 13:27:38 -0500
+X-MC-Unique: hNPZJ08uNgKGk58kGirrnw-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 65960180A097;
+ Wed, 13 Jan 2021 18:27:37 +0000 (UTC)
+Received: from [10.10.120.151] (ovpn-120-151.rdu2.redhat.com [10.10.120.151])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id AF20F5D9EF;
+ Wed, 13 Jan 2021 18:27:36 +0000 (UTC)
+Subject: Re: minimal "zero conf" build dockerfiles for fedora:latest and
+ alpine:latest
+To: Thomas Huth <thuth@redhat.com>, QEMU Developers <qemu-devel@nongnu.org>
+References: <a2f5077b-ae74-2b39-4fb8-70d29dd549eb@redhat.com>
+ <a56f2df6-867e-2542-734c-95c1ae3acf88@redhat.com>
+From: John Snow <jsnow@redhat.com>
+Message-ID: <7e46ebaf-e54f-0154-4b93-4488ffecb600@redhat.com>
+Date: Wed, 13 Jan 2021 13:27:35 -0500
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.6.0
 MIME-Version: 1.0
-References: <20201231113010.27108-1-bmeng.cn@gmail.com>
- <20201231113010.27108-16-bmeng.cn@gmail.com>
-In-Reply-To: <20201231113010.27108-16-bmeng.cn@gmail.com>
-From: Alistair Francis <alistair23@gmail.com>
-Date: Wed, 13 Jan 2021 10:11:11 -0800
-Message-ID: <CAKmqyKPNN30gCQqGxyvRAexnaGYDDnD9min8Yc1ZYU=KWioC-g@mail.gmail.com>
-Subject: Re: [PATCH 15/22] hw/sd: ssi-sd: Support multiple block write
-To: Bin Meng <bmeng.cn@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::d29;
- envelope-from=alistair23@gmail.com; helo=mail-io1-xd29.google.com
-X-Spam_score_int: -17
-X-Spam_score: -1.8
-X-Spam_bar: -
-X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+In-Reply-To: <a56f2df6-867e-2542-734c-95c1ae3acf88@redhat.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=jsnow@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=jsnow@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -29
+X-Spam_score: -3.0
+X-Spam_bar: ---
+X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.25,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -76,93 +82,114 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "open list:RISC-V" <qemu-riscv@nongnu.org>,
- Qemu-block <qemu-block@nongnu.org>, Bin Meng <bin.meng@windriver.com>,
- =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>,
- "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
- Alistair Francis <alistair.francis@wdc.com>
+Cc: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, Dec 31, 2020 at 3:47 AM Bin Meng <bmeng.cn@gmail.com> wrote:
->
-> From: Bin Meng <bin.meng@windriver.com>
->
-> For a multiple block write operation, each block begins with a multi
-> write start token. Unlike the SD mode that the multiple block write
-> ends when receiving a STOP_TRAN command (CMD12), a special stop tran
-> tocken is used to signal the card.
->
-> Emulating this by manually sending a CMD12 to the SD card core, to
-> bring it out of the receiving data state.
->
-> Signed-off-by: Bin Meng <bin.meng@windriver.com>
+On 1/13/21 1:48 AM, Thomas Huth wrote:
+> On 12/01/2021 23.37, John Snow wrote:
+>> I wanted to know what the minimal setup required was to replicate the 
+>> compilation instructions featured on 
+>> https://www.qemu.org/download/#source
+> [...]
+>  >      pixman-devel \
+> 
+> pixman is only required for the softmmu and tools targets. If you just 
+> build the linux-user targets, you can even get rid of this.
+> 
 
-Acked-by: Alistair Francis <alistair.francis@wdc.com>
+Sure; the intent was to figure out what happens if you run the 
+instructions from the website without explicitly disabling anything.
 
-Alistair
+What will you get by default?
 
-> ---
->
->  hw/sd/ssi-sd.c | 26 ++++++++++++++++++++++++--
->  1 file changed, 24 insertions(+), 2 deletions(-)
->
-> diff --git a/hw/sd/ssi-sd.c b/hw/sd/ssi-sd.c
-> index 21a96e91f0..6cf5d749c7 100644
-> --- a/hw/sd/ssi-sd.c
-> +++ b/hw/sd/ssi-sd.c
-> @@ -99,6 +99,8 @@ OBJECT_DECLARE_SIMPLE_TYPE(ssi_sd_state, SSI_SD)
->  static uint32_t ssi_sd_transfer(SSIPeripheral *dev, uint32_t val)
->  {
->      ssi_sd_state *s = SSI_SD(dev);
-> +    SDRequest request;
-> +    uint8_t longresp[16];
->
->      /* Special case: allow CMD12 (STOP TRANSMISSION) while reading data.  */
->      if (s->mode == SSI_SD_DATA_READ && val == 0x4c) {
-> @@ -115,9 +117,31 @@ static uint32_t ssi_sd_transfer(SSIPeripheral *dev, uint32_t val)
->              return SSI_DUMMY;
->              break;
->          case SSI_TOKEN_SINGLE:
-> +        case SSI_TOKEN_MULTI_WRITE:
->              DPRINTF("Start write block\n");
->              s->mode = SSI_SD_DATA_WRITE;
->              return SSI_DUMMY;
-> +        case SSI_TOKEN_STOP_TRAN:
-> +            DPRINTF("Stop multiple write\n");
-> +
-> +            /* manually issue cmd12 to stop the transfer */
-> +            request.cmd = 12;
-> +            request.arg = 0;
-> +            s->arglen = sdbus_do_command(&s->sdbus, &request, longresp);
-> +            if (s->arglen <= 0) {
-> +                s->arglen = 1;
-> +                /* a zero value indicates the card is busy */
-> +                s->response[0] = 0;
-> +                DPRINTF("SD card busy\n");
-> +            } else {
-> +                s->arglen = 1;
-> +                /* a non-zero value indicates the card is ready */
-> +                s->response[0] = SSI_DUMMY;
-> +            }
-> +
-> +            s->mode = SSI_SD_RESPONSE;
-> +            s->response_pos = 0;
-> +            return SSI_DUMMY;
->          }
->
->          s->cmd = val & 0x3f;
-> @@ -126,8 +150,6 @@ static uint32_t ssi_sd_transfer(SSIPeripheral *dev, uint32_t val)
->          return SSI_DUMMY;
->      case SSI_SD_CMDARG:
->          if (s->arglen == 4) {
-> -            SDRequest request;
-> -            uint8_t longresp[16];
->              /* FIXME: Check CRC.  */
->              request.cmd = s->cmd;
->              request.arg = ldl_be_p(s->cmdarg);
-> --
-> 2.25.1
->
->
+softmmu by default is probably a pretty reasonable thing to want to 
+build, so I'd say pixman will have to stick around in our minimal 
+dependency list for now; though if we were to translate this experiment 
+to the website, it'd be worth noting that pixman is only required for 
+some, but not all, binaries like you say.
+
+(If there was some way to build softmmu without pixman by default, that 
+would be pretty interesting, though. I suppose it would involve 
+disabling all spice/vnc/graphics devices entirely? It doesn't seem 
+tremendously important, but pixman does stick out as the lone very 
+particular dependency for a minimal build.)
+
+> [...]
+>> Notes:
+>>
+>> - our configure file suggests bzip2 is an optional dependency (It's 
+>> set to 'auto') but meson will error out if it is not present at 
+>> configuration time:
+>>
+>>      ../pc-bios/meson.build:5:2: ERROR: Program 'bzip2' not found
+> 
+> IIRC it's required for compressing the edk2 firmware images, so if you 
+> compile without x86 and arm, you don't need it. Maybe it would be good 
+> to add a check for this to the configure script, too?
+> 
+
+It already is erroring out when meson runs, so I think it's probably 
+fine. Just something to document.
+
+>> - diffutils is required for the qapi-schema test, which runs at build 
+>> time.
+> 
+> We should maybe add a check for "diff" to the configure script?
+> 
+
+It's in tests/qapi-schema/meson.build already, so I think it's sufficient.
+
+>> - early on in the build process, an error "bash: find: command not 
+>> found" can be seen, but it doesn't seem to cause a failure otherwise.
+>>
+>> - perl is not declared as a hard pre-requisite during configure time, 
+>> but the build will error out if it is not present:
+>>
+>> [254/8314] Generating texture-blit-frag.h with a meson_exe.py custom 
+>> command
+>> FAILED: ui/shader/texture-blit-frag.h
+>> /usr/bin/python3 /qemu-5.2.0/meson/meson.py --internal exe --capture 
+>> ui/shader/texture-blit-frag.h -- /usr/bin/env perl 
+>> /qemu-5.2.0/scripts/shaderinclude.pl ../ui/shader/texture-blit.frag
+>> /usr/bin/env: ‘perl’: No such file or directory
+> 
+> shaderinclude.pl seems to be pretty small, maybe it could be rewritten 
+> in python?
+> 
+
+Maybe; Paolo has replied to you as well, but this is just the first perl 
+script that so happens to run. There might be others.
+
+Drawing down on perl long-term is probably nice to do, but it's probably 
+not a priority. For now, we have both perl and python as build 
+dependencies. Let's document and move on.
+
+>> - bash has to be installed explicitly. configure/meson do not check 
+>> for it, but the build will fail if they aren't present.
+> 
+> IIRC we were able to compile without bash before the meson conversion, 
+> just some parts like the iotests needed the bash (at least that's why we 
+> have a check for bash in tests/check-block.sh for example). Where is it 
+> failing now?
+> 
+>> - musl seems to work alright, but does throw a ton of warnings. I 
+>> didn't actually run any tests, since they require more dependencies.
+>>
+>> - linux-user binaries can't be compiled because alpine's usage of 
+>> musl; I didn't look much more closely.
+> 
+> There were some related patches on the list recently, look for the 
+> "Alpine Linux build fix and CI pipeline" patch series.
+> 
+
+Glad to see someone else thought it would be worthwhile to support 
+Alpine. There may be interesting use cases for building alpine QEMU 
+containers that are configured for extremely particular use cases, to be 
+deployed as a utility.
+
+--js
+
 
