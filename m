@@ -2,50 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 113EB2F47A3
-	for <lists+qemu-devel@lfdr.de>; Wed, 13 Jan 2021 10:33:02 +0100 (CET)
-Received: from localhost ([::1]:50846 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A2FC72F47A7
+	for <lists+qemu-devel@lfdr.de>; Wed, 13 Jan 2021 10:35:39 +0100 (CET)
+Received: from localhost ([::1]:59196 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kzcWS-0006i5-HY
-	for lists+qemu-devel@lfdr.de; Wed, 13 Jan 2021 04:33:00 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58142)
+	id 1kzcZ0-0001mj-Hh
+	for lists+qemu-devel@lfdr.de; Wed, 13 Jan 2021 04:35:38 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58264)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <shiliyang@huawei.com>)
- id 1kzcUA-0005TK-Nb
- for qemu-devel@nongnu.org; Wed, 13 Jan 2021 04:30:38 -0500
-Received: from szxga06-in.huawei.com ([45.249.212.32]:2586)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <shiliyang@huawei.com>)
- id 1kzcU7-0002af-Te
- for qemu-devel@nongnu.org; Wed, 13 Jan 2021 04:30:38 -0500
-Received: from DGGEMS404-HUB.china.huawei.com (unknown [172.30.72.58])
- by szxga06-in.huawei.com (SkyGuard) with ESMTP id 4DG2GB3Kttzj5lM;
- Wed, 13 Jan 2021 17:29:38 +0800 (CST)
-Received: from [10.108.235.13] (10.108.235.13) by
- DGGEMS404-HUB.china.huawei.com (10.3.19.204) with Microsoft SMTP Server id
- 14.3.498.0; Wed, 13 Jan 2021 17:30:17 +0800
-To: <qemu-devel@nongnu.org>, <peter.maydell@linaro.org>
-From: shiliyang <shiliyang@huawei.com>
-Subject: [PATCH V3 0/4] bsd-user: Fix some code style problems
-Message-ID: <b820b729-88a8-1103-b7a7-b66b637947d9@huawei.com>
-Date: Wed, 13 Jan 2021 17:30:16 +0800
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
- Thunderbird/78.4.0
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1kzcUk-0005jE-Es
+ for qemu-devel@nongnu.org; Wed, 13 Jan 2021 04:31:14 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:44070)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1kzcUd-0002uk-Pm
+ for qemu-devel@nongnu.org; Wed, 13 Jan 2021 04:31:13 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1610530266;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=KvhlDdfBGWu6AhQ7NsEqQcf75MMZzJGduUWZpTAioDI=;
+ b=grwqZDMwOZObcbcIU5DubDmqCWe/cQphRII15q3eT1cSPYmjKB5eTUQa/K/UQM4wvaz2S1
+ nNmpWRNXEj8tNAnp0TmZqt5njMcYbuL2xosRONl48gDh28TuPOcc68t5OrEPrEvVBTmVJ3
+ 8Z/Ue7OOOeY6AAknsFkF8alk+904oKQ=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-556-ji4ANzAEMqeNK0Oge6N_gw-1; Wed, 13 Jan 2021 04:31:04 -0500
+X-MC-Unique: ji4ANzAEMqeNK0Oge6N_gw-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 4B39C80A5C0;
+ Wed, 13 Jan 2021 09:31:03 +0000 (UTC)
+Received: from blackfin.pond.sub.org (ovpn-112-172.ams2.redhat.com
+ [10.36.112.172])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id F21C5100164C;
+ Wed, 13 Jan 2021 09:31:02 +0000 (UTC)
+Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
+ id 7E25F11386A7; Wed, 13 Jan 2021 10:31:01 +0100 (CET)
+From: Markus Armbruster <armbru@redhat.com>
+To: qemu-devel@nongnu.org
+Subject: [PULL 0/7] Yank patches patches for 2021-01-13
+Date: Wed, 13 Jan 2021 10:30:54 +0100
+Message-Id: <20210113093101.550964-1-armbru@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.108.235.13]
-X-CFilter-Loop: Reflected
-Received-SPF: pass client-ip=45.249.212.32; envelope-from=shiliyang@huawei.com;
- helo=szxga06-in.huawei.com
-X-Spam_score_int: -41
-X-Spam_score: -4.2
-X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
- RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=armbru@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=armbru@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -29
+X-Spam_score: -3.0
+X-Spam_bar: ---
+X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.251,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -58,32 +76,60 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: alex.chen@huawei.com, hunongda@huawei.com
+Cc: peter.maydell@linaro.org, lukasstraub2@web.de
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This patch series fixes error style problems found by checkpatch.pl.
+This pull request is on behalf of Lukas.  Hope that's okay.
 
-V2->V3:
-Make the patch into a series.
+The following changes since commit f8e1d8852e393b3fd524fb005e38590063d99bc0:
 
-V1->V2:
-Add cover letter message.
-Fix some style error in patch file before.
+  Merge remote-tracking branch 'remotes/pmaydell/tags/pull-target-arm-20210112-1' into staging (2021-01-12 21:23:25 +0000)
 
-Liyang Shi (4):
-  bsd-user: "foo * bar" should be "foo *bar"
-  bsd-user: suspect code indent for conditional statements
-  bsd-user: space required after semicolon
-  bsd-user: do not use C99 // comments
+are available in the Git repository at:
 
- bsd-user/bsdload.c |  6 +++---
- bsd-user/elfload.c | 38 +++++++++++++++++++-------------------
- bsd-user/qemu.h    | 14 +++++++-------
- bsd-user/syscall.c |  6 +++---
- 4 files changed, 32 insertions(+), 32 deletions(-)
+  git://repo.or.cz/qemu/armbru.git tags/pull-yank-2021-01-13
+
+for you to fetch changes up to 91d48e520a4a4f72e97aeb333029694f5d57cc93:
+
+  tests/test-char.c: Wait for the chardev to connect in char_socket_client_dupid_test (2021-01-13 10:21:17 +0100)
+
+----------------------------------------------------------------
+Yank patches patches for 2021-01-13
+
+----------------------------------------------------------------
+Lukas Straub (7):
+      Introduce yank feature
+      block/nbd.c: Add yank feature
+      chardev/char-socket.c: Add yank feature
+      migration: Add yank feature
+      io/channel-tls.c: make qio_channel_tls_shutdown thread-safe
+      io: Document qmp oob suitability of qio_channel_shutdown and io_shutdown
+      tests/test-char.c: Wait for the chardev to connect in char_socket_client_dupid_test
+
+ qapi/qapi-schema.json         |   1 +
+ qapi/yank.json                | 119 ++++++++++++++++++++++++
+ include/io/channel.h          |   5 +-
+ include/qemu/yank.h           |  97 ++++++++++++++++++++
+ block/nbd.c                   | 153 ++++++++++++++++++-------------
+ chardev/char-socket.c         |  34 +++++++
+ io/channel-tls.c              |   6 +-
+ migration/channel.c           |  13 +++
+ migration/migration.c         |  22 +++++
+ migration/multifd.c           |  10 ++
+ migration/qemu-file-channel.c |   7 ++
+ migration/savevm.c            |   5 +
+ tests/test-char.c             |   1 +
+ util/yank.c                   | 207 ++++++++++++++++++++++++++++++++++++++++++
+ MAINTAINERS                   |   7 ++
+ qapi/meson.build              |   1 +
+ util/meson.build              |   1 +
+ 17 files changed, 625 insertions(+), 64 deletions(-)
+ create mode 100644 qapi/yank.json
+ create mode 100644 include/qemu/yank.h
+ create mode 100644 util/yank.c
 
 -- 
-2.29.1.59.gf9b6481aed
+2.26.2
 
 
