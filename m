@@ -2,67 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3BE842F4D09
-	for <lists+qemu-devel@lfdr.de>; Wed, 13 Jan 2021 15:24:52 +0100 (CET)
-Received: from localhost ([::1]:44376 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7C6BC2F4D19
+	for <lists+qemu-devel@lfdr.de>; Wed, 13 Jan 2021 15:29:35 +0100 (CET)
+Received: from localhost ([::1]:51924 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kzh4t-0001kG-7w
-	for lists+qemu-devel@lfdr.de; Wed, 13 Jan 2021 09:24:51 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51018)
+	id 1kzh9S-0005E0-Bi
+	for lists+qemu-devel@lfdr.de; Wed, 13 Jan 2021 09:29:34 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51264)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1kzgwe-00049W-Q6
- for qemu-devel@nongnu.org; Wed, 13 Jan 2021 09:16:20 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:53350)
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1kzgxn-00054X-Qg
+ for qemu-devel@nongnu.org; Wed, 13 Jan 2021 09:17:33 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:27505)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1kzgwQ-0007sX-Hj
- for qemu-devel@nongnu.org; Wed, 13 Jan 2021 09:16:20 -0500
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1kzgxi-0008Sq-Ou
+ for qemu-devel@nongnu.org; Wed, 13 Jan 2021 09:17:31 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1610547360;
+ s=mimecast20190719; t=1610547446;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=TKgfLNuUvsdw7Cvxnxl33qHmPgDU0Gmgww3LrK37CyI=;
- b=MSfrxriU4PlxTwave0uL8s1RKNJBEl7z7zFQRpiXzUDDzaYN7k1PtmiI78NmJMVUy7vgLS
- 2EgHbPnwcuqRoP6rrRXOiHRjMV+UQXr7ngURq0T5388Ha/Ry144Ws+MQVbO2tovpJCfPpv
- CmPwuE4LK6PaVixGvoWSbHl325oqbvA=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-81-2H36RPrtPlK_to1BLS-F7A-1; Wed, 13 Jan 2021 09:15:58 -0500
-X-MC-Unique: 2H36RPrtPlK_to1BLS-F7A-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 76145800C7A;
- Wed, 13 Jan 2021 14:15:19 +0000 (UTC)
-Received: from localhost (ovpn-115-141.ams2.redhat.com [10.36.115.141])
- by smtp.corp.redhat.com (Postfix) with ESMTP id D73E25D9DD;
- Wed, 13 Jan 2021 14:15:18 +0000 (UTC)
-Date: Wed, 13 Jan 2021 14:15:17 +0000
-From: Stefan Hajnoczi <stefanha@redhat.com>
-To: BALATON Zoltan <balaton@eik.bme.hu>
-Subject: Re: [PATCH 1/2] trace: document how to specify multiple --trace
- patterns
-Message-ID: <20210113141517.GB255928@stefanha-x1.localdomain>
-References: <20210112165859.225534-1-stefanha@redhat.com>
- <20210112165859.225534-2-stefanha@redhat.com>
- <542c6083-37ef-8a7c-7b24-f1e4f8dbff3@eik.bme.hu>
- <20210113094804.GA250553@stefanha-x1.localdomain>
- <afd6945e-2666-1b80-70c8-27564cf5ac5@eik.bme.hu>
+ bh=qsKgoSsBPHBafxq+IO1/8gsOoDt/jc36Bb72jePkO88=;
+ b=EalX6Tk0tYmMG1lMJfoQiEgo0xZyTp4Ube1FdzFvje9zns3DgwPna/dNMzxoSGyx42gTHn
+ ZTWNBctayFIFRLdVDOSBCduETIW37JSoMlPhAhY1CjrRzzlmKMYC2ikYxMswbSGvHUCm7M
+ iOBA5C3U6czaFKDDgcBxfa2uEkvsz4c=
+Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
+ [209.85.128.69]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-313-b5OymlsGMIGFYoR3ghOFkQ-1; Wed, 13 Jan 2021 09:17:24 -0500
+X-MC-Unique: b5OymlsGMIGFYoR3ghOFkQ-1
+Received: by mail-wm1-f69.google.com with SMTP id r5so888390wma.2
+ for <qemu-devel@nongnu.org>; Wed, 13 Jan 2021 06:17:24 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=qsKgoSsBPHBafxq+IO1/8gsOoDt/jc36Bb72jePkO88=;
+ b=Oy4jQO7ohruUHV3kLBHOnezmnw3MKYvCCRyoMpTKb3ggAnKzcZl2qodFXvtZv/tX4S
+ OlDjJU2Q/PpaU1V7YpKGmdJxiBIMY2YDW4ZF/iuBedCWYJeqjQg7rrt/PG9t2e8VaUoQ
+ 16/6ktbsc4jWRs/8Prh4LSO6tulGw/9EcayrbJICnI6oiAEFZW1Qrfx0I5nkHKWWhiQK
+ qGaf0jZ6H7GdR80AznymMbm9laeTk3hp/rkCr/avU3jVVjr1R08dNZDrFcdMUW6xUZIx
+ 34CwvjaAHPCp97/c5coKxHRGI3vS2NnyMDxr6j9ECLtnfA9Xq0SFsEkWJKel3a6igSox
+ RmzA==
+X-Gm-Message-State: AOAM5331U+D7Y741nl8ih5xw8dl5qFfCWyQE4qFglV6vuM8hsm5sZTIX
+ puRGfHWPKtYvDWVn5g2V40CL5itvOxxMzsiU5juZ/zykjriQsBwX6G1Tb/Zy7TgTAZ6iBYBHTIh
+ ZXp1MW0vtVQVuUt8=
+X-Received: by 2002:a7b:c145:: with SMTP id z5mr2416572wmi.164.1610547443421; 
+ Wed, 13 Jan 2021 06:17:23 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJyA92qztUUeMjCjpKpMkyM9ERkrG2eeoO8uqsj4wo3xf4dM9HGEPbXyIwOFnuknGIsNVVfwiw==
+X-Received: by 2002:a7b:c145:: with SMTP id z5mr2416539wmi.164.1610547443116; 
+ Wed, 13 Jan 2021 06:17:23 -0800 (PST)
+Received: from redhat.com (bzq-79-178-32-166.red.bezeqint.net. [79.178.32.166])
+ by smtp.gmail.com with ESMTPSA id u6sm3960698wrm.90.2021.01.13.06.17.20
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 13 Jan 2021 06:17:22 -0800 (PST)
+Date: Wed, 13 Jan 2021 09:17:19 -0500
+From: "Michael S. Tsirkin" <mst@redhat.com>
+To: Marian Posteuca <posteuca@mutex.one>
+Subject: Re: [PATCH v3] acpi: Permit OEM ID and OEM table ID fields to be
+ changed
+Message-ID: <20210113091555-mutt-send-email-mst@kernel.org>
+References: <20201230221302.26800-1-posteuca@mutex.one>
+ <20210106182430.6bf1823a@redhat.com> <87bldvldsl.fsf@mutex.one>
 MIME-Version: 1.0
-In-Reply-To: <afd6945e-2666-1b80-70c8-27564cf5ac5@eik.bme.hu>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+In-Reply-To: <87bldvldsl.fsf@mutex.one>
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=stefanha@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mst@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="hQiwHBbRI9kgIhsi"
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=stefanha@redhat.com;
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=mst@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -29
 X-Spam_score: -3.0
@@ -83,111 +92,44 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
- John Snow <jsnow@redhat.com>, qemu-devel@nongnu.org,
- Markus Armbruster <armbru@redhat.com>
+Cc: Peter Maydell <peter.maydell@linaro.org>, Sergio Lopez <slp@redhat.com>,
+ Eduardo Habkost <ehabkost@redhat.com>, Ben Warren <ben@skyportsystems.com>,
+ Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org,
+ Dongjiu Geng <gengdongjiu@huawei.com>, Shannon Zhao <shannon.zhaosl@gmail.com>,
+ Xiang Zheng <zhengxiang9@huawei.com>, qemu-arm@nongnu.org,
+ Paolo Bonzini <pbonzini@redhat.com>, Igor Mammedov <imammedo@redhat.com>,
+ Xiao Guangrong <xiaoguangrong.eric@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---hQiwHBbRI9kgIhsi
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+On Mon, Jan 11, 2021 at 04:59:54PM +0200, Marian Posteuca wrote:
+> Igor Mammedov <imammedo@redhat.com> writes:
+> 
+> > overall looks good.
+> > Please add a test case for it, see
+> > tests/qtest/bios-tables-test.c for description how to do it
+> > an/or at
+> >   "[PATCH v3 08/12] tests/acpi: allow updates for expected data files"
+> > and follow up patches on the list.
+> When you say add a test case, do you mean only updating the binary
+> files in tests/data/acpi/{microvm,pc,q35,virt} according to the steps
+> at the start of the file bios-tables-test.c? Or do you also mean an actual
+> test case to be added in bios-tables-test.c?
+> 
+> Also the step 6 described in bios-tables-test.c mentions that the diff of
+> the ACPI table must be added to the commit log, but my change touches
+> all the tables for all architectures so that would mean that I would
+> have to create a huge commit log. How should I approach this?
 
-On Wed, Jan 13, 2021 at 01:51:17PM +0100, BALATON Zoltan wrote:
-> On Wed, 13 Jan 2021, Stefan Hajnoczi wrote:
-> > On Tue, Jan 12, 2021 at 09:44:03PM +0100, BALATON Zoltan wrote:
-> > > On Tue, 12 Jan 2021, Stefan Hajnoczi wrote:
-> > > > It is possible to repeat the --trace option to specify multiple
-> > > > patterns. This may be preferrable to users who do not want to creat=
-e a
-> > > > file with a list of patterns.
-> > > >=20
-> > > > Suggested-by: BALATON Zoltan <balaton@eik.bme.hu>
-> > > > Signed-off-by: Stefan Hajnoczi <stefanha@redhat.com>
-> > > > ---
-> > > > docs/devel/tracing.rst | 9 +++++++--
-> > > > 1 file changed, 7 insertions(+), 2 deletions(-)
-> > > >=20
-> > > > diff --git a/docs/devel/tracing.rst b/docs/devel/tracing.rst
-> > > > index 4ebf8e38ea..8777c19d14 100644
-> > > > --- a/docs/devel/tracing.rst
-> > > > +++ b/docs/devel/tracing.rst
-> > > > @@ -22,10 +22,15 @@ events::
-> > > > This output comes from the "log" trace backend that is enabled by d=
-efault when
-> > > > ``./configure --enable-trace-backends=3DBACKENDS`` was not explicit=
-ly specified.
-> > > >=20
-> > > > -More than one trace event pattern can be specified by providing a =
-file
-> > > > -instead::
-> > > > +Multiple patterns can be specified by repeating the ``--trace`` op=
-tion::
-> > > > +
-> > > > +    $ qemu --trace "kvm_*" --trace "virtio_*" ...
-> > >=20
-> > > QEMU options are single dash with double dash accepted for compatibil=
-ity but
-> > > help and other docs have single dash so these (and below) should be -=
-trace.
-> > > (Also a bit less typing for otherwise already way too long command li=
-nes.)
-> >=20
-> > Is this documented somewhere?
->=20
-> Maybe qemu-system-* -help ?
+If the changes are the same, you can just write:
+the change is the same across all architectures,
+and show it.
 
-I mean developer documentation like CODING_STYLE.rst so we can point to
-that when someone submits a patch that does not use the preferred
-syntax.
+Something I just tripped over: make sure not to
+include "---" lines in the diff. Otherwise git am
+can not apply the resulting patch.
 
-> > I was under the impression that '-' is legacy syntax and '--' is the
-> > preferred syntax. There are examples of '--' on the QEMU man page.
->=20
-> -- is also accepted but they are the same as single dash options. Some to=
-ols
-> may have -- syntax preferred but not QEMU itself. If so that may be an
-> inconsistency.
->=20
-> > Let's reach agreement, document it, and then make the documentation
-> > consistent.
->=20
-> Since we don't have long and short arguments for the same options (like
-> -m,--memory) I think -- does not make much sense. Also single dash is les=
-s
-> typing and there are other programs using the same convention (e.g. whole=
- X
-> Window System) so I think the current one dash options are fine and shoul=
-d
-> be kept consistent. As long as we can agree on this I can agree with that=
-.
-> :-)
-
-I'm fine with either (or even using both interchangeably) but want to
-make sure it's agreed for all of QEMU so we can really follow it and
-don't need to spend time on it in the future.
-
-Kevin: You used '--' in qemu-storage-daemon --help. Does this mean you
-want QEMU to stop using '-'?
-
-Stefan
-
---hQiwHBbRI9kgIhsi
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAl//AHUACgkQnKSrs4Gr
-c8jAJwf9E2q/Wo1k2Ij4qagzarlsV5i+dpFmtjFv39Q8EV0C3yIK0cPEN7VKCPxd
-pDgRdrfg2dRyDuHx3ijzF2VZQmuUSpO0OMDlDDdQjBcllhDADzqlJXetjw7jTSy2
-u0f1Znmb6ZmSmexH7JJ7ZPGcKzR4b8u4YRtir1KWYvpEFTArbXccQM6uQkz0xPWv
-jrrxjmpxhe1ZILeQJLMP5j/Bt794kO7fsB2Gj646ncVlk/gLAnnAWQGFBnHLb16A
-0M4ED+g7xWW7933rE34ejrJzj26tUO3kYvP9nzqPabdnmXcR96etf3H7VYh7tDhV
-zt5JYvFQG3wkG12ibg/7PSGo7BFB8A==
-=QGaH
------END PGP SIGNATURE-----
-
---hQiwHBbRI9kgIhsi--
+-- 
+MST
 
 
