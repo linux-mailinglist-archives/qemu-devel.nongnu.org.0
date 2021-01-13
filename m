@@ -2,52 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 738022F42AE
-	for <lists+qemu-devel@lfdr.de>; Wed, 13 Jan 2021 04:57:26 +0100 (CET)
-Received: from localhost ([::1]:35100 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 473C12F4285
+	for <lists+qemu-devel@lfdr.de>; Wed, 13 Jan 2021 04:31:18 +0100 (CET)
+Received: from localhost ([::1]:54888 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kzXHh-0004tW-1R
-	for lists+qemu-devel@lfdr.de; Tue, 12 Jan 2021 22:57:25 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40164)
+	id 1kzWsP-0007on-Ap
+	for lists+qemu-devel@lfdr.de; Tue, 12 Jan 2021 22:31:17 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35382)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1kzXFw-00041S-1y; Tue, 12 Jan 2021 22:55:36 -0500
-Received: from ozlabs.org ([2401:3900:2:1::2]:43101)
+ (Exim 4.90_1) (envelope-from <r.bolshakov@yadro.com>)
+ id 1kzWr5-00076e-L4
+ for qemu-devel@nongnu.org; Tue, 12 Jan 2021 22:29:55 -0500
+Received: from mta-02.yadro.com ([89.207.88.252]:33752 helo=mta-01.yadro.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1kzXFs-00021b-0M; Tue, 12 Jan 2021 22:55:35 -0500
-Received: by ozlabs.org (Postfix, from userid 1007)
- id 4DFtrW0Jfdz9sVk; Wed, 13 Jan 2021 14:55:22 +1100 (AEDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=gibson.dropbear.id.au; s=201602; t=1610510123;
- bh=o7jXXA2x7GaNbEYM/sFXeiqik+g/ZU0VZqQwQ7IcERk=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=AVWI8b1Ih8PLZQU8EUPb6fZwb0Als/xvHN+pUXR4G/24xnkdlGtDeK1neaQes+J38
- icvzVQFzC4ETsAg/lKNdLsjTfxAjVf1FxRJVaMuRT53PxGau2O+dPuVm3cxRcwoo3Y
- rfJDjViwsUcYNXfNGLDghMRbuIs+AVqZLbQ0I/Tw=
-Date: Wed, 13 Jan 2021 13:09:28 +1100
-From: David Gibson <david@gibson.dropbear.id.au>
-To: Daniel =?iso-8859-1?Q?P=2E_Berrang=E9?= <berrange@redhat.com>
-Subject: Re: [PATCH v6 02/13] confidential guest support: Introduce new
- confidential guest support class
-Message-ID: <20210113020928.GK435587@yekko.fritz.box>
-References: <20210112044508.427338-1-david@gibson.dropbear.id.au>
- <20210112044508.427338-3-david@gibson.dropbear.id.au>
- <20210112094617.GB1360503@redhat.com>
+ (Exim 4.90_1) (envelope-from <r.bolshakov@yadro.com>)
+ id 1kzWr3-0007lk-4L
+ for qemu-devel@nongnu.org; Tue, 12 Jan 2021 22:29:55 -0500
+Received: from localhost (unknown [127.0.0.1])
+ by mta-01.yadro.com (Postfix) with ESMTP id C0645412FC;
+ Wed, 13 Jan 2021 03:29:50 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=yadro.com; h=
+ content-type:content-type:content-transfer-encoding:mime-version
+ :x-mailer:message-id:date:date:subject:subject:from:from
+ :received:received:received; s=mta-01; t=1610508588; x=
+ 1612322989; bh=kp5dFxIcIBZu7xl47ldJ3t9jE42yKrH7/RPBI9fOeME=; b=A
+ FUfarRMD0lkL0cxPuB4Y1O3zqu/E4xcfEB4SoxG31fDuEltFhI7LBdHztjcyT4RR
+ iEjr9R4evbh6mWHYT51p7Olb9VZMHE1uv+eg+AkO/pZ8PREC8B8Mufws9RzhgKPb
+ 18K6WYF6imoNKjkM+MqvlWLMOah1W/Bw3qYfl5LWTU=
+X-Virus-Scanned: amavisd-new at yadro.com
+Received: from mta-01.yadro.com ([127.0.0.1])
+ by localhost (mta-01.yadro.com [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id pdoNP_-VX4Wj; Wed, 13 Jan 2021 06:29:48 +0300 (MSK)
+Received: from T-EXCH-03.corp.yadro.com (t-exch-03.corp.yadro.com
+ [172.17.100.103])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by mta-01.yadro.com (Postfix) with ESMTPS id 8636D411F9;
+ Wed, 13 Jan 2021 06:29:48 +0300 (MSK)
+Received: from localhost (172.17.204.212) by T-EXCH-03.corp.yadro.com
+ (172.17.100.103) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384_P384) id 15.1.669.32; Wed, 13
+ Jan 2021 06:29:48 +0300
+From: Roman Bolshakov <r.bolshakov@yadro.com>
+To: <qemu-devel@nongnu.org>
+Subject: [PATCH v3] tcg: Fix execution on Apple Silicon
+Date: Wed, 13 Jan 2021 06:28:07 +0300
+Message-ID: <20210113032806.18220-1-r.bolshakov@yadro.com>
+X-Mailer: git-send-email 2.30.0
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="Qo8f1a4rgWw9S/zY"
-Content-Disposition: inline
-In-Reply-To: <20210112094617.GB1360503@redhat.com>
-Received-SPF: pass client-ip=2401:3900:2:1::2; envelope-from=dgibson@ozlabs.org;
- helo=ozlabs.org
-X-Spam_score_int: -17
-X-Spam_score: -1.8
-X-Spam_bar: -
-X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, HEADER_FROM_DIFFERENT_DOMAINS=0.249,
- SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=no autolearn_force=no
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-Originating-IP: [172.17.204.212]
+X-ClientProxiedBy: T-EXCH-01.corp.yadro.com (172.17.10.101) To
+ T-EXCH-03.corp.yadro.com (172.17.100.103)
+Received-SPF: pass client-ip=89.207.88.252; envelope-from=r.bolshakov@yadro.com;
+ helo=mta-01.yadro.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -60,194 +76,186 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: pair@us.ibm.com, Marcelo Tosatti <mtosatti@redhat.com>,
- brijesh.singh@amd.com, kvm@vger.kernel.org, david@redhat.com,
- qemu-devel@nongnu.org, frankja@linux.ibm.com, pragyansri.pathi@intel.com,
- mst@redhat.com, mdroth@linux.vnet.ibm.com, pasic@linux.ibm.com,
- Christian Borntraeger <borntraeger@de.ibm.com>, andi.kleen@intel.com,
- thuth@redhat.com, Eduardo Habkost <ehabkost@redhat.com>,
- richard.henderson@linaro.org, dgilbert@redhat.com, Greg Kurz <groug@kaod.org>,
- qemu-s390x@nongnu.org, jun.nakajima@intel.com,
- Cornelia Huck <cohuck@redhat.com>, qemu-ppc@nongnu.org,
- Paolo Bonzini <pbonzini@redhat.com>
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ Roman Bolshakov <r.bolshakov@yadro.com>, Alexander Graf <agraf@csgraf.de>,
+ Joelle van Dyne <j@getutm.app>, Stefan Hajnoczi <stefanha@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>,
+ =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+Pages can't be both write and executable at the same time on Apple
+Silicon. macOS provides public API to switch write protection [1] for
+JIT applications, like TCG.
 
---Qo8f1a4rgWw9S/zY
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+1. https://developer.apple.com/documentation/apple_silicon/porting_just-in-time_compilers_to_apple_silicon
 
-On Tue, Jan 12, 2021 at 09:46:17AM +0000, Daniel P. Berrang=E9 wrote:
-> On Tue, Jan 12, 2021 at 03:44:57PM +1100, David Gibson wrote:
-> > Several architectures have mechanisms which are designed to protect gue=
-st
-> > memory from interference or eavesdropping by a compromised hypervisor. =
- AMD
-> > SEV does this with in-chip memory encryption and Intel's MKTME can do
-> > similar things.  POWER's Protected Execution Framework (PEF) accomplish=
-es a
-> > similar goal using an ultravisor and new memory protection features,
-> > instead of encryption.
-> >=20
-> > To (partially) unify handling for these, this introduces a new
-> > ConfidentialGuestSupport QOM base class.  "Confidential" is kind of vag=
-ue,
-> > but "confidential computing" seems to be the buzzword about these schem=
-es,
-> > and "secure" or "protected" are often used in connection to unrelated
-> > things (such as hypervisor-from-guest or guest-from-guest security).
-> >=20
-> > The "support" in the name is significant because in at least some of the
-> > cases it requires the guest to take specific actions in order to protect
-> > itself from hypervisor eavesdropping.
-> >=20
-> > Signed-off-by: David Gibson <david@gibson.dropbear.id.au>
-> > ---
-> >  backends/confidential-guest-support.c     | 30 +++++++++++++++
-> >  backends/meson.build                      |  1 +
-> >  include/exec/confidential-guest-support.h | 46 +++++++++++++++++++++++
-> >  include/qemu/typedefs.h                   |  1 +
-> >  target/i386/sev.c                         |  3 +-
-> >  5 files changed, 80 insertions(+), 1 deletion(-)
-> >  create mode 100644 backends/confidential-guest-support.c
-> >  create mode 100644 include/exec/confidential-guest-support.h
-> >=20
-> > diff --git a/backends/confidential-guest-support.c b/backends/confident=
-ial-guest-support.c
-> > new file mode 100644
-> > index 0000000000..2c7793c74f
-> > --- /dev/null
-> > +++ b/backends/confidential-guest-support.c
-> > @@ -0,0 +1,30 @@
-> > +/*
-> > + * QEMU Confidential Guest support
-> > + *
-> > + * Copyright: David Gibson, Red Hat Inc. 2020
-> > + *
-> > + * Authors:
-> > + *  David Gibson <david@gibson.dropbear.id.au>
-> > + *
-> > + * This work is licensed under the terms of the GNU GPL, version 2 or
-> > + * later.  See the COPYING file in the top-level directory.
-> > + *
-> > + */
-> > +
-> > +#include "qemu/osdep.h"
-> > +
-> > +#include "exec/confidential-guest-support.h"
-> > +
-> > +static const TypeInfo confidential_guest_support_info =3D {
-> > +    .parent =3D TYPE_OBJECT,
-> > +    .name =3D TYPE_CONFIDENTIAL_GUEST_SUPPORT,
-> > +    .class_size =3D sizeof(ConfidentialGuestSupportClass),
-> > +    .instance_size =3D sizeof(ConfidentialGuestSupport),
-> > +};
-> > +
-> > +static void confidential_guest_support_register_types(void)
-> > +{
-> > +    type_register_static(&confidential_guest_support_info);
-> > +}
-> > +
-> > +type_init(confidential_guest_support_register_types)
->=20
-> This should all be replaced by OBJECT_DEFINE_TYPE
+Signed-off-by: Roman Bolshakov <r.bolshakov@yadro.com>
+---
+v2: https://lists.gnu.org/archive/html/qemu-devel/2021-01/msg00146.html
+Changes since v2:
+ - Wrapped pthread_jit_write_protect_np() with __builtin_available() [1]
+   to allow build with modern SDK while targeting older macOS (Joelle)
+ - Dropped redundant calls to pthread_jit_write_protect_supported_np()
+   (Alex)
 
-Ah, didn't know about that one.  I also appear to be the first user...
+v1: https://lists.gnu.org/archive/html/qemu-devel/2021-01/msg00073.html
+Changes since v1:
 
-> > diff --git a/backends/meson.build b/backends/meson.build
-> > index 484456ece7..d4221831fc 100644
-> > --- a/backends/meson.build
-> > +++ b/backends/meson.build
-> > @@ -6,6 +6,7 @@ softmmu_ss.add([files(
-> >    'rng-builtin.c',
-> >    'rng-egd.c',
-> >    'rng.c',
-> > +  'confidential-guest-support.c',
-> >  ), numa])
-> > =20
-> >  softmmu_ss.add(when: 'CONFIG_POSIX', if_true: files('rng-random.c'))
-> > diff --git a/include/exec/confidential-guest-support.h b/include/exec/c=
-onfidential-guest-support.h
-> > new file mode 100644
-> > index 0000000000..f9cf170802
-> > --- /dev/null
-> > +++ b/include/exec/confidential-guest-support.h
-> > @@ -0,0 +1,46 @@
-> > +/*
-> > + * QEMU Confidential Guest support
-> > + *   This interface describes the common pieces between various
-> > + *   schemes for protecting guest memory or other state against a
-> > + *   compromised hypervisor.  This includes memory encryption (AMD's
-> > + *   SEV and Intel's MKTME) or special protection modes (PEF on POWER,
-> > + *   or PV on s390x).
-> > + *
-> > + * Copyright: David Gibson, Red Hat Inc. 2020
-> > + *
-> > + * Authors:
-> > + *  David Gibson <david@gibson.dropbear.id.au>
-> > + *
-> > + * This work is licensed under the terms of the GNU GPL, version 2 or
-> > + * later.  See the COPYING file in the top-level directory.
-> > + *
-> > + */
-> > +#ifndef QEMU_CONFIDENTIAL_GUEST_SUPPORT_H
-> > +#define QEMU_CONFIDENTIAL_GUEST_SUPPORT_H
-> > +
-> > +#ifndef CONFIG_USER_ONLY
-> > +
-> > +#include "qom/object.h"
-> > +
-> > +#define TYPE_CONFIDENTIAL_GUEST_SUPPORT "confidential-guest-support"
-> > +#define CONFIDENTIAL_GUEST_SUPPORT(obj)                               =
-     \
-> > +    OBJECT_CHECK(ConfidentialGuestSupport, (obj),                     =
-     \
-> > +                 TYPE_CONFIDENTIAL_GUEST_SUPPORT)
-> > +#define CONFIDENTIAL_GUEST_SUPPORT_CLASS(klass)                       =
-     \
-> > +    OBJECT_CLASS_CHECK(ConfidentialGuestSupportClass, (klass),        =
-     \
-> > +                       TYPE_CONFIDENTIAL_GUEST_SUPPORT)
-> > +#define CONFIDENTIAL_GUEST_SUPPORT_GET_CLASS(obj)                     =
-     \
-> > +    OBJECT_GET_CLASS(ConfidentialGuestSupportClass, (obj),            =
-     \
-> > +                     TYPE_CONFIDENTIAL_GUEST_SUPPORT)
-> > +
->=20
-> This should all be replaced by  OBJECT_DECLARE_TYPE
+ - Pruned not needed fiddling with W^X and dropped symmetry from write
+   lock/unlock and renamed related functions.
+   Similar approach is used in JavaScriptCore [2].
 
-Also done, no thanks to the incorrect documentation in
-docs/devel/qom.rst (it says OBJECT_DECLARE_SIMPLE_TYPE takes 4
-arguments rather than 2.
+ - Moved jit helper functions to util/osdep
+																		  As outlined in osdep.h, this matches to (2):
+   * In an ideal world this header would contain only:
+   *  (1) things which everybody needs
+   *  (2) things without which code would work on most platforms but
+   *      fail to compile or misbehave on a minority of host OSes
 
---=20
-David Gibson			| I'll have my music baroque, and my code
-david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
-				| _way_ _around_!
-http://www.ozlabs.org/~dgibson
+ - Fixed a checkpatch error
 
---Qo8f1a4rgWw9S/zY
-Content-Type: application/pgp-signature; name="signature.asc"
+ - Limit new behaviour only to macOS 11.0 and above, because of the
+   following declarations:
 
------BEGIN PGP SIGNATURE-----
+   __API_AVAILABLE(macos(11.0))
+   __API_UNAVAILABLE(ios, tvos, watchos)
+   void pthread_jit_write_protect_np(int enabled);
 
-iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAl/+VlYACgkQbDjKyiDZ
-s5I7hw//TEYwsjDu6VQzuX+y0rVU7OWCIuPQn4G+soTK4Nav5/yBGkQniKwF2x0l
-x4ujV5oszyBXwCDw9GPvrb2HSxC7q8PmPk6Dv+iT+A/R6s6qtqW7q1KPBwaj4EAj
-S0Zu46DJZDC45dMcRpabDm0hUuyCUoqumyOmUBUIYx/Q7IQiR8A478RWEjkr8hvR
-oBenmG+1YCkiEG3Ruh6n3RDZ2W8yBlLP5tvhm3KxaJJPDit8zt/0k6pc0HmqKyVY
-JCFzu0phwNRb0Ksyqr0mh4+p1hYyvEh6Q9obXRKzZJ+ssyH5GYbayHsGh/O0KXhb
-V5huqmFk1iCXFVW7Pan2y2szvOv6i/fH7Pyx01/kaEo1wonll8oiq4Xg6QsvJG1I
-LRxLi2lmKjClDGpzgGD8ReJ1Oz3ABnHf58517UHN8NVbNBRl/aMmAV6utPEyjJ/f
-Qp9+hfbaLsgbmTQRBs/JOml+PpahmmFHQMiD02nlM1oMiiC1iq7Is0SuShegDrCO
-JY5CRIfePoB8tLORzCvmcfQJYbXoWtjt18NTtfWTgTZgsSLY/cgVikU7WPRAIyV5
-EYMiiOoyCsnJyrhrFJX79+Z7DLfpM7JJz0oNI7cZS5B+BdeLrTLBx9FvFZ6m/I4L
-eQ6ciI1vhDqF5EsENIZ1g9jBUC2BQ+Bf2BMziGP9+xY3Toe3etY=
-=gIdm
------END PGP SIGNATURE-----
+   __API_AVAILABLE(macos(11.0))
+   __API_UNAVAILABLE(ios, tvos, watchos)
+   int pthread_jit_write_protect_supported_np(void);
 
---Qo8f1a4rgWw9S/zY--
+ 1. https://developer.apple.com/videos/play/wwdc2017/411/
+ 2. https://bugs.webkit.org/attachment.cgi?id=402515&action=prettypatch
+
+ accel/tcg/cpu-exec.c      |  2 ++
+ accel/tcg/translate-all.c |  9 +++++++++
+ include/qemu/osdep.h      |  7 +++++++
+ tcg/tcg.c                 |  1 +
+ util/osdep.c              | 20 ++++++++++++++++++++
+ 5 files changed, 39 insertions(+)
+
+diff --git a/accel/tcg/cpu-exec.c b/accel/tcg/cpu-exec.c
+index e0df9b6a1d..014810bf0a 100644
+--- a/accel/tcg/cpu-exec.c
++++ b/accel/tcg/cpu-exec.c
+@@ -185,6 +185,7 @@ cpu_tb_exec(CPUState *cpu, TranslationBlock *itb, int *tb_exit)
+     }
+ #endif /* DEBUG_DISAS */
+ 
++    qemu_thread_jit_execute();
+     ret = tcg_qemu_tb_exec(env, tb_ptr);
+     cpu->can_do_io = 1;
+     /*
+@@ -405,6 +406,7 @@ static inline void tb_add_jump(TranslationBlock *tb, int n,
+ {
+     uintptr_t old;
+ 
++    qemu_thread_jit_write();
+     assert(n < ARRAY_SIZE(tb->jmp_list_next));
+     qemu_spin_lock(&tb_next->jmp_lock);
+ 
+diff --git a/accel/tcg/translate-all.c b/accel/tcg/translate-all.c
+index e9de6ff9dd..f5f4c7cc17 100644
+--- a/accel/tcg/translate-all.c
++++ b/accel/tcg/translate-all.c
+@@ -1083,6 +1083,12 @@ static bool alloc_code_gen_buffer_anon(size_t size, int prot,
+ {
+     void *buf;
+ 
++#if defined(MAC_OS_VERSION_11_0) && \
++    MAC_OS_X_VERSION_MAX_ALLOWED >= MAC_OS_VERSION_11_0
++    if (__builtin_available(macOS 11.0, *)) {
++        flags |= MAP_JIT;
++    }
++#endif
+     buf = mmap(NULL, size, prot, flags, -1, 0);
+     if (buf == MAP_FAILED) {
+         error_setg_errno(errp, errno,
+@@ -1669,7 +1675,9 @@ static void do_tb_phys_invalidate(TranslationBlock *tb, bool rm_from_page_list)
+ 
+ static void tb_phys_invalidate__locked(TranslationBlock *tb)
+ {
++    qemu_thread_jit_write();
+     do_tb_phys_invalidate(tb, true);
++    qemu_thread_jit_execute();
+ }
+ 
+ /* invalidate one TB
+@@ -1871,6 +1879,7 @@ TranslationBlock *tb_gen_code(CPUState *cpu,
+ #endif
+ 
+     assert_memory_lock();
++    qemu_thread_jit_write();
+ 
+     phys_pc = get_page_addr_code(env, pc);
+ 
+diff --git a/include/qemu/osdep.h b/include/qemu/osdep.h
+index f9ec8c84e9..929e970b0e 100644
+--- a/include/qemu/osdep.h
++++ b/include/qemu/osdep.h
+@@ -123,6 +123,10 @@ extern int daemon(int, int);
+ #include "sysemu/os-posix.h"
+ #endif
+ 
++#ifdef __APPLE__
++#include <AvailabilityMacros.h>
++#endif
++
+ #include "glib-compat.h"
+ #include "qemu/typedefs.h"
+ 
+@@ -686,4 +690,7 @@ char *qemu_get_host_name(Error **errp);
+  */
+ size_t qemu_get_host_physmem(void);
+ 
++void qemu_thread_jit_write(void);
++void qemu_thread_jit_execute(void);
++
+ #endif
+diff --git a/tcg/tcg.c b/tcg/tcg.c
+index 472bf1755b..16b044eae7 100644
+--- a/tcg/tcg.c
++++ b/tcg/tcg.c
+@@ -1112,6 +1112,7 @@ void tcg_prologue_init(TCGContext *s)
+     s->pool_labels = NULL;
+ #endif
+ 
++    qemu_thread_jit_write();
+     /* Generate the prologue.  */
+     tcg_target_qemu_prologue(s);
+ 
+diff --git a/util/osdep.c b/util/osdep.c
+index 66d01b9160..e211939a0c 100644
+--- a/util/osdep.c
++++ b/util/osdep.c
+@@ -606,3 +606,23 @@ writev(int fd, const struct iovec *iov, int iov_cnt)
+     return readv_writev(fd, iov, iov_cnt, true);
+ }
+ #endif
++
++#if defined(MAC_OS_VERSION_11_0) && \
++    MAC_OS_X_VERSION_MAX_ALLOWED >= MAC_OS_VERSION_11_0
++void qemu_thread_jit_execute(void)
++{
++    if (__builtin_available(macOS 11.0, *)) {
++        pthread_jit_write_protect_np(true);
++    }
++}
++
++void qemu_thread_jit_write(void)
++{
++    if (__builtin_available(macOS 11.0, *)) {
++        pthread_jit_write_protect_np(false);
++    }
++}
++#else
++void qemu_thread_jit_write(void) {}
++void qemu_thread_jit_execute(void) {}
++#endif
+-- 
+2.30.0
+
 
