@@ -2,62 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6D2192F47A9
-	for <lists+qemu-devel@lfdr.de>; Wed, 13 Jan 2021 10:36:42 +0100 (CET)
-Received: from localhost ([::1]:33182 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B26D92F47A6
+	for <lists+qemu-devel@lfdr.de>; Wed, 13 Jan 2021 10:33:41 +0100 (CET)
+Received: from localhost ([::1]:52706 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kzca0-0002lS-0c
-	for lists+qemu-devel@lfdr.de; Wed, 13 Jan 2021 04:36:41 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58342)
+	id 1kzcX6-0007Vs-Nd
+	for lists+qemu-devel@lfdr.de; Wed, 13 Jan 2021 04:33:40 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58318)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1kzcUp-0005qk-5r
- for qemu-devel@nongnu.org; Wed, 13 Jan 2021 04:31:19 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:51071)
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1kzcUm-0005mF-UU
+ for qemu-devel@nongnu.org; Wed, 13 Jan 2021 04:31:16 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:30583)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1kzcUn-0002yx-93
- for qemu-devel@nongnu.org; Wed, 13 Jan 2021 04:31:18 -0500
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1kzcUh-0002w7-5j
+ for qemu-devel@nongnu.org; Wed, 13 Jan 2021 04:31:16 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1610530276;
+ s=mimecast20190719; t=1610530270;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=dNoqFKciYpD2Rf40H647CpXZfveEzCJUnYLa1QVvBnY=;
- b=QMGyNdA8AVUEaJLPeAy+ny5FRYyv4VbwHY/0NBamfGccU8j9jP0S9n8d8hNPFSaWzLn0j6
- wvA2PxUPcOjZQ/K6CPuIJWeVp172sDEhn4cGotktwWy5Nk7alQf8ymXPYaUB/zpcilh6/p
- ViB8jfmXPdMD3UH7Z3Jfd7IMR7OeNYc=
+ bh=U+mhYbQMvbCArKcO6oUbSAe+a6SOuQxc5n96c2USsKo=;
+ b=VBb9J4QWtUYRS7OWJenxFj+EPRYSQDZL3Eeiu56lQGixBQzcIUkl4er2al0y0MiP8g310I
+ WPr4OVy609gg/zOZPXTO6Altaep+Z18Ztuc2lgRHC+lMaa5fkuAC1K2USPV6FoCc09t1ye
+ 5TBE3vUdRj6yFCMvXEMKbwS9ijouakw=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-433-NcLqVPx8NBSCB93BlhHSbw-1; Wed, 13 Jan 2021 04:31:12 -0500
-X-MC-Unique: NcLqVPx8NBSCB93BlhHSbw-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
+ us-mta-231-V8RSYQyONaOe4lBUV_DyEg-1; Wed, 13 Jan 2021 04:31:08 -0500
+X-MC-Unique: V8RSYQyONaOe4lBUV_DyEg-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 586C21005D44;
- Wed, 13 Jan 2021 09:31:11 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id D9CFD800050;
+ Wed, 13 Jan 2021 09:31:06 +0000 (UTC)
 Received: from blackfin.pond.sub.org (ovpn-112-172.ams2.redhat.com
  [10.36.112.172])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 0D44270484;
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 1637560938;
  Wed, 13 Jan 2021 09:31:03 +0000 (UTC)
 Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id 8B9841138613; Wed, 13 Jan 2021 10:31:01 +0100 (CET)
+ id 8F8881138617; Wed, 13 Jan 2021 10:31:01 +0100 (CET)
 From: Markus Armbruster <armbru@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 3/7] chardev/char-socket.c: Add yank feature
-Date: Wed, 13 Jan 2021 10:30:57 +0100
-Message-Id: <20210113093101.550964-4-armbru@redhat.com>
+Subject: [PULL 4/7] migration: Add yank feature
+Date: Wed, 13 Jan 2021 10:30:58 +0100
+Message-Id: <20210113093101.550964-5-armbru@redhat.com>
 In-Reply-To: <20210113093101.550964-1-armbru@redhat.com>
 References: <20210113093101.550964-1-armbru@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=armbru@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="US-ASCII"
 Received-SPF: pass client-ip=216.205.24.124; envelope-from=armbru@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -29
@@ -80,139 +80,231 @@ List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: peter.maydell@linaro.org, lukasstraub2@web.de,
- Stefan Hajnoczi <stefanha@redhat.com>,
- =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>
+ "Dr . David Alan Gilbert" <dgilbert@redhat.com>,
+ Stefan Hajnoczi <stefanha@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Lukas Straub <lukasstraub2@web.de>
 
-Register a yank function to shutdown the socket on yank.
+Register yank functions on sockets to shut them down.
 
 Signed-off-by: Lukas Straub <lukasstraub2@web.de>
 Acked-by: Stefan Hajnoczi <stefanha@redhat.com>
-Message-Id: <1f4eeed1d066c6cbb8d05ffa9585f6e87b34aac6.1609167865.git.lukasstraub2@web.de>
-Acked-by: Marc-André Lureau <marcandre.lureau@redhat.com>
+Acked-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
+Message-Id: <484c6a14cc2506bebedd5a237259b91363ff8f88.1609167865.git.lukasstraub2@web.de>
 Signed-off-by: Markus Armbruster <armbru@redhat.com>
 ---
- chardev/char-socket.c | 34 ++++++++++++++++++++++++++++++++++
- 1 file changed, 34 insertions(+)
+ migration/channel.c           | 13 +++++++++++++
+ migration/migration.c         | 22 ++++++++++++++++++++++
+ migration/multifd.c           | 10 ++++++++++
+ migration/qemu-file-channel.c |  7 +++++++
+ migration/savevm.c            |  5 +++++
+ 5 files changed, 57 insertions(+)
 
-diff --git a/chardev/char-socket.c b/chardev/char-socket.c
-index 213a4c8dd0..8a707d766c 100644
---- a/chardev/char-socket.c
-+++ b/chardev/char-socket.c
-@@ -34,6 +34,7 @@
+diff --git a/migration/channel.c b/migration/channel.c
+index 8a783baa0b..35fe234e9c 100644
+--- a/migration/channel.c
++++ b/migration/channel.c
+@@ -18,6 +18,8 @@
+ #include "trace.h"
  #include "qapi/error.h"
- #include "qapi/clone-visitor.h"
- #include "qapi/qapi-visit-sockets.h"
+ #include "io/channel-tls.h"
++#include "io/channel-socket.h"
 +#include "qemu/yank.h"
  
- #include "chardev/char-io.h"
- #include "qom/object.h"
-@@ -70,6 +71,7 @@ struct SocketChardev {
-     size_t read_msgfds_num;
-     int *write_msgfds;
-     size_t write_msgfds_num;
-+    bool registered_yank;
+ /**
+  * @migration_channel_process_incoming - Create new incoming migration channel
+@@ -35,6 +37,11 @@ void migration_channel_process_incoming(QIOChannel *ioc)
+     trace_migration_set_incoming_channel(
+         ioc, object_get_typename(OBJECT(ioc)));
  
-     SocketAddress *addr;
-     bool is_listen;
-@@ -415,6 +417,12 @@ static void tcp_chr_free_connection(Chardev *chr)
- 
-     tcp_set_msgfds(chr, NULL, 0);
-     remove_fd_in_watch(chr);
-+    if (s->state == TCP_CHARDEV_STATE_CONNECTING
-+        || s->state == TCP_CHARDEV_STATE_CONNECTED) {
-+        yank_unregister_function(CHARDEV_YANK_INSTANCE(chr->label),
-+                                 yank_generic_iochannel,
-+                                 QIO_CHANNEL(s->sioc));
++    if (object_dynamic_cast(OBJECT(ioc), TYPE_QIO_CHANNEL_SOCKET)) {
++        yank_register_function(MIGRATION_YANK_INSTANCE, yank_generic_iochannel,
++                               QIO_CHANNEL(ioc));
 +    }
-     object_unref(OBJECT(s->sioc));
-     s->sioc = NULL;
-     object_unref(OBJECT(s->ioc));
-@@ -932,6 +940,9 @@ static int tcp_chr_add_client(Chardev *chr, int fd)
-     }
-     tcp_chr_change_state(s, TCP_CHARDEV_STATE_CONNECTING);
-     tcp_chr_set_client_ioc_name(chr, sioc);
-+    yank_register_function(CHARDEV_YANK_INSTANCE(chr->label),
-+                           yank_generic_iochannel,
-+                           QIO_CHANNEL(sioc));
-     ret = tcp_chr_new_client(chr, sioc);
-     object_unref(OBJECT(sioc));
-     return ret;
-@@ -946,6 +957,9 @@ static void tcp_chr_accept(QIONetListener *listener,
++
+     if (s->parameters.tls_creds &&
+         *s->parameters.tls_creds &&
+         !object_dynamic_cast(OBJECT(ioc),
+@@ -67,6 +74,12 @@ void migration_channel_connect(MigrationState *s,
+         ioc, object_get_typename(OBJECT(ioc)), hostname, error);
  
-     tcp_chr_change_state(s, TCP_CHARDEV_STATE_CONNECTING);
-     tcp_chr_set_client_ioc_name(chr, cioc);
-+    yank_register_function(CHARDEV_YANK_INSTANCE(chr->label),
-+                           yank_generic_iochannel,
-+                           QIO_CHANNEL(cioc));
-     tcp_chr_new_client(chr, cioc);
+     if (!error) {
++        if (object_dynamic_cast(OBJECT(ioc), TYPE_QIO_CHANNEL_SOCKET)) {
++            yank_register_function(MIGRATION_YANK_INSTANCE,
++                                   yank_generic_iochannel,
++                                   QIO_CHANNEL(ioc));
++        }
++
+         if (s->parameters.tls_creds &&
+             *s->parameters.tls_creds &&
+             !object_dynamic_cast(OBJECT(ioc),
+diff --git a/migration/migration.c b/migration/migration.c
+index a5da718baa..d5136419bf 100644
+--- a/migration/migration.c
++++ b/migration/migration.c
+@@ -57,6 +57,7 @@
+ #include "net/announce.h"
+ #include "qemu/queue.h"
+ #include "multifd.h"
++#include "qemu/yank.h"
+ 
+ #ifdef CONFIG_VFIO
+ #include "hw/vfio/vfio-common.h"
+@@ -255,6 +256,8 @@ void migration_incoming_state_destroy(void)
+         qapi_free_SocketAddressList(mis->socket_address_list);
+         mis->socket_address_list = NULL;
+     }
++
++    yank_unregister_instance(MIGRATION_YANK_INSTANCE);
  }
  
-@@ -961,6 +975,9 @@ static int tcp_chr_connect_client_sync(Chardev *chr, Error **errp)
-         object_unref(OBJECT(sioc));
-         return -1;
-     }
-+    yank_register_function(CHARDEV_YANK_INSTANCE(chr->label),
-+                           yank_generic_iochannel,
-+                           QIO_CHANNEL(sioc));
-     tcp_chr_new_client(chr, sioc);
-     object_unref(OBJECT(sioc));
-     return 0;
-@@ -976,6 +993,9 @@ static void tcp_chr_accept_server_sync(Chardev *chr)
-     tcp_chr_change_state(s, TCP_CHARDEV_STATE_CONNECTING);
-     sioc = qio_net_listener_wait_client(s->listener);
-     tcp_chr_set_client_ioc_name(chr, sioc);
-+    yank_register_function(CHARDEV_YANK_INSTANCE(chr->label),
-+                           yank_generic_iochannel,
-+                           QIO_CHANNEL(sioc));
-     tcp_chr_new_client(chr, sioc);
-     object_unref(OBJECT(sioc));
- }
-@@ -1086,6 +1106,9 @@ static void char_socket_finalize(Object *obj)
-         object_unref(OBJECT(s->tls_creds));
-     }
-     g_free(s->tls_authz);
-+    if (s->registered_yank) {
-+        yank_unregister_instance(CHARDEV_YANK_INSTANCE(chr->label));
-+    }
+ static void migrate_generate_event(int new_state)
+@@ -416,6 +419,10 @@ static void qemu_start_incoming_migration(const char *uri, Error **errp)
+ {
+     const char *p = NULL;
  
-     qemu_chr_be_event(chr, CHR_EVENT_CLOSED);
- }
-@@ -1101,6 +1124,9 @@ static void qemu_chr_socket_connected(QIOTask *task, void *opaque)
- 
-     if (qio_task_propagate_error(task, &err)) {
-         tcp_chr_change_state(s, TCP_CHARDEV_STATE_DISCONNECTED);
-+        yank_unregister_function(CHARDEV_YANK_INSTANCE(chr->label),
-+                                 yank_generic_iochannel,
-+                                 QIO_CHANNEL(sioc));
-         check_report_connect_error(chr, err);
-         goto cleanup;
-     }
-@@ -1134,6 +1160,9 @@ static void tcp_chr_connect_client_async(Chardev *chr)
-     tcp_chr_change_state(s, TCP_CHARDEV_STATE_CONNECTING);
-     sioc = qio_channel_socket_new();
-     tcp_chr_set_client_ioc_name(chr, sioc);
-+    yank_register_function(CHARDEV_YANK_INSTANCE(chr->label),
-+                           yank_generic_iochannel,
-+                           QIO_CHANNEL(sioc));
-     /*
-      * Normally code would use the qio_channel_socket_connect_async
-      * method which uses a QIOTask + qio_task_set_error internally
-@@ -1376,6 +1405,11 @@ static void qmp_chardev_open_socket(Chardev *chr,
-         qemu_chr_set_feature(chr, QEMU_CHAR_FEATURE_FD_PASS);
-     }
- 
-+    if (!yank_register_instance(CHARDEV_YANK_INSTANCE(chr->label), errp)) {
++    if (!yank_register_instance(MIGRATION_YANK_INSTANCE, errp)) {
 +        return;
 +    }
-+    s->registered_yank = true;
 +
-     /* be isn't opened until we get a connection */
-     *be_opened = false;
+     qapi_event_send_migration(MIGRATION_STATUS_SETUP);
+     if (strstart(uri, "tcp:", &p) ||
+         strstart(uri, "unix:", NULL) ||
+@@ -430,6 +437,7 @@ static void qemu_start_incoming_migration(const char *uri, Error **errp)
+     } else if (strstart(uri, "fd:", &p)) {
+         fd_start_incoming_migration(p, errp);
+     } else {
++        yank_unregister_instance(MIGRATION_YANK_INSTANCE);
+         error_setg(errp, "unknown migration protocol: %s", uri);
+     }
+ }
+@@ -1731,6 +1739,7 @@ static void migrate_fd_cleanup(MigrationState *s)
+     }
+     notifier_list_notify(&migration_state_notifiers, s);
+     block_cleanup_parameters(s);
++    yank_unregister_instance(MIGRATION_YANK_INSTANCE);
+ }
  
+ static void migrate_fd_cleanup_schedule(MigrationState *s)
+@@ -2005,6 +2014,7 @@ void qmp_migrate_recover(const char *uri, Error **errp)
+      * only re-setup the migration stream and poke existing migration
+      * to continue using that newly established channel.
+      */
++    yank_unregister_instance(MIGRATION_YANK_INSTANCE);
+     qemu_start_incoming_migration(uri, errp);
+ }
+ 
+@@ -2148,6 +2158,12 @@ void qmp_migrate(const char *uri, bool has_blk, bool blk,
+         return;
+     }
+ 
++    if (!(has_resume && resume)) {
++        if (!yank_register_instance(MIGRATION_YANK_INSTANCE, errp)) {
++            return;
++        }
++    }
++
+     if (strstart(uri, "tcp:", &p) ||
+         strstart(uri, "unix:", NULL) ||
+         strstart(uri, "vsock:", NULL)) {
+@@ -2161,6 +2177,9 @@ void qmp_migrate(const char *uri, bool has_blk, bool blk,
+     } else if (strstart(uri, "fd:", &p)) {
+         fd_start_outgoing_migration(s, p, &local_err);
+     } else {
++        if (!(has_resume && resume)) {
++            yank_unregister_instance(MIGRATION_YANK_INSTANCE);
++        }
+         error_setg(errp, QERR_INVALID_PARAMETER_VALUE, "uri",
+                    "a valid migration protocol");
+         migrate_set_state(&s->state, MIGRATION_STATUS_SETUP,
+@@ -2170,6 +2189,9 @@ void qmp_migrate(const char *uri, bool has_blk, bool blk,
+     }
+ 
+     if (local_err) {
++        if (!(has_resume && resume)) {
++            yank_unregister_instance(MIGRATION_YANK_INSTANCE);
++        }
+         migrate_fd_error(s, local_err);
+         error_propagate(errp, local_err);
+         return;
+diff --git a/migration/multifd.c b/migration/multifd.c
+index 45c690aa11..1a1e589064 100644
+--- a/migration/multifd.c
++++ b/migration/multifd.c
+@@ -25,6 +25,9 @@
+ #include "trace.h"
+ #include "multifd.h"
+ 
++#include "qemu/yank.h"
++#include "io/channel-socket.h"
++
+ /* Multiple fd's */
+ 
+ #define MULTIFD_MAGIC 0x11223344U
+@@ -974,6 +977,13 @@ int multifd_load_cleanup(Error **errp)
+     for (i = 0; i < migrate_multifd_channels(); i++) {
+         MultiFDRecvParams *p = &multifd_recv_state->params[i];
+ 
++        if (object_dynamic_cast(OBJECT(p->c), TYPE_QIO_CHANNEL_SOCKET)
++            && OBJECT(p->c)->ref == 1) {
++            yank_unregister_function(MIGRATION_YANK_INSTANCE,
++                                     yank_generic_iochannel,
++                                     QIO_CHANNEL(p->c));
++        }
++
+         object_unref(OBJECT(p->c));
+         p->c = NULL;
+         qemu_mutex_destroy(&p->mutex);
+diff --git a/migration/qemu-file-channel.c b/migration/qemu-file-channel.c
+index d2ce32f4b9..afc3a7f642 100644
+--- a/migration/qemu-file-channel.c
++++ b/migration/qemu-file-channel.c
+@@ -27,6 +27,7 @@
+ #include "qemu-file.h"
+ #include "io/channel-socket.h"
+ #include "qemu/iov.h"
++#include "qemu/yank.h"
+ 
+ 
+ static ssize_t channel_writev_buffer(void *opaque,
+@@ -104,6 +105,12 @@ static int channel_close(void *opaque, Error **errp)
+     int ret;
+     QIOChannel *ioc = QIO_CHANNEL(opaque);
+     ret = qio_channel_close(ioc, errp);
++    if (object_dynamic_cast(OBJECT(ioc), TYPE_QIO_CHANNEL_SOCKET)
++        && OBJECT(ioc)->ref == 1) {
++        yank_unregister_function(MIGRATION_YANK_INSTANCE,
++                                 yank_generic_iochannel,
++                                 QIO_CHANNEL(ioc));
++    }
+     object_unref(OBJECT(ioc));
+     return ret;
+ }
+diff --git a/migration/savevm.c b/migration/savevm.c
+index 27e842812e..4f3b69ecfc 100644
+--- a/migration/savevm.c
++++ b/migration/savevm.c
+@@ -62,6 +62,7 @@
+ #include "migration/colo.h"
+ #include "qemu/bitmap.h"
+ #include "net/announce.h"
++#include "qemu/yank.h"
+ 
+ const unsigned int postcopy_ram_discard_version;
+ 
+@@ -3006,6 +3007,10 @@ int load_snapshot(const char *name, Error **errp)
+     qemu_system_reset(SHUTDOWN_CAUSE_NONE);
+     mis->from_src_file = f;
+ 
++    if (!yank_register_instance(MIGRATION_YANK_INSTANCE, errp)) {
++        ret = -EINVAL;
++        goto err_drain;
++    }
+     aio_context_acquire(aio_context);
+     ret = qemu_loadvm_state(f);
+     migration_incoming_state_destroy();
 -- 
 2.26.2
 
