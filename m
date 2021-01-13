@@ -2,93 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B17B82F5531
-	for <lists+qemu-devel@lfdr.de>; Thu, 14 Jan 2021 00:27:59 +0100 (CET)
-Received: from localhost ([::1]:59736 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3DC512F5534
+	for <lists+qemu-devel@lfdr.de>; Thu, 14 Jan 2021 00:29:54 +0100 (CET)
+Received: from localhost ([::1]:35096 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kzpYU-0004BK-My
-	for lists+qemu-devel@lfdr.de; Wed, 13 Jan 2021 18:27:58 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57664)
+	id 1kzpaL-0005dP-8m
+	for lists+qemu-devel@lfdr.de; Wed, 13 Jan 2021 18:29:53 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57964)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kzpXC-0003l4-9X
- for qemu-devel@nongnu.org; Wed, 13 Jan 2021 18:26:38 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:23369)
+ (Exim 4.90_1) (envelope-from <alex.williamson@redhat.com>)
+ id 1kzpYg-0004ls-1Z
+ for qemu-devel@nongnu.org; Wed, 13 Jan 2021 18:28:10 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:40175)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kzpXA-0002r3-3p
- for qemu-devel@nongnu.org; Wed, 13 Jan 2021 18:26:37 -0500
+ (Exim 4.90_1) (envelope-from <alex.williamson@redhat.com>)
+ id 1kzpYc-0003Nk-Pm
+ for qemu-devel@nongnu.org; Wed, 13 Jan 2021 18:28:09 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1610580394;
+ s=mimecast20190719; t=1610580485;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=yzNehRg5XMA8qRXkxvWSSpOdiEPtL/2IpNFP/4wAtCg=;
- b=AMUq1unRcClUOwqka85ftLZw47BHO1tg/S6zy8fOyOCPUENmhdgMFoybWfeO2v6W3E6HRH
- akLKF925q+616Qz9R3APaSK4UeByqylP+oRFJ0zI62Qcwqr1Uk2C9SIVNscsqSgOKS2R/e
- IOJGuIlutAMr7LxdFJUAzTFe0kGrqJU=
-Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
- [209.85.221.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-194-NYaCM5dkPeizHJQm0eAQlQ-1; Wed, 13 Jan 2021 18:26:32 -0500
-X-MC-Unique: NYaCM5dkPeizHJQm0eAQlQ-1
-Received: by mail-wr1-f72.google.com with SMTP id e12so1697400wrp.10
- for <qemu-devel@nongnu.org>; Wed, 13 Jan 2021 15:26:32 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=yzNehRg5XMA8qRXkxvWSSpOdiEPtL/2IpNFP/4wAtCg=;
- b=GekVBHZG964r6JBbdnBo2NusFJOFevReKDJjLjvMSPa6w6LoJDTm4ImNyGUmO1RWAo
- Jo1UalojTZ5ykjOwyfAAv3Bos1MHulVzAWWvVXODsfCv2h6UR4MNVxFiRkojSELrK1zO
- aAEsodOF+Ggbl0smJBrkKCugKzVodHcN2nOG0jfLF10WNHbImgU2vxkPjJmLEb2KcBBO
- csWZYtvLvU525g3bvX71YRF88o2QSfX+aeFxDNOLD3qmfUawKE5oiuQzM2cg89WoXVyv
- 18t1qm05TYpqmsOEj9WB9zTh7KNpkk+rMo75fu0vD+vzXSTalpty9EUCEKfc+lzQmnpw
- EK/A==
-X-Gm-Message-State: AOAM5322fx/fpYqXmOblPHza3q7mxeAuPgN5oiXCJJaRvTSssf7w1Usb
- R2vdIFPhoZRyAmDzyraVwjMvqHrkmcObjuwebLuUV+/mdYKkOwTLyDxgyld1awLWfjPpf9gORjy
- Y8pRzHApjbp1AqMM=
-X-Received: by 2002:a05:600c:2042:: with SMTP id
- p2mr1328620wmg.152.1610580391393; 
- Wed, 13 Jan 2021 15:26:31 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJybX6bE6vroGs8Xh0kFsZ0ez+FiCEoAvByY8NMFQHQ+ybRa2luqaE+J2gxfxvMcXxuTpzSJww==
-X-Received: by 2002:a05:600c:2042:: with SMTP id
- p2mr1328601wmg.152.1610580391134; 
- Wed, 13 Jan 2021 15:26:31 -0800 (PST)
-Received: from [192.168.1.36] (13.red-83-57-169.dynamicip.rima-tde.net.
- [83.57.169.13])
- by smtp.gmail.com with ESMTPSA id b132sm5433112wmh.21.2021.01.13.15.26.30
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 13 Jan 2021 15:26:30 -0800 (PST)
-Subject: Re: [PATCH] tests/acceptance: Test PMON with Loongson-3A1000 CPU
-To: Wainer dos Santos Moschetta <wainersm@redhat.com>,
- Jiaxun Yang <jiaxun.yang@flygoat.com>, qemu-devel@nongnu.org
-References: <20210112020708.62922-1-jiaxun.yang@flygoat.com>
- <eb1cf209-b0fb-7009-bd29-1627cb839774@redhat.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-Message-ID: <157b53d5-37e9-31ed-00b4-55cc88795481@redhat.com>
-Date: Thu, 14 Jan 2021 00:26:29 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.6.0
+ bh=5SdkWGAhPvxbD4QHCr9oPnsXl6pEGBMmJvjX+hZWSY8=;
+ b=aHLTR9BUgcMfY+KEJV+1T8pwIfAWWRNqSVwmVZfSffXMnUjQmfNiFk6yyKm/9GXjrtxb+T
+ AgFtAPQSefaA8OOO/f8hyoZTS0fdHbWVHykzUelCGKK4N8EB4cw44bwuaInQYIS3ulUNyi
+ 8VtmymsRIFcuf8HOQjoyTmgEpZnC4Nc=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-419-6oE-j_41OUehfu3Q86tw1g-1; Wed, 13 Jan 2021 18:28:01 -0500
+X-MC-Unique: 6oE-j_41OUehfu3Q86tw1g-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 2B4729CC09;
+ Wed, 13 Jan 2021 23:28:00 +0000 (UTC)
+Received: from omen.home.shazbot.org (ovpn-112-255.phx2.redhat.com
+ [10.3.112.255])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 3E5715D9C0;
+ Wed, 13 Jan 2021 23:27:46 +0000 (UTC)
+Date: Wed, 13 Jan 2021 16:27:45 -0700
+From: Alex Williamson <alex.williamson@redhat.com>
+To: David Hildenbrand <david@redhat.com>
+Subject: Re: [PATCH v4 04/11] vfio: Support for RamDiscardMgr in the !vIOMMU
+ case
+Message-ID: <20210113162745.5c92e04f@omen.home.shazbot.org>
+In-Reply-To: <20210107133423.44964-5-david@redhat.com>
+References: <20210107133423.44964-1-david@redhat.com>
+ <20210107133423.44964-5-david@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <eb1cf209-b0fb-7009-bd29-1627cb839774@redhat.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=alex.williamson@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=philmd@redhat.com;
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=216.205.24.124;
+ envelope-from=alex.williamson@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -29
 X-Spam_score: -3.0
 X-Spam_bar: ---
 X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.25,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -101,129 +82,329 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Huacai Chen <chenhuacai@kernel.org>, Willian Rampazzo <wrampazz@redhat.com>,
- Cleber Rosa <crosa@redhat.com>
+Cc: Pankaj Gupta <pankaj.gupta.linux@gmail.com>,
+ Wei Yang <richard.weiyang@linux.alibaba.com>,
+ "Michael S. Tsirkin" <mst@redhat.com>,
+ Jonathan Cameron <Jonathan.Cameron@huawei.com>, qemu-devel@nongnu.org,
+ Peter Xu <peterx@redhat.com>, "Dr . David Alan Gilbert" <dgilbert@redhat.com>,
+ Auger Eric <eric.auger@redhat.com>, teawater <teawaterz@linux.alibaba.com>,
+ Igor Mammedov <imammedo@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ Marek Kedzierski <mkedzier@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 1/12/21 3:05 PM, Wainer dos Santos Moschetta wrote:
-> Hi,
-> 
-> On 1/11/21 11:07 PM, Jiaxun Yang wrote:
->> Test booting of PMON bootloader on loongson3-virt platform.
->>
->> $ (venv) AVOCADO_ALLOW_UNTRUSTED_CODE=1 \
->>      avocado --show=app,console \
->>        run -t machine:loongson3-virt tests/acceptance
->> Fetching asset from
->> tests/acceptance/machine_mips_loongson3v.py:MipsLoongson3v.test_pmon_serial_console
->>
->> JOB ID     : 8e202b3727847c9104d0d3d6546ed225d35f6706
->> JOB LOG    :
->> /home/flygoat/avocado/job-results/job-2021-01-12T10.02-8e202b3/job.log
->>   (1/1)
->> tests/acceptance/machine_mips_loongson3v.py:MipsLoongson3v.test_pmon_serial_console: 
->> console: PMON2000 MIPS Initializing. Standby...
->> console: 00000000Jump to 9fc
-> <snip>
->> Signed-off-by: Jiaxun Yang <jiaxun.yang@flygoat.com>
->> ---
->>   MAINTAINERS                                 |  1 +
->>   tests/acceptance/machine_mips_loongson3v.py | 39 +++++++++++++++++++++
->>   2 files changed, 40 insertions(+)
->>   create mode 100644 tests/acceptance/machine_mips_loongson3v.py
-> 
-> Allow me to use this new test as an example to start a discussion about
-> the organization of the acceptance files.
-> 
-> The mips64le tests currently are:
-> 
-> $ ./venv/bin/avocado list -t arch:mips64el acceptance/
-> 
-> INSTRUMENTED
-> acceptance/boot_linux_console.py:BootLinuxConsole.test_mips64el_malta
-> INSTRUMENTED
-> acceptance/boot_linux_console.py:BootLinuxConsole.test_mips64el_fuloong2e
-> INSTRUMENTED
-> acceptance/boot_linux_console.py:BootLinuxConsole.test_mips64el_malta_5KEc_cpio
-> 
-> INSTRUMENTED
-> acceptance/linux_ssh_mips_malta.py:LinuxSSH.test_mips_malta64el_kernel3_2_0
-> INSTRUMENTED
-> acceptance/machine_mips_loongson3v.py:MipsLoongson3v.test_pmon_serial_console
-> 
-> INSTRUMENTED
-> acceptance/machine_mips_malta.py:MaltaMachineFramebuffer.test_mips_malta_i6400_framebuffer_logo_1core
-> 
-> INSTRUMENTED
-> acceptance/machine_mips_malta.py:MaltaMachineFramebuffer.test_mips_malta_i6400_framebuffer_logo_7cores
-> 
-> INSTRUMENTED
-> acceptance/machine_mips_malta.py:MaltaMachineFramebuffer.test_mips_malta_i6400_framebuffer_logo_8cores
-> 
-> INSTRUMENTED
-> acceptance/replay_kernel.py:ReplayKernelNormal.test_mips64el_malta
-> INSTRUMENTED
-> acceptance/replay_kernel.py:ReplayKernelSlow.test_mips64el_malta_5KEc_cpio
-> 
-> Most of them are simple "boot linux (or firmware) and check the console"
-> tests. The replay_kernel.py contain tests for a given feature and happen
-> to be testing on mips64el as well. So on tests/acceptance directory
-> we've got boot tests spread across files and mixed with "generic"
-> feature tests.
-> 
-> I think we should find a home for those boot tests. Maybe throw them all
-> in a sub-directory called "boot_tests", or in arch-oriented directories
-> (boot_tests/mips64el, boot_tests/x86_64, ...) which would make easier to
-> reference them in the MAINTAINERS file.
-> 
-> Any thought?
+On Thu,  7 Jan 2021 14:34:16 +0100
+David Hildenbrand <david@redhat.com> wrote:
 
-[thread hijack...]
+> Implement support for RamDiscardMgr, to prepare for virtio-mem
+> support. Instead of mapping the whole memory section, we only map
+> "populated" parts and update the mapping when notified about
+> discarding/population of memory via the RamDiscardListener. Similarly, when
+> syncing the dirty bitmaps, sync only the actually mapped (populated) parts
+> by replaying via the notifier.
+> 
+> Using virtio-mem with vfio is still blocked via
+> ram_block_discard_disable()/ram_block_discard_require() after this patch.
+> 
+> Cc: Paolo Bonzini <pbonzini@redhat.com>
+> Cc: "Michael S. Tsirkin" <mst@redhat.com>
+> Cc: Alex Williamson <alex.williamson@redhat.com>
+> Cc: Dr. David Alan Gilbert <dgilbert@redhat.com>
+> Cc: Igor Mammedov <imammedo@redhat.com>
+> Cc: Pankaj Gupta <pankaj.gupta.linux@gmail.com>
+> Cc: Peter Xu <peterx@redhat.com>
+> Cc: Auger Eric <eric.auger@redhat.com>
+> Cc: Wei Yang <richard.weiyang@linux.alibaba.com>
+> Cc: teawater <teawaterz@linux.alibaba.com>
+> Cc: Marek Kedzierski <mkedzier@redhat.com>
+> Signed-off-by: David Hildenbrand <david@redhat.com>
+> ---
+>  hw/vfio/common.c              | 200 ++++++++++++++++++++++++++++++++++
+>  include/hw/vfio/vfio-common.h |  12 ++
+>  2 files changed, 212 insertions(+)
+> 
+> diff --git a/hw/vfio/common.c b/hw/vfio/common.c
+> index 6ff1daa763..2bd219cf1d 100644
+> --- a/hw/vfio/common.c
+> +++ b/hw/vfio/common.c
+> @@ -654,6 +654,136 @@ out:
+>      rcu_read_unlock();
+>  }
+>  
+> +static void vfio_ram_discard_notify_discard(RamDiscardListener *rdl,
+> +                                            const MemoryRegion *mr,
+> +                                            ram_addr_t offset, ram_addr_t size)
+> +{
+> +    VFIORamDiscardListener *vrdl = container_of(rdl, VFIORamDiscardListener,
+> +                                                listener);
+> +    const hwaddr mr_start = MAX(offset, vrdl->offset_within_region);
+> +    const hwaddr mr_end = MIN(offset + size,
+> +                              vrdl->offset_within_region + vrdl->size);
+> +    const hwaddr iova = mr_start - vrdl->offset_within_region +
+> +                        vrdl->offset_within_address_space;
+> +    int ret;
+> +
+> +    if (mr_start >= mr_end) {
+> +        return;
+> +    }
+> +
+> +    /* Unmap with a single call. */
+> +    ret = vfio_dma_unmap(vrdl->container, iova, mr_end - mr_start, NULL);
+> +    if (ret) {
+> +        error_report("%s: vfio_dma_unmap() failed: %s", __func__,
+> +                     strerror(-ret));
+> +    }
+> +}
+> +
+> +static int vfio_ram_discard_notify_populate(RamDiscardListener *rdl,
+> +                                            const MemoryRegion *mr,
+> +                                            ram_addr_t offset, ram_addr_t size)
+> +{
+> +    VFIORamDiscardListener *vrdl = container_of(rdl, VFIORamDiscardListener,
+> +                                                listener);
+> +    const hwaddr mr_end = MIN(offset + size,
+> +                              vrdl->offset_within_region + vrdl->size);
+> +    hwaddr mr_start = MAX(offset, vrdl->offset_within_region);
+> +    hwaddr mr_next, iova;
+> +    void *vaddr;
+> +    int ret;
+> +
+> +    /*
+> +     * Map in (aligned within memory region) minimum granularity, so we can
+> +     * unmap in minimum granularity later.
+> +     */
+> +    for (; mr_start < mr_end; mr_start = mr_next) {
+> +        mr_next = ROUND_UP(mr_start + 1, vrdl->granularity);
+> +        mr_next = MIN(mr_next, mr_end);
+> +
+> +        iova = mr_start - vrdl->offset_within_region +
+> +               vrdl->offset_within_address_space;
+> +        vaddr = memory_region_get_ram_ptr(vrdl->mr) + mr_start;
+> +
+> +        ret = vfio_dma_map(vrdl->container, iova, mr_next - mr_start,
+> +                           vaddr, mr->readonly);
+> +        if (ret) {
+> +            /* Rollback */
+> +            vfio_ram_discard_notify_discard(rdl, mr, offset, size);
+> +            return ret;
+> +        }
+> +    }
+> +    return 0;
+> +}
+> +
+> +static void vfio_ram_discard_notify_discard_all(RamDiscardListener *rdl,
+> +                                                const MemoryRegion *mr)
+> +{
+> +    VFIORamDiscardListener *vrdl = container_of(rdl, VFIORamDiscardListener,
+> +                                                listener);
+> +    int ret;
+> +
+> +    /* Unmap with a single call. */
+> +    ret = vfio_dma_unmap(vrdl->container, vrdl->offset_within_address_space,
+> +                         vrdl->size, NULL);
+> +    if (ret) {
+> +        error_report("%s: vfio_dma_unmap() failed: %s", __func__,
+> +                     strerror(-ret));
+> +    }
+> +}
+> +
+> +static void vfio_register_ram_discard_notifier(VFIOContainer *container,
+> +                                               MemoryRegionSection *section)
+> +{
+> +    RamDiscardMgr *rdm = memory_region_get_ram_discard_mgr(section->mr);
+> +    RamDiscardMgrClass *rdmc = RAM_DISCARD_MGR_GET_CLASS(rdm);
+> +    VFIORamDiscardListener *vrdl;
+> +
+> +    vrdl = g_new0(VFIORamDiscardListener, 1);
+> +    vrdl->container = container;
+> +    vrdl->mr = section->mr;
+> +    vrdl->offset_within_region = section->offset_within_region;
+> +    vrdl->offset_within_address_space = section->offset_within_address_space;
+> +    vrdl->size = int128_get64(section->size);
+> +    vrdl->granularity = rdmc->get_min_granularity(rdm, section->mr);
+> +
+> +    /* Ignore some corner cases not relevant in practice. */
+> +    g_assert(QEMU_IS_ALIGNED(vrdl->offset_within_region, TARGET_PAGE_SIZE));
+> +    g_assert(QEMU_IS_ALIGNED(vrdl->offset_within_address_space,
+> +                             TARGET_PAGE_SIZE));
+> +    g_assert(QEMU_IS_ALIGNED(vrdl->size, TARGET_PAGE_SIZE));
 
-A tests might be multi-arch. If you think it is easier to have the
-tests sorted in subfolders, go ahead :) Where is a test is not a
-problem. The problem we have to solve is how to relate a test with
-its maintainers / developers interested in it.
+Should probably toss in a test of vrdl->granularity vs
+container->pgsizes too, right?  Looks good otherwise:
 
-We once said what really matters are Avocado tags. This might be an
-underused feature of Avocado. Maybe what we need is a script to
-relate test tags with MAINTAINERS?
+Reviewed-by: Alex Williamson <alex.williamson@redhat.com>
+Acked-by: Alex Williamson <alex.williamson@redhat.com>
 
-Let's say we use the 'A' tag for that:
-
--- >8 --
-diff --git a/MAINTAINERS b/MAINTAINERS
-index cb0656aec3d..a484d429d78 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -646,6 +646,7 @@ M: Anup Patel <anup.patel@wdc.com>
- M: Alistair Francis <Alistair.Francis@wdc.com>
- L: qemu-riscv@nongnu.org
- S: Maintained
-+A: device:goldfish_rtc
- F: hw/rtc/goldfish_rtc.c
- F: include/hw/rtc/goldfish_rtc.h
-
-@@ -1160,6 +1161,11 @@ Loongson-3 virtual platforms
- M: Huacai Chen <chenhuacai@kernel.org>
- R: Jiaxun Yang <jiaxun.yang@flygoat.com>
- S: Maintained
-+A: machine:loongson3-virt
-+A: cpu:Loongson-3A1000
-+A: device:liointc
-+A: device:goldfish_rtc
- F: hw/intc/loongson_liointc.c
- F: hw/mips/loongson3_bootp.c
- F: hw/mips/loongson3_bootp.h
----
-
-If this test fails, it should list the maintainers of the
-loongson3-virt machine and the goldfish RTC.
-
-Maintainers add their tags of interest, and can Ack when a
-developer add a tag to their MAINTAINERS entry.
-
-Thought? :)
+> +
+> +    ram_discard_listener_init(&vrdl->listener,
+> +                              vfio_ram_discard_notify_populate,
+> +                              vfio_ram_discard_notify_discard,
+> +                              vfio_ram_discard_notify_discard_all);
+> +    rdmc->register_listener(rdm, section->mr, &vrdl->listener);
+> +    QLIST_INSERT_HEAD(&container->vrdl_list, vrdl, next);
+> +}
+> +
+> +static void vfio_unregister_ram_discard_listener(VFIOContainer *container,
+> +                                                 MemoryRegionSection *section)
+> +{
+> +    RamDiscardMgr *rdm = memory_region_get_ram_discard_mgr(section->mr);
+> +    RamDiscardMgrClass *rdmc = RAM_DISCARD_MGR_GET_CLASS(rdm);
+> +    VFIORamDiscardListener *vrdl = NULL;
+> +
+> +    QLIST_FOREACH(vrdl, &container->vrdl_list, next) {
+> +        if (vrdl->mr == section->mr &&
+> +            vrdl->offset_within_region == section->offset_within_region) {
+> +            break;
+> +        }
+> +    }
+> +
+> +    if (!vrdl) {
+> +        hw_error("vfio: Trying to unregister missing RAM discard listener");
+> +    }
+> +
+> +    rdmc->unregister_listener(rdm, section->mr, &vrdl->listener);
+> +    QLIST_REMOVE(vrdl, next);
+> +
+> +    g_free(vrdl);
+> +}
+> +
+>  static void vfio_listener_region_add(MemoryListener *listener,
+>                                       MemoryRegionSection *section)
+>  {
+> @@ -814,6 +944,16 @@ static void vfio_listener_region_add(MemoryListener *listener,
+>  
+>      /* Here we assume that memory_region_is_ram(section->mr)==true */
+>  
+> +    /*
+> +     * For RAM memory regions with a RamDiscardMgr, we only want to map the
+> +     * actually populated parts - and update the mapping whenever we're notified
+> +     * about changes.
+> +     */
+> +    if (memory_region_has_ram_discard_mgr(section->mr)) {
+> +        vfio_register_ram_discard_notifier(container, section);
+> +        return;
+> +    }
+> +
+>      vaddr = memory_region_get_ram_ptr(section->mr) +
+>              section->offset_within_region +
+>              (iova - section->offset_within_address_space);
+> @@ -950,6 +1090,10 @@ static void vfio_listener_region_del(MemoryListener *listener,
+>  
+>          pgmask = (1ULL << ctz64(hostwin->iova_pgsizes)) - 1;
+>          try_unmap = !((iova & pgmask) || (int128_get64(llsize) & pgmask));
+> +    } else if (memory_region_has_ram_discard_mgr(section->mr)) {
+> +        vfio_unregister_ram_discard_listener(container, section);
+> +        /* Unregistering will trigger an unmap. */
+> +        try_unmap = false;
+>      }
+>  
+>      if (try_unmap) {
+> @@ -1077,6 +1221,59 @@ static void vfio_iommu_map_dirty_notify(IOMMUNotifier *n, IOMMUTLBEntry *iotlb)
+>      rcu_read_unlock();
+>  }
+>  
+> +static int vfio_ram_discard_notify_dirty_bitmap(RamDiscardListener *rdl,
+> +                                                const MemoryRegion *mr,
+> +                                                ram_addr_t offset,
+> +                                                ram_addr_t size)
+> +{
+> +    VFIORamDiscardListener *vrdl = container_of(rdl, VFIORamDiscardListener,
+> +                                                listener);
+> +    const hwaddr mr_start = MAX(offset, vrdl->offset_within_region);
+> +    const hwaddr mr_end = MIN(offset + size,
+> +                              vrdl->offset_within_region + vrdl->size);
+> +    const hwaddr iova = mr_start - vrdl->offset_within_region +
+> +                        vrdl->offset_within_address_space;
+> +    ram_addr_t ram_addr;
+> +    int ret;
+> +
+> +    if (mr_start >= mr_end) {
+> +        return 0;
+> +    }
+> +
+> +    /*
+> +     * Sync the whole mapped region (spanning multiple individual mappings)
+> +     * in one go.
+> +     */
+> +    ram_addr = memory_region_get_ram_addr(vrdl->mr) + mr_start;
+> +    ret = vfio_get_dirty_bitmap(vrdl->container, iova, mr_end - mr_start,
+> +                                ram_addr);
+> +    return ret;
+> +}
+> +
+> +static int vfio_sync_ram_discard_listener_dirty_bitmap(VFIOContainer *container,
+> +                                                   MemoryRegionSection *section)
+> +{
+> +    RamDiscardMgr *rdm = memory_region_get_ram_discard_mgr(section->mr);
+> +    RamDiscardMgrClass *rdmc = RAM_DISCARD_MGR_GET_CLASS(rdm);
+> +    VFIORamDiscardListener tmp_vrdl, *vrdl = NULL;
+> +
+> +    QLIST_FOREACH(vrdl, &container->vrdl_list, next) {
+> +        if (vrdl->mr == section->mr &&
+> +            vrdl->offset_within_region == section->offset_within_region) {
+> +            break;
+> +        }
+> +    }
+> +
+> +    if (!vrdl) {
+> +        hw_error("vfio: Trying to sync missing RAM discard listener");
+> +    }
+> +
+> +    tmp_vrdl = *vrdl;
+> +    ram_discard_listener_init(&tmp_vrdl.listener,
+> +                              vfio_ram_discard_notify_dirty_bitmap, NULL, NULL);
+> +    return rdmc->replay_populated(rdm, section->mr, &tmp_vrdl.listener);
+> +}
+> +
+>  static int vfio_sync_dirty_bitmap(VFIOContainer *container,
+>                                    MemoryRegionSection *section)
+>  {
+> @@ -1108,6 +1305,8 @@ static int vfio_sync_dirty_bitmap(VFIOContainer *container,
+>              }
+>          }
+>          return 0;
+> +    } else if (memory_region_has_ram_discard_mgr(section->mr)) {
+> +        return vfio_sync_ram_discard_listener_dirty_bitmap(container, section);
+>      }
+>  
+>      ram_addr = memory_region_get_ram_addr(section->mr) +
+> @@ -1737,6 +1936,7 @@ static int vfio_connect_container(VFIOGroup *group, AddressSpace *as,
+>      container->dirty_pages_supported = false;
+>      QLIST_INIT(&container->giommu_list);
+>      QLIST_INIT(&container->hostwin_list);
+> +    QLIST_INIT(&container->vrdl_list);
+>  
+>      ret = vfio_init_container(container, group->fd, errp);
+>      if (ret) {
+> diff --git a/include/hw/vfio/vfio-common.h b/include/hw/vfio/vfio-common.h
+> index 6141162d7a..af6f8d1b22 100644
+> --- a/include/hw/vfio/vfio-common.h
+> +++ b/include/hw/vfio/vfio-common.h
+> @@ -91,6 +91,7 @@ typedef struct VFIOContainer {
+>      QLIST_HEAD(, VFIOGuestIOMMU) giommu_list;
+>      QLIST_HEAD(, VFIOHostDMAWindow) hostwin_list;
+>      QLIST_HEAD(, VFIOGroup) group_list;
+> +    QLIST_HEAD(, VFIORamDiscardListener) vrdl_list;
+>      QLIST_ENTRY(VFIOContainer) next;
+>  } VFIOContainer;
+>  
+> @@ -102,6 +103,17 @@ typedef struct VFIOGuestIOMMU {
+>      QLIST_ENTRY(VFIOGuestIOMMU) giommu_next;
+>  } VFIOGuestIOMMU;
+>  
+> +typedef struct VFIORamDiscardListener {
+> +    VFIOContainer *container;
+> +    MemoryRegion *mr;
+> +    hwaddr offset_within_region;
+> +    hwaddr offset_within_address_space;
+> +    hwaddr size;
+> +    uint64_t granularity;
+> +    RamDiscardListener listener;
+> +    QLIST_ENTRY(VFIORamDiscardListener) next;
+> +} VFIORamDiscardListener;
+> +
+>  typedef struct VFIOHostDMAWindow {
+>      hwaddr min_iova;
+>      hwaddr max_iova;
 
 
