@@ -2,51 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 840902F47B7
-	for <lists+qemu-devel@lfdr.de>; Wed, 13 Jan 2021 10:39:42 +0100 (CET)
-Received: from localhost ([::1]:41582 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AC25B2F47BC
+	for <lists+qemu-devel@lfdr.de>; Wed, 13 Jan 2021 10:43:24 +0100 (CET)
+Received: from localhost ([::1]:54820 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kzccv-0006Q3-IW
-	for lists+qemu-devel@lfdr.de; Wed, 13 Jan 2021 04:39:41 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58898)
+	id 1kzcgV-0003ax-PF
+	for lists+qemu-devel@lfdr.de; Wed, 13 Jan 2021 04:43:23 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59052)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <shiliyang@huawei.com>)
- id 1kzcXK-0000hm-7u
- for qemu-devel@nongnu.org; Wed, 13 Jan 2021 04:33:54 -0500
-Received: from szxga04-in.huawei.com ([45.249.212.190]:2851)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <shiliyang@huawei.com>)
- id 1kzcXG-000427-0A
- for qemu-devel@nongnu.org; Wed, 13 Jan 2021 04:33:54 -0500
-Received: from DGGEMS407-HUB.china.huawei.com (unknown [172.30.72.60])
- by szxga04-in.huawei.com (SkyGuard) with ESMTP id 4DG2KT1kG5zl3x5;
- Wed, 13 Jan 2021 17:32:29 +0800 (CST)
-Received: from [10.108.235.13] (10.108.235.13) by
- DGGEMS407-HUB.china.huawei.com (10.3.19.207) with Microsoft SMTP Server id
- 14.3.498.0; Wed, 13 Jan 2021 17:33:35 +0800
-Subject: [PATCH V3 4/4] bsd-user: do not use C99 // comments
-References: <b820b729-88a8-1103-b7a7-b66b637947d9@huawei.com>
-To: <qemu-devel@nongnu.org>, <peter.maydell@linaro.org>
-From: shiliyang <shiliyang@huawei.com>
-Message-ID: <ec2505ff-e9bf-ea26-060f-7b2744a6f482@huawei.com>
-Date: Wed, 13 Jan 2021 17:33:34 +0800
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
- Thunderbird/78.4.0
+ (Exim 4.90_1) (envelope-from <maxim.uvarov@linaro.org>)
+ id 1kzcXp-0001B0-LU
+ for qemu-devel@nongnu.org; Wed, 13 Jan 2021 04:34:27 -0500
+Received: from mail-lf1-x12f.google.com ([2a00:1450:4864:20::12f]:43878)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <maxim.uvarov@linaro.org>)
+ id 1kzcXn-0004Fh-Pb
+ for qemu-devel@nongnu.org; Wed, 13 Jan 2021 04:34:25 -0500
+Received: by mail-lf1-x12f.google.com with SMTP id 23so1747277lfg.10
+ for <qemu-devel@nongnu.org>; Wed, 13 Jan 2021 01:34:23 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=hBDRE3qynYwWfAy+Mm1zpl50/3ms5+CYx7IEUQMytFI=;
+ b=CzDb30v0TBSF3EyHcPdyAVckpdAIvTBD2uPxeSLBVWyngh3EL8ZeZLPn7igdB3tLq7
+ rWqNkg4EoJgIRUro5oPxeEPLmmVb9pAEowsV+3TAVpXFmgTBXrEIITSpUBedMpYpkNPr
+ O1X2zBUFOujqMECGRWV4NvjLp2lLxI47qRyp6dz9y36ezjUqkvzzTJopjlxMO+FZQuGf
+ NzRPG2o7rI7baJxMi+frk2Wu7LVyzjUXNy6KgtpZ7iThvUUCzPDVPsMJSTFtR3zp0suD
+ iwlWn2fXCstbmNg0386d6E1F4x58b22a1qaQPZlzAc6ulWk4Tx+uP+USdgeC5PcKfX6h
+ gtJw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=hBDRE3qynYwWfAy+Mm1zpl50/3ms5+CYx7IEUQMytFI=;
+ b=sF+nmAPzf4eSDL6n97l3TzxDacFyDG4qBX/uyDXBKUbLXm02Y5iRIMcznHQQFhLdEa
+ mnVb/RKkKpx9xtW9UhQHeGjELx5ZJ+ZbmeGFrM+huYHjkNqcYruwKS3n8puXu9XSl8GY
+ wda5LnxiArutmjpZx9YRKM083yXm50YS+BWZFTo4+txraUJF369qKzX/miPccLW8W/A8
+ WY0IXdl/5d20CaGRKZWG0SKeo3oNODJNIFU5fpvMsu/xgjTr8b7gioSHtRJuNcKNgk3E
+ G9rwURcL4mamhPzQOjhm7w0NnV5p8e7bUU/CUUCC8iBaH83klGtKFCZq38c3hdxv5rGf
+ Z2Gw==
+X-Gm-Message-State: AOAM533CdH84p2RsMNwG5CS+ZdpsZ/nMjoe9GyXFSNE+LrlJpdeeY8kw
+ X7M/DUhU/+t8ldqeZsFHt6BBgw==
+X-Google-Smtp-Source: ABdhPJwmM8879y39CbU/mIiqLUxM3o0gGgULvvuoQsbVlBo70d4iweW80+qykVVxkmpkQpr4S8VU3Q==
+X-Received: by 2002:a05:6512:788:: with SMTP id
+ x8mr531622lfr.250.1610530461551; 
+ Wed, 13 Jan 2021 01:34:21 -0800 (PST)
+Received: from localhost.localdomain ([2.92.195.184])
+ by smtp.gmail.com with ESMTPSA id c3sm127472ljk.88.2021.01.13.01.34.20
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 13 Jan 2021 01:34:20 -0800 (PST)
+From: Maxim Uvarov <maxim.uvarov@linaro.org>
+To: qemu-arm@nongnu.org,
+	qemu-devel@nongnu.org
+Subject: [PATCHv5 0/3] arm-virt: add secure pl061 for reset/power down
+Date: Wed, 13 Jan 2021 12:34:14 +0300
+Message-Id: <20210113093417.11606-1-maxim.uvarov@linaro.org>
+X-Mailer: git-send-email 2.17.1
 MIME-Version: 1.0
-In-Reply-To: <b820b729-88a8-1103-b7a7-b66b637947d9@huawei.com>
-Content-Type: text/plain; charset="utf-8"
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.108.235.13]
-X-CFilter-Loop: Reflected
-Received-SPF: pass client-ip=45.249.212.190; envelope-from=shiliyang@huawei.com;
- helo=szxga04-in.huawei.com
-X-Spam_score_int: -41
-X-Spam_score: -4.2
-X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
- RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::12f;
+ envelope-from=maxim.uvarov@linaro.org; helo=mail-lf1-x12f.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -60,42 +83,43 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: alex.chen@huawei.com, hunongda@huawei.com
+Cc: peter.maydell@linaro.org, drjones@redhat.com,
+ Maxim Uvarov <maxim.uvarov@linaro.org>, Jose.Marinho@arm.com, f4bug@amsat.org,
+ tf-a@lists.trustedfirmware.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This patch fixes error messages found by checkpatch.pl:
-ERROR: do not use C99 // comments
+ v5: - removed vms flag, added fdt  (Andrew Jones)
+     - added patch3 to combine secure and non secure pl061. It has to be
+       more easy to review if this changes are in the separate patch.
+ v4: rework patches accodring to Peter Maydells comments:
+	- split patches on gpio-pwr driver and arm-virt integration.
+	- start secure gpio only from virt-6.0.
+	- rework qemu interface for gpio-pwr to use 2 named gpio.
+	- put secure gpio to secure name space.
+ v3: added missed include qemu/log.h for qemu_log(.. 
+ v2: replace printf with qemu_log (Philippe Mathieu-Daudé)
 
-Signed-off-by: Liyang Shi <shiliyang@huawei.com>
+This patch works together with ATF patch:
+     https://github.com/muvarov/arm-trusted-firmware/commit/dd4401d8eb8e0f3018b335b81ce7a96d6cb16d0f 
 
----
- bsd-user/elfload.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+Previus discussion for reboot issue was here:
+     https://www.mail-archive.com/qemu-devel@nongnu.org/msg757705.html
+Maxim Uvarov (3):
+  hw: gpio: implement gpio-pwr driver for qemu reset/poweroff
+  arm-virt: add secure pl061 for reset/power down
+  arm-virt: combine code for secure and non secure pl061
 
-diff --git a/bsd-user/elfload.c b/bsd-user/elfload.c
-index fab9da757c..ff571088f7 100644
---- a/bsd-user/elfload.c
-+++ b/bsd-user/elfload.c
-@@ -1010,7 +1010,7 @@ static const char *lookup_symbolxx(struct syminfo *s, target_ulong orig_addr)
-     struct elf_sym *syms = s->disas_symtab.elf64;
- #endif
+ hw/arm/Kconfig        |   1 +
+ hw/arm/virt.c         | 118 +++++++++++++++++++++++++++++++++++-------
+ hw/gpio/Kconfig       |   3 ++
+ hw/gpio/gpio_pwr.c    |  70 +++++++++++++++++++++++++
+ hw/gpio/meson.build   |   1 +
+ include/hw/arm/virt.h |   2 +
+ 6 files changed, 175 insertions(+), 20 deletions(-)
+ create mode 100644 hw/gpio/gpio_pwr.c
 
--    // binary search
-+    /* binary search */
-     struct elf_sym *sym;
-
-     sym = bsearch(&orig_addr, syms, s->disas_num_syms, sizeof(*syms), symfind);
-@@ -1092,7 +1092,7 @@ static void load_symbols(struct elfhdr *hdr, int fd)
- #ifdef BSWAP_NEEDED
-         bswap_sym(syms + i);
- #endif
--        // Throw away entries which we do not need.
-+        /* Throw away entries which we do not need. */
-         if (syms[i].st_shndx == SHN_UNDEF ||
-                 syms[i].st_shndx >= SHN_LORESERVE ||
-                 ELF_ST_TYPE(syms[i].st_info) != STT_FUNC) {
 -- 
-2.29.1.59.gf9b6481aed
+2.17.1
 
 
