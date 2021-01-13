@@ -2,84 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AD7982F4594
-	for <lists+qemu-devel@lfdr.de>; Wed, 13 Jan 2021 08:55:44 +0100 (CET)
-Received: from localhost ([::1]:51722 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D518E2F45DD
+	for <lists+qemu-devel@lfdr.de>; Wed, 13 Jan 2021 09:12:40 +0100 (CET)
+Received: from localhost ([::1]:37418 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kzb0J-0002jU-PP
-	for lists+qemu-devel@lfdr.de; Wed, 13 Jan 2021 02:55:43 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57712)
+	id 1kzbGh-0001Aa-VI
+	for lists+qemu-devel@lfdr.de; Wed, 13 Jan 2021 03:12:39 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37004)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1kzaxr-0001s7-Lk; Wed, 13 Jan 2021 02:53:11 -0500
-Received: from mail-wm1-x32e.google.com ([2a00:1450:4864:20::32e]:35665)
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1kzbF6-0000J4-Eh
+ for qemu-devel@nongnu.org; Wed, 13 Jan 2021 03:11:00 -0500
+Received: from indium.canonical.com ([91.189.90.7]:56478)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1kzaxp-0004qW-Ki; Wed, 13 Jan 2021 02:53:11 -0500
-Received: by mail-wm1-x32e.google.com with SMTP id e25so688394wme.0;
- Tue, 12 Jan 2021 23:53:08 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=Y7TP/ToyRctzKrumSjXsq0lzD4QST81QsFkYS/qUk1M=;
- b=j92ieSnaEEvlHyUBI5mRV2vLmjSAcq2O8hXq4Dlyie3W1Llvkoxskfd0R4H1NtieuI
- 8ORFqT67mCkFv65Gv4fZ4qYGJ/4lETB9D2OT0e2IqjC0Tats3NaOOMNW8qFFhUIp4K4q
- PSnkVUNbcTEc9WF3f1bL3PGEe/+wDze5RMAxnBeBFBDAhrudmgIG7bRtkQ1OY7biC4Gm
- J9Q9SqU1wQq7pK0loOowk44fT+ukE1lKr0I4/MUjp1K0TUSU/JN3RKNWtU1AmcC+rbsJ
- 5JyQo0zo8WCXhIL93erhgqYbe9zeaJN5kfzSwpGLmiE+WKzkSpiQ6e1V8du3qyTLCmOM
- blJw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
- :date:user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=Y7TP/ToyRctzKrumSjXsq0lzD4QST81QsFkYS/qUk1M=;
- b=TIGKDtg0o+EPKRH4Ez4z96zHOwP67aeX3n7ACxwXa6ucmq2/V4gJ6pSRy5LoAFq+Ea
- l/IlYMfoDzmy0eViCqDc3CDVbcTyLgpBj1KJBhV/mmSmqkT/xqFXKKXi4mbm1KFobM3e
- 2d8XskdJlbGIy4YG+CH506X/joh/680ABoRx3LkymRGlVXUFIygyuhPYhd0LhjL+zT2+
- x3yJPTyqQagn0b8FjAFgt2a5SqtKo2LsHHrTZ1jhe3MGv1Q04nRkTm7XYQnM82K6ttbI
- 6cJV5jqBSgUnBo0pVeyt60DqdIpW9yJMnjFjfLisxARGk7P5ncuFFf5W5J52oJRkhO1H
- cbaA==
-X-Gm-Message-State: AOAM531XqBnwyQAAxSdVsX5LLrCxajRflLwXpCghmBARN/wWZenSLBTJ
- xi3peKWikiDempRn+53MK98=
-X-Google-Smtp-Source: ABdhPJz1BUdSbH/XaJVzG+NwJw9eAidwFoO46E20/hZU9Zr5twvFH6diyHW0+PuQWK5yq7bHeZbX8Q==
-X-Received: by 2002:a1c:6a10:: with SMTP id f16mr893542wmc.106.1610524387785; 
- Tue, 12 Jan 2021 23:53:07 -0800 (PST)
-Received: from [192.168.1.36] (190.red-83-57-173.dynamicip.rima-tde.net.
- [83.57.173.190])
- by smtp.gmail.com with ESMTPSA id g14sm1610957wrd.32.2021.01.12.23.53.06
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 12 Jan 2021 23:53:07 -0800 (PST)
-Subject: Re: [RFC PATCH v6 00/11] hw/ssi: imx_spi: Fix various bugs in the
- imx_spi model
-To: Bin Meng <bmeng.cn@gmail.com>
-References: <20210112183529.2011863-1-f4bug@amsat.org>
- <CAEUhbmVmqYzCg0Edirp4UFhLpGGWbm5jFiTjOw=0=EhnSMsz3g@mail.gmail.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
-Message-ID: <74a2566b-cd32-743f-8088-c59e992be755@amsat.org>
-Date: Wed, 13 Jan 2021 08:53:05 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.6.0
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1kzbF3-0005qe-Rx
+ for qemu-devel@nongnu.org; Wed, 13 Jan 2021 03:11:00 -0500
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1kzbF1-0005zL-LY
+ for <qemu-devel@nongnu.org>; Wed, 13 Jan 2021 08:10:55 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id A10B92E8137
+ for <qemu-devel@nongnu.org>; Wed, 13 Jan 2021 08:10:55 +0000 (UTC)
 MIME-Version: 1.0
-In-Reply-To: <CAEUhbmVmqYzCg0Edirp4UFhLpGGWbm5jFiTjOw=0=EhnSMsz3g@mail.gmail.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::32e;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x32e.google.com
-X-Spam_score_int: -14
-X-Spam_score: -1.5
-X-Spam_bar: -
-X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Date: Wed, 13 Jan 2021 07:59:10 -0000
+From: =?utf-8?q?Philippe_Mathieu-Daud=C3=A9?= <1791796@bugs.launchpad.net>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=Expired; importance=Undecided;
+ assignee=None; 
+X-Launchpad-Bug-Tags: linux-user
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: ajbennee janitor laurent-vivier philmd
+ sandra.codesourcery th-huth
+X-Launchpad-Bug-Reporter: Sandra Loosemore (sandra.codesourcery)
+X-Launchpad-Bug-Modifier: =?utf-8?q?Philippe_Mathieu-Daud=C3=A9_=28philmd?=
+ =?utf-8?q?=29?=
+References: <153660698641.24944.17107147595708483311.malonedeb@gac.canonical.com>
+Message-Id: <161052475067.30413.3155288339978874078.launchpad@chaenomeles.canonical.com>
+Subject: [Bug 1791796] Re: unimplemented thread syscalls in nios2 user-mode
+ emulation
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="511b4a3b6512aa3d421c5f7d74f3527e78bff26e"; Instance="production"
+X-Launchpad-Hash: 980836ba0566a278194f7b367f83c33b2d5f7ee4
+Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
+ helo=indium.canonical.com
+X-Spam_score_int: -65
+X-Spam_score: -6.6
+X-Spam_bar: ------
+X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9,
+ HEADER_FROM_DIFFERENT_DOMAINS=0.249, RCVD_IN_DNSWL_HI=-5,
+ RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -88,56 +74,210 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- Alistair Francis <alistair@alistair23.me>,
- Xuzhou Cheng <xuzhou.cheng@windriver.com>, Bin Meng <bin.meng@windriver.com>,
- "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
- Jean-Christophe Dubois <jcd@tribudubois.net>, qemu-arm <qemu-arm@nongnu.org>,
- Peter Chubb <peter.chubb@nicta.com.au>
+Reply-To: Bug 1791796 <1791796@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi Ben,
+** Tags added: linux-user
 
-On 1/13/21 4:29 AM, Bin Meng wrote:
-> On Wed, Jan 13, 2021 at 2:35 AM Philippe Mathieu-Daudé <f4bug@amsat.org> wrote:
->>
->> Hi,
->>
->> As it is sometimes harder for me to express myself in plain
->> English, I found it easier to write the patches I was thinking
->> about. I know this doesn't scale.
->>
->> So this is how I understand the ecSPI reset works, after
->> looking at the IMX6DQRM.pdf datasheet.
->>
->> This is a respin of Ben's v5 series [*].
->> Tagged RFC because I have not tested it :)
-> 
-> Unfortunately this series breaks SPI flash testing under both U-Boot
-> and VxWorks 7.
+-- =
 
-Thanks for testing :) Can you provide the binary tested and the command
-line used? At least one, so I can have a look.
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1791796
 
->> Sometimes changing device reset to better match hardware gives
->> trouble when using '-kernel ...' because there is no bootloader
->> setting the device in the state Linux expects it.
->>
-> 
-> Given most of the new changes in this RFC series are clean-ups, I
-> suggest we apply the v5 series unless there is anything seriously
-> wrong in v5, IOW, don't fix it unless it's broken.
-> 
-> Thoughts?
+Title:
+  unimplemented thread syscalls in nios2 user-mode emulation
 
-Up to the maintainer :)
+Status in QEMU:
+  Expired
 
-The IMX6DQRM datasheet is available here:
-https://community.nxp.com/t5/i-MX-Processors-Knowledge-Base/i-MX-6DQ-Reference-Manual-IMX6DQRM-R2-Part-1/ta-p/1115983
-https://community.nxp.com/t5/i-MX-Processors-Knowledge-Base/i-MX-6DQ-Reference-Manual-IMX6DQRM-R2-Part-2/ta-p/1118510
+Bug description:
+  This bug is reported against the 3.0 release.
 
-Regards,
+  I noticed that the GCC test gcc.dg/torture/tls/tls-test.c is failing
+  when run in user-mode qemu for nios2 target.  The problem appears to
+  be that the thread-related syscalls are unimplemented in qemu.  Here
+  is output from running with -strace:
 
-Phil.
+  22484 brk(NULL) =3D 0x00005000
+  22484 uname(0x7fffef5a) =3D 0
+  22484 faccessat(AT_FDCWD,"/etc/ld.so.preload",R_OK,0x5) =3D -1 errno=3D2 =
+(No such file or directory)
+  22484 openat(AT_FDCWD,"/scratch/sandra/nios2-linux-trunk3/obj/test-2018.1=
+1-999999-nios2-linux-gnu/host-x86_64-linux-gnu/sourceryg++-2018.11/nios2-li=
+nux-gnu/libc/./lib/./tls/libm.so.6",O_RDONLY|O_LARGEFILE|O_CLOEXEC) =3D -1 =
+errno=3D2 (No such file or directory)
+  22484 fstatat64(AT_FDCWD,"/scratch/sandra/nios2-linux-trunk3/obj/test-201=
+8.11-999999-nios2-linux-gnu/host-x86_64-linux-gnu/sourceryg++-2018.11/nios2=
+-linux-gnu/libc/./lib/./tls",0x7fffe870,0) =3D -1 errno=3D2 (No such file o=
+r directory)
+  22484 openat(AT_FDCWD,"/scratch/sandra/nios2-linux-trunk3/obj/test-2018.1=
+1-999999-nios2-linux-gnu/host-x86_64-linux-gnu/sourceryg++-2018.11/nios2-li=
+nux-gnu/libc/./lib/./libm.so.6",O_RDONLY|O_LARGEFILE|O_CLOEXEC) =3D 3
+  22484 read(3,0x7fffe954,512) =3D 512
+  22484 fstat64(3,0x7fffe870) =3D 0
+  22484 mmap2(NULL,803596,PROT_EXEC|PROT_READ,MAP_PRIVATE|MAP_DENYWRITE,3,0=
+) =3D 0x7f716000
+  22484 mmap2(0x7f7d8000,12288,PROT_READ|PROT_WRITE,MAP_PRIVATE|MAP_DENYWRI=
+TE|MAP_FIXED,3,0xc1) =3D 0x7f7d8000
+  22484 close(3) =3D 0
+  22484 openat(AT_FDCWD,"/scratch/sandra/nios2-linux-trunk3/obj/test-2018.1=
+1-999999-nios2-linux-gnu/host-x86_64-linux-gnu/sourceryg++-2018.11/nios2-li=
+nux-gnu/libc/./lib/./libpthread.so.0",O_RDONLY|O_LARGEFILE|O_CLOEXEC) =3D 3
+  22484 read(3,0x7fffe948,512) =3D 512
+  22484 mmap2(NULL,8192,PROT_READ|PROT_WRITE,MAP_PRIVATE|MAP_ANONYMOUS,-1,0=
+) =3D 0x7f714000
+  22484 fstat64(3,0x7fffe864) =3D 0
+  22484 mmap2(NULL,120700,PROT_EXEC|PROT_READ,MAP_PRIVATE|MAP_DENYWRITE,3,0=
+) =3D 0x7f6f6000
+  22484 mprotect(0x7f70e000,4096,PROT_NONE) =3D 0
+  22484 mmap2(0x7f70f000,12288,PROT_READ|PROT_WRITE,MAP_PRIVATE|MAP_DENYWRI=
+TE|MAP_FIXED,3,0x18) =3D 0x7f70f000
+  22484 mmap2(0x7f712000,6012,PROT_READ|PROT_WRITE,MAP_PRIVATE|MAP_ANONYMOU=
+S|MAP_FIXED,-1,0) =3D 0x7f712000
+  22484 close(3) =3D 0
+  22484 openat(AT_FDCWD,"/scratch/sandra/nios2-linux-trunk3/obj/test-2018.1=
+1-999999-nios2-linux-gnu/host-x86_64-linux-gnu/sourceryg++-2018.11/nios2-li=
+nux-gnu/libc/./lib/./libc.so.6",O_RDONLY|O_LARGEFILE|O_CLOEXEC) =3D 3
+  22484 read(3,0x7fffe93c,512) =3D 512
+  22484 fstat64(3,0x7fffe858) =3D 0
+  22484 mmap2(NULL,1491048,PROT_EXEC|PROT_READ,MAP_PRIVATE|MAP_DENYWRITE,3,=
+0) =3D 0x7f589000
+  22484 mmap2(0x7f6de000,86016,PROT_READ|PROT_WRITE,MAP_PRIVATE|MAP_DENYWRI=
+TE|MAP_FIXED,3,0x154) =3D 0x7f6de000
+  22484 mmap2(0x7f6f3000,8296,PROT_READ|PROT_WRITE,MAP_PRIVATE|MAP_ANONYMOU=
+S|MAP_FIXED,-1,0) =3D 0x7f6f3000
+  22484 close(3) =3D 0
+  22484 mprotect(0x7f6de000,65536,PROT_READ) =3D 0
+  22484 mprotect(0x7f70f000,8192,PROT_READ) =3D 0
+  22484 mprotect(0x7f7d8000,4096,PROT_READ) =3D 0
+  22484 mprotect(0x00003000,4096,PROT_READ) =3D 0
+  22484 mprotect(0x7f7fc000,4096,PROT_READ) =3D 0
+  22484 set_tid_address(2138131700,2147480980,2147480988,2147480988,87148,4=
+7) =3D 22484
+  22484 set_robust_list(2138131708,12,2147480988,0,87148,47) =3D -1 errno=
+=3D38 (Function not implemented)
+  22484 rt_sigaction(32,0x7ffff36c,NULL) =3D 0
+  22484 rt_sigaction(33,0x7ffff36c,NULL) =3D -1 errno=3D22 (Invalid argumen=
+t)
+  22484 rt_sigprocmask(SIG_UNBLOCK,0x7ffff4a8,NULL) =3D 0
+  22484 getrlimit(3,2147480732,3,0,62512,47) =3D 0
+  22484 mmap2(NULL,8392704,PROT_NONE,MAP_PRIVATE|MAP_ANONYMOUS|0x20000,-1,0=
+) =3D 0x7ed88000
+  22484 mprotect(0x7ed89000,8388608,PROT_READ|PROT_WRITE) =3D 0
+  22484 brk(NULL) =3D 0x00005000
+  22484 brk(0x00026000) =3D 0x00026000
+  22484 clone(CLONE_VM|CLONE_FS|CLONE_FILES|CLONE_SIGHAND|CLONE_THREAD|CLON=
+E_SYSVSEM|CLONE_SETTLS|CLONE_PARENT_SETTID|CLONE_CHILD_CLEARTID,child_stack=
+=3D0x7f588018,parent_tidptr=3D0x7f5884fc,tls=3D0x7f58f928,child_tidptr=3D0x=
+7f5884fc) =3D 22503
+  22484 io_setup(4001536,2136506392,2136507644,2136507644,2136537384,4100) =
+=3D -1 errno=3D38 (Function not implemented)
+  22484 futex(0x7f5884fc,FUTEX_WAIT,22503,NULL,NULL,0)22484 set_robust_list=
+(2136507652,12,0,4100,2136508076,4100) =3D -1 errno=3D38 (Function not impl=
+emented)
+  22484 madvise(2128117760,8372224,4,2136507672,528660,4100) =3D 0
+  22484 exit(0)
+   =3D 0
+  22484 fstat64(1,0x7fffef48) =3D 0
+  22484 write(1,0x51e8,42)FAIL: a=3D 10, thr_a =3D 10 Addr =3D 0x7f715120
+   =3D 42
+  22484 exit_group(1)
+  sandra@build2-trusty-cs:/scratch/sandra/nios2-linux-trunk3$ =
+
+  22484 mmap2(NULL,1491048,PROT_EXEC|PROT_READ,MAP_PRIVATE|MAP_DENYWRITE,3,=
+0) =3D 0x7f589000
+  22484 mmap2(0x7f6de000,86016,PROT_READ|PROT_WRITE,MAP_PRIVATE|MAP_DENYWRI=
+TE|MAP_FIXED,3,0x154) =3D 0x7f6de000
+  22484 mmap2(0x7f6f3000,8296,PROT_READ|PROT_WRITE,MAP_PRIVATE|MAP_ANONYMOU=
+S|MAP_FIXED,-1,0) =3D 0x7f6f3000
+  22484 close(3) =3D 0
+  22484 mprotect(0x7f6de000,65536,PROT_READ) =3D 0
+  22484 mprotect(0x7f70f000,8192,PROT_READ) =3D 0
+  22484 mprotect(0x7f7d8000,4096,PROT_READ) =3D 0
+  22484 mprotect(0x00003000,4096,PROT_READ) =3D 0
+  22484 mprotect(0x7f7fc000,4096,PROT_READ) =3D 0
+  22484 set_tid_address(2138131700,2147480980,2147480988,2147480988,87148,4=
+7) =3D 22484
+  22484 set_robust_list(2138131708,12,2147480988,0,87148,47) =3D -1 errno=
+=3D38 (Function not implemented)
+  22484 rt_sigaction(32,0x7ffff36c,NULL) =3D 0
+  22484 rt_sigaction(33,0x7ffff36c,NULL) =3D -1 errno=3D22 (Invalid argumen=
+t)
+  22484 rt_sigprocmask(SIG_UNBLOCK,0x7ffff4a8,NULL) =3D 0
+  22484 getrlimit(3,2147480732,3,0,62512,47) =3D 0
+  22484 mmap2(NULL,8392704,PROT_NONE,MAP_PRIVATE|MAP_ANONYMOUS|0x20000,-1,0=
+) =3D 0x7ed88000
+  22484 mprotect(0x7ed89000,8388608,PROT_READ|PROT_WRITE) =3D 0
+  22484 brk(NULL) =3D 0x00005000
+  22484 brk(0x00026000) =3D 0x00026000
+  22484 clone(CLONE_VM|CLONE_FS|CLONE_FILES|CLONE_SIGHAND|CLONE_THREAD|CLON=
+E_SYSVSEM|CLONE_SETTLS|CLONE_PARENT_SETTID|CLONE_CHILD_CLEARTID,child_stack=
+=3D0x7f588018,parent_tidptr=3D0x7f5884fc,tls=3D0x7f58f928,child_tidptr=3D0x=
+7f5884fc) =3D 22503
+  22484 io_setup(4001536,2136506392,2136507644,2136507644,2136537384,4100) =
+=3D -1 errno=3D38 (Function not implemented)
+  22484 futex(0x7f5884fc,FUTEX_WAIT,22503,NULL,NULL,0)22484 set_robust_list=
+(2136507652,12,0,4100,2136508076,4100) =3D -1 errno=3D38 (Function not impl=
+emented)
+  22484 madvise(2128117760,8372224,4,2136507672,528660,4100) =3D 0
+  22484 exit(0)
+   =3D 0
+  22484 fstat64(1,0x7fffef48) =3D 0
+  22484 write(1,0x51e8,42)FAIL: a=3D 10, thr_a =3D 10 Addr =3D 0x7f715120
+   =3D 42
+  22484 exit_group(1)
+  sandra@build2-trusty-cs:/scratch/sandra/nios2-linux-trunk3$ =
+
+  22484 mmap2(NULL,1491048,PROT_EXEC|PROT_READ,MAP_PRIVATE|MAP_DENYWRITE,3,=
+0) =3D 0x7f589000
+  22484 mmap2(0x7f6de000,86016,PROT_READ|PROT_WRITE,MAP_PRIVATE|MAP_DENYWRI=
+TE|MAP_FIXED,3,0x154) =3D 0x7f6de000
+  22484 mmap2(0x7f6f3000,8296,PROT_READ|PROT_WRITE,MAP_PRIVATE|MAP_ANONYMOU=
+S|MAP_FIXED,-1,0) =3D 0x7f6f3000
+  22484 close(3) =3D 0
+  22484 mprotect(0x7f6de000,65536,PROT_READ) =3D 0
+  22484 mprotect(0x7f70f000,8192,PROT_READ) =3D 0
+  22484 mprotect(0x7f7d8000,4096,PROT_READ) =3D 0
+  22484 mprotect(0x00003000,4096,PROT_READ) =3D 0
+  22484 mprotect(0x7f7fc000,4096,PROT_READ) =3D 0
+  22484 set_tid_address(2138131700,2147480980,2147480988,2147480988,87148,4=
+7) =3D 22484
+  22484 set_robust_list(2138131708,12,2147480988,0,87148,47) =3D -1 errno=
+=3D38 (Function not implemented)
+  22484 rt_sigaction(32,0x7ffff36c,NULL) =3D 0
+  22484 rt_sigaction(33,0x7ffff36c,NULL) =3D -1 errno=3D22 (Invalid argumen=
+t)
+  22484 rt_sigprocmask(SIG_UNBLOCK,0x7ffff4a8,NULL) =3D 0
+  22484 getrlimit(3,2147480732,3,0,62512,47) =3D 0
+  22484 mmap2(NULL,8392704,PROT_NONE,MAP_PRIVATE|MAP_ANONYMOUS|0x20000,-1,0=
+) =3D 0x7ed88000
+  22484 mprotect(0x7ed89000,8388608,PROT_READ|PROT_WRITE) =3D 0
+  22484 brk(NULL) =3D 0x00005000
+  22484 brk(0x00026000) =3D 0x00026000
+  22484 clone(CLONE_VM|CLONE_FS|CLONE_FILES|CLONE_SIGHAND|CLONE_THREAD|CLON=
+E_SYSVSEM|CLONE_SETTLS|CLONE_PARENT_SETTID|CLONE_CHILD_CLEARTID,child_stack=
+=3D0x7f588018,parent_tidptr=3D0x7f5884fc,tls=3D0x7f58f928,child_tidptr=3D0x=
+7f5884fc) =3D 22503
+  22484 io_setup(4001536,2136506392,2136507644,2136507644,2136537384,4100) =
+=3D -1 errno=3D38 (Function not implemented)
+  22484 futex(0x7f5884fc,FUTEX_WAIT,22503,NULL,NULL,0)22484 set_robust_list=
+(2136507652,12,0,4100,2136508076,4100) =3D -1 errno=3D38 (Function not impl=
+emented)
+  22484 madvise(2128117760,8372224,4,2136507672,528660,4100) =3D 0
+  22484 exit(0)
+   =3D 0
+  22484 fstat64(1,0x7fffef48) =3D 0
+  22484 write(1,0x51e8,42)FAIL: a=3D 10, thr_a =3D 10 Addr =3D 0x7f715120
+   =3D 42
+  22484 exit_group(1)
+
+  Note that set_robust_list and clone are reported as unimplemented.
+
+  I've reported the problems with the signal syscalls separately here.
+  https://bugs.launchpad.net/qemu/+bug/1791763
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1791796/+subscriptions
 
