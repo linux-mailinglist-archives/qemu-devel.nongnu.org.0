@@ -2,51 +2,51 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BAF422F4F33
-	for <lists+qemu-devel@lfdr.de>; Wed, 13 Jan 2021 16:51:51 +0100 (CET)
-Received: from localhost ([::1]:33644 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2FAAC2F4F32
+	for <lists+qemu-devel@lfdr.de>; Wed, 13 Jan 2021 16:51:44 +0100 (CET)
+Received: from localhost ([::1]:32986 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kziR4-0003YS-PV
-	for lists+qemu-devel@lfdr.de; Wed, 13 Jan 2021 10:51:50 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46240)
+	id 1kziQx-0003H3-7V
+	for lists+qemu-devel@lfdr.de; Wed, 13 Jan 2021 10:51:43 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45888)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <lulu@redhat.com>) id 1kziMS-0007PD-UM
- for qemu-devel@nongnu.org; Wed, 13 Jan 2021 10:47:06 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:32794)
+ (Exim 4.90_1) (envelope-from <lulu@redhat.com>) id 1kziLU-0006Un-Tv
+ for qemu-devel@nongnu.org; Wed, 13 Jan 2021 10:46:04 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:52702)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <lulu@redhat.com>) id 1kziMQ-0006c3-2N
- for qemu-devel@nongnu.org; Wed, 13 Jan 2021 10:47:04 -0500
+ (Exim 4.90_1) (envelope-from <lulu@redhat.com>) id 1kziLT-00069X-1J
+ for qemu-devel@nongnu.org; Wed, 13 Jan 2021 10:46:04 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1610552821;
+ s=mimecast20190719; t=1610552760;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=uV3tN7/4T1lP1gT72DEsLwlmOWV8Y7jvuEpZJYHhelg=;
- b=FgITz8qgBxNKaD+KXlLccOfta3gdvlPjiEUO9M/dLQaErG4+cquCQ75s7Wt70nDeKp3SBR
- dbZrQMTfCRwKJAVdRWtYVmB236HHqN8UAMnO2tZZy/1zKOFhidvinMPmlqBq5cnFgDHRkM
- uRfNhSUBM2K3LZpoIJ4S5eWSUUrmkoA=
+ bh=ko5WBFXoVfjkU3bTSNRILLRsJH5HnXFXKxAL8O3vHL0=;
+ b=fmHScRWiMOYGWH7Y6ia4W/pK4wVsZxUzj6cl9kZDfQtFlvpetanHKdWRcaewJYxGcYaZFI
+ pC1gguy7CiBvhXz0iC96Q/sdCm9ntkWBb47Axj+F6Hznb9Zr9/e2u15aLUTWgAym/lAEVt
+ nht3KhLXSN38Akxc7F8Q6ueC5fUn8jI=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-128-4TIMKQggPKyXeJmZSH0r2g-1; Wed, 13 Jan 2021 10:45:55 -0500
-X-MC-Unique: 4TIMKQggPKyXeJmZSH0r2g-1
+ us-mta-495-FS_j2EIsNG-QB6amoIe8cQ-1; Wed, 13 Jan 2021 10:45:58 -0500
+X-MC-Unique: FS_j2EIsNG-QB6amoIe8cQ-1
 Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
  [10.5.11.13])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id EC3D23E756
- for <qemu-devel@nongnu.org>; Wed, 13 Jan 2021 15:45:54 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 0CA3681470A
+ for <qemu-devel@nongnu.org>; Wed, 13 Jan 2021 15:45:58 +0000 (UTC)
 Received: from laptop.redhat.com (ovpn-12-95.pek2.redhat.com [10.72.12.95])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 5387F50F7D;
- Wed, 13 Jan 2021 15:45:53 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 65CE277BE2;
+ Wed, 13 Jan 2021 15:45:56 +0000 (UTC)
 From: Cindy Lu <lulu@redhat.com>
 To: mst@redhat.com,
 	jasowang@redhat.com,
 	qemu-devel@nongnu.org
-Subject: [PATCH v1 1/4] virtio:add support in configure interrupt
-Date: Wed, 13 Jan 2021 23:45:37 +0800
-Message-Id: <20210113154540.24981-2-lulu@redhat.com>
+Subject: [PATCH v1 2/4] virtio-pci:add support for configure interrupt
+Date: Wed, 13 Jan 2021 23:45:38 +0800
+Message-Id: <20210113154540.24981-3-lulu@redhat.com>
 In-Reply-To: <20210113154540.24981-1-lulu@redhat.com>
 References: <20210113154540.24981-1-lulu@redhat.com>
 MIME-Version: 1.0
@@ -82,93 +82,140 @@ Cc: lulu@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Add configure notifier and virtio_set_config_notifier_fd_handler
-in virtio
+Add support for configure interrupt, use kvm_irqfd_assign and set the
+gsi to kernel. When the configure notifier was eventfd_signal by host
+kernel, this will finally inject an msix interrupt to guest
 
 Signed-off-by: Cindy Lu <lulu@redhat.com>
 ---
- hw/virtio/virtio.c         | 25 +++++++++++++++++++++++++
- include/hw/virtio/virtio.h |  5 +++++
- 2 files changed, 30 insertions(+)
+ hw/virtio/virtio-pci.c         | 93 ++++++++++++++++++++++++++++++++++
+ include/hw/virtio/virtio-bus.h |  2 +
+ 2 files changed, 95 insertions(+)
 
-diff --git a/hw/virtio/virtio.c b/hw/virtio/virtio.c
-index ceb58fda6c..66ed1daf95 100644
---- a/hw/virtio/virtio.c
-+++ b/hw/virtio/virtio.c
-@@ -3502,6 +3502,15 @@ static void virtio_queue_guest_notifier_read(EventNotifier *n)
-     }
+diff --git a/hw/virtio/virtio-pci.c b/hw/virtio/virtio-pci.c
+index 36524a5728..f8053e1fab 100644
+--- a/hw/virtio/virtio-pci.c
++++ b/hw/virtio/virtio-pci.c
+@@ -762,6 +762,98 @@ undo:
+     return ret;
  }
  
-+static void virtio_queue_config_read(EventNotifier *n)
++ static int kvm_virtio_pci_config_irqfd_use(VirtIOPCIProxy *proxy,
++                                 unsigned int vector)
 +{
-+    VirtIODevice *vdev = container_of(n, VirtIODevice, config_notifier);
-+
-+    if (event_notifier_test_and_clear(n)) {
-+
-+        virtio_notify_config(vdev);
-+    }
++    VirtIOIRQFD *irqfd = &proxy->vector_irqfd[vector];
++    VirtIODevice *vdev = virtio_bus_get_device(&proxy->bus);
++    EventNotifier *n = virtio_queue_get_config_notifier(vdev);
++    assert(irqfd);
++    return kvm_irqchip_add_irqfd_notifier_gsi(kvm_state, n, NULL, irqfd->virq);
 +}
- void virtio_queue_set_guest_notifier_fd_handler(VirtQueue *vq, bool assign,
-                                                 bool with_irqfd)
- {
-@@ -3518,6 +3527,17 @@ void virtio_queue_set_guest_notifier_fd_handler(VirtQueue *vq, bool assign,
-     }
- }
- 
-+void virtio_set_config_notifier_fd_handler(VirtIODevice *vdev, bool assign,
-+                                                bool with_irqfd)
++
++static void kvm_virtio_pci_config_irqfd_release(VirtIOPCIProxy *proxy,
++                                      unsigned int vector)
 +{
-+    if (assign && !with_irqfd) {
-+        event_notifier_set_handler(&vdev->config_notifier,
-+                                   virtio_queue_config_read);
++    VirtIODevice *vdev = virtio_bus_get_device(&proxy->bus);
++    EventNotifier *n = virtio_queue_get_config_notifier(vdev);
++    VirtIOIRQFD *irqfd = &proxy->vector_irqfd[vector];
++    assert(irqfd);
++    kvm_irqchip_remove_irqfd_notifier_gsi(kvm_state, n, irqfd->virq);
++    return;
++}
++static int kvm_virtio_pci_config_vector_use(VirtIOPCIProxy *proxy,
++                                        unsigned int vector)
++{
++    VirtIOIRQFD *irqfd = &proxy->vector_irqfd[vector];
++    int ret;
++
++    if (irqfd->users == 0) {
++        ret = kvm_irqchip_add_msi_route(kvm_state, vector, &proxy->pci_dev);
++        if (ret < 0) {
++            return ret;
++        }
++        irqfd->virq = ret;
++    }
++    irqfd->users++;
++
++    return 0;
++}
++static int kvm_virtio_pci_vector_config_use(VirtIOPCIProxy *proxy)
++{
++
++    VirtIODevice *vdev = virtio_bus_get_device(&proxy->bus);
++    unsigned int vector;
++    int ret;
++    VirtioDeviceClass *k = VIRTIO_DEVICE_GET_CLASS(vdev);
++
++    vector = vdev->config_vector ;
++    ret = kvm_virtio_pci_config_vector_use(proxy, vector);
++    if (ret < 0) {
++        goto undo;
++    }
++    ret = kvm_virtio_pci_config_irqfd_use(proxy,  vector);
++    if (ret < 0) {
++        goto undo;
++    }
++    return 0;
++undo:
++    kvm_virtio_pci_config_irqfd_release(proxy, vector);
++    return ret;
++}
++static void kvm_virtio_pci_vector_config_release(VirtIOPCIProxy *proxy)
++{
++    PCIDevice *dev = &proxy->pci_dev;
++    VirtIODevice *vdev = virtio_bus_get_device(&proxy->bus);
++    unsigned int vector;
++    VirtioDeviceClass *k = VIRTIO_DEVICE_GET_CLASS(vdev);
++    vector = vdev->config_vector ;
++    if (vector >= msix_nr_vectors_allocated(dev)) {
++        return;
++    }
++    kvm_virtio_pci_config_irqfd_release(proxy, vector);
++    kvm_virtio_pci_vq_vector_release(proxy, vector);
++}
++
++static int virtio_pci_set_guest_config_notifier(DeviceState *d,  bool assign,
++                                         bool with_irqfd)
++{
++    VirtIOPCIProxy *proxy = to_virtio_pci_proxy(d);
++    VirtIODevice *vdev = virtio_bus_get_device(&proxy->bus);
++    EventNotifier *notifier = virtio_queue_get_config_notifier(vdev);
++    int r = 0;
++    if (assign) {
++        r = event_notifier_init(notifier, 1);
++        virtio_set_config_notifier_fd_handler(vdev, true, with_irqfd);
++        kvm_virtio_pci_vector_config_use(proxy);
 +    } else {
-+       event_notifier_set_handler(&vdev->config_notifier, NULL);
++        virtio_set_config_notifier_fd_handler(vdev, false, with_irqfd);
++        kvm_virtio_pci_vector_config_release(proxy);
++        event_notifier_cleanup(notifier);
 +    }
++    return r;
 +}
 +
- EventNotifier *virtio_queue_get_guest_notifier(VirtQueue *vq)
+ static void kvm_virtio_pci_vector_release(VirtIOPCIProxy *proxy, int nvqs)
  {
-     return &vq->guest_notifier;
-@@ -3591,6 +3611,11 @@ EventNotifier *virtio_queue_get_host_notifier(VirtQueue *vq)
-     return &vq->host_notifier;
+     PCIDevice *dev = &proxy->pci_dev;
+@@ -2137,6 +2229,7 @@ static void virtio_pci_bus_class_init(ObjectClass *klass, void *data)
+     k->ioeventfd_assign = virtio_pci_ioeventfd_assign;
+     k->get_dma_as = virtio_pci_get_dma_as;
+     k->queue_enabled = virtio_pci_queue_enabled;
++    k->set_config_notifiers = virtio_pci_set_guest_config_notifier;
  }
  
-+EventNotifier *virtio_queue_get_config_notifier(VirtIODevice *vdev)
-+{
-+    return &vdev->config_notifier;
+ static const TypeInfo virtio_pci_bus_info = {
+diff --git a/include/hw/virtio/virtio-bus.h b/include/hw/virtio/virtio-bus.h
+index ef8abe49c5..dae81ee414 100644
+--- a/include/hw/virtio/virtio-bus.h
++++ b/include/hw/virtio/virtio-bus.h
+@@ -93,6 +93,8 @@ struct VirtioBusClass {
+      */
+     bool has_variable_vring_alignment;
+     AddressSpace *(*get_dma_as)(DeviceState *d);
++    int (*set_config_notifiers)(DeviceState *d, bool assign, bool with_irqfd);
 +
-+}
- void virtio_queue_set_host_notifier_enabled(VirtQueue *vq, bool enabled)
- {
-     vq->host_notifier_enabled = enabled;
-diff --git a/include/hw/virtio/virtio.h b/include/hw/virtio/virtio.h
-index b7ece7a6a8..38bd28242e 100644
---- a/include/hw/virtio/virtio.h
-+++ b/include/hw/virtio/virtio.h
-@@ -108,6 +108,7 @@ struct VirtIODevice
-     bool use_guest_notifier_mask;
-     AddressSpace *dma_as;
-     QLIST_HEAD(, VirtQueue) *vector_queues;
-+    EventNotifier config_notifier;
  };
  
- struct VirtioDeviceClass {
-@@ -310,11 +311,15 @@ uint16_t virtio_get_queue_index(VirtQueue *vq);
- EventNotifier *virtio_queue_get_guest_notifier(VirtQueue *vq);
- void virtio_queue_set_guest_notifier_fd_handler(VirtQueue *vq, bool assign,
-                                                 bool with_irqfd);
-+void virtio_set_config_notifier_fd_handler(VirtIODevice *vdev, bool assign,
-+                                                bool with_irqfd);
-+
- int virtio_device_start_ioeventfd(VirtIODevice *vdev);
- int virtio_device_grab_ioeventfd(VirtIODevice *vdev);
- void virtio_device_release_ioeventfd(VirtIODevice *vdev);
- bool virtio_device_ioeventfd_enabled(VirtIODevice *vdev);
- EventNotifier *virtio_queue_get_host_notifier(VirtQueue *vq);
-+EventNotifier *virtio_queue_get_config_notifier(VirtIODevice *vdev);
- void virtio_queue_set_host_notifier_enabled(VirtQueue *vq, bool enabled);
- void virtio_queue_host_notifier_read(EventNotifier *n);
- void virtio_queue_aio_set_host_notifier_handler(VirtQueue *vq, AioContext *ctx,
+ struct VirtioBusState {
 -- 
 2.21.3
 
