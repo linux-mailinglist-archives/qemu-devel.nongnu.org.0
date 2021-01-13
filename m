@@ -2,93 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EDC362F48AB
-	for <lists+qemu-devel@lfdr.de>; Wed, 13 Jan 2021 11:31:38 +0100 (CET)
-Received: from localhost ([::1]:42620 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 223042F48B9
+	for <lists+qemu-devel@lfdr.de>; Wed, 13 Jan 2021 11:33:13 +0100 (CET)
+Received: from localhost ([::1]:46054 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kzdRC-0008GJ-2i
-	for lists+qemu-devel@lfdr.de; Wed, 13 Jan 2021 05:31:38 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50412)
+	id 1kzdSi-0001R5-7Q
+	for lists+qemu-devel@lfdr.de; Wed, 13 Jan 2021 05:33:12 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50944)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kzdPC-0007hr-7z
- for qemu-devel@nongnu.org; Wed, 13 Jan 2021 05:29:34 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:33953)
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1kzdRf-0000ap-E0
+ for qemu-devel@nongnu.org; Wed, 13 Jan 2021 05:32:07 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:29701)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kzdP9-0005J0-D7
- for qemu-devel@nongnu.org; Wed, 13 Jan 2021 05:29:33 -0500
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1kzdRd-0006ai-FF
+ for qemu-devel@nongnu.org; Wed, 13 Jan 2021 05:32:07 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1610533769;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=c/ls0Z+a+Ec7JAlHy5N534ojP9fA2VHRqXZDSvGfmmg=;
- b=KpSBNkmrFxJLFpHCFPUWxKXsG4jJYDLZHB+wfszGz0C59k5kCCbk6I+oC07NTtwA3DxshH
- yNSETG4t1MbzasA3bWOFcecUuSHcWu12xOAaXeszpAtsAgc4tdWANj5o2UJZ5M8qtOrqb0
- zyCN0s++3R8lx/f4TmnC02McO//Uj8I=
-Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
- [209.85.128.71]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-170-KZ7q6KIDPmaYL6R1V_LkfQ-1; Wed, 13 Jan 2021 05:29:26 -0500
-X-MC-Unique: KZ7q6KIDPmaYL6R1V_LkfQ-1
-Received: by mail-wm1-f71.google.com with SMTP id r1so614179wmn.8
- for <qemu-devel@nongnu.org>; Wed, 13 Jan 2021 02:29:26 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=c/ls0Z+a+Ec7JAlHy5N534ojP9fA2VHRqXZDSvGfmmg=;
- b=mELzICn44GeI68LTEXkg84wsARH2dPNgvn2DmKPiAn4dHBtur8upZO+2c8iQYEvm9A
- tME6ZRsZP8I1oRccoJLXwHSUwc6wQYWUni03WRKM9DPEQ3JBV2FJ5uVNkf+AWSTTKsJk
- +x8LTCMecob2SxuOq1B0aiMgIWjWpyRbPp+UfKuKuQXEmAPV2tt5DI3sqvgBVfCleffG
- IgT9aP019C7E7v2W3OryGuPQYLN1YbE2Oabrl3dhjDrkd7bfmB3qoMM0ff/uXHnXCF/O
- TEmR+kdDozBVYv+PNj1AEFtRSHfGvCeUTMYiKoifIFHUNiZS6eouNEX1kF/TeFM+QP/t
- VggQ==
-X-Gm-Message-State: AOAM531voHYYx1pHM4bhPXViyFKGc9p5qcg2pGLTqnwsWwjCABkK49eX
- 4tGl/yW52Ir9PjUKSl3AtY7KBwdKJbLCrHp6psO7QMsz8aO3IamxD5rhOYjgac27hFxxlmSbKf2
- UCak7GN556LD11mQ=
-X-Received: by 2002:adf:e590:: with SMTP id l16mr1858531wrm.294.1610533765539; 
- Wed, 13 Jan 2021 02:29:25 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJzJ3meH4epoyc5zCRAQTZhLqAmwrtRhnueF+l+ATaTN/PhXVMVYudlBFcfIYYS2asc6zZbJnA==
-X-Received: by 2002:adf:e590:: with SMTP id l16mr1858509wrm.294.1610533765330; 
- Wed, 13 Jan 2021 02:29:25 -0800 (PST)
-Received: from [192.168.1.36] (190.red-83-57-173.dynamicip.rima-tde.net.
- [83.57.173.190])
- by smtp.gmail.com with ESMTPSA id l8sm3111021wrb.73.2021.01.13.02.29.24
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 13 Jan 2021 02:29:24 -0800 (PST)
-Subject: Re: minimal "zero conf" build dockerfiles for fedora:latest and
- alpine:latest
-To: Gerd Hoffmann <kraxel@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>
-References: <a2f5077b-ae74-2b39-4fb8-70d29dd549eb@redhat.com>
- <a56f2df6-867e-2542-734c-95c1ae3acf88@redhat.com>
- <6a08e9f5-7cd7-c2c8-4b61-5466a4ffb2ec@redhat.com>
- <20210113100956.xuyvmxayh5xytja3@sirius.home.kraxel.org>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-Message-ID: <f6157834-98d7-a49b-9cf9-87c2b15c2a81@redhat.com>
-Date: Wed, 13 Jan 2021 11:29:23 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.6.0
+ s=mimecast20190719; t=1610533924;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:in-reply-to:in-reply-to:  references:references;
+ bh=+QW1Jp+IOSY3/O/cXBgLFwxkax8/btFBH5OCiJiNEHk=;
+ b=SqFySATiZ2MO152uofQJWVPf0lfkQLvbRKbdloVv5VwLpkulToiwR867T++X2ljvR9DLkx
+ twX8JxHUfosQTRqK5gdfJOBZPAnOkR1CKvMp4txBkdbmAX1axlMRhIuV96bv6sqVTYUVRj
+ ub7ywKKkO0Oz/O1LHvp84VLUAJltxtg=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-353-hA3FmsTtO5aQCjSal8CERA-1; Wed, 13 Jan 2021 05:31:57 -0500
+X-MC-Unique: hA3FmsTtO5aQCjSal8CERA-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 009518144E5;
+ Wed, 13 Jan 2021 10:31:56 +0000 (UTC)
+Received: from redhat.com (ovpn-115-107.ams2.redhat.com [10.36.115.107])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id F270A1C936;
+ Wed, 13 Jan 2021 10:31:47 +0000 (UTC)
+Date: Wed, 13 Jan 2021 10:31:43 +0000
+From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+To: Paolo Bonzini <pbonzini@redhat.com>
+Subject: Re: [PATCH 8/8] configure: automatically parse command line for
+ meson -D options
+Message-ID: <20210113103143.GA1568240@redhat.com>
+References: <20210107140039.467969-1-pbonzini@redhat.com>
+ <20210107140039.467969-9-pbonzini@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <20210113100956.xuyvmxayh5xytja3@sirius.home.kraxel.org>
+In-Reply-To: <20210107140039.467969-9-pbonzini@redhat.com>
+User-Agent: Mutt/1.14.6 (2020-07-11)
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=berrange@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=philmd@redhat.com;
+Content-Disposition: inline
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=berrange@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -29
 X-Spam_score: -3.0
 X-Spam_bar: ---
 X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.251,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -101,29 +80,91 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
- Thomas Huth <thuth@redhat.com>, John Snow <jsnow@redhat.com>,
- QEMU Developers <qemu-devel@nongnu.org>
+Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+Cc: marcandre.lureau@redhat.com, alex.bennee@linaro.org, qemu-devel@nongnu.org,
+ stefanha@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 1/13/21 11:09 AM, Gerd Hoffmann wrote:
->   Hi,
+On Thu, Jan 07, 2021 at 03:00:39PM +0100, Paolo Bonzini wrote:
+> Right now meson_options.txt lists almost 60 options.  Each option
+> needs code in configure to parse it and pass the option down to Meson as
+> a -D command-line argument; in addition the default must be duplicated
+> between configure and meson_options.txt.
 > 
->> I don't like Perl really, but there's a chicken-and-egg problem between
->> detecting Python and using it to print the configure help script.  For
->> configure-time tasks, Perl has the advantage that "#! /usr/bin/env perl"
->> just works.
+> This series tries to remove the code duplication by passing unknown
+> --enable and --disable options to a Perl program, and using Meson's
+> introspection support to match those to meson_options.txt.
+> About 80% of the options can be handled completely by the new
+> mechanism.  Five meson options are not of the --enable/--disable
+> kind.  Six more need to be parsed in configure for various reasons
+> documented in the patch, but they still have their help automatically
+> generated.
 > 
-> Assuming perl is actually installed, the world seems to shift to python.
-> On a minimal fedora install python is present but perl is not ...
+> The advantages are simple to explain, and are basically what you
+> can expect from an introspection-based system:
 > 
-> On the other hand git depends on perl, so it is probably pretty hard to
-> find a developer workstation without perl installed, so maybe that
-> doesn't matter much for the time being.
+> - there is obviously much less code in configure.  About 1000 lines
+>   of the script deal with command line parsing, and the patch removes
+>   a quarter of them.
+> 
+> - the script is higher quality than the repetitive code in configure.
+>   Help is generally more complete and useful, for example it consistently
+>   lists defaults as well as the possible choices if they are not just
+>   enabled/disabled/auto.  Parsing is more consistent too, for example
+>   --enable-slirp and --enable-blobs were not supported.
+> 
+> - new Meson options do not need any change to the configure script.
+>   This increases the attractiveness of converting options from
+>   hand-crafted parsing and config-host.mak to Meson.
+> 
+> The disadvantages are:
+> 
+> - a few options change name: --enable-tcmalloc and --enable-jemalloc
+>   become --enable-malloc={tcmalloc,jemalloc}; --disable-blobs becomes
+>   --disable-install-blobs.
+> 
+> - because we need to run the script to generate the full help, we
+>   cannot rely on the user supplying the path to a Python interpreter
+>   with --python.  For this reason, the script is written in Perl.
+>   Perl 5 is universally available as "/usr/bin/env perl", while
+>   (even ignoring the Python 2/3 difference) some systems do not
+>   have a "python" or "python3" binary on the path.
 
-There is also the new configure-parse-buildoptions.pl script Paolo
-wants to add:
-https://www.mail-archive.com/qemu-devel@nongnu.org/msg770651.html
+Can't we just use  "/usr/bin/env python3", and if that doesn't
+exist in $PATH, simply show truncated --help output, with a
+message requesting that they pass --python to see full help.
+
+> 
+> - because we parse command-line options before meson is available,
+>   the introspection output is stored in the source tree.  This is
+>   the reason for the unattractive diffstat; the number of JSON lines
+>   added is higher than the number of configure lines removed.
+>   Of course the latter are code that must be maintained manually and
+>   the former is not.
+> 
+> Note that the output of "meson introspect --buildoptions" is massaged
+> slightly, in order to make it more stable and avoid horrible conflicts
+> on every modification to meson_options.txt.
+> 
+> Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
+> ---
+>  Makefile                                |  11 +
+>  configure                               | 371 ++----------
+>  docs/devel/build-system.rst             |  49 +-
+>  meson-buildoptions.json                 | 717 ++++++++++++++++++++++++
+
+I'm not a fan of seeing this file introduced as it has significant
+overlap with meson_options.txt.    I feel like the latter has enough
+information present to do an acceptable job for help output. After
+all that's sufficient if we were using meson directly.
+
+
+Regards,
+Daniel
+-- 
+|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
+|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
+|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
 
 
