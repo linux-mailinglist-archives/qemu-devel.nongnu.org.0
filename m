@@ -2,72 +2,88 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CF0E72F4BF7
-	for <lists+qemu-devel@lfdr.de>; Wed, 13 Jan 2021 14:08:02 +0100 (CET)
-Received: from localhost ([::1]:60242 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BFD9A2F4C0A
+	for <lists+qemu-devel@lfdr.de>; Wed, 13 Jan 2021 14:11:53 +0100 (CET)
+Received: from localhost ([::1]:34962 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kzfsX-00087M-Sa
-	for lists+qemu-devel@lfdr.de; Wed, 13 Jan 2021 08:08:01 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:32792)
+	id 1kzfwG-0001D9-Sh
+	for lists+qemu-devel@lfdr.de; Wed, 13 Jan 2021 08:11:52 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34232)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1kzfpE-0007OW-RQ
- for qemu-devel@nongnu.org; Wed, 13 Jan 2021 08:04:36 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:20930)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1kzfoz-0002Ls-Vg
- for qemu-devel@nongnu.org; Wed, 13 Jan 2021 08:04:34 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1610543059;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=a0dBtvwZSWy8e52Nm+ojwoDoPbLtB99ewM72K2DGQ60=;
- b=YuWQYRF7U7fLzuTjAUTcY7vK/0dLFDQ+KsXSnxg8bivl4xZLfbFth5f7PXFfjEiW6dSX4J
- 4jopA78LiyMSCgL9plQkmsGRreXwQzqvBrxMXLjcp13g4qiC2NSPfTLhRlSlNXKrNHnCGn
- o+daXFjQEMs5IaBKHMDbIOOBOB7KeHI=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-187-2eJiJCtqMTea1xLSSqAH1A-1; Wed, 13 Jan 2021 08:04:17 -0500
-X-MC-Unique: 2eJiJCtqMTea1xLSSqAH1A-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 4B728192D785;
- Wed, 13 Jan 2021 13:04:16 +0000 (UTC)
-Received: from blackfin.pond.sub.org (ovpn-112-172.ams2.redhat.com
- [10.36.112.172])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 0158A5E1A4;
- Wed, 13 Jan 2021 13:04:16 +0000 (UTC)
-Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id 8AB1411386A7; Wed, 13 Jan 2021 14:04:14 +0100 (CET)
-From: Markus Armbruster <armbru@redhat.com>
-To: Eric Blake <eblake@redhat.com>
-Subject: Re: [PATCH v3 5/7] qapi: Introduce QAPI_LIST_APPEND
-References: <20201223221102.390740-1-eblake@redhat.com>
- <20201223221102.390740-6-eblake@redhat.com>
-Date: Wed, 13 Jan 2021 14:04:14 +0100
-In-Reply-To: <20201223221102.390740-6-eblake@redhat.com> (Eric Blake's message
- of "Wed, 23 Dec 2020 16:11:00 -0600")
-Message-ID: <877doh0z01.fsf@dusky.pond.sub.org>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.1 (gnu/linux)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1kzfuA-0000b6-JV
+ for qemu-devel@nongnu.org; Wed, 13 Jan 2021 08:09:42 -0500
+Received: from mail-wr1-x433.google.com ([2a00:1450:4864:20::433]:38239)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1kzfu6-0004Jy-Mc
+ for qemu-devel@nongnu.org; Wed, 13 Jan 2021 08:09:41 -0500
+Received: by mail-wr1-x433.google.com with SMTP id r7so2060849wrc.5
+ for <qemu-devel@nongnu.org>; Wed, 13 Jan 2021 05:09:37 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=sender:subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=ZtHZ0sscuEeoKWmZZQOgzehe/cENvfcs/efW7IfJlPU=;
+ b=sFGYQDE2iQsWuMz4afjdtVzgF2mKFWj9kNl7+0WuLIVZlmaClQmhyIx9xjpScAtOV8
+ kcY1d4+0ImiGFeIVqeYdRiSQ0IAaSe7hqaKcmFvrGv5pr4A9pnmBEn6cFe8nSAwqeqm+
+ EdZFrUIDwbTk+SYmn/I4DSAznZCUNI/mDR+cD5cWXnALw7Cmr2Hb9JfGnAz1USkxLC58
+ 6e+ZLY+wWxkJgj2piiKLzrqBCUwhP9z+p663d6zrKgz2aKoxc7Tbyk+RGQrSYph3yrrF
+ St0bixsSaH40gURWylpXlgpF3rM+MBXPsBvdjouAwVAP+7b6kWeujk00ZUE2H84mxOpF
+ vbag==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
+ :date:user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=ZtHZ0sscuEeoKWmZZQOgzehe/cENvfcs/efW7IfJlPU=;
+ b=YljYUlAglk8lBr9iMEq9Anbj8pH00Z2F/sSGpqdpgmcRxmta++K92N/y8QEaLKeMV1
+ C+n3ri4q4w9qYWP/JJFNMs2Zq8DvHc38qZ/d9m4eQwhphYnVgHop/308Iz9a5RoiVvqv
+ NvKpn+JhQ12ZrFGvK81XsExyUu/KQCSP98RkukHwYXqN6kzoAan3HXyxinAUyGffZmXc
+ 1jM7ZZgf5/cqy7Ey/cP1Zq6csIpHUh66nXQn6rrpMKvr4YkGI1Qx7qjQU7JQ6pMz5Oc/
+ yITbtXPxl6/FQ0PB0w2LEp2ujuXCxx0VUU9PNnkODmVEliaJUu8uIsaTWw8HFrfnzixH
+ 7Usg==
+X-Gm-Message-State: AOAM533kcB6tChOIrwAylmzo3rim9hnkj0Ofzn/X58LrDr1XpEE3M1Hp
+ HhttTBjXlsY88wUutWQdqOA=
+X-Google-Smtp-Source: ABdhPJyS0OLxR94cfvU//FYWzpVpcqcnsJUs3tHAocCN5cg7XsltGsjxChfMpwhah+D7Nxm1k7AIRg==
+X-Received: by 2002:a05:6000:90:: with SMTP id
+ m16mr2577309wrx.165.1610543375992; 
+ Wed, 13 Jan 2021 05:09:35 -0800 (PST)
+Received: from [192.168.1.36] (190.red-83-57-173.dynamicip.rima-tde.net.
+ [83.57.173.190])
+ by smtp.gmail.com with ESMTPSA id v4sm3445545wrw.42.2021.01.13.05.09.34
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 13 Jan 2021 05:09:34 -0800 (PST)
+Subject: Re: [PATCH 1/8] build-system: clean up TCG/TCI configury
+To: Aurelien Jarno <aurelien@aurel32.net>, Stefan Weil <sw@weilnetz.de>,
+ John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>,
+ Helge Deller <deller@gmx.de>, debian-hppa@lists.debian.org,
+ debian-superh@lists.debian.org
+References: <20210107140039.467969-1-pbonzini@redhat.com>
+ <20210107140039.467969-2-pbonzini@redhat.com>
+ <CAFEAcA9yyUUmd+hj6kgAV8KWtCC41Q55JRfE0q1zTaDaOofgOQ@mail.gmail.com>
+ <a5cd4c43-2f12-2dbf-8db7-21acc7abc73d@redhat.com>
+ <20210107160653.GD1029501@redhat.com>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
+Message-ID: <d1b5a493-0658-3bba-b1b4-0116f337031d@amsat.org>
+Date: Wed, 13 Jan 2021 14:09:33 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.6.0
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=armbru@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=armbru@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -29
-X-Spam_score: -3.0
-X-Spam_bar: ---
-X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.25,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <20210107160653.GD1029501@redhat.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::433;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x433.google.com
+X-Spam_score_int: -14
+X-Spam_score: -1.5
+X-Spam_bar: -
+X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.248, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -80,50 +96,46 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Michael Roth <michael.roth@amd.com>, qemu-devel@nongnu.org
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
+ QEMU Developers <qemu-devel@nongnu.org>, Stefan Hajnoczi <stefanha@redhat.com>,
+ =?UTF-8?Q?Marc-Andr=c3=a9_Lureau?= <marcandre.lureau@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>,
+ =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Eric Blake <eblake@redhat.com> writes:
+Cc'ing TCI, SH4 and PA contacts FWIW.
 
-> Similar to the existing QAPI_LIST_PREPEND, but designed for use where
-> we want to preserve insertion order.  Callers will be added in
-> upcoming patches.  Note the difference in signature: PREPEND takes
-> List*, APPEND takes List**.
->
-> Signed-off-by: Eric Blake <eblake@redhat.com>
-> ---
->  include/qapi/util.h | 13 +++++++++++++
->  1 file changed, 13 insertions(+)
->
-> diff --git a/include/qapi/util.h b/include/qapi/util.h
-> index 6178e98e97a5..8b4967990c0d 100644
-> --- a/include/qapi/util.h
-> +++ b/include/qapi/util.h
-> @@ -37,4 +37,17 @@ int parse_qapi_name(const char *name, bool complete);
->      (list) = _tmp; \
->  } while (0)
->
-> +/*
-> + * For any pointer to a GenericList @tail, insert @element at the back and
-> + * update the tail.
-> + *
-> + * Note that this macro evaluates @element exactly once, so it is safe
-> + * to have side-effects with that argument.
-> + */
-> +#define QAPI_LIST_APPEND(tail, element) do { \
-> +    *(tail) = g_malloc0(sizeof(**(tail))); \
-> +    (*(tail))->value = (element); \
-> +    (tail) = &(*tail)->next; \
-> +} while (0)
-> +
->  #endif
-
-You mentioned parenthesizing the lone unparenthesized occurence of
-@tail, like
-
-  +    (tail) = &(*(tail))->next; \
-
-Did you decide not to?
+On 1/7/21 5:06 PM, Daniel P. Berrangé wrote:
+> On Thu, Jan 07, 2021 at 04:50:36PM +0100, Paolo Bonzini wrote:
+>> On 07/01/21 16:01, Peter Maydell wrote:
+>>> On Thu, 7 Jan 2021 at 14:03, Paolo Bonzini <pbonzini@redhat.com> wrote:
+>>>>
+>>>> Make CONFIG_TCG_INTERPRETER a Meson option, and enable TCI (though with
+>>>> a warning) if the host CPU is unsupported, making it more similar to
+>>>> other --enable-* options.
+>>>
+>>> The current behaviour is kind of deliberate. Using the TCG
+>>> interpreter is a terrible idea and think it's better if we
+>>> don't let users end up using it without realising that they have.
+>>> (Personally I would vote to deprecate-and-delete TCI, and also
+>>> to just have configure error out on unknown host CPU architectures.)
+>>
+>> Fair enough, I can change this back of course.  The missing targets are
+>> parisc, ia64 and sh4 I guess.
+> 
+> ia64 is a dead host architecture and doesn't exist in any OS distro that
+> we target anymore, so I don't think we need to consider it.
+> 
+> Likewise parisc/hppa doesn't seem exist in Debian since Squeeze, so I
+> think we can rule that out too.
+> 
+> Only sh4 still seems to be supported in Debian. I expect the primary
+> need there is for sh4 guest support rather than sh4 host support.
+> 
+> Regards,
+> Daniel
+> 
 
 
