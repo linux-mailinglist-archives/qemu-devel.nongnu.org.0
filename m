@@ -2,78 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4EE372F4C4E
-	for <lists+qemu-devel@lfdr.de>; Wed, 13 Jan 2021 14:39:44 +0100 (CET)
-Received: from localhost ([::1]:38418 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BA6A92F4C4B
+	for <lists+qemu-devel@lfdr.de>; Wed, 13 Jan 2021 14:38:32 +0100 (CET)
+Received: from localhost ([::1]:35470 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kzgND-0007UR-DV
-	for lists+qemu-devel@lfdr.de; Wed, 13 Jan 2021 08:39:43 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41636)
+	id 1kzgM3-0006Ez-Q3
+	for lists+qemu-devel@lfdr.de; Wed, 13 Jan 2021 08:38:31 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41286)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
- id 1kzgKl-0005ul-8q
- for qemu-devel@nongnu.org; Wed, 13 Jan 2021 08:37:13 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:43248)
+ id 1kzgJW-0005Ug-T7
+ for qemu-devel@nongnu.org; Wed, 13 Jan 2021 08:35:54 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:39267)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
- id 1kzgKg-0007w3-HW
- for qemu-devel@nongnu.org; Wed, 13 Jan 2021 08:37:11 -0500
+ id 1kzgJV-0007Nj-Bb
+ for qemu-devel@nongnu.org; Wed, 13 Jan 2021 08:35:54 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1610545021;
+ s=mimecast20190719; t=1610544951;
  h=from:from:reply-to:reply-to:subject:subject:date:date:
  message-id:message-id:to:to:cc:cc:mime-version:mime-version:
  content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=a8XwYsiGGHOPSJH7Yz5Tw5P2tfkHFb/+AReSQR2pzIQ=;
- b=UTW6EzCX3XwjovdzDIIzfmokDhOnOT+xXGV6dOKrwBupBPR2bGC0WO58hMsaRIcVEraRac
- YvRKjkDD/CSpC8+ivwUEbXNvxzywNj5N2fl3ePVPlXy4dAK4FXx1ZE7kZRxJiCG8pjJ7cR
- TloX4bopRILlK573NHjBmKcLR0P6iQw=
-Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
- [209.85.221.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-474-UNltZV9RNJ6Ls3Xg0_w1zg-1; Wed, 13 Jan 2021 08:35:32 -0500
-X-MC-Unique: UNltZV9RNJ6Ls3Xg0_w1zg-1
-Received: by mail-wr1-f72.google.com with SMTP id w8so967664wrv.18
- for <qemu-devel@nongnu.org>; Wed, 13 Jan 2021 05:35:32 -0800 (PST)
+ bh=UHZhw38SmLnyuvvOoj/Z4pLPH4tk1EDUrf8Y73Ntvwk=;
+ b=Hp1HfwxIRTZmbje0+FH2Oni8jlmgtEzV6PKolFVNs4dNVL53UqdHVDhzRaj16NCpSX7MmP
+ QR2jwjpyer11nXpZzavkSa9Z72bXCAPk1561ySksi4aKMJ5Fi1E3UME0wG/qHB8tgtCxmH
+ uZ/pImuZMxlDKjUGQb80i42IP0w7aZ0=
+Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
+ [209.85.221.71]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-481-TrCWLLXJMXyD43kpB1vCGw-1; Wed, 13 Jan 2021 08:35:49 -0500
+X-MC-Unique: TrCWLLXJMXyD43kpB1vCGw-1
+Received: by mail-wr1-f71.google.com with SMTP id o12so961469wrq.13
+ for <qemu-devel@nongnu.org>; Wed, 13 Jan 2021 05:35:49 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:in-reply-to:references
  :user-agent:reply-to:date:message-id:mime-version
  :content-transfer-encoding;
- bh=a8XwYsiGGHOPSJH7Yz5Tw5P2tfkHFb/+AReSQR2pzIQ=;
- b=OnJCOkuzM5F+C48y+aPimkIK+Xc3HmLC/0f/F08GyxEHDZ1+8qQY+lCFnbc9qTyBHj
- kOLdHw0a5Q2h/MRT6c1cAaQhcJXLKTGmbtKxB9k22KmufNwB9DvuKXsZPl0OQJGNvlWs
- A6zA2znW/cmexUujhYAB+H21aG6z6/M3OoousANa0VKkiR0dj7Me4qnKVTWEkHU1kkLM
- jLp3DD5UxHPbuhMCJ0/kfdapt6DoHZrCX4bletWWeOpm2EBUuPIlyqwHXORlq1a0FINe
- xXT378vMVXCQgeHz/iYmgRxZrfiQ/GvNFlaXNIRBdDvHiPUK/MjFIQecGC12d068pImP
- EZJg==
-X-Gm-Message-State: AOAM531hK9yGRj4YvU+oGHsR1lIctHFujrZPcDNXagtz0FeXg9YJYT/N
- BX5ixvMOAW/eUR1vNixRZGQiInJNsJDPHnBu6CooU0MP0W94Oi3Z+K7ahql59i5twZpO1Z5cGlK
- +5iskSI474du/H8A=
-X-Received: by 2002:a05:6000:1043:: with SMTP id
- c3mr2646575wrx.34.1610544931705; 
- Wed, 13 Jan 2021 05:35:31 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJzh09qX4HbYzYkFCUUIBYoh8QENkdc7M9A1J63YDMCVGSXOuLE+IW5iJAM+97X84lUll8OfXg==
-X-Received: by 2002:a05:6000:1043:: with SMTP id
- c3mr2646554wrx.34.1610544931506; 
- Wed, 13 Jan 2021 05:35:31 -0800 (PST)
+ bh=UHZhw38SmLnyuvvOoj/Z4pLPH4tk1EDUrf8Y73Ntvwk=;
+ b=Utgj6GGM/fIs6Ok30avgYw3O/+CdNtQl1nQZqhZwLdPhtmqEYy7RKAzjkvP7Q4UZ6v
+ xRKT1Y70zBvWrqrtquHxPjrmM1r9PwkBBQZIAMNMrpIrPY+rBrUfInDfHXMsV7e0qk8y
+ 4xBv09HDOKEtKSqVsNfb9tlRagjj+cbAQibXMT7ZqLlqfErcO87eASLKy7K6iE5RhT1z
+ 1u0JT50h6H0OXs2kxc6jUGaXqU2u2oLAKmlDDo9LXCpekS4dePed3L9EvQz4lajIREDm
+ 5Y+/SVfRHVd6jNSNXWGZ4xUZNUW9NTsEtfeN6z6us8Xrd0TEIAYkjj/x0MBGk94MoNog
+ iIuw==
+X-Gm-Message-State: AOAM532jc5KBEFw6r0Dv2FFqTctsRFBjGRAshPDqq+1HPXBFZpGcgowT
+ MLorF8kb8/AFe6jbxD+KJoueakO97lUn0dGv091ZzKH73UlmCFiHaGdcxoswr18+1OBckbw+H4b
+ oLv7nuuqmV+95OB0=
+X-Received: by 2002:a7b:c208:: with SMTP id x8mr2247909wmi.179.1610544948216; 
+ Wed, 13 Jan 2021 05:35:48 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJzYnJZyqiN+0xLKfGdoCxJmvJ6ScJo4ic6QKfJfvxfGYGHkdV167sG5Y2y6Mor9nsOg152Jrw==
+X-Received: by 2002:a7b:c208:: with SMTP id x8mr2247886wmi.179.1610544948000; 
+ Wed, 13 Jan 2021 05:35:48 -0800 (PST)
 Received: from localhost (trasno.trasno.org. [83.165.45.250])
- by smtp.gmail.com with ESMTPSA id b14sm3242414wrx.77.2021.01.13.05.35.30
+ by smtp.gmail.com with ESMTPSA id y2sm2972736wma.6.2021.01.13.05.35.47
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 13 Jan 2021 05:35:30 -0800 (PST)
+ Wed, 13 Jan 2021 05:35:47 -0800 (PST)
 From: Juan Quintela <quintela@redhat.com>
 To: Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
-Subject: Re: [RFC PATCH v6 01/11] hw/ssi: imx_spi: Use a macro for number of
- chip selects supported
-In-Reply-To: <20210112183529.2011863-2-f4bug@amsat.org> ("Philippe
- =?utf-8?Q?Mathieu-Daud=C3=A9=22's?= message of "Tue, 12 Jan 2021 19:35:19
+Subject: Re: [RFC PATCH v6 02/11] hw/ssi: imx_spi: Remove pointless variable
+ initialization
+In-Reply-To: <20210112183529.2011863-3-f4bug@amsat.org> ("Philippe
+ =?utf-8?Q?Mathieu-Daud=C3=A9=22's?= message of "Tue, 12 Jan 2021 19:35:20
  +0100")
 References: <20210112183529.2011863-1-f4bug@amsat.org>
- <20210112183529.2011863-2-f4bug@amsat.org>
+ <20210112183529.2011863-3-f4bug@amsat.org>
 User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.1 (gnu/linux)
-Date: Wed, 13 Jan 2021 14:35:29 +0100
-Message-ID: <87v9c1gdsu.fsf@secure.mitica>
+Date: Wed, 13 Jan 2021 14:35:46 +0100
+Message-ID: <87r1mpgdsd.fsf@secure.mitica>
 MIME-Version: 1.0
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=quintela@redhat.com
@@ -106,26 +104,17 @@ Reply-To: quintela@redhat.com
 Cc: Peter Maydell <peter.maydell@linaro.org>,
  Alistair Francis <alistair@alistair23.me>, Bin Meng <bin.meng@windriver.com>,
  qemu-devel@nongnu.org, Jean-Christophe Dubois <jcd@tribudubois.net>,
- qemu-arm@nongnu.org, Alistair Francis <alistair.francis@wdc.com>,
- Peter Chubb <peter.chubb@nicta.com.au>, Bin Meng <bmeng.cn@gmail.com>
+ qemu-arm@nongnu.org, Peter Chubb <peter.chubb@nicta.com.au>,
+ Bin Meng <bmeng.cn@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org> wrote:
-> From: Bin Meng <bin.meng@windriver.com>
+> 'burst_length' is cleared in imx_spi_reset(), which is called
+> after imx_spi_realize(). Remove the initialization to simplify.
 >
-> Avoid using a magic number (4) everywhere for the number of chip
-> selects supported.
->
-> Signed-off-by: Bin Meng <bin.meng@windriver.com>
-> Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
-> Reviewed-by: Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>
-> Message-Id: <20210112145526.31095-2-bmeng.cn@gmail.com>
 > Signed-off-by: Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>
 
 Reviewed-by: Juan Quintela <quintela@redhat.com>
-
-A fast search don't show what resets cs_lines, but that is independent
-of this patch.
 
 
