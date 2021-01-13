@@ -2,126 +2,86 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AC9062F5446
-	for <lists+qemu-devel@lfdr.de>; Wed, 13 Jan 2021 21:47:00 +0100 (CET)
-Received: from localhost ([::1]:36618 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 15AD62F5457
+	for <lists+qemu-devel@lfdr.de>; Wed, 13 Jan 2021 21:56:42 +0100 (CET)
+Received: from localhost ([::1]:47006 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kzn2h-0002ng-Ab
-	for lists+qemu-devel@lfdr.de; Wed, 13 Jan 2021 15:46:59 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56504)
+	id 1kznC5-0007cI-2Q
+	for lists+qemu-devel@lfdr.de; Wed, 13 Jan 2021 15:56:41 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58234)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
- id 1kzn1R-00021j-7I; Wed, 13 Jan 2021 15:45:41 -0500
-Received: from mail-eopbgr80092.outbound.protection.outlook.com
- ([40.107.8.92]:29813 helo=EUR04-VI1-obe.outbound.protection.outlook.com)
+ (Exim 4.90_1) (envelope-from <jag.raman@oracle.com>)
+ id 1kzn9e-0005uN-SB
+ for qemu-devel@nongnu.org; Wed, 13 Jan 2021 15:54:10 -0500
+Received: from userp2130.oracle.com ([156.151.31.86]:38928)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
- id 1kzn1N-00060b-AB; Wed, 13 Jan 2021 15:45:40 -0500
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=VYG8qeQ8AdQ6c+Zn+gZUTyKtKldvosBIcKPQdL1sBmwrpKXu6iQ7sdb1L1szz8AxssVCUNAAkcpFthBiYbXnwv9BG3Y3/ca7zw1BkJJyUWnnmAdin6wARVFbRKff5go3MCd134qpsg96jNPnFgz0YmI2rD2IISoEzhSetw0vJrwNAJ75PAZHOSBUWLsX2Cc15HfR3k3ZESv3poJTINahgo9p5SEbl9TSAm0qf8HZk+LxWVSskReotOsy4xJ55gQk9qKY6mkgsXADG7Rl7P8g9tQMR5THJqyPznt+recsm9uRfYkTqj0H3ACRIsdkCoLgxRzvjyXqG9Cf0fLkFsLxgA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=0O9cSOHq/wX4+Eu5Vu+hZtWCUOmqrHdOcCRYvwzLloA=;
- b=YFr9CiWt/Znoltn90WQ1vIOR2N+ODK+XZ+fCERqhAsfpt3mzVudX2kcu3pb5Dh2nnBjop9FBkoZA1HjAAHpys5iwBxi9qWbXIO/g+QKB+MreBMFTcgoqBqVbuBe1i1EzSy77ZhRpGk1mfPBGhC9+AMiEnsTLzXSUqW+SF185IbxQzR1SoUhd9gfK5S78nznqaG6+5uncTp11I2H732TtqDfpWkhT0QFTUdr2L42tT6XU+KFyGBq3ecRUrtdZ+B8dYXCLVBOfmE7eZ71YCYDAu83+ouCgRWa6ywlxbgVo9afNWmhuOxj4nnOVeQnod0lOOxg7D2z8+IbPbDG4kRN1SA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=virtuozzo.com; dmarc=pass action=none
- header.from=virtuozzo.com; dkim=pass header.d=virtuozzo.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=0O9cSOHq/wX4+Eu5Vu+hZtWCUOmqrHdOcCRYvwzLloA=;
- b=Ex01oDL07AXEz4+Wlyffxob2bcZyhQa9oo2xV9aZBrcpFRFUF1WQGMTkmi7WrZO7/UEaRYb2EsQdqRjHG41H3NEnE/wWI+KcWc3fQsOIzacSC1HZELkNLRLq/jCT1emUf+BpeN6lV8/xxqtKntBQMBpFaZ+Gamzh/lHQ3GMLO6M=
-Authentication-Results: nongnu.org; dkim=none (message not signed)
- header.d=none;nongnu.org; dmarc=none action=none header.from=virtuozzo.com;
-Received: from AM7PR08MB5494.eurprd08.prod.outlook.com (2603:10a6:20b:dc::15)
- by AS8PR08MB6280.eurprd08.prod.outlook.com (2603:10a6:20b:29b::12)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3763.10; Wed, 13 Jan
- 2021 20:45:32 +0000
-Received: from AM7PR08MB5494.eurprd08.prod.outlook.com
- ([fe80::214a:3545:368c:7ae8]) by AM7PR08MB5494.eurprd08.prod.outlook.com
- ([fe80::214a:3545:368c:7ae8%9]) with mapi id 15.20.3763.009; Wed, 13 Jan 2021
- 20:45:32 +0000
-Subject: Re: [PATCH v5] block: report errno when flock fcntl fails
-To: David Edmondson <david.edmondson@oracle.com>, qemu-devel@nongnu.org
-References: <20210113164447.2545785-1-david.edmondson@oracle.com>
-From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-Message-ID: <9e147b57-853e-3999-a205-46d73a51715c@virtuozzo.com>
-Date: Wed, 13 Jan 2021 23:45:30 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.6.0
-In-Reply-To: <20210113164447.2545785-1-david.edmondson@oracle.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [185.215.60.80]
-X-ClientProxiedBy: AM0PR08CA0018.eurprd08.prod.outlook.com
- (2603:10a6:208:d2::31) To AM7PR08MB5494.eurprd08.prod.outlook.com
- (2603:10a6:20b:dc::15)
+ (Exim 4.90_1) (envelope-from <jag.raman@oracle.com>)
+ id 1kzn9b-0000d4-16
+ for qemu-devel@nongnu.org; Wed, 13 Jan 2021 15:54:10 -0500
+Received: from pps.filterd (userp2130.oracle.com [127.0.0.1])
+ by userp2130.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 10DKnDjF083893;
+ Wed, 13 Jan 2021 20:53:53 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com;
+ h=from : to : cc :
+ subject : date : message-id : mime-version : content-type :
+ content-transfer-encoding; s=corp-2020-01-29;
+ bh=JyVdN+NK1VLvNwourdYZ5EHDhDEyQFAERLLxDkDvrsA=;
+ b=yLdMyzn65EKkmJBhrSzz8BtmOahxhYkXyLBH1iexiUKarB7WHSNKhOsooLZymWSWaaZj
+ ecYg9c/VPGxxUNp8wmZSmVxH2IXxAckOFsa2fCXxG6UfTZlpDyt4ITbUOLV9hT3zvUBy
+ NW5Oa9UvBxWd0/+Nut9KDmZh3kriUY0CUWvT1i3o4Kk6hhNjx5SZRqwgYQWmZf69EuLo
+ 9/Gm+973YBsB96cxToFpy4tW/78fEZs//ai9bskrJAMI15GyMDyQP/33rnubFnZV3dFz
+ gB4WihalXKjxGQA8HqC4caqLy7b1YY+lItgc7fkJCxU2NRgJ/VYl+pRpyuf77TU7THQZ pg== 
+Received: from aserp3030.oracle.com (aserp3030.oracle.com [141.146.126.71])
+ by userp2130.oracle.com with ESMTP id 360kvk5em1-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Wed, 13 Jan 2021 20:53:52 +0000
+Received: from pps.filterd (aserp3030.oracle.com [127.0.0.1])
+ by aserp3030.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 10DKkBd0143146;
+ Wed, 13 Jan 2021 20:53:52 GMT
+Received: from userv0122.oracle.com (userv0122.oracle.com [156.151.31.75])
+ by aserp3030.oracle.com with ESMTP id 360kf17r31-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Wed, 13 Jan 2021 20:53:51 +0000
+Received: from abhmp0014.oracle.com (abhmp0014.oracle.com [141.146.116.20])
+ by userv0122.oracle.com (8.14.4/8.14.4) with ESMTP id 10DKrmt1019358;
+ Wed, 13 Jan 2021 20:53:49 GMT
+Received: from jaraman-bur-1.us.oracle.com (/10.152.33.39)
+ by default (Oracle Beehive Gateway v4.0)
+ with ESMTP ; Wed, 13 Jan 2021 12:53:48 -0800
+From: Jagannathan Raman <jag.raman@oracle.com>
+To: qemu-devel@nongnu.org
+Subject: [PATCH v18 00/20] Initial support for multi-process Qemu
+Date: Wed, 13 Jan 2021 15:53:19 -0500
+Message-Id: <cover.1610570756.git.jag.raman@oracle.com>
+X-Mailer: git-send-email 1.8.3.1
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-Received: from [192.168.100.8] (185.215.60.80) by
- AM0PR08CA0018.eurprd08.prod.outlook.com (2603:10a6:208:d2::31) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.3763.10 via Frontend Transport; Wed, 13 Jan 2021 20:45:32 +0000
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: a89e961d-6f6e-4cd6-05ed-08d8b8042bdf
-X-MS-TrafficTypeDiagnostic: AS8PR08MB6280:
-X-Microsoft-Antispam-PRVS: <AS8PR08MB6280A52B56932E976347960FC1A90@AS8PR08MB6280.eurprd08.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:8273;
-X-MS-Exchange-SenderADCheck: 1
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: Vgodfq4Q03hIxTiKqcAJd+BWZMuEJVPT0HlLvIn2kD89RDiOHiHXzvwJhe1B0FWdMIow+a5keHkgQ+GVvL5CXtatRXlYYpn1tTG4rsbDoyyKr17WQ1RH0l3JmGapuC2LIewtvhlHNGMnQIRMqON/QzCViBAbuuoP980G252K4Olxmg2eKliS4axp74Ebxm62bjGRSFlkgOLrWpNMU9nUmy7bq46k4v07w/eomK68llgjQFLJd9PtIzygn3f0T45fSET97/YkKSPr+VzIvWcr8MipXnaUSWnighCMI9jglBKzv0V+Rt+g3/EPmSPrHoLeGkxgDgaMxjqIvu/4dQdZElH9eSq8Skfd7er7jTduY3cZUIVXYR009OMQrLhDrJVZsZ/qyhCKhLsLCfUF1LaOEYRDfpwAWgpMyPeauBkkJytxfPjC9JhioKzGMCr4S3SLD2/79QadehhM64hLR5Mi7qLGYxgDmWzFvEtpuqeFuHI=
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:AM7PR08MB5494.eurprd08.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(4636009)(39830400003)(376002)(136003)(366004)(346002)(396003)(66946007)(2906002)(66476007)(66556008)(186003)(26005)(478600001)(8676002)(16526019)(31686004)(4326008)(8936002)(31696002)(6486002)(54906003)(86362001)(2616005)(5660300002)(36756003)(83380400001)(16576012)(52116002)(316002)(956004)(43740500002)(45980500001);
- DIR:OUT; SFP:1102; 
-X-MS-Exchange-AntiSpam-MessageData: =?utf-8?B?Q2pHZlc0NWNUem5BbDNkUWNSYWVoQjB1dVZDdWlqZFJIMTI2VHdmNjlhUXVH?=
- =?utf-8?B?Zm5sMFdoUTJkbDQwVXNmTkx0WTNDbmxFZFo1Z1RpMldyMFFlMVJ1Q2w5OUdm?=
- =?utf-8?B?S05MYWJVZlREYWdOM1lwSnRRY2M0Vm1NTHlsbnpLY2oxeVZ0OGZxS1R5L3ZI?=
- =?utf-8?B?am9aRHFYSkc0YXJSQnFSUkNNZFFvNHhPcTB1MTYxaU5Edzd5WUJZSysrRVRD?=
- =?utf-8?B?NUhOYzZEYkdNZFUvcUhBNUNHS3pjVGhRNHN1V09vVTdsYnNkUUltWEVTVG5F?=
- =?utf-8?B?RHMzVWlkREF1VmVtdE1FT09jZXJtM25lbUZ5c1lHZ0pnYzdoTDhTTUZJVHll?=
- =?utf-8?B?REJyZkdBSWo3WjVJVWkxQ2VVb1RORXg2K3B1bzVuRFU3dlA2RjlnQ204YmI1?=
- =?utf-8?B?clIyQ1FzeXN6N28yaldTNVBkSXdtNEdVeVUwQ2U4a0dpcklEbDhRU3ZUcTRn?=
- =?utf-8?B?UG94bHpHaE00cEpDZjVWdVB0Z3lwU3lXMjQ3MHNWZkZneFdtYVhUMHZSbkpx?=
- =?utf-8?B?d0Z0RlkyRUltVEJyNllPMC9FSW04VkZwQlZRYVdqYUUwaUZXc2FOL1VBc0pS?=
- =?utf-8?B?WVBjMTAvNWk0OEJHNlRuMmZRQ1FGZGJ5T1U4eEU3elc1NTB0UkYxSEQvRTVJ?=
- =?utf-8?B?MnJpMEVESXhnbkJOdFZGK1llZ0w3a2JtbjFBaTlxdEpNelcwQjI5OEprZjBm?=
- =?utf-8?B?V0dJYlpTWUpxMmY5YUdvNGhQOEMrOFJ2YmIrMllMdDRNWWxZai9pRW9IVTVG?=
- =?utf-8?B?eXhRWEVuc1NieU5uMzdmaStzMUU3UkcxRlZnRUJPU2pOL3lZUHR4NGJ5citW?=
- =?utf-8?B?M0kvM0JDazlMdU1wZ3V3OTBBWG9FeldmTGJZdTUwRnBsVHZrS1ZHbDgvV1E1?=
- =?utf-8?B?L3BTUzNrUlg0RTZtNTV4em1qZGxrVjZQUlRIamU5anZCc0E2Vk5rTEtHS0hH?=
- =?utf-8?B?eDdTTENoQ2M4NWdGMVpwTTZ3Um5YSzFVRitVVzQ4bG93dktvSXRGRWJJejF0?=
- =?utf-8?B?Y2lFVEpoaHorN29rUDBOeDFSUCtJMjVmMnVoRkFlUGhXY3JqVXFWR2xVK0Fr?=
- =?utf-8?B?ZFpBVUcxNnlPSDJzUHFqc2tYdWRyZitPSy9OemdjSHoxQ2VSa0hrNEU4Z20v?=
- =?utf-8?B?VHFCbW81a1Bjazd4N0d2bEdscmtybEtPZXB1Qm1DYTN3MUVRZzJERGF3MExv?=
- =?utf-8?B?MVBkcFVYSmRVc1RyTVlyVE5VOWFMK0RsSThSNURhYW5sVUpnK0FWckhPWi9o?=
- =?utf-8?B?aUVMUFI3NzYvYi8xM1kranRNUy8rOWRJcDVta0xvVEZYL2RCQVZhT0hzeUxZ?=
- =?utf-8?Q?OVHimugzN3BkqMuBazX6PoFd2nDKuWwx0v?=
-X-OriginatorOrg: virtuozzo.com
-X-MS-Exchange-CrossTenant-AuthSource: AM7PR08MB5494.eurprd08.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 13 Jan 2021 20:45:32.7156 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
-X-MS-Exchange-CrossTenant-Network-Message-Id: a89e961d-6f6e-4cd6-05ed-08d8b8042bdf
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: plxDEMMB3vSOD1kqSL41gI/TeVlnAo+sbeGOrjp0sOFOEeXZXqk1wJd/LSEI2ikzyjYzzQNmwd3fgdzQwlzVE6kiMSqWKddbOKQxpdGPgeA=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AS8PR08MB6280
-Received-SPF: pass client-ip=40.107.8.92;
- envelope-from=vsementsov@virtuozzo.com;
- helo=EUR04-VI1-obe.outbound.protection.outlook.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
-X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- MSGID_FROM_MTA_HEADER=0.001, NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7,
- RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_PASS=-0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9863
+ signatures=668683
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 phishscore=0
+ bulkscore=0 malwarescore=0
+ suspectscore=0 adultscore=0 spamscore=0 mlxlogscore=999 mlxscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2009150000
+ definitions=main-2101130126
+X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9863
+ signatures=668683
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 mlxlogscore=999
+ phishscore=0
+ lowpriorityscore=0 bulkscore=0 priorityscore=1501 malwarescore=0
+ clxscore=1015 impostorscore=0 spamscore=0 mlxscore=0 suspectscore=0
+ adultscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2009150000 definitions=main-2101130126
+Received-SPF: pass client-ip=156.151.31.86; envelope-from=jag.raman@oracle.com;
+ helo=userp2130.oracle.com
+X-Spam_score_int: -46
+X-Spam_score: -4.7
+X-Spam_bar: ----
+X-Spam_report: (-4.7 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.25,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_MED=-2.3, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_PASS=-0.001,
+ SPF_PASS=-0.001, UNPARSEABLE_RELAY=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -134,46 +94,165 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
- qemu-block@nongnu.org, Max Reitz <mreitz@redhat.com>
+Cc: elena.ufimtseva@oracle.com, fam@euphon.net, swapnil.ingle@nutanix.com,
+ john.g.johnson@oracle.com, kraxel@redhat.com, jag.raman@oracle.com,
+ quintela@redhat.com, mst@redhat.com, armbru@redhat.com,
+ kanth.ghatraju@oracle.com, felipe@nutanix.com, thuth@redhat.com,
+ ehabkost@redhat.com, konrad.wilk@oracle.com, dgilbert@redhat.com,
+ alex.williamson@redhat.com, stefanha@redhat.com, thanos.makatos@nutanix.com,
+ kwolf@redhat.com, berrange@redhat.com, mreitz@redhat.com,
+ ross.lagerwall@citrix.com, marcandre.lureau@gmail.com, pbonzini@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-13.01.2021 19:44, David Edmondson wrote:
-> When a call to fcntl(2) for the purpose of adding file locks fails
-> with an error other than EAGAIN or EACCES, report the error returned
-> by fcntl.
-> 
-> EAGAIN or EACCES are elided as they are considered to be common
-> failures, indicating that a conflicting lock is held by another
-> process.
-> 
-> No errors are elided when removing file locks.
-> 
-> Signed-off-by: David Edmondson<david.edmondson@oracle.com>
-> ---
-> v3:
-> - Remove the now unnecessary updates to the test framework (Max).
-> - Elide the error detail for EAGAIN or EACCES when locking (Kevin,
->     sort-of Max).
-> - Philippe and Vladimir sent Reviewed-by, but things have changed
->     noticeably, so I didn't add them (dme).
-> 
-> v4:
-> - Really, really remove the unnecessary updates to the test framework.
-> 
-> v5:
-> - Use a macro to avoid duplicating the EAGAIN/EACCES suppression
->    (Vladimir).
-> - Fix "lock" -> "unlock" (Vladimir).
-> - Comment on not eliding errors for the unlock case (Vladimir).
+Hi,
 
-Thanks!
+This is the v18 of the patchset. This version has the following changes:
 
-Reviewed-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+[PATCH v18 08/20] io: add qio_channel_readv_full_all_eof &
+                 qio_channel_readv_full_all helpers
+  - Does not clear fds/nfds when function is called exclusively to read fds
+    without any data, which is a valid case.
+
+To touch upon the history of this project, we posted the Proof Of Concept
+patches before the BoF session in 2018. Subsequently, we have posted 17
+versions on the qemu-devel mailing list. You can find them by following
+the links below ([1] - [17]). Following people contributed to the design and
+implementation of this project:
+Jagannathan Raman <jag.raman@oracle.com>
+Elena Ufimtseva <elena.ufimtseva@oracle.com>
+John G Johnson <john.g.johnson@oracle.com>
+Stefan Hajnoczi <stefanha@redhat.com>
+Konrad Wilk <konrad.wilk@oracle.com>
+Kanth Ghatraju <kanth.ghatraju@oracle.com>
+
+We would like to thank the QEMU community for your feedback in the
+design and implementation of this project. Qemu wiki page:
+https://wiki.qemu.org/Features/MultiProcessQEMU
+
+For the full concept writeup about QEMU multi-process, please
+refer to docs/devel/qemu-multiprocess.rst. Also, see
+docs/qemu-multiprocess.txt for usage information.
+
+Thank you for reviewing this series!
+
+[POC]: https://www.mail-archive.com/qemu-devel@nongnu.org/msg566538.html
+[1]: https://www.mail-archive.com/qemu-devel@nongnu.org/msg602285.html
+[2]: https://www.mail-archive.com/qemu-devel@nongnu.org/msg624877.html
+[3]: https://www.mail-archive.com/qemu-devel@nongnu.org/msg642000.html
+[4]: https://www.mail-archive.com/qemu-devel@nongnu.org/msg655118.html
+[5]: https://www.mail-archive.com/qemu-devel@nongnu.org/msg682429.html
+[6]: https://www.mail-archive.com/qemu-devel@nongnu.org/msg697484.html
+[7]: https://patchew.org/QEMU/cover.1593273671.git.elena.ufimtseva@oracle.com/
+[8]: https://www.mail-archive.com/qemu-devel@nongnu.org/msg727007.html
+[9]: https://www.mail-archive.com/qemu-devel@nongnu.org/msg734275.html
+[10]: https://www.mail-archive.com/qemu-devel@nongnu.org/msg747638.html
+[11]: https://www.mail-archive.com/qemu-devel@nongnu.org/msg750972.html
+[12]: https://patchew.org/QEMU/cover.1606853298.git.jag.raman@oracle.com/
+[13]: https://www.mail-archive.com/qemu-devel@nongnu.org/msg766825.html
+[14]: https://www.mail-archive.com/qemu-devel@nongnu.org/msg768376.html
+[15]: https://www.mail-archive.com/qemu-devel@nongnu.org/msg769178.html
+[16]: https://www.mail-archive.com/qemu-devel@nongnu.org/msg771455.html
+
+Elena Ufimtseva (8):
+  multi-process: add configure and usage information
+  io: add qio_channel_writev_full_all helper
+  io: add qio_channel_readv_full_all_eof & qio_channel_readv_full_all
+    helpers
+  multi-process: define MPQemuMsg format and transmission functions
+  multi-process: introduce proxy object
+  multi-process: add proxy communication functions
+  multi-process: Forward PCI config space acceses to the remote process
+  multi-process: perform device reset in the remote process
+
+Jagannathan Raman (11):
+  memory: alloc RAM from file at offset
+  multi-process: Add config option for multi-process QEMU
+  multi-process: setup PCI host bridge for remote device
+  multi-process: setup a machine object for remote device process
+  multi-process: Initialize message handler in remote device
+  multi-process: Associate fd of a PCIDevice with its object
+  multi-process: setup memory manager for remote device
+  multi-process: PCI BAR read/write handling for proxy & remote
+    endpoints
+  multi-process: Synchronize remote memory
+  multi-process: create IOHUB object to handle irq
+  multi-process: Retrieve PCI info from remote process
+
+John G Johnson (1):
+  multi-process: add the concept description to
+    docs/devel/qemu-multiprocess
+
+ docs/devel/index.rst                      |   1 +
+ docs/devel/multi-process.rst              | 966 ++++++++++++++++++++++++++++++
+ docs/multi-process.rst                    |  64 ++
+ configure                                 |  10 +
+ meson.build                               |   5 +-
+ hw/remote/trace.h                         |   1 +
+ include/exec/memory.h                     |   2 +
+ include/exec/ram_addr.h                   |   2 +-
+ include/hw/pci-host/remote.h              |  30 +
+ include/hw/pci/pci_ids.h                  |   3 +
+ include/hw/remote/iohub.h                 |  42 ++
+ include/hw/remote/machine.h               |  38 ++
+ include/hw/remote/memory.h                |  19 +
+ include/hw/remote/mpqemu-link.h           |  99 +++
+ include/hw/remote/proxy-memory-listener.h |  28 +
+ include/hw/remote/proxy.h                 |  48 ++
+ include/io/channel.h                      |  76 +++
+ include/qemu/mmap-alloc.h                 |   4 +-
+ include/sysemu/iothread.h                 |   6 +
+ backends/hostmem-memfd.c                  |   2 +-
+ hw/misc/ivshmem.c                         |   3 +-
+ hw/pci-host/remote.c                      |  75 +++
+ hw/remote/iohub.c                         | 119 ++++
+ hw/remote/machine.c                       |  80 +++
+ hw/remote/memory.c                        |  65 ++
+ hw/remote/message.c                       | 230 +++++++
+ hw/remote/mpqemu-link.c                   | 267 +++++++++
+ hw/remote/proxy-memory-listener.c         | 227 +++++++
+ hw/remote/proxy.c                         | 379 ++++++++++++
+ hw/remote/remote-obj.c                    | 203 +++++++
+ io/channel.c                              |  95 ++-
+ iothread.c                                |   6 +
+ softmmu/memory.c                          |   3 +-
+ softmmu/physmem.c                         |  11 +-
+ util/mmap-alloc.c                         |   7 +-
+ util/oslib-posix.c                        |   2 +-
+ Kconfig.host                              |   4 +
+ MAINTAINERS                               |  24 +
+ hw/Kconfig                                |   1 +
+ hw/meson.build                            |   1 +
+ hw/pci-host/Kconfig                       |   3 +
+ hw/pci-host/meson.build                   |   1 +
+ hw/remote/Kconfig                         |   4 +
+ hw/remote/meson.build                     |  13 +
+ hw/remote/trace-events                    |   4 +
+ 45 files changed, 3244 insertions(+), 29 deletions(-)
+ create mode 100644 docs/devel/multi-process.rst
+ create mode 100644 docs/multi-process.rst
+ create mode 100644 hw/remote/trace.h
+ create mode 100644 include/hw/pci-host/remote.h
+ create mode 100644 include/hw/remote/iohub.h
+ create mode 100644 include/hw/remote/machine.h
+ create mode 100644 include/hw/remote/memory.h
+ create mode 100644 include/hw/remote/mpqemu-link.h
+ create mode 100644 include/hw/remote/proxy-memory-listener.h
+ create mode 100644 include/hw/remote/proxy.h
+ create mode 100644 hw/pci-host/remote.c
+ create mode 100644 hw/remote/iohub.c
+ create mode 100644 hw/remote/machine.c
+ create mode 100644 hw/remote/memory.c
+ create mode 100644 hw/remote/message.c
+ create mode 100644 hw/remote/mpqemu-link.c
+ create mode 100644 hw/remote/proxy-memory-listener.c
+ create mode 100644 hw/remote/proxy.c
+ create mode 100644 hw/remote/remote-obj.c
+ create mode 100644 hw/remote/Kconfig
+ create mode 100644 hw/remote/meson.build
+ create mode 100644 hw/remote/trace-events
 
 -- 
-Best regards,
-Vladimir
+1.8.3.1
+
 
