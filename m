@@ -2,90 +2,93 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EB9192F460E
-	for <lists+qemu-devel@lfdr.de>; Wed, 13 Jan 2021 09:15:41 +0100 (CET)
-Received: from localhost ([::1]:41844 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A378B2F4623
+	for <lists+qemu-devel@lfdr.de>; Wed, 13 Jan 2021 09:21:54 +0100 (CET)
+Received: from localhost ([::1]:45820 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kzbJc-00038o-Oq
-	for lists+qemu-devel@lfdr.de; Wed, 13 Jan 2021 03:15:40 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37646)
+	id 1kzbPd-0005Lc-Ig
+	for lists+qemu-devel@lfdr.de; Wed, 13 Jan 2021 03:21:53 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39850)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jiaxun.yang@flygoat.com>)
- id 1kzbGz-0001qJ-Tg
- for qemu-devel@nongnu.org; Wed, 13 Jan 2021 03:12:57 -0500
-Received: from new3-smtp.messagingengine.com ([66.111.4.229]:36215)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jiaxun.yang@flygoat.com>)
- id 1kzbGu-0006mX-Cg
- for qemu-devel@nongnu.org; Wed, 13 Jan 2021 03:12:57 -0500
-Received: from compute6.internal (compute6.nyi.internal [10.202.2.46])
- by mailnew.nyi.internal (Postfix) with ESMTP id 86DAC58073F;
- Wed, 13 Jan 2021 03:12:50 -0500 (EST)
-Received: from imap1 ([10.202.2.51])
- by compute6.internal (MEProxy); Wed, 13 Jan 2021 03:12:50 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=flygoat.com; h=
- mime-version:message-id:in-reply-to:references:date:from:to:cc
- :subject:content-type:content-transfer-encoding; s=fm1; bh=qViSp
- 756L2IQheskuY6voQo6wc7Kl9fJrph/4TIP8Ew=; b=fqopKDpw36g6KP09Jhc0K
- g/mim/Gy0L57nizbW72Gg9kodwcOfF7qLwYM+sX1Mt7ShBuP9BophsizNE1TybEO
- 6uadxvghTu7KkDvWu4h+KYHobGPl93Xu61jEID6yqZQMyrZOBeqrTwRwbeivh/BZ
- HaRAz3xMjZHmjr0xkE8psHO8zzo4i6byeYH760PsVpFcGwS07f7yoV8TeOk51PH9
- fSHD7pz/PBdXUfF3qyBDYRTtc1l8kCbVFLQx988OVY74+vlZP7fS9vJInMryHtWP
- kQqfSV4ZnlucddeqtrfjekL/6vAv6bT+nZepjeYIZ/gpco7+WaQtITTIk1hyyNFG
- Q==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:content-transfer-encoding:content-type
- :date:from:in-reply-to:message-id:mime-version:references
- :subject:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender
- :x-sasl-enc; s=fm1; bh=qViSp756L2IQheskuY6voQo6wc7Kl9fJrph/4TIP8
- Ew=; b=M3nd3ukkyiGCxRw+zX7F8EoXMuJdSXzMpl1ERpRSgocAVZv0/QQi3zegn
- own9aDjqSDi4NWB+7qPxWzlmIrMTbuIEEUgAnPqiZvXkZB7pLLIPpq4HfEusrMSk
- Pw247vMno0CU7JaRAm6XgHUl9cazxW/c2lXZKZwDm9ZoARvcDeoAhrwZ/iBNUDn0
- gYsALCzzw/1HxiYRN5lIJt0oBeFO0Hz2EJfl7HJtuWil2/X1bApQJkU6maBroCPa
- Bue3WpqYpPGuzoVHYELec29LBVgj+Kj4GGTJKgw8ykiI3jk89zmzlVABgFFsBXRF
- Qv8a4XyP124vZEA4GI2CnpCvD1shw==
-X-ME-Sender: <xms:gav-X6BLcCp3V_7AkexQ62NzsE0I45e_kVde3Sh-vqTwkiiffwaj6Q>
- <xme:gav-X0gPOLU3W3duVtPy39QOBeecEsfuey96yN81fZeeW0EbNym2sBzkqqmc1I4x_
- 2HGXQwMkqEZNkKB7hk>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedukedrtddugdduudekucetufdoteggodetrfdotf
- fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
- uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
- cujfgurhepofgfggfkjghffffhvffutgfgsehtqhertderreejnecuhfhrohhmpedflfhi
- rgiguhhnucgjrghnghdfuceojhhirgiguhhnrdihrghnghesfhhlhihgohgrthdrtghomh
- eqnecuggftrfgrthhtvghrnhepfeetgeekveeftefhgfduheegvdeuuddvieefvddvlefh
- feehkeetfeeukedtfeejnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrg
- hilhhfrhhomhepjhhirgiguhhnrdihrghnghesfhhlhihgohgrthdrtghomh
-X-ME-Proxy: <xmx:gav-X9mJWQRs_CCeMc3hu2cheW4VyIWFlEFhuNJXqa_lB8n8YTuoBQ>
- <xmx:gav-X4wT6NJZPralsA3opsCTGdA6kj33GvWB8nMWhaVGA_lFp6xykA>
- <xmx:gav-X_Tes_ecE6C2W63FnTRL36RLWbHW73Xrj9peflFUPlDAtis12g>
- <xmx:gqv-X5f4SUrb2_1PG-Lh46nKtWG9eMNDzQIefAsyF0fAoxBQh9kWOA>
-Received: by mailuser.nyi.internal (Postfix, from userid 501)
- id 774D2C204F9; Wed, 13 Jan 2021 03:12:49 -0500 (EST)
-X-Mailer: MessagingEngine.com Webmail Interface
-User-Agent: Cyrus-JMAP/3.5.0-alpha0-45-g4839256-fm-20210104.001-g48392560
-Mime-Version: 1.0
-Message-Id: <7df96359-af2a-4db1-a9ba-f92dd233864b@www.fastmail.com>
-In-Reply-To: <d58c8ba9-56e7-06da-c074-ea225fd45a39@amsat.org>
-References: <20210112215504.2093955-1-f4bug@amsat.org>
- <0e1b22ca-7ca0-f92e-2d43-fc10eafd565f@flygoat.com>
- <d58c8ba9-56e7-06da-c074-ea225fd45a39@amsat.org>
-Date: Wed, 13 Jan 2021 16:11:50 +0800
-From: "Jiaxun Yang" <jiaxun.yang@flygoat.com>
-To: =?UTF-8?Q?Philippe_Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
- "BALATON Zoltan via" <qemu-devel@nongnu.org>
-Subject: =?UTF-8?Q?Re:_[PATCH_0/6]_target/mips:_Convert_Loongson_LEXT_opcodes_to_?=
- =?UTF-8?Q?decodetree?=
-Content-Type: text/plain;charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=66.111.4.229;
- envelope-from=jiaxun.yang@flygoat.com; helo=new3-smtp.messagingengine.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
-X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_PASS=-0.001,
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1kzbOS-0004fz-Uj
+ for qemu-devel@nongnu.org; Wed, 13 Jan 2021 03:20:40 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:28109)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1kzbOM-0002DZ-Tg
+ for qemu-devel@nongnu.org; Wed, 13 Jan 2021 03:20:40 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1610526033;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=UUrBfCPJi3GEw4n5+qcbz+s9HeTj5n9uNv0ANGI84D8=;
+ b=JdLZIECKrl9jswGU//U6MxD9I8LuEuKiTWmtTbomzVg2HKZuaT22SdswRUJW1OB6juOXUc
+ Bn7EZyXmdD91Vt0WYcxaZlKBQ767PIg0E8xxmj/S5QOxkeZ/RDan4/s/rcXPMlOR3XoabY
+ 2+vpC4Ag2viXwZ9vwaa9h6CmTNIjvrA=
+Received: from mail-ed1-f69.google.com (mail-ed1-f69.google.com
+ [209.85.208.69]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-276-rH1w8zF3OlemuTy0P5LFWQ-1; Wed, 13 Jan 2021 03:20:27 -0500
+X-MC-Unique: rH1w8zF3OlemuTy0P5LFWQ-1
+Received: by mail-ed1-f69.google.com with SMTP id e12so506578eds.19
+ for <qemu-devel@nongnu.org>; Wed, 13 Jan 2021 00:20:27 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:to:cc:references:from:subject:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=UUrBfCPJi3GEw4n5+qcbz+s9HeTj5n9uNv0ANGI84D8=;
+ b=JomrC4ikhRLdE6DT4USYkM2qTy3G/uIKLybO6eUHjQusQSwtcolGFmOOIOBJMu4HDf
+ fFsq+cc1y9aZWQ+43XVjSqK5OZsTyNQvwRDRsJOOW0kYyNKNFH9v35y910E8x6HDk083
+ JqYNKgvD+K8yU56Z2ST6TlDVljAbmsPR/yLw0YOvSOwQYvf7ZrQmIsORpmCiWMG9T5Aj
+ SgeRu++izg3rm3YHjA9ztc3gqlnUnfTAiuKsJv0LJXgEZKZXnCc5PW8nXJJub1/IgeRK
+ hYBRR5QeMWLBRC1nEBIpmR/RGWC7HzfCObXGjm+UEWDRYDsE9vLO0X1IrMlakD8D5pUw
+ a4Ww==
+X-Gm-Message-State: AOAM531DLLrVJ+XZl4xJS2H99AfVSTWNxZJYAg3effiVFtO6ZHTkqZx0
+ ugleeAF4+OBFcn9HbayZFrLauuHTo6F0miox3a62HpWPBBqZwys/lqR89jgjua4VBAXXKef7IXo
+ xyvxeXxmKPF4P+ps=
+X-Received: by 2002:a17:906:4d52:: with SMTP id
+ b18mr671372ejv.405.1610526025984; 
+ Wed, 13 Jan 2021 00:20:25 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJy0PdEgom0LJ/+sX2d2HFGz9Q/FmBCd6HQEGfWY9D7X5/citbNQ23EJzStWtTkXNjhzrJ5ZBw==
+X-Received: by 2002:a17:906:4d52:: with SMTP id
+ b18mr671363ejv.405.1610526025809; 
+ Wed, 13 Jan 2021 00:20:25 -0800 (PST)
+Received: from ?IPv6:2001:b07:6468:f312:c8dd:75d4:99ab:290a?
+ ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
+ by smtp.gmail.com with ESMTPSA id o10sm396950eju.89.2021.01.13.00.20.24
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 13 Jan 2021 00:20:25 -0800 (PST)
+To: John Snow <jsnow@redhat.com>, QEMU Developers <qemu-devel@nongnu.org>
+References: <a2f5077b-ae74-2b39-4fb8-70d29dd549eb@redhat.com>
+From: Paolo Bonzini <pbonzini@redhat.com>
+Subject: Re: minimal "zero conf" build dockerfiles for fedora:latest and
+ alpine:latest
+Message-ID: <c1e768d9-24fe-f414-f684-1b1c908c09ce@redhat.com>
+Date: Wed, 13 Jan 2021 09:20:24 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.5.0
+MIME-Version: 1.0
+In-Reply-To: <a2f5077b-ae74-2b39-4fb8-70d29dd549eb@redhat.com>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=pbonzini@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=pbonzini@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -29
+X-Spam_score: -3.0
+X-Spam_bar: ---
+X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.251,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -99,106 +102,64 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>,
- Huacai Chen <chenhuacai@kernel.org>,
- Richard Henderson <richard.henderson@linaro.org>,
- Aurelien Jarno <aurelien@aurel32.net>
+Cc: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
+ =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+On 12/01/21 23:37, John Snow wrote:
+> - our configure file suggests bzip2 is an optional dependency (It's set 
+> to 'auto') but meson will error out if it is not present at 
+> configuration time:
+> 
+>      ../pc-bios/meson.build:5:2: ERROR: Program 'bzip2' not found
 
+Yes, the configure option is for libbzip2, not bzip2.
 
-On Wed, Jan 13, 2021, at 4:06 PM, Philippe Mathieu-Daud=C3=A9 wrote:
-> On 1/13/21 3:15 AM, Jiaxun Yang wrote:
-> > =E5=9C=A8 2021/1/13 =E4=B8=8A=E5=8D=885:54, Philippe Mathieu-Daud=C3=
-=A9 =E5=86=99=E9=81=93:
-> >> Loongson is next step in the "MIPS decodetree conversion" epic.
-> >> Start with the simplest extension.
-> >>
-> >> The diffstat addition comes from the TCG functions expanded.
-> >> The code is easier to review now.
-> >> IMO this is also a good template to show how easy a decodetree
-> >> conversion can be (and how nice the .decode file is to review) :P
-> >>
-> >> Please review,
-> >>
-> >> Phil.
-> >>
-> >> Based-on: <20210112184156.2014305-1-f4bug@amsat.org>
-> >> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 "decod=
-etree: Allow 'dot' in opcode names"
-> >>
-> >> Philippe Mathieu-Daud=C3=A9 (6):
-> >> =C2=A0=C2=A0 target/mips: Re-introduce OPC_ADDUH_QB_DSP and OPC_MUL=
-_PH_DSP
-> >> =C2=A0=C2=A0 target/mips: Convert Loongson DDIV.G opcodes to decode=
-tree
-> >> =C2=A0=C2=A0 target/mips: Convert Loongson DIV.G opcodes to decodet=
-ree
-> >> =C2=A0=C2=A0 target/mips: Convert Loongson [D]DIVU.G opcodes to dec=
-odetree
-> >> =C2=A0=C2=A0 target/mips: Convert Loongson [D]MOD[U].G opcodes to d=
-ecodetree
-> >> =C2=A0=C2=A0 target/mips: Convert Loongson [D]MULT[U].G opcodes to =
-decodetree
-> >>
-> >> =C2=A0 target/mips/translate.h=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 =
-|=C2=A0=C2=A0 1 +
-> >> =C2=A0 target/mips/godson2.decode=C2=A0=C2=A0=C2=A0 |=C2=A0 29 +++
-> >> =C2=A0 target/mips/loong-ext.decode=C2=A0 |=C2=A0 30 +++
-> >=20
-> > Hi Philippe,
-> >=20
-> > Thanks for the template!
-> >=20
-> > Just a small question, where should we perform ISA availability chec=
-k?
-> > Before calling generated decoder or after decoded?
->=20
-> The check is done before in decode_loongson:
->=20
->  bool decode_loongson(DisasContext *ctx, uint32_t insn)
->  {
->      if ((ctx->insn_flags & INSN_LOONGSON2E)
->          // if ISA available ...
->              && decode_godson2(ctx, ctx->opcode)) {
->              // and opcode supported
->          // return success
->          return true;
->      }
->      // else keep going ...
->=20
->      if ((ctx->insn_flags & ASE_LEXT)
->              && decode_loong_ext(ctx, ctx->opcode)) {
->          return true;
->      }
->=20
->      // finally return false, if nothing else decoded
->      // gen_reserved_instruction will be called in the
->      // main decode loop.
->      return false;
->  }
->=20
-> >=20
-> > Loong-EXT is a super set of Loongson2F's Godson2 and MMI instruction=
-s,
-> > how could we tell it?
->=20
-> MMI instructions are currently handled by the ASE_LMMI flag,
-> a different decoder (which will also be handled by this function,
-> similarly to ASE_LEXT).
+Perhaps bzip2 could be required only if get_option('install_blobs') is 
+true, I don't know.
 
-SWC2/LWC2/SDC2/LDC2 family of LEXT instructions do exist on LEXT but not=
- Loongson-2F.
+> FROM alpine:latest
+> 
+> ENV PACKAGES \
+>      wget \
+>      xz \
+>      python3 \
+>      ninja \
+>      gcc \
+>      musl-dev \
+>      pkgconfig \
+>      glib-dev \
+>      pixman-dev \
+>      make \
+>      bash \
+>      perl
+> 
+> ENV QEMU_CONFIGURE_OPTS --disable-linux-user
+> 
+> RUN apk add $PACKAGES
+> 
+> RUN wget https://download.qemu.org/qemu-5.2.0.tar.xz && \
+>      tar xvJf qemu-5.2.0.tar.xz
+> 
+> WORKDIR /qemu-5.2.0
+> RUN ./configure $QEMU_CONFIGURE_OPTS && \
+>      make -j9
 
-Thanks.
+This should be added to the CI!
 
->=20
-> Regards,
->=20
-> Phil.
->
+> - diffutils is required for the qapi-schema test, which runs at build time. 
 
---=20
-- Jiaxun
+This is not required by meson because technically it is not needed 
+except for "make check".
+
+Perhaps we could do
+
+-if build_docs
++if build_docs and diff.found()
+
+in tests/qapi-schema/meson.build.
+
+Paolo
+
 
