@@ -2,92 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7E1802F4C79
-	for <lists+qemu-devel@lfdr.de>; Wed, 13 Jan 2021 14:51:00 +0100 (CET)
-Received: from localhost ([::1]:51814 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 58CEF2F4C96
+	for <lists+qemu-devel@lfdr.de>; Wed, 13 Jan 2021 14:58:24 +0100 (CET)
+Received: from localhost ([::1]:56714 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kzgY7-0005LN-Jm
-	for lists+qemu-devel@lfdr.de; Wed, 13 Jan 2021 08:50:59 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44104)
+	id 1kzgfH-0007ov-Ej
+	for lists+qemu-devel@lfdr.de; Wed, 13 Jan 2021 08:58:23 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46440)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
- id 1kzgV9-00044U-BT
- for qemu-devel@nongnu.org; Wed, 13 Jan 2021 08:47:55 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:51893)
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1kzgeW-0007OO-Rb
+ for qemu-devel@nongnu.org; Wed, 13 Jan 2021 08:57:36 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:40449)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
- id 1kzgV7-0003os-BP
- for qemu-devel@nongnu.org; Wed, 13 Jan 2021 08:47:55 -0500
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1kzgeU-0008Go-TE
+ for qemu-devel@nongnu.org; Wed, 13 Jan 2021 08:57:36 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1610545672;
+ s=mimecast20190719; t=1610546253;
  h=from:from:reply-to:reply-to:subject:subject:date:date:
  message-id:message-id:to:to:cc:cc:mime-version:mime-version:
  content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=ymhsrLTpVqf+YV4UDp3pX1LEnr75n0cl4NCRaFGDRVs=;
- b=YKQAV7DWkhd2rwSn22HqISb+mRC+S30UUhOwf4y2VpEBdzBSDUYjCQktdTOasDqU9Aqit8
- tbC2nh8rJOrER3HXGHN9+JLLf6lzVY2WyhUfof51GQ1bGdUURVri83wkJ628pAjfhlgCe9
- 7+/j2i/JKgr0Z4r8WBGsA/PMwA+sENE=
-Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
- [209.85.221.71]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-399-3tb-Q7gBOT-PcQvX3_SlPQ-1; Wed, 13 Jan 2021 08:47:51 -0500
-X-MC-Unique: 3tb-Q7gBOT-PcQvX3_SlPQ-1
-Received: by mail-wr1-f71.google.com with SMTP id n11so993631wro.7
- for <qemu-devel@nongnu.org>; Wed, 13 Jan 2021 05:47:50 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:in-reply-to:references
- :user-agent:reply-to:date:message-id:mime-version
- :content-transfer-encoding;
- bh=KcI38j+Zh3rURT7LR1cI4qN+NHTumYNN/a/93hEfFGI=;
- b=VL+Pp1uKYIbw2fngldYX160BqNgpk+fLYXbZSf7Hsfe2Y8V4x4Mv2xfWYjRJeu8gv0
- FRueL2dWgzthG39JfgOc4MzAhSSH7Gg6VKliiWJ/8FVnyAHVByoNP3knaW2OIqG+8sNM
- 57lgW0m69pzOerM+f2WaD6n7hu9SkWSousq5lBgzV3qAHRe6Z8oH4OV4N5ghtZilOuwB
- wF8xc6asR1mMHF9s81jGJPnCC0QyilcAbVfij2X9IKG5XdG7JL/VKrWcQWGgH2B5sqJp
- jdS4npb+yfEl9l0A1KQcS8Z2bWULI56miEXGTTXIZZZCoTnUNd/l1SXwMTRD084n9tgu
- SplQ==
-X-Gm-Message-State: AOAM53239vLaq069HKn75TrDokxak37iIEztBw/6cMzh9IxX/2xs1Ssv
- qk6xto5sPM+Jwf4ababnBvBADeYO1Z5bFKcMk2VTGDXo9rI9N+15lYP8i3JSe6ZhdzsF9vjvvUL
- oSvMW6XCsIxGBTo4=
-X-Received: by 2002:a1c:3206:: with SMTP id y6mr2240410wmy.127.1610545669445; 
- Wed, 13 Jan 2021 05:47:49 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJzvqTnT8hcN8capifqTi9YCju/BfJs0gwNC+0Frx2go3YbQD8dgOOTWGXVbdy6s6qd4zOAG6A==
-X-Received: by 2002:a1c:3206:: with SMTP id y6mr2240394wmy.127.1610545669204; 
- Wed, 13 Jan 2021 05:47:49 -0800 (PST)
-Received: from localhost (trasno.trasno.org. [83.165.45.250])
- by smtp.gmail.com with ESMTPSA id l20sm3736801wrh.82.2021.01.13.05.47.48
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 13 Jan 2021 05:47:48 -0800 (PST)
-From: Juan Quintela <quintela@redhat.com>
-To: Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
-Subject: Re: [RFC PATCH v6 04/11] hw/ssi: imx_spi: Reduce 'change_mask'
- variable scope
-In-Reply-To: <87im81gdig.fsf@secure.mitica> (Juan Quintela's message of "Wed, 
- 13 Jan 2021 14:41:43 +0100")
-References: <20210112183529.2011863-1-f4bug@amsat.org>
- <20210112183529.2011863-5-f4bug@amsat.org>
- <87im81gdig.fsf@secure.mitica>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.1 (gnu/linux)
-Date: Wed, 13 Jan 2021 14:47:47 +0100
-Message-ID: <875z41gd8c.fsf@secure.mitica>
+ bh=YnV5WdeezNh8dU1w9wNLzKpijnoYQlzCaf62DBtMX1o=;
+ b=ZWkMGYB4sQ+lxbH1vPVxp1G0zxqTy8zKX6grpiawkvHoPTrvgxDMM5vSF0o+m+R3DpZh0W
+ KlxFU8KbVpwM+1oa+jsUY0vbrl8WXo++A+bcX9bbQR/ulHAynLK/5ob5MN/QgpWbuDgKXP
+ oJmnq6+O2+02kEhdN3bNn7VCCPX1P2w=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-354-FQBKzgo_MWGfFsfYRVWMaA-1; Wed, 13 Jan 2021 08:57:18 -0500
+X-MC-Unique: FQBKzgo_MWGfFsfYRVWMaA-1
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
+ [10.5.11.16])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 48EFA9CC03;
+ Wed, 13 Jan 2021 13:57:16 +0000 (UTC)
+Received: from redhat.com (ovpn-115-107.ams2.redhat.com [10.36.115.107])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id B22265C730;
+ Wed, 13 Jan 2021 13:57:07 +0000 (UTC)
+Date: Wed, 13 Jan 2021 13:57:05 +0000
+From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+To: Helge Deller <deller@gmx.de>
+Subject: Re: [PATCH 1/8] build-system: clean up TCG/TCI configury
+Message-ID: <20210113135705.GC1568240@redhat.com>
+References: <20210107140039.467969-1-pbonzini@redhat.com>
+ <20210107140039.467969-2-pbonzini@redhat.com>
+ <CAFEAcA9yyUUmd+hj6kgAV8KWtCC41Q55JRfE0q1zTaDaOofgOQ@mail.gmail.com>
+ <a5cd4c43-2f12-2dbf-8db7-21acc7abc73d@redhat.com>
+ <20210107160653.GD1029501@redhat.com>
+ <d1b5a493-0658-3bba-b1b4-0116f337031d@amsat.org>
+ <46e79fb0-2ce1-35a8-3ce8-44699508a1d1@gmx.de>
 MIME-Version: 1.0
+In-Reply-To: <46e79fb0-2ce1-35a8-3ce8-44699508a1d1@gmx.de>
+User-Agent: Mutt/1.14.6 (2020-07-11)
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=quintela@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=berrange@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=quintela@redhat.com;
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=berrange@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -29
 X-Spam_score: -3.0
 X-Spam_bar: ---
 X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.25,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -100,88 +87,72 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: quintela@redhat.com
+Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
 Cc: Peter Maydell <peter.maydell@linaro.org>,
- Alistair Francis <alistair@alistair23.me>, Bin Meng <bin.meng@windriver.com>,
- qemu-devel@nongnu.org, Jean-Christophe Dubois <jcd@tribudubois.net>,
- qemu-arm@nongnu.org, Peter Chubb <peter.chubb@nicta.com.au>,
- Bin Meng <bmeng.cn@gmail.com>
+ Paolo Bonzini <pbonzini@redhat.com>, Stefan Weil <sw@weilnetz.de>,
+ John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>,
+ Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
+ QEMU Developers <qemu-devel@nongnu.org>, debian-superh@lists.debian.org,
+ Stefan Hajnoczi <stefanha@redhat.com>, debian-hppa@lists.debian.org,
+ =?utf-8?Q?Marc-Andr=C3=A9?= Lureau <marcandre.lureau@redhat.com>,
+ Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>,
+ Aurelien Jarno <aurelien@aurel32.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Juan Quintela <quintela@redhat.com> wrote:
-> Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org> wrote:
->> Signed-off-by: Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>
->
-> I think this one is wrong.
+On Wed, Jan 13, 2021 at 02:42:51PM +0100, Helge Deller wrote:
+> On 1/13/21 2:09 PM, Philippe Mathieu-Daudé wrote:
+> > Cc'ing TCI, SH4 and PA contacts FWIW.
+> >
+> > On 1/7/21 5:06 PM, Daniel P. Berrangé wrote:
+> >> On Thu, Jan 07, 2021 at 04:50:36PM +0100, Paolo Bonzini wrote:
+> >>> On 07/01/21 16:01, Peter Maydell wrote:
+> >>>> On Thu, 7 Jan 2021 at 14:03, Paolo Bonzini <pbonzini@redhat.com> wrote:
+> >>>>>
+> >>>>> Make CONFIG_TCG_INTERPRETER a Meson option, and enable TCI (though with
+> >>>>> a warning) if the host CPU is unsupported, making it more similar to
+> >>>>> other --enable-* options.
+> >>>>
+> >>>> The current behaviour is kind of deliberate. Using the TCG
+> >>>> interpreter is a terrible idea and think it's better if we
+> >>>> don't let users end up using it without realising that they have.
+> >>>> (Personally I would vote to deprecate-and-delete TCI, and also
+> >>>> to just have configure error out on unknown host CPU architectures.)
+> >>>
+> >>> Fair enough, I can change this back of course.  The missing targets are
+> >>> parisc, ia64 and sh4 I guess.
+> >>
+> >> ia64 is a dead host architecture and doesn't exist in any OS distro that
+> >> we target anymore, so I don't think we need to consider it.
+> 
+> I have no opinion about ia64.
+> 
+> >> Likewise parisc/hppa doesn't seem exist in Debian since Squeeze, so I
+> >> think we can rule that out too.
+> 
+> Can we please keep parisc/hppa.
+> It's not an official platform any longer, but quite active in the
+> "unstable" debian-ports repository:
+> https://buildd.debian.org/status/architecture.php?a=hppa&suite=sid
+> 
+> >> Only sh4 still seems to be supported in Debian. I expect the primary
+> >> need there is for sh4 guest support rather than sh4 host support.
+> 
+> Same as for hppa/parisc, sh4 is in debian-ports too.
 
-Wrong is a strong word.  I mean that it changes behaviour and the commit
-message don't talk about changing behaviour.
+So that at least shows that we need *guest target* support hppa/sha4.
 
-Later, Juan.
+The question still remains whether anyone is actually likely to be
+running/using QEMU on a sh4/hppa *host*, to emulate a different
+guest arch ? This is what that TCG interpreter provides for.
+eg would anyone really want to emulate aarch64 guest when runing on
+a hppa host ?
 
->
->
->> ---
->>  hw/ssi/imx_spi.c | 3 +--
->>  1 file changed, 1 insertion(+), 2 deletions(-)
->>
->> diff --git a/hw/ssi/imx_spi.c b/hw/ssi/imx_spi.c
->> index 35ab33c0511..bcc535f2893 100644
->> --- a/hw/ssi/imx_spi.c
->> +++ b/hw/ssi/imx_spi.c
->> @@ -303,7 +303,6 @@ static void imx_spi_write(void *opaque, hwaddr offse=
-t, uint64_t value,
->>  {
->>      IMXSPIState *s =3D opaque;
->>      uint32_t index =3D offset >> 2;
->> -    uint32_t change_mask;
->> =20
->>      if (index >=3D  ECSPI_MAX) {
->>          qemu_log_mask(LOG_GUEST_ERROR, "[%s]%s: Bad register at offset =
-0x%"
->> @@ -313,7 +312,6 @@ static void imx_spi_write(void *opaque, hwaddr offse=
-t, uint64_t value,
->> =20
->>      trace_imx_spi_write(index, imx_spi_reg_name(index), value);
->> =20
->> -    change_mask =3D s->regs[index] ^ value;
->> =20
->>      switch (index) {
->>      case ECSPI_RXDATA:
->> @@ -357,6 +355,7 @@ static void imx_spi_write(void *opaque, hwaddr offse=
-t, uint64_t value,
->>          }
->> =20
->>          if (imx_spi_channel_is_master(s)) {
->> +            uint32_t change_mask =3D s->regs[index] ^ value;
->>              int i;
->> =20
->>              /* We are in master mode */
->
-> The code does:
->
->     change_mask =3D s->regs[index] ^ value;
->
->     switch (index) {
->
->     ...
->
->     case ECSPI_CONREG:
->         s->regs[ECSPI_CONREG] =3D value;  <<---- here
->
->         if (!imx_spi_is_enabled(s)) {
->             /* device is disabled, so this is a reset */
->             imx_spi_reset(DEVICE(s));
->             return;
->         }
->
->         if (imx_spi_channel_is_master(s)) {
->             int i;
->        >>>>>  You are setting change_mask here.
->
-> At this point, s->regs[index] has a new value in "here".
->
-> Later, Juan.
+Regards,
+Daniel
+-- 
+|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
+|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
+|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
 
 
