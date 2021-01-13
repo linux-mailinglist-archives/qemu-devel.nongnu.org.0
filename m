@@ -2,74 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D3FA22F511F
-	for <lists+qemu-devel@lfdr.de>; Wed, 13 Jan 2021 18:29:35 +0100 (CET)
-Received: from localhost ([::1]:43942 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 455CD2F5132
+	for <lists+qemu-devel@lfdr.de>; Wed, 13 Jan 2021 18:35:57 +0100 (CET)
+Received: from localhost ([::1]:54240 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kzjxe-0003Uv-Ru
-	for lists+qemu-devel@lfdr.de; Wed, 13 Jan 2021 12:29:34 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42246)
+	id 1kzk3o-00082K-A5
+	for lists+qemu-devel@lfdr.de; Wed, 13 Jan 2021 12:35:56 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41492)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <lukasstraub2@web.de>)
- id 1kzjv2-0001PX-85
- for qemu-devel@nongnu.org; Wed, 13 Jan 2021 12:26:52 -0500
-Received: from mout.web.de ([212.227.17.12]:60529)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <lukasstraub2@web.de>)
- id 1kzjv0-0006cY-3i
- for qemu-devel@nongnu.org; Wed, 13 Jan 2021 12:26:51 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=web.de;
- s=dbaedf251592; t=1610558805;
- bh=umMtOF7hV0qRNTFJKp9/gfaUewUWnAnC/8L/pxAvOsI=;
- h=X-UI-Sender-Class:Date:From:To:Cc:Subject:In-Reply-To:References;
- b=LDgjsFftqoJDmN9NDIrcKb/FyXGs5RGnkhjeTqTlNG67MvcQ1kbEAG/cZitpO+RCy
- 4RsuxgvX/0zlRi0Y3zDp8VOqO7Fzjo4moclq1SdfuoBFuUcQahWexbZJAXLttZp6uF
- xxeSX91FlxUTmrDFlI+WNycN9VwzsO0MNcPxQc5w=
-X-UI-Sender-Class: c548c8c5-30a9-4db5-a2e7-cb6cb037b8f9
-Received: from gecko.fritz.box ([94.134.180.58]) by smtp.web.de (mrweb102
- [213.165.67.124]) with ESMTPSA (Nemesis) id 0Lrb3x-1jwj8q00ar-013Q0W; Wed, 13
- Jan 2021 18:26:45 +0100
-Date: Wed, 13 Jan 2021 18:26:35 +0100
-From: Lukas Straub <lukasstraub2@web.de>
-To: Markus Armbruster <armbru@redhat.com>
-Subject: Re: [PULL 0/7] Yank patches patches for 2021-01-13
-Message-ID: <20210113182635.1346cd69@gecko.fritz.box>
-In-Reply-To: <87v9c0vm5t.fsf@dusky.pond.sub.org>
-References: <20210113093101.550964-1-armbru@redhat.com>
- <CAFEAcA8HmqWuzny9bmpXNLtsK7nuRaxPW3j6ZZougn7Y+tX7+A@mail.gmail.com>
- <87v9c0vm5t.fsf@dusky.pond.sub.org>
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1kzjtL-0008BM-Gq; Wed, 13 Jan 2021 12:25:07 -0500
+Received: from mail-wm1-x335.google.com ([2a00:1450:4864:20::335]:35300)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1kzjtI-0005wj-3P; Wed, 13 Jan 2021 12:25:07 -0500
+Received: by mail-wm1-x335.google.com with SMTP id e25so2346147wme.0;
+ Wed, 13 Jan 2021 09:25:02 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=sender:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=qM+WMPm9+Hjt/UIhL77XA+4VCNDq6a3MUy1J9umBvsc=;
+ b=VbbfHn04l2rBSxh0AvYQkbS7S1MJjdzqudjakpJcWpUI4z5K/c/liCeC9UgV9YhQTO
+ Ci9dmAdy+ytRTTz77zCEXSkSlf2qc3/NiiJLE2GDkFZesVkA1TS/LneBEbMoqjpy9j68
+ gDO9lL2Sr3V15p74uKh1aSzvmlAm7kcEWbQeRSnOSmnyJXMXAqSkCR91ExwuOjlCZaY1
+ 29vxKh6sypY6lhlB/oRY8pKBuRKPHqU8beBTaCupUL0fvcdFffTtu5Y8YOqwB0I1mwTi
+ aRDvsIdaumHSzD7zqZgNUSnlrQVxwHdtTTmEFDURAS9ZkBacWLyPTiQukq9MIrqaaguS
+ RUjA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
+ :mime-version:content-transfer-encoding;
+ bh=qM+WMPm9+Hjt/UIhL77XA+4VCNDq6a3MUy1J9umBvsc=;
+ b=MaMgIyxvMX7gql7MCgxhTQnededmpTgRWy+UWJIznJAZWqoMc0Ectp5DiSk02AvsWk
+ 6HEPmxvxVxP/x4nuO1HgADqgDjdXbK4/pUnlyHq22zsk6dWyjueTVwRO4q45bRbfLFvn
+ /1a87pCKJoa0yLKuZgzD0TsFpQjF2nT3w3fNNlkIrIcOLG7602vkqQ20ppRMF5hkWXyy
+ Rk2HBfMAVXTumMWnK+K2/VTvSqO/u08SR41wfE8/yBvahJ17mJRkY5Vofa3+inGQDMcZ
+ zaaDLx47pBZZMxbMVZhy2RY3TUHmYAge7ADJqBE2eG/rCnVP6WMGn+c1/N7ajhie/9Yw
+ W0bQ==
+X-Gm-Message-State: AOAM531o/gVfRtn7Oofx/dAFFouDfgvqlujjWmLp+q79ZkeJmrQ8zM4i
+ t2rrhVfI5ZAA29Me5E3TEY9Dk7Qw2Y4=
+X-Google-Smtp-Source: ABdhPJxvPNroUj8J29oimpPGSHpcBrCJcMGNJSlXTSGoUsLb21UGp/HoRlHppZds10roUK4YRDcCQQ==
+X-Received: by 2002:a1c:8181:: with SMTP id c123mr286452wmd.23.1610558701509; 
+ Wed, 13 Jan 2021 09:25:01 -0800 (PST)
+Received: from x1w.redhat.com (13.red-83-57-169.dynamicip.rima-tde.net.
+ [83.57.169.13])
+ by smtp.gmail.com with ESMTPSA id h9sm4030774wre.24.2021.01.13.09.24.59
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 13 Jan 2021 09:25:00 -0800 (PST)
+From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
+To: qemu-devel@nongnu.org
+Subject: [PATCH v2 0/6] tcg: Restrict tcg_out_op() to arrays of
+ TCG_MAX_OP_ARGS elements
+Date: Wed, 13 Jan 2021 18:24:53 +0100
+Message-Id: <20210113172459.2481060-1-f4bug@amsat.org>
+X-Mailer: git-send-email 2.26.2
 MIME-Version: 1.0
-Content-Type: multipart/signed; boundary="Sig_/wtsGdKxP+r_jkoc.W4ZBJwh";
- protocol="application/pgp-signature"; micalg=pgp-sha256
-X-Provags-ID: V03:K1:SSb7yUF8bl8Zn38QpttO7WZCgw9lFjBnz6dHceSLY04Ocf6mElH
- r5iL13fEsxE2uNTnBPWHEcNODx0AJTkwVW1IRWTUSdySuJG8WAIwZItPV9+68fJ71NWS90K
- STAvF7dnOBFsdL/kPHuCZiFT//mtGDEpLUCodOhaSeLEof8D07Re7DoPQhlBZEB0VZxePAE
- RE4LUOc8nn86RGKfgbRPg==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:ehfdz0z2+2Y=:AGh4UNQs2YC2MbDdMCFhcp
- xVBv2Y3045qJtz0jDORaz9F5MahJR+zOxof8Zy9nXam7uf/AEMKZfFcs5Vb6hSaQHbz4kkPq6
- jpglWUPupUtN6Z8HncH5g6EQVE9a6Vp7qAL8zogLGt9gYfmq/+6Hc0YUxDhMXEEo+tiUFaWxM
- PSHYpRU54gNxa04juoXC8Jy3Mc2a5VHRU4TrzvQx+UejpSzgpJqNLpGom3CyT8JcusNvkvhAI
- AiCbJFmgCOBXeybvUWvuUq96Ud7FMH/xxUCiuEe8nwwa6QfqMYZ0kOHgP+qWMrqYy6K98IXms
- Fqzt6CM7vP1f4OWwodzGGCzBXuRGLoltgqtgkJDwWTS8cVWN3X1fitssBQtCYfgmMH2l2Jyjc
- Mw7YSx3Xa+JjCMonu/3NsM4gsEDPl6XNGMmTYFekbHsG+10dSvZtIpKuQpapGuQog1Txq9tUf
- L8NbDq54yX31eTnEEM8yiYueLdeSeszGRPvdT4tj2E/q1tVANroKw4956/+j9gezaYszCyH2j
- zJ0KPRxMqCvQWPecTn0B5PveprwLyclbx1sdwck9baitRHZQdE4r+3e6bUKVv0+Hc3KOjfm0w
- 1XYHHz4JGRmpi9guqsp5mdqo3WmMqh3dQV6RuxlJHWRBRPynZKDnYBsRfTxUhlIdzv2RGZchI
- 2F22oDlMx73Ywdz98qOus6A4tjT73n0CaY8M+ChUvMrhmnr8nhl852F0gZTJJMjHSeKWgVtHo
- dLeSt2BWugRrGeE7dx34myjPucaEWR/wsGiM0Zlk6T/rALUjffqZ07yswtBX9dy22HHL8uMSv
- y3woEG5vJDb8NL676nZjd+PK7H+7hSk00OGzQZQzTUBDJCyZmzP6mmrYIIshG9ZiDRRv/DsEK
- 7wAtu9uPIdjeeyWx7BIw==
-Received-SPF: pass client-ip=212.227.17.12; envelope-from=lukasstraub2@web.de;
- helo=mout.web.de
-X-Spam_score_int: -24
-X-Spam_score: -2.5
-X-Spam_bar: --
-X-Spam_report: (-2.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001, RCVD_IN_DNSWL_LOW=-0.7,
- RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2a00:1450:4864:20::335;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x335.google.com
+X-Spam_score_int: -14
+X-Spam_score: -1.5
+X-Spam_bar: -
+X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.248,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -82,93 +82,81 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- QEMU Developers <qemu-devel@nongnu.org>
+Cc: Thomas Huth <thuth@redhat.com>, Huacai Chen <chenhuacai@kernel.org>,
+ qemu-riscv@nongnu.org, Stefan Weil <sw@weilnetz.de>,
+ Cornelia Huck <cohuck@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
+ qemu-s390x@nongnu.org, qemu-arm@nongnu.org,
+ Alistair Francis <Alistair.Francis@wdc.com>,
+ Palmer Dabbelt <palmer@dabbelt.com>, Miroslav Rezanina <mrezanin@redhat.com>,
+ Aurelien Jarno <aurelien@aurel32.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---Sig_/wtsGdKxP+r_jkoc.W4ZBJwh
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: quoted-printable
-
-On Wed, 13 Jan 2021 17:25:50 +0100
-Markus Armbruster <armbru@redhat.com> wrote:
-
-> Peter Maydell <peter.maydell@linaro.org> writes:
->=20
-> > On Wed, 13 Jan 2021 at 09:31, Markus Armbruster <armbru@redhat.com> wro=
-te: =20
-> >>
-> >> This pull request is on behalf of Lukas.  Hope that's okay.
-> >>
-> >> The following changes since commit f8e1d8852e393b3fd524fb005e38590063d=
-99bc0:
-> >>
-> >>   Merge remote-tracking branch 'remotes/pmaydell/tags/pull-target-arm-=
-20210112-1' into staging (2021-01-12 21:23:25 +0000)
-> >>
-> >> are available in the Git repository at:
-> >>
-> >>   git://repo.or.cz/qemu/armbru.git tags/pull-yank-2021-01-13
-> >>
-> >> for you to fetch changes up to 91d48e520a4a4f72e97aeb333029694f5d57cc9=
-3:
-> >>
-> >>   tests/test-char.c: Wait for the chardev to connect in char_socket_cl=
-ient_dupid_test (2021-01-13 10:21:17 +0100)
-> >>
-> >> ----------------------------------------------------------------
-> >> Yank patches patches for 2021-01-13
-> >>
-> >> ----------------------------------------------------------------
-> >> Lukas Straub (7):
-> >>       Introduce yank feature
-> >>       block/nbd.c: Add yank feature
-> >>       chardev/char-socket.c: Add yank feature
-> >>       migration: Add yank feature
-> >>       io/channel-tls.c: make qio_channel_tls_shutdown thread-safe
-> >>       io: Document qmp oob suitability of qio_channel_shutdown and io_=
-shutdown
-> >>       tests/test-char.c: Wait for the chardev to connect in char_socke=
-t_client_dupid_test =20
-> >
-> >
-> > Applied, thanks.
-> >
-> > Please update the changelog at https://wiki.qemu.org/ChangeLog/6.0
-> > for any user-visible changes. =20
->=20
-> Lukas, could you take care of that?
->=20
-
-Yes.
-
-Regards,
-Lukas Straub
-
---=20
-
-
---Sig_/wtsGdKxP+r_jkoc.W4ZBJwh
-Content-Type: application/pgp-signature
-Content-Description: OpenPGP digital signature
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAEBCAAdFiEEg/qxWKDZuPtyYo+kNasLKJxdslgFAl//LUsACgkQNasLKJxd
-slgFEA//axpFTpP/p7wX+It1H0P1d4NtoU7Sgrg+K0s77styiwP2pwBCAXyRV4sy
-B4sRo5nHvpuH8GsQS3WLKLuSAfl54szbXDHfZFby20YUYOJM5J+7VkK7iRE8zT/T
-+wShqCmyxMjMFNJaZMLuJ6H4wxVWvVhQiISh/xjmu8sk8Qv3+K8Xq7Eb2yovAh81
-HG7Pl8IO6qGyI3APsOL1Hs39AmaDYVmPVL14YHxTMr0bSoeRCP5RABUwkvxXpY/J
-mtT218mjchAUPG85btCebZPhCC1aoZoHijY5zuw0hLjVSGwW05a/gwO34lJTTuVd
-EX5BwH2Aw8+pbmG5JPkbdSGACEAxc+QnH7N9JWpY9tUVFhYCoubClveuACw5Y7L8
-mL3qDKKYB2XACEZal8ZhBZZhIbvZ9qJDdGgpU5qyMWwXOPrWa4Ug5euGiSdsq3Nd
-EJB18VHkF8fZKcgimAN/li9wt8sjD5WLkqC3o5goPLeLqoikgp0pP+J+zc4MBQWv
-3StMTQV8ZWAoWjcvE3PsG1BCh04yv8/WvGI/hbj0liCIMPtuLZ9DV4Ivx0de2yJj
-gQEHaVBUoL8cHMITDoZhdE+3zMvTbR3MDJAQLczd4r70l8Siv1bB/n4l5jHic7HJ
-a6lnCH9jKCIc/zjmE5Wfb1pdCqrUmIPKPnDET3jN72kE4FZCi1A=
-=QlZA
------END PGP SIGNATURE-----
-
---Sig_/wtsGdKxP+r_jkoc.W4ZBJwh--
+Since v1:=0D
+- Redo the whole change, only hoisting when variable is used 10+ times=0D
+- Remove goto statement/label=0D
+- Take care of the following pattern:=0D
+=0D
+    case INDEX_op_bswap64_i64:=0D
+        a2 =3D3D TCG_REG_R0;=0D
+        if (a0 =3D3D=3D3D a1) {=0D
+            a0 =3D3D TCG_REG_R0;=0D
+            a2 =3D3D a1;=0D
+        }=0D
+        ...=0D
+        if (a0 =3D3D=3D3D 0) {=0D
+            tcg_out_mov(s, TCG_TYPE_REG, args[0], a0);=0D
+                                         ^^^^ take original a[0]=0D
+        }=0D
+=0D
+Attempt to fix the warning reported by Miroslav using GCC 10:=0D
+https://www.mail-archive.com/qemu-devel@nongnu.org/msg771520.html=0D
+=0D
+Diff with v1:=0D
+=0D
+Key:=0D
+[----] : patches are identical=0D
+[####] : number of functional differences between upstream/downstream patch=
+=0D
+[down] : patch is downstream-only=0D
+The flags [FC] indicate (F)unctional and (C)ontextual differences, respecti=
+ve=3D=0D
+ly=0D
+=0D
+001/6:[0063] [FC] 'tcg/arm: Hoist common argument loads in tcg_out_op()'=0D
+002/6:[down] 'tcg/arm: Replace goto statement by fall through comment'=0D
+003/6:[0190] [FC] 'tcg/ppc: Hoist common argument loads in tcg_out_op()'=0D
+004/6:[0136] [FC] 'tcg/s390: Hoist common argument loads in tcg_out_op()'=0D
+005/6:[----] [--] 'tcg: Restrict tcg_out_op() to arrays of TCG_MAX_OP_ARGS =
+el=3D=0D
+ements'=0D
+006/6:[----] [--] 'tcg: Restrict tcg_out_vec_op() to arrays of TCG_MAX_OP_A=
+RG=3D=0D
+S elements'=0D
+=0D
+Philippe Mathieu-Daud=3DC3=3DA9 (6):=0D
+  tcg/arm: Hoist common argument loads in tcg_out_op()=0D
+  tcg/arm: Replace goto statement by fall through comment=0D
+  tcg/ppc: Hoist common argument loads in tcg_out_op()=0D
+  tcg/s390: Hoist common argument loads in tcg_out_op()=0D
+  tcg: Restrict tcg_out_op() to arrays of TCG_MAX_OP_ARGS elements=0D
+  tcg: Restrict tcg_out_vec_op() to arrays of TCG_MAX_OP_ARGS elements=0D
+=0D
+ tcg/tcg.c                    |  19 +--=0D
+ tcg/aarch64/tcg-target.c.inc |   3 +-=0D
+ tcg/arm/tcg-target.c.inc     | 196 +++++++++++++++----------------=0D
+ tcg/i386/tcg-target.c.inc    |   6 +-=0D
+ tcg/mips/tcg-target.c.inc    |   3 +-=0D
+ tcg/ppc/tcg-target.c.inc     | 191 ++++++++++++++----------------=0D
+ tcg/riscv/tcg-target.c.inc   |   3 +-=0D
+ tcg/s390/tcg-target.c.inc    | 222 +++++++++++++++++------------------=0D
+ tcg/tci/tcg-target.c.inc     |   5 +-=0D
+ 9 files changed, 311 insertions(+), 337 deletions(-)=0D
+=0D
+--=3D20=0D
+2.26.2=0D
+=0D
 
