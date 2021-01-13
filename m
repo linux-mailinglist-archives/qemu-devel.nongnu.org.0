@@ -2,91 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C10A52F545B
-	for <lists+qemu-devel@lfdr.de>; Wed, 13 Jan 2021 21:58:52 +0100 (CET)
-Received: from localhost ([::1]:55632 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1B87B2F5487
+	for <lists+qemu-devel@lfdr.de>; Wed, 13 Jan 2021 22:19:52 +0100 (CET)
+Received: from localhost ([::1]:45540 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kznEB-0002so-SK
-	for lists+qemu-devel@lfdr.de; Wed, 13 Jan 2021 15:58:51 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58334)
+	id 1kznYV-0005w3-6U
+	for lists+qemu-devel@lfdr.de; Wed, 13 Jan 2021 16:19:51 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57966)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jag.raman@oracle.com>)
- id 1kzn9n-0006Cf-Ds
- for qemu-devel@nongnu.org; Wed, 13 Jan 2021 15:54:19 -0500
-Received: from userp2130.oracle.com ([156.151.31.86]:39258)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jag.raman@oracle.com>)
- id 1kzn9l-0000i2-7o
- for qemu-devel@nongnu.org; Wed, 13 Jan 2021 15:54:19 -0500
-Received: from pps.filterd (userp2130.oracle.com [127.0.0.1])
- by userp2130.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 10DKnCkH083868;
- Wed, 13 Jan 2021 20:54:10 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com;
- h=from : to : cc :
- subject : date : message-id : in-reply-to : references : in-reply-to :
- references : mime-version : content-type : content-transfer-encoding;
- s=corp-2020-01-29; bh=pfIlYE8AvxL4pTAaQUo76+42XwkF0UX2eLm71ydUcAw=;
- b=bDLs0y0KzGonAt8OGJzC7Cb6aKTQHHI1AAFlVX5SPYMD9mb/9bvOFyUb+dEsRzdypZWj
- 3jMDgjS79PMXdKB3X+iSok41dpMqxrX0qK9Rl9ZAGh3iPnVNEsAww6wVcUsrYlXRFntf
- xZ79FoRL/0i36Xdvq86DzhICnDrczglNN5yoEF9B2mfogSzRBwOWth4HL7jaMSdJexyO
- n3vUpMFnaWwrjxUDFbuMwk8sOPQPPraIpOyV/9EFntCf26n5c+6vclZ8kGTGBfRajSP2
- 1eeIhA1y7sqCCT5TK2bfKsRwJtOfAuUjNXhDqWauEDGC6RGf3+8jSZnVdTpa4Iep6aje Jg== 
-Received: from aserp3020.oracle.com (aserp3020.oracle.com [141.146.126.70])
- by userp2130.oracle.com with ESMTP id 360kvk5ene-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Wed, 13 Jan 2021 20:54:10 +0000
-Received: from pps.filterd (aserp3020.oracle.com [127.0.0.1])
- by aserp3020.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 10DKjgm6187326;
- Wed, 13 Jan 2021 20:54:09 GMT
-Received: from userv0121.oracle.com (userv0121.oracle.com [156.151.31.72])
- by aserp3020.oracle.com with ESMTP id 360ke9199a-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Wed, 13 Jan 2021 20:54:09 +0000
-Received: from abhmp0014.oracle.com (abhmp0014.oracle.com [141.146.116.20])
- by userv0121.oracle.com (8.14.4/8.13.8) with ESMTP id 10DKs7R9002454;
- Wed, 13 Jan 2021 20:54:07 GMT
-Received: from jaraman-bur-1.us.oracle.com (/10.152.33.39)
- by default (Oracle Beehive Gateway v4.0)
- with ESMTP ; Wed, 13 Jan 2021 12:54:07 -0800
-From: Jagannathan Raman <jag.raman@oracle.com>
+ (Exim 4.90_1) (envelope-from <yaroshchuk2000@gmail.com>)
+ id 1kzn8J-0005ly-1B; Wed, 13 Jan 2021 15:52:47 -0500
+Received: from mail-lf1-x12d.google.com ([2a00:1450:4864:20::12d]:41947)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <yaroshchuk2000@gmail.com>)
+ id 1kzn8E-0008Qh-WE; Wed, 13 Jan 2021 15:52:46 -0500
+Received: by mail-lf1-x12d.google.com with SMTP id s26so4773823lfc.8;
+ Wed, 13 Jan 2021 12:52:41 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=P6ZhPA0H7vSh/Bh463Dcax+Pk8uyXk7eLpEOeLQtIVY=;
+ b=NJTNKu9Shntepq+YGXp4s+3aXmhCn8KWaPaKm8zhNCfsVOFi8nFByDkfCpL2DPcQrG
+ BzSFms24R8nP3accs1UmWbUPkE4kejkp9xxKJ6N94qS+AEGDaX6zqvAOa6IGuScRgHWb
+ zWbPNsEERTC45S4Z9VO/JW9lEhYOA8I9I5TAZGjWcaLJHMT8cx+UEwrKY/pjSEg1s/kf
+ nyotFVOIt6CEcOjhBqI9cigpSIoQ48hHpGPyJoas6CIrfj0q2M7VnxpI6Qc7NjlHmiYd
+ 9vcVvuCWT+4K2Rffm+rgeuPQF4ruEsyjA+a6yzECXVWtMvo1h3+12Sv9Yb4t/2BUcBQg
+ LpaQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=P6ZhPA0H7vSh/Bh463Dcax+Pk8uyXk7eLpEOeLQtIVY=;
+ b=cWo/9aUOB23OFowp3i25c9cbQSA34xJAqYQQ5NraQ03wzjDwZTDxH5S10xlq1srAFx
+ H8dIOwRUgfuQwXVyEaTP1ceAKlbVRBF4rK9OPQb2IWqjpbEjBj9x8GtdcVckPiDT9AG7
+ 1i7CtcG005UU76QfxKL7HzlTXg4HmUQ6otIcHuT5X5KPgQVPIdV2S6+wtcFAmcXy3MSC
+ X9y71xBiAsokFryFDq+Ihu41A/9E+40ZdL7sPhnoJFp/jpawGmLTI3yhS7qxDWSkHVkY
+ p+M3fRqnepoewcrhRjso+ywF5rNhG3HHJh9IOXRQ7rWG98mFbjj3r5nhesV8f8Npt/ez
+ gu/w==
+X-Gm-Message-State: AOAM530nyvJBDrgqu63pBrwk2swZaa98UepCGWf9+P5DYkJWlVbxwwv+
+ FWRpFAKQL7kC/QzhVBLGzp+wrJ7/H7JmFdtN
+X-Google-Smtp-Source: ABdhPJyBB3m+7UgzLR6B6HC5AlQyQAjgmDlaGSG3UQ8Dij2pJjUqmfqoAlrSlGbzOn05t3jjwaULAQ==
+X-Received: by 2002:a19:7d85:: with SMTP id y127mr1596523lfc.253.1610571159718; 
+ Wed, 13 Jan 2021 12:52:39 -0800 (PST)
+Received: from localhost.localdomain ([188.243.183.134])
+ by smtp.gmail.com with ESMTPSA id m7sm317605lfb.146.2021.01.13.12.52.38
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 13 Jan 2021 12:52:38 -0800 (PST)
+From: yaroshchuk2000@gmail.com
 To: qemu-devel@nongnu.org
-Subject: [PATCH v18 13/20] multi-process: introduce proxy object
-Date: Wed, 13 Jan 2021 15:53:32 -0500
-Message-Id: <707bf4351f79bd7a8aaf441495a30c31b6c2936d.1610570756.git.jag.raman@oracle.com>
-X-Mailer: git-send-email 1.8.3.1
-In-Reply-To: <cover.1610570756.git.jag.raman@oracle.com>
-References: <cover.1610570756.git.jag.raman@oracle.com>
-In-Reply-To: <cover.1610570756.git.jag.raman@oracle.com>
-References: <cover.1610570756.git.jag.raman@oracle.com>
+Subject: [PATCH] target/i386/hvf: add vmware-cpuid-freq cpu feature
+Date: Wed, 13 Jan 2021 23:52:21 +0300
+Message-Id: <20210113205221.32308-1-yaroshchuk2000@gmail.com>
+X-Mailer: git-send-email 2.28.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9863
- signatures=668683
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 adultscore=0
- suspectscore=0 spamscore=0
- mlxlogscore=999 malwarescore=0 bulkscore=0 mlxscore=0 phishscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2009150000
- definitions=main-2101130126
-X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9863
- signatures=668683
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 mlxlogscore=999
- phishscore=0
- lowpriorityscore=0 bulkscore=0 priorityscore=1501 malwarescore=0
- clxscore=1015 impostorscore=0 spamscore=0 mlxscore=0 suspectscore=0
- adultscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2009150000 definitions=main-2101130126
-Received-SPF: pass client-ip=156.151.31.86; envelope-from=jag.raman@oracle.com;
- helo=userp2130.oracle.com
-X-Spam_score_int: -46
-X-Spam_score: -4.7
-X-Spam_bar: ----
-X-Spam_report: (-4.7 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.25,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_MED=-2.3, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_PASS=-0.001,
- SPF_PASS=-0.001, UNPARSEABLE_RELAY=0.001 autolearn=ham autolearn_force=no
+Received-SPF: pass client-ip=2a00:1450:4864:20::12d;
+ envelope-from=yaroshchuk2000@gmail.com; helo=mail-lf1-x12d.google.com
+X-Spam_score_int: -17
+X-Spam_score: -1.8
+X-Spam_bar: -
+X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
+X-Mailman-Approved-At: Wed, 13 Jan 2021 16:18:39 -0500
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -98,204 +80,165 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: elena.ufimtseva@oracle.com, fam@euphon.net, swapnil.ingle@nutanix.com,
- john.g.johnson@oracle.com, kraxel@redhat.com, jag.raman@oracle.com,
- quintela@redhat.com, mst@redhat.com, armbru@redhat.com,
- kanth.ghatraju@oracle.com, felipe@nutanix.com, thuth@redhat.com,
- ehabkost@redhat.com, konrad.wilk@oracle.com, dgilbert@redhat.com,
- alex.williamson@redhat.com, stefanha@redhat.com, thanos.makatos@nutanix.com,
- kwolf@redhat.com, berrange@redhat.com, mreitz@redhat.com,
- ross.lagerwall@citrix.com, marcandre.lureau@gmail.com, pbonzini@redhat.com
+Cc: qemu-trivial@nongnu.org, r.bolshakov@yadro.com,
+ Vladislav Yaroshchuk <yaroshchuk2000@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Elena Ufimtseva <elena.ufimtseva@oracle.com>
+From: Vladislav Yaroshchuk <yaroshchuk2000@gmail.com>
 
-Defines a PCI Device proxy object as a child of TYPE_PCI_DEVICE.
+For `-accel hvf` cpu_x86_cpuid() is wrapped with hvf_cpu_x86_cpuid() to
+add paravirtualization cpuid leaf 0x40000010
+https://lkml.org/lkml/2008/10/1/246
 
-Signed-off-by: Elena Ufimtseva <elena.ufimtseva@oracle.com>
-Signed-off-by: Jagannathan Raman <jag.raman@oracle.com>
-Signed-off-by: John G Johnson <john.g.johnson@oracle.com>
-Reviewed-by: Stefan Hajnoczi <stefanha@redhat.com>
+Leaf 0x40000010, Timing Information:
+EAX: (Virtual) TSC frequency in kHz.
+EBX: (Virtual) Bus (local apic timer) frequency in kHz.
+ECX, EDX: RESERVED (Per above, reserved fields are set to zero).
+
+On macOS TSC and APIC Bus frequencies can be readed by sysctl call with
+names `machdep.tsc.frequency` and `hw.busfrequency`
+
+This options is required for Darwin-XNU guest to be synchronized with
+host
+
+Signed-off-by: Vladislav Yaroshchuk <yaroshchuk2000@gmail.com>
 ---
- include/hw/remote/proxy.h | 33 ++++++++++++++++
- hw/remote/proxy.c         | 99 +++++++++++++++++++++++++++++++++++++++++++++++
- MAINTAINERS               |  2 +
- hw/remote/meson.build     |  1 +
- 4 files changed, 135 insertions(+)
- create mode 100644 include/hw/remote/proxy.h
- create mode 100644 hw/remote/proxy.c
+ target/i386/hvf/hvf.c | 92 ++++++++++++++++++++++++++++++++++++++++++-
+ 1 file changed, 91 insertions(+), 1 deletion(-)
 
-diff --git a/include/hw/remote/proxy.h b/include/hw/remote/proxy.h
-new file mode 100644
-index 0000000..faa9c4d
---- /dev/null
-+++ b/include/hw/remote/proxy.h
-@@ -0,0 +1,33 @@
-+/*
-+ * Copyright © 2018, 2021 Oracle and/or its affiliates.
-+ *
-+ * This work is licensed under the terms of the GNU GPL, version 2 or later.
-+ * See the COPYING file in the top-level directory.
-+ *
-+ */
+diff --git a/target/i386/hvf/hvf.c b/target/i386/hvf/hvf.c
+index ed9356565c..0873e4969e 100644
+--- a/target/i386/hvf/hvf.c
++++ b/target/i386/hvf/hvf.c
+@@ -65,6 +65,7 @@
+ 
+ #include <Hypervisor/hv.h>
+ #include <Hypervisor/hv_vmx.h>
++#include <sys/sysctl.h>
+ 
+ #include "exec/address-spaces.h"
+ #include "hw/i386/apic_internal.h"
+@@ -456,6 +457,50 @@ static void dummy_signal(int sig)
+ {
+ }
+ 
++static void init_tsc_freq(CPUX86State *env)
++{
++    size_t length;
++    uint64_t tsc_freq;
 +
-+#ifndef PROXY_H
-+#define PROXY_H
++    if (env->tsc_khz != 0) {
++        return;
++    }
 +
-+#include "hw/pci/pci.h"
-+#include "io/channel.h"
++    length = sizeof(uint64_t);
++    if (sysctlbyname("machdep.tsc.frequency", &tsc_freq, &length, NULL, 0)) {
++        /* fprintf(stderr, "%s: sysctl machdep.tsc.frequency errored\n", __func__); */
++        return;
++    }
++    env->tsc_khz = tsc_freq / 1000;  /* Hz to KHz */
++}
 +
-+#define TYPE_PCI_PROXY_DEV "x-pci-proxy-dev"
-+OBJECT_DECLARE_SIMPLE_TYPE(PCIProxyDev, PCI_PROXY_DEV)
++static void init_apic_bus_freq(CPUX86State *env)
++{
++    size_t length;
++    uint64_t bus_freq;
 +
-+struct PCIProxyDev {
-+    PCIDevice parent_dev;
-+    char *fd;
++    if (env->apic_bus_freq != 0) {
++        return;
++    }
 +
++    length = sizeof(uint64_t);
++    if (sysctlbyname("hw.busfrequency", &bus_freq, &length, NULL, 0)) {
++        /* fprintf(stderr, "%s: sysctl hw.busfrequency errored\n", __func__); */
++        return;
++    }
++    env->apic_bus_freq = bus_freq;
++}
++
++static inline bool tsc_is_known(CPUX86State *env)
++{
++    return env->tsc_khz != 0;
++}
++
++static inline bool apic_bus_freq_is_known(CPUX86State *env)
++{
++    return env->apic_bus_freq != 0;
++}
++
+ int hvf_init_vcpu(CPUState *cpu)
+ {
+ 
+@@ -480,6 +525,15 @@ int hvf_init_vcpu(CPUState *cpu)
+     hvf_state->hvf_caps = g_new0(struct hvf_vcpu_caps, 1);
+     env->hvf_mmio_buf = g_new(char, 4096);
+ 
++    if (x86cpu->vmware_cpuid_freq) {
++        init_tsc_freq(env);
++        init_apic_bus_freq(env);
++
++        if (!tsc_is_known(env) || !apic_bus_freq_is_known(env)) {
++            error_report("vmware-cpuid-freq: feature couldn't be enabled");
++        }
++    }
++
+     r = hv_vcpu_create((hv_vcpuid_t *)&cpu->hvf_fd, HV_VCPU_DEFAULT);
+     cpu->vcpu_dirty = 1;
+     assert_hvf_ok(r);
+@@ -597,6 +651,42 @@ static void hvf_store_events(CPUState *cpu, uint32_t ins_len, uint64_t idtvec_in
+     }
+ }
+ 
++static void hvf_cpu_x86_cpuid(CPUX86State *env, uint32_t index, uint32_t count,
++                              uint32_t *eax, uint32_t *ebx,
++                              uint32_t *ecx, uint32_t *edx)
++{
 +    /*
-+     * Mutex used to protect the QIOChannel fd from
-+     * the concurrent access by the VCPUs since proxy
-+     * blocks while awaiting for the replies from the
-+     * process remote.
++     * A wrapper extends cpu_x86_cpuid with 0x40000000 and 0x40000010 leafs
++     * Provides vmware-cpuid-freq support to hvf
 +     */
-+    QemuMutex io_mutex;
-+    QIOChannel *ioc;
-+    Error *migration_blocker;
-+};
 +
-+#endif /* PROXY_H */
-diff --git a/hw/remote/proxy.c b/hw/remote/proxy.c
-new file mode 100644
-index 0000000..cd5b071
---- /dev/null
-+++ b/hw/remote/proxy.c
-@@ -0,0 +1,99 @@
-+/*
-+ * Copyright © 2018, 2021 Oracle and/or its affiliates.
-+ *
-+ * This work is licensed under the terms of the GNU GPL, version 2 or later.
-+ * See the COPYING file in the top-level directory.
-+ *
-+ */
++    uint32_t signature[3];
 +
-+#include "qemu/osdep.h"
-+#include "qemu-common.h"
-+
-+#include "hw/remote/proxy.h"
-+#include "hw/pci/pci.h"
-+#include "qapi/error.h"
-+#include "io/channel-util.h"
-+#include "hw/qdev-properties.h"
-+#include "monitor/monitor.h"
-+#include "migration/blocker.h"
-+#include "qemu/sockets.h"
-+
-+static void pci_proxy_dev_realize(PCIDevice *device, Error **errp)
-+{
-+    ERRP_GUARD();
-+    PCIProxyDev *dev = PCI_PROXY_DEV(device);
-+    int fd;
-+
-+    if (!dev->fd) {
-+        error_setg(errp, "fd parameter not specified for %s",
-+                   DEVICE(device)->id);
++    if (!tsc_is_known(env) || !apic_bus_freq_is_known(env)) {
++        cpu_x86_cpuid(env, index, count, eax, ebx, ecx, edx);
 +        return;
 +    }
 +
-+    fd = monitor_fd_param(monitor_cur(), dev->fd, errp);
-+    if (fd == -1) {
-+        error_prepend(errp, "proxy: unable to parse fd %s: ", dev->fd);
-+        return;
++    switch (index) {
++        case 0x40000000:
++            memcpy(signature, "TCGTCGTCGTCG", 12); /* QEMU Signature */
++            *eax = 0x40000010;                     /* Max available cpuid leaf */
++            *ebx = signature[0];
++            *ecx = signature[1];
++            *edx = signature[2];
++            break;
++        case 0x40000010:
++            *eax = env->tsc_khz;
++            *ebx = env->apic_bus_freq / 1000; /* Hz to KHz */
++            *ecx = 0;
++            *edx = 0;
++            break;
++        default:
++            cpu_x86_cpuid(env, index, count, eax, ebx, ecx, edx);
++            break;
 +    }
-+
-+    if (!fd_is_socket(fd)) {
-+        error_setg(errp, "proxy: fd %d is not a socket", fd);
-+        close(fd);
-+        return;
-+    }
-+
-+    dev->ioc = qio_channel_new_fd(fd, errp);
-+
-+    error_setg(&dev->migration_blocker, "%s does not support migration",
-+               TYPE_PCI_PROXY_DEV);
-+    migrate_add_blocker(dev->migration_blocker, errp);
-+
-+    qemu_mutex_init(&dev->io_mutex);
-+    qio_channel_set_blocking(dev->ioc, true, NULL);
 +}
 +
-+static void pci_proxy_dev_exit(PCIDevice *pdev)
-+{
-+    PCIProxyDev *dev = PCI_PROXY_DEV(pdev);
-+
-+    if (dev->ioc) {
-+        qio_channel_close(dev->ioc, NULL);
-+    }
-+
-+    migrate_del_blocker(dev->migration_blocker);
-+
-+    error_free(dev->migration_blocker);
-+}
-+
-+static Property proxy_properties[] = {
-+    DEFINE_PROP_STRING("fd", PCIProxyDev, fd),
-+    DEFINE_PROP_END_OF_LIST(),
-+};
-+
-+static void pci_proxy_dev_class_init(ObjectClass *klass, void *data)
-+{
-+    DeviceClass *dc = DEVICE_CLASS(klass);
-+    PCIDeviceClass *k = PCI_DEVICE_CLASS(klass);
-+
-+    k->realize = pci_proxy_dev_realize;
-+    k->exit = pci_proxy_dev_exit;
-+    device_class_set_props(dc, proxy_properties);
-+}
-+
-+static const TypeInfo pci_proxy_dev_type_info = {
-+    .name          = TYPE_PCI_PROXY_DEV,
-+    .parent        = TYPE_PCI_DEVICE,
-+    .instance_size = sizeof(PCIProxyDev),
-+    .class_init    = pci_proxy_dev_class_init,
-+    .interfaces = (InterfaceInfo[]) {
-+        { INTERFACE_CONVENTIONAL_PCI_DEVICE },
-+        { },
-+    },
-+};
-+
-+static void pci_proxy_dev_register_types(void)
-+{
-+    type_register_static(&pci_proxy_dev_type_info);
-+}
-+
-+type_init(pci_proxy_dev_register_types)
-diff --git a/MAINTAINERS b/MAINTAINERS
-index fba1959..32971a7 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -3197,6 +3197,8 @@ F: hw/remote/message.c
- F: hw/remote/remote-obj.c
- F: include/hw/remote/memory.h
- F: hw/remote/memory.c
-+F: hw/remote/proxy.c
-+F: include/hw/remote/proxy.h
+ int hvf_vcpu_exec(CPUState *cpu)
+ {
+     X86CPU *x86_cpu = X86_CPU(cpu);
+@@ -734,7 +824,7 @@ int hvf_vcpu_exec(CPUState *cpu)
+             uint32_t rcx = (uint32_t)rreg(cpu->hvf_fd, HV_X86_RCX);
+             uint32_t rdx = (uint32_t)rreg(cpu->hvf_fd, HV_X86_RDX);
  
- Build and test automation
- -------------------------
-diff --git a/hw/remote/meson.build b/hw/remote/meson.build
-index 64da16c..569cd20 100644
---- a/hw/remote/meson.build
-+++ b/hw/remote/meson.build
-@@ -4,6 +4,7 @@ remote_ss.add(when: 'CONFIG_MULTIPROCESS', if_true: files('machine.c'))
- remote_ss.add(when: 'CONFIG_MULTIPROCESS', if_true: files('mpqemu-link.c'))
- remote_ss.add(when: 'CONFIG_MULTIPROCESS', if_true: files('message.c'))
- remote_ss.add(when: 'CONFIG_MULTIPROCESS', if_true: files('remote-obj.c'))
-+remote_ss.add(when: 'CONFIG_MULTIPROCESS', if_true: files('proxy.c'))
+-            cpu_x86_cpuid(env, rax, rcx, &rax, &rbx, &rcx, &rdx);
++            hvf_cpu_x86_cpuid(env, rax, rcx, &rax, &rbx, &rcx, &rdx);
  
- specific_ss.add(when: 'CONFIG_MULTIPROCESS', if_true: files('memory.c'))
- 
+             wreg(cpu->hvf_fd, HV_X86_RAX, rax);
+             wreg(cpu->hvf_fd, HV_X86_RBX, rbx);
 -- 
-1.8.3.1
+2.28.0
 
 
