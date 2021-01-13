@@ -2,73 +2,47 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 40DDD2F43E9
-	for <lists+qemu-devel@lfdr.de>; Wed, 13 Jan 2021 06:34:43 +0100 (CET)
-Received: from localhost ([::1]:42444 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D749A2F4415
+	for <lists+qemu-devel@lfdr.de>; Wed, 13 Jan 2021 06:48:29 +0100 (CET)
+Received: from localhost ([::1]:51252 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kzYnq-0000S4-9K
-	for lists+qemu-devel@lfdr.de; Wed, 13 Jan 2021 00:34:42 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54532)
+	id 1kzZ1A-0004vS-H9
+	for lists+qemu-devel@lfdr.de; Wed, 13 Jan 2021 00:48:28 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56686)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1kzYme-0008RT-Oi
- for qemu-devel@nongnu.org; Wed, 13 Jan 2021 00:33:28 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:45909)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1kzYmd-0006BQ-0g
- for qemu-devel@nongnu.org; Wed, 13 Jan 2021 00:33:28 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1610516005;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=x0oyDfprfBEj+sNP/vkSHmMVaTNrjKk1Rsh4jAVj0+4=;
- b=LkbJP/tHpU3JBOObHoKQjbXQu3mW5JqHoxU4ueXTV6f7vj5K3QwMuOFw46xVmSL+/0MfrG
- okBFObKKdSnM6QXorCpzgExQYvQZ1jCJpXBk3xuITQ17dXZQmlQYPVetv7IbDGgXT8whT1
- mxHRrLRg3cU+do6sLp8ICIDimmojJKk=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-556-CpMgYlvJMTez4KEx3nopOQ-1; Wed, 13 Jan 2021 00:33:23 -0500
-X-MC-Unique: CpMgYlvJMTez4KEx3nopOQ-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 21A8B107ACF7;
- Wed, 13 Jan 2021 05:33:22 +0000 (UTC)
-Received: from thuth.remote.csb (ovpn-112-122.ams2.redhat.com [10.36.112.122])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 169C21001B2C;
- Wed, 13 Jan 2021 05:33:20 +0000 (UTC)
-Subject: Re: [PATCH v2] configure: MinGW respect --bindir argument
-To: Joshua Watt <jpewhacker@gmail.com>, qemu-devel@nongnu.org
-References: <20210107213856.34170-1-JPEWhacker@gmail.com>
- <20210112210239.28836-1-JPEWhacker@gmail.com>
-From: Thomas Huth <thuth@redhat.com>
-Message-ID: <8c52fcc8-eb2e-c068-9187-1d007e15d1af@redhat.com>
-Date: Wed, 13 Jan 2021 06:33:20 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.4.0
+ (Exim 4.90_1) (envelope-from <alxndr@bu.edu>)
+ id 1kzYzX-0004C4-M1; Wed, 13 Jan 2021 00:46:47 -0500
+Received: from relay68.bu.edu ([128.197.228.73]:42707)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <alxndr@bu.edu>)
+ id 1kzYzV-0004kq-K8; Wed, 13 Jan 2021 00:46:46 -0500
+X-Envelope-From: alxndr@bu.edu
+X-BU-AUTH: mozz.bu.edu [128.197.127.33]
+Received: from BU-AUTH (localhost.localdomain [127.0.0.1]) (authenticated
+ bits=0)
+ by relay68.bu.edu (8.14.3/8.14.3) with ESMTP id 10D5jk1O031372
+ (version=TLSv1/SSLv3 cipher=AES256-GCM-SHA384 bits=256 verify=NO);
+ Wed, 13 Jan 2021 00:45:49 -0500
+Date: Wed, 13 Jan 2021 00:45:46 -0500
+From: Alexander Bulekov <alxndr@bu.edu>
+To: Mauro Matteo Cascella <mcascell@redhat.com>
+Subject: Re: [PATCH] hw/scsi/megasas: check for NULL frame in
+ megasas_command_cancelled()
+Message-ID: <20210113054546.mbbx2kvoxwwlqdxe@mozz.bu.edu>
+References: <20201224175441.67538-1-mcascell@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <20210112210239.28836-1-JPEWhacker@gmail.com>
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=thuth@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=thuth@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -29
-X-Spam_score: -3.0
-X-Spam_bar: ---
-X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.251,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20201224175441.67538-1-mcascell@redhat.com>
+Received-SPF: pass client-ip=128.197.228.73; envelope-from=alxndr@bu.edu;
+ helo=relay68.bu.edu
+X-Spam_score_int: -15
+X-Spam_score: -1.6
+X-Spam_bar: -
+X-Spam_report: (-1.6 / 5.0 requ) BAYES_00=-1.9, HK_RANDOM_ENVFROM=0.001,
+ HK_RANDOM_FROM=0.999, RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -81,70 +55,98 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: QEMU Trivial <qemu-trivial@nongnu.org>, pbonzini@redhat.com,
- luoyonggang@gmail.com
+Cc: cwmyung@snu.ac.kr, qemu-devel@nongnu.org, qemu-block@nongnu.org,
+ hare@suse.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 12/01/2021 22.02, Joshua Watt wrote:
-> There are two cases that need to be accounted for when compiling QEMU
-> for MinGW32:
->   1) A standalone distribution, where QEMU is self contained and
->      extracted by the user, such as a user would download from the QEMU
->      website. In this case, all the QEMU executable files should be
->      rooted in $prefix to ensure they can be easily found by the user
->   2) QEMU integrated into a distribution image/sysroot/SDK and
->      distributed with other programs. In this case, the provided
->      arguments for bindir/datadir/etc. should be respected as they for a
->      Linux build.
+Looks like one reported by OSS-Fuzz:
+Here's a reproducer
+
+cat << EOF | ./qemu-system-i386 -qtest stdio -display none \
+-machine q35,accel=qtest -m 512M  -nodefaults \
+-device megasas -device scsi-cd,drive=null0 \
+-blockdev driver=null-co,read-zeroes=on,node-name=null0 
+outl 0xcf8 0x80000801
+outl 0xcfc 0x15000000
+outl 0xcf8 0x80000817
+outl 0xcfc 0x1e0000
+write 0x40 0x1 0x01
+write 0x47 0x1 0x03
+write 0x50 0x1 0x12
+write 0x55 0x1 0x10
+write 0x6a 0x1 0x20
+write 0x70 0x1 0x10
+write 0x7b 0x1 0x10
+write 0x7f 0x1 0x10
+write 0x86 0x1 0x10
+write 0x8b 0x1 0x10
+outb 0x1e40 0x40
+write 0x1a 0x1 0x0
+write 0x6a000f 0x1 0x0
+outb 0x1e40 0x0
+outl 0x1e40 0x0
+write 0x6f1 0x1 0x00
+write 0x6f9 0x1 0x00
+write 0x6fd 0x1 0x01
+write 0x701 0x1 0x00
+write 0x705 0x1 0x06
+write 0x730 0x1 0x00
+write 0x738 0x1 0x00
+write 0x73c 0x1 0x01
+write 0x740 0x1 0x00
+write 0x744 0x1 0x06
+write 0x75c 0x1 0x00
+write 0x760 0x1 0x01
+write 0x76f 0x1 0x00
+write 0x770 0x1 0x20
+write 0x77c 0x1 0x20
+write 0x780 0x1 0x00
+write 0x79b 0x1 0x00
+write 0x79f 0x1 0x01
+write 0x7ae 0x1 0x00
+write 0x7af 0x1 0x20
+write 0x7bb 0x1 0x20
+write 0x7bf 0x1 0x00
+write 0x7cf 0x1 0x10
+write 0x7db 0x1 0x00
+write 0x7df 0x1 0x20
+write 0x7ee 0x1 0x20
+write 0x7ef 0x1 0x06
+write 0x7fb 0x1 0x10
+write 0x7ff 0x1 0x00
+outb 0x1e40 0x0
+outl 0x1e1f 0x40000200
+EOF
+
+-Alex
+
+On 201224 1854, Mauro Matteo Cascella wrote:
+> Ensure that 'cmd->frame' is not NULL before accessing the 'header' field.
+> This check prevents a potential NULL pointer dereference issue.
 > 
-> Restructures the MinGW path configuration so that all of the paths
-> except bindir use the same rules as when building for other platforms.
-> This satisfies #2 and #1 since these files do not need to be directly in
-> $prefix anyway.
-> 
-> The handling for --bindir is changed so that it defaults to $prefix on
-> MinGW (maintaining the compatibility with #1), but if the user specifies
-> a specific path when configuring it can also satisfy #2.
-> 
-> Signed-off-by: Joshua Watt <JPEWhacker@gmail.com>
+> RHBZ: https://bugzilla.redhat.com/show_bug.cgi?id=1910346
+> Signed-off-by: Mauro Matteo Cascella <mcascell@redhat.com>
+> Reported-by: Cheolwoo Myung <cwmyung@snu.ac.kr>
 > ---
->   configure | 17 ++++++-----------
->   1 file changed, 6 insertions(+), 11 deletions(-)
+>  hw/scsi/megasas.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
 > 
-> diff --git a/configure b/configure
-> index 5860bdb77b..092e2926bc 100755
-> --- a/configure
-> +++ b/configure
-> @@ -1571,20 +1571,15 @@ libexecdir="${libexecdir:-$prefix/libexec}"
->   includedir="${includedir:-$prefix/include}"
->   
->   if test "$mingw32" = "yes" ; then
-> -    mandir="$prefix"
-> -    datadir="$prefix"
-> -    docdir="$prefix"
-> -    bindir="$prefix"
-> -    sysconfdir="$prefix"
-> -    local_statedir="$prefix"
-> +    bindir="${bindir:-$prefix}"
->   else
-> -    mandir="${mandir:-$prefix/share/man}"
-> -    datadir="${datadir:-$prefix/share}"
-> -    docdir="${docdir:-$prefix/share/doc}"
->       bindir="${bindir:-$prefix/bin}"
-> -    sysconfdir="${sysconfdir:-$prefix/etc}"
-> -    local_statedir="${local_statedir:-$prefix/var}"
->   fi
-> +mandir="${mandir:-$prefix/share/man}"
-> +datadir="${datadir:-$prefix/share}"
-> +docdir="${docdir:-$prefix/share/doc}"
-> +sysconfdir="${sysconfdir:-$prefix/etc}"
-> +local_statedir="${local_statedir:-$prefix/var}"
->   firmwarepath="${firmwarepath:-$datadir/qemu-firmware}"
->   localedir="${localedir:-$datadir/locale}"
-
-Yes, I think this makes most sense, thanks for the update!
-
-Reviewed-by: Thomas Huth <thuth@redhat.com>
-
+> diff --git a/hw/scsi/megasas.c b/hw/scsi/megasas.c
+> index 1a5fc5857d..77510e120c 100644
+> --- a/hw/scsi/megasas.c
+> +++ b/hw/scsi/megasas.c
+> @@ -1893,7 +1893,7 @@ static void megasas_command_cancelled(SCSIRequest *req)
+>  {
+>      MegasasCmd *cmd = req->hba_private;
+>  
+> -    if (!cmd) {
+> +    if (!cmd || !cmd->frame) {
+>          return;
+>      }
+>      cmd->frame->header.cmd_status = MFI_STAT_SCSI_IO_FAILED;
+> -- 
+> 2.29.2
+> 
+> 
 
