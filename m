@@ -2,64 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 223042F48B9
-	for <lists+qemu-devel@lfdr.de>; Wed, 13 Jan 2021 11:33:13 +0100 (CET)
-Received: from localhost ([::1]:46054 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 99CDA2F48C4
+	for <lists+qemu-devel@lfdr.de>; Wed, 13 Jan 2021 11:37:38 +0100 (CET)
+Received: from localhost ([::1]:49098 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kzdSi-0001R5-7Q
-	for lists+qemu-devel@lfdr.de; Wed, 13 Jan 2021 05:33:12 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50944)
+	id 1kzdWz-0003Hc-CH
+	for lists+qemu-devel@lfdr.de; Wed, 13 Jan 2021 05:37:37 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52344)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1kzdRf-0000ap-E0
- for qemu-devel@nongnu.org; Wed, 13 Jan 2021 05:32:07 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:29701)
+ (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
+ id 1kzdW8-0002do-Ry
+ for qemu-devel@nongnu.org; Wed, 13 Jan 2021 05:36:44 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:42801)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1kzdRd-0006ai-FF
- for qemu-devel@nongnu.org; Wed, 13 Jan 2021 05:32:07 -0500
+ (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
+ id 1kzdW5-0000Rp-CO
+ for qemu-devel@nongnu.org; Wed, 13 Jan 2021 05:36:44 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1610533924;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:in-reply-to:in-reply-to:  references:references;
- bh=+QW1Jp+IOSY3/O/cXBgLFwxkax8/btFBH5OCiJiNEHk=;
- b=SqFySATiZ2MO152uofQJWVPf0lfkQLvbRKbdloVv5VwLpkulToiwR867T++X2ljvR9DLkx
- twX8JxHUfosQTRqK5gdfJOBZPAnOkR1CKvMp4txBkdbmAX1axlMRhIuV96bv6sqVTYUVRj
- ub7ywKKkO0Oz/O1LHvp84VLUAJltxtg=
+ s=mimecast20190719; t=1610534200;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=hixWek1z7n14iQfvd/6nuuB0FHmZW8HNsNxK5gshUd0=;
+ b=Om7aefRCdBySMGiQVXtZ7m+yJU1sKDEUzPspGcKARixaJtUR19y7kG1NL1LuMz+QZG8I0C
+ xtGSgX3PBeML1kejdCoCt8kv+xRanAx667/qB80MNkcN7LYuqOpjH+I8nHlRPhykhKwGqR
+ Xi/rMzLiQMMQKQVCcrj0wxU8FlfaCTY=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-353-hA3FmsTtO5aQCjSal8CERA-1; Wed, 13 Jan 2021 05:31:57 -0500
-X-MC-Unique: hA3FmsTtO5aQCjSal8CERA-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
+ us-mta-395-UIfUn20YPta4yKy06nt_Hw-1; Wed, 13 Jan 2021 05:36:37 -0500
+X-MC-Unique: UIfUn20YPta4yKy06nt_Hw-1
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
+ [10.5.11.16])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 009518144E5;
- Wed, 13 Jan 2021 10:31:56 +0000 (UTC)
-Received: from redhat.com (ovpn-115-107.ams2.redhat.com [10.36.115.107])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id F270A1C936;
- Wed, 13 Jan 2021 10:31:47 +0000 (UTC)
-Date: Wed, 13 Jan 2021 10:31:43 +0000
-From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-To: Paolo Bonzini <pbonzini@redhat.com>
-Subject: Re: [PATCH 8/8] configure: automatically parse command line for
- meson -D options
-Message-ID: <20210113103143.GA1568240@redhat.com>
-References: <20210107140039.467969-1-pbonzini@redhat.com>
- <20210107140039.467969-9-pbonzini@redhat.com>
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 9FE9C8145E1
+ for <qemu-devel@nongnu.org>; Wed, 13 Jan 2021 10:36:36 +0000 (UTC)
+Received: from localhost (ovpn-115-141.ams2.redhat.com [10.36.115.141])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id B213B5C253;
+ Wed, 13 Jan 2021 10:36:30 +0000 (UTC)
+Date: Wed, 13 Jan 2021 10:36:29 +0000
+From: Stefan Hajnoczi <stefanha@redhat.com>
+To: Laszlo Ersek <lersek@redhat.com>
+Subject: Re: [PATCH v2] vhost-user-fs: add the "bootindex" property
+Message-ID: <20210113103629.GF250553@stefanha-x1.localdomain>
+References: <20210112131603.12686-1-lersek@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <20210107140039.467969-9-pbonzini@redhat.com>
-User-Agent: Mutt/1.14.6 (2020-07-11)
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+In-Reply-To: <20210112131603.12686-1-lersek@redhat.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=berrange@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=stefanha@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="7cm2iqirTL37Ot+N"
 Content-Disposition: inline
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=berrange@redhat.com;
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=stefanha@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -29
 X-Spam_score: -3.0
@@ -80,91 +78,84 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-Cc: marcandre.lureau@redhat.com, alex.bennee@linaro.org, qemu-devel@nongnu.org,
- stefanha@redhat.com
+Cc: virtio-fs@redhat.com, "Michael S. Tsirkin" <mst@redhat.com>,
+ =?iso-8859-1?B?SuFu?= Tomko <jtomko@redhat.com>,
+ qemu devel list <qemu-devel@nongnu.org>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, Jan 07, 2021 at 03:00:39PM +0100, Paolo Bonzini wrote:
-> Right now meson_options.txt lists almost 60 options.  Each option
-> needs code in configure to parse it and pass the option down to Meson as
-> a -D command-line argument; in addition the default must be duplicated
-> between configure and meson_options.txt.
-> 
-> This series tries to remove the code duplication by passing unknown
-> --enable and --disable options to a Perl program, and using Meson's
-> introspection support to match those to meson_options.txt.
-> About 80% of the options can be handled completely by the new
-> mechanism.  Five meson options are not of the --enable/--disable
-> kind.  Six more need to be parsed in configure for various reasons
-> documented in the patch, but they still have their help automatically
-> generated.
-> 
-> The advantages are simple to explain, and are basically what you
-> can expect from an introspection-based system:
-> 
-> - there is obviously much less code in configure.  About 1000 lines
->   of the script deal with command line parsing, and the patch removes
->   a quarter of them.
-> 
-> - the script is higher quality than the repetitive code in configure.
->   Help is generally more complete and useful, for example it consistently
->   lists defaults as well as the possible choices if they are not just
->   enabled/disabled/auto.  Parsing is more consistent too, for example
->   --enable-slirp and --enable-blobs were not supported.
-> 
-> - new Meson options do not need any change to the configure script.
->   This increases the attractiveness of converting options from
->   hand-crafted parsing and config-host.mak to Meson.
-> 
-> The disadvantages are:
-> 
-> - a few options change name: --enable-tcmalloc and --enable-jemalloc
->   become --enable-malloc={tcmalloc,jemalloc}; --disable-blobs becomes
->   --disable-install-blobs.
-> 
-> - because we need to run the script to generate the full help, we
->   cannot rely on the user supplying the path to a Python interpreter
->   with --python.  For this reason, the script is written in Perl.
->   Perl 5 is universally available as "/usr/bin/env perl", while
->   (even ignoring the Python 2/3 difference) some systems do not
->   have a "python" or "python3" binary on the path.
+--7cm2iqirTL37Ot+N
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Can't we just use  "/usr/bin/env python3", and if that doesn't
-exist in $PATH, simply show truncated --help output, with a
-message requesting that they pass --python to see full help.
-
-> 
-> - because we parse command-line options before meson is available,
->   the introspection output is stored in the source tree.  This is
->   the reason for the unattractive diffstat; the number of JSON lines
->   added is higher than the number of configure lines removed.
->   Of course the latter are code that must be maintained manually and
->   the former is not.
-> 
-> Note that the output of "meson introspect --buildoptions" is massaged
-> slightly, in order to make it more stable and avoid horrible conflicts
-> on every modification to meson_options.txt.
-> 
-> Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
+On Tue, Jan 12, 2021 at 02:16:03PM +0100, Laszlo Ersek wrote:
+> virtio-fs qualifies as a bootable device minimally under OVMF, but
+> currently the necessary "bootindex" property is missing. Add the property=
+.
+>=20
+> Expose the property only in the PCI device, for now. There is no boot
+> support for virtiofs on s390x (ccw) for the time being [1] [2], so leave
+> the CCW device unchanged. Add the property to the base device still,
+> because adding the alias to the CCW device later will be easier this way
+> [3].
+>=20
+> [1] https://lists.gnu.org/archive/html/qemu-devel/2021-01/msg01745.html
+> [2] https://lists.gnu.org/archive/html/qemu-devel/2021-01/msg01870.html
+> [3] https://lists.gnu.org/archive/html/qemu-devel/2021-01/msg01751.html
+>=20
+> Example OpenFirmware device path for the "vhost-user-fs-pci" device in th=
+e
+> "bootorder" fw_cfg file:
+>=20
+>   /pci@i0cf8/pci-bridge@1,6/pci1af4,105a@0/filesystem@0
+>=20
+> Cc: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+> Cc: "Michael S. Tsirkin" <mst@redhat.com>
+> Cc: J=E1n Tomko <jtomko@redhat.com>
+> Cc: Stefan Hajnoczi <stefanha@redhat.com>
+> Cc: virtio-fs@redhat.com
+> Signed-off-by: Laszlo Ersek <lersek@redhat.com>
+> Acked-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
 > ---
->  Makefile                                |  11 +
->  configure                               | 371 ++----------
->  docs/devel/build-system.rst             |  49 +-
->  meson-buildoptions.json                 | 717 ++++++++++++++++++++++++
+>=20
+> Notes:
+>     v2:
+>     - drop "hw/s390x/vhost-user-fs-ccw.c" hunk [Christian, Cornelia]
+>    =20
+>     - document the same in the commit message
+>    =20
+>     - remove fw_cfg kernel boot reference from the commit message (somewh=
+at
+>       similar use case, but a comparison or even a hint doesn't necessari=
+ly
+>       belong in the commit message)
+>    =20
+>     - pick up Dave's ACK
+>=20
+>  include/hw/virtio/vhost-user-fs.h |  1 +
+>  hw/virtio/vhost-user-fs-pci.c     |  2 ++
+>  hw/virtio/vhost-user-fs.c         | 10 ++++++++++
+>  3 files changed, 13 insertions(+)
 
-I'm not a fan of seeing this file introduced as it has significant
-overlap with meson_options.txt.    I feel like the latter has enough
-information present to do an acceptable job for help output. After
-all that's sufficient if we were using meson directly.
+Acked-by: Stefan Hajnoczi <stefanha@redhat.com>
 
+--7cm2iqirTL37Ot+N
+Content-Type: application/pgp-signature; name="signature.asc"
 
-Regards,
-Daniel
--- 
-|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
-|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
-|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAl/+zS0ACgkQnKSrs4Gr
+c8gS9wf/TRog/kNVH/gkx/ciVGAZlq+1sMNKxVZI9R4Kv0HL3y6WZxkdTtZGZgwO
+RErK34NA2jYHZllUGjqlxeByruJBrg9/yuM8FEeMy8rPHstHy8kflbC4L9nYRiJE
+aF7G4nD7VsbkIoPtKV91qV38bZYoS6BWMd2DwVn4JBO+bkKsek3AQ2ZR5vlohoTB
+IMRcpV3hqJvEySVJKZc1O28yKGPamfWcTS1/UPPi7kALWXCesLd8eCYU6h6Td3qE
+ZS/yoX2TurpuLK62+jKsTOQBigXSuWtgiY9BUMLJtAk7BRyMwOTZNGdi9wDP/PQx
+YxkHwsGykJ3MQ5GkX+7nUMqZ3SDOMg==
+=EAQQ
+-----END PGP SIGNATURE-----
+
+--7cm2iqirTL37Ot+N--
 
 
