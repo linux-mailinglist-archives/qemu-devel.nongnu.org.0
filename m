@@ -2,44 +2,43 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AB4B32F40F8
-	for <lists+qemu-devel@lfdr.de>; Wed, 13 Jan 2021 02:09:39 +0100 (CET)
-Received: from localhost ([::1]:34714 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7BCD02F412B
+	for <lists+qemu-devel@lfdr.de>; Wed, 13 Jan 2021 02:28:01 +0100 (CET)
+Received: from localhost ([::1]:48838 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kzUf8-0000JX-7Q
-	for lists+qemu-devel@lfdr.de; Tue, 12 Jan 2021 20:09:27 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39392)
+	id 1kzUx6-0007xj-Ij
+	for lists+qemu-devel@lfdr.de; Tue, 12 Jan 2021 20:28:00 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42966)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1kzUXD-0003Ed-8N; Tue, 12 Jan 2021 20:01:15 -0500
-Received: from ozlabs.org ([2401:3900:2:1::2]:58315)
+ id 1kzUqY-0004qr-7G; Tue, 12 Jan 2021 20:21:14 -0500
+Received: from ozlabs.org ([2401:3900:2:1::2]:40481)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1kzUX9-00086W-QX; Tue, 12 Jan 2021 20:01:15 -0500
+ id 1kzUqU-0006Tw-1R; Tue, 12 Jan 2021 20:21:13 -0500
 Received: by ozlabs.org (Postfix, from userid 1007)
- id 4DFpz61Clgz9sj5; Wed, 13 Jan 2021 12:00:49 +1100 (AEDT)
+ id 4DFqQT4QpRz9sWd; Wed, 13 Jan 2021 12:21:05 +1100 (AEDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=gibson.dropbear.id.au; s=201602; t=1610499650;
- bh=iN/1tBP7XcnEnLSGX4Z2fu1vc1PYRuAZwRjtQ+j+2C8=;
+ d=gibson.dropbear.id.au; s=201602; t=1610500865;
+ bh=vU4LBULX4pV70uZWVAHnJonWFTgH8TLeM6bwwTfc/94=;
  h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=QkcvbYWGUJnkeJogctx6aoZIzy8MTNjmP/wL3xYIa+HQCTpYyhAa98D157bbj3EuH
- Wm0TROZVqOQnUtsWC9LZPV2/vCJ1/STkrOwbjAY2of/YjWJdGZUwFCxUCqU9URDJuG
- mz+j+taQlmTWKtM1hu3nbO0+Qsiv/xeHhSUsKgGo=
-Date: Wed, 13 Jan 2021 11:57:48 +1100
+ b=Jy4DbggAZiShk5OSJjCC084+VhEVlonHUTQG1u1w2KIccqqI0AYrw8PQy/RI0IHiT
+ iRcceHuDINGdBxYFU2ua2xHfbYy/KwF5atUZE1CXWKjLKEY2hpwx9Yj5lc0AcUZAVA
+ dAdfO7YiVxFo+eURa51vfZB/cpgpdhM09UCDL5Nk=
+Date: Wed, 13 Jan 2021 12:14:33 +1100
 From: David Gibson <david@gibson.dropbear.id.au>
-To: Cornelia Huck <cohuck@redhat.com>
-Subject: Re: [PATCH v6 13/13] s390: Recognize confidential-guest-support option
-Message-ID: <20210113005748.GD435587@yekko.fritz.box>
-References: <20210112044508.427338-1-david@gibson.dropbear.id.au>
- <20210112044508.427338-14-david@gibson.dropbear.id.au>
- <fcafba03-3701-93af-8eb7-17bd0d14d167@de.ibm.com>
- <20210112123607.39597e3d.cohuck@redhat.com>
+To: Thomas Huth <thuth@redhat.com>
+Subject: Re: [PATCH 1/3] tests/acceptance: Move the pseries test to a
+ separate file
+Message-ID: <20210113011433.GG435587@yekko.fritz.box>
+References: <20210112164045.98565-1-thuth@redhat.com>
+ <20210112164045.98565-2-thuth@redhat.com>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="HWvPVVuAAfuRc6SZ"
+ protocol="application/pgp-signature"; boundary="ahP6B03r4gLOj5uD"
 Content-Disposition: inline
-In-Reply-To: <20210112123607.39597e3d.cohuck@redhat.com>
+In-Reply-To: <20210112164045.98565-2-thuth@redhat.com>
 Received-SPF: pass client-ip=2401:3900:2:1::2; envelope-from=dgibson@ozlabs.org;
  helo=ozlabs.org
 X-Spam_score_int: -17
@@ -60,87 +59,127 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: pair@us.ibm.com, brijesh.singh@amd.com, kvm@vger.kernel.org,
- david@redhat.com, qemu-devel@nongnu.org, frankja@linux.ibm.com,
- pragyansri.pathi@intel.com, mst@redhat.com, mdroth@linux.vnet.ibm.com,
- pasic@linux.ibm.com, Christian Borntraeger <borntraeger@de.ibm.com>,
- andi.kleen@intel.com, thuth@redhat.com, Eduardo Habkost <ehabkost@redhat.com>,
- richard.henderson@linaro.org, dgilbert@redhat.com, Greg Kurz <groug@kaod.org>,
- qemu-s390x@nongnu.org, jun.nakajima@intel.com,
- Daniel =?iso-8859-1?Q?P=2E_Berrang=E9?= <berrange@redhat.com>,
- Marcelo Tosatti <mtosatti@redhat.com>, qemu-ppc@nongnu.org,
- Paolo Bonzini <pbonzini@redhat.com>
+Cc: qemu-devel@nongnu.org, Wainer dos Santos Moschetta <wainersm@redhat.com>,
+ Greg Kurz <groug@kaod.org>, qemu-ppc@nongnu.org,
+ Cleber Rosa <crosa@redhat.com>,
+ Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 
---HWvPVVuAAfuRc6SZ
+--ahP6B03r4gLOj5uD
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Tue, Jan 12, 2021 at 12:36:07PM +0100, Cornelia Huck wrote:
-65;6201;1c> On Tue, 12 Jan 2021 09:15:26 +0100
-> Christian Borntraeger <borntraeger@de.ibm.com> wrote:
+On Tue, Jan 12, 2021 at 05:40:43PM +0100, Thomas Huth wrote:
+> Let's gather the POWER-related tests in a separate file.
 >=20
-> > On 12.01.21 05:45, David Gibson wrote:
-> > > At least some s390 cpu models support "Protected Virtualization" (PV),
-> > > a mechanism to protect guests from eavesdropping by a compromised
-> > > hypervisor.
-> > >=20
-> > > This is similar in function to other mechanisms like AMD's SEV and
-> > > POWER's PEF, which are controlled by the "confidential-guest-support"
-> > > machine option.  s390 is a slightly special case, because we already
-> > > supported PV, simply by using a CPU model with the required feature
-> > > (S390_FEAT_UNPACK).
-> > >=20
-> > > To integrate this with the option used by other platforms, we
-> > > implement the following compromise:
-> > >=20
-> > >  - When the confidential-guest-support option is set, s390 will
-> > >    recognize it, verify that the CPU can support PV (failing if not)
-> > >    and set virtio default options necessary for encrypted or protected
-> > >    guests, as on other platforms.  i.e. if confidential-guest-support
-> > >    is set, we will either create a guest capable of entering PV mode,
-> > >    or fail outright.
-> > >=20
-> > >  - If confidential-guest-support is not set, guests might still be
-> > >    able to enter PV mode, if the CPU has the right model.  This may be
-> > >    a little surprising, but shouldn't actually be harmful.
-> > >=20
-> > > To start a guest supporting Protected Virtualization using the new
-> > > option use the command line arguments:
-> > >     -object s390-pv-guest,id=3Dpv0 -machine confidential-guest-suppor=
-t=3Dpv0 =20
-> >=20
-> >=20
-> > This results in
-> >=20
-> > [cborntra@t35lp61 qemu]$ qemu-system-s390x -enable-kvm -nographic -m 2G=
- -kernel ~/full.normal=20
-> > **
-> > ERROR:../qom/object.c:317:type_initialize: assertion failed: (parent->i=
-nstance_size <=3D ti->instance_size)
-> > Bail out! ERROR:../qom/object.c:317:type_initialize: assertion failed: =
-(parent->instance_size <=3D ti->instance_size)
-> > Aborted (core dumped)
-> >=20
->=20
-> > > +static const TypeInfo s390_pv_guest_info =3D {
-> > > +    .parent =3D TYPE_CONFIDENTIAL_GUEST_SUPPORT,
-> > > +    .name =3D TYPE_S390_PV_GUEST,
-> > > +    .instance_size =3D sizeof(S390PVGuestState),
-> > > +    .interfaces =3D (InterfaceInfo[]) {
-> > > +        { TYPE_USER_CREATABLE },
-> > > +        { }
-> > > +    }
-> > > +};
->=20
-> I think this needs TYPE_OBJECT in .parent and
-> TYPE_CONFIDENTIAL_GUEST_SUPPORT as an interface to fix the crash.
+> Signed-off-by: Thomas Huth <thuth@redhat.com>
 
-No, that was true of an earlier revision, but parent is correct in the
-current version.
+Acked-by: David Gibson <david@gibson.dropbear.id.au>
+
+> ---
+>  MAINTAINERS                            |  1 +
+>  tests/acceptance/boot_linux_console.py | 19 --------------
+>  tests/acceptance/machine_ppc.py        | 34 ++++++++++++++++++++++++++
+>  3 files changed, 35 insertions(+), 19 deletions(-)
+>  create mode 100644 tests/acceptance/machine_ppc.py
+>=20
+> diff --git a/MAINTAINERS b/MAINTAINERS
+> index 4be087b88e..189776a036 100644
+> --- a/MAINTAINERS
+> +++ b/MAINTAINERS
+> @@ -280,6 +280,7 @@ F: target/ppc/
+>  F: hw/ppc/
+>  F: include/hw/ppc/
+>  F: disas/ppc.c
+> +F: tests/acceptance/machine_ppc.py
+> =20
+>  RISC-V TCG CPUs
+>  M: Palmer Dabbelt <palmer@dabbelt.com>
+> diff --git a/tests/acceptance/boot_linux_console.py b/tests/acceptance/bo=
+ot_linux_console.py
+> index fb41bb7144..41d2c86e98 100644
+> --- a/tests/acceptance/boot_linux_console.py
+> +++ b/tests/acceptance/boot_linux_console.py
+> @@ -976,25 +976,6 @@ class BootLinuxConsole(LinuxKernelTest):
+>          console_pattern =3D 'Kernel command line: %s' % kernel_command_l=
+ine
+>          self.wait_for_console_pattern(console_pattern)
+> =20
+> -    def test_ppc64_pseries(self):
+> -        """
+> -        :avocado: tags=3Darch:ppc64
+> -        :avocado: tags=3Dmachine:pseries
+> -        """
+> -        kernel_url =3D ('https://archives.fedoraproject.org/pub/archive'
+> -                      '/fedora-secondary/releases/29/Everything/ppc64le/=
+os'
+> -                      '/ppc/ppc64/vmlinuz')
+> -        kernel_hash =3D '3fe04abfc852b66653b8c3c897a59a689270bc77'
+> -        kernel_path =3D self.fetch_asset(kernel_url, asset_hash=3Dkernel=
+_hash)
+> -
+> -        self.vm.set_console()
+> -        kernel_command_line =3D self.KERNEL_COMMON_COMMAND_LINE + 'conso=
+le=3Dhvc0'
+> -        self.vm.add_args('-kernel', kernel_path,
+> -                         '-append', kernel_command_line)
+> -        self.vm.launch()
+> -        console_pattern =3D 'Kernel command line: %s' % kernel_command_l=
+ine
+> -        self.wait_for_console_pattern(console_pattern)
+> -
+>      def test_m68k_q800(self):
+>          """
+>          :avocado: tags=3Darch:m68k
+> diff --git a/tests/acceptance/machine_ppc.py b/tests/acceptance/machine_p=
+pc.py
+> new file mode 100644
+> index 0000000000..51bbfd411c
+> --- /dev/null
+> +++ b/tests/acceptance/machine_ppc.py
+> @@ -0,0 +1,34 @@
+> +# Test that Linux kernel boots on ppc machines and check the console
+> +#
+> +# Copyright (c) 2018, 2020 Red Hat, Inc.
+> +#
+> +# This work is licensed under the terms of the GNU GPL, version 2 or
+> +# later.  See the COPYING file in the top-level directory.
+> +
+> +from avocado_qemu import Test
+> +from avocado_qemu import wait_for_console_pattern
+> +
+> +class PpcMachine(Test):
+> +
+> +    timeout =3D 90
+> +    KERNEL_COMMON_COMMAND_LINE =3D 'printk.time=3D0 '
+> +    panic_message =3D 'Kernel panic - not syncing'
+> +
+> +    def test_ppc64_pseries(self):
+> +        """
+> +        :avocado: tags=3Darch:ppc64
+> +        :avocado: tags=3Dmachine:pseries
+> +        """
+> +        kernel_url =3D ('https://archives.fedoraproject.org/pub/archive'
+> +                      '/fedora-secondary/releases/29/Everything/ppc64le/=
+os'
+> +                      '/ppc/ppc64/vmlinuz')
+> +        kernel_hash =3D '3fe04abfc852b66653b8c3c897a59a689270bc77'
+> +        kernel_path =3D self.fetch_asset(kernel_url, asset_hash=3Dkernel=
+_hash)
+> +
+> +        self.vm.set_console()
+> +        kernel_command_line =3D self.KERNEL_COMMON_COMMAND_LINE + 'conso=
+le=3Dhvc0'
+> +        self.vm.add_args('-kernel', kernel_path,
+> +                         '-append', kernel_command_line)
+> +        self.vm.launch()
+> +        console_pattern =3D 'Kernel command line: %s' % kernel_command_l=
+ine
+> +        wait_for_console_pattern(self, console_pattern, self.panic_messa=
+ge)
 
 --=20
 David Gibson			| I'll have my music baroque, and my code
@@ -148,25 +187,25 @@ david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
 				| _way_ _around_!
 http://www.ozlabs.org/~dgibson
 
---HWvPVVuAAfuRc6SZ
+--ahP6B03r4gLOj5uD
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAl/+RYwACgkQbDjKyiDZ
-s5KbWA/+M3AIG++0nTrqi4hWo4jTQx4KE9/yIGXlbfcN/MH/ziivMWcKrCIFPbiP
-Pk9pzdVDKy4sg5Mxw0zYPlo/iAiUuOge8tSYSyQSwsCLOVB7VYG9ArBBsd957sF4
-7kFnq8joiiTza9RHbrzCms3xFJmy4kJEqq0ucrA39Httb+IgaOJfusRG/POjLfEa
-WHB74CHfO0L/V47VLmV2yC+l2lRgZm04uCABlZ7MNQq87wIdzEUHco6YA89dhPTm
-4zjQl4K6P+/WrZ+6a5SSDgpcDe1qAd9IY+atnANo2XkYcUQEVMWnJMiVzD15Zy9L
-FdYK+f8e28j3LJIoDPLXHca9gpKyY02CTtDS55OhWrfUloRjapMQbct72f1bPsMy
-JxHTGKY8sKEFnecma3Tlc+qjovODHav4KgRr29KPHPrjAqNvZFAMK2tR2ge976Ld
-7nvqiznT4kwbJLRJ1w9V64+FC1z22o2OEkxeVjOvwtx0PpE9WJqQNInfmPfS2YVL
-4IAVyillo5stvE/SOcNzD3XpyZ/RaTd8A/ue8F84DZWsaJF4Q7NlL2sRPLkrFDt3
-mH9+x8ul+HoNrz+ynK0dykr4H2R0YvsILuny+imnPc5q2Sc7lUKKpnWMofwloIYY
-sM0h9vdXnAVhMa6vQm/avOC0M8on1GW0fJMf4Cymv+a/zsi7SK0=
-=+4Rz
+iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAl/+SXkACgkQbDjKyiDZ
+s5KlAg//Tx3L1B/mkWUw9QxZpTt3RlNRPyGvDRfxenRqJLEP1tXpdnZVdwHWI5d5
+ND2eabKV8b34cChmdYQsKTfDkRfOlRmwTBXtDA3QOfnjQmMsc+IGrsHv1djTkCVs
+pKkzouE8rR4u5yAiZuKB8FhsjMpmfxPt5xV2WVzEMQqV5UhvqsTVHiAN416ttDYw
+vdTPkN7tv7bqrz9OLlWlmgFzUx+r257zGpXL7VYmdOnH6GEcK+J5+GfZLPkydNEc
+eMnZAsDhlbfrIR2p2/NiNL/F0LqxiIceQr9eDZnzy7fMKEo+eXpcI+f01BOT3Oit
+BQJSV7lAuRZbROTjM7sypSRj3FDgbL7Bm590ONMB3e5wZ6sXr9ZzaRP3PMThXc3O
+y8AhdYEOZL0c7ppXkRb8YzOoxH7WCV5JONPcY6tmyn9crmxAHSRg4LKtPkOF9anD
+u+NvvTwMKs3UD2MWh3M5ahMIm5aPy8XAgShR5Lpn7V6IoZ32l7Soz1Y7RNSV8eN+
++x+nnOq7NVyOJPPpR4BQ/9CTgtdTQ0mkq0Wt9jCSCLK5TsFScuDiYUO9Jfv49T8Z
+fKAl5FjAKkC7JCBISAfo1ArTLd5a3fnmm6JoJZHrlfOCpS9hJyXv+naNbJNswtVs
+uga+EuRncY09M7AlasEDFhJv4UZCZCTiWrf2YUNM2az7kSOvdWY=
+=eHz9
 -----END PGP SIGNATURE-----
 
---HWvPVVuAAfuRc6SZ--
+--ahP6B03r4gLOj5uD--
 
