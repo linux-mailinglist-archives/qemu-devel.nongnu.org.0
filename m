@@ -2,51 +2,80 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 439E72F458F
-	for <lists+qemu-devel@lfdr.de>; Wed, 13 Jan 2021 08:52:24 +0100 (CET)
-Received: from localhost ([::1]:48590 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AD7982F4594
+	for <lists+qemu-devel@lfdr.de>; Wed, 13 Jan 2021 08:55:44 +0100 (CET)
+Received: from localhost ([::1]:51722 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kzax5-0000wg-17
-	for lists+qemu-devel@lfdr.de; Wed, 13 Jan 2021 02:52:23 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56056)
+	id 1kzb0J-0002jU-PP
+	for lists+qemu-devel@lfdr.de; Wed, 13 Jan 2021 02:55:43 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57712)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dave@0bits.com>) id 1kzavw-0000Rm-Hw
- for qemu-devel@nongnu.org; Wed, 13 Jan 2021 02:51:12 -0500
-Received: from uk.hasbox.com ([2a01:7e00::f03c:91ff:fe91:5fdc]:51147)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dave@0bits.com>) id 1kzavu-0003fP-Mv
- for qemu-devel@nongnu.org; Wed, 13 Jan 2021 02:51:12 -0500
-Received: from [10.0.0.170] ([5.30.22.212]) (authenticated bits=0)
- by uk.hasbox.com (8.15.2/8.15.2) with ESMTPSA id 10D7p5dq011271
- (version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NO);
- Wed, 13 Jan 2021 07:51:07 GMT
-Subject: Re: absolute firmware path made relocatable in qemu 5.2.0
-To: Paolo Bonzini <pbonzini@redhat.com>
-References: <abd662c1-9a4a-9c77-6533-875ab1924695@0bits.com>
- <c9b36f34-8783-9c11-ffb9-afd25fdf9ac0@redhat.com>
- <428592f1-a5fd-7e6a-f181-28f31343518a@0bits.com>
- <CABgObfaZECGDvgsvebx44h84okDMKWZFw1ZtqcXk8W9SaD38Zg@mail.gmail.com>
- <3ab19db3-7339-79d5-9f4f-aee7165b531a@0bits.com>
- <536bbda3-ebcb-e098-2625-5de4db08422e@redhat.com>
-From: Dave <dave@0bits.com>
-Message-ID: <e132f0dd-e9ee-5519-e539-ceb760b7c6a6@0bits.com>
-Date: Wed, 13 Jan 2021 11:51:00 +0400
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1kzaxr-0001s7-Lk; Wed, 13 Jan 2021 02:53:11 -0500
+Received: from mail-wm1-x32e.google.com ([2a00:1450:4864:20::32e]:35665)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1kzaxp-0004qW-Ki; Wed, 13 Jan 2021 02:53:11 -0500
+Received: by mail-wm1-x32e.google.com with SMTP id e25so688394wme.0;
+ Tue, 12 Jan 2021 23:53:08 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=sender:subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=Y7TP/ToyRctzKrumSjXsq0lzD4QST81QsFkYS/qUk1M=;
+ b=j92ieSnaEEvlHyUBI5mRV2vLmjSAcq2O8hXq4Dlyie3W1Llvkoxskfd0R4H1NtieuI
+ 8ORFqT67mCkFv65Gv4fZ4qYGJ/4lETB9D2OT0e2IqjC0Tats3NaOOMNW8qFFhUIp4K4q
+ PSnkVUNbcTEc9WF3f1bL3PGEe/+wDze5RMAxnBeBFBDAhrudmgIG7bRtkQ1OY7biC4Gm
+ J9Q9SqU1wQq7pK0loOowk44fT+ukE1lKr0I4/MUjp1K0TUSU/JN3RKNWtU1AmcC+rbsJ
+ 5JyQo0zo8WCXhIL93erhgqYbe9zeaJN5kfzSwpGLmiE+WKzkSpiQ6e1V8du3qyTLCmOM
+ blJw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
+ :date:user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=Y7TP/ToyRctzKrumSjXsq0lzD4QST81QsFkYS/qUk1M=;
+ b=TIGKDtg0o+EPKRH4Ez4z96zHOwP67aeX3n7ACxwXa6ucmq2/V4gJ6pSRy5LoAFq+Ea
+ l/IlYMfoDzmy0eViCqDc3CDVbcTyLgpBj1KJBhV/mmSmqkT/xqFXKKXi4mbm1KFobM3e
+ 2d8XskdJlbGIy4YG+CH506X/joh/680ABoRx3LkymRGlVXUFIygyuhPYhd0LhjL+zT2+
+ x3yJPTyqQagn0b8FjAFgt2a5SqtKo2LsHHrTZ1jhe3MGv1Q04nRkTm7XYQnM82K6ttbI
+ 6cJV5jqBSgUnBo0pVeyt60DqdIpW9yJMnjFjfLisxARGk7P5ncuFFf5W5J52oJRkhO1H
+ cbaA==
+X-Gm-Message-State: AOAM531XqBnwyQAAxSdVsX5LLrCxajRflLwXpCghmBARN/wWZenSLBTJ
+ xi3peKWikiDempRn+53MK98=
+X-Google-Smtp-Source: ABdhPJz1BUdSbH/XaJVzG+NwJw9eAidwFoO46E20/hZU9Zr5twvFH6diyHW0+PuQWK5yq7bHeZbX8Q==
+X-Received: by 2002:a1c:6a10:: with SMTP id f16mr893542wmc.106.1610524387785; 
+ Tue, 12 Jan 2021 23:53:07 -0800 (PST)
+Received: from [192.168.1.36] (190.red-83-57-173.dynamicip.rima-tde.net.
+ [83.57.173.190])
+ by smtp.gmail.com with ESMTPSA id g14sm1610957wrd.32.2021.01.12.23.53.06
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 12 Jan 2021 23:53:07 -0800 (PST)
+Subject: Re: [RFC PATCH v6 00/11] hw/ssi: imx_spi: Fix various bugs in the
+ imx_spi model
+To: Bin Meng <bmeng.cn@gmail.com>
+References: <20210112183529.2011863-1-f4bug@amsat.org>
+ <CAEUhbmVmqYzCg0Edirp4UFhLpGGWbm5jFiTjOw=0=EhnSMsz3g@mail.gmail.com>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
+Message-ID: <74a2566b-cd32-743f-8088-c59e992be755@amsat.org>
+Date: Wed, 13 Jan 2021 08:53:05 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.5.0
+ Thunderbird/78.6.0
 MIME-Version: 1.0
-In-Reply-To: <536bbda3-ebcb-e098-2625-5de4db08422e@redhat.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
+In-Reply-To: <CAEUhbmVmqYzCg0Edirp4UFhLpGGWbm5jFiTjOw=0=EhnSMsz3g@mail.gmail.com>
+Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-Received-SPF: none client-ip=2a01:7e00::f03c:91ff:fe91:5fdc;
- envelope-from=dave@0bits.com; helo=uk.hasbox.com
-X-Spam_score_int: 14
-X-Spam_score: 1.4
-X-Spam_bar: +
-X-Spam_report: (1.4 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
- RCVD_IN_SBL_CSS=3.335, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=no autolearn_force=no
+Received-SPF: pass client-ip=2a00:1450:4864:20::32e;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x32e.google.com
+X-Spam_score_int: -14
+X-Spam_score: -1.5
+X-Spam_bar: -
+X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -59,44 +88,56 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel <qemu-devel@nongnu.org>
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ Alistair Francis <alistair@alistair23.me>,
+ Xuzhou Cheng <xuzhou.cheng@windriver.com>, Bin Meng <bin.meng@windriver.com>,
+ "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
+ Jean-Christophe Dubois <jcd@tribudubois.net>, qemu-arm <qemu-arm@nongnu.org>,
+ Peter Chubb <peter.chubb@nicta.com.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This is my qemu binary compiled with --prefix=/nonexistent
+Hi Ben,
 
-
-bash-5.1# ./qemu-system-x86_64 -L help
-/usr/share/qemu
-/usr/share/qemu-firmware
-/usr/src/sources/qemu-5.2.0/build/pc-bios
-
-bash-5.1# ./qemu-system-x86_64 --help|grep helper
- 
-[,br=bridge][,helper=helper][,sndbuf=nbytes][,vnet_hdr=on|off][,vhost=on|off]
-                 use network helper 'helper' 
-(default=/nonexistent/libexec/qemu-bridge-helper) to
--netdev bridge,id=str[,br=bridge][,helper=helper]
-                 using the program 'helper 
-(default=/nonexistent/libexec/qemu-bridge-helper)
-
-See that it will call /nonexistent/libexec/qemu-bridge-helper by default.
-
-Dave
-
-On 12/01/2021 23:53, Paolo Bonzini wrote:
-> On 12/01/21 18:04, Dave wrote:
->> Thanks Paola,
+On 1/13/21 4:29 AM, Bin Meng wrote:
+> On Wed, Jan 13, 2021 at 2:35 AM Philippe Mathieu-Daudé <f4bug@amsat.org> wrote:
 >>
->> We are still in testing and that's the only thing we've uncovered so 
->> far with the new 5.2.0. I will post if the ops guys find anything else.
+>> Hi,
+>>
+>> As it is sometimes harder for me to express myself in plain
+>> English, I found it easier to write the patches I was thinking
+>> about. I know this doesn't scale.
+>>
+>> So this is how I understand the ecSPI reset works, after
+>> looking at the IMX6DQRM.pdf datasheet.
+>>
+>> This is a respin of Ben's v5 series [*].
+>> Tagged RFC because I have not tested it :)
 > 
-> Hmm, that's weird though.  The path to the default bridge helper is 
-> relocated:
+> Unfortunately this series breaks SPI flash testing under both U-Boot
+> and VxWorks 7.
+
+Thanks for testing :) Can you provide the binary tested and the command
+line used? At least one, so I can have a look.
+
+>> Sometimes changing device reset to better match hardware gives
+>> trouble when using '-kernel ...' because there is no bootloader
+>> setting the device in the state Linux expects it.
+>>
 > 
-> net/tap.c:        helper = default_helper = 
-> get_relocated_path(DEFAULT_BRIDGE_HELPER);
+> Given most of the new changes in this RFC series are clean-ups, I
+> suggest we apply the v5 series unless there is anything seriously
+> wrong in v5, IOW, don't fix it unless it's broken.
 > 
-> Paolo
-> 
+> Thoughts?
+
+Up to the maintainer :)
+
+The IMX6DQRM datasheet is available here:
+https://community.nxp.com/t5/i-MX-Processors-Knowledge-Base/i-MX-6DQ-Reference-Manual-IMX6DQRM-R2-Part-1/ta-p/1115983
+https://community.nxp.com/t5/i-MX-Processors-Knowledge-Base/i-MX-6DQ-Reference-Manual-IMX6DQRM-R2-Part-2/ta-p/1118510
+
+Regards,
+
+Phil.
 
