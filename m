@@ -2,41 +2,41 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 068982F4223
-	for <lists+qemu-devel@lfdr.de>; Wed, 13 Jan 2021 03:57:53 +0100 (CET)
-Received: from localhost ([::1]:50676 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3A1A92F4226
+	for <lists+qemu-devel@lfdr.de>; Wed, 13 Jan 2021 03:59:33 +0100 (CET)
+Received: from localhost ([::1]:55078 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kzWM3-00019w-Mg
-	for lists+qemu-devel@lfdr.de; Tue, 12 Jan 2021 21:57:52 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56702)
+	id 1kzWNg-00030D-92
+	for lists+qemu-devel@lfdr.de; Tue, 12 Jan 2021 21:59:32 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56724)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <lei.rao@intel.com>) id 1kzWHw-0005sg-NW
- for qemu-devel@nongnu.org; Tue, 12 Jan 2021 21:53:36 -0500
+ (Exim 4.90_1) (envelope-from <lei.rao@intel.com>) id 1kzWI0-0005wR-On
+ for qemu-devel@nongnu.org; Tue, 12 Jan 2021 21:53:42 -0500
 Received: from mga09.intel.com ([134.134.136.24]:58694)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <lei.rao@intel.com>) id 1kzWHu-0003yA-W3
- for qemu-devel@nongnu.org; Tue, 12 Jan 2021 21:53:36 -0500
-IronPort-SDR: +fQGmdlxA8/vsCYAH9ROfM8JvwwnI3YTaiDw/oIxjKY5lyNP6FIVpWevEpiUVyENI2OLmVpfFA
- CMZdxqOMH05g==
-X-IronPort-AV: E=McAfee;i="6000,8403,9862"; a="178289684"
-X-IronPort-AV: E=Sophos;i="5.79,343,1602572400"; d="scan'208";a="178289684"
+ (Exim 4.90_1) (envelope-from <lei.rao@intel.com>) id 1kzWHy-0003yA-3b
+ for qemu-devel@nongnu.org; Tue, 12 Jan 2021 21:53:40 -0500
+IronPort-SDR: yKXJd+fPws50c9iNAWQj3WA7TaN3apdW/QLLB4FMOBlan2IPtWs5wJZSyoqavx94BUy0Fhpxwy
+ zg0ja4r3cCdA==
+X-IronPort-AV: E=McAfee;i="6000,8403,9862"; a="178289688"
+X-IronPort-AV: E=Sophos;i="5.79,343,1602572400"; d="scan'208";a="178289688"
 Received: from fmsmga001.fm.intel.com ([10.253.24.23])
  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 12 Jan 2021 18:53:34 -0800
-IronPort-SDR: NJRPxg3JyzL9tXXJ7XPd45gfBvgd6RMGDcAAxucnQlr+R30BotwYypNHvdnCitlQhUVGRE9dKl
- b2tF4okE4H9w==
+ 12 Jan 2021 18:53:37 -0800
+IronPort-SDR: SlRe0LHzuc5CgZ2n1jZTfZZVDI0teG7qpLPuC+FKLLolC4p0gHIpThURo3rbLprGG+LUP7cl5v
+ 49/Qbg6v85yQ==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.79,343,1602572400"; d="scan'208";a="464750314"
+X-IronPort-AV: E=Sophos;i="5.79,343,1602572400"; d="scan'208";a="464750327"
 Received: from unknown (HELO localhost.localdomain.bj.intel.com)
  ([10.240.192.103])
- by fmsmga001.fm.intel.com with ESMTP; 12 Jan 2021 18:53:31 -0800
+ by fmsmga001.fm.intel.com with ESMTP; 12 Jan 2021 18:53:35 -0800
 From: leirao <lei.rao@intel.com>
 To: chen.zhang@intel.com, lizhijian@cn.fujitsu.com, jasowang@redhat.com,
  zhang.zhanghailiang@huawei.com, quintela@redhat.com, dgilbert@redhat.com
-Subject: [PATCH 05/10] Optimize the function of packet_new
-Date: Wed, 13 Jan 2021 10:46:30 +0800
-Message-Id: <1610505995-144129-6-git-send-email-lei.rao@intel.com>
+Subject: [PATCH 06/10] Add the function of colo_compare_cleanup
+Date: Wed, 13 Jan 2021 10:46:31 +0800
+Message-Id: <1610505995-144129-7-git-send-email-lei.rao@intel.com>
 X-Mailer: git-send-email 1.8.3.1
 In-Reply-To: <1610505995-144129-1-git-send-email-lei.rao@intel.com>
 References: <1610505995-144129-1-git-send-email-lei.rao@intel.com>
@@ -66,85 +66,93 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: "Rao, Lei" <lei.rao@intel.com>
 
-if we put the data copy outside the packet_new(), then for the
-filter-rewrite module, there will be one less memory copy in the
-processing of each network packet.
+This patch fixes the following:
+    #0  __GI_raise (sig=sig@entry=6) at ../sysdeps/unix/sysv/linux/raise.c:50
+    #1  0x00007f6ae4559859 in __GI_abort () at abort.c:79
+    #2  0x0000559aaa386720 in error_exit (err=16, msg=0x559aaa5973d0 <__func__.16227> "qemu_mutex_destroy") at util/qemu-thread-posix.c:36
+    #3  0x0000559aaa3868c5 in qemu_mutex_destroy (mutex=0x559aabffe828) at util/qemu-thread-posix.c:69
+    #4  0x0000559aaa2f93a8 in char_finalize (obj=0x559aabffe800) at chardev/char.c:285
+    #5  0x0000559aaa23318a in object_deinit (obj=0x559aabffe800, type=0x559aabfd7d20) at qom/object.c:606
+    #6  0x0000559aaa2331b8 in object_deinit (obj=0x559aabffe800, type=0x559aabfd9060) at qom/object.c:610
+    #7  0x0000559aaa233200 in object_finalize (data=0x559aabffe800) at qom/object.c:620
+    #8  0x0000559aaa234202 in object_unref (obj=0x559aabffe800) at qom/object.c:1074
+    #9  0x0000559aaa2356b6 in object_finalize_child_property (obj=0x559aac0dac10, name=0x559aac778760 "compare0-0", opaque=0x559aabffe800) at qom/object.c:1584
+    #10 0x0000559aaa232f70 in object_property_del_all (obj=0x559aac0dac10) at qom/object.c:557
+    #11 0x0000559aaa2331ed in object_finalize (data=0x559aac0dac10) at qom/object.c:619
+    #12 0x0000559aaa234202 in object_unref (obj=0x559aac0dac10) at qom/object.c:1074
+    #13 0x0000559aaa2356b6 in object_finalize_child_property (obj=0x559aac0c75c0, name=0x559aac0dadc0 "chardevs", opaque=0x559aac0dac10) at qom/object.c:1584
+    #14 0x0000559aaa233071 in object_property_del_child (obj=0x559aac0c75c0, child=0x559aac0dac10, errp=0x0) at qom/object.c:580
+    #15 0x0000559aaa233155 in object_unparent (obj=0x559aac0dac10) at qom/object.c:599
+    #16 0x0000559aaa2fb721 in qemu_chr_cleanup () at chardev/char.c:1159
+    #17 0x0000559aa9f9b110 in main (argc=54, argv=0x7ffeb62fa998, envp=0x7ffeb62fab50) at vl.c:4539
+
+When chardev is cleaned up, chr_write_lock needs to be destroyed. But
+the colo-compare module is not cleaned up normally before it when the
+guest poweroff. It is holding chr_write_lock at this time. This will
+cause qemu crash.So we add the function of colo_compare_cleanup() before
+qemu_chr_cleanup() to fix the bug.
 
 Signed-off-by: Lei Rao <lei.rao@intel.com>
 ---
- net/colo-compare.c    | 7 +++++--
- net/colo.c            | 4 ++--
- net/colo.h            | 2 +-
- net/filter-rewriter.c | 1 -
- 4 files changed, 8 insertions(+), 6 deletions(-)
+ net/colo-compare.c | 10 ++++++++++
+ net/colo-compare.h |  1 +
+ net/net.c          |  4 ++++
+ 3 files changed, 15 insertions(+)
 
 diff --git a/net/colo-compare.c b/net/colo-compare.c
-index 9e18baa..8bdf5a8 100644
+index 8bdf5a8..06f2c28 100644
 --- a/net/colo-compare.c
 +++ b/net/colo-compare.c
-@@ -247,14 +247,17 @@ static int packet_enqueue(CompareState *s, int mode, Connection **con)
-     ConnectionKey key;
-     Packet *pkt = NULL;
-     Connection *conn;
-+    char *data = NULL;
-     int ret;
- 
-     if (mode == PRIMARY_IN) {
--        pkt = packet_new(s->pri_rs.buf,
-+        data = g_memdup(s->pri_rs.buf, s->pri_rs.packet_len);
-+        pkt = packet_new(data,
-                          s->pri_rs.packet_len,
-                          s->pri_rs.vnet_hdr_len);
-     } else {
--        pkt = packet_new(s->sec_rs.buf,
-+        data = g_memdup(s->sec_rs.buf, s->sec_rs.packet_len);
-+        pkt = packet_new(data,
-                          s->sec_rs.packet_len,
-                          s->sec_rs.vnet_hdr_len);
-     }
-diff --git a/net/colo.c b/net/colo.c
-index ef00609..08fb37e 100644
---- a/net/colo.c
-+++ b/net/colo.c
-@@ -155,11 +155,11 @@ void connection_destroy(void *opaque)
-     g_slice_free(Connection, conn);
+@@ -1404,6 +1404,16 @@ static void colo_compare_init(Object *obj)
+                              compare_set_vnet_hdr);
  }
  
--Packet *packet_new(const void *data, int size, int vnet_hdr_len)
-+Packet *packet_new(void *data, int size, int vnet_hdr_len)
++void colo_compare_cleanup(void)
++{
++    CompareState *tmp = NULL;
++    CompareState *n = NULL;
++
++    QTAILQ_FOREACH_SAFE(tmp, &net_compares, next, n) {
++        object_unparent(OBJECT(tmp));
++    }
++}
++
+ static void colo_compare_finalize(Object *obj)
  {
-     Packet *pkt = g_slice_new(Packet);
+     CompareState *s = COLO_COMPARE(obj);
+diff --git a/net/colo-compare.h b/net/colo-compare.h
+index 22ddd51..b055270 100644
+--- a/net/colo-compare.h
++++ b/net/colo-compare.h
+@@ -20,5 +20,6 @@
+ void colo_notify_compares_event(void *opaque, int event, Error **errp);
+ void colo_compare_register_notifier(Notifier *notify);
+ void colo_compare_unregister_notifier(Notifier *notify);
++void colo_compare_cleanup(void);
  
--    pkt->data = g_memdup(data, size);
-+    pkt->data = data;
-     pkt->size = size;
-     pkt->creation_ms = qemu_clock_get_ms(QEMU_CLOCK_HOST);
-     pkt->vnet_hdr_len = vnet_hdr_len;
-diff --git a/net/colo.h b/net/colo.h
-index 573ab91..bd2d719 100644
---- a/net/colo.h
-+++ b/net/colo.h
-@@ -100,7 +100,7 @@ Connection *connection_get(GHashTable *connection_track_table,
- bool connection_has_tracked(GHashTable *connection_track_table,
-                             ConnectionKey *key);
- void connection_hashtable_reset(GHashTable *connection_track_table);
--Packet *packet_new(const void *data, int size, int vnet_hdr_len);
-+Packet *packet_new(void *data, int size, int vnet_hdr_len);
- void packet_destroy(void *opaque, void *user_data);
- void packet_destroy_partial(void *opaque, void *user_data);
+ #endif /* QEMU_COLO_COMPARE_H */
+diff --git a/net/net.c b/net/net.c
+index e1035f2..f69db4b 100644
+--- a/net/net.c
++++ b/net/net.c
+@@ -53,6 +53,7 @@
+ #include "sysemu/qtest.h"
+ #include "sysemu/runstate.h"
+ #include "sysemu/sysemu.h"
++#include "net/colo-compare.h"
+ #include "net/filter.h"
+ #include "qapi/string-output-visitor.h"
  
-diff --git a/net/filter-rewriter.c b/net/filter-rewriter.c
-index fc0e64c..e24afe5 100644
---- a/net/filter-rewriter.c
-+++ b/net/filter-rewriter.c
-@@ -271,7 +271,6 @@ static ssize_t colo_rewriter_receive_iov(NetFilterState *nf,
-     }
+@@ -1366,6 +1367,9 @@ void net_cleanup(void)
+ {
+     NetClientState *nc;
  
-     pkt = packet_new(buf, size, vnet_hdr_len);
--    g_free(buf);
- 
-     /*
-      * if we get tcp packet
++    /*cleanup colo compare module for COLO*/
++    colo_compare_cleanup();
++
+     /* We may del multiple entries during qemu_del_net_client(),
+      * so QTAILQ_FOREACH_SAFE() is also not safe here.
+      */
 -- 
 1.8.3.1
 
