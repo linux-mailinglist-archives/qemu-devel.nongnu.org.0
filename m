@@ -2,74 +2,92 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2B41F2F548B
-	for <lists+qemu-devel@lfdr.de>; Wed, 13 Jan 2021 22:22:05 +0100 (CET)
-Received: from localhost ([::1]:51450 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4633B2F5474
+	for <lists+qemu-devel@lfdr.de>; Wed, 13 Jan 2021 22:09:01 +0100 (CET)
+Received: from localhost ([::1]:58778 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kznae-0008Tu-8V
-	for lists+qemu-devel@lfdr.de; Wed, 13 Jan 2021 16:22:04 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58146)
+	id 1kznO0-0007aC-Bp
+	for lists+qemu-devel@lfdr.de; Wed, 13 Jan 2021 16:09:00 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58782)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <yaroshchuk2000@gmail.com>)
- id 1kzn95-0005qV-UG; Wed, 13 Jan 2021 15:53:35 -0500
-Received: from mail-lf1-x12d.google.com ([2a00:1450:4864:20::12d]:38121)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <yaroshchuk2000@gmail.com>)
- id 1kzn94-0000Si-CW; Wed, 13 Jan 2021 15:53:35 -0500
-Received: by mail-lf1-x12d.google.com with SMTP id h205so4796232lfd.5;
- Wed, 13 Jan 2021 12:53:33 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=mUgrc3M0DZmOlA4+yxCQfDMaewayvLv0hgNavKax1XM=;
- b=nnhDWPswhzmDPwjRLsX2Rdu9Jazppom0aM2MhrSnV2FguxVHwViXGzLiag5AXt8jmd
- 8YYhG1a95LthVQZirK/hj4llTb8gaZOq09gcs7gdVIGGaSl9/2mpkb/DRNTjmKXuhYlP
- TUBIyDmHPgKzElXtqMWokZ+Mkv2REClGvTvevpkTY3sDsNqNIoE83f3WJvmGNpD7bbWx
- Ma/Fbno+EtQZCFKOizVOveZh1jMEFEP9Wbmke6c8UprdQI7aIWIDh7nrpT80oSSHeXAA
- gx3q3wYVNGurU+l7AdgnITj1bPHO2UckcyAvyqjZ5QqXA0MnSoxvNG3+jYRp+87ZIRgF
- BW/g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=mUgrc3M0DZmOlA4+yxCQfDMaewayvLv0hgNavKax1XM=;
- b=G446qAy6Ud1DaOQDzLSI3LzQxP78GNqawPoB727S014auQ4Q7n4UWNZP8zIUGrD60r
- ltRZJYjxrF5mwup8+vNi9/vtXzIZmpDxkGteRnTAxORz1bZUfeCQU6WnmM+FFniAJlTF
- m/Eg84bUqokF9pOe6x/kerriWBUtkfmPZ7iebH8ihx9hTEhrk2+RL5r9I5GQ5jA0waIQ
- QdBYIsp8Iv7H4Sy8mMTciVXAqYawhwsYSXdGGA64L02C69hmeMPEjNu7bty3VBLTVMGP
- navS6Z4LBhy2/Rbe9XfhjDcfzov0C4HP9MQ/xlcv+x4tHNfWLT/TCvr3cIVCTG4sO5b4
- /Mqw==
-X-Gm-Message-State: AOAM530BXYIJ2S182eRu0U5c1qBEN4sAz+xFHlGi7TSm/fOEEVzeOHPA
- lhwAEGDDNnTNcr3lZPM+dGDerPmKKrF69t66
-X-Google-Smtp-Source: ABdhPJy6oEdM08YOtI4xOuf95QGozQcwUszvUj9yBiIIcL+q8tEy/IYz8JC+3g9NgFhHY82a23MoPA==
-X-Received: by 2002:a05:6512:20c1:: with SMTP id
- u1mr1586728lfr.549.1610571212062; 
- Wed, 13 Jan 2021 12:53:32 -0800 (PST)
-Received: from localhost.localdomain ([188.243.183.134])
- by smtp.gmail.com with ESMTPSA id a24sm316167lfi.192.2021.01.13.12.53.31
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 13 Jan 2021 12:53:31 -0800 (PST)
-From: yaroshchuk2000@gmail.com
+ (Exim 4.90_1) (envelope-from <jag.raman@oracle.com>)
+ id 1kznBV-0008WV-Sj
+ for qemu-devel@nongnu.org; Wed, 13 Jan 2021 15:56:05 -0500
+Received: from aserp2120.oracle.com ([141.146.126.78]:48076)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <jag.raman@oracle.com>)
+ id 1kznBT-0001On-PX
+ for qemu-devel@nongnu.org; Wed, 13 Jan 2021 15:56:05 -0500
+Received: from pps.filterd (aserp2120.oracle.com [127.0.0.1])
+ by aserp2120.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 10DKrvff045204;
+ Wed, 13 Jan 2021 20:55:58 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com;
+ h=from : to : cc :
+ subject : date : message-id : in-reply-to : references : in-reply-to :
+ references : mime-version : content-type : content-transfer-encoding;
+ s=corp-2020-01-29; bh=iemahmFB2pHZvsXb4zyJWAyxWid3SESabt/JZedf7wY=;
+ b=HT18R8tJ5X7fp6arwiMK0cOT5ouFgxub20WWBcLmf+z3PC0gQ1rb85Sra8eQG7xb9Xjb
+ uxexCFHqx6Dj9GvSIaK5vYnVpwJnJsgayBZjU0h7fOZl7MD/T/q7FVqYB4iEKScq1cdR
+ MIIfaPO/YLgYRc5a8xxZlhJhJUP8gobdwHZ0lo9Rn5/M74IgOe4vFh8VP8caueW4a359
+ 6x3aRlesjIsRuyT+l72nywFCejJTDSXchTkTuEBYBqiwpJYiHUfgxufeu7v6GKmmzJis
+ qgboxqkRh8p98W5F4qo5pX6ccxEyMUHHGuHK73dTbGcpnjNsHoET7PtDEoKcyr9YkWMP ig== 
+Received: from userp3020.oracle.com (userp3020.oracle.com [156.151.31.79])
+ by aserp2120.oracle.com with ESMTP id 360kcywgq1-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Wed, 13 Jan 2021 20:55:58 +0000
+Received: from pps.filterd (userp3020.oracle.com [127.0.0.1])
+ by userp3020.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 10DKkbqm123221;
+ Wed, 13 Jan 2021 20:53:57 GMT
+Received: from aserv0122.oracle.com (aserv0122.oracle.com [141.146.126.236])
+ by userp3020.oracle.com with ESMTP id 360kf8apf9-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Wed, 13 Jan 2021 20:53:57 +0000
+Received: from abhmp0014.oracle.com (abhmp0014.oracle.com [141.146.116.20])
+ by aserv0122.oracle.com (8.14.4/8.14.4) with ESMTP id 10DKru8R023968;
+ Wed, 13 Jan 2021 20:53:56 GMT
+Received: from jaraman-bur-1.us.oracle.com (/10.152.33.39)
+ by default (Oracle Beehive Gateway v4.0)
+ with ESMTP ; Wed, 13 Jan 2021 12:53:55 -0800
+From: Jagannathan Raman <jag.raman@oracle.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH] target/i386/hvf: add rdmsr 35H MSR_CORE_THREAD_COUNT
-Date: Wed, 13 Jan 2021 23:53:23 +0300
-Message-Id: <20210113205323.33310-1-yaroshchuk2000@gmail.com>
-X-Mailer: git-send-email 2.28.0
+Subject: [PATCH v18 05/20] multi-process: setup PCI host bridge for remote
+ device
+Date: Wed, 13 Jan 2021 15:53:24 -0500
+Message-Id: <46182ba9eb6450ad5c71ef0e85e48f51122c5869.1610570756.git.jag.raman@oracle.com>
+X-Mailer: git-send-email 1.8.3.1
+In-Reply-To: <cover.1610570756.git.jag.raman@oracle.com>
+References: <cover.1610570756.git.jag.raman@oracle.com>
+In-Reply-To: <cover.1610570756.git.jag.raman@oracle.com>
+References: <cover.1610570756.git.jag.raman@oracle.com>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::12d;
- envelope-from=yaroshchuk2000@gmail.com; helo=mail-lf1-x12d.google.com
-X-Spam_score_int: -17
-X-Spam_score: -1.8
-X-Spam_bar: -
-X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9863
+ signatures=668683
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 suspectscore=0
+ malwarescore=0
+ mlxlogscore=999 phishscore=0 bulkscore=0 spamscore=0 mlxscore=0
+ adultscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2009150000 definitions=main-2101130126
+X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9863
+ signatures=668683
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 spamscore=0
+ phishscore=0
+ impostorscore=0 bulkscore=0 adultscore=0 suspectscore=0 malwarescore=0
+ lowpriorityscore=0 clxscore=1015 mlxlogscore=999 mlxscore=0
+ priorityscore=1501 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2009150000 definitions=main-2101130127
+Received-SPF: pass client-ip=141.146.126.78; envelope-from=jag.raman@oracle.com;
+ helo=aserp2120.oracle.com
+X-Spam_score_int: -46
+X-Spam_score: -4.7
+X-Spam_bar: ----
+X-Spam_report: (-4.7 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.25,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_MED=-2.3, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_PASS=-0.001,
+ SPF_PASS=-0.001, UNPARSEABLE_RELAY=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
-X-Mailman-Approved-At: Wed, 13 Jan 2021 16:18:39 -0500
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -81,71 +99,200 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-trivial@nongnu.org, r.bolshakov@yadro.com,
- Vladislav Yaroshchuk <yaroshchuk2000@gmail.com>
+Cc: elena.ufimtseva@oracle.com, fam@euphon.net, swapnil.ingle@nutanix.com,
+ john.g.johnson@oracle.com, kraxel@redhat.com, jag.raman@oracle.com,
+ quintela@redhat.com, mst@redhat.com, armbru@redhat.com,
+ kanth.ghatraju@oracle.com, felipe@nutanix.com, thuth@redhat.com,
+ ehabkost@redhat.com, konrad.wilk@oracle.com, dgilbert@redhat.com,
+ alex.williamson@redhat.com, stefanha@redhat.com, thanos.makatos@nutanix.com,
+ kwolf@redhat.com, berrange@redhat.com, mreitz@redhat.com,
+ ross.lagerwall@citrix.com, marcandre.lureau@gmail.com, pbonzini@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Vladislav Yaroshchuk <yaroshchuk2000@gmail.com>
+PCI host bridge is setup for the remote device process. It is
+implemented using remote-pcihost object. It is an extension of the PCI
+host bridge setup by QEMU.
+Remote-pcihost configures a PCI bus which could be used by the remote
+PCI device to latch on to.
 
-Some guests (ex. Darwin-XNU) can attemp to read this MSR to retrieve and
-validate CPU topology comparing it to ACPI MADT content
-
-MSR description from Intel Manual:
-35H: MSR_CORE_THREAD_COUNT: Configured State of Enabled Processor Core
-  Count and Logical Processor Count
-
-Bits 15:0 THREAD_COUNT The number of logical processors that are
-  currently enabled in the physical package
-
-Bits 31:16 Core_COUNT The number of processor cores that are currently
-  enabled in the physical package
-
-Bits 63:32 Reserved
-
-Signed-off-by: Vladislav Yaroshchuk <yaroshchuk2000@gmail.com>
+Signed-off-by: Jagannathan Raman <jag.raman@oracle.com>
+Signed-off-by: John G Johnson <john.g.johnson@oracle.com>
+Signed-off-by: Elena Ufimtseva <elena.ufimtseva@oracle.com>
+Reviewed-by: Stefan Hajnoczi <stefanha@redhat.com>
 ---
- target/i386/cpu.h         | 2 ++
- target/i386/hvf/x86_emu.c | 5 +++++
- 2 files changed, 7 insertions(+)
+ include/hw/pci-host/remote.h | 29 +++++++++++++++++
+ hw/pci-host/remote.c         | 75 ++++++++++++++++++++++++++++++++++++++++++++
+ MAINTAINERS                  |  2 ++
+ hw/pci-host/Kconfig          |  3 ++
+ hw/pci-host/meson.build      |  1 +
+ hw/remote/Kconfig            |  1 +
+ 6 files changed, 111 insertions(+)
+ create mode 100644 include/hw/pci-host/remote.h
+ create mode 100644 hw/pci-host/remote.c
 
-diff --git a/target/i386/cpu.h b/target/i386/cpu.h
-index d23a5b340a..cc35676b50 100644
---- a/target/i386/cpu.h
-+++ b/target/i386/cpu.h
-@@ -371,6 +371,8 @@ typedef enum X86Seg {
- #define MSR_MTRRcap_FIXRANGE_SUPPORT    (1 << 8)
- #define MSR_MTRRcap_WC_SUPPORTED        (1 << 10)
- 
-+#define MSR_CORE_THREAD_COUNT           0x35
+diff --git a/include/hw/pci-host/remote.h b/include/hw/pci-host/remote.h
+new file mode 100644
+index 0000000..06b8a83
+--- /dev/null
++++ b/include/hw/pci-host/remote.h
+@@ -0,0 +1,29 @@
++/*
++ * PCI Host for remote device
++ *
++ * Copyright © 2018, 2021 Oracle and/or its affiliates.
++ *
++ * This work is licensed under the terms of the GNU GPL, version 2 or later.
++ * See the COPYING file in the top-level directory.
++ *
++ */
 +
- #define MSR_IA32_SYSENTER_CS            0x174
- #define MSR_IA32_SYSENTER_ESP           0x175
- #define MSR_IA32_SYSENTER_EIP           0x176
-diff --git a/target/i386/hvf/x86_emu.c b/target/i386/hvf/x86_emu.c
-index da570e352b..2d362763fb 100644
---- a/target/i386/hvf/x86_emu.c
-+++ b/target/i386/hvf/x86_emu.c
-@@ -668,6 +668,7 @@ void simulate_rdmsr(struct CPUState *cpu)
- {
-     X86CPU *x86_cpu = X86_CPU(cpu);
-     CPUX86State *env = &x86_cpu->env;
-+    CPUState *cs = env_cpu(env);
-     uint32_t msr = ECX(env);
-     uint64_t val = 0;
++#ifndef REMOTE_PCIHOST_H
++#define REMOTE_PCIHOST_H
++
++#include "exec/memory.h"
++#include "hw/pci/pcie_host.h"
++
++#define TYPE_REMOTE_PCIHOST "remote-pcihost"
++OBJECT_DECLARE_SIMPLE_TYPE(RemotePCIHost, REMOTE_PCIHOST)
++
++struct RemotePCIHost {
++    /*< private >*/
++    PCIExpressHost parent_obj;
++    /*< public >*/
++
++    MemoryRegion *mr_pci_mem;
++    MemoryRegion *mr_sys_io;
++};
++
++#endif
+diff --git a/hw/pci-host/remote.c b/hw/pci-host/remote.c
+new file mode 100644
+index 0000000..eee4544
+--- /dev/null
++++ b/hw/pci-host/remote.c
+@@ -0,0 +1,75 @@
++/*
++ * Remote PCI host device
++ *
++ * Unlike PCI host devices that model physical hardware, the purpose
++ * of this PCI host is to host multi-process QEMU devices.
++ *
++ * Multi-process QEMU extends the PCI host of a QEMU machine into a
++ * remote process. Any PCI device attached to the remote process is
++ * visible in the QEMU guest. This allows existing QEMU device models
++ * to be reused in the remote process.
++ *
++ * This PCI host is purely a container for PCI devices. It's fake in the
++ * sense that the guest never sees this PCI host and has no way of
++ * accessing it. Its job is just to provide the environment that QEMU
++ * PCI device models need when running in a remote process.
++ *
++ * Copyright © 2018, 2021 Oracle and/or its affiliates.
++ *
++ * This work is licensed under the terms of the GNU GPL, version 2 or later.
++ * See the COPYING file in the top-level directory.
++ *
++ */
++
++#include "qemu/osdep.h"
++#include "qemu-common.h"
++
++#include "hw/pci/pci.h"
++#include "hw/pci/pci_host.h"
++#include "hw/pci/pcie_host.h"
++#include "hw/qdev-properties.h"
++#include "hw/pci-host/remote.h"
++#include "exec/memory.h"
++
++static const char *remote_pcihost_root_bus_path(PCIHostState *host_bridge,
++                                                PCIBus *rootbus)
++{
++    return "0000:00";
++}
++
++static void remote_pcihost_realize(DeviceState *dev, Error **errp)
++{
++    PCIHostState *pci = PCI_HOST_BRIDGE(dev);
++    RemotePCIHost *s = REMOTE_PCIHOST(dev);
++
++    pci->bus = pci_root_bus_new(DEVICE(s), "remote-pci",
++                                s->mr_pci_mem, s->mr_sys_io,
++                                0, TYPE_PCIE_BUS);
++}
++
++static void remote_pcihost_class_init(ObjectClass *klass, void *data)
++{
++    DeviceClass *dc = DEVICE_CLASS(klass);
++    PCIHostBridgeClass *hc = PCI_HOST_BRIDGE_CLASS(klass);
++
++    hc->root_bus_path = remote_pcihost_root_bus_path;
++    dc->realize = remote_pcihost_realize;
++
++    dc->user_creatable = false;
++    set_bit(DEVICE_CATEGORY_BRIDGE, dc->categories);
++    dc->fw_name = "pci";
++}
++
++static const TypeInfo remote_pcihost_info = {
++    .name = TYPE_REMOTE_PCIHOST,
++    .parent = TYPE_PCIE_HOST_BRIDGE,
++    .instance_size = sizeof(RemotePCIHost),
++    .class_init = remote_pcihost_class_init,
++};
++
++static void remote_pcihost_register(void)
++{
++    type_register_static(&remote_pcihost_info);
++}
++
++type_init(remote_pcihost_register)
+diff --git a/MAINTAINERS b/MAINTAINERS
+index fa14d8d..45b999a 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -3187,6 +3187,8 @@ M: John G Johnson <john.g.johnson@oracle.com>
+ S: Maintained
+ F: docs/devel/multi-process.rst
+ F: docs/multi-process.rst
++F: hw/pci-host/remote.c
++F: include/hw/pci-host/remote.h
  
-@@ -745,6 +746,10 @@ void simulate_rdmsr(struct CPUState *cpu)
-     case MSR_MTRRdefType:
-         val = env->mtrr_deftype;
-         break;
-+    case MSR_CORE_THREAD_COUNT:
-+        val = cs->nr_threads * cs->nr_cores; /* thread count, bits 15..0 */
-+        val |= ((uint32_t)cs->nr_cores << 16u); /* core count, bits 31..16 */
-+        break;
-     default:
-         /* fprintf(stderr, "%s: unknown msr 0x%x\n", __func__, msr); */
-         val = 0;
+ Build and test automation
+ -------------------------
+diff --git a/hw/pci-host/Kconfig b/hw/pci-host/Kconfig
+index eb03f04..8b8c763 100644
+--- a/hw/pci-host/Kconfig
++++ b/hw/pci-host/Kconfig
+@@ -65,3 +65,6 @@ config PCI_POWERNV
+     select PCI_EXPRESS
+     select MSI_NONBROKEN
+     select PCIE_PORT
++
++config REMOTE_PCIHOST
++    bool
+diff --git a/hw/pci-host/meson.build b/hw/pci-host/meson.build
+index da9d1a9..1847c69 100644
+--- a/hw/pci-host/meson.build
++++ b/hw/pci-host/meson.build
+@@ -9,6 +9,7 @@ pci_ss.add(when: 'CONFIG_PCI_EXPRESS_XILINX', if_true: files('xilinx-pcie.c'))
+ pci_ss.add(when: 'CONFIG_PCI_I440FX', if_true: files('i440fx.c'))
+ pci_ss.add(when: 'CONFIG_PCI_SABRE', if_true: files('sabre.c'))
+ pci_ss.add(when: 'CONFIG_XEN_IGD_PASSTHROUGH', if_true: files('xen_igd_pt.c'))
++pci_ss.add(when: 'CONFIG_REMOTE_PCIHOST', if_true: files('remote.c'))
+ 
+ # PPC devices
+ pci_ss.add(when: 'CONFIG_PREP_PCI', if_true: files('prep.c'))
+diff --git a/hw/remote/Kconfig b/hw/remote/Kconfig
+index 5484446..504fd6a 100644
+--- a/hw/remote/Kconfig
++++ b/hw/remote/Kconfig
+@@ -1,3 +1,4 @@
+ config MULTIPROCESS
+     bool
+     depends on PCI && KVM
++    select REMOTE_PCIHOST
 -- 
-2.28.0
+1.8.3.1
 
 
