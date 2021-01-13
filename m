@@ -2,81 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EA2272F4F3D
-	for <lists+qemu-devel@lfdr.de>; Wed, 13 Jan 2021 16:53:41 +0100 (CET)
-Received: from localhost ([::1]:40294 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1CF862F4F34
+	for <lists+qemu-devel@lfdr.de>; Wed, 13 Jan 2021 16:51:52 +0100 (CET)
+Received: from localhost ([::1]:33686 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kziSr-0006LH-1o
-	for lists+qemu-devel@lfdr.de; Wed, 13 Jan 2021 10:53:41 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46696)
+	id 1kziR5-0003ZO-4R
+	for lists+qemu-devel@lfdr.de; Wed, 13 Jan 2021 10:51:51 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46832)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1kziOW-0001a3-H0; Wed, 13 Jan 2021 10:49:16 -0500
-Received: from mail-wr1-x435.google.com ([2a00:1450:4864:20::435]:33639)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1kziOU-0007SV-Mq; Wed, 13 Jan 2021 10:49:12 -0500
-Received: by mail-wr1-x435.google.com with SMTP id t30so2651233wrb.0;
- Wed, 13 Jan 2021 07:49:09 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:subject:from:to:cc:references:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=E3wtd3qw+as/QhriapeELz91lcwVZj53Ki+3VVGHMIo=;
- b=lRERm5/a6+e0PR7yITwbZz0zBMitGnOHodpIAzsmy5hUnTLynr5H5AMwf6YagyvQNf
- vZdZlqpf/fsrKs6qBWIssLILvIqGWl66l15Ha3f7UJ+7ywwqJQQj+zqgyvW7dRw/jNiA
- uWblShfWz75D8odJGXhfZcmqtkZzxGvgZZERhnUCjooZN1sme9IYB/WwJQ6TSYaRHxYh
- Sj1xkcjtqomO+irafd8SI04pVE1bJvi83p+sTCSYpsV6lKyqTFLiHsSsoFMzMKjq0FRU
- vvpD+dErypWnPqKLsHUPJU3Xlexpq/nVOAXoi3rq7H2n9o/G51wEQUACkv3Mmw9t9YaC
- r1Og==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:subject:from:to:cc:references:message-id
- :date:user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=E3wtd3qw+as/QhriapeELz91lcwVZj53Ki+3VVGHMIo=;
- b=Gnvr/J6S2R8bPwKiwt/rZNcSowfrPxs+q3Zu4yIeVwvSXv57zXA0Yuzs5Fxd0zhdxT
- PuGlqD5DO7oMaNRq/zMs2DqR/RWG+lVwlafoQiAS/dAWIATh3H38P7ME3lE8qVyc0NeQ
- sKG9pw8mmHtjCSHVHl7AlnvC9ZlJdF/z3YTwHUndCa5vL9fbYqUEUktszrYBaOPNI5Ud
- Vz9CpSQV/oJlLQt3mxXh1BvxA5msap9mr+V6e7jag7WJcL4+YTIJGg5m2Mkq3M3Nn8Ko
- m02VbgZTvdCywtx/FSP8msVz5hbYL/pZ+Td6s81cX9tjYvKyaYVDvgQbq622Lxd3IbZm
- WCAg==
-X-Gm-Message-State: AOAM53091cyo0i2q9zFcYO8UGK3deIVHFuNn/Ys9yjJy1KGtHKuX7DxR
- oLiV27kFXYNMugq2lW701Rs=
-X-Google-Smtp-Source: ABdhPJwET/K9IzbD8Ledf8orVIZKqRYZ2BFiTBrSXQDL2phDXJgYeYbGB8Cr6N/WJ2gpomW5iq8CRQ==
-X-Received: by 2002:adf:dc87:: with SMTP id r7mr3293743wrj.305.1610552948124; 
- Wed, 13 Jan 2021 07:49:08 -0800 (PST)
-Received: from [192.168.1.36] (13.red-83-57-169.dynamicip.rima-tde.net.
- [83.57.169.13])
- by smtp.gmail.com with ESMTPSA id o14sm3721342wri.48.2021.01.13.07.49.06
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 13 Jan 2021 07:49:07 -0800 (PST)
-Subject: Re: [PATCH 2/5] tcg/ppc: Hoist common argument loads in tcg_out_op()
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
-To: Richard Henderson <richard.henderson@linaro.org>,
- Miroslav Rezanina <mrezanin@redhat.com>
-References: <20210111150114.1415930-1-f4bug@amsat.org>
- <20210111150114.1415930-3-f4bug@amsat.org>
- <fa4c5ea6-3ca6-6aa4-6dea-5b400bc7ccd1@amsat.org>
-Message-ID: <7baba218-340a-9426-6933-0024e0d4110d@amsat.org>
-Date: Wed, 13 Jan 2021 16:49:05 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.6.0
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1kziP2-0001xU-Ho
+ for qemu-devel@nongnu.org; Wed, 13 Jan 2021 10:49:44 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:55964)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1kziP0-0007ec-EH
+ for qemu-devel@nongnu.org; Wed, 13 Jan 2021 10:49:44 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1610552981;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=uJz2Jjk4YDf++IUGRHZh9UcISr57fPwYQYa/LGa4l9k=;
+ b=giAHbJ/vPofIAPxzh5R75Ktp8NRGPjsFYDIFRqSOK0vgKXOEwzH7+Lyxxk8Pv8SIie5WQ0
+ iECLFBR9bnxLaTViWQk0G48E4hTizV5WtNj1bJvDeSuvOgxUc4hPNc0hBJjgsq3ar2SVHh
+ dAim1hlUzUMakrRBlM8npFJK7khf8JI=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-538-f9oFY3KBOhqm_hEKfhVEpQ-1; Wed, 13 Jan 2021 10:49:37 -0500
+X-MC-Unique: f9oFY3KBOhqm_hEKfhVEpQ-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+ [10.5.11.15])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A31E08066E1;
+ Wed, 13 Jan 2021 15:49:36 +0000 (UTC)
+Received: from redhat.com (ovpn-115-107.ams2.redhat.com [10.36.115.107])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 0BCBF5D71D;
+ Wed, 13 Jan 2021 15:49:28 +0000 (UTC)
+Date: Wed, 13 Jan 2021 15:49:26 +0000
+From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+To: Peter Maydell <peter.maydell@linaro.org>
+Subject: Re: [PATCH v1 9/9] gitlab: move docs and tools build across from
+ Travis
+Message-ID: <20210113154926.GG1568240@redhat.com>
+References: <20210113151408.27939-1-alex.bennee@linaro.org>
+ <20210113151408.27939-10-alex.bennee@linaro.org>
+ <20210113153728.GF1568240@redhat.com>
+ <CAFEAcA_VJV_rUweM_mwd1AXNWHYQKYZ0uQbwAe+xZYJvozjrmA@mail.gmail.com>
 MIME-Version: 1.0
-In-Reply-To: <fa4c5ea6-3ca6-6aa4-6dea-5b400bc7ccd1@amsat.org>
+In-Reply-To: <CAFEAcA_VJV_rUweM_mwd1AXNWHYQKYZ0uQbwAe+xZYJvozjrmA@mail.gmail.com>
+User-Agent: Mutt/1.14.6 (2020-07-11)
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=berrange@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::435;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x435.google.com
-X-Spam_score_int: -14
-X-Spam_score: -1.5
-X-Spam_bar: -
-X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.248, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=berrange@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -29
+X-Spam_score: -3.0
+X-Spam_bar: ---
+X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.25,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -89,54 +85,67 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>,
- Cornelia Huck <cohuck@redhat.com>, qemu-riscv@nongnu.org,
- Stefan Weil <sw@weilnetz.de>, Huacai Chen <chenhuacai@kernel.org>,
- qemu-devel@nongnu.org, qemu-s390x@nongnu.org, qemu-arm@nongnu.org,
- Alistair Francis <Alistair.Francis@wdc.com>, Thomas Huth <thuth@redhat.com>,
- Palmer Dabbelt <palmer@dabbelt.com>, Aurelien Jarno <aurelien@aurel32.net>
+Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+Cc: Fam Zheng <fam@euphon.net>, Thomas Huth <thuth@redhat.com>,
+ Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>,
+ QEMU Developers <qemu-devel@nongnu.org>,
+ Wainer dos Santos Moschetta <wainersm@redhat.com>,
+ Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 1/13/21 4:25 PM, Philippe Mathieu-Daudé wrote:
-> On 1/11/21 4:01 PM, Philippe Mathieu-Daudé wrote:
->> Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
->> ---
->>  tcg/ppc/tcg-target.c.inc | 294 ++++++++++++++++++---------------------
->>  1 file changed, 138 insertions(+), 156 deletions(-)
-> ...
+On Wed, Jan 13, 2021 at 03:46:17PM +0000, Peter Maydell wrote:
+> On Wed, 13 Jan 2021 at 15:40, Daniel P. Berrangé <berrange@redhat.com> wrote:
+> >
+> > On Wed, Jan 13, 2021 at 03:14:08PM +0000, Alex Bennée wrote:
+> > > While we are at it we might as well check the tag generation. For
+> > > bonus points we run GNU globals htags into the public pages directory
+> > > for publishing with the auto generated pages.
 > 
->> @@ -2818,10 +2805,9 @@ static void tcg_out_op(TCGContext *s, TCGOpcode opc, const TCGArg *args,
->>      case INDEX_op_bswap32_i32:
->>      case INDEX_op_bswap32_i64:
->>          /* Stolen from gcc's builtin_bswap32 */
->> -        a1 = args[1];
->> -        a0 = args[0] == a1 ? TCG_REG_R0 : args[0];
->> +        a0 = a0 == a1 ? TCG_REG_R0 : a0;
+> > > +build-tools-and-docs-debian:
+> > > +  <<: *native_build_job_definition
+> > > +  variables:
+> > > +    IMAGE: debian-amd64
+> > > +    MAKE_CHECK_ARGS: ctags gtags TAGS cscope
+> > > +    CONFIGURE_ARGS: --enable-docs --enable-tools
+> > > +  artifacts:
+> > > +    expire_in: 2 days
+> > > +    paths:
+> > > +      - build
+> >
+> > Do we actually need this job at all ?
+> >
+> > Assuming the depenedancies are in the dockerfile, then all the
+> > build jobs will be testing docs and tools already, as meson will
+> > auto enable it.
 > 
-> Oops... Here is probably the regression reported by Miroslav,
-> I shouldn't have changed this line, simply remove the a1
+> What I would like to see is a set of "just build the docs"
+> CI jobs which test all our supported Sphinx versions
+> (eg 1.6, 2.0, 2.4, 3.0, 3.2), since we've found that Sphinx
+> is not great about consistency of accepted syntax from
+> version to version. (Somebody sent a patch for this ages
+> ago, but it was for a Travis CI job IIRC, which we're trying
+> to move away from.)
 
-Oops^2, wrong hunk =) Following one...
+We only care about the Sphinx versions that exist in the OS distros that
+we're targetting as build platforms. So as long as we have build jobs for
+all the distros we have dockerfiles for, then we're covering all the
+sphinx versions that matter.  IOW, I think our gitlab jobs are already
+covering a good variety of sphinx versions. There are possibly gaps because
+our dockerfiles have a horribly inconsistent set of RPMs listed. This
+inconsistency is addressed in this patch series of mine to autogenerate
+the dockerfiles:
 
-> 
->>  
->> -        /* a1 = args[1] # abcd */
->> +        /* a1 = a1 # abcd */
->>          /* a0 = rotate_left (a1, 8) # bcda */
->>          tcg_out_rlw(s, RLWINM, a0, a1, 8, 0, 31);
->>          /* a0 = (a0 & ~0xff000000) | ((a1 r<< 24) & 0xff000000) # dcda */
-@@ -2830,12 +2816,12 @@ static void tcg_out_op(TCGContext *s, TCGOpcode
-opc, const TCGArg *args,
-         tcg_out_rlw(s, RLWIMI, a0, a1, 24, 16, 23);
+ https://lists.gnu.org/archive/html/qemu-devel/2020-12/msg00189.html
 
-Here, is the line I shouldn't have changed:
+which will ensure all our dockerfiles have the deps needed to satisfy
+all features in QEMU.
 
-         if (a0 == TCG_REG_R0) {
--            tcg_out_mov(s, TCG_TYPE_REG, args[0], a0);
-+            tcg_out_mov(s, TCG_TYPE_REG, a0, a0);
-         }
-         break;
+Regards,
+Daniel
+-- 
+|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
+|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
+|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
 
-(multiple occurrences).
 
