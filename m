@@ -2,69 +2,94 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 937612F4CC5
-	for <lists+qemu-devel@lfdr.de>; Wed, 13 Jan 2021 15:11:12 +0100 (CET)
-Received: from localhost ([::1]:42504 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EC8C52F4CBA
+	for <lists+qemu-devel@lfdr.de>; Wed, 13 Jan 2021 15:09:33 +0100 (CET)
+Received: from localhost ([::1]:38718 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kzgrf-0005bP-K9
-	for lists+qemu-devel@lfdr.de; Wed, 13 Jan 2021 09:11:11 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48132)
+	id 1kzgq4-00044B-OK
+	for lists+qemu-devel@lfdr.de; Wed, 13 Jan 2021 09:09:32 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48494)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dave.anglin@bell.net>)
- id 1kzgjg-0001IJ-2M
- for qemu-devel@nongnu.org; Wed, 13 Jan 2021 09:02:59 -0500
-Received: from belmont80srvr.owm.bell.net ([184.150.200.80]:54812
- helo=mtlfep01.bell.net)
- by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <dave.anglin@bell.net>)
- id 1kzgjX-00027g-H7
- for qemu-devel@nongnu.org; Wed, 13 Jan 2021 09:02:55 -0500
-Received: from bell.net mtlfep01 184.150.200.30 by mtlfep01.bell.net with ESMTP
- id <20210113140244.NPAN120733.mtlfep01.bell.net@mtlspm02.bell.net>
- for <qemu-devel@nongnu.org>; Wed, 13 Jan 2021 09:02:44 -0500
-Received: from [192.168.2.49] (really [70.50.109.22]) by mtlspm02.bell.net
- with ESMTP
- id <20210113140244.LMMY3672.mtlspm02.bell.net@[192.168.2.49]>;
- Wed, 13 Jan 2021 09:02:44 -0500
-To: Helge Deller <deller@gmx.de>, =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?=
- <f4bug@amsat.org>, Aurelien Jarno <aurelien@aurel32.net>,
- Stefan Weil <sw@weilnetz.de>,
- John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>,
- debian-hppa@lists.debian.org, debian-superh@lists.debian.org
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1kzglD-0002E7-14
+ for qemu-devel@nongnu.org; Wed, 13 Jan 2021 09:04:31 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:30386)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1kzgl9-0002ke-Jz
+ for qemu-devel@nongnu.org; Wed, 13 Jan 2021 09:04:30 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1610546666;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=ENQJeRtO+8Vz8PgOFz7+XOq8Wl89ro90Ig5qjVXyxFo=;
+ b=GuquMH8nbWi3HxGAPl8MCvjQmxjTNH7QBqTIvXVh2uA+Edtoac82ckRmEE2oFJlcVbAHMn
+ hJn6oNjjD6qU8WTkogx/IS9j4zlTD9WPF4Wldrfqq5Vo0slXtTej+8N/HtMw0AwhmOcR3j
+ 4lbFUXtR6ONDbv4p++mZjg6LXc2Qb7M=
+Received: from mail-ed1-f70.google.com (mail-ed1-f70.google.com
+ [209.85.208.70]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-11-u80g_69_PZ-BZAh_sdRTWg-1; Wed, 13 Jan 2021 09:04:25 -0500
+X-MC-Unique: u80g_69_PZ-BZAh_sdRTWg-1
+Received: by mail-ed1-f70.google.com with SMTP id p17so889353edx.22
+ for <qemu-devel@nongnu.org>; Wed, 13 Jan 2021 06:04:25 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=ENQJeRtO+8Vz8PgOFz7+XOq8Wl89ro90Ig5qjVXyxFo=;
+ b=fQjwKifvvOVjlaMoVLQ2R73fWqCM3DLxBwjxWX/t+xVhP6RalHntovFsKj+S6n7rfU
+ 80P3YzS9ZKlS0AhclFNhoUchCnQhIgjkpeBa8SOvVPBlEZKIA8do6SKliRDKEP3wx1RN
+ gjoMNijY8uGySzSXRYTTMDHcGP5ggXuetphxrd4Tw9whzkW06TvOzrUI+RiNFsM8+7m7
+ tHIEj/Cr96LuREuhZ3en+UGvWIJmLTdie5LKqXg5w1ZhV7W1KTbURfQ06EZ8yDbEv1gm
+ UxFWArR8TzxI5qC0o0F6Iv3bc8dUS1PDdVBwWW5OORAbRPaN499DecTbTtxHTBi00oxV
+ xt8g==
+X-Gm-Message-State: AOAM532xj09LghXAczvGvDX4AqOKzdhd/kpqMLj+jYXsXug2+jTyBY9E
+ J7SR6Zmb+PEXRlQuBtWZnwm9K5gHNs3N/WkQ5fEgPQazpJd864KqXkkK25d/t6FX6iqYOfynG9r
+ NAeqPMfdpWf5kKU8=
+X-Received: by 2002:aa7:d784:: with SMTP id s4mr1854032edq.215.1610546664147; 
+ Wed, 13 Jan 2021 06:04:24 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJwOhWTm1W+bORUqTbjwzy2TOfb+MP2Nz3rFuc5P1N7Zh5onz1mFYpq+kD6okPAPDa3Lhf1h5g==
+X-Received: by 2002:aa7:d784:: with SMTP id s4mr1854008edq.215.1610546663937; 
+ Wed, 13 Jan 2021 06:04:23 -0800 (PST)
+Received: from ?IPv6:2001:b07:6468:f312:c8dd:75d4:99ab:290a?
+ ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
+ by smtp.gmail.com with ESMTPSA id d4sm906351edq.36.2021.01.13.06.04.22
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 13 Jan 2021 06:04:23 -0800 (PST)
+Subject: Re: [PATCH 8/8] configure: automatically parse command line for meson
+ -D options
+To: =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>
 References: <20210107140039.467969-1-pbonzini@redhat.com>
- <20210107140039.467969-2-pbonzini@redhat.com>
- <CAFEAcA9yyUUmd+hj6kgAV8KWtCC41Q55JRfE0q1zTaDaOofgOQ@mail.gmail.com>
- <a5cd4c43-2f12-2dbf-8db7-21acc7abc73d@redhat.com>
- <20210107160653.GD1029501@redhat.com>
- <d1b5a493-0658-3bba-b1b4-0116f337031d@amsat.org>
- <46e79fb0-2ce1-35a8-3ce8-44699508a1d1@gmx.de>
-From: John David Anglin <dave.anglin@bell.net>
-Subject: Re: [PATCH 1/8] build-system: clean up TCG/TCI configury
-Message-ID: <c9a0b098-2b37-a91f-091c-eead03a5b0c5@bell.net>
-Date: Wed, 13 Jan 2021 09:02:43 -0500
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
- Thunderbird/78.6.1
+ <20210107140039.467969-9-pbonzini@redhat.com>
+ <20210113103143.GA1568240@redhat.com>
+From: Paolo Bonzini <pbonzini@redhat.com>
+Message-ID: <50a309ed-64a3-6d17-9edb-6274abb4e498@redhat.com>
+Date: Wed, 13 Jan 2021 15:04:22 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.5.0
 MIME-Version: 1.0
-In-Reply-To: <46e79fb0-2ce1-35a8-3ce8-44699508a1d1@gmx.de>
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <20210113103143.GA1568240@redhat.com>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=pbonzini@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
-X-CM-Analysis: v=2.4 cv=cZIXElPM c=1 sm=1 tr=0 ts=5ffefd84
- a=S6gQgrXzeH76ECG4GouVuA==:117 a=S6gQgrXzeH76ECG4GouVuA==:17
- a=IkcTkHD0fZMA:10 a=EmqxpYm9HcoA:10 a=xNf9USuDAAAA:8 a=FBHGMhGWAAAA:8
- a=MRVTRUKAWiJvNyYUdQIA:9 a=QEXdDO2ut3YA:10 a=2NN82kjv6m0A:10
- a=SEwjQc04WA-l_NiBhQ7s:22 a=9gvnlMMaQFpL9xblJ6ne:22
-X-CM-Envelope: MS4xfGUzVVb3Ry0kriVSiCcGFsHDzoA0fcAAoToze0BKDqbAN0jHUv4FtTrtSwZwpaS20Up1zkdNcdkrPcupzpr2uT1qyX2l2FQ40PPunhEj318I6e/2DwKG
- PrZLNoccC6iwJAnEDSyIZC4T2cy4OISSjOMKRUCnJ8rdccEd3zmCBJdiXpVlpEMIvcT9pm9z+hiJbw==
-Received-SPF: pass client-ip=184.150.200.80; envelope-from=dave.anglin@bell.net;
- helo=mtlfep01.bell.net
-X-Spam_score_int: -25
-X-Spam_score: -2.6
-X-Spam_bar: --
-X-Spam_report: (-2.6 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- UNPARSEABLE_RELAY=0.001 autolearn=ham autolearn_force=no
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=pbonzini@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -29
+X-Spam_score: -3.0
+X-Spam_bar: ---
+X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.25,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -77,45 +102,29 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
- QEMU Developers <qemu-devel@nongnu.org>, Stefan Hajnoczi <stefanha@redhat.com>,
- =?UTF-8?Q?Marc-Andr=c3=a9_Lureau?= <marcandre.lureau@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>,
- =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>
+Cc: marcandre.lureau@redhat.com, alex.bennee@linaro.org, qemu-devel@nongnu.org,
+ stefanha@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 2021-01-13 8:42 a.m., Helge Deller wrote:
->>> ia64 is a dead host architecture and doesn't exist in any OS distro t=
-hat
->>> we target anymore, so I don't think we need to consider it.
-> I have no opinion about ia64.
->
->>> Likewise parisc/hppa doesn't seem exist in Debian since Squeeze, so I=
+On 13/01/21 11:31, Daniel P. Berrangé wrote:
+>>   meson-buildoptions.json                 | 717 ++++++++++++++++++++++++
+> I'm not a fan of seeing this file introduced as it has significant
+> overlap with meson_options.txt.    I feel like the latter has enough
+> information present to do an acceptable job for help output. After
+> all that's sufficient if we were using meson directly.
 
->>> think we can rule that out too.
-> Can we please keep parisc/hppa.
-> It's not an official platform any longer, but quite active in the
-> "unstable" debian-ports repository:
-> https://buildd.debian.org/status/architecture.php?a=3Dhppa&suite=3Dsid
->
->>> Only sh4 still seems to be supported in Debian. I expect the primary
->>> need there is for sh4 guest support rather than sh4 host support.
-> Same as for hppa/parisc, sh4 is in debian-ports too.
-The status of the platforms in debian-ports is here:
-https://www.ports.debian.org/archive
-https://buildd.debian.org/status/architecture.php?a=3Dhppa&suite=3Dsid
+Sorry, I missed this remark.  meson-buildoptions.json is not 
+hand-written.  It is the result of Meson's own parsing meson_options.txt 
+exported as JSON.
 
-There is some effort to maintain all the platforms in debian-ports.=C2=A0=
- The hppa platform is also still
-in gentoo, and one or two bsd distros.
+In the commit message "because we parse command-line options before 
+meson is available, the introspection output is stored in the source 
+tree.  This is the reason for the unattractive diffstat; the number of 
+JSON lines added is higher than the number of configure lines removed. 
+Of course the latter are code that must be maintained manually and the 
+former is not".
 
-Regards,
-Dave
-
---=20
-John David Anglin  dave.anglin@bell.net
-
+Paolo
 
 
