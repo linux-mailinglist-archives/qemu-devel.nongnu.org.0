@@ -2,68 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AC7FE2F4CF2
-	for <lists+qemu-devel@lfdr.de>; Wed, 13 Jan 2021 15:18:14 +0100 (CET)
-Received: from localhost ([::1]:59560 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4F9582F4CEF
+	for <lists+qemu-devel@lfdr.de>; Wed, 13 Jan 2021 15:17:18 +0100 (CET)
+Received: from localhost ([::1]:57488 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kzgyT-0004RR-M2
-	for lists+qemu-devel@lfdr.de; Wed, 13 Jan 2021 09:18:13 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49164)
+	id 1kzgxZ-0003Rf-CG
+	for lists+qemu-devel@lfdr.de; Wed, 13 Jan 2021 09:17:17 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49600)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1kzgnP-00030b-U2
- for qemu-devel@nongnu.org; Wed, 13 Jan 2021 09:06:48 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:35674)
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1kzgpZ-0004yy-Ln
+ for qemu-devel@nongnu.org; Wed, 13 Jan 2021 09:09:04 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:52604)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1kzgnH-0003a8-QJ
- for qemu-devel@nongnu.org; Wed, 13 Jan 2021 09:06:47 -0500
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1kzgpU-0004TJ-1p
+ for qemu-devel@nongnu.org; Wed, 13 Jan 2021 09:09:00 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1610546798;
+ s=mimecast20190719; t=1610546933;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=Z6T2BrQaqrAjhN9ZRSnvCvnpzziIT41wGc78Gzp+vJc=;
- b=P99XNIsMaBJdsijtjt8soDyGAQ2As0EGgKUojGRNLo3uvBLo+NO27OsdSVlDEmf1dUTCHk
- czbAeCI4I9vxm+JPTsOp6yBTr1QhvZ9Ynxl4HoktraBjZSRjF9eyiSGt/td9AFCRydXB4i
- VD4FBKWKLNc4/z+zT416T+STmXonDGc=
+ bh=av73ndF9ZqgRFz9JL84kDGJ7E8+VWXZSI7aB+gN05k8=;
+ b=JanlsIrXsUBV8WxnWTHagMIn20AnCz1FiS7GD6FYLyh2ygy/8ua9x8DTFLb78dQW5PfZI9
+ 24QH4Sv2s9j77vi+QIhgbhbbzDyWOXUgjT0CQFAgHb/MF/rbiZl+jxxIlKo7sOMB3O6wmv
+ 1/E2o+BLpvtqcSnBQqV0R40nye6wt6c=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-474-WEXWLfyrPG6lkBAi15zKxw-1; Wed, 13 Jan 2021 09:06:34 -0500
-X-MC-Unique: WEXWLfyrPG6lkBAi15zKxw-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
+ us-mta-22-Yyme8VD-PaStOjbTUy2yHg-1; Wed, 13 Jan 2021 09:08:49 -0500
+X-MC-Unique: Yyme8VD-PaStOjbTUy2yHg-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 9FA2A192CC40;
- Wed, 13 Jan 2021 14:06:33 +0000 (UTC)
-Received: from localhost (ovpn-113-103.ams2.redhat.com [10.36.113.103])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 4110E60C0F;
- Wed, 13 Jan 2021 14:06:33 +0000 (UTC)
-From: Max Reitz <mreitz@redhat.com>
-To: qemu-block@nongnu.org
-Subject: [PATCH 7/7] iotests/129: Clean up pylint and mypy complaints
-Date: Wed, 13 Jan 2021 15:06:16 +0100
-Message-Id: <20210113140616.150283-8-mreitz@redhat.com>
-In-Reply-To: <20210113140616.150283-1-mreitz@redhat.com>
-References: <20210113140616.150283-1-mreitz@redhat.com>
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 77357193410E;
+ Wed, 13 Jan 2021 14:08:48 +0000 (UTC)
+Received: from [10.3.113.36] (ovpn-113-36.phx2.redhat.com [10.3.113.36])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 3551F5B4C4;
+ Wed, 13 Jan 2021 14:08:48 +0000 (UTC)
+Subject: Re: [PATCH v3 5/7] qapi: Introduce QAPI_LIST_APPEND
+To: Markus Armbruster <armbru@redhat.com>
+References: <20201223221102.390740-1-eblake@redhat.com>
+ <20201223221102.390740-6-eblake@redhat.com>
+ <877doh0z01.fsf@dusky.pond.sub.org>
+From: Eric Blake <eblake@redhat.com>
+Organization: Red Hat, Inc.
+Message-ID: <cbda6c17-ff87-1937-ee11-fb66aa1053af@redhat.com>
+Date: Wed, 13 Jan 2021 08:08:45 -0600
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.6.0
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+In-Reply-To: <877doh0z01.fsf@dusky.pond.sub.org>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mreitz@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=eblake@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=mreitz@redhat.com;
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=eblake@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -29
-X-Spam_score: -3.0
-X-Spam_bar: ---
-X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.25,
+X-Spam_score_int: -23
+X-Spam_score: -2.4
+X-Spam_bar: --
+X-Spam_report: (-2.4 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.25,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -76,44 +82,59 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>,
- Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>, qemu-devel@nongnu.org,
- Max Reitz <mreitz@redhat.com>
+Cc: Michael Roth <michael.roth@amd.com>, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Signed-off-by: Max Reitz <mreitz@redhat.com>
----
- tests/qemu-iotests/129 | 6 ++++--
- 1 file changed, 4 insertions(+), 2 deletions(-)
+On 1/13/21 7:04 AM, Markus Armbruster wrote:
+> Eric Blake <eblake@redhat.com> writes:
+> 
+>> Similar to the existing QAPI_LIST_PREPEND, but designed for use where
+>> we want to preserve insertion order.  Callers will be added in
+>> upcoming patches.  Note the difference in signature: PREPEND takes
+>> List*, APPEND takes List**.
+>>
+>> Signed-off-by: Eric Blake <eblake@redhat.com>
+>> ---
+>>  include/qapi/util.h | 13 +++++++++++++
+>>  1 file changed, 13 insertions(+)
+>>
+>> diff --git a/include/qapi/util.h b/include/qapi/util.h
+>> index 6178e98e97a5..8b4967990c0d 100644
+>> --- a/include/qapi/util.h
+>> +++ b/include/qapi/util.h
+>> @@ -37,4 +37,17 @@ int parse_qapi_name(const char *name, bool complete);
+>>      (list) = _tmp; \
+>>  } while (0)
+>>
+>> +/*
+>> + * For any pointer to a GenericList @tail, insert @element at the back and
+>> + * update the tail.
+>> + *
+>> + * Note that this macro evaluates @element exactly once, so it is safe
+>> + * to have side-effects with that argument.
+>> + */
+>> +#define QAPI_LIST_APPEND(tail, element) do { \
+>> +    *(tail) = g_malloc0(sizeof(**(tail))); \
+>> +    (*(tail))->value = (element); \
+>> +    (tail) = &(*tail)->next; \
+>> +} while (0)
+>> +
+>>  #endif
+> 
+> You mentioned parenthesizing the lone unparenthesized occurence of
+> @tail, like
+> 
+>   +    (tail) = &(*(tail))->next; \
+> 
+> Did you decide not to?
 
-diff --git a/tests/qemu-iotests/129 b/tests/qemu-iotests/129
-index c3ad584ba2..ec303069e9 100755
---- a/tests/qemu-iotests/129
-+++ b/tests/qemu-iotests/129
-@@ -20,9 +20,10 @@
- 
- import os
- import iotests
--import time
- 
- class TestStopWithBlockJob(iotests.QMPTestCase):
-+    assert iotests.test_dir is not None
-+
-     test_img = os.path.join(iotests.test_dir, 'test.img')
-     target_img = os.path.join(iotests.test_dir, 'target.img')
-     base_img = os.path.join(iotests.test_dir, 'base.img')
-@@ -32,7 +33,8 @@ class TestStopWithBlockJob(iotests.QMPTestCase):
-         iotests.qemu_img('create', '-f', iotests.imgfmt, self.base_img, "1G")
-         iotests.qemu_img('create', '-f', iotests.imgfmt, self.test_img,
-                          "-b", self.base_img, '-F', iotests.imgfmt)
--        iotests.qemu_io('-f', iotests.imgfmt, '-c', 'write -P0x5d 1M 128M', self.test_img)
-+        iotests.qemu_io('-f', iotests.imgfmt, '-c', 'write -P0x5d 1M 128M',
-+                        self.test_img)
-         self.vm = iotests.VM()
-         self.vm.add_object('throttle-group,id=tg0,x-bps-total=1024')
- 
+Hmm; not sure what happened. I still want the () added.  I'll respin
+anyways, since my v3 crossed paths with what you already checked in.
+
 -- 
-2.29.2
+Eric Blake, Principal Software Engineer
+Red Hat, Inc.           +1-919-301-3226
+Virtualization:  qemu.org | libvirt.org
 
 
