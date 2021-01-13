@@ -2,82 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C07152F45C7
-	for <lists+qemu-devel@lfdr.de>; Wed, 13 Jan 2021 09:08:28 +0100 (CET)
-Received: from localhost ([::1]:58246 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8C2822F45D9
+	for <lists+qemu-devel@lfdr.de>; Wed, 13 Jan 2021 09:09:27 +0100 (CET)
+Received: from localhost ([::1]:32862 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kzbCd-0006JY-4d
-	for lists+qemu-devel@lfdr.de; Wed, 13 Jan 2021 03:08:27 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35812)
+	id 1kzbDa-0007Xo-L3
+	for lists+qemu-devel@lfdr.de; Wed, 13 Jan 2021 03:09:26 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35930)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1kzbAl-0005MG-F7
- for qemu-devel@nongnu.org; Wed, 13 Jan 2021 03:06:31 -0500
-Received: from mail-wr1-x430.google.com ([2a00:1450:4864:20::430]:35256)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1kzbAi-0003Rk-9F
- for qemu-devel@nongnu.org; Wed, 13 Jan 2021 03:06:30 -0500
-Received: by mail-wr1-x430.google.com with SMTP id r3so1081609wrt.2
- for <qemu-devel@nongnu.org>; Wed, 13 Jan 2021 00:06:27 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=sSEeIgERkxoF+y3HCc7GwFwdVjsB6PEcViFmVsNhs5M=;
- b=UiN2cSYEAuejWWyvsjxN798JJ2I6a1Oqb3xxmlgvdS+vfoY3XHRxKcK69zgCFdhDXu
- IY7ajK6XYnQHqF8wazj5nCxeFIJlCjAFJmlr9xXw/IPSK0iIL2r3Pau0DjPD1ExNBHmV
- /73tL+7VhJMdct65B/SBeLYYqIJBwY1C/cb/SrbhW0Vct8emQIXBkBtYl9upCclrT4nM
- rDQOSYJPL4BzRCljDRN7L3sa2iTLMCPSsTdXJFnoydQw33PzR63g7T/INHP7ytYkM3cg
- m2JHMLL71LvlY9MiCnoOaMDmvlETuXStUWy3qDHw3OBVHZU9dJ4jPFRnVjzLuuVlVgkq
- Dnig==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
- :date:user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=sSEeIgERkxoF+y3HCc7GwFwdVjsB6PEcViFmVsNhs5M=;
- b=ifKiCqTpkuRql+wwaZJ+CnktYNzE9tD7rSJ5BcY0iRWNIEdFKis42BioG7qz0Hv11F
- cls4DCLpANf2CBVtbJ+rKZqK3KvQJtunDBOz006qyA8kNuQsIfG1S8DWdt6oFfnzhmiw
- IeMbpgj0sTLnFhTSLazSwGfHQvj2od6K4GZ1z6i1Svd44DL8EN+FEAgoY6/A4Ace6p4T
- RsU1q67jQJSbkQ2vJKPyP2sIb0l7teW0H2mZEbN/epejwV2n2fDw/XAh9FvCzpEIbw1R
- 8hp85MR0xOxhjZ/B0i/bPkZOWO2nutAfrKCArbScjmEM+Mv7pWE1hws+aSijxw7nFHoi
- bT6w==
-X-Gm-Message-State: AOAM533+z3QCheq1s7s6O4i+XgymZ2dk2ZWuAYTji8E4Uq4AtLar5WSL
- MB7z5SCSlKWMibxKcCVV6LY=
-X-Google-Smtp-Source: ABdhPJx09ThihIjFfv+VL6Q7EQOuRysVZ2Ocoh4hTBK/ENUtrTNrjo6oP9yPhJQbETl06RoyQh3Suw==
-X-Received: by 2002:a5d:43cc:: with SMTP id v12mr1127100wrr.319.1610525186325; 
- Wed, 13 Jan 2021 00:06:26 -0800 (PST)
-Received: from [192.168.1.36] (190.red-83-57-173.dynamicip.rima-tde.net.
- [83.57.173.190])
- by smtp.gmail.com with ESMTPSA id s13sm1912940wra.53.2021.01.13.00.06.24
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 13 Jan 2021 00:06:25 -0800 (PST)
-Subject: Re: [PATCH 0/6] target/mips: Convert Loongson LEXT opcodes to
- decodetree
-To: Jiaxun Yang <jiaxun.yang@flygoat.com>, qemu-devel@nongnu.org
-References: <20210112215504.2093955-1-f4bug@amsat.org>
- <0e1b22ca-7ca0-f92e-2d43-fc10eafd565f@flygoat.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
-Message-ID: <d58c8ba9-56e7-06da-c074-ea225fd45a39@amsat.org>
-Date: Wed, 13 Jan 2021 09:06:23 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.6.0
+ (Exim 4.90_1) (envelope-from <cohuck@redhat.com>) id 1kzbB8-0005Tp-0f
+ for qemu-devel@nongnu.org; Wed, 13 Jan 2021 03:06:55 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:38104)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <cohuck@redhat.com>) id 1kzbB5-0003hu-Uc
+ for qemu-devel@nongnu.org; Wed, 13 Jan 2021 03:06:53 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1610525211;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=BXJkO2Cuh1cA7YUDXnTNy9rr8R+H09pjoolci07NnT8=;
+ b=NoCseD8UN2l5f1v/NwNPGvR5V+2EmZnQ77CslYVWx3Gme7iDQ5JEJrIVydm88geFSnJFRj
+ 1kJR+kcvM6m6PPweKlatjJwEevTRrajg0PGjS3Tv5Ex/1+H/++gTz11b07q5OiqhJ63iXE
+ okLohlev3BXzACOG/mQ8mRCRaGxVvMc=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-133-QpxMQ0e0PqW7bblrJPE33A-1; Wed, 13 Jan 2021 03:06:46 -0500
+X-MC-Unique: QpxMQ0e0PqW7bblrJPE33A-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id F19BB100A240;
+ Wed, 13 Jan 2021 08:06:43 +0000 (UTC)
+Received: from gondolin (ovpn-114-8.ams2.redhat.com [10.36.114.8])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id DD24F10074E1;
+ Wed, 13 Jan 2021 08:06:31 +0000 (UTC)
+Date: Wed, 13 Jan 2021 09:06:29 +0100
+From: Cornelia Huck <cohuck@redhat.com>
+To: Ram Pai <linuxram@us.ibm.com>
+Subject: Re: [for-6.0 v5 11/13] spapr: PEF: prevent migration
+Message-ID: <20210113090629.2f41a9d3.cohuck@redhat.com>
+In-Reply-To: <20210112185511.GB23898@ram-ibm-com.ibm.com>
+References: <20201217151530.54431f0e@bahia.lan>
+ <20201218124111.4957eb50.cohuck@redhat.com>
+ <20210104071550.GA22585@ram-ibm-com.ibm.com>
+ <20210104134629.49997b53.pasic@linux.ibm.com>
+ <20210104184026.GD4102@ram-ibm-com.ibm.com>
+ <20210105115614.7daaadd6.pasic@linux.ibm.com>
+ <20210105204125.GE4102@ram-ibm-com.ibm.com>
+ <20210111175914.13adfa2e.cohuck@redhat.com>
+ <20210111195830.GA23898@ram-ibm-com.ibm.com>
+ <20210112091943.095c3b29.cohuck@redhat.com>
+ <20210112185511.GB23898@ram-ibm-com.ibm.com>
+Organization: Red Hat GmbH
 MIME-Version: 1.0
-In-Reply-To: <0e1b22ca-7ca0-f92e-2d43-fc10eafd565f@flygoat.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::430;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x430.google.com
-X-Spam_score_int: -14
-X-Spam_score: -1.5
-X-Spam_bar: -
-X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=cohuck@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -29
+X-Spam_score: -3.0
+X-Spam_bar: ---
+X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.251,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -90,82 +83,119 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>,
- Huacai Chen <chenhuacai@kernel.org>,
- Richard Henderson <richard.henderson@linaro.org>,
- Aurelien Jarno <aurelien@aurel32.net>
+Cc: pair@us.ibm.com, brijesh.singh@amd.com, kvm@vger.kernel.org, "Michael S.
+ Tsirkin" <mst@redhat.com>, qemu-devel@nongnu.org, frankja@linux.ibm.com,
+ david@redhat.com, mdroth@linux.vnet.ibm.com, Halil Pasic <pasic@linux.ibm.com>,
+ borntraeger@de.ibm.com, David Gibson <david@gibson.dropbear.id.au>,
+ thuth@redhat.com, Eduardo Habkost <ehabkost@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>, Greg Kurz <groug@kaod.org>,
+ dgilbert@redhat.com, qemu-s390x@nongnu.org, rth@twiddle.net,
+ berrange@redhat.com, Marcelo Tosatti <mtosatti@redhat.com>,
+ qemu-ppc@nongnu.org, pbonzini@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 1/13/21 3:15 AM, Jiaxun Yang wrote:
-> 在 2021/1/13 上午5:54, Philippe Mathieu-Daudé 写道:
->> Loongson is next step in the "MIPS decodetree conversion" epic.
->> Start with the simplest extension.
->>
->> The diffstat addition comes from the TCG functions expanded.
->> The code is easier to review now.
->> IMO this is also a good template to show how easy a decodetree
->> conversion can be (and how nice the .decode file is to review) :P
->>
->> Please review,
->>
->> Phil.
->>
->> Based-on: <20210112184156.2014305-1-f4bug@amsat.org>
->>            "decodetree: Allow 'dot' in opcode names"
->>
->> Philippe Mathieu-Daudé (6):
->>    target/mips: Re-introduce OPC_ADDUH_QB_DSP and OPC_MUL_PH_DSP
->>    target/mips: Convert Loongson DDIV.G opcodes to decodetree
->>    target/mips: Convert Loongson DIV.G opcodes to decodetree
->>    target/mips: Convert Loongson [D]DIVU.G opcodes to decodetree
->>    target/mips: Convert Loongson [D]MOD[U].G opcodes to decodetree
->>    target/mips: Convert Loongson [D]MULT[U].G opcodes to decodetree
->>
->>   target/mips/translate.h       |   1 +
->>   target/mips/godson2.decode    |  29 +++
->>   target/mips/loong-ext.decode  |  30 +++
+On Tue, 12 Jan 2021 10:55:11 -0800
+Ram Pai <linuxram@us.ibm.com> wrote:
+
+> On Tue, Jan 12, 2021 at 09:19:43AM +0100, Cornelia Huck wrote:
+> > On Mon, 11 Jan 2021 11:58:30 -0800
+> > Ram Pai <linuxram@us.ibm.com> wrote:
+> >   
+> > > On Mon, Jan 11, 2021 at 05:59:14PM +0100, Cornelia Huck wrote:  
+> > > > On Tue, 5 Jan 2021 12:41:25 -0800
+> > > > Ram Pai <linuxram@us.ibm.com> wrote:
+> > > >     
+> > > > > On Tue, Jan 05, 2021 at 11:56:14AM +0100, Halil Pasic wrote:    
+> > > > > > On Mon, 4 Jan 2021 10:40:26 -0800
+> > > > > > Ram Pai <linuxram@us.ibm.com> wrote:    
+> > > >     
+> > > > > > > The main difference between my proposal and the other proposal is...
+> > > > > > > 
+> > > > > > >   In my proposal the guest makes the compatibility decision and acts
+> > > > > > >   accordingly.  In the other proposal QEMU makes the compatibility
+> > > > > > >   decision and acts accordingly. I argue that QEMU cannot make a good
+> > > > > > >   compatibility decision, because it wont know in advance, if the guest
+> > > > > > >   will or will-not switch-to-secure.
+> > > > > > >       
+> > > > > > 
+> > > > > > You have a point there when you say that QEMU does not know in advance,
+> > > > > > if the guest will or will-not switch-to-secure. I made that argument
+> > > > > > regarding VIRTIO_F_ACCESS_PLATFORM (iommu_platform) myself. My idea
+> > > > > > was to flip that property on demand when the conversion occurs. David
+> > > > > > explained to me that this is not possible for ppc, and that having the
+> > > > > > "securable-guest-memory" property (or whatever the name will be)
+> > > > > > specified is a strong indication, that the VM is intended to be used as
+> > > > > > a secure VM (thus it is OK to hurt the case where the guest does not
+> > > > > > try to transition). That argument applies here as well.      
+> > > > > 
+> > > > > As suggested by Cornelia Huck, what if QEMU disabled the
+> > > > > "securable-guest-memory" property if 'must-support-migrate' is enabled?
+> > > > > Offcourse; this has to be done with a big fat warning stating
+> > > > > "secure-guest-memory" feature is disabled on the machine.
+> > > > > Doing so, will continue to support guest that do not try to transition.
+> > > > > Guest that try to transition will fail and terminate themselves.    
+> > > > 
+> > > > Just to recap the s390x situation:
+> > > > 
+> > > > - We currently offer a cpu feature that indicates secure execution to
+> > > >   be available to the guest if the host supports it.
+> > > > - When we introduce the secure object, we still need to support
+> > > >   previous configurations and continue to offer the cpu feature, even
+> > > >   if the secure object is not specified.
+> > > > - As migration is currently not supported for secured guests, we add a
+> > > >   blocker once the guest actually transitions. That means that
+> > > >   transition fails if --only-migratable was specified on the command
+> > > >   line. (Guests not transitioning will obviously not notice anything.)
+> > > > - With the secure object, we will already fail starting QEMU if
+> > > >   --only-migratable was specified.
+> > > > 
+> > > > My suggestion is now that we don't even offer the cpu feature if
+> > > > --only-migratable has been specified. For a guest that does not want to
+> > > > transition to secure mode, nothing changes; a guest that wants to
+> > > > transition to secure mode will notice that the feature is not available
+> > > > and fail appropriately (or ultimately, when the ultravisor call fails).    
+> > > 
+> > > 
+> > > On POWER, secure-execution is not **automatically** enabled even when
+> > > the host supports it.  The feature is enabled only if the secure-object
+> > > is configured, and the host supports it.  
+> > 
+> > Yes, the cpu feature on s390x is simply pre-existing.
+> >   
+> > > 
+> > > However the behavior proposed above will be consistent on POWER and
+> > > on s390x,  when '--only-migratable' is specified and 'secure-object'
+> > > is NOT specified.
+> > > 
+> > > So I am in agreement till now. 
+> > > 
+> > >   
+> > > > We'd still fail starting QEMU for the secure object + --only-migratable
+> > > > combination.    
+> > > 
+> > > Why fail? 
+> > > 
+> > > Instead, print a warning and  disable the secure-object; which will
+> > > disable your cpu-feature. Guests that do not transition to secure, will
+> > > continue to operate, and guests that transition to secure, will fail.  
+> > 
+> > But that would be consistent with how other non-migratable objects are
+> > handled, no? It's simply a case of incompatible options on the command
+> > line.  
 > 
-> Hi Philippe,
+> Actually the two options are inherently NOT incompatible.  Halil also
+> mentioned this in one of his replies.
 > 
-> Thanks for the template!
+> Its just that the current implementation is lacking, which will be fixed
+> in the near future. 
 > 
-> Just a small question, where should we perform ISA availability check?
-> Before calling generated decoder or after decoded?
+> We can design it upfront, with the assumption that they both are compatible.
+> In the short term  disable one; preferrably the secure-object, if both 
+> options are specified. In the long term, remove the restriction, when
+> the implemetation is complete.
 
-The check is done before in decode_loongson:
+Can't we simply mark the object as non-migratable now, and then remove
+that later? I don't see what is so special about it.
 
- bool decode_loongson(DisasContext *ctx, uint32_t insn)
- {
-     if ((ctx->insn_flags & INSN_LOONGSON2E)
-         // if ISA available ...
-             && decode_godson2(ctx, ctx->opcode)) {
-             // and opcode supported
-         // return success
-         return true;
-     }
-     // else keep going ...
-
-     if ((ctx->insn_flags & ASE_LEXT)
-             && decode_loong_ext(ctx, ctx->opcode)) {
-         return true;
-     }
-
-     // finally return false, if nothing else decoded
-     // gen_reserved_instruction will be called in the
-     // main decode loop.
-     return false;
- }
-
-> 
-> Loong-EXT is a super set of Loongson2F's Godson2 and MMI instructions,
-> how could we tell it?
-
-MMI instructions are currently handled by the ASE_LMMI flag,
-a different decoder (which will also be handled by this function,
-similarly to ASE_LEXT).
-
-Regards,
-
-Phil.
 
