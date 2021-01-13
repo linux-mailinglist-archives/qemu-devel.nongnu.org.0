@@ -2,127 +2,93 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B14652F4824
-	for <lists+qemu-devel@lfdr.de>; Wed, 13 Jan 2021 11:03:16 +0100 (CET)
-Received: from localhost ([::1]:43784 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2AC102F4830
+	for <lists+qemu-devel@lfdr.de>; Wed, 13 Jan 2021 11:04:42 +0100 (CET)
+Received: from localhost ([::1]:46936 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kzczj-0003uY-8F
-	for lists+qemu-devel@lfdr.de; Wed, 13 Jan 2021 05:03:15 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40592)
+	id 1kzd15-0005MU-RE
+	for lists+qemu-devel@lfdr.de; Wed, 13 Jan 2021 05:04:41 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41500)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
- id 1kzcwE-0003Gj-Kv; Wed, 13 Jan 2021 04:59:39 -0500
-Received: from mail-am6eur05on2133.outbound.protection.outlook.com
- ([40.107.22.133]:62912 helo=EUR05-AM6-obe.outbound.protection.outlook.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
- id 1kzcw9-00084D-L4; Wed, 13 Jan 2021 04:59:37 -0500
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=N6//Ougsjb3P3Dm6fwciZDY+pmKejis4Xhsyv5rDYWlEvkanCgnAyoZfgf3IPJCOKdZ7SdrG8DgOFziYXA03vFtIcRIf2Dvgm9P+gHpm+ZATl2fHhKrH1ML78C/oOTfYPUJvWgtc65Z8sJlalR8AG/lNtRJXWnP8oleb5sML1j/e0LmE/HCKqaBZf+Dxmal7IH98ORZ81ScBe7F/MyO0ZxrdMLl4WdNUGNb0OnGm2RRqDb3wqYcgESZeiVEIEljQx4J07yAYUdc4Nth8oh/C8/uE7dBHdA8UUxpFpWGfD9Or2iK3VusWTqAwYWgxoPswRuR5nMLiDeD84W8fbJK5MQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=NLOa+UG1+2s1ZJNIm3LqHHH6xvUBMaMBBQ0GrLqiNNo=;
- b=eQ+sz27g6sZ8jUJODSyJVpqQNSMZ2mqLu/zEk9TD2A5uS6cOTUfwA//0JsRw27slEAA5FLqoS+X2KZQkTPPqU56LJOCZTS2Oc1lkd0Za5AWA/+uO1xNMC2NaDsQ2+ks0/YYQq/6eJzFdCxz9/h7bEQoxdBf2BTEbp993DdOJLSEFPmEeYh++tKh6kTtT0bxTsVJS+RFw7Ltrsrac2eI+C5UZ+CXgjl6kJAk2StEapM+xOu9p04AUvlCJ6yHlfxS4gqAOO/F9vaneizS9M0RLm1sxp6hXGF6Nt7QdedPl0kwLJhuhG0ZBHpeY+qKV7tW9hFiPzOA9jV5gFBi37Fw8+w==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=virtuozzo.com; dmarc=pass action=none
- header.from=virtuozzo.com; dkim=pass header.d=virtuozzo.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=NLOa+UG1+2s1ZJNIm3LqHHH6xvUBMaMBBQ0GrLqiNNo=;
- b=YEQzSInLAU2u4W3xr3Q9svje/PjgGD0ogoe1SC4QKUsJqAjhJBr68lGHG8g1bE4wyj1fDlGlUzaVi0bNvnCl4GRNpFcjSEvKpwFgsOdcf2c8XVmBms1Fxzx94qZL81pJlQC3013WROVIjA/onph6MtzsK/IqK5dDASN8AbSg2VA=
-Authentication-Results: redhat.com; dkim=none (message not signed)
- header.d=none;redhat.com; dmarc=none action=none header.from=virtuozzo.com;
-Received: from AM7PR08MB5494.eurprd08.prod.outlook.com (2603:10a6:20b:dc::15)
- by AM7PR08MB5383.eurprd08.prod.outlook.com (2603:10a6:20b:102::7)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3742.6; Wed, 13 Jan
- 2021 09:59:30 +0000
-Received: from AM7PR08MB5494.eurprd08.prod.outlook.com
- ([fe80::214a:3545:368c:7ae8]) by AM7PR08MB5494.eurprd08.prod.outlook.com
- ([fe80::214a:3545:368c:7ae8%9]) with mapi id 15.20.3763.009; Wed, 13 Jan 2021
- 09:59:30 +0000
-Subject: Re: [PATCH v5 01/14] block: return status from bdrv_append and friends
-To: Alberto Garcia <berto@igalia.com>, qemu-block@nongnu.org
-References: <20210109125811.209870-1-vsementsov@virtuozzo.com>
- <20210109125811.209870-2-vsementsov@virtuozzo.com>
- <w51y2gyukum.fsf@maestria.local.igalia.com>
-From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-Message-ID: <167d8f5a-3948-8d64-4cc4-c42f90b0b114@virtuozzo.com>
-Date: Wed, 13 Jan 2021 12:59:28 +0300
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1kzcyF-00043Z-E7
+ for qemu-devel@nongnu.org; Wed, 13 Jan 2021 05:01:48 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:57175)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1kzcy4-0000Oo-3J
+ for qemu-devel@nongnu.org; Wed, 13 Jan 2021 05:01:42 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1610532088;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=p+wI3OFeGOuKgEuap+zdZ5DKfVfIsCNv90lotfITStk=;
+ b=GTngozc07q4PnBWeApIhtC87RQOZUD6Al3Zm1RreSxvy9AVAws8Whmc7Y7G7iUPayaMThp
+ Cfjr9oTLzvThxRCtvvwSknvYNaUWej97ckYMmYJb61ftegHtmWATJF6HsJVBGjSF72ZJQm
+ zGmFyPpHOeol73UA2ywEa+qudJfxUS0=
+Received: from mail-ej1-f71.google.com (mail-ej1-f71.google.com
+ [209.85.218.71]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-490-JXS_cy2nP7KaeaRChl1jjQ-1; Wed, 13 Jan 2021 05:01:27 -0500
+X-MC-Unique: JXS_cy2nP7KaeaRChl1jjQ-1
+Received: by mail-ej1-f71.google.com with SMTP id m4so685709ejc.14
+ for <qemu-devel@nongnu.org>; Wed, 13 Jan 2021 02:01:26 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=p+wI3OFeGOuKgEuap+zdZ5DKfVfIsCNv90lotfITStk=;
+ b=j0lcEi7BdxVxSY3SvX41A5tpM2THO+urlVbR+T96swktDquCBWRGMoIcDfLw4m3yOi
+ +BJ0fWQd8SDAOXejV6NhoDHNXMs1ziGiTAlpRCGuYMA40ZFUcI2SZ/pe95b2ZLhh6u/3
+ KSNnCok30p2k26qZ1sqOJHzLbttw0YsnaAQvgViZdFMXPwACv13fWRNyLYXSC/jWPQnw
+ BMhy9q7jY9cY2xSOzIdoTpLdCpiY26Le1a7YkDJH1vXOLT/mXI5CCmG2d7d+ycqVFdhS
+ nIkr2upJEJsKWH2R4vhow74nr/hvcHIHJZCFgI4VAko7P0vUIhgHTBbExjhYMf8L5BWC
+ mMSw==
+X-Gm-Message-State: AOAM533jDfQQgGQHjp/qf2uPvj8daiYi177VuSFHsTTYxcYC4cF3i3yg
+ sX+1NV4fPTB74qj1ZVayH8PW5tFp51WpVlW72uXjPZhnCNa++TK1URbN0igxo22+8ymJy9Oe5by
+ 9QhFYc9k/8A7F67Q=
+X-Received: by 2002:a05:6402:1d0f:: with SMTP id
+ dg15mr1109237edb.1.1610532085963; 
+ Wed, 13 Jan 2021 02:01:25 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJzdd6Q9XhRoSRMwnJi2n+KrViMwdxJOSN9TQ973hauyjgZv/Dt41E0HJk0Ve9LsqhvrIMrN3A==
+X-Received: by 2002:a05:6402:1d0f:: with SMTP id
+ dg15mr1109226edb.1.1610532085775; 
+ Wed, 13 Jan 2021 02:01:25 -0800 (PST)
+Received: from ?IPv6:2001:b07:6468:f312:c8dd:75d4:99ab:290a?
+ ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
+ by smtp.gmail.com with ESMTPSA id oq27sm492939ejb.108.2021.01.13.02.01.24
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 13 Jan 2021 02:01:25 -0800 (PST)
+Subject: Re: [PATCH v2] configure: MinGW respect --bindir argument
+To: Joshua Watt <jpewhacker@gmail.com>, qemu-devel@nongnu.org
+References: <20210107213856.34170-1-JPEWhacker@gmail.com>
+ <20210112210239.28836-1-JPEWhacker@gmail.com>
+From: Paolo Bonzini <pbonzini@redhat.com>
+Message-ID: <9c71577f-6d32-c45e-6beb-b1b8abd5c3cf@redhat.com>
+Date: Wed, 13 Jan 2021 11:01:24 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.6.0
-In-Reply-To: <w51y2gyukum.fsf@maestria.local.igalia.com>
+ Thunderbird/78.5.0
+MIME-Version: 1.0
+In-Reply-To: <20210112210239.28836-1-JPEWhacker@gmail.com>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=pbonzini@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
-X-Originating-IP: [185.215.60.80]
-X-ClientProxiedBy: FR2P281CA0032.DEUP281.PROD.OUTLOOK.COM
- (2603:10a6:d10:14::19) To AM7PR08MB5494.eurprd08.prod.outlook.com
- (2603:10a6:20b:dc::15)
-MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-Received: from [192.168.100.8] (185.215.60.80) by
- FR2P281CA0032.DEUP281.PROD.OUTLOOK.COM (2603:10a6:d10:14::19) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.3763.2 via Frontend Transport; Wed, 13 Jan 2021 09:59:29 +0000
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 46f04823-f899-4326-44f5-08d8b7a9ebb6
-X-MS-TrafficTypeDiagnostic: AM7PR08MB5383:
-X-Microsoft-Antispam-PRVS: <AM7PR08MB538339D23FB51BDA9C4D909FC1A90@AM7PR08MB5383.eurprd08.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:3173;
-X-MS-Exchange-SenderADCheck: 1
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: y2XmsjtV0g57e1xHzIKvZFCFDDEM/yLy8ZLsfumRvFhDlTKYU4LFX4tn/h5vfj+6mllYpH0nAkrbrukJV8bKu8FnLDuGchvUBPIGTY1HRzHKAuyZE51vApgdCTxWdqA1jDt1cyO0sOnrkjIMAxlOetcNXgYtPI686YBg6CnDxssu9rfJuAAcy+a7p3B7Fpul0zQhVwPdGIRh4Ug9v95b4lHDIjvRBMl+mkGbiicU+E3wwSB+ARcL70IyvDubfOUPm3M/o7hwBU9Beo5WzEN8b+RM6nLzj+lQpyPgeI6Zf+jR1Kn0fu606+UUPdsDec+fg50rcuMKXulticNgxAc3y/3HmKeX5rjmmZ5rbCNtNdjoC8y9zDu34V6A4+bwuLt+PCPLuxaROmQFLcPxBpJPhSYze+NRnmfIUNQvRh3nBsp+5cIVkHW1/MZG5l1QBJf6qRFWPinglOPtQm1Evj9XfiOv8Ia8zoKUQMMHyjuHnsM=
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:AM7PR08MB5494.eurprd08.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(4636009)(396003)(136003)(376002)(346002)(366004)(39840400004)(2906002)(83380400001)(66476007)(5660300002)(6486002)(31696002)(316002)(7416002)(16526019)(66556008)(26005)(86362001)(2616005)(36756003)(186003)(31686004)(52116002)(956004)(8676002)(4326008)(8936002)(66946007)(478600001)(16576012)(43740500002)(45980500001);
- DIR:OUT; SFP:1102; 
-X-MS-Exchange-AntiSpam-MessageData: =?utf-8?B?QVBMZTZMaFRSa1V5V1BWMGdFeHRkcElsZVo0VDBxVFJmaDFwanBPWUxOUllh?=
- =?utf-8?B?TW90Njl1VFJWTzlZVG5LNXByUlJWWWdjV3hEbE9vVnpmUGJvRUNwbGVqM0VO?=
- =?utf-8?B?eTBiYWZ3YkJFNW5Jek5ZT3NXckpaOTdhM3NvbTg4ZkJ2UFB4RGNJWVhzZ3M0?=
- =?utf-8?B?cGVwTmdxRHNYYXJhQVM1Q0I2UU56UGNEU3c4RnhxbXBNcFE2RnQ0d1NXNFQ1?=
- =?utf-8?B?TmFyMnFGME43T2hWZlBGRVdFdWZiTXdidysvR3hVN2d0bWJUdW82MTFNQldC?=
- =?utf-8?B?dmtIaHhzL3c3TWQvZzMwdGVkRDNnZXlZak5LbFZvc05kQVBmYWJ3N3VMWGNB?=
- =?utf-8?B?NGtFQ1JsNGw5UGJXRGtZQzBaNDhNZ2VaU0FXSUFYOUl3SkJSbzAxZStxRWlJ?=
- =?utf-8?B?RU9IR0hTckFldFJhUitmUTdMR1V5WVozMWhNZDRYcFJ2SFRxeHVQV2pQUFB5?=
- =?utf-8?B?dmdVVmJ0VTlUTW45Skh2UEN5clQ1K1hhYmNHQkU3Wi8vNHpmaFNPVTdHU0lu?=
- =?utf-8?B?cUhIUHNZZ2ZZdWZxdnI4TW9jQWRSb1VWVFA2Y2VtQWVIQWR1MVBrUlJhZmpJ?=
- =?utf-8?B?OHUyM1ZMcGw5NHBKT3QxMHgzU0lZYm5IcGozS3lVemwra3dCWUhJRjFXRXlI?=
- =?utf-8?B?NStCbW1qRkVXRDZQVzdnTmxmbmk2SXhqM1M3WlcxODUwVUxaS0MyV1VkaTJJ?=
- =?utf-8?B?bDlWUDB6eFRGRjB0K3NNOFJhemViZ05tQ1JBbWsvSWFFS21rQTZVV1Y3cEJP?=
- =?utf-8?B?WnhHaThWbm1QeEtTVHpZVmJGZHlPOVJ3NlRZRjZEbkFuSjBNRzhEYVlTaVJB?=
- =?utf-8?B?UFNpU1g2dVgrZTM0ck1TeXNIRXJkZXBCSEV1U0owS0szNXNKdkhQTlhmLzRV?=
- =?utf-8?B?aEhBY1NMbVo5STNPR0s4dUt3QWFiNi81ZlhMbjVoRkh4ZWJjaktOek1pcmJn?=
- =?utf-8?B?cGdFSFAxWnpYNmUyZ3ZnL094WWl6U3BRbE4rMXpOVjdRM1FDRStiWVptbXBz?=
- =?utf-8?B?SlM2STViek4rSThMeHRvU0tjazRMM2FPZk5TR0ZrRHVBN0hrTlYyK21iN3ZL?=
- =?utf-8?B?L0pibW1RL2tQRWFLekw3T2lpNktTNUd5Y0M0eHRmTTcxZCtpdThuMG50V3FE?=
- =?utf-8?B?ZDR5NjZ1U3kyekUyUDFaQlF4WVBLTHBOZlZ1MDQyUGI4dmRVYXpVZTM2QzZM?=
- =?utf-8?B?aUxvZTdNSStWMnN4Q0tVS004UkFBa2t5UXMraE5qNUdhUm1xU0czY043YXBK?=
- =?utf-8?B?UzdibXdMWGNoNzRqWFNHV0RxSWxTMUx2cDByL0xxM3l2cEVLV0V6VHBwa0o5?=
- =?utf-8?Q?rAZFP84YJAO4p6EdwPntrCvob6blzwrqYT?=
-X-OriginatorOrg: virtuozzo.com
-X-MS-Exchange-CrossTenant-AuthSource: AM7PR08MB5494.eurprd08.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 13 Jan 2021 09:59:30.4075 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
-X-MS-Exchange-CrossTenant-Network-Message-Id: 46f04823-f899-4326-44f5-08d8b7a9ebb6
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: UFEPhwaye5qFinSDM2uW5f96p3inGJ2ypwitEyM9VwHfonEWoX6cewC7gfH+PZSGjAriuZQh78wNn/6V1a1qUuDm1Ht8qYatTS4Q/o4BWhU=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM7PR08MB5383
-Received-SPF: pass client-ip=40.107.22.133;
- envelope-from=vsementsov@virtuozzo.com;
- helo=EUR05-AM6-obe.outbound.protection.outlook.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
-X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- MSGID_FROM_MTA_HEADER=0.001, NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7,
- RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_PASS=-0.001,
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=pbonzini@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -29
+X-Spam_score: -3.0
+X-Spam_bar: ---
+X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.251,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -136,80 +102,71 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: kwolf@redhat.com, pavel.dovgaluk@ispras.ru, qemu-devel@nongnu.org,
- armbru@redhat.com, stefanha@redhat.com, pbonzini@redhat.com, mreitz@redhat.com,
- jsnow@redhat.com, ari@tuxera.com
+Cc: thuth@redhat.com, luoyonggang@gmail.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-12.01.2021 20:27, Alberto Garcia wrote:
-> On Sat 09 Jan 2021 01:57:58 PM CET, Vladimir Sementsov-Ogievskiy wrote:
->> -void bdrv_set_backing_hd(BlockDriverState *bs, BlockDriverState *backing_hd,
->> +int bdrv_set_backing_hd(BlockDriverState *bs, BlockDriverState *backing_hd,
->>                            Error **errp)
+On 12/01/21 22:02, Joshua Watt wrote:
+> There are two cases that need to be accounted for when compiling QEMU
+> for MinGW32:
+>   1) A standalone distribution, where QEMU is self contained and
+>      extracted by the user, such as a user would download from the QEMU
+>      website. In this case, all the QEMU executable files should be
+>      rooted in $prefix to ensure they can be easily found by the user
+>   2) QEMU integrated into a distribution image/sysroot/SDK and
+>      distributed with other programs. In this case, the provided
+>      arguments for bindir/datadir/etc. should be respected as they for a
+>      Linux build.
 > 
-> The indentation of the second line should be adjusted, shouldn't it?
+> Restructures the MinGW path configuration so that all of the paths
+> except bindir use the same rules as when building for other platforms.
+> This satisfies #2 and #1 since these files do not need to be directly in
+> $prefix anyway.
 > 
->>   {
->> +    int ret;
->>       bool update_inherits_from = bdrv_chain_contains(bs, backing_hd) &&
->>           bdrv_inherits_from_recursive(backing_hd, bs);
->>   
->>       if (bdrv_is_backing_chain_frozen(bs, child_bs(bs->backing), errp)) {
->> -        return;
->> +        return -EPERM;
->>       }
->>   
->>       if (backing_hd) {
->> @@ -2853,15 +2854,24 @@ void bdrv_set_backing_hd(BlockDriverState *bs, BlockDriverState *backing_hd,
->>
->>       bs->backing = bdrv_attach_child(bs, backing_hd, "backing", &child_of_bds,
->>                                       bdrv_backing_role(bs), errp);
->> +    if (!bs->backing) {
->> +        ret = -EPERM;
->> +        goto out;
->> +    }
+> The handling for --bindir is changed so that it defaults to $prefix on
+> MinGW (maintaining the compatibility with #1), but if the user specifies
+> a specific path when configuring it can also satisfy #2.
 > 
-> This is not visible in the patch, but before the bdrv_attach_child()
-> call there's this:
+> Signed-off-by: Joshua Watt <JPEWhacker@gmail.com>
+> ---
+>   configure | 17 ++++++-----------
+>   1 file changed, 6 insertions(+), 11 deletions(-)
 > 
->      if (!backing_hd) {
->          goto out;
->      }
+> diff --git a/configure b/configure
+> index 5860bdb77b..092e2926bc 100755
+> --- a/configure
+> +++ b/configure
+> @@ -1571,20 +1571,15 @@ libexecdir="${libexecdir:-$prefix/libexec}"
+>   includedir="${includedir:-$prefix/include}"
+>   
+>   if test "$mingw32" = "yes" ; then
+> -    mandir="$prefix"
+> -    datadir="$prefix"
+> -    docdir="$prefix"
+> -    bindir="$prefix"
+> -    sysconfdir="$prefix"
+> -    local_statedir="$prefix"
+> +    bindir="${bindir:-$prefix}"
+>   else
+> -    mandir="${mandir:-$prefix/share/man}"
+> -    datadir="${datadir:-$prefix/share}"
+> -    docdir="${docdir:-$prefix/share/doc}"
+>       bindir="${bindir:-$prefix/bin}"
+> -    sysconfdir="${sysconfdir:-$prefix/etc}"
+> -    local_statedir="${local_statedir:-$prefix/var}"
+>   fi
+> +mandir="${mandir:-$prefix/share/man}"
+> +datadir="${datadir:-$prefix/share}"
+> +docdir="${docdir:-$prefix/share/doc}"
+> +sysconfdir="${sysconfdir:-$prefix/etc}"
+> +local_statedir="${local_statedir:-$prefix/var}"
+>   firmwarepath="${firmwarepath:-$datadir/qemu-firmware}"
+>   localedir="${localedir:-$datadir/locale}"
+>   
 > 
-> But in this case 'ret' is still uninitialized.
-> 
->>   out:
->>       bdrv_refresh_limits(bs, NULL);
->> +
->> +    return ret;
->>   }
-> 
-> 
-> 
->> -static void bdrv_replace_node_common(BlockDriverState *from,
->> -                                     BlockDriverState *to,
->> -                                     bool auto_skip, Error **errp)
->> +static int bdrv_replace_node_common(BlockDriverState *from,
->> +                                    BlockDriverState *to,
->> +                                    bool auto_skip, Error **errp)
->>   {
->>       BdrvChild *c, *next;
->>       GSList *list = NULL, *p;
->> @@ -4562,6 +4572,7 @@ static void bdrv_replace_node_common(BlockDriverState *from,
->>               goto out;
->>           }
->>           if (c->frozen) {
->> +            ret = -EPERM;
->>               error_setg(errp, "Cannot change '%s' link to '%s'",
->>                          c->name, from->node_name);
->>               goto out;
-> 
-> Same here, you set 'ret' in the second 'goto out' but not in the first.
-> 
-Oops, you are right, thanks!
 
--- 
-Best regards,
-Vladimir
+Queued, thanks!
+
+Paolo
+
 
