@@ -2,71 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9F9342F4F09
-	for <lists+qemu-devel@lfdr.de>; Wed, 13 Jan 2021 16:46:13 +0100 (CET)
-Received: from localhost ([::1]:48360 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 58B002F4F20
+	for <lists+qemu-devel@lfdr.de>; Wed, 13 Jan 2021 16:49:04 +0100 (CET)
+Received: from localhost ([::1]:53526 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kziLc-00069W-N1
-	for lists+qemu-devel@lfdr.de; Wed, 13 Jan 2021 10:46:12 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45242)
+	id 1kziON-0008Sn-D8
+	for lists+qemu-devel@lfdr.de; Wed, 13 Jan 2021 10:49:03 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45494)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1kziJE-0005aP-IU
- for qemu-devel@nongnu.org; Wed, 13 Jan 2021 10:43:44 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:30554)
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1kziKc-0006Ed-F6
+ for qemu-devel@nongnu.org; Wed, 13 Jan 2021 10:45:10 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:28258)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1kziJC-00058Y-3W
- for qemu-devel@nongnu.org; Wed, 13 Jan 2021 10:43:44 -0500
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1kziKa-0005jT-Dj
+ for qemu-devel@nongnu.org; Wed, 13 Jan 2021 10:45:10 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1610552621;
+ s=mimecast20190719; t=1610552707;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=T/NmjpTN5TOP/qpbeckBm+pU55JXdeFrWFhaCKecbuA=;
- b=K4U8aebp6/wPNw0lJPC6ZpKigSUDumZmP9HdkmnZkFKal48Mf0XNCpDiG7PThyAO3PwmBL
- hbJboNqI/MouWraEWdfFvsLdFZ3FTs2K1Nk68lLOOVVOWIoXe5BQgHCOeJHRyjEcbAS4Dv
- Eg9mX+U1UiQskKnr5oEgDheKurlyDv8=
+ bh=MjKsV9c2RNWdY4+Ev9u1Os7vQG1VqGWpqg1vMoaUzZA=;
+ b=eD3wiHKbRjuJcJsDPlatvkCBgSprLfpmUkYidKwOH9WDHid1h3kp2z5PSKweXaMIIJKIWC
+ l5PWuYrLsGCRhTXxwtL/vwVRoZZUK4FoexnFdN5nrPL/mZU8awLOxU3gUc0WTMiej4DGIL
+ FCl4mJ8PtRAhHFXsfCk/22HxieCL6eQ=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-329-AK285OUFMOucmsCE08X5Hw-1; Wed, 13 Jan 2021 10:43:39 -0500
-X-MC-Unique: AK285OUFMOucmsCE08X5Hw-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
+ us-mta-28-qCxigXKyPK2MLaE6fLCHFg-1; Wed, 13 Jan 2021 10:45:03 -0500
+X-MC-Unique: qCxigXKyPK2MLaE6fLCHFg-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 8A956107ACF9;
- Wed, 13 Jan 2021 15:43:38 +0000 (UTC)
-Received: from merkur.fritz.box (ovpn-114-55.ams2.redhat.com [10.36.114.55])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 6361060BF1;
- Wed, 13 Jan 2021 15:43:37 +0000 (UTC)
-Date: Wed, 13 Jan 2021 16:43:35 +0100
-From: Kevin Wolf <kwolf@redhat.com>
-To: Max Reitz <mreitz@redhat.com>
-Subject: Re: [PATCH 0/7] iotests/129: Fix it
-Message-ID: <20210113154335.GC5928@merkur.fritz.box>
-References: <20210113140616.150283-1-mreitz@redhat.com>
- <20210113143816.GB5928@merkur.fritz.box>
- <72a1b15b-88c8-34f5-9e81-3aadcde333ca@redhat.com>
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 8C55E107ACF7;
+ Wed, 13 Jan 2021 15:45:02 +0000 (UTC)
+Received: from [10.3.113.36] (ovpn-113-36.phx2.redhat.com [10.3.113.36])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 3B4D06F976;
+ Wed, 13 Jan 2021 15:44:56 +0000 (UTC)
+Subject: Re: [PATCH 7/8] configure: quote command line arguments in
+ config.status
+To: Paolo Bonzini <pbonzini@redhat.com>, qemu-devel@nongnu.org
+References: <20210107140039.467969-1-pbonzini@redhat.com>
+ <20210107140039.467969-8-pbonzini@redhat.com>
+From: Eric Blake <eblake@redhat.com>
+Organization: Red Hat, Inc.
+Message-ID: <e74351a2-3609-53ef-c2c6-efea6be4cc75@redhat.com>
+Date: Wed, 13 Jan 2021 09:44:55 -0600
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.6.0
 MIME-Version: 1.0
-In-Reply-To: <72a1b15b-88c8-34f5-9e81-3aadcde333ca@redhat.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+In-Reply-To: <20210107140039.467969-8-pbonzini@redhat.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kwolf@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=eblake@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=kwolf@redhat.com;
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=eblake@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -29
 X-Spam_score: -3.0
 X-Spam_bar: ---
 X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.25,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -79,40 +83,45 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
- qemu-devel@nongnu.org, qemu-block@nongnu.org
+Cc: marcandre.lureau@redhat.com, alex.bennee@linaro.org, berrange@redhat.com,
+ stefanha@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Am 13.01.2021 um 16:26 hat Max Reitz geschrieben:
-> On 13.01.21 15:38, Kevin Wolf wrote:
-> > Am 13.01.2021 um 15:06 hat Max Reitz geschrieben:
-> > > - pylint and mypy complain.
-> > >    (Running mypy with the options given in 297.)
-> > >    [Patch 4 removes one pylint complaint; patch 7 the rest.]
-> > 
-> > Should we add it to 297 then to make sure we won't regress?
+On 1/7/21 8:00 AM, Paolo Bonzini wrote:
+> Make config.status generation a bit more robust.  (The quote_sh
+> function will also be reused to parse configure's command line
+> arguments in an external script driven by Meson build option
+> introspection).
 > 
-> Sounds like a good precedent to set indeed.
+> Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
+> ---
+>  configure | 6 +++++-
+>  1 file changed, 5 insertions(+), 1 deletion(-)
 > 
-> > At some point, I guess we'll want to cover all Python tests, but I
-> > assume it was too much to change in the same series as for the
-> > iotests.py cleanup.
-> Originally, I hadn’t intended to write patch 7 at all; I just wanted to see
-> what pylint/mypy said to my changes in this series, but then they made me
-> aware of pre-existing litter.  I thought adding patch 7 would be the right
-> thing to do, so I did.
-> 
-> (That’s to say so far I had no intentions of cleaning up all Python tests.
-> It’s just coincidence that I did so for 129.)
+> diff --git a/configure b/configure
+> index d573058b16..41866cc38e 100755
+> --- a/configure
+> +++ b/configure
+> @@ -89,6 +89,10 @@ printf " '%s'" "$0" "$@" >> config.log
+>  echo >> config.log
+>  echo "#" >> config.log
+>  
+> +quote_sh() {
+> +    printf "%s" "$1" | sed "s,','\\\\'',g; s,.*,'&',"
+> +}
 
-Indeed, and I wasn't trying to imply that you should, but just making a
-guess why we cover iotests.py and nothing else so far.
+printf %s does not append a newline, but POSIX does not require sed to
+behave sanely when its input does not end in a newline.
 
-Cleaning up 129 is a nice side effect of this series. If more such side
-effects accumulate and the rest becomes small enough, I might eventually
-just convert the rest. Or I might not, who knows.
+But unless we hit a case where someone is actually using a sed that
+complains, this works for me.
 
-Kevin
+Reviewed-by: Eric Blake <eblake@redhat.com>
+
+-- 
+Eric Blake, Principal Software Engineer
+Red Hat, Inc.           +1-919-301-3226
+Virtualization:  qemu.org | libvirt.org
 
 
