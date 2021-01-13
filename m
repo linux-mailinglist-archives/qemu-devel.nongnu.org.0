@@ -2,76 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 153782F5138
-	for <lists+qemu-devel@lfdr.de>; Wed, 13 Jan 2021 18:38:08 +0100 (CET)
-Received: from localhost ([::1]:58518 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 87F702F514C
+	for <lists+qemu-devel@lfdr.de>; Wed, 13 Jan 2021 18:44:11 +0100 (CET)
+Received: from localhost ([::1]:38752 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kzk5v-0001j4-19
-	for lists+qemu-devel@lfdr.de; Wed, 13 Jan 2021 12:38:07 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41778)
+	id 1kzkBm-0005nJ-Ko
+	for lists+qemu-devel@lfdr.de; Wed, 13 Jan 2021 12:44:10 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43250)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1kzjtx-0000BN-NF; Wed, 13 Jan 2021 12:25:47 -0500
-Received: from mail-wm1-x333.google.com ([2a00:1450:4864:20::333]:37064)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1kzjtr-0006Hs-Dl; Wed, 13 Jan 2021 12:25:45 -0500
-Received: by mail-wm1-x333.google.com with SMTP id g10so2334698wmh.2;
- Wed, 13 Jan 2021 09:25:33 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=CsrU5PzWJOqWBM621BtsUfkniXFxs+sJ0jZIwq4bvko=;
- b=tZYvrIRroKpXLJ5e/pihISRDSjdwOQ93ujRXBjbefwCHz1KbtyPkMV031mAsWRrJoc
- 7rwBIF0eyiQvMcOM1N0HRz2kO4jzmzxx7RMN/sVKOhNWbRucyuqoxpRAd9FGxs3rgVMa
- pMUVcxsUE87I3JT4F52vFREa6b+kPsymTRW5c2bHiJkdmi9PZBRxVLPpcsPwQC04kPxH
- pezV3qHV3zfAzqqf96lc4dc0SBIoeCxZx4JJI/sfWW8RzbmrWReU+T5yaGv+2dtnOL5w
- 3puQ833pgroSlrDZr8aavGBT1DdHiGuhEa9sh1+x50DBoLWaLmtbGwpW2Xbnhda7n+4a
- 4Nfg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
- :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=CsrU5PzWJOqWBM621BtsUfkniXFxs+sJ0jZIwq4bvko=;
- b=tgeEFaF/rkBnZHE38lbPHBi4BhzHgqDIDykV1g6Hv9FDSz62ngCdbpIDbNJFhrwU4o
- Rq/NpFaJjoU1IiZKQb6vO2xuDsRdLZR5i90cW7UKfbSb2qciCUl23iyRwhoAXLbLe2R2
- 327WipdkGDuA4C7YVeLJ7LM8NRGdfVeJfIqCZ1tixJ1sm/rBovFOgh1HCEdDXsBs5NBl
- CAZ7geuiesY6pqyABK59t1wLRlpd7bgom7H4t73a0uO4SYhFHj3Do296CUtYQAcoD2HD
- nk44/1pi8wb2hZgwqteGS6nwTGQNFdmMUxLCehjZ4lKgR3fjqIYMKMWuD9MkFYbAunCT
- MtOQ==
-X-Gm-Message-State: AOAM533+BpaTna7atrcjdxs50+z1NCdba9yD5UkDEhiT5zip0W0G0mGt
- bC0XouGC4zRhr0nxiFu81k0LzO7V4u4=
-X-Google-Smtp-Source: ABdhPJye576eM2Ebv7gU2u8PS2+2AyG7/UyRx2o3UsvGh7li2vvj1bw6ncnm9r8ciqfb2y4nUj3CDQ==
-X-Received: by 2002:a1c:40d6:: with SMTP id n205mr323192wma.0.1610558732781;
- Wed, 13 Jan 2021 09:25:32 -0800 (PST)
-Received: from x1w.redhat.com (13.red-83-57-169.dynamicip.rima-tde.net.
- [83.57.169.13])
- by smtp.gmail.com with ESMTPSA id u83sm4066965wmu.12.2021.01.13.09.25.31
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 13 Jan 2021 09:25:32 -0800 (PST)
-From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
-To: qemu-devel@nongnu.org
-Subject: [PATCH v2 6/6] tcg: Restrict tcg_out_vec_op() to arrays of
- TCG_MAX_OP_ARGS elements
-Date: Wed, 13 Jan 2021 18:24:59 +0100
-Message-Id: <20210113172459.2481060-7-f4bug@amsat.org>
-X-Mailer: git-send-email 2.26.2
-In-Reply-To: <20210113172459.2481060-1-f4bug@amsat.org>
-References: <20210113172459.2481060-1-f4bug@amsat.org>
+ (Exim 4.90_1) (envelope-from <wainersm@redhat.com>)
+ id 1kzjyW-0005m4-U4
+ for qemu-devel@nongnu.org; Wed, 13 Jan 2021 12:30:30 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:37189)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <wainersm@redhat.com>)
+ id 1kzjyP-0007xM-9S
+ for qemu-devel@nongnu.org; Wed, 13 Jan 2021 12:30:27 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1610559018;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=xvZeJAMTAHMe2TEwil0L38FR9qdrQ8AtRhJ6+He/B0k=;
+ b=iDw9loRAVhM4JAuO1RJ9LUW6SRUzyh3EqIpbUy8J0a01iSoud8SDqv1p30A2fSf3fENiyH
+ eay1/If/CZDXIgMZUHwHUPwlQhGjv+wiTOOZ8G26qfbnAb+qYqujNAQfTozpv6IJHxafkf
+ xEonLH6O9FjRwTvQn8W/ljXPRn1zzO8=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-503-iMNUboG1NRKdxFxbSWV9LA-1; Wed, 13 Jan 2021 12:30:17 -0500
+X-MC-Unique: iMNUboG1NRKdxFxbSWV9LA-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id CBA57A0C06;
+ Wed, 13 Jan 2021 17:30:14 +0000 (UTC)
+Received: from wainer-laptop.localdomain (ovpn-116-88.gru2.redhat.com
+ [10.97.116.88])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 89CBA5B4CE;
+ Wed, 13 Jan 2021 17:30:11 +0000 (UTC)
+Subject: Re: [PATCH v1 9/9] gitlab: move docs and tools build across from
+ Travis
+To: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
+ qemu-devel@nongnu.org
+References: <20210113151408.27939-1-alex.bennee@linaro.org>
+ <20210113151408.27939-10-alex.bennee@linaro.org>
+From: Wainer dos Santos Moschetta <wainersm@redhat.com>
+Message-ID: <02c20583-35c8-0e6f-0a1d-8b9fc1142a6b@redhat.com>
+Date: Wed, 13 Jan 2021 14:30:08 -0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.4.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+In-Reply-To: <20210113151408.27939-10-alex.bennee@linaro.org>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=wainersm@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::333;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x333.google.com
-X-Spam_score_int: -14
-X-Spam_score: -1.5
-X-Spam_bar: -
-X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.248,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+Content-Language: en-US
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=wainersm@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -29
+X-Spam_score: -3.0
+X-Spam_bar: ---
+X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.25,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -84,105 +86,115 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Thomas Huth <thuth@redhat.com>, Huacai Chen <chenhuacai@kernel.org>,
- qemu-riscv@nongnu.org, Stefan Weil <sw@weilnetz.de>,
- Cornelia Huck <cohuck@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
- qemu-s390x@nongnu.org, qemu-arm@nongnu.org,
- Alistair Francis <Alistair.Francis@wdc.com>,
- Palmer Dabbelt <palmer@dabbelt.com>, Miroslav Rezanina <mrezanin@redhat.com>,
- Aurelien Jarno <aurelien@aurel32.net>
+Cc: Fam Zheng <fam@euphon.net>, Thomas Huth <thuth@redhat.com>,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-tcg_reg_alloc_op() allocates arrays of TCG_MAX_OP_ARGS elements.
 
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
----
- tcg/tcg.c                    | 14 ++++++++------
- tcg/aarch64/tcg-target.c.inc |  3 ++-
- tcg/i386/tcg-target.c.inc    |  3 ++-
- tcg/ppc/tcg-target.c.inc     |  3 ++-
- 4 files changed, 14 insertions(+), 9 deletions(-)
+On 1/13/21 12:14 PM, Alex Bennée wrote:
+> While we are at it we might as well check the tag generation. For
+> bonus points we run GNU globals htags into the public pages directory
+> for publishing with the auto generated pages.
+>
+> Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
+> ---
+>   .gitlab-ci.yml | 22 ++++++++++++++++------
+>   .travis.yml    | 16 ----------------
+>   2 files changed, 16 insertions(+), 22 deletions(-)
+>
+> diff --git a/.gitlab-ci.yml b/.gitlab-ci.yml
+> index 4532f1718a..c07064a4f7 100644
+> --- a/.gitlab-ci.yml
+> +++ b/.gitlab-ci.yml
+> @@ -79,7 +79,6 @@ build-system-ubuntu:
+>       TARGETS: aarch64-softmmu alpha-softmmu cris-softmmu hppa-softmmu
+>         moxie-softmmu microblazeel-softmmu mips64el-softmmu
+>       MAKE_CHECK_ARGS: check-build
+> -    CONFIGURE_ARGS: --enable-docs
+>     artifacts:
+>       expire_in: 2 days
+>       paths:
+> @@ -111,7 +110,6 @@ build-system-debian:
+>       TARGETS: arm-softmmu avr-softmmu i386-softmmu mipsel-softmmu
+>         riscv64-softmmu sh4eb-softmmu sparc-softmmu xtensaeb-softmmu
+>       MAKE_CHECK_ARGS: check-build
+> -    CONFIGURE_ARGS: --enable-docs
+>     artifacts:
+>       expire_in: 2 days
+>       paths:
+> @@ -126,6 +124,17 @@ check-system-debian:
+>       IMAGE: debian-amd64
+>       MAKE_CHECK_ARGS: check
+>   
+> +build-tools-and-docs-debian:
+> +  <<: *native_build_job_definition
+> +  variables:
+> +    IMAGE: debian-amd64
+> +    MAKE_CHECK_ARGS: ctags gtags TAGS cscope
+> +    CONFIGURE_ARGS: --enable-docs --enable-tools
+> +  artifacts:
+> +    expire_in: 2 days
+> +    paths:
+> +      - build
+> +
+>   acceptance-system-debian:
+>     <<: *native_test_job_definition
+>     needs:
+> @@ -597,13 +606,14 @@ build-libvhost-user:
+>       - ninja
+>   
+>   pages:
+> -  image: $CI_REGISTRY_IMAGE/qemu/ubuntu2004:latest
+> +  image: $CI_REGISTRY_IMAGE/qemu/debian-amd64:latest
+>     stage: test
+>     needs:
+> -    - job: build-system-ubuntu
+> -      artifacts: true
+> +    - job: build-tools-and-docs-debian
+>     script:
 
-diff --git a/tcg/tcg.c b/tcg/tcg.c
-index 97d074d8fab..3a20327f9cb 100644
---- a/tcg/tcg.c
-+++ b/tcg/tcg.c
-@@ -120,9 +120,10 @@ static bool tcg_out_dupm_vec(TCGContext *s, TCGType type, unsigned vece,
-                              TCGReg dst, TCGReg base, intptr_t offset);
- static void tcg_out_dupi_vec(TCGContext *s, TCGType type,
-                              TCGReg dst, tcg_target_long arg);
--static void tcg_out_vec_op(TCGContext *s, TCGOpcode opc, unsigned vecl,
--                           unsigned vece, const TCGArg *args,
--                           const int *const_args);
-+static void tcg_out_vec_op(TCGContext *s, TCGOpcode opc,
-+                           unsigned vecl, unsigned vece,
-+                           const TCGArg args[TCG_MAX_OP_ARGS],
-+                           const int const_args[TCG_MAX_OP_ARGS]);
- #else
- static inline bool tcg_out_dup_vec(TCGContext *s, TCGType type, unsigned vece,
-                                    TCGReg dst, TCGReg src)
-@@ -139,9 +140,10 @@ static inline void tcg_out_dupi_vec(TCGContext *s, TCGType type,
- {
-     g_assert_not_reached();
- }
--static inline void tcg_out_vec_op(TCGContext *s, TCGOpcode opc, unsigned vecl,
--                                  unsigned vece, const TCGArg *args,
--                                  const int *const_args)
-+static inline void tcg_out_vec_op(TCGContext *s, TCGOpcode opc,
-+                                  unsigned vecl, unsigned vece,
-+                                  const TCGArg args[TCG_MAX_OP_ARGS],
-+                                  const int const_args[TCG_MAX_OP_ARGS])
- {
-     g_assert_not_reached();
- }
-diff --git a/tcg/aarch64/tcg-target.c.inc b/tcg/aarch64/tcg-target.c.inc
-index ab199b143f3..32811976e78 100644
---- a/tcg/aarch64/tcg-target.c.inc
-+++ b/tcg/aarch64/tcg-target.c.inc
-@@ -2276,7 +2276,8 @@ static void tcg_out_op(TCGContext *s, TCGOpcode opc,
- 
- static void tcg_out_vec_op(TCGContext *s, TCGOpcode opc,
-                            unsigned vecl, unsigned vece,
--                           const TCGArg *args, const int *const_args)
-+                           const TCGArg args[TCG_MAX_OP_ARGS],
-+                           const int const_args[TCG_MAX_OP_ARGS])
- {
-     static const AArch64Insn cmp_insn[16] = {
-         [TCG_COND_EQ] = I3616_CMEQ,
-diff --git a/tcg/i386/tcg-target.c.inc b/tcg/i386/tcg-target.c.inc
-index d121dca8789..87bf75735a1 100644
---- a/tcg/i386/tcg-target.c.inc
-+++ b/tcg/i386/tcg-target.c.inc
-@@ -2654,7 +2654,8 @@ static inline void tcg_out_op(TCGContext *s, TCGOpcode opc,
- 
- static void tcg_out_vec_op(TCGContext *s, TCGOpcode opc,
-                            unsigned vecl, unsigned vece,
--                           const TCGArg *args, const int *const_args)
-+                           const TCGArg args[TCG_MAX_OP_ARGS],
-+                           const int const_args[TCG_MAX_OP_ARGS])
- {
-     static int const add_insn[4] = {
-         OPC_PADDB, OPC_PADDW, OPC_PADDD, OPC_PADDQ
-diff --git a/tcg/ppc/tcg-target.c.inc b/tcg/ppc/tcg-target.c.inc
-index 70b747a8a30..b8f5f8a53e1 100644
---- a/tcg/ppc/tcg-target.c.inc
-+++ b/tcg/ppc/tcg-target.c.inc
-@@ -3137,7 +3137,8 @@ static bool tcg_out_dupm_vec(TCGContext *s, TCGType type, unsigned vece,
- 
- static void tcg_out_vec_op(TCGContext *s, TCGOpcode opc,
-                            unsigned vecl, unsigned vece,
--                           const TCGArg *args, const int *const_args)
-+                           const TCGArg args[TCG_MAX_OP_ARGS],
-+                           const int const_args[TCG_MAX_OP_ARGS])
- {
-     static const uint32_t
-         add_op[4] = { VADDUBM, VADDUHM, VADDUWM, VADDUDM },
--- 
-2.26.2
+
+Just for the records: artifacts is true by default.
+
+
+> -    - mkdir public
+> +    - mkdir -p public/src
+> +    - htags --suggest --tree-view=filetree -m qemu_init
+> +        -t "Welcome to the QEMU source code" public/src
+>       - mv build/docs/index.html public/
+>       - for i in devel interop specs system tools user ; do mv build/docs/$i public/ ; done
+>     artifacts:
+> diff --git a/.travis.yml b/.travis.yml
+> index f2a101936c..3b574a5968 100644
+> --- a/.travis.yml
+> +++ b/.travis.yml
+> @@ -148,22 +148,6 @@ jobs:
+>           - CACHE_NAME="${TRAVIS_BRANCH}-linux-gcc-default"
+>   
+>   
+> -    # Check we can build docs and tools (out of tree)
+> -    - name: "tools and docs (bionic)"
+> -      dist: bionic
+> -      env:
+> -        - BUILD_DIR="out-of-tree/build/dir" SRC_DIR="../../.."
+> -        - BASE_CONFIG="--enable-tools --enable-docs"
+> -        - CONFIG="--target-list=x86_64-softmmu,aarch64-linux-user"
+> -        - CACHE_NAME="${TRAVIS_BRANCH}-linux-gcc-default"
+> -      addons:
+> -        apt:
+> -          packages:
+> -            - ninja-build
+> -            - python3-sphinx
+> -            - perl
+> -
+> -
+>       # Test with Clang for compile portability (Travis uses clang-5.0)
+>       - name: "Clang (user)"
+>         env:
+
+
+Reviewed-by: Wainer dos Santos Moschetta <wainersm@redhat.com>
+
 
 
