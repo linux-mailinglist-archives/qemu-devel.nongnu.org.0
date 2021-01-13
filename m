@@ -2,73 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E45522F5201
-	for <lists+qemu-devel@lfdr.de>; Wed, 13 Jan 2021 19:29:19 +0100 (CET)
-Received: from localhost ([::1]:37844 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 24BBA2F5210
+	for <lists+qemu-devel@lfdr.de>; Wed, 13 Jan 2021 19:32:26 +0100 (CET)
+Received: from localhost ([::1]:41170 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kzktS-0007r6-EQ
-	for lists+qemu-devel@lfdr.de; Wed, 13 Jan 2021 13:29:18 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58266)
+	id 1kzkwN-0000ta-UU
+	for lists+qemu-devel@lfdr.de; Wed, 13 Jan 2021 13:32:24 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58528)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1kzkrz-0007MV-83
- for qemu-devel@nongnu.org; Wed, 13 Jan 2021 13:27:47 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:54520)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1kzkrv-0002uj-Qa
- for qemu-devel@nongnu.org; Wed, 13 Jan 2021 13:27:46 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1610562461;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=pMKKe6Y8ibf7/cwVFF7j0hjWm4biY1ZOge9XnwjBr7c=;
- b=YXPDmKEoaRtmHTJXiAkhK74D0IB4z5fTORcV+rqFpFDszIocWwfXZWR6oN0Dii2icZ29lm
- FnKYy+UE6KDnm6HDYeTzG8bE03QBvzCTanKFsux0Q3MHUo7sPnOFoEV3GT5rD0gxb3HWR0
- y/J4Lgeoyn/pcj3fUvGnEHtmT4Aj+rg=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-568-hNPZJ08uNgKGk58kGirrnw-1; Wed, 13 Jan 2021 13:27:38 -0500
-X-MC-Unique: hNPZJ08uNgKGk58kGirrnw-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 65960180A097;
- Wed, 13 Jan 2021 18:27:37 +0000 (UTC)
-Received: from [10.10.120.151] (ovpn-120-151.rdu2.redhat.com [10.10.120.151])
- by smtp.corp.redhat.com (Postfix) with ESMTP id AF20F5D9EF;
- Wed, 13 Jan 2021 18:27:36 +0000 (UTC)
-Subject: Re: minimal "zero conf" build dockerfiles for fedora:latest and
- alpine:latest
-To: Thomas Huth <thuth@redhat.com>, QEMU Developers <qemu-devel@nongnu.org>
-References: <a2f5077b-ae74-2b39-4fb8-70d29dd549eb@redhat.com>
- <a56f2df6-867e-2542-734c-95c1ae3acf88@redhat.com>
-From: John Snow <jsnow@redhat.com>
-Message-ID: <7e46ebaf-e54f-0154-4b93-4488ffecb600@redhat.com>
-Date: Wed, 13 Jan 2021 13:27:35 -0500
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.6.0
+ (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
+ id 1kzktJ-0008DQ-Mm; Wed, 13 Jan 2021 13:29:09 -0500
+Received: from mail-io1-xd35.google.com ([2607:f8b0:4864:20::d35]:38838)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
+ id 1kzktH-0003L8-86; Wed, 13 Jan 2021 13:29:09 -0500
+Received: by mail-io1-xd35.google.com with SMTP id e22so6094753iom.5;
+ Wed, 13 Jan 2021 10:29:06 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=9xdMB6lRDQmFvg5lw/G7vvGxXna6SznLVLVo5NaevAs=;
+ b=Xr46zWhSOHdBYCNobFws7Bq4KBxvL3l1IrEjYbYeWPeKip0MSEXf0BpQgrJalCqyH1
+ 8t4Wx5XYWUmYI/w0druTSt0fz0z2bzSpxyd8bUPavzt5QzHolkhxvfF1kl6Guu+Fmq4Q
+ VJl/Q2CRsLgobu4RnyUH9rPH+J7hb7Z9lMP67sB3ZIdWkZWJNuxCMpLSYlpC2XA/f28N
+ +wuDas8JQDKdTEZmBIj95BQ34AIgZTXi3H3KhNba5TXXFEsEovyvkPHYEeU6FFHV5U0Y
+ OP60ubP6j32a903dKhrWrPsnZ2kW3RlP0EiaWGLpsB2HT75jtCuLqkIWYUc+/ONTyg/0
+ mOSw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=9xdMB6lRDQmFvg5lw/G7vvGxXna6SznLVLVo5NaevAs=;
+ b=SZ08syaOEM4PMMOAdD+Tnf/XTa4OGxvcNtQjwKb2KxPHskmDIyTZIOwY8MfkCVDlp3
+ jxzkIiCTuwiTQm+OsxO4pbTzhHjs2SRrDvFWTKbz/0bLZN6dZVdSkVtPvOx+i6/IKaoT
+ RIpml8j0yS+0F3Xfuy+wxT2OVZU8b21mvoJ/IUswEaMbhmZoUQx4tCtvRfDcoAohSf7C
+ aSFLqTpe07GSdLkz88X2audGd53lTorZuzSlo5alKpxZ+IRZDAR+WFNVWEp8+vUdPHO7
+ D2pPwaWZfEewM2QL6Aaao5flBBYFG1zsOYHGlvRLpd5hJEGq5DcEJsqjm8+NIDnZo+4u
+ ik2Q==
+X-Gm-Message-State: AOAM5315o59eFq6pMxNdpLBGIHY0TCGI86MEviT73k/vINHzqUBDq35z
+ UgaKSlnBIJ6fhmJfMpoDTKWfge0a/+wPVQBZhVQ=
+X-Google-Smtp-Source: ABdhPJwrkUCfdMdPFnD36hb3uXmHpg6fPnVmJYVWYYH6mqjFcamvOvHE+QBSuaDYXfJzuzYXFPHCHWCyvYM0WCPS5Y4=
+X-Received: by 2002:a92:c942:: with SMTP id i2mr3431439ilq.227.1610562545282; 
+ Wed, 13 Jan 2021 10:29:05 -0800 (PST)
 MIME-Version: 1.0
-In-Reply-To: <a56f2df6-867e-2542-734c-95c1ae3acf88@redhat.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=jsnow@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=jsnow@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -29
-X-Spam_score: -3.0
-X-Spam_bar: ---
-X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.25,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+References: <20201231113010.27108-1-bmeng.cn@gmail.com>
+ <20201231113010.27108-17-bmeng.cn@gmail.com>
+In-Reply-To: <20201231113010.27108-17-bmeng.cn@gmail.com>
+From: Alistair Francis <alistair23@gmail.com>
+Date: Wed, 13 Jan 2021 10:28:38 -0800
+Message-ID: <CAKmqyKOQzNtksWLENYCCyUBaXjBUVDi4kvbLMAbybof+-sr_xg@mail.gmail.com>
+Subject: Re: [PATCH 16/22] hw/ssi: Add SiFive SPI controller support
+To: Bin Meng <bmeng.cn@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::d35;
+ envelope-from=alistair23@gmail.com; helo=mail-io1-xd35.google.com
+X-Spam_score_int: -17
+X-Spam_score: -1.8
+X-Spam_bar: -
+X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -82,114 +76,425 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>
+Cc: "open list:RISC-V" <qemu-riscv@nongnu.org>,
+ Qemu-block <qemu-block@nongnu.org>, Bin Meng <bin.meng@windriver.com>,
+ =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>,
+ "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
+ Alistair Francis <alistair.francis@wdc.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 1/13/21 1:48 AM, Thomas Huth wrote:
-> On 12/01/2021 23.37, John Snow wrote:
->> I wanted to know what the minimal setup required was to replicate the 
->> compilation instructions featured on 
->> https://www.qemu.org/download/#source
-> [...]
->  >      pixman-devel \
-> 
-> pixman is only required for the softmmu and tools targets. If you just 
-> build the linux-user targets, you can even get rid of this.
-> 
+On Thu, Dec 31, 2020 at 3:36 AM Bin Meng <bmeng.cn@gmail.com> wrote:
+>
+> From: Bin Meng <bin.meng@windriver.com>
+>
+> This adds the SiFive SPI controller model for the FU540 SoC.
+> The direct memory-mapped SPI flash mode is unsupported.
+>
+> Signed-off-by: Bin Meng <bin.meng@windriver.com>
+> ---
+>
+>  include/hw/ssi/sifive_spi.h |  47 ++++++
+>  hw/ssi/sifive_spi.c         | 290 ++++++++++++++++++++++++++++++++++++
+>  hw/ssi/Kconfig              |   4 +
+>  hw/ssi/meson.build          |   1 +
+>  4 files changed, 342 insertions(+)
+>  create mode 100644 include/hw/ssi/sifive_spi.h
+>  create mode 100644 hw/ssi/sifive_spi.c
+>
+> diff --git a/include/hw/ssi/sifive_spi.h b/include/hw/ssi/sifive_spi.h
+> new file mode 100644
+> index 0000000000..dc29d9e3a9
+> --- /dev/null
+> +++ b/include/hw/ssi/sifive_spi.h
+> @@ -0,0 +1,47 @@
+> +/*
+> + * QEMU model of the SiFive SPI Controller
+> + *
+> + * Copyright (c) 2020 Wind River Systems, Inc.
+> + *
+> + * Author:
+> + *   Bin Meng <bin.meng@windriver.com>
+> + *
+> + * This program is free software; you can redistribute it and/or modify it
+> + * under the terms and conditions of the GNU General Public License,
+> + * version 2 or later, as published by the Free Software Foundation.
+> + *
+> + * This program is distributed in the hope it will be useful, but WITHOUT
+> + * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
+> + * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for
+> + * more details.
+> + *
+> + * You should have received a copy of the GNU General Public License along with
+> + * this program.  If not, see <http://www.gnu.org/licenses/>.
+> + */
+> +
+> +#ifndef HW_SIFIVE_SPI_H
+> +#define HW_SIFIVE_SPI_H
+> +
+> +#define SIFIVE_SPI_REG_NUM  (0x78 / 4)
+> +
+> +#define TYPE_SIFIVE_SPI "sifive.spi"
+> +#define SIFIVE_SPI(obj) OBJECT_CHECK(SiFiveSPIState, (obj), TYPE_SIFIVE_SPI)
+> +
+> +typedef struct SiFiveSPIState {
+> +    SysBusDevice parent_obj;
+> +
+> +    MemoryRegion mmio;
+> +    qemu_irq irq;
+> +
+> +    uint32_t num_cs;
+> +    qemu_irq *cs_lines;
+> +
+> +    SSIBus *spi;
+> +
+> +    Fifo8 tx_fifo;
+> +    Fifo8 rx_fifo;
+> +
+> +    uint32_t regs[SIFIVE_SPI_REG_NUM];
+> +} SiFiveSPIState;
+> +
+> +#endif /* HW_SIFIVE_SPI_H */
+> diff --git a/hw/ssi/sifive_spi.c b/hw/ssi/sifive_spi.c
+> new file mode 100644
+> index 0000000000..e1caaf8ade
+> --- /dev/null
+> +++ b/hw/ssi/sifive_spi.c
+> @@ -0,0 +1,290 @@
+> +/*
+> + * QEMU model of the SiFive SPI Controller
+> + *
+> + * Copyright (c) 2020 Wind River Systems, Inc.
+> + *
+> + * Author:
+> + *   Bin Meng <bin.meng@windriver.com>
+> + *
+> + * This program is free software; you can redistribute it and/or modify it
+> + * under the terms and conditions of the GNU General Public License,
+> + * version 2 or later, as published by the Free Software Foundation.
+> + *
+> + * This program is distributed in the hope it will be useful, but WITHOUT
+> + * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
+> + * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for
+> + * more details.
+> + *
+> + * You should have received a copy of the GNU General Public License along with
+> + * this program.  If not, see <http://www.gnu.org/licenses/>.
+> + */
+> +
+> +#include "qemu/osdep.h"
+> +#include "hw/irq.h"
+> +#include "hw/qdev-properties.h"
+> +#include "hw/sysbus.h"
+> +#include "hw/ssi/ssi.h"
+> +#include "sysemu/sysemu.h"
+> +#include "qemu/fifo8.h"
+> +#include "qemu/log.h"
+> +#include "qemu/module.h"
+> +#include "hw/ssi/sifive_spi.h"
+> +
+> +#define R_SCKDIV        (0x00 / 4)
+> +#define R_SCKMODE       (0x04 / 4)
+> +#define R_CSID          (0x10 / 4)
+> +#define R_CSDEF         (0x14 / 4)
+> +#define R_CSMODE        (0x18 / 4)
+> +#define R_DELAY0        (0x28 / 4)
+> +#define R_DELAY1        (0x2C / 4)
+> +#define R_FMT           (0x40 / 4)
+> +#define R_TXDATA        (0x48 / 4)
+> +#define R_RXDATA        (0x4C / 4)
+> +#define R_TXMARK        (0x50 / 4)
+> +#define R_RXMARK        (0x54 / 4)
+> +#define R_FCTRL         (0x60 / 4)
+> +#define R_FFMT          (0x64 / 4)
+> +#define R_IE            (0x70 / 4)
+> +#define R_IP            (0x74 / 4)
+> +
+> +#define TXDATA_FULL     (1 << 31)
+> +#define RXDATA_EMPTY    (1 << 31)
+> +
+> +#define IE_TXWM         (1 << 0)
+> +#define IE_RXWM         (1 << 1)
+> +
+> +#define IP_TXWM         (1 << 0)
+> +#define IP_RXWM         (1 << 1)
+> +
+> +#define FIFO_CAPACITY   8
+> +
+> +static void sifive_spi_txfifo_reset(SiFiveSPIState *s)
+> +{
+> +    fifo8_reset(&s->tx_fifo);
+> +
+> +    s->regs[R_TXDATA] &= ~TXDATA_FULL;
+> +    s->regs[R_IP] &= ~IP_TXWM;
+> +}
+> +
+> +static void sifive_spi_rxfifo_reset(SiFiveSPIState *s)
+> +{
+> +    fifo8_reset(&s->rx_fifo);
+> +
+> +    s->regs[R_RXDATA] |= RXDATA_EMPTY;
+> +    s->regs[R_IP] &= ~IP_RXWM;
+> +}
+> +
+> +static void sifive_spi_update_cs(SiFiveSPIState *s)
+> +{
+> +    int i;
+> +
+> +    for (i = 0; i < s->num_cs; i++) {
+> +        if (s->regs[R_CSDEF] & (1 << i)) {
+> +            qemu_set_irq(s->cs_lines[i], !(s->regs[R_CSMODE]));
+> +        }
+> +    }
+> +}
+> +
+> +static void sifive_spi_update_irq(SiFiveSPIState *s)
+> +{
+> +    int level;
+> +
+> +    if (fifo8_num_used(&s->tx_fifo) < s->regs[R_TXMARK]) {
+> +        s->regs[R_IP] |= IP_TXWM;
+> +    } else {
+> +        s->regs[R_IP] &= ~IP_TXWM;
+> +    }
+> +
+> +    if (fifo8_num_used(&s->rx_fifo) > s->regs[R_RXMARK]) {
+> +        s->regs[R_IP] |= IP_RXWM;
+> +    } else {
+> +        s->regs[R_IP] &= ~IP_RXWM;
+> +    }
+> +
+> +    level = s->regs[R_IP] & s->regs[R_IE] ? 1 : 0;
+> +    qemu_set_irq(s->irq, level);
+> +}
+> +
+> +static void sifive_spi_reset(DeviceState *d)
+> +{
+> +    SiFiveSPIState *s = SIFIVE_SPI(d);
+> +
+> +    memset(s->regs, 0, sizeof(s->regs));
+> +
+> +    /* The reset value is high for all implemented CS pins */
+> +    s->regs[R_CSDEF] = (1 << s->num_cs) - 1;
+> +
+> +    sifive_spi_txfifo_reset(s);
+> +    sifive_spi_rxfifo_reset(s);
+> +
+> +    sifive_spi_update_cs(s);
+> +    sifive_spi_update_irq(s);
+> +}
+> +
+> +static void sifive_spi_flush_txfifo(SiFiveSPIState *s)
+> +{
+> +    uint8_t tx;
+> +    uint8_t rx;
+> +
+> +    while (!fifo8_is_empty(&s->tx_fifo)) {
+> +        tx = fifo8_pop(&s->tx_fifo);
+> +        s->regs[R_TXDATA] &= ~TXDATA_FULL;
+> +
+> +        rx = ssi_transfer(s->spi, tx);
+> +
+> +        if (fifo8_is_full(&s->rx_fifo)) {
+> +            s->regs[R_IP] |= IP_RXWM;
+> +        } else {
+> +            if (!(s->regs[R_FMT] & BIT(3))) {
+> +                fifo8_push(&s->rx_fifo, rx);
+> +                s->regs[R_RXDATA] &= ~RXDATA_EMPTY;
+> +
+> +                if (fifo8_is_full(&s->rx_fifo)) {
+> +                    s->regs[R_IP] |= IP_RXWM;
+> +                }
+> +            }
+> +        }
+> +    }
+> +}
+> +
+> +static uint64_t sifive_spi_read(void *opaque, hwaddr addr, unsigned int size)
+> +{
+> +    SiFiveSPIState *s = opaque;
+> +    uint32_t r = 0;
+> +
+> +    addr >>= 2;
+> +    switch (addr) {
+> +    case R_RXDATA:
+> +        if (fifo8_is_empty(&s->rx_fifo)) {
+> +            return RXDATA_EMPTY;
+> +        }
+> +
+> +        r = fifo8_pop(&s->rx_fifo);
+> +        if (fifo8_is_empty(&s->rx_fifo)) {
+> +            s->regs[R_RXDATA] = RXDATA_EMPTY;
+> +        }
+> +        break;
+> +
+> +    default:
+> +        if (addr < ARRAY_SIZE(s->regs)) {
+> +            r = s->regs[addr];
+> +        }
 
-Sure; the intent was to figure out what happens if you run the 
-instructions from the website without explicitly disabling anything.
+We should print a guest error here if the access is outside the array.
 
-What will you get by default?
+Also what about all of the reserved addresses?
 
-softmmu by default is probably a pretty reasonable thing to want to 
-build, so I'd say pixman will have to stick around in our minimal 
-dependency list for now; though if we were to translate this experiment 
-to the website, it'd be worth noting that pixman is only required for 
-some, but not all, binaries like you say.
+> +        break;
+> +    }
+> +
+> +    sifive_spi_update_irq(s);
+> +
+> +    return r;
+> +}
+> +
+> +static void sifive_spi_write(void *opaque, hwaddr addr,
+> +                             uint64_t val64, unsigned int size)
+> +{
+> +    SiFiveSPIState *s = opaque;
+> +    uint32_t value = val64;
+> +
+> +    addr >>= 2;
+> +    switch (addr) {
+> +    case R_CSID:
+> +        s->regs[R_CSID] = value % s->num_cs;
 
-(If there was some way to build softmmu without pixman by default, that 
-would be pretty interesting, though. I suppose it would involve 
-disabling all spice/vnc/graphics devices entirely? It doesn't seem 
-tremendously important, but pixman does stick out as the lone very 
-particular dependency for a minimal build.)
+The spec doesn't say that is scales down the value, so I think we
+should print an error if the guest writes to reserved bits. The same
+for the other write operations below.
 
-> [...]
->> Notes:
->>
->> - our configure file suggests bzip2 is an optional dependency (It's 
->> set to 'auto') but meson will error out if it is not present at 
->> configuration time:
->>
->>      ../pc-bios/meson.build:5:2: ERROR: Program 'bzip2' not found
-> 
-> IIRC it's required for compressing the edk2 firmware images, so if you 
-> compile without x86 and arm, you don't need it. Maybe it would be good 
-> to add a check for this to the configure script, too?
-> 
+> +        sifive_spi_update_cs(s);
+> +        break;
+> +
+> +    case R_CSDEF:
+> +        s->regs[R_CSDEF] = value & ((1 << s->num_cs) - 1);
+> +        break;
+> +
+> +    case R_CSMODE:
+> +        s->regs[R_CSMODE] = value & 3;
+> +        sifive_spi_update_cs(s);
+> +        break;
+> +
+> +    case R_TXDATA:
+> +        fifo8_push(&s->tx_fifo, (uint8_t)value);
+> +        if (fifo8_is_full(&s->tx_fifo)) {
+> +            s->regs[R_TXDATA] |= TXDATA_FULL;
+> +        }
+> +        sifive_spi_flush_txfifo(s);
+> +        break;
+> +
+> +    case R_RXDATA:
+> +    case R_IP:
+> +        qemu_log_mask(LOG_GUEST_ERROR,
+> +                      "Invalid write to read-only reigster %" HWADDR_PRIx
+> +                      " with %x\n", addr << 2, value);
+> +        break;
+> +
+> +    case R_TXMARK:
+> +    case R_RXMARK:
+> +        s->regs[addr] = value % FIFO_CAPACITY;
+> +        break;
+> +
+> +    default:
+> +        if (addr < ARRAY_SIZE(s->regs)) {
+> +            s->regs[addr] = value;
+> +        }
 
-It already is erroring out when meson runs, so I think it's probably 
-fine. Just something to document.
+Same here.
 
->> - diffutils is required for the qapi-schema test, which runs at build 
->> time.
-> 
-> We should maybe add a check for "diff" to the configure script?
-> 
+Alistair
 
-It's in tests/qapi-schema/meson.build already, so I think it's sufficient.
-
->> - early on in the build process, an error "bash: find: command not 
->> found" can be seen, but it doesn't seem to cause a failure otherwise.
->>
->> - perl is not declared as a hard pre-requisite during configure time, 
->> but the build will error out if it is not present:
->>
->> [254/8314] Generating texture-blit-frag.h with a meson_exe.py custom 
->> command
->> FAILED: ui/shader/texture-blit-frag.h
->> /usr/bin/python3 /qemu-5.2.0/meson/meson.py --internal exe --capture 
->> ui/shader/texture-blit-frag.h -- /usr/bin/env perl 
->> /qemu-5.2.0/scripts/shaderinclude.pl ../ui/shader/texture-blit.frag
->> /usr/bin/env: ‘perl’: No such file or directory
-> 
-> shaderinclude.pl seems to be pretty small, maybe it could be rewritten 
-> in python?
-> 
-
-Maybe; Paolo has replied to you as well, but this is just the first perl 
-script that so happens to run. There might be others.
-
-Drawing down on perl long-term is probably nice to do, but it's probably 
-not a priority. For now, we have both perl and python as build 
-dependencies. Let's document and move on.
-
->> - bash has to be installed explicitly. configure/meson do not check 
->> for it, but the build will fail if they aren't present.
-> 
-> IIRC we were able to compile without bash before the meson conversion, 
-> just some parts like the iotests needed the bash (at least that's why we 
-> have a check for bash in tests/check-block.sh for example). Where is it 
-> failing now?
-> 
->> - musl seems to work alright, but does throw a ton of warnings. I 
->> didn't actually run any tests, since they require more dependencies.
->>
->> - linux-user binaries can't be compiled because alpine's usage of 
->> musl; I didn't look much more closely.
-> 
-> There were some related patches on the list recently, look for the 
-> "Alpine Linux build fix and CI pipeline" patch series.
-> 
-
-Glad to see someone else thought it would be worthwhile to support 
-Alpine. There may be interesting use cases for building alpine QEMU 
-containers that are configured for extremely particular use cases, to be 
-deployed as a utility.
-
---js
-
+> +        break;
+> +    }
+> +
+> +    sifive_spi_update_irq(s);
+> +}
+> +
+> +static const MemoryRegionOps sifive_spi_ops = {
+> +    .read = sifive_spi_read,
+> +    .write = sifive_spi_write,
+> +    .endianness = DEVICE_LITTLE_ENDIAN,
+> +    .valid = {
+> +        .min_access_size = 4,
+> +        .max_access_size = 4
+> +    }
+> +};
+> +
+> +static void sifive_spi_realize(DeviceState *dev, Error **errp)
+> +{
+> +    SysBusDevice *sbd = SYS_BUS_DEVICE(dev);
+> +    SiFiveSPIState *s = SIFIVE_SPI(dev);
+> +    int i;
+> +
+> +    s->spi = ssi_create_bus(dev, "spi");
+> +    sysbus_init_irq(sbd, &s->irq);
+> +
+> +    s->cs_lines = g_new0(qemu_irq, s->num_cs);
+> +    for (i = 0; i < s->num_cs; i++) {
+> +        sysbus_init_irq(sbd, &s->cs_lines[i]);
+> +    }
+> +
+> +    memory_region_init_io(&s->mmio, OBJECT(s), &sifive_spi_ops, s,
+> +                          TYPE_SIFIVE_SPI, 0x1000);
+> +    sysbus_init_mmio(sbd, &s->mmio);
+> +
+> +    fifo8_create(&s->tx_fifo, FIFO_CAPACITY);
+> +    fifo8_create(&s->rx_fifo, FIFO_CAPACITY);
+> +}
+> +
+> +static Property sifive_spi_properties[] = {
+> +    DEFINE_PROP_UINT32("num-cs", SiFiveSPIState, num_cs, 1),
+> +    DEFINE_PROP_END_OF_LIST(),
+> +};
+> +
+> +static void sifive_spi_class_init(ObjectClass *klass, void *data)
+> +{
+> +    DeviceClass *dc = DEVICE_CLASS(klass);
+> +
+> +    device_class_set_props(dc, sifive_spi_properties);
+> +    dc->reset = sifive_spi_reset;
+> +    dc->realize = sifive_spi_realize;
+> +}
+> +
+> +static const TypeInfo sifive_spi_info = {
+> +    .name           = TYPE_SIFIVE_SPI,
+> +    .parent         = TYPE_SYS_BUS_DEVICE,
+> +    .instance_size  = sizeof(SiFiveSPIState),
+> +    .class_init     = sifive_spi_class_init,
+> +};
+> +
+> +static void sifive_spi_register_types(void)
+> +{
+> +    type_register_static(&sifive_spi_info);
+> +}
+> +
+> +type_init(sifive_spi_register_types)
+> diff --git a/hw/ssi/Kconfig b/hw/ssi/Kconfig
+> index 9e54a0c8dd..7d90a02181 100644
+> --- a/hw/ssi/Kconfig
+> +++ b/hw/ssi/Kconfig
+> @@ -2,6 +2,10 @@ config PL022
+>      bool
+>      select SSI
+>
+> +config SIFIVE_SPI
+> +    bool
+> +    select SSI
+> +
+>  config SSI
+>      bool
+>
+> diff --git a/hw/ssi/meson.build b/hw/ssi/meson.build
+> index dee00c0da6..3d6bc82ab1 100644
+> --- a/hw/ssi/meson.build
+> +++ b/hw/ssi/meson.build
+> @@ -2,6 +2,7 @@ softmmu_ss.add(when: 'CONFIG_ASPEED_SOC', if_true: files('aspeed_smc.c'))
+>  softmmu_ss.add(when: 'CONFIG_MSF2', if_true: files('mss-spi.c'))
+>  softmmu_ss.add(when: 'CONFIG_NPCM7XX', if_true: files('npcm7xx_fiu.c'))
+>  softmmu_ss.add(when: 'CONFIG_PL022', if_true: files('pl022.c'))
+> +softmmu_ss.add(when: 'CONFIG_SIFIVE_SPI', if_true: files('sifive_spi.c'))
+>  softmmu_ss.add(when: 'CONFIG_SSI', if_true: files('ssi.c'))
+>  softmmu_ss.add(when: 'CONFIG_STM32F2XX_SPI', if_true: files('stm32f2xx_spi.c'))
+>  softmmu_ss.add(when: 'CONFIG_XILINX_SPI', if_true: files('xilinx_spi.c'))
+> --
+> 2.25.1
+>
+>
 
