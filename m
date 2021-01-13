@@ -2,87 +2,59 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DA6A32F4FCE
-	for <lists+qemu-devel@lfdr.de>; Wed, 13 Jan 2021 17:22:10 +0100 (CET)
-Received: from localhost ([::1]:37638 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 465D72F4FD8
+	for <lists+qemu-devel@lfdr.de>; Wed, 13 Jan 2021 17:24:20 +0100 (CET)
+Received: from localhost ([::1]:41516 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kziuP-00061v-S9
-	for lists+qemu-devel@lfdr.de; Wed, 13 Jan 2021 11:22:09 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55614)
+	id 1kziwV-0007m5-9i
+	for lists+qemu-devel@lfdr.de; Wed, 13 Jan 2021 11:24:19 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57076)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1kzipu-0001Aj-Mp
- for qemu-devel@nongnu.org; Wed, 13 Jan 2021 11:17:31 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:39315)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1kzipq-0004Iy-Tl
- for qemu-devel@nongnu.org; Wed, 13 Jan 2021 11:17:30 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1610554645;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=NwIQkQHeAOhlNSZ15t44t+GgNmZCmXtoV5Hxvzts0N8=;
- b=Kz/75qY5QA0AMLHi8kfp0FasF6gJu3IXKLGLbe7yTnli+FQ/SOfj5T6/4/XsGUeLxtVIvO
- Qp/qne/O+7WPjRVksa/7wR27/l+kahicJ/NL/QwVc8Z/sz+9M8ABi2ygWDg5IFQfd86X3T
- hKY0OLvAGC54ctU1mAUeg3EFNnNr0fo=
-Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
- [209.85.221.69]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-224-7Z6cPi1dNXydkIIXanSezA-1; Wed, 13 Jan 2021 11:17:24 -0500
-X-MC-Unique: 7Z6cPi1dNXydkIIXanSezA-1
-Received: by mail-wr1-f69.google.com with SMTP id q2so1187931wrp.4
- for <qemu-devel@nongnu.org>; Wed, 13 Jan 2021 08:17:23 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:content-transfer-encoding
- :in-reply-to;
- bh=NwIQkQHeAOhlNSZ15t44t+GgNmZCmXtoV5Hxvzts0N8=;
- b=offLURq1mdisBJ4i5atxf8u76m1lJq50n4V4tGw+HSyRB5VkrXIc17TZhcj9BDF3X9
- pVSUlCA1q10n+wXrCz1kXUp1J6OqxP7RoLHbIh0kE/72eKQe4f2rn1JSXR08G/C98G/0
- HLttqO5LRIIYuC4D7umYA2JGiyi73yO1v25sVy17PDAhPS5rgozkuwr2EslyK/MoXhTA
- HrE6dYuELNCa+JfATG0yxN7cewYwWT1U8PdDPzxHYOlf/HwPZiujpJLKuXefRAGtsTOR
- lmJuk6VDioJRdk+plvDxGSqF6LzZxFHYLDAcAClbLkx7MjwS2gj8RCONfPhDB4FfWMuw
- zJAw==
-X-Gm-Message-State: AOAM5331lr4eUT0G+oB4pvg2RWd91wSwiTZp6EYlwbYCqzu9BI+VnkXu
- TfTunMSSji4iuUzXTmVNPiPY5JkWpJ0RYysvZWHxQpkSW4tjsdES/4w1d18Lns7QDWiS6Vl5T41
- 0Koy/nsjaXTuhMn4=
-X-Received: by 2002:adf:fd0c:: with SMTP id e12mr3403328wrr.61.1610554642970; 
- Wed, 13 Jan 2021 08:17:22 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJwqEHEYldv06G1OLzkJeUNLzmlj4F+aPDmbHEgWLE4Ez4gNpVzv0AivA8R67pFmYKtqy/MfsQ==
-X-Received: by 2002:adf:fd0c:: with SMTP id e12mr3403306wrr.61.1610554642734; 
- Wed, 13 Jan 2021 08:17:22 -0800 (PST)
-Received: from redhat.com (bzq-79-178-32-166.red.bezeqint.net. [79.178.32.166])
- by smtp.gmail.com with ESMTPSA id f7sm11488647wmc.1.2021.01.13.08.17.21
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 13 Jan 2021 08:17:21 -0800 (PST)
-Date: Wed, 13 Jan 2021 11:17:19 -0500
-From: "Michael S. Tsirkin" <mst@redhat.com>
-To: Cindy Lu <lulu@redhat.com>
-Subject: Re: [PATCH v1 4/4] vhost-vdpa:add callback function for configure
- interrupt
-Message-ID: <20210113111659-mutt-send-email-mst@kernel.org>
-References: <20210113154540.24981-1-lulu@redhat.com>
- <20210113154540.24981-5-lulu@redhat.com>
+ (Exim 4.90_1) (envelope-from <groug@kaod.org>) id 1kzivK-0007FL-N1
+ for qemu-devel@nongnu.org; Wed, 13 Jan 2021 11:23:06 -0500
+Received: from 3.mo51.mail-out.ovh.net ([188.165.32.156]:39766)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <groug@kaod.org>) id 1kzivG-0006rB-Hw
+ for qemu-devel@nongnu.org; Wed, 13 Jan 2021 11:23:06 -0500
+Received: from mxplan5.mail.ovh.net (unknown [10.109.146.41])
+ by mo51.mail-out.ovh.net (Postfix) with ESMTPS id 56A63253400;
+ Wed, 13 Jan 2021 17:22:58 +0100 (CET)
+Received: from kaod.org (37.59.142.98) by DAG8EX1.mxp5.local (172.16.2.71)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2044.4; Wed, 13 Jan
+ 2021 17:22:57 +0100
+Authentication-Results: garm.ovh; auth=pass
+ (GARM-98R0027c148829-e373-4088-a1b9-a3f67c97c667,
+ 87373C232FD81A0C2A6A5091B5FAE526A42BEBB1) smtp.auth=groug@kaod.org
+X-OVh-ClientIp: 82.253.208.248
+Date: Wed, 13 Jan 2021 17:22:56 +0100
+From: Greg Kurz <groug@kaod.org>
+To: Bharata B Rao <bharata@linux.ibm.com>
+Subject: Re: [RFC PATCH v0 1/1] target/ppc: Support for H_RPT_INVALIDATE hcall
+Message-ID: <20210113172256.0d32dc5d@bahia.lan>
+In-Reply-To: <20210106085910.2200795-1-bharata@linux.ibm.com>
+References: <20210106085910.2200795-1-bharata@linux.ibm.com>
+X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-In-Reply-To: <20210113154540.24981-5-lulu@redhat.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mst@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=mst@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -29
-X-Spam_score: -3.0
-X-Spam_bar: ---
-X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.25,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset="US-ASCII"
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [37.59.142.98]
+X-ClientProxiedBy: DAG3EX2.mxp5.local (172.16.2.22) To DAG8EX1.mxp5.local
+ (172.16.2.71)
+X-Ovh-Tracer-GUID: 722bf741-9a2f-43e3-9ea1-127a6e83a9c8
+X-Ovh-Tracer-Id: 2189312368975649187
+X-VR-SPAMSTATE: OK
+X-VR-SPAMSCORE: -100
+X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedukedrtdefgdekjecutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfqggfjpdevjffgvefmvefgnecuuegrihhlohhuthemucehtddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpeffhffvuffkjghfofggtgfgihesthejredtredtvdenucfhrhhomhepifhrvghgucfmuhhriicuoehgrhhouhhgsehkrghougdrohhrgheqnecuggftrfgrthhtvghrnhepkeegffehgeejgedvjeeuveelieffkeehgefhieejteevudekheduteelhfetfefgnecuffhomhgrihhnpehkvghrnhgvlhdrohhrghenucfkpheptddrtddrtddrtddpfeejrdehledrudegvddrleeknecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmohguvgepshhmthhpqdhouhhtpdhhvghlohepmhigphhlrghnhedrmhgrihhlrdhovhhhrdhnvghtpdhinhgvtheptddrtddrtddrtddpmhgrihhlfhhrohhmpehgrhhouhhgsehkrghougdrohhrghdprhgtphhtthhopegurghvihgusehgihgsshhonhdrughrohhpsggvrghrrdhiugdrrghu
+Received-SPF: pass client-ip=188.165.32.156; envelope-from=groug@kaod.org;
+ helo=3.mo51.mail-out.ovh.net
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
+ RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -95,127 +67,296 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: jasowang@redhat.com, qemu-devel@nongnu.org
+Cc: paulus@ozlabs.org, qemu-ppc@nongnu.org, qemu-devel@nongnu.org,
+ david@gibson.dropbear.id.au
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, Jan 13, 2021 at 11:45:40PM +0800, Cindy Lu wrote:
-> Add call back function for configure interrupt.
-> Set the notifier's fd to the kernel driver when vdpa start.
-> also set -1 when vdpa stop. then the kernel will release
-> the related聽resource聽
+Hi Bharata,
 
-Something weird happened to the commit log here.
+On Wed,  6 Jan 2021 14:29:10 +0530
+Bharata B Rao <bharata@linux.ibm.com> wrote:
 
+> If KVM_CAP_RPT_INVALIDATE KVM capability is enabled, then
 > 
-> Signed-off-by: Cindy Lu <lulu@redhat.com>
+> - indicate the availability of H_RPT_INVALIDATE hcall to the guest via
+>   ibm,hypertas-functions property.
+> - Enable the hcall
+> 
+> Both the above are done only if the new sPAPR machine capability
+> cap-rpt-invalidate is set.
+> 
+> Note: The KVM implementation of the hcall has been posted for upstream
+> review here:
+> https://lore.kernel.org/linuxppc-dev/20210105090557.2150104-1-bharata@linux.ibm.com/T/#t
+> 
+> Update to linux-headers/linux/kvm.h here is temporary, will be
+> done via header updates once the kernel change is accepted upstream.
+> 
+> Signed-off-by: Bharata B Rao <bharata@linux.ibm.com>
 > ---
->  hw/virtio/trace-events            |  2 ++
->  hw/virtio/vhost-vdpa.c            | 29 ++++++++++++++++++++++++++++-
->  include/hw/virtio/vhost-backend.h |  4 ++++
->  3 files changed, 34 insertions(+), 1 deletion(-)
+
+Patch looks mostly fine. A few remarks below.
+
+>  hw/ppc/spapr.c            |  7 ++++++
+>  hw/ppc/spapr_caps.c       | 49 +++++++++++++++++++++++++++++++++++++++
+>  include/hw/ppc/spapr.h    |  8 +++++--
+>  linux-headers/linux/kvm.h |  1 +
+>  target/ppc/kvm.c          | 12 ++++++++++
+>  target/ppc/kvm_ppc.h      | 11 +++++++++
+>  6 files changed, 86 insertions(+), 2 deletions(-)
 > 
-> diff --git a/hw/virtio/trace-events b/hw/virtio/trace-events
-> index 2060a144a2..6710835b46 100644
-> --- a/hw/virtio/trace-events
-> +++ b/hw/virtio/trace-events
-> @@ -52,6 +52,8 @@ vhost_vdpa_set_vring_call(void *dev, unsigned int index, int fd) "dev: %p index:
->  vhost_vdpa_get_features(void *dev, uint64_t features) "dev: %p features: 0x%"PRIx64
->  vhost_vdpa_set_owner(void *dev) "dev: %p"
->  vhost_vdpa_vq_get_addr(void *dev, void *vq, uint64_t desc_user_addr, uint64_t avail_user_addr, uint64_t used_user_addr) "dev: %p vq: %p desc_user_addr: 0x%"PRIx64" avail_user_addr: 0x%"PRIx64" used_user_addr: 0x%"PRIx64
-> +vhost_vdpa_set_config_call(void *dev, int *fd)"dev: %p fd: %p"
-> +
->  
->  # virtio.c
->  virtqueue_alloc_element(void *elem, size_t sz, unsigned in_num, unsigned out_num) "elem %p size %zd in_num %u out_num %u"
-> diff --git a/hw/virtio/vhost-vdpa.c b/hw/virtio/vhost-vdpa.c
-> index 01d2101d09..1647bff8b0 100644
-> --- a/hw/virtio/vhost-vdpa.c
-> +++ b/hw/virtio/vhost-vdpa.c
-> @@ -467,20 +467,39 @@ static int vhost_vdpa_get_config(struct vhost_dev *dev, uint8_t *config,
->      }
->      return ret;
->   }
-> +static void vhost_vdpa_config_notify_start(struct vhost_dev *dev,
-> +                                struct VirtIODevice *vdev, bool start)
-> +{
-> +    int fd, r;
-> +    if (start) {
-> +        fd = event_notifier_get_fd(&vdev->config_notifier);
-> +     } else {
-> +        fd = -1;
-> +     }
-> +    r = dev->vhost_ops->vhost_set_config_call(dev, &fd);
-> +    if (r) {
-> +        error_report("vhost_vdpa_config_notify_start error!");
+> diff --git a/hw/ppc/spapr.c b/hw/ppc/spapr.c
+> index 489cefcb81..0228083800 100644
+> --- a/hw/ppc/spapr.c
+> +++ b/hw/ppc/spapr.c
+> @@ -890,6 +890,11 @@ static void spapr_dt_rtas(SpaprMachineState *spapr, void *fdt)
+>      add_str(hypertas, "hcall-copy");
+>      add_str(hypertas, "hcall-debug");
+>      add_str(hypertas, "hcall-vphn");
+> +    if (kvm_enabled() &&
+
+You shouldn't check KVM here. The capability is enough to decide if we
+should expose "hcall-rpt-invalidate" or not. FWIW we won't even reach
+this code when running with anything but KVM.
+
+> +        (spapr_get_cap(spapr, SPAPR_CAP_RPT_INVALIDATE) == SPAPR_CAP_ON)) {
+> +        add_str(hypertas, "hcall-rpt-invalidate");
 > +    }
-> +    return;
->  
-> +}
->  static int vhost_vdpa_dev_start(struct vhost_dev *dev, bool started)
->  {
->      struct vhost_vdpa *v = dev->opaque;
->      trace_vhost_vdpa_dev_start(dev, started);
-> +    VirtIODevice *vdev = dev->vdev;
 > +
->      if (started) {
->          uint8_t status = 0;
->          memory_listener_register(&v->listener, &address_space_memory);
->          vhost_vdpa_set_vring_ready(dev);
->          vhost_vdpa_add_status(dev, VIRTIO_CONFIG_S_DRIVER_OK);
->          vhost_vdpa_call(dev, VHOST_VDPA_GET_STATUS, &status);
-> -
-> +        /*set the configure interrupt call back*/
-> +        vhost_vdpa_config_notify_start(dev, vdev, true);
->          return !(status & VIRTIO_CONFIG_S_DRIVER_OK);
->      } else {
-> +        vhost_vdpa_config_notify_start(dev, vdev, false);
->          vhost_vdpa_reset_device(dev);
->          vhost_vdpa_add_status(dev, VIRTIO_CONFIG_S_ACKNOWLEDGE |
->                                     VIRTIO_CONFIG_S_DRIVER);
-> @@ -546,6 +565,13 @@ static int vhost_vdpa_set_vring_call(struct vhost_dev *dev,
->      return vhost_vdpa_call(dev, VHOST_SET_VRING_CALL, file);
+>      add_str(qemu_hypertas, "hcall-memop1");
+>  
+>      if (!kvm_enabled() || kvmppc_spapr_use_multitce()) {
+> @@ -2021,6 +2026,7 @@ static const VMStateDescription vmstate_spapr = {
+>          &vmstate_spapr_cap_ccf_assist,
+>          &vmstate_spapr_cap_fwnmi,
+>          &vmstate_spapr_fwnmi,
+> +        &vmstate_spapr_cap_rpt_invalidate,
+>          NULL
+>      }
+>  };
+> @@ -4478,6 +4484,7 @@ static void spapr_machine_class_init(ObjectClass *oc, void *data)
+>      smc->default_caps.caps[SPAPR_CAP_LARGE_DECREMENTER] = SPAPR_CAP_ON;
+>      smc->default_caps.caps[SPAPR_CAP_CCF_ASSIST] = SPAPR_CAP_ON;
+>      smc->default_caps.caps[SPAPR_CAP_FWNMI] = SPAPR_CAP_ON;
+> +    smc->default_caps.caps[SPAPR_CAP_RPT_INVALIDATE] = SPAPR_CAP_OFF;
+
+Any reason for not enabling this for the default machine type and
+disabling it for existing machine types only ?
+
+>      spapr_caps_add_properties(smc);
+>      smc->irq = &spapr_irq_dual;
+>      smc->dr_phb_enabled = true;
+> diff --git a/hw/ppc/spapr_caps.c b/hw/ppc/spapr_caps.c
+> index 9341e9782a..ebf81e3b23 100644
+> --- a/hw/ppc/spapr_caps.c
+> +++ b/hw/ppc/spapr_caps.c
+> @@ -524,6 +524,45 @@ static void cap_fwnmi_apply(SpaprMachineState *spapr, uint8_t val,
+>      }
 >  }
 >  
-> +static int vhost_vdpa_set_config_call(struct vhost_dev *dev,
-> +                                       int *fd)
+> +static void cap_rpt_invalidate_apply(SpaprMachineState *spapr,
+> +                                     uint8_t val, Error **errp)
 > +{
-> +    trace_vhost_vdpa_set_config_call(dev, fd);
-> +    return vhost_vdpa_call(dev, VHOST_VDPA_SET_CONFIG_CALL, fd);
+> +    ERRP_GUARD();
+> +    PowerPCCPU *cpu = POWERPC_CPU(first_cpu);
+> +
+> +    if (!val) {
+> +        /* capability disabled by default */
+> +        return;
+> +    }
+> +
+> +    if (tcg_enabled()) {
+> +        error_setg(errp, "No H_RPT_INVALIDATE support in TCG");
+> +        error_append_hint(errp, "Try appending -machine cap-rpt-invalidate=off\n");
+> +    } else if (kvm_enabled()) {
+> +        if (!ppc_check_compat(cpu, CPU_POWERPC_LOGICAL_3_00, 0,
+> +                              spapr->max_compat_pvr)) {
+> +            error_setg(errp, "H_RPT_INVALIDATE only supported on POWER9");
+> +            error_append_hint(errp,
+> +                              "Try appending -machine max-cpu-compat=power9\n");
+> +            return;
+> +        }
+> +
+> +        if (!kvmppc_has_cap_mmu_radix()) {
+> +            error_setg(errp, "H_RPT_INVALIDATE only supported on Radix");
+> +            return;
+> +        }
+> +
+> +        if (!kvmppc_has_cap_rpt_invalidate()) {
+> +            error_setg(errp,
+> +                       "KVM implementation does not support H_RPT_INVALIDATE");
+> +            error_append_hint(errp,
+> +                              "Try appending -machine cap-rpt-invalidate=off\n");
+> +        } else {
+> +            kvmppc_enable_h_rpt_invalidate();
+> +        }
+> +    }
 > +}
 > +
->  static int vhost_vdpa_get_features(struct vhost_dev *dev,
->                                       uint64_t *features)
->  {
-> @@ -611,4 +637,5 @@ const VhostOps vdpa_ops = {
->          .vhost_get_device_id = vhost_vdpa_get_device_id,
->          .vhost_vq_get_addr = vhost_vdpa_vq_get_addr,
->          .vhost_force_iommu = vhost_vdpa_force_iommu,
-> +        .vhost_set_config_call = vhost_vdpa_set_config_call,
+>  SpaprCapabilityInfo capability_table[SPAPR_CAP_NUM] = {
+>      [SPAPR_CAP_HTM] = {
+>          .name = "htm",
+> @@ -632,6 +671,15 @@ SpaprCapabilityInfo capability_table[SPAPR_CAP_NUM] = {
+>          .type = "bool",
+>          .apply = cap_fwnmi_apply,
+>      },
+> +    [SPAPR_CAP_RPT_INVALIDATE] = {
+> +        .name = "rpt-invalidate",
+> +        .description = "Allow H_RPT_INVALIDATE",
+> +        .index = SPAPR_CAP_RPT_INVALIDATE,
+> +        .get = spapr_cap_get_bool,
+> +        .set = spapr_cap_set_bool,
+> +        .type = "bool",
+> +        .apply = cap_rpt_invalidate_apply,
+> +    },
 >  };
-> diff --git a/include/hw/virtio/vhost-backend.h b/include/hw/virtio/vhost-backend.h
-> index 8a6f8e2a7a..1a2fee8994 100644
-> --- a/include/hw/virtio/vhost-backend.h
-> +++ b/include/hw/virtio/vhost-backend.h
-> @@ -125,6 +125,9 @@ typedef int (*vhost_get_device_id_op)(struct vhost_dev *dev, uint32_t *dev_id);
 >  
->  typedef bool (*vhost_force_iommu_op)(struct vhost_dev *dev);
+>  static SpaprCapabilities default_caps_with_cpu(SpaprMachineState *spapr,
+> @@ -772,6 +820,7 @@ SPAPR_CAP_MIG_STATE(nested_kvm_hv, SPAPR_CAP_NESTED_KVM_HV);
+>  SPAPR_CAP_MIG_STATE(large_decr, SPAPR_CAP_LARGE_DECREMENTER);
+>  SPAPR_CAP_MIG_STATE(ccf_assist, SPAPR_CAP_CCF_ASSIST);
+>  SPAPR_CAP_MIG_STATE(fwnmi, SPAPR_CAP_FWNMI);
+> +SPAPR_CAP_MIG_STATE(rpt_invalidate, SPAPR_CAP_RPT_INVALIDATE);
 >  
-> +typedef int (*vhost_set_config_call_op)(struct vhost_dev *dev,
-> +                                       int *fd);
+>  void spapr_caps_init(SpaprMachineState *spapr)
+>  {
+> diff --git a/include/hw/ppc/spapr.h b/include/hw/ppc/spapr.h
+> index e0f10f252c..0931b5b8e8 100644
+> --- a/include/hw/ppc/spapr.h
+> +++ b/include/hw/ppc/spapr.h
+> @@ -74,8 +74,10 @@ typedef enum {
+>  #define SPAPR_CAP_CCF_ASSIST            0x09
+>  /* Implements PAPR FWNMI option */
+>  #define SPAPR_CAP_FWNMI                 0x0A
+> +/* Support H_RPT_INVALIDATE */
+> +#define SPAPR_CAP_RPT_INVALIDATE        0x0B
+>  /* Num Caps */
+> -#define SPAPR_CAP_NUM                   (SPAPR_CAP_FWNMI + 1)
+> +#define SPAPR_CAP_NUM                   (SPAPR_CAP_RPT_INVALIDATE + 1)
+>  
+>  /*
+>   * Capability Values
+> @@ -535,8 +537,9 @@ struct SpaprMachineState {
+>  #define H_SCM_BIND_MEM          0x3EC
+>  #define H_SCM_UNBIND_MEM        0x3F0
+>  #define H_SCM_UNBIND_ALL        0x3FC
+> +#define H_RPT_INVALIDATE        0x448
+>  
+> -#define MAX_HCALL_OPCODE        H_SCM_UNBIND_ALL
+> +#define MAX_HCALL_OPCODE        H_RPT_INVALIDATE
+>  
+>  /* The hcalls above are standardized in PAPR and implemented by pHyp
+>   * as well.
+> @@ -923,6 +926,7 @@ extern const VMStateDescription vmstate_spapr_cap_nested_kvm_hv;
+>  extern const VMStateDescription vmstate_spapr_cap_large_decr;
+>  extern const VMStateDescription vmstate_spapr_cap_ccf_assist;
+>  extern const VMStateDescription vmstate_spapr_cap_fwnmi;
+> +extern const VMStateDescription vmstate_spapr_cap_rpt_invalidate;
+>  
+>  static inline uint8_t spapr_get_cap(SpaprMachineState *spapr, int cap)
+>  {
+> diff --git a/linux-headers/linux/kvm.h b/linux-headers/linux/kvm.h
+> index 56ce14ad20..2b762157e0 100644
+> --- a/linux-headers/linux/kvm.h
+> +++ b/linux-headers/linux/kvm.h
+> @@ -1053,6 +1053,7 @@ struct kvm_ppc_resize_hpt {
+>  #define KVM_CAP_X86_USER_SPACE_MSR 188
+>  #define KVM_CAP_X86_MSR_FILTER 189
+>  #define KVM_CAP_ENFORCE_PV_FEATURE_CPUID 190
+> +#define KVM_CAP_PPC_RPT_INVALIDATE 193
+>  
+>  #ifdef KVM_CAP_IRQ_ROUTING
+>  
+> diff --git a/target/ppc/kvm.c b/target/ppc/kvm.c
+> index daf690a678..1c51951ae2 100644
+> --- a/target/ppc/kvm.c
+> +++ b/target/ppc/kvm.c
+> @@ -89,6 +89,7 @@ static int cap_ppc_count_cache_flush_assist;
+>  static int cap_ppc_nested_kvm_hv;
+>  static int cap_large_decr;
+>  static int cap_fwnmi;
+> +static int cap_rpt_invalidate;
+>  
+>  static uint32_t debug_inst_opcode;
+>  
+> @@ -152,6 +153,7 @@ int kvm_arch_init(MachineState *ms, KVMState *s)
+>          exit(1);
+>      }
+>  
+> +    cap_rpt_invalidate = kvm_vm_check_extension(s, KVM_CAP_PPC_RPT_INVALIDATE);
+>      kvm_ppc_register_host_cpu_type();
+>  
+>      return 0;
+> @@ -2027,6 +2029,11 @@ void kvmppc_enable_h_page_init(void)
+>      kvmppc_enable_hcall(kvm_state, H_PAGE_INIT);
+>  }
+>  
+> +void kvmppc_enable_h_rpt_invalidate(void)
+> +{
+> +    kvmppc_enable_hcall(kvm_state, H_RPT_INVALIDATE);
+> +}
 > +
->  typedef struct VhostOps {
->      VhostBackendType backend_type;
->      vhost_backend_init vhost_backend_init;
-> @@ -170,6 +173,7 @@ typedef struct VhostOps {
->      vhost_vq_get_addr_op  vhost_vq_get_addr;
->      vhost_get_device_id_op vhost_get_device_id;
->      vhost_force_iommu_op vhost_force_iommu;
-> +    vhost_set_config_call_op vhost_set_config_call;
->  } VhostOps;
+>  void kvmppc_set_papr(PowerPCCPU *cpu)
+>  {
+>      CPUState *cs = CPU(cpu);
+> @@ -2538,6 +2545,11 @@ int kvmppc_enable_cap_large_decr(PowerPCCPU *cpu, int enable)
+>      return 0;
+>  }
 >  
->  extern const VhostOps user_ops;
-> -- 
-> 2.21.3
+> +int kvmppc_has_cap_rpt_invalidate(void)
+> +{
+> +    return cap_rpt_invalidate;
+> +}
+> +
+>  PowerPCCPUClass *kvm_ppc_get_host_cpu_class(void)
+>  {
+>      uint32_t host_pvr = mfpvr();
+> diff --git a/target/ppc/kvm_ppc.h b/target/ppc/kvm_ppc.h
+> index 73ce2bc951..8e27f8421f 100644
+> --- a/target/ppc/kvm_ppc.h
+> +++ b/target/ppc/kvm_ppc.h
+> @@ -24,6 +24,7 @@ void kvmppc_enable_logical_ci_hcalls(void);
+>  void kvmppc_enable_set_mode_hcall(void);
+>  void kvmppc_enable_clear_ref_mod_hcalls(void);
+>  void kvmppc_enable_h_page_init(void);
+> +void kvmppc_enable_h_rpt_invalidate(void);
+>  void kvmppc_set_papr(PowerPCCPU *cpu);
+>  int kvmppc_set_compat(PowerPCCPU *cpu, uint32_t compat_pvr);
+>  void kvmppc_set_mpic_proxy(PowerPCCPU *cpu, int mpic_proxy);
+> @@ -72,6 +73,7 @@ bool kvmppc_has_cap_nested_kvm_hv(void);
+>  int kvmppc_set_cap_nested_kvm_hv(int enable);
+>  int kvmppc_get_cap_large_decr(void);
+>  int kvmppc_enable_cap_large_decr(PowerPCCPU *cpu, int enable);
+> +int kvmppc_has_cap_rpt_invalidate(void);
+>  int kvmppc_enable_hwrng(void);
+>  int kvmppc_put_books_sregs(PowerPCCPU *cpu);
+>  PowerPCCPUClass *kvm_ppc_get_host_cpu_class(void);
+> @@ -151,6 +153,10 @@ static inline void kvmppc_enable_h_page_init(void)
+>  {
+>  }
+>  
+> +static inline void kvmppc_enable_h_rpt_invalidate(void)
+> +{
+
+g_assert_not_reached() ?
+
+> +}
+> +
+>  static inline void kvmppc_set_papr(PowerPCCPU *cpu)
+>  {
+>  }
+> @@ -387,6 +393,11 @@ static inline int kvmppc_enable_cap_large_decr(PowerPCCPU *cpu, int enable)
+>      return -1;
+>  }
+>  
+> +static inline int kvmppc_has_cap_rpt_invalidate(void)
+> +{
+> +    return false;
+> +}
+> +
+>  static inline int kvmppc_enable_hwrng(void)
+>  {
+>      return -1;
 
 
