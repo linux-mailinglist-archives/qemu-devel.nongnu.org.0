@@ -2,74 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9FE722F4539
-	for <lists+qemu-devel@lfdr.de>; Wed, 13 Jan 2021 08:32:58 +0100 (CET)
-Received: from localhost ([::1]:49972 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9DC412F4549
+	for <lists+qemu-devel@lfdr.de>; Wed, 13 Jan 2021 08:37:16 +0100 (CET)
+Received: from localhost ([::1]:57002 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kzaeH-0004fO-Mn
-	for lists+qemu-devel@lfdr.de; Wed, 13 Jan 2021 02:32:57 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49368)
+	id 1kzaiR-0007qQ-GA
+	for lists+qemu-devel@lfdr.de; Wed, 13 Jan 2021 02:37:15 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49022)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <frank.chang@sifive.com>)
- id 1kzaNK-00080Q-I2
- for qemu-devel@nongnu.org; Wed, 13 Jan 2021 02:15:26 -0500
-Received: from mail-pj1-x102e.google.com ([2607:f8b0:4864:20::102e]:55787)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <frank.chang@sifive.com>)
- id 1kzaNI-0004OC-Vi
- for qemu-devel@nongnu.org; Wed, 13 Jan 2021 02:15:26 -0500
-Received: by mail-pj1-x102e.google.com with SMTP id p12so557118pju.5
- for <qemu-devel@nongnu.org>; Tue, 12 Jan 2021 23:15:24 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sifive.com; s=google;
- h=from:to:cc:subject:date:message-id:in-reply-to:references;
- bh=p/qbE6jexeElRhM8mddkBf23LGth+Huw3fAq1j6ZypM=;
- b=C1UEprSbIFByRWLB2vJvWDauSH+BED0u7flhLvgD51HNjrinVKHr05zWLWRI3NIMue
- ZbuwLijWozBm/XFff41ODESV2MzawvxPv5h1jyxhKGbVX2/7oP2rh5YFEEkMw8za324N
- exDUQeJQ+mXZx2oHYMQRARdROXeCWqQRMp6ysEZpkwKC//e19O/imjnqXCpJCc+GFYka
- NNJAHKg5WGeselPIY30oTeUQRKQMZmYCyxGOfiblUw62J3LmQUo8E3wMy6/GEgOz20/8
- mYthoozrFZwiT0bUugpt44kZGxe2pFnMoK3nULBCbKNbkP2mKY30OXqfM9qQdz+EPnPw
- yMjg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references;
- bh=p/qbE6jexeElRhM8mddkBf23LGth+Huw3fAq1j6ZypM=;
- b=sTlqTyYJsFLHituQIke6gn143ikeXDDENVqPWh5i+2o6JKtJaiA5NElLZRuskf27o+
- XfTKWrDISaDP2A5FWxCSTjb5UMYVUqs0avmP45mUQ2Agd4avi19XJCfoRGtcaUcyQ3ak
- RQMB30tv3+/qR9HFuYZjadQxvaDEmjpW8q2i9LZ1oGUeUjd8s7R/mNu3w6rSjUIV+wWY
- EpmFHUU36NSmJu9HKs3vhBPZ9PhE3Q4cxalsGaQLx5KSSw9gmOqbFkEcEOVaOkW1QVVL
- 3Zqz7BndTPSxAt6yEPBmj+L3MsDKWAmjMr1J1YkUGqBsXcHwORAybiMRnHl8mZUmNTfz
- qlTQ==
-X-Gm-Message-State: AOAM533oodOgy5SpCZTVTarX3WcQZZG+DAGrVPsQ/sgDwXtEOfZDO3dm
- GNr7hjn7Nsyl5VTkVXzQld1GugpeLgYPqXjr
-X-Google-Smtp-Source: ABdhPJyfycNMXUYUuIWR4AkPp6TwdcbTFiYpUqeGBxgT5v/xogQ/nldBw+fG8Qb3nW1eurBQcHR6/w==
-X-Received: by 2002:a17:90a:eb13:: with SMTP id
- j19mr768898pjz.219.1610522123469; 
- Tue, 12 Jan 2021 23:15:23 -0800 (PST)
-Received: from frankchang-ThinkPad-T490.internal.sifive.com
- (114-34-229-221.HINET-IP.hinet.net. [114.34.229.221])
- by smtp.gmail.com with ESMTPSA id l7sm1361888pjy.29.2021.01.12.23.15.21
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 12 Jan 2021 23:15:22 -0800 (PST)
-From: frank.chang@sifive.com
-To: qemu-devel@nongnu.org,
-	qemu-riscv@nongnu.org
-Subject: [RFC v4 16/16] target/riscv: rvb: support and turn on B-extension
- from command line
-Date: Wed, 13 Jan 2021 15:13:48 +0800
-Message-Id: <20210113071350.24852-17-frank.chang@sifive.com>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20210113071350.24852-1-frank.chang@sifive.com>
-References: <20210113071350.24852-1-frank.chang@sifive.com>
-Received-SPF: pass client-ip=2607:f8b0:4864:20::102e;
- envelope-from=frank.chang@sifive.com; helo=mail-pj1-x102e.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1kzaMh-0007Um-7z
+ for qemu-devel@nongnu.org; Wed, 13 Jan 2021 02:14:47 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:33686)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1kzaMd-00042V-1b
+ for qemu-devel@nongnu.org; Wed, 13 Jan 2021 02:14:47 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1610522082;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=9VD82qPsvcWIAHc+SJHx4nRPUkevViEj0gqG97O6wik=;
+ b=g2lEMplftfASrKvEraKZ5EGrRlpPbTX4Wi6mXCbUcjxRXLbpVESI5qIvN4elD5F/Go01Gx
+ 0O53JzbFSfXQ+EwLvJEg1SjPWwLjB9FXJoXzqQ1YjrHOY1HWq2yiEOoP2QV02TcYbmR8nr
+ extIGFljvz1gy0O3LCsP64nWn5SMZoc=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-263-qfcBkt8DNMyXiHzS-8zmaA-1; Wed, 13 Jan 2021 02:14:38 -0500
+X-MC-Unique: qfcBkt8DNMyXiHzS-8zmaA-1
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
+ [10.5.11.16])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id B5CE48066E1;
+ Wed, 13 Jan 2021 07:14:36 +0000 (UTC)
+Received: from thuth.remote.csb (ovpn-112-122.ams2.redhat.com [10.36.112.122])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 9F39E5C276;
+ Wed, 13 Jan 2021 07:14:29 +0000 (UTC)
+Subject: Re: [PATCH 5/9] elf2dmp: Rename PAGE_SIZE to ELF2DMP_PAGE_SIZE
+To: Jiaxun Yang <jiaxun.yang@flygoat.com>, qemu-devel@nongnu.org,
+ QEMU Trivial <qemu-trivial@nongnu.org>
+References: <20201221005318.11866-1-jiaxun.yang@flygoat.com>
+ <20201221005318.11866-6-jiaxun.yang@flygoat.com>
+From: Thomas Huth <thuth@redhat.com>
+Message-ID: <775cdc44-99ca-d195-4eb6-6873872ed2ed@redhat.com>
+Date: Wed, 13 Jan 2021 08:14:28 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.4.0
+MIME-Version: 1.0
+In-Reply-To: <20201221005318.11866-6-jiaxun.yang@flygoat.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=thuth@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -29
+X-Spam_score: -3.0
+X-Spam_bar: ---
+X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.251,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -83,71 +78,124 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Sagar Karandikar <sagark@eecs.berkeley.edu>,
- Frank Chang <frank.chang@sifive.com>,
- Bastian Koppelmann <kbastian@mail.uni-paderborn.de>,
- Alistair Francis <Alistair.Francis@wdc.com>,
- Palmer Dabbelt <palmer@dabbelt.com>, Kito Cheng <kito.cheng@sifive.com>
+Cc: Kevin Wolf <kwolf@redhat.com>, Fam Zheng <fam@euphon.net>,
+ kvm@vger.kernel.org, Viktor Prutyanov <viktor.prutyanov@phystech.edu>,
+ Laurent Vivier <lvivier@redhat.com>,
+ =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
+ Alistair Francis <alistair@alistair23.me>, Greg Kurz <groug@kaod.org>,
+ Wainer dos Santos Moschetta <wainersm@redhat.com>,
+ Max Reitz <mreitz@redhat.com>, qemu-ppc@nongnu.org,
+ Paolo Bonzini <pbonzini@redhat.com>, qemu-block@nongnu.org,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
+ David Gibson <david@gibson.dropbear.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Kito Cheng <kito.cheng@sifive.com>
+On 21/12/2020 01.53, Jiaxun Yang wrote:
+> As per POSIX specification of limits.h [1], OS libc may define
+> PAGE_SIZE in limits.h.
+> 
+> To prevent collosion of definition, we rename PAGE_SIZE here.
+> 
+> [1]: https://pubs.opengroup.org/onlinepubs/7908799/xsh/limits.h.html
+> 
+> Signed-off-by: Jiaxun Yang <jiaxun.yang@flygoat.com>
+> ---
+>   contrib/elf2dmp/addrspace.c |  4 ++--
+>   contrib/elf2dmp/addrspace.h |  6 +++---
+>   contrib/elf2dmp/main.c      | 18 +++++++++---------
+>   3 files changed, 14 insertions(+), 14 deletions(-)
+> 
+> diff --git a/contrib/elf2dmp/addrspace.c b/contrib/elf2dmp/addrspace.c
+> index 8a76069cb5..53ded17061 100644
+> --- a/contrib/elf2dmp/addrspace.c
+> +++ b/contrib/elf2dmp/addrspace.c
+> @@ -207,8 +207,8 @@ int va_space_rw(struct va_space *vs, uint64_t addr,
+>           void *buf, size_t size, int is_write)
+>   {
+>       while (size) {
+> -        uint64_t page = addr & PFN_MASK;
+> -        size_t s = (page + PAGE_SIZE) - addr;
+> +        uint64_t page = addr & ELF2DMP_PFN_MASK;
+> +        size_t s = (page + ELF2DMP_PAGE_SIZE) - addr;
+>           void *ptr;
+>   
+>           s = (s > size) ? size : s;
+> diff --git a/contrib/elf2dmp/addrspace.h b/contrib/elf2dmp/addrspace.h
+> index d87f6a18c6..00b44c1218 100644
+> --- a/contrib/elf2dmp/addrspace.h
+> +++ b/contrib/elf2dmp/addrspace.h
+> @@ -10,9 +10,9 @@
+>   
+>   #include "qemu_elf.h"
+>   
+> -#define PAGE_BITS 12
+> -#define PAGE_SIZE (1ULL << PAGE_BITS)
+> -#define PFN_MASK (~(PAGE_SIZE - 1))
+> +#define ELF2DMP_PAGE_BITS 12
+> +#define ELF2DMP_PAGE_SIZE (1ULL << ELF2DMP_PAGE_BITS)
+> +#define ELF2DMP_PFN_MASK (~(ELF2DMP_PAGE_SIZE - 1))
+>   
+>   #define INVALID_PA  UINT64_MAX
+>   
+> diff --git a/contrib/elf2dmp/main.c b/contrib/elf2dmp/main.c
+> index ac746e49e0..20b477d582 100644
+> --- a/contrib/elf2dmp/main.c
+> +++ b/contrib/elf2dmp/main.c
+> @@ -244,8 +244,8 @@ static int fill_header(WinDumpHeader64 *hdr, struct pa_space *ps,
+>       WinDumpHeader64 h;
+>       size_t i;
+>   
+> -    QEMU_BUILD_BUG_ON(KUSD_OFFSET_SUITE_MASK >= PAGE_SIZE);
+> -    QEMU_BUILD_BUG_ON(KUSD_OFFSET_PRODUCT_TYPE >= PAGE_SIZE);
+> +    QEMU_BUILD_BUG_ON(KUSD_OFFSET_SUITE_MASK >= ELF2DMP_PAGE_SIZE);
+> +    QEMU_BUILD_BUG_ON(KUSD_OFFSET_PRODUCT_TYPE >= ELF2DMP_PAGE_SIZE);
+>   
+>       if (!suite_mask || !product_type) {
+>           return 1;
+> @@ -281,14 +281,14 @@ static int fill_header(WinDumpHeader64 *hdr, struct pa_space *ps,
+>       };
+>   
+>       for (i = 0; i < ps->block_nr; i++) {
+> -        h.PhysicalMemoryBlock.NumberOfPages += ps->block[i].size / PAGE_SIZE;
+> +        h.PhysicalMemoryBlock.NumberOfPages += ps->block[i].size / ELF2DMP_PAGE_SIZE;
+>           h.PhysicalMemoryBlock.Run[i] = (WinDumpPhyMemRun64) {
+> -            .BasePage = ps->block[i].paddr / PAGE_SIZE,
+> -            .PageCount = ps->block[i].size / PAGE_SIZE,
+> +            .BasePage = ps->block[i].paddr / ELF2DMP_PAGE_SIZE,
+> +            .PageCount = ps->block[i].size / ELF2DMP_PAGE_SIZE,
+>           };
+>       }
+>   
+> -    h.RequiredDumpSpace += h.PhysicalMemoryBlock.NumberOfPages << PAGE_BITS;
+> +    h.RequiredDumpSpace += h.PhysicalMemoryBlock.NumberOfPages << ELF2DMP_PAGE_BITS;
+>   
+>       *hdr = h;
+>   
+> @@ -379,7 +379,7 @@ static int pe_get_pdb_symstore_hash(uint64_t base, void *start_addr,
+>       size_t pdb_name_sz;
+>       size_t i;
+>   
+> -    QEMU_BUILD_BUG_ON(sizeof(*dos_hdr) >= PAGE_SIZE);
+> +    QEMU_BUILD_BUG_ON(sizeof(*dos_hdr) >= ELF2DMP_PAGE_SIZE);
+>   
+>       if (memcmp(&dos_hdr->e_magic, e_magic, sizeof(e_magic))) {
+>           return 1;
+> @@ -509,10 +509,10 @@ int main(int argc, char *argv[])
+>       }
+>       printf("CPU #0 IDT[0] -> 0x%016"PRIx64"\n", idt_desc_addr(first_idt_desc));
+>   
+> -    KernBase = idt_desc_addr(first_idt_desc) & ~(PAGE_SIZE - 1);
+> +    KernBase = idt_desc_addr(first_idt_desc) & ~(ELF2DMP_PAGE_SIZE - 1);
+>       printf("Searching kernel downwards from 0x%016"PRIx64"...\n", KernBase);
+>   
+> -    for (; KernBase >= 0xfffff78000000000; KernBase -= PAGE_SIZE) {
+> +    for (; KernBase >= 0xfffff78000000000; KernBase -= ELF2DMP_PAGE_SIZE) {
+>           nt_start_addr = va_space_resolve(&vs, KernBase);
+>           if (!nt_start_addr) {
+>               continue;
+> 
 
-B-extension is default off, use cpu rv32 or rv64 with x-b=true to
-enable B-extension.
-
-Signed-off-by: Kito Cheng <kito.cheng@sifive.com>
-Signed-off-by: Frank Chang <frank.chang@sifive.com>
-Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
----
- target/riscv/cpu.c | 4 ++++
- target/riscv/cpu.h | 2 ++
- 2 files changed, 6 insertions(+)
-
-diff --git a/target/riscv/cpu.c b/target/riscv/cpu.c
-index 8227d7aea9d..7379a0abc6c 100644
---- a/target/riscv/cpu.c
-+++ b/target/riscv/cpu.c
-@@ -472,6 +472,9 @@ static void riscv_cpu_realize(DeviceState *dev, Error **errp)
-         if (cpu->cfg.ext_h) {
-             target_misa |= RVH;
-         }
-+        if (cpu->cfg.ext_b) {
-+            target_misa |= RVB;
-+        }
-         if (cpu->cfg.ext_v) {
-             target_misa |= RVV;
-             if (!is_power_of_2(cpu->cfg.vlen)) {
-@@ -542,6 +545,7 @@ static Property riscv_cpu_properties[] = {
-     DEFINE_PROP_BOOL("s", RISCVCPU, cfg.ext_s, true),
-     DEFINE_PROP_BOOL("u", RISCVCPU, cfg.ext_u, true),
-     /* This is experimental so mark with 'x-' */
-+    DEFINE_PROP_BOOL("x-b", RISCVCPU, cfg.ext_b, false),
-     DEFINE_PROP_BOOL("x-h", RISCVCPU, cfg.ext_h, false),
-     DEFINE_PROP_BOOL("x-v", RISCVCPU, cfg.ext_v, false),
-     DEFINE_PROP_BOOL("Counters", RISCVCPU, cfg.ext_counters, true),
-diff --git a/target/riscv/cpu.h b/target/riscv/cpu.h
-index 6339e848192..d5271906db4 100644
---- a/target/riscv/cpu.h
-+++ b/target/riscv/cpu.h
-@@ -72,6 +72,7 @@
- #define RVS RV('S')
- #define RVU RV('U')
- #define RVH RV('H')
-+#define RVB RV('B')
- 
- /* S extension denotes that Supervisor mode exists, however it is possible
-    to have a core that support S mode but does not have an MMU and there
-@@ -282,6 +283,7 @@ struct RISCVCPU {
-         bool ext_f;
-         bool ext_d;
-         bool ext_c;
-+        bool ext_b;
-         bool ext_s;
-         bool ext_u;
-         bool ext_h;
--- 
-2.17.1
+Reviewed-by: Thomas Huth <thuth@redhat.com>
 
 
