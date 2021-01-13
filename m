@@ -2,59 +2,58 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A12462F5459
+	by mail.lfdr.de (Postfix) with ESMTPS id 2D57B2F5458
 	for <lists+qemu-devel@lfdr.de>; Wed, 13 Jan 2021 21:56:42 +0100 (CET)
-Received: from localhost ([::1]:47100 helo=lists1p.gnu.org)
+Received: from localhost ([::1]:47042 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kznC5-0007eP-Ki
+	id 1kznC5-0007cz-6g
 	for lists+qemu-devel@lfdr.de; Wed, 13 Jan 2021 15:56:41 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58238)
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58236)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <jag.raman@oracle.com>)
- id 1kzn9f-0005ua-GZ
+ id 1kzn9f-0005uU-7s
  for qemu-devel@nongnu.org; Wed, 13 Jan 2021 15:54:11 -0500
-Received: from aserp2130.oracle.com ([141.146.126.79]:38220)
+Received: from userp2130.oracle.com ([156.151.31.86]:38958)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <jag.raman@oracle.com>)
- id 1kzn9b-0000dA-53
+ id 1kzn9c-0000eO-Dv
  for qemu-devel@nongnu.org; Wed, 13 Jan 2021 15:54:11 -0500
-Received: from pps.filterd (aserp2130.oracle.com [127.0.0.1])
- by aserp2130.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 10DKrkh4077279;
- Wed, 13 Jan 2021 20:53:58 GMT
+Received: from pps.filterd (userp2130.oracle.com [127.0.0.1])
+ by userp2130.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 10DKnZ3m084023;
+ Wed, 13 Jan 2021 20:54:00 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com;
  h=from : to : cc :
  subject : date : message-id : in-reply-to : references : in-reply-to :
  references : mime-version : content-type : content-transfer-encoding;
- s=corp-2020-01-29; bh=6jA3XQ/tkRrersep6iNVezzmWRdEKZpHeC1Qb+W516c=;
- b=RC9ak+v5C2X06in+Z39YA6UuYftyTV9Bp4vlxqg/dT/BZMhxBsR6GLKLXdj1613Hrg9R
- HIZFpaQeDWcXD9UjTJd9hMHaZ6xtyMmEBcrC3rJWwbJn1LulGKBBOUpSoEUji8x+hocj
- A8pzjEbjM4y45c15rJAnBw07ixDkFcerCs8Lc+QiUOwVEzl1FYLO2rHs9ItbcjonuMqQ
- y5eqcLVkN2zUICGJ+85RHxzhx781whbY49HJQw+eeDdm65lrs6dnViHFRE4PLylzsz4x
- Nf16TibOQYA2DtqXHEGFQrytVfzZNdYOmn2mwFoweN2EU37wcUgvSQvErp+BWdl5exl1 Fg== 
-Received: from aserp3020.oracle.com (aserp3020.oracle.com [141.146.126.70])
- by aserp2130.oracle.com with ESMTP id 360kg1whgd-1
+ s=corp-2020-01-29; bh=tITNisM76d2ptiLo4WZ9Z0oHxop9K3Kuk+IOTcDyeg0=;
+ b=M5GsXXbdyWwB1kIYm5AsR7ezeaof03qg1EJppOIJJ94q4+pkkWSTBxg5UDChSp43r+MH
+ w0ZlWYrqsBSDSiM8+832yKtu2FufKYOUSAUDbzGyWiioVuQ8iGG8eetwT7jnu624G2HV
+ b9dVBjgDN2+XE4oJssPmvynW9QiOD+r0WlZTEZGA+qFe2XF4Jtf0PG2YHPFX++32aavF
+ c/PsxixCd7++KsxUi7WdpFQsH7WhDerDfnSUaP1YAMFDyNFfmrE31p3+fEyoalmDF7jE
+ HzTe7hiPtuV+z7Y+Mk3QdUeXAdTWT5Tvsb1WEV0xxsTh77DU5+7ZqNjBwG9yrYvAJdZQ Hw== 
+Received: from userp3020.oracle.com (userp3020.oracle.com [156.151.31.79])
+ by userp2130.oracle.com with ESMTP id 360kvk5en0-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Wed, 13 Jan 2021 20:53:58 +0000
-Received: from pps.filterd (aserp3020.oracle.com [127.0.0.1])
- by aserp3020.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 10DKjfMJ187209;
- Wed, 13 Jan 2021 20:53:58 GMT
+ Wed, 13 Jan 2021 20:54:00 +0000
+Received: from pps.filterd (userp3020.oracle.com [127.0.0.1])
+ by userp3020.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 10DKkb2v123346;
+ Wed, 13 Jan 2021 20:54:00 GMT
 Received: from aserv0121.oracle.com (aserv0121.oracle.com [141.146.126.235])
- by aserp3020.oracle.com with ESMTP id 360ke9192a-1
+ by userp3020.oracle.com with ESMTP id 360kf8aph8-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Wed, 13 Jan 2021 20:53:58 +0000
+ Wed, 13 Jan 2021 20:54:00 +0000
 Received: from abhmp0014.oracle.com (abhmp0014.oracle.com [141.146.116.20])
- by aserv0121.oracle.com (8.14.4/8.13.8) with ESMTP id 10DKrvGS022131;
- Wed, 13 Jan 2021 20:53:57 GMT
+ by aserv0121.oracle.com (8.14.4/8.13.8) with ESMTP id 10DKrwvw022138;
+ Wed, 13 Jan 2021 20:53:58 GMT
 Received: from jaraman-bur-1.us.oracle.com (/10.152.33.39)
  by default (Oracle Beehive Gateway v4.0)
- with ESMTP ; Wed, 13 Jan 2021 12:53:57 -0800
+ with ESMTP ; Wed, 13 Jan 2021 12:53:58 -0800
 From: Jagannathan Raman <jag.raman@oracle.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v18 06/20] multi-process: setup a machine object for remote
- device process
-Date: Wed, 13 Jan 2021 15:53:25 -0500
-Message-Id: <442dd452a6e94c03fb14945b655ced2c58b11600.1610570756.git.jag.raman@oracle.com>
+Subject: [PATCH v18 07/20] io: add qio_channel_writev_full_all helper
+Date: Wed, 13 Jan 2021 15:53:26 -0500
+Message-Id: <2c9a26519d59b39caf2af8501a65cfc0c0823510.1610570756.git.jag.raman@oracle.com>
 X-Mailer: git-send-email 1.8.3.1
 In-Reply-To: <cover.1610570756.git.jag.raman@oracle.com>
 References: <cover.1610570756.git.jag.raman@oracle.com>
@@ -65,21 +64,21 @@ Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9863
  signatures=668683
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 adultscore=0
- suspectscore=0 spamscore=0
- mlxlogscore=999 malwarescore=0 bulkscore=0 mlxscore=0 phishscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2009150000
- definitions=main-2101130126
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 suspectscore=0
+ malwarescore=0
+ mlxlogscore=999 phishscore=0 bulkscore=0 spamscore=0 mlxscore=0
+ adultscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2009150000 definitions=main-2101130126
 X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9863
  signatures=668683
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 malwarescore=0
- suspectscore=0
- clxscore=1015 impostorscore=0 spamscore=0 priorityscore=1501 mlxscore=0
- phishscore=0 mlxlogscore=999 bulkscore=0 adultscore=0 lowpriorityscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2009150000
- definitions=main-2101130127
-Received-SPF: pass client-ip=141.146.126.79; envelope-from=jag.raman@oracle.com;
- helo=aserp2130.oracle.com
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 mlxlogscore=999
+ phishscore=0
+ lowpriorityscore=0 bulkscore=0 priorityscore=1501 malwarescore=0
+ clxscore=1015 impostorscore=0 spamscore=0 mlxscore=0 suspectscore=0
+ adultscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2009150000 definitions=main-2101130126
+Received-SPF: pass client-ip=156.151.31.86; envelope-from=jag.raman@oracle.com;
+ helo=userp2130.oracle.com
 X-Spam_score_int: -46
 X-Spam_score: -4.7
 X-Spam_bar: ----
@@ -110,183 +109,95 @@ Cc: elena.ufimtseva@oracle.com, fam@euphon.net, swapnil.ingle@nutanix.com,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-x-remote-machine object sets up various subsystems of the remote
-device process. Instantiate PCI host bridge object and initialize RAM, IO &
-PCI memory regions.
+From: Elena Ufimtseva <elena.ufimtseva@oracle.com>
 
+Adds qio_channel_writev_full_all() to transmit both data and FDs.
+Refactors existing code to use this helper.
+
+Signed-off-by: Elena Ufimtseva <elena.ufimtseva@oracle.com>
 Signed-off-by: John G Johnson <john.g.johnson@oracle.com>
 Signed-off-by: Jagannathan Raman <jag.raman@oracle.com>
-Signed-off-by: Elena Ufimtseva <elena.ufimtseva@oracle.com>
 Reviewed-by: Stefan Hajnoczi <stefanha@redhat.com>
+Acked-by: Daniel P. Berrangé <berrange@redhat.com>
 ---
- include/hw/pci-host/remote.h |  1 +
- include/hw/remote/machine.h  | 27 +++++++++++++++++
- hw/remote/machine.c          | 70 ++++++++++++++++++++++++++++++++++++++++++++
- MAINTAINERS                  |  2 ++
- hw/meson.build               |  1 +
- hw/remote/meson.build        |  5 ++++
- 6 files changed, 106 insertions(+)
- create mode 100644 include/hw/remote/machine.h
- create mode 100644 hw/remote/machine.c
- create mode 100644 hw/remote/meson.build
+ include/io/channel.h | 25 +++++++++++++++++++++++++
+ io/channel.c         | 15 ++++++++++++++-
+ 2 files changed, 39 insertions(+), 1 deletion(-)
 
-diff --git a/include/hw/pci-host/remote.h b/include/hw/pci-host/remote.h
-index 06b8a83..3dcf6aa 100644
---- a/include/hw/pci-host/remote.h
-+++ b/include/hw/pci-host/remote.h
-@@ -24,6 +24,7 @@ struct RemotePCIHost {
+diff --git a/include/io/channel.h b/include/io/channel.h
+index ab9ea77..19e76fc 100644
+--- a/include/io/channel.h
++++ b/include/io/channel.h
+@@ -777,4 +777,29 @@ void qio_channel_set_aio_fd_handler(QIOChannel *ioc,
+                                     IOHandler *io_write,
+                                     void *opaque);
  
-     MemoryRegion *mr_pci_mem;
-     MemoryRegion *mr_sys_io;
-+    MemoryRegion *mr_sys_mem;
- };
- 
- #endif
-diff --git a/include/hw/remote/machine.h b/include/hw/remote/machine.h
-new file mode 100644
-index 0000000..bdfbca4
---- /dev/null
-+++ b/include/hw/remote/machine.h
-@@ -0,0 +1,27 @@
-+/*
-+ * Remote machine configuration
++/**
++ * qio_channel_writev_full_all:
++ * @ioc: the channel object
++ * @iov: the array of memory regions to write data from
++ * @niov: the length of the @iov array
++ * @fds: an array of file handles to send
++ * @nfds: number of file handles in @fds
++ * @errp: pointer to a NULL-initialized error object
 + *
-+ * Copyright © 2018, 2021 Oracle and/or its affiliates.
 + *
-+ * This work is licensed under the terms of the GNU GPL, version 2 or later.
-+ * See the COPYING file in the top-level directory.
++ * Behaves like qio_channel_writev_full but will attempt
++ * to send all data passed (file handles and memory regions).
++ * The function will wait for all requested data
++ * to be written, yielding from the current coroutine
++ * if required.
 + *
++ * Returns: 0 if all bytes were written, or -1 on error
 + */
 +
-+#ifndef REMOTE_MACHINE_H
-+#define REMOTE_MACHINE_H
++int qio_channel_writev_full_all(QIOChannel *ioc,
++                                const struct iovec *iov,
++                                size_t niov,
++                                int *fds, size_t nfds,
++                                Error **errp);
 +
-+#include "qom/object.h"
-+#include "hw/boards.h"
-+#include "hw/pci-host/remote.h"
-+
-+struct RemoteMachineState {
-+    MachineState parent_obj;
-+
-+    RemotePCIHost *host;
-+};
-+
-+#define TYPE_REMOTE_MACHINE "x-remote-machine"
-+OBJECT_DECLARE_SIMPLE_TYPE(RemoteMachineState, REMOTE_MACHINE)
-+
-+#endif
-diff --git a/hw/remote/machine.c b/hw/remote/machine.c
-new file mode 100644
-index 0000000..9519a6c
---- /dev/null
-+++ b/hw/remote/machine.c
-@@ -0,0 +1,70 @@
-+/*
-+ * Machine for remote device
-+ *
-+ *  This machine type is used by the remote device process in multi-process
-+ *  QEMU. QEMU device models depend on parent busses, interrupt controllers,
-+ *  memory regions, etc. The remote machine type offers this environment so
-+ *  that QEMU device models can be used as remote devices.
-+ *
-+ * Copyright © 2018, 2021 Oracle and/or its affiliates.
-+ *
-+ * This work is licensed under the terms of the GNU GPL, version 2 or later.
-+ * See the COPYING file in the top-level directory.
-+ *
-+ */
-+
-+#include "qemu/osdep.h"
-+#include "qemu-common.h"
-+
-+#include "hw/remote/machine.h"
-+#include "exec/address-spaces.h"
-+#include "exec/memory.h"
-+#include "qapi/error.h"
-+
-+static void remote_machine_init(MachineState *machine)
-+{
-+    MemoryRegion *system_memory, *system_io, *pci_memory;
-+    RemoteMachineState *s = REMOTE_MACHINE(machine);
-+    RemotePCIHost *rem_host;
-+
-+    system_memory = get_system_memory();
-+    system_io = get_system_io();
-+
-+    pci_memory = g_new(MemoryRegion, 1);
-+    memory_region_init(pci_memory, NULL, "pci", UINT64_MAX);
-+
-+    rem_host = REMOTE_PCIHOST(qdev_new(TYPE_REMOTE_PCIHOST));
-+
-+    rem_host->mr_pci_mem = pci_memory;
-+    rem_host->mr_sys_mem = system_memory;
-+    rem_host->mr_sys_io = system_io;
-+
-+    s->host = rem_host;
-+
-+    object_property_add_child(OBJECT(s), "remote-pcihost", OBJECT(rem_host));
-+    memory_region_add_subregion_overlap(system_memory, 0x0, pci_memory, -1);
-+
-+    qdev_realize(DEVICE(rem_host), sysbus_get_default(), &error_fatal);
+ #endif /* QIO_CHANNEL_H */
+diff --git a/io/channel.c b/io/channel.c
+index 93d449d..0d4b8b5 100644
+--- a/io/channel.c
++++ b/io/channel.c
+@@ -157,6 +157,15 @@ int qio_channel_writev_all(QIOChannel *ioc,
+                            size_t niov,
+                            Error **errp)
+ {
++    return qio_channel_writev_full_all(ioc, iov, niov, NULL, 0, errp);
 +}
 +
-+static void remote_machine_class_init(ObjectClass *oc, void *data)
++int qio_channel_writev_full_all(QIOChannel *ioc,
++                                const struct iovec *iov,
++                                size_t niov,
++                                int *fds, size_t nfds,
++                                Error **errp)
 +{
-+    MachineClass *mc = MACHINE_CLASS(oc);
-+
-+    mc->init = remote_machine_init;
-+    mc->desc = "Experimental remote machine";
-+}
-+
-+static const TypeInfo remote_machine = {
-+    .name = TYPE_REMOTE_MACHINE,
-+    .parent = TYPE_MACHINE,
-+    .instance_size = sizeof(RemoteMachineState),
-+    .class_init = remote_machine_class_init,
-+};
-+
-+static void remote_machine_register_types(void)
-+{
-+    type_register_static(&remote_machine);
-+}
-+
-+type_init(remote_machine_register_types);
-diff --git a/MAINTAINERS b/MAINTAINERS
-index 45b999a..09aea01 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -3189,6 +3189,8 @@ F: docs/devel/multi-process.rst
- F: docs/multi-process.rst
- F: hw/pci-host/remote.c
- F: include/hw/pci-host/remote.h
-+F: hw/remote/machine.c
-+F: include/hw/remote/machine.h
+     int ret = -1;
+     struct iovec *local_iov = g_new(struct iovec, niov);
+     struct iovec *local_iov_head = local_iov;
+@@ -168,7 +177,8 @@ int qio_channel_writev_all(QIOChannel *ioc,
  
- Build and test automation
- -------------------------
-diff --git a/hw/meson.build b/hw/meson.build
-index 010de72..e615d72 100644
---- a/hw/meson.build
-+++ b/hw/meson.build
-@@ -56,6 +56,7 @@ subdir('moxie')
- subdir('nios2')
- subdir('openrisc')
- subdir('ppc')
-+subdir('remote')
- subdir('riscv')
- subdir('rx')
- subdir('s390x')
-diff --git a/hw/remote/meson.build b/hw/remote/meson.build
-new file mode 100644
-index 0000000..197b038
---- /dev/null
-+++ b/hw/remote/meson.build
-@@ -0,0 +1,5 @@
-+remote_ss = ss.source_set()
+     while (nlocal_iov > 0) {
+         ssize_t len;
+-        len = qio_channel_writev(ioc, local_iov, nlocal_iov, errp);
++        len = qio_channel_writev_full(ioc, local_iov, nlocal_iov, fds, nfds,
++                                      errp);
+         if (len == QIO_CHANNEL_ERR_BLOCK) {
+             if (qemu_in_coroutine()) {
+                 qio_channel_yield(ioc, G_IO_OUT);
+@@ -182,6 +192,9 @@ int qio_channel_writev_all(QIOChannel *ioc,
+         }
+ 
+         iov_discard_front(&local_iov, &nlocal_iov, len);
 +
-+remote_ss.add(when: 'CONFIG_MULTIPROCESS', if_true: files('machine.c'))
-+
-+softmmu_ss.add_all(when: 'CONFIG_MULTIPROCESS', if_true: remote_ss)
++        fds = NULL;
++        nfds = 0;
+     }
+ 
+     ret = 0;
 -- 
 1.8.3.1
 
