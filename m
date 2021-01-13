@@ -2,67 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 23A3E2F4EF2
-	for <lists+qemu-devel@lfdr.de>; Wed, 13 Jan 2021 16:39:33 +0100 (CET)
-Received: from localhost ([::1]:39822 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D04E82F4EF3
+	for <lists+qemu-devel@lfdr.de>; Wed, 13 Jan 2021 16:41:25 +0100 (CET)
+Received: from localhost ([::1]:43746 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kziFA-0002O8-5m
-	for lists+qemu-devel@lfdr.de; Wed, 13 Jan 2021 10:39:32 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43674)
+	id 1kziGy-00046c-Tt
+	for lists+qemu-devel@lfdr.de; Wed, 13 Jan 2021 10:41:24 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44094)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1kziDX-00016l-8a
- for qemu-devel@nongnu.org; Wed, 13 Jan 2021 10:37:51 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:23931)
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1kziF3-00031M-OO
+ for qemu-devel@nongnu.org; Wed, 13 Jan 2021 10:39:25 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:20476)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1kziDP-0002OV-N7
- for qemu-devel@nongnu.org; Wed, 13 Jan 2021 10:37:51 -0500
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1kziF2-0003BA-4z
+ for qemu-devel@nongnu.org; Wed, 13 Jan 2021 10:39:25 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1610552262;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
+ s=mimecast20190719; t=1610552363;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=haEjr6XJ5oF1wNZL7Sn3qAERMNUyxmU/6rxZjNJWo4c=;
- b=CbYB65aFKCVFCGPrHx7Th1oFJXbaKpitpvjiXjBpluMm1ra27Odn8mRFHcMrGh3J/h6EQS
- NRQwGCmYH/vdNfbeZEMKXylWzntT5CNvbm6thKOmCykdgCLCHnkC2OFIZDJG+IufX23T2a
- 7JZtxKfTj7SNQgli+rETxmrNeyFGTCQ=
+ bh=BhP6uBeIWxHYrJGeOJF8+njxxPyHvisi/r3JX1Q9/cM=;
+ b=BipQECaNoQGfmPZHV2fkPOC+uHgtRPu6vegwj1yiaWx/RX2XuoS+zcif9t8+xiYB39EvRQ
+ ViO6//rnCsgB0wNcrYJaZuJiwla6T9vLRUeXf0Ln86R8nBqOwqtv5zPY29XprEQqMctN88
+ MXHG5neeKaBmWijDIM7RZalY7jvhYVo=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-488-97OG5s2sNoC5Gu8Q-00kDA-1; Wed, 13 Jan 2021 10:37:37 -0500
-X-MC-Unique: 97OG5s2sNoC5Gu8Q-00kDA-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
+ us-mta-492-BdB5toYOO1uePrqYEevR6w-1; Wed, 13 Jan 2021 10:39:20 -0500
+X-MC-Unique: BdB5toYOO1uePrqYEevR6w-1
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
+ [10.5.11.16])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id E736C1005E48;
- Wed, 13 Jan 2021 15:37:35 +0000 (UTC)
-Received: from redhat.com (ovpn-115-107.ams2.redhat.com [10.36.115.107])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 1481E5D71B;
- Wed, 13 Jan 2021 15:37:30 +0000 (UTC)
-Date: Wed, 13 Jan 2021 15:37:28 +0000
-From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-To: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
-Subject: Re: [PATCH  v1 9/9] gitlab: move docs and tools build across from
- Travis
-Message-ID: <20210113153728.GF1568240@redhat.com>
-References: <20210113151408.27939-1-alex.bennee@linaro.org>
- <20210113151408.27939-10-alex.bennee@linaro.org>
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id C7F351009609;
+ Wed, 13 Jan 2021 15:39:19 +0000 (UTC)
+Received: from blackfin.pond.sub.org (ovpn-112-172.ams2.redhat.com
+ [10.36.112.172])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id AF4245C3E5;
+ Wed, 13 Jan 2021 15:39:16 +0000 (UTC)
+Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
+ id 3730211386A7; Wed, 13 Jan 2021 16:39:15 +0100 (CET)
+From: Markus Armbruster <armbru@redhat.com>
+To: John Snow <jsnow@redhat.com>
+Subject: Re: [PATCH v2 06/12] qapi/source: Add builtin null-object sentinel
+References: <20201217015927.197287-1-jsnow@redhat.com>
+ <20201217015927.197287-7-jsnow@redhat.com>
+Date: Wed, 13 Jan 2021 16:39:15 +0100
+In-Reply-To: <20201217015927.197287-7-jsnow@redhat.com> (John Snow's message
+ of "Wed, 16 Dec 2020 20:59:21 -0500")
+Message-ID: <878s8wyhgc.fsf@dusky.pond.sub.org>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.1 (gnu/linux)
 MIME-Version: 1.0
-In-Reply-To: <20210113151408.27939-10-alex.bennee@linaro.org>
-User-Agent: Mutt/1.14.6 (2020-07-11)
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=berrange@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=armbru@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=berrange@redhat.com;
+Content-Type: text/plain
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=armbru@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -29
 X-Spam_score: -3.0
@@ -83,70 +80,61 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-Cc: Fam Zheng <fam@euphon.net>, Thomas Huth <thuth@redhat.com>,
- Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
- qemu-devel@nongnu.org, Wainer dos Santos Moschetta <wainersm@redhat.com>
+Cc: Michael Roth <michael.roth@amd.com>, Cleber Rosa <crosa@redhat.com>,
+ qemu-devel@nongnu.org,
+ =?utf-8?Q?Marc-Andr=C3=A9?= Lureau <marcandre.lureau@redhat.com>,
+ Eduardo Habkost <ehabkost@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, Jan 13, 2021 at 03:14:08PM +0000, Alex Bennée wrote:
-> While we are at it we might as well check the tag generation. For
-> bonus points we run GNU globals htags into the public pages directory
-> for publishing with the auto generated pages.
-> 
-> Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
-> ---
->  .gitlab-ci.yml | 22 ++++++++++++++++------
->  .travis.yml    | 16 ----------------
->  2 files changed, 16 insertions(+), 22 deletions(-)
-> 
-> diff --git a/.gitlab-ci.yml b/.gitlab-ci.yml
-> index 4532f1718a..c07064a4f7 100644
-> --- a/.gitlab-ci.yml
-> +++ b/.gitlab-ci.yml
-> @@ -79,7 +79,6 @@ build-system-ubuntu:
->      TARGETS: aarch64-softmmu alpha-softmmu cris-softmmu hppa-softmmu
->        moxie-softmmu microblazeel-softmmu mips64el-softmmu
->      MAKE_CHECK_ARGS: check-build
-> -    CONFIGURE_ARGS: --enable-docs
->    artifacts:
->      expire_in: 2 days
->      paths:
-> @@ -111,7 +110,6 @@ build-system-debian:
->      TARGETS: arm-softmmu avr-softmmu i386-softmmu mipsel-softmmu
->        riscv64-softmmu sh4eb-softmmu sparc-softmmu xtensaeb-softmmu
->      MAKE_CHECK_ARGS: check-build
-> -    CONFIGURE_ARGS: --enable-docs
->    artifacts:
->      expire_in: 2 days
->      paths:
-> @@ -126,6 +124,17 @@ check-system-debian:
->      IMAGE: debian-amd64
->      MAKE_CHECK_ARGS: check
->  
-> +build-tools-and-docs-debian:
-> +  <<: *native_build_job_definition
-> +  variables:
-> +    IMAGE: debian-amd64
-> +    MAKE_CHECK_ARGS: ctags gtags TAGS cscope
-> +    CONFIGURE_ARGS: --enable-docs --enable-tools
-> +  artifacts:
-> +    expire_in: 2 days
-> +    paths:
-> +      - build
+Spelling nitpick: s/builtin/built-in/ in the title.
 
-Do we actually need this job at all ?
+John Snow <jsnow@redhat.com> writes:
 
-Assuming the depenedancies are in the dockerfile, then all the
-build jobs will be testing docs and tools already, as meson will
-auto enable it.
+> We use None to represent an object that has no source information
+> because it's a builtin. This complicates interface typing, since many
+> interfaces expect that there is an info object available to print errors
+> with.
+>
+> Introduce a special QAPISourceInfo that represents these built-ins so
+> that if an error should so happen to occur relating to one of these
+> builtins that we will be able to print its information, and interface
+> typing becomes simpler: you will always have a source info object.
+>
+> This object will evaluate as False, so "if info" remains a valid
+> idiomatic construct.
+>
+> NB: It was intentional to not allow empty constructors or similar to
+> create "empty" source info objects; callers must explicitly invoke
+> 'builtin()' to pro-actively opt into using the sentinel. This should
+> prevent use-by-accident.
+>
+> Signed-off-by: John Snow <jsnow@redhat.com>
 
-Regards,
-Daniel
--- 
-|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
-|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
-|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
+As I pointed out in review of v1, this patch has two aspects mixed up:
+
+1. Represent "no source info" as special QAPISourceInfo instead of
+   None
+
+2. On error with "no source info", don't crash.
+
+The first one is what de-complicates interface typing.  It's clearly
+serving this patch series' stated purpose: "static typing conversion".
+
+The second one is not.  It sidetracks us into a design discussion that
+isn't related to static typing.  Maybe it's something we should discuss.
+Maybe the discussion will make us conclude we want to do this.  But
+letting the static typing work get delayed by that discussion would be
+stupid, and I'll do what I can to prevent that.
+
+The stupidest possible solution that preserves the crash is adding an
+assertion right where it crashes before this patch: in
+QAPISourceInfo.__str__().  Yes, crashing in a __str__() method is not
+nice, but it's no worse than before.  Making it better than before is a
+good idea, and you're quite welcome to try, but please not in this
+series.  Add a TODO comment asking for "make it better", then sit on
+your hands.
+
+The pipeline must move.
 
 
