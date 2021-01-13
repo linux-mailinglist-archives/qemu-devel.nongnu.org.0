@@ -2,43 +2,42 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 726EB2F5569
-	for <lists+qemu-devel@lfdr.de>; Thu, 14 Jan 2021 01:04:41 +0100 (CET)
-Received: from localhost ([::1]:38054 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AB8242F5563
+	for <lists+qemu-devel@lfdr.de>; Thu, 14 Jan 2021 01:01:12 +0100 (CET)
+Received: from localhost ([::1]:57996 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kzq80-0003qo-G0
-	for lists+qemu-devel@lfdr.de; Wed, 13 Jan 2021 19:04:40 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36352)
+	id 1kzq4d-0000M3-JG
+	for lists+qemu-devel@lfdr.de; Wed, 13 Jan 2021 19:01:11 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36390)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1kzq1x-0006sB-Qt; Wed, 13 Jan 2021 18:58:25 -0500
-Received: from ozlabs.org ([2401:3900:2:1::2]:38365)
+ id 1kzq1z-0006ub-7D; Wed, 13 Jan 2021 18:58:27 -0500
+Received: from ozlabs.org ([203.11.71.1]:55637)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1kzq1v-0006ZX-In; Wed, 13 Jan 2021 18:58:25 -0500
+ id 1kzq1v-0006ZZ-Fi; Wed, 13 Jan 2021 18:58:26 -0500
 Received: by ozlabs.org (Postfix, from userid 1007)
- id 4DGPXQ0Kttz9sVy; Thu, 14 Jan 2021 10:58:13 +1100 (AEDT)
+ id 4DGPXQ2cc7z9sWK; Thu, 14 Jan 2021 10:58:14 +1100 (AEDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=gibson.dropbear.id.au; s=201602; t=1610582294;
- bh=PMr7j5j8OSe0AP5kUuFMOJLePX4fph0iQtNNjr88kFA=;
+ bh=thJIxYImNDEGyMXfz3IxBysZDEAVYAA8TpCNd/GoFv4=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=WOU/Nolj6jlStIr4NRM6WXyowwAzxfu41mUBsAt2hjacUVyKfMzCuBeg3nnoRXdhH
- hz2tPK9t7Dy95n4vvy1Ul/4WMa/beNDURAUo0XociRRNmbNIiWM7vgaXJPhjxnXS8J
- E1NNnb87UwZo6RN48TQLEmCj5ir03CdkKQRyk5r4=
+ b=LUZSZpzHhIh+aQUgZMNAMYDGFjl7hsS01f0a3uX7lhdjtvXrisZHo1rOogRdbuRiW
+ BtbO570Xc5xpifpHqCzpxxOhK2p/O/7Gd+6APuxF3O0Ld+eC75Je+/+Ue+y4xSQg6Y
+ ZgSuWtdbUYUrsLal9vikkfBewsMyn7xkHfIb0oao=
 From: David Gibson <david@gibson.dropbear.id.au>
 To: brijesh.singh@amd.com, pair@us.ibm.com, dgilbert@redhat.com,
  pasic@linux.ibm.com, qemu-devel@nongnu.org
-Subject: [PATCH v7 01/13] qom: Allow optional sugar props
-Date: Thu, 14 Jan 2021 10:57:59 +1100
-Message-Id: <20210113235811.1909610-2-david@gibson.dropbear.id.au>
+Subject: [PATCH v7 03/13] sev: Remove false abstraction of flash encryption
+Date: Thu, 14 Jan 2021 10:58:01 +1100
+Message-Id: <20210113235811.1909610-4-david@gibson.dropbear.id.au>
 X-Mailer: git-send-email 2.29.2
 In-Reply-To: <20210113235811.1909610-1-david@gibson.dropbear.id.au>
 References: <20210113235811.1909610-1-david@gibson.dropbear.id.au>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2401:3900:2:1::2; envelope-from=dgibson@ozlabs.org;
+Received-SPF: pass client-ip=203.11.71.1; envelope-from=dgibson@ozlabs.org;
  helo=ozlabs.org
 X-Spam_score_int: -17
 X-Spam_score: -1.8
@@ -58,135 +57,310 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: cohuck@redhat.com, kvm@vger.kernel.org,
- David Hildenbrand <david@redhat.com>, frankja@linux.ibm.com,
- pragyansri.pathi@intel.com, mst@redhat.com, mdroth@linux.vnet.ibm.com,
- borntraeger@de.ibm.com, andi.kleen@intel.com,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
- thuth@redhat.com, Eduardo Habkost <ehabkost@redhat.com>,
+Cc: qemu-ppc@nongnu.org, thuth@redhat.com,
+ Marcelo Tosatti <mtosatti@redhat.com>, berrange@redhat.com,
+ jun.nakajima@intel.com, kvm@vger.kernel.org,
+ David Hildenbrand <david@redhat.com>, cohuck@redhat.com,
  Richard Henderson <richard.henderson@linaro.org>, Greg Kurz <groug@kaod.org>,
- qemu-s390x@nongnu.org, jun.nakajima@intel.com,
- David Gibson <david@gibson.dropbear.id.au>, berrange@redhat.com,
- Marcelo Tosatti <mtosatti@redhat.com>, qemu-ppc@nongnu.org,
- Paolo Bonzini <pbonzini@redhat.com>
+ mdroth@linux.vnet.ibm.com, borntraeger@de.ibm.com, qemu-s390x@nongnu.org,
+ frankja@linux.ibm.com, mst@redhat.com, pragyansri.pathi@intel.com,
+ andi.kleen@intel.com, Paolo Bonzini <pbonzini@redhat.com>,
+ David Gibson <david@gibson.dropbear.id.au>,
+ Eduardo Habkost <ehabkost@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Greg Kurz <groug@kaod.org>
+When AMD's SEV memory encryption is in use, flash memory banks (which are
+initialed by pc_system_flash_map()) need to be encrypted with the guest's
+key, so that the guest can read them.
 
-Global properties have an @optional field, which allows to apply a given
-property to a given type even if one of its subclasses doesn't support
-it. This is especially used in the compat code when dealing with the
-"disable-modern" and "disable-legacy" properties and the "virtio-pci"
-type.
+That's abstracted via the kvm_memcrypt_encrypt_data() callback in the KVM
+state.. except, that it doesn't really abstract much at all.
 
-Allow object_register_sugar_prop() to set this field as well.
+For starters, the only called is in code specific to the 'pc' family of
+machine types, so it's obviously specific to those and to x86 to begin
+with.  But it makes a bunch of further assumptions that need not be true
+about an arbitrary confidential guest system based on memory encryption,
+let alone one based on other mechanisms:
 
-Signed-off-by: Greg Kurz <groug@kaod.org>
-Message-Id: <159738953558.377274.16617742952571083440.stgit@bahia.lan>
+ * it assumes that the flash memory is defined to be encrypted with the
+   guest key, rather than being shared with hypervisor
+ * it assumes that that hypervisor has some mechanism to encrypt data into
+   the guest, even though it can't decrypt it out, since that's the whole
+   point
+ * the interface assumes that this encrypt can be done in place, which
+   implies that the hypervisor can write into a confidential guests's
+   memory, even if what it writes isn't meaningful
+
+So really, this "abstraction" is actually pretty specific to the way SEV
+works.  So, this patch removes it and instead has the PC flash
+initialization code call into a SEV specific callback.
+
 Signed-off-by: David Gibson <david@gibson.dropbear.id.au>
-Reviewed-by: Eduardo Habkost <ehabkost@redhat.com>
-Reviewed-by: Cornelia Huck <cohuck@redhat.com>
-Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 ---
- include/qom/object.h |  3 ++-
- qom/object.c         |  4 +++-
- softmmu/rtc.c        |  3 ++-
- softmmu/vl.c         | 17 +++++++++++------
- 4 files changed, 18 insertions(+), 9 deletions(-)
+ accel/kvm/kvm-all.c    | 31 ++-----------------------------
+ accel/kvm/sev-stub.c   |  9 ++-------
+ accel/stubs/kvm-stub.c | 10 ----------
+ hw/i386/pc_sysfw.c     | 17 ++++++-----------
+ include/sysemu/kvm.h   | 16 ----------------
+ include/sysemu/sev.h   |  4 ++--
+ target/i386/sev-stub.c |  5 +++++
+ target/i386/sev.c      | 24 ++++++++++++++----------
+ 8 files changed, 31 insertions(+), 85 deletions(-)
 
-diff --git a/include/qom/object.h b/include/qom/object.h
-index d378f13a11..6721cd312e 100644
---- a/include/qom/object.h
-+++ b/include/qom/object.h
-@@ -638,7 +638,8 @@ bool object_apply_global_props(Object *obj, const GPtrArray *props,
-                                Error **errp);
- void object_set_machine_compat_props(GPtrArray *compat_props);
- void object_set_accelerator_compat_props(GPtrArray *compat_props);
--void object_register_sugar_prop(const char *driver, const char *prop, const char *value);
-+void object_register_sugar_prop(const char *driver, const char *prop,
-+                                const char *value, bool optional);
- void object_apply_compat_props(Object *obj);
+diff --git a/accel/kvm/kvm-all.c b/accel/kvm/kvm-all.c
+index 389eaace72..260ed73ffe 100644
+--- a/accel/kvm/kvm-all.c
++++ b/accel/kvm/kvm-all.c
+@@ -120,10 +120,6 @@ struct KVMState
+     KVMMemoryListener memory_listener;
+     QLIST_HEAD(, KVMParkedVcpu) kvm_parked_vcpus;
  
- /**
-diff --git a/qom/object.c b/qom/object.c
-index 2fa0119647..491823db4a 100644
---- a/qom/object.c
-+++ b/qom/object.c
-@@ -442,7 +442,8 @@ static GPtrArray *object_compat_props[3];
-  * other than "-global".  These are generally used for syntactic
-  * sugar and legacy command line options.
-  */
--void object_register_sugar_prop(const char *driver, const char *prop, const char *value)
-+void object_register_sugar_prop(const char *driver, const char *prop,
-+                                const char *value, bool optional)
- {
-     GlobalProperty *g;
-     if (!object_compat_props[2]) {
-@@ -452,6 +453,7 @@ void object_register_sugar_prop(const char *driver, const char *prop, const char
-     g->driver = g_strdup(driver);
-     g->property = g_strdup(prop);
-     g->value = g_strdup(value);
-+    g->optional = optional;
-     g_ptr_array_add(object_compat_props[2], g);
+-    /* memory encryption */
+-    void *memcrypt_handle;
+-    int (*memcrypt_encrypt_data)(void *handle, uint8_t *ptr, uint64_t len);
+-
+     /* For "info mtree -f" to tell if an MR is registered in KVM */
+     int nr_as;
+     struct KVMAs {
+@@ -222,26 +218,6 @@ int kvm_get_max_memslots(void)
+     return s->nr_slots;
  }
  
-diff --git a/softmmu/rtc.c b/softmmu/rtc.c
-index e1e15ef613..5632684fc9 100644
---- a/softmmu/rtc.c
-+++ b/softmmu/rtc.c
-@@ -179,7 +179,8 @@ void configure_rtc(QemuOpts *opts)
-         if (!strcmp(value, "slew")) {
-             object_register_sugar_prop("mc146818rtc",
-                                        "lost_tick_policy",
--                                       "slew");
-+                                       "slew",
-+                                       false);
-         } else if (!strcmp(value, "none")) {
-             /* discard is default */
-         } else {
-diff --git a/softmmu/vl.c b/softmmu/vl.c
-index 7ddf405d76..3f7721b83e 100644
---- a/softmmu/vl.c
-+++ b/softmmu/vl.c
-@@ -1663,16 +1663,20 @@ static int machine_set_property(void *opaque,
-         return 0;
-     }
-     if (g_str_equal(qom_name, "igd-passthru")) {
--        object_register_sugar_prop(ACCEL_CLASS_NAME("xen"), qom_name, value);
-+        object_register_sugar_prop(ACCEL_CLASS_NAME("xen"), qom_name, value,
-+                                   false);
-         return 0;
-     }
-     if (g_str_equal(qom_name, "kvm-shadow-mem")) {
--        object_register_sugar_prop(ACCEL_CLASS_NAME("kvm"), qom_name, value);
-+        object_register_sugar_prop(ACCEL_CLASS_NAME("kvm"), qom_name, value,
-+                                   false);
-         return 0;
-     }
-     if (g_str_equal(qom_name, "kernel-irqchip")) {
--        object_register_sugar_prop(ACCEL_CLASS_NAME("kvm"), qom_name, value);
--        object_register_sugar_prop(ACCEL_CLASS_NAME("whpx"), qom_name, value);
-+        object_register_sugar_prop(ACCEL_CLASS_NAME("kvm"), qom_name, value,
-+                                   false);
-+        object_register_sugar_prop(ACCEL_CLASS_NAME("whpx"), qom_name, value,
-+                                   false);
-         return 0;
+-bool kvm_memcrypt_enabled(void)
+-{
+-    if (kvm_state && kvm_state->memcrypt_handle) {
+-        return true;
+-    }
+-
+-    return false;
+-}
+-
+-int kvm_memcrypt_encrypt_data(uint8_t *ptr, uint64_t len)
+-{
+-    if (kvm_state->memcrypt_handle &&
+-        kvm_state->memcrypt_encrypt_data) {
+-        return kvm_state->memcrypt_encrypt_data(kvm_state->memcrypt_handle,
+-                                              ptr, len);
+-    }
+-
+-    return 1;
+-}
+-
+ /* Called with KVMMemoryListener.slots_lock held */
+ static KVMSlot *kvm_get_free_slot(KVMMemoryListener *kml)
+ {
+@@ -2206,13 +2182,10 @@ static int kvm_init(MachineState *ms)
+      * encryption context.
+      */
+     if (ms->memory_encryption) {
+-        kvm_state->memcrypt_handle = sev_guest_init(ms->memory_encryption);
+-        if (!kvm_state->memcrypt_handle) {
+-            ret = -1;
++        ret = sev_guest_init(ms->memory_encryption);
++        if (ret < 0) {
+             goto err;
+         }
+-
+-        kvm_state->memcrypt_encrypt_data = sev_encrypt_data;
      }
  
-@@ -2297,9 +2301,10 @@ static void qemu_process_sugar_options(void)
+     ret = kvm_arch_init(ms, s);
+diff --git a/accel/kvm/sev-stub.c b/accel/kvm/sev-stub.c
+index 4f97452585..5db9ab8f00 100644
+--- a/accel/kvm/sev-stub.c
++++ b/accel/kvm/sev-stub.c
+@@ -15,12 +15,7 @@
+ #include "qemu-common.h"
+ #include "sysemu/sev.h"
  
-         val = g_strdup_printf("%d",
-                  (uint32_t) qemu_opt_get_number(qemu_find_opts_singleton("smp-opts"), "cpus", 1));
--        object_register_sugar_prop("memory-backend", "prealloc-threads", val);
-+        object_register_sugar_prop("memory-backend", "prealloc-threads", val,
-+                                   false);
-         g_free(val);
--        object_register_sugar_prop("memory-backend", "prealloc", "on");
-+        object_register_sugar_prop("memory-backend", "prealloc", "on", false);
+-int sev_encrypt_data(void *handle, uint8_t *ptr, uint64_t len)
++int sev_guest_init(const char *id)
+ {
+-    abort();
+-}
+-
+-void *sev_guest_init(const char *id)
+-{
+-    return NULL;
++    return -1;
+ }
+diff --git a/accel/stubs/kvm-stub.c b/accel/stubs/kvm-stub.c
+index 680e099463..0f17acfac0 100644
+--- a/accel/stubs/kvm-stub.c
++++ b/accel/stubs/kvm-stub.c
+@@ -81,16 +81,6 @@ int kvm_on_sigbus(int code, void *addr)
+     return 1;
+ }
+ 
+-bool kvm_memcrypt_enabled(void)
+-{
+-    return false;
+-}
+-
+-int kvm_memcrypt_encrypt_data(uint8_t *ptr, uint64_t len)
+-{
+-  return 1;
+-}
+-
+ #ifndef CONFIG_USER_ONLY
+ int kvm_irqchip_add_msi_route(KVMState *s, int vector, PCIDevice *dev)
+ {
+diff --git a/hw/i386/pc_sysfw.c b/hw/i386/pc_sysfw.c
+index 92e90ff013..11172214f1 100644
+--- a/hw/i386/pc_sysfw.c
++++ b/hw/i386/pc_sysfw.c
+@@ -38,6 +38,7 @@
+ #include "sysemu/sysemu.h"
+ #include "hw/block/flash.h"
+ #include "sysemu/kvm.h"
++#include "sysemu/sev.h"
+ 
+ #define FLASH_SECTOR_SIZE 4096
+ 
+@@ -147,7 +148,7 @@ static void pc_system_flash_map(PCMachineState *pcms,
+     PFlashCFI01 *system_flash;
+     MemoryRegion *flash_mem;
+     void *flash_ptr;
+-    int ret, flash_size;
++    int flash_size;
+ 
+     assert(PC_MACHINE_GET_CLASS(pcms)->pci_enabled);
+ 
+@@ -191,16 +192,10 @@ static void pc_system_flash_map(PCMachineState *pcms,
+             flash_mem = pflash_cfi01_get_memory(system_flash);
+             pc_isa_bios_init(rom_memory, flash_mem, size);
+ 
+-            /* Encrypt the pflash boot ROM */
+-            if (kvm_memcrypt_enabled()) {
+-                flash_ptr = memory_region_get_ram_ptr(flash_mem);
+-                flash_size = memory_region_size(flash_mem);
+-                ret = kvm_memcrypt_encrypt_data(flash_ptr, flash_size);
+-                if (ret) {
+-                    error_report("failed to encrypt pflash rom");
+-                    exit(1);
+-                }
+-            }
++            /* Encrypt the pflash boot ROM, if necessary */
++            flash_ptr = memory_region_get_ram_ptr(flash_mem);
++            flash_size = memory_region_size(flash_mem);
++            sev_encrypt_flash(flash_ptr, flash_size, &error_fatal);
+         }
+     }
+ }
+diff --git a/include/sysemu/kvm.h b/include/sysemu/kvm.h
+index bb5d5cf497..11cf0b875d 100644
+--- a/include/sysemu/kvm.h
++++ b/include/sysemu/kvm.h
+@@ -233,22 +233,6 @@ int kvm_has_intx_set_mask(void);
+  */
+ bool kvm_arm_supports_user_irq(void);
+ 
+-/**
+- * kvm_memcrypt_enabled - return boolean indicating whether memory encryption
+- *                        is enabled
+- * Returns: 1 memory encryption is enabled
+- *          0 memory encryption is disabled
+- */
+-bool kvm_memcrypt_enabled(void);
+-
+-/**
+- * kvm_memcrypt_encrypt_data: encrypt the memory range
+- *
+- * Return: 1 failed to encrypt the range
+- *         0 succesfully encrypted memory region
+- */
+-int kvm_memcrypt_encrypt_data(uint8_t *ptr, uint64_t len);
+-
+ 
+ #ifdef NEED_CPU_H
+ #include "cpu.h"
+diff --git a/include/sysemu/sev.h b/include/sysemu/sev.h
+index 7ab6e3e31d..7335e59867 100644
+--- a/include/sysemu/sev.h
++++ b/include/sysemu/sev.h
+@@ -16,8 +16,8 @@
+ 
+ #include "sysemu/kvm.h"
+ 
+-void *sev_guest_init(const char *id);
+-int sev_encrypt_data(void *handle, uint8_t *ptr, uint64_t len);
++int sev_guest_init(const char *id);
++int sev_encrypt_flash(uint8_t *ptr, uint64_t len, Error **errp);
+ int sev_inject_launch_secret(const char *hdr, const char *secret,
+                              uint64_t gpa, Error **errp);
+ #endif
+diff --git a/target/i386/sev-stub.c b/target/i386/sev-stub.c
+index c1fecc2101..1ac1fd5b94 100644
+--- a/target/i386/sev-stub.c
++++ b/target/i386/sev-stub.c
+@@ -54,3 +54,8 @@ int sev_inject_launch_secret(const char *hdr, const char *secret,
+ {
+     return 1;
+ }
++
++int sev_encrypt_flash(uint8_t *ptr, uint64_t len, Error **errp)
++{
++    return 0;
++}
+diff --git a/target/i386/sev.c b/target/i386/sev.c
+index 6b49925f51..2a4b2187d6 100644
+--- a/target/i386/sev.c
++++ b/target/i386/sev.c
+@@ -682,7 +682,7 @@ sev_vm_state_change(void *opaque, int running, RunState state)
+     }
+ }
+ 
+-void *
++int
+ sev_guest_init(const char *id)
+ {
+     SevGuestState *sev;
+@@ -695,7 +695,7 @@ sev_guest_init(const char *id)
+     ret = ram_block_discard_disable(true);
+     if (ret) {
+         error_report("%s: cannot disable RAM discard", __func__);
+-        return NULL;
++        return -1;
      }
  
-     if (watchdog) {
+     sev = lookup_sev_guest_info(id);
+@@ -766,23 +766,27 @@ sev_guest_init(const char *id)
+     qemu_add_machine_init_done_notifier(&sev_machine_done_notify);
+     qemu_add_vm_change_state_handler(sev_vm_state_change, sev);
+ 
+-    return sev;
++    return 0;
+ err:
+     sev_guest = NULL;
+     ram_block_discard_disable(false);
+-    return NULL;
++    return -1;
+ }
+ 
+ int
+-sev_encrypt_data(void *handle, uint8_t *ptr, uint64_t len)
++sev_encrypt_flash(uint8_t *ptr, uint64_t len, Error **errp)
+ {
+-    SevGuestState *sev = handle;
+-
+-    assert(sev);
++    if (!sev_guest) {
++        return 0;
++    }
+ 
+     /* if SEV is in update state then encrypt the data else do nothing */
+-    if (sev_check_state(sev, SEV_STATE_LAUNCH_UPDATE)) {
+-        return sev_launch_update_data(sev, ptr, len);
++    if (sev_check_state(sev_guest, SEV_STATE_LAUNCH_UPDATE)) {
++        int ret = sev_launch_update_data(sev_guest, ptr, len);
++        if (ret < 0) {
++            error_setg(errp, "failed to encrypt pflash rom");
++            return ret;
++        }
+     }
+ 
+     return 0;
 -- 
 2.29.2
 
