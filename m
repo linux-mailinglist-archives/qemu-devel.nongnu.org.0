@@ -2,53 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1E3372F4195
-	for <lists+qemu-devel@lfdr.de>; Wed, 13 Jan 2021 03:17:12 +0100 (CET)
-Received: from localhost ([::1]:59314 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CBA842F41BC
+	for <lists+qemu-devel@lfdr.de>; Wed, 13 Jan 2021 03:26:32 +0100 (CET)
+Received: from localhost ([::1]:33562 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kzVig-0007NR-NF
-	for lists+qemu-devel@lfdr.de; Tue, 12 Jan 2021 21:17:10 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51104)
+	id 1kzVrj-0000Rl-LR
+	for lists+qemu-devel@lfdr.de; Tue, 12 Jan 2021 21:26:31 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52214)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <jiaxun.yang@flygoat.com>)
- id 1kzVh3-0006qr-3E
- for qemu-devel@nongnu.org; Tue, 12 Jan 2021 21:15:30 -0500
-Received: from new4-smtp.messagingengine.com ([66.111.4.230]:41579)
+ id 1kzVqJ-0008Ri-D8
+ for qemu-devel@nongnu.org; Tue, 12 Jan 2021 21:25:03 -0500
+Received: from new4-smtp.messagingengine.com ([66.111.4.230]:49475)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <jiaxun.yang@flygoat.com>)
- id 1kzVh1-0007ek-9y
- for qemu-devel@nongnu.org; Tue, 12 Jan 2021 21:15:28 -0500
+ id 1kzVqH-0002OB-DY
+ for qemu-devel@nongnu.org; Tue, 12 Jan 2021 21:25:03 -0500
 Received: from compute6.internal (compute6.nyi.internal [10.202.2.46])
- by mailnew.nyi.internal (Postfix) with ESMTP id 8046C58066C;
- Tue, 12 Jan 2021 21:15:23 -0500 (EST)
-Received: from mailfrontend2 ([10.202.2.163])
- by compute6.internal (MEProxy); Tue, 12 Jan 2021 21:15:23 -0500
+ by mailnew.nyi.internal (Postfix) with ESMTP id 0836A580705;
+ Tue, 12 Jan 2021 21:25:00 -0500 (EST)
+Received: from mailfrontend1 ([10.202.2.162])
+ by compute6.internal (MEProxy); Tue, 12 Jan 2021 21:25:00 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=flygoat.com; h=
  subject:to:cc:references:from:message-id:date:mime-version
- :in-reply-to:content-type:content-transfer-encoding; s=fm1; bh=X
- lDSLcTC3eOCE6nNsf9sREC7dWYenaUkY8cwT0/X0QY=; b=ZJG0/EAs10pHRz/aF
- ILOYwlTT7MfeJNDstDc/dxq4XqmXHMxIfV0Fv8kBVZz3KGgxbgK85I8ezV6QC62U
- EASOCcWkhOH7rNpHvtBIMzjQgFgY9/YVYSXzqjZqQ/xzcg6R4tmM7l9hRGHH0aBC
- sU/xvKqRGG6hO5hoQW0nzFgYiAyExpOPjM9dikO7+AvPfOWp2ZyAgaVQ+yOkecV0
- eGIJSDUsTiJiDgbCel00HUuZpy09ZoUCdRiosiiCo3ZxXVmpdP4xyKmWx+ty11+o
- 5G0InpDaGpsF/ZZI7zNfgZLAVNDCyRBET5NNtNkJWHceO1jdEv4QKl86S+Q/uRsJ
- fP6tA==
+ :in-reply-to:content-type:content-transfer-encoding; s=fm1; bh=r
+ 272evREf4xx57RtSobGELbz1au2dPoVnooS53ymJFs=; b=geptXui35nW+6cb3S
+ LpSzM6rc15i3lh0c4l/NurPFrNATEYXVoNhIuTIWQ4MiNNzmriSH4ed0D7HgGYkC
+ /U9BNp1n4SkrWLTZaQcFiT9fuD913XVfFXfvPpxYyQAkqI5jF+fqr1jf2F7YLpLX
+ wwaM/pr7IEYqLvrIonvXQS+dxrahmMT8rg1xwiAcs09woaZToja9VKl8q2aFe8Ql
+ a6KQWjtqCCmCIySXno4zcJ9iYUkomKb7QmoytnmRZmkhmvlvBFLLW0QEMj5eNHmz
+ V0B5G+bp54lXINVKG4JkYLktrMuuZEgDIAXK26Dua4PUFQxTUTK815Z9kMz2pyar
+ Vs90Q==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
  messagingengine.com; h=cc:content-transfer-encoding:content-type
  :date:from:in-reply-to:message-id:mime-version:references
  :subject:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender
- :x-sasl-enc; s=fm1; bh=XlDSLcTC3eOCE6nNsf9sREC7dWYenaUkY8cwT0/X0
- QY=; b=LiJEx2opJfVUoGQguUagLOu4ygN3Qtv4FJ810aUZqF8lr7ZpsHoNuWqlx
- JvEABaxC38QMVWKJaLX4DfLDOofeqLJJD4yEfYFRzUF6BnVMqVb1QlM2Ln/YwDHM
- w+Y62u4TGfUdEwGmJRe8+7N2NKHLH8xVGf3TTm+kSzamWIlowxOhsj5dNsOzRfHu
- 2Nuf5+W9jDYjDQ4p/MYbqJJAGLtDwlaiqNTaE2N03CU9FxI87By4j+J8EMHBnvYp
- h2TJHXm5doWXIfcOnaY5ha0cTg0IRyklU/C3EPThGRt1NdctGbVtwGr9ZrgFRsCC
- TlMwri+c8LNXIioEGLxujef7oVkeA==
-X-ME-Sender: <xms:ulf-X3PPm3zwUilYExw4i8631qP3AYofc40UcJrlIBcp9RvXa_JHSQ>
- <xme:ulf-Xx_Cskr9WHyoKmFs5zr0F6lcC8fQl0lzCltM13U_8_lX8F88cRvQ0d3qgWDi8
- beYNUlN-f4HZrgjEfU>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedukedrtddugdeghecutefuodetggdotefrodftvf
+ :x-sasl-enc; s=fm1; bh=r272evREf4xx57RtSobGELbz1au2dPoVnooS53ymJ
+ Fs=; b=CvfJ/tSF6HDtn7QHOZ2EmiwWvCIZQ94j7dD5JpgdUUbmPGD6TKSXiSmhF
+ 6ha97qlML4G4HfQbiOFKJ1S7JZljryc+6LjsimV0ocw8ysqYosZ/4IZlYab2TQww
+ 426xAkuN3dI3ebnlKK0AyWPqfXOhFmd8Rl+Pe0ZtG8FRIFX1rhgoXsZUaqPZIlMf
+ puSgNne6yNdWNKofJtWw0kfJGAnel4UfUORNFxsoXpKJRazkwVMrWW/vspIGV5yf
+ GIzGg9L4PUp+Mn8uGSfywcUQx8dYyC9hwjc+x73BA4F5/QB3t8iGIjH5FOJ2vaOj
+ tl7HDl/oAUNCBPbGQ9Zfpf+cS8YqQ==
+X-ME-Sender: <xms:-ln-X91Xn0X4vA9E5ZeE9H0XrbndNz1WuiptVSMLozlQeRQzsgOT3g>
+ <xme:-ln-X0ETe7soIpbmN3YVBE3gRcuWbS3SOE-6w8HBBcEmPU6IboamjObFeodYvHHVm
+ tQCEmMqyjU8fDo7i2E>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedukedrtddugdegjecutefuodetggdotefrodftvf
  curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
  uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
  fjughrpefuvfhfhffkffgfgggjtgfgsehtkeertddtfeejnecuhfhrohhmpeflihgrgihu
@@ -57,25 +57,27 @@ X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedukedrtddugdeghecutefuodetggdote
  ueegveefgfefnecukfhppeeghedrfeefrdehtddrvdehgeenucevlhhushhtvghrufhiii
  gvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehjihgrgihunhdrhigrnhhgsehflhih
  ghhorghtrdgtohhm
-X-ME-Proxy: <xmx:ulf-X2TZeDYd7FXs290f9Tho-ZiqPcA0YDtrH_Qadzq9mNDmyMe5kw>
- <xmx:ulf-X7vT1yln7nF6SyVvYybh-DlkLrwbZnxG79iZMShPARWxBx2KmA>
- <xmx:ulf-X_fsxk-KOkEYILBsj6IOoaYLNBVRhxZt_X8cFM8ov-O6p5QrRg>
- <xmx:u1f-X77jHL_08JJlEXA50MEj7KL8Wo1CHAyMOT9jSnqkHrRbM8vnXw>
+X-ME-Proxy: <xmx:-ln-X97w_3tlD8zdQxgMY3eRLTQddGlAfyh0J0US4UhAxxJeJOutlg>
+ <xmx:-ln-X61u7JNQfJxeL99l3MCjQ7qxFIdpHRN47ufYLSWbqTOG2kpPKA>
+ <xmx:-ln-XwFS2rAVkRSEvYMyMkyEi1QdqhK09ouafJkIlqlrstCiFptHzQ>
+ <xmx:-1n-X6PCj3eiK7d4p5W3AiM7k8cXMr-dY8gxo1yjKKbRzeFZxeWP4A>
 Received: from [0.0.0.0] (li1000-254.members.linode.com [45.33.50.254])
- by mail.messagingengine.com (Postfix) with ESMTPA id 6CEA41080066;
- Tue, 12 Jan 2021 21:15:20 -0500 (EST)
-Subject: Re: [PATCH 0/6] target/mips: Convert Loongson LEXT opcodes to
- decodetree
-To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
- qemu-devel@nongnu.org
-References: <20210112215504.2093955-1-f4bug@amsat.org>
+ by mail.messagingengine.com (Postfix) with ESMTPA id 378F3240057;
+ Tue, 12 Jan 2021 21:24:56 -0500 (EST)
+Subject: Re: [PATCH v2 03/13] vt82c686: Fix SMBus IO base and configuration
+ registers
+To: BALATON Zoltan <balaton@eik.bme.hu>
+References: <cover.1610223396.git.balaton@eik.bme.hu>
+ <f2ca2ad5f08ba8cee07afd9d67b4e75cda21db09.1610223397.git.balaton@eik.bme.hu>
+ <f01fb9b0-133f-325d-9d34-e97af14e3c4d@flygoat.com>
+ <998ba27e-5d97-1456-a9ef-37e73ed4dc9a@eik.bme.hu>
 From: Jiaxun Yang <jiaxun.yang@flygoat.com>
-Message-ID: <0e1b22ca-7ca0-f92e-2d43-fc10eafd565f@flygoat.com>
-Date: Wed, 13 Jan 2021 10:15:17 +0800
+Message-ID: <d1a185bc-7b55-0389-a67c-2ed941293b51@flygoat.com>
+Date: Wed, 13 Jan 2021 10:24:53 +0800
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.6.0
 MIME-Version: 1.0
-In-Reply-To: <20210112215504.2093955-1-f4bug@amsat.org>
+In-Reply-To: <998ba27e-5d97-1456-a9ef-37e73ed4dc9a@eik.bme.hu>
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Transfer-Encoding: 8bit
 Content-Language: en-US
@@ -100,62 +102,142 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>,
- Huacai Chen <chenhuacai@kernel.org>,
- Richard Henderson <richard.henderson@linaro.org>,
- Aurelien Jarno <aurelien@aurel32.net>
+Cc: Huacai Chen <chenhuacai@kernel.org>, qemu-devel@nongnu.org, f4bug@amsat.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-在 2021/1/13 上午5:54, Philippe Mathieu-Daudé 写道:
-> Loongson is next step in the "MIPS decodetree conversion" epic.
-> Start with the simplest extension.
+在 2021/1/13 上午6:25, BALATON Zoltan 写道:
+> On Tue, 12 Jan 2021, Jiaxun Yang wrote:
+>> 在 2021/1/10 上午4:16, BALATON Zoltan 写道:
+>>> The base address of the SMBus io ports and its enabled status is set
+>>> by registers in the PCI config space but this was not correctly
+>>> emulated. Instead the SMBus registers were mapped on realize to the
+>>> base address set by a property to the address expected by fuloong2e
+>>> firmware.
+>>>
+>>> Fix the base and config register handling to more closely model
+>>> hardware which allows to remove the property and allows the guest to
+>>> control this mapping. Do all this in reset instead of realize so it's
+>>> correctly updated on reset.
+>>
+>> Hi,
+>>
+>> Thanks for your patch!
+>>
+>>>
+>>> Signed-off-by: BALATON Zoltan <balaton@eik.bme.hu>
+>>> ---
+>>>   hw/isa/vt82c686.c   | 49 
+>>> +++++++++++++++++++++++++++++++++------------
+>>>   hw/mips/fuloong2e.c |  4 +---
+>>>   2 files changed, 37 insertions(+), 16 deletions(-)
+>>>
+>>> diff --git a/hw/isa/vt82c686.c b/hw/isa/vt82c686.c
+>>> index fe8961b057..9c4d153022 100644
+>>> --- a/hw/isa/vt82c686.c
+>>> +++ b/hw/isa/vt82c686.c
+>>> @@ -22,6 +22,7 @@
+>>>   #include "hw/i2c/pm_smbus.h"
+>>>   #include "qapi/error.h"
+>>>   #include "qemu/module.h"
+>>> +#include "qemu/range.h"
+>>>   #include "qemu/timer.h"
+>>>   #include "exec/address-spaces.h"
+>>>   #include "trace.h"
+>>> @@ -34,7 +35,6 @@ struct VT686PMState {
+>>>       ACPIREGS ar;
+>>>       APMState apm;
+>>>       PMSMBus smb;
+>>> -    uint32_t smb_io_base;
+>>>   };
+>>>     static void pm_io_space_update(VT686PMState *s)
+>>> @@ -50,11 +50,22 @@ static void pm_io_space_update(VT686PMState *s)
+>>>       memory_region_transaction_commit();
+>>>   }
+>>>   +static void smb_io_space_update(VT686PMState *s)
+>>> +{
+>>> +    uint32_t smbase = pci_get_long(s->dev.config + 0x90) & 0xfff0UL;
+>>> +
+>>> +    memory_region_transaction_begin();
+>>> +    memory_region_set_address(&s->smb.io, smbase);
+>>> +    memory_region_set_enabled(&s->smb.io, s->dev.config[0xd2] & 
+>>> BIT(0));
+>>> +    memory_region_transaction_commit();
+>>> +}
+>>> +
+>>>   static int vmstate_acpi_post_load(void *opaque, int version_id)
+>>>   {
+>>>       VT686PMState *s = opaque;
+>>>         pm_io_space_update(s);
+>>> +    smb_io_space_update(s);
+>>>       return 0;
+>>>   }
+>>>   @@ -77,8 +88,18 @@ static const VMStateDescription vmstate_acpi = {
+>>>     static void pm_write_config(PCIDevice *d, uint32_t addr, 
+>>> uint32_t val, int len)
+>>>   {
+>>> +    VT686PMState *s = VT82C686B_PM(d);
+>>> +
+>>>       trace_via_pm_write(addr, val, len);
+>>>       pci_default_write_config(d, addr, val, len);
+>>> +    if (ranges_overlap(addr, len, 0x90, 4)) {
+>>> +        uint32_t v = pci_get_long(s->dev.config + 0x90);
+>>> +        pci_set_long(s->dev.config + 0x90, (v & 0xfff0UL) | 1);
+>>
+>> What does this "or 1" do?
+>> The datasheet I found only mentioned the default value of BASE is 
+>> 0000 0001
+>> but didn't say anything about it's function :-/
 >
-> The diffstat addition comes from the TCG functions expanded.
-> The code is easier to review now.
-> IMO this is also a good template to show how easy a decodetree
-> conversion can be (and how nice the .decode file is to review) :P
+> It says that in the summary table but later in data sheet there's also 
+> detailed description of registers for each part where it says:
 >
-> Please review,
+> Offset 93-90 – SMBus I/O Base ... RW
+> 3-0 Fixed ... always reads 0001b
 >
-> Phil.
->
-> Based-on: <20210112184156.2014305-1-f4bug@amsat.org>
->            "decodetree: Allow 'dot' in opcode names"
->
-> Philippe Mathieu-Daudé (6):
->    target/mips: Re-introduce OPC_ADDUH_QB_DSP and OPC_MUL_PH_DSP
->    target/mips: Convert Loongson DDIV.G opcodes to decodetree
->    target/mips: Convert Loongson DIV.G opcodes to decodetree
->    target/mips: Convert Loongson [D]DIVU.G opcodes to decodetree
->    target/mips: Convert Loongson [D]MOD[U].G opcodes to decodetree
->    target/mips: Convert Loongson [D]MULT[U].G opcodes to decodetree
->
->   target/mips/translate.h       |   1 +
->   target/mips/godson2.decode    |  29 +++
->   target/mips/loong-ext.decode  |  30 +++
+> The above mask and | 1 ensures this. I don't know why lowest bit is 
+> always 1 but that seems to be the case for all such regs. Maybe 
+> internally these are implemented like PCI BARs where lowest bit means 
+> IO space.
 
-Hi Philippe,
+Thanks!
 
-Thanks for the template!
+In this case:
 
-Just a small question, where should we perform ISA availability check?
-Before calling generated decoder or after decoded?
+Reviewed-by: Jiaxun Yang <jiaxun.yang@flygoat.com>
 
-Loong-EXT is a super set of Loongson2F's Godson2 and MMI instructions,
-how could we tell it?
+>
+>>> +    }
+>>> +    if (range_covers_byte(addr, len, 0xd2)) {
+>>> +        s->dev.config[0xd2] &= 0xf;
+>>> +        smb_io_space_update(s);
+>>> +    }
+>>>   }
+>>>     static void pm_update_sci(VT686PMState *s)
+>>> @@ -103,6 +124,17 @@ static void pm_tmr_timer(ACPIREGS *ar)
+>>>       pm_update_sci(s);
+>>>   }
+>>>   +static void vt82c686b_pm_reset(DeviceState *d)
+>>> +{
+>>> +    VT686PMState *s = VT82C686B_PM(d);
+>>> +
+>>> +    /* SMBus IO base */
+>>> +    pci_set_long(s->dev.config + 0x90, 1);
+>>
+>> Theoretically this kind of magic number should be avoided but
+>> as the rest of the file was written in such style it seems fine for me.
+>
+> I could add defines for register offsets but did not think that would 
+> make it much more readable to have random names instead of random 
+> numbers. Likely you'll have to consult the data sheet to find out 
+> their meaning anyway.
 
-Thanks.
+Agreed.
 
 - Jiaxun
 
->   target/mips/loong_translate.c | 334 ++++++++++++++++++++++++++++++++++
->   target/mips/translate.c       | 287 ++---------------------------
->   target/mips/meson.build       |   3 +
->   6 files changed, 409 insertions(+), 275 deletions(-)
->   create mode 100644 target/mips/godson2.decode
->   create mode 100644 target/mips/loong-ext.decode
->   create mode 100644 target/mips/loong_translate.c
 >
+> Regards,
+> BALATON Zoltan
 
 
