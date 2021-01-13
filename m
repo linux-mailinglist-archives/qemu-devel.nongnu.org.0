@@ -2,43 +2,47 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 05DB92F5562
-	for <lists+qemu-devel@lfdr.de>; Thu, 14 Jan 2021 01:00:51 +0100 (CET)
-Received: from localhost ([::1]:57762 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B28D02F5572
+	for <lists+qemu-devel@lfdr.de>; Thu, 14 Jan 2021 01:07:29 +0100 (CET)
+Received: from localhost ([::1]:46892 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kzq4I-0000Ft-3G
-	for lists+qemu-devel@lfdr.de; Wed, 13 Jan 2021 19:00:50 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36350)
+	id 1kzqAi-0007Qj-Ou
+	for lists+qemu-devel@lfdr.de; Wed, 13 Jan 2021 19:07:28 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36394)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1kzq1x-0006s2-LG; Wed, 13 Jan 2021 18:58:25 -0500
-Received: from ozlabs.org ([203.11.71.1]:59793)
+ id 1kzq1z-0006uq-9f; Wed, 13 Jan 2021 18:58:27 -0500
+Received: from ozlabs.org ([2401:3900:2:1::2]:44483)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1kzq1v-0006Za-2L; Wed, 13 Jan 2021 18:58:25 -0500
+ id 1kzq1v-0006ZV-OH; Wed, 13 Jan 2021 18:58:27 -0500
 Received: by ozlabs.org (Postfix, from userid 1007)
- id 4DGPXQ3Lt5z9sWS; Thu, 14 Jan 2021 10:58:14 +1100 (AEDT)
+ id 4DGPXP6JWrz9sWC; Thu, 14 Jan 2021 10:58:13 +1100 (AEDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=gibson.dropbear.id.au; s=201602; t=1610582294;
- bh=mHVxcrGGzYrCfA9rYxmOKa3RCA68YZNhZxMoJegXBdo=;
- h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=TsT92BTdo138QHl6Cg7+TQApgSL/NEvo6wqGTTgwn6YEuc83GqzBEXmPEIT7jWkSP
- aC2xhsT4+q5YDYfL3aecES7WC/DdqqDsJmJeYo+1IdePO+RIaPY/L/QxJXFKO2tAGm
- HnEbNdKjeTrsr7PZn/6HwzWPWde8vSVrMLJReynk=
+ d=gibson.dropbear.id.au; s=201602; t=1610582293;
+ bh=nGtVdJLJCKqUWV/HXYXHb49Ayq+DLtWoYF9H0m46txY=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=T4OiI22q43gfVnYl0FBDX6F0W3TCx1mMaxdtWf5zzbzBz7oDiTXOEjWFzoZd1AU9p
+ VtkZI68q02SuvqgHjmAr4kc4bL1pozDmKlVAFhUqyzOZ0LDj71QqxEiEfuyV/DyEDb
+ Y09xQM1AxHi3rm2NQYNBt7exLJOICj8t3PlVhef4=
+Date: Thu, 14 Jan 2021 10:56:20 +1100
 From: David Gibson <david@gibson.dropbear.id.au>
-To: brijesh.singh@amd.com, pair@us.ibm.com, dgilbert@redhat.com,
- pasic@linux.ibm.com, qemu-devel@nongnu.org
-Subject: [PATCH v7 02/13] confidential guest support: Introduce new
- confidential guest support class
-Date: Thu, 14 Jan 2021 10:58:00 +1100
-Message-Id: <20210113235811.1909610-3-david@gibson.dropbear.id.au>
-X-Mailer: git-send-email 2.29.2
-In-Reply-To: <20210113235811.1909610-1-david@gibson.dropbear.id.au>
-References: <20210113235811.1909610-1-david@gibson.dropbear.id.au>
+To: Christian Borntraeger <borntraeger@de.ibm.com>
+Subject: Re: [PATCH v6 13/13] s390: Recognize confidential-guest-support option
+Message-ID: <20210113235620.GL435587@yekko.fritz.box>
+References: <20210112044508.427338-1-david@gibson.dropbear.id.au>
+ <20210112044508.427338-14-david@gibson.dropbear.id.au>
+ <fcafba03-3701-93af-8eb7-17bd0d14d167@de.ibm.com>
+ <20210112123607.39597e3d.cohuck@redhat.com>
+ <20210113005748.GD435587@yekko.fritz.box>
+ <3e524040-826f-623d-6cd5-0946af51ca57@de.ibm.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=203.11.71.1; envelope-from=dgibson@ozlabs.org;
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="9JSHP372f+2dzJ8X"
+Content-Disposition: inline
+In-Reply-To: <3e524040-826f-623d-6cd5-0946af51ca57@de.ibm.com>
+Received-SPF: pass client-ip=2401:3900:2:1::2; envelope-from=dgibson@ozlabs.org;
  helo=ozlabs.org
 X-Spam_score_int: -17
 X-Spam_score: -1.8
@@ -58,176 +62,137 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-ppc@nongnu.org, thuth@redhat.com,
- Marcelo Tosatti <mtosatti@redhat.com>, berrange@redhat.com,
- jun.nakajima@intel.com, kvm@vger.kernel.org,
- David Hildenbrand <david@redhat.com>, cohuck@redhat.com,
- Richard Henderson <richard.henderson@linaro.org>, Greg Kurz <groug@kaod.org>,
- mdroth@linux.vnet.ibm.com, borntraeger@de.ibm.com, qemu-s390x@nongnu.org,
- frankja@linux.ibm.com, mst@redhat.com, pragyansri.pathi@intel.com,
- andi.kleen@intel.com, Paolo Bonzini <pbonzini@redhat.com>,
- David Gibson <david@gibson.dropbear.id.au>,
- Eduardo Habkost <ehabkost@redhat.com>
+Cc: pair@us.ibm.com, Cornelia Huck <cohuck@redhat.com>, brijesh.singh@amd.com,
+ kvm@vger.kernel.org, david@redhat.com, qemu-devel@nongnu.org,
+ frankja@linux.ibm.com, mst@redhat.com, mdroth@linux.vnet.ibm.com,
+ pasic@linux.ibm.com, pragyansri.pathi@intel.com, andi.kleen@intel.com,
+ thuth@redhat.com, Eduardo Habkost <ehabkost@redhat.com>,
+ richard.henderson@linaro.org, dgilbert@redhat.com, Greg Kurz <groug@kaod.org>,
+ qemu-s390x@nongnu.org, jun.nakajima@intel.com,
+ Daniel =?iso-8859-1?Q?P=2E_Berrang=E9?= <berrange@redhat.com>,
+ Marcelo Tosatti <mtosatti@redhat.com>, qemu-ppc@nongnu.org,
+ Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Several architectures have mechanisms which are designed to protect guest
-memory from interference or eavesdropping by a compromised hypervisor.  AMD
-SEV does this with in-chip memory encryption and Intel's MKTME can do
-similar things.  POWER's Protected Execution Framework (PEF) accomplishes a
-similar goal using an ultravisor and new memory protection features,
-instead of encryption.
 
-To (partially) unify handling for these, this introduces a new
-ConfidentialGuestSupport QOM base class.  "Confidential" is kind of vague,
-but "confidential computing" seems to be the buzzword about these schemes,
-and "secure" or "protected" are often used in connection to unrelated
-things (such as hypervisor-from-guest or guest-from-guest security).
+--9JSHP372f+2dzJ8X
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-The "support" in the name is significant because in at least some of the
-cases it requires the guest to take specific actions in order to protect
-itself from hypervisor eavesdropping.
+On Wed, Jan 13, 2021 at 07:57:41AM +0100, Christian Borntraeger wrote:
+>=20
+>=20
+> On 13.01.21 01:57, David Gibson wrote:
+> > On Tue, Jan 12, 2021 at 12:36:07PM +0100, Cornelia Huck wrote:
+> > 65;6201;1c> On Tue, 12 Jan 2021 09:15:26 +0100
+> >> Christian Borntraeger <borntraeger@de.ibm.com> wrote:
+> >>
+> >>> On 12.01.21 05:45, David Gibson wrote:
+> >>>> At least some s390 cpu models support "Protected Virtualization" (PV=
+),
+> >>>> a mechanism to protect guests from eavesdropping by a compromised
+> >>>> hypervisor.
+> >>>>
+> >>>> This is similar in function to other mechanisms like AMD's SEV and
+> >>>> POWER's PEF, which are controlled by the "confidential-guest-support"
+> >>>> machine option.  s390 is a slightly special case, because we already
+> >>>> supported PV, simply by using a CPU model with the required feature
+> >>>> (S390_FEAT_UNPACK).
+> >>>>
+> >>>> To integrate this with the option used by other platforms, we
+> >>>> implement the following compromise:
+> >>>>
+> >>>>  - When the confidential-guest-support option is set, s390 will
+> >>>>    recognize it, verify that the CPU can support PV (failing if not)
+> >>>>    and set virtio default options necessary for encrypted or protect=
+ed
+> >>>>    guests, as on other platforms.  i.e. if confidential-guest-support
+> >>>>    is set, we will either create a guest capable of entering PV mode,
+> >>>>    or fail outright.
+> >>>>
+> >>>>  - If confidential-guest-support is not set, guests might still be
+> >>>>    able to enter PV mode, if the CPU has the right model.  This may =
+be
+> >>>>    a little surprising, but shouldn't actually be harmful.
+> >>>>
+> >>>> To start a guest supporting Protected Virtualization using the new
+> >>>> option use the command line arguments:
+> >>>>     -object s390-pv-guest,id=3Dpv0 -machine confidential-guest-suppo=
+rt=3Dpv0 =20
+> >>>
+> >>>
+> >>> This results in
+> >>>
+> >>> [cborntra@t35lp61 qemu]$ qemu-system-s390x -enable-kvm -nographic -m =
+2G -kernel ~/full.normal=20
+> >>> **
+> >>> ERROR:../qom/object.c:317:type_initialize: assertion failed: (parent-=
+>instance_size <=3D ti->instance_size)
+> >>> Bail out! ERROR:../qom/object.c:317:type_initialize: assertion failed=
+: (parent->instance_size <=3D ti->instance_size)
+> >>> Aborted (core dumped)
+> >>>
+> >>
+> >>>> +static const TypeInfo s390_pv_guest_info =3D {
+> >>>> +    .parent =3D TYPE_CONFIDENTIAL_GUEST_SUPPORT,
+> >>>> +    .name =3D TYPE_S390_PV_GUEST,
+> >>>> +    .instance_size =3D sizeof(S390PVGuestState),
+> >>>> +    .interfaces =3D (InterfaceInfo[]) {
+> >>>> +        { TYPE_USER_CREATABLE },
+> >>>> +        { }
+> >>>> +    }
+> >>>> +};
+> >>
+> >> I think this needs TYPE_OBJECT in .parent and
+> >> TYPE_CONFIDENTIAL_GUEST_SUPPORT as an interface to fix the crash.
+> >=20
+> > No, that was true of an earlier revision, but parent is correct in the
+> > current version.
+>=20
+> right now parent is obviously wrong as it triggers the above warning (and=
+ all other
+> variants in the previous patches also use TYPE_OBJECT). It is probably th=
+e right
+> thing when you fix
+>=20
+> +struct S390PVGuestState {
+> +    Object parent_obj;
+> +};
+> +
+>=20
+> and change Object to the proper type I guess.=20
 
-Signed-off-by: David Gibson <david@gibson.dropbear.id.au>
----
- backends/confidential-guest-support.c     | 33 ++++++++++++++++++++
- backends/meson.build                      |  1 +
- include/exec/confidential-guest-support.h | 38 +++++++++++++++++++++++
- include/qemu/typedefs.h                   |  1 +
- target/i386/sev.c                         |  3 +-
- 5 files changed, 75 insertions(+), 1 deletion(-)
- create mode 100644 backends/confidential-guest-support.c
- create mode 100644 include/exec/confidential-guest-support.h
+Yes, I think so.  In the next spin I've fixed the parent_obj field (as
+well as moving to OBJECT_DEFINE_TYPE()) and it's passing the gitlab
+CI, at least.
 
-diff --git a/backends/confidential-guest-support.c b/backends/confidential-guest-support.c
-new file mode 100644
-index 0000000000..9b0ded0db4
---- /dev/null
-+++ b/backends/confidential-guest-support.c
-@@ -0,0 +1,33 @@
-+/*
-+ * QEMU Confidential Guest support
-+ *
-+ * Copyright: David Gibson, Red Hat Inc. 2020
-+ *
-+ * Authors:
-+ *  David Gibson <david@gibson.dropbear.id.au>
-+ *
-+ * This work is licensed under the terms of the GNU GPL, version 2 or
-+ * later.  See the COPYING file in the top-level directory.
-+ *
-+ */
-+
-+#include "qemu/osdep.h"
-+
-+#include "exec/confidential-guest-support.h"
-+
-+OBJECT_DEFINE_ABSTRACT_TYPE(ConfidentialGuestSupport,
-+                            confidential_guest_support,
-+                            CONFIDENTIAL_GUEST_SUPPORT,
-+                            OBJECT)
-+
-+static void confidential_guest_support_class_init(ObjectClass *oc, void *data)
-+{
-+}
-+
-+static void confidential_guest_support_init(Object *obj)
-+{
-+}
-+
-+static void confidential_guest_support_finalize(Object *obj)
-+{
-+}
-diff --git a/backends/meson.build b/backends/meson.build
-index 484456ece7..d4221831fc 100644
---- a/backends/meson.build
-+++ b/backends/meson.build
-@@ -6,6 +6,7 @@ softmmu_ss.add([files(
-   'rng-builtin.c',
-   'rng-egd.c',
-   'rng.c',
-+  'confidential-guest-support.c',
- ), numa])
- 
- softmmu_ss.add(when: 'CONFIG_POSIX', if_true: files('rng-random.c'))
-diff --git a/include/exec/confidential-guest-support.h b/include/exec/confidential-guest-support.h
-new file mode 100644
-index 0000000000..5f131023ba
---- /dev/null
-+++ b/include/exec/confidential-guest-support.h
-@@ -0,0 +1,38 @@
-+/*
-+ * QEMU Confidential Guest support
-+ *   This interface describes the common pieces between various
-+ *   schemes for protecting guest memory or other state against a
-+ *   compromised hypervisor.  This includes memory encryption (AMD's
-+ *   SEV and Intel's MKTME) or special protection modes (PEF on POWER,
-+ *   or PV on s390x).
-+ *
-+ * Copyright: David Gibson, Red Hat Inc. 2020
-+ *
-+ * Authors:
-+ *  David Gibson <david@gibson.dropbear.id.au>
-+ *
-+ * This work is licensed under the terms of the GNU GPL, version 2 or
-+ * later.  See the COPYING file in the top-level directory.
-+ *
-+ */
-+#ifndef QEMU_CONFIDENTIAL_GUEST_SUPPORT_H
-+#define QEMU_CONFIDENTIAL_GUEST_SUPPORT_H
-+
-+#ifndef CONFIG_USER_ONLY
-+
-+#include "qom/object.h"
-+
-+#define TYPE_CONFIDENTIAL_GUEST_SUPPORT "confidential-guest-support"
-+OBJECT_DECLARE_SIMPLE_TYPE(ConfidentialGuestSupport, CONFIDENTIAL_GUEST_SUPPORT)
-+
-+struct ConfidentialGuestSupport {
-+    Object parent;
-+};
-+
-+typedef struct ConfidentialGuestSupportClass {
-+    ObjectClass parent;
-+} ConfidentialGuestSupportClass;
-+
-+#endif /* !CONFIG_USER_ONLY */
-+
-+#endif /* QEMU_CONFIDENTIAL_GUEST_SUPPORT_H */
-diff --git a/include/qemu/typedefs.h b/include/qemu/typedefs.h
-index 976b529dfb..33685c79ed 100644
---- a/include/qemu/typedefs.h
-+++ b/include/qemu/typedefs.h
-@@ -36,6 +36,7 @@ typedef struct BusState BusState;
- typedef struct Chardev Chardev;
- typedef struct CompatProperty CompatProperty;
- typedef struct CoMutex CoMutex;
-+typedef struct ConfidentialGuestSupport ConfidentialGuestSupport;
- typedef struct CPUAddressSpace CPUAddressSpace;
- typedef struct CPUState CPUState;
- typedef struct DeviceListener DeviceListener;
-diff --git a/target/i386/sev.c b/target/i386/sev.c
-index 1546606811..6b49925f51 100644
---- a/target/i386/sev.c
-+++ b/target/i386/sev.c
-@@ -31,6 +31,7 @@
- #include "qom/object.h"
- #include "exec/address-spaces.h"
- #include "monitor/monitor.h"
-+#include "exec/confidential-guest-support.h"
- 
- #define TYPE_SEV_GUEST "sev-guest"
- OBJECT_DECLARE_SIMPLE_TYPE(SevGuestState, SEV_GUEST)
-@@ -322,7 +323,7 @@ sev_guest_instance_init(Object *obj)
- 
- /* sev guest info */
- static const TypeInfo sev_guest_info = {
--    .parent = TYPE_OBJECT,
-+    .parent = TYPE_CONFIDENTIAL_GUEST_SUPPORT,
-     .name = TYPE_SEV_GUEST,
-     .instance_size = sizeof(SevGuestState),
-     .instance_finalize = sev_guest_finalize,
--- 
-2.29.2
+--=20
+David Gibson			| I'll have my music baroque, and my code
+david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
+				| _way_ _around_!
+http://www.ozlabs.org/~dgibson
 
+--9JSHP372f+2dzJ8X
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAl//iKAACgkQbDjKyiDZ
+s5IR0A/7BBeaYAmNps8ImKrO4gmSvb0Jig0f5roEqltdtvjDftPVyERhoLlmNy/5
+5T7F5E1y8zCDNAogE4vR20KzAWt02b6No74Hv0syBg6B2MKbiOeUgLj2mewW/EHK
+SDM9OOt5DmqZoc66h4wwWXxQtFcCF5nIHa0cBcOebz4xSwlqCYgQsKMAkynHhDH/
+aPiUaOnnxsKHRZvBVxZ5nEQIvXtCuWNQZ900EYcxkh9dOyVqoi9Jc5dioJs7ssI4
+60OSboTJD9dLqIXCIV8ByNlB2VaByBjupMbKFZ8xxgL/jy6qciq4wVkliA0Sdh4y
+uNm4jlCLKcnK/Lu5PpNCdPIZynsF5LemnT87GkycwcYRF9gWsoilcWpjHQJxD4jM
+ZcpViwd72wd9nYAHq9CJbQeZUSi6Zmw63XbzoTDibt+pXT/5s8XNU8Kw1Jg/Afzg
+IBl8MHanbvqO7LkRLTOUPm3zid3MT4SQmiEi3znnbSgYWD6M1HdNsr+Gp1y8DE7G
+erkAlkasZqVoXTNp6YCAb10rLy8IG9+AIlCiuXQ+yAgdxEc9uCsXma4jj2Bc/ZiL
+yEw4BBtxmtvhadShuikPPCQwipgZpKHPy97tqIqF3v4+yNLu6UKtCH4uwDF5wBQA
+OQCmQ68LLyXmp17KG6DqbJ+Jsiekdk8ChGaZhpyIjsL5EIZHMyU=
+=VKL8
+-----END PGP SIGNATURE-----
+
+--9JSHP372f+2dzJ8X--
 
