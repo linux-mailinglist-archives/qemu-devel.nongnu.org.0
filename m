@@ -2,76 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DC0202F4C7D
-	for <lists+qemu-devel@lfdr.de>; Wed, 13 Jan 2021 14:51:22 +0100 (CET)
-Received: from localhost ([::1]:52100 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7E1802F4C79
+	for <lists+qemu-devel@lfdr.de>; Wed, 13 Jan 2021 14:51:00 +0100 (CET)
+Received: from localhost ([::1]:51814 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kzgYU-0005Tj-0F
-	for lists+qemu-devel@lfdr.de; Wed, 13 Jan 2021 08:51:22 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43818)
+	id 1kzgY7-0005LN-Jm
+	for lists+qemu-devel@lfdr.de; Wed, 13 Jan 2021 08:50:59 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44104)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
- id 1kzgU4-0003TE-UF
- for qemu-devel@nongnu.org; Wed, 13 Jan 2021 08:46:48 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:30316)
+ id 1kzgV9-00044U-BT
+ for qemu-devel@nongnu.org; Wed, 13 Jan 2021 08:47:55 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:51893)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
- id 1kzgU2-0003SD-EI
- for qemu-devel@nongnu.org; Wed, 13 Jan 2021 08:46:48 -0500
+ id 1kzgV7-0003os-BP
+ for qemu-devel@nongnu.org; Wed, 13 Jan 2021 08:47:55 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1610545605;
+ s=mimecast20190719; t=1610545672;
  h=from:from:reply-to:reply-to:subject:subject:date:date:
  message-id:message-id:to:to:cc:cc:mime-version:mime-version:
  content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=z4xSfq28ilhdS/dEKCCRIC+4nFcHCGo8hIdFUOMrRzE=;
- b=Ga0PEYAIZ+pDt3dfDeE7Z4XNPs2+c+HUrrd+qGNp6xMFg7t7XpignXpq8hlXt524RbumCT
- WzOhAiF4tmaf3MmY+wG6U/E7S7vpUiqfwMKXCks0eP2g1fIP21XelLo4bAI4O2X5n+lp0N
- IAbVYkf9d/HSAGKNI2RmGxB+1ICYQbY=
-Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
- [209.85.128.70]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-570-KhrZjXGOMyiRGR1oLthkWg-1; Wed, 13 Jan 2021 08:46:43 -0500
-X-MC-Unique: KhrZjXGOMyiRGR1oLthkWg-1
-Received: by mail-wm1-f70.google.com with SMTP id u18so832859wmu.4
- for <qemu-devel@nongnu.org>; Wed, 13 Jan 2021 05:46:43 -0800 (PST)
+ bh=ymhsrLTpVqf+YV4UDp3pX1LEnr75n0cl4NCRaFGDRVs=;
+ b=YKQAV7DWkhd2rwSn22HqISb+mRC+S30UUhOwf4y2VpEBdzBSDUYjCQktdTOasDqU9Aqit8
+ tbC2nh8rJOrER3HXGHN9+JLLf6lzVY2WyhUfof51GQ1bGdUURVri83wkJ628pAjfhlgCe9
+ 7+/j2i/JKgr0Z4r8WBGsA/PMwA+sENE=
+Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
+ [209.85.221.71]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-399-3tb-Q7gBOT-PcQvX3_SlPQ-1; Wed, 13 Jan 2021 08:47:51 -0500
+X-MC-Unique: 3tb-Q7gBOT-PcQvX3_SlPQ-1
+Received: by mail-wr1-f71.google.com with SMTP id n11so993631wro.7
+ for <qemu-devel@nongnu.org>; Wed, 13 Jan 2021 05:47:50 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:in-reply-to:references
  :user-agent:reply-to:date:message-id:mime-version
  :content-transfer-encoding;
- bh=z4xSfq28ilhdS/dEKCCRIC+4nFcHCGo8hIdFUOMrRzE=;
- b=YwNeFNwp/fRK65Se5F3SomEpKVJX4Qey39AgoFCot+ySHcU0aEzJ9F9yWp8wTYWEem
- zl4rFLkSJh1gUxCDADsiKMMOcol9JlMKGswniRFiK3Scu7gf+Q/Rjbtpirp3sOaGwHHb
- EIgvsWxbVY5Gui3mkquf/PqzxjRyeJaIxLMa+bwNtANBNhyC7PEsMBvW/IeEeg/82g9y
- eg/DZd1MD3wY9AMyYI3J/cbGYYV8oDuc2boXXl+391fqzmndRwzfbVOjfkczA/k7uFX6
- dWD8KkjsQ28x0B6EvgD44uvUUMlTKDkLZ5qzGR5WgsSCFdm15Prme4ANnmNGxja9Jv8j
- AAyw==
-X-Gm-Message-State: AOAM533ljYEWWno2UB95MxcHbyTAfp5Ne55TJZTWZ8vZKQNSTgT8GdTi
- JTuLi/CQ1H/Iw24sQyAJoCSNJWbk3BPy1yRN2/XuNsLClAFpRmdKoiNbiSXOvbU1P8H3PgXiOGu
- dSzR2HOQhaLHGWvs=
-X-Received: by 2002:a1c:6a02:: with SMTP id f2mr2359708wmc.36.1610545602483;
- Wed, 13 Jan 2021 05:46:42 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJzggH2McgS1Zryfa8X7Np46Hy6v7YGcf7DGqBT8x7BT3CMWOdML2UPq2lZh7Vicp0A6xsfnTQ==
-X-Received: by 2002:a1c:6a02:: with SMTP id f2mr2359688wmc.36.1610545602321;
- Wed, 13 Jan 2021 05:46:42 -0800 (PST)
+ bh=KcI38j+Zh3rURT7LR1cI4qN+NHTumYNN/a/93hEfFGI=;
+ b=VL+Pp1uKYIbw2fngldYX160BqNgpk+fLYXbZSf7Hsfe2Y8V4x4Mv2xfWYjRJeu8gv0
+ FRueL2dWgzthG39JfgOc4MzAhSSH7Gg6VKliiWJ/8FVnyAHVByoNP3knaW2OIqG+8sNM
+ 57lgW0m69pzOerM+f2WaD6n7hu9SkWSousq5lBgzV3qAHRe6Z8oH4OV4N5ghtZilOuwB
+ wF8xc6asR1mMHF9s81jGJPnCC0QyilcAbVfij2X9IKG5XdG7JL/VKrWcQWGgH2B5sqJp
+ jdS4npb+yfEl9l0A1KQcS8Z2bWULI56miEXGTTXIZZZCoTnUNd/l1SXwMTRD084n9tgu
+ SplQ==
+X-Gm-Message-State: AOAM53239vLaq069HKn75TrDokxak37iIEztBw/6cMzh9IxX/2xs1Ssv
+ qk6xto5sPM+Jwf4ababnBvBADeYO1Z5bFKcMk2VTGDXo9rI9N+15lYP8i3JSe6ZhdzsF9vjvvUL
+ oSvMW6XCsIxGBTo4=
+X-Received: by 2002:a1c:3206:: with SMTP id y6mr2240410wmy.127.1610545669445; 
+ Wed, 13 Jan 2021 05:47:49 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJzvqTnT8hcN8capifqTi9YCju/BfJs0gwNC+0Frx2go3YbQD8dgOOTWGXVbdy6s6qd4zOAG6A==
+X-Received: by 2002:a1c:3206:: with SMTP id y6mr2240394wmy.127.1610545669204; 
+ Wed, 13 Jan 2021 05:47:49 -0800 (PST)
 Received: from localhost (trasno.trasno.org. [83.165.45.250])
- by smtp.gmail.com with ESMTPSA id c11sm2620625wmd.36.2021.01.13.05.46.41
+ by smtp.gmail.com with ESMTPSA id l20sm3736801wrh.82.2021.01.13.05.47.48
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 13 Jan 2021 05:46:41 -0800 (PST)
+ Wed, 13 Jan 2021 05:47:48 -0800 (PST)
 From: Juan Quintela <quintela@redhat.com>
 To: Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
-Subject: Re: [RFC PATCH v6 06/11] hw/ssi: imx_spi: Rework imx_spi_read() to
- handle block disabled
-In-Reply-To: <20210112183529.2011863-7-f4bug@amsat.org> ("Philippe
- =?utf-8?Q?Mathieu-Daud=C3=A9=22's?= message of "Tue, 12 Jan 2021 19:35:24
- +0100")
+Subject: Re: [RFC PATCH v6 04/11] hw/ssi: imx_spi: Reduce 'change_mask'
+ variable scope
+In-Reply-To: <87im81gdig.fsf@secure.mitica> (Juan Quintela's message of "Wed, 
+ 13 Jan 2021 14:41:43 +0100")
 References: <20210112183529.2011863-1-f4bug@amsat.org>
- <20210112183529.2011863-7-f4bug@amsat.org>
+ <20210112183529.2011863-5-f4bug@amsat.org>
+ <87im81gdig.fsf@secure.mitica>
 User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.1 (gnu/linux)
-Date: Wed, 13 Jan 2021 14:46:40 +0100
-Message-ID: <87a6tdgda7.fsf@secure.mitica>
+Date: Wed, 13 Jan 2021 14:47:47 +0100
+Message-ID: <875z41gd8c.fsf@secure.mitica>
 MIME-Version: 1.0
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=quintela@redhat.com
@@ -79,14 +79,14 @@ X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=quintela@redhat.com;
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=quintela@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -29
 X-Spam_score: -3.0
 X-Spam_bar: ---
 X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.25,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -109,16 +109,79 @@ Cc: Peter Maydell <peter.maydell@linaro.org>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org> wrote:
-> When the block is disabled, it stay it is 'internal reset logic'
-> (internal clocks are gated off). Reading any register returns
-> its reset value. Only update this value if the device is enabled.
+Juan Quintela <quintela@redhat.com> wrote:
+> Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org> wrote:
+>> Signed-off-by: Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>
 >
-> Ref: i.MX 6DQ Applications Processor Reference Manual (IMX6DQRM),
->      chapter 21.7.3: Control Register (ECSPIx_CONREG)
->
-> Signed-off-by: Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>
+> I think this one is wrong.
 
-Reviewed-by: Juan Quintela <quintela@redhat.com>
+Wrong is a strong word.  I mean that it changes behaviour and the commit
+message don't talk about changing behaviour.
+
+Later, Juan.
+
+>
+>
+>> ---
+>>  hw/ssi/imx_spi.c | 3 +--
+>>  1 file changed, 1 insertion(+), 2 deletions(-)
+>>
+>> diff --git a/hw/ssi/imx_spi.c b/hw/ssi/imx_spi.c
+>> index 35ab33c0511..bcc535f2893 100644
+>> --- a/hw/ssi/imx_spi.c
+>> +++ b/hw/ssi/imx_spi.c
+>> @@ -303,7 +303,6 @@ static void imx_spi_write(void *opaque, hwaddr offse=
+t, uint64_t value,
+>>  {
+>>      IMXSPIState *s =3D opaque;
+>>      uint32_t index =3D offset >> 2;
+>> -    uint32_t change_mask;
+>> =20
+>>      if (index >=3D  ECSPI_MAX) {
+>>          qemu_log_mask(LOG_GUEST_ERROR, "[%s]%s: Bad register at offset =
+0x%"
+>> @@ -313,7 +312,6 @@ static void imx_spi_write(void *opaque, hwaddr offse=
+t, uint64_t value,
+>> =20
+>>      trace_imx_spi_write(index, imx_spi_reg_name(index), value);
+>> =20
+>> -    change_mask =3D s->regs[index] ^ value;
+>> =20
+>>      switch (index) {
+>>      case ECSPI_RXDATA:
+>> @@ -357,6 +355,7 @@ static void imx_spi_write(void *opaque, hwaddr offse=
+t, uint64_t value,
+>>          }
+>> =20
+>>          if (imx_spi_channel_is_master(s)) {
+>> +            uint32_t change_mask =3D s->regs[index] ^ value;
+>>              int i;
+>> =20
+>>              /* We are in master mode */
+>
+> The code does:
+>
+>     change_mask =3D s->regs[index] ^ value;
+>
+>     switch (index) {
+>
+>     ...
+>
+>     case ECSPI_CONREG:
+>         s->regs[ECSPI_CONREG] =3D value;  <<---- here
+>
+>         if (!imx_spi_is_enabled(s)) {
+>             /* device is disabled, so this is a reset */
+>             imx_spi_reset(DEVICE(s));
+>             return;
+>         }
+>
+>         if (imx_spi_channel_is_master(s)) {
+>             int i;
+>        >>>>>  You are setting change_mask here.
+>
+> At this point, s->regs[index] has a new value in "here".
+>
+> Later, Juan.
 
 
