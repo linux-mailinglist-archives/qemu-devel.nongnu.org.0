@@ -2,89 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B64772F546B
-	for <lists+qemu-devel@lfdr.de>; Wed, 13 Jan 2021 22:05:32 +0100 (CET)
-Received: from localhost ([::1]:48472 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 893B52F5486
+	for <lists+qemu-devel@lfdr.de>; Wed, 13 Jan 2021 22:19:51 +0100 (CET)
+Received: from localhost ([::1]:45458 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kznKd-00039w-N1
-	for lists+qemu-devel@lfdr.de; Wed, 13 Jan 2021 16:05:31 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58474)
+	id 1kznYU-0005u2-LU
+	for lists+qemu-devel@lfdr.de; Wed, 13 Jan 2021 16:19:50 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34570)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jag.raman@oracle.com>)
- id 1kzn9w-0006aD-Gy
- for qemu-devel@nongnu.org; Wed, 13 Jan 2021 15:54:28 -0500
-Received: from userp2130.oracle.com ([156.151.31.86]:39616)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jag.raman@oracle.com>)
- id 1kzn9u-0000m7-GO
- for qemu-devel@nongnu.org; Wed, 13 Jan 2021 15:54:28 -0500
-Received: from pps.filterd (userp2130.oracle.com [127.0.0.1])
- by userp2130.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 10DKnrZQ084151;
- Wed, 13 Jan 2021 20:54:20 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com;
- h=from : to : cc :
- subject : date : message-id : in-reply-to : references : in-reply-to :
- references; s=corp-2020-01-29;
- bh=avhCUAWKFINROFhFn9XLD6ifdtWA62J3LcL6MBR+IHI=;
- b=ceuharHNqlD1GS9LWvoUHwz/RtVfBamb0J8xvrXS5LBOCQV3Lo2HIAPUOzX/mZPg9Dpw
- 5wSV0GdscziScDMkouftw6Ce2L5H2t8qNL8LR/przWP1JVcrsxDqdEJhhUHARLjObEsK
- hKvS041lpCL5kF6552MPOgLwEFPB+2DlmTL5Bl6tJc+XhwQvfxEeFMJ7ffzNXIGxEAPR
- LtlgH2eD3RVJA7LExRFI/qzcX9SQei6EOQ+AiryykrRQW9xtA1V+rC64j5KGJYn7hDVb
- uLOtPS5CkIGoC2HizXgXPvjJK9/2ObOTWuUVqHEc2/AY0+e9H8fT8iNV6ZZ6XtUg54Jx Ag== 
-Received: from aserp3030.oracle.com (aserp3030.oracle.com [141.146.126.71])
- by userp2130.oracle.com with ESMTP id 360kvk5ep1-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Wed, 13 Jan 2021 20:54:20 +0000
-Received: from pps.filterd (aserp3030.oracle.com [127.0.0.1])
- by aserp3030.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 10DKkCnP143399;
- Wed, 13 Jan 2021 20:54:19 GMT
-Received: from userv0121.oracle.com (userv0121.oracle.com [156.151.31.72])
- by aserp3030.oracle.com with ESMTP id 360kf17rmb-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Wed, 13 Jan 2021 20:54:19 +0000
-Received: from abhmp0014.oracle.com (abhmp0014.oracle.com [141.146.116.20])
- by userv0121.oracle.com (8.14.4/8.13.8) with ESMTP id 10DKsH6b002517;
- Wed, 13 Jan 2021 20:54:17 GMT
-Received: from jaraman-bur-1.us.oracle.com (/10.152.33.39)
- by default (Oracle Beehive Gateway v4.0)
- with ESMTP ; Wed, 13 Jan 2021 12:54:17 -0800
-From: Jagannathan Raman <jag.raman@oracle.com>
+ (Exim 4.90_1) (envelope-from <anthony.dentinger@spacecodesign.com>)
+ id 1kznUr-0003Kw-Fn
+ for qemu-devel@nongnu.org; Wed, 13 Jan 2021 16:16:05 -0500
+Received: from mail-qk1-x72a.google.com ([2607:f8b0:4864:20::72a]:38354)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <anthony.dentinger@spacecodesign.com>)
+ id 1kznUp-0008MO-IZ
+ for qemu-devel@nongnu.org; Wed, 13 Jan 2021 16:16:05 -0500
+Received: by mail-qk1-x72a.google.com with SMTP id w79so4129464qkb.5
+ for <qemu-devel@nongnu.org>; Wed, 13 Jan 2021 13:16:02 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=spacecodesign.com; s=google;
+ h=from:to:cc:subject:date:message-id;
+ bh=/+0KbUs6wv+H6He8aUZqbucCfLiVDvi1h7YFTS+o9Lc=;
+ b=BdlJHEAZd/zaxamzIA8LckuaRtz0wBOoGynDz1WLVypSO4ffOS3K00apPBfpR5Xdi8
+ UnImOsFr4SdKFcuMTcsluQi2KVytzI7AqDWTwk8dDhCeGNGVtqKuGfknjFutikHObt+5
+ 91O2Ik3FfIv1M+vsvKCYQJk/pKPesiaOZlGDA=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id;
+ bh=/+0KbUs6wv+H6He8aUZqbucCfLiVDvi1h7YFTS+o9Lc=;
+ b=gFjw8XVFXIlPKBIKiPhfLnjohLoXkdxGnid1jXCBOHRE/Gr9667Bw/o78FOmXnH7rt
+ GU4eDrmsVpkd4T5j1O9etFp1q7jaCdHLMN0AbMba/Q5p6h7gC866jz+qAmctrJN4vbCB
+ C3hOo7d38e2WkJJB9M8fxJP61nS476q67HJiRhHkx8FZmJydwp8dFDtlAa4gChJJ+7Dn
+ sAaVdqf+hugPIeTlWrpJoce1VpufGqN66UcDnfEOAC6VqtnbE2Pc8EUgdrtns9tM44L2
+ u+An2x2IqwWDlHfwvUWJyL7hmjNkAGFet2/i+XNAeVAnVs3EeLLn3BJTb7VLj6SX1GzC
+ 6xMw==
+X-Gm-Message-State: AOAM530O6wBjWIiRF06crwaBQATCghuMJDNmMXD7uMeAjbi8xelY+k+T
+ rh/gllcgrXVryN9ltiBxq+gAhIuU2qHIuViB
+X-Google-Smtp-Source: ABdhPJxUyuAMYTAzbKzq+6PhD1lj3CBFsMYO2x+Pueno4Yyop3VUf65tlasaBPAOg+a9N/h6LC2vXw==
+X-Received: by 2002:a37:a14a:: with SMTP id k71mr3985273qke.33.1610572562349; 
+ Wed, 13 Jan 2021 13:16:02 -0800 (PST)
+Received: from localhost.localdomain (104-37-205-141.resi.cgocable.ca.
+ [104.37.205.141])
+ by smtp.gmail.com with ESMTPSA id o201sm1869321qke.60.2021.01.13.13.16.01
+ (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+ Wed, 13 Jan 2021 13:16:01 -0800 (PST)
+From: Anthony Dentinger <anthony.dentinger@spacecodesign.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v18 20/20] multi-process: perform device reset in the remote
- process
-Date: Wed, 13 Jan 2021 15:53:39 -0500
-Message-Id: <32b1153f6e6e02c33d2819a9003f01260a3ac120.1610570756.git.jag.raman@oracle.com>
-X-Mailer: git-send-email 1.8.3.1
-In-Reply-To: <cover.1610570756.git.jag.raman@oracle.com>
-References: <cover.1610570756.git.jag.raman@oracle.com>
-In-Reply-To: <cover.1610570756.git.jag.raman@oracle.com>
-References: <cover.1610570756.git.jag.raman@oracle.com>
-X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9863
- signatures=668683
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 phishscore=0
- bulkscore=0 malwarescore=0
- suspectscore=0 adultscore=0 spamscore=0 mlxlogscore=999 mlxscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2009150000
- definitions=main-2101130126
-X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9863
- signatures=668683
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 mlxlogscore=999
- phishscore=0
- lowpriorityscore=0 bulkscore=0 priorityscore=1501 malwarescore=0
- clxscore=1015 impostorscore=0 spamscore=0 mlxscore=0 suspectscore=0
- adultscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2009150000 definitions=main-2101130126
-Received-SPF: pass client-ip=156.151.31.86; envelope-from=jag.raman@oracle.com;
- helo=userp2130.oracle.com
-X-Spam_score_int: -46
-X-Spam_score: -4.7
-X-Spam_bar: ----
-X-Spam_report: (-4.7 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.25,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_MED=-2.3, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_PASS=-0.001,
- SPF_PASS=-0.001, UNPARSEABLE_RELAY=0.001 autolearn=ham autolearn_force=no
+Subject: [PATCH] hw/char/cadence_uart: Fixed wrong Cadence UART stop bit count
+ register value.
+Date: Wed, 13 Jan 2021 16:15:31 -0500
+Message-Id: <20210113211531.20696-1-anthony.dentinger@spacecodesign.com>
+X-Mailer: git-send-email 2.16.2.windows.1
+Received-SPF: pass client-ip=2607:f8b0:4864:20::72a;
+ envelope-from=anthony.dentinger@spacecodesign.com;
+ helo=mail-qk1-x72a.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
+X-Mailman-Approved-At: Wed, 13 Jan 2021 16:18:38 -0500
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -96,138 +78,37 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: elena.ufimtseva@oracle.com, fam@euphon.net, swapnil.ingle@nutanix.com,
- john.g.johnson@oracle.com, kraxel@redhat.com, jag.raman@oracle.com,
- quintela@redhat.com, mst@redhat.com, armbru@redhat.com,
- kanth.ghatraju@oracle.com, felipe@nutanix.com, thuth@redhat.com,
- ehabkost@redhat.com, konrad.wilk@oracle.com, dgilbert@redhat.com,
- alex.williamson@redhat.com, stefanha@redhat.com, thanos.makatos@nutanix.com,
- kwolf@redhat.com, berrange@redhat.com, mreitz@redhat.com,
- ross.lagerwall@citrix.com, marcandre.lureau@gmail.com, pbonzini@redhat.com
+Cc: qemu-trivial@nongnu.org,
+ Anthony Dentinger <anthony.dentinger@spacecodesign.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Elena Ufimtseva <elena.ufimtseva@oracle.com>
+Here is a reference showing that 0x00 is the correct value:
+- https://www.xilinx.com/support/documentation/user_guides/ug585-Zynq-7000-TRM.pdf
+  (page 1776, Register XUARTPS_MR_OFFSET Details, which is for a platform
+  called Zynq that has a UART made by Cadence)
+- https://github.com/Xilinx/linux-xlnx/blob/51445f9139af73c616f054a8fcc77ed2568b81b1/drivers/tty/serial/xilinx_uartps.c#L98
+  (Linux driver for the Cadence UART on that Zynq platform).
 
-Perform device reset in the remote process when QEMU performs
-device reset. This is required to reset the internal state
-(like registers, etc...) of emulated devices
-
-Signed-off-by: Elena Ufimtseva <elena.ufimtseva@oracle.com>
-Signed-off-by: John G Johnson <john.g.johnson@oracle.com>
-Signed-off-by: Jagannathan Raman <jag.raman@oracle.com>
-Reviewed-by: Stefan Hajnoczi <stefanha@redhat.com>
+Signed-off-by: Anthony Dentinger <anthony.dentinger@spacecodesign.com>
 ---
- include/hw/remote/mpqemu-link.h |  1 +
- hw/remote/message.c             | 22 ++++++++++++++++++++++
- hw/remote/proxy.c               | 19 +++++++++++++++++++
- 3 files changed, 42 insertions(+)
+ hw/char/cadence_uart.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/include/hw/remote/mpqemu-link.h b/include/hw/remote/mpqemu-link.h
-index 71d206f..4ec0915 100644
---- a/include/hw/remote/mpqemu-link.h
-+++ b/include/hw/remote/mpqemu-link.h
-@@ -40,6 +40,7 @@ typedef enum {
-     MPQEMU_CMD_BAR_WRITE,
-     MPQEMU_CMD_BAR_READ,
-     MPQEMU_CMD_SET_IRQFD,
-+    MPQEMU_CMD_DEVICE_RESET,
-     MPQEMU_CMD_MAX,
- } MPQemuCmd;
- 
-diff --git a/hw/remote/message.c b/hw/remote/message.c
-index adab040..11d7298 100644
---- a/hw/remote/message.c
-+++ b/hw/remote/message.c
-@@ -19,6 +19,7 @@
- #include "exec/memattrs.h"
- #include "hw/remote/memory.h"
- #include "hw/remote/iohub.h"
-+#include "sysemu/reset.h"
- 
- static void process_config_write(QIOChannel *ioc, PCIDevice *dev,
-                                  MPQemuMsg *msg, Error **errp);
-@@ -26,6 +27,8 @@ static void process_config_read(QIOChannel *ioc, PCIDevice *dev,
-                                 MPQemuMsg *msg, Error **errp);
- static void process_bar_write(QIOChannel *ioc, MPQemuMsg *msg, Error **errp);
- static void process_bar_read(QIOChannel *ioc, MPQemuMsg *msg, Error **errp);
-+static void process_device_reset_msg(QIOChannel *ioc, PCIDevice *dev,
-+                                     Error **errp);
- 
- void coroutine_fn mpqemu_remote_msg_loop_co(void *data)
- {
-@@ -69,6 +72,9 @@ void coroutine_fn mpqemu_remote_msg_loop_co(void *data)
-         case MPQEMU_CMD_SET_IRQFD:
-             process_set_irqfd_msg(pci_dev, &msg);
-             break;
-+        case MPQEMU_CMD_DEVICE_RESET:
-+            process_device_reset_msg(com->ioc, pci_dev, &local_err);
-+            break;
-         default:
-             error_setg(&local_err,
-                        "Unknown command (%d) received for device %s"
-@@ -206,3 +212,19 @@ fail:
-                       getpid());
-     }
- }
-+
-+static void process_device_reset_msg(QIOChannel *ioc, PCIDevice *dev,
-+                                     Error **errp)
-+{
-+    DeviceClass *dc = DEVICE_GET_CLASS(dev);
-+    DeviceState *s = DEVICE(dev);
-+    MPQemuMsg ret = { 0 };
-+
-+    if (dc->reset) {
-+        dc->reset(s);
-+    }
-+
-+    ret.cmd = MPQEMU_CMD_RET;
-+
-+    mpqemu_msg_send(&ret, ioc, errp);
-+}
-diff --git a/hw/remote/proxy.c b/hw/remote/proxy.c
-index a082709..4fa4be0 100644
---- a/hw/remote/proxy.c
-+++ b/hw/remote/proxy.c
-@@ -26,6 +26,7 @@
- #include "util/event_notifier-posix.c"
- 
- static void probe_pci_info(PCIDevice *dev, Error **errp);
-+static void proxy_device_reset(DeviceState *dev);
- 
- static void proxy_intx_update(PCIDevice *pci_dev)
- {
-@@ -202,6 +203,8 @@ static void pci_proxy_dev_class_init(ObjectClass *klass, void *data)
-     k->config_read = pci_proxy_read_config;
-     k->config_write = pci_proxy_write_config;
- 
-+    dc->reset = proxy_device_reset;
-+
-     device_class_set_props(dc, proxy_properties);
- }
- 
-@@ -358,3 +361,19 @@ static void probe_pci_info(PCIDevice *dev, Error **errp)
-         }
-     }
- }
-+
-+static void proxy_device_reset(DeviceState *dev)
-+{
-+    PCIProxyDev *pdev = PCI_PROXY_DEV(dev);
-+    MPQemuMsg msg = { 0 };
-+    Error *local_err = NULL;
-+
-+    msg.cmd = MPQEMU_CMD_DEVICE_RESET;
-+    msg.size = 0;
-+
-+    mpqemu_msg_send_and_await_reply(&msg, pdev, &local_err);
-+    if (local_err) {
-+        error_report_err(local_err);
-+    }
-+
-+}
+diff --git a/hw/char/cadence_uart.c b/hw/char/cadence_uart.c
+index c603e14012..a049ed50c4 100644
+--- a/hw/char/cadence_uart.c
++++ b/hw/char/cadence_uart.c
+@@ -93,7 +93,7 @@
+ #define UART_DATA_BITS_7       (0x2 << UART_MR_CHRL_SH)
+ #define UART_PARITY_ODD        (0x1 << UART_MR_PAR_SH)
+ #define UART_PARITY_EVEN       (0x0 << UART_MR_PAR_SH)
+-#define UART_STOP_BITS_1       (0x3 << UART_MR_NBSTOP_SH)
++#define UART_STOP_BITS_1       (0x0 << UART_MR_NBSTOP_SH)
+ #define UART_STOP_BITS_2       (0x2 << UART_MR_NBSTOP_SH)
+ #define NORMAL_MODE            (0x0 << UART_MR_CHMODE_SH)
+ #define ECHO_MODE              (0x1 << UART_MR_CHMODE_SH)
 -- 
-1.8.3.1
+2.16.2.windows.1
 
 
