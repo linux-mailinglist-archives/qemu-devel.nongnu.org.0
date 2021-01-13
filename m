@@ -2,53 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D9B382F4180
-	for <lists+qemu-devel@lfdr.de>; Wed, 13 Jan 2021 03:06:39 +0100 (CET)
-Received: from localhost ([::1]:56756 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1E3372F4195
+	for <lists+qemu-devel@lfdr.de>; Wed, 13 Jan 2021 03:17:12 +0100 (CET)
+Received: from localhost ([::1]:59314 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kzVYU-0005du-JW
-	for lists+qemu-devel@lfdr.de; Tue, 12 Jan 2021 21:06:38 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49416)
+	id 1kzVig-0007NR-NF
+	for lists+qemu-devel@lfdr.de; Tue, 12 Jan 2021 21:17:10 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51104)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <jiaxun.yang@flygoat.com>)
- id 1kzVWw-00057P-9s
- for qemu-devel@nongnu.org; Tue, 12 Jan 2021 21:05:03 -0500
-Received: from new4-smtp.messagingengine.com ([66.111.4.230]:40121)
+ id 1kzVh3-0006qr-3E
+ for qemu-devel@nongnu.org; Tue, 12 Jan 2021 21:15:30 -0500
+Received: from new4-smtp.messagingengine.com ([66.111.4.230]:41579)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <jiaxun.yang@flygoat.com>)
- id 1kzVWt-0003va-EV
- for qemu-devel@nongnu.org; Tue, 12 Jan 2021 21:05:01 -0500
+ id 1kzVh1-0007ek-9y
+ for qemu-devel@nongnu.org; Tue, 12 Jan 2021 21:15:28 -0500
 Received: from compute6.internal (compute6.nyi.internal [10.202.2.46])
- by mailnew.nyi.internal (Postfix) with ESMTP id B6D0A5806F8;
- Tue, 12 Jan 2021 21:04:58 -0500 (EST)
+ by mailnew.nyi.internal (Postfix) with ESMTP id 8046C58066C;
+ Tue, 12 Jan 2021 21:15:23 -0500 (EST)
 Received: from mailfrontend2 ([10.202.2.163])
- by compute6.internal (MEProxy); Tue, 12 Jan 2021 21:04:58 -0500
+ by compute6.internal (MEProxy); Tue, 12 Jan 2021 21:15:23 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=flygoat.com; h=
  subject:to:cc:references:from:message-id:date:mime-version
- :in-reply-to:content-type:content-transfer-encoding; s=fm1; bh=n
- RpzCpxFL+W3hyZW6aQpHuQsl4EJKWW8sbYN4k4MDN0=; b=Vui6W4f3UltGSwqrG
- rYn3MBGo3dbjHiAJrLBi4OIQSXAnUUYNcBeONVf7DLmjbHkxWBIHusafjZ1yB9xT
- R7mJ6DPXSqNeF4bsqN3sD1meMTxIWHaZKZk1BdhaOSxQc+oSWAyagYYWaxCvNl0j
- M0DOTQAWyGk7pQDc+rDEcXSAIlGkVmztzwLc58up2VmxF4TOo/MOyvUvzGvd/rQ2
- VGj952dOWejjtFcwn6dcOhtlcXZFAN2xoV4nww0baVpnEU/iFd7QtEHjI8WBSzgc
- Nlt+Yro0C3gpubbmhllQ59PbbYIJRdzY6mE0ulpESO+ToHjW7xj837nGFfgL38qD
- Qysaw==
+ :in-reply-to:content-type:content-transfer-encoding; s=fm1; bh=X
+ lDSLcTC3eOCE6nNsf9sREC7dWYenaUkY8cwT0/X0QY=; b=ZJG0/EAs10pHRz/aF
+ ILOYwlTT7MfeJNDstDc/dxq4XqmXHMxIfV0Fv8kBVZz3KGgxbgK85I8ezV6QC62U
+ EASOCcWkhOH7rNpHvtBIMzjQgFgY9/YVYSXzqjZqQ/xzcg6R4tmM7l9hRGHH0aBC
+ sU/xvKqRGG6hO5hoQW0nzFgYiAyExpOPjM9dikO7+AvPfOWp2ZyAgaVQ+yOkecV0
+ eGIJSDUsTiJiDgbCel00HUuZpy09ZoUCdRiosiiCo3ZxXVmpdP4xyKmWx+ty11+o
+ 5G0InpDaGpsF/ZZI7zNfgZLAVNDCyRBET5NNtNkJWHceO1jdEv4QKl86S+Q/uRsJ
+ fP6tA==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
  messagingengine.com; h=cc:content-transfer-encoding:content-type
  :date:from:in-reply-to:message-id:mime-version:references
  :subject:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender
- :x-sasl-enc; s=fm1; bh=nRpzCpxFL+W3hyZW6aQpHuQsl4EJKWW8sbYN4k4MD
- N0=; b=el+7kL2kPg8Mrif0XnYIyqRRtrvTQe0srCFX62wzMuRspYS9MF9niqWdK
- pCaXbfsRz/RYrY7xQBmb+C1taH21ixHte76y3KRZmb5cqVnaYhK24rxSnf5Z24Zf
- CwVO6yUOW6LvLlYf1+HE2vkPtSeaskcxoWd22JSMa49n70UT/rtiG4bfaHXPqxNK
- VNOP6lPsM8IfddJhny76vpG+V4eaECYIsM80EmHxRttPrjBfP0sLFUj5CtaFvter
- /vZvUxGCB6Ib9WFUG4GyFTtkmmgpjpkYLZLeE7npHQhVn1lUARou41tORw2aCGAQ
- K9law01EmpS7BjgwElVbFzAH59AMg==
-X-ME-Sender: <xms:SVX-X5rFfshWNjCbRMjZ37vtEopLoQEsqkei9ab2d4i0X5yoQA8VFQ>
- <xme:SVX-X7qacEEDbh6NaAPcTrSOdVs4pF0Tx3Z1mX2aA_I2A6nOuMmRtiTj4hQfgtSf-
- CnB-cW7ZxFzEDy3ZfQ>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedukedrtddugdegfecutefuodetggdotefrodftvf
+ :x-sasl-enc; s=fm1; bh=XlDSLcTC3eOCE6nNsf9sREC7dWYenaUkY8cwT0/X0
+ QY=; b=LiJEx2opJfVUoGQguUagLOu4ygN3Qtv4FJ810aUZqF8lr7ZpsHoNuWqlx
+ JvEABaxC38QMVWKJaLX4DfLDOofeqLJJD4yEfYFRzUF6BnVMqVb1QlM2Ln/YwDHM
+ w+Y62u4TGfUdEwGmJRe8+7N2NKHLH8xVGf3TTm+kSzamWIlowxOhsj5dNsOzRfHu
+ 2Nuf5+W9jDYjDQ4p/MYbqJJAGLtDwlaiqNTaE2N03CU9FxI87By4j+J8EMHBnvYp
+ h2TJHXm5doWXIfcOnaY5ha0cTg0IRyklU/C3EPThGRt1NdctGbVtwGr9ZrgFRsCC
+ TlMwri+c8LNXIioEGLxujef7oVkeA==
+X-ME-Sender: <xms:ulf-X3PPm3zwUilYExw4i8631qP3AYofc40UcJrlIBcp9RvXa_JHSQ>
+ <xme:ulf-Xx_Cskr9WHyoKmFs5zr0F6lcC8fQl0lzCltM13U_8_lX8F88cRvQ0d3qgWDi8
+ beYNUlN-f4HZrgjEfU>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedukedrtddugdeghecutefuodetggdotefrodftvf
  curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
  uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
  fjughrpefuvfhfhffkffgfgggjtgfgsehtkeertddtfeejnecuhfhrohhmpeflihgrgihu
@@ -57,26 +57,25 @@ X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedukedrtddugdegfecutefuodetggdote
  ueegveefgfefnecukfhppeeghedrfeefrdehtddrvdehgeenucevlhhushhtvghrufhiii
  gvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehjihgrgihunhdrhigrnhhgsehflhih
  ghhorghtrdgtohhm
-X-ME-Proxy: <xmx:SVX-X2NVze6I4qFuCKeYCh9Bo7C2CJr82Jsv1xY15sgvlll9V4pQeQ>
- <xmx:SVX-X065S_4xtwbFeXxS7pvW1q36-1P-fiT_za-VbgLxtwKpx6TpZw>
- <xmx:SVX-X46-5QJzBeKjw_UgMeaDCufz2exJuMbZzST3hy1EAP2inu1iRA>
- <xmx:SlX-X2lJWYNAXkHU-HksIB2_SPPxPzZWNI5CYBUNDWEqYHzizktYNQ>
+X-ME-Proxy: <xmx:ulf-X2TZeDYd7FXs290f9Tho-ZiqPcA0YDtrH_Qadzq9mNDmyMe5kw>
+ <xmx:ulf-X7vT1yln7nF6SyVvYybh-DlkLrwbZnxG79iZMShPARWxBx2KmA>
+ <xmx:ulf-X_fsxk-KOkEYILBsj6IOoaYLNBVRhxZt_X8cFM8ov-O6p5QrRg>
+ <xmx:u1f-X77jHL_08JJlEXA50MEj7KL8Wo1CHAyMOT9jSnqkHrRbM8vnXw>
 Received: from [0.0.0.0] (li1000-254.members.linode.com [45.33.50.254])
- by mail.messagingengine.com (Postfix) with ESMTPA id A815B1080057;
- Tue, 12 Jan 2021 21:04:55 -0500 (EST)
-Subject: Re: [PATCH 1/6] target/mips: Re-introduce OPC_ADDUH_QB_DSP and
- OPC_MUL_PH_DSP
+ by mail.messagingengine.com (Postfix) with ESMTPA id 6CEA41080066;
+ Tue, 12 Jan 2021 21:15:20 -0500 (EST)
+Subject: Re: [PATCH 0/6] target/mips: Convert Loongson LEXT opcodes to
+ decodetree
 To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
  qemu-devel@nongnu.org
 References: <20210112215504.2093955-1-f4bug@amsat.org>
- <20210112215504.2093955-2-f4bug@amsat.org>
 From: Jiaxun Yang <jiaxun.yang@flygoat.com>
-Message-ID: <ad19c6f5-d97f-71a3-d5ad-1ed4d4879683@flygoat.com>
-Date: Wed, 13 Jan 2021 10:04:51 +0800
+Message-ID: <0e1b22ca-7ca0-f92e-2d43-fc10eafd565f@flygoat.com>
+Date: Wed, 13 Jan 2021 10:15:17 +0800
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.6.0
 MIME-Version: 1.0
-In-Reply-To: <20210112215504.2093955-2-f4bug@amsat.org>
+In-Reply-To: <20210112215504.2093955-1-f4bug@amsat.org>
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Transfer-Encoding: 8bit
 Content-Language: en-US
@@ -109,81 +108,54 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 在 2021/1/13 上午5:54, Philippe Mathieu-Daudé 写道:
-> There is no issue having multiple enum declarations with
-> the same value. As we are going to remove the OPC_MULT_G_2E
-> definition in few commits, restore the OPC_ADDUH_QB_DSP and
-> OPC_MUL_PH_DSP definitions and use them where they belong.
+> Loongson is next step in the "MIPS decodetree conversion" epic.
+> Start with the simplest extension.
 >
-> Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
-
-Reviewed-by: Jiaxun Yang <jiaxun.yang@flygoat.com>
-
-> ---
->   target/mips/translate.c | 18 +++++-------------
->   1 file changed, 5 insertions(+), 13 deletions(-)
+> The diffstat addition comes from the TCG functions expanded.
+> The code is easier to review now.
+> IMO this is also a good template to show how easy a decodetree
+> conversion can be (and how nice the .decode file is to review) :P
 >
-> diff --git a/target/mips/translate.c b/target/mips/translate.c
-> index a2b3026132d..cbd152eff50 100644
-> --- a/target/mips/translate.c
-> +++ b/target/mips/translate.c
-> @@ -399,16 +399,14 @@ enum {
->       OPC_ADDU_OB_DSP    = 0x14 | OPC_SPECIAL3,
->       OPC_ABSQ_S_PH_DSP  = 0x12 | OPC_SPECIAL3,
->       OPC_ABSQ_S_QH_DSP  = 0x16 | OPC_SPECIAL3,
-> -    /* OPC_ADDUH_QB_DSP is same as OPC_MULT_G_2E.  */
-> -    /* OPC_ADDUH_QB_DSP   = 0x18 | OPC_SPECIAL3,  */
-> +    OPC_ADDUH_QB_DSP   = 0x18 | OPC_SPECIAL3,
->       OPC_CMPU_EQ_QB_DSP = 0x11 | OPC_SPECIAL3,
->       OPC_CMPU_EQ_OB_DSP = 0x15 | OPC_SPECIAL3,
->       /* MIPS DSP GPR-Based Shift Sub-class */
->       OPC_SHLL_QB_DSP    = 0x13 | OPC_SPECIAL3,
->       OPC_SHLL_OB_DSP    = 0x17 | OPC_SPECIAL3,
->       /* MIPS DSP Multiply Sub-class insns */
-> -    /* OPC_MUL_PH_DSP is same as OPC_ADDUH_QB_DSP.  */
-> -    /* OPC_MUL_PH_DSP     = 0x18 | OPC_SPECIAL3,  */
-> +    OPC_MUL_PH_DSP     = 0x18 | OPC_SPECIAL3,
->       OPC_DPA_W_PH_DSP   = 0x30 | OPC_SPECIAL3,
->       OPC_DPAQ_W_QH_DSP  = 0x34 | OPC_SPECIAL3,
->       /* DSP Bit/Manipulation Sub-class */
-> @@ -566,7 +564,6 @@ enum {
->       OPC_MULQ_S_PH      = (0x1E << 6) | OPC_ADDU_QB_DSP,
->   };
->   
-> -#define OPC_ADDUH_QB_DSP OPC_MULT_G_2E
->   #define MASK_ADDUH_QB(op)           (MASK_SPECIAL3(op) | (op & (0x1F << 6)))
->   enum {
->       /* MIPS DSP Arithmetic Sub-class */
-> @@ -22681,8 +22678,7 @@ static void gen_mipsdsp_arith(DisasContext *ctx, uint32_t op1, uint32_t op2,
->       gen_load_gpr(v2_t, v2);
->   
->       switch (op1) {
-> -    /* OPC_MULT_G_2E is equal OPC_ADDUH_QB_DSP */
-> -    case OPC_MULT_G_2E:
-> +    case OPC_ADDUH_QB_DSP:
->           check_dsp_r2(ctx);
->           switch (op2) {
->           case OPC_ADDUH_QB:
-> @@ -23376,11 +23372,7 @@ static void gen_mipsdsp_multiply(DisasContext *ctx, uint32_t op1, uint32_t op2,
->       gen_load_gpr(v2_t, v2);
->   
->       switch (op1) {
-> -    /*
-> -     * OPC_MULT_G_2E, OPC_ADDUH_QB_DSP, OPC_MUL_PH_DSP have
-> -     * the same mask and op1.
-> -     */
-> -    case OPC_MULT_G_2E:
-> +    case OPC_MUL_PH_DSP:
->           check_dsp_r2(ctx);
->           switch (op2) {
->           case  OPC_MUL_PH:
-> @@ -27337,7 +27329,7 @@ static void decode_opc_special3_legacy(CPUMIPSState *env, DisasContext *ctx)
->            * OPC_MULT_G_2E, OPC_ADDUH_QB_DSP, OPC_MUL_PH_DSP have
->            * the same mask and op1.
->            */
-> -        if ((ctx->insn_flags & ASE_DSP_R2) && (op1 == OPC_MULT_G_2E)) {
-> +        if ((ctx->insn_flags & ASE_DSP_R2) && (op1 == OPC_MUL_PH_DSP)) {
->               op2 = MASK_ADDUH_QB(ctx->opcode);
->               switch (op2) {
->               case OPC_ADDUH_QB:
+> Please review,
+>
+> Phil.
+>
+> Based-on: <20210112184156.2014305-1-f4bug@amsat.org>
+>            "decodetree: Allow 'dot' in opcode names"
+>
+> Philippe Mathieu-Daudé (6):
+>    target/mips: Re-introduce OPC_ADDUH_QB_DSP and OPC_MUL_PH_DSP
+>    target/mips: Convert Loongson DDIV.G opcodes to decodetree
+>    target/mips: Convert Loongson DIV.G opcodes to decodetree
+>    target/mips: Convert Loongson [D]DIVU.G opcodes to decodetree
+>    target/mips: Convert Loongson [D]MOD[U].G opcodes to decodetree
+>    target/mips: Convert Loongson [D]MULT[U].G opcodes to decodetree
+>
+>   target/mips/translate.h       |   1 +
+>   target/mips/godson2.decode    |  29 +++
+>   target/mips/loong-ext.decode  |  30 +++
+
+Hi Philippe,
+
+Thanks for the template!
+
+Just a small question, where should we perform ISA availability check?
+Before calling generated decoder or after decoded?
+
+Loong-EXT is a super set of Loongson2F's Godson2 and MMI instructions,
+how could we tell it?
+
+Thanks.
+
+- Jiaxun
+
+>   target/mips/loong_translate.c | 334 ++++++++++++++++++++++++++++++++++
+>   target/mips/translate.c       | 287 ++---------------------------
+>   target/mips/meson.build       |   3 +
+>   6 files changed, 409 insertions(+), 275 deletions(-)
+>   create mode 100644 target/mips/godson2.decode
+>   create mode 100644 target/mips/loong-ext.decode
+>   create mode 100644 target/mips/loong_translate.c
+>
 
 
