@@ -2,78 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3FE982F4F81
-	for <lists+qemu-devel@lfdr.de>; Wed, 13 Jan 2021 17:08:19 +0100 (CET)
-Received: from localhost ([::1]:38746 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D97B92F4FB8
+	for <lists+qemu-devel@lfdr.de>; Wed, 13 Jan 2021 17:21:46 +0100 (CET)
+Received: from localhost ([::1]:36436 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kzih0-0001zV-BG
-	for lists+qemu-devel@lfdr.de; Wed, 13 Jan 2021 11:08:18 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51468)
+	id 1kziu1-0005RX-UH
+	for lists+qemu-devel@lfdr.de; Wed, 13 Jan 2021 11:21:45 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55232)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1kzid0-0006jm-4l
- for qemu-devel@nongnu.org; Wed, 13 Jan 2021 11:04:10 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:46050)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1kzicy-0005ix-GZ
- for qemu-devel@nongnu.org; Wed, 13 Jan 2021 11:04:09 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1610553847;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=bpnwsLPTgsfAvkqXvw4a9bF/ffEki12ulZWmG2kWjfw=;
- b=SWKcTPIJB3h31ZIUDl5kRRDCDUnhkHyj2nQIemAXDL5cUAZoBS39GF9ke068N6OZHUIAGo
- ciXIMEY6oA8xc/psdeZ5kc3CtodTPKvqFv9Iof8HlIgq/tgvJGjnzY9NZkeWs1U5FHSJEz
- Kte3co36PrDtTgDaPIj3d3t+GZc6C0o=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-549-z5J5k9hKO_GFB47U2a1mPg-1; Wed, 13 Jan 2021 11:04:04 -0500
-X-MC-Unique: z5J5k9hKO_GFB47U2a1mPg-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id CB670100C600;
- Wed, 13 Jan 2021 16:04:02 +0000 (UTC)
-Received: from [10.3.113.36] (ovpn-113-36.phx2.redhat.com [10.3.113.36])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 62DE56F975;
- Wed, 13 Jan 2021 16:04:02 +0000 (UTC)
-Subject: Re: [PATCH 7/7] iotests/129: Clean up pylint and mypy complaints
-To: Max Reitz <mreitz@redhat.com>, qemu-block@nongnu.org
-References: <20210113140616.150283-1-mreitz@redhat.com>
- <20210113140616.150283-8-mreitz@redhat.com>
-From: Eric Blake <eblake@redhat.com>
-Organization: Red Hat, Inc.
-Message-ID: <8ae23d51-01e8-3a0f-e485-15310ce6a72a@redhat.com>
-Date: Wed, 13 Jan 2021 10:04:01 -0600
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.6.0
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1kzioF-0007yv-LY
+ for qemu-devel@nongnu.org; Wed, 13 Jan 2021 11:15:48 -0500
+Received: from indium.canonical.com ([91.189.90.7]:59756)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1kzioC-0003S9-Nu
+ for qemu-devel@nongnu.org; Wed, 13 Jan 2021 11:15:47 -0500
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1kzioA-0005Ii-KN
+ for <qemu-devel@nongnu.org>; Wed, 13 Jan 2021 16:15:42 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id 897092E8088
+ for <qemu-devel@nongnu.org>; Wed, 13 Jan 2021 16:15:42 +0000 (UTC)
 MIME-Version: 1.0
-In-Reply-To: <20210113140616.150283-8-mreitz@redhat.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=eblake@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=eblake@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -29
-X-Spam_score: -3.0
-X-Spam_bar: ---
-X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.25,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Date: Wed, 13 Jan 2021 16:09:12 -0000
+From: bpotato <1862619@bugs.launchpad.net>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: imapotato2 laurent-vivier tebounet
+X-Launchpad-Bug-Reporter: Thierry Briot (tebounet)
+X-Launchpad-Bug-Modifier: bpotato (imapotato2)
+References: <158133547000.19789.14380673630783179726.malonedeb@wampee.canonical.com>
+Message-Id: <161055415297.13355.7551541085033422345.malone@gac.canonical.com>
+Subject: [Bug 1862619] Re: "-serial telnet::xxxx,
+ server" causes "Device 'serial0' is in use"
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="511b4a3b6512aa3d421c5f7d74f3527e78bff26e"; Instance="production"
+X-Launchpad-Hash: bd18e335e5015b66bb31bcc3e1127f883662d3b1
+Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
+ helo=indium.canonical.com
+X-Spam_score_int: -65
+X-Spam_score: -6.6
+X-Spam_bar: ------
+X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9,
+ HEADER_FROM_DIFFERENT_DOMAINS=0.248, RCVD_IN_DNSWL_HI=-5,
+ RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -82,23 +70,50 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>,
- Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>, qemu-devel@nongnu.org
+Reply-To: Bug 1862619 <1862619@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 1/13/21 8:06 AM, Max Reitz wrote:
-> Signed-off-by: Max Reitz <mreitz@redhat.com>
-> ---
->  tests/qemu-iotests/129 | 6 ++++--
->  1 file changed, 4 insertions(+), 2 deletions(-)
-> 
+I would observe that it would be much better if the order of the -serial
+arguments did not matter so much.  I know gcc has the same sort of
+madness (for instance), but it sure isn't intuitive.
 
-Reviewed-by: Eric Blake <eblake@redhat.com>
+But in my case, when you do the -serial things out of order, you end up wit=
+h a segfault.
+That can't be the intended behavior.
 
--- 
-Eric Blake, Principal Software Engineer
-Red Hat, Inc.           +1-919-301-3226
-Virtualization:  qemu.org | libvirt.org
+-- =
 
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1862619
+
+Title:
+  "-serial telnet::xxxx,server" causes "Device 'serial0' is in use"
+
+Status in QEMU:
+  New
+
+Bug description:
+  I start qemu version 4.2.50 in a first terminal :
+
+  $ sudo ./qemu-system-hppa -boot d -serial telnet::4441,server -drive
+  if=3Dscsi,bus=3D0,index=3D6,file=3D./hpux.img,format=3Draw -serial mon:st=
+dio -D
+  /tmp/foo -nographic -m 512 -d nochain -cdrom
+  ./HPUX_9.05_Installation_Disc_S700.iso -D /tmp/foo -net
+  nic,model=3Dtulip  -net tap
+
+  qemu-system-hppa: -serial telnet::4441,server: info: QEMU waiting for
+  connection on: disconnected:telnet:0.0.0.0:4441,server
+
+  In another terminal, I launch "telnet localhost 4441"
+
+  And in the qemu window I have the following error:
+
+  Unexpected error in qemu_chr_fe_init() at chardev/char-fe.c:220:
+  qemu-system-hppa: Device 'serial0' is in use
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1862619/+subscriptions
 
