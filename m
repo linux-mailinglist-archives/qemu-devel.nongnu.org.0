@@ -2,118 +2,120 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 589F62F4855
-	for <lists+qemu-devel@lfdr.de>; Wed, 13 Jan 2021 11:10:33 +0100 (CET)
-Received: from localhost ([::1]:56238 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B14652F4824
+	for <lists+qemu-devel@lfdr.de>; Wed, 13 Jan 2021 11:03:16 +0100 (CET)
+Received: from localhost ([::1]:43784 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kzd6m-00013x-Ej
-	for lists+qemu-devel@lfdr.de; Wed, 13 Jan 2021 05:10:32 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44562)
+	id 1kzczj-0003uY-8F
+	for lists+qemu-devel@lfdr.de; Wed, 13 Jan 2021 05:03:15 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40592)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
- id 1kzd4u-00009s-Q6; Wed, 13 Jan 2021 05:08:36 -0500
-Received: from mail-vi1eur05on2108.outbound.protection.outlook.com
- ([40.107.21.108]:49136 helo=EUR05-VI1-obe.outbound.protection.outlook.com)
+ id 1kzcwE-0003Gj-Kv; Wed, 13 Jan 2021 04:59:39 -0500
+Received: from mail-am6eur05on2133.outbound.protection.outlook.com
+ ([40.107.22.133]:62912 helo=EUR05-AM6-obe.outbound.protection.outlook.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
- id 1kzd4n-0003WE-En; Wed, 13 Jan 2021 05:08:36 -0500
+ id 1kzcw9-00084D-L4; Wed, 13 Jan 2021 04:59:37 -0500
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=OP3opQkGe3jGi/GAyoXf9dmK8/3kDBqyZPWF+JaqjQDdBgt4f1jCTFxQa+j/kJHdlAG02H4wTIQYuAIi4tMgVbdSAHNRFltH8i+4YhE3dmwQpy4PfjhnkO8Cag1nkhbyvQ0UK4JQyDuaoJTjmyKX+WS+iRyG2tBhsdMgCQWGuXJL/sbZyysMA5o8kvMg6OxZNAoJ6ciFVpfHz8qAKonY9KORVvBrYsgBrzzH0aJWQB7iq2JV+M8t0IQ7VbNKWptcrQ7lgPn1jXsm/1hpJbw66oyvMlukHMmNZFD6yRVKbts+1fja4JmbGh5o96U2j5+v0gmJWdKDOwy/Yp4fmjCqYg==
+ b=N6//Ougsjb3P3Dm6fwciZDY+pmKejis4Xhsyv5rDYWlEvkanCgnAyoZfgf3IPJCOKdZ7SdrG8DgOFziYXA03vFtIcRIf2Dvgm9P+gHpm+ZATl2fHhKrH1ML78C/oOTfYPUJvWgtc65Z8sJlalR8AG/lNtRJXWnP8oleb5sML1j/e0LmE/HCKqaBZf+Dxmal7IH98ORZ81ScBe7F/MyO0ZxrdMLl4WdNUGNb0OnGm2RRqDb3wqYcgESZeiVEIEljQx4J07yAYUdc4Nth8oh/C8/uE7dBHdA8UUxpFpWGfD9Or2iK3VusWTqAwYWgxoPswRuR5nMLiDeD84W8fbJK5MQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=iMKwvmimuiyorgzhFyvHIs7kD12RTecXASWXjGFdWP8=;
- b=J8WHng25UsD0YZXhHPezJxP3iERahPqTyGfIw6orWKpR8/9Q2ff2eY/197xainBXpRhbhydCcTt4LOP5PTloV75JOr56px5hLimb0uMIHNa+d2dqk/2O+2dYXuu5H1IPnzohlGmNU5xTEJJ6b0RnVSlzwZBrA3Xn9Z1zWlZw9s0+glG9Zu19mBmyttWa9vuslc4/+T8S1s1WmBa1L/hkFJH6aHgdfXop3c8lcSJWAVdLq0LSNgQaX7xpOW7LoTW8uo/0ikxNHKKgnJMkDEjm1ViNw7/qa0/oXi3LhXvgsq0+XB7vp2zRobvQFjj46yqjNmtzacZpSMfkjtve0VakZg==
+ bh=NLOa+UG1+2s1ZJNIm3LqHHH6xvUBMaMBBQ0GrLqiNNo=;
+ b=eQ+sz27g6sZ8jUJODSyJVpqQNSMZ2mqLu/zEk9TD2A5uS6cOTUfwA//0JsRw27slEAA5FLqoS+X2KZQkTPPqU56LJOCZTS2Oc1lkd0Za5AWA/+uO1xNMC2NaDsQ2+ks0/YYQq/6eJzFdCxz9/h7bEQoxdBf2BTEbp993DdOJLSEFPmEeYh++tKh6kTtT0bxTsVJS+RFw7Ltrsrac2eI+C5UZ+CXgjl6kJAk2StEapM+xOu9p04AUvlCJ6yHlfxS4gqAOO/F9vaneizS9M0RLm1sxp6hXGF6Nt7QdedPl0kwLJhuhG0ZBHpeY+qKV7tW9hFiPzOA9jV5gFBi37Fw8+w==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=virtuozzo.com; dmarc=pass action=none
  header.from=virtuozzo.com; dkim=pass header.d=virtuozzo.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
  s=selector2;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=iMKwvmimuiyorgzhFyvHIs7kD12RTecXASWXjGFdWP8=;
- b=qbZskAfvi8CPFtQUshfAeaZo+evVNF2RWhvYySD3bpPYjpKSn3hQxM2swH4m5L/jpU9pwHYQPwnAbMXeGJYn/4dSTjpeci6KM1tqH7GCGfQ8hwUnktsElGiTaE+zCXQInjZ8y9ORmVU/6izPSVjduOMsEwpL7DTS4+jeUjMpuNU=
-Authentication-Results: nongnu.org; dkim=none (message not signed)
- header.d=none;nongnu.org; dmarc=none action=none header.from=virtuozzo.com;
+ bh=NLOa+UG1+2s1ZJNIm3LqHHH6xvUBMaMBBQ0GrLqiNNo=;
+ b=YEQzSInLAU2u4W3xr3Q9svje/PjgGD0ogoe1SC4QKUsJqAjhJBr68lGHG8g1bE4wyj1fDlGlUzaVi0bNvnCl4GRNpFcjSEvKpwFgsOdcf2c8XVmBms1Fxzx94qZL81pJlQC3013WROVIjA/onph6MtzsK/IqK5dDASN8AbSg2VA=
+Authentication-Results: redhat.com; dkim=none (message not signed)
+ header.d=none;redhat.com; dmarc=none action=none header.from=virtuozzo.com;
 Received: from AM7PR08MB5494.eurprd08.prod.outlook.com (2603:10a6:20b:dc::15)
- by AM6PR08MB4279.eurprd08.prod.outlook.com (2603:10a6:20b:bb::11)
+ by AM7PR08MB5383.eurprd08.prod.outlook.com (2603:10a6:20b:102::7)
  with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3763.9; Wed, 13 Jan
- 2021 09:53:23 +0000
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3742.6; Wed, 13 Jan
+ 2021 09:59:30 +0000
 Received: from AM7PR08MB5494.eurprd08.prod.outlook.com
  ([fe80::214a:3545:368c:7ae8]) by AM7PR08MB5494.eurprd08.prod.outlook.com
  ([fe80::214a:3545:368c:7ae8%9]) with mapi id 15.20.3763.009; Wed, 13 Jan 2021
- 09:53:23 +0000
-Subject: Re: iotest 129
-To: Max Reitz <mreitz@redhat.com>, Qemu-block <qemu-block@nongnu.org>
-References: <6e00b90e-5c95-8b02-23c2-0acfe9862f6a@redhat.com>
+ 09:59:30 +0000
+Subject: Re: [PATCH v5 01/14] block: return status from bdrv_append and friends
+To: Alberto Garcia <berto@igalia.com>, qemu-block@nongnu.org
+References: <20210109125811.209870-1-vsementsov@virtuozzo.com>
+ <20210109125811.209870-2-vsementsov@virtuozzo.com>
+ <w51y2gyukum.fsf@maestria.local.igalia.com>
 From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-Message-ID: <4474f468-dc8c-8e53-2d46-183823918863@virtuozzo.com>
-Date: Wed, 13 Jan 2021 12:53:19 +0300
+Message-ID: <167d8f5a-3948-8d64-4cc4-c42f90b0b114@virtuozzo.com>
+Date: Wed, 13 Jan 2021 12:59:28 +0300
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.6.0
-In-Reply-To: <6e00b90e-5c95-8b02-23c2-0acfe9862f6a@redhat.com>
+In-Reply-To: <w51y2gyukum.fsf@maestria.local.igalia.com>
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
 X-Originating-IP: [185.215.60.80]
-X-ClientProxiedBy: AM8P191CA0026.EURP191.PROD.OUTLOOK.COM
- (2603:10a6:20b:21a::31) To AM7PR08MB5494.eurprd08.prod.outlook.com
+X-ClientProxiedBy: FR2P281CA0032.DEUP281.PROD.OUTLOOK.COM
+ (2603:10a6:d10:14::19) To AM7PR08MB5494.eurprd08.prod.outlook.com
  (2603:10a6:20b:dc::15)
 MIME-Version: 1.0
 X-MS-Exchange-MessageSentRepresentingType: 1
 Received: from [192.168.100.8] (185.215.60.80) by
- AM8P191CA0026.EURP191.PROD.OUTLOOK.COM (2603:10a6:20b:21a::31) with Microsoft
+ FR2P281CA0032.DEUP281.PROD.OUTLOOK.COM (2603:10a6:d10:14::19) with Microsoft
  SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.3763.10 via Frontend Transport; Wed, 13 Jan 2021 09:53:22 +0000
+ 15.20.3763.2 via Frontend Transport; Wed, 13 Jan 2021 09:59:29 +0000
 X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: d9807e79-4da6-434e-9f46-08d8b7a910b5
-X-MS-TrafficTypeDiagnostic: AM6PR08MB4279:
-X-Microsoft-Antispam-PRVS: <AM6PR08MB4279B86E1741595CBDD7275DC1A90@AM6PR08MB4279.eurprd08.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:10000;
+X-MS-Office365-Filtering-Correlation-Id: 46f04823-f899-4326-44f5-08d8b7a9ebb6
+X-MS-TrafficTypeDiagnostic: AM7PR08MB5383:
+X-Microsoft-Antispam-PRVS: <AM7PR08MB538339D23FB51BDA9C4D909FC1A90@AM7PR08MB5383.eurprd08.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:3173;
 X-MS-Exchange-SenderADCheck: 1
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: Dael88dlDS9Kh/TVAXjgC0Y275xB1/qZtIiDIyHLyZCWsNlb3/Kb/T6vCXlJamvPCFAmxN/44HYvUaw9NwSRuB4+cDVX4vDXnW5jNzBAyWKrcwOG+Sjc24hvDA5at75aXhV4aISeFJmFewD4OdkbKrZlFOJCVAcmBdR1g7dMYrKTDetx693vYOWyMFbfFl9OtHiWVDpYAx+NTezHymsamOCEUk3n1sCi1TpWt905Njf8TUDx6FRnQ8n/JuNuVMwVCZ2Yfpwaw8iHYqoAJtgSIGwLwCXXvtlJPxvTZcUHhi7h+xlMAxR9gKSrIe+5AKNYzP9ygnDW7DBXBDA6rhbTvWrVaZYLN3VtIq/OFOvCvs3aw6S8EiLKGWXtAtCLMwceFges4adMhYE1dEimmSliQ33Woj+CFN2vG7BKAIKvWflNmT9yAMoN9pqR1IMVe4P18VEQEmnoqX2/VNlo9q8smAc2yS32zLWKe+JkEkr1Iao83GYhVp26Hn9aW82eWCVmT8kTOFvkRYiN+siqcYnJWEfP+t9sdHC3ePD+eW3woyTOPqX6JZHgvrfqFfuGz57J
+X-Microsoft-Antispam-Message-Info: y2XmsjtV0g57e1xHzIKvZFCFDDEM/yLy8ZLsfumRvFhDlTKYU4LFX4tn/h5vfj+6mllYpH0nAkrbrukJV8bKu8FnLDuGchvUBPIGTY1HRzHKAuyZE51vApgdCTxWdqA1jDt1cyO0sOnrkjIMAxlOetcNXgYtPI686YBg6CnDxssu9rfJuAAcy+a7p3B7Fpul0zQhVwPdGIRh4Ug9v95b4lHDIjvRBMl+mkGbiicU+E3wwSB+ARcL70IyvDubfOUPm3M/o7hwBU9Beo5WzEN8b+RM6nLzj+lQpyPgeI6Zf+jR1Kn0fu606+UUPdsDec+fg50rcuMKXulticNgxAc3y/3HmKeX5rjmmZ5rbCNtNdjoC8y9zDu34V6A4+bwuLt+PCPLuxaROmQFLcPxBpJPhSYze+NRnmfIUNQvRh3nBsp+5cIVkHW1/MZG5l1QBJf6qRFWPinglOPtQm1Evj9XfiOv8Ia8zoKUQMMHyjuHnsM=
 X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
  IPV:NLI; SFV:NSPM; H:AM7PR08MB5494.eurprd08.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(4636009)(376002)(396003)(346002)(366004)(39840400004)(136003)(6486002)(54906003)(26005)(110136005)(2616005)(316002)(16576012)(956004)(36756003)(52116002)(66556008)(478600001)(66946007)(186003)(8936002)(5660300002)(31686004)(2906002)(16526019)(86362001)(4326008)(7116003)(31696002)(66476007)(8676002)(83380400001)(6666004)(43740500002)(45980500001);
+ SFS:(4636009)(396003)(136003)(376002)(346002)(366004)(39840400004)(2906002)(83380400001)(66476007)(5660300002)(6486002)(31696002)(316002)(7416002)(16526019)(66556008)(26005)(86362001)(2616005)(36756003)(186003)(31686004)(52116002)(956004)(8676002)(4326008)(8936002)(66946007)(478600001)(16576012)(43740500002)(45980500001);
  DIR:OUT; SFP:1102; 
-X-MS-Exchange-AntiSpam-MessageData: =?utf-8?B?ekJMUW9MS2pvcmNqUlByaDU0cFB6VGU4SFY2NlRHMDI5TzlZMXNZSlpFa2hW?=
- =?utf-8?B?bkkrM29PRGN2bERnUUYzMWF3SGg2UjF0TDRNeHEzL0RadXBOd052VU9RM0dk?=
- =?utf-8?B?TkpjV283ZExBTWpxZ2l6UXQ4L1U2RHRKU1Q0WmptcXZHd2ZjVUZhOTB2Y3ky?=
- =?utf-8?B?NTZWV0NpMXFUQVpZb3hab005ajFKQlVndlU2azM4RVY3MHJ6Zm1lQUV3RXBy?=
- =?utf-8?B?ZmN2VXlYUnpvMXFHQUliUTkzQ0lEM3ZGeVdzaEdSWDk3VnFIT29FbFVJb0JQ?=
- =?utf-8?B?UEV0ME9NaEd3a25hcVBrZ0RmSlZiWGpDM3h1enFtbmQxaXRlamtUNXR6bEpX?=
- =?utf-8?B?OWlZMEppU0hHN29BNkNibCtnenhzb1hmV2ZCT1ZoVkpYR2cyWEVtK2lESU54?=
- =?utf-8?B?ZFJNVlZFbHJWSEVHdlF5UzdEN2JPWXd1QTBXSi8zdmwvdFBYczdiS2N0TXMy?=
- =?utf-8?B?RkpwdElpNFRQdU1wZDdZeWJncElTMVRNOHY0SHprWHFHWVczdjU0M2FNSVVr?=
- =?utf-8?B?VXpycnlxU0Y5UWlwSk50RUUvamRNUXlldWMvcmV3WDhKSjlsMDFzalEzT3FS?=
- =?utf-8?B?S0pPZk5qUW1ZMGY5a05CVUpkUlpUL3o4b2gyS2hTOERENDhLWlFnUHFDQXM1?=
- =?utf-8?B?dWs1MmU1Tnp2N1BSWkc1Z3czbzVpa3U0NlQ4aTJkSyt1eU4rcEZYeTROalZm?=
- =?utf-8?B?TjNDdURxYnpCejRJdXdxK1ZNSElGdk1wRWNDcGFBSTg0UHNmcDgvUUNDb1pL?=
- =?utf-8?B?bVRuL3V5WWtNUlJyVTBOT1hKWWloajJHVVdpYyt1b0RwWWhDa015TWNjQlVW?=
- =?utf-8?B?MUFmSmJzdlEwRnQ0SzVqcHh2eURaQ2xhSkk0dmZ3SGNmeHpPekFXdllpblMr?=
- =?utf-8?B?VHl0VHNOVHFMNDFkQk5jSzRXTzZ4WDNESFJ3Q2RnRmpPaFdOZ01DcUJzamtl?=
- =?utf-8?B?UUVKTWFhVzFDRlg5RVhIQXlHWEtudFdFT0dWZ1hOeXFJbHFNY1B0M0tHMm1L?=
- =?utf-8?B?T0ZDRGp3QmNWNmdLWnBwZkVWMk5KbmdlWE13RnVDNWJTV3FLdnI4eFJDbnBP?=
- =?utf-8?B?SVB1cWxSZVJxMktKNS9JU3c1K1dZK25VR0ttNjRGeFpqMkNsRXJRZkI1b0pJ?=
- =?utf-8?B?SC9KMHZybXN0NVNFWjVEaGdVNk9KMDcrN1Z5MnZsem9tdnp6Z0x1Y1JBTFhV?=
- =?utf-8?B?aVZhYU9KUW1LbVozSWgrblVmbk8xS29sb1I0dlcyMm1FWlE4Y3MwQVRZSUxq?=
- =?utf-8?B?Z1JyQXFzeGwxNElRVnc1ZVU4eEFxQThQT2U5MnJXOTJpSWoyQmlWbkdGOXYv?=
- =?utf-8?Q?sAxL8kbkOmjozgoWn8ewz8+jbSeE8UC8CD?=
+X-MS-Exchange-AntiSpam-MessageData: =?utf-8?B?QVBMZTZMaFRSa1V5V1BWMGdFeHRkcElsZVo0VDBxVFJmaDFwanBPWUxOUllh?=
+ =?utf-8?B?TW90Njl1VFJWTzlZVG5LNXByUlJWWWdjV3hEbE9vVnpmUGJvRUNwbGVqM0VO?=
+ =?utf-8?B?eTBiYWZ3YkJFNW5Jek5ZT3NXckpaOTdhM3NvbTg4ZkJ2UFB4RGNJWVhzZ3M0?=
+ =?utf-8?B?cGVwTmdxRHNYYXJhQVM1Q0I2UU56UGNEU3c4RnhxbXBNcFE2RnQ0d1NXNFQ1?=
+ =?utf-8?B?TmFyMnFGME43T2hWZlBGRVdFdWZiTXdidysvR3hVN2d0bWJUdW82MTFNQldC?=
+ =?utf-8?B?dmtIaHhzL3c3TWQvZzMwdGVkRDNnZXlZak5LbFZvc05kQVBmYWJ3N3VMWGNB?=
+ =?utf-8?B?NGtFQ1JsNGw5UGJXRGtZQzBaNDhNZ2VaU0FXSUFYOUl3SkJSbzAxZStxRWlJ?=
+ =?utf-8?B?RU9IR0hTckFldFJhUitmUTdMR1V5WVozMWhNZDRYcFJ2SFRxeHVQV2pQUFB5?=
+ =?utf-8?B?dmdVVmJ0VTlUTW45Skh2UEN5clQ1K1hhYmNHQkU3Wi8vNHpmaFNPVTdHU0lu?=
+ =?utf-8?B?cUhIUHNZZ2ZZdWZxdnI4TW9jQWRSb1VWVFA2Y2VtQWVIQWR1MVBrUlJhZmpJ?=
+ =?utf-8?B?OHUyM1ZMcGw5NHBKT3QxMHgzU0lZYm5IcGozS3lVemwra3dCWUhJRjFXRXlI?=
+ =?utf-8?B?NStCbW1qRkVXRDZQVzdnTmxmbmk2SXhqM1M3WlcxODUwVUxaS0MyV1VkaTJJ?=
+ =?utf-8?B?bDlWUDB6eFRGRjB0K3NNOFJhemViZ05tQ1JBbWsvSWFFS21rQTZVV1Y3cEJP?=
+ =?utf-8?B?WnhHaThWbm1QeEtTVHpZVmJGZHlPOVJ3NlRZRjZEbkFuSjBNRzhEYVlTaVJB?=
+ =?utf-8?B?UFNpU1g2dVgrZTM0ck1TeXNIRXJkZXBCSEV1U0owS0szNXNKdkhQTlhmLzRV?=
+ =?utf-8?B?aEhBY1NMbVo5STNPR0s4dUt3QWFiNi81ZlhMbjVoRkh4ZWJjaktOek1pcmJn?=
+ =?utf-8?B?cGdFSFAxWnpYNmUyZ3ZnL094WWl6U3BRbE4rMXpOVjdRM1FDRStiWVptbXBz?=
+ =?utf-8?B?SlM2STViek4rSThMeHRvU0tjazRMM2FPZk5TR0ZrRHVBN0hrTlYyK21iN3ZL?=
+ =?utf-8?B?L0pibW1RL2tQRWFLekw3T2lpNktTNUd5Y0M0eHRmTTcxZCtpdThuMG50V3FE?=
+ =?utf-8?B?ZDR5NjZ1U3kyekUyUDFaQlF4WVBLTHBOZlZ1MDQyUGI4dmRVYXpVZTM2QzZM?=
+ =?utf-8?B?aUxvZTdNSStWMnN4Q0tVS004UkFBa2t5UXMraE5qNUdhUm1xU0czY043YXBK?=
+ =?utf-8?B?UzdibXdMWGNoNzRqWFNHV0RxSWxTMUx2cDByL0xxM3l2cEVLV0V6VHBwa0o5?=
+ =?utf-8?Q?rAZFP84YJAO4p6EdwPntrCvob6blzwrqYT?=
 X-OriginatorOrg: virtuozzo.com
 X-MS-Exchange-CrossTenant-AuthSource: AM7PR08MB5494.eurprd08.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 13 Jan 2021 09:53:22.9464 (UTC)
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 13 Jan 2021 09:59:30.4075 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
-X-MS-Exchange-CrossTenant-Network-Message-Id: d9807e79-4da6-434e-9f46-08d8b7a910b5
+X-MS-Exchange-CrossTenant-Network-Message-Id: 46f04823-f899-4326-44f5-08d8b7a9ebb6
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: QKJL+mfLSto489Wr7w5SyFIe7brfphth2SstLrM5FXKcJPsLrGn6ceSzOvrRj3fibXP4uGoqa2QnygAncCLf8jiHzX+xP7nulDnTEb8qOfE=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM6PR08MB4279
-Received-SPF: pass client-ip=40.107.21.108;
+X-MS-Exchange-CrossTenant-UserPrincipalName: UFEPhwaye5qFinSDM2uW5f96p3inGJ2ypwitEyM9VwHfonEWoX6cewC7gfH+PZSGjAriuZQh78wNn/6V1a1qUuDm1Ht8qYatTS4Q/o4BWhU=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM7PR08MB5383
+Received-SPF: pass client-ip=40.107.22.133;
  envelope-from=vsementsov@virtuozzo.com;
- helo=EUR05-VI1-obe.outbound.protection.outlook.com
+ helo=EUR05-AM6-obe.outbound.protection.outlook.com
 X-Spam_score_int: -27
 X-Spam_score: -2.8
 X-Spam_bar: --
@@ -134,49 +136,78 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>,
- "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>
+Cc: kwolf@redhat.com, pavel.dovgaluk@ispras.ru, qemu-devel@nongnu.org,
+ armbru@redhat.com, stefanha@redhat.com, pbonzini@redhat.com, mreitz@redhat.com,
+ jsnow@redhat.com, ari@tuxera.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-12.01.2021 20:44, Max Reitz wrote:
-> Hi,
+12.01.2021 20:27, Alberto Garcia wrote:
+> On Sat 09 Jan 2021 01:57:58 PM CET, Vladimir Sementsov-Ogievskiy wrote:
+>> -void bdrv_set_backing_hd(BlockDriverState *bs, BlockDriverState *backing_hd,
+>> +int bdrv_set_backing_hd(BlockDriverState *bs, BlockDriverState *backing_hd,
+>>                            Error **errp)
 > 
-> tl;dr: I have some troubles debugging what’s wrong with iotest 129.  It wants to check that 'stop' does not drain a block job, but to me it seems like that’s exactly what’s happening with the mirror job.
+> The indentation of the second line should be adjusted, shouldn't it?
+> 
+>>   {
+>> +    int ret;
+>>       bool update_inherits_from = bdrv_chain_contains(bs, backing_hd) &&
+>>           bdrv_inherits_from_recursive(backing_hd, bs);
+>>   
+>>       if (bdrv_is_backing_chain_frozen(bs, child_bs(bs->backing), errp)) {
+>> -        return;
+>> +        return -EPERM;
+>>       }
+>>   
+>>       if (backing_hd) {
+>> @@ -2853,15 +2854,24 @@ void bdrv_set_backing_hd(BlockDriverState *bs, BlockDriverState *backing_hd,
+>>
+>>       bs->backing = bdrv_attach_child(bs, backing_hd, "backing", &child_of_bds,
+>>                                       bdrv_backing_role(bs), errp);
+>> +    if (!bs->backing) {
+>> +        ret = -EPERM;
+>> +        goto out;
+>> +    }
+> 
+> This is not visible in the patch, but before the bdrv_attach_child()
+> call there's this:
+> 
+>      if (!backing_hd) {
+>          goto out;
+>      }
+> 
+> But in this case 'ret' is still uninitialized.
+> 
+>>   out:
+>>       bdrv_refresh_limits(bs, NULL);
+>> +
+>> +    return ret;
+>>   }
 > 
 > 
-> For quite some time, I’ve had 129 disabled in my test branch because it fails all the time for me.  Now it came up again in Vladimir’s async backup series, and so I tried my hands at debugging it once again.
 > 
-> Recap: 129 writes 128M to some image, then runs a block job from there (while the source drive is supposedly throttled), then issues a stop command, and checks that the job is not drained.  I.e., still running.
+>> -static void bdrv_replace_node_common(BlockDriverState *from,
+>> -                                     BlockDriverState *to,
+>> -                                     bool auto_skip, Error **errp)
+>> +static int bdrv_replace_node_common(BlockDriverState *from,
+>> +                                    BlockDriverState *to,
+>> +                                    bool auto_skip, Error **errp)
+>>   {
+>>       BdrvChild *c, *next;
+>>       GSList *list = NULL, *p;
+>> @@ -4562,6 +4572,7 @@ static void bdrv_replace_node_common(BlockDriverState *from,
+>>               goto out;
+>>           }
+>>           if (c->frozen) {
+>> +            ret = -EPERM;
+>>               error_setg(errp, "Cannot change '%s' link to '%s'",
+>>                          c->name, from->node_name);
+>>               goto out;
 > 
-> (It checks the “running” state via @busy, which is probably wrong; it should verify that @state == 'running' (which wasn’t available back in 2015), but that’s not really why I’m writing this mail.)
+> Same here, you set 'ret' in the second 'goto out' but not in the first.
 > 
-> Like the last time I tried
-> (https://lists.nongnu.org/archive/html/qemu-block/2019-06/msg00499.html) I can see that block jobs completely ignore BB throttling: If you apply the attachment show-progress.patch, you’ll probably see some progress made while the test waits for five seconds.  (Here, on tmpfs, mirror and commit get to READY, and backup completes.)
-> 
-> OK, so now that block jobs don’t completely break with filters, you can instead use a filter node on the source (as I tried in the patch referenced above).  And to fully fix the test, we’d also replace the @busy == True check by @status == 'running'.  That’s the attachment filter-node-show-progress.patch.
-> 
-> If I apply that, I can see that now there actually is some throttling. After the time.sleep(5), mirror and commit get to exactly 1 MB, and backup gets to 1.0625 MB.  Good.
-> 
-> However, after the stop is issued, backup stays at 1.2 MB (good), but mirror and commit progress obviously without throttling to 30, 40, 50 MB, whatever.  So it appears to me they are drained by the stop.  I.e., precisely what the iotest is trying to prove not to happen.
-
-I don't follow.. Increasing of progress means that jobs are drained?
-
-> 
-> 
-> I plan to continue investigating, but I just wanted to send this mail to see whether perhaps someone has an idea on what’s going on.
-> 
-> (My main problem is that bisecting this is hard.  AFAIK the throttling applied in master:129 has been broken ever since blockdev throttling was moved to the BB.  Even without the “Deal with filters” series, you can use at least mirror sync=full from filter nodes, so I tried to use filter-node-show-progress.patch for just test_drive_mirror(), but that only works back until fe4f0614ef9e361d (or rather 0f12264e7a4145 if you prefer not to get a SIGABRT).  Before that commit, it hangs.)
-> 
-> Max
-
-
-Hmm, in show-progress.patch you call "stop" the second time.. It's a mistake I think..
-
-Also, on current master x-bps-total I can find only in iotests.. Where is it defined o_O? If I change it to be bps-total, it fails.. Strange.
-
-I've run the test with your patch with throttling filter (and a bit more logging).. Interesting. It looks like throttling just don't work noramlly after stop.. I see that mirror does one 1M request, and it obviously overflow throttle limit, so during your next 5 seconds it does nothing (and we see progress of 1M). But immediately after "stop" command all 16 read requests pending for throttling goes, and then a lot more read requests (hmm, exactly 31) are issued and not throttled at all (but goes through throttle node). And then new 16 requests are issued and throttled. I've looked at throttle_group_co_io_limits_intercept() and I just don't understand how it works)
-
+Oops, you are right, thanks!
 
 -- 
 Best regards,
