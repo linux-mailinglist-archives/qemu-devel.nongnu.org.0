@@ -2,71 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A91C42F4E88
-	for <lists+qemu-devel@lfdr.de>; Wed, 13 Jan 2021 16:29:01 +0100 (CET)
-Received: from localhost ([::1]:48236 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E5BEA2F4E61
+	for <lists+qemu-devel@lfdr.de>; Wed, 13 Jan 2021 16:21:35 +0100 (CET)
+Received: from localhost ([::1]:56658 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kzi4y-0002L4-Mv
-	for lists+qemu-devel@lfdr.de; Wed, 13 Jan 2021 10:29:00 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36772)
+	id 1kzhxm-0002N3-Vb
+	for lists+qemu-devel@lfdr.de; Wed, 13 Jan 2021 10:21:34 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36776)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1kzhqn-0005YT-Jk
- for qemu-devel@nongnu.org; Wed, 13 Jan 2021 10:14:21 -0500
-Received: from mail-wr1-x431.google.com ([2a00:1450:4864:20::431]:41220)
+ id 1kzhqo-0005aY-Ei
+ for qemu-devel@nongnu.org; Wed, 13 Jan 2021 10:14:22 -0500
+Received: from mail-wm1-x332.google.com ([2a00:1450:4864:20::332]:50978)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1kzhqm-0008Vt-0k
- for qemu-devel@nongnu.org; Wed, 13 Jan 2021 10:14:21 -0500
-Received: by mail-wr1-x431.google.com with SMTP id a12so2480638wrv.8
- for <qemu-devel@nongnu.org>; Wed, 13 Jan 2021 07:14:19 -0800 (PST)
+ id 1kzhqm-00004u-SR
+ for qemu-devel@nongnu.org; Wed, 13 Jan 2021 10:14:22 -0500
+Received: by mail-wm1-x332.google.com with SMTP id 190so1927483wmz.0
+ for <qemu-devel@nongnu.org>; Wed, 13 Jan 2021 07:14:20 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=w7r+PDMNStM+VkqcytyyPMRMX/yoouFQ9lhvxclzqDA=;
- b=M32bixmh1up+vsVD6tZICnNeloVqgfvy28pgeFHUQ1pzwwAzUMmbxCnvrCp6i7oUDP
- YYQTvPxDwjRW032D/40duHUyr4jnbEguq4C2V7rf1B0W4P1bCWFMzkNh3tlqBCVMBdIW
- x78STwTU+LalAUBDpRlUi2QUDrOCxxnG9CVH0htABCSAwWWqTplL2ofr0pfO7209uQh+
- yiz/6AyUtd3rtm7Lg7Yrjp3KwFZOAwAUHjY2MoyvZ4aaVMOwbByuLlt4KW1Cwf6jN2+V
- HnAv7GHvlaRCk6+M6x4bEVCVHiUTMcK9Iy6FHGXUWTKMPzBwR6NKj7zBc8kDme4WqI/j
- ahCw==
+ bh=TH6OKEZmHHfZ5ewcQol0S5HIv7LFOYJgDKdN3Gq2+Rw=;
+ b=MUx+JDPXGvp+LUWl6owupQDJoKYNfI8GTnSwmDWuVxKpetwIrqTYe0QpDjVb+HkJhb
+ VAcv5uw1b2eX+Tu6SyUsiPo45WqmBRXWf4xRSQPTLeG9K9WyxW1wim8livP7DjCtofbQ
+ LpRoKbYw/0zqfM4wsBlZnHiT7XscOTgs0zz64im50p6okWeqZKUTQFysjzNeee9RmOgC
+ Tu5AZXC6+3Anny7iAqmZDx9y7GcVPw9+ynlYH6AkGUIWHszJaFyyQNbFb3HHHbti+taw
+ CeymOD3T5ncoVN1CvsLx0cTXUmQXaaPRcnAXpB/l/c6R7C3I4TbM+PH8eHoz9wPNYfb6
+ 4HeQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=w7r+PDMNStM+VkqcytyyPMRMX/yoouFQ9lhvxclzqDA=;
- b=FPzsUL+2sgOexpYx8cObwcljXbl5SV7xbb6gN1NbmSvjkVqa06VieWN5bE0Qb+u8O8
- 6YmU4NC/MmzceWemprU8h4IB5+qncCbFGU9kjGGvwh/ZLDSAQpT1V4Uc2qInqIfs7Nrf
- P9ZkxwloaOpm/MrTtScOR/MNGmvBtX8/XEeo+1zMK6vaLwGGodW6naz/OyafeTPX4bnF
- l+YvrHgSa8cpu7KhcXdwr7aB3eEV2ohVK/7NFW7FzP6XqyWUW0LL8PfwV5YFlafi8iZ8
- ULigCtbfIPH8vbMY9y0alEdc3Azws9baE1FVDj2wpIaUu0OArd/FeUlGULCuu6GHphlt
- ADEQ==
-X-Gm-Message-State: AOAM533M0lWgMLb841Auf9crynwy3akhkJOw8NjfBvumnwdortYmURdb
- AOgRknzeBw8k0AZpd89na5T7UlAhEyvb+A==
-X-Google-Smtp-Source: ABdhPJytVVpylmH1XDeujVhAk2jB4zZM1rL3tsseYVbypH4IknoxOOEthzUyHcuJBKPFrmL8VNOBaw==
-X-Received: by 2002:adf:9546:: with SMTP id 64mr3158837wrs.343.1610550858741; 
- Wed, 13 Jan 2021 07:14:18 -0800 (PST)
+ bh=TH6OKEZmHHfZ5ewcQol0S5HIv7LFOYJgDKdN3Gq2+Rw=;
+ b=kmpaxzM3j65tLhTK+Rpwdxf7DiR5DGjIfB4ccsnDqtf52QRZ412i/RDnuwyrIILbcd
+ qL+fAfed/6dn7XML86eCW0oojlwGdKMjxsadV5uiB2JIccyP6CuMwWE+qZOD9CHy1W5I
+ vHgJtcts2hdK6uXxvdsIRuqoGkYcXFv2chMMhSh1fhFBcsi8+96z0701zUD3IY5Wy9Nw
+ /Xyeug0xT6275DuMrtlJve1P7h030AfbGVySIHv936d9hRV0mGO3Rk5qxshb+3chH4mp
+ FzLAq+4KG/L3ChCHR6BbJsSfzHsLqfxTUWTlaop+y3ZbrcmVyGkqQJ5Y43nxD2uh5d5+
+ zm2A==
+X-Gm-Message-State: AOAM5308aWDj5yJRSrd/hqWLJLdFpNLj8W9K2m9FueFFH5Jz+GYWuAZf
+ Tg2V04gYCmtNTtt2hQG52lV/dgsOFF0Xsg==
+X-Google-Smtp-Source: ABdhPJyqsL+aMdeXE4Y731y+BBHP1R0YGp2VR8CtC3Az17cPuzrcPXPyi2PKOlmUNYCy7aYFG9bs/Q==
+X-Received: by 2002:a1c:988f:: with SMTP id a137mr2657188wme.130.1610550859658; 
+ Wed, 13 Jan 2021 07:14:19 -0800 (PST)
 Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id v20sm3371849wml.34.2021.01.13.07.14.10
+ by smtp.gmail.com with ESMTPSA id a12sm4153731wrh.71.2021.01.13.07.14.10
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
  Wed, 13 Jan 2021 07:14:13 -0800 (PST)
 Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 0C2581FF91;
+ by zen.linaroharston (Postfix) with ESMTP id 1EFDA1FF92;
  Wed, 13 Jan 2021 15:14:09 +0000 (GMT)
 From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH  v1 5/9] Makefile: wrap ctags in quiet-command calls
-Date: Wed, 13 Jan 2021 15:14:04 +0000
-Message-Id: <20210113151408.27939-6-alex.bennee@linaro.org>
+Subject: [PATCH  v1 6/9] Makefile: wrap etags in quiet-command calls
+Date: Wed, 13 Jan 2021 15:14:05 +0000
+Message-Id: <20210113151408.27939-7-alex.bennee@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20210113151408.27939-1-alex.bennee@linaro.org>
 References: <20210113151408.27939-1-alex.bennee@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::431;
- envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x431.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::332;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x332.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -98,25 +98,25 @@ Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
  1 file changed, 7 insertions(+), 2 deletions(-)
 
 diff --git a/Makefile b/Makefile
-index 0c509a7704..bbab640b31 100644
+index bbab640b31..f7e9eb9f08 100644
 --- a/Makefile
 +++ b/Makefile
-@@ -250,8 +250,13 @@ find-src-path = find "$(SRC_PATH)/" -path "$(SRC_PATH)/meson" -prune -o \( -name
+@@ -272,8 +272,13 @@ gtags:
  
- .PHONY: ctags
- ctags:
--	rm -f "$(SRC_PATH)/"tags
--	$(find-src-path) -exec ctags -f "$(SRC_PATH)/"tags --append {} +
+ .PHONY: TAGS
+ TAGS:
+-	rm -f "$(SRC_PATH)/"TAGS
+-	$(find-src-path) -exec etags -f "$(SRC_PATH)/"TAGS --append {} +
 +	$(call quiet-command, 			\
-+		rm -f "$(SRC_PATH)/"tags, 	\
-+		"CTAGS", "Remove old tags")
-+	$(call quiet-command, \
-+		$(find-src-path) -exec ctags 		\
-+		-f "$(SRC_PATH)/"tags --append {} +,	\
-+		"CTAGS", "Re-index $(SRC_PATH)")
++		rm -f "$(SRC_PATH)/"TAGS,	\
++		"TAGS", "Remove old $@")
++	$(call quiet-command, 				\
++		$(find-src-path) -exec etags 		\
++		-f "$(SRC_PATH)/"TAGS --append {} +, 	\
++		"TAGS", "Re-index $(SRC_PATH)")
  
- .PHONY: gtags
- gtags:
+ .PHONY: cscope
+ cscope:
 -- 
 2.20.1
 
