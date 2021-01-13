@@ -2,67 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 627FA2F4535
-	for <lists+qemu-devel@lfdr.de>; Wed, 13 Jan 2021 08:32:10 +0100 (CET)
-Received: from localhost ([::1]:48360 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 832FF2F453B
+	for <lists+qemu-devel@lfdr.de>; Wed, 13 Jan 2021 08:34:48 +0100 (CET)
+Received: from localhost ([::1]:52690 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kzadV-0003ye-DE
-	for lists+qemu-devel@lfdr.de; Wed, 13 Jan 2021 02:32:09 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48928)
+	id 1kzag3-0005qx-K8
+	for lists+qemu-devel@lfdr.de; Wed, 13 Jan 2021 02:34:47 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48976)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <frank.chang@sifive.com>)
- id 1kzaMX-0007E0-QT
- for qemu-devel@nongnu.org; Wed, 13 Jan 2021 02:14:38 -0500
-Received: from mail-pj1-x102a.google.com ([2607:f8b0:4864:20::102a]:52216)
+ id 1kzaMb-0007Nt-L3
+ for qemu-devel@nongnu.org; Wed, 13 Jan 2021 02:14:41 -0500
+Received: from mail-pj1-x102d.google.com ([2607:f8b0:4864:20::102d]:50943)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <frank.chang@sifive.com>)
- id 1kzaMU-0003xu-L6
- for qemu-devel@nongnu.org; Wed, 13 Jan 2021 02:14:36 -0500
-Received: by mail-pj1-x102a.google.com with SMTP id y12so564178pji.1
- for <qemu-devel@nongnu.org>; Tue, 12 Jan 2021 23:14:34 -0800 (PST)
+ id 1kzaMZ-00040A-Dz
+ for qemu-devel@nongnu.org; Wed, 13 Jan 2021 02:14:41 -0500
+Received: by mail-pj1-x102d.google.com with SMTP id md11so565901pjb.0
+ for <qemu-devel@nongnu.org>; Tue, 12 Jan 2021 23:14:39 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sifive.com; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references;
- bh=0zrnOavVe6XnQO96zzyHm13OUa7JpL0pUTrhRmvRqro=;
- b=LVR+9xYUeJP3+5goOWtTo4wgWX8Q+1tyB1Yqi5Ear6C45DbP13FLQ38lI7oLDEIA53
- MxhlBslwopbaiImWSC7yWbYxpMsvN+VIiI5x9RdALJKSFM/XxmkFuBJB7Uv1BqRGYLV8
- d4QqzussJsY9wmIxzxPHLec2h5WJ1eMWyEejt0nJMK/mmImtmCooOHYpHx8fXhKTFrQq
- iigrSW+b7JcGCTXNjkVwczEaBpSQ7gJ3HdXbd04XYOBE0QB4AF64D+Km5OHkctuCA+ig
- z4sf8AIHlb1zDrauJjA5fM/Gq0H44+33FTzrvEjfsQWHcYkvztcZUFCYjGAVQ/TwWYJ9
- uvRA==
+ bh=aEip5Hk2/fjLfGZXwReicQlq3aDOOOt574rHluS0oAk=;
+ b=ELmy/UVulmvm7jsn0Ai5jpmTQ4UY/zASOWbG1G46BJwf2bhDHpVaSklRhuxZunO3CV
+ D/Z5nXlpt6iE3jBami3JeQoYwHTasOEPALhdMYp+2+KNRQq1v+6nLUMD8Y8qD1wEfFHU
+ VXE3RZXkezzG90ZEFlIdoWr36x9PyxpkumLAFZ7pIrdo0s4tOmM2nq0282q66p5fLQtZ
+ 1RI0EwXypOUS/OmyUCxCcrY2+VIJOR8QpsNAded457OGCTgPdLhQph4JDsF2hMtNN/W1
+ giXFPgxVRRiY9obNMy0zIWx4ZA6R5GMu0Jd2imSOwK8wnpGVCig7ctU3hhTjZbHsOQDh
+ vYtQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references;
- bh=0zrnOavVe6XnQO96zzyHm13OUa7JpL0pUTrhRmvRqro=;
- b=YmfUU836PEOWsxqbb/01Bdc9B4Q31lAT3RRzQ/6X7pY+fOMFkPPXlRZIIXi+J3b7yN
- axJC3/BW0WXsyd71xb9teI7aeHAamr+5TXPP6Y9z5TA2ZodIoPAqVxx8wqVFYIFrz6cT
- gHeHn2YxMuaVDYUFoNNpX2chExQKOvq9r5EEu+VwxLwtg7R3E5i4OrV4de8yCCDyYPp5
- LNqWqJm8Yv2yKLnS2DSxhdR1/ZeWiGUjrorDOeTdlfZLTsPgRM11jN9uT3VJOGjsQM/W
- 2H1Rj92GnXVujHj++rdyiTFjqvXWKigKuOB6V/zmR5W8v4CPeAYERDPkXHcg49OutgPS
- ZjgA==
-X-Gm-Message-State: AOAM531wTDJXYY8e8kyYAH1wGLn+52n4bQxfmeeDTnkFKzDZxK+VXL7t
- WabKs1dl3XxtocX1+/xvwQ+5M8EZSJrlDvE3
-X-Google-Smtp-Source: ABdhPJySBmtuVaVT2nGjf2DSQgQTF87I3q1vSVyGJDlHq7Z7Os3bjnh+Sa/Zp3c4m/usxx62Fue7wQ==
-X-Received: by 2002:a17:902:c392:b029:dc:3e1d:2316 with SMTP id
- g18-20020a170902c392b02900dc3e1d2316mr810255plg.50.1610522073199; 
- Tue, 12 Jan 2021 23:14:33 -0800 (PST)
+ bh=aEip5Hk2/fjLfGZXwReicQlq3aDOOOt574rHluS0oAk=;
+ b=Py0MqNweo0DMT9G9V+TltC9hhKWyzzdt+rqmXu0g8FmfMVQKg6GnajJW5jZ+fEEpJc
+ qtXk7lJ6kkFAFFJqyLkaE195imnh1LM/wpyRqW9eXBNGtzE9fqpVv7XkViCY9/33g4gg
+ C/sJfHAx6fYCo0o0GMb3vaSh3upzM8UQvZCPi2eJpIi1R9gGllbDE/YeO0DgAbcT5lKf
+ mlmOSKJRE3eMBQxGcNhiD66snCWopiNgJAQrTXai6hmso/5z1E7LqTojecckFhzDqkd8
+ pMKG1hcZkhQETm5uPKozP9X10bga2du0AgW63sbcjW4oNFujWC+W8OF1zNJgJ9bF/FS0
+ RQ1Q==
+X-Gm-Message-State: AOAM5333kR1x0/y9a0h2idPvT2X8udB4TDhUhSK5iYJW6I/yKafInN49
+ mt/k2au/pHJkdkiJ3/FQaJYate+0MvbDa0w2
+X-Google-Smtp-Source: ABdhPJxO5/7RNxR1qK0Y7EJuh+odqt1AZIFRlyu4lOmFaat8B6Gq9yDYgw0/qFqzOXHQPiuoU4rZGw==
+X-Received: by 2002:a17:90a:cc0a:: with SMTP id
+ b10mr808814pju.59.1610522078049; 
+ Tue, 12 Jan 2021 23:14:38 -0800 (PST)
 Received: from frankchang-ThinkPad-T490.internal.sifive.com
  (114-34-229-221.HINET-IP.hinet.net. [114.34.229.221])
- by smtp.gmail.com with ESMTPSA id l7sm1361888pjy.29.2021.01.12.23.14.30
+ by smtp.gmail.com with ESMTPSA id l7sm1361888pjy.29.2021.01.12.23.14.35
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 12 Jan 2021 23:14:32 -0800 (PST)
+ Tue, 12 Jan 2021 23:14:37 -0800 (PST)
 From: frank.chang@sifive.com
 To: qemu-devel@nongnu.org,
 	qemu-riscv@nongnu.org
-Subject: [RFC v4 07/16] target/riscv: rvb: sign-extend instructions
-Date: Wed, 13 Jan 2021 15:13:39 +0800
-Message-Id: <20210113071350.24852-8-frank.chang@sifive.com>
+Subject: [RFC v4 08/16] target/riscv: add gen_shifti() and gen_shiftiw()
+ helper functions
+Date: Wed, 13 Jan 2021 15:13:40 +0800
+Message-Id: <20210113071350.24852-9-frank.chang@sifive.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20210113071350.24852-1-frank.chang@sifive.com>
 References: <20210113071350.24852-1-frank.chang@sifive.com>
-Received-SPF: pass client-ip=2607:f8b0:4864:20::102a;
- envelope-from=frank.chang@sifive.com; helo=mail-pj1-x102a.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::102d;
+ envelope-from=frank.chang@sifive.com; helo=mail-pj1-x102d.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -85,58 +86,156 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Cc: Sagar Karandikar <sagark@eecs.berkeley.edu>,
  Frank Chang <frank.chang@sifive.com>,
  Bastian Koppelmann <kbastian@mail.uni-paderborn.de>,
- Richard Henderson <richard.henderson@linaro.org>,
  Alistair Francis <Alistair.Francis@wdc.com>,
- Palmer Dabbelt <palmer@dabbelt.com>, Kito Cheng <kito.cheng@sifive.com>
+ Paolo Bonzini <pbonzini@redhat.com>, Palmer Dabbelt <palmer@dabbelt.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Kito Cheng <kito.cheng@sifive.com>
+From: Frank Chang <frank.chang@sifive.com>
 
-Signed-off-by: Kito Cheng <kito.cheng@sifive.com>
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+Add gen_shifti() and gen_shiftiw() helper functions to reuse the same
+interfaces for immediate shift instructions.
+
 Signed-off-by: Frank Chang <frank.chang@sifive.com>
 ---
- target/riscv/insn32.decode              |  2 ++
- target/riscv/insn_trans/trans_rvb.c.inc | 12 ++++++++++++
- 2 files changed, 14 insertions(+)
+ target/riscv/insn_trans/trans_rvi.c.inc | 54 ++-----------------------
+ target/riscv/translate.c                | 43 ++++++++++++++++++++
+ 2 files changed, 47 insertions(+), 50 deletions(-)
 
-diff --git a/target/riscv/insn32.decode b/target/riscv/insn32.decode
-index d64326fd864..938c23088eb 100644
---- a/target/riscv/insn32.decode
-+++ b/target/riscv/insn32.decode
-@@ -598,6 +598,8 @@ vsetvl          1000000 ..... ..... 111 ..... 1010111  @r
- clz        011000 000000 ..... 001 ..... 0010011 @r2
- ctz        011000 000001 ..... 001 ..... 0010011 @r2
- cpop       011000 000010 ..... 001 ..... 0010011 @r2
-+sext_b     011000 000100 ..... 001 ..... 0010011 @r2
-+sext_h     011000 000101 ..... 001 ..... 0010011 @r2
- 
- andn       0100000 .......... 111 ..... 0110011 @r
- orn        0100000 .......... 110 ..... 0110011 @r
-diff --git a/target/riscv/insn_trans/trans_rvb.c.inc b/target/riscv/insn_trans/trans_rvb.c.inc
-index 2aa4515fe31..1496996a660 100644
---- a/target/riscv/insn_trans/trans_rvb.c.inc
-+++ b/target/riscv/insn_trans/trans_rvb.c.inc
-@@ -95,6 +95,18 @@ static bool trans_maxu(DisasContext *ctx, arg_maxu *a)
-     return gen_arith(ctx, a, tcg_gen_umax_tl);
+diff --git a/target/riscv/insn_trans/trans_rvi.c.inc b/target/riscv/insn_trans/trans_rvi.c.inc
+index d04ca0394cf..7b894201840 100644
+--- a/target/riscv/insn_trans/trans_rvi.c.inc
++++ b/target/riscv/insn_trans/trans_rvi.c.inc
+@@ -261,54 +261,17 @@ static bool trans_andi(DisasContext *ctx, arg_andi *a)
+ }
+ static bool trans_slli(DisasContext *ctx, arg_slli *a)
+ {
+-    if (a->shamt >= TARGET_LONG_BITS) {
+-        return false;
+-    }
+-
+-    if (a->rd != 0) {
+-        TCGv t = tcg_temp_new();
+-        gen_get_gpr(t, a->rs1);
+-
+-        tcg_gen_shli_tl(t, t, a->shamt);
+-
+-        gen_set_gpr(a->rd, t);
+-        tcg_temp_free(t);
+-    } /* NOP otherwise */
+-    return true;
++    return gen_shifti(ctx, a, tcg_gen_shl_tl);
  }
  
-+static bool trans_sext_b(DisasContext *ctx, arg_sext_b *a)
-+{
-+    REQUIRE_EXT(ctx, RVB);
-+    return gen_unary(ctx, a, tcg_gen_ext8s_tl);
-+}
-+
-+static bool trans_sext_h(DisasContext *ctx, arg_sext_h *a)
-+{
-+    REQUIRE_EXT(ctx, RVB);
-+    return gen_unary(ctx, a, tcg_gen_ext16s_tl);
-+}
-+
- /* RV64-only instructions */
- #ifdef TARGET_RISCV64
+ static bool trans_srli(DisasContext *ctx, arg_srli *a)
+ {
+-    if (a->shamt >= TARGET_LONG_BITS) {
+-        return false;
+-    }
+-
+-    if (a->rd != 0) {
+-        TCGv t = tcg_temp_new();
+-        gen_get_gpr(t, a->rs1);
+-
+-        tcg_gen_shri_tl(t, t, a->shamt);
+-        gen_set_gpr(a->rd, t);
+-        tcg_temp_free(t);
+-    } /* NOP otherwise */
+-    return true;
++    return gen_shifti(ctx, a, tcg_gen_shr_tl);
+ }
  
+ static bool trans_srai(DisasContext *ctx, arg_srai *a)
+ {
+-    if (a->shamt >= TARGET_LONG_BITS) {
+-        return false;
+-    }
+-
+-    if (a->rd != 0) {
+-        TCGv t = tcg_temp_new();
+-        gen_get_gpr(t, a->rs1);
+-
+-        tcg_gen_sari_tl(t, t, a->shamt);
+-        gen_set_gpr(a->rd, t);
+-        tcg_temp_free(t);
+-    } /* NOP otherwise */
+-    return true;
++    return gen_shifti(ctx, a, tcg_gen_sar_tl);
+ }
+ 
+ static bool trans_add(DisasContext *ctx, arg_add *a)
+@@ -369,16 +332,7 @@ static bool trans_addiw(DisasContext *ctx, arg_addiw *a)
+ 
+ static bool trans_slliw(DisasContext *ctx, arg_slliw *a)
+ {
+-    TCGv source1;
+-    source1 = tcg_temp_new();
+-    gen_get_gpr(source1, a->rs1);
+-
+-    tcg_gen_shli_tl(source1, source1, a->shamt);
+-    tcg_gen_ext32s_tl(source1, source1);
+-    gen_set_gpr(a->rd, source1);
+-
+-    tcg_temp_free(source1);
+-    return true;
++    return gen_shiftiw(ctx, a, tcg_gen_shl_tl);
+ }
+ 
+ static bool trans_srliw(DisasContext *ctx, arg_srliw *a)
+diff --git a/target/riscv/translate.c b/target/riscv/translate.c
+index 53c0c34ce16..8459b6bcf54 100644
+--- a/target/riscv/translate.c
++++ b/target/riscv/translate.c
+@@ -810,6 +810,49 @@ static bool gen_shift(DisasContext *ctx, arg_r *a,
+     return true;
+ }
+ 
++static bool gen_shifti(DisasContext *ctx, arg_shift *a,
++                       void(*func)(TCGv, TCGv, TCGv))
++{
++    if (a->shamt >= TARGET_LONG_BITS) {
++        return false;
++    }
++
++    TCGv source1 = tcg_temp_new();
++    TCGv source2 = tcg_temp_new();
++
++    gen_get_gpr(source1, a->rs1);
++
++    tcg_gen_movi_tl(source2, a->shamt);
++    (*func)(source1, source1, source2);
++
++    gen_set_gpr(a->rd, source1);
++    tcg_temp_free(source1);
++    tcg_temp_free(source2);
++    return true;
++}
++
++#ifdef TARGET_RISCV64
++
++static bool gen_shiftiw(DisasContext *ctx, arg_shift *a,
++                        void(*func)(TCGv, TCGv, TCGv))
++{
++    TCGv source1 = tcg_temp_new();
++    TCGv source2 = tcg_temp_new();
++
++    gen_get_gpr(source1, a->rs1);
++    tcg_gen_movi_tl(source2, a->shamt);
++
++    (*func)(source1, source1, source2);
++    tcg_gen_ext32s_tl(source1, source1);
++
++    gen_set_gpr(a->rd, source1);
++    tcg_temp_free(source1);
++    tcg_temp_free(source2);
++    return true;
++}
++
++#endif
++
+ static void gen_ctz(TCGv ret, TCGv arg1)
+ {
+     tcg_gen_ctzi_tl(ret, arg1, TARGET_LONG_BITS);
 -- 
 2.17.1
 
