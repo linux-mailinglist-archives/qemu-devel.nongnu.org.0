@@ -2,77 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1CF862F4F34
-	for <lists+qemu-devel@lfdr.de>; Wed, 13 Jan 2021 16:51:52 +0100 (CET)
-Received: from localhost ([::1]:33686 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9907B2F4F4D
+	for <lists+qemu-devel@lfdr.de>; Wed, 13 Jan 2021 16:56:35 +0100 (CET)
+Received: from localhost ([::1]:46720 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kziR5-0003ZO-4R
-	for lists+qemu-devel@lfdr.de; Wed, 13 Jan 2021 10:51:51 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46832)
+	id 1kziVe-0000et-NV
+	for lists+qemu-devel@lfdr.de; Wed, 13 Jan 2021 10:56:34 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48006)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1kziP2-0001xU-Ho
- for qemu-devel@nongnu.org; Wed, 13 Jan 2021 10:49:44 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:55964)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1kziP0-0007ec-EH
- for qemu-devel@nongnu.org; Wed, 13 Jan 2021 10:49:44 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1610552981;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=uJz2Jjk4YDf++IUGRHZh9UcISr57fPwYQYa/LGa4l9k=;
- b=giAHbJ/vPofIAPxzh5R75Ktp8NRGPjsFYDIFRqSOK0vgKXOEwzH7+Lyxxk8Pv8SIie5WQ0
- iECLFBR9bnxLaTViWQk0G48E4hTizV5WtNj1bJvDeSuvOgxUc4hPNc0hBJjgsq3ar2SVHh
- dAim1hlUzUMakrRBlM8npFJK7khf8JI=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-538-f9oFY3KBOhqm_hEKfhVEpQ-1; Wed, 13 Jan 2021 10:49:37 -0500
-X-MC-Unique: f9oFY3KBOhqm_hEKfhVEpQ-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A31E08066E1;
- Wed, 13 Jan 2021 15:49:36 +0000 (UTC)
-Received: from redhat.com (ovpn-115-107.ams2.redhat.com [10.36.115.107])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 0BCBF5D71D;
- Wed, 13 Jan 2021 15:49:28 +0000 (UTC)
-Date: Wed, 13 Jan 2021 15:49:26 +0000
-From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-To: Peter Maydell <peter.maydell@linaro.org>
-Subject: Re: [PATCH v1 9/9] gitlab: move docs and tools build across from
- Travis
-Message-ID: <20210113154926.GG1568240@redhat.com>
-References: <20210113151408.27939-1-alex.bennee@linaro.org>
- <20210113151408.27939-10-alex.bennee@linaro.org>
- <20210113153728.GF1568240@redhat.com>
- <CAFEAcA_VJV_rUweM_mwd1AXNWHYQKYZ0uQbwAe+xZYJvozjrmA@mail.gmail.com>
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1kziTK-0007lX-4R
+ for qemu-devel@nongnu.org; Wed, 13 Jan 2021 10:54:10 -0500
+Received: from mail-ej1-x629.google.com ([2a00:1450:4864:20::629]:40353)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1kziTI-0001H9-7t
+ for qemu-devel@nongnu.org; Wed, 13 Jan 2021 10:54:09 -0500
+Received: by mail-ej1-x629.google.com with SMTP id f4so3758670ejx.7
+ for <qemu-devel@nongnu.org>; Wed, 13 Jan 2021 07:54:07 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=MhtPsf+TMmCLjoTmCvTAhhs6Uu0b2LevSxTMxKLQU/E=;
+ b=lUwI0vWtZjiCEC7jellPZL6m4WmZxDmRdeKFFkW1PnehhzZ2VHEOqGBp56jQSr5fpC
+ cg9WnfR9YJFjHFVTPQkl12InhdOVIy8Sxq09hlE3IZE/O6AYFwrSXRAmxaweq9eD//dy
+ W9XhwZ3DX1dmsUo+rfXVt5IIv9ze+u8dVetwUysEw6poEvlypqEaRyAzJLktYTbjnGYF
+ oiMtGNjviyHDGbdNndVvjiQN43+xFW7zSMIOHko01wey1iFBjWnwgED3d1QH9k7NSAWo
+ warfFh3C7bobm++YTMHpj4IBlY5p0mAvJeLUzu0orSgKKeNxQOTgXXuUs93QNd1Yp/pu
+ 64hQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=MhtPsf+TMmCLjoTmCvTAhhs6Uu0b2LevSxTMxKLQU/E=;
+ b=Q6T950E5n2b+wLTb8KnoJCNm08QcUZ1wVKUlCpuYW1X89hWXKI2AYlN+mmnocCDBxj
+ Q5oq54vHG1v6pOd4j8xfb2vOAmy9KwmjZ14QzTJ1fX+cHFMzaT+b/khDahsh6FsRPfx7
+ sl5LX6Qm0vs5B2MGAFest77iM3BRkH2FfssxXc/H/1i1XHHwGjLeFwYpdg3OJTH8c1nW
+ lX2MaXistwWyr787Ey+JOt3UIQR4Dla5Wbuyh0lyPJTiNjh7vIm15GB5C0o/AybqNOOO
+ GHCh4jlW3p5mHbFgxTj2HesKEpJlTc8dPAmGl3qYus79zlSDQev5EGc+3nyUbfn9SRhs
+ c8SQ==
+X-Gm-Message-State: AOAM533MrJuU/z031xAOD/yHPI7F4dZQiAisjQ8YktLU1guzMZcqNmtY
+ oUh6ivbSP5LiF1zK3lrEoqYYe0lUZ20UYsXrphH9yQ==
+X-Google-Smtp-Source: ABdhPJzNI/imM6g7bG8AxgiqivjpshTj0vTyql1xuzTSY6E9RhHSQ03mX+NJ0Up4v5p7EOzFyrcikJh9TfcZ6gAvkjI=
+X-Received: by 2002:a17:906:195a:: with SMTP id
+ b26mr1991976eje.4.1610553246645; 
+ Wed, 13 Jan 2021 07:54:06 -0800 (PST)
 MIME-Version: 1.0
-In-Reply-To: <CAFEAcA_VJV_rUweM_mwd1AXNWHYQKYZ0uQbwAe+xZYJvozjrmA@mail.gmail.com>
-User-Agent: Mutt/1.14.6 (2020-07-11)
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=berrange@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=berrange@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -29
-X-Spam_score: -3.0
-X-Spam_bar: ---
-X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.25,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+References: <20210113093101.550964-1-armbru@redhat.com>
+In-Reply-To: <20210113093101.550964-1-armbru@redhat.com>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Wed, 13 Jan 2021 15:53:55 +0000
+Message-ID: <CAFEAcA8HmqWuzny9bmpXNLtsK7nuRaxPW3j6ZZougn7Y+tX7+A@mail.gmail.com>
+Subject: Re: [PULL 0/7] Yank patches patches for 2021-01-13
+To: Markus Armbruster <armbru@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2a00:1450:4864:20::629;
+ envelope-from=peter.maydell@linaro.org; helo=mail-ej1-x629.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -85,67 +77,44 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-Cc: Fam Zheng <fam@euphon.net>, Thomas Huth <thuth@redhat.com>,
- Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>,
- QEMU Developers <qemu-devel@nongnu.org>,
- Wainer dos Santos Moschetta <wainersm@redhat.com>,
- Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>
+Cc: Lukas Straub <lukasstraub2@web.de>, QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, Jan 13, 2021 at 03:46:17PM +0000, Peter Maydell wrote:
-> On Wed, 13 Jan 2021 at 15:40, Daniel P. Berrangé <berrange@redhat.com> wrote:
-> >
-> > On Wed, Jan 13, 2021 at 03:14:08PM +0000, Alex Bennée wrote:
-> > > While we are at it we might as well check the tag generation. For
-> > > bonus points we run GNU globals htags into the public pages directory
-> > > for publishing with the auto generated pages.
-> 
-> > > +build-tools-and-docs-debian:
-> > > +  <<: *native_build_job_definition
-> > > +  variables:
-> > > +    IMAGE: debian-amd64
-> > > +    MAKE_CHECK_ARGS: ctags gtags TAGS cscope
-> > > +    CONFIGURE_ARGS: --enable-docs --enable-tools
-> > > +  artifacts:
-> > > +    expire_in: 2 days
-> > > +    paths:
-> > > +      - build
-> >
-> > Do we actually need this job at all ?
-> >
-> > Assuming the depenedancies are in the dockerfile, then all the
-> > build jobs will be testing docs and tools already, as meson will
-> > auto enable it.
-> 
-> What I would like to see is a set of "just build the docs"
-> CI jobs which test all our supported Sphinx versions
-> (eg 1.6, 2.0, 2.4, 3.0, 3.2), since we've found that Sphinx
-> is not great about consistency of accepted syntax from
-> version to version. (Somebody sent a patch for this ages
-> ago, but it was for a Travis CI job IIRC, which we're trying
-> to move away from.)
+On Wed, 13 Jan 2021 at 09:31, Markus Armbruster <armbru@redhat.com> wrote:
+>
+> This pull request is on behalf of Lukas.  Hope that's okay.
+>
+> The following changes since commit f8e1d8852e393b3fd524fb005e38590063d99bc0:
+>
+>   Merge remote-tracking branch 'remotes/pmaydell/tags/pull-target-arm-20210112-1' into staging (2021-01-12 21:23:25 +0000)
+>
+> are available in the Git repository at:
+>
+>   git://repo.or.cz/qemu/armbru.git tags/pull-yank-2021-01-13
+>
+> for you to fetch changes up to 91d48e520a4a4f72e97aeb333029694f5d57cc93:
+>
+>   tests/test-char.c: Wait for the chardev to connect in char_socket_client_dupid_test (2021-01-13 10:21:17 +0100)
+>
+> ----------------------------------------------------------------
+> Yank patches patches for 2021-01-13
+>
+> ----------------------------------------------------------------
+> Lukas Straub (7):
+>       Introduce yank feature
+>       block/nbd.c: Add yank feature
+>       chardev/char-socket.c: Add yank feature
+>       migration: Add yank feature
+>       io/channel-tls.c: make qio_channel_tls_shutdown thread-safe
+>       io: Document qmp oob suitability of qio_channel_shutdown and io_shutdown
+>       tests/test-char.c: Wait for the chardev to connect in char_socket_client_dupid_test
 
-We only care about the Sphinx versions that exist in the OS distros that
-we're targetting as build platforms. So as long as we have build jobs for
-all the distros we have dockerfiles for, then we're covering all the
-sphinx versions that matter.  IOW, I think our gitlab jobs are already
-covering a good variety of sphinx versions. There are possibly gaps because
-our dockerfiles have a horribly inconsistent set of RPMs listed. This
-inconsistency is addressed in this patch series of mine to autogenerate
-the dockerfiles:
 
- https://lists.gnu.org/archive/html/qemu-devel/2020-12/msg00189.html
+Applied, thanks.
 
-which will ensure all our dockerfiles have the deps needed to satisfy
-all features in QEMU.
+Please update the changelog at https://wiki.qemu.org/ChangeLog/6.0
+for any user-visible changes.
 
-Regards,
-Daniel
--- 
-|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
-|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
-|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
-
+-- PMM
 
