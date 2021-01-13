@@ -2,68 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 866772F51AB
-	for <lists+qemu-devel@lfdr.de>; Wed, 13 Jan 2021 19:06:49 +0100 (CET)
-Received: from localhost ([::1]:59904 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5CE432F51B7
+	for <lists+qemu-devel@lfdr.de>; Wed, 13 Jan 2021 19:11:00 +0100 (CET)
+Received: from localhost ([::1]:39638 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kzkXg-0007sk-EG
-	for lists+qemu-devel@lfdr.de; Wed, 13 Jan 2021 13:06:48 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50180)
+	id 1kzkbj-0003Hu-Aw
+	for lists+qemu-devel@lfdr.de; Wed, 13 Jan 2021 13:10:59 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50586)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1kzkPU-00021d-3h
- for qemu-devel@nongnu.org; Wed, 13 Jan 2021 12:58:20 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:58636)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1kzkPR-00012D-QO
- for qemu-devel@nongnu.org; Wed, 13 Jan 2021 12:58:19 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1610560697;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=zAr8NGcSB0K1UzQorV+b3CqRa/5TFojC7jgHvo+KKeY=;
- b=UxBevN+ggYAMcOaoIfboKRT4CujOA5HEn3seRoBsWkPRJGARBG2+WnVP5hlVQh3uKsM/Hh
- H/KgKYi730af4aMyp+iB1CeURTdRG6C4XukCKtUrv4SchvpmP1Afu9ncM/ggs4DMTBdkJv
- 4tThi1kTmZi7yBYFkoML6an5j/9y4Ag=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-221-02efRLyENhin50p0EmhsDA-1; Wed, 13 Jan 2021 12:58:15 -0500
-X-MC-Unique: 02efRLyENhin50p0EmhsDA-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 762F41081B32;
- Wed, 13 Jan 2021 17:58:14 +0000 (UTC)
-Received: from localhost (ovpn-113-103.ams2.redhat.com [10.36.113.103])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 0D2B75C3E0;
- Wed, 13 Jan 2021 17:58:13 +0000 (UTC)
-From: Max Reitz <mreitz@redhat.com>
-To: qemu-block@nongnu.org
-Subject: [PATCH v2 8/8] iotests/129: Clean up pylint and mypy complaints
-Date: Wed, 13 Jan 2021 18:57:52 +0100
-Message-Id: <20210113175752.403022-9-mreitz@redhat.com>
-In-Reply-To: <20210113175752.403022-1-mreitz@redhat.com>
-References: <20210113175752.403022-1-mreitz@redhat.com>
+ (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
+ id 1kzkQz-0003pt-V7; Wed, 13 Jan 2021 12:59:53 -0500
+Received: from mail-io1-xd36.google.com ([2607:f8b0:4864:20::d36]:43395)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
+ id 1kzkQy-0001U6-AV; Wed, 13 Jan 2021 12:59:53 -0500
+Received: by mail-io1-xd36.google.com with SMTP id o6so5859705iob.10;
+ Wed, 13 Jan 2021 09:59:51 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=1rChWHeBFbx9HDZfuNq0im99M0g+57IB6smclGGT1qQ=;
+ b=Tcyx9iGp1KpwymetsLAYgzkOZLUd3O4becV8fz4yJrhakLEd9LrEaSbiluc6Bt2taB
+ GAx4DgUpn5XyJb6cSPs22R9B19oHeU1e+ooOoLWWOxAdPtzOXV1m6WsSLt5wo4p5P+10
+ jAKMyUVSxMxy8h+c0GUhohVJMXw300M35KAsd8z+I4dBaEQ1AVwFxMfaN4nT0mg/CaPn
+ ywSAzdLoiYv9NRtkFFe5xkBuLPvGQXmy7NhcBfIYiajLY3/t7kC3BOSLSjnfDWoFXphA
+ XjL2s78aKU0AZA1pP/ZS4MnSnZRQXaVa+Rwhl+BjcpMvxAfD5DXfPXh58Vuk8I26A1xv
+ MFqQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=1rChWHeBFbx9HDZfuNq0im99M0g+57IB6smclGGT1qQ=;
+ b=PRp8dRmKGHZeqCgS/1riND38aBcS+nOriUm7debCKKpZ0lH4zauNykY2ZDX2AdJ6MS
+ NjY5AVyQy/AkAIp70Q2ZlWkbkYpLOh6yxIg6yNJY0UzQKjPxBkSuH42LMidwzMHN9l6c
+ N780queHj5aVsC2m8+ReKlw3hna8lBOj9mMGJEp7W17LnZEjbsNooyDB1nY61oGl5gkV
+ l243Y9Lc6PXlXwSrxUq5D+MnMqOdB3nsJDpgYokA6fyoO3MqLxA0xP81WqPKrJpGZB9x
+ qM97Pqz8izjzpIMjtdNCZyYoUFEOJRBD57+GqgVPMCxzTLTIjjD0y0P0Dj4MJpMYV0Cp
+ 11Ag==
+X-Gm-Message-State: AOAM531YTC9ztAACGZDKdbJ6BiuD2eXWj1soF+gCA3MNcDlpPEvkjLMa
+ Kt+uc4KI0JnA5uShNsrlDbEmeTJ3sjP8yW0Ycuc=
+X-Google-Smtp-Source: ABdhPJxfn44bYzZnVdl4T0bYzOiPOs1PTPxxmI1Jout/fq+z9hDFaad5KBSCOIpVtb1HMVGkVURmnG50y799q2skB1k=
+X-Received: by 2002:a92:c942:: with SMTP id i2mr3331734ilq.227.1610560790454; 
+ Wed, 13 Jan 2021 09:59:50 -0800 (PST)
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mreitz@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=mreitz@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -29
-X-Spam_score: -3.0
-X-Spam_bar: ---
-X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.25,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+References: <20201231113010.27108-1-bmeng.cn@gmail.com>
+ <20201231113010.27108-13-bmeng.cn@gmail.com>
+In-Reply-To: <20201231113010.27108-13-bmeng.cn@gmail.com>
+From: Alistair Francis <alistair23@gmail.com>
+Date: Wed, 13 Jan 2021 09:59:24 -0800
+Message-ID: <CAKmqyKNYtSvFybFeSC7mtWSibBaDS0bhMnFvgkBNHAY1X-aOjQ@mail.gmail.com>
+Subject: Re: [PATCH 12/22] hw/sd: sd.h: Cosmetic change of using spaces
+To: Bin Meng <bmeng.cn@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::d36;
+ envelope-from=alistair23@gmail.com; helo=mail-io1-xd36.google.com
+X-Spam_score_int: -17
+X-Spam_score: -1.8
+X-Spam_bar: -
+X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -76,70 +76,86 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>,
- Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>, qemu-devel@nongnu.org,
- Max Reitz <mreitz@redhat.com>
+Cc: "open list:RISC-V" <qemu-riscv@nongnu.org>,
+ Qemu-block <qemu-block@nongnu.org>, Bin Meng <bin.meng@windriver.com>,
+ =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>,
+ "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
+ Alistair Francis <alistair.francis@wdc.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Signed-off-by: Max Reitz <mreitz@redhat.com>
----
- tests/qemu-iotests/129     | 6 ++++--
- tests/qemu-iotests/297     | 2 +-
- tests/qemu-iotests/297.out | 1 +
- 3 files changed, 6 insertions(+), 3 deletions(-)
+On Thu, Dec 31, 2020 at 3:46 AM Bin Meng <bmeng.cn@gmail.com> wrote:
+>
+> From: Bin Meng <bin.meng@windriver.com>
+>
+> QEMU conding convention prefers spaces over tabs.
+>
+> Signed-off-by: Bin Meng <bin.meng@windriver.com>
 
-diff --git a/tests/qemu-iotests/129 b/tests/qemu-iotests/129
-index 6d21470cd7..64578493c1 100755
---- a/tests/qemu-iotests/129
-+++ b/tests/qemu-iotests/129
-@@ -20,9 +20,10 @@
- 
- import os
- import iotests
--import time
- 
- class TestStopWithBlockJob(iotests.QMPTestCase):
-+    assert iotests.test_dir is not None
-+
-     test_img = os.path.join(iotests.test_dir, 'test.img')
-     target_img = os.path.join(iotests.test_dir, 'target.img')
-     base_img = os.path.join(iotests.test_dir, 'base.img')
-@@ -32,7 +33,8 @@ class TestStopWithBlockJob(iotests.QMPTestCase):
-         iotests.qemu_img('create', '-f', iotests.imgfmt, self.base_img, "1G")
-         iotests.qemu_img('create', '-f', iotests.imgfmt, self.test_img,
-                          "-b", self.base_img, '-F', iotests.imgfmt)
--        iotests.qemu_io('-f', iotests.imgfmt, '-c', 'write -P0x5d 1M 128M', self.test_img)
-+        iotests.qemu_io('-f', iotests.imgfmt, '-c', 'write -P0x5d 1M 128M',
-+                        self.test_img)
-         self.vm = iotests.VM()
-         self.vm.add_object('throttle-group,id=tg0,x-bps-total=1024')
- 
-diff --git a/tests/qemu-iotests/297 b/tests/qemu-iotests/297
-index b1a7d6d5e8..88f00415c8 100755
---- a/tests/qemu-iotests/297
-+++ b/tests/qemu-iotests/297
-@@ -32,7 +32,7 @@ fi
- 
- # TODO: Empty this list!
- skip_files=(
--    030 040 041 044 045 055 056 057 065 093 096 118 124 129 132 136 139 147 148
-+    030 040 041 044 045 055 056 057 065 093 096 118 124 132 136 139 147 148
-     149 151 152 155 163 165 169 194 196 199 202 203 205 206 207 208 210 211 212
-     213 216 218 219 222 224 228 234 235 236 237 238 240 242 245 246 248 255 256
-     257 258 260 262 264 266 274 277 280 281 295 296 298 299 300 302 303 304 307
-diff --git a/tests/qemu-iotests/297.out b/tests/qemu-iotests/297.out
-index c5ebbf6a17..92cae940c5 100644
---- a/tests/qemu-iotests/297.out
-+++ b/tests/qemu-iotests/297.out
-@@ -1,5 +1,6 @@
- QA output created by 297
- Files to be checked:
-+  129
-   209
-   254
-   283
--- 
-2.29.2
+Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
 
+Alistair
+
+> ---
+>
+>  include/hw/sd/sd.h | 42 +++++++++++++++++++++---------------------
+>  1 file changed, 21 insertions(+), 21 deletions(-)
+>
+> diff --git a/include/hw/sd/sd.h b/include/hw/sd/sd.h
+> index 59d108d453..05ef9b73e5 100644
+> --- a/include/hw/sd/sd.h
+> +++ b/include/hw/sd/sd.h
+> @@ -33,27 +33,27 @@
+>  #include "hw/qdev-core.h"
+>  #include "qom/object.h"
+>
+> -#define OUT_OF_RANGE           (1 << 31)
+> -#define ADDRESS_ERROR          (1 << 30)
+> -#define BLOCK_LEN_ERROR                (1 << 29)
+> -#define ERASE_SEQ_ERROR                (1 << 28)
+> -#define ERASE_PARAM            (1 << 27)
+> -#define WP_VIOLATION           (1 << 26)
+> -#define CARD_IS_LOCKED         (1 << 25)
+> -#define LOCK_UNLOCK_FAILED     (1 << 24)
+> -#define COM_CRC_ERROR          (1 << 23)
+> -#define ILLEGAL_COMMAND                (1 << 22)
+> -#define CARD_ECC_FAILED                (1 << 21)
+> -#define CC_ERROR               (1 << 20)
+> -#define SD_ERROR               (1 << 19)
+> -#define CID_CSD_OVERWRITE      (1 << 16)
+> -#define WP_ERASE_SKIP          (1 << 15)
+> -#define CARD_ECC_DISABLED      (1 << 14)
+> -#define ERASE_RESET            (1 << 13)
+> -#define CURRENT_STATE          (7 << 9)
+> -#define READY_FOR_DATA         (1 << 8)
+> -#define APP_CMD                        (1 << 5)
+> -#define AKE_SEQ_ERROR          (1 << 3)
+> +#define OUT_OF_RANGE            (1 << 31)
+> +#define ADDRESS_ERROR           (1 << 30)
+> +#define BLOCK_LEN_ERROR         (1 << 29)
+> +#define ERASE_SEQ_ERROR         (1 << 28)
+> +#define ERASE_PARAM             (1 << 27)
+> +#define WP_VIOLATION            (1 << 26)
+> +#define CARD_IS_LOCKED          (1 << 25)
+> +#define LOCK_UNLOCK_FAILED      (1 << 24)
+> +#define COM_CRC_ERROR           (1 << 23)
+> +#define ILLEGAL_COMMAND         (1 << 22)
+> +#define CARD_ECC_FAILED         (1 << 21)
+> +#define CC_ERROR                (1 << 20)
+> +#define SD_ERROR                (1 << 19)
+> +#define CID_CSD_OVERWRITE       (1 << 16)
+> +#define WP_ERASE_SKIP           (1 << 15)
+> +#define CARD_ECC_DISABLED       (1 << 14)
+> +#define ERASE_RESET             (1 << 13)
+> +#define CURRENT_STATE           (7 << 9)
+> +#define READY_FOR_DATA          (1 << 8)
+> +#define APP_CMD                 (1 << 5)
+> +#define AKE_SEQ_ERROR           (1 << 3)
+>
+>  enum SDPhySpecificationVersion {
+>      SD_PHY_SPECv1_10_VERS     = 1,
+> --
+> 2.25.1
+>
+>
 
