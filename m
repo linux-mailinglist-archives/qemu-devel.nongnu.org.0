@@ -2,70 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 683772F65F7
-	for <lists+qemu-devel@lfdr.de>; Thu, 14 Jan 2021 17:30:43 +0100 (CET)
-Received: from localhost ([::1]:34594 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 85A132F65B8
+	for <lists+qemu-devel@lfdr.de>; Thu, 14 Jan 2021 17:26:03 +0100 (CET)
+Received: from localhost ([::1]:50642 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l05WE-0002et-De
-	for lists+qemu-devel@lfdr.de; Thu, 14 Jan 2021 11:30:42 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38820)
+	id 1l05Ri-0005al-GC
+	for lists+qemu-devel@lfdr.de; Thu, 14 Jan 2021 11:26:02 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38854)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1l05MN-0003Te-5A
- for qemu-devel@nongnu.org; Thu, 14 Jan 2021 11:20:31 -0500
-Received: from mail-wm1-x32a.google.com ([2a00:1450:4864:20::32a]:37850)
+ id 1l05MR-0003X3-5p
+ for qemu-devel@nongnu.org; Thu, 14 Jan 2021 11:20:36 -0500
+Received: from mail-wm1-x335.google.com ([2a00:1450:4864:20::335]:51554)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1l05ML-0000IC-7g
- for qemu-devel@nongnu.org; Thu, 14 Jan 2021 11:20:30 -0500
-Received: by mail-wm1-x32a.google.com with SMTP id g10so5202432wmh.2
- for <qemu-devel@nongnu.org>; Thu, 14 Jan 2021 08:20:26 -0800 (PST)
+ id 1l05MP-0000L3-OG
+ for qemu-devel@nongnu.org; Thu, 14 Jan 2021 11:20:34 -0500
+Received: by mail-wm1-x335.google.com with SMTP id h17so4842459wmq.1
+ for <qemu-devel@nongnu.org>; Thu, 14 Jan 2021 08:20:31 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=qKpP1ngTnTm1oCpGVbPgwRFR2uGYjvZbTadWh9mW2Mw=;
- b=gy4ESAPNJCsxd9p1zZGDz8+Z0iOZx5SxcxpGmHyjaVgD0BnKkae/bpd716RV3Er2/+
- rXdaG9a64E7Iuc9Xn3QKojXVGGn3939OvIlrz0FVEgQG79PLKdZjyO/CIq4RlrWDpzQ/
- uy40qDXkfZQELuKTD8u/uDaMeLpyUf8tKq90I9dnueV8CKj2YpGsgzVGI3S+SXivUGHM
- clato2mDT1SAcNHmP8F5D9o5WlV6R+sfrEFQdp1hInObvsWV6moVoxYHeMmPM2fkbV1R
- n8LBncsmztV2N+k/abQsUk3PiWGemXHTlCcAJ2w6hd4cir0nbGsOoIdPVRehlozR9WqI
- HKoA==
+ bh=tBqX1clbYKt9R+SX61mxukew3gcbpBwk2CU6RWzKp/Q=;
+ b=ZJtr0PFqf4dMma/ZBf6xbTexslNIumhMC1tA9lJvtc3RXaK/U5uUslWvaVv6OkmYq/
+ cmafK9E+3IE3pekGsnCMLncCISKlgAQDUU6AtumIcs/j8PW5ujH3GJ19nU0GuWXjUMFW
+ rA+05P9ldfJGgviLgMwfiu3xCTsNVRfnIte5lpKULRPpK+CdIbrZPTZVidbSL2LKf0Xd
+ owWYphJPiyfOvYGSSkuCDddXud4s3E1WF03MlbZ6JV8k7IbFpZG0pah1LV3D6bKwnUUC
+ kq4+IkZ/kH5nU9BKhIQAnSzzDC6ExKSvXIGkll16Le7zPsCjiJOiFEMTsy1XmdR3sgHA
+ WIwQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=qKpP1ngTnTm1oCpGVbPgwRFR2uGYjvZbTadWh9mW2Mw=;
- b=CILvt5D0x/RSzkXGXr3ClAC20Afxf+M8rATo9u4u+gULSgtJYsvBbf1RBwSpI0AR1m
- 7XpO8ZxS7EcTC1DUvoJ7r+0xZt7eI27uhrgWbOmKNM9wLG4LiV7mIpwShYq55XqbYMw9
- 5Hrn26KCMmYSE6tNn/TdTxWtrfxAWAFg5BdW4JwADQiB1+8bFm+oLGtD3k9Z3NA56ojs
- W1uGy/AQtcjuguRyTsWkZ0878sxrTwPMnuXbbCk+F5XDZmTLRCgJ295B9AybPZncwK4m
- Z+rjB9pn4Y7yoZl2NfxLfJ5f9W3idszsZKeJyPLLYtZ/wDCGOHLuVYNo4Dh4ukILpHLV
- A9mw==
-X-Gm-Message-State: AOAM531TG7WRnZWyOpnOdGMmV5BCfa1r5Z82jih4hotLYe6HU5NEx8Zw
- tGKdHn2DPAux4khAcxUMFztCXjc6CqU=
-X-Google-Smtp-Source: ABdhPJxRGZ33lAZ+sWDSifm5lQrVldCLBdS0TbpNFuckSC/bmSPsuREKGILmoLwQlCZccrXB74yM+g==
-X-Received: by 2002:a1c:2b05:: with SMTP id r5mr4594763wmr.179.1610641225302; 
- Thu, 14 Jan 2021 08:20:25 -0800 (PST)
+ bh=tBqX1clbYKt9R+SX61mxukew3gcbpBwk2CU6RWzKp/Q=;
+ b=Di4gbL1hfymqFtLAKJ/UjSD/Tgw0w8a/TFad/zL88J9qRFkbwe5U9rdjcYYwdBanvh
+ vtMG/b97NGo9SnwaJXyDNMmAkrvcvMT2qP0CyW3neUTSi62K8rK+FT+Dn1DI3mY5eCBV
+ 4O3iPjvJl0LvLgA7LBQPkc3CfFl9WlaXwypG/IsKtvgggPp/qnK20Gejrd0x1wl28uGy
+ MqUQcDQei9HCJS1UKSt8owfpB4NlJBvD5o1Z+udgn2lQuQO4EkL5EzwuTxvIuqOm7y1n
+ +0EhFSrECxZTSHjgMmahBGrZAJJuXDnAT87r1esZFuZUhBWYSUI79+3iqIQVxnHAVkZL
+ 2qcw==
+X-Gm-Message-State: AOAM530+C9G1FRrf1A04Muy16beJwIJxN4/67Zu81T8m7vQJwN8j6F8B
+ atOuMjJWXprFJ6W65jRydt3WwcuT1hQ=
+X-Google-Smtp-Source: ABdhPJwClUK0+1aDEn3FkxnnQpLobQlL8rciiCXqHEXceIj+19fFdaoeV9VAu0QD2L+Xm/6pCM+Plg==
+X-Received: by 2002:a1c:2c83:: with SMTP id s125mr4622432wms.161.1610641230229; 
+ Thu, 14 Jan 2021 08:20:30 -0800 (PST)
 Received: from x1w.redhat.com (13.red-83-57-169.dynamicip.rima-tde.net.
  [83.57.169.13])
- by smtp.gmail.com with ESMTPSA id s1sm11272025wrv.97.2021.01.14.08.20.24
+ by smtp.gmail.com with ESMTPSA id 125sm9249706wmc.27.2021.01.14.08.20.29
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 14 Jan 2021 08:20:24 -0800 (PST)
+ Thu, 14 Jan 2021 08:20:29 -0800 (PST)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 To: 
-Subject: [PULL v2 29/69] target/mips/translate: Add declarations for generic
- code
-Date: Thu, 14 Jan 2021 17:20:00 +0100
-Message-Id: <20210114162016.2901557-2-f4bug@amsat.org>
+Subject: [PULL v2 30/69] target/mips: Replace gen_exception_err(err=0) by
+ gen_exception_end()
+Date: Thu, 14 Jan 2021 17:20:01 +0100
+Message-Id: <20210114162016.2901557-3-f4bug@amsat.org>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20210114162016.2901557-1-f4bug@amsat.org>
 References: <20210114162016.2901557-1-f4bug@amsat.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::32a;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x32a.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::335;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x335.google.com
 X-Spam_score_int: -14
 X-Spam_score: -1.5
 X-Spam_bar: -
@@ -93,223 +93,41 @@ Cc: Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Some CPU translation functions / registers / macros and
-definitions can be used by ISA / ASE / extensions out of
-the big translate.c file. Declare them in "translate.h".
+generate_exception_err(err=0) is simply generate_exception_end().
 
 Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-Message-Id: <20201207235539.4070364-3-f4bug@amsat.org>
+Message-Id: <20201214183739.500368-11-f4bug@amsat.org>
 ---
- target/mips/translate.h | 43 ++++++++++++++++++++++++++++++++++
- target/mips/translate.c | 52 +++++++++++------------------------------
- 2 files changed, 57 insertions(+), 38 deletions(-)
+ target/mips/translate.c | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
-diff --git a/target/mips/translate.h b/target/mips/translate.h
-index fcda1a99001..3d640912f12 100644
---- a/target/mips/translate.h
-+++ b/target/mips/translate.h
-@@ -10,6 +10,8 @@
- 
- #include "exec/translator.h"
- 
-+#define MIPS_DEBUG_DISAS 0
-+
- typedef struct DisasContext {
-     DisasContextBase base;
-     target_ulong saved_pc;
-@@ -47,4 +49,45 @@ typedef struct DisasContext {
-     int gi;
- } DisasContext;
- 
-+/* MIPS major opcodes */
-+#define MASK_OP_MAJOR(op)   (op & (0x3F << 26))
-+
-+void generate_exception(DisasContext *ctx, int excp);
-+void generate_exception_err(DisasContext *ctx, int excp, int err);
-+void generate_exception_end(DisasContext *ctx, int excp);
-+
-+void check_insn(DisasContext *ctx, uint64_t flags);
-+#ifdef TARGET_MIPS64
-+void check_mips_64(DisasContext *ctx);
-+#endif
-+
-+void gen_base_offset_addr(DisasContext *ctx, TCGv addr, int base, int offset);
-+void gen_move_low32(TCGv ret, TCGv_i64 arg);
-+void gen_move_high32(TCGv ret, TCGv_i64 arg);
-+void gen_load_gpr(TCGv t, int reg);
-+void gen_store_gpr(TCGv t, int reg);
-+
-+void gen_op_addr_add(DisasContext *ctx, TCGv ret, TCGv arg0, TCGv arg1);
-+
-+extern TCGv cpu_gpr[32], cpu_PC;
-+extern TCGv bcond;
-+
-+#define LOG_DISAS(...)                                                        \
-+    do {                                                                      \
-+        if (MIPS_DEBUG_DISAS) {                                               \
-+            qemu_log_mask(CPU_LOG_TB_IN_ASM, ## __VA_ARGS__);                 \
-+        }                                                                     \
-+    } while (0)
-+
-+#define MIPS_INVAL(op)                                                        \
-+    do {                                                                      \
-+        if (MIPS_DEBUG_DISAS) {                                               \
-+            qemu_log_mask(CPU_LOG_TB_IN_ASM,                                  \
-+                          TARGET_FMT_lx ": %08x Invalid %s %03x %03x %03x\n", \
-+                          ctx->base.pc_next, ctx->opcode, op,                 \
-+                          ctx->opcode >> 26, ctx->opcode & 0x3F,              \
-+                          ((ctx->opcode >> 16) & 0x1F));                      \
-+        }                                                                     \
-+    } while (0)
-+
- #endif
 diff --git a/target/mips/translate.c b/target/mips/translate.c
-index 9e824e12d44..72cbf604ac3 100644
+index 72cbf604ac3..fa11c8ffe0c 100644
 --- a/target/mips/translate.c
 +++ b/target/mips/translate.c
-@@ -38,11 +38,6 @@
- #include "fpu_helper.h"
- #include "translate.h"
- 
--#define MIPS_DEBUG_DISAS 0
--
--/* MIPS major opcodes */
--#define MASK_OP_MAJOR(op)       (op & (0x3F << 26))
--
- enum {
-     /* indirect opcode tables */
-     OPC_SPECIAL  = (0x00 << 26),
-@@ -2491,9 +2486,10 @@ enum {
- };
- 
- /* global register indices */
--static TCGv cpu_gpr[32], cpu_PC;
-+TCGv cpu_gpr[32], cpu_PC;
- static TCGv cpu_HI[MIPS_DSP_ACC], cpu_LO[MIPS_DSP_ACC];
--static TCGv cpu_dspctrl, btarget, bcond;
-+static TCGv cpu_dspctrl, btarget;
-+TCGv bcond;
- static TCGv cpu_lladdr, cpu_llval;
- static TCGv_i32 hflags;
- static TCGv_i32 fpu_fcr0, fpu_fcr31;
-@@ -2606,26 +2602,8 @@ static const char * const mxuregnames[] = {
- };
- #endif
- 
--#define LOG_DISAS(...)                                                        \
--    do {                                                                      \
--        if (MIPS_DEBUG_DISAS) {                                               \
--            qemu_log_mask(CPU_LOG_TB_IN_ASM, ## __VA_ARGS__);                 \
--        }                                                                     \
--    } while (0)
--
--#define MIPS_INVAL(op)                                                        \
--    do {                                                                      \
--        if (MIPS_DEBUG_DISAS) {                                               \
--            qemu_log_mask(CPU_LOG_TB_IN_ASM,                                  \
--                          TARGET_FMT_lx ": %08x Invalid %s %03x %03x %03x\n", \
--                          ctx->base.pc_next, ctx->opcode, op,                 \
--                          ctx->opcode >> 26, ctx->opcode & 0x3F,              \
--                          ((ctx->opcode >> 16) & 0x1F));                      \
--        }                                                                     \
--    } while (0)
--
- /* General purpose registers moves. */
--static inline void gen_load_gpr(TCGv t, int reg)
-+void gen_load_gpr(TCGv t, int reg)
+@@ -2897,7 +2897,7 @@ void gen_move_high32(TCGv ret, TCGv_i64 arg)
+ static inline void check_cp0_enabled(DisasContext *ctx)
  {
-     if (reg == 0) {
-         tcg_gen_movi_tl(t, 0);
-@@ -2634,7 +2612,7 @@ static inline void gen_load_gpr(TCGv t, int reg)
+     if (unlikely(!(ctx->hflags & MIPS_HFLAG_CP0))) {
+-        generate_exception_err(ctx, EXCP_CpU, 0);
++        generate_exception_end(ctx, EXCP_CpU);
      }
  }
  
--static inline void gen_store_gpr(TCGv t, int reg)
-+void gen_store_gpr(TCGv t, int reg)
+@@ -3103,10 +3103,10 @@ static inline void check_mt(DisasContext *ctx)
+ static inline void check_cp0_mt(DisasContext *ctx)
  {
-     if (reg != 0) {
-         tcg_gen_mov_tl(cpu_gpr[reg], t);
-@@ -2763,7 +2741,7 @@ static inline void restore_cpu_state(CPUMIPSState *env, DisasContext *ctx)
+     if (unlikely(!(ctx->hflags & MIPS_HFLAG_CP0))) {
+-        generate_exception_err(ctx, EXCP_CpU, 0);
++        generate_exception_end(ctx, EXCP_CpU);
+     } else {
+         if (unlikely(!(ctx->CP0_Config3 & (1 << CP0C3_MT)))) {
+-            generate_exception_err(ctx, EXCP_RI, 0);
++            generate_exception_end(ctx, EXCP_RI);
+         }
      }
  }
- 
--static inline void generate_exception_err(DisasContext *ctx, int excp, int err)
-+void generate_exception_err(DisasContext *ctx, int excp, int err)
- {
-     TCGv_i32 texcp = tcg_const_i32(excp);
-     TCGv_i32 terr = tcg_const_i32(err);
-@@ -2774,12 +2752,12 @@ static inline void generate_exception_err(DisasContext *ctx, int excp, int err)
-     ctx->base.is_jmp = DISAS_NORETURN;
- }
- 
--static inline void generate_exception(DisasContext *ctx, int excp)
-+void generate_exception(DisasContext *ctx, int excp)
- {
-     gen_helper_0e0i(raise_exception, excp);
- }
- 
--static inline void generate_exception_end(DisasContext *ctx, int excp)
-+void generate_exception_end(DisasContext *ctx, int excp)
- {
-     generate_exception_err(ctx, excp, 0);
- }
-@@ -2859,8 +2837,7 @@ static inline int get_fp_bit(int cc)
- }
- 
- /* Addresses computation */
--static inline void gen_op_addr_add(DisasContext *ctx, TCGv ret, TCGv arg0,
--                                   TCGv arg1)
-+void gen_op_addr_add(DisasContext *ctx, TCGv ret, TCGv arg0, TCGv arg1)
- {
-     tcg_gen_add_tl(ret, arg0, arg1);
- 
-@@ -2898,7 +2875,7 @@ static target_long addr_add(DisasContext *ctx, target_long base,
- }
- 
- /* Sign-extract the low 32-bits to a target_long.  */
--static inline void gen_move_low32(TCGv ret, TCGv_i64 arg)
-+void gen_move_low32(TCGv ret, TCGv_i64 arg)
- {
- #if defined(TARGET_MIPS64)
-     tcg_gen_ext32s_i64(ret, arg);
-@@ -2908,7 +2885,7 @@ static inline void gen_move_low32(TCGv ret, TCGv_i64 arg)
- }
- 
- /* Sign-extract the high 32-bits to a target_long.  */
--static inline void gen_move_high32(TCGv ret, TCGv_i64 arg)
-+void gen_move_high32(TCGv ret, TCGv_i64 arg)
- {
- #if defined(TARGET_MIPS64)
-     tcg_gen_sari_i64(ret, arg, 32);
-@@ -3013,7 +2990,7 @@ static inline void check_dsp_r3(DisasContext *ctx)
-  * This code generates a "reserved instruction" exception if the
-  * CPU does not support the instruction set corresponding to flags.
-  */
--static inline void check_insn(DisasContext *ctx, uint64_t flags)
-+void check_insn(DisasContext *ctx, uint64_t flags)
- {
-     if (unlikely(!(ctx->insn_flags & flags))) {
-         generate_exception_end(ctx, EXCP_RI);
-@@ -3064,7 +3041,7 @@ static inline void check_ps(DisasContext *ctx)
-  * This code generates a "reserved instruction" exception if 64-bit
-  * instructions are not enabled.
-  */
--static inline void check_mips_64(DisasContext *ctx)
-+void check_mips_64(DisasContext *ctx)
- {
-     if (unlikely(!(ctx->hflags & MIPS_HFLAG_64))) {
-         generate_exception_end(ctx, EXCP_RI);
-@@ -3390,8 +3367,7 @@ OP_LD_ATOMIC(lld, ld64);
- #endif
- #undef OP_LD_ATOMIC
- 
--static void gen_base_offset_addr(DisasContext *ctx, TCGv addr,
--                                 int base, int offset)
-+void gen_base_offset_addr(DisasContext *ctx, TCGv addr, int base, int offset)
- {
-     if (base == 0) {
-         tcg_gen_movi_tl(addr, offset);
 -- 
 2.26.2
 
