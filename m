@@ -2,75 +2,131 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A3DAB2F5FE4
-	for <lists+qemu-devel@lfdr.de>; Thu, 14 Jan 2021 12:29:50 +0100 (CET)
-Received: from localhost ([::1]:51374 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6A10D2F5FE8
+	for <lists+qemu-devel@lfdr.de>; Thu, 14 Jan 2021 12:30:02 +0100 (CET)
+Received: from localhost ([::1]:52254 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l00p3-0005yi-L8
-	for lists+qemu-devel@lfdr.de; Thu, 14 Jan 2021 06:29:49 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50386)
+	id 1l00pF-0006NO-Ck
+	for lists+qemu-devel@lfdr.de; Thu, 14 Jan 2021 06:30:01 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50578)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1l00l3-0004OW-9t
- for qemu-devel@nongnu.org; Thu, 14 Jan 2021 06:25:50 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:59635)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1l00kz-0005u3-H8
- for qemu-devel@nongnu.org; Thu, 14 Jan 2021 06:25:40 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1610623535;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:in-reply-to:in-reply-to:  references:references;
- bh=XqOfTnB39liRcHVwSunn3UeUAIK7R5nO1WAUm9BBMfY=;
- b=LeFW5MojS1msfAj3jnrnvlrlnENBbWjP+5ecVSh6L/i2TiJf5qpSxMrCqGfNClqjaU8i2t
- ai95oEvsb4JWlWJwN+dJYfJJU8eT0f0CSLmK2c4JRoyQEFczgulGl48N/cwXLFuLD129+9
- lhIA/yMBI3ewclhYSX33+gNo3+l7H0w=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-228-en6P0JmrP52Xg9Ljg_P9hg-1; Thu, 14 Jan 2021 06:25:34 -0500
-X-MC-Unique: en6P0JmrP52Xg9Ljg_P9hg-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A4E27806663;
- Thu, 14 Jan 2021 11:25:31 +0000 (UTC)
-Received: from redhat.com (ovpn-115-77.ams2.redhat.com [10.36.115.77])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 062885B6AD;
- Thu, 14 Jan 2021 11:25:20 +0000 (UTC)
-Date: Thu, 14 Jan 2021 11:25:17 +0000
-From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-To: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
-Subject: Re: [for-6.0 v5 11/13] spapr: PEF: prevent migration
-Message-ID: <20210114112517.GE1643043@redhat.com>
-References: <20201217123842.51063918.cohuck@redhat.com>
- <20201217151530.54431f0e@bahia.lan>
- <20201218124111.4957eb50.cohuck@redhat.com>
- <20210104071550.GA22585@ram-ibm-com.ibm.com>
- <20210104134629.49997b53.pasic@linux.ibm.com>
- <20210104184026.GD4102@ram-ibm-com.ibm.com>
- <20210105115614.7daaadd6.pasic@linux.ibm.com>
- <20210105204125.GE4102@ram-ibm-com.ibm.com>
- <20210111175914.13adfa2e.cohuck@redhat.com>
- <20210113124226.GH2938@work-vm>
+ (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
+ id 1l00mC-0004i9-0c; Thu, 14 Jan 2021 06:26:52 -0500
+Received: from mail-am6eur05on2115.outbound.protection.outlook.com
+ ([40.107.22.115]:47109 helo=EUR05-AM6-obe.outbound.protection.outlook.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
+ id 1l00m5-0006KH-Cj; Thu, 14 Jan 2021 06:26:51 -0500
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=TMtg4TETISRbC2Irlcg58FCR6HkO4r+A9NnxgXjdJkrG55EoZ5N0bbxb8N0ngROfzOPxFT/r9/Xz4g+/I5vIEJyGk44qqHyoAbeMu9mEZYjlgwcOB8IWZCVP9uTQL6Unsu/rR7WTtgJV7l2YNie1IRxU6csWjbxlF7XgRcuPmPSz9Bk5kzIVtlLPsT0aXqxxGkKC72urYUKW2T6hZXTfZ900+/lnuEaPVamoURU3GoFKY5yYmJmO7pgZb/h4FTxhfHSVHA7XOo3Ei/5aCMbktkep6+OZ5xcA8IPToYphP2Jivnqjhd2n2WtXJZeiSQz0JW/KPCgMq7qZ42N4Vam/EQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=TkZVnugTeIYPwlvVkmpjV73tzuxjezkvOdxWwcauXbM=;
+ b=AVEtX3umbUaQz62908J2qNbknDLBB5Nhnelcgr64FxJrMjg2SK9Pi7baIfhLOHcrsUYD6TyjvvvNk8fxyG1ehlFK6DDz0DTCtDW5OKfUsrDsK2renxN8lE4yqJGvtRhKTAZWq+UtReu8pQ95FRrUwpC76hGqr+V0hWZzV4dPeiH9+6OlX5hwK7nvLP2KqfdYUILYGoCeqvtlRP8bSoAVSWtq0InRiP5CcFrCxlz+Vw9M+VAGq+/iEj3gd+n9P2RWbKFulN8VSYNx0Pe070U7o+evmf9oHLiP3WrZzyCTOaadA7MIbefRanZvYM/wdL4u4ih9y3PE+3XGTIQlG4vR0g==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=virtuozzo.com; dmarc=pass action=none
+ header.from=virtuozzo.com; dkim=pass header.d=virtuozzo.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=TkZVnugTeIYPwlvVkmpjV73tzuxjezkvOdxWwcauXbM=;
+ b=Zoo3lKgkOgSK61wrg98SQNaJG8KFEc3x3XZDCyxpKHzS1HrDm3LHjG5skielNnzuMxYq9GgaYlrpTmlK7n5g30OhiZ/SN5feCCMTX0ct1cAJ0nSdlTbEQbolO5Y038QqKUZoc4rrAT2oxrLbNrj3fUEBts93BYq4XUJ8SaK4Ap8=
+Authentication-Results: redhat.com; dkim=none (message not signed)
+ header.d=none;redhat.com; dmarc=none action=none header.from=virtuozzo.com;
+Received: from AM7PR08MB5494.eurprd08.prod.outlook.com (2603:10a6:20b:dc::15)
+ by AM6PR08MB5256.eurprd08.prod.outlook.com (2603:10a6:20b:e7::32)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3763.10; Thu, 14 Jan
+ 2021 11:26:39 +0000
+Received: from AM7PR08MB5494.eurprd08.prod.outlook.com
+ ([fe80::214a:3545:368c:7ae8]) by AM7PR08MB5494.eurprd08.prod.outlook.com
+ ([fe80::214a:3545:368c:7ae8%9]) with mapi id 15.20.3763.009; Thu, 14 Jan 2021
+ 11:26:39 +0000
+Subject: Re: [PATCH v6 08/11] iotests: add testenv.py
+To: Kevin Wolf <kwolf@redhat.com>
+References: <20210109122631.167314-1-vsementsov@virtuozzo.com>
+ <20210109122631.167314-9-vsementsov@virtuozzo.com>
+ <4bc3f007-65c1-ce8e-0e16-3e6087918d8f@virtuozzo.com>
+ <20210114111436.GC6058@merkur.fritz.box>
+From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+Message-ID: <c360b244-7a1d-5939-7754-82ec081dd02f@virtuozzo.com>
+Date: Thu, 14 Jan 2021 14:26:37 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.6.1
+In-Reply-To: <20210114111436.GC6058@merkur.fritz.box>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [185.215.60.80]
+X-ClientProxiedBy: AM0PR10CA0023.EURPRD10.PROD.OUTLOOK.COM
+ (2603:10a6:208:17c::33) To AM7PR08MB5494.eurprd08.prod.outlook.com
+ (2603:10a6:20b:dc::15)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20210113124226.GH2938@work-vm>
-User-Agent: Mutt/1.14.6 (2020-07-11)
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=berrange@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -29
-X-Spam_score: -3.0
-X-Spam_bar: ---
-X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.25,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+X-MS-Exchange-MessageSentRepresentingType: 1
+Received: from [192.168.100.8] (185.215.60.80) by
+ AM0PR10CA0023.EURPRD10.PROD.OUTLOOK.COM (2603:10a6:208:17c::33) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3763.10 via Frontend
+ Transport; Thu, 14 Jan 2021 11:26:38 +0000
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: adc86303-4d80-4bb5-b615-08d8b87f42c8
+X-MS-TrafficTypeDiagnostic: AM6PR08MB5256:
+X-MS-Exchange-Transport-Forked: True
+X-Microsoft-Antispam-PRVS: <AM6PR08MB525620C3255003BD34469CD0C1A80@AM6PR08MB5256.eurprd08.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:2887;
+X-MS-Exchange-SenderADCheck: 1
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: rYDbYV+q1L11U8WILkw9Bcn5O3gGkR3Ty0nvrIQWhEkl0L2HnrIFo6cXn/FzYQf2/UBIoXJr+xAGcBlo6ppnXxzSdebnO6lPrZh1w0BY7NfGdp9UBOWAlllWVnUB7DUL0gGaI010JLp9udvUa0oGZIsMkatbzjybqi42efFNa3gbM8U7kvttoILQlsc7b7HJK3cz0/0fDT/ETd7QPbxtU9tZiKpisS2T48G0Ij/xvXkD1rrkCl+NxeWvBs92B4t9OkJTN1N5y4fIv20zQ+zQGm84tMsNb/JwhG8PPaKyLNirlxJkS72bY77Q4Rk8EpPFML3x8/u9ct+qMFpFIyNZUSdmM/R539oxKkzoWugCK+IBFlD3Tn1iUb2hSoh+aPeJR08sJR5TOvb69+ulxejfPN8zjnoPDABCL356vaOee6vRU+r56GekoEF9tXTGCpsgQzvuE2vJtOFPRN4j5Lz3Q6IHIDUIRHAqOwilFtLEhek=
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:AM7PR08MB5494.eurprd08.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(4636009)(376002)(396003)(366004)(346002)(136003)(39840400004)(66476007)(66946007)(16526019)(2906002)(66556008)(2616005)(26005)(956004)(186003)(8936002)(6916009)(31696002)(5660300002)(6486002)(31686004)(86362001)(4326008)(36756003)(316002)(16576012)(478600001)(52116002)(8676002)(43740500002)(45980500001);
+ DIR:OUT; SFP:1102; 
+X-MS-Exchange-AntiSpam-MessageData: =?utf-8?B?THMyRitBQ1NnRUZKMklZeTdjcm1VQks4MFV1SzFFdHZMTHpNUWlKc3RVcE9p?=
+ =?utf-8?B?SmhGcDU2dUVaT2ZsaTR3L0dqTU0vMHA2Z1hTN0Y1eDVkaWpiVDNUSXZndEtB?=
+ =?utf-8?B?UG5XdkVyUXBPeUpwZGYwcUJvb1puU3liVVc5dm5YQTNaNVZQMEp3N2ZnR1pT?=
+ =?utf-8?B?emI1TjRQTUVmaitLV3FvYkx2NTZ2TXBpUUZUNHkvL1crUXp1emE0aENWQ1FS?=
+ =?utf-8?B?WGZnVVVrSzJuZnFVcDBuVGt1SnRBeW8yRFlYSUs5ZUhmMk12dU9zZW1HUENX?=
+ =?utf-8?B?MFlCUk5pTStjM2JTVVk4TklGcGNyM0I2UE1JWVk5d29YbTA2Q0hIc3pXSWE2?=
+ =?utf-8?B?bzN2VFBRRTZWNEw4Nm1naWlNZU9NVk5GNGkxQzlaTlhRVTU4MHcreFBTMndn?=
+ =?utf-8?B?Qk11STNtSEFqSXlyUGR6SGFXakZFaytBNE5oS3pCbkp2L20zalc0SisxMWlk?=
+ =?utf-8?B?NzhPTnd0SmplNzlWWmsvelcwS3ZiRTkyN081UnBuckF0d0lGd2h2NW5OVE9W?=
+ =?utf-8?B?amNLMmN2WkJxd3hWdnd5eWwzckFXU2xlU2NrMGNVVW1qbVJQeEhxaWUyY0xt?=
+ =?utf-8?B?K3B6RXNzNUhwNkwyU3hybFNuRmlYdGJPYkZHNTd4K2NOaGNMSlIvWGdNRnJa?=
+ =?utf-8?B?SnpuV0k0MFlzV2lXZG9JN0dTRXRqbzNkYVl3SVZOSXdRSXRJYmpha2lJbGIr?=
+ =?utf-8?B?dTdTWlN3enc0M1pWeGdEU0l0MHM3RFNtUThVRUJJRU92cXpSYkdkQ1pyam9u?=
+ =?utf-8?B?TTVsS0RhSUxocU1LQTdVd1FTVnNQT1hxTGwrK3U5dW94T3lJN2VtZVlTT0Jn?=
+ =?utf-8?B?Z3hKVHpLdFBiYnpxS21nRDNwc01nVUkxdzhQNVZ5Vkx1Yld5R3pQbk1OclFz?=
+ =?utf-8?B?TUZ4dnVSTGkxaGxKbUdaVmNlQnJ1b1Z1WHdIMDY0TkdHWE52bzFTcW54RFNE?=
+ =?utf-8?B?akdNOHo4cmlhb205TExsT0lWc2NTZVpKVjVaNGpwaWZWaTgrK2ZFUkpQZVJo?=
+ =?utf-8?B?QnlLa0NjNWlnbDlMNmowZ2F0SkhFM1NnYkRaT09PWlVuSnUwY2hTM2wzNGJN?=
+ =?utf-8?B?Rmg0Y2JYbGhyTmc2RzVneFd6bDhxb0RKdVFKWTd3RUFWKzNhWEI5R1ZjajJO?=
+ =?utf-8?B?ZmJRRTBvcW53Y0FZdC9hdjlhbG5RT1BZbS9rM1l3eEowUkpyQlc0bEc1eUcx?=
+ =?utf-8?B?T0F6MmVRamhkV3BzeFV3NldRN2t0b0t3bmVEbzFBM1FmQ0FUN2VLSGxrd0kx?=
+ =?utf-8?B?NUlQTVVkdElEVTdxNVY4OWNwSkJrYm5Yc2pOVkNEZDlHZWNBNzR4eTZmZ3By?=
+ =?utf-8?Q?onhCd8Jmyu+FVgU+3z8+/byd96lzi9uBpN?=
+X-OriginatorOrg: virtuozzo.com
+X-MS-Exchange-CrossTenant-AuthSource: AM7PR08MB5494.eurprd08.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 14 Jan 2021 11:26:39.2980 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
+X-MS-Exchange-CrossTenant-Network-Message-Id: adc86303-4d80-4bb5-b615-08d8b87f42c8
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: g4yDCEtW5LaRDvuch9ToqT0GcW9dcZP56WfwG5ndKHS45J2kQTP687Oo5MBfN/JFx2iurZ2+iTMqP1W7LUCtA42e/zGScrny/LUuTNcV2Gs=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM6PR08MB5256
+Received-SPF: pass client-ip=40.107.22.115;
+ envelope-from=vsementsov@virtuozzo.com;
+ helo=EUR05-AM6-obe.outbound.protection.outlook.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
+X-Spam_bar: --
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ MSGID_FROM_MTA_HEADER=0.001, NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7,
+ RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_PASS=-0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -83,94 +139,42 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-Cc: pair@us.ibm.com, Cornelia Huck <cohuck@redhat.com>, brijesh.singh@amd.com,
- kvm@vger.kernel.org, "Michael S. Tsirkin" <mst@redhat.com>,
- Ram Pai <linuxram@us.ibm.com>, qemu-devel@nongnu.org, frankja@linux.ibm.com,
- david@redhat.com, mdroth@linux.vnet.ibm.com, Halil Pasic <pasic@linux.ibm.com>,
- borntraeger@de.ibm.com, David Gibson <david@gibson.dropbear.id.au>,
- thuth@redhat.com, Eduardo Habkost <ehabkost@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>, Greg Kurz <groug@kaod.org>,
- qemu-s390x@nongnu.org, rth@twiddle.net, Marcelo Tosatti <mtosatti@redhat.com>,
- qemu-ppc@nongnu.org, pbonzini@redhat.com
+Cc: qemu-block@nongnu.org, qemu-devel@nongnu.org, mreitz@redhat.com,
+ den@openvz.org, jsnow@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, Jan 13, 2021 at 12:42:26PM +0000, Dr. David Alan Gilbert wrote:
-> * Cornelia Huck (cohuck@redhat.com) wrote:
-> > On Tue, 5 Jan 2021 12:41:25 -0800
-> > Ram Pai <linuxram@us.ibm.com> wrote:
-> > 
-> > > On Tue, Jan 05, 2021 at 11:56:14AM +0100, Halil Pasic wrote:
-> > > > On Mon, 4 Jan 2021 10:40:26 -0800
-> > > > Ram Pai <linuxram@us.ibm.com> wrote:
-> > 
-> > > > > The main difference between my proposal and the other proposal is...
-> > > > > 
-> > > > >   In my proposal the guest makes the compatibility decision and acts
-> > > > >   accordingly.  In the other proposal QEMU makes the compatibility
-> > > > >   decision and acts accordingly. I argue that QEMU cannot make a good
-> > > > >   compatibility decision, because it wont know in advance, if the guest
-> > > > >   will or will-not switch-to-secure.
-> > > > >   
-> > > > 
-> > > > You have a point there when you say that QEMU does not know in advance,
-> > > > if the guest will or will-not switch-to-secure. I made that argument
-> > > > regarding VIRTIO_F_ACCESS_PLATFORM (iommu_platform) myself. My idea
-> > > > was to flip that property on demand when the conversion occurs. David
-> > > > explained to me that this is not possible for ppc, and that having the
-> > > > "securable-guest-memory" property (or whatever the name will be)
-> > > > specified is a strong indication, that the VM is intended to be used as
-> > > > a secure VM (thus it is OK to hurt the case where the guest does not
-> > > > try to transition). That argument applies here as well.  
-> > > 
-> > > As suggested by Cornelia Huck, what if QEMU disabled the
-> > > "securable-guest-memory" property if 'must-support-migrate' is enabled?
-> > > Offcourse; this has to be done with a big fat warning stating
-> > > "secure-guest-memory" feature is disabled on the machine.
-> > > Doing so, will continue to support guest that do not try to transition.
-> > > Guest that try to transition will fail and terminate themselves.
-> > 
-> > Just to recap the s390x situation:
-> > 
-> > - We currently offer a cpu feature that indicates secure execution to
-> >   be available to the guest if the host supports it.
-> > - When we introduce the secure object, we still need to support
-> >   previous configurations and continue to offer the cpu feature, even
-> >   if the secure object is not specified.
-> > - As migration is currently not supported for secured guests, we add a
-> >   blocker once the guest actually transitions. That means that
-> >   transition fails if --only-migratable was specified on the command
-> >   line. (Guests not transitioning will obviously not notice anything.)
-> > - With the secure object, we will already fail starting QEMU if
-> >   --only-migratable was specified.
-> > 
-> > My suggestion is now that we don't even offer the cpu feature if
-> > --only-migratable has been specified. For a guest that does not want to
-> > transition to secure mode, nothing changes; a guest that wants to
-> > transition to secure mode will notice that the feature is not available
-> > and fail appropriately (or ultimately, when the ultravisor call fails).
-> > We'd still fail starting QEMU for the secure object + --only-migratable
-> > combination.
-> > 
-> > Does that make sense?
+14.01.2021 14:14, Kevin Wolf wrote:
+> Am 14.01.2021 um 05:28 hat Vladimir Sementsov-Ogievskiy geschrieben:
+>> 09.01.2021 15:26, Vladimir Sementsov-Ogievskiy wrote:
+>>> Add TestEnv class, which will handle test environment in a new python
+>>> iotests running framework.
+>>>
+>>> Difference with current ./check interface:
+>>> - -v (verbose) option dropped, as it is unused
+>>>
+>>> - -xdiff option is dropped, until somebody complains that it is needed
+>>> - same for -n option
+>>
+>> One more thing dropped is looking for binaries in $build_iotests
+>> directory.  Do someone use this feature? Or we can drop it, and
+>> reimplement when someone report the degradation?
 > 
-> It's a little unusual; I don't think we have any other cases where
-> --only-migratable changes the behaviour; I think it normally only stops
-> you doing something that would have made it unmigratable or causes
-> an operation that would make it unmigratable to fail.
+> I seem to have socket_scm_helper only there, but you use
+> self.build_iotests for that, so I suppose this is different from what
+> you mean?
 
-I agree,  --only-migratable is supposed to be a *behavioural* toggle
-for QEMU. It must /not/ have any impact on the guest ABI.
+Yes socket_scm_helper is searched in build_iotests both pre- and after- my patches.
 
-A management application needs to be able to add/remove --only-migratable
-at will without changing the exposing guest ABI.
+But for other tools (qemu-img, qemu-io, qemu-nbd, qemu, qemu-storage-daemon) old check script first search[1] in build_iotests, and then in standard location.. In this commit I don't do the step [1].
 
-Regards,
-Daniel
+> 
+> My tools and system emulator binaries are in the standard location in
+> the build directory, not in the iotests build directory, so they don't
+> need it.
+> 
+
 -- 
-|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
-|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
-|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
-
+Best regards,
+Vladimir
 
