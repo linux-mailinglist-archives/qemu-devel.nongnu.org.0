@@ -2,76 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DBA292F5735
-	for <lists+qemu-devel@lfdr.de>; Thu, 14 Jan 2021 03:26:14 +0100 (CET)
-Received: from localhost ([::1]:58042 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B486E2F5740
+	for <lists+qemu-devel@lfdr.de>; Thu, 14 Jan 2021 03:33:27 +0100 (CET)
+Received: from localhost ([::1]:49106 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kzsKz-00054Q-UW
-	for lists+qemu-devel@lfdr.de; Wed, 13 Jan 2021 21:26:13 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60498)
+	id 1kzsRy-0004sS-Pd
+	for lists+qemu-devel@lfdr.de; Wed, 13 Jan 2021 21:33:26 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60374)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1kzsCh-0003rp-Mo
- for qemu-devel@nongnu.org; Wed, 13 Jan 2021 21:17:39 -0500
-Received: from mail-pg1-x529.google.com ([2607:f8b0:4864:20::529]:36920)
+ id 1kzsCc-0003eh-DZ
+ for qemu-devel@nongnu.org; Wed, 13 Jan 2021 21:17:34 -0500
+Received: from mail-pf1-x436.google.com ([2607:f8b0:4864:20::436]:41330)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1kzsCg-0003YA-2o
- for qemu-devel@nongnu.org; Wed, 13 Jan 2021 21:17:39 -0500
-Received: by mail-pg1-x529.google.com with SMTP id z21so2747968pgj.4
- for <qemu-devel@nongnu.org>; Wed, 13 Jan 2021 18:17:37 -0800 (PST)
+ id 1kzsCP-0003T9-5L
+ for qemu-devel@nongnu.org; Wed, 13 Jan 2021 21:17:32 -0500
+Received: by mail-pf1-x436.google.com with SMTP id q20so2454267pfu.8
+ for <qemu-devel@nongnu.org>; Wed, 13 Jan 2021 18:17:18 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=iIaMM78IeHTe5CD2a93HOKAFcWJMpXbVz88KGEPcLL4=;
- b=k3u5wUwCwjOPW7JGYT/DFyEanMUvjUKXyKbbIp74A+rMV3WP1d7gKHWPGiBOBIPFEU
- 2Ji5c9EddqF5CPSkC8+6YxmsEO/vNrVgyqHCweVoxcy6JFzwlF0FoCvdAywVtJO1Haxr
- 7I9HvvdIW0LPovd/obTQTEE6aWh19BTsv5v8OsiDtFEIUuLgS5Bpyta74Lm1u8ZAUNjv
- 0b3tYmf0+x/J3ZxHhTNgeRuy9bonoW1FPJqeApyMLcCb+ZBINPIUmvpyHCsfNyJA0r2K
- mydg/IkbOYAyxoHYKKWXBiWrCC84lVn81foA31ZoEtGRuQGWlrRiZkGvGV1y1jQrkiVa
- 7rPA==
+ bh=uEiBPhKLKz+SNXjEHNJYg16zyVS+pzInRZgKwDfY3iQ=;
+ b=ZQfasglE+RF+pWagDJimYZuYdLU7KQ9gZe+YGtMi81OREdNDuIhw5RseCooY2zR37w
+ 5BQXP29tiaThNPFEcP9ucJqqJrvo+2ubZ+Ohnwy7Cu2fKFaO2R4p6TQaSEWNzyLnzsJb
+ v/Kdh+Wajfs9o/iQWmf7fLylqoydyNmACFn8DsGBsE3RMbbsyPatRG2QbcEoIVo51J3D
+ mMccwOgDQJMrv3uYFVyMKYntd5owisjmRkVEluffeBGhjldwkIU9TrMdxMKKb8V0j7Xe
+ y+iKVIolSmJBIU4OQYDMJoVNdVkOo7kZzZFB9sRVmjST8PZIfptHnIGmoBY1v7sts+AV
+ 6Mbw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=iIaMM78IeHTe5CD2a93HOKAFcWJMpXbVz88KGEPcLL4=;
- b=VhbyEunf8gniT1/JbO5z5mU04gBatSqzS+gbuLwMjswQObW8We+DvW+lnjbDeHYdkA
- zRAYHIjxYY2P7oAI510tQaDr7ax+3OPO7Ltd1x3vJ0/uTQmceGdWF6fJX4F3S2rnm6x7
- VW2Tyzat7pffhMCBQOEDVej9KYRe7AJxjx10DR1mITPV5NIMUFOCmPo5mxr3GD2SrFYO
- c8LhB2AdU0uesL6WqFZpWPkgvZrKqc23bNol5EPHvN7SBdzu+U9aVb3IhrIgV7lN0rkg
- 6n6r/oIdO5LfTzWvB4DzsJ/Pm5DlYj4jbqwslQ+buJVR/WUb9mbrRNQpoXdePNRcqwnK
- 2SqQ==
-X-Gm-Message-State: AOAM531Et2AqA9J+2sEKsCQLZenEOeVxxM6ZVi3NQl/tN01qXCwnROtu
- YUSOYerA0X9CojJuydmaowT92NvCkI32GA==
-X-Google-Smtp-Source: ABdhPJwHDgMRuvlKxxdj0qY8eygRt1fNtecC10vEUA9a85mi/wGglvAUb2e6dkue23LCZkA8DfyX8Q==
-X-Received: by 2002:a62:5a86:0:b029:1ae:6b45:b6a9 with SMTP id
- o128-20020a625a860000b02901ae6b45b6a9mr5041478pfb.7.1610590656490; 
- Wed, 13 Jan 2021 18:17:36 -0800 (PST)
+ bh=uEiBPhKLKz+SNXjEHNJYg16zyVS+pzInRZgKwDfY3iQ=;
+ b=is4VXtq2hBa5BweeCaUCpCueW5YIw3ckPDyXAAozVQqc8SRj8OPJK3swRHNwRvZv1q
+ /LhFLtMeDr+1SE4XckDqnMXVz0xC99gP0wgCDTxU+fzGsstMLhJq0wfUna4gFZ0JfSty
+ RlXiyRzpuMnGRA6ZJsQ2sg0mS7wVllNDZnSbviKaOqVCQr8ogrLjXx3Tn+t4isd3U67+
+ PmnAc3PSaDW1pf7yyXO/wYU7Yfu0HTqIyq4tSsUOxmZmDfdasxvRYHo5kjRkssLYsgdz
+ U8TBDeFpD9kMkR04bLfPjLyzWLC2U5b0wjIJZ8ccv/Lvwv44TcUz2gtxic2DnJqR6bIW
+ VpFQ==
+X-Gm-Message-State: AOAM532wr9+k+F9g2NCCciDvJNcHY0f0OEyABko8GKHxU/kc6wSDO37g
+ DB+VXk8Tvv1p8ga4R1qeHPB5Dwc84GqGoQ==
+X-Google-Smtp-Source: ABdhPJwtoCcPVER4xLZl9jPV1SvZHx5n+wHaMryzC6D4hUk+nZo8Xrbv5a5Vuy7iXsZvbiUABhzbqQ==
+X-Received: by 2002:a63:cc05:: with SMTP id x5mr5046428pgf.254.1610590636835; 
+ Wed, 13 Jan 2021 18:17:16 -0800 (PST)
 Received: from localhost.localdomain (rrcs-173-197-107-21.west.biz.rr.com.
  [173.197.107.21])
- by smtp.gmail.com with ESMTPSA id i7sm3771687pfc.50.2021.01.13.18.17.35
+ by smtp.gmail.com with ESMTPSA id i7sm3771687pfc.50.2021.01.13.18.17.15
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 13 Jan 2021 18:17:35 -0800 (PST)
+ Wed, 13 Jan 2021 18:17:16 -0800 (PST)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 23/24] tcg/aarch64: Use tcg_constant_vec with tcg vec expanders
-Date: Wed, 13 Jan 2021 16:16:53 -1000
-Message-Id: <20210114021654.647242-24-richard.henderson@linaro.org>
+Subject: [PULL 11/24] tcg/optimize: Use tcg_constant_internal with constant
+ folding
+Date: Wed, 13 Jan 2021 16:16:41 -1000
+Message-Id: <20210114021654.647242-12-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20210114021654.647242-1-richard.henderson@linaro.org>
 References: <20210114021654.647242-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::529;
- envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x529.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::436;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x436.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -88,51 +88,314 @@ Cc: peter.maydell@linaro.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Improve rotrv_vec to reduce "t1 = -v2, t2 = t1 + c" to
-"t1 = -v2, t2 = c - v2".  This avoids a serial dependency
-between t1 and t2.
-
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- tcg/aarch64/tcg-target.c.inc | 10 +++++-----
- 1 file changed, 5 insertions(+), 5 deletions(-)
+ tcg/optimize.c | 108 ++++++++++++++++++++++---------------------------
+ 1 file changed, 49 insertions(+), 59 deletions(-)
 
-diff --git a/tcg/aarch64/tcg-target.c.inc b/tcg/aarch64/tcg-target.c.inc
-index e370b7e61c..23954ec7cf 100644
---- a/tcg/aarch64/tcg-target.c.inc
-+++ b/tcg/aarch64/tcg-target.c.inc
-@@ -2516,7 +2516,7 @@ void tcg_expand_vec_op(TCGOpcode opc, TCGType type, unsigned vece,
-                        TCGArg a0, ...)
+diff --git a/tcg/optimize.c b/tcg/optimize.c
+index 49bf1386c7..bda727d5ed 100644
+--- a/tcg/optimize.c
++++ b/tcg/optimize.c
+@@ -178,37 +178,6 @@ static bool args_are_copies(TCGArg arg1, TCGArg arg2)
+     return ts_are_copies(arg_temp(arg1), arg_temp(arg2));
+ }
+ 
+-static void tcg_opt_gen_movi(TCGContext *s, TCGOp *op, TCGArg dst, uint64_t val)
+-{
+-    const TCGOpDef *def;
+-    TCGOpcode new_op;
+-    uint64_t mask;
+-    TempOptInfo *di = arg_info(dst);
+-
+-    def = &tcg_op_defs[op->opc];
+-    if (def->flags & TCG_OPF_VECTOR) {
+-        new_op = INDEX_op_dupi_vec;
+-    } else if (def->flags & TCG_OPF_64BIT) {
+-        new_op = INDEX_op_movi_i64;
+-    } else {
+-        new_op = INDEX_op_movi_i32;
+-    }
+-    op->opc = new_op;
+-    /* TCGOP_VECL and TCGOP_VECE remain unchanged.  */
+-    op->args[0] = dst;
+-    op->args[1] = val;
+-
+-    reset_temp(dst);
+-    di->is_const = true;
+-    di->val = val;
+-    mask = val;
+-    if (TCG_TARGET_REG_BITS > 32 && new_op == INDEX_op_movi_i32) {
+-        /* High bits of the destination are now garbage.  */
+-        mask |= ~0xffffffffull;
+-    }
+-    di->mask = mask;
+-}
+-
+ static void tcg_opt_gen_mov(TCGContext *s, TCGOp *op, TCGArg dst, TCGArg src)
  {
-     va_list va;
--    TCGv_vec v0, v1, v2, t1, t2;
-+    TCGv_vec v0, v1, v2, t1, t2, c1;
-     TCGArg a2;
+     TCGTemp *dst_ts = arg_temp(dst);
+@@ -259,6 +228,27 @@ static void tcg_opt_gen_mov(TCGContext *s, TCGOp *op, TCGArg dst, TCGArg src)
+     }
+ }
  
-     va_start(va, a0);
-@@ -2548,8 +2548,8 @@ void tcg_expand_vec_op(TCGOpcode opc, TCGType type, unsigned vece,
++static void tcg_opt_gen_movi(TCGContext *s, TCGTempSet *temps_used,
++                             TCGOp *op, TCGArg dst, uint64_t val)
++{
++    const TCGOpDef *def = &tcg_op_defs[op->opc];
++    TCGType type;
++    TCGTemp *tv;
++
++    if (def->flags & TCG_OPF_VECTOR) {
++        type = TCGOP_VECL(op) + TCG_TYPE_V64;
++    } else if (def->flags & TCG_OPF_64BIT) {
++        type = TCG_TYPE_I64;
++    } else {
++        type = TCG_TYPE_I32;
++    }
++
++    /* Convert movi to mov with constant temp. */
++    tv = tcg_constant_internal(type, val);
++    init_ts_info(temps_used, tv);
++    tcg_opt_gen_mov(s, op, dst, temp_arg(tv));
++}
++
+ static uint64_t do_constant_folding_2(TCGOpcode op, uint64_t x, uint64_t y)
+ {
+     uint64_t l64, h64;
+@@ -622,7 +612,7 @@ void tcg_optimize(TCGContext *s)
+     nb_temps = s->nb_temps;
+     nb_globals = s->nb_globals;
  
-     case INDEX_op_rotlv_vec:
-         t1 = tcg_temp_new_vec(type);
--        tcg_gen_dupi_vec(vece, t1, 8 << vece);
--        tcg_gen_sub_vec(vece, t1, v2, t1);
-+        c1 = tcg_constant_vec(type, vece, 8 << vece);
-+        tcg_gen_sub_vec(vece, t1, v2, c1);
-         /* Right shifts are negative left shifts for AArch64.  */
-         vec_gen_3(INDEX_op_shlv_vec, type, vece, tcgv_vec_arg(t1),
-                   tcgv_vec_arg(v1), tcgv_vec_arg(t1));
-@@ -2562,9 +2562,9 @@ void tcg_expand_vec_op(TCGOpcode opc, TCGType type, unsigned vece,
-     case INDEX_op_rotrv_vec:
-         t1 = tcg_temp_new_vec(type);
-         t2 = tcg_temp_new_vec(type);
-+        c1 = tcg_constant_vec(type, vece, 8 << vece);
-         tcg_gen_neg_vec(vece, t1, v2);
--        tcg_gen_dupi_vec(vece, t2, 8 << vece);
--        tcg_gen_add_vec(vece, t2, t1, t2);
-+        tcg_gen_sub_vec(vece, t2, c1, v2);
-         /* Right shifts are negative left shifts for AArch64.  */
-         vec_gen_3(INDEX_op_shlv_vec, type, vece, tcgv_vec_arg(t1),
-                   tcgv_vec_arg(v1), tcgv_vec_arg(t1));
+-    bitmap_zero(temps_used.l, nb_temps);
++    memset(&temps_used, 0, sizeof(temps_used));
+     for (i = 0; i < nb_temps; ++i) {
+         s->temps[i].state_ptr = NULL;
+     }
+@@ -727,7 +717,7 @@ void tcg_optimize(TCGContext *s)
+         CASE_OP_32_64(rotr):
+             if (arg_is_const(op->args[1])
+                 && arg_info(op->args[1])->val == 0) {
+-                tcg_opt_gen_movi(s, op, op->args[0], 0);
++                tcg_opt_gen_movi(s, &temps_used, op, op->args[0], 0);
+                 continue;
+             }
+             break;
+@@ -1054,7 +1044,7 @@ void tcg_optimize(TCGContext *s)
+ 
+         if (partmask == 0) {
+             tcg_debug_assert(nb_oargs == 1);
+-            tcg_opt_gen_movi(s, op, op->args[0], 0);
++            tcg_opt_gen_movi(s, &temps_used, op, op->args[0], 0);
+             continue;
+         }
+         if (affected == 0) {
+@@ -1071,7 +1061,7 @@ void tcg_optimize(TCGContext *s)
+         CASE_OP_32_64(mulsh):
+             if (arg_is_const(op->args[2])
+                 && arg_info(op->args[2])->val == 0) {
+-                tcg_opt_gen_movi(s, op, op->args[0], 0);
++                tcg_opt_gen_movi(s, &temps_used, op, op->args[0], 0);
+                 continue;
+             }
+             break;
+@@ -1098,7 +1088,7 @@ void tcg_optimize(TCGContext *s)
+         CASE_OP_32_64_VEC(sub):
+         CASE_OP_32_64_VEC(xor):
+             if (args_are_copies(op->args[1], op->args[2])) {
+-                tcg_opt_gen_movi(s, op, op->args[0], 0);
++                tcg_opt_gen_movi(s, &temps_used, op, op->args[0], 0);
+                 continue;
+             }
+             break;
+@@ -1115,14 +1105,14 @@ void tcg_optimize(TCGContext *s)
+             break;
+         CASE_OP_32_64(movi):
+         case INDEX_op_dupi_vec:
+-            tcg_opt_gen_movi(s, op, op->args[0], op->args[1]);
++            tcg_opt_gen_movi(s, &temps_used, op, op->args[0], op->args[1]);
+             break;
+ 
+         case INDEX_op_dup_vec:
+             if (arg_is_const(op->args[1])) {
+                 tmp = arg_info(op->args[1])->val;
+                 tmp = dup_const(TCGOP_VECE(op), tmp);
+-                tcg_opt_gen_movi(s, op, op->args[0], tmp);
++                tcg_opt_gen_movi(s, &temps_used, op, op->args[0], tmp);
+                 break;
+             }
+             goto do_default;
+@@ -1132,7 +1122,7 @@ void tcg_optimize(TCGContext *s)
+             if (arg_is_const(op->args[1]) && arg_is_const(op->args[2])) {
+                 tmp = arg_info(op->args[1])->val;
+                 if (tmp == arg_info(op->args[2])->val) {
+-                    tcg_opt_gen_movi(s, op, op->args[0], tmp);
++                    tcg_opt_gen_movi(s, &temps_used, op, op->args[0], tmp);
+                     break;
+                 }
+             } else if (args_are_copies(op->args[1], op->args[2])) {
+@@ -1160,7 +1150,7 @@ void tcg_optimize(TCGContext *s)
+         case INDEX_op_extrh_i64_i32:
+             if (arg_is_const(op->args[1])) {
+                 tmp = do_constant_folding(opc, arg_info(op->args[1])->val, 0);
+-                tcg_opt_gen_movi(s, op, op->args[0], tmp);
++                tcg_opt_gen_movi(s, &temps_used, op, op->args[0], tmp);
+                 break;
+             }
+             goto do_default;
+@@ -1190,7 +1180,7 @@ void tcg_optimize(TCGContext *s)
+             if (arg_is_const(op->args[1]) && arg_is_const(op->args[2])) {
+                 tmp = do_constant_folding(opc, arg_info(op->args[1])->val,
+                                           arg_info(op->args[2])->val);
+-                tcg_opt_gen_movi(s, op, op->args[0], tmp);
++                tcg_opt_gen_movi(s, &temps_used, op, op->args[0], tmp);
+                 break;
+             }
+             goto do_default;
+@@ -1201,7 +1191,7 @@ void tcg_optimize(TCGContext *s)
+                 TCGArg v = arg_info(op->args[1])->val;
+                 if (v != 0) {
+                     tmp = do_constant_folding(opc, v, 0);
+-                    tcg_opt_gen_movi(s, op, op->args[0], tmp);
++                    tcg_opt_gen_movi(s, &temps_used, op, op->args[0], tmp);
+                 } else {
+                     tcg_opt_gen_mov(s, op, op->args[0], op->args[2]);
+                 }
+@@ -1214,7 +1204,7 @@ void tcg_optimize(TCGContext *s)
+                 tmp = deposit64(arg_info(op->args[1])->val,
+                                 op->args[3], op->args[4],
+                                 arg_info(op->args[2])->val);
+-                tcg_opt_gen_movi(s, op, op->args[0], tmp);
++                tcg_opt_gen_movi(s, &temps_used, op, op->args[0], tmp);
+                 break;
+             }
+             goto do_default;
+@@ -1223,7 +1213,7 @@ void tcg_optimize(TCGContext *s)
+             if (arg_is_const(op->args[1])) {
+                 tmp = extract64(arg_info(op->args[1])->val,
+                                 op->args[2], op->args[3]);
+-                tcg_opt_gen_movi(s, op, op->args[0], tmp);
++                tcg_opt_gen_movi(s, &temps_used, op, op->args[0], tmp);
+                 break;
+             }
+             goto do_default;
+@@ -1232,7 +1222,7 @@ void tcg_optimize(TCGContext *s)
+             if (arg_is_const(op->args[1])) {
+                 tmp = sextract64(arg_info(op->args[1])->val,
+                                  op->args[2], op->args[3]);
+-                tcg_opt_gen_movi(s, op, op->args[0], tmp);
++                tcg_opt_gen_movi(s, &temps_used, op, op->args[0], tmp);
+                 break;
+             }
+             goto do_default;
+@@ -1249,7 +1239,7 @@ void tcg_optimize(TCGContext *s)
+                     tmp = (int32_t)(((uint32_t)v1 >> shr) |
+                                     ((uint32_t)v2 << (32 - shr)));
+                 }
+-                tcg_opt_gen_movi(s, op, op->args[0], tmp);
++                tcg_opt_gen_movi(s, &temps_used, op, op->args[0], tmp);
+                 break;
+             }
+             goto do_default;
+@@ -1258,7 +1248,7 @@ void tcg_optimize(TCGContext *s)
+             tmp = do_constant_folding_cond(opc, op->args[1],
+                                            op->args[2], op->args[3]);
+             if (tmp != 2) {
+-                tcg_opt_gen_movi(s, op, op->args[0], tmp);
++                tcg_opt_gen_movi(s, &temps_used, op, op->args[0], tmp);
+                 break;
+             }
+             goto do_default;
+@@ -1268,7 +1258,7 @@ void tcg_optimize(TCGContext *s)
+                                            op->args[1], op->args[2]);
+             if (tmp != 2) {
+                 if (tmp) {
+-                    bitmap_zero(temps_used.l, nb_temps);
++                    memset(&temps_used, 0, sizeof(temps_used));
+                     op->opc = INDEX_op_br;
+                     op->args[0] = op->args[3];
+                 } else {
+@@ -1314,7 +1304,7 @@ void tcg_optimize(TCGContext *s)
+                 uint64_t a = ((uint64_t)ah << 32) | al;
+                 uint64_t b = ((uint64_t)bh << 32) | bl;
+                 TCGArg rl, rh;
+-                TCGOp *op2 = tcg_op_insert_before(s, op, INDEX_op_movi_i32);
++                TCGOp *op2 = tcg_op_insert_before(s, op, INDEX_op_mov_i32);
+ 
+                 if (opc == INDEX_op_add2_i32) {
+                     a += b;
+@@ -1324,8 +1314,8 @@ void tcg_optimize(TCGContext *s)
+ 
+                 rl = op->args[0];
+                 rh = op->args[1];
+-                tcg_opt_gen_movi(s, op, rl, (int32_t)a);
+-                tcg_opt_gen_movi(s, op2, rh, (int32_t)(a >> 32));
++                tcg_opt_gen_movi(s, &temps_used, op, rl, (int32_t)a);
++                tcg_opt_gen_movi(s, &temps_used, op2, rh, (int32_t)(a >> 32));
+                 break;
+             }
+             goto do_default;
+@@ -1336,12 +1326,12 @@ void tcg_optimize(TCGContext *s)
+                 uint32_t b = arg_info(op->args[3])->val;
+                 uint64_t r = (uint64_t)a * b;
+                 TCGArg rl, rh;
+-                TCGOp *op2 = tcg_op_insert_before(s, op, INDEX_op_movi_i32);
++                TCGOp *op2 = tcg_op_insert_before(s, op, INDEX_op_mov_i32);
+ 
+                 rl = op->args[0];
+                 rh = op->args[1];
+-                tcg_opt_gen_movi(s, op, rl, (int32_t)r);
+-                tcg_opt_gen_movi(s, op2, rh, (int32_t)(r >> 32));
++                tcg_opt_gen_movi(s, &temps_used, op, rl, (int32_t)r);
++                tcg_opt_gen_movi(s, &temps_used, op2, rh, (int32_t)(r >> 32));
+                 break;
+             }
+             goto do_default;
+@@ -1352,7 +1342,7 @@ void tcg_optimize(TCGContext *s)
+             if (tmp != 2) {
+                 if (tmp) {
+             do_brcond_true:
+-                    bitmap_zero(temps_used.l, nb_temps);
++                    memset(&temps_used, 0, sizeof(temps_used));
+                     op->opc = INDEX_op_br;
+                     op->args[0] = op->args[5];
+                 } else {
+@@ -1368,7 +1358,7 @@ void tcg_optimize(TCGContext *s)
+                 /* Simplify LT/GE comparisons vs zero to a single compare
+                    vs the high word of the input.  */
+             do_brcond_high:
+-                bitmap_zero(temps_used.l, nb_temps);
++                memset(&temps_used, 0, sizeof(temps_used));
+                 op->opc = INDEX_op_brcond_i32;
+                 op->args[0] = op->args[1];
+                 op->args[1] = op->args[3];
+@@ -1394,7 +1384,7 @@ void tcg_optimize(TCGContext *s)
+                     goto do_default;
+                 }
+             do_brcond_low:
+-                bitmap_zero(temps_used.l, nb_temps);
++                memset(&temps_used, 0, sizeof(temps_used));
+                 op->opc = INDEX_op_brcond_i32;
+                 op->args[1] = op->args[2];
+                 op->args[2] = op->args[4];
+@@ -1429,7 +1419,7 @@ void tcg_optimize(TCGContext *s)
+                                             op->args[5]);
+             if (tmp != 2) {
+             do_setcond_const:
+-                tcg_opt_gen_movi(s, op, op->args[0], tmp);
++                tcg_opt_gen_movi(s, &temps_used, op, op->args[0], tmp);
+             } else if ((op->args[5] == TCG_COND_LT
+                         || op->args[5] == TCG_COND_GE)
+                        && arg_is_const(op->args[3])
+@@ -1514,7 +1504,7 @@ void tcg_optimize(TCGContext *s)
+                block, otherwise we only trash the output args.  "mask" is
+                the non-zero bits mask for the first output arg.  */
+             if (def->flags & TCG_OPF_BB_END) {
+-                bitmap_zero(temps_used.l, nb_temps);
++                memset(&temps_used, 0, sizeof(temps_used));
+             } else {
+         do_reset_output:
+                 for (i = 0; i < nb_oargs; i++) {
 -- 
 2.25.1
 
