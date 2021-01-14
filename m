@@ -2,68 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E2FD02F654A
-	for <lists+qemu-devel@lfdr.de>; Thu, 14 Jan 2021 16:58:50 +0100 (CET)
-Received: from localhost ([::1]:59880 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 38DA02F6577
+	for <lists+qemu-devel@lfdr.de>; Thu, 14 Jan 2021 17:11:36 +0100 (CET)
+Received: from localhost ([::1]:51720 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l051O-0000Es-06
-	for lists+qemu-devel@lfdr.de; Thu, 14 Jan 2021 10:58:50 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55820)
+	id 1l05Dj-00025H-3W
+	for lists+qemu-devel@lfdr.de; Thu, 14 Jan 2021 11:11:35 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56216)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <jag.raman@oracle.com>)
- id 1l04kV-0001DC-Jv
- for qemu-devel@nongnu.org; Thu, 14 Jan 2021 10:41:23 -0500
-Received: from aserp2120.oracle.com ([141.146.126.78]:50980)
+ id 1l04m2-0003BC-55
+ for qemu-devel@nongnu.org; Thu, 14 Jan 2021 10:42:58 -0500
+Received: from aserp2130.oracle.com ([141.146.126.79]:35164)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <jag.raman@oracle.com>)
- id 1l04kT-0001VB-BQ
- for qemu-devel@nongnu.org; Thu, 14 Jan 2021 10:41:23 -0500
-Received: from pps.filterd (aserp2120.oracle.com [127.0.0.1])
- by aserp2120.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 10EFYBnv149877;
- Thu, 14 Jan 2021 15:41:13 GMT
+ id 1l04ly-00028C-DS
+ for qemu-devel@nongnu.org; Thu, 14 Jan 2021 10:42:57 -0500
+Received: from pps.filterd (aserp2130.oracle.com [127.0.0.1])
+ by aserp2130.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 10EFXvIq135835;
+ Thu, 14 Jan 2021 15:42:27 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com;
- h=content-type :
- mime-version : subject : from : in-reply-to : date : cc :
- content-transfer-encoding : message-id : references : to;
- s=corp-2020-01-29; bh=Q+MYlewq+O0OSc1V0KeJ1mHK3RBeKKZb8JEyFJC1Wrk=;
- b=ZmHHsnTKt5fkPDVyTYja6YHFmccqn110bPhlmZaTQWtbS32Ik27oBEH4oHbRoxi6Fe+b
- IFxWYhsJmU30/swcRy94efpXNx2Hr2nCinJaJK4t6Vdx2gyEI81VYO8vJk9TcPEMKWkq
- mNwvk6AHmRWbnJV7ZsdkDEoOJuHWIizVfeUNxVTGGFQw6c5Xr3bjtzmZjNaW783EQly+
- sdBr+uYubVYj3HhuI54t2vqtZUCtZvDKa/Z45RQhG1zM/gruT02cAJxFn5sLhC3Hy8Rw
- 8HlV6+x4DTp3y/rhARyOWet3JWQX6/FgQrFKIG+rx/3P8zzm4a2TUO2J1AceaGEKpxIK pw== 
+ h=from : to : cc :
+ subject : date : message-id : mime-version : content-type :
+ content-transfer-encoding; s=corp-2020-01-29;
+ bh=A+6aly2bpITz6ptS5voq442IafiIJ5MlpU0GBt6cCm8=;
+ b=SUWI4Vd7tvUQtjG9QOa7BGt+kneZOPgEggi2RaGUNgt+N3P6iD7zaefjelKr6pF5LeQQ
+ BP5rEFI2hFUYV47lxd6X5dqRU93rEpmKfknB3Yt6XiRGCipawhkFvL8DkpnB6aBLeUR2
+ O9dJ6IumAh1XrJqhRR4mg+SKwi8HKAqpQSoXZkMamC0WrKDT4IPSN3Pz0saknEf8TPET
+ 05+gPVZ62JGI//7JSCDcB6MfVwbMuk0xEI+9d2lhxWJVApmUOny1iShlrV/X6ovX3bxK
+ Gv0TEvzkILXVGvfLjCCcV/rw7dFvdYgkuN3Q0bn3tYfqd12hfNuJhqk3zXupkjYYVL9F hw== 
 Received: from userp3020.oracle.com (userp3020.oracle.com [156.151.31.79])
- by aserp2120.oracle.com with ESMTP id 360kd00sad-1
+ by aserp2130.oracle.com with ESMTP id 360kg20u4q-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Thu, 14 Jan 2021 15:41:13 +0000
+ Thu, 14 Jan 2021 15:42:27 +0000
 Received: from pps.filterd (userp3020.oracle.com [127.0.0.1])
- by userp3020.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 10EFYsnE093491;
- Thu, 14 Jan 2021 15:41:12 GMT
+ by userp3020.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 10EFYsml093491;
+ Thu, 14 Jan 2021 15:40:26 GMT
 Received: from aserv0122.oracle.com (aserv0122.oracle.com [141.146.126.236])
- by userp3020.oracle.com with ESMTP id 360kf9p06f-1
+ by userp3020.oracle.com with ESMTP id 360kf9ny7s-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Thu, 14 Jan 2021 15:41:12 +0000
-Received: from abhmp0010.oracle.com (abhmp0010.oracle.com [141.146.116.16])
- by aserv0122.oracle.com (8.14.4/8.14.4) with ESMTP id 10EFfBti016925;
- Thu, 14 Jan 2021 15:41:11 GMT
-Received: from dhcp-10-39-210-188.vpn.oracle.com (/10.39.210.188)
+ Thu, 14 Jan 2021 15:40:26 +0000
+Received: from abhmp0002.oracle.com (abhmp0002.oracle.com [141.146.116.8])
+ by aserv0122.oracle.com (8.14.4/8.14.4) with ESMTP id 10EFeMf6016429;
+ Thu, 14 Jan 2021 15:40:22 GMT
+Received: from jaraman-bur-1.us.oracle.com (/10.152.33.39)
  by default (Oracle Beehive Gateway v4.0)
- with ESMTP ; Thu, 14 Jan 2021 07:41:10 -0800
-Content-Type: text/plain;
-	charset=us-ascii
-Mime-Version: 1.0 (Mac OS X Mail 14.0 \(3654.40.0.2.32\))
-Subject: Re: [PATCH v18 08/20] io: add qio_channel_readv_full_all_eof &
- qio_channel_readv_full_all helpers
-From: Jag Raman <jag.raman@oracle.com>
-In-Reply-To: <20210114134904.GC299876@stefanha-x1.localdomain>
-Date: Thu, 14 Jan 2021 10:41:08 -0500
-Content-Transfer-Encoding: quoted-printable
-Message-Id: <B39CA0EF-18D0-4F06-83F2-7D3FA24D05BC@oracle.com>
-References: <cover.1610570756.git.jag.raman@oracle.com>
- <68865004c4ecce557214bac5b3c527cfe3681b77.1610570756.git.jag.raman@oracle.com>
- <20210114134904.GC299876@stefanha-x1.localdomain>
-To: Stefan Hajnoczi <stefanha@redhat.com>
-X-Mailer: Apple Mail (2.3654.40.0.2.32)
+ with ESMTP ; Thu, 14 Jan 2021 07:40:22 -0800
+From: Jagannathan Raman <jag.raman@oracle.com>
+To: qemu-devel@nongnu.org
+Subject: [PATCH v19 00/20] Initial support for multi-process Qemu
+Date: Thu, 14 Jan 2021 10:39:55 -0500
+Message-Id: <cover.1610638428.git.jag.raman@oracle.com>
+X-Mailer: git-send-email 1.8.3.1
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9864
  signatures=668683
 X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 suspectscore=0
@@ -73,14 +67,14 @@ X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 suspectscore=0
  engine=8.12.0-2009150000 definitions=main-2101140090
 X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9864
  signatures=668683
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 spamscore=0
- phishscore=0
- impostorscore=0 bulkscore=0 adultscore=0 suspectscore=0 malwarescore=0
- lowpriorityscore=0 clxscore=1015 mlxlogscore=999 mlxscore=0
- priorityscore=1501 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2009150000 definitions=main-2101140090
-Received-SPF: pass client-ip=141.146.126.78; envelope-from=jag.raman@oracle.com;
- helo=aserp2120.oracle.com
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 malwarescore=0
+ suspectscore=0
+ clxscore=1015 impostorscore=0 spamscore=0 priorityscore=1501 mlxscore=0
+ phishscore=0 mlxlogscore=999 bulkscore=0 adultscore=0 lowpriorityscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2009150000
+ definitions=main-2101140090
+Received-SPF: pass client-ip=141.146.126.79; envelope-from=jag.raman@oracle.com;
+ helo=aserp2130.oracle.com
 X-Spam_score_int: -46
 X-Spam_score: -4.7
 X-Spam_bar: ----
@@ -100,79 +94,165 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Elena Ufimtseva <elena.ufimtseva@oracle.com>, Fam Zheng <fam@euphon.net>,
- Swapnil Ingle <swapnil.ingle@nutanix.com>,
- John G Johnson <john.g.johnson@oracle.com>, qemu-level <qemu-devel@nongnu.org>,
- Gerd Hoffmann <kraxel@redhat.com>, quintela@redhat.com, mst@redhat.com,
- armbru@redhat.com, kanth.ghatraju@oracle.com, felipe@nutanix.com,
- thuth@redhat.com, ehabkost@redhat.com, konrad.wilk@oracle.com,
- dgilbert@redhat.com, alex.williamson@redhat.com, pbonzini@redhat.com,
+Cc: elena.ufimtseva@oracle.com, fam@euphon.net, swapnil.ingle@nutanix.com,
+ john.g.johnson@oracle.com, kraxel@redhat.com, jag.raman@oracle.com,
+ quintela@redhat.com, mst@redhat.com, armbru@redhat.com,
+ kanth.ghatraju@oracle.com, felipe@nutanix.com, thuth@redhat.com,
+ ehabkost@redhat.com, konrad.wilk@oracle.com, dgilbert@redhat.com,
+ alex.williamson@redhat.com, stefanha@redhat.com, thanos.makatos@nutanix.com,
  kwolf@redhat.com, berrange@redhat.com, mreitz@redhat.com,
- ross.lagerwall@citrix.com, marcandre.lureau@gmail.com,
- thanos.makatos@nutanix.com
+ ross.lagerwall@citrix.com, marcandre.lureau@gmail.com, pbonzini@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+Hi,
 
+This is the v19 of the patchset. This version has the following changes:
 
-> On Jan 14, 2021, at 8:49 AM, Stefan Hajnoczi <stefanha@redhat.com> =
-wrote:
->=20
-> On Wed, Jan 13, 2021 at 03:53:27PM -0500, Jagannathan Raman wrote:
->>     while (nlocal_iov > 0) {
->>         ssize_t len;
->> -        len =3D qio_channel_readv(ioc, local_iov, nlocal_iov, errp);
->> +        len =3D qio_channel_readv_full(ioc, local_iov, nlocal_iov, =
-local_fds,
->> +                                     local_nfds, errp);
->>         if (len =3D=3D QIO_CHANNEL_ERR_BLOCK) {
->>             if (qemu_in_coroutine()) {
->>                 qio_channel_yield(ioc, G_IO_IN);
->> @@ -112,20 +140,41 @@ int qio_channel_readv_all_eof(QIOChannel *ioc,
->>                 qio_channel_wait(ioc, G_IO_IN);
->>             }
->>             continue;
->> -        } else if (len < 0) {
->> -            goto cleanup;
->> -        } else if (len =3D=3D 0) {
->> -            if (partial) {
->> +        }
->> +
->> +        if (len <=3D 0) {
->> +            if ((len =3D=3D 0) && partial) {
->> +                size_t fd_idx =3D 0;
->> +
->>                 error_setg(errp,
->>                            "Unexpected end-of-file before all bytes =
-were read");
->> -            } else {
->> +
->> +                if (nfds) {
->> +                    fd_idx =3D *nfds;
->> +                    *nfds =3D 0;
->> +                }
->> +
->> +                while (fds && fd_idx) {
->> +                    close((*fds)[fd_idx - 1]);
->> +                    fd_idx--;
->> +                }
->> +
->> +                if (fds) {
->> +                    g_free(*fds);
->> +                    *fds =3D NULL;
->> +                }
->> +            } else if (len =3D=3D 0) {
->>                 ret =3D 0;
->>             }
->=20
-> The len < 0 case is missing. This function will return -1 and errp has
-> been set by qio_channel_readv_full(). However, we may have received =
-fds
-> in a previous loop iteration (partial =3D=3D true), so it is necessary =
-to
-> close, free, and reset fds/nfds before returning.
+[PATCH v18 08/20] io: add qio_channel_readv_full_all_eof &
+                qio_channel_readv_full_all helpers
+  - Preserved fds/nfds if the read was exclusively for fds. Clears then
+    in all other cases.
 
-Thanks for the feedback, Stefan! We have addressed this and sent the =
-next version out for review.
+To touch upon the history of this project, we posted the Proof Of Concept
+patches before the BoF session in 2018. Subsequently, we have posted 18
+versions on the qemu-devel mailing list. You can find them by following
+the links below ([1] - [18]). Following people contributed to the design and
+implementation of this project:
+Jagannathan Raman <jag.raman@oracle.com>
+Elena Ufimtseva <elena.ufimtseva@oracle.com>
+John G Johnson <john.g.johnson@oracle.com>
+Stefan Hajnoczi <stefanha@redhat.com>
+Konrad Wilk <konrad.wilk@oracle.com>
+Kanth Ghatraju <kanth.ghatraju@oracle.com>
+
+We would like to thank the QEMU community for your feedback in the
+design and implementation of this project. Qemu wiki page:
+https://wiki.qemu.org/Features/MultiProcessQEMU
+
+For the full concept writeup about QEMU multi-process, please
+refer to docs/devel/qemu-multiprocess.rst. Also, see
+docs/qemu-multiprocess.txt for usage information.
+
+Thank you for reviewing this series!
+
+[POC]: https://www.mail-archive.com/qemu-devel@nongnu.org/msg566538.html
+[1]: https://www.mail-archive.com/qemu-devel@nongnu.org/msg602285.html
+[2]: https://www.mail-archive.com/qemu-devel@nongnu.org/msg624877.html
+[3]: https://www.mail-archive.com/qemu-devel@nongnu.org/msg642000.html
+[4]: https://www.mail-archive.com/qemu-devel@nongnu.org/msg655118.html
+[5]: https://www.mail-archive.com/qemu-devel@nongnu.org/msg682429.html
+[6]: https://www.mail-archive.com/qemu-devel@nongnu.org/msg697484.html
+[7]: https://patchew.org/QEMU/cover.1593273671.git.elena.ufimtseva@oracle.com/
+[8]: https://www.mail-archive.com/qemu-devel@nongnu.org/msg727007.html
+[9]: https://www.mail-archive.com/qemu-devel@nongnu.org/msg734275.html
+[10]: https://www.mail-archive.com/qemu-devel@nongnu.org/msg747638.html
+[11]: https://www.mail-archive.com/qemu-devel@nongnu.org/msg750972.html
+[12]: https://patchew.org/QEMU/cover.1606853298.git.jag.raman@oracle.com/
+[13]: https://www.mail-archive.com/qemu-devel@nongnu.org/msg766825.html
+[14]: https://www.mail-archive.com/qemu-devel@nongnu.org/msg768376.html
+[15]: https://www.mail-archive.com/qemu-devel@nongnu.org/msg769178.html
+[16]: https://www.mail-archive.com/qemu-devel@nongnu.org/msg771455.html
+
+Elena Ufimtseva (8):
+  multi-process: add configure and usage information
+  io: add qio_channel_writev_full_all helper
+  io: add qio_channel_readv_full_all_eof & qio_channel_readv_full_all
+    helpers
+  multi-process: define MPQemuMsg format and transmission functions
+  multi-process: introduce proxy object
+  multi-process: add proxy communication functions
+  multi-process: Forward PCI config space acceses to the remote process
+  multi-process: perform device reset in the remote process
+
+Jagannathan Raman (11):
+  memory: alloc RAM from file at offset
+  multi-process: Add config option for multi-process QEMU
+  multi-process: setup PCI host bridge for remote device
+  multi-process: setup a machine object for remote device process
+  multi-process: Initialize message handler in remote device
+  multi-process: Associate fd of a PCIDevice with its object
+  multi-process: setup memory manager for remote device
+  multi-process: PCI BAR read/write handling for proxy & remote
+    endpoints
+  multi-process: Synchronize remote memory
+  multi-process: create IOHUB object to handle irq
+  multi-process: Retrieve PCI info from remote process
+
+John G Johnson (1):
+  multi-process: add the concept description to
+    docs/devel/qemu-multiprocess
+
+ docs/devel/index.rst                      |   1 +
+ docs/devel/multi-process.rst              | 966 ++++++++++++++++++++++++++++++
+ docs/multi-process.rst                    |  64 ++
+ configure                                 |  10 +
+ meson.build                               |   5 +-
+ hw/remote/trace.h                         |   1 +
+ include/exec/memory.h                     |   2 +
+ include/exec/ram_addr.h                   |   2 +-
+ include/hw/pci-host/remote.h              |  30 +
+ include/hw/pci/pci_ids.h                  |   3 +
+ include/hw/remote/iohub.h                 |  42 ++
+ include/hw/remote/machine.h               |  38 ++
+ include/hw/remote/memory.h                |  19 +
+ include/hw/remote/mpqemu-link.h           |  99 +++
+ include/hw/remote/proxy-memory-listener.h |  28 +
+ include/hw/remote/proxy.h                 |  48 ++
+ include/io/channel.h                      |  76 +++
+ include/qemu/mmap-alloc.h                 |   4 +-
+ include/sysemu/iothread.h                 |   6 +
+ backends/hostmem-memfd.c                  |   2 +-
+ hw/misc/ivshmem.c                         |   3 +-
+ hw/pci-host/remote.c                      |  75 +++
+ hw/remote/iohub.c                         | 119 ++++
+ hw/remote/machine.c                       |  80 +++
+ hw/remote/memory.c                        |  65 ++
+ hw/remote/message.c                       | 230 +++++++
+ hw/remote/mpqemu-link.c                   | 267 +++++++++
+ hw/remote/proxy-memory-listener.c         | 227 +++++++
+ hw/remote/proxy.c                         | 379 ++++++++++++
+ hw/remote/remote-obj.c                    | 203 +++++++
+ io/channel.c                              | 100 +++-
+ iothread.c                                |   6 +
+ softmmu/memory.c                          |   3 +-
+ softmmu/physmem.c                         |  11 +-
+ util/mmap-alloc.c                         |   7 +-
+ util/oslib-posix.c                        |   2 +-
+ Kconfig.host                              |   4 +
+ MAINTAINERS                               |  24 +
+ hw/Kconfig                                |   1 +
+ hw/meson.build                            |   1 +
+ hw/pci-host/Kconfig                       |   3 +
+ hw/pci-host/meson.build                   |   1 +
+ hw/remote/Kconfig                         |   4 +
+ hw/remote/meson.build                     |  13 +
+ hw/remote/trace-events                    |   4 +
+ 45 files changed, 3247 insertions(+), 31 deletions(-)
+ create mode 100644 docs/devel/multi-process.rst
+ create mode 100644 docs/multi-process.rst
+ create mode 100644 hw/remote/trace.h
+ create mode 100644 include/hw/pci-host/remote.h
+ create mode 100644 include/hw/remote/iohub.h
+ create mode 100644 include/hw/remote/machine.h
+ create mode 100644 include/hw/remote/memory.h
+ create mode 100644 include/hw/remote/mpqemu-link.h
+ create mode 100644 include/hw/remote/proxy-memory-listener.h
+ create mode 100644 include/hw/remote/proxy.h
+ create mode 100644 hw/pci-host/remote.c
+ create mode 100644 hw/remote/iohub.c
+ create mode 100644 hw/remote/machine.c
+ create mode 100644 hw/remote/memory.c
+ create mode 100644 hw/remote/message.c
+ create mode 100644 hw/remote/mpqemu-link.c
+ create mode 100644 hw/remote/proxy-memory-listener.c
+ create mode 100644 hw/remote/proxy.c
+ create mode 100644 hw/remote/remote-obj.c
+ create mode 100644 hw/remote/Kconfig
+ create mode 100644 hw/remote/meson.build
+ create mode 100644 hw/remote/trace-events
+
+-- 
+1.8.3.1
 
 
