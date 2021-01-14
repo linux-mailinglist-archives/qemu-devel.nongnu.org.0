@@ -2,57 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 156F32F5E2E
-	for <lists+qemu-devel@lfdr.de>; Thu, 14 Jan 2021 10:59:57 +0100 (CET)
-Received: from localhost ([::1]:36702 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C2F522F5E38
+	for <lists+qemu-devel@lfdr.de>; Thu, 14 Jan 2021 11:01:44 +0100 (CET)
+Received: from localhost ([::1]:39626 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kzzQ4-00018q-5E
-	for lists+qemu-devel@lfdr.de; Thu, 14 Jan 2021 04:59:56 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56700)
+	id 1kzzRn-0002R3-Rk
+	for lists+qemu-devel@lfdr.de; Thu, 14 Jan 2021 05:01:43 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56910)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1kzzOW-0000j4-Cc
- for qemu-devel@nongnu.org; Thu, 14 Jan 2021 04:58:20 -0500
-Received: from mail.ilande.co.uk ([2001:41c9:1:41f::167]:41224
- helo=mail.default.ilande.uk0.bigv.io)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1kzzOU-0003ni-ED
- for qemu-devel@nongnu.org; Thu, 14 Jan 2021 04:58:20 -0500
-Received: from host109-146-177-189.range109-146.btcentralplus.com
- ([109.146.177.189] helo=[192.168.1.65])
- by mail.default.ilande.uk0.bigv.io with esmtpsa
- (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128) (Exim 4.92)
- (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1kzzOZ-0007jC-EP; Thu, 14 Jan 2021 09:58:28 +0000
-To: Claudio Fontana <cfontana@suse.de>, qemu-devel@nongnu.org,
- peter.maydell@linaro.org
-References: <20210114083329.10494-1-mark.cave-ayland@ilande.co.uk>
- <c1190557-8959-3c41-ae53-72504243f109@suse.de>
-From: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
-Message-ID: <ec32506f-ec83-d166-f444-efa33e2867e9@ilande.co.uk>
-Date: Thu, 14 Jan 2021 09:58:08 +0000
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1kzzPP-0001JJ-4Y; Thu, 14 Jan 2021 04:59:15 -0500
+Received: from mail-wr1-x42c.google.com ([2a00:1450:4864:20::42c]:44059)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1kzzPN-0003s9-Ls; Thu, 14 Jan 2021 04:59:14 -0500
+Received: by mail-wr1-x42c.google.com with SMTP id w5so5085194wrm.11;
+ Thu, 14 Jan 2021 01:59:08 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=sender:subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=keVhnryVt2H0asSKa5VEmd8Dk4m45NkmEqSQuwlm0Hk=;
+ b=Ec182EYlUvHqVCC5r/6klxDDKMQK9pqFzKx2WrVyXmfK3GGNqEuAlw5v4S7JM6kR4z
+ s5Gc8jixFWkv4O6v+UUhUCDZO6cZ5WIrbrzs/OVmHHfU0TflQM5QT/fB6o/z1/katOrP
+ LArVewL6zQTn4SSFHDSUq54iIP6ouzUu+X9CN767JyClTSlA0dlrdmnTq9EcvN03KUWq
+ iqaXHQBsCP+dLxAoQiXIHWztwLZYAnD034GGAJwPDIJoRGdyelV16h1HHg1GRjDHg0dh
+ 5vOmMAuO8dA+Ll8wExBP9kIxnzznARxLnvsBw6m6bsyVlOSkxzBafrVhW+rOTGeqG6V0
+ qsfg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
+ :date:user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=keVhnryVt2H0asSKa5VEmd8Dk4m45NkmEqSQuwlm0Hk=;
+ b=N8r6y2evqGH17REsEexjrwE1JUPS9+VfC7kzoBxlm5x7iR2S21mMiuUtmMY2BWi1MM
+ oBPznvcWnxaiPGn/MapIc9jjvLyY8Secm6zbgG+CF5BuSgS25qZ7ArHeVlj0omV/0w3+
+ 03IJG41uvFODCNT83L1HVtyXN/os6sXV7AFeXPpOZYLsQT/wbKvC75AcoqOH/d5GWg7H
+ J/NDoPW75p+RIxSdfahmKCM12NlGoGGt3Gfq+JJbpSTZ1TO3LRVHixMnqffcRe088dZi
+ WFIHL4Pmrbl4/xCvqoyt5B/6avZ6RYoIZoNsregAOrJyzUIRDen6fPKgwiBjsPGRMB7Y
+ ACFg==
+X-Gm-Message-State: AOAM530jZYXmOmpqPCILpJRKoouvoVAq2k7mBWysRZhaKGl9+4hCZbuy
+ qq2zwj7t6ZTQlg9Y0kIt/C8=
+X-Google-Smtp-Source: ABdhPJxUMS5SGO/yUaYd3ZJf4skNUf5FqX0146FZ8+fXLNwuaFnu46DtLyZaaaMzsOwFmWQO6FP1Rg==
+X-Received: by 2002:adf:ffc8:: with SMTP id x8mr7022867wrs.158.1610618347131; 
+ Thu, 14 Jan 2021 01:59:07 -0800 (PST)
+Received: from [192.168.1.36] (13.red-83-57-169.dynamicip.rima-tde.net.
+ [83.57.169.13])
+ by smtp.gmail.com with ESMTPSA id 125sm7468040wmc.27.2021.01.14.01.59.05
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 14 Jan 2021 01:59:06 -0800 (PST)
+Subject: Re: [PATCH v2 3/6] tcg/ppc: Hoist common argument loads in
+ tcg_out_op()
+To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
+References: <20210113172459.2481060-1-f4bug@amsat.org>
+ <20210113172459.2481060-4-f4bug@amsat.org>
+ <bc9f392a-5b4d-899e-f34f-392a3c2b3379@linaro.org>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
+Message-ID: <fb6ba745-e291-3a12-4fe9-53df0a433fbe@amsat.org>
+Date: Thu, 14 Jan 2021 10:59:04 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.6.0
 MIME-Version: 1.0
-In-Reply-To: <c1190557-8959-3c41-ae53-72504243f109@suse.de>
-Content-Type: text/plain; charset=utf-8; format=flowed
+In-Reply-To: <bc9f392a-5b4d-899e-f34f-392a3c2b3379@linaro.org>
+Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
-X-SA-Exim-Connect-IP: 109.146.177.189
-X-SA-Exim-Mail-From: mark.cave-ayland@ilande.co.uk
-Subject: Re: [PATCH] utils/fifo8: change fatal errors from abort() to assert()
-X-SA-Exim-Version: 4.2.1 (built Wed, 08 May 2019 21:11:16 +0000)
-X-SA-Exim-Scanned: Yes (on mail.default.ilande.uk0.bigv.io)
-Received-SPF: pass client-ip=2001:41c9:1:41f::167;
- envelope-from=mark.cave-ayland@ilande.co.uk;
- helo=mail.default.ilande.uk0.bigv.io
-X-Spam_score_int: -18
-X-Spam_score: -1.9
+Received-SPF: pass client-ip=2a00:1450:4864:20::42c;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x42c.google.com
+X-Spam_score_int: -14
+X-Spam_score: -1.5
 X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.248, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -65,86 +89,21 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: Thomas Huth <thuth@redhat.com>, Cornelia Huck <cohuck@redhat.com>,
+ qemu-riscv@nongnu.org, Stefan Weil <sw@weilnetz.de>,
+ Huacai Chen <chenhuacai@kernel.org>,
+ Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>, qemu-s390x@nongnu.org,
+ qemu-arm@nongnu.org, Alistair Francis <Alistair.Francis@wdc.com>,
+ Palmer Dabbelt <palmer@dabbelt.com>, Miroslav Rezanina <mrezanin@redhat.com>,
+ Aurelien Jarno <aurelien@aurel32.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 14/01/2021 09:07, Claudio Fontana wrote:
-
-> On 1/14/21 9:33 AM, Mark Cave-Ayland wrote:
->> Developer errors are better represented with assert() rather than abort().
+On 1/14/21 1:28 AM, Richard Henderson wrote:
 > 
-> ... "also, make the tests more strict"
-> 
-> I'd add this since the checks have been changed sometimes in the patch to be more strict.
-> 
-> Reviewed-by: Claudio Fontana <cfontana@suse.de>
+> Let's just drop the hoisting parts and only do the signature parts for now.
+> I'd rather think of a way to split up this large function than waste time
+> optimizing it.
 
-Oh, that was not intentional on my part - I was aiming to keep the same logic but 
-effectively invert the logic to keep the assert() happy. What did I miss?
-
-
-ATB,
-
-Mark.
-
->> Signed-off-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
->> ---
->> This was suggested by Peter during a discussion on IRC yesterday.
->>
->> ---
->>   util/fifo8.c | 16 ++++------------
->>   1 file changed, 4 insertions(+), 12 deletions(-)
->>
->> diff --git a/util/fifo8.c b/util/fifo8.c
->> index a5dd789ce5..d4d1c135e0 100644
->> --- a/util/fifo8.c
->> +++ b/util/fifo8.c
->> @@ -31,9 +31,7 @@ void fifo8_destroy(Fifo8 *fifo)
->>   
->>   void fifo8_push(Fifo8 *fifo, uint8_t data)
->>   {
->> -    if (fifo->num == fifo->capacity) {
->> -        abort();
->> -    }
->> +    assert(fifo->num < fifo->capacity);
->>       fifo->data[(fifo->head + fifo->num) % fifo->capacity] = data;
->>       fifo->num++;
->>   }
->> @@ -42,9 +40,7 @@ void fifo8_push_all(Fifo8 *fifo, const uint8_t *data, uint32_t num)
->>   {
->>       uint32_t start, avail;
->>   
->> -    if (fifo->num + num > fifo->capacity) {
->> -        abort();
->> -    }
->> +    assert(fifo->num + num <= fifo->capacity);
->>   
->>       start = (fifo->head + fifo->num) % fifo->capacity;
->>   
->> @@ -63,9 +59,7 @@ uint8_t fifo8_pop(Fifo8 *fifo)
->>   {
->>       uint8_t ret;
->>   
->> -    if (fifo->num == 0) {
->> -        abort();
->> -    }
->> +    assert(fifo->num > 0);
->>       ret = fifo->data[fifo->head++];
->>       fifo->head %= fifo->capacity;
->>       fifo->num--;
->> @@ -76,9 +70,7 @@ const uint8_t *fifo8_pop_buf(Fifo8 *fifo, uint32_t max, uint32_t *num)
->>   {
->>       uint8_t *ret;
->>   
->> -    if (max == 0 || max > fifo->num) {
->> -        abort();
->> -    }
->> +    assert(max > 0 && max <= fifo->num);
->>       *num = MIN(fifo->capacity - fifo->head, max);
->>       ret = &fifo->data[fifo->head];
->>       fifo->head += *num;
->>
-> 
-> 
-
+Agreed :) Thanks!
 
