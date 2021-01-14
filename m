@@ -2,64 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1332E2F6903
-	for <lists+qemu-devel@lfdr.de>; Thu, 14 Jan 2021 19:12:54 +0100 (CET)
-Received: from localhost ([::1]:40034 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 501852F6907
+	for <lists+qemu-devel@lfdr.de>; Thu, 14 Jan 2021 19:15:34 +0100 (CET)
+Received: from localhost ([::1]:46536 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l0777-0006Kq-0X
-	for lists+qemu-devel@lfdr.de; Thu, 14 Jan 2021 13:12:53 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42704)
+	id 1l079h-0000je-By
+	for lists+qemu-devel@lfdr.de; Thu, 14 Jan 2021 13:15:33 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42738)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1l071D-0001tB-Hb; Thu, 14 Jan 2021 13:06:49 -0500
-Received: from mail-qt1-x830.google.com ([2607:f8b0:4864:20::830]:36232)
+ id 1l071F-0001uW-Rd; Thu, 14 Jan 2021 13:06:49 -0500
+Received: from mail-qt1-x82d.google.com ([2607:f8b0:4864:20::82d]:36230)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1l0716-0004yt-Cj; Thu, 14 Jan 2021 13:06:47 -0500
-Received: by mail-qt1-x830.google.com with SMTP id z20so4174085qtq.3;
- Thu, 14 Jan 2021 10:06:38 -0800 (PST)
+ id 1l071B-00050U-3x; Thu, 14 Jan 2021 13:06:48 -0500
+Received: by mail-qt1-x82d.google.com with SMTP id z20so4174410qtq.3;
+ Thu, 14 Jan 2021 10:06:43 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=uzgt5ZPXYkxJXjz1pCTuKTOHt/+dYdrVtuh+KfRYOYc=;
- b=eE3qvzeH8iF9058z7YRa4nzlxb8WPoTxH+mZ/24jlcq9IolO7Pqyl5mf4tdkq3kkcy
- nF7QpUjaNmWfU9PuWB33MP7dlahngxeVMsTCD3YfONHI3/m+kI3Pu8YQvHyPj96c1ZFJ
- dHwf+G6whKehOAiismAqoOQoHt8V1AkSpHami55cejcEIv3W90Bl8NhU8N6FnsJTepzU
- Us89ktZdOFdDH9BejI2XufLkFfKJGc1fCNsOdoZEaUgsKmX59UPHLK/dSdsyC8T6JjDb
- qDLLwxgZc0ObAVEkN+xvoKhBOsq4trAY7IjcHGuxUlrl4bhh/5r15gOSJsNA4o2HRbVo
- xpGw==
+ h=from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=Url9CQwejlSNVB8CBstuu6birLm2MnGqdFIb3oPOLow=;
+ b=R9KkAeMSds0g9S7laCkAojnJqh3XtL0k9gtLlYVRWehi8VQfQCvVFzWEpkjm2hKlqM
+ IHPT5HnkcIBfw54IrqmlOzdDXS8IFgXEl4cJeybdmpuV2iAsPBTUWJ5BZeN8B8r5AlEj
+ 6R82KoJUouRrQW2/HkARKUBD33MKgROXTzGGFNFQdf9ESF/Yuj/fJsxZvjiMtuAl90je
+ WDvvKBovaXyRJ0Q/A+ymGH00x0qqPYMwY8tl5I5mq30mYOV4zQ41vOnl2gthF5hFdWIG
+ GZLg/4XU9jJwPm+xriwC22DqTHD8h+6s3a+pI5h9caqrOKDfhtCvWBCQ/H4qljMrCvYk
+ xbRw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=uzgt5ZPXYkxJXjz1pCTuKTOHt/+dYdrVtuh+KfRYOYc=;
- b=KYNBgNwkd+oYmIqxGZjtJ39K1bJ7lnTZCIK4WQoUs24hWq/+0M60LtIHE1L78EqShl
- Ptkujk+XJ+ejjfnfaVKvH8NLWMwmV07WjV5BZVaeSiPdEnTfWtWma6Ea5aGaGjYY9LKT
- xYOgoBpG2+D8Hra2Il2WlDjmuMT+mHdJ+E6J/JrQoXsJacVAAEls974yg6RxM+eXTU6T
- HiAcOd4UZzEDQBiD3CI1hOxCtUdY42G8WL1VbpBrmFuVAe7gzrsscV+vne5feV88BQYI
- BPa0BAuNpPfbg3jCrFp+ZF4N/qubVwkxXWPeci7W9LbqQiE9snq+JgbGKF9vHZyT2lBB
- HmVg==
-X-Gm-Message-State: AOAM5332sVb83Sl3wnwHq7Isk6/4lKk5ymigWwkkTVbo6zxZQsBJdU43
- f6sJmsAI+rl/xnAHsqmxl41vMFSD63MTtw==
-X-Google-Smtp-Source: ABdhPJwafNMJ4XWPxNnyE/a/bkuqxyhMgLMLtZvbr7Vj5yQk+mAQakpK6XkqGKPWSv6ZntzmBnu+kA==
-X-Received: by 2002:ac8:75d4:: with SMTP id z20mr8173783qtq.267.1610647597183; 
- Thu, 14 Jan 2021 10:06:37 -0800 (PST)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=Url9CQwejlSNVB8CBstuu6birLm2MnGqdFIb3oPOLow=;
+ b=saro+wEqdFdEdSJN8OQCNAXwtO3JWccIlxxKp2n70Q3fGzqKLgugPCpH8pBDfYpsVp
+ cFt1788lKmgzBYJse8n4eSPwOYblToeRtx9WpXlDyGXhi6jcfz5UGCsIea10NnD4oOj3
+ Ks9R4b1CMpgo2gTH0QeSSs9yNQfzX7y/1IqsUoFxkmfETOA001LwOyX7I5iPdEtVkOTI
+ 9QyMOf/yT/c41vFzUTNGf37X4akAV/J/Cy0TRZbHdg6JmjVKNJ7Z384VfYEJq7vbtlKI
+ SENiLvN0EvUXasr3i4pn+OXaONoBC0JT8tHh2g+ByhFCw9iBqdz1NmkjL0z8Lj+Tca5L
+ q8Fw==
+X-Gm-Message-State: AOAM530e0aa1DE+a/BQzJQHquMASTZouY7y8yOvQweYkOjbfbjR5Do9Q
+ KJAdBr+nO1W3Nrp2SkrXzmdc4s9NYYY8GQ==
+X-Google-Smtp-Source: ABdhPJylv6JhfEX4uUThu//Q5/yaHPFIXNKQ6TG9gwRl+TCtVV9UutB7raEevaiqDTD27/YN9PugHg==
+X-Received: by 2002:ac8:71c7:: with SMTP id i7mr7887937qtp.47.1610647603193;
+ Thu, 14 Jan 2021 10:06:43 -0800 (PST)
 Received: from rekt.ibmuc.com ([2804:431:c7c6:b984:ff01:270:b51c:24a5])
- by smtp.gmail.com with ESMTPSA id a1sm3448129qkn.104.2021.01.14.10.06.35
+ by smtp.gmail.com with ESMTPSA id a1sm3448129qkn.104.2021.01.14.10.06.41
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 14 Jan 2021 10:06:36 -0800 (PST)
+ Thu, 14 Jan 2021 10:06:42 -0800 (PST)
 From: Daniel Henrique Barboza <danielhb413@gmail.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v1 0/7] pseries: avoid unplug the last online CPU core +
- assorted fixes
-Date: Thu, 14 Jan 2021 15:06:21 -0300
-Message-Id: <20210114180628.1675603-1-danielhb413@gmail.com>
+Subject: [PATCH v1 3/7] spapr_rtas.c: fix identation in
+ rtas_ibm_nmi_interlock() string
+Date: Thu, 14 Jan 2021 15:06:24 -0300
+Message-Id: <20210114180628.1675603-4-danielhb413@gmail.com>
 X-Mailer: git-send-email 2.26.2
+In-Reply-To: <20210114180628.1675603-1-danielhb413@gmail.com>
+References: <20210114180628.1675603-1-danielhb413@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::830;
- envelope-from=danielhb413@gmail.com; helo=mail-qt1-x830.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::82d;
+ envelope-from=danielhb413@gmail.com; helo=mail-qt1-x82d.google.com
 X-Spam_score_int: -17
 X-Spam_score: -1.8
 X-Spam_bar: -
@@ -85,32 +87,25 @@ Cc: Daniel Henrique Barboza <danielhb413@gmail.com>, qemu-ppc@nongnu.org,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hello,
+Signed-off-by: Daniel Henrique Barboza <danielhb413@gmail.com>
+---
+ hw/ppc/spapr_rtas.c | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
-The last 2 patches of this series contains a fix for a hotunplug
-situation that we have in the pseries machine, where hotunpluging the
-last online CPU of the guest causes the machine to behave not that
-great (https://bugzilla.redhat.com/show_bug.cgi?id=1911414).
-
-First 5 patches are somewhat trivial changes that I ended up doing
-while investigating.
-
-Daniel Henrique Barboza (7):
-  spapr.h: fix trailing whitespace in phb_placement
-  spapr_hcall.c: make do_client_architecture_support static
-  spapr_rtas.c: fix identation in rtas_ibm_nmi_interlock() string
-  spapr_rtas.c: fix identation of rtas_ibm_suspend_me() args
-  spapr_cpu_core.c: use g_auto* in spapr_create_vcpu()
-  spapr.c: introduce spapr_core_unplug_possible()
-  spapr.c: consider CPU core online state before allowing unplug
-
- hw/ppc/spapr.c          | 66 ++++++++++++++++++++++++++++++++++++-----
- hw/ppc/spapr_cpu_core.c | 12 ++------
- hw/ppc/spapr_hcall.c    |  1 +
- hw/ppc/spapr_rtas.c     |  9 +++---
- include/hw/ppc/spapr.h  |  7 +----
- 5 files changed, 68 insertions(+), 27 deletions(-)
-
+diff --git a/hw/ppc/spapr_rtas.c b/hw/ppc/spapr_rtas.c
+index 513c7a8435..d014684d60 100644
+--- a/hw/ppc/spapr_rtas.c
++++ b/hw/ppc/spapr_rtas.c
+@@ -463,7 +463,8 @@ static void rtas_ibm_nmi_interlock(PowerPCCPU *cpu,
+ 
+     if (spapr->fwnmi_machine_check_addr == -1) {
+         qemu_log_mask(LOG_GUEST_ERROR,
+-"FWNMI: ibm,nmi-interlock RTAS called with FWNMI not registered.\n");
++                      "FWNMI: ibm,nmi-interlock RTAS called with "
++                      "FWNMI not registered.\n");
+ 
+         /* NMI register not called */
+         rtas_st(rets, 0, RTAS_OUT_PARAM_ERROR);
 -- 
 2.26.2
 
