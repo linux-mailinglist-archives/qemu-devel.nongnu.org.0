@@ -2,63 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C07832F67B6
-	for <lists+qemu-devel@lfdr.de>; Thu, 14 Jan 2021 18:33:09 +0100 (CET)
-Received: from localhost ([::1]:46088 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 43B112F67DD
+	for <lists+qemu-devel@lfdr.de>; Thu, 14 Jan 2021 18:37:19 +0100 (CET)
+Received: from localhost ([::1]:54654 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l06Ue-0005Mg-RI
-	for lists+qemu-devel@lfdr.de; Thu, 14 Jan 2021 12:33:08 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49246)
+	id 1l06Yg-0000iU-9O
+	for lists+qemu-devel@lfdr.de; Thu, 14 Jan 2021 12:37:18 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49262)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1l05wR-0003hM-MA
- for qemu-devel@nongnu.org; Thu, 14 Jan 2021 11:57:47 -0500
-Received: from mail-wr1-x42a.google.com ([2a00:1450:4864:20::42a]:42658)
+ id 1l05wS-0003lL-T8
+ for qemu-devel@nongnu.org; Thu, 14 Jan 2021 11:57:48 -0500
+Received: from mail-wr1-x42a.google.com ([2a00:1450:4864:20::42a]:44195)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1l05wE-0004vY-Px
- for qemu-devel@nongnu.org; Thu, 14 Jan 2021 11:57:47 -0500
-Received: by mail-wr1-x42a.google.com with SMTP id m4so6494992wrx.9
- for <qemu-devel@nongnu.org>; Thu, 14 Jan 2021 08:57:34 -0800 (PST)
+ id 1l05wP-0004x7-2W
+ for qemu-devel@nongnu.org; Thu, 14 Jan 2021 11:57:48 -0500
+Received: by mail-wr1-x42a.google.com with SMTP id w5so6502987wrm.11
+ for <qemu-devel@nongnu.org>; Thu, 14 Jan 2021 08:57:39 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=vQWOMznPD2cExFj9wpPJQCFomVI7plPwBnMAbJZFKA0=;
- b=St9ydIXavHWZqQgF/nWgSkmh5OaQZP0mIEy8GyCKj3nmi0EZeiLyW6JyWLrugEGY0O
- SDjUdlQWKYXNGO2q3/OZR6QDyz/aw4pKRA01jLx1XW/J6HH16+fN8UZEIslnGaRcVddx
- LieyTX0oK5GfMXxCHK+xh8BDUvUPQ3CsJcSUdBeXS6CL0uhKELHLKIAfTws76DGBihK8
- mSSuTMAleiTPVMpvC8FBLMg/O3KG5IE8J12VCUHEh37PWhX9wuIr1VpFncht2A2VWR9w
- 34vILlSS49iktUeEjjL96Z8yephqR34VqbqYluKns/Q7zDio5okBHxtwrilfsGyaLDRD
- YpfQ==
+ bh=cK36DUSESUFYG2mS8m3sG9HUfen5RieNPUd0SHAt10g=;
+ b=S+CdhR44vCEo42mc24u2WJyi6iPtDhcLlStNeRRYH2Tn9nSePxZ1Qom2f9fMJKhvMn
+ zPmW+aNrbaQw6rR9I0ad/laAhW7K61SDrf7tWdTyPtRmqjVZk2YK2OZ90mezIme4a/FT
+ aBnqIAdnPgUSNe8+zJms5g2FugSHYNulZU9IClBS08GBLa43BZyVx8GHBixDS4Ck1f0+
+ Ssi4aEYR3oyVYXwulX5XR243Y6GyzZ9ue1rJQ4E3D1NRyf/6uRvXBvLvXYZjFciXlDbh
+ vrx8agrYliQjZJEFpW6/hM+MtFOp79wLLRd7DoHBNv0ch9QOl8w3vf76EQSG/gWIwBdN
+ TOAQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=vQWOMznPD2cExFj9wpPJQCFomVI7plPwBnMAbJZFKA0=;
- b=Mx4Ixef4Iif0/p/pDaWmW0DhXRkWzaLYQS+Npuxbz0VHdwH38d+DtfOOj8rcfuvnv9
- RhV9/TsEkPOEbOhwXEuAWOWc/GKdWNmX03bQlj01PXwE4TZWtAFG+bsBeP3i0yYBJDhV
- snosPRamQyFwbEdBiRFjo5bAx/FdBPUUaWzSwWB5LnRyMUOh52oUE3Qs61fyqZK+213x
- mTejfcBONHnwOTbHmzHLWKygyX9DnijK1VLzsqQqD+TVJlii8QunVzjGZN/phyy1Lh4I
- mp8ONW1HVYV08nm8FbGkuvvS6r+KWlidDZE0Cgsjiv9vM2+9Vvz1CYhlPDg97OaI7kH9
- gasA==
-X-Gm-Message-State: AOAM530Em9kI9/OdKNl3FCYk/jfHWtPskVQRTpSwZ71wX6bfC6pzAwZP
- oUZDdPGXM1EHbbPuaHcDbcEIUA==
-X-Google-Smtp-Source: ABdhPJxWN9F8GpTwMHpdByfdOwn5u92zWOJV37yTzni0U3DSyHowdywoBFULwg824zkKqkw0OskpTQ==
-X-Received: by 2002:a5d:40d2:: with SMTP id b18mr8705900wrq.369.1610643453338; 
- Thu, 14 Jan 2021 08:57:33 -0800 (PST)
+ bh=cK36DUSESUFYG2mS8m3sG9HUfen5RieNPUd0SHAt10g=;
+ b=eZiAqGpJ88AScfvS7GjBm69HLppFby17Ypmt9uaLrnL1osw5gaACc7CJC2Ke36F7cd
+ 3FmrfI8A1ygCGhqJOjxiFPy0UuY2F0ZvhSxQHczgnNxuOeF2VY4mYoUVlidCpAqKKitu
+ u7m+Wn8DIi0BUedepvpABqfsh7QHGofyFGb19vdRPoObvzyzDCmNJCnYtNpq+CsZvHh1
+ rVVLnpoF1NDehui5sVKVTDF0YhjFHDyuucVthFq6DyERY9YZV6fVPD1RgfspUgJ26o//
+ Non1Wgvaum9zphQTQKRUiTN67E57QGN1c43K/A/mPshyF8/wT5wlm38gLVq10cCuhIm5
+ TCKA==
+X-Gm-Message-State: AOAM531NDviJq02x06cO41sdLTjzMYxQYFLDqB7swSQSCnm/tFZuaDBU
+ 7/cwSGNxZoRN38BunY4y9uwkeA==
+X-Google-Smtp-Source: ABdhPJzKoIkk//UUV0qddZH4e3avAmeRHYVBJMf2UeXJnmW8Bgf1qPBrzBZsF++6ED/F9ytg/KwDWA==
+X-Received: by 2002:adf:a1d5:: with SMTP id v21mr8893173wrv.24.1610643458670; 
+ Thu, 14 Jan 2021 08:57:38 -0800 (PST)
 Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id n16sm10767955wrj.26.2021.01.14.08.57.30
+ by smtp.gmail.com with ESMTPSA id v4sm11753539wrw.42.2021.01.14.08.57.30
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 14 Jan 2021 08:57:30 -0800 (PST)
+ Thu, 14 Jan 2021 08:57:35 -0800 (PST)
 Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 30AE81FF87;
+ by zen.linaroharston (Postfix) with ESMTP id 71E111FF90;
  Thu, 14 Jan 2021 16:57:30 +0000 (GMT)
 From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH  v2 01/12] tests/docker: Remove Debian 9 remnant lines
-Date: Thu, 14 Jan 2021 16:57:19 +0000
-Message-Id: <20210114165730.31607-2-alex.bennee@linaro.org>
+Subject: [PATCH  v2 04/12] Add newline when generating Dockerfile
+Date: Thu, 14 Jan 2021 16:57:22 +0000
+Message-Id: <20210114165730.31607-5-alex.bennee@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20210114165730.31607-1-alex.bennee@linaro.org>
 References: <20210114165730.31607-1-alex.bennee@linaro.org>
@@ -86,39 +86,36 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Fam Zheng <fam@euphon.net>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
- Thomas Huth <thuth@redhat.com>,
+Cc: Alessandro Di Federico <ale@rev.ng>, Fam Zheng <fam@euphon.net>,
  =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Philippe Mathieu-Daudé <f4bug@amsat.org>
+From: Alessandro Di Federico <ale@rev.ng>
 
-Debian 9 base container has been removed in commits
-e3755276d1f and c9d78b06c06. Remove the last remnants.
-
-Fixes: e3755276d1f ("tests/docker: Remove old Debian 9 containers")
-Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
-Message-Id: <20210107072933.3828450-1-f4bug@amsat.org>
+Signed-off-by: Alessandro Di Federico <ale@rev.ng>
 Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
-Reviewed-by: Thomas Huth <thuth@redhat.com>
+Message-Id: <1610080146-14968-36-git-send-email-tsimpson@quicinc.com>
 ---
- tests/docker/Makefile.include | 1 -
- 1 file changed, 1 deletion(-)
+ tests/docker/docker.py | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/tests/docker/Makefile.include b/tests/docker/Makefile.include
-index c254ac38d0..0779dab5b9 100644
---- a/tests/docker/Makefile.include
-+++ b/tests/docker/Makefile.include
-@@ -108,7 +108,6 @@ ifneq ($(HOST_ARCH),x86_64)
- DOCKER_PARTIAL_IMAGES += debian-mips-cross debian-mipsel-cross debian-mips64el-cross
- DOCKER_PARTIAL_IMAGES += debian-ppc64el-cross
- DOCKER_PARTIAL_IMAGES += debian-s390x-cross
--DOCKER_PARTIAL_IMAGES += debian-win32-cross debian-win64-cross
- DOCKER_PARTIAL_IMAGES += fedora travis
- endif
+diff --git a/tests/docker/docker.py b/tests/docker/docker.py
+index 36b7868406..884dfeb29c 100755
+--- a/tests/docker/docker.py
++++ b/tests/docker/docker.py
+@@ -332,9 +332,9 @@ class Docker(object):
+                          (uname, uid, uname))
+ 
+         tmp_df.write("\n")
+-        tmp_df.write("LABEL com.qemu.dockerfile-checksum=%s" % (checksum))
++        tmp_df.write("LABEL com.qemu.dockerfile-checksum=%s\n" % (checksum))
+         for f, c in extra_files_cksum:
+-            tmp_df.write("LABEL com.qemu.%s-checksum=%s" % (f, c))
++            tmp_df.write("LABEL com.qemu.%s-checksum=%s\n" % (f, c))
+ 
+         tmp_df.flush()
  
 -- 
 2.20.1
