@@ -2,69 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2B9022F5FA0
-	for <lists+qemu-devel@lfdr.de>; Thu, 14 Jan 2021 12:16:30 +0100 (CET)
-Received: from localhost ([::1]:41070 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D07D02F5FC2
+	for <lists+qemu-devel@lfdr.de>; Thu, 14 Jan 2021 12:23:29 +0100 (CET)
+Received: from localhost ([::1]:45434 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l00c9-0000yK-9n
-	for lists+qemu-devel@lfdr.de; Thu, 14 Jan 2021 06:16:29 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47184)
+	id 1l00it-0003Bz-UZ
+	for lists+qemu-devel@lfdr.de; Thu, 14 Jan 2021 06:23:27 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49446)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1l00aX-0000RA-MM
- for qemu-devel@nongnu.org; Thu, 14 Jan 2021 06:14:50 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:34324)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1l00aU-00019e-Gx
- for qemu-devel@nongnu.org; Thu, 14 Jan 2021 06:14:48 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1610622884;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=MCHSzEvvPCCRMMlsk99p3Tb0RtDamWKQZ3uzTYWIa7s=;
- b=M4it5BJmMv9MuBGQOMm24miMwawPMwdKBIcwUbpRYGhTU6dNQcfdi8hp8qCF+zctY7wmtE
- SM3YgVtTYl6Iki88JMgQGZZjdO/CHEQvZsLTNbhm6/8KwX1mg4B/NsUTahYXViQmuTm4Cu
- RcShEUn9ytIbog3c0dC7J1Rodd7Gdpw=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-398-HYXdpfkxO02kF9yjJiwqwA-1; Thu, 14 Jan 2021 06:14:42 -0500
-X-MC-Unique: HYXdpfkxO02kF9yjJiwqwA-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id D3A3F18C8C01;
- Thu, 14 Jan 2021 11:14:40 +0000 (UTC)
-Received: from merkur.fritz.box (ovpn-115-18.ams2.redhat.com [10.36.115.18])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id F0E4918A60;
- Thu, 14 Jan 2021 11:14:37 +0000 (UTC)
-Date: Thu, 14 Jan 2021 12:14:36 +0100
-From: Kevin Wolf <kwolf@redhat.com>
-To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-Subject: Re: [PATCH v6 08/11] iotests: add testenv.py
-Message-ID: <20210114111436.GC6058@merkur.fritz.box>
-References: <20210109122631.167314-1-vsementsov@virtuozzo.com>
- <20210109122631.167314-9-vsementsov@virtuozzo.com>
- <4bc3f007-65c1-ce8e-0e16-3e6087918d8f@virtuozzo.com>
+ (Exim 4.90_1) (envelope-from <maxim.uvarov@linaro.org>)
+ id 1l00hn-0002Kq-AT
+ for qemu-devel@nongnu.org; Thu, 14 Jan 2021 06:22:19 -0500
+Received: from mail-pl1-x629.google.com ([2607:f8b0:4864:20::629]:40764)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <maxim.uvarov@linaro.org>)
+ id 1l00hj-0004T3-0H
+ for qemu-devel@nongnu.org; Thu, 14 Jan 2021 06:22:18 -0500
+Received: by mail-pl1-x629.google.com with SMTP id q4so2746530plr.7
+ for <qemu-devel@nongnu.org>; Thu, 14 Jan 2021 03:22:11 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=bqSs6bnwUDFbPW03XDcbH3y2U5MUEU7ogRQ0wBGoRas=;
+ b=JHkEy4y1YLdbGI+T8Szc3wHwKBYQNpye/EUdCRvHDp2nIktvm8eFVJKLTwbhKReQwh
+ ldcRyGeIjIctyQ0Q1kRiHjvf7MW6lDAprhjdTL4+JTHA1GSx5tQ0CMj08EfQClykw3Bu
+ /L/roXyesVO/qGgjcM5oeJ35GmnloqzS+QLpydQyaGQVF1r1hyVrZD8LA0URmCsATAli
+ WHxXl1gT9OJh/wPkPKdq0G5HbaV6t5MyLAVOABfdYku8g4xv46Mo6AP5Ey9gfbpSoQj6
+ XwW4XluCOjYkx8bd5HSEEs8YFMsI6zCvWMjbUCoLJxjl09+ATRS4FwxgNhFLu8t+HG3D
+ wyHA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=bqSs6bnwUDFbPW03XDcbH3y2U5MUEU7ogRQ0wBGoRas=;
+ b=RDQJYLhcU/e4tL3Ouyw7aFiFFF7Aj0XD5vjxJDWscQyl9VzdG1STLodfZZf4TRGz0d
+ kuv9Cy+Jglc8w/hx4MfcwoK+3qTqaUyXsle6wR486mOMOnGQS9/xos/J0O1MbrDC4qoQ
+ mBBElBBCkz9ajRCe+3gTsbiX8VGRzcny5TiOD9nxWz/6FSjFeqtBgQ2Aa/lL63QTif6E
+ Pw7uZSKsRKwx0Mx0idKiLjO5d/4ZE4aZlNb4aWlheSYbmzOw3p2IXf5sq6MTkN4myQW1
+ ECDRGjnOt+oVgDYhBT1j3blMwO2j0xTT0wGYsQKE5yYznlV64FvqzTxPTwZq9ebv4Z7W
+ f0mQ==
+X-Gm-Message-State: AOAM533IAZ5z53dbFcR67ONBeYSdpNeMTK5jDvb+q0RfcTmousQExdqj
+ fkHRzgmGYCr5+T75J0HJkCJFCBMa0+oyAh20la3VTQ==
+X-Google-Smtp-Source: ABdhPJzGSFb5RU/d8F0aPoE/VOP5yNMQuKaPaGbD4jqe9LrPcS4cjDLE+B0gX1XzUneLMqObCleN2EfPImtFN0IpTLg=
+X-Received: by 2002:a17:902:6b45:b029:de:2db8:fd34 with SMTP id
+ g5-20020a1709026b45b02900de2db8fd34mr7104600plt.71.1610623330688; Thu, 14 Jan
+ 2021 03:22:10 -0800 (PST)
 MIME-Version: 1.0
-In-Reply-To: <4bc3f007-65c1-ce8e-0e16-3e6087918d8f@virtuozzo.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kwolf@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=kwolf@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -29
-X-Spam_score: -3.0
-X-Spam_bar: ---
-X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.25,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+References: <20210112143058.12159-1-maxim.uvarov@linaro.org>
+ <20210112143058.12159-3-maxim.uvarov@linaro.org>
+ <20210112153542.oqahdubzeoipyvun@kamzik.brq.redhat.com>
+ <CAFEAcA9O2kHpcvoofo0v3ahXNOQtw8cxaVC2hn+AjpH6A9RciA@mail.gmail.com>
+ <20210112162526.ob7eroamrdlowfyr@kamzik.brq.redhat.com>
+ <20210112162847.wik3h24isg4cmgyq@kamzik.brq.redhat.com>
+ <CAD8XO3Y3sgZ3VXh7FhfcvvTckE2EUebivQ1nUnqTud2ApGUh=Q@mail.gmail.com>
+ <20210114000445.mg3xq2nq7kccbvjy@kamzik.brq.redhat.com>
+ <CAFEAcA96=ZjZyhMcpTSDvrHKXZY-uOUoQSi-jTbOLpFZdnkMuQ@mail.gmail.com>
+In-Reply-To: <CAFEAcA96=ZjZyhMcpTSDvrHKXZY-uOUoQSi-jTbOLpFZdnkMuQ@mail.gmail.com>
+From: Maxim Uvarov <maxim.uvarov@linaro.org>
+Date: Thu, 14 Jan 2021 14:22:00 +0300
+Message-ID: <CAD8XO3Yxp6rcNgNRJ3+d8zEsYyS0myYs=rSNKtw849fEmdT+RQ@mail.gmail.com>
+Subject: Re: [PATCHv4 2/2] arm-virt: add secure pl061 for reset/power down
+To: Peter Maydell <peter.maydell@linaro.org>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::629;
+ envelope-from=maxim.uvarov@linaro.org; helo=mail-pl1-x629.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -77,34 +85,45 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-block@nongnu.org, qemu-devel@nongnu.org, mreitz@redhat.com,
- den@openvz.org, jsnow@redhat.com
+Cc: Andrew Jones <drjones@redhat.com>, Jose Marinho <Jose.Marinho@arm.com>,
+ QEMU Developers <qemu-devel@nongnu.org>,
+ =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>,
+ tf-a@lists.trustedfirmware.org, qemu-arm <qemu-arm@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Am 14.01.2021 um 05:28 hat Vladimir Sementsov-Ogievskiy geschrieben:
-> 09.01.2021 15:26, Vladimir Sementsov-Ogievskiy wrote:
-> > Add TestEnv class, which will handle test environment in a new python
-> > iotests running framework.
-> > 
-> > Difference with current ./check interface:
-> > - -v (verbose) option dropped, as it is unused
-> > 
-> > - -xdiff option is dropped, until somebody complains that it is needed
-> > - same for -n option
-> 
-> One more thing dropped is looking for binaries in $build_iotests
-> directory.  Do someone use this feature? Or we can drop it, and
-> reimplement when someone report the degradation?
+On Thu, 14 Jan 2021 at 12:50, Peter Maydell <peter.maydell@linaro.org> wrote:
+>
+> On Thu, 14 Jan 2021 at 00:04, Andrew Jones <drjones@redhat.com> wrote:
+> >
+> > On Wed, Jan 13, 2021 at 10:30:47AM +0300, Maxim Uvarov wrote:
+> > > - the same size for secure and non secure gpio. Arm doc says that
+> > > secure memory is also split on 4k pages. So one page here has to be
+> > > ok.
+> >
+> > To be clear, does that means 4k pages must be used? I'm not concerned
+> > with the size, but the alignment. If it's possible to use larger page
+> > sizes with secure memory, then we need to align to the maximum page
+> > size that may be used.
+>
+> I think we should just align on 64K, to be more future-proof.
+> Even if secure software today uses 4K pages, it doesn't hurt
+> to align the device such that some hypothetical future 64K
+> page using secure software can use it.
+>
+> thanks
+> -- PMM
 
-I seem to have socket_scm_helper only there, but you use
-self.build_iotests for that, so I suppose this is different from what
-you mean?
+Does that mean that in that case you need all regions to be 64k
+aligned? I mean secure and non-secure.
+Has anybody tested 64k pages under qemu?
+    [VIRT_GIC_V2M] =            { 0x08020000, 0x00001000 }
+    [VIRT_UART] =               { 0x09000000, 0x00001000 },
+    [VIRT_RTC] =                { 0x09010000, 0x00001000 },
+    [VIRT_GPIO] =               { 0x09030000, 0x00001000 },
+    [VIRT_SECURE_GPIO] =        { 0x09031000, 0x00001000 },
+    [VIRT_SECURE_UART] =        { 0x09040000, 0x00001000 },
+   [VIRT_MMIO] =               { 0x0a000000, 0x00000200 },
 
-My tools and system emulator binaries are in the standard location in
-the build directory, not in the iotests build directory, so they don't
-need it.
-
-Kevin
-
+Maxim.
 
