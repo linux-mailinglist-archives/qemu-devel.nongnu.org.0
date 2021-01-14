@@ -2,91 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1D13A2F6209
-	for <lists+qemu-devel@lfdr.de>; Thu, 14 Jan 2021 14:33:13 +0100 (CET)
-Received: from localhost ([::1]:49470 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8FCF12F6214
+	for <lists+qemu-devel@lfdr.de>; Thu, 14 Jan 2021 14:36:09 +0100 (CET)
+Received: from localhost ([::1]:56888 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l02kS-0004MC-5o
-	for lists+qemu-devel@lfdr.de; Thu, 14 Jan 2021 08:33:12 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47818)
+	id 1l02nI-0007SV-LI
+	for lists+qemu-devel@lfdr.de; Thu, 14 Jan 2021 08:36:08 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48240)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1l02VX-0007ub-Mw
- for qemu-devel@nongnu.org; Thu, 14 Jan 2021 08:17:48 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:47132)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1l02VS-0005tE-0z
- for qemu-devel@nongnu.org; Thu, 14 Jan 2021 08:17:47 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1610630261;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=HkQCWqVNvKPZXeZPLxyaLaEsB2YPUnr3NudIaB5LXIk=;
- b=gRLA1wQAxCsDQq7RWQZQynBJf0up3pozg6jKnReCUeNP2omQTNTTi8GNHbyYmul/WBNWuM
- RLlWbv/JDuiQUHXGaglRkJHOiFSg7U70GrDtcYWwYMUEuFzff9e/9tB6KLHrWfe8VR5C1a
- wQjOyUdSRk9n5Fm/Smb0/fZzuTJCqow=
-Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
- [209.85.221.70]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-271-NfB7uop4Oo6jydynO2m-GA-1; Thu, 14 Jan 2021 08:17:39 -0500
-X-MC-Unique: NfB7uop4Oo6jydynO2m-GA-1
-Received: by mail-wr1-f70.google.com with SMTP id u14so2587543wrr.15
- for <qemu-devel@nongnu.org>; Thu, 14 Jan 2021 05:17:39 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=HkQCWqVNvKPZXeZPLxyaLaEsB2YPUnr3NudIaB5LXIk=;
- b=D7+5vZaReZk/LBzFk87eFo9ucimK3x0pC6FcrRpFuDEWXUclK7NmhcAW8CzDmc4g66
- NszIIXwQdj9gvJTzY4HWLJlMWMBiMvXofULRkUTZbbP2oLJOXLYSEiKjiZFFhgLaw0sM
- DMoSMC6i+oubNbMhze1nBEyjca7y63qTTPOwcgx/0149GmJgJiAK/E+eb+vCXMVGhzdI
- vLi9uY741CYObFuNz06YsUT22bOajRwB6lu39CnD9NfLqK0ZVbITrDzKgGmGE2hhIWfn
- YQNGwdYP5n/1e0BBx4UjVm81FAg7C7z2H4UYdOMos1WBLIA5YvdMwqonJOotaN1pcETs
- s7Dg==
-X-Gm-Message-State: AOAM532ycF0tHUMzqadQm7jDS28Hr+3Aaf4qZKmGKcwBKq3F0puvL5dS
- i4SEoQLkC2EAS/5EXnX+4tnismcH7Ksy9oVIlr1JIPEBxp4EYM0HGHffn4LCpc7/JdVdfFksnNv
- 7MiFqmZyPrc1vsoo=
-X-Received: by 2002:a05:600c:2188:: with SMTP id
- e8mr4000795wme.182.1610630258591; 
- Thu, 14 Jan 2021 05:17:38 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJz89LtnxL5M3nZbKEN8UBHs0ccWm2nzSZEpsin2VzEXB3+Si8fsOcmXjqSrretXzKtlq3le+A==
-X-Received: by 2002:a05:600c:2188:: with SMTP id
- e8mr4000783wme.182.1610630258368; 
- Thu, 14 Jan 2021 05:17:38 -0800 (PST)
-Received: from [192.168.1.36] (13.red-83-57-169.dynamicip.rima-tde.net.
- [83.57.169.13])
- by smtp.gmail.com with ESMTPSA id s6sm9472954wro.79.2021.01.14.05.17.37
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 14 Jan 2021 05:17:37 -0800 (PST)
-Subject: Re: [PATCH 3/5] build-sys: add libvhost-user missing dependencies
-To: marcandre.lureau@redhat.com, qemu-devel@nongnu.org
-References: <20210114125605.1227742-1-marcandre.lureau@redhat.com>
- <20210114125605.1227742-4-marcandre.lureau@redhat.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-Message-ID: <6d0958f7-a500-5826-58c6-f05319f0285d@redhat.com>
-Date: Thu, 14 Jan 2021 14:17:36 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.6.0
+ (Exim 4.90_1) (envelope-from <lukasstraub2@web.de>)
+ id 1l02Xq-0002KJ-IL
+ for qemu-devel@nongnu.org; Thu, 14 Jan 2021 08:20:10 -0500
+Received: from mout.web.de ([212.227.15.14]:43301)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <lukasstraub2@web.de>)
+ id 1l02Xm-0006px-Rw
+ for qemu-devel@nongnu.org; Thu, 14 Jan 2021 08:20:09 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=web.de;
+ s=dbaedf251592; t=1610630402;
+ bh=iBB/t/fPQQ+UKEXvBU7c6xk9RdnOEsaOvbHznPLgdSU=;
+ h=X-UI-Sender-Class:Date:From:To:Cc:Subject:In-Reply-To:References;
+ b=s8mJXQfkR6UKmeypTq3eq3FhAwiQB0PhTHDt8b0ppZNdjiHRTbnJ1gI6JNuMOEq13
+ IHNSKFo6HvMnfZRtv3bwmKGIkBME0CDa0DAzkifLbeLCSLfo196187kTZHg1qJCFjO
+ 7gc9nQI/h92S3I19SsPYI4JaRIhNZRV8tAqgo31M=
+X-UI-Sender-Class: c548c8c5-30a9-4db5-a2e7-cb6cb037b8f9
+Received: from gecko.fritz.box ([87.123.206.5]) by smtp.web.de (mrweb002
+ [213.165.67.108]) with ESMTPSA (Nemesis) id 0MTxth-1lQg763Njt-00QhkM; Thu, 14
+ Jan 2021 14:20:01 +0100
+Date: Thu, 14 Jan 2021 14:19:18 +0100
+From: Lukas Straub <lukasstraub2@web.de>
+To: Peter Maydell <peter.maydell@linaro.org>
+Subject: [PATCH] Fix build with new yank feature by adding stubs
+Message-ID: <20210114141918.5201cc9c@gecko.fritz.box>
+In-Reply-To: <87r1mnlr0a.fsf@linaro.org>
+References: <87r1mnlr0a.fsf@linaro.org>
 MIME-Version: 1.0
-In-Reply-To: <20210114125605.1227742-4-marcandre.lureau@redhat.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=philmd@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -32
-X-Spam_score: -3.3
-X-Spam_bar: ---
-X-Spam_report: (-3.3 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.248,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.237, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+Content-Type: multipart/signed; boundary="Sig_/7c8zCCNDCqNrSaKii0WZ0_.";
+ protocol="application/pgp-signature"; micalg=pgp-sha256
+X-Provags-ID: V03:K1:IpU4P9N64pKBRtMvE1EPIHLpJR0s0tFC68Y/kEO/W6gU/xRdlqK
+ J03QD0H8BY2TLp8cMPuu/FETw5oVJFfAGgjjLN6jFEjldsMdDjEzoNnTIew1LRiP40JnDNs
+ JYP0tzwBaYeZEbOVImXdbrzr/r6J/f6cqAp7oTkAudlDEAiLNRNLzKKrwnKrhtakSb4enkX
+ iMpEWDpKkyVM5mdX1osvA==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:gFzGBV5rEgg=:g4VOYoBxra0Mtu4bY8eaVM
+ vNHVR7/t0yuE4pPpauFGNvUxQzYpGxkpdEnfVzjKFXStso8vXaiYxJRybtCx1bD49hQ21SwmS
+ bSDzDM2liExKivuowwTF5xGldSCkg0Rv6DgK3DYByunuAP0uNIDd37FsNM07UDP5Jn05B5jx8
+ GU2rcjZ8XTWk/+M4O6OMgYGC662qwDGbpHaaXfPy3YODd0y2OjUGBVfJfIt4bAX3Z+60sz5RB
+ MrZBtMZpW3bKFxZogPtEuZdqazDqi1TIvgJeTPwZcAdfHak40DqsrmXuY/7ukQNhlA/EsRGuF
+ m0HesnjJfN1UD/SGozrJUelbKoUGfF/2Y5rpjPPMyPumOuxuGt2i5pbunKeSymHhVMq4BWyjO
+ W7Ln6s1SsJoaYt+1c10eRY21NZ1CGXQX/9JFbzI2bnYcuT3Wb85/DTjTrqHw01IReaCD2q+lt
+ RhRAXyqBkxZ00JuRhGqCLeaOCFEYDmWX1aleecUEsuTSSfCwh45ax7hso8ucsbN29IoDx39fp
+ 9pPI1tSGkQo/FL+ef+nJXpz4TAFget/BhJ/JwZTsaFg7WKJXLrz34w3xNShPfT9r60aJ0Od2/
+ xXJl99fVz9T2uVcPfE5dlUCzxrDk2/jEWNW/tPYGdnM4yXgJxGxghkB3dy07Oqyiv70rgRWQ/
+ TJfC3tNHPqAD4oZmp7QvWZrTgiql28ZdDB9DoarrFwnVxw0dhyclwqf21lzLBACZbT0kcwHr5
+ ElUsd6BfaevAycfMs7lex4Erf2bKdXwiEOLZY7wEBlaJouiNaNldlmAiqeqTNvtXN7WBUzs4e
+ nD4v6PXGVEykEo3GajZeZJgVRkQe90JmEi02z63iR+zbDalLuTlPDK7nL7Btw5nk629ccVQlc
+ 6zby6VCjZPnYLCHO3XbA==
+Received-SPF: pass client-ip=212.227.15.14; envelope-from=lukasstraub2@web.de;
+ helo=mout.web.de
+X-Spam_score_int: -24
+X-Spam_score: -2.5
+X-Spam_bar: --
+X-Spam_report: (-2.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001, RCVD_IN_DNSWL_LOW=-0.7,
+ RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -100,20 +80,92 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: pbonzini@redhat.com, j@getutm.app, samuel.thibault@ens-lyon.org
+Cc: Alex =?UTF-8?B?QmVubsOpZQ==?= <alex.bennee@linaro.org>,
+ Markus Armbruster <armbru@redhat.com>, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 1/14/21 1:56 PM, marcandre.lureau@redhat.com wrote:
-> From: Marc-André Lureau <marcandre.lureau@redhat.com>
-> 
-> This help fixing static compilation issues.
-> 
-> Signed-off-by: Marc-André Lureau <marcandre.lureau@redhat.com>
-> ---
->  subprojects/libvhost-user/meson.build | 3 +++
->  1 file changed, 3 insertions(+)
+--Sig_/7c8zCCNDCqNrSaKii0WZ0_.
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: quoted-printable
 
-Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+Signed-off-by: Lukas Straub <lukasstraub2@web.de>
+---
+ stubs/meson.build |  1 +
+ stubs/yank.c      | 29 +++++++++++++++++++++++++++++
+ 2 files changed, 30 insertions(+)
+ create mode 100644 stubs/yank.c
 
+diff --git a/stubs/meson.build b/stubs/meson.build
+index 80b1d81a31..1a656cd070 100644
+--- a/stubs/meson.build
++++ b/stubs/meson.build
+@@ -47,6 +47,7 @@ stub_ss.add(files('vm-stop.c'))
+ stub_ss.add(files('win32-kbd-hook.c'))
+ stub_ss.add(files('cpu-synchronize-state.c'))
+ if have_block
++  stub_ss.add(files('yank.c'))
+   stub_ss.add(files('replay-tools.c'))
+ endif
+ if have_system
+diff --git a/stubs/yank.c b/stubs/yank.c
+new file mode 100644
+index 0000000000..6090416065
+--- /dev/null
++++ b/stubs/yank.c
+@@ -0,0 +1,29 @@
++#include "qemu/osdep.h"
++#include "qemu/yank.h"
++
++bool yank_register_instance(const YankInstance *instance, Error **errp)
++{
++    return true;
++}
++
++void yank_unregister_instance(const YankInstance *instance)
++{
++}
++
++void yank_register_function(const YankInstance *instance,
++                            YankFn *func,
++                            void *opaque)
++{
++}
++
++void yank_unregister_function(const YankInstance *instance,
++                              YankFn *func,
++                              void *opaque)
++{
++}
++
++void yank_generic_iochannel(void *opaque)
++{
++}
++
++
+--=20
+2.29.2
+
+--Sig_/7c8zCCNDCqNrSaKii0WZ0_.
+Content-Type: application/pgp-signature
+Content-Description: OpenPGP digital signature
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAEBCAAdFiEEg/qxWKDZuPtyYo+kNasLKJxdslgFAmAARNYACgkQNasLKJxd
+slg/HQ//SLUzulmvZzLPbGbVvy4OpBOgqCSW9ETHBA89Tbkzz+LHE1La2SxlCsV0
+NnGsuyvq700LWGTS39yGF1iJKozu2OnfVareuov1uZdzyuSNUgpu5rZ1d2wVoscn
+xS4FMNAUZOLsqjBH4/O9VMiRxUEEz7AHSNx8ch4CmqSplTIK0BQlFDSSmEe4IIks
+yBdIvdmForMHnVkxb4nyhr93Od+6CicFVw1RaGTn3yRqxJF/q9n2NTwVJ8L2Gjug
+9iIuP2aFttRIFNEHkKcnw590S3Jc5mJQrXAvjUVCbavUqcZM6Cnl8h/czTd+WIPv
+PA6yVJw6H0mX3clTr5SdN0j+YQ/DkYTQRHOtksrnViMmOZbMmSCAZIHjcWOsExZC
+ui2ejV/YlLMa+qHbthgoGtWTr8Ch6yJ2czmMNuRH9RGl7RaE4/oNTmHYR2J7+sJa
+R5IBPbXDqVAGT11HF1SuO4RYbAqdIm6zhoCkpCa0ZL9qyGfcHyF7pnmVWV9gzeBx
+pgPftgaEpphEAoHX47b5Fv0Z6PBFZfBLHPy/ZF8O/R+yJHIgg7B+Q725gCKM1iVS
+aEfa0WrzL1dZM4eT6Fu0x8g9q2yq10B33I4GD3H6aW0pERM2sat1BpNpOcFOI+bk
+eVjb7MjVZwPfcl4TWmU31o0LvAjd7QL7YYFJ/ZChNrH4Qbn7AK8=
+=xhMe
+-----END PGP SIGNATURE-----
+
+--Sig_/7c8zCCNDCqNrSaKii0WZ0_.--
 
