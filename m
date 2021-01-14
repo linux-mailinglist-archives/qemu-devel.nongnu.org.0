@@ -2,52 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3D99F2F5AC7
-	for <lists+qemu-devel@lfdr.de>; Thu, 14 Jan 2021 07:45:04 +0100 (CET)
-Received: from localhost ([::1]:35656 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3C07F2F5B0D
+	for <lists+qemu-devel@lfdr.de>; Thu, 14 Jan 2021 08:09:35 +0100 (CET)
+Received: from localhost ([::1]:41282 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kzwNS-0005V1-Sf
-	for lists+qemu-devel@lfdr.de; Thu, 14 Jan 2021 01:45:02 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46664)
+	id 1kzwlB-0001Mg-RJ
+	for lists+qemu-devel@lfdr.de; Thu, 14 Jan 2021 02:09:33 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49986)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <shiliyang@huawei.com>)
- id 1kzwLZ-0004vv-Ri
- for qemu-devel@nongnu.org; Thu, 14 Jan 2021 01:43:05 -0500
-Received: from szxga07-in.huawei.com ([45.249.212.35]:2632)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <shiliyang@huawei.com>)
- id 1kzwLX-0000do-9X
- for qemu-devel@nongnu.org; Thu, 14 Jan 2021 01:43:05 -0500
-Received: from DGGEMS402-HUB.china.huawei.com (unknown [172.30.72.60])
- by szxga07-in.huawei.com (SkyGuard) with ESMTP id 4DGZV740c1z7VCl;
- Thu, 14 Jan 2021 14:41:51 +0800 (CST)
-Received: from [10.108.235.13] (10.108.235.13) by
- DGGEMS402-HUB.china.huawei.com (10.3.19.202) with Microsoft SMTP Server id
- 14.3.498.0; Thu, 14 Jan 2021 14:42:42 +0800
-Subject: Re: [PATCH V3 0/4] bsd-user: Fix some code style problems
-To: Warner Losh <imp@bsdimp.com>
-References: <b820b729-88a8-1103-b7a7-b66b637947d9@huawei.com>
- <CANCZdfr9Fd+Ne3cGqhHfna+iAD9bwe=ScbzN1C+uads8RqJDsQ@mail.gmail.com>
-From: shiliyang <shiliyang@huawei.com>
-Message-ID: <ae6378f4-e82d-c0c7-40e8-2d5ebe4f125e@huawei.com>
-Date: Thu, 14 Jan 2021 14:42:42 +0800
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
- Thunderbird/78.4.0
+ (Exim 4.90_1) (envelope-from <mrezanin@redhat.com>)
+ id 1kzwjU-0008RI-BO
+ for qemu-devel@nongnu.org; Thu, 14 Jan 2021 02:07:48 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:48952)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <mrezanin@redhat.com>)
+ id 1kzwjQ-00043D-Ps
+ for qemu-devel@nongnu.org; Thu, 14 Jan 2021 02:07:47 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1610608061;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=iDvv8FY7PQsMLpwDIAhzpyGwMl6Ib6JBfDLUsf7K4uo=;
+ b=I3n39whUXAsYOH5PP78bUw7i5eMQHNr8EX8ISzOQm2si8qU30EO0mUWPirjHYC5kgiyoRD
+ wxrzjd6eLCsKzVJLih7osy/gig4tqZRTdYZzU1vXplyPBbyyVWprCpFf6WOAZJt/VEtynn
+ 5Yt6fy6yeft+bHi0vsZ/tcYr05JS2PY=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-538-7In_NOIHNBG9vpMd6CZ2yA-1; Thu, 14 Jan 2021 02:07:40 -0500
+X-MC-Unique: 7In_NOIHNBG9vpMd6CZ2yA-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id D959580667D
+ for <qemu-devel@nongnu.org>; Thu, 14 Jan 2021 07:07:38 +0000 (UTC)
+Received: from workimage2020.rezanina.moe.rezanina.moe (unknown [10.40.195.31])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 40F32272A4
+ for <qemu-devel@nongnu.org>; Thu, 14 Jan 2021 07:07:37 +0000 (UTC)
+From: Miroslav Rezanina <mrezanin@redhat.com>
+To: qemu-devel@nongnu.org
+Subject: [PATCH v3 0/2] Fixing several GCC 11 warnings
+Date: Thu, 14 Jan 2021 08:07:34 +0100
+Message-Id: <cover.1610607906.git.mrezanin@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <CANCZdfr9Fd+Ne3cGqhHfna+iAD9bwe=ScbzN1C+uads8RqJDsQ@mail.gmail.com>
-Content-Type: text/plain; charset="utf-8"
-Content-Language: en-US
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mrezanin@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Originating-IP: [10.108.235.13]
-X-CFilter-Loop: Reflected
-Received-SPF: pass client-ip=45.249.212.35; envelope-from=shiliyang@huawei.com;
- helo=szxga07-in.huawei.com
-X-Spam_score_int: -41
-X-Spam_score: -4.2
-X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_MED=-2.3, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=mrezanin@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -29
+X-Spam_score: -3.0
+X-Spam_bar: ---
+X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.25,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -61,48 +75,32 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: alex.chen@huawei.com, Peter Maydell <peter.maydell@linaro.org>,
- QEMU Developers <qemu-devel@nongnu.org>, hunongda@huawei.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+Compiling qemu using GCC 11 we got several new warnings. To allow
+build with --enable-werror, we need to solve issues generating these
+warnings.
+  
+Signed-of-by: Miroslav Rezanina <mrezanin@redhat.com>
 
-On 2021/1/14 6:03, Warner Losh wrote:
-> While these changes look good, can you submit this against the bsd-user repository? White space changes like this in mainline make rebasing harder than needed.
-> 
-> https://github.com/qemu-bsd-user/qemu-bsd-user <https://github.com/qemu-bsd-user/qemu-bsd-user> branch bsd-user-rebase-3.1and we'll make sure they get via our coming pull requests..
-> 
-> Warner
-> 
-> On Wed, Jan 13, 2021 at 2:31 AM shiliyang <shiliyang@huawei.com <mailto:shiliyang@huawei.com>> wrote:
-> 
->     This patch series fixes error style problems found by checkpatch.pl <http://checkpatch.pl>.
-> 
->     V2->V3:
->     Make the patch into a series.
-> 
->     V1->V2:
->     Add cover letter message.
->     Fix some style error in patch file before.
-> 
->     Liyang Shi (4):
->       bsd-user: "foo * bar" should be "foo *bar"
->       bsd-user: suspect code indent for conditional statements
->       bsd-user: space required after semicolon
->       bsd-user: do not use C99 // comments
-> 
->      bsd-user/bsdload.c |  6 +++---
->      bsd-user/elfload.c | 38 +++++++++++++++++++-------------------
->      bsd-user/qemu.h    | 14 +++++++-------
->      bsd-user/syscall.c |  6 +++---
->      4 files changed, 32 insertions(+), 32 deletions(-)
-> 
->     -- 
->     2.29.1.59.gf9b6481aed
-> 
-> 
+v2:
+ - Patch 2 rewrite to use strpadcpy
+ - removed Patch 3 (different version sent by Philippe Mathieu-Daudé)
 
-OK, I get it, thanks!
+v3:
+ - Fixed patch commit logs (no cod changes)
 
-Best regards.
+Miroslav Rezanina (2):
+  Fix net.c warning on GCC 11
+  s390x: Use strpadcpy for copying vm name
+
+ net/eth.c                  |  3 +++
+ target/s390x/kvm.c         | 12 +++++-------
+ target/s390x/misc_helper.c |  7 +++++--
+ 3 files changed, 13 insertions(+), 9 deletions(-)
+
+-- 
+2.18.4
+
 
