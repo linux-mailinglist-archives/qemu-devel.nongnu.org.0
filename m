@@ -2,67 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3F0322F6ED1
-	for <lists+qemu-devel@lfdr.de>; Fri, 15 Jan 2021 00:12:30 +0100 (CET)
-Received: from localhost ([::1]:39380 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 83A5D2F6EC4
+	for <lists+qemu-devel@lfdr.de>; Fri, 15 Jan 2021 00:04:18 +0100 (CET)
+Received: from localhost ([::1]:34344 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l0Bn3-0004AJ-3l
-	for lists+qemu-devel@lfdr.de; Thu, 14 Jan 2021 18:12:29 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36716)
+	id 1l0Bf6-0001Di-QE
+	for lists+qemu-devel@lfdr.de; Thu, 14 Jan 2021 18:04:16 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35330)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1l0Blx-0003jZ-H4
- for qemu-devel@nongnu.org; Thu, 14 Jan 2021 18:11:23 -0500
-Received: from indium.canonical.com ([91.189.90.7]:51842)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1l0Blt-0005R6-5I
- for qemu-devel@nongnu.org; Thu, 14 Jan 2021 18:11:21 -0500
-Received: from loganberry.canonical.com ([91.189.90.37])
- by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1l0Blq-0002IS-NV
- for <qemu-devel@nongnu.org>; Thu, 14 Jan 2021 23:11:14 +0000
-Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 980D02E813C
- for <qemu-devel@nongnu.org>; Thu, 14 Jan 2021 23:11:14 +0000 (UTC)
+ (Exim 4.90_1) (envelope-from <kbusch@kernel.org>)
+ id 1l0BeH-0000ec-Dg; Thu, 14 Jan 2021 18:03:25 -0500
+Received: from mail.kernel.org ([198.145.29.99]:59884)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <kbusch@kernel.org>)
+ id 1l0BeF-0002it-Mp; Thu, 14 Jan 2021 18:03:25 -0500
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 3CDF523A5C;
+ Thu, 14 Jan 2021 23:03:21 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1610665401;
+ bh=8y6KnMvVtHYwwP92WLW1Vy12t6qXb/FJNFBJkb0Xdqs=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=dbYJm3qzHbAyJgLYGBbpHoJoLoVNGJI7dGOgA5uaS1rq+G+Hr18vQkNpHTG4avoR1
+ 2FqFZHAwIrKbhBVj3xu69fQBkPuf1ghz6JUOxa07j91UexLZMmi3dCLHjJSnDKg/3T
+ EKJOmoQ8q1AbKzGV1tR6fmtk1G/nscEZMDfgsNzVPi4kZlIe6L//Z1WQjZRXumqskB
+ JhYzMBPHpZN7yyJDRoAI+Vrtit8o1YSwJoQPPxMiIvTeZt4A+3dSroUe4HlylPrUSR
+ MIj+/MJS6Soq9M66z989/cRccFUYGHNoYvqVAQR44KySVGir0w2jsm1AaVXy6JQa0H
+ DnMG+YEGnnjSg==
+Date: Thu, 14 Jan 2021 15:03:19 -0800
+From: Keith Busch <kbusch@kernel.org>
+To: Klaus Jensen <its@irrelevant.dk>
+Subject: Re: [PATCH] hw/block/nvme: fix zone write finalize
+Message-ID: <20210114230319.GC1511902@dhcp-10-100-145-180.wdc.com>
+References: <20210112094235.188686-1-its@irrelevant.dk>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-Date: Thu, 14 Jan 2021 22:59:51 -0000
-From: Gregory Price <1908450@bugs.launchpad.net>
-To: qemu-devel@nongnu.org
-X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=New; importance=Undecided;
- assignee=jsnow@redhat.com; 
-X-Launchpad-Bug-Tags: ata atapi ide identify x86
-X-Launchpad-Bug-Information-Type: Public
-X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: gourryinverse jnsnow th-huth
-X-Launchpad-Bug-Reporter: Gregory Price (gourryinverse)
-X-Launchpad-Bug-Modifier: Gregory Price (gourryinverse)
-References: <160815666653.31417.1447357912774624366.malonedeb@chaenomeles.canonical.com>
-Message-Id: <161066519117.14276.4273523340401785663.malone@gac.canonical.com>
-Subject: [Bug 1908450] Re: ide/core.c ATA Major Version reporting incorrect
-X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
-X-Launchpad-Message-For: qemu-devel-ml
-Precedence: bulk
-X-Generated-By: Launchpad (canonical.com);
- Revision="511b4a3b6512aa3d421c5f7d74f3527e78bff26e"; Instance="production"
-X-Launchpad-Hash: 5863cddcd4e4375ac0dd4fc3f55ec6450e9dd160
-Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
- helo=indium.canonical.com
-X-Spam_score_int: -65
-X-Spam_score: -6.6
-X-Spam_bar: ------
-X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9,
- HEADER_FROM_DIFFERENT_DOMAINS=0.248, RCVD_IN_DNSWL_HI=-5,
- RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20210112094235.188686-1-its@irrelevant.dk>
+Received-SPF: pass client-ip=198.145.29.99; envelope-from=kbusch@kernel.org;
+ helo=mail.kernel.org
+X-Spam_score_int: -72
+X-Spam_score: -7.3
+X-Spam_bar: -------
+X-Spam_report: (-7.3 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.248,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_HI=-5, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -71,85 +60,72 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1908450 <1908450@bugs.launchpad.net>
+Cc: Kevin Wolf <kwolf@redhat.com>, qemu-block@nongnu.org,
+ Dmitry Fomichev <dmitry.fomichev@wdc.com>, Klaus Jensen <k.jensen@samsung.com>,
+ qemu-devel@nongnu.org, Max Reitz <mreitz@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-for what it's worth, i have yet to see a driver actually check this
-field.
+On Tue, Jan 12, 2021 at 10:42:35AM +0100, Klaus Jensen wrote:
+> From: Klaus Jensen <k.jensen@samsung.com>
+> 
+> The zone write pointer is unconditionally advanced, even for write
+> faults. Make sure that the zone is always transitioned to Full if the
+> write pointer reaches zone capacity.
 
-I have seen a ton of code (OVMF and others) detect other information and
-just straight up say "I'm in QEMU" and YOLO a bunch of things like
-assuming DMA is available and such, so I somewhat doubt anyone
-*actually* checks these fields.
+Looks like some spec weirdness. It says we can transition to full:
 
--- =
+  b) as a result of successful completion of a write operation that
+     writes one or more logical blocks that causes the zone to reach its
+     writeable zone capacity;
 
-You received this bug notification because you are a member of qemu-
-devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1908450
+But a failed write also advances the write pointer as you've pointed
+out, so they might want to strike "successful".
 
-Title:
-  ide/core.c ATA Major Version reporting incorrect
+Looks fine to me.
 
-Status in QEMU:
-  New
+Reviewed-by: Keith Busch <kbusch@kernel.org>
 
-Bug description:
-  @@ -165,7 +165,7 @@ static void ide_identify(IDEState *s)
-          put_le16(p + 76, (1 << 8));
-      }
+> Signed-off-by: Klaus Jensen <k.jensen@samsung.com>
+> Cc: Dmitry Fomichev <dmitry.fomichev@wdc.com>
+> ---
+>  hw/block/nvme.c | 10 +++++-----
+>  1 file changed, 5 insertions(+), 5 deletions(-)
+> 
+> diff --git a/hw/block/nvme.c b/hw/block/nvme.c
+> index 0854ee307227..280b31b4459d 100644
+> --- a/hw/block/nvme.c
+> +++ b/hw/block/nvme.c
+> @@ -1268,10 +1268,13 @@ static void nvme_finalize_zoned_write(NvmeNamespace *ns, NvmeRequest *req,
+>      nlb = le16_to_cpu(rw->nlb) + 1;
+>      zone = nvme_get_zone_by_slba(ns, slba);
+>  
+> +    zone->d.wp += nlb;
+> +
+>      if (failed) {
+>          res->slba = 0;
+> -        zone->d.wp += nlb;
+> -    } else if (zone->w_ptr == nvme_zone_wr_boundary(zone)) {
+> +    }
+> +
+> +    if (zone->d.wp == nvme_zone_wr_boundary(zone)) {
 
-      put_le16(p + 80, 0xf0); /* ata3 -> ata6 supported */
-  -   put_le16(p + 80, 0xf0); /* ata3 -> ata6 supported */
-  +   put_le16(p + 80, ((1 << 6) | (1 << 5) (1 << 4) (1 << 3)); /* ata3 -> =
-ata6 supported */
-      put_le16(p + 81, 0x16); /* conforms to ata5 */
-      /* 14=3DNOP supported, 5=3DWCACHE supported, 0=3DSMART supported */
-      put_le16(p + 82, (1 << 14) | (1 << 5) | 1);
+The previous check was using 'zone->w_ptr', but now it's 'zone->d.wp'.
+As far as I can tell, this difference will mean the zone won't finalize
+until the last write completes, where before it could finalize after the
+zone's last write is submitted. Either way looks okay, but I think these
+two values ought to always be in sync.
 
-  =
-
-  This field Major Version Number field is presently reporting support for =
-ATA-4 through ATA-7.
-  Bitfield[80] is defined in the ATA-6 specification below.
-
-  0xF0 =3D (1<<7) | (1<<6) | (1 << 5) | (1 << 4) // 4-7 - current settings
-  0x78 =3D (1<<6) | (1<<5) | (1 << 4) | (1 << 3) // 3-6 - new settings
-
-  Either the comment is wrong, or the field is wrong. If the field is
-  wrong it can cause errors in drivers that check support vs conformity.
-  This will not break most guests, since the conformity field is set to
-  ATA-5.
-
-  I'm not sure whether this component supports ATA-7, but since it's
-  commented as if it supports up through 6, correcting the field
-  assignment seems more correct.
-
-  ATA/ATAPI-6 Specification
-  https://web.archive.org/web/20200124094822/https://www.t13.org/Documents/=
-UploadedDocuments/project/d1410r3b-ATA-ATAPI-6.pdf
-
-  Page 116
-  80 - M Major version number
-  0000h or FFFFh =3D device does not report version
-  F 15 Reserved
-  F 14 Reserved for ATA/ATAPI-14
-  F 13 Reserved for ATA/ATAPI-13
-  F 12 Reserved for ATA/ATAPI-12
-  F 11 Reserved for ATA/ATAPI-11
-  F 10 Reserved for ATA/ATAPI-10
-  F 9 Reserved for ATA/ATAPI-9
-  F 8 Reserved for ATA/ATAPI-8
-  F 7 Reserved for ATA/ATAPI-7
-  F 6 1 =3D supports ATA/ATAPI-6
-  F 5 1 =3D supports ATA/ATAPI-5
-  F 4 1 =3D supports ATA/ATAPI-4
-  F 3 1 =3D supports ATA-3
-  X 2 Obsolete
-  X 1 Obsolete
-  F 0 Reserved
-
-To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1908450/+subscriptions
+>          switch (nvme_get_zone_state(zone)) {
+>          case NVME_ZONE_STATE_IMPLICITLY_OPEN:
+>          case NVME_ZONE_STATE_EXPLICITLY_OPEN:
+> @@ -1288,9 +1291,6 @@ static void nvme_finalize_zoned_write(NvmeNamespace *ns, NvmeRequest *req,
+>          default:
+>              assert(false);
+>          }
+> -        zone->d.wp = zone->w_ptr;
+> -    } else {
+> -        zone->d.wp += nlb;
+>      }
+>  }
 
