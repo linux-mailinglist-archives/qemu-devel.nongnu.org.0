@@ -2,64 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 118462F66A5
-	for <lists+qemu-devel@lfdr.de>; Thu, 14 Jan 2021 18:06:25 +0100 (CET)
-Received: from localhost ([::1]:43910 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6AA392F66E1
+	for <lists+qemu-devel@lfdr.de>; Thu, 14 Jan 2021 18:10:58 +0100 (CET)
+Received: from localhost ([::1]:52670 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l064l-0000yS-Kd
-	for lists+qemu-devel@lfdr.de; Thu, 14 Jan 2021 12:06:23 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39440)
+	id 1l069B-0004qg-G8
+	for lists+qemu-devel@lfdr.de; Thu, 14 Jan 2021 12:10:57 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40896)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1l05Nz-0004DA-A9
- for qemu-devel@nongnu.org; Thu, 14 Jan 2021 11:22:11 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:40647)
+ id 1l05TU-0000WO-QO
+ for qemu-devel@nongnu.org; Thu, 14 Jan 2021 11:27:54 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:59701)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1l05Nu-0000lE-PH
- for qemu-devel@nongnu.org; Thu, 14 Jan 2021 11:22:11 -0500
+ id 1l05TR-0002b6-7n
+ for qemu-devel@nongnu.org; Thu, 14 Jan 2021 11:27:52 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1610641325;
+ s=mimecast20190719; t=1610641665;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=CloSGHjvpzGGsUahLAhrl0UUZvqP9AjXF6cxbf/VZxs=;
- b=XVQJ+zkUa+QCaqGoUMEuDo4XvOpzprJyTQncMt1vCGqHO2J3Hy3sR3kxNsHfwvaGcorMav
- me7P8KFyQ+P6HTvscU1qGYBHPOx+A4kPgdldch+XlRxLuCHIkVDj9CRQdoi37u767maVtN
- T8bbLd0jQEpExBs77R5WZkfZSfsOIw8=
+ bh=cNibbB9pZPVEoZjgzZflhMdEiL/oaO4Er6dsfGTO0xE=;
+ b=hgZw+TG4O3+gmdflGUyg4IbKaS6a8jEYHJiKHI7WikMsRxtmPbGF1MAayTSPiDz+aDXP4e
+ iMOTiFlNdlqKyjIBmPIj044emHJJWXUnCzixAqQVtk6qw9yM2gtPidI38/UE7RZc1/rWW6
+ 1AWRIlwsy3GCSmenijc/Yukt22914bI=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-147--yqlpMNRORW4PB8xai1k8g-1; Thu, 14 Jan 2021 11:22:02 -0500
-X-MC-Unique: -yqlpMNRORW4PB8xai1k8g-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
+ us-mta-349-ZSh89NnrMjqT3N_F8TjkQA-1; Thu, 14 Jan 2021 11:27:44 -0500
+X-MC-Unique: ZSh89NnrMjqT3N_F8TjkQA-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id D9513100C662;
- Thu, 14 Jan 2021 16:22:00 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 1B36D806661;
+ Thu, 14 Jan 2021 16:27:42 +0000 (UTC)
 Received: from localhost (ovpn-115-113.ams2.redhat.com [10.36.115.113])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 7B9BC60C47;
- Thu, 14 Jan 2021 16:22:00 +0000 (UTC)
-Date: Thu, 14 Jan 2021 16:21:59 +0000
+ by smtp.corp.redhat.com (Postfix) with ESMTP id C525E19744;
+ Thu, 14 Jan 2021 16:27:30 +0000 (UTC)
+Date: Thu, 14 Jan 2021 16:27:29 +0000
 From: Stefan Hajnoczi <stefanha@redhat.com>
-To: Thomas Huth <thuth@redhat.com>
-Subject: Re: [qemu-web PATCH v2] Use GitLab repo URLs instead of git.qemu.org
- URLs
-Message-ID: <20210114162159.GA306329@stefanha-x1.localdomain>
-References: <20210113185403.276395-1-stefanha@redhat.com>
- <407faef7-934e-2744-2837-590bc192ff12@redhat.com>
- <20210114134050.GB299876@stefanha-x1.localdomain>
- <0cd93ff2-cabc-2e4e-449f-34d7bbb9e5c7@redhat.com>
+To: Jagannathan Raman <jag.raman@oracle.com>
+Subject: Re: [PATCH v19 08/20] io: add qio_channel_readv_full_all_eof &
+ qio_channel_readv_full_all helpers
+Message-ID: <20210114162729.GB306329@stefanha-x1.localdomain>
+References: <cover.1610638428.git.jag.raman@oracle.com>
+ <02a82c80a35ab60b98028c85aa94f688a2843943.1610638428.git.jag.raman@oracle.com>
 MIME-Version: 1.0
-In-Reply-To: <0cd93ff2-cabc-2e4e-449f-34d7bbb9e5c7@redhat.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+In-Reply-To: <02a82c80a35ab60b98028c85aa94f688a2843943.1610638428.git.jag.raman@oracle.com>
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=stefanha@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="uAKRQypu60I7Lcqm"
+ protocol="application/pgp-signature"; boundary="DBIVS5p969aUjpLe"
 Content-Disposition: inline
 Received-SPF: pass client-ip=216.205.24.124; envelope-from=stefanha@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
@@ -82,100 +80,59 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Alex =?iso-8859-1?Q?Benn=E9e?= <alex.bennee@linaro.org>,
- Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
- Daniel Berrange <berrange@redhat.com>, qemu-devel@nongnu.org,
- Paolo Bonzini <pbonzini@redhat.com>
+Cc: elena.ufimtseva@oracle.com, fam@euphon.net, swapnil.ingle@nutanix.com,
+ john.g.johnson@oracle.com, qemu-devel@nongnu.org, kraxel@redhat.com,
+ quintela@redhat.com, mst@redhat.com, armbru@redhat.com,
+ kanth.ghatraju@oracle.com, felipe@nutanix.com, thuth@redhat.com,
+ ehabkost@redhat.com, konrad.wilk@oracle.com, dgilbert@redhat.com,
+ alex.williamson@redhat.com, thanos.makatos@nutanix.com, kwolf@redhat.com,
+ berrange@redhat.com, mreitz@redhat.com, ross.lagerwall@citrix.com,
+ marcandre.lureau@gmail.com, pbonzini@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---uAKRQypu60I7Lcqm
-Content-Type: text/plain; charset=iso-8859-1
+--DBIVS5p969aUjpLe
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Thu, Jan 14, 2021 at 04:29:43PM +0100, Thomas Huth wrote:
-> On 14/01/2021 14.40, Stefan Hajnoczi wrote:
-> > On Thu, Jan 14, 2021 at 10:42:59AM +0100, Thomas Huth wrote:
-> > > On 13/01/2021 19.54, Stefan Hajnoczi wrote:
-> > > > Switch to GitLab repo URLs to reduce qemu.org bandwidth.
-> > > >=20
-> > > > Signed-off-by: Stefan Hajnoczi <stefanha@redhat.com>
-> > > > ---
-> > > > v2:
-> > > >    * Added missing URL in _posts/2018-06-28-tcg-testing.md. Mark
-> > > >      Cave-Ayland <mark.cave-ayland@ilande.co.uk> and Alex Benn=E9e
-> > > >      <alex.bennee@linaro.org> figured out the issue was that the gi=
-tweb
-> > > >      link referenced a blob object (not a commit) whereas GitLab ne=
-eds the
-> > > >      commit object. Therefore the hash hash in the URL has changed.
-> > > > ---
-> > > >    _download/source.html                           | 4 ++--
-> > > >    _posts/2017-02-04-the-new-qemu-website-is-up.md | 8 ++++----
-> > > >    _posts/2017-10-04-qemu-2-10-1.md                | 4 ++--
-> > > >    _posts/2018-02-09-understanding-qemu-devices.md | 2 +-
-> > > >    _posts/2018-06-28-tcg-testing.md                | 4 ++--
-> > > >    contribute.md                                   | 2 +-
-> > > >    contribute/security-process.md                  | 4 ++--
-> > > >    documentation.md                                | 2 +-
-> > > >    support.md                                      | 2 +-
-> > > >    9 files changed, 16 insertions(+), 16 deletions(-)
-> > > >=20
-> > > > diff --git a/_download/source.html b/_download/source.html
-> > > > index 5798633..14fb6dc 100644
-> > > > --- a/_download/source.html
-> > > > +++ b/_download/source.html
-> > > > @@ -9,7 +9,7 @@
-> > > >    =09{% include releases.html %}
-> > > >    =09</div>
-> > > >    =09<p>or stay on the bleeding edge with the
-> > > > -=09   <a href=3D"https://git.qemu.org/?p=3Dqemu.git">git repositor=
-y!</a></p>
-> > > > +=09   <a href=3D"https://gitlab.com/qemu-project/qemu.git">git rep=
-ository!</a></p>
-> > >=20
-> > > For "clickable" links (i.e. not the URLs used for cloning), I'd sugge=
-st to
-> > > drop the ".git" suffix, since there will be a redirection to the suff=
-ix-less
-> > > URL otherwise.
-> > >=20
-> > > If you agree, I can fix it up when picking up the patch, no need to r=
-esend
-> > > just because of this.
-> >=20
-> > I don't have a strong opinion either way. I chose this approach because
-> > it results in a clean git clone while also working in a web browser
-> > (with a redirect, as you mentioned).
->=20
-> Ok, I've pushed your patch with some of the .git suffixes removed. I don'=
-t
-> think that anybody will try to clone from a link where the link text is
-> saying "git repository!" like in above source.html, so I removed it there=
-.
-> But in the instructions for running "git clone ...", I of course kept the
-> suffix.
+On Thu, Jan 14, 2021 at 10:40:03AM -0500, Jagannathan Raman wrote:
+> +int qio_channel_readv_full_all(QIOChannel *ioc,
+> +                               const struct iovec *iov,
+> +                               size_t niov,
+> +                               int **fds, size_t *nfds,
+> +                               Error **errp)
+>  {
+> -    int ret =3D qio_channel_readv_all_eof(ioc, iov, niov, errp);
+> +    int ret =3D qio_channel_readv_full_all_eof(ioc, iov, niov, fds, nfds=
+, errp);
+> =20
+>      if (ret =3D=3D 0) {
+> -        ret =3D -1;
+>          error_setg(errp,
+>                     "Unexpected end-of-file before all bytes were read");
 
-Thanks!
+qio_channel_readv_full_all_eof() can read file descriptors but no data
+and return 0.
 
-Stefan
+Here that case is converted into an error and the file descriptors
+aren't closed, freed, and fds/nfds isn't cleared.
 
---uAKRQypu60I7Lcqm
+--DBIVS5p969aUjpLe
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAmAAb6cACgkQnKSrs4Gr
-c8i/3AgAoaRvHvQhVfh80yc1uAmki+6GawAduuyTK7VaGJ2h+8vyoVOfEtqo1KrO
-1pxaq/OUwvglSb+ObBSvmhrH0qH64Hgz9+HcjVGZswKUGah5AMeu5MG6LwENFaS0
-HTK/KpTXrqgP0alxSS+mOtNfCCzdOn5VNZJNEn2UErhgSNbZ37b1uq4GwDDQxl2/
-7qv/WRAKKEnMhW0HTat92YZ5BSnXG2yEzZJv3f09iUkIsWcqOUEJGQXQMopyO3Uz
-jO57ZNIUNUKBxskRa3prBSGJXg4kk4YrqccjBXgWKVFnxFA3gTp3vTyThM4hVDQk
-htbwRx09Qb4pD14BtXzwUvXU/MmHNg==
-=CRYl
+iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAmAAcPEACgkQnKSrs4Gr
+c8jCRwgAqyKRlFP9V4TXewLezrh4ziQiZdRLZD2cx5HEgxo4YPRZ2NlSOaaCWqz0
+LBDTYxn+09+cSTVfESTDM1g2pLo7oaFHtrUq3XS7AKqEHTfPuxhruGGHEDDRhr4G
+3hvGpl/t3n/X47ve/A38ulDbwlrJ+pOCM09EC+zLp64UqljNboVp84PdzNCIh5pM
+ql2tcvpMu0wsT2eyessBUSpkHEC8d1LNMdf98BBRaKmXrPmyPkp+X95GAO/YMaah
+gKCvQFOHuJ/uUyOD7AKh46SXt44Tw9vGMXGbpAO7iBIwCdNBQx5vBzZTh4Fn77BS
+LqQizeWkTzB6lFHVy/7ThUm1FGVj8g==
+=qHfe
 -----END PGP SIGNATURE-----
 
---uAKRQypu60I7Lcqm--
+--DBIVS5p969aUjpLe--
 
 
