@@ -2,91 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A01F32F6900
-	for <lists+qemu-devel@lfdr.de>; Thu, 14 Jan 2021 19:08:49 +0100 (CET)
-Received: from localhost ([::1]:58106 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1332E2F6903
+	for <lists+qemu-devel@lfdr.de>; Thu, 14 Jan 2021 19:12:54 +0100 (CET)
+Received: from localhost ([::1]:40034 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l0738-0001xF-4L
-	for lists+qemu-devel@lfdr.de; Thu, 14 Jan 2021 13:08:47 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41898)
+	id 1l0777-0006Kq-0X
+	for lists+qemu-devel@lfdr.de; Thu, 14 Jan 2021 13:12:53 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42704)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1l06zi-00005y-57
- for qemu-devel@nongnu.org; Thu, 14 Jan 2021 13:05:14 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:23754)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1l06zf-0004Is-Mn
- for qemu-devel@nongnu.org; Thu, 14 Jan 2021 13:05:13 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1610647508;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=xzL81cdtWndBgykY1yd0SNYZ06vViX75UELFy5ndwLU=;
- b=VoK9Tp+tPkuTUafGmFKo8qbNZYmO1MiNpZ9J5cU1LaBP+hI0+MyszutgIEk7ytt8sHwiBk
- S4fiIWgY0+h2gXuTdo5ENbp9c/fnrHzLpURhSbWj9m6SXvcLtucrxHWpvngrsfOosW2qeF
- EC60ZrMB5ZrAoZK8uGD/rVlcDlLjqMo=
-Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
- [209.85.221.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-15-asdRHbyAM3yBcgsRroRTbw-1; Thu, 14 Jan 2021 13:05:06 -0500
-X-MC-Unique: asdRHbyAM3yBcgsRroRTbw-1
-Received: by mail-wr1-f72.google.com with SMTP id r11so2935017wrs.23
- for <qemu-devel@nongnu.org>; Thu, 14 Jan 2021 10:05:05 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
+ id 1l071D-0001tB-Hb; Thu, 14 Jan 2021 13:06:49 -0500
+Received: from mail-qt1-x830.google.com ([2607:f8b0:4864:20::830]:36232)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
+ id 1l0716-0004yt-Cj; Thu, 14 Jan 2021 13:06:47 -0500
+Received: by mail-qt1-x830.google.com with SMTP id z20so4174085qtq.3;
+ Thu, 14 Jan 2021 10:06:38 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=uzgt5ZPXYkxJXjz1pCTuKTOHt/+dYdrVtuh+KfRYOYc=;
+ b=eE3qvzeH8iF9058z7YRa4nzlxb8WPoTxH+mZ/24jlcq9IolO7Pqyl5mf4tdkq3kkcy
+ nF7QpUjaNmWfU9PuWB33MP7dlahngxeVMsTCD3YfONHI3/m+kI3Pu8YQvHyPj96c1ZFJ
+ dHwf+G6whKehOAiismAqoOQoHt8V1AkSpHami55cejcEIv3W90Bl8NhU8N6FnsJTepzU
+ Us89ktZdOFdDH9BejI2XufLkFfKJGc1fCNsOdoZEaUgsKmX59UPHLK/dSdsyC8T6JjDb
+ qDLLwxgZc0ObAVEkN+xvoKhBOsq4trAY7IjcHGuxUlrl4bhh/5r15gOSJsNA4o2HRbVo
+ xpGw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
  :content-transfer-encoding;
- bh=xzL81cdtWndBgykY1yd0SNYZ06vViX75UELFy5ndwLU=;
- b=aSHVDisWhSYUEOYlTkfCgQjtGCrjFxb1q4VAOSJcraQD3gQFmzDQJn0Yjfb/w+SKWU
- B6nZ8CGKchStNCKw53d5kE0Ewk1J8FqpYS+drKDCx3PpzjN1gHoZbixMeraiTkBJFkuu
- PedDi0LPdIBcC02+1aNeWh84RfUWZka1Q3BlI7ySd700aUDqY431EXe5H9U9iY9OyJ/d
- SxM6nWGQhmMRT9jMzL4Vh9Kp0M7/PzBpL8Jn3B3YXzXI7fc4Hi+C42GufwYZL0o8VcoK
- +7K2zdECUZ9rFxwwHwSBrSL7qKy4OXnAApbxUKDRoVphUZJ60BnNAwjOMtG7dh25GfZQ
- Aw8Q==
-X-Gm-Message-State: AOAM533KkrUmcZT4j3BU09BO9UVkccMyYt65AWzW9hNLVmQNCSyuvold
- rRBrdJzJlum7yNkBz6AIRfGP7T35UCcK41OuDgRFAYQvpfvczAhqwaWiYDusj1dxU7GY/AlJo3j
- jgXSLJHce8Y3P/fR7lj2kVNouo7kCKDYYHR8ECem+BA0fVqPMc2tf4ii7m5885TOK
-X-Received: by 2002:a1c:98d7:: with SMTP id a206mr5118909wme.2.1610647504591; 
- Thu, 14 Jan 2021 10:05:04 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJw5ieDKF/2gP3Wh2zv68GfFXN7XTp0/VA7bvKVQLXhqnV6/OSKG8gB1cBM50mQEJJHp7hKB0Q==
-X-Received: by 2002:a1c:98d7:: with SMTP id a206mr5118893wme.2.1610647504404; 
- Thu, 14 Jan 2021 10:05:04 -0800 (PST)
-Received: from [192.168.1.36] (13.red-83-57-169.dynamicip.rima-tde.net.
- [83.57.169.13])
- by smtp.gmail.com with ESMTPSA id u13sm11462593wrw.11.2021.01.14.10.05.03
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 14 Jan 2021 10:05:03 -0800 (PST)
-Subject: Re: [PATCH v2 12/12] scripts/checkpatch.pl: fix git-show invocation
- to include diffstat
-To: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
- qemu-devel@nongnu.org
-References: <20210114165730.31607-1-alex.bennee@linaro.org>
- <20210114165730.31607-13-alex.bennee@linaro.org>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-Message-ID: <3dd29340-ca20-3a1b-6358-122448d8c1b8@redhat.com>
-Date: Thu, 14 Jan 2021 19:05:03 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.6.0
+ bh=uzgt5ZPXYkxJXjz1pCTuKTOHt/+dYdrVtuh+KfRYOYc=;
+ b=KYNBgNwkd+oYmIqxGZjtJ39K1bJ7lnTZCIK4WQoUs24hWq/+0M60LtIHE1L78EqShl
+ Ptkujk+XJ+ejjfnfaVKvH8NLWMwmV07WjV5BZVaeSiPdEnTfWtWma6Ea5aGaGjYY9LKT
+ xYOgoBpG2+D8Hra2Il2WlDjmuMT+mHdJ+E6J/JrQoXsJacVAAEls974yg6RxM+eXTU6T
+ HiAcOd4UZzEDQBiD3CI1hOxCtUdY42G8WL1VbpBrmFuVAe7gzrsscV+vne5feV88BQYI
+ BPa0BAuNpPfbg3jCrFp+ZF4N/qubVwkxXWPeci7W9LbqQiE9snq+JgbGKF9vHZyT2lBB
+ HmVg==
+X-Gm-Message-State: AOAM5332sVb83Sl3wnwHq7Isk6/4lKk5ymigWwkkTVbo6zxZQsBJdU43
+ f6sJmsAI+rl/xnAHsqmxl41vMFSD63MTtw==
+X-Google-Smtp-Source: ABdhPJwafNMJ4XWPxNnyE/a/bkuqxyhMgLMLtZvbr7Vj5yQk+mAQakpK6XkqGKPWSv6ZntzmBnu+kA==
+X-Received: by 2002:ac8:75d4:: with SMTP id z20mr8173783qtq.267.1610647597183; 
+ Thu, 14 Jan 2021 10:06:37 -0800 (PST)
+Received: from rekt.ibmuc.com ([2804:431:c7c6:b984:ff01:270:b51c:24a5])
+ by smtp.gmail.com with ESMTPSA id a1sm3448129qkn.104.2021.01.14.10.06.35
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 14 Jan 2021 10:06:36 -0800 (PST)
+From: Daniel Henrique Barboza <danielhb413@gmail.com>
+To: qemu-devel@nongnu.org
+Subject: [PATCH v1 0/7] pseries: avoid unplug the last online CPU core +
+ assorted fixes
+Date: Thu, 14 Jan 2021 15:06:21 -0300
+Message-Id: <20210114180628.1675603-1-danielhb413@gmail.com>
+X-Mailer: git-send-email 2.26.2
 MIME-Version: 1.0
-In-Reply-To: <20210114165730.31607-13-alex.bennee@linaro.org>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=philmd@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -32
-X-Spam_score: -3.3
-X-Spam_bar: ---
-X-Spam_report: (-3.3 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.248,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.237, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+Received-SPF: pass client-ip=2607:f8b0:4864:20::830;
+ envelope-from=danielhb413@gmail.com; helo=mail-qt1-x830.google.com
+X-Spam_score_int: -17
+X-Spam_score: -1.8
+X-Spam_bar: -
+X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -100,24 +80,38 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: Daniel Henrique Barboza <danielhb413@gmail.com>, qemu-ppc@nongnu.org,
+ groug@kaod.org, david@gibson.dropbear.id.au
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 1/14/21 5:57 PM, Alex Bennée wrote:
-> Without this checkpatch keeps complaining about new/changed files even
-> when MAINTAINERS has been updated. Normal invocations of checkpatch on
-> patch files rather than commit IDs are unaffected.
-> 
+Hello,
 
-Nice!
+The last 2 patches of this series contains a fix for a hotunplug
+situation that we have in the pseries machine, where hotunpluging the
+last online CPU of the guest causes the machine to behave not that
+great (https://bugzilla.redhat.com/show_bug.cgi?id=1911414).
 
-Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-Tested-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-(with Lukas's path and yours)
+First 5 patches are somewhat trivial changes that I ended up doing
+while investigating.
 
-> Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
-> ---
->  scripts/checkpatch.pl | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
+Daniel Henrique Barboza (7):
+  spapr.h: fix trailing whitespace in phb_placement
+  spapr_hcall.c: make do_client_architecture_support static
+  spapr_rtas.c: fix identation in rtas_ibm_nmi_interlock() string
+  spapr_rtas.c: fix identation of rtas_ibm_suspend_me() args
+  spapr_cpu_core.c: use g_auto* in spapr_create_vcpu()
+  spapr.c: introduce spapr_core_unplug_possible()
+  spapr.c: consider CPU core online state before allowing unplug
+
+ hw/ppc/spapr.c          | 66 ++++++++++++++++++++++++++++++++++++-----
+ hw/ppc/spapr_cpu_core.c | 12 ++------
+ hw/ppc/spapr_hcall.c    |  1 +
+ hw/ppc/spapr_rtas.c     |  9 +++---
+ include/hw/ppc/spapr.h  |  7 +----
+ 5 files changed, 68 insertions(+), 27 deletions(-)
+
+-- 
+2.26.2
 
 
