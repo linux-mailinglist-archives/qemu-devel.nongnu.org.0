@@ -2,71 +2,86 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 63C5F2F5C57
-	for <lists+qemu-devel@lfdr.de>; Thu, 14 Jan 2021 09:23:55 +0100 (CET)
-Received: from localhost ([::1]:42458 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2A7042F5C5F
+	for <lists+qemu-devel@lfdr.de>; Thu, 14 Jan 2021 09:28:34 +0100 (CET)
+Received: from localhost ([::1]:45334 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kzxv8-0002le-GP
-	for lists+qemu-devel@lfdr.de; Thu, 14 Jan 2021 03:23:54 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34966)
+	id 1kzxzc-0004B6-PL
+	for lists+qemu-devel@lfdr.de; Thu, 14 Jan 2021 03:28:32 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35180)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1kzxuH-0002LB-U0
- for qemu-devel@nongnu.org; Thu, 14 Jan 2021 03:23:01 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:38182)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1kzxuE-0004f1-MH
- for qemu-devel@nongnu.org; Thu, 14 Jan 2021 03:23:00 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1610612576;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=IuR5oxrESwXiKXQ87qdv70c0I+FAKcHq9mfLUMfbVGA=;
- b=NA1fsAEoS8rhY2HHIf6McC5Xp6gnWcZYTTVNJOFlbYj/BSnIpsim/3I1CSTiMBfOzWl/0Z
- y3GaDlcv8BaSCIMhmhweiN3juv5jzB95uLjxIdaBmQ63AzZt0w1CEOzE7sHObF+1++bfoO
- sckYZsdrywgvR2FVtZ1QZe4zrRUEPqg=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-526-BrIkUEE4P6uuWLa3Qn5Tvg-1; Thu, 14 Jan 2021 03:22:54 -0500
-X-MC-Unique: BrIkUEE4P6uuWLa3Qn5Tvg-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 3315C1006C82;
- Thu, 14 Jan 2021 08:22:53 +0000 (UTC)
-Received: from thuth.remote.csb (ovpn-112-108.ams2.redhat.com [10.36.112.108])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 4667A7444E;
- Thu, 14 Jan 2021 08:22:48 +0000 (UTC)
-Subject: Re: [PATCH] docs/devel: Explain how acceptance tests can be skipped
-To: Wainer dos Santos Moschetta <wainersm@redhat.com>, qemu-devel@nongnu.org
-References: <20210113195238.140945-1-wainersm@redhat.com>
-From: Thomas Huth <thuth@redhat.com>
-Message-ID: <d79dad7f-ba62-a79a-3a51-394c8314935f@redhat.com>
-Date: Thu, 14 Jan 2021 09:22:46 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.4.3
+ (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
+ id 1kzxv4-00031f-Fp; Thu, 14 Jan 2021 03:23:50 -0500
+Received: from wout5-smtp.messagingengine.com ([64.147.123.21]:51049)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
+ id 1kzxv1-00057a-Fl; Thu, 14 Jan 2021 03:23:50 -0500
+Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
+ by mailout.west.internal (Postfix) with ESMTP id 16E38146D;
+ Thu, 14 Jan 2021 03:23:43 -0500 (EST)
+Received: from mailfrontend2 ([10.202.2.163])
+ by compute4.internal (MEProxy); Thu, 14 Jan 2021 03:23:43 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=irrelevant.dk;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-type:in-reply-to; s=fm2; bh=PVgMn7DcfK6eS7wORdUcfzfUXTA
+ pK+CRPB/DzzomdBo=; b=lsjTIdUR9Na4+P+/dfdaLL4wIeLKh1W3J9QBN3B8ANn
+ 8PBOo8llXB9yzen2rWlbDvVQ61bDSjqVcHlwB5p2nORa2zXnRAvedFsJRDhtUOU4
+ 14R6K8FdKuNUszKN6JyUvcm7A9EvZTtmajnQv9bE6baWZCASn0aNnLO13ffmQFi7
+ pAW26gVGudafZeSsVI2XK0uHtHO4YC+/Q16Dcu9tPgRcNDIuB+VKcAj+sNk73jlo
+ dxPvdqid1ijM8pYYOn+nnCHJgi8WAhF8t7cJtcqGUCUsbV9woiDk+moTsrci078c
+ tboai/SZ3c+jjTocKmY39Ff4aSxC99zXoQ1L8SlVnVg==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+ messagingengine.com; h=cc:content-type:date:from:in-reply-to
+ :message-id:mime-version:references:subject:to:x-me-proxy
+ :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; bh=PVgMn7
+ DcfK6eS7wORdUcfzfUXTApK+CRPB/DzzomdBo=; b=DbOnUZu/FLou1xJWA215HV
+ HkLT+VTYkJgZ9JdIvZSF7rj0t5pTXvtlldSM88swgkBJ3DPu77lNrl9v54oqWHB8
+ gSE8K8bMktkNfh7rbqlWk5rWkp21GghMgu/3c2hY9HHsEqD6Rte4tg00TjlEJg4H
+ ivE8EOd3AjBw5x6WsQnCNCmxhFjseG8zkibTpITvAgNmowNcOyEO287kKeX3TJ+V
+ 6e75Wl4p9eWI8KL+f59aj/U0V8fbjjVnCjxIraJwRTndTYTRB8WoEKKPRJlASu+a
+ kmlv2pNzhOep8oto2gGDAXb7wgKmPaUbKjWDaJ1dPxpEOFv5tJRIuetCppn1C2FA
+ ==
+X-ME-Sender: <xms:jP__X3MI8AXGCKaepKUkjGG-URIpq-5t9IySmv_L522q0nzFy3NcKQ>
+ <xme:jP__Xx8Hxfo9JaykUQgmlL7oaaBjkvXTii3BzWye2xqoHC4m0NAZx_DSDkALzB-TU
+ y9H5hxE05NF_dKEHvY>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedukedrtdeggdduudelucetufdoteggodetrfdotf
+ fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+ uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
+ cujfgurhepfffhvffukfhfgggtuggjsehgtderredttdejnecuhfhrohhmpefmlhgruhhs
+ ucflvghnshgvnhcuoehithhssehirhhrvghlvghvrghnthdrughkqeenucggtffrrghtth
+ gvrhhnpeejgeduffeuieetkeeileekvdeuleetveejudeileduffefjeegfffhuddvudff
+ keenucfkphepkedtrdduieejrdelkedrudeltdenucevlhhushhtvghrufhiiigvpedtne
+ curfgrrhgrmhepmhgrihhlfhhrohhmpehithhssehirhhrvghlvghvrghnthdrughk
+X-ME-Proxy: <xmx:jP__X2Q6PjTf3j0YgybAcVm1M8_ySyl5dhIGjYcPSfvdXfrh8t85RQ>
+ <xmx:jP__X7sgCPg8ACLHWSU77oY8OZWPNIz9y1Cxk-GN7vMmyfYwucdmQA>
+ <xmx:jP__X_e1hXs0_xqro4_U4Q2Bjx3cmGPT_sQIMXEg1TroT3TAWD4fkA>
+ <xmx:jv__XwGlpR7IhT2umcXgk2MfVUhJWstqzT1_XPe6J7PA5-4GTOxuAg>
+Received: from apples.localdomain (80-167-98-190-cable.dk.customer.tdc.net
+ [80.167.98.190])
+ by mail.messagingengine.com (Postfix) with ESMTPA id D4E041080066;
+ Thu, 14 Jan 2021 03:23:39 -0500 (EST)
+Date: Thu, 14 Jan 2021 09:23:38 +0100
+From: Klaus Jensen <its@irrelevant.dk>
+To: zhenwei pi <pizhenwei@bytedance.com>
+Subject: Re: [PATCH v3 4/4] hw/blocl/nvme: trigger async event during
+ injecting smart warning
+Message-ID: <X///ilbA0MgGVa7/@apples.localdomain>
+References: <20210114072251.334304-1-pizhenwei@bytedance.com>
+ <20210114072251.334304-5-pizhenwei@bytedance.com>
 MIME-Version: 1.0
-In-Reply-To: <20210113195238.140945-1-wainersm@redhat.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=thuth@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=thuth@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -29
-X-Spam_score: -3.0
-X-Spam_bar: ---
-X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.25,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="J3wc4XQqwH5QWAa8"
+Content-Disposition: inline
+In-Reply-To: <20210114072251.334304-5-pizhenwei@bytedance.com>
+Received-SPF: pass client-ip=64.147.123.21; envelope-from=its@irrelevant.dk;
+ helo=wout5-smtp.messagingengine.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
+X-Spam_bar: --
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_PASS=-0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -80,106 +95,148 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: philmd@redhat.com, alex.bennee@linaro.org, wrampazz@redhat.com,
- crosa@redhat.com
+Cc: kwolf@redhat.com, qemu-block@nongnu.org, qemu-devel@nongnu.org,
+ mreitz@redhat.com, kbusch@kernel.org, philmd@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 13/01/2021 20.52, Wainer dos Santos Moschetta wrote:
-> Documented under the "Acceptance tests using the Avocado Framework"
-> section in testing.rst how environment variables are used to skip tests.
-> 
-> Signed-off-by: Wainer dos Santos Moschetta <wainersm@redhat.com>
+
+--J3wc4XQqwH5QWAa8
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+
+On Jan 14 15:22, zhenwei pi wrote:
+> During smart critical warning injection by setting property from QMP
+> command, also try to trigger asynchronous event.
+>=20
+> Signed-off-by: zhenwei pi <pizhenwei@bytedance.com>
 > ---
-> CI (success): https://gitlab.com/wainersm/qemu/-/pipelines/241249714
-> 
->   docs/devel/testing.rst | 62 ++++++++++++++++++++++++++++++++++++++++++
->   1 file changed, 62 insertions(+)
-> 
-> diff --git a/docs/devel/testing.rst b/docs/devel/testing.rst
-> index 0aa7a13bba..3cdb458565 100644
-> --- a/docs/devel/testing.rst
-> +++ b/docs/devel/testing.rst
-> @@ -871,6 +871,68 @@ qemu_bin
->   
->   The exact QEMU binary to be used on QEMUMachine.
->   
-> +Skipping tests
-> +--------------
-> +The Avocado framework provides Python decorators which allow for easily skip
-> +tests running under certain conditions. For example, on the lack of a binary
-> +on the test system or when the running environment is an CI system. For further
+>  hw/block/nvme.c | 47 ++++++++++++++++++++++++++++++++++++++++-------
+>  1 file changed, 40 insertions(+), 7 deletions(-)
+>=20
+> diff --git a/hw/block/nvme.c b/hw/block/nvme.c
+> index ce9a9c9023..1feb603471 100644
+> --- a/hw/block/nvme.c
+> +++ b/hw/block/nvme.c
+> @@ -847,6 +847,36 @@ static void nvme_enqueue_event(NvmeCtrl *n, uint8_t =
+event_type,
+>      nvme_process_aers(n);
+>  }
+> =20
+> +static void nvme_enqueue_smart_event(NvmeCtrl *n, uint8_t event)
 
-s/is an CI/is a CI/
+Maybe rename to just nvme_smart_event, since it is conditional if it
+enqueues anything.
 
-> +information about those decorators, please refer to::
+> +{
+> +    uint8_t aer_info;
 > +
-> +  https://avocado-framework.readthedocs.io/en/latest/guides/writer/chapters/writing.html#skipping-tests
+> +    if (!(NVME_AEC_SMART(n->features.async_config) & event)) {
+> +        return;
+> +    }
 > +
-> +While the conditions for skipping tests are often specifics of each one, there
-> +are recurring scenarios identified by the QEMU developers and the use of
-> +environment variables became a kind of standard way to enable/disable tests.
-> +
-> +It follows a not comprehensive list of those variables.
+> +    /* Ref SPEC <Asynchronous Event Information ??? SMART / Health Statu=
+s> */
+> +    switch (event) {
+> +    case NVME_SMART_SPARE:
+> +        aer_info =3D NVME_AER_INFO_SMART_SPARE_THRESH;
+> +        break;
+> +    case NVME_SMART_TEMPERATURE:
+> +        aer_info =3D NVME_AER_INFO_SMART_TEMP_THRESH;
+> +        break;
+> +    case NVME_SMART_RELIABILITY:
+> +    case NVME_SMART_MEDIA_READ_ONLY:
+> +    case NVME_SMART_FAILED_VOLATILE_MEDIA:
+> +        aer_info =3D NVME_AER_INFO_SMART_RELIABILITY;
+> +        break;
+> +    case NVME_SMART_PMR_UNRELIABLE:
+> +        /* TODO if NVME_SMART_PMR_UNRELIABLE is defined in future */
 
-s/It follows a/Here is a/ ?
+Doesn't NVME_SMART_PMR_UNRELIABLE fall under the
+NVME_AER_INFO_SMART_RELIABILITY SMART/Health information group? The spec
+says that the PMR becoming unreliable can cause an AEN, so I think that
+is the only group that is usable.
 
-> +AVOCADO_ALLOW_LARGE_STORAGE
-> +~~~~~~~~~~~~~~~~~~~~~~~~~~~
-> +Tests which are going to fetch or produce assets considered *large* are not
-> +going to run unless that `AVOCADO_ALLOW_LARGE_STORAGE=1` is exported on
-> +the environment.
+> +    default:
+> +        return;
+> +    }
 > +
-> +The definition of *large* is a bit arbitrary here, but it usually means an
-> +asset which occupies at least 1GB of size on disk when uncompressed.
+> +    nvme_enqueue_event(n, NVME_AER_TYPE_SMART, aer_info, NVME_LOG_SMART_=
+INFO);
+> +}
 > +
-> +AVOCADO_ALLOW_UNTRUSTED_CODE
-> +~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-> +There are tests which will boot a kernel image or firmware that can be
-> +considered not safe to run on the developer's workstation, thus they are
-> +skipped by default. The definition of *not safe* is also arbitrary but
-> +usually it means a blob which either its source or build process aren't
-> +public available.
+>  static void nvme_clear_events(NvmeCtrl *n, uint8_t event_type)
+>  {
+>      n->aer_mask &=3D ~(1 << event_type);
+> @@ -1824,12 +1854,9 @@ static uint16_t nvme_set_feature(NvmeCtrl *n, Nvme=
+Request *req)
+>              return NVME_INVALID_FIELD | NVME_DNR;
+>          }
+> =20
+> -        if (((n->temperature >=3D n->features.temp_thresh_hi) ||
+> -             (n->temperature <=3D n->features.temp_thresh_low)) &&
+> -            NVME_AEC_SMART(n->features.async_config) & NVME_SMART_TEMPER=
+ATURE) {
+> -            nvme_enqueue_event(n, NVME_AER_TYPE_SMART,
+> -                               NVME_AER_INFO_SMART_TEMP_THRESH,
+> -                               NVME_LOG_SMART_INFO);
+> +        if ((n->temperature >=3D n->features.temp_thresh_hi) ||
+> +             (n->temperature <=3D n->features.temp_thresh_low)) {
+> +            nvme_enqueue_smart_event(n, NVME_AER_INFO_SMART_TEMP_THRESH);
+>          }
+> =20
+>          break;
+> @@ -2841,7 +2868,7 @@ static void nvme_set_smart_warning(Object *obj, Vis=
+itor *v, const char *name,
+>                                     void *opaque, Error **errp)
+>  {
+>      NvmeCtrl *s =3D NVME(obj);
+> -    uint8_t value, cap =3D 0;
+> +    uint8_t value, cap =3D 0, event;
+>      uint64_t pmr_cap =3D CAP_PMR_MASK;
+> =20
+>      if (!visit_type_uint8(v, name, &value, errp)) {
+> @@ -2860,6 +2887,12 @@ static void nvme_set_smart_warning(Object *obj, Vi=
+sitor *v, const char *name,
+>      }
+> =20
+>      s->smart_critical_warning =3D value;
 > +
-> +You should export `AVOCADO_ALLOW_UNTRUSTED_CODE=1` on the environment in
-> +order to allow tests which make use of those assets to get running.
+> +    /* test each bit of uint8_t for smart.critical_warning */
+> +    for (event =3D 0; event < 8; event++) {
+> +        if (value & (1 << event))
+> +            nvme_enqueue_smart_event(s, 1 << event);
+> +    }
 
-maybe better: "... which make use of those kind of assets." ?
+I suggest you add a NVME_SMART_WARN_MAX to the NvmeSmartWarn enum with
+value '6' and use that instead of the literal '8'.
 
-> +AVOCADO_TIMEOUT_EXPECTED
-> +~~~~~~~~~~~~~~~~~~~~~~~~
-> +The Avocado framework has a timeout mechanism which interrupt tests to avoid the
+>  }
+> =20
+>  static const VMStateDescription nvme_vmstate =3D {
+> --=20
+> 2.25.1
+>=20
+>=20
 
-s/interrupt/interrupts/
+--=20
+One of us - No more doubt, silence or taboo about mental illness.
 
-> +test suite of getting stuck. The timeout value can be set via test parameter or
-> +property defined in the test class, for further details::
-> +
-> +  https://avocado-framework.readthedocs.io/en/latest/guides/writer/chapters/writing.html#setting-a-test-timeout
-> +
-> +Even though the timeout can be set by the test developer, there are some tests
-> +that may not have a well-defined limit of time to finish under certain
-> +conditions. For example, tests that take longer to execute when QEMU is
-> +compiled with debug flags. Therefore, the `AVOCADO_TIMEOUT_EXPECTED` variable
-> +has been used to determine whether those tests should run or not.
-> +
-> +GITLAB_CI
-> +~~~~~~~~~
-> +A number of tests are flagged to not run on the GitLab CI. Usually because
-> +they proved to the flaky or there are constraints on the CI environment which
-> +would make them fail. If you encounter a similar situation then use that
-> +variable as shown on the code snippet below to skip the test:
-> +
-> +.. code::
-> +
-> +  @skipIf(os.getenv('GITLAB_CI'), 'Running on GitLab')
-> +  def test(self):
-> +      do_something()
-> +
->   Uninstalling Avocado
->   --------------------
->   
+--J3wc4XQqwH5QWAa8
+Content-Type: application/pgp-signature; name="signature.asc"
 
-  Thomas
+-----BEGIN PGP SIGNATURE-----
 
+iQEzBAEBCAAdFiEEUigzqnXi3OaiR2bATeGvMW1PDekFAl///4YACgkQTeGvMW1P
+DelTOQf+PqbpupLNvkcWjDlZTsDTYxPWLpIqn7L84Pgu8Y+0HGSy7c9C9aQIrann
+gopdGXmYJf79QIAR0SwMWd7AMtjAT8llTMvWruACbdVSCRq91cs9acIYE7tDj3fy
+1iuQCl0L8ezDcdMuOlxk6IXtmy7Y4vQHluXVG9ODzwHiRswTQtxUisjoLWhjf3JG
+KDAq38eyj0i4GP63FoPlNu5TPehBmDMJKR5LK1fv4xQPVY81x+D9shknmKsQJZ3u
+H0TSeJcI5BaDXo8tyZTOMrhxCoiCpx18WZXDeWexbfEs0TtcVEAYBsqwKn468F/F
+11YvCv67qMgx90oxEob41vfJ2cLc2g==
+=b9Iy
+-----END PGP SIGNATURE-----
+
+--J3wc4XQqwH5QWAa8--
 
