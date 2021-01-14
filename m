@@ -2,75 +2,51 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7ABAA2F607D
-	for <lists+qemu-devel@lfdr.de>; Thu, 14 Jan 2021 12:48:38 +0100 (CET)
-Received: from localhost ([::1]:49172 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D47452F6084
+	for <lists+qemu-devel@lfdr.de>; Thu, 14 Jan 2021 12:50:54 +0100 (CET)
+Received: from localhost ([::1]:53414 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l017F-00025O-JB
-	for lists+qemu-devel@lfdr.de; Thu, 14 Jan 2021 06:48:37 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54450)
+	id 1l019R-0003r0-UN
+	for lists+qemu-devel@lfdr.de; Thu, 14 Jan 2021 06:50:53 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54674)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1l014k-000883-E4
- for qemu-devel@nongnu.org; Thu, 14 Jan 2021 06:46:05 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:53498)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1l014a-0006De-HI
- for qemu-devel@nongnu.org; Thu, 14 Jan 2021 06:46:01 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1610624750;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=/v3H4Y1dgMiWDMdKL4Cn+sCUriko+UGoLRQTZJENYkU=;
- b=U4NWkTXfcL2WNm9kqLhCnA2ngElmBfWula8tRGBFQBxxzhtwX7qgXHslFtX7sur+qn1jql
- xtfEp387JUTFe5KYGMYU6rwJEqNfs9t/6ZLX8fnOCGW19bSUckQYNBNx2w7ugNge42TU23
- hELRjjT684ZX6FuGC65QvURySDO2Geg=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-15-FzKYKq9oPHK-pP_fkGxNxA-1; Thu, 14 Jan 2021 06:45:48 -0500
-X-MC-Unique: FzKYKq9oPHK-pP_fkGxNxA-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id B489915722;
- Thu, 14 Jan 2021 11:45:46 +0000 (UTC)
-Received: from work-vm (ovpn-115-29.ams2.redhat.com [10.36.115.29])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 7AEBB10016F4;
- Thu, 14 Jan 2021 11:45:36 +0000 (UTC)
-Date: Thu, 14 Jan 2021 11:45:33 +0000
-From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
-To: Cornelia Huck <cohuck@redhat.com>
-Subject: Re: [for-6.0 v5 11/13] spapr: PEF: prevent migration
-Message-ID: <20210114114533.GF2905@work-vm>
-References: <20210104134629.49997b53.pasic@linux.ibm.com>
- <20210104184026.GD4102@ram-ibm-com.ibm.com>
- <20210105115614.7daaadd6.pasic@linux.ibm.com>
- <20210105204125.GE4102@ram-ibm-com.ibm.com>
- <20210111175914.13adfa2e.cohuck@redhat.com>
- <20210113124226.GH2938@work-vm>
- <6e02e8d5-af4b-624b-1a12-d03b9d554a41@de.ibm.com>
- <20210114103643.GD2905@work-vm>
- <db2295ce-333f-2a3e-8219-bfa4853b256f@de.ibm.com>
- <20210114120531.3c7f350e.cohuck@redhat.com>
+ (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
+ id 1l015Y-0000cM-2u; Thu, 14 Jan 2021 06:46:52 -0500
+Received: from ozlabs.org ([203.11.71.1]:39399)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
+ id 1l015V-0006Rb-BR; Thu, 14 Jan 2021 06:46:51 -0500
+Received: by ozlabs.org (Postfix, from userid 1007)
+ id 4DGjFY3GNfz9sWw; Thu, 14 Jan 2021 22:46:24 +1100 (AEDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=gibson.dropbear.id.au; s=201602; t=1610624785;
+ bh=eYbuUr6qAMHUVvbrkUhI4tEKX064pL2xN4y1mwUcdkk=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=SnB0dkdBea6XQiSw/7rTc29UoG6KVJCtdkskj9TTB9AQCaFYEwwBRY8Oy7C9cWtqx
+ WdFn2amrNZAtHPSGHpLB207lZV92mD0Uc0hvbemwcy+upTtUJ0EU6MQJjhj5crxjNK
+ geSWUb/+xptq1zjGiwTn18Gqy0HXkqj3KxpD6yK4=
+Date: Thu, 14 Jan 2021 22:45:45 +1100
+From: David Gibson <david@gibson.dropbear.id.au>
+To: Christian Borntraeger <borntraeger@de.ibm.com>
+Subject: Re: [PATCH v7 13/13] s390: Recognize confidential-guest-support option
+Message-ID: <20210114114545.GN435587@yekko.fritz.box>
+References: <20210113235811.1909610-1-david@gibson.dropbear.id.au>
+ <20210113235811.1909610-14-david@gibson.dropbear.id.au>
+ <ba08f5da-e31f-7ae2-898d-a090c5c1b1cf@de.ibm.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="kUBUi7JBpjcBtem/"
 Content-Disposition: inline
-In-Reply-To: <20210114120531.3c7f350e.cohuck@redhat.com>
-User-Agent: Mutt/1.14.6 (2020-07-11)
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=dgilbert@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -29
-X-Spam_score: -3.0
-X-Spam_bar: ---
-X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.248,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <ba08f5da-e31f-7ae2-898d-a090c5c1b1cf@de.ibm.com>
+Received-SPF: pass client-ip=203.11.71.1; envelope-from=dgibson@ozlabs.org;
+ helo=ozlabs.org
+X-Spam_score_int: -17
+X-Spam_score: -1.8
+X-Spam_bar: -
+X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, HEADER_FROM_DIFFERENT_DOMAINS=0.248,
+ SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -83,119 +59,75 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: pair@us.ibm.com, brijesh.singh@amd.com, kvm@vger.kernel.org,
- "Michael S. Tsirkin" <mst@redhat.com>, Ram Pai <linuxram@us.ibm.com>,
- qemu-devel@nongnu.org, frankja@linux.ibm.com, david@redhat.com,
- mdroth@linux.vnet.ibm.com, Halil Pasic <pasic@linux.ibm.com>,
- Christian Borntraeger <borntraeger@de.ibm.com>,
- David Gibson <david@gibson.dropbear.id.au>, thuth@redhat.com,
- Eduardo Habkost <ehabkost@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>, Greg Kurz <groug@kaod.org>,
- qemu-s390x@nongnu.org, rth@twiddle.net, berrange@redhat.com,
- Marcelo Tosatti <mtosatti@redhat.com>, qemu-ppc@nongnu.org,
- pbonzini@redhat.com
+Cc: pair@us.ibm.com, cohuck@redhat.com, brijesh.singh@amd.com,
+ kvm@vger.kernel.org, David Hildenbrand <david@redhat.com>,
+ qemu-devel@nongnu.org, frankja@linux.ibm.com, mst@redhat.com,
+ mdroth@linux.vnet.ibm.com, pasic@linux.ibm.com, pragyansri.pathi@intel.com,
+ andi.kleen@intel.com, thuth@redhat.com, Eduardo Habkost <ehabkost@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>, dgilbert@redhat.com,
+ Greg Kurz <groug@kaod.org>, qemu-s390x@nongnu.org, jun.nakajima@intel.com,
+ berrange@redhat.com, Marcelo Tosatti <mtosatti@redhat.com>,
+ qemu-ppc@nongnu.org, Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-* Cornelia Huck (cohuck@redhat.com) wrote:
-> On Thu, 14 Jan 2021 11:52:11 +0100
-> Christian Borntraeger <borntraeger@de.ibm.com> wrote:
-> 
-> > On 14.01.21 11:36, Dr. David Alan Gilbert wrote:
-> > > * Christian Borntraeger (borntraeger@de.ibm.com) wrote:  
-> > >>
-> > >>
-> > >> On 13.01.21 13:42, Dr. David Alan Gilbert wrote:  
-> > >>> * Cornelia Huck (cohuck@redhat.com) wrote:  
-> > >>>> On Tue, 5 Jan 2021 12:41:25 -0800
-> > >>>> Ram Pai <linuxram@us.ibm.com> wrote:
-> > >>>>  
-> > >>>>> On Tue, Jan 05, 2021 at 11:56:14AM +0100, Halil Pasic wrote:  
-> > >>>>>> On Mon, 4 Jan 2021 10:40:26 -0800
-> > >>>>>> Ram Pai <linuxram@us.ibm.com> wrote:  
-> > >>>>  
-> > >>>>>>> The main difference between my proposal and the other proposal is...
-> > >>>>>>>
-> > >>>>>>>   In my proposal the guest makes the compatibility decision and acts
-> > >>>>>>>   accordingly.  In the other proposal QEMU makes the compatibility
-> > >>>>>>>   decision and acts accordingly. I argue that QEMU cannot make a good
-> > >>>>>>>   compatibility decision, because it wont know in advance, if the guest
-> > >>>>>>>   will or will-not switch-to-secure.
-> > >>>>>>>     
-> > >>>>>>
-> > >>>>>> You have a point there when you say that QEMU does not know in advance,
-> > >>>>>> if the guest will or will-not switch-to-secure. I made that argument
-> > >>>>>> regarding VIRTIO_F_ACCESS_PLATFORM (iommu_platform) myself. My idea
-> > >>>>>> was to flip that property on demand when the conversion occurs. David
-> > >>>>>> explained to me that this is not possible for ppc, and that having the
-> > >>>>>> "securable-guest-memory" property (or whatever the name will be)
-> > >>>>>> specified is a strong indication, that the VM is intended to be used as
-> > >>>>>> a secure VM (thus it is OK to hurt the case where the guest does not
-> > >>>>>> try to transition). That argument applies here as well.    
-> > >>>>>
-> > >>>>> As suggested by Cornelia Huck, what if QEMU disabled the
-> > >>>>> "securable-guest-memory" property if 'must-support-migrate' is enabled?
-> > >>>>> Offcourse; this has to be done with a big fat warning stating
-> > >>>>> "secure-guest-memory" feature is disabled on the machine.
-> > >>>>> Doing so, will continue to support guest that do not try to transition.
-> > >>>>> Guest that try to transition will fail and terminate themselves.  
-> > >>>>
-> > >>>> Just to recap the s390x situation:
-> > >>>>
-> > >>>> - We currently offer a cpu feature that indicates secure execution to
-> > >>>>   be available to the guest if the host supports it.
-> > >>>> - When we introduce the secure object, we still need to support
-> > >>>>   previous configurations and continue to offer the cpu feature, even
-> > >>>>   if the secure object is not specified.
-> > >>>> - As migration is currently not supported for secured guests, we add a
-> > >>>>   blocker once the guest actually transitions. That means that
-> > >>>>   transition fails if --only-migratable was specified on the command
-> > >>>>   line. (Guests not transitioning will obviously not notice anything.)
-> > >>>> - With the secure object, we will already fail starting QEMU if
-> > >>>>   --only-migratable was specified.
-> > >>>>
-> > >>>> My suggestion is now that we don't even offer the cpu feature if
-> > >>>> --only-migratable has been specified. For a guest that does not want to
-> > >>>> transition to secure mode, nothing changes; a guest that wants to
-> > >>>> transition to secure mode will notice that the feature is not available
-> > >>>> and fail appropriately (or ultimately, when the ultravisor call fails).
-> > >>>> We'd still fail starting QEMU for the secure object + --only-migratable
-> > >>>> combination.
-> > >>>>
-> > >>>> Does that make sense?  
-> > >>>
-> > >>> It's a little unusual; I don't think we have any other cases where
-> > >>> --only-migratable changes the behaviour; I think it normally only stops
-> > >>> you doing something that would have made it unmigratable or causes
-> > >>> an operation that would make it unmigratable to fail.  
-> > >>
-> > >> I would like to NOT block this feature with --only-migrateable. A guest
-> > >> can startup unprotected (and then is is migrateable). the migration blocker
-> > >> is really a dynamic aspect during runtime.   
-> > > 
-> > > But the point of --only-migratable is to turn things that would have
-> > > blocked migration into failures, so that a VM started with
-> > > --only-migratable is *always* migratable.  
-> > 
-> > Hmmm, fair enough. How do we do this with host-model? The constructed model
-> > would contain unpack, but then it will fail to startup? Or do we silently 
-> > drop unpack in that case? Both variants do not feel completely right. 
-> 
-> Failing if you explicitly specified unpacked feels right, but failing
-> if you just used the host model feels odd. Removing unpack also is a
-> bit odd, but I think the better option if we want to do anything about
-> it at all.
 
-'host-model' feels a bit special; but breaking the rule that
-only-migratable doesn't change behaviour is weird.
-Can you do host,-unpack   to make that work explicitly?
+--kUBUi7JBpjcBtem/
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-But hang on; why is 'unpack' the name of a secure guest facility - is
-it really a feature for secure guest or something else?
+On Thu, Jan 14, 2021 at 10:10:02AM +0100, Christian Borntraeger wrote:
+>=20
+>=20
+> On 14.01.21 00:58, David Gibson wrote:
+> [...]
+> > +int s390_pv_init(ConfidentialGuestSupport *cgs, Error **errp)
+> > +{
+> > +    if (!object_dynamic_cast(OBJECT(cgs), TYPE_S390_PV_GUEST)) {
+> > +        return 0;
+> > +    }
+> > +
+> > +    if (!s390_has_feat(S390_FEAT_UNPACK)) {
+> > +        error_setg(errp,
+> > +                   "CPU model does not support Protected Virtualizatio=
+n");
+> > +        return -1;
+> > +    }
+>=20
+> I am triggering this and I guess this is because the cpu model is not yet=
+ initialized at
+> this point in time.
 
-Dave
+Bother.  I thought I'd put the s390_pv_init() call late enough to
+avoid that, but I guess not.  Any chance you can debug that?  Working
+on s390 is far from easy for me.
 
--- 
-Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
+--=20
+David Gibson			| I'll have my music baroque, and my code
+david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
+				| _way_ _around_!
+http://www.ozlabs.org/~dgibson
 
+--kUBUi7JBpjcBtem/
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAmAALucACgkQbDjKyiDZ
+s5JAKBAA1w2SA9W0omKgLMNME/uZ50d0y3qa9d6i6GGV5d8U4TAZOuMFN1PNq4kQ
+Atzok35g1dAiEMj0c6sDdUIsf72CPUH6W4Q1E1Y/rKeNMu7M6BZfdzDEiO7P2WNr
+GB9k3OWbfXSWMX2x2+upA0z7O6wwykjM2t4WZTymDlYkClVSOLZ6G5+oXvu/Tc6Y
+QTJnqbROFEzEqGaY+SJNYhbZEgJW14lztltmI4Yh/iQ+ujjIHG/3E6XvHyk8sE7C
+lFwrgbA/WKCx7X6icbaEYm1kfCwPfZPFVoUu6hktiP4D/5w13SRNczcz6SzaMpOR
+XgjDHlGg+7wk6z/+G0D3rrpJqnUeEaOZVxst0nJJxmPSbHP/8s3aJ72XCTgBXHO3
+p3c54pba4oV7/wkdV6vXEijQZvJTVR6d+DupKiLeTJXC7xuS/gOQ7u8NJK+8Qe+Y
+whHZtkOUL5WJBPowVZbi7lBZqEgvlXhEiHCfmnLPY89puILY41OqRV0J23l3UGvn
+xH5ZLB1eEd8N32ne/ULkElcg95cd4eZvzaFD5HPdLU5GEnf6g+1O5E58Lw0ncCx3
+JazyplvuK27yIYiceCvEKUVvZ7RCLE3lC3LP2XyhChR83QLJGVIv6f4+GdkHYErC
+BgKS8jrtULOaQUu7l/Q0rD7pGkUW2C6nDia7IbQ4oJLtxyD90Y8=
+=xdMK
+-----END PGP SIGNATURE-----
+
+--kUBUi7JBpjcBtem/--
 
