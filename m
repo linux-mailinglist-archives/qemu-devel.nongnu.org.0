@@ -2,78 +2,91 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A2F932F65F5
-	for <lists+qemu-devel@lfdr.de>; Thu, 14 Jan 2021 17:30:26 +0100 (CET)
-Received: from localhost ([::1]:34020 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0FECB2F65F8
+	for <lists+qemu-devel@lfdr.de>; Thu, 14 Jan 2021 17:30:55 +0100 (CET)
+Received: from localhost ([::1]:34994 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l05Vw-0002O7-Mx
-	for lists+qemu-devel@lfdr.de; Thu, 14 Jan 2021 11:30:24 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38916)
+	id 1l05WQ-0002qp-3u
+	for lists+qemu-devel@lfdr.de; Thu, 14 Jan 2021 11:30:54 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59918)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1l05Mj-0003bO-0l
- for qemu-devel@nongnu.org; Thu, 14 Jan 2021 11:20:54 -0500
-Received: from mail-wm1-x333.google.com ([2a00:1450:4864:20::333]:54617)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1l05Md-0000P8-3R
- for qemu-devel@nongnu.org; Thu, 14 Jan 2021 11:20:48 -0500
-Received: by mail-wm1-x333.google.com with SMTP id i63so5032185wma.4
- for <qemu-devel@nongnu.org>; Thu, 14 Jan 2021 08:20:46 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=cnbQPb0XjiBSHLb9SRYObkA1cyhmzHvI9I6VzcXNaK8=;
- b=SxVQk0Yg0wcrVMH/r3ss++e8v7cSsjisIqQrFCPF4tJ7DmuFj40b1LtHyoa46e92Rg
- Qqh0J79xj4uSrw8QMVTb+Tvk4++mk8BM3jncFDMbvLF1h4YfD0iLFuenF8qKgnbxa6Wf
- weldZ4PnvgrVuCJ2eD7/qObOvHFosrHmOHmm2EKXuhSgmQrajcmX4xgOCAlPBLs0sWI/
- zZ9J8cgXutsuW8ri1WSx6JVySn3vhooKrl7Wh5kP08kGETEZlrI3JGSNkUJNq3J/1cg1
- ezV3jiAIPYD9YXHFPbRVFTu9X/1ncY7ygX2fCZgrs32e5/IhfBvQABq2nz0gi9qOdVqi
- nZcA==
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1l04yM-0007Eg-1O
+ for qemu-devel@nongnu.org; Thu, 14 Jan 2021 10:55:42 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:36210)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1l04yJ-0007zZ-DY
+ for qemu-devel@nongnu.org; Thu, 14 Jan 2021 10:55:41 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1610639737;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=bgOZ7j8BDb9zSWv7KNA3RMdoj7O75Aa0jzol0iE3zig=;
+ b=AnqKI+oJOt81+550zw8DLXixy8uLhJLoP0daRV5kyuJdTvTB5yVEn6plVNTt6vf2Fjpjft
+ r426XFWM9YruHI52jR4Y7aWBgXrFUf3Lwcf5BSmEG/tJ+1nNO36wdqdmeofShDy9P8Jxt1
+ KT22QQppYmQkR+bOetitmRUAQcmXlJM=
+Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
+ [209.85.128.71]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-15-IEcGf8UjNziIUmabcslfpQ-1; Thu, 14 Jan 2021 10:55:35 -0500
+X-MC-Unique: IEcGf8UjNziIUmabcslfpQ-1
+Received: by mail-wm1-f71.google.com with SMTP id b184so915720wmh.6
+ for <qemu-devel@nongnu.org>; Thu, 14 Jan 2021 07:55:35 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
- :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=cnbQPb0XjiBSHLb9SRYObkA1cyhmzHvI9I6VzcXNaK8=;
- b=aQR8rmsvK8dBDba0rPYVJjTS1FMpX4rvZIFGFD/ETW9PqNG3ZZosXqhKxP9L64qATK
- My/KbYKcGnvkcXaWoYmDXMdDv4LlHknAsS7CPt1u+DcN05YickpkitSSeFkKXB5aFFF4
- D4Wn1Gkwxu/ftuEq21qbdeemtwiEV480BJ55Rnw98VcBUpoOjxOfbr++1jZOP9ncFZYo
- wnkjwOTEO2G2OUJukrCbdztE0ngKIkZFXcvyw2v0BEVBVFCC8eP9pLZ3WlJMOJ5Le/Xd
- QrfJ89nk5hGAA5T2YPQ8ETEpPiDWCtlvvhvauvXb1a9Mma6FaattdLfKQnjF+W2bnNKy
- 1O6Q==
-X-Gm-Message-State: AOAM5324L/cAtCW/0XoIRJlQC3tj/Gu45S1iJVcsA8c8dMx1Hi5J/vnx
- Sp2QGsSPTg9LT9KdEmkOO1mJMbcUPNc=
-X-Google-Smtp-Source: ABdhPJw4/WTHRM1A7uZfkAtZCpMKRj0kba/H1H3qk6uF9v5bxw8FF2uOzP1dyDU6t5kQb5I08eIO3w==
-X-Received: by 2002:a7b:c4c7:: with SMTP id g7mr4786355wmk.29.1610641245508;
- Thu, 14 Jan 2021 08:20:45 -0800 (PST)
-Received: from x1w.redhat.com (13.red-83-57-169.dynamicip.rima-tde.net.
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=bgOZ7j8BDb9zSWv7KNA3RMdoj7O75Aa0jzol0iE3zig=;
+ b=DFtsb4cKOfRIs8E5kbTxx+tNm66Vu+6ceXUEOu3MorZ/ZT7KMiZMRw4K9P/f/jVzFu
+ bQD7YA7QRWBeRjrDBr9syEAnzErjzVyfy8p8hM3SGuFCc6w6HhXTizkA7kx/rMe5ZYGA
+ 7Was1ijK8lMGD32JFBlPKWa4M1RxoP2+RuUIw/4spP/9whwMyWCV7lbclFpTW/0mkqNA
+ XwZrj1yM6+JG44AhK3Rw133AQvJv2vtPp1c643UHsyLEY5naASAFFWZiVC3rCBkr8A8Z
+ F0T4uSiW7+Yt1aOWEgtQk3KWYapCk0e+NmlMgW93+D17VPaTDDGZICwIRqSGIcWHukCd
+ 5hhQ==
+X-Gm-Message-State: AOAM533AdapKdtdhuPl1+sDo2AQyq5H4liwO26kYqzD8lh5ELpsQEkjy
+ rPbl4rlSWo+Tc4ZyERi+VCHid6wFQD7UxL16CPP3SSAHZSog2Mv6hlNpjv92MIyaTV/BKmoJCY+
+ w5erNrRrwRTHwdj+uFr0XhdE/iCuRifZU1DllOXaptdQIzZIl8jiNd96lZsPx6aDN
+X-Received: by 2002:a5d:558a:: with SMTP id i10mr8789502wrv.363.1610639734441; 
+ Thu, 14 Jan 2021 07:55:34 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJzkAKa6MKo30Ctqklhy+mRB++VNs1p1T1OSHqWcjNCsems9ZKz41eqkH/3YlJT+xofu33EXDw==
+X-Received: by 2002:a5d:558a:: with SMTP id i10mr8789478wrv.363.1610639734190; 
+ Thu, 14 Jan 2021 07:55:34 -0800 (PST)
+Received: from [192.168.1.36] (13.red-83-57-169.dynamicip.rima-tde.net.
  [83.57.169.13])
- by smtp.gmail.com with ESMTPSA id s13sm9018724wmj.28.2021.01.14.08.20.44
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 14 Jan 2021 08:20:44 -0800 (PST)
-From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
-To: 
-Subject: [PULL v2 35/69] target/mips/translate: Extract decode_opc_legacy()
- from decode_opc()
-Date: Thu, 14 Jan 2021 17:20:04 +0100
-Message-Id: <20210114162016.2901557-6-f4bug@amsat.org>
-X-Mailer: git-send-email 2.26.2
-In-Reply-To: <20210114162016.2901557-1-f4bug@amsat.org>
-References: <20210114162016.2901557-1-f4bug@amsat.org>
+ by smtp.gmail.com with ESMTPSA id i59sm6870614wri.3.2021.01.14.07.55.33
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 14 Jan 2021 07:55:33 -0800 (PST)
+Subject: Re: [PATCH v3 3/4] hw/block/nvme: add smart_critical_warning property
+To: zhenwei pi <pizhenwei@bytedance.com>, kbusch@kernel.org,
+ its@irrelevant.dk, kwolf@redhat.com, mreitz@redhat.com
+References: <20210114072251.334304-1-pizhenwei@bytedance.com>
+ <20210114072251.334304-4-pizhenwei@bytedance.com>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+Message-ID: <4d38ab86-cd88-8c51-d15f-1117db8c3d10@redhat.com>
+Date: Thu, 14 Jan 2021 16:55:32 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.6.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+In-Reply-To: <20210114072251.334304-4-pizhenwei@bytedance.com>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::333;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x333.google.com
-X-Spam_score_int: -14
-X-Spam_score: -1.5
-X-Spam_bar: -
-X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.248,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.248,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=philmd@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -32
+X-Spam_score: -3.3
+X-Spam_bar: ---
+X-Spam_report: (-3.3 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.248,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.237, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -86,100 +99,70 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>,
- Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
- Aurelien Jarno <aurelien@aurel32.net>
+Cc: qemu-devel@nongnu.org, qemu-block@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-As we will slowly move to decodetree generated decoders,
-extract the legacy decoding from decode_opc(), so new
-decoders are added in decode_opc() while old code is
-removed from decode_opc_legacy().
+On 1/14/21 8:22 AM, zhenwei pi wrote:
+> There is a very low probability that hitting physical NVMe disk
+> hardware critical warning case, it's hard to write & test a monitor
+> agent service.
+> 
+> For debugging purposes, add a new 'smart_critical_warning' property
+> to emulate this situation.
+> 
+> The orignal version of this change is implemented by adding a fixed
+> property which could be initialized by QEMU command line. Suggested
+> by Philippe & Klaus, rework like current version.
+> 
+> Test with this patch:
+> 1, change smart_critical_warning property for a running VM:
+>  #virsh qemu-monitor-command nvme-upstream '{ "execute": "qom-set",
+>   "arguments": { "path": "/machine/peripheral-anon/device[0]",
+>   "property": "smart_critical_warning", "value":16 } }'
+> 2, run smartctl in guest
+>  #smartctl -H -l error /dev/nvme0n1
+> 
+>   === START OF SMART DATA SECTION ===
+>   SMART overall-health self-assessment test result: FAILED!
+>   - volatile memory backup device has failed
+> 
+> Signed-off-by: zhenwei pi <pizhenwei@bytedance.com>
+> ---
+>  hw/block/nvme.c | 40 ++++++++++++++++++++++++++++++++++++++++
+>  hw/block/nvme.h |  1 +
+>  2 files changed, 41 insertions(+)
+...
 
-Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-Message-Id: <20201215225757.764263-2-f4bug@amsat.org>
----
- target/mips/translate.c | 49 ++++++++++++++++++++++++-----------------
- 1 file changed, 29 insertions(+), 20 deletions(-)
+> +static void nvme_set_smart_warning(Object *obj, Visitor *v, const char *name,
+> +                                   void *opaque, Error **errp)
+> +{
+> +    NvmeCtrl *s = NVME(obj);
+> +    uint8_t value, cap = 0;
+> +    uint64_t pmr_cap = CAP_PMR_MASK;
+> +
+> +    if (!visit_type_uint8(v, name, &value, errp)) {
+> +        return;
+> +    }
+> +
+> +    cap = NVME_SMART_SPARE | NVME_SMART_TEMPERATURE | NVME_SMART_RELIABILITY
+> +          | NVME_SMART_MEDIA_READ_ONLY | NVME_SMART_FAILED_VOLATILE_MEDIA;
+> +    if (s->bar.cap & (pmr_cap << CAP_PMR_SHIFT)) {
+> +        cap |= NVME_SMART_PMR_UNRELIABLE;
+> +    }
+> +
+> +    if ((value & cap) != value) {
+> +        error_setg(errp, "unsupported smart critical warning value");
 
-diff --git a/target/mips/translate.c b/target/mips/translate.c
-index 4c400ec0b3c..d4d5d294f34 100644
---- a/target/mips/translate.c
-+++ b/target/mips/translate.c
-@@ -30517,30 +30517,13 @@ static void gen_msa(CPUMIPSState *env, DisasContext *ctx)
- 
- }
- 
--static void decode_opc(CPUMIPSState *env, DisasContext *ctx)
-+static bool decode_opc_legacy(CPUMIPSState *env, DisasContext *ctx)
- {
-     int32_t offset;
-     int rs, rt, rd, sa;
-     uint32_t op, op1;
-     int16_t imm;
- 
--    /* make sure instructions are on a word boundary */
--    if (ctx->base.pc_next & 0x3) {
--        env->CP0_BadVAddr = ctx->base.pc_next;
--        generate_exception_err(ctx, EXCP_AdEL, EXCP_INST_NOTAVAIL);
--        return;
--    }
--
--    /* Handle blikely not taken case */
--    if ((ctx->hflags & MIPS_HFLAG_BMASK_BASE) == MIPS_HFLAG_BL) {
--        TCGLabel *l1 = gen_new_label();
--
--        tcg_gen_brcondi_tl(TCG_COND_NE, bcond, 0, l1);
--        tcg_gen_movi_i32(hflags, ctx->hflags & ~MIPS_HFLAG_BMASK);
--        gen_goto_tb(ctx, 1, ctx->base.pc_next + 4);
--        gen_set_label(l1);
--    }
--
-     op = MASK_OP_MAJOR(ctx->opcode);
-     rs = (ctx->opcode >> 21) & 0x1f;
-     rt = (ctx->opcode >> 16) & 0x1f;
-@@ -31268,9 +31251,35 @@ static void decode_opc(CPUMIPSState *env, DisasContext *ctx)
-         break;
-     default:            /* Invalid */
-         MIPS_INVAL("major opcode");
--        gen_reserved_instruction(ctx);
--        break;
-+        return false;
-     }
-+    return true;
-+}
-+
-+static void decode_opc(CPUMIPSState *env, DisasContext *ctx)
-+{
-+    /* make sure instructions are on a word boundary */
-+    if (ctx->base.pc_next & 0x3) {
-+        env->CP0_BadVAddr = ctx->base.pc_next;
-+        generate_exception_err(ctx, EXCP_AdEL, EXCP_INST_NOTAVAIL);
-+        return;
-+    }
-+
-+    /* Handle blikely not taken case */
-+    if ((ctx->hflags & MIPS_HFLAG_BMASK_BASE) == MIPS_HFLAG_BL) {
-+        TCGLabel *l1 = gen_new_label();
-+
-+        tcg_gen_brcondi_tl(TCG_COND_NE, bcond, 0, l1);
-+        tcg_gen_movi_i32(hflags, ctx->hflags & ~MIPS_HFLAG_BMASK);
-+        gen_goto_tb(ctx, 1, ctx->base.pc_next + 4);
-+        gen_set_label(l1);
-+    }
-+
-+    if (decode_opc_legacy(env, ctx)) {
-+        return;
-+    }
-+
-+    gen_reserved_instruction(ctx);
- }
- 
- static void mips_tr_init_disas_context(DisasContextBase *dcbase, CPUState *cs)
--- 
-2.26.2
+More useful:
+
+           error_setg(errp,
+                      "unsupported smart critical warning bits: 0x%x",
+                      value & ~cap);
+
+Regardless:
+Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+
+Thanks!
 
 
