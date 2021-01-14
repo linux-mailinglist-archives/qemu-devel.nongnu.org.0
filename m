@@ -2,94 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AAB622F6349
-	for <lists+qemu-devel@lfdr.de>; Thu, 14 Jan 2021 15:39:49 +0100 (CET)
-Received: from localhost ([::1]:34798 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BD4182F6340
+	for <lists+qemu-devel@lfdr.de>; Thu, 14 Jan 2021 15:38:05 +0100 (CET)
+Received: from localhost ([::1]:58762 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l03mu-0004aN-Ni
-	for lists+qemu-devel@lfdr.de; Thu, 14 Jan 2021 09:39:48 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39510)
+	id 1l03lE-0002Ru-QJ
+	for lists+qemu-devel@lfdr.de; Thu, 14 Jan 2021 09:38:04 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39596)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1l03j5-0001Hq-1A
- for qemu-devel@nongnu.org; Thu, 14 Jan 2021 09:35:51 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:21013)
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1l03jT-0001RX-NR
+ for qemu-devel@nongnu.org; Thu, 14 Jan 2021 09:36:16 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:31939)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1l03j3-0005kh-5O
- for qemu-devel@nongnu.org; Thu, 14 Jan 2021 09:35:50 -0500
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1l03jP-0005uN-0q
+ for qemu-devel@nongnu.org; Thu, 14 Jan 2021 09:36:15 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1610634948;
+ s=mimecast20190719; t=1610634968;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=IcdH7HPQOQyHbpcooL4SSWDRC5JQlUiSyTiah7KaJic=;
- b=RfwPPQiKm6TtjyCkF/YEe30j/gETjIiMVprm6TyMiCapfzfPap1vWzofYq2I3tFJ7Yg1b0
- U5tNysJ17Zu4+IZVMiI7//LLZ2Af4L7W9sdmWmNANnBRrzSCwcqDgd3KZSSbS6hotz/JV1
- CcPDCBMa6PXw/kALQWHQfr/2faC/tWU=
-Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
- [209.85.221.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-243-4LtjJCIuNBGi2TNT0oM5dw-1; Thu, 14 Jan 2021 09:35:44 -0500
-X-MC-Unique: 4LtjJCIuNBGi2TNT0oM5dw-1
-Received: by mail-wr1-f72.google.com with SMTP id v5so2691052wrr.0
- for <qemu-devel@nongnu.org>; Thu, 14 Jan 2021 06:35:44 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=IcdH7HPQOQyHbpcooL4SSWDRC5JQlUiSyTiah7KaJic=;
- b=KPxfWDvYJ1TGPgPkBLmiFcuK7PvzMuNhuESzFuQk+6g/dfySxt7XakT/2WJUyAalEX
- sxOfYsy3GuBY8V4GwolmsXQn8UGjcnAu/+RswqU+pEdMnfENZY5Fsfx6iadcViSfvghV
- +bAWmu8blKPNrXjE6yDU6Jv2Rxw6QO3XgQvyuRp3CtV2YMTdmLF7tAtWbvA7ICTB5Ta0
- nMfv8bQk+KDp5mQ6WEbsvEW3OJfFtAjwcPrwELdCesIMeh0+9LWV8a7ZvCW8ediaZ6Zd
- KPNYKbPhg26zBlCYuDUNh0tY64c4c0jgJ/QPsiv7/mALwOIjns+vkTHVYfR9P9teP/KC
- UDJw==
-X-Gm-Message-State: AOAM530QBF+DCKPu+uFoLbcDd/eZ2aby46zLJkm5Riiz+GFq7VWQlpPR
- LD4ArvQqw87qSQGU32i+J5d+m3xOo58P2MeV2m6pPCecsUGZ+S0F+COhWx+5hnok30qq3wfUucU
- JrER5ld0W6YLNiwUkJJHzfjRVb/gPKFzicyMHbuOA3QG7stmL1TVL20rIfW2jC4WB
-X-Received: by 2002:a05:6000:1565:: with SMTP id
- 5mr8415739wrz.109.1610634943207; 
- Thu, 14 Jan 2021 06:35:43 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJylfx1J6mghf/RImq0OzJdwjF96N9BRVZnWln+eUC53Sk6z1h4M8NPJhtO+tZtnrnH+VzyQcA==
-X-Received: by 2002:a05:6000:1565:: with SMTP id
- 5mr8415715wrz.109.1610634943010; 
- Thu, 14 Jan 2021 06:35:43 -0800 (PST)
-Received: from [192.168.1.36] (13.red-83-57-169.dynamicip.rima-tde.net.
- [83.57.169.13])
- by smtp.gmail.com with ESMTPSA id x17sm10216485wro.40.2021.01.14.06.35.42
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 14 Jan 2021 06:35:42 -0800 (PST)
-Subject: Re: [PATCH v3 1/2] Fix net.c warning on GCC 11
-To: Alexander Bulekov <alxndr@bu.edu>
-References: <cover.1610607906.git.mrezanin@redhat.com>
- <dcb4bfa3fe810236475b338f2f6401ec3d1a1c57.1610607906.git.mrezanin@redhat.com>
- <4fd8d2a3-e665-4422-79e0-4e2a7337e4fc@redhat.com>
- <20210114141920.qjsnlt3cmkauggtw@mozz.bu.edu>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-Message-ID: <9a611ea5-697c-26ea-875e-0f1b2cb0bff3@redhat.com>
-Date: Thu, 14 Jan 2021 15:35:36 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.6.0
+ bh=aEDUyrY7fpS8lqkqJQViX5LpIdaXUXlaK4xDTVGeLQA=;
+ b=WpLHc7aFUGBr17f4bT0ZRiPTZbW9w4OMuFMmBEjz1jf5yH7FTGQrPaprKiRBmDyyvaM19A
+ cPO95vr3peZbjtsIxdNgE2Q3uX5cKvPxR5rD0a/b+tDO1jVDt/Sxq0d9actyBPDCL/SJw3
+ nwrK6bWSJVY/QqCR5Ydw3yM79A38d6I=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-354-UtVQkSQCPMWcetTihV8atw-1; Thu, 14 Jan 2021 09:36:05 -0500
+X-MC-Unique: UtVQkSQCPMWcetTihV8atw-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 0A1131DDE2;
+ Thu, 14 Jan 2021 14:36:04 +0000 (UTC)
+Received: from sirius.home.kraxel.org (ovpn-112-182.ams2.redhat.com
+ [10.36.112.182])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id C04D519C48;
+ Thu, 14 Jan 2021 14:36:03 +0000 (UTC)
+Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
+ id CBE3818000B4; Thu, 14 Jan 2021 15:36:01 +0100 (CET)
+Date: Thu, 14 Jan 2021 15:36:01 +0100
+From: Gerd Hoffmann <kraxel@redhat.com>
+To: Volker =?utf-8?Q?R=C3=BCmelin?= <vr_qemu@t-online.de>
+Subject: Re: [PATCH 00/23] next round of audio patches
+Message-ID: <20210114143601.et3x5z3mcpmc467l@sirius.home.kraxel.org>
+References: <9315afe5-5958-c0b4-ea1e-14769511a9d5@t-online.de>
 MIME-Version: 1.0
-In-Reply-To: <20210114141920.qjsnlt3cmkauggtw@mozz.bu.edu>
+In-Reply-To: <9315afe5-5958-c0b4-ea1e-14769511a9d5@t-online.de>
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kraxel@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=philmd@redhat.com;
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=kraxel@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -32
-X-Spam_score: -3.3
+X-Spam_score_int: -29
+X-Spam_score: -3.0
 X-Spam_bar: ---
-X-Spam_report: (-3.3 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.248,
+X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.248,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.237, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -102,32 +80,58 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Miroslav Rezanina <mrezanin@redhat.com>,
- Dmitry Fleytman <dmitry.fleytman@gmail.com>, Jason Wang <jasowang@redhat.com>,
- qemu-devel@nongnu.org
+Cc: =?utf-8?B?Wm9sdMOhbiBLxZF2w6Fnw7M=?= <dirty.ice.hu@gmail.com>,
+ Markus Armbruster <armbru@redhat.com>, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 1/14/21 3:19 PM, Alexander Bulekov wrote:
-> On 210114 1415, Philippe Mathieu-Daudé wrote:
->> +Jason +Dmitry
->>
->> On 1/14/21 8:07 AM, Miroslav Rezanina wrote:
->>> When building qemu with GCC 11, compiling eth.c file produce following warning:
->>>
->>>    warning: array subscript 'struct ip6_ext_hdr_routing[0]' is partly outside array bounds of 'struct ip6_ext_hdr[1]' [-Warray-bounds]
->>>
->>> This is caused by retyping from ip6_ext_hdr to ip6_ext_hdr_routing that has more
->>> attributes.
->>>
->>> As this usage is expected, suppress the warning temporarily through the function
->>> using this retyping.
->>
->> This is not expected, this is a bug...
->>
+On Sun, Jan 10, 2021 at 11:01:29AM +0100, Volker Rümelin wrote:
+> A mix of bug fixes and improvements.
 > 
-> Seems related: https://bugs.launchpad.net/qemu/+bug/1879531
+> Patches 01/23 - 11/23 have a few SDL fixes and add audio recording
+> functions to the SDL audio backend.
+> 
+> Patch 12/23 removes unnecessary code from audio/audio.c.
+> 
+> Patches 13/23 - 16/23 fix a few PulseAudio backend bugs.
+> 
+> Patch 17/23 shows a PulseAudio backend bug. So far I don't think I
+> broke any fine tuned user settings and I don't want to do it here.
+> 
+> Patches 18/23 - 19/23 are the first steps towards glitch free and
+> lower latency PulseAudio playback and recording. Currently qemu
+> uses incredibly large buffers in the PulseAudio backend. For
+> playback this just increases the playback latency but doesn't
+> improve dropout safety, because PulseAudio can't access this buffer
+> directly. With these patches it's possible to move the large qemu
+> buffer to the PulseAudio server side and just keep a small buffer
+> on the qemu side. On the PulseAudio server side PulseAudio tries
+> to place a part of these buffers directly on the hardware and
+> PulseAudio runs with a higher priority than qemu, so it has a
+> better chance to deliver audio data in time.
+> 
+> Here is an example to show how this works:
+> -device intel-hda -device hda-duplex,audiodev=audio0
+> -machine pcspk-audiodev=audio0 -audiodev pa,id=audio0,
+> out.buffer-length=14000,out.latency=46440,in.latency=46440
+> 
+> Due to a bug in the PulseAudio backend, these command line options
+> actually decrease the playback latency compared to current defaults.
+> For playback with defaults (16 bits, stereo, 44100 samples/s)
+> we have a 15ms server side buffer + 2 * 46.44ms qemu audio buffer
+> + 23.22ms hda codec buffer = 131.1ms latency. With my example it's
+> 46.44ms + 2 * 14ms + 23.22ms = 97.66ms latency and I guess you
+> won't hear any drop outs. Btw.: 14ms = 10ms timer-period + 4ms
+> additional playback data the hda codec can produce in timer-period
+> time.
+> 
+> Patches 20/23 - 23/23 fix small issues with DirectSound.
 
-Yes!
+Nice overall improvements.  Some minor nits (see replies to some
+patches).  Can be fixed incrementally though, so I'll do some more
+testing and if nothing blows up queue the series for merge.
+
+thanks,
+  Gerd
 
 
