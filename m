@@ -2,83 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DB0FE2F6574
-	for <lists+qemu-devel@lfdr.de>; Thu, 14 Jan 2021 17:09:03 +0100 (CET)
-Received: from localhost ([::1]:45492 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 654C92F6579
+	for <lists+qemu-devel@lfdr.de>; Thu, 14 Jan 2021 17:11:52 +0100 (CET)
+Received: from localhost ([::1]:53086 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l05BG-0007WV-UT
-	for lists+qemu-devel@lfdr.de; Thu, 14 Jan 2021 11:09:02 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57820)
+	id 1l05Dz-0002jY-EH
+	for lists+qemu-devel@lfdr.de; Thu, 14 Jan 2021 11:11:51 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59520)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1l04s0-0000aC-1N; Thu, 14 Jan 2021 10:49:08 -0500
-Received: from mail-wr1-x434.google.com ([2a00:1450:4864:20::434]:33714)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1l04rx-0004rD-4L; Thu, 14 Jan 2021 10:49:06 -0500
-Received: by mail-wr1-x434.google.com with SMTP id t30so6297719wrb.0;
- Thu, 14 Jan 2021 07:49:04 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=3x0O8sPNXEDYftnuGsjOeZIu2Ubh3rhs2GG4FkkBl5M=;
- b=BRtb84e0mahJhjpESPiR25z/dIoIswKCdGQlfDurjL7ceaB23gSSfX3pirb8BpgtLi
- Z0M0jcwu6yXQQE8F8B4kNK3CKCZGHe5M5Cc9uW7gHUEgPUpRVylzZAzohwqXq5aDySqu
- gCN8RXTdEm7HAQ/cpQCA+CxG3+gP3hiZkrlSEsjGR1dnTLZla6p6KdvPYd9ePf8g746B
- XwUfa8srWqcAE+IncAIVKG//AmeRStnAbcf0v3MQSqU1YhAa5T75zNT2GGgpUqY5W0x2
- tCEjojaiCj+t9ho3vWMneSYvEuuDdI0eYo+1UeZt0Wyv32huf0gJavDz/hY/BeSMuZfk
- 8LvA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
- :date:user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=3x0O8sPNXEDYftnuGsjOeZIu2Ubh3rhs2GG4FkkBl5M=;
- b=GNJ6Tsx7XObq3tSD0FpJhDXrt8AbjCkWAVUdQjsFkZCKH31N5OCLldGpjGOL3mXH75
- iOO/2zpUD11HgFnHr57m7pw2KnYS4ik4aV6nMKoRhNSv2zkfD8W4rSRnvbA5Ivuwn76Y
- u/Ru6UXJx2Kz4Nxx8sWtchxf+8rEa/q3hQEITIJS7h5zbkzivBtxdi1pg2e07Z1YFWUG
- yNuIlCqo53piFuMJIFiLgUJb8kPhVseFfPaxUjDV5RDmW3TuGKy2HUZR4Ra4C7/St+pR
- XKuAbrmg17LsQPn0UiAQX4gBdBH0TIo5H9aqnJvd4meyocITf+MY4WLt12f1relSXLWA
- HeRQ==
-X-Gm-Message-State: AOAM530WiQjCExWFXZtLmx1TO0Kt37E8d6pBi6q/6x9KkP+6/HxFTDIv
- 0dzQncV8/qtUXwUQv+aRe+c=
-X-Google-Smtp-Source: ABdhPJxTetp2r5RZzf3ZoUqszMuaWnagUi5z6kNXw3xapm69Q1iSA/EoT0ofiVPgoEpQX5n7FPdCLw==
-X-Received: by 2002:a5d:43ce:: with SMTP id v14mr8551968wrr.342.1610639343004; 
- Thu, 14 Jan 2021 07:49:03 -0800 (PST)
-Received: from [192.168.1.36] (13.red-83-57-169.dynamicip.rima-tde.net.
- [83.57.169.13])
- by smtp.gmail.com with ESMTPSA id h187sm9015911wmf.30.2021.01.14.07.49.01
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 14 Jan 2021 07:49:02 -0800 (PST)
-Subject: Re: [PATCH 00/18] hw: Mark the device with no migratable fields
-To: Peter Maydell <peter.maydell@linaro.org>,
- Eduardo Habkost <ehabkost@redhat.com>,
- =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>, Laurent Vivier <laurent@vivier.eu>,
- Gerd Hoffmann <kraxel@redhat.com>
-References: <20200703201911.26573-1-f4bug@amsat.org>
- <CAFEAcA8Cu2N5qX55rUk_yd4R6PdJX+X5KPQmMiQPFakP3ShZ-A@mail.gmail.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
-Message-ID: <17a5ddc4-c7d9-08f3-5260-f17e1bd48dac@amsat.org>
-Date: Thu, 14 Jan 2021 16:49:00 +0100
+ (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1l04xP-0006OO-55
+ for qemu-devel@nongnu.org; Thu, 14 Jan 2021 10:54:43 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:24015)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1l04xK-0007Tn-Nk
+ for qemu-devel@nongnu.org; Thu, 14 Jan 2021 10:54:42 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1610639675;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=LdnBPa8fBC55o0aursgEdu2P4RXsksgt+5kaXbNdqnU=;
+ b=GwDT9i660Xk7ewx3eQxVyqPRnQb3WKsVXSYf9V22RFTuyU6219iPLqW1wIN028J7vi7Coi
+ 4fF08fFIuNPttoc3xgBqPXY1d1j78IfQbp/Hzzp7UYbo6K7125LRHO3mtD/jAhOm0E/Qvy
+ dNB/7V5lG/VTIifyGx6FZAGyHce/4DM=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-380-ESP2-dhTPSWWc_v0wCMyjg-1; Thu, 14 Jan 2021 10:54:33 -0500
+X-MC-Unique: ESP2-dhTPSWWc_v0wCMyjg-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 7A9C1802B42;
+ Thu, 14 Jan 2021 15:54:31 +0000 (UTC)
+Received: from [10.36.115.75] (ovpn-115-75.ams2.redhat.com [10.36.115.75])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id CDB1C60938;
+ Thu, 14 Jan 2021 15:54:15 +0000 (UTC)
+Subject: Re: [PATCH v4 04/11] vfio: Support for RamDiscardMgr in the !vIOMMU
+ case
+To: Alex Williamson <alex.williamson@redhat.com>
+References: <20210107133423.44964-1-david@redhat.com>
+ <20210107133423.44964-5-david@redhat.com>
+ <20210113162745.5c92e04f@omen.home.shazbot.org>
+From: David Hildenbrand <david@redhat.com>
+Organization: Red Hat GmbH
+Message-ID: <651d5ef7-096f-0b71-2190-53532dab3dd0@redhat.com>
+Date: Thu, 14 Jan 2021 16:54:15 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.6.0
+ Thunderbird/78.5.0
 MIME-Version: 1.0
-In-Reply-To: <CAFEAcA8Cu2N5qX55rUk_yd4R6PdJX+X5KPQmMiQPFakP3ShZ-A@mail.gmail.com>
+In-Reply-To: <20210113162745.5c92e04f@omen.home.shazbot.org>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=david@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::434;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x434.google.com
-X-Spam_score_int: -16
-X-Spam_score: -1.7
-X-Spam_bar: -
-X-Spam_report: (-1.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.248,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.248, NICE_REPLY_A=-0.237,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=david@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -32
+X-Spam_score: -3.3
+X-Spam_bar: ---
+X-Spam_report: (-3.3 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.248,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.237, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -91,62 +84,175 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Juan Quintela <quintela@redhat.com>, Andrew Jeffery <andrew@aj.id.au>,
- Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
- QEMU Developers <qemu-devel@nongnu.org>,
- Andrew Baumann <Andrew.Baumann@microsoft.com>,
- "Dr . David Alan Gilbert" <dgilbert@redhat.com>,
- qemu-arm <qemu-arm@nongnu.org>,
- =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>,
- Subbaraya Sundeep <sundeep.lkml@gmail.com>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
- Artyom Tarasenko <atar4qemu@gmail.com>, Joel Stanley <joel@jms.id.au>
+Cc: Pankaj Gupta <pankaj.gupta.linux@gmail.com>,
+ Wei Yang <richard.weiyang@linux.alibaba.com>,
+ "Michael S. Tsirkin" <mst@redhat.com>,
+ Jonathan Cameron <Jonathan.Cameron@huawei.com>, qemu-devel@nongnu.org,
+ Peter Xu <peterx@redhat.com>, "Dr . David Alan Gilbert" <dgilbert@redhat.com>,
+ Auger Eric <eric.auger@redhat.com>, teawater <teawaterz@linux.alibaba.com>,
+ Igor Mammedov <imammedo@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ Marek Kedzierski <mkedzier@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 7/9/20 9:19 PM, Peter Maydell wrote:
-> On Fri, 3 Jul 2020 at 21:19, Philippe Mathieu-Daudé <f4bug@amsat.org> wrote:
->>
->> This is a proof-of-concept after chatting with Peter Maydell
->> on IRC earlier.
->>
->> Introduce the vmstate_no_state_to_migrate structure, and
->> a reference to it: vmstate_qdev_no_state_to_migrate.
->> Use this reference in devices with no fields to migrate.
->>
->> This is useful to catch devices missing vmstate, such:
->> - ads7846
->> - mcf-uart
->> - mcf-fec
->> - versatile_i2c
->> - ...
->>
->> I am not sure about:
->> - gpex-pcihost
+On 14.01.21 00:27, Alex Williamson wrote:
+> On Thu,  7 Jan 2021 14:34:16 +0100
+> David Hildenbrand <david@redhat.com> wrote:
 > 
-> I think it's correct that this has no internal state:
-> the only interesting state is in the GPEXRootState, which
-> is a TYPE_GPEX_ROOT_DEVICE which migrates itself.
+>> Implement support for RamDiscardMgr, to prepare for virtio-mem
+>> support. Instead of mapping the whole memory section, we only map
+>> "populated" parts and update the mapping when notified about
+>> discarding/population of memory via the RamDiscardListener. Similarly, when
+>> syncing the dirty bitmaps, sync only the actually mapped (populated) parts
+>> by replaying via the notifier.
+>>
+>> Using virtio-mem with vfio is still blocked via
+>> ram_block_discard_disable()/ram_block_discard_require() after this patch.
+>>
+>> Cc: Paolo Bonzini <pbonzini@redhat.com>
+>> Cc: "Michael S. Tsirkin" <mst@redhat.com>
+>> Cc: Alex Williamson <alex.williamson@redhat.com>
+>> Cc: Dr. David Alan Gilbert <dgilbert@redhat.com>
+>> Cc: Igor Mammedov <imammedo@redhat.com>
+>> Cc: Pankaj Gupta <pankaj.gupta.linux@gmail.com>
+>> Cc: Peter Xu <peterx@redhat.com>
+>> Cc: Auger Eric <eric.auger@redhat.com>
+>> Cc: Wei Yang <richard.weiyang@linux.alibaba.com>
+>> Cc: teawater <teawaterz@linux.alibaba.com>
+>> Cc: Marek Kedzierski <mkedzier@redhat.com>
+>> Signed-off-by: David Hildenbrand <david@redhat.com>
+>> ---
+>>  hw/vfio/common.c              | 200 ++++++++++++++++++++++++++++++++++
+>>  include/hw/vfio/vfio-common.h |  12 ++
+>>  2 files changed, 212 insertions(+)
+>>
+>> diff --git a/hw/vfio/common.c b/hw/vfio/common.c
+>> index 6ff1daa763..2bd219cf1d 100644
+>> --- a/hw/vfio/common.c
+>> +++ b/hw/vfio/common.c
+>> @@ -654,6 +654,136 @@ out:
+>>      rcu_read_unlock();
+>>  }
+>>  
+>> +static void vfio_ram_discard_notify_discard(RamDiscardListener *rdl,
+>> +                                            const MemoryRegion *mr,
+>> +                                            ram_addr_t offset, ram_addr_t size)
+>> +{
+>> +    VFIORamDiscardListener *vrdl = container_of(rdl, VFIORamDiscardListener,
+>> +                                                listener);
+>> +    const hwaddr mr_start = MAX(offset, vrdl->offset_within_region);
+>> +    const hwaddr mr_end = MIN(offset + size,
+>> +                              vrdl->offset_within_region + vrdl->size);
+>> +    const hwaddr iova = mr_start - vrdl->offset_within_region +
+>> +                        vrdl->offset_within_address_space;
+>> +    int ret;
+>> +
+>> +    if (mr_start >= mr_end) {
+>> +        return;
+>> +    }
+>> +
+>> +    /* Unmap with a single call. */
+>> +    ret = vfio_dma_unmap(vrdl->container, iova, mr_end - mr_start, NULL);
+>> +    if (ret) {
+>> +        error_report("%s: vfio_dma_unmap() failed: %s", __func__,
+>> +                     strerror(-ret));
+>> +    }
+>> +}
+>> +
+>> +static int vfio_ram_discard_notify_populate(RamDiscardListener *rdl,
+>> +                                            const MemoryRegion *mr,
+>> +                                            ram_addr_t offset, ram_addr_t size)
+>> +{
+>> +    VFIORamDiscardListener *vrdl = container_of(rdl, VFIORamDiscardListener,
+>> +                                                listener);
+>> +    const hwaddr mr_end = MIN(offset + size,
+>> +                              vrdl->offset_within_region + vrdl->size);
+>> +    hwaddr mr_start = MAX(offset, vrdl->offset_within_region);
+>> +    hwaddr mr_next, iova;
+>> +    void *vaddr;
+>> +    int ret;
+>> +
+>> +    /*
+>> +     * Map in (aligned within memory region) minimum granularity, so we can
+>> +     * unmap in minimum granularity later.
+>> +     */
+>> +    for (; mr_start < mr_end; mr_start = mr_next) {
+>> +        mr_next = ROUND_UP(mr_start + 1, vrdl->granularity);
+>> +        mr_next = MIN(mr_next, mr_end);
+>> +
+>> +        iova = mr_start - vrdl->offset_within_region +
+>> +               vrdl->offset_within_address_space;
+>> +        vaddr = memory_region_get_ram_ptr(vrdl->mr) + mr_start;
+>> +
+>> +        ret = vfio_dma_map(vrdl->container, iova, mr_next - mr_start,
+>> +                           vaddr, mr->readonly);
+>> +        if (ret) {
+>> +            /* Rollback */
+>> +            vfio_ram_discard_notify_discard(rdl, mr, offset, size);
+>> +            return ret;
+>> +        }
+>> +    }
+>> +    return 0;
+>> +}
+>> +
+>> +static void vfio_ram_discard_notify_discard_all(RamDiscardListener *rdl,
+>> +                                                const MemoryRegion *mr)
+>> +{
+>> +    VFIORamDiscardListener *vrdl = container_of(rdl, VFIORamDiscardListener,
+>> +                                                listener);
+>> +    int ret;
+>> +
+>> +    /* Unmap with a single call. */
+>> +    ret = vfio_dma_unmap(vrdl->container, vrdl->offset_within_address_space,
+>> +                         vrdl->size, NULL);
+>> +    if (ret) {
+>> +        error_report("%s: vfio_dma_unmap() failed: %s", __func__,
+>> +                     strerror(-ret));
+>> +    }
+>> +}
+>> +
+>> +static void vfio_register_ram_discard_notifier(VFIOContainer *container,
+>> +                                               MemoryRegionSection *section)
+>> +{
+>> +    RamDiscardMgr *rdm = memory_region_get_ram_discard_mgr(section->mr);
+>> +    RamDiscardMgrClass *rdmc = RAM_DISCARD_MGR_GET_CLASS(rdm);
+>> +    VFIORamDiscardListener *vrdl;
+>> +
+>> +    vrdl = g_new0(VFIORamDiscardListener, 1);
+>> +    vrdl->container = container;
+>> +    vrdl->mr = section->mr;
+>> +    vrdl->offset_within_region = section->offset_within_region;
+>> +    vrdl->offset_within_address_space = section->offset_within_address_space;
+>> +    vrdl->size = int128_get64(section->size);
+>> +    vrdl->granularity = rdmc->get_min_granularity(rdm, section->mr);
+>> +
+>> +    /* Ignore some corner cases not relevant in practice. */
+>> +    g_assert(QEMU_IS_ALIGNED(vrdl->offset_within_region, TARGET_PAGE_SIZE));
+>> +    g_assert(QEMU_IS_ALIGNED(vrdl->offset_within_address_space,
+>> +                             TARGET_PAGE_SIZE));
+>> +    g_assert(QEMU_IS_ALIGNED(vrdl->size, TARGET_PAGE_SIZE));
 > 
-> I made some comments on the "meaty" bits of the patchset,
-> and reviewed one or two of the "mark this device as
-> having no migration state" patches, but it doesn't seem
-> worth reviewing all of them until the migration submaintainers
-> have a chance to weigh in on whether they like the concept
-> (I expect they're busy right now with freeze-related stuff :-))
+> Should probably toss in a test of vrdl->granularity vs
+> container->pgsizes too, right?  Looks good otherwise:
 
-Now that we are far from freeze-date is a good time to ping
-again on this concept :)
+Makes sense as a sanity check. What about
 
-Most of the devices are ARM except:
-- cpu-cluster (Eduardo/Marcel)
-- hcd-ohci (Gerd)
-- mac-nubus-bridge (Laurent)
-- generic QOM (Daniel, Paolo)
+g_assert(vrdl->granularity && !is_power_of_2(vrdl->granularity));
+g_assert(vrdl->granularity >= 1 << ctz64(container->pgsizes));
 
-Is someone against this proposal?
+?
 
-Regards,
+Thanks!
 
-Phil.
+> 
+> Reviewed-by: Alex Williamson <alex.williamson@redhat.com>
+> Acked-by: Alex Williamson <alex.williamson@redhat.com>
+
+Thanks!
+
+-- 
+Thanks,
+
+David / dhildenb
+
 
