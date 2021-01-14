@@ -2,67 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D7E1A2F6B89
-	for <lists+qemu-devel@lfdr.de>; Thu, 14 Jan 2021 20:54:34 +0100 (CET)
-Received: from localhost ([::1]:56642 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AF9F72F6BB6
+	for <lists+qemu-devel@lfdr.de>; Thu, 14 Jan 2021 21:04:54 +0100 (CET)
+Received: from localhost ([::1]:50330 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l08hV-0008VN-Tr
-	for lists+qemu-devel@lfdr.de; Thu, 14 Jan 2021 14:54:33 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47722)
+	id 1l08rV-0001Wa-OW
+	for lists+qemu-devel@lfdr.de; Thu, 14 Jan 2021 15:04:53 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48564)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <wrampazz@redhat.com>)
- id 1l08eb-0005Vf-3U
- for qemu-devel@nongnu.org; Thu, 14 Jan 2021 14:51:33 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:56327)
+ id 1l08i2-00021Q-LF
+ for qemu-devel@nongnu.org; Thu, 14 Jan 2021 14:55:06 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:54249)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <wrampazz@redhat.com>)
- id 1l08eY-0003t1-2h
- for qemu-devel@nongnu.org; Thu, 14 Jan 2021 14:51:32 -0500
+ id 1l08i1-0004xW-2d
+ for qemu-devel@nongnu.org; Thu, 14 Jan 2021 14:55:06 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1610653889;
+ s=mimecast20190719; t=1610654104;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=Sv3B0/2YuHx6pUw+t5+tBji7qKbdQondTNW28HeC85I=;
- b=DHIVh3jExhWhbtoTpakPuGbPGE9NhR+7t0z47v00ESzAD3o7yGCAEkYAILdnXkbVf6bJIf
- VeUhqizHr7S1836MsgmiK6W67MhlB5eCvhZdLrNZIdysJmU9rvEIkZ9a4EUpRHpELnupzG
- Su2dkE3zfsnqPR3BVElWwAyFl66T1gI=
-Received: from mail-ua1-f72.google.com (mail-ua1-f72.google.com
- [209.85.222.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-592-ye_5I1ZkNsOCT9iSSgQOoA-1; Thu, 14 Jan 2021 14:51:27 -0500
-X-MC-Unique: ye_5I1ZkNsOCT9iSSgQOoA-1
-Received: by mail-ua1-f72.google.com with SMTP id 6so577104uay.21
- for <qemu-devel@nongnu.org>; Thu, 14 Jan 2021 11:51:27 -0800 (PST)
+ bh=3AIa99/NN3zu8C8tOHZ9gw5twP7+smBZ9otMtK/5iUU=;
+ b=RaCfk6y1I1iIYmVgZt9jPeM7TtcRzxqGaOACxyV3DieV6/v9nzHA1AfLs/ecFR7DhIxh1m
+ Wrg75a5jbMpNyE3ZbatAQDOORnAISs92YZXRSrW8ePK37V3ACRfZTWNshoZDpW3Ute5rEk
+ MniVnj6W1mFJ3lnFsZd/yL9mYjKA+3A=
+Received: from mail-vk1-f198.google.com (mail-vk1-f198.google.com
+ [209.85.221.198]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-560-rQWko0fTP9e87siD18k-9w-1; Thu, 14 Jan 2021 14:55:02 -0500
+X-MC-Unique: rQWko0fTP9e87siD18k-9w-1
+Received: by mail-vk1-f198.google.com with SMTP id t9so2747556vkm.12
+ for <qemu-devel@nongnu.org>; Thu, 14 Jan 2021 11:55:02 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc:content-transfer-encoding;
- bh=Sv3B0/2YuHx6pUw+t5+tBji7qKbdQondTNW28HeC85I=;
- b=ardZiMRG9bJGLUHAxe7RKyH0+4Mt7+C0+6vaZpxP0sPBSHP9RzYyNAkQXqMXfGU5Xg
- c7Ckh/WyrKn4pKAX7EWEpCbJWKmOscb3MXndv8gfp2CcqA9ZYWHKCGLcIkVyBJnyHgYZ
- f7tQLQfN5xaIbrbO1B2JDTaV7tEejDS/i0Z5Vk3nDAORXgwFh4nrQc87viONUUNdK4hK
- 6c2qoGubbAcAgiiDgAko6DGilwuYMI2obyEN/pptoD9QKy7MTz4+H/arMuQ+iyJL5PlS
- kluXSTAJqokv2uUvW1/5jFn+c5N93GDPWbkqQBa676gx7t9ItXeR/gGIlXYsWo/HlkDM
- 9U9w==
-X-Gm-Message-State: AOAM531BkHPUEUGWjr2He4byUDvebK1u5w3lanyTlpstoYjbf86slHUJ
- vWfYE2F63qpROU8LkIM+jVdrkXGI8JEd2CTesTJ/7JEyB5sAZG4DRXVAa4KVQhyQIz9M1zdhWpf
- 13opBxWVo1o/IC8zw/kLp0HIg+besmG4=
-X-Received: by 2002:a9f:240a:: with SMTP id 10mr7252376uaq.124.1610653887108; 
- Thu, 14 Jan 2021 11:51:27 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJx89NisrPqVm6yaGpLG2sRmcDG8dehNUx+2u4xa6IoIHCjw7Reh+Qa7Pflq4YEkHTutoJRAWQe2cB9qOnILWqA=
-X-Received: by 2002:a9f:240a:: with SMTP id 10mr7252359uaq.124.1610653886895; 
- Thu, 14 Jan 2021 11:51:26 -0800 (PST)
+ bh=3AIa99/NN3zu8C8tOHZ9gw5twP7+smBZ9otMtK/5iUU=;
+ b=CKMpVjeuThTjYr5W9+1tl6qb5rIzjPRTJlev6MyirRsTuO12OuaSnkVVw73hSdIDa/
+ yfg1GeWdiDig8zJFAHZ1+vAytEuemy7YoDJt9Ak3kQxZO6qQAEf/0TJUOgGRPlDYgCFA
+ SbTNlH+nkwgNcQihLBVLS6xSzmi7rJJQqn/PaA6ptc0kxZzFemWz+sW91+Uzayxlj2DR
+ eWTOSIVOVhizsXeuIGM4r7iRZqsfQ9L9xUHcariK1uls/BpONiXC18M/ToWw6e7ntPUb
+ xvHy7oLrM3cxdHqe29Ak4jtHPiWfhGV5bd8VUXehFU7sufX7lXLP02XW4jXdCDcFCove
+ 928w==
+X-Gm-Message-State: AOAM531z+RPc6Cwv4aYLCOILXtMOe0aUCbJTXHXb+GxR38uHnz8Ysmie
+ zNgOn9vgkL+UT0GWgYYL8SxO91NHYbTsYMVrAXXo4xbOaKfgi6sGWSogwZNaLsX3u3JhgWkC5q6
+ nEDcNS5zlT2JbKaSPSb7rzgA+JjRYB2I=
+X-Received: by 2002:ab0:1ec6:: with SMTP id p6mr7497662uak.113.1610654102479; 
+ Thu, 14 Jan 2021 11:55:02 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJxUyS3NktkNJRbl6bW5uNb82BaPX4n5UMnFdLnWWXVQFUnLoPRoT+CoUqVHczXN0BPWFr/deUHw4vrFeM4xbn4=
+X-Received: by 2002:ab0:1ec6:: with SMTP id p6mr7497653uak.113.1610654102281; 
+ Thu, 14 Jan 2021 11:55:02 -0800 (PST)
 MIME-Version: 1.0
 References: <20210114165730.31607-1-alex.bennee@linaro.org>
- <20210114165730.31607-13-alex.bennee@linaro.org>
-In-Reply-To: <20210114165730.31607-13-alex.bennee@linaro.org>
+ <20210114165730.31607-10-alex.bennee@linaro.org>
+In-Reply-To: <20210114165730.31607-10-alex.bennee@linaro.org>
 From: Willian Rampazzo <wrampazz@redhat.com>
-Date: Thu, 14 Jan 2021 16:51:01 -0300
-Message-ID: <CAKJDGDZ-=JvaO7z8qzAR5wPbJ-33rHpVpA_TmBkGMcuQRNOecw@mail.gmail.com>
-Subject: Re: [PATCH v2 12/12] scripts/checkpatch.pl: fix git-show invocation
- to include diffstat
+Date: Thu, 14 Jan 2021 16:54:36 -0300
+Message-ID: <CAKJDGDaP4sC9e8JGDORbho_c1s3wUXiB3qBWHAtctw0gJpxjeA@mail.gmail.com>
+Subject: Re: [PATCH v2 09/12] gitlab: move docs and tools build across from
+ Travis
 To: =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=wrampazz@redhat.com
@@ -91,21 +91,32 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel <qemu-devel@nongnu.org>
+Cc: Fam Zheng <fam@euphon.net>, Thomas Huth <thuth@redhat.com>,
+ =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>,
+ qemu-devel <qemu-devel@nongnu.org>,
+ Wainer dos Santos Moschetta <wainersm@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, Jan 14, 2021 at 2:22 PM Alex Benn=C3=A9e <alex.bennee@linaro.org> w=
+On Thu, Jan 14, 2021 at 2:46 PM Alex Benn=C3=A9e <alex.bennee@linaro.org> w=
 rote:
 >
-> Without this checkpatch keeps complaining about new/changed files even
-> when MAINTAINERS has been updated. Normal invocations of checkpatch on
-> patch files rather than commit IDs are unaffected.
+> While we are at it we might as well check the tag generation. For
+> bonus points we run GNU globals htags into the public pages directory
+> for publishing with the auto generated pages.
 >
 > Signed-off-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
+> Reviewed-by: Wainer dos Santos Moschetta <wainersm@redhat.com>
+> Acked-by: Thomas Huth <thuth@redhat.com>
+>
 > ---
->  scripts/checkpatch.pl | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
+> v2
+>   - explicit disable-system/user
+>   - add some comments, reduce size of HTML dump
+> ---
+>  .gitlab-ci.yml | 28 ++++++++++++++++++++++------
+>  .travis.yml    | 16 ----------------
+>  2 files changed, 22 insertions(+), 22 deletions(-)
 >
 
 Reviewed-by: Willian Rampazzo <willianr@redhat.com>
