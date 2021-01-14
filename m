@@ -2,74 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DBDB92F6239
-	for <lists+qemu-devel@lfdr.de>; Thu, 14 Jan 2021 14:43:12 +0100 (CET)
-Received: from localhost ([::1]:51936 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 20CBC2F6252
+	for <lists+qemu-devel@lfdr.de>; Thu, 14 Jan 2021 14:49:29 +0100 (CET)
+Received: from localhost ([::1]:37054 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l02u7-0000VX-VA
-	for lists+qemu-devel@lfdr.de; Thu, 14 Jan 2021 08:43:11 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52426)
+	id 1l030B-0006PI-Ix
+	for lists+qemu-devel@lfdr.de; Thu, 14 Jan 2021 08:49:27 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52560)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1l02oJ-0001eN-5m
- for qemu-devel@nongnu.org; Thu, 14 Jan 2021 08:37:11 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:20547)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1l02p4-0002Ka-3B
+ for qemu-devel@nongnu.org; Thu, 14 Jan 2021 08:37:58 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:48271)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1l02oD-0005Ru-PK
- for qemu-devel@nongnu.org; Thu, 14 Jan 2021 08:37:10 -0500
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1l02p2-0005iV-DO
+ for qemu-devel@nongnu.org; Thu, 14 Jan 2021 08:37:57 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1610631425;
+ s=mimecast20190719; t=1610631470;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=PU4lB1w6VmBDphNbqrRxRRV/1Id5nzuaKKMmLo21V8k=;
- b=Suf9M0jB8VpXVr/PQyJFsSJb6czdMuHaWr1x8lerWqu+3udwcwElpdrbw+9cvKhJFVl0+8
- ZW495nfdfKOMwoF93maYZcpOaPWOxCGqgyAfk+VqxV9zP/xXKewLjl64ydHmwU0Tv1nrE9
- qYnhmeBhnNrBVGD6kdgzNonMWMlRgCE=
-Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
- [209.85.128.69]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-250-N1GimJ7tNQalo2iVfQy7Rw-1; Thu, 14 Jan 2021 08:37:03 -0500
-X-MC-Unique: N1GimJ7tNQalo2iVfQy7Rw-1
-Received: by mail-wm1-f69.google.com with SMTP id x20so1916073wmc.0
- for <qemu-devel@nongnu.org>; Thu, 14 Jan 2021 05:37:03 -0800 (PST)
+ bh=SWecLgTR2D5f1qcRKA8jMpLbs6JoyQa4t2F0MB7sF5I=;
+ b=RypC+rCPdpHP3EbHHRMh8skfc8bNoNnQgRXq5akVVF/YsVseBpWl+lTdYNdS0eYDGn4Yx8
+ /SDHwEmOw8gZOuARsuSgl4Tmgy70QBVMu2WEtybrWl2ziThEoyWT/DevokxweNUB8bOe84
+ qa9b0i17yOPLD4tw7/3M80f/Oxq/5uE=
+Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
+ [209.85.221.71]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-118-ThYUR-8bNVqVvyXk4BhMXQ-1; Thu, 14 Jan 2021 08:37:46 -0500
+X-MC-Unique: ThYUR-8bNVqVvyXk4BhMXQ-1
+Received: by mail-wr1-f71.google.com with SMTP id j5so2606632wro.12
+ for <qemu-devel@nongnu.org>; Thu, 14 Jan 2021 05:37:46 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:subject:to:cc:references:from:message-id:date
  :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=PU4lB1w6VmBDphNbqrRxRRV/1Id5nzuaKKMmLo21V8k=;
- b=LckVPPQmlLe7wwvJCfO0hCibmQ3BiXkV1fxCtkX5Ijlk5BIpuFlOLfR+Suis1BJL2i
- amBD/sc2yburrHf5b2mPT9i8oz8hTCy7F2I3XRHLu1BItoZnXMOJrbzcfgxqSrgWqq0C
- WR6F54c+Vrc39xzhjoJBN4LCt8xUtLXXLkCaBZ1x6VwUna0DsORfPsB07djabV3geXjB
- bBmp9d/tKGRnwpHgv5Zu0HGurDNVNKFdUYDOE8BYK2C+gFay9ec3f3NKmn0BO/oRgGa4
- 3KmGMyabBl3yHiltZ/7TkTN8xoZ0GUoLtcIKhZCXTqt8B+d4n+HYyGsLmTywC4LhB1mx
- O94Q==
-X-Gm-Message-State: AOAM5333Up649Bag5XhW24yeM9Y4NqVxHfVJtfZwOuvaFk1ze6frnKLZ
- wS0qCr9fFHrNDWEvJ82mGfSIIUrCpDZOiLCq0SsZ0jflaO1Y9xYlByN+nyUXZ72bdPcGVJ3LaRm
- 71+vhCvrb3DHsVuY=
-X-Received: by 2002:adf:c6c4:: with SMTP id c4mr8195317wrh.348.1610631422209; 
- Thu, 14 Jan 2021 05:37:02 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJyNrWXgRnPfYTBYsg0BrEzsnWzUGfNP5Jyw0i8KWM28Ko4M7YjG5B84pZ0GB3tGNFtWZs4OFA==
-X-Received: by 2002:adf:c6c4:: with SMTP id c4mr8195311wrh.348.1610631422084; 
- Thu, 14 Jan 2021 05:37:02 -0800 (PST)
+ bh=SWecLgTR2D5f1qcRKA8jMpLbs6JoyQa4t2F0MB7sF5I=;
+ b=bcYqxvIRJrfGe4Et+kN5wbPrWAxnEfrWPQ1S4Mis/kP4vIbD5bB55La1JXfGkjVn8e
+ MDwhFiaMk7157AN+12B+O6cTFGHxN2ZU9kXFfyjZh/koQ2Na5sEB3ehfejZrq7VD4zMm
+ nFM0rpGQgCX8IrYwFH3hN4c4QcYwyZ0t5KEhGHbI9MgFIfmowh8XE8M2ewcbFA3lJ8Bw
+ ZVS75aub1omF8U6Q2RUMbi8yv45ncKqLJusd91QXKGVL28j1GWTyvhCFBbKLJMJdae7Z
+ fMP1qZznbC0OnOy69N1olqWfKDvrsMbaxnytvQwIXAaKo/VFBiyWVt47hakSngDfTYOz
+ mekQ==
+X-Gm-Message-State: AOAM533wpkueeHHsUCzU6fjtLviLbm5egqaBdJKcf5ADu1oGKIOiFdsB
+ Nbv3hEV4DENTY+9c9ucC7XISDcyPuQv3MkdtC2QcHVLfcQDTkogQE7Vx25LkrO2D/ZPX/muomJU
+ wjsiqI/ZocmR3cpQ=
+X-Received: by 2002:a5d:4a4e:: with SMTP id v14mr7956364wrs.80.1610631465572; 
+ Thu, 14 Jan 2021 05:37:45 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJx16Iy6glhcAOqe2vKs2oPFSEEsFGT9OVxrs84Fm1SLQ40FHZzESiMIcH/dFbCruLdy4Hxjuw==
+X-Received: by 2002:a5d:4a4e:: with SMTP id v14mr7956351wrs.80.1610631465445; 
+ Thu, 14 Jan 2021 05:37:45 -0800 (PST)
 Received: from [192.168.1.36] (13.red-83-57-169.dynamicip.rima-tde.net.
  [83.57.169.13])
- by smtp.gmail.com with ESMTPSA id y14sm4937049wru.96.2021.01.14.05.37.01
+ by smtp.gmail.com with ESMTPSA id b133sm9265359wme.33.2021.01.14.05.37.44
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 14 Jan 2021 05:37:01 -0800 (PST)
-Subject: Re: [PATCH v2 21/25] tests/docker: auto-generate fedora with lcitool
+ Thu, 14 Jan 2021 05:37:44 -0800 (PST)
+Subject: Re: [PATCH v2 22/25] tests/docker: auto-generate ubuntu1804 with
+ lcitool
 To: =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
  qemu-devel@nongnu.org
 References: <20210114130245.1654081-1-berrange@redhat.com>
- <20210114130245.1654081-22-berrange@redhat.com>
+ <20210114130245.1654081-23-berrange@redhat.com>
 From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-Message-ID: <ac6a8ce7-bed6-c543-bdf3-b6c3219cfb3d@redhat.com>
-Date: Thu, 14 Jan 2021 14:37:00 +0100
+Message-ID: <40e909eb-f2e0-a246-1c7b-f5333be29a2f@redhat.com>
+Date: Thu, 14 Jan 2021 14:37:43 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.6.0
 MIME-Version: 1.0
-In-Reply-To: <20210114130245.1654081-22-berrange@redhat.com>
+In-Reply-To: <20210114130245.1654081-23-berrange@redhat.com>
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
 X-Mimecast-Spam-Score: 0
@@ -109,14 +110,9 @@ On 1/14/21 2:02 PM, Daniel P. Berrangé wrote:
 > 
 > Signed-off-by: Daniel P. Berrangé <berrange@redhat.com>
 > ---
->  tests/docker/dockerfiles/fedora.docker | 236 ++++++++++++++-----------
->  tests/docker/dockerfiles/refresh       |   1 +
->  2 files changed, 130 insertions(+), 107 deletions(-)
-...
-
-> +RUN dnf install -y nosync && \
-
-Yay we get nosync.
+>  tests/docker/dockerfiles/refresh           |   6 +
+>  tests/docker/dockerfiles/ubuntu1804.docker | 235 +++++++++++----------
+>  2 files changed, 135 insertions(+), 106 deletions(-)
 
 Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 
