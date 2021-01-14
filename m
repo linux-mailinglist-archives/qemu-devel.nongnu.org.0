@@ -2,90 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8551D2F6027
-	for <lists+qemu-devel@lfdr.de>; Thu, 14 Jan 2021 12:38:02 +0100 (CET)
-Received: from localhost ([::1]:33292 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6E8602F6028
+	for <lists+qemu-devel@lfdr.de>; Thu, 14 Jan 2021 12:39:02 +0100 (CET)
+Received: from localhost ([::1]:35908 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l00wz-0002GG-KC
-	for lists+qemu-devel@lfdr.de; Thu, 14 Jan 2021 06:38:01 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52134)
+	id 1l00xx-0003T1-IW
+	for lists+qemu-devel@lfdr.de; Thu, 14 Jan 2021 06:39:01 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52500)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1l00un-0000iW-DR
- for qemu-devel@nongnu.org; Thu, 14 Jan 2021 06:35:45 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:28201)
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1l00wK-0002KN-Fx
+ for qemu-devel@nongnu.org; Thu, 14 Jan 2021 06:37:20 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:46538)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1l00ul-0001SN-Mz
- for qemu-devel@nongnu.org; Thu, 14 Jan 2021 06:35:45 -0500
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1l00wI-0002Ax-Gm
+ for qemu-devel@nongnu.org; Thu, 14 Jan 2021 06:37:20 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1610624143;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=+Dnv8RgGDyFS/r9W+oIiqDJvcKmXh15wK8wW7gxH3nM=;
- b=BXjCYK9KobpCvOTKxHZIxmoF1KOe/HlDL5hwKrS9muvalYoKFnmpbSOFKDVT5UPMBLE6NW
- uEcFWbepV5F2h7qGiqnihaHERVsxK+0Hi0cmOahbBNxmv17im2e53BL3Y7pTr7yLc1q7QK
- 4sXq57GhUQWtry55eisO8CDGXXF4UZM=
-Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
- [209.85.221.69]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-119-9nkeU6uWMjWGgdDKK7tGzw-1; Thu, 14 Jan 2021 06:35:41 -0500
-X-MC-Unique: 9nkeU6uWMjWGgdDKK7tGzw-1
-Received: by mail-wr1-f69.google.com with SMTP id l10so2064847wry.16
- for <qemu-devel@nongnu.org>; Thu, 14 Jan 2021 03:35:41 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=+Dnv8RgGDyFS/r9W+oIiqDJvcKmXh15wK8wW7gxH3nM=;
- b=ITbmInt82PasqapKunelV8EwbSjhBRsoaWS+gsRSuGggfJCPCQFJuAKHibrJB1Yh+b
- iTPM35C5MuiftzkbR9H12CaR+mGUxVN1wOrOJHbzrdJK5OMVZRDEVpVYn/QVHETAh4kl
- rYCtBgMMtPabeZgDC6KcIvGlsOrwaWhmjIBE1JyLu49nE+NoceMU6EGhQ5PaRrEQG47U
- CRCd7R0G23ikNrq4EetBBSWg1/Wbk8qik7jHy0CZpGsKON65EE4v2ROUG8+YrYyjyhpf
- YX5cNmI3rou8cR+2ThjMfh2OQeEQn9/Dr68YaMHusaYCYckGTWvhAS996ynTIy5T5JtU
- Pevw==
-X-Gm-Message-State: AOAM5308yNKmzrslrFJXvNVGNmlaThYQClqdGzzvRUKSpflSPD3rFyyI
- NFnT95NGRBNcYHpFpP2KvxzqzRjPHu3U1Vepkwhx+E+AXfPFnB+GpKqBP3/THaDNVnq3gD1pjac
- RMB6yr/b/ZWCuZGEA3kXrZQ0fMmvhe0mQ58iz81wWYCErUxkZ8WrHbah5peVTsYPm
-X-Received: by 2002:a1c:4b10:: with SMTP id y16mr3598372wma.73.1610624140529; 
- Thu, 14 Jan 2021 03:35:40 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJw1EpvQ0pGVtA7VZcLBY+WujKGrQBtb1G9oq0rLbqhXIrx5g8my9A0WpBJi2BLPZ2IOi9MCwg==
-X-Received: by 2002:a1c:4b10:: with SMTP id y16mr3598345wma.73.1610624140182; 
- Thu, 14 Jan 2021 03:35:40 -0800 (PST)
-Received: from [192.168.1.36] (13.red-83-57-169.dynamicip.rima-tde.net.
- [83.57.169.13])
- by smtp.gmail.com with ESMTPSA id p8sm9693282wru.50.2021.01.14.03.35.39
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 14 Jan 2021 03:35:39 -0800 (PST)
-Subject: Re: [PATCH 7/9] net: Remove assignment in if condition
-To: Zhang Han <zhanghan64@huawei.com>, jasowang@redhat.com
-References: <20201222082340.67405-1-zhanghan64@huawei.com>
- <20201222082340.67405-8-zhanghan64@huawei.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-Message-ID: <5426b47e-cd7c-de59-bd70-b74c69ba4904@redhat.com>
-Date: Thu, 14 Jan 2021 12:35:38 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.6.0
+ s=mimecast20190719; t=1610624237;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:in-reply-to:in-reply-to:  references:references;
+ bh=++9DjMX9o5Z/JLpkpf14KYSmndImEFJ33CI5QOzgt/c=;
+ b=FMKfhkuxe0UwMiz+pRiMzFeDg1f/f3KOXwbOO/XPKYaKXEDUpTz0kvG9daIZPJ1/WEN+EL
+ Ox/1WqLyRAaTfCeaxJeahUqylCfZtrOzXdOcof4+CNjoyFVTsJPKu2MwUaFWrsAZhRi72e
+ X9wzyDgJTfSpmCauiTa0xJtfWlaxF+M=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-21-PjctkdvlOj-rXgtYcxQJ1Q-1; Thu, 14 Jan 2021 06:37:13 -0500
+X-MC-Unique: PjctkdvlOj-rXgtYcxQJ1Q-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id DCCDC107ACF7;
+ Thu, 14 Jan 2021 11:37:11 +0000 (UTC)
+Received: from redhat.com (ovpn-115-77.ams2.redhat.com [10.36.115.77])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id D332460C47;
+ Thu, 14 Jan 2021 11:37:08 +0000 (UTC)
+Date: Thu, 14 Jan 2021 11:37:06 +0000
+From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+To: Luc Michel <luc.michel@greensocs.com>
+Subject: Re: About creating machines on the command line
+Message-ID: <20210114113706.GF1643043@redhat.com>
+References: <13ecc030-f42b-5a27-a0b3-b07921426ce9@greensocs.com>
 MIME-Version: 1.0
-In-Reply-To: <20201222082340.67405-8-zhanghan64@huawei.com>
+In-Reply-To: <13ecc030-f42b-5a27-a0b3-b07921426ce9@greensocs.com>
+User-Agent: Mutt/1.14.6 (2020-07-11)
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=berrange@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=philmd@redhat.com;
+Content-Disposition: inline
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=berrange@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -29
 X-Spam_score: -3.0
 X-Spam_bar: ---
 X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.25,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -98,20 +78,96 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: alex.chen@huawei.com, hunongda@huawei.com, qemu-trivial@nongnu.org,
- hang.zhanghailiang@huawei.com, qemu-devel@nongnu.org
+Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+Cc: Damien Hedde <damien.hedde@greensocs.com>, peter.maydell@linaro.org,
+ sam.grove@sifive.com, armbru@redhat.com,
+ Mark Burton <mark.burton@greensocs.com>, qemu-devel@nongnu.org,
+ richard.fuhler@sifive.com, edgar.iglesias@gmail.com, f4bug@amsat.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 12/22/20 9:23 AM, Zhang Han wrote:
-> Put the assignment before the if condition
+On Mon, Jan 11, 2021 at 03:50:58PM +0100, Luc Michel wrote:
+> Hi,
 > 
-> Signed-off-by: Zhang Han <zhanghan64@huawei.com>
-> ---
->  net/tap-bsd.c     | 3 ++-
->  net/tap-solaris.c | 9 ++++++---
->  2 files changed, 8 insertions(+), 4 deletions(-)
+> We would like to work on improving QEMU to be able to create custom machines
+> from the command line. The goal here is to get feedback from the community
+> and shape the future developments.
+> 
+> The use case mainly comes from people working with tools to customize their
+> designs, such as SiFive Core Designer
+> (https://scs.sifive.com/core-designer). This kind of tools may allow
+> creation or customization of a whole SoC, from the number of cores, to the
+> memory and IRQ mapping of peripherals etc.
+> 
+> The ultimate goal would be to be able to create any kind of machine on the
+> command line. However we are aware that this is a substantial amount of
+> changes in QEMU.
+> 
+> In its current state, QEMU allows for very limited customization of existing
+> machines on the command line. We identified the following limitations (feel
+> free to add to the list):
+> 
+>   - Most devices are not user creatable. Moreover, sysbus devices must be
+> explicitly allowed by a machine to be creatable through `-device`,
+> 
+>   - Memory regions cannot be created on the command line,
+> 
+>   - Device MMIO regions cannot be mapped on a bus from the command line,
+> 
+>   - GPIOs and clocks cannot be wired from the command line,
+> 
+>   - CPUs are not sysbus devices (and not user-creatable). They need special
+> care when creating them regarding system reset. Not being on a bus means
+> that they must be reset manually on system reset. This is done in machines
+> by registering a QEMU reset handler.
+> 
+>   - Machine specific boot code is usually hard-coded into the machine
+> itself.  Some architectures (e.g. ARM) do factorize bootloader related code,
+> but there is no standard way of doing that in QEMU.
+> 
+> We don't want to address all those limitations at once. We plan to start
+> with the following scenario:
+> 
+>   - Start with a base machine that would handle CPU creation and bootloader
+> stuff. Note that the "none" machine is probably not sufficient in its
+> current shape. It does allow only one CPU and obviously does not handle the
+> boot process.
+> 
+>   - Allow for this machine every sysbus devices we want to be user
+> command-line creatable (and mark them user_creatable if needed)
+> 
+>   - Add command line options to create memory regions (probably ram ones at
+> first)
+> 
+>   - Add command line options to map a memory region (including sysbus device
+> MMIO regions) onto another (memory_region_add_subregion)
+> 
+>   - Add command line options to connect GPIOs and clocks.
+> 
+> This would hopefully allow for simple machines creation. We would then be
+> able to use either the command line or the `-readconfig` option to create
+> the machine.
+> 
+> Note that we are not planning to use QMP/HMP for now. From our
+> understanding, a `device_add` request is always considered as hot-plug,
+> which is not what we want here.
+> 
+> Please tell us what do you think about this plan. Any feedback is
+> appreciated.  Then we can discuss the details of how to do this properly.
 
-Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+There's a general desire amongst QEMU maintainers to move to a world
+where QAPI is used for describing everything. In this vision, eventually
+all current command line options would be replaced with QMP commands
+and QAPI objects specs.
+
+In this world -readconfig is likely to be deleted. Also this means we
+have a bias against adding new command line options to current QEMU.
+
+Regards,
+Daniel
+-- 
+|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
+|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
+|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
 
 
