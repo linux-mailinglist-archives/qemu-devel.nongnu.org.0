@@ -2,129 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 060052F5A3E
-	for <lists+qemu-devel@lfdr.de>; Thu, 14 Jan 2021 06:19:38 +0100 (CET)
-Received: from localhost ([::1]:49178 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 89DCA2F5A88
+	for <lists+qemu-devel@lfdr.de>; Thu, 14 Jan 2021 06:59:10 +0100 (CET)
+Received: from localhost ([::1]:38918 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kzv2m-0006xG-Ke
-	for lists+qemu-devel@lfdr.de; Thu, 14 Jan 2021 00:19:36 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57910)
+	id 1kzvf3-0000Ng-3D
+	for lists+qemu-devel@lfdr.de; Thu, 14 Jan 2021 00:59:09 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39994)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
- id 1kzv1P-0006Vc-5r
- for qemu-devel@nongnu.org; Thu, 14 Jan 2021 00:18:11 -0500
-Received: from mail-eopbgr40102.outbound.protection.outlook.com
- ([40.107.4.102]:51462 helo=EUR03-DB5-obe.outbound.protection.outlook.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
- id 1kzv1M-0002CD-9X
- for qemu-devel@nongnu.org; Thu, 14 Jan 2021 00:18:10 -0500
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=cgJyPVMsYz9TSWYhdVRl/IciobI/jLaYZ6uMBT82rk3nXzYqENo4IwzOO3A63EgLjSseBbQfjXSf+axPoNPhJjFEkc9l8cXBdoddw2tz/hyRLyiColPeWR6aUSLXujEFg7IGcU77sm8DM3mI43H1LxBDVvUwxSBPO3KjauDEmXrYB2BCbBrPJnMu5xmeD9D6Pdk8w6gptmA2572qU7gk4qha28NSVe85YnHCdeju1oITmz84U407FSnnSZHXbI9Hyd+aXHAJ961gIhDLZxbr2wM0V7ziI6hhLPjjdyNL3vpwaA1d5tyOKV7rfyi/YD8AYSRVl/W5GGuCePh9QRClvg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=wh9u+vxP1M4kt9lT1JH8/iKSnexrnR9C+uq1ZfGJK/U=;
- b=PqfQX6O7FEDurOmq7DueV8jDdtFBBKGyerXge3QtW5y1RwaX8ZrfF3ByB6Ooo9tJD7VVwHFWPRtkW5GhbqWHXcvEhvasNsugbsSMUg5ZuZEapNj4Dr9614NRQLdeQ/ssPQkJ0mQ/Dflo6G8dqvKzBl/nM22SGDAo0VxN5oJZQnj78ncE19d2M1dCOzJgJA8dnLDqEAtsbpuEG0NvZonvW2sZ+B+4s5kh7rKOGCFs//CBsgZ9RGCOGYooj1JpOz8PIhbbRJJ2FrtAL1ZZmU4A4gFoJGgYCqajYhKM4//RaEO7j3unNi/rjLo5ySLGfpFTEJBPp8PUDnUtUO+rBP8qgA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=virtuozzo.com; dmarc=pass action=none
- header.from=virtuozzo.com; dkim=pass header.d=virtuozzo.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=wh9u+vxP1M4kt9lT1JH8/iKSnexrnR9C+uq1ZfGJK/U=;
- b=dfhRkxGN5Md2UpVcTuEbVzWoZhux2wt18oC9GWlGdh2GPAHZbICU657liqSlbZVUHU99ah72CERiXWQ6UGaf1gSggI845XkY0Am9jaEtUybtAuHRLYiLPu1t04S7ND5cRVy3syxOskEQLrl+JeMgVlMV3HiMfMJsntvBS9u6l+s=
-Authentication-Results: gmail.com; dkim=none (message not signed)
- header.d=none;gmail.com; dmarc=none action=none header.from=virtuozzo.com;
-Received: from AM7PR08MB5494.eurprd08.prod.outlook.com (2603:10a6:20b:dc::15)
- by AM6PR08MB3221.eurprd08.prod.outlook.com (2603:10a6:209:49::33)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3763.9; Thu, 14 Jan
- 2021 05:18:04 +0000
-Received: from AM7PR08MB5494.eurprd08.prod.outlook.com
- ([fe80::214a:3545:368c:7ae8]) by AM7PR08MB5494.eurprd08.prod.outlook.com
- ([fe80::214a:3545:368c:7ae8%9]) with mapi id 15.20.3763.009; Thu, 14 Jan 2021
- 05:18:04 +0000
-Subject: Re: [PATCH v4 2/5] qapi: A couple more QAPI_LIST_PREPEND() stragglers
-To: Eric Blake <eblake@redhat.com>, qemu-devel@nongnu.org
-References: <20210113221013.390592-1-eblake@redhat.com>
- <20210113221013.390592-3-eblake@redhat.com>
-From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-Message-ID: <97c81d71-3bd4-3faf-7bcb-2a7a69103c04@virtuozzo.com>
-Date: Thu, 14 Jan 2021 08:18:02 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.6.1
-In-Reply-To: <20210113221013.390592-3-eblake@redhat.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [185.215.60.80]
-X-ClientProxiedBy: AM3PR07CA0065.eurprd07.prod.outlook.com
- (2603:10a6:207:4::23) To AM7PR08MB5494.eurprd08.prod.outlook.com
- (2603:10a6:20b:dc::15)
+ (Exim 4.90_1) (envelope-from <lulu@redhat.com>) id 1kzveE-000874-L8
+ for qemu-devel@nongnu.org; Thu, 14 Jan 2021 00:58:18 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:29879)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <lulu@redhat.com>) id 1kzveB-0005cH-1y
+ for qemu-devel@nongnu.org; Thu, 14 Jan 2021 00:58:16 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1610603893;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=iNacylOqAbPVozexioUNB5fGR3ZWvB9JOUlLoQKvmxM=;
+ b=VE2ffzAZUIHXA5zAF15Xf2ckf1eh8PFYIh6Ing6GUbs3kvNJHqnDln2yukMQ+lPz2maDjH
+ BYGFampsakLgTckrDInatPZGG/2MFLO7Qb9sKj+Qs3kvVyvEY993NUZ8rCzUr+SLgf5nCj
+ EsKHutmwcrOWkeYwKJI4BUEco1rY41M=
+Received: from mail-pj1-f69.google.com (mail-pj1-f69.google.com
+ [209.85.216.69]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-549-Gd4qfNhMMKOsIxIdoRDkwA-1; Thu, 14 Jan 2021 00:58:11 -0500
+X-MC-Unique: Gd4qfNhMMKOsIxIdoRDkwA-1
+Received: by mail-pj1-f69.google.com with SMTP id 25so2677874pjb.5
+ for <qemu-devel@nongnu.org>; Wed, 13 Jan 2021 21:58:10 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=iNacylOqAbPVozexioUNB5fGR3ZWvB9JOUlLoQKvmxM=;
+ b=C9/TdDVouiencUbIQhhHH6IR60GOYQXuEKJF0qYIR9o58FsDangyOAl1pupskabWe+
+ Dp45lhvOsZDfJc//Z726iE0xXDlb65fhQBdFkyRodjReKMNaRJ7GaB4sBe7IptxquTlx
+ N5QhP2xDw8gkEbNyRNqT8XPXh4Ddy69f5fpawueaI4R6wlTK1WtFs8n+xt8Aym2Qepq/
+ 8ozAupWLB9zS7M72hniJHAHZM3R1j7Zg/lzJBGRawumKbsUpXXdskVtVA7oNkV8pBLoP
+ pRCCad7kyQ2CebvW0FMOXMnhxup9raRJOlzeUNQBs+10yfByPYzxcCPs5id3MUSa4Tc9
+ uGXg==
+X-Gm-Message-State: AOAM530eZ56TEisJlQxnGS8MOrNzgTJWpm9JuQ1Aw+sBei4Bgscg9yNw
+ STNAPrlyU8JA75xuxwuTMwRwZ4jAobklvMVea+fi7jo3VBBo08V+m9WpqzCMWyikWmmBWqotSVB
+ zz5x2//opXQZ7psje7ytEVB+pkbmZWAU=
+X-Received: by 2002:a63:8f4c:: with SMTP id r12mr5769035pgn.311.1610603890068; 
+ Wed, 13 Jan 2021 21:58:10 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJwAcKHxrPRIfNwWz4rzU3KkUOQEJlvQ/T5KueHTKvwj937C8rgkGmw8qNxKKDka1sIByfhLf99+XgQ5CAlpBi8=
+X-Received: by 2002:a63:8f4c:: with SMTP id r12mr5769013pgn.311.1610603889829; 
+ Wed, 13 Jan 2021 21:58:09 -0800 (PST)
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-Received: from [192.168.100.8] (185.215.60.80) by
- AM3PR07CA0065.eurprd07.prod.outlook.com (2603:10a6:207:4::23) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.3763.9 via Frontend Transport; Thu, 14 Jan 2021 05:18:03 +0000
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 1c63af47-638a-466f-faa9-08d8b84bc538
-X-MS-TrafficTypeDiagnostic: AM6PR08MB3221:
-X-Microsoft-Antispam-PRVS: <AM6PR08MB3221AF583772B334BB390E5EC1A80@AM6PR08MB3221.eurprd08.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:608;
-X-MS-Exchange-SenderADCheck: 1
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: MBap04taH5cxPQ22iA3Aa4U7iKRlBtIOdyOrwaVWNU2+Y5CQZkCwJIOjQiAr+y4ahYqrQLFTFVNB4qErGKWhTqO8Ll8TrVffEdB/3RffuTGsceY43qNLjatd3C2CGIWkIOXgNiZ3/VlRLAXepY3+arJ9ir375FwCWYpLPEJQdn7XC146vIM2pxwWV8txEb6urDilklDzwvkMBI874qP2eYOG9Fo8Yp/qjkoe4drH0wED1ZrsDMQns14xyc+HN5BiaEDG8dLQRdJ9ny1xTOUeGQu6iy/Z0wRb2+MMvGrxzypiXMeoXDSc/BHL4as5cl1WGvExYHwxboLJZvdmetwBCZ/RLi9pRQ4/xlsbUHC99AvWscAOx41MjKWdLrBFEHVoxceUZwuVAnweajkUq76mbdXOpz6pldeONmuS5YUGAO27CxK1k5Fgix02xJQ92ZsVVqquFdnO+gja8MdsDFEVzjbvwRoWIDh9c3maxFfyIz0=
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:AM7PR08MB5494.eurprd08.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(4636009)(396003)(376002)(39840400004)(136003)(366004)(346002)(8676002)(31696002)(36756003)(956004)(4744005)(8936002)(6486002)(66556008)(2616005)(26005)(478600001)(86362001)(31686004)(16526019)(54906003)(5660300002)(4326008)(316002)(16576012)(186003)(66946007)(52116002)(66476007)(2906002)(45980500001)(43740500002);
- DIR:OUT; SFP:1102; 
-X-MS-Exchange-AntiSpam-MessageData: =?utf-8?B?Ky9mY0RwT2ptWGNyVHRmUkhXdnMxNmFkN2pTbnA5c0ZxMHNUSzZoM1FsRW9x?=
- =?utf-8?B?TVYzZVpDYkFFTk81RTkxVi9COEd3SVk0UFM3ZnJhTHBHU1N2NG1RZDBKY3JL?=
- =?utf-8?B?U2tKSHhGTjIrQnR1azJMejRmdFlUMEVJSXlTLzliOHNBZEFEZ2hmYk4wSVEr?=
- =?utf-8?B?UWU1SngxZ1pQdkZ6cHhIMStZdGxUd2lhWUI2TlNOSjhCbVB1NXBuSytiQkdD?=
- =?utf-8?B?UXF0OVpiUEN0RVNObjA1QVk1TlB0TmR6QVptVXo2Tmd5N0Q0azd1Um56bnhw?=
- =?utf-8?B?ajlzMDRoMGFHMGpMdUU3STBOaXN3UlMvL3ova0c0c09jRGVNRVgrNkhSUmh3?=
- =?utf-8?B?YkRQQzdtVVlYVjBvbExPQWFFK0Z3YzJWMmMrWUV6ZExxRXZSdGlNcHVJUUNv?=
- =?utf-8?B?eWpUbTB4NFJVKzI4Mk11L3loeUdDeW5KRDFYemVtNjZXeFhiY0IrbFlNdHZp?=
- =?utf-8?B?OGRaV3IrZ2I2Q3FYWU1HY2VIZEx3ZEtGTnFnNTZYL0tKQytDbzR6NnBFNEdr?=
- =?utf-8?B?bmc0Zks4UHdZUkc3YmVNUWlZWEVzUnBCN3ViOGVtMXlaNjJLUmxUeng4OXVL?=
- =?utf-8?B?eWFaQldJNmZjUmhsVnRqTjFCZGYyTFlnNmYvNXdSa0UvOTRVSlJ3ZzUrQjFF?=
- =?utf-8?B?UnlnVUdBU1JqbWtmZWYyLy9oaklha1hGd3pFTGNzRFdFSWo0WWdsRU5wampT?=
- =?utf-8?B?M1BzeVNxTmFGRFZxWXRKdjJZdWN6Z1AzR1NQQ2ZpK3ZJTk1mNWYwTDJQcHp5?=
- =?utf-8?B?ZXEvOGYxSkdOR1UxV3N4WndPZWRwK3hBdEcxZWxQUjg3N0JlL05NMjhjVGlV?=
- =?utf-8?B?NWFQTzVGT0JlK1EzTWwvZzRPdWNUNkpiVTNVOUVOeDd6bjNaMmZsN1N5REhB?=
- =?utf-8?B?NWw5TWhzaG14eWI4V3Y3WG9EcnlBei9Sdm5HSmVZS2EzUGpHTitwMkpHektp?=
- =?utf-8?B?QUdabXpjUjJrSEFaY0pSNHpYdFhNenVydzl3eTNJNXA2a0kwUVN2MmtrQTR3?=
- =?utf-8?B?NTJ4N0pQYXVUNEVMSENENERlVStpUmFvMGxyaUlXMnlnQXlzK05PWUFxcmZV?=
- =?utf-8?B?TmN1dWw4TzAwU2RQUW10OTQxNXVsajJiYjFoNFNLYzFHVDcyVVFwNFRzTDU4?=
- =?utf-8?B?bFErZnpKeC94ZGV4M2E4aktXUm0rck9GTURHRm9qNXFlZ0Y1T3lLVDJJZXNF?=
- =?utf-8?B?bHY0dVBhK29USGVLU0tGVkE3T2Y0QXlBSE5ZbkY2cHJwb3kzZVVDTVExQUI5?=
- =?utf-8?B?ZFZTVVUxMEUySWpDbVRCNkc3ckcxZ3RhYmU2VStIRkppKytEY09nQlVsMHhm?=
- =?utf-8?Q?64qrEYAKOLfTkHP20mM8zJ0vLmqPA7IM1L?=
-X-OriginatorOrg: virtuozzo.com
-X-MS-Exchange-CrossTenant-AuthSource: AM7PR08MB5494.eurprd08.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 14 Jan 2021 05:18:04.2992 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
-X-MS-Exchange-CrossTenant-Network-Message-Id: 1c63af47-638a-466f-faa9-08d8b84bc538
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 3+ODxuWoNsWPPqd6pHeJp2CFGUx0rVndapLFHkkZZK5bDZ5QP6wXLGoTKbtIPMWWDGXki4YPveyOHR0MIPgomjVgYRgzUslhlPpjn4zBlAY=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM6PR08MB3221
-Received-SPF: pass client-ip=40.107.4.102;
- envelope-from=vsementsov@virtuozzo.com;
- helo=EUR03-DB5-obe.outbound.protection.outlook.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
-X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- MSGID_FROM_MTA_HEADER=0.001, NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7,
- RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_PASS=-0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+References: <20210113154540.24981-1-lulu@redhat.com>
+ <20210113154540.24981-2-lulu@redhat.com>
+ <f139945e-e81c-3c6d-9f18-8f6f88e16094@redhat.com>
+In-Reply-To: <f139945e-e81c-3c6d-9f18-8f6f88e16094@redhat.com>
+From: Cindy Lu <lulu@redhat.com>
+Date: Thu, 14 Jan 2021 13:57:33 +0800
+Message-ID: <CACLfguWT0n2e=-zaK_rkM-q_eTzteBPrvBSERm30mFovx9LcBg@mail.gmail.com>
+Subject: Re: [PATCH v1 1/4] virtio:add support in configure interrupt
+To: Jason Wang <jasowang@redhat.com>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=lulu@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=lulu@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -29
+X-Spam_score: -3.0
+X-Spam_bar: ---
+X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.25,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -137,19 +89,141 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: armbru@redhat.com, Eduardo Habkost <ehabkost@redhat.com>
+Cc: QEMU Developers <qemu-devel@nongnu.org>, Michael Tsirkin <mst@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-14.01.2021 01:10, Eric Blake wrote:
-> Commit 54aa3de72e switched multiple sites to use QAPI_LIST_PREPEND
-> instead of open-coding, but missed a couple of spots.
-> 
-> Signed-off-by: Eric Blake<eblake@redhat.com>
+On Thu, Jan 14, 2021 at 12:34 PM Jason Wang <jasowang@redhat.com> wrote:
+>
+>
+> On 2021/1/13 =E4=B8=8B=E5=8D=8811:45, Cindy Lu wrote:
+> > Add configure notifier and virtio_set_config_notifier_fd_handler
+> > in virtio
+> >
+> > Signed-off-by: Cindy Lu <lulu@redhat.com>
+> > ---
+> >   hw/virtio/virtio.c         | 25 +++++++++++++++++++++++++
+> >   include/hw/virtio/virtio.h |  5 +++++
+> >   2 files changed, 30 insertions(+)
+> >
+> > diff --git a/hw/virtio/virtio.c b/hw/virtio/virtio.c
+> > index ceb58fda6c..66ed1daf95 100644
+> > --- a/hw/virtio/virtio.c
+> > +++ b/hw/virtio/virtio.c
+> > @@ -3502,6 +3502,15 @@ static void virtio_queue_guest_notifier_read(Eve=
+ntNotifier *n)
+> >       }
+> >   }
+> >
+> > +static void virtio_queue_config_read(EventNotifier *n)
+> > +{
+>
+>
+> Note that the config interrupt belongs to the device. So it's better not
+> name it as "queue" here.
+>
+sure I will fix this
+>
+> > +    VirtIODevice *vdev =3D container_of(n, VirtIODevice, config_notifi=
+er);
+> > +
+> > +    if (event_notifier_test_and_clear(n)) {
+> > +
+> > +        virtio_notify_config(vdev);
+> > +    }
+> > +}
+> >   void virtio_queue_set_guest_notifier_fd_handler(VirtQueue *vq, bool a=
+ssign,
+> >                                                   bool with_irqfd)
+> >   {
+> > @@ -3518,6 +3527,17 @@ void virtio_queue_set_guest_notifier_fd_handler(=
+VirtQueue *vq, bool assign,
+> >       }
+> >   }
+> >
+> > +void virtio_set_config_notifier_fd_handler(VirtIODevice *vdev, bool as=
+sign,
+> > +                                                bool with_irqfd)
+> > +{
+> > +    if (assign && !with_irqfd) {
+> > +        event_notifier_set_handler(&vdev->config_notifier,
+> > +                                   virtio_queue_config_read);
+> > +    } else {
+> > +       event_notifier_set_handler(&vdev->config_notifier, NULL);
+> > +    }
+> > +}
+>
+>
+> I wonder whether we can simply generalize
+> virtio_queue_set_guest_notifier_fd_handler from
+>
+> void virtio_queue_set_guest_notifier_fd_handler(VirtQueue *vq, bool assig=
+n,
+>                                                  bool with_irqfd)
+>
+> to
+>
+> void virtio_set_guest_notifier_fd_handler(EventNotifier *e, bool assign,
+>                                                  bool with_irqfd)
+>
+>
+> Since there's actually no virtqueue specific setup in this function,
+> what its callee really want is a simple EventNotifier.
+>
+> Thanks
+>
+Thanks Jason=EF=BC=8C I will fix ths
+>
+> > +
+> >   EventNotifier *virtio_queue_get_guest_notifier(VirtQueue *vq)
+> >   {
+> >       return &vq->guest_notifier;
+> > @@ -3591,6 +3611,11 @@ EventNotifier *virtio_queue_get_host_notifier(Vi=
+rtQueue *vq)
+> >       return &vq->host_notifier;
+> >   }
+> >
+> > +EventNotifier *virtio_queue_get_config_notifier(VirtIODevice *vdev)
+> > +{
+> > +    return &vdev->config_notifier;
+> > +
+> > +}
+> >   void virtio_queue_set_host_notifier_enabled(VirtQueue *vq, bool enabl=
+ed)
+> >   {
+> >       vq->host_notifier_enabled =3D enabled;
+> > diff --git a/include/hw/virtio/virtio.h b/include/hw/virtio/virtio.h
+> > index b7ece7a6a8..38bd28242e 100644
+> > --- a/include/hw/virtio/virtio.h
+> > +++ b/include/hw/virtio/virtio.h
+> > @@ -108,6 +108,7 @@ struct VirtIODevice
+> >       bool use_guest_notifier_mask;
+> >       AddressSpace *dma_as;
+> >       QLIST_HEAD(, VirtQueue) *vector_queues;
+> > +    EventNotifier config_notifier;
+> >   };
+> >
+> >   struct VirtioDeviceClass {
+> > @@ -310,11 +311,15 @@ uint16_t virtio_get_queue_index(VirtQueue *vq);
+> >   EventNotifier *virtio_queue_get_guest_notifier(VirtQueue *vq);
+> >   void virtio_queue_set_guest_notifier_fd_handler(VirtQueue *vq, bool a=
+ssign,
+> >                                                   bool with_irqfd);
+> > +void virtio_set_config_notifier_fd_handler(VirtIODevice *vdev, bool as=
+sign,
+> > +                                                bool with_irqfd);
+> > +
+> >   int virtio_device_start_ioeventfd(VirtIODevice *vdev);
+> >   int virtio_device_grab_ioeventfd(VirtIODevice *vdev);
+> >   void virtio_device_release_ioeventfd(VirtIODevice *vdev);
+> >   bool virtio_device_ioeventfd_enabled(VirtIODevice *vdev);
+> >   EventNotifier *virtio_queue_get_host_notifier(VirtQueue *vq);
+> > +EventNotifier *virtio_queue_get_config_notifier(VirtIODevice *vdev);
+> >   void virtio_queue_set_host_notifier_enabled(VirtQueue *vq, bool enabl=
+ed);
+> >   void virtio_queue_host_notifier_read(EventNotifier *n);
+> >   void virtio_queue_aio_set_host_notifier_handler(VirtQueue *vq, AioCon=
+text *ctx,
+>
 
-Reviewed-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-
--- 
-Best regards,
-Vladimir
 
