@@ -2,71 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DB0992F63F6
-	for <lists+qemu-devel@lfdr.de>; Thu, 14 Jan 2021 16:13:52 +0100 (CET)
-Received: from localhost ([::1]:49084 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 43CF82F63FF
+	for <lists+qemu-devel@lfdr.de>; Thu, 14 Jan 2021 16:17:23 +0100 (CET)
+Received: from localhost ([::1]:58128 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l04Jr-0007yc-TO
-	for lists+qemu-devel@lfdr.de; Thu, 14 Jan 2021 10:13:51 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47390)
+	id 1l04NG-00045b-8l
+	for lists+qemu-devel@lfdr.de; Thu, 14 Jan 2021 10:17:22 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47450)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
- id 1l04GC-0005dI-D1; Thu, 14 Jan 2021 10:10:04 -0500
-Received: from mail-pl1-x62d.google.com ([2607:f8b0:4864:20::62d]:38353)
+ id 1l04GI-0005rz-R5; Thu, 14 Jan 2021 10:10:10 -0500
+Received: from mail-pj1-x102b.google.com ([2607:f8b0:4864:20::102b]:52026)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
- id 1l04GA-0003uQ-Jk; Thu, 14 Jan 2021 10:10:04 -0500
-Received: by mail-pl1-x62d.google.com with SMTP id d4so3042840plh.5;
- Thu, 14 Jan 2021 07:10:01 -0800 (PST)
+ id 1l04GG-0003xc-Rx; Thu, 14 Jan 2021 10:10:10 -0500
+Received: by mail-pj1-x102b.google.com with SMTP id y12so3237745pji.1;
+ Thu, 14 Jan 2021 07:10:08 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=mcBcS27E7c3TjZqbOJS0mQTFgaIbVwGSQqShb6dbs/E=;
- b=kAi+y4lz0UEsutVIpcmIb3cNFI8k5mtS7qxcjQzPOJNc3XgHH5k4+mvi7eCWKTH21s
- WhET6X+FFwRDkLQdHGzgL8CzszunUMBoPA9PvrZi/c474reKr2fe8E5x8nNO0IwTEoUh
- /Mty/mF1ITZgIE+b1hOz6oxRQ0ZJWNM+cBeA3VFdMOysLxlYJbcBbKvPm4fY209y0yLI
- I7lPito7aZPF7C66LXl76bRhvH77bClKmv+PO7s62FdeCWhqDEh0tb0krPb0af+wnBJE
- mXHOTxR+Ls2YuCbihTbSkaXwLiCh0C2gfzBBP2DcKe7RQmKmGbwBhTojzzM4EWikZas4
- /k/Q==
+ bh=t2ETafJuNe5QRSDUuiXSiKWyirde+D6J5I6WLc2cTvc=;
+ b=a9gt0Q8jmR77DGEN9ARNwmR9UyaGiGnpffSX1nhuJSEQYZDM6zsYnqQoms/3U55Ich
+ 8htrfohCk4b0bjiWkqWv/fxw/2I83B2CJY8heHz6vnNWD4tWHuoE1rvOf4cDsave4ijN
+ 3P2rgSshmCn1iahEIIHdlVj1SB+kLPBt1RQIDbewe/rpUA1NrUchyATvrjjqSbMyp2Uy
+ SXa9r/qJa/V4sCfHVBvjYs+PFfgpURo/zWWDK5cFFwpzzIHfAuHWz8SvwbezDL5VHGkx
+ 9XsH6oN856+gDmr3Y2r8eO+E5+f1NFMtbvln/i075HU449+LH1fuokiv5RvMSQ1s2jp2
+ JbEw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=mcBcS27E7c3TjZqbOJS0mQTFgaIbVwGSQqShb6dbs/E=;
- b=QA2xakFgO0pSjXDmrA7ZXYo6WXGJyvDsin1YkuBsbJ/Zr9jWow79ZIyiTDpxq3g9qG
- 7iuN3cjHaFiqR11uA3eVmIrb0bNQBYjV4OQr8sTLsKRm18Zvo2yUqeyTx87po/TLVX2x
- mfYHdaQNI1WpaVjjLSK4leSNPQd4lBYopO+rZmJpQzVeR0v83gMcNgnamg//vbpTX83q
- txtPzkes+Z8RXwiN3plFud1g52DN5etph6udL33Gf1iSDdLaQzSJpcafiPTOED4wge7C
- 2YaexHMS14hPMCfQR9k/YHfzy14Y4Cp6cZmuVOZNn6IlH1uuNoslKpHfpFSrI3y7s08O
- QQKw==
-X-Gm-Message-State: AOAM5316ZIFu+G5KdwBwrpGcJytsKqf6508DMuynw/T4UyzTLu775kcK
- IeKKU9YgUxjAcQgY5505/2o=
-X-Google-Smtp-Source: ABdhPJz+v2xYDIBJJ35UHwRTzmHd4sl+fQlhdjweWQjJL0BJszcprNAlwmvMdnn1THMJFik2kPMr1A==
-X-Received: by 2002:a17:90a:e006:: with SMTP id
- u6mr5192404pjy.201.1610637001064; 
- Thu, 14 Jan 2021 07:10:01 -0800 (PST)
+ bh=t2ETafJuNe5QRSDUuiXSiKWyirde+D6J5I6WLc2cTvc=;
+ b=GxbCxIjtagWkyopdBtCqWimho+bLAqTWr185vrHBnmPqVoFhxk5Rz0WAyNd8EER2td
+ VedWVkgzM4Xc56+fdUayXVP3YRgKjE07Y57SnkiwoUFh5wLzzvXWAyIFcMXe8BjJffPf
+ UIJIZu9uq6rhj6CxSSoqnW4m0WnxKYvS2S8qHtYBtKqZxagsqITFjihPT5G6gtErNWF9
+ uKsCb9CviTz/e48jQTZZDHpKKRwaWO9KZCQ/5ukAP6xbcPYHVkR7XnBXlopTzBPUgKTy
+ U+MG6WuraMXaJtAPgaR/4LgxnxsiZsLXOvcCmRxIdy9QATlpc80u9nwl25oXc80UujF5
+ D6UQ==
+X-Gm-Message-State: AOAM532ZQZfi2HstJI9WHtPrW+6TvHjxk/NeOvMXB3UN1tqWdtMuXHeK
+ U67gg0dYW1yeiITIQkyunwh3SB453A4=
+X-Google-Smtp-Source: ABdhPJw8NAxCnsFrVs/ldkcB3mh5G1EcF0JfKtGmdTJq3PvAIXSYQITBrxcYeGNFLFTWVQCWIZGGCw==
+X-Received: by 2002:a17:90a:520e:: with SMTP id
+ v14mr4624083pjh.233.1610637007333; 
+ Thu, 14 Jan 2021 07:10:07 -0800 (PST)
 Received: from i9-aorus-gtx1080.localdomain (144.168.56.201.16clouds.com.
  [144.168.56.201])
- by smtp.gmail.com with ESMTPSA id w21sm5372051pfq.67.2021.01.14.07.09.49
+ by smtp.gmail.com with ESMTPSA id w21sm5372051pfq.67.2021.01.14.07.10.01
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 14 Jan 2021 07:10:00 -0800 (PST)
+ Thu, 14 Jan 2021 07:10:06 -0800 (PST)
 From: Bin Meng <bmeng.cn@gmail.com>
 To: Alistair Francis <alistair.francis@wdc.com>,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
  Peter Maydell <peter.maydell@linaro.org>,
  Francisco Iglesias <frasse.iglesias@gmail.com>
-Subject: [PATCH 3/9] hw/block: m25p80: Fix the number of dummy bytes needed
- for Macronix flashes
-Date: Thu, 14 Jan 2021 23:08:56 +0800
-Message-Id: <20210114150902.11515-4-bmeng.cn@gmail.com>
+Subject: [PATCH 4/9] hw/block: m25p80: Fix the number of dummy bytes needed
+ for Spansion flashes
+Date: Thu, 14 Jan 2021 23:08:57 +0800
+Message-Id: <20210114150902.11515-5-bmeng.cn@gmail.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20210114150902.11515-1-bmeng.cn@gmail.com>
 References: <20210114150902.11515-1-bmeng.cn@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::62d;
- envelope-from=bmeng.cn@gmail.com; helo=mail-pl1-x62d.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::102b;
+ envelope-from=bmeng.cn@gmail.com; helo=mail-pj1-x102b.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -95,75 +95,87 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Bin Meng <bin.meng@windriver.com>
 
-Per datasheet [1], the number of dummy cycles for Macronix flashes
-is configurable via two volatible bits (DC1, DC2) in a configuration
-register.
+Per datasheet [1], the number of dummy cycles for Spansion flashes
+is configurable via 4 volatible bits in a configuration register.
 
 Do the same dummy cycle to dummy byte conversion fix as others.
 
-[1] https://www.macronix.com/Lists/Datasheet/Attachments/7674/MX66U51235F,%201.8V,%20512Mb,%20v1.1.pdf
+[1] https://www.cypress.com/file/316171/download
 
-Fixes: cf6f1efe0b57 ("m25p80: Fast read commands family changes")
 Signed-off-by: Bin Meng <bin.meng@windriver.com>
 ---
 
- hw/block/m25p80.c | 21 +++++++++++----------
- 1 file changed, 11 insertions(+), 10 deletions(-)
+ hw/block/m25p80.c | 43 +++++++++++++++++++++++++++++++------------
+ 1 file changed, 31 insertions(+), 12 deletions(-)
 
 diff --git a/hw/block/m25p80.c b/hw/block/m25p80.c
-index c8cd12a6d3..44508b3da9 100644
+index 44508b3da9..e1e5d5a76f 100644
 --- a/hw/block/m25p80.c
 +++ b/hw/block/m25p80.c
-@@ -949,10 +949,10 @@ static void decode_fast_read_cmd(Flash *s)
-         break;
-     case MAN_MACRONIX:
-         if (extract32(s->volatile_cfg, 6, 2) == 1) {
--            s->needed_bytes += 6;
--        } else {
--            s->needed_bytes += 8;
-+            qemu_log_mask(LOG_UNIMP,
-+                          "M25P80: the number of dummy bits is not multiple of 8");
-         }
-+        s->needed_bytes += 1;
+@@ -955,10 +955,25 @@ static void decode_fast_read_cmd(Flash *s)
+         s->needed_bytes += 1;
          break;
      case MAN_SPANSION:
-         s->needed_bytes += extract32(s->spansion_cr2v,
-@@ -989,13 +989,14 @@ static void decode_dio_read_cmd(Flash *s)
-     case MAN_MACRONIX:
-         switch (extract32(s->volatile_cfg, 6, 2)) {
-         case 1:
--            s->needed_bytes += 6;
--            break;
+-        s->needed_bytes += extract32(s->spansion_cr2v,
+-                                    SPANSION_DUMMY_CLK_POS,
+-                                    SPANSION_DUMMY_CLK_LEN
+-                                    );
++        if (extract32(s->spansion_cr2v, SPANSION_DUMMY_CLK_POS,
++                      SPANSION_DUMMY_CLK_LEN) != 8) {
 +            qemu_log_mask(LOG_UNIMP,
 +                          "M25P80: the number of dummy bits is not multiple of 8");
-+        /* fall-through */
-         case 2:
--            s->needed_bytes += 8;
-+            s->needed_bytes += 2;
-             break;
-         default:
--            s->needed_bytes += 4;
++        }
++        switch (s->cmd_in_progress) {
++        case FAST_READ:
++        case FAST_READ4:
 +            s->needed_bytes += 1;
-             break;
-         }
-         break;
-@@ -1028,13 +1029,13 @@ static void decode_qio_read_cmd(Flash *s)
-     case MAN_MACRONIX:
-         switch (extract32(s->volatile_cfg, 6, 2)) {
-         case 1:
--            s->needed_bytes += 4;
++            break;
++        case DOR:
++        case DOR4:
 +            s->needed_bytes += 2;
-             break;
-         case 2:
--            s->needed_bytes += 8;
++            break;
++        case QOR:
++        case QOR4:
 +            s->needed_bytes += 4;
-             break;
-         default:
--            s->needed_bytes += 6;
-+            s->needed_bytes += 3;
-             break;
-         }
++            break;
++        }
          break;
+     default:
+         break;
+@@ -978,10 +993,12 @@ static void decode_dio_read_cmd(Flash *s)
+         break;
+     case MAN_SPANSION:
+         s->needed_bytes += SPANSION_CONTINUOUS_READ_MODE_CMD_LEN;
+-        s->needed_bytes += extract32(s->spansion_cr2v,
+-                                    SPANSION_DUMMY_CLK_POS,
+-                                    SPANSION_DUMMY_CLK_LEN
+-                                    );
++        if (extract32(s->spansion_cr2v, SPANSION_DUMMY_CLK_POS,
++                      SPANSION_DUMMY_CLK_LEN) != 8) {
++            qemu_log_mask(LOG_UNIMP,
++                          "M25P80: the number of dummy bits is not multiple of 8");
++        }
++        s->needed_bytes += 2;
+         break;
+     case MAN_NUMONYX:
+         s->needed_bytes += numonyx_extract_cfg_num_dummies(s);
+@@ -1018,10 +1035,12 @@ static void decode_qio_read_cmd(Flash *s)
+         break;
+     case MAN_SPANSION:
+         s->needed_bytes += SPANSION_CONTINUOUS_READ_MODE_CMD_LEN;
+-        s->needed_bytes += extract32(s->spansion_cr2v,
+-                                    SPANSION_DUMMY_CLK_POS,
+-                                    SPANSION_DUMMY_CLK_LEN
+-                                    );
++        if (extract32(s->spansion_cr2v, SPANSION_DUMMY_CLK_POS,
++                      SPANSION_DUMMY_CLK_LEN) != 8) {
++            qemu_log_mask(LOG_UNIMP,
++                          "M25P80: the number of dummy bits is not multiple of 8");
++        }
++        s->needed_bytes += 4;
+         break;
+     case MAN_NUMONYX:
+         s->needed_bytes += numonyx_extract_cfg_num_dummies(s);
 -- 
 2.25.1
 
