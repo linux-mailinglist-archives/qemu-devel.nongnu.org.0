@@ -2,54 +2,121 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 68FD12F6EC8
-	for <lists+qemu-devel@lfdr.de>; Fri, 15 Jan 2021 00:06:54 +0100 (CET)
-Received: from localhost ([::1]:36564 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A2B202F6EEF
+	for <lists+qemu-devel@lfdr.de>; Fri, 15 Jan 2021 00:30:36 +0100 (CET)
+Received: from localhost ([::1]:58364 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l0Bhd-0002L7-Gk
-	for lists+qemu-devel@lfdr.de; Thu, 14 Jan 2021 18:06:53 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35852)
+	id 1l0C4Z-0005ow-K5
+	for lists+qemu-devel@lfdr.de; Thu, 14 Jan 2021 18:30:35 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39792)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <sstabellini@kernel.org>)
- id 1l0Bgb-0001s0-8j
- for qemu-devel@nongnu.org; Thu, 14 Jan 2021 18:05:49 -0500
-Received: from mail.kernel.org ([198.145.29.99]:60206)
+ (Exim 4.90_1) (envelope-from <Thomas.Lendacky@amd.com>)
+ id 1l0C29-0005Ki-0L
+ for qemu-devel@nongnu.org; Thu, 14 Jan 2021 18:28:05 -0500
+Received: from mail-bn8nam11on2060.outbound.protection.outlook.com
+ ([40.107.236.60]:41697 helo=NAM11-BN8-obe.outbound.protection.outlook.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <sstabellini@kernel.org>)
- id 1l0BgW-0003TA-NO
- for qemu-devel@nongnu.org; Thu, 14 Jan 2021 18:05:49 -0500
-Received: by mail.kernel.org (Postfix) with ESMTPSA id D90CB23A59;
- Thu, 14 Jan 2021 23:05:40 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1610665541;
- bh=yUA/Bs1Pwhr1bUAUEs42FLI2wWiP3Hw6EnZlzaalbO8=;
- h=Date:From:To:cc:Subject:In-Reply-To:References:From;
- b=NhKHtB3okHZoISqekRvJc5v4BL++WC/qaXQR8B1au8DW9lS/p15z6mNivFMQ43AtO
- VgpNah2N5MJjzHNV9nTofnTAleSGHaQR/K59a5St+HrYoAn+3IEC/1S5ezkkWssP46
- usYqAF4odCuen7nD3HJlSc0J2heqbM3DmI1t5E01dK8WIN5OjAfUZZGWSL2xEw/wPI
- kUh7kM2rh5fW/1X61Fki2a7dNhxUTzMZLJVpnNKQUP4VBFC3rt8kEkzfhhxZpaRnlP
- Lmr9KCPEVpXUiN9/9cXE4hyN72gqDCAz0xytwT0Jl4Bfn5n0jMRcyJ6/RxtoOxuzsf
- OQuuEFVUJZlEQ==
-Date: Thu, 14 Jan 2021 15:05:40 -0800 (PST)
-From: Stefano Stabellini <sstabellini@kernel.org>
-X-X-Sender: sstabellini@sstabellini-ThinkPad-T480s
-To: Greg Kurz <groug@kaod.org>
-Subject: Re: [PATCH] 9pfs: Fully restart unreclaim loop (CVE-2021-20181)
-In-Reply-To: <161064025265.1838153.15185571283519390907.stgit@bahia.lan>
-Message-ID: <alpine.DEB.2.21.2101141505200.31265@sstabellini-ThinkPad-T480s>
-References: <161064025265.1838153.15185571283519390907.stgit@bahia.lan>
-User-Agent: Alpine 2.21 (DEB 202 2017-01-01)
+ (Exim 4.90_1) (envelope-from <Thomas.Lendacky@amd.com>)
+ id 1l0C23-0002oh-VR
+ for qemu-devel@nongnu.org; Thu, 14 Jan 2021 18:28:04 -0500
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=XeFJtDwSozk7CfFUcXjqPPWq6USUNiOC1srMgYADskb228TPa7aCT4HTfnN/BMzNY2YHTymqQ9+0TpHSCEC96XRKFsA2ctwwUsnM5ojQaV0HPmFlDtHL5Atbk1h8lYn4YZMUKlXfKx4Tlmw29c6BrmHENoEOAfpFNOLXSgu5/oLLyvy3mGfbBKiiA5h+Gjkmlst5F6KTZax69bVulmWkoy8UzUoLwhNiIPrJcD6QATjowvj/ndW7d4xNZkOVM/OQGsg995NBMn0OZYJDQP17DhqtMuLiYSC8EJ2bUtV2Qc2MiN+Dl1L+4rcMb9Mh8Ytj6le2mO7wDyqzHY/lBPNH3g==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=lz5fiaGYZ0gKhXgobY+++B5QfpHjelVGky8cVvyGyYU=;
+ b=TDsaqpszzu5J1StpUuYNY8avbR28ODKQ73fwDKgMFHUnlSrPDMttHG9W4rp/xPb0VzdNcsN7Ao7yBLQvHsVguGMrjzZfJ00d521ri0VDdpqBkhvj0HyVJ8fZ7+MTuY2eLyfaNgdQ4xjxr5K8I8Bg0hfsy3wAzkFHmo0Jg/iZ/+Adso5J97uZPjtN7E6yXzKhaf6SWad3DjshY0vcwTrI4WhcTSFBRre2WCbM63hBIik7pWyFK5bkfEvEjwjg/53/lB8Ua/mh3gtD2t+jMKbVVSjB2OAOHtB4sSXcvNgy7Gcvk/Upvglw6kfbWjpYWD0GvQE2bXUw6TDdgR98yy0s5Q==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=lz5fiaGYZ0gKhXgobY+++B5QfpHjelVGky8cVvyGyYU=;
+ b=l7+WW0I3EWlHGpzeZJaHYsfVlpEFOq28IxrZeZLdbluJOxDgFWfdUCt4WgjN7aJpp7K7kUg2rzVWEy6Gc5Cs9k+AVvadvrHeNxVxUUBwcOBSuGefoR1v89jjzrbnPgqj68b9HrGQUghAbbuUaY5wx0tRRXI/D8fHzHBr3qAZhLA=
+Authentication-Results: nongnu.org; dkim=none (message not signed)
+ header.d=none;nongnu.org; dmarc=none action=none header.from=amd.com;
+Received: from DM5PR12MB1355.namprd12.prod.outlook.com (2603:10b6:3:6e::7) by
+ DM5PR12MB2503.namprd12.prod.outlook.com (2603:10b6:4:b2::15) with
+ Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.3763.9; Thu, 14 Jan 2021 23:12:49 +0000
+Received: from DM5PR12MB1355.namprd12.prod.outlook.com
+ ([fe80::d95e:b9d:1d6a:e845]) by DM5PR12MB1355.namprd12.prod.outlook.com
+ ([fe80::d95e:b9d:1d6a:e845%12]) with mapi id 15.20.3763.011; Thu, 14 Jan 2021
+ 23:12:49 +0000
+From: Tom Lendacky <thomas.lendacky@amd.com>
+To: qemu-devel@nongnu.org,
+	kvm@vger.kernel.org
+Subject: [PATCH v5 0/6] Qemu SEV-ES guest support
+Date: Thu, 14 Jan 2021 17:12:30 -0600
+Message-Id: <cover.1610665956.git.thomas.lendacky@amd.com>
+X-Mailer: git-send-email 2.30.0
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [165.204.77.1]
+X-ClientProxiedBy: SN4PR0501CA0096.namprd05.prod.outlook.com
+ (2603:10b6:803:22::34) To DM5PR12MB1355.namprd12.prod.outlook.com
+ (2603:10b6:3:6e::7)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Received-SPF: pass client-ip=198.145.29.99;
- envelope-from=sstabellini@kernel.org; helo=mail.kernel.org
-X-Spam_score_int: -72
-X-Spam_score: -7.3
-X-Spam_bar: -------
-X-Spam_report: (-7.3 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.248,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_HI=-5, SPF_HELO_NONE=0.001,
+X-MS-Exchange-MessageSentRepresentingType: 1
+Received: from tlendack-t1.amd.com (165.204.77.1) by
+ SN4PR0501CA0096.namprd05.prod.outlook.com (2603:10b6:803:22::34) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3784.7 via Frontend
+ Transport; Thu, 14 Jan 2021 23:12:48 +0000
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-HT: Tenant
+X-MS-Office365-Filtering-Correlation-Id: ed26286a-80da-47d6-0f33-08d8b8e1e96c
+X-MS-TrafficTypeDiagnostic: DM5PR12MB2503:
+X-MS-Exchange-Transport-Forked: True
+X-Microsoft-Antispam-PRVS: <DM5PR12MB250357E4FD879031FC08A4CDECA80@DM5PR12MB2503.namprd12.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:4303;
+X-MS-Exchange-SenderADCheck: 1
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: bvf/g2QD4i7fWdBaCbmLw9OO8RTn7JrPEcBn9HjNQz9Ls/SwZBU4oQl8CTDE8uPCgU92E0of8N68XfgKqV+EotQegY6AhKZx1v2U8MzzjvWcfnSZ2UjzuMCVAfkmZZQ5kIG5t4sIdVpZIscUQcvcultkPPgJ0z048TeVshSMnCsw4EEOkxejcvkz0fwG50+vd0brYvbUPqcWqRJ8XNamvEakkEnQGNBbhUDYUBlCQOOL0piEuJZbAH94UeXNuXDVKHV1D/6uWHCJ5YcMPxwxXxB7uOwsYjSLCKoH2Eb2vE7xcR26VZmSOuQe3mjk89xxYu0UqQ/gPvJsQKAUcqxglLbiH6O7B7YSF/xd+A4HrjyKxDu8rgg831O58rkd+aPysOG93Xkw6o31qmjq7RfnnmKb+DADZAIyKw2aWvbp39zNmJ9qb6k1sbjvbB96meEjs+6cqmm3M8+R5laChqSsyw==
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:DM5PR12MB1355.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(4636009)(136003)(366004)(346002)(376002)(396003)(39860400002)(8936002)(54906003)(186003)(6666004)(6486002)(16526019)(86362001)(7696005)(956004)(66476007)(66556008)(52116002)(316002)(5660300002)(7416002)(966005)(2616005)(4326008)(36756003)(26005)(478600001)(83380400001)(2906002)(66946007)(8676002);
+ DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData: =?us-ascii?Q?fQ7MnSfdcv3AirXNJ2nyfjKIVXWBBw8BlbGitRwgU9EmAgiGBJcHDeajP0j/?=
+ =?us-ascii?Q?0C1xKS6LwDr8+FkaHPBSre9Y4YtYaj/CYf769zLSUNhdDMILkqaQIU23/UEg?=
+ =?us-ascii?Q?tqAuSxpSrh0rXMldG2rMfkkx2x8vymWybWcSX7N1TBVhyEz173TC/q9HhfS+?=
+ =?us-ascii?Q?ukzStKZ73bBP+gUelEYrGhyrxdJJNRA1LhKuYhR0BcQWWRv8fM1CgOaY57zQ?=
+ =?us-ascii?Q?MSiJ0H5jIESE+S0lajVdZuMkGYpx/azXqEq2x8CKAH+4lLjLdZAyaI9iz2FX?=
+ =?us-ascii?Q?prOWh4esnR5N0LFsJzwkgTWF8PVfcTMz76ZqWGI0xn5sYJWMWBPw/kBh3+GV?=
+ =?us-ascii?Q?ah2R//HfNfhdU7SFjfyXVULS6M24ml6JyXjccN5JyVBvecWiJJjpUqOoLvsB?=
+ =?us-ascii?Q?vOB6IPoAqrp6kTCcgK8GCPkmn6fIL+flZNhahyvxv5Fg7nS8DJq7XQuNda0T?=
+ =?us-ascii?Q?fuAi1gRG7DdSbRGue/OAQOMGpEVQlxVvkN1y4FZnr6Nt6WMgP0tq1wi7Y73S?=
+ =?us-ascii?Q?/t8gQ+XYWzDb73vSMmO6wvYWlGFAHym5OgKNznS1KFkeIf2xxtntZZmLWHYO?=
+ =?us-ascii?Q?7DYtqVeI8HIRpjE6ueuBvKEwLnf/N0SV06S19n7sb55enHnT/q7G98+fzwlw?=
+ =?us-ascii?Q?Vl6ggkQQd0F1v08oTkZcbPzh0WgqorMp3v4Ip0Et0nMySghec2I+90Z/kjyR?=
+ =?us-ascii?Q?J4GX87RHRRnm25+fY0xYjJKVGN0B/eIg4GvehmgII9PhDTtGXKQLJIf7rAU7?=
+ =?us-ascii?Q?LhqnCV/QFDlBMPTcbduQ35XDajyYdKa0retFqHksb9nFJVEWuipdj6K1RwVf?=
+ =?us-ascii?Q?QAfaQjqlMe0KmiVkDaMLDtrL5L4QOjwW8vqh0lMhBPJBAcRc4kFoRGjDXGW5?=
+ =?us-ascii?Q?1k1cIBhOgZc2NdN7v6Endr8RtyfVbQAl2g//S4HgeJsz6tE3BeHlKr/VjBnM?=
+ =?us-ascii?Q?bNxAE8ytOv1WUjirku1PZ5Ym/93zhtdbNBDmBE5LWRKWmhHEjRvVHBilgPPT?=
+ =?us-ascii?Q?3IaI?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-AuthSource: DM5PR12MB1355.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 14 Jan 2021 23:12:49.4961 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-Network-Message-Id: ed26286a-80da-47d6-0f33-08d8b8e1e96c
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: 0Mrl/Un13Dqcb8DQ5ewO3/jJ62lqlJVS2wJ5tREnGVap74wKVA/R3J1XFN1smrkPbFMT27Ukag1u3YSBN5v4BA==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM5PR12MB2503
+Received-SPF: softfail client-ip=40.107.236.60;
+ envelope-from=Thomas.Lendacky@amd.com;
+ helo=NAM11-BN8-obe.outbound.protection.outlook.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ MSGID_FROM_MTA_HEADER=0.001, RCVD_IN_DNSWL_NONE=-0.0001,
+ RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_PASS=-0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -63,83 +130,147 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Prasad J Pandit <prasad@redhat.com>,
- Christian Schoenebeck <qemu_oss@crudebyte.com>, qemu-devel@nongnu.org,
- Stefano Stabellini <sstabellini@kernel.org>
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>,
+ Brijesh Singh <brijesh.singh@amd.com>, Eduardo Habkost <ehabkost@redhat.com>,
+ "Michael S. Tsirkin" <mst@redhat.com>, Connor Kuehl <ckuehl@redhat.com>,
+ Sean Christopherson <seanjc@google.com>, Marcelo Tosatti <mtosatti@redhat.com>,
+ David Hildenbrand <david@redhat.com>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ Paolo Bonzini <pbonzini@redhat.com>,
+ David Gibson <david@gibson.dropbear.id.au>, Jiri Slaby <jslaby@suse.cz>,
+ Aurelien Jarno <aurelien@aurel32.net>, Richard Henderson <rth@twiddle.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, 14 Jan 2021, Greg Kurz wrote:
-> Depending on the client activity, the server can be asked to open a huge
-> number of file descriptors and eventually hit RLIMIT_NOFILE. This is
-> currently mitigated using a reclaim logic : the server closes the file
-> descriptors of idle fids, based on the assumption that it will be able
-> to re-open them later. This assumption doesn't hold of course if the
-> client requests the file to be unlinked. In this case, we loop on the
-> entire fid list and mark all related fids as unreclaimable (the reclaim
-> logic will just ignore them) and, of course, we open or re-open their
-> file descriptors if needed since we're about to unlink the file.
-> 
-> This is the purpose of v9fs_mark_fids_unreclaim(). Since the actual
-> opening of a file can cause the coroutine to yield, another client
-> request could possibly add a new fid that we may want to mark as
-> non-reclaimable as well. The loop is thus restarted if the re-open
-> request was actually transmitted to the backend. This is achieved
-> by keeping a reference on the first fid (head) before traversing
-> the list.
-> 
-> This is wrong in several ways:
-> - a potential clunk request from the client could tear the first
->   fid down and cause the reference to be stale. This leads to a
->   use-after-free error that can be detected with ASAN, using a
->   custom 9p client
-> - fids are added at the head of the list : restarting from the
->   previous head will always miss fids added by a some other
->   potential request
-> 
-> All these problems could be avoided if fids were being added at the
-> end of the list. This can be achieved with a QSIMPLEQ, but this is
-> probably too much change for a bug fix. For now let's keep it
-> simple and just restart the loop from the current head.
-> 
-> Fixes: CVE-2021-20181
-> Buglink: https://bugs.launchpad.net/qemu/+bug/1911666
-> Reported-by: Zero Day Initiative <zdi-disclosures@trendmicro.com>
-> Reviewed-by: Christian Schoenebeck <qemu_oss@crudebyte.com>
-> Signed-off-by: Greg Kurz <groug@kaod.org>
+From: Tom Lendacky <thomas.lendacky@amd.com>
 
-Reviewed-by: Stefano Stabellini <sstabellini@kernel.org>
+This patch series provides support for launching an SEV-ES guest.
 
+Secure Encrypted Virtualization - Encrypted State (SEV-ES) expands on the
+SEV support to protect the guest register state from the hypervisor. See
+"AMD64 Architecture Programmer's Manual Volume 2: System Programming",
+section "15.35 Encrypted State (SEV-ES)" [1].
 
-> ---
->  hw/9pfs/9p.c |    6 +++---
->  1 file changed, 3 insertions(+), 3 deletions(-)
-> 
-> diff --git a/hw/9pfs/9p.c b/hw/9pfs/9p.c
-> index 94df440fc740..6026b51a1c04 100644
-> --- a/hw/9pfs/9p.c
-> +++ b/hw/9pfs/9p.c
-> @@ -502,9 +502,9 @@ static int coroutine_fn v9fs_mark_fids_unreclaim(V9fsPDU *pdu, V9fsPath *path)
->  {
->      int err;
->      V9fsState *s = pdu->s;
-> -    V9fsFidState *fidp, head_fid;
-> +    V9fsFidState *fidp;
->  
-> -    head_fid.next = s->fid_list;
-> +again:
->      for (fidp = s->fid_list; fidp; fidp = fidp->next) {
->          if (fidp->path.size != path->size) {
->              continue;
-> @@ -524,7 +524,7 @@ static int coroutine_fn v9fs_mark_fids_unreclaim(V9fsPDU *pdu, V9fsPath *path)
->               * switched to the worker thread
->               */
->              if (err == 0) {
-> -                fidp = &head_fid;
-> +                goto again;
->              }
->          }
->      }
-> 
-> 
+In order to allow a hypervisor to perform functions on behalf of a guest,
+there is architectural support for notifying a guest's operating system
+when certain types of VMEXITs are about to occur. This allows the guest to
+selectively share information with the hypervisor to satisfy the requested
+function. The notification is performed using a new exception, the VMM
+Communication exception (#VC). The information is shared through the
+Guest-Hypervisor Communication Block (GHCB) using the VMGEXIT instruction.
+The GHCB format and the protocol for using it is documented in "SEV-ES
+Guest-Hypervisor Communication Block Standardization" [2].
+
+The main areas of the Qemu code that are updated to support SEV-ES are
+around the SEV guest launch process and AP booting in order to support
+booting multiple vCPUs.
+
+There are no new command line switches required. Instead, the desire for
+SEV-ES is presented using the SEV policy object. Bit 2 of the SEV policy
+object indicates that SEV-ES is required.
+
+The SEV launch process is updated in two ways. The first is that a the
+KVM_SEV_ES_INIT ioctl is used to initialize the guest instead of the
+standard KVM_SEV_INIT ioctl. The second is that before the SEV launch
+measurement is calculated, the LAUNCH_UPDATE_VMSA SEV API is invoked for
+each vCPU that Qemu has created. Once the LAUNCH_UPDATE_VMSA API has been
+invoked, no direct changes to the guest register state can be made.
+
+AP booting poses some interesting challenges. The INIT-SIPI-SIPI sequence
+is typically used to boot the APs. However, the hypervisor is not allowed
+to update the guest registers. For the APs, the reset vector must be known
+in advance. An OVMF method to provide a known reset vector address exists
+by providing an SEV information block, identified by UUID, near the end of
+the firmware [3]. OVMF will program the jump to the actual reset vector in
+this area of memory. Since the memory location is known in advance, an AP
+can be created with the known reset vector address as its starting CS:IP.
+The GHCB document [2] talks about how SMP booting under SEV-ES is
+performed. SEV-ES also requires the use of the in-kernel irqchip support
+in order to minimize the changes required to Qemu to support AP booting.
+
+[1] https://www.amd.com/system/files/TechDocs/24593.pdf
+[2] https://developer.amd.com/wp-content/resources/56421.pdf
+[3] 30937f2f98c4 ("OvmfPkg: Use the SEV-ES work area for the SEV-ES AP reset vector")
+    https://github.com/tianocore/edk2/commit/30937f2f98c42496f2f143fe8374ae7f7e684847
+
+Cc: Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>
+Cc: Aurelien Jarno <aurelien@aurel32.net>
+Cc: David Gibson <david@gibson.dropbear.id.au>
+Cc: David Hildenbrand <david@redhat.com>
+Cc: Eduardo Habkost <ehabkost@redhat.com>
+Cc: Jiaxun Yang <jiaxun.yang@flygoat.com>
+Cc: Marcel Apfelbaum <marcel.apfelbaum@gmail.com>
+Cc: Marcelo Tosatti <mtosatti@redhat.com>
+Cc: "Michael S. Tsirkin" <mst@redhat.com>
+Cc: Paolo Bonzini <pbonzini@redhat.com>
+Cc: Peter Maydell <peter.maydell@linaro.org>
+Cc: Richard Henderson <richard.henderson@linaro.org>
+
+---
+
+These patches are based on commit:
+7c79721606 ("Merge remote-tracking branch 'remotes/rth-gitlab/tags/pull-tcg-20210113' into staging")
+
+Additionally, these patches pre-req the following patch series that has
+not yet been accepted into the Qemu tree:
+
+[PATCH v2 0/2] sev: enable secret injection to a self described area in OVMF
+  https://lore.kernel.org/qemu-devel/20201214154429.11023-1-jejb@linux.ibm.com/
+
+A version of the tree can be found at:
+https://github.com/AMDESE/qemu/tree/sev-es-v13
+
+Changes since v4:
+- Add support for an updated Firmware GUID table implementation, that
+  is now present in OVMF SEV-ES firmware, when searching for the reset
+  vector information. The code will check for the new implementation
+  first, followed by the original implementation to maintain backward
+  compatibility.
+
+Changes since v3:
+- Use the QemuUUID structure for GUID definitions
+- Use SEV-ES policy bit definition from target/i386/sev_i386.h
+- Update SMM support to a per-VM check in order to check SMM capability
+  at the VM level since SEV-ES guests don't currently support SMM
+- Make the CPU resettable check an arch-specific check
+
+Changes since v2:
+- Add in-kernel irqchip requirement for SEV-ES guests
+
+Changes since v1:
+- Fixed checkpatch.pl errors/warnings
+
+Tom Lendacky (6):
+  sev/i386: Add initial support for SEV-ES
+  sev/i386: Require in-kernel irqchip support for SEV-ES guests
+  sev/i386: Allow AP booting under SEV-ES
+  sev/i386: Don't allow a system reset under an SEV-ES guest
+  kvm/i386: Use a per-VM check for SMM capability
+  sev/i386: Enable an SEV-ES guest based on SEV policy
+
+ accel/kvm/kvm-all.c       |  69 +++++++++++++++++++++
+ accel/stubs/kvm-stub.c    |   5 ++
+ hw/i386/pc_sysfw.c        |  10 ++-
+ include/sysemu/cpus.h     |   2 +
+ include/sysemu/hw_accel.h |   5 ++
+ include/sysemu/kvm.h      |  26 ++++++++
+ include/sysemu/sev.h      |   3 +
+ softmmu/cpus.c            |   5 ++
+ softmmu/runstate.c        |   7 ++-
+ target/arm/kvm.c          |   5 ++
+ target/i386/cpu.c         |   1 +
+ target/i386/kvm/kvm.c     |  10 ++-
+ target/i386/sev-stub.c    |   6 ++
+ target/i386/sev.c         | 124 +++++++++++++++++++++++++++++++++++++-
+ target/i386/sev_i386.h    |   1 +
+ target/mips/kvm.c         |   5 ++
+ target/ppc/kvm.c          |   5 ++
+ target/s390x/kvm.c        |   5 ++
+ 18 files changed, 288 insertions(+), 6 deletions(-)
+
+-- 
+2.30.0
+
 
