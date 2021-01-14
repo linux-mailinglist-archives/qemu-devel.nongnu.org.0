@@ -2,92 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8C2732F64B9
-	for <lists+qemu-devel@lfdr.de>; Thu, 14 Jan 2021 16:36:27 +0100 (CET)
-Received: from localhost ([::1]:42878 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BF2052F64D7
+	for <lists+qemu-devel@lfdr.de>; Thu, 14 Jan 2021 16:39:02 +0100 (CET)
+Received: from localhost ([::1]:47220 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l04fi-0005bh-Al
-	for lists+qemu-devel@lfdr.de; Thu, 14 Jan 2021 10:36:26 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53594)
+	id 1l04iD-0007fD-GA
+	for lists+qemu-devel@lfdr.de; Thu, 14 Jan 2021 10:39:01 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53772)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1l04cF-0003Nz-PS
- for qemu-devel@nongnu.org; Thu, 14 Jan 2021 10:32:51 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:42387)
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1l04cm-0003Wr-NB
+ for qemu-devel@nongnu.org; Thu, 14 Jan 2021 10:33:25 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:46371)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1l04cD-0005zr-NA
- for qemu-devel@nongnu.org; Thu, 14 Jan 2021 10:32:51 -0500
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1l04cj-0006CX-Uh
+ for qemu-devel@nongnu.org; Thu, 14 Jan 2021 10:33:24 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1610638368;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ s=mimecast20190719; t=1610638401;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=tqtW1KDSvAX5s6p7okJuPtDS5DuCphHONRKVfLVY6U4=;
- b=ZJdmafzzQ6rmopYlR7wY4jWE+ehwT0eFKCcAQf9B/0HXcHb2FTcvxmRPeIyOaEVeom6Rpb
- IaUTi/qoTiaAbL+0ySnq5yL7KiAZvG94vVW19SwNcKKDnzHg5BXAUoro/o+/ZVlfNd0eK1
- eU0OVU4X8TTxGad3rM3G+8Oruhob62I=
-Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
- [209.85.128.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-516-8r_oVnd_Mj-owditT_gpOA-1; Thu, 14 Jan 2021 10:32:44 -0500
-X-MC-Unique: 8r_oVnd_Mj-owditT_gpOA-1
-Received: by mail-wm1-f72.google.com with SMTP id x20so2031162wmc.0
- for <qemu-devel@nongnu.org>; Thu, 14 Jan 2021 07:32:44 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=tqtW1KDSvAX5s6p7okJuPtDS5DuCphHONRKVfLVY6U4=;
- b=JjuTqGWBFOcxMelUlU4+TzqWNBD4ddFXNRUXe6zmUzwRJQgMBvDx7ajVyIwAKm9YYM
- VtWD6LsI2GCo02AortUMKfq7ZuD+FmU9rDzuWOXr4u5B+S8/tqDEmx0KXFR37+/atW5Z
- xaLWP4lPoU1qoc7uBgoZLoc9SNsb+PbBtNMyOUjUNdsOEKCAjnDzXbfGWTgnVm2C5Ypt
- /gvniq9+du9D6eSG6Fi/5+5UXdeMrhCtG6vIqO+dFiDQlTTyRio6/Q2f2LvI8+UwoOU2
- wuzEDK0R1FjgzE5sDwBLIEeNaqqdQw3FRSggqESshfK7nVO1OB/QWca2qPRz2hs5WIgP
- 4SjA==
-X-Gm-Message-State: AOAM531UOLt6EwwWNDOjkXyS0ANdzFxbFMjS0/ndwlLdLApBj2WAK4xj
- FZCqBnBNGopY5CeW8zRGYz8lsJ39fOpMXsNy7VHa7Frs06hmjDRuyItIWwG78B59w9I/VK9njc8
- 2x67Bijq8BHATaxQ=
-X-Received: by 2002:adf:dd11:: with SMTP id a17mr8534957wrm.360.1610638363744; 
- Thu, 14 Jan 2021 07:32:43 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJxk+Bq5+Nzt2pTJaXxoamNpyChmVGBH6c1zzQzow7WSxs2XaEgTecMvMs18W4d12UVEINCHPA==
-X-Received: by 2002:adf:dd11:: with SMTP id a17mr8534935wrm.360.1610638363576; 
- Thu, 14 Jan 2021 07:32:43 -0800 (PST)
-Received: from [192.168.1.36] (13.red-83-57-169.dynamicip.rima-tde.net.
- [83.57.169.13])
- by smtp.gmail.com with ESMTPSA id t16sm9296324wmi.3.2021.01.14.07.32.42
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 14 Jan 2021 07:32:43 -0800 (PST)
-Subject: Re: [PATCH v2 1/1] security-process: update process information
-To: P J P <ppandit@redhat.com>
-References: <20201203142902.474883-1-ppandit@redhat.com>
- <20201203142902.474883-2-ppandit@redhat.com>
- <73cb359c-164e-13ed-dccf-1706e03ea52b@redhat.com>
- <r8pon75n-3o56-646-os49-os67578r64n@erqung.pbz>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-Message-ID: <bdf3c3ad-79e8-75bf-fe69-29e610b7e8ff@redhat.com>
-Date: Thu, 14 Jan 2021 16:32:41 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.6.0
+ bh=EtNuM8olaR7jZ6oi91Dt8+iP5QBXiEIcQy8JQqXwuNI=;
+ b=Bv2XMNcuKmluNLdabKKzKKP7pquQBui/XSl0x/tUGVdo7riOIUhaG2/HY20Fdx3/H4yVwX
+ XInYMA6QT6WveSZ9yo7KkkovyctYLjvhi2u3SIujPA9DP99wSRJBgKNKGHeXWKiPXb0aMD
+ vrto+RCxGrktN/20fM3t4GKFq2kjn84=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-426-boN0XtuPNMyN0H2WksQqMQ-1; Thu, 14 Jan 2021 10:33:17 -0500
+X-MC-Unique: boN0XtuPNMyN0H2WksQqMQ-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 34338100F340;
+ Thu, 14 Jan 2021 15:33:15 +0000 (UTC)
+Received: from redhat.com (ovpn-115-77.ams2.redhat.com [10.36.115.77])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 068E918AD6;
+ Thu, 14 Jan 2021 15:33:03 +0000 (UTC)
+Date: Thu, 14 Jan 2021 15:33:01 +0000
+From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+To: Christian Borntraeger <borntraeger@de.ibm.com>
+Subject: Re: [for-6.0 v5 11/13] spapr: PEF: prevent migration
+Message-ID: <20210114153301.GL1643043@redhat.com>
+References: <20210114103643.GD2905@work-vm>
+ <db2295ce-333f-2a3e-8219-bfa4853b256f@de.ibm.com>
+ <20210114120531.3c7f350e.cohuck@redhat.com>
+ <20210114114533.GF2905@work-vm>
+ <b791406c-fde2-89db-4186-e1660f14418c@de.ibm.com>
+ <20210114122048.GG1643043@redhat.com>
+ <20210114150422.5f74ca41.cohuck@redhat.com>
+ <b0084527-97b3-3174-d988-bf0f6d6221fd@de.ibm.com>
+ <20210114141535.GJ1643043@redhat.com>
+ <e13aad37-97ba-de1b-f311-cd37044c1809@de.ibm.com>
 MIME-Version: 1.0
-In-Reply-To: <r8pon75n-3o56-646-os49-os67578r64n@erqung.pbz>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=philmd@redhat.com;
+In-Reply-To: <e13aad37-97ba-de1b-f311-cd37044c1809@de.ibm.com>
+User-Agent: Mutt/1.14.6 (2020-07-11)
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=berrange@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -32
-X-Spam_score: -3.3
+X-Spam_score_int: -29
+X-Spam_score: -3.0
 X-Spam_bar: ---
-X-Spam_report: (-3.3 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.248,
+X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.248,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.237, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -100,25 +86,62 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: peter.maydell@linaro.org, Stefano Stabellini <sstabellini@kernel.org>,
- Petr Matousek <pmatouse@redhat.com>, "Michael S . Tsirkin" <mst@redhat.com>,
- Stefan Hajnoczi <stefanha@gmail.com>,
- Konrad Rzeszutek Wilk <konrad.wilk@oracle.com>,
- QEMU Developers <qemu-devel@nongnu.org>,
- Darren Kenny <darren.kenny@oracle.com>, Paolo Bonzini <pbonzini@redhat.com>,
- Michael Roth <michael.roth@amd.com>,
- =?UTF-8?Q?Daniel_P_=2e_Berrang=c3=a9?= <berrange@redhat.com>
+Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+Cc: pair@us.ibm.com, Boris Fiuczynski <fiuczy@linux.ibm.com>,
+ brijesh.singh@amd.com, kvm@vger.kernel.org,
+ "Michael S. Tsirkin" <mst@redhat.com>, Ram Pai <linuxram@us.ibm.com>,
+ qemu-devel@nongnu.org, Greg Kurz <groug@kaod.org>,
+ Bjoern Walk <bwalk@linux.ibm.com>, frankja@linux.ibm.com, david@redhat.com,
+ mdroth@linux.vnet.ibm.com, Halil Pasic <pasic@linux.ibm.com>,
+ Viktor Mihajlovski <mihajlov@linux.ibm.com>, thuth@redhat.com,
+ Eduardo Habkost <ehabkost@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
+ Marcelo Tosatti <mtosatti@redhat.com>, qemu-s390x@nongnu.org, rth@twiddle.net,
+ Cornelia Huck <cohuck@redhat.com>, qemu-ppc@nongnu.org,
+ David Gibson <david@gibson.dropbear.id.au>, pbonzini@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 1/14/21 4:31 PM, P J P wrote:
-> +-- On Thu, 14 Jan 2021, Philippe Mathieu-Daudé wrote --+
-> | What is the status of this, is something missing?
+On Thu, Jan 14, 2021 at 04:25:21PM +0100, Christian Borntraeger wrote:
+> On 14.01.21 15:15, Daniel P. Berrangé wrote:
+> > On Thu, Jan 14, 2021 at 03:09:01PM +0100, Christian Borntraeger wrote:
+> >>
+> >>
+> >> On 14.01.21 15:04, Cornelia Huck wrote:
+> >>
+> >> What about a libvirt change that removes the unpack from the host-model as 
+> >> soon as  only-migrateable is used. When that is in place, QEMU can reject
+> >> the combination of only-migrateable + unpack.
+> > 
+> > I think libvirt needs to just unconditionally remove unpack from host-model
+> > regardless, and require an explicit opt in. We can do that in libvirt
+> > without compat problems, because we track the expansion of "host-model"
+> > for existing running guests.
 > 
->  -> https://lists.gnu.org/archive/html/qemu-devel/2020-12/msg04469.html
+> This is true for running guests, but not for shutdown and restart.
 > 
->  It is up and running.^^
+> I would really like to avoid bad (and hard to debug) surprises that a guest boots
+> fine with libvirt version x and then fail with x+1. So at the beginning
+> I am fine with libvirt removing "unpack" from the default host model expansion
+> if the --only-migrateable parameter is used. Now I look into libvirt and I 
+> cannot actually find code that uses this parameter. Are there some patches
+> posted somewhere?
 
-Ah, this is a qemu-web patch, sorry...
+Sorryy, I should have been clearer that we don't currently use
+--only-migrateable.  I've been talking from the pov of the effects
+if we were to introduce it into libvirt.
+
+The way it would work would be for  'virsh start FOO' to start the guest
+unconditionally, while  'virsh start --migratable FOO' would start the
+same guest config but fail if it used a non-migratable feature. We need
+the guest ABI to be the same in both cases.
+
+Regards,
+Daniel
+-- 
+|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
+|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
+|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
 
 
