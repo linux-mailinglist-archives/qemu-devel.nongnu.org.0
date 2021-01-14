@@ -2,79 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EEA5E2F6E57
-	for <lists+qemu-devel@lfdr.de>; Thu, 14 Jan 2021 23:41:54 +0100 (CET)
-Received: from localhost ([::1]:56076 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 33C442F6EA0
+	for <lists+qemu-devel@lfdr.de>; Thu, 14 Jan 2021 23:52:50 +0100 (CET)
+Received: from localhost ([::1]:59268 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l0BJR-0004wf-He
-	for lists+qemu-devel@lfdr.de; Thu, 14 Jan 2021 17:41:53 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58252)
+	id 1l0BU0-0007F5-Ti
+	for lists+qemu-devel@lfdr.de; Thu, 14 Jan 2021 17:52:48 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60810)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mforney@mforney.org>)
- id 1l0BFt-00046x-99
- for qemu-devel@nongnu.org; Thu, 14 Jan 2021 17:38:13 -0500
-Received: from mail-pg1-x529.google.com ([2607:f8b0:4864:20::529]:39259)
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1l0BSk-0006jA-Bl
+ for qemu-devel@nongnu.org; Thu, 14 Jan 2021 17:51:30 -0500
+Received: from indium.canonical.com ([91.189.90.7]:47388)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <mforney@mforney.org>)
- id 1l0BFr-0002EU-9Z
- for qemu-devel@nongnu.org; Thu, 14 Jan 2021 17:38:13 -0500
-Received: by mail-pg1-x529.google.com with SMTP id 30so4753009pgr.6
- for <qemu-devel@nongnu.org>; Thu, 14 Jan 2021 14:38:10 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=mforney-org.20150623.gappssmtp.com; s=20150623;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=IqgaHUk5U7mtZ3Pv6go/Z6K4kDupzt6qMv35bF1pAi4=;
- b=ItzAJBNEqh7mxYTg3EmuH915g75jXUxwWx8YZ4Wn9NE10i2E19ZCGU3QfNW6VO0wKf
- 6GPCkP9uEGulRxxI+kBeGWAhG7bDGcHn5JA0Rt0Q/LowyJHigXyrbt29gMaJBkc3kreo
- 32eXwMIvSNoR6W8A7Rule8SN6/RPnFYEc5PjEVlJ3DB0Eea7IRAKxe5jzUrg34XDJqhd
- 0uil7NpolOLdS7dGLTghNlHsch/kWgpps65GbsHGJH9HMMCzFJ0WogKSd7Wkrn5o2hnp
- Ye5QQ/XR8khXyLIiko9wK8WJMldWd+TD55oRKhOF8mpR7Ec5cFDcuIQ8ru+QFtg5SsVd
- sYOw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=IqgaHUk5U7mtZ3Pv6go/Z6K4kDupzt6qMv35bF1pAi4=;
- b=Pfy3QpVD4r2/JjDv72cEvTkTYHVmLjT0WxxzmZ06jjQAzkDehU+g2QVsCC4URmDiBa
- 5/JhGw+BIdz8Qy62sGBr1FE8gQmKIY9IfZ68E+ZUkz5oa896gG5jJeQwxx8wksb21hL+
- zVIU14RvTgdRD+LmQd5pOB0+jpBicdKR/r6/fW+4BYzQg8CCyxJd7Wu2CIDQOe9wjbzr
- avlmFu/fb9y1jiT88O7u0MVd17bxHdUYNQMrp10TwbTPx3Mi/a5u5QOAU1lqSWrKoMa2
- myDIloIMWui6/K7bKSOueRfQzIhL6tOK0P8d3/dgUxUyEHO4v4qHE/92cn3rAJvnkzcv
- eN6w==
-X-Gm-Message-State: AOAM532dz7T8IljGDoFE0UUP3ngxw1k0Xi+IXmShZo3sA3tGSKGVzz/o
- 7eBAzctjGvq3PRDGCm4tMf3DU3gImvhlmfxbTHk=
-X-Google-Smtp-Source: ABdhPJxdAOfOfpWoyvPTeqah34NTW87d7X+UV/kQb95J3DzXiWtucHxo9lpvBgeKSr055H0Z7ehIiw==
-X-Received: by 2002:a62:1ad3:0:b029:19d:cc02:5d07 with SMTP id
- a202-20020a621ad30000b029019dcc025d07mr9358904pfa.70.1610663888442; 
- Thu, 14 Jan 2021 14:38:08 -0800 (PST)
-Received: from localhost ([2601:647:5180:4570:c90:56ff:fe92:3a06])
- by smtp.gmail.com with ESMTPSA id u12sm6140344pfh.98.2021.01.14.14.38.07
- (version=TLS1_2 cipher=ECDHE-ECDSA-CHACHA20-POLY1305 bits=256/256);
- Thu, 14 Jan 2021 14:38:07 -0800 (PST)
-From: Michael Forney <mforney@mforney.org>
-To: qemu-devel@nongnu.org
-Subject: [PATCH v2] linux-user: Remove obsolete F_SHLCK and F_EXLCK translation
-Date: Thu, 14 Jan 2021 14:36:02 -0800
-Message-Id: <20210114223602.9004-1-mforney@mforney.org>
-X-Mailer: git-send-email 2.29.2
-In-Reply-To: <20201028032727.31326-1-mforney@mforney.org>
-References: <20201028032727.31326-1-mforney@mforney.org>
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1l0BSh-0006mn-KR
+ for qemu-devel@nongnu.org; Thu, 14 Jan 2021 17:51:30 -0500
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1l0BSf-0007yF-Ae
+ for <qemu-devel@nongnu.org>; Thu, 14 Jan 2021 22:51:25 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id 4E8272E813D
+ for <qemu-devel@nongnu.org>; Thu, 14 Jan 2021 22:51:25 +0000 (UTC)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Received-SPF: none client-ip=2607:f8b0:4864:20::529;
- envelope-from=mforney@mforney.org; helo=mail-pg1-x529.google.com
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Date: Thu, 14 Jan 2021 22:39:34 -0000
+From: John Snow <1908450@bugs.launchpad.net>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=New; importance=Undecided;
+ assignee=jsnow@redhat.com; 
+X-Launchpad-Bug-Tags: ata atapi ide identify x86
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: gourryinverse jnsnow th-huth
+X-Launchpad-Bug-Reporter: Gregory Price (gourryinverse)
+X-Launchpad-Bug-Modifier: John Snow (jnsnow)
+References: <160815666653.31417.1447357912774624366.malonedeb@chaenomeles.canonical.com>
+Message-Id: <161066397477.13228.11625221547220751784.malone@gac.canonical.com>
+Subject: [Bug 1908450] Re: ide/core.c ATA Major Version reporting incorrect
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="511b4a3b6512aa3d421c5f7d74f3527e78bff26e"; Instance="production"
+X-Launchpad-Hash: b2ad2ee4051b27583df848d681e2bc1efe0da9bb
+Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
+ helo=indium.canonical.com
+X-Spam_score_int: -65
+X-Spam_score: -6.6
+X-Spam_bar: ------
+X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9,
+ HEADER_FROM_DIFFERENT_DOMAINS=0.248, RCVD_IN_DNSWL_HI=-5,
+ RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
  SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -83,72 +71,85 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-trivial@nongnu.org
+Reply-To: Bug 1908450 <1908450@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-These lock types are unsupported by Linux since v2.2[0][1] and
-always return EINVAL (except on SPARC up until v2.6, which just
-warned).
+I doubt we truly implement *any* standard precisely correctly, but if we
+are advertising support for ATA7 and it works, I'd rather just fix the
+comment to keep behavior the same.
 
-musl libc does not define these constants, so just remove them from
-the translation cases.
+It probably was a mistake in the original commit from ... sometime
+before 2006, but if nothing is observably broken, maybe it shouldn't be
+changed.
 
-[0] https://github.com/mpe/linux-fullhistory/blob/v2.2.0/fs/locks.c#L322-L324
-[1] https://github.com/mpe/linux-fullhistory/blob/v2.2.0/fs/locks.c#L429-L445
+-- =
 
-Signed-off-by: Michael Forney <mforney@mforney.org>
----
-Changes since v1: fixed typo in commit message, resend to qemu-trivial.
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1908450
 
- linux-user/alpha/target_fcntl.h | 2 --
- linux-user/generic/fcntl.h      | 5 -----
- linux-user/syscall.c            | 2 --
- 3 files changed, 9 deletions(-)
+Title:
+  ide/core.c ATA Major Version reporting incorrect
 
-diff --git a/linux-user/alpha/target_fcntl.h b/linux-user/alpha/target_fcntl.h
-index 2617e73472..e16ed1d415 100644
---- a/linux-user/alpha/target_fcntl.h
-+++ b/linux-user/alpha/target_fcntl.h
-@@ -33,8 +33,6 @@
- #define TARGET_F_RDLCK         1
- #define TARGET_F_WRLCK         2
- #define TARGET_F_UNLCK         8
--#define TARGET_F_EXLCK         16
--#define TARGET_F_SHLCK         32
- 
- #include "../generic/fcntl.h"
- #endif
-diff --git a/linux-user/generic/fcntl.h b/linux-user/generic/fcntl.h
-index c85c5b9fed..4568d1f42b 100644
---- a/linux-user/generic/fcntl.h
-+++ b/linux-user/generic/fcntl.h
-@@ -119,11 +119,6 @@ struct target_f_owner_ex {
- #define TARGET_F_UNLCK         2
- #endif
- 
--#ifndef TARGET_F_EXLCK
--#define TARGET_F_EXLCK         4
--#define TARGET_F_SHLCK         8
--#endif
--
- #ifndef TARGET_HAVE_ARCH_STRUCT_FLOCK
- #ifndef TARGET_ARCH_FLOCK_PAD
- #define TARGET_ARCH_FLOCK_PAD
-diff --git a/linux-user/syscall.c b/linux-user/syscall.c
-index d182890ff0..f238edf715 100644
---- a/linux-user/syscall.c
-+++ b/linux-user/syscall.c
-@@ -6664,8 +6664,6 @@ static int target_to_host_fcntl_cmd(int cmd)
-     TRANSTBL_CONVERT(F_RDLCK); \
-     TRANSTBL_CONVERT(F_WRLCK); \
-     TRANSTBL_CONVERT(F_UNLCK); \
--    TRANSTBL_CONVERT(F_EXLCK); \
--    TRANSTBL_CONVERT(F_SHLCK); \
-     }
- 
- static int target_to_host_flock(int type)
--- 
-2.30.0
+Status in QEMU:
+  New
 
+Bug description:
+  @@ -165,7 +165,7 @@ static void ide_identify(IDEState *s)
+          put_le16(p + 76, (1 << 8));
+      }
+
+      put_le16(p + 80, 0xf0); /* ata3 -> ata6 supported */
+  -   put_le16(p + 80, 0xf0); /* ata3 -> ata6 supported */
+  +   put_le16(p + 80, ((1 << 6) | (1 << 5) (1 << 4) (1 << 3)); /* ata3 -> =
+ata6 supported */
+      put_le16(p + 81, 0x16); /* conforms to ata5 */
+      /* 14=3DNOP supported, 5=3DWCACHE supported, 0=3DSMART supported */
+      put_le16(p + 82, (1 << 14) | (1 << 5) | 1);
+
+  =
+
+  This field Major Version Number field is presently reporting support for =
+ATA-4 through ATA-7.
+  Bitfield[80] is defined in the ATA-6 specification below.
+
+  0xF0 =3D (1<<7) | (1<<6) | (1 << 5) | (1 << 4) // 4-7 - current settings
+  0x78 =3D (1<<6) | (1<<5) | (1 << 4) | (1 << 3) // 3-6 - new settings
+
+  Either the comment is wrong, or the field is wrong. If the field is
+  wrong it can cause errors in drivers that check support vs conformity.
+  This will not break most guests, since the conformity field is set to
+  ATA-5.
+
+  I'm not sure whether this component supports ATA-7, but since it's
+  commented as if it supports up through 6, correcting the field
+  assignment seems more correct.
+
+  ATA/ATAPI-6 Specification
+  https://web.archive.org/web/20200124094822/https://www.t13.org/Documents/=
+UploadedDocuments/project/d1410r3b-ATA-ATAPI-6.pdf
+
+  Page 116
+  80 - M Major version number
+  0000h or FFFFh =3D device does not report version
+  F 15 Reserved
+  F 14 Reserved for ATA/ATAPI-14
+  F 13 Reserved for ATA/ATAPI-13
+  F 12 Reserved for ATA/ATAPI-12
+  F 11 Reserved for ATA/ATAPI-11
+  F 10 Reserved for ATA/ATAPI-10
+  F 9 Reserved for ATA/ATAPI-9
+  F 8 Reserved for ATA/ATAPI-8
+  F 7 Reserved for ATA/ATAPI-7
+  F 6 1 =3D supports ATA/ATAPI-6
+  F 5 1 =3D supports ATA/ATAPI-5
+  F 4 1 =3D supports ATA/ATAPI-4
+  F 3 1 =3D supports ATA-3
+  X 2 Obsolete
+  X 1 Obsolete
+  F 0 Reserved
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1908450/+subscriptions
 
