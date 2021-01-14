@@ -2,76 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9CFD12F6575
-	for <lists+qemu-devel@lfdr.de>; Thu, 14 Jan 2021 17:09:37 +0100 (CET)
-Received: from localhost ([::1]:48078 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B7B7C2F6563
+	for <lists+qemu-devel@lfdr.de>; Thu, 14 Jan 2021 17:06:54 +0100 (CET)
+Received: from localhost ([::1]:39726 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l05Bo-0000Lb-LD
-	for lists+qemu-devel@lfdr.de; Thu, 14 Jan 2021 11:09:36 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33226)
+	id 1l059B-0004CI-OJ
+	for lists+qemu-devel@lfdr.de; Thu, 14 Jan 2021 11:06:53 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33154)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1l052r-0002FV-G9
- for qemu-devel@nongnu.org; Thu, 14 Jan 2021 11:00:26 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:40500)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1l052n-0001Gr-Uo
- for qemu-devel@nongnu.org; Thu, 14 Jan 2021 11:00:21 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1610640017;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=SKcoyxt+jrjFoHTbExXux/ug2ifJYwUks3rT3uzL9sg=;
- b=fixnlmzb0Abw++g+0v9WqB+CquVji4m1IJVns5NLM77qhePUyuV8hAvnhU811K98fh/KmF
- Icas4RSgRtUn5HTQakZdPLfN5EWMPQ0nukdLR8d6uYKP0ezWf/uHMxcsywGRg/6KoBg6ES
- 187T7/kgf7f0o71LuijPXQRzBmzLf0Y=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-543-MTF59JqWP22eOgxMTYkHCw-1; Thu, 14 Jan 2021 11:00:13 -0500
-X-MC-Unique: MTF59JqWP22eOgxMTYkHCw-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 35310879500;
- Thu, 14 Jan 2021 16:00:12 +0000 (UTC)
-Received: from [10.36.115.75] (ovpn-115-75.ams2.redhat.com [10.36.115.75])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 72BD919C71;
- Thu, 14 Jan 2021 15:59:57 +0000 (UTC)
-Subject: Re: [PATCH v4 06/11] vfio: Sanity check maximum number of DMA
- mappings with RamDiscardMgr
-To: Alex Williamson <alex.williamson@redhat.com>
-References: <20210107133423.44964-1-david@redhat.com>
- <20210107133423.44964-7-david@redhat.com>
- <20210113163435.0cae9846@omen.home.shazbot.org>
-From: David Hildenbrand <david@redhat.com>
-Organization: Red Hat GmbH
-Message-ID: <aa6efa11-6527-dd02-0e64-fc2a4190a985@redhat.com>
+ (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1l052k-00026l-Ey
+ for qemu-devel@nongnu.org; Thu, 14 Jan 2021 11:00:14 -0500
+Received: from 8.mo52.mail-out.ovh.net ([46.105.37.156]:58569)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1l052h-00018H-T0
+ for qemu-devel@nongnu.org; Thu, 14 Jan 2021 11:00:14 -0500
+Received: from mxplan5.mail.ovh.net (unknown [10.108.16.128])
+ by mo52.mail-out.ovh.net (Postfix) with ESMTPS id 4C695231676;
+ Thu, 14 Jan 2021 16:59:59 +0100 (CET)
+Received: from kaod.org (37.59.142.100) by DAG4EX1.mxp5.local (172.16.2.31)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2044.4; Thu, 14 Jan
+ 2021 16:59:57 +0100
+Authentication-Results: garm.ovh; auth=pass
+ (GARM-100R00388bc89b7-cbe8-4be9-8d74-fcfb2ec391f6,
+ 7B7BC4A7E5590C2C5C4BA269602926DB4F481435) smtp.auth=clg@kaod.org
+X-OVh-ClientIp: 82.64.250.170
+Subject: Re: [PATCH 0/9] hw/block: m25p80: Fix the mess of dummy bytes needed
+ for fast read commands
+To: Bin Meng <bmeng.cn@gmail.com>, Alistair Francis
+ <alistair.francis@wdc.com>, =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?=
+ <f4bug@amsat.org>, Peter Maydell <peter.maydell@linaro.org>, Francisco
+ Iglesias <frasse.iglesias@gmail.com>
+References: <20210114150902.11515-1-bmeng.cn@gmail.com>
+From: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>
+Message-ID: <78a12882-1303-dd6d-6619-96c5e2cbf531@kaod.org>
 Date: Thu, 14 Jan 2021 16:59:56 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.5.0
+ Thunderbird/78.6.0
 MIME-Version: 1.0
-In-Reply-To: <20210113163435.0cae9846@omen.home.shazbot.org>
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=david@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
+In-Reply-To: <20210114150902.11515-1-bmeng.cn@gmail.com>
+Content-Type: text/plain; charset="utf-8"
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=david@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -32
-X-Spam_score: -3.3
-X-Spam_bar: ---
-X-Spam_report: (-3.3 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.248,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.237, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Originating-IP: [37.59.142.100]
+X-ClientProxiedBy: DAG4EX1.mxp5.local (172.16.2.31) To DAG4EX1.mxp5.local
+ (172.16.2.31)
+X-Ovh-Tracer-GUID: 267b0d79-ded8-4c90-968c-87e917200ef6
+X-Ovh-Tracer-Id: 7673570815610620743
+X-VR-SPAMSTATE: OK
+X-VR-SPAMSCORE: -83
+X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgeduledrtddtgdehlecutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfqggfjpdevjffgvefmvefgnecuuegrihhlohhuthemucehtddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenfghrlhcuvffnffculddujedmnecujfgurhepuffvfhfhkffffgggjggtgfhisehtjeertddtfeejnecuhfhrohhmpeevrogurhhitggpnfgvpgfiohgrthgvrhcuoegtlhhgsehkrghougdrohhrgheqnecuggftrfgrthhtvghrnhepgefgueeflefgfefgjeeffffhgeeufeduiedtkeekheduveeffeeuhedutdeglefhnecuffhomhgrihhnpehgihhthhhusgdrtghomhdpqhgvmhhurdhorhhgpdhophgvnhhpohifvghrrdighiiipdhoiihlrggsshdrohhrghenucfkpheptddrtddrtddrtddpfeejrdehledrudegvddruddttdenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhhouggvpehsmhhtphdqohhuthdphhgvlhhopehmgihplhgrnhehrdhmrghilhdrohhvhhdrnhgvthdpihhnvghtpedtrddtrddtrddtpdhmrghilhhfrhhomheptghlgheskhgrohgurdhorhhgpdhrtghpthhtohepsghmvghnghdrtghnsehgmhgrihhlrdgtohhm
+Received-SPF: pass client-ip=46.105.37.156; envelope-from=clg@kaod.org;
+ helo=8.mo52.mail-out.ovh.net
+X-Spam_score_int: 0
+X-Spam_score: -0.1
+X-Spam_bar: /
+X-Spam_report: (-0.1 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.237,
+ PDS_OTHER_BAD_TLD=1.997, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -84,95 +73,208 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Pankaj Gupta <pankaj.gupta.linux@gmail.com>,
- Wei Yang <richard.weiyang@linux.alibaba.com>,
- "Michael S. Tsirkin" <mst@redhat.com>,
- Jonathan Cameron <Jonathan.Cameron@huawei.com>, qemu-devel@nongnu.org,
- Peter Xu <peterx@redhat.com>, "Dr . David Alan Gilbert" <dgilbert@redhat.com>,
- Auger Eric <eric.auger@redhat.com>, teawater <teawaterz@linux.alibaba.com>,
- Igor Mammedov <imammedo@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
- Marek Kedzierski <mkedzier@redhat.com>
+Cc: Kevin Wolf <kwolf@redhat.com>, qemu-devel@nongnu.org, qemu-block@nongnu.org,
+ Marcin Krzeminski <marcin.krzeminski@nokia.com>,
+ Andrew Jeffery <andrew@aj.id.au>, Bin Meng <bin.meng@windriver.com>,
+ Havard Skinnemoen <hskinnemoen@google.com>, Max Reitz <mreitz@redhat.com>,
+ Tyrone Ting <kfting@nuvoton.com>, qemu-arm@nongnu.org,
+ Joel Stanley <joel@jms.id.au>, Joe Komlodi <komlodi@xilinx.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 14.01.21 00:34, Alex Williamson wrote:
-> On Thu,  7 Jan 2021 14:34:18 +0100
-> David Hildenbrand <david@redhat.com> wrote:
+On 1/14/21 4:08 PM, Bin Meng wrote:
+> From: Bin Meng <bin.meng@windriver.com>
 > 
->> Although RamDiscardMgr can handle running into the maximum number of
->> DMA mappings by propagating errors when creating a DMA mapping, we want
->> to sanity check and warn the user early that there is a theoretical setup
->> issue and that virtio-mem might not be able to provide as much memory
->> towards a VM as desired.
->>
->> As suggested by Alex, let's use the number of KVM memory slots to guess
->> how many other mappings we might see over time.
->>
->> Cc: Paolo Bonzini <pbonzini@redhat.com>
->> Cc: "Michael S. Tsirkin" <mst@redhat.com>
->> Cc: Alex Williamson <alex.williamson@redhat.com>
->> Cc: Dr. David Alan Gilbert <dgilbert@redhat.com>
->> Cc: Igor Mammedov <imammedo@redhat.com>
->> Cc: Pankaj Gupta <pankaj.gupta.linux@gmail.com>
->> Cc: Peter Xu <peterx@redhat.com>
->> Cc: Auger Eric <eric.auger@redhat.com>
->> Cc: Wei Yang <richard.weiyang@linux.alibaba.com>
->> Cc: teawater <teawaterz@linux.alibaba.com>
->> Cc: Marek Kedzierski <mkedzier@redhat.com>
->> Signed-off-by: David Hildenbrand <david@redhat.com>
->> ---
->>  hw/vfio/common.c | 43 +++++++++++++++++++++++++++++++++++++++++++
->>  1 file changed, 43 insertions(+)
->>
->> diff --git a/hw/vfio/common.c b/hw/vfio/common.c
->> index 1babb6bb99..bc20f738ce 100644
->> --- a/hw/vfio/common.c
->> +++ b/hw/vfio/common.c
->> @@ -758,6 +758,49 @@ static void vfio_register_ram_discard_notifier(VFIOContainer *container,
->>                                vfio_ram_discard_notify_discard_all);
->>      rdmc->register_listener(rdm, section->mr, &vrdl->listener);
->>      QLIST_INSERT_HEAD(&container->vrdl_list, vrdl, next);
->> +
->> +    /*
->> +     * Sanity-check if we have a theoretically problematic setup where we could
->> +     * exceed the maximum number of possible DMA mappings over time. We assume
->> +     * that each mapped section in the same address space as a RamDiscardMgr
->> +     * section consumes exactly one DMA mapping, with the exception of
->> +     * RamDiscardMgr sections; i.e., we don't expect to have gIOMMU sections in
->> +     * the same address space as RamDiscardMgr sections.
->> +     *
->> +     * We assume that each section in the address space consumes one memslot.
->> +     * We take the number of KVM memory slots as a best guess for the maximum
->> +     * number of sections in the address space we could have over time,
->> +     * also consuming DMA mappings.
->> +     */
->> +    if (container->dma_max_mappings) {
->> +        unsigned int vrdl_count = 0, vrdl_mappings = 0, max_memslots = 512;
->> +
->> +#ifdef CONFIG_KVM
->> +        if (kvm_enabled()) {
->> +            max_memslots = kvm_get_max_memslots();
->> +        }
->> +#endif
->> +
->> +        QLIST_FOREACH(vrdl, &container->vrdl_list, next) {
->> +            hwaddr start, end;
->> +
->> +            start = QEMU_ALIGN_DOWN(vrdl->offset_within_address_space,
->> +                                    vrdl->granularity);
->> +            end = ROUND_UP(vrdl->offset_within_address_space + vrdl->size,
->> +                           vrdl->granularity);
->> +            vrdl_mappings = (end - start) / vrdl->granularity;
+> The m25p80 model uses s->needed_bytes to indicate how many follow-up
+> bytes are expected to be received after it receives a command. For
+> example, depending on the address mode, either 3-byte address or
+> 4-byte address is needed.
 > 
-> --->                         += ?
+> For fast read family commands, some dummy cycles are required after
+> sending the address bytes, and the dummy cycles need to be counted
+> in s->needed_bytes. This is where the mess began.
+> 
+> As the variable name (needed_bytes) indicates, the unit is in byte.
+> It is not in bit, or cycle. However for some reason the model has
+> been using the number of dummy cycles for s->needed_bytes. The right
+> approach is to convert the number of dummy cycles to bytes based on
+> the SPI protocol, for example, 6 dummy cycles for the Fast Read Quad
+> I/O (EBh) should be converted to 3 bytes per the formula (6 * 4 / 8).
+> 
+> Things get complicated when interacting with different SPI or QSPI
+> flash controllers. There are major two cases:
+> 
+> - Dummy bytes prepared by drivers, and wrote to the controller fifo.
+>   For such case, driver will calculate the correct number of dummy
+>   bytes and write them into the tx fifo. Fixing the m25p80 model will
+>   fix flashes working with such controllers.
+> - Dummy bytes not prepared by drivers. Drivers just tell the hardware
+>   the dummy cycle configuration via some registers, and hardware will
+>   automatically generate dummy cycles for us. Fixing the m25p80 model
+>   is not enough, and we will need to fix the SPI/QSPI models for such
+>   controllers.
+> 
+> This series fixes the mess in the m25p80 from the flash side first,
+> followed by fixes to 3 known SPI controller models that fall into
+> the 2nd case above.
+> 
+> Please note, I have no way to verify patch 7/8/9 because:
+> 
+> * There is no public datasheet available for the SoC / SPI controller
+> * There is no QEMU docs, or details that tell people how to boot either
+>   U-Boot or Linux kernel to verify the functionality
 
-Ah, yes, thanks. That's the result of testing only with a single
-virtio-mem device :)
+The Linux drivers are available in mainline but these branches are more 
+up to date since not everything is merged :
 
+  https://github.com/openbmc/linux
 
--- 
+u-boot : 
+
+  https://github.com/openbmc/u-boot/tree/v2016.07-aspeed-openbmc (ast2400/ast2500)
+  https://github.com/openbmc/u-boot/tree/v2019.04-aspeed-openbmc (ast2600)
+
+A quick intro : 
+
+  https://www.qemu.org/docs/master/system/arm/aspeed.html
+
+> 
+> These 3 patches are very likely to be wrong. Hence I would like to ask
+> help from the original author who wrote these SPI controller models
+> to help testing, or completely rewrite these 3 patches to fix things.
+> Thanks!
+
+A quick test shows that all Aspeed machines are broken with this patchset.
+
+Please try these command lines : 
+
+  wget https://openpower.xyz/job/openbmc-build/lastSuccessfulBuild/distro=ubuntu,label=builder,target=palmetto/artifact/deploy/images/palmetto/flash-palmetto
+  wget https://openpower.xyz/job/openbmc-build/lastSuccessfulBuild/distro=ubuntu,label=builder,target=romulus/artifact/deploy/images/romulus/flash-romulus
+  wget https://openpower.xyz/job/openbmc-build/lastSuccessfulBuild/distro=ubuntu,label=builder,target=witherspoon/artifact/deploy/images/witherspoon/obmc-phosphor-image-witherspoon.ubi.mtd
+
+  qemu-system-arm -M witherspoon-bmc -nic user -drive file=obmc-phosphor-image-witherspoon.ubi.mtd,format=raw,if=mtd -nographic
+  qemu-system-arm -M romulus-bmc -nic user -drive file=flash-romulus,format=raw,if=mtd -nographic
+  qemu-system-arm -M palmetto-bmc -nic user -drive file=flash-palmetto,format=raw,if=mtd -nographic
+
+The Aspeed SMC model has traces to help you in the task.
+
 Thanks,
 
-David / dhildenb
+C. 
+ 
+> Patch 6 is unvalidated with QEMU, mainly because there is no doc to
+> tell people how to boot anything to test. But I have some confidence
+> based on my read of the ZynqMP manual, as well as some experimental
+> testing on a real ZCU102 board.
+> 
+> Other flash patches can be tested with the SiFive SPI series:
+> http://patchwork.ozlabs.org/project/qemu-devel/list/?series=222391
+> 
+> Cherry-pick patch 16 and 17 from the series above, and switch to
+> different flash model to test with the following command:
+> 
+> $ qemu-system-riscv64 -nographic -M sifive_u -m 2G -smp 5 -kernel u-boot
+> 
+> I've picked up two for testing:
+> 
+> QEMU flash: "sst25vf032b"
+> 
+>   U-Boot 2020.10 (Jan 14 2021 - 21:55:59 +0800)
+> 
+>   CPU:   rv64imafdcsu
+>   Model: SiFive HiFive Unleashed A00
+>   DRAM:  2 GiB
+>   MMC:
+>   Loading Environment from SPIFlash... SF: Detected sst25vf032b with page size 256 Bytes, erase size 4 KiB, total 4 MiB
+>   *** Warning - bad CRC, using default environment
+> 
+>   In:    serial@10010000
+>   Out:   serial@10010000
+>   Err:   serial@10010000
+>   Net:   failed to get gemgxl_reset reset
+> 
+>   Warning: ethernet@10090000 MAC addresses don't match:
+>   Address in DT is                52:54:00:12:34:56
+>   Address in environment is       70:b3:d5:92:f0:01
+>   eth0: ethernet@10090000
+>   Hit any key to stop autoboot:  0
+>   => sf probe
+>   SF: Detected sst25vf032b with page size 256 Bytes, erase size 4 KiB,
+>   total 4 MiB
+>   => sf test 1ff000 1000
+>   SPI flash test:
+>   0 erase: 0 ticks, 4096000 KiB/s 32768.000 Mbps
+>   1 check: 10 ticks, 400 KiB/s 3.200 Mbps
+>   2 write: 170 ticks, 23 KiB/s 0.184 Mbps
+>   3 read: 9 ticks, 444 KiB/s 3.552 Mbps
+>   Test passed
+>   0 erase: 0 ticks, 4096000 KiB/s 32768.000 Mbps
+>   1 check: 10 ticks, 400 KiB/s 3.200 Mbps
+>   2 write: 170 ticks, 23 KiB/s 0.184 Mbps
+>   3 read: 9 ticks, 444 KiB/s 3.552 Mbps
+> 
+> QEMU flash: "mx66u51235f"
+> 
+>   U-Boot 2020.10 (Jan 14 2021 - 21:55:59 +0800)
+> 
+>   CPU:   rv64imafdcsu
+>   Model: SiFive HiFive Unleashed A00
+>   DRAM:  2 GiB
+>   MMC:
+>   Loading Environment from SPIFlash... SF: Detected mx66u51235f with page size 256 Bytes, erase size 4 KiB, total 64 MiB
+>   *** Warning - bad CRC, using default environment
+> 
+>   In:    serial@10010000
+>   Out:   serial@10010000
+>   Err:   serial@10010000
+>   Net:   failed to get gemgxl_reset reset
+> 
+>   Warning: ethernet@10090000 MAC addresses don't match:
+>   Address in DT is                52:54:00:12:34:56
+>   Address in environment is       70:b3:d5:92:f0:01
+>   eth0: ethernet@10090000
+>   Hit any key to stop autoboot:  0
+>   => sf probe
+>   SF: Detected mx66u51235f with page size 256 Bytes, erase size 4 KiB, total 64 MiB
+>   => sf test 0 8000
+>   SPI flash test:
+>   0 erase: 1 ticks, 32000 KiB/s 256.000 Mbps
+>   1 check: 80 ticks, 400 KiB/s 3.200 Mbps
+>   2 write: 83 ticks, 385 KiB/s 3.080 Mbps
+>   3 read: 79 ticks, 405 KiB/s 3.240 Mbps
+>   Test passed
+>   0 erase: 1 ticks, 32000 KiB/s 256.000 Mbps
+>   1 check: 80 ticks, 400 KiB/s 3.200 Mbps
+>   2 write: 83 ticks, 385 KiB/s 3.080 Mbps
+>   3 read: 79 ticks, 405 KiB/s 3.240 Mbps
+> 
+> I am sure there will be bugs, and I have not tested all flashes affected.
+> But I want to send out this series for an early discussion and comments.
+> I will continue my testing.
+> 
+> 
+> Bin Meng (9):
+>   hw/block: m25p80: Fix the number of dummy bytes needed for Windbond
+>     flashes
+>   hw/block: m25p80: Fix the number of dummy bytes needed for
+>     Numonyx/Micron flashes
+>   hw/block: m25p80: Fix the number of dummy bytes needed for Macronix
+>     flashes
+>   hw/block: m25p80: Fix the number of dummy bytes needed for Spansion
+>     flashes
+>   hw/block: m25p80: Support fast read for SST flashes
+>   hw/ssi: xilinx_spips: Fix generic fifo dummy cycle handling
+>   Revert "aspeed/smc: Fix number of dummy cycles for FAST_READ_4
+>     command"
+>   Revert "aspeed/smc: snoop SPI transfers to fake dummy cycles"
+>   hw/ssi: npcm7xx_fiu: Correct the dummy cycle emulation logic
+> 
+>  include/hw/ssi/aspeed_smc.h |   3 -
+>  hw/block/m25p80.c           | 153 ++++++++++++++++++++++++++++--------
+>  hw/ssi/aspeed_smc.c         | 116 +--------------------------
+>  hw/ssi/npcm7xx_fiu.c        |   8 +-
+>  hw/ssi/xilinx_spips.c       |  29 ++++++-
+>  5 files changed, 153 insertions(+), 156 deletions(-)
+> 
 
 
