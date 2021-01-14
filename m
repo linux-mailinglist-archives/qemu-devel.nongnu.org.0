@@ -2,69 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 38DA02F6577
-	for <lists+qemu-devel@lfdr.de>; Thu, 14 Jan 2021 17:11:36 +0100 (CET)
-Received: from localhost ([::1]:51720 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 651622F6558
+	for <lists+qemu-devel@lfdr.de>; Thu, 14 Jan 2021 17:03:00 +0100 (CET)
+Received: from localhost ([::1]:36058 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l05Dj-00025H-3W
-	for lists+qemu-devel@lfdr.de; Thu, 14 Jan 2021 11:11:35 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56216)
+	id 1l055P-00028x-Eb
+	for lists+qemu-devel@lfdr.de; Thu, 14 Jan 2021 11:02:59 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56158)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <jag.raman@oracle.com>)
- id 1l04m2-0003BC-55
- for qemu-devel@nongnu.org; Thu, 14 Jan 2021 10:42:58 -0500
-Received: from aserp2130.oracle.com ([141.146.126.79]:35164)
+ id 1l04ly-00034v-L7
+ for qemu-devel@nongnu.org; Thu, 14 Jan 2021 10:42:55 -0500
+Received: from aserp2130.oracle.com ([141.146.126.79]:35046)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <jag.raman@oracle.com>)
- id 1l04ly-00028C-DS
- for qemu-devel@nongnu.org; Thu, 14 Jan 2021 10:42:57 -0500
+ id 1l04ls-00025q-Mq
+ for qemu-devel@nongnu.org; Thu, 14 Jan 2021 10:42:54 -0500
 Received: from pps.filterd (aserp2130.oracle.com [127.0.0.1])
- by aserp2130.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 10EFXvIq135835;
+ by aserp2130.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 10EFXv7f135902;
  Thu, 14 Jan 2021 15:42:27 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com;
  h=from : to : cc :
- subject : date : message-id : mime-version : content-type :
- content-transfer-encoding; s=corp-2020-01-29;
- bh=A+6aly2bpITz6ptS5voq442IafiIJ5MlpU0GBt6cCm8=;
- b=SUWI4Vd7tvUQtjG9QOa7BGt+kneZOPgEggi2RaGUNgt+N3P6iD7zaefjelKr6pF5LeQQ
- BP5rEFI2hFUYV47lxd6X5dqRU93rEpmKfknB3Yt6XiRGCipawhkFvL8DkpnB6aBLeUR2
- O9dJ6IumAh1XrJqhRR4mg+SKwi8HKAqpQSoXZkMamC0WrKDT4IPSN3Pz0saknEf8TPET
- 05+gPVZ62JGI//7JSCDcB6MfVwbMuk0xEI+9d2lhxWJVApmUOny1iShlrV/X6ovX3bxK
- Gv0TEvzkILXVGvfLjCCcV/rw7dFvdYgkuN3Q0bn3tYfqd12hfNuJhqk3zXupkjYYVL9F hw== 
-Received: from userp3020.oracle.com (userp3020.oracle.com [156.151.31.79])
- by aserp2130.oracle.com with ESMTP id 360kg20u4q-1
+ subject : date : message-id : in-reply-to : references : in-reply-to :
+ references; s=corp-2020-01-29;
+ bh=j7I8jZTG7V173tpLSTR6UGQVSY1F/Dn5gw7Y/52gOrA=;
+ b=Aj+l1E5Q883L001XgP1DpJ/eTMTe6VROVUuH0WS88XmAOC/Rrs1k+VNgBcCGD3kiuP2p
+ 3oXUdoqRNlCYFnaZxUm3/TT2m6QYrOQtEsW28wmvfTMO/9/Gvpmcnogexx2TXvGvIlSH
+ kaz9CwSfX0ddoxfsjwuhRvcVSZzx46su0ud7xFeie2KgIwwaL+O2O/mjOTLv9Im9bK3I
+ qjLXFLzeE4fo7LsEJV7G4kzF4arvzQlAN9u6gpy1RWBvomGNmGNTfMoBNguRvmgcL9n/
+ SL4OeSEkiv9cYf7TpcDv0mYnx0csJ+h1hSJuYUg6hp4rRO11XgCZe5+mOtJXDzrpYnSm MQ== 
+Received: from aserp3030.oracle.com (aserp3030.oracle.com [141.146.126.71])
+ by aserp2130.oracle.com with ESMTP id 360kg20u4r-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
  Thu, 14 Jan 2021 15:42:27 +0000
-Received: from pps.filterd (userp3020.oracle.com [127.0.0.1])
- by userp3020.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 10EFYsml093491;
- Thu, 14 Jan 2021 15:40:26 GMT
-Received: from aserv0122.oracle.com (aserv0122.oracle.com [141.146.126.236])
- by userp3020.oracle.com with ESMTP id 360kf9ny7s-1
+Received: from pps.filterd (aserp3030.oracle.com [127.0.0.1])
+ by aserp3030.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 10EFaToX034422;
+ Thu, 14 Jan 2021 15:40:27 GMT
+Received: from aserv0121.oracle.com (aserv0121.oracle.com [141.146.126.235])
+ by aserp3030.oracle.com with ESMTP id 360kf2asq2-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
  Thu, 14 Jan 2021 15:40:26 +0000
 Received: from abhmp0002.oracle.com (abhmp0002.oracle.com [141.146.116.8])
- by aserv0122.oracle.com (8.14.4/8.14.4) with ESMTP id 10EFeMf6016429;
- Thu, 14 Jan 2021 15:40:22 GMT
+ by aserv0121.oracle.com (8.14.4/8.13.8) with ESMTP id 10EFeQW6010141;
+ Thu, 14 Jan 2021 15:40:26 GMT
 Received: from jaraman-bur-1.us.oracle.com (/10.152.33.39)
  by default (Oracle Beehive Gateway v4.0)
- with ESMTP ; Thu, 14 Jan 2021 07:40:22 -0800
+ with ESMTP ; Thu, 14 Jan 2021 07:40:25 -0800
 From: Jagannathan Raman <jag.raman@oracle.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v19 00/20] Initial support for multi-process Qemu
-Date: Thu, 14 Jan 2021 10:39:55 -0500
-Message-Id: <cover.1610638428.git.jag.raman@oracle.com>
+Subject: [PATCH v19 02/20] multi-process: add configure and usage information
+Date: Thu, 14 Jan 2021 10:39:57 -0500
+Message-Id: <7c31175e94fae00067de5103f460b1fa3fffde99.1610638428.git.jag.raman@oracle.com>
 X-Mailer: git-send-email 1.8.3.1
-MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+In-Reply-To: <cover.1610638428.git.jag.raman@oracle.com>
+References: <cover.1610638428.git.jag.raman@oracle.com>
+In-Reply-To: <cover.1610638428.git.jag.raman@oracle.com>
+References: <cover.1610638428.git.jag.raman@oracle.com>
 X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9864
  signatures=668683
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 suspectscore=0
- malwarescore=0
- mlxlogscore=999 phishscore=0 bulkscore=0 spamscore=0 mlxscore=0
- adultscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2009150000 definitions=main-2101140090
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 phishscore=0
+ bulkscore=0 malwarescore=0
+ suspectscore=0 adultscore=0 spamscore=0 mlxlogscore=999 mlxscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2009150000
+ definitions=main-2101140090
 X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9864
  signatures=668683
 X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 malwarescore=0
@@ -105,153 +106,103 @@ Cc: elena.ufimtseva@oracle.com, fam@euphon.net, swapnil.ingle@nutanix.com,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi,
+From: Elena Ufimtseva <elena.ufimtseva@oracle.com>
 
-This is the v19 of the patchset. This version has the following changes:
+Adds documentation explaining the command-line arguments needed
+to use multi-process.
 
-[PATCH v18 08/20] io: add qio_channel_readv_full_all_eof &
-                qio_channel_readv_full_all helpers
-  - Preserved fds/nfds if the read was exclusively for fds. Clears then
-    in all other cases.
-
-To touch upon the history of this project, we posted the Proof Of Concept
-patches before the BoF session in 2018. Subsequently, we have posted 18
-versions on the qemu-devel mailing list. You can find them by following
-the links below ([1] - [18]). Following people contributed to the design and
-implementation of this project:
-Jagannathan Raman <jag.raman@oracle.com>
-Elena Ufimtseva <elena.ufimtseva@oracle.com>
-John G Johnson <john.g.johnson@oracle.com>
-Stefan Hajnoczi <stefanha@redhat.com>
-Konrad Wilk <konrad.wilk@oracle.com>
-Kanth Ghatraju <kanth.ghatraju@oracle.com>
-
-We would like to thank the QEMU community for your feedback in the
-design and implementation of this project. Qemu wiki page:
-https://wiki.qemu.org/Features/MultiProcessQEMU
-
-For the full concept writeup about QEMU multi-process, please
-refer to docs/devel/qemu-multiprocess.rst. Also, see
-docs/qemu-multiprocess.txt for usage information.
-
-Thank you for reviewing this series!
-
-[POC]: https://www.mail-archive.com/qemu-devel@nongnu.org/msg566538.html
-[1]: https://www.mail-archive.com/qemu-devel@nongnu.org/msg602285.html
-[2]: https://www.mail-archive.com/qemu-devel@nongnu.org/msg624877.html
-[3]: https://www.mail-archive.com/qemu-devel@nongnu.org/msg642000.html
-[4]: https://www.mail-archive.com/qemu-devel@nongnu.org/msg655118.html
-[5]: https://www.mail-archive.com/qemu-devel@nongnu.org/msg682429.html
-[6]: https://www.mail-archive.com/qemu-devel@nongnu.org/msg697484.html
-[7]: https://patchew.org/QEMU/cover.1593273671.git.elena.ufimtseva@oracle.com/
-[8]: https://www.mail-archive.com/qemu-devel@nongnu.org/msg727007.html
-[9]: https://www.mail-archive.com/qemu-devel@nongnu.org/msg734275.html
-[10]: https://www.mail-archive.com/qemu-devel@nongnu.org/msg747638.html
-[11]: https://www.mail-archive.com/qemu-devel@nongnu.org/msg750972.html
-[12]: https://patchew.org/QEMU/cover.1606853298.git.jag.raman@oracle.com/
-[13]: https://www.mail-archive.com/qemu-devel@nongnu.org/msg766825.html
-[14]: https://www.mail-archive.com/qemu-devel@nongnu.org/msg768376.html
-[15]: https://www.mail-archive.com/qemu-devel@nongnu.org/msg769178.html
-[16]: https://www.mail-archive.com/qemu-devel@nongnu.org/msg771455.html
-
-Elena Ufimtseva (8):
-  multi-process: add configure and usage information
-  io: add qio_channel_writev_full_all helper
-  io: add qio_channel_readv_full_all_eof & qio_channel_readv_full_all
-    helpers
-  multi-process: define MPQemuMsg format and transmission functions
-  multi-process: introduce proxy object
-  multi-process: add proxy communication functions
-  multi-process: Forward PCI config space acceses to the remote process
-  multi-process: perform device reset in the remote process
-
-Jagannathan Raman (11):
-  memory: alloc RAM from file at offset
-  multi-process: Add config option for multi-process QEMU
-  multi-process: setup PCI host bridge for remote device
-  multi-process: setup a machine object for remote device process
-  multi-process: Initialize message handler in remote device
-  multi-process: Associate fd of a PCIDevice with its object
-  multi-process: setup memory manager for remote device
-  multi-process: PCI BAR read/write handling for proxy & remote
-    endpoints
-  multi-process: Synchronize remote memory
-  multi-process: create IOHUB object to handle irq
-  multi-process: Retrieve PCI info from remote process
-
-John G Johnson (1):
-  multi-process: add the concept description to
-    docs/devel/qemu-multiprocess
-
- docs/devel/index.rst                      |   1 +
- docs/devel/multi-process.rst              | 966 ++++++++++++++++++++++++++++++
- docs/multi-process.rst                    |  64 ++
- configure                                 |  10 +
- meson.build                               |   5 +-
- hw/remote/trace.h                         |   1 +
- include/exec/memory.h                     |   2 +
- include/exec/ram_addr.h                   |   2 +-
- include/hw/pci-host/remote.h              |  30 +
- include/hw/pci/pci_ids.h                  |   3 +
- include/hw/remote/iohub.h                 |  42 ++
- include/hw/remote/machine.h               |  38 ++
- include/hw/remote/memory.h                |  19 +
- include/hw/remote/mpqemu-link.h           |  99 +++
- include/hw/remote/proxy-memory-listener.h |  28 +
- include/hw/remote/proxy.h                 |  48 ++
- include/io/channel.h                      |  76 +++
- include/qemu/mmap-alloc.h                 |   4 +-
- include/sysemu/iothread.h                 |   6 +
- backends/hostmem-memfd.c                  |   2 +-
- hw/misc/ivshmem.c                         |   3 +-
- hw/pci-host/remote.c                      |  75 +++
- hw/remote/iohub.c                         | 119 ++++
- hw/remote/machine.c                       |  80 +++
- hw/remote/memory.c                        |  65 ++
- hw/remote/message.c                       | 230 +++++++
- hw/remote/mpqemu-link.c                   | 267 +++++++++
- hw/remote/proxy-memory-listener.c         | 227 +++++++
- hw/remote/proxy.c                         | 379 ++++++++++++
- hw/remote/remote-obj.c                    | 203 +++++++
- io/channel.c                              | 100 +++-
- iothread.c                                |   6 +
- softmmu/memory.c                          |   3 +-
- softmmu/physmem.c                         |  11 +-
- util/mmap-alloc.c                         |   7 +-
- util/oslib-posix.c                        |   2 +-
- Kconfig.host                              |   4 +
- MAINTAINERS                               |  24 +
- hw/Kconfig                                |   1 +
- hw/meson.build                            |   1 +
- hw/pci-host/Kconfig                       |   3 +
- hw/pci-host/meson.build                   |   1 +
- hw/remote/Kconfig                         |   4 +
- hw/remote/meson.build                     |  13 +
- hw/remote/trace-events                    |   4 +
- 45 files changed, 3247 insertions(+), 31 deletions(-)
- create mode 100644 docs/devel/multi-process.rst
+Signed-off-by: Elena Ufimtseva <elena.ufimtseva@oracle.com>
+Signed-off-by: Jagannathan Raman <jag.raman@oracle.com>
+Signed-off-by: John G Johnson <john.g.johnson@oracle.com>
+Reviewed-by: Stefan Hajnoczi <stefanha@redhat.com>
+---
+ docs/multi-process.rst | 64 ++++++++++++++++++++++++++++++++++++++++++++++++++
+ MAINTAINERS            |  1 +
+ 2 files changed, 65 insertions(+)
  create mode 100644 docs/multi-process.rst
- create mode 100644 hw/remote/trace.h
- create mode 100644 include/hw/pci-host/remote.h
- create mode 100644 include/hw/remote/iohub.h
- create mode 100644 include/hw/remote/machine.h
- create mode 100644 include/hw/remote/memory.h
- create mode 100644 include/hw/remote/mpqemu-link.h
- create mode 100644 include/hw/remote/proxy-memory-listener.h
- create mode 100644 include/hw/remote/proxy.h
- create mode 100644 hw/pci-host/remote.c
- create mode 100644 hw/remote/iohub.c
- create mode 100644 hw/remote/machine.c
- create mode 100644 hw/remote/memory.c
- create mode 100644 hw/remote/message.c
- create mode 100644 hw/remote/mpqemu-link.c
- create mode 100644 hw/remote/proxy-memory-listener.c
- create mode 100644 hw/remote/proxy.c
- create mode 100644 hw/remote/remote-obj.c
- create mode 100644 hw/remote/Kconfig
- create mode 100644 hw/remote/meson.build
- create mode 100644 hw/remote/trace-events
 
+diff --git a/docs/multi-process.rst b/docs/multi-process.rst
+new file mode 100644
+index 0000000..46bb0ca
+--- /dev/null
++++ b/docs/multi-process.rst
+@@ -0,0 +1,64 @@
++Multi-process QEMU
++==================
++
++This document describes how to configure and use multi-process qemu.
++For the design document refer to docs/devel/qemu-multiprocess.
++
++1) Configuration
++----------------
++
++multi-process is enabled by default for targets that enable KVM
++
++
++2) Usage
++--------
++
++Multi-process QEMU requires an orchestrator to launch.
++
++Following is a description of command-line used to launch mpqemu.
++
++* Orchestrator:
++
++  - The Orchestrator creates a unix socketpair
++
++  - It launches the remote process and passes one of the
++    sockets to it via command-line.
++
++  - It then launches QEMU and specifies the other socket as an option
++    to the Proxy device object
++
++* Remote Process:
++
++  - QEMU can enter remote process mode by using the "remote" machine
++    option.
++
++  - The orchestrator creates a "remote-object" with details about
++    the device and the file descriptor for the device
++
++  - The remaining options are no different from how one launches QEMU with
++    devices.
++
++  - Example command-line for the remote process is as follows:
++
++      /usr/bin/qemu-system-x86_64                                        \
++      -machine x-remote                                                  \
++      -device lsi53c895a,id=lsi0                                         \
++      -drive id=drive_image2,file=/build/ol7-nvme-test-1.qcow2           \
++      -device scsi-hd,id=drive2,drive=drive_image2,bus=lsi0.0,scsi-id=0  \
++      -object x-remote-object,id=robj1,devid=lsi1,fd=4,
++
++* QEMU:
++
++  - Since parts of the RAM are shared between QEMU & remote process, a
++    memory-backend-memfd is required to facilitate this, as follows:
++
++    -object memory-backend-memfd,id=mem,size=2G
++
++  - A "x-pci-proxy-dev" device is created for each of the PCI devices emulated
++    in the remote process. A "socket" sub-option specifies the other end of
++    unix channel created by orchestrator. The "id" sub-option must be specified
++    and should be the same as the "id" specified for the remote PCI device
++
++  - Example commandline for QEMU is as follows:
++
++      -device x-pci-proxy-dev,id=lsi0,socket=3
+diff --git a/MAINTAINERS b/MAINTAINERS
+index 1accf97..fa14d8d 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -3186,6 +3186,7 @@ M: Jagannathan Raman <jag.raman@oracle.com>
+ M: John G Johnson <john.g.johnson@oracle.com>
+ S: Maintained
+ F: docs/devel/multi-process.rst
++F: docs/multi-process.rst
+ 
+ Build and test automation
+ -------------------------
 -- 
 1.8.3.1
 
