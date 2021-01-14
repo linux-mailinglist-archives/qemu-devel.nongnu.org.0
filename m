@@ -2,62 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CABF12F5CB1
-	for <lists+qemu-devel@lfdr.de>; Thu, 14 Jan 2021 09:57:03 +0100 (CET)
-Received: from localhost ([::1]:54166 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3045C2F5D11
+	for <lists+qemu-devel@lfdr.de>; Thu, 14 Jan 2021 10:16:35 +0100 (CET)
+Received: from localhost ([::1]:35108 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kzyRC-0003i4-9Z
-	for lists+qemu-devel@lfdr.de; Thu, 14 Jan 2021 03:57:02 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41592)
+	id 1kzyk6-0000od-7r
+	for lists+qemu-devel@lfdr.de; Thu, 14 Jan 2021 04:16:34 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46328)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <groug@kaod.org>) id 1kzyPV-0002qa-EK
- for qemu-devel@nongnu.org; Thu, 14 Jan 2021 03:55:17 -0500
-Received: from 3.mo52.mail-out.ovh.net ([178.33.254.192]:40844)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <groug@kaod.org>) id 1kzyPT-000493-Aj
- for qemu-devel@nongnu.org; Thu, 14 Jan 2021 03:55:17 -0500
-Received: from mxplan5.mail.ovh.net (unknown [10.109.146.173])
- by mo52.mail-out.ovh.net (Postfix) with ESMTPS id 3CA46230150;
- Thu, 14 Jan 2021 09:55:10 +0100 (CET)
-Received: from kaod.org (37.59.142.100) by DAG8EX1.mxp5.local (172.16.2.71)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2044.4; Thu, 14 Jan
- 2021 09:55:09 +0100
-Authentication-Results: garm.ovh; auth=pass
- (GARM-100R00352f46628-57d0-46e2-9de7-07363bd0adac,
- 0A7C53367AF3A9CD096E542ECC3C8B2C2D100868) smtp.auth=groug@kaod.org
-X-OVh-ClientIp: 82.253.208.248
-Date: Thu, 14 Jan 2021 09:55:08 +0100
-From: Greg Kurz <groug@kaod.org>
-To: David Gibson <david@gibson.dropbear.id.au>
-Subject: Re: [PATCH v7 07/13] confidential guest support: Introduce cgs
- "ready" flag
-Message-ID: <20210114095508.3ef1db7e@bahia.lan>
-In-Reply-To: <20210113235811.1909610-8-david@gibson.dropbear.id.au>
-References: <20210113235811.1909610-1-david@gibson.dropbear.id.au>
- <20210113235811.1909610-8-david@gibson.dropbear.id.au>
-X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
-MIME-Version: 1.0
-Content-Type: text/plain; charset="US-ASCII"
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [37.59.142.100]
-X-ClientProxiedBy: DAG4EX1.mxp5.local (172.16.2.31) To DAG8EX1.mxp5.local
- (172.16.2.71)
-X-Ovh-Tracer-GUID: 1b4eaa1f-9249-4295-af14-40e7aee9315b
-X-Ovh-Tracer-Id: 499336611335149980
-X-VR-SPAMSTATE: OK
-X-VR-SPAMSCORE: -100
-X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedukedrtdeggdduvdeiucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuqfggjfdpvefjgfevmfevgfenuceurghilhhouhhtmecuhedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhepfffhvffukfgjfhfogggtgfhisehtjeertdertddvnecuhfhrohhmpefirhgvghcumfhurhiiuceoghhrohhugheskhgrohgurdhorhhgqeenucggtffrrghtthgvrhhnpeefuddtieejjeevheekieeltefgleetkeetheettdeifeffvefhffelffdtfeeljeenucfkpheptddrtddrtddrtddpfeejrdehledrudegvddruddttdenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhhouggvpehsmhhtphdqohhuthdphhgvlhhopehmgihplhgrnhehrdhmrghilhdrohhvhhdrnhgvthdpihhnvghtpedtrddtrddtrddtpdhmrghilhhfrhhomhepghhrohhugheskhgrohgurdhorhhgpdhrtghpthhtoheprghnughirdhklhgvvghnsehinhhtvghlrdgtohhm
-Received-SPF: pass client-ip=178.33.254.192; envelope-from=groug@kaod.org;
- helo=3.mo52.mail-out.ovh.net
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
- RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ (Exim 4.90_1) (envelope-from
+ <3Ref_XwoKCho36H44D0M0O6EE6B4.2ECG4CK-34L4BDED6DK.EH6@flex--dgreenaway.bounces.google.com>)
+ id 1kzwIk-0004U2-P1
+ for qemu-devel@nongnu.org; Thu, 14 Jan 2021 01:40:10 -0500
+Received: from mail-qt1-x84a.google.com ([2607:f8b0:4864:20::84a]:56883)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from
+ <3Ref_XwoKCho36H44D0M0O6EE6B4.2ECG4CK-34L4BDED6DK.EH6@flex--dgreenaway.bounces.google.com>)
+ id 1kzwIi-0007li-SG
+ for qemu-devel@nongnu.org; Thu, 14 Jan 2021 01:40:10 -0500
+Received: by mail-qt1-x84a.google.com with SMTP id k12so3567217qth.23
+ for <qemu-devel@nongnu.org>; Wed, 13 Jan 2021 22:40:07 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=20161025;
+ h=sender:date:message-id:mime-version:subject:from:to:cc;
+ bh=ppRSLhZSLVVnn3tvrkz9UxaMNNP/WRUn/2AsKI2sEJ8=;
+ b=XU57UeJKKeL14YKNCb9blDvdlIZLNylYJUTq319LehbmSTnYC/zeCatyiMFBbI8b9P
+ +qRMHA0Ex3h7NzBkV4sORxsfwIllRRB8q3oQSWmLXk8GnM1Kgc+79mQ43RFgU4lY+kee
+ vAJ7njrWzwrMokFohathXSjx3+Gnw4OgHowHY31mmmfdlvzJME9RmAoaGjealNQ5wJP+
+ 2kVz5V6v+7+WaXDgFbwIYr5bMQ5tONrYQZNjyon2zr/0BVtRIJzQZZP65+1l7sonsNZa
+ YAe4B5WBBdg2jHxX1ySMoNtZ9A9jj1/pnHL69hED9t+YaakLTgvJZUmcJQHfLiPEbYMQ
+ GaQA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:sender:date:message-id:mime-version:subject:from
+ :to:cc;
+ bh=ppRSLhZSLVVnn3tvrkz9UxaMNNP/WRUn/2AsKI2sEJ8=;
+ b=P/BNYurs+ySahRhlPa/1SJY5UWCOYuZdHhXIjYZizNgP4tlI74JIIjQ7NUmTHIO83A
+ pQtTKWSVE2RIBui5bZ7tuutii9DOP6W0tN2l5EZ/LPeAv0B61QyaoTNXSJkQv1DsuaKk
+ jB5oU1Ueq2KpPwOee5inpUCtr9Madh0fMBMgBcpvTxWmLqrcnqLwrYOK8w5oTObSgxXO
+ wQTaF/W/TrwrIOxribUHzNxHdX8AOLqW9ut54/X4jo9ri8r2etyJonv89NKgNexijChp
+ BTmx2pkqhdRdIO/YAolEljz+s0n/+6AjJVa/DqcwnuVAz1LbTYaov3qFxkT9xB3BM4qM
+ Mz9Q==
+X-Gm-Message-State: AOAM532scUNWedihxPQSwq6l1f9SeXINVdXrMEody9YVXcdonhBmZUj0
+ QzYm+cy3O5pF7MuK6MbouDi7tNUYmmhjglKxhO81CsnyMClPMOa65/Bi57nBB2FzOXpxg0YVZ4m
+ LnfT/RO3ca4Jlbm0w4YIUma3AJYVXgtutBVlsyzhotS4+sCPxLUrSGqpkq0R3c9qFA8kq4I4=
+X-Google-Smtp-Source: ABdhPJyLnvyH2quLLjX48XcROFK1mGd/+tnvmkTbMRZNH/e5MrHhKjIJqjdn+weZO4wAnDhWdJ+fj02RTd6GEB7S
+X-Received: from dgreenaway.syd.corp.google.com
+ ([2401:fa00:9:1:7220:84ff:fe09:6028])
+ (user=dgreenaway job=sendgmr) by 2002:ad4:4e8a:: with SMTP id
+ dy10mr5847583qvb.14.1610606405619; Wed, 13 Jan 2021 22:40:05 -0800 (PST)
+Date: Thu, 14 Jan 2021 17:39:58 +1100
+Message-Id: <20210114063958.1508050-1-dgreenaway@google.com>
+Mime-Version: 1.0
+X-Mailer: git-send-email 2.30.0.284.gd98b1dd5eaa7-goog
+Subject: [PATCH] target/i386: Fix decoding of certain BMI instructions
+To: qemu-devel@nongnu.org
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::84a;
+ envelope-from=3Ref_XwoKCho36H44D0M0O6EE6B4.2ECG4CK-34L4BDED6DK.EH6@flex--dgreenaway.bounces.google.com;
+ helo=mail-qt1-x84a.google.com
+X-Spam_score_int: -95
+X-Spam_score: -9.6
+X-Spam_bar: ---------
+X-Spam_report: (-9.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_MED=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ USER_IN_DEF_DKIM_WL=-7.5 autolearn=ham autolearn_force=no
 X-Spam_action: no action
+X-Mailman-Approved-At: Thu, 14 Jan 2021 04:14:48 -0500
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -69,101 +81,62 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: pair@us.ibm.com, cohuck@redhat.com, brijesh.singh@amd.com,
- kvm@vger.kernel.org, David Hildenbrand <david@redhat.com>,
- qemu-devel@nongnu.org, frankja@linux.ibm.com, pragyansri.pathi@intel.com,
- mst@redhat.com, pasic@linux.ibm.com, borntraeger@de.ibm.com,
- andi.kleen@intel.com, thuth@redhat.com, Eduardo Habkost <ehabkost@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>, dgilbert@redhat.com,
- qemu-s390x@nongnu.org, jun.nakajima@intel.com, berrange@redhat.com,
- Marcelo Tosatti <mtosatti@redhat.com>, qemu-ppc@nongnu.org,
- Paolo Bonzini <pbonzini@redhat.com>
+Cc: David Greenaway <dgreenaway@google.com>,
+ Paolo Bonzini <pbonzini@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ Eduardo Habkost <ehabkost@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
+Reply-to: David Greenaway <dgreenaway@google.com>
+From: David Greenaway via <qemu-devel@nongnu.org>
 
-On Thu, 14 Jan 2021 10:58:05 +1100
-David Gibson <david@gibson.dropbear.id.au> wrote:
+This patch fixes a translation bug for a subset of x86 BMI instructions
+such as the following:
 
-> The platform specific details of mechanisms for implementing
-> confidential guest support may require setup at various points during
-> initialization.  Thus, it's not really feasible to have a single cgs
-> initialization hook, but instead each mechanism needs its own
-> initialization calls in arch or machine specific code.
-> 
-> However, to make it harder to have a bug where a mechanism isn't
-> properly initialized under some circumstances, we want to have a
-> common place, relatively late in boot, where we verify that cgs has
-> been initialized if it was requested.
-> 
-> This patch introduces a ready flag to the ConfidentialGuestSupport
-> base type to accomplish this, which we verify just before the machine
-> specific initialization function.
-> 
+   c4 e2 f9 f7 c0                shlxq   %rax, %rax, %rax
 
-Since this is a strong requirement for any new cgs implementation, I
-guess it could be advertised a bit more with some extra documentation
-in the confidential-guest-support.h header file as well.
+Currently, these incorrectly generate an undefined instruction exception
+when SSE is disabled via CR4, while instructions like "shrxq" work fine.
 
-Anyway,
+The problem appears to be related to BMI instructions encoded using VEX
+and with a mandatory prefix of "0x66" (data). Instructions with this
+data prefix (such as shlxq) are currently rejected. Instructions with
+other mandatory prefixes (such as shrxq) translate as expected.
 
-Reviewed-by: Greg Kurz <groug@kaod.org>
+This patch removes the incorrect check in "gen_sse" that causes the
+exception to be generated. For the non-BMI cases, the check is
+redundant: prefixes are already checked at line 3696.
 
+Buglink: https://bugs.launchpad.net/qemu/+bug/1748296
 
-Unrelated. I've just spotted mdroth@linux.vnet.ibm.com in the Cc list
-of this thread, but, as you know, Mike is now working on other topics
-at AMD :)
+Signed-off-by: David Greenaway <dgreenaway@google.com>
+---
 
-> Signed-off-by: David Gibson <david@gibson.dropbear.id.au>
-> ---
->  hw/core/machine.c                         | 8 ++++++++
->  include/exec/confidential-guest-support.h | 2 ++
->  target/i386/sev.c                         | 2 ++
->  3 files changed, 12 insertions(+)
-> 
-> diff --git a/hw/core/machine.c b/hw/core/machine.c
-> index 94194ab82d..5a7433332b 100644
-> --- a/hw/core/machine.c
-> +++ b/hw/core/machine.c
-> @@ -1190,6 +1190,14 @@ void machine_run_board_init(MachineState *machine)
->      }
->  
->      if (machine->cgs) {
-> +        /*
-> +         * Where confidential guest support is initialized depends on
-> +         * the specific mechanism in use.  But, we need to make sure
-> +         * it's ready by now.  If it isn't, that's a bug in the
-> +         * implementation of that cgs mechanism.
-> +         */
-> +        assert(machine->cgs->ready);
-> +
->          /*
->           * With confidential guests, the host can't see the real
->           * contents of RAM, so there's no point in it trying to merge
-> diff --git a/include/exec/confidential-guest-support.h b/include/exec/confidential-guest-support.h
-> index 5f131023ba..bcaf6c9f49 100644
-> --- a/include/exec/confidential-guest-support.h
-> +++ b/include/exec/confidential-guest-support.h
-> @@ -27,6 +27,8 @@ OBJECT_DECLARE_SIMPLE_TYPE(ConfidentialGuestSupport, CONFIDENTIAL_GUEST_SUPPORT)
->  
->  struct ConfidentialGuestSupport {
->      Object parent;
-> +
-> +    bool ready;
->  };
->  
->  typedef struct ConfidentialGuestSupportClass {
-> diff --git a/target/i386/sev.c b/target/i386/sev.c
-> index e2b41ef342..3d94635397 100644
-> --- a/target/i386/sev.c
-> +++ b/target/i386/sev.c
-> @@ -737,6 +737,8 @@ int sev_kvm_init(ConfidentialGuestSupport *cgs, Error **errp)
->      qemu_add_machine_init_done_notifier(&sev_machine_done_notify);
->      qemu_add_vm_change_state_handler(sev_vm_state_change, sev);
->  
-> +    cgs->ready = true;
-> +
->      return 0;
->  err:
->      sev_guest = NULL;
+I'm a relative novice in both the QEMU source code and the x86
+instruction set, so please do review carefully, and don't be afraid to
+let me know if I am completely going down the wrong path.
 
+This bug was originally reported at
+https://bugs.launchpad.net/qemu/+bug/1748296 a few years ago. The
+reproducer linked from the bug still fails on QEMU head, but is fixed by
+this patch.
+
+ target/i386/tcg/translate.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/target/i386/tcg/translate.c b/target/i386/tcg/translate.c
+index 6a4c31f933..af1faf9342 100644
+--- a/target/i386/tcg/translate.c
++++ b/target/i386/tcg/translate.c
+@@ -3075,7 +3075,7 @@ static void gen_sse(CPUX86State *env, DisasContext *s, int b,
+     }
+     if (is_xmm
+         && !(s->flags & HF_OSFXSR_MASK)
+-        && ((b != 0x38 && b != 0x3a) || (s->prefix & PREFIX_DATA))) {
++        && (b != 0x38 && b != 0x3a)) {
+         goto unknown_op;
+     }
+     if (b == 0x0e) {
+-- 
+2.30.0.284.gd98b1dd5eaa7-goog
 
