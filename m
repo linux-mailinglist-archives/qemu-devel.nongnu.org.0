@@ -2,68 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DC5512F5DC6
-	for <lists+qemu-devel@lfdr.de>; Thu, 14 Jan 2021 10:37:12 +0100 (CET)
-Received: from localhost ([::1]:60932 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CC8752F5DE3
+	for <lists+qemu-devel@lfdr.de>; Thu, 14 Jan 2021 10:40:43 +0100 (CET)
+Received: from localhost ([::1]:38506 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kzz43-0003gF-VR
-	for lists+qemu-devel@lfdr.de; Thu, 14 Jan 2021 04:37:12 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50580)
+	id 1kzz7S-000688-SM
+	for lists+qemu-devel@lfdr.de; Thu, 14 Jan 2021 04:40:42 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51524)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1kzz28-0002g1-OL
- for qemu-devel@nongnu.org; Thu, 14 Jan 2021 04:35:12 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:39365)
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1kzz55-0005Ec-R6
+ for qemu-devel@nongnu.org; Thu, 14 Jan 2021 04:38:15 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:52503)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1kzz26-0000RZ-Tj
- for qemu-devel@nongnu.org; Thu, 14 Jan 2021 04:35:12 -0500
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1kzz54-00017y-0A
+ for qemu-devel@nongnu.org; Thu, 14 Jan 2021 04:38:15 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1610616910;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:in-reply-to:in-reply-to:  references:references;
- bh=n6alxUJVO4HQG6wR5agsW6NkY2ZUnAv+dedVGMDRB4Q=;
- b=PA1DmT9vsYEl4EVGwpd8mkQt//5UKN9NqxIy0IbIb0hhTgHt0eFoSz66g9H1f7Tya7H97v
- caGcEko0x9lRXPJYebzTbdECdtWIHsg8yzNQmxcU5OUsa/6ym5PjeUtczSv1y56MHkevIk
- ySU1F6yH7O4odB44mAo4IV2IcURN+q4=
+ s=mimecast20190719; t=1610617092;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=mfl7LXQDNHLE5MNJKJnCqhFBfHprgG1Ad3LGxI4Z8AM=;
+ b=cIBkRFDEmBMNUzK/PLPUdCa/4eQtPKj+hogRyoNZUzQqbBNlDibnblVDJoeQEHfqRq7Bps
+ BGMAqX/0n8JOL18mPR8mlK077DlErFAUY+qw+PYQrhNdG78a4LohJPw6tyiP6nwQWWnBp6
+ U83AARaAlduCyr5TXimm5Fn/G2RZW88=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-391-GhMVSrBdMqi424dF7Si8Nw-1; Thu, 14 Jan 2021 04:34:54 -0500
-X-MC-Unique: GhMVSrBdMqi424dF7Si8Nw-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
+ us-mta-406-HzDO2R81MxOyUdPydNQnBA-1; Thu, 14 Jan 2021 04:38:11 -0500
+X-MC-Unique: HzDO2R81MxOyUdPydNQnBA-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id C991A190A7A0;
- Thu, 14 Jan 2021 09:34:51 +0000 (UTC)
-Received: from redhat.com (ovpn-115-77.ams2.redhat.com [10.36.115.77])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id C03C26A8F2;
- Thu, 14 Jan 2021 09:34:38 +0000 (UTC)
-Date: Thu, 14 Jan 2021 09:34:36 +0000
-From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-To: David Gibson <david@gibson.dropbear.id.au>
-Subject: Re: [PATCH v7 02/13] confidential guest support: Introduce new
- confidential guest support class
-Message-ID: <20210114093436.GB1643043@redhat.com>
-References: <20210113235811.1909610-1-david@gibson.dropbear.id.au>
- <20210113235811.1909610-3-david@gibson.dropbear.id.au>
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id E98F71005D44;
+ Thu, 14 Jan 2021 09:38:09 +0000 (UTC)
+Received: from sirius.home.kraxel.org (ovpn-112-182.ams2.redhat.com
+ [10.36.112.182])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 8B5D760C47;
+ Thu, 14 Jan 2021 09:38:09 +0000 (UTC)
+Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
+ id E319618000B4; Thu, 14 Jan 2021 10:38:07 +0100 (CET)
+Date: Thu, 14 Jan 2021 10:38:07 +0100
+From: Gerd Hoffmann <kraxel@redhat.com>
+To: Volker =?utf-8?Q?R=C3=BCmelin?= <vr_qemu@t-online.de>
+Subject: Re: [PATCH 0/3] ui/gtk: paper over a gtk bug on Windows
+Message-ID: <20210114093807.j23oglcboi3ubmro@sirius.home.kraxel.org>
+References: <d5f2e3c5-b6d0-db4e-70c2-9de47fd8fefd@t-online.de>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+In-Reply-To: <d5f2e3c5-b6d0-db4e-70c2-9de47fd8fefd@t-online.de>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kraxel@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
-In-Reply-To: <20210113235811.1909610-3-david@gibson.dropbear.id.au>
-User-Agent: Mutt/1.14.6 (2020-07-11)
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=berrange@redhat.com;
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=kraxel@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -29
 X-Spam_score: -3.0
 X-Spam_bar: ---
 X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.25,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -76,187 +80,20 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-Cc: pair@us.ibm.com, cohuck@redhat.com, brijesh.singh@amd.com,
- kvm@vger.kernel.org, David Hildenbrand <david@redhat.com>,
- qemu-devel@nongnu.org, frankja@linux.ibm.com, pragyansri.pathi@intel.com,
- mst@redhat.com, mdroth@linux.vnet.ibm.com, pasic@linux.ibm.com,
- borntraeger@de.ibm.com, andi.kleen@intel.com, thuth@redhat.com,
- Eduardo Habkost <ehabkost@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>, dgilbert@redhat.com,
- Greg Kurz <groug@kaod.org>, qemu-s390x@nongnu.org, jun.nakajima@intel.com,
- Marcelo Tosatti <mtosatti@redhat.com>, qemu-ppc@nongnu.org,
- Paolo Bonzini <pbonzini@redhat.com>
+Cc: Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
+ qemu-devel@nongnu.org, Nikola Pavlica <pavlica.nikola@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, Jan 14, 2021 at 10:58:00AM +1100, David Gibson wrote:
-> Several architectures have mechanisms which are designed to protect guest
-> memory from interference or eavesdropping by a compromised hypervisor.  AMD
-> SEV does this with in-chip memory encryption and Intel's MKTME can do
-> similar things.  POWER's Protected Execution Framework (PEF) accomplishes a
-> similar goal using an ultravisor and new memory protection features,
-> instead of encryption.
-> 
-> To (partially) unify handling for these, this introduces a new
-> ConfidentialGuestSupport QOM base class.  "Confidential" is kind of vague,
-> but "confidential computing" seems to be the buzzword about these schemes,
-> and "secure" or "protected" are often used in connection to unrelated
-> things (such as hypervisor-from-guest or guest-from-guest security).
-> 
-> The "support" in the name is significant because in at least some of the
-> cases it requires the guest to take specific actions in order to protect
-> itself from hypervisor eavesdropping.
-> 
-> Signed-off-by: David Gibson <david@gibson.dropbear.id.au>
-> ---
->  backends/confidential-guest-support.c     | 33 ++++++++++++++++++++
->  backends/meson.build                      |  1 +
->  include/exec/confidential-guest-support.h | 38 +++++++++++++++++++++++
->  include/qemu/typedefs.h                   |  1 +
->  target/i386/sev.c                         |  3 +-
->  5 files changed, 75 insertions(+), 1 deletion(-)
->  create mode 100644 backends/confidential-guest-support.c
->  create mode 100644 include/exec/confidential-guest-support.h
-> 
-> diff --git a/backends/confidential-guest-support.c b/backends/confidential-guest-support.c
-> new file mode 100644
-> index 0000000000..9b0ded0db4
-> --- /dev/null
-> +++ b/backends/confidential-guest-support.c
-> @@ -0,0 +1,33 @@
-> +/*
-> + * QEMU Confidential Guest support
-> + *
-> + * Copyright: David Gibson, Red Hat Inc. 2020
-> + *
-> + * Authors:
-> + *  David Gibson <david@gibson.dropbear.id.au>
-> + *
-> + * This work is licensed under the terms of the GNU GPL, version 2 or
-> + * later.  See the COPYING file in the top-level directory.
-> + *
-> + */
-> +
-> +#include "qemu/osdep.h"
-> +
-> +#include "exec/confidential-guest-support.h"
-> +
-> +OBJECT_DEFINE_ABSTRACT_TYPE(ConfidentialGuestSupport,
-> +                            confidential_guest_support,
-> +                            CONFIDENTIAL_GUEST_SUPPORT,
-> +                            OBJECT)
-> +
-> +static void confidential_guest_support_class_init(ObjectClass *oc, void *data)
-> +{
-> +}
-> +
-> +static void confidential_guest_support_init(Object *obj)
-> +{
-> +}
-> +
-> +static void confidential_guest_support_finalize(Object *obj)
-> +{
-> +}
-> diff --git a/backends/meson.build b/backends/meson.build
-> index 484456ece7..d4221831fc 100644
-> --- a/backends/meson.build
-> +++ b/backends/meson.build
-> @@ -6,6 +6,7 @@ softmmu_ss.add([files(
->    'rng-builtin.c',
->    'rng-egd.c',
->    'rng.c',
-> +  'confidential-guest-support.c',
->  ), numa])
->  
->  softmmu_ss.add(when: 'CONFIG_POSIX', if_true: files('rng-random.c'))
-> diff --git a/include/exec/confidential-guest-support.h b/include/exec/confidential-guest-support.h
-> new file mode 100644
-> index 0000000000..5f131023ba
-> --- /dev/null
-> +++ b/include/exec/confidential-guest-support.h
-> @@ -0,0 +1,38 @@
-> +/*
-> + * QEMU Confidential Guest support
-> + *   This interface describes the common pieces between various
-> + *   schemes for protecting guest memory or other state against a
-> + *   compromised hypervisor.  This includes memory encryption (AMD's
-> + *   SEV and Intel's MKTME) or special protection modes (PEF on POWER,
-> + *   or PV on s390x).
-> + *
-> + * Copyright: David Gibson, Red Hat Inc. 2020
-> + *
-> + * Authors:
-> + *  David Gibson <david@gibson.dropbear.id.au>
-> + *
-> + * This work is licensed under the terms of the GNU GPL, version 2 or
-> + * later.  See the COPYING file in the top-level directory.
-> + *
-> + */
-> +#ifndef QEMU_CONFIDENTIAL_GUEST_SUPPORT_H
-> +#define QEMU_CONFIDENTIAL_GUEST_SUPPORT_H
-> +
-> +#ifndef CONFIG_USER_ONLY
-> +
-> +#include "qom/object.h"
-> +
-> +#define TYPE_CONFIDENTIAL_GUEST_SUPPORT "confidential-guest-support"
-> +OBJECT_DECLARE_SIMPLE_TYPE(ConfidentialGuestSupport, CONFIDENTIAL_GUEST_SUPPORT)
-> +
-> +struct ConfidentialGuestSupport {
-> +    Object parent;
-> +};
-> +
-> +typedef struct ConfidentialGuestSupportClass {
-> +    ObjectClass parent;
-> +} ConfidentialGuestSupportClass;
-> +
-> +#endif /* !CONFIG_USER_ONLY */
-> +
-> +#endif /* QEMU_CONFIDENTIAL_GUEST_SUPPORT_H */
-> diff --git a/include/qemu/typedefs.h b/include/qemu/typedefs.h
-> index 976b529dfb..33685c79ed 100644
-> --- a/include/qemu/typedefs.h
-> +++ b/include/qemu/typedefs.h
-> @@ -36,6 +36,7 @@ typedef struct BusState BusState;
->  typedef struct Chardev Chardev;
->  typedef struct CompatProperty CompatProperty;
->  typedef struct CoMutex CoMutex;
-> +typedef struct ConfidentialGuestSupport ConfidentialGuestSupport;
->  typedef struct CPUAddressSpace CPUAddressSpace;
->  typedef struct CPUState CPUState;
->  typedef struct DeviceListener DeviceListener;
-> diff --git a/target/i386/sev.c b/target/i386/sev.c
-> index 1546606811..6b49925f51 100644
-> --- a/target/i386/sev.c
-> +++ b/target/i386/sev.c
-> @@ -31,6 +31,7 @@
->  #include "qom/object.h"
->  #include "exec/address-spaces.h"
->  #include "monitor/monitor.h"
-> +#include "exec/confidential-guest-support.h"
->  
->  #define TYPE_SEV_GUEST "sev-guest"
->  OBJECT_DECLARE_SIMPLE_TYPE(SevGuestState, SEV_GUEST)
-> @@ -322,7 +323,7 @@ sev_guest_instance_init(Object *obj)
->  
->  /* sev guest info */
->  static const TypeInfo sev_guest_info = {
-> -    .parent = TYPE_OBJECT,
-> +    .parent = TYPE_CONFIDENTIAL_GUEST_SUPPORT,
+On Sun, Dec 13, 2020 at 05:56:28PM +0100, Volker Rümelin wrote:
+> Patch dc26435edb "ui/gtk: Update refresh interval after widget
+> is realized" exposed a bug in gtk on Windows. The monitor refresh
+> rate reported by gtk may be much smaller than the real refresh
+> rate leading to an unusable guest screen refresh rate.
 
-If you're changing the parent QOM type, then you also need to change
-the parent struct field type in SevguestState to match
+Added to ui patch queue.
 
->      .name = TYPE_SEV_GUEST,
->      .instance_size = sizeof(SevGuestState),
->      .instance_finalize = sev_guest_finalize,
-
-Regards,
-Daniel
--- 
-|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
-|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
-|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
+thanks,
+  Gerd
 
 
