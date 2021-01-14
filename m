@@ -2,65 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5F9A72F696C
-	for <lists+qemu-devel@lfdr.de>; Thu, 14 Jan 2021 19:22:56 +0100 (CET)
-Received: from localhost ([::1]:34976 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 05F832F693E
+	for <lists+qemu-devel@lfdr.de>; Thu, 14 Jan 2021 19:20:12 +0100 (CET)
+Received: from localhost ([::1]:57168 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l07Gp-0000e6-Dw
-	for lists+qemu-devel@lfdr.de; Thu, 14 Jan 2021 13:22:55 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42784)
+	id 1l07EA-0005Uq-NP
+	for lists+qemu-devel@lfdr.de; Thu, 14 Jan 2021 13:20:10 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42796)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1l071J-000205-42; Thu, 14 Jan 2021 13:06:53 -0500
-Received: from mail-qt1-x82a.google.com ([2607:f8b0:4864:20::82a]:38806)
+ id 1l071K-00024j-J7; Thu, 14 Jan 2021 13:06:54 -0500
+Received: from mail-qt1-x829.google.com ([2607:f8b0:4864:20::829]:37274)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1l071G-00051z-U4; Thu, 14 Jan 2021 13:06:52 -0500
-Received: by mail-qt1-x82a.google.com with SMTP id y15so4173210qtv.5;
- Thu, 14 Jan 2021 10:06:49 -0800 (PST)
+ id 1l071I-000530-ID; Thu, 14 Jan 2021 13:06:54 -0500
+Received: by mail-qt1-x829.google.com with SMTP id v3so1889831qtw.4;
+ Thu, 14 Jan 2021 10:06:51 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=AhALz65QmAR7whbzZIT7Pqx8o2PXiHjpaEKq6JAc76M=;
- b=d9umtiB+BpuYqFdENGxfGiFKuhUQ/+MEJVo37pbvYLtvu7NraFn1giI6y9onR9PZQj
- ZgkB2qGuFgjvoX8czwLCmuj1J4JvVtu8HS8/tFt5UmxPoHlsz6ckAt+PjT559VA7gKXw
- qiiVKAKeSQjFlvg6l1sI+nhEcnFbD0pOc2bsuubrUho3x8Wmd6gUBxlv8T1VOgixE7Qn
- CRb3XQp0rxhnUe3D3/2YPRHZGXvK9IJO+uJlSsTTLL8Q0aqf+j+pDwjCS4odNDcoRhws
- Uh0HL1EDNHzdWe7U7yFNn+MWAFNKffuQJT4CFwTTjvkVtcjUg7s0St05mFJIeLbjZ4Vm
- PBWQ==
+ bh=VDLy9yZJvgziL6d8soe8VMasuJQ37LuaHX+qxMTvNSA=;
+ b=MjAmb0OtUZjHDBgW5I8B0s9hNv7J47D5pj/llHIMMMwr0edJVLo7dzlF5YJPWmJXui
+ AKsPIRegGzI1qUxP7oqK3x37UfPaRlLlc0jNPXXKGtCl8pwu49jcvJNsltj8PIAvwwN2
+ EWBvcMxTbAF4NKFmnDAPQMTliHZBGJRMoqlLFyms3SBQvZRGIZLuPhtcQh2dt74dfC/6
+ ivjjtO7SVmXgl64+XIhOPRG5E8ReL7olqtb7sd7qIw7nM2q5izQOm8D8Cl3XGmVI/gmD
+ czlPBLWiMCDNvhixir7CPHVP6VwJL9J/AFgvC2em59WfI0sP5spsRlDlCkOl7VqvBFhX
+ kfBQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=AhALz65QmAR7whbzZIT7Pqx8o2PXiHjpaEKq6JAc76M=;
- b=Y3dWUN7UN+lmIAC2wh6pHjkhV+X8EJeaChPUOO5cvq+fBPD1UM5nA8C138XjzhC2dW
- jS1Y2RF1DWdSeknesWjAbtnFuMi+DJ9TOrhcRYHv2kpG9Gg/X2XxpU0Bu0UrOOXo77AJ
- AngJuwC8L/1GOjrIPHx7rrFmo38WUlfhtdCZMrfJuVdI3bnEs0rQPaQgzdGPhW+YYCcF
- 0pjzCLEmWDelZ9wsHYUp3n2GU1Bj9FGnR355xFeZL7mldatzBG+Pt0fCiguBmb2nZCyL
- MdT4i/7OIPtygToQsWv28PbRQbzmuvX+yVpwZhs7nX+Rp7H15LUT/J5W7W4W9f/Ni0aX
- oJSQ==
-X-Gm-Message-State: AOAM532wP0kjw8aAxFBITG4nkfsDOorSw/KlEkCictQmt5s5r3pBXalm
- pW5lZf9hkwsmncBjUEe1jb4zo38KZzcW1g==
-X-Google-Smtp-Source: ABdhPJybdICHWJWaA0VLeJ8pdU0wpzh1xBKvaxGYIX4GWficmokPiNOLnTnsZCpX/CsRD1Cl7DP+IQ==
-X-Received: by 2002:ac8:70d4:: with SMTP id g20mr8138616qtp.198.1610647609064; 
- Thu, 14 Jan 2021 10:06:49 -0800 (PST)
+ bh=VDLy9yZJvgziL6d8soe8VMasuJQ37LuaHX+qxMTvNSA=;
+ b=hQ0fMFvB6XGOny8G9bKUTHqb1clC7OXmtGL8RnPB4rKi38Rn8c6SZglUONGIU6fAOz
+ 9nppMFEisXG8vAXpJrcthW1F58VWJbLJCYnxGDcGlSaxzrWu+PCdwNxpT/JGGaOThC4M
+ GpHva1h1duWUAeg2R9AL/yFvX4oAnxmy1HLcfq9DHe/ch08IvGKfi4HvF/hgW2OMM1/F
+ bYsDAEnoSo72rG/zzgXvx++lL3qs1YquHti9C3/wY/7Yvtwk2w1Y1K4FvQmlXVNRKc2w
+ KozOcDfE63TxbW5i0tU5GqfUmjC9uQttJ6h7cERyFwFsjKkm56SDKfrEG+HOC+q0jVEB
+ 2MPA==
+X-Gm-Message-State: AOAM5312KJeV4aR3igq4LEAcEikjB1PTriXfNUfPFc5BvxKo9++kxqlb
+ A2Eg2dBTS+Q1zbd4WDWDHDravneLBaNYGw==
+X-Google-Smtp-Source: ABdhPJzPCdVD2+X8kO6RzrsOuXXD/nGpG9vLstpSq0pLW196GwrNb/R6Rf5AO87HfAAVp/vzE76aHw==
+X-Received: by 2002:ac8:6987:: with SMTP id o7mr7960371qtq.295.1610647611120; 
+ Thu, 14 Jan 2021 10:06:51 -0800 (PST)
 Received: from rekt.ibmuc.com ([2804:431:c7c6:b984:ff01:270:b51c:24a5])
- by smtp.gmail.com with ESMTPSA id a1sm3448129qkn.104.2021.01.14.10.06.47
+ by smtp.gmail.com with ESMTPSA id a1sm3448129qkn.104.2021.01.14.10.06.49
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 14 Jan 2021 10:06:48 -0800 (PST)
+ Thu, 14 Jan 2021 10:06:50 -0800 (PST)
 From: Daniel Henrique Barboza <danielhb413@gmail.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v1 6/7] spapr.c: introduce spapr_core_unplug_possible()
-Date: Thu, 14 Jan 2021 15:06:27 -0300
-Message-Id: <20210114180628.1675603-7-danielhb413@gmail.com>
+Subject: [PATCH v1 7/7] spapr.c: consider CPU core online state before
+ allowing unplug
+Date: Thu, 14 Jan 2021 15:06:28 -0300
+Message-Id: <20210114180628.1675603-8-danielhb413@gmail.com>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20210114180628.1675603-1-danielhb413@gmail.com>
 References: <20210114180628.1675603-1-danielhb413@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::82a;
- envelope-from=danielhb413@gmail.com; helo=mail-qt1-x82a.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::829;
+ envelope-from=danielhb413@gmail.com; helo=mail-qt1-x829.google.com
 X-Spam_score_int: -17
 X-Spam_score: -1.8
 X-Spam_bar: -
@@ -81,66 +82,103 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Daniel Henrique Barboza <danielhb413@gmail.com>, qemu-ppc@nongnu.org,
- groug@kaod.org, david@gibson.dropbear.id.au
+Cc: Xujun Ma <xuma@redhat.com>, Daniel Henrique Barboza <danielhb413@gmail.com>,
+ qemu-ppc@nongnu.org, groug@kaod.org, david@gibson.dropbear.id.au
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Next patch is going to add more conditions to allow a CPU core
-hotunplug. Let's put it into a separated function to avoid crowding
-the body of spapr_core_unplug_request().
+The only restriction we have when unplugging CPUs is to forbid unplug of
+the boot cpu core. spapr_core_unplug_possible() does not contemplate the
+possibility of some cores being offlined by the guest, meaning that we're
+rolling the dice regarding on whether we're unplugging the last online
+CPU core the guest has.
 
+If we hit the jackpot, we're going to detach the core DRC and pulse the
+hotplug IRQ, but the guest OS will refuse to release the CPU. Our
+spapr_core_unplug() DRC release callback will never be called and the CPU
+core object will keep existing in QEMU. No error message will be sent
+to the user, but the CPU core wasn't unplugged from the guest.
+
+If the guest OS onlines the CPU core again we won't be able to hotunplug it
+either. 'dmesg' inside the guest will report a failed attempt to offline an
+unknown CPU:
+
+[  923.003994] pseries-hotplug-cpu: Failed to offline CPU <NULL>, rc: -16
+
+This is the result of stopping the DRC state transition in the middle in the
+first failed attempt.
+
+We can avoid this, and potentially other bad things from happening, if we
+avoid to attempt the unplug altogether in this scenario. Let's check for
+the online/offline state of the CPU cores in the guest before allowing
+the hotunplug, and forbid removing a CPU core if it's the last one online
+in the guest.
+
+Reported-by: Xujun Ma <xuma@redhat.com>
+Fixes: https://bugzilla.redhat.com/show_bug.cgi?id=1911414
 Signed-off-by: Daniel Henrique Barboza <danielhb413@gmail.com>
 ---
- hw/ppc/spapr.c | 27 ++++++++++++++++++++-------
- 1 file changed, 20 insertions(+), 7 deletions(-)
+ hw/ppc/spapr.c | 39 ++++++++++++++++++++++++++++++++++++++-
+ 1 file changed, 38 insertions(+), 1 deletion(-)
 
 diff --git a/hw/ppc/spapr.c b/hw/ppc/spapr.c
-index 2c403b574e..a2f01c21aa 100644
+index a2f01c21aa..d269dcd102 100644
 --- a/hw/ppc/spapr.c
 +++ b/hw/ppc/spapr.c
-@@ -3706,22 +3706,35 @@ static void spapr_core_unplug(HotplugHandler *hotplug_dev, DeviceState *dev)
-     qdev_unrealize(dev);
- }
- 
--static
--void spapr_core_unplug_request(HotplugHandler *hotplug_dev, DeviceState *dev,
--                               Error **errp)
-+static int spapr_core_unplug_possible(HotplugHandler *hotplug_dev, CPUCore *cc,
-+                                      Error **errp)
+@@ -3709,9 +3709,16 @@ static void spapr_core_unplug(HotplugHandler *hotplug_dev, DeviceState *dev)
+ static int spapr_core_unplug_possible(HotplugHandler *hotplug_dev, CPUCore *cc,
+                                       Error **errp)
  {
--    SpaprMachineState *spapr = SPAPR_MACHINE(OBJECT(hotplug_dev));
++    CPUArchId *core_slot;
++    SpaprCpuCore *core;
++    PowerPCCPU *cpu;
++    CPUState *cs;
++    bool last_cpu_online = true;
      int index;
--    SpaprDrc *drc;
--    CPUCore *cc = CPU_CORE(dev);
  
-     if (!spapr_find_cpu_slot(MACHINE(hotplug_dev), cc->core_id, &index)) {
+-    if (!spapr_find_cpu_slot(MACHINE(hotplug_dev), cc->core_id, &index)) {
++    core_slot = spapr_find_cpu_slot(MACHINE(hotplug_dev), cc->core_id,
++                                    &index);
++    if (!core_slot) {
          error_setg(errp, "Unable to find CPU core with core-id: %d",
                     cc->core_id);
--        return;
-+        return -1;
+         return -1;
+@@ -3722,6 +3729,36 @@ static int spapr_core_unplug_possible(HotplugHandler *hotplug_dev, CPUCore *cc,
+         return -1;
      }
+ 
++    /* Allow for any non-boot CPU core to be unplugged if already offline */
++    core = SPAPR_CPU_CORE(core_slot->cpu);
++    cs = CPU(core->threads[0]);
++    if (cs->halted) {
++        return 0;
++    }
 +
-     if (index == 0) {
-         error_setg(errp, "Boot CPU core may not be unplugged");
++    /*
++     * Do not allow core unplug if it's the last core online.
++     */
++    cpu = POWERPC_CPU(cs);
++    CPU_FOREACH(cs) {
++        PowerPCCPU *c = POWERPC_CPU(cs);
++
++        if (c == cpu) {
++            continue;
++        }
++
++        if (!cs->halted) {
++            last_cpu_online = false;
++            break;
++        }
++    }
++
++    if (last_cpu_online) {
++        error_setg(errp, "Unable to unplug CPU core with core-id %d: it is "
++                   "the only CPU core online in the guest", cc->core_id);
 +        return -1;
 +    }
 +
-+    return 0;
-+}
-+
-+static
-+void spapr_core_unplug_request(HotplugHandler *hotplug_dev, DeviceState *dev,
-+                               Error **errp)
-+{
-+    ERRP_GUARD();
-+    SpaprMachineState *spapr = SPAPR_MACHINE(OBJECT(hotplug_dev));
-+    SpaprDrc *drc;
-+    CPUCore *cc = CPU_CORE(dev);
-+
-+    if (spapr_core_unplug_possible(hotplug_dev, cc, errp) < 0) {
-         return;
-     }
+     return 0;
+ }
  
 -- 
 2.26.2
