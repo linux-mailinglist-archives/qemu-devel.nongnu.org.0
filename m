@@ -2,76 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B8E192F5E12
-	for <lists+qemu-devel@lfdr.de>; Thu, 14 Jan 2021 10:52:30 +0100 (CET)
-Received: from localhost ([::1]:55660 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 303192F5E13
+	for <lists+qemu-devel@lfdr.de>; Thu, 14 Jan 2021 10:53:40 +0100 (CET)
+Received: from localhost ([::1]:59066 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kzzIr-0005Sv-ST
-	for lists+qemu-devel@lfdr.de; Thu, 14 Jan 2021 04:52:29 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54668)
+	id 1kzzJz-0006sk-93
+	for lists+qemu-devel@lfdr.de; Thu, 14 Jan 2021 04:53:39 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54950)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1kzzGp-0004Kn-E9
- for qemu-devel@nongnu.org; Thu, 14 Jan 2021 04:50:24 -0500
-Received: from mail-ej1-x62b.google.com ([2a00:1450:4864:20::62b]:37035)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1kzzGm-0002kp-JH
- for qemu-devel@nongnu.org; Thu, 14 Jan 2021 04:50:23 -0500
-Received: by mail-ej1-x62b.google.com with SMTP id ga15so7268226ejb.4
- for <qemu-devel@nongnu.org>; Thu, 14 Jan 2021 01:50:15 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=CzMKyU55RFUpOhw/+mqOGMS64vLPHedKvSKg42gyNqE=;
- b=bqDDjwnsqMY7xln0OBHIp3EBMBi0JpJGqv3jVkVoVfmKAad89HrPQ1whKV1DlLueBl
- jl9FTFRJZikcS8dP1vTIOCaOGVVLLLqLdR7/P9yOr9BK+r75gbbzboblDJ4ihnRi61lg
- +2uvUaa8whjp/+dkLqxaYXrABxKnrUtRAeSpQl1vuO0Xh9JxOZkpQaSlQp5XVh9X+WbT
- u5KTpAbsgbA2gjDNMoBDL4xTdYiuEm5GcgKNxq1/0fUq09Y4D8F9VwIBil58SxorJvPf
- y3qkqRJwnP17t2ykpZC6tIvlyes1xxFWd0h0RLwC+cbdycWw+EwTFycmoYN6xsJxL/vD
- JtSw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=CzMKyU55RFUpOhw/+mqOGMS64vLPHedKvSKg42gyNqE=;
- b=hagSOl55iKgDwhGox2nYTYG1Xb1r0U4eHzUd931ntwXVtIX1q0H0vAf2nsQ7+eQP8Q
- 2rw8T7BQXAHMmIriICvZHZCU4Ji6Y4fx6HsKXY03tLu+ZfcT3Fw1+OrssuQtnxMoz6lY
- s8oyw7YJnkBhVQrSvc136vJTwkHlJPeuyuf1hfYnUatbxY7s4TiykLakysNDTbqToEK4
- C+dx+Ete/hmmWwJxVYtbwYaPYKxHa2WKmlBnhZuNjWCtFafRPKF85CEpKqqlnCo2NCNk
- qRRSfE621k3heovZ2qhEVep5j/5JMCRgorMq1H4RKMzrf7ibJYvci6L+mV7OLv1GerXu
- wBNQ==
-X-Gm-Message-State: AOAM5316XrGJe0qHqNX0sqzP9MVtKFDL1YlguifLOQQKJHyKsy1X1Cep
- lSWd+DnNfqvCU8o+sfmu/XmAbng4n0Q7qpD+aN7jiQ==
-X-Google-Smtp-Source: ABdhPJzsY5yWjC6jxaUGoczI5Rxbj+TbbD7EWRfHNz+i5nJp087bPU27hbJFUGCYLQIXKaywG23RljRYOAU3CFSO4mg=
-X-Received: by 2002:a17:906:6b88:: with SMTP id
- l8mr4728402ejr.482.1610617814708; 
- Thu, 14 Jan 2021 01:50:14 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <glaubitz@zedat.fu-berlin.de>)
+ id 1kzzIA-0005CG-6B
+ for qemu-devel@nongnu.org; Thu, 14 Jan 2021 04:51:46 -0500
+Received: from outpost1.zedat.fu-berlin.de ([130.133.4.66]:43675)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <glaubitz@zedat.fu-berlin.de>)
+ id 1kzzI7-0002zv-7D
+ for qemu-devel@nongnu.org; Thu, 14 Jan 2021 04:51:45 -0500
+Received: from inpost2.zedat.fu-berlin.de ([130.133.4.69])
+ by outpost.zedat.fu-berlin.de (Exim 4.94) with esmtps (TLS1.2)
+ tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+ (envelope-from <glaubitz@zedat.fu-berlin.de>)
+ id 1kzzI0-000KNB-8L; Thu, 14 Jan 2021 10:51:35 +0100
+Received: from ipservice-092-214-205-060.092.214.pools.vodafone-ip.de
+ ([92.214.205.60] helo=[192.168.178.45])
+ by inpost2.zedat.fu-berlin.de (Exim 4.94) with esmtpsa (TLS1.2)
+ tls TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256
+ (envelope-from <glaubitz@physik.fu-berlin.de>)
+ id 1kzzHz-0028Pa-FM; Thu, 14 Jan 2021 10:51:35 +0100
+Subject: Re: [PATCH 1/8] build-system: clean up TCG/TCI configury
+To: Helge Deller <deller@gmx.de>, =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?=
+ <berrange@redhat.com>
+References: <20210107140039.467969-1-pbonzini@redhat.com>
+ <20210107140039.467969-2-pbonzini@redhat.com>
+ <CAFEAcA9yyUUmd+hj6kgAV8KWtCC41Q55JRfE0q1zTaDaOofgOQ@mail.gmail.com>
+ <a5cd4c43-2f12-2dbf-8db7-21acc7abc73d@redhat.com>
+ <20210107160653.GD1029501@redhat.com>
+ <d1b5a493-0658-3bba-b1b4-0116f337031d@amsat.org>
+ <46e79fb0-2ce1-35a8-3ce8-44699508a1d1@gmx.de>
+ <20210113135705.GC1568240@redhat.com>
+ <4d81fdad-6b76-d7b7-ba44-e3d7cf545dba@gmx.de>
+From: John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>
+Message-ID: <16bba859-c7a2-1121-6819-9e2be08d5691@physik.fu-berlin.de>
+Date: Thu, 14 Jan 2021 10:51:34 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.6.0
 MIME-Version: 1.0
-References: <20210112143058.12159-1-maxim.uvarov@linaro.org>
- <20210112143058.12159-3-maxim.uvarov@linaro.org>
- <20210112153542.oqahdubzeoipyvun@kamzik.brq.redhat.com>
- <CAFEAcA9O2kHpcvoofo0v3ahXNOQtw8cxaVC2hn+AjpH6A9RciA@mail.gmail.com>
- <20210112162526.ob7eroamrdlowfyr@kamzik.brq.redhat.com>
- <20210112162847.wik3h24isg4cmgyq@kamzik.brq.redhat.com>
- <CAD8XO3Y3sgZ3VXh7FhfcvvTckE2EUebivQ1nUnqTud2ApGUh=Q@mail.gmail.com>
- <20210114000445.mg3xq2nq7kccbvjy@kamzik.brq.redhat.com>
-In-Reply-To: <20210114000445.mg3xq2nq7kccbvjy@kamzik.brq.redhat.com>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Thu, 14 Jan 2021 09:50:03 +0000
-Message-ID: <CAFEAcA96=ZjZyhMcpTSDvrHKXZY-uOUoQSi-jTbOLpFZdnkMuQ@mail.gmail.com>
-Subject: Re: [PATCHv4 2/2] arm-virt: add secure pl061 for reset/power down
-To: Andrew Jones <drjones@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2a00:1450:4864:20::62b;
- envelope-from=peter.maydell@linaro.org; helo=mail-ej1-x62b.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+In-Reply-To: <4d81fdad-6b76-d7b7-ba44-e3d7cf545dba@gmx.de>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+X-Original-Sender: glaubitz@physik.fu-berlin.de
+X-Originating-IP: 92.214.205.60
+Received-SPF: pass client-ip=130.133.4.66;
+ envelope-from=glaubitz@zedat.fu-berlin.de; helo=outpost1.zedat.fu-berlin.de
+X-Spam_score_int: -41
+X-Spam_score: -4.2
+X-Spam_bar: ----
+X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_MED=-2.3, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -84,30 +74,66 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Maxim Uvarov <maxim.uvarov@linaro.org>, Jose Marinho <Jose.Marinho@arm.com>,
- QEMU Developers <qemu-devel@nongnu.org>,
- =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>,
- tf-a@lists.trustedfirmware.org, qemu-arm <qemu-arm@nongnu.org>
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ Paolo Bonzini <pbonzini@redhat.com>, Stefan Weil <sw@weilnetz.de>,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
+ QEMU Developers <qemu-devel@nongnu.org>, debian-superh@lists.debian.org,
+ Stefan Hajnoczi <stefanha@redhat.com>, debian-hppa@lists.debian.org,
+ =?UTF-8?Q?Marc-Andr=c3=a9_Lureau?= <marcandre.lureau@redhat.com>,
+ =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
+ Aurelien Jarno <aurelien@aurel32.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, 14 Jan 2021 at 00:04, Andrew Jones <drjones@redhat.com> wrote:
->
-> On Wed, Jan 13, 2021 at 10:30:47AM +0300, Maxim Uvarov wrote:
-> > - the same size for secure and non secure gpio. Arm doc says that
-> > secure memory is also split on 4k pages. So one page here has to be
-> > ok.
->
-> To be clear, does that means 4k pages must be used? I'm not concerned
-> with the size, but the alignment. If it's possible to use larger page
-> sizes with secure memory, then we need to align to the maximum page
-> size that may be used.
+Hello!
 
-I think we should just align on 64K, to be more future-proof.
-Even if secure software today uses 4K pages, it doesn't hurt
-to align the device such that some hypothetical future 64K
-page using secure software can use it.
+On 1/13/21 3:23 PM, Helge Deller wrote:
+>> This is what that TCG interpreter provides for. eg would anyone
+>> really want to emulate aarch64 guest when runing on a hppa host ?
+>
+> In debian many packages directly and indirectly depend on the qemu
+> source package, because it provides - beside the emulator - various
+> userspace tools which are necessary natively, like e.g. qemu-img.
 
-thanks
--- PMM
+I agree, that this a problem and it would be great if QEMU could be fixed
+that it builds on all targets, not necessarily with all features available.
+
+Currently, it looks like this:
+
+> https://buildd.debian.org/status/package.php?p=qemu&suite=sid
+
+Note: The build failure on sparc64 is a bug in the device-tree-compiler
+package which has not been fixed in Debian yet, see:
+
+> https://bugs.debian.org/cgi-bin/bugreport.cgi?bug=977031
+
+> In the past building those tools failed on hppa because the configure script
+> detected that neither native TCG nor TCG interpreter support was possible.
+> As such the configuration aborted and no tools were built.
+> So, the change should still make it possible to enable building the userspace
+> tools.
+
+I agree.
+
+> On the other side, sometimes even a slow TCG-interpreter enabled qemu
+> for other arches can be useful. It's not about speed, but about the
+> *possibility* to emulate small pieces of different code, e.g.
+> cross-compilers, bios-tools and such. It's not used often, but it
+> can be handy.
+
+I also agree here.
+
+> That said, if it doesn't hurt I think we should not disable something
+> which can be useful (this applies to all architectures).
+
+True.
+
+Adrian
+
+-- 
+ .''`.  John Paul Adrian Glaubitz
+: :' :  Debian Developer - glaubitz@debian.org
+`. `'   Freie Universitaet Berlin - glaubitz@physik.fu-berlin.de
+  `-    GPG: 62FF 8A75 84E0 2956 9546  0006 7426 3B37 F5B5 F913
+
 
