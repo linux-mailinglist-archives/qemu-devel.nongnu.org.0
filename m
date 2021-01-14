@@ -2,52 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E96122F607C
-	for <lists+qemu-devel@lfdr.de>; Thu, 14 Jan 2021 12:48:32 +0100 (CET)
-Received: from localhost ([::1]:48742 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 54B6F2F5FE9
+	for <lists+qemu-devel@lfdr.de>; Thu, 14 Jan 2021 12:31:01 +0100 (CET)
+Received: from localhost ([::1]:54972 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l017A-0001uB-2b
-	for lists+qemu-devel@lfdr.de; Thu, 14 Jan 2021 06:48:32 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54676)
+	id 1l00qC-0007Ub-Bj
+	for lists+qemu-devel@lfdr.de; Thu, 14 Jan 2021 06:31:00 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50186)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1l015Y-0000cO-DT; Thu, 14 Jan 2021 06:46:53 -0500
-Received: from ozlabs.org ([203.11.71.1]:57025)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1l015V-0006QX-4g; Thu, 14 Jan 2021 06:46:52 -0500
-Received: by ozlabs.org (Postfix, from userid 1007)
- id 4DGjFX3btbz9shx; Thu, 14 Jan 2021 22:46:23 +1100 (AEDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=gibson.dropbear.id.au; s=201602; t=1610624784;
- bh=MLcZN3Qo4B+3OIZBzY194QiYnraPxOj/vYFCJGbS0Sk=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=b8GHyAWaSdJREVHjbYlzJj/c6rBJdcPylygKIQzuOrvX8CpTng2gMHsRqx+AtCZki
- 3wnnm+EGgnhkg8AFfCbYUno//IlvEixL5n5pVZgPV9qtkHO3S7el5Bs3EIKCl5Pl58
- 4j7QRZwvYEmADQiCONlWladmu0ACc0M0MmlAJd3A=
-Date: Thu, 14 Jan 2021 21:42:07 +1100
-From: David Gibson <david@gibson.dropbear.id.au>
-To: Daniel =?iso-8859-1?Q?P=2E_Berrang=E9?= <berrange@redhat.com>
-Subject: Re: [PATCH v7 02/13] confidential guest support: Introduce new
- confidential guest support class
-Message-ID: <20210114104207.GM435587@yekko.fritz.box>
-References: <20210113235811.1909610-1-david@gibson.dropbear.id.au>
- <20210113235811.1909610-3-david@gibson.dropbear.id.au>
- <20210114093436.GB1643043@redhat.com>
+ (Exim 4.90_1) (envelope-from <maxim.uvarov@linaro.org>)
+ id 1l00kV-0004Jb-PA
+ for qemu-devel@nongnu.org; Thu, 14 Jan 2021 06:25:07 -0500
+Received: from mail-pj1-x102d.google.com ([2607:f8b0:4864:20::102d]:39029)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <maxim.uvarov@linaro.org>)
+ id 1l00kK-0005dn-TB
+ for qemu-devel@nongnu.org; Thu, 14 Jan 2021 06:25:05 -0500
+Received: by mail-pj1-x102d.google.com with SMTP id u4so3020782pjn.4
+ for <qemu-devel@nongnu.org>; Thu, 14 Jan 2021 03:24:55 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=FB/a3IGlr2mNnBlsMB0LqU5ZoTWWDZ0tGkAmh0w7jB0=;
+ b=n0B32szN6HO9QDzs8+Evr59u69+wPH8TbgEnzBAypFtRPmp2Cv44Iz1EtTfCFnJS8x
+ wbaRSa5YvG2lZ89eOZ6inMukwuGoS3Mt05IwVppU7TEmZrQzg1sDP5yiyJRVlqBe8Voe
+ xBxDeMotTz8DW+Yyc1VWZNRFYWFgOf8n2GyEpx/dyUca41xuPrHybR91wycqY7+cN0If
+ oz8T7MmLQjhf91bd22aua8djTzg6I7mnY98h2Sg2aD2D9iLF3XyQlENAkud++Bvl8+++
+ tDwHlklbvnqZwjujRwj3nYUAPWqU4idGpgXhpt+6xDpbG1CHli/BSj7IhDBKI7zTPGa1
+ kAQQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=FB/a3IGlr2mNnBlsMB0LqU5ZoTWWDZ0tGkAmh0w7jB0=;
+ b=r9p9ckf9Ak4vnTKAMr80bpZILwlvnOuVYeovxJ3l+FkcGadrCmy8dOYs4856xNuDNG
+ jPsjAnm8tD0oNNhrpcy9de3Baz0Hcmqn63YIOw0KM/MYRFboTd4PITulX02gPvDnnyib
+ OydkNzPqzZc4+PF5zX8LzX02DN9lb1FZhGMhwampEGKZUAjyvWpXrj+tl170Wyemm2ll
+ SoBEuwN+ZPAutQSZjUPnGKWkRD0bhj228PYgcfx+YSFSzNWfHehLsg4ehBqufsGXXETi
+ sET93oABGIl8Ul0PuEIXvUYtimAd7Qg1KhaTfxZffgpY8ZkLnMeL1LuyIfCfgKJpGiSe
+ LKnQ==
+X-Gm-Message-State: AOAM533v67oRwqrThbL1eB1t3xfXcBEyKIItpMEvNn+paQCsKiiy7uF3
+ WvHZr0fiVeAF+3wwkcPlnd/3Mgq7lhBsuGXFTKK5WA==
+X-Google-Smtp-Source: ABdhPJzOEy7fbRtbEdWVarYHqKmR1tOSbTWEITXIIEItkKfockhRbKiqFmxDLJR6Mefop1OoXiw55Z6JSl5vwlMKzgQ=
+X-Received: by 2002:a17:90a:ba88:: with SMTP id
+ t8mr4489161pjr.229.1610623493993; 
+ Thu, 14 Jan 2021 03:24:53 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="sWvRP97dwRHm9fX+"
-Content-Disposition: inline
-In-Reply-To: <20210114093436.GB1643043@redhat.com>
-Received-SPF: pass client-ip=203.11.71.1; envelope-from=dgibson@ozlabs.org;
- helo=ozlabs.org
-X-Spam_score_int: -17
-X-Spam_score: -1.8
-X-Spam_bar: -
-X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, HEADER_FROM_DIFFERENT_DOMAINS=0.248,
- SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=no autolearn_force=no
+References: <20210112143058.12159-1-maxim.uvarov@linaro.org>
+ <20210112143058.12159-3-maxim.uvarov@linaro.org>
+ <20210112153542.oqahdubzeoipyvun@kamzik.brq.redhat.com>
+ <CAFEAcA9O2kHpcvoofo0v3ahXNOQtw8cxaVC2hn+AjpH6A9RciA@mail.gmail.com>
+ <20210112162526.ob7eroamrdlowfyr@kamzik.brq.redhat.com>
+ <20210112162847.wik3h24isg4cmgyq@kamzik.brq.redhat.com>
+ <CAD8XO3Y3sgZ3VXh7FhfcvvTckE2EUebivQ1nUnqTud2ApGUh=Q@mail.gmail.com>
+ <20210114000445.mg3xq2nq7kccbvjy@kamzik.brq.redhat.com>
+ <CAFEAcA96=ZjZyhMcpTSDvrHKXZY-uOUoQSi-jTbOLpFZdnkMuQ@mail.gmail.com>
+ <CAD8XO3Yxp6rcNgNRJ3+d8zEsYyS0myYs=rSNKtw849fEmdT+RQ@mail.gmail.com>
+In-Reply-To: <CAD8XO3Yxp6rcNgNRJ3+d8zEsYyS0myYs=rSNKtw849fEmdT+RQ@mail.gmail.com>
+From: Maxim Uvarov <maxim.uvarov@linaro.org>
+Date: Thu, 14 Jan 2021 14:24:43 +0300
+Message-ID: <CAD8XO3YCJjTZBZaP1MOwUzcMQ9t+tbjOAwMT4STqYmp=Lmvdmw@mail.gmail.com>
+Subject: Re: [PATCHv4 2/2] arm-virt: add secure pl061 for reset/power down
+To: Peter Maydell <peter.maydell@linaro.org>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::102d;
+ envelope-from=maxim.uvarov@linaro.org; helo=mail-pj1-x102d.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -60,229 +86,54 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: pair@us.ibm.com, cohuck@redhat.com, brijesh.singh@amd.com,
- kvm@vger.kernel.org, David Hildenbrand <david@redhat.com>,
- qemu-devel@nongnu.org, frankja@linux.ibm.com, pragyansri.pathi@intel.com,
- mst@redhat.com, mdroth@linux.vnet.ibm.com, pasic@linux.ibm.com,
- borntraeger@de.ibm.com, andi.kleen@intel.com, thuth@redhat.com,
- Eduardo Habkost <ehabkost@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>, dgilbert@redhat.com,
- Greg Kurz <groug@kaod.org>, qemu-s390x@nongnu.org, jun.nakajima@intel.com,
- Marcelo Tosatti <mtosatti@redhat.com>, qemu-ppc@nongnu.org,
- Paolo Bonzini <pbonzini@redhat.com>
+Cc: Andrew Jones <drjones@redhat.com>, Jose Marinho <Jose.Marinho@arm.com>,
+ QEMU Developers <qemu-devel@nongnu.org>,
+ =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>,
+ tf-a@lists.trustedfirmware.org, qemu-arm <qemu-arm@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+On Thu, 14 Jan 2021 at 14:22, Maxim Uvarov <maxim.uvarov@linaro.org> wrote:
+>
+> On Thu, 14 Jan 2021 at 12:50, Peter Maydell <peter.maydell@linaro.org> wrote:
+> >
+> > On Thu, 14 Jan 2021 at 00:04, Andrew Jones <drjones@redhat.com> wrote:
+> > >
+> > > On Wed, Jan 13, 2021 at 10:30:47AM +0300, Maxim Uvarov wrote:
+> > > > - the same size for secure and non secure gpio. Arm doc says that
+> > > > secure memory is also split on 4k pages. So one page here has to be
+> > > > ok.
+> > >
+> > > To be clear, does that means 4k pages must be used? I'm not concerned
+> > > with the size, but the alignment. If it's possible to use larger page
+> > > sizes with secure memory, then we need to align to the maximum page
+> > > size that may be used.
+> >
+> > I think we should just align on 64K, to be more future-proof.
+> > Even if secure software today uses 4K pages, it doesn't hurt
+> > to align the device such that some hypothetical future 64K
+> > page using secure software can use it.
+> >
+> > thanks
+> > -- PMM
+>
+> Does that mean that in that case you need all regions to be 64k
+> aligned? I mean secure and non-secure.
+> Has anybody tested 64k pages under qemu?
+>     [VIRT_GIC_V2M] =            { 0x08020000, 0x00001000 }
+>     [VIRT_UART] =               { 0x09000000, 0x00001000 },
+>     [VIRT_RTC] =                { 0x09010000, 0x00001000 },
+>     [VIRT_GPIO] =               { 0x09030000, 0x00001000 },
+>     [VIRT_SECURE_GPIO] =        { 0x09031000, 0x00001000 },
+>     [VIRT_SECURE_UART] =        { 0x09040000, 0x00001000 },
+>    [VIRT_MMIO] =               { 0x0a000000, 0x00000200 },
+>
+> Maxim.
 
---sWvRP97dwRHm9fX+
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+I.e. I see comment:
+ * Note that devices should generally be placed at multiples of 0x10000,
+ * to accommodate guests using 64K pages.
+ */
 
-On Thu, Jan 14, 2021 at 09:34:36AM +0000, Daniel P. Berrang=E9 wrote:
-> On Thu, Jan 14, 2021 at 10:58:00AM +1100, David Gibson wrote:
-> > Several architectures have mechanisms which are designed to protect gue=
-st
-> > memory from interference or eavesdropping by a compromised hypervisor. =
- AMD
-> > SEV does this with in-chip memory encryption and Intel's MKTME can do
-> > similar things.  POWER's Protected Execution Framework (PEF) accomplish=
-es a
-> > similar goal using an ultravisor and new memory protection features,
-> > instead of encryption.
-> >=20
-> > To (partially) unify handling for these, this introduces a new
-> > ConfidentialGuestSupport QOM base class.  "Confidential" is kind of vag=
-ue,
-> > but "confidential computing" seems to be the buzzword about these schem=
-es,
-> > and "secure" or "protected" are often used in connection to unrelated
-> > things (such as hypervisor-from-guest or guest-from-guest security).
-> >=20
-> > The "support" in the name is significant because in at least some of the
-> > cases it requires the guest to take specific actions in order to protect
-> > itself from hypervisor eavesdropping.
-> >=20
-> > Signed-off-by: David Gibson <david@gibson.dropbear.id.au>
-> > ---
-> >  backends/confidential-guest-support.c     | 33 ++++++++++++++++++++
-> >  backends/meson.build                      |  1 +
-> >  include/exec/confidential-guest-support.h | 38 +++++++++++++++++++++++
-> >  include/qemu/typedefs.h                   |  1 +
-> >  target/i386/sev.c                         |  3 +-
-> >  5 files changed, 75 insertions(+), 1 deletion(-)
-> >  create mode 100644 backends/confidential-guest-support.c
-> >  create mode 100644 include/exec/confidential-guest-support.h
-> >=20
-> > diff --git a/backends/confidential-guest-support.c b/backends/confident=
-ial-guest-support.c
-> > new file mode 100644
-> > index 0000000000..9b0ded0db4
-> > --- /dev/null
-> > +++ b/backends/confidential-guest-support.c
-> > @@ -0,0 +1,33 @@
-> > +/*
-> > + * QEMU Confidential Guest support
-> > + *
-> > + * Copyright: David Gibson, Red Hat Inc. 2020
-> > + *
-> > + * Authors:
-> > + *  David Gibson <david@gibson.dropbear.id.au>
-> > + *
-> > + * This work is licensed under the terms of the GNU GPL, version 2 or
-> > + * later.  See the COPYING file in the top-level directory.
-> > + *
-> > + */
-> > +
-> > +#include "qemu/osdep.h"
-> > +
-> > +#include "exec/confidential-guest-support.h"
-> > +
-> > +OBJECT_DEFINE_ABSTRACT_TYPE(ConfidentialGuestSupport,
-> > +                            confidential_guest_support,
-> > +                            CONFIDENTIAL_GUEST_SUPPORT,
-> > +                            OBJECT)
-> > +
-> > +static void confidential_guest_support_class_init(ObjectClass *oc, voi=
-d *data)
-> > +{
-> > +}
-> > +
-> > +static void confidential_guest_support_init(Object *obj)
-> > +{
-> > +}
-> > +
-> > +static void confidential_guest_support_finalize(Object *obj)
-> > +{
-> > +}
-> > diff --git a/backends/meson.build b/backends/meson.build
-> > index 484456ece7..d4221831fc 100644
-> > --- a/backends/meson.build
-> > +++ b/backends/meson.build
-> > @@ -6,6 +6,7 @@ softmmu_ss.add([files(
-> >    'rng-builtin.c',
-> >    'rng-egd.c',
-> >    'rng.c',
-> > +  'confidential-guest-support.c',
-> >  ), numa])
-> > =20
-> >  softmmu_ss.add(when: 'CONFIG_POSIX', if_true: files('rng-random.c'))
-> > diff --git a/include/exec/confidential-guest-support.h b/include/exec/c=
-onfidential-guest-support.h
-> > new file mode 100644
-> > index 0000000000..5f131023ba
-> > --- /dev/null
-> > +++ b/include/exec/confidential-guest-support.h
-> > @@ -0,0 +1,38 @@
-> > +/*
-> > + * QEMU Confidential Guest support
-> > + *   This interface describes the common pieces between various
-> > + *   schemes for protecting guest memory or other state against a
-> > + *   compromised hypervisor.  This includes memory encryption (AMD's
-> > + *   SEV and Intel's MKTME) or special protection modes (PEF on POWER,
-> > + *   or PV on s390x).
-> > + *
-> > + * Copyright: David Gibson, Red Hat Inc. 2020
-> > + *
-> > + * Authors:
-> > + *  David Gibson <david@gibson.dropbear.id.au>
-> > + *
-> > + * This work is licensed under the terms of the GNU GPL, version 2 or
-> > + * later.  See the COPYING file in the top-level directory.
-> > + *
-> > + */
-> > +#ifndef QEMU_CONFIDENTIAL_GUEST_SUPPORT_H
-> > +#define QEMU_CONFIDENTIAL_GUEST_SUPPORT_H
-> > +
-> > +#ifndef CONFIG_USER_ONLY
-> > +
-> > +#include "qom/object.h"
-> > +
-> > +#define TYPE_CONFIDENTIAL_GUEST_SUPPORT "confidential-guest-support"
-> > +OBJECT_DECLARE_SIMPLE_TYPE(ConfidentialGuestSupport, CONFIDENTIAL_GUES=
-T_SUPPORT)
-> > +
-> > +struct ConfidentialGuestSupport {
-> > +    Object parent;
-> > +};
-> > +
-> > +typedef struct ConfidentialGuestSupportClass {
-> > +    ObjectClass parent;
-> > +} ConfidentialGuestSupportClass;
-> > +
-> > +#endif /* !CONFIG_USER_ONLY */
-> > +
-> > +#endif /* QEMU_CONFIDENTIAL_GUEST_SUPPORT_H */
-> > diff --git a/include/qemu/typedefs.h b/include/qemu/typedefs.h
-> > index 976b529dfb..33685c79ed 100644
-> > --- a/include/qemu/typedefs.h
-> > +++ b/include/qemu/typedefs.h
-> > @@ -36,6 +36,7 @@ typedef struct BusState BusState;
-> >  typedef struct Chardev Chardev;
-> >  typedef struct CompatProperty CompatProperty;
-> >  typedef struct CoMutex CoMutex;
-> > +typedef struct ConfidentialGuestSupport ConfidentialGuestSupport;
-> >  typedef struct CPUAddressSpace CPUAddressSpace;
-> >  typedef struct CPUState CPUState;
-> >  typedef struct DeviceListener DeviceListener;
-> > diff --git a/target/i386/sev.c b/target/i386/sev.c
-> > index 1546606811..6b49925f51 100644
-> > --- a/target/i386/sev.c
-> > +++ b/target/i386/sev.c
-> > @@ -31,6 +31,7 @@
-> >  #include "qom/object.h"
-> >  #include "exec/address-spaces.h"
-> >  #include "monitor/monitor.h"
-> > +#include "exec/confidential-guest-support.h"
-> > =20
-> >  #define TYPE_SEV_GUEST "sev-guest"
-> >  OBJECT_DECLARE_SIMPLE_TYPE(SevGuestState, SEV_GUEST)
-> > @@ -322,7 +323,7 @@ sev_guest_instance_init(Object *obj)
-> > =20
-> >  /* sev guest info */
-> >  static const TypeInfo sev_guest_info =3D {
-> > -    .parent =3D TYPE_OBJECT,
-> > +    .parent =3D TYPE_CONFIDENTIAL_GUEST_SUPPORT,
->=20
-> If you're changing the parent QOM type, then you also need to change
-> the parent struct field type in SevguestState to match
-
-Oops, yes.  I checked the rest of the types as I made the
-OBJECT_DECLARE_TYPE conversions, but I forgot to go back and check
-SEV.
-
-> >      .name =3D TYPE_SEV_GUEST,
-> >      .instance_size =3D sizeof(SevGuestState),
-> >      .instance_finalize =3D sev_guest_finalize,
->=20
-> Regards,
-> Daniel
-
---=20
-David Gibson			| I'll have my music baroque, and my code
-david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
-				| _way_ _around_!
-http://www.ozlabs.org/~dgibson
-
---sWvRP97dwRHm9fX+
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAmAAH+AACgkQbDjKyiDZ
-s5JWchAAh9E9X3fG0nGhtlYc7Kp4oUctbgp6QyZoRBDoRS8yFOL9Obkj2TAZeHTb
-ZV8NF+P38daRaFawwPbTDiOrlrESlCgvFRXE5TaqUKena4mol4x4dGrbnzjSdjIo
-rDgi/10QkXfFUKhQcQxZvMF+TwKooWmGuAdXOtBGTbEqMLC1lqsJ5W3sejX6Eknj
-C5CqCOV/FtAjNhHb+FijwMEne/tuq7qWa3e3+B6NV2WlY/6kFhv8HicQgjfbpb6O
-ljVahhseGZkFl3ibzy4f1CODdlph8Ox9LIgukeCqmIv08jMT9DcfxR5uBmpFJH/P
-jNQY7GAz4JJDRjjPlvRH2dT3nIQCSrRQ6hKuOcpkc4s1Yy9BqBwXKIYOxhzuEmx+
-EdMxXUfQQITNO2ad0JHakdoyX60FcgO6ENqs9Yz3W+eQ6LruhpSFpyz3/BpRzNs8
-ytYwjRm+3/sTX2u6btmZxq/QjQRHbpJDYEXDjzAk4bF84otVn0xc+TeUuVcNAqV4
-OwAuJiwPAOxV5O/rDOvPPDzIh5B0Ulz5m2shgTLVVWTkO8PJe39oBZ2QWFYEOy7v
-PwsK4rQL4YsCfNVtJ8PqsXkUVvfg6B/3oE4Shi56STKQb0fNZld7yUpX0HcM6qdR
-EIgX+34g0s2RZNuDV3sBqNJGD5WJFzh9FOrRN9K+yVUJvRHoBs0=
-=fQd4
------END PGP SIGNATURE-----
-
---sWvRP97dwRHm9fX+--
+but it's not clear why UART, RTC and GPIO is not aligned to 64k.
 
