@@ -2,51 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9C82B2F6B88
-	for <lists+qemu-devel@lfdr.de>; Thu, 14 Jan 2021 20:54:08 +0100 (CET)
-Received: from localhost ([::1]:56052 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 48DE22F6B8A
+	for <lists+qemu-devel@lfdr.de>; Thu, 14 Jan 2021 20:54:37 +0100 (CET)
+Received: from localhost ([::1]:56702 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l08h5-0008Fv-Ms
-	for lists+qemu-devel@lfdr.de; Thu, 14 Jan 2021 14:54:07 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47226)
+	id 1l08hY-000055-Ba
+	for lists+qemu-devel@lfdr.de; Thu, 14 Jan 2021 14:54:36 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47280)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pl@kamp.de>) id 1l08cO-0002zr-2z
- for qemu-devel@nongnu.org; Thu, 14 Jan 2021 14:49:16 -0500
-Received: from kerio.kamp.de ([195.62.97.192]:47347)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pl@kamp.de>) id 1l08cM-00034F-5c
- for qemu-devel@nongnu.org; Thu, 14 Jan 2021 14:49:15 -0500
-X-Footer: a2FtcC5kZQ==
-Received: from submission.kamp.de ([195.62.97.28]) by kerio.kamp.de with ESMTPS
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256 bits))
- for qemu-devel@nongnu.org; Thu, 14 Jan 2021 20:49:06 +0100
-Received: (qmail 22139 invoked from network); 14 Jan 2021 19:49:10 -0000
-Received: from ac14.vpn.kamp-intra.net (HELO ?172.20.250.14?)
- (pl@kamp.de@::ffff:172.20.250.14)
- by submission.kamp.de with ESMTPS (DHE-RSA-AES128-SHA encrypted) ESMTPA;
- 14 Jan 2021 19:49:10 -0000
-Subject: Re: [PATCH 4/7] block/rbd: add bdrv_{attach,detach}_aio_context
-To: dillaman@redhat.com
-References: <20201227164236.10143-1-pl@kamp.de>
- <20201227164236.10143-5-pl@kamp.de>
- <CA+aFP1Cbnt99DRQLwFRhxVj5Mnow6PtQpa0k4-ojOCJt3+JPJw@mail.gmail.com>
-From: Peter Lieven <pl@kamp.de>
-Message-ID: <a4874e73-7f6c-53f2-23c8-ec76b055ec57@kamp.de>
-Date: Thu, 14 Jan 2021 20:49:10 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
+ (Exim 4.90_1) (envelope-from <lersek@redhat.com>) id 1l08cY-0003DL-3c
+ for qemu-devel@nongnu.org; Thu, 14 Jan 2021 14:49:26 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:52519)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <lersek@redhat.com>) id 1l08cS-00036w-Rl
+ for qemu-devel@nongnu.org; Thu, 14 Jan 2021 14:49:24 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1610653759;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=F+3O8z/FhJlAu0alca60TJ1w3vP1o866zOsd3WhpfZo=;
+ b=ekIXYN4JtPC6gbFV9ATztc4HRdLuATNIwXsIyKXwjiB4BxQIGDR6IF+11sLDCvEwlQ8lAy
+ TqM38UjEh8GVTAz1p7imgZWqXqk9hP6AJEBVkCTNwinrNipx/mwiWBhcQfzo/+WuD3+FCa
+ wED2FNxPLNaRmsiLxdzUkEGkQ0GuWw0=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-252-CjPGknYyOOaFqk-wBZX5rA-1; Thu, 14 Jan 2021 14:49:17 -0500
+X-MC-Unique: CjPGknYyOOaFqk-wBZX5rA-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+ [10.5.11.15])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id DCE3B1005D51
+ for <qemu-devel@nongnu.org>; Thu, 14 Jan 2021 19:49:16 +0000 (UTC)
+Received: from lacos-laptop-7.usersys.redhat.com (ovpn-112-194.ams2.redhat.com
+ [10.36.112.194])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id B3FD65D736;
+ Thu, 14 Jan 2021 19:49:15 +0000 (UTC)
+Subject: Re: [PATCH 1/2] meson.build: Declare global edk2_targets /
+ install_edk2_blobs variables
+To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
+ qemu-devel@nongnu.org
+References: <20210114174509.2944817-1-philmd@redhat.com>
+ <20210114174509.2944817-2-philmd@redhat.com>
+From: Laszlo Ersek <lersek@redhat.com>
+Message-ID: <a0990c43-c2f9-503d-782e-e4002709e53b@redhat.com>
+Date: Thu, 14 Jan 2021 20:49:14 +0100
 MIME-Version: 1.0
-In-Reply-To: <CA+aFP1Cbnt99DRQLwFRhxVj5Mnow6PtQpa0k4-ojOCJt3+JPJw@mail.gmail.com>
+In-Reply-To: <20210114174509.2944817-2-philmd@redhat.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=lersek@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 7bit
 Content-Language: en-US
-Received-SPF: pass client-ip=195.62.97.192; envelope-from=pl@kamp.de;
- helo=kerio.kamp.de
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.237,
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=lersek@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -29
+X-Spam_score: -3.0
+X-Spam_bar: ---
+X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.248,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -60,76 +81,99 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, Christian Theune <ct@flyingcircus.io>,
- qemu-devel <qemu-devel@nongnu.org>, qemu-block <qemu-block@nongnu.org>,
- Max Reitz <mreitz@redhat.com>
+Cc: Paolo Bonzini <pbonzini@redhat.com>, John Snow <jsnow@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Am 14.01.21 um 20:18 schrieb Jason Dillaman:
-> On Sun, Dec 27, 2020 at 11:42 AM Peter Lieven <pl@kamp.de> wrote:
->> Signed-off-by: Peter Lieven <pl@kamp.de>
->> ---
->>  block/rbd.c | 21 +++++++++++++++++++--
->>  1 file changed, 19 insertions(+), 2 deletions(-)
->>
->> diff --git a/block/rbd.c b/block/rbd.c
->> index a2da70e37f..27b232f4d8 100644
->> --- a/block/rbd.c
->> +++ b/block/rbd.c
->> @@ -91,6 +91,7 @@ typedef struct BDRVRBDState {
->>      char *namespace;
->>      uint64_t image_size;
->>      uint64_t object_size;
->> +    AioContext *aio_context;
->>  } BDRVRBDState;
->>
->>  static int qemu_rbd_connect(rados_t *cluster, rados_ioctx_t *io_ctx,
->> @@ -749,6 +750,8 @@ static int qemu_rbd_open(BlockDriverState *bs, QDict *options, int flags,
->>          }
->>      }
->>
->> +    s->aio_context = bdrv_get_aio_context(bs);
->> +
->>      /* When extending regular files, we get zeros from the OS */
->>      bs->supported_truncate_flags = BDRV_REQ_ZERO_WRITE;
->>
->> @@ -839,8 +842,7 @@ static void rbd_finish_aiocb(rbd_completion_t c, RADOSCB *rcb)
->>      rcb->ret = rbd_aio_get_return_value(c);
->>      rbd_aio_release(c);
->>
->> -    replay_bh_schedule_oneshot_event(bdrv_get_aio_context(acb->common.bs),
->> -                                     rbd_finish_bh, rcb);
->> +    replay_bh_schedule_oneshot_event(acb->s->aio_context, rbd_finish_bh, rcb);
->>  }
->>
->>  static BlockAIOCB *rbd_start_aio(BlockDriverState *bs,
->> @@ -1151,6 +1153,18 @@ static const char *const qemu_rbd_strong_runtime_opts[] = {
->>      NULL
->>  };
->>
->> +static void qemu_rbd_attach_aio_context(BlockDriverState *bs,
->> +                                       AioContext *new_context)
->> +{
->> +    BDRVRBDState *s = bs->opaque;
->> +    s->aio_context = new_context;
->> +}
->> +
->> +static void qemu_rbd_detach_aio_context(BlockDriverState *bs)
->> +{
-> I don't know enough about the internals of QEMU, but this seems
-> suspicious to be a no-op.
+On 01/14/21 18:45, Philippe Mathieu-Daudé wrote:
+> Globally declare in the main meson.build:
+> - the list of EDK2 targets,
+> - whether the EDK2 blobs have to be installed.
+> 
+> Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+> ---
+> Patch trivial to review using 'git-diff --ignore-all-space'
+> ---
+>  meson.build                     |  8 ++++++++
+>  pc-bios/descriptors/meson.build | 30 ++++++++++++++++--------------
+>  pc-bios/meson.build             |  5 +----
+>  3 files changed, 25 insertions(+), 18 deletions(-)
+> 
+> diff --git a/meson.build b/meson.build
+> index 3d889857a09..ecc45d04d6a 100644
+> --- a/meson.build
+> +++ b/meson.build
+> @@ -88,6 +88,14 @@
+>    }
+>  endif
+>  
+> +edk2_targets = [ 'arm-softmmu', 'aarch64-softmmu', 'i386-softmmu', 'x86_64-softmmu' ]
+> +install_edk2_blobs = false
+> +if get_option('install_blobs')
+> +  foreach target : target_dirs
+> +    install_edk2_blobs = install_edk2_blobs or target in edk2_targets
+> +  endforeach
+> +endif
+> +
+>  ##################
+>  # Compiler flags #
+>  ##################
+> diff --git a/pc-bios/descriptors/meson.build b/pc-bios/descriptors/meson.build
+> index 7040834573d..ac6ec66b007 100644
+> --- a/pc-bios/descriptors/meson.build
+> +++ b/pc-bios/descriptors/meson.build
+> @@ -1,14 +1,16 @@
+> -foreach f: [
+> -  '50-edk2-i386-secure.json',
+> -  '50-edk2-x86_64-secure.json',
+> -  '60-edk2-aarch64.json',
+> -  '60-edk2-arm.json',
+> -  '60-edk2-i386.json',
+> -  '60-edk2-x86_64.json'
+> -]
+> -  configure_file(input: files(f),
+> -                 output: f,
+> -                 configuration: {'DATADIR': qemu_datadir},
+> -                 install: get_option('install_blobs'),
+> -                 install_dir: qemu_datadir / 'firmware')
+> -endforeach
+> +if install_edk2_blobs
+> +  foreach f: [
+> +    '50-edk2-i386-secure.json',
+> +    '50-edk2-x86_64-secure.json',
+> +    '60-edk2-aarch64.json',
+> +    '60-edk2-arm.json',
+> +    '60-edk2-i386.json',
+> +    '60-edk2-x86_64.json'
+> +  ]
+> +    configure_file(input: files(f),
+> +                   output: f,
+> +                   configuration: {'DATADIR': qemu_datadir},
+> +                   install: get_option('install_blobs'),
+> +                   install_dir: qemu_datadir / 'firmware')
+> +  endforeach
+> +endif
+> diff --git a/pc-bios/meson.build b/pc-bios/meson.build
+> index fab323af84e..6a341b6cea0 100644
+> --- a/pc-bios/meson.build
+> +++ b/pc-bios/meson.build
+> @@ -1,7 +1,4 @@
+> -if 'arm-softmmu' in target_dirs or \
+> -    'aarch64-softmmu' in target_dirs or \
+> -    'i386-softmmu' in target_dirs or \
+> -    'x86_64-softmmu' in target_dirs
+> +if install_edk2_blobs
+>    bzip2 = find_program('bzip2', required: true)
+>    fds = [
+>      'edk2-aarch64-code.fd',
+> 
 
+I vaguely understand what this patch does (I haven't followed the meson
+conversion), but I'm unsure why it does that.
 
-You are right, I was believing attach and detach aio_context functions always needs to be implemented both at the same time.
+Is this patch useful in itself, or only in preparation for patch#2?
 
-Normally this is the point where internal timers will be deleted or polling an fd will be stopped.
-
-We can leave it completely out or set s->aio_context = NULL if we don't want to omit it.
-
-
-Peter
-
-
+Thanks,
+Laszlo
 
 
