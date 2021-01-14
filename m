@@ -2,78 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E651B2F6698
-	for <lists+qemu-devel@lfdr.de>; Thu, 14 Jan 2021 18:02:57 +0100 (CET)
-Received: from localhost ([::1]:35328 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 118462F66A5
+	for <lists+qemu-devel@lfdr.de>; Thu, 14 Jan 2021 18:06:25 +0100 (CET)
+Received: from localhost ([::1]:43910 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l061Q-0005Qr-ML
-	for lists+qemu-devel@lfdr.de; Thu, 14 Jan 2021 12:02:56 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39116)
+	id 1l064l-0000yS-Kd
+	for lists+qemu-devel@lfdr.de; Thu, 14 Jan 2021 12:06:23 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39440)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1l05NF-00040A-Pp
- for qemu-devel@nongnu.org; Thu, 14 Jan 2021 11:21:27 -0500
-Received: from mail-wm1-x335.google.com ([2a00:1450:4864:20::335]:35096)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1l05N8-0000Tq-Hg
- for qemu-devel@nongnu.org; Thu, 14 Jan 2021 11:21:21 -0500
-Received: by mail-wm1-x335.google.com with SMTP id e25so5226716wme.0
- for <qemu-devel@nongnu.org>; Thu, 14 Jan 2021 08:21:16 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=IVQfD/3Vp5h4X9RtCu6DOTaRAYjm9w2H6u44f+7IHiI=;
- b=fSJwad6lVsMuTlyANRjvpa6BYsFnIXV13RO+32kvIuZLD8AVhbRxBmQTGPmKG7vZNb
- 9NycJm0EIc/tegtNNSPbURZcPj3i7yeOozu6CnY+IoKNtk/frnPx3TG3i/+wME1l9Cz+
- 10B2azk+jS0ynvr+RDtDbWKEniQFk7IPToJoXJnkbvOhsfOMye/VTp9NILxLQ3IL0tnV
- x10jcel9HTkulkpReZHXxRxRYQUvvJ6qaqT7LLvfIAbJSMvuKYZ49LY+sy/SBc2CfwAG
- XMZc/zzu/plL2TThh2C6KcB/N7Xqt/PfrRASLqK76xDxPPUYz3Ag2oZPMYhfEgVSkEcX
- bHcg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
- :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=IVQfD/3Vp5h4X9RtCu6DOTaRAYjm9w2H6u44f+7IHiI=;
- b=gdDYoqFFDrF2ASz273eMCx21wkZjY2PnL4leps0cvUZyF/1aj2ltEMYnBEF2tpXTIv
- 47mNQGTO3vnmFmoipSQMJkDgZwQU9kLldwrdKiwPaQ7lClwjmkhgH+ovWSmtkWxUHy4/
- HdoYu+zHljFhrnAptNaGeL7SX1QHNx+HzJcQCyMg3IxqO4xb2ptrIM5WLUPUGdJpm0mv
- oYRBz6+4+R8FzQxk2sItPn8bnxLMQrLUKdcrs4luz4pgRkUmua0mwsH0c4OUh2pb+wLq
- M3+C0/NtN+OuAG32KYAbG41lrkXIDNep5h+oH/LTus/p2ZPQ823vOVEpVekkgMVsrf/a
- GhLg==
-X-Gm-Message-State: AOAM531bOJUVbiYAQKFdMpPxuja2kROUyKqzMhNzIxcfoaVlVIHshmZs
- BZG0gJ81j2qs1lGt8q5V809TsHrWh3I=
-X-Google-Smtp-Source: ABdhPJySljGk/ou10LW1rkJcqrrVcwXyEXuFVQwphzN7SBp/s2DTzHMxTss0+h9Oay9R9tgeXCBAXQ==
-X-Received: by 2002:a1c:7d8e:: with SMTP id y136mr4579154wmc.25.1610641275310; 
- Thu, 14 Jan 2021 08:21:15 -0800 (PST)
-Received: from x1w.redhat.com (13.red-83-57-169.dynamicip.rima-tde.net.
- [83.57.169.13])
- by smtp.gmail.com with ESMTPSA id b132sm9722556wmh.21.2021.01.14.08.21.14
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 14 Jan 2021 08:21:14 -0800 (PST)
-From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
-To: 
-Subject: [PULL v2 55/69] target/mips: Introduce decodetree helpers for MSA
- LSA/DLSA opcodes
-Date: Thu, 14 Jan 2021 17:20:09 +0100
-Message-Id: <20210114162016.2901557-11-f4bug@amsat.org>
-X-Mailer: git-send-email 2.26.2
-In-Reply-To: <20210114162016.2901557-1-f4bug@amsat.org>
-References: <20210114162016.2901557-1-f4bug@amsat.org>
+ (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
+ id 1l05Nz-0004DA-A9
+ for qemu-devel@nongnu.org; Thu, 14 Jan 2021 11:22:11 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:40647)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
+ id 1l05Nu-0000lE-PH
+ for qemu-devel@nongnu.org; Thu, 14 Jan 2021 11:22:11 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1610641325;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=CloSGHjvpzGGsUahLAhrl0UUZvqP9AjXF6cxbf/VZxs=;
+ b=XVQJ+zkUa+QCaqGoUMEuDo4XvOpzprJyTQncMt1vCGqHO2J3Hy3sR3kxNsHfwvaGcorMav
+ me7P8KFyQ+P6HTvscU1qGYBHPOx+A4kPgdldch+XlRxLuCHIkVDj9CRQdoi37u767maVtN
+ T8bbLd0jQEpExBs77R5WZkfZSfsOIw8=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-147--yqlpMNRORW4PB8xai1k8g-1; Thu, 14 Jan 2021 11:22:02 -0500
+X-MC-Unique: -yqlpMNRORW4PB8xai1k8g-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id D9513100C662;
+ Thu, 14 Jan 2021 16:22:00 +0000 (UTC)
+Received: from localhost (ovpn-115-113.ams2.redhat.com [10.36.115.113])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 7B9BC60C47;
+ Thu, 14 Jan 2021 16:22:00 +0000 (UTC)
+Date: Thu, 14 Jan 2021 16:21:59 +0000
+From: Stefan Hajnoczi <stefanha@redhat.com>
+To: Thomas Huth <thuth@redhat.com>
+Subject: Re: [qemu-web PATCH v2] Use GitLab repo URLs instead of git.qemu.org
+ URLs
+Message-ID: <20210114162159.GA306329@stefanha-x1.localdomain>
+References: <20210113185403.276395-1-stefanha@redhat.com>
+ <407faef7-934e-2744-2837-590bc192ff12@redhat.com>
+ <20210114134050.GB299876@stefanha-x1.localdomain>
+ <0cd93ff2-cabc-2e4e-449f-34d7bbb9e5c7@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::335;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x335.google.com
-X-Spam_score_int: -14
-X-Spam_score: -1.5
-X-Spam_bar: -
-X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.248,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.248,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+In-Reply-To: <0cd93ff2-cabc-2e4e-449f-34d7bbb9e5c7@redhat.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=stefanha@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="uAKRQypu60I7Lcqm"
+Content-Disposition: inline
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=stefanha@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -29
+X-Spam_score: -3.0
+X-Spam_bar: ---
+X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.248,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -86,117 +82,100 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>,
- Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
- Aurelien Jarno <aurelien@aurel32.net>
+Cc: Alex =?iso-8859-1?Q?Benn=E9e?= <alex.bennee@linaro.org>,
+ Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
+ Daniel Berrange <berrange@redhat.com>, qemu-devel@nongnu.org,
+ Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Add the LSA opcode to the MSA32 decodetree config, add DLSA
-to a new config for the MSA64 ASE, and call decode_msa64()
-in the main decode_opc() loop.
+--uAKRQypu60I7Lcqm
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-Message-Id: <20201215225757.764263-23-f4bug@amsat.org>
----
- target/mips/msa32.decode    |  5 +++++
- target/mips/msa64.decode    | 17 +++++++++++++++++
- target/mips/msa_translate.c | 14 ++++++++++++++
- target/mips/meson.build     |  1 +
- 4 files changed, 37 insertions(+)
- create mode 100644 target/mips/msa64.decode
+On Thu, Jan 14, 2021 at 04:29:43PM +0100, Thomas Huth wrote:
+> On 14/01/2021 14.40, Stefan Hajnoczi wrote:
+> > On Thu, Jan 14, 2021 at 10:42:59AM +0100, Thomas Huth wrote:
+> > > On 13/01/2021 19.54, Stefan Hajnoczi wrote:
+> > > > Switch to GitLab repo URLs to reduce qemu.org bandwidth.
+> > > >=20
+> > > > Signed-off-by: Stefan Hajnoczi <stefanha@redhat.com>
+> > > > ---
+> > > > v2:
+> > > >    * Added missing URL in _posts/2018-06-28-tcg-testing.md. Mark
+> > > >      Cave-Ayland <mark.cave-ayland@ilande.co.uk> and Alex Benn=E9e
+> > > >      <alex.bennee@linaro.org> figured out the issue was that the gi=
+tweb
+> > > >      link referenced a blob object (not a commit) whereas GitLab ne=
+eds the
+> > > >      commit object. Therefore the hash hash in the URL has changed.
+> > > > ---
+> > > >    _download/source.html                           | 4 ++--
+> > > >    _posts/2017-02-04-the-new-qemu-website-is-up.md | 8 ++++----
+> > > >    _posts/2017-10-04-qemu-2-10-1.md                | 4 ++--
+> > > >    _posts/2018-02-09-understanding-qemu-devices.md | 2 +-
+> > > >    _posts/2018-06-28-tcg-testing.md                | 4 ++--
+> > > >    contribute.md                                   | 2 +-
+> > > >    contribute/security-process.md                  | 4 ++--
+> > > >    documentation.md                                | 2 +-
+> > > >    support.md                                      | 2 +-
+> > > >    9 files changed, 16 insertions(+), 16 deletions(-)
+> > > >=20
+> > > > diff --git a/_download/source.html b/_download/source.html
+> > > > index 5798633..14fb6dc 100644
+> > > > --- a/_download/source.html
+> > > > +++ b/_download/source.html
+> > > > @@ -9,7 +9,7 @@
+> > > >    =09{% include releases.html %}
+> > > >    =09</div>
+> > > >    =09<p>or stay on the bleeding edge with the
+> > > > -=09   <a href=3D"https://git.qemu.org/?p=3Dqemu.git">git repositor=
+y!</a></p>
+> > > > +=09   <a href=3D"https://gitlab.com/qemu-project/qemu.git">git rep=
+ository!</a></p>
+> > >=20
+> > > For "clickable" links (i.e. not the URLs used for cloning), I'd sugge=
+st to
+> > > drop the ".git" suffix, since there will be a redirection to the suff=
+ix-less
+> > > URL otherwise.
+> > >=20
+> > > If you agree, I can fix it up when picking up the patch, no need to r=
+esend
+> > > just because of this.
+> >=20
+> > I don't have a strong opinion either way. I chose this approach because
+> > it results in a clean git clone while also working in a web browser
+> > (with a redirect, as you mentioned).
+>=20
+> Ok, I've pushed your patch with some of the .git suffixes removed. I don'=
+t
+> think that anybody will try to clone from a link where the link text is
+> saying "git repository!" like in above source.html, so I removed it there=
+.
+> But in the instructions for running "git clone ...", I of course kept the
+> suffix.
 
-diff --git a/target/mips/msa32.decode b/target/mips/msa32.decode
-index d69675132b8..ca200e373b1 100644
---- a/target/mips/msa32.decode
-+++ b/target/mips/msa32.decode
-@@ -10,11 +10,16 @@
- #       (Document Number: MD00866-2B-MSA32-AFP-01.12)
- #
- 
-+&rtype              rs rt rd sa
-+
- &msa_bz             df wt s16
- 
-+@lsa                ...... rs:5 rt:5 rd:5 ... sa:2 ......   &rtype
- @bz                 ...... ... ..   wt:5 s16:16             &msa_bz df=3
- @bz_df              ...... ... df:2 wt:5 s16:16             &msa_bz
- 
-+LSA                 000000 ..... ..... ..... 000 .. 000101  @lsa
-+
- BZ_V                010001 01011  ..... ................    @bz
- BNZ_V               010001 01111  ..... ................    @bz
- 
-diff --git a/target/mips/msa64.decode b/target/mips/msa64.decode
-new file mode 100644
-index 00000000000..d2442474d0b
---- /dev/null
-+++ b/target/mips/msa64.decode
-@@ -0,0 +1,17 @@
-+# MIPS SIMD Architecture Module instruction set
-+#
-+# Copyright (C) 2020  Philippe Mathieu-Daudé
-+#
-+# SPDX-License-Identifier: LGPL-2.1-or-later
-+#
-+# Reference:
-+#       MIPS Architecture for Programmers Volume IV-j
-+#       The MIPS64 SIMD Architecture Module, Revision 1.12
-+#       (Document Number: MD00868-1D-MSA64-AFP-01.12)
-+#
-+
-+&rtype              rs rt rd sa !extern
-+
-+@lsa                ...... rs:5 rt:5 rd:5 ... sa:2 ......   &rtype
-+
-+DLSA                 000000 ..... ..... ..... 000 .. 010101 @lsa
-diff --git a/target/mips/msa_translate.c b/target/mips/msa_translate.c
-index 8a48f889aa2..ae6587edf69 100644
---- a/target/mips/msa_translate.c
-+++ b/target/mips/msa_translate.c
-@@ -19,6 +19,7 @@
- 
- /* Include the auto-generated decoder.  */
- #include "decode-msa32.c.inc"
-+#include "decode-msa64.c.inc"
- 
- #define OPC_MSA (0x1E << 26)
- 
-@@ -2266,7 +2267,20 @@ static bool trans_MSA(DisasContext *ctx, arg_MSA *a)
-     return true;
- }
- 
-+static bool trans_LSA(DisasContext *ctx, arg_rtype *a)
-+{
-+    return gen_lsa(ctx, a->rd, a->rt, a->rs, a->sa);
-+}
-+
-+static bool trans_DLSA(DisasContext *ctx, arg_rtype *a)
-+{
-+    return gen_dlsa(ctx, a->rd, a->rt, a->rs, a->sa);
-+}
-+
- bool decode_ase_msa(DisasContext *ctx, uint32_t insn)
- {
-+    if (TARGET_LONG_BITS == 64 && decode_msa64(ctx, insn)) {
-+        return true;
-+    }
-     return decode_msa32(ctx, insn);
- }
-diff --git a/target/mips/meson.build b/target/mips/meson.build
-index 3810554343c..b63d8f150f1 100644
---- a/target/mips/meson.build
-+++ b/target/mips/meson.build
-@@ -1,5 +1,6 @@
- gen = [
-   decodetree.process('msa32.decode', extra_args: '--static-decode=decode_msa32'),
-+  decodetree.process('msa64.decode', extra_args: '--static-decode=decode_msa64'),
- ]
- 
- mips_ss = ss.source_set()
--- 
-2.26.2
+Thanks!
+
+Stefan
+
+--uAKRQypu60I7Lcqm
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAmAAb6cACgkQnKSrs4Gr
+c8i/3AgAoaRvHvQhVfh80yc1uAmki+6GawAduuyTK7VaGJ2h+8vyoVOfEtqo1KrO
+1pxaq/OUwvglSb+ObBSvmhrH0qH64Hgz9+HcjVGZswKUGah5AMeu5MG6LwENFaS0
+HTK/KpTXrqgP0alxSS+mOtNfCCzdOn5VNZJNEn2UErhgSNbZ37b1uq4GwDDQxl2/
+7qv/WRAKKEnMhW0HTat92YZ5BSnXG2yEzZJv3f09iUkIsWcqOUEJGQXQMopyO3Uz
+jO57ZNIUNUKBxskRa3prBSGJXg4kk4YrqccjBXgWKVFnxFA3gTp3vTyThM4hVDQk
+htbwRx09Qb4pD14BtXzwUvXU/MmHNg==
+=CRYl
+-----END PGP SIGNATURE-----
+
+--uAKRQypu60I7Lcqm--
 
 
