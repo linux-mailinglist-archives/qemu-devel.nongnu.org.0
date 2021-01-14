@@ -2,74 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2912A2F6999
-	for <lists+qemu-devel@lfdr.de>; Thu, 14 Jan 2021 19:34:20 +0100 (CET)
-Received: from localhost ([::1]:54734 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BDA222F69C4
+	for <lists+qemu-devel@lfdr.de>; Thu, 14 Jan 2021 19:41:07 +0100 (CET)
+Received: from localhost ([::1]:34160 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l07Rr-0003au-8C
-	for lists+qemu-devel@lfdr.de; Thu, 14 Jan 2021 13:34:19 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35988)
+	id 1l07YQ-000710-SO
+	for lists+qemu-devel@lfdr.de; Thu, 14 Jan 2021 13:41:06 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37188)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1l06id-0001or-Ld
- for qemu-devel@nongnu.org; Thu, 14 Jan 2021 12:47:44 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:28769)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1l06m8-0005CQ-OV
+ for qemu-devel@nongnu.org; Thu, 14 Jan 2021 12:51:12 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:52153)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1l06iY-0006Sr-Ko
- for qemu-devel@nongnu.org; Thu, 14 Jan 2021 12:47:35 -0500
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1l06m6-0007br-Go
+ for qemu-devel@nongnu.org; Thu, 14 Jan 2021 12:51:12 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1610646445;
+ s=mimecast20190719; t=1610646668;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=GaKIQZ8VZUz6JzIQSpZceppktdSe11Ti4fWEiUYOHLA=;
- b=EogNzbA47OGTKe3KOIv6BQL84JIFblnf5axTncro+5cx8LZlx0/LIDdgy44vDtuZ7d5AsQ
- Mi8LSJshtBAkSfOvYI6Xp6qH45bglGFyn+88R5/pp5Njf8B2BBRUMVS0KOOmTcrmNKz0i8
- JNYQWpCMeM/DGV7bmAymBq2115JgKsk=
+ bh=k/1xiO+VL2p8FozT0g7o4YQX0c9cSbZk39bLSXlskQY=;
+ b=BoO1OSDYhhVgfM0sU4V++F+WtCGq96jf4HHNeqvQ7+Q38uzpG+TNTEq4L25aBA/3TphAh6
+ Rk4nN03NNIrIGHqQbX1nrJsh8dSctTy1uIbYZgAYhIvqF9qtvurDrToe0CofUIJUP9ASAM
+ iIW4V6bSqLumxvrbHR8eE6g0I0Lh7Ww=
 Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
  [209.85.221.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-430-Cd3gSMx7MO6kg920RDVyvg-1; Thu, 14 Jan 2021 12:47:22 -0500
-X-MC-Unique: Cd3gSMx7MO6kg920RDVyvg-1
-Received: by mail-wr1-f72.google.com with SMTP id u29so2933760wru.6
- for <qemu-devel@nongnu.org>; Thu, 14 Jan 2021 09:47:22 -0800 (PST)
+ us-mta-572-uGZNTYJgOdqWR5R9j__pVQ-1; Thu, 14 Jan 2021 12:51:07 -0500
+X-MC-Unique: uGZNTYJgOdqWR5R9j__pVQ-1
+Received: by mail-wr1-f72.google.com with SMTP id q2so2930836wrp.4
+ for <qemu-devel@nongnu.org>; Thu, 14 Jan 2021 09:51:06 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:subject:to:cc:references:from:message-id:date
  :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=GaKIQZ8VZUz6JzIQSpZceppktdSe11Ti4fWEiUYOHLA=;
- b=YAsobynrloEbDimykeMoMEO0wS8oV+OccjyeV0/gMmkvHC55IF2E8UXfQPK8h66Nrl
- 9KrwLN5tfJtUsHqrnqB8BsdbWkadLa1unw1rYwexVOjfR+o0YbemMo2px3AP8yznAthq
- 8rMg2LmfUe+gpYwzm9s4ALYpHgjBDzkg/Ak+AxQZYWQLFVY14q8MoMYXKfgMg2wbxzIl
- HahskAjanHR77FNjg2xSfjWJY3hqu0SP81dI9nfsrLLR2kRz5zQbI6XY6kZ3vcSr/U4h
- 9SK3EQAeaKRbu4pJaBRQlWk2BImCJ2kbVxKpBjFmT8iFRf9gpxGMX9KTQtnMu7ME4ydW
- H3Tg==
-X-Gm-Message-State: AOAM533h4RdH4lJaIYXYY6TzSMLjUdNNO/hnnI5YahCn+rtCeflkbrzi
- rKX125jUSfY6qdg4/A1+UjoETY1VJWo/A3rQ/t1WGwdeO6T0tU1JtWPVJjkaRL9cUuXEi1Io547
- FSvsdvj3Du+msg2s=
-X-Received: by 2002:adf:fb52:: with SMTP id c18mr8978050wrs.186.1610646441043; 
- Thu, 14 Jan 2021 09:47:21 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJxLnG7csuguu32wi7ZJ+wRwOtrxLbSKyovFe6bnraM7G1Wtt9YWdNNfKt8GVzwbPX1QZvACQA==
-X-Received: by 2002:adf:fb52:: with SMTP id c18mr8978039wrs.186.1610646440921; 
- Thu, 14 Jan 2021 09:47:20 -0800 (PST)
+ bh=k/1xiO+VL2p8FozT0g7o4YQX0c9cSbZk39bLSXlskQY=;
+ b=GLC+tCde7SNMXcLhO7lMlhsM8jOX+y0o/WCyTbysIvl7jByQJCET0AFh8Y1AqCWjSz
+ zJXvNflgapLXymwJQZEfrcNTkztlp2u8nMqpxSDGC3rjXCxZCxS1OoRJANmS9sQmmvsx
+ AccI+LE602svoSYHxEUkodcbcOYUAsRxO9O4zJOIUFiaMot6HCNQ1v9d4odrqktIXzfl
+ kMgv84EFoBqNRcREHPC37CX3Einn6Ps6deL2hZb/lZosE9bqJZh9ZnZttlUvGxyPB5kQ
+ AWmrFCRidsmS6NUjup+AICRivEblqZh9ce9ZnCL7W6541kojHrF1WvAsAxU03N+rn4i2
+ Ui2A==
+X-Gm-Message-State: AOAM532xSEVHZUnU39Y6R5sxVvvnFkF17ePS55lKGIrA5lucuRpONbHC
+ kaIs90sGw7WQ5bbZ4g7QeAZjEOuDVvOfXqgG88n/X/bDUuZDRf2CtUpImkhdaHycxZRlTABL1jr
+ +vTa2WrsuAK1xa30=
+X-Received: by 2002:adf:fad0:: with SMTP id a16mr9451404wrs.390.1610646665990; 
+ Thu, 14 Jan 2021 09:51:05 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJwd7V1rGiOSR2It46mN34KY0bvZXJ+SArqQBzDKCBE70dnvGgP9LGGFvF/nKfQmWAJuzO/7Lw==
+X-Received: by 2002:adf:fad0:: with SMTP id a16mr9451394wrs.390.1610646665883; 
+ Thu, 14 Jan 2021 09:51:05 -0800 (PST)
 Received: from [192.168.1.36] (13.red-83-57-169.dynamicip.rima-tde.net.
  [83.57.169.13])
- by smtp.gmail.com with ESMTPSA id a24sm3379604wmj.17.2021.01.14.09.47.20
+ by smtp.gmail.com with ESMTPSA id b10sm9802429wmj.5.2021.01.14.09.51.04
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 14 Jan 2021 09:47:20 -0800 (PST)
-Subject: Re: [PATCH v2 10/12] Fix build with new yank feature by adding stubs
+ Thu, 14 Jan 2021 09:51:05 -0800 (PST)
+Subject: Re: [PATCH v2 04/12] Add newline when generating Dockerfile
 To: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
  qemu-devel@nongnu.org
 References: <20210114165730.31607-1-alex.bennee@linaro.org>
- <20210114165730.31607-11-alex.bennee@linaro.org>
+ <20210114165730.31607-5-alex.bennee@linaro.org>
 From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-Message-ID: <88ed23a1-06b2-ce13-842d-9aa1acb381a3@redhat.com>
-Date: Thu, 14 Jan 2021 18:47:19 +0100
+Message-ID: <8304a9a5-b037-2ba8-1965-ab8c9f5c483c@redhat.com>
+Date: Thu, 14 Jan 2021 18:51:04 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.6.0
 MIME-Version: 1.0
-In-Reply-To: <20210114165730.31607-11-alex.bennee@linaro.org>
+In-Reply-To: <20210114165730.31607-5-alex.bennee@linaro.org>
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
 X-Mimecast-Spam-Score: 0
@@ -99,90 +99,20 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Paolo Bonzini <pbonzini@redhat.com>, Lukas Straub <lukasstraub2@web.de>
+Cc: Alessandro Di Federico <ale@rev.ng>, Fam Zheng <fam@euphon.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On 1/14/21 5:57 PM, Alex Bennée wrote:
-> From: Lukas Straub <lukasstraub2@web.de>
+> From: Alessandro Di Federico <ale@rev.ng>
 > 
-
-Again:
-
-Fixes: 50186051f42 ("Introduce yank feature")
+> Signed-off-by: Alessandro Di Federico <ale@rev.ng>
+> Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
+> Message-Id: <1610080146-14968-36-git-send-email-tsimpson@quicinc.com>
+> ---
+>  tests/docker/docker.py | 4 ++--
+>  1 file changed, 2 insertions(+), 2 deletions(-)
 
 Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-
-> Signed-off-by: Lukas Straub <lukasstraub2@web.de>
-> [AJB: tweak MAINTAINERS]
-> Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
-> Message-Id: <20210114141918.5201cc9c@gecko.fritz.box>
-> ---
->  stubs/yank.c      | 29 +++++++++++++++++++++++++++++
->  MAINTAINERS       |  1 +
->  stubs/meson.build |  1 +
->  3 files changed, 31 insertions(+)
->  create mode 100644 stubs/yank.c
-> 
-> diff --git a/stubs/yank.c b/stubs/yank.c
-> new file mode 100644
-> index 0000000000..6090416065
-> --- /dev/null
-> +++ b/stubs/yank.c
-> @@ -0,0 +1,29 @@
-> +#include "qemu/osdep.h"
-> +#include "qemu/yank.h"
-> +
-> +bool yank_register_instance(const YankInstance *instance, Error **errp)
-> +{
-> +    return true;
-> +}
-> +
-> +void yank_unregister_instance(const YankInstance *instance)
-> +{
-> +}
-> +
-> +void yank_register_function(const YankInstance *instance,
-> +                            YankFn *func,
-> +                            void *opaque)
-> +{
-> +}
-> +
-> +void yank_unregister_function(const YankInstance *instance,
-> +                              YankFn *func,
-> +                              void *opaque)
-> +{
-> +}
-> +
-> +void yank_generic_iochannel(void *opaque)
-> +{
-> +}
-> +
-> +
-> diff --git a/MAINTAINERS b/MAINTAINERS
-> index cb0656aec3..07e4851aa4 100644
-> --- a/MAINTAINERS
-> +++ b/MAINTAINERS
-> @@ -2736,6 +2736,7 @@ Yank feature
->  M: Lukas Straub <lukasstraub2@web.de>
->  S: Odd fixes
->  F: util/yank.c
-> +F: stubs/yank.c
->  F: include/qemu/yank.h
->  F: qapi/yank.json
->  
-> diff --git a/stubs/meson.build b/stubs/meson.build
-> index 80b1d81a31..1a656cd070 100644
-> --- a/stubs/meson.build
-> +++ b/stubs/meson.build
-> @@ -47,6 +47,7 @@ stub_ss.add(files('vm-stop.c'))
->  stub_ss.add(files('win32-kbd-hook.c'))
->  stub_ss.add(files('cpu-synchronize-state.c'))
->  if have_block
-> +  stub_ss.add(files('yank.c'))
->    stub_ss.add(files('replay-tools.c'))
->  endif
->  if have_system
-> 
 
 
