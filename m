@@ -2,75 +2,82 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7EE772F63B6
-	for <lists+qemu-devel@lfdr.de>; Thu, 14 Jan 2021 16:08:26 +0100 (CET)
-Received: from localhost ([::1]:40386 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 11B4F2F63FA
+	for <lists+qemu-devel@lfdr.de>; Thu, 14 Jan 2021 16:15:03 +0100 (CET)
+Received: from localhost ([::1]:52222 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l04Eb-0003I1-I2
-	for lists+qemu-devel@lfdr.de; Thu, 14 Jan 2021 10:08:25 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44980)
+	id 1l04L0-0001T7-1M
+	for lists+qemu-devel@lfdr.de; Thu, 14 Jan 2021 10:15:02 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47120)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1l049g-0001nu-HJ
- for qemu-devel@nongnu.org; Thu, 14 Jan 2021 10:03:20 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:32354)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1l049a-0001CN-7j
- for qemu-devel@nongnu.org; Thu, 14 Jan 2021 10:03:20 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1610636593;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=yhfBV5+9TAriZ1ROovaPluf8T7WjGnI4Ivmpp1Bu1/U=;
- b=J+jYAuxBWn1txY9dsH7B3DustsnThG49sDY3GVxY6ktTC/WScPsTszw68EaZAKYeeUBAU5
- fz0epgEH0ssciRv47NSuBS5ChYtBP7J3D4Ia3kyAFxNUG8eqeAk4wgQf7e/f7E6h3GFo5N
- bcX8Zpa2UMwqdl63UZ2C27JnGs0i3wE=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-574-FweXK2aDM8GYE28F2UDRcQ-1; Thu, 14 Jan 2021 10:03:11 -0500
-X-MC-Unique: FweXK2aDM8GYE28F2UDRcQ-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 1479B1034B21;
- Thu, 14 Jan 2021 15:03:10 +0000 (UTC)
-Received: from merkur.fritz.box (ovpn-115-18.ams2.redhat.com [10.36.115.18])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 192475D9E2;
- Thu, 14 Jan 2021 15:02:57 +0000 (UTC)
-Date: Thu, 14 Jan 2021 16:02:56 +0100
-From: Kevin Wolf <kwolf@redhat.com>
-To: Daniel =?iso-8859-1?Q?P=2E_Berrang=E9?= <berrange@redhat.com>
-Subject: Re: qmp-shell TUI (was: Re: Call for Google Summer of Code 2021
- project ideas)
-Message-ID: <20210114150256.GE6058@merkur.fritz.box>
-References: <CAJSP0QWWg__21otbMXAXWGD1FaHYLzZP7axZ47Unq6jtMvdfsA@mail.gmail.com>
- <92903d8d-24c4-5177-67c9-1690ea794739@redhat.com>
- <CAJSP0QVRohWcfYY7AjispK8+VYat6APc3nNbmAxk+34nZmtFPw@mail.gmail.com>
- <e8938b53-a933-426c-0719-981ab0df123f@redhat.com>
- <20210114135234.GC292902@stefanha-x1.localdomain>
- <20210114135942.GI1643043@redhat.com>
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1l04F7-0004Vn-TO
+ for qemu-devel@nongnu.org; Thu, 14 Jan 2021 10:08:57 -0500
+Received: from mail-wr1-x436.google.com ([2a00:1450:4864:20::436]:34598)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1l04F6-0003Rl-85
+ for qemu-devel@nongnu.org; Thu, 14 Jan 2021 10:08:57 -0500
+Received: by mail-wr1-x436.google.com with SMTP id q18so6144740wrn.1
+ for <qemu-devel@nongnu.org>; Thu, 14 Jan 2021 07:08:52 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=sender:subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=tik8ZSv6saMdPxRlaY6QPjJUYRigL7WptUcRZqSbJRc=;
+ b=tFp7fSRbW9Uw6Bt+ZVKEqHXOkFQWo8iyvX2DVLUXK3Qblb30WQBUcKilhnsIsoUECe
+ 6ASgh44YtrqJm5a2xtsxQfuTUeuqbxh6PELlofLjF5DEdfWUHcuJfYfrnUxdsBHkt4ZJ
+ jAPiEl5OqQ0MES208lw4HwV+WBww6BHstTbP/Ju1uVfZl9cBQhxkho9MHG1d9ZPPDnIq
+ SAobvk9vfYdti54FOSZQUv4x7+fIY+yNnpH4wX37D4cb2+8K7SYtlsladPuga0wNb70r
+ Q0a/7mrfAj6lN/Fowabglda0MdJNo4s5/aY55VlpRLhItyPcPyb2frrcKy4igzckJVzG
+ WHlQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
+ :date:user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=tik8ZSv6saMdPxRlaY6QPjJUYRigL7WptUcRZqSbJRc=;
+ b=UPXvYeNhnwM3BmQ9JWogPFKpiIiooEG+iL6mGu2jDuMtNRUMvVfqORO+WtbGsiPiM0
+ CRU9OIn2D5qDTSv8vlvwJD85u24WwDFMTF83FOXVOct8GbVlpkUk9++xveku5iPpNbAV
+ aBUAjR33GmhtZdFnh7t8sPRzVn6nl+Bgj+062fRvS8VK1QDOX2CLV53aYvhMstvGZfJM
+ WL7RTJehjaJndpQaLDBU9QFMywWZitkYvFRETJdlrMwIdlMcTrIGBTcAYeNa8AChYii4
+ hgkSuwPdZdIg1DwdVqcL6Pt3jMzp5BlaX3otW4t76STBgx+XVaRUjYqwSH7Wl1sGOXOu
+ O9sQ==
+X-Gm-Message-State: AOAM531EFOZV5Vbsl6PILFioAkcTwhRaTOOkPCDYDgPlvTU0nJYRNF39
+ JNksBj3h4gDikHwEfKGnt4s=
+X-Google-Smtp-Source: ABdhPJzAlRA9mj6IL/NLo1MYn6e7XPRnRFumxz52ZAuOWgL9CILcpKxyqUJTWY5fyEkKw4oZ7AKcJA==
+X-Received: by 2002:a5d:4241:: with SMTP id s1mr8433623wrr.269.1610636931828; 
+ Thu, 14 Jan 2021 07:08:51 -0800 (PST)
+Received: from [192.168.1.36] (13.red-83-57-169.dynamicip.rima-tde.net.
+ [83.57.169.13])
+ by smtp.gmail.com with ESMTPSA id j13sm8388150wmi.36.2021.01.14.07.08.50
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 14 Jan 2021 07:08:50 -0800 (PST)
+Subject: Re: [PATCH v2 1/2] hw/intc: Add Loongson Inter Processor Interrupt
+ controller
+To: Jiaxun Yang <jiaxun.yang@flygoat.com>, qemu-devel@nongnu.org
+References: <20210114013147.92962-1-jiaxun.yang@flygoat.com>
+ <20210114013147.92962-2-jiaxun.yang@flygoat.com>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
+Message-ID: <8d1047c5-9049-6b4e-edb7-386de792f4cb@amsat.org>
+Date: Thu, 14 Jan 2021 16:08:50 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.6.0
 MIME-Version: 1.0
-In-Reply-To: <20210114135942.GI1643043@redhat.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kwolf@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
+In-Reply-To: <20210114013147.92962-2-jiaxun.yang@flygoat.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=kwolf@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -29
-X-Spam_score: -3.0
-X-Spam_bar: ---
-X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.248,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Received-SPF: pass client-ip=2a00:1450:4864:20::436;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x436.google.com
+X-Spam_score_int: -16
+X-Spam_score: -1.7
+X-Spam_bar: -
+X-Spam_report: (-1.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.248,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.248, NICE_REPLY_A=-0.237,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -83,102 +90,59 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Eduardo Habkost <ehabkost@redhat.com>, libvir-list@redhat.com,
- Stefan Hajnoczi <stefanha@gmail.com>, QEMU Developers <qemu-devel@nongnu.org>,
- Stefan Hajnoczi <stefanha@redhat.com>, John Snow <jsnow@redhat.com>
+Cc: Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>,
+ Huacai Chen <chenhuacai@kernel.org>, Aurelien Jarno <aurelien@aurel32.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Am 14.01.2021 um 14:59 hat Daniel P. Berrangé geschrieben:
-> On Thu, Jan 14, 2021 at 01:52:34PM +0000, Stefan Hajnoczi wrote:
-> > On Wed, Jan 13, 2021 at 01:59:43PM -0500, John Snow wrote:
-> > > On 1/13/21 3:53 AM, Stefan Hajnoczi wrote:
-> > > > On Tue, Jan 12, 2021 at 9:10 PM John Snow <jsnow@redhat.com> wrote:
-> > > > 2. Ability to watch QMP activity on a running QEMU process, e.g. even
-> > > > when libvirt is directly connected to the monitor.
-> > > > 
-> > > 
-> > > That *WOULD* be extremely cool, and moves a lot closer to how mitmproxy
-> > > works.
-> > > 
-> > > (Actually, mitmproxy could theoretically be taught how to read and
-> > > understand QMP traffic, but that's not something I know how to do or would
-> > > be prepared to mentor.)
-> > > 
-> > > Is this possible to do in a post-hoc fashion? Let's say you are using
-> > > production environment QEMU, how do we attach the QMP listener to it? Or
-> > > does this idea require that we start QEMU in a specific fashion with a
-> > > second debug socket that qmp-shell can connect to in order to listen?
-> > > 
-> > > ... Or do we engineer qmp-shell to open its own socket that libvirt connects
-> > > to ...?
-> > 
-> > Here is the QEMU command-line that libvirt uses on my F33 system:
-> > 
-> >   -chardev socket,id=charmonitor,fd=36,server,nowait
-> >   -mon chardev=charmonitor,id=monitor,mode=control
-> > 
-> > Goals for this feature:
-> > 
-> > 1. No manual steps required for setup.
-> > 2. Ability to start/stop monitoring traffic at runtime without
-> >    restarting QEMU.
-> > 3. Available to unprivileged users.
-> > 
-> > I think the easiest way to achieve this is through a new QEMU monitor
-> > command. Approaches that come to mind:
-> > 
-> > 1. Add a -mon debug-chardev property and a QMP command to set it at
-> >    runtime. The debug-chardev receives both monitor input (commands) and
-> >    output (responses and events). This does not allow MITM, rather it
-> >    mirrors traffic.
-> > 
-> > 2. Add a chardev-get-fd command that fetches the fd from a chardev and
-> >    then use the existing chardev-change command to replace the monitor
-> >    chardev with a chardev connected to qmp-shell. This inserts qmp-shell
-> >    as a proxy between the QMP client and server. qmp-shell can remove
-> >    itself again with another chardev-change command. This approach
-> >    allows MITM. The downside is it assumes the QMP chardev is a file
-> >    descriptor, so it won't work with all types of chardev.
-> > 
-> > 3. Add a new chardev-proxy type that aggregates 3 chardevs: 1. an origin
-> >    source chardev, 2. a monitoring sink chardev, and 3. a monitoring
-> >    source chardev. The data flow is origin <-> monitoring sink <->
-> >    monitoring source <-> QMP monitor. qmp-shell creates the monitoring
-> >    sink (for receiving incoming QMP commands) and monitoring source
-> >    chardev (for forwarding QMP commands or MITM commands), and then it
-> >    uses change-chardev to instantiate a chardev-proxy that directs the
-> >    original libvirt chardev through the monitoring sink and source.
-> > 
-> >    This is the most complex but also completely contained within the
-> >    QEMU chardev layer.
+Hi Jiaxun,
 
-I have an idea for the QMP command name: chardev-snapshot-sync!
-
-Finally we get backing file chains for chardevs! :-)
-
-> > In all these approaches qmp-shell uses virsh qemu-monitor-command or an
-> > equivalent API to start/stop monitoring a running VM without manual
-> > setup steps.
+On 1/14/21 2:31 AM, Jiaxun Yang wrote:
+> Loongson IPI controller is a MMIO based simple level triggered
+> interrupt controller. It will trigger IRQ to it's upstream
+> processor when set register is written.
 > 
-> Why go to the trouble of adding more chardevs to a running QEMU that
-> libvirt has.  qmp-shell can just directly use the libvirt Python API
-> to invoke  virDomainQemuMonitorCommand to invoke QMP commands, and
-> the othe API for receiving QMP events.
+> It also has 4 64bit mailboxes to pass boot information to
+> secondary processor.
 > 
-> Essentially it just needs to be split into two layers. The upper
-> layer works in terms of individual QMP command/replies, and QMP
-> events. The lower layer provides a transport that is either a
-> UNIX socket, or is the libvirt QMP passthrough API.
-> 
-> Or alternatively, provide a virt-qmp-shim  command that listens on
-> a UNIX socket, accepts QMP commands and turns them into calls to
-> virDomainQemuMonitorCommand, and funnells back the response.
+> Signed-off-by: Jiaxun Yang <jiaxun.yang@flygoat.com>
+> ---
+>  include/hw/intc/loongson_ipi.h |  20 ++++
+>  hw/intc/loongson_ipi.c         | 174 +++++++++++++++++++++++++++++++++
+>  hw/intc/Kconfig                |   3 +
+>  hw/intc/meson.build            |   1 +
+>  hw/intc/trace-events           |   4 +
+>  5 files changed, 202 insertions(+)
+>  create mode 100644 include/hw/intc/loongson_ipi.h
+>  create mode 100644 hw/intc/loongson_ipi.c
+...
 
-I think the idea was to show the QMP traffic that libvirt produces for
-other management applications, not for the QMP shell. These APIs
-probably don't allow this?
+Thanks for addressing v1 comments.
 
-Kevin
+> +static void loongson_ipi_init(Object *obj)
+> +{
+> +    struct loongson_ipi *p = LOONGSON_IPI(obj);
+> +
+> +    sysbus_init_irq(SYS_BUS_DEVICE(obj), &p->parent_irq);
+> +
+> +    memory_region_init_io(&p->mmio, obj, &pic_mmio_ops, p,
+> +                          "loongson.ipi", R_END * 4);
+> +    sysbus_init_mmio(SYS_BUS_DEVICE(obj), &p->mmio);
+> +    qemu_register_reset(ipi_reset, p);
 
+A SysBusDevice should use DeviceReset. qemu_register_reset()
+should be restricted to non-SysBusDevice devices. If there
+are no other comments on this series, I can fix this when
+applying.
+
+Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+
+> +}
+> +
+> +static const TypeInfo loongson_ipi_info = {
+> +    .name          = TYPE_LOONGSON_IPI,
+> +    .parent        = TYPE_SYS_BUS_DEVICE,
+> +    .instance_size = sizeof(struct loongson_ipi),
+> +    .instance_init = loongson_ipi_init,
+> +};
 
