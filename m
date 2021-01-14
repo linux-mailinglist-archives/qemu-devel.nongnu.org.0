@@ -2,66 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BBFD82F5B0F
-	for <lists+qemu-devel@lfdr.de>; Thu, 14 Jan 2021 08:09:35 +0100 (CET)
-Received: from localhost ([::1]:41376 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C11302F5B3C
+	for <lists+qemu-devel@lfdr.de>; Thu, 14 Jan 2021 08:25:41 +0100 (CET)
+Received: from localhost ([::1]:49512 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kzwlC-0001Oq-QY
-	for lists+qemu-devel@lfdr.de; Thu, 14 Jan 2021 02:09:34 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49984)
+	id 1kzx0m-0005wr-5W
+	for lists+qemu-devel@lfdr.de; Thu, 14 Jan 2021 02:25:40 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52076)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mrezanin@redhat.com>)
- id 1kzwjU-0008RH-5w
- for qemu-devel@nongnu.org; Thu, 14 Jan 2021 02:07:48 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:20179)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <mrezanin@redhat.com>)
- id 1kzwjQ-00043x-Pf
- for qemu-devel@nongnu.org; Thu, 14 Jan 2021 02:07:47 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1610608063;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:content-type:content-type:in-reply-to:in-reply-to:
- references:references; bh=Nf/E0Z07didP1AlVT3JqELR4/8o6YZ7TpKrzQ2l8WzU=;
- b=ZniDfQKY0zdhXfTtgSJIdtb2G+kidZkAeJ5IFlPfogoDDGay+MydbFeUzPZetB+KFhagN2
- bg5uCQKfmp+0Z4ey1wA1kX8qUiuUuPHG1wJDyY3cwcCK1+tDHjyfYZ23qKea9s565JirfU
- 9ejBj5RFNgjePFMJSDoiOlLGtfWWRdE=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-586-AwFiCN9YMHiAr8XxZup8ZQ-1; Thu, 14 Jan 2021 02:07:42 -0500
-X-MC-Unique: AwFiCN9YMHiAr8XxZup8ZQ-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 21686806664
- for <qemu-devel@nongnu.org>; Thu, 14 Jan 2021 07:07:41 +0000 (UTC)
-Received: from workimage2020.rezanina.moe.rezanina.moe (unknown [10.40.195.31])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 8CC0E1F434
- for <qemu-devel@nongnu.org>; Thu, 14 Jan 2021 07:07:40 +0000 (UTC)
-From: Miroslav Rezanina <mrezanin@redhat.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH v3 2/2] s390x: Use strpadcpy for copying vm name
-Date: Thu, 14 Jan 2021 08:07:36 +0100
-Message-Id: <6f86915755219cf6a671788075da4809b57f7d7b.1610607906.git.mrezanin@redhat.com>
-In-Reply-To: <cover.1610607906.git.mrezanin@redhat.com>
-References: <cover.1610607906.git.mrezanin@redhat.com>
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mrezanin@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=mrezanin@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -29
-X-Spam_score: -3.0
-X-Spam_bar: ---
-X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.25,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ (Exim 4.90_1) (envelope-from <pizhenwei@bytedance.com>)
+ id 1kzwyI-0004ce-5T
+ for qemu-devel@nongnu.org; Thu, 14 Jan 2021 02:23:06 -0500
+Received: from mail-pg1-x52a.google.com ([2607:f8b0:4864:20::52a]:35556)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <pizhenwei@bytedance.com>)
+ id 1kzwyD-0002JT-71
+ for qemu-devel@nongnu.org; Thu, 14 Jan 2021 02:23:03 -0500
+Received: by mail-pg1-x52a.google.com with SMTP id n7so3194497pgg.2
+ for <qemu-devel@nongnu.org>; Wed, 13 Jan 2021 23:22:59 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=bytedance-com.20150623.gappssmtp.com; s=20150623;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=ZWtlekwNWiVW11r4B4rUEmrqK0/icouxwBqr03e96mw=;
+ b=NJZeJ3midg+mP13O+IsRVIHy1UTZZ8Qd4EkqB8/8TXaBUyKGnYsh4IzIUxCRuyepFb
+ TotKEyZrLx2qIn874WOV6ZdaHm0my0DxsB9ha7M0+VMQeBTJqVtFNWXcwdK0hqKc8idk
+ zf1+5b87SqV+KrkWhHrIu8048IxGC3tnrr5npqS38753YjyIsefhREGciQCNM7vQMYW8
+ 3nuzt2pKrK05RpxpnTzaTMNjB56Bbu0dkKVN9suaBPvRcgAf81DWQBocT/t7ylRp92oC
+ HWlDSfQP5QnGVPOOCWGzBb2ueYV7GAMNptDkYsnY0H1V0eljHLgWgq7JpXu2+T4EhHT6
+ egnw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=ZWtlekwNWiVW11r4B4rUEmrqK0/icouxwBqr03e96mw=;
+ b=aTQThkpssr2HFUJcq0hT0LH+1HEjmOMWLzi0PFlBszqiZL8YGPMUc0LRkrZFr485GH
+ 23OqblYq/nerwSPRkfWWO0/CTGG2XZfstc4cZ3OgDIx7CbeprsHMuHwwWnjyr/ORCAF2
+ MJYXJz1d57Q2OvzvIjWWLVOuS2paBoH+o3rCQL15/7sEvryOdGeSKMvvFgMaizdPg/WB
+ nXbkJTS/pxjKJWsEcZdCI7i3ITzaa4WOlttuW7yCMu3hmhp0Bio/poIbwnjJr1+32EFM
+ 4aKT3knKvlOcdyJZ5Aq9d1kAqYN0cvSjjyIULJl/2K224XPCM70g/nRbM2jNPbuyDDkj
+ j4DQ==
+X-Gm-Message-State: AOAM533tZZZH/jRrxjj5OP53GBVNt212pFtUxB38EtgE32CiLaMhnNH+
+ V3XDQp4E2l2DiFLn10jyFUoMaQ==
+X-Google-Smtp-Source: ABdhPJzApe3k39bE1o/blUT562LBPN2Fcz+wsoazTHv0a915MwCyEh54Uu9RieXYONfHvzUMl+APsw==
+X-Received: by 2002:a05:6a00:1716:b029:19e:11b0:7804 with SMTP id
+ h22-20020a056a001716b029019e11b07804mr6136583pfc.57.1610608978705; 
+ Wed, 13 Jan 2021 23:22:58 -0800 (PST)
+Received: from always-libai.bytedance.net ([61.120.150.71])
+ by smtp.gmail.com with ESMTPSA id i7sm4450323pfc.50.2021.01.13.23.22.55
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 13 Jan 2021 23:22:58 -0800 (PST)
+From: zhenwei pi <pizhenwei@bytedance.com>
+To: kbusch@kernel.org, its@irrelevant.dk, kwolf@redhat.com, mreitz@redhat.com
+Subject: [PATCH v3 0/4] support NVMe smart critial warning injection
+Date: Thu, 14 Jan 2021 15:22:47 +0800
+Message-Id: <20210114072251.334304-1-pizhenwei@bytedance.com>
+X-Mailer: git-send-email 2.25.1
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::52a;
+ envelope-from=pizhenwei@bytedance.com; helo=mail-pg1-x52a.google.com
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -74,86 +81,40 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: zhenwei pi <pizhenwei@bytedance.com>, philmd@redhat.com,
+ qemu-devel@nongnu.org, qemu-block@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Using strncpy with length equal to the size of target array, GCC 11
-reports following warning:
+v2 -> v3:
+- Introduce "Persistent Memory Region has become read-only or
+  unreliable"
 
-  warning: '__builtin_strncpy' specified bound 256 equals destination size [-Wstringop-truncation]
+- Fix overwritten bar.cap
 
-We can prevent this warning by using strpadcpy that copies string
-up to specified length, zeroes target array after copied string
-and does not raise warning when length is equal to target array
-size (and ending '\0' is discarded).
+- Check smart critical warning value from QOM.
 
-Signed-off-by: Miroslav Rezanina <mrezanin@redhat.com>
----
- target/s390x/kvm.c         | 12 +++++-------
- target/s390x/misc_helper.c |  7 +++++--
- 2 files changed, 10 insertions(+), 9 deletions(-)
+- Trigger asynchronous event during smart warning injection.
 
-diff --git a/target/s390x/kvm.c b/target/s390x/kvm.c
-index b8385e6b95..dc27fa36c9 100644
---- a/target/s390x/kvm.c
-+++ b/target/s390x/kvm.c
-@@ -29,6 +29,7 @@
- #include "internal.h"
- #include "kvm_s390x.h"
- #include "sysemu/kvm_int.h"
-+#include "qemu/cutils.h"
- #include "qapi/error.h"
- #include "qemu/error-report.h"
- #include "qemu/timer.h"
-@@ -1910,18 +1911,15 @@ static void insert_stsi_3_2_2(S390CPU *cpu, __u64 addr, uint8_t ar)
-                                                     strlen(qemu_name)));
-     }
-     sysib.vm[0].ext_name_encoding = 2; /* 2 = UTF-8 */
--    memset(sysib.ext_names[0], 0, sizeof(sysib.ext_names[0]));
-     /* If hypervisor specifies zero Extended Name in STSI322 SYSIB, it's
-      * considered by s390 as not capable of providing any Extended Name.
-      * Therefore if no name was specified on qemu invocation, we go with the
-      * same "KVMguest" default, which KVM has filled into short name field.
-      */
--    if (qemu_name) {
--        strncpy((char *)sysib.ext_names[0], qemu_name,
--                sizeof(sysib.ext_names[0]));
--    } else {
--        strcpy((char *)sysib.ext_names[0], "KVMguest");
--    }
-+    strpadcpy((char *)sysib.ext_names[0],
-+              sizeof(sysib.ext_names[0]),
-+              qemu_name ?: "KVMguest", '\0');
-+
-     /* Insert UUID */
-     memcpy(sysib.vm[0].uuid, &qemu_uuid, sizeof(sysib.vm[0].uuid));
- 
-diff --git a/target/s390x/misc_helper.c b/target/s390x/misc_helper.c
-index 58dbc023eb..7ea90d414a 100644
---- a/target/s390x/misc_helper.c
-+++ b/target/s390x/misc_helper.c
-@@ -19,6 +19,7 @@
-  */
- 
- #include "qemu/osdep.h"
-+#include "qemu/cutils.h"
- #include "qemu/main-loop.h"
- #include "cpu.h"
- #include "internal.h"
-@@ -369,8 +370,10 @@ uint32_t HELPER(stsi)(CPUS390XState *env, uint64_t a0, uint64_t r0, uint64_t r1)
-                 ebcdic_put(sysib.sysib_322.vm[0].name, qemu_name,
-                            MIN(sizeof(sysib.sysib_322.vm[0].name),
-                                strlen(qemu_name)));
--                strncpy((char *)sysib.sysib_322.ext_names[0], qemu_name,
--                        sizeof(sysib.sysib_322.ext_names[0]));
-+                strpadcpy((char *)sysib.sysib_322.ext_names[0],
-+                          sizeof(sysib.sysib_322.ext_names[0]),
-+                          qemu_name, '\0');
-+
-             } else {
-                 ebcdic_put(sysib.sysib_322.vm[0].name, "TCGguest", 8);
-                 strcpy((char *)sysib.sysib_322.ext_names[0], "TCGguest");
+v1 -> v2:
+- Suggested by Philippe & Klaus, set/get smart_critical_warning by QMP.
+
+v1:
+- Add smart_critical_warning for nvme device which can be set by QEMU
+  command line to emulate hardware error.
+
+Zhenwei Pi (4):
+  block/nvme: introduce bit 5 for critical warning
+  hw/block/nvme: fix overwritten bar.cap
+  hw/block/nvme: add smart_critical_warning property
+  hw/blocl/nvme: trigger async event during injecting smart warning
+
+ hw/block/nvme.c      | 86 ++++++++++++++++++++++++++++++++++++++++----
+ hw/block/nvme.h      |  1 +
+ include/block/nvme.h |  1 +
+ 3 files changed, 81 insertions(+), 7 deletions(-)
+
 -- 
-2.18.4
+2.25.1
 
 
