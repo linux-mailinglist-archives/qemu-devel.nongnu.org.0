@@ -2,115 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6025C2F62D4
-	for <lists+qemu-devel@lfdr.de>; Thu, 14 Jan 2021 15:14:34 +0100 (CET)
-Received: from localhost ([::1]:44748 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 400292F62F9
+	for <lists+qemu-devel@lfdr.de>; Thu, 14 Jan 2021 15:23:05 +0100 (CET)
+Received: from localhost ([::1]:60916 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l03OT-0000Ul-Dn
-	for lists+qemu-devel@lfdr.de; Thu, 14 Jan 2021 09:14:33 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33184)
+	id 1l03Wi-0007O3-9w
+	for lists+qemu-devel@lfdr.de; Thu, 14 Jan 2021 09:23:04 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35722)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <borntraeger@de.ibm.com>)
- id 1l03Ji-0004LA-7G; Thu, 14 Jan 2021 09:09:38 -0500
-Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:35894)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <borntraeger@de.ibm.com>)
- id 1l03JX-0002YH-JT; Thu, 14 Jan 2021 09:09:37 -0500
-Received: from pps.filterd (m0098410.ppops.net [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id
- 10EE3avW057616; Thu, 14 Jan 2021 09:09:09 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
- h=subject : to : cc :
- references : from : message-id : date : mime-version : in-reply-to :
- content-type : content-transfer-encoding; s=pp1;
- bh=iIMWN4ZPt+Mcq+2PUenJL70jIhga06yTWDCEmL2OoMM=;
- b=AftYG6Y3b17JMblY5LRxweFU87ZaMy8ugVyNJwtKsR5sF8yswGM598L95gNEPNqi6fzO
- 1R1oBLJSrRhZuaExWIwWQu7veV3H0F8iuAMH0ajOLagUZ+LByxpdQbc9Q8iDKk5swcWa
- mj+lgpHRQpRPwoGb5hhC+EHR2N1i0ozcjVJJIFCbdLHuaxxI0LmfiSVGuynu6y7Ozn/P
- zuOdI03YHWHWrAt/OathfLG5menyIMXdTVazoFHUiQ6s/3z89c7VKbEdw/H2EWJ5kNIT
- EPOIH4+A1bxrR46hUYvL3ZU/Vos4+wLpZTkXYWlGr+2FkN/ZAOtql3mm1gLYwTwZsEl6 JA== 
-Received: from pps.reinject (localhost [127.0.0.1])
- by mx0a-001b2d01.pphosted.com with ESMTP id 362qcw87mq-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 14 Jan 2021 09:09:09 -0500
-Received: from m0098410.ppops.net (m0098410.ppops.net [127.0.0.1])
- by pps.reinject (8.16.0.36/8.16.0.36) with SMTP id 10EE3omp058508;
- Thu, 14 Jan 2021 09:09:09 -0500
-Received: from ppma05fra.de.ibm.com (6c.4a.5195.ip4.static.sl-reverse.com
- [149.81.74.108])
- by mx0a-001b2d01.pphosted.com with ESMTP id 362qcw87k1-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 14 Jan 2021 09:09:08 -0500
-Received: from pps.filterd (ppma05fra.de.ibm.com [127.0.0.1])
- by ppma05fra.de.ibm.com (8.16.0.42/8.16.0.42) with SMTP id 10EE6sEZ003071;
- Thu, 14 Jan 2021 14:09:06 GMT
-Received: from b06cxnps3074.portsmouth.uk.ibm.com
- (d06relay09.portsmouth.uk.ibm.com [9.149.109.194])
- by ppma05fra.de.ibm.com with ESMTP id 35y448bbhp-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 14 Jan 2021 14:09:06 +0000
-Received: from d06av22.portsmouth.uk.ibm.com (d06av22.portsmouth.uk.ibm.com
- [9.149.105.58])
- by b06cxnps3074.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 10EE93Ic37487096
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Thu, 14 Jan 2021 14:09:03 GMT
-Received: from d06av22.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 13A734C059;
- Thu, 14 Jan 2021 14:09:03 +0000 (GMT)
-Received: from d06av22.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id A2C244C040;
- Thu, 14 Jan 2021 14:09:01 +0000 (GMT)
-Received: from oc7455500831.ibm.com (unknown [9.171.19.194])
- by d06av22.portsmouth.uk.ibm.com (Postfix) with ESMTP;
- Thu, 14 Jan 2021 14:09:01 +0000 (GMT)
-Subject: Re: [for-6.0 v5 11/13] spapr: PEF: prevent migration
-To: Cornelia Huck <cohuck@redhat.com>,
- =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>
-References: <20210105115614.7daaadd6.pasic@linux.ibm.com>
- <20210105204125.GE4102@ram-ibm-com.ibm.com>
- <20210111175914.13adfa2e.cohuck@redhat.com> <20210113124226.GH2938@work-vm>
- <6e02e8d5-af4b-624b-1a12-d03b9d554a41@de.ibm.com>
- <20210114103643.GD2905@work-vm>
- <db2295ce-333f-2a3e-8219-bfa4853b256f@de.ibm.com>
- <20210114120531.3c7f350e.cohuck@redhat.com> <20210114114533.GF2905@work-vm>
- <b791406c-fde2-89db-4186-e1660f14418c@de.ibm.com>
- <20210114122048.GG1643043@redhat.com>
- <20210114150422.5f74ca41.cohuck@redhat.com>
-From: Christian Borntraeger <borntraeger@de.ibm.com>
-Message-ID: <b0084527-97b3-3174-d988-bf0f6d6221fd@de.ibm.com>
-Date: Thu, 14 Jan 2021 15:09:01 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.6.0
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1l03UV-0005h1-5d
+ for qemu-devel@nongnu.org; Thu, 14 Jan 2021 09:20:48 -0500
+Received: from indium.canonical.com ([91.189.90.7]:58934)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1l03UP-0007Os-EX
+ for qemu-devel@nongnu.org; Thu, 14 Jan 2021 09:20:46 -0500
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1l03UN-0006Yu-HI
+ for <qemu-devel@nongnu.org>; Thu, 14 Jan 2021 14:20:39 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id 7FE6B2E8054
+ for <qemu-devel@nongnu.org>; Thu, 14 Jan 2021 14:20:39 +0000 (UTC)
 MIME-Version: 1.0
-In-Reply-To: <20210114150422.5f74ca41.cohuck@redhat.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-X-TM-AS-GCONF: 00
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.343, 18.0.737
- definitions=2021-01-14_04:2021-01-14,
- 2021-01-14 signatures=0
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- suspectscore=0 malwarescore=0
- mlxlogscore=999 clxscore=1015 adultscore=0 spamscore=0 priorityscore=1501
- lowpriorityscore=0 mlxscore=0 phishscore=0 bulkscore=0 impostorscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2009150000
- definitions=main-2101140082
-Received-SPF: pass client-ip=148.163.156.1;
- envelope-from=borntraeger@de.ibm.com; helo=mx0a-001b2d01.pphosted.com
-X-Spam_score_int: -28
-X-Spam_score: -2.9
-X-Spam_bar: --
-X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.237,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Date: Thu, 14 Jan 2021 14:11:09 -0000
+From: P J P <1911666@bugs.launchpad.net>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=Confirmed; importance=Undecided;
+ assignee=groug@kaod.org; 
+X-Launchpad-Bug-Tags: security
+X-Launchpad-Bug-Information-Type: Public Security
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: yes
+X-Launchpad-Bug-Commenters: pjps
+X-Launchpad-Bug-Reporter: P J P (pjps)
+X-Launchpad-Bug-Modifier: P J P (pjps)
+References: <161062144281.6686.4298628422758083377.malonedeb@wampee.canonical.com>
+Message-Id: <161063346947.24649.18132723084376471294.malone@soybean.canonical.com>
+Subject: [Bug 1911666] Re: ZDI-CAN-10904: QEMU Plan 9 File System TOCTOU
+ Privilege Escalation Vulnerability
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="511b4a3b6512aa3d421c5f7d74f3527e78bff26e"; Instance="production"
+X-Launchpad-Hash: e94dbd1ed303915faded5a2f8395276f0a5e7048
+Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
+ helo=indium.canonical.com
+X-Spam_score_int: -65
+X-Spam_score: -6.6
+X-Spam_bar: ------
+X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9,
+ HEADER_FROM_DIFFERENT_DOMAINS=0.248, RCVD_IN_DNSWL_HI=-5,
+ RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -119,150 +72,126 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: pair@us.ibm.com, brijesh.singh@amd.com, frankja@linux.ibm.com,
- kvm@vger.kernel.org, "Michael S. Tsirkin" <mst@redhat.com>,
- qemu-devel@nongnu.org, Ram Pai <linuxram@us.ibm.com>,
- Marcelo Tosatti <mtosatti@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>, Greg Kurz <groug@kaod.org>,
- Halil Pasic <pasic@linux.ibm.com>, qemu-s390x@nongnu.org, qemu-ppc@nongnu.org,
- David Gibson <david@gibson.dropbear.id.au>, thuth@redhat.com,
- pbonzini@redhat.com, david@redhat.com, rth@twiddle.net,
- mdroth@linux.vnet.ibm.com, Eduardo Habkost <ehabkost@redhat.com>
+Reply-To: Bug 1911666 <1911666@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+'CVE-2021-20181' is assigned to this issue by Red Hat Inc.
 
+** CVE added: https://cve.mitre.org/cgi-bin/cvename.cgi?name=3D2021-20181
 
-On 14.01.21 15:04, Cornelia Huck wrote:
-> On Thu, 14 Jan 2021 12:20:48 +0000
-> Daniel P. Berrangé <berrange@redhat.com> wrote:
-> 
->> On Thu, Jan 14, 2021 at 12:50:12PM +0100, Christian Borntraeger wrote:
->>>
->>>
->>> On 14.01.21 12:45, Dr. David Alan Gilbert wrote:  
->>>> * Cornelia Huck (cohuck@redhat.com) wrote:  
->>>>> On Thu, 14 Jan 2021 11:52:11 +0100
->>>>> Christian Borntraeger <borntraeger@de.ibm.com> wrote:
->>>>>  
->>>>>> On 14.01.21 11:36, Dr. David Alan Gilbert wrote:  
->>>>>>> * Christian Borntraeger (borntraeger@de.ibm.com) wrote:    
->>>>>>>>
->>>>>>>>
->>>>>>>> On 13.01.21 13:42, Dr. David Alan Gilbert wrote:    
->>>>>>>>> * Cornelia Huck (cohuck@redhat.com) wrote:    
->>>>>>>>>> On Tue, 5 Jan 2021 12:41:25 -0800
->>>>>>>>>> Ram Pai <linuxram@us.ibm.com> wrote:
->>>>>>>>>>    
->>>>>>>>>>> On Tue, Jan 05, 2021 at 11:56:14AM +0100, Halil Pasic wrote:    
->>>>>>>>>>>> On Mon, 4 Jan 2021 10:40:26 -0800
->>>>>>>>>>>> Ram Pai <linuxram@us.ibm.com> wrote:    
->>>>>>>>>>    
->>>>>>>>>>>>> The main difference between my proposal and the other proposal is...
->>>>>>>>>>>>>
->>>>>>>>>>>>>   In my proposal the guest makes the compatibility decision and acts
->>>>>>>>>>>>>   accordingly.  In the other proposal QEMU makes the compatibility
->>>>>>>>>>>>>   decision and acts accordingly. I argue that QEMU cannot make a good
->>>>>>>>>>>>>   compatibility decision, because it wont know in advance, if the guest
->>>>>>>>>>>>>   will or will-not switch-to-secure.
->>>>>>>>>>>>>       
->>>>>>>>>>>>
->>>>>>>>>>>> You have a point there when you say that QEMU does not know in advance,
->>>>>>>>>>>> if the guest will or will-not switch-to-secure. I made that argument
->>>>>>>>>>>> regarding VIRTIO_F_ACCESS_PLATFORM (iommu_platform) myself. My idea
->>>>>>>>>>>> was to flip that property on demand when the conversion occurs. David
->>>>>>>>>>>> explained to me that this is not possible for ppc, and that having the
->>>>>>>>>>>> "securable-guest-memory" property (or whatever the name will be)
->>>>>>>>>>>> specified is a strong indication, that the VM is intended to be used as
->>>>>>>>>>>> a secure VM (thus it is OK to hurt the case where the guest does not
->>>>>>>>>>>> try to transition). That argument applies here as well.      
->>>>>>>>>>>
->>>>>>>>>>> As suggested by Cornelia Huck, what if QEMU disabled the
->>>>>>>>>>> "securable-guest-memory" property if 'must-support-migrate' is enabled?
->>>>>>>>>>> Offcourse; this has to be done with a big fat warning stating
->>>>>>>>>>> "secure-guest-memory" feature is disabled on the machine.
->>>>>>>>>>> Doing so, will continue to support guest that do not try to transition.
->>>>>>>>>>> Guest that try to transition will fail and terminate themselves.    
->>>>>>>>>>
->>>>>>>>>> Just to recap the s390x situation:
->>>>>>>>>>
->>>>>>>>>> - We currently offer a cpu feature that indicates secure execution to
->>>>>>>>>>   be available to the guest if the host supports it.
->>>>>>>>>> - When we introduce the secure object, we still need to support
->>>>>>>>>>   previous configurations and continue to offer the cpu feature, even
->>>>>>>>>>   if the secure object is not specified.
->>>>>>>>>> - As migration is currently not supported for secured guests, we add a
->>>>>>>>>>   blocker once the guest actually transitions. That means that
->>>>>>>>>>   transition fails if --only-migratable was specified on the command
->>>>>>>>>>   line. (Guests not transitioning will obviously not notice anything.)
->>>>>>>>>> - With the secure object, we will already fail starting QEMU if
->>>>>>>>>>   --only-migratable was specified.
->>>>>>>>>>
->>>>>>>>>> My suggestion is now that we don't even offer the cpu feature if
->>>>>>>>>> --only-migratable has been specified. For a guest that does not want to
->>>>>>>>>> transition to secure mode, nothing changes; a guest that wants to
->>>>>>>>>> transition to secure mode will notice that the feature is not available
->>>>>>>>>> and fail appropriately (or ultimately, when the ultravisor call fails).
->>>>>>>>>> We'd still fail starting QEMU for the secure object + --only-migratable
->>>>>>>>>> combination.
->>>>>>>>>>
->>>>>>>>>> Does that make sense?    
->>>>>>>>>
->>>>>>>>> It's a little unusual; I don't think we have any other cases where
->>>>>>>>> --only-migratable changes the behaviour; I think it normally only stops
->>>>>>>>> you doing something that would have made it unmigratable or causes
->>>>>>>>> an operation that would make it unmigratable to fail.    
->>>>>>>>
->>>>>>>> I would like to NOT block this feature with --only-migrateable. A guest
->>>>>>>> can startup unprotected (and then is is migrateable). the migration blocker
->>>>>>>> is really a dynamic aspect during runtime.     
->>>>>>>
->>>>>>> But the point of --only-migratable is to turn things that would have
->>>>>>> blocked migration into failures, so that a VM started with
->>>>>>> --only-migratable is *always* migratable.    
->>>>>>
->>>>>> Hmmm, fair enough. How do we do this with host-model? The constructed model
->>>>>> would contain unpack, but then it will fail to startup? Or do we silently 
->>>>>> drop unpack in that case? Both variants do not feel completely right.   
->>>>>
->>>>> Failing if you explicitly specified unpacked feels right, but failing
->>>>> if you just used the host model feels odd. Removing unpack also is a
->>>>> bit odd, but I think the better option if we want to do anything about
->>>>> it at all.  
->>>>
->>>> 'host-model' feels a bit special; but breaking the rule that
->>>> only-migratable doesn't change behaviour is weird
->>>> Can you do host,-unpack   to make that work explicitly?  
->>>
->>> I guess that should work. But it means that we need to add logic in libvirt
->>> to disable unpack for host-passthru and host-model. Next problem is then,
->>> that a future version might implement migration of such guests, which means
->>> that libvirt must then stop fencing unpack.  
->>
->> The "host-model" is supposed to always be migratable, so we should
->> fence the feature there.
->>
->> host-passthrough is "undefined" whether it is migratable - it may or may
->> not work, no guarantees made by libvirt.
->>
->> Ultimately I think the problem is that there ought to be an explicit
->> config to enable the feature for s390, as there is for SEV, and will
->> also presumably be needed for ppc. 
-> 
-> Yes, an explicit config is what we want; unfortunately, we have to deal
-> with existing setups as well...
-> 
-> The options I see are
-> - leave things for existing setups as they are now (i.e. might become
->   unmigratable when the guest transitions), and make sure we're doing
->   the right thing with the new object
-> - always make the unpack feature conflict with migration requirements;
->   this is a guest-visible change
-> 
-> The first option might be less hairy, all considered?
+-- =
 
-What about a libvirt change that removes the unpack from the host-model as 
-soon as  only-migrateable is used. When that is in place, QEMU can reject
-the combination of only-migrateable + unpack.
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1911666
+
+Title:
+  ZDI-CAN-10904: QEMU Plan 9 File System TOCTOU Privilege Escalation
+  Vulnerability
+
+Status in QEMU:
+  Confirmed
+
+Bug description:
+  -- CVSS -----------------------------------------
+
+  7.5: AV:L/AC:H/PR:H/UI:N/S:C/C:H/I:H/A:H
+
+  -- ABSTRACT -------------------------------------
+
+  Trend Micro's Zero Day Initiative has identified a vulnerability affectin=
+g the following products:
+  QEMU - QEMU
+
+  -- VULNERABILITY DETAILS ------------------------
+
+  Version tested:5.0.0-rc3
+  Installer file:qemu-5.0.0-rc3.tar.xz
+  Platform tested:ubuntu 18.04 x64 desktop
+  Analysis Basically v9fs* functions called from guest kernel are executed =
+under specific thread(I call it main thread later). But when it calls some =
+file related system calls, qemu uses its own coroutine thread(worker thread=
+). Then it returns(yield return) without waiting result of system call and =
+start to execute next v9fs* function.
+
+  In v9fsmarkfidsunreclaim() function, it stores fidlist member (head of
+  singly linked list) to its stack.
+
+   ->
+  https://github.com/qemu/qemu/blob/f3bac27cc1e303e1860cc55b9b6889ba39dee58=
+7/hw/9pfs/9p.c#L506
+
+  And if it uses coroutine, it restore fid_list from stack and restart
+  whole loop.
+
+   ->
+  https://github.com/qemu/qemu/blob/f3bac27cc1e303e1860cc55b9b6889ba39dee58=
+7/hw/9pfs/9p.c#L526
+
+  v9fsclunk() function calls clunkfid() which unlink fid from list, and
+  free it.
+
+   ->
+  https://github.com/qemu/qemu/blob/f3bac27cc1e303e1860cc55b9b6889ba39dee58=
+7/hw/9pfs/9p.c#L2060-L2091
+
+  So if v9fsclunk() is called while v9fsmarkfidsunreclaim()'s coroutine
+  is being executed, it restores "FREED" fidp from stack and use it.
+
+  it can be reproduced with the qemu binary, which is given
+  it can also be reproduced with own ASAN build (5.0.0-rc3 and 4.2.0 are te=
+sted)
+
+  ../qemu-5.0.0-rc3/x86_64-softmmu/qemu-system-x86_64 -M pc -kernel
+  ./bzImage -initrd ./rootfs.cpio -append "root=3D/dev/ram console=3Dtty1
+  console=3DttyS0 rdinit=3D/bin/sh" -nographic -enable-kvm -fsdev
+  local,id=3Dtest_dev,path=3D/home/xxx/sandbox,security_model=3Dnone -device
+  virtio-9p-pci,fsdev=3Dtest_dev,mount_tag=3Dvictim_tag
+
+  $ ./do.sh
+  expected ASAN report is printed
+  the race is in coroutine, so the threads are the same one
+
+  =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+   =3D=3D46645=3D=3DERROR: AddressSanitizer: heap-use-after-free on address=
+ 0x610000047948 at pc 0x5563d8c28f0f bp0
+  READ of size 2 at 0x610000047948 thread T0
+
+     #0 0x5563d8c28f0e in v9fs_mark_fids_unreclaim hw/9pfs/9p.c:508
+     #1 0x5563d8c3e9e3 in v9fs_remove hw/9pfs/9p.c:2988
+     #2 0x5563d98d310d in coroutine_trampoline util/coroutine-ucontext.c:115
+     #3 0x7fadac6396af  (/lib/x86_64-linux-gnu/libc.so.6+0x586af)
+
+     0x610000047948 is located 8 bytes inside of 192-byte region
+  [0x610000047940,0x610000047a00) freed by thread T0 here:
+
+    #0 0x7fadafa5f7a8 in __interceptor_free (/usr/lib/x86_64-linux-gnu/liba=
+san.so.4+0xde7a8)
+    #1 0x5563d8c27a60 in free_fid hw/9pfs/9p.c:371
+    #2 0x5563d8c27fcc in put_fid hw/9pfs/9p.c:396
+    #3 0x5563d8c37267 in v9fs_clunk hw/9pfs/9p.c:2085
+    #4 0x5563d98d310d in coroutine_trampoline util/coroutine-ucontext.c:115
+    #5 0x7fadac6396af  (/lib/x86_64-linux-gnu/libc.so.6+0x586af)
+
+  previously allocated by thread T0 here:
+     #0 0x7fadafa5fd28 in __interceptor_calloc (/usr/lib/x86_64-linux-gnu/l=
+ibasan.so.4+0xded28)
+     #1 0x7fadaf0c8b10 in g_malloc0 (/usr/lib/x86_64-linux-gnu/libglib-2.0.=
+so.0+0x51b10)
+     #2 0x5563d8c30ecc in v9fs_attach hw/9pfs/9p.c:1412
+     #3 0x5563d98d310d in coroutine_trampoline util/coroutine-ucontext.c:115
+     #4 0x7fadac6396af  (/lib/x86_64-linux-gnu/libc.so.6+0x586af)
+
+  =
+
+  This vulnerability was discovered by:
+
+  Ryota Shiga(@Garyo) of Flatt Security working with Trend Micro Zero
+  Day Initiative
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1911666/+subscriptions
 
