@@ -2,74 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0F92D2F5B45
-	for <lists+qemu-devel@lfdr.de>; Thu, 14 Jan 2021 08:28:38 +0100 (CET)
-Received: from localhost ([::1]:54890 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 522342F5B4F
+	for <lists+qemu-devel@lfdr.de>; Thu, 14 Jan 2021 08:30:14 +0100 (CET)
+Received: from localhost ([::1]:57036 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kzx3c-0008RA-S4
-	for lists+qemu-devel@lfdr.de; Thu, 14 Jan 2021 02:28:36 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52188)
+	id 1kzx5B-0000xC-33
+	for lists+qemu-devel@lfdr.de; Thu, 14 Jan 2021 02:30:13 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52260)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pizhenwei@bytedance.com>)
- id 1kzwyP-0004s7-BQ
- for qemu-devel@nongnu.org; Thu, 14 Jan 2021 02:23:13 -0500
-Received: from mail-pf1-x42f.google.com ([2607:f8b0:4864:20::42f]:39371)
+ id 1kzwyV-00055k-Q7
+ for qemu-devel@nongnu.org; Thu, 14 Jan 2021 02:23:19 -0500
+Received: from mail-pg1-x530.google.com ([2607:f8b0:4864:20::530]:38589)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <pizhenwei@bytedance.com>)
- id 1kzwyN-0002TB-JW
- for qemu-devel@nongnu.org; Thu, 14 Jan 2021 02:23:13 -0500
-Received: by mail-pf1-x42f.google.com with SMTP id m6so2831048pfm.6
- for <qemu-devel@nongnu.org>; Wed, 13 Jan 2021 23:23:11 -0800 (PST)
+ id 1kzwyR-0002VP-CV
+ for qemu-devel@nongnu.org; Thu, 14 Jan 2021 02:23:19 -0500
+Received: by mail-pg1-x530.google.com with SMTP id q7so3182707pgm.5
+ for <qemu-devel@nongnu.org>; Wed, 13 Jan 2021 23:23:14 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=bytedance-com.20150623.gappssmtp.com; s=20150623;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=5aRMVfeWr0427W87tSaA5SIA22TuAHOEnWTjLyc5oxw=;
- b=cewohgorb3L9xjwon9k2GTNrv/1u3taVLE1GfUTKj5VGJz3+ZDBgDpVtLGzVgiUCWq
- R6hA93coQYnLzQW5fv4lFgo/x40Z0Z7NTLUzCu3Xt5Vr9jOIeGstCNx8LNOr5wGbxTrs
- v1kpggqYPY3MaGwbI6z0goxMuvyLzPk8qZm6ISttyHGMidPIh3AeatIt+iUzUbkxUL3r
- m41m9a1exV6Hxgp2X6Lux9GB7M/SVjiOYJLLT/HPLiy+0f5zPVtfFR749AMMCc6DK+bP
- /Xq6Zk9g84azveIHDUoAuqx0Ga7lOua0kNNDnIz/68pLpERKtjU7fgzDFhGhFfKQDEHM
- LrAg==
+ bh=dyep80pLtydhA18rk3O+Iv7Kry8flmWm3RYfnDdq1fE=;
+ b=2RO/JQTTrUW+yQbTb668i4CstJmZt2fN0nnUMpl6xr7XdSWdOlap7rvKIUIBvx0hrO
+ 8Yz4uUTqOwfO3UQbkT0fifzvle2dQOcxUirQ5peyZ9Sz6ekccHz70yVEWBK5Fcu9LrMS
+ dJ9CuEqmwVdjB+I8kQx9YMnqE8iTeGaFgG42RYJRh8giTxGnImSxQ1n3AiD68rFFoht5
+ 3TzRPfRkfMTgoq1XSegip5ZKsXcVfZ8f3feYdu22HzYp3PKs0wvYLkdAi6Pa6GCvufBE
+ RQG/15uyODtWrLh6ewqnZ6NreAd/7P1ma1ZmVIkDNXzJNfJhwWHHjxRr96kR0WH/63aV
+ bpNw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=5aRMVfeWr0427W87tSaA5SIA22TuAHOEnWTjLyc5oxw=;
- b=ppEr+0io6XButVdnYzb3Xy5Tvzca9EyZD5xGZDWOi1hWETWZMPgqmXy+58jctV+xIP
- G505kEgUoA6rj6MkJhlZb5fitZt1Yr9K5oUZ0m6AFLWf+pEh0zchEXJ76gvl+rU00QPI
- iCB3ifdaScfF2GWu3Qy1IOqq9nkKrPz3H8l+S7YTtHl8c/N2e/xVNb6mH1v2yFUslFkq
- Rn0kbckOCLEROXydFnArSvOBSnpSx3Is0U35PsNCksqDtOiNPRxBUonLXBVp3nb6bJUi
- KmnAe7U+dG4PnRCibKqwMc26Vylz6+rpVEMiO6kgvlf9GRPQhnJeQ7rhDA8QRKP9WI3H
- ZxSg==
-X-Gm-Message-State: AOAM530UdpTyW0WV94qPKAsql0Hplm+KS6Lehj0S3/1YUCXPJ7ml//Sq
- dyjbrc4H6BdTd+WHBhK+mnDbNA==
-X-Google-Smtp-Source: ABdhPJw0+rRn/fgp6Kb1e77agHlYPb0YZh3odK8KTnJR8kcZdkDTaQ5CtlQgwY2miNRj9vUDnY4d6w==
-X-Received: by 2002:a63:5952:: with SMTP id j18mr6318838pgm.29.1610608990285; 
- Wed, 13 Jan 2021 23:23:10 -0800 (PST)
+ bh=dyep80pLtydhA18rk3O+Iv7Kry8flmWm3RYfnDdq1fE=;
+ b=W0y9n7rHwtbqHyBgjxtmSGA2DAK6xMXPxk8picqqidNEEwjw+RsR4+BVY0qgTXG3By
+ itedNsPgXAfPVH5aHleg9m4BZsb/Z0SUp3jwpCf9hiZ1PWEB31qYJpDydNPJ1+Z60jF1
+ NKDV2+8fsK37r0Ku1AKGU9W/KA2DNgyzO8YrC3ic3Ov8COzvkXKcl5Yd/RJc/zudfZBV
+ nHYzAe4m5Ph+FkZRbRtGlv6R47O6GwknD+XVNGxwv9Z29Joj8T/t6m0Qn3DPoaRNdrL7
+ J/UH/zmDEjwtB0jISZBKCgjpyR1nsDQH/M+fRzqzlg2VmEOVAibrAoZLA02IwIwyOZMi
+ BojA==
+X-Gm-Message-State: AOAM5319/tBVg7rPvHFjk3XaYaSEHjyMXCDTTIOznVmIC9wuwV21ehdI
+ ugsiFPjfGtuChpVh/TWVhFJ8rg==
+X-Google-Smtp-Source: ABdhPJx/ulMqvCdukT7u1eVcBGW/Fr6oQjMYcjlUIuQBujmWN3oP8QgbmE5pdZcGTfKnDgAKD9FXog==
+X-Received: by 2002:a63:62c3:: with SMTP id w186mr6197997pgb.83.1610608994107; 
+ Wed, 13 Jan 2021 23:23:14 -0800 (PST)
 Received: from always-libai.bytedance.net ([61.120.150.71])
- by smtp.gmail.com with ESMTPSA id i7sm4450323pfc.50.2021.01.13.23.23.06
+ by smtp.gmail.com with ESMTPSA id i7sm4450323pfc.50.2021.01.13.23.23.10
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 13 Jan 2021 23:23:09 -0800 (PST)
+ Wed, 13 Jan 2021 23:23:13 -0800 (PST)
 From: zhenwei pi <pizhenwei@bytedance.com>
 To: kbusch@kernel.org, its@irrelevant.dk, kwolf@redhat.com, mreitz@redhat.com
-Subject: [PATCH v3 3/4] hw/block/nvme: add smart_critical_warning property
-Date: Thu, 14 Jan 2021 15:22:50 +0800
-Message-Id: <20210114072251.334304-4-pizhenwei@bytedance.com>
+Subject: [PATCH v3 4/4] hw/blocl/nvme: trigger async event during injecting
+ smart warning
+Date: Thu, 14 Jan 2021 15:22:51 +0800
+Message-Id: <20210114072251.334304-5-pizhenwei@bytedance.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20210114072251.334304-1-pizhenwei@bytedance.com>
 References: <20210114072251.334304-1-pizhenwei@bytedance.com>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=ascii
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::42f;
- envelope-from=pizhenwei@bytedance.com; helo=mail-pf1-x42f.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::530;
+ envelope-from=pizhenwei@bytedance.com; helo=mail-pg1-x530.google.com
 X-Spam_score_int: -18
 X-Spam_score: -1.9
 X-Spam_bar: -
 X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -87,112 +89,93 @@ Cc: zhenwei pi <pizhenwei@bytedance.com>, philmd@redhat.com,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-There is a very low probability that hitting physical NVMe disk
-hardware critical warning case, it's hard to write & test a monitor
-agent service.
-
-For debugging purposes, add a new 'smart_critical_warning' property
-to emulate this situation.
-
-The orignal version of this change is implemented by adding a fixed
-property which could be initialized by QEMU command line. Suggested
-by Philippe & Klaus, rework like current version.
-
-Test with this patch:
-1, change smart_critical_warning property for a running VM:
- #virsh qemu-monitor-command nvme-upstream '{ "execute": "qom-set",
-  "arguments": { "path": "/machine/peripheral-anon/device[0]",
-  "property": "smart_critical_warning", "value":16 } }'
-2, run smartctl in guest
- #smartctl -H -l error /dev/nvme0n1
-
-  === START OF SMART DATA SECTION ===
-  SMART overall-health self-assessment test result: FAILED!
-  - volatile memory backup device has failed
+During smart critical warning injection by setting property from QMP
+command, also try to trigger asynchronous event.
 
 Signed-off-by: zhenwei pi <pizhenwei@bytedance.com>
 ---
- hw/block/nvme.c | 40 ++++++++++++++++++++++++++++++++++++++++
- hw/block/nvme.h |  1 +
- 2 files changed, 41 insertions(+)
+ hw/block/nvme.c | 47 ++++++++++++++++++++++++++++++++++++++++-------
+ 1 file changed, 40 insertions(+), 7 deletions(-)
 
 diff --git a/hw/block/nvme.c b/hw/block/nvme.c
-index f361103bb4..ce9a9c9023 100644
+index ce9a9c9023..1feb603471 100644
 --- a/hw/block/nvme.c
 +++ b/hw/block/nvme.c
-@@ -1214,6 +1214,7 @@ static uint16_t nvme_smart_info(NvmeCtrl *n, uint8_t rae, uint32_t buf_len,
-     }
- 
-     trans_len = MIN(sizeof(smart) - off, buf_len);
-+    smart.critical_warning = n->smart_critical_warning;
- 
-     smart.data_units_read[0] = cpu_to_le64(DIV_ROUND_UP(stats.units_read,
-                                                         1000));
-@@ -2826,6 +2827,41 @@ static Property nvme_props[] = {
-     DEFINE_PROP_END_OF_LIST(),
- };
- 
-+
-+static void nvme_get_smart_warning(Object *obj, Visitor *v, const char *name,
-+                                   void *opaque, Error **errp)
-+{
-+    NvmeCtrl *s = NVME(obj);
-+    uint8_t value = s->smart_critical_warning;
-+
-+    visit_type_uint8(v, name, &value, errp);
-+}
-+
-+static void nvme_set_smart_warning(Object *obj, Visitor *v, const char *name,
-+                                   void *opaque, Error **errp)
-+{
-+    NvmeCtrl *s = NVME(obj);
-+    uint8_t value, cap = 0;
-+    uint64_t pmr_cap = CAP_PMR_MASK;
-+
-+    if (!visit_type_uint8(v, name, &value, errp)) {
-+        return;
-+    }
-+
-+    cap = NVME_SMART_SPARE | NVME_SMART_TEMPERATURE | NVME_SMART_RELIABILITY
-+          | NVME_SMART_MEDIA_READ_ONLY | NVME_SMART_FAILED_VOLATILE_MEDIA;
-+    if (s->bar.cap & (pmr_cap << CAP_PMR_SHIFT)) {
-+        cap |= NVME_SMART_PMR_UNRELIABLE;
-+    }
-+
-+    if ((value & cap) != value) {
-+        error_setg(errp, "unsupported smart critical warning value");
-+        return;
-+    }
-+
-+    s->smart_critical_warning = value;
-+}
-+
- static const VMStateDescription nvme_vmstate = {
-     .name = "nvme",
-     .unmigratable = 1,
-@@ -2856,6 +2892,10 @@ static void nvme_instance_init(Object *obj)
-                                       "bootindex", "/namespace@1,0",
-                                       DEVICE(obj));
-     }
-+
-+    object_property_add(obj, "smart_critical_warning", "uint8",
-+                        nvme_get_smart_warning,
-+                        nvme_set_smart_warning, NULL, NULL);
+@@ -847,6 +847,36 @@ static void nvme_enqueue_event(NvmeCtrl *n, uint8_t event_type,
+     nvme_process_aers(n);
  }
  
- static const TypeInfo nvme_info = {
-diff --git a/hw/block/nvme.h b/hw/block/nvme.h
-index e080a2318a..64e3497244 100644
---- a/hw/block/nvme.h
-+++ b/hw/block/nvme.h
-@@ -139,6 +139,7 @@ typedef struct NvmeCtrl {
-     uint64_t    timestamp_set_qemu_clock_ms;    /* QEMU clock time */
-     uint64_t    starttime_ms;
-     uint16_t    temperature;
-+    uint8_t     smart_critical_warning;
++static void nvme_enqueue_smart_event(NvmeCtrl *n, uint8_t event)
++{
++    uint8_t aer_info;
++
++    if (!(NVME_AEC_SMART(n->features.async_config) & event)) {
++        return;
++    }
++
++    /* Ref SPEC <Asynchronous Event Information – SMART / Health Status> */
++    switch (event) {
++    case NVME_SMART_SPARE:
++        aer_info = NVME_AER_INFO_SMART_SPARE_THRESH;
++        break;
++    case NVME_SMART_TEMPERATURE:
++        aer_info = NVME_AER_INFO_SMART_TEMP_THRESH;
++        break;
++    case NVME_SMART_RELIABILITY:
++    case NVME_SMART_MEDIA_READ_ONLY:
++    case NVME_SMART_FAILED_VOLATILE_MEDIA:
++        aer_info = NVME_AER_INFO_SMART_RELIABILITY;
++        break;
++    case NVME_SMART_PMR_UNRELIABLE:
++        /* TODO if NVME_SMART_PMR_UNRELIABLE is defined in future */
++    default:
++        return;
++    }
++
++    nvme_enqueue_event(n, NVME_AER_TYPE_SMART, aer_info, NVME_LOG_SMART_INFO);
++}
++
+ static void nvme_clear_events(NvmeCtrl *n, uint8_t event_type)
+ {
+     n->aer_mask &= ~(1 << event_type);
+@@ -1824,12 +1854,9 @@ static uint16_t nvme_set_feature(NvmeCtrl *n, NvmeRequest *req)
+             return NVME_INVALID_FIELD | NVME_DNR;
+         }
  
-     HostMemoryBackend *pmrdev;
+-        if (((n->temperature >= n->features.temp_thresh_hi) ||
+-             (n->temperature <= n->features.temp_thresh_low)) &&
+-            NVME_AEC_SMART(n->features.async_config) & NVME_SMART_TEMPERATURE) {
+-            nvme_enqueue_event(n, NVME_AER_TYPE_SMART,
+-                               NVME_AER_INFO_SMART_TEMP_THRESH,
+-                               NVME_LOG_SMART_INFO);
++        if ((n->temperature >= n->features.temp_thresh_hi) ||
++             (n->temperature <= n->features.temp_thresh_low)) {
++            nvme_enqueue_smart_event(n, NVME_AER_INFO_SMART_TEMP_THRESH);
+         }
  
+         break;
+@@ -2841,7 +2868,7 @@ static void nvme_set_smart_warning(Object *obj, Visitor *v, const char *name,
+                                    void *opaque, Error **errp)
+ {
+     NvmeCtrl *s = NVME(obj);
+-    uint8_t value, cap = 0;
++    uint8_t value, cap = 0, event;
+     uint64_t pmr_cap = CAP_PMR_MASK;
+ 
+     if (!visit_type_uint8(v, name, &value, errp)) {
+@@ -2860,6 +2887,12 @@ static void nvme_set_smart_warning(Object *obj, Visitor *v, const char *name,
+     }
+ 
+     s->smart_critical_warning = value;
++
++    /* test each bit of uint8_t for smart.critical_warning */
++    for (event = 0; event < 8; event++) {
++        if (value & (1 << event))
++            nvme_enqueue_smart_event(s, 1 << event);
++    }
+ }
+ 
+ static const VMStateDescription nvme_vmstate = {
 -- 
 2.25.1
 
