@@ -2,67 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9E4352F6103
-	for <lists+qemu-devel@lfdr.de>; Thu, 14 Jan 2021 13:22:46 +0100 (CET)
-Received: from localhost ([::1]:41310 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3E6F92F610E
+	for <lists+qemu-devel@lfdr.de>; Thu, 14 Jan 2021 13:31:34 +0100 (CET)
+Received: from localhost ([::1]:45196 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l01eH-0003o4-Li
-	for lists+qemu-devel@lfdr.de; Thu, 14 Jan 2021 07:22:45 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34558)
+	id 1l01mn-0005of-2E
+	for lists+qemu-devel@lfdr.de; Thu, 14 Jan 2021 07:31:33 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36176)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1l01d4-0003Hf-IC
- for qemu-devel@nongnu.org; Thu, 14 Jan 2021 07:21:30 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:58158)
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1l01lU-0005Ni-Bb
+ for qemu-devel@nongnu.org; Thu, 14 Jan 2021 07:30:12 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:22272)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1l01d1-0005vS-9T
- for qemu-devel@nongnu.org; Thu, 14 Jan 2021 07:21:30 -0500
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1l01lR-0001Lv-91
+ for qemu-devel@nongnu.org; Thu, 14 Jan 2021 07:30:11 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1610626886;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:in-reply-to:in-reply-to:  references:references;
- bh=mKp3GWTsUNyCacpXeLa5kBdFn7LDJN+/ZfV2kOKvYHI=;
- b=IuIqDwm/pyjgK4eF6/CAcx+nWB0zv9VKEFLpvm3nOiV8VClEXKVfGIVWeyIoQfCLfGSoOS
- mWV/vIThdeIWcwHXiLu2wne6u2jtLhkjgzWJ+OBZEhR5XBtmu7/vsA529kidUB1t7CfUdG
- 2kKA18kpDkH3KmbYhZiWU62hJ/nP9aA=
+ s=mimecast20190719; t=1610627408;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=kMhGogHu57UNXF5HTzumkauWisrNdSnJ0HBnE1Mi3SY=;
+ b=VAsFA5DNaKXy0hlgxpZ+d8jB1Vnjk5U5uOQBKz+2utY+OAul2/PKQ75XjJHzuU0eTaFCYU
+ HRx/sqf9EeC68FRd7jyx/prK9cuvyZ4Bp04FlvpgSQImwNWZqxz5XyHm0SbL7HTIGmKxPq
+ Sqgf2eExeVtb1yu8/0Aqcq6ajHjlYEY=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-410-Nx7xpWcgMpKeSt3SoDWhcg-1; Thu, 14 Jan 2021 07:21:09 -0500
-X-MC-Unique: Nx7xpWcgMpKeSt3SoDWhcg-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
+ us-mta-406-3Y7OT2CxPW2c52y5GnX4zw-1; Thu, 14 Jan 2021 07:30:03 -0500
+X-MC-Unique: 3Y7OT2CxPW2c52y5GnX4zw-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+ [10.5.11.15])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 8AF701005E43;
- Thu, 14 Jan 2021 12:21:07 +0000 (UTC)
-Received: from redhat.com (ovpn-115-77.ams2.redhat.com [10.36.115.77])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id D263760867;
- Thu, 14 Jan 2021 12:20:51 +0000 (UTC)
-Date: Thu, 14 Jan 2021 12:20:48 +0000
-From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-To: Christian Borntraeger <borntraeger@de.ibm.com>
-Subject: Re: [for-6.0 v5 11/13] spapr: PEF: prevent migration
-Message-ID: <20210114122048.GG1643043@redhat.com>
-References: <20210105115614.7daaadd6.pasic@linux.ibm.com>
- <20210105204125.GE4102@ram-ibm-com.ibm.com>
- <20210111175914.13adfa2e.cohuck@redhat.com>
- <20210113124226.GH2938@work-vm>
- <6e02e8d5-af4b-624b-1a12-d03b9d554a41@de.ibm.com>
- <20210114103643.GD2905@work-vm>
- <db2295ce-333f-2a3e-8219-bfa4853b256f@de.ibm.com>
- <20210114120531.3c7f350e.cohuck@redhat.com>
- <20210114114533.GF2905@work-vm>
- <b791406c-fde2-89db-4186-e1660f14418c@de.ibm.com>
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id EC3F8801FD6;
+ Thu, 14 Jan 2021 12:30:02 +0000 (UTC)
+Received: from blackfin.pond.sub.org (ovpn-112-172.ams2.redhat.com
+ [10.36.112.172])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 737F05D6AD;
+ Thu, 14 Jan 2021 12:29:59 +0000 (UTC)
+Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
+ id C4AC311386A7; Thu, 14 Jan 2021 13:29:57 +0100 (CET)
+From: Markus Armbruster <armbru@redhat.com>
+To: John Snow <jsnow@redhat.com>
+Subject: Re: Call for Google Summer of Code 2021 project ideas
+References: <CAJSP0QWWg__21otbMXAXWGD1FaHYLzZP7axZ47Unq6jtMvdfsA@mail.gmail.com>
+ <92903d8d-24c4-5177-67c9-1690ea794739@redhat.com>
+ <87pn29kxcp.fsf@dusky.pond.sub.org>
+ <b860c470-cbe3-00b5-1966-59fa87045024@redhat.com>
+Date: Thu, 14 Jan 2021 13:29:57 +0100
+In-Reply-To: <b860c470-cbe3-00b5-1966-59fa87045024@redhat.com> (John Snow's
+ message of "Wed, 13 Jan 2021 14:05:17 -0500")
+Message-ID: <87h7njsnui.fsf@dusky.pond.sub.org>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.1 (gnu/linux)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <b791406c-fde2-89db-4186-e1660f14418c@de.ibm.com>
-User-Agent: Mutt/1.14.6 (2020-07-11)
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=berrange@redhat.com;
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=armbru@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=armbru@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -29
 X-Spam_score: -3.0
@@ -70,7 +69,7 @@ X-Spam_bar: ---
 X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.248,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -83,137 +82,132 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-Cc: pair@us.ibm.com, Cornelia Huck <cohuck@redhat.com>, brijesh.singh@amd.com,
- kvm@vger.kernel.org, "Michael S. Tsirkin" <mst@redhat.com>,
- Ram Pai <linuxram@us.ibm.com>, qemu-devel@nongnu.org, frankja@linux.ibm.com,
- david@redhat.com, mdroth@linux.vnet.ibm.com, Halil Pasic <pasic@linux.ibm.com>,
- rth@twiddle.net, thuth@redhat.com, Eduardo Habkost <ehabkost@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>, Greg Kurz <groug@kaod.org>,
- qemu-s390x@nongnu.org, David Gibson <david@gibson.dropbear.id.au>,
- Marcelo Tosatti <mtosatti@redhat.com>, qemu-ppc@nongnu.org,
- pbonzini@redhat.com
+Cc: Stefan Hajnoczi <stefanha@gmail.com>,
+ QEMU Developers <qemu-devel@nongnu.org>, Stefan Hajnoczi <stefanha@redhat.com>,
+ Eduardo Habkost <ehabkost@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, Jan 14, 2021 at 12:50:12PM +0100, Christian Borntraeger wrote:
-> 
-> 
-> On 14.01.21 12:45, Dr. David Alan Gilbert wrote:
-> > * Cornelia Huck (cohuck@redhat.com) wrote:
-> >> On Thu, 14 Jan 2021 11:52:11 +0100
-> >> Christian Borntraeger <borntraeger@de.ibm.com> wrote:
-> >>
-> >>> On 14.01.21 11:36, Dr. David Alan Gilbert wrote:
-> >>>> * Christian Borntraeger (borntraeger@de.ibm.com) wrote:  
-> >>>>>
-> >>>>>
-> >>>>> On 13.01.21 13:42, Dr. David Alan Gilbert wrote:  
-> >>>>>> * Cornelia Huck (cohuck@redhat.com) wrote:  
-> >>>>>>> On Tue, 5 Jan 2021 12:41:25 -0800
-> >>>>>>> Ram Pai <linuxram@us.ibm.com> wrote:
-> >>>>>>>  
-> >>>>>>>> On Tue, Jan 05, 2021 at 11:56:14AM +0100, Halil Pasic wrote:  
-> >>>>>>>>> On Mon, 4 Jan 2021 10:40:26 -0800
-> >>>>>>>>> Ram Pai <linuxram@us.ibm.com> wrote:  
-> >>>>>>>  
-> >>>>>>>>>> The main difference between my proposal and the other proposal is...
-> >>>>>>>>>>
-> >>>>>>>>>>   In my proposal the guest makes the compatibility decision and acts
-> >>>>>>>>>>   accordingly.  In the other proposal QEMU makes the compatibility
-> >>>>>>>>>>   decision and acts accordingly. I argue that QEMU cannot make a good
-> >>>>>>>>>>   compatibility decision, because it wont know in advance, if the guest
-> >>>>>>>>>>   will or will-not switch-to-secure.
-> >>>>>>>>>>     
-> >>>>>>>>>
-> >>>>>>>>> You have a point there when you say that QEMU does not know in advance,
-> >>>>>>>>> if the guest will or will-not switch-to-secure. I made that argument
-> >>>>>>>>> regarding VIRTIO_F_ACCESS_PLATFORM (iommu_platform) myself. My idea
-> >>>>>>>>> was to flip that property on demand when the conversion occurs. David
-> >>>>>>>>> explained to me that this is not possible for ppc, and that having the
-> >>>>>>>>> "securable-guest-memory" property (or whatever the name will be)
-> >>>>>>>>> specified is a strong indication, that the VM is intended to be used as
-> >>>>>>>>> a secure VM (thus it is OK to hurt the case where the guest does not
-> >>>>>>>>> try to transition). That argument applies here as well.    
-> >>>>>>>>
-> >>>>>>>> As suggested by Cornelia Huck, what if QEMU disabled the
-> >>>>>>>> "securable-guest-memory" property if 'must-support-migrate' is enabled?
-> >>>>>>>> Offcourse; this has to be done with a big fat warning stating
-> >>>>>>>> "secure-guest-memory" feature is disabled on the machine.
-> >>>>>>>> Doing so, will continue to support guest that do not try to transition.
-> >>>>>>>> Guest that try to transition will fail and terminate themselves.  
-> >>>>>>>
-> >>>>>>> Just to recap the s390x situation:
-> >>>>>>>
-> >>>>>>> - We currently offer a cpu feature that indicates secure execution to
-> >>>>>>>   be available to the guest if the host supports it.
-> >>>>>>> - When we introduce the secure object, we still need to support
-> >>>>>>>   previous configurations and continue to offer the cpu feature, even
-> >>>>>>>   if the secure object is not specified.
-> >>>>>>> - As migration is currently not supported for secured guests, we add a
-> >>>>>>>   blocker once the guest actually transitions. That means that
-> >>>>>>>   transition fails if --only-migratable was specified on the command
-> >>>>>>>   line. (Guests not transitioning will obviously not notice anything.)
-> >>>>>>> - With the secure object, we will already fail starting QEMU if
-> >>>>>>>   --only-migratable was specified.
-> >>>>>>>
-> >>>>>>> My suggestion is now that we don't even offer the cpu feature if
-> >>>>>>> --only-migratable has been specified. For a guest that does not want to
-> >>>>>>> transition to secure mode, nothing changes; a guest that wants to
-> >>>>>>> transition to secure mode will notice that the feature is not available
-> >>>>>>> and fail appropriately (or ultimately, when the ultravisor call fails).
-> >>>>>>> We'd still fail starting QEMU for the secure object + --only-migratable
-> >>>>>>> combination.
-> >>>>>>>
-> >>>>>>> Does that make sense?  
-> >>>>>>
-> >>>>>> It's a little unusual; I don't think we have any other cases where
-> >>>>>> --only-migratable changes the behaviour; I think it normally only stops
-> >>>>>> you doing something that would have made it unmigratable or causes
-> >>>>>> an operation that would make it unmigratable to fail.  
-> >>>>>
-> >>>>> I would like to NOT block this feature with --only-migrateable. A guest
-> >>>>> can startup unprotected (and then is is migrateable). the migration blocker
-> >>>>> is really a dynamic aspect during runtime.   
-> >>>>
-> >>>> But the point of --only-migratable is to turn things that would have
-> >>>> blocked migration into failures, so that a VM started with
-> >>>> --only-migratable is *always* migratable.  
-> >>>
-> >>> Hmmm, fair enough. How do we do this with host-model? The constructed model
-> >>> would contain unpack, but then it will fail to startup? Or do we silently 
-> >>> drop unpack in that case? Both variants do not feel completely right. 
-> >>
-> >> Failing if you explicitly specified unpacked feels right, but failing
-> >> if you just used the host model feels odd. Removing unpack also is a
-> >> bit odd, but I think the better option if we want to do anything about
-> >> it at all.
-> > 
-> > 'host-model' feels a bit special; but breaking the rule that
-> > only-migratable doesn't change behaviour is weird
-> > Can you do host,-unpack   to make that work explicitly?
-> 
-> I guess that should work. But it means that we need to add logic in libvirt
-> to disable unpack for host-passthru and host-model. Next problem is then,
-> that a future version might implement migration of such guests, which means
-> that libvirt must then stop fencing unpack.
+John Snow <jsnow@redhat.com> writes:
 
-The "host-model" is supposed to always be migratable, so we should
-fence the feature there.
+> On 1/13/21 4:19 AM, Markus Armbruster wrote:
+>> John Snow <jsnow@redhat.com> writes:
+>> 
+>>> On 1/11/21 6:47 AM, Stefan Hajnoczi wrote:
+>>>> Dear QEMU, KVM, and rust-vmm community,
+>>>> QEMU will apply for Google Summer of Code
+>>>> (https://summerofcode.withgoogle.com/) again this year.  This internship
+>>>> program offers paid, 10-week, remote work internships for
+>>>> contributing to open source.  QEMU can act as an umbrella organization
+>>>> for KVM kernel and rust-vmm projects too.
+>>>> Please post project ideas on the QEMU wiki before February 14th:
+>>>> https://wiki.qemu.org/Google_Summer_of_Code_2021
+>>>> What's new this year:
+>>>>    * The number of internship hours has been halved to 175 hours over
+>>>>      10 weeks. Project ideas must be smaller to fit and students will have
+>>>>      more flexibility with their working hours.
+>>>>    * Eligibility has been expanded to include "licensed coding school or
+>>>>      similar type of program".
+>>>> Good project ideas are suitable for 175 hours (10 weeks half-day)
+>>>> work by a
+>>>> competent programmer who is not yet familiar with the codebase.  In
+>>>> addition, they are:
+>>>>    * Well-defined - the scope is clear
+>>>>    * Self-contained - there are few dependencies
+>>>>    * Uncontroversial - they are acceptable to the community
+>>>>    * Incremental - they produce deliverables along the way
+>>>> Feel free to post ideas even if you are unable to mentor the
+>>>> project.
+>>>> It doesn't hurt to share the idea!
+>>>>
+>>>
+>>> I have one that is probably way too ambitious, but requires a
+>>> particular skillset that might be of good interest to a student that
+>>> has some experience in the area already.
+>>>
+>>> The idea is for a TUI qmp-shell (maybe using urwid?) to create an
+>>> irssi-like REPL interface for QMP. The idea would be to mimic the
+>>> mitmproxy TUI interface (Check it out if you haven't!)
+>>>
+>>> All the ideas below are extremely tentative to give a basic gist of
+>>> what I mean; exact layouts/hotkeys/etc are for the sake of explanation
+>>> only.
+>>>
+>>> Essentially, I want an interface like this:
+>>>
+>>> -----------------------------------------------------------
+>>> | QMP Mode                                                |
+>>> |=========================================================|
+>>> |                                                         |
+>>> | Welcome to the Qemu Machine Protocol shell.             |
+>>> | Please type /help or Ctrl+H to see available commands.  |
+>>> |                                                         |
+>>> |                                                         |
+>>> |                                                         |
+>>> |---------------------------------------------------------|
+>>> | >                                                       |
+>>> -----------------------------------------------------------
+>>>
+>>> commands are entered in the bottom and appear in a log window above,
+>>> appearing most-recent last, like irssi works.
+>>>
+>>> As an example, let's say we issue block-dirty-bitmap-add:
+>>>
+>>> --------------------------------------------------------
+>>> | > block-dirty-bitmap-add node=ide0hd0 name=mybitmap0 |
+>>> --------------------------------------------------------
+>>>
+>>> (...syntax up for debate...! We want something easy to parse, but easy
+>>> to type. For structured data, that's Hard.)
+>> "Hard" is a red flag for such a brief internship.  We need to solve
+>> or
+>> somehow exclude this design problem before we hand the task to the
+>> student.
+>> [...]
+>> 
+>
+> Yes, there is a reason I capitalized "Hard". :~)
+>
+> This task CAN be split out, though. For starters, we can use an
+> extremely simplified parsing strategy while we work on the REPL and
+> and UI elements.
+>
+> We can accept things of the form:
+> command arg=value arg2=value
+>
+> and we can worry about how to input structured data later.
 
-host-passthrough is "undefined" whether it is migratable - it may or may
-not work, no guarantees made by libvirt.
+Bzzzt!  You just designed a language.  The fact that it is obviously
+inadequate for the task does not make this not language design.
 
-Ultimately I think the problem is that there ought to be an explicit
-config to enable the feature for s390, as there is for SEV, and will
-also presumably be needed for ppc. 
+Two outcomes:
 
-Regards,
-Daniel
--- 
-|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
-|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
-|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
+1. The project fails for other reasons.  The language doesn't matter.
+
+2. The project succeeds, i.e. it becomes useful to people.  Very quickly
+these people will demand you evolve your inadequate language into a less
+inadequate one, compatibly.  Your evasion of the language design problem
+(because hard) has now added accidental constraints, making the design
+problem even harder.
+
+The sane way to evade the language design problem is to use the existing
+QMP language.
+
+The project then aims to build a tool that adds useful features over
+"socat "READLINE,history=$HOME/.qmp_history,prompt=QMP>"
+UNIX-CONNECT:/path/to/socket".
+
+If it succeeds, you can still design and implement a "better" language,
+and let users choose the one they prefer.  Or you could add features to
+help with typing QMP.
+
+>                                                            I don't
+> think it's a blocker to have someone work on the TUI and asynchronous
+> dispatch elements. I think even just keeping our current parsing but
+> adding some of the features outlined in the proposal would be a big
+> usability win.
+
+I don't feel this particular itch, but I'm certainly not objecting to
+anyone scratching.
 
 
