@@ -2,89 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0FECB2F65F8
-	for <lists+qemu-devel@lfdr.de>; Thu, 14 Jan 2021 17:30:55 +0100 (CET)
-Received: from localhost ([::1]:34994 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EF8082F6601
+	for <lists+qemu-devel@lfdr.de>; Thu, 14 Jan 2021 17:35:00 +0100 (CET)
+Received: from localhost ([::1]:44202 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l05WQ-0002qp-3u
-	for lists+qemu-devel@lfdr.de; Thu, 14 Jan 2021 11:30:54 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59918)
+	id 1l05aO-00079X-0S
+	for lists+qemu-devel@lfdr.de; Thu, 14 Jan 2021 11:35:00 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60622)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1l04yM-0007Eg-1O
- for qemu-devel@nongnu.org; Thu, 14 Jan 2021 10:55:42 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:36210)
+ (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1l050D-0008Vu-LZ
+ for qemu-devel@nongnu.org; Thu, 14 Jan 2021 10:57:42 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:56128)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1l04yJ-0007zZ-DY
- for qemu-devel@nongnu.org; Thu, 14 Jan 2021 10:55:41 -0500
+ (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1l0501-0000D0-Ak
+ for qemu-devel@nongnu.org; Thu, 14 Jan 2021 10:57:36 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1610639737;
+ s=mimecast20190719; t=1610639844;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=bgOZ7j8BDb9zSWv7KNA3RMdoj7O75Aa0jzol0iE3zig=;
- b=AnqKI+oJOt81+550zw8DLXixy8uLhJLoP0daRV5kyuJdTvTB5yVEn6plVNTt6vf2Fjpjft
- r426XFWM9YruHI52jR4Y7aWBgXrFUf3Lwcf5BSmEG/tJ+1nNO36wdqdmeofShDy9P8Jxt1
- KT22QQppYmQkR+bOetitmRUAQcmXlJM=
-Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
- [209.85.128.71]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-15-IEcGf8UjNziIUmabcslfpQ-1; Thu, 14 Jan 2021 10:55:35 -0500
-X-MC-Unique: IEcGf8UjNziIUmabcslfpQ-1
-Received: by mail-wm1-f71.google.com with SMTP id b184so915720wmh.6
- for <qemu-devel@nongnu.org>; Thu, 14 Jan 2021 07:55:35 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=bgOZ7j8BDb9zSWv7KNA3RMdoj7O75Aa0jzol0iE3zig=;
- b=DFtsb4cKOfRIs8E5kbTxx+tNm66Vu+6ceXUEOu3MorZ/ZT7KMiZMRw4K9P/f/jVzFu
- bQD7YA7QRWBeRjrDBr9syEAnzErjzVyfy8p8hM3SGuFCc6w6HhXTizkA7kx/rMe5ZYGA
- 7Was1ijK8lMGD32JFBlPKWa4M1RxoP2+RuUIw/4spP/9whwMyWCV7lbclFpTW/0mkqNA
- XwZrj1yM6+JG44AhK3Rw133AQvJv2vtPp1c643UHsyLEY5naASAFFWZiVC3rCBkr8A8Z
- F0T4uSiW7+Yt1aOWEgtQk3KWYapCk0e+NmlMgW93+D17VPaTDDGZICwIRqSGIcWHukCd
- 5hhQ==
-X-Gm-Message-State: AOAM533AdapKdtdhuPl1+sDo2AQyq5H4liwO26kYqzD8lh5ELpsQEkjy
- rPbl4rlSWo+Tc4ZyERi+VCHid6wFQD7UxL16CPP3SSAHZSog2Mv6hlNpjv92MIyaTV/BKmoJCY+
- w5erNrRrwRTHwdj+uFr0XhdE/iCuRifZU1DllOXaptdQIzZIl8jiNd96lZsPx6aDN
-X-Received: by 2002:a5d:558a:: with SMTP id i10mr8789502wrv.363.1610639734441; 
- Thu, 14 Jan 2021 07:55:34 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJzkAKa6MKo30Ctqklhy+mRB++VNs1p1T1OSHqWcjNCsems9ZKz41eqkH/3YlJT+xofu33EXDw==
-X-Received: by 2002:a5d:558a:: with SMTP id i10mr8789478wrv.363.1610639734190; 
- Thu, 14 Jan 2021 07:55:34 -0800 (PST)
-Received: from [192.168.1.36] (13.red-83-57-169.dynamicip.rima-tde.net.
- [83.57.169.13])
- by smtp.gmail.com with ESMTPSA id i59sm6870614wri.3.2021.01.14.07.55.33
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 14 Jan 2021 07:55:33 -0800 (PST)
-Subject: Re: [PATCH v3 3/4] hw/block/nvme: add smart_critical_warning property
-To: zhenwei pi <pizhenwei@bytedance.com>, kbusch@kernel.org,
- its@irrelevant.dk, kwolf@redhat.com, mreitz@redhat.com
-References: <20210114072251.334304-1-pizhenwei@bytedance.com>
- <20210114072251.334304-4-pizhenwei@bytedance.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-Message-ID: <4d38ab86-cd88-8c51-d15f-1117db8c3d10@redhat.com>
-Date: Thu, 14 Jan 2021 16:55:32 +0100
+ bh=h2Fb23QGHP9O9Qe44X0FIy35a1lGNwTY+7Py9pmOOhU=;
+ b=czCY2NC7XBhl1SAt6dG8wA7PYtoYQ4pNEprKLGVBJnSjARW60HIFbw0mAQmYRVM40Foro7
+ uKTurIhpSzJKME1k7O56qzsAYJcDQCw9WofOQfKW0cBBD8UKxwxHu1BdWJkAxW8fxySRHs
+ 5Mhbka6D2ReKTu6OerPUmKCNSLaEfKg=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-412-4FUDMlN1O96_MFPqGwzOtA-1; Thu, 14 Jan 2021 10:57:22 -0500
+X-MC-Unique: 4FUDMlN1O96_MFPqGwzOtA-1
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
+ [10.5.11.16])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 43DB38145F8;
+ Thu, 14 Jan 2021 15:57:20 +0000 (UTC)
+Received: from [10.36.115.75] (ovpn-115-75.ams2.redhat.com [10.36.115.75])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 9AE7363746;
+ Thu, 14 Jan 2021 15:57:05 +0000 (UTC)
+Subject: Re: [PATCH v4 04/11] vfio: Support for RamDiscardMgr in the !vIOMMU
+ case
+From: David Hildenbrand <david@redhat.com>
+To: Alex Williamson <alex.williamson@redhat.com>
+References: <20210107133423.44964-1-david@redhat.com>
+ <20210107133423.44964-5-david@redhat.com>
+ <20210113162745.5c92e04f@omen.home.shazbot.org>
+ <651d5ef7-096f-0b71-2190-53532dab3dd0@redhat.com>
+Organization: Red Hat GmbH
+Message-ID: <dd05a30d-55cd-07f4-a175-7bc534281292@redhat.com>
+Date: Thu, 14 Jan 2021 16:57:04 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.6.0
+ Thunderbird/78.5.0
 MIME-Version: 1.0
-In-Reply-To: <20210114072251.334304-4-pizhenwei@bytedance.com>
+In-Reply-To: <651d5ef7-096f-0b71-2190-53532dab3dd0@redhat.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=david@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=philmd@redhat.com;
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=david@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -32
 X-Spam_score: -3.3
 X-Spam_bar: ---
 X-Spam_report: (-3.3 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.248,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.237, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001,
+ NICE_REPLY_A=-0.237, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
  RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
@@ -99,70 +85,167 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel@nongnu.org, qemu-block@nongnu.org
+Cc: Pankaj Gupta <pankaj.gupta.linux@gmail.com>,
+ Wei Yang <richard.weiyang@linux.alibaba.com>,
+ "Michael S. Tsirkin" <mst@redhat.com>,
+ Jonathan Cameron <Jonathan.Cameron@huawei.com>, qemu-devel@nongnu.org,
+ Peter Xu <peterx@redhat.com>, "Dr . David Alan Gilbert" <dgilbert@redhat.com>,
+ Auger Eric <eric.auger@redhat.com>, teawater <teawaterz@linux.alibaba.com>,
+ Igor Mammedov <imammedo@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ Marek Kedzierski <mkedzier@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 1/14/21 8:22 AM, zhenwei pi wrote:
-> There is a very low probability that hitting physical NVMe disk
-> hardware critical warning case, it's hard to write & test a monitor
-> agent service.
+On 14.01.21 16:54, David Hildenbrand wrote:
+> On 14.01.21 00:27, Alex Williamson wrote:
+>> On Thu,  7 Jan 2021 14:34:16 +0100
+>> David Hildenbrand <david@redhat.com> wrote:
+>>
+>>> Implement support for RamDiscardMgr, to prepare for virtio-mem
+>>> support. Instead of mapping the whole memory section, we only map
+>>> "populated" parts and update the mapping when notified about
+>>> discarding/population of memory via the RamDiscardListener. Similarly, when
+>>> syncing the dirty bitmaps, sync only the actually mapped (populated) parts
+>>> by replaying via the notifier.
+>>>
+>>> Using virtio-mem with vfio is still blocked via
+>>> ram_block_discard_disable()/ram_block_discard_require() after this patch.
+>>>
+>>> Cc: Paolo Bonzini <pbonzini@redhat.com>
+>>> Cc: "Michael S. Tsirkin" <mst@redhat.com>
+>>> Cc: Alex Williamson <alex.williamson@redhat.com>
+>>> Cc: Dr. David Alan Gilbert <dgilbert@redhat.com>
+>>> Cc: Igor Mammedov <imammedo@redhat.com>
+>>> Cc: Pankaj Gupta <pankaj.gupta.linux@gmail.com>
+>>> Cc: Peter Xu <peterx@redhat.com>
+>>> Cc: Auger Eric <eric.auger@redhat.com>
+>>> Cc: Wei Yang <richard.weiyang@linux.alibaba.com>
+>>> Cc: teawater <teawaterz@linux.alibaba.com>
+>>> Cc: Marek Kedzierski <mkedzier@redhat.com>
+>>> Signed-off-by: David Hildenbrand <david@redhat.com>
+>>> ---
+>>>  hw/vfio/common.c              | 200 ++++++++++++++++++++++++++++++++++
+>>>  include/hw/vfio/vfio-common.h |  12 ++
+>>>  2 files changed, 212 insertions(+)
+>>>
+>>> diff --git a/hw/vfio/common.c b/hw/vfio/common.c
+>>> index 6ff1daa763..2bd219cf1d 100644
+>>> --- a/hw/vfio/common.c
+>>> +++ b/hw/vfio/common.c
+>>> @@ -654,6 +654,136 @@ out:
+>>>      rcu_read_unlock();
+>>>  }
+>>>  
+>>> +static void vfio_ram_discard_notify_discard(RamDiscardListener *rdl,
+>>> +                                            const MemoryRegion *mr,
+>>> +                                            ram_addr_t offset, ram_addr_t size)
+>>> +{
+>>> +    VFIORamDiscardListener *vrdl = container_of(rdl, VFIORamDiscardListener,
+>>> +                                                listener);
+>>> +    const hwaddr mr_start = MAX(offset, vrdl->offset_within_region);
+>>> +    const hwaddr mr_end = MIN(offset + size,
+>>> +                              vrdl->offset_within_region + vrdl->size);
+>>> +    const hwaddr iova = mr_start - vrdl->offset_within_region +
+>>> +                        vrdl->offset_within_address_space;
+>>> +    int ret;
+>>> +
+>>> +    if (mr_start >= mr_end) {
+>>> +        return;
+>>> +    }
+>>> +
+>>> +    /* Unmap with a single call. */
+>>> +    ret = vfio_dma_unmap(vrdl->container, iova, mr_end - mr_start, NULL);
+>>> +    if (ret) {
+>>> +        error_report("%s: vfio_dma_unmap() failed: %s", __func__,
+>>> +                     strerror(-ret));
+>>> +    }
+>>> +}
+>>> +
+>>> +static int vfio_ram_discard_notify_populate(RamDiscardListener *rdl,
+>>> +                                            const MemoryRegion *mr,
+>>> +                                            ram_addr_t offset, ram_addr_t size)
+>>> +{
+>>> +    VFIORamDiscardListener *vrdl = container_of(rdl, VFIORamDiscardListener,
+>>> +                                                listener);
+>>> +    const hwaddr mr_end = MIN(offset + size,
+>>> +                              vrdl->offset_within_region + vrdl->size);
+>>> +    hwaddr mr_start = MAX(offset, vrdl->offset_within_region);
+>>> +    hwaddr mr_next, iova;
+>>> +    void *vaddr;
+>>> +    int ret;
+>>> +
+>>> +    /*
+>>> +     * Map in (aligned within memory region) minimum granularity, so we can
+>>> +     * unmap in minimum granularity later.
+>>> +     */
+>>> +    for (; mr_start < mr_end; mr_start = mr_next) {
+>>> +        mr_next = ROUND_UP(mr_start + 1, vrdl->granularity);
+>>> +        mr_next = MIN(mr_next, mr_end);
+>>> +
+>>> +        iova = mr_start - vrdl->offset_within_region +
+>>> +               vrdl->offset_within_address_space;
+>>> +        vaddr = memory_region_get_ram_ptr(vrdl->mr) + mr_start;
+>>> +
+>>> +        ret = vfio_dma_map(vrdl->container, iova, mr_next - mr_start,
+>>> +                           vaddr, mr->readonly);
+>>> +        if (ret) {
+>>> +            /* Rollback */
+>>> +            vfio_ram_discard_notify_discard(rdl, mr, offset, size);
+>>> +            return ret;
+>>> +        }
+>>> +    }
+>>> +    return 0;
+>>> +}
+>>> +
+>>> +static void vfio_ram_discard_notify_discard_all(RamDiscardListener *rdl,
+>>> +                                                const MemoryRegion *mr)
+>>> +{
+>>> +    VFIORamDiscardListener *vrdl = container_of(rdl, VFIORamDiscardListener,
+>>> +                                                listener);
+>>> +    int ret;
+>>> +
+>>> +    /* Unmap with a single call. */
+>>> +    ret = vfio_dma_unmap(vrdl->container, vrdl->offset_within_address_space,
+>>> +                         vrdl->size, NULL);
+>>> +    if (ret) {
+>>> +        error_report("%s: vfio_dma_unmap() failed: %s", __func__,
+>>> +                     strerror(-ret));
+>>> +    }
+>>> +}
+>>> +
+>>> +static void vfio_register_ram_discard_notifier(VFIOContainer *container,
+>>> +                                               MemoryRegionSection *section)
+>>> +{
+>>> +    RamDiscardMgr *rdm = memory_region_get_ram_discard_mgr(section->mr);
+>>> +    RamDiscardMgrClass *rdmc = RAM_DISCARD_MGR_GET_CLASS(rdm);
+>>> +    VFIORamDiscardListener *vrdl;
+>>> +
+>>> +    vrdl = g_new0(VFIORamDiscardListener, 1);
+>>> +    vrdl->container = container;
+>>> +    vrdl->mr = section->mr;
+>>> +    vrdl->offset_within_region = section->offset_within_region;
+>>> +    vrdl->offset_within_address_space = section->offset_within_address_space;
+>>> +    vrdl->size = int128_get64(section->size);
+>>> +    vrdl->granularity = rdmc->get_min_granularity(rdm, section->mr);
+>>> +
+>>> +    /* Ignore some corner cases not relevant in practice. */
+>>> +    g_assert(QEMU_IS_ALIGNED(vrdl->offset_within_region, TARGET_PAGE_SIZE));
+>>> +    g_assert(QEMU_IS_ALIGNED(vrdl->offset_within_address_space,
+>>> +                             TARGET_PAGE_SIZE));
+>>> +    g_assert(QEMU_IS_ALIGNED(vrdl->size, TARGET_PAGE_SIZE));
+>>
+>> Should probably toss in a test of vrdl->granularity vs
+>> container->pgsizes too, right?  Looks good otherwise:
 > 
-> For debugging purposes, add a new 'smart_critical_warning' property
-> to emulate this situation.
+> Makes sense as a sanity check. What about
 > 
-> The orignal version of this change is implemented by adding a fixed
-> property which could be initialized by QEMU command line. Suggested
-> by Philippe & Klaus, rework like current version.
-> 
-> Test with this patch:
-> 1, change smart_critical_warning property for a running VM:
->  #virsh qemu-monitor-command nvme-upstream '{ "execute": "qom-set",
->   "arguments": { "path": "/machine/peripheral-anon/device[0]",
->   "property": "smart_critical_warning", "value":16 } }'
-> 2, run smartctl in guest
->  #smartctl -H -l error /dev/nvme0n1
-> 
->   === START OF SMART DATA SECTION ===
->   SMART overall-health self-assessment test result: FAILED!
->   - volatile memory backup device has failed
-> 
-> Signed-off-by: zhenwei pi <pizhenwei@bytedance.com>
-> ---
->  hw/block/nvme.c | 40 ++++++++++++++++++++++++++++++++++++++++
->  hw/block/nvme.h |  1 +
->  2 files changed, 41 insertions(+)
-...
+> g_assert(vrdl->granularity && !is_power_of_2(vrdl->granularity));
 
-> +static void nvme_set_smart_warning(Object *obj, Visitor *v, const char *name,
-> +                                   void *opaque, Error **errp)
-> +{
-> +    NvmeCtrl *s = NVME(obj);
-> +    uint8_t value, cap = 0;
-> +    uint64_t pmr_cap = CAP_PMR_MASK;
-> +
-> +    if (!visit_type_uint8(v, name, &value, errp)) {
-> +        return;
-> +    }
-> +
-> +    cap = NVME_SMART_SPARE | NVME_SMART_TEMPERATURE | NVME_SMART_RELIABILITY
-> +          | NVME_SMART_MEDIA_READ_ONLY | NVME_SMART_FAILED_VOLATILE_MEDIA;
-> +    if (s->bar.cap & (pmr_cap << CAP_PMR_SHIFT)) {
-> +        cap |= NVME_SMART_PMR_UNRELIABLE;
-> +    }
-> +
-> +    if ((value & cap) != value) {
-> +        error_setg(errp, "unsupported smart critical warning value");
+^ g_assert(vrdl->granularity >= 1 << ctz64(container->pgsizes));
 
-More useful:
+-- 
+Thanks,
 
-           error_setg(errp,
-                      "unsupported smart critical warning bits: 0x%x",
-                      value & ~cap);
-
-Regardless:
-Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-
-Thanks!
+David / dhildenb
 
 
