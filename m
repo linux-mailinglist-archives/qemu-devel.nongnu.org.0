@@ -2,66 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 896BA2F6938
-	for <lists+qemu-devel@lfdr.de>; Thu, 14 Jan 2021 19:16:38 +0100 (CET)
-Received: from localhost ([::1]:48530 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 60C202F693C
+	for <lists+qemu-devel@lfdr.de>; Thu, 14 Jan 2021 19:19:16 +0100 (CET)
+Received: from localhost ([::1]:55218 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l07Aj-0001aM-Id
-	for lists+qemu-devel@lfdr.de; Thu, 14 Jan 2021 13:16:37 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42776)
+	id 1l07DH-0004cf-D0
+	for lists+qemu-devel@lfdr.de; Thu, 14 Jan 2021 13:19:15 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42754)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1l071I-0001zK-DB; Thu, 14 Jan 2021 13:06:52 -0500
-Received: from mail-qt1-x832.google.com ([2607:f8b0:4864:20::832]:41257)
+ id 1l071H-0001ws-Fu; Thu, 14 Jan 2021 13:06:51 -0500
+Received: from mail-qt1-x82b.google.com ([2607:f8b0:4864:20::82b]:35424)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1l071C-00051Q-Ad; Thu, 14 Jan 2021 13:06:52 -0500
-Received: by mail-qt1-x832.google.com with SMTP id j26so4155245qtq.8;
- Thu, 14 Jan 2021 10:06:45 -0800 (PST)
+ id 1l071E-00051h-U0; Thu, 14 Jan 2021 13:06:51 -0500
+Received: by mail-qt1-x82b.google.com with SMTP id b9so4183068qtr.2;
+ Thu, 14 Jan 2021 10:06:47 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=zLIaL25dnVyYmxGQEimqdfQHBpzSSRoEUn6YuIhvtro=;
- b=NdRqgN0XlF8OLwfRmsLOqXQgmD1BcM12exGIiI4EROap8O2gs7/58i6IvnkiHCQswo
- Hf4DrslRKyrXxOKogmlPWyOZiS+99wAj9eF5wCUsKxWVQ/a/a10rIqD6VZu/DmaOJlu8
- urQratPt/zQQnfhddKOtxcfu5Ex+UeXWPc6CWAHTDAhg7ZBxFE/na11vzn1rWraEYEIk
- RavGi1fWt9qMzSDlqUSZ1ChdFenrKFmk7CCUPatwzXNdN8uLOiYdo3XGrAQZ5gSUQNE9
- 0q+iiCvUba4VHVWYKFm6vcV8PePdXZiGAwrEFwQnLvwEJqSZyMTf6A4DOozQw2kjw2bj
- qwEw==
+ bh=7QBtqcNg7aG0gJ0K9jeHZaycMU0I9AIukcktQjr9V6s=;
+ b=WIW2kTvedhfznMB+XvneXOUJR7P0FoDV4f+V+RsXr5b2bRPNhutiQP/Li5a0aA+zzu
+ X5c6iRx9+aKQfQ9uYpy3G9mG0YKPyzFG60N8Db4KfRn9p2EbnvRXCIH25eiIeoKF0xQS
+ JKG5nWovj7SZ89MHvs1Yr19bqj8bSIYPfju+/UDRSRlHPkClXQV5vqxVW93IxRzWMBhB
+ EU5tZMB77KSg5LUyveDi4D4+dHbWujfXq5b+PatNqDD7fxxJen7hSNIoEBPokqiBWeez
+ dIHKyKvMY+zTTrX2qzHMizGfGmDQKKlX/8xATW0X8RP8ub+2fp4t0aJEvghdvUP6ho0b
+ eJYA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=zLIaL25dnVyYmxGQEimqdfQHBpzSSRoEUn6YuIhvtro=;
- b=bBvXUhPPX3S3jI/sC8ylKrKPE9O49Rw0dXMQbinNvS3ccJH2PdDwz+Ur5+JTnGz+vr
- ykcq7FORa2gkIMOEM4a6VDuCr4SfdW8Ng9WuTNG/JMKT6MJ+khzSe7spFiE+wICmxXhv
- HrzWkI3WiyZB3qkN2Sext96kAJV5qPBiMMWaoqPjZNG4ikRH/cnTLJGB5mLcHZ/1mD9w
- gqv2YxR0buq7iuO47OOWUAo/BfOOUsnBr/EvaXs2BkBU1UW9xWYKLAf6tu5SVDzdmkTI
- 0og1PVS9xrlC5fMQDow/jY47OTIWEDYmU0dYxYqrUP1/RIrhqK3D8YFND9W3HfWVHmQG
- 15ow==
-X-Gm-Message-State: AOAM530bAR14c0456L2ULtYhwC/0mT/x3pHg+jXx/pnq4dGnUjEMOnY4
- kkja3qoiIhiG96E8Moasi5WAgZz3ahEOyQ==
-X-Google-Smtp-Source: ABdhPJxP607UprFwwTwPsXR9pdksWGRk5xI18zWyo8VuIfXZAVSgrAL6ZRdT7DBuYts6M7vDN7Rd/g==
-X-Received: by 2002:aed:3b96:: with SMTP id r22mr8144046qte.0.1610647605020;
- Thu, 14 Jan 2021 10:06:45 -0800 (PST)
+ bh=7QBtqcNg7aG0gJ0K9jeHZaycMU0I9AIukcktQjr9V6s=;
+ b=NU5O/YUtHSlrBEoGYW4iwwJNJV2D5PLtagftxphOxfGSit+oxmCl9LoBghhFbjcWnp
+ HEs1pqtobKwDB7D7pALZVafnhr/wRmzALVEHfNo0/o9Nz3JyX9Hs1l44hY7tY/Yys71M
+ +fSmGOGvIptWf8iWnWkGfIox+5AkuTdpjFhlZTL9H/TOFN6nhBOyJS0a4hPhvxGJ90ji
+ R/8bgff41XoyXpyqAXJmhM2lg77dcdNHNA0grhMFo843xJjT8TicOl04RttkSo0ZhLiK
+ 7i78vimDxEo2z5kE8wufi4vQIaQQh4YYNRHUq0CXG+XWelrh7qas7jFTpUC6Iuxwn0uW
+ DgbA==
+X-Gm-Message-State: AOAM530H1fB/5YLIDVqcoPKO7zk8Clc2HQjh3MX9OonRkrLddahHyDf0
+ NBaKyYHrJib3YsgZHlbCe5DSWOoNrPKdaA==
+X-Google-Smtp-Source: ABdhPJz/ifny92NVOEYCk3S1kXUhSIlTDxNfBSSQLFu/xy3jmyBJ2/7weuGzgpnEMviHnafKfLl4NA==
+X-Received: by 2002:ac8:24ee:: with SMTP id t43mr8162730qtt.215.1610647607022; 
+ Thu, 14 Jan 2021 10:06:47 -0800 (PST)
 Received: from rekt.ibmuc.com ([2804:431:c7c6:b984:ff01:270:b51c:24a5])
- by smtp.gmail.com with ESMTPSA id a1sm3448129qkn.104.2021.01.14.10.06.43
+ by smtp.gmail.com with ESMTPSA id a1sm3448129qkn.104.2021.01.14.10.06.45
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 14 Jan 2021 10:06:44 -0800 (PST)
+ Thu, 14 Jan 2021 10:06:46 -0800 (PST)
 From: Daniel Henrique Barboza <danielhb413@gmail.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v1 4/7] spapr_rtas.c: fix identation of rtas_ibm_suspend_me()
- args
-Date: Thu, 14 Jan 2021 15:06:25 -0300
-Message-Id: <20210114180628.1675603-5-danielhb413@gmail.com>
+Subject: [PATCH v1 5/7] spapr_cpu_core.c: use g_auto* in spapr_create_vcpu()
+Date: Thu, 14 Jan 2021 15:06:26 -0300
+Message-Id: <20210114180628.1675603-6-danielhb413@gmail.com>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20210114180628.1675603-1-danielhb413@gmail.com>
 References: <20210114180628.1675603-1-danielhb413@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::832;
- envelope-from=danielhb413@gmail.com; helo=mail-qt1-x832.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::82b;
+ envelope-from=danielhb413@gmail.com; helo=mail-qt1-x82b.google.com
 X-Spam_score_int: -17
 X-Spam_score: -1.8
 X-Spam_bar: -
@@ -87,28 +86,54 @@ Cc: Daniel Henrique Barboza <danielhb413@gmail.com>, qemu-ppc@nongnu.org,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+Use g_autoptr() with Object and g_autofree with the string to
+avoid the need of a cleanup path.
+
 Signed-off-by: Daniel Henrique Barboza <danielhb413@gmail.com>
 ---
- hw/ppc/spapr_rtas.c | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
+ hw/ppc/spapr_cpu_core.c | 12 +++---------
+ 1 file changed, 3 insertions(+), 9 deletions(-)
 
-diff --git a/hw/ppc/spapr_rtas.c b/hw/ppc/spapr_rtas.c
-index d014684d60..fbefd5d3cb 100644
---- a/hw/ppc/spapr_rtas.c
-+++ b/hw/ppc/spapr_rtas.c
-@@ -219,9 +219,9 @@ static void rtas_stop_self(PowerPCCPU *cpu, SpaprMachineState *spapr,
+diff --git a/hw/ppc/spapr_cpu_core.c b/hw/ppc/spapr_cpu_core.c
+index 2f7dc3c23d..4f316a6f9d 100644
+--- a/hw/ppc/spapr_cpu_core.c
++++ b/hw/ppc/spapr_cpu_core.c
+@@ -277,8 +277,8 @@ static PowerPCCPU *spapr_create_vcpu(SpaprCpuCore *sc, int i, Error **errp)
+ {
+     SpaprCpuCoreClass *scc = SPAPR_CPU_CORE_GET_CLASS(sc);
+     CPUCore *cc = CPU_CORE(sc);
+-    Object *obj;
+-    char *id;
++    g_autoptr(Object) obj = NULL;
++    g_autofree char *id = NULL;
+     CPUState *cs;
+     PowerPCCPU *cpu;
+ 
+@@ -293,23 +293,17 @@ static PowerPCCPU *spapr_create_vcpu(SpaprCpuCore *sc, int i, Error **errp)
+     cs->start_powered_off = true;
+     cs->cpu_index = cc->core_id + i;
+     if (!spapr_set_vcpu_id(cpu, cs->cpu_index, errp)) {
+-        goto err;
++        return NULL;
+     }
+ 
+     cpu->node_id = sc->node_id;
+ 
+     id = g_strdup_printf("thread[%d]", i);
+     object_property_add_child(OBJECT(sc), id, obj);
+-    g_free(id);
+ 
+     cpu->machine_data = g_new0(SpaprCpuState, 1);
+ 
+-    object_unref(obj);
+     return cpu;
+-
+-err:
+-    object_unref(obj);
+-    return NULL;
  }
  
- static void rtas_ibm_suspend_me(PowerPCCPU *cpu, SpaprMachineState *spapr,
--                           uint32_t token, uint32_t nargs,
--                           target_ulong args,
--                           uint32_t nret, target_ulong rets)
-+                                uint32_t token, uint32_t nargs,
-+                                target_ulong args,
-+                                uint32_t nret, target_ulong rets)
- {
-     CPUState *cs;
- 
+ static void spapr_cpu_core_realize(DeviceState *dev, Error **errp)
 -- 
 2.26.2
 
