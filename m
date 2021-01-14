@@ -2,67 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C27AB2F6BC6
-	for <lists+qemu-devel@lfdr.de>; Thu, 14 Jan 2021 21:07:41 +0100 (CET)
-Received: from localhost ([::1]:56876 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9DE992F6BF2
+	for <lists+qemu-devel@lfdr.de>; Thu, 14 Jan 2021 21:18:28 +0100 (CET)
+Received: from localhost ([::1]:40254 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l08uC-0004LR-QX
-	for lists+qemu-devel@lfdr.de; Thu, 14 Jan 2021 15:07:40 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51934)
+	id 1l094d-00019u-8A
+	for lists+qemu-devel@lfdr.de; Thu, 14 Jan 2021 15:18:27 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56374)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <lersek@redhat.com>) id 1l08sK-00032O-KU
- for qemu-devel@nongnu.org; Thu, 14 Jan 2021 15:05:44 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:34000)
+ (Exim 4.90_1) (envelope-from <wrampazz@redhat.com>)
+ id 1l093k-0000bQ-O9
+ for qemu-devel@nongnu.org; Thu, 14 Jan 2021 15:17:32 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:39200)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <lersek@redhat.com>) id 1l08sH-00008J-R5
- for qemu-devel@nongnu.org; Thu, 14 Jan 2021 15:05:44 -0500
+ (Exim 4.90_1) (envelope-from <wrampazz@redhat.com>)
+ id 1l093h-0004TG-Se
+ for qemu-devel@nongnu.org; Thu, 14 Jan 2021 15:17:32 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1610654741;
+ s=mimecast20190719; t=1610655448;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=/QG8pJWE23Mer06lSrjQoLgERt9d/+b8JTOcfqPijtY=;
- b=Zk/DEFOEA4ORxfJiB+80EFpbhNyLXf0v7E61CZVDuoAm6swnC9NpGOs+0R8d11SJskgJ7i
- FdycnvOsfl7o4g7JfQJIN8tFBCgNiJPaEVxKnMmrVCi2fu88+X0BZ4Mw2iiiNGy35eiHJZ
- tOKzoWMPJYCu5mf31LqhkTAoy+rpwPw=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-5-lrQ4LsylO0GmGUs5RuPXrw-1; Thu, 14 Jan 2021 15:05:39 -0500
-X-MC-Unique: lrQ4LsylO0GmGUs5RuPXrw-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 39C141DDE0
- for <qemu-devel@nongnu.org>; Thu, 14 Jan 2021 20:05:38 +0000 (UTC)
-Received: from lacos-laptop-7.usersys.redhat.com (ovpn-112-194.ams2.redhat.com
- [10.36.112.194])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 033795D9C2;
- Thu, 14 Jan 2021 20:05:36 +0000 (UTC)
-Subject: Re: [PATCH 1/2] meson.build: Declare global edk2_targets /
- install_edk2_blobs variables
-To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
- qemu-devel@nongnu.org
-References: <20210114174509.2944817-1-philmd@redhat.com>
- <20210114174509.2944817-2-philmd@redhat.com>
- <a0990c43-c2f9-503d-782e-e4002709e53b@redhat.com>
- <dec726cf-5247-dcbe-914a-a54b0d4b2b03@redhat.com>
-From: Laszlo Ersek <lersek@redhat.com>
-Message-ID: <174f3a18-22b2-eb15-f91c-99b690e4fbc1@redhat.com>
-Date: Thu, 14 Jan 2021 21:05:36 +0100
+ bh=crseDl5CqlhLGKmOnNs48qUZmHpVZELz7k9mN+wHZ4g=;
+ b=OwmHY0dI++8Y3SJ2LW/Z4r/pNIDRFMVMEPeT+gm4cZsXY1nqaDZXwScvtCFpuWdbFQLQYp
+ tf3+fUEP4h0P/JJiXyBQL5lLjYzqaYBpwjQhw63pcdMGCsqXqXmKlSAy2N4zq5aEbcePuG
+ RPHiXGV28BHTdyZqc7fse9xKfTknqEQ=
+Received: from mail-vs1-f72.google.com (mail-vs1-f72.google.com
+ [209.85.217.72]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-265-fH7HDW8FOK24RtrQfE6OzA-1; Thu, 14 Jan 2021 15:17:26 -0500
+X-MC-Unique: fH7HDW8FOK24RtrQfE6OzA-1
+Received: by mail-vs1-f72.google.com with SMTP id p4so1148535vsq.13
+ for <qemu-devel@nongnu.org>; Thu, 14 Jan 2021 12:17:26 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=crseDl5CqlhLGKmOnNs48qUZmHpVZELz7k9mN+wHZ4g=;
+ b=uXQ4Wyuc5wiZ42lvr0BWKXakVKEoaf0Cq4b0RNq5KxHaQtXcSNr6uY7PEAIQ1FHIfH
+ LbwY4eRuD+VRBAMvO6qtRLNh1qVAwCEBRaiYfHxpSVMM2nFffZVg01yb8iN2secXpnn6
+ rnzd290SZlKRNaecYtommLf8MHI4XbHps1LVJrmQIY5C9aF3IEbqXei3burZbo0gnJ3Q
+ oj7jXv/Sbi4mVhw4xFw7aQBDIzRBr6pFJ+Apn8SqAMcyFkVrG+wNKLgKnMzDlHkCRrpo
+ wcph/OZ/mkhu5PnwJFzyvcl976CYrRdf4wJXEsdvlr4FM1+xD/Fxe3okjGsqu3L5Fd30
+ V3Lw==
+X-Gm-Message-State: AOAM530+bOjF1/FEXX9tSq+pS+DiqDNxpO50jEifH5HzrrEfBzwSXhDg
+ Sd6AqtDYdt44iLQAQBisSV0jFFZAZAuv9+eoavKgEpIuXgb+Pcp9gOFFtMkPlUOE1w6ztQ0m3PE
+ N4MbLrSXVxPDxlUFGghDZAQFRTkb3zNg=
+X-Received: by 2002:ab0:2a01:: with SMTP id o1mr7420465uar.133.1610655446248; 
+ Thu, 14 Jan 2021 12:17:26 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJzuTqJSLK7S2C1nOEyuww8el6U7GB6C9uKwBo9fQ6K6YG7xLPSMpnyFKlUn5gf/b5XdkPDRfhUL0rzzpTzC18s=
+X-Received: by 2002:ab0:2a01:: with SMTP id o1mr7420456uar.133.1610655446054; 
+ Thu, 14 Jan 2021 12:17:26 -0800 (PST)
 MIME-Version: 1.0
-In-Reply-To: <dec726cf-5247-dcbe-914a-a54b0d4b2b03@redhat.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+References: <20210112164045.98565-1-thuth@redhat.com>
+ <20210112164045.98565-2-thuth@redhat.com>
+In-Reply-To: <20210112164045.98565-2-thuth@redhat.com>
+From: Willian Rampazzo <wrampazz@redhat.com>
+Date: Thu, 14 Jan 2021 17:17:00 -0300
+Message-ID: <CAKJDGDYGAwzw-SGBasjmezEJGXR5af_B_+5SPtKrcJJrfursRQ@mail.gmail.com>
+Subject: Re: [PATCH 1/3] tests/acceptance: Move the pseries test to a separate
+ file
+To: Thomas Huth <thuth@redhat.com>
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=lersek@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=wrampazz@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=lersek@redhat.com;
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=wrampazz@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -29
 X-Spam_score: -3.0
@@ -83,113 +89,30 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Paolo Bonzini <pbonzini@redhat.com>, John Snow <jsnow@redhat.com>
+Cc: Greg Kurz <groug@kaod.org>,
+ Wainer dos Santos Moschetta <wainersm@redhat.com>,
+ qemu-devel <qemu-devel@nongnu.org>, qemu-ppc@nongnu.org,
+ Cleber Rosa <crosa@redhat.com>,
+ =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>,
+ David Gibson <david@gibson.dropbear.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 01/14/21 20:57, Philippe Mathieu-Daudé wrote:
-> On 1/14/21 8:49 PM, Laszlo Ersek wrote:
->> On 01/14/21 18:45, Philippe Mathieu-Daudé wrote:
->>> Globally declare in the main meson.build:
->>> - the list of EDK2 targets,
->>> - whether the EDK2 blobs have to be installed.
->>>
->>> Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
->>> ---
->>> Patch trivial to review using 'git-diff --ignore-all-space'
->>> ---
->>>  meson.build                     |  8 ++++++++
->>>  pc-bios/descriptors/meson.build | 30 ++++++++++++++++--------------
->>>  pc-bios/meson.build             |  5 +----
->>>  3 files changed, 25 insertions(+), 18 deletions(-)
->>>
->>> diff --git a/meson.build b/meson.build
->>> index 3d889857a09..ecc45d04d6a 100644
->>> --- a/meson.build
->>> +++ b/meson.build
->>> @@ -88,6 +88,14 @@
->>>    }
->>>  endif
->>>  
->>> +edk2_targets = [ 'arm-softmmu', 'aarch64-softmmu', 'i386-softmmu', 'x86_64-softmmu' ]
->>> +install_edk2_blobs = false
->>> +if get_option('install_blobs')
->>> +  foreach target : target_dirs
->>> +    install_edk2_blobs = install_edk2_blobs or target in edk2_targets
->>> +  endforeach
->>> +endif
->>> +
->>>  ##################
->>>  # Compiler flags #
->>>  ##################
->>> diff --git a/pc-bios/descriptors/meson.build b/pc-bios/descriptors/meson.build
->>> index 7040834573d..ac6ec66b007 100644
->>> --- a/pc-bios/descriptors/meson.build
->>> +++ b/pc-bios/descriptors/meson.build
->>> @@ -1,14 +1,16 @@
->>> -foreach f: [
->>> -  '50-edk2-i386-secure.json',
->>> -  '50-edk2-x86_64-secure.json',
->>> -  '60-edk2-aarch64.json',
->>> -  '60-edk2-arm.json',
->>> -  '60-edk2-i386.json',
->>> -  '60-edk2-x86_64.json'
->>> -]
->>> -  configure_file(input: files(f),
->>> -                 output: f,
->>> -                 configuration: {'DATADIR': qemu_datadir},
->>> -                 install: get_option('install_blobs'),
->>> -                 install_dir: qemu_datadir / 'firmware')
->>> -endforeach
->>> +if install_edk2_blobs
->>> +  foreach f: [
->>> +    '50-edk2-i386-secure.json',
->>> +    '50-edk2-x86_64-secure.json',
->>> +    '60-edk2-aarch64.json',
->>> +    '60-edk2-arm.json',
->>> +    '60-edk2-i386.json',
->>> +    '60-edk2-x86_64.json'
->>> +  ]
->>> +    configure_file(input: files(f),
->>> +                   output: f,
->>> +                   configuration: {'DATADIR': qemu_datadir},
->>> +                   install: get_option('install_blobs'),
->>> +                   install_dir: qemu_datadir / 'firmware')
->>> +  endforeach
->>> +endif
->>> diff --git a/pc-bios/meson.build b/pc-bios/meson.build
->>> index fab323af84e..6a341b6cea0 100644
->>> --- a/pc-bios/meson.build
->>> +++ b/pc-bios/meson.build
->>> @@ -1,7 +1,4 @@
->>> -if 'arm-softmmu' in target_dirs or \
->>> -    'aarch64-softmmu' in target_dirs or \
->>> -    'i386-softmmu' in target_dirs or \
->>> -    'x86_64-softmmu' in target_dirs
->>> +if install_edk2_blobs
->>>    bzip2 = find_program('bzip2', required: true)
->>>    fds = [
->>>      'edk2-aarch64-code.fd',
->>>
->>
->> I vaguely understand what this patch does (I haven't followed the meson
->> conversion), but I'm unsure why it does that.
->>
->> Is this patch useful in itself, or only in preparation for patch#2?
-> 
-> Well, something I forgot to mention is it disable the configure_file()
-> calls when arm/aarch64/i386/x86_64-softmmu targets are not selected.
-> 
-> (currently if you configure a restricted set of targets, such
-> --target-list=riscv64-softmmu,ppc-softmmu, it is called, and
-> the json descriptors files are installed, even if these targets
-> don't require them).
-> 
+On Tue, Jan 12, 2021 at 1:42 PM Thomas Huth <thuth@redhat.com> wrote:
+>
+> Let's gather the POWER-related tests in a separate file.
+>
+> Signed-off-by: Thomas Huth <thuth@redhat.com>
+> ---
+>  MAINTAINERS                            |  1 +
+>  tests/acceptance/boot_linux_console.py | 19 --------------
+>  tests/acceptance/machine_ppc.py        | 34 ++++++++++++++++++++++++++
+>  3 files changed, 35 insertions(+), 19 deletions(-)
+>  create mode 100644 tests/acceptance/machine_ppc.py
+>
 
-Oof, sorry for missing that.
+We can have other tests moved to this file later. For now,
 
-Reviewed-by: Laszlo Ersek <lersek@redhat.com>
-
-Laszlo
+Reviewed-by: Willian Rampazzo <willianr@redhat.com>
 
 
