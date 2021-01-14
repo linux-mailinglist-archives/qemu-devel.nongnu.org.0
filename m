@@ -2,57 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 48DE22F6B8A
-	for <lists+qemu-devel@lfdr.de>; Thu, 14 Jan 2021 20:54:37 +0100 (CET)
-Received: from localhost ([::1]:56702 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B12D42F6B98
+	for <lists+qemu-devel@lfdr.de>; Thu, 14 Jan 2021 20:57:26 +0100 (CET)
+Received: from localhost ([::1]:35274 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l08hY-000055-Ba
-	for lists+qemu-devel@lfdr.de; Thu, 14 Jan 2021 14:54:36 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47280)
+	id 1l08kH-00038N-PJ
+	for lists+qemu-devel@lfdr.de; Thu, 14 Jan 2021 14:57:25 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47468)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <lersek@redhat.com>) id 1l08cY-0003DL-3c
- for qemu-devel@nongnu.org; Thu, 14 Jan 2021 14:49:26 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:52519)
+ (Exim 4.90_1) (envelope-from <lersek@redhat.com>) id 1l08dM-0004Ol-MB
+ for qemu-devel@nongnu.org; Thu, 14 Jan 2021 14:50:16 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:46172)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <lersek@redhat.com>) id 1l08cS-00036w-Rl
- for qemu-devel@nongnu.org; Thu, 14 Jan 2021 14:49:24 -0500
+ (Exim 4.90_1) (envelope-from <lersek@redhat.com>) id 1l08dL-0003Nn-1R
+ for qemu-devel@nongnu.org; Thu, 14 Jan 2021 14:50:16 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1610653759;
+ s=mimecast20190719; t=1610653814;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=F+3O8z/FhJlAu0alca60TJ1w3vP1o866zOsd3WhpfZo=;
- b=ekIXYN4JtPC6gbFV9ATztc4HRdLuATNIwXsIyKXwjiB4BxQIGDR6IF+11sLDCvEwlQ8lAy
- TqM38UjEh8GVTAz1p7imgZWqXqk9hP6AJEBVkCTNwinrNipx/mwiWBhcQfzo/+WuD3+FCa
- wED2FNxPLNaRmsiLxdzUkEGkQ0GuWw0=
+ bh=Li1+q5sjzmShAje2A6MvVDmZOi9DnCPXF9UXiMHto1s=;
+ b=cYiV6bubZg+t8Qv4bKRPAlKv1YQJTGJHbgd94IL0HntIGxodkT5tza9tqV3WSNsGERbuzi
+ s1ohsGLOBzQ0aX74584TL3p+o5v2NtAfhjGzsPlZHF6DD5QSGOC72+KdZEO37k6z3UaxM+
+ tUMN1utT0uthK5Qm69uZL3RbemV35rg=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-252-CjPGknYyOOaFqk-wBZX5rA-1; Thu, 14 Jan 2021 14:49:17 -0500
-X-MC-Unique: CjPGknYyOOaFqk-wBZX5rA-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
+ us-mta-338-Z2f4hWE6OgqQW3w6oaF4iQ-1; Thu, 14 Jan 2021 14:50:12 -0500
+X-MC-Unique: Z2f4hWE6OgqQW3w6oaF4iQ-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id DCE3B1005D51
- for <qemu-devel@nongnu.org>; Thu, 14 Jan 2021 19:49:16 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id AD141801FCC
+ for <qemu-devel@nongnu.org>; Thu, 14 Jan 2021 19:50:11 +0000 (UTC)
 Received: from lacos-laptop-7.usersys.redhat.com (ovpn-112-194.ams2.redhat.com
  [10.36.112.194])
- by smtp.corp.redhat.com (Postfix) with ESMTP id B3FD65D736;
- Thu, 14 Jan 2021 19:49:15 +0000 (UTC)
-Subject: Re: [PATCH 1/2] meson.build: Declare global edk2_targets /
- install_edk2_blobs variables
+ by smtp.corp.redhat.com (Postfix) with ESMTP id BBDFA12D7E;
+ Thu, 14 Jan 2021 19:50:10 +0000 (UTC)
+Subject: Re: [PATCH 2/2] meson.build: Detect bzip2 program
 To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
  qemu-devel@nongnu.org
 References: <20210114174509.2944817-1-philmd@redhat.com>
- <20210114174509.2944817-2-philmd@redhat.com>
+ <20210114174509.2944817-3-philmd@redhat.com>
 From: Laszlo Ersek <lersek@redhat.com>
-Message-ID: <a0990c43-c2f9-503d-782e-e4002709e53b@redhat.com>
-Date: Thu, 14 Jan 2021 20:49:14 +0100
+Message-ID: <4372ebb1-3f86-a8e5-e140-13cb37f72e40@redhat.com>
+Date: Thu, 14 Jan 2021 20:50:09 +0100
 MIME-Version: 1.0
-In-Reply-To: <20210114174509.2944817-2-philmd@redhat.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+In-Reply-To: <20210114174509.2944817-3-philmd@redhat.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=lersek@redhat.com
 X-Mimecast-Spam-Score: 0
@@ -86,94 +85,60 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On 01/14/21 18:45, Philippe Mathieu-Daudé wrote:
-> Globally declare in the main meson.build:
-> - the list of EDK2 targets,
-> - whether the EDK2 blobs have to be installed.
+> The --enable-bzip2/--disable-bzip2 configure arguments are
+> somehow misleading, they check for the bzip2 library, not
+> the bzip2 program.
 > 
+> We need the bzip2 program to install the EDK2 firmware blobs
+> (see commit 623ef637a2e "configure: Check bzip2 is available").
+> 
+> Check if the bzip2 program in the global meson.build to avoid
+> the configuration to succeed, but a later when trying to install
+> the firmware blobs:
+> 
+>     ../pc-bios/meson.build:5:2: ERROR: Program 'bzip2' not found
+> 
+> Reported-by: John Snow <jsnow@redhat.com>
+> Suggested-by: Paolo Bonzini <pbonzini@redhat.com>
+> Fixes: c8d5450bba3 ("configure: move install_blobs from configure to meson")
+> Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 > Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 > ---
-> Patch trivial to review using 'git-diff --ignore-all-space'
-> ---
->  meson.build                     |  8 ++++++++
->  pc-bios/descriptors/meson.build | 30 ++++++++++++++++--------------
->  pc-bios/meson.build             |  5 +----
->  3 files changed, 25 insertions(+), 18 deletions(-)
+>  meson.build         | 2 ++
+>  pc-bios/meson.build | 1 -
+>  2 files changed, 2 insertions(+), 1 deletion(-)
 > 
 > diff --git a/meson.build b/meson.build
-> index 3d889857a09..ecc45d04d6a 100644
+> index ecc45d04d6a..954152c90fe 100644
 > --- a/meson.build
 > +++ b/meson.build
-> @@ -88,6 +88,14 @@
->    }
+> @@ -96,6 +96,8 @@
+>    endforeach
 >  endif
 >  
-> +edk2_targets = [ 'arm-softmmu', 'aarch64-softmmu', 'i386-softmmu', 'x86_64-softmmu' ]
-> +install_edk2_blobs = false
-> +if get_option('install_blobs')
-> +  foreach target : target_dirs
-> +    install_edk2_blobs = install_edk2_blobs or target in edk2_targets
-> +  endforeach
-> +endif
+> +bzip2 = find_program('bzip2', required: install_edk2_blobs)
 > +
 >  ##################
 >  # Compiler flags #
 >  ##################
-> diff --git a/pc-bios/descriptors/meson.build b/pc-bios/descriptors/meson.build
-> index 7040834573d..ac6ec66b007 100644
-> --- a/pc-bios/descriptors/meson.build
-> +++ b/pc-bios/descriptors/meson.build
-> @@ -1,14 +1,16 @@
-> -foreach f: [
-> -  '50-edk2-i386-secure.json',
-> -  '50-edk2-x86_64-secure.json',
-> -  '60-edk2-aarch64.json',
-> -  '60-edk2-arm.json',
-> -  '60-edk2-i386.json',
-> -  '60-edk2-x86_64.json'
-> -]
-> -  configure_file(input: files(f),
-> -                 output: f,
-> -                 configuration: {'DATADIR': qemu_datadir},
-> -                 install: get_option('install_blobs'),
-> -                 install_dir: qemu_datadir / 'firmware')
-> -endforeach
-> +if install_edk2_blobs
-> +  foreach f: [
-> +    '50-edk2-i386-secure.json',
-> +    '50-edk2-x86_64-secure.json',
-> +    '60-edk2-aarch64.json',
-> +    '60-edk2-arm.json',
-> +    '60-edk2-i386.json',
-> +    '60-edk2-x86_64.json'
-> +  ]
-> +    configure_file(input: files(f),
-> +                   output: f,
-> +                   configuration: {'DATADIR': qemu_datadir},
-> +                   install: get_option('install_blobs'),
-> +                   install_dir: qemu_datadir / 'firmware')
-> +  endforeach
-> +endif
 > diff --git a/pc-bios/meson.build b/pc-bios/meson.build
-> index fab323af84e..6a341b6cea0 100644
+> index 6a341b6cea0..af95c5d1f1d 100644
 > --- a/pc-bios/meson.build
 > +++ b/pc-bios/meson.build
-> @@ -1,7 +1,4 @@
-> -if 'arm-softmmu' in target_dirs or \
-> -    'aarch64-softmmu' in target_dirs or \
-> -    'i386-softmmu' in target_dirs or \
-> -    'x86_64-softmmu' in target_dirs
-> +if install_edk2_blobs
->    bzip2 = find_program('bzip2', required: true)
+> @@ -1,5 +1,4 @@
+>  if install_edk2_blobs
+> -  bzip2 = find_program('bzip2', required: true)
 >    fds = [
 >      'edk2-aarch64-code.fd',
+>      'edk2-arm-code.fd',
 > 
 
-I vaguely understand what this patch does (I haven't followed the meson
-conversion), but I'm unsure why it does that.
+Right, this looks sensible; still it makes me think patch#1 is only prep
+for this. (That's OK, but then patch#1 should say so.)
 
-Is this patch useful in itself, or only in preparation for patch#2?
+Reviewed-by: Laszlo Ersek <lersek@redhat.com>
 
-Thanks,
-Laszlo
+Thanks
+laszlo
 
 
