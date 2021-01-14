@@ -2,52 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A5F2C2F61AB
-	for <lists+qemu-devel@lfdr.de>; Thu, 14 Jan 2021 14:17:25 +0100 (CET)
-Received: from localhost ([::1]:42984 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A4E9C2F61C2
+	for <lists+qemu-devel@lfdr.de>; Thu, 14 Jan 2021 14:21:08 +0100 (CET)
+Received: from localhost ([::1]:51498 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l02VA-0006PN-L0
-	for lists+qemu-devel@lfdr.de; Thu, 14 Jan 2021 08:17:24 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44046)
+	id 1l02Yl-0001ee-NI
+	for lists+qemu-devel@lfdr.de; Thu, 14 Jan 2021 08:21:07 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44738)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1l02HK-0001M1-P4
- for qemu-devel@nongnu.org; Thu, 14 Jan 2021 08:03:07 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:37753)
+ id 1l02J3-0003Jw-87
+ for qemu-devel@nongnu.org; Thu, 14 Jan 2021 08:04:53 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:28537)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1l02HD-0007vI-Kl
- for qemu-devel@nongnu.org; Thu, 14 Jan 2021 08:03:06 -0500
+ id 1l02J1-0000Ch-AR
+ for qemu-devel@nongnu.org; Thu, 14 Jan 2021 08:04:53 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1610629378;
+ s=mimecast20190719; t=1610629490;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=ALD042td/Qd/3IBzOlsQr++dH0BXnsqJUS2BwM1OY/4=;
- b=QeSWxABnVFr1p2AqdH4kwxtH8HcpFoy5zf9P2oSKxpsp3NTiFCSx6fBZQyWb7liWltecXh
- P7X39NfcN/p3XRin7hLJhymNKMj336Xn7QvdjmYWc+0Ze2FX+fXB/vchDfN8RFxezsLohF
- yPDcKGP0BhK6Oza6IBKf7lNBkKbw29s=
+ bh=nQl+tNQfrgMCDyQCLd6P5k+WKxig1Dxdp0QLOONx8HA=;
+ b=W2Qm576DLGHR4GFJEWDQIs6E94WQcxZR9Ok/lt6Moul7Jc3arcpjaKtN6BTi0PlCePUwNy
+ RmyLH6W3N3+YhupIuwlA1yar/MWdtXb0UEHh5CtvTwAVylFx7609H2mAyWYYxHrPLD1p0E
+ OB+QF9AoUB2ACPD1O0f+TjqfoBWhfmU=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-122-_2p3P-DWPGedNNGMn5LR8A-1; Thu, 14 Jan 2021 08:02:54 -0500
-X-MC-Unique: _2p3P-DWPGedNNGMn5LR8A-1
+ us-mta-411-YMjqSh7jOnqf0J80Dg8rOA-1; Thu, 14 Jan 2021 08:02:56 -0500
+X-MC-Unique: YMjqSh7jOnqf0J80Dg8rOA-1
 Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
  [10.5.11.16])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 57223107ACFE;
- Thu, 14 Jan 2021 13:02:53 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 8FE41107ACFA;
+ Thu, 14 Jan 2021 13:02:55 +0000 (UTC)
 Received: from localhost.localdomain.com (ovpn-115-77.ams2.redhat.com
  [10.36.115.77])
- by smtp.corp.redhat.com (Postfix) with ESMTP id AE36E5C276;
- Thu, 14 Jan 2021 13:02:51 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id B31F15F708;
+ Thu, 14 Jan 2021 13:02:53 +0000 (UTC)
 From: =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 02/25] tests/docker: don't use BUILDKIT in GitLab either
-Date: Thu, 14 Jan 2021 13:02:22 +0000
-Message-Id: <20210114130245.1654081-3-berrange@redhat.com>
+Subject: [PATCH v2 03/25] tests/docker: use project specific container
+ registries
+Date: Thu, 14 Jan 2021 13:02:23 +0000
+Message-Id: <20210114130245.1654081-4-berrange@redhat.com>
 In-Reply-To: <20210114130245.1654081-1-berrange@redhat.com>
 References: <20210114130245.1654081-1-berrange@redhat.com>
 MIME-Version: 1.0
@@ -58,14 +59,14 @@ X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=berrange@redhat.com;
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=berrange@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -29
 X-Spam_score: -3.0
 X-Spam_bar: ---
 X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.248,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -80,41 +81,112 @@ List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: Fam Zheng <fam@euphon.net>, Peter Maydell <peter.maydell@linaro.org>,
- =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
  =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
+ Wainer dos Santos Moschetta <wainersm@redhat.com>,
+ =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Using BUILDKIT breaks with certain container registries such as CentOS,
-with docker build reporting an error such as
+Since Docker Hub has started to enforce pull rate limits on clients, it
+is preferrable to use project specific container registries where they
+are available. Fedora and OpenSUSE projects provide registries.
 
-  failed to solve with frontend dockerfile.v0:
-  failed to build LLB: failed to load cache key:
-  unexpected status code
-  https://registry.centos.org/v2/centos/manifests/7:
-  403 Forbidden
+The images in these registries are also refreshed on a more regular
+basis than the ones in docker hub, so the package update should
+generally be faster.
 
+While CentOS also has a registry it is considerably outdated compared
+to docker.io, and also only provides x86 images, while docker.io images
+are multi-arch.
+tests/docker: use project specific container registries
+
+Since Docker Hub has started to enforce pull rate limits on clients, it
+is preferrable to use project specific container registries where they
+are available. Fedora and OpenSUSE projects provide registries.
+
+The images in these registries are also refreshed on a more regular
+basis than the ones in docker hub, so the package update should
+generally be faster.
+
+While CentOS also has a registry it is considerably outdated compared
+to docker.io, and also only provides x86 images, while docker.io images
+are multi-arch.
+
+Reviewed-by: Wainer dos Santos Moschetta <wainersm@redhat.com>
 Signed-off-by: Daniel P. Berrangé <berrange@redhat.com>
 ---
- tests/docker/docker.py | 4 +++-
- 1 file changed, 3 insertions(+), 1 deletion(-)
+ tests/docker/dockerfiles/fedora-cris-cross.docker  | 2 +-
+ tests/docker/dockerfiles/fedora-i386-cross.docker  | 2 +-
+ tests/docker/dockerfiles/fedora-win32-cross.docker | 2 +-
+ tests/docker/dockerfiles/fedora-win64-cross.docker | 2 +-
+ tests/docker/dockerfiles/fedora.docker             | 2 +-
+ tests/docker/dockerfiles/opensuse-leap.docker      | 2 +-
+ 6 files changed, 6 insertions(+), 6 deletions(-)
 
-diff --git a/tests/docker/docker.py b/tests/docker/docker.py
-index 36b7868406..d1d0da9419 100755
---- a/tests/docker/docker.py
-+++ b/tests/docker/docker.py
-@@ -222,7 +222,9 @@ class Docker(object):
-     def __init__(self):
-         self._command = _guess_engine_command()
+diff --git a/tests/docker/dockerfiles/fedora-cris-cross.docker b/tests/docker/dockerfiles/fedora-cris-cross.docker
+index 09e7e449f9..b7f02d18d3 100644
+--- a/tests/docker/dockerfiles/fedora-cris-cross.docker
++++ b/tests/docker/dockerfiles/fedora-cris-cross.docker
+@@ -2,7 +2,7 @@
+ # Cross compiler for cris system tests
+ #
  
--        if "docker" in self._command and "TRAVIS" not in os.environ:
-+        if ("docker" in self._command and
-+            "TRAVIS" not in os.environ and
-+            "CI" not in os.environ):
-             os.environ["DOCKER_BUILDKIT"] = "1"
-             self._buildkit = True
-         else:
+-FROM fedora:30
++FROM registry.fedoraproject.org/fedora:30
+ ENV PACKAGES gcc-cris-linux-gnu
+ RUN dnf install -y $PACKAGES
+ RUN rpm -q $PACKAGES | sort > /packages.txt
+diff --git a/tests/docker/dockerfiles/fedora-i386-cross.docker b/tests/docker/dockerfiles/fedora-i386-cross.docker
+index a6e411291b..c1fd3ea37b 100644
+--- a/tests/docker/dockerfiles/fedora-i386-cross.docker
++++ b/tests/docker/dockerfiles/fedora-i386-cross.docker
+@@ -1,4 +1,4 @@
+-FROM fedora:31
++FROM registry.fedoraproject.org/fedora:31
+ ENV PACKAGES \
+     bzip2 \
+     diffutils \
+diff --git a/tests/docker/dockerfiles/fedora-win32-cross.docker b/tests/docker/dockerfiles/fedora-win32-cross.docker
+index 087df598a0..8dc4f0d4c9 100644
+--- a/tests/docker/dockerfiles/fedora-win32-cross.docker
++++ b/tests/docker/dockerfiles/fedora-win32-cross.docker
+@@ -1,4 +1,4 @@
+-FROM fedora:32
++FROM registry.fedoraproject.org/fedora:32
+ 
+ # Please keep this list sorted alphabetically
+ ENV PACKAGES \
+diff --git a/tests/docker/dockerfiles/fedora-win64-cross.docker b/tests/docker/dockerfiles/fedora-win64-cross.docker
+index d5d2f5f00d..c530e6ba36 100644
+--- a/tests/docker/dockerfiles/fedora-win64-cross.docker
++++ b/tests/docker/dockerfiles/fedora-win64-cross.docker
+@@ -1,4 +1,4 @@
+-FROM fedora:32
++FROM registry.fedoraproject.org/fedora:32
+ 
+ # Please keep this list sorted alphabetically
+ ENV PACKAGES \
+diff --git a/tests/docker/dockerfiles/fedora.docker b/tests/docker/dockerfiles/fedora.docker
+index 19e7a3d28a..0bc66f7293 100644
+--- a/tests/docker/dockerfiles/fedora.docker
++++ b/tests/docker/dockerfiles/fedora.docker
+@@ -1,4 +1,4 @@
+-FROM fedora:32
++FROM registry.fedoraproject.org/fedora:32
+ 
+ # Please keep this list sorted alphabetically
+ ENV PACKAGES \
+diff --git a/tests/docker/dockerfiles/opensuse-leap.docker b/tests/docker/dockerfiles/opensuse-leap.docker
+index 0e64893e4a..e7dc14bf99 100644
+--- a/tests/docker/dockerfiles/opensuse-leap.docker
++++ b/tests/docker/dockerfiles/opensuse-leap.docker
+@@ -1,4 +1,4 @@
+-FROM opensuse/leap:15.2
++FROM registry.opensuse.org/opensuse/leap:15.2
+ 
+ # Please keep this list sorted alphabetically
+ ENV PACKAGES \
 -- 
 2.29.2
 
