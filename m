@@ -2,67 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 11FBB2F59F8
-	for <lists+qemu-devel@lfdr.de>; Thu, 14 Jan 2021 05:36:31 +0100 (CET)
-Received: from localhost ([::1]:35242 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D97F82F59F0
+	for <lists+qemu-devel@lfdr.de>; Thu, 14 Jan 2021 05:35:28 +0100 (CET)
+Received: from localhost ([::1]:33080 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kzuN4-0006Jc-5q
-	for lists+qemu-devel@lfdr.de; Wed, 13 Jan 2021 23:36:30 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50408)
+	id 1kzuM3-0005LU-Uz
+	for lists+qemu-devel@lfdr.de; Wed, 13 Jan 2021 23:35:27 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50058)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1kzuMG-0005po-DN
- for qemu-devel@nongnu.org; Wed, 13 Jan 2021 23:35:40 -0500
-Received: from indium.canonical.com ([91.189.90.7]:46494)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1kzuMD-0007AE-Iv
- for qemu-devel@nongnu.org; Wed, 13 Jan 2021 23:35:40 -0500
-Received: from loganberry.canonical.com ([91.189.90.37])
- by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1kzuMA-0006Ax-OG
- for <qemu-devel@nongnu.org>; Thu, 14 Jan 2021 04:35:34 +0000
-Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 9ABD32E808B
- for <qemu-devel@nongnu.org>; Thu, 14 Jan 2021 04:35:34 +0000 (UTC)
+ (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
+ id 1kzuKm-0004us-PQ
+ for qemu-devel@nongnu.org; Wed, 13 Jan 2021 23:34:08 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:31910)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
+ id 1kzuKk-0006Q3-Gq
+ for qemu-devel@nongnu.org; Wed, 13 Jan 2021 23:34:07 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1610598844;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=FAYznQtuBb4/3v6AqJ22AtZprreCL8u4OcHblRONt5A=;
+ b=WahhOcm79nIJlGprQ52jb48qGT/MoLkE3nclteUrO9hrNBGLmoN8OFW6cmx/BdAS1DiS8b
+ WeJP032LlY0OCpFXMCCq7ihWdjW1SYtj09LtlARZ0z+nqx4MMafvM4A0Y+MxG1eNl7bf8a
+ osyipMo6klG17ZBbNJo6Hl5vQexMaPo=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-362-I7M37dv9NfCLUZ6rubFGng-1; Wed, 13 Jan 2021 23:34:02 -0500
+X-MC-Unique: I7M37dv9NfCLUZ6rubFGng-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id C893210051A7
+ for <qemu-devel@nongnu.org>; Thu, 14 Jan 2021 04:34:01 +0000 (UTC)
+Received: from [10.72.12.100] (ovpn-12-100.pek2.redhat.com [10.72.12.100])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id ADD226F447;
+ Thu, 14 Jan 2021 04:33:57 +0000 (UTC)
+Subject: Re: [PATCH v1 1/4] virtio:add support in configure interrupt
+To: Cindy Lu <lulu@redhat.com>, mst@redhat.com, qemu-devel@nongnu.org
+References: <20210113154540.24981-1-lulu@redhat.com>
+ <20210113154540.24981-2-lulu@redhat.com>
+From: Jason Wang <jasowang@redhat.com>
+Message-ID: <f139945e-e81c-3c6d-9f18-8f6f88e16094@redhat.com>
+Date: Thu, 14 Jan 2021 12:33:56 +0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-Date: Thu, 14 Jan 2021 04:26:40 -0000
-From: David Greenaway <1748296@bugs.launchpad.net>
-To: qemu-devel@nongnu.org
-X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
-X-Launchpad-Bug-Information-Type: Public
-X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: dgreenaway doug16k
-X-Launchpad-Bug-Reporter: Doug Gale (doug16k)
-X-Launchpad-Bug-Modifier: David Greenaway (dgreenaway)
-References: <151812332204.10331.17425660234309724521.malonedeb@wampee.canonical.com>
-Message-Id: <161059840089.5701.2497530781836344176.malone@wampee.canonical.com>
-Subject: [Bug 1748296] Re: TCG throws Invalid Opcode when executing x86 BMI
- shlx instruction
-X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
-X-Launchpad-Message-For: qemu-devel-ml
-Precedence: bulk
-X-Generated-By: Launchpad (canonical.com);
- Revision="511b4a3b6512aa3d421c5f7d74f3527e78bff26e"; Instance="production"
-X-Launchpad-Hash: 7a80c67a270464765520cb09b62ec48de5bceb7b
-Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
- helo=indium.canonical.com
-X-Spam_score_int: -37
-X-Spam_score: -3.8
+In-Reply-To: <20210113154540.24981-2-lulu@redhat.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=jasowang@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 8bit
+Content-Language: en-US
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=jasowang@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -29
+X-Spam_score: -3.0
 X-Spam_bar: ---
-X-Spam_report: (-3.8 / 5.0 requ) BAYES_00=-1.9,
- HEADER_FROM_DIFFERENT_DOMAINS=0.248, RAZOR2_CF_RANGE_51_100=1.886,
- RAZOR2_CHECK=0.922, RCVD_IN_DNSWL_HI=-5, RCVD_IN_MSPIKE_H3=0.001,
+X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.25,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
  RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=ham autolearn_force=no
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -71,101 +83,123 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1748296 <1748296@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-I hit this today on QEMU head. The problem appears to crop up when:
 
-  1. Decoding a VEX instruction (see [1]) that uses the 0x66 mandatory
-     prefix; and
+On 2021/1/13 下午11:45, Cindy Lu wrote:
+> Add configure notifier and virtio_set_config_notifier_fd_handler
+> in virtio
+>
+> Signed-off-by: Cindy Lu <lulu@redhat.com>
+> ---
+>   hw/virtio/virtio.c         | 25 +++++++++++++++++++++++++
+>   include/hw/virtio/virtio.h |  5 +++++
+>   2 files changed, 30 insertions(+)
+>
+> diff --git a/hw/virtio/virtio.c b/hw/virtio/virtio.c
+> index ceb58fda6c..66ed1daf95 100644
+> --- a/hw/virtio/virtio.c
+> +++ b/hw/virtio/virtio.c
+> @@ -3502,6 +3502,15 @@ static void virtio_queue_guest_notifier_read(EventNotifier *n)
+>       }
+>   }
+>   
+> +static void virtio_queue_config_read(EventNotifier *n)
+> +{
 
-  2. The OSFXSR bit in CR4 is clear (that is, SSE is disabled)
 
-This means that x86_64 instructions such as:
+Note that the config interrupt belongs to the device. So it's better not 
+name it as "queue" here.
 
-     c4 e2 f9 f7 c0                shlxq   %rax, %rax, %rax
 
-fail. Similar instructions the use a different mandatory prefix
-(such as `shrxq`, which uses prefix 0xf2) work fine.
+> +    VirtIODevice *vdev = container_of(n, VirtIODevice, config_notifier);
+> +
+> +    if (event_notifier_test_and_clear(n)) {
+> +
+> +        virtio_notify_config(vdev);
+> +    }
+> +}
+>   void virtio_queue_set_guest_notifier_fd_handler(VirtQueue *vq, bool assign,
+>                                                   bool with_irqfd)
+>   {
+> @@ -3518,6 +3527,17 @@ void virtio_queue_set_guest_notifier_fd_handler(VirtQueue *vq, bool assign,
+>       }
+>   }
+>   
+> +void virtio_set_config_notifier_fd_handler(VirtIODevice *vdev, bool assign,
+> +                                                bool with_irqfd)
+> +{
+> +    if (assign && !with_irqfd) {
+> +        event_notifier_set_handler(&vdev->config_notifier,
+> +                                   virtio_queue_config_read);
+> +    } else {
+> +       event_notifier_set_handler(&vdev->config_notifier, NULL);
+> +    }
+> +}
 
-Most operating systems presumably set the OSFXSR bit fairly early on, which=
- I
-guess is why this problem isn't likely to be seen except in low-level or ea=
-rly
-boot code.
 
-The culprit appears to be the block of code in `gen_sse` [2]:
+I wonder whether we can simply generalize 
+virtio_queue_set_guest_notifier_fd_handler from
 
-    if (is_xmm
-        && !(s->flags & HF_OSFXSR_MASK)
-        && ((b !=3D 0x38 && b !=3D 0x3a) || (s->prefix & PREFIX_DATA))) {
-        goto unknown_op;
-    }
+void virtio_queue_set_guest_notifier_fd_handler(VirtQueue *vq, bool assign,
+                                                 bool with_irqfd)
 
-Removing the check `... || (s->prefix & DATA_DATA)` causes QEMU to correctly
-translate the instruction, and allows doug16k's test above to pass.
+to
 
-I must confess, I'm not clear what this clause was testing for. My best gue=
-ss
-is that early code (e.g. 4242b1bd8ac) required it to avoid accessing invalid
-opcode tables, but we seem to be handling that more gracefully today (e.g.
-[3]), so I suspect it is no longer needed.
+void virtio_set_guest_notifier_fd_handler(EventNotifier *e, bool assign,
+                                                 bool with_irqfd)
 
-[1]: https://wiki.osdev.org/X86-64_Instruction_Encoding#VEX.2FXOP_opcodes
-[2]: https://github.com/qemu/qemu/blob/6b63d126121a9535784003924fcb67f574a6=
-afc0/target/i386/tcg/translate.c#L3078
-[3]: https://github.com/qemu/qemu/blob/6b63d126121a9535784003924fcb67f574a6=
-afc0/target/i386/tcg/translate.c#L3696-L3700
 
--- =
+Since there's actually no virtqueue specific setup in this function, 
+what its callee really want is a simple EventNotifier.
 
-You received this bug notification because you are a member of qemu-
-devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1748296
+Thanks
 
-Title:
-  TCG throws Invalid Opcode when executing x86 BMI shlx instruction
 
-Status in QEMU:
-  New
+> +
+>   EventNotifier *virtio_queue_get_guest_notifier(VirtQueue *vq)
+>   {
+>       return &vq->guest_notifier;
+> @@ -3591,6 +3611,11 @@ EventNotifier *virtio_queue_get_host_notifier(VirtQueue *vq)
+>       return &vq->host_notifier;
+>   }
+>   
+> +EventNotifier *virtio_queue_get_config_notifier(VirtIODevice *vdev)
+> +{
+> +    return &vdev->config_notifier;
+> +
+> +}
+>   void virtio_queue_set_host_notifier_enabled(VirtQueue *vq, bool enabled)
+>   {
+>       vq->host_notifier_enabled = enabled;
+> diff --git a/include/hw/virtio/virtio.h b/include/hw/virtio/virtio.h
+> index b7ece7a6a8..38bd28242e 100644
+> --- a/include/hw/virtio/virtio.h
+> +++ b/include/hw/virtio/virtio.h
+> @@ -108,6 +108,7 @@ struct VirtIODevice
+>       bool use_guest_notifier_mask;
+>       AddressSpace *dma_as;
+>       QLIST_HEAD(, VirtQueue) *vector_queues;
+> +    EventNotifier config_notifier;
+>   };
+>   
+>   struct VirtioDeviceClass {
+> @@ -310,11 +311,15 @@ uint16_t virtio_get_queue_index(VirtQueue *vq);
+>   EventNotifier *virtio_queue_get_guest_notifier(VirtQueue *vq);
+>   void virtio_queue_set_guest_notifier_fd_handler(VirtQueue *vq, bool assign,
+>                                                   bool with_irqfd);
+> +void virtio_set_config_notifier_fd_handler(VirtIODevice *vdev, bool assign,
+> +                                                bool with_irqfd);
+> +
+>   int virtio_device_start_ioeventfd(VirtIODevice *vdev);
+>   int virtio_device_grab_ioeventfd(VirtIODevice *vdev);
+>   void virtio_device_release_ioeventfd(VirtIODevice *vdev);
+>   bool virtio_device_ioeventfd_enabled(VirtIODevice *vdev);
+>   EventNotifier *virtio_queue_get_host_notifier(VirtQueue *vq);
+> +EventNotifier *virtio_queue_get_config_notifier(VirtIODevice *vdev);
+>   void virtio_queue_set_host_notifier_enabled(VirtQueue *vq, bool enabled);
+>   void virtio_queue_host_notifier_read(EventNotifier *n);
+>   void virtio_queue_aio_set_host_notifier_handler(VirtQueue *vq, AioContext *ctx,
 
-Bug description:
-  I am unable to use BMI in my project when running under TCG. I
-  narrowed the problem down to incorrect instruction decoding for BMI
-  instructions (which have a 2 byte VEX prefix). The gen_sse function in
-  translate.c reaches the goto label do_0f_38_fx, but b does not equal
-  0x1f7, 0x2f7, or 0x3f7, so the switch takes the default path and
-  raises an invalid opcode exception.
-
-  The code executes correctly and passes the test under KVM.
-
-  I have created a complete repro here: https://github.com/doug65536
-  /qemu-bmibug
-
-  The makefile has the following utility targets:
-
-  debug-kvm: Build and run the VM using KVM and wait for gdbstub attach
-
-  run: Run the test case with TCG, make fails if the test fails. (It
-  will fail)
-
-  run-kvm: Run the test case with KVM, make fails if the test fails. (It
-  will succeed)
-
-  debug: Build and run the VM with TCG and wait for GDB attach
-
-  attach-gdb: Run GDB and attach to QEMU gdbstub
-
-  The VM runs with -cpu max. CPUID reports support for BMI, BMI2, and
-  ABM.
-
-  You can quickly verify the issue by executing `make run-kvm` to
-  confirm that KVM passes, then `make run` to confirm that TCG fails.
-
-  I believe the bug affects other BMI, BMI2, and ABM instructions, but I
-  have only completely verified incorrect execution of SHLX.
-
-To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1748296/+subscriptions
 
