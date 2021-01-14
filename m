@@ -2,49 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E02342F5580
-	for <lists+qemu-devel@lfdr.de>; Thu, 14 Jan 2021 01:16:38 +0100 (CET)
-Received: from localhost ([::1]:42138 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 728EC2F557A
+	for <lists+qemu-devel@lfdr.de>; Thu, 14 Jan 2021 01:12:48 +0100 (CET)
+Received: from localhost ([::1]:33004 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kzqJZ-0000cm-9c
-	for lists+qemu-devel@lfdr.de; Wed, 13 Jan 2021 19:16:38 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36688)
+	id 1kzqFr-00056W-GR
+	for lists+qemu-devel@lfdr.de; Wed, 13 Jan 2021 19:12:47 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37204)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1kzq2f-0008IS-Ta; Wed, 13 Jan 2021 18:59:09 -0500
-Received: from ozlabs.org ([2401:3900:2:1::2]:43993)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1kzq2d-0006ie-TI; Wed, 13 Jan 2021 18:59:09 -0500
-Received: by ozlabs.org (Postfix, from userid 1007)
- id 4DGPXR55cYz9sjD; Thu, 14 Jan 2021 10:58:15 +1100 (AEDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=gibson.dropbear.id.au; s=201602; t=1610582295;
- bh=Vj1RSGtq3tXPDmBRhrrfnvI3/OQqRk1glYDp8Wuofx4=;
- h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=EMcifB8rGQ7bJ4C/bNq90cgIoKZ4gnlKZL7TKYI7fAWaQ17H9yHCBVqnnWlprnO2d
- 6q4Dnm7Is7OKZRL0lWjza6ZGKJbWnwJ5v0rxsQCU3T4U1QjX/MbUnCJSmllDyKwxp0
- XJpp9zIfXm0eMZmBrSu8zjHCPwk6BEtyvZyHntdw=
-From: David Gibson <david@gibson.dropbear.id.au>
-To: brijesh.singh@amd.com, pair@us.ibm.com, dgilbert@redhat.com,
- pasic@linux.ibm.com, qemu-devel@nongnu.org
-Subject: [PATCH v7 13/13] s390: Recognize confidential-guest-support option
-Date: Thu, 14 Jan 2021 10:58:11 +1100
-Message-Id: <20210113235811.1909610-14-david@gibson.dropbear.id.au>
-X-Mailer: git-send-email 2.29.2
-In-Reply-To: <20210113235811.1909610-1-david@gibson.dropbear.id.au>
-References: <20210113235811.1909610-1-david@gibson.dropbear.id.au>
+ (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
+ id 1kzq5f-0002ID-1b
+ for qemu-devel@nongnu.org; Wed, 13 Jan 2021 19:02:15 -0500
+Received: from mail-io1-xd2b.google.com ([2607:f8b0:4864:20::d2b]:38231)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
+ id 1kzq5d-00080g-2w
+ for qemu-devel@nongnu.org; Wed, 13 Jan 2021 19:02:14 -0500
+Received: by mail-io1-xd2b.google.com with SMTP id e22so7794695iom.5
+ for <qemu-devel@nongnu.org>; Wed, 13 Jan 2021 16:02:12 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=47PHZQKwzJJnlIJxehqPqQL5v3ul/RjG4++16AQBQ54=;
+ b=IwHrsJYQ86uWAfH7GbwV6zeOecOJkfNAZxN6/X9UnGYgZsSGvU0M8Hj37vUjCeNPSB
+ 4CuTClYrfDo9Rb5i+7grcWTwSZmBpEi0SRHXYfSCq/l4kl5MLfwtbiwEZdE6APrT9AEx
+ yQzqgfgGYArqSrR2NYyNBT9IHzkuhbSMknRJ25IaocSMgbIeB5wMiAcOexvNX2jvYye/
+ 3+7t8UHGPDhurrY56xmJcXmkwKJVdL6jgcjkVLZcYi+gfLbO08Ctl2fywgAik4Rtc62k
+ BdY/EDJDO3Jp/2SEjYcMbQjAqLVtIL5WiGJ0lmACYAhKPYySOb9o31mjKRnt6yJ0yOv8
+ Jdtw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=47PHZQKwzJJnlIJxehqPqQL5v3ul/RjG4++16AQBQ54=;
+ b=nQFI23C2fEnmUo+2aWs58rZqm+OPa7RjXere/L0BPOJr/fwfInU8ppkXPiSUJHRZSE
+ LgNp/IPKgHXfb6SzIY061oK2d4fXI6BT+N1HsFW4Pt5rGE/q02UqlTl95Pjg61VzEI4B
+ Wws/GCrkm5/4Ta7RJaQopIArukrb8tSbXUX117gYfL8O7RsYnDKFE3VHcWi+RCTQ8A24
+ /VgTVjxn2vbroViYTyEwnAwLnFMcjqKtzJhTbx0jUkJL/B+40pdXlGvS6iU7FAPDU4yj
+ TscKiHzeA0E1ObX725A3iImkSxtJqX/mVYZwXD4rgUiWSssHrUULgFn8H9Su0Dli66BP
+ gBXQ==
+X-Gm-Message-State: AOAM531EuL4ZLZLUJVFFw34iZ5uMTZj5AN+IQn5yLlNuirNu5+oWc4w5
+ jrobha1sAMRgTSuRGFALkLqMv4j4wyfVXSx5iGg=
+X-Google-Smtp-Source: ABdhPJxP9u00CfxLCnvz0P3lpGgZZb2jZX6chcH+VYSwuVUvsJ3YYbsOaq0nPAIRRX8AZL7iek1bdg0/0+z9k3bejaA=
+X-Received: by 2002:a92:c942:: with SMTP id i2mr4392162ilq.227.1610582531861; 
+ Wed, 13 Jan 2021 16:02:11 -0800 (PST)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2401:3900:2:1::2; envelope-from=dgibson@ozlabs.org;
- helo=ozlabs.org
+References: <CAKmqyKNoUg9f-NdgAoGrq_DuBwWv_ZgusArvOobxEYM1mpzbRA@mail.gmail.com>
+ <mhng-5ca93c0e-3134-4384-915f-23c4aed71712@palmerdabbelt-glaptop1>
+ <87y2jeai0s.fsf@linaro.org>
+In-Reply-To: <87y2jeai0s.fsf@linaro.org>
+From: Alistair Francis <alistair23@gmail.com>
+Date: Wed, 13 Jan 2021 16:01:45 -0800
+Message-ID: <CAKmqyKMy9e0sZ6RQriu1-GU9uSwcCotG1gweewwj9XvKq8Rryw@mail.gmail.com>
+Subject: Re: Emulation for riscv
+To: =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2607:f8b0:4864:20::d2b;
+ envelope-from=alistair23@gmail.com; helo=mail-io1-xd2b.google.com
 X-Spam_score_int: -17
 X-Spam_score: -1.8
 X-Spam_bar: -
 X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, HEADER_FROM_DIFFERENT_DOMAINS=0.248,
- SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=no autolearn_force=no
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -57,207 +81,91 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-ppc@nongnu.org, thuth@redhat.com,
- Marcelo Tosatti <mtosatti@redhat.com>, berrange@redhat.com,
- jun.nakajima@intel.com, kvm@vger.kernel.org,
- David Hildenbrand <david@redhat.com>, cohuck@redhat.com,
- Richard Henderson <richard.henderson@linaro.org>, Greg Kurz <groug@kaod.org>,
- mdroth@linux.vnet.ibm.com, borntraeger@de.ibm.com, qemu-s390x@nongnu.org,
- frankja@linux.ibm.com, mst@redhat.com, pragyansri.pathi@intel.com,
- andi.kleen@intel.com, Paolo Bonzini <pbonzini@redhat.com>,
- David Gibson <david@gibson.dropbear.id.au>,
- Eduardo Habkost <ehabkost@redhat.com>
+Cc: Palmer Dabbelt <palmer@dabbelt.com>,
+ "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
+ Moises Arreola <moyarrezam@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-At least some s390 cpu models support "Protected Virtualization" (PV),
-a mechanism to protect guests from eavesdropping by a compromised
-hypervisor.
+On Fri, Nov 6, 2020 at 2:36 AM Alex Benn=C3=A9e <alex.bennee@linaro.org> wr=
+ote:
+>
+>
+> Palmer Dabbelt <palmer@dabbelt.com> writes:
+>
+> > On Thu, 22 Oct 2020 17:56:38 PDT (-0700), alistair23@gmail.com wrote:
+> >> On Thu, Oct 22, 2020 at 4:58 PM Moises Arreola <moyarrezam@gmail.com> =
+wrote:
+> >>>
+> >>> Hello everyone, my name is Moses and I'm trying to set up a VM for a =
+risc-v processor, I'm using the Risc-V Getting Started Guide and on the fin=
+al step I'm getting an error while trying to launch the virtual machine usi=
+ng the cmd:
+> >>
+> >> Hello,
+> >>
+> >> Please don't use the RISC-V Getting Started Guide. Pretty much all of
+> >> the information there is out of date and wrong. Unfortunately we are
+> >> unable to correct it.
+> >>
+> >> The QEMU wiki is a much better place for information:
+> >> https://wiki.qemu.org/Documentation/Platforms/RISCV
+> >
+> > Ya, everything at riscv.org is useless.  It's best to stick to the open=
+ source
+> > documentation, as when that gets out of date we can at least fix it.  U=
+sing a
+> > distro helps a lot here, the wiki describes how to run a handful of pop=
+ular
+> > ones that were ported to RISC-V early but if your favorite isn't on the=
+ list
+> > then it may have its own documentation somewhere else.
+>
+> Even better if you could submit some .rst pages for QEMU's git:
+>
+>   docs/system/target-riscv.rst
+>   docs/system/riscv/virt.rst (and maybe the other models)
+>
+> then we could improve the user manual where RiscV is currently a little
+> under-represented. A number of the systems have simple example command
+> lines or explain the kernel support needed for the model.
 
-This is similar in function to other mechanisms like AMD's SEV and
-POWER's PEF, which are controlled by the "confidential-guest-support"
-machine option.  s390 is a slightly special case, because we already
-supported PV, simply by using a CPU model with the required feature
-(S390_FEAT_UNPACK).
+Thanks for pointing that out Alex. Bin has sent some patches for this
+so RISC-V should have a presence soon.
 
-To integrate this with the option used by other platforms, we
-implement the following compromise:
+Alistair
 
- - When the confidential-guest-support option is set, s390 will
-   recognize it, verify that the CPU can support PV (failing if not)
-   and set virtio default options necessary for encrypted or protected
-   guests, as on other platforms.  i.e. if confidential-guest-support
-   is set, we will either create a guest capable of entering PV mode,
-   or fail outright.
-
- - If confidential-guest-support is not set, guests might still be
-   able to enter PV mode, if the CPU has the right model.  This may be
-   a little surprising, but shouldn't actually be harmful.
-
-To start a guest supporting Protected Virtualization using the new
-option use the command line arguments:
-    -object s390-pv-guest,id=pv0 -machine confidential-guest-support=pv0
-
-Signed-off-by: David Gibson <david@gibson.dropbear.id.au>
----
- docs/confidential-guest-support.txt |  3 ++
- docs/system/s390x/protvirt.rst      | 19 ++++++---
- hw/s390x/pv.c                       | 62 +++++++++++++++++++++++++++++
- include/hw/s390x/pv.h               |  1 +
- target/s390x/kvm.c                  |  3 ++
- 5 files changed, 82 insertions(+), 6 deletions(-)
-
-diff --git a/docs/confidential-guest-support.txt b/docs/confidential-guest-support.txt
-index f0801814ff..50b976a082 100644
---- a/docs/confidential-guest-support.txt
-+++ b/docs/confidential-guest-support.txt
-@@ -43,4 +43,7 @@ AMD Secure Encrypted Virtualization (SEV)
- POWER Protected Execution Facility (PEF)
-     docs/papr-pef.txt
- 
-+s390x Protected Virtualization (PV)
-+    docs/system/s390x/protvirt.rst
-+
- Other mechanisms may be supported in future.
-diff --git a/docs/system/s390x/protvirt.rst b/docs/system/s390x/protvirt.rst
-index 712974ad87..0f481043d9 100644
---- a/docs/system/s390x/protvirt.rst
-+++ b/docs/system/s390x/protvirt.rst
-@@ -22,15 +22,22 @@ If those requirements are met, the capability `KVM_CAP_S390_PROTECTED`
- will indicate that KVM can support PVMs on that LPAR.
- 
- 
--QEMU Settings
---------------
-+Running a Protected Virtual Machine
-+-----------------------------------
- 
--To indicate to the VM that it can transition into protected mode, the
-+To run a PVM you will need to select a CPU model which includes the
- `Unpack facility` (stfle bit 161 represented by the feature
--`unpack`/`S390_FEAT_UNPACK`) needs to be part of the cpu model of
--the VM.
-+`unpack`/`S390_FEAT_UNPACK`), and add these options to the command line::
-+
-+    -object s390-pv-guest,id=pv0 \
-+    -machine confidential-guest-support=pv0
-+
-+Adding these options will:
-+
-+* Ensure the `unpack` facility is available
-+* Enable the IOMMU by default for all I/O devices
-+* Initialize the PV mechanism
- 
--All I/O devices need to use the IOMMU.
- Passthrough (vfio) devices are currently not supported.
- 
- Host huge page backings are not supported. However guests can use huge
-diff --git a/hw/s390x/pv.c b/hw/s390x/pv.c
-index ab3a2482aa..319d74dfcf 100644
---- a/hw/s390x/pv.c
-+++ b/hw/s390x/pv.c
-@@ -14,8 +14,11 @@
- #include <linux/kvm.h>
- 
- #include "cpu.h"
-+#include "qapi/error.h"
- #include "qemu/error-report.h"
- #include "sysemu/kvm.h"
-+#include "qom/object_interfaces.h"
-+#include "exec/confidential-guest-support.h"
- #include "hw/s390x/ipl.h"
- #include "hw/s390x/pv.h"
- 
-@@ -111,3 +114,62 @@ void s390_pv_inject_reset_error(CPUState *cs)
-     /* Report that we are unable to enter protected mode */
-     env->regs[r1 + 1] = DIAG_308_RC_INVAL_FOR_PV;
- }
-+
-+#define TYPE_S390_PV_GUEST "s390-pv-guest"
-+OBJECT_DECLARE_SIMPLE_TYPE(S390PVGuest, S390_PV_GUEST)
-+
-+/**
-+ * S390PVGuest:
-+ *
-+ * The S390PVGuest object is basically a dummy used to tell the
-+ * confidential guest support system to use s390's PV mechanism.
-+ *
-+ * # $QEMU \
-+ *         -object s390-pv-guest,id=pv0 \
-+ *         -machine ...,confidential-guest-support=pv0
-+ */
-+struct S390PVGuest {
-+    ConfidentialGuestSupport parent_obj;
-+};
-+
-+typedef struct S390PVGuestClass S390PVGuestClass;
-+
-+struct S390PVGuestClass {
-+    ConfidentialGuestSupportClass parent_class;
-+};
-+
-+int s390_pv_init(ConfidentialGuestSupport *cgs, Error **errp)
-+{
-+    if (!object_dynamic_cast(OBJECT(cgs), TYPE_S390_PV_GUEST)) {
-+        return 0;
-+    }
-+
-+    if (!s390_has_feat(S390_FEAT_UNPACK)) {
-+        error_setg(errp,
-+                   "CPU model does not support Protected Virtualization");
-+        return -1;
-+    }
-+
-+    cgs->ready = true;
-+
-+    return 0;
-+}
-+
-+OBJECT_DEFINE_TYPE_WITH_INTERFACES(S390PVGuest,
-+                                   s390_pv_guest,
-+                                   S390_PV_GUEST,
-+                                   CONFIDENTIAL_GUEST_SUPPORT,
-+                                   { TYPE_USER_CREATABLE },
-+                                   { NULL })
-+
-+static void s390_pv_guest_class_init(ObjectClass *oc, void *data)
-+{
-+}
-+
-+static void s390_pv_guest_init(Object *obj)
-+{
-+}
-+
-+static void s390_pv_guest_finalize(Object *obj)
-+{
-+}
-diff --git a/include/hw/s390x/pv.h b/include/hw/s390x/pv.h
-index aee758bc2d..9bbf66f356 100644
---- a/include/hw/s390x/pv.h
-+++ b/include/hw/s390x/pv.h
-@@ -43,6 +43,7 @@ void s390_pv_prep_reset(void);
- int s390_pv_verify(void);
- void s390_pv_unshare(void);
- void s390_pv_inject_reset_error(CPUState *cs);
-+int s390_pv_init(ConfidentialGuestSupport *cgs, Error **errp);
- #else /* CONFIG_KVM */
- static inline bool s390_is_pv(void) { return false; }
- static inline int s390_pv_vm_enable(void) { return 0; }
-diff --git a/target/s390x/kvm.c b/target/s390x/kvm.c
-index b8385e6b95..d2435664dc 100644
---- a/target/s390x/kvm.c
-+++ b/target/s390x/kvm.c
-@@ -387,6 +387,9 @@ int kvm_arch_init(MachineState *ms, KVMState *s)
-     }
- 
-     kvm_set_max_memslot_size(KVM_SLOT_MAX_BYTES);
-+
-+    s390_pv_init(ms->cgs, &error_fatal);
-+
-     return 0;
- }
- 
--- 
-2.29.2
-
+>
+> >
+> >>> sudo qemu-system-riscv64 -nographic -machine virt \
+> >>> -kernel linux/arch/riscv/boot/Image -append "root=3D/dev/vda ro conso=
+le=3DttyS0" \
+> >>> -drive file=3Dbusybox,format=3Draw,id=3Dhd0 \
+> >>> -device virtio-blk-device,drive=3Dhd0
+> >>>
+> >>> But what I get in return is a message telling me that the file I gave=
+ wasn't the right one, the actual output is:
+> >>>
+> >>> qemu-system-riscv64: -drive file=3Dbusybox,format=3Draw,id=3Dhd0: A r=
+egular file was expected by the 'file' driver, but something else was given
+> >>>
+> >>> And I checked the file busybox with de cmd "file" and got the followi=
+ng :
+> >>> busybox: ELF 64-bit LSB executable, UCB RISC-V, version 1 (SYSV), dyn=
+amically linked, interpreter /lib/ld-linux-riscv64-lp64d.so.1, for GNU/Linu=
+x 4.15.0, stripped
+> >>
+> >> That looks like an ELF, which won't work when attached as a drive.
+> >>
+> >> How are you building this rootFS?
+> >>
+> >> Alistair
+> >>
+> >>>
+> >>> So I was wondering if the error message was related to qemu.
+> >>> Thanks in advance for answering any suggestions are welcome
+>
+>
+> --
+> Alex Benn=C3=A9e
 
