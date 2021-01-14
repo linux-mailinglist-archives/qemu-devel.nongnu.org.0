@@ -2,73 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 728EC2F557A
-	for <lists+qemu-devel@lfdr.de>; Thu, 14 Jan 2021 01:12:48 +0100 (CET)
-Received: from localhost ([::1]:33004 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A61C02F5577
+	for <lists+qemu-devel@lfdr.de>; Thu, 14 Jan 2021 01:10:50 +0100 (CET)
+Received: from localhost ([::1]:57630 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kzqFr-00056W-GR
-	for lists+qemu-devel@lfdr.de; Wed, 13 Jan 2021 19:12:47 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37204)
+	id 1kzqDx-0003Vt-K2
+	for lists+qemu-devel@lfdr.de; Wed, 13 Jan 2021 19:10:49 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37714)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1kzq5f-0002ID-1b
- for qemu-devel@nongnu.org; Wed, 13 Jan 2021 19:02:15 -0500
-Received: from mail-io1-xd2b.google.com ([2607:f8b0:4864:20::d2b]:38231)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1kzq5d-00080g-2w
- for qemu-devel@nongnu.org; Wed, 13 Jan 2021 19:02:14 -0500
-Received: by mail-io1-xd2b.google.com with SMTP id e22so7794695iom.5
- for <qemu-devel@nongnu.org>; Wed, 13 Jan 2021 16:02:12 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=47PHZQKwzJJnlIJxehqPqQL5v3ul/RjG4++16AQBQ54=;
- b=IwHrsJYQ86uWAfH7GbwV6zeOecOJkfNAZxN6/X9UnGYgZsSGvU0M8Hj37vUjCeNPSB
- 4CuTClYrfDo9Rb5i+7grcWTwSZmBpEi0SRHXYfSCq/l4kl5MLfwtbiwEZdE6APrT9AEx
- yQzqgfgGYArqSrR2NYyNBT9IHzkuhbSMknRJ25IaocSMgbIeB5wMiAcOexvNX2jvYye/
- 3+7t8UHGPDhurrY56xmJcXmkwKJVdL6jgcjkVLZcYi+gfLbO08Ctl2fywgAik4Rtc62k
- BdY/EDJDO3Jp/2SEjYcMbQjAqLVtIL5WiGJ0lmACYAhKPYySOb9o31mjKRnt6yJ0yOv8
- Jdtw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=47PHZQKwzJJnlIJxehqPqQL5v3ul/RjG4++16AQBQ54=;
- b=nQFI23C2fEnmUo+2aWs58rZqm+OPa7RjXere/L0BPOJr/fwfInU8ppkXPiSUJHRZSE
- LgNp/IPKgHXfb6SzIY061oK2d4fXI6BT+N1HsFW4Pt5rGE/q02UqlTl95Pjg61VzEI4B
- Wws/GCrkm5/4Ta7RJaQopIArukrb8tSbXUX117gYfL8O7RsYnDKFE3VHcWi+RCTQ8A24
- /VgTVjxn2vbroViYTyEwnAwLnFMcjqKtzJhTbx0jUkJL/B+40pdXlGvS6iU7FAPDU4yj
- TscKiHzeA0E1ObX725A3iImkSxtJqX/mVYZwXD4rgUiWSssHrUULgFn8H9Su0Dli66BP
- gBXQ==
-X-Gm-Message-State: AOAM531EuL4ZLZLUJVFFw34iZ5uMTZj5AN+IQn5yLlNuirNu5+oWc4w5
- jrobha1sAMRgTSuRGFALkLqMv4j4wyfVXSx5iGg=
-X-Google-Smtp-Source: ABdhPJxP9u00CfxLCnvz0P3lpGgZZb2jZX6chcH+VYSwuVUvsJ3YYbsOaq0nPAIRRX8AZL7iek1bdg0/0+z9k3bejaA=
-X-Received: by 2002:a92:c942:: with SMTP id i2mr4392162ilq.227.1610582531861; 
- Wed, 13 Jan 2021 16:02:11 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <drjones@redhat.com>)
+ id 1kzq8F-0005gP-8c
+ for qemu-devel@nongnu.org; Wed, 13 Jan 2021 19:04:55 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:45028)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <drjones@redhat.com>)
+ id 1kzq8D-0000OO-71
+ for qemu-devel@nongnu.org; Wed, 13 Jan 2021 19:04:54 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1610582692;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=6exoz4gE1h9IzidTcM0FsUollCqLpu8lLTXxxJuhK58=;
+ b=fX48nfRre1KCJcABWW1MZtnEsuUzFvW1Wj6qlyr2sG0eZu++hkXq1gnKJXMHwqVZz9ATti
+ EZc5/x/BHmS+oDnsQXc0sYCP77nXW6pKnRpKG6dt+o1fkThjKKEW4vpzUjtYjEXVOh4OtN
+ 44XhQyETDJ26DvLNyIGTRSOZ4w+3V6c=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-336-bV0LLfvzMF67Cu_PqcjAxw-1; Wed, 13 Jan 2021 19:04:50 -0500
+X-MC-Unique: bV0LLfvzMF67Cu_PqcjAxw-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id BE3B68042A2;
+ Thu, 14 Jan 2021 00:04:48 +0000 (UTC)
+Received: from kamzik.brq.redhat.com (ovpn-112-138.rdu2.redhat.com
+ [10.10.112.138])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 375D15D9C0;
+ Thu, 14 Jan 2021 00:04:47 +0000 (UTC)
+Date: Wed, 13 Jan 2021 19:04:45 -0500
+From: Andrew Jones <drjones@redhat.com>
+To: Maxim Uvarov <maxim.uvarov@linaro.org>
+Subject: Re: [PATCHv4 2/2] arm-virt: add secure pl061 for reset/power down
+Message-ID: <20210114000445.mg3xq2nq7kccbvjy@kamzik.brq.redhat.com>
+References: <20210112143058.12159-1-maxim.uvarov@linaro.org>
+ <20210112143058.12159-3-maxim.uvarov@linaro.org>
+ <20210112153542.oqahdubzeoipyvun@kamzik.brq.redhat.com>
+ <CAFEAcA9O2kHpcvoofo0v3ahXNOQtw8cxaVC2hn+AjpH6A9RciA@mail.gmail.com>
+ <20210112162526.ob7eroamrdlowfyr@kamzik.brq.redhat.com>
+ <20210112162847.wik3h24isg4cmgyq@kamzik.brq.redhat.com>
+ <CAD8XO3Y3sgZ3VXh7FhfcvvTckE2EUebivQ1nUnqTud2ApGUh=Q@mail.gmail.com>
 MIME-Version: 1.0
-References: <CAKmqyKNoUg9f-NdgAoGrq_DuBwWv_ZgusArvOobxEYM1mpzbRA@mail.gmail.com>
- <mhng-5ca93c0e-3134-4384-915f-23c4aed71712@palmerdabbelt-glaptop1>
- <87y2jeai0s.fsf@linaro.org>
-In-Reply-To: <87y2jeai0s.fsf@linaro.org>
-From: Alistair Francis <alistair23@gmail.com>
-Date: Wed, 13 Jan 2021 16:01:45 -0800
-Message-ID: <CAKmqyKMy9e0sZ6RQriu1-GU9uSwcCotG1gweewwj9XvKq8Rryw@mail.gmail.com>
-Subject: Re: Emulation for riscv
-To: =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2607:f8b0:4864:20::d2b;
- envelope-from=alistair23@gmail.com; helo=mail-io1-xd2b.google.com
-X-Spam_score_int: -17
-X-Spam_score: -1.8
-X-Spam_bar: -
-X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <CAD8XO3Y3sgZ3VXh7FhfcvvTckE2EUebivQ1nUnqTud2ApGUh=Q@mail.gmail.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=drjones@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=drjones@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -29
+X-Spam_score: -3.0
+X-Spam_bar: ---
+X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.25,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -81,91 +84,95 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Palmer Dabbelt <palmer@dabbelt.com>,
- "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
- Moises Arreola <moyarrezam@gmail.com>
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ Jose Marinho <Jose.Marinho@arm.com>, QEMU Developers <qemu-devel@nongnu.org>,
+ Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
+ tf-a@lists.trustedfirmware.org, qemu-arm <qemu-arm@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, Nov 6, 2020 at 2:36 AM Alex Benn=C3=A9e <alex.bennee@linaro.org> wr=
-ote:
->
->
-> Palmer Dabbelt <palmer@dabbelt.com> writes:
->
-> > On Thu, 22 Oct 2020 17:56:38 PDT (-0700), alistair23@gmail.com wrote:
-> >> On Thu, Oct 22, 2020 at 4:58 PM Moises Arreola <moyarrezam@gmail.com> =
-wrote:
-> >>>
-> >>> Hello everyone, my name is Moses and I'm trying to set up a VM for a =
-risc-v processor, I'm using the Risc-V Getting Started Guide and on the fin=
-al step I'm getting an error while trying to launch the virtual machine usi=
-ng the cmd:
-> >>
-> >> Hello,
-> >>
-> >> Please don't use the RISC-V Getting Started Guide. Pretty much all of
-> >> the information there is out of date and wrong. Unfortunately we are
-> >> unable to correct it.
-> >>
-> >> The QEMU wiki is a much better place for information:
-> >> https://wiki.qemu.org/Documentation/Platforms/RISCV
+On Wed, Jan 13, 2021 at 10:30:47AM +0300, Maxim Uvarov wrote:
+> - the same size for secure and non secure gpio. Arm doc says that
+> secure memory is also split on 4k pages. So one page here has to be
+> ok.
+
+To be clear, does that means 4k pages must be used? I'm not concerned
+with the size, but the alignment. If it's possible to use larger page
+sizes with secure memory, then we need to align to the maximum page
+size that may be used.
+
+Thanks,
+drew
+
+
+> - will add dtb.
+> - I think then less options is better. So I will remove
+> vmc->secure_gpio flag and keep only vmc flag.
+> 
+> Regards,
+> Maxim.
+> 
+> On Tue, 12 Jan 2021 at 19:28, Andrew Jones <drjones@redhat.com> wrote:
 > >
-> > Ya, everything at riscv.org is useless.  It's best to stick to the open=
- source
-> > documentation, as when that gets out of date we can at least fix it.  U=
-sing a
-> > distro helps a lot here, the wiki describes how to run a handful of pop=
-ular
-> > ones that were ported to RISC-V early but if your favorite isn't on the=
- list
-> > then it may have its own documentation somewhere else.
->
-> Even better if you could submit some .rst pages for QEMU's git:
->
->   docs/system/target-riscv.rst
->   docs/system/riscv/virt.rst (and maybe the other models)
->
-> then we could improve the user manual where RiscV is currently a little
-> under-represented. A number of the systems have simple example command
-> lines or explain the kernel support needed for the model.
-
-Thanks for pointing that out Alex. Bin has sent some patches for this
-so RISC-V should have a presence soon.
-
-Alistair
-
->
+> > On Tue, Jan 12, 2021 at 11:25:30AM -0500, Andrew Jones wrote:
+> > > On Tue, Jan 12, 2021 at 04:00:23PM +0000, Peter Maydell wrote:
+> > > > On Tue, 12 Jan 2021 at 15:35, Andrew Jones <drjones@redhat.com> wrote:
+> > > > >
+> > > > > On Tue, Jan 12, 2021 at 05:30:58PM +0300, Maxim Uvarov wrote:
+> > > > > > Add secure pl061 for reset/power down machine from
+> > > > > > the secure world (Arm Trusted Firmware). Connect it
+> > > > > > with gpio-pwr driver.
+> > > >
+> > > > > > +    /* connect secure pl061 to gpio-pwr */
+> > > > > > +    qdev_connect_gpio_out(pl061_dev, ATF_GPIO_POWEROFF,
+> > > > > > +                          qdev_get_gpio_in_named(gpio_pwr_dev, "reset", 0));
+> > > > > > +    qdev_connect_gpio_out(pl061_dev, ATF_GPIO_REBOOT,
+> > > > > > +                          qdev_get_gpio_in_named(gpio_pwr_dev, "shutdown", 0));
+> > > > >
+> > > > > I don't know anything about secure world, but it seems odd that we don't
+> > > > > need to add anything to the DTB.
+> > > >
+> > > > We should be adding something to the DTB, yes. Look at
+> > > > how create_uart() does this -- you set the 'status' and
+> > > > 'secure-status' properties to indicate that the device is
+> > > > secure-world only.
+> > > >
+> > > >
+> > > >
+> > > > > > +    if (vmc->no_secure_gpio) {
+> > > > > > +        vms->secure_gpio = false;
+> > > > > > +    }  else {
+> > > > > > +        vms->secure_gpio = true;
+> > > > > > +    }
+> > > > >
+> > > > > nit: vms->secure_gpio = !vmc->no_secure_gpio
+> > > > >
+> > > > > But do we even need vms->secure_gpio? Why not just do
+> > > > >
+> > > > >  if (vms->secure && !vmc->no_secure_gpio) {
+> > > > >      create_gpio_secure(vms, secure_sysmem);
+> > > > >  }
+> > > > >
+> > > > > in machvirt_init() ?
+> > > >
+> > > > We're just following the same pattern as vmc->no_its/vms->its,
+> > > > aren't we ?
+> > > >
+> > >
+> > > 'its' is a property that can be changed on the command line. Unless
+> > > we want to be able to manage 'secure-gpio' separately from 'secure',
+> > > then I think vmc->its plus 'secure' should be sufficient. We don't
 > >
-> >>> sudo qemu-system-riscv64 -nographic -machine virt \
-> >>> -kernel linux/arch/riscv/boot/Image -append "root=3D/dev/vda ro conso=
-le=3DttyS0" \
-> >>> -drive file=3Dbusybox,format=3Draw,id=3Dhd0 \
-> >>> -device virtio-blk-device,drive=3Dhd0
-> >>>
-> >>> But what I get in return is a message telling me that the file I gave=
- wasn't the right one, the actual output is:
-> >>>
-> >>> qemu-system-riscv64: -drive file=3Dbusybox,format=3Draw,id=3Dhd0: A r=
-egular file was expected by the 'file' driver, but something else was given
-> >>>
-> >>> And I checked the file busybox with de cmd "file" and got the followi=
-ng :
-> >>> busybox: ELF 64-bit LSB executable, UCB RISC-V, version 1 (SYSV), dyn=
-amically linked, interpreter /lib/ld-linux-riscv64-lp64d.so.1, for GNU/Linu=
-x 4.15.0, stripped
-> >>
-> >> That looks like an ELF, which won't work when attached as a drive.
-> >>
-> >> How are you building this rootFS?
-> >>
-> >> Alistair
-> >>
-> >>>
-> >>> So I was wondering if the error message was related to qemu.
-> >>> Thanks in advance for answering any suggestions are welcome
->
->
-> --
-> Alex Benn=C3=A9e
+> > I meant to write 'vmc->no_secure_gpio and vms->secure' here.
+> >
+> > Thanks,
+> > drew
+> >
+> > > always need both vmc and vms state, see 'no_ged'.
+> > >
+> > > Thanks,
+> > > drew
+> >
+> 
+
 
