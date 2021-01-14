@@ -2,52 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 39E5F2F6194
-	for <lists+qemu-devel@lfdr.de>; Thu, 14 Jan 2021 14:13:11 +0100 (CET)
-Received: from localhost ([::1]:34790 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C5B5B2F61DC
+	for <lists+qemu-devel@lfdr.de>; Thu, 14 Jan 2021 14:25:14 +0100 (CET)
+Received: from localhost ([::1]:60298 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l02R4-0002YI-9E
-	for lists+qemu-devel@lfdr.de; Thu, 14 Jan 2021 08:13:10 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44300)
+	id 1l02cj-0005VU-RZ
+	for lists+qemu-devel@lfdr.de; Thu, 14 Jan 2021 08:25:13 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44650)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1l02Hh-0001p1-Vq
- for qemu-devel@nongnu.org; Thu, 14 Jan 2021 08:03:31 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:28955)
+ id 1l02In-0002pS-Dz
+ for qemu-devel@nongnu.org; Thu, 14 Jan 2021 08:04:38 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:29754)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1l02Hc-00085u-WE
- for qemu-devel@nongnu.org; Thu, 14 Jan 2021 08:03:29 -0500
+ id 1l02Ik-0008WV-CG
+ for qemu-devel@nongnu.org; Thu, 14 Jan 2021 08:04:37 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1610629404;
+ s=mimecast20190719; t=1610629473;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=B7mP1c64NtOEHdXo/38TwsJkXfuAxaWRHAlQ+DOGv+w=;
- b=i9VNB8w5A6INffg27PE7d+912iaurfcckbvhtX41ee42hdPnlRkpdyuOIO/2q8CTeOQIFD
- 8NWZxr5xJBMkS/E/CCOkWFFlewxgy6Dmu3wMNS3eqblbwsg4dZC1DmmU4kWji121zwNFtt
- QJeM4RU/IMyKJ2fQ+68NSNlzMPM486k=
+ bh=alqGtQ9781a7EE+SQRkcS4XqsbAw7iqqg9MK72cmU60=;
+ b=LFQnZqT1xdzSzflMxjR5NKIxF4GOC1L0UvZlOiZZV6E4MYa4wQiFhas3za0DJGtIljbSgv
+ /ZT+xx8lTRgF0qNPdATmSZDXkFNoAFlaK3MlyuN740B+QVI/Sd6FDV9Hg8Ynh+hulnqyBj
+ n9aJ3LSpn0lrlske5qeOMNKB/+DEpXg=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-360-XL9Fnx8FOk6QBSITLtHBJg-1; Thu, 14 Jan 2021 08:03:22 -0500
-X-MC-Unique: XL9Fnx8FOk6QBSITLtHBJg-1
+ us-mta-94-1t7fbVqzP72OzMwCt2I-oA-1; Thu, 14 Jan 2021 08:03:25 -0500
+X-MC-Unique: 1t7fbVqzP72OzMwCt2I-oA-1
 Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
  [10.5.11.16])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 3E247107ACF9;
- Thu, 14 Jan 2021 13:03:21 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 8241E107ACFC;
+ Thu, 14 Jan 2021 13:03:24 +0000 (UTC)
 Received: from localhost.localdomain.com (ovpn-115-77.ams2.redhat.com
  [10.36.115.77])
- by smtp.corp.redhat.com (Postfix) with ESMTP id AE47B5F708;
- Thu, 14 Jan 2021 13:03:19 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id A80D95F708;
+ Thu, 14 Jan 2021 13:03:21 +0000 (UTC)
 From: =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 16/25] tests/docker: expand ubuntu1804 package list
-Date: Thu, 14 Jan 2021 13:02:36 +0000
-Message-Id: <20210114130245.1654081-17-berrange@redhat.com>
+Subject: [PATCH v2 17/25] tests/docker: expand ubuntu2004 package list
+Date: Thu, 14 Jan 2021 13:02:37 +0000
+Message-Id: <20210114130245.1654081-18-berrange@redhat.com>
 In-Reply-To: <20210114130245.1654081-1-berrange@redhat.com>
 References: <20210114130245.1654081-1-berrange@redhat.com>
 MIME-Version: 1.0
@@ -91,15 +91,15 @@ conceivably use in any scenario.
 
 Signed-off-by: Daniel P. Berrangé <berrange@redhat.com>
 ---
- tests/docker/dockerfiles/ubuntu1804.docker | 57 +++++++++++++++++++++-
- 1 file changed, 56 insertions(+), 1 deletion(-)
+ tests/docker/dockerfiles/ubuntu2004.docker | 46 +++++++++++++++++++++-
+ 1 file changed, 45 insertions(+), 1 deletion(-)
 
-diff --git a/tests/docker/dockerfiles/ubuntu1804.docker b/tests/docker/dockerfiles/ubuntu1804.docker
-index f063cfe921..5bfb90ca72 100644
---- a/tests/docker/dockerfiles/ubuntu1804.docker
-+++ b/tests/docker/dockerfiles/ubuntu1804.docker
-@@ -1,52 +1,107 @@
- FROM docker.io/library/ubuntu:18.04
+diff --git a/tests/docker/dockerfiles/ubuntu2004.docker b/tests/docker/dockerfiles/ubuntu2004.docker
+index 84c617354c..27ff46d2e4 100644
+--- a/tests/docker/dockerfiles/ubuntu2004.docker
++++ b/tests/docker/dockerfiles/ubuntu2004.docker
+@@ -1,22 +1,39 @@
+ FROM docker.io/library/ubuntu:20.04
  ENV PACKAGES \
 +    bc \
 +    bzip2 \
@@ -112,10 +112,9 @@ index f063cfe921..5bfb90ca72 100644
 +    findutils \
 +    g++ \
      gcc \
-+    genisoimage \
+     genisoimage \
      gettext \
      git \
-+    glusterfs-common \
 +    hostname \
      libaio-dev \
 +    libasan5 \
@@ -134,14 +133,12 @@ index f063cfe921..5bfb90ca72 100644
      libgbm-dev \
 +    libgcrypt20-dev \
 +    libglib2.0-dev \
++    libglusterfs-dev \
 +    libgnutls28-dev \
      libgtk-3-dev \
      libibverbs-dev \
      libiscsi-dev \
-     libjemalloc-dev \
-     libjpeg-turbo8-dev \
-+    liblttng-ust-dev \
-     liblzo2-dev \
+@@ -27,38 +44,65 @@ ENV PACKAGES \
      libncursesw5-dev \
      libnfs-dev \
      libnuma-dev \
@@ -156,6 +153,7 @@ index f063cfe921..5bfb90ca72 100644
      libsdl2-dev \
 +    libsdl2-image-dev \
      libseccomp-dev \
++    libslirp-dev \
      libsnappy-dev \
      libspice-protocol-dev \
      libspice-server-dev \
@@ -176,32 +174,32 @@ index f063cfe921..5bfb90ca72 100644
 +    locales \
      make \
 +    multipath-tools \
-+    netcat-openbsd \
+     ncat \
 +    nettle-dev \
      ninja-build \
 +    openssh-client \
 +    perl \
 +    pkgconf \
 +    python3 \
-+    python3-numpy \
-+    python3-opencv \
-+    python3-pil \
-+    python3-pip \
+     python3-numpy \
+     python3-opencv \
+     python3-pil \
+     python3-pip \
 +    python3-setuptools \
      python3-sphinx \
-+    python3-venv \
+     python3-venv \
 +    python3-wheel \
      python3-yaml \
-+    rpm2cpio \
+     rpm2cpio \
 +    sed \
      sparse \
--    xfslibs-dev
 +    systemtap-sdt-dev \
 +    tar \
-+    tesseract-ocr \
-+    tesseract-ocr-eng \
+     tesseract-ocr \
+     tesseract-ocr-eng \
 +    texinfo \
-+    vim-nox \
+     vim-nox \
+-    xfslibs-dev
 +    xfslibs-dev \
 +    zlib1g-dev
  RUN apt-get update && \
