@@ -2,59 +2,58 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 683E52F6536
-	for <lists+qemu-devel@lfdr.de>; Thu, 14 Jan 2021 16:54:15 +0100 (CET)
-Received: from localhost ([::1]:52530 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0210B2F652A
+	for <lists+qemu-devel@lfdr.de>; Thu, 14 Jan 2021 16:52:09 +0100 (CET)
+Received: from localhost ([::1]:47054 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l04ww-00057z-Em
-	for lists+qemu-devel@lfdr.de; Thu, 14 Jan 2021 10:54:14 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56304)
+	id 1l04uu-0002mw-0B
+	for lists+qemu-devel@lfdr.de; Thu, 14 Jan 2021 10:52:08 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56254)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <jag.raman@oracle.com>)
- id 1l04mA-0003Vg-LQ
- for qemu-devel@nongnu.org; Thu, 14 Jan 2021 10:43:06 -0500
-Received: from aserp2120.oracle.com ([141.146.126.78]:52400)
+ id 1l04m4-0003GU-AC
+ for qemu-devel@nongnu.org; Thu, 14 Jan 2021 10:43:00 -0500
+Received: from userp2130.oracle.com ([156.151.31.86]:49774)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <jag.raman@oracle.com>)
- id 1l04m8-0002DB-I3
- for qemu-devel@nongnu.org; Thu, 14 Jan 2021 10:43:06 -0500
-Received: from pps.filterd (aserp2120.oracle.com [127.0.0.1])
- by aserp2120.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 10EFYBp7149874;
- Thu, 14 Jan 2021 15:42:40 GMT
+ id 1l04m2-0002Ac-5Y
+ for qemu-devel@nongnu.org; Thu, 14 Jan 2021 10:43:00 -0500
+Received: from pps.filterd (userp2130.oracle.com [127.0.0.1])
+ by userp2130.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 10EFZT3u024756;
+ Thu, 14 Jan 2021 15:42:45 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com;
  h=from : to : cc :
  subject : date : message-id : in-reply-to : references : in-reply-to :
  references : mime-version : content-type : content-transfer-encoding;
- s=corp-2020-01-29; bh=IYX/OCZdauqVUam9AKHxjjfCltKwe3BgvQ6wr+UBJBE=;
- b=GyDt0XRON0TF2Ezh3gUdb7zZXQKRO+3CUKHglos4yv5xZungN+USgl+W5Hwt5UA6TjNr
- DiLKfjf+lX1MvL6+DD1Wkz0vnAh6tN2I9Yd1CZXF4BDqWuQZVVUiWtk2N/s46tUbNsVu
- VEiUEXupjA/+L14SYFvkFQnV7Tqz2MNrhzU5M3ZsPupobee5KyjzqPVMhkigyDuKr4qH
- ycgZtFgHd6KiSLkdj4zHJTS9NC1NGBLDUG/uz+nqH/i2CMzsQuh6dXxBK9Ng8h+gUPth
- O4DkMEkx/+3VhEDUoECxnBbNWKzwIjap8X/oz/aXJxOEZ3YoMQbZSJICvOo+pgoQQv4F Xg== 
-Received: from userp3030.oracle.com (userp3030.oracle.com [156.151.31.80])
- by aserp2120.oracle.com with ESMTP id 360kd00sgw-1
+ s=corp-2020-01-29; bh=pfIlYE8AvxL4pTAaQUo76+42XwkF0UX2eLm71ydUcAw=;
+ b=Pbe8EkfeQOkhwnXodDQnsAURGMKwHfjXqP8ZnX5vA2nSRnNGt1nso8Qahpl4wejdcD2e
+ 6X03BtqUFeLfIXJVwH78JHxfICLGNezekRF14mCHGQS3U8g1Z/72Bv6h5hVelrVjPL/H
+ nfNOCSYR+4U1SlmAxNUz3NV49Q9TSAVM7/InGWQlE2RkN7EIkyH0jnY4YD5TltwLLw+C
+ b7+T2nfy8JJYoB87GmHArhLHEg5tMpZOK7qMBS7pBHUjsbN6+ExLd6rAf0jIwOjn8FmA
+ PFeKgmdHo2vsvr6rlW1YTH2X97yt50Io9QsIMkaGT29DB5C+cHZNhomd0dI4YfXITQZb lg== 
+Received: from aserp3030.oracle.com (aserp3030.oracle.com [141.146.126.71])
+ by userp2130.oracle.com with ESMTP id 360kvk8rm1-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Thu, 14 Jan 2021 15:42:40 +0000
-Received: from pps.filterd (userp3030.oracle.com [127.0.0.1])
- by userp3030.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 10EFZ8iw188501;
- Thu, 14 Jan 2021 15:40:39 GMT
-Received: from aserv0121.oracle.com (aserv0121.oracle.com [141.146.126.235])
- by userp3030.oracle.com with ESMTP id 360kenc689-1
+ Thu, 14 Jan 2021 15:42:45 +0000
+Received: from pps.filterd (aserp3030.oracle.com [127.0.0.1])
+ by aserp3030.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 10EFaS5b034378;
+ Thu, 14 Jan 2021 15:40:45 GMT
+Received: from userv0121.oracle.com (userv0121.oracle.com [156.151.31.72])
+ by aserp3030.oracle.com with ESMTP id 360kf2at2h-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Thu, 14 Jan 2021 15:40:39 +0000
+ Thu, 14 Jan 2021 15:40:44 +0000
 Received: from abhmp0002.oracle.com (abhmp0002.oracle.com [141.146.116.8])
- by aserv0121.oracle.com (8.14.4/8.13.8) with ESMTP id 10EFeclo010325;
- Thu, 14 Jan 2021 15:40:38 GMT
+ by userv0121.oracle.com (8.14.4/8.13.8) with ESMTP id 10EFegpV019570;
+ Thu, 14 Jan 2021 15:40:42 GMT
 Received: from jaraman-bur-1.us.oracle.com (/10.152.33.39)
  by default (Oracle Beehive Gateway v4.0)
- with ESMTP ; Thu, 14 Jan 2021 07:40:37 -0800
+ with ESMTP ; Thu, 14 Jan 2021 07:40:42 -0800
 From: Jagannathan Raman <jag.raman@oracle.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v19 10/20] multi-process: Initialize message handler in remote
- device
-Date: Thu, 14 Jan 2021 10:40:05 -0500
-Message-Id: <9894c243884d661e9b127946daa222df26898174.1610638428.git.jag.raman@oracle.com>
+Subject: [PATCH v19 13/20] multi-process: introduce proxy object
+Date: Thu, 14 Jan 2021 10:40:08 -0500
+Message-Id: <2c3854339bd58e08ceff63eaa14ac96bfbaf8fb3.1610638428.git.jag.raman@oracle.com>
 X-Mailer: git-send-email 1.8.3.1
 In-Reply-To: <cover.1610638428.git.jag.raman@oracle.com>
 References: <cover.1610638428.git.jag.raman@oracle.com>
@@ -65,21 +64,21 @@ Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9864
  signatures=668683
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 mlxscore=0
- phishscore=0 spamscore=0
- malwarescore=0 suspectscore=0 mlxlogscore=999 adultscore=0 bulkscore=0
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 phishscore=0
+ bulkscore=0 malwarescore=0
+ suspectscore=0 adultscore=0 spamscore=0 mlxlogscore=999 mlxscore=0
  classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2009150000
  definitions=main-2101140090
 X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9864
  signatures=668683
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 spamscore=0
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 mlxlogscore=999
  phishscore=0
- impostorscore=0 bulkscore=0 adultscore=0 suspectscore=0 malwarescore=0
- lowpriorityscore=0 clxscore=1015 mlxlogscore=999 mlxscore=0
- priorityscore=1501 classifier=spam adjust=0 reason=mlx scancount=1
+ lowpriorityscore=0 bulkscore=0 priorityscore=1501 malwarescore=0
+ clxscore=1015 impostorscore=0 spamscore=0 mlxscore=0 suspectscore=0
+ adultscore=0 classifier=spam adjust=0 reason=mlx scancount=1
  engine=8.12.0-2009150000 definitions=main-2101140090
-Received-SPF: pass client-ip=141.146.126.78; envelope-from=jag.raman@oracle.com;
- helo=aserp2120.oracle.com
+Received-SPF: pass client-ip=156.151.31.86; envelope-from=jag.raman@oracle.com;
+ helo=userp2130.oracle.com
 X-Spam_score_int: -46
 X-Spam_score: -4.7
 X-Spam_bar: ----
@@ -110,61 +109,72 @@ Cc: elena.ufimtseva@oracle.com, fam@euphon.net, swapnil.ingle@nutanix.com,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Initializes the message handler function in the remote process. It is
-called whenever there's an event pending on QIOChannel that registers
-this function.
+From: Elena Ufimtseva <elena.ufimtseva@oracle.com>
+
+Defines a PCI Device proxy object as a child of TYPE_PCI_DEVICE.
 
 Signed-off-by: Elena Ufimtseva <elena.ufimtseva@oracle.com>
-Signed-off-by: John G Johnson <john.g.johnson@oracle.com>
 Signed-off-by: Jagannathan Raman <jag.raman@oracle.com>
+Signed-off-by: John G Johnson <john.g.johnson@oracle.com>
 Reviewed-by: Stefan Hajnoczi <stefanha@redhat.com>
 ---
- include/hw/remote/machine.h |  9 +++++++
- hw/remote/message.c         | 57 +++++++++++++++++++++++++++++++++++++++++++++
- MAINTAINERS                 |  1 +
- hw/remote/meson.build       |  1 +
- 4 files changed, 68 insertions(+)
- create mode 100644 hw/remote/message.c
+ include/hw/remote/proxy.h | 33 ++++++++++++++++
+ hw/remote/proxy.c         | 99 +++++++++++++++++++++++++++++++++++++++++++++++
+ MAINTAINERS               |  2 +
+ hw/remote/meson.build     |  1 +
+ 4 files changed, 135 insertions(+)
+ create mode 100644 include/hw/remote/proxy.h
+ create mode 100644 hw/remote/proxy.c
 
-diff --git a/include/hw/remote/machine.h b/include/hw/remote/machine.h
-index bdfbca4..b92b2ce 100644
---- a/include/hw/remote/machine.h
-+++ b/include/hw/remote/machine.h
-@@ -14,6 +14,7 @@
- #include "qom/object.h"
- #include "hw/boards.h"
- #include "hw/pci-host/remote.h"
-+#include "io/channel.h"
- 
- struct RemoteMachineState {
-     MachineState parent_obj;
-@@ -21,7 +22,15 @@ struct RemoteMachineState {
-     RemotePCIHost *host;
- };
- 
-+/* Used to pass to co-routine device and ioc. */
-+typedef struct RemoteCommDev {
-+    PCIDevice *dev;
-+    QIOChannel *ioc;
-+} RemoteCommDev;
-+
- #define TYPE_REMOTE_MACHINE "x-remote-machine"
- OBJECT_DECLARE_SIMPLE_TYPE(RemoteMachineState, REMOTE_MACHINE)
- 
-+void coroutine_fn mpqemu_remote_msg_loop_co(void *data);
-+
- #endif
-diff --git a/hw/remote/message.c b/hw/remote/message.c
+diff --git a/include/hw/remote/proxy.h b/include/hw/remote/proxy.h
 new file mode 100644
-index 0000000..36e2d4f
+index 0000000..faa9c4d
 --- /dev/null
-+++ b/hw/remote/message.c
-@@ -0,0 +1,57 @@
++++ b/include/hw/remote/proxy.h
+@@ -0,0 +1,33 @@
 +/*
-+ * Copyright © 2020, 2021 Oracle and/or its affiliates.
++ * Copyright © 2018, 2021 Oracle and/or its affiliates.
 + *
-+ * This work is licensed under the terms of the GNU GPL-v2, version 2 or later.
++ * This work is licensed under the terms of the GNU GPL, version 2 or later.
++ * See the COPYING file in the top-level directory.
 + *
++ */
++
++#ifndef PROXY_H
++#define PROXY_H
++
++#include "hw/pci/pci.h"
++#include "io/channel.h"
++
++#define TYPE_PCI_PROXY_DEV "x-pci-proxy-dev"
++OBJECT_DECLARE_SIMPLE_TYPE(PCIProxyDev, PCI_PROXY_DEV)
++
++struct PCIProxyDev {
++    PCIDevice parent_dev;
++    char *fd;
++
++    /*
++     * Mutex used to protect the QIOChannel fd from
++     * the concurrent access by the VCPUs since proxy
++     * blocks while awaiting for the replies from the
++     * process remote.
++     */
++    QemuMutex io_mutex;
++    QIOChannel *ioc;
++    Error *migration_blocker;
++};
++
++#endif /* PROXY_H */
+diff --git a/hw/remote/proxy.c b/hw/remote/proxy.c
+new file mode 100644
+index 0000000..cd5b071
+--- /dev/null
++++ b/hw/remote/proxy.c
+@@ -0,0 +1,99 @@
++/*
++ * Copyright © 2018, 2021 Oracle and/or its affiliates.
++ *
++ * This work is licensed under the terms of the GNU GPL, version 2 or later.
 + * See the COPYING file in the top-level directory.
 + *
 + */
@@ -172,74 +182,119 @@ index 0000000..36e2d4f
 +#include "qemu/osdep.h"
 +#include "qemu-common.h"
 +
-+#include "hw/remote/machine.h"
-+#include "io/channel.h"
-+#include "hw/remote/mpqemu-link.h"
++#include "hw/remote/proxy.h"
++#include "hw/pci/pci.h"
 +#include "qapi/error.h"
-+#include "sysemu/runstate.h"
++#include "io/channel-util.h"
++#include "hw/qdev-properties.h"
++#include "monitor/monitor.h"
++#include "migration/blocker.h"
++#include "qemu/sockets.h"
 +
-+void coroutine_fn mpqemu_remote_msg_loop_co(void *data)
++static void pci_proxy_dev_realize(PCIDevice *device, Error **errp)
 +{
-+    g_autofree RemoteCommDev *com = (RemoteCommDev *)data;
-+    PCIDevice *pci_dev = NULL;
-+    Error *local_err = NULL;
++    ERRP_GUARD();
++    PCIProxyDev *dev = PCI_PROXY_DEV(device);
++    int fd;
 +
-+    assert(com->ioc);
-+
-+    pci_dev = com->dev;
-+    for (; !local_err;) {
-+        MPQemuMsg msg = {0};
-+
-+        if (!mpqemu_msg_recv(&msg, com->ioc, &local_err)) {
-+            break;
-+        }
-+
-+        if (!mpqemu_msg_valid(&msg)) {
-+            error_setg(&local_err, "Received invalid message from proxy"
-+                                   "in remote process pid="FMT_pid"",
-+                                   getpid());
-+            break;
-+        }
-+
-+        switch (msg.cmd) {
-+        default:
-+            error_setg(&local_err,
-+                       "Unknown command (%d) received for device %s"
-+                       " (pid="FMT_pid")",
-+                       msg.cmd, DEVICE(pci_dev)->id, getpid());
-+        }
++    if (!dev->fd) {
++        error_setg(errp, "fd parameter not specified for %s",
++                   DEVICE(device)->id);
++        return;
 +    }
 +
-+    if (local_err) {
-+        error_report_err(local_err);
-+        qemu_system_shutdown_request(SHUTDOWN_CAUSE_HOST_ERROR);
-+    } else {
-+        qemu_system_shutdown_request(SHUTDOWN_CAUSE_GUEST_SHUTDOWN);
++    fd = monitor_fd_param(monitor_cur(), dev->fd, errp);
++    if (fd == -1) {
++        error_prepend(errp, "proxy: unable to parse fd %s: ", dev->fd);
++        return;
 +    }
++
++    if (!fd_is_socket(fd)) {
++        error_setg(errp, "proxy: fd %d is not a socket", fd);
++        close(fd);
++        return;
++    }
++
++    dev->ioc = qio_channel_new_fd(fd, errp);
++
++    error_setg(&dev->migration_blocker, "%s does not support migration",
++               TYPE_PCI_PROXY_DEV);
++    migrate_add_blocker(dev->migration_blocker, errp);
++
++    qemu_mutex_init(&dev->io_mutex);
++    qio_channel_set_blocking(dev->ioc, true, NULL);
 +}
++
++static void pci_proxy_dev_exit(PCIDevice *pdev)
++{
++    PCIProxyDev *dev = PCI_PROXY_DEV(pdev);
++
++    if (dev->ioc) {
++        qio_channel_close(dev->ioc, NULL);
++    }
++
++    migrate_del_blocker(dev->migration_blocker);
++
++    error_free(dev->migration_blocker);
++}
++
++static Property proxy_properties[] = {
++    DEFINE_PROP_STRING("fd", PCIProxyDev, fd),
++    DEFINE_PROP_END_OF_LIST(),
++};
++
++static void pci_proxy_dev_class_init(ObjectClass *klass, void *data)
++{
++    DeviceClass *dc = DEVICE_CLASS(klass);
++    PCIDeviceClass *k = PCI_DEVICE_CLASS(klass);
++
++    k->realize = pci_proxy_dev_realize;
++    k->exit = pci_proxy_dev_exit;
++    device_class_set_props(dc, proxy_properties);
++}
++
++static const TypeInfo pci_proxy_dev_type_info = {
++    .name          = TYPE_PCI_PROXY_DEV,
++    .parent        = TYPE_PCI_DEVICE,
++    .instance_size = sizeof(PCIProxyDev),
++    .class_init    = pci_proxy_dev_class_init,
++    .interfaces = (InterfaceInfo[]) {
++        { INTERFACE_CONVENTIONAL_PCI_DEVICE },
++        { },
++    },
++};
++
++static void pci_proxy_dev_register_types(void)
++{
++    type_register_static(&pci_proxy_dev_type_info);
++}
++
++type_init(pci_proxy_dev_register_types)
 diff --git a/MAINTAINERS b/MAINTAINERS
-index 8656aeb..3c4800d 100644
+index fba1959..32971a7 100644
 --- a/MAINTAINERS
 +++ b/MAINTAINERS
-@@ -3193,6 +3193,7 @@ F: hw/remote/machine.c
- F: include/hw/remote/machine.h
- F: hw/remote/mpqemu-link.c
- F: include/hw/remote/mpqemu-link.h
-+F: hw/remote/message.c
+@@ -3197,6 +3197,8 @@ F: hw/remote/message.c
+ F: hw/remote/remote-obj.c
+ F: include/hw/remote/memory.h
+ F: hw/remote/memory.c
++F: hw/remote/proxy.c
++F: include/hw/remote/proxy.h
  
  Build and test automation
  -------------------------
 diff --git a/hw/remote/meson.build b/hw/remote/meson.build
-index a2b2fc0..9f5c57f 100644
+index 64da16c..569cd20 100644
 --- a/hw/remote/meson.build
 +++ b/hw/remote/meson.build
-@@ -2,5 +2,6 @@ remote_ss = ss.source_set()
- 
- remote_ss.add(when: 'CONFIG_MULTIPROCESS', if_true: files('machine.c'))
+@@ -4,6 +4,7 @@ remote_ss.add(when: 'CONFIG_MULTIPROCESS', if_true: files('machine.c'))
  remote_ss.add(when: 'CONFIG_MULTIPROCESS', if_true: files('mpqemu-link.c'))
-+remote_ss.add(when: 'CONFIG_MULTIPROCESS', if_true: files('message.c'))
+ remote_ss.add(when: 'CONFIG_MULTIPROCESS', if_true: files('message.c'))
+ remote_ss.add(when: 'CONFIG_MULTIPROCESS', if_true: files('remote-obj.c'))
++remote_ss.add(when: 'CONFIG_MULTIPROCESS', if_true: files('proxy.c'))
  
- softmmu_ss.add_all(when: 'CONFIG_MULTIPROCESS', if_true: remote_ss)
+ specific_ss.add(when: 'CONFIG_MULTIPROCESS', if_true: files('memory.c'))
+ 
 -- 
 1.8.3.1
 
