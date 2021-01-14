@@ -2,53 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BEB8E2F67C6
-	for <lists+qemu-devel@lfdr.de>; Thu, 14 Jan 2021 18:36:27 +0100 (CET)
-Received: from localhost ([::1]:53280 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C93D62F67E0
+	for <lists+qemu-devel@lfdr.de>; Thu, 14 Jan 2021 18:40:39 +0100 (CET)
+Received: from localhost ([::1]:33446 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l06Xp-0008R4-Pv
-	for lists+qemu-devel@lfdr.de; Thu, 14 Jan 2021 12:36:26 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52112)
+	id 1l06bs-0003dR-3Y
+	for lists+qemu-devel@lfdr.de; Thu, 14 Jan 2021 12:40:36 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52138)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1l0623-0007YB-2X
- for qemu-devel@nongnu.org; Thu, 14 Jan 2021 12:03:35 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:49024)
+ (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1l0624-0007bQ-Ao
+ for qemu-devel@nongnu.org; Thu, 14 Jan 2021 12:03:36 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:21630)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1l061z-0006w5-JK
- for qemu-devel@nongnu.org; Thu, 14 Jan 2021 12:03:34 -0500
+ (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1l0622-0006wt-6N
+ for qemu-devel@nongnu.org; Thu, 14 Jan 2021 12:03:35 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1610643810;
+ s=mimecast20190719; t=1610643813;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=bU+AGmGeqHFzTcyXBp/no/OR5o6fbi0ENmf3b/ZaRlQ=;
- b=GmEyPxLEumEfT4naQsBfkR+iwGKoYfil9NbuG2xn/1CuYseWloAuTbP6U1FogURVdMgnLF
- sN8uVXK/oOfJh5Xdh/6ZlYN6V+vjxcata8nerQogFR9EPW5zxIYXODYVmY1POHD5kPnzpc
- gzkTi4KkNPUILPa88ER5vEBKVUCVn+I=
+ bh=88jW508my9YkqN6iINXbulZF2jhBRgtWFg2K4BkF2YI=;
+ b=euu5fCT38WolIHmuWhIgUmqpqSbsaLU2QoWAQg4z+/InkkDgwKRbNZOhMwvLWUUK4jIMvV
+ JQwqQjL5iVrA7q1rcO7Xs6z/bwe3QN2AkYJ+Tt48nBu9m7Kky7hHRZVwj70TWPcTU5Yu5z
+ wehNNSywZmy/rqeqH2KpYCxhZZFf/88=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-587-ufEYqsXAOnaLlvi1RT0ZvA-1; Thu, 14 Jan 2021 12:03:29 -0500
-X-MC-Unique: ufEYqsXAOnaLlvi1RT0ZvA-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
+ us-mta-481-ya5ixl4yPIC_g1C76bl75A-1; Thu, 14 Jan 2021 12:03:31 -0500
+X-MC-Unique: ya5ixl4yPIC_g1C76bl75A-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 570FF107ACF7;
- Thu, 14 Jan 2021 17:03:28 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id AE812100D671;
+ Thu, 14 Jan 2021 17:03:30 +0000 (UTC)
 Received: from localhost (ovpn-115-31.ams2.redhat.com [10.36.115.31])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id E308460938;
- Thu, 14 Jan 2021 17:03:27 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 468AB6F439;
+ Thu, 14 Jan 2021 17:03:30 +0000 (UTC)
 From: Max Reitz <mreitz@redhat.com>
 To: qemu-block@nongnu.org
-Subject: [PATCH v3 08/10] iotests/129: Limit mirror job's buffer size
-Date: Thu, 14 Jan 2021 18:03:02 +0100
-Message-Id: <20210114170304.87507-9-mreitz@redhat.com>
+Subject: [PATCH v3 09/10] iotests/129: Clean up pylint and mypy complaints
+Date: Thu, 14 Jan 2021 18:03:03 +0100
+Message-Id: <20210114170304.87507-10-mreitz@redhat.com>
 In-Reply-To: <20210114170304.87507-1-mreitz@redhat.com>
 References: <20210114170304.87507-1-mreitz@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mreitz@redhat.com
 X-Mimecast-Spam-Score: 0
@@ -63,7 +63,7 @@ X-Spam_bar: ---
 X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.248,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -82,40 +82,47 @@ Cc: Kevin Wolf <kwolf@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Issuing 'stop' on the VM drains all nodes.  If the mirror job has many
-large requests in flight, this may lead to significant I/O that looks a
-bit like 'stop' would make the job try to complete (which is what 129
-should verify not to happen).
-
-We can limit the I/O in flight by limiting the buffer size, so mirror
-will make very little progress during the 'stop' drain.
-
-(We do not need to do anything about commit, which has a buffer size of
-512 kB by default; or backup, which goes cluster by cluster.  Once we
-have asynchronous requests for backup, that will change, but then we can
-fine-tune the backup job to only perform a single request on a very
-small chunk, too.)
-
 Signed-off-by: Max Reitz <mreitz@redhat.com>
-Reviewed-by: Eric Blake <eblake@redhat.com>
-Reviewed-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 ---
- tests/qemu-iotests/129 | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ tests/qemu-iotests/129 | 4 ++--
+ tests/qemu-iotests/297 | 2 +-
+ 2 files changed, 3 insertions(+), 3 deletions(-)
 
 diff --git a/tests/qemu-iotests/129 b/tests/qemu-iotests/129
-index 7b4b6649f0..6d21470cd7 100755
+index 6d21470cd7..201d9e0a0b 100755
 --- a/tests/qemu-iotests/129
 +++ b/tests/qemu-iotests/129
-@@ -67,7 +67,7 @@ class TestStopWithBlockJob(iotests.QMPTestCase):
-     def test_drive_mirror(self):
-         self.do_test_stop("drive-mirror", device="drive0",
-                           target=self.target_img, format=iotests.imgfmt,
--                          sync="full")
-+                          sync="full", buf_size=65536)
+@@ -20,7 +20,6 @@
  
-     def test_drive_backup(self):
-         self.do_test_stop("drive-backup", device="drive0",
+ import os
+ import iotests
+-import time
+ 
+ class TestStopWithBlockJob(iotests.QMPTestCase):
+     test_img = os.path.join(iotests.test_dir, 'test.img')
+@@ -32,7 +31,8 @@ class TestStopWithBlockJob(iotests.QMPTestCase):
+         iotests.qemu_img('create', '-f', iotests.imgfmt, self.base_img, "1G")
+         iotests.qemu_img('create', '-f', iotests.imgfmt, self.test_img,
+                          "-b", self.base_img, '-F', iotests.imgfmt)
+-        iotests.qemu_io('-f', iotests.imgfmt, '-c', 'write -P0x5d 1M 128M', self.test_img)
++        iotests.qemu_io('-f', iotests.imgfmt, '-c', 'write -P0x5d 1M 128M',
++                        self.test_img)
+         self.vm = iotests.VM()
+         self.vm.add_object('throttle-group,id=tg0,x-bps-total=1024')
+ 
+diff --git a/tests/qemu-iotests/297 b/tests/qemu-iotests/297
+index bfa26d280b..1dce1d1b1c 100755
+--- a/tests/qemu-iotests/297
++++ b/tests/qemu-iotests/297
+@@ -27,7 +27,7 @@ import iotests
+ # TODO: Empty this list!
+ SKIP_FILES = (
+     '030', '040', '041', '044', '045', '055', '056', '057', '065', '093',
+-    '096', '118', '124', '129', '132', '136', '139', '147', '148', '149',
++    '096', '118', '124', '132', '136', '139', '147', '148', '149',
+     '151', '152', '155', '163', '165', '169', '194', '196', '199', '202',
+     '203', '205', '206', '207', '208', '210', '211', '212', '213', '216',
+     '218', '219', '222', '224', '228', '234', '235', '236', '237', '238',
 -- 
 2.29.2
 
