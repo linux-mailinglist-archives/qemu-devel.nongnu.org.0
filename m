@@ -2,87 +2,86 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8E9292F69AE
-	for <lists+qemu-devel@lfdr.de>; Thu, 14 Jan 2021 19:37:05 +0100 (CET)
-Received: from localhost ([::1]:59052 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4ED032F6998
+	for <lists+qemu-devel@lfdr.de>; Thu, 14 Jan 2021 19:32:51 +0100 (CET)
+Received: from localhost ([::1]:51866 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l07UW-0005Yi-L2
-	for lists+qemu-devel@lfdr.de; Thu, 14 Jan 2021 13:37:04 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36108)
+	id 1l07QQ-0002Ed-7D
+	for lists+qemu-devel@lfdr.de; Thu, 14 Jan 2021 13:32:50 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35512)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1l06iy-0001y4-QQ
- for qemu-devel@nongnu.org; Thu, 14 Jan 2021 12:47:58 -0500
-Received: from mail-wm1-x336.google.com ([2a00:1450:4864:20::336]:56181)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1l06ir-0006WV-3n
- for qemu-devel@nongnu.org; Thu, 14 Jan 2021 12:47:56 -0500
-Received: by mail-wm1-x336.google.com with SMTP id c124so5249104wma.5
- for <qemu-devel@nongnu.org>; Thu, 14 Jan 2021 09:47:48 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=references:user-agent:from:to:cc:subject:date:in-reply-to
- :message-id:mime-version:content-transfer-encoding;
- bh=CZ6GlSbucWGPDtTlieBXkpUacxE1MhDq4W3ASDrcufk=;
- b=wQDptkrCMxs9CwztK+Eb24p0vYN8iduB0xQIb1sQ+FO4SCewmWpQmemRatJYNX9agD
- YINJZa3MtGaKa+UmPVGfzOt7igrwUSjyMuPMeMZJoGq5JJTtDXPdt+KjHfRfTVaSH1Z5
- k/FfGxQNweZx1qZDyEd0XLhkg79fNkCe4cnzEwinunBeXGZST8x6z5PJDY3H8boL75m2
- qYZwCVkwU/xGZAU5GdVxfTzFyTviDtdwMUxgv5WvkYoFMtlDIKIT0ykC2z/0b51bUBC+
- TB+DKylK+vqufDS0ziiYqA450EvvCViaHTp0Ys6iFOHYN73W8wKQ8MmNLgNA2HjB8/Zi
- 1uow==
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1l06gk-0000a5-1k
+ for qemu-devel@nongnu.org; Thu, 14 Jan 2021 12:45:43 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:50123)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1l06gW-0005pr-G3
+ for qemu-devel@nongnu.org; Thu, 14 Jan 2021 12:45:31 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1610646320;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=waRpQeMmI+OyRXJ1iEv747KR9KPmFDzQu/Etfs943VI=;
+ b=b3bQvicDKj4gpcO7cwgnuyxixcFeKDmY/nbDNhJoiAOermTqgfoZ+5ADh52WHbfHQWMhNP
+ FBVeRm/hqO2TTyamSM+kPYicbzCRa+Cul7iVcDmG+UZ5JGdHdti9EFxcRspRUshGimlC3h
+ RCmlBKNFFjMmdVoN0P65+ObFmjIRNXs=
+Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
+ [209.85.128.71]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-218-6yUwEM3mPc-PPS0cTiY13w-1; Thu, 14 Jan 2021 12:45:18 -0500
+X-MC-Unique: 6yUwEM3mPc-PPS0cTiY13w-1
+Received: by mail-wm1-f71.google.com with SMTP id r1so2148777wmn.8
+ for <qemu-devel@nongnu.org>; Thu, 14 Jan 2021 09:45:18 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:references:user-agent:from:to:cc:subject:date
- :in-reply-to:message-id:mime-version:content-transfer-encoding;
- bh=CZ6GlSbucWGPDtTlieBXkpUacxE1MhDq4W3ASDrcufk=;
- b=QqTJIiZLIR26NL/dwKovB+3gszf6G+1/hk1MAEHWAnnfxxVfQrlHKEeif2Rb9nrC+Z
- VcaJV8aE7miItjIuDsvzTVaoP0fOWSk0FHGHiFOPW0ui+fx0aKU2ZADmuPA6PFwMhks+
- mDN5ZTdYQweKhuMk9WHm97CW/OfiPSmapiB3SKNf13OzyY3pVe3DrapM3Mdf1JwORHqQ
- IkrtzVt9ficsYrc5OBsDnX36MnaCG7u1VCareaaMIbDVIv7pSL+bdEXws3EOlaG9rz+3
- m3+abgS5azuNJgT/WA4M/p0tefTzTUG2sGYVZ4aCQJI5FbO4KJ1KiAWiY/axFNVHyVYD
- JGww==
-X-Gm-Message-State: AOAM5326zl9hTd8ntMIEG+RjGTg+P7AcNaMi8kQ5KvjeuHa+AReksyPg
- Nq5HE+I2Kco95uPArydjzlQkZg==
-X-Google-Smtp-Source: ABdhPJzG8iY7+r/OUxLgO7TQb3CnQ5rSG7simP8GnCKzEaZ+F+8oxtGmicADhWb0f601lnHaiL5Glg==
-X-Received: by 2002:a1c:2e88:: with SMTP id u130mr4994817wmu.83.1610646467022; 
- Thu, 14 Jan 2021 09:47:47 -0800 (PST)
-Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id c190sm9408989wme.19.2021.01.14.09.47.45
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=waRpQeMmI+OyRXJ1iEv747KR9KPmFDzQu/Etfs943VI=;
+ b=NRYFQSaeRkRupX0vMvntljR+TUndEQa6wU7VOpDfV3VAzdanYCve47z4BKSk6HlIva
+ vJvC0w85BbTI6HNp2wbySExkILBohudIDIfM0wc3sXwtM581wOjfd8utozellLK7GGEh
+ p7ZaVflAyO/a7Ok5zq6GqqZUYQ1F5lyOzFDYgIY7Q2f0q0j5IBxs8IQkjHMXLDI17dim
+ W9MR9EVpziWwjo9bSv1KWo8aL04XKeQn+8BKyR0HpuVbbOoyLjRzbKTU5j/Qh+jYcJnv
+ 0DJPIFdoyvjTkfPVnm1JfZcuVdy63eCybL+u00pkZUTUXEJy8QGY2HO3tPsR+89C/nBR
+ HyMw==
+X-Gm-Message-State: AOAM532GsD6LwX8Bz99fQ1Gw6U5Q6mNI9gbiFL+5j3dTBR0AqQND1NJy
+ Wxl0vKMjM130j5zUP2vXsPKuO90hzJ42lynTxXGYiMwIYGWBMIT/72knDidpn6mpKsA2o3ineAL
+ 6td5fTfgrvNki3ULa7X3rtv31yl3JdiFIoX9bQYDs8qJbq4r+I0sByo9v967lOz4y
+X-Received: by 2002:a5d:6983:: with SMTP id g3mr9147158wru.168.1610646316814; 
+ Thu, 14 Jan 2021 09:45:16 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJzRnlQSfYOEUr02LzYwEDlhTEnKxJrlGz/s32OGaWbZIqknNxDOsSQI53u7zRxH0bMPnunNog==
+X-Received: by 2002:a5d:6983:: with SMTP id g3mr9147138wru.168.1610646316625; 
+ Thu, 14 Jan 2021 09:45:16 -0800 (PST)
+Received: from x1w.redhat.com (13.red-83-57-169.dynamicip.rima-tde.net.
+ [83.57.169.13])
+ by smtp.gmail.com with ESMTPSA id x17sm11131704wro.40.2021.01.14.09.45.15
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 14 Jan 2021 09:47:45 -0800 (PST)
-Received: from zen (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id E880C1FF7E;
- Thu, 14 Jan 2021 17:47:44 +0000 (GMT)
-References: <CAAQ-SiP8G28ade0jHbhTcv0jtGQb4OSgL5p3mAr0MU_FH8vZ3w@mail.gmail.com>
- <87a6tm2sxb.fsf@linaro.org>
- <CAAQ-SiOW8OnWEb0sHUEeS139-Tw0RO2YD1Tx-1s9iuy3ZVQFgw@mail.gmail.com>
- <878s941x85.fsf@linaro.org>
- <20210108083433.pfzhxrd4rezk6yxe@sirius.home.kraxel.org>
- <CAAQ-SiO4VvVTo77J2ga1FmUZ9yrwopeASweO6-AFaakrAUZ80w@mail.gmail.com>
- <CAAQ-SiPiq5NQN=2mvP3isZ9PtYO2Bu64kVEvE6T+3OJd5B-U5A@mail.gmail.com>
- <CAAQ-SiMkJGBnxWSnybJqMD0LSASMtvA_wbrPDQcg-S+Y1ddjJA@mail.gmail.com>
- <878s8zptrf.fsf@linaro.org>
- <CAAQ-SiNKXhJcT1XEodQT6kojqppq37Kg8F8igipQ-HVYOU0=zA@mail.gmail.com>
-User-agent: mu4e 1.5.7; emacs 28.0.50
-From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: Shreyansh Chouhan <chouhan.shreyansh2702@gmail.com>
-Subject: Re: Fwd: VirtioSound device emulation implementation
-Date: Thu, 14 Jan 2021 17:41:54 +0000
-In-reply-to: <CAAQ-SiNKXhJcT1XEodQT6kojqppq37Kg8F8igipQ-HVYOU0=zA@mail.gmail.com>
-Message-ID: <87ft33l8an.fsf@linaro.org>
+ Thu, 14 Jan 2021 09:45:16 -0800 (PST)
+From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
+To: qemu-devel@nongnu.org
+Subject: [PATCH 1/2] meson.build: Declare global edk2_targets /
+ install_edk2_blobs variables
+Date: Thu, 14 Jan 2021 18:45:08 +0100
+Message-Id: <20210114174509.2944817-2-philmd@redhat.com>
+X-Mailer: git-send-email 2.26.2
+In-Reply-To: <20210114174509.2944817-1-philmd@redhat.com>
+References: <20210114174509.2944817-1-philmd@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::336;
- envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x336.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=philmd@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -29
+X-Spam_score: -3.0
+X-Spam_bar: ---
+X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.248,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -95,70 +94,93 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Gerd Hoffmann <kraxel@redhat.com>, qemu-devel@nongnu.org
+Cc: Paolo Bonzini <pbonzini@redhat.com>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
+ John Snow <jsnow@redhat.com>, Laszlo Ersek <lersek@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+Globally declare in the main meson.build:
+- the list of EDK2 targets,
+- whether the EDK2 blobs have to be installed.
 
-Shreyansh Chouhan <chouhan.shreyansh2702@gmail.com> writes:
+Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+---
+Patch trivial to review using 'git-diff --ignore-all-space'
+---
+ meson.build                     |  8 ++++++++
+ pc-bios/descriptors/meson.build | 30 ++++++++++++++++--------------
+ pc-bios/meson.build             |  5 +----
+ 3 files changed, 25 insertions(+), 18 deletions(-)
 
-> Just an update:
->
-> I've studied the virtio specification along with the source code and I now
-> understand what the device implementation is
-> going to look like. Also I understand the source code a lot better. I am
-> now reading about the qemu vhost-user protocol.
->
-> Although I haven't read about the vhost-user daemon in detail, from what
-> little I have read, I would say that the daemon
-> would get the virtqueues from the virtio device and forward it to the sou=
-nd
-> device of the host. (This is the hard part
-> I think, since an in QEMU device would use code already written for
-> processing these queues.)
+diff --git a/meson.build b/meson.build
+index 3d889857a09..ecc45d04d6a 100644
+--- a/meson.build
++++ b/meson.build
+@@ -88,6 +88,14 @@
+   }
+ endif
+ 
++edk2_targets = [ 'arm-softmmu', 'aarch64-softmmu', 'i386-softmmu', 'x86_64-softmmu' ]
++install_edk2_blobs = false
++if get_option('install_blobs')
++  foreach target : target_dirs
++    install_edk2_blobs = install_edk2_blobs or target in edk2_targets
++  endforeach
++endif
++
+ ##################
+ # Compiler flags #
+ ##################
+diff --git a/pc-bios/descriptors/meson.build b/pc-bios/descriptors/meson.build
+index 7040834573d..ac6ec66b007 100644
+--- a/pc-bios/descriptors/meson.build
++++ b/pc-bios/descriptors/meson.build
+@@ -1,14 +1,16 @@
+-foreach f: [
+-  '50-edk2-i386-secure.json',
+-  '50-edk2-x86_64-secure.json',
+-  '60-edk2-aarch64.json',
+-  '60-edk2-arm.json',
+-  '60-edk2-i386.json',
+-  '60-edk2-x86_64.json'
+-]
+-  configure_file(input: files(f),
+-                 output: f,
+-                 configuration: {'DATADIR': qemu_datadir},
+-                 install: get_option('install_blobs'),
+-                 install_dir: qemu_datadir / 'firmware')
+-endforeach
++if install_edk2_blobs
++  foreach f: [
++    '50-edk2-i386-secure.json',
++    '50-edk2-x86_64-secure.json',
++    '60-edk2-aarch64.json',
++    '60-edk2-arm.json',
++    '60-edk2-i386.json',
++    '60-edk2-x86_64.json'
++  ]
++    configure_file(input: files(f),
++                   output: f,
++                   configuration: {'DATADIR': qemu_datadir},
++                   install: get_option('install_blobs'),
++                   install_dir: qemu_datadir / 'firmware')
++  endforeach
++endif
+diff --git a/pc-bios/meson.build b/pc-bios/meson.build
+index fab323af84e..6a341b6cea0 100644
+--- a/pc-bios/meson.build
++++ b/pc-bios/meson.build
+@@ -1,7 +1,4 @@
+-if 'arm-softmmu' in target_dirs or \
+-    'aarch64-softmmu' in target_dirs or \
+-    'i386-softmmu' in target_dirs or \
+-    'x86_64-softmmu' in target_dirs
++if install_edk2_blobs
+   bzip2 = find_program('bzip2', required: true)
+   fds = [
+     'edk2-aarch64-code.fd',
+-- 
+2.26.2
 
-I can't comment on the difficulty there but this does point more towards
-using the in-QEMU approach given we have a bunch of utility functions alrea=
-dy.
-
-> I think only the tx and rx
-> queues would be shared, and although I do not know exactly how the sharing
-> will be implemented, I think the memory
-> will be shared to the vhost-user daemon too? So now the virtqueue memory =
-is
-> shared between the virtio driver in guest
-> OS, the virtio device in QEMU, and the vhost-user daemon running in the
-> host userspace.
-
-QEMU uses a memfd file descriptor to share the guests entire memory map
-with the daemon.
-
-> As for the configuration part, the driver will negotiate features with the
-> virtio device in QEMU, which in turn will communicate
-> with the vhost-user daemon (via sockets) to get the features supported I
-> think.
->
-> This is what I think it will roughly look like. (Of course modulo the
-> implementation details.) I do not yet understand how
-> much more difficult will implementing the vhost-user daemon be, and since=
- I
-> was already
-> warned about the difficulty, I will not risk making any hasty decisions
-> that later hinder the project. I will read up
-> about the vhost-user daemon and how it's implemented to get a better idea,
-> and then make the final call.
-
-If you want to see an example of a branch new vhost-user daemon being
-built up from scratch see my recent virtio-rpmb series. The first few
-patches of in-QEMU code will be the same boilerplate either way I think:
-
-  https://patchew.org/QEMU/20200925125147.26943-1-alex.bennee@linaro.org/
-
-> Anyways I am super excited about the project. I got to learn about some
-> really cool things in the past couple of days,
-> and I can not wait to implement it. :)
-
-
---=20
-Alex Benn=C3=A9e
 
