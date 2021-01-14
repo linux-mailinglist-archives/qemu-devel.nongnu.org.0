@@ -2,67 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E51442F5728
-	for <lists+qemu-devel@lfdr.de>; Thu, 14 Jan 2021 03:19:11 +0100 (CET)
-Received: from localhost ([::1]:37542 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 763A22F5729
+	for <lists+qemu-devel@lfdr.de>; Thu, 14 Jan 2021 03:19:19 +0100 (CET)
+Received: from localhost ([::1]:37804 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kzsEA-0004vk-Eo
-	for lists+qemu-devel@lfdr.de; Wed, 13 Jan 2021 21:19:10 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60068)
+	id 1kzsEI-00052P-I7
+	for lists+qemu-devel@lfdr.de; Wed, 13 Jan 2021 21:19:18 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60076)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1kzsCA-0003IS-Ii
+ id 1kzsCA-0003IZ-V4
  for qemu-devel@nongnu.org; Wed, 13 Jan 2021 21:17:06 -0500
-Received: from mail-pf1-x42a.google.com ([2607:f8b0:4864:20::42a]:42922)
+Received: from mail-pf1-x431.google.com ([2607:f8b0:4864:20::431]:45001)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1kzsC3-0003Mv-Vb
+ id 1kzsC5-0003N7-Js
  for qemu-devel@nongnu.org; Wed, 13 Jan 2021 21:17:06 -0500
-Received: by mail-pf1-x42a.google.com with SMTP id h10so2448083pfo.9
- for <qemu-devel@nongnu.org>; Wed, 13 Jan 2021 18:16:59 -0800 (PST)
+Received: by mail-pf1-x431.google.com with SMTP id a188so2440472pfa.11
+ for <qemu-devel@nongnu.org>; Wed, 13 Jan 2021 18:17:01 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=Fn9gKC/VK3ogLcFskOqLXg01CtO+YLDhHJ1+m0Gofrw=;
- b=T2aRdZ7T02YbitbI8DLL3+cz6S9ehky+5lHTGzkjeUeNz3hsPEZNR/QT+u0uJsDXsc
- ffIa8OqGJHvGSu6nS6M3CUOgjRmlcseE0m3dp58bWppyfKxF3t2lwDB+xtZjOrP2HmU7
- y/TlClu/6hkQrdI2bgiWmuyWZzKRicX2CUwGsLXD6hLCeB2ApkI/Ytb7B/0T4YJI+raC
- xLVx9NTVgfcmNguFmqtr+G+lQDXJaC9y3OKy/s/1nnSfR38j/fEXlfONB7Xt1EdYGyfx
- J8BVjhNXyYrDgD5tJzDKOBbEpVUMPb0rbdlhkgwTpPuPv8MzhHP1I0uxfZrG35DymRVn
- f7JQ==
+ h=from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=9lqObm2OHpXJPRkDAvjp4GmeUvPN9FBnk/3uv3qF2Aw=;
+ b=isASu2nE2C1YzIfsM6U2oaiztneMch0AItPyaXa/PuT6KAxIAt8R/3vWjvo3hAs/+Y
+ bJHYYQ/nkDx0PEnxcIOlDC9Y8Zb3Jo30scP6T2BjBi4HPTwQutkBzgSLmc+8eogUCRK3
+ XisXygw82yxzDZ9LB0bQmxtpDh9qguldkOJ9g9lpXSAGotWdRUk3MpVSIBgtR3hZb9Y8
+ jAi67ioZHQNeLG+VWuh5yF2hw+ZznoJ6xvcAJ85zsP5vmjyZFG+WaIqubQbvVoQdm9ZH
+ lxzeRr4JEPZXudERhCzFObNSagcKWoGaEKXvDDBriClxazHuwwleGgcDxr3jwZxuCEaO
+ 76vw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=Fn9gKC/VK3ogLcFskOqLXg01CtO+YLDhHJ1+m0Gofrw=;
- b=unOV8f4Bf/KE0MW2BrBZ6O+TFaQnH7wwFIk9Ol78XwbxLEhdddpUtXZEkfWJ9b4+Ol
- nA43w9XQavuNFYXcc/b9rKTW++YVS3GhnfO5m7n/0t4GmMMn7TF5ZjEL/WcMUfNAVyz3
- rvmwnHsMONhcuoVC926LWfQs/S7fUxPA7j1r9H114zoX5Ll7DYIdVKWtgTDlsgEjN5T4
- i5DvBzxJQ1OOMFgu5Siyv71d4jkHLtH4K7cqJNALRr7jBpDhBYBQD16Ry0u95X8Nv1M2
- aKFa5PfaBtBCE4vAlvr11KnNuiE/HJecbnWpqC8JoTFB0Z3WxM3EesJzr13Re5gs4Nfb
- VcBQ==
-X-Gm-Message-State: AOAM531+CFcYApL0K+s5ThDTsT8mngdfYMU2Lr80r98DWHC6rpYmJErZ
- 4oMlsn3ZQvkYJNMJC0I5yNpePlD/4tM9Lw==
-X-Google-Smtp-Source: ABdhPJy0De5uqgS2lcj9OwKfGw2JyAdsWl+eR+NBk/kjjRHNcq/tWpusXjmS44h8+RKSuaHAs0yj3g==
-X-Received: by 2002:a63:1f21:: with SMTP id f33mr5040391pgf.31.1610590617981; 
- Wed, 13 Jan 2021 18:16:57 -0800 (PST)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=9lqObm2OHpXJPRkDAvjp4GmeUvPN9FBnk/3uv3qF2Aw=;
+ b=nohrw6LdpCV3Ue3psMLkx1rFkOrvySdHLjeAtqNHiXgk0J0qRD85qUsYc99cZPQMZb
+ x0RIEQXCkjYrHPutQDHDUzXwdGhWmFm05bVf1DfwJECYJ/MriCRgY/Zc3lXejKQLbltd
+ UEZ4h6pOBRZwu0cvv5WkO4XhqAwvM3Yg8D2n0+CPKE9PXWaeArALqFKgqI12aBQP9+8i
+ Q4fadJwScc3kJagRzhETZjYDZoThYH3qcHhkpwf3hZfnIpbrpGD0xktzabOEgUHLKN0p
+ ze85FL5HBhYV2AgbH3Z5hhmg1ZXtLHrh1hKHEf8/80qUCu0AY++oIhUJBC9/6qA7R5ND
+ cshQ==
+X-Gm-Message-State: AOAM533HpjjYlfHuYQvJ/drLx41HSajJ041bz8UImwlrOJTDuUBGRgNB
+ v1W5tx1yVkr0QgcS9pIL3H2B2XMmGrJ7sw==
+X-Google-Smtp-Source: ABdhPJxdpK094TxTXbsdTgx8vvo2dD8EPOhLsSSvfzxEcC8ZS7ZUwL5scDY4VXrxSnKoe98Ag0BtsQ==
+X-Received: by 2002:a63:752:: with SMTP id 79mr4936567pgh.272.1610590619757;
+ Wed, 13 Jan 2021 18:16:59 -0800 (PST)
 Received: from localhost.localdomain (rrcs-173-197-107-21.west.biz.rr.com.
  [173.197.107.21])
- by smtp.gmail.com with ESMTPSA id i7sm3771687pfc.50.2021.01.13.18.16.56
+ by smtp.gmail.com with ESMTPSA id i7sm3771687pfc.50.2021.01.13.18.16.58
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 13 Jan 2021 18:16:57 -0800 (PST)
+ Wed, 13 Jan 2021 18:16:59 -0800 (PST)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 00/24] tcg patch queue
-Date: Wed, 13 Jan 2021 16:16:30 -1000
-Message-Id: <20210114021654.647242-1-richard.henderson@linaro.org>
+Subject: [PULL 01/24] tcg: Use tcg_out_dupi_vec from temp_load
+Date: Wed, 13 Jan 2021 16:16:31 -1000
+Message-Id: <20210114021654.647242-2-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.25.1
+In-Reply-To: <20210114021654.647242-1-richard.henderson@linaro.org>
+References: <20210114021654.647242-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::42a;
- envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x42a.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::431;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x431.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -82,75 +84,159 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: peter.maydell@linaro.org
+Cc: peter.maydell@linaro.org,
+ =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The following changes since commit 45240eed4f064576d589ea60ebadf3c11d7ab891:
+Having dupi pass though movi is confusing and arguably wrong.
 
-  Merge remote-tracking branch 'remotes/armbru/tags/pull-yank-2021-01-13' into staging (2021-01-13 14:19:24 +0000)
+Reviewed-by: Alex Bennée <alex.bennee@linaro.org>
+Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+---
+ tcg/tcg.c                    |  6 +++-
+ tcg/aarch64/tcg-target.c.inc |  7 ----
+ tcg/i386/tcg-target.c.inc    | 63 ++++++++++++++++++++++++------------
+ tcg/ppc/tcg-target.c.inc     |  6 ----
+ 4 files changed, 47 insertions(+), 35 deletions(-)
 
-are available in the Git repository at:
+diff --git a/tcg/tcg.c b/tcg/tcg.c
+index 472bf1755b..ded3c928e3 100644
+--- a/tcg/tcg.c
++++ b/tcg/tcg.c
+@@ -3387,7 +3387,11 @@ static void temp_load(TCGContext *s, TCGTemp *ts, TCGRegSet desired_regs,
+     case TEMP_VAL_CONST:
+         reg = tcg_reg_alloc(s, desired_regs, allocated_regs,
+                             preferred_regs, ts->indirect_base);
+-        tcg_out_movi(s, ts->type, reg, ts->val);
++        if (ts->type <= TCG_TYPE_I64) {
++            tcg_out_movi(s, ts->type, reg, ts->val);
++        } else {
++            tcg_out_dupi_vec(s, ts->type, reg, ts->val);
++        }
+         ts->mem_coherent = 0;
+         break;
+     case TEMP_VAL_MEM:
+diff --git a/tcg/aarch64/tcg-target.c.inc b/tcg/aarch64/tcg-target.c.inc
+index ab199b143f..a2a588e3aa 100644
+--- a/tcg/aarch64/tcg-target.c.inc
++++ b/tcg/aarch64/tcg-target.c.inc
+@@ -1011,13 +1011,6 @@ static void tcg_out_movi(TCGContext *s, TCGType type, TCGReg rd,
+     case TCG_TYPE_I64:
+         tcg_debug_assert(rd < 32);
+         break;
+-
+-    case TCG_TYPE_V64:
+-    case TCG_TYPE_V128:
+-        tcg_debug_assert(rd >= 32);
+-        tcg_out_dupi_vec(s, type, rd, value);
+-        return;
+-
+     default:
+         g_assert_not_reached();
+     }
+diff --git a/tcg/i386/tcg-target.c.inc b/tcg/i386/tcg-target.c.inc
+index 46e856f442..35554fd1e8 100644
+--- a/tcg/i386/tcg-target.c.inc
++++ b/tcg/i386/tcg-target.c.inc
+@@ -975,30 +975,32 @@ static void tcg_out_dupi_vec(TCGContext *s, TCGType type,
+     }
+ }
+ 
+-static void tcg_out_movi(TCGContext *s, TCGType type,
+-                         TCGReg ret, tcg_target_long arg)
++static void tcg_out_movi_vec(TCGContext *s, TCGType type,
++                             TCGReg ret, tcg_target_long arg)
++{
++    if (arg == 0) {
++        tcg_out_vex_modrm(s, OPC_PXOR, ret, ret, ret);
++        return;
++    }
++    if (arg == -1) {
++        tcg_out_vex_modrm(s, OPC_PCMPEQB, ret, ret, ret);
++        return;
++    }
++
++    int rexw = (type == TCG_TYPE_I32 ? 0 : P_REXW);
++    tcg_out_vex_modrm_pool(s, OPC_MOVD_VyEy + rexw, ret);
++    if (TCG_TARGET_REG_BITS == 64) {
++        new_pool_label(s, arg, R_386_PC32, s->code_ptr - 4, -4);
++    } else {
++        new_pool_label(s, arg, R_386_32, s->code_ptr - 4, 0);
++    }
++}
++
++static void tcg_out_movi_int(TCGContext *s, TCGType type,
++                             TCGReg ret, tcg_target_long arg)
+ {
+     tcg_target_long diff;
+ 
+-    switch (type) {
+-    case TCG_TYPE_I32:
+-#if TCG_TARGET_REG_BITS == 64
+-    case TCG_TYPE_I64:
+-#endif
+-        if (ret < 16) {
+-            break;
+-        }
+-        /* fallthru */
+-    case TCG_TYPE_V64:
+-    case TCG_TYPE_V128:
+-    case TCG_TYPE_V256:
+-        tcg_debug_assert(ret >= 16);
+-        tcg_out_dupi_vec(s, type, ret, arg);
+-        return;
+-    default:
+-        g_assert_not_reached();
+-    }
+-
+     if (arg == 0) {
+         tgen_arithr(s, ARITH_XOR, ret, ret);
+         return;
+@@ -1027,6 +1029,25 @@ static void tcg_out_movi(TCGContext *s, TCGType type,
+     tcg_out64(s, arg);
+ }
+ 
++static void tcg_out_movi(TCGContext *s, TCGType type,
++                         TCGReg ret, tcg_target_long arg)
++{
++    switch (type) {
++    case TCG_TYPE_I32:
++#if TCG_TARGET_REG_BITS == 64
++    case TCG_TYPE_I64:
++#endif
++        if (ret < 16) {
++            tcg_out_movi_int(s, type, ret, arg);
++        } else {
++            tcg_out_movi_vec(s, type, ret, arg);
++        }
++        break;
++    default:
++        g_assert_not_reached();
++    }
++}
++
+ static inline void tcg_out_pushi(TCGContext *s, tcg_target_long val)
+ {
+     if (val == (int8_t)val) {
+diff --git a/tcg/ppc/tcg-target.c.inc b/tcg/ppc/tcg-target.c.inc
+index 19a4a12f15..a3f1bd41cd 100644
+--- a/tcg/ppc/tcg-target.c.inc
++++ b/tcg/ppc/tcg-target.c.inc
+@@ -987,12 +987,6 @@ static void tcg_out_movi(TCGContext *s, TCGType type, TCGReg ret,
+         tcg_out_movi_int(s, type, ret, arg, false);
+         break;
+ 
+-    case TCG_TYPE_V64:
+-    case TCG_TYPE_V128:
+-        tcg_debug_assert(ret >= TCG_REG_V0);
+-        tcg_out_dupi_vec(s, type, ret, arg);
+-        break;
+-
+     default:
+         g_assert_not_reached();
+     }
+-- 
+2.25.1
 
-  https://gitlab.com/rth7680/qemu.git tags/pull-tcg-20210113
-
-for you to fetch changes up to 4cacecaaa2bbf8af0967bd3eee43297fada475a9:
-
-  decodetree: Open files with encoding='utf-8' (2021-01-13 08:39:08 -1000)
-
-----------------------------------------------------------------
-Improvements to tcg constant handling.
-Force utf8 for decodetree.
-
-----------------------------------------------------------------
-Philippe Mathieu-Daudé (1):
-      decodetree: Open files with encoding='utf-8'
-
-Richard Henderson (23):
-      tcg: Use tcg_out_dupi_vec from temp_load
-      tcg: Increase tcg_out_dupi_vec immediate to int64_t
-      tcg: Consolidate 3 bits into enum TCGTempKind
-      tcg: Add temp_readonly
-      tcg: Expand TCGTemp.val to 64-bits
-      tcg: Rename struct tcg_temp_info to TempOptInfo
-      tcg: Expand TempOptInfo to 64-bits
-      tcg: Introduce TYPE_CONST temporaries
-      tcg/optimize: Improve find_better_copy
-      tcg/optimize: Adjust TempOptInfo allocation
-      tcg/optimize: Use tcg_constant_internal with constant folding
-      tcg: Convert tcg_gen_dupi_vec to TCG_CONST
-      tcg: Use tcg_constant_i32 with icount expander
-      tcg: Use tcg_constant_{i32,i64} with tcg int expanders
-      tcg: Use tcg_constant_{i32,i64} with tcg plugins
-      tcg: Use tcg_constant_{i32,i64,vec} with gvec expanders
-      tcg/tci: Add special tci_movi_{i32,i64} opcodes
-      tcg: Remove movi and dupi opcodes
-      tcg: Add tcg_reg_alloc_dup2
-      tcg/i386: Use tcg_constant_vec with tcg vec expanders
-      tcg: Remove tcg_gen_dup{8,16,32,64}i_vec
-      tcg/ppc: Use tcg_constant_vec with tcg vec expanders
-      tcg/aarch64: Use tcg_constant_vec with tcg vec expanders
-
- include/exec/gen-icount.h    |  25 +--
- include/tcg/tcg-op.h         |  17 +-
- include/tcg/tcg-opc.h        |  11 +-
- include/tcg/tcg.h            |  50 ++++-
- accel/tcg/plugin-gen.c       |  49 ++---
- tcg/optimize.c               | 249 +++++++++++-----------
- tcg/tcg-op-gvec.c            | 129 +++++-------
- tcg/tcg-op-vec.c             |  52 +----
- tcg/tcg-op.c                 | 227 ++++++++++----------
- tcg/tcg.c                    | 488 +++++++++++++++++++++++++++++++++----------
- tcg/tci.c                    |   4 +-
- tcg/aarch64/tcg-target.c.inc |  32 +--
- tcg/arm/tcg-target.c.inc     |   1 -
- tcg/i386/tcg-target.c.inc    | 112 ++++++----
- tcg/mips/tcg-target.c.inc    |   2 -
- tcg/ppc/tcg-target.c.inc     |  90 ++++----
- tcg/riscv/tcg-target.c.inc   |   2 -
- tcg/s390/tcg-target.c.inc    |   2 -
- tcg/sparc/tcg-target.c.inc   |   2 -
- tcg/tci/tcg-target.c.inc     |   6 +-
- scripts/decodetree.py        |   9 +-
- 21 files changed, 890 insertions(+), 669 deletions(-)
 
