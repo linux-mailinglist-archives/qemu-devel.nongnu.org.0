@@ -2,68 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 181602F6253
-	for <lists+qemu-devel@lfdr.de>; Thu, 14 Jan 2021 14:49:36 +0100 (CET)
-Received: from localhost ([::1]:37494 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AEA592F6263
+	for <lists+qemu-devel@lfdr.de>; Thu, 14 Jan 2021 14:51:08 +0100 (CET)
+Received: from localhost ([::1]:41816 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l030J-0006af-4c
-	for lists+qemu-devel@lfdr.de; Thu, 14 Jan 2021 08:49:35 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54992)
+	id 1l031n-0008Ts-FE
+	for lists+qemu-devel@lfdr.de; Thu, 14 Jan 2021 08:51:07 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54982)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pavlica.nikola@gmail.com>)
- id 1l02xO-0004OZ-JL
- for qemu-devel@nongnu.org; Thu, 14 Jan 2021 08:46:34 -0500
-Received: from mail-wr1-x42e.google.com ([2a00:1450:4864:20::42e]:47032)
+ id 1l02xN-0004Mh-EJ
+ for qemu-devel@nongnu.org; Thu, 14 Jan 2021 08:46:33 -0500
+Received: from mail-wr1-x42f.google.com ([2a00:1450:4864:20::42f]:44023)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <pavlica.nikola@gmail.com>)
- id 1l02xJ-00010j-Ul
- for qemu-devel@nongnu.org; Thu, 14 Jan 2021 08:46:34 -0500
-Received: by mail-wr1-x42e.google.com with SMTP id d13so5795490wrc.13
- for <qemu-devel@nongnu.org>; Thu, 14 Jan 2021 05:46:29 -0800 (PST)
+ id 1l02xL-00012A-Rz
+ for qemu-devel@nongnu.org; Thu, 14 Jan 2021 08:46:33 -0500
+Received: by mail-wr1-x42f.google.com with SMTP id y17so5805045wrr.10
+ for <qemu-devel@nongnu.org>; Thu, 14 Jan 2021 05:46:31 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=76J19Z46dfDAROoPlZLlI73X5SF0+xkfiFl0PfM58YM=;
- b=VAFif2PrSady+Myc3KFcrNz0WA1W/1AwJrpLSBkTYDt/BUeF0TieIBQ0RMWZaDbVAR
- /mdH1bGRRxl9bAlPs5/BDvVEMh2T+8he0sKcEoY7TDWGTp8GFRhcvmlqEDHS0OV8R6TU
- bokusEI4UbcVDCd537XJQWCc9cFaYokqwuCG/ocDNgfvDFGKYu/5PQgT1xNHZ/HPX5FO
- i6D51+g8GNh+VX3zMuzeih7pZNRhDqpENVFNnyeZEeWE0Ob/eq8M/GDWsZoh3Novi9x6
- xK8SNYhGtXMhL2zAxPOb+6fOu5ONiS8nJQqiw9myWQ3QnVZ8u/H9fXpNMPkYjt52mDto
- w4WQ==
+ bh=Rmx4TdmD0MZ2eVuO2ekdHKsxNp6i3G8BEbLuvtvKoq4=;
+ b=jwKtt/c9EZ4J6l8X8BG7KGgArLvJGsRRNGzOmX1lFslJft5L+DSGnqb0NBuSEIJ33M
+ 4zvLKaZiYAP/ATxzHToy80chMCiWu+jvLGDNGwxe2EdpK22A7Q+3UoPu+mSRSgtyDwWo
+ lGBHhCGoZJD+GUP0wQ6UlT5/V8c1QP35qG4U9l/+Qdu8Xn2g/rj70uafddz1TzlmmUL0
+ sxJ61thDWd7PoTvQXqjoZvvLoaHDa+IaR7iIS57TwgzoKPJy2Lx60qTqTb21jyyqa7e4
+ yullcV9eoEVENOxPpuzVWEOtNsmsk7b0EORdz8KgmOxOzht1OI6vFGGT7bmjLXYjCLKC
+ YIgw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=76J19Z46dfDAROoPlZLlI73X5SF0+xkfiFl0PfM58YM=;
- b=NMdrkFPKl47C99Np1VuAY70EPaPLyCVMz8paavQUHSKVOfugRw5mUXx5jkaPtFGXR0
- PT5XuIxYOMMyq/90S97ckJCUdWrJ8Xbx90LmStfsDh0dDOvxIG2awvkvQNGmIZZ9bxe0
- 6n+Ro7sfviCds7mHlfiZblYgGXeIEcI2cFfV7RSWXy6zbxfMTB+uCZCizvaEaMsJZnzZ
- 9h5X2nkus8r72UCLABiXpu+8qzoFe0h+60ntdATjcA4DyjBQhY+KXAv8HRqaMIqF7nbJ
- zL7ho/T2Sw3Q3owd7yO7ed4GPzLnQeHEEiEWhakTKxd2dUXISgsXXQiDHI4BThxwvZ/y
- HWtw==
-X-Gm-Message-State: AOAM532zkaCq5b56orrOn/RJX1l/NvBoolM7L8jy9HjpBtabhMAcFlve
- skIQQ6xr/QqrMmpthtJtOx/HBPGuu8S4f8iw
-X-Google-Smtp-Source: ABdhPJzW90JhJK3wmuN77EQhW8F6RzS3HddToPShz3mU9+nF+fwTQAfy+lH80MYn9GuFrAQr5GbmcQ==
-X-Received: by 2002:adf:e541:: with SMTP id z1mr8034942wrm.143.1610631988221; 
- Thu, 14 Jan 2021 05:46:28 -0800 (PST)
+ bh=Rmx4TdmD0MZ2eVuO2ekdHKsxNp6i3G8BEbLuvtvKoq4=;
+ b=Y2TtoLY8XNeh1qwLx/AUfzW4ouRUWgU3f92eUVyXW/Ve8SSeCSiEL0qtEZ+mlN3dtO
+ U517SlhY1hyrA1iGcPhiBADGfGhKEEv7hOnbd6dMgz1U9a+slCuoyMc14PvO17XSQaoB
+ /Qad0CQCNzhNT9aJ/hJO79rELjb4jeJKOvvJwp4776bKap1arUDdHw2y28WX4vd08Y4P
+ WtzmsP/+06JVmd1R1ofIPKyKv4RynSO8vvQd4hHfpB7NfSjWoMLgw2DbJqJi/0fHLLeP
+ IMRe8GPkaOPw2F2d9ZkIIg6pUahlstcmKEuN5RUGjNpI36pZn2r2zNkYb376/pkcfIK9
+ uZ/A==
+X-Gm-Message-State: AOAM5317JiOYQLRYx/Nmjcejw/m/R4MPykmz7syNH4eL7ZP6qb1h1CHM
+ 9KjnZFwiarm6LKSpJmhT4Jz9jndlTyQQew7P
+X-Google-Smtp-Source: ABdhPJzq7ErTpymyD4p4Fmwf/5sq9Ct27zvRlf95pfGAawClgO///++UiBjpd7KdpTUSNCvuOxnq9g==
+X-Received: by 2002:adf:9b9b:: with SMTP id d27mr8157164wrc.125.1610631989994; 
+ Thu, 14 Jan 2021 05:46:29 -0800 (PST)
 Received: from localhost.localdomain ([213.91.86.150])
- by smtp.googlemail.com with ESMTPSA id h184sm8832924wmh.23.2021.01.14.05.46.26
+ by smtp.googlemail.com with ESMTPSA id h184sm8832924wmh.23.2021.01.14.05.46.28
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 14 Jan 2021 05:46:27 -0800 (PST)
+ Thu, 14 Jan 2021 05:46:29 -0800 (PST)
 From: Nikola Pavlica <pavlica.nikola@gmail.com>
 To: qemu-devel@nongnu.org,
 	qemu-devel@nongnu.com
-Subject: [PATCH 1/2] ui/gtk: expose gd_monitor_update_interval
-Date: Thu, 14 Jan 2021 14:45:56 +0100
-Message-Id: <20210114134557.292337-2-pavlica.nikola@gmail.com>
+Subject: [PATCH 2/2] ui/gtk: update monitor interval on egl displays
+Date: Thu, 14 Jan 2021 14:45:57 +0100
+Message-Id: <20210114134557.292337-3-pavlica.nikola@gmail.com>
 X-Mailer: git-send-email 2.30.0
 In-Reply-To: <20210114134557.292337-1-pavlica.nikola@gmail.com>
 References: <20210114134557.292337-1-pavlica.nikola@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::42e;
- envelope-from=pavlica.nikola@gmail.com; helo=mail-wr1-x42e.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::42f;
+ envelope-from=pavlica.nikola@gmail.com; helo=mail-wr1-x42f.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -88,44 +88,38 @@ Cc: r_qemu@t-online.de, philmd@redhat.com, kraxel@redhat.com,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The gd_egl_refresh function, as the name suggests, is responsible for
-refreshing displays when using EGL graphics with QEMU's GTK UI. This is
-a perfect candidate for a function to update the refresh rate in.
+When running QEMU's GTK UI without EGL or OGL, the
+gd_monitor_update_interval function gets executed and the display refresh
+rate gets updated accordingly. However, when using EGL or just regular
+OGL, the function never gets executed.
 
-Since gd_monitor_update_interval is inaccessible from the gd_egl_refresh
-function, we need to expose/globalize it in the include/ui/gtk.h file.
+Which is why I decided that the function should be in gd_egl_refresh
+where the display output gets updated, in the same vain as how it's done
+for normal GTK UIs (aka. those without EGL) - in it's display refresh
+function.
+
+Since the gd_monitor_update_interval function now is exposed, we are
+going to use it to update the refresh rate.
 
 Signed-off-by: Nikola Pavlica <pavlica.nikola@gmail.com>
 ---
- include/ui/gtk.h | 1 +
- ui/gtk.c         | 2 +-
- 2 files changed, 2 insertions(+), 1 deletion(-)
+ ui/gtk-egl.c | 3 +++
+ 1 file changed, 3 insertions(+)
 
-diff --git a/include/ui/gtk.h b/include/ui/gtk.h
-index 80851fb4c7..3f395d7f94 100644
---- a/include/ui/gtk.h
-+++ b/include/ui/gtk.h
-@@ -86,6 +86,7 @@ extern bool gtk_use_gl_area;
- 
- /* ui/gtk.c */
- void gd_update_windowsize(VirtualConsole *vc);
-+int gd_monitor_update_interval(GtkWidget *widget);
- 
- /* ui/gtk-egl.c */
- void gd_egl_init(VirtualConsole *vc);
-diff --git a/ui/gtk.c b/ui/gtk.c
-index d2004a4dc1..26665cd2e6 100644
---- a/ui/gtk.c
-+++ b/ui/gtk.c
-@@ -752,7 +752,7 @@ static void gd_resize_event(GtkGLArea *area,
-  * If available, return the update interval of the monitor in ms,
-  * else return 0 (the default update interval).
-  */
--static int gd_monitor_update_interval(GtkWidget *widget)
-+int gd_monitor_update_interval(GtkWidget *widget)
+diff --git a/ui/gtk-egl.c b/ui/gtk-egl.c
+index 99231a3597..71c3d698b4 100644
+--- a/ui/gtk-egl.c
++++ b/ui/gtk-egl.c
+@@ -113,6 +113,9 @@ void gd_egl_refresh(DisplayChangeListener *dcl)
  {
- #ifdef GDK_VERSION_3_22
-     GdkWindow *win = gtk_widget_get_window(widget);
+     VirtualConsole *vc = container_of(dcl, VirtualConsole, gfx.dcl);
+ 
++    vc->gfx.dcl.update_interval = gd_monitor_update_interval(
++            vc->window ? vc->window : vc->gfx.drawing_area);
++
+     if (!vc->gfx.esurface) {
+         gd_egl_init(vc);
+         if (!vc->gfx.esurface) {
 -- 
 2.30.0
 
