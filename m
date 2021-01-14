@@ -2,53 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6E71D2F67B7
-	for <lists+qemu-devel@lfdr.de>; Thu, 14 Jan 2021 18:33:41 +0100 (CET)
-Received: from localhost ([::1]:47416 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6CA752F67B5
+	for <lists+qemu-devel@lfdr.de>; Thu, 14 Jan 2021 18:32:51 +0100 (CET)
+Received: from localhost ([::1]:44694 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l06VA-0005x1-2e
-	for lists+qemu-devel@lfdr.de; Thu, 14 Jan 2021 12:33:40 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51920)
+	id 1l06UM-0004jg-DU
+	for lists+qemu-devel@lfdr.de; Thu, 14 Jan 2021 12:32:50 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52102)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1l061w-0007I4-DF
- for qemu-devel@nongnu.org; Thu, 14 Jan 2021 12:03:28 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:49704)
+ (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1l0622-0007XS-Pl
+ for qemu-devel@nongnu.org; Thu, 14 Jan 2021 12:03:34 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:39051)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1l061k-0006ox-M6
- for qemu-devel@nongnu.org; Thu, 14 Jan 2021 12:03:28 -0500
+ (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1l061x-0006ux-OM
+ for qemu-devel@nongnu.org; Thu, 14 Jan 2021 12:03:34 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1610643795;
+ s=mimecast20190719; t=1610643808;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=nUOH6VRFC3WbRU69fiomKZTa3HERk87bF9xDE/qZ5iw=;
- b=XPbBGa6rAWRw7BOLEo/UMlXoInw/qCH5ic8vudWOsgTCh1TmKkfVY6lwPbalyOSuXgGTjj
- Sdm7g3L1CmatFOqVLcgIk8Fn8NyEVcsG7jJYgmoUJ7emJ9aejfygVLoJgNCZJuY0ANxsOZ
- uYBmgTRMFCW4riob2jhwhMwNiJnP8MQ=
+ bh=0ZlDK3ti6VD9Wg4mk5fXQ4rn8uIlnrUMVgAf+ekSndY=;
+ b=Y4tEyf6aKOsH/Y+cXAfPTxA5AXMcOktQ07K7GAVzUDx25CMYAMX9l4j7WTdMWADd1TPpgL
+ I4HSRnietpb1OXLQ4fGiiZcjbMm+E+fjjl8RBwbI9G2BSvQmpUaUS0FOtTVZAVoItlJb7y
+ kUYNEqXsMi+asMSj/6qI05TYnxqThws=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-593-1UJ-bSGEN_6e1yd6YWEMZg-1; Thu, 14 Jan 2021 12:03:13 -0500
-X-MC-Unique: 1UJ-bSGEN_6e1yd6YWEMZg-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
+ us-mta-89-383evvt1OaKGC9FuUVqXbA-1; Thu, 14 Jan 2021 12:03:24 -0500
+X-MC-Unique: 383evvt1OaKGC9FuUVqXbA-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+ [10.5.11.15])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 50CB485EE86;
- Thu, 14 Jan 2021 17:03:11 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 897ACCC622;
+ Thu, 14 Jan 2021 17:03:23 +0000 (UTC)
 Received: from localhost (ovpn-115-31.ams2.redhat.com [10.36.115.31])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id DD0DE10023B7;
- Thu, 14 Jan 2021 17:03:10 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 20C945D71D;
+ Thu, 14 Jan 2021 17:03:22 +0000 (UTC)
 From: Max Reitz <mreitz@redhat.com>
 To: qemu-block@nongnu.org
-Subject: [PATCH v3 02/10] iotests/297: Rewrite in Python and extend reach
-Date: Thu, 14 Jan 2021 18:02:56 +0100
-Message-Id: <20210114170304.87507-3-mreitz@redhat.com>
+Subject: [PATCH v3 06/10] iotests/129: Use throttle node
+Date: Thu, 14 Jan 2021 18:03:00 +0100
+Message-Id: <20210114170304.87507-7-mreitz@redhat.com>
 In-Reply-To: <20210114170304.87507-1-mreitz@redhat.com>
 References: <20210114170304.87507-1-mreitz@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mreitz@redhat.com
 X-Mimecast-Spam-Score: 0
@@ -82,182 +82,88 @@ Cc: Kevin Wolf <kwolf@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Instead of checking iotests.py only, check all Python files in the
-qemu-iotests/ directory.  Of course, most of them do not pass, so there
-is an extensive skip list for now.  (The only files that do pass are
-209, 254, 283, and iotests.py.)
+Throttling on the BB has not affected block jobs in a while, so it is
+possible that one of the jobs in 129 finishes before the VM is stopped.
+We can fix that by running the job from a throttle node.
 
-(Alternatively, we could have the opposite, i.e. an explicit list of
-files that we do want to check, but I think it is better to check files
-by default.)
-
-Unless started in debug mode (./check -d), the output has no information
-on which files are tested, so we will not have a problem e.g. with
-backports, where some files may be missing when compared to upstream.
-
-Besides the technical rewrite, some more things are changed:
-
-- For the pylint invocation, PYTHONPATH is adjusted.  This mirrors
-  setting MYPYPATH for mypy.
-
-- Also, MYPYPATH is now derived from PYTHONPATH, so that we include
-  paths set by the environment.  Maybe at some point we want to let the
-  check script add '../../python/' to PYTHONPATH so that iotests.py does
-  not need to do that.
-
-- Passing --notes=FIXME,XXX to pylint suppresses warnings for TODO
-  comments.  TODO is fine, we do not need 297 to complain about such
-  comments.
-
-- The "Success" line from mypy's output is suppressed, because (A) it
-  does not add useful information, and (B) it would leak information
-  about the files having been tested to the reference output, which we
-  decidedly do not want.
-
-Suggested-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 Signed-off-by: Max Reitz <mreitz@redhat.com>
+Reviewed-by: Eric Blake <eblake@redhat.com>
 ---
- tests/qemu-iotests/297     | 109 +++++++++++++++++++++++++++++--------
- tests/qemu-iotests/297.out |   5 +-
- 2 files changed, 89 insertions(+), 25 deletions(-)
+ tests/qemu-iotests/129 | 37 +++++++++++++------------------------
+ 1 file changed, 13 insertions(+), 24 deletions(-)
 
-diff --git a/tests/qemu-iotests/297 b/tests/qemu-iotests/297
-index 5c5420712b..bfa26d280b 100755
---- a/tests/qemu-iotests/297
-+++ b/tests/qemu-iotests/297
-@@ -1,4 +1,4 @@
--#!/usr/bin/env bash
-+#!/usr/bin/env python3
- #
- # Copyright (C) 2020 Red Hat, Inc.
- #
-@@ -15,30 +15,95 @@
- # You should have received a copy of the GNU General Public License
- # along with this program.  If not, see <http://www.gnu.org/licenses/>.
+diff --git a/tests/qemu-iotests/129 b/tests/qemu-iotests/129
+index dd23bb2e5a..58536bc6ee 100755
+--- a/tests/qemu-iotests/129
++++ b/tests/qemu-iotests/129
+@@ -32,20 +32,18 @@ class TestStopWithBlockJob(iotests.QMPTestCase):
+         iotests.qemu_img('create', '-f', iotests.imgfmt, self.test_img,
+                          "-b", self.base_img, '-F', iotests.imgfmt)
+         iotests.qemu_io('-f', iotests.imgfmt, '-c', 'write -P0x5d 1M 128M', self.test_img)
+-        self.vm = iotests.VM().add_drive(self.test_img)
++        self.vm = iotests.VM()
++        self.vm.add_object('throttle-group,id=tg0,x-bps-total=1024')
++
++        source_drive = 'driver=throttle,' \
++                       'throttle-group=tg0,' \
++                      f'file.driver={iotests.imgfmt},' \
++                      f'file.file.filename={self.test_img}'
++
++        self.vm.add_drive(None, source_drive)
+         self.vm.launch()
  
--seq=$(basename $0)
--echo "QA output created by $seq"
-+import os
-+import re
-+import shutil
-+import subprocess
-+import sys
+     def tearDown(self):
+-        params = {"device": "drive0",
+-                  "bps": 0,
+-                  "bps_rd": 0,
+-                  "bps_wr": 0,
+-                  "iops": 0,
+-                  "iops_rd": 0,
+-                  "iops_wr": 0,
+-                 }
+-        result = self.vm.qmp("block_set_io_throttle", conv_keys=False,
+-                             **params)
+         self.vm.shutdown()
+         for img in (self.test_img, self.target_img, self.base_img):
+             iotests.try_remove(img)
+@@ -53,33 +51,24 @@ class TestStopWithBlockJob(iotests.QMPTestCase):
+     def do_test_stop(self, cmd, **args):
+         """Test 'stop' while block job is running on a throttled drive.
+         The 'stop' command shouldn't drain the job"""
+-        params = {"device": "drive0",
+-                  "bps": 1024,
+-                  "bps_rd": 0,
+-                  "bps_wr": 0,
+-                  "iops": 0,
+-                  "iops_rd": 0,
+-                  "iops_wr": 0,
+-                 }
+-        result = self.vm.qmp("block_set_io_throttle", conv_keys=False,
+-                             **params)
+-        self.assert_qmp(result, 'return', {})
+         result = self.vm.qmp(cmd, **args)
+         self.assert_qmp(result, 'return', {})
++
+         result = self.vm.qmp("stop")
+         self.assert_qmp(result, 'return', {})
+         result = self.vm.qmp("query-block-jobs")
++
+         self.assert_qmp(result, 'return[0]/status', 'running')
+         self.assert_qmp(result, 'return[0]/ready', False)
  
--status=1	# failure is the default!
-+import iotests
+     def test_drive_mirror(self):
+         self.do_test_stop("drive-mirror", device="drive0",
+-                          target=self.target_img,
++                          target=self.target_img, format=iotests.imgfmt,
+                           sync="full")
  
--# get standard environment
--. ./common.rc
+     def test_drive_backup(self):
+         self.do_test_stop("drive-backup", device="drive0",
+-                          target=self.target_img,
++                          target=self.target_img, format=iotests.imgfmt,
+                           sync="full")
  
--if ! type -p "pylint-3" > /dev/null; then
--    _notrun "pylint-3 not found"
--fi
--if ! type -p "mypy" > /dev/null; then
--    _notrun "mypy not found"
--fi
-+# TODO: Empty this list!
-+SKIP_FILES = (
-+    '030', '040', '041', '044', '045', '055', '056', '057', '065', '093',
-+    '096', '118', '124', '129', '132', '136', '139', '147', '148', '149',
-+    '151', '152', '155', '163', '165', '169', '194', '196', '199', '202',
-+    '203', '205', '206', '207', '208', '210', '211', '212', '213', '216',
-+    '218', '219', '222', '224', '228', '234', '235', '236', '237', '238',
-+    '240', '242', '245', '246', '248', '255', '256', '257', '258', '260',
-+    '262', '264', '266', '274', '277', '280', '281', '295', '296', '298',
-+    '299', '300', '302', '303', '304', '307',
-+    'nbd-fault-injector.py', 'qcow2.py', 'qcow2_format.py', 'qed.py'
-+)
- 
--pylint-3 --score=n iotests.py
- 
--MYPYPATH=../../python/ mypy --warn-unused-configs --disallow-subclassing-any \
--    --disallow-any-generics --disallow-incomplete-defs \
--    --disallow-untyped-decorators --no-implicit-optional \
--    --warn-redundant-casts --warn-unused-ignores \
--    --no-implicit-reexport iotests.py
-+def is_python_file(filename):
-+    if not os.path.isfile(filename):
-+        return False
- 
--# success, all done
--echo "*** done"
--rm -f $seq.full
--status=0
-+    if filename.endswith('.py'):
-+        return True
-+
-+    with open(filename) as f:
-+        try:
-+            first_line = f.readline()
-+            return re.match('^#!.*python', first_line) is not None
-+        except UnicodeDecodeError: # Ignore binary files
-+            return False
-+
-+def run_linters():
-+    files = [filename for filename in (set(os.listdir('.')) - set(SKIP_FILES))
-+             if is_python_file(filename)]
-+
-+    iotests.logger.debug('Files to be checked:')
-+    iotests.logger.debug(', '.join(sorted(files)))
-+
-+    print('=== pylint ===')
-+    sys.stdout.flush()
-+
-+    # Todo notes are fine, but fixme's or xxx's should probably just be
-+    # fixed (in tests, at least)
-+    env = os.environ
-+    try:
-+        env['PYTHONPATH'] += ':../../python/'
-+    except KeyError:
-+        env['PYTHONPATH'] = '../../python/'
-+    subprocess.run(('pylint-3', '--score=n', '--notes=FIXME,XXX', *files),
-+                   env=env, check=False)
-+
-+    print('=== mypy ===')
-+    sys.stdout.flush()
-+
-+    # We have to call mypy separately for each file.  Otherwise, it
-+    # will interpret all given files as belonging together (i.e., they
-+    # may not both define the same classes, etc.; most notably, they
-+    # must not both define the __main__ module).
-+    env['MYPYPATH'] = env['PYTHONPATH']
-+    for filename in files:
-+        p = subprocess.run(('mypy',
-+                            '--warn-unused-configs',
-+                            '--disallow-subclassing-any',
-+                            '--disallow-any-generics',
-+                            '--disallow-incomplete-defs',
-+                            '--disallow-untyped-decorators',
-+                            '--no-implicit-optional',
-+                            '--warn-redundant-casts',
-+                            '--warn-unused-ignores',
-+                            '--no-implicit-reexport',
-+                            filename),
-+                           env=env,
-+                           check=False,
-+                           stdout=subprocess.PIPE,
-+                           stderr=subprocess.STDOUT,
-+                           text=True)
-+
-+        if p.returncode != 0:
-+            print(p.stdout)
-+
-+
-+for linter in ('pylint-3', 'mypy'):
-+    if shutil.which(linter) is None:
-+        iotests.notrun(f'{linter} not found')
-+
-+iotests.script_main(run_linters)
-diff --git a/tests/qemu-iotests/297.out b/tests/qemu-iotests/297.out
-index 6acc843649..f2e1314d10 100644
---- a/tests/qemu-iotests/297.out
-+++ b/tests/qemu-iotests/297.out
-@@ -1,3 +1,2 @@
--QA output created by 297
--Success: no issues found in 1 source file
--*** done
-+=== pylint ===
-+=== mypy ===
+     def test_block_commit(self):
 -- 
 2.29.2
 
