@@ -2,106 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 40D792F5D45
-	for <lists+qemu-devel@lfdr.de>; Thu, 14 Jan 2021 10:26:33 +0100 (CET)
-Received: from localhost ([::1]:46814 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0D44A2F5D4F
+	for <lists+qemu-devel@lfdr.de>; Thu, 14 Jan 2021 10:28:54 +0100 (CET)
+Received: from localhost ([::1]:51134 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kzytk-0005zX-97
-	for lists+qemu-devel@lfdr.de; Thu, 14 Jan 2021 04:26:32 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48496)
+	id 1kzyw1-0007pR-2r
+	for lists+qemu-devel@lfdr.de; Thu, 14 Jan 2021 04:28:53 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49076)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <borntraeger@de.ibm.com>)
- id 1kzysg-0005De-5s; Thu, 14 Jan 2021 04:25:26 -0500
-Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:54672)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <borntraeger@de.ibm.com>)
- id 1kzyse-0007ea-6z; Thu, 14 Jan 2021 04:25:25 -0500
-Received: from pps.filterd (m0187473.ppops.net [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id
- 10E93vqH040811; Thu, 14 Jan 2021 04:25:12 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
- h=subject : from : to : cc
- : references : message-id : date : mime-version : in-reply-to :
- content-type : content-transfer-encoding; s=pp1;
- bh=aPMBM+XkQVCnTPiepVHmk0qTRFDy1OOcgjKfpH+1GSY=;
- b=VrK/GF7inTMWfHDVoJY3emGt/lVN8Ak57S3IBQhJhM1lRq0ljlD+aM98gP6NulWSI/ri
- iXdtjENQsyZr4p6b4jBPvmvxp59TKC3P75neuPDZjpSTVUHmUmMrIM2I0ySeyIsrn/1Q
- /FBhVR1ByjeniLvWzgCJQoI6obyx1WovGnajA1MBCO0VpIHjxlIg9N42SuzBZiAV8wv6
- AvsY/z8diFEgXOV/OD8IjXlJq4TvRssWIHSfAUskmy1hGDbTVNYLH/2/1RMFciJ0dLP1
- ZZphTQOelZ2+HBfwZ3+v9kf8UP3YtbK4pmlJRNbBRAsP+DOSYDkOIaKTvnHh0xkvb9uW 4A== 
-Received: from pps.reinject (localhost [127.0.0.1])
- by mx0a-001b2d01.pphosted.com with ESMTP id 362jr6rw7b-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 14 Jan 2021 04:25:11 -0500
-Received: from m0187473.ppops.net (m0187473.ppops.net [127.0.0.1])
- by pps.reinject (8.16.0.36/8.16.0.36) with SMTP id 10E94Nk8041748;
- Thu, 14 Jan 2021 04:25:08 -0500
-Received: from ppma05fra.de.ibm.com (6c.4a.5195.ip4.static.sl-reverse.com
- [149.81.74.108])
- by mx0a-001b2d01.pphosted.com with ESMTP id 362jr6rw4h-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 14 Jan 2021 04:25:07 -0500
-Received: from pps.filterd (ppma05fra.de.ibm.com [127.0.0.1])
- by ppma05fra.de.ibm.com (8.16.0.42/8.16.0.42) with SMTP id 10E9D9AH022830;
- Thu, 14 Jan 2021 09:25:02 GMT
-Received: from b06cxnps4074.portsmouth.uk.ibm.com
- (d06relay11.portsmouth.uk.ibm.com [9.149.109.196])
- by ppma05fra.de.ibm.com with ESMTP id 35y448b75r-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 14 Jan 2021 09:25:01 +0000
-Received: from d06av22.portsmouth.uk.ibm.com (d06av22.portsmouth.uk.ibm.com
- [9.149.105.58])
- by b06cxnps4074.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 10E9Ox0o43909382
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Thu, 14 Jan 2021 09:24:59 GMT
-Received: from d06av22.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id F24304C04A;
- Thu, 14 Jan 2021 09:24:58 +0000 (GMT)
-Received: from d06av22.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id E53224C046;
- Thu, 14 Jan 2021 09:24:57 +0000 (GMT)
-Received: from oc7455500831.ibm.com (unknown [9.171.19.194])
- by d06av22.portsmouth.uk.ibm.com (Postfix) with ESMTP;
- Thu, 14 Jan 2021 09:24:57 +0000 (GMT)
-Subject: Re: [PATCH v7 13/13] s390: Recognize confidential-guest-support option
-From: Christian Borntraeger <borntraeger@de.ibm.com>
-To: David Gibson <david@gibson.dropbear.id.au>, brijesh.singh@amd.com,
- pair@us.ibm.com, dgilbert@redhat.com, pasic@linux.ibm.com,
- qemu-devel@nongnu.org
-References: <20210113235811.1909610-1-david@gibson.dropbear.id.au>
- <20210113235811.1909610-14-david@gibson.dropbear.id.au>
- <ba08f5da-e31f-7ae2-898d-a090c5c1b1cf@de.ibm.com>
- <aa72b499-1b84-54a3-fd06-2fec4402b699@de.ibm.com>
-Message-ID: <471babb9-9d5a-a2fa-7d90-f14a7d289b8d@de.ibm.com>
-Date: Thu, 14 Jan 2021 10:24:57 +0100
+ (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1kzyun-00077p-V5
+ for qemu-devel@nongnu.org; Thu, 14 Jan 2021 04:27:37 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:59460)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1kzyum-00082l-GY
+ for qemu-devel@nongnu.org; Thu, 14 Jan 2021 04:27:37 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1610616455;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=3h0smZBCVFW9rByrnb9YxIZmBUecXcpy6I+hkdNhQHk=;
+ b=eQjzk5lvdhYTSVkSvAVm91FoRnDxgAPu7yU8bbXMI87IgAmFMO53GNn7ZPIjl1JgS6ArXE
+ fqun/Vutpzfi3f3kIFsiUZmNTIHqgFB0KrLthFGXfg4OdTYkNIW8lqUfR2eZW+bCI8ZKPN
+ MHCZijEU3YircCmWMRDyuLrQIBrvwVI=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-71-Ca5-Ue9dNFKDTQF436VMmQ-1; Thu, 14 Jan 2021 04:27:34 -0500
+X-MC-Unique: Ca5-Ue9dNFKDTQF436VMmQ-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 1A3C5BBEE0;
+ Thu, 14 Jan 2021 09:27:33 +0000 (UTC)
+Received: from dresden.str.redhat.com (ovpn-115-31.ams2.redhat.com
+ [10.36.115.31])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 0492A6F981;
+ Thu, 14 Jan 2021 09:27:31 +0000 (UTC)
+Subject: Re: [PATCH v2 1/8] iotests/297: Allow checking all Python test files
+To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
+ qemu-block@nongnu.org
+References: <20210113175752.403022-1-mreitz@redhat.com>
+ <20210113175752.403022-2-mreitz@redhat.com>
+ <285b6f74-da97-4b4b-70a8-ec09a8c467bb@virtuozzo.com>
+From: Max Reitz <mreitz@redhat.com>
+Message-ID: <97058f15-b902-2f58-d9b9-3a7dc58efd72@redhat.com>
+Date: Thu, 14 Jan 2021 10:27:30 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.6.0
+ Thunderbird/78.5.0
 MIME-Version: 1.0
-In-Reply-To: <aa72b499-1b84-54a3-fd06-2fec4402b699@de.ibm.com>
-Content-Type: text/plain; charset=utf-8
+In-Reply-To: <285b6f74-da97-4b4b-70a8-ec09a8c467bb@virtuozzo.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mreitz@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-TM-AS-GCONF: 00
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.343, 18.0.737
- definitions=2021-01-14_03:2021-01-13,
- 2021-01-14 signatures=0
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- lowpriorityscore=0
- priorityscore=1501 bulkscore=0 adultscore=0 mlxscore=0 clxscore=1015
- spamscore=0 suspectscore=0 impostorscore=0 mlxlogscore=999 phishscore=0
- malwarescore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2009150000 definitions=main-2101140052
-Received-SPF: pass client-ip=148.163.156.1;
- envelope-from=borntraeger@de.ibm.com; helo=mx0a-001b2d01.pphosted.com
-X-Spam_score_int: -26
-X-Spam_score: -2.7
-X-Spam_bar: --
-X-Spam_report: (-2.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=mreitz@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -29
+X-Spam_score: -3.0
+X-Spam_bar: ---
+X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.25,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -114,45 +84,43 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-ppc@nongnu.org, thuth@redhat.com,
- Marcelo Tosatti <mtosatti@redhat.com>, berrange@redhat.com,
- jun.nakajima@intel.com, kvm@vger.kernel.org,
- David Hildenbrand <david@redhat.com>, cohuck@redhat.com,
- Richard Henderson <richard.henderson@linaro.org>, Greg Kurz <groug@kaod.org>,
- mdroth@linux.vnet.ibm.com, pragyansri.pathi@intel.com, qemu-s390x@nongnu.org,
- frankja@linux.ibm.com, mst@redhat.com, andi.kleen@intel.com,
- Paolo Bonzini <pbonzini@redhat.com>, Eduardo Habkost <ehabkost@redhat.com>
+Cc: Kevin Wolf <kwolf@redhat.com>, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-
-
-On 14.01.21 10:19, Christian Borntraeger wrote:
+On 13.01.21 20:27, Vladimir Sementsov-Ogievskiy wrote:
+> 13.01.2021 20:57, Max Reitz wrote:
+>> I.e., all Python files in the qemu-iotests/ directory.
+>>
+>> Most files of course do not pass, so there is an extensive skip list for
+>> now.  (The only files that do pass are 209, 254, 283, and iotests.py.)
+>>
+>> (Alternatively, we could have the opposite, i.e. an explicit list of
+>> files that we do want to check, but I think it is better to check files
+>> by default.)
+>>
+>> I decided to include the list of files checked in the reference output,
+>> so we do not accidentally lose coverage of anything.  That means adding
+>> new Python tests will require a change to 297.out, but that should not
+>> be a problem.
 > 
+> I have a parallel series, "Rework iotests/check", one of its aims is drop
+> group file, to avoid these endless conflicts in group file when you want
+> to send series or when you are porting patches to/from downstream.
 > 
-> On 14.01.21 10:10, Christian Borntraeger wrote:
->>
->>
->> On 14.01.21 00:58, David Gibson wrote:
->> [...]
->>> +int s390_pv_init(ConfidentialGuestSupport *cgs, Error **errp)
->>> +{
->>> +    if (!object_dynamic_cast(OBJECT(cgs), TYPE_S390_PV_GUEST)) {
->>> +        return 0;
->>> +    }
->>> +
->>> +    if (!s390_has_feat(S390_FEAT_UNPACK)) {
->>> +        error_setg(errp,
->>> +                   "CPU model does not support Protected Virtualization");
->>> +        return -1;
->>> +    }
->>
->> I am triggering this and I guess this is because the cpu model is not yet initialized at
->> this point in time.
->>
-> When I remove the check, things seems to work though ( I can access virtio-blk devices without
-> specifying iommu for example)
+> And you are trying to add one another "group" file :) I don't like the 
+> idea.
 
-Maybe we can turn things around and check in apply_cpu_model if the object exists but
-unpack was not specified?
+I understand.
+
+> Why should we loose accidentally the coverage? Logic is extremely simple:
+> all files except for the list.
+
+I hope so.  I just felt better having a reassurance that we indeed check 
+everything we want to check.
+
+But if it isn’t feasible to keep this list, I guess we just can’t.
+
+Max
+
 
