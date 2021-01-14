@@ -2,75 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A9F702F6905
-	for <lists+qemu-devel@lfdr.de>; Thu, 14 Jan 2021 19:15:09 +0100 (CET)
-Received: from localhost ([::1]:45796 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 90C542F693B
+	for <lists+qemu-devel@lfdr.de>; Thu, 14 Jan 2021 19:18:59 +0100 (CET)
+Received: from localhost ([::1]:54550 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l079I-0000Q8-Nc
-	for lists+qemu-devel@lfdr.de; Thu, 14 Jan 2021 13:15:08 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55326)
+	id 1l07D0-0004LL-KD
+	for lists+qemu-devel@lfdr.de; Thu, 14 Jan 2021 13:18:58 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55588)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kchamart@redhat.com>)
- id 1l06AF-0007JF-8p
- for qemu-devel@nongnu.org; Thu, 14 Jan 2021 12:12:03 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:58208)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <kchamart@redhat.com>)
- id 1l06AC-0001Pg-QN
- for qemu-devel@nongnu.org; Thu, 14 Jan 2021 12:12:02 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1610644318;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=RBYGooISf2pz7lbJXbO7abF4uKrMvtBKgargaMsdlrE=;
- b=akfqAk4VrSdmGXOwA9PnSFKMZyxf/VqFRbWRE1KBu8m4J6LpKm8JvASR7C0KfKE7VcQ4p5
- WXWJbaDtwmLeMaI1xZk8qbmB5aqRx1mB9svdvR6qS6Ma/gNWSXHunsZkrPmxhwq5g6KCmL
- 9KhGO7IbOe0huYu23a7PNWoZEHr+TCA=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-455-cboUdFj-Mf-ypHVmJCYE5w-1; Thu, 14 Jan 2021 12:11:54 -0500
-X-MC-Unique: cboUdFj-Mf-ypHVmJCYE5w-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 0F6658030A8;
- Thu, 14 Jan 2021 17:11:53 +0000 (UTC)
-Received: from paraplu.localdomain (ovpn-113-252.ams2.redhat.com
- [10.36.113.252])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 286615C1BD;
- Thu, 14 Jan 2021 17:11:52 +0000 (UTC)
-Received: by paraplu.localdomain (Postfix, from userid 1001)
- id 942003E0497; Thu, 14 Jan 2021 18:11:50 +0100 (CET)
-Date: Thu, 14 Jan 2021 18:11:50 +0100
-From: Kashyap Chamarthy <kchamart@redhat.com>
-To: Daniel =?iso-8859-1?Q?P=2E_Berrang=E9?= <berrange@redhat.com>
-Subject: Re: About creating machines on the command line
-Message-ID: <20210114171150.GA94798@paraplu.home>
-References: <13ecc030-f42b-5a27-a0b3-b07921426ce9@greensocs.com>
- <20210114113706.GF1643043@redhat.com>
+ (Exim 4.90_1) (envelope-from <hskinnemoen@google.com>)
+ id 1l06Ap-0007qW-Pi
+ for qemu-devel@nongnu.org; Thu, 14 Jan 2021 12:12:39 -0500
+Received: from mail-wr1-x436.google.com ([2a00:1450:4864:20::436]:45345)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <hskinnemoen@google.com>)
+ id 1l06Am-0001aB-GY
+ for qemu-devel@nongnu.org; Thu, 14 Jan 2021 12:12:39 -0500
+Received: by mail-wr1-x436.google.com with SMTP id d26so6552899wrb.12
+ for <qemu-devel@nongnu.org>; Thu, 14 Jan 2021 09:12:34 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=qi9+F5K/4kbWAdzeSzPjCTkIDLkSfOKn9XAu1INEErU=;
+ b=CBJCglbOg1ZzkN2oOd+oargykW76CmiV8V6EAOF3Ms/9Tahdt/G+YB04yQLW9s//Af
+ VBIZlVWM+Uu7yc88FqX+tx/LhQxvcnwjRh3rkvCqISbuyOG64ECsFnu5hE6XiXiTHdFd
+ Z0Qb5u9X52qFk59maTVjD1fSrG174ScIZMzCrsL9mnE5mVhEt4Y20+mdJqPTFfy//TjY
+ xDnCrSiVomi/LcGsRwN5Xhi77JfUzuG+jhPDeiFu3z6RQL7RdptscshG041roSCCZZRf
+ jh6ZBFrx1ifojRrC/8ULbgJsocW4RHL4kq1PPIYvLHoh4g82BjycG5AWg4kisqu7QIx0
+ gNKw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=qi9+F5K/4kbWAdzeSzPjCTkIDLkSfOKn9XAu1INEErU=;
+ b=dIlcDSBAhjYhoIEt7MRVfn/EmwXH5gihZwBpvR1kagSFZZxP9V0UBDR6OwDTa9ekFm
+ n54kBnfDnhNG1vo2RVJPZXLg12PdXUArcG52PA2MDHFQwP3kMTvfFTk0VbC5ZuRxcwej
+ 3xHeRNgMw9vqV6KDEj/uMI/BzwE7PAHo9jmRJxkSEKTbZdGRjs263WQqYGGI2eXSItTh
+ aryr1ymcjdRIM9tGF2V7TaxUrqIzdYG14TBovwevy6ZqWe3KiHgIvORX6lr9mEhMyjvi
+ qhD7HXmFfvtcnxfdd4/PnVM25O8lXyLDahKTn4uq+jBkjiA1eUab/WvrcGCUtXgGr77m
+ DeGQ==
+X-Gm-Message-State: AOAM531+0G5Otr3L3gJjkslHH8Ep/xRFdBCIO/gHCtUapqtXAx9ztIlW
+ 4e4FUpB5+9MYlM9b4GuEMAA4+6pn2qPF6S6cNoqhmw==
+X-Google-Smtp-Source: ABdhPJxgr2+sI6fnimuRWU3Ta12/u9w/ildw8zi0lFJkJ0p0KXblIDBAsAmRaDcAaY3ud05stVEhn0pllHAdAr7NX9A=
+X-Received: by 2002:a5d:61ca:: with SMTP id q10mr9076983wrv.124.1610644353449; 
+ Thu, 14 Jan 2021 09:12:33 -0800 (PST)
 MIME-Version: 1.0
-In-Reply-To: <20210114113706.GF1643043@redhat.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kchamart@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=kchamart@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -29
-X-Spam_score: -3.0
-X-Spam_bar: ---
-X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.248,
+References: <20210114150902.11515-1-bmeng.cn@gmail.com>
+ <20210114150902.11515-10-bmeng.cn@gmail.com>
+In-Reply-To: <20210114150902.11515-10-bmeng.cn@gmail.com>
+Date: Thu, 14 Jan 2021 09:12:20 -0800
+Message-ID: <CAFQmdRYeCLgv2-y8G3pnwAKgGgMOJ5E=60mVC_XdmZZy86+wZw@mail.gmail.com>
+Subject: Re: [PATCH 9/9] hw/ssi: npcm7xx_fiu: Correct the dummy cycle
+ emulation logic
+To: Bin Meng <bmeng.cn@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2a00:1450:4864:20::436;
+ envelope-from=hskinnemoen@google.com; helo=mail-wr1-x436.google.com
+X-Spam_score_int: -175
+X-Spam_score: -17.6
+X-Spam_bar: -----------------
+X-Spam_report: (-17.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_MED=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ ENV_AND_HDR_SPF_MATCH=-0.5, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, USER_IN_DEF_DKIM_WL=-7.5,
+ USER_IN_DEF_SPF_WL=-7.5 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -83,49 +78,82 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Damien Hedde <damien.hedde@greensocs.com>, peter.maydell@linaro.org,
- richard.fuhler@sifive.com, sam.grove@sifive.com,
- Mark Burton <mark.burton@greensocs.com>, armbru@redhat.com,
- qemu-devel@nongnu.org, edgar.iglesias@gmail.com,
- Luc Michel <luc.michel@greensocs.com>, f4bug@amsat.org
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ Francisco Iglesias <frasse.iglesias@gmail.com>,
+ Bin Meng <bin.meng@windriver.com>,
+ =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>,
+ QEMU Developers <qemu-devel@nongnu.org>, Tyrone Ting <kfting@nuvoton.com>,
+ qemu-arm <qemu-arm@nongnu.org>, Alistair Francis <alistair.francis@wdc.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
+Reply-to: Havard Skinnemoen <hskinnemoen@google.com>
+From: Havard Skinnemoen via <qemu-devel@nongnu.org>
 
-On Thu, Jan 14, 2021 at 11:37:06AM +0000, Daniel P. Berrangé wrote:
-> On Mon, Jan 11, 2021 at 03:50:58PM +0100, Luc Michel wrote:
+On Thu, Jan 14, 2021 at 7:10 AM Bin Meng <bmeng.cn@gmail.com> wrote:
+>
+> From: Bin Meng <bin.meng@windriver.com>
+>
+> I believe send_dummy_bits() should also be fixed, but I really don't
+> know how based on my pure read/guess of the codes since there is no
+> public datasheet available for this NPCM7xx SoC.
+>
+> Signed-off-by: Bin Meng <bin.meng@windriver.com>
 
-[...]
+Just a quick comment before I look at the rest of the patch series:
+The emulated dummy bits behavior has a lot more to do with what the
+m25p80 emulator seemed to expect than the actual NPCM7xx behavior. If
+the m25p behavior now interprets the dummy cycles the same way as the
+rest of the cycles, this change seems correct, but you're right that
+send_dummy_bits probably needs some attention as well.
 
-> > This would hopefully allow for simple machines creation. We would then be
-> > able to use either the command line or the `-readconfig` option to create
-> > the machine.
-> > 
-> > Note that we are not planning to use QMP/HMP for now. From our
-> > understanding, a `device_add` request is always considered as hot-plug,
-> > which is not what we want here.
-> > 
-> > Please tell us what do you think about this plan. Any feedback is
-> > appreciated.  Then we can discuss the details of how to do this properly.
-> 
-> There's a general desire amongst QEMU maintainers to move to a world
-> where QAPI is used for describing everything. In this vision, eventually
-> all current command line options would be replaced with QMP commands
-> and QAPI objects specs.
-> 
-> In this world -readconfig is likely to be deleted. 
+I _think_ it's just a matter of turning this:
 
-In that case, I hope the above intention / direction will be documented
-somewhere more clearly.  In the past I ran into at least a couple of
-companies that use QEMU in production and heavily rely on '-readconfig',
-despite knowing some of its shortcomings.  There might be others out
-there.
+        for (j = 0; j < 8; j += bits_per_clock) {
+            ssi_transfer(spi, extract32(uma_cmd, field + j, bits_per_clock));
+        }
 
-> Also this means we have a bias against adding new command line options
-> to current QEMU.
+into this:
 
-[...]
+        ssi_transfer(spi, extract32(uma_cmd, field, BITS_PER_BYTE));
 
--- 
-/kashyap
+which might have the very nice side effect of speeding up SPI flash
+access quite a bit.
 
+Thanks a lot for looking into this.
+
+>
+> ---
+>
+>  hw/ssi/npcm7xx_fiu.c | 8 +++-----
+>  1 file changed, 3 insertions(+), 5 deletions(-)
+>
+> diff --git a/hw/ssi/npcm7xx_fiu.c b/hw/ssi/npcm7xx_fiu.c
+> index 5040132b07..e76fb5ad9f 100644
+> --- a/hw/ssi/npcm7xx_fiu.c
+> +++ b/hw/ssi/npcm7xx_fiu.c
+> @@ -150,7 +150,7 @@ static uint64_t npcm7xx_fiu_flash_read(void *opaque, hwaddr addr,
+>      NPCM7xxFIUState *fiu = f->fiu;
+>      uint64_t value = 0;
+>      uint32_t drd_cfg;
+> -    int dummy_cycles;
+> +    int dummy_bytes;
+>      int i;
+>
+>      if (fiu->active_cs != -1) {
+> @@ -180,10 +180,8 @@ static uint64_t npcm7xx_fiu_flash_read(void *opaque, hwaddr addr,
+>          break;
+>      }
+>
+> -    /* Flash chip model expects one transfer per dummy bit, not byte */
+> -    dummy_cycles =
+> -        (FIU_DRD_CFG_DBW(drd_cfg) * 8) >> FIU_DRD_CFG_ACCTYPE(drd_cfg);
+> -    for (i = 0; i < dummy_cycles; i++) {
+> +    dummy_bytes = FIU_DRD_CFG_DBW(drd_cfg) >> FIU_DRD_CFG_ACCTYPE(drd_cfg);
+> +    for (i = 0; i < dummy_bytes; i++) {
+>          ssi_transfer(fiu->spi, 0);
+>      }
+>
+> --
+> 2.25.1
+>
 
