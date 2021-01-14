@@ -2,76 +2,91 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 189D82F687E
-	for <lists+qemu-devel@lfdr.de>; Thu, 14 Jan 2021 18:59:51 +0100 (CET)
-Received: from localhost ([::1]:41024 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 450B72F687D
+	for <lists+qemu-devel@lfdr.de>; Thu, 14 Jan 2021 18:59:34 +0100 (CET)
+Received: from localhost ([::1]:39736 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l06uU-0002yO-4Q
-	for lists+qemu-devel@lfdr.de; Thu, 14 Jan 2021 12:59:50 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36240)
+	id 1l06uC-0002QA-Sw
+	for lists+qemu-devel@lfdr.de; Thu, 14 Jan 2021 12:59:32 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38912)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1l06jH-0002FJ-Mw
- for qemu-devel@nongnu.org; Thu, 14 Jan 2021 12:48:15 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:43444)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1l06jF-0006cT-BK
- for qemu-devel@nongnu.org; Thu, 14 Jan 2021 12:48:15 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1610646492;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=i5rTSsfnSwXPVvu3FLT/JH0eOTxHGYmoMr3OodSAS3c=;
- b=RHiiBcVv1mo+QYKJkf50vNExnI776gBweqBEjlePs8Gj0ZJHOud3IeMM0pkdcZY3GXprkH
- KVgX6i7rvxvHJ/ghSjhhxgp22hHfL7mONNpR7XCpUyOHqFr4KkSCVuZpEn0no7JYpLOMzJ
- ARnsXjNfQGbv53S2+804gccZU004Kj8=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-254-GtCUKa2cPUqTygX2Ybhcdg-1; Thu, 14 Jan 2021 12:48:11 -0500
-X-MC-Unique: GtCUKa2cPUqTygX2Ybhcdg-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 19D4184A5E7;
- Thu, 14 Jan 2021 17:48:10 +0000 (UTC)
-Received: from [10.10.120.151] (ovpn-120-151.rdu2.redhat.com [10.10.120.151])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 6B3822C01E;
- Thu, 14 Jan 2021 17:48:03 +0000 (UTC)
-Subject: Re: qmp-shell TUI (was: Re: Call for Google Summer of Code 2021
- project ideas)
+ (Exim 4.90_1) (envelope-from <jag.raman@oracle.com>)
+ id 1l06rC-0000dq-7x
+ for qemu-devel@nongnu.org; Thu, 14 Jan 2021 12:56:27 -0500
+Received: from userp2130.oracle.com ([156.151.31.86]:49244)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <jag.raman@oracle.com>)
+ id 1l06r7-00011H-RM
+ for qemu-devel@nongnu.org; Thu, 14 Jan 2021 12:56:25 -0500
+Received: from pps.filterd (userp2130.oracle.com [127.0.0.1])
+ by userp2130.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 10EHnMFe104809;
+ Thu, 14 Jan 2021 17:56:04 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com;
+ h=content-type :
+ mime-version : subject : from : in-reply-to : date : cc :
+ content-transfer-encoding : message-id : references : to;
+ s=corp-2020-01-29; bh=pN8bhhYvicmXNeiwFFBazmKowYkYlKUC8gFW/XKn2Mw=;
+ b=prf1Ld4ASnMURrhfB21O+8dF2ZazMCvL7Dt7hBcnELYBIx2BBuSCSRiPw4RSOHG3Mt9k
+ bKAAl4HClAv94qM2LQtilrLRrWc7zwBAxEhUC6TWUg+aPEFHb/tUb3qE6GrM9pLYiBKR
+ vuIrAFbxfLueg0kLEsoKpJIRZf1BEKp0CZCZlafGmD6C6j16IA4ZrQrBxfzJpZa9K0jq
+ B1AcV3b3kVOD0iDVaMqQgXf9orTJeXkfsEZS5Fm1gx3OPXb5b1Syywc2dN3/zGaY1XC5
+ N62gNXXnS/9tNRKgxfTtxeUy1XZoYFM6GxQkwPi8FylMrOEGg61CiG9roTG+vNJ8Azug gQ== 
+Received: from userp3030.oracle.com (userp3030.oracle.com [156.151.31.80])
+ by userp2130.oracle.com with ESMTP id 360kvk9dae-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Thu, 14 Jan 2021 17:56:04 +0000
+Received: from pps.filterd (userp3030.oracle.com [127.0.0.1])
+ by userp3030.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 10EHosEP067282;
+ Thu, 14 Jan 2021 17:56:04 GMT
+Received: from userv0122.oracle.com (userv0122.oracle.com [156.151.31.75])
+ by userp3030.oracle.com with ESMTP id 360kenj235-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Thu, 14 Jan 2021 17:56:04 +0000
+Received: from abhmp0006.oracle.com (abhmp0006.oracle.com [141.146.116.12])
+ by userv0122.oracle.com (8.14.4/8.14.4) with ESMTP id 10EHu1lv027091;
+ Thu, 14 Jan 2021 17:56:01 GMT
+Received: from [10.39.255.240] (/10.39.255.240)
+ by default (Oracle Beehive Gateway v4.0)
+ with ESMTP ; Thu, 14 Jan 2021 09:56:01 -0800
+Content-Type: text/plain;
+	charset=utf-8
+Mime-Version: 1.0 (Mac OS X Mail 14.0 \(3654.40.0.2.32\))
+Subject: Re: [PATCH v19 08/20] io: add qio_channel_readv_full_all_eof &
+ qio_channel_readv_full_all helpers
+From: Jag Raman <jag.raman@oracle.com>
+In-Reply-To: <20210114162729.GB306329@stefanha-x1.localdomain>
+Date: Thu, 14 Jan 2021 12:55:58 -0500
+Content-Transfer-Encoding: quoted-printable
+Message-Id: <CA0E47D0-F1F5-4825-ABB7-BE73AAD3E375@oracle.com>
+References: <cover.1610638428.git.jag.raman@oracle.com>
+ <02a82c80a35ab60b98028c85aa94f688a2843943.1610638428.git.jag.raman@oracle.com>
+ <20210114162729.GB306329@stefanha-x1.localdomain>
 To: Stefan Hajnoczi <stefanha@redhat.com>
-References: <CAJSP0QWWg__21otbMXAXWGD1FaHYLzZP7axZ47Unq6jtMvdfsA@mail.gmail.com>
- <92903d8d-24c4-5177-67c9-1690ea794739@redhat.com>
- <CAJSP0QVRohWcfYY7AjispK8+VYat6APc3nNbmAxk+34nZmtFPw@mail.gmail.com>
- <e8938b53-a933-426c-0719-981ab0df123f@redhat.com>
- <20210114135234.GC292902@stefanha-x1.localdomain>
-From: John Snow <jsnow@redhat.com>
-Message-ID: <e82f00bc-336d-a260-a43a-50eac34ee59a@redhat.com>
-Date: Thu, 14 Jan 2021 12:48:03 -0500
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.6.0
-MIME-Version: 1.0
-In-Reply-To: <20210114135234.GC292902@stefanha-x1.localdomain>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=jsnow@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=windows-1252; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=jsnow@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -32
-X-Spam_score: -3.3
-X-Spam_bar: ---
-X-Spam_report: (-3.3 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.248,
+X-Mailer: Apple Mail (2.3654.40.0.2.32)
+X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9864
+ signatures=668683
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 mlxscore=0
+ phishscore=0 spamscore=0
+ malwarescore=0 suspectscore=0 mlxlogscore=999 adultscore=0 bulkscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2009150000
+ definitions=main-2101140104
+X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9864
+ signatures=668683
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 mlxlogscore=999
+ phishscore=0
+ lowpriorityscore=0 bulkscore=0 priorityscore=1501 malwarescore=0
+ clxscore=1015 impostorscore=0 spamscore=0 mlxscore=0 suspectscore=0
+ adultscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2009150000 definitions=main-2101140104
+Received-SPF: pass client-ip=156.151.31.86; envelope-from=jag.raman@oracle.com;
+ helo=userp2130.oracle.com
+X-Spam_score_int: -46
+X-Spam_score: -4.7
+X-Spam_bar: ----
+X-Spam_report: (-4.7 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.248,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.237, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ RCVD_IN_DNSWL_MED=-2.3, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_PASS=-0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -85,113 +100,59 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: libvir-list@redhat.com, Stefan Hajnoczi <stefanha@gmail.com>,
- QEMU Developers <qemu-devel@nongnu.org>, Eduardo Habkost <ehabkost@redhat.com>
+Cc: Elena Ufimtseva <elena.ufimtseva@oracle.com>, Fam Zheng <fam@euphon.net>,
+ Swapnil Ingle <swapnil.ingle@nutanix.com>,
+ John G Johnson <john.g.johnson@oracle.com>, qemu-level <qemu-devel@nongnu.org>,
+ kraxel@redhat.com, quintela@redhat.com, mst@redhat.com, armbru@redhat.com,
+ kanth.ghatraju@oracle.com, felipe@nutanix.com, thuth@redhat.com,
+ ehabkost@redhat.com, konrad.wilk@oracle.com, dgilbert@redhat.com,
+ alex.williamson@redhat.com, pbonzini@redhat.com, kwolf@redhat.com,
+ berrange@redhat.com, mreitz@redhat.com, ross.lagerwall@citrix.com,
+ marcandre.lureau@gmail.com, thanos.makatos@nutanix.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 1/14/21 8:52 AM, Stefan Hajnoczi wrote:
-> On Wed, Jan 13, 2021 at 01:59:43PM -0500, John Snow wrote:
->> On 1/13/21 3:53 AM, Stefan Hajnoczi wrote:
->>> On Tue, Jan 12, 2021 at 9:10 PM John Snow <jsnow@redhat.com> wrote:
->>> 2. Ability to watch QMP activity on a running QEMU process, e.g. even
->>> when libvirt is directly connected to the monitor.
->>>
->>
->> That *WOULD* be extremely cool, and moves a lot closer to how mitmproxy
->> works.
->>
->> (Actually, mitmproxy could theoretically be taught how to read and
->> understand QMP traffic, but that's not something I know how to do or would
->> be prepared to mentor.)
->>
->> Is this possible to do in a post-hoc fashion? Let's say you are using
->> production environment QEMU, how do we attach the QMP listener to it? Or
->> does this idea require that we start QEMU in a specific fashion with a
->> second debug socket that qmp-shell can connect to in order to listen?
->>
->> ... Or do we engineer qmp-shell to open its own socket that libvirt connects
->> to ...?
-> 
-> Here is the QEMU command-line that libvirt uses on my F33 system:
-> 
->    -chardev socket,id=charmonitor,fd=36,server,nowait
->    -mon chardev=charmonitor,id=monitor,mode=control
-> 
-> Goals for this feature:
-> 
-> 1. No manual steps required for setup.
-> 2. Ability to start/stop monitoring traffic at runtime without
->     restarting QEMU.
-> 3. Available to unprivileged users.
-> 
 
-Excellent goals, and I agree completely.
 
-> I think the easiest way to achieve this is through a new QEMU monitor
-> command. Approaches that come to mind:
-> 
-> 1. Add a -mon debug-chardev property and a QMP command to set it at
->     runtime. The debug-chardev receives both monitor input (commands) and
->     output (responses and events). This does not allow MITM, rather it
->     mirrors traffic.
-> 
+> On Jan 14, 2021, at 11:27 AM, Stefan Hajnoczi <stefanha@redhat.com> =
+wrote:
+>=20
+> On Thu, Jan 14, 2021 at 10:40:03AM -0500, Jagannathan Raman wrote:
+>> +int qio_channel_readv_full_all(QIOChannel *ioc,
+>> +                               const struct iovec *iov,
+>> +                               size_t niov,
+>> +                               int **fds, size_t *nfds,
+>> +                               Error **errp)
+>> {
+>> -    int ret =3D qio_channel_readv_all_eof(ioc, iov, niov, errp);
+>> +    int ret =3D qio_channel_readv_full_all_eof(ioc, iov, niov, fds, =
+nfds, errp);
+>>=20
+>>     if (ret =3D=3D 0) {
+>> -        ret =3D -1;
+>>         error_setg(errp,
+>>                    "Unexpected end-of-file before all bytes were =
+read");
+>=20
+> qio_channel_readv_full_all_eof() can read file descriptors but no data
+> and return 0.
+>=20
+> Here that case is converted into an error and the file descriptors
+> aren't closed, freed, and fds/nfds isn't cleared.
 
-So you have a socket that relays I/O. I wonder if it needs to modify the 
-stream format to some extent to annotate directionality?
+That=E2=80=99s a valid point. I=E2=80=99m wondering if the fix for this =
+case should be in
+qio_channel_readv_full_all_eof(), instead of here.
 
-For now, directionality can be inferred, but maybe that's brittle.
-(greeting messages, events and return statements are from the server; 
-negotiation and execute statements are from the client.)
+qio_channel_readv_full_all_eof() should probably return error (-1) if =
+the
+amount of data read does not match iov_size(). If the caller is only =
+expecting
+to read fds, and not any data, it would indicate that by setting iov to =
+NULL
+and/or setting niov=3D0. If the caller is setting these parameters, it =
+means it is
+expecting data.Does that sound good?
 
-Maybe if we used a hypothetical qmp-shell log format, we could add 
-timestamps here instead of relying on the client to produce them. This 
-might be interesting for analyzing race conditions and measuring 
-response delays as experienced by the server.
-
-{"message": original_json_message_here, "direction": "in", "timestamp": 
-1610627721}
-
-(Downside: JSON is still not a streaming message format, but I guess 
-it's one we already use all over the place anyway.)
-
-> 2. Add a chardev-get-fd command that fetches the fd from a chardev and
->     then use the existing chardev-change command to replace the monitor
->     chardev with a chardev connected to qmp-shell. This inserts qmp-shell
->     as a proxy between the QMP client and server. qmp-shell can remove
->     itself again with another chardev-change command. This approach
->     allows MITM. The downside is it assumes the QMP chardev is a file
->     descriptor, so it won't work with all types of chardev.
-> 
-
-It seems a little more prone to failure if the insertion/removal fails, 
-and has some downsides about which configurations it can inject into.
-
-> 3. Add a new chardev-proxy type that aggregates 3 chardevs: 1. an origin
->     source chardev, 2. a monitoring sink chardev, and 3. a monitoring
->     source chardev. The data flow is origin <-> monitoring sink <->
->     monitoring source <-> QMP monitor. qmp-shell creates the monitoring
->     sink (for receiving incoming QMP commands) and monitoring source
->     chardev (for forwarding QMP commands or MITM commands), and then it
->     uses change-chardev to instantiate a chardev-proxy that directs the
->     original libvirt chardev through the monitoring sink and source.
-> 
-
-I'm not sure I understand the topology here, exactly. I could stand to 
-be a little more familiar with how chardevs are modeled in QEMU ...
-
->     This is the most complex but also completely contained within the
->     QEMU chardev layer.
-> 
-> In all these approaches qmp-shell uses virsh qemu-monitor-command or an
-> equivalent API to start/stop monitoring a running VM without manual
-> setup steps.
-> 
-
-Gotcha. I think I am leaning towards the first suggestion, but maybe the 
-third one that I don't quite grasp yet is good too.
-
-> Stefan
-> 
-
+Thanks!=
 
