@@ -2,73 +2,90 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 05F832F693E
-	for <lists+qemu-devel@lfdr.de>; Thu, 14 Jan 2021 19:20:12 +0100 (CET)
-Received: from localhost ([::1]:57168 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EEF222F696E
+	for <lists+qemu-devel@lfdr.de>; Thu, 14 Jan 2021 19:23:24 +0100 (CET)
+Received: from localhost ([::1]:35800 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l07EA-0005Uq-NP
-	for lists+qemu-devel@lfdr.de; Thu, 14 Jan 2021 13:20:10 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42796)
+	id 1l07HI-00017Q-0N
+	for lists+qemu-devel@lfdr.de; Thu, 14 Jan 2021 13:23:24 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43208)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1l071K-00024j-J7; Thu, 14 Jan 2021 13:06:54 -0500
-Received: from mail-qt1-x829.google.com ([2607:f8b0:4864:20::829]:37274)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1l071I-000530-ID; Thu, 14 Jan 2021 13:06:54 -0500
-Received: by mail-qt1-x829.google.com with SMTP id v3so1889831qtw.4;
- Thu, 14 Jan 2021 10:06:51 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=VDLy9yZJvgziL6d8soe8VMasuJQ37LuaHX+qxMTvNSA=;
- b=MjAmb0OtUZjHDBgW5I8B0s9hNv7J47D5pj/llHIMMMwr0edJVLo7dzlF5YJPWmJXui
- AKsPIRegGzI1qUxP7oqK3x37UfPaRlLlc0jNPXXKGtCl8pwu49jcvJNsltj8PIAvwwN2
- EWBvcMxTbAF4NKFmnDAPQMTliHZBGJRMoqlLFyms3SBQvZRGIZLuPhtcQh2dt74dfC/6
- ivjjtO7SVmXgl64+XIhOPRG5E8ReL7olqtb7sd7qIw7nM2q5izQOm8D8Cl3XGmVI/gmD
- czlPBLWiMCDNvhixir7CPHVP6VwJL9J/AFgvC2em59WfI0sP5spsRlDlCkOl7VqvBFhX
- kfBQ==
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1l072U-0002oP-OZ
+ for qemu-devel@nongnu.org; Thu, 14 Jan 2021 13:08:06 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:22758)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1l072Q-0005Pa-Dm
+ for qemu-devel@nongnu.org; Thu, 14 Jan 2021 13:08:06 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1610647680;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=z5PsAX7CDHe6y/H09pq4GbMLI1pVuIb+ZcWRAtGiRfY=;
+ b=b+e7nBqrL/6Fu8emSWRP94gpfmnwYM3eCQ6cUEdYEsqS9M1oQ8HOSuT6cDHEH0rDWCl4SG
+ o8zNitcuhbB8J4ld1rejbitXEAMTdcJc2CcMwdKpzcWag6VKvICIo83yfL8tLNW7rm5dYA
+ lCjyMetaB6WwErdcOWt66mrKa0qy7Rw=
+Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
+ [209.85.221.70]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-552-Pydn2Eu0P5-sCIhIhv1mBA-1; Thu, 14 Jan 2021 13:07:58 -0500
+X-MC-Unique: Pydn2Eu0P5-sCIhIhv1mBA-1
+Received: by mail-wr1-f70.google.com with SMTP id z8so2957034wrh.5
+ for <qemu-devel@nongnu.org>; Thu, 14 Jan 2021 10:07:58 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=VDLy9yZJvgziL6d8soe8VMasuJQ37LuaHX+qxMTvNSA=;
- b=hQ0fMFvB6XGOny8G9bKUTHqb1clC7OXmtGL8RnPB4rKi38Rn8c6SZglUONGIU6fAOz
- 9nppMFEisXG8vAXpJrcthW1F58VWJbLJCYnxGDcGlSaxzrWu+PCdwNxpT/JGGaOThC4M
- GpHva1h1duWUAeg2R9AL/yFvX4oAnxmy1HLcfq9DHe/ch08IvGKfi4HvF/hgW2OMM1/F
- bYsDAEnoSo72rG/zzgXvx++lL3qs1YquHti9C3/wY/7Yvtwk2w1Y1K4FvQmlXVNRKc2w
- KozOcDfE63TxbW5i0tU5GqfUmjC9uQttJ6h7cERyFwFsjKkm56SDKfrEG+HOC+q0jVEB
- 2MPA==
-X-Gm-Message-State: AOAM5312KJeV4aR3igq4LEAcEikjB1PTriXfNUfPFc5BvxKo9++kxqlb
- A2Eg2dBTS+Q1zbd4WDWDHDravneLBaNYGw==
-X-Google-Smtp-Source: ABdhPJzPCdVD2+X8kO6RzrsOuXXD/nGpG9vLstpSq0pLW196GwrNb/R6Rf5AO87HfAAVp/vzE76aHw==
-X-Received: by 2002:ac8:6987:: with SMTP id o7mr7960371qtq.295.1610647611120; 
- Thu, 14 Jan 2021 10:06:51 -0800 (PST)
-Received: from rekt.ibmuc.com ([2804:431:c7c6:b984:ff01:270:b51c:24a5])
- by smtp.gmail.com with ESMTPSA id a1sm3448129qkn.104.2021.01.14.10.06.49
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 14 Jan 2021 10:06:50 -0800 (PST)
-From: Daniel Henrique Barboza <danielhb413@gmail.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH v1 7/7] spapr.c: consider CPU core online state before
- allowing unplug
-Date: Thu, 14 Jan 2021 15:06:28 -0300
-Message-Id: <20210114180628.1675603-8-danielhb413@gmail.com>
-X-Mailer: git-send-email 2.26.2
-In-Reply-To: <20210114180628.1675603-1-danielhb413@gmail.com>
-References: <20210114180628.1675603-1-danielhb413@gmail.com>
+ h=x-gm-message-state:subject:to:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=z5PsAX7CDHe6y/H09pq4GbMLI1pVuIb+ZcWRAtGiRfY=;
+ b=UZrsPVxKMsaMfSkag9LPjN+ylJ7KV9FuAQISxKFXo+Vydvz0x11H0GoP1RiLyMD8gv
+ P27fIrffUGYHPd1FCd1x3aH5fKLJsGruKRP+jmr8NlD5vPkMtDdsJ/AFak1gzR5yCx1M
+ txfEsiUdGx0i5QpToYAoTlo6Qh2bAYI2vKM6UmFSSii9FQFbMuUnTPPZnlFvken6xtRa
+ QHKmw6zIqCiayptbXEDOjwT8jGEJrZh5kCoBtZzILbYyPDzWkDwEeIXqhRY78m1BBIwD
+ TQgSMJSAA1nbasmiGKfSKxk4RpYxkreh5R925rJhStXcCtFMIquOOcpZ/5uChpqbSTQj
+ 2P4w==
+X-Gm-Message-State: AOAM531mUUMwkDjDchXGulM90yxfcPg6G5C1ixIYNpphNX6Si3iGdx1i
+ RzS8xpug+TRWs7AXOkcGBbYDPqRMKpXeZunuxvi/w9EOBXdHMMypufcXdXskDfbOk4il+6OTfMy
+ JibaDnnQIBXeOWrab6DmYo9Vrirm3WLRQeDJiwCM175qC+8RYysYv+lDR+fNKC+8v
+X-Received: by 2002:a1c:40d6:: with SMTP id n205mr5200802wma.0.1610647677343; 
+ Thu, 14 Jan 2021 10:07:57 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJxrP8DY5wjhSufx9jntQDCnREl588FPiZElU/ppjY37eQDknZVr0YsiZis+29RVxdW6gQWeGw==
+X-Received: by 2002:a1c:40d6:: with SMTP id n205mr5200781wma.0.1610647677088; 
+ Thu, 14 Jan 2021 10:07:57 -0800 (PST)
+Received: from [192.168.1.36] (13.red-83-57-169.dynamicip.rima-tde.net.
+ [83.57.169.13])
+ by smtp.gmail.com with ESMTPSA id g184sm9918368wma.16.2021.01.14.10.07.56
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 14 Jan 2021 10:07:56 -0800 (PST)
+Subject: Re: [PATCH v2 05/12] Makefile: wrap ctags in quiet-command calls
+To: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
+ qemu-devel@nongnu.org
+References: <20210114165730.31607-1-alex.bennee@linaro.org>
+ <20210114165730.31607-6-alex.bennee@linaro.org>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+Message-ID: <9221068e-bc4c-3b0e-f28e-55040e2aefca@redhat.com>
+Date: Thu, 14 Jan 2021 19:07:55 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.6.0
 MIME-Version: 1.0
+In-Reply-To: <20210114165730.31607-6-alex.bennee@linaro.org>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::829;
- envelope-from=danielhb413@gmail.com; helo=mail-qt1-x829.google.com
-X-Spam_score_int: -17
-X-Spam_score: -1.8
-X-Spam_bar: -
-X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=philmd@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -32
+X-Spam_score: -3.3
+X-Spam_bar: ---
+X-Spam_report: (-3.3 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.248,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.237, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -82,105 +99,23 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Xujun Ma <xuma@redhat.com>, Daniel Henrique Barboza <danielhb413@gmail.com>,
- qemu-ppc@nongnu.org, groug@kaod.org, david@gibson.dropbear.id.au
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The only restriction we have when unplugging CPUs is to forbid unplug of
-the boot cpu core. spapr_core_unplug_possible() does not contemplate the
-possibility of some cores being offlined by the guest, meaning that we're
-rolling the dice regarding on whether we're unplugging the last online
-CPU core the guest has.
+On 1/14/21 5:57 PM, Alex Bennée wrote:
+> For prettier output.
 
-If we hit the jackpot, we're going to detach the core DRC and pulse the
-hotplug IRQ, but the guest OS will refuse to release the CPU. Our
-spapr_core_unplug() DRC release callback will never be called and the CPU
-core object will keep existing in QEMU. No error message will be sent
-to the user, but the CPU core wasn't unplugged from the guest.
+Having commit description following patch subject is not very
+practical (maybe this is obvious in an emacs client, not in
+mine :S).
 
-If the guest OS onlines the CPU core again we won't be able to hotunplug it
-either. 'dmesg' inside the guest will report a failed attempt to offline an
-unknown CPU:
+Anyhow:
+Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 
-[  923.003994] pseries-hotplug-cpu: Failed to offline CPU <NULL>, rc: -16
-
-This is the result of stopping the DRC state transition in the middle in the
-first failed attempt.
-
-We can avoid this, and potentially other bad things from happening, if we
-avoid to attempt the unplug altogether in this scenario. Let's check for
-the online/offline state of the CPU cores in the guest before allowing
-the hotunplug, and forbid removing a CPU core if it's the last one online
-in the guest.
-
-Reported-by: Xujun Ma <xuma@redhat.com>
-Fixes: https://bugzilla.redhat.com/show_bug.cgi?id=1911414
-Signed-off-by: Daniel Henrique Barboza <danielhb413@gmail.com>
----
- hw/ppc/spapr.c | 39 ++++++++++++++++++++++++++++++++++++++-
- 1 file changed, 38 insertions(+), 1 deletion(-)
-
-diff --git a/hw/ppc/spapr.c b/hw/ppc/spapr.c
-index a2f01c21aa..d269dcd102 100644
---- a/hw/ppc/spapr.c
-+++ b/hw/ppc/spapr.c
-@@ -3709,9 +3709,16 @@ static void spapr_core_unplug(HotplugHandler *hotplug_dev, DeviceState *dev)
- static int spapr_core_unplug_possible(HotplugHandler *hotplug_dev, CPUCore *cc,
-                                       Error **errp)
- {
-+    CPUArchId *core_slot;
-+    SpaprCpuCore *core;
-+    PowerPCCPU *cpu;
-+    CPUState *cs;
-+    bool last_cpu_online = true;
-     int index;
- 
--    if (!spapr_find_cpu_slot(MACHINE(hotplug_dev), cc->core_id, &index)) {
-+    core_slot = spapr_find_cpu_slot(MACHINE(hotplug_dev), cc->core_id,
-+                                    &index);
-+    if (!core_slot) {
-         error_setg(errp, "Unable to find CPU core with core-id: %d",
-                    cc->core_id);
-         return -1;
-@@ -3722,6 +3729,36 @@ static int spapr_core_unplug_possible(HotplugHandler *hotplug_dev, CPUCore *cc,
-         return -1;
-     }
- 
-+    /* Allow for any non-boot CPU core to be unplugged if already offline */
-+    core = SPAPR_CPU_CORE(core_slot->cpu);
-+    cs = CPU(core->threads[0]);
-+    if (cs->halted) {
-+        return 0;
-+    }
-+
-+    /*
-+     * Do not allow core unplug if it's the last core online.
-+     */
-+    cpu = POWERPC_CPU(cs);
-+    CPU_FOREACH(cs) {
-+        PowerPCCPU *c = POWERPC_CPU(cs);
-+
-+        if (c == cpu) {
-+            continue;
-+        }
-+
-+        if (!cs->halted) {
-+            last_cpu_online = false;
-+            break;
-+        }
-+    }
-+
-+    if (last_cpu_online) {
-+        error_setg(errp, "Unable to unplug CPU core with core-id %d: it is "
-+                   "the only CPU core online in the guest", cc->core_id);
-+        return -1;
-+    }
-+
-     return 0;
- }
- 
--- 
-2.26.2
+> 
+> Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
+> ---
+>  Makefile | 9 +++++++--
+>  1 file changed, 7 insertions(+), 2 deletions(-)
 
 
