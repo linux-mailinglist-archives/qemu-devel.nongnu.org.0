@@ -2,90 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4C1A62F6583
-	for <lists+qemu-devel@lfdr.de>; Thu, 14 Jan 2021 17:14:09 +0100 (CET)
-Received: from localhost ([::1]:60482 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9CFD12F6575
+	for <lists+qemu-devel@lfdr.de>; Thu, 14 Jan 2021 17:09:37 +0100 (CET)
+Received: from localhost ([::1]:48078 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l05GC-0005o8-BV
-	for lists+qemu-devel@lfdr.de; Thu, 14 Jan 2021 11:14:08 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60608)
+	id 1l05Bo-0000Lb-LD
+	for lists+qemu-devel@lfdr.de; Thu, 14 Jan 2021 11:09:36 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33226)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1l050B-0008VM-Ju
- for qemu-devel@nongnu.org; Thu, 14 Jan 2021 10:57:35 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:49834)
+ (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1l052r-0002FV-G9
+ for qemu-devel@nongnu.org; Thu, 14 Jan 2021 11:00:26 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:40500)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1l04zz-0000B4-Gb
- for qemu-devel@nongnu.org; Thu, 14 Jan 2021 10:57:35 -0500
+ (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1l052n-0001Gr-Uo
+ for qemu-devel@nongnu.org; Thu, 14 Jan 2021 11:00:21 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1610639837;
+ s=mimecast20190719; t=1610640017;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=O9zbugeDUOOLJVavBXFvkwMoMMecOX8yT+1f0UZwvpg=;
- b=LbL/3DQWJm028LXN37IgZZ/zD1KpzMUViJPP0DNRqIzLjF0qMgkwj1hM2ZyInRu7vQj9s2
- 2QCHHu9ayElOmyX6D6lpG3Y9zImTSTQgBoq9adjzSgDNO3DfGjQpwlDZUZsrX1Dk7ArJhp
- UFcLoYGOZuWWRYQfBt/1OHX0XgzFUqY=
-Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
- [209.85.128.69]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-568-k_kChyp6MEW0pBkAH3qazg-1; Thu, 14 Jan 2021 10:57:15 -0500
-X-MC-Unique: k_kChyp6MEW0pBkAH3qazg-1
-Received: by mail-wm1-f69.google.com with SMTP id r5so2058572wma.2
- for <qemu-devel@nongnu.org>; Thu, 14 Jan 2021 07:57:15 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=O9zbugeDUOOLJVavBXFvkwMoMMecOX8yT+1f0UZwvpg=;
- b=glOvcNMGJ+DaqXkOnJpdXXQ/GHvyQWJX7Ti/xBfQG7zUvPHYYq+43Y8V+TlsqB+0qk
- jLarzUHyMPgYS/dC3oxO7Zuhor9bfmkj5vEWO9hJlgE1Xl3eupTKF046VKVH0XrH1/GD
- G0Q+Ni+sc5YK5ecYEp+G1oC/8oremJUtaevIv3U7+MEYmqPrjELac9+0qg7ytuK4GdXD
- QE2QXenKZNpIZnM3WA+W9QqvBhv3trSCGQbJxwLnzt5tH4hj6V+8023Gvr1QU3pk1MoR
- 1a2ONfS0BnGxqwnql+Al7fPjLqtPlJ7kZJuFs1CcOButSfKg01FaT4Y8VI4KuvpaLun1
- utiQ==
-X-Gm-Message-State: AOAM5303KdlvgQ2DfuEsytBZHQRNdqbJMuLKp3PVyqNFXiEBuLek3XWr
- Rye9HTE48C9Ef60hmk638l62icEefyjOr1FA3xQ6ESqpN749KUNsdvXFihlr3ZTEbfBJWLrNlf9
- CO1qck3iB9enEmdcNIT6AVJWGv1n0r99HEgNB8QbxTkHBuVb9vtcOEG+dhLdf1BwT
-X-Received: by 2002:a1c:9684:: with SMTP id y126mr4709792wmd.2.1610639834141; 
- Thu, 14 Jan 2021 07:57:14 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJyevyCz1lf6pvJl8ym3dHu+lvJK5ohD6t6CRBnpizRasv6ALmRDAy2eJkVpLZv0WkXk5yECzg==
-X-Received: by 2002:a1c:9684:: with SMTP id y126mr4709772wmd.2.1610639833901; 
- Thu, 14 Jan 2021 07:57:13 -0800 (PST)
-Received: from [192.168.1.36] (13.red-83-57-169.dynamicip.rima-tde.net.
- [83.57.169.13])
- by smtp.gmail.com with ESMTPSA id o8sm9899472wrm.17.2021.01.14.07.57.12
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 14 Jan 2021 07:57:13 -0800 (PST)
-Subject: Re: [PATCH v3 4/4] hw/blocl/nvme: trigger async event during
- injecting smart warning
-To: zhenwei pi <pizhenwei@bytedance.com>, kbusch@kernel.org,
- its@irrelevant.dk, kwolf@redhat.com, mreitz@redhat.com
-References: <20210114072251.334304-1-pizhenwei@bytedance.com>
- <20210114072251.334304-5-pizhenwei@bytedance.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-Message-ID: <50f96aea-4622-3ac8-3268-51fa5ad78f2e@redhat.com>
-Date: Thu, 14 Jan 2021 16:57:12 +0100
+ bh=SKcoyxt+jrjFoHTbExXux/ug2ifJYwUks3rT3uzL9sg=;
+ b=fixnlmzb0Abw++g+0v9WqB+CquVji4m1IJVns5NLM77qhePUyuV8hAvnhU811K98fh/KmF
+ Icas4RSgRtUn5HTQakZdPLfN5EWMPQ0nukdLR8d6uYKP0ezWf/uHMxcsywGRg/6KoBg6ES
+ 187T7/kgf7f0o71LuijPXQRzBmzLf0Y=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-543-MTF59JqWP22eOgxMTYkHCw-1; Thu, 14 Jan 2021 11:00:13 -0500
+X-MC-Unique: MTF59JqWP22eOgxMTYkHCw-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 35310879500;
+ Thu, 14 Jan 2021 16:00:12 +0000 (UTC)
+Received: from [10.36.115.75] (ovpn-115-75.ams2.redhat.com [10.36.115.75])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 72BD919C71;
+ Thu, 14 Jan 2021 15:59:57 +0000 (UTC)
+Subject: Re: [PATCH v4 06/11] vfio: Sanity check maximum number of DMA
+ mappings with RamDiscardMgr
+To: Alex Williamson <alex.williamson@redhat.com>
+References: <20210107133423.44964-1-david@redhat.com>
+ <20210107133423.44964-7-david@redhat.com>
+ <20210113163435.0cae9846@omen.home.shazbot.org>
+From: David Hildenbrand <david@redhat.com>
+Organization: Red Hat GmbH
+Message-ID: <aa6efa11-6527-dd02-0e64-fc2a4190a985@redhat.com>
+Date: Thu, 14 Jan 2021 16:59:56 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.6.0
+ Thunderbird/78.5.0
 MIME-Version: 1.0
-In-Reply-To: <20210114072251.334304-5-pizhenwei@bytedance.com>
+In-Reply-To: <20210113163435.0cae9846@omen.home.shazbot.org>
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=david@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=philmd@redhat.com;
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=david@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -32
 X-Spam_score: -3.3
 X-Spam_bar: ---
 X-Spam_report: (-3.3 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.248,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.237, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
+ NICE_REPLY_A=-0.237, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001,
  RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -100,29 +84,95 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel@nongnu.org, qemu-block@nongnu.org
+Cc: Pankaj Gupta <pankaj.gupta.linux@gmail.com>,
+ Wei Yang <richard.weiyang@linux.alibaba.com>,
+ "Michael S. Tsirkin" <mst@redhat.com>,
+ Jonathan Cameron <Jonathan.Cameron@huawei.com>, qemu-devel@nongnu.org,
+ Peter Xu <peterx@redhat.com>, "Dr . David Alan Gilbert" <dgilbert@redhat.com>,
+ Auger Eric <eric.auger@redhat.com>, teawater <teawaterz@linux.alibaba.com>,
+ Igor Mammedov <imammedo@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ Marek Kedzierski <mkedzier@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 1/14/21 8:22 AM, zhenwei pi wrote:
-> During smart critical warning injection by setting property from QMP
-> command, also try to trigger asynchronous event.
+On 14.01.21 00:34, Alex Williamson wrote:
+> On Thu,  7 Jan 2021 14:34:18 +0100
+> David Hildenbrand <david@redhat.com> wrote:
 > 
-> Signed-off-by: zhenwei pi <pizhenwei@bytedance.com>
-> ---
->  hw/block/nvme.c | 47 ++++++++++++++++++++++++++++++++++++++++-------
->  1 file changed, 40 insertions(+), 7 deletions(-)
-...
-> +static void nvme_enqueue_smart_event(NvmeCtrl *n, uint8_t event)
-> +{
-> +    uint8_t aer_info;
-> +
-> +    if (!(NVME_AEC_SMART(n->features.async_config) & event)) {
-> +        return;
-> +    }
-> +
-> +    /* Ref SPEC <Asynchronous Event Information Ã¢â‚¬â€œ SMART / Health Status> */
+>> Although RamDiscardMgr can handle running into the maximum number of
+>> DMA mappings by propagating errors when creating a DMA mapping, we want
+>> to sanity check and warn the user early that there is a theoretical setup
+>> issue and that virtio-mem might not be able to provide as much memory
+>> towards a VM as desired.
+>>
+>> As suggested by Alex, let's use the number of KVM memory slots to guess
+>> how many other mappings we might see over time.
+>>
+>> Cc: Paolo Bonzini <pbonzini@redhat.com>
+>> Cc: "Michael S. Tsirkin" <mst@redhat.com>
+>> Cc: Alex Williamson <alex.williamson@redhat.com>
+>> Cc: Dr. David Alan Gilbert <dgilbert@redhat.com>
+>> Cc: Igor Mammedov <imammedo@redhat.com>
+>> Cc: Pankaj Gupta <pankaj.gupta.linux@gmail.com>
+>> Cc: Peter Xu <peterx@redhat.com>
+>> Cc: Auger Eric <eric.auger@redhat.com>
+>> Cc: Wei Yang <richard.weiyang@linux.alibaba.com>
+>> Cc: teawater <teawaterz@linux.alibaba.com>
+>> Cc: Marek Kedzierski <mkedzier@redhat.com>
+>> Signed-off-by: David Hildenbrand <david@redhat.com>
+>> ---
+>>  hw/vfio/common.c | 43 +++++++++++++++++++++++++++++++++++++++++++
+>>  1 file changed, 43 insertions(+)
+>>
+>> diff --git a/hw/vfio/common.c b/hw/vfio/common.c
+>> index 1babb6bb99..bc20f738ce 100644
+>> --- a/hw/vfio/common.c
+>> +++ b/hw/vfio/common.c
+>> @@ -758,6 +758,49 @@ static void vfio_register_ram_discard_notifier(VFIOContainer *container,
+>>                                vfio_ram_discard_notify_discard_all);
+>>      rdmc->register_listener(rdm, section->mr, &vrdl->listener);
+>>      QLIST_INSERT_HEAD(&container->vrdl_list, vrdl, next);
+>> +
+>> +    /*
+>> +     * Sanity-check if we have a theoretically problematic setup where we could
+>> +     * exceed the maximum number of possible DMA mappings over time. We assume
+>> +     * that each mapped section in the same address space as a RamDiscardMgr
+>> +     * section consumes exactly one DMA mapping, with the exception of
+>> +     * RamDiscardMgr sections; i.e., we don't expect to have gIOMMU sections in
+>> +     * the same address space as RamDiscardMgr sections.
+>> +     *
+>> +     * We assume that each section in the address space consumes one memslot.
+>> +     * We take the number of KVM memory slots as a best guess for the maximum
+>> +     * number of sections in the address space we could have over time,
+>> +     * also consuming DMA mappings.
+>> +     */
+>> +    if (container->dma_max_mappings) {
+>> +        unsigned int vrdl_count = 0, vrdl_mappings = 0, max_memslots = 512;
+>> +
+>> +#ifdef CONFIG_KVM
+>> +        if (kvm_enabled()) {
+>> +            max_memslots = kvm_get_max_memslots();
+>> +        }
+>> +#endif
+>> +
+>> +        QLIST_FOREACH(vrdl, &container->vrdl_list, next) {
+>> +            hwaddr start, end;
+>> +
+>> +            start = QEMU_ALIGN_DOWN(vrdl->offset_within_address_space,
+>> +                                    vrdl->granularity);
+>> +            end = ROUND_UP(vrdl->offset_within_address_space + vrdl->size,
+>> +                           vrdl->granularity);
+>> +            vrdl_mappings = (end - start) / vrdl->granularity;
+> 
+> --->                         += ?
 
-Mojibake UTF-8 encoding problem?
+Ah, yes, thanks. That's the result of testing only with a single
+virtio-mem device :)
+
+
+-- 
+Thanks,
+
+David / dhildenb
 
 
