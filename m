@@ -2,81 +2,51 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B537C2F6B7B
-	for <lists+qemu-devel@lfdr.de>; Thu, 14 Jan 2021 20:51:23 +0100 (CET)
-Received: from localhost ([::1]:47516 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9C82B2F6B88
+	for <lists+qemu-devel@lfdr.de>; Thu, 14 Jan 2021 20:54:08 +0100 (CET)
+Received: from localhost ([::1]:56052 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l08eQ-0003l8-Ia
-	for lists+qemu-devel@lfdr.de; Thu, 14 Jan 2021 14:51:22 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47086)
+	id 1l08h5-0008Fv-Ms
+	for lists+qemu-devel@lfdr.de; Thu, 14 Jan 2021 14:54:07 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47226)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <wrampazz@redhat.com>)
- id 1l08bv-00024J-MY
- for qemu-devel@nongnu.org; Thu, 14 Jan 2021 14:48:47 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:56035)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <wrampazz@redhat.com>)
- id 1l08bm-0002uQ-Uv
- for qemu-devel@nongnu.org; Thu, 14 Jan 2021 14:48:46 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1610653717;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=MvIPL9zWl2LIsGonOX4Gh/MSM6CmWYwIZdEBM5TUudE=;
- b=IAILY0v4IIWV94HcRfrW6ygBT8Kc15KYWAXKHGFQ5n+RJ52jvuw08qnpvJi7szu2WFbaNZ
- VL7x/nygpcB89fU6m8we+v4GuAMpYuZIV5/odPAn/zcviQ6XbmEeL994CdTA7dL7mZR5B1
- Q+/2M0UPCRPiKL0yz4P0oObvOeKznFc=
-Received: from mail-vk1-f198.google.com (mail-vk1-f198.google.com
- [209.85.221.198]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-130-gdYHcfwcN_-NChBWFuf6CQ-1; Thu, 14 Jan 2021 14:48:33 -0500
-X-MC-Unique: gdYHcfwcN_-NChBWFuf6CQ-1
-Received: by mail-vk1-f198.google.com with SMTP id m20so2732233vkk.16
- for <qemu-devel@nongnu.org>; Thu, 14 Jan 2021 11:48:33 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=MvIPL9zWl2LIsGonOX4Gh/MSM6CmWYwIZdEBM5TUudE=;
- b=lR0a6BXU4cxN4CS7z+zPR0h2sPgnwuuz8kVZ5eKgg3C+ZyKwHys2U4eVDNcXtrElzJ
- zMOAP+LbORUzLUk/u8IQ5lHj91HaSh/arLrWnS0QZDQt+7mf9bvfHXS++QphJpLgnjyJ
- 8Nt/BwXd0paf0XCpz/MRHRCuD4dH9A32ZMYdgdNtd1mnAUTMBl8YWEnW20mC4n2G8MYG
- 8W6D2XIqPD+b67BuJovsv3O7hZEpUST9aPvA5mI5AJYIuVDP10WBWH7dmwbeLhRDO8BO
- xfowF7TPBr9n7VF5PPKyUVG0pFVP0sfVEp27liSYq7dtQmMvlOZK4iACkZ+YJvS1fZco
- HeuQ==
-X-Gm-Message-State: AOAM5307LQiepTwNIhrKs/Dlnxd/KOJso6DA8EVw7AC5PE5eo8OnoivG
- 0E/GGf6L2q+0Wpqir5IvgfEBUYDGensgbZ56yFoodDe5GCNoFzK05YUlLFLtOd5hj+e1C61aj0o
- pJdkC7OG2IBczzUpvYHeJQZHHyUfWm8g=
-X-Received: by 2002:a67:e155:: with SMTP id o21mr8017676vsl.39.1610653713434; 
- Thu, 14 Jan 2021 11:48:33 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJy81V6a6WQn0i2VsOXAJ+p/SVi23lxfWnl0Z6FKTE6jIgoLDvOt61RHNL0csjde0TehjnAVNjn+u35H6cv/yy4=
-X-Received: by 2002:a67:e155:: with SMTP id o21mr8017668vsl.39.1610653713243; 
- Thu, 14 Jan 2021 11:48:33 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <pl@kamp.de>) id 1l08cO-0002zr-2z
+ for qemu-devel@nongnu.org; Thu, 14 Jan 2021 14:49:16 -0500
+Received: from kerio.kamp.de ([195.62.97.192]:47347)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <pl@kamp.de>) id 1l08cM-00034F-5c
+ for qemu-devel@nongnu.org; Thu, 14 Jan 2021 14:49:15 -0500
+X-Footer: a2FtcC5kZQ==
+Received: from submission.kamp.de ([195.62.97.28]) by kerio.kamp.de with ESMTPS
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256 bits))
+ for qemu-devel@nongnu.org; Thu, 14 Jan 2021 20:49:06 +0100
+Received: (qmail 22139 invoked from network); 14 Jan 2021 19:49:10 -0000
+Received: from ac14.vpn.kamp-intra.net (HELO ?172.20.250.14?)
+ (pl@kamp.de@::ffff:172.20.250.14)
+ by submission.kamp.de with ESMTPS (DHE-RSA-AES128-SHA encrypted) ESMTPA;
+ 14 Jan 2021 19:49:10 -0000
+Subject: Re: [PATCH 4/7] block/rbd: add bdrv_{attach,detach}_aio_context
+To: dillaman@redhat.com
+References: <20201227164236.10143-1-pl@kamp.de>
+ <20201227164236.10143-5-pl@kamp.de>
+ <CA+aFP1Cbnt99DRQLwFRhxVj5Mnow6PtQpa0k4-ojOCJt3+JPJw@mail.gmail.com>
+From: Peter Lieven <pl@kamp.de>
+Message-ID: <a4874e73-7f6c-53f2-23c8-ec76b055ec57@kamp.de>
+Date: Thu, 14 Jan 2021 20:49:10 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
 MIME-Version: 1.0
-References: <20210114165730.31607-1-alex.bennee@linaro.org>
- <20210114165730.31607-7-alex.bennee@linaro.org>
-In-Reply-To: <20210114165730.31607-7-alex.bennee@linaro.org>
-From: Willian Rampazzo <wrampazz@redhat.com>
-Date: Thu, 14 Jan 2021 16:48:07 -0300
-Message-ID: <CAKJDGDaZmaxKX5yqk8wJ+czS6CUp-QQ1vP=2bSCrPgXhpU0dDQ@mail.gmail.com>
-Subject: Re: [PATCH v2 06/12] Makefile: wrap etags in quiet-command calls
-To: =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=wrampazz@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=wrampazz@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -29
-X-Spam_score: -3.0
-X-Spam_bar: ---
-X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.248,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+In-Reply-To: <CA+aFP1Cbnt99DRQLwFRhxVj5Mnow6PtQpa0k4-ojOCJt3+JPJw@mail.gmail.com>
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 7bit
+Content-Language: en-US
+Received-SPF: pass client-ip=195.62.97.192; envelope-from=pl@kamp.de;
+ helo=kerio.kamp.de
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.237,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -90,21 +60,76 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel <qemu-devel@nongnu.org>
+Cc: Kevin Wolf <kwolf@redhat.com>, Christian Theune <ct@flyingcircus.io>,
+ qemu-devel <qemu-devel@nongnu.org>, qemu-block <qemu-block@nongnu.org>,
+ Max Reitz <mreitz@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, Jan 14, 2021 at 2:41 PM Alex Benn=C3=A9e <alex.bennee@linaro.org> w=
-rote:
->
-> For prettier output.
->
-> Signed-off-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
-> ---
->  Makefile | 9 +++++++--
->  1 file changed, 7 insertions(+), 2 deletions(-)
->
+Am 14.01.21 um 20:18 schrieb Jason Dillaman:
+> On Sun, Dec 27, 2020 at 11:42 AM Peter Lieven <pl@kamp.de> wrote:
+>> Signed-off-by: Peter Lieven <pl@kamp.de>
+>> ---
+>>  block/rbd.c | 21 +++++++++++++++++++--
+>>  1 file changed, 19 insertions(+), 2 deletions(-)
+>>
+>> diff --git a/block/rbd.c b/block/rbd.c
+>> index a2da70e37f..27b232f4d8 100644
+>> --- a/block/rbd.c
+>> +++ b/block/rbd.c
+>> @@ -91,6 +91,7 @@ typedef struct BDRVRBDState {
+>>      char *namespace;
+>>      uint64_t image_size;
+>>      uint64_t object_size;
+>> +    AioContext *aio_context;
+>>  } BDRVRBDState;
+>>
+>>  static int qemu_rbd_connect(rados_t *cluster, rados_ioctx_t *io_ctx,
+>> @@ -749,6 +750,8 @@ static int qemu_rbd_open(BlockDriverState *bs, QDict *options, int flags,
+>>          }
+>>      }
+>>
+>> +    s->aio_context = bdrv_get_aio_context(bs);
+>> +
+>>      /* When extending regular files, we get zeros from the OS */
+>>      bs->supported_truncate_flags = BDRV_REQ_ZERO_WRITE;
+>>
+>> @@ -839,8 +842,7 @@ static void rbd_finish_aiocb(rbd_completion_t c, RADOSCB *rcb)
+>>      rcb->ret = rbd_aio_get_return_value(c);
+>>      rbd_aio_release(c);
+>>
+>> -    replay_bh_schedule_oneshot_event(bdrv_get_aio_context(acb->common.bs),
+>> -                                     rbd_finish_bh, rcb);
+>> +    replay_bh_schedule_oneshot_event(acb->s->aio_context, rbd_finish_bh, rcb);
+>>  }
+>>
+>>  static BlockAIOCB *rbd_start_aio(BlockDriverState *bs,
+>> @@ -1151,6 +1153,18 @@ static const char *const qemu_rbd_strong_runtime_opts[] = {
+>>      NULL
+>>  };
+>>
+>> +static void qemu_rbd_attach_aio_context(BlockDriverState *bs,
+>> +                                       AioContext *new_context)
+>> +{
+>> +    BDRVRBDState *s = bs->opaque;
+>> +    s->aio_context = new_context;
+>> +}
+>> +
+>> +static void qemu_rbd_detach_aio_context(BlockDriverState *bs)
+>> +{
+> I don't know enough about the internals of QEMU, but this seems
+> suspicious to be a no-op.
 
-Reviewed-by: Willian Rampazzo <willianr@redhat.com>
+
+You are right, I was believing attach and detach aio_context functions always needs to be implemented both at the same time.
+
+Normally this is the point where internal timers will be deleted or polling an fd will be stopped.
+
+We can leave it completely out or set s->aio_context = NULL if we don't want to omit it.
+
+
+Peter
+
+
 
 
