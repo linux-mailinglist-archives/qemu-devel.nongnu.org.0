@@ -2,46 +2,103 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4A6AF2F5CED
-	for <lists+qemu-devel@lfdr.de>; Thu, 14 Jan 2021 10:09:01 +0100 (CET)
-Received: from localhost ([::1]:56800 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7400E2F5CF4
+	for <lists+qemu-devel@lfdr.de>; Thu, 14 Jan 2021 10:11:58 +0100 (CET)
+Received: from localhost ([::1]:59796 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kzycl-0005lB-Ug
-	for lists+qemu-devel@lfdr.de; Thu, 14 Jan 2021 04:08:59 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44568)
+	id 1kzyfd-0007CG-Ha
+	for lists+qemu-devel@lfdr.de; Thu, 14 Jan 2021 04:11:57 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45074)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1kzybV-000561-Hl
- for qemu-devel@nongnu.org; Thu, 14 Jan 2021 04:07:41 -0500
-Received: from mx2.suse.de ([195.135.220.15]:43364)
+ (Exim 4.90_1) (envelope-from <borntraeger@de.ibm.com>)
+ id 1kzyeE-0006dj-8Y; Thu, 14 Jan 2021 04:10:30 -0500
+Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:6508)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1kzybT-0005g4-Rk
- for qemu-devel@nongnu.org; Thu, 14 Jan 2021 04:07:41 -0500
-X-Virus-Scanned: by amavisd-new at test-mx.suse.de
-Received: from relay2.suse.de (unknown [195.135.221.27])
- by mx2.suse.de (Postfix) with ESMTP id 42491AFBF;
- Thu, 14 Jan 2021 09:07:37 +0000 (UTC)
-Subject: Re: [PATCH] utils/fifo8: change fatal errors from abort() to assert()
-To: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>, qemu-devel@nongnu.org,
- peter.maydell@linaro.org
-References: <20210114083329.10494-1-mark.cave-ayland@ilande.co.uk>
-From: Claudio Fontana <cfontana@suse.de>
-Message-ID: <c1190557-8959-3c41-ae53-72504243f109@suse.de>
-Date: Thu, 14 Jan 2021 10:07:36 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.12.0
+ (Exim 4.90_1) (envelope-from <borntraeger@de.ibm.com>)
+ id 1kzyeB-0005sS-GL; Thu, 14 Jan 2021 04:10:29 -0500
+Received: from pps.filterd (m0098410.ppops.net [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id
+ 10E93ufT058657; Thu, 14 Jan 2021 04:10:11 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
+ h=subject : to : cc :
+ references : from : message-id : date : mime-version : in-reply-to :
+ content-type : content-transfer-encoding; s=pp1;
+ bh=s/NX2AL9vJ9/1qBZ7X6DQOUeEQWeGZ9b9R3mCaMWkbg=;
+ b=J6VKdREgx/61ewZNOmjZSW36yPZjmJufEXJ50bzE90NyzEbXyOYQeKDACbe8XjyXqJy/
+ +HGhPabnU8J0/WfRfE89TYa3Fg2TLj7oFS29QrF9KSDJ3FUPcMamNpmMu2yGvJdhf4ms
+ xxkKxWvDa03yq+5XIuv5iluLHZ5CfJ21vW9dgBJvUTzDvlm84J5kePoWfZtER2XBS86i
+ aJtVvKQNZN+XrbhegQYP6frBQp5rn6okM7+bNwbsVZZuycqGpEfrDvaiCmfe/ncgLW5/
+ uB2fp0UU65q0SD9X0a1mO8lS7gxiGziePLBHfCFresg6okSvUNHT8LZE2xbo5iRoEPUp nQ== 
+Received: from pps.reinject (localhost [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com with ESMTP id 362jb5hcxq-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Thu, 14 Jan 2021 04:10:10 -0500
+Received: from m0098410.ppops.net (m0098410.ppops.net [127.0.0.1])
+ by pps.reinject (8.16.0.36/8.16.0.36) with SMTP id 10E94EhN060923;
+ Thu, 14 Jan 2021 04:10:10 -0500
+Received: from ppma06ams.nl.ibm.com (66.31.33a9.ip4.static.sl-reverse.com
+ [169.51.49.102])
+ by mx0a-001b2d01.pphosted.com with ESMTP id 362jb5hcwq-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Thu, 14 Jan 2021 04:10:10 -0500
+Received: from pps.filterd (ppma06ams.nl.ibm.com [127.0.0.1])
+ by ppma06ams.nl.ibm.com (8.16.0.42/8.16.0.42) with SMTP id 10E927X4004249;
+ Thu, 14 Jan 2021 09:10:07 GMT
+Received: from b06cxnps4074.portsmouth.uk.ibm.com
+ (d06relay11.portsmouth.uk.ibm.com [9.149.109.196])
+ by ppma06ams.nl.ibm.com with ESMTP id 35ydrddtk6-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Thu, 14 Jan 2021 09:10:07 +0000
+Received: from d06av22.portsmouth.uk.ibm.com (d06av22.portsmouth.uk.ibm.com
+ [9.149.105.58])
+ by b06cxnps4074.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 10E9A4cl31195392
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Thu, 14 Jan 2021 09:10:04 GMT
+Received: from d06av22.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id B30A64C040;
+ Thu, 14 Jan 2021 09:10:04 +0000 (GMT)
+Received: from d06av22.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id B12D34C04A;
+ Thu, 14 Jan 2021 09:10:03 +0000 (GMT)
+Received: from oc7455500831.ibm.com (unknown [9.171.19.194])
+ by d06av22.portsmouth.uk.ibm.com (Postfix) with ESMTP;
+ Thu, 14 Jan 2021 09:10:03 +0000 (GMT)
+Subject: Re: [PATCH v7 13/13] s390: Recognize confidential-guest-support option
+To: David Gibson <david@gibson.dropbear.id.au>, brijesh.singh@amd.com,
+ pair@us.ibm.com, dgilbert@redhat.com, pasic@linux.ibm.com,
+ qemu-devel@nongnu.org
+References: <20210113235811.1909610-1-david@gibson.dropbear.id.au>
+ <20210113235811.1909610-14-david@gibson.dropbear.id.au>
+From: Christian Borntraeger <borntraeger@de.ibm.com>
+Message-ID: <ba08f5da-e31f-7ae2-898d-a090c5c1b1cf@de.ibm.com>
+Date: Thu, 14 Jan 2021 10:10:02 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.6.0
 MIME-Version: 1.0
-In-Reply-To: <20210114083329.10494-1-mark.cave-ayland@ilande.co.uk>
+In-Reply-To: <20210113235811.1909610-14-david@gibson.dropbear.id.au>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=195.135.220.15; envelope-from=cfontana@suse.de;
- helo=mx2.suse.de
-X-Spam_score_int: -41
-X-Spam_score: -4.2
-X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_MED=-2.3, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+X-TM-AS-GCONF: 00
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.343, 18.0.737
+ definitions=2021-01-14_03:2021-01-13,
+ 2021-01-14 signatures=0
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ malwarescore=0 adultscore=0
+ lowpriorityscore=0 suspectscore=0 priorityscore=1501 bulkscore=0
+ impostorscore=0 spamscore=0 mlxscore=0 clxscore=1015 phishscore=0
+ mlxlogscore=999 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2009150000 definitions=main-2101140052
+Received-SPF: pass client-ip=148.163.156.1;
+ envelope-from=borntraeger@de.ibm.com; helo=mx0a-001b2d01.pphosted.com
+X-Spam_score_int: -26
+X-Spam_score: -2.7
+X-Spam_bar: --
+X-Spam_report: (-2.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -55,75 +112,34 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: qemu-ppc@nongnu.org, thuth@redhat.com,
+ Marcelo Tosatti <mtosatti@redhat.com>, berrange@redhat.com,
+ jun.nakajima@intel.com, kvm@vger.kernel.org,
+ David Hildenbrand <david@redhat.com>, cohuck@redhat.com,
+ Richard Henderson <richard.henderson@linaro.org>, Greg Kurz <groug@kaod.org>,
+ mdroth@linux.vnet.ibm.com, pragyansri.pathi@intel.com, qemu-s390x@nongnu.org,
+ frankja@linux.ibm.com, mst@redhat.com, andi.kleen@intel.com,
+ Paolo Bonzini <pbonzini@redhat.com>, Eduardo Habkost <ehabkost@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 1/14/21 9:33 AM, Mark Cave-Ayland wrote:
-> Developer errors are better represented with assert() rather than abort().
 
-... "also, make the tests more strict"
 
-I'd add this since the checks have been changed sometimes in the patch to be more strict.
+On 14.01.21 00:58, David Gibson wrote:
+[...]
+> +int s390_pv_init(ConfidentialGuestSupport *cgs, Error **errp)
+> +{
+> +    if (!object_dynamic_cast(OBJECT(cgs), TYPE_S390_PV_GUEST)) {
+> +        return 0;
+> +    }
+> +
+> +    if (!s390_has_feat(S390_FEAT_UNPACK)) {
+> +        error_setg(errp,
+> +                   "CPU model does not support Protected Virtualization");
+> +        return -1;
+> +    }
 
-Reviewed-by: Claudio Fontana <cfontana@suse.de>
-
-> 
-> Signed-off-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
-> ---
-> This was suggested by Peter during a discussion on IRC yesterday.
-> 
-> ---
->  util/fifo8.c | 16 ++++------------
->  1 file changed, 4 insertions(+), 12 deletions(-)
-> 
-> diff --git a/util/fifo8.c b/util/fifo8.c
-> index a5dd789ce5..d4d1c135e0 100644
-> --- a/util/fifo8.c
-> +++ b/util/fifo8.c
-> @@ -31,9 +31,7 @@ void fifo8_destroy(Fifo8 *fifo)
->  
->  void fifo8_push(Fifo8 *fifo, uint8_t data)
->  {
-> -    if (fifo->num == fifo->capacity) {
-> -        abort();
-> -    }
-> +    assert(fifo->num < fifo->capacity);
->      fifo->data[(fifo->head + fifo->num) % fifo->capacity] = data;
->      fifo->num++;
->  }
-> @@ -42,9 +40,7 @@ void fifo8_push_all(Fifo8 *fifo, const uint8_t *data, uint32_t num)
->  {
->      uint32_t start, avail;
->  
-> -    if (fifo->num + num > fifo->capacity) {
-> -        abort();
-> -    }
-> +    assert(fifo->num + num <= fifo->capacity);
->  
->      start = (fifo->head + fifo->num) % fifo->capacity;
->  
-> @@ -63,9 +59,7 @@ uint8_t fifo8_pop(Fifo8 *fifo)
->  {
->      uint8_t ret;
->  
-> -    if (fifo->num == 0) {
-> -        abort();
-> -    }
-> +    assert(fifo->num > 0);
->      ret = fifo->data[fifo->head++];
->      fifo->head %= fifo->capacity;
->      fifo->num--;
-> @@ -76,9 +70,7 @@ const uint8_t *fifo8_pop_buf(Fifo8 *fifo, uint32_t max, uint32_t *num)
->  {
->      uint8_t *ret;
->  
-> -    if (max == 0 || max > fifo->num) {
-> -        abort();
-> -    }
-> +    assert(max > 0 && max <= fifo->num);
->      *num = MIN(fifo->capacity - fifo->head, max);
->      ret = &fifo->data[fifo->head];
->      fifo->head += *num;
-> 
+I am triggering this and I guess this is because the cpu model is not yet initialized at
+this point in time.
 
 
