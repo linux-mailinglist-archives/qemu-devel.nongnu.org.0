@@ -2,147 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 724E92F58DF
-	for <lists+qemu-devel@lfdr.de>; Thu, 14 Jan 2021 04:23:36 +0100 (CET)
-Received: from localhost ([::1]:44830 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DB5A12F59E8
+	for <lists+qemu-devel@lfdr.de>; Thu, 14 Jan 2021 05:26:40 +0100 (CET)
+Received: from localhost ([::1]:56320 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kztEU-00027Y-TI
-	for lists+qemu-devel@lfdr.de; Wed, 13 Jan 2021 22:23:34 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40564)
+	id 1kzuDX-000329-Ig
+	for lists+qemu-devel@lfdr.de; Wed, 13 Jan 2021 23:26:39 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48956)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <lei.rao@intel.com>) id 1kztDD-0001hE-A1
- for qemu-devel@nongnu.org; Wed, 13 Jan 2021 22:22:15 -0500
-Received: from mga09.intel.com ([134.134.136.24]:16820)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <lei.rao@intel.com>) id 1kztD7-0008Ps-4i
- for qemu-devel@nongnu.org; Wed, 13 Jan 2021 22:22:14 -0500
-IronPort-SDR: PGKTGYjwZQkbgda5dUfC6FkVaHxQ9YP2jDs0vZFyGBf4Ri1o+708LYDTf5TSb1DznWSjKWWxHS
- khIqnkVknVXg==
-X-IronPort-AV: E=McAfee;i="6000,8403,9863"; a="178447848"
-X-IronPort-AV: E=Sophos;i="5.79,346,1602572400"; d="scan'208";a="178447848"
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
- by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 13 Jan 2021 19:21:57 -0800
-IronPort-SDR: Ny2Y2hKWfKVV5WryDI0khRU3s1J+iNs0+cINlgBSF5OrmknJLvqu5xV6+MFcc47V5xwJxrSIPU
- lu+1186XAdkQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.79,346,1602572400"; d="scan'208";a="349029322"
-Received: from fmsmsx601.amr.corp.intel.com ([10.18.126.81])
- by orsmga003.jf.intel.com with ESMTP; 13 Jan 2021 19:21:57 -0800
-Received: from fmsmsx607.amr.corp.intel.com (10.18.126.87) by
- fmsmsx601.amr.corp.intel.com (10.18.126.81) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.1713.5; Wed, 13 Jan 2021 19:21:56 -0800
-Received: from FMSEDG603.ED.cps.intel.com (10.1.192.133) by
- fmsmsx607.amr.corp.intel.com (10.18.126.87) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.1713.5
- via Frontend Transport; Wed, 13 Jan 2021 19:21:56 -0800
-Received: from NAM11-BN8-obe.outbound.protection.outlook.com (104.47.58.175)
- by edgegateway.intel.com (192.55.55.68) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.1713.5; Wed, 13 Jan 2021 19:21:56 -0800
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=NTOESSGvyzFonxY93RulWOsHLkVH91x6u/ewOplQcm6ymm9Q7JDSgtifEOQB2TklTFhUmkk0P4igIJFhpyR7UPl6CsQ6OWmyElxHu2aXRozv0x+LOI/31dujgFGfWb2s0VpStZiuuDIyo+vvd0n3phTUz6Xpe3Ta2ohxl/NiJpFnKTBzlBMK3u9828Y4VEPbsnS2x8BKFWRjcpJcv2uOsziMxWTCWwb1ItLYAugXmBZvckwOwlaeWtPR5yaKJTtkXublRUd5wAdwoKqdujAgrkdZcng1ttTV3WL984mKqTon8cl2tQezo1ICxAZLhXrC13yCoqwkSZKUTO42AaafDQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=QkSpgevrAVnOjCjfSLlGBPOo/Le6hLVe3ncqS0jXQjY=;
- b=ZL9oPUZiSWGq1tko9f9SN9GVwLZIY7BjoGuBJUVsrFR8B9M3alC9RGxmTEk9z+K0QFgKNrOpj0qT0NTx4VO0hnWOzdgXsAKvkiinmBR6hgHfZs91rZrDjtyVQVfaC71s19N82CdBW8i8+R/UhqT/RTGQwm/y5bGSJA9eIeiLsMGpZ6CqEzFJmq0mQy+/SPFjobDYlGzc5NXobmEdnkM55zEDGXwXBRphOwyuT3o4SPcmCGElWNf2IeA3FGE/rmEuHB8EsABctOcboSe7yHXoH6QlwfMoi4wrVGsLMxtyfWSqtOerGopUFnfT1Uqx0iYd3rnE3vAJ7X4SJL90eDuJYg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=intel.onmicrosoft.com; 
- s=selector2-intel-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=QkSpgevrAVnOjCjfSLlGBPOo/Le6hLVe3ncqS0jXQjY=;
- b=Kw+5hOd1y2PPx/BhiQQQA3bRPfuzcqIE9mg0Ix9omFKINube08V9v6z9nyByr9xWiZKqr2rap+fFQZVc5tXuxE+Q9ryp3wF0UQqtq2E7maIHRsvlpKhAMe/9AflwVpDxH8ENmEc5Ok0ZDTKo9tIFRxRwCZQyOTyUKY6BfGOFMEk=
-Received: from SN6PR11MB3103.namprd11.prod.outlook.com (52.135.126.205) by
- SN6PR11MB3152.namprd11.prod.outlook.com (52.135.124.83) with Microsoft SMTP
- Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.3763.9; Thu, 14 Jan 2021 03:21:52 +0000
-Received: from SN6PR11MB3103.namprd11.prod.outlook.com
- ([fe80::b579:5968:957a:e399]) by SN6PR11MB3103.namprd11.prod.outlook.com
- ([fe80::b579:5968:957a:e399%3]) with mapi id 15.20.3742.012; Thu, 14 Jan 2021
- 03:21:52 +0000
-From: "Rao, Lei" <lei.rao@intel.com>
-To: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
-Subject: RE: [PATCH 07/10] Disable auto-coverge before entering COLO mode.
-Thread-Topic: [PATCH 07/10] Disable auto-coverge before entering COLO mode.
-Thread-Index: AQHW6VdRtmB/U2hNXkicEjUbh9zHg6olbJiAgAEITNA=
-Date: Thu, 14 Jan 2021 03:21:51 +0000
-Message-ID: <SN6PR11MB31039A044F7094ACBDCCA1A8FDA80@SN6PR11MB3103.namprd11.prod.outlook.com>
-References: <1610505995-144129-1-git-send-email-lei.rao@intel.com>
- <1610505995-144129-8-git-send-email-lei.rao@intel.com>
- <20210113113131.GF2938@work-vm>
-In-Reply-To: <20210113113131.GF2938@work-vm>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-dlp-reaction: no-action
-dlp-version: 11.5.1.3
-dlp-product: dlpe-windows
-authentication-results: redhat.com; dkim=none (message not signed)
- header.d=none;redhat.com; dmarc=none action=none header.from=intel.com;
-x-originating-ip: [192.55.46.39]
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: d8eedcae-6ad9-40b3-f8c7-08d8b83b896e
-x-ms-traffictypediagnostic: SN6PR11MB3152:
-x-ld-processed: 46c98d88-e344-4ed4-8496-4ed7712e255d,ExtAddr
-x-ms-exchange-transport-forked: True
-x-microsoft-antispam-prvs: <SN6PR11MB31522B1C364A0A9675D0A189FDA80@SN6PR11MB3152.namprd11.prod.outlook.com>
-x-ms-oob-tlc-oobclassifiers: OLM:820;
-x-ms-exchange-senderadcheck: 1
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: 1VkUp8WNKg0Ugm0vHNj08R9/GEibW+JauexJc2yTC8YaRCHHYaAkvDhkqLWJocQ6Cv5E9/w74XJNuPT1ryvI0spOtCbBbCgEswW5SKlEDfohfyCOlWbt29Wg6l4CExSC5VM9TxrcLHb3Nvjh2idWyHdKAs5tF6OQTyhy5S/0M04l/D1GJ2VCc9IW9XdqhHZLAftejGsiBI7kwDFOLRnasuIuBa5z1+JkbMZOZHaHvVddxEVkrcXLCowQ8P38x8Qe1BDfFbvLG1kxz4C1igEUfBVtKP+8LNWJxsZ5pHdryvUikZPCFbwczhSm4r5gW3Q6WrmLsG+Cmu0jpkEdiZIdX1ACrvvhRcin6FHLc8XmgsKHaZ2+Y+YCozk7VTl1mZ4n
-x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:SN6PR11MB3103.namprd11.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(4636009)(366004)(39860400002)(346002)(136003)(396003)(376002)(76116006)(66946007)(52536014)(186003)(66556008)(33656002)(26005)(6916009)(4326008)(66476007)(83380400001)(64756008)(5660300002)(2906002)(53546011)(66446008)(6506007)(9686003)(8936002)(8676002)(7696005)(55016002)(54906003)(478600001)(316002)(86362001)(71200400001);
- DIR:OUT; SFP:1102; 
-x-ms-exchange-antispam-messagedata: =?us-ascii?Q?rR531RhqQJXBZAEt/HTAGy59a6lmAIeuwqHJLrMNTmngpigfVEh+3nF4yVjI?=
- =?us-ascii?Q?kpa83ml3dMJZe+Ja/CkykeOFMitdvLCMoQ2LmRnTmtNHMiLOdl7lBnrXEoE4?=
- =?us-ascii?Q?Bpg7rtRayKbLo14f2FhyxyjNXTIrLPEPJ08FBdMtGYdkpL9WPjTPwhC1t52B?=
- =?us-ascii?Q?SHRABaTvTAAGKZw84ZT47pAGYwQUUen75Xj5DZupsXPVfzV++kKRs6v6vhmi?=
- =?us-ascii?Q?pizvUjw46XFdVAwVXNAl1IOCnvgfeRMMFyBT9U0FdLc7vmCpP2gdTu3atHNE?=
- =?us-ascii?Q?PDcebOk0WXjlmNyS686+XV5nKUOvF+7m1BWIXsGBacMpt53jrhRlA9gpz4XK?=
- =?us-ascii?Q?K++yZ2hd6ZLzlHxKU+j9cg/Ul4uWgNpBSeZfQJwXZ/di6ayP7vHsGEH/OOsf?=
- =?us-ascii?Q?Apl6qcZV4BAPkycZPfbmibwyTvE/cUTbitJAcIf9QEUZaR8Cpn18Z0sUYe+w?=
- =?us-ascii?Q?5UQlwkvQYagaYKQvdfFunv8bQhOqpRXgWoDeNhlTFCghO04rZWY+/Db6CqGU?=
- =?us-ascii?Q?NvBC+4Kh2J+xgotj6F2AW2ADYe3TXykHQq0GzhBFTJ6Bc0IfT4R5lNgQFvjg?=
- =?us-ascii?Q?oQT6n6DDOYS7LYXSOlJ9Amm9uk1cr2N3bxZxbjR3nVZRW9faI0URjadnNh4t?=
- =?us-ascii?Q?UwNkhRmtjsYm4JHOFFGQE3yO9gIcVL3U5IUWw87DN3F3SaXkDo77WrZdtOrv?=
- =?us-ascii?Q?/xtZ744yPlqaihkQua5SviT+nNkH5Jd9psrGMNWl3VAdmpTv1JDWnYu5mbOw?=
- =?us-ascii?Q?cPgaHm+vQpCXeWIUwWyLCWRiGWqSVDICQanorH/RKr0Vg2DXztjOqOjq6VBc?=
- =?us-ascii?Q?dtM/4LqUtCKpP26e6rhr17dpTWSh6CuNdYH/mqcQ7IZIem+L9UDoJHtaPL4V?=
- =?us-ascii?Q?6qcMBy8vRYqaiJCbu/mmaeVuD49dhFxE1/JPQLclYU1LBTYhXbAmFcrC6yfP?=
- =?us-ascii?Q?YXR2dgAJ9aWfR5BpWlhUHH7xV6hLXxRbq6jiqGvWwJA=3D?=
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1kzuCm-0002Vw-Mv
+ for qemu-devel@nongnu.org; Wed, 13 Jan 2021 23:25:52 -0500
+Received: from indium.canonical.com ([91.189.90.7]:45808)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1kzuCk-0002dQ-3x
+ for qemu-devel@nongnu.org; Wed, 13 Jan 2021 23:25:52 -0500
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1kzuCh-0005ZL-Ps
+ for <qemu-devel@nongnu.org>; Thu, 14 Jan 2021 04:25:47 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id BED192E8086
+ for <qemu-devel@nongnu.org>; Thu, 14 Jan 2021 04:25:47 +0000 (UTC)
 MIME-Version: 1.0
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: SN6PR11MB3103.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: d8eedcae-6ad9-40b3-f8c7-08d8b83b896e
-X-MS-Exchange-CrossTenant-originalarrivaltime: 14 Jan 2021 03:21:52.0118 (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: aJvH9xCyqINPqft+lsah7QJeH3Twco89aXS3AMXwRG6ebOYy4i2zfuM+ojmGgq73sJL/D8QS6XXiVZVNqyghRQ==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SN6PR11MB3152
-X-OriginatorOrg: intel.com
-Received-SPF: pass client-ip=134.134.136.24; envelope-from=lei.rao@intel.com;
- helo=mga09.intel.com
-X-Spam_score_int: -41
-X-Spam_score: -4.2
-X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, RCVD_IN_DNSWL_MED=-2.3, RCVD_IN_MSPIKE_H3=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Date: Thu, 14 Jan 2021 04:17:14 -0000
+From: Launchpad Bug Tracker <1770724@bugs.launchpad.net>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=Expired; importance=Undecided;
+ assignee=None; 
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: ihar-hrachyshka janitor th-huth
+X-Launchpad-Bug-Reporter: Ihar Hrachyshka (ihar-hrachyshka)
+X-Launchpad-Bug-Modifier: Launchpad Janitor (janitor)
+References: <152606337380.25547.9159144751315221757.malonedeb@soybean.canonical.com>
+Message-Id: <161059783536.4552.9596752601776936981.malone@loganberry.canonical.com>
+Subject: [Bug 1770724] Re: e1000 takes a long time (2 seconds) to set link
+ ready
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="511b4a3b6512aa3d421c5f7d74f3527e78bff26e"; Instance="production"
+X-Launchpad-Hash: 310e5e72e14981e263d2dac21d51f93b378df881
+Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
+ helo=indium.canonical.com
+X-Spam_score_int: -65
+X-Spam_score: -6.6
+X-Spam_bar: ------
+X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9,
+ HEADER_FROM_DIFFERENT_DOMAINS=0.248, RCVD_IN_DNSWL_HI=-5,
+ RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -151,94 +71,179 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "zhang.zhanghailiang@huawei.com" <zhang.zhanghailiang@huawei.com>,
- "lizhijian@cn.fujitsu.com" <lizhijian@cn.fujitsu.com>,
- "quintela@redhat.com" <quintela@redhat.com>,
- "jasowang@redhat.com" <jasowang@redhat.com>,
- "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>, "Zhang,
- Chen" <chen.zhang@intel.com>
+Reply-To: Bug 1770724 <1770724@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-I think there is a difference between doing checkpoints in COLO and live mi=
-gration.
-The feature of auto-converge is to ensure the success of live migration eve=
-n though the dirty page generation speed is faster than data transfer.
-but for COLO, we will force the VM to stop when something is doing a checkp=
-oint. This will ensure the success of doing a checkpoint and this has nothi=
-ng to do with auto-converge.
+[Expired for QEMU because there has been no activity for 60 days.]
 
-Thanks,
-Lei.
+** Changed in: qemu
+       Status: Incomplete =3D> Expired
 
------Original Message-----
-From: Dr. David Alan Gilbert <dgilbert@redhat.com>=20
-Sent: Wednesday, January 13, 2021 7:32 PM
-To: Rao, Lei <lei.rao@intel.com>
-Cc: Zhang, Chen <chen.zhang@intel.com>; lizhijian@cn.fujitsu.com; jasowang@=
-redhat.com; zhang.zhanghailiang@huawei.com; quintela@redhat.com; qemu-devel=
-@nongnu.org
-Subject: Re: [PATCH 07/10] Disable auto-coverge before entering COLO mode.
+-- =
 
-* leirao (lei.rao@intel.com) wrote:
-> From: "Rao, Lei" <lei.rao@intel.com>
->=20
-> If we don't disable the feature of auto-converge for live migration=20
-> before entering COLO mode, it will continue to run with COLO running,=20
-> and eventually the system will hang due to the CPU throttle reaching=20
-> DEFAULT_MIGRATE_MAX_CPU_THROTTLE.
->=20
-> Signed-off-by: Lei Rao <lei.rao@intel.com>
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1770724
 
-I don't think that's the right answer, because it would seem reasonable to =
-use auto-converge to ensure that a COLO snapshot succeeded by limiting gues=
-t CPU time.  Is the right fix here to reset the state of the auto-converge =
-counters at the start of each colo snapshot?
+Title:
+  e1000 takes a long time (2 seconds) to set link ready
 
-Dave
+Status in QEMU:
+  Expired
 
-> ---
->  migration/migration.c | 16 +++++++++++++++-
->  1 file changed, 15 insertions(+), 1 deletion(-)
->=20
-> diff --git a/migration/migration.c b/migration/migration.c index=20
-> 31417ce..6ab37e5 100644
-> --- a/migration/migration.c
-> +++ b/migration/migration.c
-> @@ -1673,6 +1673,20 @@ void migrate_set_block_enabled(bool value, Error *=
-*errp)
->      qapi_free_MigrationCapabilityStatusList(cap);
->  }
-> =20
-> +static void colo_auto_converge_enabled(bool value, Error **errp) {
-> +    MigrationCapabilityStatusList *cap =3D NULL;
-> +
-> +    if (migrate_colo_enabled() && migrate_auto_converge()) {
-> +        QAPI_LIST_PREPEND(cap,
-> +                          migrate_cap_add(MIGRATION_CAPABILITY_AUTO_CONV=
-ERGE,
-> +                                          value));
-> +        qmp_migrate_set_capabilities(cap, errp);
-> +        qapi_free_MigrationCapabilityStatusList(cap);
-> +    }
-> +    cpu_throttle_stop();
-> +}
-> +
->  static void migrate_set_block_incremental(MigrationState *s, bool=20
-> value)  {
->      s->parameters.block_incremental =3D value; @@ -3401,7 +3415,7 @@=20
-> static MigIterateState migration_iteration_run(MigrationState *s) =20
-> static void migration_iteration_finish(MigrationState *s)  {
->      /* If we enabled cpu throttling for auto-converge, turn it off. */
-> -    cpu_throttle_stop();
-> +    colo_auto_converge_enabled(false, &error_abort);
-> =20
->      qemu_mutex_lock_iothread();
->      switch (s->state) {
-> --
-> 1.8.3.1
->=20
---
-Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
+Bug description:
+  When a VM is booted with e1000 NIC, it takes a long time (2 seconds)
+  for the guest to bring up the link. This can be seen in the following
+  dmesg messages:
 
+  [    4.899773] IPv6: ADDRCONF(NETDEV_UP): eth0: link is not ready
+  [    6.889165] e1000: eth0 NIC Link is Up 1000 Mbps Full Duplex, Flow Con=
+trol: RX
+  [    6.891372] IPv6: ADDRCONF(NETDEV_CHANGE): eth0: link becomes ready
+
+  The first message happens when the guest calls to ifup eth0; ifup does
+  not hold control until the link is established. The guest I am using
+  (cirros 0.4.0) then starts udhcpc DHCP client that issues a DHCP
+  request, then waits for 60 seconds for reply, then repeats the DHCP
+  request. When the first request is sent, the link is not ready yet, so
+  the frame is lost; when the second request is sent, the link is up and
+  DHCP lease is received.
+
+  If I use different NICs (e1000e, virtio, rtl*), there are no dmesg
+  messages, and the very first DHCP request correctly reaches outside
+  and results in a lease acquired.
+
+  The qemu version I am using is 2.10.1 from Fedora 27. I tried to
+  reproduce with runtime from Fedora 29 that includes 2.12 but I have
+  different issues there that block me from reproducing the original
+  issue (there, I get kernel traces, irq interrupt errors, and no
+  network link at all).
+
+  For the record, the qemu in question is started by kubevirt inside a
+  docker container with Fedora 27 based image.
+
+  =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D
+
+  The command line of qemu is as follows:
+
+  27404 ?        Sl     0:10 /usr/bin/qemu-system-x86_64 -machine
+  accel=3Dkvm -name guest=3Ddefault_ovm-cirros,debug-threads=3Don -S -object
+  secret,id=3DmasterKey0,format=3Draw,file=3D/var/lib/libvirt/qemu/domain-1
+  -default_ovm-cirros/master-key.aes -machine
+  pc-q35-2.10,accel=3Dkvm,usb=3Doff,dump-guest-core=3Doff -m 62 -realtime
+  mlock=3Doff -smp 1,sockets=3D1,cores=3D1,threads=3D1 -uuid
+  8769fdbe-d957-5567-bd71-114ba0eb4811 -no-user-config -nodefaults
+  -chardev socket,id=3Dcharmonitor,path=3D/var/lib/libvirt/qemu/domain-1
+  -default_ovm-cirros/monitor.sock,server,nowait -mon
+  chardev=3Dcharmonitor,id=3Dmonitor,mode=3Dcontrol -rtc base=3Dutc -no-shu=
+tdown
+  -no-acpi -boot strict=3Don -device
+  i82801b11-bridge,id=3Dpci.1,bus=3Dpcie.0,addr=3D0x1e -device pci-
+  bridge,chassis_nr=3D2,id=3Dpci.2,bus=3Dpci.1,addr=3D0x0 -device pcie-root-
+  port,port=3D0x10,chassis=3D3,id=3Dpci.3,bus=3Dpcie.0,multifunction=3Don,a=
+ddr=3D0x2
+  -device pcie-root-
+  port,port=3D0x11,chassis=3D4,id=3Dpci.4,bus=3Dpcie.0,addr=3D0x2.0x1 -devi=
+ce
+  pcie-root-port,port=3D0x12,chassis=3D5,id=3Dpci.5,bus=3Dpcie.0,addr=3D0x2=
+.0x2
+  -device pcie-root-
+  port,port=3D0x13,chassis=3D6,id=3Dpci.6,bus=3Dpcie.0,addr=3D0x2.0x3 -devi=
+ce
+  pcie-root-port,port=3D0x14,chassis=3D7,id=3Dpci.7,bus=3Dpcie.0,addr=3D0x2=
+.0x4
+  -device nec-usb-xhci,id=3Dusb,bus=3Dpci.3,addr=3D0x0 -drive
+  file=3D/var/run/libvirt/kubevirt-ephemeral-disk/registry-disk-
+  data/default/ovm-cirros/disk_registryvolume/disk-
+  image.raw,format=3Draw,if=3Dnone,id=3Ddrive-virtio-disk0 -device virtio-b=
+lk-
+  pci,scsi=3Doff,bus=3Dpci.4,addr=3D0x0,drive=3Ddrive-virtio-disk0,id=3Dvir=
+tio-
+  disk0,bootindex=3D1 -drive file=3D/var/run/libvirt/kubevirt-ephemeral-disk
+  /cloud-init-data/default/ovm-cirros/noCloud.iso,format=3Draw,if=3Dnone,id
+  =3Ddrive-virtio-disk1 -device virtio-blk-
+  pci,scsi=3Doff,bus=3Dpci.5,addr=3D0x0,drive=3Ddrive-virtio-disk1,id=3Dvir=
+tio-
+  disk1 -netdev tap,fd=3D23,id=3Dhostnet0 -device
+  e1000,netdev=3Dhostnet0,id=3Dnet0,mac=3D0a:58:0a:f4:01:e1,bus=3Dpci.2,add=
+r=3D0x1
+  -chardev socket,id=3Dcharserial0,path=3D/var/run/kubevirt-private/default
+  /ovm-cirros/virt-serial0,server,nowait -device isa-
+  serial,chardev=3Dcharserial0,id=3Dserial0 -vnc vnc=3Dunix:/var/run/kubevi=
+rt-
+  private/default/ovm-cirros/virt-vnc -device
+  VGA,id=3Dvideo0,vgamem_mb=3D16,bus=3Dpcie.0,addr=3D0x1 -device virtio-bal=
+loon-
+  pci,id=3Dballoon0,bus=3Dpci.6,addr=3D0x0 -msg timestamp=3Don
+
+  =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D
+
+  Hypervisor versions of interest:
+
+  [vagrant@node02 ~]$ sudo docker exec -it $(sudo docker ps | grep virt-lau=
+ncher-ovm-cirros | grep entrypoint | awk -e '{print $1}') rpm -qa | grep 'q=
+emu\|libvirt'
+  qemu-block-curl-2.10.1-2.fc27.x86_64
+  qemu-block-ssh-2.10.1-2.fc27.x86_64
+  qemu-block-nfs-2.10.1-2.fc27.x86_64
+  qemu-system-x86-core-2.10.1-2.fc27.x86_64
+  libvirt-daemon-3.7.0-4.fc27.x86_64
+  libvirt-daemon-driver-storage-disk-3.7.0-4.fc27.x86_64
+  libvirt-daemon-driver-storage-mpath-3.7.0-4.fc27.x86_64
+  libvirt-daemon-driver-storage-zfs-3.7.0-4.fc27.x86_64
+  libvirt-daemon-driver-nwfilter-3.7.0-4.fc27.x86_64
+  qemu-img-2.10.1-2.fc27.x86_64
+  qemu-common-2.10.1-2.fc27.x86_64
+  qemu-block-dmg-2.10.1-2.fc27.x86_64
+  qemu-block-rbd-2.10.1-2.fc27.x86_64
+  qemu-system-x86-2.10.1-2.fc27.x86_64
+  libvirt-libs-3.7.0-4.fc27.x86_64
+  libvirt-daemon-driver-storage-core-3.7.0-4.fc27.x86_64
+  libvirt-daemon-driver-qemu-3.7.0-4.fc27.x86_64
+  libvirt-daemon-driver-storage-gluster-3.7.0-4.fc27.x86_64
+  libvirt-daemon-driver-storage-logical-3.7.0-4.fc27.x86_64
+  libvirt-daemon-driver-storage-rbd-3.7.0-4.fc27.x86_64
+  libvirt-daemon-driver-storage-sheepdog-3.7.0-4.fc27.x86_64
+  libvirt-daemon-driver-storage-3.7.0-4.fc27.x86_64
+  libvirt-daemon-driver-nodedev-3.7.0-4.fc27.x86_64
+  libvirt-daemon-driver-secret-3.7.0-4.fc27.x86_64
+  libvirt-client-3.7.0-4.fc27.x86_64
+  ipxe-roms-qemu-20161108-2.gitb991c67.fc26.noarch
+  qemu-block-gluster-2.10.1-2.fc27.x86_64
+  qemu-block-iscsi-2.10.1-2.fc27.x86_64
+  qemu-kvm-2.10.1-2.fc27.x86_64
+  libvirt-daemon-driver-network-3.7.0-4.fc27.x86_64
+  libvirt-daemon-driver-storage-iscsi-3.7.0-4.fc27.x86_64
+  libvirt-daemon-driver-storage-scsi-3.7.0-4.fc27.x86_64
+  libvirt-daemon-driver-interface-3.7.0-4.fc27.x86_64
+  libvirt-daemon-kvm-3.7.0-4.fc27.x86_64
+
+  [vagrant@node02 ~]$ uname -a
+  Linux node02 3.10.0-693.17.1.el7.x86_64 #1 SMP Thu Jan 25 20:13:58 UTC 20=
+18 x86_64 x86_64 x86_64 GNU/Linux
+
+  [vagrant@node02 ~]$ cat /etc/redhat-release
+  CentOS Linux release 7.4.1708 (Core)
+
+  =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D
+
+  Guest:
+
+  $ uname -a
+  Linux ovm-cirros 4.4.0-28-generic #47-Ubuntu SMP Fri Jun 24 10:09:13 UTC =
+2016 x86_64 GNU/Linux
+
+  =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D
+
+  Bug trackers for other projects:
+  - cirros: https://bugs.launchpad.net/cirros/+bug/1768955
+  - kubevirt: https://github.com/kubevirt/kubevirt/issues/936
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1770724/+subscriptions
 
