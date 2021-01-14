@@ -2,81 +2,48 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C2F522F5E38
-	for <lists+qemu-devel@lfdr.de>; Thu, 14 Jan 2021 11:01:44 +0100 (CET)
-Received: from localhost ([::1]:39626 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 217002F5E5A
+	for <lists+qemu-devel@lfdr.de>; Thu, 14 Jan 2021 11:09:23 +0100 (CET)
+Received: from localhost ([::1]:46068 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kzzRn-0002R3-Rk
-	for lists+qemu-devel@lfdr.de; Thu, 14 Jan 2021 05:01:43 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56910)
+	id 1kzzZC-00063s-6E
+	for lists+qemu-devel@lfdr.de; Thu, 14 Jan 2021 05:09:22 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59052)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1kzzPP-0001JJ-4Y; Thu, 14 Jan 2021 04:59:15 -0500
-Received: from mail-wr1-x42c.google.com ([2a00:1450:4864:20::42c]:44059)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1kzzPN-0003s9-Ls; Thu, 14 Jan 2021 04:59:14 -0500
-Received: by mail-wr1-x42c.google.com with SMTP id w5so5085194wrm.11;
- Thu, 14 Jan 2021 01:59:08 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=keVhnryVt2H0asSKa5VEmd8Dk4m45NkmEqSQuwlm0Hk=;
- b=Ec182EYlUvHqVCC5r/6klxDDKMQK9pqFzKx2WrVyXmfK3GGNqEuAlw5v4S7JM6kR4z
- s5Gc8jixFWkv4O6v+UUhUCDZO6cZ5WIrbrzs/OVmHHfU0TflQM5QT/fB6o/z1/katOrP
- LArVewL6zQTn4SSFHDSUq54iIP6ouzUu+X9CN767JyClTSlA0dlrdmnTq9EcvN03KUWq
- iqaXHQBsCP+dLxAoQiXIHWztwLZYAnD034GGAJwPDIJoRGdyelV16h1HHg1GRjDHg0dh
- 5vOmMAuO8dA+Ll8wExBP9kIxnzznARxLnvsBw6m6bsyVlOSkxzBafrVhW+rOTGeqG6V0
- qsfg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
- :date:user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=keVhnryVt2H0asSKa5VEmd8Dk4m45NkmEqSQuwlm0Hk=;
- b=N8r6y2evqGH17REsEexjrwE1JUPS9+VfC7kzoBxlm5x7iR2S21mMiuUtmMY2BWi1MM
- oBPznvcWnxaiPGn/MapIc9jjvLyY8Secm6zbgG+CF5BuSgS25qZ7ArHeVlj0omV/0w3+
- 03IJG41uvFODCNT83L1HVtyXN/os6sXV7AFeXPpOZYLsQT/wbKvC75AcoqOH/d5GWg7H
- J/NDoPW75p+RIxSdfahmKCM12NlGoGGt3Gfq+JJbpSTZ1TO3LRVHixMnqffcRe088dZi
- WFIHL4Pmrbl4/xCvqoyt5B/6avZ6RYoIZoNsregAOrJyzUIRDen6fPKgwiBjsPGRMB7Y
- ACFg==
-X-Gm-Message-State: AOAM530jZYXmOmpqPCILpJRKoouvoVAq2k7mBWysRZhaKGl9+4hCZbuy
- qq2zwj7t6ZTQlg9Y0kIt/C8=
-X-Google-Smtp-Source: ABdhPJxUMS5SGO/yUaYd3ZJf4skNUf5FqX0146FZ8+fXLNwuaFnu46DtLyZaaaMzsOwFmWQO6FP1Rg==
-X-Received: by 2002:adf:ffc8:: with SMTP id x8mr7022867wrs.158.1610618347131; 
- Thu, 14 Jan 2021 01:59:07 -0800 (PST)
-Received: from [192.168.1.36] (13.red-83-57-169.dynamicip.rima-tde.net.
- [83.57.169.13])
- by smtp.gmail.com with ESMTPSA id 125sm7468040wmc.27.2021.01.14.01.59.05
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 14 Jan 2021 01:59:06 -0800 (PST)
-Subject: Re: [PATCH v2 3/6] tcg/ppc: Hoist common argument loads in
- tcg_out_op()
-To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
-References: <20210113172459.2481060-1-f4bug@amsat.org>
- <20210113172459.2481060-4-f4bug@amsat.org>
- <bc9f392a-5b4d-899e-f34f-392a3c2b3379@linaro.org>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
-Message-ID: <fb6ba745-e291-3a12-4fe9-53df0a433fbe@amsat.org>
-Date: Thu, 14 Jan 2021 10:59:04 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.6.0
+ (Exim 4.90_1) (envelope-from <cenjiahui@huawei.com>)
+ id 1kzzXV-00046m-6g
+ for qemu-devel@nongnu.org; Thu, 14 Jan 2021 05:07:37 -0500
+Received: from szxga06-in.huawei.com ([45.249.212.32]:2592)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <cenjiahui@huawei.com>)
+ id 1kzzXS-0004vF-8W
+ for qemu-devel@nongnu.org; Thu, 14 Jan 2021 05:07:36 -0500
+Received: from DGGEMS403-HUB.china.huawei.com (unknown [172.30.72.59])
+ by szxga06-in.huawei.com (SkyGuard) with ESMTP id 4DGg2R2dfRzj6MC;
+ Thu, 14 Jan 2021 18:06:39 +0800 (CST)
+Received: from localhost (10.174.184.155) by DGGEMS403-HUB.china.huawei.com
+ (10.3.19.203) with Microsoft SMTP Server id 14.3.498.0; Thu, 14 Jan 2021
+ 18:07:23 +0800
+From: Jiahui Cen <cenjiahui@huawei.com>
+To: <qemu-devel@nongnu.org>
+Subject: [PATCH v5 0/8] acpi: Some fixes for pxb support for ARM virt machine
+Date: Thu, 14 Jan 2021 18:06:35 +0800
+Message-ID: <20210114100643.10617-1-cenjiahui@huawei.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-In-Reply-To: <bc9f392a-5b4d-899e-f34f-392a3c2b3379@linaro.org>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::42c;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x42c.google.com
-X-Spam_score_int: -14
-X-Spam_score: -1.5
-X-Spam_bar: -
-X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.248, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-Originating-IP: [10.174.184.155]
+X-CFilter-Loop: Reflected
+Received-SPF: pass client-ip=45.249.212.32; envelope-from=cenjiahui@huawei.com;
+ helo=szxga06-in.huawei.com
+X-Spam_score_int: -41
+X-Spam_score: -4.2
+X-Spam_bar: ----
+X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
+ RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -89,21 +56,69 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Thomas Huth <thuth@redhat.com>, Cornelia Huck <cohuck@redhat.com>,
- qemu-riscv@nongnu.org, Stefan Weil <sw@weilnetz.de>,
- Huacai Chen <chenhuacai@kernel.org>,
- Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>, qemu-s390x@nongnu.org,
- qemu-arm@nongnu.org, Alistair Francis <Alistair.Francis@wdc.com>,
- Palmer Dabbelt <palmer@dabbelt.com>, Miroslav Rezanina <mrezanin@redhat.com>,
- Aurelien Jarno <aurelien@aurel32.net>
+Cc: xieyingtai@huawei.com, Jiahui Cen <cenjiahui@huawei.com>,
+ Eduardo Habkost <ehabkost@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>,
+ Ard Biesheuvel <ard.biesheuvel@arm.com>,
+ Richard Henderson <richard.henderson@linaro.org>, Paolo
+ Bonzini <pbonzini@redhat.com>, Igor Mammedov <imammedo@redhat.com>,
+ Laszlo Ersek <lersek@redhat.com>, wu.wubin@huawei.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 1/14/21 1:28 AM, Richard Henderson wrote:
-> 
-> Let's just drop the hoisting parts and only do the signature parts for now.
-> I'd rather think of a way to split up this large function than waste time
-> optimizing it.
+This patch series adds some fixes for ARM virt machine pxb support.
+1. Pass addr offset for IO, MMIO and bus number when builing crs, because
+the addr_trans is needed to describe an addr resource. [1]
+2. Inform guest os not to ignore the resource map generated by firmware as
+the x86 default way. [2]
+3. Enable pxb for ARM virt machine by default.
+4. Update expected DSDT files with the above changes and enable the pxb
+unit-test.
 
-Agreed :) Thanks!
+v4->v5:
+* Modify commit logs of patch [2/8] and [8/8] which confuse git-am.
+
+v3->v4:
+* Separate the patch of ordering root buses for further discussion. [3]
+
+v2->v3:
+* Reorder the root bridges.
+* Exclude resources of extra root bridges from main root bridge's _CRS.
+
+v1->v2:
+* Update expected DSDT files.
+* Quote PCI Firmware spec as comments.
+
+[1]: https://lore.kernel.org/qemu-devel/20201217132747.4744-1-cenjiahui@huawei.com/
+[2]: https://lore.kernel.org/qemu-devel/20201217132926.4812-1-cenjiahui@huawei.com/
+[3]: https://lore.kernel.org/qemu-devel/dca69f55-dfd1-3f97-dc3f-13eeedec5027@huawei.com/
+
+Acked-by: Igor Mammedov <imammedo@redhat.com>
+Signed-off-by: Jiahui Cen <cenjiahui@huawei.com>
+
+Jiahui Cen (8):
+  acpi: Allow DSDT acpi table changes
+  acpi: Fix unmatched expected DSDT.pxb file
+  acpi: Add addr offset in build_crs
+  acpi/gpex: Inform os to keep firmware resource map
+  acpi/gpex: Exclude pxb's resources from PCI0
+  Kconfig: Compile PXB for ARM_VIRT
+  acpi: Enable pxb unit-test for ARM virt machine
+  acpi: Update _DSM method in expected files
+
+ hw/acpi/aml-build.c               |  18 ++--
+ hw/i386/acpi-build.c              |   3 +-
+ hw/pci-bridge/Kconfig             |   2 +-
+ hw/pci-host/gpex-acpi.c           |  87 ++++++++++++++------
+ include/hw/acpi/aml-build.h       |   4 +-
+ tests/data/acpi/microvm/DSDT.pcie | Bin 3023 -> 3031 bytes
+ tests/data/acpi/virt/DSDT         | Bin 5196 -> 5204 bytes
+ tests/data/acpi/virt/DSDT.memhp   | Bin 6557 -> 6565 bytes
+ tests/data/acpi/virt/DSDT.numamem | Bin 5196 -> 5204 bytes
+ tests/data/acpi/virt/DSDT.pxb     | Bin 7802 -> 7689 bytes
+ tests/qtest/bios-tables-test.c    |   4 -
+ 11 files changed, 79 insertions(+), 39 deletions(-)
+
+-- 
+2.29.2
+
 
