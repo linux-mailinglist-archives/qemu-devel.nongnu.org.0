@@ -2,77 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E631D2F6270
-	for <lists+qemu-devel@lfdr.de>; Thu, 14 Jan 2021 14:54:02 +0100 (CET)
-Received: from localhost ([::1]:50184 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 586172F6283
+	for <lists+qemu-devel@lfdr.de>; Thu, 14 Jan 2021 14:56:47 +0100 (CET)
+Received: from localhost ([::1]:57884 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l034b-0003o9-VJ
-	for lists+qemu-devel@lfdr.de; Thu, 14 Jan 2021 08:54:01 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55048)
+	id 1l037G-00072m-ES
+	for lists+qemu-devel@lfdr.de; Thu, 14 Jan 2021 08:56:46 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55708)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1l02xj-000533-Az
- for qemu-devel@nongnu.org; Thu, 14 Jan 2021 08:46:55 -0500
-Received: from mail-wr1-x434.google.com ([2a00:1450:4864:20::434]:42750)
+ (Exim 4.90_1) (envelope-from <pavlica.nikola@gmail.com>)
+ id 1l02zx-0007QZ-2X
+ for qemu-devel@nongnu.org; Thu, 14 Jan 2021 08:49:15 -0500
+Received: from mail-wm1-x332.google.com ([2a00:1450:4864:20::332]:52849)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1l02xh-0001BW-G8
- for qemu-devel@nongnu.org; Thu, 14 Jan 2021 08:46:55 -0500
-Received: by mail-wr1-x434.google.com with SMTP id m4so5804777wrx.9
- for <qemu-devel@nongnu.org>; Thu, 14 Jan 2021 05:46:53 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=references:user-agent:from:to:cc:subject:date:in-reply-to
- :message-id:mime-version:content-transfer-encoding;
- bh=2j3W696e5MOHC9SR9OOL7/rPmRqgT4sACuZ98lFWd0s=;
- b=SgEKG+qSHavmbXnKXElb/PCkakT7wgPWl9dOpTKZfs7jVeMsVipGkVdwgvvCcnxgns
- jGHE4K0xijnv60PBFBS36b/FgyOYALFPuLfWp66qFdYzoxG/Aak6djvPUN3y79QsYbxC
- yv5/r/RsD5G/06R2DXjh5qUexOS2cJJAEFh8Tujc/oyUMU/ZEfgurKvDV5A3yhdttggl
- aX5HrpEVQjVSiBfvthIj9O4svrUO1882/pn2eJuRxVb1MwTh5SsDmZy6zA0CSbkiLwAY
- dwqcWMQlj23hxb08qZoJ9dKxClpufVfeNw3Petre0FJd3u6E6BYEmV95ZyWcakdPdM/0
- DoUw==
+ (Exim 4.90_1) (envelope-from <pavlica.nikola@gmail.com>)
+ id 1l02zt-0002A8-CP
+ for qemu-devel@nongnu.org; Thu, 14 Jan 2021 08:49:11 -0500
+Received: by mail-wm1-x332.google.com with SMTP id a6so4599661wmc.2
+ for <qemu-devel@nongnu.org>; Thu, 14 Jan 2021 05:49:09 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=y2QUAQNgkudgSVhZMWfWaudJrZtLu0BAFGZus22Gg28=;
+ b=AGA5U5hwGOeUMuLIBwD+v2TtuaD/pQuVkOuJo1k89xUDQiqPl/mEayBRQVJpOiEp2g
+ JiSvD8Kqfw1pKZRbKGKxBAHTCvBSM8HaTs/HtJWQ4W1Oa1idbZRVWV//j3uBtWVLYMdC
+ ipWr8sfJuO22bWCofvw871x93wALm4Og61MtFPBmrpYMtxg39i/DvA1hkwmrBYXv6/zm
+ UeZgTRVEplcquVHzK637CW6djMD1iWkdjZ/dsieR8/28ZxcmPiOPass6orfk9VVCNb2b
+ S2D7wInm8uWDHZUnsLut/fYfqDe7cBo9BGOMUx7Pb3CpK1JkMEChoim0Au38c5K5xCnB
+ QyZQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:references:user-agent:from:to:cc:subject:date
- :in-reply-to:message-id:mime-version:content-transfer-encoding;
- bh=2j3W696e5MOHC9SR9OOL7/rPmRqgT4sACuZ98lFWd0s=;
- b=O6XRE/c50sWK5ga+TuyZHuX61TbLDYENN76l9zlOH3La1FsfWB306OpCcT6eMrtUd2
- 2fc2nFJlRx4+tJBgVhF65uWo4HJO+5t20djmmadahJE5TKqOOUdvQR+wV8HgHk8fLL3Y
- 5E8JYbD3lAKaAIZMXceh6WxvYDxfPKl3xAe6znmASJROwRctuSEuSI+VUD/tcjnoAkmm
- Bk5ZByG6APLFM9EzDkJY+3qdyRWotM/HWVwDjH5ON23z4zMcXAvxkDAePPl3BT6tYg86
- vWtsMDMxT/a4PVth95axm8zOO1RJJICV1mLJC7yYH8J6j13sx7lmbWQmrfikbEyEbgH5
- NpSQ==
-X-Gm-Message-State: AOAM530s1I47STmntN1DkIQ4Qs8OaS7nE1Hltw3nZlPcq17zsHx0XECm
- myXEL19L53odyiXMKZX4OGsiig==
-X-Google-Smtp-Source: ABdhPJx3/FxRqSfzgdDhHRDT39CMSpDfzUY7yBAFs5oY04BqzQWm9ZpApIz4XunY6Gf4hUWW3GZhSQ==
-X-Received: by 2002:adf:dd92:: with SMTP id x18mr8083921wrl.311.1610632011868; 
- Thu, 14 Jan 2021 05:46:51 -0800 (PST)
-Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id a25sm8341728wmb.25.2021.01.14.05.46.50
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=y2QUAQNgkudgSVhZMWfWaudJrZtLu0BAFGZus22Gg28=;
+ b=hhJDrYKSa3AQIA4erM7MINZCWcL4x1X3x5vicWbv4brZckniyp+MAxBP8net9tO0Re
+ M16RogidsfhBClSpX6piH3lj5OCJl9eXiZ5xBbTKlouzgMGUm9hZ55W1D3g8z9FRyLKL
+ R2Ln0G/2V03FZBSM6UQoLotad812A16fdD0B3vb/Ue8e8HdZrFjbzLXQlINrBzGJG/qb
+ Am6FuAYuUOWw1RvQcIs3J7/dlUlUOVD7uk65nzzftNkmw/s3eWzP+fPmt08P23Ee+QYb
+ I5fugt0unTJsS3U4AB+zgFYTOJfSTAZ0D5lRJfsTwms2LOkirOUviMfHUk5fDbOi6F7L
+ ICDA==
+X-Gm-Message-State: AOAM53192c7hrY+INYFJi2qo0pV/z/BtdyOvCWXvT5RJNfo+Hx6scY1b
+ 2oJr/v+woFfQ0ntOZGf+JpGIYmTPkE9uu7/s
+X-Google-Smtp-Source: ABdhPJxQPYCAxljZp+RC8u/Di/VKZdfFugpw6TjoDjECdc2VbKLj0SdtkJmtHk7ZfVtY8aZtI4zvDw==
+X-Received: by 2002:a1c:b608:: with SMTP id g8mr4102404wmf.110.1610632147131; 
+ Thu, 14 Jan 2021 05:49:07 -0800 (PST)
+Received: from localhost.localdomain ([213.91.86.150])
+ by smtp.googlemail.com with ESMTPSA id q7sm3611465wmq.0.2021.01.14.05.49.05
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 14 Jan 2021 05:46:50 -0800 (PST)
-Received: from zen (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 7C9ED1FF7E;
- Thu, 14 Jan 2021 13:46:49 +0000 (GMT)
-References: <87r1mnlr0a.fsf@linaro.org>
- <20210114141918.5201cc9c@gecko.fritz.box>
-User-agent: mu4e 1.5.7; emacs 28.0.50
-From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: Lukas Straub <lukasstraub2@web.de>
-Subject: Re: [PATCH] Fix build with new yank feature by adding stubs
-Date: Thu, 14 Jan 2021 13:46:17 +0000
-In-reply-to: <20210114141918.5201cc9c@gecko.fritz.box>
-Message-ID: <87lfcvljg6.fsf@linaro.org>
+ Thu, 14 Jan 2021 05:49:06 -0800 (PST)
+From: Nikola Pavlica <pavlica.nikola@gmail.com>
+To: qemu-devel@nongnu.org,
+	qemu-devel@nongnu.com
+Subject: [PATCH 0/2] ui/gtk: run gd_monitor_update_interval on EGL as well
+Date: Thu, 14 Jan 2021 14:48:49 +0100
+Message-Id: <20210114134851.292767-1-pavlica.nikola@gmail.com>
+X-Mailer: git-send-email 2.30.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::434;
- envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x434.google.com
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::332;
+ envelope-from=pavlica.nikola@gmail.com; helo=mail-wm1-x332.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -87,78 +81,47 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- Markus Armbruster <armbru@redhat.com>, qemu-devel@nongnu.org
+Cc: r_qemu@t-online.de, philmd@redhat.com, kraxel@redhat.com,
+ Nikola Pavlica <pavlica.nikola@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+These patches regard the use-case of GPU-passthrough on QEMU for
+ accelerated graphics.
 
-Lukas Straub <lukasstraub2@web.de> writes:
+Usually when people use GPU-passthrough on QEMU, they opt to have a
+ physical seperate graphics card that gets passed through to QEMU
+ using something called "PCIe passthrough". Since the display output
+ is invisible to QEMU, the people who run these kinds of setups tend
+ to view the display outputs by physically connecting a monitor to
+ the "PCIe passthrough-ed" GPU in question.
 
-> Signed-off-by: Lukas Straub <lukasstraub2@web.de>
+However, on the Intel side of GPUs, there exists a technology that
+ allows a user to pass through a "virtual GPU" using something called
+ GVT-g.
 
-Tested-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
-Reviewed-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
+Since virtual GPUs have no outputs, they rely soely on software trickery
+ to get the image displayed on the host machine. In case of GVT-g it is
+ done by DMA-ing the framebuffer to the GTK UIs display.
 
+However, when using GTK outputs, there was a problem which caused the
+ image to be updated at only 33Hz (or FPS). These issues were first
+ discussed back in December 2019:
+ https://lists.nongnu.org/archive/html/qemu-devel/2019-12/msg05514.html
 
-I'm also going to pull this into my testing/next as I need the fix as a
-prerequisite.
+There were a few other issues along the way, but those were fixed as well.
 
-> ---
->  stubs/meson.build |  1 +
->  stubs/yank.c      | 29 +++++++++++++++++++++++++++++
->  2 files changed, 30 insertions(+)
->  create mode 100644 stubs/yank.c
->
-> diff --git a/stubs/meson.build b/stubs/meson.build
-> index 80b1d81a31..1a656cd070 100644
-> --- a/stubs/meson.build
-> +++ b/stubs/meson.build
-> @@ -47,6 +47,7 @@ stub_ss.add(files('vm-stop.c'))
->  stub_ss.add(files('win32-kbd-hook.c'))
->  stub_ss.add(files('cpu-synchronize-state.c'))
->  if have_block
-> +  stub_ss.add(files('yank.c'))
->    stub_ss.add(files('replay-tools.c'))
->  endif
->  if have_system
-> diff --git a/stubs/yank.c b/stubs/yank.c
-> new file mode 100644
-> index 0000000000..6090416065
-> --- /dev/null
-> +++ b/stubs/yank.c
-> @@ -0,0 +1,29 @@
-> +#include "qemu/osdep.h"
-> +#include "qemu/yank.h"
-> +
-> +bool yank_register_instance(const YankInstance *instance, Error **errp)
-> +{
-> +    return true;
-> +}
-> +
-> +void yank_unregister_instance(const YankInstance *instance)
-> +{
-> +}
-> +
-> +void yank_register_function(const YankInstance *instance,
-> +                            YankFn *func,
-> +                            void *opaque)
-> +{
-> +}
-> +
-> +void yank_unregister_function(const YankInstance *instance,
-> +                              YankFn *func,
-> +                              void *opaque)
-> +{
-> +}
-> +
-> +void yank_generic_iochannel(void *opaque)
-> +{
-> +}
-> +
-> +
+The focus of these patches is that when using GVT-g on QEMU, it must
+ launch the GTK UI in OpenGL/EGL mode. This causes the code responsible
+ for updating the refresh rate to never get executed. Which is why I added
+ it to gtk-egl.c, to make sure updating the refresh rate works on EGL GTK
+ UIs as well.
 
+These patches were made in response to Volkers patches which dealt with
+ cleaning up my previous code:
+ https://www.mail-archive.com/qemu-devel@nongnu.org/msg766686.html
+ and thus are meant to be merged after Volker's patches.
 
---=20
-Alex Benn=C3=A9e
+Hopefully, this commit message isn't too daunting ;)
+
 
