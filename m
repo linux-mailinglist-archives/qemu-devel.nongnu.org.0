@@ -2,79 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2217E2F65EC
-	for <lists+qemu-devel@lfdr.de>; Thu, 14 Jan 2021 17:28:24 +0100 (CET)
-Received: from localhost ([::1]:57402 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 683772F65F7
+	for <lists+qemu-devel@lfdr.de>; Thu, 14 Jan 2021 17:30:43 +0100 (CET)
+Received: from localhost ([::1]:34594 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l05Ty-00007g-Tu
-	for lists+qemu-devel@lfdr.de; Thu, 14 Jan 2021 11:28:23 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37248)
+	id 1l05WE-0002et-De
+	for lists+qemu-devel@lfdr.de; Thu, 14 Jan 2021 11:30:42 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38820)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1l05GD-0006qX-Ei
- for qemu-devel@nongnu.org; Thu, 14 Jan 2021 11:14:09 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:39484)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1l05G9-0006km-S7
- for qemu-devel@nongnu.org; Thu, 14 Jan 2021 11:14:08 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1610640843;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=a/mlUTbkIjao/JNIGIuuVi6laoMqf08nRBJmrJyx15c=;
- b=cZ6qIiBfkrHD7CoX/MN7xH50/FS5g+IgGozudL9yBE0u5iec0EBXtFL0uCpQN4egghisA5
- jxg6UnMnJblcGlNEQsJG5UAE6tFN1k0c9WHDOSb0OqBdR0QISu2EahLfmQlBsqxl4x6EKJ
- iMMd3UpVY7qrb7wNX6OZNoy3QLJ7410=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-441-9AwK_uPlPwKqOwIvylK0Kg-1; Thu, 14 Jan 2021 11:13:59 -0500
-X-MC-Unique: 9AwK_uPlPwKqOwIvylK0Kg-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id C4DCF84A5E3;
- Thu, 14 Jan 2021 16:13:58 +0000 (UTC)
-Received: from [10.10.120.151] (ovpn-120-151.rdu2.redhat.com [10.10.120.151])
- by smtp.corp.redhat.com (Postfix) with ESMTP id D2BBC6F996;
- Thu, 14 Jan 2021 16:13:54 +0000 (UTC)
-Subject: Re: minimal "zero conf" build dockerfiles for fedora:latest and
- alpine:latest
-To: Andrea Bolognani <abologna@redhat.com>, Gerd Hoffmann
- <kraxel@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>
-References: <a2f5077b-ae74-2b39-4fb8-70d29dd549eb@redhat.com>
- <a56f2df6-867e-2542-734c-95c1ae3acf88@redhat.com>
- <6a08e9f5-7cd7-c2c8-4b61-5466a4ffb2ec@redhat.com>
- <20210113100956.xuyvmxayh5xytja3@sirius.home.kraxel.org>
- <88f80fb6-62ad-77ca-4047-b1c79fd6a006@redhat.com>
- <a232018c476425641f8dbf2f8edfcb37a3313054.camel@redhat.com>
-From: John Snow <jsnow@redhat.com>
-Message-ID: <c599fee4-20a2-de30-5484-48a375ee7a15@redhat.com>
-Date: Thu, 14 Jan 2021 11:13:54 -0500
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.6.0
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1l05MN-0003Te-5A
+ for qemu-devel@nongnu.org; Thu, 14 Jan 2021 11:20:31 -0500
+Received: from mail-wm1-x32a.google.com ([2a00:1450:4864:20::32a]:37850)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1l05ML-0000IC-7g
+ for qemu-devel@nongnu.org; Thu, 14 Jan 2021 11:20:30 -0500
+Received: by mail-wm1-x32a.google.com with SMTP id g10so5202432wmh.2
+ for <qemu-devel@nongnu.org>; Thu, 14 Jan 2021 08:20:26 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=qKpP1ngTnTm1oCpGVbPgwRFR2uGYjvZbTadWh9mW2Mw=;
+ b=gy4ESAPNJCsxd9p1zZGDz8+Z0iOZx5SxcxpGmHyjaVgD0BnKkae/bpd716RV3Er2/+
+ rXdaG9a64E7Iuc9Xn3QKojXVGGn3939OvIlrz0FVEgQG79PLKdZjyO/CIq4RlrWDpzQ/
+ uy40qDXkfZQELuKTD8u/uDaMeLpyUf8tKq90I9dnueV8CKj2YpGsgzVGI3S+SXivUGHM
+ clato2mDT1SAcNHmP8F5D9o5WlV6R+sfrEFQdp1hInObvsWV6moVoxYHeMmPM2fkbV1R
+ n8LBncsmztV2N+k/abQsUk3PiWGemXHTlCcAJ2w6hd4cir0nbGsOoIdPVRehlozR9WqI
+ HKoA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
+ :in-reply-to:references:mime-version:content-transfer-encoding;
+ bh=qKpP1ngTnTm1oCpGVbPgwRFR2uGYjvZbTadWh9mW2Mw=;
+ b=CILvt5D0x/RSzkXGXr3ClAC20Afxf+M8rATo9u4u+gULSgtJYsvBbf1RBwSpI0AR1m
+ 7XpO8ZxS7EcTC1DUvoJ7r+0xZt7eI27uhrgWbOmKNM9wLG4LiV7mIpwShYq55XqbYMw9
+ 5Hrn26KCMmYSE6tNn/TdTxWtrfxAWAFg5BdW4JwADQiB1+8bFm+oLGtD3k9Z3NA56ojs
+ W1uGy/AQtcjuguRyTsWkZ0878sxrTwPMnuXbbCk+F5XDZmTLRCgJ295B9AybPZncwK4m
+ Z+rjB9pn4Y7yoZl2NfxLfJ5f9W3idszsZKeJyPLLYtZ/wDCGOHLuVYNo4Dh4ukILpHLV
+ A9mw==
+X-Gm-Message-State: AOAM531TG7WRnZWyOpnOdGMmV5BCfa1r5Z82jih4hotLYe6HU5NEx8Zw
+ tGKdHn2DPAux4khAcxUMFztCXjc6CqU=
+X-Google-Smtp-Source: ABdhPJxRGZ33lAZ+sWDSifm5lQrVldCLBdS0TbpNFuckSC/bmSPsuREKGILmoLwQlCZccrXB74yM+g==
+X-Received: by 2002:a1c:2b05:: with SMTP id r5mr4594763wmr.179.1610641225302; 
+ Thu, 14 Jan 2021 08:20:25 -0800 (PST)
+Received: from x1w.redhat.com (13.red-83-57-169.dynamicip.rima-tde.net.
+ [83.57.169.13])
+ by smtp.gmail.com with ESMTPSA id s1sm11272025wrv.97.2021.01.14.08.20.24
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 14 Jan 2021 08:20:24 -0800 (PST)
+From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
+To: 
+Subject: [PULL v2 29/69] target/mips/translate: Add declarations for generic
+ code
+Date: Thu, 14 Jan 2021 17:20:00 +0100
+Message-Id: <20210114162016.2901557-2-f4bug@amsat.org>
+X-Mailer: git-send-email 2.26.2
+In-Reply-To: <20210114162016.2901557-1-f4bug@amsat.org>
+References: <20210114162016.2901557-1-f4bug@amsat.org>
 MIME-Version: 1.0
-In-Reply-To: <a232018c476425641f8dbf2f8edfcb37a3313054.camel@redhat.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=jsnow@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=jsnow@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -32
-X-Spam_score: -3.3
-X-Spam_bar: ---
-X-Spam_report: (-3.3 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.248,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.237, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::32a;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x32a.google.com
+X-Spam_score_int: -14
+X-Spam_score: -1.5
+X-Spam_bar: -
+X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.248,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.248,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -87,61 +86,231 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
- Thomas Huth <thuth@redhat.com>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
- QEMU Developers <qemu-devel@nongnu.org>
+Cc: Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>,
+ Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
+ Aurelien Jarno <aurelien@aurel32.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 1/14/21 6:10 AM, Andrea Bolognani wrote:
-> On Wed, 2021-01-13 at 13:31 -0500, John Snow wrote:
->> On 1/13/21 5:09 AM, Gerd Hoffmann wrote:
->>>> I don't like Perl really, but there's a chicken-and-egg problem between
->>>> detecting Python and using it to print the configure help script.  For
->>>> configure-time tasks, Perl has the advantage that "#! /usr/bin/env perl"
->>>> just works.
->>>
->>> Assuming perl is actually installed, the world seems to shift to python.
->>> On a minimal fedora install python is present but perl is not ...
->>>
->>> On the other hand git depends on perl, so it is probably pretty hard to
->>> find a developer workstation without perl installed, so maybe that
->>> doesn't matter much for the time being.
->>
->> I agree that it doesn't matter much right now, Though I don't always
->> have git installed in containers when I am doing builds. It will become
->> more common to encounter environments that are missing "obvious"
->> dependencies.
-> 
-> Note that Fedora has a git-core package that doesn't depend on Perl
-> while still providing more than enough git for something like a CI
-> build job.
-> 
+Some CPU translation functions / registers / macros and
+definitions can be used by ISA / ASE / extensions out of
+the big translate.c file. Declare them in "translate.h".
 
-Good to know. Another point against perl necessarily existing.
+Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+Message-Id: <20201207235539.4070364-3-f4bug@amsat.org>
+---
+ target/mips/translate.h | 43 ++++++++++++++++++++++++++++++++++
+ target/mips/translate.c | 52 +++++++++++------------------------------
+ 2 files changed, 57 insertions(+), 38 deletions(-)
 
-> As a data point, the libvirt project has made it an explicit goal[1]
-> to remove all usage of Perl in favor of Python. We're not quite there
-> yet, but at this point there are only a very tiny handful of Perl
-> scripts remaining in the repository.
-> 
-> 
-> [1] https://libvirt.org/strategy.html
-> 
-
-It's a good long term goal, I think.
-
-I'm biased, but:
-
-(1) I understand Python very well
-(2) I find perl difficult to work with.
-
-I assume that long-term it will be easier to use Python instead of Perl 
-for most of our precompiler scripts. Based also somewhat on everyone's 
-reaction when someone suggests changes to the checkpatch script, which 
-is "Oh, sure, if YOU write it ..."
-
---js
+diff --git a/target/mips/translate.h b/target/mips/translate.h
+index fcda1a99001..3d640912f12 100644
+--- a/target/mips/translate.h
++++ b/target/mips/translate.h
+@@ -10,6 +10,8 @@
+ 
+ #include "exec/translator.h"
+ 
++#define MIPS_DEBUG_DISAS 0
++
+ typedef struct DisasContext {
+     DisasContextBase base;
+     target_ulong saved_pc;
+@@ -47,4 +49,45 @@ typedef struct DisasContext {
+     int gi;
+ } DisasContext;
+ 
++/* MIPS major opcodes */
++#define MASK_OP_MAJOR(op)   (op & (0x3F << 26))
++
++void generate_exception(DisasContext *ctx, int excp);
++void generate_exception_err(DisasContext *ctx, int excp, int err);
++void generate_exception_end(DisasContext *ctx, int excp);
++
++void check_insn(DisasContext *ctx, uint64_t flags);
++#ifdef TARGET_MIPS64
++void check_mips_64(DisasContext *ctx);
++#endif
++
++void gen_base_offset_addr(DisasContext *ctx, TCGv addr, int base, int offset);
++void gen_move_low32(TCGv ret, TCGv_i64 arg);
++void gen_move_high32(TCGv ret, TCGv_i64 arg);
++void gen_load_gpr(TCGv t, int reg);
++void gen_store_gpr(TCGv t, int reg);
++
++void gen_op_addr_add(DisasContext *ctx, TCGv ret, TCGv arg0, TCGv arg1);
++
++extern TCGv cpu_gpr[32], cpu_PC;
++extern TCGv bcond;
++
++#define LOG_DISAS(...)                                                        \
++    do {                                                                      \
++        if (MIPS_DEBUG_DISAS) {                                               \
++            qemu_log_mask(CPU_LOG_TB_IN_ASM, ## __VA_ARGS__);                 \
++        }                                                                     \
++    } while (0)
++
++#define MIPS_INVAL(op)                                                        \
++    do {                                                                      \
++        if (MIPS_DEBUG_DISAS) {                                               \
++            qemu_log_mask(CPU_LOG_TB_IN_ASM,                                  \
++                          TARGET_FMT_lx ": %08x Invalid %s %03x %03x %03x\n", \
++                          ctx->base.pc_next, ctx->opcode, op,                 \
++                          ctx->opcode >> 26, ctx->opcode & 0x3F,              \
++                          ((ctx->opcode >> 16) & 0x1F));                      \
++        }                                                                     \
++    } while (0)
++
+ #endif
+diff --git a/target/mips/translate.c b/target/mips/translate.c
+index 9e824e12d44..72cbf604ac3 100644
+--- a/target/mips/translate.c
++++ b/target/mips/translate.c
+@@ -38,11 +38,6 @@
+ #include "fpu_helper.h"
+ #include "translate.h"
+ 
+-#define MIPS_DEBUG_DISAS 0
+-
+-/* MIPS major opcodes */
+-#define MASK_OP_MAJOR(op)       (op & (0x3F << 26))
+-
+ enum {
+     /* indirect opcode tables */
+     OPC_SPECIAL  = (0x00 << 26),
+@@ -2491,9 +2486,10 @@ enum {
+ };
+ 
+ /* global register indices */
+-static TCGv cpu_gpr[32], cpu_PC;
++TCGv cpu_gpr[32], cpu_PC;
+ static TCGv cpu_HI[MIPS_DSP_ACC], cpu_LO[MIPS_DSP_ACC];
+-static TCGv cpu_dspctrl, btarget, bcond;
++static TCGv cpu_dspctrl, btarget;
++TCGv bcond;
+ static TCGv cpu_lladdr, cpu_llval;
+ static TCGv_i32 hflags;
+ static TCGv_i32 fpu_fcr0, fpu_fcr31;
+@@ -2606,26 +2602,8 @@ static const char * const mxuregnames[] = {
+ };
+ #endif
+ 
+-#define LOG_DISAS(...)                                                        \
+-    do {                                                                      \
+-        if (MIPS_DEBUG_DISAS) {                                               \
+-            qemu_log_mask(CPU_LOG_TB_IN_ASM, ## __VA_ARGS__);                 \
+-        }                                                                     \
+-    } while (0)
+-
+-#define MIPS_INVAL(op)                                                        \
+-    do {                                                                      \
+-        if (MIPS_DEBUG_DISAS) {                                               \
+-            qemu_log_mask(CPU_LOG_TB_IN_ASM,                                  \
+-                          TARGET_FMT_lx ": %08x Invalid %s %03x %03x %03x\n", \
+-                          ctx->base.pc_next, ctx->opcode, op,                 \
+-                          ctx->opcode >> 26, ctx->opcode & 0x3F,              \
+-                          ((ctx->opcode >> 16) & 0x1F));                      \
+-        }                                                                     \
+-    } while (0)
+-
+ /* General purpose registers moves. */
+-static inline void gen_load_gpr(TCGv t, int reg)
++void gen_load_gpr(TCGv t, int reg)
+ {
+     if (reg == 0) {
+         tcg_gen_movi_tl(t, 0);
+@@ -2634,7 +2612,7 @@ static inline void gen_load_gpr(TCGv t, int reg)
+     }
+ }
+ 
+-static inline void gen_store_gpr(TCGv t, int reg)
++void gen_store_gpr(TCGv t, int reg)
+ {
+     if (reg != 0) {
+         tcg_gen_mov_tl(cpu_gpr[reg], t);
+@@ -2763,7 +2741,7 @@ static inline void restore_cpu_state(CPUMIPSState *env, DisasContext *ctx)
+     }
+ }
+ 
+-static inline void generate_exception_err(DisasContext *ctx, int excp, int err)
++void generate_exception_err(DisasContext *ctx, int excp, int err)
+ {
+     TCGv_i32 texcp = tcg_const_i32(excp);
+     TCGv_i32 terr = tcg_const_i32(err);
+@@ -2774,12 +2752,12 @@ static inline void generate_exception_err(DisasContext *ctx, int excp, int err)
+     ctx->base.is_jmp = DISAS_NORETURN;
+ }
+ 
+-static inline void generate_exception(DisasContext *ctx, int excp)
++void generate_exception(DisasContext *ctx, int excp)
+ {
+     gen_helper_0e0i(raise_exception, excp);
+ }
+ 
+-static inline void generate_exception_end(DisasContext *ctx, int excp)
++void generate_exception_end(DisasContext *ctx, int excp)
+ {
+     generate_exception_err(ctx, excp, 0);
+ }
+@@ -2859,8 +2837,7 @@ static inline int get_fp_bit(int cc)
+ }
+ 
+ /* Addresses computation */
+-static inline void gen_op_addr_add(DisasContext *ctx, TCGv ret, TCGv arg0,
+-                                   TCGv arg1)
++void gen_op_addr_add(DisasContext *ctx, TCGv ret, TCGv arg0, TCGv arg1)
+ {
+     tcg_gen_add_tl(ret, arg0, arg1);
+ 
+@@ -2898,7 +2875,7 @@ static target_long addr_add(DisasContext *ctx, target_long base,
+ }
+ 
+ /* Sign-extract the low 32-bits to a target_long.  */
+-static inline void gen_move_low32(TCGv ret, TCGv_i64 arg)
++void gen_move_low32(TCGv ret, TCGv_i64 arg)
+ {
+ #if defined(TARGET_MIPS64)
+     tcg_gen_ext32s_i64(ret, arg);
+@@ -2908,7 +2885,7 @@ static inline void gen_move_low32(TCGv ret, TCGv_i64 arg)
+ }
+ 
+ /* Sign-extract the high 32-bits to a target_long.  */
+-static inline void gen_move_high32(TCGv ret, TCGv_i64 arg)
++void gen_move_high32(TCGv ret, TCGv_i64 arg)
+ {
+ #if defined(TARGET_MIPS64)
+     tcg_gen_sari_i64(ret, arg, 32);
+@@ -3013,7 +2990,7 @@ static inline void check_dsp_r3(DisasContext *ctx)
+  * This code generates a "reserved instruction" exception if the
+  * CPU does not support the instruction set corresponding to flags.
+  */
+-static inline void check_insn(DisasContext *ctx, uint64_t flags)
++void check_insn(DisasContext *ctx, uint64_t flags)
+ {
+     if (unlikely(!(ctx->insn_flags & flags))) {
+         generate_exception_end(ctx, EXCP_RI);
+@@ -3064,7 +3041,7 @@ static inline void check_ps(DisasContext *ctx)
+  * This code generates a "reserved instruction" exception if 64-bit
+  * instructions are not enabled.
+  */
+-static inline void check_mips_64(DisasContext *ctx)
++void check_mips_64(DisasContext *ctx)
+ {
+     if (unlikely(!(ctx->hflags & MIPS_HFLAG_64))) {
+         generate_exception_end(ctx, EXCP_RI);
+@@ -3390,8 +3367,7 @@ OP_LD_ATOMIC(lld, ld64);
+ #endif
+ #undef OP_LD_ATOMIC
+ 
+-static void gen_base_offset_addr(DisasContext *ctx, TCGv addr,
+-                                 int base, int offset)
++void gen_base_offset_addr(DisasContext *ctx, TCGv addr, int base, int offset)
+ {
+     if (base == 0) {
+         tcg_gen_movi_tl(addr, offset);
+-- 
+2.26.2
 
 
