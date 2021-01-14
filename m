@@ -2,60 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B8C402F6902
-	for <lists+qemu-devel@lfdr.de>; Thu, 14 Jan 2021 19:10:24 +0100 (CET)
-Received: from localhost ([::1]:34370 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A9F702F6905
+	for <lists+qemu-devel@lfdr.de>; Thu, 14 Jan 2021 19:15:09 +0100 (CET)
+Received: from localhost ([::1]:45796 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l074h-0003ty-Ot
-	for lists+qemu-devel@lfdr.de; Thu, 14 Jan 2021 13:10:23 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52090)
+	id 1l079I-0000Q8-Nc
+	for lists+qemu-devel@lfdr.de; Thu, 14 Jan 2021 13:15:08 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55326)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1l0622-0007Wd-E4
- for qemu-devel@nongnu.org; Thu, 14 Jan 2021 12:03:34 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:55042)
+ (Exim 4.90_1) (envelope-from <kchamart@redhat.com>)
+ id 1l06AF-0007JF-8p
+ for qemu-devel@nongnu.org; Thu, 14 Jan 2021 12:12:03 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:58208)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1l061x-0006un-AH
- for qemu-devel@nongnu.org; Thu, 14 Jan 2021 12:03:34 -0500
+ (Exim 4.90_1) (envelope-from <kchamart@redhat.com>)
+ id 1l06AC-0001Pg-QN
+ for qemu-devel@nongnu.org; Thu, 14 Jan 2021 12:12:02 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1610643808;
+ s=mimecast20190719; t=1610644318;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=iVnHNMSZS/bcYc9NyCWat/9jmqgK0G82ubZDwoGFKUE=;
- b=V3mG2eBCer/txvz0opWFXZuBqwZbjSf4hPwckWiS4bCkJwllfSWSw7/1JrbT0TtComhAD5
- Ohr5JQDcr+wweh4C/7A2mSAm56lmqGbrnQUTLe0X4ee1lFl8kt0zcGI+m7hNRDwjSKw6XA
- QxgnBOmF1ovBNIoMCLQluGcl1m3sQtA=
+ bh=RBYGooISf2pz7lbJXbO7abF4uKrMvtBKgargaMsdlrE=;
+ b=akfqAk4VrSdmGXOwA9PnSFKMZyxf/VqFRbWRE1KBu8m4J6LpKm8JvASR7C0KfKE7VcQ4p5
+ WXWJbaDtwmLeMaI1xZk8qbmB5aqRx1mB9svdvR6qS6Ma/gNWSXHunsZkrPmxhwq5g6KCmL
+ 9KhGO7IbOe0huYu23a7PNWoZEHr+TCA=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-381-13kiV7TqP-mbE8WScyMijA-1; Thu, 14 Jan 2021 12:03:26 -0500
-X-MC-Unique: 13kiV7TqP-mbE8WScyMijA-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
+ us-mta-455-cboUdFj-Mf-ypHVmJCYE5w-1; Thu, 14 Jan 2021 12:11:54 -0500
+X-MC-Unique: cboUdFj-Mf-ypHVmJCYE5w-1
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
+ [10.5.11.16])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id C0DC8800050;
- Thu, 14 Jan 2021 17:03:25 +0000 (UTC)
-Received: from localhost (ovpn-115-31.ams2.redhat.com [10.36.115.31])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 550C36F439;
- Thu, 14 Jan 2021 17:03:25 +0000 (UTC)
-From: Max Reitz <mreitz@redhat.com>
-To: qemu-block@nongnu.org
-Subject: [PATCH v3 07/10] iotests/129: Actually test a commit job
-Date: Thu, 14 Jan 2021 18:03:01 +0100
-Message-Id: <20210114170304.87507-8-mreitz@redhat.com>
-In-Reply-To: <20210114170304.87507-1-mreitz@redhat.com>
-References: <20210114170304.87507-1-mreitz@redhat.com>
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 0F6658030A8;
+ Thu, 14 Jan 2021 17:11:53 +0000 (UTC)
+Received: from paraplu.localdomain (ovpn-113-252.ams2.redhat.com
+ [10.36.113.252])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 286615C1BD;
+ Thu, 14 Jan 2021 17:11:52 +0000 (UTC)
+Received: by paraplu.localdomain (Postfix, from userid 1001)
+ id 942003E0497; Thu, 14 Jan 2021 18:11:50 +0100 (CET)
+Date: Thu, 14 Jan 2021 18:11:50 +0100
+From: Kashyap Chamarthy <kchamart@redhat.com>
+To: Daniel =?iso-8859-1?Q?P=2E_Berrang=E9?= <berrange@redhat.com>
+Subject: Re: About creating machines on the command line
+Message-ID: <20210114171150.GA94798@paraplu.home>
+References: <13ecc030-f42b-5a27-a0b3-b07921426ce9@greensocs.com>
+ <20210114113706.GF1643043@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+In-Reply-To: <20210114113706.GF1643043@redhat.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mreitz@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kchamart@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=mreitz@redhat.com;
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=kchamart@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -29
 X-Spam_score: -3.0
@@ -76,87 +83,49 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>,
- Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>, qemu-devel@nongnu.org,
- Max Reitz <mreitz@redhat.com>
+Cc: Damien Hedde <damien.hedde@greensocs.com>, peter.maydell@linaro.org,
+ richard.fuhler@sifive.com, sam.grove@sifive.com,
+ Mark Burton <mark.burton@greensocs.com>, armbru@redhat.com,
+ qemu-devel@nongnu.org, edgar.iglesias@gmail.com,
+ Luc Michel <luc.michel@greensocs.com>, f4bug@amsat.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Before this patch, test_block_commit() performs an active commit, which
-under the hood is a mirror job.  If we want to test various different
-block jobs, we should perhaps run an actual commit job instead.
+On Thu, Jan 14, 2021 at 11:37:06AM +0000, Daniel P. Berrangé wrote:
+> On Mon, Jan 11, 2021 at 03:50:58PM +0100, Luc Michel wrote:
 
-Doing so requires adding an overlay above the source node before the
-commit is done (and then specifying the source node as the top node for
-the commit job).
+[...]
 
-Signed-off-by: Max Reitz <mreitz@redhat.com>
-Reviewed-by: Eric Blake <eblake@redhat.com>
-Reviewed-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
----
- tests/qemu-iotests/129 | 27 +++++++++++++++++++++++++--
- 1 file changed, 25 insertions(+), 2 deletions(-)
+> > This would hopefully allow for simple machines creation. We would then be
+> > able to use either the command line or the `-readconfig` option to create
+> > the machine.
+> > 
+> > Note that we are not planning to use QMP/HMP for now. From our
+> > understanding, a `device_add` request is always considered as hot-plug,
+> > which is not what we want here.
+> > 
+> > Please tell us what do you think about this plan. Any feedback is
+> > appreciated.  Then we can discuss the details of how to do this properly.
+> 
+> There's a general desire amongst QEMU maintainers to move to a world
+> where QAPI is used for describing everything. In this vision, eventually
+> all current command line options would be replaced with QMP commands
+> and QAPI objects specs.
+> 
+> In this world -readconfig is likely to be deleted. 
 
-diff --git a/tests/qemu-iotests/129 b/tests/qemu-iotests/129
-index 58536bc6ee..7b4b6649f0 100755
---- a/tests/qemu-iotests/129
-+++ b/tests/qemu-iotests/129
-@@ -26,6 +26,7 @@ class TestStopWithBlockJob(iotests.QMPTestCase):
-     test_img = os.path.join(iotests.test_dir, 'test.img')
-     target_img = os.path.join(iotests.test_dir, 'target.img')
-     base_img = os.path.join(iotests.test_dir, 'base.img')
-+    overlay_img = os.path.join(iotests.test_dir, 'overlay.img')
- 
-     def setUp(self):
-         iotests.qemu_img('create', '-f', iotests.imgfmt, self.base_img, "1G")
-@@ -36,6 +37,7 @@ class TestStopWithBlockJob(iotests.QMPTestCase):
-         self.vm.add_object('throttle-group,id=tg0,x-bps-total=1024')
- 
-         source_drive = 'driver=throttle,' \
-+                       'node-name=source,' \
-                        'throttle-group=tg0,' \
-                       f'file.driver={iotests.imgfmt},' \
-                       f'file.file.filename={self.test_img}'
-@@ -45,7 +47,8 @@ class TestStopWithBlockJob(iotests.QMPTestCase):
- 
-     def tearDown(self):
-         self.vm.shutdown()
--        for img in (self.test_img, self.target_img, self.base_img):
-+        for img in (self.test_img, self.target_img, self.base_img,
-+                    self.overlay_img):
-             iotests.try_remove(img)
- 
-     def do_test_stop(self, cmd, **args):
-@@ -72,7 +75,27 @@ class TestStopWithBlockJob(iotests.QMPTestCase):
-                           sync="full")
- 
-     def test_block_commit(self):
--        self.do_test_stop("block-commit", device="drive0")
-+        # Add overlay above the source node so that we actually use a
-+        # commit job instead of a mirror job
-+
-+        iotests.qemu_img('create', '-f', iotests.imgfmt, self.overlay_img,
-+                         '1G')
-+
-+        result = self.vm.qmp('blockdev-add', **{
-+                                 'node-name': 'overlay',
-+                                 'driver': iotests.imgfmt,
-+                                 'file': {
-+                                     'driver': 'file',
-+                                     'filename': self.overlay_img
-+                                 }
-+                             })
-+        self.assert_qmp(result, 'return', {})
-+
-+        result = self.vm.qmp('blockdev-snapshot',
-+                             node='source', overlay='overlay')
-+        self.assert_qmp(result, 'return', {})
-+
-+        self.do_test_stop('block-commit', device='drive0', top_node='source')
- 
- if __name__ == '__main__':
-     iotests.main(supported_fmts=["qcow2"],
+In that case, I hope the above intention / direction will be documented
+somewhere more clearly.  In the past I ran into at least a couple of
+companies that use QEMU in production and heavily rely on '-readconfig',
+despite knowing some of its shortcomings.  There might be others out
+there.
+
+> Also this means we have a bias against adding new command line options
+> to current QEMU.
+
+[...]
+
 -- 
-2.29.2
+/kashyap
 
 
