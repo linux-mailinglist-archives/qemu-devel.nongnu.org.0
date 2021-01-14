@@ -2,86 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6C4A42F6AB1
-	for <lists+qemu-devel@lfdr.de>; Thu, 14 Jan 2021 20:18:14 +0100 (CET)
-Received: from localhost ([::1]:44532 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A2F842F6AC4
+	for <lists+qemu-devel@lfdr.de>; Thu, 14 Jan 2021 20:19:59 +0100 (CET)
+Received: from localhost ([::1]:49388 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l088L-0001Y0-Fh
-	for lists+qemu-devel@lfdr.de; Thu, 14 Jan 2021 14:18:13 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37616)
+	id 1l08A2-0003aC-Fu
+	for lists+qemu-devel@lfdr.de; Thu, 14 Jan 2021 14:19:58 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38482)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <wrampazz@redhat.com>)
- id 1l0847-0007xL-Uu
- for qemu-devel@nongnu.org; Thu, 14 Jan 2021 14:13:52 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:37534)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <wrampazz@redhat.com>)
- id 1l0843-0008EG-99
- for qemu-devel@nongnu.org; Thu, 14 Jan 2021 14:13:51 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1610651625;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=ko+npSZHZc9dqmJCpata5L29m+Uxumf/ZW8vh45X034=;
- b=EwCU7Qgu/5AEypTZJrLpEZTDeaDtXuDc6J13YvqMRp8jsLphiRbRKs0KT6e3PuLvaBZjjU
- mglcblMdF3zNQkJdROMq9tVQSqyXtBMWqw8D4ei5wtP+WS1+TMYVB77V/HCnezfONDieSn
- l9iKWfk/YaSpmc7/3Qne/1ZjJj8F2hI=
-Received: from mail-vs1-f69.google.com (mail-vs1-f69.google.com
- [209.85.217.69]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-367-XfZFzW-3NzennRNfWq2DWQ-1; Thu, 14 Jan 2021 14:13:43 -0500
-X-MC-Unique: XfZFzW-3NzennRNfWq2DWQ-1
-Received: by mail-vs1-f69.google.com with SMTP id r7so1119755vsp.0
- for <qemu-devel@nongnu.org>; Thu, 14 Jan 2021 11:13:43 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <palmer@dabbelt.com>)
+ id 1l086T-0001Ke-SC
+ for qemu-devel@nongnu.org; Thu, 14 Jan 2021 14:16:18 -0500
+Received: from mail-pl1-x632.google.com ([2607:f8b0:4864:20::632]:39043)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <palmer@dabbelt.com>)
+ id 1l086R-0000mU-8W
+ for qemu-devel@nongnu.org; Thu, 14 Jan 2021 14:16:17 -0500
+Received: by mail-pl1-x632.google.com with SMTP id x18so3409047pln.6
+ for <qemu-devel@nongnu.org>; Thu, 14 Jan 2021 11:16:13 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=dabbelt-com.20150623.gappssmtp.com; s=20150623;
+ h=date:subject:in-reply-to:cc:from:to:message-id:mime-version
+ :content-transfer-encoding;
+ bh=3cFdWxw06XtJxEQNbyV5xhCjQTgSMAxjKPo4MsxEILg=;
+ b=yC1VnVjkX3uTwVpa2xOf2aHryJVdvGUwVNRVsiGnSujAsyxA1/M1LQ1hV/vmy8W72A
+ KBbPp4G9TigmtJZ5cK94ciMgQRwPvub/cM3LsosxbVGsADI4SywH1SvyMNl4ORnyvlgH
+ O3aYSmTPuScttXnHE0toxvdAr9MVFk+ryfQLuOLwexY6bN7DuX8kFGwEvwnlD+q0rAGv
+ kATySch0B7SwB/rksLKtrlqFsby2XmSUavz52SxYgxLxeOizA8rc9O51wTccKvjVYxot
+ pe+3Pw456aa0SSPtEH4G8x5zVrjqjBTguQrjEuwyRnMo3B5ozgcOs/APLerzGISOmtGu
+ A/og==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=ko+npSZHZc9dqmJCpata5L29m+Uxumf/ZW8vh45X034=;
- b=puHDOqSsQ8ebU1Y6nZ8BcDt09U29V+6i2pXNgOcLgfAsZcDWoHyJVfznXra19vPK54
- tjLo6IRijNcXKOAhaAhyv5IRauS3lhnnHwvZa+nezQMtuicXIZmax0K/0QNWQrdrx6fc
- V9zqn8K06lkUi9c/jlMk0vNAgDdPMSgUFgWgSOcAEK2lPK8wnMDKOXqkfb7eeCKE0pQE
- nd0GVehe+NkqbpdtsgnU4kZu2IYaoVW2y6IMV7Hqj3P8VGUheEXq/f0K5VXhSQTEj3YG
- hfTNmYz7vbSmht6sF+FHpHk4TcQ7QfMxHUYqVCrcrjSekoQKeEegS6cFp6Z4KuuuCLyB
- 5q3g==
-X-Gm-Message-State: AOAM533b6hqOl0Q3nQ0/jztC5+AVW7RJONcwp4is6ag4x3sFm0FQYOyh
- NCAI5eW8GFGpeCrBm9+RlBw8JQ4AafHVTmkZ7A5PDRrnhEOhZj9GioVha25p0tCz27iiWyat8Yo
- exCcZoLvMfpe66sCEh44brSKvbh3ICKI=
-X-Received: by 2002:a67:e155:: with SMTP id o21mr7898402vsl.39.1610651622643; 
- Thu, 14 Jan 2021 11:13:42 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJzW3LQnPkxbiibe/KMGsb10LKlDLNhI8o/b9ThFUMcs9PsMObIN7bo2poSY6cM5swtXUG2i3hk3lQbUwC9PYS4=
-X-Received: by 2002:a67:e155:: with SMTP id o21mr7898380vsl.39.1610651622411; 
- Thu, 14 Jan 2021 11:13:42 -0800 (PST)
-MIME-Version: 1.0
-References: <20210108185645.86351-1-thuth@redhat.com>
- <20210112115305.1cd5b8c5.cohuck@redhat.com>
- <877doinznw.fsf@linaro.org> <20210112132338.4122061b.cohuck@redhat.com>
- <efd30a52-8b5b-1afa-1505-6d6c296fe425@redhat.com>
- <350867de-59be-5756-9f12-3eae4c265472@redhat.com>
-In-Reply-To: <350867de-59be-5756-9f12-3eae4c265472@redhat.com>
-From: Willian Rampazzo <wrampazz@redhat.com>
-Date: Thu, 14 Jan 2021 16:13:31 -0300
-Message-ID: <CAKJDGDadiKJXFcV9YO5Fe318wmRsrUhC+D7yPrxqtTmafXnQhw@mail.gmail.com>
-Subject: Re: [PATCH] tests/acceptance: Fix race conditions in s390x tests &
- skip fedora on gitlab-CI
-To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=wrampazz@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=wrampazz@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -29
-X-Spam_score: -3.0
-X-Spam_bar: ---
-X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.248,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ h=x-gm-message-state:date:subject:in-reply-to:cc:from:to:message-id
+ :mime-version:content-transfer-encoding;
+ bh=3cFdWxw06XtJxEQNbyV5xhCjQTgSMAxjKPo4MsxEILg=;
+ b=N77nuyKOm+QcX+lCKbJQ2BvNeDsH4KGoYM1XF7xwG9OHxAPEfGdlt32IWJAkhyXO8C
+ CFS2XNG6BpFLfsPwne1Q/9GNGov36AesGI814tybOGg7wGYlur32TqvGSdDJpStFzI82
+ rioGS62AlS11ftops/xIfp0TrAZqrEQj15Kuoiqi0+FiuuzwrV3Psl+i/GVfKNCP3p69
+ rU4Wo7ADjz3aOIP1fITS8MZBioSFihEUS59ZYIJIIJerh7IiKgu8KQKc/lSQ9Ql4hwjy
+ Oo6/uQ6bGmol3S/UjfhWsJkJnuN/kd0n4imaFYzqfcTKmzX6wF9q87r0RPhJgujARdbD
+ Ev7A==
+X-Gm-Message-State: AOAM530nhXHn8sJ+Da62ezxJsmz/LFGx5O1P4n/Dg3ZfHg/HAnwN7N43
+ fjrku/OJK1msmbFnG2s0wCNo6g==
+X-Google-Smtp-Source: ABdhPJx327X0X8f8AyWQUbFFlGwOovAynYnhru3IhW4JTh04WGYGvsVWtVbUf7CoYucHn58K369ttA==
+X-Received: by 2002:a17:902:6ac9:b029:dc:2fe7:d949 with SMTP id
+ i9-20020a1709026ac9b02900dc2fe7d949mr9026558plt.2.1610651772673; 
+ Thu, 14 Jan 2021 11:16:12 -0800 (PST)
+Received: from localhost (76-210-143-223.lightspeed.sntcca.sbcglobal.net.
+ [76.210.143.223])
+ by smtp.gmail.com with ESMTPSA id h8sm7146348pjc.2.2021.01.14.11.16.11
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 14 Jan 2021 11:16:12 -0800 (PST)
+Date: Thu, 14 Jan 2021 11:16:12 -0800 (PST)
+X-Google-Original-Date: Thu, 14 Jan 2021 11:16:10 PST (-0800)
+Subject: Re: Emulation for riscv
+In-Reply-To: <CAEUhbmV4axZYh_6uBA5JdjdWjKLMgad=aAcRtmfgw8G6WqfC+A@mail.gmail.com>
+From: Palmer Dabbelt <palmer@dabbelt.com>
+To: bmeng.cn@gmail.com
+Message-ID: <mhng-578c8136-f661-491b-8c66-2583feffff1b@penguin>
+Mime-Version: 1.0 (MHng)
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::632;
+ envelope-from=palmer@dabbelt.com; helo=mail-pl1-x632.google.com
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -94,55 +84,54 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Thomas Huth <thuth@redhat.com>, Cornelia Huck <cohuck@redhat.com>,
- qemu-devel <qemu-devel@nongnu.org>,
- Wainer dos Santos Moschetta <wainersm@redhat.com>,
- Halil Pasic <pasic@linux.ibm.com>,
- Christian Borntraeger <borntraeger@de.ibm.com>,
- "open list:S390 Virtio-ccw" <qemu-s390x@nongnu.org>,
- Cleber Rosa <crosa@redhat.com>,
- =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>
+Cc: alistair23@gmail.com, alex.bennee@linaro.org, qemu-devel@nongnu.org,
+ moyarrezam@gmail.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, Jan 12, 2021 at 10:53 AM Philippe Mathieu-Daud=C3=A9
-<philmd@redhat.com> wrote:
+On Thu, 14 Jan 2021 01:49:40 PST (-0800), bmeng.cn@gmail.com wrote:
+> On Thu, Jan 14, 2021 at 8:09 AM Alistair Francis <alistair23@gmail.com> wrote:
+>>
+>> On Fri, Nov 6, 2020 at 2:36 AM Alex Bennée <alex.bennee@linaro.org> wrote:
+>> >
+>> >
+>> > Palmer Dabbelt <palmer@dabbelt.com> writes:
+>> >
+>> > > On Thu, 22 Oct 2020 17:56:38 PDT (-0700), alistair23@gmail.com wrote:
+>> > >> On Thu, Oct 22, 2020 at 4:58 PM Moises Arreola <moyarrezam@gmail.com> wrote:
+>> > >>>
+>> > >>> Hello everyone, my name is Moses and I'm trying to set up a VM for a risc-v processor, I'm using the Risc-V Getting Started Guide and on the final step I'm getting an error while trying to launch the virtual machine using the cmd:
+>> > >>
+>> > >> Hello,
+>> > >>
+>> > >> Please don't use the RISC-V Getting Started Guide. Pretty much all of
+>> > >> the information there is out of date and wrong. Unfortunately we are
+>> > >> unable to correct it.
+>> > >>
+>> > >> The QEMU wiki is a much better place for information:
+>> > >> https://wiki.qemu.org/Documentation/Platforms/RISCV
+>> > >
+>> > > Ya, everything at riscv.org is useless.  It's best to stick to the open source
+>> > > documentation, as when that gets out of date we can at least fix it.  Using a
+>> > > distro helps a lot here, the wiki describes how to run a handful of popular
+>> > > ones that were ported to RISC-V early but if your favorite isn't on the list
+>> > > then it may have its own documentation somewhere else.
+>> >
+>> > Even better if you could submit some .rst pages for QEMU's git:
+>> >
+>> >   docs/system/target-riscv.rst
+>> >   docs/system/riscv/virt.rst (and maybe the other models)
+>> >
+>> > then we could improve the user manual where RiscV is currently a little
+>> > under-represented. A number of the systems have simple example command
+>> > lines or explain the kernel support needed for the model.
+>>
+>> Thanks for pointing that out Alex. Bin has sent some patches for this
+>> so RISC-V should have a presence soon.
+>>
 >
-...
-> We explained this feature request to the Avocado project at the
-> KVM forum 2018 in Lyon. There was an entry filled on their Trello
-> dashboard. Then the project switched to GitLab and I lost track
-> of it.
+> Yep, after the initial patches are merged, we can start adding more
+> RISC-V docs in reST.
 
-We moved our Avocado Trello board to the GitHub issues, but the
-Avocado-QEMU Trello board stays live [1], with little or no action in
-the last months as we are mostly using GitHub issued to track work any
-on Avocado.
-
-I don't recall or I was not involved in a discussion about a feature
-like the one described in this thread in the KVM Forum of 2019 (Lyon).
-
->
-> Cleber, if you remember, can you point us at the new ticket please?
-
-I went through the Trello board and could not find a card related to
-this feature. Anyway, just like the avocado_qemu package implements a
-`wait_for_console_pattern`, it is possible to implement the needed
-feature there.
-
->
-> Thanks,
->
-> Phil.
->
-> > I already put my patch into my pull-request yesterday (so that people
-> > are not running into failures with their gitlab-CI), so if someone want=
-s
-> > to have a go at creating such a function in python, feel free to do so
-> > by refactoring that code again.
-> >
-> >  Thomas
-> >
->
-
+Thanks for doing this!
 
