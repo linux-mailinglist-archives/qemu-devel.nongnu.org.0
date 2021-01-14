@@ -2,67 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7BD2B2F6C79
-	for <lists+qemu-devel@lfdr.de>; Thu, 14 Jan 2021 21:49:30 +0100 (CET)
-Received: from localhost ([::1]:45804 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 424612F6C8E
+	for <lists+qemu-devel@lfdr.de>; Thu, 14 Jan 2021 21:51:17 +0100 (CET)
+Received: from localhost ([::1]:50078 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l09Yf-0000hD-H8
-	for lists+qemu-devel@lfdr.de; Thu, 14 Jan 2021 15:49:29 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33570)
+	id 1l09aO-0002lP-BT
+	for lists+qemu-devel@lfdr.de; Thu, 14 Jan 2021 15:51:16 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33566)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <andrew@daynix.com>) id 1l09SK-0003lK-PG
+ (Exim 4.90_1) (envelope-from <andrew@daynix.com>) id 1l09SJ-0003kc-GO
  for qemu-devel@nongnu.org; Thu, 14 Jan 2021 15:42:56 -0500
-Received: from mail-lj1-x244.google.com ([2a00:1450:4864:20::244]:41311)
+Received: from mail-lj1-x22e.google.com ([2a00:1450:4864:20::22e]:34156)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <andrew@daynix.com>) id 1l09SA-0004k7-Ct
- for qemu-devel@nongnu.org; Thu, 14 Jan 2021 15:42:56 -0500
-Received: by mail-lj1-x244.google.com with SMTP id f11so7982222ljm.8
- for <qemu-devel@nongnu.org>; Thu, 14 Jan 2021 12:42:45 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <andrew@daynix.com>) id 1l09SC-0004kC-4J
+ for qemu-devel@nongnu.org; Thu, 14 Jan 2021 15:42:55 -0500
+Received: by mail-lj1-x22e.google.com with SMTP id m10so8005975lji.1
+ for <qemu-devel@nongnu.org>; Thu, 14 Jan 2021 12:42:46 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=daynix-com.20150623.gappssmtp.com; s=20150623;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=0ASM80FHsQjXEU7UkmKiPfAsHT9xy/K0RVYSh99illE=;
- b=sFzTVoD8B+ff6/iDYgYUhxs0Vncqx8IMmNWEu+lGycouOcZC1p9t16K9ON4j0p3xUO
- vUGs3chos1OAThIPLTb+dbPYS7VNKv+PIMkNeW3tyyvKc3h1Xdis519gIhlK3Yidaqbe
- h47javh/8vPrMdjaiTJyzTz4ZCLHTPiU5Ba1N4HIFB+dlwR/qYhgWpKdSFIMwD0k4Vsv
- QgvsNdzisd4pBGxgmLZYD5WGe7LVo5UoyRE/FNU1UbhaKEA65Fq5xAlyc9Qkpv3qnHEC
- mrpcFMNwXWwPv1e4YTQHX+GQwtMkAry4DoHt0S4EA0g9iFI9yDrKVzBGEtoBUuX257iz
- xnCg==
+ bh=ZPaMBSaV2KC4x7hhUhbB1rSXPGJT23+noPGc9I7/G4Y=;
+ b=0JD4wfLIljA0fU9EGFq1KsVNGYcy8mJ447mvQ7AZJuT6gdgqA8ISs6eAVwhIXLNRx4
+ lcJyKGyExj671rMxMlgBmEvNdwE3Jx23Z83emiU6geXsr9sBqD2CV7X08+i+/rN+eWOx
+ fM01gvY8tySx2WeWcoL4ySMAVDbbQRklB3ekck4746sGtzq6GCaNMx5Qz3+LL/xkLYjr
+ LuZVs7Xb9dJmHr40gqv6Dj2LRKo3vo3ls6I58x7Ci4oBcFN4SiOFp1/Q2IDxxyaR/lpU
+ ZwyQSqo74UGP2Ny5h6NU2f81RLKYleZDJuuRqk0vqROmCtvN9mAQsII6pYMyb/zM9YDn
+ kbkQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=0ASM80FHsQjXEU7UkmKiPfAsHT9xy/K0RVYSh99illE=;
- b=py4U1m6tWyqxmagln9TEzUoiR0/omGnmAjJxHxTTVtm82LYog0ZDYCdkPUua89KWG1
- oRURs0IJXNdlv8kWhGfkqhsDhtyqjBLUyHsqtezkzm/BVY9RIImq5NktwlfnKGMj2/UM
- TADVmMkD4pLL4zGeSaO6RYmmqgL/5F9b3V/5Fr8qh+iiFqbm7A8r9KqJ3eQBgtXfpEH8
- axUQp8q4ab9W7CSl5iAHmQEoQAakxLdHJhqfq9q9ss9sv9xjnaLzb1LOr4lWxsAg37oF
- kOOVB7QiguDkAX+ojbmyFxDNZkDqkgXIikjClhJMjH78srXzVEifWKAthnaS6X2q+XPC
- Rzew==
-X-Gm-Message-State: AOAM532KxVxZGd1DtVh/tTxA3jb9MoyV9B4CizL0MtJmD51JkiolDNVW
- qxqVrmN842gkaYWLqeCAMXE6dg==
-X-Google-Smtp-Source: ABdhPJyxRZXnr1HtBaEJr52q8a6qd9HR6w8OIgkPqxy050IhqBHN6l+7UuetI8AcDMr3vobZgmx3Rw==
-X-Received: by 2002:a2e:8e98:: with SMTP id z24mr3904316ljk.83.1610656964159; 
- Thu, 14 Jan 2021 12:42:44 -0800 (PST)
+ bh=ZPaMBSaV2KC4x7hhUhbB1rSXPGJT23+noPGc9I7/G4Y=;
+ b=X9BmL0BubHqu8++0x690O9OFos8TnbM0sa1k0QhyQtwlLxvCrSJ6hlUjIMy1Bdf5VT
+ Zp1v/sy0AJ9RNrJnqJ8GBTEgDVHAILlQh21vVucetkWtqRl9LPkI4z6iB+VwlElap2gv
+ fv7N9KxxsZTEwyXP7oZi2rR9mW+nnfkIngl/nl7o/4b5gJEm8OmbqRz7e/m21a+O2SUb
+ 2Ec8pNBkzUtGRWCbLWS9W54hShHEoqqmnajg46XnNx7NDtxi6wmcgzNaJuqWn+QT2MJi
+ e5GYRyWTOhaZh6N6sC0VHV8l905DITcUxWak3Mh/4HBkSCDSbWTvtQOiBLi01aRt1T9s
+ 5iZA==
+X-Gm-Message-State: AOAM532JGGZCoCUe5mHyhpQsuN+3h7vl+PgxwFYJrjnSqRWwbyXXXNKK
+ 3w5NcHNDK+ktmQqBADtKIxP13xaH2LRZyw==
+X-Google-Smtp-Source: ABdhPJwoA5kLxH9Lt2zuX3bTD4YVsBbbF175Il2InPrigtR6yr7Tes3SySALdaiKOheyVncj7ys0xQ==
+X-Received: by 2002:a2e:5756:: with SMTP id r22mr3965044ljd.481.1610656965377; 
+ Thu, 14 Jan 2021 12:42:45 -0800 (PST)
 Received: from navi.cosmonova.net.ua ([95.67.24.131])
- by smtp.gmail.com with ESMTPSA id t20sm565833ljk.58.2021.01.14.12.42.42
+ by smtp.gmail.com with ESMTPSA id t20sm565833ljk.58.2021.01.14.12.42.44
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 14 Jan 2021 12:42:43 -0800 (PST)
+ Thu, 14 Jan 2021 12:42:44 -0800 (PST)
 From: Andrew Melnychenko <andrew@daynix.com>
 To: jasowang@redhat.com,
 	mst@redhat.com
-Subject: [RFC PATCH v3 4/6] ebpf: Added eBPF RSS loader.
-Date: Thu, 14 Jan 2021 23:16:10 +0200
-Message-Id: <20210114211612.387052-5-andrew@daynix.com>
+Subject: [RFC PATCH v3 5/6] virtio-net: Added eBPF RSS to virtio-net.
+Date: Thu, 14 Jan 2021 23:16:11 +0200
+Message-Id: <20210114211612.387052-6-andrew@daynix.com>
 X-Mailer: git-send-email 2.30.0
 In-Reply-To: <20210114211612.387052-1-andrew@daynix.com>
 References: <20210114211612.387052-1-andrew@daynix.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: none client-ip=2a00:1450:4864:20::244;
- envelope-from=andrew@daynix.com; helo=mail-lj1-x244.google.com
+Received-SPF: none client-ip=2a00:1450:4864:20::22e;
+ envelope-from=andrew@daynix.com; helo=mail-lj1-x22e.google.com
 X-Spam_score_int: -18
 X-Spam_score: -1.9
 X-Spam_bar: -
@@ -88,850 +88,274 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Andrew <andrew@daynix.com>
 
-Added function that loads RSS eBPF program.
-Added stub functions for RSS eBPF loader.
-Added meson and configuration options.
-
-By default, eBPF feature enabled if libbpf is present in the build system.
-libbpf checked in configuration shell script and meson script.
+When RSS is enabled the device tries to load the eBPF program
+to select RX virtqueue in the TUN. If eBPF can be loaded
+the RSS will function also with vhost (works with kernel 5.8 and later).
+Software RSS is used as a fallback with vhost=off when eBPF can't be loaded
+or when hash population requested by the guest.
 
 Signed-off-by: Yuri Benditovich <yuri.benditovich@daynix.com>
 Signed-off-by: Andrew Melnychenko <andrew@daynix.com>
 ---
- configure               |  33 ++++
- ebpf/ebpf_rss-stub.c    |  40 ++++
- ebpf/ebpf_rss.c         | 165 +++++++++++++++++
- ebpf/ebpf_rss.h         |  44 +++++
- ebpf/meson.build        |   1 +
- ebpf/rss.bpf.skeleton.h | 397 ++++++++++++++++++++++++++++++++++++++++
- ebpf/trace-events       |   4 +
- ebpf/trace.h            |   2 +
- meson.build             |  13 ++
- 9 files changed, 699 insertions(+)
- create mode 100644 ebpf/ebpf_rss-stub.c
- create mode 100644 ebpf/ebpf_rss.c
- create mode 100644 ebpf/ebpf_rss.h
- create mode 100644 ebpf/meson.build
- create mode 100644 ebpf/rss.bpf.skeleton.h
- create mode 100644 ebpf/trace-events
- create mode 100644 ebpf/trace.h
+ hw/net/vhost_net.c             |   2 +
+ hw/net/virtio-net.c            | 125 +++++++++++++++++++++++++++++++--
+ include/hw/virtio/virtio-net.h |   4 ++
+ net/vhost-vdpa.c               |   2 +
+ 4 files changed, 129 insertions(+), 4 deletions(-)
 
-diff --git a/configure b/configure
-index 5860bdb77b..9d18e941f5 100755
---- a/configure
-+++ b/configure
-@@ -342,6 +342,7 @@ vhost_vsock="$default_feature"
- vhost_user="no"
- vhost_user_blk_server="auto"
- vhost_user_fs="$default_feature"
-+bpf=""
- kvm="auto"
- hax="auto"
- hvf="auto"
-@@ -1236,6 +1237,10 @@ for opt do
-   ;;
-   --enable-membarrier) membarrier="yes"
-   ;;
-+  --disable-bpf) bpf="no"
-+  ;;
-+  --enable-bpf) bpf="yes"
-+  ;;
-   --disable-blobs) blobs="false"
-   ;;
-   --with-pkgversion=*) pkgversion="$optarg"
-@@ -1845,6 +1850,7 @@ disabled with --disable-FEATURE, default is enabled if available
-   vhost-user      vhost-user backend support
-   vhost-user-blk-server    vhost-user-blk server support
-   vhost-vdpa      vhost-vdpa kernel backend support
-+  bpf             BPF kernel support
-   spice           spice
-   rbd             rados block device (rbd)
-   libiscsi        iscsi support
-@@ -5057,6 +5063,30 @@ else
-     membarrier=no
- fi
+diff --git a/hw/net/vhost_net.c b/hw/net/vhost_net.c
+index 24d555e764..16124f99c3 100644
+--- a/hw/net/vhost_net.c
++++ b/hw/net/vhost_net.c
+@@ -71,6 +71,8 @@ static const int user_feature_bits[] = {
+     VIRTIO_NET_F_MTU,
+     VIRTIO_F_IOMMU_PLATFORM,
+     VIRTIO_F_RING_PACKED,
++    VIRTIO_NET_F_RSS,
++    VIRTIO_NET_F_HASH_REPORT,
  
-+##########################################
-+# check for usable bpf system call
-+if test "$bpf" = ""; then
-+    have_bpf=no
-+    if test "$linux" = "yes" -a "$bigendian" != "yes"; then
-+        cat > $TMPC << EOF
-+    #include <stdlib.h>
-+    #include <bpf/libbpf.h>
-+    int main(void) {
-+        struct bpf_object *obj = NULL;
-+        bpf_object__load(obj);
-+        exit(0);
-+    }
-+EOF
-+        if compile_prog "" "-lbpf" ; then
-+            have_bpf=yes
-+            bpf=yes
-+        fi
-+    fi
-+    if test "$have_bpf" = "no"; then
-+      feature_not_found "bpf" "the libbpf is not available"
-+    fi
-+fi
-+
- ##########################################
- # check if rtnetlink.h exists and is useful
- have_rtnetlink=no
-@@ -5905,6 +5935,9 @@ fi
- if test "$membarrier" = "yes" ; then
-   echo "CONFIG_MEMBARRIER=y" >> $config_host_mak
- fi
-+if test "$bpf" = "yes" -a "$bigendian" != "yes" -a "$linux" = "yes" ; then
-+  echo "CONFIG_EBPF=y" >> $config_host_mak
-+fi
- if test "$signalfd" = "yes" ; then
-   echo "CONFIG_SIGNALFD=y" >> $config_host_mak
- fi
-diff --git a/ebpf/ebpf_rss-stub.c b/ebpf/ebpf_rss-stub.c
-new file mode 100644
-index 0000000000..e71e229190
---- /dev/null
-+++ b/ebpf/ebpf_rss-stub.c
-@@ -0,0 +1,40 @@
-+/*
-+ * eBPF RSS stub file
-+ *
-+ * Developed by Daynix Computing LTD (http://www.daynix.com)
-+ *
-+ * Authors:
-+ *  Yuri Benditovich <yuri.benditovich@daynix.com>
-+ *
-+ * This work is licensed under the terms of the GNU GPL, version 2.  See
-+ * the COPYING file in the top-level directory.
-+ */
-+
-+#include "qemu/osdep.h"
-+#include "ebpf/ebpf_rss.h"
-+
-+void ebpf_rss_init(struct EBPFRSSContext *ctx)
+     /* This bit implies RARP isn't sent by QEMU out of band */
+     VIRTIO_NET_F_GUEST_ANNOUNCE,
+diff --git a/hw/net/virtio-net.c b/hw/net/virtio-net.c
+index 09ceb02c9d..37016fc73a 100644
+--- a/hw/net/virtio-net.c
++++ b/hw/net/virtio-net.c
+@@ -691,6 +691,19 @@ static void virtio_net_set_queues(VirtIONet *n)
+ 
+ static void virtio_net_set_multiqueue(VirtIONet *n, int multiqueue);
+ 
++static uint64_t fix_ebpf_vhost_features(uint64_t features)
 +{
++    /* If vhost=on & CONFIG_EBPF doesn't set - disable RSS feature */
++    uint64_t ret = features;
++#ifndef CONFIG_EBPF
++    virtio_clear_feature(&ret, VIRTIO_NET_F_RSS);
++#endif
++    /* for now, there is no solution for populating the hash from eBPF */
++    virtio_clear_feature(&ret, VIRTIO_NET_F_HASH_REPORT);
 +
++    return ret;
 +}
 +
-+bool ebpf_rss_is_loaded(struct EBPFRSSContext *ctx)
-+{
-+    return false;
+ static uint64_t virtio_net_get_features(VirtIODevice *vdev, uint64_t features,
+                                         Error **errp)
+ {
+@@ -725,9 +738,9 @@ static uint64_t virtio_net_get_features(VirtIODevice *vdev, uint64_t features,
+         return features;
+     }
+ 
+-    virtio_clear_feature(&features, VIRTIO_NET_F_RSS);
+-    virtio_clear_feature(&features, VIRTIO_NET_F_HASH_REPORT);
+-    features = vhost_net_get_features(get_vhost_net(nc->peer), features);
++    features = fix_ebpf_vhost_features(
++            vhost_net_get_features(get_vhost_net(nc->peer), features));
++
+     vdev->backend_features = features;
+ 
+     if (n->mtu_bypass_backend &&
+@@ -1151,12 +1164,79 @@ static int virtio_net_handle_announce(VirtIONet *n, uint8_t cmd,
+     }
+ }
+ 
++static void virtio_net_detach_epbf_rss(VirtIONet *n);
++
+ static void virtio_net_disable_rss(VirtIONet *n)
+ {
+     if (n->rss_data.enabled) {
+         trace_virtio_net_rss_disable();
+     }
+     n->rss_data.enabled = false;
++
++    virtio_net_detach_epbf_rss(n);
 +}
 +
-+bool ebpf_rss_load(struct EBPFRSSContext *ctx)
++static bool virtio_net_attach_ebpf_to_backend(NICState *nic, int prog_fd)
 +{
-+    return false;
-+}
-+
-+bool ebpf_rss_set_all(struct EBPFRSSContext *ctx, struct EBPFRSSConfig *config,
-+                      uint16_t *indirections_table, uint8_t *toeplitz_key)
-+{
-+    return false;
-+}
-+
-+void ebpf_rss_unload(struct EBPFRSSContext *ctx)
-+{
-+
-+}
-diff --git a/ebpf/ebpf_rss.c b/ebpf/ebpf_rss.c
-new file mode 100644
-index 0000000000..f7f7102da5
---- /dev/null
-+++ b/ebpf/ebpf_rss.c
-@@ -0,0 +1,165 @@
-+/*
-+ * eBPF RSS loader
-+ *
-+ * Developed by Daynix Computing LTD (http://www.daynix.com)
-+ *
-+ * Authors:
-+ *  Andrew Melnychenko <andrew@daynix.com>
-+ *  Yuri Benditovich <yuri.benditovich@daynix.com>
-+ *
-+ * This work is licensed under the terms of the GNU GPL, version 2.  See
-+ * the COPYING file in the top-level directory.
-+ */
-+
-+#include "qemu/osdep.h"
-+#include "qemu/error-report.h"
-+
-+#include <bpf/libbpf.h>
-+#include <bpf/bpf.h>
-+
-+#include "hw/virtio/virtio-net.h" /* VIRTIO_NET_RSS_MAX_TABLE_LEN */
-+
-+#include "ebpf/ebpf_rss.h"
-+#include "ebpf/rss.bpf.skeleton.h"
-+#include "trace.h"
-+
-+void ebpf_rss_init(struct EBPFRSSContext *ctx)
-+{
-+    if (ctx != NULL) {
-+        ctx->obj = NULL;
-+    }
-+}
-+
-+bool ebpf_rss_is_loaded(struct EBPFRSSContext *ctx)
-+{
-+    return ctx != NULL && ctx->obj != NULL;
-+}
-+
-+bool ebpf_rss_load(struct EBPFRSSContext *ctx)
-+{
-+    struct rss_bpf *rss_bpf_ctx;
-+
-+    if (ctx == NULL) {
++    NetClientState *nc = qemu_get_peer(qemu_get_queue(nic), 0);
++    if (nc == NULL || nc->info->set_steering_ebpf == NULL) {
 +        return false;
 +    }
 +
-+    rss_bpf_ctx = rss_bpf__open();
-+    if (rss_bpf_ctx == NULL) {
-+        trace_ebpf_error("eBPF RSS", "can not open eBPF RSS object");
-+        goto l_issue;
-+    }
-+
-+    bpf_program__set_socket_filter(rss_bpf_ctx->progs.tun_rss_steering_prog);
-+
-+    if (rss_bpf__load(rss_bpf_ctx)) {
-+        trace_ebpf_error("eBPF RSS", "can not load RSS program");
-+        goto l_issue;
-+    }
-+
-+    ctx->obj = rss_bpf_ctx;
-+    ctx->program_fd = bpf_program__fd(
-+            rss_bpf_ctx->progs.tun_rss_steering_prog);
-+    ctx->map_configuration = bpf_map__fd(
-+            rss_bpf_ctx->maps.tap_rss_map_configurations);
-+    ctx->map_indirections_table = bpf_map__fd(
-+            rss_bpf_ctx->maps.tap_rss_map_indirection_table);
-+    ctx->map_toeplitz_key = bpf_map__fd(
-+            rss_bpf_ctx->maps.tap_rss_map_toeplitz_key);
-+
-+    return true;
-+l_issue:
-+    rss_bpf__destroy(rss_bpf_ctx);
-+    ctx->obj = NULL;
-+
-+    return false;
++    return nc->info->set_steering_ebpf(nc, prog_fd);
 +}
 +
-+static bool ebpf_rss_set_config(struct EBPFRSSContext *ctx,
-+                                struct EBPFRSSConfig *config)
++static void rss_data_to_rss_config(struct VirtioNetRssData *data,
++                                   struct EBPFRSSConfig *config)
 +{
-+    uint32_t map_key = 0;
++    config->redirect = data->redirect;
++    config->populate_hash = data->populate_hash;
++    config->hash_types = data->hash_types;
++    config->indirections_len = data->indirections_len;
++    config->default_queue = data->default_queue;
++}
 +
-+    if (!ebpf_rss_is_loaded(ctx)) {
++static bool virtio_net_attach_epbf_rss(VirtIONet *n)
++{
++    struct EBPFRSSConfig config = {};
++
++    if (!ebpf_rss_is_loaded(&n->ebpf_rss)) {
 +        return false;
 +    }
-+    if (bpf_map_update_elem(ctx->map_configuration,
-+                            &map_key, config, 0) < 0) {
++
++    rss_data_to_rss_config(&n->rss_data, &config);
++
++    if (!ebpf_rss_set_all(&n->ebpf_rss, &config,
++                          n->rss_data.indirections_table, n->rss_data.key)) {
 +        return false;
 +    }
++
++    if (!virtio_net_attach_ebpf_to_backend(n->nic, n->ebpf_rss.program_fd)) {
++        return false;
++    }
++
 +    return true;
 +}
 +
-+static bool ebpf_rss_set_indirections_table(struct EBPFRSSContext *ctx,
-+                                            uint16_t *indirections_table,
-+                                            size_t len)
++static void virtio_net_detach_epbf_rss(VirtIONet *n)
 +{
-+    uint32_t i = 0;
++    virtio_net_attach_ebpf_to_backend(n->nic, -1);
++}
 +
-+    if (!ebpf_rss_is_loaded(ctx) || indirections_table == NULL ||
-+       len > VIRTIO_NET_RSS_MAX_TABLE_LEN) {
++static bool virtio_net_load_ebpf(VirtIONet *n)
++{
++    if (!virtio_net_attach_ebpf_to_backend(n->nic, -1)) {
++        /* backend does't support steering ebpf */
 +        return false;
 +    }
 +
-+    for (; i < len; ++i) {
-+        if (bpf_map_update_elem(ctx->map_indirections_table, &i,
-+                                indirections_table + i, 0) < 0) {
-+            return false;
++    return ebpf_rss_load(&n->ebpf_rss);
++}
++
++static void virtio_net_unload_ebpf(VirtIONet *n)
++{
++    virtio_net_attach_ebpf_to_backend(n->nic, -1);
++    ebpf_rss_unload(&n->ebpf_rss);
+ }
+ 
+ static uint16_t virtio_net_handle_rss(VirtIONet *n,
+@@ -1271,6 +1351,25 @@ static uint16_t virtio_net_handle_rss(VirtIONet *n,
+         goto error;
+     }
+     n->rss_data.enabled = true;
++
++    if (!n->rss_data.populate_hash) {
++        if (!virtio_net_attach_epbf_rss(n)) {
++            /* EBPF must be loaded for vhost */
++            if (get_vhost_net(qemu_get_queue(n->nic)->peer)) {
++                warn_report("Can't load eBPF RSS for vhost");
++                goto error;
++            }
++            /* fallback to software RSS */
++            warn_report("Can't load eBPF RSS - fallback to software RSS");
++            n->rss_data.enabled_software_rss = true;
 +        }
-+    }
-+    return true;
-+}
-+
-+static bool ebpf_rss_set_toepliz_key(struct EBPFRSSContext *ctx,
-+                                     uint8_t *toeplitz_key)
-+{
-+    uint32_t map_key = 0;
-+
-+    /* prepare toeplitz key */
-+    uint8_t toe[VIRTIO_NET_RSS_MAX_KEY_SIZE] = {};
-+
-+    if (!ebpf_rss_is_loaded(ctx) || toeplitz_key == NULL) {
-+        return false;
-+    }
-+    memcpy(toe, toeplitz_key, VIRTIO_NET_RSS_MAX_KEY_SIZE);
-+    *(uint32_t *)toe = ntohl(*(uint32_t *)toe);
-+
-+    if (bpf_map_update_elem(ctx->map_toeplitz_key, &map_key, toe,
-+                            0) < 0) {
-+        return false;
-+    }
-+    return true;
-+}
-+
-+bool ebpf_rss_set_all(struct EBPFRSSContext *ctx, struct EBPFRSSConfig *config,
-+                      uint16_t *indirections_table, uint8_t *toeplitz_key)
-+{
-+    if (!ebpf_rss_is_loaded(ctx) || config == NULL ||
-+        indirections_table == NULL || toeplitz_key == NULL) {
-+        return false;
++    } else {
++        /* use software RSS for hash populating */
++        /* and detach eBPF if was loaded before */
++        virtio_net_detach_epbf_rss(n);
++        n->rss_data.enabled_software_rss = true;
 +    }
 +
-+    if (!ebpf_rss_set_config(ctx, config)) {
-+        return false;
-+    }
-+
-+    if (!ebpf_rss_set_indirections_table(ctx, indirections_table,
-+                                      config->indirections_len)) {
-+        return false;
-+    }
-+
-+    if (!ebpf_rss_set_toepliz_key(ctx, toeplitz_key)) {
-+        return false;
-+    }
-+
-+    return true;
-+}
-+
-+void ebpf_rss_unload(struct EBPFRSSContext *ctx)
-+{
-+    if (!ebpf_rss_is_loaded(ctx)) {
-+        return;
-+    }
-+
-+    rss_bpf__destroy(ctx->obj);
-+    ctx->obj = NULL;
-+}
-diff --git a/ebpf/ebpf_rss.h b/ebpf/ebpf_rss.h
-new file mode 100644
-index 0000000000..0fcb4e010f
---- /dev/null
-+++ b/ebpf/ebpf_rss.h
-@@ -0,0 +1,44 @@
-+/*
-+ * eBPF RSS header
-+ *
-+ * Developed by Daynix Computing LTD (http://www.daynix.com)
-+ *
-+ * Authors:
-+ *  Andrew Melnychenko <andrew@daynix.com>
-+ *  Yuri Benditovich <yuri.benditovich@daynix.com>
-+ *
-+ * This work is licensed under the terms of the GNU GPL, version 2.  See
-+ * the COPYING file in the top-level directory.
-+ */
-+
-+#ifndef QEMU_EBPF_RSS_H
-+#define QEMU_EBPF_RSS_H
-+
-+struct EBPFRSSContext {
-+    void *obj;
-+    int program_fd;
-+    int map_configuration;
-+    int map_toeplitz_key;
-+    int map_indirections_table;
-+};
-+
-+struct EBPFRSSConfig {
-+    uint8_t redirect;
-+    uint8_t populate_hash;
-+    uint32_t hash_types;
-+    uint16_t indirections_len;
-+    uint16_t default_queue;
-+};
-+
-+void ebpf_rss_init(struct EBPFRSSContext *ctx);
-+
-+bool ebpf_rss_is_loaded(struct EBPFRSSContext *ctx);
-+
-+bool ebpf_rss_load(struct EBPFRSSContext *ctx);
-+
-+bool ebpf_rss_set_all(struct EBPFRSSContext *ctx, struct EBPFRSSConfig *config,
-+                      uint16_t *indirections_table, uint8_t *toeplitz_key);
-+
-+void ebpf_rss_unload(struct EBPFRSSContext *ctx);
-+
-+#endif /* QEMU_EBPF_RSS_H */
-diff --git a/ebpf/meson.build b/ebpf/meson.build
-new file mode 100644
-index 0000000000..f5bd5a0f01
---- /dev/null
-+++ b/ebpf/meson.build
-@@ -0,0 +1 @@
-+common_ss.add(when: 'CONFIG_EBPF', if_true: files('ebpf_rss.c'), if_false: files('ebpf_rss-stub.c'))
-diff --git a/ebpf/rss.bpf.skeleton.h b/ebpf/rss.bpf.skeleton.h
-new file mode 100644
-index 0000000000..76616a5ca6
---- /dev/null
-+++ b/ebpf/rss.bpf.skeleton.h
-@@ -0,0 +1,397 @@
-+/* SPDX-License-Identifier: (LGPL-2.1 OR BSD-2-Clause) */
-+
-+/* THIS FILE IS AUTOGENERATED! */
-+#ifndef __RSS_BPF_SKEL_H__
-+#define __RSS_BPF_SKEL_H__
-+
-+#include <stdlib.h>
-+#include <bpf/libbpf.h>
-+
-+struct rss_bpf {
-+	struct bpf_object_skeleton *skeleton;
-+	struct bpf_object *obj;
-+	struct {
-+		struct bpf_map *tap_rss_map_configurations;
-+		struct bpf_map *tap_rss_map_indirection_table;
-+		struct bpf_map *tap_rss_map_toeplitz_key;
-+	} maps;
-+	struct {
-+		struct bpf_program *tun_rss_steering_prog;
-+	} progs;
-+	struct {
-+		struct bpf_link *tun_rss_steering_prog;
-+	} links;
-+};
-+
-+static void
-+rss_bpf__destroy(struct rss_bpf *obj)
-+{
-+	if (!obj)
-+		return;
-+	if (obj->skeleton)
-+		bpf_object__destroy_skeleton(obj->skeleton);
-+	free(obj);
-+}
-+
-+static inline int
-+rss_bpf__create_skeleton(struct rss_bpf *obj);
-+
-+static inline struct rss_bpf *
-+rss_bpf__open_opts(const struct bpf_object_open_opts *opts)
-+{
-+	struct rss_bpf *obj;
-+
-+	obj = (struct rss_bpf *)calloc(1, sizeof(*obj));
-+	if (!obj)
-+		return NULL;
-+	if (rss_bpf__create_skeleton(obj))
-+		goto err;
-+	if (bpf_object__open_skeleton(obj->skeleton, opts))
-+		goto err;
-+
-+	return obj;
-+err:
-+	rss_bpf__destroy(obj);
-+	return NULL;
-+}
-+
-+static inline struct rss_bpf *
-+rss_bpf__open(void)
-+{
-+	return rss_bpf__open_opts(NULL);
-+}
-+
-+static inline int
-+rss_bpf__load(struct rss_bpf *obj)
-+{
-+	return bpf_object__load_skeleton(obj->skeleton);
-+}
-+
-+static inline struct rss_bpf *
-+rss_bpf__open_and_load(void)
-+{
-+	struct rss_bpf *obj;
-+
-+	obj = rss_bpf__open();
-+	if (!obj)
-+		return NULL;
-+	if (rss_bpf__load(obj)) {
-+		rss_bpf__destroy(obj);
-+		return NULL;
-+	}
-+	return obj;
-+}
-+
-+static inline int
-+rss_bpf__attach(struct rss_bpf *obj)
-+{
-+	return bpf_object__attach_skeleton(obj->skeleton);
-+}
-+
-+static inline void
-+rss_bpf__detach(struct rss_bpf *obj)
-+{
-+	return bpf_object__detach_skeleton(obj->skeleton);
-+}
-+
-+static inline int
-+rss_bpf__create_skeleton(struct rss_bpf *obj)
-+{
-+	struct bpf_object_skeleton *s;
-+
-+	s = (struct bpf_object_skeleton *)calloc(1, sizeof(*s));
-+	if (!s)
-+		return -1;
-+	obj->skeleton = s;
-+
-+	s->sz = sizeof(*s);
-+	s->name = "rss_bpf";
-+	s->obj = &obj->obj;
-+
-+	/* maps */
-+	s->map_cnt = 3;
-+	s->map_skel_sz = sizeof(*s->maps);
-+	s->maps = (struct bpf_map_skeleton *)calloc(s->map_cnt, s->map_skel_sz);
-+	if (!s->maps)
-+		goto err;
-+
-+	s->maps[0].name = "tap_rss_map_configurations";
-+	s->maps[0].map = &obj->maps.tap_rss_map_configurations;
-+
-+	s->maps[1].name = "tap_rss_map_indirection_table";
-+	s->maps[1].map = &obj->maps.tap_rss_map_indirection_table;
-+
-+	s->maps[2].name = "tap_rss_map_toeplitz_key";
-+	s->maps[2].map = &obj->maps.tap_rss_map_toeplitz_key;
-+
-+	/* programs */
-+	s->prog_cnt = 1;
-+	s->prog_skel_sz = sizeof(*s->progs);
-+	s->progs = (struct bpf_prog_skeleton *)calloc(s->prog_cnt, s->prog_skel_sz);
-+	if (!s->progs)
-+		goto err;
-+
-+	s->progs[0].name = "tun_rss_steering_prog";
-+	s->progs[0].prog = &obj->progs.tun_rss_steering_prog;
-+	s->progs[0].link = &obj->links.tun_rss_steering_prog;
-+
-+	s->data_sz = 7088;
-+	s->data = (void *)"\
-+\x7f\x45\x4c\x46\x02\x01\x01\0\0\0\0\0\0\0\0\0\x01\0\xf7\0\x01\0\0\0\0\0\0\0\0\
-+\0\0\0\0\0\0\0\0\0\0\0\x30\x19\0\0\0\0\0\0\0\0\0\0\x40\0\0\0\0\0\x40\0\x0a\0\
-+\x01\0\x7b\x1a\x38\xff\0\0\0\0\xb7\x01\0\0\0\0\0\0\x63\x1a\x4c\xff\0\0\0\0\xbf\
-+\xa6\0\0\0\0\0\0\x07\x06\0\0\x4c\xff\xff\xff\x18\x01\0\0\0\0\0\0\0\0\0\0\0\0\0\
-+\0\xbf\x62\0\0\0\0\0\0\x85\0\0\0\x01\0\0\0\xbf\x07\0\0\0\0\0\0\x18\x01\0\0\0\0\
-+\0\0\0\0\0\0\0\0\0\0\xbf\x62\0\0\0\0\0\0\x85\0\0\0\x01\0\0\0\xbf\x08\0\0\0\0\0\
-+\0\x18\0\0\0\xff\xff\xff\xff\0\0\0\0\0\0\0\0\x15\x07\x0f\x02\0\0\0\0\xbf\x89\0\
-+\0\0\0\0\0\x15\x09\x0d\x02\0\0\0\0\x71\x71\0\0\0\0\0\0\x55\x01\x01\0\0\0\0\0\
-+\x05\0\x09\x02\0\0\0\0\xb7\x01\0\0\0\0\0\0\x63\x1a\xc0\xff\0\0\0\0\x7b\x1a\xb8\
-+\xff\0\0\0\0\x7b\x1a\xb0\xff\0\0\0\0\x7b\x1a\xa8\xff\0\0\0\0\x7b\x1a\xa0\xff\0\
-+\0\0\0\x63\x1a\x98\xff\0\0\0\0\x7b\x1a\x90\xff\0\0\0\0\x7b\x1a\x88\xff\0\0\0\0\
-+\x7b\x1a\x80\xff\0\0\0\0\x7b\x1a\x78\xff\0\0\0\0\x7b\x1a\x70\xff\0\0\0\0\x7b\
-+\x1a\x68\xff\0\0\0\0\x7b\x1a\x60\xff\0\0\0\0\x7b\x1a\x58\xff\0\0\0\0\x7b\x1a\
-+\x50\xff\0\0\0\0\x79\xa6\x38\xff\0\0\0\0\x15\x06\x85\0\0\0\0\0\x6b\x1a\xd0\xff\
-+\0\0\0\0\xbf\xa3\0\0\0\0\0\0\x07\x03\0\0\xd0\xff\xff\xff\xbf\x61\0\0\0\0\0\0\
-+\xb7\x02\0\0\x0c\0\0\0\xb7\x04\0\0\x02\0\0\0\xb7\x05\0\0\0\0\0\0\x85\0\0\0\x44\
-+\0\0\0\xb7\x02\0\0\x10\0\0\0\x69\xa1\xd0\xff\0\0\0\0\xbf\x13\0\0\0\0\0\0\xdc\
-+\x03\0\0\x10\0\0\0\x15\x03\x02\0\0\x81\0\0\x55\x03\x08\0\xa8\x88\0\0\xb7\x02\0\
-+\0\x14\0\0\0\xbf\xa3\0\0\0\0\0\0\x07\x03\0\0\xd0\xff\xff\xff\xbf\x61\0\0\0\0\0\
-+\0\xb7\x04\0\0\x02\0\0\0\xb7\x05\0\0\0\0\0\0\x85\0\0\0\x44\0\0\0\x69\xa1\xd0\
-+\xff\0\0\0\0\xdc\x01\0\0\x10\0\0\0\x15\x01\x26\0\xdd\x86\0\0\x55\x01\x6c\0\0\
-+\x08\0\0\xb7\x01\0\0\x01\0\0\0\x73\x1a\x50\xff\0\0\0\0\xb7\x01\0\0\0\0\0\0\x63\
-+\x1a\xe0\xff\0\0\0\0\x7b\x1a\xd8\xff\0\0\0\0\x7b\x1a\xd0\xff\0\0\0\0\xbf\xa3\0\
-+\0\0\0\0\0\x07\x03\0\0\xd0\xff\xff\xff\xbf\x61\0\0\0\0\0\0\xb7\x02\0\0\0\0\0\0\
-+\xb7\x04\0\0\x14\0\0\0\xb7\x05\0\0\x01\0\0\0\x85\0\0\0\x44\0\0\0\x61\xa1\xdc\
-+\xff\0\0\0\0\x63\x1a\x5c\xff\0\0\0\0\x61\xa1\xe0\xff\0\0\0\0\x63\x1a\x60\xff\0\
-+\0\0\0\x71\xa6\xd9\xff\0\0\0\0\x71\xa1\xd0\xff\0\0\0\0\x67\x01\0\0\x02\0\0\0\
-+\x57\x01\0\0\x3c\0\0\0\x7b\x1a\x40\xff\0\0\0\0\x57\x06\0\0\xff\0\0\0\x15\x06\
-+\x45\0\x11\0\0\0\x79\xa1\x38\xff\0\0\0\0\x55\x06\x52\0\x06\0\0\0\xb7\x02\0\0\
-+\x01\0\0\0\x73\x2a\x53\xff\0\0\0\0\xb7\x02\0\0\0\0\0\0\x63\x2a\xe0\xff\0\0\0\0\
-+\x7b\x2a\xd8\xff\0\0\0\0\x7b\x2a\xd0\xff\0\0\0\0\xbf\xa3\0\0\0\0\0\0\x07\x03\0\
-+\0\xd0\xff\xff\xff\x79\xa2\x40\xff\0\0\0\0\xb7\x04\0\0\x14\0\0\0\x05\0\x41\0\0\
-+\0\0\0\x7b\x7a\x10\xff\0\0\0\0\xb7\x07\0\0\x01\0\0\0\x73\x7a\x51\xff\0\0\0\0\
-+\xb7\x01\0\0\0\0\0\0\x7b\x1a\xf0\xff\0\0\0\0\x7b\x1a\xe8\xff\0\0\0\0\x7b\x1a\
-+\xe0\xff\0\0\0\0\x7b\x1a\xd8\xff\0\0\0\0\x7b\x1a\xd0\xff\0\0\0\0\xbf\xa3\0\0\0\
-+\0\0\0\x07\x03\0\0\xd0\xff\xff\xff\xb7\x01\0\0\x28\0\0\0\x7b\x1a\x40\xff\0\0\0\
-+\0\xbf\x61\0\0\0\0\0\0\xb7\x02\0\0\0\0\0\0\xb7\x04\0\0\x28\0\0\0\xb7\x05\0\0\
-+\x01\0\0\0\x85\0\0\0\x44\0\0\0\x79\xa1\xd8\xff\0\0\0\0\x63\x1a\x5c\xff\0\0\0\0\
-+\x77\x01\0\0\x20\0\0\0\x63\x1a\x60\xff\0\0\0\0\x79\xa1\xe0\xff\0\0\0\0\x63\x1a\
-+\x64\xff\0\0\0\0\x77\x01\0\0\x20\0\0\0\x63\x1a\x68\xff\0\0\0\0\x79\xa1\xe8\xff\
-+\0\0\0\0\x63\x1a\x6c\xff\0\0\0\0\x77\x01\0\0\x20\0\0\0\x63\x1a\x70\xff\0\0\0\0\
-+\x79\xa1\xf0\xff\0\0\0\0\x63\x1a\x74\xff\0\0\0\0\x77\x01\0\0\x20\0\0\0\x63\x1a\
-+\x78\xff\0\0\0\0\x71\xa6\xd6\xff\0\0\0\0\x25\x06\xb1\0\x3c\0\0\0\x6f\x67\0\0\0\
-+\0\0\0\x18\x01\0\0\x01\0\0\0\0\0\0\0\0\x18\0\x1c\x5f\x17\0\0\0\0\0\0\x55\x07\
-+\x01\0\0\0\0\0\x05\0\xab\0\0\0\0\0\xb7\x01\0\0\0\0\0\0\x6b\x1a\xfe\xff\0\0\0\0\
-+\xb7\x01\0\0\x28\0\0\0\x7b\x1a\x40\xff\0\0\0\0\xbf\xa1\0\0\0\0\0\0\x07\x01\0\0\
-+\x8c\xff\xff\xff\x7b\x1a\x20\xff\0\0\0\0\xbf\xa1\0\0\0\0\0\0\x07\x01\0\0\x54\
-+\xff\xff\xff\x7b\x1a\x18\xff\0\0\0\0\xb7\x07\0\0\0\0\0\0\x7b\x8a\x30\xff\0\0\0\
-+\0\x7b\x9a\x28\xff\0\0\0\0\x05\0\xdf\0\0\0\0\0\xb7\x01\0\0\x01\0\0\0\x73\x1a\
-+\x52\xff\0\0\0\0\xb7\x01\0\0\0\0\0\0\x7b\x1a\xd0\xff\0\0\0\0\xbf\xa3\0\0\0\0\0\
-+\0\x07\x03\0\0\xd0\xff\xff\xff\x79\xa1\x38\xff\0\0\0\0\x79\xa2\x40\xff\0\0\0\0\
-+\xb7\x04\0\0\x08\0\0\0\xb7\x05\0\0\x01\0\0\0\x85\0\0\0\x44\0\0\0\x69\xa1\xd0\
-+\xff\0\0\0\0\x6b\x1a\x56\xff\0\0\0\0\x69\xa1\xd2\xff\0\0\0\0\x6b\x1a\x58\xff\0\
-+\0\0\0\x71\xa1\x50\xff\0\0\0\0\x15\x01\x0f\0\0\0\0\0\x61\x71\x04\0\0\0\0\0\x71\
-+\xa2\x53\xff\0\0\0\0\x15\x02\x41\0\0\0\0\0\xbf\x12\0\0\0\0\0\0\x57\x02\0\0\x02\
-+\0\0\0\x15\x02\x3e\0\0\0\0\0\x61\xa1\x5c\xff\0\0\0\0\x63\x1a\xa0\xff\0\0\0\0\
-+\x61\xa1\x60\xff\0\0\0\0\x63\x1a\xa4\xff\0\0\0\0\x69\xa1\x56\xff\0\0\0\0\x6b\
-+\x1a\xa8\xff\0\0\0\0\x69\xa1\x58\xff\0\0\0\0\x6b\x1a\xaa\xff\0\0\0\0\x05\0\xf4\
-+\0\0\0\0\0\x71\xa1\x51\xff\0\0\0\0\x15\x01\x5f\x01\0\0\0\0\x61\x71\x04\0\0\0\0\
-+\0\x71\xa2\x53\xff\0\0\0\0\x15\x02\x3d\0\0\0\0\0\xbf\x12\0\0\0\0\0\0\x57\x02\0\
-+\0\x10\0\0\0\x15\x02\x3a\0\0\0\0\0\xbf\xa2\0\0\0\0\0\0\x07\x02\0\0\x5c\xff\xff\
-+\xff\x71\xa4\x54\xff\0\0\0\0\xbf\x23\0\0\0\0\0\0\x15\x04\x02\0\0\0\0\0\xbf\xa3\
-+\0\0\0\0\0\0\x07\x03\0\0\x7c\xff\xff\xff\x67\x01\0\0\x38\0\0\0\xc7\x01\0\0\x38\
-+\0\0\0\x65\x01\x01\0\xff\xff\xff\xff\xbf\x32\0\0\0\0\0\0\xbf\xa3\0\0\0\0\0\0\
-+\x07\x03\0\0\x6c\xff\xff\xff\x71\xa5\x55\xff\0\0\0\0\xbf\x34\0\0\0\0\0\0\x15\
-+\x05\x02\0\0\0\0\0\xbf\xa4\0\0\0\0\0\0\x07\x04\0\0\x8c\xff\xff\xff\x65\x01\x01\
-+\0\xff\xff\xff\xff\xbf\x43\0\0\0\0\0\0\x61\x21\x04\0\0\0\0\0\x67\x01\0\0\x20\0\
-+\0\0\x61\x24\0\0\0\0\0\0\x4f\x41\0\0\0\0\0\0\x7b\x1a\xa0\xff\0\0\0\0\x61\x21\
-+\x08\0\0\0\0\0\x61\x22\x0c\0\0\0\0\0\x67\x02\0\0\x20\0\0\0\x4f\x12\0\0\0\0\0\0\
-+\x7b\x2a\xa8\xff\0\0\0\0\x61\x31\0\0\0\0\0\0\x61\x32\x04\0\0\0\0\0\x61\x34\x08\
-+\0\0\0\0\0\x61\x33\x0c\0\0\0\0\0\x69\xa5\x58\xff\0\0\0\0\x6b\x5a\xc2\xff\0\0\0\
-+\0\x69\xa5\x56\xff\0\0\0\0\x6b\x5a\xc0\xff\0\0\0\0\x67\x03\0\0\x20\0\0\0\x4f\
-+\x43\0\0\0\0\0\0\x7b\x3a\xb8\xff\0\0\0\0\x67\x02\0\0\x20\0\0\0\x4f\x12\0\0\0\0\
-+\0\0\x7b\x2a\xb0\xff\0\0\0\0\x05\0\xbf\0\0\0\0\0\x71\xa2\x52\xff\0\0\0\0\x15\
-+\x02\x04\0\0\0\0\0\xbf\x12\0\0\0\0\0\0\x57\x02\0\0\x04\0\0\0\x15\x02\x01\0\0\0\
-+\0\0\x05\0\xbc\xff\0\0\0\0\x57\x01\0\0\x01\0\0\0\x15\x01\x24\x01\0\0\0\0\x61\
-+\xa1\x5c\xff\0\0\0\0\x63\x1a\xa0\xff\0\0\0\0\x61\xa1\x60\xff\0\0\0\0\x63\x1a\
-+\xa4\xff\0\0\0\0\x05\0\xb2\0\0\0\0\0\x71\xa2\x52\xff\0\0\0\0\x15\x02\x16\0\0\0\
-+\0\0\xbf\x12\0\0\0\0\0\0\x57\x02\0\0\x20\0\0\0\x15\x02\x13\0\0\0\0\0\xbf\xa2\0\
-+\0\0\0\0\0\x07\x02\0\0\x5c\xff\xff\xff\x71\xa4\x54\xff\0\0\0\0\xbf\x23\0\0\0\0\
-+\0\0\x15\x04\x02\0\0\0\0\0\xbf\xa3\0\0\0\0\0\0\x07\x03\0\0\x7c\xff\xff\xff\x57\
-+\x01\0\0\0\x01\0\0\x15\x01\x01\0\0\0\0\0\xbf\x32\0\0\0\0\0\0\xbf\xa3\0\0\0\0\0\
-+\0\x07\x03\0\0\x6c\xff\xff\xff\x71\xa5\x55\xff\0\0\0\0\xbf\x34\0\0\0\0\0\0\x15\
-+\x05\x02\0\0\0\0\0\xbf\xa4\0\0\0\0\0\0\x07\x04\0\0\x8c\xff\xff\xff\x15\x01\xc3\
-+\xff\0\0\0\0\x05\0\xc1\xff\0\0\0\0\xbf\x12\0\0\0\0\0\0\x57\x02\0\0\x08\0\0\0\
-+\x15\x02\x04\x01\0\0\0\0\xbf\xa2\0\0\0\0\0\0\x07\x02\0\0\x5c\xff\xff\xff\x71\
-+\xa4\x54\xff\0\0\0\0\xbf\x23\0\0\0\0\0\0\x15\x04\x02\0\0\0\0\0\xbf\xa3\0\0\0\0\
-+\0\0\x07\x03\0\0\x7c\xff\xff\xff\x57\x01\0\0\x40\0\0\0\x15\x01\x01\0\0\0\0\0\
-+\xbf\x32\0\0\0\0\0\0\x61\x23\x04\0\0\0\0\0\x67\x03\0\0\x20\0\0\0\x61\x24\0\0\0\
-+\0\0\0\x4f\x43\0\0\0\0\0\0\x7b\x3a\xa0\xff\0\0\0\0\x61\x23\x08\0\0\0\0\0\x61\
-+\x22\x0c\0\0\0\0\0\x67\x02\0\0\x20\0\0\0\x4f\x32\0\0\0\0\0\0\x7b\x2a\xa8\xff\0\
-+\0\0\0\x15\x01\x78\0\0\0\0\0\x71\xa1\x55\xff\0\0\0\0\x15\x01\x76\0\0\0\0\0\x61\
-+\xa1\x98\xff\0\0\0\0\x67\x01\0\0\x20\0\0\0\x61\xa2\x94\xff\0\0\0\0\x4f\x21\0\0\
-+\0\0\0\0\x7b\x1a\xb8\xff\0\0\0\0\x61\xa1\x90\xff\0\0\0\0\x67\x01\0\0\x20\0\0\0\
-+\x61\xa2\x8c\xff\0\0\0\0\x05\0\x75\0\0\0\0\0\x15\x06\x54\xff\x87\0\0\0\x05\0\
-+\x3e\0\0\0\0\0\x0f\x96\0\0\0\0\0\0\xbf\x62\0\0\0\0\0\0\x07\x02\0\0\x01\0\0\0\
-+\x71\xa3\xff\xff\0\0\0\0\x67\x03\0\0\x03\0\0\0\x3d\x32\x22\0\0\0\0\0\x55\x01\
-+\x0c\0\xc9\0\0\0\x79\xa1\x40\xff\0\0\0\0\x0f\x16\0\0\0\0\0\0\x07\x06\0\0\x02\0\
-+\0\0\x79\xa1\x38\xff\0\0\0\0\xbf\x62\0\0\0\0\0\0\x79\xa3\x18\xff\0\0\0\0\xb7\
-+\x04\0\0\x01\0\0\0\xb7\x05\0\0\x01\0\0\0\x85\0\0\0\x44\0\0\0\xb7\x01\0\0\x01\0\
-+\0\0\x73\x1a\x54\xff\0\0\0\0\x05\0\x15\0\0\0\0\0\x07\x08\0\0\xff\xff\xff\xff\
-+\xbf\x81\0\0\0\0\0\0\x67\x01\0\0\x20\0\0\0\x77\x01\0\0\x20\0\0\0\xbf\x69\0\0\0\
-+\0\0\0\x15\x01\x0f\0\0\0\0\0\xbf\x92\0\0\0\0\0\0\x79\xa1\x40\xff\0\0\0\0\x0f\
-+\x12\0\0\0\0\0\0\xbf\xa3\0\0\0\0\0\0\x07\x03\0\0\xf8\xff\xff\xff\xb7\x06\0\0\
-+\x01\0\0\0\x79\xa1\x38\xff\0\0\0\0\xb7\x04\0\0\x02\0\0\0\xb7\x05\0\0\x01\0\0\0\
-+\x85\0\0\0\x44\0\0\0\x71\xa1\xf8\xff\0\0\0\0\x15\x01\xdb\xff\0\0\0\0\x71\xa6\
-+\xf9\xff\0\0\0\0\x07\x06\0\0\x02\0\0\0\x05\0\xd8\xff\0\0\0\0\x79\xa8\x30\xff\0\
-+\0\0\0\x79\xa9\x28\xff\0\0\0\0\x71\xa1\xff\xff\0\0\0\0\x67\x01\0\0\x03\0\0\0\
-+\x79\xa2\x40\xff\0\0\0\0\x0f\x12\0\0\0\0\0\0\x07\x02\0\0\x08\0\0\0\x7b\x2a\x40\
-+\xff\0\0\0\0\x71\xa6\xfe\xff\0\0\0\0\x25\x06\x37\0\x3c\0\0\0\xb7\x01\0\0\x01\0\
-+\0\0\x6f\x61\0\0\0\0\0\0\x18\x02\0\0\x01\0\0\0\0\0\0\0\0\x18\0\x1c\x5f\x21\0\0\
-+\0\0\0\0\x55\x01\x01\0\0\0\0\0\x05\0\x30\0\0\0\0\0\x07\x07\0\0\x01\0\0\0\xbf\
-+\x71\0\0\0\0\0\0\x67\x01\0\0\x20\0\0\0\x77\x01\0\0\x20\0\0\0\x55\x01\x02\0\x0b\
-+\0\0\0\x79\xa7\x10\xff\0\0\0\0\x05\0\xda\xfe\0\0\0\0\xbf\xa3\0\0\0\0\0\0\x07\
-+\x03\0\0\xfe\xff\xff\xff\x79\xa1\x38\xff\0\0\0\0\x79\xa2\x40\xff\0\0\0\0\xb7\
-+\x04\0\0\x02\0\0\0\xb7\x05\0\0\x01\0\0\0\x85\0\0\0\x44\0\0\0\xbf\x61\0\0\0\0\0\
-+\0\x15\x01\x1b\0\x3c\0\0\0\x55\x01\xe0\xff\x2b\0\0\0\xb7\x01\0\0\0\0\0\0\x63\
-+\x1a\xf8\xff\0\0\0\0\xbf\xa3\0\0\0\0\0\0\x07\x03\0\0\xf8\xff\xff\xff\x79\xa6\
-+\x38\xff\0\0\0\0\xbf\x61\0\0\0\0\0\0\x79\xa2\x40\xff\0\0\0\0\xb7\x04\0\0\x04\0\
-+\0\0\xb7\x05\0\0\x01\0\0\0\x85\0\0\0\x44\0\0\0\x71\xa1\xfa\xff\0\0\0\0\x55\x01\
-+\xd4\xff\x02\0\0\0\x71\xa1\xf9\xff\0\0\0\0\x55\x01\xd2\xff\x02\0\0\0\x71\xa1\
-+\xfb\xff\0\0\0\0\x55\x01\xd0\xff\x01\0\0\0\x79\xa2\x40\xff\0\0\0\0\x07\x02\0\0\
-+\x08\0\0\0\xbf\x61\0\0\0\0\0\0\x79\xa3\x20\xff\0\0\0\0\xb7\x04\0\0\x10\0\0\0\
-+\xb7\x05\0\0\x01\0\0\0\x85\0\0\0\x44\0\0\0\xb7\x01\0\0\x01\0\0\0\x73\x1a\x55\
-+\xff\0\0\0\0\x05\0\xc6\xff\0\0\0\0\xb7\x01\0\0\0\0\0\0\x6b\x1a\xf8\xff\0\0\0\0\
-+\xb7\x09\0\0\x02\0\0\0\xb7\x08\0\0\x1e\0\0\0\x05\0\xb0\xff\0\0\0\0\x15\x06\xcf\
-+\xff\x87\0\0\0\x05\0\xd3\xff\0\0\0\0\x61\xa1\x78\xff\0\0\0\0\x67\x01\0\0\x20\0\
-+\0\0\x61\xa2\x74\xff\0\0\0\0\x4f\x21\0\0\0\0\0\0\x7b\x1a\xb8\xff\0\0\0\0\x61\
-+\xa1\x70\xff\0\0\0\0\x67\x01\0\0\x20\0\0\0\x61\xa2\x6c\xff\0\0\0\0\x4f\x21\0\0\
-+\0\0\0\0\x7b\x1a\xb0\xff\0\0\0\0\xb7\x01\0\0\0\0\0\0\x07\x08\0\0\x04\0\0\0\x61\
-+\x92\0\0\0\0\0\0\xb7\x05\0\0\0\0\0\0\x05\0\x4e\0\0\0\0\0\xaf\x53\0\0\0\0\0\0\
-+\xbf\x85\0\0\0\0\0\0\x0f\x15\0\0\0\0\0\0\x71\x55\0\0\0\0\0\0\x67\x02\0\0\x01\0\
-+\0\0\xbf\x50\0\0\0\0\0\0\x77\0\0\0\x07\0\0\0\x4f\x02\0\0\0\0\0\0\xbf\x40\0\0\0\
-+\0\0\0\x67\0\0\0\x39\0\0\0\xc7\0\0\0\x3f\0\0\0\x5f\x20\0\0\0\0\0\0\xaf\x03\0\0\
-+\0\0\0\0\xbf\x50\0\0\0\0\0\0\x77\0\0\0\x06\0\0\0\x57\0\0\0\x01\0\0\0\x67\x02\0\
-+\0\x01\0\0\0\x4f\x02\0\0\0\0\0\0\xbf\x40\0\0\0\0\0\0\x67\0\0\0\x3a\0\0\0\xc7\0\
-+\0\0\x3f\0\0\0\x5f\x20\0\0\0\0\0\0\xaf\x03\0\0\0\0\0\0\x67\x02\0\0\x01\0\0\0\
-+\xbf\x50\0\0\0\0\0\0\x77\0\0\0\x05\0\0\0\x57\0\0\0\x01\0\0\0\x4f\x02\0\0\0\0\0\
-+\0\xbf\x40\0\0\0\0\0\0\x67\0\0\0\x3b\0\0\0\xc7\0\0\0\x3f\0\0\0\x5f\x20\0\0\0\0\
-+\0\0\xaf\x03\0\0\0\0\0\0\x67\x02\0\0\x01\0\0\0\xbf\x50\0\0\0\0\0\0\x77\0\0\0\
-+\x04\0\0\0\x57\0\0\0\x01\0\0\0\x4f\x02\0\0\0\0\0\0\xbf\x40\0\0\0\0\0\0\x67\0\0\
-+\0\x3c\0\0\0\xc7\0\0\0\x3f\0\0\0\x5f\x20\0\0\0\0\0\0\xaf\x03\0\0\0\0\0\0\xbf\
-+\x50\0\0\0\0\0\0\x77\0\0\0\x03\0\0\0\x57\0\0\0\x01\0\0\0\x67\x02\0\0\x01\0\0\0\
-+\x4f\x02\0\0\0\0\0\0\xbf\x40\0\0\0\0\0\0\x67\0\0\0\x3d\0\0\0\xc7\0\0\0\x3f\0\0\
-+\0\x5f\x20\0\0\0\0\0\0\xaf\x03\0\0\0\0\0\0\xbf\x50\0\0\0\0\0\0\x77\0\0\0\x02\0\
-+\0\0\x57\0\0\0\x01\0\0\0\x67\x02\0\0\x01\0\0\0\x4f\x02\0\0\0\0\0\0\xbf\x40\0\0\
-+\0\0\0\0\x67\0\0\0\x3e\0\0\0\xc7\0\0\0\x3f\0\0\0\x5f\x20\0\0\0\0\0\0\xaf\x03\0\
-+\0\0\0\0\0\xbf\x50\0\0\0\0\0\0\x77\0\0\0\x01\0\0\0\x57\0\0\0\x01\0\0\0\x67\x02\
-+\0\0\x01\0\0\0\x4f\x02\0\0\0\0\0\0\x57\x04\0\0\x01\0\0\0\x87\x04\0\0\0\0\0\0\
-+\x5f\x24\0\0\0\0\0\0\xaf\x43\0\0\0\0\0\0\x57\x05\0\0\x01\0\0\0\x67\x02\0\0\x01\
-+\0\0\0\x4f\x52\0\0\0\0\0\0\x07\x01\0\0\x01\0\0\0\xbf\x35\0\0\0\0\0\0\x15\x01\
-+\x0b\0\x24\0\0\0\xbf\xa3\0\0\0\0\0\0\x07\x03\0\0\xa0\xff\xff\xff\x0f\x13\0\0\0\
-+\0\0\0\x71\x34\0\0\0\0\0\0\xbf\x40\0\0\0\0\0\0\x67\0\0\0\x38\0\0\0\xc7\0\0\0\
-+\x38\0\0\0\xb7\x03\0\0\0\0\0\0\x65\0\xa9\xff\xff\xff\xff\xff\xbf\x23\0\0\0\0\0\
-+\0\x05\0\xa7\xff\0\0\0\0\xbf\x31\0\0\0\0\0\0\x67\x01\0\0\x20\0\0\0\x77\x01\0\0\
-+\x20\0\0\0\x15\x01\x0b\0\0\0\0\0\x69\x72\x08\0\0\0\0\0\x3f\x21\0\0\0\0\0\0\x2f\
-+\x21\0\0\0\0\0\0\x1f\x13\0\0\0\0\0\0\x63\x3a\x50\xff\0\0\0\0\xbf\xa2\0\0\0\0\0\
-+\0\x07\x02\0\0\x50\xff\xff\xff\x18\x01\0\0\0\0\0\0\0\0\0\0\0\0\0\0\x85\0\0\0\
-+\x01\0\0\0\x55\0\x02\0\0\0\0\0\x69\x70\x0a\0\0\0\0\0\x95\0\0\0\0\0\0\0\x69\0\0\
-+\0\0\0\0\0\x05\0\xfd\xff\0\0\0\0\x02\0\0\0\x04\0\0\0\x0c\0\0\0\x01\0\0\0\0\0\0\
-+\0\x02\0\0\0\x04\0\0\0\x28\0\0\0\x01\0\0\0\0\0\0\0\x02\0\0\0\x04\0\0\0\x02\0\0\
-+\0\x80\0\0\0\0\0\0\0\x47\x50\x4c\x20\x76\x32\0\0\0\0\0\0\x10\0\0\0\0\0\0\0\x01\
-+\x7a\x52\0\x08\x7c\x0b\x01\x0c\0\0\0\x18\0\0\0\x18\0\0\0\0\0\0\0\0\0\0\0\x20\
-+\x11\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\xa0\0\
-+\0\0\x04\0\xf1\xff\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\xd7\x01\0\0\0\0\x03\0\x38\
-+\x03\0\0\0\0\0\0\0\0\0\0\0\0\0\0\xbf\x01\0\0\0\0\x03\0\xe0\x09\0\0\0\0\0\0\0\0\
-+\0\0\0\0\0\0\x68\x01\0\0\0\0\x03\0\x88\x04\0\0\0\0\0\0\0\0\0\0\0\0\0\0\x48\x01\
-+\0\0\0\0\x03\0\xf0\x0b\0\0\0\0\0\0\0\0\0\0\0\0\0\0\xcf\x01\0\0\0\0\x03\0\x10\
-+\x0d\0\0\0\0\0\0\0\0\0\0\0\0\0\0\xb7\x01\0\0\0\0\x03\0\x88\x0a\0\0\0\0\0\0\0\0\
-+\0\0\0\0\0\0\x9f\x01\0\0\0\0\x03\0\xb8\x0a\0\0\0\0\0\0\0\0\0\0\0\0\0\0\x40\x01\
-+\0\0\0\0\x03\0\xf0\x09\0\0\0\0\0\0\0\0\0\0\0\0\0\0\xf1\0\0\0\0\0\x03\0\x30\x0b\
-+\0\0\0\0\0\0\0\0\0\0\0\0\0\0\x17\x02\0\0\0\0\x03\0\x40\x0b\0\0\0\0\0\0\0\0\0\0\
-+\0\0\0\0\xf7\x01\0\0\0\0\x03\0\x38\x0d\0\0\0\0\0\0\0\0\0\0\0\0\0\0\xaf\x01\0\0\
-+\0\0\x03\0\xb8\x0b\0\0\0\0\0\0\0\0\0\0\0\0\0\0\x97\x01\0\0\0\0\x03\0\xe0\x0b\0\
-+\0\0\0\0\0\0\0\0\0\0\0\0\0\x60\x01\0\0\0\0\x03\0\xc0\x02\0\0\0\0\0\0\0\0\0\0\0\
-+\0\0\0\x10\x01\0\0\0\0\x03\0\xf8\x04\0\0\0\0\0\0\0\0\0\0\0\0\0\0\xe9\0\0\0\0\0\
-+\x03\0\x40\x05\0\0\0\0\0\0\0\0\0\0\0\0\0\0\x70\x01\0\0\0\0\x03\0\xb8\0\0\0\0\0\
-+\0\0\0\0\0\0\0\0\0\0\x0f\x02\0\0\0\0\x03\0\x70\x05\0\0\0\0\0\0\0\0\0\0\0\0\0\0\
-+\xa7\x01\0\0\0\0\x03\0\xb0\x05\0\0\0\0\0\0\0\0\0\0\0\0\0\0\x8f\x01\0\0\0\0\x03\
-+\0\xa0\x07\0\0\0\0\0\0\0\0\0\0\0\0\0\0\x28\x01\0\0\0\0\x03\0\xd0\x07\0\0\0\0\0\
-+\0\0\0\0\0\0\0\0\0\xe1\0\0\0\0\0\x03\0\xf8\x05\0\0\0\0\0\0\0\0\0\0\0\0\0\0\x87\
-+\x01\0\0\0\0\x03\0\x70\x06\0\0\0\0\0\0\0\0\0\0\0\0\0\0\x38\x01\0\0\0\0\x03\0\
-+\x90\x06\0\0\0\0\0\0\0\0\0\0\0\0\0\0\x08\x01\0\0\0\0\x03\0\xc8\x06\0\0\0\0\0\0\
-+\0\0\0\0\0\0\0\0\xd9\0\0\0\0\0\x03\0\xd0\x06\0\0\0\0\0\0\0\0\0\0\0\0\0\0\x07\
-+\x02\0\0\0\0\x03\0\xd8\x06\0\0\0\0\0\0\0\0\0\0\0\0\0\0\xef\x01\0\0\0\0\x03\0\
-+\x08\x08\0\0\0\0\0\0\0\0\0\0\0\0\0\0\x58\x01\0\0\0\0\x03\0\x68\x08\0\0\0\0\0\0\
-+\0\0\0\0\0\0\0\0\x20\x01\0\0\0\0\x03\0\x80\x08\0\0\0\0\0\0\0\0\0\0\0\0\0\0\xd1\
-+\0\0\0\0\0\x03\0\xb8\x08\0\0\0\0\0\0\0\0\0\0\0\0\0\0\xe7\x01\0\0\0\0\x03\0\xc8\
-+\x08\0\0\0\0\0\0\0\0\0\0\0\0\0\0\x7f\x01\0\0\0\0\x03\0\x18\x09\0\0\0\0\0\0\0\0\
-+\0\0\0\0\0\0\x30\x01\0\0\0\0\x03\0\x30\x09\0\0\0\0\0\0\0\0\0\0\0\0\0\0\xc9\0\0\
-+\0\0\0\x03\0\x48\x0d\0\0\0\0\0\0\0\0\0\0\0\0\0\0\xf9\0\0\0\0\0\x03\0\xc0\x01\0\
-+\0\0\0\0\0\0\0\0\0\0\0\0\0\xff\x01\0\0\0\0\x03\0\x88\x0d\0\0\0\0\0\0\0\0\0\0\0\
-+\0\0\0\xdf\x01\0\0\0\0\x03\0\x98\x0d\0\0\0\0\0\0\0\0\0\0\0\0\0\0\xc7\x01\0\0\0\
-+\0\x03\0\x30\x10\0\0\0\0\0\0\0\0\0\0\0\0\0\0\x77\x01\0\0\0\0\x03\0\xc0\x0d\0\0\
-+\0\0\0\0\0\0\0\0\0\0\0\0\x50\x01\0\0\0\0\x03\0\x88\x10\0\0\0\0\0\0\0\0\0\0\0\0\
-+\0\0\x18\x01\0\0\0\0\x03\0\0\x11\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\x01\0\0\0\0\x03\
-+\0\x08\x11\0\0\0\0\0\0\0\0\0\0\0\0\0\0\xc1\0\0\0\0\0\x03\0\x10\x11\0\0\0\0\0\0\
-+\0\0\0\0\0\0\0\0\xba\0\0\0\0\0\x03\0\xf8\x01\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\
-+\0\x03\0\x03\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\x6b\0\0\0\x11\0\x06\0\0\0\0\0\0\
-+\0\0\0\x07\0\0\0\0\0\0\0\x25\0\0\0\x11\0\x05\0\0\0\0\0\0\0\0\0\x14\0\0\0\0\0\0\
-+\0\x82\0\0\0\x11\0\x05\0\x28\0\0\0\0\0\0\0\x14\0\0\0\0\0\0\0\x01\0\0\0\x11\0\
-+\x05\0\x14\0\0\0\0\0\0\0\x14\0\0\0\0\0\0\0\x40\0\0\0\x12\0\x03\0\0\0\0\0\0\0\0\
-+\0\x20\x11\0\0\0\0\0\0\x28\0\0\0\0\0\0\0\x01\0\0\0\x31\0\0\0\x50\0\0\0\0\0\0\0\
-+\x01\0\0\0\x33\0\0\0\xe0\x10\0\0\0\0\0\0\x01\0\0\0\x32\0\0\0\x1c\0\0\0\0\0\0\0\
-+\x01\0\0\0\x2f\0\0\0\0\x74\x61\x70\x5f\x72\x73\x73\x5f\x6d\x61\x70\x5f\x74\x6f\
-+\x65\x70\x6c\x69\x74\x7a\x5f\x6b\x65\x79\0\x2e\x74\x65\x78\x74\0\x6d\x61\x70\
-+\x73\0\x74\x61\x70\x5f\x72\x73\x73\x5f\x6d\x61\x70\x5f\x63\x6f\x6e\x66\x69\x67\
-+\x75\x72\x61\x74\x69\x6f\x6e\x73\0\x74\x75\x6e\x5f\x72\x73\x73\x5f\x73\x74\x65\
-+\x65\x72\x69\x6e\x67\x5f\x70\x72\x6f\x67\0\x2e\x72\x65\x6c\x74\x75\x6e\x5f\x72\
-+\x73\x73\x5f\x73\x74\x65\x65\x72\x69\x6e\x67\0\x5f\x6c\x69\x63\x65\x6e\x73\x65\
-+\0\x2e\x72\x65\x6c\x2e\x65\x68\x5f\x66\x72\x61\x6d\x65\0\x74\x61\x70\x5f\x72\
-+\x73\x73\x5f\x6d\x61\x70\x5f\x69\x6e\x64\x69\x72\x65\x63\x74\x69\x6f\x6e\x5f\
-+\x74\x61\x62\x6c\x65\0\x72\x73\x73\x2e\x62\x70\x66\x2e\x63\0\x2e\x73\x74\x72\
-+\x74\x61\x62\0\x2e\x73\x79\x6d\x74\x61\x62\0\x4c\x42\x42\x30\x5f\x39\0\x4c\x42\
-+\x42\x30\x5f\x38\x39\0\x4c\x42\x42\x30\x5f\x37\x39\0\x4c\x42\x42\x30\x5f\x36\
-+\x39\0\x4c\x42\x42\x30\x5f\x35\x39\0\x4c\x42\x42\x30\x5f\x34\x39\0\x4c\x42\x42\
-+\x30\x5f\x33\x39\0\x4c\x42\x42\x30\x5f\x32\x39\0\x4c\x42\x42\x30\x5f\x38\0\x4c\
-+\x42\x42\x30\x5f\x38\x38\0\x4c\x42\x42\x30\x5f\x35\x38\0\x4c\x42\x42\x30\x5f\
-+\x33\x38\0\x4c\x42\x42\x30\x5f\x38\x37\0\x4c\x42\x42\x30\x5f\x36\x37\0\x4c\x42\
-+\x42\x30\x5f\x34\x37\0\x4c\x42\x42\x30\x5f\x37\x36\0\x4c\x42\x42\x30\x5f\x35\
-+\x36\0\x4c\x42\x42\x30\x5f\x32\x36\0\x4c\x42\x42\x30\x5f\x31\x36\0\x4c\x42\x42\
-+\x30\x5f\x38\x35\0\x4c\x42\x42\x30\x5f\x36\x35\0\x4c\x42\x42\x30\x5f\x33\x35\0\
-+\x4c\x42\x42\x30\x5f\x31\x35\0\x4c\x42\x42\x30\x5f\x34\0\x4c\x42\x42\x30\x5f\
-+\x38\x34\0\x4c\x42\x42\x30\x5f\x37\x34\0\x4c\x42\x42\x30\x5f\x35\x34\0\x4c\x42\
-+\x42\x30\x5f\x34\x34\0\x4c\x42\x42\x30\x5f\x33\x34\0\x4c\x42\x42\x30\x5f\x32\
-+\x34\0\x4c\x42\x42\x30\x5f\x34\x33\0\x4c\x42\x42\x30\x5f\x33\x33\0\x4c\x42\x42\
-+\x30\x5f\x32\x33\0\x4c\x42\x42\x30\x5f\x31\x33\0\x4c\x42\x42\x30\x5f\x38\x32\0\
-+\x4c\x42\x42\x30\x5f\x32\x32\0\x4c\x42\x42\x30\x5f\x31\x32\0\x4c\x42\x42\x30\
-+\x5f\x38\x31\0\x4c\x42\x42\x30\x5f\x37\x31\0\x4c\x42\x42\x30\x5f\x36\x31\0\x4c\
-+\x42\x42\x30\x5f\x33\x31\0\x4c\x42\x42\x30\x5f\x38\x30\0\x4c\x42\x42\x30\x5f\
-+\x36\x30\0\x4c\x42\x42\x30\x5f\x34\x30\0\x4c\x42\x42\x30\x5f\x33\x30\0\0\0\0\0\
-+\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\
-+\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\xaa\0\0\0\x03\0\0\0\0\0\0\0\0\0\0\
-+\0\0\0\0\0\0\0\0\0\x10\x17\0\0\0\0\0\0\x1f\x02\0\0\0\0\0\0\0\0\0\0\0\0\0\0\x01\
-+\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\x1a\0\0\0\x01\0\0\0\x06\0\0\0\0\0\0\0\0\0\0\0\0\
-+\0\0\0\x40\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\x04\0\0\0\0\0\0\0\0\0\
-+\0\0\0\0\0\0\x5a\0\0\0\x01\0\0\0\x06\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\x40\0\0\0\0\
-+\0\0\0\x20\x11\0\0\0\0\0\0\0\0\0\0\0\0\0\0\x08\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\
-+\x56\0\0\0\x09\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\xd0\x16\0\0\0\0\0\0\x30\0\
-+\0\0\0\0\0\0\x09\0\0\0\x03\0\0\0\x08\0\0\0\0\0\0\0\x10\0\0\0\0\0\0\0\x20\0\0\0\
-+\x01\0\0\0\x03\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\x60\x11\0\0\0\0\0\0\x3c\0\0\0\0\0\
-+\0\0\0\0\0\0\0\0\0\0\x04\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\x6c\0\0\0\x01\0\0\0\x03\
-+\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\x9c\x11\0\0\0\0\0\0\x07\0\0\0\0\0\0\0\0\0\0\0\0\
-+\0\0\0\x01\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\x78\0\0\0\x01\0\0\0\x02\0\0\0\0\0\0\0\
-+\0\0\0\0\0\0\0\0\xa8\x11\0\0\0\0\0\0\x30\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\x08\0\0\
-+\0\0\0\0\0\0\0\0\0\0\0\0\0\x74\0\0\0\x09\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\
-+\0\x17\0\0\0\0\0\0\x10\0\0\0\0\0\0\0\x09\0\0\0\x07\0\0\0\x08\0\0\0\0\0\0\0\x10\
-+\0\0\0\0\0\0\0\xb2\0\0\0\x02\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\xd8\x11\0\0\
-+\0\0\0\0\xf8\x04\0\0\0\0\0\0\x01\0\0\0\x30\0\0\0\x08\0\0\0\0\0\0\0\x18\0\0\0\0\
-+\0\0\0";
-+
-+	return 0;
-+err:
-+	bpf_object__destroy_skeleton(s);
-+	return -1;
-+}
-+
-+#endif /* __RSS_BPF_SKEL_H__ */
-diff --git a/ebpf/trace-events b/ebpf/trace-events
-new file mode 100644
-index 0000000000..411b1e2be3
---- /dev/null
-+++ b/ebpf/trace-events
-@@ -0,0 +1,4 @@
-+# See docs/devel/tracing.txt for syntax documentation.
-+
-+# ebpf-rss.c
-+ebpf_error(const char *s1, const char *s2) "error in %s: %s"
-diff --git a/ebpf/trace.h b/ebpf/trace.h
-new file mode 100644
-index 0000000000..ad570e6691
---- /dev/null
-+++ b/ebpf/trace.h
-@@ -0,0 +1,2 @@
-+#include "trace/trace-ebpf.h"
-+
-diff --git a/meson.build b/meson.build
-index 563688d682..27e41690e7 100644
---- a/meson.build
-+++ b/meson.build
-@@ -968,6 +968,13 @@ if not get_option('fuse_lseek').disabled()
-   endif
- endif
+     trace_virtio_net_rss_enable(n->rss_data.hash_types,
+                                 n->rss_data.indirections_len,
+                                 temp.b);
+@@ -1656,7 +1755,7 @@ static ssize_t virtio_net_receive_rcu(NetClientState *nc, const uint8_t *buf,
+         return -1;
+     }
  
-+# libbpf
-+libbpf = not_found
-+if 'CONFIG_EBPF' in config_host
-+  libbpf = cc.find_library('bpf', required: true)
-+
-+endif
-+
- if get_option('cfi')
-   cfi_flags=[]
-   # Check for dependency on LTO
-@@ -1685,6 +1692,7 @@ if have_system
-     'backends',
-     'backends/tpm',
-     'chardev',
-+    'ebpf',
-     'hw/9pfs',
-     'hw/acpi',
-     'hw/alpha',
-@@ -1850,6 +1858,9 @@ subdir('accel')
- subdir('plugins')
- subdir('bsd-user')
- subdir('linux-user')
-+subdir('ebpf')
-+
-+common_ss.add(libbpf)
+-    if (!no_rss && n->rss_data.enabled) {
++    if (!no_rss && n->rss_data.enabled && n->rss_data.enabled_software_rss) {
+         int index = virtio_net_process_rss(nc, buf, size);
+         if (index >= 0) {
+             NetClientState *nc2 = qemu_get_subqueue(n->nic, index);
+@@ -2760,6 +2859,18 @@ static int virtio_net_post_load_device(void *opaque, int version_id)
+     }
  
- bsd_user_ss.add(files('gdbstub.c'))
- specific_ss.add_all(when: 'CONFIG_BSD_USER', if_true: bsd_user_ss)
-@@ -2415,6 +2426,7 @@ summary_info += {'vhost-user support': config_host.has_key('CONFIG_VHOST_USER')}
- summary_info += {'vhost-user-blk server support': have_vhost_user_blk_server}
- summary_info += {'vhost-user-fs support': config_host.has_key('CONFIG_VHOST_USER_FS')}
- summary_info += {'vhost-vdpa support': config_host.has_key('CONFIG_VHOST_VDPA')}
-+summary_info += {'bpf support': config_host.has_key('CONFIG_EBPF')}
- summary_info += {'Trace backends':    config_host['TRACE_BACKENDS']}
- if config_host['TRACE_BACKENDS'].split().contains('simple')
-   summary_info += {'Trace output file': config_host['CONFIG_TRACE_FILE'] + '-<pid>'}
-@@ -2516,3 +2528,4 @@ if not supported_oses.contains(targetos)
-   message('if you care about QEMU on this platform you should contact')
-   message('us upstream at qemu-devel@nongnu.org.')
- endif
+     if (n->rss_data.enabled) {
++        n->rss_data.enabled_software_rss = n->rss_data.populate_hash;
++        if (!n->rss_data.populate_hash) {
++            if (!virtio_net_attach_epbf_rss(n)) {
++                if (get_vhost_net(qemu_get_queue(n->nic)->peer)) {
++                    error_report("Can't post-load eBPF RSS for vhost");
++                } else {
++                    warn_report("Can't post-load eBPF RSS - fallback to software RSS");
++                    n->rss_data.enabled_software_rss = true;
++                }
++            }
++        }
 +
+         trace_virtio_net_rss_enable(n->rss_data.hash_types,
+                                     n->rss_data.indirections_len,
+                                     sizeof(n->rss_data.key));
+@@ -3336,6 +3447,8 @@ static void virtio_net_device_realize(DeviceState *dev, Error **errp)
+     n->qdev = dev;
+ 
+     net_rx_pkt_init(&n->rx_pkt, false);
++
++    virtio_net_load_ebpf(n);
+ }
+ 
+ static void virtio_net_device_unrealize(DeviceState *dev)
+@@ -3344,6 +3457,8 @@ static void virtio_net_device_unrealize(DeviceState *dev)
+     VirtIONet *n = VIRTIO_NET(dev);
+     int i, max_queues;
+ 
++    virtio_net_unload_ebpf(n);
++
+     /* This will stop vhost backend if appropriate. */
+     virtio_net_set_status(vdev, 0);
+ 
+@@ -3386,6 +3501,8 @@ static void virtio_net_instance_init(Object *obj)
+     device_add_bootindex_property(obj, &n->nic_conf.bootindex,
+                                   "bootindex", "/ethernet-phy@0",
+                                   DEVICE(n));
++
++    ebpf_rss_init(&n->ebpf_rss);
+ }
+ 
+ static int virtio_net_pre_save(void *opaque)
+diff --git a/include/hw/virtio/virtio-net.h b/include/hw/virtio/virtio-net.h
+index 7e96d193aa..824a69c23f 100644
+--- a/include/hw/virtio/virtio-net.h
++++ b/include/hw/virtio/virtio-net.h
+@@ -21,6 +21,8 @@
+ #include "qemu/option_int.h"
+ #include "qom/object.h"
+ 
++#include "ebpf/ebpf_rss.h"
++
+ #define TYPE_VIRTIO_NET "virtio-net-device"
+ OBJECT_DECLARE_SIMPLE_TYPE(VirtIONet, VIRTIO_NET)
+ 
+@@ -130,6 +132,7 @@ typedef struct VirtioNetRscChain {
+ 
+ typedef struct VirtioNetRssData {
+     bool    enabled;
++    bool    enabled_software_rss;
+     bool    redirect;
+     bool    populate_hash;
+     uint32_t hash_types;
+@@ -209,6 +212,7 @@ struct VirtIONet {
+     Notifier migration_state;
+     VirtioNetRssData rss_data;
+     struct NetRxPkt *rx_pkt;
++    struct EBPFRSSContext ebpf_rss;
+ };
+ 
+ void virtio_net_set_netclient_name(VirtIONet *n, const char *name,
+diff --git a/net/vhost-vdpa.c b/net/vhost-vdpa.c
+index fe659ec9e2..8b14215549 100644
+--- a/net/vhost-vdpa.c
++++ b/net/vhost-vdpa.c
+@@ -54,6 +54,8 @@ const int vdpa_feature_bits[] = {
+     VIRTIO_NET_F_MTU,
+     VIRTIO_F_IOMMU_PLATFORM,
+     VIRTIO_F_RING_PACKED,
++    VIRTIO_NET_F_RSS,
++    VIRTIO_NET_F_HASH_REPORT,
+     VIRTIO_NET_F_GUEST_ANNOUNCE,
+     VIRTIO_NET_F_STATUS,
+     VHOST_INVALID_FEATURE_BIT
 -- 
 2.30.0
 
