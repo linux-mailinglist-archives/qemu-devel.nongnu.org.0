@@ -2,58 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id ED03E2F62EE
-	for <lists+qemu-devel@lfdr.de>; Thu, 14 Jan 2021 15:20:17 +0100 (CET)
-Received: from localhost ([::1]:54706 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4A4602F62F5
+	for <lists+qemu-devel@lfdr.de>; Thu, 14 Jan 2021 15:22:36 +0100 (CET)
+Received: from localhost ([::1]:59484 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l03U1-0004jW-1W
-	for lists+qemu-devel@lfdr.de; Thu, 14 Jan 2021 09:20:17 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35272)
+	id 1l03WE-0006mr-VG
+	for lists+qemu-devel@lfdr.de; Thu, 14 Jan 2021 09:22:35 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35584)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
- id 1l03Sh-0003sF-Ez
- for qemu-devel@nongnu.org; Thu, 14 Jan 2021 09:18:55 -0500
-Received: from zero.eik.bme.hu ([2001:738:2001:2001::2001]:46776)
+ (Exim 4.90_1) (envelope-from <alxndr@bu.edu>) id 1l03Ti-00056E-KJ
+ for qemu-devel@nongnu.org; Thu, 14 Jan 2021 09:19:58 -0500
+Received: from relay68.bu.edu ([128.197.228.73]:39044)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
- id 1l03Se-0006eU-Ba
- for qemu-devel@nongnu.org; Thu, 14 Jan 2021 09:18:54 -0500
-Received: from zero.eik.bme.hu (blah.eik.bme.hu [152.66.115.182])
- by localhost (Postfix) with SMTP id 6ECAA7462D3;
- Thu, 14 Jan 2021 15:18:48 +0100 (CET)
-Received: by zero.eik.bme.hu (Postfix, from userid 432)
- id 3DB437456B7; Thu, 14 Jan 2021 15:18:48 +0100 (CET)
-Received: from localhost (localhost [127.0.0.1])
- by zero.eik.bme.hu (Postfix) with ESMTP id 3BA0D7456E3;
- Thu, 14 Jan 2021 15:18:48 +0100 (CET)
-Date: Thu, 14 Jan 2021 15:18:48 +0100 (CET)
-From: BALATON Zoltan <balaton@eik.bme.hu>
-To: Stefan Hajnoczi <stefanha@redhat.com>
-Subject: Re: [PATCH 1/2] trace: document how to specify multiple --trace
- patterns
-In-Reply-To: <20210114140217.GD292902@stefanha-x1.localdomain>
-Message-ID: <6bf62c67-7dff-11e2-37e8-a0e67da89bb2@eik.bme.hu>
-References: <20210112165859.225534-1-stefanha@redhat.com>
- <20210112165859.225534-2-stefanha@redhat.com>
- <542c6083-37ef-8a7c-7b24-f1e4f8dbff3@eik.bme.hu>
- <20210113094804.GA250553@stefanha-x1.localdomain>
- <f13a4aac-2d9a-9762-2664-3e3e09376f4d@redhat.com>
- <b06344f0-892f-4ff0-782f-1d55862a2c2b@redhat.com>
- <1cd6e449-cdde-adf6-a3ef-b2e95cd04add@redhat.com>
- <95abf7c3-4338-1659-8c83-e4fb886794b7@eik.bme.hu>
- <20f2dbbf-638c-4c3f-0513-0c7f1afed15d@redhat.com>
- <20210114140217.GD292902@stefanha-x1.localdomain>
+ (Exim 4.90_1) (envelope-from <alxndr@bu.edu>) id 1l03Tg-00079C-Jq
+ for qemu-devel@nongnu.org; Thu, 14 Jan 2021 09:19:57 -0500
+X-Envelope-From: alxndr@bu.edu
+X-BU-AUTH: mozz.bu.edu [128.197.127.33]
+Received: from BU-AUTH (localhost.localdomain [127.0.0.1]) (authenticated
+ bits=0)
+ by relay68.bu.edu (8.14.3/8.14.3) with ESMTP id 10EEJKZi015100
+ (version=TLSv1/SSLv3 cipher=AES256-GCM-SHA384 bits=256 verify=NO);
+ Thu, 14 Jan 2021 09:19:23 -0500
+Date: Thu, 14 Jan 2021 09:19:20 -0500
+From: Alexander Bulekov <alxndr@bu.edu>
+To: Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>
+Subject: Re: [PATCH v3 1/2] Fix net.c warning on GCC 11
+Message-ID: <20210114141920.qjsnlt3cmkauggtw@mozz.bu.edu>
+References: <cover.1610607906.git.mrezanin@redhat.com>
+ <dcb4bfa3fe810236475b338f2f6401ec3d1a1c57.1610607906.git.mrezanin@redhat.com>
+ <4fd8d2a3-e665-4422-79e0-4e2a7337e4fc@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII; format=flowed
-X-Spam-Probability: 8%
-Received-SPF: pass client-ip=2001:738:2001:2001::2001;
- envelope-from=balaton@eik.bme.hu; helo=zero.eik.bme.hu
-X-Spam_score_int: -18
-X-Spam_score: -1.9
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <4fd8d2a3-e665-4422-79e0-4e2a7337e4fc@redhat.com>
+Received-SPF: pass client-ip=128.197.228.73; envelope-from=alxndr@bu.edu;
+ helo=relay68.bu.edu
+X-Spam_score_int: -15
+X-Spam_score: -1.6
 X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-1.6 / 5.0 requ) BAYES_00=-1.9, HK_RANDOM_ENVFROM=0.001,
+ HK_RANDOM_FROM=0.998, RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -66,49 +57,64 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- Paolo Bonzini <pbonzini@redhat.com>, John Snow <jsnow@redhat.com>,
- qemu-devel@nongnu.org, Markus Armbruster <armbru@redhat.com>
+Cc: Miroslav Rezanina <mrezanin@redhat.com>,
+ Dmitry Fleytman <dmitry.fleytman@gmail.com>, Jason Wang <jasowang@redhat.com>,
+ qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, 14 Jan 2021, Stefan Hajnoczi wrote:
-> On Wed, Jan 13, 2021 at 07:20:42PM -0500, John Snow wrote:
->> On 1/13/21 6:45 PM, BALATON Zoltan wrote:
->>>
->>> Please don't. That would break all scripts that already call qemu using
->>> single dash options. Forcing everyone to edit their scripts is not nice.
->>> How about also accepting single dash in qemu-img for consistency then
->>> you can use whatever you want in docs as long as single dash still works
->>> for consistency and backward compatibility.
->>
->> That's not what I meant -- I meant for documentation purposes. QEMU can keep
->> accepting single dash, but we should standardize on the spelling for
->> purposes of interactive messages, documentation, etc.
->
-> I wasn't aware of the fact that some of the utilities are sensitive to
-> '--' vs '-'! I'm in favor of consistently using '--' in documentation
-> but allowing both for backwards compatibility where '-' is currently
-> supported.
->
-> If we are in agreement, then let's:
->
-> 1. Add a section to CODING_STYLE.rst or other developer documentation
->   documenting this.
+On 210114 1415, Philippe Mathieu-Daudé wrote:
+> +Jason +Dmitry
+> 
+> On 1/14/21 8:07 AM, Miroslav Rezanina wrote:
+> > When building qemu with GCC 11, compiling eth.c file produce following warning:
+> > 
+> >    warning: array subscript 'struct ip6_ext_hdr_routing[0]' is partly outside array bounds of 'struct ip6_ext_hdr[1]' [-Warray-bounds]
+> > 
+> > This is caused by retyping from ip6_ext_hdr to ip6_ext_hdr_routing that has more
+> > attributes.
+> > 
+> > As this usage is expected, suppress the warning temporarily through the function
+> > using this retyping.
+> 
+> This is not expected, this is a bug...
+> 
 
-I'd be more in favour of documenting that QEMU accepts - options but also 
--- as alternative and fixing the tools that currently use getopt_long to 
-use getopt_long_only to keep it consistent with main QEMU executable. 
-Otherwise this will get more and more inconsistent with new options added 
-with -- and old ones only exist in - form so to keep consistency we should 
-standardise on - not --.
+Seems related: https://bugs.launchpad.net/qemu/+bug/1879531
+-Alex
 
-> 2. Convert existing documentation to use '--'. This will make it more
->   consistent and also avoid confusion about '-' vs '--'.
-
-You could still use -- in documentation but what's the problem with - if 
--- is also accepted if one wants to type that?
-
-Regards,
-BALATON Zoltan
+> > 
+> > Signed-off-by: Miroslav Rezanina <mrezanin@redhat.com>
+> > ---
+> >  net/eth.c | 3 +++
+> >  1 file changed, 3 insertions(+)
+> > 
+> > diff --git a/net/eth.c b/net/eth.c
+> > index 1e0821c5f8..b9bdd0435c 100644
+> > --- a/net/eth.c
+> > +++ b/net/eth.c
+> > @@ -405,6 +405,8 @@ _eth_get_rss_ex_dst_addr(const struct iovec *pkt, int pkt_frags,
+> >                          struct ip6_ext_hdr *ext_hdr,
+> >                          struct in6_address *dst_addr)
+> >  {
+> > +#pragma GCC diagnostic push
+> > +#pragma GCC diagnostic ignored "-Warray-bounds"
+> >      struct ip6_ext_hdr_routing *rthdr = (struct ip6_ext_hdr_routing *) ext_hdr;
+> 
+> eth_parse_ipv6_hdr() called iov_to_buf() to fill the 2 bytes of ext_hdr.
+> 
+> >      if ((rthdr->rtype == 2) &&
+> 
+> Here we access after the 2 bytes filled... rthdr->rtype is somewhere on
+> eth_parse_ipv6_hdr's stack, its content is unknown.
+> 
+> > @@ -426,6 +428,7 @@ _eth_get_rss_ex_dst_addr(const struct iovec *pkt, int pkt_frags,
+> >      }
+> >  
+> >      return false;
+> > +#pragma GCC diagnostic pop
+> 
+> Nacked-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+> 
+> 
 
