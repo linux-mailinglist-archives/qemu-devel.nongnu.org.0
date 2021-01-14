@@ -2,86 +2,47 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E1C632F5C60
-	for <lists+qemu-devel@lfdr.de>; Thu, 14 Jan 2021 09:29:18 +0100 (CET)
-Received: from localhost ([::1]:47926 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AA4C62F5C75
+	for <lists+qemu-devel@lfdr.de>; Thu, 14 Jan 2021 09:32:18 +0100 (CET)
+Received: from localhost ([::1]:55182 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kzy0L-0005Js-Pc
-	for lists+qemu-devel@lfdr.de; Thu, 14 Jan 2021 03:29:18 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35402)
+	id 1kzy3E-00006I-Pb
+	for lists+qemu-devel@lfdr.de; Thu, 14 Jan 2021 03:32:17 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35920)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
- id 1kzxwF-0003Rx-UP; Thu, 14 Jan 2021 03:25:03 -0500
-Received: from wout5-smtp.messagingengine.com ([64.147.123.21]:43235)
+ (Exim 4.90_1) (envelope-from <zhanghan64@huawei.com>)
+ id 1kzxyM-0004OG-So; Thu, 14 Jan 2021 03:27:14 -0500
+Received: from szxga06-in.huawei.com ([45.249.212.32]:2590)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
- id 1kzxwA-0005cR-Jx; Thu, 14 Jan 2021 03:25:03 -0500
-Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
- by mailout.west.internal (Postfix) with ESMTP id 2A99B148A;
- Thu, 14 Jan 2021 03:24:56 -0500 (EST)
-Received: from mailfrontend1 ([10.202.2.162])
- by compute4.internal (MEProxy); Thu, 14 Jan 2021 03:24:56 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=irrelevant.dk;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-type:in-reply-to; s=fm2; bh=6sCXdaQnBHEP428mCs2Zh9AkzA9
- RszMbuua7VNQ9StU=; b=YopW/dFSSkxShACeuUJpN0m+G4xzRNj7T9c4oWXZfZq
- 9yBaV9tPPdaAS831/VcJ9rEaX0+n40DDwYWS0XkjHDEuKyG8ZycouyPMnHgFU/EH
- c7pXmTeHPunCIOE+CkjjPsYetPKFn7pfFJHjNvWFAh/3riurdJTpURC6bHyy3oWw
- /8JrtefUjgco/X75428QKDS3hDKPUcv9Qj5qkgeYAsQRKVMqSEGvc+oZ6olaGn/x
- +h9EE3VWBXwzIWp2Ve29Icyq5Q8c338YBVlCAkpTc7aH5wkl3myoFEGbAdDvweLr
- +9s+9hC1r8lQi1jRd4qI1kSlza3Tbw3KUvFpbDUgG/g==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:content-type:date:from:in-reply-to
- :message-id:mime-version:references:subject:to:x-me-proxy
- :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; bh=6sCXda
- QnBHEP428mCs2Zh9AkzA9RszMbuua7VNQ9StU=; b=eCVnLGnJK9HxNEd6KIIZjh
- LBfw4E+2fNMbBXzLe8GsKw4ULrrUomw5R1UOSp5H7nF2P94oI19mG+kZIbB151VQ
- 3XnfkNxqMFUkhtIyZsFO2WrE69xUzN/s3dcBskMXdeqmw2LHzMkpxp899IMrGS3v
- KklF685ZK7OhOkd3G4DyeD+1uGcgejkN/uJ4/GQkMHtecXWfpNq1IXrR1ZwCWjLZ
- zSeonTzHZ0WLDfRteIFGrx4DD5GiSDR1xgzRih6rFwv27uNW/z/BT0rD8yJV62Jp
- G4I10yYCHhlmgtxHdmP9iDR/NMyXZ8ln6brhTNor8nKKTK1eyOU0iNmtE398usbQ
- ==
-X-ME-Sender: <xms:1___X1eC8jbCaHPHZSdTnw0qS_vqKPNsSBj5wsvJPcYEtiK91HanIw>
- <xme:1___XzPFhSg7gV-w-bnpl128lblNMZRy4UkMdFvqa-aCrB6w3L66Lj4rAUAUXAiy8
- UsnhIjas2zPFFDFJHc>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedukedrtdeggdduudelucetufdoteggodetrfdotf
- fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
- uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
- cujfgurhepfffhvffukfhfgggtuggjsehgtderredttdejnecuhfhrohhmpefmlhgruhhs
- ucflvghnshgvnhcuoehithhssehirhhrvghlvghvrghnthdrughkqeenucggtffrrghtth
- gvrhhnpedutdehleelvdetvdefueehgeevhfejueeliefhudfhiefffffhuddtkeekieek
- feenucffohhmrghinhepihhnfhhrrgguvggrugdrohhrghenucfkphepkedtrdduieejrd
- elkedrudeltdenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhr
- ohhmpehithhssehirhhrvghlvghvrghnthdrughk
-X-ME-Proxy: <xmx:1___X-gghWxK2V9ILIzb53z-4ZL0YF3g4uP7OGGG1UlgCQhcECLtuQ>
- <xmx:1___X-_eAptMAafakjMzRF9wcMfNbjpQ9Q0FrPr3RQF0iHebRa2sLA>
- <xmx:1___XxtqG5drDFxhZQSkGSk8sS_LdyRBGJtEdrfRchXBbqmF97_beQ>
- <xmx:1___X_VMjgZQsbvI6MtXi19FjI0oSrFeW3S-KpYIPBWgXPISNjJXbw>
-Received: from apples.localdomain (80-167-98-190-cable.dk.customer.tdc.net
- [80.167.98.190])
- by mail.messagingengine.com (Postfix) with ESMTPA id 20A07240057;
- Thu, 14 Jan 2021 03:24:54 -0500 (EST)
-Date: Thu, 14 Jan 2021 09:24:52 +0100
-From: Klaus Jensen <its@irrelevant.dk>
-To: zhenwei pi <pizhenwei@bytedance.com>
-Subject: Re: [PATCH v3 2/4] hw/block/nvme: fix overwritten bar.cap
-Message-ID: <X///1ImtG6lDC9qq@apples.localdomain>
-References: <20210114072251.334304-1-pizhenwei@bytedance.com>
- <20210114072251.334304-3-pizhenwei@bytedance.com>
+ (Exim 4.90_1) (envelope-from <zhanghan64@huawei.com>)
+ id 1kzxyJ-0006bv-R4; Thu, 14 Jan 2021 03:27:14 -0500
+Received: from DGGEMS403-HUB.china.huawei.com (unknown [172.30.72.59])
+ by szxga06-in.huawei.com (SkyGuard) with ESMTP id 4DGcpb1nNPzj6R6;
+ Thu, 14 Jan 2021 16:26:15 +0800 (CST)
+Received: from huawei.com (10.175.124.27) by DGGEMS403-HUB.china.huawei.com
+ (10.3.19.203) with Microsoft SMTP Server id 14.3.498.0; Thu, 14 Jan 2021
+ 16:26:54 +0800
+From: Zhang Han <zhanghan64@huawei.com>
+To: <kraxel@redhat.com>
+Subject: [PATCH 1/6] audio: Add braces for statements/fix braces' position
+Date: Thu, 14 Jan 2021 16:10:54 +0800
+Message-ID: <20210114081059.19632-2-zhanghan64@huawei.com>
+X-Mailer: git-send-email 2.29.1.59.gf9b6481aed
+In-Reply-To: <20210114081059.19632-1-zhanghan64@huawei.com>
+References: <20210114081059.19632-1-zhanghan64@huawei.com>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="hZM1kr3X7yXjN1Qu"
-Content-Disposition: inline
-In-Reply-To: <20210114072251.334304-3-pizhenwei@bytedance.com>
-Received-SPF: pass client-ip=64.147.123.21; envelope-from=its@irrelevant.dk;
- helo=wout5-smtp.messagingengine.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
-X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_PASS=-0.001,
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-Originating-IP: [10.175.124.27]
+X-CFilter-Loop: Reflected
+Received-SPF: pass client-ip=45.249.212.32; envelope-from=zhanghan64@huawei.com;
+ helo=szxga06-in.huawei.com
+X-Spam_score_int: -41
+X-Spam_score: -4.2
+X-Spam_bar: ----
+X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
+ RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -95,63 +56,293 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: kwolf@redhat.com, qemu-block@nongnu.org, qemu-devel@nongnu.org,
- mreitz@redhat.com, kbusch@kernel.org, philmd@redhat.com
+Cc: hunongda@huawei.com, zhang.zhanghailiang@huawei.com,
+ qemu-trivial@nongnu.org, qemu-devel@nongnu.org, alex.chen@huawei.com,
+ zhanghan64@huawei.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+Fix problems about braces:
+-braces are necessary for all arms of if/for/while statements
+-else should follow close brace '}'
 
---hZM1kr3X7yXjN1Qu
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Signed-off-by: Zhang Han <zhanghan64@huawei.com>
+---
+ audio/alsaaudio.c      | 15 +++++----------
+ audio/audio.c          | 26 ++++++++++++--------------
+ audio/audio_template.h | 12 ++++--------
+ audio/coreaudio.c      |  3 +--
+ audio/dsoundaudio.c    |  9 +++------
+ audio/ossaudio.c       | 12 ++++--------
+ 6 files changed, 29 insertions(+), 48 deletions(-)
 
-On Jan 14 15:22, zhenwei pi wrote:
-> After PMR initialization, bar.cap should not be clear in function
-> nvme_init_ctrl. Otherwise the PMR cap would be always disabled.
->=20
-> Signed-off-by: zhenwei pi <pizhenwei@bytedance.com>
-> ---
->  hw/block/nvme.c | 1 -
->  1 file changed, 1 deletion(-)
->=20
-> diff --git a/hw/block/nvme.c b/hw/block/nvme.c
-> index 27d2c72716..f361103bb4 100644
-> --- a/hw/block/nvme.c
-> +++ b/hw/block/nvme.c
-> @@ -2745,7 +2745,6 @@ static void nvme_init_ctrl(NvmeCtrl *n, PCIDevice *=
-pci_dev)
->      id->psd[0].enlat =3D cpu_to_le32(0x10);
->      id->psd[0].exlat =3D cpu_to_le32(0x4);
-> =20
-> -    n->bar.cap =3D 0;
->      NVME_CAP_SET_MQES(n->bar.cap, 0x7ff);
->      NVME_CAP_SET_CQR(n->bar.cap, 1);
->      NVME_CAP_SET_TO(n->bar.cap, 0xf);
-> --=20
-> 2.25.1
->=20
->=20
+diff --git a/audio/alsaaudio.c b/audio/alsaaudio.c
+index a8e62542f9..480b64b4c6 100644
+--- a/audio/alsaaudio.c
++++ b/audio/alsaaudio.c
+@@ -278,32 +278,28 @@ static snd_pcm_format_t aud_to_alsafmt (AudioFormat fmt, int endianness)
+     case AUDIO_FORMAT_S16:
+         if (endianness) {
+             return SND_PCM_FORMAT_S16_BE;
+-        }
+-        else {
++        } else {
+             return SND_PCM_FORMAT_S16_LE;
+         }
+ 
+     case AUDIO_FORMAT_U16:
+         if (endianness) {
+             return SND_PCM_FORMAT_U16_BE;
+-        }
+-        else {
++        } else {
+             return SND_PCM_FORMAT_U16_LE;
+         }
+ 
+     case AUDIO_FORMAT_S32:
+         if (endianness) {
+             return SND_PCM_FORMAT_S32_BE;
+-        }
+-        else {
++        } else {
+             return SND_PCM_FORMAT_S32_LE;
+         }
+ 
+     case AUDIO_FORMAT_U32:
+         if (endianness) {
+             return SND_PCM_FORMAT_U32_BE;
+-        }
+-        else {
++        } else {
+             return SND_PCM_FORMAT_U32_LE;
+         }
+ 
+@@ -722,8 +718,7 @@ static int alsa_voice_ctl (snd_pcm_t *handle, const char *typ, int ctl)
+             alsa_logerr (err, "Could not stop %s\n", typ);
+             return -1;
+         }
+-    }
+-    else {
++    } else {
+         err = snd_pcm_prepare (handle);
+         if (err < 0) {
+             alsa_logerr (err, "Could not prepare handle for %s\n", typ);
+diff --git a/audio/audio.c b/audio/audio.c
+index b48471bb3f..55834ac8c8 100644
+--- a/audio/audio.c
++++ b/audio/audio.c
+@@ -344,8 +344,7 @@ void audio_pcm_info_clear_buf (struct audio_pcm_info *info, void *buf, int len)
+ 
+     if (info->is_signed || info->is_float) {
+         memset(buf, 0x00, len * info->bytes_per_frame);
+-    }
+-    else {
++    } else {
+         switch (info->bits) {
+         case 8:
+             memset(buf, 0x80, len * info->bytes_per_frame);
+@@ -584,8 +583,7 @@ static size_t audio_pcm_sw_get_rpos_in(SWVoiceIn *sw)
+     rpos = hw->conv_buf->pos - live;
+     if (rpos >= 0) {
+         return rpos;
+-    }
+-    else {
++    } else {
+         return hw->conv_buf->size + rpos;
+     }
+ }
+@@ -788,10 +786,14 @@ static int audio_is_timer_needed(AudioState *s)
+     HWVoiceOut *hwo = NULL;
+ 
+     while ((hwo = audio_pcm_hw_find_any_enabled_out(s, hwo))) {
+-        if (!hwo->poll_mode) return 1;
++        if (!hwo->poll_mode) {
++            return 1;
++        }
+     }
+     while ((hwi = audio_pcm_hw_find_any_enabled_in(s, hwi))) {
+-        if (!hwi->poll_mode) return 1;
++        if (!hwi->poll_mode) {
++            return 1;
++        }
+     }
+     return 0;
+ }
+@@ -908,8 +910,7 @@ void AUD_set_active_out (SWVoiceOut *sw, int on)
+                     audio_reset_timer (s);
+                 }
+             }
+-        }
+-        else {
++        } else {
+             if (hw->enabled) {
+                 int nb_active = 0;
+ 
+@@ -956,8 +957,7 @@ void AUD_set_active_in (SWVoiceIn *sw, int on)
+                 }
+             }
+             sw->total_hw_samples_acquired = hw->total_samples_captured;
+-        }
+-        else {
++        } else {
+             if (hw->enabled) {
+                 int nb_active = 0;
+ 
+@@ -1540,8 +1540,7 @@ static int audio_driver_init(AudioState *s, struct audio_driver *drv,
+         audio_init_nb_voices_in(s, drv);
+         s->drv = drv;
+         return 0;
+-    }
+-    else {
++    } else {
+         if (msg) {
+             dolog("Could not init `%s' audio driver\n", drv->name);
+         }
+@@ -1856,8 +1855,7 @@ CaptureVoiceOut *AUD_add_capture(
+     if (cap) {
+         QLIST_INSERT_HEAD (&cap->cb_head, cb, entries);
+         return cap;
+-    }
+-    else {
++    } else {
+         HWVoiceOut *hw;
+         CaptureVoiceOut *cap;
+ 
+diff --git a/audio/audio_template.h b/audio/audio_template.h
+index 8dd48ce14e..236db7136b 100644
+--- a/audio/audio_template.h
++++ b/audio/audio_template.h
+@@ -47,8 +47,7 @@ static void glue(audio_init_nb_voices_, TYPE)(AudioState *s,
+ #ifdef DAC
+             dolog ("Driver `%s' does not support " NAME "\n", drv->name);
+ #endif
+-        }
+-        else {
++        } else {
+             dolog ("Driver `%s' does not support %d " NAME " voices, max %d\n",
+                    drv->name,
+                    glue (s->nb_hw_voices_, TYPE),
+@@ -387,8 +386,7 @@ static SW *glue(audio_pcm_create_voice_pair_, TYPE)(
+ 
+     if (pdo->fixed_settings) {
+         hw_as = audiodev_to_audsettings(pdo);
+-    }
+-    else {
++    } else {
+         hw_as = *as;
+     }
+ 
+@@ -498,8 +496,7 @@ SW *glue (AUD_open_, TYPE) (
+         if (glue (audio_pcm_sw_init_, TYPE) (sw, hw, name, as)) {
+             goto fail;
+         }
+-    }
+-    else {
++    } else {
+         sw = glue(audio_pcm_create_voice_pair_, TYPE)(s, name, as);
+         if (!sw) {
+             dolog ("Failed to create voice `%s'\n", name);
+@@ -553,8 +550,7 @@ uint64_t glue (AUD_get_elapsed_usec_, TYPE) (SW *sw, QEMUAudioTimeStamp *ts)
+ 
+     if (cur_ts >= old_ts) {
+         delta = cur_ts - old_ts;
+-    }
+-    else {
++    } else {
+         delta = UINT64_MAX - old_ts + cur_ts;
+     }
+ 
+diff --git a/audio/coreaudio.c b/audio/coreaudio.c
+index 79a9d40bf8..408b587126 100644
+--- a/audio/coreaudio.c
++++ b/audio/coreaudio.c
+@@ -524,8 +524,7 @@ static int coreaudio_init_out(HWVoiceOut *hw, struct audsettings *as,
+     } else if (frameRange.mMaximum < frames) {
+         core->audioDevicePropertyBufferFrameSize = (UInt32) frameRange.mMaximum;
+         dolog ("warning: Downsizing Buffer Frames to %f\n", frameRange.mMaximum);
+-    }
+-    else {
++    } else {
+         core->audioDevicePropertyBufferFrameSize = frames;
+     }
+ 
+diff --git a/audio/dsoundaudio.c b/audio/dsoundaudio.c
+index 4cdf19ab67..ba201898e1 100644
+--- a/audio/dsoundaudio.c
++++ b/audio/dsoundaudio.c
+@@ -404,8 +404,7 @@ static void dsound_enable_out(HWVoiceOut *hw, bool enable)
+                 dsound_logerr (hr, "Could not stop playing buffer\n");
+                 return;
+             }
+-        }
+-        else {
++        } else {
+             dolog ("warning: Voice is not playing\n");
+         }
+     }
+@@ -509,8 +508,7 @@ static void dsound_enable_in(HWVoiceIn *hw, bool enable)
+                 dsound_logerr (hr, "Could not stop capturing\n");
+                 return;
+             }
+-        }
+-        else {
++        } else {
+             dolog ("warning: Voice is not capturing\n");
+         }
+     }
+@@ -659,8 +657,7 @@ static void *dsound_audio_init(Audiodev *dev)
+         );
+     if (FAILED (hr)) {
+         dsound_logerr (hr, "Could not create DirectSoundCapture instance\n");
+-    }
+-    else {
++    } else {
+         hr = IDirectSoundCapture_Initialize (s->dsound_capture, NULL);
+         if (FAILED (hr)) {
+             dsound_logerr (hr, "Could not initialize DirectSoundCapture\n");
+diff --git a/audio/ossaudio.c b/audio/ossaudio.c
+index a7dcaa31ad..e9f81e9b9c 100644
+--- a/audio/ossaudio.c
++++ b/audio/ossaudio.c
+@@ -142,16 +142,14 @@ static int aud_to_ossfmt (AudioFormat fmt, int endianness)
+     case AUDIO_FORMAT_S16:
+         if (endianness) {
+             return AFMT_S16_BE;
+-        }
+-        else {
++        } else {
+             return AFMT_S16_LE;
+         }
+ 
+     case AUDIO_FORMAT_U16:
+         if (endianness) {
+             return AFMT_U16_BE;
+-        }
+-        else {
++        } else {
+             return AFMT_U16_LE;
+         }
+ 
+@@ -542,16 +540,14 @@ static int oss_init_out(HWVoiceOut *hw, struct audsettings *as,
+             int trig = 0;
+             if (ioctl (fd, SNDCTL_DSP_SETTRIGGER, &trig) < 0) {
+                 oss_logerr (errno, "SNDCTL_DSP_SETTRIGGER 0 failed\n");
+-            }
+-            else {
++            } else {
+                 trig = PCM_ENABLE_OUTPUT;
+                 if (ioctl (fd, SNDCTL_DSP_SETTRIGGER, &trig) < 0) {
+                     oss_logerr (
+                         errno,
+                         "SNDCTL_DSP_SETTRIGGER PCM_ENABLE_OUTPUT failed\n"
+                         );
+-                }
+-                else {
++                } else {
+                     oss->mmapped = 1;
+                 }
+             }
+-- 
+2.29.1.59.gf9b6481aed
 
-Good fix, but looks like you are on master and not on nvme-next[1]? The
-same fix is already staged.
-
-  [1]: http://git.infradead.org/qemu-nvme.git/shortlog/refs/heads/nvme-next
-
---hZM1kr3X7yXjN1Qu
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEEUigzqnXi3OaiR2bATeGvMW1PDekFAl///9IACgkQTeGvMW1P
-DenpJgf9Ed0sgaDLLdKOaUPduSbvSD1ddtGocdvo2q7eH+xAqNHzKXyK/2urXkzI
-e75Cd7n5J8GFsMNW8Ye/crmtySPPcKDG9pQ71bI9F4TjqK7wPeEewGeia6zNAI9u
-ZNyXslaoYBwwWCHCaOodCnG7inNlrcYztwtfdyfE2G1IzC7EZIwCWup2mqYN+D+C
-DqWX9/z1DVAUoQdGpV3t8qPuLdVijqukdKjdE3JUOujf1klzD31Tigjc05FUbRiZ
-OxgZvZZv2RvV4g2h4+FmyAe1gOZ+2JfFoFU2WnrCD705tUySO/gYJzE/NpfFMXCM
-wJZbkqnZ4uADcswTPlUxMg2kcaiBLQ==
-=Fqhz
------END PGP SIGNATURE-----
-
---hZM1kr3X7yXjN1Qu--
 
