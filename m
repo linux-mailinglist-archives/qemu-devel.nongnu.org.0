@@ -2,34 +2,34 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 92CC52F5E5D
-	for <lists+qemu-devel@lfdr.de>; Thu, 14 Jan 2021 11:09:57 +0100 (CET)
-Received: from localhost ([::1]:49638 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 81E9E2F5E6D
+	for <lists+qemu-devel@lfdr.de>; Thu, 14 Jan 2021 11:13:42 +0100 (CET)
+Received: from localhost ([::1]:60998 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kzzZk-0007dy-MA
-	for lists+qemu-devel@lfdr.de; Thu, 14 Jan 2021 05:09:56 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59138)
+	id 1kzzdN-00042i-K2
+	for lists+qemu-devel@lfdr.de; Thu, 14 Jan 2021 05:13:41 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59148)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <cenjiahui@huawei.com>)
- id 1kzzXa-0004JT-JN
- for qemu-devel@nongnu.org; Thu, 14 Jan 2021 05:07:42 -0500
-Received: from szxga04-in.huawei.com ([45.249.212.190]:2852)
+ id 1kzzXb-0004Mv-Li
+ for qemu-devel@nongnu.org; Thu, 14 Jan 2021 05:07:43 -0500
+Received: from szxga04-in.huawei.com ([45.249.212.190]:3352)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <cenjiahui@huawei.com>)
- id 1kzzXX-0004vf-0e
- for qemu-devel@nongnu.org; Thu, 14 Jan 2021 05:07:42 -0500
-Received: from DGGEMS413-HUB.china.huawei.com (unknown [172.30.72.60])
- by szxga04-in.huawei.com (SkyGuard) with ESMTP id 4DGg1y6qmyzl52P;
- Thu, 14 Jan 2021 18:06:14 +0800 (CST)
-Received: from localhost (10.174.184.155) by DGGEMS413-HUB.china.huawei.com
- (10.3.19.213) with Microsoft SMTP Server id 14.3.498.0; Thu, 14 Jan 2021
- 18:07:25 +0800
+ id 1kzzXW-0004wD-Tt
+ for qemu-devel@nongnu.org; Thu, 14 Jan 2021 05:07:43 -0500
+Received: from DGGEMS402-HUB.china.huawei.com (unknown [172.30.72.59])
+ by szxga04-in.huawei.com (SkyGuard) with ESMTP id 4DGg2K3xBWz15sc2;
+ Thu, 14 Jan 2021 18:06:33 +0800 (CST)
+Received: from localhost (10.174.184.155) by DGGEMS402-HUB.china.huawei.com
+ (10.3.19.202) with Microsoft SMTP Server id 14.3.498.0; Thu, 14 Jan 2021
+ 18:07:26 +0800
 From: Jiahui Cen <cenjiahui@huawei.com>
 To: <qemu-devel@nongnu.org>
-Subject: [PATCH v5 4/8] acpi/gpex: Inform os to keep firmware resource map
-Date: Thu, 14 Jan 2021 18:06:39 +0800
-Message-ID: <20210114100643.10617-5-cenjiahui@huawei.com>
+Subject: [PATCH v5 5/8] acpi/gpex: Exclude pxb's resources from PCI0
+Date: Thu, 14 Jan 2021 18:06:40 +0800
+Message-ID: <20210114100643.10617-6-cenjiahui@huawei.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20210114100643.10617-1-cenjiahui@huawei.com>
 References: <20210114100643.10617-1-cenjiahui@huawei.com>
@@ -67,73 +67,120 @@ Cc: xieyingtai@huawei.com, Jiahui Cen <cenjiahui@huawei.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-There may be some differences in pci resource assignment between guest os
-and firmware.
-
-Eg. A Bridge with Bus [d2]
-    -+-[0000:d2]---01.0-[d3]----01.0
-
-    where [d2:01.00] is a pcie-pci-bridge with BAR0 (mem, 64-bit, non-pref) [size=256]
-          [d3:01.00] is a PCI Device with BAR0 (mem, 64-bit, pref) [size=128K]
-                                          BAR4 (mem, 64-bit, pref) [size=64M]
-
-    In EDK2, the Resource Map would be:
-        PciBus: Resource Map for Bridge [D2|01|00]
-        Type = PMem64; Base = 0x8004000000;     Length = 0x4100000;     Alignment = 0x3FFFFFF
-           Base = 0x8004000000; Length = 0x4000000;     Alignment = 0x3FFFFFF;  Owner = PCI [D3|01|00:20]
-           Base = 0x8008000000; Length = 0x20000;       Alignment = 0x1FFFF;    Owner = PCI [D3|01|00:10]
-        Type =  Mem64; Base = 0x8008100000;     Length = 0x100; Alignment = 0xFFF
-    It would use 0x4100000 to calculate the root bus's PMem64 resource window.
-
-    While in Linux, kernel will use 0x1FFFFFF as the alignment to calculate
-    the PMem64 size, which would be 0x6000000. So kernel would try to
-    allocate 0x6000000 from the PMem64 resource window, but since the window
-    size is 0x4100000 as assigned by EDK2, the allocation would fail.
-
-The diffences could result in resource assignment failure.
-
-Using _DSM #5 method to inform guest os not to ignore the PCI configuration
-that firmware has done at boot time could handle the differences.
+Exclude the resources of extra root bridges from PCI0's _CRS. Otherwise,
+the resource windows would overlap in guest, and the IO resource window
+would fail to be registered.
 
 Acked-by: Igor Mammedov <imammedo@redhat.com>
 Signed-off-by: Jiahui Cen <cenjiahui@huawei.com>
 ---
- hw/pci-host/gpex-acpi.c | 20 ++++++++++++++++++--
- 1 file changed, 18 insertions(+), 2 deletions(-)
+ hw/pci-host/gpex-acpi.c | 64 +++++++++++++-------
+ 1 file changed, 43 insertions(+), 21 deletions(-)
 
 diff --git a/hw/pci-host/gpex-acpi.c b/hw/pci-host/gpex-acpi.c
-index 11b3db8f71..cb13e75d2f 100644
+index cb13e75d2f..446912d771 100644
 --- a/hw/pci-host/gpex-acpi.c
 +++ b/hw/pci-host/gpex-acpi.c
-@@ -112,10 +112,26 @@ static void acpi_dsdt_add_pci_osc(Aml *dev)
-     UUID = aml_touuid("E5C937D0-3553-4D7A-9117-EA4D19C3434D");
-     ifctx = aml_if(aml_equal(aml_arg(0), UUID));
-     ifctx1 = aml_if(aml_equal(aml_arg(2), aml_int(0)));
--    uint8_t byte_list[1] = {1};
--    buf = aml_buffer(1, byte_list);
-+    uint8_t byte_list[] = {
-+                0x1 << 0 /* support for functions other than function 0 */ |
-+                0x1 << 5 /* support for function 5 */
-+                };
-+    buf = aml_buffer(ARRAY_SIZE(byte_list), byte_list);
-     aml_append(ifctx1, aml_return(buf));
-     aml_append(ifctx, ifctx1);
-+
-+    /*
-+     * PCI Firmware Specification 3.1
-+     * 4.6.5. _DSM for Ignoring PCI Boot Configurations
-+     */
-+    /* Arg2: Function Index: 5 */
-+    ifctx1 = aml_if(aml_equal(aml_arg(2), aml_int(5)));
-+    /*
-+     * 0 - The operating system must not ignore the PCI configuration that
-+     *     firmware has done at boot time.
-+     */
-+    aml_append(ifctx1, aml_return(aml_int(0)));
-+    aml_append(ifctx, ifctx1);
-     aml_append(method, ifctx);
+@@ -146,6 +146,8 @@ void acpi_dsdt_add_gpex(Aml *scope, struct GPEXConfig *cfg)
+     Aml *method, *crs, *dev, *rbuf;
+     PCIBus *bus = cfg->bus;
+     CrsRangeSet crs_range_set;
++    CrsRangeEntry *entry;
++    int i;
  
-     byte_list[0] = 0;
+     /* start to construct the tables for pxb */
+     crs_range_set_init(&crs_range_set);
+@@ -193,7 +195,6 @@ void acpi_dsdt_add_gpex(Aml *scope, struct GPEXConfig *cfg)
+             aml_append(scope, dev);
+         }
+     }
+-    crs_range_set_free(&crs_range_set);
+ 
+     /* tables for the main */
+     dev = aml_device("%s", "PCI0");
+@@ -211,36 +212,55 @@ void acpi_dsdt_add_gpex(Aml *scope, struct GPEXConfig *cfg)
+     aml_append(method, aml_return(aml_int(cfg->ecam.base)));
+     aml_append(dev, method);
+ 
++    /*
++     * At this point crs_range_set has all the ranges used by pci
++     * busses *other* than PCI0.  These ranges will be excluded from
++     * the PCI0._CRS.
++     */
+     rbuf = aml_resource_template();
+     aml_append(rbuf,
+         aml_word_bus_number(AML_MIN_FIXED, AML_MAX_FIXED, AML_POS_DECODE,
+                             0x0000, 0x0000, nr_pcie_buses - 1, 0x0000,
+                             nr_pcie_buses));
+     if (cfg->mmio32.size) {
+-        aml_append(rbuf,
+-                   aml_dword_memory(AML_POS_DECODE, AML_MIN_FIXED, AML_MAX_FIXED,
+-                                    AML_NON_CACHEABLE, AML_READ_WRITE, 0x0000,
+-                                    cfg->mmio32.base,
+-                                    cfg->mmio32.base + cfg->mmio32.size - 1,
+-                                    0x0000,
+-                                    cfg->mmio32.size));
++        crs_replace_with_free_ranges(crs_range_set.mem_ranges,
++                                     cfg->mmio32.base,
++                                     cfg->mmio32.base + cfg->mmio32.size - 1);
++        for (i = 0; i < crs_range_set.mem_ranges->len; i++) {
++            entry = g_ptr_array_index(crs_range_set.mem_ranges, i);
++            aml_append(rbuf,
++                aml_dword_memory(AML_POS_DECODE, AML_MIN_FIXED, AML_MAX_FIXED,
++                                 AML_NON_CACHEABLE, AML_READ_WRITE, 0x0000,
++                                 entry->base, entry->limit,
++                                 0x0000, entry->limit - entry->base + 1));
++        }
+     }
+     if (cfg->pio.size) {
+-        aml_append(rbuf,
+-                   aml_dword_io(AML_MIN_FIXED, AML_MAX_FIXED, AML_POS_DECODE,
+-                                AML_ENTIRE_RANGE, 0x0000, 0x0000,
+-                                cfg->pio.size - 1,
+-                                cfg->pio.base,
+-                                cfg->pio.size));
++        crs_replace_with_free_ranges(crs_range_set.io_ranges,
++                                     0x0000,
++                                     cfg->pio.size - 1);
++        for (i = 0; i < crs_range_set.io_ranges->len; i++) {
++            entry = g_ptr_array_index(crs_range_set.io_ranges, i);
++            aml_append(rbuf,
++                aml_dword_io(AML_MIN_FIXED, AML_MAX_FIXED, AML_POS_DECODE,
++                             AML_ENTIRE_RANGE, 0x0000, entry->base,
++                             entry->limit, cfg->pio.base,
++                             entry->limit - entry->base + 1));
++        }
+     }
+     if (cfg->mmio64.size) {
+-        aml_append(rbuf,
+-                   aml_qword_memory(AML_POS_DECODE, AML_MIN_FIXED, AML_MAX_FIXED,
+-                                    AML_NON_CACHEABLE, AML_READ_WRITE, 0x0000,
+-                                    cfg->mmio64.base,
+-                                    cfg->mmio64.base + cfg->mmio64.size - 1,
+-                                    0x0000,
+-                                    cfg->mmio64.size));
++        crs_replace_with_free_ranges(crs_range_set.mem_64bit_ranges,
++                                     cfg->mmio64.base,
++                                     cfg->mmio64.base + cfg->mmio64.size - 1);
++        for (i = 0; i < crs_range_set.mem_64bit_ranges->len; i++) {
++            entry = g_ptr_array_index(crs_range_set.mem_64bit_ranges, i);
++            aml_append(rbuf,
++                aml_qword_memory(AML_POS_DECODE, AML_MIN_FIXED, AML_MAX_FIXED,
++                                 AML_NON_CACHEABLE, AML_READ_WRITE, 0x0000,
++                                 entry->base,
++                                 entry->limit, 0x0000,
++                                 entry->limit - entry->base + 1));
++        }
+     }
+     aml_append(dev, aml_name_decl("_CRS", rbuf));
+ 
+@@ -259,4 +279,6 @@ void acpi_dsdt_add_gpex(Aml *scope, struct GPEXConfig *cfg)
+     aml_append(dev_res0, aml_name_decl("_CRS", crs));
+     aml_append(dev, dev_res0);
+     aml_append(scope, dev);
++
++    crs_range_set_free(&crs_range_set);
+ }
 -- 
 2.29.2
 
