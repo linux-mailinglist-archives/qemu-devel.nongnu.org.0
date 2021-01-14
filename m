@@ -2,73 +2,51 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2374E2F5C80
-	for <lists+qemu-devel@lfdr.de>; Thu, 14 Jan 2021 09:35:33 +0100 (CET)
-Received: from localhost ([::1]:33706 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A85E72F5C81
+	for <lists+qemu-devel@lfdr.de>; Thu, 14 Jan 2021 09:35:54 +0100 (CET)
+Received: from localhost ([::1]:35644 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kzy6O-0002wT-54
-	for lists+qemu-devel@lfdr.de; Thu, 14 Jan 2021 03:35:32 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37036)
+	id 1kzy6j-0003hn-Ok
+	for lists+qemu-devel@lfdr.de; Thu, 14 Jan 2021 03:35:53 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37238)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1kzy3f-0001Oe-8F
- for qemu-devel@nongnu.org; Thu, 14 Jan 2021 03:32:43 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:26218)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1kzy3c-0000lw-Px
- for qemu-devel@nongnu.org; Thu, 14 Jan 2021 03:32:43 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1610613159;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=LeJfTFCackTWZcCgPYVe6oFfvwGtL+qqvlVc8sH8B8k=;
- b=Zr/SlsKzQNkX2NMtBevmO2RRyhC3Esx1M9OxyXoiylyO0lrwo+5XSKobqkocgODOoCgKkI
- MaYNWZQXdzgxTNl87lfQiApy1qhgBgfIZz2UY6Zkirztdb+gWopMQEBRc1SPFbqzadtdGn
- SgaOZHe0VU6MZkNpHPxADep4E8Ehc1I=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-87-tALSuojHOgiqsB0rpx56AQ-1; Thu, 14 Jan 2021 03:32:37 -0500
-X-MC-Unique: tALSuojHOgiqsB0rpx56AQ-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id CA9E118C89E3;
- Thu, 14 Jan 2021 08:32:36 +0000 (UTC)
-Received: from thuth.remote.csb (ovpn-112-108.ams2.redhat.com [10.36.112.108])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 8D8AA10023B3;
- Thu, 14 Jan 2021 08:32:35 +0000 (UTC)
-Subject: Re: [PATCH v3 2/2] s390x: Use strpadcpy for copying vm name
-To: Miroslav Rezanina <mrezanin@redhat.com>, qemu-devel@nongnu.org
-References: <cover.1610607906.git.mrezanin@redhat.com>
- <6f86915755219cf6a671788075da4809b57f7d7b.1610607906.git.mrezanin@redhat.com>
-From: Thomas Huth <thuth@redhat.com>
-Message-ID: <8c7ca3c9-f831-5761-974f-12302f7488cb@redhat.com>
-Date: Thu, 14 Jan 2021 09:32:34 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.4.3
+ (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
+ id 1kzy4d-00020h-4e
+ for qemu-devel@nongnu.org; Thu, 14 Jan 2021 03:33:43 -0500
+Received: from mail.ilande.co.uk ([2001:41c9:1:41f::167]:41106
+ helo=mail.default.ilande.uk0.bigv.io)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
+ id 1kzy4a-0001AQ-Qj
+ for qemu-devel@nongnu.org; Thu, 14 Jan 2021 03:33:42 -0500
+Received: from host109-146-177-189.range109-146.btcentralplus.com
+ ([109.146.177.189] helo=kentang.home)
+ by mail.default.ilande.uk0.bigv.io with esmtpsa
+ (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
+ (envelope-from <mark.cave-ayland@ilande.co.uk>)
+ id 1kzy4g-00078p-7b; Thu, 14 Jan 2021 08:33:50 +0000
+From: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
+To: qemu-devel@nongnu.org,
+	peter.maydell@linaro.org
+Date: Thu, 14 Jan 2021 08:33:29 +0000
+Message-Id: <20210114083329.10494-1-mark.cave-ayland@ilande.co.uk>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-In-Reply-To: <6f86915755219cf6a671788075da4809b57f7d7b.1610607906.git.mrezanin@redhat.com>
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=thuth@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=thuth@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -29
-X-Spam_score: -3.0
-X-Spam_bar: ---
-X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.25,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+Content-Transfer-Encoding: 8bit
+X-SA-Exim-Connect-IP: 109.146.177.189
+X-SA-Exim-Mail-From: mark.cave-ayland@ilande.co.uk
+Subject: [PATCH] utils/fifo8: change fatal errors from abort() to assert()
+X-SA-Exim-Version: 4.2.1 (built Wed, 08 May 2019 21:11:16 +0000)
+X-SA-Exim-Scanned: Yes (on mail.default.ilande.uk0.bigv.io)
+Received-SPF: pass client-ip=2001:41c9:1:41f::167;
+ envelope-from=mark.cave-ayland@ilande.co.uk;
+ helo=mail.default.ilande.uk0.bigv.io
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -81,89 +59,68 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-s390x <qemu-s390x@nongnu.org>, Cornelia Huck <cohuck@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 14/01/2021 08.07, Miroslav Rezanina wrote:
-> Using strncpy with length equal to the size of target array, GCC 11
-> reports following warning:
-> 
->    warning: '__builtin_strncpy' specified bound 256 equals destination size [-Wstringop-truncation]
-> 
-> We can prevent this warning by using strpadcpy that copies string
-> up to specified length, zeroes target array after copied string
-> and does not raise warning when length is equal to target array
-> size (and ending '\0' is discarded).
-> 
-> Signed-off-by: Miroslav Rezanina <mrezanin@redhat.com>
-> ---
->   target/s390x/kvm.c         | 12 +++++-------
->   target/s390x/misc_helper.c |  7 +++++--
->   2 files changed, 10 insertions(+), 9 deletions(-)
-> 
-> diff --git a/target/s390x/kvm.c b/target/s390x/kvm.c
-> index b8385e6b95..dc27fa36c9 100644
-> --- a/target/s390x/kvm.c
-> +++ b/target/s390x/kvm.c
-> @@ -29,6 +29,7 @@
->   #include "internal.h"
->   #include "kvm_s390x.h"
->   #include "sysemu/kvm_int.h"
-> +#include "qemu/cutils.h"
->   #include "qapi/error.h"
->   #include "qemu/error-report.h"
->   #include "qemu/timer.h"
-> @@ -1910,18 +1911,15 @@ static void insert_stsi_3_2_2(S390CPU *cpu, __u64 addr, uint8_t ar)
->                                                       strlen(qemu_name)));
->       }
->       sysib.vm[0].ext_name_encoding = 2; /* 2 = UTF-8 */
-> -    memset(sysib.ext_names[0], 0, sizeof(sysib.ext_names[0]));
->       /* If hypervisor specifies zero Extended Name in STSI322 SYSIB, it's
->        * considered by s390 as not capable of providing any Extended Name.
->        * Therefore if no name was specified on qemu invocation, we go with the
->        * same "KVMguest" default, which KVM has filled into short name field.
->        */
-> -    if (qemu_name) {
-> -        strncpy((char *)sysib.ext_names[0], qemu_name,
-> -                sizeof(sysib.ext_names[0]));
-> -    } else {
-> -        strcpy((char *)sysib.ext_names[0], "KVMguest");
-> -    }
-> +    strpadcpy((char *)sysib.ext_names[0],
-> +              sizeof(sysib.ext_names[0]),
-> +              qemu_name ?: "KVMguest", '\0');
-> +
->       /* Insert UUID */
->       memcpy(sysib.vm[0].uuid, &qemu_uuid, sizeof(sysib.vm[0].uuid));
->   
-> diff --git a/target/s390x/misc_helper.c b/target/s390x/misc_helper.c
-> index 58dbc023eb..7ea90d414a 100644
-> --- a/target/s390x/misc_helper.c
-> +++ b/target/s390x/misc_helper.c
-> @@ -19,6 +19,7 @@
->    */
->   
->   #include "qemu/osdep.h"
-> +#include "qemu/cutils.h"
->   #include "qemu/main-loop.h"
->   #include "cpu.h"
->   #include "internal.h"
-> @@ -369,8 +370,10 @@ uint32_t HELPER(stsi)(CPUS390XState *env, uint64_t a0, uint64_t r0, uint64_t r1)
->                   ebcdic_put(sysib.sysib_322.vm[0].name, qemu_name,
->                              MIN(sizeof(sysib.sysib_322.vm[0].name),
->                                  strlen(qemu_name)));
-> -                strncpy((char *)sysib.sysib_322.ext_names[0], qemu_name,
-> -                        sizeof(sysib.sysib_322.ext_names[0]));
-> +                strpadcpy((char *)sysib.sysib_322.ext_names[0],
-> +                          sizeof(sysib.sysib_322.ext_names[0]),
-> +                          qemu_name, '\0');
-> +
->               } else {
->                   ebcdic_put(sysib.sysib_322.vm[0].name, "TCGguest", 8);
->                   strcpy((char *)sysib.sysib_322.ext_names[0], "TCGguest");
-> 
+Developer errors are better represented with assert() rather than abort().
 
-Reviewed-by: Thomas Huth <thuth@redhat.com>
+Signed-off-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
+---
+This was suggested by Peter during a discussion on IRC yesterday.
+
+---
+ util/fifo8.c | 16 ++++------------
+ 1 file changed, 4 insertions(+), 12 deletions(-)
+
+diff --git a/util/fifo8.c b/util/fifo8.c
+index a5dd789ce5..d4d1c135e0 100644
+--- a/util/fifo8.c
++++ b/util/fifo8.c
+@@ -31,9 +31,7 @@ void fifo8_destroy(Fifo8 *fifo)
+ 
+ void fifo8_push(Fifo8 *fifo, uint8_t data)
+ {
+-    if (fifo->num == fifo->capacity) {
+-        abort();
+-    }
++    assert(fifo->num < fifo->capacity);
+     fifo->data[(fifo->head + fifo->num) % fifo->capacity] = data;
+     fifo->num++;
+ }
+@@ -42,9 +40,7 @@ void fifo8_push_all(Fifo8 *fifo, const uint8_t *data, uint32_t num)
+ {
+     uint32_t start, avail;
+ 
+-    if (fifo->num + num > fifo->capacity) {
+-        abort();
+-    }
++    assert(fifo->num + num <= fifo->capacity);
+ 
+     start = (fifo->head + fifo->num) % fifo->capacity;
+ 
+@@ -63,9 +59,7 @@ uint8_t fifo8_pop(Fifo8 *fifo)
+ {
+     uint8_t ret;
+ 
+-    if (fifo->num == 0) {
+-        abort();
+-    }
++    assert(fifo->num > 0);
+     ret = fifo->data[fifo->head++];
+     fifo->head %= fifo->capacity;
+     fifo->num--;
+@@ -76,9 +70,7 @@ const uint8_t *fifo8_pop_buf(Fifo8 *fifo, uint32_t max, uint32_t *num)
+ {
+     uint8_t *ret;
+ 
+-    if (max == 0 || max > fifo->num) {
+-        abort();
+-    }
++    assert(max > 0 && max <= fifo->num);
+     *num = MIN(fifo->capacity - fifo->head, max);
+     ret = &fifo->data[fifo->head];
+     fifo->head += *num;
+-- 
+2.20.1
 
 
