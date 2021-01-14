@@ -2,57 +2,58 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 83AD72F64AD
-	for <lists+qemu-devel@lfdr.de>; Thu, 14 Jan 2021 16:33:38 +0100 (CET)
-Received: from localhost ([::1]:36358 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 56B092F64AE
+	for <lists+qemu-devel@lfdr.de>; Thu, 14 Jan 2021 16:34:22 +0100 (CET)
+Received: from localhost ([::1]:38034 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l04cz-0002ga-Kb
-	for lists+qemu-devel@lfdr.de; Thu, 14 Jan 2021 10:33:37 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52444)
+	id 1l04dh-0003PK-4N
+	for lists+qemu-devel@lfdr.de; Thu, 14 Jan 2021 10:34:21 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52760)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1l04Xm-0008Pj-Gy
- for qemu-devel@nongnu.org; Thu, 14 Jan 2021 10:28:16 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:44217)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1l04ZR-0001ce-84
+ for qemu-devel@nongnu.org; Thu, 14 Jan 2021 10:29:57 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:38880)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1l04Xk-0003yU-As
- for qemu-devel@nongnu.org; Thu, 14 Jan 2021 10:28:13 -0500
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1l04ZP-0004ki-Bc
+ for qemu-devel@nongnu.org; Thu, 14 Jan 2021 10:29:57 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1610638091;
+ s=mimecast20190719; t=1610638194;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=z+lZOe8ujto2aOkYnmb8DsQboBoqOUHQKD+pqQGZ7KI=;
- b=HSEgYHwBryv/Pr57d9Din8BPXkUuvhkWLg9ZRC6HFEX4DnS5PGojfC0Lp+k/zaDf4LxL7a
- ugT6WyW174m/Yr4liOitGzkng8eODfP1rZFlW3ulOhuYuCU4XoCtz4ht6tw0oEfNHhrgoA
- DtQwbkGnV+c/YHL4xKBYkY0kP9ZrxNs=
+ bh=IZVS21Y/GNfN1l6Z5s/F5qAcyNGrf9UeD/TLlMPJU9Y=;
+ b=cnEOK5nCD6wr/cOX3v+8UbXPcd894Q7YPIQ7/lGZd8+rRnE01pCDLaHA3ZocvOjjeKPFuO
+ mFPXBF7/GuGMJcGNlMfzr/0VDFZPepi0+AKXZ7j8VrbyYepy/dhJZhh3rSUFO1Npk9wk94
+ kOSZMoymIVwlWSUwP2wHRPFMZfmMnDA=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-199-2GbwogLXN-WqEyJtmS-GWQ-1; Thu, 14 Jan 2021 10:28:09 -0500
-X-MC-Unique: 2GbwogLXN-WqEyJtmS-GWQ-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
+ us-mta-515-sp9u1xByPU6yx-14ya_n8w-1; Thu, 14 Jan 2021 10:29:49 -0500
+X-MC-Unique: sp9u1xByPU6yx-14ya_n8w-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id EE060806661;
- Thu, 14 Jan 2021 15:28:07 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 7661F9CC09;
+ Thu, 14 Jan 2021 15:29:48 +0000 (UTC)
 Received: from thuth.remote.csb (ovpn-112-108.ams2.redhat.com [10.36.112.108])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 5AA186F99F;
- Thu, 14 Jan 2021 15:28:01 +0000 (UTC)
-Subject: Re: [PATCH 01/23] sdlaudio: remove leftover SDL1.2 code
-To: =?UTF-8?Q?Volker_R=c3=bcmelin?= <vr_qemu@t-online.de>,
- Gerd Hoffmann <kraxel@redhat.com>
-References: <9315afe5-5958-c0b4-ea1e-14769511a9d5@t-online.de>
- <20210110100239.27588-1-vr_qemu@t-online.de>
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 3157650C0A;
+ Thu, 14 Jan 2021 15:29:44 +0000 (UTC)
+Subject: Re: [qemu-web PATCH v2] Use GitLab repo URLs instead of git.qemu.org
+ URLs
+To: Stefan Hajnoczi <stefanha@redhat.com>
+References: <20210113185403.276395-1-stefanha@redhat.com>
+ <407faef7-934e-2744-2837-590bc192ff12@redhat.com>
+ <20210114134050.GB299876@stefanha-x1.localdomain>
 From: Thomas Huth <thuth@redhat.com>
-Message-ID: <3fc235df-266b-c880-1980-5c39bf427793@redhat.com>
-Date: Thu, 14 Jan 2021 16:28:00 +0100
+Message-ID: <0cd93ff2-cabc-2e4e-449f-34d7bbb9e5c7@redhat.com>
+Date: Thu, 14 Jan 2021 16:29:43 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.4.3
 MIME-Version: 1.0
-In-Reply-To: <20210110100239.27588-1-vr_qemu@t-online.de>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+In-Reply-To: <20210114134050.GB299876@stefanha-x1.localdomain>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=thuth@redhat.com
 X-Mimecast-Spam-Score: 0
@@ -82,68 +83,69 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: QEMU <qemu-devel@nongnu.org>,
- =?UTF-8?B?Wm9sdMOhbiBLxZF2w6Fnw7M=?= <dirty.ice.hu@gmail.com>
+Cc: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
+ Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
+ Daniel Berrange <berrange@redhat.com>, qemu-devel@nongnu.org,
+ Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 10/01/2021 11.02, Volker Rümelin wrote:
-> Signed-off-by: Volker Rümelin <vr_qemu@t-online.de>
-> ---
->   audio/sdlaudio.c | 30 +++++++++++++-----------------
->   1 file changed, 13 insertions(+), 17 deletions(-)
+On 14/01/2021 14.40, Stefan Hajnoczi wrote:
+> On Thu, Jan 14, 2021 at 10:42:59AM +0100, Thomas Huth wrote:
+>> On 13/01/2021 19.54, Stefan Hajnoczi wrote:
+>>> Switch to GitLab repo URLs to reduce qemu.org bandwidth.
+>>>
+>>> Signed-off-by: Stefan Hajnoczi <stefanha@redhat.com>
+>>> ---
+>>> v2:
+>>>    * Added missing URL in _posts/2018-06-28-tcg-testing.md. Mark
+>>>      Cave-Ayland <mark.cave-ayland@ilande.co.uk> and Alex Bennée
+>>>      <alex.bennee@linaro.org> figured out the issue was that the gitweb
+>>>      link referenced a blob object (not a commit) whereas GitLab needs the
+>>>      commit object. Therefore the hash hash in the URL has changed.
+>>> ---
+>>>    _download/source.html                           | 4 ++--
+>>>    _posts/2017-02-04-the-new-qemu-website-is-up.md | 8 ++++----
+>>>    _posts/2017-10-04-qemu-2-10-1.md                | 4 ++--
+>>>    _posts/2018-02-09-understanding-qemu-devices.md | 2 +-
+>>>    _posts/2018-06-28-tcg-testing.md                | 4 ++--
+>>>    contribute.md                                   | 2 +-
+>>>    contribute/security-process.md                  | 4 ++--
+>>>    documentation.md                                | 2 +-
+>>>    support.md                                      | 2 +-
+>>>    9 files changed, 16 insertions(+), 16 deletions(-)
+>>>
+>>> diff --git a/_download/source.html b/_download/source.html
+>>> index 5798633..14fb6dc 100644
+>>> --- a/_download/source.html
+>>> +++ b/_download/source.html
+>>> @@ -9,7 +9,7 @@
+>>>    	{% include releases.html %}
+>>>    	</div>
+>>>    	<p>or stay on the bleeding edge with the
+>>> -	   <a href="https://git.qemu.org/?p=qemu.git">git repository!</a></p>
+>>> +	   <a href="https://gitlab.com/qemu-project/qemu.git">git repository!</a></p>
+>>
+>> For "clickable" links (i.e. not the URLs used for cloning), I'd suggest to
+>> drop the ".git" suffix, since there will be a redirection to the suffix-less
+>> URL otherwise.
+>>
+>> If you agree, I can fix it up when picking up the patch, no need to resend
+>> just because of this.
 > 
-> diff --git a/audio/sdlaudio.c b/audio/sdlaudio.c
-> index 21b7a0484b..bf3cfb8456 100644
-> --- a/audio/sdlaudio.c
-> +++ b/audio/sdlaudio.c
-> @@ -240,28 +240,24 @@ static void sdl_callback (void *opaque, Uint8 *buf, int len)
->       }
->   }
->   
-> -#define SDL_WRAPPER_FUNC(name, ret_type, args_decl, args, fail, unlock) \
-> -    static ret_type glue(sdl_, name)args_decl                           \
-> -    {                                                                   \
-> -        ret_type ret;                                                   \
-> -                                                                        \
-> -        SDL_LockAudio();                                                \
-> -                                                                        \
-> -        ret = glue(audio_generic_, name)args;                           \
-> -                                                                        \
-> -        SDL_UnlockAudio();                                              \
-> -        return ret;                                                     \
-> +#define SDL_WRAPPER_FUNC(name, ret_type, args_decl, args)      \
-> +    static ret_type glue(sdl_, name)args_decl                  \
-> +    {                                                          \
-> +        ret_type ret;                                          \
-> +                                                               \
-> +        SDL_LockAudio();                                       \
-> +        ret = glue(audio_generic_, name)args;                  \
-> +        SDL_UnlockAudio();                                     \
-> +                                                               \
-> +        return ret;                                            \
->       }
->   
->   SDL_WRAPPER_FUNC(get_buffer_out, void *, (HWVoiceOut *hw, size_t *size),
-> -                 (hw, size), *size = 0, sdl_unlock)
-> +                 (hw, size))
->   SDL_WRAPPER_FUNC(put_buffer_out, size_t,
-> -                 (HWVoiceOut *hw, void *buf, size_t size), (hw, buf, size),
-> -                 /*nothing*/, sdl_unlock_and_post)
-> +                 (HWVoiceOut *hw, void *buf, size_t size), (hw, buf, size))
->   SDL_WRAPPER_FUNC(write, size_t,
-> -                 (HWVoiceOut *hw, void *buf, size_t size), (hw, buf, size),
-> -                 /*nothing*/, sdl_unlock_and_post)
-> -
-> +                 (HWVoiceOut *hw, void *buf, size_t size), (hw, buf, size))
->   #undef SDL_WRAPPER_FUNC
->   
->   static void sdl_fini_out (HWVoiceOut *hw)
-> 
+> I don't have a strong opinion either way. I chose this approach because
+> it results in a clean git clone while also working in a web browser
+> (with a redirect, as you mentioned).
 
-Right, sdl_unlock and sdl_unlock_and_post have been removed in commit 
-8a7816c4ac13e6ba61de2 already.
+Ok, I've pushed your patch with some of the .git suffixes removed. I don't 
+think that anybody will try to clone from a link where the link text is 
+saying "git repository!" like in above source.html, so I removed it there. 
+But in the instructions for running "git clone ...", I of course kept the 
+suffix.
 
-Reviewed-by: Thomas Huth <thuth@redhat.com>
+  Thomas
+
+
+  Thomas
 
 
