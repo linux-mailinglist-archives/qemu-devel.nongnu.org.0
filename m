@@ -2,87 +2,83 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9630D2F6589
-	for <lists+qemu-devel@lfdr.de>; Thu, 14 Jan 2021 17:16:17 +0100 (CET)
-Received: from localhost ([::1]:36938 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DB0FE2F6574
+	for <lists+qemu-devel@lfdr.de>; Thu, 14 Jan 2021 17:09:03 +0100 (CET)
+Received: from localhost ([::1]:45492 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l05IG-0007jC-GZ
-	for lists+qemu-devel@lfdr.de; Thu, 14 Jan 2021 11:16:16 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56280)
+	id 1l05BG-0007WV-UT
+	for lists+qemu-devel@lfdr.de; Thu, 14 Jan 2021 11:09:02 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57820)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jag.raman@oracle.com>)
- id 1l04m8-0003Ra-IU
- for qemu-devel@nongnu.org; Thu, 14 Jan 2021 10:43:04 -0500
-Received: from userp2130.oracle.com ([156.151.31.86]:49856)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jag.raman@oracle.com>)
- id 1l04m6-0002CT-K6
- for qemu-devel@nongnu.org; Thu, 14 Jan 2021 10:43:04 -0500
-Received: from pps.filterd (userp2130.oracle.com [127.0.0.1])
- by userp2130.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 10EFZTRa024762;
- Thu, 14 Jan 2021 15:42:55 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com;
- h=from : to : cc :
- subject : date : message-id : in-reply-to : references : in-reply-to :
- references; s=corp-2020-01-29;
- bh=7jnkcNyheTPt6IRP9OYMrxjVugSN4Ups5Art0ZB0UDA=;
- b=X3237hQapJ+f28ZpdoRFyPzdjFTX/dQATozP2sH/l6CV1vb3a/VAepekK5RDsdhojvYU
- 3aDpa/GrJif6i8D55ynbWJU9iuskwbowrGiAbzOMTkOtcTEYbjMvEmHDcBeowZ2OvMxZ
- yn9T69EdxhTqJzxvndEZHZ+9W7TNbx5lUUvMimAOC4lEejWJ8PDoK8iH+hnPCqedWo9l
- uRbQWqQtzRSSh2HTxshfIajtOkh1n/YaNcqWyk3AhDGWOhhUqzmWaUu+6BFLRbyoQNEw
- TPKs9K5v6CN7pMykMxhvuxBrSlbJGiBpfq1wI81IXbJSsNK/M4qdQ1bsjLBwgMjZ5LjE qg== 
-Received: from userp3030.oracle.com (userp3030.oracle.com [156.151.31.80])
- by userp2130.oracle.com with ESMTP id 360kvk8rmy-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Thu, 14 Jan 2021 15:42:55 +0000
-Received: from pps.filterd (userp3030.oracle.com [127.0.0.1])
- by userp3030.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 10EFZ9uS188679;
- Thu, 14 Jan 2021 15:40:54 GMT
-Received: from aserv0121.oracle.com (aserv0121.oracle.com [141.146.126.235])
- by userp3030.oracle.com with ESMTP id 360kenc6ym-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Thu, 14 Jan 2021 15:40:54 +0000
-Received: from abhmp0002.oracle.com (abhmp0002.oracle.com [141.146.116.8])
- by aserv0121.oracle.com (8.14.4/8.13.8) with ESMTP id 10EFerbf010400;
- Thu, 14 Jan 2021 15:40:53 GMT
-Received: from jaraman-bur-1.us.oracle.com (/10.152.33.39)
- by default (Oracle Beehive Gateway v4.0)
- with ESMTP ; Thu, 14 Jan 2021 07:40:53 -0800
-From: Jagannathan Raman <jag.raman@oracle.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH v19 19/20] multi-process: Retrieve PCI info from remote process
-Date: Thu, 14 Jan 2021 10:40:14 -0500
-Message-Id: <8c06627ac62bacadb984f8d491b1a899665e1584.1610638428.git.jag.raman@oracle.com>
-X-Mailer: git-send-email 1.8.3.1
-In-Reply-To: <cover.1610638428.git.jag.raman@oracle.com>
-References: <cover.1610638428.git.jag.raman@oracle.com>
-In-Reply-To: <cover.1610638428.git.jag.raman@oracle.com>
-References: <cover.1610638428.git.jag.raman@oracle.com>
-X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9864
- signatures=668683
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 mlxscore=0
- phishscore=0 spamscore=0
- malwarescore=0 suspectscore=0 mlxlogscore=999 adultscore=0 bulkscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2009150000
- definitions=main-2101140090
-X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9864
- signatures=668683
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 mlxlogscore=999
- phishscore=0
- lowpriorityscore=0 bulkscore=0 priorityscore=1501 malwarescore=0
- clxscore=1015 impostorscore=0 spamscore=0 mlxscore=0 suspectscore=0
- adultscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2009150000 definitions=main-2101140090
-Received-SPF: pass client-ip=156.151.31.86; envelope-from=jag.raman@oracle.com;
- helo=userp2130.oracle.com
-X-Spam_score_int: -46
-X-Spam_score: -4.7
-X-Spam_bar: ----
-X-Spam_report: (-4.7 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.248,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_MED=-2.3, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_PASS=-0.001,
- SPF_PASS=-0.001, UNPARSEABLE_RELAY=0.001 autolearn=ham autolearn_force=no
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1l04s0-0000aC-1N; Thu, 14 Jan 2021 10:49:08 -0500
+Received: from mail-wr1-x434.google.com ([2a00:1450:4864:20::434]:33714)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1l04rx-0004rD-4L; Thu, 14 Jan 2021 10:49:06 -0500
+Received: by mail-wr1-x434.google.com with SMTP id t30so6297719wrb.0;
+ Thu, 14 Jan 2021 07:49:04 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=sender:subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=3x0O8sPNXEDYftnuGsjOeZIu2Ubh3rhs2GG4FkkBl5M=;
+ b=BRtb84e0mahJhjpESPiR25z/dIoIswKCdGQlfDurjL7ceaB23gSSfX3pirb8BpgtLi
+ Z0M0jcwu6yXQQE8F8B4kNK3CKCZGHe5M5Cc9uW7gHUEgPUpRVylzZAzohwqXq5aDySqu
+ gCN8RXTdEm7HAQ/cpQCA+CxG3+gP3hiZkrlSEsjGR1dnTLZla6p6KdvPYd9ePf8g746B
+ XwUfa8srWqcAE+IncAIVKG//AmeRStnAbcf0v3MQSqU1YhAa5T75zNT2GGgpUqY5W0x2
+ tCEjojaiCj+t9ho3vWMneSYvEuuDdI0eYo+1UeZt0Wyv32huf0gJavDz/hY/BeSMuZfk
+ 8LvA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
+ :date:user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=3x0O8sPNXEDYftnuGsjOeZIu2Ubh3rhs2GG4FkkBl5M=;
+ b=GNJ6Tsx7XObq3tSD0FpJhDXrt8AbjCkWAVUdQjsFkZCKH31N5OCLldGpjGOL3mXH75
+ iOO/2zpUD11HgFnHr57m7pw2KnYS4ik4aV6nMKoRhNSv2zkfD8W4rSRnvbA5Ivuwn76Y
+ u/Ru6UXJx2Kz4Nxx8sWtchxf+8rEa/q3hQEITIJS7h5zbkzivBtxdi1pg2e07Z1YFWUG
+ yNuIlCqo53piFuMJIFiLgUJb8kPhVseFfPaxUjDV5RDmW3TuGKy2HUZR4Ra4C7/St+pR
+ XKuAbrmg17LsQPn0UiAQX4gBdBH0TIo5H9aqnJvd4meyocITf+MY4WLt12f1relSXLWA
+ HeRQ==
+X-Gm-Message-State: AOAM530WiQjCExWFXZtLmx1TO0Kt37E8d6pBi6q/6x9KkP+6/HxFTDIv
+ 0dzQncV8/qtUXwUQv+aRe+c=
+X-Google-Smtp-Source: ABdhPJxTetp2r5RZzf3ZoUqszMuaWnagUi5z6kNXw3xapm69Q1iSA/EoT0ofiVPgoEpQX5n7FPdCLw==
+X-Received: by 2002:a5d:43ce:: with SMTP id v14mr8551968wrr.342.1610639343004; 
+ Thu, 14 Jan 2021 07:49:03 -0800 (PST)
+Received: from [192.168.1.36] (13.red-83-57-169.dynamicip.rima-tde.net.
+ [83.57.169.13])
+ by smtp.gmail.com with ESMTPSA id h187sm9015911wmf.30.2021.01.14.07.49.01
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 14 Jan 2021 07:49:02 -0800 (PST)
+Subject: Re: [PATCH 00/18] hw: Mark the device with no migratable fields
+To: Peter Maydell <peter.maydell@linaro.org>,
+ Eduardo Habkost <ehabkost@redhat.com>,
+ =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>, Laurent Vivier <laurent@vivier.eu>,
+ Gerd Hoffmann <kraxel@redhat.com>
+References: <20200703201911.26573-1-f4bug@amsat.org>
+ <CAFEAcA8Cu2N5qX55rUk_yd4R6PdJX+X5KPQmMiQPFakP3ShZ-A@mail.gmail.com>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
+Message-ID: <17a5ddc4-c7d9-08f3-5260-f17e1bd48dac@amsat.org>
+Date: Thu, 14 Jan 2021 16:49:00 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.6.0
+MIME-Version: 1.0
+In-Reply-To: <CAFEAcA8Cu2N5qX55rUk_yd4R6PdJX+X5KPQmMiQPFakP3ShZ-A@mail.gmail.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::434;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x434.google.com
+X-Spam_score_int: -16
+X-Spam_score: -1.7
+X-Spam_bar: -
+X-Spam_report: (-1.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.248,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.248, NICE_REPLY_A=-0.237,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -95,145 +91,62 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: elena.ufimtseva@oracle.com, fam@euphon.net, swapnil.ingle@nutanix.com,
- john.g.johnson@oracle.com, kraxel@redhat.com, jag.raman@oracle.com,
- quintela@redhat.com, mst@redhat.com, armbru@redhat.com,
- kanth.ghatraju@oracle.com, felipe@nutanix.com, thuth@redhat.com,
- ehabkost@redhat.com, konrad.wilk@oracle.com, dgilbert@redhat.com,
- alex.williamson@redhat.com, stefanha@redhat.com, thanos.makatos@nutanix.com,
- kwolf@redhat.com, berrange@redhat.com, mreitz@redhat.com,
- ross.lagerwall@citrix.com, marcandre.lureau@gmail.com, pbonzini@redhat.com
+Cc: Juan Quintela <quintela@redhat.com>, Andrew Jeffery <andrew@aj.id.au>,
+ Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
+ QEMU Developers <qemu-devel@nongnu.org>,
+ Andrew Baumann <Andrew.Baumann@microsoft.com>,
+ "Dr . David Alan Gilbert" <dgilbert@redhat.com>,
+ qemu-arm <qemu-arm@nongnu.org>,
+ =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>,
+ Subbaraya Sundeep <sundeep.lkml@gmail.com>,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
+ Artyom Tarasenko <atar4qemu@gmail.com>, Joel Stanley <joel@jms.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Retrieve PCI configuration info about the remote device and
-configure the Proxy PCI object based on the returned information
+On 7/9/20 9:19 PM, Peter Maydell wrote:
+> On Fri, 3 Jul 2020 at 21:19, Philippe Mathieu-Daudé <f4bug@amsat.org> wrote:
+>>
+>> This is a proof-of-concept after chatting with Peter Maydell
+>> on IRC earlier.
+>>
+>> Introduce the vmstate_no_state_to_migrate structure, and
+>> a reference to it: vmstate_qdev_no_state_to_migrate.
+>> Use this reference in devices with no fields to migrate.
+>>
+>> This is useful to catch devices missing vmstate, such:
+>> - ads7846
+>> - mcf-uart
+>> - mcf-fec
+>> - versatile_i2c
+>> - ...
+>>
+>> I am not sure about:
+>> - gpex-pcihost
+> 
+> I think it's correct that this has no internal state:
+> the only interesting state is in the GPEXRootState, which
+> is a TYPE_GPEX_ROOT_DEVICE which migrates itself.
+> 
+> I made some comments on the "meaty" bits of the patchset,
+> and reviewed one or two of the "mark this device as
+> having no migration state" patches, but it doesn't seem
+> worth reviewing all of them until the migration submaintainers
+> have a chance to weigh in on whether they like the concept
+> (I expect they're busy right now with freeze-related stuff :-))
 
-Signed-off-by: Elena Ufimtseva <elena.ufimtseva@oracle.com>
-Signed-off-by: John G Johnson <john.g.johnson@oracle.com>
-Signed-off-by: Jagannathan Raman <jag.raman@oracle.com>
-Reviewed-by: Stefan Hajnoczi <stefanha@redhat.com>
----
- hw/remote/proxy.c | 84 +++++++++++++++++++++++++++++++++++++++++++++++++++++++
- 1 file changed, 84 insertions(+)
+Now that we are far from freeze-date is a good time to ping
+again on this concept :)
 
-diff --git a/hw/remote/proxy.c b/hw/remote/proxy.c
-index 555b310..a082709 100644
---- a/hw/remote/proxy.c
-+++ b/hw/remote/proxy.c
-@@ -25,6 +25,8 @@
- #include "sysemu/kvm.h"
- #include "util/event_notifier-posix.c"
- 
-+static void probe_pci_info(PCIDevice *dev, Error **errp);
-+
- static void proxy_intx_update(PCIDevice *pci_dev)
- {
-     PCIProxyDev *dev = PCI_PROXY_DEV(pci_dev);
-@@ -77,6 +79,7 @@ static void pci_proxy_dev_realize(PCIDevice *device, Error **errp)
- {
-     ERRP_GUARD();
-     PCIProxyDev *dev = PCI_PROXY_DEV(device);
-+    uint8_t *pci_conf = device->config;
-     int fd;
- 
-     if (!dev->fd) {
-@@ -106,9 +109,14 @@ static void pci_proxy_dev_realize(PCIDevice *device, Error **errp)
-     qemu_mutex_init(&dev->io_mutex);
-     qio_channel_set_blocking(dev->ioc, true, NULL);
- 
-+    pci_conf[PCI_LATENCY_TIMER] = 0xff;
-+    pci_conf[PCI_INTERRUPT_PIN] = 0x01;
-+
-     proxy_memory_listener_configure(&dev->proxy_listener, dev->ioc);
- 
-     setup_irqfd(dev);
-+
-+    probe_pci_info(PCI_DEVICE(dev), errp);
- }
- 
- static void pci_proxy_dev_exit(PCIDevice *pdev)
-@@ -274,3 +282,79 @@ const MemoryRegionOps proxy_mr_ops = {
-         .max_access_size = 8,
-     },
- };
-+
-+static void probe_pci_info(PCIDevice *dev, Error **errp)
-+{
-+    PCIDeviceClass *pc = PCI_DEVICE_GET_CLASS(dev);
-+    uint32_t orig_val, new_val, base_class, val;
-+    PCIProxyDev *pdev = PCI_PROXY_DEV(dev);
-+    DeviceClass *dc = DEVICE_CLASS(pc);
-+    uint8_t type;
-+    int i, size;
-+
-+    config_op_send(pdev, PCI_VENDOR_ID, &val, 2, MPQEMU_CMD_PCI_CFGREAD);
-+    pc->vendor_id = (uint16_t)val;
-+
-+    config_op_send(pdev, PCI_DEVICE_ID, &val, 2, MPQEMU_CMD_PCI_CFGREAD);
-+    pc->device_id = (uint16_t)val;
-+
-+    config_op_send(pdev, PCI_CLASS_DEVICE, &val, 2, MPQEMU_CMD_PCI_CFGREAD);
-+    pc->class_id = (uint16_t)val;
-+
-+    config_op_send(pdev, PCI_SUBSYSTEM_ID, &val, 2, MPQEMU_CMD_PCI_CFGREAD);
-+    pc->subsystem_id = (uint16_t)val;
-+
-+    base_class = pc->class_id >> 4;
-+    switch (base_class) {
-+    case PCI_BASE_CLASS_BRIDGE:
-+        set_bit(DEVICE_CATEGORY_BRIDGE, dc->categories);
-+        break;
-+    case PCI_BASE_CLASS_STORAGE:
-+        set_bit(DEVICE_CATEGORY_STORAGE, dc->categories);
-+        break;
-+    case PCI_BASE_CLASS_NETWORK:
-+        set_bit(DEVICE_CATEGORY_NETWORK, dc->categories);
-+        break;
-+    case PCI_BASE_CLASS_INPUT:
-+        set_bit(DEVICE_CATEGORY_INPUT, dc->categories);
-+        break;
-+    case PCI_BASE_CLASS_DISPLAY:
-+        set_bit(DEVICE_CATEGORY_DISPLAY, dc->categories);
-+        break;
-+    case PCI_BASE_CLASS_PROCESSOR:
-+        set_bit(DEVICE_CATEGORY_CPU, dc->categories);
-+        break;
-+    default:
-+        set_bit(DEVICE_CATEGORY_MISC, dc->categories);
-+        break;
-+    }
-+
-+    for (i = 0; i < PCI_NUM_REGIONS; i++) {
-+        config_op_send(pdev, PCI_BASE_ADDRESS_0 + (4 * i), &orig_val, 4,
-+                       MPQEMU_CMD_PCI_CFGREAD);
-+        new_val = 0xffffffff;
-+        config_op_send(pdev, PCI_BASE_ADDRESS_0 + (4 * i), &new_val, 4,
-+                       MPQEMU_CMD_PCI_CFGWRITE);
-+        config_op_send(pdev, PCI_BASE_ADDRESS_0 + (4 * i), &new_val, 4,
-+                       MPQEMU_CMD_PCI_CFGREAD);
-+        size = (~(new_val & 0xFFFFFFF0)) + 1;
-+        config_op_send(pdev, PCI_BASE_ADDRESS_0 + (4 * i), &orig_val, 4,
-+                       MPQEMU_CMD_PCI_CFGWRITE);
-+        type = (new_val & 0x1) ?
-+                   PCI_BASE_ADDRESS_SPACE_IO : PCI_BASE_ADDRESS_SPACE_MEMORY;
-+
-+        if (size) {
-+            g_autofree char *name;
-+            pdev->region[i].dev = pdev;
-+            pdev->region[i].present = true;
-+            if (type == PCI_BASE_ADDRESS_SPACE_MEMORY) {
-+                pdev->region[i].memory = true;
-+            }
-+            name = g_strdup_printf("bar-region-%d", i);
-+            memory_region_init_io(&pdev->region[i].mr, OBJECT(pdev),
-+                                  &proxy_mr_ops, &pdev->region[i],
-+                                  name, size);
-+            pci_register_bar(dev, i, type, &pdev->region[i].mr);
-+        }
-+    }
-+}
--- 
-1.8.3.1
+Most of the devices are ARM except:
+- cpu-cluster (Eduardo/Marcel)
+- hcd-ohci (Gerd)
+- mac-nubus-bridge (Laurent)
+- generic QOM (Daniel, Paolo)
 
+Is someone against this proposal?
+
+Regards,
+
+Phil.
 
