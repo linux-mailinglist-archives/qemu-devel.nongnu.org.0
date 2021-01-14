@@ -2,35 +2,35 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 33C442F6EA0
-	for <lists+qemu-devel@lfdr.de>; Thu, 14 Jan 2021 23:52:50 +0100 (CET)
-Received: from localhost ([::1]:59268 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3F0322F6ED1
+	for <lists+qemu-devel@lfdr.de>; Fri, 15 Jan 2021 00:12:30 +0100 (CET)
+Received: from localhost ([::1]:39380 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l0BU0-0007F5-Ti
-	for lists+qemu-devel@lfdr.de; Thu, 14 Jan 2021 17:52:48 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60810)
+	id 1l0Bn3-0004AJ-3l
+	for lists+qemu-devel@lfdr.de; Thu, 14 Jan 2021 18:12:29 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36716)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1l0BSk-0006jA-Bl
- for qemu-devel@nongnu.org; Thu, 14 Jan 2021 17:51:30 -0500
-Received: from indium.canonical.com ([91.189.90.7]:47388)
+ id 1l0Blx-0003jZ-H4
+ for qemu-devel@nongnu.org; Thu, 14 Jan 2021 18:11:23 -0500
+Received: from indium.canonical.com ([91.189.90.7]:51842)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1l0BSh-0006mn-KR
- for qemu-devel@nongnu.org; Thu, 14 Jan 2021 17:51:30 -0500
+ id 1l0Blt-0005R6-5I
+ for qemu-devel@nongnu.org; Thu, 14 Jan 2021 18:11:21 -0500
 Received: from loganberry.canonical.com ([91.189.90.37])
  by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1l0BSf-0007yF-Ae
- for <qemu-devel@nongnu.org>; Thu, 14 Jan 2021 22:51:25 +0000
+ id 1l0Blq-0002IS-NV
+ for <qemu-devel@nongnu.org>; Thu, 14 Jan 2021 23:11:14 +0000
 Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 4E8272E813D
- for <qemu-devel@nongnu.org>; Thu, 14 Jan 2021 22:51:25 +0000 (UTC)
+ by loganberry.canonical.com (Postfix) with ESMTP id 980D02E813C
+ for <qemu-devel@nongnu.org>; Thu, 14 Jan 2021 23:11:14 +0000 (UTC)
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
-Date: Thu, 14 Jan 2021 22:39:34 -0000
-From: John Snow <1908450@bugs.launchpad.net>
+Date: Thu, 14 Jan 2021 22:59:51 -0000
+From: Gregory Price <1908450@bugs.launchpad.net>
 To: qemu-devel@nongnu.org
 X-Launchpad-Notification-Type: bug
 X-Launchpad-Bug: product=qemu; status=New; importance=Undecided;
@@ -41,16 +41,16 @@ X-Launchpad-Bug-Private: no
 X-Launchpad-Bug-Security-Vulnerability: no
 X-Launchpad-Bug-Commenters: gourryinverse jnsnow th-huth
 X-Launchpad-Bug-Reporter: Gregory Price (gourryinverse)
-X-Launchpad-Bug-Modifier: John Snow (jnsnow)
+X-Launchpad-Bug-Modifier: Gregory Price (gourryinverse)
 References: <160815666653.31417.1447357912774624366.malonedeb@chaenomeles.canonical.com>
-Message-Id: <161066397477.13228.11625221547220751784.malone@gac.canonical.com>
+Message-Id: <161066519117.14276.4273523340401785663.malone@gac.canonical.com>
 Subject: [Bug 1908450] Re: ide/core.c ATA Major Version reporting incorrect
 X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
 X-Launchpad-Message-For: qemu-devel-ml
 Precedence: bulk
 X-Generated-By: Launchpad (canonical.com);
  Revision="511b4a3b6512aa3d421c5f7d74f3527e78bff26e"; Instance="production"
-X-Launchpad-Hash: b2ad2ee4051b27583df848d681e2bc1efe0da9bb
+X-Launchpad-Hash: 5863cddcd4e4375ac0dd4fc3f55ec6450e9dd160
 Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
  helo=indium.canonical.com
 X-Spam_score_int: -65
@@ -75,13 +75,13 @@ Reply-To: Bug 1908450 <1908450@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-I doubt we truly implement *any* standard precisely correctly, but if we
-are advertising support for ATA7 and it works, I'd rather just fix the
-comment to keep behavior the same.
+for what it's worth, i have yet to see a driver actually check this
+field.
 
-It probably was a mistake in the original commit from ... sometime
-before 2006, but if nothing is observably broken, maybe it shouldn't be
-changed.
+I have seen a ton of code (OVMF and others) detect other information and
+just straight up say "I'm in QEMU" and YOLO a bunch of things like
+assuming DMA is available and such, so I somewhat doubt anyone
+*actually* checks these fields.
 
 -- =
 
