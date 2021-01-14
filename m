@@ -2,57 +2,57 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3E6F92F610E
-	for <lists+qemu-devel@lfdr.de>; Thu, 14 Jan 2021 13:31:34 +0100 (CET)
-Received: from localhost ([::1]:45196 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 144DE2F612A
+	for <lists+qemu-devel@lfdr.de>; Thu, 14 Jan 2021 13:42:29 +0100 (CET)
+Received: from localhost ([::1]:48360 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l01mn-0005of-2E
-	for lists+qemu-devel@lfdr.de; Thu, 14 Jan 2021 07:31:33 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36176)
+	id 1l01xL-0007oe-TN
+	for lists+qemu-devel@lfdr.de; Thu, 14 Jan 2021 07:42:27 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38072)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1l01lU-0005Ni-Bb
- for qemu-devel@nongnu.org; Thu, 14 Jan 2021 07:30:12 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:22272)
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1l01vx-0007Ly-9N
+ for qemu-devel@nongnu.org; Thu, 14 Jan 2021 07:41:01 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:24026)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1l01lR-0001Lv-91
- for qemu-devel@nongnu.org; Thu, 14 Jan 2021 07:30:11 -0500
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1l01vu-0005wh-DK
+ for qemu-devel@nongnu.org; Thu, 14 Jan 2021 07:41:00 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1610627408;
+ s=mimecast20190719; t=1610628057;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=kMhGogHu57UNXF5HTzumkauWisrNdSnJ0HBnE1Mi3SY=;
- b=VAsFA5DNaKXy0hlgxpZ+d8jB1Vnjk5U5uOQBKz+2utY+OAul2/PKQ75XjJHzuU0eTaFCYU
- HRx/sqf9EeC68FRd7jyx/prK9cuvyZ4Bp04FlvpgSQImwNWZqxz5XyHm0SbL7HTIGmKxPq
- Sqgf2eExeVtb1yu8/0Aqcq6ajHjlYEY=
+ bh=YVjGNdbfFq0Q9BL25ZmGhnOvkkQD0aG0HGsEsbHmGKA=;
+ b=TGw9ph6FkprBj3U1L+oV/ECS7qKnRwTlnogVGo2GIfu2bIqyncI/3tiNzx7bEB07d/KuEZ
+ KhTNmqLsEmDTMpuly6JIL34FyMwIcZ71cgv7lDvgEyS0YmhcFuLeQSbCNZA4gf32Nk6aYt
+ AS5R9+uasBrCVjTmXKm7dfDTuwRiZik=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-406-3Y7OT2CxPW2c52y5GnX4zw-1; Thu, 14 Jan 2021 07:30:03 -0500
-X-MC-Unique: 3Y7OT2CxPW2c52y5GnX4zw-1
+ us-mta-366-7OSp3cHePlyhszHMqaxmuw-1; Thu, 14 Jan 2021 07:40:55 -0500
+X-MC-Unique: 7OSp3cHePlyhszHMqaxmuw-1
 Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
  [10.5.11.15])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id EC3F8801FD6;
- Thu, 14 Jan 2021 12:30:02 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 247EE1005D4F;
+ Thu, 14 Jan 2021 12:40:54 +0000 (UTC)
 Received: from blackfin.pond.sub.org (ovpn-112-172.ams2.redhat.com
  [10.36.112.172])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 737F05D6AD;
- Thu, 14 Jan 2021 12:29:59 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id CEC285D6AD;
+ Thu, 14 Jan 2021 12:40:53 +0000 (UTC)
 Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id C4AC311386A7; Thu, 14 Jan 2021 13:29:57 +0100 (CET)
+ id 5B70411386A7; Thu, 14 Jan 2021 13:40:52 +0100 (CET)
 From: Markus Armbruster <armbru@redhat.com>
-To: John Snow <jsnow@redhat.com>
-Subject: Re: Call for Google Summer of Code 2021 project ideas
-References: <CAJSP0QWWg__21otbMXAXWGD1FaHYLzZP7axZ47Unq6jtMvdfsA@mail.gmail.com>
- <92903d8d-24c4-5177-67c9-1690ea794739@redhat.com>
- <87pn29kxcp.fsf@dusky.pond.sub.org>
- <b860c470-cbe3-00b5-1966-59fa87045024@redhat.com>
-Date: Thu, 14 Jan 2021 13:29:57 +0100
-In-Reply-To: <b860c470-cbe3-00b5-1966-59fa87045024@redhat.com> (John Snow's
- message of "Wed, 13 Jan 2021 14:05:17 -0500")
-Message-ID: <87h7njsnui.fsf@dusky.pond.sub.org>
+To: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
+Subject: Re: [PULL 0/7] Yank patches patches for 2021-01-13
+References: <20210113093101.550964-1-armbru@redhat.com>
+ <CAFEAcA8HmqWuzny9bmpXNLtsK7nuRaxPW3j6ZZougn7Y+tX7+A@mail.gmail.com>
+ <87r1mnlr0a.fsf@linaro.org>
+Date: Thu, 14 Jan 2021 13:40:52 +0100
+In-Reply-To: <87r1mnlr0a.fsf@linaro.org> ("Alex =?utf-8?Q?Benn=C3=A9e=22's?=
+ message of "Thu, 14 Jan 2021 11:02:20 +0000")
+Message-ID: <87bldrsncb.fsf@dusky.pond.sub.org>
 User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.1 (gnu/linux)
 MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
@@ -60,7 +60,8 @@ Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=armbru@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 Received-SPF: pass client-ip=63.128.21.124; envelope-from=armbru@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -29
@@ -82,132 +83,89 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Stefan Hajnoczi <stefanha@gmail.com>,
- QEMU Developers <qemu-devel@nongnu.org>, Stefan Hajnoczi <stefanha@redhat.com>,
- Eduardo Habkost <ehabkost@redhat.com>
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ Lukas Straub <lukasstraub2@web.de>, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-John Snow <jsnow@redhat.com> writes:
+Alex Benn=C3=A9e <alex.bennee@linaro.org> writes:
 
-> On 1/13/21 4:19 AM, Markus Armbruster wrote:
->> John Snow <jsnow@redhat.com> writes:
->> 
->>> On 1/11/21 6:47 AM, Stefan Hajnoczi wrote:
->>>> Dear QEMU, KVM, and rust-vmm community,
->>>> QEMU will apply for Google Summer of Code
->>>> (https://summerofcode.withgoogle.com/) again this year.  This internship
->>>> program offers paid, 10-week, remote work internships for
->>>> contributing to open source.  QEMU can act as an umbrella organization
->>>> for KVM kernel and rust-vmm projects too.
->>>> Please post project ideas on the QEMU wiki before February 14th:
->>>> https://wiki.qemu.org/Google_Summer_of_Code_2021
->>>> What's new this year:
->>>>    * The number of internship hours has been halved to 175 hours over
->>>>      10 weeks. Project ideas must be smaller to fit and students will have
->>>>      more flexibility with their working hours.
->>>>    * Eligibility has been expanded to include "licensed coding school or
->>>>      similar type of program".
->>>> Good project ideas are suitable for 175 hours (10 weeks half-day)
->>>> work by a
->>>> competent programmer who is not yet familiar with the codebase.  In
->>>> addition, they are:
->>>>    * Well-defined - the scope is clear
->>>>    * Self-contained - there are few dependencies
->>>>    * Uncontroversial - they are acceptable to the community
->>>>    * Incremental - they produce deliverables along the way
->>>> Feel free to post ideas even if you are unable to mentor the
->>>> project.
->>>> It doesn't hurt to share the idea!
->>>>
->>>
->>> I have one that is probably way too ambitious, but requires a
->>> particular skillset that might be of good interest to a student that
->>> has some experience in the area already.
->>>
->>> The idea is for a TUI qmp-shell (maybe using urwid?) to create an
->>> irssi-like REPL interface for QMP. The idea would be to mimic the
->>> mitmproxy TUI interface (Check it out if you haven't!)
->>>
->>> All the ideas below are extremely tentative to give a basic gist of
->>> what I mean; exact layouts/hotkeys/etc are for the sake of explanation
->>> only.
->>>
->>> Essentially, I want an interface like this:
->>>
->>> -----------------------------------------------------------
->>> | QMP Mode                                                |
->>> |=========================================================|
->>> |                                                         |
->>> | Welcome to the Qemu Machine Protocol shell.             |
->>> | Please type /help or Ctrl+H to see available commands.  |
->>> |                                                         |
->>> |                                                         |
->>> |                                                         |
->>> |---------------------------------------------------------|
->>> | >                                                       |
->>> -----------------------------------------------------------
->>>
->>> commands are entered in the bottom and appear in a log window above,
->>> appearing most-recent last, like irssi works.
->>>
->>> As an example, let's say we issue block-dirty-bitmap-add:
->>>
->>> --------------------------------------------------------
->>> | > block-dirty-bitmap-add node=ide0hd0 name=mybitmap0 |
->>> --------------------------------------------------------
->>>
->>> (...syntax up for debate...! We want something easy to parse, but easy
->>> to type. For structured data, that's Hard.)
->> "Hard" is a red flag for such a brief internship.  We need to solve
->> or
->> somehow exclude this design problem before we hand the task to the
->> student.
->> [...]
->> 
+> Peter Maydell <peter.maydell@linaro.org> writes:
 >
-> Yes, there is a reason I capitalized "Hard". :~)
+>> On Wed, 13 Jan 2021 at 09:31, Markus Armbruster <armbru@redhat.com> wrot=
+e:
+>>>
+>>> This pull request is on behalf of Lukas.  Hope that's okay.
+>>>
+>>> The following changes since commit f8e1d8852e393b3fd524fb005e38590063d9=
+9bc0:
+>>>
+>>>   Merge remote-tracking branch 'remotes/pmaydell/tags/pull-target-arm-2=
+0210112-1' into staging (2021-01-12 21:23:25 +0000)
+>>>
+>>> are available in the Git repository at:
+>>>
+>>>   git://repo.or.cz/qemu/armbru.git tags/pull-yank-2021-01-13
+>>>
+>>> for you to fetch changes up to 91d48e520a4a4f72e97aeb333029694f5d57cc93=
+:
+>>>
+>>>   tests/test-char.c: Wait for the chardev to connect in char_socket_cli=
+ent_dupid_test (2021-01-13 10:21:17 +0100)
+>>>
+>>> ----------------------------------------------------------------
+>>> Yank patches patches for 2021-01-13
+>>>
+>>> ----------------------------------------------------------------
+>>> Lukas Straub (7):
+>>>       Introduce yank feature
+>>>       block/nbd.c: Add yank feature
+>>>       chardev/char-socket.c: Add yank feature
+>>>       migration: Add yank feature
+>>>       io/channel-tls.c: make qio_channel_tls_shutdown thread-safe
+>>>       io: Document qmp oob suitability of qio_channel_shutdown and io_s=
+hutdown
+>>>       tests/test-char.c: Wait for the chardev to connect in char_socket=
+_client_dupid_test
+>>
+>>
+>> Applied, thanks.
 >
-> This task CAN be split out, though. For starters, we can use an
-> extremely simplified parsing strategy while we work on the REPL and
-> and UI elements.
+> This broke the check-unit and check-softfloat build task in Travis
 >
-> We can accept things of the form:
-> command arg=value arg2=value
+>   https://travis-ci.org/github/qemu/qemu/jobs/754436018
 >
-> and we can worry about how to input structured data later.
+> Likely because of missing stubs for the yank commands:
+>
+>   FAILED: qemu-io=20
+>
+>   gcc  -o qemu-io qemu-io.p/qemu-io.c.o -Wl,--as-needed -Wl,--no-undefine=
+d -pie -Wl,--whole-archive libblock.fa libcrypto.fa libauthz.fa libqom.fa l=
+ibio.fa -Wl,--no-whole-archive -Wl,--warn-common -Wl,-z,relro -Wl,-z,now -m=
+64 -fstack-protector-strong -Wl,--start-group libqemuutil.a subprojects/lib=
+vhost-user/libvhost-user-glib.a subprojects/libvhost-user/libvhost-user.a l=
+ibblock.fa libcrypto.fa libauthz.fa libqom.fa libio.fa @block.syms -lgnutls=
+ -pthread -lutil -lm -lgthread-2.0 -lglib-2.0 -lgthread-2.0 -lglib-2.0 -lxm=
+l2 /usr/lib/x86_64-linux-gnu/libiscsi.so -laio -lgthread-2.0 -lglib-2.0 /us=
+r/lib/x86_64-linux-gnu/libz.so /usr/lib/x86_64-linux-gnu/libnfs.so /usr/lib=
+/gcc/x86_64-linux-gnu/9/../../../x86_64-linux-gnu/libzstd.so -lssh /usr/lib=
+/x86_64-linux-gnu/libcurl.so /usr/lib/gcc/x86_64-linux-gnu/9/../../../x86_6=
+4-linux-gnu/libbz2.so -lgnutls -lnettle -lgnutls -lpam -lgnutls -Wl,--end-g=
+roup
+>
+>   /usr/bin/ld: libblock.fa(block_nbd.c.o): in function `nbd_close':
+>
+>   /home/travis/build/qemu/qemu/build/../block/nbd.c:2358: undefined refer=
+ence to `yank_unregister_instance'
+[...]
+>   collect2: error: ld returned 1 exit status
 
-Bzzzt!  You just designed a language.  The fact that it is obviously
-inadequate for the task does not make this not language design.
 
-Two outcomes:
+Reproduced locally:
 
-1. The project fails for other reasons.  The language doesn't matter.
+    $ ../configure --disable-system --disable-user --enable-tools
+    $ make
 
-2. The project succeeds, i.e. it becomes useful to people.  Very quickly
-these people will demand you evolve your inadequate language into a less
-inadequate one, compatibly.  Your evasion of the language design problem
-(because hard) has now added accidental constraints, making the design
-problem even harder.
-
-The sane way to evade the language design problem is to use the existing
-QMP language.
-
-The project then aims to build a tool that adds useful features over
-"socat "READLINE,history=$HOME/.qmp_history,prompt=QMP>"
-UNIX-CONNECT:/path/to/socket".
-
-If it succeeds, you can still design and implement a "better" language,
-and let users choose the one they prefer.  Or you could add features to
-help with typing QMP.
-
->                                                            I don't
-> think it's a blocker to have someone work on the TUI and asynchronous
-> dispatch elements. I think even just keeping our current parsing but
-> adding some of the features outlined in the proposal would be a big
-> usability win.
-
-I don't feel this particular itch, but I'm certainly not objecting to
-anyone scratching.
+Lukas, can you take care of this?
 
 
