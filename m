@@ -2,66 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 586172F6283
-	for <lists+qemu-devel@lfdr.de>; Thu, 14 Jan 2021 14:56:47 +0100 (CET)
-Received: from localhost ([::1]:57884 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B435A2F6289
+	for <lists+qemu-devel@lfdr.de>; Thu, 14 Jan 2021 14:59:08 +0100 (CET)
+Received: from localhost ([::1]:34034 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l037G-00072m-ES
-	for lists+qemu-devel@lfdr.de; Thu, 14 Jan 2021 08:56:46 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55708)
+	id 1l039X-0000Zk-R2
+	for lists+qemu-devel@lfdr.de; Thu, 14 Jan 2021 08:59:07 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55710)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pavlica.nikola@gmail.com>)
- id 1l02zx-0007QZ-2X
+ id 1l02zy-0007Qd-Mv
  for qemu-devel@nongnu.org; Thu, 14 Jan 2021 08:49:15 -0500
-Received: from mail-wm1-x332.google.com ([2a00:1450:4864:20::332]:52849)
+Received: from mail-wm1-x32d.google.com ([2a00:1450:4864:20::32d]:37716)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <pavlica.nikola@gmail.com>)
- id 1l02zt-0002A8-CP
- for qemu-devel@nongnu.org; Thu, 14 Jan 2021 08:49:11 -0500
-Received: by mail-wm1-x332.google.com with SMTP id a6so4599661wmc.2
- for <qemu-devel@nongnu.org>; Thu, 14 Jan 2021 05:49:09 -0800 (PST)
+ id 1l02zv-0002An-42
+ for qemu-devel@nongnu.org; Thu, 14 Jan 2021 08:49:12 -0500
+Received: by mail-wm1-x32d.google.com with SMTP id g10so4749140wmh.2
+ for <qemu-devel@nongnu.org>; Thu, 14 Jan 2021 05:49:10 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=y2QUAQNgkudgSVhZMWfWaudJrZtLu0BAFGZus22Gg28=;
- b=AGA5U5hwGOeUMuLIBwD+v2TtuaD/pQuVkOuJo1k89xUDQiqPl/mEayBRQVJpOiEp2g
- JiSvD8Kqfw1pKZRbKGKxBAHTCvBSM8HaTs/HtJWQ4W1Oa1idbZRVWV//j3uBtWVLYMdC
- ipWr8sfJuO22bWCofvw871x93wALm4Og61MtFPBmrpYMtxg39i/DvA1hkwmrBYXv6/zm
- UeZgTRVEplcquVHzK637CW6djMD1iWkdjZ/dsieR8/28ZxcmPiOPass6orfk9VVCNb2b
- S2D7wInm8uWDHZUnsLut/fYfqDe7cBo9BGOMUx7Pb3CpK1JkMEChoim0Au38c5K5xCnB
- QyZQ==
+ h=from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=76J19Z46dfDAROoPlZLlI73X5SF0+xkfiFl0PfM58YM=;
+ b=KQ2+6vPc/kZaFIdmIc1yEAdS4QFulQgPKMB7VSWzsoSRLJ+OhZL2F19vG9sj/RERis
+ lna/KZPF5mQriyW6KjBJTYHP4Tt0/v7aubaBf1+qh6OcCD3ekfEfEuOBW2GYMWRIXnO7
+ NykaHnMahJMWbLUoE5YRXUFmIcSWqquSYyC2NGueCePPltfF2z3+8+NrR/OIP7O8cWUB
+ VbRaI9Xk4PsB9NNmVz6j5E0k3zJxe9X0CXDn2Iml7mvR1qSU7+D8fsMwY0Jp/9raEbvf
+ eg+oY4dVRxoQj129QQOs3C3z+gZzVRQsw2a7PUY+eTTfiNhkAj1IGqRr6ChsTYVaJX9k
+ v0WA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=y2QUAQNgkudgSVhZMWfWaudJrZtLu0BAFGZus22Gg28=;
- b=hhJDrYKSa3AQIA4erM7MINZCWcL4x1X3x5vicWbv4brZckniyp+MAxBP8net9tO0Re
- M16RogidsfhBClSpX6piH3lj5OCJl9eXiZ5xBbTKlouzgMGUm9hZ55W1D3g8z9FRyLKL
- R2Ln0G/2V03FZBSM6UQoLotad812A16fdD0B3vb/Ue8e8HdZrFjbzLXQlINrBzGJG/qb
- Am6FuAYuUOWw1RvQcIs3J7/dlUlUOVD7uk65nzzftNkmw/s3eWzP+fPmt08P23Ee+QYb
- I5fugt0unTJsS3U4AB+zgFYTOJfSTAZ0D5lRJfsTwms2LOkirOUviMfHUk5fDbOi6F7L
- ICDA==
-X-Gm-Message-State: AOAM53192c7hrY+INYFJi2qo0pV/z/BtdyOvCWXvT5RJNfo+Hx6scY1b
- 2oJr/v+woFfQ0ntOZGf+JpGIYmTPkE9uu7/s
-X-Google-Smtp-Source: ABdhPJxQPYCAxljZp+RC8u/Di/VKZdfFugpw6TjoDjECdc2VbKLj0SdtkJmtHk7ZfVtY8aZtI4zvDw==
-X-Received: by 2002:a1c:b608:: with SMTP id g8mr4102404wmf.110.1610632147131; 
- Thu, 14 Jan 2021 05:49:07 -0800 (PST)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=76J19Z46dfDAROoPlZLlI73X5SF0+xkfiFl0PfM58YM=;
+ b=YU4FDpfZCD+eSMEbvc2Un++zNl1Mek1Tlhmcxmp5gSxmugsgkOtnklWRHetBH9NOZX
+ tpReB1aO7auBgF3icglHWUHk+EwykItH+s0YnYC5DxgAcGb57E3LZ9HMy34WDHBsRJEU
+ d80MemLAmdqyAhIiTxzn6+1umvIqDwXGuOL06B+sQQiou537MTAzYBI5/e9/s55Qd/hK
+ h+K04uFhckmpw13xoZS5TAggVVcW/dkHe62GDsLtlq6TXDrK4IdWGWqoFvBr3BEUM+th
+ Pgn4q4nOK7Iu95018TBe9gP1jl/jhypucJI8GdStJVVtQCwLhd0LVYUpuwYpdcpg2BeU
+ eU1w==
+X-Gm-Message-State: AOAM530A4Gif0/VQkl4sHBSeG26sZeIXsWvSV/7NKC5IlLiWwLtcUUxW
+ 1X3c/aJ+sRYmz81JWRfDmPoj0kTvVIt32gwQ
+X-Google-Smtp-Source: ABdhPJwKfbK1WmO5BSeiZ07ZJlUoumLggWMR+h/WDvyWgQeZmaxQATVR/lTUTzvFAQXwkMrJK1dzEw==
+X-Received: by 2002:a1c:b78a:: with SMTP id h132mr3999087wmf.141.1610632149204; 
+ Thu, 14 Jan 2021 05:49:09 -0800 (PST)
 Received: from localhost.localdomain ([213.91.86.150])
- by smtp.googlemail.com with ESMTPSA id q7sm3611465wmq.0.2021.01.14.05.49.05
+ by smtp.googlemail.com with ESMTPSA id q7sm3611465wmq.0.2021.01.14.05.49.07
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 14 Jan 2021 05:49:06 -0800 (PST)
+ Thu, 14 Jan 2021 05:49:08 -0800 (PST)
 From: Nikola Pavlica <pavlica.nikola@gmail.com>
 To: qemu-devel@nongnu.org,
 	qemu-devel@nongnu.com
-Subject: [PATCH 0/2] ui/gtk: run gd_monitor_update_interval on EGL as well
-Date: Thu, 14 Jan 2021 14:48:49 +0100
-Message-Id: <20210114134851.292767-1-pavlica.nikola@gmail.com>
+Subject: [PATCH 1/2] ui/gtk: expose gd_monitor_update_interval
+Date: Thu, 14 Jan 2021 14:48:50 +0100
+Message-Id: <20210114134851.292767-2-pavlica.nikola@gmail.com>
 X-Mailer: git-send-email 2.30.0
+In-Reply-To: <20210114134851.292767-1-pavlica.nikola@gmail.com>
+References: <20210114134851.292767-1-pavlica.nikola@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::332;
- envelope-from=pavlica.nikola@gmail.com; helo=mail-wm1-x332.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::32d;
+ envelope-from=pavlica.nikola@gmail.com; helo=mail-wm1-x32d.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -86,42 +88,45 @@ Cc: r_qemu@t-online.de, philmd@redhat.com, kraxel@redhat.com,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-These patches regard the use-case of GPU-passthrough on QEMU for
- accelerated graphics.
+The gd_egl_refresh function, as the name suggests, is responsible for
+refreshing displays when using EGL graphics with QEMU's GTK UI. This is
+a perfect candidate for a function to update the refresh rate in.
 
-Usually when people use GPU-passthrough on QEMU, they opt to have a
- physical seperate graphics card that gets passed through to QEMU
- using something called "PCIe passthrough". Since the display output
- is invisible to QEMU, the people who run these kinds of setups tend
- to view the display outputs by physically connecting a monitor to
- the "PCIe passthrough-ed" GPU in question.
+Since gd_monitor_update_interval is inaccessible from the gd_egl_refresh
+function, we need to expose/globalize it in the include/ui/gtk.h file.
 
-However, on the Intel side of GPUs, there exists a technology that
- allows a user to pass through a "virtual GPU" using something called
- GVT-g.
+Signed-off-by: Nikola Pavlica <pavlica.nikola@gmail.com>
+---
+ include/ui/gtk.h | 1 +
+ ui/gtk.c         | 2 +-
+ 2 files changed, 2 insertions(+), 1 deletion(-)
 
-Since virtual GPUs have no outputs, they rely soely on software trickery
- to get the image displayed on the host machine. In case of GVT-g it is
- done by DMA-ing the framebuffer to the GTK UIs display.
-
-However, when using GTK outputs, there was a problem which caused the
- image to be updated at only 33Hz (or FPS). These issues were first
- discussed back in December 2019:
- https://lists.nongnu.org/archive/html/qemu-devel/2019-12/msg05514.html
-
-There were a few other issues along the way, but those were fixed as well.
-
-The focus of these patches is that when using GVT-g on QEMU, it must
- launch the GTK UI in OpenGL/EGL mode. This causes the code responsible
- for updating the refresh rate to never get executed. Which is why I added
- it to gtk-egl.c, to make sure updating the refresh rate works on EGL GTK
- UIs as well.
-
-These patches were made in response to Volkers patches which dealt with
- cleaning up my previous code:
- https://www.mail-archive.com/qemu-devel@nongnu.org/msg766686.html
- and thus are meant to be merged after Volker's patches.
-
-Hopefully, this commit message isn't too daunting ;)
+diff --git a/include/ui/gtk.h b/include/ui/gtk.h
+index 80851fb4c7..3f395d7f94 100644
+--- a/include/ui/gtk.h
++++ b/include/ui/gtk.h
+@@ -86,6 +86,7 @@ extern bool gtk_use_gl_area;
+ 
+ /* ui/gtk.c */
+ void gd_update_windowsize(VirtualConsole *vc);
++int gd_monitor_update_interval(GtkWidget *widget);
+ 
+ /* ui/gtk-egl.c */
+ void gd_egl_init(VirtualConsole *vc);
+diff --git a/ui/gtk.c b/ui/gtk.c
+index d2004a4dc1..26665cd2e6 100644
+--- a/ui/gtk.c
++++ b/ui/gtk.c
+@@ -752,7 +752,7 @@ static void gd_resize_event(GtkGLArea *area,
+  * If available, return the update interval of the monitor in ms,
+  * else return 0 (the default update interval).
+  */
+-static int gd_monitor_update_interval(GtkWidget *widget)
++int gd_monitor_update_interval(GtkWidget *widget)
+ {
+ #ifdef GDK_VERSION_3_22
+     GdkWindow *win = gtk_widget_get_window(widget);
+-- 
+2.30.0
 
 
