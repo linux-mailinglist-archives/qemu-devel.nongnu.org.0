@@ -2,76 +2,80 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A2F842F6AC4
-	for <lists+qemu-devel@lfdr.de>; Thu, 14 Jan 2021 20:19:59 +0100 (CET)
-Received: from localhost ([::1]:49388 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3B2722F6AEC
+	for <lists+qemu-devel@lfdr.de>; Thu, 14 Jan 2021 20:28:45 +0100 (CET)
+Received: from localhost ([::1]:34938 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l08A2-0003aC-Fu
-	for lists+qemu-devel@lfdr.de; Thu, 14 Jan 2021 14:19:58 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38482)
+	id 1l08IW-0002kX-8e
+	for lists+qemu-devel@lfdr.de; Thu, 14 Jan 2021 14:28:44 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39578)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <palmer@dabbelt.com>)
- id 1l086T-0001Ke-SC
- for qemu-devel@nongnu.org; Thu, 14 Jan 2021 14:16:18 -0500
-Received: from mail-pl1-x632.google.com ([2607:f8b0:4864:20::632]:39043)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <palmer@dabbelt.com>)
- id 1l086R-0000mU-8W
- for qemu-devel@nongnu.org; Thu, 14 Jan 2021 14:16:17 -0500
-Received: by mail-pl1-x632.google.com with SMTP id x18so3409047pln.6
- for <qemu-devel@nongnu.org>; Thu, 14 Jan 2021 11:16:13 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=dabbelt-com.20150623.gappssmtp.com; s=20150623;
- h=date:subject:in-reply-to:cc:from:to:message-id:mime-version
- :content-transfer-encoding;
- bh=3cFdWxw06XtJxEQNbyV5xhCjQTgSMAxjKPo4MsxEILg=;
- b=yC1VnVjkX3uTwVpa2xOf2aHryJVdvGUwVNRVsiGnSujAsyxA1/M1LQ1hV/vmy8W72A
- KBbPp4G9TigmtJZ5cK94ciMgQRwPvub/cM3LsosxbVGsADI4SywH1SvyMNl4ORnyvlgH
- O3aYSmTPuScttXnHE0toxvdAr9MVFk+ryfQLuOLwexY6bN7DuX8kFGwEvwnlD+q0rAGv
- kATySch0B7SwB/rksLKtrlqFsby2XmSUavz52SxYgxLxeOizA8rc9O51wTccKvjVYxot
- pe+3Pw456aa0SSPtEH4G8x5zVrjqjBTguQrjEuwyRnMo3B5ozgcOs/APLerzGISOmtGu
- A/og==
+ (Exim 4.90_1) (envelope-from <jdillama@redhat.com>)
+ id 1l08AR-0004sG-HL
+ for qemu-devel@nongnu.org; Thu, 14 Jan 2021 14:20:23 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:45333)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <jdillama@redhat.com>)
+ id 1l08AN-000291-QZ
+ for qemu-devel@nongnu.org; Thu, 14 Jan 2021 14:20:23 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1610652018;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:in-reply-to:in-reply-to:  references:references;
+ bh=bAEhcO882/4ubi118mKje4JscOkXKHD9qSyaA68ErFE=;
+ b=INIg1HXlY98c/MeHLzwgwxfoCz7svB8E/7UFWXhqSjlmCMaJx7gsFFh8MH9lq8I06K6ocp
+ kYyRHrVtPWHTVgSkIeiv+wcm76jnZl4HfP0VnUhfb1pIQI85Lw9giaK4qeSFGaMKNXgXEj
+ mf4BoiEekRlMAJ2eT86ttgkR85Up52s=
+Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
+ [209.85.221.69]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-136-NTEa8YTFMP-jk_nFYy-y9Q-1; Thu, 14 Jan 2021 14:19:10 -0500
+X-MC-Unique: NTEa8YTFMP-jk_nFYy-y9Q-1
+Received: by mail-wr1-f69.google.com with SMTP id j5so3031293wro.12
+ for <qemu-devel@nongnu.org>; Thu, 14 Jan 2021 11:19:10 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:date:subject:in-reply-to:cc:from:to:message-id
- :mime-version:content-transfer-encoding;
- bh=3cFdWxw06XtJxEQNbyV5xhCjQTgSMAxjKPo4MsxEILg=;
- b=N77nuyKOm+QcX+lCKbJQ2BvNeDsH4KGoYM1XF7xwG9OHxAPEfGdlt32IWJAkhyXO8C
- CFS2XNG6BpFLfsPwne1Q/9GNGov36AesGI814tybOGg7wGYlur32TqvGSdDJpStFzI82
- rioGS62AlS11ftops/xIfp0TrAZqrEQj15Kuoiqi0+FiuuzwrV3Psl+i/GVfKNCP3p69
- rU4Wo7ADjz3aOIP1fITS8MZBioSFihEUS59ZYIJIIJerh7IiKgu8KQKc/lSQ9Ql4hwjy
- Oo6/uQ6bGmol3S/UjfhWsJkJnuN/kd0n4imaFYzqfcTKmzX6wF9q87r0RPhJgujARdbD
- Ev7A==
-X-Gm-Message-State: AOAM530nhXHn8sJ+Da62ezxJsmz/LFGx5O1P4n/Dg3ZfHg/HAnwN7N43
- fjrku/OJK1msmbFnG2s0wCNo6g==
-X-Google-Smtp-Source: ABdhPJx327X0X8f8AyWQUbFFlGwOovAynYnhru3IhW4JTh04WGYGvsVWtVbUf7CoYucHn58K369ttA==
-X-Received: by 2002:a17:902:6ac9:b029:dc:2fe7:d949 with SMTP id
- i9-20020a1709026ac9b02900dc2fe7d949mr9026558plt.2.1610651772673; 
- Thu, 14 Jan 2021 11:16:12 -0800 (PST)
-Received: from localhost (76-210-143-223.lightspeed.sntcca.sbcglobal.net.
- [76.210.143.223])
- by smtp.gmail.com with ESMTPSA id h8sm7146348pjc.2.2021.01.14.11.16.11
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 14 Jan 2021 11:16:12 -0800 (PST)
-Date: Thu, 14 Jan 2021 11:16:12 -0800 (PST)
-X-Google-Original-Date: Thu, 14 Jan 2021 11:16:10 PST (-0800)
-Subject: Re: Emulation for riscv
-In-Reply-To: <CAEUhbmV4axZYh_6uBA5JdjdWjKLMgad=aAcRtmfgw8G6WqfC+A@mail.gmail.com>
-From: Palmer Dabbelt <palmer@dabbelt.com>
-To: bmeng.cn@gmail.com
-Message-ID: <mhng-578c8136-f661-491b-8c66-2583feffff1b@penguin>
-Mime-Version: 1.0 (MHng)
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::632;
- envelope-from=palmer@dabbelt.com; helo=mail-pl1-x632.google.com
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ h=x-gm-message-state:mime-version:references:in-reply-to:reply-to
+ :from:date:message-id:subject:to:cc;
+ bh=bAEhcO882/4ubi118mKje4JscOkXKHD9qSyaA68ErFE=;
+ b=XwsckQFO/DxHi2eybEPOyB/0IXM6r8H5uRem7CbhW5b/a78DELuhJz6Q1UgvGeN0rZ
+ NYQP2K/UwAFnxkVdKW+SUBBrerJ9wnvzkr0rzcQCCcmnvb94y2z79tdMevEWhwiYYAD1
+ jdg8hXG/Ax8yGdAoWzQpa+AGweCphA9Zn8V6+OY7LfFYfY0lmsqWcWZrtCjcpMJ9flJr
+ 8wpNhcLI4iJPGQ19s37XxooYzqcmYtuAnKtPTHwOhUDk54Z0NdH9atBIHFxRmltWkWU6
+ mLM4uszxnvXvGelfKB2pgU13P3HsKmplwqrtJIOaabKo6KOWYUdz9Jw+xxqZ+ugbRa6J
+ MQLw==
+X-Gm-Message-State: AOAM533AS96JGz3SvlYdmTIxIec636GhLss35zdaj/YbyOkzzUlqFum+
+ t5Ea8ZqiLmyQ9FxrvGQO33elPgVZ72WpU4BwsjWb3Px+tRNIgpMvT7FFhW4i9mBqh+Mfv6gyw87
+ ewvp3IHaB4coR2Z+/zkOiLybMXZExoPE=
+X-Received: by 2002:adf:f6c9:: with SMTP id y9mr9557398wrp.121.1610651949592; 
+ Thu, 14 Jan 2021 11:19:09 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJyZxIUxFPDyBYRy+2lnd59/HDXCgtqlpodW5TfIOlA48L5CBWXtHAvglq+v5d+fGDI4BOufg0FmoniDkD0V1Ls=
+X-Received: by 2002:adf:f6c9:: with SMTP id y9mr9557386wrp.121.1610651949421; 
+ Thu, 14 Jan 2021 11:19:09 -0800 (PST)
+MIME-Version: 1.0
+References: <20201227164236.10143-1-pl@kamp.de>
+ <20201227164236.10143-4-pl@kamp.de>
+In-Reply-To: <20201227164236.10143-4-pl@kamp.de>
+From: Jason Dillaman <jdillama@redhat.com>
+Date: Thu, 14 Jan 2021 14:18:51 -0500
+Message-ID: <CA+aFP1DnYJjbt99Je841E_ZZi-7nKY89FF1apHF=y4bZ7fuEUw@mail.gmail.com>
+Subject: Re: [PATCH 3/7] block/rbd: use stored image_size in qemu_rbd_getlength
+To: Peter Lieven <pl@kamp.de>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=jdillama@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=jdillama@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -29
+X-Spam_score: -3.0
+X-Spam_bar: ---
+X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.248,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -84,54 +88,50 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: alistair23@gmail.com, alex.bennee@linaro.org, qemu-devel@nongnu.org,
- moyarrezam@gmail.com
+Reply-To: dillaman@redhat.com
+Cc: Kevin Wolf <kwolf@redhat.com>, Christian Theune <ct@flyingcircus.io>,
+ qemu-devel <qemu-devel@nongnu.org>, qemu-block <qemu-block@nongnu.org>,
+ Max Reitz <mreitz@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, 14 Jan 2021 01:49:40 PST (-0800), bmeng.cn@gmail.com wrote:
-> On Thu, Jan 14, 2021 at 8:09 AM Alistair Francis <alistair23@gmail.com> wrote:
->>
->> On Fri, Nov 6, 2020 at 2:36 AM Alex Bennée <alex.bennee@linaro.org> wrote:
->> >
->> >
->> > Palmer Dabbelt <palmer@dabbelt.com> writes:
->> >
->> > > On Thu, 22 Oct 2020 17:56:38 PDT (-0700), alistair23@gmail.com wrote:
->> > >> On Thu, Oct 22, 2020 at 4:58 PM Moises Arreola <moyarrezam@gmail.com> wrote:
->> > >>>
->> > >>> Hello everyone, my name is Moses and I'm trying to set up a VM for a risc-v processor, I'm using the Risc-V Getting Started Guide and on the final step I'm getting an error while trying to launch the virtual machine using the cmd:
->> > >>
->> > >> Hello,
->> > >>
->> > >> Please don't use the RISC-V Getting Started Guide. Pretty much all of
->> > >> the information there is out of date and wrong. Unfortunately we are
->> > >> unable to correct it.
->> > >>
->> > >> The QEMU wiki is a much better place for information:
->> > >> https://wiki.qemu.org/Documentation/Platforms/RISCV
->> > >
->> > > Ya, everything at riscv.org is useless.  It's best to stick to the open source
->> > > documentation, as when that gets out of date we can at least fix it.  Using a
->> > > distro helps a lot here, the wiki describes how to run a handful of popular
->> > > ones that were ported to RISC-V early but if your favorite isn't on the list
->> > > then it may have its own documentation somewhere else.
->> >
->> > Even better if you could submit some .rst pages for QEMU's git:
->> >
->> >   docs/system/target-riscv.rst
->> >   docs/system/riscv/virt.rst (and maybe the other models)
->> >
->> > then we could improve the user manual where RiscV is currently a little
->> > under-represented. A number of the systems have simple example command
->> > lines or explain the kernel support needed for the model.
->>
->> Thanks for pointing that out Alex. Bin has sent some patches for this
->> so RISC-V should have a presence soon.
->>
+On Sun, Dec 27, 2020 at 11:42 AM Peter Lieven <pl@kamp.de> wrote:
 >
-> Yep, after the initial patches are merged, we can start adding more
-> RISC-V docs in reST.
+> Signed-off-by: Peter Lieven <pl@kamp.de>
+> ---
+>  block/rbd.c | 10 +---------
+>  1 file changed, 1 insertion(+), 9 deletions(-)
+>
+> diff --git a/block/rbd.c b/block/rbd.c
+> index bc8cf8af9b..a2da70e37f 100644
+> --- a/block/rbd.c
+> +++ b/block/rbd.c
+> @@ -956,15 +956,7 @@ static int qemu_rbd_getinfo(BlockDriverState *bs, BlockDriverInfo *bdi)
+>  static int64_t qemu_rbd_getlength(BlockDriverState *bs)
+>  {
+>      BDRVRBDState *s = bs->opaque;
+> -    rbd_image_info_t info;
+> -    int r;
+> -
+> -    r = rbd_stat(s->image, &info, sizeof(info));
+> -    if (r < 0) {
+> -        return r;
+> -    }
+> -
+> -    return info.size;
+> +    return s->image_size;
+>  }
+>
+>  static int coroutine_fn qemu_rbd_co_truncate(BlockDriverState *bs,
+> --
+> 2.17.1
 
-Thanks for doing this!
+An RBD image can technically change size dynamically while in-use. The
+original code would provide the most up-to-date length but this
+version will always return the size of the image when it was opened.
+
+
+--
+Jason
+
 
