@@ -2,113 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5DA362F64A3
-	for <lists+qemu-devel@lfdr.de>; Thu, 14 Jan 2021 16:31:15 +0100 (CET)
-Received: from localhost ([::1]:33538 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 83AD72F64AD
+	for <lists+qemu-devel@lfdr.de>; Thu, 14 Jan 2021 16:33:38 +0100 (CET)
+Received: from localhost ([::1]:36358 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l04ag-0001Nt-Ab
-	for lists+qemu-devel@lfdr.de; Thu, 14 Jan 2021 10:31:14 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51682)
+	id 1l04cz-0002ga-Kb
+	for lists+qemu-devel@lfdr.de; Thu, 14 Jan 2021 10:33:37 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52444)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <borntraeger@de.ibm.com>)
- id 1l04VM-0005xD-Bm; Thu, 14 Jan 2021 10:25:44 -0500
-Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:31052
- helo=mx0a-001b2d01.pphosted.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <borntraeger@de.ibm.com>)
- id 1l04VK-0002jS-44; Thu, 14 Jan 2021 10:25:44 -0500
-Received: from pps.filterd (m0098419.ppops.net [127.0.0.1])
- by mx0b-001b2d01.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id
- 10EF26mI053878; Thu, 14 Jan 2021 10:25:30 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
- h=subject : to : cc :
- references : from : message-id : date : mime-version : in-reply-to :
- content-type : content-transfer-encoding; s=pp1;
- bh=+fvFQhBdKPZ2qFw9YfpoWP68jBXakErCj26qU4eV+IQ=;
- b=kEUWrJs3MwvueOcHAL80E/c74fkVL+pezJf8XpbLNQ+LKMRExh+rRj9wFVdeqLSCjrRC
- 3NwpUB4dV7Rj2hN8fb3+pgxEv6eqniV/oKfG+xQZRMNDfWG9Qp3DN7Vzrf2v+f5cqbXy
- ZtQFsoWI+H1u+23OihLJj1vdfLQAldope/7tr/LQvpz8k69pB4Omioy4z62lLZx+cNnU
- yUPtq6WtMioGhhYwnMEnjp2bNYX5pLjq/G98qoZC/vYw4+684NnI+ENLDiGsKvCtJ7fS
- nyrZMsHQz5+47DAFFO8qtz/2ckp3++1ShwEy+6GoXQ67wOmKp9134WH9PJ4WlVbb/sv5 1Q== 
-Received: from pps.reinject (localhost [127.0.0.1])
- by mx0b-001b2d01.pphosted.com with ESMTP id 362qqxhx3y-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 14 Jan 2021 10:25:30 -0500
-Received: from m0098419.ppops.net (m0098419.ppops.net [127.0.0.1])
- by pps.reinject (8.16.0.36/8.16.0.36) with SMTP id 10EF3TlN064048;
- Thu, 14 Jan 2021 10:25:29 -0500
-Received: from ppma06ams.nl.ibm.com (66.31.33a9.ip4.static.sl-reverse.com
- [169.51.49.102])
- by mx0b-001b2d01.pphosted.com with ESMTP id 362qqxhx2j-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 14 Jan 2021 10:25:29 -0500
-Received: from pps.filterd (ppma06ams.nl.ibm.com [127.0.0.1])
- by ppma06ams.nl.ibm.com (8.16.0.42/8.16.0.42) with SMTP id 10EFCLXM024768;
- Thu, 14 Jan 2021 15:25:26 GMT
-Received: from b06cxnps4074.portsmouth.uk.ibm.com
- (d06relay11.portsmouth.uk.ibm.com [9.149.109.196])
- by ppma06ams.nl.ibm.com with ESMTP id 35ydrde5wd-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 14 Jan 2021 15:25:26 +0000
-Received: from d06av22.portsmouth.uk.ibm.com (d06av22.portsmouth.uk.ibm.com
- [9.149.105.58])
- by b06cxnps4074.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 10EFPNBH47055252
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Thu, 14 Jan 2021 15:25:23 GMT
-Received: from d06av22.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id B6C524C04E;
- Thu, 14 Jan 2021 15:25:23 +0000 (GMT)
-Received: from d06av22.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 5CF924C046;
- Thu, 14 Jan 2021 15:25:22 +0000 (GMT)
-Received: from oc7455500831.ibm.com (unknown [9.171.19.194])
- by d06av22.portsmouth.uk.ibm.com (Postfix) with ESMTP;
- Thu, 14 Jan 2021 15:25:22 +0000 (GMT)
-Subject: Re: [for-6.0 v5 11/13] spapr: PEF: prevent migration
-To: =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
- Boris Fiuczynski <fiuczy@linux.ibm.com>, Bjoern Walk <bwalk@linux.ibm.com>,
- Viktor Mihajlovski <mihajlov@linux.ibm.com>
-References: <20210113124226.GH2938@work-vm>
- <6e02e8d5-af4b-624b-1a12-d03b9d554a41@de.ibm.com>
- <20210114103643.GD2905@work-vm>
- <db2295ce-333f-2a3e-8219-bfa4853b256f@de.ibm.com>
- <20210114120531.3c7f350e.cohuck@redhat.com> <20210114114533.GF2905@work-vm>
- <b791406c-fde2-89db-4186-e1660f14418c@de.ibm.com>
- <20210114122048.GG1643043@redhat.com>
- <20210114150422.5f74ca41.cohuck@redhat.com>
- <b0084527-97b3-3174-d988-bf0f6d6221fd@de.ibm.com>
- <20210114141535.GJ1643043@redhat.com>
-From: Christian Borntraeger <borntraeger@de.ibm.com>
-Message-ID: <e13aad37-97ba-de1b-f311-cd37044c1809@de.ibm.com>
-Date: Thu, 14 Jan 2021 16:25:21 +0100
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1l04Xm-0008Pj-Gy
+ for qemu-devel@nongnu.org; Thu, 14 Jan 2021 10:28:16 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:44217)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1l04Xk-0003yU-As
+ for qemu-devel@nongnu.org; Thu, 14 Jan 2021 10:28:13 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1610638091;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=z+lZOe8ujto2aOkYnmb8DsQboBoqOUHQKD+pqQGZ7KI=;
+ b=HSEgYHwBryv/Pr57d9Din8BPXkUuvhkWLg9ZRC6HFEX4DnS5PGojfC0Lp+k/zaDf4LxL7a
+ ugT6WyW174m/Yr4liOitGzkng8eODfP1rZFlW3ulOhuYuCU4XoCtz4ht6tw0oEfNHhrgoA
+ DtQwbkGnV+c/YHL4xKBYkY0kP9ZrxNs=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-199-2GbwogLXN-WqEyJtmS-GWQ-1; Thu, 14 Jan 2021 10:28:09 -0500
+X-MC-Unique: 2GbwogLXN-WqEyJtmS-GWQ-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id EE060806661;
+ Thu, 14 Jan 2021 15:28:07 +0000 (UTC)
+Received: from thuth.remote.csb (ovpn-112-108.ams2.redhat.com [10.36.112.108])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 5AA186F99F;
+ Thu, 14 Jan 2021 15:28:01 +0000 (UTC)
+Subject: Re: [PATCH 01/23] sdlaudio: remove leftover SDL1.2 code
+To: =?UTF-8?Q?Volker_R=c3=bcmelin?= <vr_qemu@t-online.de>,
+ Gerd Hoffmann <kraxel@redhat.com>
+References: <9315afe5-5958-c0b4-ea1e-14769511a9d5@t-online.de>
+ <20210110100239.27588-1-vr_qemu@t-online.de>
+From: Thomas Huth <thuth@redhat.com>
+Message-ID: <3fc235df-266b-c880-1980-5c39bf427793@redhat.com>
+Date: Thu, 14 Jan 2021 16:28:00 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.6.0
+ Thunderbird/78.4.3
 MIME-Version: 1.0
-In-Reply-To: <20210114141535.GJ1643043@redhat.com>
-Content-Type: text/plain; charset=utf-8
+In-Reply-To: <20210110100239.27588-1-vr_qemu@t-online.de>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=thuth@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-X-TM-AS-GCONF: 00
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.343, 18.0.737
- definitions=2021-01-14_05:2021-01-14,
- 2021-01-14 signatures=0
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- phishscore=0 adultscore=0
- spamscore=0 bulkscore=0 impostorscore=0 suspectscore=0 clxscore=1015
- mlxlogscore=999 malwarescore=0 mlxscore=0 lowpriorityscore=0
- priorityscore=1501 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2009150000 definitions=main-2101140085
-Received-SPF: pass client-ip=148.163.158.5;
- envelope-from=borntraeger@de.ibm.com; helo=mx0a-001b2d01.pphosted.com
-X-Spam_score_int: -28
-X-Spam_score: -2.9
-X-Spam_bar: --
-X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.237,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=thuth@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -32
+X-Spam_score: -3.3
+X-Spam_bar: ---
+X-Spam_report: (-3.3 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.248,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.237, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -121,169 +82,68 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: pair@us.ibm.com, Cornelia Huck <cohuck@redhat.com>, brijesh.singh@amd.com,
- kvm@vger.kernel.org, "Michael S. Tsirkin" <mst@redhat.com>,
- Ram Pai <linuxram@us.ibm.com>, qemu-devel@nongnu.org, frankja@linux.ibm.com,
- david@redhat.com, mdroth@linux.vnet.ibm.com, Halil Pasic <pasic@linux.ibm.com>,
- rth@twiddle.net, thuth@redhat.com, Eduardo Habkost <ehabkost@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>, Greg Kurz <groug@kaod.org>,
- qemu-s390x@nongnu.org, David Gibson <david@gibson.dropbear.id.au>,
- Marcelo Tosatti <mtosatti@redhat.com>, qemu-ppc@nongnu.org,
- pbonzini@redhat.com
+Cc: QEMU <qemu-devel@nongnu.org>,
+ =?UTF-8?B?Wm9sdMOhbiBLxZF2w6Fnw7M=?= <dirty.ice.hu@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 14.01.21 15:15, Daniel P. Berrangé wrote:
-> On Thu, Jan 14, 2021 at 03:09:01PM +0100, Christian Borntraeger wrote:
->>
->>
->> On 14.01.21 15:04, Cornelia Huck wrote:
->>> On Thu, 14 Jan 2021 12:20:48 +0000
->>> Daniel P. Berrangé <berrange@redhat.com> wrote:
->>>
->>>> On Thu, Jan 14, 2021 at 12:50:12PM +0100, Christian Borntraeger wrote:
->>>>>
->>>>>
->>>>> On 14.01.21 12:45, Dr. David Alan Gilbert wrote:  
->>>>>> * Cornelia Huck (cohuck@redhat.com) wrote:  
->>>>>>> On Thu, 14 Jan 2021 11:52:11 +0100
->>>>>>> Christian Borntraeger <borntraeger@de.ibm.com> wrote:
->>>>>>>  
->>>>>>>> On 14.01.21 11:36, Dr. David Alan Gilbert wrote:  
->>>>>>>>> * Christian Borntraeger (borntraeger@de.ibm.com) wrote:    
->>>>>>>>>>
->>>>>>>>>>
->>>>>>>>>> On 13.01.21 13:42, Dr. David Alan Gilbert wrote:    
->>>>>>>>>>> * Cornelia Huck (cohuck@redhat.com) wrote:    
->>>>>>>>>>>> On Tue, 5 Jan 2021 12:41:25 -0800
->>>>>>>>>>>> Ram Pai <linuxram@us.ibm.com> wrote:
->>>>>>>>>>>>    
->>>>>>>>>>>>> On Tue, Jan 05, 2021 at 11:56:14AM +0100, Halil Pasic wrote:    
->>>>>>>>>>>>>> On Mon, 4 Jan 2021 10:40:26 -0800
->>>>>>>>>>>>>> Ram Pai <linuxram@us.ibm.com> wrote:    
->>>>>>>>>>>>    
->>>>>>>>>>>>>>> The main difference between my proposal and the other proposal is...
->>>>>>>>>>>>>>>
->>>>>>>>>>>>>>>   In my proposal the guest makes the compatibility decision and acts
->>>>>>>>>>>>>>>   accordingly.  In the other proposal QEMU makes the compatibility
->>>>>>>>>>>>>>>   decision and acts accordingly. I argue that QEMU cannot make a good
->>>>>>>>>>>>>>>   compatibility decision, because it wont know in advance, if the guest
->>>>>>>>>>>>>>>   will or will-not switch-to-secure.
->>>>>>>>>>>>>>>       
->>>>>>>>>>>>>>
->>>>>>>>>>>>>> You have a point there when you say that QEMU does not know in advance,
->>>>>>>>>>>>>> if the guest will or will-not switch-to-secure. I made that argument
->>>>>>>>>>>>>> regarding VIRTIO_F_ACCESS_PLATFORM (iommu_platform) myself. My idea
->>>>>>>>>>>>>> was to flip that property on demand when the conversion occurs. David
->>>>>>>>>>>>>> explained to me that this is not possible for ppc, and that having the
->>>>>>>>>>>>>> "securable-guest-memory" property (or whatever the name will be)
->>>>>>>>>>>>>> specified is a strong indication, that the VM is intended to be used as
->>>>>>>>>>>>>> a secure VM (thus it is OK to hurt the case where the guest does not
->>>>>>>>>>>>>> try to transition). That argument applies here as well.      
->>>>>>>>>>>>>
->>>>>>>>>>>>> As suggested by Cornelia Huck, what if QEMU disabled the
->>>>>>>>>>>>> "securable-guest-memory" property if 'must-support-migrate' is enabled?
->>>>>>>>>>>>> Offcourse; this has to be done with a big fat warning stating
->>>>>>>>>>>>> "secure-guest-memory" feature is disabled on the machine.
->>>>>>>>>>>>> Doing so, will continue to support guest that do not try to transition.
->>>>>>>>>>>>> Guest that try to transition will fail and terminate themselves.    
->>>>>>>>>>>>
->>>>>>>>>>>> Just to recap the s390x situation:
->>>>>>>>>>>>
->>>>>>>>>>>> - We currently offer a cpu feature that indicates secure execution to
->>>>>>>>>>>>   be available to the guest if the host supports it.
->>>>>>>>>>>> - When we introduce the secure object, we still need to support
->>>>>>>>>>>>   previous configurations and continue to offer the cpu feature, even
->>>>>>>>>>>>   if the secure object is not specified.
->>>>>>>>>>>> - As migration is currently not supported for secured guests, we add a
->>>>>>>>>>>>   blocker once the guest actually transitions. That means that
->>>>>>>>>>>>   transition fails if --only-migratable was specified on the command
->>>>>>>>>>>>   line. (Guests not transitioning will obviously not notice anything.)
->>>>>>>>>>>> - With the secure object, we will already fail starting QEMU if
->>>>>>>>>>>>   --only-migratable was specified.
->>>>>>>>>>>>
->>>>>>>>>>>> My suggestion is now that we don't even offer the cpu feature if
->>>>>>>>>>>> --only-migratable has been specified. For a guest that does not want to
->>>>>>>>>>>> transition to secure mode, nothing changes; a guest that wants to
->>>>>>>>>>>> transition to secure mode will notice that the feature is not available
->>>>>>>>>>>> and fail appropriately (or ultimately, when the ultravisor call fails).
->>>>>>>>>>>> We'd still fail starting QEMU for the secure object + --only-migratable
->>>>>>>>>>>> combination.
->>>>>>>>>>>>
->>>>>>>>>>>> Does that make sense?    
->>>>>>>>>>>
->>>>>>>>>>> It's a little unusual; I don't think we have any other cases where
->>>>>>>>>>> --only-migratable changes the behaviour; I think it normally only stops
->>>>>>>>>>> you doing something that would have made it unmigratable or causes
->>>>>>>>>>> an operation that would make it unmigratable to fail.    
->>>>>>>>>>
->>>>>>>>>> I would like to NOT block this feature with --only-migrateable. A guest
->>>>>>>>>> can startup unprotected (and then is is migrateable). the migration blocker
->>>>>>>>>> is really a dynamic aspect during runtime.     
->>>>>>>>>
->>>>>>>>> But the point of --only-migratable is to turn things that would have
->>>>>>>>> blocked migration into failures, so that a VM started with
->>>>>>>>> --only-migratable is *always* migratable.    
->>>>>>>>
->>>>>>>> Hmmm, fair enough. How do we do this with host-model? The constructed model
->>>>>>>> would contain unpack, but then it will fail to startup? Or do we silently 
->>>>>>>> drop unpack in that case? Both variants do not feel completely right.   
->>>>>>>
->>>>>>> Failing if you explicitly specified unpacked feels right, but failing
->>>>>>> if you just used the host model feels odd. Removing unpack also is a
->>>>>>> bit odd, but I think the better option if we want to do anything about
->>>>>>> it at all.  
->>>>>>
->>>>>> 'host-model' feels a bit special; but breaking the rule that
->>>>>> only-migratable doesn't change behaviour is weird
->>>>>> Can you do host,-unpack   to make that work explicitly?  
->>>>>
->>>>> I guess that should work. But it means that we need to add logic in libvirt
->>>>> to disable unpack for host-passthru and host-model. Next problem is then,
->>>>> that a future version might implement migration of such guests, which means
->>>>> that libvirt must then stop fencing unpack.  
->>>>
->>>> The "host-model" is supposed to always be migratable, so we should
->>>> fence the feature there.
->>>>
->>>> host-passthrough is "undefined" whether it is migratable - it may or may
->>>> not work, no guarantees made by libvirt.
->>>>
->>>> Ultimately I think the problem is that there ought to be an explicit
->>>> config to enable the feature for s390, as there is for SEV, and will
->>>> also presumably be needed for ppc. 
->>>
->>> Yes, an explicit config is what we want; unfortunately, we have to deal
->>> with existing setups as well...
->>>
->>> The options I see are
->>> - leave things for existing setups as they are now (i.e. might become
->>>   unmigratable when the guest transitions), and make sure we're doing
->>>   the right thing with the new object
->>> - always make the unpack feature conflict with migration requirements;
->>>   this is a guest-visible change
->>>
->>> The first option might be less hairy, all considered?
->>
->> What about a libvirt change that removes the unpack from the host-model as 
->> soon as  only-migrateable is used. When that is in place, QEMU can reject
->> the combination of only-migrateable + unpack.
+On 10/01/2021 11.02, Volker Rümelin wrote:
+> Signed-off-by: Volker Rümelin <vr_qemu@t-online.de>
+> ---
+>   audio/sdlaudio.c | 30 +++++++++++++-----------------
+>   1 file changed, 13 insertions(+), 17 deletions(-)
 > 
-> I think libvirt needs to just unconditionally remove unpack from host-model
-> regardless, and require an explicit opt in. We can do that in libvirt
-> without compat problems, because we track the expansion of "host-model"
-> for existing running guests.
-
-This is true for running guests, but not for shutdown and restart.
-
-I would really like to avoid bad (and hard to debug) surprises that a guest boots
-fine with libvirt version x and then fail with x+1. So at the beginning
-I am fine with libvirt removing "unpack" from the default host model expansion
-if the --only-migrateable parameter is used. Now I look into libvirt and I 
-cannot actually find code that uses this parameter. Are there some patches
-posted somewhere?
+> diff --git a/audio/sdlaudio.c b/audio/sdlaudio.c
+> index 21b7a0484b..bf3cfb8456 100644
+> --- a/audio/sdlaudio.c
+> +++ b/audio/sdlaudio.c
+> @@ -240,28 +240,24 @@ static void sdl_callback (void *opaque, Uint8 *buf, int len)
+>       }
+>   }
+>   
+> -#define SDL_WRAPPER_FUNC(name, ret_type, args_decl, args, fail, unlock) \
+> -    static ret_type glue(sdl_, name)args_decl                           \
+> -    {                                                                   \
+> -        ret_type ret;                                                   \
+> -                                                                        \
+> -        SDL_LockAudio();                                                \
+> -                                                                        \
+> -        ret = glue(audio_generic_, name)args;                           \
+> -                                                                        \
+> -        SDL_UnlockAudio();                                              \
+> -        return ret;                                                     \
+> +#define SDL_WRAPPER_FUNC(name, ret_type, args_decl, args)      \
+> +    static ret_type glue(sdl_, name)args_decl                  \
+> +    {                                                          \
+> +        ret_type ret;                                          \
+> +                                                               \
+> +        SDL_LockAudio();                                       \
+> +        ret = glue(audio_generic_, name)args;                  \
+> +        SDL_UnlockAudio();                                     \
+> +                                                               \
+> +        return ret;                                            \
+>       }
+>   
+>   SDL_WRAPPER_FUNC(get_buffer_out, void *, (HWVoiceOut *hw, size_t *size),
+> -                 (hw, size), *size = 0, sdl_unlock)
+> +                 (hw, size))
+>   SDL_WRAPPER_FUNC(put_buffer_out, size_t,
+> -                 (HWVoiceOut *hw, void *buf, size_t size), (hw, buf, size),
+> -                 /*nothing*/, sdl_unlock_and_post)
+> +                 (HWVoiceOut *hw, void *buf, size_t size), (hw, buf, size))
+>   SDL_WRAPPER_FUNC(write, size_t,
+> -                 (HWVoiceOut *hw, void *buf, size_t size), (hw, buf, size),
+> -                 /*nothing*/, sdl_unlock_and_post)
+> -
+> +                 (HWVoiceOut *hw, void *buf, size_t size), (hw, buf, size))
+>   #undef SDL_WRAPPER_FUNC
+>   
+>   static void sdl_fini_out (HWVoiceOut *hw)
 > 
-> QEMU could introduce a deprecation warning right now, and then turn it into
-> an error after the deprecation cycle is complete.
+
+Right, sdl_unlock and sdl_unlock_and_post have been removed in commit 
+8a7816c4ac13e6ba61de2 already.
+
+Reviewed-by: Thomas Huth <thuth@redhat.com>
+
 
