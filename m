@@ -2,92 +2,86 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0C6E32F6986
-	for <lists+qemu-devel@lfdr.de>; Thu, 14 Jan 2021 19:30:17 +0100 (CET)
-Received: from localhost ([::1]:47836 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8E9292F69AE
+	for <lists+qemu-devel@lfdr.de>; Thu, 14 Jan 2021 19:37:05 +0100 (CET)
+Received: from localhost ([::1]:59052 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l07Nw-000812-4b
-	for lists+qemu-devel@lfdr.de; Thu, 14 Jan 2021 13:30:16 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49128)
+	id 1l07UW-0005Yi-L2
+	for lists+qemu-devel@lfdr.de; Thu, 14 Jan 2021 13:37:04 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36108)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jag.raman@oracle.com>)
- id 1l07Ip-0003gW-JL
- for qemu-devel@nongnu.org; Thu, 14 Jan 2021 13:24:59 -0500
-Received: from aserp2130.oracle.com ([141.146.126.79]:57936)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jag.raman@oracle.com>)
- id 1l07Im-0004aA-Qj
- for qemu-devel@nongnu.org; Thu, 14 Jan 2021 13:24:58 -0500
-Received: from pps.filterd (aserp2130.oracle.com [127.0.0.1])
- by aserp2130.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 10EIDwgl071516;
- Thu, 14 Jan 2021 18:24:47 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com;
- h=content-type :
- mime-version : subject : from : in-reply-to : date : cc :
- content-transfer-encoding : message-id : references : to;
- s=corp-2020-01-29; bh=T48Htqu1uaIMuNVRpURuhQ1evjFs2dhEaVB1YyvWiXw=;
- b=Z0He24KwHJdMxo58n576g4T6lRZYFdxc2lWfybowV2pO6rp8gU0rffhF/m6b78jLjZH4
- LgS4H4bxMx7CEY2lurSj63Eg7SD26x6kvTJTGd+DJDlBNiSlDhhd0Gw6G2dp65qE0WMA
- uRNJiQ/vbYJ9c52rTOi2vXI9xfAPftDYdZgNWEl79ZuW1gDXPNItEO0YJaN48WJyozR4
- NsKlDeTFsCgz53aTHT1dDB2JE5+1WudQr8+21h4wWZY137nuQ2AP8WUqxRTlqqkwmjYy
- ZktDenEa08tuv3wp++cCWUu5yEP1i6F6B+qu1+t7GPZ58pDpUhz7WV+4yqYhFJTKzDnE gw== 
-Received: from userp3020.oracle.com (userp3020.oracle.com [156.151.31.79])
- by aserp2130.oracle.com with ESMTP id 360kg21mfr-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Thu, 14 Jan 2021 18:24:42 +0000
-Received: from pps.filterd (userp3020.oracle.com [127.0.0.1])
- by userp3020.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 10EIEcD4056698;
- Thu, 14 Jan 2021 18:24:41 GMT
-Received: from aserv0122.oracle.com (aserv0122.oracle.com [141.146.126.236])
- by userp3020.oracle.com with ESMTP id 360kf9v8ma-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Thu, 14 Jan 2021 18:24:41 +0000
-Received: from abhmp0003.oracle.com (abhmp0003.oracle.com [141.146.116.9])
- by aserv0122.oracle.com (8.14.4/8.14.4) with ESMTP id 10EIOd4Z009391;
- Thu, 14 Jan 2021 18:24:39 GMT
-Received: from [10.39.255.240] (/10.39.255.240)
- by default (Oracle Beehive Gateway v4.0)
- with ESMTP ; Thu, 14 Jan 2021 10:24:39 -0800
-Content-Type: text/plain;
-	charset=utf-8
-Mime-Version: 1.0 (Mac OS X Mail 14.0 \(3654.40.0.2.32\))
-Subject: Re: [PATCH v19 08/20] io: add qio_channel_readv_full_all_eof &
- qio_channel_readv_full_all helpers
-From: Jag Raman <jag.raman@oracle.com>
-In-Reply-To: <20210114180035.GY1643043@redhat.com>
-Date: Thu, 14 Jan 2021 13:24:37 -0500
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1l06iy-0001y4-QQ
+ for qemu-devel@nongnu.org; Thu, 14 Jan 2021 12:47:58 -0500
+Received: from mail-wm1-x336.google.com ([2a00:1450:4864:20::336]:56181)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1l06ir-0006WV-3n
+ for qemu-devel@nongnu.org; Thu, 14 Jan 2021 12:47:56 -0500
+Received: by mail-wm1-x336.google.com with SMTP id c124so5249104wma.5
+ for <qemu-devel@nongnu.org>; Thu, 14 Jan 2021 09:47:48 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=references:user-agent:from:to:cc:subject:date:in-reply-to
+ :message-id:mime-version:content-transfer-encoding;
+ bh=CZ6GlSbucWGPDtTlieBXkpUacxE1MhDq4W3ASDrcufk=;
+ b=wQDptkrCMxs9CwztK+Eb24p0vYN8iduB0xQIb1sQ+FO4SCewmWpQmemRatJYNX9agD
+ YINJZa3MtGaKa+UmPVGfzOt7igrwUSjyMuPMeMZJoGq5JJTtDXPdt+KjHfRfTVaSH1Z5
+ k/FfGxQNweZx1qZDyEd0XLhkg79fNkCe4cnzEwinunBeXGZST8x6z5PJDY3H8boL75m2
+ qYZwCVkwU/xGZAU5GdVxfTzFyTviDtdwMUxgv5WvkYoFMtlDIKIT0ykC2z/0b51bUBC+
+ TB+DKylK+vqufDS0ziiYqA450EvvCViaHTp0Ys6iFOHYN73W8wKQ8MmNLgNA2HjB8/Zi
+ 1uow==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:references:user-agent:from:to:cc:subject:date
+ :in-reply-to:message-id:mime-version:content-transfer-encoding;
+ bh=CZ6GlSbucWGPDtTlieBXkpUacxE1MhDq4W3ASDrcufk=;
+ b=QqTJIiZLIR26NL/dwKovB+3gszf6G+1/hk1MAEHWAnnfxxVfQrlHKEeif2Rb9nrC+Z
+ VcaJV8aE7miItjIuDsvzTVaoP0fOWSk0FHGHiFOPW0ui+fx0aKU2ZADmuPA6PFwMhks+
+ mDN5ZTdYQweKhuMk9WHm97CW/OfiPSmapiB3SKNf13OzyY3pVe3DrapM3Mdf1JwORHqQ
+ IkrtzVt9ficsYrc5OBsDnX36MnaCG7u1VCareaaMIbDVIv7pSL+bdEXws3EOlaG9rz+3
+ m3+abgS5azuNJgT/WA4M/p0tefTzTUG2sGYVZ4aCQJI5FbO4KJ1KiAWiY/axFNVHyVYD
+ JGww==
+X-Gm-Message-State: AOAM5326zl9hTd8ntMIEG+RjGTg+P7AcNaMi8kQ5KvjeuHa+AReksyPg
+ Nq5HE+I2Kco95uPArydjzlQkZg==
+X-Google-Smtp-Source: ABdhPJzG8iY7+r/OUxLgO7TQb3CnQ5rSG7simP8GnCKzEaZ+F+8oxtGmicADhWb0f601lnHaiL5Glg==
+X-Received: by 2002:a1c:2e88:: with SMTP id u130mr4994817wmu.83.1610646467022; 
+ Thu, 14 Jan 2021 09:47:47 -0800 (PST)
+Received: from zen.linaroharston ([51.148.130.216])
+ by smtp.gmail.com with ESMTPSA id c190sm9408989wme.19.2021.01.14.09.47.45
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 14 Jan 2021 09:47:45 -0800 (PST)
+Received: from zen (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id E880C1FF7E;
+ Thu, 14 Jan 2021 17:47:44 +0000 (GMT)
+References: <CAAQ-SiP8G28ade0jHbhTcv0jtGQb4OSgL5p3mAr0MU_FH8vZ3w@mail.gmail.com>
+ <87a6tm2sxb.fsf@linaro.org>
+ <CAAQ-SiOW8OnWEb0sHUEeS139-Tw0RO2YD1Tx-1s9iuy3ZVQFgw@mail.gmail.com>
+ <878s941x85.fsf@linaro.org>
+ <20210108083433.pfzhxrd4rezk6yxe@sirius.home.kraxel.org>
+ <CAAQ-SiO4VvVTo77J2ga1FmUZ9yrwopeASweO6-AFaakrAUZ80w@mail.gmail.com>
+ <CAAQ-SiPiq5NQN=2mvP3isZ9PtYO2Bu64kVEvE6T+3OJd5B-U5A@mail.gmail.com>
+ <CAAQ-SiMkJGBnxWSnybJqMD0LSASMtvA_wbrPDQcg-S+Y1ddjJA@mail.gmail.com>
+ <878s8zptrf.fsf@linaro.org>
+ <CAAQ-SiNKXhJcT1XEodQT6kojqppq37Kg8F8igipQ-HVYOU0=zA@mail.gmail.com>
+User-agent: mu4e 1.5.7; emacs 28.0.50
+From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: Shreyansh Chouhan <chouhan.shreyansh2702@gmail.com>
+Subject: Re: Fwd: VirtioSound device emulation implementation
+Date: Thu, 14 Jan 2021 17:41:54 +0000
+In-reply-to: <CAAQ-SiNKXhJcT1XEodQT6kojqppq37Kg8F8igipQ-HVYOU0=zA@mail.gmail.com>
+Message-ID: <87ft33l8an.fsf@linaro.org>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
-Message-Id: <1DE4BD83-5AD6-4F70-8702-03DE1548DBED@oracle.com>
-References: <cover.1610638428.git.jag.raman@oracle.com>
- <02a82c80a35ab60b98028c85aa94f688a2843943.1610638428.git.jag.raman@oracle.com>
- <20210114162729.GB306329@stefanha-x1.localdomain>
- <CA0E47D0-F1F5-4825-ABB7-BE73AAD3E375@oracle.com>
- <20210114180035.GY1643043@redhat.com>
-To: =?utf-8?B?IkRhbmllbCBQLiBCZXJyYW5nw6ki?= <berrange@redhat.com>
-X-Mailer: Apple Mail (2.3654.40.0.2.32)
-X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9864
- signatures=668683
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 suspectscore=0
- malwarescore=0
- mlxlogscore=999 phishscore=0 bulkscore=0 spamscore=0 mlxscore=0
- adultscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2009150000 definitions=main-2101140107
-X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9864
- signatures=668683
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 malwarescore=0
- suspectscore=0
- spamscore=0 phishscore=0 mlxscore=0 mlxlogscore=999 bulkscore=0
- lowpriorityscore=0 adultscore=0 classifier=spam adjust=0 reason=mlx
- scancount=1 engine=8.12.0-2009150000 definitions=main-2101140107
-Received-SPF: pass client-ip=141.146.126.79; envelope-from=jag.raman@oracle.com;
- helo=aserp2130.oracle.com
-X-Spam_score_int: -46
-X-Spam_score: -4.7
-X-Spam_bar: ----
-X-Spam_report: (-4.7 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.248,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_PASS=-0.001,
+Received-SPF: pass client-ip=2a00:1450:4864:20::336;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x336.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -101,122 +95,70 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Elena Ufimtseva <elena.ufimtseva@oracle.com>, Fam Zheng <fam@euphon.net>,
- Swapnil Ingle <swapnil.ingle@nutanix.com>,
- John G Johnson <john.g.johnson@oracle.com>, qemu-level <qemu-devel@nongnu.org>,
- kraxel@redhat.com, quintela@redhat.com, mst@redhat.com, armbru@redhat.com,
- kanth.ghatraju@oracle.com, felipe@nutanix.com, thuth@redhat.com,
- ehabkost@redhat.com, konrad.wilk@oracle.com, dgilbert@redhat.com,
- alex.williamson@redhat.com, Stefan Hajnoczi <stefanha@redhat.com>,
- pbonzini@redhat.com, kwolf@redhat.com, mreitz@redhat.com,
- ross.lagerwall@citrix.com, marcandre.lureau@gmail.com,
- thanos.makatos@nutanix.com
+Cc: Gerd Hoffmann <kraxel@redhat.com>, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 
+Shreyansh Chouhan <chouhan.shreyansh2702@gmail.com> writes:
 
-> On Jan 14, 2021, at 1:00 PM, Daniel P. Berrang=C3=A9 =
-<berrange@redhat.com> wrote:
->=20
-> On Thu, Jan 14, 2021 at 12:55:58PM -0500, Jag Raman wrote:
->>=20
->>=20
->>> On Jan 14, 2021, at 11:27 AM, Stefan Hajnoczi <stefanha@redhat.com> =
-wrote:
->>>=20
->>> On Thu, Jan 14, 2021 at 10:40:03AM -0500, Jagannathan Raman wrote:
->>>> +int qio_channel_readv_full_all(QIOChannel *ioc,
->>>> +                               const struct iovec *iov,
->>>> +                               size_t niov,
->>>> +                               int **fds, size_t *nfds,
->>>> +                               Error **errp)
->>>> {
->>>> -    int ret =3D qio_channel_readv_all_eof(ioc, iov, niov, errp);
->>>> +    int ret =3D qio_channel_readv_full_all_eof(ioc, iov, niov, =
-fds, nfds, errp);
->>>>=20
->>>>    if (ret =3D=3D 0) {
->>>> -        ret =3D -1;
->>>>        error_setg(errp,
->>>>                   "Unexpected end-of-file before all bytes were =
-read");
->>>=20
->>> qio_channel_readv_full_all_eof() can read file descriptors but no =
-data
->>> and return 0.
->>>=20
->>> Here that case is converted into an error and the file descriptors
->>> aren't closed, freed, and fds/nfds isn't cleared.
->>=20
->> That=E2=80=99s a valid point. I=E2=80=99m wondering if the fix for =
-this case should be in
->> qio_channel_readv_full_all_eof(), instead of here.
->>=20
->> qio_channel_readv_full_all_eof() should probably return error (-1) if =
-the
->> amount of data read does not match iov_size(). If the caller is only =
-expecting
->> to read fds, and not any data, it would indicate that by setting iov =
-to NULL
->> and/or setting niov=3D0. If the caller is setting these parameters, =
-it means it is
->> expecting data.Does that sound good?
->=20
-> The API spec for the existing _eof() methods says:
->=20
-> * The function will wait for all requested data
-> * to be read, yielding from the current coroutine
-> * if required.
-> *
-> * If end-of-file occurs before any data is read,
-> * no error is reported; otherwise, if it occurs
-> * before all requested data has been read, an error
-> * will be reported.
->=20
->=20
-> IOW, return '0' is *only* valid if we've not read anything. I consider
-> file descriptors to be something.
->=20
-> IOW, qio_channel_readv_full_all_eof must only return 0, if it didn't
-> read any data and also didn't receive any file descriptors. So yeah,
-> we must return -1 in the scenario Stefan describes
+> Just an update:
+>
+> I've studied the virtio specification along with the source code and I now
+> understand what the device implementation is
+> going to look like. Also I understand the source code a lot better. I am
+> now reading about the qemu vhost-user protocol.
+>
+> Although I haven't read about the vhost-user daemon in detail, from what
+> little I have read, I would say that the daemon
+> would get the virtqueues from the virtio device and forward it to the sou=
+nd
+> device of the host. (This is the hard part
+> I think, since an in QEMU device would use code already written for
+> processing these queues.)
 
-That makes sense to me. Reading =E2=80=9Cfds" is something, which is =
-different
-from our previous understanding. I thought data only meant iov, and not =
-fds.
+I can't comment on the difficulty there but this does point more towards
+using the in-QEMU approach given we have a bunch of utility functions alrea=
+dy.
 
-So the return values for qio_channel_readv_full_all_eof() would be:
-  - =E2=80=980=E2=80=99 only if EOF is reached without reading any fds =
-and data.
-  - =E2=80=981=E2=80=99 if all data that the caller expects are read =
-(even if the caller reads
-    fds exclusively, without any iovs)
-  - =E2=80=98-1=E2=80=99 otherwise, considered as error
+> I think only the tx and rx
+> queues would be shared, and although I do not know exactly how the sharing
+> will be implemented, I think the memory
+> will be shared to the vhost-user daemon too? So now the virtqueue memory =
+is
+> shared between the virtio driver in guest
+> OS, the virtio device in QEMU, and the vhost-user daemon running in the
+> host userspace.
 
-qio_channel_readv_full_all() would return:
-  - =E2=80=980=E2=80=99 if all the data that caller expects are read
-  - =E2=80=98-1=E2=80=99 otherwise, considered as error
+QEMU uses a memfd file descriptor to share the guests entire memory map
+with the daemon.
 
-Hey Stefan,
+> As for the configuration part, the driver will negotiate features with the
+> virtio device in QEMU, which in turn will communicate
+> with the vhost-user daemon (via sockets) to get the features supported I
+> think.
+>
+> This is what I think it will roughly look like. (Of course modulo the
+> implementation details.) I do not yet understand how
+> much more difficult will implementing the vhost-user daemon be, and since=
+ I
+> was already
+> warned about the difficulty, I will not risk making any hasty decisions
+> that later hinder the project. I will read up
+> about the vhost-user daemon and how it's implemented to get a better idea,
+> and then make the final call.
 
-    Does this sound good to you?
+If you want to see an example of a branch new vhost-user daemon being
+built up from scratch see my recent virtio-rpmb series. The first few
+patches of in-QEMU code will be the same boilerplate either way I think:
 
-Thank you!
---
-Jag
+  https://patchew.org/QEMU/20200925125147.26943-1-alex.bennee@linaro.org/
 
->=20
-> Regards,
-> Daniel
-> --=20
-> |: https://berrange.com      -o-    =
-https://www.flickr.com/photos/dberrange :|
-> |: https://libvirt.org         -o-            =
-https://fstop138.berrange.com :|
-> |: https://entangle-photo.org    -o-    =
-https://www.instagram.com/dberrange :|
->=20
+> Anyways I am super excited about the project. I got to learn about some
+> really cool things in the past couple of days,
+> and I can not wait to implement it. :)
 
+
+--=20
+Alex Benn=C3=A9e
 
