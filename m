@@ -2,74 +2,92 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E71B92F628A
-	for <lists+qemu-devel@lfdr.de>; Thu, 14 Jan 2021 14:59:08 +0100 (CET)
-Received: from localhost ([::1]:33974 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CA0EB2F62A4
+	for <lists+qemu-devel@lfdr.de>; Thu, 14 Jan 2021 15:04:08 +0100 (CET)
+Received: from localhost ([::1]:42662 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l039Y-0000YK-1k
-	for lists+qemu-devel@lfdr.de; Thu, 14 Jan 2021 08:59:08 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56696)
+	id 1l03EN-0004Ti-Rr
+	for lists+qemu-devel@lfdr.de; Thu, 14 Jan 2021 09:04:07 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58018)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1l033c-0003Np-K4
- for qemu-devel@nongnu.org; Thu, 14 Jan 2021 08:53:00 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:31013)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1l037X-000887-9b
+ for qemu-devel@nongnu.org; Thu, 14 Jan 2021 08:57:03 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:36980)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1l033a-0003qw-L7
- for qemu-devel@nongnu.org; Thu, 14 Jan 2021 08:53:00 -0500
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1l037V-0005oE-FD
+ for qemu-devel@nongnu.org; Thu, 14 Jan 2021 08:57:02 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1610632377;
+ s=mimecast20190719; t=1610632620;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=gl24EnEYpm3ZUHUOzIKO6qw0Krvo0fAnC1Z0LsKBE54=;
- b=bJWCmhhb8qc8v+DtekIP+KULlwh/vNbDsotYB0lWdr473raRCRtxucNFXuCEnZgQAuV1Kh
- o5mzvfGLzCZ7mZf1pIRaMGwu42rdtL1YWvonz3YTC0gC/NlSt3D/b5GQazhHS0AY/NjdT/
- QF3ceqwqb2RApw5ZU787wRFhW5NUoJQ=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-93-1UZ32254PJ2s8CyKngUBXA-1; Thu, 14 Jan 2021 08:52:55 -0500
-X-MC-Unique: 1UZ32254PJ2s8CyKngUBXA-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 48B7B8EA73C;
- Thu, 14 Jan 2021 13:52:36 +0000 (UTC)
-Received: from localhost (ovpn-115-113.ams2.redhat.com [10.36.115.113])
- by smtp.corp.redhat.com (Postfix) with ESMTP id B7D3150C0A;
- Thu, 14 Jan 2021 13:52:35 +0000 (UTC)
-Date: Thu, 14 Jan 2021 13:52:34 +0000
-From: Stefan Hajnoczi <stefanha@redhat.com>
-To: John Snow <jsnow@redhat.com>
-Subject: Re: qmp-shell TUI (was: Re: Call for Google Summer of Code 2021
- project ideas)
-Message-ID: <20210114135234.GC292902@stefanha-x1.localdomain>
-References: <CAJSP0QWWg__21otbMXAXWGD1FaHYLzZP7axZ47Unq6jtMvdfsA@mail.gmail.com>
- <92903d8d-24c4-5177-67c9-1690ea794739@redhat.com>
- <CAJSP0QVRohWcfYY7AjispK8+VYat6APc3nNbmAxk+34nZmtFPw@mail.gmail.com>
- <e8938b53-a933-426c-0719-981ab0df123f@redhat.com>
+ bh=Yzkwf8Cz/RswH0mj47kB0ifS9+hsv3bGvGfp3y2MU6w=;
+ b=CkheW58XzWzejaA9rc/jfiP9dedOvN5jFZLNg0Vng73W9x/6jGo5IupVaFBqcrATm5ss5u
+ O1+XilR5zQL93XujX5bbFPuWNnI6/zIphsLK8IUPxLH3kxd65KrL+GhJh4k1+GKqAAzlp2
+ VoedvVH53deaFAkTETygHR7o/KD0Vpc=
+Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
+ [209.85.128.69]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-547-N9VwDas9N5qyx7DbTNpV2Q-1; Thu, 14 Jan 2021 08:56:58 -0500
+X-MC-Unique: N9VwDas9N5qyx7DbTNpV2Q-1
+Received: by mail-wm1-f69.google.com with SMTP id b194so813092wmd.3
+ for <qemu-devel@nongnu.org>; Thu, 14 Jan 2021 05:56:57 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=Yzkwf8Cz/RswH0mj47kB0ifS9+hsv3bGvGfp3y2MU6w=;
+ b=edTaWx9UcOqo5O+p3GP1MaMKXakZr36ebGDqEWGs/thEu8xH0pqncgKe2aNgcBd3Wm
+ lIo43AKsPgbce++znANI2SIHJBzrbpZGr+yLfYutRQEuQvlu9UWvH9SBDUSnu3WqwXVi
+ Nund6r7K0Mh6ZX2N2+JYj8TnPohmOWqcNSxN5pGgBFGev9VeT0dF1dVdp1DJMNq1XbsA
+ XPzlHU0gesbwWJ427x8/+Wt3cjGWeOPFpATPVQShNgBvQzm3XCdcW02Rtl94wCHVnEBD
+ BEK5qXyNUkv1zODoqSf5HID0xkJtXUbICrADT6dAPXevw7h65lrfQlfZ72gX9sIJCf+t
+ 33Rw==
+X-Gm-Message-State: AOAM532Yyx+UbBCNgsGfts3qHHuk2GV74xPPiBOebjYtznEVT49FydaL
+ QSAi5RsviGR1Q27FzMmTljG/Y9gGWZFsO3GUevVdsRwKxAv3Oxd8MDNqvvvajbDw65b3ZaqbZol
+ O6L/AIyRUmomMDX4=
+X-Received: by 2002:a1c:a501:: with SMTP id o1mr4109171wme.44.1610632616964;
+ Thu, 14 Jan 2021 05:56:56 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJwMcxrb54+6CYgM/3tFG25eUHhSPb9r5TiymBlxdxt/KOwgDwC31YAXTQ+gLszPVLBNxV3Vjg==
+X-Received: by 2002:a1c:a501:: with SMTP id o1mr4109159wme.44.1610632616723;
+ Thu, 14 Jan 2021 05:56:56 -0800 (PST)
+Received: from [192.168.1.36] (13.red-83-57-169.dynamicip.rima-tde.net.
+ [83.57.169.13])
+ by smtp.gmail.com with ESMTPSA id g5sm10579918wro.60.2021.01.14.05.56.55
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 14 Jan 2021 05:56:56 -0800 (PST)
+Subject: Re: [PATCH v2 23/25] tests/docker: auto-generate ubuntu2004 with
+ lcitool
+To: =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
+ qemu-devel@nongnu.org
+References: <20210114130245.1654081-1-berrange@redhat.com>
+ <20210114130245.1654081-24-berrange@redhat.com>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+Message-ID: <857e94de-1a6d-8405-970c-793c36b5455c@redhat.com>
+Date: Thu, 14 Jan 2021 14:56:54 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.6.0
 MIME-Version: 1.0
-In-Reply-To: <e8938b53-a933-426c-0719-981ab0df123f@redhat.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+In-Reply-To: <20210114130245.1654081-24-berrange@redhat.com>
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=stefanha@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="vOmOzSkFvhd7u8Ms"
-Content-Disposition: inline
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=stefanha@redhat.com;
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=philmd@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -29
-X-Spam_score: -3.0
+X-Spam_score_int: -32
+X-Spam_score: -3.3
 X-Spam_bar: ---
-X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.248,
+X-Spam_report: (-3.3 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.248,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ NICE_REPLY_A=-0.237, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -82,101 +100,39 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: libvir-list@redhat.com, Stefan Hajnoczi <stefanha@gmail.com>,
- QEMU Developers <qemu-devel@nongnu.org>, Eduardo Habkost <ehabkost@redhat.com>
+Cc: Fam Zheng <fam@euphon.net>, Peter Maydell <peter.maydell@linaro.org>,
+ =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---vOmOzSkFvhd7u8Ms
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+On 1/14/21 2:02 PM, Daniel P. Berrangé wrote:
+> This commit is best examined using the "-b" option to diff.
+> 
+> Signed-off-by: Daniel P. Berrangé <berrange@redhat.com>
+> ---
+>  tests/docker/dockerfiles/refresh           |   6 +
+>  tests/docker/dockerfiles/ubuntu2004.docker | 237 +++++++++++----------
+>  2 files changed, 136 insertions(+), 107 deletions(-)
+> 
+> diff --git a/tests/docker/dockerfiles/refresh b/tests/docker/dockerfiles/refresh
+> index ab1d00fcf8..658a57c28c 100755
+> --- a/tests/docker/dockerfiles/refresh
+> +++ b/tests/docker/dockerfiles/refresh
+> @@ -57,5 +57,11 @@ try:
+>  
+>     generate_image("ubuntu1804.docker", "ubuntu-1804",
+>                    trailer="".join(skipssh))
+> +
+> +   tsanhack = ["# Apply patch https://reviews.llvm.org/D75820\n",
+> +               "# This is required for TSan in clang-10 to compile with QEMU.\n",
+> +               "RUN sed -i 's/^const/static const/g' /usr/lib/llvm-10/lib/clang/10.0.0/include/sanitizer/tsan_interface.h\n"]
+> +   generate_image("ubuntu2004.docker", "ubuntu-2004",
+> +                  trailer="".join(tsanhack))
+...
+>  # Apply patch https://reviews.llvm.org/D75820
+>  # This is required for TSan in clang-10 to compile with QEMU.
+>  RUN sed -i 's/^const/static const/g' /usr/lib/llvm-10/lib/clang/10.0.0/include/sanitizer/tsan_interface.h
 
-On Wed, Jan 13, 2021 at 01:59:43PM -0500, John Snow wrote:
-> On 1/13/21 3:53 AM, Stefan Hajnoczi wrote:
-> > On Tue, Jan 12, 2021 at 9:10 PM John Snow <jsnow@redhat.com> wrote:
-> > 2. Ability to watch QMP activity on a running QEMU process, e.g. even
-> > when libvirt is directly connected to the monitor.
-> >=20
->=20
-> That *WOULD* be extremely cool, and moves a lot closer to how mitmproxy
-> works.
->=20
-> (Actually, mitmproxy could theoretically be taught how to read and
-> understand QMP traffic, but that's not something I know how to do or woul=
-d
-> be prepared to mentor.)
->=20
-> Is this possible to do in a post-hoc fashion? Let's say you are using
-> production environment QEMU, how do we attach the QMP listener to it? Or
-> does this idea require that we start QEMU in a specific fashion with a
-> second debug socket that qmp-shell can connect to in order to listen?
->=20
-> ... Or do we engineer qmp-shell to open its own socket that libvirt conne=
-cts
-> to ...?
-
-Here is the QEMU command-line that libvirt uses on my F33 system:
-
-  -chardev socket,id=3Dcharmonitor,fd=3D36,server,nowait
-  -mon chardev=3Dcharmonitor,id=3Dmonitor,mode=3Dcontrol
-
-Goals for this feature:
-
-1. No manual steps required for setup.
-2. Ability to start/stop monitoring traffic at runtime without
-   restarting QEMU.
-3. Available to unprivileged users.
-
-I think the easiest way to achieve this is through a new QEMU monitor
-command. Approaches that come to mind:
-
-1. Add a -mon debug-chardev property and a QMP command to set it at
-   runtime. The debug-chardev receives both monitor input (commands) and
-   output (responses and events). This does not allow MITM, rather it
-   mirrors traffic.
-
-2. Add a chardev-get-fd command that fetches the fd from a chardev and
-   then use the existing chardev-change command to replace the monitor
-   chardev with a chardev connected to qmp-shell. This inserts qmp-shell
-   as a proxy between the QMP client and server. qmp-shell can remove
-   itself again with another chardev-change command. This approach
-   allows MITM. The downside is it assumes the QMP chardev is a file
-   descriptor, so it won't work with all types of chardev.
-
-3. Add a new chardev-proxy type that aggregates 3 chardevs: 1. an origin
-   source chardev, 2. a monitoring sink chardev, and 3. a monitoring
-   source chardev. The data flow is origin <-> monitoring sink <->
-   monitoring source <-> QMP monitor. qmp-shell creates the monitoring
-   sink (for receiving incoming QMP commands) and monitoring source
-   chardev (for forwarding QMP commands or MITM commands), and then it
-   uses change-chardev to instantiate a chardev-proxy that directs the
-   original libvirt chardev through the monitoring sink and source.
-
-   This is the most complex but also completely contained within the
-   QEMU chardev layer.
-
-In all these approaches qmp-shell uses virsh qemu-monitor-command or an
-equivalent API to start/stop monitoring a running VM without manual
-setup steps.
-
-Stefan
-
---vOmOzSkFvhd7u8Ms
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAmAATKIACgkQnKSrs4Gr
-c8iISQgAlATU6Lf9Fq4hFztJrmm/bG6F37eAM69XxNz9+IH9e2kBW67bX3Lmx5Ym
-yv4/S0QsfWsWCQK6m+3olFaA1p9l6Ppx77L/LtakaVtiYbJ3H+5Zs4dW06bEpFIZ
-CeIRrzqyOCTAYensYAv3wcyKSFTtMV64YZBQH2bDGiMA4OAI2kpy2piStBbitVX8
-gTvZuDK8i8Z1FIcj5pJt+rSLI6nt5EeH41RvRQypr3/uzdZduol5otUkGB89v2rO
-gPZ8FfEf1jvf79nL6rv/G1s8H3Hp/6xXPd6+aFGuhmeGjyCVtjfaaxo30zeGVtf0
-xjAbQIiP9HRhs2johQIyV6wReJC+ag==
-=PdYF
------END PGP SIGNATURE-----
-
---vOmOzSkFvhd7u8Ms--
+Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 
 
