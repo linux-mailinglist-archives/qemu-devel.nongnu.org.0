@@ -2,69 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D61852F6401
-	for <lists+qemu-devel@lfdr.de>; Thu, 14 Jan 2021 16:18:37 +0100 (CET)
-Received: from localhost ([::1]:60630 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CDDEF2F63F8
+	for <lists+qemu-devel@lfdr.de>; Thu, 14 Jan 2021 16:14:36 +0100 (CET)
+Received: from localhost ([::1]:50886 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l04OS-0005LI-LG
-	for lists+qemu-devel@lfdr.de; Thu, 14 Jan 2021 10:18:36 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47222)
+	id 1l04KZ-0000dr-OO
+	for lists+qemu-devel@lfdr.de; Thu, 14 Jan 2021 10:14:35 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47276)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
- id 1l04Ff-0005BL-PO; Thu, 14 Jan 2021 10:09:31 -0500
-Received: from mail-pf1-x42b.google.com ([2607:f8b0:4864:20::42b]:39713)
+ id 1l04Fs-0005Lx-2P; Thu, 14 Jan 2021 10:09:45 -0500
+Received: from mail-pj1-x1036.google.com ([2607:f8b0:4864:20::1036]:35755)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
- id 1l04Fd-0003hn-P3; Thu, 14 Jan 2021 10:09:31 -0500
-Received: by mail-pf1-x42b.google.com with SMTP id m6so3509067pfm.6;
- Thu, 14 Jan 2021 07:09:28 -0800 (PST)
+ id 1l04Fp-0003mM-4L; Thu, 14 Jan 2021 10:09:43 -0500
+Received: by mail-pj1-x1036.google.com with SMTP id b5so3357332pjl.0;
+ Thu, 14 Jan 2021 07:09:40 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=8UE5JTc8nfgwwuFsAclEJ0iZ4yiLi2DQhy02YDC7+JI=;
- b=lmwYYY+o1CM5YsrXLXPQfCaAxg6bb5sTFgkzkh26kAOCUtmBwz8au2aofHf95WkrAb
- apDSLDqS9cvkzNrCiuH8e9/ozMJjZALnNxw6yvEUmJHyfu4D/2jP2aLexEaE+xXjYab5
- kYJYLV1BTm2dUJ/kt5Vx3MS3spP42mRepKiZFJiH4EKbiWlUeWzPVtf9cD5Xh8ZCipbo
- X4GPbvZy1hllOu+++V34+l6pLOBDfcb1PKvUA7dOLirKGIFpqRnHVxCJPks146vJj7Sf
- /RCTPuBQwn+Tt/RCKcbb+n2HvbUbdb1IoLJhph05cyk2y+8i4cq2Q2oCFjiV9EfM0XLA
- NvFA==
+ h=from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=FfB23SnNfNBOgiYxokOcghI0Q+ia/hscI8/Az4dXuB8=;
+ b=Fn+dJNZY1iW18yB3SckoQ1wrxWk5favlIHkAYZR0qXfj6Sgs28cTy1Yo6KHsjKfzsH
+ QJRDMjYVXztJutQM/GnRRL98/cvbQFXTZJ2Eqfr/1Z/YbMvM8JL6d25J6k5hywUkOzy5
+ aU6mk1xgQr8AxhReVzzEKYavuHAB6npKL+c0FCLzZFK7lDL876pMFHo3BVH2JUWctooX
+ /UbR6MoYHoZU4mmHH9d8S/RQDooCM13KOzWwtugOTnoQR152DtRM7ZKRsnjqp5ayfAYs
+ wN6QH1AgnbECgCEVsBiKh0DgXxsM78LvYcH9BZ1+GlE5p0POBwyxd8RLzI6Nf9w5TpIF
+ zOug==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=8UE5JTc8nfgwwuFsAclEJ0iZ4yiLi2DQhy02YDC7+JI=;
- b=LQ2IL0QvqtozWj+Bq/Pxv10VSX5irfgru+UBPxwFVDcppvNqsLsC5QuWcsdY9IIJta
- HqPgmaQrayJjc5yCwkjr6OMYIKqrPeILY/KlwfDl7ZxC3LWb6u6Ex0w3QDDBVMbyDo2X
- MeJHdJt7R6f7cPluDlD3JMyNqxxBJszaTpQO9Q1efVZzIKhKkScBWJBpTHgh6yxdw9No
- NaHpzgXnUI1IbyC33Sb44CpuIFX5ZqQ+RG6LpBpaSuOEoxkImszjW4EpZzxy7YxUJnZh
- 26tH2aFXNehcyjioz8jWJK56Hw223xTQXa5Gdx5ru4RjoYdAVGYJg6shVawjfl9pP6jH
- C9nA==
-X-Gm-Message-State: AOAM532kGCXsN6ToYVaP5tvUBqSUfEo+p6vQ8ZzilkvTvdPI7IXKsWsW
- 1ygx3beGpX0IfRGVrN6AwnQ=
-X-Google-Smtp-Source: ABdhPJx0WdNq5jBwQrpKXSVEDywthQldYWOmI7l2gNSTPY4anSlDzMuDknpb3dE/0VI1pDlmZVSI7g==
-X-Received: by 2002:a63:3184:: with SMTP id x126mr7965002pgx.354.1610636967018; 
- Thu, 14 Jan 2021 07:09:27 -0800 (PST)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=FfB23SnNfNBOgiYxokOcghI0Q+ia/hscI8/Az4dXuB8=;
+ b=J97Z9432ldfA+vgyPF104qfgdDrgpLAx6PH6Ik9TpajcFbeOo1TeYfR9vZ/UGf+lug
+ B35VMhP1JV0Pu0s55ejB1cdxNvN8OixAHtzHf1KRfLw3P+zR9sL4+xnPL/PS+bUXMNbm
+ QoZtrlPU4R71rf/hFHfM3gOlVs1ueejMQa9SraJYGPdby+9J81slJyxTX4qYAgVEporj
+ LliAEb+0yWI9eLjzH5VuqicRg9OJMi3LTSsTfDubL/Xh7m93z95LWtvkqJf47MRAkm1Y
+ fc8VW5JZwR9M0ICxHLzKy5IYEdZOC53MIs+7WhBDWsJZh2saZ17Hgq7yTvTAp7tOirQP
+ KDeg==
+X-Gm-Message-State: AOAM531vwguCSuOg2VrL7S8KUInm7Iwq6cD8al4x6pq6eFcDGZ+vfBka
+ dGd3oUoIHMbHYNA9wkCBb+U=
+X-Google-Smtp-Source: ABdhPJx23JxUTfUhk7rk901jxYeJ0+dD8mEiLT0ff1dVV+9rlUMrwRvRg7bplcsTAiqmCxkgO6xMEg==
+X-Received: by 2002:a17:902:c1cc:b029:da:dd7c:2ac7 with SMTP id
+ c12-20020a170902c1ccb02900dadd7c2ac7mr7852021plc.25.1610636978595; 
+ Thu, 14 Jan 2021 07:09:38 -0800 (PST)
 Received: from i9-aorus-gtx1080.localdomain (144.168.56.201.16clouds.com.
  [144.168.56.201])
- by smtp.gmail.com with ESMTPSA id w21sm5372051pfq.67.2021.01.14.07.09.13
+ by smtp.gmail.com with ESMTPSA id w21sm5372051pfq.67.2021.01.14.07.09.27
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 14 Jan 2021 07:09:26 -0800 (PST)
+ Thu, 14 Jan 2021 07:09:38 -0800 (PST)
 From: Bin Meng <bmeng.cn@gmail.com>
 To: Alistair Francis <alistair.francis@wdc.com>,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
  Peter Maydell <peter.maydell@linaro.org>,
  Francisco Iglesias <frasse.iglesias@gmail.com>
-Subject: [PATCH 0/9] hw/block: m25p80: Fix the mess of dummy bytes needed for
- fast read commands
-Date: Thu, 14 Jan 2021 23:08:53 +0800
-Message-Id: <20210114150902.11515-1-bmeng.cn@gmail.com>
+Subject: [PATCH 1/9] hw/block: m25p80: Fix the number of dummy bytes needed
+ for Windbond flashes
+Date: Thu, 14 Jan 2021 23:08:54 +0800
+Message-Id: <20210114150902.11515-2-bmeng.cn@gmail.com>
 X-Mailer: git-send-email 2.25.1
+In-Reply-To: <20210114150902.11515-1-bmeng.cn@gmail.com>
+References: <20210114150902.11515-1-bmeng.cn@gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::42b;
- envelope-from=bmeng.cn@gmail.com; helo=mail-pf1-x42b.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1036;
+ envelope-from=bmeng.cn@gmail.com; helo=mail-pj1-x1036.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -84,13 +86,11 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, qemu-devel@nongnu.org, qemu-block@nongnu.org,
+Cc: Kevin Wolf <kwolf@redhat.com>, qemu-block@nongnu.org,
  Marcin Krzeminski <marcin.krzeminski@nokia.com>,
- Andrew Jeffery <andrew@aj.id.au>, Bin Meng <bin.meng@windriver.com>,
- Havard Skinnemoen <hskinnemoen@google.com>, Max Reitz <mreitz@redhat.com>,
- Tyrone Ting <kfting@nuvoton.com>, qemu-arm@nongnu.org,
- =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>,
- Joe Komlodi <komlodi@xilinx.com>, Joel Stanley <joel@jms.id.au>
+ Bin Meng <bin.meng@windriver.com>, qemu-devel@nongnu.org,
+ Max Reitz <mreitz@redhat.com>,
+ =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
@@ -125,135 +125,76 @@ flash controllers. There are major two cases:
   is not enough, and we will need to fix the SPI/QSPI models for such
   controllers.
 
-This series fixes the mess in the m25p80 from the flash side first,
-followed by fixes to 3 known SPI controller models that fall into
-the 2nd case above.
+Let's fix the mess from the flash side first. We start from a easy one,
+the Winbond flashes.
 
-Please note, I have no way to verify patch 7/8/9 because:
+Per the Windbond W25Q256JV datasheet [1] instrunction set table
+(chapter 8.1.2, 8.1.3, 8.1.4, 8.1.5), fix the wrong number of
+dummy bytes needed for fast read commands.
 
-* There is no public datasheet available for the SoC / SPI controller
-* There is no QEMU docs, or details that tell people how to boot either
-  U-Boot or Linux kernel to verify the functionality
+[1] https://www.winbond.com/resource-files/w25q256jv%20spi%20revb%2009202016.pdf
 
-These 3 patches are very likely to be wrong. Hence I would like to ask
-help from the original author who wrote these SPI controller models
-to help testing, or completely rewrite these 3 patches to fix things.
-Thanks!
+Fixes: fe8477052831 ("m25p80: Fix QIOR/DIOR handling for Winbond")
+Fixes: 3830c7a460b8 ("m25p80: Fix WINBOND fast read command handling")
+Fixes: cf6f1efe0b57 ("m25p80: Fast read commands family changes")
+Signed-off-by: Bin Meng <bin.meng@windriver.com>
+---
 
-Patch 6 is unvalidated with QEMU, mainly because there is no doc to
-tell people how to boot anything to test. But I have some confidence
-based on my read of the ZynqMP manual, as well as some experimental
-testing on a real ZCU102 board.
+ hw/block/m25p80.c | 24 ++++++++++++++++++------
+ 1 file changed, 18 insertions(+), 6 deletions(-)
 
-Other flash patches can be tested with the SiFive SPI series:
-http://patchwork.ozlabs.org/project/qemu-devel/list/?series=222391
-
-Cherry-pick patch 16 and 17 from the series above, and switch to
-different flash model to test with the following command:
-
-$ qemu-system-riscv64 -nographic -M sifive_u -m 2G -smp 5 -kernel u-boot
-
-I've picked up two for testing:
-
-QEMU flash: "sst25vf032b"
-
-  U-Boot 2020.10 (Jan 14 2021 - 21:55:59 +0800)
-
-  CPU:   rv64imafdcsu
-  Model: SiFive HiFive Unleashed A00
-  DRAM:  2 GiB
-  MMC:
-  Loading Environment from SPIFlash... SF: Detected sst25vf032b with page size 256 Bytes, erase size 4 KiB, total 4 MiB
-  *** Warning - bad CRC, using default environment
-
-  In:    serial@10010000
-  Out:   serial@10010000
-  Err:   serial@10010000
-  Net:   failed to get gemgxl_reset reset
-
-  Warning: ethernet@10090000 MAC addresses don't match:
-  Address in DT is                52:54:00:12:34:56
-  Address in environment is       70:b3:d5:92:f0:01
-  eth0: ethernet@10090000
-  Hit any key to stop autoboot:  0
-  => sf probe
-  SF: Detected sst25vf032b with page size 256 Bytes, erase size 4 KiB,
-  total 4 MiB
-  => sf test 1ff000 1000
-  SPI flash test:
-  0 erase: 0 ticks, 4096000 KiB/s 32768.000 Mbps
-  1 check: 10 ticks, 400 KiB/s 3.200 Mbps
-  2 write: 170 ticks, 23 KiB/s 0.184 Mbps
-  3 read: 9 ticks, 444 KiB/s 3.552 Mbps
-  Test passed
-  0 erase: 0 ticks, 4096000 KiB/s 32768.000 Mbps
-  1 check: 10 ticks, 400 KiB/s 3.200 Mbps
-  2 write: 170 ticks, 23 KiB/s 0.184 Mbps
-  3 read: 9 ticks, 444 KiB/s 3.552 Mbps
-
-QEMU flash: "mx66u51235f"
-
-  U-Boot 2020.10 (Jan 14 2021 - 21:55:59 +0800)
-
-  CPU:   rv64imafdcsu
-  Model: SiFive HiFive Unleashed A00
-  DRAM:  2 GiB
-  MMC:
-  Loading Environment from SPIFlash... SF: Detected mx66u51235f with page size 256 Bytes, erase size 4 KiB, total 64 MiB
-  *** Warning - bad CRC, using default environment
-
-  In:    serial@10010000
-  Out:   serial@10010000
-  Err:   serial@10010000
-  Net:   failed to get gemgxl_reset reset
-
-  Warning: ethernet@10090000 MAC addresses don't match:
-  Address in DT is                52:54:00:12:34:56
-  Address in environment is       70:b3:d5:92:f0:01
-  eth0: ethernet@10090000
-  Hit any key to stop autoboot:  0
-  => sf probe
-  SF: Detected mx66u51235f with page size 256 Bytes, erase size 4 KiB, total 64 MiB
-  => sf test 0 8000
-  SPI flash test:
-  0 erase: 1 ticks, 32000 KiB/s 256.000 Mbps
-  1 check: 80 ticks, 400 KiB/s 3.200 Mbps
-  2 write: 83 ticks, 385 KiB/s 3.080 Mbps
-  3 read: 79 ticks, 405 KiB/s 3.240 Mbps
-  Test passed
-  0 erase: 1 ticks, 32000 KiB/s 256.000 Mbps
-  1 check: 80 ticks, 400 KiB/s 3.200 Mbps
-  2 write: 83 ticks, 385 KiB/s 3.080 Mbps
-  3 read: 79 ticks, 405 KiB/s 3.240 Mbps
-
-I am sure there will be bugs, and I have not tested all flashes affected.
-But I want to send out this series for an early discussion and comments.
-I will continue my testing.
-
-
-Bin Meng (9):
-  hw/block: m25p80: Fix the number of dummy bytes needed for Windbond
-    flashes
-  hw/block: m25p80: Fix the number of dummy bytes needed for
-    Numonyx/Micron flashes
-  hw/block: m25p80: Fix the number of dummy bytes needed for Macronix
-    flashes
-  hw/block: m25p80: Fix the number of dummy bytes needed for Spansion
-    flashes
-  hw/block: m25p80: Support fast read for SST flashes
-  hw/ssi: xilinx_spips: Fix generic fifo dummy cycle handling
-  Revert "aspeed/smc: Fix number of dummy cycles for FAST_READ_4
-    command"
-  Revert "aspeed/smc: snoop SPI transfers to fake dummy cycles"
-  hw/ssi: npcm7xx_fiu: Correct the dummy cycle emulation logic
-
- include/hw/ssi/aspeed_smc.h |   3 -
- hw/block/m25p80.c           | 153 ++++++++++++++++++++++++++++--------
- hw/ssi/aspeed_smc.c         | 116 +--------------------------
- hw/ssi/npcm7xx_fiu.c        |   8 +-
- hw/ssi/xilinx_spips.c       |  29 ++++++-
- 5 files changed, 153 insertions(+), 156 deletions(-)
-
+diff --git a/hw/block/m25p80.c b/hw/block/m25p80.c
+index b744a58d1c..c947716f99 100644
+--- a/hw/block/m25p80.c
++++ b/hw/block/m25p80.c
+@@ -875,9 +875,22 @@ static void decode_fast_read_cmd(Flash *s)
+ {
+     s->needed_bytes = get_addr_length(s);
+     switch (get_man(s)) {
+-    /* Dummy cycles - modeled with bytes writes instead of bits */
++    /* Dummy cycles - modeled with bytes writes */
+     case MAN_WINBOND:
+-        s->needed_bytes += 8;
++        switch (s->cmd_in_progress) {
++        case FAST_READ:
++        case FAST_READ4:
++            s->needed_bytes += 1;
++            break;
++        case DOR:
++        case DOR4:
++            s->needed_bytes += 2;
++            break;
++        case QOR:
++        case QOR4:
++            s->needed_bytes += 4;
++            break;
++        }
+         break;
+     case MAN_NUMONYX:
+         s->needed_bytes += numonyx_extract_cfg_num_dummies(s);
+@@ -906,7 +919,7 @@ static void decode_fast_read_cmd(Flash *s)
+ static void decode_dio_read_cmd(Flash *s)
+ {
+     s->needed_bytes = get_addr_length(s);
+-    /* Dummy cycles modeled with bytes writes instead of bits */
++    /* Dummy cycles modeled with bytes writes */
+     switch (get_man(s)) {
+     case MAN_WINBOND:
+         s->needed_bytes += WINBOND_CONTINUOUS_READ_MODE_CMD_LEN;
+@@ -945,11 +958,10 @@ static void decode_dio_read_cmd(Flash *s)
+ static void decode_qio_read_cmd(Flash *s)
+ {
+     s->needed_bytes = get_addr_length(s);
+-    /* Dummy cycles modeled with bytes writes instead of bits */
++    /* Dummy cycles modeled with bytes writes */
+     switch (get_man(s)) {
+     case MAN_WINBOND:
+-        s->needed_bytes += WINBOND_CONTINUOUS_READ_MODE_CMD_LEN;
+-        s->needed_bytes += 4;
++        s->needed_bytes += WINBOND_CONTINUOUS_READ_MODE_CMD_LEN + 2;
+         break;
+     case MAN_SPANSION:
+         s->needed_bytes += SPANSION_CONTINUOUS_READ_MODE_CMD_LEN;
 -- 
 2.25.1
 
