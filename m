@@ -2,83 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F13B62F5594
-	for <lists+qemu-devel@lfdr.de>; Thu, 14 Jan 2021 01:30:32 +0100 (CET)
-Received: from localhost ([::1]:52994 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 314AC2F5597
+	for <lists+qemu-devel@lfdr.de>; Thu, 14 Jan 2021 01:31:36 +0100 (CET)
+Received: from localhost ([::1]:55168 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kzqX1-00065M-HC
-	for lists+qemu-devel@lfdr.de; Wed, 13 Jan 2021 19:30:31 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42048)
+	id 1kzqY2-000766-Va
+	for lists+qemu-devel@lfdr.de; Wed, 13 Jan 2021 19:31:34 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42272)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1kzqVb-0005Rd-5k
- for qemu-devel@nongnu.org; Wed, 13 Jan 2021 19:29:03 -0500
-Received: from mail-pl1-x633.google.com ([2607:f8b0:4864:20::633]:34803)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1kzqVY-0000KU-6W
- for qemu-devel@nongnu.org; Wed, 13 Jan 2021 19:29:02 -0500
-Received: by mail-pl1-x633.google.com with SMTP id t6so2032899plq.1
- for <qemu-devel@nongnu.org>; Wed, 13 Jan 2021 16:28:59 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=5nMYmMTdVYgu7E6Wqq3JcuqKHISmWZCZhp0OGnyFcyo=;
- b=HxR3kavm8p+Gx1nK94zFXnLNNG3rFoepgBl5PFPNVP0mu9+bUPJyMp6IZDytB8CVq4
- Kbh+n9PEN35PW8bDBUgj6/zSGsZ7BZqbNzWzzW7m77F7bH53exJC4vgjBOAB2UszAfZs
- 4UTsodqy/exJZ3184PZ27sOxAoIJWONSAv5D8wJ6xiDXhei9xdErSexJtYKU49HFxaXh
- ygp7462j1+WPQXehY9tHL4O1c2xcsj3ya5sEgrHWaQ2TP0GQ/psWSNAZhFY6oOxABT6n
- U9W4yei/2zTEgfbtAv/jd49JEdi2yWxkeNV14y+ajq/8MpGJd2izDDV8GLIOFNFLXsdN
- u64Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=5nMYmMTdVYgu7E6Wqq3JcuqKHISmWZCZhp0OGnyFcyo=;
- b=moIMxLRO6/5xxY5zRmUJ6LFXzHti6dZUUJocm2C4i197Ljyz1dBEWChl/oSzqojV+S
- pOZ/q4eyonRxur3USqouurqckAa/Q33aGLnTcGPt59dnS74ujJHNgwcrCOgTbE8//IDU
- f7wD5vyc1lEe1HWQ7XZiPSkYoyBbby12QzjNNdUP3F6/kX+LkDw1qZoNn9E9qcmsIMKL
- tTbcuVli27ywN73YxL9hAMj0LNYH8mVF4SE7LqiT/A0UgQFlagYlAfDdFXhm4mEKL9nu
- uhdJnoIx7seFj02AteoceVi9SDzSyOzpyfGg4zviqmK29jXFueT4hGG8R4cEMGHB+Z0J
- QSyw==
-X-Gm-Message-State: AOAM533gKfhujqj7M4snYaNhNZ9U+7yXNhgnN43kHobON5dNNSMXafHr
- vWwZFKqMRPQAF918pJWMudDEBg==
-X-Google-Smtp-Source: ABdhPJx2FGpdG2pjT7DZMnjgfjwT3keDZBzf/+JnMxBxApbCQPB5I7ntLECVgdGWSUtRm3CeONDNMA==
-X-Received: by 2002:a17:90b:23d6:: with SMTP id
- md22mr1986058pjb.206.1610584137786; 
- Wed, 13 Jan 2021 16:28:57 -0800 (PST)
-Received: from [10.25.18.3] (rrcs-173-197-107-21.west.biz.rr.com.
- [173.197.107.21])
- by smtp.gmail.com with ESMTPSA id 8sm3427718pfz.93.2021.01.13.16.28.54
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 13 Jan 2021 16:28:57 -0800 (PST)
-Subject: Re: [PATCH v2 3/6] tcg/ppc: Hoist common argument loads in
- tcg_out_op()
-To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
- qemu-devel@nongnu.org
-References: <20210113172459.2481060-1-f4bug@amsat.org>
- <20210113172459.2481060-4-f4bug@amsat.org>
-From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <bc9f392a-5b4d-899e-f34f-392a3c2b3379@linaro.org>
-Date: Wed, 13 Jan 2021 14:28:52 -1000
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
+ (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
+ id 1kzqWY-0006CK-Lc
+ for qemu-devel@nongnu.org; Wed, 13 Jan 2021 19:30:02 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:39783)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
+ id 1kzqWT-0000dN-Fy
+ for qemu-devel@nongnu.org; Wed, 13 Jan 2021 19:30:01 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1610584195;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=95HtpX3H9WfiM00KTg1ry8k0JvjY70E/rPe6UTONDMQ=;
+ b=ZQ+YIBOlGNPIZeaY3hxdvKBIbVXIb0SEX9ksbAzV1JMDuXshJjBocwhruUhMzXB2u/YKi7
+ 3LhFQKsQteC+Yq/RmyKU5mUKVkzNQIkJz3oq/Pd4YOjEWamd1/n3h2B9TVj8hUZmOV1+ko
+ 3ATFYJUFRUzwUXKduS7PkjqPxuClYL8=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-107-kGhOTlTCPDW5RcurG3m-sQ-1; Wed, 13 Jan 2021 19:29:50 -0500
+X-MC-Unique: kGhOTlTCPDW5RcurG3m-sQ-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 74316107ACF7;
+ Thu, 14 Jan 2021 00:29:49 +0000 (UTC)
+Received: from localhost (ovpn-66-3.rdu2.redhat.com [10.10.66.3])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 96FB510013C1;
+ Thu, 14 Jan 2021 00:29:45 +0000 (UTC)
+Date: Wed, 13 Jan 2021 19:29:44 -0500
+From: Eduardo Habkost <ehabkost@redhat.com>
+To: John Snow <jsnow@redhat.com>
+Subject: Re: [PATCH v2 07/12] qapi/schema: make QAPISourceInfo mandatory
+Message-ID: <20210114002944.GI4161@habkost.net>
+References: <20201217015927.197287-1-jsnow@redhat.com>
+ <20201217015927.197287-8-jsnow@redhat.com>
+ <87ft34x1bv.fsf@dusky.pond.sub.org>
+ <fe49fccd-dce1-44ee-71c5-f696f69f5361@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <20210113172459.2481060-4-f4bug@amsat.org>
+In-Reply-To: <fe49fccd-dce1-44ee-71c5-f696f69f5361@redhat.com>
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=ehabkost@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::633;
- envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x633.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+Content-Disposition: inline
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=ehabkost@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -22
+X-Spam_score: -2.3
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+X-Spam_report: (-2.3 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.25,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -91,46 +80,161 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Thomas Huth <thuth@redhat.com>, Huacai Chen <chenhuacai@kernel.org>,
- qemu-riscv@nongnu.org, Stefan Weil <sw@weilnetz.de>,
- Cornelia Huck <cohuck@redhat.com>,
- Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>, qemu-s390x@nongnu.org,
- qemu-arm@nongnu.org, Alistair Francis <Alistair.Francis@wdc.com>,
- Palmer Dabbelt <palmer@dabbelt.com>, Miroslav Rezanina <mrezanin@redhat.com>,
- Aurelien Jarno <aurelien@aurel32.net>
+Cc: Michael Roth <michael.roth@amd.com>, Cleber Rosa <crosa@redhat.com>,
+ Markus Armbruster <armbru@redhat.com>,
+ =?utf-8?Q?Marc-Andr=C3=A9?= Lureau <marcandre.lureau@redhat.com>,
+ qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 1/13/21 7:24 AM, Philippe Mathieu-Daudé wrote:
->      case INDEX_op_ld8s_i32:
->      case INDEX_op_ld8s_i64:
-> -        tcg_out_mem_long(s, LBZ, LBZX, args[0], args[1], args[2]);
-> +        tcg_out_mem_long(s, LBZ, LBZX, a0, a1, a2);
->          tcg_out32(s, EXTSB | RS(args[0]) | RA(args[0]));
+On Wed, Jan 13, 2021 at 06:04:29PM -0500, John Snow wrote:
+> On 1/13/21 11:12 AM, Markus Armbruster wrote:
+> > John Snow <jsnow@redhat.com> writes:
+> > 
+> > > Signed-off-by: John Snow <jsnow@redhat.com>
+> > > 
+> > > ---
+> > > 
+> > > The event_enum_members change might become irrelevant after a
+> > > forthcoming (?) patch by Markus, but didn't have it in-hand at time of
+> > > publishing.
+> > 
+> > It's in my "[PATCH 00/11] Drop support for QAPIGen without a file name",
+> > which includes parts of your v1.  The parts that are new should be
+> > injected into your series so they replace your "[PATCH v2 09/12]
+> > qapi/gen: move write method to QAPIGenC, make fname a str".  Holler if
+> > you need help.
+> > 
+> > > Signed-off-by: John Snow <jsnow@redhat.com>
+> > > ---
+> > >   scripts/qapi/events.py |  2 +-
+> > >   scripts/qapi/schema.py | 25 ++++++++++++++-----------
+> > >   scripts/qapi/types.py  |  9 +++++----
+> > >   scripts/qapi/visit.py  |  6 +++---
+> > >   4 files changed, 23 insertions(+), 19 deletions(-)
+> > > 
+> > > diff --git a/scripts/qapi/events.py b/scripts/qapi/events.py
+> > > index 9851653b9d1..9ba4f109028 100644
+> > > --- a/scripts/qapi/events.py
+> > > +++ b/scripts/qapi/events.py
+> > > @@ -225,7 +225,7 @@ def visit_event(self,
+> > >                                             self._event_emit_name))
+> > >           # Note: we generate the enum member regardless of @ifcond, to
+> > >           # keep the enumeration usable in target-independent code.
+> > > -        self._event_enum_members.append(QAPISchemaEnumMember(name, None))
+> > > +        self._event_enum_members.append(QAPISchemaEnumMember(name, info))
+> > 
+> > This "enum" is not supposed to be erroneous.  If it is, it's a bug.
+> > 
+> > Your patch changes how the code behaves should such a bug bite here.
+> > Before, we crash.  Afterwards, we report the bug using @info, which I'd
+> > expect to produce utterly confusing error messages.
+> > 
+> 
+> It doesn't change the behavior *here*, though. It changes it whenever this
+> info object is used in another context. ... and who knows when or where or
+> why it is being used, or by whom.
+> 
+> I'll have to play with this. I'm not sure there's any way to coax a bug to
+> happen here that I am aware of right away. Can you think of how to will one
+> into existence?
+> 
+> > My comments on PATCH 06 apply: how the code should behave here is a
+> > design issue that should be kept out of this patch series.
+> > 
+> > If you need to pass a value other than None to help with static typing,
+> > then pass a suitable poison info that will crash right where None
+> > crashes now.
 
-Missed replacements.
+I don't understand what would be the point of inventing something
+that behaves exactly like None but makes type checking less
+useful.
 
-> -        a0 = args[0], a1 = args[1], a2 = args[2];
->          if (const_args[2]) {
+With None/Optional, mypy gives us a way to be 100% sure the
+object isn't going to invalid.  With a poison value, mypy can't
+tell us anymore if the code risks crashing at runtime.
 
-Missed replacement.
+> > 
+> 
+> I think we need to, yes; or we probably really, really want to. Making the
+> info parameter optional really adds a lot of unidiomatic type-checking
+> confetti when we go to use info, and in many more contexts than just this
+> sorta-built-in-enum; it will creep badly.
 
->          do_addi_32:
->              tcg_out_mem_long(s, ADDI, ADD, a0, a1, (int32_t)a2);
-> @@ -2475,7 +2481,6 @@ static void tcg_out_op(TCGContext *s, TCGOpcode opc, const TCGArg *args,
->          }
->          break;
->      case INDEX_op_sub_i32:
-> -        a0 = args[0], a1 = args[1], a2 = args[2];
->          if (const_args[1]) {
->              if (const_args[2]) {
+Which methods would require unidiomatic type-checking because of
+None/Optional?
 
-And again.
+> 
+> So, I gotta pass ...something here. but what? You want poison, but I think
+> it's not right to fundamentally poison all built-ins.
+> 
+> Mmmmmmm. Maybe per-instance poison can be done? We actually share info
+> objects, but I can make poisoned copies. Using next_line() as a basis:
+> 
+>     def poison(self: T) -> T:
+>         info = copy.copy(self)
+>         info.poisoned = True
+>         return info
+> 
+> probably almost anything I do is not going to make a lot of sense unless I
+> can actually replicate and test the different error scenarios to prove that
+> we didn't make the error spaghetti unknowably worse. I see it as
+> functionally inevitable that I have to audit this and make sure we get good
+> error messages anyway, so ... maybe I just ought to do that now anyway.
+> 
+> > >   def gen_events(schema: QAPISchema,
+> > > diff --git a/scripts/qapi/schema.py b/scripts/qapi/schema.py
+> > > index 720449feee4..0449771dfe5 100644
+> > > --- a/scripts/qapi/schema.py
+> > > +++ b/scripts/qapi/schema.py
+> > > @@ -23,6 +23,7 @@
+> > >   from .error import QAPIError, QAPISemError
+> > >   from .expr import check_exprs
+> > >   from .parser import QAPISchemaParser
+> > > +from .source import QAPISourceInfo
+> > >   class QAPISchemaEntity:
+> > > @@ -36,10 +37,10 @@ def __init__(self, name, info, doc, ifcond=None, features=None):
+> > >           self.name = name
+> > >           self._module = None
+> > >           # For explicitly defined entities, info points to the (explicit)
+> > > -        # definition.  For builtins (and their arrays), info is None.
+> > > -        # For implicitly defined entities, info points to a place that
+> > > -        # triggered the implicit definition (there may be more than one
+> > > -        # such place).
+> > > +        # definition. For built-in types (and their arrays), info is a
+> > > +        # special object that evaluates to False. For implicitly defined
+> > > +        # entities, info points to a place that triggered the implicit
+> > > +        # definition (there may be more than one such place).
+> > >           self.info = info
+> > >           self.doc = doc
+> > >           self._ifcond = ifcond or []
+> > > @@ -68,7 +69,7 @@ def check_doc(self):
+> > >       def _set_module(self, schema, info):
+> > >           assert self._checked
+> > > -        self._module = schema.module_by_fname(info and info.fname)
+> > > +        self._module = schema.module_by_fname(info.fname if info else None)
+> > 
+> > Looks unrelated.
+> > 
+> 
+> Hmm, it sorta is. I have apparently edited this patch since I sent it, but
+> there was some tomfoolery over how "x and y" statements behave and this edit
+> was necessary at the time.
+> 
+> "info and info.fname" returned None when info could actually be None, but
+> when it was updated to be a special source object, we could accidentally
+> pass that special source object as the name -- instead of None. Not good.
+> 
+> I think I re-ordered some patches such that I can just pass in "info.fname"
+> unconditionally instead as of this patch.
+> 
+> > >           self._module.add_entity(self)
+> > >       def set_module(self, schema):
+> > [...]
+> > 
+> 
 
-Let's just drop the hoisting parts and only do the signature parts for now.
-I'd rather think of a way to split up this large function than waste time
-optimizing it.
+-- 
+Eduardo
 
-
-r~
 
