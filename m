@@ -2,68 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D55BF2F677B
-	for <lists+qemu-devel@lfdr.de>; Thu, 14 Jan 2021 18:29:22 +0100 (CET)
-Received: from localhost ([::1]:35984 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C07832F67B6
+	for <lists+qemu-devel@lfdr.de>; Thu, 14 Jan 2021 18:33:09 +0100 (CET)
+Received: from localhost ([::1]:46088 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l06Qz-0000rL-S6
-	for lists+qemu-devel@lfdr.de; Thu, 14 Jan 2021 12:29:21 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52032)
+	id 1l06Ue-0005Mg-RI
+	for lists+qemu-devel@lfdr.de; Thu, 14 Jan 2021 12:33:08 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49246)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1l0620-0007R9-8G
- for qemu-devel@nongnu.org; Thu, 14 Jan 2021 12:03:32 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:56508)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1l061r-0006tu-1B
- for qemu-devel@nongnu.org; Thu, 14 Jan 2021 12:03:31 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1610643802;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=LxANx+Rz2agcyu5X1D3Ejr1ptPnBeUWQBvphznPKVvk=;
- b=LkxClfwyKFFB5PrppLihuQpYjqoPbw+oU0Vg4u1F2DfRjibF7loecW1h5Znn9IJOS1akmk
- CiXVPkz7ae8tzn18ncYdic26tMAVeKtr8+o9chedQGOUelYLAExzhx7xFEBZMMcgusDUUS
- d8DYSZ/EKBmYCuB040Y8OPGl9lG2kWA=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-468-PH-KRbE5Pt6QOUtF9rHWIQ-1; Thu, 14 Jan 2021 12:03:19 -0500
-X-MC-Unique: PH-KRbE5Pt6QOUtF9rHWIQ-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id B5E12107ACF7;
- Thu, 14 Jan 2021 17:03:18 +0000 (UTC)
-Received: from localhost (ovpn-115-31.ams2.redhat.com [10.36.115.31])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id D95D86F439;
- Thu, 14 Jan 2021 17:03:15 +0000 (UTC)
-From: Max Reitz <mreitz@redhat.com>
-To: qemu-block@nongnu.org
-Subject: [PATCH v3 04/10] iotests/129: Remove test images in tearDown()
-Date: Thu, 14 Jan 2021 18:02:58 +0100
-Message-Id: <20210114170304.87507-5-mreitz@redhat.com>
-In-Reply-To: <20210114170304.87507-1-mreitz@redhat.com>
-References: <20210114170304.87507-1-mreitz@redhat.com>
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1l05wR-0003hM-MA
+ for qemu-devel@nongnu.org; Thu, 14 Jan 2021 11:57:47 -0500
+Received: from mail-wr1-x42a.google.com ([2a00:1450:4864:20::42a]:42658)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1l05wE-0004vY-Px
+ for qemu-devel@nongnu.org; Thu, 14 Jan 2021 11:57:47 -0500
+Received: by mail-wr1-x42a.google.com with SMTP id m4so6494992wrx.9
+ for <qemu-devel@nongnu.org>; Thu, 14 Jan 2021 08:57:34 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=vQWOMznPD2cExFj9wpPJQCFomVI7plPwBnMAbJZFKA0=;
+ b=St9ydIXavHWZqQgF/nWgSkmh5OaQZP0mIEy8GyCKj3nmi0EZeiLyW6JyWLrugEGY0O
+ SDjUdlQWKYXNGO2q3/OZR6QDyz/aw4pKRA01jLx1XW/J6HH16+fN8UZEIslnGaRcVddx
+ LieyTX0oK5GfMXxCHK+xh8BDUvUPQ3CsJcSUdBeXS6CL0uhKELHLKIAfTws76DGBihK8
+ mSSuTMAleiTPVMpvC8FBLMg/O3KG5IE8J12VCUHEh37PWhX9wuIr1VpFncht2A2VWR9w
+ 34vILlSS49iktUeEjjL96Z8yephqR34VqbqYluKns/Q7zDio5okBHxtwrilfsGyaLDRD
+ YpfQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=vQWOMznPD2cExFj9wpPJQCFomVI7plPwBnMAbJZFKA0=;
+ b=Mx4Ixef4Iif0/p/pDaWmW0DhXRkWzaLYQS+Npuxbz0VHdwH38d+DtfOOj8rcfuvnv9
+ RhV9/TsEkPOEbOhwXEuAWOWc/GKdWNmX03bQlj01PXwE4TZWtAFG+bsBeP3i0yYBJDhV
+ snosPRamQyFwbEdBiRFjo5bAx/FdBPUUaWzSwWB5LnRyMUOh52oUE3Qs61fyqZK+213x
+ mTejfcBONHnwOTbHmzHLWKygyX9DnijK1VLzsqQqD+TVJlii8QunVzjGZN/phyy1Lh4I
+ mp8ONW1HVYV08nm8FbGkuvvS6r+KWlidDZE0Cgsjiv9vM2+9Vvz1CYhlPDg97OaI7kH9
+ gasA==
+X-Gm-Message-State: AOAM530Em9kI9/OdKNl3FCYk/jfHWtPskVQRTpSwZ71wX6bfC6pzAwZP
+ oUZDdPGXM1EHbbPuaHcDbcEIUA==
+X-Google-Smtp-Source: ABdhPJxWN9F8GpTwMHpdByfdOwn5u92zWOJV37yTzni0U3DSyHowdywoBFULwg824zkKqkw0OskpTQ==
+X-Received: by 2002:a5d:40d2:: with SMTP id b18mr8705900wrq.369.1610643453338; 
+ Thu, 14 Jan 2021 08:57:33 -0800 (PST)
+Received: from zen.linaroharston ([51.148.130.216])
+ by smtp.gmail.com with ESMTPSA id n16sm10767955wrj.26.2021.01.14.08.57.30
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 14 Jan 2021 08:57:30 -0800 (PST)
+Received: from zen.lan (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id 30AE81FF87;
+ Thu, 14 Jan 2021 16:57:30 +0000 (GMT)
+From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: qemu-devel@nongnu.org
+Subject: [PATCH  v2 01/12] tests/docker: Remove Debian 9 remnant lines
+Date: Thu, 14 Jan 2021 16:57:19 +0000
+Message-Id: <20210114165730.31607-2-alex.bennee@linaro.org>
+X-Mailer: git-send-email 2.20.1
+In-Reply-To: <20210114165730.31607-1-alex.bennee@linaro.org>
+References: <20210114165730.31607-1-alex.bennee@linaro.org>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mreitz@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=mreitz@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -29
-X-Spam_score: -3.0
-X-Spam_bar: ---
-X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.248,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+Received-SPF: pass client-ip=2a00:1450:4864:20::42a;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x42a.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -76,33 +86,41 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>,
- Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>, qemu-devel@nongnu.org,
- Max Reitz <mreitz@redhat.com>
+Cc: Fam Zheng <fam@euphon.net>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
+ Thomas Huth <thuth@redhat.com>,
+ =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Signed-off-by: Max Reitz <mreitz@redhat.com>
-Reviewed-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-Reviewed-by: Eric Blake <eblake@redhat.com>
----
- tests/qemu-iotests/129 | 2 ++
- 1 file changed, 2 insertions(+)
+From: Philippe Mathieu-Daudé <f4bug@amsat.org>
 
-diff --git a/tests/qemu-iotests/129 b/tests/qemu-iotests/129
-index 0e13244d85..2fc65ada6a 100755
---- a/tests/qemu-iotests/129
-+++ b/tests/qemu-iotests/129
-@@ -47,6 +47,8 @@ class TestStopWithBlockJob(iotests.QMPTestCase):
-         result = self.vm.qmp("block_set_io_throttle", conv_keys=False,
-                              **params)
-         self.vm.shutdown()
-+        for img in (self.test_img, self.target_img, self.base_img):
-+            iotests.try_remove(img)
+Debian 9 base container has been removed in commits
+e3755276d1f and c9d78b06c06. Remove the last remnants.
+
+Fixes: e3755276d1f ("tests/docker: Remove old Debian 9 containers")
+Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+Message-Id: <20210107072933.3828450-1-f4bug@amsat.org>
+Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
+Reviewed-by: Thomas Huth <thuth@redhat.com>
+---
+ tests/docker/Makefile.include | 1 -
+ 1 file changed, 1 deletion(-)
+
+diff --git a/tests/docker/Makefile.include b/tests/docker/Makefile.include
+index c254ac38d0..0779dab5b9 100644
+--- a/tests/docker/Makefile.include
++++ b/tests/docker/Makefile.include
+@@ -108,7 +108,6 @@ ifneq ($(HOST_ARCH),x86_64)
+ DOCKER_PARTIAL_IMAGES += debian-mips-cross debian-mipsel-cross debian-mips64el-cross
+ DOCKER_PARTIAL_IMAGES += debian-ppc64el-cross
+ DOCKER_PARTIAL_IMAGES += debian-s390x-cross
+-DOCKER_PARTIAL_IMAGES += debian-win32-cross debian-win64-cross
+ DOCKER_PARTIAL_IMAGES += fedora travis
+ endif
  
-     def do_test_stop(self, cmd, **args):
-         """Test 'stop' while block job is running on a throttled drive.
 -- 
-2.29.2
+2.20.1
 
 
