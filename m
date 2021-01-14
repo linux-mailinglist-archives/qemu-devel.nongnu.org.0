@@ -2,93 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6E16F2F6B43
-	for <lists+qemu-devel@lfdr.de>; Thu, 14 Jan 2021 20:40:48 +0100 (CET)
-Received: from localhost ([::1]:55156 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4F33B2F6B46
+	for <lists+qemu-devel@lfdr.de>; Thu, 14 Jan 2021 20:41:04 +0100 (CET)
+Received: from localhost ([::1]:56610 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l08UB-0003RT-G5
-	for lists+qemu-devel@lfdr.de; Thu, 14 Jan 2021 14:40:47 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44600)
+	id 1l08UR-00042J-Dc
+	for lists+qemu-devel@lfdr.de; Thu, 14 Jan 2021 14:41:03 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44846)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1l08Rh-0002Jx-SL
- for qemu-devel@nongnu.org; Thu, 14 Jan 2021 14:38:13 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:33706)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1l08Rf-0007sw-Rf
- for qemu-devel@nongnu.org; Thu, 14 Jan 2021 14:38:13 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1610653090;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=gJWa34xrqF6QuTqeROtO7elVavrhMnJHwGEc4V0AkZ8=;
- b=i76A1+rc8F9djBHD2AqOmoNBjYxLDQ/fX9iuxbdwMCJLV9LWKVBZvQp7a/iVzgQi3saRod
- K0F9+sSU4JqReMOKgU0l0JxGzAk8r5xqlHXbKLoHSgZLK4K8rImm1tG3oqoWqwNdw3mEZi
- eTHn4mgUAGH03eV47AhqffQ6OollRYE=
-Received: from mail-ej1-f70.google.com (mail-ej1-f70.google.com
- [209.85.218.70]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-100-6npENWTJPzWfAXsHrJKEsw-1; Thu, 14 Jan 2021 14:38:06 -0500
-X-MC-Unique: 6npENWTJPzWfAXsHrJKEsw-1
-Received: by mail-ej1-f70.google.com with SMTP id u25so2647509ejf.3
- for <qemu-devel@nongnu.org>; Thu, 14 Jan 2021 11:38:06 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=gJWa34xrqF6QuTqeROtO7elVavrhMnJHwGEc4V0AkZ8=;
- b=YcmzXJ+0oAxkUKtwTKwRnQZgCK+UAZUXKfJfWwhfXLaNvw351Q/86Iz/TZobdkWtSL
- oO8Td6S1R+SHAcCcrfW0RDmrdqbo0Ra5KLLHjyWvCZupI4FtJOpJU76v+OTo/szgJ7Vs
- toafggRa14vvhnvK6c+ChDSIdsJnbQdIEZPxnL6vN9Tmh625S+byVHj3fbKcgmHPTiVf
- shyRB1i8REJBhaXPERdwczAo3pO4PQ8qAie2mtsByDSgb3Wu9IRCJJCOXbeT52rRvUD3
- a6OiF1FIZA7dZUBQ7TUiYcbwRJUD67t8OBBCxUCpxbHK596aT39uS3gRHWTYnyQ5+oB7
- MH0g==
-X-Gm-Message-State: AOAM530EK+dq4obvG2jqWbq37ZX/EHAMQoxr+wLGRFIjMp79FL1whfgq
- 2GGjPIS1bviH6u0OcOshUaxSbqTVn6gBWOaEGfcFpY6UvOPeWFK0saDjIFbLf9uS4gE4fLCq1hz
- fnJqrIImWIk7tm30=
-X-Received: by 2002:a17:906:7156:: with SMTP id
- z22mr6274821ejj.441.1610653085078; 
- Thu, 14 Jan 2021 11:38:05 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJx/Ny2ivo/t92m5vGPjZxhxB7AkF7vHPEPCww7VcuMzD+wwe2JVca1z7kbU3WFHB5a/DESS5g==
-X-Received: by 2002:a17:906:7156:: with SMTP id
- z22mr6274814ejj.441.1610653084872; 
- Thu, 14 Jan 2021 11:38:04 -0800 (PST)
-Received: from ?IPv6:2001:b07:6468:f312:c8dd:75d4:99ab:290a?
- ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
- by smtp.gmail.com with ESMTPSA id d6sm2305619ejy.114.2021.01.14.11.38.03
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 14 Jan 2021 11:38:04 -0800 (PST)
-Subject: Re: [PATCH] machine: add missing doc for memory-backend option
-To: Igor Mammedov <imammedo@redhat.com>, qemu-devel@nongnu.org
-References: <20210111222729.757402-1-imammedo@redhat.com>
-From: Paolo Bonzini <pbonzini@redhat.com>
-Message-ID: <bd1d537d-034a-149d-d3a6-99b150afddad@redhat.com>
-Date: Thu, 14 Jan 2021 20:38:01 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.5.0
+ (Exim 4.90_1) (envelope-from <pl@kamp.de>) id 1l08Sm-0002uN-7i
+ for qemu-devel@nongnu.org; Thu, 14 Jan 2021 14:39:20 -0500
+Received: from kerio.kamp.de ([195.62.97.192]:47281)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <pl@kamp.de>) id 1l08Sh-0008JI-JG
+ for qemu-devel@nongnu.org; Thu, 14 Jan 2021 14:39:19 -0500
+X-Footer: a2FtcC5kZQ==
+Received: from submission.kamp.de ([195.62.97.28]) by kerio.kamp.de with ESMTPS
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256 bits))
+ for qemu-devel@nongnu.org; Thu, 14 Jan 2021 20:39:06 +0100
+Received: (qmail 22051 invoked from network); 14 Jan 2021 19:39:11 -0000
+Received: from ac14.vpn.kamp-intra.net (HELO ?172.20.250.14?)
+ (pl@kamp.de@::ffff:172.20.250.14)
+ by submission.kamp.de with ESMTPS (DHE-RSA-AES128-SHA encrypted) ESMTPA;
+ 14 Jan 2021 19:39:11 -0000
+Subject: Re: [PATCH 5/7] block/rbd: migrate from aio to coroutines
+To: dillaman@redhat.com
+References: <20201227164236.10143-1-pl@kamp.de>
+ <20201227164236.10143-6-pl@kamp.de>
+ <CA+aFP1Ay2qkY8qdny=7AW_SUSqgK96qGGKnRB4gV_hh5s52TmQ@mail.gmail.com>
+From: Peter Lieven <pl@kamp.de>
+Message-ID: <d6e908c9-a779-fa75-eae4-f80e744f3bbc@kamp.de>
+Date: Thu, 14 Jan 2021 20:39:09 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
 MIME-Version: 1.0
-In-Reply-To: <20210111222729.757402-1-imammedo@redhat.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=pbonzini@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
+In-Reply-To: <CA+aFP1Ay2qkY8qdny=7AW_SUSqgK96qGGKnRB4gV_hh5s52TmQ@mail.gmail.com>
+Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=pbonzini@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -32
-X-Spam_score: -3.3
-X-Spam_bar: ---
-X-Spam_report: (-3.3 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.248,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.237, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Language: en-US
+Received-SPF: pass client-ip=195.62.97.192; envelope-from=pl@kamp.de;
+ helo=kerio.kamp.de
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.237,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -101,90 +60,288 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: mprivozn@redhat.com, ehabkost@redhat.com
+Cc: Kevin Wolf <kwolf@redhat.com>, Christian Theune <ct@flyingcircus.io>,
+ qemu-devel <qemu-devel@nongnu.org>, qemu-block <qemu-block@nongnu.org>,
+ Max Reitz <mreitz@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 11/01/21 23:27, Igor Mammedov wrote:
-> Add documentation for '-machine memory-backend' CLI option and
-> how to use it.
-> 
-> PS:
-> While at it add a comment to x-use-canonical-path-for-ramblock-id,
-> to make sure it won't go away by accident.
-> 
-> Signed-off-by: Igor Mammedov <imammedo@redhat.com>
-> ---
->   backends/hostmem.c |  8 ++++++++
->   qemu-options.hx    | 25 ++++++++++++++++++++++++-
->   2 files changed, 32 insertions(+), 1 deletion(-)
-> 
-> diff --git a/backends/hostmem.c b/backends/hostmem.c
-> index 4bde00e8e7..f6f4e818c7 100644
-> --- a/backends/hostmem.c
-> +++ b/backends/hostmem.c
-> @@ -497,6 +497,14 @@ host_memory_backend_class_init(ObjectClass *oc, void *data)
->           host_memory_backend_get_share, host_memory_backend_set_share);
->       object_class_property_set_description(oc, "share",
->           "Mark the memory as private to QEMU or shared");
-> +    /*
-> +     * Do not delete/rename option till 4.0 and older machine types exist,
-> +     * Option will be used by upper layers to override (disable) canonical path
-> +     * for ramblock-id set by compat properties on old machine types ( <= 4.0),
-> +     * to keep migration working when backend is used for main RAM with
-> +     * -machine memory-backend= option (main RAM historically used prefix-less
-> +     * ramblock-id).
-> +     */
->       object_class_property_add_bool(oc, "x-use-canonical-path-for-ramblock-id",
->           host_memory_backend_get_use_canonical_path,
->           host_memory_backend_set_use_canonical_path);
-> diff --git a/qemu-options.hx b/qemu-options.hx
-> index 459c916d3d..c02628bd26 100644
-> --- a/qemu-options.hx
-> +++ b/qemu-options.hx
-> @@ -35,7 +35,8 @@ DEF("machine", HAS_ARG, QEMU_OPTION_machine, \
->       "                suppress-vmdesc=on|off disables self-describing migration (default=off)\n"
->       "                nvdimm=on|off controls NVDIMM support (default=off)\n"
->       "                memory-encryption=@var{} memory encryption object to use (default=none)\n"
-> -    "                hmat=on|off controls ACPI HMAT support (default=off)\n",
-> +    "                hmat=on|off controls ACPI HMAT support (default=off)\n"
-> +    "                memory-backend='backend-id' specifies explicitly provided backend for main RAM (default=none)\n",
->       QEMU_ARCH_ALL)
->   SRST
->   ``-machine [type=]name[,prop=value[,...]]``
-> @@ -96,6 +97,28 @@ SRST
->       ``hmat=on|off``
->           Enables or disables ACPI Heterogeneous Memory Attribute Table
->           (HMAT) support. The default is off.
-> +
-> +     ``memory-backend='id'``
-> +        An alternative to legacy ``-mem-path`` and ``mem-prealloc`` options.
-> +        Allows to use a memory backend as main RAM.
-> +
-> +        For example:
-> +        ::
-> +        -object memory-backend-file,id=pc.ram,size=512M,mem-path=/hugetlbfs,prealloc=on,share=on
-> +        -machine memory-backend=pc.ram
-> +        -m 512M
-> +
-> +        Migration compatibility note:
-> +        a) as backend id one shall use value of 'default-ram-id', advertised by
-> +        machine type (available via ``query-machines`` QMP command)
-> +        b) for machine types 4.0 and older, user shall
-> +        use ``x-use-canonical-path-for-ramblock-id=on`` backend option,
-> +        if migration to/from old QEMU (<5.0) is expected.
-> +        For example:
-> +        ::
-> +        -object memory-backend-ram,id=pc.ram,size=512M,x-use-canonical-path-for-ramblock-id=on
-> +        -machine memory-backend=pc.ram
-> +        -m 512M
->   ERST
->   
->   HXCOMM Deprecated by -machine
-> 
+Am 14.01.21 um 20:19 schrieb Jason Dillaman:
+> On Sun, Dec 27, 2020 at 11:42 AM Peter Lieven <pl@kamp.de> wrote:
+>> Signed-off-by: Peter Lieven <pl@kamp.de>
+>> ---
+>>  block/rbd.c | 247 ++++++++++++++++++----------------------------------
+>>  1 file changed, 84 insertions(+), 163 deletions(-)
+>>
+>> diff --git a/block/rbd.c b/block/rbd.c
+>> index 27b232f4d8..2d77d0007f 100644
+>> --- a/block/rbd.c
+>> +++ b/block/rbd.c
+>> @@ -66,22 +66,6 @@ typedef enum {
+>>      RBD_AIO_FLUSH
+>>  } RBDAIOCmd;
+>>
+>> -typedef struct RBDAIOCB {
+>> -    BlockAIOCB common;
+>> -    int64_t ret;
+>> -    QEMUIOVector *qiov;
+>> -    RBDAIOCmd cmd;
+>> -    int error;
+>> -    struct BDRVRBDState *s;
+>> -} RBDAIOCB;
+>> -
+>> -typedef struct RADOSCB {
+>> -    RBDAIOCB *acb;
+>> -    struct BDRVRBDState *s;
+>> -    int64_t size;
+>> -    int64_t ret;
+>> -} RADOSCB;
+>> -
+>>  typedef struct BDRVRBDState {
+>>      rados_t cluster;
+>>      rados_ioctx_t io_ctx;
+>> @@ -94,6 +78,13 @@ typedef struct BDRVRBDState {
+>>      AioContext *aio_context;
+>>  } BDRVRBDState;
+>>
+>> +typedef struct RBDTask {
+>> +    BDRVRBDState *s;
+>> +    Coroutine *co;
+>> +    bool complete;
+>> +    int64_t ret;
+>> +} RBDTask;
+>> +
+>>  static int qemu_rbd_connect(rados_t *cluster, rados_ioctx_t *io_ctx,
+>>                              BlockdevOptionsRbd *opts, bool cache,
+>>                              const char *keypairs, const char *secretid,
+>> @@ -316,13 +307,6 @@ static int qemu_rbd_set_keypairs(rados_t cluster, const char *keypairs_json,
+>>      return ret;
+>>  }
+>>
+>> -static void qemu_rbd_memset(RADOSCB *rcb, int64_t offs)
+>> -{
+>> -    RBDAIOCB *acb = rcb->acb;
+>> -    iov_memset(acb->qiov->iov, acb->qiov->niov, offs, 0,
+>> -               acb->qiov->size - offs);
+>> -}
+>> -
+>>  /* FIXME Deprecate and remove keypairs or make it available in QMP. */
+>>  static int qemu_rbd_do_create(BlockdevCreateOptions *options,
+>>                                const char *keypairs, const char *password_secret,
+>> @@ -440,46 +424,6 @@ exit:
+>>      return ret;
+>>  }
+>>
+>> -/*
+>> - * This aio completion is being called from rbd_finish_bh() and runs in qemu
+>> - * BH context.
+>> - */
+>> -static void qemu_rbd_complete_aio(RADOSCB *rcb)
+>> -{
+>> -    RBDAIOCB *acb = rcb->acb;
+>> -    int64_t r;
+>> -
+>> -    r = rcb->ret;
+>> -
+>> -    if (acb->cmd != RBD_AIO_READ) {
+>> -        if (r < 0) {
+>> -            acb->ret = r;
+>> -            acb->error = 1;
+>> -        } else if (!acb->error) {
+>> -            acb->ret = rcb->size;
+>> -        }
+>> -    } else {
+>> -        if (r < 0) {
+>> -            qemu_rbd_memset(rcb, 0);
+>> -            acb->ret = r;
+>> -            acb->error = 1;
+>> -        } else if (r < rcb->size) {
+>> -            qemu_rbd_memset(rcb, r);
+>> -            if (!acb->error) {
+>> -                acb->ret = rcb->size;
+>> -            }
+>> -        } else if (!acb->error) {
+>> -            acb->ret = r;
+>> -        }
+>> -    }
+>> -
+>> -    g_free(rcb);
+>> -
+>> -    acb->common.cb(acb->common.opaque, (acb->ret > 0 ? 0 : acb->ret));
+>> -
+>> -    qemu_aio_unref(acb);
+>> -}
+>> -
+>>  static char *qemu_rbd_mon_host(BlockdevOptionsRbd *opts, Error **errp)
+>>  {
+>>      const char **vals;
+>> @@ -817,88 +761,49 @@ static int qemu_rbd_resize(BlockDriverState *bs, uint64_t size)
+>>      return 0;
+>>  }
+>>
+>> -static const AIOCBInfo rbd_aiocb_info = {
+>> -    .aiocb_size = sizeof(RBDAIOCB),
+>> -};
+>> -
+>> -static void rbd_finish_bh(void *opaque)
+>> +static void qemu_rbd_finish_bh(void *opaque)
+>>  {
+>> -    RADOSCB *rcb = opaque;
+>> -    qemu_rbd_complete_aio(rcb);
+>> +    RBDTask *task = opaque;
+>> +    task->complete = 1;
+>> +    aio_co_wake(task->co);
+>>  }
+>>
+>> -/*
+>> - * This is the callback function for rbd_aio_read and _write
+>> - *
+>> - * Note: this function is being called from a non qemu thread so
+>> - * we need to be careful about what we do here. Generally we only
+>> - * schedule a BH, and do the rest of the io completion handling
+>> - * from rbd_finish_bh() which runs in a qemu context.
+>> - */
+>> -static void rbd_finish_aiocb(rbd_completion_t c, RADOSCB *rcb)
+>> +static void qemu_rbd_completion_cb(rbd_completion_t c, RBDTask *task)
+>>  {
+>> -    RBDAIOCB *acb = rcb->acb;
+>> -
+>> -    rcb->ret = rbd_aio_get_return_value(c);
+>> +    task->ret = rbd_aio_get_return_value(c);
+>>      rbd_aio_release(c);
+>> -
+>> -    replay_bh_schedule_oneshot_event(acb->s->aio_context, rbd_finish_bh, rcb);
+>> +    aio_bh_schedule_oneshot(task->s->aio_context, qemu_rbd_finish_bh, task);
+>>  }
+>>
+>> -static BlockAIOCB *rbd_start_aio(BlockDriverState *bs,
+>> -                                 int64_t off,
+>> -                                 QEMUIOVector *qiov,
+>> -                                 int64_t size,
+>> -                                 BlockCompletionFunc *cb,
+>> -                                 void *opaque,
+>> -                                 RBDAIOCmd cmd)
+>> +static int coroutine_fn qemu_rbd_start_co(BlockDriverState *bs,
+>> +                                          uint64_t offset,
+>> +                                          uint64_t bytes,
+>> +                                          QEMUIOVector *qiov,
+>> +                                          int flags,
+>> +                                          RBDAIOCmd cmd)
+>>  {
+>> -    RBDAIOCB *acb;
+>> -    RADOSCB *rcb = NULL;
+>> -    rbd_completion_t c;
+>> -    int r;
+>> -
+>>      BDRVRBDState *s = bs->opaque;
+>> +    RBDTask task = { .s = s, .co = qemu_coroutine_self() };
+>> +    rbd_completion_t c;
+>> +    int r, ret = -EIO;
+>>
+>> -    acb = qemu_aio_get(&rbd_aiocb_info, bs, cb, opaque);
+>> -    acb->cmd = cmd;
+>> -    acb->qiov = qiov;
+>> -    assert(!qiov || qiov->size == size);
+>> -
+>> -    rcb = g_new(RADOSCB, 1);
+>> -
+>> -    acb->ret = 0;
+>> -    acb->error = 0;
+>> -    acb->s = s;
+>> +    assert(!qiov || qiov->size == bytes);
+>>
+>> -    rcb->acb = acb;
+>> -    rcb->s = acb->s;
+>> -    rcb->size = size;
+>> -    r = rbd_aio_create_completion(rcb, (rbd_callback_t) rbd_finish_aiocb, &c);
+>> +    r = rbd_aio_create_completion(&task,
+>> +                                  (rbd_callback_t) qemu_rbd_completion_cb, &c);
+>>      if (r < 0) {
+>>          goto failed;
+>>      }
+>>
+>>      switch (cmd) {
+>> -    case RBD_AIO_WRITE:
+>> -        /*
+>> -         * RBD APIs don't allow us to write more than actual size, so in order
+>> -         * to support growing images, we resize the image before write
+>> -         * operations that exceed the current size.
+>> -         */
+>> -        if (off + size > s->image_size) {
+>> -            r = qemu_rbd_resize(bs, off + size);
+> I realize this is inherited code that is being refactored, but is it
+> really possible for QEMU to issue IOs outside the block extents? This
+> also has the same issue as the previous commit comment where the
+> "image_size" is only initialized at image open time and therefore this
+> path will keep getting hit if IOs are issued beyond the original block
+> device extents.
 
-Queued, thanks.
 
-Paolo
+This is for the case that you came to the idea that putting e.g. a qcow2 file on rbd which actually can grow during runtime.
+
+If you put a raw image on an rbd image the only way to grow is with block_resize (which invoces truncate) or with qemu-img resize...
+
+
+I personally was unsure if it makes sense at all to supprt anything except raw on rbd, but it was supported before so I left this in.
+
+
+>
+>> -            if (r < 0) {
+>> -                goto failed_completion;
+>> -            }
+>> -        }
+>> -        r = rbd_aio_writev(s->image, qiov->iov, qiov->niov, off, c);
+>> -        break;
+>>      case RBD_AIO_READ:
+>> -        r = rbd_aio_readv(s->image, qiov->iov, qiov->niov, off, c);
+>> +        r = rbd_aio_readv(s->image, qiov->iov, qiov->niov, offset, c);
+>> +        break;
+>> +    case RBD_AIO_WRITE:
+>> +        r = rbd_aio_writev(s->image, qiov->iov, qiov->niov, offset, c);
+>>          break;
+>>      case RBD_AIO_DISCARD:
+>> -        r = rbd_aio_discard(s->image, off, size, c);
+>> +        r = rbd_aio_discard(s->image, offset, bytes, c);
+>>          break;
+>>      case RBD_AIO_FLUSH:
+>>          r = rbd_aio_flush(s->image, c);
+>> @@ -908,44 +813,71 @@ static BlockAIOCB *rbd_start_aio(BlockDriverState *bs,
+>>      }
+>>
+>>      if (r < 0) {
+>> +        task.complete = 1;
+>> +        task.ret = r;
+>> +    }
+>> +
+>> +    while (!task.complete) {
+>> +        qemu_coroutine_yield();
+>> +    }
+>> +
+>> +    if (task.ret < 0) {
+>> +        error_report("rbd request failed: cmd %d offset %" PRIu64 " bytes %"
+>> +                     PRIu64 " flags %d task.ret %" PRIi64 " (%s)", cmd, offset,
+>> +                     bytes, flags, task.ret, strerror(-task.ret));
+>>          goto failed_completion;
+>>      }
+>> -    return &acb->common;
+>> +
+>> +    /* zero pad short reads */
+>> +    if (cmd == RBD_AIO_READ && task.ret < qiov->size) {
+>> +        qemu_iovec_memset(qiov, task.ret, 0, qiov->size - task.ret);
+>> +    }
+>> +
+>> +    return 0;
+>>
+>>  failed_completion:
+>>      rbd_aio_release(c);
+> Wasn't this already released in "qemu_rbd_completion_cb"?
+
+
+You are right, in case of task.ret < 0 we need to go to "failed" and not "failed_completion".
+
+If the I/O is successful we leave the coroutine with "return 0" just above the label.
+
+
+Peter
 
 
