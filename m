@@ -2,86 +2,80 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 675482F55DA
-	for <lists+qemu-devel@lfdr.de>; Thu, 14 Jan 2021 02:38:34 +0100 (CET)
-Received: from localhost ([::1]:52772 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 697952F55D8
+	for <lists+qemu-devel@lfdr.de>; Thu, 14 Jan 2021 02:38:21 +0100 (CET)
+Received: from localhost ([::1]:52256 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kzrar-0004kW-Fn
-	for lists+qemu-devel@lfdr.de; Wed, 13 Jan 2021 20:38:33 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52168)
+	id 1kzrae-0004XX-GD
+	for lists+qemu-devel@lfdr.de; Wed, 13 Jan 2021 20:38:20 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52478)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jiaxun.yang@flygoat.com>)
- id 1kzrVU-0001S8-4S
- for qemu-devel@nongnu.org; Wed, 13 Jan 2021 20:33:00 -0500
-Received: from new4-smtp.messagingengine.com ([66.111.4.230]:37715)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jiaxun.yang@flygoat.com>)
- id 1kzrVS-0005OI-HD
- for qemu-devel@nongnu.org; Wed, 13 Jan 2021 20:32:59 -0500
-Received: from compute6.internal (compute6.nyi.internal [10.202.2.46])
- by mailnew.nyi.internal (Postfix) with ESMTP id 155035805C1;
- Wed, 13 Jan 2021 20:32:58 -0500 (EST)
-Received: from mailfrontend2 ([10.202.2.163])
- by compute6.internal (MEProxy); Wed, 13 Jan 2021 20:32:58 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=flygoat.com; h=
- from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding; s=fm1; bh=XOlNwBn84S6z3
- g0YsZCrh7EPCXFotK9cQmm+pumQZhg=; b=YbObHP/M0Tz25bwt8Sd8Sl6gMxv4J
- 8te+rZA0uTR1NfUiBYVNaHDL/R7fo7G7isxUv7CVIsY5Tewr4JeiytlfOza4FZ3j
- 0VhRhNbJBHG0SMOA9gwisDq883irHKdI+KEp3lbcLWmXH0N/kqG+rVCqgQZlFnLc
- KXQ8oD3ryNQ0tzf3EDuMmBxlx/X4wZpV8TusYOKyLtJIJ1HFSJApWYOgBVUlBaPR
- bIBdkLQTH/7ZZUP1ABpWX1k6nPfnXci6mdkI2MmK0N9H5jr7HNY8/asuQs2gLQKh
- 6xayUWG3mDNsct+b9xsniO0tx+8Vr/E/a6giNCCFA+qbfFf9GBEz2PoIA==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:content-transfer-encoding:date:from
- :in-reply-to:message-id:mime-version:references:subject:to
- :x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
- fm1; bh=XOlNwBn84S6z3g0YsZCrh7EPCXFotK9cQmm+pumQZhg=; b=a9MQRb5l
- ZBE6juQo/KnQDA6iQbaaVrngO4uHSBumcuUfTeZ552pmrMnw/g0KvSHSJFufA1rZ
- hl7qyKWdblRmMztqqSSqCJ+sMTV3pAMsZnfDSs+uN3Ngvu7OrPOMzwloAl6lL8P4
- Jqyu5rLRsgPBSAuECkP3vG2xAXpf1d1AxpTXK73j80NW4w7QsFKG9lEAJdGH52N0
- fcHx17Z8oCf86PNnY0UWKdW1369MuIsgjhUvsUPMM4XJfSM47CbhtpbUD+zOLRma
- UlxwI0mUCicyEn9ANu6QaHBqQG3tA9UsB5VMylcPCRyYZLFMMz4R2sNcqhtahLLE
- mv17i/JjYusWYg==
-X-ME-Sender: <xms:SZ__X1Lfga-eMEcwRCAukpnGy5TyncSGiTYxSO9Lxxi834px3UO0Ow>
- <xme:SZ__XxLefaywYP-iUWMXOnFZxrrhYNw-UQMWgYtjAZx0CXwGVbgTma5w9QVsuqQDy
- 8sTLH7z35d-7TkJ09M>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedukedrtdeggdefhecutefuodetggdotefrodftvf
- curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
- uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
- fjughrpefhvffufffkofgjfhgggfestdekredtredttdenucfhrhhomheplfhirgiguhhn
- ucgjrghnghcuoehjihgrgihunhdrhigrnhhgsehflhihghhorghtrdgtohhmqeenucggtf
- frrghtthgvrhhnpeejiefhgfetleekleffudektdehvedujedvgeekkeejfefhhffhtedu
- tefgtdffueenucfkphepuddujedrudefiedrkedrudeggeenucevlhhushhtvghrufhiii
- gvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehjihgrgihunhdrhigrnhhgsehflhih
- ghhorghtrdgtohhm
-X-ME-Proxy: <xmx:SZ__X9sRFNO62OH8vpFUOPzmdC0mBV7ba6Du3Kd1txcvOeVgPgdb4w>
- <xmx:SZ__X2bIXYzX2nQN8YF9xsNVQkODB0jg4UtvtVokswYiSwDpf8RCWg>
- <xmx:SZ__X8a7RXSy9Ktp6IXUkTP9Z3cjEkKpN7ODY2I8UsTlxHErLoumnw>
- <xmx:SZ__X0Gt2sKENqWkQM2lEuvgV5A1eFgJfofqQCjvS_9-Xqb2efXpww>
-Received: from localhost.localdomain (unknown [117.136.8.144])
- by mail.messagingengine.com (Postfix) with ESMTPA id B3BDC1080059;
- Wed, 13 Jan 2021 20:32:54 -0500 (EST)
-From: Jiaxun Yang <jiaxun.yang@flygoat.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH v2 2/2] hw/mips/loongson3_virt: Add TCG SMP support
-Date: Thu, 14 Jan 2021 09:31:47 +0800
-Message-Id: <20210114013147.92962-3-jiaxun.yang@flygoat.com>
-X-Mailer: git-send-email 2.30.0
-In-Reply-To: <20210114013147.92962-1-jiaxun.yang@flygoat.com>
-References: <20210114013147.92962-1-jiaxun.yang@flygoat.com>
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1kzrXu-0003KB-50
+ for qemu-devel@nongnu.org; Wed, 13 Jan 2021 20:35:30 -0500
+Received: from mail-pl1-x629.google.com ([2607:f8b0:4864:20::629]:39967)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1kzrXs-0006HI-9w
+ for qemu-devel@nongnu.org; Wed, 13 Jan 2021 20:35:29 -0500
+Received: by mail-pl1-x629.google.com with SMTP id q4so2094098plr.7
+ for <qemu-devel@nongnu.org>; Wed, 13 Jan 2021 17:35:27 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=e/7KKIN5p+2Rayp/3uJ93uh6J2ShWsfU9IeCzoyzLOE=;
+ b=rden4R2pYj+dwM/zOxMVRyONRxmnQL5LFBZxZw4ybn0X2ahPccS5Q8r/6n2hXmN2YV
+ j6FnopIMFnuRfkXmyRG1HzI8206i6eHaVCR9a7AC81NXTUeydCoPKCQEVk8WzSBeHw8e
+ ifT+eWUkT0ItD18VOrxF8XR4KOVMbRuNoEF30mnEx3kuHkaDM8trZMXtyWkUUEe/OPzy
+ pGcxFRLqtRHLFkJhCs/LdM5pjNS6NLp8zgfvkZz6aSmQjhDz0djxkbuy6hORorQT4H8G
+ Jst2NRl2GY/o48wgoEwZ6kT+SRqApT1ortNXb5L0LVRKED4Fe3QGDXpvzbWkjYa7Bp6p
+ k3PQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=e/7KKIN5p+2Rayp/3uJ93uh6J2ShWsfU9IeCzoyzLOE=;
+ b=DlSqiF1mkCCHnutef77nuPPm9xsQBhk/TQee2EUiTZiEdY/AnIuC2XAokKvMTKMVwR
+ yQQPofFItkXAxs4C9fhtcU31gK1VA7d/yMUNeR9/3ZT7Csqtd5OZe/dZtMYW9/Qoh/ov
+ nU7vkdiMSrVKEAwn8qFdaXzs7BQppbQlxrAHnKUh3L3wZ3I6yR6PPNKzoUxfmmhqa8jo
+ XYfEr/lcEFwLNOs1oL/fFG+A/8pV6aUr20ghBGUk0S6rT5xqcqWw4G415yBR9q4rG00s
+ NTN3IBvajL4zQ4eTDAgTPxIL6Mgr2g6kWxxbSA9SXtcKeRgHeKh116lb/SJHUa3vrFHe
+ 4Zqg==
+X-Gm-Message-State: AOAM5304se+naImqKPDY4JgxhlNmcCslYQreoQ83bEodma3XBzKbNt8n
+ /y6AG2znvleZXkV9RCwMzQopGA==
+X-Google-Smtp-Source: ABdhPJyTsC6Mc8FHEN7uDcNyu+IYwCktDGMeI5ZI0E4H4C4pcMnrTgumWuGPNXGHhhsPGtMg91hbww==
+X-Received: by 2002:a17:902:9b84:b029:dd:f952:db30 with SMTP id
+ y4-20020a1709029b84b02900ddf952db30mr5206034plp.56.1610588126642; 
+ Wed, 13 Jan 2021 17:35:26 -0800 (PST)
+Received: from [10.25.18.3] (rrcs-173-197-107-21.west.biz.rr.com.
+ [173.197.107.21])
+ by smtp.gmail.com with ESMTPSA id b7sm3835661pff.96.2021.01.13.17.35.24
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 13 Jan 2021 17:35:26 -0800 (PST)
+Subject: Re: [PATCH v3] tcg: Fix execution on Apple Silicon
+To: Roman Bolshakov <r.bolshakov@yadro.com>, qemu-devel@nongnu.org
+References: <20210113032806.18220-1-r.bolshakov@yadro.com>
+From: Richard Henderson <richard.henderson@linaro.org>
+Message-ID: <62cb11ac-b251-d7f1-f050-4536354c54ae@linaro.org>
+Date: Wed, 13 Jan 2021 15:35:17 -1000
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=66.111.4.230;
- envelope-from=jiaxun.yang@flygoat.com; helo=new4-smtp.messagingengine.com
-X-Spam_score_int: 5
-X-Spam_score: 0.5
-X-Spam_bar: /
-X-Spam_report: (0.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1, DKIM_VALID=-0.1,
- DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_DNSWL_LOW=-0.7,
- RCVD_IN_SBL_CSS=3.335, SPF_HELO_PASS=-0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+In-Reply-To: <20210113032806.18220-1-r.bolshakov@yadro.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::629;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x629.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -94,118 +88,22 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Aurelien Jarno <aurelien@aurel32.net>,
- Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>,
- Huacai Chen <chenhuacai@kernel.org>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
+Cc: Peter Maydell <peter.maydell@linaro.org>, Alexander Graf <agraf@csgraf.de>,
+ Joelle van Dyne <j@getutm.app>, Stefan Hajnoczi <stefanha@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>,
+ =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-loongson3_virt has KVM SMP support in kenrel.
-This patch adds TCG SMP support by enable IPI controller
-for machine.
+On 1/12/21 5:28 PM, Roman Bolshakov wrote:
+> Pages can't be both write and executable at the same time on Apple
+> Silicon. macOS provides public API to switch write protection [1] for
+> JIT applications, like TCG.
 
-Note that TCG SMP can only support up to 4 CPUs as we
-didn't implement multi-node support.
+So... considering that split w^x is now upstream, can we just call this once
+per thread to enable write and leave it write?
+Since we have the separate rw mapping.
 
-Signed-off-by: Jiaxun Yang <jiaxun.yang@flygoat.com>
----
- hw/mips/loongson3_bootp.h |  1 +
- hw/mips/loongson3_virt.c  | 20 +++++++++++++++++++-
- hw/mips/Kconfig           |  1 +
- 3 files changed, 21 insertions(+), 1 deletion(-)
 
-diff --git a/hw/mips/loongson3_bootp.h b/hw/mips/loongson3_bootp.h
-index 09f8480abf..4756aa44f6 100644
---- a/hw/mips/loongson3_bootp.h
-+++ b/hw/mips/loongson3_bootp.h
-@@ -210,6 +210,7 @@ enum {
-     VIRT_PCIE_ECAM,
-     VIRT_BIOS_ROM,
-     VIRT_UART,
-+    VIRT_IPIS,
-     VIRT_LIOINTC,
-     VIRT_PCIE_MMIO,
-     VIRT_HIGHMEM
-diff --git a/hw/mips/loongson3_virt.c b/hw/mips/loongson3_virt.c
-index d4a82fa536..0684a035b0 100644
---- a/hw/mips/loongson3_virt.c
-+++ b/hw/mips/loongson3_virt.c
-@@ -35,6 +35,7 @@
- #include "hw/boards.h"
- #include "hw/char/serial.h"
- #include "hw/intc/loongson_liointc.h"
-+#include "hw/intc/loongson_ipi.h"
- #include "hw/mips/mips.h"
- #include "hw/mips/cpudevs.h"
- #include "hw/mips/fw_cfg.h"
-@@ -59,6 +60,7 @@
- 
- #define PM_CNTL_MODE          0x10
- 
-+#define LOONGSON_TCG_MAX_VCPUS  4
- #define LOONGSON_MAX_VCPUS      16
- 
- /*
-@@ -71,6 +73,7 @@
- #define UART_IRQ            0
- #define RTC_IRQ             1
- #define PCIE_IRQ_BASE       2
-+#define IPI_REG_SPACE       0x100
- 
- const struct MemmapEntry virt_memmap[] = {
-     [VIRT_LOWMEM] =      { 0x00000000,    0x10000000 },
-@@ -81,6 +84,7 @@ const struct MemmapEntry virt_memmap[] = {
-     [VIRT_PCIE_ECAM] =   { 0x1a000000,     0x2000000 },
-     [VIRT_BIOS_ROM] =    { 0x1fc00000,      0x200000 },
-     [VIRT_UART] =        { 0x1fe001e0,           0x8 },
-+    [VIRT_IPIS] =        { 0x3ff01000,         0x400 },
-     [VIRT_LIOINTC] =     { 0x3ff01400,          0x64 },
-     [VIRT_PCIE_MMIO] =   { 0x40000000,    0x40000000 },
-     [VIRT_HIGHMEM] =     { 0x80000000,           0x0 }, /* Variable */
-@@ -495,6 +499,10 @@ static void mips_loongson3_virt_init(MachineState *machine)
-             error_report("Loongson-3/TCG needs cpu type Loongson-3A1000");
-             exit(1);
-         }
-+        if (machine->smp.cpus > LOONGSON_TCG_MAX_VCPUS) {
-+            error_report("Loongson-3/TCG supports up to 4 CPUs");
-+            exit(1);
-+        }
-     } else {
-         if (!machine->cpu_type) {
-             machine->cpu_type = MIPS_CPU_TYPE_NAME("Loongson-3A4000");
-@@ -545,7 +553,17 @@ static void mips_loongson3_virt_init(MachineState *machine)
-         qemu_register_reset(main_cpu_reset, cpu);
- 
-         if (i >= 4) {
--            continue; /* Only node-0 can be connected to LIOINTC */
-+            continue; /* Only node-0 can be connected to LIOINTC and IPI */
-+        }
-+
-+        if (!kvm_enabled()) {
-+            /* IPI is handled by kernel for KVM */
-+            DeviceState *ipi;
-+            ipi = qdev_new(TYPE_LOONGSON_IPI);
-+            sysbus_realize_and_unref(SYS_BUS_DEVICE(ipi), &error_fatal);
-+            sysbus_mmio_map(SYS_BUS_DEVICE(ipi), 0,
-+                            virt_memmap[VIRT_IPIS].base + IPI_REG_SPACE * i);
-+            sysbus_connect_irq(SYS_BUS_DEVICE(ipi), 0, cpu->env.irq[6]);
-         }
- 
-         for (ip = 0; ip < 4 ; ip++) {
-diff --git a/hw/mips/Kconfig b/hw/mips/Kconfig
-index aadd436bf4..4fb0cc49e8 100644
---- a/hw/mips/Kconfig
-+++ b/hw/mips/Kconfig
-@@ -39,6 +39,7 @@ config LOONGSON3V
-     select SERIAL
-     select GOLDFISH_RTC
-     select LOONGSON_LIOINTC
-+    select LOONGSON_IPI if TCG
-     select PCI_DEVICES
-     select PCI_EXPRESS_GENERIC_BRIDGE
-     select MSI_NONBROKEN
--- 
-2.30.0
-
+r~
 
