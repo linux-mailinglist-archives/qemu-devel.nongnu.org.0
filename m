@@ -2,70 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 28D422F6611
-	for <lists+qemu-devel@lfdr.de>; Thu, 14 Jan 2021 17:38:01 +0100 (CET)
-Received: from localhost ([::1]:51334 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9D4D12F6670
+	for <lists+qemu-devel@lfdr.de>; Thu, 14 Jan 2021 17:56:04 +0100 (CET)
+Received: from localhost ([::1]:55898 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l05dI-00022E-8P
-	for lists+qemu-devel@lfdr.de; Thu, 14 Jan 2021 11:38:00 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39210)
+	id 1l05ul-0000Qm-Me
+	for lists+qemu-devel@lfdr.de; Thu, 14 Jan 2021 11:56:03 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39252)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1l05NN-00042A-Cl
- for qemu-devel@nongnu.org; Thu, 14 Jan 2021 11:21:33 -0500
-Received: from mail-wr1-x42d.google.com ([2a00:1450:4864:20::42d]:39997)
+ id 1l05NS-000443-Vf
+ for qemu-devel@nongnu.org; Thu, 14 Jan 2021 11:21:39 -0500
+Received: from mail-wm1-x333.google.com ([2a00:1450:4864:20::333]:35928)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1l05NL-0000YN-OT
- for qemu-devel@nongnu.org; Thu, 14 Jan 2021 11:21:32 -0500
-Received: by mail-wr1-x42d.google.com with SMTP id 91so6396939wrj.7
- for <qemu-devel@nongnu.org>; Thu, 14 Jan 2021 08:21:31 -0800 (PST)
+ id 1l05NR-0000c4-JY
+ for qemu-devel@nongnu.org; Thu, 14 Jan 2021 11:21:38 -0500
+Received: by mail-wm1-x333.google.com with SMTP id v184so995519wma.1
+ for <qemu-devel@nongnu.org>; Thu, 14 Jan 2021 08:21:36 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=+Doq/pcZOVuGb2dEzEOJraoiA6l0J+QqBjHM4CMC0Yk=;
- b=cl9DJTY5d7Cje9sIlTA8Khf8s+LfIDiC9r+kX08Z3dcHrjk7X6WGNsp2ezysAGd7QZ
- YdE5wZXZcXjNneaUswBXYhqfmQJByv20YFZwn+x22gjebZll4+4mdjpiDnjajUkDT/n1
- Utby3QU0vEGjwJJxtmpG9NLwwZ4ww6DxD9ZwGpKjZUiZbC5gkmwPLVqS4KxiH9Db8XcS
- DfalIrz/Z1h8Xlao+CWQHDUulghtWpkyQA4Wr/cgsuPBTld2js3H9sHy5GnB1nhk0UTu
- 7zyNKrP4bLGIsysBcWUnTkcrzWdToeC3QGxvtWktKCvyxfbj+pwAcP942Gw2v5d41XA4
- +cjw==
+ bh=Tkb6QNHvd3F924cjq9ERrydV/9VY8et6DB9+/1SkbtI=;
+ b=Hoy9kO1D9iWWF0TTSi90ZDJQCyGCCf0bOmEhdZ1yO8auRzIgU8dXcfLGQedwU1Qrpw
+ idiJChX3dRxvFOjf2BGshQrFLhHFkyj/GkE/7RIByzWomjq8BN4vTseyHQG+9aSigrFx
+ /35M4FlzF9UI0YfRoyPuVBd5Nr4hs9plmVuDA6lChph58AHYadD6lwZxdiHjvrA2B9tL
+ CG69K8e0TjdWGNWq4zFRRQxwAOTPw9q5+bTe/M9Yfvz6jHgINxErz7u9z3lSXnkBPLMQ
+ SpiURHHE7apVqGGP3Y039SGRaEBxQAgSc+fJlhOpHOBoxpJvlmNupn5R/0likJa+1ifM
+ XpPg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=+Doq/pcZOVuGb2dEzEOJraoiA6l0J+QqBjHM4CMC0Yk=;
- b=M7XD1PH6nYNcSfz/QsVIKEmR7X//sxd6HpOZlHaHCcWMcXWiNLu3wbL62eeGRAluvi
- iorIU7y1+o9R9770IkDIdTVhQ8KSLHLRHZBWJMyhACcF/8Q+WNDtxKXBVosChhCxOSs3
- 1H/7uaGG9n0Gu79SmuX4yTYP996CFIV5VL7nArGtR79pywmfozqrlMmX6naab6lRrFi/
- 6p2Rap7P471yyyAaqhCQc/AjS2pbXZ1O5KUuRjK13c0fiAGfbKXAdM4XluVPuu6oYQXa
- FIedc93hLI/UJsFzZF6KPuPquclQwYtlCQP7tppkIC/Mmvw55VG343ceTRsgwxvk9K0V
- iuhQ==
-X-Gm-Message-State: AOAM532XEWEcF9M1gw9Fo+Si6OmoecL5nYzWjYxFtlE99QNdkrlAbHqd
- kYQOf4dhkaQ96Lfr9VLC1fVmrNhuclM=
-X-Google-Smtp-Source: ABdhPJyC5V7LBZfcoOHLz5E/hIbfdZu+6HFMHWmnNp/p4PS/Y1TJdBdUe/ssVi+waieT4w5Jb7EapQ==
-X-Received: by 2002:adf:e4ca:: with SMTP id v10mr8919808wrm.260.1610641290385; 
- Thu, 14 Jan 2021 08:21:30 -0800 (PST)
+ bh=Tkb6QNHvd3F924cjq9ERrydV/9VY8et6DB9+/1SkbtI=;
+ b=jFf4sQDZXC9mCOIdrBRKYMQ0oE7wcVCamB7VRa8ZE0qeBNKQQ7HEvcxO4x+N/aJvh5
+ Q2+XjYz8zH0djhZ8Q8DIIbJidJ59SW+DX/wAnOuEVhZoDe6fUNhgnMniBZM10nHkW5GL
+ Fdo6MQO+ziQ+19ONsRxlavdqRDCCCqS/zdGtxcacTBH1sDnsj1/4t6AXOW7wsWyGydVJ
+ Rgw0HgZWBpBhYybWMWspWnIRMDApffpO4rAUUVgr9qcf0SwamDunHXFytNF0JimSYRcy
+ xT6lRVAu1tTO/Dqno2r9EObFiq93CLdANzydJNvcR1mGsUMGc0xs9DTRBXO0pvlCDLHv
+ W7lA==
+X-Gm-Message-State: AOAM530ntjTMbQfAho2KBafkU28+j7xmkIadvMBbaan2T8A0G1QEkjYL
+ xExYahKR7/U1+QRwp5BI19xIoGXpkrk=
+X-Google-Smtp-Source: ABdhPJzsVRoHZIjey+b4TSTGx+9L8REIajB0h0a6h9CzJDfuBkggk+0x7VbZQ0NEscEM0IEKGKPkpg==
+X-Received: by 2002:a05:600c:1549:: with SMTP id
+ f9mr4776192wmg.61.1610641295261; 
+ Thu, 14 Jan 2021 08:21:35 -0800 (PST)
 Received: from x1w.redhat.com (13.red-83-57-169.dynamicip.rima-tde.net.
  [83.57.169.13])
- by smtp.gmail.com with ESMTPSA id g184sm9524669wma.16.2021.01.14.08.21.29
+ by smtp.gmail.com with ESMTPSA id k10sm10127129wrq.38.2021.01.14.08.21.34
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 14 Jan 2021 08:21:29 -0800 (PST)
+ Thu, 14 Jan 2021 08:21:34 -0800 (PST)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 To: 
-Subject: [PULL v2 58/69] target/mips: Convert Rel6 Special2 opcode to
+Subject: [PULL v2 63/69] target/mips: Convert Rel6 LDL/LDR/SDL/SDR opcodes to
  decodetree
-Date: Thu, 14 Jan 2021 17:20:12 +0100
-Message-Id: <20210114162016.2901557-14-f4bug@amsat.org>
+Date: Thu, 14 Jan 2021 17:20:13 +0100
+Message-Id: <20210114162016.2901557-15-f4bug@amsat.org>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20210114162016.2901557-1-f4bug@amsat.org>
 References: <20210114162016.2901557-1-f4bug@amsat.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::42d;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x42d.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::333;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x333.google.com
 X-Spam_score_int: -14
 X-Spam_score: -1.5
 X-Spam_bar: -
@@ -93,63 +94,65 @@ Cc: Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Special2 opcode have been removed from the Release 6.
+LDL/LDR/SDL/SDR opcodes have been removed from the Release 6.
 
-Add a single decodetree entry for all the opcode class,
-triggering Reserved Instruction if ever used.
+Add a single decodetree entry for the opcodes, triggering
+Reserved Instruction if ever used.
 
-Remove unreachable check_insn_opc_removed() call.
+Remove unreachable check_insn_opc_removed() calls.
 
 Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-Message-Id: <20201208203704.243704-7-f4bug@amsat.org>
+Message-Id: <20201208203704.243704-12-f4bug@amsat.org>
 ---
- target/mips/mips32r6.decode  | 2 ++
- target/mips/rel6_translate.c | 7 +++++++
- target/mips/translate.c      | 2 --
- 3 files changed, 9 insertions(+), 2 deletions(-)
+ target/mips/mips64r6.decode | 7 +++++++
+ target/mips/translate.c     | 5 +----
+ 2 files changed, 8 insertions(+), 4 deletions(-)
 
-diff --git a/target/mips/mips32r6.decode b/target/mips/mips32r6.decode
-index d71a65f32cb..dd7faf75ab8 100644
---- a/target/mips/mips32r6.decode
-+++ b/target/mips/mips32r6.decode
-@@ -15,3 +15,5 @@
+diff --git a/target/mips/mips64r6.decode b/target/mips/mips64r6.decode
+index fd58ac72414..8ca352a5c19 100644
+--- a/target/mips/mips64r6.decode
++++ b/target/mips/mips64r6.decode
+@@ -12,6 +12,13 @@
+ 
+ &rtype              rs rt rd sa !extern
+ 
++&REMOVED            !extern
++
  @lsa                ...... rs:5 rt:5 rd:5 ... sa:2 ......   &rtype
  
- LSA                 000000 ..... ..... ..... 000 .. 000101  @lsa
+ DLSA                000000 ..... ..... ..... 000 .. 010101  @lsa
 +
-+REMOVED             011100 ----- ----- ----- ----- ------   # SPECIAL2
-diff --git a/target/mips/rel6_translate.c b/target/mips/rel6_translate.c
-index da70ff9662b..139a7524eea 100644
---- a/target/mips/rel6_translate.c
-+++ b/target/mips/rel6_translate.c
-@@ -18,6 +18,13 @@
- #include "decode-mips32r6.c.inc"
- #include "decode-mips64r6.c.inc"
- 
-+bool trans_REMOVED(DisasContext *ctx, arg_REMOVED *a)
-+{
-+    gen_reserved_instruction(ctx);
-+
-+    return true;
-+}
-+
- static bool trans_LSA(DisasContext *ctx, arg_rtype *a)
- {
-     return gen_lsa(ctx, a->rd, a->rt, a->rs, a->sa);
++REMOVED             011010 ----- ----- ----------------     # LDL
++REMOVED             011011 ----- ----- ----------------     # LDR
++REMOVED             101100 ----- ----- ----------------     # SDL
++REMOVED             101101 ----- ----- ----------------     # SDR
 diff --git a/target/mips/translate.c b/target/mips/translate.c
-index e3bb1e83efe..2f23ce4a363 100644
+index ffe283928bd..f0438ab9bef 100644
 --- a/target/mips/translate.c
 +++ b/target/mips/translate.c
-@@ -27136,8 +27136,6 @@ static void decode_opc_special2_legacy(CPUMIPSState *env, DisasContext *ctx)
-     int rs, rt, rd;
-     uint32_t op1;
- 
--    check_insn_opc_removed(ctx, ISA_MIPS_R6);
--
-     rs = (ctx->opcode >> 21) & 0x1f;
-     rt = (ctx->opcode >> 16) & 0x1f;
-     rd = (ctx->opcode >> 11) & 0x1f;
+@@ -28870,11 +28870,10 @@ static bool decode_opc_legacy(CPUMIPSState *env, DisasContext *ctx)
+         if (ctx->insn_flags & INSN_R5900) {
+             check_insn_opc_user_only(ctx, INSN_R5900);
+         }
++        check_insn_opc_removed(ctx, ISA_MIPS_R6);
+         /* fall through */
+     case OPC_LDL:
+     case OPC_LDR:
+-        check_insn_opc_removed(ctx, ISA_MIPS_R6);
+-        /* fall through */
+     case OPC_LWU:
+     case OPC_LD:
+         check_insn(ctx, ISA_MIPS3);
+@@ -28883,8 +28882,6 @@ static bool decode_opc_legacy(CPUMIPSState *env, DisasContext *ctx)
+         break;
+     case OPC_SDL:
+     case OPC_SDR:
+-        check_insn_opc_removed(ctx, ISA_MIPS_R6);
+-        /* fall through */
+     case OPC_SD:
+         check_insn(ctx, ISA_MIPS3);
+         check_mips_64(ctx);
 -- 
 2.26.2
 
