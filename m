@@ -2,84 +2,130 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5E6A52F5A9B
-	for <lists+qemu-devel@lfdr.de>; Thu, 14 Jan 2021 07:19:11 +0100 (CET)
-Received: from localhost ([::1]:54218 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B65A62F5A9A
+	for <lists+qemu-devel@lfdr.de>; Thu, 14 Jan 2021 07:18:35 +0100 (CET)
+Received: from localhost ([::1]:52540 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kzvyQ-0008DL-FN
-	for lists+qemu-devel@lfdr.de; Thu, 14 Jan 2021 01:19:10 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42398)
+	id 1kzvxq-0007VO-HY
+	for lists+qemu-devel@lfdr.de; Thu, 14 Jan 2021 01:18:34 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42456)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <lulu@redhat.com>) id 1kzvvA-000678-77
- for qemu-devel@nongnu.org; Thu, 14 Jan 2021 01:15:48 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:51974)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <lulu@redhat.com>) id 1kzvv7-0005Ji-Uz
- for qemu-devel@nongnu.org; Thu, 14 Jan 2021 01:15:47 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1610604945;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=8dls1aqH3g2BSNShiSqD/bhkmMPkTEioivFdlIsd6u4=;
- b=QgXSFe0AkCVzMGGvzVwjU8s1HS4oQpdL9k13bJm2PBviRNirlte0iJUokDEI5GKKHG3O2x
- MG1kUbuUyLvGPmALHuffDB844EnqU/WM60jE8Z6veuXILPK/3692vhAxjGLr6Y0p07S8iv
- BHBshsw34159txdpn8PTQpcBof0QSD8=
-Received: from mail-pj1-f69.google.com (mail-pj1-f69.google.com
- [209.85.216.69]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-329-IecdiIFdOJuWVOiWd2RLfQ-1; Thu, 14 Jan 2021 01:15:43 -0500
-X-MC-Unique: IecdiIFdOJuWVOiWd2RLfQ-1
-Received: by mail-pj1-f69.google.com with SMTP id l8so4779092pjf.0
- for <qemu-devel@nongnu.org>; Wed, 13 Jan 2021 22:15:43 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=8dls1aqH3g2BSNShiSqD/bhkmMPkTEioivFdlIsd6u4=;
- b=dzaDpKdqnO6Pf/dK/x56Ts4Afn/3mJuBUE3BDBhZ+xaG4Sd0RcrGL8rNSJdcaIMW40
- O7gEstur+57Zze+yDQRDFrkxvFMW2ab+NpTl568NlLGHuYqxY834bIIIB7jw7jfK/XJg
- aIbdNGMNX3TnNG0hXdBGCTXOC4/oEC4Yjc/lLD9se1ctafxjdQ7ZGkDCZMA4xMwLkMGG
- RNa5/RBiGUxU6EPe7D5+x+fxcPV/ELPBAGI6Lxmfa387m3VruTMEMySqFajIuPB6myZ0
- 9xdLHy2hDHvXzN7UuqOU08jBaAjF+YQ3bELURD1R1mxKdwJT22GdXLoKYmyfrrDNBDNq
- AM1Q==
-X-Gm-Message-State: AOAM530FNyy0sknK10gJ/yUi4So3iqGLnxBkL2SPhLy6DApq5YW2t2oj
- PaWx+irk020OsVj/BfYJXIIC/PNq/IP7WssSJcBWhmLxM4Nk0lb190fK+JMQo9IsCsB8zgVDLwR
- M+SO7M0ne5HsHaRI/BTPd//C0+qliy2M=
-X-Received: by 2002:a17:90a:454e:: with SMTP id
- r14mr3425393pjm.194.1610604942006; 
- Wed, 13 Jan 2021 22:15:42 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJzmfHhqumabkuCjv1IurMbeiFLspCar6jUlt2ONVYgtQ6KYw87wKaFanf0WhER0hluL8meqRfyFbPRsO7urOhI=
-X-Received: by 2002:a17:90a:454e:: with SMTP id
- r14mr3425374pjm.194.1610604941798; 
- Wed, 13 Jan 2021 22:15:41 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
+ id 1kzvvi-0006XL-B2; Thu, 14 Jan 2021 01:16:22 -0500
+Received: from mail-am6eur05on2102.outbound.protection.outlook.com
+ ([40.107.22.102]:16996 helo=EUR05-AM6-obe.outbound.protection.outlook.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
+ id 1kzvvg-0005Yw-5n; Thu, 14 Jan 2021 01:16:22 -0500
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=A8UEIq+u6MBo+R0J2lozGSaJHM4D5PDzxO75diRWgoOlvte6vaZcR+HMmG6C5J2Pfl9GpzOunfaaewwsEk6I+UGqSh9lit7NDfZ48wz7LJgoGITNSmHa1dYOWO52PrIvAxfEN97co5mM9l6DnwXRaqPkPpYfSRqmDVP6w3Gy2u+erYe4O+FA2FROfyogeKigKHiA1rkg61ATH/ST4FapykJUY6SnwoCPqRQbcfUpOUJgH6SiE9mleMclrgCPKl/leS2Vb3m4qVmT4ePT015q/v4EtSm1K/6XjPZl8u/Y1ufEnr5+zz8ZFAADWBGYVS8oCDFuaZCBhgxrUqkQLvf/AQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=B5oMgz0oB2RX0O2lK72MVLclfKUtaHJkf98JndTv3IA=;
+ b=nZQunKOTOg9AO3sZnwDXu01xb2WDHWkI0H+MCb0lrlj5d7mc6SxrnzwTNWfDU8ttnOb9vAo4x4yV0Dok9RS8QkOEb/rqAAKeNBtaQnkXKUgZ6u2eXX1UaTQNn9g96AR5yQ6ooU5/s6T2R02xsT+0fpfH0vpQCyWzlTDhARiCZAVStraDfoLbh5apyUTlqL1QgrQuJUlKiHjCMEVkglC208ofwcuOcgmIevcGfiVvAKkEmZVDpuwomYlxADX1OcSKwMrY0KsKDDXrD5rxiAWogB4NuFi1CVPy0jt7X7eawHzml6VSxzRuuv/gzRB7W7kGOg/RPeJ6R20/4X+pQda/0w==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=virtuozzo.com; dmarc=pass action=none
+ header.from=virtuozzo.com; dkim=pass header.d=virtuozzo.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=B5oMgz0oB2RX0O2lK72MVLclfKUtaHJkf98JndTv3IA=;
+ b=JwGhO60ZWkIpUXpd+Xc1fqdzi09yKuhuQZwLoiB7EMk7vqnY5uyJ6g+7pt439QvuYglUtwVXXIldjbxtwGyvE5XPT9LzBXkwFuj62xhut/ODN7PnmfYpFRjphknuzIyN/oQPCEhCBUd2x5ZM6GbokCUjw+6+Yod2ZUTCA1DSN9w=
+Authentication-Results: redhat.com; dkim=none (message not signed)
+ header.d=none;redhat.com; dmarc=none action=none header.from=virtuozzo.com;
+Received: from AM7PR08MB5494.eurprd08.prod.outlook.com (2603:10a6:20b:dc::15)
+ by AM7PR08MB5496.eurprd08.prod.outlook.com (2603:10a6:20b:de::20)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3763.9; Thu, 14 Jan
+ 2021 06:16:14 +0000
+Received: from AM7PR08MB5494.eurprd08.prod.outlook.com
+ ([fe80::214a:3545:368c:7ae8]) by AM7PR08MB5494.eurprd08.prod.outlook.com
+ ([fe80::214a:3545:368c:7ae8%9]) with mapi id 15.20.3763.009; Thu, 14 Jan 2021
+ 06:16:14 +0000
+Subject: Re: [PATCH v6 08/11] iotests: add testenv.py
+From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+To: Kevin Wolf <kwolf@redhat.com>
+References: <20210109122631.167314-1-vsementsov@virtuozzo.com>
+ <20210109122631.167314-9-vsementsov@virtuozzo.com>
+ <20210112173626.GC6075@merkur.fritz.box>
+ <186c6a87-9abb-a6ae-1555-e7395573c674@virtuozzo.com>
+Message-ID: <ece13ef2-bbb1-f017-9cac-2b897ec75f98@virtuozzo.com>
+Date: Thu, 14 Jan 2021 09:16:13 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.6.1
+In-Reply-To: <186c6a87-9abb-a6ae-1555-e7395573c674@virtuozzo.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+X-Originating-IP: [185.215.60.80]
+X-ClientProxiedBy: AM0PR03CA0098.eurprd03.prod.outlook.com
+ (2603:10a6:208:69::39) To AM7PR08MB5494.eurprd08.prod.outlook.com
+ (2603:10a6:20b:dc::15)
 MIME-Version: 1.0
-References: <20210113154540.24981-1-lulu@redhat.com>
- <20210113154540.24981-5-lulu@redhat.com>
- <20210113111659-mutt-send-email-mst@kernel.org>
-In-Reply-To: <20210113111659-mutt-send-email-mst@kernel.org>
-From: Cindy Lu <lulu@redhat.com>
-Date: Thu, 14 Jan 2021 14:15:04 +0800
-Message-ID: <CACLfguWo6wVg-eWsR13Gt=oCJiYokT2VTyhbXsNDoioqFt9t3Q@mail.gmail.com>
-Subject: Re: [PATCH v1 4/4] vhost-vdpa:add callback function for configure
- interrupt
-To: "Michael S. Tsirkin" <mst@redhat.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=lulu@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=lulu@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -29
-X-Spam_score: -3.0
-X-Spam_bar: ---
-X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.25,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-MS-Exchange-MessageSentRepresentingType: 1
+Received: from [192.168.100.8] (185.215.60.80) by
+ AM0PR03CA0098.eurprd03.prod.outlook.com (2603:10a6:208:69::39) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.3763.11 via Frontend Transport; Thu, 14 Jan 2021 06:16:14 +0000
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: cd645c2e-3c4c-46a3-7c83-08d8b853e5c5
+X-MS-TrafficTypeDiagnostic: AM7PR08MB5496:
+X-MS-Exchange-Transport-Forked: True
+X-Microsoft-Antispam-PRVS: <AM7PR08MB5496CC8B0B65EFAB6E919E20C1A80@AM7PR08MB5496.eurprd08.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:6790;
+X-MS-Exchange-SenderADCheck: 1
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: R6j+k52pWyfWN1Brbf5mc2K/XkLjY/fMxX6M9/rGG6aqw0hLkI8JAF5VWbsUa01VQkMV9X2nq4DC0YTlTVkOqLOo+69sdxHCkakwj5iKhJ2Rjx1EW3uDX2xoLGqvXfq+LoDiKueCnlUfcgBq2rMBSTan7xTIULr/6x69luHI6afq8jfOXA3Stk56JdM2La1oPJBxYeaFenT7egB88wvk0PWkE/eeCgWMsvlhkYXT3qXINU5tZcgmUPNgWrOaZjt3Rmbga9x2winccsq8s8Adqa6xpAV82Gq2X+Vg/S8YyiJEWF9fvvbFT7vqJhNC0aJsi6wijKU1eCS/NJL2TW1U6de4GLfeJUPH0/0vchAU3dCrzuzxTMQbYa70ZroB2Ku417KWUyktzzxayJyJHlmQMd9TwZ0xJQPHr/mUuHGc3+rZNt3YaTzpCdXT+/E3tDxj/M1mk36xqbsvUWHmMI8MWUwBhVffj92U099nrFHfdEk=
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:AM7PR08MB5494.eurprd08.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(4636009)(396003)(136003)(39840400004)(376002)(366004)(346002)(8676002)(31696002)(956004)(36756003)(478600001)(66556008)(6916009)(26005)(8936002)(2616005)(6486002)(66476007)(86362001)(31686004)(16526019)(2906002)(5660300002)(4326008)(16576012)(316002)(52116002)(186003)(66946007)(45980500001)(43740500002);
+ DIR:OUT; SFP:1102; 
+X-MS-Exchange-AntiSpam-MessageData: =?utf-8?B?VW5XT09ZeFN6Y2Z2eU9yL0tBckM0TVZBeU9QTlhadHJONG9GQlpFdk9EL3RT?=
+ =?utf-8?B?MVBHS0hwSk8xd0NZRXhlck5hRjZmSFN6K3dkUXRsNXE0dGNxL1B4Rm1iRStv?=
+ =?utf-8?B?NjgwN3NxQzFXb2k0SGs0REpLbVNoWkw0QndNNTNJVVZmbks5RndnSTBjOTJt?=
+ =?utf-8?B?OGdRd2MvdHAva05qVzlkTUEwT3htVnhSWXpuSC9vektHdGxrd2wxY1pRaHBF?=
+ =?utf-8?B?eDBmTXEwNXJtbnE5NFNzdE82Q01EVDFXcTFjRG11aEVXZ05MMmsrMEdjL1Jq?=
+ =?utf-8?B?d2Vka3BjZGVxaGRJZG5RNTFJVTY4dlJLWWxYUjBHUEpMNHVablZVdzRpVmRr?=
+ =?utf-8?B?eFcvbXdpL3lBcWhpUXkzYjZ4THVsNDBMK3ZVek5JNzdNbnFlUmcyTXJKdHVS?=
+ =?utf-8?B?bEl2SlRRdnBBaHVZYjFVNmpDWmI1RVZSTGdiWmgwTWt0bTFSZ05ETHZwQ1VN?=
+ =?utf-8?B?TE15Nk00NTVRejZXWjltbEYvSkVqOFRua08wWlhNU2dBS05mQTdpUEUvT0lF?=
+ =?utf-8?B?aWdPbzVGaG9xbXEvUEFPMWNBVHl6QWFwaFpmMitEUGphUnN4TytaRjltWTZk?=
+ =?utf-8?B?blUzQVhhdlJGdWxuOGlhVG1Xdk9aOHcrekJUZTRLODZ0NjdRbUZ2ek1nTmZ5?=
+ =?utf-8?B?Z09URW1zSnR5S0JxUG1JWGpvK2kxeGYwU2IvUmhyMFZLTlRnR3pZdUdVZ1o0?=
+ =?utf-8?B?L1BZK2c3dFRtWndubmpMMDIwa1BFcjV1ajVmc0trVlF2SUQ3VmNIaXJEdkg1?=
+ =?utf-8?B?dWxqLzRhaUFaWElDVEEyV3huOUl3WHJDNUh5aHNhN1RxZnVkaGl2cXBhTEIr?=
+ =?utf-8?B?VWpBdjRGNGkyeUoycUMrUzFSelVmSWtjaTdRcThKSnlXMFB3U1QzVzkxdFRD?=
+ =?utf-8?B?TENWOHZFMC9LN2tKQ0lWRGdWQnB6dCtyclZWNjNxRWlPdDFYZDRXMlBIZTgx?=
+ =?utf-8?B?UWZmakNvcU5sczB3dEE4UWZQUVBQWHp3cjRDQnI3VTlrQWVNbUc3ZUtCZmpV?=
+ =?utf-8?B?QjBBOFNzckZ5cWlWSzdXRlpEb2JhbXZ0WGtHamJBUE1xNWRVVUlXV2RwREsy?=
+ =?utf-8?B?K3Jaay91aW1YMCtYbURqMG1kT3hCVUtQYWE1eHI3MUJmZTRpZzhoT0lWVjAv?=
+ =?utf-8?B?N3BaTitvU1lteU5GMWFDSjRqRklWZUVVWkU1R0tzRVNjcEE3eDF2Umh0VnZO?=
+ =?utf-8?B?OXdqQ2ljNEljZVRKOFYxamp0LzRwMC9VZjI5QkFmdFdOQXF2TUxTRlpiYVhl?=
+ =?utf-8?B?OTZhUDM1ejZZeUt5UXRxQVlvdDZDYU1ZNWM3VStQc3U4OWNNaWRvQ1dITzVl?=
+ =?utf-8?Q?cLkWSOt6HPtPcbu0IO3eq2Oc+g/Gnr80HU?=
+X-OriginatorOrg: virtuozzo.com
+X-MS-Exchange-CrossTenant-AuthSource: AM7PR08MB5494.eurprd08.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 14 Jan 2021 06:16:14.9193 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
+X-MS-Exchange-CrossTenant-Network-Message-Id: cd645c2e-3c4c-46a3-7c83-08d8b853e5c5
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: Sp4P1vF71Ia8hxuolmWzt0pySCNoIfw7k+tZIa+pgJXs3R6kw31W1xYJVNtzmAeMwx/HlMpYyu7F7aBp5z+QAEKZmsOBh1jl1Lf5nDXMmJk=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM7PR08MB5496
+Received-SPF: pass client-ip=40.107.22.102;
+ envelope-from=vsementsov@virtuozzo.com;
+ helo=EUR05-AM6-obe.outbound.protection.outlook.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ MSGID_FROM_MTA_HEADER=0.001, NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001,
+ RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_PASS=-0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -92,140 +138,59 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Jason Wang <jasowang@redhat.com>, QEMU Developers <qemu-devel@nongnu.org>
+Cc: qemu-block@nongnu.org, qemu-devel@nongnu.org, mreitz@redhat.com,
+ den@openvz.org, jsnow@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, Jan 14, 2021 at 12:17 AM Michael S. Tsirkin <mst@redhat.com> wrote:
->
-> On Wed, Jan 13, 2021 at 11:45:40PM +0800, Cindy Lu wrote:
-> > Add call back function for configure interrupt.
-> > Set the notifier's fd to the kernel driver when vdpa start.
-> > also set -1 when vdpa stop. then the kernel will release
-> > the related=E8=81=BDresource=E8=81=BD
->
-> Something weird happened to the commit log here.
->
-Thanks Micheal, I will fix this part
-> >
-> > Signed-off-by: Cindy Lu <lulu@redhat.com>
-> > ---
-> >  hw/virtio/trace-events            |  2 ++
-> >  hw/virtio/vhost-vdpa.c            | 29 ++++++++++++++++++++++++++++-
-> >  include/hw/virtio/vhost-backend.h |  4 ++++
-> >  3 files changed, 34 insertions(+), 1 deletion(-)
-> >
-> > diff --git a/hw/virtio/trace-events b/hw/virtio/trace-events
-> > index 2060a144a2..6710835b46 100644
-> > --- a/hw/virtio/trace-events
-> > +++ b/hw/virtio/trace-events
-> > @@ -52,6 +52,8 @@ vhost_vdpa_set_vring_call(void *dev, unsigned int ind=
-ex, int fd) "dev: %p index:
-> >  vhost_vdpa_get_features(void *dev, uint64_t features) "dev: %p feature=
-s: 0x%"PRIx64
-> >  vhost_vdpa_set_owner(void *dev) "dev: %p"
-> >  vhost_vdpa_vq_get_addr(void *dev, void *vq, uint64_t desc_user_addr, u=
-int64_t avail_user_addr, uint64_t used_user_addr) "dev: %p vq: %p desc_user=
-_addr: 0x%"PRIx64" avail_user_addr: 0x%"PRIx64" used_user_addr: 0x%"PRIx64
-> > +vhost_vdpa_set_config_call(void *dev, int *fd)"dev: %p fd: %p"
-> > +
-> >
-> >  # virtio.c
-> >  virtqueue_alloc_element(void *elem, size_t sz, unsigned in_num, unsign=
-ed out_num) "elem %p size %zd in_num %u out_num %u"
-> > diff --git a/hw/virtio/vhost-vdpa.c b/hw/virtio/vhost-vdpa.c
-> > index 01d2101d09..1647bff8b0 100644
-> > --- a/hw/virtio/vhost-vdpa.c
-> > +++ b/hw/virtio/vhost-vdpa.c
-> > @@ -467,20 +467,39 @@ static int vhost_vdpa_get_config(struct vhost_dev=
- *dev, uint8_t *config,
-> >      }
-> >      return ret;
-> >   }
-> > +static void vhost_vdpa_config_notify_start(struct vhost_dev *dev,
-> > +                                struct VirtIODevice *vdev, bool start)
-> > +{
-> > +    int fd, r;
-> > +    if (start) {
-> > +        fd =3D event_notifier_get_fd(&vdev->config_notifier);
-> > +     } else {
-> > +        fd =3D -1;
-> > +     }
-> > +    r =3D dev->vhost_ops->vhost_set_config_call(dev, &fd);
-> > +    if (r) {
-> > +        error_report("vhost_vdpa_config_notify_start error!");
-> > +    }
-> > +    return;
-> >
-> > +}
-> >  static int vhost_vdpa_dev_start(struct vhost_dev *dev, bool started)
-> >  {
-> >      struct vhost_vdpa *v =3D dev->opaque;
-> >      trace_vhost_vdpa_dev_start(dev, started);
-> > +    VirtIODevice *vdev =3D dev->vdev;
-> > +
-> >      if (started) {
-> >          uint8_t status =3D 0;
-> >          memory_listener_register(&v->listener, &address_space_memory);
-> >          vhost_vdpa_set_vring_ready(dev);
-> >          vhost_vdpa_add_status(dev, VIRTIO_CONFIG_S_DRIVER_OK);
-> >          vhost_vdpa_call(dev, VHOST_VDPA_GET_STATUS, &status);
-> > -
-> > +        /*set the configure interrupt call back*/
-> > +        vhost_vdpa_config_notify_start(dev, vdev, true);
-> >          return !(status & VIRTIO_CONFIG_S_DRIVER_OK);
-> >      } else {
-> > +        vhost_vdpa_config_notify_start(dev, vdev, false);
-> >          vhost_vdpa_reset_device(dev);
-> >          vhost_vdpa_add_status(dev, VIRTIO_CONFIG_S_ACKNOWLEDGE |
-> >                                     VIRTIO_CONFIG_S_DRIVER);
-> > @@ -546,6 +565,13 @@ static int vhost_vdpa_set_vring_call(struct vhost_=
-dev *dev,
-> >      return vhost_vdpa_call(dev, VHOST_SET_VRING_CALL, file);
-> >  }
-> >
-> > +static int vhost_vdpa_set_config_call(struct vhost_dev *dev,
-> > +                                       int *fd)
-> > +{
-> > +    trace_vhost_vdpa_set_config_call(dev, fd);
-> > +    return vhost_vdpa_call(dev, VHOST_VDPA_SET_CONFIG_CALL, fd);
-> > +}
-> > +
-> >  static int vhost_vdpa_get_features(struct vhost_dev *dev,
-> >                                       uint64_t *features)
-> >  {
-> > @@ -611,4 +637,5 @@ const VhostOps vdpa_ops =3D {
-> >          .vhost_get_device_id =3D vhost_vdpa_get_device_id,
-> >          .vhost_vq_get_addr =3D vhost_vdpa_vq_get_addr,
-> >          .vhost_force_iommu =3D vhost_vdpa_force_iommu,
-> > +        .vhost_set_config_call =3D vhost_vdpa_set_config_call,
-> >  };
-> > diff --git a/include/hw/virtio/vhost-backend.h b/include/hw/virtio/vhos=
-t-backend.h
-> > index 8a6f8e2a7a..1a2fee8994 100644
-> > --- a/include/hw/virtio/vhost-backend.h
-> > +++ b/include/hw/virtio/vhost-backend.h
-> > @@ -125,6 +125,9 @@ typedef int (*vhost_get_device_id_op)(struct vhost_=
-dev *dev, uint32_t *dev_id);
-> >
-> >  typedef bool (*vhost_force_iommu_op)(struct vhost_dev *dev);
-> >
-> > +typedef int (*vhost_set_config_call_op)(struct vhost_dev *dev,
-> > +                                       int *fd);
-> > +
-> >  typedef struct VhostOps {
-> >      VhostBackendType backend_type;
-> >      vhost_backend_init vhost_backend_init;
-> > @@ -170,6 +173,7 @@ typedef struct VhostOps {
-> >      vhost_vq_get_addr_op  vhost_vq_get_addr;
-> >      vhost_get_device_id_op vhost_get_device_id;
-> >      vhost_force_iommu_op vhost_force_iommu;
-> > +    vhost_set_config_call_op vhost_set_config_call;
-> >  } VhostOps;
-> >
-> >  extern const VhostOps user_ops;
-> > --
-> > 2.21.3
->
+14.01.2021 09:14, Vladimir Sementsov-Ogievskiy wrote:
+> 12.01.2021 20:36, Kevin Wolf wrote:
+>> Am 09.01.2021 um 13:26 hat Vladimir Sementsov-Ogievskiy geschrieben:
+>>> Add TestEnv class, which will handle test environment in a new python
+>>> iotests running framework.
+>>>
+>>> Difference with current ./check interface:
+>>> - -v (verbose) option dropped, as it is unused
+>>>
+>>> - -xdiff option is dropped, until somebody complains that it is needed
+>>> - same for -n option
+>>>
+>>> Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+>>
+>> +************* Module testenv
+>> +testenv.py:48:0: R0902: Too many instance attributes (34/7) (too-many-instance-attributes)
+>> +testenv.py:212:16: R1722: Consider using sys.exit() (consider-using-sys-exit)
+>> +testenv.py:214:16: R1722: Consider using sys.exit() (consider-using-sys-exit)
+>> +testenv.py:324:8: R1722: Consider using sys.exit() (consider-using-sys-exit)
+>> +testenv.py:1:0: R0801: Similar lines in 2 files
+>> +==findtests:45
+>> +==testenv:72
+>> +    _argparser = None
+>> +    @classmethod
+>> +    def get_argparser(cls) -> argparse.ArgumentParser:
+>> +        if cls._argparser is not None:
+>> +            return cls._argparser
+>> + (duplicate-code)
+>> +testenv.py:294: error: Function is missing a type annotation for one or more arguments
+> 
+> Interesting, I don't see "similar lines" error in the output..
+> 
 
+Ah, that's because I added a newline in findtests.py. Add it in testenv.py and the error comes back.
+
+> 
+>>
+>> I wonder whether we should just disable the "similar lines" check? The
+>> instance attributes one looks kind of arbitrary, too. The rest looks
+>> valid enough.
+>>
+>> Kevin
+>>
+> 
+> 
+
+
+-- 
+Best regards,
+Vladimir
 
