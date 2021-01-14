@@ -2,65 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 60C202F693C
-	for <lists+qemu-devel@lfdr.de>; Thu, 14 Jan 2021 19:19:16 +0100 (CET)
-Received: from localhost ([::1]:55218 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5F9A72F696C
+	for <lists+qemu-devel@lfdr.de>; Thu, 14 Jan 2021 19:22:56 +0100 (CET)
+Received: from localhost ([::1]:34976 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l07DH-0004cf-D0
-	for lists+qemu-devel@lfdr.de; Thu, 14 Jan 2021 13:19:15 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42754)
+	id 1l07Gp-0000e6-Dw
+	for lists+qemu-devel@lfdr.de; Thu, 14 Jan 2021 13:22:55 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42784)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1l071H-0001ws-Fu; Thu, 14 Jan 2021 13:06:51 -0500
-Received: from mail-qt1-x82b.google.com ([2607:f8b0:4864:20::82b]:35424)
+ id 1l071J-000205-42; Thu, 14 Jan 2021 13:06:53 -0500
+Received: from mail-qt1-x82a.google.com ([2607:f8b0:4864:20::82a]:38806)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1l071E-00051h-U0; Thu, 14 Jan 2021 13:06:51 -0500
-Received: by mail-qt1-x82b.google.com with SMTP id b9so4183068qtr.2;
- Thu, 14 Jan 2021 10:06:47 -0800 (PST)
+ id 1l071G-00051z-U4; Thu, 14 Jan 2021 13:06:52 -0500
+Received: by mail-qt1-x82a.google.com with SMTP id y15so4173210qtv.5;
+ Thu, 14 Jan 2021 10:06:49 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=7QBtqcNg7aG0gJ0K9jeHZaycMU0I9AIukcktQjr9V6s=;
- b=WIW2kTvedhfznMB+XvneXOUJR7P0FoDV4f+V+RsXr5b2bRPNhutiQP/Li5a0aA+zzu
- X5c6iRx9+aKQfQ9uYpy3G9mG0YKPyzFG60N8Db4KfRn9p2EbnvRXCIH25eiIeoKF0xQS
- JKG5nWovj7SZ89MHvs1Yr19bqj8bSIYPfju+/UDRSRlHPkClXQV5vqxVW93IxRzWMBhB
- EU5tZMB77KSg5LUyveDi4D4+dHbWujfXq5b+PatNqDD7fxxJen7hSNIoEBPokqiBWeez
- dIHKyKvMY+zTTrX2qzHMizGfGmDQKKlX/8xATW0X8RP8ub+2fp4t0aJEvghdvUP6ho0b
- eJYA==
+ bh=AhALz65QmAR7whbzZIT7Pqx8o2PXiHjpaEKq6JAc76M=;
+ b=d9umtiB+BpuYqFdENGxfGiFKuhUQ/+MEJVo37pbvYLtvu7NraFn1giI6y9onR9PZQj
+ ZgkB2qGuFgjvoX8czwLCmuj1J4JvVtu8HS8/tFt5UmxPoHlsz6ckAt+PjT559VA7gKXw
+ qiiVKAKeSQjFlvg6l1sI+nhEcnFbD0pOc2bsuubrUho3x8Wmd6gUBxlv8T1VOgixE7Qn
+ CRb3XQp0rxhnUe3D3/2YPRHZGXvK9IJO+uJlSsTTLL8Q0aqf+j+pDwjCS4odNDcoRhws
+ Uh0HL1EDNHzdWe7U7yFNn+MWAFNKffuQJT4CFwTTjvkVtcjUg7s0St05mFJIeLbjZ4Vm
+ PBWQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=7QBtqcNg7aG0gJ0K9jeHZaycMU0I9AIukcktQjr9V6s=;
- b=NU5O/YUtHSlrBEoGYW4iwwJNJV2D5PLtagftxphOxfGSit+oxmCl9LoBghhFbjcWnp
- HEs1pqtobKwDB7D7pALZVafnhr/wRmzALVEHfNo0/o9Nz3JyX9Hs1l44hY7tY/Yys71M
- +fSmGOGvIptWf8iWnWkGfIox+5AkuTdpjFhlZTL9H/TOFN6nhBOyJS0a4hPhvxGJ90ji
- R/8bgff41XoyXpyqAXJmhM2lg77dcdNHNA0grhMFo843xJjT8TicOl04RttkSo0ZhLiK
- 7i78vimDxEo2z5kE8wufi4vQIaQQh4YYNRHUq0CXG+XWelrh7qas7jFTpUC6Iuxwn0uW
- DgbA==
-X-Gm-Message-State: AOAM530H1fB/5YLIDVqcoPKO7zk8Clc2HQjh3MX9OonRkrLddahHyDf0
- NBaKyYHrJib3YsgZHlbCe5DSWOoNrPKdaA==
-X-Google-Smtp-Source: ABdhPJz/ifny92NVOEYCk3S1kXUhSIlTDxNfBSSQLFu/xy3jmyBJ2/7weuGzgpnEMviHnafKfLl4NA==
-X-Received: by 2002:ac8:24ee:: with SMTP id t43mr8162730qtt.215.1610647607022; 
- Thu, 14 Jan 2021 10:06:47 -0800 (PST)
+ bh=AhALz65QmAR7whbzZIT7Pqx8o2PXiHjpaEKq6JAc76M=;
+ b=Y3dWUN7UN+lmIAC2wh6pHjkhV+X8EJeaChPUOO5cvq+fBPD1UM5nA8C138XjzhC2dW
+ jS1Y2RF1DWdSeknesWjAbtnFuMi+DJ9TOrhcRYHv2kpG9Gg/X2XxpU0Bu0UrOOXo77AJ
+ AngJuwC8L/1GOjrIPHx7rrFmo38WUlfhtdCZMrfJuVdI3bnEs0rQPaQgzdGPhW+YYCcF
+ 0pjzCLEmWDelZ9wsHYUp3n2GU1Bj9FGnR355xFeZL7mldatzBG+Pt0fCiguBmb2nZCyL
+ MdT4i/7OIPtygToQsWv28PbRQbzmuvX+yVpwZhs7nX+Rp7H15LUT/J5W7W4W9f/Ni0aX
+ oJSQ==
+X-Gm-Message-State: AOAM532wP0kjw8aAxFBITG4nkfsDOorSw/KlEkCictQmt5s5r3pBXalm
+ pW5lZf9hkwsmncBjUEe1jb4zo38KZzcW1g==
+X-Google-Smtp-Source: ABdhPJybdICHWJWaA0VLeJ8pdU0wpzh1xBKvaxGYIX4GWficmokPiNOLnTnsZCpX/CsRD1Cl7DP+IQ==
+X-Received: by 2002:ac8:70d4:: with SMTP id g20mr8138616qtp.198.1610647609064; 
+ Thu, 14 Jan 2021 10:06:49 -0800 (PST)
 Received: from rekt.ibmuc.com ([2804:431:c7c6:b984:ff01:270:b51c:24a5])
- by smtp.gmail.com with ESMTPSA id a1sm3448129qkn.104.2021.01.14.10.06.45
+ by smtp.gmail.com with ESMTPSA id a1sm3448129qkn.104.2021.01.14.10.06.47
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 14 Jan 2021 10:06:46 -0800 (PST)
+ Thu, 14 Jan 2021 10:06:48 -0800 (PST)
 From: Daniel Henrique Barboza <danielhb413@gmail.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v1 5/7] spapr_cpu_core.c: use g_auto* in spapr_create_vcpu()
-Date: Thu, 14 Jan 2021 15:06:26 -0300
-Message-Id: <20210114180628.1675603-6-danielhb413@gmail.com>
+Subject: [PATCH v1 6/7] spapr.c: introduce spapr_core_unplug_possible()
+Date: Thu, 14 Jan 2021 15:06:27 -0300
+Message-Id: <20210114180628.1675603-7-danielhb413@gmail.com>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20210114180628.1675603-1-danielhb413@gmail.com>
 References: <20210114180628.1675603-1-danielhb413@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::82b;
- envelope-from=danielhb413@gmail.com; helo=mail-qt1-x82b.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::82a;
+ envelope-from=danielhb413@gmail.com; helo=mail-qt1-x82a.google.com
 X-Spam_score_int: -17
 X-Spam_score: -1.8
 X-Spam_bar: -
@@ -86,54 +86,62 @@ Cc: Daniel Henrique Barboza <danielhb413@gmail.com>, qemu-ppc@nongnu.org,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Use g_autoptr() with Object and g_autofree with the string to
-avoid the need of a cleanup path.
+Next patch is going to add more conditions to allow a CPU core
+hotunplug. Let's put it into a separated function to avoid crowding
+the body of spapr_core_unplug_request().
 
 Signed-off-by: Daniel Henrique Barboza <danielhb413@gmail.com>
 ---
- hw/ppc/spapr_cpu_core.c | 12 +++---------
- 1 file changed, 3 insertions(+), 9 deletions(-)
+ hw/ppc/spapr.c | 27 ++++++++++++++++++++-------
+ 1 file changed, 20 insertions(+), 7 deletions(-)
 
-diff --git a/hw/ppc/spapr_cpu_core.c b/hw/ppc/spapr_cpu_core.c
-index 2f7dc3c23d..4f316a6f9d 100644
---- a/hw/ppc/spapr_cpu_core.c
-+++ b/hw/ppc/spapr_cpu_core.c
-@@ -277,8 +277,8 @@ static PowerPCCPU *spapr_create_vcpu(SpaprCpuCore *sc, int i, Error **errp)
- {
-     SpaprCpuCoreClass *scc = SPAPR_CPU_CORE_GET_CLASS(sc);
-     CPUCore *cc = CPU_CORE(sc);
--    Object *obj;
--    char *id;
-+    g_autoptr(Object) obj = NULL;
-+    g_autofree char *id = NULL;
-     CPUState *cs;
-     PowerPCCPU *cpu;
- 
-@@ -293,23 +293,17 @@ static PowerPCCPU *spapr_create_vcpu(SpaprCpuCore *sc, int i, Error **errp)
-     cs->start_powered_off = true;
-     cs->cpu_index = cc->core_id + i;
-     if (!spapr_set_vcpu_id(cpu, cs->cpu_index, errp)) {
--        goto err;
-+        return NULL;
-     }
- 
-     cpu->node_id = sc->node_id;
- 
-     id = g_strdup_printf("thread[%d]", i);
-     object_property_add_child(OBJECT(sc), id, obj);
--    g_free(id);
- 
-     cpu->machine_data = g_new0(SpaprCpuState, 1);
- 
--    object_unref(obj);
-     return cpu;
--
--err:
--    object_unref(obj);
--    return NULL;
+diff --git a/hw/ppc/spapr.c b/hw/ppc/spapr.c
+index 2c403b574e..a2f01c21aa 100644
+--- a/hw/ppc/spapr.c
++++ b/hw/ppc/spapr.c
+@@ -3706,22 +3706,35 @@ static void spapr_core_unplug(HotplugHandler *hotplug_dev, DeviceState *dev)
+     qdev_unrealize(dev);
  }
  
- static void spapr_cpu_core_realize(DeviceState *dev, Error **errp)
+-static
+-void spapr_core_unplug_request(HotplugHandler *hotplug_dev, DeviceState *dev,
+-                               Error **errp)
++static int spapr_core_unplug_possible(HotplugHandler *hotplug_dev, CPUCore *cc,
++                                      Error **errp)
+ {
+-    SpaprMachineState *spapr = SPAPR_MACHINE(OBJECT(hotplug_dev));
+     int index;
+-    SpaprDrc *drc;
+-    CPUCore *cc = CPU_CORE(dev);
+ 
+     if (!spapr_find_cpu_slot(MACHINE(hotplug_dev), cc->core_id, &index)) {
+         error_setg(errp, "Unable to find CPU core with core-id: %d",
+                    cc->core_id);
+-        return;
++        return -1;
+     }
++
+     if (index == 0) {
+         error_setg(errp, "Boot CPU core may not be unplugged");
++        return -1;
++    }
++
++    return 0;
++}
++
++static
++void spapr_core_unplug_request(HotplugHandler *hotplug_dev, DeviceState *dev,
++                               Error **errp)
++{
++    ERRP_GUARD();
++    SpaprMachineState *spapr = SPAPR_MACHINE(OBJECT(hotplug_dev));
++    SpaprDrc *drc;
++    CPUCore *cc = CPU_CORE(dev);
++
++    if (spapr_core_unplug_possible(hotplug_dev, cc, errp) < 0) {
+         return;
+     }
+ 
 -- 
 2.26.2
 
