@@ -2,71 +2,91 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8FCF12F6214
-	for <lists+qemu-devel@lfdr.de>; Thu, 14 Jan 2021 14:36:09 +0100 (CET)
-Received: from localhost ([::1]:56888 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 27EDD2F6227
+	for <lists+qemu-devel@lfdr.de>; Thu, 14 Jan 2021 14:39:52 +0100 (CET)
+Received: from localhost ([::1]:39820 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l02nI-0007SV-LI
-	for lists+qemu-devel@lfdr.de; Thu, 14 Jan 2021 08:36:08 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48240)
+	id 1l02qt-0003hN-64
+	for lists+qemu-devel@lfdr.de; Thu, 14 Jan 2021 08:39:51 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48632)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <lukasstraub2@web.de>)
- id 1l02Xq-0002KJ-IL
- for qemu-devel@nongnu.org; Thu, 14 Jan 2021 08:20:10 -0500
-Received: from mout.web.de ([212.227.15.14]:43301)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <lukasstraub2@web.de>)
- id 1l02Xm-0006px-Rw
- for qemu-devel@nongnu.org; Thu, 14 Jan 2021 08:20:09 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=web.de;
- s=dbaedf251592; t=1610630402;
- bh=iBB/t/fPQQ+UKEXvBU7c6xk9RdnOEsaOvbHznPLgdSU=;
- h=X-UI-Sender-Class:Date:From:To:Cc:Subject:In-Reply-To:References;
- b=s8mJXQfkR6UKmeypTq3eq3FhAwiQB0PhTHDt8b0ppZNdjiHRTbnJ1gI6JNuMOEq13
- IHNSKFo6HvMnfZRtv3bwmKGIkBME0CDa0DAzkifLbeLCSLfo196187kTZHg1qJCFjO
- 7gc9nQI/h92S3I19SsPYI4JaRIhNZRV8tAqgo31M=
-X-UI-Sender-Class: c548c8c5-30a9-4db5-a2e7-cb6cb037b8f9
-Received: from gecko.fritz.box ([87.123.206.5]) by smtp.web.de (mrweb002
- [213.165.67.108]) with ESMTPSA (Nemesis) id 0MTxth-1lQg763Njt-00QhkM; Thu, 14
- Jan 2021 14:20:01 +0100
-Date: Thu, 14 Jan 2021 14:19:18 +0100
-From: Lukas Straub <lukasstraub2@web.de>
-To: Peter Maydell <peter.maydell@linaro.org>
-Subject: [PATCH] Fix build with new yank feature by adding stubs
-Message-ID: <20210114141918.5201cc9c@gecko.fritz.box>
-In-Reply-To: <87r1mnlr0a.fsf@linaro.org>
-References: <87r1mnlr0a.fsf@linaro.org>
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1l02Yv-00034v-E4
+ for qemu-devel@nongnu.org; Thu, 14 Jan 2021 08:21:17 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:29893)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1l02Yr-0007Np-Ni
+ for qemu-devel@nongnu.org; Thu, 14 Jan 2021 08:21:17 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1610630472;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=Zx54VInOeGAtFj1R1T6CeZyCVML2mrDtPu4EpwJaHjo=;
+ b=XmbWkh6MUwRktgUJcuDHfc1vEHxvkKBf9EdfzCBb+CSol9ErYlLV9uEYR5bp7IHNF4ohBG
+ fwZVp9Ky9Qixqk2kiKM2kCD3LY+EYNFwtS5VYoDnVz31PY5D39FogpLXPKzZNxJ5XAK7ia
+ aecn7c42s4IhfAfxRzh765P9efNa0YY=
+Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
+ [209.85.221.72]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-197-q-eYv4-yO_ayztMtT2WqBA-1; Thu, 14 Jan 2021 08:21:10 -0500
+X-MC-Unique: q-eYv4-yO_ayztMtT2WqBA-1
+Received: by mail-wr1-f72.google.com with SMTP id q18so2589912wrc.20
+ for <qemu-devel@nongnu.org>; Thu, 14 Jan 2021 05:21:10 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=Zx54VInOeGAtFj1R1T6CeZyCVML2mrDtPu4EpwJaHjo=;
+ b=ZwurU5/5imdA0l8YJn/Hwi2rNWChhUyK97OcDbiwbkvGqtWyDyO1ceXlqIi1r91GAP
+ S6V6oRgwDSHC2RP2r/KuFxxnHJY9Kf6Y6mFYaP8CMUL0R8vTawd3AcQ2piZV4PSLBuXu
+ AP10AEsMoMdwP2EyGDVHOyCNOKoYQQongfBY/RQS4MuxjP0xrpXwnvAFhZ+OpC/biw/R
+ XF3X1saGW7rAWx/4kQgnsDY9LyKLAquccTfD5jhv8ioeG8vZIJ0AOwyPrFT5Ms28Hjv4
+ gwEjiteAiYPbOA5ve6jvhwu+0z8x7npOMdecletrusOSDZPcX/M+K2KeSFHmIqaM+3Ai
+ NJww==
+X-Gm-Message-State: AOAM530cFqXoiMPeQyYkxfSUCOWVKdon774jzV7PAICu+yx+C6Yz3x9f
+ JiBKZ/P0gP0IzJ79z8IZijOTieRTpjNclPDDWE9gduQrkaGtQxkjXTqYy88bVxu9P1lS0VqMJm6
+ 5wKBV1NJj6jgPVvg=
+X-Received: by 2002:adf:a34d:: with SMTP id d13mr8013160wrb.194.1610630469389; 
+ Thu, 14 Jan 2021 05:21:09 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJytjUuAfAVjGLKO6qLaA6a/J9qa5688Oe+837PgHURqwaKvRXlEoiRarzrHetRmz+C94fhs4Q==
+X-Received: by 2002:adf:a34d:: with SMTP id d13mr8013140wrb.194.1610630469221; 
+ Thu, 14 Jan 2021 05:21:09 -0800 (PST)
+Received: from [192.168.1.36] (13.red-83-57-169.dynamicip.rima-tde.net.
+ [83.57.169.13])
+ by smtp.gmail.com with ESMTPSA id x66sm8408551wmg.26.2021.01.14.05.21.08
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 14 Jan 2021 05:21:08 -0800 (PST)
+Subject: Re: [PATCH v2 03/25] tests/docker: use project specific container
+ registries
+To: =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
+ qemu-devel@nongnu.org
+References: <20210114130245.1654081-1-berrange@redhat.com>
+ <20210114130245.1654081-4-berrange@redhat.com>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+Message-ID: <a3c2217c-5d28-a477-a7bf-db94163bb67b@redhat.com>
+Date: Thu, 14 Jan 2021 14:21:07 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.6.0
 MIME-Version: 1.0
-Content-Type: multipart/signed; boundary="Sig_/7c8zCCNDCqNrSaKii0WZ0_.";
- protocol="application/pgp-signature"; micalg=pgp-sha256
-X-Provags-ID: V03:K1:IpU4P9N64pKBRtMvE1EPIHLpJR0s0tFC68Y/kEO/W6gU/xRdlqK
- J03QD0H8BY2TLp8cMPuu/FETw5oVJFfAGgjjLN6jFEjldsMdDjEzoNnTIew1LRiP40JnDNs
- JYP0tzwBaYeZEbOVImXdbrzr/r6J/f6cqAp7oTkAudlDEAiLNRNLzKKrwnKrhtakSb4enkX
- iMpEWDpKkyVM5mdX1osvA==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:gFzGBV5rEgg=:g4VOYoBxra0Mtu4bY8eaVM
- vNHVR7/t0yuE4pPpauFGNvUxQzYpGxkpdEnfVzjKFXStso8vXaiYxJRybtCx1bD49hQ21SwmS
- bSDzDM2liExKivuowwTF5xGldSCkg0Rv6DgK3DYByunuAP0uNIDd37FsNM07UDP5Jn05B5jx8
- GU2rcjZ8XTWk/+M4O6OMgYGC662qwDGbpHaaXfPy3YODd0y2OjUGBVfJfIt4bAX3Z+60sz5RB
- MrZBtMZpW3bKFxZogPtEuZdqazDqi1TIvgJeTPwZcAdfHak40DqsrmXuY/7ukQNhlA/EsRGuF
- m0HesnjJfN1UD/SGozrJUelbKoUGfF/2Y5rpjPPMyPumOuxuGt2i5pbunKeSymHhVMq4BWyjO
- W7Ln6s1SsJoaYt+1c10eRY21NZ1CGXQX/9JFbzI2bnYcuT3Wb85/DTjTrqHw01IReaCD2q+lt
- RhRAXyqBkxZ00JuRhGqCLeaOCFEYDmWX1aleecUEsuTSSfCwh45ax7hso8ucsbN29IoDx39fp
- 9pPI1tSGkQo/FL+ef+nJXpz4TAFget/BhJ/JwZTsaFg7WKJXLrz34w3xNShPfT9r60aJ0Od2/
- xXJl99fVz9T2uVcPfE5dlUCzxrDk2/jEWNW/tPYGdnM4yXgJxGxghkB3dy07Oqyiv70rgRWQ/
- TJfC3tNHPqAD4oZmp7QvWZrTgiql28ZdDB9DoarrFwnVxw0dhyclwqf21lzLBACZbT0kcwHr5
- ElUsd6BfaevAycfMs7lex4Erf2bKdXwiEOLZY7wEBlaJouiNaNldlmAiqeqTNvtXN7WBUzs4e
- nD4v6PXGVEykEo3GajZeZJgVRkQe90JmEi02z63iR+zbDalLuTlPDK7nL7Btw5nk629ccVQlc
- 6zby6VCjZPnYLCHO3XbA==
-Received-SPF: pass client-ip=212.227.15.14; envelope-from=lukasstraub2@web.de;
- helo=mout.web.de
-X-Spam_score_int: -24
-X-Spam_score: -2.5
-X-Spam_bar: --
-X-Spam_report: (-2.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001, RCVD_IN_DNSWL_LOW=-0.7,
- RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+In-Reply-To: <20210114130245.1654081-4-berrange@redhat.com>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=philmd@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -32
+X-Spam_score: -3.3
+X-Spam_bar: ---
+X-Spam_report: (-3.3 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.248,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.237, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -80,92 +100,118 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Alex =?UTF-8?B?QmVubsOpZQ==?= <alex.bennee@linaro.org>,
- Markus Armbruster <armbru@redhat.com>, qemu-devel@nongnu.org
+Cc: Fam Zheng <fam@euphon.net>, Peter Maydell <peter.maydell@linaro.org>,
+ =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
+ Wainer dos Santos Moschetta <wainersm@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---Sig_/7c8zCCNDCqNrSaKii0WZ0_.
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: quoted-printable
+On 1/14/21 2:02 PM, Daniel P. Berrangé wrote:
+> Since Docker Hub has started to enforce pull rate limits on clients, it
+> is preferrable to use project specific container registries where they
+> are available. Fedora and OpenSUSE projects provide registries.
+> 
+> The images in these registries are also refreshed on a more regular
+> basis than the ones in docker hub, so the package update should
+> generally be faster.
+> 
+> While CentOS also has a registry it is considerably outdated compared
+> to docker.io, and also only provides x86 images, while docker.io images
+> are multi-arch.
 
-Signed-off-by: Lukas Straub <lukasstraub2@web.de>
----
- stubs/meson.build |  1 +
- stubs/yank.c      | 29 +++++++++++++++++++++++++++++
- 2 files changed, 30 insertions(+)
- create mode 100644 stubs/yank.c
+Following is duplicated:
 
-diff --git a/stubs/meson.build b/stubs/meson.build
-index 80b1d81a31..1a656cd070 100644
---- a/stubs/meson.build
-+++ b/stubs/meson.build
-@@ -47,6 +47,7 @@ stub_ss.add(files('vm-stop.c'))
- stub_ss.add(files('win32-kbd-hook.c'))
- stub_ss.add(files('cpu-synchronize-state.c'))
- if have_block
-+  stub_ss.add(files('yank.c'))
-   stub_ss.add(files('replay-tools.c'))
- endif
- if have_system
-diff --git a/stubs/yank.c b/stubs/yank.c
-new file mode 100644
-index 0000000000..6090416065
---- /dev/null
-+++ b/stubs/yank.c
-@@ -0,0 +1,29 @@
-+#include "qemu/osdep.h"
-+#include "qemu/yank.h"
-+
-+bool yank_register_instance(const YankInstance *instance, Error **errp)
-+{
-+    return true;
-+}
-+
-+void yank_unregister_instance(const YankInstance *instance)
-+{
-+}
-+
-+void yank_register_function(const YankInstance *instance,
-+                            YankFn *func,
-+                            void *opaque)
-+{
-+}
-+
-+void yank_unregister_function(const YankInstance *instance,
-+                              YankFn *func,
-+                              void *opaque)
-+{
-+}
-+
-+void yank_generic_iochannel(void *opaque)
-+{
-+}
-+
-+
---=20
-2.29.2
+> tests/docker: use project specific container registries
+> 
+> Since Docker Hub has started to enforce pull rate limits on clients, it
+> is preferrable to use project specific container registries where they
+> are available. Fedora and OpenSUSE projects provide registries.
+> 
+> The images in these registries are also refreshed on a more regular
+> basis than the ones in docker hub, so the package update should
+> generally be faster.
+> 
+> While CentOS also has a registry it is considerably outdated compared
+> to docker.io, and also only provides x86 images, while docker.io images
+> are multi-arch.
 
---Sig_/7c8zCCNDCqNrSaKii0WZ0_.
-Content-Type: application/pgp-signature
-Content-Description: OpenPGP digital signature
+Otherwise:
+Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 
------BEGIN PGP SIGNATURE-----
+> Reviewed-by: Wainer dos Santos Moschetta <wainersm@redhat.com>
+> Signed-off-by: Daniel P. Berrangé <berrange@redhat.com>
+> ---
+>  tests/docker/dockerfiles/fedora-cris-cross.docker  | 2 +-
+>  tests/docker/dockerfiles/fedora-i386-cross.docker  | 2 +-
+>  tests/docker/dockerfiles/fedora-win32-cross.docker | 2 +-
+>  tests/docker/dockerfiles/fedora-win64-cross.docker | 2 +-
+>  tests/docker/dockerfiles/fedora.docker             | 2 +-
+>  tests/docker/dockerfiles/opensuse-leap.docker      | 2 +-
+>  6 files changed, 6 insertions(+), 6 deletions(-)
+> 
+> diff --git a/tests/docker/dockerfiles/fedora-cris-cross.docker b/tests/docker/dockerfiles/fedora-cris-cross.docker
+> index 09e7e449f9..b7f02d18d3 100644
+> --- a/tests/docker/dockerfiles/fedora-cris-cross.docker
+> +++ b/tests/docker/dockerfiles/fedora-cris-cross.docker
+> @@ -2,7 +2,7 @@
+>  # Cross compiler for cris system tests
+>  #
+>  
+> -FROM fedora:30
+> +FROM registry.fedoraproject.org/fedora:30
+>  ENV PACKAGES gcc-cris-linux-gnu
+>  RUN dnf install -y $PACKAGES
+>  RUN rpm -q $PACKAGES | sort > /packages.txt
+> diff --git a/tests/docker/dockerfiles/fedora-i386-cross.docker b/tests/docker/dockerfiles/fedora-i386-cross.docker
+> index a6e411291b..c1fd3ea37b 100644
+> --- a/tests/docker/dockerfiles/fedora-i386-cross.docker
+> +++ b/tests/docker/dockerfiles/fedora-i386-cross.docker
+> @@ -1,4 +1,4 @@
+> -FROM fedora:31
+> +FROM registry.fedoraproject.org/fedora:31
+>  ENV PACKAGES \
+>      bzip2 \
+>      diffutils \
+> diff --git a/tests/docker/dockerfiles/fedora-win32-cross.docker b/tests/docker/dockerfiles/fedora-win32-cross.docker
+> index 087df598a0..8dc4f0d4c9 100644
+> --- a/tests/docker/dockerfiles/fedora-win32-cross.docker
+> +++ b/tests/docker/dockerfiles/fedora-win32-cross.docker
+> @@ -1,4 +1,4 @@
+> -FROM fedora:32
+> +FROM registry.fedoraproject.org/fedora:32
+>  
+>  # Please keep this list sorted alphabetically
+>  ENV PACKAGES \
+> diff --git a/tests/docker/dockerfiles/fedora-win64-cross.docker b/tests/docker/dockerfiles/fedora-win64-cross.docker
+> index d5d2f5f00d..c530e6ba36 100644
+> --- a/tests/docker/dockerfiles/fedora-win64-cross.docker
+> +++ b/tests/docker/dockerfiles/fedora-win64-cross.docker
+> @@ -1,4 +1,4 @@
+> -FROM fedora:32
+> +FROM registry.fedoraproject.org/fedora:32
+>  
+>  # Please keep this list sorted alphabetically
+>  ENV PACKAGES \
+> diff --git a/tests/docker/dockerfiles/fedora.docker b/tests/docker/dockerfiles/fedora.docker
+> index 19e7a3d28a..0bc66f7293 100644
+> --- a/tests/docker/dockerfiles/fedora.docker
+> +++ b/tests/docker/dockerfiles/fedora.docker
+> @@ -1,4 +1,4 @@
+> -FROM fedora:32
+> +FROM registry.fedoraproject.org/fedora:32
+>  
+>  # Please keep this list sorted alphabetically
+>  ENV PACKAGES \
+> diff --git a/tests/docker/dockerfiles/opensuse-leap.docker b/tests/docker/dockerfiles/opensuse-leap.docker
+> index 0e64893e4a..e7dc14bf99 100644
+> --- a/tests/docker/dockerfiles/opensuse-leap.docker
+> +++ b/tests/docker/dockerfiles/opensuse-leap.docker
+> @@ -1,4 +1,4 @@
+> -FROM opensuse/leap:15.2
+> +FROM registry.opensuse.org/opensuse/leap:15.2
+>  
+>  # Please keep this list sorted alphabetically
+>  ENV PACKAGES \
+> 
 
-iQIzBAEBCAAdFiEEg/qxWKDZuPtyYo+kNasLKJxdslgFAmAARNYACgkQNasLKJxd
-slg/HQ//SLUzulmvZzLPbGbVvy4OpBOgqCSW9ETHBA89Tbkzz+LHE1La2SxlCsV0
-NnGsuyvq700LWGTS39yGF1iJKozu2OnfVareuov1uZdzyuSNUgpu5rZ1d2wVoscn
-xS4FMNAUZOLsqjBH4/O9VMiRxUEEz7AHSNx8ch4CmqSplTIK0BQlFDSSmEe4IIks
-yBdIvdmForMHnVkxb4nyhr93Od+6CicFVw1RaGTn3yRqxJF/q9n2NTwVJ8L2Gjug
-9iIuP2aFttRIFNEHkKcnw590S3Jc5mJQrXAvjUVCbavUqcZM6Cnl8h/czTd+WIPv
-PA6yVJw6H0mX3clTr5SdN0j+YQ/DkYTQRHOtksrnViMmOZbMmSCAZIHjcWOsExZC
-ui2ejV/YlLMa+qHbthgoGtWTr8Ch6yJ2czmMNuRH9RGl7RaE4/oNTmHYR2J7+sJa
-R5IBPbXDqVAGT11HF1SuO4RYbAqdIm6zhoCkpCa0ZL9qyGfcHyF7pnmVWV9gzeBx
-pgPftgaEpphEAoHX47b5Fv0Z6PBFZfBLHPy/ZF8O/R+yJHIgg7B+Q725gCKM1iVS
-aEfa0WrzL1dZM4eT6Fu0x8g9q2yq10B33I4GD3H6aW0pERM2sat1BpNpOcFOI+bk
-eVjb7MjVZwPfcl4TWmU31o0LvAjd7QL7YYFJ/ZChNrH4Qbn7AK8=
-=xhMe
------END PGP SIGNATURE-----
-
---Sig_/7c8zCCNDCqNrSaKii0WZ0_.--
 
