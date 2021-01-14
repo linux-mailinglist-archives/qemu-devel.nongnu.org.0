@@ -2,52 +2,109 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 867FD2F6B1F
-	for <lists+qemu-devel@lfdr.de>; Thu, 14 Jan 2021 20:36:57 +0100 (CET)
-Received: from localhost ([::1]:47800 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1406D2F6B10
+	for <lists+qemu-devel@lfdr.de>; Thu, 14 Jan 2021 20:36:36 +0100 (CET)
+Received: from localhost ([::1]:45628 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l08QS-0000MJ-KP
-	for lists+qemu-devel@lfdr.de; Thu, 14 Jan 2021 14:36:56 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43486)
+	id 1l08Q7-0007p9-4c
+	for lists+qemu-devel@lfdr.de; Thu, 14 Jan 2021 14:36:35 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43594)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pl@kamp.de>) id 1l08Mi-0006FA-T2
- for qemu-devel@nongnu.org; Thu, 14 Jan 2021 14:33:04 -0500
-Received: from kerio.kamp.de ([195.62.97.192]:47231)
+ (Exim 4.90_1) (envelope-from <dbuono@linux.vnet.ibm.com>)
+ id 1l08Mw-0006P2-3Y
+ for qemu-devel@nongnu.org; Thu, 14 Jan 2021 14:33:18 -0500
+Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:22506)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pl@kamp.de>) id 1l08Mf-0006CK-SR
- for qemu-devel@nongnu.org; Thu, 14 Jan 2021 14:33:04 -0500
-X-Footer: a2FtcC5kZQ==
-Received: from submission.kamp.de ([195.62.97.28]) by kerio.kamp.de with ESMTPS
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256 bits))
- for qemu-devel@nongnu.org; Thu, 14 Jan 2021 20:32:37 +0100
-Received: (qmail 21974 invoked from network); 14 Jan 2021 19:32:42 -0000
-Received: from ac14.vpn.kamp-intra.net (HELO ?172.20.250.14?)
- (pl@kamp.de@::ffff:172.20.250.14)
- by submission.kamp.de with ESMTPS (DHE-RSA-AES128-SHA encrypted) ESMTPA;
- 14 Jan 2021 19:32:42 -0000
-Subject: Re: [PATCH 3/7] block/rbd: use stored image_size in qemu_rbd_getlength
-To: dillaman@redhat.com
-References: <20201227164236.10143-1-pl@kamp.de>
- <20201227164236.10143-4-pl@kamp.de>
- <CA+aFP1DnYJjbt99Je841E_ZZi-7nKY89FF1apHF=y4bZ7fuEUw@mail.gmail.com>
-From: Peter Lieven <pl@kamp.de>
-Message-ID: <7c1a027f-d5c0-e158-32cc-c6c4463b74f8@kamp.de>
-Date: Thu, 14 Jan 2021 20:32:41 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
+ (Exim 4.90_1) (envelope-from <dbuono@linux.vnet.ibm.com>)
+ id 1l08Mu-0006He-3d
+ for qemu-devel@nongnu.org; Thu, 14 Jan 2021 14:33:17 -0500
+Received: from pps.filterd (m0098404.ppops.net [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id
+ 10EJVcY9116579
+ for <qemu-devel@nongnu.org>; Thu, 14 Jan 2021 14:33:06 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
+ h=subject : to : cc :
+ references : from : message-id : date : mime-version : in-reply-to :
+ content-type : content-transfer-encoding; s=pp1;
+ bh=fKYtjIQlMK24X6N15e1KtLYfvoaraixfilh8bkVLYAQ=;
+ b=P1eI6Bk4CYxPpJMeR6QEieml6g+1OHF0NvaCem4T7ZqzIqvYyLP+LEAfCO+xBfdORvrr
+ BKCgBZ53eUhdpFlEccGdBm11BeJEPCo85Ujf/MMt+xk5Bjwr7Uw5XTOKGxjAx3vDIkQf
+ TlW1hK85gMLmEHofOqjJ9eRz6yWoFMsjIuhc16Hrs/OMW8qgK04mlMdew9giA66KQcO4
+ dUoBc5hnikeSVwoEjuQgonXnbijGPrqJnlBWGIqnYJtTjlKmdUoP7ZZZ6m5MS/W2nBYw
+ H8wH8bRC2OAGm8jrq31yGE6yqbUaVelhiAhL5WgNIx9QAx+rsHaZJTDiaSQw/xqIEqg0 XA== 
+Received: from pps.reinject (localhost [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com with ESMTP id 362ucvhch6-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT)
+ for <qemu-devel@nongnu.org>; Thu, 14 Jan 2021 14:33:06 -0500
+Received: from m0098404.ppops.net (m0098404.ppops.net [127.0.0.1])
+ by pps.reinject (8.16.0.36/8.16.0.36) with SMTP id 10EJWQuA120342
+ for <qemu-devel@nongnu.org>; Thu, 14 Jan 2021 14:33:06 -0500
+Received: from ppma03wdc.us.ibm.com (ba.79.3fa9.ip4.static.sl-reverse.com
+ [169.63.121.186])
+ by mx0a-001b2d01.pphosted.com with ESMTP id 362ucvhcgs-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Thu, 14 Jan 2021 14:33:06 -0500
+Received: from pps.filterd (ppma03wdc.us.ibm.com [127.0.0.1])
+ by ppma03wdc.us.ibm.com (8.16.0.42/8.16.0.42) with SMTP id 10EJNEXB028426;
+ Thu, 14 Jan 2021 19:33:04 GMT
+Received: from b03cxnp08028.gho.boulder.ibm.com
+ (b03cxnp08028.gho.boulder.ibm.com [9.17.130.20])
+ by ppma03wdc.us.ibm.com with ESMTP id 35y449fg0t-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Thu, 14 Jan 2021 19:33:04 +0000
+Received: from b03ledav003.gho.boulder.ibm.com
+ (b03ledav003.gho.boulder.ibm.com [9.17.130.234])
+ by b03cxnp08028.gho.boulder.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 10EJX49538601108
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Thu, 14 Jan 2021 19:33:04 GMT
+Received: from b03ledav003.gho.boulder.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id E5C946A051;
+ Thu, 14 Jan 2021 19:33:03 +0000 (GMT)
+Received: from b03ledav003.gho.boulder.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 776926A047;
+ Thu, 14 Jan 2021 19:33:03 +0000 (GMT)
+Received: from [9.160.83.18] (unknown [9.160.83.18])
+ by b03ledav003.gho.boulder.ibm.com (Postfix) with ESMTP;
+ Thu, 14 Jan 2021 19:33:03 +0000 (GMT)
+Subject: Re: [PATCH-for-5.2? v3 3/9] hw/usb: reorder fields in UASStatus
+To: =?UTF-8?Q?Marc-Andr=c3=a9_Lureau?= <marcandre.lureau@gmail.com>,
+ QEMU <qemu-devel@nongnu.org>
+References: <20201105221905.1350-1-dbuono@linux.vnet.ibm.com>
+ <20201105221905.1350-4-dbuono@linux.vnet.ibm.com>
+ <4677dea1-bdd2-0095-e75c-2ca6d9be0cb9@redhat.com>
+ <afff8e95-ac1f-552a-c8b3-ff008947bf98@linux.vnet.ibm.com>
+ <CAJ+F1CJ+v7v2QKqLfC1ZNL4Q2eTRcOJUy9RAqg4BNq8aFqE22A@mail.gmail.com>
+From: Daniele Buono <dbuono@linux.vnet.ibm.com>
+Message-ID: <2bdf9fb3-8495-f3ea-39e1-977d065fef89@linux.vnet.ibm.com>
+Date: Thu, 14 Jan 2021 14:33:02 -0500
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
+ Thunderbird/78.6.1
 MIME-Version: 1.0
-In-Reply-To: <CA+aFP1DnYJjbt99Je841E_ZZi-7nKY89FF1apHF=y4bZ7fuEUw@mail.gmail.com>
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 7bit
+In-Reply-To: <CAJ+F1CJ+v7v2QKqLfC1ZNL4Q2eTRcOJUy9RAqg4BNq8aFqE22A@mail.gmail.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
-Received-SPF: pass client-ip=195.62.97.192; envelope-from=pl@kamp.de;
- helo=kerio.kamp.de
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+Content-Transfer-Encoding: 8bit
+X-TM-AS-GCONF: 00
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.343, 18.0.737
+ definitions=2021-01-14_07:2021-01-14,
+ 2021-01-14 signatures=0
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ priorityscore=1501
+ spamscore=0 suspectscore=0 bulkscore=0 mlxscore=0 clxscore=1015
+ lowpriorityscore=0 adultscore=0 phishscore=0 impostorscore=0
+ malwarescore=0 mlxlogscore=999 classifier=spam adjust=0 reason=mlx
+ scancount=1 engine=8.12.0-2009150000 definitions=main-2101140108
+Received-SPF: none client-ip=148.163.156.1;
+ envelope-from=dbuono@linux.vnet.ibm.com; helo=mx0a-001b2d01.pphosted.com
+X-Spam_score_int: -28
+X-Spam_score: -2.9
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.237,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.237,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -60,54 +117,42 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, Christian Theune <ct@flyingcircus.io>,
- qemu-devel <qemu-devel@nongnu.org>, qemu-block <qemu-block@nongnu.org>,
- Max Reitz <mreitz@redhat.com>
+Cc: Paolo Bonzini <pbonzini@redhat.com>,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
+ Gerd Hoffmann <kraxel@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Am 14.01.21 um 20:18 schrieb Jason Dillaman:
-> On Sun, Dec 27, 2020 at 11:42 AM Peter Lieven <pl@kamp.de> wrote:
->> Signed-off-by: Peter Lieven <pl@kamp.de>
->> ---
->>  block/rbd.c | 10 +---------
->>  1 file changed, 1 insertion(+), 9 deletions(-)
->>
->> diff --git a/block/rbd.c b/block/rbd.c
->> index bc8cf8af9b..a2da70e37f 100644
->> --- a/block/rbd.c
->> +++ b/block/rbd.c
->> @@ -956,15 +956,7 @@ static int qemu_rbd_getinfo(BlockDriverState *bs, BlockDriverInfo *bdi)
->>  static int64_t qemu_rbd_getlength(BlockDriverState *bs)
->>  {
->>      BDRVRBDState *s = bs->opaque;
->> -    rbd_image_info_t info;
->> -    int r;
->> -
->> -    r = rbd_stat(s->image, &info, sizeof(info));
->> -    if (r < 0) {
->> -        return r;
->> -    }
->> -
->> -    return info.size;
->> +    return s->image_size;
->>  }
->>
->>  static int coroutine_fn qemu_rbd_co_truncate(BlockDriverState *bs,
->> --
->> 2.17.1
-> An RBD image can technically change size dynamically while in-use. The
-> original code would provide the most up-to-date length but this
-> version will always return the size of the image when it was opened.
+On 1/14/2021 3:17 AM, Marc-André Lureau wrote:
+> 
+> Any update on this patch?
+> thanks
 
+Hi,
+I had been waiting for a feedback on my previous message.
+I don't know the UAS subsystem that well, but can't find where the
+variable-sized field that is causing the issue is actually used.
 
-Agreed, but Qemu won't propagate this info to the guest unless Qemu truncate is called with length 0.
+If it helps, I can send an RFC for converting
 
-Anyway, if we want support this we should adjust s->image_size if the size has changed.
+struct UASStatus {
+     uint32_t                  stream;
+     uas_iu                    status;
+     uint32_t                  length;
+     QTAILQ_ENTRY(UASStatus)   next;
+};
 
+to
 
-Peter
+struct UASStatus {
+     uint32_t                  stream;
+     uas_iu                    *status;
+     uint32_t                  length;
+     QTAILQ_ENTRY(UASStatus)   next;
+};
 
+And discuss it at that point.
 
-
+Thanks,
+Daniele
 
