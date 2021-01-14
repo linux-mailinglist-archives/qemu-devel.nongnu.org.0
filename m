@@ -2,81 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A9AE52F608D
-	for <lists+qemu-devel@lfdr.de>; Thu, 14 Jan 2021 12:53:57 +0100 (CET)
-Received: from localhost ([::1]:60812 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7E3FD2F60F2
+	for <lists+qemu-devel@lfdr.de>; Thu, 14 Jan 2021 13:16:38 +0100 (CET)
+Received: from localhost ([::1]:38348 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l01CO-00072J-QH
-	for lists+qemu-devel@lfdr.de; Thu, 14 Jan 2021 06:53:56 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55952)
+	id 1l01YL-0002GJ-37
+	for lists+qemu-devel@lfdr.de; Thu, 14 Jan 2021 07:16:37 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60760)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1l01AW-00061D-IT; Thu, 14 Jan 2021 06:52:00 -0500
-Received: from mail-wm1-x32c.google.com ([2a00:1450:4864:20::32c]:33686)
+ (Exim 4.90_1) (envelope-from <maxim.uvarov@linaro.org>)
+ id 1l01XE-0001dA-Uh
+ for qemu-devel@nongnu.org; Thu, 14 Jan 2021 07:15:28 -0500
+Received: from mail-pg1-x52c.google.com ([2607:f8b0:4864:20::52c]:35263)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1l01AU-0000WY-Ri; Thu, 14 Jan 2021 06:52:00 -0500
-Received: by mail-wm1-x32c.google.com with SMTP id n16so5359594wmc.0;
- Thu, 14 Jan 2021 03:51:57 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=MqgPIqkAUXY2OzrKxPQAIVrcHI3SXbCyS+PG4pcPNuo=;
- b=R4+L51xdrZKV3tu7SO/SEhGWFTXg05w87h3Oq3qqZOXrKw5d3OnUhSyXrDfTExaw6b
- jyzr4/RWHWweg1EtmOWSOLn6dE20+NqlkezFmMW4Lz+TiPh3RULZZ7B2AZk6Pn+BKm6u
- zq2s24TqKjIQeEpH6OflH6vlFs58GoWnQm8WyyOcKfND2VXCvxjVDTEFE0ve4w+NKy1J
- xk39EcbhObJRwLkM9G/5yP+3CdAUBvnjBnvt7FmIFmvAU+DE9oTqi2kYpLcpZf12FQda
- jflD0vuuIzPYQebHvRv1SYt6RXro1ZuObKpKQ/eX2QB8CfiabMHsmW3rIbXwkOcGSQqY
- lSYA==
+ (Exim 4.90_1) (envelope-from <maxim.uvarov@linaro.org>)
+ id 1l01XD-0002xW-82
+ for qemu-devel@nongnu.org; Thu, 14 Jan 2021 07:15:28 -0500
+Received: by mail-pg1-x52c.google.com with SMTP id n7so3679761pgg.2
+ for <qemu-devel@nongnu.org>; Thu, 14 Jan 2021 04:15:26 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=7X+lubDSKfk7TLMh1SOru/tY8oaNpbVGrWzp2eEf4w0=;
+ b=n+RnS3VWXTUwILu6vIoxx+b963jvhsaWN+C9HGRxLjqcEiJklyur8IEF2diYg9UJ5s
+ akmKAIYS+8vI/SB/naQBAbwbTptwdn5QqOXmO57jp49ugv4kfp+JXPUDE/stLUOueHrn
+ AoR1mOrFYi77U6kYweD3bJu5pd1mNMMZpXBS4Si5+ioLv/PCjcDKa7g0rCMhwU7fohuw
+ 0WtfloxmVsb9uJ35MOQc+ta8qOW7KcA2tajUkl2ZVacRNN+qLmJoczFadOp5xg9wu+6T
+ W8xu24O3nWpXBOzzFcFXb1f3qOlslwcPTIw/ymdn7AUsN2MRNKYtwVrVz2T5iPjLuymG
+ UAtw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
- :date:user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=MqgPIqkAUXY2OzrKxPQAIVrcHI3SXbCyS+PG4pcPNuo=;
- b=lco+OEs1vg2U1hbd3txWFRuhKszC9UDsw85+iS2sPgEB8zyU59DUnFdUXMfd078nir
- D65xePhLWluzEp5Bedc8wi8uPj6FJDSWfWWR9LXP6WJAUFojV+yceYhnquUxf+EEo3VN
- F5MFE4WDKxTX26QpxtaqiRBJWfzqrbVczDluDwbJ9brkMoN6lZRS0Je7UVWjz+/lYT4y
- 1rVtxL48mEWOn3qiYh5UXvvf0hA7lB51DrA2UMD7xA1Cjm4LZPJv5HYUHszDcYNHPHiH
- kDMlcrNIP6zXHXBAuhwu2H5qboMdOi+JyS/db8itFAAcgtwaxjwOZWoSAlynHo3An59z
- p52g==
-X-Gm-Message-State: AOAM5309W/hggt1ND73Y0/2iWGeKNFnEav2iucSzZlScFUEovimN+WMD
- 9+YxcbAZkfhItGIPRX3ajnc=
-X-Google-Smtp-Source: ABdhPJxH2HbTsC/yRBZwh1pGR7IKaH+//zCIELiTavc8IiCICRn86sCU4op9CQGkgQAB8zTjQzMqCQ==
-X-Received: by 2002:a7b:c35a:: with SMTP id l26mr3514041wmj.182.1610625116602; 
- Thu, 14 Jan 2021 03:51:56 -0800 (PST)
-Received: from [192.168.1.36] (13.red-83-57-169.dynamicip.rima-tde.net.
- [83.57.169.13])
- by smtp.gmail.com with ESMTPSA id v189sm7906371wmg.14.2021.01.14.03.51.55
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 14 Jan 2021 03:51:55 -0800 (PST)
-Subject: Re: [PATCH 05/22] hw/sd: sd: Drop sd_crc16()
-To: Bin Meng <bmeng.cn@gmail.com>, Alistair Francis
- <alistair.francis@wdc.com>, qemu-block@nongnu.org, qemu-riscv@nongnu.org,
- qemu-devel@nongnu.org
-References: <20201231113010.27108-1-bmeng.cn@gmail.com>
- <20201231113010.27108-6-bmeng.cn@gmail.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
-Message-ID: <0ff05273-3c27-94e7-e9da-36e5866e8330@amsat.org>
-Date: Thu, 14 Jan 2021 12:51:54 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.6.0
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=7X+lubDSKfk7TLMh1SOru/tY8oaNpbVGrWzp2eEf4w0=;
+ b=LaIjsnYMEH86q+wYcDI/qzMogEg7frewU8eyU/sB0NyaqtzFl5JL645s/zmbBld51z
+ ip+TM0lbS1ZUJUIeEje6aiybK8rn93z4ti6jMbKQJ1t5zT3CI0KXQ53OJr6l0pG20rGB
+ 1MLtpzIloNSaZZl+yPoKvpinFyhY9YQNcEPmyXEF6sZnSThhmQRk4hRRQ6ppqTS02zjf
+ wBB0RmEWk40QQofXDicgB3/86djqPqFHV8ErX41hhEfG44ISdtTtwcMad67l2usd9gbP
+ gdc4zqb0JKIquHr/NowDrPh0kIxBvCO0UukVjZ9JwtpSNvyBsVx4RxCqc3EepuAYDXvV
+ e/2Q==
+X-Gm-Message-State: AOAM532qRZKgXO9qir07cCMli/Rhb1vV7UbWKu97SFQHxyErFoYaGZyP
+ xoSA0jCBRogq1xMIBTlV7yjur7JYwOOgL3wLfQaWig==
+X-Google-Smtp-Source: ABdhPJxhbjgdDYDat2dx8ISpN6/uy0/Pn/bfdak1JEkySqw3RJeohHZcq0VtOzmbub4F9HEne5g1H5hZEE9jz9KKSJ8=
+X-Received: by 2002:a63:2d7:: with SMTP id 206mr7220626pgc.375.1610626525405; 
+ Thu, 14 Jan 2021 04:15:25 -0800 (PST)
 MIME-Version: 1.0
-In-Reply-To: <20201231113010.27108-6-bmeng.cn@gmail.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::32c;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x32c.google.com
-X-Spam_score_int: -16
-X-Spam_score: -1.7
-X-Spam_bar: -
-X-Spam_report: (-1.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.248,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.248, NICE_REPLY_A=-0.237,
+References: <20210112143058.12159-1-maxim.uvarov@linaro.org>
+ <20210112143058.12159-3-maxim.uvarov@linaro.org>
+ <20210112153542.oqahdubzeoipyvun@kamzik.brq.redhat.com>
+ <CAFEAcA9O2kHpcvoofo0v3ahXNOQtw8cxaVC2hn+AjpH6A9RciA@mail.gmail.com>
+ <20210112162526.ob7eroamrdlowfyr@kamzik.brq.redhat.com>
+ <20210112162847.wik3h24isg4cmgyq@kamzik.brq.redhat.com>
+ <CAD8XO3Y3sgZ3VXh7FhfcvvTckE2EUebivQ1nUnqTud2ApGUh=Q@mail.gmail.com>
+ <20210114000445.mg3xq2nq7kccbvjy@kamzik.brq.redhat.com>
+ <CAFEAcA96=ZjZyhMcpTSDvrHKXZY-uOUoQSi-jTbOLpFZdnkMuQ@mail.gmail.com>
+ <CAD8XO3Yxp6rcNgNRJ3+d8zEsYyS0myYs=rSNKtw849fEmdT+RQ@mail.gmail.com>
+ <CAD8XO3YCJjTZBZaP1MOwUzcMQ9t+tbjOAwMT4STqYmp=Lmvdmw@mail.gmail.com>
+ <CAFEAcA-A8Q1+0Pu4Csok+QFtw3qX2JZjt1buHeuWuFpqJhjTAg@mail.gmail.com>
+In-Reply-To: <CAFEAcA-A8Q1+0Pu4Csok+QFtw3qX2JZjt1buHeuWuFpqJhjTAg@mail.gmail.com>
+From: Maxim Uvarov <maxim.uvarov@linaro.org>
+Date: Thu, 14 Jan 2021 15:15:14 +0300
+Message-ID: <CAD8XO3ad5ggffLVg4YD_Oy2-PP_0egZw-P0qq1H4fN_xB4jfPw@mail.gmail.com>
+Subject: Re: [PATCHv4 2/2] arm-virt: add secure pl061 for reset/power down
+To: Peter Maydell <peter.maydell@linaro.org>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::52c;
+ envelope-from=maxim.uvarov@linaro.org; helo=mail-pg1-x52c.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -89,48 +87,42 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Bin Meng <bin.meng@windriver.com>
+Cc: Andrew Jones <drjones@redhat.com>, Jose Marinho <Jose.Marinho@arm.com>,
+ QEMU Developers <qemu-devel@nongnu.org>,
+ =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>,
+ tf-a@lists.trustedfirmware.org, qemu-arm <qemu-arm@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 12/31/20 12:29 PM, Bin Meng wrote:
-> From: Bin Meng <bin.meng@windriver.com>
-> 
-> commit f6fb1f9b319f ("sdcard: Correct CRC16 offset in sd_function_switch()")
-> changed the 16-bit CRC to be stored at offset 64. In fact, this CRC
-> calculation is completely wrong.
+On Thu, 14 Jan 2021 at 14:48, Peter Maydell <peter.maydell@linaro.org> wrote:
+>
+> On Thu, 14 Jan 2021 at 11:24, Maxim Uvarov <maxim.uvarov@linaro.org> wrote:
+> >
+> > On Thu, 14 Jan 2021 at 14:22, Maxim Uvarov <maxim.uvarov@linaro.org> wrote:
+> > > Does that mean that in that case you need all regions to be 64k
+> > > aligned? I mean secure and non-secure.
+> > > Has anybody tested 64k pages under qemu?
+> > >     [VIRT_GIC_V2M] =            { 0x08020000, 0x00001000 }
+> > >     [VIRT_UART] =               { 0x09000000, 0x00001000 },
+> > >     [VIRT_RTC] =                { 0x09010000, 0x00001000 },
+> > >     [VIRT_GPIO] =               { 0x09030000, 0x00001000 },
+> > >     [VIRT_SECURE_GPIO] =        { 0x09031000, 0x00001000 },
+> > >     [VIRT_SECURE_UART] =        { 0x09040000, 0x00001000 },
+> > >    [VIRT_MMIO] =               { 0x0a000000, 0x00000200 },
+> > >
+> > > Maxim.
+> >
+> > I.e. I see comment:
+> >  * Note that devices should generally be placed at multiples of 0x10000,
+> >  * to accommodate guests using 64K pages.
+> >  */
+> >
+> > but it's not clear why UART, RTC and GPIO is not aligned to 64k.
+>
+> Er, 0x09000000, 0x09010000 and 0x09030000 are all 64K aligned addresses.
+>
+> thanks
+> -- PMM
 
-Yeah:
-https://www.mail-archive.com/qemu-devel@nongnu.org/msg531790.html
-
-> From the original codes, it wants
-> to calculate the CRC16 of the first 64 bytes of sd->data[], however
-> passing 64 as the `width` to sd_crc16() actually counts 256 bytes
-> starting from the `message` for the CRC16 calculation, which is not
-> what we want.
-> 
-> Besides that, it seems exisitng sd_crc16() algorithm does not match
-> the SD spec, which says CRC16 is the CCITT one but the calculation
-> does not produce expected result. It turns out the CRC16 was never
-> transfered outside the sd core,
-
-Typos "existing", "transferred".
-
-Well, I tried by adding tests, see:
-https://www.mail-archive.com/qemu-devel@nongnu.org/msg531777.html
-(Series:)
-https://www.mail-archive.com/qemu-devel@nongnu.org/msg531768.html
-
-> as in sd_read_byte() we see:
-> 
->     if (sd->data_offset >= 64)
->         sd->state = sd_transfer_state;
-> 
-> Given above reaons, let's drop it.
-> 
-> Signed-off-by: Bin Meng <bin.meng@windriver.com>
-> ---
-> 
->  hw/sd/sd.c | 18 ------------------
->  1 file changed, 18 deletions(-)
+thanks, will send an updated version.
 
