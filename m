@@ -2,49 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 614092F5B0E
+	by mail.lfdr.de (Postfix) with ESMTPS id BBFD82F5B0F
 	for <lists+qemu-devel@lfdr.de>; Thu, 14 Jan 2021 08:09:35 +0100 (CET)
-Received: from localhost ([::1]:41372 helo=lists1p.gnu.org)
+Received: from localhost ([::1]:41376 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kzwlC-0001Om-DR
+	id 1kzwlC-0001Oq-QY
 	for lists+qemu-devel@lfdr.de; Thu, 14 Jan 2021 02:09:34 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49996)
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49984)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <mrezanin@redhat.com>)
- id 1kzwjV-0008RU-1c
- for qemu-devel@nongnu.org; Thu, 14 Jan 2021 02:07:49 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:48977)
+ id 1kzwjU-0008RH-5w
+ for qemu-devel@nongnu.org; Thu, 14 Jan 2021 02:07:48 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:20179)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <mrezanin@redhat.com>)
- id 1kzwjQ-00043r-Ps
- for qemu-devel@nongnu.org; Thu, 14 Jan 2021 02:07:48 -0500
+ id 1kzwjQ-00043x-Pf
+ for qemu-devel@nongnu.org; Thu, 14 Jan 2021 02:07:47 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
  s=mimecast20190719; t=1610608063;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:content-type:content-type:in-reply-to:in-reply-to:
- references:references; bh=nAZxhJwDUYHs5Yh1LJgvGVq+wXgRTzPPSKqjg87TAVc=;
- b=P4K+uqvRyiSsrudaqlzh5eNUWIEpViCDoAcExpbeGxiqsnn3eJVehCxkLXh4qjqlYKAyzk
- R8DlkivlopoCI1jEGGZrY8mbMrThHI+l3WqZjHrtsoebt6mTb7qhi1+0r75NNQvRACckXl
- wAHcZRMcHL11iSGlfAkwrr3qxNpWnZg=
+ references:references; bh=Nf/E0Z07didP1AlVT3JqELR4/8o6YZ7TpKrzQ2l8WzU=;
+ b=ZniDfQKY0zdhXfTtgSJIdtb2G+kidZkAeJ5IFlPfogoDDGay+MydbFeUzPZetB+KFhagN2
+ bg5uCQKfmp+0Z4ey1wA1kX8qUiuUuPHG1wJDyY3cwcCK1+tDHjyfYZ23qKea9s565JirfU
+ 9ejBj5RFNgjePFMJSDoiOlLGtfWWRdE=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-108-C5KD4rBMORqke-RtILWr0g-1; Thu, 14 Jan 2021 02:07:41 -0500
-X-MC-Unique: C5KD4rBMORqke-RtILWr0g-1
+ us-mta-586-AwFiCN9YMHiAr8XxZup8ZQ-1; Thu, 14 Jan 2021 02:07:42 -0500
+X-MC-Unique: AwFiCN9YMHiAr8XxZup8ZQ-1
 Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
  [10.5.11.23])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 249F3814266
- for <qemu-devel@nongnu.org>; Thu, 14 Jan 2021 07:07:40 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 21686806664
+ for <qemu-devel@nongnu.org>; Thu, 14 Jan 2021 07:07:41 +0000 (UTC)
 Received: from workimage2020.rezanina.moe.rezanina.moe (unknown [10.40.195.31])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 6FD5A1F434
- for <qemu-devel@nongnu.org>; Thu, 14 Jan 2021 07:07:39 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 8CC0E1F434
+ for <qemu-devel@nongnu.org>; Thu, 14 Jan 2021 07:07:40 +0000 (UTC)
 From: Miroslav Rezanina <mrezanin@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v3 1/2] Fix net.c warning on GCC 11
-Date: Thu, 14 Jan 2021 08:07:35 +0100
-Message-Id: <dcb4bfa3fe810236475b338f2f6401ec3d1a1c57.1610607906.git.mrezanin@redhat.com>
+Subject: [PATCH v3 2/2] s390x: Use strpadcpy for copying vm name
+Date: Thu, 14 Jan 2021 08:07:36 +0100
+Message-Id: <6f86915755219cf6a671788075da4809b57f7d7b.1610607906.git.mrezanin@redhat.com>
 In-Reply-To: <cover.1610607906.git.mrezanin@redhat.com>
 References: <cover.1610607906.git.mrezanin@redhat.com>
 X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
@@ -77,42 +77,82 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-When building qemu with GCC 11, compiling eth.c file produce following warning:
+Using strncpy with length equal to the size of target array, GCC 11
+reports following warning:
 
-   warning: array subscript 'struct ip6_ext_hdr_routing[0]' is partly outside array bounds of 'struct ip6_ext_hdr[1]' [-Warray-bounds]
+  warning: '__builtin_strncpy' specified bound 256 equals destination size [-Wstringop-truncation]
 
-This is caused by retyping from ip6_ext_hdr to ip6_ext_hdr_routing that has more
-attributes.
-
-As this usage is expected, suppress the warning temporarily through the function
-using this retyping.
+We can prevent this warning by using strpadcpy that copies string
+up to specified length, zeroes target array after copied string
+and does not raise warning when length is equal to target array
+size (and ending '\0' is discarded).
 
 Signed-off-by: Miroslav Rezanina <mrezanin@redhat.com>
 ---
- net/eth.c | 3 +++
- 1 file changed, 3 insertions(+)
+ target/s390x/kvm.c         | 12 +++++-------
+ target/s390x/misc_helper.c |  7 +++++--
+ 2 files changed, 10 insertions(+), 9 deletions(-)
 
-diff --git a/net/eth.c b/net/eth.c
-index 1e0821c5f8..b9bdd0435c 100644
---- a/net/eth.c
-+++ b/net/eth.c
-@@ -405,6 +405,8 @@ _eth_get_rss_ex_dst_addr(const struct iovec *pkt, int pkt_frags,
-                         struct ip6_ext_hdr *ext_hdr,
-                         struct in6_address *dst_addr)
- {
-+#pragma GCC diagnostic push
-+#pragma GCC diagnostic ignored "-Warray-bounds"
-     struct ip6_ext_hdr_routing *rthdr = (struct ip6_ext_hdr_routing *) ext_hdr;
- 
-     if ((rthdr->rtype == 2) &&
-@@ -426,6 +428,7 @@ _eth_get_rss_ex_dst_addr(const struct iovec *pkt, int pkt_frags,
+diff --git a/target/s390x/kvm.c b/target/s390x/kvm.c
+index b8385e6b95..dc27fa36c9 100644
+--- a/target/s390x/kvm.c
++++ b/target/s390x/kvm.c
+@@ -29,6 +29,7 @@
+ #include "internal.h"
+ #include "kvm_s390x.h"
+ #include "sysemu/kvm_int.h"
++#include "qemu/cutils.h"
+ #include "qapi/error.h"
+ #include "qemu/error-report.h"
+ #include "qemu/timer.h"
+@@ -1910,18 +1911,15 @@ static void insert_stsi_3_2_2(S390CPU *cpu, __u64 addr, uint8_t ar)
+                                                     strlen(qemu_name)));
      }
+     sysib.vm[0].ext_name_encoding = 2; /* 2 = UTF-8 */
+-    memset(sysib.ext_names[0], 0, sizeof(sysib.ext_names[0]));
+     /* If hypervisor specifies zero Extended Name in STSI322 SYSIB, it's
+      * considered by s390 as not capable of providing any Extended Name.
+      * Therefore if no name was specified on qemu invocation, we go with the
+      * same "KVMguest" default, which KVM has filled into short name field.
+      */
+-    if (qemu_name) {
+-        strncpy((char *)sysib.ext_names[0], qemu_name,
+-                sizeof(sysib.ext_names[0]));
+-    } else {
+-        strcpy((char *)sysib.ext_names[0], "KVMguest");
+-    }
++    strpadcpy((char *)sysib.ext_names[0],
++              sizeof(sysib.ext_names[0]),
++              qemu_name ?: "KVMguest", '\0');
++
+     /* Insert UUID */
+     memcpy(sysib.vm[0].uuid, &qemu_uuid, sizeof(sysib.vm[0].uuid));
  
-     return false;
-+#pragma GCC diagnostic pop
- }
+diff --git a/target/s390x/misc_helper.c b/target/s390x/misc_helper.c
+index 58dbc023eb..7ea90d414a 100644
+--- a/target/s390x/misc_helper.c
++++ b/target/s390x/misc_helper.c
+@@ -19,6 +19,7 @@
+  */
  
- static bool
+ #include "qemu/osdep.h"
++#include "qemu/cutils.h"
+ #include "qemu/main-loop.h"
+ #include "cpu.h"
+ #include "internal.h"
+@@ -369,8 +370,10 @@ uint32_t HELPER(stsi)(CPUS390XState *env, uint64_t a0, uint64_t r0, uint64_t r1)
+                 ebcdic_put(sysib.sysib_322.vm[0].name, qemu_name,
+                            MIN(sizeof(sysib.sysib_322.vm[0].name),
+                                strlen(qemu_name)));
+-                strncpy((char *)sysib.sysib_322.ext_names[0], qemu_name,
+-                        sizeof(sysib.sysib_322.ext_names[0]));
++                strpadcpy((char *)sysib.sysib_322.ext_names[0],
++                          sizeof(sysib.sysib_322.ext_names[0]),
++                          qemu_name, '\0');
++
+             } else {
+                 ebcdic_put(sysib.sysib_322.vm[0].name, "TCGguest", 8);
+                 strcpy((char *)sysib.sysib_322.ext_names[0], "TCGguest");
 -- 
 2.18.4
 
