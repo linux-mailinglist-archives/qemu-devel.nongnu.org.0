@@ -2,128 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 230E92F6EE3
-	for <lists+qemu-devel@lfdr.de>; Fri, 15 Jan 2021 00:19:12 +0100 (CET)
-Received: from localhost ([::1]:50814 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B739C2F6EEA
+	for <lists+qemu-devel@lfdr.de>; Fri, 15 Jan 2021 00:27:11 +0100 (CET)
+Received: from localhost ([::1]:56152 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l0BtX-0000t6-6g
-	for lists+qemu-devel@lfdr.de; Thu, 14 Jan 2021 18:19:11 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37420)
+	id 1l0C1G-0004o5-Ck
+	for lists+qemu-devel@lfdr.de; Thu, 14 Jan 2021 18:27:10 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39406)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <Thomas.Lendacky@amd.com>)
- id 1l0Bp7-0005gn-DJ
- for qemu-devel@nongnu.org; Thu, 14 Jan 2021 18:14:39 -0500
-Received: from mail-bn7nam10on2061.outbound.protection.outlook.com
- ([40.107.92.61]:29001 helo=NAM10-BN7-obe.outbound.protection.outlook.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <Thomas.Lendacky@amd.com>)
- id 1l0Bp1-0006Y2-Kr
- for qemu-devel@nongnu.org; Thu, 14 Jan 2021 18:14:37 -0500
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=l58y2zBBdQIQ6BDh2ccuigLQPxDXWZ05bqNFg2ljWfH0Tdq0vEauqBIhn63cTD60fWcmYngzKFGstoGXMOLHJ3mOpVIQY+3LlBG0rmdoWdQeWj6zVhKOgztaZTaqqu0rYDRLyUPmzs5Sh73N+WiaH9tNbLJuKKWb6oKk19T72APDd5NfMveuI9VXAGHJPLX2n/l6eJj9Gcfvoct2KdzjbWVh6ypfqpBrzgJDTl8KfuaXc5eqzEI+xuZqVsjoWteil0H4Fy6FGiy2GP7b+80ZhnBqql6Id/LCGQ9KDFGyePOa9csx41mBO9BbPR6uoIDyajWbPIoDBUSdnx/Tp9o3dQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=a7yg6pbXOjy6pWpK7qw208nKUA0YEOXcTqQdNTJlFaU=;
- b=KKQ2AFj1Awh5vMga7xFbR5E6oW+S17lEDQCj0VgyeTKr/B5EZF3QzAa2QwTmudEefjHTbUd+AW+LXDV/qzg9ogXGyQO5q+XVSarZSZ3uFy1OgDy19SDKlSBg5fQaK4o0gLqcGePuDcW9CkmYyZrn8lfhoyE7gHpTr6Y984eYY/Vjm9kH07jYMVBR7NAwdzZik/ixKbwz7lLPm8rGMnBr9QkyFm0FgIc319ZWlM/ij35wYh2ML4Le/vpyoab+K1SsP6uGCC20HZSP4BughYKxsUq10RX1hpMcBcAKZBYkMeHoHkSLO+2XELzGRWQ8gE4p21YEViVe1MbfIt6cKfPaVg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=a7yg6pbXOjy6pWpK7qw208nKUA0YEOXcTqQdNTJlFaU=;
- b=FOmdjW3a3iECjkBdxeO09AsGxMv6EcsKcyW9AXaroVMZKIPTZS10WX205/97k7RfIGZ+t9Cd0RyBvdk6yIpxbha6lrZhpSHcduZJi44tGyOn6aXoGRbK3FqE9vyx0iwjZNi3oeoVvyeAoD96HNICJ9Q4VzX7A47ZyeI5+cHU1kU=
-Authentication-Results: nongnu.org; dkim=none (message not signed)
- header.d=none;nongnu.org; dmarc=none action=none header.from=amd.com;
-Received: from DM5PR12MB1355.namprd12.prod.outlook.com (2603:10b6:3:6e::7) by
- DM5PR12MB2503.namprd12.prod.outlook.com (2603:10b6:4:b2::15) with
- Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.3763.9; Thu, 14 Jan 2021 23:13:55 +0000
-Received: from DM5PR12MB1355.namprd12.prod.outlook.com
- ([fe80::d95e:b9d:1d6a:e845]) by DM5PR12MB1355.namprd12.prod.outlook.com
- ([fe80::d95e:b9d:1d6a:e845%12]) with mapi id 15.20.3763.011; Thu, 14 Jan 2021
- 23:13:55 +0000
-From: Tom Lendacky <thomas.lendacky@amd.com>
-To: qemu-devel@nongnu.org,
-	kvm@vger.kernel.org
-Subject: [PATCH v5 6/6] sev/i386: Enable an SEV-ES guest based on SEV policy
-Date: Thu, 14 Jan 2021 17:12:36 -0600
-Message-Id: <38989f30c7243296111352d769e4e184f3036cbb.1610665956.git.thomas.lendacky@amd.com>
-X-Mailer: git-send-email 2.30.0
-In-Reply-To: <cover.1610665956.git.thomas.lendacky@amd.com>
-References: <cover.1610665956.git.thomas.lendacky@amd.com>
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [165.204.77.1]
-X-ClientProxiedBy: SN4PR0201CA0067.namprd02.prod.outlook.com
- (2603:10b6:803:20::29) To DM5PR12MB1355.namprd12.prod.outlook.com
- (2603:10b6:3:6e::7)
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1l0C02-0004HU-B0
+ for qemu-devel@nongnu.org; Thu, 14 Jan 2021 18:25:54 -0500
+Received: from indium.canonical.com ([91.189.90.7]:53286)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1l0C00-0002B3-7R
+ for qemu-devel@nongnu.org; Thu, 14 Jan 2021 18:25:54 -0500
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1l0Bzx-0003Ds-QK
+ for <qemu-devel@nongnu.org>; Thu, 14 Jan 2021 23:25:49 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id 8AB9D2E813C
+ for <qemu-devel@nongnu.org>; Thu, 14 Jan 2021 23:25:49 +0000 (UTC)
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-Received: from tlendack-t1.amd.com (165.204.77.1) by
- SN4PR0201CA0067.namprd02.prod.outlook.com (2603:10b6:803:20::29) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3763.10 via Frontend
- Transport; Thu, 14 Jan 2021 23:13:54 +0000
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-HT: Tenant
-X-MS-Office365-Filtering-Correlation-Id: 4d511acf-fcc4-4521-a258-08d8b8e2109b
-X-MS-TrafficTypeDiagnostic: DM5PR12MB2503:
-X-MS-Exchange-Transport-Forked: True
-X-Microsoft-Antispam-PRVS: <DM5PR12MB25031F8771319970ECDBDE28ECA80@DM5PR12MB2503.namprd12.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:6430;
-X-MS-Exchange-SenderADCheck: 1
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: /aelx9WzHq/74XZiYITgIYqHGwdpkLuv0i6zQ7OYb2xK2iJJjfLZxHU5IA6XleIEJ0DUcw4n5gveDp65jMKGl1NAIWxYp6rE6/M9g3EGpRjxl2HgXb4z9fJhG4JOAOuKRv3A7BEpdxyeZI1US86jaL5S/ak5rUalw3SFtRXQBPrunx/COtFzsfqvtIotXAccuDZm/wSAZuZ6CEGWBsmkuNIEjvG5lD0PaM1/FAJ90OK87A9XINXuOO+erTEQc6MR73nEaQiTg0+mKiAQN9Y8J5js+d75/kljIioCiz9VWbQi1gINc4DwVPy6wtH0tk3BhBs0Oq/mKa89lTlMTY9vbUxp+/xLcIeqCWz8d2XroXBPmckKHB/gjoUxh3rEPpfqZ3MbEFZS1CawmRvkv5JdCw==
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:DM5PR12MB1355.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(4636009)(136003)(366004)(346002)(376002)(396003)(39860400002)(8936002)(54906003)(186003)(6666004)(6486002)(16526019)(86362001)(4744005)(7696005)(956004)(66476007)(66556008)(52116002)(316002)(5660300002)(7416002)(2616005)(4326008)(36756003)(26005)(478600001)(83380400001)(2906002)(66946007)(8676002);
- DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData: =?us-ascii?Q?PHhcUXa+218O0hsX/8tK5ePsjgCOKMgF6VOXHpIEtUzarV6SCUR5jQ+4LWhh?=
- =?us-ascii?Q?E/MpE52wCGpSbq0yX6mcXoeIIGXX7Mzu7ft5crg6MSgh4z95QJzfLE5NT/XP?=
- =?us-ascii?Q?BExeGsyt66zAa+ZOCXT2cdHQo8m/Ji+LWaehZy+eEx3tdhHusBa38kjuR/qU?=
- =?us-ascii?Q?5ZhGx+UsfA2gBx2TxGyRo3loxjoHLxvhbkXH602yI6JYkZVktYwXXG24uouw?=
- =?us-ascii?Q?N5g4dt7HU02VPNkIxC23uwdtR7Sb3a5/cTReIpR4It3nDC843qIhxR8Pu4o9?=
- =?us-ascii?Q?Q27TvkkXWCltPgy1480mckYWJDx4rkDaH87U2Faw/wamibOPhg/9KHVCi6cl?=
- =?us-ascii?Q?GQYLnh0y/F9/SqR+euTJw6rQPAxuZa1kUveWYbgrA1QEvySRbPcXU9Wi4apo?=
- =?us-ascii?Q?+pRaSC2LoP5ltwoazeHP7+cJnMyfKzjTTDS6A2OjMS5ysX3ZcWyxibPkUJxT?=
- =?us-ascii?Q?04srcox0OsWax9JMesH0ppgSHL+blhYiX3cOjyRDV8spsoARuoOxBaCurDBF?=
- =?us-ascii?Q?nwlTwBwY/wCig3znAxFhdFXY2erOMO7gmih1KqCvc25tRuN1bgPzEGG/up7z?=
- =?us-ascii?Q?YrIgPzPoM3PYdvdAbrXrrjW4z15Vl+tSBL73KqdWbX2CYCUvc5PuxBgGDC3G?=
- =?us-ascii?Q?dlWftkKXivyt1JapghsoIafSyI4p0CC7YbT1ffpgMj92LuT5lxK+JGGojkUK?=
- =?us-ascii?Q?Y8g9U5kfGGGfuHNkzrYyc3N+OURg2Myr21Y713vL1VD2a2D1sDLqxEviBoz/?=
- =?us-ascii?Q?GEYrhS9fCckDiCC9V+XR8okNSysiHM7vOFvmMTdb93yt5q7cyZ+lZiaLkAAe?=
- =?us-ascii?Q?UmARXIdkEOl8JFxX1A175966ykPFTbQLjYmxyAP+6T/EmrxY6g/Isi6ISDkd?=
- =?us-ascii?Q?2sZoaEoaab3C6TbE/KG2CsHyVhM5tBE4DOE/rb6oupNcQzwn93wYnM7WcDYj?=
- =?us-ascii?Q?PsKp29Vd8RhGoX11FBxVahUePINYVyCVy1wbj1gMoMhYSMnqc5q5wEZmrcay?=
- =?us-ascii?Q?GV7Y?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-AuthSource: DM5PR12MB1355.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 14 Jan 2021 23:13:55.2400 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-Network-Message-Id: 4d511acf-fcc4-4521-a258-08d8b8e2109b
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 9hI7DBP9zfZhWRuhXx1BomP1qT2Yuwv8TxfwLwZ7j2aPFTkC23ynZb4PbabMz+JmO7pTyEwQ5+OCSwoGBffRlA==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM5PR12MB2503
-Received-SPF: softfail client-ip=40.107.92.61;
- envelope-from=Thomas.Lendacky@amd.com;
- helo=NAM10-BN7-obe.outbound.protection.outlook.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- MSGID_FROM_MTA_HEADER=0.001, RCVD_IN_DNSWL_NONE=-0.0001,
- RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_PASS=-0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Date: Thu, 14 Jan 2021 23:19:00 -0000
+From: John Snow <1908450@bugs.launchpad.net>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=New; importance=Undecided;
+ assignee=jsnow@redhat.com; 
+X-Launchpad-Bug-Tags: ata atapi ide identify x86
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: gourryinverse jnsnow th-huth
+X-Launchpad-Bug-Reporter: Gregory Price (gourryinverse)
+X-Launchpad-Bug-Modifier: John Snow (jnsnow)
+References: <160815666653.31417.1447357912774624366.malonedeb@chaenomeles.canonical.com>
+Message-Id: <161066634107.6686.3550162289681613265.malone@wampee.canonical.com>
+Subject: [Bug 1908450] Re: ide/core.c ATA Major Version reporting incorrect
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="511b4a3b6512aa3d421c5f7d74f3527e78bff26e"; Instance="production"
+X-Launchpad-Hash: d38d641c4959390ba1cb60b6ab37ff10f7343ffb
+Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
+ helo=indium.canonical.com
+X-Spam_score_int: -65
+X-Spam_score: -6.6
+X-Spam_bar: ------
+X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9,
+ HEADER_FROM_DIFFERENT_DOMAINS=0.248, RCVD_IN_DNSWL_HI=-5,
+ RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -132,46 +71,99 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Brijesh Singh <brijesh.singh@amd.com>,
- Eduardo Habkost <ehabkost@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>,
- Connor Kuehl <ckuehl@redhat.com>, Sean Christopherson <seanjc@google.com>,
- Marcelo Tosatti <mtosatti@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>, Jiri Slaby <jslaby@suse.cz>,
- Richard Henderson <rth@twiddle.net>
+Reply-To: Bug 1908450 <1908450@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Tom Lendacky <thomas.lendacky@amd.com>
+That's probably the single most reasonable thing to do, truth be told!
 
-Update the sev_es_enabled() function return value to be based on the SEV
-policy that has been specified. SEV-ES is enabled if SEV is enabled and
-the SEV-ES policy bit is set in the policy object.
+I don't have the time to audit these fields properly; I don't know which
+versions we truly ought to advertise support for. I know I looked at
+ATA8-AC3 at some point fairly recently and concluded that we don't
+support all of the "must-support" features of that spec, because we
+don't implement any of the logging features whatsoever.
 
-Cc: Paolo Bonzini <pbonzini@redhat.com>
-Cc: Richard Henderson <richard.henderson@linaro.org>
-Cc: Eduardo Habkost <ehabkost@redhat.com>
-Reviewed-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
-Signed-off-by: Tom Lendacky <thomas.lendacky@amd.com>
----
- target/i386/sev.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+I often consult ATA8-ACS3 to take advantage of clarifications made in
+later revisions and cross-correlate with ATA7; but I don't know what the
+most modern specification we can be said to support the minimum feature
+set from truly is.
 
-diff --git a/target/i386/sev.c b/target/i386/sev.c
-index badc141554..62ecc28cf6 100644
---- a/target/i386/sev.c
-+++ b/target/i386/sev.c
-@@ -371,7 +371,7 @@ sev_enabled(void)
- bool
- sev_es_enabled(void)
- {
--    return false;
-+    return sev_enabled() && (sev_guest->policy & SEV_POLICY_ES);
- }
- 
- uint64_t
--- 
-2.30.0
+Patches (and reviewers) always welcome; but generally I am afraid of
+touching too many things because I don't want to break legacy operating
+systems that might not have an awareness of QEMU. Our testing for older
+operating systems is not particularly robust, here.
 
+I think I am still leaning towards just fixing the comment, but if you
+are aware of some ATA7 thing we are required to support but don't, I'll
+remove the bit.
+
+-- =
+
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1908450
+
+Title:
+  ide/core.c ATA Major Version reporting incorrect
+
+Status in QEMU:
+  New
+
+Bug description:
+  @@ -165,7 +165,7 @@ static void ide_identify(IDEState *s)
+          put_le16(p + 76, (1 << 8));
+      }
+
+      put_le16(p + 80, 0xf0); /* ata3 -> ata6 supported */
+  -   put_le16(p + 80, 0xf0); /* ata3 -> ata6 supported */
+  +   put_le16(p + 80, ((1 << 6) | (1 << 5) (1 << 4) (1 << 3)); /* ata3 -> =
+ata6 supported */
+      put_le16(p + 81, 0x16); /* conforms to ata5 */
+      /* 14=3DNOP supported, 5=3DWCACHE supported, 0=3DSMART supported */
+      put_le16(p + 82, (1 << 14) | (1 << 5) | 1);
+
+  =
+
+  This field Major Version Number field is presently reporting support for =
+ATA-4 through ATA-7.
+  Bitfield[80] is defined in the ATA-6 specification below.
+
+  0xF0 =3D (1<<7) | (1<<6) | (1 << 5) | (1 << 4) // 4-7 - current settings
+  0x78 =3D (1<<6) | (1<<5) | (1 << 4) | (1 << 3) // 3-6 - new settings
+
+  Either the comment is wrong, or the field is wrong. If the field is
+  wrong it can cause errors in drivers that check support vs conformity.
+  This will not break most guests, since the conformity field is set to
+  ATA-5.
+
+  I'm not sure whether this component supports ATA-7, but since it's
+  commented as if it supports up through 6, correcting the field
+  assignment seems more correct.
+
+  ATA/ATAPI-6 Specification
+  https://web.archive.org/web/20200124094822/https://www.t13.org/Documents/=
+UploadedDocuments/project/d1410r3b-ATA-ATAPI-6.pdf
+
+  Page 116
+  80 - M Major version number
+  0000h or FFFFh =3D device does not report version
+  F 15 Reserved
+  F 14 Reserved for ATA/ATAPI-14
+  F 13 Reserved for ATA/ATAPI-13
+  F 12 Reserved for ATA/ATAPI-12
+  F 11 Reserved for ATA/ATAPI-11
+  F 10 Reserved for ATA/ATAPI-10
+  F 9 Reserved for ATA/ATAPI-9
+  F 8 Reserved for ATA/ATAPI-8
+  F 7 Reserved for ATA/ATAPI-7
+  F 6 1 =3D supports ATA/ATAPI-6
+  F 5 1 =3D supports ATA/ATAPI-5
+  F 4 1 =3D supports ATA/ATAPI-4
+  F 3 1 =3D supports ATA-3
+  X 2 Obsolete
+  X 1 Obsolete
+  F 0 Reserved
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1908450/+subscriptions
 
