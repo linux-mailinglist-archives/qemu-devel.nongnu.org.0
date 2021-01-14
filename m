@@ -2,83 +2,93 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3D3292F6B27
-	for <lists+qemu-devel@lfdr.de>; Thu, 14 Jan 2021 20:39:38 +0100 (CET)
-Received: from localhost ([::1]:52506 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6E16F2F6B43
+	for <lists+qemu-devel@lfdr.de>; Thu, 14 Jan 2021 20:40:48 +0100 (CET)
+Received: from localhost ([::1]:55156 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l08T3-0002It-B8
-	for lists+qemu-devel@lfdr.de; Thu, 14 Jan 2021 14:39:37 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44418)
+	id 1l08UB-0003RT-G5
+	for lists+qemu-devel@lfdr.de; Thu, 14 Jan 2021 14:40:47 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44600)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <wrampazz@redhat.com>)
- id 1l08QX-0001Il-Ho
- for qemu-devel@nongnu.org; Thu, 14 Jan 2021 14:37:01 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:50120)
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1l08Rh-0002Jx-SL
+ for qemu-devel@nongnu.org; Thu, 14 Jan 2021 14:38:13 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:33706)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <wrampazz@redhat.com>)
- id 1l08QU-0007TO-Lm
- for qemu-devel@nongnu.org; Thu, 14 Jan 2021 14:37:00 -0500
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1l08Rf-0007sw-Rf
+ for qemu-devel@nongnu.org; Thu, 14 Jan 2021 14:38:13 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1610653017;
+ s=mimecast20190719; t=1610653090;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=9aCOZSLPj1/G6ExmV/i/WoQkTwdVhoQpSiH3bbEc3uE=;
- b=YUxIU9ryB0En+8wd3ONKEphSGITsaS2u868Q5i7Tf7lSkatkOyJo90PqAmfU0u3d/AWlkU
- i8UocR3U0xtOiLtqIuElEd0xlh/i2KrWjDGPwUBmZAqUd5Uy0vFWWOTHG9qCBOnZ1BGqQD
- o6KM/9Pd5hg4S1FC0JU1NnEVrmwFPOk=
-Received: from mail-vk1-f198.google.com (mail-vk1-f198.google.com
- [209.85.221.198]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-145-_X88nHt8Md2GyPh02ApLfg-1; Thu, 14 Jan 2021 14:36:55 -0500
-X-MC-Unique: _X88nHt8Md2GyPh02ApLfg-1
-Received: by mail-vk1-f198.google.com with SMTP id b62so2719453vkh.19
- for <qemu-devel@nongnu.org>; Thu, 14 Jan 2021 11:36:55 -0800 (PST)
+ bh=gJWa34xrqF6QuTqeROtO7elVavrhMnJHwGEc4V0AkZ8=;
+ b=i76A1+rc8F9djBHD2AqOmoNBjYxLDQ/fX9iuxbdwMCJLV9LWKVBZvQp7a/iVzgQi3saRod
+ K0F9+sSU4JqReMOKgU0l0JxGzAk8r5xqlHXbKLoHSgZLK4K8rImm1tG3oqoWqwNdw3mEZi
+ eTHn4mgUAGH03eV47AhqffQ6OollRYE=
+Received: from mail-ej1-f70.google.com (mail-ej1-f70.google.com
+ [209.85.218.70]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-100-6npENWTJPzWfAXsHrJKEsw-1; Thu, 14 Jan 2021 14:38:06 -0500
+X-MC-Unique: 6npENWTJPzWfAXsHrJKEsw-1
+Received: by mail-ej1-f70.google.com with SMTP id u25so2647509ejf.3
+ for <qemu-devel@nongnu.org>; Thu, 14 Jan 2021 11:38:06 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=9aCOZSLPj1/G6ExmV/i/WoQkTwdVhoQpSiH3bbEc3uE=;
- b=IWdJF8UUn2l0LJlKa1qEaK363UXnmHwUabs64c211Se6b+WwBVilBGb993AskBsk0d
- GZe6/e/yi2GUjBZ9Z2SSgkStixtWKA9T9Fon0u8UiAMrY+fEfF1wR65HaEeaS7btnvPt
- j+/XyXVO5Oo332vJNwLQW3RNtbXbxD63mntc+Ud07q/hV9gSHJ+RZysOPoZJ/euY3EIG
- 0asIQJfEulxYjo2c0hbJbKWB3IfVUOkX2uQuazLdMx5B5sHsq39ZysV3kF0R2BB4E+PT
- 9oWJ6oPAug89xveOrm8kqUwqITLByVTGr5KiCoXhw65odWHnWRnIFromYhdqvvpv6d/g
- EMZg==
-X-Gm-Message-State: AOAM533hGWBrTgCI63fpdZR0p6zpud+cx9TCQB6HaiDeWpn59fwgsQ6d
- AAlZRNg+MKMFqrI48fz8/+DSZ5LKbtxH6sPlHKIGg3d2tuKercH9zZOid+iuBAU4s5RohiTOWVm
- NRCnv3ppbqBAGLE8cMRUo06N+UO3upus=
-X-Received: by 2002:a67:f910:: with SMTP id t16mr2393290vsq.50.1610653015195; 
- Thu, 14 Jan 2021 11:36:55 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJxLoYd9jn4WxTO6qdC/vSjBTZWRU3hlyvEkfMdp1aWB7BBhYfC4h/1hWg5zgTHKPvYdQXAeTM0f7gYqLzqAcBQ=
-X-Received: by 2002:a67:f910:: with SMTP id t16mr2393280vsq.50.1610653015061; 
- Thu, 14 Jan 2021 11:36:55 -0800 (PST)
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=gJWa34xrqF6QuTqeROtO7elVavrhMnJHwGEc4V0AkZ8=;
+ b=YcmzXJ+0oAxkUKtwTKwRnQZgCK+UAZUXKfJfWwhfXLaNvw351Q/86Iz/TZobdkWtSL
+ oO8Td6S1R+SHAcCcrfW0RDmrdqbo0Ra5KLLHjyWvCZupI4FtJOpJU76v+OTo/szgJ7Vs
+ toafggRa14vvhnvK6c+ChDSIdsJnbQdIEZPxnL6vN9Tmh625S+byVHj3fbKcgmHPTiVf
+ shyRB1i8REJBhaXPERdwczAo3pO4PQ8qAie2mtsByDSgb3Wu9IRCJJCOXbeT52rRvUD3
+ a6OiF1FIZA7dZUBQ7TUiYcbwRJUD67t8OBBCxUCpxbHK596aT39uS3gRHWTYnyQ5+oB7
+ MH0g==
+X-Gm-Message-State: AOAM530EK+dq4obvG2jqWbq37ZX/EHAMQoxr+wLGRFIjMp79FL1whfgq
+ 2GGjPIS1bviH6u0OcOshUaxSbqTVn6gBWOaEGfcFpY6UvOPeWFK0saDjIFbLf9uS4gE4fLCq1hz
+ fnJqrIImWIk7tm30=
+X-Received: by 2002:a17:906:7156:: with SMTP id
+ z22mr6274821ejj.441.1610653085078; 
+ Thu, 14 Jan 2021 11:38:05 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJx/Ny2ivo/t92m5vGPjZxhxB7AkF7vHPEPCww7VcuMzD+wwe2JVca1z7kbU3WFHB5a/DESS5g==
+X-Received: by 2002:a17:906:7156:: with SMTP id
+ z22mr6274814ejj.441.1610653084872; 
+ Thu, 14 Jan 2021 11:38:04 -0800 (PST)
+Received: from ?IPv6:2001:b07:6468:f312:c8dd:75d4:99ab:290a?
+ ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
+ by smtp.gmail.com with ESMTPSA id d6sm2305619ejy.114.2021.01.14.11.38.03
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 14 Jan 2021 11:38:04 -0800 (PST)
+Subject: Re: [PATCH] machine: add missing doc for memory-backend option
+To: Igor Mammedov <imammedo@redhat.com>, qemu-devel@nongnu.org
+References: <20210111222729.757402-1-imammedo@redhat.com>
+From: Paolo Bonzini <pbonzini@redhat.com>
+Message-ID: <bd1d537d-034a-149d-d3a6-99b150afddad@redhat.com>
+Date: Thu, 14 Jan 2021 20:38:01 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.5.0
 MIME-Version: 1.0
-References: <20210114165730.31607-1-alex.bennee@linaro.org>
- <20210114165730.31607-12-alex.bennee@linaro.org>
-In-Reply-To: <20210114165730.31607-12-alex.bennee@linaro.org>
-From: Willian Rampazzo <wrampazz@redhat.com>
-Date: Thu, 14 Jan 2021 16:36:29 -0300
-Message-ID: <CAKJDGDYNENeiDXOmrZ1Zs=Ffyzvht5WYo6YHSxR_2HkVHtbZSQ@mail.gmail.com>
-Subject: Re: [PATCH v2 11/12] gitlab: migrate the minimal tools and unit tests
- from Travis
-To: =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>
+In-Reply-To: <20210111222729.757402-1-imammedo@redhat.com>
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=wrampazz@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=pbonzini@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=wrampazz@redhat.com;
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=pbonzini@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -29
-X-Spam_score: -3.0
+X-Spam_score_int: -32
+X-Spam_score: -3.3
 X-Spam_bar: ---
-X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.248,
+X-Spam_report: (-3.3 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.248,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ NICE_REPLY_A=-0.237, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -91,29 +101,90 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Fam Zheng <fam@euphon.net>, Thomas Huth <thuth@redhat.com>,
- =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>,
- qemu-devel <qemu-devel@nongnu.org>,
- Wainer dos Santos Moschetta <wainersm@redhat.com>
+Cc: mprivozn@redhat.com, ehabkost@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, Jan 14, 2021 at 2:27 PM Alex Benn=C3=A9e <alex.bennee@linaro.org> w=
-rote:
->
-> These tests are good at shaking out missing stubs which otherwise work
-> if we have built targets. Rather than create a new job just add the
-> checks to the existing tools-and-docs build.
->
-> Signed-off-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
+On 11/01/21 23:27, Igor Mammedov wrote:
+> Add documentation for '-machine memory-backend' CLI option and
+> how to use it.
+> 
+> PS:
+> While at it add a comment to x-use-canonical-path-for-ramblock-id,
+> to make sure it won't go away by accident.
+> 
+> Signed-off-by: Igor Mammedov <imammedo@redhat.com>
 > ---
->  .gitlab-ci.yml | 4 +++-
->  .travis.yml    | 9 ---------
->  2 files changed, 3 insertions(+), 10 deletions(-)
->
+>   backends/hostmem.c |  8 ++++++++
+>   qemu-options.hx    | 25 ++++++++++++++++++++++++-
+>   2 files changed, 32 insertions(+), 1 deletion(-)
+> 
+> diff --git a/backends/hostmem.c b/backends/hostmem.c
+> index 4bde00e8e7..f6f4e818c7 100644
+> --- a/backends/hostmem.c
+> +++ b/backends/hostmem.c
+> @@ -497,6 +497,14 @@ host_memory_backend_class_init(ObjectClass *oc, void *data)
+>           host_memory_backend_get_share, host_memory_backend_set_share);
+>       object_class_property_set_description(oc, "share",
+>           "Mark the memory as private to QEMU or shared");
+> +    /*
+> +     * Do not delete/rename option till 4.0 and older machine types exist,
+> +     * Option will be used by upper layers to override (disable) canonical path
+> +     * for ramblock-id set by compat properties on old machine types ( <= 4.0),
+> +     * to keep migration working when backend is used for main RAM with
+> +     * -machine memory-backend= option (main RAM historically used prefix-less
+> +     * ramblock-id).
+> +     */
+>       object_class_property_add_bool(oc, "x-use-canonical-path-for-ramblock-id",
+>           host_memory_backend_get_use_canonical_path,
+>           host_memory_backend_set_use_canonical_path);
+> diff --git a/qemu-options.hx b/qemu-options.hx
+> index 459c916d3d..c02628bd26 100644
+> --- a/qemu-options.hx
+> +++ b/qemu-options.hx
+> @@ -35,7 +35,8 @@ DEF("machine", HAS_ARG, QEMU_OPTION_machine, \
+>       "                suppress-vmdesc=on|off disables self-describing migration (default=off)\n"
+>       "                nvdimm=on|off controls NVDIMM support (default=off)\n"
+>       "                memory-encryption=@var{} memory encryption object to use (default=none)\n"
+> -    "                hmat=on|off controls ACPI HMAT support (default=off)\n",
+> +    "                hmat=on|off controls ACPI HMAT support (default=off)\n"
+> +    "                memory-backend='backend-id' specifies explicitly provided backend for main RAM (default=none)\n",
+>       QEMU_ARCH_ALL)
+>   SRST
+>   ``-machine [type=]name[,prop=value[,...]]``
+> @@ -96,6 +97,28 @@ SRST
+>       ``hmat=on|off``
+>           Enables or disables ACPI Heterogeneous Memory Attribute Table
+>           (HMAT) support. The default is off.
+> +
+> +     ``memory-backend='id'``
+> +        An alternative to legacy ``-mem-path`` and ``mem-prealloc`` options.
+> +        Allows to use a memory backend as main RAM.
+> +
+> +        For example:
+> +        ::
+> +        -object memory-backend-file,id=pc.ram,size=512M,mem-path=/hugetlbfs,prealloc=on,share=on
+> +        -machine memory-backend=pc.ram
+> +        -m 512M
+> +
+> +        Migration compatibility note:
+> +        a) as backend id one shall use value of 'default-ram-id', advertised by
+> +        machine type (available via ``query-machines`` QMP command)
+> +        b) for machine types 4.0 and older, user shall
+> +        use ``x-use-canonical-path-for-ramblock-id=on`` backend option,
+> +        if migration to/from old QEMU (<5.0) is expected.
+> +        For example:
+> +        ::
+> +        -object memory-backend-ram,id=pc.ram,size=512M,x-use-canonical-path-for-ramblock-id=on
+> +        -machine memory-backend=pc.ram
+> +        -m 512M
+>   ERST
+>   
+>   HXCOMM Deprecated by -machine
+> 
 
-And, it helps moving out of Travis.
+Queued, thanks.
 
-Reviewed-by: Willian Rampazzo <willianr@redhat.com>
+Paolo
 
 
