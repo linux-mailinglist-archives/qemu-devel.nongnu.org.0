@@ -2,67 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 871002F680C
-	for <lists+qemu-devel@lfdr.de>; Thu, 14 Jan 2021 18:48:10 +0100 (CET)
-Received: from localhost ([::1]:45584 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1DD812F6847
+	for <lists+qemu-devel@lfdr.de>; Thu, 14 Jan 2021 18:51:56 +0100 (CET)
+Received: from localhost ([::1]:54784 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l06jB-0000S8-HV
-	for lists+qemu-devel@lfdr.de; Thu, 14 Jan 2021 12:48:09 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33802)
+	id 1l06mp-0004bT-6L
+	for lists+qemu-devel@lfdr.de; Thu, 14 Jan 2021 12:51:55 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35428)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1l06au-00044a-Cy
- for qemu-devel@nongnu.org; Thu, 14 Jan 2021 12:39:39 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:40575)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1l06gY-0000ZC-7A
+ for qemu-devel@nongnu.org; Thu, 14 Jan 2021 12:45:31 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:42025)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1l06ao-0003x9-FG
- for qemu-devel@nongnu.org; Thu, 14 Jan 2021 12:39:36 -0500
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1l06gQ-0005pS-64
+ for qemu-devel@nongnu.org; Thu, 14 Jan 2021 12:45:25 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1610645968;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=Ymt8LcB5dxZaIV7QsCpQWkZhvRI631gZgQVJk+mmFio=;
- b=DSiFqX8T/cITG4dYul3WRWS6uQKp+71dZyusvS5mURnAg46Xp2jAbx0IXF85quMSFHrEtg
- GmPPSv0SY/5MdimGrqe/A/koOBeifqcyfo+Uz6RgviKf6cThiIbjxtQ/CQsR1Mw6BrKcLS
- FL0dqe+xk4NXhDJ+iuSHDiVaZIEw5t0=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-1-QXgAJabNPcy6yHmQOndQsw-1; Thu, 14 Jan 2021 12:39:26 -0500
-X-MC-Unique: QXgAJabNPcy6yHmQOndQsw-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id B801D107ACF8
- for <qemu-devel@nongnu.org>; Thu, 14 Jan 2021 17:39:25 +0000 (UTC)
-Received: from redhat.com (ovpn-112-150.ams2.redhat.com [10.36.112.150])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 9DC955D734;
- Thu, 14 Jan 2021 17:39:21 +0000 (UTC)
-Date: Thu, 14 Jan 2021 17:39:18 +0000
-From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-To: Gerd Hoffmann <kraxel@redhat.com>
-Subject: Re: [PATCH v3 2/3] vnc: move initialization to
- framebuffer_update_request
-Message-ID: <20210114173918.GU1643043@redhat.com>
-References: <20210112134120.2031837-1-kraxel@redhat.com>
- <20210112134120.2031837-3-kraxel@redhat.com>
+ s=mimecast20190719; t=1610646317;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=hCRdHMuvIjkHfmUL0wBzXX0wst9lZhq4y/szAZQIdCA=;
+ b=SJeD9Ixb8sTakHXmowgZOQBHbbUjNyi8FQwMzgWiVVF2JUtiYE3Z44p13BTYW2809nDIs6
+ 2Fbl1cKnLqJiN2DhE9z/+gUE6dyPpj93mKfrk3q9U7P0nrLj6R7IcJCy7SSsqjaFurjJCI
+ 55/Tih6u3D6VsUP+0cLOZbT2ZIrBh4s=
+Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
+ [209.85.128.69]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-477-13EKNTQ3MECx-RTsCWOV9w-1; Thu, 14 Jan 2021 12:45:13 -0500
+X-MC-Unique: 13EKNTQ3MECx-RTsCWOV9w-1
+Received: by mail-wm1-f69.google.com with SMTP id h21so2153535wmq.7
+ for <qemu-devel@nongnu.org>; Thu, 14 Jan 2021 09:45:13 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=28ejum3b2Tc7/JeVKDhX1iaRIAGxTb2jksrAD6v9rE0=;
+ b=IDx50QXnF31AT7VXCjJ5AmUhQGHQoH0dX7qAXY94B0Z8IKZBmJKZB+dn7brwMSQlV3
+ OyuUuwrrmIXepNCb5vrr3x/7HChteRQjX1piNjw3tRtug0pFaLQ2f/NX9vKwBMwfjrsw
+ RC93jkhO2YJ1D3iHuFCcvVQlXyrk9fe5qU7+NHbozwcTLchytAe6cpoBz3JoPQAVsfKo
+ DDlffSmoI8y7SV45v2rtWAf9Cax+O5bzlaeuxitPo2bKr50JODFQRK5ntRpvdO3G4BpO
+ jj6d5VZzgc1mYgQrLLB+11E07t1/xzHeKGDHALH/RLJUDofJJ7TxNI2jcRVhDwxVXzrp
+ HoqA==
+X-Gm-Message-State: AOAM530NezsvPBdA2Up5Uu4IdlaY9jltp4yXVK6FCAaLw85H5/RFDKti
+ bON4uuXLuxH5o7OvIXylqovIqqdPBkXCKq9psQwVwEoukBhAKhU/prXgl1jYhDQDwvy6TEvXKmO
+ 1K0FQ11hQn9R3/ylBs6Zoh59U0N5tBcBJTuMssZAGlAO3qtZ5KmWXy7D4QuYc6XE/
+X-Received: by 2002:a5d:5704:: with SMTP id a4mr9120448wrv.37.1610646311953;
+ Thu, 14 Jan 2021 09:45:11 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJwkpWc5pHJQVncHTQLKOQil5M4nbUg4SzxAGSriFdb+SpDhVmbDdZl/PVehok9Ei98bswExYw==
+X-Received: by 2002:a5d:5704:: with SMTP id a4mr9120427wrv.37.1610646311758;
+ Thu, 14 Jan 2021 09:45:11 -0800 (PST)
+Received: from x1w.redhat.com (13.red-83-57-169.dynamicip.rima-tde.net.
+ [83.57.169.13])
+ by smtp.gmail.com with ESMTPSA id w13sm10828409wrt.52.2021.01.14.09.45.10
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 14 Jan 2021 09:45:10 -0800 (PST)
+From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
+To: qemu-devel@nongnu.org
+Subject: [PATCH 0/2] meson.build: Fix bzip2 program detection for EDK2 blobs
+ installation
+Date: Thu, 14 Jan 2021 18:45:07 +0100
+Message-Id: <20210114174509.2944817-1-philmd@redhat.com>
+X-Mailer: git-send-email 2.26.2
 MIME-Version: 1.0
-In-Reply-To: <20210112134120.2031837-3-kraxel@redhat.com>
-User-Agent: Mutt/1.14.6 (2020-07-11)
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=berrange@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=berrange@redhat.com;
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=philmd@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -29
 X-Spam_score: -3.0
@@ -83,86 +91,30 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-Cc: qemu-devel@nongnu.org
+Cc: Paolo Bonzini <pbonzini@redhat.com>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
+ John Snow <jsnow@redhat.com>, Laszlo Ersek <lersek@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, Jan 12, 2021 at 02:41:19PM +0100, Gerd Hoffmann wrote:
-> qemu sends various state info like current cursor shape to newly connected
-> clients in response to a set_encoding message.  This is not correct according
-> to the rfb spec.  Send that information in response to a full (incremental=0)
-> framebuffer update request instead.  Also send the resize information
-> unconditionally, not only in case of an actual server-side change.
-> 
-> This makes the qemu vnc server conform to the spec and allows clients to
-> request the complete vnc server state without reconnect.
-> 
-> Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
-> ---
->  ui/vnc.c | 11 ++++-------
->  1 file changed, 4 insertions(+), 7 deletions(-)
-> 
-> diff --git a/ui/vnc.c b/ui/vnc.c
-> index 84c4972b895b..8df63b349b38 100644
-> --- a/ui/vnc.c
-> +++ b/ui/vnc.c
-> @@ -660,10 +660,6 @@ static void vnc_desktop_resize(VncState *vs)
->      if (vs->ioc == NULL || !vnc_has_feature(vs, VNC_FEATURE_RESIZE)) {
->          return;
->      }
-> -    if (vs->client_width == pixman_image_get_width(vs->vd->server) &&
-> -        vs->client_height == pixman_image_get_height(vs->vd->server)) {
-> -        return;
-> -    }
->  
->      assert(pixman_image_get_width(vs->vd->server) < 65536 &&
->             pixman_image_get_width(vs->vd->server) >= 0);
-> @@ -2013,6 +2009,10 @@ static void framebuffer_update_request(VncState *vs, int incremental,
->      } else {
->          vs->update = VNC_STATE_UPDATE_FORCE;
->          vnc_set_area_dirty(vs->dirty, vs->vd, x, y, w, h);
-> +        vnc_colordepth(vs);
-> +        vnc_desktop_resize(vs);
-> +        vnc_led_state_change(vs);
-> +        vnc_cursor_define(vs);
-
-If I'm nit-picking this still isn't spec compliant as it is sending
-4 separate framebuffer update messages each with 1 rectangle, in
-response to 1 single framebuffer update request.
-
-The strictly spec compliant approach would be to put these on a queue
-and send them as rectangles in the frame buffer update message that's
-sending the framebuffer contents. IIUC, this is the approach tigervnc
-uses.  This would require a major change in the way QEMU sends FB
-update messages though.
-
-In reality I doubt there are VNC clients that really care about this
-distinction, and this change is still more spec compliant
-that the current impl.
-
->      }
->  }
->  
-> @@ -2136,10 +2136,7 @@ static void set_encodings(VncState *vs, int32_t *encodings, size_t n_encodings)
->              break;
->          }
->      }
-> -    vnc_desktop_resize(vs);
->      check_pointer_type_change(&vs->mouse_mode_notifier, NULL);
-> -    vnc_led_state_change(vs);
-> -    vnc_cursor_define(vs);
->  }
->  
->  static void set_pixel_conversion(VncState *vs)
-
-Reviewed-by: Daniel P. Berrangé <berrange@redhat.com>
-
-Regards,
-Daniel
--- 
-|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
-|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
-|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
+Fix the following error when bzip2 program is not installed:=0D
+=0D
+  ../pc-bios/meson.build:5:2: ERROR: Program 'bzip2' not found=0D
+=0D
+(First patch easier to review using 'git-diff --ignore-all-space').=0D
+=0D
+Philippe Mathieu-Daud=C3=A9 (2):=0D
+  meson.build: Declare global edk2_targets / install_edk2_blobs=0D
+    variables=0D
+  meson.build: Detect bzip2 program=0D
+=0D
+ meson.build                     | 10 ++++++++++=0D
+ pc-bios/descriptors/meson.build | 30 ++++++++++++++++--------------=0D
+ pc-bios/meson.build             |  6 +-----=0D
+ 3 files changed, 27 insertions(+), 19 deletions(-)=0D
+=0D
+--=20=0D
+2.26.2=0D
+=0D
 
 
