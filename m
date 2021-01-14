@@ -2,79 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2BE332F5F72
-	for <lists+qemu-devel@lfdr.de>; Thu, 14 Jan 2021 12:04:49 +0100 (CET)
-Received: from localhost ([::1]:45264 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A80662F5F76
+	for <lists+qemu-devel@lfdr.de>; Thu, 14 Jan 2021 12:07:25 +0100 (CET)
+Received: from localhost ([::1]:49284 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l00Qq-0007YV-9Y
-	for lists+qemu-devel@lfdr.de; Thu, 14 Jan 2021 06:04:48 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43926)
+	id 1l00TM-0000vk-Lu
+	for lists+qemu-devel@lfdr.de; Thu, 14 Jan 2021 06:07:24 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44436)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1l00Pj-00076c-KQ
- for qemu-devel@nongnu.org; Thu, 14 Jan 2021 06:03:39 -0500
-Received: from mail-wm1-x32f.google.com ([2a00:1450:4864:20::32f]:39092)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1l00Ph-0004Ii-AH
- for qemu-devel@nongnu.org; Thu, 14 Jan 2021 06:03:39 -0500
-Received: by mail-wm1-x32f.google.com with SMTP id u14so93007wmq.4
- for <qemu-devel@nongnu.org>; Thu, 14 Jan 2021 03:03:36 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=references:user-agent:from:to:cc:subject:date:in-reply-to
- :message-id:mime-version:content-transfer-encoding;
- bh=3lADIhkx/ITNywPg1+QLTzFc3SnZ3zBqjpDltiu2Sew=;
- b=Yic8t7WhH07aY+BEJ8co9FKoJhLfhmux0KlD4TN8cb60neevdob1IZbm/8bS02UZMU
- sRgerpNmJEvwrkgN/yNZ7bLok8NHZiNya0Pbl1vd2B53YxcuK3pN4NZR/itb87elFOMK
- nJpmkGDkC0/Rp4e6qUTQoNf6FgH1bJexjzBzxGkACA1hkRK8cLb1WjIbrS1cLtrLkKQQ
- NgkH257GLn2iftSvzH0lgFii/Q/XBs34vXra0qCR403V5IhTykckjRfj++LUfd8A/eAA
- VigxYL1vxSuI+s2IzxNPuXzLZPhcqc+ZzVX0lYxPXxXLeyFbpjWMIfY6z6Wey84syBG+
- l4Lg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:references:user-agent:from:to:cc:subject:date
- :in-reply-to:message-id:mime-version:content-transfer-encoding;
- bh=3lADIhkx/ITNywPg1+QLTzFc3SnZ3zBqjpDltiu2Sew=;
- b=i90BDBm3pkC1SeO233mjYNgliWIcSVM72OQZcGih4ejoVrRsxHg6H4qpkD6OmbUn47
- lxa1qdx/bj9o6pRli+drqvutyOcIxldPUI/cUPLNFVwfFuj5gtTO69WWzTWTLWp1lZVz
- TGtxaZvezXBNZR8zru9Z0ImIyfa1rXzLlKVglmsYT49hzpPK4BEc/y44huUtSwzZ+spi
- te/KaTYlTHD/wjwnw1yUclOef7Q/oP3eHTABkOCYLnd+itanG8AEPFas5fuCrIvGPHJH
- 2IVKWfuPsRn01dB+W4VhDy5Xul4ngWClbs4T6/1h0d2R+GTDlaQN++4mNviAaZqeP0W9
- mwDA==
-X-Gm-Message-State: AOAM5304+SNlmBrj5wqi9/Z7L85D4Y0iRljOYJKJh2bVfnneE8s3liHB
- C938Ead7QAJMn7EJpWz3x77TdQ==
-X-Google-Smtp-Source: ABdhPJylfmBXHF7ZHnQ2xLCn2A8sHtLeZFqWxtxpMHBeO4y81TNvk0pCAeerw0xFwbwgSWjgufnaew==
-X-Received: by 2002:a1c:4604:: with SMTP id t4mr3283747wma.17.1610622215348;
- Thu, 14 Jan 2021 03:03:35 -0800 (PST)
-Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id n11sm10245757wra.9.2021.01.14.03.03.33
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 14 Jan 2021 03:03:34 -0800 (PST)
-Received: from zen (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 4D8B11FF7E;
- Thu, 14 Jan 2021 11:03:33 +0000 (GMT)
-References: <20210113093101.550964-1-armbru@redhat.com>
- <CAFEAcA8HmqWuzny9bmpXNLtsK7nuRaxPW3j6ZZougn7Y+tX7+A@mail.gmail.com>
-User-agent: mu4e 1.5.7; emacs 28.0.50
-From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: Peter Maydell <peter.maydell@linaro.org>
-Subject: Re: [PULL 0/7] Yank patches patches for 2021-01-13
-Date: Thu, 14 Jan 2021 11:02:20 +0000
-In-reply-to: <CAFEAcA8HmqWuzny9bmpXNLtsK7nuRaxPW3j6ZZougn7Y+tX7+A@mail.gmail.com>
-Message-ID: <87r1mnlr0a.fsf@linaro.org>
+ (Exim 4.90_1) (envelope-from <cohuck@redhat.com>) id 1l00Rt-0008JL-67
+ for qemu-devel@nongnu.org; Thu, 14 Jan 2021 06:05:53 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:52930)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <cohuck@redhat.com>) id 1l00Rq-0005WD-IU
+ for qemu-devel@nongnu.org; Thu, 14 Jan 2021 06:05:52 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1610622348;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=w0t9KNBW719KqSBBRiKm1OOkRuT/H8cDJko5n3JxpRU=;
+ b=K5KAV0IDOeksq3ZdCarPGFcnThSVuDYnoS7SWSrYHrIZvaPgbj8zdb5KTNcDoU1cCSWbSw
+ 6KT6Wrd5KvH+Jiwf959YYE3XZhnsc4mr13Hrr4skFnyIlidB/ZrGneVDbf94nc6P3eUyT6
+ reDGYj6fxByFMK5qC7yfpShRS7mQZ5U=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-238-DB3O3zhCMqaZ032klP1_Ow-1; Thu, 14 Jan 2021 06:05:46 -0500
+X-MC-Unique: DB3O3zhCMqaZ032klP1_Ow-1
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
+ [10.5.11.16])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 94702100F340;
+ Thu, 14 Jan 2021 11:05:44 +0000 (UTC)
+Received: from gondolin (ovpn-114-65.ams2.redhat.com [10.36.114.65])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 36ADA71D60;
+ Thu, 14 Jan 2021 11:05:34 +0000 (UTC)
+Date: Thu, 14 Jan 2021 12:05:31 +0100
+From: Cornelia Huck <cohuck@redhat.com>
+To: Christian Borntraeger <borntraeger@de.ibm.com>
+Subject: Re: [for-6.0 v5 11/13] spapr: PEF: prevent migration
+Message-ID: <20210114120531.3c7f350e.cohuck@redhat.com>
+In-Reply-To: <db2295ce-333f-2a3e-8219-bfa4853b256f@de.ibm.com>
+References: <20201217151530.54431f0e@bahia.lan>
+ <20201218124111.4957eb50.cohuck@redhat.com>
+ <20210104071550.GA22585@ram-ibm-com.ibm.com>
+ <20210104134629.49997b53.pasic@linux.ibm.com>
+ <20210104184026.GD4102@ram-ibm-com.ibm.com>
+ <20210105115614.7daaadd6.pasic@linux.ibm.com>
+ <20210105204125.GE4102@ram-ibm-com.ibm.com>
+ <20210111175914.13adfa2e.cohuck@redhat.com>
+ <20210113124226.GH2938@work-vm>
+ <6e02e8d5-af4b-624b-1a12-d03b9d554a41@de.ibm.com>
+ <20210114103643.GD2905@work-vm>
+ <db2295ce-333f-2a3e-8219-bfa4853b256f@de.ibm.com>
+Organization: Red Hat GmbH
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::32f;
- envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x32f.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=cohuck@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -29
+X-Spam_score: -3.0
+X-Spam_bar: ---
+X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.25,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -87,133 +84,106 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Lukas Straub <lukasstraub2@web.de>, Markus Armbruster <armbru@redhat.com>,
- qemu-devel@nongnu.org
+Cc: pair@us.ibm.com, brijesh.singh@amd.com, kvm@vger.kernel.org,
+ "Michael S. Tsirkin" <mst@redhat.com>, Ram Pai <linuxram@us.ibm.com>,
+ qemu-devel@nongnu.org, frankja@linux.ibm.com, david@redhat.com,
+ mdroth@linux.vnet.ibm.com, Halil Pasic <pasic@linux.ibm.com>,
+ David Gibson <david@gibson.dropbear.id.au>, thuth@redhat.com,
+ Eduardo Habkost <ehabkost@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>, Greg Kurz <groug@kaod.org>,
+ qemu-s390x@nongnu.org, rth@twiddle.net, berrange@redhat.com,
+ Marcelo Tosatti <mtosatti@redhat.com>, qemu-ppc@nongnu.org,
+ pbonzini@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+On Thu, 14 Jan 2021 11:52:11 +0100
+Christian Borntraeger <borntraeger@de.ibm.com> wrote:
 
-Peter Maydell <peter.maydell@linaro.org> writes:
+> On 14.01.21 11:36, Dr. David Alan Gilbert wrote:
+> > * Christian Borntraeger (borntraeger@de.ibm.com) wrote:  
+> >>
+> >>
+> >> On 13.01.21 13:42, Dr. David Alan Gilbert wrote:  
+> >>> * Cornelia Huck (cohuck@redhat.com) wrote:  
+> >>>> On Tue, 5 Jan 2021 12:41:25 -0800
+> >>>> Ram Pai <linuxram@us.ibm.com> wrote:
+> >>>>  
+> >>>>> On Tue, Jan 05, 2021 at 11:56:14AM +0100, Halil Pasic wrote:  
+> >>>>>> On Mon, 4 Jan 2021 10:40:26 -0800
+> >>>>>> Ram Pai <linuxram@us.ibm.com> wrote:  
+> >>>>  
+> >>>>>>> The main difference between my proposal and the other proposal is...
+> >>>>>>>
+> >>>>>>>   In my proposal the guest makes the compatibility decision and acts
+> >>>>>>>   accordingly.  In the other proposal QEMU makes the compatibility
+> >>>>>>>   decision and acts accordingly. I argue that QEMU cannot make a good
+> >>>>>>>   compatibility decision, because it wont know in advance, if the guest
+> >>>>>>>   will or will-not switch-to-secure.
+> >>>>>>>     
+> >>>>>>
+> >>>>>> You have a point there when you say that QEMU does not know in advance,
+> >>>>>> if the guest will or will-not switch-to-secure. I made that argument
+> >>>>>> regarding VIRTIO_F_ACCESS_PLATFORM (iommu_platform) myself. My idea
+> >>>>>> was to flip that property on demand when the conversion occurs. David
+> >>>>>> explained to me that this is not possible for ppc, and that having the
+> >>>>>> "securable-guest-memory" property (or whatever the name will be)
+> >>>>>> specified is a strong indication, that the VM is intended to be used as
+> >>>>>> a secure VM (thus it is OK to hurt the case where the guest does not
+> >>>>>> try to transition). That argument applies here as well.    
+> >>>>>
+> >>>>> As suggested by Cornelia Huck, what if QEMU disabled the
+> >>>>> "securable-guest-memory" property if 'must-support-migrate' is enabled?
+> >>>>> Offcourse; this has to be done with a big fat warning stating
+> >>>>> "secure-guest-memory" feature is disabled on the machine.
+> >>>>> Doing so, will continue to support guest that do not try to transition.
+> >>>>> Guest that try to transition will fail and terminate themselves.  
+> >>>>
+> >>>> Just to recap the s390x situation:
+> >>>>
+> >>>> - We currently offer a cpu feature that indicates secure execution to
+> >>>>   be available to the guest if the host supports it.
+> >>>> - When we introduce the secure object, we still need to support
+> >>>>   previous configurations and continue to offer the cpu feature, even
+> >>>>   if the secure object is not specified.
+> >>>> - As migration is currently not supported for secured guests, we add a
+> >>>>   blocker once the guest actually transitions. That means that
+> >>>>   transition fails if --only-migratable was specified on the command
+> >>>>   line. (Guests not transitioning will obviously not notice anything.)
+> >>>> - With the secure object, we will already fail starting QEMU if
+> >>>>   --only-migratable was specified.
+> >>>>
+> >>>> My suggestion is now that we don't even offer the cpu feature if
+> >>>> --only-migratable has been specified. For a guest that does not want to
+> >>>> transition to secure mode, nothing changes; a guest that wants to
+> >>>> transition to secure mode will notice that the feature is not available
+> >>>> and fail appropriately (or ultimately, when the ultravisor call fails).
+> >>>> We'd still fail starting QEMU for the secure object + --only-migratable
+> >>>> combination.
+> >>>>
+> >>>> Does that make sense?  
+> >>>
+> >>> It's a little unusual; I don't think we have any other cases where
+> >>> --only-migratable changes the behaviour; I think it normally only stops
+> >>> you doing something that would have made it unmigratable or causes
+> >>> an operation that would make it unmigratable to fail.  
+> >>
+> >> I would like to NOT block this feature with --only-migrateable. A guest
+> >> can startup unprotected (and then is is migrateable). the migration blocker
+> >> is really a dynamic aspect during runtime.   
+> > 
+> > But the point of --only-migratable is to turn things that would have
+> > blocked migration into failures, so that a VM started with
+> > --only-migratable is *always* migratable.  
+> 
+> Hmmm, fair enough. How do we do this with host-model? The constructed model
+> would contain unpack, but then it will fail to startup? Or do we silently 
+> drop unpack in that case? Both variants do not feel completely right. 
 
-> On Wed, 13 Jan 2021 at 09:31, Markus Armbruster <armbru@redhat.com> wrote:
->>
->> This pull request is on behalf of Lukas.  Hope that's okay.
->>
->> The following changes since commit f8e1d8852e393b3fd524fb005e38590063d99=
-bc0:
->>
->>   Merge remote-tracking branch 'remotes/pmaydell/tags/pull-target-arm-20=
-210112-1' into staging (2021-01-12 21:23:25 +0000)
->>
->> are available in the Git repository at:
->>
->>   git://repo.or.cz/qemu/armbru.git tags/pull-yank-2021-01-13
->>
->> for you to fetch changes up to 91d48e520a4a4f72e97aeb333029694f5d57cc93:
->>
->>   tests/test-char.c: Wait for the chardev to connect in char_socket_clie=
-nt_dupid_test (2021-01-13 10:21:17 +0100)
->>
->> ----------------------------------------------------------------
->> Yank patches patches for 2021-01-13
->>
->> ----------------------------------------------------------------
->> Lukas Straub (7):
->>       Introduce yank feature
->>       block/nbd.c: Add yank feature
->>       chardev/char-socket.c: Add yank feature
->>       migration: Add yank feature
->>       io/channel-tls.c: make qio_channel_tls_shutdown thread-safe
->>       io: Document qmp oob suitability of qio_channel_shutdown and io_sh=
-utdown
->>       tests/test-char.c: Wait for the chardev to connect in char_socket_=
-client_dupid_test
->
->
-> Applied, thanks.
+Failing if you explicitly specified unpacked feels right, but failing
+if you just used the host model feels odd. Removing unpack also is a
+bit odd, but I think the better option if we want to do anything about
+it at all.
 
-This broke the check-unit and check-softfloat build task in Travis
-
-  https://travis-ci.org/github/qemu/qemu/jobs/754436018
-
-Likely because of missing stubs for the yank commands:
-
-  FAILED: qemu-io=20
-
-  gcc  -o qemu-io qemu-io.p/qemu-io.c.o -Wl,--as-needed -Wl,--no-undefined =
--pie -Wl,--whole-archive libblock.fa libcrypto.fa libauthz.fa libqom.fa lib=
-io.fa -Wl,--no-whole-archive -Wl,--warn-common -Wl,-z,relro -Wl,-z,now -m64=
- -fstack-protector-strong -Wl,--start-group libqemuutil.a subprojects/libvh=
-ost-user/libvhost-user-glib.a subprojects/libvhost-user/libvhost-user.a lib=
-block.fa libcrypto.fa libauthz.fa libqom.fa libio.fa @block.syms -lgnutls -=
-pthread -lutil -lm -lgthread-2.0 -lglib-2.0 -lgthread-2.0 -lglib-2.0 -lxml2=
- /usr/lib/x86_64-linux-gnu/libiscsi.so -laio -lgthread-2.0 -lglib-2.0 /usr/=
-lib/x86_64-linux-gnu/libz.so /usr/lib/x86_64-linux-gnu/libnfs.so /usr/lib/g=
-cc/x86_64-linux-gnu/9/../../../x86_64-linux-gnu/libzstd.so -lssh /usr/lib/x=
-86_64-linux-gnu/libcurl.so /usr/lib/gcc/x86_64-linux-gnu/9/../../../x86_64-=
-linux-gnu/libbz2.so -lgnutls -lnettle -lgnutls -lpam -lgnutls -Wl,--end-gro=
-up
-
-  /usr/bin/ld: libblock.fa(block_nbd.c.o): in function `nbd_close':
-
-  /home/travis/build/qemu/qemu/build/../block/nbd.c:2358: undefined referen=
-ce to `yank_unregister_instance'
-
-  /usr/bin/ld: libblock.fa(block_nbd.c.o): in function `nbd_client_handshak=
-e':
-
-  /home/travis/build/qemu/qemu/build/../block/nbd.c:1879: undefined referen=
-ce to `yank_unregister_function'
-
-  /usr/bin/ld: libblock.fa(block_nbd.c.o): in function `nbd_reconnect_attem=
-pt':
-
-  /home/travis/build/qemu/qemu/build/../block/nbd.c:605: undefined referenc=
-e to `yank_unregister_function'
-
-  /usr/bin/ld: libblock.fa(block_nbd.c.o): in function `nbd_co_establish_co=
-nnection':
-
-  /home/travis/build/qemu/qemu/build/../block/nbd.c:453: undefined referenc=
-e to `yank_register_function'
-
-  /usr/bin/ld: /home/travis/build/qemu/qemu/build/../block/nbd.c:491: undef=
-ined reference to `yank_register_function'
-
-  /usr/bin/ld: libblock.fa(block_nbd.c.o): in function `nbd_connection_entr=
-y':
-
-  /home/travis/build/qemu/qemu/build/../block/nbd.c:765: undefined referenc=
-e to `yank_unregister_function'
-
-  /usr/bin/ld: libblock.fa(block_nbd.c.o): in function `nbd_open':
-
-  /home/travis/build/qemu/qemu/build/../block/nbd.c:2283: undefined referen=
-ce to `yank_register_instance'
-
-  /usr/bin/ld: libblock.fa(block_nbd.c.o): in function `nbd_establish_conne=
-ction':
-
-  /home/travis/build/qemu/qemu/build/../block/nbd.c:1799: undefined referen=
-ce to `yank_register_function'
-
-  /usr/bin/ld: libblock.fa(block_nbd.c.o): in function `nbd_open':
-
-  /home/travis/build/qemu/qemu/build/../block/nbd.c:2298: undefined referen=
-ce to `yank_unregister_instance'
-
-  /usr/bin/ld: /home/travis/build/qemu/qemu/build/../block/nbd.c:2292: unde=
-fined reference to `yank_unregister_instance'
-
-  collect2: error: ld returned 1 exit status
-
->
-> Please update the changelog at https://wiki.qemu.org/ChangeLog/6.0
-> for any user-visible changes.
->
-> -- PMM
-
-
---=20
-Alex Benn=C3=A9e
 
