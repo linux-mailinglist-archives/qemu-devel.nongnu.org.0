@@ -2,77 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D07D02F5FC2
-	for <lists+qemu-devel@lfdr.de>; Thu, 14 Jan 2021 12:23:29 +0100 (CET)
-Received: from localhost ([::1]:45434 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 40DC22F5FD0
+	for <lists+qemu-devel@lfdr.de>; Thu, 14 Jan 2021 12:28:25 +0100 (CET)
+Received: from localhost ([::1]:48230 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l00it-0003Bz-UZ
-	for lists+qemu-devel@lfdr.de; Thu, 14 Jan 2021 06:23:27 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49446)
+	id 1l00ng-0004ZW-AA
+	for lists+qemu-devel@lfdr.de; Thu, 14 Jan 2021 06:28:24 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49828)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <maxim.uvarov@linaro.org>)
- id 1l00hn-0002Kq-AT
- for qemu-devel@nongnu.org; Thu, 14 Jan 2021 06:22:19 -0500
-Received: from mail-pl1-x629.google.com ([2607:f8b0:4864:20::629]:40764)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <maxim.uvarov@linaro.org>)
- id 1l00hj-0004T3-0H
- for qemu-devel@nongnu.org; Thu, 14 Jan 2021 06:22:18 -0500
-Received: by mail-pl1-x629.google.com with SMTP id q4so2746530plr.7
- for <qemu-devel@nongnu.org>; Thu, 14 Jan 2021 03:22:11 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=bqSs6bnwUDFbPW03XDcbH3y2U5MUEU7ogRQ0wBGoRas=;
- b=JHkEy4y1YLdbGI+T8Szc3wHwKBYQNpye/EUdCRvHDp2nIktvm8eFVJKLTwbhKReQwh
- ldcRyGeIjIctyQ0Q1kRiHjvf7MW6lDAprhjdTL4+JTHA1GSx5tQ0CMj08EfQClykw3Bu
- /L/roXyesVO/qGgjcM5oeJ35GmnloqzS+QLpydQyaGQVF1r1hyVrZD8LA0URmCsATAli
- WHxXl1gT9OJh/wPkPKdq0G5HbaV6t5MyLAVOABfdYku8g4xv46Mo6AP5Ey9gfbpSoQj6
- XwW4XluCOjYkx8bd5HSEEs8YFMsI6zCvWMjbUCoLJxjl09+ATRS4FwxgNhFLu8t+HG3D
- wyHA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=bqSs6bnwUDFbPW03XDcbH3y2U5MUEU7ogRQ0wBGoRas=;
- b=RDQJYLhcU/e4tL3Ouyw7aFiFFF7Aj0XD5vjxJDWscQyl9VzdG1STLodfZZf4TRGz0d
- kuv9Cy+Jglc8w/hx4MfcwoK+3qTqaUyXsle6wR486mOMOnGQS9/xos/J0O1MbrDC4qoQ
- mBBElBBCkz9ajRCe+3gTsbiX8VGRzcny5TiOD9nxWz/6FSjFeqtBgQ2Aa/lL63QTif6E
- Pw7uZSKsRKwx0Mx0idKiLjO5d/4ZE4aZlNb4aWlheSYbmzOw3p2IXf5sq6MTkN4myQW1
- ECDRGjnOt+oVgDYhBT1j3blMwO2j0xTT0wGYsQKE5yYznlV64FvqzTxPTwZq9ebv4Z7W
- f0mQ==
-X-Gm-Message-State: AOAM533IAZ5z53dbFcR67ONBeYSdpNeMTK5jDvb+q0RfcTmousQExdqj
- fkHRzgmGYCr5+T75J0HJkCJFCBMa0+oyAh20la3VTQ==
-X-Google-Smtp-Source: ABdhPJzGSFb5RU/d8F0aPoE/VOP5yNMQuKaPaGbD4jqe9LrPcS4cjDLE+B0gX1XzUneLMqObCleN2EfPImtFN0IpTLg=
-X-Received: by 2002:a17:902:6b45:b029:de:2db8:fd34 with SMTP id
- g5-20020a1709026b45b02900de2db8fd34mr7104600plt.71.1610623330688; Thu, 14 Jan
- 2021 03:22:10 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1l00jL-0003ia-Kt
+ for qemu-devel@nongnu.org; Thu, 14 Jan 2021 06:23:56 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:41040)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1l00jD-00059A-Ep
+ for qemu-devel@nongnu.org; Thu, 14 Jan 2021 06:23:54 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1610623425;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:in-reply-to:in-reply-to:  references:references;
+ bh=GyvePffS5ta+KPAav4BYrQD+LxXh2S/PePEbcgFLr0I=;
+ b=BU236AhOELPap6Ky6j+yPxjcCtPZkljjZMioLMsgShSa279Acg1lY+1qmOCxpHMzKGLXdu
+ zRRyS154PEePvknJ0BOpbKy2p6f8XehtoyFQOv3vnbZugkIhzdK8lKN5Edu9mtBTGJuIm/
+ NHth4xTE4W9bTeSAGtbmSMzSgxhbGHg=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-25-K6oqME2nP22sr6SWg2A65w-1; Thu, 14 Jan 2021 06:23:29 -0500
+X-MC-Unique: K6oqME2nP22sr6SWg2A65w-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 6E396180A096;
+ Thu, 14 Jan 2021 11:23:27 +0000 (UTC)
+Received: from redhat.com (ovpn-115-77.ams2.redhat.com [10.36.115.77])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id F05E760C47;
+ Thu, 14 Jan 2021 11:23:12 +0000 (UTC)
+Date: Thu, 14 Jan 2021 11:23:09 +0000
+From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+To: Ram Pai <linuxram@us.ibm.com>
+Subject: Re: [for-6.0 v5 11/13] spapr: PEF: prevent migration
+Message-ID: <20210114112309.GD1643043@redhat.com>
+References: <20201217123842.51063918.cohuck@redhat.com>
+ <20201217151530.54431f0e@bahia.lan>
+ <20201218124111.4957eb50.cohuck@redhat.com>
+ <20210104071550.GA22585@ram-ibm-com.ibm.com>
+ <20210104134629.49997b53.pasic@linux.ibm.com>
+ <20210104184026.GD4102@ram-ibm-com.ibm.com>
+ <20210105115614.7daaadd6.pasic@linux.ibm.com>
+ <20210105204125.GE4102@ram-ibm-com.ibm.com>
+ <20210111175914.13adfa2e.cohuck@redhat.com>
+ <20210111195830.GA23898@ram-ibm-com.ibm.com>
 MIME-Version: 1.0
-References: <20210112143058.12159-1-maxim.uvarov@linaro.org>
- <20210112143058.12159-3-maxim.uvarov@linaro.org>
- <20210112153542.oqahdubzeoipyvun@kamzik.brq.redhat.com>
- <CAFEAcA9O2kHpcvoofo0v3ahXNOQtw8cxaVC2hn+AjpH6A9RciA@mail.gmail.com>
- <20210112162526.ob7eroamrdlowfyr@kamzik.brq.redhat.com>
- <20210112162847.wik3h24isg4cmgyq@kamzik.brq.redhat.com>
- <CAD8XO3Y3sgZ3VXh7FhfcvvTckE2EUebivQ1nUnqTud2ApGUh=Q@mail.gmail.com>
- <20210114000445.mg3xq2nq7kccbvjy@kamzik.brq.redhat.com>
- <CAFEAcA96=ZjZyhMcpTSDvrHKXZY-uOUoQSi-jTbOLpFZdnkMuQ@mail.gmail.com>
-In-Reply-To: <CAFEAcA96=ZjZyhMcpTSDvrHKXZY-uOUoQSi-jTbOLpFZdnkMuQ@mail.gmail.com>
-From: Maxim Uvarov <maxim.uvarov@linaro.org>
-Date: Thu, 14 Jan 2021 14:22:00 +0300
-Message-ID: <CAD8XO3Yxp6rcNgNRJ3+d8zEsYyS0myYs=rSNKtw849fEmdT+RQ@mail.gmail.com>
-Subject: Re: [PATCHv4 2/2] arm-virt: add secure pl061 for reset/power down
-To: Peter Maydell <peter.maydell@linaro.org>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::629;
- envelope-from=maxim.uvarov@linaro.org; helo=mail-pl1-x629.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20210111195830.GA23898@ram-ibm-com.ibm.com>
+User-Agent: Mutt/1.14.6 (2020-07-11)
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=berrange@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -29
+X-Spam_score: -3.0
+X-Spam_bar: ---
+X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.25,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -85,45 +83,106 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Andrew Jones <drjones@redhat.com>, Jose Marinho <Jose.Marinho@arm.com>,
- QEMU Developers <qemu-devel@nongnu.org>,
- =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>,
- tf-a@lists.trustedfirmware.org, qemu-arm <qemu-arm@nongnu.org>
+Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+Cc: pair@us.ibm.com, Cornelia Huck <cohuck@redhat.com>, brijesh.singh@amd.com,
+ kvm@vger.kernel.org, "Michael S. Tsirkin" <mst@redhat.com>,
+ qemu-devel@nongnu.org, frankja@linux.ibm.com, david@redhat.com,
+ mdroth@linux.vnet.ibm.com, Halil Pasic <pasic@linux.ibm.com>,
+ borntraeger@de.ibm.com, David Gibson <david@gibson.dropbear.id.au>,
+ thuth@redhat.com, Eduardo Habkost <ehabkost@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>, Greg Kurz <groug@kaod.org>,
+ dgilbert@redhat.com, qemu-s390x@nongnu.org, rth@twiddle.net,
+ Marcelo Tosatti <mtosatti@redhat.com>, qemu-ppc@nongnu.org,
+ pbonzini@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, 14 Jan 2021 at 12:50, Peter Maydell <peter.maydell@linaro.org> wrote:
->
-> On Thu, 14 Jan 2021 at 00:04, Andrew Jones <drjones@redhat.com> wrote:
-> >
-> > On Wed, Jan 13, 2021 at 10:30:47AM +0300, Maxim Uvarov wrote:
-> > > - the same size for secure and non secure gpio. Arm doc says that
-> > > secure memory is also split on 4k pages. So one page here has to be
-> > > ok.
-> >
-> > To be clear, does that means 4k pages must be used? I'm not concerned
-> > with the size, but the alignment. If it's possible to use larger page
-> > sizes with secure memory, then we need to align to the maximum page
-> > size that may be used.
->
-> I think we should just align on 64K, to be more future-proof.
-> Even if secure software today uses 4K pages, it doesn't hurt
-> to align the device such that some hypothetical future 64K
-> page using secure software can use it.
->
-> thanks
-> -- PMM
+On Mon, Jan 11, 2021 at 11:58:30AM -0800, Ram Pai wrote:
+> On Mon, Jan 11, 2021 at 05:59:14PM +0100, Cornelia Huck wrote:
+> > On Tue, 5 Jan 2021 12:41:25 -0800
+> > Ram Pai <linuxram@us.ibm.com> wrote:
+> > 
+> > > On Tue, Jan 05, 2021 at 11:56:14AM +0100, Halil Pasic wrote:
+> > > > On Mon, 4 Jan 2021 10:40:26 -0800
+> > > > Ram Pai <linuxram@us.ibm.com> wrote:
+> > 
+> > > > > The main difference between my proposal and the other proposal is...
+> > > > > 
+> > > > >   In my proposal the guest makes the compatibility decision and acts
+> > > > >   accordingly.  In the other proposal QEMU makes the compatibility
+> > > > >   decision and acts accordingly. I argue that QEMU cannot make a good
+> > > > >   compatibility decision, because it wont know in advance, if the guest
+> > > > >   will or will-not switch-to-secure.
+> > > > >   
+> > > > 
+> > > > You have a point there when you say that QEMU does not know in advance,
+> > > > if the guest will or will-not switch-to-secure. I made that argument
+> > > > regarding VIRTIO_F_ACCESS_PLATFORM (iommu_platform) myself. My idea
+> > > > was to flip that property on demand when the conversion occurs. David
+> > > > explained to me that this is not possible for ppc, and that having the
+> > > > "securable-guest-memory" property (or whatever the name will be)
+> > > > specified is a strong indication, that the VM is intended to be used as
+> > > > a secure VM (thus it is OK to hurt the case where the guest does not
+> > > > try to transition). That argument applies here as well.  
+> > > 
+> > > As suggested by Cornelia Huck, what if QEMU disabled the
+> > > "securable-guest-memory" property if 'must-support-migrate' is enabled?
+> > > Offcourse; this has to be done with a big fat warning stating
+> > > "secure-guest-memory" feature is disabled on the machine.
+> > > Doing so, will continue to support guest that do not try to transition.
+> > > Guest that try to transition will fail and terminate themselves.
+> > 
+> > Just to recap the s390x situation:
+> > 
+> > - We currently offer a cpu feature that indicates secure execution to
+> >   be available to the guest if the host supports it.
+> > - When we introduce the secure object, we still need to support
+> >   previous configurations and continue to offer the cpu feature, even
+> >   if the secure object is not specified.
+> > - As migration is currently not supported for secured guests, we add a
+> >   blocker once the guest actually transitions. That means that
+> >   transition fails if --only-migratable was specified on the command
+> >   line. (Guests not transitioning will obviously not notice anything.)
+> > - With the secure object, we will already fail starting QEMU if
+> >   --only-migratable was specified.
+> > 
+> > My suggestion is now that we don't even offer the cpu feature if
+> > --only-migratable has been specified. For a guest that does not want to
+> > transition to secure mode, nothing changes; a guest that wants to
+> > transition to secure mode will notice that the feature is not available
+> > and fail appropriately (or ultimately, when the ultravisor call fails).
+> 
+> 
+> On POWER, secure-execution is not **automatically** enabled even when
+> the host supports it.  The feature is enabled only if the secure-object
+> is configured, and the host supports it.
+> 
+> However the behavior proposed above will be consistent on POWER and
+> on s390x,  when '--only-migratable' is specified and 'secure-object'
+> is NOT specified.
+> 
+> So I am in agreement till now. 
+> 
+> 
+> > We'd still fail starting QEMU for the secure object + --only-migratable
+> > combination.
+> 
+> Why fail? 
+> 
+> Instead, print a warning and  disable the secure-object; which will
+> disable your cpu-feature. Guests that do not transition to secure, will
+> continue to operate, and guests that transition to secure, will fail.
 
-Does that mean that in that case you need all regions to be 64k
-aligned? I mean secure and non-secure.
-Has anybody tested 64k pages under qemu?
-    [VIRT_GIC_V2M] =            { 0x08020000, 0x00001000 }
-    [VIRT_UART] =               { 0x09000000, 0x00001000 },
-    [VIRT_RTC] =                { 0x09010000, 0x00001000 },
-    [VIRT_GPIO] =               { 0x09030000, 0x00001000 },
-    [VIRT_SECURE_GPIO] =        { 0x09031000, 0x00001000 },
-    [VIRT_SECURE_UART] =        { 0x09040000, 0x00001000 },
-   [VIRT_MMIO] =               { 0x0a000000, 0x00000200 },
+Ignoring a configuration option that was explicitly requested by the
+user/mgmt app is bad practice. If a request feature combination cannot
+be honoured, QEMU must treat that as a fatal error and exit, so that
+the mgmt app knows their config is unsupported.
 
-Maxim.
+Regards,
+Daniel
+-- 
+|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
+|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
+|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
+
 
