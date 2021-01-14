@@ -2,82 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 11B4F2F63FA
-	for <lists+qemu-devel@lfdr.de>; Thu, 14 Jan 2021 16:15:03 +0100 (CET)
-Received: from localhost ([::1]:52222 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D61852F6401
+	for <lists+qemu-devel@lfdr.de>; Thu, 14 Jan 2021 16:18:37 +0100 (CET)
+Received: from localhost ([::1]:60630 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l04L0-0001T7-1M
-	for lists+qemu-devel@lfdr.de; Thu, 14 Jan 2021 10:15:02 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47120)
+	id 1l04OS-0005LI-LG
+	for lists+qemu-devel@lfdr.de; Thu, 14 Jan 2021 10:18:36 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47222)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1l04F7-0004Vn-TO
- for qemu-devel@nongnu.org; Thu, 14 Jan 2021 10:08:57 -0500
-Received: from mail-wr1-x436.google.com ([2a00:1450:4864:20::436]:34598)
+ (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
+ id 1l04Ff-0005BL-PO; Thu, 14 Jan 2021 10:09:31 -0500
+Received: from mail-pf1-x42b.google.com ([2607:f8b0:4864:20::42b]:39713)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1l04F6-0003Rl-85
- for qemu-devel@nongnu.org; Thu, 14 Jan 2021 10:08:57 -0500
-Received: by mail-wr1-x436.google.com with SMTP id q18so6144740wrn.1
- for <qemu-devel@nongnu.org>; Thu, 14 Jan 2021 07:08:52 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
+ id 1l04Fd-0003hn-P3; Thu, 14 Jan 2021 10:09:31 -0500
+Received: by mail-pf1-x42b.google.com with SMTP id m6so3509067pfm.6;
+ Thu, 14 Jan 2021 07:09:28 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=tik8ZSv6saMdPxRlaY6QPjJUYRigL7WptUcRZqSbJRc=;
- b=tFp7fSRbW9Uw6Bt+ZVKEqHXOkFQWo8iyvX2DVLUXK3Qblb30WQBUcKilhnsIsoUECe
- 6ASgh44YtrqJm5a2xtsxQfuTUeuqbxh6PELlofLjF5DEdfWUHcuJfYfrnUxdsBHkt4ZJ
- jAPiEl5OqQ0MES208lw4HwV+WBww6BHstTbP/Ju1uVfZl9cBQhxkho9MHG1d9ZPPDnIq
- SAobvk9vfYdti54FOSZQUv4x7+fIY+yNnpH4wX37D4cb2+8K7SYtlsladPuga0wNb70r
- Q0a/7mrfAj6lN/Fowabglda0MdJNo4s5/aY55VlpRLhItyPcPyb2frrcKy4igzckJVzG
- WHlQ==
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=8UE5JTc8nfgwwuFsAclEJ0iZ4yiLi2DQhy02YDC7+JI=;
+ b=lmwYYY+o1CM5YsrXLXPQfCaAxg6bb5sTFgkzkh26kAOCUtmBwz8au2aofHf95WkrAb
+ apDSLDqS9cvkzNrCiuH8e9/ozMJjZALnNxw6yvEUmJHyfu4D/2jP2aLexEaE+xXjYab5
+ kYJYLV1BTm2dUJ/kt5Vx3MS3spP42mRepKiZFJiH4EKbiWlUeWzPVtf9cD5Xh8ZCipbo
+ X4GPbvZy1hllOu+++V34+l6pLOBDfcb1PKvUA7dOLirKGIFpqRnHVxCJPks146vJj7Sf
+ /RCTPuBQwn+Tt/RCKcbb+n2HvbUbdb1IoLJhph05cyk2y+8i4cq2Q2oCFjiV9EfM0XLA
+ NvFA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
- :date:user-agent:mime-version:in-reply-to:content-language
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
  :content-transfer-encoding;
- bh=tik8ZSv6saMdPxRlaY6QPjJUYRigL7WptUcRZqSbJRc=;
- b=UPXvYeNhnwM3BmQ9JWogPFKpiIiooEG+iL6mGu2jDuMtNRUMvVfqORO+WtbGsiPiM0
- CRU9OIn2D5qDTSv8vlvwJD85u24WwDFMTF83FOXVOct8GbVlpkUk9++xveku5iPpNbAV
- aBUAjR33GmhtZdFnh7t8sPRzVn6nl+Bgj+062fRvS8VK1QDOX2CLV53aYvhMstvGZfJM
- WL7RTJehjaJndpQaLDBU9QFMywWZitkYvFRETJdlrMwIdlMcTrIGBTcAYeNa8AChYii4
- hgkSuwPdZdIg1DwdVqcL6Pt3jMzp5BlaX3otW4t76STBgx+XVaRUjYqwSH7Wl1sGOXOu
- O9sQ==
-X-Gm-Message-State: AOAM531EFOZV5Vbsl6PILFioAkcTwhRaTOOkPCDYDgPlvTU0nJYRNF39
- JNksBj3h4gDikHwEfKGnt4s=
-X-Google-Smtp-Source: ABdhPJzAlRA9mj6IL/NLo1MYn6e7XPRnRFumxz52ZAuOWgL9CILcpKxyqUJTWY5fyEkKw4oZ7AKcJA==
-X-Received: by 2002:a5d:4241:: with SMTP id s1mr8433623wrr.269.1610636931828; 
- Thu, 14 Jan 2021 07:08:51 -0800 (PST)
-Received: from [192.168.1.36] (13.red-83-57-169.dynamicip.rima-tde.net.
- [83.57.169.13])
- by smtp.gmail.com with ESMTPSA id j13sm8388150wmi.36.2021.01.14.07.08.50
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 14 Jan 2021 07:08:50 -0800 (PST)
-Subject: Re: [PATCH v2 1/2] hw/intc: Add Loongson Inter Processor Interrupt
- controller
-To: Jiaxun Yang <jiaxun.yang@flygoat.com>, qemu-devel@nongnu.org
-References: <20210114013147.92962-1-jiaxun.yang@flygoat.com>
- <20210114013147.92962-2-jiaxun.yang@flygoat.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
-Message-ID: <8d1047c5-9049-6b4e-edb7-386de792f4cb@amsat.org>
-Date: Thu, 14 Jan 2021 16:08:50 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.6.0
+ bh=8UE5JTc8nfgwwuFsAclEJ0iZ4yiLi2DQhy02YDC7+JI=;
+ b=LQ2IL0QvqtozWj+Bq/Pxv10VSX5irfgru+UBPxwFVDcppvNqsLsC5QuWcsdY9IIJta
+ HqPgmaQrayJjc5yCwkjr6OMYIKqrPeILY/KlwfDl7ZxC3LWb6u6Ex0w3QDDBVMbyDo2X
+ MeJHdJt7R6f7cPluDlD3JMyNqxxBJszaTpQO9Q1efVZzIKhKkScBWJBpTHgh6yxdw9No
+ NaHpzgXnUI1IbyC33Sb44CpuIFX5ZqQ+RG6LpBpaSuOEoxkImszjW4EpZzxy7YxUJnZh
+ 26tH2aFXNehcyjioz8jWJK56Hw223xTQXa5Gdx5ru4RjoYdAVGYJg6shVawjfl9pP6jH
+ C9nA==
+X-Gm-Message-State: AOAM532kGCXsN6ToYVaP5tvUBqSUfEo+p6vQ8ZzilkvTvdPI7IXKsWsW
+ 1ygx3beGpX0IfRGVrN6AwnQ=
+X-Google-Smtp-Source: ABdhPJx0WdNq5jBwQrpKXSVEDywthQldYWOmI7l2gNSTPY4anSlDzMuDknpb3dE/0VI1pDlmZVSI7g==
+X-Received: by 2002:a63:3184:: with SMTP id x126mr7965002pgx.354.1610636967018; 
+ Thu, 14 Jan 2021 07:09:27 -0800 (PST)
+Received: from i9-aorus-gtx1080.localdomain (144.168.56.201.16clouds.com.
+ [144.168.56.201])
+ by smtp.gmail.com with ESMTPSA id w21sm5372051pfq.67.2021.01.14.07.09.13
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 14 Jan 2021 07:09:26 -0800 (PST)
+From: Bin Meng <bmeng.cn@gmail.com>
+To: Alistair Francis <alistair.francis@wdc.com>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
+ Peter Maydell <peter.maydell@linaro.org>,
+ Francisco Iglesias <frasse.iglesias@gmail.com>
+Subject: [PATCH 0/9] hw/block: m25p80: Fix the mess of dummy bytes needed for
+ fast read commands
+Date: Thu, 14 Jan 2021 23:08:53 +0800
+Message-Id: <20210114150902.11515-1-bmeng.cn@gmail.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-In-Reply-To: <20210114013147.92962-2-jiaxun.yang@flygoat.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::436;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x436.google.com
-X-Spam_score_int: -16
-X-Spam_score: -1.7
-X-Spam_bar: -
-X-Spam_report: (-1.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.248,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.248, NICE_REPLY_A=-0.237,
+Received-SPF: pass client-ip=2607:f8b0:4864:20::42b;
+ envelope-from=bmeng.cn@gmail.com; helo=mail-pf1-x42b.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -90,59 +84,177 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>,
- Huacai Chen <chenhuacai@kernel.org>, Aurelien Jarno <aurelien@aurel32.net>
+Cc: Kevin Wolf <kwolf@redhat.com>, qemu-devel@nongnu.org, qemu-block@nongnu.org,
+ Marcin Krzeminski <marcin.krzeminski@nokia.com>,
+ Andrew Jeffery <andrew@aj.id.au>, Bin Meng <bin.meng@windriver.com>,
+ Havard Skinnemoen <hskinnemoen@google.com>, Max Reitz <mreitz@redhat.com>,
+ Tyrone Ting <kfting@nuvoton.com>, qemu-arm@nongnu.org,
+ =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>,
+ Joe Komlodi <komlodi@xilinx.com>, Joel Stanley <joel@jms.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi Jiaxun,
+From: Bin Meng <bin.meng@windriver.com>
 
-On 1/14/21 2:31 AM, Jiaxun Yang wrote:
-> Loongson IPI controller is a MMIO based simple level triggered
-> interrupt controller. It will trigger IRQ to it's upstream
-> processor when set register is written.
-> 
-> It also has 4 64bit mailboxes to pass boot information to
-> secondary processor.
-> 
-> Signed-off-by: Jiaxun Yang <jiaxun.yang@flygoat.com>
-> ---
->  include/hw/intc/loongson_ipi.h |  20 ++++
->  hw/intc/loongson_ipi.c         | 174 +++++++++++++++++++++++++++++++++
->  hw/intc/Kconfig                |   3 +
->  hw/intc/meson.build            |   1 +
->  hw/intc/trace-events           |   4 +
->  5 files changed, 202 insertions(+)
->  create mode 100644 include/hw/intc/loongson_ipi.h
->  create mode 100644 hw/intc/loongson_ipi.c
-...
+The m25p80 model uses s->needed_bytes to indicate how many follow-up
+bytes are expected to be received after it receives a command. For
+example, depending on the address mode, either 3-byte address or
+4-byte address is needed.
 
-Thanks for addressing v1 comments.
+For fast read family commands, some dummy cycles are required after
+sending the address bytes, and the dummy cycles need to be counted
+in s->needed_bytes. This is where the mess began.
 
-> +static void loongson_ipi_init(Object *obj)
-> +{
-> +    struct loongson_ipi *p = LOONGSON_IPI(obj);
-> +
-> +    sysbus_init_irq(SYS_BUS_DEVICE(obj), &p->parent_irq);
-> +
-> +    memory_region_init_io(&p->mmio, obj, &pic_mmio_ops, p,
-> +                          "loongson.ipi", R_END * 4);
-> +    sysbus_init_mmio(SYS_BUS_DEVICE(obj), &p->mmio);
-> +    qemu_register_reset(ipi_reset, p);
+As the variable name (needed_bytes) indicates, the unit is in byte.
+It is not in bit, or cycle. However for some reason the model has
+been using the number of dummy cycles for s->needed_bytes. The right
+approach is to convert the number of dummy cycles to bytes based on
+the SPI protocol, for example, 6 dummy cycles for the Fast Read Quad
+I/O (EBh) should be converted to 3 bytes per the formula (6 * 4 / 8).
 
-A SysBusDevice should use DeviceReset. qemu_register_reset()
-should be restricted to non-SysBusDevice devices. If there
-are no other comments on this series, I can fix this when
-applying.
+Things get complicated when interacting with different SPI or QSPI
+flash controllers. There are major two cases:
 
-Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+- Dummy bytes prepared by drivers, and wrote to the controller fifo.
+  For such case, driver will calculate the correct number of dummy
+  bytes and write them into the tx fifo. Fixing the m25p80 model will
+  fix flashes working with such controllers.
+- Dummy bytes not prepared by drivers. Drivers just tell the hardware
+  the dummy cycle configuration via some registers, and hardware will
+  automatically generate dummy cycles for us. Fixing the m25p80 model
+  is not enough, and we will need to fix the SPI/QSPI models for such
+  controllers.
 
-> +}
-> +
-> +static const TypeInfo loongson_ipi_info = {
-> +    .name          = TYPE_LOONGSON_IPI,
-> +    .parent        = TYPE_SYS_BUS_DEVICE,
-> +    .instance_size = sizeof(struct loongson_ipi),
-> +    .instance_init = loongson_ipi_init,
-> +};
+This series fixes the mess in the m25p80 from the flash side first,
+followed by fixes to 3 known SPI controller models that fall into
+the 2nd case above.
+
+Please note, I have no way to verify patch 7/8/9 because:
+
+* There is no public datasheet available for the SoC / SPI controller
+* There is no QEMU docs, or details that tell people how to boot either
+  U-Boot or Linux kernel to verify the functionality
+
+These 3 patches are very likely to be wrong. Hence I would like to ask
+help from the original author who wrote these SPI controller models
+to help testing, or completely rewrite these 3 patches to fix things.
+Thanks!
+
+Patch 6 is unvalidated with QEMU, mainly because there is no doc to
+tell people how to boot anything to test. But I have some confidence
+based on my read of the ZynqMP manual, as well as some experimental
+testing on a real ZCU102 board.
+
+Other flash patches can be tested with the SiFive SPI series:
+http://patchwork.ozlabs.org/project/qemu-devel/list/?series=222391
+
+Cherry-pick patch 16 and 17 from the series above, and switch to
+different flash model to test with the following command:
+
+$ qemu-system-riscv64 -nographic -M sifive_u -m 2G -smp 5 -kernel u-boot
+
+I've picked up two for testing:
+
+QEMU flash: "sst25vf032b"
+
+  U-Boot 2020.10 (Jan 14 2021 - 21:55:59 +0800)
+
+  CPU:   rv64imafdcsu
+  Model: SiFive HiFive Unleashed A00
+  DRAM:  2 GiB
+  MMC:
+  Loading Environment from SPIFlash... SF: Detected sst25vf032b with page size 256 Bytes, erase size 4 KiB, total 4 MiB
+  *** Warning - bad CRC, using default environment
+
+  In:    serial@10010000
+  Out:   serial@10010000
+  Err:   serial@10010000
+  Net:   failed to get gemgxl_reset reset
+
+  Warning: ethernet@10090000 MAC addresses don't match:
+  Address in DT is                52:54:00:12:34:56
+  Address in environment is       70:b3:d5:92:f0:01
+  eth0: ethernet@10090000
+  Hit any key to stop autoboot:  0
+  => sf probe
+  SF: Detected sst25vf032b with page size 256 Bytes, erase size 4 KiB,
+  total 4 MiB
+  => sf test 1ff000 1000
+  SPI flash test:
+  0 erase: 0 ticks, 4096000 KiB/s 32768.000 Mbps
+  1 check: 10 ticks, 400 KiB/s 3.200 Mbps
+  2 write: 170 ticks, 23 KiB/s 0.184 Mbps
+  3 read: 9 ticks, 444 KiB/s 3.552 Mbps
+  Test passed
+  0 erase: 0 ticks, 4096000 KiB/s 32768.000 Mbps
+  1 check: 10 ticks, 400 KiB/s 3.200 Mbps
+  2 write: 170 ticks, 23 KiB/s 0.184 Mbps
+  3 read: 9 ticks, 444 KiB/s 3.552 Mbps
+
+QEMU flash: "mx66u51235f"
+
+  U-Boot 2020.10 (Jan 14 2021 - 21:55:59 +0800)
+
+  CPU:   rv64imafdcsu
+  Model: SiFive HiFive Unleashed A00
+  DRAM:  2 GiB
+  MMC:
+  Loading Environment from SPIFlash... SF: Detected mx66u51235f with page size 256 Bytes, erase size 4 KiB, total 64 MiB
+  *** Warning - bad CRC, using default environment
+
+  In:    serial@10010000
+  Out:   serial@10010000
+  Err:   serial@10010000
+  Net:   failed to get gemgxl_reset reset
+
+  Warning: ethernet@10090000 MAC addresses don't match:
+  Address in DT is                52:54:00:12:34:56
+  Address in environment is       70:b3:d5:92:f0:01
+  eth0: ethernet@10090000
+  Hit any key to stop autoboot:  0
+  => sf probe
+  SF: Detected mx66u51235f with page size 256 Bytes, erase size 4 KiB, total 64 MiB
+  => sf test 0 8000
+  SPI flash test:
+  0 erase: 1 ticks, 32000 KiB/s 256.000 Mbps
+  1 check: 80 ticks, 400 KiB/s 3.200 Mbps
+  2 write: 83 ticks, 385 KiB/s 3.080 Mbps
+  3 read: 79 ticks, 405 KiB/s 3.240 Mbps
+  Test passed
+  0 erase: 1 ticks, 32000 KiB/s 256.000 Mbps
+  1 check: 80 ticks, 400 KiB/s 3.200 Mbps
+  2 write: 83 ticks, 385 KiB/s 3.080 Mbps
+  3 read: 79 ticks, 405 KiB/s 3.240 Mbps
+
+I am sure there will be bugs, and I have not tested all flashes affected.
+But I want to send out this series for an early discussion and comments.
+I will continue my testing.
+
+
+Bin Meng (9):
+  hw/block: m25p80: Fix the number of dummy bytes needed for Windbond
+    flashes
+  hw/block: m25p80: Fix the number of dummy bytes needed for
+    Numonyx/Micron flashes
+  hw/block: m25p80: Fix the number of dummy bytes needed for Macronix
+    flashes
+  hw/block: m25p80: Fix the number of dummy bytes needed for Spansion
+    flashes
+  hw/block: m25p80: Support fast read for SST flashes
+  hw/ssi: xilinx_spips: Fix generic fifo dummy cycle handling
+  Revert "aspeed/smc: Fix number of dummy cycles for FAST_READ_4
+    command"
+  Revert "aspeed/smc: snoop SPI transfers to fake dummy cycles"
+  hw/ssi: npcm7xx_fiu: Correct the dummy cycle emulation logic
+
+ include/hw/ssi/aspeed_smc.h |   3 -
+ hw/block/m25p80.c           | 153 ++++++++++++++++++++++++++++--------
+ hw/ssi/aspeed_smc.c         | 116 +--------------------------
+ hw/ssi/npcm7xx_fiu.c        |   8 +-
+ hw/ssi/xilinx_spips.c       |  29 ++++++-
+ 5 files changed, 153 insertions(+), 156 deletions(-)
+
+-- 
+2.25.1
+
 
