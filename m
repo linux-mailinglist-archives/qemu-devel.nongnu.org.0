@@ -2,79 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D83472F69F7
-	for <lists+qemu-devel@lfdr.de>; Thu, 14 Jan 2021 19:52:52 +0100 (CET)
-Received: from localhost ([::1]:48676 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3F59F2F6A7E
+	for <lists+qemu-devel@lfdr.de>; Thu, 14 Jan 2021 20:09:11 +0100 (CET)
+Received: from localhost ([::1]:35228 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l07jn-0006IY-T1
-	for lists+qemu-devel@lfdr.de; Thu, 14 Jan 2021 13:52:51 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56986)
+	id 1l07zZ-0005Op-RA
+	for lists+qemu-devel@lfdr.de; Thu, 14 Jan 2021 14:09:09 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33120)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1l07ho-0004aB-FE
- for qemu-devel@nongnu.org; Thu, 14 Jan 2021 13:50:48 -0500
-Received: from mail-wr1-x435.google.com ([2a00:1450:4864:20::435]:38814)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1l07hm-0006yl-L8
- for qemu-devel@nongnu.org; Thu, 14 Jan 2021 13:50:48 -0500
-Received: by mail-wr1-x435.google.com with SMTP id a9so3420428wrt.5
- for <qemu-devel@nongnu.org>; Thu, 14 Jan 2021 10:50:46 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=references:user-agent:from:to:cc:subject:date:in-reply-to
- :message-id:mime-version:content-transfer-encoding;
- bh=+0b1wpNw/luAIDnsul1iTYJdOSPFuzA0mFUnSRnmgFw=;
- b=Oud6ge6mQ5my/K32En5RtT8doTVdkvNpew0fUsccf2eV5V7mpMDrG20T/cAMaYkk1V
- hqg4VBHnLcvXCx1lXmEDuop2Q5CoXsZUnOu9+kJqHbmpBTncEm7MMD0AN1lOGhWAHmcF
- vqBvi78dgzd/1dUxmySlxft/8AQYOzDkGQ5yjZmNM3eemoMjrxsBpmL7aPoUFGOmjhS/
- P7DLO/g+wC5kK5k41G8gKs1fkG6kpe5QVkI0WtamR+CPQAsDAtpCRbecJ3PBM7TC1/z/
- F/mf9+ka53jMXXrerloh5+8ZhZaFfCecbYuId8LNiVeWysU+ACyIx90jK7fYXFl+kPTx
- B1Sg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:references:user-agent:from:to:cc:subject:date
- :in-reply-to:message-id:mime-version:content-transfer-encoding;
- bh=+0b1wpNw/luAIDnsul1iTYJdOSPFuzA0mFUnSRnmgFw=;
- b=bGFmbwJQCAIMuLZO4kvkEi24PtjNeScejysZx9BfSb1ZsGKbWGvVKH0wmHj7Wm8GNa
- tE/zS9WylcxMxSdoE2FXoGlki0tEtfWJ9hanHJc9viXRWO1DNpoutXqphVRKXt/oMv+n
- Tc3IkrmMe5GA+s1vJ/79zRcjCdmmJv1NEmShQXBWp1UkKGrzYbjx4bbNdUNPdCMyg+zy
- KAI+rJrx/+K9BsmuCLvN1aQ/N7yOd2bMOnfYXd1UpBHj4MC5RzUM8J89qAr0k2i8GJ24
- g7nTmCk/XNujsIEwjyOTK8dAklLjfmLb+QxsNOxZkuF85XrCAFqQr1UQAttvloS1eU1e
- +QkQ==
-X-Gm-Message-State: AOAM530uqX337eUm9nRS6jwO451UPw36tttzFN6ZRonfJLsw67RkbTGs
- TRo8uzCxTY54RCnnzHKrXa/g5OMAXq0ndA==
-X-Google-Smtp-Source: ABdhPJzSGHqlQJkohDseqBcV5UOJGeYzrWlWeraEplq0G3DVh7PEt005EPYBIHUkDiziJUpmSqRgeA==
-X-Received: by 2002:adf:ba8b:: with SMTP id p11mr9389811wrg.328.1610650244288; 
- Thu, 14 Jan 2021 10:50:44 -0800 (PST)
-Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id k9sm9669497wma.17.2021.01.14.10.50.43
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 14 Jan 2021 10:50:43 -0800 (PST)
-Received: from zen (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 9FE711FF7E;
- Thu, 14 Jan 2021 18:50:42 +0000 (GMT)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1l07s2-0003iJ-Kf
+ for qemu-devel@nongnu.org; Thu, 14 Jan 2021 14:01:24 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:51065)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1l07rq-0003Y4-TU
+ for qemu-devel@nongnu.org; Thu, 14 Jan 2021 14:01:21 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1610650868;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=XgIY3hPxmFG3ZXAreB9M5Z6ad6o6a8fIWzQtpurPIf4=;
+ b=XcaxQ2p3jt6hUVZj+K6MFBSVSdtNC66NM3Wns4bekfyx0SjjuWfatI1akczjtfEtJd70I3
+ AFVKdc9akXX54NQUt+OXgV94/LGD0rwcWIANUfOK7dOlutCRiHrY8TAOlVakBigL4ExSbs
+ pmNFPEetN3k2DSmKV0HjPLwTl8S3ZhU=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-83-EN9vICRKPgm-5GBZIDZegQ-1; Thu, 14 Jan 2021 14:01:05 -0500
+X-MC-Unique: EN9vICRKPgm-5GBZIDZegQ-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 47C2880A5EF;
+ Thu, 14 Jan 2021 19:00:56 +0000 (UTC)
+Received: from thuth.remote.csb (ovpn-112-152.ams2.redhat.com [10.36.112.152])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id EE3C319C48;
+ Thu, 14 Jan 2021 19:00:54 +0000 (UTC)
+Subject: Re: [PATCH v2 11/12] gitlab: migrate the minimal tools and unit tests
+ from Travis
+To: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
+ qemu-devel@nongnu.org
 References: <20210114165730.31607-1-alex.bennee@linaro.org>
- <20210114165730.31607-11-alex.bennee@linaro.org>
- <88ed23a1-06b2-ce13-842d-9aa1acb381a3@redhat.com>
-User-agent: mu4e 1.5.7; emacs 28.0.50
-From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>
-Subject: Re: [PATCH v2 10/12] Fix build with new yank feature by adding stubs
-Date: Thu, 14 Jan 2021 18:50:20 +0000
-In-reply-to: <88ed23a1-06b2-ce13-842d-9aa1acb381a3@redhat.com>
-Message-ID: <87a6tbl5dp.fsf@linaro.org>
+ <20210114165730.31607-12-alex.bennee@linaro.org>
+From: Thomas Huth <thuth@redhat.com>
+Message-ID: <bc54682a-0d11-28f0-4df4-b9deaf5e3a82@redhat.com>
+Date: Thu, 14 Jan 2021 20:00:53 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.4.3
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::435;
- envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x435.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+In-Reply-To: <20210114165730.31607-12-alex.bennee@linaro.org>
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=thuth@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=thuth@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -32
+X-Spam_score: -3.3
+X-Spam_bar: ---
+X-Spam_report: (-3.3 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.248,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.237, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -88,100 +83,64 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Paolo Bonzini <pbonzini@redhat.com>, Lukas Straub <lukasstraub2@web.de>,
- qemu-devel@nongnu.org
+Cc: Fam Zheng <fam@euphon.net>,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
+ Wainer dos Santos Moschetta <wainersm@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+On 14/01/2021 17.57, Alex Bennée wrote:
+> These tests are good at shaking out missing stubs which otherwise work
+> if we have built targets. Rather than create a new job just add the
+> checks to the existing tools-and-docs build.
+> 
+> Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
+> ---
+>   .gitlab-ci.yml | 4 +++-
+>   .travis.yml    | 9 ---------
+>   2 files changed, 3 insertions(+), 10 deletions(-)
+> 
+> diff --git a/.gitlab-ci.yml b/.gitlab-ci.yml
+> index bd60f3e741..a686bc40cf 100644
+> --- a/.gitlab-ci.yml
+> +++ b/.gitlab-ci.yml
+> @@ -124,11 +124,13 @@ check-system-debian:
+>       IMAGE: debian-amd64
+>       MAKE_CHECK_ARGS: check
+>   
+> +# No targets are built here, just tools and docs. This also feeds into
+> +# the eventual documentation deployment steps later
+>   build-tools-and-docs-debian:
+>     <<: *native_build_job_definition
+>     variables:
+>       IMAGE: debian-amd64
+> -    MAKE_CHECK_ARGS: ctags TAGS cscope
+> +    MAKE_CHECK_ARGS: check-unit check-softfloat ctags TAGS cscope
+>       CONFIGURE_ARGS: --disable-system --disable-user --enable-docs --enable-tools
+>     artifacts:
+>       expire_in: 2 days
+> diff --git a/.travis.yml b/.travis.yml
+> index 3b574a5968..5f1dea873e 100644
+> --- a/.travis.yml
+> +++ b/.travis.yml
+> @@ -119,15 +119,6 @@ after_script:
+>   
+>   jobs:
+>     include:
+> -    # Just build tools and run minimal unit and softfloat checks
+> -    - name: "GCC check-unit and check-softfloat"
+> -      env:
+> -        - BASE_CONFIG="--enable-tools"
+> -        - CONFIG="--disable-user --disable-system"
+> -        - TEST_CMD="make check-unit check-softfloat -j${JOBS}"
+> -        - CACHE_NAME="${TRAVIS_BRANCH}-linux-gcc-default"
+> -
+> -
+>       # --enable-debug implies --enable-debug-tcg, also runs quite a bit slower
+>       - name: "GCC debug (main-softmmu)"
+>         env:
+> 
 
-Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com> writes:
+Reviewed-by: Thomas Huth <thuth@redhat.com>
 
-> On 1/14/21 5:57 PM, Alex Benn=C3=A9e wrote:
->> From: Lukas Straub <lukasstraub2@web.de>
->>=20
->
-> Again:
->
-> Fixes: 50186051f42 ("Introduce yank feature")
->
-> Reviewed-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
-
-Hmm I need to improve my tooling to pick up the Fixes and add a TODO.
-
->
->> Signed-off-by: Lukas Straub <lukasstraub2@web.de>
->> [AJB: tweak MAINTAINERS]
->> Signed-off-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
->> Message-Id: <20210114141918.5201cc9c@gecko.fritz.box>
->> ---
->>  stubs/yank.c      | 29 +++++++++++++++++++++++++++++
->>  MAINTAINERS       |  1 +
->>  stubs/meson.build |  1 +
->>  3 files changed, 31 insertions(+)
->>  create mode 100644 stubs/yank.c
->>=20
->> diff --git a/stubs/yank.c b/stubs/yank.c
->> new file mode 100644
->> index 0000000000..6090416065
->> --- /dev/null
->> +++ b/stubs/yank.c
->> @@ -0,0 +1,29 @@
->> +#include "qemu/osdep.h"
->> +#include "qemu/yank.h"
->> +
->> +bool yank_register_instance(const YankInstance *instance, Error **errp)
->> +{
->> +    return true;
->> +}
->> +
->> +void yank_unregister_instance(const YankInstance *instance)
->> +{
->> +}
->> +
->> +void yank_register_function(const YankInstance *instance,
->> +                            YankFn *func,
->> +                            void *opaque)
->> +{
->> +}
->> +
->> +void yank_unregister_function(const YankInstance *instance,
->> +                              YankFn *func,
->> +                              void *opaque)
->> +{
->> +}
->> +
->> +void yank_generic_iochannel(void *opaque)
->> +{
->> +}
->> +
->> +
->> diff --git a/MAINTAINERS b/MAINTAINERS
->> index cb0656aec3..07e4851aa4 100644
->> --- a/MAINTAINERS
->> +++ b/MAINTAINERS
->> @@ -2736,6 +2736,7 @@ Yank feature
->>  M: Lukas Straub <lukasstraub2@web.de>
->>  S: Odd fixes
->>  F: util/yank.c
->> +F: stubs/yank.c
->>  F: include/qemu/yank.h
->>  F: qapi/yank.json
->>=20=20
->> diff --git a/stubs/meson.build b/stubs/meson.build
->> index 80b1d81a31..1a656cd070 100644
->> --- a/stubs/meson.build
->> +++ b/stubs/meson.build
->> @@ -47,6 +47,7 @@ stub_ss.add(files('vm-stop.c'))
->>  stub_ss.add(files('win32-kbd-hook.c'))
->>  stub_ss.add(files('cpu-synchronize-state.c'))
->>  if have_block
->> +  stub_ss.add(files('yank.c'))
->>    stub_ss.add(files('replay-tools.c'))
->>  endif
->>  if have_system
->>=20
-
-
---=20
-Alex Benn=C3=A9e
 
