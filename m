@@ -2,72 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1EF742F5C44
-	for <lists+qemu-devel@lfdr.de>; Thu, 14 Jan 2021 09:18:37 +0100 (CET)
-Received: from localhost ([::1]:39338 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 63C5F2F5C57
+	for <lists+qemu-devel@lfdr.de>; Thu, 14 Jan 2021 09:23:55 +0100 (CET)
+Received: from localhost ([::1]:42458 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kzxpy-0001Bk-AK
-	for lists+qemu-devel@lfdr.de; Thu, 14 Jan 2021 03:18:35 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33580)
+	id 1kzxv8-0002le-GP
+	for lists+qemu-devel@lfdr.de; Thu, 14 Jan 2021 03:23:54 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34966)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <marcandre.lureau@gmail.com>)
- id 1kzxop-0000S7-Gm
- for qemu-devel@nongnu.org; Thu, 14 Jan 2021 03:17:23 -0500
-Received: from mail-ed1-x52e.google.com ([2a00:1450:4864:20::52e]:32816)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <marcandre.lureau@gmail.com>)
- id 1kzxon-000265-NW
- for qemu-devel@nongnu.org; Thu, 14 Jan 2021 03:17:23 -0500
-Received: by mail-ed1-x52e.google.com with SMTP id g21so4801412edy.0
- for <qemu-devel@nongnu.org>; Thu, 14 Jan 2021 00:17:20 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=4TUurvJLKZaijuJMcjtx9fbREHvM7roY9n4QjVj5/Cs=;
- b=EYAu9Go4bYsvfHA07G1HnwnGCpzFn0ux/REX3KPgxgqfUD/8Qu8Pl2ylJDjHoGxrbo
- u15RHx2NwMiYfkDLJX3Fm4liCYncaMUpcwLd0oxL/0BwTtGCC1xS6dxigxOeYNbCx+zk
- 9mGviZj1MF5iy6elX3KjPzsxOmwVBYWer5Cwhxrd2uqak2uiAh4xzKpg3+QzCPDKJseV
- lI/PqOscO1rf9g8ve5H9/j48xOC/OMN5c/u6uAtBOChJQxIky8PYWvJ2KQjn5fhVLA/O
- hMRYUpXDhpM9w9ttVVQhXSC3Sgg6y9jtu2hmu7ryN0ixKCbwnm1LAw+4N0yVD2neGr6v
- HaLA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=4TUurvJLKZaijuJMcjtx9fbREHvM7roY9n4QjVj5/Cs=;
- b=U7EX7WLPS6GKvFCkQ1J1MO1aTjqFEOCYO3Rrxe+a2he08bOlgqZskB1gVZ22tUynRV
- h92yDR6yQsfycgHUg1/RuqpJQX0ctoQOP8rZIs2hBnTnRzh5sYn+QUnavo9GgDxLsKGO
- EiP7yMmFRIMbre9E+FDkyDqHsqbr9zifDPTg/ez8IPNBfn/12QEfWrAtPKRWX/jPkb2z
- ue185csKxzdfONHPCnzlgt2sppD6gb1+BJSkHQJi0g2Bo21JsTtpFFMT32JLFmlaqAHu
- WHISektPZaskDzGGIoC115+EhfEasNzpRKe2spVPdXnEtXdIP3jk9jr4TSqnGXxiQOXL
- FcQA==
-X-Gm-Message-State: AOAM531821gQMQeS/aDOB8V51/LHJ8k4I2E4WvevVDkAhphlYF6o6sL2
- F3tXN50y17mif+/g4dRQdwhAXBs7Pf0Sd7vtnH8=
-X-Google-Smtp-Source: ABdhPJwKrOTOCbDYOON0jLy7quQJS0xfGVpuWelaChc0mMO41OlVxVrsy17lcPyBXrCnQ47u4YLbz/EkHb200U5x5d4=
-X-Received: by 2002:a05:6402:4389:: with SMTP id
- o9mr3958036edc.164.1610612239364; 
- Thu, 14 Jan 2021 00:17:19 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1kzxuH-0002LB-U0
+ for qemu-devel@nongnu.org; Thu, 14 Jan 2021 03:23:01 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:38182)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1kzxuE-0004f1-MH
+ for qemu-devel@nongnu.org; Thu, 14 Jan 2021 03:23:00 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1610612576;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=IuR5oxrESwXiKXQ87qdv70c0I+FAKcHq9mfLUMfbVGA=;
+ b=NA1fsAEoS8rhY2HHIf6McC5Xp6gnWcZYTTVNJOFlbYj/BSnIpsim/3I1CSTiMBfOzWl/0Z
+ y3GaDlcv8BaSCIMhmhweiN3juv5jzB95uLjxIdaBmQ63AzZt0w1CEOzE7sHObF+1++bfoO
+ sckYZsdrywgvR2FVtZ1QZe4zrRUEPqg=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-526-BrIkUEE4P6uuWLa3Qn5Tvg-1; Thu, 14 Jan 2021 03:22:54 -0500
+X-MC-Unique: BrIkUEE4P6uuWLa3Qn5Tvg-1
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
+ [10.5.11.16])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 3315C1006C82;
+ Thu, 14 Jan 2021 08:22:53 +0000 (UTC)
+Received: from thuth.remote.csb (ovpn-112-108.ams2.redhat.com [10.36.112.108])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 4667A7444E;
+ Thu, 14 Jan 2021 08:22:48 +0000 (UTC)
+Subject: Re: [PATCH] docs/devel: Explain how acceptance tests can be skipped
+To: Wainer dos Santos Moschetta <wainersm@redhat.com>, qemu-devel@nongnu.org
+References: <20210113195238.140945-1-wainersm@redhat.com>
+From: Thomas Huth <thuth@redhat.com>
+Message-ID: <d79dad7f-ba62-a79a-3a51-394c8314935f@redhat.com>
+Date: Thu, 14 Jan 2021 09:22:46 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.4.3
 MIME-Version: 1.0
-References: <20201105221905.1350-1-dbuono@linux.vnet.ibm.com>
- <20201105221905.1350-4-dbuono@linux.vnet.ibm.com>
- <4677dea1-bdd2-0095-e75c-2ca6d9be0cb9@redhat.com>
- <afff8e95-ac1f-552a-c8b3-ff008947bf98@linux.vnet.ibm.com>
-In-Reply-To: <afff8e95-ac1f-552a-c8b3-ff008947bf98@linux.vnet.ibm.com>
-From: =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@gmail.com>
-Date: Thu, 14 Jan 2021 12:17:07 +0400
-Message-ID: <CAJ+F1CJ+v7v2QKqLfC1ZNL4Q2eTRcOJUy9RAqg4BNq8aFqE22A@mail.gmail.com>
-Subject: Re: [PATCH-for-5.2? v3 3/9] hw/usb: reorder fields in UASStatus
-To: Daniele Buono <dbuono@linux.vnet.ibm.com>,
- Gerd Hoffmann <kraxel@redhat.com>
-Content-Type: multipart/alternative; boundary="00000000000065f72e05b8d7e21b"
-Received-SPF: pass client-ip=2a00:1450:4864:20::52e;
- envelope-from=marcandre.lureau@gmail.com; helo=mail-ed1-x52e.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+In-Reply-To: <20210113195238.140945-1-wainersm@redhat.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=thuth@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=thuth@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -29
+X-Spam_score: -3.0
+X-Spam_bar: ---
+X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.25,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -81,198 +80,106 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Paolo Bonzini <pbonzini@redhat.com>,
- =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>,
- QEMU <qemu-devel@nongnu.org>
+Cc: philmd@redhat.com, alex.bennee@linaro.org, wrampazz@redhat.com,
+ crosa@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---00000000000065f72e05b8d7e21b
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-Hi
-
-On Thu, Nov 19, 2020 at 8:19 PM Daniele Buono <dbuono@linux.vnet.ibm.com>
-wrote:
-
-> Hi Philippe,
->
-> On 11/6/2020 9:28 AM, Philippe Mathieu-Daud=C3=A9 wrote:
-> > On 11/5/20 11:18 PM, Daniele Buono wrote:
-> >> The UASStatus data structure has a variable sized field inside of type
-> uas_iu,
-> >> that however is not placed at the end of the data structure.
-> >>
-> >> This placement triggers a warning with clang 11, and while not a bug
-> right now,
-> >> (the status is never a uas_iu_command, which is the variable-sized
-> case),
-> >> it could become one in the future.
-> >
-> > The problem is uas_iu_command::add_cdb, indeed.
-> >
-> >>
-> >> ../qemu-base/hw/usb/dev-uas.c:157:31: error: field 'status' with
-> variable sized type 'uas_iu' not at the end of a struct or class is a GNU
-> extension [-Werror,-Wgnu-variable-sized-type-not-at-end]
-> >
-> > If possible remove the "../qemu-base/" as it does not provide
-> > any useful information.
-> >
-> Sure, will do at the next cycle
-> >>      uas_iu                    status;
-> >>                                ^
-> >> 1 error generated.
-> >>
-> >> Fix this by moving uas_iu at the end of the struct
-> >
-> > Your patch silents the warning, but the problem is the same.
-> > It would be safer/cleaner to make 'status' a pointer on the heap IMO.
->
-> I'm thinking of moving 'status' in a pointer with the following code
-> changes:
->
-> UASStatus is allocated in `usb_uas_alloc_status`, which currently does
-> not take a type or size for the union field. I'm thinking of adding
-> requested size for the status, like this:
->
-> static UASStatus *usb_uas_alloc_status(UASDevice *uas, uint8_t id,
-> uint16_t tag, size_t size);
->
-> and the common call would be
-> usb_uas_alloc_status([...],sizeof(uas_iu));
->
-> Also we'd need a double free when the object is freed. Right now
-> it's handled in the code when the object is not used anymore with a
-> `g_free(st);`.
-> I'd have to replace it with
-> `g_free(st->status); g_free(st);`. Would you suggest doing it place
-> or by adding a usb_uas_dealloc_status() function?
->
+On 13/01/2021 20.52, Wainer dos Santos Moschetta wrote:
+> Documented under the "Acceptance tests using the Avocado Framework"
+> section in testing.rst how environment variables are used to skip tests.
+> 
+> Signed-off-by: Wainer dos Santos Moschetta <wainersm@redhat.com>
 > ---
->
-> However, I am confused by the use of that variable-lenght field.
-> I'm looking at what seems the only place where a command is
-> parsed, in `usb_uas_handle_data`.
->
-> uas_iu iu;
-> [...]
->      switch (p->ep->nr) {
->      case UAS_PIPE_ID_COMMAND:
->          length =3D MIN(sizeof(iu), p->iov.size);
->          usb_packet_copy(p, &iu, length);
->          [...]
->          break;
-> [...]
->
-> It would seem that the copy is limited to at most sizeof(uas_iu),
-> so even if we had anything in add_cdb[], that wouldn't be copied
-> here?
->
-> Is this intended?
->
->
-Any update on this patch?
-thanks
+> CI (success): https://gitlab.com/wainersm/qemu/-/pipelines/241249714
+> 
+>   docs/devel/testing.rst | 62 ++++++++++++++++++++++++++++++++++++++++++
+>   1 file changed, 62 insertions(+)
+> 
+> diff --git a/docs/devel/testing.rst b/docs/devel/testing.rst
+> index 0aa7a13bba..3cdb458565 100644
+> --- a/docs/devel/testing.rst
+> +++ b/docs/devel/testing.rst
+> @@ -871,6 +871,68 @@ qemu_bin
+>   
+>   The exact QEMU binary to be used on QEMUMachine.
+>   
+> +Skipping tests
+> +--------------
+> +The Avocado framework provides Python decorators which allow for easily skip
+> +tests running under certain conditions. For example, on the lack of a binary
+> +on the test system or when the running environment is an CI system. For further
 
+s/is an CI/is a CI/
 
---=20
-Marc-Andr=C3=A9 Lureau
+> +information about those decorators, please refer to::
+> +
+> +  https://avocado-framework.readthedocs.io/en/latest/guides/writer/chapters/writing.html#skipping-tests
+> +
+> +While the conditions for skipping tests are often specifics of each one, there
+> +are recurring scenarios identified by the QEMU developers and the use of
+> +environment variables became a kind of standard way to enable/disable tests.
+> +
+> +It follows a not comprehensive list of those variables.
 
---00000000000065f72e05b8d7e21b
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+s/It follows a/Here is a/ ?
 
-<div dir=3D"ltr"><div dir=3D"ltr">Hi<br></div><br><div class=3D"gmail_quote=
-"><div dir=3D"ltr" class=3D"gmail_attr">On Thu, Nov 19, 2020 at 8:19 PM Dan=
-iele Buono &lt;<a href=3D"mailto:dbuono@linux.vnet.ibm.com">dbuono@linux.vn=
-et.ibm.com</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=
-=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding=
--left:1ex">Hi Philippe,<br>
-<br>
-On 11/6/2020 9:28 AM, Philippe Mathieu-Daud=C3=A9 wrote:<br>
-&gt; On 11/5/20 11:18 PM, Daniele Buono wrote:<br>
-&gt;&gt; The UASStatus data structure has a variable sized field inside of =
-type uas_iu,<br>
-&gt;&gt; that however is not placed at the end of the data structure.<br>
-&gt;&gt;<br>
-&gt;&gt; This placement triggers a warning with clang 11, and while not a b=
-ug right now,<br>
-&gt;&gt; (the status is never a uas_iu_command, which is the variable-sized=
- case),<br>
-&gt;&gt; it could become one in the future.<br>
-&gt; <br>
-&gt; The problem is uas_iu_command::add_cdb, indeed.<br>
-&gt; <br>
-&gt;&gt;<br>
-&gt;&gt; ../qemu-base/hw/usb/dev-uas.c:157:31: error: field &#39;status&#39=
-; with variable sized type &#39;uas_iu&#39; not at the end of a struct or c=
-lass is a GNU extension [-Werror,-Wgnu-variable-sized-type-not-at-end]<br>
-&gt; <br>
-&gt; If possible remove the &quot;../qemu-base/&quot; as it does not provid=
-e<br>
-&gt; any useful information.<br>
-&gt; <br>
-Sure, will do at the next cycle<br>
-&gt;&gt;=C2=A0 =C2=A0 =C2=A0 uas_iu=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 status;<br>
-&gt;&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 ^<br>
-&gt;&gt; 1 error generated.<br>
-&gt;&gt;<br>
-&gt;&gt; Fix this by moving uas_iu at the end of the struct<br>
-&gt; <br>
-&gt; Your patch silents the warning, but the problem is the same.<br>
-&gt; It would be safer/cleaner to make &#39;status&#39; a pointer on the he=
-ap IMO.<br>
-<br>
-I&#39;m thinking of moving &#39;status&#39; in a pointer with the following=
- code<br>
-changes:<br>
-<br>
-UASStatus is allocated in `usb_uas_alloc_status`, which currently does<br>
-not take a type or size for the union field. I&#39;m thinking of adding<br>
-requested size for the status, like this:<br>
-<br>
-static UASStatus *usb_uas_alloc_status(UASDevice *uas, uint8_t id,<br>
-uint16_t tag, size_t size);<br>
-<br>
-and the common call would be<br>
-usb_uas_alloc_status([...],sizeof(uas_iu));<br>
-<br>
-Also we&#39;d need a double free when the object is freed. Right now<br>
-it&#39;s handled in the code when the object is not used anymore with a<br>
-`g_free(st);`.<br>
-I&#39;d have to replace it with<br>
-`g_free(st-&gt;status); g_free(st);`. Would you suggest doing it place<br>
-or by adding a usb_uas_dealloc_status() function?<br>
-<br>
----<br>
-<br>
-However, I am confused by the use of that variable-lenght field.<br>
-I&#39;m looking at what seems the only place where a command is<br>
-parsed, in `usb_uas_handle_data`.<br>
-<br>
-uas_iu iu;<br>
-[...]<br>
-=C2=A0 =C2=A0 =C2=A0switch (p-&gt;ep-&gt;nr) {<br>
-=C2=A0 =C2=A0 =C2=A0case UAS_PIPE_ID_COMMAND:<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0length =3D MIN(sizeof(iu), p-&gt;iov.size=
-);<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0usb_packet_copy(p, &amp;iu, length);<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0[...]<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0break;<br>
-[...]<br>
-<br>
-It would seem that the copy is limited to at most sizeof(uas_iu),<br>
-so even if we had anything in add_cdb[], that wouldn&#39;t be copied<br>
-here?<br>
-<br>
-Is this intended?<br>
-<br></blockquote><div><br></div><div>Any update on this patch?</div><div>th=
-anks</div><div></div></div><br clear=3D"all"><br>-- <br><div dir=3D"ltr" cl=
-ass=3D"gmail_signature">Marc-Andr=C3=A9 Lureau<br></div></div>
+> +AVOCADO_ALLOW_LARGE_STORAGE
+> +~~~~~~~~~~~~~~~~~~~~~~~~~~~
+> +Tests which are going to fetch or produce assets considered *large* are not
+> +going to run unless that `AVOCADO_ALLOW_LARGE_STORAGE=1` is exported on
+> +the environment.
+> +
+> +The definition of *large* is a bit arbitrary here, but it usually means an
+> +asset which occupies at least 1GB of size on disk when uncompressed.
+> +
+> +AVOCADO_ALLOW_UNTRUSTED_CODE
+> +~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+> +There are tests which will boot a kernel image or firmware that can be
+> +considered not safe to run on the developer's workstation, thus they are
+> +skipped by default. The definition of *not safe* is also arbitrary but
+> +usually it means a blob which either its source or build process aren't
+> +public available.
+> +
+> +You should export `AVOCADO_ALLOW_UNTRUSTED_CODE=1` on the environment in
+> +order to allow tests which make use of those assets to get running.
 
---00000000000065f72e05b8d7e21b--
+maybe better: "... which make use of those kind of assets." ?
+
+> +AVOCADO_TIMEOUT_EXPECTED
+> +~~~~~~~~~~~~~~~~~~~~~~~~
+> +The Avocado framework has a timeout mechanism which interrupt tests to avoid the
+
+s/interrupt/interrupts/
+
+> +test suite of getting stuck. The timeout value can be set via test parameter or
+> +property defined in the test class, for further details::
+> +
+> +  https://avocado-framework.readthedocs.io/en/latest/guides/writer/chapters/writing.html#setting-a-test-timeout
+> +
+> +Even though the timeout can be set by the test developer, there are some tests
+> +that may not have a well-defined limit of time to finish under certain
+> +conditions. For example, tests that take longer to execute when QEMU is
+> +compiled with debug flags. Therefore, the `AVOCADO_TIMEOUT_EXPECTED` variable
+> +has been used to determine whether those tests should run or not.
+> +
+> +GITLAB_CI
+> +~~~~~~~~~
+> +A number of tests are flagged to not run on the GitLab CI. Usually because
+> +they proved to the flaky or there are constraints on the CI environment which
+> +would make them fail. If you encounter a similar situation then use that
+> +variable as shown on the code snippet below to skip the test:
+> +
+> +.. code::
+> +
+> +  @skipIf(os.getenv('GITLAB_CI'), 'Running on GitLab')
+> +  def test(self):
+> +      do_something()
+> +
+>   Uninstalling Avocado
+>   --------------------
+>   
+
+  Thomas
+
 
