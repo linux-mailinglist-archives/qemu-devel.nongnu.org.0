@@ -2,70 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D86532F66F1
-	for <lists+qemu-devel@lfdr.de>; Thu, 14 Jan 2021 18:14:12 +0100 (CET)
-Received: from localhost ([::1]:59230 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 634F82F6747
+	for <lists+qemu-devel@lfdr.de>; Thu, 14 Jan 2021 18:17:54 +0100 (CET)
+Received: from localhost ([::1]:39470 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l06CJ-0007t2-E2
-	for lists+qemu-devel@lfdr.de; Thu, 14 Jan 2021 12:14:11 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49168)
+	id 1l06Ft-0003qd-GL
+	for lists+qemu-devel@lfdr.de; Thu, 14 Jan 2021 12:17:53 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49220)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1l05wP-0003c8-Bz
- for qemu-devel@nongnu.org; Thu, 14 Jan 2021 11:57:45 -0500
-Received: from mail-wr1-x434.google.com ([2a00:1450:4864:20::434]:42667)
+ id 1l05wR-0003fh-44
+ for qemu-devel@nongnu.org; Thu, 14 Jan 2021 11:57:47 -0500
+Received: from mail-wr1-x436.google.com ([2a00:1450:4864:20::436]:33390)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1l05wE-0004uj-KZ
- for qemu-devel@nongnu.org; Thu, 14 Jan 2021 11:57:38 -0500
-Received: by mail-wr1-x434.google.com with SMTP id m4so6494932wrx.9
- for <qemu-devel@nongnu.org>; Thu, 14 Jan 2021 08:57:33 -0800 (PST)
+ id 1l05wG-0004vv-Uo
+ for qemu-devel@nongnu.org; Thu, 14 Jan 2021 11:57:46 -0500
+Received: by mail-wr1-x436.google.com with SMTP id t30so6544835wrb.0
+ for <qemu-devel@nongnu.org>; Thu, 14 Jan 2021 08:57:36 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=qCfvsyxtog2oCY97/PbOxFX61m9iak5bWyn2XB1znBE=;
- b=amMmpi4y+0XqZPxmnytAUsjTMZL1mjglAV6D0y2f83q8/EPwcOrq64SBAKCudkbcr8
- Uj8LWDL5PODj8hgHapOdb/dltV/k0TxTBevFRRWLLfwz1YYjCb/wCLYiOaLVu0FGzOhR
- g9gFexeAWJnMC/TQjTlq4Op+TU9Z8IvFy7h2XpIMXM8sOA9gH2O8yLghRyu9yadmEoe6
- 5TlxJYWzC/ZHnVcZAc0+24BGV6WlrUtqq/0aE7110Qpk2HDHSJ2eY/mMn3zGXpg1952R
- bBGSzuiDf6yn7inYVD6Us5/kGwfZgd9mDtRt5AaKg+YInculIWGhQ8BeEYzKwltPu7kI
- HzWg==
+ h=from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=EvR0AZKqAEJE1jZSnKHKNZ6eUSpG9JBFccb7SlwK3GI=;
+ b=qANiLp6ZCcSgr2MdBgJCAitpdEJTgM6p75TeCnCGI+44OQnf1vJ8QVTFtLHnctjeUK
+ GckdnIz8i6KtC3EvFNl4KTtr6+EFVlpAwdFNxg4dDZOVG3C6EQksXk2I3yePCxFQXESX
+ CWsKAQbc32efRHu4Bmfj+j36k18Gk+Z0QZ0PDQUjzk5sqsYRMnxqAIUcyk4vM/qODNhO
+ QzeW3QxOs6G2knivtyW+8Weql03BZEnnz1IhDygt8gijA7NPw6yQULVSSbQwsfOSFGbD
+ SfAMFSdUYsW1uVPX+k/ohvDz/Re+W6gWUb+Nfkevr5phVIReKOLicz28b5tjhtwrvf9W
+ uOPQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=qCfvsyxtog2oCY97/PbOxFX61m9iak5bWyn2XB1znBE=;
- b=ap+fcx/kw/qk8PmmTHW8ciPWsKTYYwOXNMjuDHhQ58LCfXSF/HVkKQj/GoBBMs0U9L
- 8jxaeuvKQ4pHIl7R267k7AQclyQg9JRb0rcVe7Cit7kfoSBKw+Yx8Quu1ZlTnlLekKu3
- 3RWGsTVTbqAtBCgCYATvlf63N1aswt9x5W7VLAORKVKrpk8HAp8TuoEcorTIvpVfs6ZB
- 7PMIo1vIm4KLGPcEX8fg6oC0n43g7vVA4s8qaZNX6FWkNnM2TPYmLwDQcIEzWAgCuaYD
- o1LF4ssopY9trrr4MlS5I3HYOPHcDExkW3zk5CKi0yTydo/27iRHKGH2CfjLKkR5EVCJ
- H4eA==
-X-Gm-Message-State: AOAM532g0gIPc9jIsHptAmoBYbVVUnqvJ8UfV8w9471JlTC0wlEfMcgv
- icrlo/kSXzAMyEz7NiyxHWcm/A==
-X-Google-Smtp-Source: ABdhPJyVFnrmZN4RZjd91IDcm/pNOXJTTrP2Gu7MCwom6pRatKI8/O7phRV34n274Mmxu8oa6/cC7Q==
-X-Received: by 2002:a5d:4704:: with SMTP id y4mr8799336wrq.358.1610643452192; 
- Thu, 14 Jan 2021 08:57:32 -0800 (PST)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=EvR0AZKqAEJE1jZSnKHKNZ6eUSpG9JBFccb7SlwK3GI=;
+ b=UylJz38rSVoszyyEmapq4AfNxuLjxTXGyi+bboWZw52t/nu/2LcjwUEEVO4x/IZtBH
+ XeaNHGjoFj5i0O7N3W7VdP3jNJi1+rFEdYUjHiJ3xCpHjOPnUNmWjbj/WdRACgxuqF3p
+ sCoaTQq8y4t8qYhxrW3p4V5D1EtlQuuQunxvfD1HZWYY5rt/dAYvHKGm9/ZTM4XLET6I
+ DfUswilVvvlK/2yz6kvrmIxomvgPYSGCUS3KDtg/wV87nuTPCSdDJWdjlpp/mlr9DthG
+ g9Gs2zBCiyE4OnXC+ajRAjMTy5bkwKrZQp7cRN8NpKWvkeRqkovgqYWP5/wLEOw5ajHk
+ tW3w==
+X-Gm-Message-State: AOAM5317sq6SVmhxxHm3lbVt4W0fvKtap/wwBWYRlRCATqY9udkGlM0h
+ qABfP94Kr4ZI/4VWPTp3GcxBtw==
+X-Google-Smtp-Source: ABdhPJwPxxSAoGRqlHtrUaq+mz5k2Nf7/Dw0mYFOhDD8upiMgSb4+4opQbgZHkbreFKAcbE53YTdDg==
+X-Received: by 2002:adf:d843:: with SMTP id k3mr8945412wrl.346.1610643455473; 
+ Thu, 14 Jan 2021 08:57:35 -0800 (PST)
 Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id b14sm10901789wrx.77.2021.01.14.08.57.30
+ by smtp.gmail.com with ESMTPSA id k1sm10590808wrn.46.2021.01.14.08.57.30
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
  Thu, 14 Jan 2021 08:57:30 -0800 (PST)
 Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 1A27B1FF7E;
+ by zen.linaroharston (Postfix) with ESMTP id 4978F1FF8C;
  Thu, 14 Jan 2021 16:57:30 +0000 (GMT)
 From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH  v2 00/12] testing/next (tags!, shippable/travis deprecation,
- regression fixes, checkpatch)
-Date: Thu, 14 Jan 2021 16:57:18 +0000
-Message-Id: <20210114165730.31607-1-alex.bennee@linaro.org>
+Subject: [PATCH  v2 02/12] Makefile: add GNU global tags support
+Date: Thu, 14 Jan 2021 16:57:20 +0000
+Message-Id: <20210114165730.31607-3-alex.bennee@linaro.org>
 X-Mailer: git-send-email 2.20.1
+In-Reply-To: <20210114165730.31607-1-alex.bennee@linaro.org>
+References: <20210114165730.31607-1-alex.bennee@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::434;
- envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x434.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::436;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x436.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -89,62 +90,71 @@ Cc: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi,
+GNU Global is another tags engine which is more like cscope in being
+able to support finding both references and definitions. You will be
+un-surprised to know it also integrates well with Emacs.
 
-The main changes from v1:
+The main benefit of integrating it into find-src-path is it takes less
+time to rebuild the database from scratch when you have a lot of build
+directories under your source tree.
 
-  https://patchew.org/QEMU/20210113151408.27939-1-alex.bennee@linaro.org/
+Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
 
- - squeeze the size of the htags generation to fit pages
- - move one more job from Travis
- - include regression fix for yank
- - fix a problem with checkpatch and commit ids
+---
+v2
+  - run in SRC_PATH
+  - wrap in quiet-command
+---
+ Makefile   | 14 +++++++++++++-
+ .gitignore |  3 +++
+ 2 files changed, 16 insertions(+), 1 deletion(-)
 
-The following need review:
-
- - scripts/checkpatch.pl: fix git-show invocation to include diffstat
- - gitlab: migrate the minimal tools and unit tests from Travis
- - docker: expand debian-amd64 image to include tag tools
- - Makefile: wrap cscope in quiet-command calls
- - Makefile: wrap etags in quiet-command calls
- - Makefile: wrap ctags in quiet-command calls
- - Makefile: add GNU global tags support
-
-Alessandro Di Federico (1):
-  Add newline when generating Dockerfile
-
-Alex Bennée (8):
-  Makefile: add GNU global tags support
-  Makefile: wrap ctags in quiet-command calls
-  Makefile: wrap etags in quiet-command calls
-  Makefile: wrap cscope in quiet-command calls
-  docker: expand debian-amd64 image to include tag tools
-  gitlab: move docs and tools build across from Travis
-  gitlab: migrate the minimal tools and unit tests from Travis
-  scripts/checkpatch.pl: fix git-show invocation to include diffstat
-
-Lukas Straub (1):
-  Fix build with new yank feature by adding stubs
-
-Philippe Mathieu-Daudé (2):
-  tests/docker: Remove Debian 9 remnant lines
-  shippable.yml: Remove jobs duplicated on Gitlab-CI
-
- Makefile                                     | 46 ++++++++++++++++----
- stubs/yank.c                                 | 29 ++++++++++++
- .gitignore                                   |  3 ++
- .gitlab-ci.yml                               | 30 ++++++++++---
- .shippable.yml                               | 14 +-----
- .travis.yml                                  | 25 -----------
- MAINTAINERS                                  |  1 +
- scripts/checkpatch.pl                        |  2 +-
- stubs/meson.build                            |  1 +
- tests/docker/Makefile.include                |  1 -
- tests/docker/docker.py                       |  4 +-
- tests/docker/dockerfiles/debian-amd64.docker |  5 ++-
- 12 files changed, 104 insertions(+), 57 deletions(-)
- create mode 100644 stubs/yank.c
-
+diff --git a/Makefile b/Makefile
+index fb9923ff22..0c509a7704 100644
+--- a/Makefile
++++ b/Makefile
+@@ -253,6 +253,18 @@ ctags:
+ 	rm -f "$(SRC_PATH)/"tags
+ 	$(find-src-path) -exec ctags -f "$(SRC_PATH)/"tags --append {} +
+ 
++.PHONY: gtags
++gtags:
++	$(call quiet-command, 			\
++		rm -f "$(SRC_PATH)/"GTAGS; 	\
++		rm -f "$(SRC_PATH)/"GRTAGS; 	\
++		rm -f "$(SRC_PATH)/"GPATH, 	\
++		"GTAGS", "Remove old $@ files")
++	$(call quiet-command, 				\
++	        (cd $(SRC_PATH) && 			\
++		 $(find-src-path) | gtags -f -), 	\
++		"GTAGS", "Re-index $(SRC_PATH)")
++
+ .PHONY: TAGS
+ TAGS:
+ 	rm -f "$(SRC_PATH)/"TAGS
+@@ -279,7 +291,7 @@ help:
+ 	$(call print-help,all,Build all)
+ 	$(call print-help,dir/file.o,Build specified target only)
+ 	$(call print-help,install,Install QEMU, documentation and tools)
+-	$(call print-help,ctags/TAGS,Generate tags file for editors)
++	$(call print-help,ctags/gtags/TAGS,Generate tags file for editors)
+ 	$(call print-help,cscope,Generate cscope index)
+ 	$(call print-help,sparse,Run sparse on the QEMU source)
+ 	@echo  ''
+diff --git a/.gitignore b/.gitignore
+index b32bca1315..75a4be0724 100644
+--- a/.gitignore
++++ b/.gitignore
+@@ -7,6 +7,9 @@
+ cscope.*
+ tags
+ TAGS
++GPATH
++GRTAGS
++GTAGS
+ *~
+ *.ast_raw
+ *.depend_raw
 -- 
 2.20.1
 
