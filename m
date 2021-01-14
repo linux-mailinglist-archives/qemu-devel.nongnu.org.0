@@ -2,71 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C730D2F67EC
-	for <lists+qemu-devel@lfdr.de>; Thu, 14 Jan 2021 18:41:42 +0100 (CET)
-Received: from localhost ([::1]:35298 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5EB5E2F6802
+	for <lists+qemu-devel@lfdr.de>; Thu, 14 Jan 2021 18:46:20 +0100 (CET)
+Received: from localhost ([::1]:43706 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l06cv-0004OX-Rs
-	for lists+qemu-devel@lfdr.de; Thu, 14 Jan 2021 12:41:41 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49282)
+	id 1l06hP-00084F-DP
+	for lists+qemu-devel@lfdr.de; Thu, 14 Jan 2021 12:46:19 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49428)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1l05wU-0003pe-9z
- for qemu-devel@nongnu.org; Thu, 14 Jan 2021 11:57:50 -0500
-Received: from mail-wm1-x32a.google.com ([2a00:1450:4864:20::32a]:40130)
+ id 1l05wh-0004AZ-Nz
+ for qemu-devel@nongnu.org; Thu, 14 Jan 2021 11:58:04 -0500
+Received: from mail-wm1-x334.google.com ([2a00:1450:4864:20::334]:53826)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1l05wS-0004z8-J7
- for qemu-devel@nongnu.org; Thu, 14 Jan 2021 11:57:50 -0500
-Received: by mail-wm1-x32a.google.com with SMTP id r4so5293139wmh.5
- for <qemu-devel@nongnu.org>; Thu, 14 Jan 2021 08:57:48 -0800 (PST)
+ id 1l05wc-000523-MS
+ for qemu-devel@nongnu.org; Thu, 14 Jan 2021 11:58:03 -0500
+Received: by mail-wm1-x334.google.com with SMTP id k10so5124092wmi.3
+ for <qemu-devel@nongnu.org>; Thu, 14 Jan 2021 08:57:54 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=TH6OKEZmHHfZ5ewcQol0S5HIv7LFOYJgDKdN3Gq2+Rw=;
- b=K5CGMNHr7pWiqEbmM/VxZjhuBNwdzetq4G7rwBRXdoanPO8LjOdV+3XH3bJpJAMQkS
- kQwgXGlu0vaIc3pB6RHM/UEo/bYoRfkwZeZu8ub0B7qHWGryiaQrOedyXAxCp5+H7sgo
- Roxcm8/NEzieVJNhYPLHVP440LeUT8J5s1uRpxWvoOc3ljcZCbbw0twsaUFQa/2mP1Re
- XfzPJhjjttZNB07cnIeYn9keOUN0C74eE7GC0sXC2RXhRHRqfmTC++se8cub+Neq2TfW
- jNZ1JevzODWLsHm4LjpZajsdwEFqg3MNE7jTwe78n4PLcJQPrbXlCwSOvFrC0fJiF2Mm
- Opeg==
+ bh=9JpC1mWgLmwJxGRdsrqqvZFFaeRen9lexSEko48v++A=;
+ b=eTF9RRjZo+R9dvZQPwIzawdpeYOqESODUt8HwYy9Zwq/KCz8MzT7ULMaTLeGdIVFAx
+ eD9vbJtNvIfPOuuXZMhmrbaZXCPPM6dkQQUuZmlY2huL8e7GHzbTiKKHZwq5sDqEITFT
+ WkIXoCGA4qOyZGQCts6JIVEYNvmFXa0VDd3/9HJ84oCEJL7KErCnigOJ+tHN6UKg1K+y
+ DfDn759XF1nSd6HCX6TRJ/DKn6pBA0I1wPN3pKbebGyvFkyZ2GRh0ikRio4fF7YYgtx2
+ vEn7plxLzFVdpi8F7D9Shvn4BYEqDC4HK2hgemPF9qPjaX3khc8jLfITae+3p+hgBrlQ
+ Xl/Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=TH6OKEZmHHfZ5ewcQol0S5HIv7LFOYJgDKdN3Gq2+Rw=;
- b=aYY2jW50fOeDESfXZuPamGOhC0ONOBEWqMjDGxgh9vDyGh4E5R8loXGCtJAQT0VB7L
- 6cec+JFTUmLTJplbV1yNkC/O1QafKW8PbTGYij864AXJc1fnqAOH1r8fcVKjJz8VW7To
- dA5ffJ7WIZJt2LB+uE/2LiMJjKCCLXgWkTRtsb7I2HLdyLWA3hWgRFf4Bw1N304JFRbG
- 4PYeEpec13Tg2kaGtfhS87Ox2genUERImBYVdFU7qLJyMliqOARRHuDhtkhXDzrqG/+Y
- 2IOmUcPMZHQIIjJzqa70khVPvnoK3K0lD38TSFDcwY8Xde2GLICVUE9B/eVdjAlG8jW2
- Szfw==
-X-Gm-Message-State: AOAM533b+2MYGnnAevG+BS1rBLpawAHy9/eZK0RW0bA7nC8AG0NdgMID
- /dzUxAafpBoOudArjOIZdRA059bKiIRx1Q==
-X-Google-Smtp-Source: ABdhPJzNk4lHAzM3rs0EALgjZ7E9V1LhwJPbjw0acZ7pYjNNRJgKrie8MI8reESq0Eh5p+DErnpu4Q==
-X-Received: by 2002:a1c:24c4:: with SMTP id k187mr4953087wmk.14.1610643467214; 
- Thu, 14 Jan 2021 08:57:47 -0800 (PST)
+ bh=9JpC1mWgLmwJxGRdsrqqvZFFaeRen9lexSEko48v++A=;
+ b=AMJhbxtwsoesrAokPWVHLHfLpjarLHpsQc3gQxqeF2b7V6RaFwltNfqUvIxu+GGt8/
+ duFuESX/OlmsNXEJ0QQFohYNuIXdDXUeWIDgSyGI2JxV9aA74HAT3g5CPF0qgXPP3/5J
+ 3QJkcHPM9k3ANPdeOLMRMyN12vyn7XoGa8uuLkXmgX3A3I/25UY5qlOoQk5rIBAxz5LG
+ ebgsqC3BKbvgnBvkgrvCBaKrpYGwJ895PmXPrzkdQE/1VhyoiErzQjTQxmtFoG6G8l/r
+ isdXHI9cMwvkI1/x3cRKXV2gks9Bz6vqks3HaSPIlXN5UPyTQzKM3PU4pO3/J0P06+/6
+ D0Fw==
+X-Gm-Message-State: AOAM530gqt6ptWFH0Ors0l4Gf9VMMNa3pi5POT7GeBg0QH2U5iNjHTcg
+ dUHNzZgh2RbmWKrMkShE0J5KKjzlwMrVBA==
+X-Google-Smtp-Source: ABdhPJyinu07XZ+r+YcWGcKvv9xVbSEN/Yhomed32OM03bTHb7TX914qrFZ+1ddjmNKoYXJs4x3PbA==
+X-Received: by 2002:a7b:c306:: with SMTP id k6mr4742318wmj.52.1610643473956;
+ Thu, 14 Jan 2021 08:57:53 -0800 (PST)
 Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id l1sm11509838wrq.64.2021.01.14.08.57.32
+ by smtp.gmail.com with ESMTPSA id m17sm11730545wrn.0.2021.01.14.08.57.35
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 14 Jan 2021 08:57:35 -0800 (PST)
+ Thu, 14 Jan 2021 08:57:47 -0800 (PST)
 Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 9EF9C1FF92;
+ by zen.linaroharston (Postfix) with ESMTP id DDCBD1FF98;
  Thu, 14 Jan 2021 16:57:30 +0000 (GMT)
 From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH  v2 06/12] Makefile: wrap etags in quiet-command calls
-Date: Thu, 14 Jan 2021 16:57:24 +0000
-Message-Id: <20210114165730.31607-7-alex.bennee@linaro.org>
+Subject: [PATCH v2 09/12] gitlab: move docs and tools build across from Travis
+Date: Thu, 14 Jan 2021 16:57:27 +0000
+Message-Id: <20210114165730.31607-10-alex.bennee@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20210114165730.31607-1-alex.bennee@linaro.org>
 References: <20210114165730.31607-1-alex.bennee@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::32a;
- envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x32a.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::334;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x334.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -86,37 +86,122 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
+Cc: Fam Zheng <fam@euphon.net>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
+ Thomas Huth <thuth@redhat.com>,
+ =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
+ Wainer dos Santos Moschetta <wainersm@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-For prettier output.
+While we are at it we might as well check the tag generation. For
+bonus points we run GNU globals htags into the public pages directory
+for publishing with the auto generated pages.
 
 Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
----
- Makefile | 9 +++++++--
- 1 file changed, 7 insertions(+), 2 deletions(-)
+Reviewed-by: Wainer dos Santos Moschetta <wainersm@redhat.com>
+Acked-by: Thomas Huth <thuth@redhat.com>
 
-diff --git a/Makefile b/Makefile
-index bbab640b31..f7e9eb9f08 100644
---- a/Makefile
-+++ b/Makefile
-@@ -272,8 +272,13 @@ gtags:
+---
+v2
+  - explicit disable-system/user
+  - add some comments, reduce size of HTML dump
+---
+ .gitlab-ci.yml | 28 ++++++++++++++++++++++------
+ .travis.yml    | 16 ----------------
+ 2 files changed, 22 insertions(+), 22 deletions(-)
+
+diff --git a/.gitlab-ci.yml b/.gitlab-ci.yml
+index 4532f1718a..bd60f3e741 100644
+--- a/.gitlab-ci.yml
++++ b/.gitlab-ci.yml
+@@ -79,7 +79,6 @@ build-system-ubuntu:
+     TARGETS: aarch64-softmmu alpha-softmmu cris-softmmu hppa-softmmu
+       moxie-softmmu microblazeel-softmmu mips64el-softmmu
+     MAKE_CHECK_ARGS: check-build
+-    CONFIGURE_ARGS: --enable-docs
+   artifacts:
+     expire_in: 2 days
+     paths:
+@@ -111,7 +110,6 @@ build-system-debian:
+     TARGETS: arm-softmmu avr-softmmu i386-softmmu mipsel-softmmu
+       riscv64-softmmu sh4eb-softmmu sparc-softmmu xtensaeb-softmmu
+     MAKE_CHECK_ARGS: check-build
+-    CONFIGURE_ARGS: --enable-docs
+   artifacts:
+     expire_in: 2 days
+     paths:
+@@ -126,6 +124,17 @@ check-system-debian:
+     IMAGE: debian-amd64
+     MAKE_CHECK_ARGS: check
  
- .PHONY: TAGS
- TAGS:
--	rm -f "$(SRC_PATH)/"TAGS
--	$(find-src-path) -exec etags -f "$(SRC_PATH)/"TAGS --append {} +
-+	$(call quiet-command, 			\
-+		rm -f "$(SRC_PATH)/"TAGS,	\
-+		"TAGS", "Remove old $@")
-+	$(call quiet-command, 				\
-+		$(find-src-path) -exec etags 		\
-+		-f "$(SRC_PATH)/"TAGS --append {} +, 	\
-+		"TAGS", "Re-index $(SRC_PATH)")
++build-tools-and-docs-debian:
++  <<: *native_build_job_definition
++  variables:
++    IMAGE: debian-amd64
++    MAKE_CHECK_ARGS: ctags TAGS cscope
++    CONFIGURE_ARGS: --disable-system --disable-user --enable-docs --enable-tools
++  artifacts:
++    expire_in: 2 days
++    paths:
++      - build
++
+ acceptance-system-debian:
+   <<: *native_test_job_definition
+   needs:
+@@ -596,14 +605,21 @@ build-libvhost-user:
+     - meson
+     - ninja
  
- .PHONY: cscope
- cscope:
++# Prepare for GitLab pages deployment. Anything copied into the
++# "public" directory will be deployed to $USER.gitlab.io/$PROJECT
+ pages:
+-  image: $CI_REGISTRY_IMAGE/qemu/ubuntu2004:latest
++  image: $CI_REGISTRY_IMAGE/qemu/debian-amd64:latest
+   stage: test
+   needs:
+-    - job: build-system-ubuntu
+-      artifacts: true
++    - job: build-tools-and-docs-debian
+   script:
+-    - mkdir public
++    - mkdir -p public
++    # HTML-ised source tree
++    - make gtags
++    - htags -anT --tree-view=filetree -m qemu_init
++        -t "Welcome to the QEMU sourcecode"
++    - mv HTML public/src
++    # Project documentation
+     - mv build/docs/index.html public/
+     - for i in devel interop specs system tools user ; do mv build/docs/$i public/ ; done
+   artifacts:
+diff --git a/.travis.yml b/.travis.yml
+index f2a101936c..3b574a5968 100644
+--- a/.travis.yml
++++ b/.travis.yml
+@@ -148,22 +148,6 @@ jobs:
+         - CACHE_NAME="${TRAVIS_BRANCH}-linux-gcc-default"
+ 
+ 
+-    # Check we can build docs and tools (out of tree)
+-    - name: "tools and docs (bionic)"
+-      dist: bionic
+-      env:
+-        - BUILD_DIR="out-of-tree/build/dir" SRC_DIR="../../.."
+-        - BASE_CONFIG="--enable-tools --enable-docs"
+-        - CONFIG="--target-list=x86_64-softmmu,aarch64-linux-user"
+-        - CACHE_NAME="${TRAVIS_BRANCH}-linux-gcc-default"
+-      addons:
+-        apt:
+-          packages:
+-            - ninja-build
+-            - python3-sphinx
+-            - perl
+-
+-
+     # Test with Clang for compile portability (Travis uses clang-5.0)
+     - name: "Clang (user)"
+       env:
 -- 
 2.20.1
 
