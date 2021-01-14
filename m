@@ -2,50 +2,59 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 276112F5E6B
-	for <lists+qemu-devel@lfdr.de>; Thu, 14 Jan 2021 11:13:14 +0100 (CET)
-Received: from localhost ([::1]:59014 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8E2B22F5E59
+	for <lists+qemu-devel@lfdr.de>; Thu, 14 Jan 2021 11:09:22 +0100 (CET)
+Received: from localhost ([::1]:45738 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kzzcv-0003DP-8K
-	for lists+qemu-devel@lfdr.de; Thu, 14 Jan 2021 05:13:13 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59098)
+	id 1kzzZA-0005s1-Ls
+	for lists+qemu-devel@lfdr.de; Thu, 14 Jan 2021 05:09:20 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59028)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cenjiahui@huawei.com>)
- id 1kzzXY-0004FA-Sf
- for qemu-devel@nongnu.org; Thu, 14 Jan 2021 05:07:41 -0500
-Received: from szxga07-in.huawei.com ([45.249.212.35]:2636)
+ (Exim 4.90_1) (envelope-from <groug@kaod.org>)
+ id 1kzzXS-00043a-Py; Thu, 14 Jan 2021 05:07:34 -0500
+Received: from 8.mo51.mail-out.ovh.net ([46.105.45.231]:45972)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cenjiahui@huawei.com>)
- id 1kzzXW-0004wH-6k
- for qemu-devel@nongnu.org; Thu, 14 Jan 2021 05:07:40 -0500
-Received: from DGGEMS410-HUB.china.huawei.com (unknown [172.30.72.60])
- by szxga07-in.huawei.com (SkyGuard) with ESMTP id 4DGg2L0q9Xz7VHb;
- Thu, 14 Jan 2021 18:06:34 +0800 (CST)
-Received: from localhost (10.174.184.155) by DGGEMS410-HUB.china.huawei.com
- (10.3.19.210) with Microsoft SMTP Server id 14.3.498.0; Thu, 14 Jan 2021
- 18:07:28 +0800
-From: Jiahui Cen <cenjiahui@huawei.com>
-To: <qemu-devel@nongnu.org>
-Subject: [PATCH v5 8/8] acpi: Update _DSM method in expected files
-Date: Thu, 14 Jan 2021 18:06:43 +0800
-Message-ID: <20210114100643.10617-9-cenjiahui@huawei.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20210114100643.10617-1-cenjiahui@huawei.com>
-References: <20210114100643.10617-1-cenjiahui@huawei.com>
+ (Exim 4.90_1) (envelope-from <groug@kaod.org>)
+ id 1kzzXR-0004vD-2O; Thu, 14 Jan 2021 05:07:34 -0500
+Received: from mxplan5.mail.ovh.net (unknown [10.108.1.114])
+ by mo51.mail-out.ovh.net (Postfix) with ESMTPS id AD25625A6C9;
+ Thu, 14 Jan 2021 11:07:28 +0100 (CET)
+Received: from kaod.org (37.59.142.103) by DAG8EX1.mxp5.local (172.16.2.71)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2044.4; Thu, 14 Jan
+ 2021 11:07:27 +0100
+Authentication-Results: garm.ovh; auth=pass
+ (GARM-103G005a3ce3b89-2be7-4dd6-a28b-2751e61105ee,
+ 0A7C53367AF3A9CD096E542ECC3C8B2C2D100868) smtp.auth=groug@kaod.org
+X-OVh-ClientIp: 82.253.208.248
+Date: Thu, 14 Jan 2021 11:07:26 +0100
+From: Greg Kurz <groug@kaod.org>
+To: David Gibson <david@gibson.dropbear.id.au>
+Subject: Re: [PATCH v7 09/13] confidential guest support: Update documentation
+Message-ID: <20210114110726.189ee7fa@bahia.lan>
+In-Reply-To: <20210113235811.1909610-10-david@gibson.dropbear.id.au>
+References: <20210113235811.1909610-1-david@gibson.dropbear.id.au>
+ <20210113235811.1909610-10-david@gibson.dropbear.id.au>
+X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-Originating-IP: [10.174.184.155]
-X-CFilter-Loop: Reflected
-Received-SPF: pass client-ip=45.249.212.35; envelope-from=cenjiahui@huawei.com;
- helo=szxga07-in.huawei.com
-X-Spam_score_int: -41
-X-Spam_score: -4.2
-X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
- RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset="US-ASCII"
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [37.59.142.103]
+X-ClientProxiedBy: DAG4EX1.mxp5.local (172.16.2.31) To DAG8EX1.mxp5.local
+ (172.16.2.71)
+X-Ovh-Tracer-GUID: 482ab6a6-6e0e-4269-8191-07b76130d318
+X-Ovh-Tracer-Id: 1720375058512583068
+X-VR-SPAMSTATE: OK
+X-VR-SPAMSCORE: -100
+X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedukedrtdehgddtlecutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfqggfjpdevjffgvefmvefgnecuuegrihhlohhuthemucehtddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpeffhffvuffkjghfofggtgfgihesthejredtredtvdenucfhrhhomhepifhrvghgucfmuhhriicuoehgrhhouhhgsehkrghougdrohhrgheqnecuggftrfgrthhtvghrnhepfedutdeijeejveehkeeileetgfelteekteehtedtieefffevhffflefftdefleejnecukfhppedtrddtrddtrddtpdefjedrheelrddugedvrddutdefnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmohguvgepshhmthhpqdhouhhtpdhhvghlohepmhigphhlrghnhedrmhgrihhlrdhovhhhrdhnvghtpdhinhgvtheptddrtddrtddrtddpmhgrihhlfhhrohhmpehgrhhouhhgsehkrghougdrohhrghdprhgtphhtthhopegrnhguihdrkhhlvggvnhesihhnthgvlhdrtghomh
+Received-SPF: pass client-ip=46.105.45.231; envelope-from=groug@kaod.org;
+ helo=8.mo51.mail-out.ovh.net
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -58,290 +67,101 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: xieyingtai@huawei.com, Jiahui Cen <cenjiahui@huawei.com>,
- Eduardo Habkost <ehabkost@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>,
- Ard Biesheuvel <ard.biesheuvel@arm.com>,
- Richard Henderson <richard.henderson@linaro.org>, Paolo
- Bonzini <pbonzini@redhat.com>, Igor Mammedov <imammedo@redhat.com>,
- Laszlo Ersek <lersek@redhat.com>, wu.wubin@huawei.com
+Cc: pair@us.ibm.com, cohuck@redhat.com, brijesh.singh@amd.com,
+ kvm@vger.kernel.org, David Hildenbrand <david@redhat.com>,
+ qemu-devel@nongnu.org, frankja@linux.ibm.com, pragyansri.pathi@intel.com,
+ mst@redhat.com, pasic@linux.ibm.com, borntraeger@de.ibm.com,
+ andi.kleen@intel.com, thuth@redhat.com, Eduardo Habkost <ehabkost@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>, dgilbert@redhat.com,
+ qemu-s390x@nongnu.org, jun.nakajima@intel.com, berrange@redhat.com,
+ Marcelo Tosatti <mtosatti@redhat.com>, qemu-ppc@nongnu.org,
+ Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-A new _DSM #5 method is added.
+On Thu, 14 Jan 2021 10:58:07 +1100
+David Gibson <david@gibson.dropbear.id.au> wrote:
 
-Update expected DSDT files accordingly, and re-enable their testing.
+> Now that we've implemented a generic machine option for configuring various
+> confidential guest support mechanisms:
+>   1. Update docs/amd-memory-encryption.txt to reference this rather than
+>      the earlier SEV specific option
+>   2. Add a docs/confidential-guest-support.txt to cover the generalities of
+>      the confidential guest support scheme
+> 
+> Signed-off-by: David Gibson <david@gibson.dropbear.id.au>
+> ---
 
-Full diff of changed files disassembly:
+LGTM
 
-tests/data/acpi/microvm/DSDT.pcie.dsl:
-@@ -5,13 +5,13 @@
-  *
-  * Disassembling to symbolic ASL+ operators
-  *
-- * Disassembly of tests/data/acpi/microvm/DSDT.pcie, Thu Jan 14 13:39:35 2021
-+ * Disassembly of tests/data/acpi/microvm/DSDT.pcie, Thu Jan 14 13:51:13 2021
-  *
-  * Original Table Header:
-  *     Signature        "DSDT"
-- *     Length           0x00000BCF (3023)
-+ *     Length           0x00000BD7 (3031)
-  *     Revision         0x02
-- *     Checksum         0x29
-+ *     Checksum         0x99
-  *     OEM ID           "BOCHS "
-  *     OEM Table ID     "BXPCDSDT"
-  *     OEM Revision     0x00000001 (1)
-@@ -1302,9 +1302,14 @@
-                     {
-                         Return (Buffer (One)
-                         {
--                             0x01                                             // .
-+                             0x21                                             // !
-                         })
-                     }
-+
-+                    If ((Arg2 == 0x05))
-+                    {
-+                        Return (Zero)
-+                    }
-                 }
+Reviewed-by: Greg Kurz <groug@kaod.org>
 
-                 Return (Buffer (One)
-
-tests/data/acpi/virt/DSDT.dsl:
-@@ -5,13 +5,13 @@
-  *
-  * Disassembling to symbolic ASL+ operators
-  *
-- * Disassembly of tests/data/acpi/virt/DSDT, Thu Jan 14 13:39:35 2021
-+ * Disassembly of tests/data/acpi/virt/DSDT, Thu Jan 14 13:51:13 2021
-  *
-  * Original Table Header:
-  *     Signature        "DSDT"
-- *     Length           0x0000144C (5196)
-+ *     Length           0x00001454 (5204)
-  *     Revision         0x02
-- *     Checksum         0xF0
-+ *     Checksum         0x60
-  *     OEM ID           "BOCHS "
-  *     OEM Table ID     "BXPCDSDT"
-  *     OEM Revision     0x00000001 (1)
-@@ -1838,9 +1838,14 @@
-                     {
-                         Return (Buffer (One)
-                         {
--                             0x01                                             // .
-+                             0x21                                             // !
-                         })
-                     }
-+
-+                    If ((Arg2 == 0x05))
-+                    {
-+                        Return (Zero)
-+                    }
-                 }
-
-                 Return (Buffer (One)
-
-tests/data/acpi/virt/DSDT.memhp.dsl:
-@@ -5,13 +5,13 @@
-  *
-  * Disassembling to symbolic ASL+ operators
-  *
-- * Disassembly of tests/data/acpi/virt/DSDT.memhp, Thu Jan 14 13:39:35 2021
-+ * Disassembly of tests/data/acpi/virt/DSDT.memhp, Thu Jan 14 13:51:13 2021
-  *
-  * Original Table Header:
-  *     Signature        "DSDT"
-- *     Length           0x0000199D (6557)
-+ *     Length           0x000019A5 (6565)
-  *     Revision         0x02
-- *     Checksum         0x11
-+ *     Checksum         0x90
-  *     OEM ID           "BOCHS "
-  *     OEM Table ID     "BXPCDSDT"
-  *     OEM Revision     0x00000001 (1)
-@@ -1840,9 +1840,14 @@
-                     {
-                         Return (Buffer (One)
-                         {
--                             0x01                                             // .
-+                             0x21                                             // !
-                         })
-                     }
-+
-+                    If ((Arg2 == 0x05))
-+                    {
-+                        Return (Zero)
-+                    }
-                 }
-
-                 Return (Buffer (One)
-
-tests/data/acpi/virt/DSDT.numamem.dsl:
-@@ -5,13 +5,13 @@
-  *
-  * Disassembling to symbolic ASL+ operators
-  *
-- * Disassembly of tests/data/acpi/virt/DSDT.numamem, Thu Jan 14 13:39:35 2021
-+ * Disassembly of tests/data/acpi/virt/DSDT.numamem, Thu Jan 14 13:51:13 2021
-  *
-  * Original Table Header:
-  *     Signature        "DSDT"
-- *     Length           0x0000144C (5196)
-+ *     Length           0x00001454 (5204)
-  *     Revision         0x02
-- *     Checksum         0xF0
-+ *     Checksum         0x60
-  *     OEM ID           "BOCHS "
-  *     OEM Table ID     "BXPCDSDT"
-  *     OEM Revision     0x00000001 (1)
-@@ -1838,9 +1838,14 @@
-                     {
-                         Return (Buffer (One)
-                         {
--                             0x01                                             // .
-+                             0x21                                             // !
-                         })
-                     }
-+
-+                    If ((Arg2 == 0x05))
-+                    {
-+                        Return (Zero)
-+                    }
-                 }
-
-                 Return (Buffer (One)
-
-tests/data/acpi/virt/DSDT.pxb.dsl:
-@@ -5,13 +5,13 @@
-  *
-  * Disassembling to symbolic ASL+ operators
-  *
-- * Disassembly of tests/data/acpi/virt/DSDT.pxb, Thu Jan 14 13:39:35 2021
-+ * Disassembly of tests/data/acpi/virt/DSDT.pxb, Thu Jan 14 13:51:13 2021
-  *
-  * Original Table Header:
-  *     Signature        "DSDT"
-- *     Length           0x00001DF9 (7673)
-+ *     Length           0x00001E09 (7689)
-  *     Revision         0x02
-- *     Checksum         0x42
-+ *     Checksum         0x30
-  *     OEM ID           "BOCHS "
-  *     OEM Table ID     "BXPCDSDT"
-  *     OEM Revision     0x00000001 (1)
-@@ -1810,9 +1810,14 @@
-                     {
-                         Return (Buffer (One)
-                         {
--                             0x01                                             // .
-+                             0x21                                             // !
-                         })
-                     }
-+
-+                    If ((Arg2 == 0x05))
-+                    {
-+                        Return (Zero)
-+                    }
-                 }
-
-                 Return (Buffer (One)
-@@ -3025,9 +3030,14 @@
-                     {
-                         Return (Buffer (One)
-                         {
--                             0x01                                             // .
-+                             0x21                                             // !
-                         })
-                     }
-+
-+                    If ((Arg2 == 0x05))
-+                    {
-+                        Return (Zero)
-+                    }
-                 }
-
-                 Return (Buffer (One)
-
-Acked-by: Igor Mammedov <imammedo@redhat.com>
-Signed-off-by: Jiahui Cen <cenjiahui@huawei.com>
----
- tests/data/acpi/microvm/DSDT.pcie           | Bin 3023 -> 3031 bytes
- tests/data/acpi/virt/DSDT                   | Bin 5196 -> 5204 bytes
- tests/data/acpi/virt/DSDT.memhp             | Bin 6557 -> 6565 bytes
- tests/data/acpi/virt/DSDT.numamem           | Bin 5196 -> 5204 bytes
- tests/data/acpi/virt/DSDT.pxb               | Bin 7673 -> 7689 bytes
- tests/qtest/bios-tables-test-allowed-diff.h |   5 -----
- 6 files changed, 5 deletions(-)
-
-diff --git a/tests/data/acpi/microvm/DSDT.pcie b/tests/data/acpi/microvm/DSDT.pcie
-index 4b765541e372f4ba4e25529c14acf696516c8f61..e590b98f9960025f75dd0544492d3088781406dc 100644
-GIT binary patch
-delta 59
-zcmV-B0L1^#7uOdGL{mgm*9!mu0-2Et8v;SPu_reH0Z6l70pke>HD5$iO$4ARlS&I8
-R2_c{dlWGbDqyUp@3uOk*5ZC|!
-
-delta 51
-zcmcaEeqNl*CD<k8JU0UaljcM&X(rE|8`aGj867sqGd||z(2aKq_GMY1IN6I^o{@2K
-H5qBy8b(js<
-
-diff --git a/tests/data/acpi/virt/DSDT b/tests/data/acpi/virt/DSDT
-index bc519abff9cadc1552e4e586b0a3f5f0db498f4a..ea8a0869af1637ab75fe335e100256a2acf85e16 100644
-GIT binary patch
-delta 58
-zcmX@3aYcj6CD<h-M1+BXDPba)G-LlpHAzk;w-t*WIk`AY<6VM%Sr%wc_7s-qR9wJ5
-OIg5*R3B%+};l}{T<qzlp
-
-delta 50
-zcmcbjaYlp7CD<jzM}&ca>BB@WX~y=AYLc8xe#;j-a&mF##=8XjvMf-X>?thI$T+!B
-G_%Q%yeGTXU
-
-diff --git a/tests/data/acpi/virt/DSDT.memhp b/tests/data/acpi/virt/DSDT.memhp
-index 54728e2b4b8b959f3f829386f6a388ef2600e747..897648637cc6c8af47c67a9a349477c0240f833b 100644
-GIT binary patch
-delta 60
-zcmV-C0K@;CGo>>ML{mgmr5OMK0+5jk8v=lsu_qV_0!FB#K?w>7HD5$iO$4ARlSvaF
-S2_c{dlWGbDqyV#N6Ep_<;t(eQ
-
-delta 52
-zcmZ2#JlB}ZCD<iot|S8kli)-yX{L_p8`UK^nf#V7cI4#Z(2aKq_GMY1IN4KJo{@2L
-Ip|A-X0Bmp#CjbBd
-
-diff --git a/tests/data/acpi/virt/DSDT.numamem b/tests/data/acpi/virt/DSDT.numamem
-index bc519abff9cadc1552e4e586b0a3f5f0db498f4a..ea8a0869af1637ab75fe335e100256a2acf85e16 100644
-GIT binary patch
-delta 58
-zcmX@3aYcj6CD<h-M1+BXDPba)G-LlpHAzk;w-t*WIk`AY<6VM%Sr%wc_7s-qR9wJ5
-OIg5*R3B%+};l}{T<qzlp
-
-delta 50
-zcmcbjaYlp7CD<jzM}&ca>BB@WX~y=AYLc8xe#;j-a&mF##=8XjvMf-X>?thI$T+!B
-G_%Q%yeGTXU
-
-diff --git a/tests/data/acpi/virt/DSDT.pxb b/tests/data/acpi/virt/DSDT.pxb
-index 76f5f1c2fd487644c6b4f827a70ad770edb9fdc9..ce3b67dff277e23f43925b1adcbb55c9d0b4eee3 100644
-GIT binary patch
-delta 95
-zcmexq-D$(+66_MfDaXLTWH6CShVkA;bqP);=h>SbIcqpMOygaGeOVT0PW~n%FQmAD
-ieR38T>k@_~g3OEz(M@hE7QYkXLQ%sBS2I~m_AvnX%^QRO
-
-delta 79
-zcmeCQ`DxAN66_N4Q<i~&$!Q{&4CCF6>Jpqx-m^A4a@KHi=*GJQ`?4%hocvElo{Mpb
-ZATuLFbd%rm#ovUuP~;dHC#%Um1^}tB7n}e9
-
-diff --git a/tests/qtest/bios-tables-test-allowed-diff.h b/tests/qtest/bios-tables-test-allowed-diff.h
-index 42418e58e7..dfb8523c8b 100644
---- a/tests/qtest/bios-tables-test-allowed-diff.h
-+++ b/tests/qtest/bios-tables-test-allowed-diff.h
-@@ -1,6 +1 @@
- /* List of comma-separated changed AML files to ignore */
--"tests/data/acpi/microvm/DSDT.pcie",
--"tests/data/acpi/virt/DSDT",
--"tests/data/acpi/virt/DSDT.memhp",
--"tests/data/acpi/virt/DSDT.numamem",
--"tests/data/acpi/virt/DSDT.pxb",
--- 
-2.29.2
+>  docs/amd-memory-encryption.txt      |  2 +-
+>  docs/confidential-guest-support.txt | 43 +++++++++++++++++++++++++++++
+>  2 files changed, 44 insertions(+), 1 deletion(-)
+>  create mode 100644 docs/confidential-guest-support.txt
+> 
+> diff --git a/docs/amd-memory-encryption.txt b/docs/amd-memory-encryption.txt
+> index 80b8eb00e9..145896aec7 100644
+> --- a/docs/amd-memory-encryption.txt
+> +++ b/docs/amd-memory-encryption.txt
+> @@ -73,7 +73,7 @@ complete flow chart.
+>  To launch a SEV guest
+>  
+>  # ${QEMU} \
+> -    -machine ...,memory-encryption=sev0 \
+> +    -machine ...,confidential-guest-support=sev0 \
+>      -object sev-guest,id=sev0,cbitpos=47,reduced-phys-bits=1
+>  
+>  Debugging
+> diff --git a/docs/confidential-guest-support.txt b/docs/confidential-guest-support.txt
+> new file mode 100644
+> index 0000000000..2790425b38
+> --- /dev/null
+> +++ b/docs/confidential-guest-support.txt
+> @@ -0,0 +1,43 @@
+> +Confidential Guest Support
+> +==========================
+> +
+> +Traditionally, hypervisors such as qemu have complete access to a
+> +guest's memory and other state, meaning that a compromised hypervisor
+> +can compromise any of its guests.  A number of platforms have added
+> +mechanisms in hardware and/or firmware which give guests at least some
+> +protection from a compromised hypervisor.  This is obviously
+> +especially desirable for public cloud environments.
+> +
+> +These mechanisms have different names and different modes of
+> +operation, but are often referred to as Secure Guests or Confidential
+> +Guests.  We use the term "Confidential Guest Support" to distinguish
+> +this from other aspects of guest security (such as security against
+> +attacks from other guests, or from network sources).
+> +
+> +Running a Confidential Guest
+> +----------------------------
+> +
+> +To run a confidential guest you need to add two command line parameters:
+> +
+> +1. Use "-object" to create a "confidential guest support" object.  The
+> +   type and parameters will vary with the specific mechanism to be
+> +   used
+> +2. Set the "confidential-guest-support" machine parameter to the ID of
+> +   the object from (1).
+> +
+> +Example (for AMD SEV)::
+> +
+> +    qemu-system-x86_64 \
+> +        <other parameters> \
+> +        -machine ...,confidential-guest-support=sev0 \
+> +        -object sev-guest,id=sev0,cbitpos=47,reduced-phys-bits=1
+> +
+> +Supported mechanisms
+> +--------------------
+> +
+> +Currently supported confidential guest mechanisms are:
+> +
+> +AMD Secure Encrypted Virtualization (SEV)
+> +    docs/amd-memory-encryption.txt
+> +
+> +Other mechanisms may be supported in future.
 
 
