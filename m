@@ -2,71 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 99CCC2F6742
-	for <lists+qemu-devel@lfdr.de>; Thu, 14 Jan 2021 18:16:38 +0100 (CET)
-Received: from localhost ([::1]:36242 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A94362F677A
+	for <lists+qemu-devel@lfdr.de>; Thu, 14 Jan 2021 18:27:01 +0100 (CET)
+Received: from localhost ([::1]:58364 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l06Ef-0002JT-Bj
-	for lists+qemu-devel@lfdr.de; Thu, 14 Jan 2021 12:16:37 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49318)
+	id 1l06Oi-0006f8-Ly
+	for lists+qemu-devel@lfdr.de; Thu, 14 Jan 2021 12:27:00 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49372)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1l05wW-0003vP-EY
- for qemu-devel@nongnu.org; Thu, 14 Jan 2021 11:57:52 -0500
-Received: from mail-wr1-x436.google.com ([2a00:1450:4864:20::436]:39050)
+ id 1l05wd-00047V-0E
+ for qemu-devel@nongnu.org; Thu, 14 Jan 2021 11:57:59 -0500
+Received: from mail-wm1-x32b.google.com ([2a00:1450:4864:20::32b]:38525)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1l05wU-0004zc-Ji
- for qemu-devel@nongnu.org; Thu, 14 Jan 2021 11:57:52 -0500
-Received: by mail-wr1-x436.google.com with SMTP id c5so6515613wrp.6
- for <qemu-devel@nongnu.org>; Thu, 14 Jan 2021 08:57:50 -0800 (PST)
+ id 1l05wX-000514-TS
+ for qemu-devel@nongnu.org; Thu, 14 Jan 2021 11:57:58 -0500
+Received: by mail-wm1-x32b.google.com with SMTP id y187so5326165wmd.3
+ for <qemu-devel@nongnu.org>; Thu, 14 Jan 2021 08:57:53 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=2e7mZD6SyLJEsK7O00sEdc8/yoIDsC3UTnuO1XxhiK8=;
- b=XWXvTVaWriSrLYMYnGdqUkUsiCJIelSY6/J9isQl3NGiCtAoV5GkOHI2/KHwsToaKS
- S4Osbxc5LEi16mHz7gUUZOcM8LoCgG3i2x57Sj5JE/tfl0wJav30sxtQ2IW2h9MOvsTN
- VVBWq6Nyb8MNRHqGyn7qFBWJ/GciAYmsxs5qmQ2bimUKOgRnYrJupkfz41EBEzu80xFb
- dihEyHzxzlAK0lWBKtbsQ1vzYUUvEA0AaekCwFg11uHd/atCfhumBkWtsHYU1R4BMDgv
- aIwJP8OG978R+STiHaaH5DaxWJL175r37Gom+CjU5P0RddLiW0AuY5IQ1exztyIwqEIW
- JnqA==
+ bh=KW8lIzvnipfYX5ZFtuwParPNNorKyO1c/13pRWWU8zs=;
+ b=fKvQnL7ckkAZR8b92pJr0wt96eMNgV0/f55KE3Hb3CYktmJPVbD1nPrGobYeDB5brW
+ b+s3Zht1Tw9yUmkB3LUX2ijkW+ay7Uxo9/+3+tc9AZKPf6HIjTgPrRDZwvVB0+4J5qoZ
+ oebIfnrs4vy+qHNUa33kEKGMP/RipSz0SOtPIWsPARComuzGXwihmB9Et7lpb/2xykwA
+ 5shLk7YlksKzFpZ01VZfPGFMRO8VCde2tsc/8FceO+06jnuSYdO1LiVQRx8P/wlrKaAq
+ Bx3rm9aJHFJHSLY89A0J4yBy1nvh8dVFURQH3stSCcqX4kRUPkDHIAjbR58ozupxooV8
+ JwaQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=2e7mZD6SyLJEsK7O00sEdc8/yoIDsC3UTnuO1XxhiK8=;
- b=iN86XhkpZFlMhnSam16xqnU2GTC35hTAV47zhLlKp26+pUW/0FToBctM7Vqcvff+Rb
- SIM6uorDjh+Qa/3fnYjBd2gGbX71OVU70VyY3CXjiY2nZbN1M5VddgdG/+ZOSuF1NnAS
- 1UTNgUM8+k+TR5cTK5JHj5bTPuHaG1O8jTnyo/OFlQQk8ohbijQojoPmznjhtsGXQrIw
- YwZkj3UgQ20lF9uUU55KfYiGy0R5GIzmoWnb4rplY1KA9bsiUxtHF6BqoZys61FCI7Es
- 7pXItax7lcbOK8IgE99rp03QIrUvvwyap+jMwQXiXJveUZwgDGrIh3NLSclsE98muEdj
- Awpw==
-X-Gm-Message-State: AOAM5337+F637etnQG9dCruGs5RqoGZMRyntfK6ifCfq/iASAEl2YOtD
- ZYHRjFFBre4OteP5ddZWqWk36Q==
-X-Google-Smtp-Source: ABdhPJz0WZsFKbm3Iryq9Wu56vcIrtf+a+Kn3vNc+e2aSGANGxTzUQiHzRRFkMYkbU+wVXgkWkN7vQ==
-X-Received: by 2002:adf:db51:: with SMTP id f17mr9095592wrj.83.1610643469418; 
- Thu, 14 Jan 2021 08:57:49 -0800 (PST)
+ bh=KW8lIzvnipfYX5ZFtuwParPNNorKyO1c/13pRWWU8zs=;
+ b=eIFtGLd417xqONkfeKs8mjAY3JcJSBgt1g61k3+yIL9wEOqbspHMaaw5Xo3WmewuRH
+ 7Uey09EWNY/bbgtKwShJ5kzVw3ley3fvOoKNm7OCDyvB4UeNm35P4oUet/VL4ZgsVhNg
+ FL6cdbU7yO2JTXVM+GlRc4U59dVMeiJfk9/0xSnoQXapmmfGzc1WT7Gr/xoXB5Q8tvgw
+ W6lp49t6Fp/XdiEX6SpRRppjJF/WXPh+4S+z5andSE+EfZKJbxqJOy0RUrUpwOTJYk7K
+ 85kTfeXBCvxqpvOZJe43g0Yyt6nokYJ94W9Xe3Vv+zjyPdu0asAyJFniFh3XfhFIncCh
+ jhOA==
+X-Gm-Message-State: AOAM530ZuizvJ0GEnIkWuOsLSCPfALUBGGb7N4bmcj9Y8cpVisiFSmgr
+ icyt1yXyBpf2JtqzT18Q4gmgtEqSq6cpCw==
+X-Google-Smtp-Source: ABdhPJygrptExVo7d1qnOwrA25f7Yl8vhNukXZ2zX+jqbjBprCLUpnS1UECqudzoAGS8/M1WrvK9eQ==
+X-Received: by 2002:a7b:c8da:: with SMTP id f26mr4905522wml.155.1610643472554; 
+ Thu, 14 Jan 2021 08:57:52 -0800 (PST)
 Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id z6sm8996342wmi.15.2021.01.14.08.57.35
+ by smtp.gmail.com with ESMTPSA id b132sm9862268wmh.21.2021.01.14.08.57.37
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
  Thu, 14 Jan 2021 08:57:47 -0800 (PST)
 Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 01AE01FF99;
+ by zen.linaroharston (Postfix) with ESMTP id 18F161FF9A;
  Thu, 14 Jan 2021 16:57:31 +0000 (GMT)
 From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH  v2 10/12] Fix build with new yank feature by adding stubs
-Date: Thu, 14 Jan 2021 16:57:28 +0000
-Message-Id: <20210114165730.31607-11-alex.bennee@linaro.org>
+Subject: [PATCH v2 11/12] gitlab: migrate the minimal tools and unit tests
+ from Travis
+Date: Thu, 14 Jan 2021 16:57:29 +0000
+Message-Id: <20210114165730.31607-12-alex.bennee@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20210114165730.31607-1-alex.bennee@linaro.org>
 References: <20210114165730.31607-1-alex.bennee@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::436;
- envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x436.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::32b;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x32b.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -86,83 +87,63 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Paolo Bonzini <pbonzini@redhat.com>, Lukas Straub <lukasstraub2@web.de>,
- =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
+Cc: Fam Zheng <fam@euphon.net>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
+ Thomas Huth <thuth@redhat.com>,
+ =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
+ Wainer dos Santos Moschetta <wainersm@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Lukas Straub <lukasstraub2@web.de>
+These tests are good at shaking out missing stubs which otherwise work
+if we have built targets. Rather than create a new job just add the
+checks to the existing tools-and-docs build.
 
-Signed-off-by: Lukas Straub <lukasstraub2@web.de>
-[AJB: tweak MAINTAINERS]
 Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
-Message-Id: <20210114141918.5201cc9c@gecko.fritz.box>
 ---
- stubs/yank.c      | 29 +++++++++++++++++++++++++++++
- MAINTAINERS       |  1 +
- stubs/meson.build |  1 +
- 3 files changed, 31 insertions(+)
- create mode 100644 stubs/yank.c
+ .gitlab-ci.yml | 4 +++-
+ .travis.yml    | 9 ---------
+ 2 files changed, 3 insertions(+), 10 deletions(-)
 
-diff --git a/stubs/yank.c b/stubs/yank.c
-new file mode 100644
-index 0000000000..6090416065
---- /dev/null
-+++ b/stubs/yank.c
-@@ -0,0 +1,29 @@
-+#include "qemu/osdep.h"
-+#include "qemu/yank.h"
-+
-+bool yank_register_instance(const YankInstance *instance, Error **errp)
-+{
-+    return true;
-+}
-+
-+void yank_unregister_instance(const YankInstance *instance)
-+{
-+}
-+
-+void yank_register_function(const YankInstance *instance,
-+                            YankFn *func,
-+                            void *opaque)
-+{
-+}
-+
-+void yank_unregister_function(const YankInstance *instance,
-+                              YankFn *func,
-+                              void *opaque)
-+{
-+}
-+
-+void yank_generic_iochannel(void *opaque)
-+{
-+}
-+
-+
-diff --git a/MAINTAINERS b/MAINTAINERS
-index cb0656aec3..07e4851aa4 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -2736,6 +2736,7 @@ Yank feature
- M: Lukas Straub <lukasstraub2@web.de>
- S: Odd fixes
- F: util/yank.c
-+F: stubs/yank.c
- F: include/qemu/yank.h
- F: qapi/yank.json
+diff --git a/.gitlab-ci.yml b/.gitlab-ci.yml
+index bd60f3e741..a686bc40cf 100644
+--- a/.gitlab-ci.yml
++++ b/.gitlab-ci.yml
+@@ -124,11 +124,13 @@ check-system-debian:
+     IMAGE: debian-amd64
+     MAKE_CHECK_ARGS: check
  
-diff --git a/stubs/meson.build b/stubs/meson.build
-index 80b1d81a31..1a656cd070 100644
---- a/stubs/meson.build
-+++ b/stubs/meson.build
-@@ -47,6 +47,7 @@ stub_ss.add(files('vm-stop.c'))
- stub_ss.add(files('win32-kbd-hook.c'))
- stub_ss.add(files('cpu-synchronize-state.c'))
- if have_block
-+  stub_ss.add(files('yank.c'))
-   stub_ss.add(files('replay-tools.c'))
- endif
- if have_system
++# No targets are built here, just tools and docs. This also feeds into
++# the eventual documentation deployment steps later
+ build-tools-and-docs-debian:
+   <<: *native_build_job_definition
+   variables:
+     IMAGE: debian-amd64
+-    MAKE_CHECK_ARGS: ctags TAGS cscope
++    MAKE_CHECK_ARGS: check-unit check-softfloat ctags TAGS cscope
+     CONFIGURE_ARGS: --disable-system --disable-user --enable-docs --enable-tools
+   artifacts:
+     expire_in: 2 days
+diff --git a/.travis.yml b/.travis.yml
+index 3b574a5968..5f1dea873e 100644
+--- a/.travis.yml
++++ b/.travis.yml
+@@ -119,15 +119,6 @@ after_script:
+ 
+ jobs:
+   include:
+-    # Just build tools and run minimal unit and softfloat checks
+-    - name: "GCC check-unit and check-softfloat"
+-      env:
+-        - BASE_CONFIG="--enable-tools"
+-        - CONFIG="--disable-user --disable-system"
+-        - TEST_CMD="make check-unit check-softfloat -j${JOBS}"
+-        - CACHE_NAME="${TRAVIS_BRANCH}-linux-gcc-default"
+-
+-
+     # --enable-debug implies --enable-debug-tcg, also runs quite a bit slower
+     - name: "GCC debug (main-softmmu)"
+       env:
 -- 
 2.20.1
 
