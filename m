@@ -2,67 +2,132 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DB5A12F59E8
-	for <lists+qemu-devel@lfdr.de>; Thu, 14 Jan 2021 05:26:40 +0100 (CET)
-Received: from localhost ([::1]:56320 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id F34BF2F59EC
+	for <lists+qemu-devel@lfdr.de>; Thu, 14 Jan 2021 05:30:13 +0100 (CET)
+Received: from localhost ([::1]:59062 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kzuDX-000329-Ig
-	for lists+qemu-devel@lfdr.de; Wed, 13 Jan 2021 23:26:39 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48956)
+	id 1kzuGz-0004DU-1r
+	for lists+qemu-devel@lfdr.de; Wed, 13 Jan 2021 23:30:13 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49520)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1kzuCm-0002Vw-Mv
- for qemu-devel@nongnu.org; Wed, 13 Jan 2021 23:25:52 -0500
-Received: from indium.canonical.com ([91.189.90.7]:45808)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1kzuCk-0002dQ-3x
- for qemu-devel@nongnu.org; Wed, 13 Jan 2021 23:25:52 -0500
-Received: from loganberry.canonical.com ([91.189.90.37])
- by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1kzuCh-0005ZL-Ps
- for <qemu-devel@nongnu.org>; Thu, 14 Jan 2021 04:25:47 +0000
-Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id BED192E8086
- for <qemu-devel@nongnu.org>; Thu, 14 Jan 2021 04:25:47 +0000 (UTC)
+ (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
+ id 1kzuFw-0003iQ-9E; Wed, 13 Jan 2021 23:29:08 -0500
+Received: from mail-eopbgr20104.outbound.protection.outlook.com
+ ([40.107.2.104]:62529 helo=EUR02-VE1-obe.outbound.protection.outlook.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
+ id 1kzuFt-0004FO-6v; Wed, 13 Jan 2021 23:29:07 -0500
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=Kv+gRaSWWL7OXaWGOfjNvBaigrBBRQp7AvoUNQmyVMYIa+CJrzmNdD22tfC+eqv+az7WytpthzKewIeYmY2dROhhm/+TRyGwdhxzg6ay8aHdtwysHoolTUcqX/lDJ3enoce8ix6hZmXJfC9VNHx7sZRW2UH1HFFZ5yxwEN6+eVkhmfO3Ee3OXzWPDsk42RQ3Pj+emWv95iLriGni7TWNvA0yvWEk2qeGDbXNk+Zcw99GKGepzZR7aSA1doU2GdmakRTWGUc3Fo5bNtbjkfwhImM0F2UnU7VoEgifSEMLroaMOvGZmoiM0qKGXDas4MZZOoUeBfxjqtO2NOkLPWN/IA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=laYYZtf5qDW3Ry0Dn1Ev7LQwTWtG2ihseKP+UoXv5Hw=;
+ b=MP4VxXGH/OIDmVmhFHSs5MJm7/50xmn3Rc/weaOqr7EmiSdqkkgLgr8JJzcBq3w44haydoO6bZHZKTYgWHTnVNJX3KCQ69nIpGioshBXxmB7SltMeoozp7+46JJtjxSXYMdccuebxXueq0vm49/fGSqNY4s42TmbU3Ee4AeoDISO/Q+iEOoCcMYPUE6b3nze2Q7d6poINE8t7W3/OmL3G+n/FaGnbyziB3NKZWxAsPMc/ZU7PIl50HG6zzPZiyfhvAOq4IkTh4feBa1fLhWUOdfxxPCw96ZsqPrn5+0FpTKUjO2/8zRfhUC62vOxgwTWSNqu6pGF6cNEnkAlidEnNg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=virtuozzo.com; dmarc=pass action=none
+ header.from=virtuozzo.com; dkim=pass header.d=virtuozzo.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=laYYZtf5qDW3Ry0Dn1Ev7LQwTWtG2ihseKP+UoXv5Hw=;
+ b=lohHW4v2wjGKTJGonM4W+SvPpq+myFUHGwmnaECejT7tMNJiqtxOtSK4KhaZXstNifJp78dKrJFLi4BepIUYP8roCbmbSZ5IEFX9mzDew3aL4Vv+pGtaAaXyL7eWl+2W4GPp/4hExO30GTGwFb/oOGo0OiPuLLD3nYpGow0yowA=
+Authentication-Results: redhat.com; dkim=none (message not signed)
+ header.d=none;redhat.com; dmarc=none action=none header.from=virtuozzo.com;
+Received: from AM7PR08MB5494.eurprd08.prod.outlook.com (2603:10a6:20b:dc::15)
+ by AS8PR08MB6293.eurprd08.prod.outlook.com (2603:10a6:20b:23e::14)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3763.10; Thu, 14 Jan
+ 2021 04:29:00 +0000
+Received: from AM7PR08MB5494.eurprd08.prod.outlook.com
+ ([fe80::214a:3545:368c:7ae8]) by AM7PR08MB5494.eurprd08.prod.outlook.com
+ ([fe80::214a:3545:368c:7ae8%9]) with mapi id 15.20.3763.009; Thu, 14 Jan 2021
+ 04:29:00 +0000
+Subject: Re: [PATCH v6 08/11] iotests: add testenv.py
+To: qemu-block@nongnu.org
+References: <20210109122631.167314-1-vsementsov@virtuozzo.com>
+ <20210109122631.167314-9-vsementsov@virtuozzo.com>
+From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+Message-ID: <4bc3f007-65c1-ce8e-0e16-3e6087918d8f@virtuozzo.com>
+Date: Thu, 14 Jan 2021 07:28:58 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.6.1
+In-Reply-To: <20210109122631.167314-9-vsementsov@virtuozzo.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [185.215.60.80]
+X-ClientProxiedBy: AM0PR03CA0004.eurprd03.prod.outlook.com
+ (2603:10a6:208:14::17) To AM7PR08MB5494.eurprd08.prod.outlook.com
+ (2603:10a6:20b:dc::15)
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-Date: Thu, 14 Jan 2021 04:17:14 -0000
-From: Launchpad Bug Tracker <1770724@bugs.launchpad.net>
-To: qemu-devel@nongnu.org
-X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=Expired; importance=Undecided;
- assignee=None; 
-X-Launchpad-Bug-Information-Type: Public
-X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: ihar-hrachyshka janitor th-huth
-X-Launchpad-Bug-Reporter: Ihar Hrachyshka (ihar-hrachyshka)
-X-Launchpad-Bug-Modifier: Launchpad Janitor (janitor)
-References: <152606337380.25547.9159144751315221757.malonedeb@soybean.canonical.com>
-Message-Id: <161059783536.4552.9596752601776936981.malone@loganberry.canonical.com>
-Subject: [Bug 1770724] Re: e1000 takes a long time (2 seconds) to set link
- ready
-X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
-X-Launchpad-Message-For: qemu-devel-ml
-Precedence: bulk
-X-Generated-By: Launchpad (canonical.com);
- Revision="511b4a3b6512aa3d421c5f7d74f3527e78bff26e"; Instance="production"
-X-Launchpad-Hash: 310e5e72e14981e263d2dac21d51f93b378df881
-Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
- helo=indium.canonical.com
-X-Spam_score_int: -65
-X-Spam_score: -6.6
-X-Spam_bar: ------
-X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9,
- HEADER_FROM_DIFFERENT_DOMAINS=0.248, RCVD_IN_DNSWL_HI=-5,
- RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=ham autolearn_force=no
+X-MS-Exchange-MessageSentRepresentingType: 1
+Received: from [192.168.100.8] (185.215.60.80) by
+ AM0PR03CA0004.eurprd03.prod.outlook.com (2603:10a6:208:14::17) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.3763.10 via Frontend Transport; Thu, 14 Jan 2021 04:29:00 +0000
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: 61500a00-31ed-4e84-4cae-08d8b844eab7
+X-MS-TrafficTypeDiagnostic: AS8PR08MB6293:
+X-MS-Exchange-Transport-Forked: True
+X-Microsoft-Antispam-PRVS: <AS8PR08MB6293FBB8E65C7BF7BE0896BDC1A80@AS8PR08MB6293.eurprd08.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:6430;
+X-MS-Exchange-SenderADCheck: 1
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: DtSlgnGLYQ/nGgLQ6ZtvHhHngwYSmp8YiCFFn8UD0Cxf+dcPL6RWcnfu94yx5lK2wlQJ+mJaHYdKauUUS9dZUvwOE83D51nI4qiHaO7s90y2Bqo+4EPkN7EO0G4OEraFTqdrJSHao7dblseF0V8zMSHwKWH5th6f6uK65Dxalb0r9Kls3Lc4EitVipKCTUP6WRgBNIwh355GrSWBIrdZbSDZgD+ae+mUzsYmBlR+1FI+lFHYED90lu5DC59aUtEgFdIpev34L++gwNjcgAKw5J4avfDKjiQIOxLdp5vnsbf2cx0eI8aeKomi9QaAx0C1mFTVLyEZlgWhQxrERxcm66qNg3robEvW570iwL6Ber3rziXPcZ+/XGY5pq3iaPO0vv6yoHF0NQ5ub58cSDGUFtrj9RChdie7G0adMiJ85oeDbWuLKeyaY4QMfS28skxSUMGmr30oxnDU4rkJV9hk9SY5AcfDMca9wE4sHHHUkYk=
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:AM7PR08MB5494.eurprd08.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(4636009)(376002)(396003)(346002)(366004)(39840400004)(136003)(6486002)(6916009)(956004)(2616005)(316002)(26005)(36756003)(2906002)(478600001)(66556008)(66946007)(8936002)(4744005)(186003)(31686004)(86362001)(5660300002)(4326008)(16526019)(8676002)(66476007)(16576012)(31696002)(52116002)(43740500002)(45980500001);
+ DIR:OUT; SFP:1102; 
+X-MS-Exchange-AntiSpam-MessageData: =?utf-8?B?VmRONkw3TG5CZE9aL04wTmtIYzdqczA4UCs3UkQ3TVAwWi9KaEd6SGNBV1Bj?=
+ =?utf-8?B?blIrdnBaQzNqN2VUTndMU2FaZU1mZkJTQnhXcDZVdXh0cG1UZU5Bb1Z6b0xr?=
+ =?utf-8?B?SU1pUGx1M3NabENsVkFtTzdrVGUydUdWRjRPZkUwK0pqUkFCdHkvcmczSzlt?=
+ =?utf-8?B?UHcvWFE2TWFYWGpHWmRCclVaSGdMc0UxUWllSGF5NFFtSlU0S3d6and0Q0py?=
+ =?utf-8?B?ZFQ5UytTUkF3VDQ1ano3c1pHbGxIVnFQbTc2Y29IVndHRU45Y3VrbnVWeUVh?=
+ =?utf-8?B?ZGlXc0xTSWZaVjVYMEZkcU9VOHZoQVlGVVNjazAwalNzYWdacmxtbDUzMHhZ?=
+ =?utf-8?B?Rjl1MnIzN0R2Q21GTFloZmdvbVhPd1Z1eGRIc1JWaGpVWGRyeWRTUDNXMVJD?=
+ =?utf-8?B?Sjc0UlRaTkMwcTl6eTl3NVhhMnprYWt5RzN0cGtTdjlCaGM0U2F1ZEQ3WFNT?=
+ =?utf-8?B?Z2hVekhGclphR2IrTU5kVHhEU3JvV3JTSGoyenlkRFJQR0VobVZGcnV6SDNO?=
+ =?utf-8?B?UmFHK2RpVDJUM1ZFQlNMS3pCYit5VmJyWnczSmhoTkd0TURSMGp1T29IZUhT?=
+ =?utf-8?B?aS9IYUtMcjJFdS9VUGxmUkgxRFZvcVpKWTAzSHFidk1yeThaanRvRnRMQ3Y4?=
+ =?utf-8?B?UGRreWcyYTlJbThSbGM4OUg1K0tSKzUzRWUyZ1JhZitGMGVHTGUwM1RCSlZU?=
+ =?utf-8?B?RnRrSXdSVHZwZzZLR0tNZ0VvNkcxZC9QVm9Hdmp6VGVFVFFsUW9sbjd5N1du?=
+ =?utf-8?B?VUFQcnpvV3JWbStOaGJyTUFwTkMwSW1zK21OcjRjNFlDNmsxVkRLYjhjUkto?=
+ =?utf-8?B?ZHl6bmZ4YkQwb1lld0lmWTN0ZEZuc2E0WFp0S05LbDRNMlJqcjZtZ0ZaV2wx?=
+ =?utf-8?B?L3o1cm55VHkzVnU2eVRHOFRQTUVCNTVTaldqQ0xoMXE5NWlFd2xxTzlhOGJN?=
+ =?utf-8?B?azlxc2ZFaWN6QWpFeDM3ak5FdEhOU0thbFVuOHEvRWdsSTY4WklVUWUyZmw0?=
+ =?utf-8?B?c21DeXV4Q3BzdDFhQnBQc0cwSGh2UWp6cndoNnh1eStRK3U4QW9IdlNLVmFo?=
+ =?utf-8?B?cUkyTDMyanhhcmxXbzRqUWRCN0Ztb1RqeGV0V1FVRXRWYVQ2SldOdGlSQmlu?=
+ =?utf-8?B?QUtGQWxGVnpsTXp1Q1BaTWZxY29GUHZJUzQ2VllKcU9tNnZzMUFubzN5TFJk?=
+ =?utf-8?B?ZU5Oa1NkdlBzN0I1QXJ2VDJTaVhQMEdZL1FyU3ZCNk52b0x0S0FLM21ucGx1?=
+ =?utf-8?B?VXcyUTlKcVRZcjhadXo3Rmo1b1BvRVBZNzhyQjZHQjF3NS9ITFlrUS9Ud0w1?=
+ =?utf-8?Q?ZSW2C5jp+IiN5VmT9u95+f2D2v6bOUM3dN?=
+X-OriginatorOrg: virtuozzo.com
+X-MS-Exchange-CrossTenant-AuthSource: AM7PR08MB5494.eurprd08.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 14 Jan 2021 04:29:00.7685 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
+X-MS-Exchange-CrossTenant-Network-Message-Id: 61500a00-31ed-4e84-4cae-08d8b844eab7
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: 3LTw5ihoNYC6KkZWI+TcDhnfEjCdtMALXPThtoDJAbuWmZZ5XJsbOEHHZ0d2oNSTzXbAZAAOOHlT0GgvsIq1H9GV+mgeqQQrjEIXwtSQOjs=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: AS8PR08MB6293
+Received-SPF: pass client-ip=40.107.2.104;
+ envelope-from=vsementsov@virtuozzo.com;
+ helo=EUR02-VE1-obe.outbound.protection.outlook.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
+X-Spam_bar: --
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ MSGID_FROM_MTA_HEADER=0.001, NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7,
+ RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_PASS=-0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -71,179 +136,25 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1770724 <1770724@bugs.launchpad.net>
+Cc: kwolf@redhat.com, qemu-devel@nongnu.org, mreitz@redhat.com, den@openvz.org,
+ jsnow@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-[Expired for QEMU because there has been no activity for 60 days.]
+09.01.2021 15:26, Vladimir Sementsov-Ogievskiy wrote:
+> Add TestEnv class, which will handle test environment in a new python
+> iotests running framework.
+> 
+> Difference with current ./check interface:
+> - -v (verbose) option dropped, as it is unused
+> 
+> - -xdiff option is dropped, until somebody complains that it is needed
+> - same for -n option
 
-** Changed in: qemu
-       Status: Incomplete =3D> Expired
+One more thing dropped is looking for binaries in $build_iotests directory.
+Do someone use this feature? Or we can drop it, and reimplement when someone report the degradation?
 
--- =
-
-You received this bug notification because you are a member of qemu-
-devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1770724
-
-Title:
-  e1000 takes a long time (2 seconds) to set link ready
-
-Status in QEMU:
-  Expired
-
-Bug description:
-  When a VM is booted with e1000 NIC, it takes a long time (2 seconds)
-  for the guest to bring up the link. This can be seen in the following
-  dmesg messages:
-
-  [    4.899773] IPv6: ADDRCONF(NETDEV_UP): eth0: link is not ready
-  [    6.889165] e1000: eth0 NIC Link is Up 1000 Mbps Full Duplex, Flow Con=
-trol: RX
-  [    6.891372] IPv6: ADDRCONF(NETDEV_CHANGE): eth0: link becomes ready
-
-  The first message happens when the guest calls to ifup eth0; ifup does
-  not hold control until the link is established. The guest I am using
-  (cirros 0.4.0) then starts udhcpc DHCP client that issues a DHCP
-  request, then waits for 60 seconds for reply, then repeats the DHCP
-  request. When the first request is sent, the link is not ready yet, so
-  the frame is lost; when the second request is sent, the link is up and
-  DHCP lease is received.
-
-  If I use different NICs (e1000e, virtio, rtl*), there are no dmesg
-  messages, and the very first DHCP request correctly reaches outside
-  and results in a lease acquired.
-
-  The qemu version I am using is 2.10.1 from Fedora 27. I tried to
-  reproduce with runtime from Fedora 29 that includes 2.12 but I have
-  different issues there that block me from reproducing the original
-  issue (there, I get kernel traces, irq interrupt errors, and no
-  network link at all).
-
-  For the record, the qemu in question is started by kubevirt inside a
-  docker container with Fedora 27 based image.
-
-  =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D
-
-  The command line of qemu is as follows:
-
-  27404 ?        Sl     0:10 /usr/bin/qemu-system-x86_64 -machine
-  accel=3Dkvm -name guest=3Ddefault_ovm-cirros,debug-threads=3Don -S -object
-  secret,id=3DmasterKey0,format=3Draw,file=3D/var/lib/libvirt/qemu/domain-1
-  -default_ovm-cirros/master-key.aes -machine
-  pc-q35-2.10,accel=3Dkvm,usb=3Doff,dump-guest-core=3Doff -m 62 -realtime
-  mlock=3Doff -smp 1,sockets=3D1,cores=3D1,threads=3D1 -uuid
-  8769fdbe-d957-5567-bd71-114ba0eb4811 -no-user-config -nodefaults
-  -chardev socket,id=3Dcharmonitor,path=3D/var/lib/libvirt/qemu/domain-1
-  -default_ovm-cirros/monitor.sock,server,nowait -mon
-  chardev=3Dcharmonitor,id=3Dmonitor,mode=3Dcontrol -rtc base=3Dutc -no-shu=
-tdown
-  -no-acpi -boot strict=3Don -device
-  i82801b11-bridge,id=3Dpci.1,bus=3Dpcie.0,addr=3D0x1e -device pci-
-  bridge,chassis_nr=3D2,id=3Dpci.2,bus=3Dpci.1,addr=3D0x0 -device pcie-root-
-  port,port=3D0x10,chassis=3D3,id=3Dpci.3,bus=3Dpcie.0,multifunction=3Don,a=
-ddr=3D0x2
-  -device pcie-root-
-  port,port=3D0x11,chassis=3D4,id=3Dpci.4,bus=3Dpcie.0,addr=3D0x2.0x1 -devi=
-ce
-  pcie-root-port,port=3D0x12,chassis=3D5,id=3Dpci.5,bus=3Dpcie.0,addr=3D0x2=
-.0x2
-  -device pcie-root-
-  port,port=3D0x13,chassis=3D6,id=3Dpci.6,bus=3Dpcie.0,addr=3D0x2.0x3 -devi=
-ce
-  pcie-root-port,port=3D0x14,chassis=3D7,id=3Dpci.7,bus=3Dpcie.0,addr=3D0x2=
-.0x4
-  -device nec-usb-xhci,id=3Dusb,bus=3Dpci.3,addr=3D0x0 -drive
-  file=3D/var/run/libvirt/kubevirt-ephemeral-disk/registry-disk-
-  data/default/ovm-cirros/disk_registryvolume/disk-
-  image.raw,format=3Draw,if=3Dnone,id=3Ddrive-virtio-disk0 -device virtio-b=
-lk-
-  pci,scsi=3Doff,bus=3Dpci.4,addr=3D0x0,drive=3Ddrive-virtio-disk0,id=3Dvir=
-tio-
-  disk0,bootindex=3D1 -drive file=3D/var/run/libvirt/kubevirt-ephemeral-disk
-  /cloud-init-data/default/ovm-cirros/noCloud.iso,format=3Draw,if=3Dnone,id
-  =3Ddrive-virtio-disk1 -device virtio-blk-
-  pci,scsi=3Doff,bus=3Dpci.5,addr=3D0x0,drive=3Ddrive-virtio-disk1,id=3Dvir=
-tio-
-  disk1 -netdev tap,fd=3D23,id=3Dhostnet0 -device
-  e1000,netdev=3Dhostnet0,id=3Dnet0,mac=3D0a:58:0a:f4:01:e1,bus=3Dpci.2,add=
-r=3D0x1
-  -chardev socket,id=3Dcharserial0,path=3D/var/run/kubevirt-private/default
-  /ovm-cirros/virt-serial0,server,nowait -device isa-
-  serial,chardev=3Dcharserial0,id=3Dserial0 -vnc vnc=3Dunix:/var/run/kubevi=
-rt-
-  private/default/ovm-cirros/virt-vnc -device
-  VGA,id=3Dvideo0,vgamem_mb=3D16,bus=3Dpcie.0,addr=3D0x1 -device virtio-bal=
-loon-
-  pci,id=3Dballoon0,bus=3Dpci.6,addr=3D0x0 -msg timestamp=3Don
-
-  =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D
-
-  Hypervisor versions of interest:
-
-  [vagrant@node02 ~]$ sudo docker exec -it $(sudo docker ps | grep virt-lau=
-ncher-ovm-cirros | grep entrypoint | awk -e '{print $1}') rpm -qa | grep 'q=
-emu\|libvirt'
-  qemu-block-curl-2.10.1-2.fc27.x86_64
-  qemu-block-ssh-2.10.1-2.fc27.x86_64
-  qemu-block-nfs-2.10.1-2.fc27.x86_64
-  qemu-system-x86-core-2.10.1-2.fc27.x86_64
-  libvirt-daemon-3.7.0-4.fc27.x86_64
-  libvirt-daemon-driver-storage-disk-3.7.0-4.fc27.x86_64
-  libvirt-daemon-driver-storage-mpath-3.7.0-4.fc27.x86_64
-  libvirt-daemon-driver-storage-zfs-3.7.0-4.fc27.x86_64
-  libvirt-daemon-driver-nwfilter-3.7.0-4.fc27.x86_64
-  qemu-img-2.10.1-2.fc27.x86_64
-  qemu-common-2.10.1-2.fc27.x86_64
-  qemu-block-dmg-2.10.1-2.fc27.x86_64
-  qemu-block-rbd-2.10.1-2.fc27.x86_64
-  qemu-system-x86-2.10.1-2.fc27.x86_64
-  libvirt-libs-3.7.0-4.fc27.x86_64
-  libvirt-daemon-driver-storage-core-3.7.0-4.fc27.x86_64
-  libvirt-daemon-driver-qemu-3.7.0-4.fc27.x86_64
-  libvirt-daemon-driver-storage-gluster-3.7.0-4.fc27.x86_64
-  libvirt-daemon-driver-storage-logical-3.7.0-4.fc27.x86_64
-  libvirt-daemon-driver-storage-rbd-3.7.0-4.fc27.x86_64
-  libvirt-daemon-driver-storage-sheepdog-3.7.0-4.fc27.x86_64
-  libvirt-daemon-driver-storage-3.7.0-4.fc27.x86_64
-  libvirt-daemon-driver-nodedev-3.7.0-4.fc27.x86_64
-  libvirt-daemon-driver-secret-3.7.0-4.fc27.x86_64
-  libvirt-client-3.7.0-4.fc27.x86_64
-  ipxe-roms-qemu-20161108-2.gitb991c67.fc26.noarch
-  qemu-block-gluster-2.10.1-2.fc27.x86_64
-  qemu-block-iscsi-2.10.1-2.fc27.x86_64
-  qemu-kvm-2.10.1-2.fc27.x86_64
-  libvirt-daemon-driver-network-3.7.0-4.fc27.x86_64
-  libvirt-daemon-driver-storage-iscsi-3.7.0-4.fc27.x86_64
-  libvirt-daemon-driver-storage-scsi-3.7.0-4.fc27.x86_64
-  libvirt-daemon-driver-interface-3.7.0-4.fc27.x86_64
-  libvirt-daemon-kvm-3.7.0-4.fc27.x86_64
-
-  [vagrant@node02 ~]$ uname -a
-  Linux node02 3.10.0-693.17.1.el7.x86_64 #1 SMP Thu Jan 25 20:13:58 UTC 20=
-18 x86_64 x86_64 x86_64 GNU/Linux
-
-  [vagrant@node02 ~]$ cat /etc/redhat-release
-  CentOS Linux release 7.4.1708 (Core)
-
-  =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D
-
-  Guest:
-
-  $ uname -a
-  Linux ovm-cirros 4.4.0-28-generic #47-Ubuntu SMP Fri Jun 24 10:09:13 UTC =
-2016 x86_64 GNU/Linux
-
-  =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D
-
-  Bug trackers for other projects:
-  - cirros: https://bugs.launchpad.net/cirros/+bug/1768955
-  - kubevirt: https://github.com/kubevirt/kubevirt/issues/936
-
-To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1770724/+subscriptions
+-- 
+Best regards,
+Vladimir
 
