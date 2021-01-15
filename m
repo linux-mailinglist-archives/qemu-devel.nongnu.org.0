@@ -2,74 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 44F0C2F884E
-	for <lists+qemu-devel@lfdr.de>; Fri, 15 Jan 2021 23:19:49 +0100 (CET)
-Received: from localhost ([::1]:49942 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CCFF12F8856
+	for <lists+qemu-devel@lfdr.de>; Fri, 15 Jan 2021 23:23:07 +0100 (CET)
+Received: from localhost ([::1]:54032 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l0XRc-0007IG-Bn
-	for lists+qemu-devel@lfdr.de; Fri, 15 Jan 2021 17:19:48 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46384)
+	id 1l0XUo-0000gK-Bg
+	for lists+qemu-devel@lfdr.de; Fri, 15 Jan 2021 17:23:06 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47140)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1l0XPQ-0006Iv-5s
- for qemu-devel@nongnu.org; Fri, 15 Jan 2021 17:17:32 -0500
-Received: from mail-ej1-x635.google.com ([2a00:1450:4864:20::635]:44492)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1l0XPO-0003Bo-3O
- for qemu-devel@nongnu.org; Fri, 15 Jan 2021 17:17:31 -0500
-Received: by mail-ej1-x635.google.com with SMTP id w1so15417591ejf.11
- for <qemu-devel@nongnu.org>; Fri, 15 Jan 2021 14:17:29 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=0ykcTianyGcyQn369AWid2CSSNFpbeBi1VKZPRC0fes=;
- b=WKBNvyPj72CF2dt7llRS6aFeR+LRLnNKSUzwoRe6Djt7O3PjlO0geOcKdQAc/VDuKF
- vvAiXD15fd2IL6UTixS1sYzJjfDt72jcvq4EMyjqN/Y8h1aqUVqlQUxkMcKwG4XiBSVj
- dFQDxmyT7bLIorHVZYx7JEnrZJMLZekhXP9Zz7JDT1VqZzcFGVCDb+Oh56MC9DhC7gGZ
- jiaRP42AbVwTzsV2Pge2O9Hgv8XYxA1iLmQKub7BHbGlI4CFZ6HNKoUL0xigrE5CSJw5
- Qx5lJZPu7v2DfoU53PrIDb9wXN3t74R9UC7gQhjvnZvlkSlIGei81TPS5q17Hs4v04yJ
- FkKQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=0ykcTianyGcyQn369AWid2CSSNFpbeBi1VKZPRC0fes=;
- b=oCO41UW2jQDBI7qko5cuON/vFtKYLKOEocPBkBTezdR2MOrhS2E4WC2lKxW5RRStA2
- H3VFkF+lZ0qWjaT2RnixCdrupMYSNK3JTxOjn8yG9ydQowwwGRWpzwO6sLZ5pbr+M8jp
- lYYST18g+/2mEJ/we3ym6A7gfXOBfvrchUP/qUjTkrIlQNQEL+VtbEUIZCdEl2da/fgX
- omYkNpft0eOkjfbqo5gGeTHEIgnt/6cgikCAPaBY0gGGoDPv612IxxXoLcQfV6Zu6ykS
- OJrYlzAQW6rQ6XvPtXqBb3RppZfOfAN1fuanz/0M0Ytd+XANIJaWn7QZIk12ln/x+h1+
- Hrbg==
-X-Gm-Message-State: AOAM5317DyOSwOZBYlb9dv5IL/mI5l+8fl0mnJPFoXP8J5hf5XHI2epI
- UkxRqM5RmLOWhOeDRGu2yeumPaAD8O571oo+VSMNaA==
-X-Google-Smtp-Source: ABdhPJyBivQyTl0Bklv93kNTrunyucJ8lRcdUeDQgE/l/49S+MVUYHYmVeHJ/t57Yb+w1U2STEvlJ+35ZagxUmmqqTc=
-X-Received: by 2002:a17:906:494c:: with SMTP id
- f12mr7155200ejt.56.1610749048042; 
- Fri, 15 Jan 2021 14:17:28 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1l0XT2-00008i-Iv
+ for qemu-devel@nongnu.org; Fri, 15 Jan 2021 17:21:16 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:53817)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1l0XSz-0004b4-Hr
+ for qemu-devel@nongnu.org; Fri, 15 Jan 2021 17:21:16 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1610749271;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=SBM8sb8PuEcBSC4eEAMMX8hNUnTMXvqyX8CxP9WZ77I=;
+ b=OBHqL0+Q+QyIboudTjrXkwfuXxmFRTcSsS5ZkRFImZfVCEICNZRhuxVyljeIdQ0w4P3jn2
+ 2cVb9RgeFDabwgRDxI51aKCcYqyRPFGf7eu7xcEmDuPU7SWbjCuZD2TWxISxMellgANbP+
+ ZDuiQry0N0Wv/WcrneuWS9B8TBv0y08=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-484-M3rjHsKUOu2UTUH5aLuCwA-1; Fri, 15 Jan 2021 17:21:09 -0500
+X-MC-Unique: M3rjHsKUOu2UTUH5aLuCwA-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id DE466CE646;
+ Fri, 15 Jan 2021 22:21:07 +0000 (UTC)
+Received: from thuth.remote.csb (ovpn-112-32.ams2.redhat.com [10.36.112.32])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 9817619C45;
+ Fri, 15 Jan 2021 22:21:04 +0000 (UTC)
+Subject: Re: [PATCH 2/4] tests/qtest: Make fuzz-test generic to all targets
+To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
+ qemu-devel@nongnu.org
+References: <20210115150936.3333282-1-philmd@redhat.com>
+ <20210115150936.3333282-3-philmd@redhat.com>
+From: Thomas Huth <thuth@redhat.com>
+Message-ID: <54b8deab-5636-5821-4743-edc5375f2d76@redhat.com>
+Date: Fri, 15 Jan 2021 23:21:03 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.6.0
 MIME-Version: 1.0
-References: <20201104092900.21214-1-green.wan@sifive.com>
- <CAFEAcA_EykbnmTQuz4RT3qGMt-Atf=EAdaHd-QqBvJCPvwemqA@mail.gmail.com>
- <CAEUhbmULDEgfs0zkt6k1DWo+AD4T701xDp5TCyjQHFypmr037g@mail.gmail.com>
- <CAFEAcA9QrTA6bEiK608HfB9vfN66SGBPJw6pEDDk2YH3v4M8SQ@mail.gmail.com>
- <CAEUhbmX4GtWfU1Z+cbSb435MCgBo+OaLbSg0qP_mRgPxSJRLnQ@mail.gmail.com>
- <CAKmqyKP=URfpTZXsax=Xmvn9-cz0GY7C6eih+bdycZhRASH2Fw@mail.gmail.com>
-In-Reply-To: <CAKmqyKP=URfpTZXsax=Xmvn9-cz0GY7C6eih+bdycZhRASH2Fw@mail.gmail.com>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Fri, 15 Jan 2021 22:17:16 +0000
-Message-ID: <CAFEAcA9m=y+V_euSE_gWcyeKBY=meTaroRcMdH9_CWtkUjVKWw@mail.gmail.com>
-Subject: Re: [PATCH] hw/misc/sifive_u_otp: handling the fails of blk_pread and
- blk_pwrite
-To: Alistair Francis <alistair23@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2a00:1450:4864:20::635;
- envelope-from=peter.maydell@linaro.org; helo=mail-ej1-x635.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+In-Reply-To: <20210115150936.3333282-3-philmd@redhat.com>
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=thuth@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=thuth@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -29
+X-Spam_score: -3.0
+X-Spam_bar: ---
+X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.25,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -83,35 +82,21 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Bin Meng <bmeng.cn@gmail.com>, QEMU Developers <qemu-devel@nongnu.org>,
- Green Wan <green.wan@sifive.com>
+Cc: Fam Zheng <fam@euphon.net>, Laurent Vivier <lvivier@redhat.com>,
+ Hannes Reinecke <hare@suse.com>, qemu-block@nongnu.org,
+ Li Qiang <liq3ea@gmail.com>, Alexander Bulekov <alxndr@bu.edu>,
+ Paolo Bonzini <pbonzini@redhat.com>, Stefan Berger <stefanb@linux.ibm.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, 15 Jan 2021 at 21:43, Alistair Francis <alistair23@gmail.com> wrote:
->
-> On Fri, Jan 15, 2021 at 6:09 AM Bin Meng <bmeng.cn@gmail.com> wrote:
-> >
-> > On Fri, Jan 15, 2021 at 9:55 PM Peter Maydell <peter.maydell@linaro.org> wrote
-> > > printf is definitely the wrong thing... you need to either report
-> > > the error back to the guest if the interface the guest is using
-> > > has a facility for reporting read/write failures, or log or report
-> > > it to the user using one of our APIs for that.
-> >
-> > It seems the hardware does not have a mechanism to report to the
-> > software when hardware cannot fulfill the task requested by software.
-> >
-> > I checked all existence of block_pwrite() callers. It looks like this
-> > is not handled consistently. Some indeed call printf(), some call
-> > error_setg_errno(), some call fprintf(stderr), some call qemu_log()
-> > ...
->
-> Logging a guest error seems like the best bet, I'm not really sure
-> what else we would do.
+On 15/01/2021 16.09, Philippe Mathieu-Daudé wrote:
+> Tests in fuzz-test's main() already check for the supported
+> architecture before adding tests, therefore this test is not
+> specific to the X86 target. Move it to the generic set.
 
-Looking at the other options, I think error_report() of some kind is
-probably the best bet here.
+As long as it does not run any test on non-x86, it does not make sense to 
+move it to the generic set, does it? We'd only waste compile cycles that way?
 
-thanks
--- PMM
+  Thomas
+
 
