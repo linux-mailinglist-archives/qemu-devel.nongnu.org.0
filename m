@@ -2,65 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E52052F70B3
-	for <lists+qemu-devel@lfdr.de>; Fri, 15 Jan 2021 03:47:11 +0100 (CET)
-Received: from localhost ([::1]:35872 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AD9402F70B7
+	for <lists+qemu-devel@lfdr.de>; Fri, 15 Jan 2021 03:49:36 +0100 (CET)
+Received: from localhost ([::1]:38132 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l0F8o-0008Ru-Hk
-	for lists+qemu-devel@lfdr.de; Thu, 14 Jan 2021 21:47:10 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44332)
+	id 1l0FB9-0000xe-Q0
+	for lists+qemu-devel@lfdr.de; Thu, 14 Jan 2021 21:49:35 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44754)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1l0F7U-0007w9-V5
- for qemu-devel@nongnu.org; Thu, 14 Jan 2021 21:45:51 -0500
-Received: from indium.canonical.com ([91.189.90.7]:46496)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1l0F7N-0003K4-UE
- for qemu-devel@nongnu.org; Thu, 14 Jan 2021 21:45:46 -0500
-Received: from loganberry.canonical.com ([91.189.90.37])
- by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1l0F7L-0002N4-K5
- for <qemu-devel@nongnu.org>; Fri, 15 Jan 2021 02:45:39 +0000
-Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 903802E8139
- for <qemu-devel@nongnu.org>; Fri, 15 Jan 2021 02:45:39 +0000 (UTC)
+ (Exim 4.90_1) (envelope-from <chenhuacai@kernel.org>)
+ id 1l0FAJ-0000Yw-CV
+ for qemu-devel@nongnu.org; Thu, 14 Jan 2021 21:48:43 -0500
+Received: from mail.kernel.org ([198.145.29.99]:48570)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <chenhuacai@kernel.org>)
+ id 1l0FAG-0004Jn-Fh
+ for qemu-devel@nongnu.org; Thu, 14 Jan 2021 21:48:43 -0500
+Received: by mail.kernel.org (Postfix) with ESMTPSA id C3F1C23AFD
+ for <qemu-devel@nongnu.org>; Fri, 15 Jan 2021 02:48:36 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1610678916;
+ bh=erUJo+HseroPKwoG59jFpKppxWYHq5RPCNX2wtvL4Fc=;
+ h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+ b=UlxmRUJTBgbTcrBT3kmNZiPoD27c64F0AF+x62tamllgpUXSZUrHMSkwkdp5viKdm
+ 9rmmuf1NjEDozFb1rMrEQxlvG9jKmbcCU5j6+iT+k4VJG9kgOy/1no8bpCFe5sthK0
+ 4PNdnP5l1cbxknNahaSWd8ZABc63FW/U/sEIW6c3xWD+PZaIfOq+dy0zzTflBOabGs
+ nZw7gDYvoXAadeBdVoWI6tSqypoH4Cz6G/8pyjk6eobZmPW3z8IrOaAJjp5WHYThcg
+ s41JeLtir6NbMRpCC8PmQ+wnXK/UjcENoGY2Wv4X8wm/hDnfHz9bfuDGiA0YuMwZR9
+ mBLVA7Qap7fUg==
+Received: by mail-io1-f41.google.com with SMTP id d9so15501384iob.6
+ for <qemu-devel@nongnu.org>; Thu, 14 Jan 2021 18:48:36 -0800 (PST)
+X-Gm-Message-State: AOAM533DY1kvJjLLbc0wNh1NYZNPKrvQD5O9waUDYJsUFxyBTNv2RMHX
+ 1R8C2jWByKfvk+1uGtRo6EcorTTEosS5wN6VHJE=
+X-Google-Smtp-Source: ABdhPJwqMf+yg2Ifcig3uLVcVQZ8N9YLQdDHJenWGHLuqkj5L6x2v1wwH8f6JtZoo+cAi5mZU6LQSz/UbFziXj7WAxs=
+X-Received: by 2002:a92:874d:: with SMTP id d13mr9183051ilm.270.1610678916217; 
+ Thu, 14 Jan 2021 18:48:36 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-Date: Fri, 15 Jan 2021 02:38:33 -0000
-From: Alexander Bulekov <1911839@bugs.launchpad.net>
-To: qemu-devel@nongnu.org
-X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
-X-Launchpad-Bug-Information-Type: Public
-X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: a1xndr
-X-Launchpad-Bug-Reporter: Alexander Bulekov (a1xndr)
-X-Launchpad-Bug-Modifier: Alexander Bulekov (a1xndr)
-Message-Id: <161067831357.23424.6214603959170254372.malonedeb@soybean.canonical.com>
-Subject: [Bug 1911839] [NEW] [OSS-Fuzz] Issue 29586 e1000e:
- Memcpy-param-overlap in flatview_write_continue
-X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
-X-Launchpad-Message-For: qemu-devel-ml
-Precedence: bulk
-X-Generated-By: Launchpad (canonical.com);
- Revision="511b4a3b6512aa3d421c5f7d74f3527e78bff26e"; Instance="production"
-X-Launchpad-Hash: 17710b378c19764748eb062ab8daf5fbdabfd4ad
-Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
- helo=indium.canonical.com
-X-Spam_score_int: -65
-X-Spam_score: -6.6
-X-Spam_bar: ------
-X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9,
- HEADER_FROM_DIFFERENT_DOMAINS=0.248, RCVD_IN_DNSWL_HI=-5,
- RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=ham autolearn_force=no
+References: <20210112012527.28927-1-jiaxun.yang@flygoat.com>
+In-Reply-To: <20210112012527.28927-1-jiaxun.yang@flygoat.com>
+From: Huacai Chen <chenhuacai@kernel.org>
+Date: Fri, 15 Jan 2021 10:48:24 +0800
+X-Gmail-Original-Message-ID: <CAAhV-H6yp3whJMxKYwyw8QsCL8qBmC=qbT0DO4M+NfUc-3=YVA@mail.gmail.com>
+Message-ID: <CAAhV-H6yp3whJMxKYwyw8QsCL8qBmC=qbT0DO4M+NfUc-3=YVA@mail.gmail.com>
+Subject: Re: [PATCH] hw/intc/loongson_liointc: Fix per core ISR handling
+To: Jiaxun Yang <jiaxun.yang@flygoat.com>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=198.145.29.99; envelope-from=chenhuacai@kernel.org;
+ helo=mail.kernel.org
+X-Spam_score_int: -72
+X-Spam_score: -7.3
+X-Spam_bar: -------
+X-Spam_report: (-7.3 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.248,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_HI=-5, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -69,178 +69,65 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1911839 <1911839@bugs.launchpad.net>
+Cc: QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Public bug reported:
+Reviewed-by: Huacai Chen <chenhuacai@kernel.org>
 
-=3D=3D=3D Reproducer =3D=3D=3D
-cat << EOF | ./qemu-system-i386 -M q35 -accel qtest \
--qtest stdio -nographic -nodefaults -device \
-e1000e,netdev=3Dnet0 -netdev user,id=3Dnet0 =
-
-outl 0xcf8 0x80000811
-outl 0xcfc 0x5ac600
-outl 0xcf8 0x80000801
-outl 0xcfc 0x26000000
-write 0x5ac60100 0x4 0x56000302
-write 0x5ac6011a 0x2 0x1006
-write 0x5ac60120 0x1 0x25
-write 0x5ac6042a 0x2 0x4048
-write 0x5ac60431 0x1 0x04
-write 0x4240 0x1 0xff
-write 0x4241 0x1 0x01
-write 0x4249 0x1 0xf5
-write 0x1ff 0x1 0x11
-write 0x5ac60401 0x1 0x12
-write 0x5ac6043a 0x2 0x3000
-write 0x5ac60112 0x2 0xf090
-write 0x5ac60430 0x1 0x0
-write 0x239 0x1 0xff
-write 0x2bb 0x1 0x41
-write 0x9531 0x1 0xff
-write 0x9532 0x1 0xff
-write 0x9533 0x1 0xff
-write 0x9534 0x1 0xff
-write 0x9535 0x1 0xff
-write 0x9536 0x1 0xff
-write 0x9537 0x1 0xff
-write 0x5ac60403 0x1 0x12
-EOF
-
-=3D=3D=3D Stack Trace =3D=3D=3D
-=3D=3D1364=3D=3DERROR: AddressSanitizer: memcpy-param-overlap: memory range=
-s [0x7f90b7e00025,0x7f90b7e00604) and [0x7f90b7e00225, 0x7f90b7e00804) over=
-lap
-#0 __asan_memcpy /src/llvm-project/compiler-rt/lib/asan/asan_interceptors_m=
-emintrinsics.cpp:22:3
-#1 flatview_write_continue /src/qemu/softmmu/physmem.c:2764:13
-#2 flatview_write /src/qemu/softmmu/physmem.c:2799:14
-#3 address_space_write /src/qemu/softmmu/physmem.c:2891:18
-#4 address_space_rw /src/qemu/softmmu/physmem.c:2901:16
-#5 dma_memory_rw_relaxed /src/qemu/include/sysemu/dma.h:88:12
-#6 dma_memory_rw /src/qemu/include/sysemu/dma.h:127:12
-#7 pci_dma_rw /src/qemu/include/hw/pci/pci.h:801:12
-#8 pci_dma_write /src/qemu/include/hw/pci/pci.h:837:12
-#9 e1000e_write_to_rx_buffers /src/qemu/hw/net/e1000e_core.c:1405:9
-#10 e1000e_write_packet_to_guest /src/qemu/hw/net/e1000e_core.c:1575:21
-#11 e1000e_receive_iov /src/qemu/hw/net/e1000e_core.c:1702:9
-#12 e1000e_nc_receive_iov /src/qemu/hw/net/e1000e.c:214:12
-#13 net_tx_pkt_sendv /src/qemu/hw/net/net_tx_pkt.c:556:9
-#14 net_tx_pkt_send /src/qemu/hw/net/net_tx_pkt.c:633:9
-#15 net_tx_pkt_send_loopback /src/qemu/hw/net/net_tx_pkt.c:646:11
-#16 e1000e_tx_pkt_send /src/qemu/hw/net/e1000e_core.c:657:16
-#17 e1000e_process_tx_desc /src/qemu/hw/net/e1000e_core.c:736:17
-#18 e1000e_start_xmit /src/qemu/hw/net/e1000e_core.c:927:9
-#19 e1000e_set_tctl /src/qemu/hw/net/e1000e_core.c:2424:9
-#20 e1000e_core_write /src/qemu/hw/net/e1000e_core.c:3256:9
-#21 e1000e_mmio_write /src/qemu/hw/net/e1000e.c:110:5
-#22 memory_region_write_accessor /src/qemu/softmmu/memory.c:491:5
-#23 access_with_adjusted_size /src/qemu/softmmu/memory.c:552:18
-#24 memory_region_dispatch_write /src/qemu/softmmu/memory.c:0:13
-#25 flatview_write_continue /src/qemu/softmmu/physmem.c:2759:23
-#26 flatview_write /src/qemu/softmmu/physmem.c:2799:14
-#27 address_space_write /src/qemu/softmmu/physmem.c:2891:18
-#28 __wrap_qtest_writeq /src/qemu/tests/qtest/fuzz/qtest_wrappers.c:187:9
-#29 op_write /src/qemu/tests/qtest/fuzz/generic_fuzz.c:479:13
-#30 generic_fuzz /src/qemu/tests/qtest/fuzz/generic_fuzz.c:681:17
-
-OSS-Fuzz Report: https://bugs.chromium.org/p/oss-
-fuzz/issues/detail?id=3D29586
-
-** Affects: qemu
-     Importance: Undecided
-         Status: New
-
--- =
-
-You received this bug notification because you are a member of qemu-
-devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1911839
-
-Title:
-  [OSS-Fuzz] Issue 29586 e1000e: Memcpy-param-overlap in
-  flatview_write_continue
-
-Status in QEMU:
-  New
-
-Bug description:
-  =3D=3D=3D Reproducer =3D=3D=3D
-  cat << EOF | ./qemu-system-i386 -M q35 -accel qtest \
-  -qtest stdio -nographic -nodefaults -device \
-  e1000e,netdev=3Dnet0 -netdev user,id=3Dnet0 =
-
-  outl 0xcf8 0x80000811
-  outl 0xcfc 0x5ac600
-  outl 0xcf8 0x80000801
-  outl 0xcfc 0x26000000
-  write 0x5ac60100 0x4 0x56000302
-  write 0x5ac6011a 0x2 0x1006
-  write 0x5ac60120 0x1 0x25
-  write 0x5ac6042a 0x2 0x4048
-  write 0x5ac60431 0x1 0x04
-  write 0x4240 0x1 0xff
-  write 0x4241 0x1 0x01
-  write 0x4249 0x1 0xf5
-  write 0x1ff 0x1 0x11
-  write 0x5ac60401 0x1 0x12
-  write 0x5ac6043a 0x2 0x3000
-  write 0x5ac60112 0x2 0xf090
-  write 0x5ac60430 0x1 0x0
-  write 0x239 0x1 0xff
-  write 0x2bb 0x1 0x41
-  write 0x9531 0x1 0xff
-  write 0x9532 0x1 0xff
-  write 0x9533 0x1 0xff
-  write 0x9534 0x1 0xff
-  write 0x9535 0x1 0xff
-  write 0x9536 0x1 0xff
-  write 0x9537 0x1 0xff
-  write 0x5ac60403 0x1 0x12
-  EOF
-
-  =3D=3D=3D Stack Trace =3D=3D=3D
-  =3D=3D1364=3D=3DERROR: AddressSanitizer: memcpy-param-overlap: memory ran=
-ges [0x7f90b7e00025,0x7f90b7e00604) and [0x7f90b7e00225, 0x7f90b7e00804) ov=
-erlap
-  #0 __asan_memcpy /src/llvm-project/compiler-rt/lib/asan/asan_interceptors=
-_memintrinsics.cpp:22:3
-  #1 flatview_write_continue /src/qemu/softmmu/physmem.c:2764:13
-  #2 flatview_write /src/qemu/softmmu/physmem.c:2799:14
-  #3 address_space_write /src/qemu/softmmu/physmem.c:2891:18
-  #4 address_space_rw /src/qemu/softmmu/physmem.c:2901:16
-  #5 dma_memory_rw_relaxed /src/qemu/include/sysemu/dma.h:88:12
-  #6 dma_memory_rw /src/qemu/include/sysemu/dma.h:127:12
-  #7 pci_dma_rw /src/qemu/include/hw/pci/pci.h:801:12
-  #8 pci_dma_write /src/qemu/include/hw/pci/pci.h:837:12
-  #9 e1000e_write_to_rx_buffers /src/qemu/hw/net/e1000e_core.c:1405:9
-  #10 e1000e_write_packet_to_guest /src/qemu/hw/net/e1000e_core.c:1575:21
-  #11 e1000e_receive_iov /src/qemu/hw/net/e1000e_core.c:1702:9
-  #12 e1000e_nc_receive_iov /src/qemu/hw/net/e1000e.c:214:12
-  #13 net_tx_pkt_sendv /src/qemu/hw/net/net_tx_pkt.c:556:9
-  #14 net_tx_pkt_send /src/qemu/hw/net/net_tx_pkt.c:633:9
-  #15 net_tx_pkt_send_loopback /src/qemu/hw/net/net_tx_pkt.c:646:11
-  #16 e1000e_tx_pkt_send /src/qemu/hw/net/e1000e_core.c:657:16
-  #17 e1000e_process_tx_desc /src/qemu/hw/net/e1000e_core.c:736:17
-  #18 e1000e_start_xmit /src/qemu/hw/net/e1000e_core.c:927:9
-  #19 e1000e_set_tctl /src/qemu/hw/net/e1000e_core.c:2424:9
-  #20 e1000e_core_write /src/qemu/hw/net/e1000e_core.c:3256:9
-  #21 e1000e_mmio_write /src/qemu/hw/net/e1000e.c:110:5
-  #22 memory_region_write_accessor /src/qemu/softmmu/memory.c:491:5
-  #23 access_with_adjusted_size /src/qemu/softmmu/memory.c:552:18
-  #24 memory_region_dispatch_write /src/qemu/softmmu/memory.c:0:13
-  #25 flatview_write_continue /src/qemu/softmmu/physmem.c:2759:23
-  #26 flatview_write /src/qemu/softmmu/physmem.c:2799:14
-  #27 address_space_write /src/qemu/softmmu/physmem.c:2891:18
-  #28 __wrap_qtest_writeq /src/qemu/tests/qtest/fuzz/qtest_wrappers.c:187:9
-  #29 op_write /src/qemu/tests/qtest/fuzz/generic_fuzz.c:479:13
-  #30 generic_fuzz /src/qemu/tests/qtest/fuzz/generic_fuzz.c:681:17
-
-  OSS-Fuzz Report: https://bugs.chromium.org/p/oss-
-  fuzz/issues/detail?id=3D29586
-
-To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1911839/+subscriptions
+On Tue, Jan 12, 2021 at 9:25 AM Jiaxun Yang <jiaxun.yang@flygoat.com> wrote:
+>
+> Per core ISR is a set of 32-bit registers spaced by 8 bytes.
+> This patch fixed calculation of it's size and also added check
+> of alignment at reading & writing.
+>
+> Signed-off-by: Jiaxun Yang <jiaxun.yang@flygoat.com>
+> ---
+>  hw/intc/loongson_liointc.c | 16 +++++++++++++---
+>  1 file changed, 13 insertions(+), 3 deletions(-)
+>
+> diff --git a/hw/intc/loongson_liointc.c b/hw/intc/loongson_liointc.c
+> index f823d484e0..cc11b544cb 100644
+> --- a/hw/intc/loongson_liointc.c
+> +++ b/hw/intc/loongson_liointc.c
+> @@ -41,7 +41,7 @@
+>  #define R_IEN_CLR               0x2c
+>  #define R_ISR_SIZE              0x8
+>  #define R_START                 0x40
+> -#define R_END                   0x64
+> +#define R_END                   (R_START + R_ISR_SIZE * NUM_CORES)
+>
+>  struct loongson_liointc {
+>      SysBusDevice parent_obj;
+> @@ -125,7 +125,12 @@ liointc_read(void *opaque, hwaddr addr, unsigned int size)
+>      }
+>
+>      if (addr >= R_START && addr < R_END) {
+> -        int core = (addr - R_START) / R_ISR_SIZE;
+> +        hwaddr offset = addr - R_START;
+> +        int core = offset / R_ISR_SIZE;
+> +
+> +        if (offset % R_ISR_SIZE) {
+> +            goto out;
+> +        }
+>          r = p->per_core_isr[core];
+>          goto out;
+>      }
+> @@ -169,7 +174,12 @@ liointc_write(void *opaque, hwaddr addr,
+>      }
+>
+>      if (addr >= R_START && addr < R_END) {
+> -        int core = (addr - R_START) / R_ISR_SIZE;
+> +        hwaddr offset = addr - R_START;
+> +        int core = offset / R_ISR_SIZE;
+> +
+> +        if (offset % R_ISR_SIZE) {
+> +            goto out;
+> +        }
+>          p->per_core_isr[core] = value;
+>          goto out;
+>      }
+> --
+> 2.30.0
+>
 
