@@ -2,66 +2,47 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8C4BB2F7FBD
-	for <lists+qemu-devel@lfdr.de>; Fri, 15 Jan 2021 16:38:25 +0100 (CET)
-Received: from localhost ([::1]:42666 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CA26E2F7FF7
+	for <lists+qemu-devel@lfdr.de>; Fri, 15 Jan 2021 16:47:32 +0100 (CET)
+Received: from localhost ([::1]:40312 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l0RBA-0006Cv-JU
-	for lists+qemu-devel@lfdr.de; Fri, 15 Jan 2021 10:38:24 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43860)
+	id 1l0RJz-000093-Ty
+	for lists+qemu-devel@lfdr.de; Fri, 15 Jan 2021 10:47:31 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44246)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cohuck@redhat.com>) id 1l0R9x-0004VL-HY
- for qemu-devel@nongnu.org; Fri, 15 Jan 2021 10:37:09 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:35761)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <cohuck@redhat.com>) id 1l0R9u-0003gA-I3
- for qemu-devel@nongnu.org; Fri, 15 Jan 2021 10:37:09 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1610725025;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=BfcFWEUkq1XDvrKtOfvXgBhHwBlztowWw4UTv6iuSJY=;
- b=Uf/AzMjiBF7Cd/OVLoOdJ+GhKpi/wS/n53qKdHydRktTi5dtJBVYZnPqPbaa8Y79BtRUW8
- cU2NQCNTwkmfEj5Ugo9YzlrS2ieRaR+msGhKWp7XALRHGCd2cWzcheFlJ9zAHnoOXbcqOP
- 0mxue7yTFCk+//JkFpmC1lIQP3n+kKM=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-86-7_VsT0NsPqC4bV3TWIZRhg-1; Fri, 15 Jan 2021 10:37:02 -0500
-X-MC-Unique: 7_VsT0NsPqC4bV3TWIZRhg-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A667C80A5C0;
- Fri, 15 Jan 2021 15:36:59 +0000 (UTC)
-Received: from gondolin (ovpn-114-124.ams2.redhat.com [10.36.114.124])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 1405E5C3E9;
- Fri, 15 Jan 2021 15:36:48 +0000 (UTC)
-Date: Fri, 15 Jan 2021 16:36:46 +0100
-From: Cornelia Huck <cohuck@redhat.com>
-To: David Gibson <david@gibson.dropbear.id.au>
-Subject: Re: [PATCH v7 09/13] confidential guest support: Update documentation
-Message-ID: <20210115163646.2ecdc329.cohuck@redhat.com>
-In-Reply-To: <20210113235811.1909610-10-david@gibson.dropbear.id.au>
-References: <20210113235811.1909610-1-david@gibson.dropbear.id.au>
- <20210113235811.1909610-10-david@gibson.dropbear.id.au>
-Organization: Red Hat GmbH
+ (Exim 4.90_1) (envelope-from <alxndr@bu.edu>) id 1l0RBv-0000Jy-1w
+ for qemu-devel@nongnu.org; Fri, 15 Jan 2021 10:39:11 -0500
+Received: from relay64.bu.edu ([128.197.228.104]:51098)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <alxndr@bu.edu>) id 1l0RBt-0004Zl-9b
+ for qemu-devel@nongnu.org; Fri, 15 Jan 2021 10:39:10 -0500
+X-Envelope-From: alxndr@bu.edu
+X-BU-AUTH: mozz.bu.edu [128.197.127.33]
+Received: from BU-AUTH (localhost.localdomain [127.0.0.1]) (authenticated
+ bits=0)
+ by relay64.bu.edu (8.14.3/8.14.3) with ESMTP id 10FFc4eu014309
+ (version=TLSv1/SSLv3 cipher=AES256-GCM-SHA384 bits=256 verify=NO);
+ Fri, 15 Jan 2021 10:38:07 -0500
+Date: Fri, 15 Jan 2021 10:38:04 -0500
+From: Alexander Bulekov <alxndr@bu.edu>
+To: Christian Schoenebeck <qemu_oss@crudebyte.com>
+Subject: Re: [PATCH] fuzz: Add virtio-9p configurations for fuzzing
+Message-ID: <20210115153804.cgkm2hi236hnc5x6@mozz.bu.edu>
+References: <20210114221748.503565-1-alxndr@bu.edu>
+ <20210115132308.371a0675@bahia.lan> <1628745.NxVj4HnTpz@silver>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=cohuck@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -29
-X-Spam_score: -3.0
-X-Spam_bar: ---
-X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.25,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <1628745.NxVj4HnTpz@silver>
+Received-SPF: pass client-ip=128.197.228.104; envelope-from=alxndr@bu.edu;
+ helo=relay64.bu.edu
+X-Spam_score_int: -15
+X-Spam_score: -1.6
+X-Spam_bar: -
+X-Spam_report: (-1.6 / 5.0 requ) BAYES_00=-1.9, HK_RANDOM_ENVFROM=0.001,
+ HK_RANDOM_FROM=0.998, RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -74,105 +55,100 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: pair@us.ibm.com, brijesh.singh@amd.com, kvm@vger.kernel.org,
- David Hildenbrand <david@redhat.com>, qemu-devel@nongnu.org,
- frankja@linux.ibm.com, pragyansri.pathi@intel.com, mst@redhat.com,
- mdroth@linux.vnet.ibm.com, pasic@linux.ibm.com, borntraeger@de.ibm.com,
- andi.kleen@intel.com, thuth@redhat.com, Eduardo Habkost <ehabkost@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>, dgilbert@redhat.com,
- Greg Kurz <groug@kaod.org>, qemu-s390x@nongnu.org, jun.nakajima@intel.com,
- berrange@redhat.com, Marcelo Tosatti <mtosatti@redhat.com>,
- qemu-ppc@nongnu.org, Paolo Bonzini <pbonzini@redhat.com>
+Cc: Laurent Vivier <lvivier@redhat.com>, Thomas Huth <thuth@redhat.com>,
+ qemu-devel@nongnu.org, Greg Kurz <groug@kaod.org>, Bandan Das <bsd@redhat.com>,
+ Stefan Hajnoczi <stefanha@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, 14 Jan 2021 10:58:07 +1100
-David Gibson <david@gibson.dropbear.id.au> wrote:
-
-> Now that we've implemented a generic machine option for configuring various
-> confidential guest support mechanisms:
->   1. Update docs/amd-memory-encryption.txt to reference this rather than
->      the earlier SEV specific option
->   2. Add a docs/confidential-guest-support.txt to cover the generalities of
->      the confidential guest support scheme
+On 210115 1351, Christian Schoenebeck wrote:
+> On Freitag, 15. Januar 2021 13:23:08 CET Greg Kurz wrote:
+> > On Thu, 14 Jan 2021 17:17:48 -0500
+> > 
+> > Alexander Bulekov <alxndr@bu.edu> wrote:
+> > > Signed-off-by: Alexander Bulekov <alxndr@bu.edu>
+> > > ---
+> > 
+> > No changelog at all ?
 > 
-> Signed-off-by: David Gibson <david@gibson.dropbear.id.au>
-> ---
->  docs/amd-memory-encryption.txt      |  2 +-
->  docs/confidential-guest-support.txt | 43 +++++++++++++++++++++++++++++
->  2 files changed, 44 insertions(+), 1 deletion(-)
->  create mode 100644 docs/confidential-guest-support.txt
+> Yeah, that's indeed quite short. :)
 > 
-> diff --git a/docs/amd-memory-encryption.txt b/docs/amd-memory-encryption.txt
-> index 80b8eb00e9..145896aec7 100644
-> --- a/docs/amd-memory-encryption.txt
-> +++ b/docs/amd-memory-encryption.txt
-> @@ -73,7 +73,7 @@ complete flow chart.
->  To launch a SEV guest
->  
->  # ${QEMU} \
-> -    -machine ...,memory-encryption=sev0 \
-> +    -machine ...,confidential-guest-support=sev0 \
->      -object sev-guest,id=sev0,cbitpos=47,reduced-phys-bits=1
->  
->  Debugging
-> diff --git a/docs/confidential-guest-support.txt b/docs/confidential-guest-support.txt
-> new file mode 100644
-> index 0000000000..2790425b38
-> --- /dev/null
-> +++ b/docs/confidential-guest-support.txt
+> > >  tests/qtest/fuzz/generic_fuzz_configs.h | 12 ++++++++++++
+> > >  1 file changed, 12 insertions(+)
+> > > 
+> > > diff --git a/tests/qtest/fuzz/generic_fuzz_configs.h
+> > > b/tests/qtest/fuzz/generic_fuzz_configs.h index 7fed035345..ffdb590c58
+> > > 100644
+> > > --- a/tests/qtest/fuzz/generic_fuzz_configs.h
+> > > +++ b/tests/qtest/fuzz/generic_fuzz_configs.h
+> > > @@ -59,6 +59,18 @@ const generic_fuzz_config predefined_configs[] = {
+> > > 
+> > >          .name = "virtio-mouse",
+> > >          .args = "-machine q35 -nodefaults -device virtio-mouse",
+> > >          .objects = "virtio*",
+> > > 
+> > > +    },{
+> > > +        .name = "virtio-9p",
+> > > +        .args = "-machine q35 -nodefaults "
+> > > +        "-device virtio-9p,fsdev=hshare,mount_tag=hshare "
+> > > +        "-fsdev local,id=hshare,path=/tmp/,security_model=none",
+> > 
+> > Sharing a general purpose directory like "/tmp" is definitely not a
+> > recommended practice. This is typically the kind of thing that I'd
+> > like to see documented in the changelog to help me understand ;-)
+> 
+> For the (non fuzzing) 9p 'local' tests Peter wanted either an auto generated 
+> (e.g. mkdtemp()) or at least a hard coded test path that allows a person to 
+> easily identify where the data came from. So I guess that applies to fuzzing 
+> as well, i.e. something like "/tmp/qemu-fuzz/9pfs/" at least.
+> 
+> Also note that the existing (non fuzzing) 9p 'local' tests auto generate  
+> individual test pathes with mkdtemp() already. This was necessary there, 
+> because tests are often run by "make -jN ..." in which case tests were 
+> accessing concurrently the same single test directory before. Probably less of 
+> a problem here, but you might consider using the same approach that
+> virtio-9p-test.c already does.
+> 
+> Also note that 'security_model=none' is maybe Ok as a starting point for 
+> fuzzing, but a realistic 9p config is rather 'security_model=xattr', because 
+> 'security_model=none' requires the qemu process to be run as root to avoid 
+> permission denied errors with any minor operation. I would expect these 
+> fuzzing tests to mostly error out with permission denied errors early instead 
+> of entering relevant execution pathes.
+> 
 
-Maybe make this a proper .rst from the start and hook this up into the
-system guide? It is already almost there.
+Ah. That's good to know. I just copied the security_model from the bug
+report for the recent CVE (https://bugs.launchpad.net/qemu/+bug/1911666)
+I'll switch to mapped-xattr, in v2
+-Alex
 
-> @@ -0,0 +1,43 @@
-> +Confidential Guest Support
-> +==========================
-> +
-> +Traditionally, hypervisors such as qemu have complete access to a
-
-s/qemu/QEMU/ ?
-
-> +guest's memory and other state, meaning that a compromised hypervisor
-> +can compromise any of its guests.  A number of platforms have added
-> +mechanisms in hardware and/or firmware which give guests at least some
-> +protection from a compromised hypervisor.  This is obviously
-> +especially desirable for public cloud environments.
-> +
-> +These mechanisms have different names and different modes of
-> +operation, but are often referred to as Secure Guests or Confidential
-> +Guests.  We use the term "Confidential Guest Support" to distinguish
-> +this from other aspects of guest security (such as security against
-> +attacks from other guests, or from network sources).
-> +
-> +Running a Confidential Guest
-> +----------------------------
-> +
-> +To run a confidential guest you need to add two command line parameters:
-> +
-> +1. Use "-object" to create a "confidential guest support" object.  The
-> +   type and parameters will vary with the specific mechanism to be
-> +   used
-> +2. Set the "confidential-guest-support" machine parameter to the ID of
-> +   the object from (1).
-> +
-> +Example (for AMD SEV)::
-> +
-> +    qemu-system-x86_64 \
-> +        <other parameters> \
-> +        -machine ...,confidential-guest-support=sev0 \
-> +        -object sev-guest,id=sev0,cbitpos=47,reduced-phys-bits=1
-> +
-> +Supported mechanisms
-> +--------------------
-> +
-> +Currently supported confidential guest mechanisms are:
-> +
-> +AMD Secure Encrypted Virtualization (SEV)
-> +    docs/amd-memory-encryption.txt
-> +
-> +Other mechanisms may be supported in future.
-
-LGTM.
-
+> > What operations does the fuzz test perform on the device ?
+> > 
+> > > +        .objects = "virtio*",
+> > > +    },{
+> > > +        .name = "virtio-9p-synth",
+> > > +        .args = "-machine q35 -nodefaults "
+> > > +        "-device virtio-9p,fsdev=hshare,mount_tag=hshare "
+> > > +        "-fsdev synth,id=hshare",
+> > > +        .objects = "virtio*",
+> > 
+> > Not sure this is super useful since the only known use case for
+> > the synth fsdev driver is running the virtio-9p qtest, but
+> > it looks fine anyway.
+> 
+> Yeah, that's ok. Maybe it raises the chance to enter some execution pathes 
+> here and there. So I would keep the 'synth' driver config.
+> 
+> > 
+> > >      },{
+> > >      
+> > >          .name = "e1000",
+> > >          .args = "-M q35 -nodefaults "
+> 
+> Nice to see fuzzing coming for 9p BTW!
+> 
+> Best regards,
+> Christian Schoenebeck
+> 
+> 
 
