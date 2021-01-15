@@ -2,70 +2,91 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B29FB2F8026
-	for <lists+qemu-devel@lfdr.de>; Fri, 15 Jan 2021 16:59:06 +0100 (CET)
-Received: from localhost ([::1]:58364 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C23992F803D
+	for <lists+qemu-devel@lfdr.de>; Fri, 15 Jan 2021 17:07:14 +0100 (CET)
+Received: from localhost ([::1]:33836 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l0RVB-0008Go-R2
-	for lists+qemu-devel@lfdr.de; Fri, 15 Jan 2021 10:59:05 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48976)
+	id 1l0Rd3-0002kb-9W
+	for lists+qemu-devel@lfdr.de; Fri, 15 Jan 2021 11:07:13 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50394)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1l0RU8-0007ni-Fo
- for qemu-devel@nongnu.org; Fri, 15 Jan 2021 10:58:00 -0500
-Received: from mail-ej1-x62a.google.com ([2a00:1450:4864:20::62a]:36511)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1l0RU6-00050L-US
- for qemu-devel@nongnu.org; Fri, 15 Jan 2021 10:58:00 -0500
-Received: by mail-ej1-x62a.google.com with SMTP id l9so8256253ejx.3
- for <qemu-devel@nongnu.org>; Fri, 15 Jan 2021 07:57:58 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=XCV5o4J1FDVc2kx6kG6B7obnQbz6v7vjV4zMKdFnWpc=;
- b=HuHsCRNjKip5bu3aMvUe23RxmZ3FVITJcb1xXN/MzgyQm84lpjIuivJHLmkDUXY5ah
- 9nlKJ1rAWGiL+kbkk69M4SfxgilUYCQ+sArkekaUQ/fUfdFtaefr1OeeQbNAWEOi1x+4
- daaJw2CJU4I1iv3Sqvr+eKxHTkQU5ZC+fcotOj/GgV0Ji2JGwr+s6GYOICHFi5Q0A1Vx
- dFLeMfDtjvS1IRcQNze/UjTO7lkEVSKKa2dK6v+nQEUfl4yDARuko5U5KDodI+FzmJiC
- Xj8+yUCZ/xazStpXGpl5btzwEBvgHHju23FlKHbc7loIk7QjI8LjC8d9rSrg8yg+zqfc
- 2qMQ==
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1l0Rc2-0001yW-P8
+ for qemu-devel@nongnu.org; Fri, 15 Jan 2021 11:06:11 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:52313)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1l0Rby-0000Uy-Rg
+ for qemu-devel@nongnu.org; Fri, 15 Jan 2021 11:06:10 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1610726765;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=6vHsoWBhmrSyBe3aT1JSEa0JwGXVo21SZ5PFWaeYEbQ=;
+ b=G4qDTJXah2Oh0vqlb3mu0uaHseK5aN8pGdimWlEzAGAlCCg+n7s5Wgtwna+uozSTaBsolb
+ tXOqdSHdq5znPvxZpKKrGMyRDj/GCfCrB33cKiAHqPmnc0C/c4bZ5d7RbOoCoHC+iHBJQu
+ eiDgDqJGEAQylBUIJMDhlj1s/d6bE8A=
+Received: from mail-ed1-f71.google.com (mail-ed1-f71.google.com
+ [209.85.208.71]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-40-b8qhptVzPWKJtGeVNY0B8A-1; Fri, 15 Jan 2021 11:06:03 -0500
+X-MC-Unique: b8qhptVzPWKJtGeVNY0B8A-1
+Received: by mail-ed1-f71.google.com with SMTP id w4so325221edu.0
+ for <qemu-devel@nongnu.org>; Fri, 15 Jan 2021 08:06:03 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=XCV5o4J1FDVc2kx6kG6B7obnQbz6v7vjV4zMKdFnWpc=;
- b=Ve/x7GNS07NOhiiDqkTkHfTIHx60Q6JgBrfBSPcIf7Xq8ptYuBa+rEpWKN1xkbymzn
- lSBqKvbEks5qGZu9C7Bmuw7schIO24EPOlH98+8GbUXIwkXpxMS7K/gSXGxikbWvi+Pi
- cEDomttOxe1PBD73TPZaqeB5sT39fsCAClkTub41XRRAgFsxEeyjVYfs9hLGBrl3Hp9u
- bmQvhQdNgFLeP30FTnAuSIWhIodCl4diY+rUUWSnNTNgXSyotIKgEreVDHZd7CDq7LdH
- Btdg093vfjvJiRLza059TMQjCDYq9JmSwI9Rz7MRZuvD7IrPK13Z0xkCq5CflZLKvjBS
- 9E6g==
-X-Gm-Message-State: AOAM532B/Q3Kc6g6u3WqMpBAilbS+WsR4MCB0CsmISwmQkS3xwjvWemm
- pUvg9NdUkb1FUk43CkjHscpSU41+jB8FhPB3PwYLCQ==
-X-Google-Smtp-Source: ABdhPJyR+/CYn7fqmEmPQ0z698TIwQjRnBB2VtzC+QYAS9Av4Aqc3y5QvfVJdltlb7TvQ323X3ClULfx6uM+43X8Lnk=
-X-Received: by 2002:a17:906:31d2:: with SMTP id
- f18mr9185135ejf.407.1610726277056; 
- Fri, 15 Jan 2021 07:57:57 -0800 (PST)
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=6vHsoWBhmrSyBe3aT1JSEa0JwGXVo21SZ5PFWaeYEbQ=;
+ b=ebCc+1Xb8pruvxu3ovSJd2W82jjDar6GJHn7lN+KWyGVE11n/uvnc+x7XFnaIO3qu0
+ AMMTLJfi6clSebU+8JmstCa0vevoNHHRfzXE1VxCbAbwqp4+0Y2CcG+nquwfxtxzPviu
+ Sazs+Uf7yOB+J3IH+4fy80lGzmy7gLe+03x7G9156M/wmIKd4/iMuK4MgHjVjY+ML6kE
+ MvvXeeWmgphrHGB2v8ngCt4to0r1kp2Q8WkSZxSRAhK6/fR8U8PZpFKhSNxxwVzzfZ6v
+ ms2TkKwf1kwLtDBzXEIyk2rJ4wtJjqmXhdXlmYgO0GDNRAyp9APxL5ehKJvdEdilcsEj
+ LTcA==
+X-Gm-Message-State: AOAM5300q3A5j70tfSn1aowpwnsGnahntUB6z0X0xWZwwYOCcEoINEao
+ YM+5zOJgMokkoEFd9DXBD/WAT7K09SEKgUUTyjhMzM9sxIxNRIirTJdzOzNjOELrsr1iNLNu3ZX
+ XxHnxSdjeoPkEWRU=
+X-Received: by 2002:a50:f9cc:: with SMTP id a12mr9862439edq.335.1610726762169; 
+ Fri, 15 Jan 2021 08:06:02 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJy5EBqC91jssNKfKV+amSU7XxVKkLb+55LlSfjKwp5MEZKK5wcYMfQqtw2SpWINE0uaf82Jaw==
+X-Received: by 2002:a50:f9cc:: with SMTP id a12mr9862413edq.335.1610726762014; 
+ Fri, 15 Jan 2021 08:06:02 -0800 (PST)
+Received: from [192.168.1.36] (13.red-83-57-169.dynamicip.rima-tde.net.
+ [83.57.169.13])
+ by smtp.gmail.com with ESMTPSA id r18sm4300217edx.41.2021.01.15.08.06.00
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 15 Jan 2021 08:06:01 -0800 (PST)
+Subject: Re: [PATCH 1/4] tests/qtest: Remove TPM tests
+To: Stefan Berger <stefanb@linux.ibm.com>, qemu-devel@nongnu.org
+References: <20210115150936.3333282-1-philmd@redhat.com>
+ <20210115150936.3333282-2-philmd@redhat.com>
+ <647c3b2d-a68d-43a1-052f-1f5c08b6f3cc@redhat.com>
+ <56096449-e909-0f5e-b458-0aae20132865@linux.ibm.com>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+Message-ID: <a3b60b30-4e7c-5fc8-381f-5f4e6abe11c8@redhat.com>
+Date: Fri, 15 Jan 2021 17:06:00 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.6.0
 MIME-Version: 1.0
-References: <CAFEAcA8ozrnbh8XVZa8OF9C9SnNKb4Wb-=gZianHPPp5zcKjmw@mail.gmail.com>
- <CAFEAcA-f4cueeYNr=i8w0LbdsNwJo3DMLAywsp5cOu7-P0wKCA@mail.gmail.com>
- <03e68d8d-9446-ebec-7be0-21764b567dda@weilnetz.de>
-In-Reply-To: <03e68d8d-9446-ebec-7be0-21764b567dda@weilnetz.de>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Fri, 15 Jan 2021 15:57:46 +0000
-Message-ID: <CAFEAcA9R3+tnmJa6qpVaSD-e-rQJu7QJ_ptg4=eZwJCAVOLwqQ@mail.gmail.com>
-Subject: Re: Windows installer builds apparently broken since October?
-To: Stefan Weil <sw@weilnetz.de>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2a00:1450:4864:20::62a;
- envelope-from=peter.maydell@linaro.org; helo=mail-ej1-x62a.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+In-Reply-To: <56096449-e909-0f5e-b458-0aae20132865@linux.ibm.com>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=philmd@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -29
+X-Spam_score: -3.0
+X-Spam_bar: ---
+X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.25,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -79,26 +100,37 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>,
- "Daniel P. Berrange" <berrange@redhat.com>, John Snow <jsnow@redhat.com>,
- QEMU Developers <qemu-devel@nongnu.org>, Paolo Bonzini <pbonzini@redhat.com>
+Cc: Fam Zheng <fam@euphon.net>, Laurent Vivier <lvivier@redhat.com>,
+ Thomas Huth <thuth@redhat.com>, qemu-block@nongnu.org,
+ Li Qiang <liq3ea@gmail.com>, Hannes Reinecke <hare@suse.com>,
+ Alexander Bulekov <alxndr@bu.edu>, Paolo Bonzini <pbonzini@redhat.com>,
+ =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, 15 Jan 2021 at 15:52, Stefan Weil <sw@weilnetz.de> wrote:
-> I forgot to mention that some of the problems with the Meson build also
-> occur on macOS with Homebrew: they always happen when a software package
-> requires special compiler flags to find its include files or libraries,
-> but the Meson build does not use the result from pkg-config for them.
+On 1/15/21 4:53 PM, Stefan Berger wrote:
+> On 1/15/21 10:52 AM, Philippe Mathieu-Daudé wrote:
+>> Subject is incorrect, this is not a removal of the tests, but
+>> removal of their execution. The tests are still in the repository.
+>> This is more of a disablement.
+> 
+> How do you compile / run them to have the LeakSanitizer checks?
 
-Yeah -- we fixed that in commit 3eacf70bb5a83e4 for gnutls, which
-is the main one homebrew was running into. Is Windows having
-problems with other libs too?
+I used:
 
-Paolo: did we come up with a generic solution for this or
-do we really have to add entries to dependency lists all
-over the build system for every library we use?
+../configure --cc=clang --enable-sanitizers && make check-qtest
 
-thanks
--- PMM
+$ clang -v
+clang version 10.0.1 (Fedora 10.0.1-3.fc32)
+
+This was previously covered by patchew CI. I just figured
+patchew is running without the LeakSanitizer since commit
+6f89ec7442e ("docker: test-debug: disable LeakSanitizer"):
+
+ docker: test-debug: disable LeakSanitizer
+
+ There are just too many leaks in device-introspect-test (especially for
+ the plethora of arm and aarch64 boards) to make LeakSanitizer useful;
+ disable it for now.
+
 
