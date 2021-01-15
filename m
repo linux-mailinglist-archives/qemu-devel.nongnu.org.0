@@ -2,77 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9F27D2F6F72
-	for <lists+qemu-devel@lfdr.de>; Fri, 15 Jan 2021 01:27:49 +0100 (CET)
-Received: from localhost ([::1]:60262 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id F01B92F6F73
+	for <lists+qemu-devel@lfdr.de>; Fri, 15 Jan 2021 01:27:51 +0100 (CET)
+Received: from localhost ([::1]:60436 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l0Cxw-0004gL-KY
-	for lists+qemu-devel@lfdr.de; Thu, 14 Jan 2021 19:27:48 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49062)
+	id 1l0Cxz-0004kj-29
+	for lists+qemu-devel@lfdr.de; Thu, 14 Jan 2021 19:27:51 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49078)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dongli.zhang@oracle.com>)
- id 1l0Cvr-0003RA-G1
- for qemu-devel@nongnu.org; Thu, 14 Jan 2021 19:25:40 -0500
-Received: from aserp2120.oracle.com ([141.146.126.78]:32814)
+ id 1l0Cvt-0003RQ-SN
+ for qemu-devel@nongnu.org; Thu, 14 Jan 2021 19:25:41 -0500
+Received: from userp2130.oracle.com ([156.151.31.86]:35044)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dongli.zhang@oracle.com>)
- id 1l0Cvm-0005N7-9j
- for qemu-devel@nongnu.org; Thu, 14 Jan 2021 19:25:38 -0500
-Received: from pps.filterd (aserp2120.oracle.com [127.0.0.1])
- by aserp2120.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 10F0E6d1023858;
- Fri, 15 Jan 2021 00:25:30 GMT
+ id 1l0Cvm-0005NC-Nw
+ for qemu-devel@nongnu.org; Thu, 14 Jan 2021 19:25:41 -0500
+Received: from pps.filterd (userp2130.oracle.com [127.0.0.1])
+ by userp2130.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 10F0FwnF106090;
+ Fri, 15 Jan 2021 00:25:31 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com;
  h=from : to : cc :
  subject : date : message-id : in-reply-to : references; s=corp-2020-01-29;
- bh=JSJLkPe5BFmZjJ32a2oMUPk2QXhUPFvTCwSTbU9rTJA=;
- b=ljwN+Oh0NiqCG7ZInPQUV7X5NT9coRtfW95PPJJWBaDkPVlCvty6+jF/qyT6odkQlpJR
- 5PrNszwInn0qXkLKVso6V/xsUEHPLCy54cbkpLmY7Xk/KHTiDtmqIhsIQxYz5/WNqLVb
- Zv0Pe5lClesIUmFWsghF7WiDqI9UHzDYOaJtDuKdmYGvcvVyi9H2TJ+E2gqynYtWfEx1
- R+W2OeRzNJtTM/Kx4yfR6hZ4/7FK1w28emL7ChOrFWeFhQ8B3DSuhYcRb5fl712pw0BT
- e/DroYHu9iD2CaYVspmscSKKMQynDEsjtCIpO7qJ/kFEHFyKUw2cq0hJ1bLMNR521hQ7 OQ== 
-Received: from userp3020.oracle.com (userp3020.oracle.com [156.151.31.79])
- by aserp2120.oracle.com with ESMTP id 360kd02tvv-1
+ bh=0rzWooZGZcVfaCvt4A/vGn5zKh1ptDjTXTh9PhGdtCM=;
+ b=SXEgEjI4ATxiKXhE2QliVs/4khLzJyCuBrUICdRFFKBz2k9zoYKzK9AOVZMDXkOfSRvt
+ 6YLlXkMVDuZbWaBsqfnjvG6K7u0gJy/9xd0M580BkDqOcmb0zUjEWtj1ghD73srLQoMc
+ yPeHyVQzNxAjDmQsr3CQ/YPgZ6B1QxEC4S6efIC4jHkvk1PuqIyUSiFt80tvi/f3ahN1
+ 8Z2PnnJKCKiZeW0mvvUAY9zrnoax5aa/hnkG0kQXRyDehsbTH+eJwYNoOJsNsr4y0cUj
+ 97tOuOYKP/VTtptFr/zs9xENGETq7n3iwQ/wa6lMTa3S00LKEo6SWwusQ7AFBKJ9Qoul bQ== 
+Received: from aserp3020.oracle.com (aserp3020.oracle.com [141.146.126.70])
+ by userp2130.oracle.com with ESMTP id 360kvkasap-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Fri, 15 Jan 2021 00:25:31 +0000
+Received: from pps.filterd (aserp3020.oracle.com [127.0.0.1])
+ by aserp3020.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 10F0FjlT030246;
+ Fri, 15 Jan 2021 00:25:30 GMT
+Received: from userv0121.oracle.com (userv0121.oracle.com [156.151.31.72])
+ by aserp3020.oracle.com with ESMTP id 360keajr77-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
  Fri, 15 Jan 2021 00:25:30 +0000
-Received: from pps.filterd (userp3020.oracle.com [127.0.0.1])
- by userp3020.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 10F0EeE9083408;
- Fri, 15 Jan 2021 00:25:29 GMT
-Received: from aserv0122.oracle.com (aserv0122.oracle.com [141.146.126.236])
- by userp3020.oracle.com with ESMTP id 360kfa9ddq-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Fri, 15 Jan 2021 00:25:29 +0000
 Received: from abhmp0004.oracle.com (abhmp0004.oracle.com [141.146.116.10])
- by aserv0122.oracle.com (8.14.4/8.14.4) with ESMTP id 10F0PS6U009805;
- Fri, 15 Jan 2021 00:25:28 GMT
+ by userv0121.oracle.com (8.14.4/8.13.8) with ESMTP id 10F0PTbB008642;
+ Fri, 15 Jan 2021 00:25:29 GMT
 Received: from localhost.localdomain (/10.211.9.80)
  by default (Oracle Beehive Gateway v4.0)
  with ESMTP ; Thu, 14 Jan 2021 16:25:28 -0800
 From: Dongli Zhang <dongli.zhang@oracle.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH RFC 1/2] qdev: add debug interface to kick/call eventfd
-Date: Thu, 14 Jan 2021 16:27:29 -0800
-Message-Id: <20210115002730.1279-2-dongli.zhang@oracle.com>
+Subject: [PATCH RFC 2/2] vhost-scsi: implement DeviceEvent
+Date: Thu, 14 Jan 2021 16:27:30 -0800
+Message-Id: <20210115002730.1279-3-dongli.zhang@oracle.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20210115002730.1279-1-dongli.zhang@oracle.com>
 References: <20210115002730.1279-1-dongli.zhang@oracle.com>
 X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9864
  signatures=668683
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 suspectscore=0
- malwarescore=0
- mlxlogscore=999 phishscore=0 bulkscore=0 spamscore=0 mlxscore=0
- adultscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2009150000 definitions=main-2101150000
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 adultscore=0
+ suspectscore=0 spamscore=0
+ mlxlogscore=999 malwarescore=0 bulkscore=0 mlxscore=0 phishscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2009150000
+ definitions=main-2101150000
 X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9864
  signatures=668683
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 spamscore=0
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 mlxlogscore=998
  phishscore=0
- impostorscore=0 bulkscore=0 adultscore=0 suspectscore=0 malwarescore=0
- lowpriorityscore=0 clxscore=1015 mlxlogscore=999 mlxscore=0
- priorityscore=1501 classifier=spam adjust=0 reason=mlx scancount=1
+ lowpriorityscore=0 bulkscore=0 priorityscore=1501 malwarescore=0
+ clxscore=1015 impostorscore=0 spamscore=0 mlxscore=0 suspectscore=0
+ adultscore=0 classifier=spam adjust=0 reason=mlx scancount=1
  engine=8.12.0-2009150000 definitions=main-2101150000
-Received-SPF: pass client-ip=141.146.126.78;
- envelope-from=dongli.zhang@oracle.com; helo=aserp2120.oracle.com
+Received-SPF: pass client-ip=156.151.31.86;
+ envelope-from=dongli.zhang@oracle.com; helo=userp2130.oracle.com
 X-Spam_score_int: -46
 X-Spam_score: -4.7
 X-Spam_bar: ----
@@ -98,180 +98,94 @@ Cc: berrange@redhat.com, ehabkost@redhat.com, mst@redhat.com,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The virtio device/driver (e.g., vhost-scsi) may hang due to the lost of IRQ
-or the lost of doorbell register kick, e.g.,
+This patch implements DeviceEvent for vhost-scsi. As RFC, this patch only
+considers the case of eventfd and only for vhost-scsi.
 
-https://lists.gnu.org/archive/html/qemu-devel/2018-12/msg01711.html
+Below are example for HMP and QAPI.
 
-This patch adds a new debug interface 'DeviceEvent' to DeviceClass to help
-narrow down if the issue is due to lost of irq/kick. So far the new
-interface handles only two events: 'call' and 'kick'. Any device (e.g.,
-e1000e or vhost-scsi) may implement (e.g., via eventfd, MSI-X or legacy
-IRQ).
+(qemu) device_event /machine/peripheral/vscsi0 kick 1
 
-The 'call' is to inject irq on purpose by admin for a specific device (e.g.,
-vhost-scsi) from QEMU/host to VM, while the 'kick' is to kick the doorbell
-on purpose by admin at QEMU/host side for a specific device.
+{ "execute": "x-debug-device-event",
+  "arguments": { "dev": "/machine/peripheral/vscsi0",
+                 "event": "kick",
+                 "queue": 1 } }
 
 Signed-off-by: Dongli Zhang <dongli.zhang@oracle.com>
 ---
- hmp-commands.hx        | 14 ++++++++++++++
- include/hw/qdev-core.h |  6 ++++++
- include/monitor/hmp.h  |  1 +
- qapi/qdev.json         | 30 ++++++++++++++++++++++++++++++
- softmmu/qdev-monitor.c | 41 +++++++++++++++++++++++++++++++++++++++++
- 5 files changed, 92 insertions(+)
+ hw/virtio/vhost-scsi-pci.c | 10 ++++++++++
+ hw/virtio/virtio.c         | 19 +++++++++++++++++++
+ include/hw/virtio/virtio.h |  3 +++
+ 3 files changed, 32 insertions(+)
 
-diff --git a/hmp-commands.hx b/hmp-commands.hx
-index 73e0832ea1..0fbb72568f 100644
---- a/hmp-commands.hx
-+++ b/hmp-commands.hx
-@@ -1867,3 +1867,17 @@ ERST
-         .flags      = "p",
-     },
- 
-+    {
-+        .name       = "x-debug-device-event",
-+        .args_type  = "dev:s,event:s,queue:l",
-+        .params     = "dev event queue",
-+        .help       = "generate device event for a specific device queue",
-+        .cmd        = hmp_x_debug_device_event,
-+        .flags      = "p",
-+    },
-+
-+SRST
-+``x-debug-device-event`` *dev* *event* *queue*
-+  Generate device event *event* for specific *queue* of *dev*
-+ERST
-+
-diff --git a/include/hw/qdev-core.h b/include/hw/qdev-core.h
-index bafc311bfa..83df3bab89 100644
---- a/include/hw/qdev-core.h
-+++ b/include/hw/qdev-core.h
-@@ -29,9 +29,14 @@ typedef enum DeviceCategory {
-     DEVICE_CATEGORY_MAX
- } DeviceCategory;
- 
-+#define DEVICE_EVENT_CALL 1
-+#define DEVICE_EVENT_KICK 2
-+
- typedef void (*DeviceRealize)(DeviceState *dev, Error **errp);
- typedef void (*DeviceUnrealize)(DeviceState *dev);
- typedef void (*DeviceReset)(DeviceState *dev);
-+typedef void (*DeviceEvent)(DeviceState *dev, int event, int queue,
-+                            Error **errp);
- typedef void (*BusRealize)(BusState *bus, Error **errp);
- typedef void (*BusUnrealize)(BusState *bus);
- 
-@@ -132,6 +137,7 @@ struct DeviceClass {
-     DeviceReset reset;
-     DeviceRealize realize;
-     DeviceUnrealize unrealize;
-+    DeviceEvent event;
- 
-     /* device state */
-     const VMStateDescription *vmsd;
-diff --git a/include/monitor/hmp.h b/include/monitor/hmp.h
-index ed2913fd18..ffb48fce06 100644
---- a/include/monitor/hmp.h
-+++ b/include/monitor/hmp.h
-@@ -133,5 +133,6 @@ void hmp_info_replay(Monitor *mon, const QDict *qdict);
- void hmp_replay_break(Monitor *mon, const QDict *qdict);
- void hmp_replay_delete_break(Monitor *mon, const QDict *qdict);
- void hmp_replay_seek(Monitor *mon, const QDict *qdict);
-+void hmp_x_debug_device_event(Monitor *mon, const QDict *qdict);
- 
- #endif
-diff --git a/qapi/qdev.json b/qapi/qdev.json
-index b83178220b..6fc7a5bfc1 100644
---- a/qapi/qdev.json
-+++ b/qapi/qdev.json
-@@ -124,3 +124,33 @@
- ##
- { 'event': 'DEVICE_DELETED',
-   'data': { '*device': 'str', 'path': 'str' } }
-+
-+##
-+# @x-debug-device-event:
-+#
-+# Generate device event for a specific device queue
-+#
-+# @dev: device path
-+#
-+# @event: event (e.g., kick or call) to trigger
-+#
-+# @queue: queue id
-+#
-+# Returns: Nothing on success
-+#
-+# Since: 5.3
-+#
-+# Notes: This is used to debug VM driver hang issue. The 'kick' event is to
-+#        send notification to QEMU/vhost while the 'call' event is to
-+#        interrupt VM on purpose.
-+#
-+# Example:
-+#
-+# -> { "execute": "x-debug-device_event",
-+#      "arguments": { "dev": "/machine/peripheral/vscsi0", "event": "kick",
-+#                     "queue": "1" } }
-+# <- { "return": {} }
-+#
-+##
-+{ 'command': 'x-debug-device-event',
-+  'data': {'dev': 'str', 'event': 'str', 'queue': 'int'} }
-diff --git a/softmmu/qdev-monitor.c b/softmmu/qdev-monitor.c
-index 8dc656becc..63dee5f1a6 100644
---- a/softmmu/qdev-monitor.c
-+++ b/softmmu/qdev-monitor.c
-@@ -915,6 +915,47 @@ void hmp_device_del(Monitor *mon, const QDict *qdict)
-     hmp_handle_error(mon, err);
+diff --git a/hw/virtio/vhost-scsi-pci.c b/hw/virtio/vhost-scsi-pci.c
+index cb71a294fa..0236720868 100644
+--- a/hw/virtio/vhost-scsi-pci.c
++++ b/hw/virtio/vhost-scsi-pci.c
+@@ -62,12 +62,22 @@ static void vhost_scsi_pci_realize(VirtIOPCIProxy *vpci_dev, Error **errp)
+     qdev_realize(vdev, BUS(&vpci_dev->bus), errp);
  }
  
-+void qmp_x_debug_device_event(const char *dev, const char *event,
-+                              int64_t queue, Error **errp)
++static void vhost_scsi_pci_event(DeviceState *dev, int event, int queue,
++                                 Error **errp)
 +{
-+    DeviceState *device = find_device_state(dev, NULL);
-+    DeviceClass *dc;
-+    int evt;
++    VHostSCSIPCI *vscsi = VHOST_SCSI_PCI(dev);
++    DeviceState *vdev = DEVICE(&vscsi->vdev);
 +
-+    if (!device) {
-+        error_setg(errp, "Device %s not found", dev);
-+        return;
-+    }
-+
-+    dc = DEVICE_GET_CLASS(device);
-+    if (!dc->event) {
-+        error_setg(errp, "device_event is not supported");
-+        return;
-+    }
-+
-+    if (!strcmp(event, "kick"))
-+        evt = DEVICE_EVENT_KICK;
-+    else if (!strcmp(event, "call"))
-+        evt = DEVICE_EVENT_CALL;
-+    else {
-+        error_setg(errp, "Unsupported event %s", event);
-+        return;
-+    }
-+
-+    dc->event(device, evt, queue, errp);
++    virtio_device_event_eventfd(vdev, event, queue, errp);
 +}
 +
-+void hmp_x_debug_device_event(Monitor *mon, const QDict *qdict)
-+{
-+    const char *dev = qdict_get_str(qdict, "dev");
-+    const char *event = qdict_get_str(qdict, "event");
-+    int queue = qdict_get_try_int(qdict, "queue", -1);
-+    Error *err = NULL;
-+
-+    qmp_x_debug_device_event(dev, event, queue, &err);
-+    hmp_handle_error(mon, err);
-+}
-+
- BlockBackend *blk_by_qdev_id(const char *id, Error **errp)
+ static void vhost_scsi_pci_class_init(ObjectClass *klass, void *data)
  {
-     DeviceState *dev;
+     DeviceClass *dc = DEVICE_CLASS(klass);
+     VirtioPCIClass *k = VIRTIO_PCI_CLASS(klass);
+     PCIDeviceClass *pcidev_k = PCI_DEVICE_CLASS(klass);
+     k->realize = vhost_scsi_pci_realize;
++    dc->event = vhost_scsi_pci_event;
+     set_bit(DEVICE_CATEGORY_STORAGE, dc->categories);
+     device_class_set_props(dc, vhost_scsi_pci_properties);
+     pcidev_k->vendor_id = PCI_VENDOR_ID_REDHAT_QUMRANET;
+diff --git a/hw/virtio/virtio.c b/hw/virtio/virtio.c
+index b308026596..d9168c4ac8 100644
+--- a/hw/virtio/virtio.c
++++ b/hw/virtio/virtio.c
+@@ -3690,6 +3690,25 @@ static void virtio_device_unrealize(DeviceState *dev)
+     vdev->bus_name = NULL;
+ }
+ 
++void virtio_device_event_eventfd(DeviceState *dev, int event, int queue,
++                         Error **errp)
++{
++    struct VirtIODevice *vdev = VIRTIO_DEVICE(dev);
++    int num = virtio_get_num_queues(vdev);
++
++    if (queue < 0 || queue >= num) {
++        error_setg(errp, "Invalid queue %d", queue);
++        return;
++    }
++
++    VirtQueue *vq = &vdev->vq[queue];
++
++    if (event == DEVICE_EVENT_CALL)
++        event_notifier_set(&vq->guest_notifier);
++    else if (event == DEVICE_EVENT_KICK)
++        event_notifier_set(&vq->host_notifier);
++}
++
+ static void virtio_device_free_virtqueues(VirtIODevice *vdev)
+ {
+     int i;
+diff --git a/include/hw/virtio/virtio.h b/include/hw/virtio/virtio.h
+index b7ece7a6a8..606ebdfb85 100644
+--- a/include/hw/virtio/virtio.h
++++ b/include/hw/virtio/virtio.h
+@@ -397,4 +397,7 @@ static inline bool virtio_device_disabled(VirtIODevice *vdev)
+ bool virtio_legacy_allowed(VirtIODevice *vdev);
+ bool virtio_legacy_check_disabled(VirtIODevice *vdev);
+ 
++void virtio_device_event_eventfd(DeviceState *dev, int event, int queue,
++                                 Error **errp);
++
+ #endif
 -- 
 2.17.1
 
