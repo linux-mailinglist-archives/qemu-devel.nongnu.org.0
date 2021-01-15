@@ -2,71 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CB6472F77F4
-	for <lists+qemu-devel@lfdr.de>; Fri, 15 Jan 2021 12:50:02 +0100 (CET)
-Received: from localhost ([::1]:49432 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8EBB62F77FC
+	for <lists+qemu-devel@lfdr.de>; Fri, 15 Jan 2021 12:52:12 +0100 (CET)
+Received: from localhost ([::1]:53730 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l0Nc9-0006GG-Ae
-	for lists+qemu-devel@lfdr.de; Fri, 15 Jan 2021 06:50:01 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45630)
+	id 1l0NeF-0008OJ-M4
+	for lists+qemu-devel@lfdr.de; Fri, 15 Jan 2021 06:52:11 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46046)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1l0Nb7-0005lP-VO
- for qemu-devel@nongnu.org; Fri, 15 Jan 2021 06:48:57 -0500
-Received: from mail-ed1-x536.google.com ([2a00:1450:4864:20::536]:42664)
+ id 1l0Nd8-0007h0-LS
+ for qemu-devel@nongnu.org; Fri, 15 Jan 2021 06:51:04 -0500
+Received: from mail-ed1-x529.google.com ([2a00:1450:4864:20::529]:38085)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1l0Nb5-0004Cl-9G
- for qemu-devel@nongnu.org; Fri, 15 Jan 2021 06:48:57 -0500
-Received: by mail-ed1-x536.google.com with SMTP id g24so9168456edw.9
- for <qemu-devel@nongnu.org>; Fri, 15 Jan 2021 03:48:54 -0800 (PST)
+ id 1l0Nd4-00057K-T1
+ for qemu-devel@nongnu.org; Fri, 15 Jan 2021 06:51:02 -0500
+Received: by mail-ed1-x529.google.com with SMTP id s11so1898363edd.5
+ for <qemu-devel@nongnu.org>; Fri, 15 Jan 2021 03:50:57 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=OKKaiSUJu1ZC7nlTLMm/z+4PB1pTcr4IvClezmnR0CA=;
- b=xWFDPQKnBr9z+ZloKu84+VdVSqjNnzcbcvSg+jPNv7+J3H/zin6untc2+XmyfbqN41
- rwv9a7TH9ptGlpR/90SVFvYp6I2MzOpfRclzUugwN1gxvtjPBuow2ktOtZ7QyS4plEbT
- PfZpIatamxwmeAjutbJtAyTzL1ZRyy1NDZKaheezWjikPEUfq4Ot2QXDC9X8mPmaV9r+
- 9XgusvDvW9J3EeGwcGGwvf/fMhmOQHy6Wl+JTeRsFlNlH1bwcNYllM6imgoANngOBZWI
- OOMRv/AEXNufEHLVoh+h/u7BT9ltaPEGSX8mqPEbQKQTDjSLzlu0xPc2RlYccCybcx1v
- EKPA==
+ :cc; bh=WZaFu23Ow4jstvd34MiVFcsKpmwUSb32zVx2M8YTfTA=;
+ b=MAy2PaxrbK4ILBTrNNiSXbrfayei5wB3zVe9i6lNvTZrb9DFJ7DR23Mv9eTfEHtGrA
+ p6k4ywQDcAoOKzZwNT/tOhnzhGOt/MKW+64a8HKwJ3on7B3i170ciP6Vic8oSteYn0H7
+ DosaJaKjfZB7Vs8KrZONqL16afS78Q2rw99pHLd2L2qnK0vPbFtJEimiK1IXruP9XPrg
+ gj77VrY+d7HYfWxYWiK1wyu+7cy59tFea4CyTY6j9TrrWxG4XdsZu9vSKYCUbjNUG0ij
+ KQH8ISGsWIlbpCv0d/M0z/gkUzlYx7CjKQ/Uxcgo7hGOPVtC6xVpoYCzgzssAGIeDP83
+ zMyg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=OKKaiSUJu1ZC7nlTLMm/z+4PB1pTcr4IvClezmnR0CA=;
- b=XEgxkbxhaoBUiYZ8EgQ3g1nIYr1A2aQMPiOLQEHlXj+N0o/t33OUs5bTJ8Nu26156I
- w2/Qnl5+J+Mwv0DfacTIrtV8SLl5c1AzdZU8xFlL06INziZ0jw/oANT9k/IZaWdnrO20
- GgNPMDS9sB0pyjQelewOQrz45KfSZNcv12PwQmTMYu6RlLGuUTiOICJsvQdgrtQ9uFJ7
- Uvg8XSkH/qrReRl87qw+Tcy4aT5/D2GK7i/VLaF51hBoYy91Ktle13ImrkYCb/XzYVSJ
- ajgm0q8gMRMuPxs1oAlhkIRYzRY8Ky4oxnoHAFXvjFJYYod3GBMhs050heDEj9dzvwux
- 0t8A==
-X-Gm-Message-State: AOAM531YQOQvhfCsqzl+dKxniABcv1okOhXsuCmTKHv7H2YbqhQ/av7R
- lOYm8b/WNhe5kC02SwOCnr3L5t6JNSK8ZZPdLUgCdA==
-X-Google-Smtp-Source: ABdhPJzEyyMc3wXOluiGWu8EvtynwWp6NVdG+MX2oVddIv7BqwWv2CpvO4apxRgHsqTbOTIYBP2KkoPo3NQsAQIs37I=
-X-Received: by 2002:a05:6402:1701:: with SMTP id
- y1mr872607edu.251.1610711333330; 
- Fri, 15 Jan 2021 03:48:53 -0800 (PST)
+ bh=WZaFu23Ow4jstvd34MiVFcsKpmwUSb32zVx2M8YTfTA=;
+ b=fqjre5OCLal/0d8ZkuqY38PMRs3dBem2EupYZytUGAP0StFQyIaN7Drl8PPx7plkxT
+ S4iDSXEUujmTzLUM1xOrC08G5WFiHCM7VJb1IbNKo6FqckrThUaXLwTm2gtjptT8IGvD
+ WEoxYITQ0/26FJZ65Go5ul8Ne/zYHT+jF5WS3+WdqPcsBgVnMjizFnowsumG3OUbVsdo
+ sLUdLJsyEvw7VtNT/83h0K9THSLXgWnvU0m4wPqoOj72UOVraOMVMwd/APus9M+mAf4i
+ Pyk4LDhAOdE3zB5U3Pyh7d8To5wb+ky2jFBe/eKtRvgKo8ox3QtCRegYFkjmQ4kPEEq2
+ SLWQ==
+X-Gm-Message-State: AOAM531KeLq2CWOWIr3hxunwCpMATVe2ER7CeguXxy99Dj5wF7wnpDNm
+ SGFlXglIczh2vbTCpbBnGnAJcBtTc2igpwxqNu7WBA==
+X-Google-Smtp-Source: ABdhPJx2I5MX8FTZtzsPDK+EzcOQ81CP8qsf2CpFyvooiZHA5Q6dTRcaML8sHkzbcGw8BKQQc19RMMRC+G51WlisjF0=
+X-Received: by 2002:a05:6402:366:: with SMTP id
+ s6mr9061142edw.44.1610711456864; 
+ Fri, 15 Jan 2021 03:50:56 -0800 (PST)
 MIME-Version: 1.0
-References: <20201111124331.1393747-1-stefanha@redhat.com>
- <20201117041736-mutt-send-email-mst@kernel.org>
-In-Reply-To: <20201117041736-mutt-send-email-mst@kernel.org>
+References: <20201104092900.21214-1-green.wan@sifive.com>
+In-Reply-To: <20201104092900.21214-1-green.wan@sifive.com>
 From: Peter Maydell <peter.maydell@linaro.org>
-Date: Fri, 15 Jan 2021 11:48:41 +0000
-Message-ID: <CAFEAcA90AWh7CLBa4Nj-be+DzLXfn9HdA01ihaHnvjcHrcePGA@mail.gmail.com>
-Subject: Re: [PATCH for-5.2 00/10] block/export: vhost-user-blk server tests
- and input validation
-To: "Michael S. Tsirkin" <mst@redhat.com>
+Date: Fri, 15 Jan 2021 11:50:45 +0000
+Message-ID: <CAFEAcA_EykbnmTQuz4RT3qGMt-Atf=EAdaHd-QqBvJCPvwemqA@mail.gmail.com>
+Subject: Re: [PATCH] hw/misc/sifive_u_otp: handling the fails of blk_pread and
+ blk_pwrite
+To: Green Wan <green.wan@sifive.com>
 Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2a00:1450:4864:20::536;
- envelope-from=peter.maydell@linaro.org; helo=mail-ed1-x536.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::529;
+ envelope-from=peter.maydell@linaro.org; helo=mail-ed1-x529.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -79,40 +78,88 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, Laurent Vivier <lvivier@redhat.com>,
- Thomas Huth <thuth@redhat.com>, Qemu-block <qemu-block@nongnu.org>,
- QEMU Developers <qemu-devel@nongnu.org>, Coiby Xu <Coiby.Xu@gmail.com>,
- Max Reitz <mreitz@redhat.com>, Stefan Hajnoczi <stefanha@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>
+Cc: Alistair Francis <alistair23@gmail.com>, Bin Meng <bmeng.cn@gmail.com>,
+ QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, 17 Nov 2020 at 09:18, Michael S. Tsirkin <mst@redhat.com> wrote:
->
-> On Wed, Nov 11, 2020 at 12:43:21PM +0000, Stefan Hajnoczi wrote:
-> > The vhost-user-blk server test was already in Michael Tsirkin's recent vhost
-> > pull request, but was dropped because it exposed vhost-user regressions
-> > (b7c1bd9d7848 and the Based-on tag below). Now that the vhost-user regressions
-> > are fixed we can re-introduce the test case.
-> >
-> > This series adds missing input validation that led to a Coverity report. The
-> > virtio-blk read, write, discard, and write zeroes commands need to check
-> > sector/byte ranges and other inputs. This solves the issue Peter Maydell raised
-> > in "[PATCH for-5.2] block/export/vhost-user-blk-server.c: Avoid potential
-> > integer overflow".
-> >
-> > Merging just the input validation patches would be possible too, but I prefer
-> > to merge the corresponding tests so the code is exercised by the CI.
->
->
-> Peter reports this hanging for him so I dropped this for now.
-> Pls work with him to resolve, and resubmit.
-> If possible let's defer the addition of new tests and just fix existing
-> ones for 5.2.
+Ping! This patch was trying to fix a Coverity issue (CID 1435959,
+1435960, 1435961) -- is anybody planning to review it?
 
-Ping! This series was trying to fix a Coverity error -- it got dropped
-for 5.2 but now 6.0 is open what are the plans for it?
+(I'm not entirely sure 'guest error' is the right warning category,
+but I don't know the specifics of this device.)
 
 thanks
 -- PMM
+
+On Wed, 4 Nov 2020 at 09:29, Green Wan <green.wan@sifive.com> wrote:
+>
+> Fix code coverage issues by checking return value and handling fail case
+> of blk_pread() and blk_pwrite(). Return default value 0xff if read fails.
+>
+> Signed-off-by: Green Wan <green.wan@sifive.com>
+> ---
+>  hw/misc/sifive_u_otp.c | 31 +++++++++++++++++++++++--------
+>  1 file changed, 23 insertions(+), 8 deletions(-)
+>
+> diff --git a/hw/misc/sifive_u_otp.c b/hw/misc/sifive_u_otp.c
+> index 60066375ab..4314727d0d 100644
+> --- a/hw/misc/sifive_u_otp.c
+> +++ b/hw/misc/sifive_u_otp.c
+> @@ -62,8 +62,13 @@ static uint64_t sifive_u_otp_read(void *opaque, hwaddr addr, unsigned int size)
+>              if (s->blk) {
+>                  int32_t buf;
+>
+> -                blk_pread(s->blk, s->pa * SIFIVE_U_OTP_FUSE_WORD, &buf,
+> -                          SIFIVE_U_OTP_FUSE_WORD);
+> +                if (blk_pread(s->blk, s->pa * SIFIVE_U_OTP_FUSE_WORD, &buf,
+> +                              SIFIVE_U_OTP_FUSE_WORD) < 0) {
+> +                    qemu_log_mask(LOG_GUEST_ERROR,
+> +                                  "read error index<%d>\n", s->pa);
+> +                    return 0xff;
+> +                }
+> +
+>                  return buf;
+>              }
+>
+> @@ -160,8 +165,12 @@ static void sifive_u_otp_write(void *opaque, hwaddr addr,
+>
+>              /* write to backend */
+>              if (s->blk) {
+> -                blk_pwrite(s->blk, s->pa * SIFIVE_U_OTP_FUSE_WORD,
+> -                           &s->fuse[s->pa], SIFIVE_U_OTP_FUSE_WORD, 0);
+> +                if (blk_pwrite(s->blk, s->pa * SIFIVE_U_OTP_FUSE_WORD,
+> +                               &s->fuse[s->pa], SIFIVE_U_OTP_FUSE_WORD,
+> +                               0) < 0) {
+> +                    qemu_log_mask(LOG_GUEST_ERROR,
+> +                                  "write error index<%d>\n", s->pa);
+> +                }
+>              }
+>
+>              /* update written bit */
+> @@ -248,12 +257,18 @@ static void sifive_u_otp_reset(DeviceState *dev)
+>          int index = SIFIVE_U_OTP_SERIAL_ADDR;
+>
+>          serial_data = s->serial;
+> -        blk_pwrite(s->blk, index * SIFIVE_U_OTP_FUSE_WORD,
+> -                   &serial_data, SIFIVE_U_OTP_FUSE_WORD, 0);
+> +        if (blk_pwrite(s->blk, index * SIFIVE_U_OTP_FUSE_WORD,
+> +                       &serial_data, SIFIVE_U_OTP_FUSE_WORD, 0) < 0) {
+> +            qemu_log_mask(LOG_GUEST_ERROR,
+> +                          "write error index<%d>\n", index);
+> +        }
+>
+>          serial_data = ~(s->serial);
+> -        blk_pwrite(s->blk, (index + 1) * SIFIVE_U_OTP_FUSE_WORD,
+> -                   &serial_data, SIFIVE_U_OTP_FUSE_WORD, 0);
+> +        if (blk_pwrite(s->blk, (index + 1) * SIFIVE_U_OTP_FUSE_WORD,
+> +                       &serial_data, SIFIVE_U_OTP_FUSE_WORD, 0) < 0) {
+> +            qemu_log_mask(LOG_GUEST_ERROR,
+> +                          "write error index<%d>\n", index + 1);
+> +        }
+>      }
+>
+>      /* Initialize write-once map */
+> --
+> 2.17.1
 
