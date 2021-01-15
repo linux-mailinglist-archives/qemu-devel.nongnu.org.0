@@ -2,35 +2,35 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C25002F80A0
-	for <lists+qemu-devel@lfdr.de>; Fri, 15 Jan 2021 17:23:59 +0100 (CET)
-Received: from localhost ([::1]:32768 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8C7DF2F809F
+	for <lists+qemu-devel@lfdr.de>; Fri, 15 Jan 2021 17:23:58 +0100 (CET)
+Received: from localhost ([::1]:60958 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l0RtG-0006yP-SF
-	for lists+qemu-devel@lfdr.de; Fri, 15 Jan 2021 11:23:58 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52632)
+	id 1l0RtF-0006xJ-GA
+	for lists+qemu-devel@lfdr.de; Fri, 15 Jan 2021 11:23:57 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52640)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1l0Rln-0008Tr-9k
+ id 1l0Rln-0008Ug-T2
  for qemu-devel@nongnu.org; Fri, 15 Jan 2021 11:16:15 -0500
-Received: from indium.canonical.com ([91.189.90.7]:48930)
+Received: from indium.canonical.com ([91.189.90.7]:48958)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1l0Rlj-0006MN-AT
- for qemu-devel@nongnu.org; Fri, 15 Jan 2021 11:16:14 -0500
+ id 1l0Rlj-0006MS-LT
+ for qemu-devel@nongnu.org; Fri, 15 Jan 2021 11:16:15 -0500
 Received: from loganberry.canonical.com ([91.189.90.37])
  by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1l0Rlh-00042m-5o
- for <qemu-devel@nongnu.org>; Fri, 15 Jan 2021 16:16:09 +0000
+ id 1l0Rli-00043m-1k
+ for <qemu-devel@nongnu.org>; Fri, 15 Jan 2021 16:16:10 +0000
 Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 26EBA2E8137
- for <qemu-devel@nongnu.org>; Fri, 15 Jan 2021 16:16:09 +0000 (UTC)
+ by loganberry.canonical.com (Postfix) with ESMTP id 030B72E813B
+ for <qemu-devel@nongnu.org>; Fri, 15 Jan 2021 16:16:10 +0000 (UTC)
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
-Date: Fri, 15 Jan 2021 16:09:52 -0000
-From: Peter Maydell <1908515@bugs.launchpad.net>
+Date: Fri, 15 Jan 2021 16:10:04 -0000
+From: Peter Maydell <1908513@bugs.launchpad.net>
 To: qemu-devel@nongnu.org
 X-Launchpad-Notification-Type: bug
 X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
@@ -41,15 +41,15 @@ X-Launchpad-Bug-Security-Vulnerability: no
 X-Launchpad-Bug-Commenters: cwmyung
 X-Launchpad-Bug-Reporter: Cheol-Woo,Myung (cwmyung)
 X-Launchpad-Bug-Modifier: Peter Maydell (pmaydell)
-References: <160820246981.31417.5449705170430880088.malonedeb@chaenomeles.canonical.com>
-Message-Id: <161072699274.29828.10182818686604345822.launchpad@chaenomeles.canonical.com>
-Subject: [Bug 1908515] Re: assertion failure in lsi53c810 emulator
+References: <160820236991.15174.7743358668369837137.malonedeb@soybean.canonical.com>
+Message-Id: <161072700473.7069.16746993303767501206.launchpad@wampee.canonical.com>
+Subject: [Bug 1908513] Re: assertion failure in mptsas1068 emulator
 X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
 X-Launchpad-Message-For: qemu-devel-ml
 Precedence: bulk
 X-Generated-By: Launchpad (canonical.com);
  Revision="511b4a3b6512aa3d421c5f7d74f3527e78bff26e"; Instance="production"
-X-Launchpad-Hash: 6ccb86d85a7155a3b19c415609e50e7209a12a50
+X-Launchpad-Hash: 981c7cb70dcb6b524b278858ea5be2c749e9384d
 Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
  helo=indium.canonical.com
 X-Spam_score_int: -65
@@ -70,7 +70,7 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1908515 <1908515@bugs.launchpad.net>
+Reply-To: Bug 1908513 <1908513@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
@@ -80,19 +80,17 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 You received this bug notification because you are a member of qemu-
 devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1908515
+https://bugs.launchpad.net/bugs/1908513
 
 Title:
-  assertion failure in lsi53c810 emulator
+  assertion failure in mptsas1068 emulator
 
 Status in QEMU:
   New
 
 Bug description:
-  Hello,
-
   Using hypervisor fuzzer, hyfuzz, I found an assertion failure through
-  lsi53c810 emulator.
+  mptsas1068 emulator.
 
   A malicious guest user/process could use this flaw to abort the QEMU
   process on the host, resulting in a denial of service.
@@ -101,98 +99,73 @@ Bug description:
 
   =
 
-  qemu-system-i386: ../hw/scsi/lsi53c895a.c:624: void lsi_do_dma(LSIState *=
-, int): Assertion `s->current'
-  failed.
-  [1]    1406 abort (core dumped)  /home/cwmyung/prj/hyfuzz/src/qemu-5.2/bu=
-ild/i386-softmmu/qemu-system-i386 -m
+  qemu-system-i386: ../hw/scsi/mptsas.c:968: void mptsas_interrupt_status_w=
+rite(MPTSASState *): Assertion
+  `s->intr_status & MPI_HIS_DOORBELL_INTERRUPT' failed.
+  [1]    16951 abort (core dumped)  /home/cwmyung/prj/hyfuzz/src/qemu-5.2/b=
+uild/qemu-system-i386 -m 512 -drive
 
   Program terminated with signal SIGABRT, Aborted.
   #0  __GI_raise (sig=3Dsig@entry=3D0x6) at ../sysdeps/unix/sysv/linux/rais=
 e.c:51
   51      ../sysdeps/unix/sysv/linux/raise.c: No such file or directory.
-  [Current thread is 1 (Thread 0x7fa9310a8700 (LWP 2076))]
+  [Current thread is 1 (Thread 0x7fc7d6023700 (LWP 23475))]
   gdb-peda$ bt
-  #0  0x00007fa94aa98f47 in __GI_raise (sig=3Dsig@entry=3D0x6) at ../sysdep=
+  #0  0x00007fc7efa13f47 in __GI_raise (sig=3Dsig@entry=3D0x6) at ../sysdep=
 s/unix/sysv/linux/raise.c:51
-  #1  0x00007fa94aa9a8b1 in __GI_abort () at abort.c:79
-  #2  0x00007fa94aa8a42a in __assert_fail_base (fmt=3D0x7fa94ac11a38 "%s%s%=
-s:%u: %s%sAssertion `%s' failed.\\n%n", assertion=3Dassertion@entry=3D0x562=
-851c9eab9 "s->current", file=3Dfile@entry=3D0x562851c9d4f9 "../hw/scsi/lsi5=
-3c895a.c", line=3Dline@entry=3D0x270, function=3Dfunction@entry=3D0x562851c=
-9de43 "void lsi_do_dma(LSIState *, int)") at assert.c:92
-  #3  0x00007fa94aa8a4a2 in __GI___assert_fail (assertion=3D0x562851c9eab9 =
-"s->current", file=3D0x562851c9d4f9 "../hw/scsi/lsi53c895a.c", line=3D0x270=
-, function=3D0x562851c9de43 "void lsi_do_dma(LSIState *, int)")
-      at assert.c:101
-  #4  0x00005628515d9605 in lsi_do_dma (s=3D0x562855559060, out=3D0x1) at .=
-./hw/scsi/lsi53c895a.c:624
-  #5  0x00005628515d5317 in lsi_execute_script (s=3D<optimized out>) at ../=
-hw/scsi/lsi53c895a.c:1250
-  #6  0x00005628515cec49 in lsi_reg_writeb (s=3D0x562855559060, offset=3D0x=
-2f, val=3D0x1e)
-      at ../hw/scsi/lsi53c895a.c:2005
-  #7  0x0000562851952798 in memory_region_write_accessor (mr=3D<optimized o=
+  #1  0x00007fc7efa158b1 in __GI_abort () at abort.c:79
+  #2  0x00007fc7efa0542a in __assert_fail_base (fmt=3D0x7fc7efb8ca38 "%s%s%=
+s:%u: %s%sAssertion `%s' failed.\\n%n", assertion=3Dassertion@entry=3D0x564=
+39214d593 "s->intr_status & MPI_HIS_DOORBELL_INTERRUPT", file=3Dfile@entry=
+=3D0x56439214d4a7 "../hw/scsi/mptsas.c", line=3Dline@entry=3D0x3c8, functio=
+n=3Dfunction@entry=3D0x56439214d81c "void mptsas_interrupt_status_write(MPT=
+SASState *)") at assert.c:92
+  #3  0x00007fc7efa054a2 in __GI___assert_fail (assertion=3D0x56439214d593 =
+"s->intr_status & MPI_HIS_DOORBELL_INTERRUPT", file=3D0x56439214d4a7 "../hw=
+/scsi/mptsas.c", line=3D0x3c8, function=3D0x56439214d81c "void mptsas_inter=
+rupt_status_write(MPTSASState *)") at assert.c:101
+  #4  0x0000564391a43963 in mptsas_interrupt_status_write (s=3D<optimized o=
+ut>) at ../hw/scsi/mptsas.c:968
+  #5  0x0000564391a43963 in mptsas_mmio_write (opaque=3D0x5643943dd5b0, add=
+r=3D0x30, val=3D0x18000000, size=3D<optimized out>) at ../hw/scsi/mptsas.c:=
+1052
+  #6  0x0000564391e08798 in memory_region_write_accessor (mr=3D<optimized o=
 ut>, addr=3D<optimized out>, value=3D<optimized out>, size=3D<optimized out=
 >, shift=3D<optimized out>, mask=3D<optimized out>, attrs=3D...)
       at ../softmmu/memory.c:491
-  #8  0x000056285195258e in access_with_adjusted_size (addr=3D<optimized ou=
+  #7  0x0000564391e0858e in access_with_adjusted_size (addr=3D<optimized ou=
 t>, value=3D<optimized out>, size=3D<optimized out>, access_size_min=3D<opt=
 imized out>, access_size_max=3D<optimized out>, access_fn=3D<optimized out>=
 , mr=3D<optimized out>, attrs=3D...) at ../softmmu/memory.c:552
-  #9  0x000056285195258e in memory_region_dispatch_write (mr=3D0x5628555599=
-60, addr=3D<optimized out>, data=3D<optimized out>, op=3D<optimized out>, a=
+  #8  0x0000564391e0858e in memory_region_dispatch_write (mr=3D0x5643943dde=
+a0, addr=3D<optimized out>, data=3D<optimized out>, op=3D<optimized out>, a=
 ttrs=3D...) at ../softmmu/memory.c:1501
-  #10 0x00005628518e5305 in flatview_write_continue (fv=3D0x7fa92871f040, a=
-ddr=3D0xfebf302c, attrs=3D..., ptr=3D0x7fa9310a49b8, len=3D0x4, addr1=3D0x7=
-fa9310a3410, l=3D<optimized out>, mr=3D0x562855559960)
-      at ../softmmu/physmem.c:2759
-  #11 0x00005628518e6ef6 in flatview_write (fv=3D0x7fa92871f040, addr=3D0xf=
-ebf302c, attrs=3D..., len=3D0x4, buf=3D<optimized out>) at ../softmmu/physm=
-em.c:2799
-  #12 0x00005628518e6ef6 in subpage_write (opaque=3D<optimized out>, addr=
-=3D<optimized out>, value=3D<optimized out>, len=3D<optimized out>, attrs=
-=3D...) at ../softmmu/physmem.c:2465
-  #13 0x00005628519529a2 in memory_region_write_with_attrs_accessor (mr=3D<=
-optimized out>, addr=3D<optimized out>, value=3D<optimized out>, size=3D<op=
-timized out>, shift=3D<optimized out>, mask=3D<optimized out>, attrs=3D...)=
- at ../softmmu/memory.c:511
-  #14 0x00005628519525e1 in access_with_adjusted_size (addr=3D<optimized ou=
-t>, size=3D<optimized out>, access_size_min=3D<optimized out>, access_size_=
-max=3D<optimized out>, mr=3D<optimized out>, attrs=3D..., value=3D<optimize=
-d out>, access_fn=3D<optimized out>) at ../softmmu/memory.c:552
-  #15 0x00005628519525e1 in memory_region_dispatch_write (mr=3D<optimized o=
-ut>, addr=3D<optimized out>, data=3D<optimized out>, op=3D<optimized out>, =
-attrs=3D...) at ../softmmu/memory.c:1508
-  #16 0x0000562851a49228 in io_writex (iotlbentry=3D<optimized out>, mmu_id=
+  #9  0x0000564391eff228 in io_writex (iotlbentry=3D<optimized out>, mmu_id=
 x=3D<optimized out>, val=3D<optimized out>, addr=3D<optimized out>, retaddr=
 =3D<optimized out>, op=3D<optimized out>, env=3D<optimized out>)
       at ../accel/tcg/cputlb.c:1378
-  #17 0x0000562851a49228 in store_helper (env=3D<optimized out>, addr=3D<op=
+  #10 0x0000564391eff228 in store_helper (env=3D<optimized out>, addr=3D<op=
 timized out>, val=3D<optimized out>, oi=3D<optimized out>, retaddr=3D<optim=
 ized out>, op=3DMO_32) at ../accel/tcg/cputlb.c:2397
-  #18 0x0000562851a49228 in helper_le_stl_mmu (env=3D<optimized out>, addr=
-=3D<optimized out>, val=3D0x2, oi=3D<optimized out>, retaddr=3D0x7fa8e44032=
-ee) at ../accel/tcg/cputlb.c:2463
-  #19 0x00007fa8e44032ee in code_gen_buffer ()
-  #20 0x000056285191ada0 in cpu_tb_exec (cpu=3D0x5628547b81a0, itb=3D<optim=
-ized out>)
-      at ../accel/tcg/cpu-exec.c:178
-  #21 0x000056285191b9eb in cpu_loop_exec_tb (tb=3D<optimized out>, cpu=3D<=
+  #11 0x0000564391eff228 in helper_le_stl_mmu (env=3D<optimized out>, addr=
+=3D<optimized out>, val=3D0x2, oi=3D<optimized out>, retaddr=3D0x7fc78841b4=
+01) at ../accel/tcg/cputlb.c:2463
+  #12 0x00007fc78841b401 in code_gen_buffer ()
+  #13 0x0000564391dd0da0 in cpu_tb_exec (cpu=3D0x56439363e650, itb=3D<optim=
+ized out>) at ../accel/tcg/cpu-exec.c:178
+  #14 0x0000564391dd19eb in cpu_loop_exec_tb (tb=3D<optimized out>, cpu=3D<=
 optimized out>, last_tb=3D<optimized out>, tb_exit=3D<optimized out>) at ..=
 /accel/tcg/cpu-exec.c:658
-  #22 0x000056285191b9eb in cpu_exec (cpu=3D0x5628547b81a0) at ../accel/tcg=
+  #15 0x0000564391dd19eb in cpu_exec (cpu=3D0x56439363e650) at ../accel/tcg=
 /cpu-exec.c:771
-  #23 0x000056285194ab9f in tcg_cpu_exec (cpu=3D<optimized out>) at ../acce=
+  #16 0x0000564391e00b9f in tcg_cpu_exec (cpu=3D<optimized out>) at ../acce=
 l/tcg/tcg-cpus.c:243
-  #24 0x000056285194ab9f in tcg_cpu_thread_fn (arg=3D0x5628547b81a0) at ../=
+  #17 0x0000564391e00b9f in tcg_cpu_thread_fn (arg=3D0x56439363e650) at ../=
 accel/tcg/tcg-cpus.c:427
-  #25 0x0000562851c22775 in qemu_thread_start (args=3D<optimized out>) at .=
+  #18 0x00005643920d8775 in qemu_thread_start (args=3D<optimized out>) at .=
 ./util/qemu-thread-posix.c:521
-  #26 0x00007fa94ae526db in start_thread (arg=3D0x7fa9310a8700) at pthread_=
+  #19 0x00007fc7efdcd6db in start_thread (arg=3D0x7fc7d6023700) at pthread_=
 create.c:463
-  #27 0x00007fa94ab7ba3f in clone () at ../sysdeps/unix/sysv/linux/x86_64/c=
-lone.S:95
 
   To reproduce this issue, please run the QEMU with the following
   command line.
@@ -208,8 +181,8 @@ tizers
   # To reproduce this issue, please run the QEMU process with the following=
  command line.
   $ ./qemu-system-i386 -m 512 -drive file=3D./hyfuzz.img,index=3D0,media=3D=
-disk,format=3Draw -device lsi53c810,id=3Dscsi -device scsi-hd,drive=3DSysDi=
-sk -drive id=3DSysDisk,if=3Dnone,file=3D./disk.img
+disk,format=3Draw -device mptsas1068,id=3Dscsi -device scsi-hd,drive=3DSysD=
+isk -drive id=3DSysDisk,if=3Dnone,file=3D./disk.img
 
   Please let me know if I can provide any further info.
   Thank you.
@@ -217,5 +190,5 @@ sk -drive id=3DSysDisk,if=3Dnone,file=3D./disk.img
   - Cheolwoo, Myung (Seoul National University)
 
 To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1908515/+subscriptions
+https://bugs.launchpad.net/qemu/+bug/1908513/+subscriptions
 
