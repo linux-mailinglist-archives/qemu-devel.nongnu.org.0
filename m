@@ -2,35 +2,35 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F0ABA2F8076
-	for <lists+qemu-devel@lfdr.de>; Fri, 15 Jan 2021 17:18:45 +0100 (CET)
-Received: from localhost ([::1]:49570 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C25002F80A0
+	for <lists+qemu-devel@lfdr.de>; Fri, 15 Jan 2021 17:23:59 +0100 (CET)
+Received: from localhost ([::1]:32768 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l0RoD-0001tF-2S
-	for lists+qemu-devel@lfdr.de; Fri, 15 Jan 2021 11:18:45 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52652)
+	id 1l0RtG-0006yP-SF
+	for lists+qemu-devel@lfdr.de; Fri, 15 Jan 2021 11:23:58 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52632)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1l0Rlp-0008WN-8g
- for qemu-devel@nongnu.org; Fri, 15 Jan 2021 11:16:17 -0500
-Received: from indium.canonical.com ([91.189.90.7]:48904)
+ id 1l0Rln-0008Tr-9k
+ for qemu-devel@nongnu.org; Fri, 15 Jan 2021 11:16:15 -0500
+Received: from indium.canonical.com ([91.189.90.7]:48930)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1l0Rlj-0006Lj-Li
- for qemu-devel@nongnu.org; Fri, 15 Jan 2021 11:16:17 -0500
+ id 1l0Rlj-0006MN-AT
+ for qemu-devel@nongnu.org; Fri, 15 Jan 2021 11:16:14 -0500
 Received: from loganberry.canonical.com ([91.189.90.37])
  by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1l0Rlf-00041x-Ue
- for <qemu-devel@nongnu.org>; Fri, 15 Jan 2021 16:16:07 +0000
+ id 1l0Rlh-00042m-5o
+ for <qemu-devel@nongnu.org>; Fri, 15 Jan 2021 16:16:09 +0000
 Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id E31582E8137
- for <qemu-devel@nongnu.org>; Fri, 15 Jan 2021 16:16:07 +0000 (UTC)
+ by loganberry.canonical.com (Postfix) with ESMTP id 26EBA2E8137
+ for <qemu-devel@nongnu.org>; Fri, 15 Jan 2021 16:16:09 +0000 (UTC)
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
-Date: Fri, 15 Jan 2021 16:09:31 -0000
-From: Peter Maydell <1909261@bugs.launchpad.net>
+Date: Fri, 15 Jan 2021 16:09:52 -0000
+From: Peter Maydell <1908515@bugs.launchpad.net>
 To: qemu-devel@nongnu.org
 X-Launchpad-Notification-Type: bug
 X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
@@ -38,19 +38,18 @@ X-Launchpad-Bug-Tags: fuzzer
 X-Launchpad-Bug-Information-Type: Public
 X-Launchpad-Bug-Private: no
 X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: a1xndr
-X-Launchpad-Bug-Reporter: Alexander Bulekov (a1xndr)
+X-Launchpad-Bug-Commenters: cwmyung
+X-Launchpad-Bug-Reporter: Cheol-Woo,Myung (cwmyung)
 X-Launchpad-Bug-Modifier: Peter Maydell (pmaydell)
-References: <160885503385.2425.14204282087842438729.malonedeb@soybean.canonical.com>
-Message-Id: <161072697152.6072.5207039237024486873.launchpad@wampee.canonical.com>
-Subject: [Bug 1909261] Re: [OSS-Fuzz] Issue 28929 xhci: ASSERT:
- xfer->packet.status != USB_RET_NAK
+References: <160820246981.31417.5449705170430880088.malonedeb@chaenomeles.canonical.com>
+Message-Id: <161072699274.29828.10182818686604345822.launchpad@chaenomeles.canonical.com>
+Subject: [Bug 1908515] Re: assertion failure in lsi53c810 emulator
 X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
 X-Launchpad-Message-For: qemu-devel-ml
 Precedence: bulk
 X-Generated-By: Launchpad (canonical.com);
  Revision="511b4a3b6512aa3d421c5f7d74f3527e78bff26e"; Instance="production"
-X-Launchpad-Hash: ca3a174fe07b71978b5f94560f3fb88f44b57448
+X-Launchpad-Hash: 6ccb86d85a7155a3b19c415609e50e7209a12a50
 Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
  helo=indium.canonical.com
 X-Spam_score_int: -65
@@ -71,7 +70,7 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1909261 <1909261@bugs.launchpad.net>
+Reply-To: Bug 1908515 <1908515@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
@@ -81,50 +80,142 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 You received this bug notification because you are a member of qemu-
 devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1909261
+https://bugs.launchpad.net/bugs/1908515
 
 Title:
-  [OSS-Fuzz]  Issue 28929 xhci: ASSERT: xfer->packet.status !=3D
-  USB_RET_NAK
+  assertion failure in lsi53c810 emulator
 
 Status in QEMU:
   New
 
 Bug description:
-  =3D=3D=3D Reproducer =3D=3D=3D
+  Hello,
 
-  ./qemu-system-i386 -m 512M -machine q35,accel=3Dqtest \
-   -drive file=3Dnull-co://,if=3Dnone,format=3Draw,id=3Ddisk0 \
-  -device qemu-xhci,id=3Dxhci -device usb-tablet,bus=3Dxhci.0 \
-  -device usb-bot -device usb-storage,drive=3Ddisk0 \
-  -chardev null,id=3Dcd0 -chardev null,id=3Dcd1 \
-  -device usb-braille,chardev=3Dcd0 -device usb-ccid \
-  -device usb-ccid -device usb-kbd -device usb-mouse \
-  -device usb-serial,chardev=3Dcd1 -device usb-tablet \
-  -device usb-wacom-tablet -device usb-audio \
-  -qtest stdio -nographic -nodefaults < attachment
+  Using hypervisor fuzzer, hyfuzz, I found an assertion failure through
+  lsi53c810 emulator.
 
-  =3D=3D=3D Stack Trace =3D=3D=3D
-  #0 raise
-  #1 abort
-  #2 libc.so.6
-  #3 __assert_fail
-  #4 xhci_kick_epctx /src/qemu/hw/usb/hcd-xhci.c:1865:13
-  #5 xhci_ep_kick_timer /src/qemu/hw/usb/hcd-xhci.c:1034:5
-  #6 timerlist_run_timers /src/qemu/util/qemu-timer.c:574:9
-  #7 qemu_clock_run_timers /src/qemu/util/qemu-timer.c:588:12
-  #8 qtest_clock_warp /src/qemu/softmmu/qtest.c:356:9
-  #9 qtest_process_command /src/qemu/softmmu/qtest.c:752:9
-  #10 qtest_process_inbuf /src/qemu/softmmu/qtest.c:797:9
-  #11 qtest_server_inproc_recv /src/qemu/softmmu/qtest.c:904:9
-  #12 send_wrapper /src/qemu/tests/qtest/libqtest.c:1390:5
-  #13 qtest_sendf /src/qemu/tests/qtest/libqtest.c:438:5
-  #14 qtest_clock_step_next /src/qemu/tests/qtest/libqtest.c:912:5
-  #15 op_clock_step /src/qemu/tests/qtest/fuzz/generic_fuzz.c:574:5
+  A malicious guest user/process could use this flaw to abort the QEMU
+  process on the host, resulting in a denial of service.
 
-  OSS-Fuzz Report:
-  https://bugs.chromium.org/p/oss-fuzz/issues/detail?id=3D28929
+  This was found in version 5.2.0 (master)
+
+  =
+
+  qemu-system-i386: ../hw/scsi/lsi53c895a.c:624: void lsi_do_dma(LSIState *=
+, int): Assertion `s->current'
+  failed.
+  [1]    1406 abort (core dumped)  /home/cwmyung/prj/hyfuzz/src/qemu-5.2/bu=
+ild/i386-softmmu/qemu-system-i386 -m
+
+  Program terminated with signal SIGABRT, Aborted.
+  #0  __GI_raise (sig=3Dsig@entry=3D0x6) at ../sysdeps/unix/sysv/linux/rais=
+e.c:51
+  51      ../sysdeps/unix/sysv/linux/raise.c: No such file or directory.
+  [Current thread is 1 (Thread 0x7fa9310a8700 (LWP 2076))]
+  gdb-peda$ bt
+  #0  0x00007fa94aa98f47 in __GI_raise (sig=3Dsig@entry=3D0x6) at ../sysdep=
+s/unix/sysv/linux/raise.c:51
+  #1  0x00007fa94aa9a8b1 in __GI_abort () at abort.c:79
+  #2  0x00007fa94aa8a42a in __assert_fail_base (fmt=3D0x7fa94ac11a38 "%s%s%=
+s:%u: %s%sAssertion `%s' failed.\\n%n", assertion=3Dassertion@entry=3D0x562=
+851c9eab9 "s->current", file=3Dfile@entry=3D0x562851c9d4f9 "../hw/scsi/lsi5=
+3c895a.c", line=3Dline@entry=3D0x270, function=3Dfunction@entry=3D0x562851c=
+9de43 "void lsi_do_dma(LSIState *, int)") at assert.c:92
+  #3  0x00007fa94aa8a4a2 in __GI___assert_fail (assertion=3D0x562851c9eab9 =
+"s->current", file=3D0x562851c9d4f9 "../hw/scsi/lsi53c895a.c", line=3D0x270=
+, function=3D0x562851c9de43 "void lsi_do_dma(LSIState *, int)")
+      at assert.c:101
+  #4  0x00005628515d9605 in lsi_do_dma (s=3D0x562855559060, out=3D0x1) at .=
+./hw/scsi/lsi53c895a.c:624
+  #5  0x00005628515d5317 in lsi_execute_script (s=3D<optimized out>) at ../=
+hw/scsi/lsi53c895a.c:1250
+  #6  0x00005628515cec49 in lsi_reg_writeb (s=3D0x562855559060, offset=3D0x=
+2f, val=3D0x1e)
+      at ../hw/scsi/lsi53c895a.c:2005
+  #7  0x0000562851952798 in memory_region_write_accessor (mr=3D<optimized o=
+ut>, addr=3D<optimized out>, value=3D<optimized out>, size=3D<optimized out=
+>, shift=3D<optimized out>, mask=3D<optimized out>, attrs=3D...)
+      at ../softmmu/memory.c:491
+  #8  0x000056285195258e in access_with_adjusted_size (addr=3D<optimized ou=
+t>, value=3D<optimized out>, size=3D<optimized out>, access_size_min=3D<opt=
+imized out>, access_size_max=3D<optimized out>, access_fn=3D<optimized out>=
+, mr=3D<optimized out>, attrs=3D...) at ../softmmu/memory.c:552
+  #9  0x000056285195258e in memory_region_dispatch_write (mr=3D0x5628555599=
+60, addr=3D<optimized out>, data=3D<optimized out>, op=3D<optimized out>, a=
+ttrs=3D...) at ../softmmu/memory.c:1501
+  #10 0x00005628518e5305 in flatview_write_continue (fv=3D0x7fa92871f040, a=
+ddr=3D0xfebf302c, attrs=3D..., ptr=3D0x7fa9310a49b8, len=3D0x4, addr1=3D0x7=
+fa9310a3410, l=3D<optimized out>, mr=3D0x562855559960)
+      at ../softmmu/physmem.c:2759
+  #11 0x00005628518e6ef6 in flatview_write (fv=3D0x7fa92871f040, addr=3D0xf=
+ebf302c, attrs=3D..., len=3D0x4, buf=3D<optimized out>) at ../softmmu/physm=
+em.c:2799
+  #12 0x00005628518e6ef6 in subpage_write (opaque=3D<optimized out>, addr=
+=3D<optimized out>, value=3D<optimized out>, len=3D<optimized out>, attrs=
+=3D...) at ../softmmu/physmem.c:2465
+  #13 0x00005628519529a2 in memory_region_write_with_attrs_accessor (mr=3D<=
+optimized out>, addr=3D<optimized out>, value=3D<optimized out>, size=3D<op=
+timized out>, shift=3D<optimized out>, mask=3D<optimized out>, attrs=3D...)=
+ at ../softmmu/memory.c:511
+  #14 0x00005628519525e1 in access_with_adjusted_size (addr=3D<optimized ou=
+t>, size=3D<optimized out>, access_size_min=3D<optimized out>, access_size_=
+max=3D<optimized out>, mr=3D<optimized out>, attrs=3D..., value=3D<optimize=
+d out>, access_fn=3D<optimized out>) at ../softmmu/memory.c:552
+  #15 0x00005628519525e1 in memory_region_dispatch_write (mr=3D<optimized o=
+ut>, addr=3D<optimized out>, data=3D<optimized out>, op=3D<optimized out>, =
+attrs=3D...) at ../softmmu/memory.c:1508
+  #16 0x0000562851a49228 in io_writex (iotlbentry=3D<optimized out>, mmu_id=
+x=3D<optimized out>, val=3D<optimized out>, addr=3D<optimized out>, retaddr=
+=3D<optimized out>, op=3D<optimized out>, env=3D<optimized out>)
+      at ../accel/tcg/cputlb.c:1378
+  #17 0x0000562851a49228 in store_helper (env=3D<optimized out>, addr=3D<op=
+timized out>, val=3D<optimized out>, oi=3D<optimized out>, retaddr=3D<optim=
+ized out>, op=3DMO_32) at ../accel/tcg/cputlb.c:2397
+  #18 0x0000562851a49228 in helper_le_stl_mmu (env=3D<optimized out>, addr=
+=3D<optimized out>, val=3D0x2, oi=3D<optimized out>, retaddr=3D0x7fa8e44032=
+ee) at ../accel/tcg/cputlb.c:2463
+  #19 0x00007fa8e44032ee in code_gen_buffer ()
+  #20 0x000056285191ada0 in cpu_tb_exec (cpu=3D0x5628547b81a0, itb=3D<optim=
+ized out>)
+      at ../accel/tcg/cpu-exec.c:178
+  #21 0x000056285191b9eb in cpu_loop_exec_tb (tb=3D<optimized out>, cpu=3D<=
+optimized out>, last_tb=3D<optimized out>, tb_exit=3D<optimized out>) at ..=
+/accel/tcg/cpu-exec.c:658
+  #22 0x000056285191b9eb in cpu_exec (cpu=3D0x5628547b81a0) at ../accel/tcg=
+/cpu-exec.c:771
+  #23 0x000056285194ab9f in tcg_cpu_exec (cpu=3D<optimized out>) at ../acce=
+l/tcg/tcg-cpus.c:243
+  #24 0x000056285194ab9f in tcg_cpu_thread_fn (arg=3D0x5628547b81a0) at ../=
+accel/tcg/tcg-cpus.c:427
+  #25 0x0000562851c22775 in qemu_thread_start (args=3D<optimized out>) at .=
+./util/qemu-thread-posix.c:521
+  #26 0x00007fa94ae526db in start_thread (arg=3D0x7fa9310a8700) at pthread_=
+create.c:463
+  #27 0x00007fa94ab7ba3f in clone () at ../sysdeps/unix/sysv/linux/x86_64/c=
+lone.S:95
+
+  To reproduce this issue, please run the QEMU with the following
+  command line.
+
+  =
+
+  # To enable ASan option, please set configuration with the following comm=
+and
+  $ ./configure --target-list=3Di386-softmmu --disable-werror --enable-sani=
+tizers
+  $ make
+
+  # To reproduce this issue, please run the QEMU process with the following=
+ command line.
+  $ ./qemu-system-i386 -m 512 -drive file=3D./hyfuzz.img,index=3D0,media=3D=
+disk,format=3Draw -device lsi53c810,id=3Dscsi -device scsi-hd,drive=3DSysDi=
+sk -drive id=3DSysDisk,if=3Dnone,file=3D./disk.img
+
+  Please let me know if I can provide any further info.
+  Thank you.
+
+  - Cheolwoo, Myung (Seoul National University)
 
 To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1909261/+subscriptions
+https://bugs.launchpad.net/qemu/+bug/1908515/+subscriptions
 
