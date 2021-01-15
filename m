@@ -2,80 +2,85 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 614592F856D
-	for <lists+qemu-devel@lfdr.de>; Fri, 15 Jan 2021 20:29:47 +0100 (CET)
-Received: from localhost ([::1]:54286 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B22952F85C3
+	for <lists+qemu-devel@lfdr.de>; Fri, 15 Jan 2021 20:54:00 +0100 (CET)
+Received: from localhost ([::1]:36256 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l0Un4-00027B-EW
-	for lists+qemu-devel@lfdr.de; Fri, 15 Jan 2021 14:29:46 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38014)
+	id 1l0VAV-0007pp-8D
+	for lists+qemu-devel@lfdr.de; Fri, 15 Jan 2021 14:53:59 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43110)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <wrampazz@redhat.com>)
- id 1l0Ukx-0000zI-Mi
- for qemu-devel@nongnu.org; Fri, 15 Jan 2021 14:27:35 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:40358)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <wrampazz@redhat.com>)
- id 1l0Uku-0004eC-8L
- for qemu-devel@nongnu.org; Fri, 15 Jan 2021 14:27:35 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1610738849;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=Z+znXuIJJW3/ro4R22FFVgxw8vFyvVEkb6484PQXKko=;
- b=aZYhgZC1/RHcpKj+VKFafA+s4gOczUN6ao7rMNRIgApsKkunOu87d/NEyuK8IEm49KwnAI
- OcvzGL6flAgOfUbkxy4l3BueFDArRM8UCp6QugXMtn7G/uaJr41MA67jTx13mTwUtwIVYX
- GLdD8S9/hZwZXqvSRwKv50KFWMhTucg=
-Received: from mail-ua1-f70.google.com (mail-ua1-f70.google.com
- [209.85.222.70]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-370-yppq83d7MA6oMazVUbTveQ-1; Fri, 15 Jan 2021 14:27:26 -0500
-X-MC-Unique: yppq83d7MA6oMazVUbTveQ-1
-Received: by mail-ua1-f70.google.com with SMTP id 62so1597239uak.18
- for <qemu-devel@nongnu.org>; Fri, 15 Jan 2021 11:27:26 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1l0V9e-0007NV-EE
+ for qemu-devel@nongnu.org; Fri, 15 Jan 2021 14:53:06 -0500
+Received: from mail-pj1-x102f.google.com ([2607:f8b0:4864:20::102f]:53562)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1l0V9c-0007h9-UE
+ for qemu-devel@nongnu.org; Fri, 15 Jan 2021 14:53:06 -0500
+Received: by mail-pj1-x102f.google.com with SMTP id p15so5567183pjv.3
+ for <qemu-devel@nongnu.org>; Fri, 15 Jan 2021 11:53:04 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=3bs5xcrZ9LyHBLAtwcKrXhrWvfu/7/Kyd6NvS1oE+iE=;
+ b=qgN3wSMSn5p4DgmOLyRqquDHTtOzzEhoAb7ws9gSo/1g69+D4qPAazwFKn4v9YO2Ku
+ /ZAlw/uTM1u3gp17bqB9aLlWGoAD6QM30sDesTsx+erOuXLgq4Vjr6hpWijS69NmTTD/
+ Sf0uHjr9xzIbxAC80QN0kNZJYXOcwEsO3LGdRG2q5YM6GDHhAVbVapqjkPq8IIY3ywl6
+ 7sXW1b0JInPvDtS0TgnB1Yi3Dp7JrZ94S8bx3Xk+4IQZy87+3aaKINLtSKotq/SRP4Wb
+ y0/54ipwLTOTx3DUz6Eajgf/1TBeG7bNKpuPc0gaEJACzV7x+SnrJfR0XjSj58lAxXrI
+ VvVA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=Z+znXuIJJW3/ro4R22FFVgxw8vFyvVEkb6484PQXKko=;
- b=Bc9iZfAbTZ+3W2OHt5fnnXaQZh0oVEHWizYKBMJKKxMaFEmIuQyRvsdyrI239lx0gE
- fZ9ZEjZUldaQ/SdFGMfBd803hqxzjurCxS1YkHWYCFvdcPsgu0d+Bi3J+d1fPNc6uXCd
- V2WbtXe7HkW+/u6kZFVJbKOmVxlgKUIUN6iLeoVDkavYN7FUwYGKJ9zbLQmZu16NdzKw
- DOopvYO+LcMrK2klIVTcEIOin3YR2kXdtaMktxpU+ynL9t9BFg/uzv+VAc4j5F4adqFu
- 9kqi4uhdba/fVlyRB4WcATGjQCdBvch8cKvO9HjN5ZNuu9mZIFF4pZnNkJu+jFG/dgso
- jkWQ==
-X-Gm-Message-State: AOAM532ALwFE6NgJYxNnULp+XEw5BLGR/2ptrCuaN6XurDBjx0lQBKvR
- a2wM8D61rlEphlAMK3Ini0aHhdAsXGuvvuns/2oSxNYox6KaOd7CQA7EiEeU5WFlsD8FeSekEEU
- FFhUtj/0Bq2yeSA2aE34hMhRgk1UtNgQ=
-X-Received: by 2002:ab0:6f97:: with SMTP id f23mr10398871uav.5.1610738846307; 
- Fri, 15 Jan 2021 11:27:26 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJxGm/0ZK65cDeOxhi/mDVkv4KQogSWKnIyHIGAWDXMMsEuOmNnBlRDdlkKn3+tBZK7nfgcORhOji3Oh8C64oMI=
-X-Received: by 2002:ab0:6f97:: with SMTP id f23mr10398845uav.5.1610738845971; 
- Fri, 15 Jan 2021 11:27:25 -0800 (PST)
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=3bs5xcrZ9LyHBLAtwcKrXhrWvfu/7/Kyd6NvS1oE+iE=;
+ b=tZgPloqVwJ/1kfFxuVTbNel3Ov1F/yTi04U+XsXo18lEw4ccugTB0hzwBUYMD6fGY5
+ tTjp03ur0eebLAiQLCMfeG1yCUx+mJ8UXg94CuIhhi+W7OnTUD3+bGtvbptInPJTEmUX
+ IEgXT2dca4IiQt/bilEkGd5BlD2+P2nSNtYrUV9drcGK/zAw/7GmGIsXej3gygsHacD1
+ TRaPcyzaZX355tCcHh5ZyxQ/h5RxmRglMHal9/mFwiwMV6dDg24q9ovCr5xoSaBvDmAz
+ DJpcrhxpaQfrUPwuTRsNt1hdFbo/pol2sX9Juj4goMUkjF8Vu/M7QeyQVSzFK+Kp7jGe
+ DbNQ==
+X-Gm-Message-State: AOAM533jn+O0fdOx85Ldt9ogfwuetEB3qu6q5kne6ayxMtqkejfVKnkO
+ fTDuGOT0r2nol5hXRRxFu2dMBg==
+X-Google-Smtp-Source: ABdhPJxaYVdwHV3fth/mIA4Z2a9SQ9LoiRAUl+gBmFsHHaJUGVJWnZ+qMDZC0fb8G9JF0sPBsZ5rag==
+X-Received: by 2002:a17:902:8c85:b029:dc:31af:90a6 with SMTP id
+ t5-20020a1709028c85b02900dc31af90a6mr14202094plo.37.1610740383417; 
+ Fri, 15 Jan 2021 11:53:03 -0800 (PST)
+Received: from [10.25.18.3] (rrcs-173-197-107-21.west.biz.rr.com.
+ [173.197.107.21])
+ by smtp.gmail.com with ESMTPSA id x15sm8539795pfi.184.2021.01.15.11.53.00
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 15 Jan 2021 11:53:02 -0800 (PST)
+Subject: Re: [PATCH 03/15] arc: Opcode definitions table
+To: Cupertino Miranda <Cupertino.Miranda@synopsys.com>,
+ "cupertinomiranda@gmail.com" <cupertinomiranda@gmail.com>,
+ "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>
+References: <20201111161758.9636-1-cupertinomiranda@gmail.com>
+ <20201111161758.9636-4-cupertinomiranda@gmail.com>
+ <7336e0b3-13e8-a3d7-46fb-a4ea942c5c16@linaro.org>
+ <214ddc83-cf6e-20e7-0a86-92af851809e4@synopsys.com>
+From: Richard Henderson <richard.henderson@linaro.org>
+Message-ID: <82625937-3d2a-857d-4791-77f60a892e68@linaro.org>
+Date: Fri, 15 Jan 2021 09:52:55 -1000
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
 MIME-Version: 1.0
-References: <20210115174315.30949-1-mreitz@redhat.com>
- <20210115174315.30949-3-mreitz@redhat.com>
-In-Reply-To: <20210115174315.30949-3-mreitz@redhat.com>
-From: Willian Rampazzo <wrampazz@redhat.com>
-Date: Fri, 15 Jan 2021 16:27:00 -0300
-Message-ID: <CAKJDGDbf=bWEuR-LkOJNN5t9EDYR7kqcb-6DDBskX-aPntjhzg@mail.gmail.com>
-Subject: Re: [PATCH v4 02/10] iotests/297: Rewrite in Python and extend reach
-To: Max Reitz <mreitz@redhat.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=wrampazz@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=wrampazz@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -29
-X-Spam_score: -3.0
-X-Spam_bar: ---
-X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.25,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <214ddc83-cf6e-20e7-0a86-92af851809e4@synopsys.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::102f;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x102f.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -88,153 +93,24 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>,
- Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
- qemu-devel <qemu-devel@nongnu.org>, qemu-block@nongnu.org
+Cc: Shahab Vahedi <shahab.vahedi@gmail.com>,
+ Claudiu Zissulescu <Claudiu.Zissulescu@synopsys.com>,
+ "linux-snps-arc@lists.infradead.org" <linux-snps-arc@lists.infradead.org>,
+ Claudiu Zissulescu <claziss@gmail.com>,
+ Shahab Vahedi <Shahab.Vahedi@synopsys.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, Jan 15, 2021 at 2:43 PM Max Reitz <mreitz@redhat.com> wrote:
->
-> Instead of checking iotests.py only, check all Python files in the
-> qemu-iotests/ directory.  Of course, most of them do not pass, so there
-> is an extensive skip list for now.  (The only files that do pass are
-> 209, 254, 283, and iotests.py.)
->
-> (Alternatively, we could have the opposite, i.e. an explicit list of
-> files that we do want to check, but I think it is better to check files
-> by default.)
->
-> Unless started in debug mode (./check -d), the output has no information
-> on which files are tested, so we will not have a problem e.g. with
-> backports, where some files may be missing when compared to upstream.
->
-> Besides the technical rewrite, some more things are changed:
->
-> - For the pylint invocation, PYTHONPATH is adjusted.  This mirrors
->   setting MYPYPATH for mypy.
->
-> - Also, MYPYPATH is now derived from PYTHONPATH, so that we include
->   paths set by the environment.  Maybe at some point we want to let the
->   check script add '../../python/' to PYTHONPATH so that iotests.py does
->   not need to do that.
->
-> - Passing --notes=FIXME,XXX to pylint suppresses warnings for TODO
->   comments.  TODO is fine, we do not need 297 to complain about such
->   comments.
->
-> - The "Success" line from mypy's output is suppressed, because (A) it
->   does not add useful information, and (B) it would leak information
->   about the files having been tested to the reference output, which we
->   decidedly do not want.
->
-> Suggested-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-> Signed-off-by: Max Reitz <mreitz@redhat.com>
-> Reviewed-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-> ---
->  tests/qemu-iotests/297     | 110 +++++++++++++++++++++++++++++--------
->  tests/qemu-iotests/297.out |   5 +-
->  2 files changed, 90 insertions(+), 25 deletions(-)
->
-> diff --git a/tests/qemu-iotests/297 b/tests/qemu-iotests/297
-> index 5c5420712b..fa9e2cac78 100755
-> --- a/tests/qemu-iotests/297
-> +++ b/tests/qemu-iotests/297
-> @@ -1,4 +1,4 @@
-> -#!/usr/bin/env bash
-> +#!/usr/bin/env python3
->  #
->  # Copyright (C) 2020 Red Hat, Inc.
->  #
-> @@ -15,30 +15,96 @@
->  # You should have received a copy of the GNU General Public License
->  # along with this program.  If not, see <http://www.gnu.org/licenses/>.
->
-> -seq=$(basename $0)
-> -echo "QA output created by $seq"
-> +import os
-> +import re
-> +import shutil
-> +import subprocess
-> +import sys
->
-> -status=1       # failure is the default!
-> +import iotests
->
-> -# get standard environment
-> -. ./common.rc
->
-> -if ! type -p "pylint-3" > /dev/null; then
-> -    _notrun "pylint-3 not found"
-> -fi
-> -if ! type -p "mypy" > /dev/null; then
-> -    _notrun "mypy not found"
-> -fi
-> +# TODO: Empty this list!
-> +SKIP_FILES = (
-> +    '030', '040', '041', '044', '045', '055', '056', '057', '065', '093',
-> +    '096', '118', '124', '129', '132', '136', '139', '147', '148', '149',
-> +    '151', '152', '155', '163', '165', '169', '194', '196', '199', '202',
-> +    '203', '205', '206', '207', '208', '210', '211', '212', '213', '216',
-> +    '218', '219', '222', '224', '228', '234', '235', '236', '237', '238',
-> +    '240', '242', '245', '246', '248', '255', '256', '257', '258', '260',
-> +    '262', '264', '266', '274', '277', '280', '281', '295', '296', '298',
-> +    '299', '300', '302', '303', '304', '307',
-> +    'nbd-fault-injector.py', 'qcow2.py', 'qcow2_format.py', 'qed.py'
-> +)
->
-> -pylint-3 --score=n iotests.py
->
-> -MYPYPATH=../../python/ mypy --warn-unused-configs --disallow-subclassing-any \
-> -    --disallow-any-generics --disallow-incomplete-defs \
-> -    --disallow-untyped-decorators --no-implicit-optional \
-> -    --warn-redundant-casts --warn-unused-ignores \
-> -    --no-implicit-reexport iotests.py
-> +def is_python_file(filename):
-> +    if not os.path.isfile(filename):
-> +        return False
->
-> -# success, all done
-> -echo "*** done"
-> -rm -f $seq.full
-> -status=0
-> +    if filename.endswith('.py'):
-> +        return True
-> +
-> +    with open(filename) as f:
-> +        try:
-> +            first_line = f.readline()
-> +            return re.match('^#!.*python', first_line) is not None
-> +        except UnicodeDecodeError:  # Ignore binary files
-> +            return False
-> +
-> +
-> +def run_linters():
-> +    files = [filename for filename in (set(os.listdir('.')) - set(SKIP_FILES))
-> +             if is_python_file(filename)]
-> +
-> +    iotests.logger.debug('Files to be checked:')
-> +    iotests.logger.debug(', '.join(sorted(files)))
-> +
-> +    print('=== pylint ===')
-> +    sys.stdout.flush()
-> +
-> +    # Todo notes are fine, but fixme's or xxx's should probably just be
-> +    # fixed (in tests, at least)
-> +    env = os.environ.copy()
-> +    try:
-> +        env['PYTHONPATH'] += ':../../python/'
+On 1/15/21 7:11 AM, Cupertino Miranda wrote:
+> As you know, we reused the code from binutils to implement the decoder.
+> In that sense, we kindly request to allow us to do it through binutils 
+> development flow later on. We will change the tables in binutils
+> and those changes will also be mirrored to QEMU.
+> Is this Ok ?
 
-Do you have any objection to using os.path.dirname and os.path.join
-here? This would make the code more pythonic.
+Yes, certainly.
 
-> +    except KeyError:
-> +        env['PYTHONPATH'] = '../../python/'
 
-Same here. You could do it once, before the 'try' and use it inside.
-
-Other than that,
-
-Reviewed-by: Willian Rampazzo <willianr@redhat.com>
+r~
 
 
