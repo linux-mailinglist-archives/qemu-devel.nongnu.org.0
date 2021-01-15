@@ -2,77 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DD9D82F8348
-	for <lists+qemu-devel@lfdr.de>; Fri, 15 Jan 2021 19:07:58 +0100 (CET)
-Received: from localhost ([::1]:33402 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DAB962F835D
+	for <lists+qemu-devel@lfdr.de>; Fri, 15 Jan 2021 19:12:28 +0100 (CET)
+Received: from localhost ([::1]:38118 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l0TVt-0008Bu-FN
-	for lists+qemu-devel@lfdr.de; Fri, 15 Jan 2021 13:07:57 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50688)
+	id 1l0TaF-0001wx-K0
+	for lists+qemu-devel@lfdr.de; Fri, 15 Jan 2021 13:12:27 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51690)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <wainersm@redhat.com>)
- id 1l0TUh-0007cg-Kh
- for qemu-devel@nongnu.org; Fri, 15 Jan 2021 13:06:44 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:55758)
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1l0TYZ-00015n-Mz
+ for qemu-devel@nongnu.org; Fri, 15 Jan 2021 13:10:43 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:27081)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <wainersm@redhat.com>)
- id 1l0TUd-0001SO-Hn
- for qemu-devel@nongnu.org; Fri, 15 Jan 2021 13:06:43 -0500
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1l0TYX-0002fD-S3
+ for qemu-devel@nongnu.org; Fri, 15 Jan 2021 13:10:43 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1610733998;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=MFhe0K7+u5qN3n80GogojJkKr8YqBfBA4lNpDa5V2xQ=;
- b=ibsPkOT5R05sF9XQRmFRPk9fIs1Su3pbiT5Pz03i3wsyFh1SZnz/GIqYRCn3v4dMLiTh7p
- tlKQZwuKNCHNf4AUzjZ+KGGkXuARyZ2yeqJ3NETdL0fANDDTvs6EE7bX5PgbKff7i1Td5B
- 1KXMgJUG1j2a0hotGtP6h6K07sDlxHI=
+ s=mimecast20190719; t=1610734240;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:in-reply-to:in-reply-to:  references:references;
+ bh=bS2I7Xu/shcBG7A3Td+51IYLGWfr5T4THPQD2+0iG4I=;
+ b=MUkbj7580Am0DB1ehAfUOh9WDvCOa6SU5BGARJUKH+TP7uX9UNXxxbqcl475ggSq1mQBUB
+ 6K4ugI+rxfwU+4rilcwi3c2CbzCJzmaFIVR5D+kc9tRLvKhx7XiLhhvkSNZpgc8mf2/b8s
+ E6OJ1AHoiXVp1nhPsPYhA1qXud6FCxA=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-459-64e7EQWgNLmnMP-gpOaElA-1; Fri, 15 Jan 2021 13:06:35 -0500
-X-MC-Unique: 64e7EQWgNLmnMP-gpOaElA-1
+ us-mta-35-JEvzODPlMEuE_woK-xIoTA-1; Fri, 15 Jan 2021 13:10:34 -0500
+X-MC-Unique: JEvzODPlMEuE_woK-xIoTA-1
 Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
  [10.5.11.13])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 0551B9CC03;
- Fri, 15 Jan 2021 18:06:34 +0000 (UTC)
-Received: from wainer-laptop.localdomain (ovpn-116-88.gru2.redhat.com
- [10.97.116.88])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 1BF5D648A1;
- Fri, 15 Jan 2021 18:06:29 +0000 (UTC)
-Subject: Re: [PATCH v2 07/25] tests/docker: fix sorting in package lists
-To: =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
- qemu-devel@nongnu.org
-References: <20210114130245.1654081-1-berrange@redhat.com>
- <20210114130245.1654081-8-berrange@redhat.com>
-From: Wainer dos Santos Moschetta <wainersm@redhat.com>
-Message-ID: <d82625fc-0742-4461-3bc9-2bc7b6ee3f61@redhat.com>
-Date: Fri, 15 Jan 2021 15:06:27 -0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.4.0
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id C859B9CC09
+ for <qemu-devel@nongnu.org>; Fri, 15 Jan 2021 18:10:33 +0000 (UTC)
+Received: from redhat.com (ovpn-115-76.ams2.redhat.com [10.36.115.76])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 6BC24648A1;
+ Fri, 15 Jan 2021 18:10:32 +0000 (UTC)
+Date: Fri, 15 Jan 2021 18:10:29 +0000
+From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+To: P J P <ppandit@redhat.com>
+Subject: Re: About 'qemu-security' list subscription process
+Message-ID: <20210115181029.GY1692978@redhat.com>
+References: <r95p856o-o5r3-1r88-p675-2111r17p7794@erqung.pbz>
 MIME-Version: 1.0
-In-Reply-To: <20210114130245.1654081-8-berrange@redhat.com>
+In-Reply-To: <r95p856o-o5r3-1r88-p675-2111r17p7794@erqung.pbz>
+User-Agent: Mutt/1.14.6 (2020-07-11)
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=wainersm@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=berrange@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Content-Language: en-US
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=wainersm@redhat.com;
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=berrange@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -29
 X-Spam_score: -3.0
 X-Spam_bar: ---
 X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.25,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -85,191 +78,48 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Fam Zheng <fam@euphon.net>, Peter Maydell <peter.maydell@linaro.org>,
- =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+Cc: Michael Tsirkin <mtsirkin@redhat.com>, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+On Thu, Jan 14, 2021 at 07:33:32PM +0530, P J P wrote:
+>   Hello,
+> 
+> * We have received quite a few subscription requests for the 'qemu-security'
+>   list in the last few weeks. Majority of them are rejected because we could
+>   not identify the user from merely their email-id.
+> 
+> * I have requested them to send a subscription request email with a 'Self
+>   Introduction' to the list.
+> 
+> * However, some of the subscribers are familiar from the
+>   qemu-devel/oss-security mailing lists. And some are corporate emails like
+>   <secalert@rh.c>
+> 
+> * One of the request is pending (3+) votes/acks for OR against member
+>   subscription.
+> 
+> How do we handle these requests?
 
-On 1/14/21 10:02 AM, Daniel P. Berrangé wrote:
-> This will make diffs in later patches clearer.
->
-> Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-> Signed-off-by: Daniel P. Berrangé <berrange@redhat.com>
-> ---
->   tests/docker/dockerfiles/centos7.docker       |  4 ++--
->   tests/docker/dockerfiles/fedora.docker        |  4 ++--
->   tests/docker/dockerfiles/opensuse-leap.docker | 16 ++++++++--------
->   tests/docker/dockerfiles/ubuntu1804.docker    |  4 ++--
->   tests/docker/dockerfiles/ubuntu2004.docker    |  8 +++++---
->   5 files changed, 19 insertions(+), 17 deletions(-)
+I believe we want to keep the membership of qemu-security reasonably
+small. Primarily people who can commit to helping with the initial
+triage to identify which specific subsystem maintainers to pull in.
+In addition major consumers of QEMU with whom we need to coordinate
+choice of disclosure date for embargoed images.
 
+There is obviously a danger to the project if we mistakenly allow
+membership from someone who is not acting in interests in the QEMU
+project, so I think the bar needs to be reasonably high. IOW ideally
+there should be some web of trust whereby some existing member(s)
+knows the person/entity who is requesting acces. Other cases would
+have to be evaluated case-by-case basis.
 
-Reviewed-by: Wainer dos Santos Moschetta <wainersm@redhat.com>
-
-
->
-> diff --git a/tests/docker/dockerfiles/centos7.docker b/tests/docker/dockerfiles/centos7.docker
-> index 66d805dec3..b2a4719284 100644
-> --- a/tests/docker/dockerfiles/centos7.docker
-> +++ b/tests/docker/dockerfiles/centos7.docker
-> @@ -5,13 +5,14 @@ RUN yum -y update
->   
->   # Please keep this list sorted alphabetically
->   ENV PACKAGES \
-> +    SDL2-devel \
->       bzip2 \
->       bzip2-devel \
->       ccache \
->       csnappy-devel \
->       dbus-daemon \
-> -    gcc-c++ \
->       gcc \
-> +    gcc-c++ \
->       gettext \
->       git \
->       glib2-devel \
-> @@ -32,7 +33,6 @@ ENV PACKAGES \
->       perl-Test-Harness \
->       pixman-devel \
->       python3 \
-> -    SDL2-devel \
->       spice-glib-devel \
->       spice-server-devel \
->       tar \
-> diff --git a/tests/docker/dockerfiles/fedora.docker b/tests/docker/dockerfiles/fedora.docker
-> index d9b764aea2..03b88f1cfe 100644
-> --- a/tests/docker/dockerfiles/fedora.docker
-> +++ b/tests/docker/dockerfiles/fedora.docker
-> @@ -2,6 +2,7 @@ FROM registry.fedoraproject.org/fedora:32
->   
->   # Please keep this list sorted alphabetically
->   ENV PACKAGES \
-> +    SDL2-devel \
->       bc \
->       brlapi-devel \
->       bzip2 \
-> @@ -74,10 +75,10 @@ ENV PACKAGES \
->       mingw64-pixman \
->       mingw64-pkg-config \
->       mingw64-SDL2 \
-> -    nmap-ncat \
->       ncurses-devel \
->       nettle-devel \
->       ninja-build \
-> +    nmap-ncat \
->       numactl-devel \
->       perl \
->       perl-Test-Harness \
-> @@ -91,7 +92,6 @@ ENV PACKAGES \
->       python3-sphinx \
->       python3-virtualenv \
->       rdma-core-devel \
-> -    SDL2-devel \
->       snappy-devel \
->       sparse \
->       spice-server-devel \
-> diff --git a/tests/docker/dockerfiles/opensuse-leap.docker b/tests/docker/dockerfiles/opensuse-leap.docker
-> index e7dc14bf99..ed194125a7 100644
-> --- a/tests/docker/dockerfiles/opensuse-leap.docker
-> +++ b/tests/docker/dockerfiles/opensuse-leap.docker
-> @@ -8,46 +8,46 @@ ENV PACKAGES \
->       cyrus-sasl-devel \
->       gcc \
->       gcc-c++ \
-> -    mkisofs \
->       gettext-runtime \
->       git \
->       glib2-devel \
->       glusterfs-devel \
-> -    libgnutls-devel \
->       gtk3-devel \
-> +    libSDL2-devel \
-> +    libSDL2_image-devel \
->       libaio-devel \
->       libattr-devel \
->       libcap-ng-devel \
->       libepoxy-devel \
->       libfdt-devel \
-> +    libgnutls-devel \
->       libiscsi-devel \
->       libjpeg8-devel \
-> +    libnuma-devel \
-> +    libpixman-1-0-devel \
->       libpmem-devel \
->       libpng16-devel \
->       librbd-devel \
->       libseccomp-devel \
-> +    libspice-server-devel \
->       libssh-devel \
->       lzo-devel \
->       make \
-> -    libSDL2_image-devel \
-> +    mkisofs \
->       ncurses-devel \
->       ninja \
-> -    libnuma-devel \
->       perl \
-> -    libpixman-1-0-devel \
->       python3-base \
->       python3-virtualenv \
->       rdma-core-devel \
-> -    libSDL2-devel \
->       snappy-devel \
-> -    libspice-server-devel \
->       systemd-devel \
->       systemtap-sdt-devel \
->       tar \
->       usbredir-devel \
->       virglrenderer-devel \
-> -    xen-devel \
->       vte-devel \
-> +    xen-devel \
->       zlib-devel
->   ENV QEMU_CONFIGURE_OPTS --python=/usr/bin/python3.6
->   
-> diff --git a/tests/docker/dockerfiles/ubuntu1804.docker b/tests/docker/dockerfiles/ubuntu1804.docker
-> index 3534111637..58a373e205 100644
-> --- a/tests/docker/dockerfiles/ubuntu1804.docker
-> +++ b/tests/docker/dockerfiles/ubuntu1804.docker
-> @@ -45,9 +45,9 @@ ENV PACKAGES \
->       libxen-dev \
->       libzstd-dev \
->       make \
-> -    python3-yaml \
-> -    python3-sphinx \
->       ninja-build \
-> +    python3-sphinx \
-> +    python3-yaml \
->       sparse \
->       xfslibs-dev
->   RUN apt-get update && \
-> diff --git a/tests/docker/dockerfiles/ubuntu2004.docker b/tests/docker/dockerfiles/ubuntu2004.docker
-> index 552b57f903..2bb7e2ab1e 100644
-> --- a/tests/docker/dockerfiles/ubuntu2004.docker
-> +++ b/tests/docker/dockerfiles/ubuntu2004.docker
-> @@ -1,7 +1,9 @@
->   FROM docker.io/library/ubuntu:20.04
-> -ENV PACKAGES flex bison \
-> +ENV PACKAGES \
-> +    bison \
->       ccache \
->       clang-10\
-> +    flex \
->       gcc \
->       genisoimage \
->       gettext \
-> @@ -60,8 +62,8 @@ ENV PACKAGES flex bison \
->       sparse \
->       tesseract-ocr \
->       tesseract-ocr-eng \
-> -    xfslibs-dev\
-> -    vim
-> +    vim \
-> +    xfslibs-dev
->   RUN apt-get update && \
->       DEBIAN_FRONTEND=noninteractive apt-get -y install $PACKAGES
->   RUN dpkg -l $PACKAGES | sort > /packages.txt
+Regards,
+Daniel
+-- 
+|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
+|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
+|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
 
 
