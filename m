@@ -2,66 +2,50 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6148C2F73C0
-	for <lists+qemu-devel@lfdr.de>; Fri, 15 Jan 2021 08:37:37 +0100 (CET)
-Received: from localhost ([::1]:34838 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C6B372F73E9
+	for <lists+qemu-devel@lfdr.de>; Fri, 15 Jan 2021 09:00:45 +0100 (CET)
+Received: from localhost ([::1]:46260 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l0Jfs-0006bM-E6
-	for lists+qemu-devel@lfdr.de; Fri, 15 Jan 2021 02:37:36 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54632)
+	id 1l0K2G-0004f4-DY
+	for lists+qemu-devel@lfdr.de; Fri, 15 Jan 2021 03:00:44 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57794)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1l0JeM-0006Ai-RU
- for qemu-devel@nongnu.org; Fri, 15 Jan 2021 02:36:02 -0500
-Received: from indium.canonical.com ([91.189.90.7]:51812)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1l0JeK-0005Nw-Hg
- for qemu-devel@nongnu.org; Fri, 15 Jan 2021 02:36:02 -0500
-Received: from loganberry.canonical.com ([91.189.90.37])
- by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1l0JeG-0001aT-3P
- for <qemu-devel@nongnu.org>; Fri, 15 Jan 2021 07:35:56 +0000
-Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 18D1B2E813A
- for <qemu-devel@nongnu.org>; Fri, 15 Jan 2021 07:35:56 +0000 (UTC)
+ (Exim 4.90_1) (envelope-from <ganqixin@huawei.com>)
+ id 1l0K11-0003gq-2I; Fri, 15 Jan 2021 02:59:27 -0500
+Received: from szxga04-in.huawei.com ([45.249.212.190]:3289)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <ganqixin@huawei.com>)
+ id 1l0K0y-0007wZ-A5; Fri, 15 Jan 2021 02:59:26 -0500
+Received: from DGGEMS409-HUB.china.huawei.com (unknown [172.30.72.58])
+ by szxga04-in.huawei.com (SkyGuard) with ESMTP id 4DHD7H1Btyzl4xy;
+ Fri, 15 Jan 2021 15:57:47 +0800 (CST)
+Received: from huawei.com (10.175.104.175) by DGGEMS409-HUB.china.huawei.com
+ (10.3.19.209) with Microsoft SMTP Server id 14.3.498.0; Fri, 15 Jan 2021
+ 15:59:00 +0800
+From: Gan Qixin <ganqixin@huawei.com>
+To: <qemu-devel@nongnu.org>, <qemu-trivial@nongnu.org>
+Subject: [PATCH] qtest/npcm7xx_pwm-test: Fix memleak in pwm_qom_get
+Date: Fri, 15 Jan 2021 15:56:34 +0800
+Message-ID: <20210115075634.717909-1-ganqixin@huawei.com>
+X-Mailer: git-send-email 2.27.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-Date: Fri, 15 Jan 2021 07:25:48 -0000
-From: ZhiQiang Yan <1907042@bugs.launchpad.net>
-To: qemu-devel@nongnu.org
-X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
-X-Launchpad-Bug-Information-Type: Public
-X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: hades0506 v1nke
-X-Launchpad-Bug-Reporter: Gaoning Pan (hades0506)
-X-Launchpad-Bug-Modifier: ZhiQiang Yan (v1nke)
-References: <160732123417.11736.2125519707622289865.malonedeb@soybean.canonical.com>
-Message-Id: <161069554871.6623.8138070773950423149.malone@wampee.canonical.com>
-Subject: [Bug 1907042] Re: assert issue locates in hw/usb/core.c:727:
- usb_ep_get: Assertion `pid == USB_TOKEN_IN || pid == USB_TOKEN_OUT' failed 
-X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
-X-Launchpad-Message-For: qemu-devel-ml
-Precedence: bulk
-X-Generated-By: Launchpad (canonical.com);
- Revision="511b4a3b6512aa3d421c5f7d74f3527e78bff26e"; Instance="production"
-X-Launchpad-Hash: d9b19455492799b091099678b7f5257afdc8c10a
-Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
- helo=indium.canonical.com
-X-Spam_score_int: -65
-X-Spam_score: -6.6
-X-Spam_bar: ------
-X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9,
- HEADER_FROM_DIFFERENT_DOMAINS=0.248, RCVD_IN_DNSWL_HI=-5,
- RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=ham autolearn_force=no
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-Originating-IP: [10.175.104.175]
+X-CFilter-Loop: Reflected
+Received-SPF: pass client-ip=45.249.212.190; envelope-from=ganqixin@huawei.com;
+ helo=szxga04-in.huawei.com
+X-Spam_score_int: -41
+X-Spam_score: -4.2
+X-Spam_bar: ----
+X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
+ RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -70,89 +54,74 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1907042 <1907042@bugs.launchpad.net>
+Cc: Laurent Vivier <lvivier@redhat.com>, Thomas Huth <thuth@redhat.com>,
+ zhang.zhanghailiang@huawei.com, Havard
+ Skinnemoen <hskinnemoen@google.com>, Tyrone Ting <kfting@nuvoton.com>,
+ Gan Qixin <ganqixin@huawei.com>, Euler Robot <euler.robot@huawei.com>,
+ kuhn.chenqun@huawei.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-I trigger the usb_ep_get assertion as well, but I think is't not a bug.(I u=
-se the ehci)
-Maybe the logic is the function return ep_ctl whith USB_TOKEN_SETUP and ep=
-=3D=3D0.Otherwise, will goto the next.
+The pwm_qom_get function didn't free "response", which caused an indirect
+memory leak. So use qobject_unref() to fix it.
 
--- =
+ASAN shows memory leak stack:
 
-You received this bug notification because you are a member of qemu-
-devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1907042
+Indirect leak of 74160000 byte(s) in 18000 object(s) allocated from:
+    #0 0x7f96e2f79d4e in __interceptor_calloc (/lib64/libasan.so.5+0x112d4e)
+    #1 0x7f96e2d98a50 in g_malloc0 (/lib64/libglib-2.0.so.0+0x55a50)
+    #2 0x556313112180 in qdict_new ../qobject/qdict.c:30
+    #3 0x556313115bca in parse_object ../qobject/json-parser.c:318
+    #4 0x556313117810 in parse_value ../qobject/json-parser.c:546
+    #5 0x556313117bda in json_parser_parse ../qobject/json-parser.c:580
+    #6 0x55631310fe67 in json_message_process_token ../qobject/json-streamer.c:92
+    #7 0x5563131210b7 in json_lexer_feed_char ../qobject/json-lexer.c:313
+    #8 0x556313121662 in json_lexer_feed ../qobject/json-lexer.c:350
+    #9 0x5563131101e9 in json_message_parser_feed ../qobject/json-streamer.c:121
+    #10 0x5563130cb81e in qmp_fd_receive ../tests/qtest/libqtest.c:614
+    #11 0x5563130cba2b in qtest_qmp_receive_dict ../tests/qtest/libqtest.c:636
+    #12 0x5563130cb939 in qtest_qmp_receive ../tests/qtest/libqtest.c:624
+    #13 0x5563130cbe0d in qtest_vqmp ../tests/qtest/libqtest.c:715
+    #14 0x5563130cc40f in qtest_qmp ../tests/qtest/libqtest.c:756
+    #15 0x5563130c5623 in pwm_qom_get ../tests/qtest/npcm7xx_pwm-test.c:180
+    #16 0x5563130c595e in pwm_get_duty ../tests/qtest/npcm7xx_pwm-test.c:210
+    #17 0x5563130c7529 in test_toggle ../tests/qtest/npcm7xx_pwm-test.c:447
 
-Title:
-  assert issue locates in hw/usb/core.c:727: usb_ep_get: Assertion `pid
-  =3D=3D USB_TOKEN_IN || pid =3D=3D USB_TOKEN_OUT' failed
+Reported-by: Euler Robot <euler.robot@huawei.com>
+Signed-off-by: Gan Qixin <ganqixin@huawei.com>
+---
+Cc: Havard Skinnemoen <hskinnemoen@google.com>
+Cc: Tyrone Ting <kfting@nuvoton.com>
+Cc: Thomas Huth <thuth@redhat.com>
+Cc: Laurent Vivier <lvivier@redhat.com>
+---
+ tests/qtest/npcm7xx_pwm-test.c | 5 ++++-
+ 1 file changed, 4 insertions(+), 1 deletion(-)
 
-Status in QEMU:
-  New
+diff --git a/tests/qtest/npcm7xx_pwm-test.c b/tests/qtest/npcm7xx_pwm-test.c
+index 33fbdf5f54..63557d2c06 100644
+--- a/tests/qtest/npcm7xx_pwm-test.c
++++ b/tests/qtest/npcm7xx_pwm-test.c
+@@ -175,6 +175,7 @@ static int pwm_index(const PWM *pwm)
+ static uint64_t pwm_qom_get(QTestState *qts, const char *path, const char *name)
+ {
+     QDict *response;
++    uint64_t val;
+ 
+     g_test_message("Getting properties %s from %s", name, path);
+     response = qtest_qmp(qts, "{ 'execute': 'qom-get',"
+@@ -182,7 +183,9 @@ static uint64_t pwm_qom_get(QTestState *qts, const char *path, const char *name)
+             path, name);
+     /* The qom set message returns successfully. */
+     g_assert_true(qdict_haskey(response, "return"));
+-    return qnum_get_uint(qobject_to(QNum, qdict_get(response, "return")));
++    val = qnum_get_uint(qobject_to(QNum, qdict_get(response, "return")));
++    qobject_unref(response);
++    return val;
+ }
+ 
+ static uint64_t pwm_get_freq(QTestState *qts, int module_index, int pwm_index)
+-- 
+2.27.0
 
-Bug description:
-  Hello,
-
-  An assertion failure was found in hw/usb/core.c:727 in latest version
-  5.2.0.
-
-  Reproduced environment is as follows:
-      Host: ubuntu 18.04
-      Guest: ubuntu 18.04
-
-  QEMU boot command line:
-  qemu-system-x86_64 -enable-kvm -boot c -m 4G -drive format=3Dqcow2,file=
-=3D./ubuntu.img -nic user,hostfwd=3Dtcp:0.0.0.0:5555-:22 -device pci-ohci,i=
-d=3Dohci -device usb-tablet,bus=3Dohci.0,port=3D1,id=3Dusbdev1 -trace usb\*
-
-  Backtrace is as follows:
-  #0  0x00007f13fff14438 in __GI_raise (sig=3Dsig@entry=3D6) at ../sysdeps/=
-unix/sysv/linux/raise.c:54
-  #1  0x00007f13fff1603a in __GI_abort () at abort.c:89
-  #2  0x00007f13fff0cbe7 in __assert_fail_base (fmt=3D<optimized out>, asse=
-rtion=3Dassertion@entry=3D0x55f97745ffe0 "pid =3D=3D USB_TOKEN_IN || pid =
-=3D=3D USB_TOKEN_OUT", file=3Dfile@entry=3D0x55f97745f6c0 "../hw/usb/core.c=
-", line=3Dline@entry=3D727, function=3Dfunction@entry=3D0x55f9774606e0 <__P=
-RETTY_FUNCTION__.22877> "usb_ep_get") at assert.c:92
-  #3  0x00007f13fff0cc92 in __GI___assert_fail (assertion=3D0x55f97745ffe0 =
-"pid =3D=3D USB_TOKEN_IN || pid =3D=3D USB_TOKEN_OUT", file=3D0x55f97745f6c=
-0 "../hw/usb/core.c", line=3D727, function=3D0x55f9774606e0 <__PRETTY_FUNCT=
-ION__.22877> "usb_ep_get") at assert.c:101
-  #4  0x000055f975bfc9b2 in usb_ep_get (dev=3D0x62300000c500, pid=3D45, ep=
-=3D1) at ../hw/usb/core.c:727
-  #5  0x000055f975f945db in ohci_service_td (ohci=3D0x6270000191f0, ed=3D0x=
-7ffcd9308410) at ../hw/usb/hcd-ohci.c:1044
-  #6  0x000055f975f95d5e in ohci_service_ed_list (ohci=3D0x6270000191f0, he=
-ad=3D857580576, completion=3D0) at ../hw/usb/hcd-ohci.c:1200
-  #7  0x000055f975f9656d in ohci_process_lists (ohci=3D0x6270000191f0, comp=
-letion=3D0) at ../hw/usb/hcd-ohci.c:1238
-  #8  0x000055f975f9725c in ohci_frame_boundary (opaque=3D0x6270000191f0) a=
-t ../hw/usb/hcd-ohci.c:1281
-  #9  0x000055f977212494 in timerlist_run_timers (timer_list=3D0x60b00005b0=
-60) at ../util/qemu-timer.c:574
-  #10 0x000055f9772126db in qemu_clock_run_timers (type=3DQEMU_CLOCK_VIRTUA=
-L) at ../util/qemu-timer.c:588
-  #11 0x000055f977212fde in qemu_clock_run_all_timers () at ../util/qemu-ti=
-mer.c:670
-  #12 0x000055f9772d5717 in main_loop_wait (nonblocking=3D0) at ../util/mai=
-n-loop.c:531
-  #13 0x000055f97695100c in qemu_main_loop () at ../softmmu/vl.c:1677
-  #14 0x000055f9758f7601 in main (argc=3D16, argv=3D0x7ffcd9308888, envp=3D=
-0x7ffcd9308910) at ../softmmu/main.c:50
-  #15 0x00007f13ffeff840 in __libc_start_main (main=3D0x55f9758f75b0 <main>=
-, argc=3D16, argv=3D0x7ffcd9308888, init=3D<optimized out>, fini=3D<optimiz=
-ed out>, rtld_fini=3D<optimized out>, stack_end=3D0x7ffcd9308878) at ../csu=
-/libc-start.c:291
-  #16 0x000055f9758f74a9 in _start ()
-
-  =
-
-  The poc is attached.
-
-  Thanks.
-
-To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1907042/+subscriptions
 
