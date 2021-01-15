@@ -2,96 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 34AF32F7DF2
-	for <lists+qemu-devel@lfdr.de>; Fri, 15 Jan 2021 15:17:49 +0100 (CET)
-Received: from localhost ([::1]:49596 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D789B2F7DFB
+	for <lists+qemu-devel@lfdr.de>; Fri, 15 Jan 2021 15:19:25 +0100 (CET)
+Received: from localhost ([::1]:56700 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l0PvA-0002WV-8l
-	for lists+qemu-devel@lfdr.de; Fri, 15 Jan 2021 09:17:48 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45024)
+	id 1l0Pwi-0005gY-SD
+	for lists+qemu-devel@lfdr.de; Fri, 15 Jan 2021 09:19:24 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45152)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jag.raman@oracle.com>)
- id 1l0PQx-0008Vt-ML
- for qemu-devel@nongnu.org; Fri, 15 Jan 2021 08:46:35 -0500
-Received: from aserp2130.oracle.com ([141.146.126.79]:39484)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jag.raman@oracle.com>)
- id 1l0PQv-0005IY-4E
- for qemu-devel@nongnu.org; Fri, 15 Jan 2021 08:46:35 -0500
-Received: from pps.filterd (aserp2130.oracle.com [127.0.0.1])
- by aserp2130.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 10FDdoXj042277;
- Fri, 15 Jan 2021 13:46:13 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com;
- h=content-type :
- mime-version : subject : from : in-reply-to : date : cc :
- content-transfer-encoding : message-id : references : to;
- s=corp-2020-01-29; bh=l6o150Qobd+z+/TFQoNvqCHflSA2zkP7AYhx4ty+cGQ=;
- b=SQjGt7OyXh8p80Zk4Z/gbQCOdL9Y/4KxaJW/MXgbn8zGxg+Syv9NJqQNVlHYL8y3o1eb
- EV8dSNRrVhGLF1Rj8dDe2bFPRSxGoanGCtynOznB3gGQjnV6q6HXGPuDYdWjZ3PLcccU
- v+QuMnhWc8HbsCQIMTYsoLslO8llEnMYYZru89oHMnoZa+EOgLZ2StjYsHz4MzjKsEmc
- AZnEWp2e8Sm1tso5/2sjtB4If/YryJbcMLq5HM5Id7MqLyyknYpnMUuLbPDp6sQOFZ8W
- KRvtVzpPWCNOwiasXQUK+2Pf7A1K2je+9d/g98cmDbPDgdZ5nMZ8wB+OuxfnnvEn47h6 gA== 
-Received: from userp3030.oracle.com (userp3030.oracle.com [156.151.31.80])
- by aserp2130.oracle.com with ESMTP id 360kg24ycv-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Fri, 15 Jan 2021 13:46:13 +0000
-Received: from pps.filterd (userp3030.oracle.com [127.0.0.1])
- by userp3030.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 10FDf1Ha051260;
- Fri, 15 Jan 2021 13:46:12 GMT
-Received: from aserv0122.oracle.com (aserv0122.oracle.com [141.146.126.236])
- by userp3030.oracle.com with ESMTP id 360kepw8hf-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Fri, 15 Jan 2021 13:46:12 +0000
-Received: from abhmp0009.oracle.com (abhmp0009.oracle.com [141.146.116.15])
- by aserv0122.oracle.com (8.14.4/8.14.4) with ESMTP id 10FDk9HN001025;
- Fri, 15 Jan 2021 13:46:10 GMT
-Received: from dhcp-10-39-193-44.vpn.oracle.com (/10.39.193.44)
- by default (Oracle Beehive Gateway v4.0)
- with ESMTP ; Fri, 15 Jan 2021 05:46:09 -0800
-Content-Type: text/plain;
-	charset=utf-8
-Mime-Version: 1.0 (Mac OS X Mail 14.0 \(3654.40.0.2.32\))
-Subject: Re: [PATCH v19 08/20] io: add qio_channel_readv_full_all_eof &
- qio_channel_readv_full_all helpers
-From: Jag Raman <jag.raman@oracle.com>
-In-Reply-To: <20210115092017.GA334489@stefanha-x1.localdomain>
-Date: Fri, 15 Jan 2021 08:46:07 -0500
-Content-Transfer-Encoding: quoted-printable
-Message-Id: <62563EA4-2C73-450E-A96B-2D8014E4ED03@oracle.com>
-References: <cover.1610638428.git.jag.raman@oracle.com>
- <02a82c80a35ab60b98028c85aa94f688a2843943.1610638428.git.jag.raman@oracle.com>
- <20210114162729.GB306329@stefanha-x1.localdomain>
- <CA0E47D0-F1F5-4825-ABB7-BE73AAD3E375@oracle.com>
- <20210114180035.GY1643043@redhat.com>
- <1DE4BD83-5AD6-4F70-8702-03DE1548DBED@oracle.com>
- <20210115092017.GA334489@stefanha-x1.localdomain>
-To: Stefan Hajnoczi <stefanha@redhat.com>
-X-Mailer: Apple Mail (2.3654.40.0.2.32)
-X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9864
- signatures=668683
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 mlxscore=0
- phishscore=0 spamscore=0
- malwarescore=0 suspectscore=0 mlxlogscore=999 adultscore=0 bulkscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2009150000
- definitions=main-2101150085
-X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9864
- signatures=668683
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 malwarescore=0
- suspectscore=0
- clxscore=1015 impostorscore=0 spamscore=0 priorityscore=1501 mlxscore=0
- phishscore=0 mlxlogscore=999 bulkscore=0 adultscore=0 lowpriorityscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2009150000
- definitions=main-2101150085
-Received-SPF: pass client-ip=141.146.126.79; envelope-from=jag.raman@oracle.com;
- helo=aserp2130.oracle.com
-X-Spam_score_int: -46
-X-Spam_score: -4.7
-X-Spam_bar: ----
-X-Spam_report: (-4.7 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.25,
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1l0PS0-0001Vd-KI
+ for qemu-devel@nongnu.org; Fri, 15 Jan 2021 08:47:42 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:55150)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1l0PRw-0005UK-5j
+ for qemu-devel@nongnu.org; Fri, 15 Jan 2021 08:47:38 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1610718455;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=QwgA1JXPeTsBqfx/8imvHw5g4HMm00meZlV7DiCROa4=;
+ b=eCTMqiQCWVwPRFLMm72CRcgTJ4h7C7yQNf30IvcIFcWSppu4noavBsz3vAp2Vp58jwdkLI
+ Fk4gqC4GfBS8+gQytBxMKm6KSyL/TC9NmZhy3n/9pbdiYkC+x76cgaGvVAz6FcsKiIHRIm
+ 3omz3lmLfEK1EU0Qp7+Fx/A8OTy0ZxY=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-106-UbMu2L0HMiqh9DiVaa_A4Q-1; Fri, 15 Jan 2021 08:47:29 -0500
+X-MC-Unique: UbMu2L0HMiqh9DiVaa_A4Q-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 97B6B8030A1;
+ Fri, 15 Jan 2021 13:47:28 +0000 (UTC)
+Received: from redhat.com (ovpn-115-76.ams2.redhat.com [10.36.115.76])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 2F75060BF3;
+ Fri, 15 Jan 2021 13:47:19 +0000 (UTC)
+Date: Fri, 15 Jan 2021 13:47:10 +0000
+From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+To: Markus Armbruster <armbru@redhat.com>
+Subject: Re: [PATCH v2 2/2] vnc: add qmp to support reload vnc tls certificates
+Message-ID: <20210115134710.GH1692978@redhat.com>
+References: <20210107143032.752-1-changzihao1@huawei.com>
+ <20210107143032.752-3-changzihao1@huawei.com>
+ <87turil3s2.fsf@dusky.pond.sub.org>
+MIME-Version: 1.0
+In-Reply-To: <87turil3s2.fsf@dusky.pond.sub.org>
+User-Agent: Mutt/1.14.6 (2020-07-11)
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=berrange@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=berrange@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -29
+X-Spam_score: -3.0
+X-Spam_bar: ---
+X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.25,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_MED=-2.3, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_PASS=-0.001,
- SPF_PASS=-0.001, UNPARSEABLE_RELAY=0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -104,142 +83,151 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Elena Ufimtseva <elena.ufimtseva@oracle.com>, Fam Zheng <fam@euphon.net>,
- Swapnil Ingle <swapnil.ingle@nutanix.com>,
- John G Johnson <john.g.johnson@oracle.com>, qemu-level <qemu-devel@nongnu.org>,
- kraxel@redhat.com, quintela@redhat.com, mst@redhat.com, armbru@redhat.com,
- kanth.ghatraju@oracle.com, felipe@nutanix.com, thuth@redhat.com,
- ehabkost@redhat.com, konrad.wilk@oracle.com, dgilbert@redhat.com,
- alex.williamson@redhat.com, thanos.makatos@nutanix.com, kwolf@redhat.com,
- =?utf-8?B?IkRhbmllbCBQLiBCZXJyYW5nw6ki?= <berrange@redhat.com>,
- mreitz@redhat.com, ross.lagerwall@citrix.com, marcandre.lureau@gmail.com,
- pbonzini@redhat.com
+Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+Cc: oscar.zhangbo@huawei.com, Zihao Chang <changzihao1@huawei.com>,
+ qemu-devel@nongnu.org, xiexiangyou@huawei.com, kraxel@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+On Fri, Jan 15, 2021 at 02:37:33PM +0100, Markus Armbruster wrote:
+> Zihao Chang <changzihao1@huawei.com> writes:
+> 
+> > QEMU loads vnc tls certificates only when vm is started. This patch
+> > provides a new qmp to reload vnc tls certificates without restart
+> > vnc-server/VM.
+> > {"execute": "reload-vnc-cert"}
+> >
+> > Signed-off-by: Zihao Chang <changzihao1@huawei.com>
+> > ---
+> >  include/ui/console.h |  1 +
+> >  monitor/qmp-cmds.c   |  5 +++++
+> >  qapi/ui.json         | 18 ++++++++++++++++++
+> >  ui/vnc.c             | 24 ++++++++++++++++++++++++
+> >  4 files changed, 48 insertions(+)
+> >
+> > diff --git a/include/ui/console.h b/include/ui/console.h
+> > index 5dd21976a3..60a24a8bb5 100644
+> > --- a/include/ui/console.h
+> > +++ b/include/ui/console.h
+> > @@ -441,6 +441,7 @@ int vnc_display_password(const char *id, const char *password);
+> >  int vnc_display_pw_expire(const char *id, time_t expires);
+> >  QemuOpts *vnc_parse(const char *str, Error **errp);
+> >  int vnc_init_func(void *opaque, QemuOpts *opts, Error **errp);
+> > +void vnc_display_reload_cert(const char *id,  Error **errp);
+> 
+> Make this return bool, please.
+> 
+> error.h's big comment:
+> 
+>  * = Rules =
+>  *
+>  * - Functions that use Error to report errors have an Error **errp
+>  *   parameter.  It should be the last parameter, except for functions
+>  *   taking variable arguments.
+>  *
+>  * - You may pass NULL to not receive the error, &error_abort to abort
+>  *   on error, &error_fatal to exit(1) on error, or a pointer to a
+>  *   variable containing NULL to receive the error.
+>  *
+>  * - Separation of concerns: the function is responsible for detecting
+>  *   errors and failing cleanly; handling the error is its caller's
+>  *   job.  Since the value of @errp is about handling the error, the
+>  *   function should not examine it.
+>  *
+>  * - The function may pass @errp to functions it calls to pass on
+>  *   their errors to its caller.  If it dereferences @errp to check
+>  *   for errors, it must use ERRP_GUARD().
+>  *
+>  * - On success, the function should not touch *errp.  On failure, it
+>  *   should set a new error, e.g. with error_setg(errp, ...), or
+>  *   propagate an existing one, e.g. with error_propagate(errp, ...).
+>  *
+>  * - Whenever practical, also return a value that indicates success /
+>  *   failure.  This can make the error checking more concise, and can
+>  *   avoid useless error object creation and destruction.  Note that
+>  *   we still have many functions returning void.  We recommend
+>  *   • bool-valued functions return true on success / false on failure,
+>  *   • pointer-valued functions return non-null / null pointer, and
+>  *   • integer-valued functions return non-negative / negative.
+> 
+> >  
+> >  /* input.c */
+> >  int index_from_key(const char *key, size_t key_length);
+> > diff --git a/monitor/qmp-cmds.c b/monitor/qmp-cmds.c
+> > index 34f7e75b7b..84f2b74ea8 100644
+> > --- a/monitor/qmp-cmds.c
+> > +++ b/monitor/qmp-cmds.c
+> > @@ -287,6 +287,11 @@ static void qmp_change_vnc(const char *target, bool has_arg, const char *arg,
+> >          qmp_change_vnc_listen(target, errp);
+> >      }
+> >  }
+> > +
+> > +void qmp_reload_vnc_cert(Error **errp)
+> > +{
+> > +    vnc_display_reload_cert(NULL, errp);
+> > +}
+> >  #endif /* !CONFIG_VNC */
+> >  
+> >  void qmp_change(const char *device, const char *target,
+> > diff --git a/qapi/ui.json b/qapi/ui.json
+> > index d08d72b439..855b1ac007 100644
+> > --- a/qapi/ui.json
+> > +++ b/qapi/ui.json
+> > @@ -1179,3 +1179,21 @@
+> >  ##
+> >  { 'command': 'query-display-options',
+> >    'returns': 'DisplayOptions' }
+> > +
+> > +##
+> > +# @reload-vnc-cert:
+> > +#
+> > +# Reload certificates for vnc.
+> > +#
+> > +# Returns: nothing
+> > +#
+> > +# Since: 5.2
+> 
+> 6.0 now.
+> 
+> > +#
+> > +# Example:
+> > +#
+> > +# -> { "execute": "reload-vnc-cert" }
+> > +# <- { "return": {} }
+> > +#
+> > +##
+> > +{ 'command': 'reload-vnc-cert',
+> > +  'if': 'defined(CONFIG_VNC)' }
+> 
+> Daniel's objection to another patch that adds a rather specialized QMP
+> command may apply: "I'm not a fan of adding adhoc new commands for
+> specific properties."
+> 
+>     From: Daniel P. Berrangé <berrange@redhat.com>
+>     Subject: Re: [PATCH] vnc: add qmp to support change authz
+>     Message-ID: <20210107161830.GE1029501@redhat.com>
+
+Yeah, though this scenario is a ittle more complicated. Tihs patch is
+not actually changing any object properties in the VNC server config.
+It is simply telling the VNC server to reload the existing object it
+has configured.
+
+My proposed  "display-update" command would not directly map to what
+this "reload-vnc-cert" command does, unless we declared the certs are
+always reloaded after every display-update command.
+
+Or we could have a more generic  "display-reload" command, which has
+fields indicating what aspect to reload. eg a 'tls-certs: bool' field
+to indicate reload of TLS certs in the display. This could be useful
+if we wanted the ability to reload authz access control lists, though
+we did actually wire them up to auto-reload using inotify.
 
 
-> On Jan 15, 2021, at 4:20 AM, Stefan Hajnoczi <stefanha@redhat.com> =
-wrote:
->=20
-> On Thu, Jan 14, 2021 at 01:24:37PM -0500, Jag Raman wrote:
->>=20
->>=20
->>> On Jan 14, 2021, at 1:00 PM, Daniel P. Berrang=C3=A9 =
-<berrange@redhat.com> wrote:
->>>=20
->>> On Thu, Jan 14, 2021 at 12:55:58PM -0500, Jag Raman wrote:
->>>>=20
->>>>=20
->>>>> On Jan 14, 2021, at 11:27 AM, Stefan Hajnoczi =
-<stefanha@redhat.com> wrote:
->>>>>=20
->>>>> On Thu, Jan 14, 2021 at 10:40:03AM -0500, Jagannathan Raman wrote:
->>>>>> +int qio_channel_readv_full_all(QIOChannel *ioc,
->>>>>> +                               const struct iovec *iov,
->>>>>> +                               size_t niov,
->>>>>> +                               int **fds, size_t *nfds,
->>>>>> +                               Error **errp)
->>>>>> {
->>>>>> -    int ret =3D qio_channel_readv_all_eof(ioc, iov, niov, errp);
->>>>>> +    int ret =3D qio_channel_readv_full_all_eof(ioc, iov, niov, =
-fds, nfds, errp);
->>>>>>=20
->>>>>>   if (ret =3D=3D 0) {
->>>>>> -        ret =3D -1;
->>>>>>       error_setg(errp,
->>>>>>                  "Unexpected end-of-file before all bytes were =
-read");
->>>>>=20
->>>>> qio_channel_readv_full_all_eof() can read file descriptors but no =
-data
->>>>> and return 0.
->>>>>=20
->>>>> Here that case is converted into an error and the file descriptors
->>>>> aren't closed, freed, and fds/nfds isn't cleared.
->>>>=20
->>>> That=E2=80=99s a valid point. I=E2=80=99m wondering if the fix for =
-this case should be in
->>>> qio_channel_readv_full_all_eof(), instead of here.
->>>>=20
->>>> qio_channel_readv_full_all_eof() should probably return error (-1) =
-if the
->>>> amount of data read does not match iov_size(). If the caller is =
-only expecting
->>>> to read fds, and not any data, it would indicate that by setting =
-iov to NULL
->>>> and/or setting niov=3D0. If the caller is setting these parameters, =
-it means it is
->>>> expecting data.Does that sound good?
->>>=20
->>> The API spec for the existing _eof() methods says:
->>>=20
->>> * The function will wait for all requested data
->>> * to be read, yielding from the current coroutine
->>> * if required.
->>> *
->>> * If end-of-file occurs before any data is read,
->>> * no error is reported; otherwise, if it occurs
->>> * before all requested data has been read, an error
->>> * will be reported.
->>>=20
->>>=20
->>> IOW, return '0' is *only* valid if we've not read anything. I =
-consider
->>> file descriptors to be something.
->>>=20
->>> IOW, qio_channel_readv_full_all_eof must only return 0, if it didn't
->>> read any data and also didn't receive any file descriptors. So yeah,
->>> we must return -1 in the scenario Stefan describes
->>=20
->> That makes sense to me. Reading =E2=80=9Cfds" is something, which is =
-different
->> from our previous understanding. I thought data only meant iov, and =
-not fds.
->>=20
->> So the return values for qio_channel_readv_full_all_eof() would be:
->>  - =E2=80=980=E2=80=99 only if EOF is reached without reading any fds =
-and data.
->>  - =E2=80=981=E2=80=99 if all data that the caller expects are read =
-(even if the caller reads
->>    fds exclusively, without any iovs)
->>  - =E2=80=98-1=E2=80=99 otherwise, considered as error
->>=20
->> qio_channel_readv_full_all() would return:
->>  - =E2=80=980=E2=80=99 if all the data that caller expects are read
->>  - =E2=80=98-1=E2=80=99 otherwise, considered as error
->>=20
->> Hey Stefan,
->>=20
->>    Does this sound good to you?
->=20
-> The while (nlocal_iov > 0) loop only runs if the caller has requested =
-to
-> read at least some data, so the fds-only case doesn't work yet.
->=20
-> This suggests that no current QEMU code relies on the fds-only case.
-> Therefore you could change the doc comment to clarify this instead of
-> adding support for this case to the code.
->=20
-> But if you would to fully support the fds-only case that would be even
-> better.
-
-Thanks for confirming, Stefan!
-
-Since we are adding fds support in this patch, I suppose we could add
-the fds-only case since you feel that=E2=80=99s a better approach.
-
-I believe it=E2=80=99s reasonable to assume that the caller wants to =
-read file
-descriptors if it sets the fds double-pointer. I think it would be =
-reasonable
-to wait for data if the caller expects to read either data or fds, as =
-follows:
-while ((nlocal_iov > 0) || local_fds)
-
-Thank you!=20
-
->=20
-> Stefan
+Regards,
+Daniel
+-- 
+|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
+|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
+|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
 
 
