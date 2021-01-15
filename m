@@ -2,100 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 298FF2F8045
-	for <lists+qemu-devel@lfdr.de>; Fri, 15 Jan 2021 17:09:10 +0100 (CET)
-Received: from localhost ([::1]:38094 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DFDB82F8073
+	for <lists+qemu-devel@lfdr.de>; Fri, 15 Jan 2021 17:18:37 +0100 (CET)
+Received: from localhost ([::1]:48964 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l0Rev-0004ou-7q
-	for lists+qemu-devel@lfdr.de; Fri, 15 Jan 2021 11:09:09 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50706)
+	id 1l0Ro4-0001bF-QG
+	for lists+qemu-devel@lfdr.de; Fri, 15 Jan 2021 11:18:36 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52564)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1l0RdR-0003tS-Qa
- for qemu-devel@nongnu.org; Fri, 15 Jan 2021 11:07:37 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:42887)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1l0RdP-0001ht-E9
- for qemu-devel@nongnu.org; Fri, 15 Jan 2021 11:07:37 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1610726854;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=o3OclrRSy+MW0v80l4OODl6nv0z/M42J1AkqQfDj4cc=;
- b=epVXZC120x3FKCNP9OIGJvW1Tr4Tcm4Bo6udJ3BTqa8JhrCmW6ZQ5O7merYAn+pzweQX9r
- pu4lRULcshAh346f2lqIU/7ZzCIYarQLJ2mx4tc9LrjZcNzy55QMLOPqZRjzxTJNE1laLv
- Mju3Ygg+7ZBs4kJoVUO49PtJlj0s7ko=
-Received: from mail-ej1-f72.google.com (mail-ej1-f72.google.com
- [209.85.218.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-102-scMr2HP3Nq-g23qmMHv1fg-1; Fri, 15 Jan 2021 11:07:33 -0500
-X-MC-Unique: scMr2HP3Nq-g23qmMHv1fg-1
-Received: by mail-ej1-f72.google.com with SMTP id x22so3752798ejb.10
- for <qemu-devel@nongnu.org>; Fri, 15 Jan 2021 08:07:32 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:from:to:cc:references:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=o3OclrRSy+MW0v80l4OODl6nv0z/M42J1AkqQfDj4cc=;
- b=Xm/MgCB7Z51go6EAwZ+5uuUfK3d6j1T3OPYPe9nlhlzd26J6qt+6CxE1mLP/+P2MQU
- nS52m5R/F0aHGSSs5WBar83ELRbe8Q/2iExr10RqeKiCBbUd7RIYzA20sa4UfglG4JcQ
- WbmZM/A+wrKZs1o3LwLryDaweR6C9eOMERZwSXrQObUQ9GN+TgKFlPBlr5URMq1adcS9
- HG94B37lIDubMoqpxsh6sML/eq39uMH1pDujMPtHpRtVFICY55TUL19op2uSaFCu8Wmh
- XnjUlHdGS0E9bVy/Gt+RWDzDtihP25ksV+A9G90sVKnusU9kqV+F1DqqmCM7AYN3P89D
- Lxyw==
-X-Gm-Message-State: AOAM532F0VYAM8m/CoQtnr8rU94OD0P27omEG+RD9BIlJgOpAwgovoNh
- SY6am3rKEsEIE9QRoih3ApfUQVz47pUSpKDJLEF0cSOwDADg2Acq8LK7soX9HKsc+xXNA7g31yK
- U/VENlI81fYaQMgo=
-X-Received: by 2002:a05:6402:45:: with SMTP id
- f5mr10158916edu.273.1610726851871; 
- Fri, 15 Jan 2021 08:07:31 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJzYw2mgbJbR9rgHqde1httKR429YjMA6ebXhFP9YN+plMDSqJ4aj3dv2LKP7w8zYzqjmln74w==
-X-Received: by 2002:a05:6402:45:: with SMTP id
- f5mr10158892edu.273.1610726851755; 
- Fri, 15 Jan 2021 08:07:31 -0800 (PST)
-Received: from [192.168.1.36] (13.red-83-57-169.dynamicip.rima-tde.net.
- [83.57.169.13])
- by smtp.gmail.com with ESMTPSA id oq7sm3962789ejb.63.2021.01.15.08.07.30
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 15 Jan 2021 08:07:31 -0800 (PST)
-Subject: Re: [PATCH 1/4] tests/qtest: Remove TPM tests
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-To: qemu-devel@nongnu.org, Thomas Huth <thuth@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>
-References: <20210115150936.3333282-1-philmd@redhat.com>
- <20210115150936.3333282-2-philmd@redhat.com>
- <647c3b2d-a68d-43a1-052f-1f5c08b6f3cc@redhat.com>
- <56096449-e909-0f5e-b458-0aae20132865@linux.ibm.com>
- <a3b60b30-4e7c-5fc8-381f-5f4e6abe11c8@redhat.com>
-Message-ID: <67cc68c5-53df-8327-d9a0-316e0c0d62d7@redhat.com>
-Date: Fri, 15 Jan 2021 17:07:29 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.6.0
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1l0Rlk-0008Qm-Me
+ for qemu-devel@nongnu.org; Fri, 15 Jan 2021 11:16:12 -0500
+Received: from indium.canonical.com ([91.189.90.7]:48652)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1l0Rlc-0006Jh-H6
+ for qemu-devel@nongnu.org; Fri, 15 Jan 2021 11:16:12 -0500
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1l0RlZ-0003Za-5n
+ for <qemu-devel@nongnu.org>; Fri, 15 Jan 2021 16:16:01 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id 262C62E8138
+ for <qemu-devel@nongnu.org>; Fri, 15 Jan 2021 16:16:01 +0000 (UTC)
 MIME-Version: 1.0
-In-Reply-To: <a3b60b30-4e7c-5fc8-381f-5f4e6abe11c8@redhat.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=philmd@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -29
-X-Spam_score: -3.0
-X-Spam_bar: ---
-X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.25,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Date: Fri, 15 Jan 2021 16:08:09 -0000
+From: Peter Maydell <1911075@bugs.launchpad.net>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=Confirmed; importance=Undecided;
+ assignee=jsnow@redhat.com; 
+X-Launchpad-Bug-Tags: fuzzer
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: a1xndr philmd
+X-Launchpad-Bug-Reporter: Alexander Bulekov (a1xndr)
+X-Launchpad-Bug-Modifier: Peter Maydell (pmaydell)
+References: <161041171173.17462.15833722387991998017.malonedeb@gac.canonical.com>
+Message-Id: <161072688938.6498.17513670463331436295.launchpad@wampee.canonical.com>
+Subject: [Bug 1911075] Re: [OSS-Fuzz] ahci: stack overflow in
+ ahci_cond_start_engines
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="511b4a3b6512aa3d421c5f7d74f3527e78bff26e"; Instance="production"
+X-Launchpad-Hash: f3333d203092f94d1e4646d6b074c3c5fd3c6093
+Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
+ helo=indium.canonical.com
+X-Spam_score_int: -65
+X-Spam_score: -6.6
+X-Spam_bar: ------
+X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9,
+ HEADER_FROM_DIFFERENT_DOMAINS=0.249, RCVD_IN_DNSWL_HI=-5,
+ RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -104,41 +72,92 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Fam Zheng <fam@euphon.net>, Laurent Vivier <lvivier@redhat.com>,
- Hannes Reinecke <hare@suse.com>, qemu-block@nongnu.org,
- Li Qiang <liq3ea@gmail.com>, Alexander Bulekov <alxndr@bu.edu>,
- =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
- Stefan Berger <stefanb@linux.ibm.com>
+Reply-To: Bug 1911075 <1911075@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 1/15/21 5:06 PM, Philippe Mathieu-Daudé wrote:
-> On 1/15/21 4:53 PM, Stefan Berger wrote:
->> On 1/15/21 10:52 AM, Philippe Mathieu-Daudé wrote:
->>> Subject is incorrect, this is not a removal of the tests, but
->>> removal of their execution. The tests are still in the repository.
->>> This is more of a disablement.
->>
->> How do you compile / run them to have the LeakSanitizer checks?
-> 
-> I used:
-> 
-> ../configure --cc=clang --enable-sanitizers && make check-qtest
-> 
-> $ clang -v
-> clang version 10.0.1 (Fedora 10.0.1-3.fc32)
-> 
-> This was previously covered by patchew CI. I just figured
-> patchew is running without the LeakSanitizer since commit
-> 6f89ec7442e ("docker: test-debug: disable LeakSanitizer"):
-> 
->  docker: test-debug: disable LeakSanitizer
-> 
->  There are just too many leaks in device-introspect-test (especially for
->  the plethora of arm and aarch64 boards) to make LeakSanitizer useful;
->  disable it for now.
+** Tags added: fuzzer
 
-So if this expected, maybe the correct fix is to have meson use
-ASAN_OPTIONS=detect_leaks=0 automatically when running the qtests?
+-- =
 
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1911075
+
+Title:
+  [OSS-Fuzz] ahci: stack overflow in ahci_cond_start_engines
+
+Status in QEMU:
+  Confirmed
+
+Bug description:
+  =3D=3D=3D Reproducer =3D=3D=3D
+  while true; do cat << EOF; done | ./qemu-system-i386 -machine q35 -nodefa=
+ults -nographic -qtest stdio -accel qtest
+  outl 0xcf8 0x8000fa27
+  outl 0xcfc 0x37414537
+  outl 0xcf8 0x8000fa01
+  outl 0xcfc 0x4606ce74
+  writew 0x37000f01 0x215a
+  writeq 0x37000100 0xfffaf
+  writeq 0x37000115 0xffff373d27004037
+  outl 0xcf8 0x8000fa01
+  outl 0xcfc 0x4606ce74
+  writeq 0x370000ff 0x3700011500
+  writeq 0x37000115 0xc41ffffff035a5a
+  outl 0xcf8 0x8000ea04
+  outb 0xcfc 0x15
+  outl 0xcf8 0x8000ea00
+  outw 0xcfc 0x5a1f
+  writeq 0x37000115 0x100007765746972
+  writeq 0x37000115 0xbf00000000000000
+  outl 0xcf8 0x8000ea04
+  outb 0xcfc 0x15
+  outl 0xcf8 0x8000fa46
+  outb 0xcfc 0xff
+  clock_step
+  writeq 0x37000115 0xaf
+  writeq 0x37000115 0x6301275541af7415
+  writeq 0x37000115 0xafaf5a5a743715
+  outb 0x64 0xfe
+  EOF
+
+  =3D=3D=3D Stack Trace =3D=3D=3D
+  =3D=3D887446=3D=3DERROR: UndefinedBehaviorSanitizer: stack-overflow on ad=
+dress 0x7ffe567cae0c (pc 0x7fdd9100819e bp 0x7ffe567cb2b0 sp 0x7ffe567cad40=
+ T887446)
+
+  #0 vfprintf
+  #1 fprintf
+  #2 ahci_mem_write /src/qemu/hw/ide/ahci.c:468:9
+  #3 memory_region_write_accessor /src/qemu/softmmu/memory.c:491:5
+  #4 access_with_adjusted_size /src/qemu/softmmu/memory.c:552:18
+  #5 memory_region_dispatch_write /src/qemu/softmmu/memory.c:0:13
+  #6 flatview_write_continue /src/qemu/softmmu/physmem.c:2759:23
+  #7 flatview_write /src/qemu/softmmu/physmem.c:2799:14
+  #8 address_space_write /src/qemu/softmmu/physmem.c:2891:18
+  #9 address_space_unmap /src/qemu/softmmu/physmem.c:3217:9
+  #10 dma_memory_unmap /src/qemu/include/sysemu/dma.h:226:5
+  #11 map_page /src/qemu/hw/ide/ahci.c:249:9
+  #12 ahci_map_clb_address /src/qemu/hw/ide/ahci.c:748:5
+  #13 ahci_cond_start_engines /src/qemu/hw/ide/ahci.c:276:14
+  #14 ahci_port_write /src/qemu/hw/ide/ahci.c:339:9
+  #15 ahci_mem_write /src/qemu/hw/ide/ahci.c:513:9
+  #16 memory_region_write_accessor /src/qemu/softmmu/memory.c:491:5
+  #17 access_with_adjusted_size /src/qemu/softmmu/memory.c:552:18
+  #18 memory_region_dispatch_write /src/qemu/softmmu/memory.c:0:13
+  #19 flatview_write_continue /src/qemu/softmmu/physmem.c:2759:23
+  #20 flatview_write /src/qemu/softmmu/physmem.c:2799:14
+  #21 address_space_write /src/qemu/softmmu/physmem.c:2891:18
+  #22 address_space_unmap /src/qemu/softmmu/physmem.c:3217:9
+  #23 dma_memory_unmap /src/qemu/include/sysemu/dma.h:226:5
+  #24 map_page /src/qemu/hw/ide/ahci.c:249:9
+  #25 ahci_map_clb_address /src/qemu/hw/ide/ahci.c:748:5
+  #26 ahci_cond_start_engines /src/qemu/hw/ide/ahci.c:276:14
+  #27 ahci_port_write /src/qemu/hw/ide/ahci.c:339:9
+  #28 ahci_mem_write /src/qemu/hw/ide/ahci.c:513:9
+  ... Repeat until we run out of stack
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1911075/+subscriptions
 
