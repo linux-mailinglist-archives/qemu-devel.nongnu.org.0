@@ -2,71 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 563132F7E07
-	for <lists+qemu-devel@lfdr.de>; Fri, 15 Jan 2021 15:22:11 +0100 (CET)
-Received: from localhost ([::1]:34884 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8EF702F7DC2
+	for <lists+qemu-devel@lfdr.de>; Fri, 15 Jan 2021 15:08:55 +0100 (CET)
+Received: from localhost ([::1]:53230 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l0PzO-0008W6-CX
-	for lists+qemu-devel@lfdr.de; Fri, 15 Jan 2021 09:22:10 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42846)
+	id 1l0PmY-00009C-KO
+	for lists+qemu-devel@lfdr.de; Fri, 15 Jan 2021 09:08:54 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42810)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1l0PEa-0001H7-Gf
- for qemu-devel@nongnu.org; Fri, 15 Jan 2021 08:33:48 -0500
-Received: from mail-wr1-x42d.google.com ([2a00:1450:4864:20::42d]:46092)
+ id 1l0PEX-0001AA-DX
+ for qemu-devel@nongnu.org; Fri, 15 Jan 2021 08:33:45 -0500
+Received: from mail-wr1-x434.google.com ([2a00:1450:4864:20::434]:44448)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1l0PEY-00087f-It
- for qemu-devel@nongnu.org; Fri, 15 Jan 2021 08:33:48 -0500
-Received: by mail-wr1-x42d.google.com with SMTP id d13so9271607wrc.13
- for <qemu-devel@nongnu.org>; Fri, 15 Jan 2021 05:33:46 -0800 (PST)
+ id 1l0PEV-00085m-JY
+ for qemu-devel@nongnu.org; Fri, 15 Jan 2021 08:33:45 -0500
+Received: by mail-wr1-x434.google.com with SMTP id w5so9278203wrm.11
+ for <qemu-devel@nongnu.org>; Fri, 15 Jan 2021 05:33:43 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=Df631mxt2afxlIpDJjQfhR/CHjkLtQgEg7fhjq99/Rk=;
- b=V4dUDnvqmVoIz7oFrWRUcUyUY9OhrH09AKNkBe/LOBUW2NbEUDnnX3fd/Ls+KI852i
- pOB8a5gjaeikawZ3qw2QacpC3wCra2F1yJxUUaFTMB7WTECF9n59RrTNqXhMvKmdAG3B
- RxuaKYSE4O1s63FkOb7U59G28r3sGfRHnHXd3axLqJgkleeqBvTZGtBrCgS1zdlkhXzY
- F+SXgy3pXQLYpusy5INByZASQ8K3uX5rDI9Yq19yZeWnfM0C/R4Dr4+UYB6rcwl1dTsV
- wHSUTGjyRU0zQJP797kKgjDH8/uIfZJ64dbKgt9yop1UxOD/50WvoAQbk3AihhDGjDWj
- 0Tvw==
+ bh=iJuG3Rfmdo42tUHxFy8AoALmnllEX6aTVqM1tNYHJiM=;
+ b=iQTyRNsJ84WZf2d3BDqSxdfSv+yOUZuSS/TQqO1joOBR72VCHkKddoPh7wZS3cyY0M
+ z5YvWtwz/qaunIY33vwKCnblHflELSoYrrrJNtOXO+TphYXTG+F7SZ3J15NIISo7FXYK
+ JrCDMsofITg+Eh5Y/j8x+kpurVtb//QnRVGEVVadMBehVqCmMcbtEVpK62Tdmnl6dUcO
+ NpzVX+82eklQ1SJnCSHbAiwk+63aSZCVhmAaMY6cc37/2BpmjqlDJwVMpmByqbtD0STV
+ nBMkz8r/JQbAv5wq+ljFCHs7XiDhdTEwUuHwNTvUPAOZuHhuc7u/z4vgo/bLKDEh3wJe
+ VhuA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=Df631mxt2afxlIpDJjQfhR/CHjkLtQgEg7fhjq99/Rk=;
- b=Qmd2XpwEVEYynVydWbup8OtTVGeciTqhpXtPAdMK3833rI7S6Sr+9WuN6CJTYl+jGm
- nhDxvooPSPA9ZbjyMwIlhPq5qtuhCGQV3oA+a+q32laW7b3M22+K0lCV1oRioZU187FG
- /ymAeb8pR/Nq3BmpeYGNNPfyNv5i3t5nnpkK+NahOTQz3IrUaXNDrPY1niSgtv7aABxC
- RMOSoKexFmLeXI/FYoKS00bipSgb4FxLeOUKe/fCL37j6Ih5EpcFu0HYVRRIGb0F5B0x
- 7yUi5XRMY1qQtG1JRbyXN5Rr8a4viIJRj6OIXoYhvBqZz8R7HoSg9pAlOHg0bnHvX1w5
- O7CQ==
-X-Gm-Message-State: AOAM532GBqjvxw3XhCZp9ySo2vnugU6zw/Y1vEtJ0p28ylJqe6DVu91F
- W0pqcQID5O8rWgMgY/edVznkT3evLtPBlg==
-X-Google-Smtp-Source: ABdhPJyRWIqe3iX7t0FYrgkkRhk89uGsILWiHj4uJ6NUgiu29U0G9AuYiwangqo93LrAx8iXq3g0PA==
-X-Received: by 2002:adf:e547:: with SMTP id z7mr12787550wrm.283.1610717625242; 
- Fri, 15 Jan 2021 05:33:45 -0800 (PST)
+ bh=iJuG3Rfmdo42tUHxFy8AoALmnllEX6aTVqM1tNYHJiM=;
+ b=biMEXW/HkXAWbo0VaK3iKxxyYebkK2LhTJL8OzxsGrjUFbDA7Yr7dcd53aPuWENif2
+ d/ir+fVA3EtHcMYJqqoU6OuFEWfFm5mrHIKABC/dT0bnPfHGQy29HkJmEMTXt0SoWGqO
+ jSfegE0gyEhS4mmbHM7ot65qoNCOdyJcHVphh166wuPpDKf7YwOyPaodtcpazwvDhA+0
+ wjtkRSyOsP5PdWamxpCSkJ19cdAe/XAVW/leCDcwXe/5m9Mz9wyPbPnZbhUA4ihhtKeU
+ DwwcMocR2jpd3vW7xU6EChNaSnA4hKvsDvZi/ruyuT/Ny6A3ee3Riv6HJ3AEYEzk6xEw
+ i5rQ==
+X-Gm-Message-State: AOAM530yOQIolDWYD1vJZj6++ezkaEJrFja6uEpBt797ERx7bmz66U7v
+ Mj24MgxdUDau3Av9l7qPH/JsPQ==
+X-Google-Smtp-Source: ABdhPJzbmm8GszFDNMauvk1QSmBVn+XxxMUI4JG6HNj+NKzQdLxPY4TpHuDXjzZ0hJBDAU35nrNxdQ==
+X-Received: by 2002:adf:fb85:: with SMTP id a5mr13198597wrr.331.1610717622256; 
+ Fri, 15 Jan 2021 05:33:42 -0800 (PST)
 Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id r13sm14650825wrt.10.2021.01.15.05.33.37
+ by smtp.gmail.com with ESMTPSA id g194sm12691056wme.39.2021.01.15.05.33.35
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
  Fri, 15 Jan 2021 05:33:40 -0800 (PST)
 Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 786BD1FF98;
+ by zen.linaroharston (Postfix) with ESMTP id BC2C31FF99;
  Fri, 15 Jan 2021 13:08:30 +0000 (GMT)
 From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: peter.maydell@linaro.org
-Subject: [PULL 09/30] gitlab: move docs and tools build across from Travis
-Date: Fri, 15 Jan 2021 13:08:07 +0000
-Message-Id: <20210115130828.23968-10-alex.bennee@linaro.org>
+Subject: [PULL 10/30] Fix build with new yank feature by adding stubs
+Date: Fri, 15 Jan 2021 13:08:08 +0000
+Message-Id: <20210115130828.23968-11-alex.bennee@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20210115130828.23968-1-alex.bennee@linaro.org>
 References: <20210115130828.23968-1-alex.bennee@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::42d;
- envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x42d.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::434;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x434.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -86,115 +86,82 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Fam Zheng <fam@euphon.net>, Thomas Huth <thuth@redhat.com>,
+Cc: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
+ Lukas Straub <lukasstraub2@web.de>,
  =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>, qemu-devel@nongnu.org,
- Wainer dos Santos Moschetta <wainersm@redhat.com>,
- Willian Rampazzo <willianr@redhat.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
+ Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-While we are at it we might as well check the tag generation. For
-bonus points we run GNU globals htags into the public pages directory
-for publishing with the auto generated pages.
+From: Lukas Straub <lukasstraub2@web.de>
 
+Fixes: 50186051f42 ("Introduce yank feature")
+Signed-off-by: Lukas Straub <lukasstraub2@web.de>
+[AJB: tweak MAINTAINERS]
 Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
-Reviewed-by: Wainer dos Santos Moschetta <wainersm@redhat.com>
-Reviewed-by: Willian Rampazzo <willianr@redhat.com>
-Acked-by: Thomas Huth <thuth@redhat.com>
-Message-Id: <20210114165730.31607-10-alex.bennee@linaro.org>
+Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+Message-Id: <20210114141918.5201cc9c@gecko.fritz.box>
+Message-Id: <20210114165730.31607-11-alex.bennee@linaro.org>
 
-diff --git a/.gitlab-ci.yml b/.gitlab-ci.yml
-index 4532f1718a..bd60f3e741 100644
---- a/.gitlab-ci.yml
-+++ b/.gitlab-ci.yml
-@@ -79,7 +79,6 @@ build-system-ubuntu:
-     TARGETS: aarch64-softmmu alpha-softmmu cris-softmmu hppa-softmmu
-       moxie-softmmu microblazeel-softmmu mips64el-softmmu
-     MAKE_CHECK_ARGS: check-build
--    CONFIGURE_ARGS: --enable-docs
-   artifacts:
-     expire_in: 2 days
-     paths:
-@@ -111,7 +110,6 @@ build-system-debian:
-     TARGETS: arm-softmmu avr-softmmu i386-softmmu mipsel-softmmu
-       riscv64-softmmu sh4eb-softmmu sparc-softmmu xtensaeb-softmmu
-     MAKE_CHECK_ARGS: check-build
--    CONFIGURE_ARGS: --enable-docs
-   artifacts:
-     expire_in: 2 days
-     paths:
-@@ -126,6 +124,17 @@ check-system-debian:
-     IMAGE: debian-amd64
-     MAKE_CHECK_ARGS: check
- 
-+build-tools-and-docs-debian:
-+  <<: *native_build_job_definition
-+  variables:
-+    IMAGE: debian-amd64
-+    MAKE_CHECK_ARGS: ctags TAGS cscope
-+    CONFIGURE_ARGS: --disable-system --disable-user --enable-docs --enable-tools
-+  artifacts:
-+    expire_in: 2 days
-+    paths:
-+      - build
+diff --git a/stubs/yank.c b/stubs/yank.c
+new file mode 100644
+index 0000000000..6090416065
+--- /dev/null
++++ b/stubs/yank.c
+@@ -0,0 +1,29 @@
++#include "qemu/osdep.h"
++#include "qemu/yank.h"
 +
- acceptance-system-debian:
-   <<: *native_test_job_definition
-   needs:
-@@ -596,14 +605,21 @@ build-libvhost-user:
-     - meson
-     - ninja
++bool yank_register_instance(const YankInstance *instance, Error **errp)
++{
++    return true;
++}
++
++void yank_unregister_instance(const YankInstance *instance)
++{
++}
++
++void yank_register_function(const YankInstance *instance,
++                            YankFn *func,
++                            void *opaque)
++{
++}
++
++void yank_unregister_function(const YankInstance *instance,
++                              YankFn *func,
++                              void *opaque)
++{
++}
++
++void yank_generic_iochannel(void *opaque)
++{
++}
++
++
+diff --git a/MAINTAINERS b/MAINTAINERS
+index cb0656aec3..07e4851aa4 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -2736,6 +2736,7 @@ Yank feature
+ M: Lukas Straub <lukasstraub2@web.de>
+ S: Odd fixes
+ F: util/yank.c
++F: stubs/yank.c
+ F: include/qemu/yank.h
+ F: qapi/yank.json
  
-+# Prepare for GitLab pages deployment. Anything copied into the
-+# "public" directory will be deployed to $USER.gitlab.io/$PROJECT
- pages:
--  image: $CI_REGISTRY_IMAGE/qemu/ubuntu2004:latest
-+  image: $CI_REGISTRY_IMAGE/qemu/debian-amd64:latest
-   stage: test
-   needs:
--    - job: build-system-ubuntu
--      artifacts: true
-+    - job: build-tools-and-docs-debian
-   script:
--    - mkdir public
-+    - mkdir -p public
-+    # HTML-ised source tree
-+    - make gtags
-+    - htags -anT --tree-view=filetree -m qemu_init
-+        -t "Welcome to the QEMU sourcecode"
-+    - mv HTML public/src
-+    # Project documentation
-     - mv build/docs/index.html public/
-     - for i in devel interop specs system tools user ; do mv build/docs/$i public/ ; done
-   artifacts:
-diff --git a/.travis.yml b/.travis.yml
-index f2a101936c..3b574a5968 100644
---- a/.travis.yml
-+++ b/.travis.yml
-@@ -148,22 +148,6 @@ jobs:
-         - CACHE_NAME="${TRAVIS_BRANCH}-linux-gcc-default"
- 
- 
--    # Check we can build docs and tools (out of tree)
--    - name: "tools and docs (bionic)"
--      dist: bionic
--      env:
--        - BUILD_DIR="out-of-tree/build/dir" SRC_DIR="../../.."
--        - BASE_CONFIG="--enable-tools --enable-docs"
--        - CONFIG="--target-list=x86_64-softmmu,aarch64-linux-user"
--        - CACHE_NAME="${TRAVIS_BRANCH}-linux-gcc-default"
--      addons:
--        apt:
--          packages:
--            - ninja-build
--            - python3-sphinx
--            - perl
--
--
-     # Test with Clang for compile portability (Travis uses clang-5.0)
-     - name: "Clang (user)"
-       env:
+diff --git a/stubs/meson.build b/stubs/meson.build
+index 80b1d81a31..1a656cd070 100644
+--- a/stubs/meson.build
++++ b/stubs/meson.build
+@@ -47,6 +47,7 @@ stub_ss.add(files('vm-stop.c'))
+ stub_ss.add(files('win32-kbd-hook.c'))
+ stub_ss.add(files('cpu-synchronize-state.c'))
+ if have_block
++  stub_ss.add(files('yank.c'))
+   stub_ss.add(files('replay-tools.c'))
+ endif
+ if have_system
 -- 
 2.20.1
 
