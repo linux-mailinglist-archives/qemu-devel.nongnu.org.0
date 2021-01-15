@@ -2,70 +2,45 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D73E72F6FF5
-	for <lists+qemu-devel@lfdr.de>; Fri, 15 Jan 2021 02:25:02 +0100 (CET)
-Received: from localhost ([::1]:34406 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 13BA32F7017
+	for <lists+qemu-devel@lfdr.de>; Fri, 15 Jan 2021 02:42:54 +0100 (CET)
+Received: from localhost ([::1]:52550 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l0DrJ-000439-FX
-	for lists+qemu-devel@lfdr.de; Thu, 14 Jan 2021 20:25:01 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58560)
+	id 1l0E8b-0004Wk-0J
+	for lists+qemu-devel@lfdr.de; Thu, 14 Jan 2021 20:42:53 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34268)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1l0Dnw-0003Nb-Q6
- for qemu-devel@nongnu.org; Thu, 14 Jan 2021 20:21:33 -0500
-Received: from mail-io1-xd2f.google.com ([2607:f8b0:4864:20::d2f]:46134)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1l0Dnq-0008Km-MU
- for qemu-devel@nongnu.org; Thu, 14 Jan 2021 20:21:31 -0500
-Received: by mail-io1-xd2f.google.com with SMTP id q2so13531564iow.13
- for <qemu-devel@nongnu.org>; Thu, 14 Jan 2021 17:21:23 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=ehN0aVDLHZMI0mbOibsH1VJJIgb7jT0JtgVEhwMqP2I=;
- b=ATEKHQJjh13ynJSVyXl4NegOFqm/qtLUWHC7Op8DdjOG24/qA71RfgZe/8zWwP8eO3
- i8fSSjbGcrHGEUrM7CbN0NShSxD61WhPvF1ORqtwpOjvsiG4e2w6DBpZsFazVYIP9wT2
- mOt69dmZ906+Jop5DLVXjAfRgTe0g8AMb4zkIATZXQkrDcV5LH8J7dnI+5pLYKNWDnxv
- HvV92lzQ5eXxRa+6nU6GvrhEBsd+dKKW0Hwf9fnH3Dy/pehoJ7k1XUXnv+nNIRsW4AfT
- fgT5oj0EVv8602IE8jFQaYkJTvWIVrGZ7V009oHs8VgvO7CoWF5A+5V1HtsOYVn2KtKS
- lePg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=ehN0aVDLHZMI0mbOibsH1VJJIgb7jT0JtgVEhwMqP2I=;
- b=qNY9T6yPN3BYATIZ6s2+98ugybn9ljsPWEvcC1EctG9WqHqxkCdTtLBUeYQ4r2hB+v
- BidSX3pS0pCDTzdgtJHkX0TWwk1LiKlxc0NsmU8z6lQPFkmW8HBFG486l/q+XQHLkl/Q
- /Oh/O5Q/5PkJePl20FeDYidFFc1wGfOZ/FdNKKNEVfILsgOySd9L8PvJSLuBVpMjhwzH
- umcvpwk221Bs4oWRG2WT0dmYh/5+/1iktUYdkeQaF8eriQxaDOUuf1JrZn2Ukipqd7nh
- PlEpq/jqgN4ZfjnvVIp3g+Osvtpb7BxCuHC02g3Btm8h4pCf4KS+PrwcLxLpfjBDOPYE
- Uh5A==
-X-Gm-Message-State: AOAM531n6msLLZiqanNXXZEogJcVI3ahWqeNNnTYKqZp0VPsSdrJAN/e
- niworS/Op3goWRRN/1ZOKOAU3TkCqeAK8+y2jeY=
-X-Google-Smtp-Source: ABdhPJwjgk3iAaECq7RCGfBgRpHeoLIHKCB/ULOiEHTIFBRyYGDzHt+KZBl2bdpBboAV+K6/iiobgSft6ouMROIhS38=
-X-Received: by 2002:a92:cda1:: with SMTP id g1mr9063636ild.267.1610673682020; 
- Thu, 14 Jan 2021 17:21:22 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <zhanghan64@huawei.com>)
+ id 1l0E6Y-00038f-21; Thu, 14 Jan 2021 20:40:46 -0500
+Received: from szxga05-in.huawei.com ([45.249.212.191]:2933)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <zhanghan64@huawei.com>)
+ id 1l0E6V-0006NM-3K; Thu, 14 Jan 2021 20:40:45 -0500
+Received: from DGGEMS413-HUB.china.huawei.com (unknown [172.30.72.60])
+ by szxga05-in.huawei.com (SkyGuard) with ESMTP id 4DH3kX4LXfzMKbT;
+ Fri, 15 Jan 2021 09:39:16 +0800 (CST)
+Received: from huawei.com (10.175.124.27) by DGGEMS413-HUB.china.huawei.com
+ (10.3.19.213) with Microsoft SMTP Server id 14.3.498.0; Fri, 15 Jan 2021
+ 09:40:28 +0800
+From: Zhang Han <zhanghan64@huawei.com>
+To: <kraxel@redhat.com>
+Subject: [PATCH v2 0/7]Fix some style problems in audio
+Date: Fri, 15 Jan 2021 09:24:24 +0800
+Message-ID: <20210115012431.79533-1-zhanghan64@huawei.com>
+X-Mailer: git-send-email 2.29.1.59.gf9b6481aed
 MIME-Version: 1.0
-References: <20201218060114.3591217-1-alistair.francis@wdc.com>
- <20201218060114.3591217-23-alistair.francis@wdc.com>
- <CAFEAcA-FF0SC-LSWUxwDdQ_vutYEB=1UMB1nua2BEQm+_E8SdA@mail.gmail.com>
-In-Reply-To: <CAFEAcA-FF0SC-LSWUxwDdQ_vutYEB=1UMB1nua2BEQm+_E8SdA@mail.gmail.com>
-From: Alistair Francis <alistair23@gmail.com>
-Date: Thu, 14 Jan 2021 17:20:55 -0800
-Message-ID: <CAKmqyKOAGcobcPzkTrNN5GS9VhJpfmCnuwsA8hAcazhQA2VhkA@mail.gmail.com>
-Subject: Re: [PULL 22/23] hw/riscv: Use the CPU to determine if 32-bit
-To: Peter Maydell <peter.maydell@linaro.org>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::d2f;
- envelope-from=alistair23@gmail.com; helo=mail-io1-xd2f.google.com
-X-Spam_score_int: -17
-X-Spam_score: -1.8
-X-Spam_bar: -
-X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-Originating-IP: [10.175.124.27]
+X-CFilter-Loop: Reflected
+Received-SPF: pass client-ip=45.249.212.191;
+ envelope-from=zhanghan64@huawei.com; helo=szxga05-in.huawei.com
+X-Spam_score_int: -41
+X-Spam_score: -4.2
+X-Spam_bar: ----
+X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
+ RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -79,49 +54,39 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Richard Henderson <richard.henderson@linaro.org>,
- Alistair Francis <alistair.francis@wdc.com>,
- QEMU Developers <qemu-devel@nongnu.org>
+Cc: hunongda@huawei.com, zhang.zhanghailiang@huawei.com,
+ qemu-trivial@nongnu.org, qemu-devel@nongnu.org, alex.chen@huawei.com,
+ zhanghan64@huawei.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Sun, Jan 10, 2021 at 11:55 AM Peter Maydell <peter.maydell@linaro.org> wrote:
->
-> On Fri, 18 Dec 2020 at 06:01, Alistair Francis <alistair.francis@wdc.com> wrote:
-> >
-> > Instead of using string compares to determine if a RISC-V machine is
-> > using 32-bit or 64-bit CPUs we can use the initalised CPUs. This avoids
-> > us having to maintain a list of CPU names to compare against.
-> >
-> > This commit also fixes the name of the function to match the
-> > riscv_cpu_is_32bit() function.
-> >
-> > Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
-> > Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-> > Message-id: 8ab7614e5df93ab5267788b73dcd75f9f5615e82.1608142916.git.alistair.francis@wdc.com
->
-> Hi; coverity points out a probably-unintentional inefficiency here
-> (CID 1438099, CID 1438100, CID 1438101):
->
-> > --- a/hw/riscv/boot.c
-> > +++ b/hw/riscv/boot.c
-> > @@ -33,28 +33,16 @@
-> >
-> >  #include <libfdt.h>
-> >
-> > -bool riscv_is_32_bit(MachineState *machine)
-> > +bool riscv_is_32bit(RISCVHartArrayState harts)
->
-> The RISCVHartArrayState type is 824 bytes long. That's a very
-> big type to be passing by value. You probably wanted to pass a
-> pointer to it instead. Similarly for the arguments to
-> riscv_calc_kernel_start_addr() and riscv_setup_rom_reset_vec().
+Some style problems in audio directory are found by checkpatch.pl. Fix these
+style problems.
 
-Thanks Peter, I'll send a patch.
+v2:
+- fix style problem: redundant spaces between function name and open parenthesis'('
+- fix subject of patch[5/7] for email display
 
-Alistair
+Zhang Han (7):
+  audio: Add braces for statements/fix braces' position
+  audio: Add spaces around operator/delete redundant spaces
+  audio: foo* bar" should be "foo *bar".
+  audio: Fix lines over 90 characters
+  audio: Don't use '%#' in format strings
+  audio: Suspect code indent for conditional statements
+  audio: space prohibited between function name and parenthesis'('
 
->
-> thanks
-> -- PMM
+ audio/alsaaudio.c      | 15 +++++--------
+ audio/audio.c          | 26 ++++++++++------------
+ audio/audio_template.h | 24 +++++++++-----------
+ audio/coreaudio.c      | 17 +++++++-------
+ audio/dsoundaudio.c    | 50 +++++++++++++++++++++++++++---------------
+ audio/jackaudio.c      |  2 +-
+ audio/ossaudio.c       | 12 ++++------
+ audio/paaudio.c        |  2 +-
+ 8 files changed, 73 insertions(+), 75 deletions(-)
+
+-- 
+2.29.1.59.gf9b6481aed
+
 
