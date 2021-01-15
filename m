@@ -2,68 +2,87 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E305B2F82ED
-	for <lists+qemu-devel@lfdr.de>; Fri, 15 Jan 2021 18:50:27 +0100 (CET)
-Received: from localhost ([::1]:59800 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C2EEB2F8323
+	for <lists+qemu-devel@lfdr.de>; Fri, 15 Jan 2021 18:58:04 +0100 (CET)
+Received: from localhost ([::1]:46424 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l0TEw-0001YZ-Sv
-	for lists+qemu-devel@lfdr.de; Fri, 15 Jan 2021 12:50:26 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44666)
+	id 1l0TMJ-0008Aa-Ll
+	for lists+qemu-devel@lfdr.de; Fri, 15 Jan 2021 12:58:03 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45586)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1l0T8f-0003q8-4e
- for qemu-devel@nongnu.org; Fri, 15 Jan 2021 12:43:57 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:24921)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1l0T8Y-0001Vq-IS
- for qemu-devel@nongnu.org; Fri, 15 Jan 2021 12:43:56 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1610732623;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=IThQqdCdlmQTCCDgQ8h2kSTms7AuPTfHOCwzdRwD2i8=;
- b=I0KKs2IOfoVeNWlRvP2E2uWtPXSdaGfwfL+Iq1xcdNOY1lF5grStY2i2iqH2lG5oaQN00f
- tGd5ijIkSU7w4iFilD01OMzd0gDLHVJtPG1bJ4+T0X/oeIhe+gMU3lptZtbONwiAipq2JX
- iksf2EpqLwtYnsF28mYrmAZmoiZZNf4=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-230-7H4soNGhP7q44lJo0PJ08A-1; Fri, 15 Jan 2021 12:43:41 -0500
-X-MC-Unique: 7H4soNGhP7q44lJo0PJ08A-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 3606A107AD25;
- Fri, 15 Jan 2021 17:43:40 +0000 (UTC)
-Received: from localhost (ovpn-114-144.ams2.redhat.com [10.36.114.144])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id CD4EF5F9C5;
- Fri, 15 Jan 2021 17:43:39 +0000 (UTC)
-From: Max Reitz <mreitz@redhat.com>
-To: qemu-block@nongnu.org
-Subject: [PATCH v4 10/10] iotests/300: Clean up pylint and mypy complaints
-Date: Fri, 15 Jan 2021 18:43:15 +0100
-Message-Id: <20210115174315.30949-11-mreitz@redhat.com>
-In-Reply-To: <20210115174315.30949-1-mreitz@redhat.com>
-References: <20210115174315.30949-1-mreitz@redhat.com>
+ (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
+ id 1l0TC5-00084x-W0; Fri, 15 Jan 2021 12:47:32 -0500
+Received: from out5-smtp.messagingengine.com ([66.111.4.29]:47163)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
+ id 1l0TC1-0002yu-Vv; Fri, 15 Jan 2021 12:47:29 -0500
+Received: from compute2.internal (compute2.nyi.internal [10.202.2.42])
+ by mailout.nyi.internal (Postfix) with ESMTP id 37B385C01B3;
+ Fri, 15 Jan 2021 12:47:24 -0500 (EST)
+Received: from mailfrontend2 ([10.202.2.163])
+ by compute2.internal (MEProxy); Fri, 15 Jan 2021 12:47:24 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=irrelevant.dk;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-type:in-reply-to; s=fm2; bh=jYjZ9Flkuyezty6BtL3qmVim4R/
+ Vsd5htSiI+x+VDQs=; b=HdnWVnnTHRNaQaCgfaYNexbD2JmCR2VIfOvSkekbdr5
+ 4Kze4dm4elqY4W7sqi2KH25c4BwXCnHDL/4HuKXl2aV8nxw/Yzf5qO4bnobPx5UR
+ 7/tKhnVFzXh/90LCOYGEbgl3oofGHLuXjIBSqj25QPaiLq4+JuLcVGamy5MV/whO
+ cHEtoRq1dhdabBOe3Ji0m8ZCU/tDJcVYLk2idna4ERGKMkbBSEvYpnJ1Bzc+VWwU
+ veRgEno4ztMzzHMJ+1Ee0ioUnolJE/JyhsvSXVB/XwFv37D07MGfttOZYB4lbC6f
+ dpW34oGZ6r98AIIlF64p3v986zaujAY5muxHAkH8xeA==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+ messagingengine.com; h=cc:content-type:date:from:in-reply-to
+ :message-id:mime-version:references:subject:to:x-me-proxy
+ :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; bh=jYjZ9F
+ lkuyezty6BtL3qmVim4R/Vsd5htSiI+x+VDQs=; b=BJX/Wt/8xxxZqp5M3Hf6XA
+ +0qEGEPJhQtxCD0o+e4Fgv7RVUZuLEmb7bjqmU4IWvMxQodENaOfxTL+goy2pKdJ
+ O+zaMrYfjPIZ+kNfIsAKp1Sscib9ZwsRRXDxYmjRSmcwS1K7pmnmB64RJtpvDrpL
+ s/C5we2E7IsumasjTeP5Ao+W+Jd5zGUjY243pJyS8B+8aCgVafkurSz3VO4mqryG
+ t1Lf4yEchB7N+xg3AwVYh2Xu0mgtD0LdTYsUhVYHvevElGb1lZB3o87PmEF7mSFb
+ xLD9+AJkRH0MRyQLb8++FB9hXSoMnuh0aNOq3hrHeQyawfvD20hub3DqJsYtpZRg
+ ==
+X-ME-Sender: <xms:K9UBYCvGaOBj6B2PONVWTSR67HxuyCovsfE-PYd2yaDpr1PMJL4Emw>
+ <xme:K9UBYBG134O0vRBxF4gzVFbAVBuHsGhrP9yUDftaQ__RsqNKSygZUoqqj8RZzJDNd
+ Tiu9qGbstVvUyuvdrc>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduledrtddvgdektdcutefuodetggdotefrodftvf
+ curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
+ uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
+ fjughrpeffhffvuffkfhggtggujgesghdtreertddtjeenucfhrhhomhepmfhlrghushcu
+ lfgvnhhsvghnuceoihhtshesihhrrhgvlhgvvhgrnhhtrdgukheqnecuggftrfgrthhtvg
+ hrnhepjeegudffueeiteekieelkedvueelteevjeduieeludfffeejgeffhfduvdduffek
+ necukfhppeektddrudeijedrleekrdduledtnecuvehluhhsthgvrhfuihiivgeptdenuc
+ frrghrrghmpehmrghilhhfrhhomhepihhtshesihhrrhgvlhgvvhgrnhhtrdgukh
+X-ME-Proxy: <xmx:K9UBYNxVa36KTcbtKKH1cMl8JGDbMDnQPrpprOsbg-dLKwurpH6K1w>
+ <xmx:K9UBYAg_JWaCrHVzwCTKClCwHcVAGWXBiG5abSceGDs8z7hYgGBlEA>
+ <xmx:K9UBYAyKp-jCeyYh6tSvV40_cCMPgogPiau1qDZWBnigJQvqNIPDmA>
+ <xmx:LNUBYFoCGOIx5sHrveXO0xKWqhJjVmlR-iPizDS0OKjm6H3Bm6zCag>
+Received: from apples.localdomain (80-167-98-190-cable.dk.customer.tdc.net
+ [80.167.98.190])
+ by mail.messagingengine.com (Postfix) with ESMTPA id 501C91080057;
+ Fri, 15 Jan 2021 12:47:22 -0500 (EST)
+Date: Fri, 15 Jan 2021 18:47:20 +0100
+From: Klaus Jensen <its@irrelevant.dk>
+To: Keith Busch <kbusch@kernel.org>
+Subject: Re: [RFC PATCH 0/5] hw/block/nvme: support multi-path for ctrl/ns
+Message-ID: <YAHVKFOYaEO4N6I5@apples.localdomain>
+References: <20210115120558.29313-1-minwoo.im.dev@gmail.com>
+ <YAGfWe+OMxiBggh3@apples.localdomain>
+ <20210115173504.GH1511902@dhcp-10-100-145-180.wdc.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mreitz@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=mreitz@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -29
-X-Spam_score: -3.0
-X-Spam_bar: ---
-X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.25,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="aLGk8zn8JvYR+Fst"
+Content-Disposition: inline
+In-Reply-To: <20210115173504.GH1511902@dhcp-10-100-145-180.wdc.com>
+Received-SPF: pass client-ip=66.111.4.29; envelope-from=its@irrelevant.dk;
+ helo=out5-smtp.messagingengine.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
+X-Spam_bar: --
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -76,83 +95,85 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>,
- Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>, qemu-devel@nongnu.org,
- Max Reitz <mreitz@redhat.com>, Willian Rampazzo <wrampazz@redhat.com>
+Cc: Kevin Wolf <kwolf@redhat.com>, Minwoo Im <minwoo.im.dev@gmail.com>,
+ qemu-devel@nongnu.org, qemu-block@nongnu.org, Max Reitz <mreitz@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-And consequentially drop it from 297's skip list.
 
-Signed-off-by: Max Reitz <mreitz@redhat.com>
-Reviewed-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
----
- tests/qemu-iotests/297 |  2 +-
- tests/qemu-iotests/300 | 18 +++++++++++++++---
- 2 files changed, 16 insertions(+), 4 deletions(-)
+--aLGk8zn8JvYR+Fst
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-diff --git a/tests/qemu-iotests/297 b/tests/qemu-iotests/297
-index d2d9292839..ce7f85cfe0 100755
---- a/tests/qemu-iotests/297
-+++ b/tests/qemu-iotests/297
-@@ -33,7 +33,7 @@ SKIP_FILES = (
-     '218', '219', '222', '224', '228', '234', '235', '236', '237', '238',
-     '240', '242', '245', '246', '248', '255', '256', '257', '258', '260',
-     '262', '264', '266', '274', '277', '280', '281', '295', '296', '298',
--    '299', '300', '302', '303', '304', '307',
-+    '299', '302', '303', '304', '307',
-     'nbd-fault-injector.py', 'qcow2.py', 'qcow2_format.py', 'qed.py'
- )
- 
-diff --git a/tests/qemu-iotests/300 b/tests/qemu-iotests/300
-index b864a21d5e..4115f90578 100755
---- a/tests/qemu-iotests/300
-+++ b/tests/qemu-iotests/300
-@@ -22,7 +22,11 @@ import os
- import random
- import re
- from typing import Dict, List, Optional, Union
-+
- import iotests
-+
-+# Import qemu after iotests.py has amended sys.path
-+# pylint: disable=wrong-import-order
- import qemu
- 
- BlockBitmapMapping = List[Dict[str, Union[str, List[Dict[str, str]]]]]
-@@ -110,10 +114,14 @@ class TestDirtyBitmapMigration(iotests.QMPTestCase):
-         If @msg is None, check that there has not been any error.
-         """
-         self.vm_b.shutdown()
-+
-+        log = self.vm_b.get_log()
-+        assert log is not None  # Loaded after shutdown
-+
-         if msg is None:
--            self.assertNotIn('qemu-system-', self.vm_b.get_log())
-+            self.assertNotIn('qemu-system-', log)
-         else:
--            self.assertIn(msg, self.vm_b.get_log())
-+            self.assertIn(msg, log)
- 
-     @staticmethod
-     def mapping(node_name: str, node_alias: str,
-@@ -445,9 +453,13 @@ class TestBlockBitmapMappingErrors(TestDirtyBitmapMigration):
- 
-         # Check for the error in the source's log
-         self.vm_a.shutdown()
-+
-+        log = self.vm_a.get_log()
-+        assert log is not None  # Loaded after shutdown
-+
-         self.assertIn(f"Cannot migrate bitmap '{name}' on node "
-                       f"'{self.src_node_name}': Name is longer than 255 bytes",
--                      self.vm_a.get_log())
-+                      log)
- 
-         # Expect abnormal shutdown of the destination VM because of
-         # the failed migration
--- 
-2.29.2
+On Jan 15 09:35, Keith Busch wrote:
+> On Fri, Jan 15, 2021 at 02:57:45PM +0100, Klaus Jensen wrote:
+> >=20
+> > As you already mentioned, the problem I see with this approach is that
+> > we have separate namespaces attached to separate controllers. So we are
+> > faking it to the max and if I/O starts going through the other
+> > controller we end up on a namespace that is unrelated (different data).
+> > Havoc ensues.
+> >=20
+> > My approach looks a lot like yours, but I hacked around this by adding
+> > extra 'ctrl-0', 'ctrl-1', ..., link-parameters to the namespace device,
+> > replacing the bus. This works well because the namespace then just
+> > registers with multiple controllers. But adding more parameters like
+> > that just isnt nice, so I've been trying to figure out how to allow a
+> > parameter to be specified multiple times, so we could just do more
+> > 'ctrl'-parameters.
+> >=20
+> > Alas, since I started thinking about namespace sharing I have been
+> > regretting that I didn't reverse the bus-mechanic for namespace
+> > attachment. It would align better with the theory of operation if it was
+> > the controllers that attached to namespaces, and not the other way
+> > around. So what I would actually really prefer, is that we had multiple
+> > 'ns' link parameters on the controller device.
+>=20
+> Would this work better if we introduce a new device in the nvme hierarchy:
+> the nvme-subsystem? You could attach multi-path namespaces and
+> controllers to that, and namespaces you don't want shared can attach
+> directly to controllers like they do today. You could also auto-assign
+> cntlid, and you wouldn't need to duplicate serial numbers in your
+> parameters.
 
+I kinda POC'ed that, but I think I tried to make it work with a bus and
+walking it and all kinds of fancy stuff.
+
+I think it can just be a 'link' parameter, so something like:
+
+  -device nvme-subsys,id=3Dsubsys0
+  -device nvme,id=3Dnvme0,subsys=3Dsubsys0
+  -device nvme,id=3Dnvme1,subsys=3Dsubsys0
+  -device nvme-ns,id=3Dshared-ns1,nsid=3D1,subsys=3Dsubsys0
+  -device nvme-ns,id=3Dprivate-ns2,nsid=3D2,bus=3Dnvme0
+
+When a controller "registers" with the subsystem it attaches to all
+namespaces known, and when a namespace attaches, it attaches to all
+controllers known. We can even add a 'detached' bool parameter to the
+namespace and keep controllers from attaching, but allowing for later
+attachment.
+
+Cool!
+
+Question: NSIDs must be the same on each controller for shared
+namespaces, but can private namespaces "share" nsid across controllers
+in the subsystem?  I don't think the spec is clear on that point.
+
+--aLGk8zn8JvYR+Fst
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEEUigzqnXi3OaiR2bATeGvMW1PDekFAmAB1SYACgkQTeGvMW1P
+DenUpwf9F80Wg81WxugT9ODPqCyYaB2kJm2gQe9GTJDBN2ru1pZVWknl0+TFFPZG
+Sj1wFKA8qB5sKt58hOl4Vh/IuTwzRVSZCk/3QdE2Cj1DVJxjdORkwpqj1zPZi8DA
+SVBf797uu/RhKIHwEuYts139wCAuD5hX+L+pIFz85uenGn3y2ZjZX2EHF/CD6oqn
+ZFUd6nwHnaFYXnXx3zH2277akuoRaNpKk5peBV6UeDYe1AgWMwTI5WNMyTdM8zIx
+ceTy0Kk5XpJn2y0OjdRuCskRAHJobZtL+Jhs3KwhGBTNgvURcxO812UXsaJSMSap
+jsgJAbVXNenIWnp9D9CePbpjqCiNew==
+=j90y
+-----END PGP SIGNATURE-----
+
+--aLGk8zn8JvYR+Fst--
 
