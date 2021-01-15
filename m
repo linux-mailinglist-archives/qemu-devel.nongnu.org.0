@@ -2,56 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8BC712F7CD8
-	for <lists+qemu-devel@lfdr.de>; Fri, 15 Jan 2021 14:39:05 +0100 (CET)
-Received: from localhost ([::1]:50834 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id ADFDB2F7D41
+	for <lists+qemu-devel@lfdr.de>; Fri, 15 Jan 2021 14:55:14 +0100 (CET)
+Received: from localhost ([::1]:46700 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l0PJg-0005PQ-Ia
-	for lists+qemu-devel@lfdr.de; Fri, 15 Jan 2021 08:39:04 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40286)
+	id 1l0PZJ-0002FY-NK
+	for lists+qemu-devel@lfdr.de; Fri, 15 Jan 2021 08:55:13 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40326)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1l0P3D-0006r1-Jh
- for qemu-devel@nongnu.org; Fri, 15 Jan 2021 08:22:03 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:36676)
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1l0P3I-0006vO-Vp
+ for qemu-devel@nongnu.org; Fri, 15 Jan 2021 08:22:08 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:25184)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1l0P3A-0003J1-6k
- for qemu-devel@nongnu.org; Fri, 15 Jan 2021 08:22:03 -0500
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1l0P3A-0003JP-4R
+ for qemu-devel@nongnu.org; Fri, 15 Jan 2021 08:22:08 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1610716917;
+ s=mimecast20190719; t=1610716919;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=MbTWa6XA/XTnc8oR+OmYjlUe298v+sSdsQKTwN+5iEo=;
- b=U7yDhn4hoXRZvFguRv20gAZrK+HbUU7W8p5JEGA4OUKwujLeryYMKKFQzPmzcgc5BhAKLU
- RWyP9NURh8qa/fkm+jGWfxTpFTJ00ADfm+AGXdx1xFS0E8wH5XRN+7p5FDDyuKlTkEmdeZ
- ESiuCtNHkH870zHfwSumUWviat+GBAQ=
+ bh=XzwoiS4AvB1DAMeelsnbRmyDx1AnnwrHSMYkLdfdsh0=;
+ b=GcRZwz+KWztTjBHElUJJ+cAuAB7Yjjs+jFC1MD0u3pLg1tkzHV0DSO63Iqzt1pJazYVHAH
+ EgdnQ0NsE3CheOoIOB8xCJ1tXTKmpUKoT0fAVPY36afPiDRYHrju/7jWSUVI6XIgB14BC5
+ gK3MrdZY+MdpDBOWngAu4/0bP/INjQ0=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-281--i-tHvozOkOLlUMAHEWQGA-1; Fri, 15 Jan 2021 08:21:55 -0500
-X-MC-Unique: -i-tHvozOkOLlUMAHEWQGA-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
+ us-mta-337-ahIgUiTWMKiraCMc7byzLQ-1; Fri, 15 Jan 2021 08:21:57 -0500
+X-MC-Unique: ahIgUiTWMKiraCMc7byzLQ-1
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
+ [10.5.11.16])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A5384180A0A0;
- Fri, 15 Jan 2021 13:21:54 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id DDF1BCE642;
+ Fri, 15 Jan 2021 13:21:55 +0000 (UTC)
 Received: from sirius.home.kraxel.org (ovpn-112-182.ams2.redhat.com
  [10.36.112.182])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 564616F81E;
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 87D6F71C89;
  Fri, 15 Jan 2021 13:21:54 +0000 (UTC)
 Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
- id EC0B01800D4D; Fri, 15 Jan 2021 14:21:46 +0100 (CET)
+ id 0E4961800D4F; Fri, 15 Jan 2021 14:21:47 +0100 (CET)
 From: Gerd Hoffmann <kraxel@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 18/30] paaudio: limit minreq to 75% of audio timer_rate
-Date: Fri, 15 Jan 2021 14:21:34 +0100
-Message-Id: <20210115132146.1443592-19-kraxel@redhat.com>
+Subject: [PULL 20/30] dsoundaudio: replace GetForegroundWindow()
+Date: Fri, 15 Jan 2021 14:21:36 +0100
+Message-Id: <20210115132146.1443592-21-kraxel@redhat.com>
 In-Reply-To: <20210115132146.1443592-1-kraxel@redhat.com>
 References: <20210115132146.1443592-1-kraxel@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kraxel@redhat.com
 X-Mimecast-Spam-Score: 0
@@ -86,35 +86,64 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Volker Rümelin <vr_qemu@t-online.de>
 
-Currently with the playback buffer attribute minreq = -1 and flag
-PA_STREAM_EARLY_REQUESTS PulseAudio uses minreq = tlength / 4.
-To improve audio playback with larger PulseAudio server side
-buffers, limit minreq to a maximum of 75% of audio timer_rate.
-That way there is a good chance qemu receives a stream buffer
-size update before it tries to write data to the playback stream.
+GetForegroundWindow() doesn't necessarily return the own window
+handle. It just returns a handle to the currently active window
+and can even return NULL. At the time dsound_open() gets called
+the active window is most likely the shell window and not the
+QEMU window.
+
+Replace GetForegroundWindow() with GetDesktopWindow() which
+always returns a valid window handle, and at the same time
+replace the DirectSound buffer flag DSBCAPS_STICKYFOCUS with
+DSBCAPS_GLOBALFOCUS where Windows only expects a valid window
+handle for DirectSound function SetCooperativeLevel(). The
+Microsoft online docs for IDirectSound::SetCooperativeLevel
+recommend this in the remarks.
+
+This fixes a bug where you can't hear sound from the guest.
+
+To reproduce start qemu with -machine pcspk-audiodev=audio0
+-device intel-hda -device hda-duplex,audiodev=audio0
+-audiodev dsound,id=audio0,out.mixing-engine=off
+from a shell and start audio playback with the hda device in the
+guest. The guest will be silent. To hear guest audio you have to
+activate the shell window once.
 
 Signed-off-by: Volker Rümelin <vr_qemu@t-online.de>
 Message-id: 9315afe5-5958-c0b4-ea1e-14769511a9d5@t-online.de
-Message-Id: <20210110100239.27588-18-vr_qemu@t-online.de>
+Message-Id: <20210110100239.27588-20-vr_qemu@t-online.de>
 Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
 ---
- audio/paaudio.c | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+ audio/dsound_template.h | 2 +-
+ audio/dsoundaudio.c     | 2 +-
+ 2 files changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/audio/paaudio.c b/audio/paaudio.c
-index ff3dd01c96dd..318686829428 100644
---- a/audio/paaudio.c
-+++ b/audio/paaudio.c
-@@ -517,7 +517,8 @@ static int qpa_init_out(HWVoiceOut *hw, struct audsettings *as,
-     ss.rate = as->freq;
+diff --git a/audio/dsound_template.h b/audio/dsound_template.h
+index 9c5ce625ab91..0678f2de38be 100644
+--- a/audio/dsound_template.h
++++ b/audio/dsound_template.h
+@@ -205,7 +205,7 @@ static int dsound_init_out(HWVoiceOut *hw, struct audsettings *as,
+         NULL
+         );
+ #else
+-    bd.dwFlags = DSBCAPS_STICKYFOCUS | DSBCAPS_GETCURRENTPOSITION2;
++    bd.dwFlags = DSBCAPS_GLOBALFOCUS | DSBCAPS_GETCURRENTPOSITION2;
+     hr = IDirectSound_CreateSoundBuffer (
+         s->dsound,
+         &bd,
+diff --git a/audio/dsoundaudio.c b/audio/dsoundaudio.c
+index 4cdf19ab6799..0fbdf770ac75 100644
+--- a/audio/dsoundaudio.c
++++ b/audio/dsoundaudio.c
+@@ -347,7 +347,7 @@ static int dsound_open (dsound *s)
+     HRESULT hr;
+     HWND hwnd;
  
-     ba.tlength = pa_usec_to_bytes(ppdo->latency, &ss);
--    ba.minreq = -1;
-+    ba.minreq = pa_usec_to_bytes(MIN(ppdo->latency >> 2,
-+                                     (g->dev->timer_period >> 2) * 3), &ss);
-     ba.maxlength = -1;
-     ba.prebuf = -1;
- 
+-    hwnd = GetForegroundWindow ();
++    hwnd = GetDesktopWindow();
+     hr = IDirectSound_SetCooperativeLevel (
+         s->dsound,
+         hwnd,
 -- 
 2.29.2
 
