@@ -2,55 +2,55 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1D4F02F80DB
-	for <lists+qemu-devel@lfdr.de>; Fri, 15 Jan 2021 17:33:11 +0100 (CET)
-Received: from localhost ([::1]:51232 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8B14A2F80E2
+	for <lists+qemu-devel@lfdr.de>; Fri, 15 Jan 2021 17:36:36 +0100 (CET)
+Received: from localhost ([::1]:59146 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l0S29-0006im-S4
-	for lists+qemu-devel@lfdr.de; Fri, 15 Jan 2021 11:33:09 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55068)
+	id 1l0S5T-0001lC-FX
+	for lists+qemu-devel@lfdr.de; Fri, 15 Jan 2021 11:36:35 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55070)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1l0RvB-0000xT-0N
+ id 1l0RvB-0000xc-8f
  for qemu-devel@nongnu.org; Fri, 15 Jan 2021 11:25:57 -0500
-Received: from indium.canonical.com ([91.189.90.7]:50114)
+Received: from indium.canonical.com ([91.189.90.7]:50174)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1l0Rv8-0002B4-G0
- for qemu-devel@nongnu.org; Fri, 15 Jan 2021 11:25:56 -0500
+ id 1l0Rv8-0002C3-Qs
+ for qemu-devel@nongnu.org; Fri, 15 Jan 2021 11:25:57 -0500
 Received: from loganberry.canonical.com ([91.189.90.37])
  by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1l0Rv6-0004ks-Ib
- for <qemu-devel@nongnu.org>; Fri, 15 Jan 2021 16:25:52 +0000
+ id 1l0Rv7-0004kI-Ls
+ for <qemu-devel@nongnu.org>; Fri, 15 Jan 2021 16:25:53 +0000
 Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 8BC8E2E8139
- for <qemu-devel@nongnu.org>; Fri, 15 Jan 2021 16:25:52 +0000 (UTC)
+ by loganberry.canonical.com (Postfix) with ESMTP id 9F66F2E813E
+ for <qemu-devel@nongnu.org>; Fri, 15 Jan 2021 16:25:53 +0000 (UTC)
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
-Date: Fri, 15 Jan 2021 16:11:45 -0000
-From: Peter Maydell <1907817@bugs.launchpad.net>
+Date: Fri, 15 Jan 2021 16:12:44 -0000
+From: Peter Maydell <1906693@bugs.launchpad.net>
 To: qemu-devel@nongnu.org
 X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=Fix Committed; importance=Undecided;
- assignee=rth@twiddle.net; 
-X-Launchpad-Bug-Tags: assertion tcg v5.2.0
+X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
+X-Launchpad-Bug-Tags: fuzzer
 X-Launchpad-Bug-Information-Type: Public
 X-Launchpad-Bug-Private: no
 X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: pmaydell qwart279 rth
-X-Launchpad-Bug-Reporter: Matus Kysel (qwart279)
+X-Launchpad-Bug-Commenters: a1xndr
+X-Launchpad-Bug-Reporter: Alexander Bulekov (a1xndr)
 X-Launchpad-Bug-Modifier: Peter Maydell (pmaydell)
-References: <160769469739.30645.13581268559432751632.malonedeb@soybean.canonical.com>
-Message-Id: <161072710528.6498.10192355415425377208.malone@wampee.canonical.com>
-Subject: [Bug 1907817] Re: qemu-aarch64 tcg assertion v5.2.0
+References: <20201203164642.wfm3zyud4l23mlq7@mozz.bu.edu>
+Message-Id: <161072716479.30473.16196944995813858281.launchpad@chaenomeles.canonical.com>
+Subject: [Bug 1906693] Re: Assertion Failure in bdrv_co_write_req_prepare
+ through megasas
 X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
 X-Launchpad-Message-For: qemu-devel-ml
 Precedence: bulk
 X-Generated-By: Launchpad (canonical.com);
  Revision="511b4a3b6512aa3d421c5f7d74f3527e78bff26e"; Instance="production"
-X-Launchpad-Hash: ec78348f58cce044c31cbcbbc998244042995a0a
+X-Launchpad-Hash: 9a9c8131a986539bd4d8c11c567953dd15ce6296
 Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
  helo=indium.canonical.com
 X-Spam_score_int: -65
@@ -71,100 +71,205 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1907817 <1907817@bugs.launchpad.net>
+Reply-To: Bug 1906693 <1906693@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Fix now in master as commit 6d3ef04893bde -- will be in next QEMU
-release.
-
-
-** Changed in: qemu
-       Status: Confirmed =3D> Fix Committed
+** Tags added: fuzzer
 
 -- =
 
 You received this bug notification because you are a member of qemu-
 devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1907817
+https://bugs.launchpad.net/bugs/1906693
 
 Title:
-  qemu-aarch64 tcg assertion v5.2.0
+  Assertion Failure in bdrv_co_write_req_prepare through megasas
 
 Status in QEMU:
-  Fix Committed
+  New
 
 Bug description:
-  After updating to 5.2 I am getting following assertion error:
-  qemu-aarch64: ../tcg/tcg-op-gvec.c:54: check_size_align: Assertion `(maxs=
-z & max_align) =3D=3D 0' failed.
+   affects qemu
+   subscribe hare@suse.com
+   subscribe philmd@redhat.com
+   subscribe stefanha@redhat.com
+   subscribe kwolf@redhat.com
 
-  I think it was introduced by commit:
-  e2e7168a214b0ed98dc357bba96816486a289762
+  =3D=3D=3D Stack Trace =3D=3D=3D
+  qemu-fuzz-i386: block/io.c:1835: int bdrv_co_write_req_prepare(BdrvChild =
+*, int64_t, uint64_t, BdrvTrackedRequest *, int): Assertion `child->perm & =
+BLK_PERM_WRITE' failed.
+  =3D=3D1505128=3D=3D ERROR: libFuzzer: deadly signal
+      #0 0x55a083b92cee in __sanitizer_print_stack_trace (qemu-fuzz-i386+0x=
+793cee)
+      #1 0x55a083b6c1d1 in fuzzer::PrintStackTrace() (qemu-fuzz-i386+0x76d1=
+d1)
+      #2 0x55a083b4f0d6 in fuzzer::Fuzzer::CrashCallback() (.part.0) (qemu-=
+fuzz-i386+0x7500d6)
+      #3 0x55a083b4f19b in fuzzer::Fuzzer::StaticCrashSignalCallback() (qem=
+u-fuzz-i386+0x75019b)
+      #4 0x7f8d24ed6a8f  (/lib64/libpthread.so.0+0x14a8f)
+      #5 0x7f8d24d079e4 in raise (/lib64/libc.so.6+0x3c9e4)
+      #6 0x7f8d24cf0894 in abort (/lib64/libc.so.6+0x25894)
+      #7 0x7f8d24cf0768 in __assert_fail_base.cold (/lib64/libc.so.6+0x2576=
+8)
+      #8 0x7f8d24cffe75 in __assert_fail (/lib64/libc.so.6+0x34e75)
+      #9 0x55a08423763f in bdrv_co_write_req_prepare block/io.c:1835:13
+      #10 0x55a0842343a8 in bdrv_aligned_pwritev block/io.c:1915:11
+      #11 0x55a084233765 in bdrv_co_pwritev_part block/io.c:2104:11
+      #12 0x55a084260d1a in blk_do_pwritev_part block/block-backend.c:1260:=
+11
+      #13 0x55a08426163e in blk_aio_write_entry block/block-backend.c:1476:=
+17
+      #14 0x55a0843b0d23 in coroutine_trampoline util/coroutine-ucontext.c:=
+173:9
+      #15 0x7f8d24d1d22f  (/lib64/libc.so.6+0x5222f)
 
-  Becasue before this change, in function simd_desc only maxsz % 8 =3D=3D 0=
- was checked, but after this change qemu check for following:
-   =
-
-  max_align =3D maxsz >=3D 16 ? 15 : 7;
-  tcg_debug_assert((maxsz & max_align) =3D=3D 0);  <--- here assertion happ=
-ens
-
-  in my case maxsz=3D56.
-
-  =
-
-  Whole backtrace:
-  #4  0x0000004000314770 in check_size_align (oprsz=3D56, maxsz=3D56, ofs=
-=3D0) at ../tcg/tcg-op-gvec.c:54
-  #5  0x0000004000314950 in simd_desc (oprsz=3D56, maxsz=3D56, data=3D0) at=
- ../tcg/tcg-op-gvec.c:89
-  #6  0x0000004000316270 in do_dup (vece=3D0, dofs=3D3144, oprsz=3D56, maxs=
-z=3D56, in_32=3D0x0, in_64=3D0x0, in_c=3D0) at ../tcg/tcg-op-gvec.c:630
-  #7  0x00000040003164d0 in expand_clr (dofs=3D3144, maxsz=3D56) at ../tcg/=
-tcg-op-gvec.c:679
-  #8  0x0000004000319bb0 in tcg_gen_gvec_mov (vece=3D3, dofs=3D3136, aofs=
-=3D3136, oprsz=3D8, maxsz=3D64) at ../tcg/tcg-op-gvec.c:1538
-  #9  0x0000004000200dc0 in clear_vec_high (s=3D0x40021a8180, is_q=3Dfalse,=
- rd=3D0) at ../target/arm/translate-a64.c:592
-  #10 0x0000004000200e40 in write_fp_dreg (s=3D0x40021a8180, reg=3D0, v=3D0=
-x1108) at ../target/arm/translate-a64.c:600
-  --Type <RET> for more, q to quit, c to continue without paging--
-  #11 0x0000004000200e90 in write_fp_sreg (s=3D0x40021a8180, reg=3D0, v=3D0=
-x1060) at ../target/arm/translate-a64.c:608
-  #12 0x0000004000214210 in handle_fpfpcvt (s=3D0x40021a8180, rd=3D0, rn=3D=
-0, opcode=3D2, itof=3Dtrue, rmode=3D0, scale=3D64, sf=3D0, type=3D0)
-      at ../target/arm/translate-a64.c:6988
-  #13 0x0000004000214f90 in disas_fp_int_conv (s=3D0x40021a8180, insn=3D505=
-544704) at ../target/arm/translate-a64.c:7299
-  #14 0x0000004000215350 in disas_data_proc_fp (s=3D0x40021a8180, insn=3D50=
-5544704) at ../target/arm/translate-a64.c:7389
-  #15 0x000000400022aa70 in disas_data_proc_simd_fp (s=3D0x40021a8180, insn=
-=3D505544704) at ../target/arm/translate-a64.c:14494
-  #16 0x000000400022af90 in disas_a64_insn (env=3D0x7fac59b6b490, s=3D0x400=
-21a8180) at ../target/arm/translate-a64.c:14663
-  #17 0x000000400022b750 in aarch64_tr_translate_insn (dcbase=3D0x40021a818=
-0, cpu=3D0x7fac59b63150) at ../target/arm/translate-a64.c:14823
-  #18 0x00000040002e8630 in translator_loop (ops=3D0x4000902e00 <aarch64_tr=
-anslator_ops>, db=3D0x40021a8180, cpu=3D0x7fac59b63150, =
-
-      tb=3D0x7fac3419c5c0, max_insns=3D512) at ../accel/tcg/translator.c:103
-  #19 0x00000040002e3a60 in gen_intermediate_code (cpu=3D0x7fac59b63150, tb=
-=3D0x7fac3419c5c0, max_insns=3D512)
-      at ../target/arm/translate.c:9283
-  #20 0x00000040002fed30 in tb_gen_code (cpu=3D0x7fac59b63150, pc=3D4458820=
-, cs_base=3D0, flags=3D2148544819, cflags=3D-16777216)
-      at ../accel/tcg/translate-all.c:1744
-  #21 0x000000400036a6e0 in tb_find (cpu=3D0x7fac59b63150, last_tb=3D0x7fac=
-3419c400, tb_exit=3D0, cf_mask=3D0) at ../accel/tcg/cpu-exec.c:414
-  --Type <RET> for more, q to quit, c to continue without paging--
-  #22 0x000000400036b040 in cpu_exec (cpu=3D0x7fac59b63150) at ../accel/tcg=
-/cpu-exec.c:770
-  #23 0x0000004000113a90 in cpu_loop (env=3D0x7fac59b6b490) at ../linux-use=
-r/aarch64/cpu_loop.c:84
-  #24 0x00000040002fb8c0 in main (argc=3D2, argv=3D0x40021a8e68, envp=3D0x4=
-0021a8e80) at ../linux-user/main.c:864
+  =3D=3D=3D Reproducer=3D=3D=3D
+  cat << EOF | ./qemu-system-i386 -M q35 \
+  -device megasas-gen2 -device scsi-cd,drive=3Dnull0 \
+  -blockdev driver=3Dnull-co,read-zeroes=3Don,node-name=3Dnull0 \
+  -monitor none -serial none -display none \
+  -machine accel=3Dqtest -m 64 -qtest stdio
+  outl 0xcf8 0x80001804
+  outl 0xcfc 0xffffff
+  outl 0xcf8 0x8000181b
+  outl 0xcfc 0x7052005
+  write 0x5cc0 0x1 0x03
+  write 0x5cc7 0x1 0x40
+  write 0x5ce0 0x1 0x0a
+  write 0x5cf3 0x1 0x01
+  write 0x5cf7 0x1 0x40
+  write 0x5cf8 0x1 0x0a
+  write 0x5cff 0x1 0x05
+  write 0x5d03 0x1 0x5b
+  write 0x5d06 0x1 0x4f
+  write 0x5d0b 0x1 0x01
+  write 0x5d0f 0x1 0x40
+  write 0x5d10 0x1 0x0a
+  write 0x5d17 0x1 0x05
+  write 0x5d1b 0x1 0x5b
+  write 0x5d1e 0x1 0x4f
+  write 0x5d23 0x1 0x01
+  write 0x5d27 0x1 0x40
+  write 0x5d28 0x1 0x0a
+  write 0x5d2f 0x1 0x05
+  write 0x5d33 0x1 0x5b
+  write 0x5d36 0x1 0x4f
+  write 0x5d3b 0x1 0x01
+  write 0x5d3f 0x1 0x40
+  write 0x5d40 0x1 0x0a
+  write 0x5d47 0x1 0x05
+  write 0x5d4b 0x1 0x5b
+  write 0x5d4e 0x1 0x4f
+  write 0x5d53 0x1 0x01
+  write 0x5d57 0x1 0x40
+  write 0x5d58 0x1 0x0a
+  write 0x5d5f 0x1 0x05
+  write 0x5d63 0x1 0x5b
+  write 0x5d66 0x1 0x4f
+  write 0x5d6b 0x1 0x01
+  write 0x5d6f 0x1 0x40
+  write 0x5d70 0x1 0x0a
+  write 0x5d77 0x1 0x05
+  write 0x5d7b 0x1 0x5b
+  write 0x5d7e 0x1 0x4f
+  write 0x5d83 0x1 0x01
+  write 0x5d87 0x1 0x40
+  write 0x5d88 0x1 0x0a
+  write 0x5d8f 0x1 0x05
+  write 0x5d93 0x1 0x5b
+  write 0x5d96 0x1 0x4f
+  write 0x5d9b 0x1 0x01
+  write 0x5d9f 0x1 0x40
+  write 0x5da0 0x1 0x0a
+  write 0x5da7 0x1 0x05
+  write 0x5dab 0x1 0x5b
+  write 0x5dae 0x1 0x4f
+  write 0x5db3 0x1 0x01
+  write 0x5db7 0x1 0x40
+  write 0x5db8 0x1 0x0a
+  write 0x5dbf 0x1 0x05
+  write 0x5dc3 0x1 0x5b
+  write 0x5dc6 0x1 0x4f
+  write 0x5dcb 0x1 0x01
+  write 0x5dcf 0x1 0x40
+  write 0x5dd0 0x1 0x0a
+  write 0x5dd7 0x1 0x05
+  write 0x5ddb 0x1 0x5b
+  write 0x5dde 0x1 0x4f
+  write 0x5de3 0x1 0x01
+  write 0x5de7 0x1 0x40
+  write 0x5de8 0x1 0x0a
+  write 0x5def 0x1 0x05
+  write 0x5df3 0x1 0x5b
+  write 0x5df6 0x1 0x4f
+  write 0x5dfb 0x1 0x01
+  write 0x5dff 0x1 0x40
+  write 0x5e00 0x1 0x0a
+  write 0x5e07 0x1 0x05
+  write 0x5e0b 0x1 0x5b
+  write 0x5e0e 0x1 0x4f
+  write 0x5e13 0x1 0x01
+  write 0x5e17 0x1 0x40
+  write 0x5e18 0x1 0x0a
+  write 0x5e1f 0x1 0x05
+  write 0x5e23 0x1 0x5b
+  write 0x5e26 0x1 0x4f
+  write 0x5e2b 0x1 0x01
+  write 0x5e2f 0x1 0x40
+  write 0x5e30 0x1 0x0a
+  write 0x5e37 0x1 0x05
+  write 0x5e3b 0x1 0x5b
+  write 0x5e3e 0x1 0x4f
+  write 0x5e43 0x1 0x01
+  write 0x5e47 0x1 0x40
+  write 0x5e48 0x1 0x0a
+  write 0x5e4f 0x1 0x05
+  write 0x5e53 0x1 0x5b
+  write 0x5e56 0x1 0x4f
+  write 0x5e5b 0x1 0x01
+  write 0x5e5f 0x1 0x40
+  write 0x5e60 0x1 0x0a
+  write 0x5e67 0x1 0x05
+  write 0x5e6b 0x1 0x5b
+  write 0x5e6e 0x1 0x4f
+  write 0x5e73 0x1 0x01
+  write 0x5e77 0x1 0x40
+  write 0x5e78 0x1 0x0a
+  write 0x5e7f 0x1 0x05
+  write 0x5e83 0x1 0x5b
+  write 0x5e86 0x1 0x4f
+  write 0x5e8b 0x1 0x01
+  write 0x5e8f 0x1 0x40
+  write 0x5e90 0x1 0x0a
+  write 0x5e97 0x1 0x05
+  write 0x5e9b 0x1 0x5b
+  write 0x5e9e 0x1 0x4f
+  write 0x5ea3 0x1 0x01
+  write 0x5ea7 0x1 0x40
+  write 0x5ea8 0x1 0x0a
+  write 0x5eaf 0x1 0x05
+  write 0x5eb3 0x1 0x5b
+  write 0x5eb6 0x1 0x4f
+  write 0x5ebb 0x1 0x01
+  write 0x5ebf 0x1 0x40
+  write 0x5ec0 0x1 0x0a
+  write 0x5ec7 0x1 0x05
+  write 0x5ecb 0x1 0x5b
+  write 0x5ece 0x1 0x4f
+  write 0x5ed3 0x1 0x01
+  write 0x5ed7 0x1 0x40
+  write 0x5ed8 0x1 0x0a
+  write 0x5edf 0x1 0x05
+  write 0x5ee3 0x1 0x5b
+  write 0x5ee6 0x1 0x4f
+  write 0x5eeb 0x1 0x01
+  write 0x5eef 0x1 0x40
+  writeq 0x50000000000003b 0x15cd405b60101c8
+  EOF
 
 To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1907817/+subscriptions
+https://bugs.launchpad.net/qemu/+bug/1906693/+subscriptions
 
