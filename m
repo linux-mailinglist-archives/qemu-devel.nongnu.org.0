@@ -2,78 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4BF3E2F73B4
-	for <lists+qemu-devel@lfdr.de>; Fri, 15 Jan 2021 08:29:42 +0100 (CET)
-Received: from localhost ([::1]:60290 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6148C2F73C0
+	for <lists+qemu-devel@lfdr.de>; Fri, 15 Jan 2021 08:37:37 +0100 (CET)
+Received: from localhost ([::1]:34838 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l0JYD-0004xg-D9
-	for lists+qemu-devel@lfdr.de; Fri, 15 Jan 2021 02:29:41 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53460)
+	id 1l0Jfs-0006bM-E6
+	for lists+qemu-devel@lfdr.de; Fri, 15 Jan 2021 02:37:36 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54632)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
- id 1l0JWI-0004Vu-CF
- for qemu-devel@nongnu.org; Fri, 15 Jan 2021 02:27:42 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:22304)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
- id 1l0JWF-0001T0-FL
- for qemu-devel@nongnu.org; Fri, 15 Jan 2021 02:27:42 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1610695658;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=gKg03d7tMSeAyUA+TXDGPOxb0sL/Y33TNN8zwHg2RqY=;
- b=DgZzueeCt4pBAXpfSS8aguOWLJuDDKUaMs6ozKa89UURculNIn23+rZLv5SuNA1WZcAlYd
- HjLNxSb8ayTDT0p7vi3qJ0TY8tN5sSGND5QqHJLMXAhVE3OORknGnoonr009ZbhtmSoCzY
- NHZqhn4lOLR4y4aTLd/kidH9A0jbhB8=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-141-HDdIPB09MxyHolwcFELsKw-1; Fri, 15 Jan 2021 02:27:36 -0500
-X-MC-Unique: HDdIPB09MxyHolwcFELsKw-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id BEBBA1009465;
- Fri, 15 Jan 2021 07:27:35 +0000 (UTC)
-Received: from [10.72.13.19] (ovpn-13-19.pek2.redhat.com [10.72.13.19])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 4CCB762951;
- Fri, 15 Jan 2021 07:27:30 +0000 (UTC)
-Subject: Re: [RFC PATCH v3 0/6] eBPF RSS support for virtio-net
-To: Andrew Melnychenko <andrew@daynix.com>, mst@redhat.com
-References: <20210114211612.387052-1-andrew@daynix.com>
-From: Jason Wang <jasowang@redhat.com>
-Message-ID: <0ddf428c-db1d-1598-1f61-c7b381c87a4e@redhat.com>
-Date: Fri, 15 Jan 2021 15:27:29 +0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1l0JeM-0006Ai-RU
+ for qemu-devel@nongnu.org; Fri, 15 Jan 2021 02:36:02 -0500
+Received: from indium.canonical.com ([91.189.90.7]:51812)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1l0JeK-0005Nw-Hg
+ for qemu-devel@nongnu.org; Fri, 15 Jan 2021 02:36:02 -0500
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1l0JeG-0001aT-3P
+ for <qemu-devel@nongnu.org>; Fri, 15 Jan 2021 07:35:56 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id 18D1B2E813A
+ for <qemu-devel@nongnu.org>; Fri, 15 Jan 2021 07:35:56 +0000 (UTC)
 MIME-Version: 1.0
-In-Reply-To: <20210114211612.387052-1-andrew@daynix.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=jasowang@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Content-Language: en-US
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=jasowang@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -32
-X-Spam_score: -3.3
-X-Spam_bar: ---
-X-Spam_report: (-3.3 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.248,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.237, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Date: Fri, 15 Jan 2021 07:25:48 -0000
+From: ZhiQiang Yan <1907042@bugs.launchpad.net>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: hades0506 v1nke
+X-Launchpad-Bug-Reporter: Gaoning Pan (hades0506)
+X-Launchpad-Bug-Modifier: ZhiQiang Yan (v1nke)
+References: <160732123417.11736.2125519707622289865.malonedeb@soybean.canonical.com>
+Message-Id: <161069554871.6623.8138070773950423149.malone@wampee.canonical.com>
+Subject: [Bug 1907042] Re: assert issue locates in hw/usb/core.c:727:
+ usb_ep_get: Assertion `pid == USB_TOKEN_IN || pid == USB_TOKEN_OUT' failed 
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="511b4a3b6512aa3d421c5f7d74f3527e78bff26e"; Instance="production"
+X-Launchpad-Hash: d9b19455492799b091099678b7f5257afdc8c10a
+Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
+ helo=indium.canonical.com
+X-Spam_score_int: -65
+X-Spam_score: -6.6
+X-Spam_bar: ------
+X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9,
+ HEADER_FROM_DIFFERENT_DOMAINS=0.248, RCVD_IN_DNSWL_HI=-5,
+ RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -82,129 +70,89 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: yan@daynix.com, yuri.benditovich@daynix.com, berrange@redhat.com,
- qemu-devel@nongnu.org
+Reply-To: Bug 1907042 <1907042@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+I trigger the usb_ep_get assertion as well, but I think is't not a bug.(I u=
+se the ehci)
+Maybe the logic is the function return ep_ctl whith USB_TOKEN_SETUP and ep=
+=3D=3D0.Otherwise, will goto the next.
 
-On 2021/1/15 上午5:16, Andrew Melnychenko wrote:
-> This set of patches introduces the usage of eBPF for packet steering
-> and RSS hash calculation:
-> * RSS(Receive Side Scaling) is used to distribute network packets to
-> guest virtqueues by calculating packet hash
-> * Additionally adding support for the usage of RSS with vhost
->
-> The eBPF works on kernels 5.8+
-> On earlier kerneld it fails to load and the RSS feature is reported
-> only without vhost and implemented in 'in-qemu' software.
->
-> Implementation notes:
-> Linux TAP TUNSETSTEERINGEBPF ioctl was used to set the eBPF program.
-> Added libbpf dependency and eBPF support.
-> The eBPF program is part of the qemu and presented as an array
-> of BPF ELF file data. The eBPF array file initially generated by bpftool.
-> The compilation of eBPF is not part of QEMU build and can be done
-> using provided Makefile.ebpf(need to adjust 'linuxhdrs').
-> Added changes to virtio-net and vhost, primary eBPF RSS is used.
-> 'in-qemu' RSS used in the case of hash population and as a fallback option.
-> For vhost, the hash population feature is not reported to the guest.
->
-> Please also see the documentation in PATCH 6/6.
->
-> I am sending those patches as RFC to initiate the discussions and get
-> feedback on the following points:
-> * Fallback when eBPF is not supported by the kernel
-> * Live migration to the kernel that doesn't have eBPF support
-> * Integration with current QEMU build
-> * Additional usage for eBPF for packet filtering
->
-> Known issues:
-> * hash population not supported by eBPF RSS: 'in-qemu' RSS used
-> as a fallback, also, hash population feature is not reported to guests
-> with vhost.
+-- =
 
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1907042
 
-Looks good overall. I think a formal series could be posted for the next 
-version.
+Title:
+  assert issue locates in hw/usb/core.c:727: usb_ep_get: Assertion `pid
+  =3D=3D USB_TOKEN_IN || pid =3D=3D USB_TOKEN_OUT' failed
 
-Please see comments in the patch and I think we need to add a migration 
-blocker if RSS is supported by virtio-net. (And implement migration in 
-the future).
+Status in QEMU:
+  New
 
-Thanks
+Bug description:
+  Hello,
 
+  An assertion failure was found in hw/usb/core.c:727 in latest version
+  5.2.0.
 
->
-> Changes since v1:
-> * using libbpf instead of direct 'bpf' system call.
-> * added libbpf dependency to the configure/meson scripts.
-> * changed python script for eBPF .h file generation.
-> * changed eBPF program - reading L3 proto from ethernet frame.
-> * added TUNSETSTEERINGEBPF define for TUN.
-> * changed the maintainer's info.
-> * added license headers.
-> * refactored code.Changes since v1:
-> * using libbpf instead of direct 'bpf' system call.
-> * added libbpf dependency to the configure/meson scripts.
-> * changed python script for eBPF .h file generation.
-> * changed eBPF program - reading L3 proto from ethernet frame.
-> * added TUNSETSTEERINGEBPF define for TUN.
-> * changed the maintainer's info.
-> * added license headers.
-> * refactored code.
->
-> Changes since v2:
-> * using bpftool for eBPF skeleton generation.
-> * ebpf_rss is refactored to use skeleton generated by bpftool.
-> * added/adjasted license in comment sections and in eBPF file.
-> * rss.bpf.c and Makefile.ebpf moved to the tool/ebpf folder.
-> * virtio-net eBPF rss refactored. Now eBPF initialized during realize().
->
-> Andrew (6):
->    net/tap: Added TUNSETSTEERINGEBPF code.
->    net: Added SetSteeringEBPF method for NetClientState.
->    ebpf: Added eBPF RSS program.
->    ebpf: Added eBPF RSS loader.
->    virtio-net: Added eBPF RSS to virtio-net.
->    docs: Added eBPF documentation.
->
->   MAINTAINERS                    |   8 +
->   configure                      |  33 +++
->   docs/ebpf_rss.rst              | 125 ++++++++
->   ebpf/ebpf_rss-stub.c           |  40 +++
->   ebpf/ebpf_rss.c                | 165 +++++++++++
->   ebpf/ebpf_rss.h                |  44 +++
->   ebpf/meson.build               |   1 +
->   ebpf/rss.bpf.skeleton.h        | 397 ++++++++++++++++++++++++++
->   ebpf/trace-events              |   4 +
->   ebpf/trace.h                   |   2 +
->   hw/net/vhost_net.c             |   2 +
->   hw/net/virtio-net.c            | 125 +++++++-
->   include/hw/virtio/virtio-net.h |   4 +
->   include/net/net.h              |   2 +
->   meson.build                    |  13 +
->   net/tap-bsd.c                  |   5 +
->   net/tap-linux.c                |  13 +
->   net/tap-linux.h                |   1 +
->   net/tap-solaris.c              |   5 +
->   net/tap-stub.c                 |   5 +
->   net/tap.c                      |   9 +
->   net/tap_int.h                  |   1 +
->   net/vhost-vdpa.c               |   2 +
->   tools/ebpf/Makefile.ebpf       |  33 +++
->   tools/ebpf/rss.bpf.c           | 505 +++++++++++++++++++++++++++++++++
->   25 files changed, 1540 insertions(+), 4 deletions(-)
->   create mode 100644 docs/ebpf_rss.rst
->   create mode 100644 ebpf/ebpf_rss-stub.c
->   create mode 100644 ebpf/ebpf_rss.c
->   create mode 100644 ebpf/ebpf_rss.h
->   create mode 100644 ebpf/meson.build
->   create mode 100644 ebpf/rss.bpf.skeleton.h
->   create mode 100644 ebpf/trace-events
->   create mode 100644 ebpf/trace.h
->   create mode 100755 tools/ebpf/Makefile.ebpf
->   create mode 100644 tools/ebpf/rss.bpf.c
->
+  Reproduced environment is as follows:
+      Host: ubuntu 18.04
+      Guest: ubuntu 18.04
 
+  QEMU boot command line:
+  qemu-system-x86_64 -enable-kvm -boot c -m 4G -drive format=3Dqcow2,file=
+=3D./ubuntu.img -nic user,hostfwd=3Dtcp:0.0.0.0:5555-:22 -device pci-ohci,i=
+d=3Dohci -device usb-tablet,bus=3Dohci.0,port=3D1,id=3Dusbdev1 -trace usb\*
+
+  Backtrace is as follows:
+  #0  0x00007f13fff14438 in __GI_raise (sig=3Dsig@entry=3D6) at ../sysdeps/=
+unix/sysv/linux/raise.c:54
+  #1  0x00007f13fff1603a in __GI_abort () at abort.c:89
+  #2  0x00007f13fff0cbe7 in __assert_fail_base (fmt=3D<optimized out>, asse=
+rtion=3Dassertion@entry=3D0x55f97745ffe0 "pid =3D=3D USB_TOKEN_IN || pid =
+=3D=3D USB_TOKEN_OUT", file=3Dfile@entry=3D0x55f97745f6c0 "../hw/usb/core.c=
+", line=3Dline@entry=3D727, function=3Dfunction@entry=3D0x55f9774606e0 <__P=
+RETTY_FUNCTION__.22877> "usb_ep_get") at assert.c:92
+  #3  0x00007f13fff0cc92 in __GI___assert_fail (assertion=3D0x55f97745ffe0 =
+"pid =3D=3D USB_TOKEN_IN || pid =3D=3D USB_TOKEN_OUT", file=3D0x55f97745f6c=
+0 "../hw/usb/core.c", line=3D727, function=3D0x55f9774606e0 <__PRETTY_FUNCT=
+ION__.22877> "usb_ep_get") at assert.c:101
+  #4  0x000055f975bfc9b2 in usb_ep_get (dev=3D0x62300000c500, pid=3D45, ep=
+=3D1) at ../hw/usb/core.c:727
+  #5  0x000055f975f945db in ohci_service_td (ohci=3D0x6270000191f0, ed=3D0x=
+7ffcd9308410) at ../hw/usb/hcd-ohci.c:1044
+  #6  0x000055f975f95d5e in ohci_service_ed_list (ohci=3D0x6270000191f0, he=
+ad=3D857580576, completion=3D0) at ../hw/usb/hcd-ohci.c:1200
+  #7  0x000055f975f9656d in ohci_process_lists (ohci=3D0x6270000191f0, comp=
+letion=3D0) at ../hw/usb/hcd-ohci.c:1238
+  #8  0x000055f975f9725c in ohci_frame_boundary (opaque=3D0x6270000191f0) a=
+t ../hw/usb/hcd-ohci.c:1281
+  #9  0x000055f977212494 in timerlist_run_timers (timer_list=3D0x60b00005b0=
+60) at ../util/qemu-timer.c:574
+  #10 0x000055f9772126db in qemu_clock_run_timers (type=3DQEMU_CLOCK_VIRTUA=
+L) at ../util/qemu-timer.c:588
+  #11 0x000055f977212fde in qemu_clock_run_all_timers () at ../util/qemu-ti=
+mer.c:670
+  #12 0x000055f9772d5717 in main_loop_wait (nonblocking=3D0) at ../util/mai=
+n-loop.c:531
+  #13 0x000055f97695100c in qemu_main_loop () at ../softmmu/vl.c:1677
+  #14 0x000055f9758f7601 in main (argc=3D16, argv=3D0x7ffcd9308888, envp=3D=
+0x7ffcd9308910) at ../softmmu/main.c:50
+  #15 0x00007f13ffeff840 in __libc_start_main (main=3D0x55f9758f75b0 <main>=
+, argc=3D16, argv=3D0x7ffcd9308888, init=3D<optimized out>, fini=3D<optimiz=
+ed out>, rtld_fini=3D<optimized out>, stack_end=3D0x7ffcd9308878) at ../csu=
+/libc-start.c:291
+  #16 0x000055f9758f74a9 in _start ()
+
+  =
+
+  The poc is attached.
+
+  Thanks.
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1907042/+subscriptions
 
