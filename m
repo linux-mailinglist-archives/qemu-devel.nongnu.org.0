@@ -2,77 +2,164 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B374A2F8799
-	for <lists+qemu-devel@lfdr.de>; Fri, 15 Jan 2021 22:24:13 +0100 (CET)
-Received: from localhost ([::1]:59976 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8B4682F87C5
+	for <lists+qemu-devel@lfdr.de>; Fri, 15 Jan 2021 22:43:01 +0100 (CET)
+Received: from localhost ([::1]:56096 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l0WZo-0006Xg-OI
-	for lists+qemu-devel@lfdr.de; Fri, 15 Jan 2021 16:24:12 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57850)
+	id 1l0Ws0-0000lZ-6V
+	for lists+qemu-devel@lfdr.de; Fri, 15 Jan 2021 16:43:00 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34092)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1l0WHm-0004G9-MF
- for qemu-devel@nongnu.org; Fri, 15 Jan 2021 16:05:34 -0500
-Received: from mail-pf1-x42b.google.com ([2607:f8b0:4864:20::42b]:44776)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1l0WHk-0004KM-DB
- for qemu-devel@nongnu.org; Fri, 15 Jan 2021 16:05:34 -0500
-Received: by mail-pf1-x42b.google.com with SMTP id t29so1137317pfg.11
- for <qemu-devel@nongnu.org>; Fri, 15 Jan 2021 13:05:31 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=M+mEimshrpDmW7dShVzEOTUVx8FhHmR6OQKgf+xqsf0=;
- b=i/19yCOc5ecJLPct8EX0sI2dVKOLhArkzXFcj+3HXXHId8kZHBwIPKL9zsYLiP3RFA
- sPo456klZ7Fiml6VvvJVzXSjjiOdXMy5JBOrqvXzzKZdAshgB4WfNEOx2FTctwrhS0cS
- uEkijaBpwZkBPLorko8ljSvvEhBHnT5UpI+Bn8IF3dvcEpfYdAHuvhAw/SeEaSGHSNJy
- QzYYUJV3EXwiaO52fHF63PIDH69SFby9aqVNpDCs7XULJKBChq2ahTKx2FhI7/cZYX2l
- jznKQfMFEXWUpEQdLQM5kO8rEBkIuA6e6BEBXgIS6Ns7GUp735OukpdydDVbIf+Iq1J9
- QcTA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=M+mEimshrpDmW7dShVzEOTUVx8FhHmR6OQKgf+xqsf0=;
- b=psq/xj636ZIRD0uaj2xLcd0heNelqrM9g39aKY7huSExKZCtLuzqLCe6WjktKQ0NO9
- Vkd244faKFRRBaO5L1SEYYcfVBTHVXL6M91pc8X/n1JWP+URGZNNBWYJvUXS3Lno1vFA
- mAVeHWR9JxUixVfMbxAB5uihZH0j0URBz6GG3sXh/+txiEhuAitUk4rlrwR7SWN203J6
- e9Cc0xHIli8sFj8S2VOicCMj35ntkjERZ8tNHH5U0HPKfi+Gd5I5kDsfBLkOSBKid83V
- r7bi1kS9D4uMSl25wrhw+6yUulF6OCPFBhtJ5XzSV+b/voXsL4xts86HP0ErIeXMaJ7u
- /ZVQ==
-X-Gm-Message-State: AOAM532ZDBx2x1DIIV6uXFESjsTY0njKy30bEcCm6drqOFkVYnpI0cBj
- o++8Uu3fG+3G7LrFlsym6QGB4R9tz30zpc8P
-X-Google-Smtp-Source: ABdhPJxST8YzTX3IhyWjVSMNZl3v0EMlZ1eBEBbyLkNXouC4Mi8zF6YpCZYmDbdUr6K6i5U9g1qM+Q==
-X-Received: by 2002:a62:6845:0:b029:1ae:2731:8a89 with SMTP id
- d66-20020a6268450000b02901ae27318a89mr14863722pfc.73.1610744730880; 
- Fri, 15 Jan 2021 13:05:30 -0800 (PST)
-Received: from localhost.localdomain (rrcs-173-197-107-21.west.biz.rr.com.
- [173.197.107.21])
- by smtp.gmail.com with ESMTPSA id h15sm8920221pfo.71.2021.01.15.13.05.29
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 15 Jan 2021 13:05:30 -0800 (PST)
-From: Richard Henderson <richard.henderson@linaro.org>
-To: qemu-devel@nongnu.org
-Subject: [PATCH v2 22/22] tcg: Remove TCG_TARGET_CON_SET_H
-Date: Fri, 15 Jan 2021 11:04:56 -1000
-Message-Id: <20210115210456.1053477-23-richard.henderson@linaro.org>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20210115210456.1053477-1-richard.henderson@linaro.org>
-References: <20210115210456.1053477-1-richard.henderson@linaro.org>
+ (Exim 4.90_1) (envelope-from <Shahab.Vahedi@synopsys.com>)
+ id 1l0Wel-0001fD-PD
+ for qemu-devel@nongnu.org; Fri, 15 Jan 2021 16:29:19 -0500
+Received: from smtprelay-out1.synopsys.com ([149.117.87.133]:39794)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <Shahab.Vahedi@synopsys.com>)
+ id 1l0Wec-0003rL-Ss
+ for qemu-devel@nongnu.org; Fri, 15 Jan 2021 16:29:17 -0500
+Received: from mailhost.synopsys.com (badc-mailhost4.synopsys.com
+ [10.192.0.82])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
+ (No client certificate requested)
+ by smtprelay-out1.synopsys.com (Postfix) with ESMTPS id A6756C03C8;
+ Fri, 15 Jan 2021 21:29:02 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=synopsys.com; s=mail;
+ t=1610746144; bh=VhJ1ecgdHe6TBRAHpVQ52cyjUW/CEHBx+dDoKLrHrt0=;
+ h=From:To:CC:Subject:Date:References:In-Reply-To:From;
+ b=MkRsCSr5hBayipXQaKOyymAHv9ZdBzNdFyQlj/0ttqq1lEAr+/h3Yt3AgyyTvQGvt
+ tF0eVcFHZeVeoqcyL2/s5IcqMOuADh+4Bi92idc6YwQOgfocXezeNXfRKfkQ8UgnJ0
+ DxIpbOltpbZIKpY7cZ+scXkx8WuCdBaQSavf1SChMtOLb5KF9ZmNNqScBNKJE8Bhp7
+ 0vJEtsOj/ijgjLle3Fh415jaKl8S3ETp+D0uBpp1X0YoicY6xal9BSBcgZno7LCvh+
+ j0DjAj+kuu9oAPyxLVzy4fVQ2zoPkcoRkyDW4RXQ5fsAOFBOcs0m0XFc81q1eP4Jq3
+ 29eHx5u6XqkDw==
+Received: from o365relay-in.synopsys.com (sv2-o365relay1.synopsys.com
+ [10.202.1.137])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
+ (No client certificate requested)
+ by mailhost.synopsys.com (Postfix) with ESMTPS id 09382A0083;
+ Fri, 15 Jan 2021 21:29:02 +0000 (UTC)
+Received: from NAM02-BL2-obe.outbound.protection.outlook.com
+ (mail-bl2nam02lp2053.outbound.protection.outlook.com [104.47.38.53])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (Client CN "mail.protection.outlook.com",
+ Issuer "GlobalSign Organization Validation CA - SHA256 - G3" (verified OK))
+ by o365relay-in.synopsys.com (Postfix) with ESMTPS id 63B984009D;
+ Fri, 15 Jan 2021 21:29:01 +0000 (UTC)
+Authentication-Results: o365relay-in.synopsys.com;
+ dmarc=pass (p=reject dis=none) header.from=synopsys.com
+Authentication-Results: o365relay-in.synopsys.com;
+ spf=pass smtp.mailfrom=shahab@synopsys.com
+Authentication-Results: o365relay-in.synopsys.com; dkim=pass (1024-bit key;
+ unprotected) header.d=synopsys.com header.i=@synopsys.com header.b="m0JTNP7I";
+ dkim-atps=neutral
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=K0JVzUJj2bjiRoBHeyxX2cG5GQm4BzkPX5A8uQZWWWC1glC/I/GomxcvEnMfAg61rRLOfperPbpZUFgcogBEF2FnS69YUBKoUf4KCX683CdItt0vpg3prcbKPNF53f82m2DDyX7s9lt1hyDr0Mi3RwkYC/lve/A77MK1x1pAoeuyTozlPhd59By0kPgdRPtsN/3nZk9JlvGlX7rAHmrfefC0z58NlNxmcQbv4sTnKxo+flzc0NqQyqSXv9vNXch93Hd4T3z6CD17XdDiWjOon3aM4G+2ZvFH8ZDjmAHuZdynOTyh3DkPxGJPbQVhcQTWCgOvidf51BMPfEdiv7jPYw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=VhJ1ecgdHe6TBRAHpVQ52cyjUW/CEHBx+dDoKLrHrt0=;
+ b=aJk9r9uGrHyvwVLJ8d4W9uGIX4u59vQgIt3BY2CkB7IbKVBuFH1fhEnyGLtB3qNblBvTZpPgzxPxoEP9zcnnh9IqRj0qVz8qm3ciwrsx/FZe4kofrwGbLHV7fvMaV1AKE+djtTCo8Wy7ys7TjlyCY6ZNq4I6l3kW51pbm/F1zqUwPBTLugN+CzZqW/cSVcc+ioixdfJuGP+u7TTeeGAfBmPKp1kAc/o+60JGixJ0xVEij6dHk26gWUYesdtsjtU/mOiUfAz2pjKQaQfXttHPKnAILDq2CrqwTjAMEkNLMJ6uGN1uXf/YZpeWE++RxOwxUqnv7/zprpjazAvathIv1w==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=synopsys.com; dmarc=pass action=none header.from=synopsys.com;
+ dkim=pass header.d=synopsys.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=synopsys.com;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=VhJ1ecgdHe6TBRAHpVQ52cyjUW/CEHBx+dDoKLrHrt0=;
+ b=m0JTNP7I0wdI3vokNMO41XTOSBCo0VYHWSIAyxRFJTnuzwZ9Svt+l8L6IYDYI1gNVZDtL6ZWlDslY2UEWAX1eZgVw9s6UpADgsYbq8lHEFTq1JMp89ce3oMMms1hZX1TyqlqXwadFaTiG0ASJ911tbN3mlISCabIGA3RlLmRquk=
+Received: from CY4PR12MB1575.namprd12.prod.outlook.com (2603:10b6:910:f::23)
+ by CY4PR12MB1879.namprd12.prod.outlook.com (2603:10b6:903:125::23) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3742.6; Fri, 15 Jan
+ 2021 21:28:59 +0000
+Received: from CY4PR12MB1575.namprd12.prod.outlook.com
+ ([fe80::e91b:5623:997:85ce]) by CY4PR12MB1575.namprd12.prod.outlook.com
+ ([fe80::e91b:5623:997:85ce%8]) with mapi id 15.20.3763.011; Fri, 15 Jan 2021
+ 21:28:58 +0000
+X-SNPS-Relay: synopsys.com
+From: Shahab Vahedi <Shahab.Vahedi@synopsys.com>
+To: Richard Henderson <richard.henderson@linaro.org>,
+ "cupertinomiranda@gmail.com" <cupertinomiranda@gmail.com>,
+ "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>
+Subject: Re: [PATCH 04/15] arc: TCG and decoder glue code and helpers
+Thread-Topic: [PATCH 04/15] arc: TCG and decoder glue code and helpers
+Thread-Index: AQHWuEZD0FxPtP+NfEObzHmOxTgva6ni4y6AgEa3PoA=
+Date: Fri, 15 Jan 2021 21:28:58 +0000
+Message-ID: <c1e9d63a-ee10-5a85-57d2-3c4ad2a86980@synopsys.com>
+References: <20201111161758.9636-1-cupertinomiranda@gmail.com>
+ <20201111161758.9636-5-cupertinomiranda@gmail.com>
+ <33ba8432-64c7-db76-459c-5fa6fd7e549a@linaro.org>
+In-Reply-To: <33ba8432-64c7-db76-459c-5fa6fd7e549a@linaro.org>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+authentication-results: linaro.org; dkim=none (message not signed)
+ header.d=none;linaro.org; dmarc=none action=none header.from=synopsys.com;
+x-originating-ip: [62.195.180.101]
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-correlation-id: 64035f50-f3e9-4a7a-5137-08d8b99c9211
+x-ms-traffictypediagnostic: CY4PR12MB1879:
+x-ms-exchange-transport-forked: True
+x-microsoft-antispam-prvs: <CY4PR12MB187929C4173C69D5164D3DC3A6A70@CY4PR12MB1879.namprd12.prod.outlook.com>
+x-ms-oob-tlc-oobclassifiers: OLM:4125;
+x-ms-exchange-senderadcheck: 1
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: qglTaHxhoeQZ4yFWpQ/LED2k5og8HipAQgROFkHld4TWAv+E0Dy7lO7i/tBJxajnG8G9LxT97PdcuX2hyKJWg14N8P5eI1B4ONa/xZe8+m+LbTarIdZYFHJzLB+D3Ux2oKhoUVO/A7MeK9awzXJT2qIDAOR+FmczBTG5uJaLvie5MCAqFhkirnJ3hggmOjWI/Q0vH/0FMVRxqy2FktD7wa5FRP0YAlj4s9l6Uug9RzeYUpSSQt7Ejkms0bXno2pkDe1YU99InfO96P4vJ0i+987tCFfFjzrKt+3+KhAvPCe0O6CRjfZHQjyPpPApy7rrcYR3tIZmcXLA/exmhfzjj8VrBQaXs8+OPNSaOhgAYgHA/UjJUM0ZBRRHd3z+mrJL4qdV9hN+7FX32UYX5qUHUIR/dgOruBNAxXWZfLpavxbEjqXp5+GBjghFBEae5FbqnNZ/iujV0FmpywAt0wqZQOXoVSqFLS7WUGO7nuXzCAIUqaJf8uyQcglUDcFFUeAiaX7cphIoqm/9QFzokqHSJvnZwbi2+Cz0gzMyllTBPkW93Tc4BzPg/V/6RyFfld59hjFXBxwqx58+Az9PZFfUgfXaNISGFa8ks5mOOKpa9VUBC9aj/Cg64ZQDafGpajB4UpLyPU+KCUCwNIkJecDTVN6kfeFw7IBzViUUAKI9PFI=
+x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:CY4PR12MB1575.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(366004)(396003)(346002)(136003)(39860400002)(376002)(8676002)(66446008)(31696002)(6486002)(110136005)(2616005)(8936002)(64756008)(86362001)(107886003)(71200400001)(76116006)(66946007)(31686004)(5660300002)(91956017)(966005)(66556008)(186003)(2906002)(26005)(478600001)(4326008)(6512007)(316002)(36756003)(66476007)(53546011)(6506007)(54906003)(45980500001);
+ DIR:OUT; SFP:1102; 
+x-ms-exchange-antispam-messagedata: =?utf-8?B?Y2I1cnhKTU1TaTVjUXFHMjgzSWF6d0ZYNzNIV0YrdXBnQmI1enlJRGt5Y2FR?=
+ =?utf-8?B?V2Y4RUVJaHlwZkRZd04rSERQcFNIR0o0RFFYQzZYK2tsS2U5Q3QrWU1TVnhY?=
+ =?utf-8?B?aFNRNlZ1OWVaYWU5b3Q2aVJUbjBFbnAwR1J5amhPamxvWS8zSUdIS01maksy?=
+ =?utf-8?B?cTBBUkdrYzZoZFM5bjJVN01GdTUzZkdLUGhYaStIZXhwZUF0NWhjajFadGNC?=
+ =?utf-8?B?dnBpT0owYkhSaWo5azl5amtVOFZ1Nm1jUlJnOEppT2gvQ2pjVWZuYzFzZzNY?=
+ =?utf-8?B?Q1VuSXphbWcvZ1F6b2U1aHdmeDZWME9tdUhpMDhBeHk0UGVYS0JKSnM5Tm5m?=
+ =?utf-8?B?TTFmVVlFSTVaS2FUa29tQkxqV3hMSVJrZmR0dGdwQ2d4dmdrL05VOGFoRkJI?=
+ =?utf-8?B?Mk56eEIyU3ZzcjJ1OUc5UEVrSUNicHhGZHBxdFJrRkdYYjd1dkxrK3pFZXpP?=
+ =?utf-8?B?NTBLRlhBYyttdHhBeUtMWnQzbVJmTlRUcWQvdWlBZWJsLzZUV3AxWmZTT0JK?=
+ =?utf-8?B?S1dFU0RuRWRKdlNRaFdLL1Awa1pPRFl3b0gzRHpDcUJDNlkrcENsakRpNUc2?=
+ =?utf-8?B?Qk9OL1ZhTGhoZ05JOHJLV0ttb0lnYlROcVRSb0xTR0cvUnhyeWxYSFMweUZG?=
+ =?utf-8?B?dFNpMHNqUmNIWHljWE44Y2JDdXRyYmFuc2o3WUtibktvN04vREczYVNEYTdj?=
+ =?utf-8?B?U2RuM3JTNTNYSHpIRENleERBQmpBK25UOTM5K3BtaG84RG5KVUt3UnQvRUNX?=
+ =?utf-8?B?UWFPUzd0a25EMlFXUklpSEgybXlHZ211NVRPOUxZdjVMWlFrMUk1WnJXMFZE?=
+ =?utf-8?B?dmVmakN4aGs2ZXM0dGJMRDkxU3BuYVNHdk5SbmxHUDh5VkJ5clRuSlZSNGFF?=
+ =?utf-8?B?S3MzYzB1blV0b2gxTExrUFhLMEl3KzZuSzBVa1A3amNXbXNYbk1ROXJzdExJ?=
+ =?utf-8?B?Z28vZjFUS0ZRbGc4NGV0dzZPeWh2NiswdzN0dklWRm5kRldvUkpQdW4xZXNh?=
+ =?utf-8?B?aWNqbFBQTDBsMlRZL0U3TmYyRHowK0tJZFppZXhMbm04VFl6QTRLUWJ1ajU4?=
+ =?utf-8?B?VkxJcjUvU1VrVy9HOTlmOG9iaXQ1YXdlb1VybjJaQXdZZ2RsdHREbG5aMFBl?=
+ =?utf-8?B?SkJMaXE0S1NyU2RlN3VReW8rSUt1QVBwUnpPYkF3aVJ3ZmQxczRsbE54aGli?=
+ =?utf-8?B?WWF2dVF1OVZUL3p3VFdPZjBCLzdhR3N5T0ZYWTJIampGS0FSYXppR1E5d2oz?=
+ =?utf-8?B?ZFNnb25ZcXNkSTZ6c0Q3K2Q3cGM3WExTOURhQU9YK2RKSnlQcUJUK2g4RWFl?=
+ =?utf-8?Q?lwzOQFZBq6qWY=3D?=
+Content-Type: text/plain; charset="utf-8"
+Content-ID: <91B64891FDD7854B94C2E2D5808699A0@namprd12.prod.outlook.com>
+Content-Transfer-Encoding: base64
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::42b;
- envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x42b.google.com
+X-OriginatorOrg: synopsys.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: CY4PR12MB1575.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 64035f50-f3e9-4a7a-5137-08d8b99c9211
+X-MS-Exchange-CrossTenant-originalarrivaltime: 15 Jan 2021 21:28:58.8600 (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: c33c9f88-1eb7-4099-9700-16013fd9e8aa
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: hu5L2JS3jyst3jkGb7JN4npGuNEuYiRio8Wqr9TZonbNlb5tj6IUlmR+BkSjhHBl/LRDcEND/IVGWQJL7jpBXw==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CY4PR12MB1879
+Received-SPF: pass client-ip=149.117.87.133;
+ envelope-from=Shahab.Vahedi@synopsys.com; helo=smtprelay-out1.synopsys.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
+X-Mailman-Approved-At: Fri, 15 Jan 2021 16:39:38 -0500
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -84,173 +171,53 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Alistair Francis <alistair.francis@wdc.com>
+Cc: Shahab Vahedi <shahab.vahedi@gmail.com>,
+ Cupertino Miranda <Cupertino.Miranda@synopsys.com>,
+ "linux-snps-arc@lists.infradead.org" <linux-snps-arc@lists.infradead.org>,
+ Claudiu Zissulescu <claziss@gmail.com>,
+ Claudiu Zissulescu <Claudiu.Zissulescu@synopsys.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-All backends have now been converted to tcg-target-con-set.h,
-so we can remove the fallback code.
-
-Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
-Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
----
- tcg/aarch64/tcg-target.h |  1 -
- tcg/arm/tcg-target.h     |  1 -
- tcg/i386/tcg-target.h    |  1 -
- tcg/mips/tcg-target.h    |  1 -
- tcg/ppc/tcg-target.h     |  1 -
- tcg/riscv/tcg-target.h   |  1 -
- tcg/s390/tcg-target.h    |  1 -
- tcg/sparc/tcg-target.h   |  1 -
- tcg/tci/tcg-target.h     |  2 --
- tcg/tcg.c                | 12 ------------
- 10 files changed, 22 deletions(-)
-
-diff --git a/tcg/aarch64/tcg-target.h b/tcg/aarch64/tcg-target.h
-index 200e9b5e0e..5ec30dba25 100644
---- a/tcg/aarch64/tcg-target.h
-+++ b/tcg/aarch64/tcg-target.h
-@@ -155,6 +155,5 @@ void tb_target_set_jmp_target(uintptr_t, uintptr_t, uintptr_t, uintptr_t);
- #define TCG_TARGET_NEED_LDST_LABELS
- #endif
- #define TCG_TARGET_NEED_POOL_LABELS
--#define TCG_TARGET_CON_SET_H
- 
- #endif /* AARCH64_TCG_TARGET_H */
-diff --git a/tcg/arm/tcg-target.h b/tcg/arm/tcg-target.h
-index 4d201b1216..8d1fee6327 100644
---- a/tcg/arm/tcg-target.h
-+++ b/tcg/arm/tcg-target.h
-@@ -142,6 +142,5 @@ void tb_target_set_jmp_target(uintptr_t, uintptr_t, uintptr_t, uintptr_t);
- #define TCG_TARGET_NEED_LDST_LABELS
- #endif
- #define TCG_TARGET_NEED_POOL_LABELS
--#define TCG_TARGET_CON_SET_H
- 
- #endif
-diff --git a/tcg/i386/tcg-target.h b/tcg/i386/tcg-target.h
-index 48a6f2a336..b693d3692d 100644
---- a/tcg/i386/tcg-target.h
-+++ b/tcg/i386/tcg-target.h
-@@ -235,6 +235,5 @@ static inline void tb_target_set_jmp_target(uintptr_t tc_ptr, uintptr_t jmp_rx,
- #define TCG_TARGET_NEED_LDST_LABELS
- #endif
- #define TCG_TARGET_NEED_POOL_LABELS
--#define TCG_TARGET_CON_SET_H
- 
- #endif
-diff --git a/tcg/mips/tcg-target.h b/tcg/mips/tcg-target.h
-index e520a9d6e3..c2c32fb38f 100644
---- a/tcg/mips/tcg-target.h
-+++ b/tcg/mips/tcg-target.h
-@@ -207,6 +207,5 @@ void tb_target_set_jmp_target(uintptr_t, uintptr_t, uintptr_t, uintptr_t);
- #ifdef CONFIG_SOFTMMU
- #define TCG_TARGET_NEED_LDST_LABELS
- #endif
--#define TCG_TARGET_CON_SET_H
- 
- #endif
-diff --git a/tcg/ppc/tcg-target.h b/tcg/ppc/tcg-target.h
-index 551f8d0fc9..d1339afc66 100644
---- a/tcg/ppc/tcg-target.h
-+++ b/tcg/ppc/tcg-target.h
-@@ -185,6 +185,5 @@ void tb_target_set_jmp_target(uintptr_t, uintptr_t, uintptr_t, uintptr_t);
- #define TCG_TARGET_NEED_LDST_LABELS
- #endif
- #define TCG_TARGET_NEED_POOL_LABELS
--#define TCG_TARGET_CON_SET_H
- 
- #endif
-diff --git a/tcg/riscv/tcg-target.h b/tcg/riscv/tcg-target.h
-index a998b951e4..727c8df418 100644
---- a/tcg/riscv/tcg-target.h
-+++ b/tcg/riscv/tcg-target.h
-@@ -171,6 +171,5 @@ void tb_target_set_jmp_target(uintptr_t, uintptr_t, uintptr_t, uintptr_t);
- #define TCG_TARGET_NEED_POOL_LABELS
- 
- #define TCG_TARGET_HAS_MEMORY_BSWAP 0
--#define TCG_TARGET_CON_SET_H
- 
- #endif
-diff --git a/tcg/s390/tcg-target.h b/tcg/s390/tcg-target.h
-index 7aafd25a46..641464eea4 100644
---- a/tcg/s390/tcg-target.h
-+++ b/tcg/s390/tcg-target.h
-@@ -159,6 +159,5 @@ static inline void tb_target_set_jmp_target(uintptr_t tc_ptr, uintptr_t jmp_rx,
- #define TCG_TARGET_NEED_LDST_LABELS
- #endif
- #define TCG_TARGET_NEED_POOL_LABELS
--#define TCG_TARGET_CON_SET_H
- 
- #endif
-diff --git a/tcg/sparc/tcg-target.h b/tcg/sparc/tcg-target.h
-index f50e8d50ee..f66f5d07dc 100644
---- a/tcg/sparc/tcg-target.h
-+++ b/tcg/sparc/tcg-target.h
-@@ -168,6 +168,5 @@ extern bool use_vis3_instructions;
- void tb_target_set_jmp_target(uintptr_t, uintptr_t, uintptr_t, uintptr_t);
- 
- #define TCG_TARGET_NEED_POOL_LABELS
--#define TCG_TARGET_CON_SET_H
- 
- #endif
-diff --git a/tcg/tci/tcg-target.h b/tcg/tci/tcg-target.h
-index 1efd8c4fb0..bb784e018e 100644
---- a/tcg/tci/tcg-target.h
-+++ b/tcg/tci/tcg-target.h
-@@ -207,6 +207,4 @@ static inline void tb_target_set_jmp_target(uintptr_t tc_ptr, uintptr_t jmp_rx,
-     /* no need to flush icache explicitly */
- }
- 
--#define TCG_TARGET_CON_SET_H
--
- #endif /* TCG_TARGET_H */
-diff --git a/tcg/tcg.c b/tcg/tcg.c
-index 36fdeef10f..4d4f4e9b71 100644
---- a/tcg/tcg.c
-+++ b/tcg/tcg.c
-@@ -69,9 +69,6 @@
- /* Forward declarations for functions declared in tcg-target.c.inc and
-    used here. */
- static void tcg_target_init(TCGContext *s);
--#ifndef TCG_TARGET_CON_SET_H
--static const TCGTargetOpDef *tcg_target_op_def(TCGOpcode);
--#endif
- static void tcg_target_qemu_prologue(TCGContext *s);
- static bool patch_reloc(tcg_insn_unit *code_ptr, int type,
-                         intptr_t value, intptr_t addend);
-@@ -349,7 +346,6 @@ static void set_jmp_reset_offset(TCGContext *s, int which)
-     s->tb_jmp_reset_offset[which] = tcg_current_code_size(s);
- }
- 
--#ifdef TCG_TARGET_CON_SET_H
- #define C_PFX1(P, A)                    P##A
- #define C_PFX2(P, A, B)                 P##A##_##B
- #define C_PFX3(P, A, B, C)              P##A##_##B##_##C
-@@ -463,8 +459,6 @@ static const TCGTargetOpDef constraint_sets[] = {
- #define C_O2_I4(O1, O2, I1, I2, I3, I4) \
-     C_PFX6(c_o2_i4_, O1, O2, I1, I2, I3, I4)
- 
--#endif /* TCG_TARGET_CON_SET_H */
--
- #include "tcg-target.c.inc"
- 
- /* compare a pointer @ptr and a tb_tc @s */
-@@ -2536,13 +2530,7 @@ static void process_op_defs(TCGContext *s)
-             continue;
-         }
- 
--#ifdef TCG_TARGET_CON_SET_H
-         tdefs = &constraint_sets[tcg_target_op_def(op)];
--#else
--        tdefs = tcg_target_op_def(op);
--        /* Missing TCGTargetOpDef entry. */
--        tcg_debug_assert(tdefs != NULL);
--#endif
- 
-         for (i = 0; i < nb_args; i++) {
-             const char *ct_str = tdefs->args_ct_str[i];
--- 
-2.25.1
-
+SGkgUmljaGFyZCwNCg0KT24gMTIvMS8yMCAxMDozNSBQTSwgUmljaGFyZCBIZW5kZXJzb24gd3Jv
+dGU6DQo+IE9uIDExLzExLzIwIDEwOjE3IEFNLCBjdXBlcnRpbm9taXJhbmRhQGdtYWlsLmNvbSB3
+cm90ZToNCj4+IEZyb206IEN1cGVydGlubyBNaXJhbmRhIDxjbWlyYW5kYUBzeW5vcHN5cy5jb20+
+DQo+PiArdm9pZCBoZWxwZXJfZW50ZXIoQ1BVQVJDU3RhdGUgKmVudiwgdWludDMyX3QgdTYpDQo+
+PiArew0KPj4gKyAgICAvKiBub3RoaW5nIHRvIGRvPyB0aGVuIGJ5ZS1ieWUhICovDQo+PiArICAg
+IGlmICghdTYpIHsNCj4+ICsgICAgICAgIHJldHVybjsNCj4+ICsgICAgfQ0KPj4gKw0KPj4gKyAg
+ICB1aW50OF90IHJlZ3MgICAgICAgPSB1NiAmIDB4MGY7IC8qIHVbMzowXSBkZXRlcm1pbmVzIHJl
+Z2lzdGVycyB0byBzYXZlICovDQo+PiArICAgIGJvb2wgICAgc2F2ZV9mcCAgICA9IHU2ICYgMHgx
+MDsgLyogdVs0XSBpbmRpY2F0ZXMgaWYgZnAgbXVzdCBiZSBzYXZlZCAgKi8NCj4+ICsgICAgYm9v
+bCAgICBzYXZlX2JsaW5rID0gdTYgJiAweDIwOyAvKiB1WzVdIGluZGljYXRlcyBzYXZpbmcgb2Yg
+YmxpbmsgICAgICAqLw0KPj4gKyAgICB1aW50OF90IHN0YWNrX3NpemUgPSA0ICogKHJlZ3MgKyBz
+YXZlX2ZwICsgc2F2ZV9ibGluayk7DQo+PiArDQo+PiArICAgIC8qIG51bWJlciBvZiByZWdzIHRv
+IGJlIHNhdmVkIG11c3QgYmUgc2FuZSAqLw0KPj4gKyAgICBjaGVja19lbnRlcl9sZWF2ZV9ucl9y
+ZWdzKGVudiwgcmVncywgR0VUUEMoKSk7DQo+IA0KPiBCb3RoIG9mIHRoZXNlIGNoZWNrcyBjb3Vs
+ZCBiZSB0cmFuc2xhdGUgdGltZS4NCj4gDQo+PiArICAgIC8qIHRoaXMgY2Fubm90IGJlIGV4ZWN1
+dGVkIGluIGEgZGVsYXkvZXhlY3V0aW9uIHNsb3QgKi8NCj4+ICsgICAgY2hlY2tfZGVsYXlfb3Jf
+ZXhlY3V0aW9uX3Nsb3QoZW52LCBHRVRQQygpKTsNCj4gDQo+IEFzIGNvdWxkIHRoaXMuDQo+IA0K
+Pj4gKyAgICAvKiBzdGFjayBtdXN0IGJlIGEgbXVsdGlwbGUgb2YgNCAoMzIgYml0IGFsaWduZWQp
+ICovDQo+PiArICAgIGNoZWNrX2FkZHJfaXNfd29yZF9hbGlnbmVkKGVudiwgQ1BVX1NQKGVudikg
+LSBzdGFja19zaXplLCBHRVRQQygpKTsNCj4+ICsNCj4+ICsgICAgdWludDMyX3QgdG1wX3NwID0g
+Q1BVX1NQKGVudik7DQo+PiArDQo+PiArICAgIGlmIChzYXZlX2ZwKSB7DQo+PiArICAgICAgICB0
+bXBfc3AgLT0gNDsNCj4+ICsgICAgICAgIGNwdV9zdGxfZGF0YShlbnYsIHRtcF9zcCwgQ1BVX0ZQ
+KGVudikpOw0KPj4gKyAgICB9DQo+IA0KPiBBbmQgd2hhdCBpZiB0aGVzZSBzdG9yZXMgcmFpc2Ug
+YW4gZXhjZXB0aW9uPyAgSSBkb3VidCB5b3UncmUgZ29pbmcgdG8gZ2V0IGFuDQo+IGV4Y2VwdGlv
+biBhdCB0aGUgY29ycmVjdCBwYy4NCg0KSSd2ZSBhZGRlZCBhIGZldyBiYWQtd2VhdGhlciB0ZXN0
+IGNhc2VzIFsxXSBhbmQgdGhleSB3b3JrIGFzIGV4cGVjdGVkLiBJbmRlZWQsDQpub25lIG9mIHRo
+b3NlIHRlc3RzIHRyaWdnZXIgYW4gZXhjZXB0aW9uIGR1cmluZyB0aGUgImNwdV9zdGxfZGF0YSgp
+Ii4gQ291bGQgeW91DQplbGFib3JhdGUgd2h5IHlvdSB0aGluayB0aGUgUEMgbWlnaHQgYmUgaW5j
+b3JyZWN0PyBUaGVuIEkgY2FuIGFkZCB0aGUgY29ycmVzcG9uZGluZw0KdGVzdHMgYW5kIGZpeCB0
+aGUgYmVoYXZpb3IuDQoNClsxXQ0KaHR0cHM6Ly9naXRodWIuY29tL2Zvc3MtZm9yLXN5bm9wc3lz
+LWR3Yy1hcmMtcHJvY2Vzc29ycy9xZW11L2Jsb2IvbWFzdGVyL3Rlc3RzL3RjZy9hcmMvY2hlY2tf
+ZW50ZXJfbGVhdmUuUyNMMjI3DQoNCj4gNS0xMCB0Y2cgb3Bjb2RlcyBpcyB0aGUgcnVsZSBvZiB0
+aHVtYi4gIEEgY29uZGl0aW9uYWwgZXhjZXB0aW9uIChyZXF1aXJpbmcgYQ0KPiBicmFuY2gpIGlz
+IGEgZ29vZCByZWFzb24gdG8gcHV0IHRoZSB3aG9sZSB0aGluZyBvdXQgb2YgbGluZS4NCj4gDQo+
+IEluIHRoZSBjYXNlIG9mIGVudGVyIG9yIGxlYXZlLCB0aGlzIGlzIG9uZSBsb2FkL3N0b3JlIHBs
+dXMgb25lIGFkZGl0aW9uLA0KPiBmb2xsb3dlZCBieSBhIGJyYW5jaC4gIEFsbCBvZiB3aGljaCBp
+cyBlbmNvZGVkIGFzIGZpZWxkcyBpbiB0aGUgaW5zdHJ1Y3Rpb24uDQo+IEV4dHJlbWVseSBzaW1w
+bGUuDQoNCllvdSdyZSBzdWdnZXN0aW5nIHRoYXQgImVudGVyL2xlYXZlIiBzaG91bGQgdXNlIFRD
+RyBvcGNvZGVzIGluc3RlYWQgb2YgaGVscGVycz8gSWYgeWVzLA0KZG8geW91IHJlYWxseSB0aGlu
+ayBpdCBpcyBwb3NzaWJsZSB0byBpbXBsZW1lbnQgZWFjaCB3aXRoIH4xMCBvcGNvZGVzPw0KDQot
+LSANClNoYWhhYg0K
 
