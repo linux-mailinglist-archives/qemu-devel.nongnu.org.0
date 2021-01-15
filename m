@@ -2,35 +2,35 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8B14A2F80E2
-	for <lists+qemu-devel@lfdr.de>; Fri, 15 Jan 2021 17:36:36 +0100 (CET)
-Received: from localhost ([::1]:59146 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4474D2F80D9
+	for <lists+qemu-devel@lfdr.de>; Fri, 15 Jan 2021 17:32:57 +0100 (CET)
+Received: from localhost ([::1]:50320 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l0S5T-0001lC-FX
-	for lists+qemu-devel@lfdr.de; Fri, 15 Jan 2021 11:36:35 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55070)
+	id 1l0S1w-0006Kk-99
+	for lists+qemu-devel@lfdr.de; Fri, 15 Jan 2021 11:32:56 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55104)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1l0RvB-0000xc-8f
- for qemu-devel@nongnu.org; Fri, 15 Jan 2021 11:25:57 -0500
-Received: from indium.canonical.com ([91.189.90.7]:50174)
+ id 1l0RvC-00010A-QG
+ for qemu-devel@nongnu.org; Fri, 15 Jan 2021 11:25:59 -0500
+Received: from indium.canonical.com ([91.189.90.7]:50272)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1l0Rv8-0002C3-Qs
- for qemu-devel@nongnu.org; Fri, 15 Jan 2021 11:25:57 -0500
+ id 1l0RvA-0002Eh-QS
+ for qemu-devel@nongnu.org; Fri, 15 Jan 2021 11:25:58 -0500
 Received: from loganberry.canonical.com ([91.189.90.37])
  by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1l0Rv7-0004kI-Ls
- for <qemu-devel@nongnu.org>; Fri, 15 Jan 2021 16:25:53 +0000
+ id 1l0Rv9-0004kA-Eb
+ for <qemu-devel@nongnu.org>; Fri, 15 Jan 2021 16:25:55 +0000
 Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 9F66F2E813E
- for <qemu-devel@nongnu.org>; Fri, 15 Jan 2021 16:25:53 +0000 (UTC)
+ by loganberry.canonical.com (Postfix) with ESMTP id 4A3E62E813C
+ for <qemu-devel@nongnu.org>; Fri, 15 Jan 2021 16:25:55 +0000 (UTC)
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
-Date: Fri, 15 Jan 2021 16:12:44 -0000
-From: Peter Maydell <1906693@bugs.launchpad.net>
+Date: Fri, 15 Jan 2021 16:16:18 -0000
+From: Peter Maydell <1905444@bugs.launchpad.net>
 To: qemu-devel@nongnu.org
 X-Launchpad-Notification-Type: bug
 X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
@@ -41,16 +41,17 @@ X-Launchpad-Bug-Security-Vulnerability: no
 X-Launchpad-Bug-Commenters: a1xndr
 X-Launchpad-Bug-Reporter: Alexander Bulekov (a1xndr)
 X-Launchpad-Bug-Modifier: Peter Maydell (pmaydell)
-References: <20201203164642.wfm3zyud4l23mlq7@mozz.bu.edu>
-Message-Id: <161072716479.30473.16196944995813858281.launchpad@chaenomeles.canonical.com>
-Subject: [Bug 1906693] Re: Assertion Failure in bdrv_co_write_req_prepare
- through megasas
+References: <20201124171810.akchle2mwg6xdlol@mozz.bu.edu>
+Message-Id: <161072737933.5951.2902316183127929236.launchpad@wampee.canonical.com>
+Subject: [Bug 1905444] Re: [OSS-Fuzz] Issue 27796 in oss-fuzz:
+ qemu:qemu-fuzz-i386-target-generic-fuzz-xhci: Stack-overflow in
+ address_space_stl_internal
 X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
 X-Launchpad-Message-For: qemu-devel-ml
 Precedence: bulk
 X-Generated-By: Launchpad (canonical.com);
  Revision="511b4a3b6512aa3d421c5f7d74f3527e78bff26e"; Instance="production"
-X-Launchpad-Hash: 9a9c8131a986539bd4d8c11c567953dd15ce6296
+X-Launchpad-Hash: ec1a3224c02bce4f6a0435d1eb0e66ed8b98825e
 Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
  helo=indium.canonical.com
 X-Spam_score_int: -65
@@ -71,7 +72,7 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1906693 <1906693@bugs.launchpad.net>
+Reply-To: Bug 1905444 <1905444@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
@@ -81,195 +82,63 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 You received this bug notification because you are a member of qemu-
 devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1906693
+https://bugs.launchpad.net/bugs/1905444
 
 Title:
-  Assertion Failure in bdrv_co_write_req_prepare through megasas
+  [OSS-Fuzz] Issue 27796 in oss-fuzz: qemu:qemu-fuzz-i386-target-
+  generic-fuzz-xhci: Stack-overflow in address_space_stl_internal
 
 Status in QEMU:
   New
 
 Bug description:
    affects qemu
-   subscribe hare@suse.com
-   subscribe philmd@redhat.com
-   subscribe stefanha@redhat.com
-   subscribe kwolf@redhat.com
 
-  =3D=3D=3D Stack Trace =3D=3D=3D
-  qemu-fuzz-i386: block/io.c:1835: int bdrv_co_write_req_prepare(BdrvChild =
-*, int64_t, uint64_t, BdrvTrackedRequest *, int): Assertion `child->perm & =
-BLK_PERM_WRITE' failed.
-  =3D=3D1505128=3D=3D ERROR: libFuzzer: deadly signal
-      #0 0x55a083b92cee in __sanitizer_print_stack_trace (qemu-fuzz-i386+0x=
-793cee)
-      #1 0x55a083b6c1d1 in fuzzer::PrintStackTrace() (qemu-fuzz-i386+0x76d1=
-d1)
-      #2 0x55a083b4f0d6 in fuzzer::Fuzzer::CrashCallback() (.part.0) (qemu-=
-fuzz-i386+0x7500d6)
-      #3 0x55a083b4f19b in fuzzer::Fuzzer::StaticCrashSignalCallback() (qem=
-u-fuzz-i386+0x75019b)
-      #4 0x7f8d24ed6a8f  (/lib64/libpthread.so.0+0x14a8f)
-      #5 0x7f8d24d079e4 in raise (/lib64/libc.so.6+0x3c9e4)
-      #6 0x7f8d24cf0894 in abort (/lib64/libc.so.6+0x25894)
-      #7 0x7f8d24cf0768 in __assert_fail_base.cold (/lib64/libc.so.6+0x2576=
-8)
-      #8 0x7f8d24cffe75 in __assert_fail (/lib64/libc.so.6+0x34e75)
-      #9 0x55a08423763f in bdrv_co_write_req_prepare block/io.c:1835:13
-      #10 0x55a0842343a8 in bdrv_aligned_pwritev block/io.c:1915:11
-      #11 0x55a084233765 in bdrv_co_pwritev_part block/io.c:2104:11
-      #12 0x55a084260d1a in blk_do_pwritev_part block/block-backend.c:1260:=
-11
-      #13 0x55a08426163e in blk_aio_write_entry block/block-backend.c:1476:=
-17
-      #14 0x55a0843b0d23 in coroutine_trampoline util/coroutine-ucontext.c:=
-173:9
-      #15 0x7f8d24d1d22f  (/lib64/libc.so.6+0x5222f)
+  OSS-Fuzz Report: https://bugs.chromium.org/p/oss-
+  fuzz/issues/detail?id=3D27796
 
-  =3D=3D=3D Reproducer=3D=3D=3D
-  cat << EOF | ./qemu-system-i386 -M q35 \
-  -device megasas-gen2 -device scsi-cd,drive=3Dnull0 \
-  -blockdev driver=3Dnull-co,read-zeroes=3Don,node-name=3Dnull0 \
-  -monitor none -serial none -display none \
-  -machine accel=3Dqtest -m 64 -qtest stdio
-  outl 0xcf8 0x80001804
-  outl 0xcfc 0xffffff
-  outl 0xcf8 0x8000181b
-  outl 0xcfc 0x7052005
-  write 0x5cc0 0x1 0x03
-  write 0x5cc7 0x1 0x40
-  write 0x5ce0 0x1 0x0a
-  write 0x5cf3 0x1 0x01
-  write 0x5cf7 0x1 0x40
-  write 0x5cf8 0x1 0x0a
-  write 0x5cff 0x1 0x05
-  write 0x5d03 0x1 0x5b
-  write 0x5d06 0x1 0x4f
-  write 0x5d0b 0x1 0x01
-  write 0x5d0f 0x1 0x40
-  write 0x5d10 0x1 0x0a
-  write 0x5d17 0x1 0x05
-  write 0x5d1b 0x1 0x5b
-  write 0x5d1e 0x1 0x4f
-  write 0x5d23 0x1 0x01
-  write 0x5d27 0x1 0x40
-  write 0x5d28 0x1 0x0a
-  write 0x5d2f 0x1 0x05
-  write 0x5d33 0x1 0x5b
-  write 0x5d36 0x1 0x4f
-  write 0x5d3b 0x1 0x01
-  write 0x5d3f 0x1 0x40
-  write 0x5d40 0x1 0x0a
-  write 0x5d47 0x1 0x05
-  write 0x5d4b 0x1 0x5b
-  write 0x5d4e 0x1 0x4f
-  write 0x5d53 0x1 0x01
-  write 0x5d57 0x1 0x40
-  write 0x5d58 0x1 0x0a
-  write 0x5d5f 0x1 0x05
-  write 0x5d63 0x1 0x5b
-  write 0x5d66 0x1 0x4f
-  write 0x5d6b 0x1 0x01
-  write 0x5d6f 0x1 0x40
-  write 0x5d70 0x1 0x0a
-  write 0x5d77 0x1 0x05
-  write 0x5d7b 0x1 0x5b
-  write 0x5d7e 0x1 0x4f
-  write 0x5d83 0x1 0x01
-  write 0x5d87 0x1 0x40
-  write 0x5d88 0x1 0x0a
-  write 0x5d8f 0x1 0x05
-  write 0x5d93 0x1 0x5b
-  write 0x5d96 0x1 0x4f
-  write 0x5d9b 0x1 0x01
-  write 0x5d9f 0x1 0x40
-  write 0x5da0 0x1 0x0a
-  write 0x5da7 0x1 0x05
-  write 0x5dab 0x1 0x5b
-  write 0x5dae 0x1 0x4f
-  write 0x5db3 0x1 0x01
-  write 0x5db7 0x1 0x40
-  write 0x5db8 0x1 0x0a
-  write 0x5dbf 0x1 0x05
-  write 0x5dc3 0x1 0x5b
-  write 0x5dc6 0x1 0x4f
-  write 0x5dcb 0x1 0x01
-  write 0x5dcf 0x1 0x40
-  write 0x5dd0 0x1 0x0a
-  write 0x5dd7 0x1 0x05
-  write 0x5ddb 0x1 0x5b
-  write 0x5dde 0x1 0x4f
-  write 0x5de3 0x1 0x01
-  write 0x5de7 0x1 0x40
-  write 0x5de8 0x1 0x0a
-  write 0x5def 0x1 0x05
-  write 0x5df3 0x1 0x5b
-  write 0x5df6 0x1 0x4f
-  write 0x5dfb 0x1 0x01
-  write 0x5dff 0x1 0x40
-  write 0x5e00 0x1 0x0a
-  write 0x5e07 0x1 0x05
-  write 0x5e0b 0x1 0x5b
-  write 0x5e0e 0x1 0x4f
-  write 0x5e13 0x1 0x01
-  write 0x5e17 0x1 0x40
-  write 0x5e18 0x1 0x0a
-  write 0x5e1f 0x1 0x05
-  write 0x5e23 0x1 0x5b
-  write 0x5e26 0x1 0x4f
-  write 0x5e2b 0x1 0x01
-  write 0x5e2f 0x1 0x40
-  write 0x5e30 0x1 0x0a
-  write 0x5e37 0x1 0x05
-  write 0x5e3b 0x1 0x5b
-  write 0x5e3e 0x1 0x4f
-  write 0x5e43 0x1 0x01
-  write 0x5e47 0x1 0x40
-  write 0x5e48 0x1 0x0a
-  write 0x5e4f 0x1 0x05
-  write 0x5e53 0x1 0x5b
-  write 0x5e56 0x1 0x4f
-  write 0x5e5b 0x1 0x01
-  write 0x5e5f 0x1 0x40
-  write 0x5e60 0x1 0x0a
-  write 0x5e67 0x1 0x05
-  write 0x5e6b 0x1 0x5b
-  write 0x5e6e 0x1 0x4f
-  write 0x5e73 0x1 0x01
-  write 0x5e77 0x1 0x40
-  write 0x5e78 0x1 0x0a
-  write 0x5e7f 0x1 0x05
-  write 0x5e83 0x1 0x5b
-  write 0x5e86 0x1 0x4f
-  write 0x5e8b 0x1 0x01
-  write 0x5e8f 0x1 0x40
-  write 0x5e90 0x1 0x0a
-  write 0x5e97 0x1 0x05
-  write 0x5e9b 0x1 0x5b
-  write 0x5e9e 0x1 0x4f
-  write 0x5ea3 0x1 0x01
-  write 0x5ea7 0x1 0x40
-  write 0x5ea8 0x1 0x0a
-  write 0x5eaf 0x1 0x05
-  write 0x5eb3 0x1 0x5b
-  write 0x5eb6 0x1 0x4f
-  write 0x5ebb 0x1 0x01
-  write 0x5ebf 0x1 0x40
-  write 0x5ec0 0x1 0x0a
-  write 0x5ec7 0x1 0x05
-  write 0x5ecb 0x1 0x5b
-  write 0x5ece 0x1 0x4f
-  write 0x5ed3 0x1 0x01
-  write 0x5ed7 0x1 0x40
-  write 0x5ed8 0x1 0x0a
-  write 0x5edf 0x1 0x05
-  write 0x5ee3 0x1 0x5b
-  write 0x5ee6 0x1 0x4f
-  write 0x5eeb 0x1 0x01
-  write 0x5eef 0x1 0x40
-  writeq 0x50000000000003b 0x15cd405b60101c8
+  =3D=3D=3D Reproducer (build with --enable-sanitizers) =3D=3D=3D
+  cat << EOF | ./qemu-system-i386 -display none  -machine accel=3Dqtest, \
+  -m 512M -machine q35 -nodefaults \
+  -drive file=3Dnull-co://,if=3Dnone,format=3Draw,id=3Ddisk0 \
+  -device qemu-xhci,id=3Dxhci -device usb-tablet,bus=3Dxhci.0 \
+  -qtest-log none -qtest stdio
+  outl 0xcf8 0x80000803
+  outw 0xcfc 0x5e46
+  outl 0xcf8 0x80000810
+  outl 0xcfc 0xff5a5e46
+  write 0xff5a5020 0x6 0xffffffff0b70
+  outl 0xcf8 0x80000893
+  outb 0xcfc 0x93
+  writel 0xff5a7000 0xff5a5020
+  write 0xff5a700c 0x4 0x0c0c2e58
+  write 0xff5a4040 0x4 0x00d26001
+  write 0xff5a4044 0x4 0x0000030
   EOF
 
+  =3D=3D=3D Stack Trace =3D=3D=3D
+  =3D=3D50473=3D=3DERROR: AddressSanitizer: stack-overflow on address 0x7ff=
+e3ec97e28 (pc 0x55e292eac159 bp 0x7ffe3ec98670 sp 0x7ffe3ec97e30 T0)
+  #0 0x55e292eac159 in __asan_memcpy (u-system-i386+0x2a0e159)
+  #1 0x55e2944bc04e in flatview_do_translate softmmu/physmem.c:513:12
+  #2 0x55e2944dbe90 in flatview_translate softmmu/physmem.c:563:15
+  #3 0x55e2944dbe90 in address_space_translate include/exec/memory.h:2362:12
+  #4 0x55e2944dbe90 in address_space_stl_internal memory_ldst.c.inc:316:10
+  #5 0x55e29393d2a0 in xhci_intr_update hw/usb/hcd-xhci.c:554:13
+  #6 0x55e29393efb9 in xhci_runtime_write hw/usb/hcd-xhci.c:3032:9
+  #7 0x55e294230428 in memory_region_write_accessor softmmu/memory.c:484:5
+  #8 0x55e29422fe63 in access_with_adjusted_size softmmu/memory.c:545:18
+  #9 0x55e29422f6fc in memory_region_dispatch_write softmmu/memory.c
+  #10 0x55e2944dc03c in address_space_stl_internal memory_ldst.c.inc:319:13
+  #11 0x55e29393d2a0 in xhci_intr_update hw/usb/hcd-xhci.c:554:13
+  #12 0x55e29393efb9 in xhci_runtime_write hw/usb/hcd-xhci.c:3032:9
+  #13 0x55e294230428 in memory_region_write_accessor softmmu/memory.c:484:5
+  #14 0x55e29422fe63 in access_with_adjusted_size softmmu/memory.c:545:18
+  #15 0x55e29422f6fc in memory_region_dispatch_write softmmu/memory.c
+  #16 0x55e2944dc03c in address_space_stl_internal memory_ldst.c.inc:319:13
+  #17 0x55e29393d2a0 in xhci_intr_update hw/usb/hcd-xhci.c:554:13
+  #18 0x55e29393efb9 in xhci_runtime_write hw/usb/hcd-xhci.c:3032:9
+
 To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1906693/+subscriptions
+https://bugs.launchpad.net/qemu/+bug/1905444/+subscriptions
 
