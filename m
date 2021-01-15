@@ -2,80 +2,91 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5D7132F73F4
-	for <lists+qemu-devel@lfdr.de>; Fri, 15 Jan 2021 09:02:52 +0100 (CET)
-Received: from localhost ([::1]:49762 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A86D22F746B
+	for <lists+qemu-devel@lfdr.de>; Fri, 15 Jan 2021 09:33:09 +0100 (CET)
+Received: from localhost ([::1]:55938 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l0K4J-0006SM-Fe
-	for lists+qemu-devel@lfdr.de; Fri, 15 Jan 2021 03:02:51 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58352)
+	id 1l0KXc-0002rf-9x
+	for lists+qemu-devel@lfdr.de; Fri, 15 Jan 2021 03:33:08 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34546)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <chouhan.shreyansh2702@gmail.com>)
- id 1l0K2T-0005U1-LX
- for qemu-devel@nongnu.org; Fri, 15 Jan 2021 03:00:59 -0500
-Received: from mail-pj1-x102b.google.com ([2607:f8b0:4864:20::102b]:36179)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <chouhan.shreyansh2702@gmail.com>)
- id 1l0K2I-0000HM-2n
- for qemu-devel@nongnu.org; Fri, 15 Jan 2021 03:00:56 -0500
-Received: by mail-pj1-x102b.google.com with SMTP id l23so4744206pjg.1
- for <qemu-devel@nongnu.org>; Fri, 15 Jan 2021 00:00:45 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=loGw6TQfSjoAhqgozQVykrX/LZbwn1Mbt1VoKz3Basc=;
- b=ClixyqjlZPZgW/YMG3LeDraYtDevSa5vYI/RV7l8YXSixI/8jO/xAHFHv7g2JWCJhG
- APXAJaa14sH//cEslck5LiiDfLa7Gjsh7i/BZRi4W3nUsjHQB+/sFlT55u0Tj51jHUn3
- JtsqxKlCyKXNAt4Xd/JLPFjfv9CoEwMRVDQkA0sTJKZLkxKG/bI/I8iisitzdEWdQkXW
- viJB+09Lq6WdNGN6ZYZFMs66MIlOAVaHiRke79D/wuc6xmzmLk3jfVg6seb4CCqarsw3
- 3kaJUwtGwOkmlGTZSCfV2YF0s78A9Yxex3DX9lmDbDDaYJ7mWqfD1wP7fNEjcmCKNI+6
- fGfw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=loGw6TQfSjoAhqgozQVykrX/LZbwn1Mbt1VoKz3Basc=;
- b=Hy19/I15wsfrS+g63P5DRlrVTNslSi/WQHyr872I8xledA0W6hx2jq3KqZmAM7aktF
- vZ9QRF/d9rQGb+kvwsuEPi4PUMkMeRo2VQjqpHd6Rn/KnrGeJsr5g7k2gRIHyvP/AOXT
- LJEHYUGS3ERHquz/Qssc65ZXk2Fnw2uTq7F4nYVhruVNF4twNtGyNf8lE7g9c5hQfR96
- C/iBGJme9pN76MaxmqBLO82ZyVUwj/eBrFYWJ31Hvub92DB8/iFYX6GLSoAYWkEMJfyZ
- U8C1W1jma0ncGxwc9vwqI0DNoiMDkgliFcjNdsB5Iu2luLrRxy1QyESHWourT3IJRrrv
- R3lg==
-X-Gm-Message-State: AOAM531wN9yH6OskyOQ1d7eK29Z9gvLJsol/+0fPeBv6yP2iS8IIysoA
- plNyp8lFRS68EYACiF6BjcDwYrEHuSQWGxh/8aM=
-X-Google-Smtp-Source: ABdhPJwhdwMTSi4zv7KsunfBzGmmYD0GSizo9e+ESk3RxZF0C/kidAGGUK7XhoiETN8ArWpfHjmWWk/P/9737766M+Q=
-X-Received: by 2002:a17:90a:c905:: with SMTP id
- v5mr9333259pjt.183.1610697644249; 
- Fri, 15 Jan 2021 00:00:44 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <bharata@linux.ibm.com>)
+ id 1l0KWR-0002Kk-Kz; Fri, 15 Jan 2021 03:31:55 -0500
+Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:30766)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <bharata@linux.ibm.com>)
+ id 1l0KWP-00060C-E4; Fri, 15 Jan 2021 03:31:55 -0500
+Received: from pps.filterd (m0098393.ppops.net [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id
+ 10F8S5gh143255; Fri, 15 Jan 2021 03:31:36 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
+ h=date : from : to : cc :
+ subject : message-id : reply-to : references : mime-version : content-type
+ : in-reply-to; s=pp1; bh=KfbbqPdg7gQmCozlnI03ClAl6va6SCyRc2FYeT+vf6s=;
+ b=tonYX3Hr/tqYKKTyvzcyrr9Q6zbI8P7Pa2yuUGSfnfh+60IsxPpuDxSGlmYlgQ6kbirL
+ 2ZfZiPWHw5OjGnukXCGQkj3o9slcV0fzqmdXNWrNMRjhm2jNm+o/pq1SRR1qoGhNnBS/
+ 71i4JAvJocFXgOBBlwk2xvZVwIJ1Csz1uzcb8c4KY3qQU9YJTi92SSfIF+MJA/HRhL0P
+ wnDBx7m/g4oka9EpnM53pTWKBSn9u5OEJSYZ2ExE/GyJzOFeoEYMosEZuvulgjbF1HYs
+ MSxJHRy4B6JJEFQOjGGQ0uiHp5mSaiIdzlFLhp3EYv+jEb99JvUMGD56WcVUDIQRnX0s Aw== 
+Received: from ppma04fra.de.ibm.com (6a.4a.5195.ip4.static.sl-reverse.com
+ [149.81.74.106])
+ by mx0a-001b2d01.pphosted.com with ESMTP id 3637jmr33w-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Fri, 15 Jan 2021 03:31:36 -0500
+Received: from pps.filterd (ppma04fra.de.ibm.com [127.0.0.1])
+ by ppma04fra.de.ibm.com (8.16.0.42/8.16.0.42) with SMTP id 10F8Rnk0031857;
+ Fri, 15 Jan 2021 08:31:34 GMT
+Received: from b06avi18878370.portsmouth.uk.ibm.com
+ (b06avi18878370.portsmouth.uk.ibm.com [9.149.26.194])
+ by ppma04fra.de.ibm.com with ESMTP id 3604h9b4n0-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Fri, 15 Jan 2021 08:31:34 +0000
+Received: from d06av22.portsmouth.uk.ibm.com (d06av22.portsmouth.uk.ibm.com
+ [9.149.105.58])
+ by b06avi18878370.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP
+ id 10F8VQoE28312002
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Fri, 15 Jan 2021 08:31:26 GMT
+Received: from d06av22.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id B5C194C040;
+ Fri, 15 Jan 2021 08:31:31 +0000 (GMT)
+Received: from d06av22.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id A5E1B4C04A;
+ Fri, 15 Jan 2021 08:31:30 +0000 (GMT)
+Received: from in.ibm.com (unknown [9.85.94.204])
+ by d06av22.portsmouth.uk.ibm.com (Postfix) with ESMTPS;
+ Fri, 15 Jan 2021 08:31:30 +0000 (GMT)
+Date: Fri, 15 Jan 2021 14:01:28 +0530
+From: Bharata B Rao <bharata@linux.ibm.com>
+To: Greg Kurz <groug@kaod.org>
+Subject: Re: [RFC PATCH v0 1/1] target/ppc: Support for H_RPT_INVALIDATE hcall
+Message-ID: <20210115083128.GA2457611@in.ibm.com>
+References: <20210106085910.2200795-1-bharata@linux.ibm.com>
+ <20210113172256.0d32dc5d@bahia.lan>
 MIME-Version: 1.0
-References: <CAAQ-SiP8G28ade0jHbhTcv0jtGQb4OSgL5p3mAr0MU_FH8vZ3w@mail.gmail.com>
- <87a6tm2sxb.fsf@linaro.org>
- <CAAQ-SiOW8OnWEb0sHUEeS139-Tw0RO2YD1Tx-1s9iuy3ZVQFgw@mail.gmail.com>
- <878s941x85.fsf@linaro.org>
- <20210108083433.pfzhxrd4rezk6yxe@sirius.home.kraxel.org>
- <CAAQ-SiO4VvVTo77J2ga1FmUZ9yrwopeASweO6-AFaakrAUZ80w@mail.gmail.com>
- <CAAQ-SiPiq5NQN=2mvP3isZ9PtYO2Bu64kVEvE6T+3OJd5B-U5A@mail.gmail.com>
- <CAAQ-SiMkJGBnxWSnybJqMD0LSASMtvA_wbrPDQcg-S+Y1ddjJA@mail.gmail.com>
- <878s8zptrf.fsf@linaro.org>
- <CAAQ-SiNKXhJcT1XEodQT6kojqppq37Kg8F8igipQ-HVYOU0=zA@mail.gmail.com>
- <87ft33l8an.fsf@linaro.org>
-In-Reply-To: <87ft33l8an.fsf@linaro.org>
-From: Shreyansh Chouhan <chouhan.shreyansh2702@gmail.com>
-Date: Fri, 15 Jan 2021 13:30:33 +0530
-Message-ID: <CAAQ-SiMY8W9TS7eXgWuHY0m4yjaRbqqsZ+41Xyhxm+gW0sYakg@mail.gmail.com>
-Subject: Re: Fwd: VirtioSound device emulation implementation
-To: =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>
-Content-Type: multipart/alternative; boundary="000000000000ed15cb05b8ebc4c9"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::102b;
- envelope-from=chouhan.shreyansh2702@gmail.com; helo=mail-pj1-x102b.google.com
-X-Spam_score_int: -17
-X-Spam_score: -1.8
-X-Spam_bar: -
-X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001, HTML_MESSAGE=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20210113172256.0d32dc5d@bahia.lan>
+X-TM-AS-GCONF: 00
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.343, 18.0.737
+ definitions=2021-01-15_03:2021-01-15,
+ 2021-01-15 signatures=0
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ clxscore=1011 spamscore=0
+ priorityscore=1501 mlxscore=0 lowpriorityscore=0 adultscore=0
+ malwarescore=0 phishscore=0 suspectscore=0 mlxlogscore=999 impostorscore=0
+ bulkscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2009150000 definitions=main-2101150043
+Received-SPF: pass client-ip=148.163.156.1; envelope-from=bharata@linux.ibm.com;
+ helo=mx0a-001b2d01.pphosted.com
+X-Spam_score_int: -26
+X-Spam_score: -2.7
+X-Spam_bar: --
+X-Spam_report: (-2.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_DNSWL_LOW=-0.7,
+ RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -88,193 +99,136 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Gerd Hoffmann <kraxel@redhat.com>, qemu-devel@nongnu.org
+Reply-To: bharata@linux.ibm.com
+Cc: paulus@ozlabs.org, qemu-ppc@nongnu.org, qemu-devel@nongnu.org,
+ david@gibson.dropbear.id.au
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---000000000000ed15cb05b8ebc4c9
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+On Wed, Jan 13, 2021 at 05:22:56PM +0100, Greg Kurz wrote:
+> Hi Bharata,
+> 
+> On Wed,  6 Jan 2021 14:29:10 +0530
+> Bharata B Rao <bharata@linux.ibm.com> wrote:
+> 
+> > If KVM_CAP_RPT_INVALIDATE KVM capability is enabled, then
+> > 
+> > - indicate the availability of H_RPT_INVALIDATE hcall to the guest via
+> >   ibm,hypertas-functions property.
+> > - Enable the hcall
+> > 
+> > Both the above are done only if the new sPAPR machine capability
+> > cap-rpt-invalidate is set.
+> > 
+> > Note: The KVM implementation of the hcall has been posted for upstream
+> > review here:
+> > https://lore.kernel.org/linuxppc-dev/20210105090557.2150104-1-bharata@linux.ibm.com/T/#t
+> > 
+> > Update to linux-headers/linux/kvm.h here is temporary, will be
+> > done via header updates once the kernel change is accepted upstream.
+> > 
+> > Signed-off-by: Bharata B Rao <bharata@linux.ibm.com>
+> > ---
+> 
+> Patch looks mostly fine. A few remarks below.
+> 
+> >  hw/ppc/spapr.c            |  7 ++++++
+> >  hw/ppc/spapr_caps.c       | 49 +++++++++++++++++++++++++++++++++++++++
+> >  include/hw/ppc/spapr.h    |  8 +++++--
+> >  linux-headers/linux/kvm.h |  1 +
+> >  target/ppc/kvm.c          | 12 ++++++++++
+> >  target/ppc/kvm_ppc.h      | 11 +++++++++
+> >  6 files changed, 86 insertions(+), 2 deletions(-)
+> > 
+> > diff --git a/hw/ppc/spapr.c b/hw/ppc/spapr.c
+> > index 489cefcb81..0228083800 100644
+> > --- a/hw/ppc/spapr.c
+> > +++ b/hw/ppc/spapr.c
+> > @@ -890,6 +890,11 @@ static void spapr_dt_rtas(SpaprMachineState *spapr, void *fdt)
+> >      add_str(hypertas, "hcall-copy");
+> >      add_str(hypertas, "hcall-debug");
+> >      add_str(hypertas, "hcall-vphn");
+> > +    if (kvm_enabled() &&
+> 
+> You shouldn't check KVM here. The capability is enough to decide if we
+> should expose "hcall-rpt-invalidate" or not. FWIW we won't even reach
+> this code when running with anything but KVM.
 
-On Thu, 14 Jan 2021 at 23:17, Alex Benn=C3=A9e <alex.bennee@linaro.org> wro=
-te:
+Correct, the capability itself can be only for KVM case.
 
->
-> Shreyansh Chouhan <chouhan.shreyansh2702@gmail.com> writes:
->
-> > Just an update:
-> >
-> > I've studied the virtio specification along with the source code and I
-> now
-> > understand what the device implementation is
-> > going to look like. Also I understand the source code a lot better. I a=
-m
-> > now reading about the qemu vhost-user protocol.
-> >
-> > Although I haven't read about the vhost-user daemon in detail, from wha=
-t
-> > little I have read, I would say that the daemon
-> > would get the virtqueues from the virtio device and forward it to the
-> sound
-> > device of the host. (This is the hard part
-> > I think, since an in QEMU device would use code already written for
-> > processing these queues.)
->
-> I can't comment on the difficulty there but this does point more towards
-> using the in-QEMU approach given we have a bunch of utility functions
-> already.
->
-> > I think only the tx and rx
-> > queues would be shared, and although I do not know exactly how the
-> sharing
-> > will be implemented, I think the memory
-> > will be shared to the vhost-user daemon too? So now the virtqueue memor=
-y
-> is
-> > shared between the virtio driver in guest
-> > OS, the virtio device in QEMU, and the vhost-user daemon running in the
-> > host userspace.
->
-> QEMU uses a memfd file descriptor to share the guests entire memory map
-> with the daemon.
->
-Oh I see.
+> 
+> > +        (spapr_get_cap(spapr, SPAPR_CAP_RPT_INVALIDATE) == SPAPR_CAP_ON)) {
+> > +        add_str(hypertas, "hcall-rpt-invalidate");
+> > +    }
+> > +
+> >      add_str(qemu_hypertas, "hcall-memop1");
+> >  
+> >      if (!kvm_enabled() || kvmppc_spapr_use_multitce()) {
+> > @@ -2021,6 +2026,7 @@ static const VMStateDescription vmstate_spapr = {
+> >          &vmstate_spapr_cap_ccf_assist,
+> >          &vmstate_spapr_cap_fwnmi,
+> >          &vmstate_spapr_fwnmi,
+> > +        &vmstate_spapr_cap_rpt_invalidate,
+> >          NULL
+> >      }
+> >  };
+> > @@ -4478,6 +4484,7 @@ static void spapr_machine_class_init(ObjectClass *oc, void *data)
+> >      smc->default_caps.caps[SPAPR_CAP_LARGE_DECREMENTER] = SPAPR_CAP_ON;
+> >      smc->default_caps.caps[SPAPR_CAP_CCF_ASSIST] = SPAPR_CAP_ON;
+> >      smc->default_caps.caps[SPAPR_CAP_FWNMI] = SPAPR_CAP_ON;
+> > +    smc->default_caps.caps[SPAPR_CAP_RPT_INVALIDATE] = SPAPR_CAP_OFF;
+> 
+> Any reason for not enabling this for the default machine type and
+> disabling it for existing machine types only ?
 
->
-> > As for the configuration part, the driver will negotiate features with
-> the
-> > virtio device in QEMU, which in turn will communicate
-> > with the vhost-user daemon (via sockets) to get the features supported =
-I
-> > think.
-> >
-> > This is what I think it will roughly look like. (Of course modulo the
-> > implementation details.) I do not yet understand how
-> > much more difficult will implementing the vhost-user daemon be, and
-> since I
-> > was already
-> > warned about the difficulty, I will not risk making any hasty decisions
-> > that later hinder the project. I will read up
-> > about the vhost-user daemon and how it's implemented to get a better
-> idea,
-> > and then make the final call.
->
-> If you want to see an example of a branch new vhost-user daemon being
-> built up from scratch see my recent virtio-rpmb series. The first few
-> patches of in-QEMU code will be the same boilerplate either way I think:
->
->   https://patchew.org/QEMU/20200925125147.26943-1-alex.bennee@linaro.org/
+If this capability is enabled, then
 
-This looks super helpful! Thanks a lot for this.
+1. First level guest (L1) can off-load the TLB invalidations to the
+new hcall if the platform has disabled LPCR[GTSE].
 
->
->
-> > Anyways I am super excited about the project. I got to learn about some
-> > really cool things in the past couple of days,
-> > and I can not wait to implement it. :)
->
->
-> --
-> Alex Benn=C3=A9e
->
+2. Nested guest (L2) will switch to this new hcall rather than using
+the old H_TLB_INVALIDATE hcall.
 
+Case 2 is optional and case 1 makes sense only if LPCR[GTSE]=off.
+Hence I thought keeping it off by default and expecting the
+user to turn it on only if required would be correct.
 
-- Shreyansh Chouhan
+Please note that turning this capability ON will result in the
+new hcall being exposed to the guest. I hope this is the right
+usage of spapr-caps?
 
---000000000000ed15cb05b8ebc4c9
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+> > diff --git a/target/ppc/kvm_ppc.h b/target/ppc/kvm_ppc.h
+> > index 73ce2bc951..8e27f8421f 100644
+> > --- a/target/ppc/kvm_ppc.h
+> > +++ b/target/ppc/kvm_ppc.h
+> > @@ -24,6 +24,7 @@ void kvmppc_enable_logical_ci_hcalls(void);
+> >  void kvmppc_enable_set_mode_hcall(void);
+> >  void kvmppc_enable_clear_ref_mod_hcalls(void);
+> >  void kvmppc_enable_h_page_init(void);
+> > +void kvmppc_enable_h_rpt_invalidate(void);
+> >  void kvmppc_set_papr(PowerPCCPU *cpu);
+> >  int kvmppc_set_compat(PowerPCCPU *cpu, uint32_t compat_pvr);
+> >  void kvmppc_set_mpic_proxy(PowerPCCPU *cpu, int mpic_proxy);
+> > @@ -72,6 +73,7 @@ bool kvmppc_has_cap_nested_kvm_hv(void);
+> >  int kvmppc_set_cap_nested_kvm_hv(int enable);
+> >  int kvmppc_get_cap_large_decr(void);
+> >  int kvmppc_enable_cap_large_decr(PowerPCCPU *cpu, int enable);
+> > +int kvmppc_has_cap_rpt_invalidate(void);
+> >  int kvmppc_enable_hwrng(void);
+> >  int kvmppc_put_books_sregs(PowerPCCPU *cpu);
+> >  PowerPCCPUClass *kvm_ppc_get_host_cpu_class(void);
+> > @@ -151,6 +153,10 @@ static inline void kvmppc_enable_h_page_init(void)
+> >  {
+> >  }
+> >  
+> > +static inline void kvmppc_enable_h_rpt_invalidate(void)
+> > +{
+> 
+> g_assert_not_reached() ?
 
-<div dir=3D"ltr"><div dir=3D"ltr"><br></div><br><div class=3D"gmail_quote">=
-<div dir=3D"ltr" class=3D"gmail_attr">On Thu, 14 Jan 2021 at 23:17, Alex Be=
-nn=C3=A9e &lt;<a href=3D"mailto:alex.bennee@linaro.org">alex.bennee@linaro.=
-org</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"marg=
-in:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1e=
-x"><br>
-Shreyansh Chouhan &lt;<a href=3D"mailto:chouhan.shreyansh2702@gmail.com" ta=
-rget=3D"_blank">chouhan.shreyansh2702@gmail.com</a>&gt; writes:<br>
-<br>
-&gt; Just an update:<br>
-&gt;<br>
-&gt; I&#39;ve studied the virtio specification along with the source code a=
-nd I now<br>
-&gt; understand what the device implementation is<br>
-&gt; going to look like. Also I understand the source code a lot better. I =
-am<br>
-&gt; now reading about the qemu vhost-user protocol.<br>
-&gt;<br>
-&gt; Although I haven&#39;t read about the vhost-user daemon in detail, fro=
-m what<br>
-&gt; little I have read, I would say that the daemon<br>
-&gt; would get the virtqueues from the virtio device and forward it to the =
-sound<br>
-&gt; device of the host. (This is the hard part<br>
-&gt; I think, since an in QEMU device would use code already written for<br=
->
-&gt; processing these queues.)<br>
-<br>
-I can&#39;t comment on the difficulty there but this does point more toward=
-s<br>
-using the in-QEMU approach given we have a bunch of utility functions alrea=
-dy.<br>
-<br>
-&gt; I think only the tx and rx<br>
-&gt; queues would be shared, and although I do not know exactly how the sha=
-ring<br>
-&gt; will be implemented, I think the memory<br>
-&gt; will be shared to the vhost-user daemon too? So now the virtqueue memo=
-ry is<br>
-&gt; shared between the virtio driver in guest<br>
-&gt; OS, the virtio device in QEMU, and the vhost-user daemon running in th=
-e<br>
-&gt; host userspace.<br>
-<br>
-QEMU uses a memfd file descriptor to share the guests entire memory map<br>
-with the daemon.<br></blockquote><div>Oh I see. <br></div><blockquote class=
-=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rg=
-b(204,204,204);padding-left:1ex">
-<br>
-&gt; As for the configuration part, the driver will negotiate features with=
- the<br>
-&gt; virtio device in QEMU, which in turn will communicate<br>
-&gt; with the vhost-user daemon (via sockets) to get the features supported=
- I<br>
-&gt; think.<br>
-&gt;<br>
-&gt; This is what I think it will roughly look like. (Of course modulo the<=
-br>
-&gt; implementation details.) I do not yet understand how<br>
-&gt; much more difficult will implementing the vhost-user daemon be, and si=
-nce I<br>
-&gt; was already<br>
-&gt; warned about the difficulty, I will not risk making any hasty decision=
-s<br>
-&gt; that later hinder the project. I will read up<br>
-&gt; about the vhost-user daemon and how it&#39;s implemented to get a bett=
-er idea,<br>
-&gt; and then make the final call.<br>
-<br>
-If you want to see an example of a branch new vhost-user daemon being<br>
-built up from scratch see my recent virtio-rpmb series. The first few<br>
-patches of in-QEMU code will be the same boilerplate either way I think:<br=
->
-<br>
-=C2=A0 <a href=3D"https://patchew.org/QEMU/20200925125147.26943-1-alex.benn=
-ee@linaro.org/" rel=3D"noreferrer" target=3D"_blank">https://patchew.org/QE=
-MU/20200925125147.26943-1-alex.bennee@linaro.org/</a></blockquote><div>This=
- looks super helpful! Thanks a lot for this. <br></div><blockquote class=3D=
-"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(2=
-04,204,204);padding-left:1ex"><br>
-<br>
-&gt; Anyways I am super excited about the project. I got to learn about som=
-e<br>
-&gt; really cool things in the past couple of days,<br>
-&gt; and I can not wait to implement it. :)<br>
-<br>
-<br>
--- <br>
-Alex Benn=C3=A9e<br></blockquote><div><br></div><div><br></div><div>- Shrey=
-ansh Chouhan<br></div></div></div>
+Don't see many others doing that, is that a new preferred
+way?
 
---000000000000ed15cb05b8ebc4c9--
+Regards,
+Bharata.
 
