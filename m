@@ -2,58 +2,57 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 93ACA2F700B
-	for <lists+qemu-devel@lfdr.de>; Fri, 15 Jan 2021 02:37:28 +0100 (CET)
-Received: from localhost ([::1]:47864 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EBA9B2F7043
+	for <lists+qemu-devel@lfdr.de>; Fri, 15 Jan 2021 02:57:04 +0100 (CET)
+Received: from localhost ([::1]:42318 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l0E3L-0002MF-8B
-	for lists+qemu-devel@lfdr.de; Thu, 14 Jan 2021 20:37:27 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33170)
+	id 1l0EMK-0004GH-2m
+	for lists+qemu-devel@lfdr.de; Thu, 14 Jan 2021 20:57:04 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36260)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jiangyifei@huawei.com>)
- id 1l0E2C-0001Yy-Qr; Thu, 14 Jan 2021 20:36:17 -0500
-Received: from szxga03-in.huawei.com ([45.249.212.189]:2188)
+ (Exim 4.90_1) (envelope-from <no-reply@patchew.org>)
+ id 1l0EKN-0003Z5-Qc; Thu, 14 Jan 2021 20:55:03 -0500
+Resent-Date: Thu, 14 Jan 2021 20:55:03 -0500
+Resent-Message-Id: <E1l0EKN-0003Z5-Qc@lists.gnu.org>
+Received: from sender4-of-o53.zoho.com ([136.143.188.53]:21383)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jiangyifei@huawei.com>)
- id 1l0E23-0004pn-UL; Thu, 14 Jan 2021 20:36:16 -0500
-Received: from dggeme704-chm.china.huawei.com (unknown [172.30.72.56])
- by szxga03-in.huawei.com (SkyGuard) with ESMTP id 4DH3dF2VH5z5GRm;
- Fri, 15 Jan 2021 09:34:41 +0800 (CST)
-Received: from dggpemm000001.china.huawei.com (7.185.36.245) by
- dggeme704-chm.china.huawei.com (10.1.199.100) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id
- 15.1.2106.2; Fri, 15 Jan 2021 09:35:59 +0800
-Received: from dggpemm000001.china.huawei.com ([7.185.36.245]) by
- dggpemm000001.china.huawei.com ([7.185.36.245]) with mapi id 15.01.1913.007;
- Fri, 15 Jan 2021 09:35:59 +0800
-From: Jiangyifei <jiangyifei@huawei.com>
-To: Andrew Jones <drjones@redhat.com>
-Subject: RE: [PATCH v2 1/1] target-riscv: support QMP dump-guest-memory
-Thread-Topic: [PATCH v2 1/1] target-riscv: support QMP dump-guest-memory
-Thread-Index: AQHW1OVNxsEVDKe+dkOx0YdjrIiPUKofb6WAgAijtzA=
-Date: Fri, 15 Jan 2021 01:35:59 +0000
-Message-ID: <7dd47d77b50240fab831d4cef37bf3ea@huawei.com>
-References: <20201218022653.654-1-jiangyifei@huawei.com>
- <20201218022653.654-2-jiangyifei@huawei.com>
- <20210109213831.jznse3b3xjzrkf3h@kamzik.brq.redhat.com>
-In-Reply-To: <20210109213831.jznse3b3xjzrkf3h@kamzik.brq.redhat.com>
-Accept-Language: zh-CN, en-US
-Content-Language: zh-CN
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [10.174.186.236]
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+ (Exim 4.90_1) (envelope-from <no-reply@patchew.org>)
+ id 1l0EKL-0002PU-EV; Thu, 14 Jan 2021 20:55:03 -0500
+ARC-Seal: i=1; a=rsa-sha256; t=1610675687; cv=none; 
+ d=zohomail.com; s=zohoarc; 
+ b=C45+1kBLhBlsgowCRn5Mde2rX2Q90TLCg7hTmFsy+PnE2CeGC17bR0g5lwr5xatBF2Xm/Ix6BgDBnGa3oLxoNVZOkzjtXS7HnLev1C6YXhfP5isXLNJ5HSowVjYmaQvb0z4etZ0MbG+cHY/N7s06QYRsXfM2qGC8Gedi4Z0XAcw=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
+ s=zohoarc; t=1610675687;
+ h=Content-Type:Content-Transfer-Encoding:Cc:Date:From:In-Reply-To:MIME-Version:Message-ID:Reply-To:Subject:To;
+ bh=326YZzSn0bshP2Pmk5wCw6hR9MvzjvKvHgq6cqhY0NE=; 
+ b=fsWbTIEeANGaEK1+kLAoA+2/MYrmE/lE+vnZL1R5CRtURZxvsjKHg9qSfS2NivSn7E4CeJfmDSB+drtz6RQy4IkOSxC9LzQsZQGYNeZrQIpngFn8L7X62UUvdluSp/a8Ej2K32BceTzCNpBn0AD0v/DQrqVo0rcZOFVGD3TK/NI=
+ARC-Authentication-Results: i=1; mx.zohomail.com;
+ spf=pass  smtp.mailfrom=no-reply@patchew.org;
+ dmarc=pass header.from=<no-reply@patchew.org>
+ header.from=<no-reply@patchew.org>
+Received: from [172.17.0.3] (23.253.156.214 [23.253.156.214]) by
+ mx.zohomail.com with SMTPS id 1610675685452674.4957428190091;
+ Thu, 14 Jan 2021 17:54:45 -0800 (PST)
+In-Reply-To: <20210115012431.79533-1-zhanghan64@huawei.com>
+Subject: Re: [PATCH v2 0/7]Fix some style problems in audio
+Message-ID: <161067568385.26655.3608742083119578086@73fb1a5943b8>
 MIME-Version: 1.0
-X-CFilter-Loop: Reflected
-Received-SPF: pass client-ip=45.249.212.189;
- envelope-from=jiangyifei@huawei.com; helo=szxga03-in.huawei.com
-X-Spam_score_int: -41
-X-Spam_score: -4.2
-X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
+Resent-From: 
+From: no-reply@patchew.org
+To: zhanghan64@huawei.com
+Date: Thu, 14 Jan 2021 17:54:45 -0800 (PST)
+X-ZohoMailClient: External
+Received-SPF: pass client-ip=136.143.188.53; envelope-from=no-reply@patchew.org;
+ helo=sender4-of-o53.zoho.com
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
+ RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -66,326 +65,56 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "qemu-riscv@nongnu.org" <qemu-riscv@nongnu.org>,
- Zhanghailiang <zhang.zhanghailiang@huawei.com>,
- "sagark@eecs.berkeley.edu" <sagark@eecs.berkeley.edu>,
- "kbastian@mail.uni-paderborn.de" <kbastian@mail.uni-paderborn.de>,
- "Zhangxiaofeng \(F\)" <victor.zhangxiaofeng@huawei.com>,
- "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
- "limingwang \(A\)" <limingwang@huawei.com>,
- "Alistair.Francis@wdc.com" <Alistair.Francis@wdc.com>,
- "palmer@dabbelt.com" <palmer@dabbelt.com>,
- "Fanliang \(EulerOS\)" <fanliang@huawei.com>,
- "Wubin \(H\)" <wu.wubin@huawei.com>, "dengkai \(A\)" <dengkai1@huawei.com>
+Reply-To: qemu-devel@nongnu.org
+Cc: hunongda@huawei.com, zhang.zhanghailiang@huawei.com,
+ qemu-trivial@nongnu.org, qemu-devel@nongnu.org, alex.chen@huawei.com,
+ kraxel@redhat.com, zhanghan64@huawei.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-
-> -----Original Message-----
-> From: Andrew Jones [mailto:drjones@redhat.com]
-> Sent: Sunday, January 10, 2021 5:39 AM
-> To: Jiangyifei <jiangyifei@huawei.com>
-> Cc: qemu-devel@nongnu.org; qemu-riscv@nongnu.org; Zhanghailiang
-> <zhang.zhanghailiang@huawei.com>; sagark@eecs.berkeley.edu;
-> kbastian@mail.uni-paderborn.de; Zhangxiaofeng (F)
-> <victor.zhangxiaofeng@huawei.com>; limingwang (A)
-> <limingwang@huawei.com>; Alistair.Francis@wdc.com; palmer@dabbelt.com;
-> Fanliang (EulerOS) <fanliang@huawei.com>; Wubin (H)
-> <wu.wubin@huawei.com>; dengkai (A) <dengkai1@huawei.com>
-> Subject: Re: [PATCH v2 1/1] target-riscv: support QMP dump-guest-memory
->=20
-> On Fri, Dec 18, 2020 at 10:26:53AM +0800, Yifei Jiang wrote:
-> > Add the support needed for creating prstatus elf notes. Now elf notes
-> > only contains user_regs. This allows us to use QMP dump-guest-memory.
-> >
-> > Signed-off-by: Yifei Jiang <jiangyifei@huawei.com>
-> > Signed-off-by: Mingwang Li <limingwang@huawei.com>
-> > ---
-> >  target/riscv/arch_dump.c | 189
-> +++++++++++++++++++++++++++++++++++++++
-> >  target/riscv/cpu.c       |   2 +
-> >  target/riscv/cpu.h       |   4 +
-> >  target/riscv/cpu_bits.h  |   1 +
-> >  target/riscv/meson.build |   1 +
-> >  5 files changed, 197 insertions(+)
-> >  create mode 100644 target/riscv/arch_dump.c
-> >
-> > diff --git a/target/riscv/arch_dump.c b/target/riscv/arch_dump.c new
-> > file mode 100644 index 0000000000..b89ddf18c7
-> > --- /dev/null
-> > +++ b/target/riscv/arch_dump.c
-> > @@ -0,0 +1,189 @@
-> > +/* Support for writing ELF notes for RISC-V architectures
-> > + *
-> > + * Copyright (C) 2020 Huawei Technologies Co., Ltd
-> > + *
-> > + * This program is free software; you can redistribute it and/or
-> > +modify it
-> > + * under the terms and conditions of the GNU General Public License,
-> > + * version 2 or later, as published by the Free Software Foundation.
-> > + *
-> > + * This program is distributed in the hope it will be useful, but
-> > +WITHOUT
-> > + * ANY WARRANTY; without even the implied warranty of
-> MERCHANTABILITY
-> > +or
-> > + * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public
-> > +License for
-> > + * more details.
-> > + *
-> > + * You should have received a copy of the GNU General Public License
-> > +along with
-> > + * this program.  If not, see <http://www.gnu.org/licenses/>.
-> > + */
-> > +
-> > +#include "qemu/osdep.h"
-> > +#include "cpu.h"
-> > +#include "elf.h"
-> > +#include "sysemu/dump.h"
-> > +
-> > +/* struct user_regs_struct from arch/riscv/include/uapi/asm/ptrace.h
-> > +*/ struct riscv_user_regs {
-> > +    target_ulong pc;
-> > +    target_ulong regs[31];
-> > +} QEMU_PACKED;
-> > +
-> > +/* struct elf_prstatus from include/uapi/linux/elfcore.h */ struct
-> > +riscv64_elf_prstatus {
-> > +    char pad1[32]; /* 32 =3D=3D offsetof(struct elf_prstatus, pr_pid) =
-*/
-> > +    uint32_t pr_pid;
-> > +    char pad2[76]; /* 76 =3D=3D offsetof(struct elf_prstatus, pr_reg) =
--
-> > +                            offsetof(struct elf_prstatus, pr_ppid) */
-> > +    struct riscv_user_regs pr_reg;
-> > +    char pad3[8];
-> > +} QEMU_PACKED;
->=20
-> Any reason not to use the defensive build-bugs that target/arm/arch_dump.=
-c
-> has?
->=20
-
-I have sent the v3 series. And the build-bugs is added in this series.
-
-Thanks,
-Yifei
-
-> > +
-> > +struct riscv64_note {
-> > +    Elf64_Nhdr hdr;
-> > +    char name[8]; /* align_up(sizeof("CORE"), 4) */
-> > +    struct riscv64_elf_prstatus prstatus; } QEMU_PACKED;
-> > +
-> > +#define RISCV64_NOTE_HEADER_SIZE offsetof(struct riscv64_note,
-> > +prstatus) #define RISCV64_PRSTATUS_NOTE_SIZE \
-> > +            (RISCV64_NOTE_HEADER_SIZE + sizeof(struct
-> > +riscv64_elf_prstatus))
-> > +
-> > +static void riscv64_note_init(struct riscv64_note *note, DumpState *s,
-> > +                              const char *name, Elf64_Word
-> namesz,
-> > +                              Elf64_Word type, Elf64_Word descsz) {
-> > +    memset(note, 0, sizeof(*note));
-> > +
-> > +    note->hdr.n_namesz =3D cpu_to_dump32(s, namesz);
-> > +    note->hdr.n_descsz =3D cpu_to_dump32(s, descsz);
-> > +    note->hdr.n_type =3D cpu_to_dump32(s, type);
-> > +
-> > +    memcpy(note->name, name, namesz); }
-> > +
-> > +int riscv_cpu_write_elf64_note(WriteCoreDumpFunction f, CPUState *cs,
-> > +                               int cpuid, void *opaque) {
-> > +    struct riscv64_note note;
-> > +    RISCVCPU *cpu =3D RISCV_CPU(cs);
-> > +    CPURISCVState *env =3D &cpu->env;
-> > +    DumpState *s =3D opaque;
-> > +    int ret, i =3D 0;
-> > +    const char name[] =3D "CORE";
-> > +
-> > +    riscv64_note_init(&note, s, name, sizeof(name),
-> > +                      NT_PRSTATUS, sizeof(note.prstatus));
-> > +
-> > +    note.prstatus.pr_pid =3D cpu_to_dump32(s, cpuid);
-> > +
-> > +    note.prstatus.pr_reg.pc =3D cpu_to_dump64(s, env->pc);
-> > +
-> > +    for (i =3D 0; i < 31; i++) {
-> > +        note.prstatus.pr_reg.regs[i] =3D cpu_to_dump64(s, env->gpr[i +=
- 1]);
-> > +    }
-> > +
-> > +    ret =3D f(&note, RISCV64_PRSTATUS_NOTE_SIZE, s);
-> > +    if (ret < 0) {
-> > +        return -1;
-> > +    }
-> > +
-> > +    return ret;
-> > +}
-> > +
-> > +struct riscv32_elf_prstatus {
-> > +    char pad1[24]; /* 24 =3D=3D offsetof(struct elf_prstatus, pr_pid) =
-*/
-> > +    uint32_t pr_pid;
-> > +    char pad2[44]; /* 44 =3D=3D offsetof(struct elf_prstatus, pr_reg) =
--
-> > +                            offsetof(struct elf_prstatus, pr_ppid) */
-> > +    struct riscv_user_regs pr_reg;
-> > +    char pad3[4];
-> > +} QEMU_PACKED;
-> > +
-> > +struct riscv32_note {
-> > +    Elf32_Nhdr hdr;
-> > +    char name[8]; /* align_up(sizeof("CORE"), 4) */
-> > +    struct riscv32_elf_prstatus prstatus; } QEMU_PACKED;
-> > +
-> > +#define RISCV32_NOTE_HEADER_SIZE offsetof(struct riscv32_note,
-> > +prstatus) #define RISCV32_PRSTATUS_NOTE_SIZE \
-> > +            (RISCV32_NOTE_HEADER_SIZE + sizeof(struct
-> > +riscv32_elf_prstatus))
-> > +
-> > +static void riscv32_note_init(struct riscv32_note *note, DumpState *s,
-> > +                              const char *name, Elf32_Word
-> namesz,
-> > +                              Elf32_Word type, Elf32_Word descsz) {
-> > +    memset(note, 0, sizeof(*note));
-> > +
-> > +    note->hdr.n_namesz =3D cpu_to_dump32(s, namesz);
-> > +    note->hdr.n_descsz =3D cpu_to_dump32(s, descsz);
-> > +    note->hdr.n_type =3D cpu_to_dump32(s, type);
-> > +
-> > +    memcpy(note->name, name, namesz); }
-> > +
-> > +int riscv_cpu_write_elf32_note(WriteCoreDumpFunction f, CPUState *cs,
-> > +                               int cpuid, void *opaque) {
-> > +    struct riscv32_note note;
-> > +    RISCVCPU *cpu =3D RISCV_CPU(cs);
-> > +    CPURISCVState *env =3D &cpu->env;
-> > +    DumpState *s =3D opaque;
-> > +    int ret, i;
-> > +    const char name[] =3D "CORE";
-> > +
-> > +    riscv32_note_init(&note, s, name, sizeof(name),
-> > +                      NT_PRSTATUS, sizeof(note.prstatus));
-> > +
-> > +    note.prstatus.pr_pid =3D cpu_to_dump32(s, cpuid);
-> > +
-> > +    note.prstatus.pr_reg.pc =3D cpu_to_dump32(s, env->pc);
-> > +
-> > +    for (i =3D 0; i < 31; i++) {
-> > +        note.prstatus.pr_reg.regs[i] =3D cpu_to_dump32(s, env->gpr[i +=
- 1]);
-> > +    }
-> > +
-> > +    ret =3D f(&note, RISCV32_PRSTATUS_NOTE_SIZE, s);
-> > +    if (ret < 0) {
-> > +        return -1;
-> > +    }
-> > +
-> > +    return ret;
-> > +}
-> > +
-> > +int cpu_get_dump_info(ArchDumpInfo *info,
-> > +                      const GuestPhysBlockList *guest_phys_blocks) {
-> > +    RISCVCPU *cpu;
-> > +    CPURISCVState *env;
-> > +
-> > +    if (first_cpu =3D=3D NULL) {
-> > +        return -1;
-> > +    }
-> > +    cpu =3D RISCV_CPU(first_cpu);
-> > +    env =3D &cpu->env;
-> > +
-> > +    info->d_machine =3D EM_RISCV;
-> > +
-> > +#if defined(TARGET_RISCV64)
-> > +    info->d_class =3D ELFCLASS64;
-> > +#else
-> > +    info->d_class =3D ELFCLASS32;
-> > +#endif
-> > +
-> > +    info->d_endian =3D (env->mstatus & MSTATUS_UBE) !=3D 0
-> > +                     ? ELFDATA2MSB : ELFDATA2LSB;
-> > +
-> > +    return 0;
-> > +}
-> > +
-> > +ssize_t cpu_get_note_size(int class, int machine, int nr_cpus) {
-> > +    size_t note_size;
-> > +
-> > +    if (class =3D=3D ELFCLASS64) {
-> > +        note_size =3D RISCV64_PRSTATUS_NOTE_SIZE;
-> > +    } else {
-> > +        note_size =3D RISCV32_PRSTATUS_NOTE_SIZE;
-> > +    }
-> > +
-> > +    return note_size * nr_cpus;
-> > +}
-> > diff --git a/target/riscv/cpu.c b/target/riscv/cpu.c index
-> > 6a0264fc6b..69999af813 100644
-> > --- a/target/riscv/cpu.c
-> > +++ b/target/riscv/cpu.c
-> > @@ -560,6 +560,8 @@ static void riscv_cpu_class_init(ObjectClass *c, vo=
-id
-> *data)
-> >      cc->get_phys_page_debug =3D riscv_cpu_get_phys_page_debug;
-> >      /* For now, mark unmigratable: */
-> >      cc->vmsd =3D &vmstate_riscv_cpu;
-> > +    cc->write_elf64_note =3D riscv_cpu_write_elf64_note;
-> > +    cc->write_elf32_note =3D riscv_cpu_write_elf32_note;
-> >  #endif
-> >  #ifdef CONFIG_TCG
-> >      cc->tcg_initialize =3D riscv_translate_init; diff --git
-> > a/target/riscv/cpu.h b/target/riscv/cpu.h index c0a326c843..4a340b0c73
-> > 100644
-> > --- a/target/riscv/cpu.h
-> > +++ b/target/riscv/cpu.h
-> > @@ -315,6 +315,10 @@ extern const char * const riscv_intr_names[];
-> >
-> >  const char *riscv_cpu_get_trap_name(target_ulong cause, bool async);
-> > void riscv_cpu_do_interrupt(CPUState *cpu);
-> > +int riscv_cpu_write_elf64_note(WriteCoreDumpFunction f, CPUState *cs,
-> > +                               int cpuid, void *opaque); int
-> > +riscv_cpu_write_elf32_note(WriteCoreDumpFunction f, CPUState *cs,
-> > +                               int cpuid, void *opaque);
-> >  int riscv_cpu_gdb_read_register(CPUState *cpu, GByteArray *buf, int
-> > reg);  int riscv_cpu_gdb_write_register(CPUState *cpu, uint8_t *buf,
-> > int reg);  bool riscv_cpu_exec_interrupt(CPUState *cs, int
-> > interrupt_request); diff --git a/target/riscv/cpu_bits.h
-> > b/target/riscv/cpu_bits.h index 24b24c69c5..d7259561e7 100644
-> > --- a/target/riscv/cpu_bits.h
-> > +++ b/target/riscv/cpu_bits.h
-> > @@ -368,6 +368,7 @@
-> >  #define MSTATUS_MIE         0x00000008
-> >  #define MSTATUS_UPIE        0x00000010
-> >  #define MSTATUS_SPIE        0x00000020
-> > +#define MSTATUS_UBE         0x00000040
-> >  #define MSTATUS_MPIE        0x00000080
-> >  #define MSTATUS_SPP         0x00000100
-> >  #define MSTATUS_MPP         0x00001800
-> > diff --git a/target/riscv/meson.build b/target/riscv/meson.build index
-> > 14a5c62dac..88ab850682 100644
-> > --- a/target/riscv/meson.build
-> > +++ b/target/riscv/meson.build
-> > @@ -26,6 +26,7 @@ riscv_ss.add(files(
-> >
-> >  riscv_softmmu_ss =3D ss.source_set()
-> >  riscv_softmmu_ss.add(files(
-> > +  'arch_dump.c',
-> >    'pmp.c',
-> >    'monitor.c',
-> >    'machine.c'
-> > --
-> > 2.19.1
-> >
-> >
->=20
-> Besides the missing build-bug question,
->=20
-> Reviewed-by: Andrew Jones <drjones@redhat.com>
->=20
->=20
-> Thanks,
-> drew
-
+UGF0Y2hldyBVUkw6IGh0dHBzOi8vcGF0Y2hldy5vcmcvUUVNVS8yMDIxMDExNTAxMjQzMS43OTUz
+My0xLXpoYW5naGFuNjRAaHVhd2VpLmNvbS8KCgoKSGksCgpUaGlzIHNlcmllcyBzZWVtcyB0byBo
+YXZlIHNvbWUgY29kaW5nIHN0eWxlIHByb2JsZW1zLiBTZWUgb3V0cHV0IGJlbG93IGZvcgptb3Jl
+IGluZm9ybWF0aW9uOgoKVHlwZTogc2VyaWVzCk1lc3NhZ2UtaWQ6IDIwMjEwMTE1MDEyNDMxLjc5
+NTMzLTEtemhhbmdoYW42NEBodWF3ZWkuY29tClN1YmplY3Q6IFtQQVRDSCB2MiAwLzddRml4IHNv
+bWUgc3R5bGUgcHJvYmxlbXMgaW4gYXVkaW8KCj09PSBURVNUIFNDUklQVCBCRUdJTiA9PT0KIyEv
+YmluL2Jhc2gKZ2l0IHJldi1wYXJzZSBiYXNlID4gL2Rldi9udWxsIHx8IGV4aXQgMApnaXQgY29u
+ZmlnIC0tbG9jYWwgZGlmZi5yZW5hbWVsaW1pdCAwCmdpdCBjb25maWcgLS1sb2NhbCBkaWZmLnJl
+bmFtZXMgVHJ1ZQpnaXQgY29uZmlnIC0tbG9jYWwgZGlmZi5hbGdvcml0aG0gaGlzdG9ncmFtCi4v
+c2NyaXB0cy9jaGVja3BhdGNoLnBsIC0tbWFpbGJhY2sgYmFzZS4uCj09PSBURVNUIFNDUklQVCBF
+TkQgPT09CgpVcGRhdGluZyAzYzhjZjVhOWMyMWZmODc4MjE2NGQxZGVmN2Y0NGJkODg4NzEzMzg0
+CkZyb20gaHR0cHM6Ly9naXRodWIuY29tL3BhdGNoZXctcHJvamVjdC9xZW11CiAqIFtuZXcgdGFn
+XSAgICAgICAgIHBhdGNoZXcvMjAyMTAxMTUwMTI0MzEuNzk1MzMtMS16aGFuZ2hhbjY0QGh1YXdl
+aS5jb20gLT4gcGF0Y2hldy8yMDIxMDExNTAxMjQzMS43OTUzMy0xLXpoYW5naGFuNjRAaHVhd2Vp
+LmNvbQpTd2l0Y2hlZCB0byBhIG5ldyBicmFuY2ggJ3Rlc3QnCmFhOWZkNDEgYXVkaW86IHNwYWNl
+IHByb2hpYml0ZWQgYmV0d2VlbiBmdW5jdGlvbiBuYW1lIGFuZCBwYXJlbnRoZXNpcycoJwpmMzZl
+YmU5IGF1ZGlvOiBTdXNwZWN0IGNvZGUgaW5kZW50IGZvciBjb25kaXRpb25hbCBzdGF0ZW1lbnRz
+CmE1MDQ4YjQgYXVkaW86IERvbid0IHVzZSAnJSMnIGluIGZvcm1hdCBzdHJpbmdzCjEzNmRmNWQg
+YXVkaW86IEZpeCBsaW5lcyBvdmVyIDkwIGNoYXJhY3RlcnMKNWNmZWExNiBhdWRpbzogZm9vKiBi
+YXIiIHNob3VsZCBiZSAiZm9vICpiYXIiLgowZjQzMjRmIGF1ZGlvOiBBZGQgc3BhY2VzIGFyb3Vu
+ZCBvcGVyYXRvci9kZWxldGUgcmVkdW5kYW50IHNwYWNlcwo0YTliOTE2IGF1ZGlvOiBBZGQgYnJh
+Y2VzIGZvciBzdGF0ZW1lbnRzL2ZpeCBicmFjZXMnIHBvc2l0aW9uCgo9PT0gT1VUUFVUIEJFR0lO
+ID09PQoxLzcgQ2hlY2tpbmcgY29tbWl0IDRhOWI5MTYwZjNjOSAoYXVkaW86IEFkZCBicmFjZXMg
+Zm9yIHN0YXRlbWVudHMvZml4IGJyYWNlcycgcG9zaXRpb24pCjIvNyBDaGVja2luZyBjb21taXQg
+MGY0MzI0ZmY2MzMzIChhdWRpbzogQWRkIHNwYWNlcyBhcm91bmQgb3BlcmF0b3IvZGVsZXRlIHJl
+ZHVuZGFudCBzcGFjZXMpCkVSUk9SOiBzcGFjZSBwcm9oaWJpdGVkIGJldHdlZW4gZnVuY3Rpb24g
+bmFtZSBhbmQgb3BlbiBwYXJlbnRoZXNpcyAnKCcKIzIzOiBGSUxFOiBhdWRpby9hdWRpb190ZW1w
+bGF0ZS5oOjIxMToKKyAgICAgICAgZ2x1ZSAoYXVkaW9fcGNtX2h3X2ZyZWVfcmVzb3VyY2VzXyAs
+IFRZUEUpIChodyk7Cgp0b3RhbDogMSBlcnJvcnMsIDAgd2FybmluZ3MsIDMyIGxpbmVzIGNoZWNr
+ZWQKClBhdGNoIDIvNyBoYXMgc3R5bGUgcHJvYmxlbXMsIHBsZWFzZSByZXZpZXcuICBJZiBhbnkg
+b2YgdGhlc2UgZXJyb3JzCmFyZSBmYWxzZSBwb3NpdGl2ZXMgcmVwb3J0IHRoZW0gdG8gdGhlIG1h
+aW50YWluZXIsIHNlZQpDSEVDS1BBVENIIGluIE1BSU5UQUlORVJTLgoKMy83IENoZWNraW5nIGNv
+bW1pdCA1Y2ZlYTE2M2RkODcgKGF1ZGlvOiBmb28qIGJhciIgc2hvdWxkIGJlICJmb28gKmJhciIu
+KQo0LzcgQ2hlY2tpbmcgY29tbWl0IDEzNmRmNWQ3Njc2MiAoYXVkaW86IEZpeCBsaW5lcyBvdmVy
+IDkwIGNoYXJhY3RlcnMpCjUvNyBDaGVja2luZyBjb21taXQgYTUwNDhiNDM3ZGFkIChhdWRpbzog
+RG9uJ3QgdXNlICclIycgaW4gZm9ybWF0IHN0cmluZ3MpCjYvNyBDaGVja2luZyBjb21taXQgZjM2
+ZWJlOTc1NTlmIChhdWRpbzogU3VzcGVjdCBjb2RlIGluZGVudCBmb3IgY29uZGl0aW9uYWwgc3Rh
+dGVtZW50cykKNy83IENoZWNraW5nIGNvbW1pdCBhYTlmZDQxOTQ3YjQgKGF1ZGlvOiBzcGFjZSBw
+cm9oaWJpdGVkIGJldHdlZW4gZnVuY3Rpb24gbmFtZSBhbmQgcGFyZW50aGVzaXMnKCcpCj09PSBP
+VVRQVVQgRU5EID09PQoKVGVzdCBjb21tYW5kIGV4aXRlZCB3aXRoIGNvZGU6IDEKCgpUaGUgZnVs
+bCBsb2cgaXMgYXZhaWxhYmxlIGF0Cmh0dHA6Ly9wYXRjaGV3Lm9yZy9sb2dzLzIwMjEwMTE1MDEy
+NDMxLjc5NTMzLTEtemhhbmdoYW42NEBodWF3ZWkuY29tL3Rlc3RpbmcuY2hlY2twYXRjaC8/dHlw
+ZT1tZXNzYWdlLgotLS0KRW1haWwgZ2VuZXJhdGVkIGF1dG9tYXRpY2FsbHkgYnkgUGF0Y2hldyBb
+aHR0cHM6Ly9wYXRjaGV3Lm9yZy9dLgpQbGVhc2Ugc2VuZCB5b3VyIGZlZWRiYWNrIHRvIHBhdGNo
+ZXctZGV2ZWxAcmVkaGF0LmNvbQ==
 
