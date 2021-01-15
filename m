@@ -2,68 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BD54C2F894E
-	for <lists+qemu-devel@lfdr.de>; Sat, 16 Jan 2021 00:22:14 +0100 (CET)
-Received: from localhost ([::1]:38790 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0BB1D2F8957
+	for <lists+qemu-devel@lfdr.de>; Sat, 16 Jan 2021 00:24:24 +0100 (CET)
+Received: from localhost ([::1]:41794 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l0YQ1-0001ER-RD
-	for lists+qemu-devel@lfdr.de; Fri, 15 Jan 2021 18:22:13 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60394)
+	id 1l0YS6-0002ZX-Sh
+	for lists+qemu-devel@lfdr.de; Fri, 15 Jan 2021 18:24:22 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59490)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1l0YOi-0000QA-P1
- for qemu-devel@nongnu.org; Fri, 15 Jan 2021 18:20:53 -0500
-Received: from indium.canonical.com ([91.189.90.7]:53716)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1l0YOf-0007Wu-Hm
- for qemu-devel@nongnu.org; Fri, 15 Jan 2021 18:20:52 -0500
-Received: from loganberry.canonical.com ([91.189.90.37])
- by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1l0YOc-0005HQ-Vu
- for <qemu-devel@nongnu.org>; Fri, 15 Jan 2021 23:20:46 +0000
-Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id D0A942E813C
- for <qemu-devel@nongnu.org>; Fri, 15 Jan 2021 23:20:46 +0000 (UTC)
+ (Exim 4.90_1) (envelope-from <no-reply@patchew.org>)
+ id 1l0YK0-0005E7-Op; Fri, 15 Jan 2021 18:16:00 -0500
+Resent-Date: Fri, 15 Jan 2021 18:16:00 -0500
+Resent-Message-Id: <E1l0YK0-0005E7-Op@lists.gnu.org>
+Received: from sender4-of-o54.zoho.com ([136.143.188.54]:21442)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <no-reply@patchew.org>)
+ id 1l0YJv-0005uF-OY; Fri, 15 Jan 2021 18:16:00 -0500
+ARC-Seal: i=1; a=rsa-sha256; t=1610752551; cv=none; 
+ d=zohomail.com; s=zohoarc; 
+ b=T/91J/O14jjQGadms56n+bsEPx6WFhIRGrsy3LxGVX3ZSJkuICeNAa3RNYUCQZq/bFVXkbePCj4G7VaBqtF38Z9UYtzZ9v9D8iprR4RzBPZLFFBZ1Dg3aL8Wy70R56qeqh6JVpufq/x23y6j/BdC3Zgn5JkvRRotOXYSoYloT5U=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
+ s=zohoarc; t=1610752551;
+ h=Content-Type:Content-Transfer-Encoding:Cc:Date:From:In-Reply-To:MIME-Version:Message-ID:Reply-To:Subject:To;
+ bh=9L5TRySUhvSxtSi0xjfZ4gO/2DZUsdSAOytNk/daxcg=; 
+ b=DpLSGJ5wV9DCnHbhe0BIYfaLOmAfM25owPc/OIbpsX9cGaj9foPoTsenpyb3irSuumQ9emzrmCmHrFvPb2cQen/o1XTq0c7bucdTXAfF68Lc6Oehx5yKDMGI+20nJddTzGtBUHEMqtS7IS3QUrpyW6as7aYSRT0w44lLXkTYzP0=
+ARC-Authentication-Results: i=1; mx.zohomail.com;
+ spf=pass  smtp.mailfrom=no-reply@patchew.org;
+ dmarc=pass header.from=<no-reply@patchew.org>
+ header.from=<no-reply@patchew.org>
+Received: from [172.17.0.3] (23.253.156.214 [23.253.156.214]) by
+ mx.zohomail.com with SMTPS id 1610752548955743.1531274025117;
+ Fri, 15 Jan 2021 15:15:48 -0800 (PST)
+In-Reply-To: <20210115224645.1196742-1-richard.henderson@linaro.org>
+Subject: Re: [PATCH v3 00/21] target-arm: Implement ARMv8.5-MemTag, user mode
+Message-ID: <161075254772.14767.8192630492635003479@73fb1a5943b8>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-Date: Fri, 15 Jan 2021 23:10:40 -0000
-From: Alistair Francis <1906193@bugs.launchpad.net>
-To: qemu-devel@nongnu.org
-X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=Confirmed; importance=Undecided;
- assignee=None; 
-X-Launchpad-Bug-Information-Type: Public
-X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: alistair2323 dilfridge
-X-Launchpad-Bug-Reporter: =?utf-8?q?Andreas_K=2E_H=C3=BCttel_=28dilfridge?=
- =?utf-8?q?=29?=
-X-Launchpad-Bug-Modifier: Alistair Francis (alistair2323)
-References: <160669515259.21126.12178770886175022752.malonedeb@gac.canonical.com>
-Message-Id: <161075224016.24311.11772385744877350148.malone@soybean.canonical.com>
-Subject: [Bug 1906193] Re: riscv32 user mode emulation: fork return values
- broken
-X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
-X-Launchpad-Message-For: qemu-devel-ml
-Precedence: bulk
-X-Generated-By: Launchpad (canonical.com);
- Revision="511b4a3b6512aa3d421c5f7d74f3527e78bff26e"; Instance="production"
-X-Launchpad-Hash: 11c18f33edd6e6d11dcb3e7b02d3c1829003c731
-Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
- helo=indium.canonical.com
-X-Spam_score_int: -65
-X-Spam_score: -6.6
-X-Spam_bar: ------
-X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9,
- HEADER_FROM_DIFFERENT_DOMAINS=0.249, RCVD_IN_DNSWL_HI=-5,
- RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=ham autolearn_force=no
+Content-Transfer-Encoding: base64
+Resent-From: 
+From: no-reply@patchew.org
+To: richard.henderson@linaro.org
+Date: Fri, 15 Jan 2021 15:15:48 -0800 (PST)
+X-ZohoMailClient: External
+Received-SPF: pass client-ip=136.143.188.54; envelope-from=no-reply@patchew.org;
+ helo=sender4-of-o54.zoho.com
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
+ RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -72,90 +65,104 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1906193 <1906193@bugs.launchpad.net>
+Reply-To: qemu-devel@nongnu.org
+Cc: peter.maydell@linaro.org, qemu-arm@nongnu.org, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Can you add a Tested-by: tag to the patch?
-
--- =
-
-You received this bug notification because you are a member of qemu-
-devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1906193
-
-Title:
-  riscv32 user mode emulation: fork return values broken
-
-Status in QEMU:
-  Confirmed
-
-Bug description:
-  When running in a chroot with riscv32 (on x86_64; qemu git master as
-  of today):
-
-  The following short program forks; the child immediately returns with
-  exit(42). The parent checks for the return value - and obtains 40!
-
-  gcc-10.2
-
-  =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-  #include <stdlib.h>
-  #include <unistd.h>
-  #include <stdio.h>
-  #include <sys/wait.h>
-
-  main(c, v)
-       int c;
-       char **v;
-  {
-    pid_t pid, p;
-    int s, i, n;
-
-    s =3D 0;
-    pid =3D fork();
-    if (pid =3D=3D 0)
-      exit(42);
-
-    /* wait for the process */
-    p =3D wait(&s);
-    if (p !=3D pid)
-      exit (255);
-
-    if (WIFEXITED(s))
-    {
-       int r=3DWEXITSTATUS(s);
-       if (r!=3D42) {
-        printf("child wants to return %i (0x%X), parent received %i (0x%X),=
- difference %i\n",42,42,r,r,r-42);
-       }
-    }
-  }
-  =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-
-  (riscv-ilp32 chroot) farino /tmp # ./wait-test-short =
-
-  child wants to return 42 (0x2A), parent received 40 (0x28), difference -2
-
-  =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-  (riscv-ilp32 chroot) farino /tmp # gcc --version
-  gcc (Gentoo 10.2.0-r1 p2) 10.2.0
-  Copyright (C) 2020 Free Software Foundation, Inc.
-  Dies ist freie Software; die Kopierbedingungen stehen in den Quellen. Es
-  gibt KEINE Garantie; auch nicht f=C3=BCr MARKTG=C3=84NGIGKEIT oder F=C3=
-=9CR SPEZIELLE ZWECKE.
-
-  (riscv-ilp32 chroot) farino /tmp # ld --version
-  GNU ld (Gentoo 2.34 p6) 2.34.0
-  Copyright (C) 2020 Free Software Foundation, Inc.
-  This program is free software; you may redistribute it under the terms of
-  the GNU General Public License version 3 or (at your option) a later vers=
-ion.
-  This program has absolutely no warranty.
-
-To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1906193/+subscriptions
+UGF0Y2hldyBVUkw6IGh0dHBzOi8vcGF0Y2hldy5vcmcvUUVNVS8yMDIxMDExNTIyNDY0NS4xMTk2
+NzQyLTEtcmljaGFyZC5oZW5kZXJzb25AbGluYXJvLm9yZy8KCgoKSGksCgpUaGlzIHNlcmllcyBz
+ZWVtcyB0byBoYXZlIHNvbWUgY29kaW5nIHN0eWxlIHByb2JsZW1zLiBTZWUgb3V0cHV0IGJlbG93
+IGZvcgptb3JlIGluZm9ybWF0aW9uOgoKVHlwZTogc2VyaWVzCk1lc3NhZ2UtaWQ6IDIwMjEwMTE1
+MjI0NjQ1LjExOTY3NDItMS1yaWNoYXJkLmhlbmRlcnNvbkBsaW5hcm8ub3JnClN1YmplY3Q6IFtQ
+QVRDSCB2MyAwMC8yMV0gdGFyZ2V0LWFybTogSW1wbGVtZW50IEFSTXY4LjUtTWVtVGFnLCB1c2Vy
+IG1vZGUKCj09PSBURVNUIFNDUklQVCBCRUdJTiA9PT0KIyEvYmluL2Jhc2gKZ2l0IHJldi1wYXJz
+ZSBiYXNlID4gL2Rldi9udWxsIHx8IGV4aXQgMApnaXQgY29uZmlnIC0tbG9jYWwgZGlmZi5yZW5h
+bWVsaW1pdCAwCmdpdCBjb25maWcgLS1sb2NhbCBkaWZmLnJlbmFtZXMgVHJ1ZQpnaXQgY29uZmln
+IC0tbG9jYWwgZGlmZi5hbGdvcml0aG0gaGlzdG9ncmFtCi4vc2NyaXB0cy9jaGVja3BhdGNoLnBs
+IC0tbWFpbGJhY2sgYmFzZS4uCj09PSBURVNUIFNDUklQVCBFTkQgPT09CgpVcGRhdGluZyAzYzhj
+ZjVhOWMyMWZmODc4MjE2NGQxZGVmN2Y0NGJkODg4NzEzMzg0CkZyb20gaHR0cHM6Ly9naXRodWIu
+Y29tL3BhdGNoZXctcHJvamVjdC9xZW11CiAtIFt0YWcgdXBkYXRlXSAgICAgIHBhdGNoZXcvMjAy
+MDExMDQwOTI5MDAuMjEyMTQtMS1ncmVlbi53YW5Ac2lmaXZlLmNvbSAtPiBwYXRjaGV3LzIwMjAx
+MTA0MDkyOTAwLjIxMjE0LTEtZ3JlZW4ud2FuQHNpZml2ZS5jb20KIC0gW3RhZyB1cGRhdGVdICAg
+ICAgcGF0Y2hldy8yMDIxMDExMDE4NTEwOS4yOTg0MS0xLXNwYWNlLm1vbmtleS5kZWxpdmVyc0Bn
+bWFpbC5jb20gLT4gcGF0Y2hldy8yMDIxMDExMDE4NTEwOS4yOTg0MS0xLXNwYWNlLm1vbmtleS5k
+ZWxpdmVyc0BnbWFpbC5jb20KICogW25ldyB0YWddICAgICAgICAgcGF0Y2hldy8yMDIxMDExNTIy
+NDY0NS4xMTk2NzQyLTEtcmljaGFyZC5oZW5kZXJzb25AbGluYXJvLm9yZyAtPiBwYXRjaGV3LzIw
+MjEwMTE1MjI0NjQ1LjExOTY3NDItMS1yaWNoYXJkLmhlbmRlcnNvbkBsaW5hcm8ub3JnClN3aXRj
+aGVkIHRvIGEgbmV3IGJyYW5jaCAndGVzdCcKYjUxYzYyYiB0ZXN0cy90Y2cvYWFyY2g2NDogQWRk
+IG10ZSBzbW9rZSB0ZXN0cwoyYmI2NjUxIHRhcmdldC9hcm06IEVuYWJsZSBNVEUgZm9yIHVzZXIt
+b25seQo1ODEwMDZiIHRhcmdldC9hcm06IEFkZCBhbGxvY2F0aW9uIHRhZyBzdG9yYWdlIGZvciB1
+c2VyIG1vZGUKMzk5NWMxMyBsaW51eC11c2VyL2FhcmNoNjQ6IFNpZ25hbCBTRUdWX01URUFFUlIg
+Zm9yIGFzeW5jIHRhZyBjaGVjayBlcnJvcgozYjI3MzVhIGxpbnV4LXVzZXIvYWFyY2g2NDogU2ln
+bmFsIFNFR1ZfTVRFU0VSUiBmb3Igc3luYyB0YWcgY2hlY2sgZmF1bHQKODc3NzNkYyBsaW51eC11
+c2VyL2FhcmNoNjQ6IFBhc3Mgc3luZHJvbWUgdG8gRVhDXypfQUJPUlQKYzc3YjllNyB0YXJnZXQv
+YXJtOiBTcGxpdCBvdXQgc3luZHJvbWUuaCBmcm9tIGludGVybmFscy5oCjAzNDA5ZGIgbGludXgt
+dXNlci9hYXJjaDY0OiBJbXBsZW1lbnQgUFJPVF9NVEUKYTM0OTE4NiBsaW51eC11c2VyL2FhcmNo
+NjQ6IEltcGxlbWVudCBQUl9NVEVfVENGIGFuZCBQUl9NVEVfVEFHCjFiZjMwMTQgbGludXgtdXNl
+ci9hYXJjaDY0OiBJbXBsZW1lbnQgUFJfVEFHR0VEX0FERFJfRU5BQkxFCmRkYTZhYmEgZXhlYzog
+QWRkIHN1cHBvcnQgZm9yIFRBUkdFVF9UQUdHRURfQUREUkVTU0VTCjM3ZWNiZGIgbGludXgtdXNl
+cjogRml4IGd1ZXN0X2FkZHJfdmFsaWQgdnMgcmVzZXJ2ZWRfdmEKYjQ1ZTAzNyBsaW51eC11c2Vy
+OiBEbyBub3QgdXNlIGd1ZXN0X2FkZHJfdmFsaWQgZm9yIGgyZ192YWxpZApjYWJiYjA3IGJzZC11
+c2VyOiBUaWR5IFZFUklGWV9SRUFEL1ZFUklGWV9XUklURQo5NTI4ODkwIGxpbnV4LXVzZXI6IFRp
+ZHkgVkVSSUZZX1JFQUQvVkVSSUZZX1dSSVRFCjA3NGYxYjYgbGludXgtdXNlcjogQ2hlY2sgZm9y
+IG92ZXJmbG93IGluIGFjY2Vzc19vawphNTdhYWEzIGV4ZWM6IEltcHJvdmUgdHlwZXMgZm9yIGd1
+ZXN0X2FkZHJfdmFsaWQKYWNiMjhjNyBleGVjOiBVc2UgdWludHB0cl90IGluIGNwdV9sZHN0LmgK
+NmI2MzBmZiBleGVjOiBVc2UgdWludHB0cl90IGZvciBndWVzdF9iYXNlCjZiN2RhYTMgbGludXgt
+dXNlcjogSW50cm9kdWNlIFBBR0VfQU5PTgpiN2RjMDVkIHRjZzogSW50cm9kdWNlIHRhcmdldC1z
+cGVjaWZpYyBwYWdlIGRhdGEgZm9yIHVzZXItb25seQoKPT09IE9VVFBVVCBCRUdJTiA9PT0KMS8y
+MSBDaGVja2luZyBjb21taXQgYjdkYzA1ZGRjYzViICh0Y2c6IEludHJvZHVjZSB0YXJnZXQtc3Bl
+Y2lmaWMgcGFnZSBkYXRhIGZvciB1c2VyLW9ubHkpCjIvMjEgQ2hlY2tpbmcgY29tbWl0IDZiN2Rh
+YTM0Mjk4YyAobGludXgtdXNlcjogSW50cm9kdWNlIFBBR0VfQU5PTikKMy8yMSBDaGVja2luZyBj
+b21taXQgNmI2MzBmZmU0YzY2IChleGVjOiBVc2UgdWludHB0cl90IGZvciBndWVzdF9iYXNlKQo0
+LzIxIENoZWNraW5nIGNvbW1pdCBhY2IyOGM3Y2I2MGIgKGV4ZWM6IFVzZSB1aW50cHRyX3QgaW4g
+Y3B1X2xkc3QuaCkKNS8yMSBDaGVja2luZyBjb21taXQgYTU3YWFhMzM1OWYyIChleGVjOiBJbXBy
+b3ZlIHR5cGVzIGZvciBndWVzdF9hZGRyX3ZhbGlkKQo2LzIxIENoZWNraW5nIGNvbW1pdCAwNzRm
+MWI2YTAzZDMgKGxpbnV4LXVzZXI6IENoZWNrIGZvciBvdmVyZmxvdyBpbiBhY2Nlc3Nfb2spCjcv
+MjEgQ2hlY2tpbmcgY29tbWl0IDk1Mjg4OTA2NmJhMCAobGludXgtdXNlcjogVGlkeSBWRVJJRllf
+UkVBRC9WRVJJRllfV1JJVEUpCjgvMjEgQ2hlY2tpbmcgY29tbWl0IGNhYmJiMDc1MDhmNiAoYnNk
+LXVzZXI6IFRpZHkgVkVSSUZZX1JFQUQvVkVSSUZZX1dSSVRFKQo5LzIxIENoZWNraW5nIGNvbW1p
+dCBiNDVlMDM3YzA4ZDIgKGxpbnV4LXVzZXI6IERvIG5vdCB1c2UgZ3Vlc3RfYWRkcl92YWxpZCBm
+b3IgaDJnX3ZhbGlkKQoxMC8yMSBDaGVja2luZyBjb21taXQgMzdlY2JkYmY2YTA4IChsaW51eC11
+c2VyOiBGaXggZ3Vlc3RfYWRkcl92YWxpZCB2cyByZXNlcnZlZF92YSkKMTEvMjEgQ2hlY2tpbmcg
+Y29tbWl0IGRkYTZhYmE2OGNjMiAoZXhlYzogQWRkIHN1cHBvcnQgZm9yIFRBUkdFVF9UQUdHRURf
+QUREUkVTU0VTKQoxMi8yMSBDaGVja2luZyBjb21taXQgMWJmMzAxNDNkMThkIChsaW51eC11c2Vy
+L2FhcmNoNjQ6IEltcGxlbWVudCBQUl9UQUdHRURfQUREUl9FTkFCTEUpCjEzLzIxIENoZWNraW5n
+IGNvbW1pdCBhMzQ5MTg2ZDI3ZjAgKGxpbnV4LXVzZXIvYWFyY2g2NDogSW1wbGVtZW50IFBSX01U
+RV9UQ0YgYW5kIFBSX01URV9UQUcpCjE0LzIxIENoZWNraW5nIGNvbW1pdCAwMzQwOWRiMmU0ZWMg
+KGxpbnV4LXVzZXIvYWFyY2g2NDogSW1wbGVtZW50IFBST1RfTVRFKQoxNS8yMSBDaGVja2luZyBj
+b21taXQgYzc3YjllNzJlYjMyICh0YXJnZXQvYXJtOiBTcGxpdCBvdXQgc3luZHJvbWUuaCBmcm9t
+IGludGVybmFscy5oKQpXQVJOSU5HOiBhZGRlZCwgbW92ZWQgb3IgZGVsZXRlZCBmaWxlKHMpLCBk
+b2VzIE1BSU5UQUlORVJTIG5lZWQgdXBkYXRpbmc/CiMyNzc6IApuZXcgZmlsZSBtb2RlIDEwMDY0
+NAoKdG90YWw6IDAgZXJyb3JzLCAxIHdhcm5pbmdzLCA1MzAgbGluZXMgY2hlY2tlZAoKUGF0Y2gg
+MTUvMjEgaGFzIHN0eWxlIHByb2JsZW1zLCBwbGVhc2UgcmV2aWV3LiAgSWYgYW55IG9mIHRoZXNl
+IGVycm9ycwphcmUgZmFsc2UgcG9zaXRpdmVzIHJlcG9ydCB0aGVtIHRvIHRoZSBtYWludGFpbmVy
+LCBzZWUKQ0hFQ0tQQVRDSCBpbiBNQUlOVEFJTkVSUy4KMTYvMjEgQ2hlY2tpbmcgY29tbWl0IDg3
+NzczZGNhN2UzOCAobGludXgtdXNlci9hYXJjaDY0OiBQYXNzIHN5bmRyb21lIHRvIEVYQ18qX0FC
+T1JUKQoxNy8yMSBDaGVja2luZyBjb21taXQgM2IyNzM1YWMyYzMyIChsaW51eC11c2VyL2FhcmNo
+NjQ6IFNpZ25hbCBTRUdWX01URVNFUlIgZm9yIHN5bmMgdGFnIGNoZWNrIGZhdWx0KQoxOC8yMSBD
+aGVja2luZyBjb21taXQgMzk5NWMxMzI4M2NiIChsaW51eC11c2VyL2FhcmNoNjQ6IFNpZ25hbCBT
+RUdWX01URUFFUlIgZm9yIGFzeW5jIHRhZyBjaGVjayBlcnJvcikKMTkvMjEgQ2hlY2tpbmcgY29t
+bWl0IDU4MTAwNmJmMDQxYSAodGFyZ2V0L2FybTogQWRkIGFsbG9jYXRpb24gdGFnIHN0b3JhZ2Ug
+Zm9yIHVzZXIgbW9kZSkKMjAvMjEgQ2hlY2tpbmcgY29tbWl0IDJiYjY2NTFmYmNmNyAodGFyZ2V0
+L2FybTogRW5hYmxlIE1URSBmb3IgdXNlci1vbmx5KQoyMS8yMSBDaGVja2luZyBjb21taXQgYjUx
+YzYyYmJkOTgwICh0ZXN0cy90Y2cvYWFyY2g2NDogQWRkIG10ZSBzbW9rZSB0ZXN0cykKV0FSTklO
+RzogYWRkZWQsIG1vdmVkIG9yIGRlbGV0ZWQgZmlsZShzKSwgZG9lcyBNQUlOVEFJTkVSUyBuZWVk
+IHVwZGF0aW5nPwojMjg6IApuZXcgZmlsZSBtb2RlIDEwMDY0NAoKRVJST1I6IHRyYWlsaW5nIHN0
+YXRlbWVudHMgc2hvdWxkIGJlIG9uIG5leHQgbGluZQojMTU3OiBGSUxFOiB0ZXN0cy90Y2cvYWFy
+Y2g2NC9tdGUtMy5jOjQ2OgorICAgIHdoaWxlICgxKTsKCkVSUk9SOiBicmFjZXMge30gYXJlIG5l
+Y2Vzc2FyeSBmb3IgYWxsIGFybXMgb2YgdGhpcyBzdGF0ZW1lbnQKIzE1NzogRklMRTogdGVzdHMv
+dGNnL2FhcmNoNjQvbXRlLTMuYzo0NjoKKyAgICB3aGlsZSAoMSk7ClsuLi5dCgpFUlJPUjogdXNl
+IHFlbXVfcmVhbF9ob3N0X3BhZ2Vfc2l6ZSBpbnN0ZWFkIG9mIGdldHBhZ2VzaXplKCkKIzE5Mjog
+RklMRTogdGVzdHMvdGNnL2FhcmNoNjQvbXRlLTQuYzoyODoKKyAgICBzaXplX3Qgc2l6ZSA9IGdl
+dHBhZ2VzaXplKCkgKiA0OwoKdG90YWw6IDMgZXJyb3JzLCAxIHdhcm5pbmdzLCAyMzEgbGluZXMg
+Y2hlY2tlZAoKUGF0Y2ggMjEvMjEgaGFzIHN0eWxlIHByb2JsZW1zLCBwbGVhc2UgcmV2aWV3LiAg
+SWYgYW55IG9mIHRoZXNlIGVycm9ycwphcmUgZmFsc2UgcG9zaXRpdmVzIHJlcG9ydCB0aGVtIHRv
+IHRoZSBtYWludGFpbmVyLCBzZWUKQ0hFQ0tQQVRDSCBpbiBNQUlOVEFJTkVSUy4KCj09PSBPVVRQ
+VVQgRU5EID09PQoKVGVzdCBjb21tYW5kIGV4aXRlZCB3aXRoIGNvZGU6IDEKCgpUaGUgZnVsbCBs
+b2cgaXMgYXZhaWxhYmxlIGF0Cmh0dHA6Ly9wYXRjaGV3Lm9yZy9sb2dzLzIwMjEwMTE1MjI0NjQ1
+LjExOTY3NDItMS1yaWNoYXJkLmhlbmRlcnNvbkBsaW5hcm8ub3JnL3Rlc3RpbmcuY2hlY2twYXRj
+aC8/dHlwZT1tZXNzYWdlLgotLS0KRW1haWwgZ2VuZXJhdGVkIGF1dG9tYXRpY2FsbHkgYnkgUGF0
+Y2hldyBbaHR0cHM6Ly9wYXRjaGV3Lm9yZy9dLgpQbGVhc2Ugc2VuZCB5b3VyIGZlZWRiYWNrIHRv
+IHBhdGNoZXctZGV2ZWxAcmVkaGF0LmNvbQ==
 
