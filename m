@@ -2,70 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 82AE82F747F
-	for <lists+qemu-devel@lfdr.de>; Fri, 15 Jan 2021 09:41:34 +0100 (CET)
-Received: from localhost ([::1]:59998 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 737A62F74E0
+	for <lists+qemu-devel@lfdr.de>; Fri, 15 Jan 2021 10:06:44 +0100 (CET)
+Received: from localhost ([::1]:41232 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l0Kfl-00051L-Gy
-	for lists+qemu-devel@lfdr.de; Fri, 15 Jan 2021 03:41:33 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35876)
+	id 1l0L46-0002zY-Uz
+	for lists+qemu-devel@lfdr.de; Fri, 15 Jan 2021 04:06:43 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41274)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1l0Kea-000424-8C
- for qemu-devel@nongnu.org; Fri, 15 Jan 2021 03:40:24 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:53520)
+ (Exim 4.90_1) (envelope-from <groug@kaod.org>) id 1l0L2v-0002HC-24
+ for qemu-devel@nongnu.org; Fri, 15 Jan 2021 04:05:29 -0500
+Received: from us-smtp-delivery-44.mimecast.com ([205.139.111.44]:46399)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1l0KeT-0001iy-S0
- for qemu-devel@nongnu.org; Fri, 15 Jan 2021 03:40:20 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1610700011;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=EpW/SFjS6fUiuR19np4jlJ9PVNPPifDn4RWLb/2WrRM=;
- b=XWQkRzIFo5gt0oHNW7srRArCD2vMv5cV47tcW/AgewqwRRV44BpOVv/M3NxVgrm4TiXGD5
- 4uUyBoX8oAjJEltrGyVDrSCciTeB67Mv7fXZ5hjuhHreoer78Zi8i2tpP0qf1ROF9r82Kc
- SZYDh68xEi5wpXspPtc5gb7uBsU2ymU=
+ (Exim 4.90_1) (envelope-from <groug@kaod.org>) id 1l0L2q-0004kF-LM
+ for qemu-devel@nongnu.org; Fri, 15 Jan 2021 04:05:28 -0500
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-226-QysT5S0OOcGhxR2TGm0gJg-1; Fri, 15 Jan 2021 03:40:08 -0500
-X-MC-Unique: QysT5S0OOcGhxR2TGm0gJg-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
+ us-mta-128-bcbdr7hyPmiEY3mXuZx4fQ-1; Fri, 15 Jan 2021 04:05:18 -0500
+X-MC-Unique: bcbdr7hyPmiEY3mXuZx4fQ-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 5593F15723;
- Fri, 15 Jan 2021 08:40:07 +0000 (UTC)
-Received: from sirius.home.kraxel.org (ovpn-112-182.ams2.redhat.com
- [10.36.112.182])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 1CA0C10013C0;
- Fri, 15 Jan 2021 08:40:07 +0000 (UTC)
-Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
- id 8FC8B1800606; Fri, 15 Jan 2021 09:40:05 +0100 (CET)
-Date: Fri, 15 Jan 2021 09:40:05 +0100
-From: Gerd Hoffmann <kraxel@redhat.com>
-To: Nikola Pavlica <pavlica.nikola@gmail.com>
-Subject: Re: [PATCH 0/2] ui/gtk: Update refresh rate on EGL as well
-Message-ID: <20210115084005.73vicpjwzgdjtrfp@sirius.home.kraxel.org>
-References: <20210114140153.301473-1-pavlica.nikola@gmail.com>
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id E8AD5107ACF8;
+ Fri, 15 Jan 2021 09:05:16 +0000 (UTC)
+Received: from bahia.redhat.com (ovpn-112-20.ams2.redhat.com [10.36.112.20])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 9272B779F4;
+ Fri, 15 Jan 2021 09:05:15 +0000 (UTC)
+From: Greg Kurz <groug@kaod.org>
+To: qemu-devel@nongnu.org
+Subject: [PULL 0/1] 9p security fix 2021-01-15
+Date: Fri, 15 Jan 2021 10:05:06 +0100
+Message-Id: <20210115090507.108064-1-groug@kaod.org>
 MIME-Version: 1.0
-In-Reply-To: <20210114140153.301473-1-pavlica.nikola@gmail.com>
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kraxel@redhat.com
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
 X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=kraxel@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -29
-X-Spam_score: -3.0
-X-Spam_bar: ---
-X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.248,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Mimecast-Originator: kaod.org
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=WINDOWS-1252
+Received-SPF: softfail client-ip=205.139.111.44; envelope-from=groug@kaod.org;
+ helo=us-smtp-delivery-44.mimecast.com
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_LOW=-0.7,
+ SPF_HELO_NONE=0.001, SPF_SOFTFAIL=0.665 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -78,29 +60,36 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: r_qemu@t-online.de, philmd@redhat.com, qemu-devel@nongnu.org
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ Christian Schoenebeck <qemu_oss@crudebyte.com>, Greg Kurz <groug@kaod.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-  Hi,
+The following changes since commit 7c79721606be11b5bc556449e5bcbc331ef6867d=
+:
 
-> These patches were made in response to Volkers patches which dealt with
->  cleaning up my previous code:
->  https://www.mail-archive.com/qemu-devel@nongnu.org/msg766686.html
->  and thus are meant to be merged after Volker's patches.
-> 
-> Hopefully, this commit message isn't too daunting ;)
-> 
-> EDIT: Sorry about the badly formatted patch emailss, still can't get
->  a hand of how git send-email works.
+  Merge remote-tracking branch 'remotes/rth-gitlab/tags/pull-tcg-20210113' =
+into staging (2021-01-14 09:54:29 +0000)
 
-Well, I got three copies of the patch series.  Guess that comes from
-trying to get git send-email going ;)
+are available in the Git repository at:
 
-Good news is the patches (tried the most recent mails) apply just fine
-on top of Volkers series, so it seems you got it working in the end.
+  https://gitlab.com/gkurz/qemu.git tags/9p-next-2021-01-15
 
-Patches are queued up now,
-  Gerd
+for you to fetch changes up to 89fbea8737e8f7b954745a1ffc4238d377055305:
+
+  9pfs: Fully restart unreclaim loop (CVE-2021-20181) (2021-01-15 08:44:28 =
++0100)
+
+----------------------------------------------------------------
+Fix for CVE-2021-20181
+
+----------------------------------------------------------------
+Greg Kurz (1):
+      9pfs: Fully restart unreclaim loop (CVE-2021-20181)
+
+ hw/9pfs/9p.c | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
+--=20
+2.26.2
 
 
