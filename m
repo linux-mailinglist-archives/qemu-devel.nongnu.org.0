@@ -2,67 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 65C002F705F
-	for <lists+qemu-devel@lfdr.de>; Fri, 15 Jan 2021 03:10:08 +0100 (CET)
-Received: from localhost ([::1]:51142 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3F3272F705E
+	for <lists+qemu-devel@lfdr.de>; Fri, 15 Jan 2021 03:09:54 +0100 (CET)
+Received: from localhost ([::1]:50744 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l0EYx-0000BT-HH
-	for lists+qemu-devel@lfdr.de; Thu, 14 Jan 2021 21:10:07 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38450)
+	id 1l0EYj-0008Rw-4X
+	for lists+qemu-devel@lfdr.de; Thu, 14 Jan 2021 21:09:53 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38430)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
- id 1l0EX4-0007Sv-L8; Thu, 14 Jan 2021 21:08:10 -0500
-Received: from mail-yb1-xb2e.google.com ([2607:f8b0:4864:20::b2e]:44910)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
- id 1l0EX0-0006ur-9w; Thu, 14 Jan 2021 21:08:10 -0500
-Received: by mail-yb1-xb2e.google.com with SMTP id g4so3653173ybo.11;
- Thu, 14 Jan 2021 18:08:05 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=6ytTcU+ACdDlta92LVwOejJs4RVgArWGyGwqbmbKEt8=;
- b=MN4KN0+vId7zqjcI+qAjtxlnAeI10lmNJ2uYba2MvXE0lrin6tPo44ETrRAeiVUlzH
- +3BiPFeWYH8/NEhwr7gQAnCIuzRtbSFtLU8Q0/nIZ2ryjGEbIQVpiEHwMDYkzZ+1mhB8
- pHQjF2OW9M5SJ8Cm3F6H0/nCrkNZI6bZlIw01a+uYN1gunGPuiuWHtSnH1q/6lbpuvVq
- rrK/tsCoxhNyzBwFVngHaTAaLRy24rIeeuozDVgimab7HJpS1uw3BGbDd3M21UouhYAf
- VyTg0Y9ZjF9bNc2Ac2WU7EA5Pi0ak4YtKZYLZA/nfL1wanGKkjB8CjJjETzqxQttJQjH
- 5gCQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=6ytTcU+ACdDlta92LVwOejJs4RVgArWGyGwqbmbKEt8=;
- b=BH+mtRiMp/LkpDCwnFrjxbBusuMJ27onmiq0v8zmu8LLCLX8FCMcGBpATcbs6U6Jkh
- lgz/FjIDjYl4fqq3TWF3YDkeUDdHXI2ZuzB8ZIiT8JKsjzc9S9u0W9kx0GVgnSPJqduz
- 6n6XoytBNzk9Fjk664Wk7FhvKKowC8tiYVGfHdC4lcp09kNKb1qVt5E1Cfot91AFwMn+
- m9Tc/zrGzxR3Hd7Y9/cKhVIAvVly6bQPOcHc0YqPcefTOwoaEi3c4XY7VIMsY/1/8/Xj
- pJvDhgt5QqA8KdnAy7UdAwqaoRZDd4eTgYxmmDJ/9kQv5dvMcdsA8VTIHDDQD81ZK53p
- d85A==
-X-Gm-Message-State: AOAM530njL7KYom24wcpGSHdqKe/aQGzmXWLn6EPnuIKIMVwTRhC6ow0
- u6wFhrzIzevSCc6cMvkCvIxgHjUdKMCmR63BZgU=
-X-Google-Smtp-Source: ABdhPJzKwerT6pjKGERBWAb7oQljL6eYTxoudycR0zltGOOQbqvc5exQQ3LmosFuAsDK55MAuPr/nF3K/qI1bWBIfwQ=
-X-Received: by 2002:a25:2041:: with SMTP id g62mr15432022ybg.152.1610676484692; 
- Thu, 14 Jan 2021 18:08:04 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1l0EX3-0007RE-Ki
+ for qemu-devel@nongnu.org; Thu, 14 Jan 2021 21:08:09 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:29043)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1l0EWz-0006uD-Kb
+ for qemu-devel@nongnu.org; Thu, 14 Jan 2021 21:08:08 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1610676484;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=4S8jmM1gdO+j7RtHM9AtEshSRA1tVh2KfskVQ5Rxb70=;
+ b=PX9I0N9hBvBq0IT74o5BcX3FDj5AkGfUmwIju3NLzqCg+Q+u2NmoGArpgg8Gvv8PDZ3Nx+
+ G5VSbaq8Sm0he0wBrF3U6FRwAcwr/VS/94cGuMG6RGq+fJ8j+q5JUBEnImdyKRAvkGM+Rk
+ in6+qNpl2cDeU76wLFF5M2nIZnTTG8s=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-20-d2YF-BYTOEqNQfLowJfrfA-1; Thu, 14 Jan 2021 21:08:02 -0500
+X-MC-Unique: d2YF-BYTOEqNQfLowJfrfA-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+ [10.5.11.15])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 6418615720
+ for <qemu-devel@nongnu.org>; Fri, 15 Jan 2021 02:08:01 +0000 (UTC)
+Received: from [10.10.120.151] (ovpn-120-151.rdu2.redhat.com [10.10.120.151])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 827155D739;
+ Fri, 15 Jan 2021 02:07:57 +0000 (UTC)
+Subject: Re: [PATCH 09/11] qapi/gen: Support for switching to another module
+ temporarily
+To: Markus Armbruster <armbru@redhat.com>, qemu-devel@nongnu.org
+References: <20201218205407.1326907-1-armbru@redhat.com>
+ <20201218205407.1326907-10-armbru@redhat.com>
+From: John Snow <jsnow@redhat.com>
+Message-ID: <df6a8584-fbf4-48aa-2283-1f90ed981491@redhat.com>
+Date: Thu, 14 Jan 2021 21:07:57 -0500
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.6.0
 MIME-Version: 1.0
-References: <20210114150902.11515-1-bmeng.cn@gmail.com>
- <20210114181300.GA29923@fralle-msi>
-In-Reply-To: <20210114181300.GA29923@fralle-msi>
-From: Bin Meng <bmeng.cn@gmail.com>
-Date: Fri, 15 Jan 2021 10:07:52 +0800
-Message-ID: <CAEUhbmXiYNFVY0EkrKqNGKV3C0QV0+WvkvEkfPUa-pSg2zGvuA@mail.gmail.com>
-Subject: Re: [PATCH 0/9] hw/block: m25p80: Fix the mess of dummy bytes needed
- for fast read commands
-To: Francisco Iglesias <frasse.iglesias@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::b2e;
- envelope-from=bmeng.cn@gmail.com; helo=mail-yb1-xb2e.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+In-Reply-To: <20201218205407.1326907-10-armbru@redhat.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=jsnow@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=jsnow@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -25
+X-Spam_score: -2.6
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.248,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.237, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -76,123 +81,18 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, Peter Maydell <peter.maydell@linaro.org>,
- "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
- Qemu-block <qemu-block@nongnu.org>, Andrew Jeffery <andrew@aj.id.au>,
- Bin Meng <bin.meng@windriver.com>,
- =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>,
- Havard Skinnemoen <hskinnemoen@google.com>, Tyrone Ting <kfting@nuvoton.com>,
- qemu-arm <qemu-arm@nongnu.org>, Alistair Francis <alistair.francis@wdc.com>,
- =?UTF-8?Q?C=C3=A9dric_Le_Goater?= <clg@kaod.org>,
- Joe Komlodi <komlodi@xilinx.com>, Max Reitz <mreitz@redhat.com>,
- Joel Stanley <joel@jms.id.au>
+Cc: marcandre.lureau@redhat.com, ehabkost@redhat.com, crosa@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi Francisco,
+On 12/18/20 3:54 PM, Markus Armbruster wrote:
+> +    @contextmanager
+> +    def _temp_module(self, name: str) -> ContextManager[None]:
 
-On Fri, Jan 15, 2021 at 2:13 AM Francisco Iglesias
-<frasse.iglesias@gmail.com> wrote:
->
-> Hi Bin,
->
-> On [2021 Jan 14] Thu 23:08:53, Bin Meng wrote:
-> > From: Bin Meng <bin.meng@windriver.com>
-> >
-> > The m25p80 model uses s->needed_bytes to indicate how many follow-up
-> > bytes are expected to be received after it receives a command. For
-> > example, depending on the address mode, either 3-byte address or
-> > 4-byte address is needed.
-> >
-> > For fast read family commands, some dummy cycles are required after
-> > sending the address bytes, and the dummy cycles need to be counted
-> > in s->needed_bytes. This is where the mess began.
-> >
-> > As the variable name (needed_bytes) indicates, the unit is in byte.
-> > It is not in bit, or cycle. However for some reason the model has
-> > been using the number of dummy cycles for s->needed_bytes. The right
-> > approach is to convert the number of dummy cycles to bytes based on
-> > the SPI protocol, for example, 6 dummy cycles for the Fast Read Quad
-> > I/O (EBh) should be converted to 3 bytes per the formula (6 * 4 / 8).
->
-> While not being the original implementor I must assume that above solution was
-> considered but not chosen by the developers due to it is inaccuracy (it
-> wouldn't be possible to model exacly 6 dummy cycles, only a multiple of 8,
-> meaning that if the controller is wrongly programmed to generate 7 the error
-> wouldn't be caught and the controller will still be considered "correct"). Now
-> that we have this detail in the implementation I'm in favor of keeping it, this
-> also because the detail is already in use for catching exactly above error.
->
+Doesn't quite typecheck; we want Iterator[None] -- I think we're typing 
+the function that is yet-to-be-decorated -- mypy will handle typing the 
+resulting function.
 
-I found no clue from the commit message that my proposed solution here
-was ever considered, otherwise all SPI controller models supporting
-software generation should have been found out seriously broken long
-time ago!
+--js
 
-The issue you pointed out that we require the total number of dummy
-bits should be multiple of 8 is true, that's why I added the
-unimplemented log message in this series (patch 2/3/4) to warn users
-if this expectation is not met. However this will not cause any issue
-when running U-Boot or Linux, because both spi-nor drivers expect the
-same assumption as we do here.
-
-See U-Boot spi_nor_read_data() and Linux spi_nor_spimem_read_data(),
-there is a logic to calculate the dummy bytes needed for fast read
-command:
-
-    /* convert the dummy cycles to the number of bytes */
-    op.dummy.nbytes = (nor->read_dummy * op.dummy.buswidth) / 8;
-
-Note the default dummy cycles configuration for all flashes I have
-looked into as of today, meets the multiple of 8 assumption. On some
-flashes the dummy cycle number is configurable, and if it's been
-configured to be an odd value, it would not work on U-Boot/Linux in
-the first place.
-
-> >
-> > Things get complicated when interacting with different SPI or QSPI
-> > flash controllers. There are major two cases:
-> >
-> > - Dummy bytes prepared by drivers, and wrote to the controller fifo.
-> >   For such case, driver will calculate the correct number of dummy
-> >   bytes and write them into the tx fifo. Fixing the m25p80 model will
-> >   fix flashes working with such controllers.
->
-> Above can be fixed while still keeping the detailed dummy cycle implementation
-> inside m25p80. Perhaps one of the following could be looked into: configurating
-> the amount, letting the spi ctrl fetch the amount from m25p80 or by inheriting
-> some functionality handling this in the SPI controller. Or a mixture of above.
-
-Please send patches to explain this in detail how this is going to
-work. I am open to all possible solutions.
-
->
-> > - Dummy bytes not prepared by drivers. Drivers just tell the hardware
-> >   the dummy cycle configuration via some registers, and hardware will
-> >   automatically generate dummy cycles for us. Fixing the m25p80 model
-> >   is not enough, and we will need to fix the SPI/QSPI models for such
-> >   controllers.
-> >
-> > This series fixes the mess in the m25p80 from the flash side first,
->
-> Considering the problems solved by the solution in tree I find m25p80 pretty
-> clean, at least I don't see any clearly better way for accurately modeling the
-> dummy clock cycles. Counting bits instead of bytes would for example still
-> force the controllers to mark which bits to count (when transmitting one dummy
-> byte from a txfifo on four lines (Quad command) it generates 2 dummy clock
-> cycles since it takes two cycles to transfer 8 bits).
->
-
-SPI is a bit based protocol, not bytes. If you insist on bit modeling
-with the dummy cycles then you should also suggest we change all
-cycles (including command/addr/dummy/data phases) to be modeled with
-bits. That way we can accurately emulate everything, for example one
-potential problem like transferring 9 bit in the data phase.
-
-However modeling everything with bit is super inefficient. My view is
-that we should avoid trying to support uncommon use cases (like not
-multiple of 8 for dummy bits) in QEMU.
-
-Regards,
-Bin
 
