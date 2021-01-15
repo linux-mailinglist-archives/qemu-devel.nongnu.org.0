@@ -2,85 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 715EA2F8800
-	for <lists+qemu-devel@lfdr.de>; Fri, 15 Jan 2021 22:56:55 +0100 (CET)
-Received: from localhost ([::1]:51824 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 435DC2F8803
+	for <lists+qemu-devel@lfdr.de>; Fri, 15 Jan 2021 22:59:02 +0100 (CET)
+Received: from localhost ([::1]:55362 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l0X5S-0003K9-GC
-	for lists+qemu-devel@lfdr.de; Fri, 15 Jan 2021 16:56:54 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40892)
+	id 1l0X7V-0004pu-Ax
+	for lists+qemu-devel@lfdr.de; Fri, 15 Jan 2021 16:59:01 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41530)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1l0X2b-0001vt-4s
- for qemu-devel@nongnu.org; Fri, 15 Jan 2021 16:53:57 -0500
-Received: from mail-pg1-x532.google.com ([2607:f8b0:4864:20::532]:36185)
+ (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
+ id 1l0X5Y-0004Ko-M7
+ for qemu-devel@nongnu.org; Fri, 15 Jan 2021 16:57:00 -0500
+Received: from mail-io1-xd36.google.com ([2607:f8b0:4864:20::d36]:35249)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1l0X2Z-00044q-AO
- for qemu-devel@nongnu.org; Fri, 15 Jan 2021 16:53:56 -0500
-Received: by mail-pg1-x532.google.com with SMTP id c132so6882023pga.3
- for <qemu-devel@nongnu.org>; Fri, 15 Jan 2021 13:53:54 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=+HSO1qHsUTuXT/LQbM9nbpBuogn7b/Ulne2GCwHCTqY=;
- b=R7058WbcIMbaus2QwEL+nzg9CDeiuQWk8BpUHTNzQ/9NsrT00t0lNEIEwNOPguVAK8
- wccFHxMtI45/CuMW34d3kgw+FUZ6Fbq1TqIHEKha484L3dgs48vYE12uB9mzk0i3z52G
- gBGxhrlcPI84vsSc3Nh+xwVDu9FYmIb/P4KMolnilx39m/AqZie2zeOlNUllyx/x/Gkg
- taqre60eygvtQ9LX0pHiCyAKWNZ2Z93RAn87JTzJSC+8H5GCMe8cF529l1e8wc0ph+vQ
- oYntU9nBedtgK2GnrLe6SFm5/8OxyQRJWffFQFTU557KR05sbUac/u/TRRl5HQCluJr7
- gojg==
+ (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
+ id 1l0X5X-00056b-3K
+ for qemu-devel@nongnu.org; Fri, 15 Jan 2021 16:57:00 -0500
+Received: by mail-io1-xd36.google.com with SMTP id y19so21060318iov.2
+ for <qemu-devel@nongnu.org>; Fri, 15 Jan 2021 13:56:58 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=1YAWgprq/Anf0kXoEBBOWxTnNjOXAb+Frn/NqdYczpQ=;
+ b=a44TD7v1xOnedeKHr0PLHasFRR//qfcLDFn7DqyLhrZGBXWJLHHIRlOCEhC1G++9UB
+ pOsJPmgWgyIrLSKLiR6reo0NJy0ah/rpjegpYbs4EtGZcQfPLLRHmrOXA/wSbDXIGdSJ
+ DZTNLimUOvyYdQk8f/XCcA+lkZKV6Mmor5rRkAEW66/cZdx4OepQhtgi4Bq8/TIKQ6rQ
+ jkBIJ2vKJfGWxQ7KxlvixF9/CwM7Lw1XodkQxjVTS+zIlNKYvEKOQsN3DrEy47+o0xFb
+ beKz46YjfThPfUxHbeOihF32WE+QzVDqaUaQgsWurW0xj6kIIgw1h98wgT6yqtfmAqIA
+ LzSg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=+HSO1qHsUTuXT/LQbM9nbpBuogn7b/Ulne2GCwHCTqY=;
- b=bm807hXF6HOWTxMH3mNy5Bf2DHyfnXMXzyM0RkP5sRdAZJtYazWf90j6jvcnaBwIl7
- VJSd/AQXZPFap0VH5202Dp1Cv69+WR9vUv183G4sG6I/PtY2wYn7ZS9PpjModpyuWwMK
- jrJmgb76lLMMTaR5dqzQj7eqono2uMQAP/5UlRrGfDBGGY9/rStsWLoLMagJyrDoVAan
- 7cfxehcL7sOjgStCmVwOrPy82/wKKW4jWL8pDEiBNzU7kLtGHDQBgSejVmytH7L7sduv
- KVOOrj/Lvsi1iMZkyYK0uw5mlV5nKf1yvSNQTyyr5rpPz1JFvWypiIEx2A6VXnHGPfhb
- vdQQ==
-X-Gm-Message-State: AOAM532yqRu5Sj19kKU+Oo0zAeHfBERd9FKwCy9KQBixrnNx1Sp2dmtI
- g/nG0/RHDAXznk97jGnALzURpg==
-X-Google-Smtp-Source: ABdhPJwpC0r8fJgz1O5ypDyGcWPhF3fx/oC7CFOEhXTzFYqEi9s7tXuOZxow02K0qOAiPxCCE7hMNw==
-X-Received: by 2002:aa7:8104:0:b029:1ae:684f:d140 with SMTP id
- b4-20020aa781040000b02901ae684fd140mr14770951pfi.62.1610747633735; 
- Fri, 15 Jan 2021 13:53:53 -0800 (PST)
-Received: from [10.25.18.3] (rrcs-173-197-107-21.west.biz.rr.com.
- [173.197.107.21])
- by smtp.gmail.com with ESMTPSA id b129sm9745933pgc.52.2021.01.15.13.53.51
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 15 Jan 2021 13:53:53 -0800 (PST)
-Subject: Re: [PATCH 04/15] arc: TCG and decoder glue code and helpers
-To: Cupertino Miranda <Cupertino.Miranda@synopsys.com>,
- "cupertinomiranda@gmail.com" <cupertinomiranda@gmail.com>,
- "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>
-References: <20201111161758.9636-1-cupertinomiranda@gmail.com>
- <20201111161758.9636-5-cupertinomiranda@gmail.com>
- <33ba8432-64c7-db76-459c-5fa6fd7e549a@linaro.org>
- <a1ea9064-dab5-c683-9899-bb19785f8ee4@synopsys.com>
- <e13f0b99-c5d5-4c8b-95c1-1ef79bdfd95a@linaro.org>
- <826051d0-623c-9e29-e62d-8c3818c3e0af@synopsys.com>
-From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <83e57a69-5d2f-0c6d-4f65-44ef0669d71e@linaro.org>
-Date: Fri, 15 Jan 2021 11:53:49 -1000
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=1YAWgprq/Anf0kXoEBBOWxTnNjOXAb+Frn/NqdYczpQ=;
+ b=lTr8rGcoZp2SDF7rQK5s3apPKJJcTw4vZv6mCNJQIn72v0g9mGsMnK3GUGpDyQdauk
+ Q7CQsLsdgPQU9hBFCn4bLWnGKueunOc2zA7+AtTsMJssoxy6P0DdELv3uhEQwysQT5lv
+ +f+MKN2tyy6hkEL2iYcSxp4TxXWS59jIW142P6oamzcZXiG2a0WUlM1jG4RrmkizouWd
+ r8mBvvN/2xn6iUhwBB6OrgeNTcYC5MENaddxqXsJVmLbHySodq/l61Qq4eJoOG9v7k0F
+ R7RF/CI2vRsh5KrM8UY7gQna3b8OV2UIJw8c4GLPbnKXMTz5YAE9+Y5vh8FgyLMv1LgO
+ Yo0w==
+X-Gm-Message-State: AOAM531PbNawolTjf+SD3CfvbNdmfgKNnR9DPt2IMQGeDm8PLXuXtrbi
+ HukMyUmj+lW/M7UMnxe4XEvDATlt0oB6G3WG3z4=
+X-Google-Smtp-Source: ABdhPJzSEaOXZUFmo3qEsz+TCEdxxzDBLfem3V3OU1bObw01VeoRNUyFLToXvfKsc9CYGsprPXcy5k1squNLBdgYUuY=
+X-Received: by 2002:a5e:850b:: with SMTP id i11mr9978796ioj.42.1610747818045; 
+ Fri, 15 Jan 2021 13:56:58 -0800 (PST)
 MIME-Version: 1.0
-In-Reply-To: <826051d0-623c-9e29-e62d-8c3818c3e0af@synopsys.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::532;
- envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x532.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+References: <20201104092900.21214-1-green.wan@sifive.com>
+ <CAFEAcA_EykbnmTQuz4RT3qGMt-Atf=EAdaHd-QqBvJCPvwemqA@mail.gmail.com>
+In-Reply-To: <CAFEAcA_EykbnmTQuz4RT3qGMt-Atf=EAdaHd-QqBvJCPvwemqA@mail.gmail.com>
+From: Alistair Francis <alistair23@gmail.com>
+Date: Fri, 15 Jan 2021 13:56:31 -0800
+Message-ID: <CAKmqyKNpf5vpgo8+9nH0sjzE+bXGxz+pQQKAcYwB-R-EovUPLA@mail.gmail.com>
+Subject: Re: [PATCH] hw/misc/sifive_u_otp: handling the fails of blk_pread and
+ blk_pwrite
+To: Peter Maydell <peter.maydell@linaro.org>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::d36;
+ envelope-from=alistair23@gmail.com; helo=mail-io1-xd36.google.com
+X-Spam_score_int: -17
+X-Spam_score: -1.8
+X-Spam_bar: -
+X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -95,24 +79,97 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Shahab Vahedi <shahab.vahedi@gmail.com>,
- Claudiu Zissulescu <Claudiu.Zissulescu@synopsys.com>,
- "linux-snps-arc@lists.infradead.org" <linux-snps-arc@lists.infradead.org>,
- Claudiu Zissulescu <claziss@gmail.com>,
- Shahab Vahedi <Shahab.Vahedi@synopsys.com>
+Cc: Bin Meng <bmeng.cn@gmail.com>, QEMU Developers <qemu-devel@nongnu.org>,
+ Green Wan <green.wan@sifive.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 1/15/21 11:48 AM, Cupertino Miranda wrote:
->> In the case of enter or leave, this is one load/store plus one addition,
->> followed by a branch.  All of which is encoded as fields in the instruction.
->> Extremely simple.
-> 
-> So your recommendation is leave the conditional exception triggering of 
-> enter and leave in a helper and move the loads/stores to tcg ?
+On Fri, Jan 15, 2021 at 3:50 AM Peter Maydell <peter.maydell@linaro.org> wrote:
+>
+> Ping! This patch was trying to fix a Coverity issue (CID 1435959,
+> 1435960, 1435961) -- is anybody planning to review it?
+>
+> (I'm not entirely sure 'guest error' is the right warning category,
+> but I don't know the specifics of this device.)
 
-What?  No.
+Thanks for the ping, this feel through the cracks somehow.
 
+Applied to riscv-to-apply.next
 
-r~
+Alistair
+
+>
+> thanks
+> -- PMM
+>
+> On Wed, 4 Nov 2020 at 09:29, Green Wan <green.wan@sifive.com> wrote:
+> >
+> > Fix code coverage issues by checking return value and handling fail case
+> > of blk_pread() and blk_pwrite(). Return default value 0xff if read fails.
+> >
+> > Signed-off-by: Green Wan <green.wan@sifive.com>
+> > ---
+> >  hw/misc/sifive_u_otp.c | 31 +++++++++++++++++++++++--------
+> >  1 file changed, 23 insertions(+), 8 deletions(-)
+> >
+> > diff --git a/hw/misc/sifive_u_otp.c b/hw/misc/sifive_u_otp.c
+> > index 60066375ab..4314727d0d 100644
+> > --- a/hw/misc/sifive_u_otp.c
+> > +++ b/hw/misc/sifive_u_otp.c
+> > @@ -62,8 +62,13 @@ static uint64_t sifive_u_otp_read(void *opaque, hwaddr addr, unsigned int size)
+> >              if (s->blk) {
+> >                  int32_t buf;
+> >
+> > -                blk_pread(s->blk, s->pa * SIFIVE_U_OTP_FUSE_WORD, &buf,
+> > -                          SIFIVE_U_OTP_FUSE_WORD);
+> > +                if (blk_pread(s->blk, s->pa * SIFIVE_U_OTP_FUSE_WORD, &buf,
+> > +                              SIFIVE_U_OTP_FUSE_WORD) < 0) {
+> > +                    qemu_log_mask(LOG_GUEST_ERROR,
+> > +                                  "read error index<%d>\n", s->pa);
+> > +                    return 0xff;
+> > +                }
+> > +
+> >                  return buf;
+> >              }
+> >
+> > @@ -160,8 +165,12 @@ static void sifive_u_otp_write(void *opaque, hwaddr addr,
+> >
+> >              /* write to backend */
+> >              if (s->blk) {
+> > -                blk_pwrite(s->blk, s->pa * SIFIVE_U_OTP_FUSE_WORD,
+> > -                           &s->fuse[s->pa], SIFIVE_U_OTP_FUSE_WORD, 0);
+> > +                if (blk_pwrite(s->blk, s->pa * SIFIVE_U_OTP_FUSE_WORD,
+> > +                               &s->fuse[s->pa], SIFIVE_U_OTP_FUSE_WORD,
+> > +                               0) < 0) {
+> > +                    qemu_log_mask(LOG_GUEST_ERROR,
+> > +                                  "write error index<%d>\n", s->pa);
+> > +                }
+> >              }
+> >
+> >              /* update written bit */
+> > @@ -248,12 +257,18 @@ static void sifive_u_otp_reset(DeviceState *dev)
+> >          int index = SIFIVE_U_OTP_SERIAL_ADDR;
+> >
+> >          serial_data = s->serial;
+> > -        blk_pwrite(s->blk, index * SIFIVE_U_OTP_FUSE_WORD,
+> > -                   &serial_data, SIFIVE_U_OTP_FUSE_WORD, 0);
+> > +        if (blk_pwrite(s->blk, index * SIFIVE_U_OTP_FUSE_WORD,
+> > +                       &serial_data, SIFIVE_U_OTP_FUSE_WORD, 0) < 0) {
+> > +            qemu_log_mask(LOG_GUEST_ERROR,
+> > +                          "write error index<%d>\n", index);
+> > +        }
+> >
+> >          serial_data = ~(s->serial);
+> > -        blk_pwrite(s->blk, (index + 1) * SIFIVE_U_OTP_FUSE_WORD,
+> > -                   &serial_data, SIFIVE_U_OTP_FUSE_WORD, 0);
+> > +        if (blk_pwrite(s->blk, (index + 1) * SIFIVE_U_OTP_FUSE_WORD,
+> > +                       &serial_data, SIFIVE_U_OTP_FUSE_WORD, 0) < 0) {
+> > +            qemu_log_mask(LOG_GUEST_ERROR,
+> > +                          "write error index<%d>\n", index + 1);
+> > +        }
+> >      }
+> >
+> >      /* Initialize write-once map */
+> > --
+> > 2.17.1
 
