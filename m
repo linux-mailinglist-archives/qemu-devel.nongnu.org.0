@@ -2,48 +2,45 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BF9E42F701D
-	for <lists+qemu-devel@lfdr.de>; Fri, 15 Jan 2021 02:45:01 +0100 (CET)
-Received: from localhost ([::1]:58396 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E86402F7002
+	for <lists+qemu-devel@lfdr.de>; Fri, 15 Jan 2021 02:32:57 +0100 (CET)
+Received: from localhost ([::1]:41846 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l0EAe-0006x3-Ry
-	for lists+qemu-devel@lfdr.de; Thu, 14 Jan 2021 20:45:00 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34296)
+	id 1l0Dyy-00086i-Nc
+	for lists+qemu-devel@lfdr.de; Thu, 14 Jan 2021 20:32:56 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59936)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <zhanghan64@huawei.com>)
- id 1l0E6Y-00038o-Ny; Thu, 14 Jan 2021 20:40:46 -0500
-Received: from szxga05-in.huawei.com ([45.249.212.191]:3031)
+ (Exim 4.90_1) (envelope-from <jiangyifei@huawei.com>)
+ id 1l0Dv1-0006AQ-1M; Thu, 14 Jan 2021 20:28:51 -0500
+Received: from szxga07-in.huawei.com ([45.249.212.35]:2637)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <zhanghan64@huawei.com>)
- id 1l0E6V-0006QK-QU; Thu, 14 Jan 2021 20:40:46 -0500
-Received: from DGGEMS413-HUB.china.huawei.com (unknown [172.30.72.59])
- by szxga05-in.huawei.com (SkyGuard) with ESMTP id 4DH3ky5Qvszj7wp;
- Fri, 15 Jan 2021 09:39:38 +0800 (CST)
-Received: from huawei.com (10.175.124.27) by DGGEMS413-HUB.china.huawei.com
- (10.3.19.213) with Microsoft SMTP Server id 14.3.498.0; Fri, 15 Jan 2021
- 09:40:33 +0800
-From: Zhang Han <zhanghan64@huawei.com>
-To: <kraxel@redhat.com>
-Subject: [PATCH v2 7/7] audio: space prohibited between function name and
- parenthesis'('
-Date: Fri, 15 Jan 2021 09:24:31 +0800
-Message-ID: <20210115012431.79533-8-zhanghan64@huawei.com>
-X-Mailer: git-send-email 2.29.1.59.gf9b6481aed
-In-Reply-To: <20210115012431.79533-1-zhanghan64@huawei.com>
-References: <20210115012431.79533-1-zhanghan64@huawei.com>
+ (Exim 4.90_1) (envelope-from <jiangyifei@huawei.com>)
+ id 1l0Dus-00029G-RO; Thu, 14 Jan 2021 20:28:50 -0500
+Received: from DGGEMS403-HUB.china.huawei.com (unknown [172.30.72.59])
+ by szxga07-in.huawei.com (SkyGuard) with ESMTP id 4DH3Sx5PQmz7VHQ;
+ Fri, 15 Jan 2021 09:27:29 +0800 (CST)
+Received: from huawei.com (10.174.186.236) by DGGEMS403-HUB.china.huawei.com
+ (10.3.19.203) with Microsoft SMTP Server id 14.3.498.0; Fri, 15 Jan 2021
+ 09:28:22 +0800
+From: Yifei Jiang <jiangyifei@huawei.com>
+To: <qemu-devel@nongnu.org>, <qemu-riscv@nongnu.org>
+Subject: [PATCH v3 0/1] target-riscv: support QMP dump-guest-memory
+Date: Fri, 15 Jan 2021 09:28:18 +0800
+Message-ID: <20210115012819.2053-1-jiangyifei@huawei.com>
+X-Mailer: git-send-email 2.26.2.windows.1
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
 Content-Type: text/plain
-X-Originating-IP: [10.175.124.27]
+X-Originating-IP: [10.174.186.236]
 X-CFilter-Loop: Reflected
-Received-SPF: pass client-ip=45.249.212.191;
- envelope-from=zhanghan64@huawei.com; helo=szxga05-in.huawei.com
+Received-SPF: pass client-ip=45.249.212.35; envelope-from=jiangyifei@huawei.com;
+ helo=szxga07-in.huawei.com
 X-Spam_score_int: -41
 X-Spam_score: -4.2
 X-Spam_bar: ----
 X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
- RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -57,44 +54,80 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: hunongda@huawei.com, zhang.zhanghailiang@huawei.com,
- qemu-trivial@nongnu.org, qemu-devel@nongnu.org, alex.chen@huawei.com,
- zhanghan64@huawei.com
+Cc: drjones@redhat.com, zhang.zhanghailiang@huawei.com,
+ sagark@eecs.berkeley.edu, kbastian@mail.uni-paderborn.de,
+ limingwang@huawei.com, Yifei Jiang <jiangyifei@huawei.com>,
+ Alistair.Francis@wdc.com, palmer@dabbelt.com, fanliang@huawei.com,
+ wu.wubin@huawei.com, dengkai1@huawei.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Delete spaces between function name and open parenthesis'('
+Hi,
+This patch supports QMP dump-guest-memory in RISC-V. We tested this
+feature by using following command: dump-guest-memory guest.memory.
 
-Signed-off-by: Zhang Han <zhanghan64@huawei.com>
----
- audio/audio_template.h | 12 ++++++------
- 1 file changed, 6 insertions(+), 6 deletions(-)
+Then we used the gdb tool to debug guest.memory: gdb vmlinux guest.memory.
+The test result is as follow:
+1. info registers
+ra             0xffffffe0008cb83c	0xffffffe0008cb83c <_raw_spin_lock_irqsave+28>
+sp             0xffffffe0012c3f70	0xffffffe0012c3f70
+gp             0xffffffe0010d6048	0xffffffe0010d6048 <__compound_literal.109>
+tp             0xffffffe00127f200	0xffffffe00127f200
+t0             0x1f8	504
+t1             0x0	0
+t2             0x3fd9bf5c3c	274236136508
+fp             0xffffffe0012c3f80	0xffffffe0012c3f80
+s1             0xffffffe0010d7228	-137421295064
+a0             0x1	1
+a1             0xffffffe00127f200	-137419558400
+a2             0xffffffe00110a0b8	-137421086536
+a3             0x3af32000	989011968
+a4             0x35b2	13746
+a5             0xffffffe03af6b880	-136449705856
+a6             0x1c5d09af00	121820000000
+a7             0x54494d45	1414090053
+s2             0x1	1
+s3             0xffffffe0010d73f0	-137421294608
+s4             0x0	0
+s5             0x0	0
+s6             0x0	0
+s7             0xc	12
+s8             0x2000	8192
+s9             0x80015708	2147571464
+s10            0x0	0
+s11            0x0	0
+t3             0x2257d71	36011377
+t4             0x0	0
+t5             0x3ab0030	61538352
+t6             0x3fffefb3a0	274876838816
+pc             0xffffffe000201478	0xffffffe000201478 <arch_cpu_idle+10>
 
-diff --git a/audio/audio_template.h b/audio/audio_template.h
-index 6d42fa7011..05e793f61f 100644
---- a/audio/audio_template.h
-+++ b/audio/audio_template.h
-@@ -203,13 +203,13 @@ static void glue (audio_pcm_hw_gc_, TYPE) (HW **hwp)
- 
-     if (!hw->sw_head.lh_first) {
- #ifdef DAC
--        audio_detach_capture (hw);
-+        audio_detach_capture(hw);
- #endif
--        QLIST_REMOVE (hw, entries);
--        glue (hw->pcm_ops->fini_, TYPE) (hw);
--        glue (s->nb_hw_voices_, TYPE) += 1;
--        glue (audio_pcm_hw_free_resources_ , TYPE) (hw);
--        g_free (hw);
-+        QLIST_REMOVE(hw, entries);
-+        glue(hw->pcm_ops->fini_, TYPE) (hw);
-+        glue(s->nb_hw_voices_, TYPE) += 1;
-+        glue(audio_pcm_hw_free_resources_ , TYPE) (hw);
-+        g_free(hw);
-         *hwp = NULL;
-     }
- }
+2. x/1024ux 0x80000000
+0x80000000:	0x00050433	0x000584b3	0x00060933	0x62c000ef
+0x80000010:	0x00050833	0x00040533	0x000485b3	0x00090633
+0x80000020:	0x046358fd	0x1d630118	0x08171305	0x08130000
+0x80000030:	0x48854868	0x0118282f	0x12081463	0x00000297
+0x80000040:	0x48428293	0x00000317	0xfbc30313	0x0062b023
+...
+
+Changes since v2
+1. Add build-bugs.
+
+Changes since v1
+1. Fix the build failure for RISC-V linux user.
+
+Yifei Jiang (1):
+  target-riscv: support QMP dump-guest-memory
+
+ target/riscv/arch_dump.c | 202 +++++++++++++++++++++++++++++++++++++++
+ target/riscv/cpu.c       |   2 +
+ target/riscv/cpu.h       |   4 +
+ target/riscv/cpu_bits.h  |   1 +
+ target/riscv/meson.build |   1 +
+ 5 files changed, 210 insertions(+)
+ create mode 100644 target/riscv/arch_dump.c
+
 -- 
-2.29.1.59.gf9b6481aed
+2.19.1
 
 
