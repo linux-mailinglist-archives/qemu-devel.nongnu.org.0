@@ -2,60 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5D7072F7850
-	for <lists+qemu-devel@lfdr.de>; Fri, 15 Jan 2021 13:09:10 +0100 (CET)
-Received: from localhost ([::1]:46040 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9B2452F7851
+	for <lists+qemu-devel@lfdr.de>; Fri, 15 Jan 2021 13:09:17 +0100 (CET)
+Received: from localhost ([::1]:46504 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l0Nuf-00012p-ER
-	for lists+qemu-devel@lfdr.de; Fri, 15 Jan 2021 07:09:09 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49732)
+	id 1l0Num-0001Ek-MM
+	for lists+qemu-devel@lfdr.de; Fri, 15 Jan 2021 07:09:16 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49742)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <minwoo.im.dev@gmail.com>)
- id 1l0Nrw-0007xk-Os; Fri, 15 Jan 2021 07:06:23 -0500
-Received: from mail-pg1-x52a.google.com ([2607:f8b0:4864:20::52a]:33701)
+ id 1l0Nry-0007xm-M3; Fri, 15 Jan 2021 07:06:23 -0500
+Received: from mail-pg1-x536.google.com ([2607:f8b0:4864:20::536]:42818)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <minwoo.im.dev@gmail.com>)
- id 1l0Nru-0003Uj-HF; Fri, 15 Jan 2021 07:06:20 -0500
-Received: by mail-pg1-x52a.google.com with SMTP id n25so5892756pgb.0;
- Fri, 15 Jan 2021 04:06:16 -0800 (PST)
+ id 1l0Nrv-0003Vu-HB; Fri, 15 Jan 2021 07:06:22 -0500
+Received: by mail-pg1-x536.google.com with SMTP id g15so5862546pgu.9;
+ Fri, 15 Jan 2021 04:06:18 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=from:to:cc:subject:date:message-id;
- bh=pBIqptvFlrfxRxyZOawwD1xdHCCaWfed+a164+JeQ4M=;
- b=MtZg7/ybkuT60Hmklp+yiVO2odC8fDBQs5w0lkbdFLH3H+E7M+t8UdZ88m6c/GjzMQ
- xJrrvPqkrDMOx9HtPCvRD/GZLZ8smsbAKbbI7qAJpT0+pORqa6eqx2pPHuuZYXkb7bQi
- tgn7ekoxOk/uh24hXKg1Lr4OX7ugFlYzSzZXNo2TVzwqYL1C1nRXNRp72iaqdSa8YmBo
- HKgI07ib4NhGVwZD3YhSI9/mtmlZuELXcgHc2Jehi2s1eBHgeuL3/C4PF2fGZBpCkVsS
- NZGKGXi85ZMpsSGeYVQ2UTdaMe05gKZ4aN9aK1JGZPPYfuhtIluYkXZCkgw2P5K2BTfJ
- +C6g==
+ h=from:to:cc:subject:date:message-id:in-reply-to:references;
+ bh=A9T6du9sxukvLBvTrDzzy9owmsrvi3lkb2vYV1QBYOY=;
+ b=AWI5sRvcQbQyTqTh770Vf8hgBJFYkkPco6FegEpx3rWeCCk1TAkXgUC1Mw+RwL4h+m
+ vl+wWuDToWT0DeZiu6wkmTL9x8cLAC3eYLy7QQqYq9KbLahtu5x7/GE3adsLnraHATNA
+ xcXF9SHDP7IzLw5tEQ39f+lU3HZlnkcXOqSHOC/9Hp32Z1RS9UpoM7EXutZ+btyGVJ+d
+ ss/p+FRKPfSrSmLtAx4s9RfgMk0uv5X31GBU/n+zTkxkyrkNegs4DwhxuT2sdLBx5Fvt
+ PUVXAMlCjY05Z4npyKr14raA8XA94CN4/hb5KDyo4PPQ/FXDjAwgvWm3/kYMpoVy70FJ
+ U9Nw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id;
- bh=pBIqptvFlrfxRxyZOawwD1xdHCCaWfed+a164+JeQ4M=;
- b=fTdRUcpI2FTjMtDWiy8ylUglLy9hrTY0aSX0DuDWeXgd2U5v1MKikfaXYWUWXhuVJw
- x76MCHDX0W92J2UwfYIRJHKxBwWpUtvpHyGayyl1YBY88/l6zriH6Rs8QwDB7D1p0VxF
- cKhdeu64m6cjgKnzaXKryFmaOqE+kMScWt9PUQghRZFTsYZFj1+5Ovjkh3votz+TjzVM
- P3W/ID4QupOpuWHov1P8A+VqPIsZHx8S8DY0rFZHH2lwolU1wCS6L9/fSyFAuC8bpaNt
- asM9O7A49zCsLLIkryWGgwhe7+/g4Ce40NXDl4EZjXiwdSfEFLW66aayaAvxHY+F4LT4
- egfQ==
-X-Gm-Message-State: AOAM530lnK+Rt2pkUPXBtISsHz4VKI/va9bYWzKZHtgn8hQKIevjNU2o
- p5TD713E8PEpd2dXfqGiv9Wu4qVEgG9bHg==
-X-Google-Smtp-Source: ABdhPJyjFDsmCHzJCeT7R8BCG5c3r0GH5vHwaKmLA+cdd8k+ebK43szEo5N70jKhxrFsndzoCgQbIA==
-X-Received: by 2002:a63:3246:: with SMTP id y67mr12258544pgy.438.1610712374991; 
- Fri, 15 Jan 2021 04:06:14 -0800 (PST)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+ :references;
+ bh=A9T6du9sxukvLBvTrDzzy9owmsrvi3lkb2vYV1QBYOY=;
+ b=i0OGwTa4oI9+5K5q9E6NOMgCCpjTZesLudtRzvAVDrrIB7szZVFSl2VVrywGZuc8Wv
+ RihuyOKKQ87gnYlh42Lw2gcBJdBSx9OtApaBZsu3cbEwL1F6t3xabN1r4dsi1bZaE83N
+ h8Sj0smC8gIrW0ivBY/0bhzWQK0iw64sZSdjejtY3edQdBara1sL3XmtNOJrc9QqODUF
+ 0XibAHpXVquFzVCpE4O4nZK0SPG4yA12BhkN80nBC2+Ps5yL7kF6J9KLcAP22SYQoxkv
+ WHpog2ANdjQhHTO7ylHLurOWa0LsBz25h4A+6ULz/V+uB5X3p/2pp4AFQQgvPm4y20w9
+ vIvg==
+X-Gm-Message-State: AOAM532ToKkV3Be4rgbpykBjbdJHGEj4i9lPOiwJ2TCX5Jv0mmeHoe2y
+ GdAl6kAuarbksdFNNHi4ljhWTRxMPwdv5w==
+X-Google-Smtp-Source: ABdhPJyBClL+QlSbZheygKXeh2SNz8CEus6Vc/7EUHKdQ3zChpIh+fkRnF8LHfafyU/Cd6K9kCpF8g==
+X-Received: by 2002:a63:3714:: with SMTP id e20mr12440910pga.410.1610712377348; 
+ Fri, 15 Jan 2021 04:06:17 -0800 (PST)
 Received: from localhost.localdomain ([211.108.35.36])
- by smtp.gmail.com with ESMTPSA id a4sm8338161pgn.40.2021.01.15.04.06.12
+ by smtp.gmail.com with ESMTPSA id a4sm8338161pgn.40.2021.01.15.04.06.15
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 15 Jan 2021 04:06:14 -0800 (PST)
+ Fri, 15 Jan 2021 04:06:16 -0800 (PST)
 From: Minwoo Im <minwoo.im.dev@gmail.com>
 To: qemu-devel@nongnu.org,
 	qemu-block@nongnu.org
-Subject: [RFC PATCH 0/5] hw/block/nvme: support multi-path for ctrl/ns
-Date: Fri, 15 Jan 2021 21:05:53 +0900
-Message-Id: <20210115120558.29313-1-minwoo.im.dev@gmail.com>
+Subject: [RFC PATCH 1/5] hw/block/nvme: add controller id parameter
+Date: Fri, 15 Jan 2021 21:05:54 +0900
+Message-Id: <20210115120558.29313-2-minwoo.im.dev@gmail.com>
 X-Mailer: git-send-email 2.17.1
-Received-SPF: pass client-ip=2607:f8b0:4864:20::52a;
- envelope-from=minwoo.im.dev@gmail.com; helo=mail-pg1-x52a.google.com
+In-Reply-To: <20210115120558.29313-1-minwoo.im.dev@gmail.com>
+References: <20210115120558.29313-1-minwoo.im.dev@gmail.com>
+Received-SPF: pass client-ip=2607:f8b0:4864:20::536;
+ envelope-from=minwoo.im.dev@gmail.com; helo=mail-pg1-x536.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -81,68 +84,74 @@ Cc: Keith Busch <kbusch@kernel.org>, Klaus Jensen <its@irrelevant.dk>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hello,
+There is Contrller ID field in Identify Controller data structure and
+nvme device has never set this field, 0 by default.
 
-This series added support for multi-path I/O with multi-controllers and
-namespace sharing.  By supporting these features, we can test Linux
-kernel mpath(multi-path) code with this NVMe device.
+Added a parameter for controller identifier in a NVM subsystem.  This is
+reflected to Identify Controller data structrue of the controller.  This
+parameter is helpful when a user wants to set up multi-controller in a
+NVM subsystem.
 
-Patches from the first to third added multi-controller support in a NVM
-subsystem by adding a mpath.ctrl parameter to nvme device.  The rest of
-the patches added namespace sharing support in a NVM subsystem with two
-or more controllers by adding mpath.ns parameter to nvme-ns device.
+Signed-off-by: Minwoo Im <minwoo.im.dev@gmail.com>
+---
+ hw/block/nvme.c | 10 ++++++++++
+ hw/block/nvme.h |  1 +
+ 2 files changed, 11 insertions(+)
 
-Multi-path enabled in kernel with this series for two controllers with a
-namespace:
-
-  root@vm:~/work# nvme list -v
-  NVM Express Subsystems
-
-  Subsystem        Subsystem-NQN                                                                                    Controllers
-  ---------------- ------------------------------------------------------------------------------------------------ ----------------
-  nvme-subsys0     nqn.2019-08.org.qemu:serial                                                                      nvme0, nvme1
-
-  NVM Express Controllers
-
-  Device   SN                   MN                                       FR       TxPort Address        Subsystem    Namespaces
-  -------- -------------------- ---------------------------------------- -------- ------ -------------- ------------ ----------------
-  nvme0    serial               QEMU NVMe Ctrl                           1.0      pcie   0000:01:00.0   nvme-subsys0 nvme0n1
-  nvme1    serial               QEMU NVMe Ctrl                           1.0      pcie   0000:02:00.0   nvme-subsys0 nvme0n1
-
-  NVM Express Namespaces
-
-  Device       NSID     Usage                      Format           Controllers
-  ------------ -------- -------------------------- ---------------- ----------------
-  nvme0n1      1        268.44  MB / 268.44  MB    512   B +  0 B   nvme0, nvme1
-
-The reason why I put 'RFC' tag to this series is mostly about the last
-patch "hw/block/nvme: add namespace sharing param for mpath".  It seems
-like QEMU block backing device does not support to be shared among two
-or more -device(s).  It means that we just can't give same drive=
-property to multiple nvme-ns devices.  This patch has just let -device
-maps to -drive one-to-one(1:1), but if namespae sharing is detected and
-setup by the host kernel, then a single block device will be selected
-for the NVM subsystem.  I'm not sure this is a good start for this
-feature, so I put the RFC tag here.
-
-Please kindly review!
-
-Thanks,
-
-Minwoo Im (5):
-  hw/block/nvme: add controller id parameter
-  nvme: add CMIC enum value for Identify Controller
-  hw/block/nvme: add multi-controller param for mpath
-  nvme: add NMIC enum value for Identify Namespace
-  hw/block/nvme: add namespace sharing param for mpath
-
- hw/block/nvme-ns.c   | 14 ++++++++++++--
- hw/block/nvme-ns.h   |  2 ++
- hw/block/nvme.c      | 26 ++++++++++++++++++++++++++
- hw/block/nvme.h      |  2 ++
- include/block/nvme.h |  8 ++++++++
- 5 files changed, 50 insertions(+), 2 deletions(-)
-
+diff --git a/hw/block/nvme.c b/hw/block/nvme.c
+index cf0fe28fe6eb..132e61c0ee7b 100644
+--- a/hw/block/nvme.c
++++ b/hw/block/nvme.c
+@@ -23,6 +23,7 @@
+  *              max_ioqpairs=<N[optional]>, \
+  *              aerl=<N[optional]>, aer_max_queued=<N[optional]>, \
+  *              mdts=<N[optional]>,zoned.append_size_limit=<N[optional]> \
++ *              cntlid=<N[optional]>
+  *      -device nvme-ns,drive=<drive_id>,bus=<bus_name>,nsid=<nsid>,\
+  *              zoned=<true|false[optional]>
+  *
+@@ -50,6 +51,12 @@
+  *   completion when there are no outstanding AERs. When the maximum number of
+  *   enqueued events are reached, subsequent events will be dropped.
+  *
++ * - `cntlid`
++ *   NVM subsystem unique controller identifier (default: 0).  This property
++ *   is used if a user wants to set up multi-controller in a NVM subsystem.
++ *   This value will be reported through Identify Controller data structure
++ *   with a field named CNTLID[79:78].
++ *
+  * - `zoned.append_size_limit`
+  *   The maximum I/O size in bytes that is allowed in Zone Append command.
+  *   The default is 128KiB. Since internally this this value is maintained as
+@@ -4275,6 +4282,8 @@ static void nvme_init_ctrl(NvmeCtrl *n, PCIDevice *pci_dev)
+ 
+     n->bar.vs = NVME_SPEC_VER;
+     n->bar.intmc = n->bar.intms = 0;
++
++    id->cntlid = n->params.cntlid;
+ }
+ 
+ static void nvme_realize(PCIDevice *pci_dev, Error **errp)
+@@ -4345,6 +4354,7 @@ static Property nvme_props[] = {
+     DEFINE_BLOCK_PROPERTIES(NvmeCtrl, namespace.blkconf),
+     DEFINE_PROP_LINK("pmrdev", NvmeCtrl, pmrdev, TYPE_MEMORY_BACKEND,
+                      HostMemoryBackend *),
++    DEFINE_PROP_UINT32("cntlid", NvmeCtrl, params.cntlid, 0),
+     DEFINE_PROP_STRING("serial", NvmeCtrl, params.serial),
+     DEFINE_PROP_UINT32("cmb_size_mb", NvmeCtrl, params.cmb_size_mb, 0),
+     DEFINE_PROP_UINT32("num_queues", NvmeCtrl, params.num_queues, 0),
+diff --git a/hw/block/nvme.h b/hw/block/nvme.h
+index b7fbcca39d9f..6aa9e89ac5a8 100644
+--- a/hw/block/nvme.h
++++ b/hw/block/nvme.h
+@@ -11,6 +11,7 @@
+ 
+ typedef struct NvmeParams {
+     char     *serial;
++    uint32_t cntlid;
+     uint32_t num_queues; /* deprecated since 5.1 */
+     uint32_t max_ioqpairs;
+     uint16_t msix_qsize;
 -- 
 2.17.1
 
