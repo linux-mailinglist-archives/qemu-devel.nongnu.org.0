@@ -2,96 +2,109 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BACD52F8440
-	for <lists+qemu-devel@lfdr.de>; Fri, 15 Jan 2021 19:23:59 +0100 (CET)
-Received: from localhost ([::1]:42070 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 898292F8450
+	for <lists+qemu-devel@lfdr.de>; Fri, 15 Jan 2021 19:26:42 +0100 (CET)
+Received: from localhost ([::1]:45540 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l0TlO-0004BY-CP
-	for lists+qemu-devel@lfdr.de; Fri, 15 Jan 2021 13:23:58 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54102)
+	id 1l0To1-0005gx-L9
+	for lists+qemu-devel@lfdr.de; Fri, 15 Jan 2021 13:26:41 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54526)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jag.raman@oracle.com>)
- id 1l0Tjr-0003jQ-N2
- for qemu-devel@nongnu.org; Fri, 15 Jan 2021 13:22:23 -0500
-Received: from userp2130.oracle.com ([156.151.31.86]:33966)
+ (Exim 4.90_1) (envelope-from <linuxram@us.ibm.com>)
+ id 1l0Tlz-0004lm-LP; Fri, 15 Jan 2021 13:24:35 -0500
+Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:61116
+ helo=mx0a-001b2d01.pphosted.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jag.raman@oracle.com>)
- id 1l0Tjp-0006Pz-BJ
- for qemu-devel@nongnu.org; Fri, 15 Jan 2021 13:22:23 -0500
-Received: from pps.filterd (userp2130.oracle.com [127.0.0.1])
- by userp2130.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 10FIFIQY184960;
- Fri, 15 Jan 2021 18:21:07 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com;
- h=content-type :
- mime-version : subject : from : in-reply-to : date : cc :
- content-transfer-encoding : message-id : references : to;
- s=corp-2020-01-29; bh=6OINlLcpNa1Y/C632EF6vEq9c4oBBQaEYw0eJoGiBuY=;
- b=Chc/fS4izfVv6NYSGLpOTVDcb59SNyZwf0WPMtE7yVB4Vf4XNoKgDJ+LDiJduY3MxnQk
- p+PGHsQMHJlnZm7MfTDietc1mW9Lnx1Kci+3F8NftSvMm/7pIDOyEqrveLQS4zcnTHGb
- U7D9VuA4WXbQs7gFzp3Jw3mTkhLl0fkPaqgBomel2LVQUODvjlef0trXiV6YIELgbNO4
- PBICNm7jSYnmqqMq/L8ImnQJQn9wSImZDMvs3mE4pn0fYIPTRyPQ7qFypV68buPg/3BV
- bd0v+jUPfVonwtuLbVXVnre6Btrtk5lc15+qBNLLU/S0gvAR3SKszXxyEbGpntFDoHLQ 3Q== 
-Received: from userp3030.oracle.com (userp3030.oracle.com [156.151.31.80])
- by userp2130.oracle.com with ESMTP id 360kvke4gh-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Fri, 15 Jan 2021 18:21:07 +0000
-Received: from pps.filterd (userp3030.oracle.com [127.0.0.1])
- by userp3030.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 10FIF9vx060465;
- Fri, 15 Jan 2021 18:19:06 GMT
-Received: from aserv0121.oracle.com (aserv0121.oracle.com [141.146.126.235])
- by userp3030.oracle.com with ESMTP id 360keq7y3h-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Fri, 15 Jan 2021 18:19:06 +0000
-Received: from abhmp0003.oracle.com (abhmp0003.oracle.com [141.146.116.9])
- by aserv0121.oracle.com (8.14.4/8.13.8) with ESMTP id 10FIJ4Dk029583;
- Fri, 15 Jan 2021 18:19:04 GMT
-Received: from dhcp-10-39-219-53.vpn.oracle.com (/10.39.219.53)
- by default (Oracle Beehive Gateway v4.0)
- with ESMTP ; Fri, 15 Jan 2021 10:19:03 -0800
-Content-Type: text/plain;
-	charset=utf-8
-Mime-Version: 1.0 (Mac OS X Mail 14.0 \(3654.40.0.2.32\))
-Subject: Re: [PATCH v19 08/20] io: add qio_channel_readv_full_all_eof &
- qio_channel_readv_full_all helpers
-From: Jag Raman <jag.raman@oracle.com>
-In-Reply-To: <20210115092017.GA334489@stefanha-x1.localdomain>
-Date: Fri, 15 Jan 2021 13:19:01 -0500
-Content-Transfer-Encoding: quoted-printable
-Message-Id: <C2D5772D-CA1A-4E06-9971-DCD589CF8CAD@oracle.com>
-References: <cover.1610638428.git.jag.raman@oracle.com>
- <02a82c80a35ab60b98028c85aa94f688a2843943.1610638428.git.jag.raman@oracle.com>
- <20210114162729.GB306329@stefanha-x1.localdomain>
- <CA0E47D0-F1F5-4825-ABB7-BE73AAD3E375@oracle.com>
- <20210114180035.GY1643043@redhat.com>
- <1DE4BD83-5AD6-4F70-8702-03DE1548DBED@oracle.com>
- <20210115092017.GA334489@stefanha-x1.localdomain>
-To: Stefan Hajnoczi <stefanha@redhat.com>
-X-Mailer: Apple Mail (2.3654.40.0.2.32)
-X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9865
- signatures=668683
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 mlxscore=0
- phishscore=0 spamscore=0
- malwarescore=0 suspectscore=0 mlxlogscore=999 adultscore=0 bulkscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2009150000
- definitions=main-2101150110
-X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9865
- signatures=668683
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 mlxlogscore=999
- phishscore=0
- lowpriorityscore=0 bulkscore=0 priorityscore=1501 malwarescore=0
- clxscore=1015 impostorscore=0 spamscore=0 mlxscore=0 suspectscore=0
- adultscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2009150000 definitions=main-2101150110
-Received-SPF: pass client-ip=156.151.31.86; envelope-from=jag.raman@oracle.com;
- helo=userp2130.oracle.com
-X-Spam_score_int: -46
-X-Spam_score: -4.7
-X-Spam_bar: ----
-X-Spam_report: (-4.7 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.25,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_MED=-2.3, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_PASS=-0.001,
- SPF_PASS=-0.001, UNPARSEABLE_RELAY=0.001 autolearn=ham autolearn_force=no
+ (Exim 4.90_1) (envelope-from <linuxram@us.ibm.com>)
+ id 1l0Tlx-0007T6-6O; Fri, 15 Jan 2021 13:24:34 -0500
+Received: from pps.filterd (m0098413.ppops.net [127.0.0.1])
+ by mx0b-001b2d01.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id
+ 10FICwr3086890; Fri, 15 Jan 2021 13:24:21 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
+ h=date : from : to : cc :
+ message-id : reply-to : references : mime-version : content-type :
+ in-reply-to : subject; s=pp1;
+ bh=+ryAA7tFRy7NpZrkGCvfEnNHPOAC3BE2pscL10x1U4M=;
+ b=RjGNuYJjBsCPkeLc+SlkRKDxB7fPTDsaH3IK/f+8aydsHnoEHbUp+t7HLs7AeUMIRfA5
+ DBfZHuv9Xr+NGOFSaszn1n8p9daaE8IYpSjKi+hmAbl1TumjRMiysObOGn78rUKp7H2A
+ Esp5dNWqNQt1YRe6PVZmSfgFL4AmnvKikD+KVlrPdla6pCoxk5XjiL8RF3ignHfJa70N
+ FutuCwqcEJ91Cr6zuDbjU/M9CsjPsUghtvl+et7ECc/ZFRBVrxq8Gx3s+ozVz+3TkYKG
+ Bp9QFY9PapL9jPVtG1heCXOMRJw9ePQi8Ep0zTmt3QBWOQMe8YZqIjas14WI83eji/MH yA== 
+Received: from pps.reinject (localhost [127.0.0.1])
+ by mx0b-001b2d01.pphosted.com with ESMTP id 363g4k88q8-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Fri, 15 Jan 2021 13:24:20 -0500
+Received: from m0098413.ppops.net (m0098413.ppops.net [127.0.0.1])
+ by pps.reinject (8.16.0.36/8.16.0.36) with SMTP id 10FIETtV090047;
+ Fri, 15 Jan 2021 13:24:20 -0500
+Received: from ppma03ams.nl.ibm.com (62.31.33a9.ip4.static.sl-reverse.com
+ [169.51.49.98])
+ by mx0b-001b2d01.pphosted.com with ESMTP id 363g4k88p7-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Fri, 15 Jan 2021 13:24:20 -0500
+Received: from pps.filterd (ppma03ams.nl.ibm.com [127.0.0.1])
+ by ppma03ams.nl.ibm.com (8.16.0.42/8.16.0.42) with SMTP id 10FIDUOh022500;
+ Fri, 15 Jan 2021 18:24:18 GMT
+Received: from b06avi18626390.portsmouth.uk.ibm.com
+ (b06avi18626390.portsmouth.uk.ibm.com [9.149.26.192])
+ by ppma03ams.nl.ibm.com with ESMTP id 35y448003h-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Fri, 15 Jan 2021 18:24:18 +0000
+Received: from b06wcsmtp001.portsmouth.uk.ibm.com
+ (b06wcsmtp001.portsmouth.uk.ibm.com [9.149.105.160])
+ by b06avi18626390.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP
+ id 10FIOAHB28967230
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Fri, 15 Jan 2021 18:24:10 GMT
+Received: from b06wcsmtp001.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 69200A4062;
+ Fri, 15 Jan 2021 18:24:15 +0000 (GMT)
+Received: from b06wcsmtp001.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id BBBF3A4069;
+ Fri, 15 Jan 2021 18:24:10 +0000 (GMT)
+Received: from ram-ibm-com.ibm.com (unknown [9.160.82.178])
+ by b06wcsmtp001.portsmouth.uk.ibm.com (Postfix) with ESMTPS;
+ Fri, 15 Jan 2021 18:24:10 +0000 (GMT)
+Date: Fri, 15 Jan 2021 10:24:07 -0800
+From: Ram Pai <linuxram@us.ibm.com>
+To: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+Message-ID: <20210115182407.GA24076@ram-ibm-com.ibm.com>
+References: <20201218124111.4957eb50.cohuck@redhat.com>
+ <20210104071550.GA22585@ram-ibm-com.ibm.com>
+ <20210104134629.49997b53.pasic@linux.ibm.com>
+ <20210104184026.GD4102@ram-ibm-com.ibm.com>
+ <20210105115614.7daaadd6.pasic@linux.ibm.com>
+ <20210105204125.GE4102@ram-ibm-com.ibm.com>
+ <20210111175914.13adfa2e.cohuck@redhat.com>
+ <20210113124226.GH2938@work-vm>
+ <6e02e8d5-af4b-624b-1a12-d03b9d554a41@de.ibm.com>
+ <20210114103643.GD2905@work-vm>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20210114103643.GD2905@work-vm>
+User-Agent: Mutt/1.5.21 (2010-09-15)
+X-TM-AS-GCONF: 00
+Subject: RE: [for-6.0 v5 11/13] spapr: PEF: prevent migration
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.343, 18.0.737
+ definitions=2021-01-15_09:2021-01-15,
+ 2021-01-15 signatures=0
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ phishscore=0 mlxlogscore=999
+ priorityscore=1501 bulkscore=0 adultscore=0 lowpriorityscore=0
+ impostorscore=0 malwarescore=0 spamscore=0 mlxscore=0 suspectscore=0
+ clxscore=1015 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2009150000 definitions=main-2101150106
+Received-SPF: pass client-ip=148.163.158.5; envelope-from=linuxram@us.ibm.com;
+ helo=mx0a-001b2d01.pphosted.com
+X-Spam_score_int: -26
+X-Spam_score: -2.7
+X-Spam_bar: --
+X-Spam_report: (-2.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_DNSWL_LOW=-0.7,
+ RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -104,146 +117,103 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Elena Ufimtseva <elena.ufimtseva@oracle.com>, Fam Zheng <fam@euphon.net>,
- Swapnil Ingle <swapnil.ingle@nutanix.com>,
- John G Johnson <john.g.johnson@oracle.com>, qemu-level <qemu-devel@nongnu.org>,
- Gerd Hoffmann <kraxel@redhat.com>, quintela@redhat.com, mst@redhat.com,
- armbru@redhat.com, kanth.ghatraju@oracle.com, felipe@nutanix.com,
- thuth@redhat.com, ehabkost@redhat.com, konrad.wilk@oracle.com,
- dgilbert@redhat.com, alex.williamson@redhat.com, thanos.makatos@nutanix.com,
- kwolf@redhat.com,
- =?utf-8?B?IkRhbmllbCBQLiBCZXJyYW5nw6ki?= <berrange@redhat.com>,
- mreitz@redhat.com, ross.lagerwall@citrix.com, marcandre.lureau@gmail.com,
+Reply-To: Ram Pai <linuxram@us.ibm.com>
+Cc: pair@us.ibm.com, Cornelia Huck <cohuck@redhat.com>, brijesh.singh@amd.com,
+ kvm@vger.kernel.org, "Michael S. Tsirkin" <mst@redhat.com>,
+ qemu-devel@nongnu.org, frankja@linux.ibm.com, david@redhat.com,
+ mdroth@linux.vnet.ibm.com, Halil Pasic <pasic@linux.ibm.com>,
+ Christian Borntraeger <borntraeger@de.ibm.com>,
+ David Gibson <david@gibson.dropbear.id.au>, thuth@redhat.com,
+ Eduardo Habkost <ehabkost@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>, Greg Kurz <groug@kaod.org>,
+ qemu-s390x@nongnu.org, rth@twiddle.net, berrange@redhat.com,
+ Marcelo Tosatti <mtosatti@redhat.com>, qemu-ppc@nongnu.org,
  pbonzini@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+On Thu, Jan 14, 2021 at 10:36:43AM +0000, Dr. David Alan Gilbert wrote:
+> * Christian Borntraeger (borntraeger@de.ibm.com) wrote:
+> > 
+> > 
+> > On 13.01.21 13:42, Dr. David Alan Gilbert wrote:
+> > > * Cornelia Huck (cohuck@redhat.com) wrote:
+> > >> On Tue, 5 Jan 2021 12:41:25 -0800
+> > >> Ram Pai <linuxram@us.ibm.com> wrote:
+> > >>
+> > >>> On Tue, Jan 05, 2021 at 11:56:14AM +0100, Halil Pasic wrote:
+> > >>>> On Mon, 4 Jan 2021 10:40:26 -0800
+> > >>>> Ram Pai <linuxram@us.ibm.com> wrote:
+> > >>
+> > >>>>> The main difference between my proposal and the other proposal is...
+> > >>>>>
+> > >>>>>   In my proposal the guest makes the compatibility decision and acts
+> > >>>>>   accordingly.  In the other proposal QEMU makes the compatibility
+> > >>>>>   decision and acts accordingly. I argue that QEMU cannot make a good
+> > >>>>>   compatibility decision, because it wont know in advance, if the guest
+> > >>>>>   will or will-not switch-to-secure.
+> > >>>>>   
+> > >>>>
+> > >>>> You have a point there when you say that QEMU does not know in advance,
+> > >>>> if the guest will or will-not switch-to-secure. I made that argument
+> > >>>> regarding VIRTIO_F_ACCESS_PLATFORM (iommu_platform) myself. My idea
+> > >>>> was to flip that property on demand when the conversion occurs. David
+> > >>>> explained to me that this is not possible for ppc, and that having the
+> > >>>> "securable-guest-memory" property (or whatever the name will be)
+> > >>>> specified is a strong indication, that the VM is intended to be used as
+> > >>>> a secure VM (thus it is OK to hurt the case where the guest does not
+> > >>>> try to transition). That argument applies here as well.  
+> > >>>
+> > >>> As suggested by Cornelia Huck, what if QEMU disabled the
+> > >>> "securable-guest-memory" property if 'must-support-migrate' is enabled?
+> > >>> Offcourse; this has to be done with a big fat warning stating
+> > >>> "secure-guest-memory" feature is disabled on the machine.
+> > >>> Doing so, will continue to support guest that do not try to transition.
+> > >>> Guest that try to transition will fail and terminate themselves.
+> > >>
+> > >> Just to recap the s390x situation:
+> > >>
+> > >> - We currently offer a cpu feature that indicates secure execution to
+> > >>   be available to the guest if the host supports it.
+> > >> - When we introduce the secure object, we still need to support
+> > >>   previous configurations and continue to offer the cpu feature, even
+> > >>   if the secure object is not specified.
+> > >> - As migration is currently not supported for secured guests, we add a
+> > >>   blocker once the guest actually transitions. That means that
+> > >>   transition fails if --only-migratable was specified on the command
+> > >>   line. (Guests not transitioning will obviously not notice anything.)
+> > >> - With the secure object, we will already fail starting QEMU if
+> > >>   --only-migratable was specified.
+> > >>
+> > >> My suggestion is now that we don't even offer the cpu feature if
+> > >> --only-migratable has been specified. For a guest that does not want to
+> > >> transition to secure mode, nothing changes; a guest that wants to
+> > >> transition to secure mode will notice that the feature is not available
+> > >> and fail appropriately (or ultimately, when the ultravisor call fails).
+> > >> We'd still fail starting QEMU for the secure object + --only-migratable
+> > >> combination.
+> > >>
+> > >> Does that make sense?
+> > > 
+> > > It's a little unusual; I don't think we have any other cases where
+> > > --only-migratable changes the behaviour; I think it normally only stops
+> > > you doing something that would have made it unmigratable or causes
+> > > an operation that would make it unmigratable to fail.
+> > 
+> > I would like to NOT block this feature with --only-migrateable. A guest
+> > can startup unprotected (and then is is migrateable). the migration blocker
+> > is really a dynamic aspect during runtime. 
+> 
+> But the point of --only-migratable is to turn things that would have
+> blocked migration into failures, so that a VM started with
+> --only-migratable is *always* migratable.
+
+I believe, the proposed behavior, does follow the above rule. The
+VM started with --only-migratable will always be migratable. Any
+behavior; in the guest, to the contrary will disallow the behavior or
+terminate the guest, but will never let the VM transition to a
+non-migratable state.
 
 
-> On Jan 15, 2021, at 4:20 AM, Stefan Hajnoczi <stefanha@redhat.com> =
-wrote:
->=20
-> On Thu, Jan 14, 2021 at 01:24:37PM -0500, Jag Raman wrote:
->>=20
->>=20
->>> On Jan 14, 2021, at 1:00 PM, Daniel P. Berrang=C3=A9 =
-<berrange@redhat.com> wrote:
->>>=20
->>> On Thu, Jan 14, 2021 at 12:55:58PM -0500, Jag Raman wrote:
->>>>=20
->>>>=20
->>>>> On Jan 14, 2021, at 11:27 AM, Stefan Hajnoczi =
-<stefanha@redhat.com> wrote:
->>>>>=20
->>>>> On Thu, Jan 14, 2021 at 10:40:03AM -0500, Jagannathan Raman wrote:
->>>>>> +int qio_channel_readv_full_all(QIOChannel *ioc,
->>>>>> +                               const struct iovec *iov,
->>>>>> +                               size_t niov,
->>>>>> +                               int **fds, size_t *nfds,
->>>>>> +                               Error **errp)
->>>>>> {
->>>>>> -    int ret =3D qio_channel_readv_all_eof(ioc, iov, niov, errp);
->>>>>> +    int ret =3D qio_channel_readv_full_all_eof(ioc, iov, niov, =
-fds, nfds, errp);
->>>>>>=20
->>>>>>   if (ret =3D=3D 0) {
->>>>>> -        ret =3D -1;
->>>>>>       error_setg(errp,
->>>>>>                  "Unexpected end-of-file before all bytes were =
-read");
->>>>>=20
->>>>> qio_channel_readv_full_all_eof() can read file descriptors but no =
-data
->>>>> and return 0.
->>>>>=20
->>>>> Here that case is converted into an error and the file descriptors
->>>>> aren't closed, freed, and fds/nfds isn't cleared.
->>>>=20
->>>> That=E2=80=99s a valid point. I=E2=80=99m wondering if the fix for =
-this case should be in
->>>> qio_channel_readv_full_all_eof(), instead of here.
->>>>=20
->>>> qio_channel_readv_full_all_eof() should probably return error (-1) =
-if the
->>>> amount of data read does not match iov_size(). If the caller is =
-only expecting
->>>> to read fds, and not any data, it would indicate that by setting =
-iov to NULL
->>>> and/or setting niov=3D0. If the caller is setting these parameters, =
-it means it is
->>>> expecting data.Does that sound good?
->>>=20
->>> The API spec for the existing _eof() methods says:
->>>=20
->>> * The function will wait for all requested data
->>> * to be read, yielding from the current coroutine
->>> * if required.
->>> *
->>> * If end-of-file occurs before any data is read,
->>> * no error is reported; otherwise, if it occurs
->>> * before all requested data has been read, an error
->>> * will be reported.
->>>=20
->>>=20
->>> IOW, return '0' is *only* valid if we've not read anything. I =
-consider
->>> file descriptors to be something.
->>>=20
->>> IOW, qio_channel_readv_full_all_eof must only return 0, if it didn't
->>> read any data and also didn't receive any file descriptors. So yeah,
->>> we must return -1 in the scenario Stefan describes
->>=20
->> That makes sense to me. Reading =E2=80=9Cfds" is something, which is =
-different
->> from our previous understanding. I thought data only meant iov, and =
-not fds.
->>=20
->> So the return values for qio_channel_readv_full_all_eof() would be:
->>  - =E2=80=980=E2=80=99 only if EOF is reached without reading any fds =
-and data.
->>  - =E2=80=981=E2=80=99 if all data that the caller expects are read =
-(even if the caller reads
->>    fds exclusively, without any iovs)
->>  - =E2=80=98-1=E2=80=99 otherwise, considered as error
->>=20
->> qio_channel_readv_full_all() would return:
->>  - =E2=80=980=E2=80=99 if all the data that caller expects are read
->>  - =E2=80=98-1=E2=80=99 otherwise, considered as error
->>=20
->> Hey Stefan,
->>=20
->>    Does this sound good to you?
->=20
-> The while (nlocal_iov > 0) loop only runs if the caller has requested =
-to
-> read at least some data, so the fds-only case doesn't work yet.
->=20
-> This suggests that no current QEMU code relies on the fds-only case.
-> Therefore you could change the doc comment to clarify this instead of
-> adding support for this case to the code.
->=20
-> But if you would to fully support the fds-only case that would be even
-> better.
->=20
-> Stefan
-
-We are working on sending the next revision out. We could handle the
-fds-only case by altering the while loop condition to be:
-((nlocal_iov > 0) || local_fds)
-
-For reference, we would need to handle the following cases:
-len < 0; !partial, !*nfds       =3D> ret =3D -1;
-len =3D 0; !partial, !*nfds       =3D> ret =3D 0;
-len < 0; partial, !*nfds        =3D> ret =3D -1; errmsg;
-len =3D 0; partial, !*nfds        =3D> ret =3D -1; errmsg;
-len < 0; partial, *nfds         =3D> ret =3D -1; errmsg, clearfds
-len < 0; !partial, *nfds        =3D> ret =3D -1; errmsg, clearfds
-len =3D 0; partial, *nfds         =3D> ret =3D -1; errmsg, clearfds
-len =3D 0; !partial, *nfds        =3D> ret =3D -1; errmsg, clearfds
-len =3D 0; !niov; (nfds && *nfds) =3D> ret =3D 1 /* fds-only */
-len > 0                         =3D> ret 1
-
-Thank you!
---
-Jag=
+RP
 
