@@ -2,76 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B517B2F7F44
-	for <lists+qemu-devel@lfdr.de>; Fri, 15 Jan 2021 16:17:14 +0100 (CET)
-Received: from localhost ([::1]:54754 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 54E262F7F35
+	for <lists+qemu-devel@lfdr.de>; Fri, 15 Jan 2021 16:16:15 +0100 (CET)
+Received: from localhost ([::1]:49130 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l0Qqf-00048E-Oa
-	for lists+qemu-devel@lfdr.de; Fri, 15 Jan 2021 10:17:13 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37600)
+	id 1l0Qpi-0001bO-Ap
+	for lists+qemu-devel@lfdr.de; Fri, 15 Jan 2021 10:16:14 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37654)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1l0QlM-0005bX-0R
- for qemu-devel@nongnu.org; Fri, 15 Jan 2021 10:11:44 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:43806)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1l0QlN-0005gW-Qo
+ for qemu-devel@nongnu.org; Fri, 15 Jan 2021 10:11:46 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:58723)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1l0QlD-0000Rp-3W
- for qemu-devel@nongnu.org; Fri, 15 Jan 2021 10:11:43 -0500
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1l0QlJ-0000Xl-BK
+ for qemu-devel@nongnu.org; Fri, 15 Jan 2021 10:11:45 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1610723493;
+ s=mimecast20190719; t=1610723497;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=vJcVomEyeM6XO+eUf1MiX6+/ZT2Zh17BWZWFMN/bTfE=;
- b=FHgKpoD1MLavuvLcO8hhlKMP0JPK+iTO9HlGoQb2wTJsAJMCv3+l1q8N3umUmQ3gImMECO
- fLL5JA2vps37cavDPESqGCP86fgAOyPMdaLqFwOFUHwJXuJFx28Jy01Khj46QDddL+G0BW
- WVEnykdjRqETlgnTpCxixavxRdSYvXM=
-Received: from mail-ed1-f70.google.com (mail-ed1-f70.google.com
- [209.85.208.70]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-524-U1MbpvkuMlydjR10ztKvsw-1; Fri, 15 Jan 2021 10:11:30 -0500
-X-MC-Unique: U1MbpvkuMlydjR10ztKvsw-1
-Received: by mail-ed1-f70.google.com with SMTP id a9so4003742edy.8
- for <qemu-devel@nongnu.org>; Fri, 15 Jan 2021 07:11:30 -0800 (PST)
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=3PM3c1hDQViy2jaBMDNzLZyG4cMXsFVA914IRG0X4aE=;
+ b=RAJJoRT6bSCyDtfMX0ZiSVFuUSyypdQaLX7t3MM9udRD27zISfB4uLqmrjOCr8DJxDZPO6
+ wOxHgRhNac7e/gucH3fHc36cqj9mq3LYajC/IXuU1y3PGfDnZJ4kNmzN/YN4f55wiHld/o
+ ujJ2V3/EvfDNWaZazoGS0wKuqRhG0YU=
+Received: from mail-ej1-f71.google.com (mail-ej1-f71.google.com
+ [209.85.218.71]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-228-AZogWQhYM2i4x8f7PeN7BQ-1; Fri, 15 Jan 2021 10:11:35 -0500
+X-MC-Unique: AZogWQhYM2i4x8f7PeN7BQ-1
+Received: by mail-ej1-f71.google.com with SMTP id q11so3704543ejd.0
+ for <qemu-devel@nongnu.org>; Fri, 15 Jan 2021 07:11:35 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=HZwR27Mp8pM1vNTlgMwBLOvkx/+cxKlo4qS0a0rjk+E=;
- b=YU+WZr0Fds4sA6lP1vdC+EG80YsokSWh0YS3Jpj1LsmbkEETykNEZ7Lie0WBcNM1Kh
- vzIWbMJT4PrDPOKMzpVGzmQV5LAZge5GPXqwere/HUTeuivuEmR2qWEJxRa60iB0LmS7
- 1sldeZtkA1Qlji0tsCGgaRqVH7NL7j+/B7bAl6z6cqfUHAYtc6GWmLta8RIAsVfUPydo
- A58v1Jk8BwlHW4GDBXKoFrP0DOvCgXPh0OCtV3i61fndXzjX/H1MD+e2QCEVnIMOUxpB
- Dhy+fHGtc0amxxpaYZd+3goQaqVHdeafrrPyHmirHi/FV6CJVtZYQzna8CumRK/WOkRR
- DI+A==
-X-Gm-Message-State: AOAM530Nfq+D5b7mZoigYavf9F2dXxFX7C7g3wPbbjyowLQ81eK2VlT5
- iKx18vXQglAkCWS/XcYOl3kHaB2n5one8uPnp6x+lWxplUpj1MF7uftO3obDeBMVP1wEUtsvKxP
- J0aKh+hpkJGK1HARuZLZUM2UuXG7k8GB/j1Zj1peWh/PH7fV/XXNUHkQNNadwJowu
-X-Received: by 2002:a17:906:a8e:: with SMTP id
- y14mr8943003ejf.47.1610723488885; 
- Fri, 15 Jan 2021 07:11:28 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJyea+loXuYwgZ2jzx7+wg3vuDkA+FS4mIDqeCc3pIBqmASpyIpEdobqD0sH2iyjI4kgCu8NQw==
-X-Received: by 2002:a17:906:a8e:: with SMTP id
- y14mr8942973ejf.47.1610723488649; 
- Fri, 15 Jan 2021 07:11:28 -0800 (PST)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=3PM3c1hDQViy2jaBMDNzLZyG4cMXsFVA914IRG0X4aE=;
+ b=Ib2dxB6P1Tk4clb/4AR8Vi5K7TRHEL9Ybem/bz9ngmg1kneOM2RbAWpyp2KwDucR8v
+ QU0Ll5ECtbg7u/Fsz7eaqUxZrx6HKQIpg15vB4A1iJArBhDkmJ5sBG6b1xK2I70O4yqq
+ VlEG+5lWgfw43gnYlLPdSoNak8va/6++WwDrWT53XmSdJ+rdMG595hXRFTaC5FW24qN9
+ jzNiqCt4TO1ES7bX7qNp5rntyd60PTCOUInmVZ1BMKuaeBp7eOkTkMlqSuo/CHI4l4zA
+ yrUiltogFVjKZ354aTkZjxkQAM6gCvRdlSwXLGl6w6l53knlk1bPgTGv24NB2IoPKxar
+ qePw==
+X-Gm-Message-State: AOAM531GmbR5dEqtqFLTWJeMXFYK53cQ8DiFhZwHWJvUk72sjFL3RtjJ
+ mrusyLRYHgMBprGCiEHRQUFcngslM29MvY7TvNOVjUFeSCrj2mUgTxBd26kbja7qdMcsHNKxxYw
+ PLAWafUCEx1J+I/Msz9yKVQx/hGrpMiocCc9GpH69xiS8XwUEpbubplIbgG5uIQKh
+X-Received: by 2002:aa7:cf8f:: with SMTP id z15mr9983953edx.17.1610723494115; 
+ Fri, 15 Jan 2021 07:11:34 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJwGG5WFa98szbRYtdHYJooNykcw+TMtNUae42zrxemdVkW7aD5lVRkUJlBfEauO5r9KCeQzog==
+X-Received: by 2002:aa7:cf8f:: with SMTP id z15mr9983927edx.17.1610723493947; 
+ Fri, 15 Jan 2021 07:11:33 -0800 (PST)
 Received: from x1w.redhat.com (13.red-83-57-169.dynamicip.rima-tde.net.
  [83.57.169.13])
- by smtp.gmail.com with ESMTPSA id cb4sm3637414ejb.82.2021.01.15.07.11.27
+ by smtp.gmail.com with ESMTPSA id n2sm3687044ejj.24.2021.01.15.07.11.32
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 15 Jan 2021 07:11:28 -0800 (PST)
+ Fri, 15 Jan 2021 07:11:33 -0800 (PST)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 0/2] net/eth: Fix stack-buffer-overflow in
- _eth_get_rss_ex_dst_addr()
-Date: Fri, 15 Jan 2021 16:11:24 +0100
-Message-Id: <20210115151126.3334333-1-philmd@redhat.com>
+Subject: [PATCH v2 1/2] net/eth: Simplify _eth_get_rss_ex_dst_addr()
+Date: Fri, 15 Jan 2021 16:11:25 +0100
+Message-Id: <20210115151126.3334333-2-philmd@redhat.com>
 X-Mailer: git-send-email 2.26.2
+In-Reply-To: <20210115151126.3334333-1-philmd@redhat.com>
+References: <20210115151126.3334333-1-philmd@redhat.com>
 MIME-Version: 1.0
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 Received-SPF: pass client-ip=63.128.21.124; envelope-from=philmd@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -29
@@ -101,28 +101,49 @@ Cc: Laurent Vivier <lvivier@redhat.com>, Thomas Huth <thuth@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-I had a look at the patch from Miroslav trying to silence a=0D
-compiler warning which in fact is a nasty bug. Here is a fix.=0D
-https://www.mail-archive.com/qemu-devel@nongnu.org/msg772735.html=0D
-=0D
-v2: Restrict tests so they don't fail when device aren't available=0D
-=0D
-Based-on: <20210115150936.3333282-1-philmd@redhat.com>=0D
-          "tests/qtest: Fixes fuzz-tests"=0D
-=0D
-Philippe Mathieu-Daud=C3=A9 (2):=0D
-  net/eth: Simplify _eth_get_rss_ex_dst_addr()=0D
-  net/eth: Fix stack-buffer-overflow in _eth_get_rss_ex_dst_addr()=0D
-=0D
- net/eth.c                      | 37 +++++++++++-------------=0D
- tests/qtest/fuzz-e1000e-test.c | 53 ++++++++++++++++++++++++++++++++++=0D
- MAINTAINERS                    |  1 +=0D
- tests/qtest/meson.build        |  1 +=0D
- 4 files changed, 72 insertions(+), 20 deletions(-)=0D
- create mode 100644 tests/qtest/fuzz-e1000e-test.c=0D
-=0D
---=20=0D
-2.26.2=0D
-=0D
+The length field is already contained in the ip6_ext_hdr structure.
+Check it direcly in eth_parse_ipv6_hdr() before calling
+_eth_get_rss_ex_dst_addr(), which gets a bit simplified.
+
+Reviewed-by: Miroslav Rezanina <mrezanin@redhat.com>
+Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+---
+ net/eth.c | 14 +++++++-------
+ 1 file changed, 7 insertions(+), 7 deletions(-)
+
+diff --git a/net/eth.c b/net/eth.c
+index 1e0821c5f81..7d4dd48c1ff 100644
+--- a/net/eth.c
++++ b/net/eth.c
+@@ -407,9 +407,7 @@ _eth_get_rss_ex_dst_addr(const struct iovec *pkt, int pkt_frags,
+ {
+     struct ip6_ext_hdr_routing *rthdr = (struct ip6_ext_hdr_routing *) ext_hdr;
+ 
+-    if ((rthdr->rtype == 2) &&
+-        (rthdr->len == sizeof(struct in6_address) / 8) &&
+-        (rthdr->segleft == 1)) {
++    if ((rthdr->rtype == 2) && (rthdr->segleft == 1)) {
+ 
+         size_t input_size = iov_size(pkt, pkt_frags);
+         size_t bytes_read;
+@@ -528,10 +526,12 @@ bool eth_parse_ipv6_hdr(const struct iovec *pkt, int pkt_frags,
+         }
+ 
+         if (curr_ext_hdr_type == IP6_ROUTING) {
+-            info->rss_ex_dst_valid =
+-                _eth_get_rss_ex_dst_addr(pkt, pkt_frags,
+-                                         ip6hdr_off + info->full_hdr_len,
+-                                         &ext_hdr, &info->rss_ex_dst);
++            if (ext_hdr.ip6r_len == sizeof(struct in6_address) / 8) {
++                info->rss_ex_dst_valid =
++                    _eth_get_rss_ex_dst_addr(pkt, pkt_frags,
++                                             ip6hdr_off + info->full_hdr_len,
++                                             &ext_hdr, &info->rss_ex_dst);
++            }
+         } else if (curr_ext_hdr_type == IP6_DESTINATON) {
+             info->rss_ex_src_valid =
+                 _eth_get_rss_ex_src_addr(pkt, pkt_frags,
+-- 
+2.26.2
 
 
