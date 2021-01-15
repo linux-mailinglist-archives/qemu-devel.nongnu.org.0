@@ -2,43 +2,43 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 13A472F6FDF
-	for <lists+qemu-devel@lfdr.de>; Fri, 15 Jan 2021 02:13:23 +0100 (CET)
-Received: from localhost ([::1]:55548 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B0EC22F6FDC
+	for <lists+qemu-devel@lfdr.de>; Fri, 15 Jan 2021 02:11:30 +0100 (CET)
+Received: from localhost ([::1]:50708 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l0Dg2-0000by-4k
-	for lists+qemu-devel@lfdr.de; Thu, 14 Jan 2021 20:13:22 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56680)
+	id 1l0DeD-0006zL-85
+	for lists+qemu-devel@lfdr.de; Thu, 14 Jan 2021 20:11:29 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56682)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1l0DaI-00041d-LZ; Thu, 14 Jan 2021 20:07:26 -0500
-Received: from bilbo.ozlabs.org ([2401:3900:2:1::2]:38029 helo=ozlabs.org)
+ id 1l0DaI-00041h-MN; Thu, 14 Jan 2021 20:07:26 -0500
+Received: from ozlabs.org ([2401:3900:2:1::2]:34989)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1l0DaC-0003Q9-JP; Thu, 14 Jan 2021 20:07:23 -0500
+ id 1l0DaC-0003QB-PW; Thu, 14 Jan 2021 20:07:23 -0500
 Received: by ozlabs.org (Postfix, from userid 1007)
- id 4DH31c01Lhz9sWW; Fri, 15 Jan 2021 12:07:15 +1100 (AEDT)
+ id 4DH31b6W02z9sWD; Fri, 15 Jan 2021 12:07:15 +1100 (AEDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=gibson.dropbear.id.au; s=201602; t=1610672836;
- bh=99W15X76qGo6Dz8pHcZoDwwjEO534KEH8ogb/iLMRXA=;
+ d=gibson.dropbear.id.au; s=201602; t=1610672835;
+ bh=se0TKPLrPaRB+8U+0iptuhC9dWqrKC3eKk/NRRSYD30=;
  h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=OOuqyv5xRHKN8bciMDyhtp6SaQ880HHy74uF47RL8beYajcVbpaWIIn5QV2XXdWXa
- wL7VD5TTKGbM+LJrW5rmUNZQGiK6uguV2uxTskk5gbWpoE4BUy3liRC+wB8mq5zOLx
- zvkUjcB8L+V7zd15MUN4x26jnpw5qbIcwIZvej7s=
-Date: Fri, 15 Jan 2021 11:45:50 +1100
+ b=C39xRqOoQZuRdnJmN0NAUXDQ6y9ShM0Lic8325YYTylvwqQaQrnNb6Tmj4j4z9RQf
+ 3YsmogkBP8Ht8lwja0D9eWRvnndYRvbaA9un+rym0ho/VG1YOIzElyEEXJ52/tfKV2
+ WQDQcfiiX8fYS2yryyOFFd/ZQBr/Q+QylMySN9qI=
+Date: Fri, 15 Jan 2021 11:49:35 +1100
 From: David Gibson <david@gibson.dropbear.id.au>
 To: Daniel Henrique Barboza <danielhb413@gmail.com>
-Subject: Re: [PATCH v1 4/7] spapr_rtas.c: fix identation of
- rtas_ibm_suspend_me() args
-Message-ID: <20210115004550.GT435587@yekko.fritz.box>
+Subject: Re: [PATCH v1 5/7] spapr_cpu_core.c: use g_auto* in
+ spapr_create_vcpu()
+Message-ID: <20210115004935.GU435587@yekko.fritz.box>
 References: <20210114180628.1675603-1-danielhb413@gmail.com>
- <20210114180628.1675603-5-danielhb413@gmail.com>
+ <20210114180628.1675603-6-danielhb413@gmail.com>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="k8r0khnpBuGu0wUi"
+ protocol="application/pgp-signature"; boundary="ULJ2Z7kCM1hyNsWd"
 Content-Disposition: inline
-In-Reply-To: <20210114180628.1675603-5-danielhb413@gmail.com>
+In-Reply-To: <20210114180628.1675603-6-danielhb413@gmail.com>
 Received-SPF: pass client-ip=2401:3900:2:1::2; envelope-from=dgibson@ozlabs.org;
  helo=ozlabs.org
 X-Spam_score_int: -17
@@ -64,39 +64,65 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 
---k8r0khnpBuGu0wUi
+--ULJ2Z7kCM1hyNsWd
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Thu, Jan 14, 2021 at 03:06:25PM -0300, Daniel Henrique Barboza wrote:
+On Thu, Jan 14, 2021 at 03:06:26PM -0300, Daniel Henrique Barboza wrote:
+> Use g_autoptr() with Object and g_autofree with the string to
+> avoid the need of a cleanup path.
+>=20
 > Signed-off-by: Daniel Henrique Barboza <danielhb413@gmail.com>
 
 Applied to ppc-for-6.0, thanks.
 
 > ---
->  hw/ppc/spapr_rtas.c | 6 +++---
->  1 file changed, 3 insertions(+), 3 deletions(-)
+>  hw/ppc/spapr_cpu_core.c | 12 +++---------
+>  1 file changed, 3 insertions(+), 9 deletions(-)
 >=20
-> diff --git a/hw/ppc/spapr_rtas.c b/hw/ppc/spapr_rtas.c
-> index d014684d60..fbefd5d3cb 100644
-> --- a/hw/ppc/spapr_rtas.c
-> +++ b/hw/ppc/spapr_rtas.c
-> @@ -219,9 +219,9 @@ static void rtas_stop_self(PowerPCCPU *cpu, SpaprMach=
-ineState *spapr,
+> diff --git a/hw/ppc/spapr_cpu_core.c b/hw/ppc/spapr_cpu_core.c
+> index 2f7dc3c23d..4f316a6f9d 100644
+> --- a/hw/ppc/spapr_cpu_core.c
+> +++ b/hw/ppc/spapr_cpu_core.c
+> @@ -277,8 +277,8 @@ static PowerPCCPU *spapr_create_vcpu(SpaprCpuCore *sc=
+, int i, Error **errp)
+>  {
+>      SpaprCpuCoreClass *scc =3D SPAPR_CPU_CORE_GET_CLASS(sc);
+>      CPUCore *cc =3D CPU_CORE(sc);
+> -    Object *obj;
+> -    char *id;
+> +    g_autoptr(Object) obj =3D NULL;
+> +    g_autofree char *id =3D NULL;
+>      CPUState *cs;
+>      PowerPCCPU *cpu;
+> =20
+> @@ -293,23 +293,17 @@ static PowerPCCPU *spapr_create_vcpu(SpaprCpuCore *=
+sc, int i, Error **errp)
+>      cs->start_powered_off =3D true;
+>      cs->cpu_index =3D cc->core_id + i;
+>      if (!spapr_set_vcpu_id(cpu, cs->cpu_index, errp)) {
+> -        goto err;
+> +        return NULL;
+>      }
+> =20
+>      cpu->node_id =3D sc->node_id;
+> =20
+>      id =3D g_strdup_printf("thread[%d]", i);
+>      object_property_add_child(OBJECT(sc), id, obj);
+> -    g_free(id);
+> =20
+>      cpu->machine_data =3D g_new0(SpaprCpuState, 1);
+> =20
+> -    object_unref(obj);
+>      return cpu;
+> -
+> -err:
+> -    object_unref(obj);
+> -    return NULL;
 >  }
 > =20
->  static void rtas_ibm_suspend_me(PowerPCCPU *cpu, SpaprMachineState *spap=
-r,
-> -                           uint32_t token, uint32_t nargs,
-> -                           target_ulong args,
-> -                           uint32_t nret, target_ulong rets)
-> +                                uint32_t token, uint32_t nargs,
-> +                                target_ulong args,
-> +                                uint32_t nret, target_ulong rets)
->  {
->      CPUState *cs;
-> =20
+>  static void spapr_cpu_core_realize(DeviceState *dev, Error **errp)
 
 --=20
 David Gibson			| I'll have my music baroque, and my code
@@ -104,25 +130,25 @@ david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
 				| _way_ _around_!
 http://www.ozlabs.org/~dgibson
 
---k8r0khnpBuGu0wUi
+--ULJ2Z7kCM1hyNsWd
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAmAA5b4ACgkQbDjKyiDZ
-s5K7xw//boDq304ux1BbuLd6f/OEAi/OW6QG9mg/5Rjt9Lu4kNfbQiwPn+2fc4jM
-XgHZo5dOPjpxzwQcnHpgJFy1AiPvyUR/IlJ501kRJCj2JwuubFbfdTQ2ZvFzyoq+
-gCJf5cxgtx58ypoAomam4K3r6W85xrwb0m5gvsGr77GBv7668qLRm7ZGK50hme3s
-G800D86yx/tBK3jonq8M3Xcb0vb0xzCmPwPlhecQfVtFdPB2eSlKWxgXIVSB7ZgM
-QUPAdJ5MNPW0j8+Pdg+lnfiM1/lB7BLyTCmTxcg2fBpXrJMUO+IyzlRhPuOLUXQR
-yt5fZmfjQQorfU/ZctcslTdWYpsRiKiRQo8FJC/2NdLgrMg1+8ZXMjS3D194kJaN
-C3GPdjuwt1FzEVXnsBES1QbUcm8r/tRNAshfviB2VGagjBNe2dNXEBNocvR8mk+s
-2VAp3q7zO64gG3rZ5OWxsLIVUYy8R8Lp8tk8GmOmREH1lmdEypjr17NHOI31yHpF
-Wj5oDwX38KsuXjQ+P+nqvynFHqlqIVaWQtYE/XFoaNbXIj1Tlya5wr8cZWOS50wV
-myasHK+SAZ+86B29G5EeY4LUXCEOwrV2GNiKGAZIJ/MMrZNh7CK6Yv3zyi9BhYY7
-8817ejagD8OaY38zygbKimOn/TWyV4E+y9aKD8uz/oEplbM2L9k=
-=39Su
+iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAmAA5p8ACgkQbDjKyiDZ
+s5JPUhAA4OvKkiXZ6OVBPUi4hEYZQcPYOLBeZbmxFuSOVhh+vlWKZcJUXwoaB8Oi
+0TtDAcB4gTGxA+Oq+M+ESTFo9S3QFZbnMqjQRXN3uhz0YMjcuzxpmZlB9W+0JyEj
+N1qe3XkPG1uUVTtTkNnK2oPfqlWoYXbXPVhauWPtujw810G1coDSByXDwrtkNTiE
+2CU3JOly4iuQ+DxMRFpdMBjG453nxKZXaXpfzN5zyQg2CaAZCPZ9WbgfLQNCyNPc
+erQg/y/+D9KHa5mhXTXHHDm13cRbsbDEQjK65CQP73IRVIEcMEp4hfbNtNxK3st9
+OouaK6U8GJqHscSTwbJF1N4CeM1bcEq4APTLoL8YoeD6zomL+c/yJ2JrbknHmCXX
+7jo1ELsG8d9VN0QNqm758m4fa724rHyR6UNHKqGLS0wRxXrdTDxiGuNuGvUK5EXA
+jgBQRYjJ2eK50SCm3FhLtea4NwGg/MTBsa6oddLKXIgOjQ1/65aEllYQYxTyZHNO
+ablchSt83OIF/vazXiWw5uolL+vsN0lhUTZSAErXynCzZ1KX8v4fUjFHRb/GMT4y
+txd9ayaQQWPa23hFufmGzwL0srjofo5IlZH37AkEcG9ANfghjZdqHDOOMGhbkEWc
+KGzYyPcMTbevPzh0bXjsOEwWhQLgPRJ/+Tg6cxZnC0+JI0GTqaA=
+=um0k
 -----END PGP SIGNATURE-----
 
---k8r0khnpBuGu0wUi--
+--ULJ2Z7kCM1hyNsWd--
 
