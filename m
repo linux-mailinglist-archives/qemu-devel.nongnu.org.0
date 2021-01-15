@@ -2,75 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D789B2F7DFB
-	for <lists+qemu-devel@lfdr.de>; Fri, 15 Jan 2021 15:19:25 +0100 (CET)
-Received: from localhost ([::1]:56700 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5280D2F7E18
+	for <lists+qemu-devel@lfdr.de>; Fri, 15 Jan 2021 15:25:55 +0100 (CET)
+Received: from localhost ([::1]:44236 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l0Pwi-0005gY-SD
-	for lists+qemu-devel@lfdr.de; Fri, 15 Jan 2021 09:19:24 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45152)
+	id 1l0Q30-0004S8-3D
+	for lists+qemu-devel@lfdr.de; Fri, 15 Jan 2021 09:25:54 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45426)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1l0PS0-0001Vd-KI
- for qemu-devel@nongnu.org; Fri, 15 Jan 2021 08:47:42 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:55150)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1l0PRw-0005UK-5j
- for qemu-devel@nongnu.org; Fri, 15 Jan 2021 08:47:38 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1610718455;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=QwgA1JXPeTsBqfx/8imvHw5g4HMm00meZlV7DiCROa4=;
- b=eCTMqiQCWVwPRFLMm72CRcgTJ4h7C7yQNf30IvcIFcWSppu4noavBsz3vAp2Vp58jwdkLI
- Fk4gqC4GfBS8+gQytBxMKm6KSyL/TC9NmZhy3n/9pbdiYkC+x76cgaGvVAz6FcsKiIHRIm
- 3omz3lmLfEK1EU0Qp7+Fx/A8OTy0ZxY=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-106-UbMu2L0HMiqh9DiVaa_A4Q-1; Fri, 15 Jan 2021 08:47:29 -0500
-X-MC-Unique: UbMu2L0HMiqh9DiVaa_A4Q-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 97B6B8030A1;
- Fri, 15 Jan 2021 13:47:28 +0000 (UTC)
-Received: from redhat.com (ovpn-115-76.ams2.redhat.com [10.36.115.76])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 2F75060BF3;
- Fri, 15 Jan 2021 13:47:19 +0000 (UTC)
-Date: Fri, 15 Jan 2021 13:47:10 +0000
-From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-To: Markus Armbruster <armbru@redhat.com>
-Subject: Re: [PATCH v2 2/2] vnc: add qmp to support reload vnc tls certificates
-Message-ID: <20210115134710.GH1692978@redhat.com>
-References: <20210107143032.752-1-changzihao1@huawei.com>
- <20210107143032.752-3-changzihao1@huawei.com>
- <87turil3s2.fsf@dusky.pond.sub.org>
-MIME-Version: 1.0
-In-Reply-To: <87turil3s2.fsf@dusky.pond.sub.org>
-User-Agent: Mutt/1.14.6 (2020-07-11)
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=berrange@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=berrange@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -29
-X-Spam_score: -3.0
-X-Spam_bar: ---
-X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.25,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ (Exim 4.90_1) (envelope-from <minwoo.im.dev@gmail.com>)
+ id 1l0PTI-0003cj-Dp; Fri, 15 Jan 2021 08:49:00 -0500
+Received: from mail-pl1-x633.google.com ([2607:f8b0:4864:20::633]:38468)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <minwoo.im.dev@gmail.com>)
+ id 1l0PTF-000653-5G; Fri, 15 Jan 2021 08:49:00 -0500
+Received: by mail-pl1-x633.google.com with SMTP id d4so4731163plh.5;
+ Fri, 15 Jan 2021 05:48:56 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=from:to:cc:subject:date:message-id;
+ bh=vA/a153IptZwj1bNteMzKqG6aPM45bt5INr+t1xqaYk=;
+ b=mZU3ZVAtsSoClAwyOu7Y+/1kqkwW89YPb29m+0seFVPnU5T33JyBTDfcsgyGo/OUJE
+ 8qm1AuyG7JJqKVWeD+24i+4qhZeyznFYQgKSNPaLtv5332LDxpg8pnBJk8h6gSUSbCWB
+ h0IEM1sQNtaaHyYHp+EBT8NnyV9WCTDAD6c/eV+fmbkAcvKrZ5EQEDQveSaP1oDqZF/V
+ KBcXHoUS7w+OJURiz8XCqO1QElm+xqRt69rA17WJhoaUyo2f4XMngdNcmf5O8VJ13fnd
+ XFQxiFMoBeeCIFDxz38I+dtLXh5gctsC944ga1IfFpRlWHL+x3OQj8AuMKJEWfgKFv3H
+ zugA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id;
+ bh=vA/a153IptZwj1bNteMzKqG6aPM45bt5INr+t1xqaYk=;
+ b=keBdnKrz5J2ifenKkzacf6+vTurq8K/6W6gYgeI58q3QBea7aXqfvZyXzwjhfwjbTk
+ KNNE8ICV4WjkQ/RvylZqUB1qFpb9O/m0mqnPqEdNovERQjuRiUIX1I4QrSCUN+YR7T0h
+ V5t9XGY3aJ6Unr125T7r0Fnig2L6HFqbqzHL/DFNzNqI7kVljnjPk2X1TDNy67xInoBj
+ dojJrpw90Fe9I30LusEAYk4a/FY5q8W3aiYw2v3uyTsaZ3XjnfwU/Cn8bEyn1IFJgVgs
+ R/DSfhyov4geLMf+Kk8HuaGJ4kCRyGGKOCzCm9+ZExAUvC5p+9iH1W31HGgHVMNCStvs
+ HiIw==
+X-Gm-Message-State: AOAM533IR/IrWAehscAkule29uo5esmOOywGoavrEyW4ORZPuJCoBbFB
+ SwBxT2+xv5w5Dr40K29ZzALhyREuIXZ9jg==
+X-Google-Smtp-Source: ABdhPJx2waUEkCDfs6w7SLw3h9dQQVr09ZAHG8RLyQSHFvm8MAOs4hhBNbTCLtMFCYv8ccQGY7Ac4Q==
+X-Received: by 2002:a17:90b:691:: with SMTP id
+ m17mr10844555pjz.73.1610718535075; 
+ Fri, 15 Jan 2021 05:48:55 -0800 (PST)
+Received: from localhost.localdomain ([211.108.35.36])
+ by smtp.gmail.com with ESMTPSA id k18sm8203939pjz.26.2021.01.15.05.48.52
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 15 Jan 2021 05:48:54 -0800 (PST)
+From: Minwoo Im <minwoo.im.dev@gmail.com>
+To: qemu-devel@nongnu.org,
+	qemu-block@nongnu.org
+Subject: [PATCH] hw/block/nvme: add zoned I/O commands to nvme_io_opc_str()
+Date: Fri, 15 Jan 2021 22:48:45 +0900
+Message-Id: <20210115134845.17618-1-minwoo.im.dev@gmail.com>
+X-Mailer: git-send-email 2.17.1
+Received-SPF: pass client-ip=2607:f8b0:4864:20::633;
+ envelope-from=minwoo.im.dev@gmail.com; helo=mail-pl1-x633.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -83,151 +76,37 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-Cc: oscar.zhangbo@huawei.com, Zihao Chang <changzihao1@huawei.com>,
- qemu-devel@nongnu.org, xiexiangyou@huawei.com, kraxel@redhat.com
+Cc: Keith Busch <kbusch@kernel.org>, Klaus Jensen <its@irrelevant.dk>,
+ Minwoo Im <minwoo.im.dev@gmail.com>, Kevin Wolf <kwolf@redhat.com>,
+ Max Reitz <mreitz@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, Jan 15, 2021 at 02:37:33PM +0100, Markus Armbruster wrote:
-> Zihao Chang <changzihao1@huawei.com> writes:
-> 
-> > QEMU loads vnc tls certificates only when vm is started. This patch
-> > provides a new qmp to reload vnc tls certificates without restart
-> > vnc-server/VM.
-> > {"execute": "reload-vnc-cert"}
-> >
-> > Signed-off-by: Zihao Chang <changzihao1@huawei.com>
-> > ---
-> >  include/ui/console.h |  1 +
-> >  monitor/qmp-cmds.c   |  5 +++++
-> >  qapi/ui.json         | 18 ++++++++++++++++++
-> >  ui/vnc.c             | 24 ++++++++++++++++++++++++
-> >  4 files changed, 48 insertions(+)
-> >
-> > diff --git a/include/ui/console.h b/include/ui/console.h
-> > index 5dd21976a3..60a24a8bb5 100644
-> > --- a/include/ui/console.h
-> > +++ b/include/ui/console.h
-> > @@ -441,6 +441,7 @@ int vnc_display_password(const char *id, const char *password);
-> >  int vnc_display_pw_expire(const char *id, time_t expires);
-> >  QemuOpts *vnc_parse(const char *str, Error **errp);
-> >  int vnc_init_func(void *opaque, QemuOpts *opts, Error **errp);
-> > +void vnc_display_reload_cert(const char *id,  Error **errp);
-> 
-> Make this return bool, please.
-> 
-> error.h's big comment:
-> 
->  * = Rules =
->  *
->  * - Functions that use Error to report errors have an Error **errp
->  *   parameter.  It should be the last parameter, except for functions
->  *   taking variable arguments.
->  *
->  * - You may pass NULL to not receive the error, &error_abort to abort
->  *   on error, &error_fatal to exit(1) on error, or a pointer to a
->  *   variable containing NULL to receive the error.
->  *
->  * - Separation of concerns: the function is responsible for detecting
->  *   errors and failing cleanly; handling the error is its caller's
->  *   job.  Since the value of @errp is about handling the error, the
->  *   function should not examine it.
->  *
->  * - The function may pass @errp to functions it calls to pass on
->  *   their errors to its caller.  If it dereferences @errp to check
->  *   for errors, it must use ERRP_GUARD().
->  *
->  * - On success, the function should not touch *errp.  On failure, it
->  *   should set a new error, e.g. with error_setg(errp, ...), or
->  *   propagate an existing one, e.g. with error_propagate(errp, ...).
->  *
->  * - Whenever practical, also return a value that indicates success /
->  *   failure.  This can make the error checking more concise, and can
->  *   avoid useless error object creation and destruction.  Note that
->  *   we still have many functions returning void.  We recommend
->  *   • bool-valued functions return true on success / false on failure,
->  *   • pointer-valued functions return non-null / null pointer, and
->  *   • integer-valued functions return non-negative / negative.
-> 
-> >  
-> >  /* input.c */
-> >  int index_from_key(const char *key, size_t key_length);
-> > diff --git a/monitor/qmp-cmds.c b/monitor/qmp-cmds.c
-> > index 34f7e75b7b..84f2b74ea8 100644
-> > --- a/monitor/qmp-cmds.c
-> > +++ b/monitor/qmp-cmds.c
-> > @@ -287,6 +287,11 @@ static void qmp_change_vnc(const char *target, bool has_arg, const char *arg,
-> >          qmp_change_vnc_listen(target, errp);
-> >      }
-> >  }
-> > +
-> > +void qmp_reload_vnc_cert(Error **errp)
-> > +{
-> > +    vnc_display_reload_cert(NULL, errp);
-> > +}
-> >  #endif /* !CONFIG_VNC */
-> >  
-> >  void qmp_change(const char *device, const char *target,
-> > diff --git a/qapi/ui.json b/qapi/ui.json
-> > index d08d72b439..855b1ac007 100644
-> > --- a/qapi/ui.json
-> > +++ b/qapi/ui.json
-> > @@ -1179,3 +1179,21 @@
-> >  ##
-> >  { 'command': 'query-display-options',
-> >    'returns': 'DisplayOptions' }
-> > +
-> > +##
-> > +# @reload-vnc-cert:
-> > +#
-> > +# Reload certificates for vnc.
-> > +#
-> > +# Returns: nothing
-> > +#
-> > +# Since: 5.2
-> 
-> 6.0 now.
-> 
-> > +#
-> > +# Example:
-> > +#
-> > +# -> { "execute": "reload-vnc-cert" }
-> > +# <- { "return": {} }
-> > +#
-> > +##
-> > +{ 'command': 'reload-vnc-cert',
-> > +  'if': 'defined(CONFIG_VNC)' }
-> 
-> Daniel's objection to another patch that adds a rather specialized QMP
-> command may apply: "I'm not a fan of adding adhoc new commands for
-> specific properties."
-> 
->     From: Daniel P. Berrangé <berrange@redhat.com>
->     Subject: Re: [PATCH] vnc: add qmp to support change authz
->     Message-ID: <20210107161830.GE1029501@redhat.com>
+Currently, Zoned I/O commands are parsed as unknown:
+  pci_nvme_io_cmd cid 768 nsid 1 sqid 4 opc 0x79 opname 'NVME_NVM_CMD_UNKNOWN'
 
-Yeah, though this scenario is a ittle more complicated. Tihs patch is
-not actually changing any object properties in the VNC server config.
-It is simply telling the VNC server to reload the existing object it
-has configured.
+Parse zoned I/O commands along with other I/O commands to print.
 
-My proposed  "display-update" command would not directly map to what
-this "reload-vnc-cert" command does, unless we declared the certs are
-always reloaded after every display-update command.
+Signed-off-by: Minwoo Im <minwoo.im.dev@gmail.com>
+---
+ hw/block/nvme.h | 3 +++
+ 1 file changed, 3 insertions(+)
 
-Or we could have a more generic  "display-reload" command, which has
-fields indicating what aspect to reload. eg a 'tls-certs: bool' field
-to indicate reload of TLS certs in the display. This could be useful
-if we wanted the ability to reload authz access control lists, though
-we did actually wire them up to auto-reload using inotify.
-
-
-Regards,
-Daniel
+diff --git a/hw/block/nvme.h b/hw/block/nvme.h
+index b7fbcca39d9f..0c1cb6fd2549 100644
+--- a/hw/block/nvme.h
++++ b/hw/block/nvme.h
+@@ -66,6 +66,9 @@ static inline const char *nvme_io_opc_str(uint8_t opc)
+     case NVME_CMD_READ:             return "NVME_NVM_CMD_READ";
+     case NVME_CMD_WRITE_ZEROES:     return "NVME_NVM_CMD_WRITE_ZEROES";
+     case NVME_CMD_DSM:              return "NVME_NVM_CMD_DSM";
++    case NVME_CMD_ZONE_MGMT_SEND:   return "NVME_NVM_CMD_ZONE_MGMT_SEND";
++    case NVME_CMD_ZONE_MGMT_RECV:   return "NVME_NVM_CMD_ZONE_MGMT_RECV";
++    case NVME_CMD_ZONE_APPEND:      return "NVME_NVM_CMD_ZONE_APPEND";
+     default:                        return "NVME_NVM_CMD_UNKNOWN";
+     }
+ }
 -- 
-|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
-|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
-|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
+2.17.1
 
 
