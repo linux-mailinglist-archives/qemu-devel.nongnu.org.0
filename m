@@ -2,60 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AD9402F70B7
-	for <lists+qemu-devel@lfdr.de>; Fri, 15 Jan 2021 03:49:36 +0100 (CET)
-Received: from localhost ([::1]:38132 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 936062F70F0
+	for <lists+qemu-devel@lfdr.de>; Fri, 15 Jan 2021 04:28:45 +0100 (CET)
+Received: from localhost ([::1]:44536 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l0FB9-0000xe-Q0
-	for lists+qemu-devel@lfdr.de; Thu, 14 Jan 2021 21:49:35 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44754)
+	id 1l0Fn2-0007KL-Ku
+	for lists+qemu-devel@lfdr.de; Thu, 14 Jan 2021 22:28:44 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50388)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <chenhuacai@kernel.org>)
- id 1l0FAJ-0000Yw-CV
- for qemu-devel@nongnu.org; Thu, 14 Jan 2021 21:48:43 -0500
-Received: from mail.kernel.org ([198.145.29.99]:48570)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <chenhuacai@kernel.org>)
- id 1l0FAG-0004Jn-Fh
- for qemu-devel@nongnu.org; Thu, 14 Jan 2021 21:48:43 -0500
-Received: by mail.kernel.org (Postfix) with ESMTPSA id C3F1C23AFD
- for <qemu-devel@nongnu.org>; Fri, 15 Jan 2021 02:48:36 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1610678916;
- bh=erUJo+HseroPKwoG59jFpKppxWYHq5RPCNX2wtvL4Fc=;
- h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
- b=UlxmRUJTBgbTcrBT3kmNZiPoD27c64F0AF+x62tamllgpUXSZUrHMSkwkdp5viKdm
- 9rmmuf1NjEDozFb1rMrEQxlvG9jKmbcCU5j6+iT+k4VJG9kgOy/1no8bpCFe5sthK0
- 4PNdnP5l1cbxknNahaSWd8ZABc63FW/U/sEIW6c3xWD+PZaIfOq+dy0zzTflBOabGs
- nZw7gDYvoXAadeBdVoWI6tSqypoH4Cz6G/8pyjk6eobZmPW3z8IrOaAJjp5WHYThcg
- s41JeLtir6NbMRpCC8PmQ+wnXK/UjcENoGY2Wv4X8wm/hDnfHz9bfuDGiA0YuMwZR9
- mBLVA7Qap7fUg==
-Received: by mail-io1-f41.google.com with SMTP id d9so15501384iob.6
- for <qemu-devel@nongnu.org>; Thu, 14 Jan 2021 18:48:36 -0800 (PST)
-X-Gm-Message-State: AOAM533DY1kvJjLLbc0wNh1NYZNPKrvQD5O9waUDYJsUFxyBTNv2RMHX
- 1R8C2jWByKfvk+1uGtRo6EcorTTEosS5wN6VHJE=
-X-Google-Smtp-Source: ABdhPJwqMf+yg2Ifcig3uLVcVQZ8N9YLQdDHJenWGHLuqkj5L6x2v1wwH8f6JtZoo+cAi5mZU6LQSz/UbFziXj7WAxs=
-X-Received: by 2002:a92:874d:: with SMTP id d13mr9183051ilm.270.1610678916217; 
- Thu, 14 Jan 2021 18:48:36 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <pizhenwei@bytedance.com>)
+ id 1l0Flf-0005vN-3j
+ for qemu-devel@nongnu.org; Thu, 14 Jan 2021 22:27:19 -0500
+Received: from mail-pf1-x42b.google.com ([2607:f8b0:4864:20::42b]:42000)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <pizhenwei@bytedance.com>)
+ id 1l0FlY-0000dt-Py
+ for qemu-devel@nongnu.org; Thu, 14 Jan 2021 22:27:15 -0500
+Received: by mail-pf1-x42b.google.com with SMTP id h10so4620647pfo.9
+ for <qemu-devel@nongnu.org>; Thu, 14 Jan 2021 19:27:11 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=bytedance-com.20150623.gappssmtp.com; s=20150623;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=m5p801JKIJC/wp03gj/uy7UR5GXKX9PM9orgLXl9Gn4=;
+ b=BWYowHHMi1K4dR3TfIyTEaeFgLGI0ReJ2a/dnQANhkvl+XTv10eRqLbuYGQI5KF5rH
+ ZuN6vsQvUN924MtXfpEHX771Uzu2qYi897Al+rZK42Fjuoamsjmn8mmtoUSsF0zcngYo
+ 6fYh1He2fnv3Ic9ApsET9d9aWmjE7MUpNRxR7mkQbDj0aCtOdHqqJLMZpKxgBcnoYC9N
+ fbymSiAuafkuR5kaiZ3ZMyUpmRSZkZ5GlTqSVl1IHNv2qRCOn8jnGOIirRiXH69YdsaK
+ dw2UEqgt9ayjGYVAeESzqsG+I+J/ilMEwaULKJMlhKp7kmHiHNY9AbyZvxvlrf+U9NUc
+ lkAw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=m5p801JKIJC/wp03gj/uy7UR5GXKX9PM9orgLXl9Gn4=;
+ b=Ns6zHsm7duU8u5jG8G477MB7nhhCSiM2n5VB1zpQLrFozbPi5kFeZ915OthBZN8lxN
+ Y9+Qr3IccznJfSpeFmfpEcrcqbu7kz8tlkt4n1VM+mcteZaPI+KoAyYEnd+tq3WwhJNe
+ cl7I/010L5pzQnau+dT9ayZGfncY/Rz3fPB9vfXiVK30wHj2vx1HnKjS1PtN91HkWYrL
+ 4Fn5HodCNl5Xl0Xi3HoXQMZWU+1SKpf4Rtt6n2h2XjkNuh2hOfqQ6asae1DIyytFvzC/
+ xVmd34Y18PW7Z3zr6hQHsf15pLpb0tyJbYaFZXVtIw4oL8TnFpvpwVXkYspr7YkDf3J7
+ df+Q==
+X-Gm-Message-State: AOAM5312hjLfCBfN32vR0bF/HDe4mPZLq1nlAUf35mdudkTjB/awJHfV
+ 1AdpUddf9DLTxmJFZwEkjfFZCg==
+X-Google-Smtp-Source: ABdhPJystvTqKFsbp7GuYLWbYriAf9+svRzOsn0EAiHJlfl+O5MsKlCfoqCN1Q68q6CcbcfHubAlnw==
+X-Received: by 2002:a63:cb0e:: with SMTP id p14mr10480271pgg.408.1610681230911; 
+ Thu, 14 Jan 2021 19:27:10 -0800 (PST)
+Received: from always-libai.bytedance.net ([61.120.150.71])
+ by smtp.gmail.com with ESMTPSA id j16sm6583662pjj.18.2021.01.14.19.27.06
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 14 Jan 2021 19:27:10 -0800 (PST)
+From: zhenwei pi <pizhenwei@bytedance.com>
+To: kbusch@kernel.org, its@irrelevant.dk, kwolf@redhat.com, mreitz@redhat.com
+Subject: [PATCH v4 0/3] support NVMe smart critial warning injection
+Date: Fri, 15 Jan 2021 11:26:59 +0800
+Message-Id: <20210115032702.466631-1-pizhenwei@bytedance.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-References: <20210112012527.28927-1-jiaxun.yang@flygoat.com>
-In-Reply-To: <20210112012527.28927-1-jiaxun.yang@flygoat.com>
-From: Huacai Chen <chenhuacai@kernel.org>
-Date: Fri, 15 Jan 2021 10:48:24 +0800
-X-Gmail-Original-Message-ID: <CAAhV-H6yp3whJMxKYwyw8QsCL8qBmC=qbT0DO4M+NfUc-3=YVA@mail.gmail.com>
-Message-ID: <CAAhV-H6yp3whJMxKYwyw8QsCL8qBmC=qbT0DO4M+NfUc-3=YVA@mail.gmail.com>
-Subject: Re: [PATCH] hw/intc/loongson_liointc: Fix per core ISR handling
-To: Jiaxun Yang <jiaxun.yang@flygoat.com>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=198.145.29.99; envelope-from=chenhuacai@kernel.org;
- helo=mail.kernel.org
-X-Spam_score_int: -72
-X-Spam_score: -7.3
-X-Spam_bar: -------
-X-Spam_report: (-7.3 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.248,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_HI=-5, SPF_HELO_NONE=0.001,
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::42b;
+ envelope-from=pizhenwei@bytedance.com; helo=mail-pf1-x42b.google.com
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -69,65 +80,46 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: QEMU Developers <qemu-devel@nongnu.org>
+Cc: zhenwei pi <pizhenwei@bytedance.com>, philmd@redhat.com,
+ qemu-devel@nongnu.org, qemu-block@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Reviewed-by: Huacai Chen <chenhuacai@kernel.org>
+v3 -> v4:
+- Drop "Fix overwritten bar.cap". (Already fixed)
 
-On Tue, Jan 12, 2021 at 9:25 AM Jiaxun Yang <jiaxun.yang@flygoat.com> wrote:
->
-> Per core ISR is a set of 32-bit registers spaced by 8 bytes.
-> This patch fixed calculation of it's size and also added check
-> of alignment at reading & writing.
->
-> Signed-off-by: Jiaxun Yang <jiaxun.yang@flygoat.com>
-> ---
->  hw/intc/loongson_liointc.c | 16 +++++++++++++---
->  1 file changed, 13 insertions(+), 3 deletions(-)
->
-> diff --git a/hw/intc/loongson_liointc.c b/hw/intc/loongson_liointc.c
-> index f823d484e0..cc11b544cb 100644
-> --- a/hw/intc/loongson_liointc.c
-> +++ b/hw/intc/loongson_liointc.c
-> @@ -41,7 +41,7 @@
->  #define R_IEN_CLR               0x2c
->  #define R_ISR_SIZE              0x8
->  #define R_START                 0x40
-> -#define R_END                   0x64
-> +#define R_END                   (R_START + R_ISR_SIZE * NUM_CORES)
->
->  struct loongson_liointc {
->      SysBusDevice parent_obj;
-> @@ -125,7 +125,12 @@ liointc_read(void *opaque, hwaddr addr, unsigned int size)
->      }
->
->      if (addr >= R_START && addr < R_END) {
-> -        int core = (addr - R_START) / R_ISR_SIZE;
-> +        hwaddr offset = addr - R_START;
-> +        int core = offset / R_ISR_SIZE;
-> +
-> +        if (offset % R_ISR_SIZE) {
-> +            goto out;
-> +        }
->          r = p->per_core_isr[core];
->          goto out;
->      }
-> @@ -169,7 +174,12 @@ liointc_write(void *opaque, hwaddr addr,
->      }
->
->      if (addr >= R_START && addr < R_END) {
-> -        int core = (addr - R_START) / R_ISR_SIZE;
-> +        hwaddr offset = addr - R_START;
-> +        int core = offset / R_ISR_SIZE;
-> +
-> +        if (offset % R_ISR_SIZE) {
-> +            goto out;
-> +        }
->          p->per_core_isr[core] = value;
->          goto out;
->      }
-> --
-> 2.30.0
->
+- Avoid to enqueue the duplicate event.
+
+- Several minor changes for coding style & function/variable name.
+
+v2 -> v3:
+- Introduce "Persistent Memory Region has become read-only or
+  unreliable"
+
+- Fix overwritten bar.cap
+
+- Check smart critical warning value from QOM.
+
+- Trigger asynchronous event during smart warning injection.
+
+v1 -> v2:
+- Suggested by Philippe & Klaus, set/get smart_critical_warning by QMP.
+
+v1:
+- Add smart_critical_warning for nvme device which can be set by QEMU
+  command line to emulate hardware error.
+
+Zhenwei Pi (3):
+  block/nvme: introduce bit 5 for critical warning
+  hw/block/nvme: add smart_critical_warning property
+  hw/blocl/nvme: trigger async event during injecting smart warning
+
+ hw/block/nvme.c      | 91 +++++++++++++++++++++++++++++++++++++++-----
+ hw/block/nvme.h      |  1 +
+ include/block/nvme.h |  3 ++
+ 3 files changed, 86 insertions(+), 9 deletions(-)
+
+-- 
+2.25.1
+
 
