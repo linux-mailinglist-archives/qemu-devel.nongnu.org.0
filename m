@@ -2,67 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0CD7C2F82C4
-	for <lists+qemu-devel@lfdr.de>; Fri, 15 Jan 2021 18:46:28 +0100 (CET)
-Received: from localhost ([::1]:50348 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 320432F82C5
+	for <lists+qemu-devel@lfdr.de>; Fri, 15 Jan 2021 18:46:30 +0100 (CET)
+Received: from localhost ([::1]:50426 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l0TB5-0005km-2n
-	for lists+qemu-devel@lfdr.de; Fri, 15 Jan 2021 12:46:27 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44406)
+	id 1l0TB7-0005ml-6I
+	for lists+qemu-devel@lfdr.de; Fri, 15 Jan 2021 12:46:29 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44480)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1l0T8D-0003iy-1c
- for qemu-devel@nongnu.org; Fri, 15 Jan 2021 12:43:29 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:45290)
+ (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1l0T8K-0003jU-VR
+ for qemu-devel@nongnu.org; Fri, 15 Jan 2021 12:43:38 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:54243)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1l0T8A-0001Oo-6A
- for qemu-devel@nongnu.org; Fri, 15 Jan 2021 12:43:28 -0500
+ (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1l0T8B-0001PG-Fp
+ for qemu-devel@nongnu.org; Fri, 15 Jan 2021 12:43:34 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1610732605;
+ s=mimecast20190719; t=1610732606;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=z4sbddfvZt/KkuiSAiY6qhJNpEglzgDIqzGuicaCGJ0=;
- b=jFK9fOejeYDkgcfg7BotB8tePWtEVibi7rqGT/ENFBVsYFaf8qLxenmheg81CXTi3ERK24
- RlTql9a8yUYGT3++G9ke5dKTD80pWX4d631APSR66DxJbNDB2CgpajlcZH4U32zZmsgANV
- G0OYDhk8NHW9RwKS+EVet1w+apPybQo=
+ bh=lx9W6ojSN4qE7PxFRPqAXSu7qGLgsgUgbdnFyZ5Qv+I=;
+ b=d3XvIqXoBwFsdsrdFSoE1P8TbEwDAzPdP1OUD74kyh/T9csGqjbIMym7izRg0ve4vv+bHd
+ DESGTN7urSeodSeH9JxuLqgtyOEvjVs8KwS3szrdcWpTvlIGprGFxMYLhtnyIo+jWDSQtb
+ x4EdeoDRsSFsbihJ8iv88cZKcXE2J1c=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-592-kl3kEgKzMVSEV5hvycGtHQ-1; Fri, 15 Jan 2021 12:43:21 -0500
-X-MC-Unique: kl3kEgKzMVSEV5hvycGtHQ-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
+ us-mta-575-4Kf1VPZxMRypLudFlhhwHQ-1; Fri, 15 Jan 2021 12:43:24 -0500
+X-MC-Unique: 4Kf1VPZxMRypLudFlhhwHQ-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 77F761029E20;
- Fri, 15 Jan 2021 17:43:20 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id E5DC81029E20;
+ Fri, 15 Jan 2021 17:43:22 +0000 (UTC)
 Received: from localhost (ovpn-114-144.ams2.redhat.com [10.36.114.144])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 17ADB620DE;
- Fri, 15 Jan 2021 17:43:19 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 5D6CA60CCE;
+ Fri, 15 Jan 2021 17:43:22 +0000 (UTC)
 From: Max Reitz <mreitz@redhat.com>
 To: qemu-block@nongnu.org
-Subject: [PATCH v4 01/10] iotests.py: Assume a couple of variables as given
-Date: Fri, 15 Jan 2021 18:43:06 +0100
-Message-Id: <20210115174315.30949-2-mreitz@redhat.com>
+Subject: [PATCH v4 02/10] iotests/297: Rewrite in Python and extend reach
+Date: Fri, 15 Jan 2021 18:43:07 +0100
+Message-Id: <20210115174315.30949-3-mreitz@redhat.com>
 In-Reply-To: <20210115174315.30949-1-mreitz@redhat.com>
 References: <20210115174315.30949-1-mreitz@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mreitz@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=mreitz@redhat.com;
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=mreitz@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -29
 X-Spam_score: -3.0
 X-Spam_bar: ---
 X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.25,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -82,87 +82,184 @@ Cc: Kevin Wolf <kwolf@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-There are a couple of environment variables that we fetch with
-os.environ.get() without supplying a default.  Clearly they are required
-and expected to be set by the ./check script (as evidenced by
-execute_setup_common(), which checks for test_dir and
-qemu_default_machine to be set, and aborts if they are not).
+Instead of checking iotests.py only, check all Python files in the
+qemu-iotests/ directory.  Of course, most of them do not pass, so there
+is an extensive skip list for now.  (The only files that do pass are
+209, 254, 283, and iotests.py.)
 
-Using .get() this way has the disadvantage of returning an Optional[str]
-type, which mypy will complain about when tests just assume these values
-to be str.
+(Alternatively, we could have the opposite, i.e. an explicit list of
+files that we do want to check, but I think it is better to check files
+by default.)
 
-Use [] instead, which raises a KeyError for environment variables that
-are not set.  When this exception is raised, catch it and move the abort
-code from execute_setup_common() there.
+Unless started in debug mode (./check -d), the output has no information
+on which files are tested, so we will not have a problem e.g. with
+backports, where some files may be missing when compared to upstream.
 
-Drop the 'assert iotests.sock_dir is not None' from iotest 300, because
-that sort of thing is precisely what this patch wants to prevent.
+Besides the technical rewrite, some more things are changed:
 
+- For the pylint invocation, PYTHONPATH is adjusted.  This mirrors
+  setting MYPYPATH for mypy.
+
+- Also, MYPYPATH is now derived from PYTHONPATH, so that we include
+  paths set by the environment.  Maybe at some point we want to let the
+  check script add '../../python/' to PYTHONPATH so that iotests.py does
+  not need to do that.
+
+- Passing --notes=FIXME,XXX to pylint suppresses warnings for TODO
+  comments.  TODO is fine, we do not need 297 to complain about such
+  comments.
+
+- The "Success" line from mypy's output is suppressed, because (A) it
+  does not add useful information, and (B) it would leak information
+  about the files having been tested to the reference output, which we
+  decidedly do not want.
+
+Suggested-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 Signed-off-by: Max Reitz <mreitz@redhat.com>
 Reviewed-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 ---
- tests/qemu-iotests/300        |  1 -
- tests/qemu-iotests/iotests.py | 26 +++++++++++++-------------
- 2 files changed, 13 insertions(+), 14 deletions(-)
+ tests/qemu-iotests/297     | 110 +++++++++++++++++++++++++++++--------
+ tests/qemu-iotests/297.out |   5 +-
+ 2 files changed, 90 insertions(+), 25 deletions(-)
 
-diff --git a/tests/qemu-iotests/300 b/tests/qemu-iotests/300
-index 5b75121b84..b864a21d5e 100755
---- a/tests/qemu-iotests/300
-+++ b/tests/qemu-iotests/300
-@@ -27,7 +27,6 @@ import qemu
+diff --git a/tests/qemu-iotests/297 b/tests/qemu-iotests/297
+index 5c5420712b..fa9e2cac78 100755
+--- a/tests/qemu-iotests/297
++++ b/tests/qemu-iotests/297
+@@ -1,4 +1,4 @@
+-#!/usr/bin/env bash
++#!/usr/bin/env python3
+ #
+ # Copyright (C) 2020 Red Hat, Inc.
+ #
+@@ -15,30 +15,96 @@
+ # You should have received a copy of the GNU General Public License
+ # along with this program.  If not, see <http://www.gnu.org/licenses/>.
  
- BlockBitmapMapping = List[Dict[str, Union[str, List[Dict[str, str]]]]]
+-seq=$(basename $0)
+-echo "QA output created by $seq"
++import os
++import re
++import shutil
++import subprocess
++import sys
  
--assert iotests.sock_dir is not None
- mig_sock = os.path.join(iotests.sock_dir, 'mig_sock')
+-status=1	# failure is the default!
++import iotests
  
+-# get standard environment
+-. ./common.rc
  
-diff --git a/tests/qemu-iotests/iotests.py b/tests/qemu-iotests/iotests.py
-index dcdcd0387f..52facb8e04 100644
---- a/tests/qemu-iotests/iotests.py
-+++ b/tests/qemu-iotests/iotests.py
-@@ -75,12 +75,20 @@ qemu_opts = os.environ.get('QEMU_OPTIONS', '').strip().split(' ')
+-if ! type -p "pylint-3" > /dev/null; then
+-    _notrun "pylint-3 not found"
+-fi
+-if ! type -p "mypy" > /dev/null; then
+-    _notrun "mypy not found"
+-fi
++# TODO: Empty this list!
++SKIP_FILES = (
++    '030', '040', '041', '044', '045', '055', '056', '057', '065', '093',
++    '096', '118', '124', '129', '132', '136', '139', '147', '148', '149',
++    '151', '152', '155', '163', '165', '169', '194', '196', '199', '202',
++    '203', '205', '206', '207', '208', '210', '211', '212', '213', '216',
++    '218', '219', '222', '224', '228', '234', '235', '236', '237', '238',
++    '240', '242', '245', '246', '248', '255', '256', '257', '258', '260',
++    '262', '264', '266', '274', '277', '280', '281', '295', '296', '298',
++    '299', '300', '302', '303', '304', '307',
++    'nbd-fault-injector.py', 'qcow2.py', 'qcow2_format.py', 'qed.py'
++)
  
- imgfmt = os.environ.get('IMGFMT', 'raw')
- imgproto = os.environ.get('IMGPROTO', 'file')
--test_dir = os.environ.get('TEST_DIR')
--sock_dir = os.environ.get('SOCK_DIR')
- output_dir = os.environ.get('OUTPUT_DIR', '.')
--cachemode = os.environ.get('CACHEMODE')
--aiomode = os.environ.get('AIOMODE')
--qemu_default_machine = os.environ.get('QEMU_DEFAULT_MACHINE')
+-pylint-3 --score=n iotests.py
+ 
+-MYPYPATH=../../python/ mypy --warn-unused-configs --disallow-subclassing-any \
+-    --disallow-any-generics --disallow-incomplete-defs \
+-    --disallow-untyped-decorators --no-implicit-optional \
+-    --warn-redundant-casts --warn-unused-ignores \
+-    --no-implicit-reexport iotests.py
++def is_python_file(filename):
++    if not os.path.isfile(filename):
++        return False
+ 
+-# success, all done
+-echo "*** done"
+-rm -f $seq.full
+-status=0
++    if filename.endswith('.py'):
++        return True
 +
-+try:
-+    test_dir = os.environ['TEST_DIR']
-+    sock_dir = os.environ['SOCK_DIR']
-+    cachemode = os.environ['CACHEMODE']
-+    aiomode = os.environ['AIOMODE']
-+    qemu_default_machine = os.environ['QEMU_DEFAULT_MACHINE']
-+except KeyError:
-+    # We are using these variables as proxies to indicate that we're
-+    # not being run via "check". There may be other things set up by
-+    # "check" that individual test cases rely on.
-+    sys.stderr.write('Please run this test via the "check" script\n')
-+    sys.exit(os.EX_USAGE)
- 
- socket_scm_helper = os.environ.get('SOCKET_SCM_HELPER', 'socket_scm_helper')
- 
-@@ -1294,14 +1302,6 @@ def execute_setup_common(supported_fmts: Sequence[str] = (),
-     """
-     # Note: Python 3.6 and pylint do not like 'Collection' so use 'Sequence'.
- 
--    # We are using TEST_DIR and QEMU_DEFAULT_MACHINE as proxies to
--    # indicate that we're not being run via "check". There may be
--    # other things set up by "check" that individual test cases rely
--    # on.
--    if test_dir is None or qemu_default_machine is None:
--        sys.stderr.write('Please run this test via the "check" script\n')
--        sys.exit(os.EX_USAGE)
--
-     debug = '-d' in sys.argv
-     if debug:
-         sys.argv.remove('-d')
++    with open(filename) as f:
++        try:
++            first_line = f.readline()
++            return re.match('^#!.*python', first_line) is not None
++        except UnicodeDecodeError:  # Ignore binary files
++            return False
++
++
++def run_linters():
++    files = [filename for filename in (set(os.listdir('.')) - set(SKIP_FILES))
++             if is_python_file(filename)]
++
++    iotests.logger.debug('Files to be checked:')
++    iotests.logger.debug(', '.join(sorted(files)))
++
++    print('=== pylint ===')
++    sys.stdout.flush()
++
++    # Todo notes are fine, but fixme's or xxx's should probably just be
++    # fixed (in tests, at least)
++    env = os.environ.copy()
++    try:
++        env['PYTHONPATH'] += ':../../python/'
++    except KeyError:
++        env['PYTHONPATH'] = '../../python/'
++    subprocess.run(('pylint-3', '--score=n', '--notes=FIXME,XXX', *files),
++                   env=env, check=False)
++
++    print('=== mypy ===')
++    sys.stdout.flush()
++
++    # We have to call mypy separately for each file.  Otherwise, it
++    # will interpret all given files as belonging together (i.e., they
++    # may not both define the same classes, etc.; most notably, they
++    # must not both define the __main__ module).
++    env['MYPYPATH'] = env['PYTHONPATH']
++    for filename in files:
++        p = subprocess.run(('mypy',
++                            '--warn-unused-configs',
++                            '--disallow-subclassing-any',
++                            '--disallow-any-generics',
++                            '--disallow-incomplete-defs',
++                            '--disallow-untyped-decorators',
++                            '--no-implicit-optional',
++                            '--warn-redundant-casts',
++                            '--warn-unused-ignores',
++                            '--no-implicit-reexport',
++                            filename),
++                           env=env,
++                           check=False,
++                           stdout=subprocess.PIPE,
++                           stderr=subprocess.STDOUT,
++                           universal_newlines=True)
++
++        if p.returncode != 0:
++            print(p.stdout)
++
++
++for linter in ('pylint-3', 'mypy'):
++    if shutil.which(linter) is None:
++        iotests.notrun(f'{linter} not found')
++
++iotests.script_main(run_linters)
+diff --git a/tests/qemu-iotests/297.out b/tests/qemu-iotests/297.out
+index 6acc843649..f2e1314d10 100644
+--- a/tests/qemu-iotests/297.out
++++ b/tests/qemu-iotests/297.out
+@@ -1,3 +1,2 @@
+-QA output created by 297
+-Success: no issues found in 1 source file
+-*** done
++=== pylint ===
++=== mypy ===
 -- 
 2.29.2
 
