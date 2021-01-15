@@ -2,56 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C32002F76B1
-	for <lists+qemu-devel@lfdr.de>; Fri, 15 Jan 2021 11:31:07 +0100 (CET)
-Received: from localhost ([::1]:50772 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4C3FE2F76C4
+	for <lists+qemu-devel@lfdr.de>; Fri, 15 Jan 2021 11:35:40 +0100 (CET)
+Received: from localhost ([::1]:33326 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l0MNm-0002Zt-Sq
-	for lists+qemu-devel@lfdr.de; Fri, 15 Jan 2021 05:31:06 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57384)
+	id 1l0MSB-0007Gv-AJ
+	for lists+qemu-devel@lfdr.de; Fri, 15 Jan 2021 05:35:39 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57450)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1l0MHU-0002vI-SV
- for qemu-devel@nongnu.org; Fri, 15 Jan 2021 05:24:36 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:41012)
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1l0MHX-00032z-Ur
+ for qemu-devel@nongnu.org; Fri, 15 Jan 2021 05:24:39 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:54239)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1l0MHT-0007tN-AO
- for qemu-devel@nongnu.org; Fri, 15 Jan 2021 05:24:36 -0500
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1l0MHW-0007v6-8H
+ for qemu-devel@nongnu.org; Fri, 15 Jan 2021 05:24:39 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1610706274;
+ s=mimecast20190719; t=1610706277;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=EO8CiTvkYhxpMMdPMV09i1bJZpLZdUP8OlhSRKWJhOI=;
- b=g9zbk94WxT6NGWulXHp7P6n2gSoN6dr9r+hnXi0fV5WwdzRRCOIF3SyD1EN+aaUQxS5vZ7
- LKXk427/5ycL6a9M6uUNG3SbO/lWlcmgy8riUDQ/tE1YKUSg6X/CjjHMHmU4LuVpUEE73N
- v9YHXor+HDtTMsJ3gvucZ7Su/G7Jzbw=
+ bh=k0RZJ0aw4Oxsx9G/xx++q/L9Bmqlnx71U7H+bnB6fns=;
+ b=Mw/lAq2vZmYNIvaR9cQrOnFlhbn3b2ab+Kp01lQd6Ezo5ilgM1+yHr1gKy84TdZwb5Ui/o
+ oUl86e7X7frdNb232lwX6RIArqgm7jJawzkv3Sg+VhJVMpagWjbG2W2XyRg9CexlirH2sR
+ UOGF+K//8aTFdkx36ybo8JmfgTmircg=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-463-ECzy3WbWPL2xzx_6yZJAcg-1; Fri, 15 Jan 2021 05:24:30 -0500
-X-MC-Unique: ECzy3WbWPL2xzx_6yZJAcg-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
+ us-mta-225-a_hzYqMPM7-MHPZX2jmxuw-1; Fri, 15 Jan 2021 05:24:34 -0500
+X-MC-Unique: a_hzYqMPM7-MHPZX2jmxuw-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 75466806662;
- Fri, 15 Jan 2021 10:24:29 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id DB1F41005D4D;
+ Fri, 15 Jan 2021 10:24:33 +0000 (UTC)
 Received: from sirius.home.kraxel.org (ovpn-112-182.ams2.redhat.com
  [10.36.112.182])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 43E771992D;
- Fri, 15 Jan 2021 10:24:26 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id AF3C46F7ED;
+ Fri, 15 Jan 2021 10:24:30 +0000 (UTC)
 Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
- id A6F9C1800633; Fri, 15 Jan 2021 11:24:24 +0100 (CET)
+ id B1D58180063A; Fri, 15 Jan 2021 11:24:24 +0100 (CET)
 From: Gerd Hoffmann <kraxel@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 04/11] ui/gtk: expose gd_monitor_update_interval
-Date: Fri, 15 Jan 2021 11:24:17 +0100
-Message-Id: <20210115102424.1360437-5-kraxel@redhat.com>
+Subject: [PULL 05/11] ui/gtk: update monitor interval on egl displays
+Date: Fri, 15 Jan 2021 11:24:18 +0100
+Message-Id: <20210115102424.1360437-6-kraxel@redhat.com>
 In-Reply-To: <20210115102424.1360437-1-kraxel@redhat.com>
 References: <20210115102424.1360437-1-kraxel@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kraxel@redhat.com
 X-Mimecast-Spam-Score: 0
@@ -86,46 +86,40 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Nikola Pavlica <pavlica.nikola@gmail.com>
 
-The gd_egl_refresh function, as the name suggests, is responsible for
-refreshing displays when using EGL graphics with QEMU's GTK UI. This is
-a perfect candidate for a function to update the refresh rate in.
+When running QEMU's GTK UI without EGL or OGL, the
+gd_monitor_update_interval function gets executed and the display refresh
+rate gets updated accordingly. However, when using EGL or just regular
+OGL, the function never gets executed.
 
-Since gd_monitor_update_interval is inaccessible from the gd_egl_refresh
-function, we need to expose/globalize it in the include/ui/gtk.h file.
+Which is why I decided that the function should be in gd_egl_refresh
+where the display output gets updated, in the same vain as how it's done
+for normal GTK UIs (aka. those without EGL) - in it's display refresh
+function.
+
+Since the gd_monitor_update_interval function now is exposed, we are
+going to use it to update the refresh rate.
 
 Signed-off-by: Nikola Pavlica <pavlica.nikola@gmail.com>
-Message-Id: <20210114140153.301473-2-pavlica.nikola@gmail.com>
+Message-Id: <20210114140153.301473-3-pavlica.nikola@gmail.com>
 Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
 ---
- include/ui/gtk.h | 1 +
- ui/gtk.c         | 2 +-
- 2 files changed, 2 insertions(+), 1 deletion(-)
+ ui/gtk-egl.c | 3 +++
+ 1 file changed, 3 insertions(+)
 
-diff --git a/include/ui/gtk.h b/include/ui/gtk.h
-index 80851fb4c7e1..3f395d7f943b 100644
---- a/include/ui/gtk.h
-+++ b/include/ui/gtk.h
-@@ -86,6 +86,7 @@ extern bool gtk_use_gl_area;
- 
- /* ui/gtk.c */
- void gd_update_windowsize(VirtualConsole *vc);
-+int gd_monitor_update_interval(GtkWidget *widget);
- 
- /* ui/gtk-egl.c */
- void gd_egl_init(VirtualConsole *vc);
-diff --git a/ui/gtk.c b/ui/gtk.c
-index d2004a4dc162..26665cd2e657 100644
---- a/ui/gtk.c
-+++ b/ui/gtk.c
-@@ -752,7 +752,7 @@ static void gd_resize_event(GtkGLArea *area,
-  * If available, return the update interval of the monitor in ms,
-  * else return 0 (the default update interval).
-  */
--static int gd_monitor_update_interval(GtkWidget *widget)
-+int gd_monitor_update_interval(GtkWidget *widget)
+diff --git a/ui/gtk-egl.c b/ui/gtk-egl.c
+index 99231a3597f5..71c3d698b400 100644
+--- a/ui/gtk-egl.c
++++ b/ui/gtk-egl.c
+@@ -113,6 +113,9 @@ void gd_egl_refresh(DisplayChangeListener *dcl)
  {
- #ifdef GDK_VERSION_3_22
-     GdkWindow *win = gtk_widget_get_window(widget);
+     VirtualConsole *vc = container_of(dcl, VirtualConsole, gfx.dcl);
+ 
++    vc->gfx.dcl.update_interval = gd_monitor_update_interval(
++            vc->window ? vc->window : vc->gfx.drawing_area);
++
+     if (!vc->gfx.esurface) {
+         gd_egl_init(vc);
+         if (!vc->gfx.esurface) {
 -- 
 2.29.2
 
