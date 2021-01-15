@@ -2,35 +2,35 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 59BAD2F8075
-	for <lists+qemu-devel@lfdr.de>; Fri, 15 Jan 2021 17:18:43 +0100 (CET)
-Received: from localhost ([::1]:49420 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7B10C2F8095
+	for <lists+qemu-devel@lfdr.de>; Fri, 15 Jan 2021 17:21:41 +0100 (CET)
+Received: from localhost ([::1]:55680 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l0RoA-0001pM-EG
-	for lists+qemu-devel@lfdr.de; Fri, 15 Jan 2021 11:18:42 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52644)
+	id 1l0Rr2-0004X7-JB
+	for lists+qemu-devel@lfdr.de; Fri, 15 Jan 2021 11:21:40 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52612)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1l0Rlo-0008VF-Dm
- for qemu-devel@nongnu.org; Fri, 15 Jan 2021 11:16:16 -0500
-Received: from indium.canonical.com ([91.189.90.7]:48674)
+ id 1l0Rlm-0008Sj-GC
+ for qemu-devel@nongnu.org; Fri, 15 Jan 2021 11:16:14 -0500
+Received: from indium.canonical.com ([91.189.90.7]:48840)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1l0Rlc-0006KH-Jt
- for qemu-devel@nongnu.org; Fri, 15 Jan 2021 11:16:16 -0500
+ id 1l0Rlg-0006L0-A3
+ for qemu-devel@nongnu.org; Fri, 15 Jan 2021 11:16:14 -0500
 Received: from loganberry.canonical.com ([91.189.90.37])
  by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1l0RlZ-0003gO-Tw
- for <qemu-devel@nongnu.org>; Fri, 15 Jan 2021 16:16:01 +0000
+ id 1l0Rle-0003x2-3E
+ for <qemu-devel@nongnu.org>; Fri, 15 Jan 2021 16:16:06 +0000
 Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 9578B2E813C
- for <qemu-devel@nongnu.org>; Fri, 15 Jan 2021 16:16:01 +0000 (UTC)
+ by loganberry.canonical.com (Postfix) with ESMTP id EF4732E813C
+ for <qemu-devel@nongnu.org>; Fri, 15 Jan 2021 16:16:05 +0000 (UTC)
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
-Date: Fri, 15 Jan 2021 16:08:25 -0000
-From: Peter Maydell <1910941@bugs.launchpad.net>
+Date: Fri, 15 Jan 2021 16:08:37 -0000
+From: Peter Maydell <1910826@bugs.launchpad.net>
 To: qemu-devel@nongnu.org
 X-Launchpad-Notification-Type: bug
 X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
@@ -38,19 +38,19 @@ X-Launchpad-Bug-Tags: fuzzer
 X-Launchpad-Bug-Information-Type: Public
 X-Launchpad-Bug-Private: no
 X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: a1xndr cwmyung
-X-Launchpad-Bug-Reporter: Cheol-Woo,Myung (cwmyung)
+X-Launchpad-Bug-Commenters: a1xndr qiuhao
+X-Launchpad-Bug-Reporter: Alexander Bulekov (a1xndr)
 X-Launchpad-Bug-Modifier: Peter Maydell (pmaydell)
-References: <161033323107.21336.4834306381083745301.malonedeb@wampee.canonical.com>
-Message-Id: <161072690597.6439.4324844698097998128.launchpad@wampee.canonical.com>
-Subject: [Bug 1910941] Re: Assertion `addr < cache->len && 2 <= cache->len -
- addr' in virtio-blk
+References: <161014511656.1595.5916687449177710884.malonedeb@gac.canonical.com>
+Message-Id: <161072691827.29768.3726753585035292195.launchpad@chaenomeles.canonical.com>
+Subject: [Bug 1910826] Re: [OSS-Fuzz] Issue 29224 rtl8139: Stack-overflow in
+ rtlNUMBER_transmit_one
 X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
 X-Launchpad-Message-For: qemu-devel-ml
 Precedence: bulk
 X-Generated-By: Launchpad (canonical.com);
  Revision="511b4a3b6512aa3d421c5f7d74f3527e78bff26e"; Instance="production"
-X-Launchpad-Hash: 2085cad2555ede42a43d1befbfeeb679dd7edd8e
+X-Launchpad-Hash: 97ee0d829936eb2e54a6f37ee6b2b7552d14455f
 Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
  helo=indium.canonical.com
 X-Spam_score_int: -65
@@ -59,7 +59,7 @@ X-Spam_bar: ------
 X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9,
  HEADER_FROM_DIFFERENT_DOMAINS=0.249, RCVD_IN_DNSWL_HI=-5,
  RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001, WEIRD_PORT=0.001 autolearn=ham autolearn_force=no
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -71,7 +71,7 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1910941 <1910941@bugs.launchpad.net>
+Reply-To: Bug 1910826 <1910826@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
@@ -81,120 +81,80 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 You received this bug notification because you are a member of qemu-
 devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1910941
+https://bugs.launchpad.net/bugs/1910826
 
 Title:
-  Assertion `addr < cache->len && 2 <=3D cache->len - addr' in virtio-blk
+  [OSS-Fuzz] Issue 29224 rtl8139: Stack-overflow in
+  rtlNUMBER_transmit_one
 
 Status in QEMU:
   New
 
 Bug description:
-  Hello,
+  =3D=3D=3D Reproducer =3D=3D=3D
+  cat << EOF | ../build/qemu-system-i386 -machine q35 \
+  -nodefaults  -device rtl8139,netdev=3Dnet0 \
+  -netdev user,id=3Dnet0 -display none -qtest stdio
+  outl 0xcf8 0x80000804
+  outb 0xcfc 0x26
+  outl 0xcf8 0x80000817
+  outb 0xcfc 0xff
+  write 0x1 0x1 0x42
+  write 0x5 0x1 0x42
+  write 0x9 0x1 0x42
+  write 0xd 0x1 0x42
+  write 0xff000044 0x4 0x11
+  write 0xff000037 0x1 0x1c
+  writel 0xff000030 0xff000000
+  write 0xff000040 0x4 0x100006
+  write 0xff000010 0x4 0x01020
+  EOF
 
-  Using hypervisor fuzzer, hyfuzz, I found an assertion failure through
-  virtio-blk emulator.
+  =3D=3D=3D Stack Trace =3D=3D=3D
+  =3D=3D2819215=3D=3DERROR: AddressSanitizer: stack-overflow on address 0x7=
+ffd2c714040 (pc 0x5639b3a933d9 bp 0x7ffd2c716210 sp 0x7ffd2c714040 T0)
+  #0 rtl8139_transmit_one /src/qemu/hw/net/rtl8139.c:1815
+  #1 rtl8139_transmit /src/qemu/hw/net/rtl8139.c:2388:9
+  #2 rtl8139_TxStatus_write /src/qemu/hw/net/rtl8139.c:2442:5
+  #3 rtl8139_io_writel /src/qemu/hw/net/rtl8139.c:2865:13
+  #4 rtl8139_ioport_write /src/qemu/hw/net/rtl8139.c:3290:9
+  #5 memory_region_write_accessor /src/qemu/softmmu/memory.c:491:5
+  #6 access_with_adjusted_size /src/qemu/softmmu/memory.c:552:18
+  #7 memory_region_dispatch_write /src/qemu/softmmu/memory.c:0:13
+  #8 flatview_write_continue /src/qemu/softmmu/physmem.c:2759:23
+  #9 flatview_write /src/qemu/softmmu/physmem.c:2799:14
+  #10 address_space_write /src/qemu/softmmu/physmem.c:2891:18
+  #11 address_space_rw /src/qemu/softmmu/physmem.c:2901:16
+  #12 dma_memory_rw_relaxed /src/qemu/include/sysemu/dma.h:88:12
+  #13 dma_memory_rw /src/qemu/include/sysemu/dma.h:127:12
+  #14 pci_dma_rw /src/qemu/include/hw/pci/pci.h:801:12
+  #15 pci_dma_write /src/qemu/include/hw/pci/pci.h:837:12
+  #16 rtl8139_write_buffer /src/qemu/hw/net/rtl8139.c:778:5
+  #17 rtl8139_do_receive /src/qemu/hw/net/rtl8139.c:1172:9
+  #18 rtl8139_transfer_frame /src/qemu/hw/net/rtl8139.c:1798:9
+  #19 rtl8139_transmit_one /src/qemu/hw/net/rtl8139.c:1845:5
+  #20 rtl8139_transmit /src/qemu/hw/net/rtl8139.c:2388:9
+  #21 rtl8139_TxStatus_write /src/qemu/hw/net/rtl8139.c:2442:5
+  #22 rtl8139_io_writel /src/qemu/hw/net/rtl8139.c:2865:13
+  #23 rtl8139_ioport_write /src/qemu/hw/net/rtl8139.c:3290:9
+  #24 memory_region_write_accessor /src/qemu/softmmu/memory.c:491:5
+  #25 access_with_adjusted_size /src/qemu/softmmu/memory.c:552:18
+  #26 memory_region_dispatch_write /src/qemu/softmmu/memory.c:0:13
+  #27 flatview_write_continue /src/qemu/softmmu/physmem.c:2759:23
+  #28 flatview_write /src/qemu/softmmu/physmem.c:2799:14
+  #29 address_space_write /src/qemu/softmmu/physmem.c:2891:18
+  #30 address_space_rw /src/qemu/softmmu/physmem.c:2901:16
+  #31 dma_memory_rw_relaxed /src/qemu/include/sysemu/dma.h:88:12
+  #32 dma_memory_rw /src/qemu/include/sysemu/dma.h:127:12
+  #33 pci_dma_rw /src/qemu/include/hw/pci/pci.h:801:12
+  #34 pci_dma_write /src/qemu/include/hw/pci/pci.h:837:12
+  #35 rtl8139_write_buffer /src/qemu/hw/net/rtl8139.c:778:5
+  #36 rtl8139_do_receive /src/qemu/hw/net/rtl8139.c:1172:9
+  #37 rtl8139_transfer_frame /src/qemu/hw/net/rtl8139.c:1798:9
+  Repeat until we run out of stack
 
-  A malicious guest user/process could use this flaw to abort the QEMU
-  process on the host, resulting in a denial of service.
-
-  This was found in version 5.2.0 (master)
-
-  ```
-
-  qemu-system-i386: /home/cwmyung/prj/hyfuzz/src/qemu-master/include/exec/m=
-emory_ldst_cached.h.inc:88: void address_space_stw_le_cached(MemoryRegionCa=
-che *, hwaddr, uint32_t, MemTxAttrs, MemTxResult *): Assertion `addr < cach=
-e->len && 2 <=3D cache->len - addr' failed.
-  [1]    1877 abort (core dumped)  /home/cwmyung/prj/hyfuzz/src/qemu-master=
-/build/i386-softmmu/qemu-system-i386
-
-  Program terminated with signal SIGABRT, Aborted.
-  #0  0x00007f71cc171f47 in __GI_raise (sig=3Dsig@entry=3D0x6) at ../sysdep=
-s/unix/sysv/linux/raise.c:51
-  #1  0x00007f71cc1738b1 in __GI_abort () at abort.c:79
-  #2  0x00007f71cc16342a in __assert_fail_base (fmt=3D0x7f71cc2eaa38 "%s%s%=
-s:%u: %s%sAssertion `%s' failed.\n%n", assertion=3Dassertion@entry=3D0x5653=
-7b324230 "addr < cache->len && 2 <=3D cache->len - addr", file=3Dfile@entry=
-=3D0x56537b32425c "/home/cwmyung/prj/hyfuzz/src/qemu-master/include/exec/me=
-mory_ldst_cached.h.inc", line=3Dline@entry=3D0x58, function=3Dfunction@entr=
-y=3D0x56537b3242ab "void address_space_stw_le_cached(MemoryRegionCache *, h=
-waddr, uint32_t, MemTxAttrs, MemTxResult *)") at assert.c:92
-  #3  0x00007f71cc1634a2 in __GI___assert_fail (assertion=3D0x56537b324230 =
-"addr < cache->len && 2 <=3D cache->len - addr", file=3D0x56537b32425c "/ho=
-me/cwmyung/prj/hyfuzz/src/qemu-master/include/exec/memory_ldst_cached.h.inc=
-", line=3D0x58, function=3D0x56537b3242ab "void address_space_stw_le_cached=
-(MemoryRegionCache *, hwaddr, uint32_t, MemTxAttrs, MemTxResult *)") at ass=
-ert.c:101
-  #4  0x000056537af3c917 in address_space_stw_le_cached (attrs=3D..., resul=
-t=3D<optimized out>, cache=3D<optimized out>, addr=3D<optimized out>, val=
-=3D<optimized out>) at /home/cwmyung/prj/hyfuzz/src/qemu-master/include/exe=
-c/memory_ldst_cached.h.inc:88
-  #5  0x000056537af3c917 in stw_le_phys_cached (cache=3D<optimized out>, ad=
-dr=3D<optimized out>, val=3D<optimized out>) at /home/cwmyung/prj/hyfuzz/sr=
-c/qemu-master/include/exec/memory_ldst_phys.h.inc:121
-  #6  0x000056537af3c917 in virtio_stw_phys_cached (vdev=3D<optimized out>,=
- cache=3D<optimized out>, pa=3D<optimized out>, value=3D<optimized out>) at=
- /home/cwmyung/prj/hyfuzz/src/qemu-master/include/hw/virtio/virtio-access.h=
-:196
-  #7  0x000056537af2b809 in vring_set_avail_event (vq=3D<optimized out>, va=
-l=3D0x0) at ../hw/virtio/virtio.c:429
-  #8  0x000056537af2b809 in virtio_queue_split_set_notification (vq=3D<opti=
-mized out>, enable=3D<optimized out>) at ../hw/virtio/virtio.c:438
-  #9  0x000056537af2b809 in virtio_queue_set_notification (vq=3D<optimized =
-out>, enable=3D0x1) at ../hw/virtio/virtio.c:499
-  #10 0x000056537b07ce1c in virtio_blk_handle_vq (s=3D0x56537d6bb3a0, vq=3D=
-0x56537d6c0680) at ../hw/block/virtio-blk.c:795
-  #11 0x000056537af3eb4d in virtio_queue_notify_aio_vq (vq=3D0x56537d6c0680=
-) at ../hw/virtio/virtio.c:2326
-  #12 0x000056537af3ba04 in virtio_queue_host_notifier_aio_read (n=3D<optim=
-ized out>) at ../hw/virtio/virtio.c:3533
-  #13 0x000056537b20901c in aio_dispatch_handler (ctx=3D0x56537c4179f0, nod=
-e=3D0x7f71a810b370) at ../util/aio-posix.c:329
-  #14 0x000056537b20838c in aio_dispatch_handlers (ctx=3D<optimized out>) a=
-t ../util/aio-posix.c:372
-  #15 0x000056537b20838c in aio_dispatch (ctx=3D0x56537c4179f0) at ../util/=
-aio-posix.c:382
-  #16 0x000056537b1f99cb in aio_ctx_dispatch (source=3D0x2, callback=3D0x7f=
-fc8add9f90, user_data=3D0x0) at ../util/async.c:306
-  #17 0x00007f71d1c10417 in g_main_context_dispatch () at /usr/lib/x86_64-l=
-inux-gnu/libglib-2.0.so.0
-  #18 0x000056537b1f1bab in glib_pollfds_poll () at ../util/main-loop.c:232
-  #19 0x000056537b1f1bab in os_host_main_loop_wait (timeout=3D<optimized ou=
-t>) at ../util/main-loop.c:255
-  #20 0x000056537b1f1bab in main_loop_wait (nonblocking=3D<optimized out>) =
-at ../util/main-loop.c:531
-  #21 0x000056537af879d7 in qemu_main_loop () at ../softmmu/runstate.c:720
-  #22 0x000056537a928a3b in main (argc=3D<optimized out>, argc@entry=3D0x15=
-, argv=3D<optimized out>, argv@entry=3D0x7ffc8adda718, envp=3D<optimized ou=
-t>) at ../softmmu/main.c:50
-  #23 0x00007f71cc154b97 in __libc_start_main (main=3D0x56537a928a30 <main>=
-, argc=3D0x15, argv=3D0x7ffc8adda718, init=3D<optimized out>, fini=3D<optim=
-ized out>, rtld_fini=3D<optimized out>, stack_end=3D0x7ffc8adda708) at ../c=
-su/libc-start.c:310
-  #24 0x000056537a92894a in _start ()
-
-  ```
-
-  To reproduce this issue, please run the QEMU with the following
-  command line.
-
-  ```
-
-  # To reproduce this issue, please run the QEMU process with the
-  following command line.
-
-  $ qemu-system-i386 -m 512  -drive
-  file=3Dhyfuzz.img,index=3D0,media=3Ddisk,format=3Draw -device virtio-blk-
-  pci,drive=3Ddrive0,id=3Dvirtblk0,num-queues=3D4 -drive
-  file=3Ddisk.img,if=3Dnone,id=3Ddrive0
-
-  ```
-
-  Please let me know if I can provide any further info.
-
-  Thank you.
+  https://bugs.chromium.org/p/oss-fuzz/issues/detail?id=3D29224
 
 To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1910941/+subscriptions
+https://bugs.launchpad.net/qemu/+bug/1910826/+subscriptions
 
