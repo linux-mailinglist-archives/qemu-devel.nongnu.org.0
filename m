@@ -2,76 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1848F2F84B2
-	for <lists+qemu-devel@lfdr.de>; Fri, 15 Jan 2021 19:47:24 +0100 (CET)
-Received: from localhost ([::1]:48314 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 909242F849F
+	for <lists+qemu-devel@lfdr.de>; Fri, 15 Jan 2021 19:42:25 +0100 (CET)
+Received: from localhost ([::1]:41962 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l0U83-0002dg-4B
-	for lists+qemu-devel@lfdr.de; Fri, 15 Jan 2021 13:47:23 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57374)
+	id 1l0U3E-0008Bi-BK
+	for lists+qemu-devel@lfdr.de; Fri, 15 Jan 2021 13:42:24 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57674)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <minwoo.im.dev@gmail.com>)
- id 1l0TzR-0006Vz-W7; Fri, 15 Jan 2021 13:38:31 -0500
-Received: from mail-pl1-x636.google.com ([2607:f8b0:4864:20::636]:36968)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <minwoo.im.dev@gmail.com>)
- id 1l0TzK-0003Vi-Bh; Fri, 15 Jan 2021 13:38:29 -0500
-Received: by mail-pl1-x636.google.com with SMTP id be12so5147475plb.4;
- Fri, 15 Jan 2021 10:38:21 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:in-reply-to:user-agent;
- bh=O1ktJIpvcKoM786sLttFaCz1BNdfgFRNsMyN0P4hiz4=;
- b=A/BFLpVOoWloc/jEN8khF820X6RfjTufzTIFExGN/6AqF35+oihxhaBmtN5HOowied
- TWmH4dX5yUVR6D7uq7Llh4WBP4jDa55AB77mUeaWWoAULZJe22WhlFKjs7onZCR7svE6
- Li2tfSrAGKneP3t6JBGGO8z6gr1CVFX7WXIi7U+1AeOEay/TTlWOmf+4Qd5HuV+4vs30
- 5HyrxWJ/DzlAJEBKN2YxJW5y1qyRVPt5Z8nZqWn8dygMz+zkNEW7qv1V3fwCiFChc7ej
- LixamGYtOjRGLj5B1hfdCPwhttX6XRkhYcy6BUhx56c4PLGk2s8moe1VABH2oa3LnlWr
- qHLA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to:user-agent;
- bh=O1ktJIpvcKoM786sLttFaCz1BNdfgFRNsMyN0P4hiz4=;
- b=pHYp5ffZde75X2p7XfG661r/3TV7rIzVBfmtr4+scvIfMjTqmCKzb7pDO9EX0f7txi
- O2Bkrw2mKw2qAOw795im3/Bnc/tol/Xrq+LY/yS/9AziSbyd6lz7IAi69oCNif65Nbbb
- WWzM+xj08MEdm+gWG4lJS7Kk6W886UMfsAY/JbnZ5SktxwH+4zvAudrpOUfJhNOnTlIk
- g6dz/H9qevjdcIFiC7+8SgRSy4yjGaDNQipTyRCE9h/XpDHimyVSaR7svDODUf5ZXPn1
- BVrHcioHRWzvPjegfpOJmlKDzekpLBIlU3Bn26W/3nIFEIDYhA11sdAa6WxzcN7znlDu
- ngaQ==
-X-Gm-Message-State: AOAM532eiM+6LomqaA5kdV21XSkub1HfFY81YIHHtnHcABrKot6f5JKm
- XrM5s36wISihjc39y7NDuHI=
-X-Google-Smtp-Source: ABdhPJxBY7ODHq3Qekl6E1oXDMpiTDAQ+bhGR13jg75q4dyvXCkOewPTq1ssrkYigKW+1h4jYqP/Pg==
-X-Received: by 2002:a17:902:8a8d:b029:dc:8ac6:a149 with SMTP id
- p13-20020a1709028a8db02900dc8ac6a149mr14121883plo.18.1610735900586; 
- Fri, 15 Jan 2021 10:38:20 -0800 (PST)
-Received: from localhost ([211.108.35.36])
- by smtp.gmail.com with ESMTPSA id s23sm8846900pgj.29.2021.01.15.10.38.19
- (version=TLS1_2 cipher=ECDHE-ECDSA-CHACHA20-POLY1305 bits=256/256);
- Fri, 15 Jan 2021 10:38:19 -0800 (PST)
-Date: Sat, 16 Jan 2021 03:38:18 +0900
-From: Minwoo Im <minwoo.im.dev@gmail.com>
-To: Klaus Jensen <its@irrelevant.dk>
-Subject: Re: [RFC PATCH 0/5] hw/block/nvme: support multi-path for ctrl/ns
-Message-ID: <20210115183818.GB2822@localhost.localdomain>
-References: <20210115120558.29313-1-minwoo.im.dev@gmail.com>
- <YAGfWe+OMxiBggh3@apples.localdomain>
- <20210115173504.GH1511902@dhcp-10-100-145-180.wdc.com>
- <YAHVKFOYaEO4N6I5@apples.localdomain>
+ (Exim 4.90_1) (envelope-from <wainersm@redhat.com>)
+ id 1l0U0K-00076a-I1
+ for qemu-devel@nongnu.org; Fri, 15 Jan 2021 13:39:24 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:22285)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <wainersm@redhat.com>)
+ id 1l0U0H-0003oS-7K
+ for qemu-devel@nongnu.org; Fri, 15 Jan 2021 13:39:23 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1610735959;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=fVQAxGhloJfXhsIdW2TkBSf1TW/KzxdmhCRAkemgs50=;
+ b=OXRJqKMxEY+0RxNpuzT1vlquayeGwUpztDb3dSJUqrOeVaTqLFV7rUbkC0dgDS9bqus2tV
+ 0Fau36pw+tfSAJ3C1e5kyf1pGCtvvf/j/TqkvusnRGlKg6C63pP8MkNJ7V5V+01bO40M1H
+ v+uqAjN8F5kC6mlSfcTW0tORJLt+W+c=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-189-dPo0I2pWN-ysVcZOTaEhZA-1; Fri, 15 Jan 2021 13:39:15 -0500
+X-MC-Unique: dPo0I2pWN-ysVcZOTaEhZA-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 94E3F107ACF8;
+ Fri, 15 Jan 2021 18:39:14 +0000 (UTC)
+Received: from wainer-laptop.localdomain (ovpn-116-88.gru2.redhat.com
+ [10.97.116.88])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id DB26B100239F;
+ Fri, 15 Jan 2021 18:39:10 +0000 (UTC)
+Subject: Re: [PATCH v2 08/25] tests/docker: fix mistakes in centos package
+ lists
+To: =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
+ qemu-devel@nongnu.org
+References: <20210114130245.1654081-1-berrange@redhat.com>
+ <20210114130245.1654081-9-berrange@redhat.com>
+From: Wainer dos Santos Moschetta <wainersm@redhat.com>
+Message-ID: <ffa3bc83-1b9a-41e3-5379-11c34f81eb4e@redhat.com>
+Date: Fri, 15 Jan 2021 15:39:07 -0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.4.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <YAHVKFOYaEO4N6I5@apples.localdomain>
-User-Agent: Mutt/1.11.4 (2019-03-13)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::636;
- envelope-from=minwoo.im.dev@gmail.com; helo=mail-pl1-x636.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+In-Reply-To: <20210114130245.1654081-9-berrange@redhat.com>
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=wainersm@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 8bit
+Content-Language: en-US
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=wainersm@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -29
+X-Spam_score: -3.0
+X-Spam_bar: ---
+X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.25,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -85,75 +86,106 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Keith Busch <kbusch@kernel.org>, Kevin Wolf <kwolf@redhat.com>,
- qemu-devel@nongnu.org, qemu-block@nongnu.org, Max Reitz <mreitz@redhat.com>
+Cc: Fam Zheng <fam@euphon.net>, Peter Maydell <peter.maydell@linaro.org>,
+ =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 21-01-15 18:47:20, Klaus Jensen wrote:
-> On Jan 15 09:35, Keith Busch wrote:
-> > On Fri, Jan 15, 2021 at 02:57:45PM +0100, Klaus Jensen wrote:
-> > > 
-> > > As you already mentioned, the problem I see with this approach is that
-> > > we have separate namespaces attached to separate controllers. So we are
-> > > faking it to the max and if I/O starts going through the other
-> > > controller we end up on a namespace that is unrelated (different data).
-> > > Havoc ensues.
-> > > 
-> > > My approach looks a lot like yours, but I hacked around this by adding
-> > > extra 'ctrl-0', 'ctrl-1', ..., link-parameters to the namespace device,
-> > > replacing the bus. This works well because the namespace then just
-> > > registers with multiple controllers. But adding more parameters like
-> > > that just isnt nice, so I've been trying to figure out how to allow a
-> > > parameter to be specified multiple times, so we could just do more
-> > > 'ctrl'-parameters.
-> > > 
-> > > Alas, since I started thinking about namespace sharing I have been
-> > > regretting that I didn't reverse the bus-mechanic for namespace
-> > > attachment. It would align better with the theory of operation if it was
-> > > the controllers that attached to namespaces, and not the other way
-> > > around. So what I would actually really prefer, is that we had multiple
-> > > 'ns' link parameters on the controller device.
-> > 
-> > Would this work better if we introduce a new device in the nvme hierarchy:
-> > the nvme-subsystem? You could attach multi-path namespaces and
-> > controllers to that, and namespaces you don't want shared can attach
-> > directly to controllers like they do today. You could also auto-assign
-> > cntlid, and you wouldn't need to duplicate serial numbers in your
-> > parameters.
-> 
-> I kinda POC'ed that, but I think I tried to make it work with a bus and
-> walking it and all kinds of fancy stuff.
-> 
-> I think it can just be a 'link' parameter, so something like:
-> 
->   -device nvme-subsys,id=subsys0
 
-Do we have any plan for default subsys hierarchy?  Or is it going to be
-a mandatory root node of nvme controllers and namespaces?
+On 1/14/21 10:02 AM, Daniel P. Berrangé wrote:
+> dbus-daemon doesn't exist in centos7, it is part of dbus.
+>
+> snappy is used by QEMU, not csnappy.
+>
+> mesa-libEGL-devel is not used in QEMU at all, but mesa-libgbm-devel is.
+>
+> vte291-devel is required for GTK3, not vte-devel.
+>
+> spice-glib-devel is not use in QEMU at all, but spice-protocol is.
+>
+> librdmacm-devel is a virtual provides for compat, the actual package
+> used is rdma-core-devel.
+>
+> There is no need to specifically refer to python36, we can just
+> use python3 as in other distros.
+>
+> Signed-off-by: Daniel P. Berrangé <berrange@redhat.com>
+> ---
+>   tests/docker/dockerfiles/centos7.docker | 11 +++++------
+>   tests/docker/dockerfiles/centos8.docker | 10 +++++-----
+>   2 files changed, 10 insertions(+), 11 deletions(-)
 
->   -device nvme,id=nvme0,subsys=subsys0
->   -device nvme,id=nvme1,subsys=subsys0
->   -device nvme-ns,id=shared-ns1,nsid=1,subsys=subsys0
 
-In this case, what is the default set-up for shared-ns1?  Is this
-namespace going to be ready right after the two nvme controllers being
-realized?  If so, do we iterate all the namespace devices in the NVM
-subsystem and attach them to this controller in the initial time?
+Reviewed-by: Wainer dos Santos Moschetta <wainersm@redhat.com>
 
-If so, I agree with this approach.
 
->   -device nvme-ns,id=private-ns2,nsid=2,bus=nvme0
+>
+> diff --git a/tests/docker/dockerfiles/centos7.docker b/tests/docker/dockerfiles/centos7.docker
+> index b2a4719284..1eb3455144 100644
+> --- a/tests/docker/dockerfiles/centos7.docker
+> +++ b/tests/docker/dockerfiles/centos7.docker
+> @@ -9,8 +9,7 @@ ENV PACKAGES \
+>       bzip2 \
+>       bzip2-devel \
+>       ccache \
+> -    csnappy-devel \
+> -    dbus-daemon \
+> +    dbus \
+>       gcc \
+>       gcc-c++ \
+>       gettext \
+> @@ -22,21 +21,21 @@ ENV PACKAGES \
+>       libepoxy-devel \
+>       libfdt-devel \
+>       libgcrypt-devel \
+> -    librdmacm-devel \
+>       libzstd-devel \
+>       lzo-devel \
+>       make \
+> -    mesa-libEGL-devel \
+>       mesa-libgbm-devel \
+>       nettle-devel \
+>       ninja-build \
+>       perl-Test-Harness \
+>       pixman-devel \
+>       python3 \
+> -    spice-glib-devel \
+> +    rdma-core-devel \
+> +    snappy-devel \
+> +    spice-protocol \
+>       spice-server-devel \
+>       tar \
+> -    vte-devel \
+> +    vte291-devel \
+>       xen-devel \
+>       zlib-devel
+>   RUN yum install -y $PACKAGES
+> diff --git a/tests/docker/dockerfiles/centos8.docker b/tests/docker/dockerfiles/centos8.docker
+> index a95350466a..b64ee7071d 100644
+> --- a/tests/docker/dockerfiles/centos8.docker
+> +++ b/tests/docker/dockerfiles/centos8.docker
+> @@ -19,16 +19,16 @@ ENV PACKAGES \
+>       libgcrypt-devel \
+>       lzo-devel \
+>       make \
+> -    mesa-libEGL-devel \
+> -    nmap-ncat \
+> +    mesa-libgbm-devel \
+>       nettle-devel \
+>       ninja-build \
+> +    nmap-ncat \
+>       perl-Test-Harness \
+>       pixman-devel \
+> -    python36 \
+> +    python3 \
+>       rdma-core-devel \
+> -    spice-glib-devel \
+> -    spice-server \
+> +    spice-protocol \
+> +    spice-server-devel \
+>       tar \
+>       zlib-devel
+>   
 
-This must be the case what Keith mentioned of directly attaching to a
-controller.  It looks nice.  But, one concerning point here is that, in
-!shared namespace, if we don't specify 'subsys' property here to attach
-it to directly to a controller, it means it implicitly will belong to
-the subsys0 where the nvme0 belongs to.  It means that user should give
-nsid different than 1 which is already shared.
-
-So, how do we make subsys property as a mandatory for namespace device
-and provide optional choice for bus.  If bus is given to a controller,
-then it can mean a private namespace, otherwise it can be shared among
-controllers in a subsystem.
 
