@@ -2,66 +2,83 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E29302F87ED
-	for <lists+qemu-devel@lfdr.de>; Fri, 15 Jan 2021 22:52:34 +0100 (CET)
-Received: from localhost ([::1]:42260 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B8AC92F87F1
+	for <lists+qemu-devel@lfdr.de>; Fri, 15 Jan 2021 22:53:11 +0100 (CET)
+Received: from localhost ([::1]:43970 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l0X1F-0007h7-Uj
-	for lists+qemu-devel@lfdr.de; Fri, 15 Jan 2021 16:52:33 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39818)
+	id 1l0X1q-0008R1-Q6
+	for lists+qemu-devel@lfdr.de; Fri, 15 Jan 2021 16:53:10 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40126)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1l0Wya-0006ER-6f; Fri, 15 Jan 2021 16:49:49 -0500
-Received: from mail-io1-xd35.google.com ([2607:f8b0:4864:20::d35]:44519)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1l0Wzy-00079k-9M
+ for qemu-devel@nongnu.org; Fri, 15 Jan 2021 16:51:17 -0500
+Received: from mail-pj1-x102e.google.com ([2607:f8b0:4864:20::102e]:54416)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1l0WyX-0002ea-9N; Fri, 15 Jan 2021 16:49:47 -0500
-Received: by mail-io1-xd35.google.com with SMTP id z5so20958570iob.11;
- Fri, 15 Jan 2021 13:49:44 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=zX62yCo2Ms91pcSV4fD+a/II1iEc8aqCUccrOM3kVQQ=;
- b=Zqb5DRXwlEOqWbCjGAlOszm+qBWn7l/Eu59VHcH4T9yM6YaX98oIcjjUBje/Q8ESe5
- MJlTgoHfwMvLwCBH05vI75wMWG5U5gEIpl8IVBUgSdBHOgjDxi8JSvPElq9tMqqoAm4q
- /nPdemIPgY/V2S9bnvIPRnMN+p53n1J/u31AH6982D2cgMhTDNZlSNQaqdwtIKkf6TgA
- RPtOkN2f565an1ySLQ19DA+X5LEtV7Qhy0+LuDHLm+xeWZ4i4y1oub7mvZTLzrcoUEpH
- tG6AnM7FzvDwvy7ze3lIc626bzUAlHNOGOQZliYdLCz5MSxrykaXNgfg3bKslHjxzp29
- bSxw==
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1l0Wzt-00036w-UC
+ for qemu-devel@nongnu.org; Fri, 15 Jan 2021 16:51:13 -0500
+Received: by mail-pj1-x102e.google.com with SMTP id cq1so5818465pjb.4
+ for <qemu-devel@nongnu.org>; Fri, 15 Jan 2021 13:51:08 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=jz3EiJ+oClwZejEb7ZzSpC3TiYzEL7QLTnZboUuVmPw=;
+ b=Qfvd+7JCsA6kK3Jp19PpywdWcwvoaM3yIGFUr/3H+nU96T+JHS4CO9xNsN+M/yFPLs
+ jLGC/4NcK0DrLVqzxv7xE01Y9cW/xHzBMknU2pX5L1bfh0GPM855rSF2oarRDT2SjPhU
+ 26o7gZZGaDYHomFk9yaCMYoqwf2CUK+zl4wnPC/mLIyje5w0k5e9s1oUqHrdRNgnX2l6
+ T8EtvdAe/KXuW61Jkk29HGBjVIQWzHQj4xvyRiCvwQ9kjCcPjA4Gk7POa2E/UAr8ROiv
+ yJrRBi76Byfv+6Eqenw8j/KZHVi9KwkJE8+2b+Yo5mCP2wkV1cCSzq6KPruUw4aKCj7b
+ XrtQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=zX62yCo2Ms91pcSV4fD+a/II1iEc8aqCUccrOM3kVQQ=;
- b=LJBuoh6a67wHFjXkdWjH7sM2ocHWJpk5HObzPS89V8dshow+vd39zFkZHQJi/r3NbZ
- 1Kutph/BGFLlZGg1uE/C7A/ag1G0/Eruz2ON7MiR+pn+/dtnGzEl1gpaInzzsXBf7dq2
- ikcsNBWSFDTGQrimK6zjIm4gxSurxoTEkZSZxgqhIZRdTx0kc4b4uw2sZ70ywJeLMnfg
- YcMPuyXXegTJyAqmERqXHLZZ3Pog5yOqwesP5BGRdkb5MWwxMChvKYfnsbDuUYbPzniR
- 1LstIZj7LsRn/KrIa6XnWO8wMTvBHpS01yyXoofo2ekGueRy39oIdRqDUdREejic7h1b
- UNEA==
-X-Gm-Message-State: AOAM531rCHxA7V6pFK5PlyqOCWYQ3nMVcrPAbvw94JIKaYiwrfilB1Hc
- 4hJj/wjyt66ix1pP0cqZTXQuyGShKckQOWGrq0w=
-X-Google-Smtp-Source: ABdhPJxYVWfwMXath3hlj5jAvKe16yJWOQqgSBWCVSHB+7WAeZd5W9ZMOnfGzKaRX5RRS8tN7fQeeO47GtH/VK+fhFc=
-X-Received: by 2002:a92:cda1:: with SMTP id g1mr12793180ild.267.1610747383925; 
- Fri, 15 Jan 2021 13:49:43 -0800 (PST)
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=jz3EiJ+oClwZejEb7ZzSpC3TiYzEL7QLTnZboUuVmPw=;
+ b=VUfqQ0Y4cG9iNjhoP98G2pdWDyOyBEKWJgV+cB3eE9AhmNCtH6ryEqwhmq+EGmtET6
+ A/FiZEqlXnKZX5BiP2+goSWJqBCIeUWBlslOBOEHQTwfwA3MdHEcwokyeDt0Xahl0aKw
+ o8apEIJkGPdirsM7UeZaN9/2Sf0gAL/HFnzBicQ6qB6vKvjDLdxHw8wO7MKyoMuGp2GD
+ Nm4Jvk9a08wqJO/b8bESBrR+Ry3ZneN37vPsaFWQ9dW1lL9o1rysU+bh+S0g+nYvCbX+
+ w7dH2egbiNfmdoToLd1bXep5TYs0oorL+hpc92Ps1sXlbNRZVxxxQ4twp8cnH9eTqWJl
+ OsCg==
+X-Gm-Message-State: AOAM530slAJt4i+4TJvjXgBayddaMVtOK3CUui5Vxe3L6iCQ/HQXnM15
+ do2XdbEMcUILBCyDvEx9hnuAdw==
+X-Google-Smtp-Source: ABdhPJyB/WDdYRza0pqO58tSA4NmusMlPG388XfgEAHRIXNhG4OumD+NTRRKrwIN4WJKSqBaz/j9JA==
+X-Received: by 2002:a17:90a:ae07:: with SMTP id
+ t7mr12293447pjq.115.1610747467304; 
+ Fri, 15 Jan 2021 13:51:07 -0800 (PST)
+Received: from [10.25.18.3] (rrcs-173-197-107-21.west.biz.rr.com.
+ [173.197.107.21])
+ by smtp.gmail.com with ESMTPSA id y8sm1805492pfq.106.2021.01.15.13.51.05
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 15 Jan 2021 13:51:06 -0800 (PST)
+Subject: Re: [PATCH 04/15] arc: TCG and decoder glue code and helpers
+To: Shahab Vahedi <Shahab.Vahedi@synopsys.com>,
+ "cupertinomiranda@gmail.com" <cupertinomiranda@gmail.com>,
+ "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>
+References: <20201111161758.9636-1-cupertinomiranda@gmail.com>
+ <20201111161758.9636-5-cupertinomiranda@gmail.com>
+ <33ba8432-64c7-db76-459c-5fa6fd7e549a@linaro.org>
+ <c1e9d63a-ee10-5a85-57d2-3c4ad2a86980@synopsys.com>
+From: Richard Henderson <richard.henderson@linaro.org>
+Message-ID: <aeb86191-5fde-5f8f-7319-cc6375d02bf6@linaro.org>
+Date: Fri, 15 Jan 2021 11:51:03 -1000
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
 MIME-Version: 1.0
-References: <1610427124-49887-1-git-send-email-bmeng.cn@gmail.com>
- <1610427124-49887-2-git-send-email-bmeng.cn@gmail.com>
-In-Reply-To: <1610427124-49887-2-git-send-email-bmeng.cn@gmail.com>
-From: Alistair Francis <alistair23@gmail.com>
-Date: Fri, 15 Jan 2021 13:49:17 -0800
-Message-ID: <CAKmqyKM24487iky0-ESmbakpPT28fAGhERCUO7935ub0ZRJ-KA@mail.gmail.com>
-Subject: Re: [PATCH 1/4] target/riscv: Make csr_ops[CSR_TABLE_SIZE] external
-To: Bin Meng <bmeng.cn@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::d35;
- envelope-from=alistair23@gmail.com; helo=mail-io1-xd35.google.com
-X-Spam_score_int: -17
-X-Spam_score: -1.8
-X-Spam_bar: -
-X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001,
+In-Reply-To: <c1e9d63a-ee10-5a85-57d2-3c4ad2a86980@synopsys.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::102e;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x102e.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -76,82 +93,44 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "open list:RISC-V" <qemu-riscv@nongnu.org>,
- Bin Meng <bin.meng@windriver.com>, Alistair Francis <alistair.francis@wdc.com>,
- "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
- Jim Wilson <jimw@sifive.com>
+Cc: Shahab Vahedi <shahab.vahedi@gmail.com>,
+ Cupertino Miranda <Cupertino.Miranda@synopsys.com>,
+ "linux-snps-arc@lists.infradead.org" <linux-snps-arc@lists.infradead.org>,
+ Claudiu Zissulescu <claziss@gmail.com>,
+ Claudiu Zissulescu <Claudiu.Zissulescu@synopsys.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, Jan 11, 2021 at 8:53 PM Bin Meng <bmeng.cn@gmail.com> wrote:
->
-> From: Bin Meng <bin.meng@windriver.com>
->
-> In preparation to generate the CSR register list for GDB stub
-> dynamically, change csr_ops[] to non-static so that it can be
-> referenced externally.
->
-> Signed-off-by: Bin Meng <bin.meng@windriver.com>
+On 1/15/21 11:28 AM, Shahab Vahedi wrote:
+>>> +        cpu_stl_data(env, tmp_sp, CPU_FP(env));
+>>> +    }
+>>
+>> And what if these stores raise an exception?  I doubt you're going to get an
+>> exception at the correct pc.
+> 
+> I've added a few bad-weather test cases [1] and they work as expected. Indeed,
+> none of those tests trigger an exception during the "cpu_stl_data()". Could you
+> elaborate why you think the PC might be incorrect? Then I can add the corresponding
+> tests and fix the behavior.
 
-Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
+Because you're using cpu_stl_data_ra, with GETPC, if the store faults (e.g.
+SIGSEGV) then the exception unwind will not be done.  This will happen to work
+ok if and only if "enter" is the first insn of the TB.
 
-Alistair
+>> In the case of enter or leave, this is one load/store plus one addition,
+>> followed by a branch.  All of which is encoded as fields in the instruction.
+>> Extremely simple.
+> 
+> You're suggesting that "enter/leave" should use TCG opcodes instead of
+> helpers? If yes, do you really think it is possible to implement each with ~10
+> opcodes?
 
-> ---
->
->  target/riscv/cpu.h |  8 ++++++++
->  target/riscv/csr.c | 10 +---------
->  2 files changed, 9 insertions(+), 9 deletions(-)
->
-> diff --git a/target/riscv/cpu.h b/target/riscv/cpu.h
-> index 2649949..6f9e1cc 100644
-> --- a/target/riscv/cpu.h
-> +++ b/target/riscv/cpu.h
-> @@ -482,6 +482,14 @@ typedef struct {
->      riscv_csr_op_fn op;
->  } riscv_csr_operations;
->
-> +/* CSR function table constants */
-> +enum {
-> +    CSR_TABLE_SIZE = 0x1000
-> +};
-> +
-> +/* CSR function table */
-> +extern riscv_csr_operations csr_ops[];
-> +
->  void riscv_get_csr_ops(int csrno, riscv_csr_operations *ops);
->  void riscv_set_csr_ops(int csrno, riscv_csr_operations *ops);
->
-> diff --git a/target/riscv/csr.c b/target/riscv/csr.c
-> index 10ab82e..507e8ee 100644
-> --- a/target/riscv/csr.c
-> +++ b/target/riscv/csr.c
-> @@ -23,14 +23,6 @@
->  #include "qemu/main-loop.h"
->  #include "exec/exec-all.h"
->
-> -/* CSR function table */
-> -static riscv_csr_operations csr_ops[];
-> -
-> -/* CSR function table constants */
-> -enum {
-> -    CSR_TABLE_SIZE = 0x1000
-> -};
-> -
->  /* CSR function table public API */
->  void riscv_get_csr_ops(int csrno, riscv_csr_operations *ops)
->  {
-> @@ -1378,7 +1370,7 @@ int riscv_csrrw_debug(CPURISCVState *env, int csrno, target_ulong *ret_value,
->  }
->
->  /* Control and Status Register function table */
-> -static riscv_csr_operations csr_ops[CSR_TABLE_SIZE] = {
-> +riscv_csr_operations csr_ops[CSR_TABLE_SIZE] = {
->      /* User Floating-Point CSRs */
->      [CSR_FFLAGS] =              { fs,   read_fflags,      write_fflags      },
->      [CSR_FRM] =                 { fs,   read_frm,         write_frm         },
-> --
-> 2.7.4
->
->
+More or less.  Two per registers stored, plus two moves.  It looks like the
+limit of registers is either 3 or 14, depending on the cpu configuration.
+
+Certainly this is no different from other "push multiple" type of instructions
+of other architectures, which do exactly this.
+
+
+r~
 
