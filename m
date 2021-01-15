@@ -2,39 +2,41 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 372C52F7BAE
-	for <lists+qemu-devel@lfdr.de>; Fri, 15 Jan 2021 14:06:10 +0100 (CET)
-Received: from localhost ([::1]:44220 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8E8FF2F7BAF
+	for <lists+qemu-devel@lfdr.de>; Fri, 15 Jan 2021 14:06:13 +0100 (CET)
+Received: from localhost ([::1]:44328 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l0Ono-0003HO-NS
-	for lists+qemu-devel@lfdr.de; Fri, 15 Jan 2021 08:06:08 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35726)
+	id 1l0Ons-0003KD-MW
+	for lists+qemu-devel@lfdr.de; Fri, 15 Jan 2021 08:06:12 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35730)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <berto@igalia.com>)
- id 1l0Ol7-00022Q-J5; Fri, 15 Jan 2021 08:03:21 -0500
-Received: from fanzine.igalia.com ([178.60.130.6]:44634)
+ id 1l0Ol8-00022m-Q7; Fri, 15 Jan 2021 08:03:22 -0500
+Received: from fanzine.igalia.com ([178.60.130.6]:44635)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <berto@igalia.com>)
- id 1l0Ol3-0003wB-TD; Fri, 15 Jan 2021 08:03:21 -0500
+ id 1l0Ol3-0003wA-Sr; Fri, 15 Jan 2021 08:03:22 -0500
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com;
  s=20170329; 
- h=Content-Transfer-Encoding:MIME-Version:Message-Id:Date:Subject:Cc:To:From;
- bh=33Z7xEdyIfs5ZEhzPjtmubsdYtm4WxfagtvLw25VEio=; 
- b=H+fpePDVRSkqb7BnGHeNkPMBCRvRZzoZnRrkDGyXV3x0kmFLIa6ZSkyddVqOP41reFAzPkp3VYR5hXODbguxF6yNwMdRv5rI+SUnvwdQxJczjwhHiCcsEwcIvCEkEauG3/PQ5BJOf2T+HGmn3RNdMNRRw/hKkppZl6bdkUqHr74w1y9gpmpMscUB4rTWYIliV9YSe5LuCQnqrrPFxRCZPe42OF5vUQSg8piBLv/+jtOWSo3BtJybbkax6gd9CUq1YSujAlWMRjxkDZSHEHLTF84fuQFPyyk75ViCJJ4txItUeB2Q+3vkPCeW8/c8tw7Wlycdh9DNblY8YjNIe9IBAA==;
+ h=Content-Transfer-Encoding:MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From;
+ bh=f8QA3U6Gnw8hWYP3Fzo72aiMuFKL6DyIS/zDdgwS/E4=; 
+ b=AHPkMLkh5C7zLTGl323vm92LMfDZW+mwkoJyYQfYPk0qbhbs/MvpMjUGN7tKDyhw/0a2oqYmtpX1S8lpo7c8nG06S4TTO0l6ctfViV972TT3ErxsFslQtWggxDwumzDOYHO4QT/9S8JbOx4EHrzRK03jl2HFoSFnELH9VtYl9dNibfZgRBkki1evSdPNn1g9xdlBq/NZ1WAaUFq4V1SC1kESfNTr6rqv3qKaj0Jf4L3KIeMxERJg0zIvh1fTkqFNzZ7s8RVDW8aBX9YxbVMetmP6TisGcfXf57bSn0sJQaLMg28MEm/7e4F51wMJTAbeC+7af0luW2qwTR+WH0Hq3g==;
 Received: from [213.94.31.64] (helo=perseus.local)
  by fanzine.igalia.com with esmtpsa 
  (Cipher TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim)
- id 1l0Okg-0007Wd-Rp; Fri, 15 Jan 2021 14:02:54 +0100
+ id 1l0Okg-0007Wc-NT; Fri, 15 Jan 2021 14:02:54 +0100
 Received: from berto by perseus.local with local (Exim 4.92)
  (envelope-from <berto@igalia.com>)
- id 1l0OkT-0003fk-QN; Fri, 15 Jan 2021 14:02:41 +0100
+ id 1l0OkT-0003fm-RU; Fri, 15 Jan 2021 14:02:41 +0100
 From: Alberto Garcia <berto@igalia.com>
 To: qemu-devel@nongnu.org
-Subject: [RFC PATCH 0/2] Allow changing bs->file on reopen
-Date: Fri, 15 Jan 2021 14:02:36 +0100
-Message-Id: <cover.1610715661.git.berto@igalia.com>
+Subject: [RFC PATCH 1/2] block: Allow changing bs->file on reopen
+Date: Fri, 15 Jan 2021 14:02:37 +0100
+Message-Id: <1a9b457d93c0732e8e4785a0cc4b5f3b935f2cf6.1610715661.git.berto@igalia.com>
 X-Mailer: git-send-email 2.20.1
+In-Reply-To: <cover.1610715661.git.berto@igalia.com>
+References: <cover.1610715661.git.berto@igalia.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Received-SPF: pass client-ip=178.60.130.6; envelope-from=berto@igalia.com;
@@ -64,51 +66,146 @@ Cc: Kevin Wolf <kwolf@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi,
+When the x-blockdev-reopen was added it allowed reconfiguring the
+graph by replacing backing files, but changing the 'file' option was
+forbidden. Because of this restriction some operations are not
+possible, notably inserting and removing block filters.
 
-during the past months we talked about making x-blockdev-reopen stable
-API, and one of the missing things was having support for changing
-bs->file. See here for the discusssion (I can't find the message from
-Kashyap that started the thread in the web archives):
+This patch adds support for replacing the 'file' option. This is
+similar to replacing the backing file and the user is likewise
+responsible for the correctness of the resulting graph, otherwise this
+can lead to data corruption.
 
-   https://lists.gnu.org/archive/html/qemu-block/2020-10/msg00922.html
+Signed-off-by: Alberto Garcia <berto@igalia.com>
+---
+ include/block/block.h  |  1 +
+ block.c                | 61 ++++++++++++++++++++++++++++++++++++++++++
+ tests/qemu-iotests/245 |  7 ++---
+ 3 files changed, 66 insertions(+), 3 deletions(-)
 
-I was testing this and one of the problems that I found was that
-removing a filter node using this command is tricky because of the
-permission system, see here for details:
-
-   https://lists.gnu.org/archive/html/qemu-block/2020-12/msg00092.html
-
-The good news is that Vladimir posted a set of patches that changes
-the way that permissions are updated on reopen:
-
-   https://lists.gnu.org/archive/html/qemu-block/2020-11/msg00745.html
-
-I was testing if this would be useful to solve the problem that I
-mentioned earlier and it seems to be the case so I wrote a patch to
-add support for changing bs->file, along with a couple of test cases.
-
-This is still an RFC but you can see the idea.
-
-These patches apply on top of Vladimir's branch:
-
-git: https://src.openvz.org/scm/~vsementsov/qemu.git
-tag: up-block-topologic-perm-v2
-
-Opinions are very welcome!
-
-Berto
-
-Alberto Garcia (2):
-  block: Allow changing bs->file on reopen
-  iotests: Update 245 to support replacing files with x-blockdev-reopen
-
- include/block/block.h      |  1 +
- block.c                    | 61 ++++++++++++++++++++++++++++++++++++++
- tests/qemu-iotests/245     | 61 +++++++++++++++++++++++++++++++++++---
- tests/qemu-iotests/245.out |  4 +--
- 4 files changed, 121 insertions(+), 6 deletions(-)
-
+diff --git a/include/block/block.h b/include/block/block.h
+index 82271d9ccd..6dd687a69e 100644
+--- a/include/block/block.h
++++ b/include/block/block.h
+@@ -196,6 +196,7 @@ typedef struct BDRVReopenState {
+     bool backing_missing;
+     bool replace_backing_bs;  /* new_backing_bs is ignored if this is false */
+     BlockDriverState *old_backing_bs; /* keep pointer for permissions update */
++    BlockDriverState *old_file_bs;    /* keep pointer for permissions update */
+     uint64_t perm, shared_perm;
+     QDict *options;
+     QDict *explicit_options;
+diff --git a/block.c b/block.c
+index 576b145cbf..114788e58e 100644
+--- a/block.c
++++ b/block.c
+@@ -3978,6 +3978,10 @@ int bdrv_reopen_multiple(BlockReopenQueue *bs_queue, Error **errp)
+             refresh_list = bdrv_topological_dfs(refresh_list, found,
+                                                 state->old_backing_bs);
+         }
++        if (state->old_file_bs) {
++            refresh_list = bdrv_topological_dfs(refresh_list, found,
++                                                state->old_file_bs);
++        }
+     }
+ 
+     ret = bdrv_list_refresh_perms(refresh_list, bs_queue, &tran, errp);
+@@ -4196,6 +4200,57 @@ static int bdrv_reopen_parse_backing(BDRVReopenState *reopen_state,
+     return 0;
+ }
+ 
++static int bdrv_reopen_parse_file(BDRVReopenState *reopen_state,
++                                  GSList **tran,
++                                  Error **errp)
++{
++    BlockDriverState *bs = reopen_state->bs;
++    BlockDriverState *new_file_bs;
++    QObject *value;
++    const char *str;
++
++    value = qdict_get(reopen_state->options, "file");
++    if (value == NULL) {
++        return 0;
++    }
++
++    /* The 'file' option only allows strings */
++    assert(qobject_type(value) == QTYPE_QSTRING);
++
++    str = qobject_get_try_str(value);
++    new_file_bs = bdrv_lookup_bs(NULL, str, errp);
++    if (new_file_bs == NULL) {
++        return -EINVAL;
++    } else if (bdrv_recurse_has_child(new_file_bs, bs)) {
++        error_setg(errp, "Making '%s' a file of '%s' "
++                   "would create a cycle", str, bs->node_name);
++        return -EINVAL;
++    }
++
++    assert(bs->file && bs->file->bs);
++
++    /* If 'file' points to the current child then there's nothing to do */
++    if (bs->file->bs == new_file_bs) {
++        return 0;
++    }
++
++    /* Check AioContext compatibility */
++    if (!bdrv_reopen_can_attach(bs, bs->file, new_file_bs, errp)) {
++        return -EINVAL;
++    }
++
++    /* At the moment only backing links are frozen */
++    assert(!bs->file->frozen);
++
++    /* Store the old file bs because we'll need to refresh its permissions */
++    reopen_state->old_file_bs = bs->file->bs;
++
++    /* And finally replace the child */
++    bdrv_replace_child(bs->file, new_file_bs, tran);
++
++    return 0;
++}
++
+ /*
+  * Prepares a BlockDriverState for reopen. All changes are staged in the
+  * 'opaque' field of the BDRVReopenState, which is used and allocated by
+@@ -4347,6 +4402,12 @@ static int bdrv_reopen_prepare(BDRVReopenState *reopen_state,
+     }
+     qdict_del(reopen_state->options, "backing");
+ 
++    ret = bdrv_reopen_parse_file(reopen_state, set_backings_tran, errp);
++    if (ret < 0) {
++        goto error;
++    }
++    qdict_del(reopen_state->options, "file");
++
+     /* Options that are not handled are only okay if they are unchanged
+      * compared to the old state. It is expected that some options are only
+      * used for the initial open, but not reopen (e.g. filename) */
+diff --git a/tests/qemu-iotests/245 b/tests/qemu-iotests/245
+index e60c8326d3..f9d68b3958 100755
+--- a/tests/qemu-iotests/245
++++ b/tests/qemu-iotests/245
+@@ -145,8 +145,8 @@ class TestBlockdevReopen(iotests.QMPTestCase):
+         self.reopen(opts, {'driver': 'raw'}, "Cannot change the option 'driver'")
+         self.reopen(opts, {'driver': ''}, "Invalid parameter ''")
+         self.reopen(opts, {'driver': None}, "Invalid parameter type for 'driver', expected: string")
+-        self.reopen(opts, {'file': 'not-found'}, "Cannot change the option 'file'")
+-        self.reopen(opts, {'file': ''}, "Cannot change the option 'file'")
++        self.reopen(opts, {'file': 'not-found'}, "Cannot find device= nor node_name=not-found")
++        self.reopen(opts, {'file': ''}, "Cannot find device= nor node_name=")
+         self.reopen(opts, {'file': None}, "Invalid parameter type for 'file', expected: BlockdevRef")
+         self.reopen(opts, {'file.node-name': 'newname'}, "Cannot change the option 'node-name'")
+         self.reopen(opts, {'file.driver': 'host_device'}, "Cannot change the option 'driver'")
+@@ -454,7 +454,8 @@ class TestBlockdevReopen(iotests.QMPTestCase):
+         # More illegal operations
+         self.reopen(opts[2], {'backing': 'hd1'},
+                     "Making 'hd1' a backing file of 'hd2' would create a cycle")
+-        self.reopen(opts[2], {'file': 'hd0-file'}, "Cannot change the option 'file'")
++        self.reopen(opts[2], {'file': 'hd0-file'},
++                    "Conflicts with use by hd2 as 'file', which does not allow 'write, resize' on hd0-file")
+ 
+         result = self.vm.qmp('blockdev-del', conv_keys = True, node_name = 'hd2')
+         self.assert_qmp(result, 'error/class', 'GenericError')
 -- 
 2.20.1
 
