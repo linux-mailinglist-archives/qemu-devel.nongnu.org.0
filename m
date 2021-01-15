@@ -2,75 +2,131 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 94D612F7C51
-	for <lists+qemu-devel@lfdr.de>; Fri, 15 Jan 2021 14:17:57 +0100 (CET)
-Received: from localhost ([::1]:35418 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B69B82F7C50
+	for <lists+qemu-devel@lfdr.de>; Fri, 15 Jan 2021 14:17:56 +0100 (CET)
+Received: from localhost ([::1]:35254 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l0OzE-0003Q2-Kl
-	for lists+qemu-devel@lfdr.de; Fri, 15 Jan 2021 08:17:56 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37980)
+	id 1l0OzD-0003Fu-QI
+	for lists+qemu-devel@lfdr.de; Fri, 15 Jan 2021 08:17:55 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38034)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1l0OsQ-0007vU-G7
- for qemu-devel@nongnu.org; Fri, 15 Jan 2021 08:10:55 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:49803)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1l0OsJ-0007QP-6C
- for qemu-devel@nongnu.org; Fri, 15 Jan 2021 08:10:52 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1610716245;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=CL8RO4X7r6eiUgdArjkwU5Nv3d4B1v50KAfdufm1svU=;
- b=AyDZ1Yj7aPUWdklIGgVX+uAIGyNEKNNNUvz5AhGfIXFf2UDsU7r8/+BdLVOa+GCvYVgOCk
- XUFMpaseerVws3fKn7/OOrEKMiQ1M8VAuXOUrHUd1+b9b0G8ozDQOKwAblw3mxomVbzhYK
- 5E4NsjzIjX07mNAz14PUytxTbB+ESCI=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-139-3LUCFbC4PcKAy9FOFkSAEw-1; Fri, 15 Jan 2021 08:10:41 -0500
-X-MC-Unique: 3LUCFbC4PcKAy9FOFkSAEw-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 1867680A5CE;
- Fri, 15 Jan 2021 13:10:40 +0000 (UTC)
-Received: from blackfin.pond.sub.org (ovpn-115-142.ams2.redhat.com
- [10.36.115.142])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 9699960C8A;
- Fri, 15 Jan 2021 13:10:22 +0000 (UTC)
-Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id 1955C11386A7; Fri, 15 Jan 2021 14:10:20 +0100 (CET)
-From: Markus Armbruster <armbru@redhat.com>
-To: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
-Subject: Re: [PATCH] cirrus: don't run full qtest on macOS
-References: <20210106114159.981538-1-berrange@redhat.com>
- <20210106133622.GM976881@redhat.com>
- <7018bf8c-fba5-4025-df58-02da091eebf8@ilande.co.uk>
-Date: Fri, 15 Jan 2021 14:10:20 +0100
-In-Reply-To: <7018bf8c-fba5-4025-df58-02da091eebf8@ilande.co.uk> (Mark
- Cave-Ayland's message of "Thu, 7 Jan 2021 12:23:19 +0000")
-Message-ID: <87ft32pcqr.fsf@dusky.pond.sub.org>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.1 (gnu/linux)
+ (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
+ id 1l0OsY-0007wH-53; Fri, 15 Jan 2021 08:11:03 -0500
+Received: from mail-eopbgr20136.outbound.protection.outlook.com
+ ([40.107.2.136]:52992 helo=EUR02-VE1-obe.outbound.protection.outlook.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
+ id 1l0OsR-0007SA-UC; Fri, 15 Jan 2021 08:11:01 -0500
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=I/zuv+fzZQCHsNVLnUNyJIEpqdjdbUtLT6q6VQ+GCkcQFyfMtrnbvh4kwuehaU7rnaSiVTAzu4gmUgLnqh0QVOMYvRNlDrQ57Sbf9J0cChFCTh/uWCaF2OlDEfRJldYMdpNGGzeSdnFDL0ZQp7I9evZGWKHQbbQbyonvJMOhciP4a2w8ityGGdU9G/ys0QjjUr7JbDDoZYg7+wqlY/O9e1b8foUCMX/03Fn2lazni2ql79RfHJSetP426V+swEBisdr8eOgU5PxnAerkuZDwTaztN4KW79sH1S9JaKiclL0+zokPx741CRTxaISV2oRP0apqNCNI4shNT/MRsssi6A==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=lNNboC+Yn5RGrxFWwNw8biCi9frLq2kekPoM1oqYYsE=;
+ b=E4knplYku7kq9EyFYaGd8tbhl3nP3p9LkJEwSp1jUA69IvRHoCAQmW7WePsbNIa6etQ6CRps+tuTurDLF/9w0AJfQWzJMZd/e8WYuLXiKlrV/isyVhMLe6xdW4WYgRfcmBPHQnazH56zaddfGe68Q3PKfhQEzRSAZqmjbwEwKnajY4pat1ICT6B1qVsfqvyaEwvCVAj7iCLH7t/IzfRjZ7aQUveoyaR6sPGDt23Nj+fInxxs5K5CJ03F8DKGeptRbYWBesuBmbXCBcAMI2nbO9JEJr3K2n0n/gq6ZyTrIFeZAhz6na8SvlEEyGeZf/ScVp9cvMAOKMDkxU2iCZYplw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=virtuozzo.com; dmarc=pass action=none
+ header.from=virtuozzo.com; dkim=pass header.d=virtuozzo.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=lNNboC+Yn5RGrxFWwNw8biCi9frLq2kekPoM1oqYYsE=;
+ b=dyrHEGbaULxp0biMYoW+/rxGZHFUCG2DmF3hxAKakpejQJDSJECB91U76VuOi6yvbfB768Sk4AqKMHxFCBTAdX1rqFCzP++5HmDMN/PnQCDAM/OPQ/pG6c8ZWeOHgbTix5tAxDFedY6H8EEp/L5yHrMDKbW8IFry1oxM1j8Q6Y4=
+Authentication-Results: redhat.com; dkim=none (message not signed)
+ header.d=none;redhat.com; dmarc=none action=none header.from=virtuozzo.com;
+Received: from AM7PR08MB5494.eurprd08.prod.outlook.com (2603:10a6:20b:dc::15)
+ by AS8PR08MB6117.eurprd08.prod.outlook.com (2603:10a6:20b:292::22)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3763.10; Fri, 15 Jan
+ 2021 13:10:52 +0000
+Received: from AM7PR08MB5494.eurprd08.prod.outlook.com
+ ([fe80::214a:3545:368c:7ae8]) by AM7PR08MB5494.eurprd08.prod.outlook.com
+ ([fe80::214a:3545:368c:7ae8%9]) with mapi id 15.20.3763.011; Fri, 15 Jan 2021
+ 13:10:52 +0000
+Subject: Re: [PATCH v6 08/11] iotests: add testenv.py
+To: Kevin Wolf <kwolf@redhat.com>
+References: <20210109122631.167314-1-vsementsov@virtuozzo.com>
+ <20210109122631.167314-9-vsementsov@virtuozzo.com>
+ <20210115111827.GB5429@merkur.fritz.box>
+ <6fbbcc18-3f14-bcd6-05a2-a40e0352710d@virtuozzo.com>
+ <20210115124555.GC5429@merkur.fritz.box>
+From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+Message-ID: <41e62d69-30f1-eb86-6cc3-cdd052aadb26@virtuozzo.com>
+Date: Fri, 15 Jan 2021 16:10:50 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.6.1
+In-Reply-To: <20210115124555.GC5429@merkur.fritz.box>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [185.215.60.75]
+X-ClientProxiedBy: AM3PR07CA0086.eurprd07.prod.outlook.com
+ (2603:10a6:207:6::20) To AM7PR08MB5494.eurprd08.prod.outlook.com
+ (2603:10a6:20b:dc::15)
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=armbru@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=armbru@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -29
-X-Spam_score: -3.0
-X-Spam_bar: ---
-X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.25,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-MS-Exchange-MessageSentRepresentingType: 1
+Received: from [192.168.100.8] (185.215.60.75) by
+ AM3PR07CA0086.eurprd07.prod.outlook.com (2603:10a6:207:6::20) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.3784.8 via Frontend Transport; Fri, 15 Jan 2021 13:10:51 +0000
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: 37e00a01-6e89-4eac-5463-08d8b956fc49
+X-MS-TrafficTypeDiagnostic: AS8PR08MB6117:
+X-MS-Exchange-Transport-Forked: True
+X-Microsoft-Antispam-PRVS: <AS8PR08MB61179119FAA486F5C8A1FF67C1A70@AS8PR08MB6117.eurprd08.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:7219;
+X-MS-Exchange-SenderADCheck: 1
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: bwGZynkulcrFbN8jo/CuLtrBYMFRvvzdFZr3L6b026xhiuC/YMVjmFWdkEF8M1cYHUYZw0croV37GFofbc264gn2YB/uBx5G9UwRspuuczjGwQrGTe8IS7m39CGw84gYKicABq18raR9eHb6XQ6IfftblKJlHfrrkpYV9G/bFdVO9XGsmlmg/FsNV9suv/XUE15vdM67z6/zZ4nAAEB1dnZYudROp9j5cp74uWEEky8DsdlH0OCT5oS7XTBB71/eqcqQ/EcyuXU3BwdvF5EqqllACHl04DXZQulS0oZKFLnhLaLccViOMW+iBSU1cvY5ir8l3s3U18ixieG6SUjCeF6Y/fX9vshcM7DarpXavoxWBsiSxviIlHW5Tg2tb1/2OWf19TdMIn4/H6aym9kpBlVj5wcvgCUacuy4iuia+/IYLcnaA2NnvH8ErLCzEvLWRHetg0UVw/yvwt2zr6AtxMXdNph58G9PvdG1FIgIDMc=
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:AM7PR08MB5494.eurprd08.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(4636009)(346002)(39840400004)(396003)(366004)(136003)(376002)(8936002)(66476007)(36756003)(66556008)(6916009)(66946007)(4326008)(2906002)(86362001)(52116002)(478600001)(31696002)(8676002)(5660300002)(16576012)(316002)(83380400001)(6486002)(186003)(26005)(16526019)(31686004)(2616005)(956004)(45980500001)(43740500002);
+ DIR:OUT; SFP:1102; 
+X-MS-Exchange-AntiSpam-MessageData: =?utf-8?B?eUIzbmliRkxrR21wNzcxdzhkc0hNUUxLRFFpellSUDhmc2ZKN1czejJ6WnVR?=
+ =?utf-8?B?eWZaRDhROVpadmtXSHU0ZUNmblRENk1odEpkdk1xRGVQVyt1RGM5LzQ0Vk1w?=
+ =?utf-8?B?anUyMHBHUWl5dk5KTUJEZDFub3R4SDY4cWNNM3hkb25ZVjZNV3dvdDRidDJl?=
+ =?utf-8?B?MjlySllxc1h4Zk93SWZYcis3YVJpb0FsRjNpTmVadmU3d3J6eWpSVTNYVGJx?=
+ =?utf-8?B?RDhHOENPMmxEaDY2ZzlwY25KZkNoWjhyUHNnWElUaHQ0UTNiZDVXTlk3ZmpD?=
+ =?utf-8?B?Mm12MHEyMXN0eXFCa3BReGNieDZzdzVkUDRCSmNnZ3FndE50aG1XekJsYmdV?=
+ =?utf-8?B?SlZxWEtWdkQvZVFLR1pSOVN2WDdOczZhNEJ3V3BPbWN1ajg5VllvRDRCeUFI?=
+ =?utf-8?B?ZFhPRkU1S1BNdVNtSm1jUzdYRytKUWFCNzJyQWI1VEd2UzZLcHFjRGd4SEhq?=
+ =?utf-8?B?SVgxbmFKMkE4TXhMaU4wczlxY0t6cTQ0eVkybVZOMHhUaG4rUXRiTkJaT0JN?=
+ =?utf-8?B?b3FIMVV2ZytCNDRoOTlpa2x4VlArK2cwRG91ci8vMjYrdVJCbFA4TEw0Nkln?=
+ =?utf-8?B?VE9XYU15cFF0bFE3Ty95alhTdnZtaFRBMFRUL3VuZ1dyZnpKem9pQjhxVFFY?=
+ =?utf-8?B?NmUvaUdtWmpuaWVwWE5JUFJmRldrRGg5dTNoOWRMekZvd1BnMWphMVQ5Ympw?=
+ =?utf-8?B?UU1wWWdwL1BxRFJEblhyWW05N3diR2lYUDNnZHM2ZzkrT2QrbXZMSVNPUjlE?=
+ =?utf-8?B?Z3ZxMjMwbFd5VDZtRFp2TGhTbk8xQlAyTS81NDBpNkJIaG9qTzBkeFhYcktP?=
+ =?utf-8?B?NE4ySE5CQWtqMXB2V2lBODZwTGpZcnZSa3J5TVJaa3liZktXVmtMd1dYMzVU?=
+ =?utf-8?B?d3l3bDV3SVc0TlNKNW53eWFXMUxMWEZldjU1b1VnQUo4bUE3SlVrVVRRRFp5?=
+ =?utf-8?B?OTZWVndJM01ydnhiclVKSmRybXo4MXh3N2ZtUGM5UjM3YWlWQUJPQzJsSFM0?=
+ =?utf-8?B?YnliSk8yOVpYN0V6MnNEWm14QjdMTTBvWkxNN2xlYld2TUdxb0VTa2V6ZDVV?=
+ =?utf-8?B?aXFoUDJtUDljUGxLMzZzWVlQdSthSlVSOTBBUnpSV0xGN09Yd3Q4SVovd0pX?=
+ =?utf-8?B?UG5DMTdpSklIRFcxMVpoc3Y5b2lyckFyRHoybkd2TlpiZ0ZXai9peThMRHJt?=
+ =?utf-8?B?THVvZDlFZE4vV2hxZ1MwZHNRK1ZBLytHQVdNbjNuRlNuT3lidit0VUMwWlZE?=
+ =?utf-8?B?b1VCbHVvUlFJL0FhS0t6ckV3WmdENHA1T1RRTVd6VHY0VXJOTzZ1Tk1rSVVW?=
+ =?utf-8?Q?0cqvJlj4EI8e1UDloypGfJMt0REvWJUb3k?=
+X-OriginatorOrg: virtuozzo.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 37e00a01-6e89-4eac-5463-08d8b956fc49
+X-MS-Exchange-CrossTenant-AuthSource: AM7PR08MB5494.eurprd08.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 15 Jan 2021 13:10:52.4896 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: CmqrO9EfTeSwK0yPDSGW/zFCGQVaFX8EavCxcnPs7TpD6EEew8opCZZvZ9H/Kwxy2p61F3B4mW9GJ8L4A0wJlnYYOD0ljm4LvmGCYpiHWkc=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: AS8PR08MB6117
+Received-SPF: pass client-ip=40.107.2.136;
+ envelope-from=vsementsov@virtuozzo.com;
+ helo=EUR02-VE1-obe.outbound.protection.outlook.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ MSGID_FROM_MTA_HEADER=0.001, NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001,
+ RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_PASS=-0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -83,175 +139,157 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, Peter Maydell <peter.maydell@linaro.org>,
- Thomas Huth <thuth@redhat.com>,
- "Daniel P. =?utf-8?Q?Berrang=C3=A9?=" <berrange@redhat.com>,
- Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>, qemu-devel@nongnu.org,
- Stefan Hajnoczi <stefanha@redhat.com>, Ed Maste <emaste@freebsd.org>,
- Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
- Li-Wen Hsu <lwhsu@freebsd.org>
+Cc: qemu-block@nongnu.org, qemu-devel@nongnu.org, mreitz@redhat.com,
+ den@openvz.org, jsnow@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk> writes:
+15.01.2021 15:45, Kevin Wolf wrote:
+> Am 15.01.2021 um 13:19 hat Vladimir Sementsov-Ogievskiy geschrieben:
+>> 15.01.2021 14:18, Kevin Wolf wrote:
+>>> Am 09.01.2021 um 13:26 hat Vladimir Sementsov-Ogievskiy geschrieben:
+>>>> Add TestEnv class, which will handle test environment in a new python
+>>>> iotests running framework.
+>>>>
+>>>> Difference with current ./check interface:
+>>>> - -v (verbose) option dropped, as it is unused
+>>>>
+>>>> - -xdiff option is dropped, until somebody complains that it is needed
+>>>> - same for -n option
+>>>>
+>>>> Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+>>>> ---
+>>>>    tests/qemu-iotests/testenv.py | 328 ++++++++++++++++++++++++++++++++++
+>>>>    1 file changed, 328 insertions(+)
+>>>>    create mode 100755 tests/qemu-iotests/testenv.py
+>>>>
 
-> On 06/01/2021 13:36, Daniel P. Berrang=C3=A9 wrote:
->
->>> The Cirrus CI macOS build hosts have exhibited a serious performance
->>> degradation in recent months. For example the "qom-test" qtest takes
->>> over an hour for only the qemu-system-aarch64 binary. This is as much
->>> 20-40 times slower than other environments. The other qtests all show
->>> similar performance degradation, as do many of the unit tests.
+[..]
+
+>>>> +    def init_binaries(self):
+>>>> +        """Init binary path variables:
+>>>> +             PYTHON (for bash tests)
+>>>> +             QEMU_PROG, QEMU_IMG_PROG, QEMU_IO_PROG, QEMU_NBD_PROG, QSD_PROG
+>>>> +             SOCKET_SCM_HELPER
+>>>> +        """
+>>>> +        self.python = '/usr/bin/python3 -B'
 >>>
->>> This does not appear related to QEMU code changes, since older git
->>> commits which were known to fully complete in less than 1 hour on
->>> Cirrus CI now also show similar bad performance. Either Cirrus CI
->>> performance has degraded, or an change in its environment has exposed
->>> a latent bug widely affecting all of QEMU. Debugging the qom-test
->>> showed no easily identified large bottleneck - every step of the
->>> test execution was simply slower.
->> It appears I might be mistaken here. On IRC it was reported that
->> going back furrther to v5.1.0 shows good performance in Cirrus
->> still.
->> I had only gone back as far as
->> 2a5a79d1b57280edd72193f6031de3feb682154e
->> which I thought was fast originally.
->> So somewhere between v5.1.0 and 2a5a79 we apparently regressed.
->
-> I tested a few macos cirrus-ci builds after the meson conversion and
-> found that they were working fine, so whatever is affecting the macos
-> build must be related to a QEMU change.
->
-> A full bisect proved to be too tricky due to the instability of the
-> tree at that point in time, however reading through "git log" and
-> attempting some builds at merges I thought might be related I
-> discovered that the slowness was introduced by this PR:
->
->
-> commit b7092cda1b36ce687e65ab1831346f9529b781b8
-> Merge: 497d415d76 eb94b81a94
-> Author: Peter Maydell <peter.maydell@linaro.org>
-> Date:   Fri Oct 9 13:20:46 2020 +0100
->
->     Merge remote-tracking branch
->     'remotes/armbru/tags/pull-monitor-2020-10-09' into staging
->
->     Monitor patches for 2020-10-09
-[...]
->
-> Fortunately that PR could be bisected and that led me this commit:
->
->
-> 9ce44e2ce267caf5559904a201aa1986b0a8326b is the first bad commit
-> commit 9ce44e2ce267caf5559904a201aa1986b0a8326b
-> Author: Kevin Wolf <kwolf@redhat.com>
-> Date:   Mon Oct 5 17:58:50 2020 +0200
->
->     qmp: Move dispatcher to a coroutine
->
->     This moves the QMP dispatcher to a coroutine and runs all QMP command
->     handlers that declare 'coroutine': true in coroutine context so they
->     can avoid blocking the main loop while doing I/O or waiting for other
->     events.
->
->     For commands that are not declared safe to run in a coroutine, the
->     dispatcher drops out of coroutine context by calling the QMP command
->     handler from a bottom half.
->
->     Signed-off-by: Kevin Wolf <kwolf@redhat.com>
->     Reviewed-by: Markus Armbruster <armbru@redhat.com>
->     Message-Id: <20201005155855.256490-10-kwolf@redhat.com>
->     Reviewed-by: Markus Armbruster <armbru@redhat.com>
->     Reviewed-by: Stefan Hajnoczi <stefanha@redhat.com>
->     Signed-off-by: Markus Armbruster <armbru@redhat.com>
->
->
-> Given that Peter can run the tests manually, I'm not exactly sure why
-> the cirrus-ci environment is different - all I can think of is that it
-> could be related to running in a headless terminal.
->
-> For reference running cirrus-ci on the last good commit 04f22362f1
-> "qapi: Add a 'coroutine' flag for commands" gave me a total runtime of
-> 35 mins.
+>>> This doesn't look right, we need to respect the Python binary set in
+>>> configure (which I think we get from common.env)
+>>
+>> Oh, I missed the change. Then I should just drop this self.python.
+> 
+> Do we still get the value from elsewhere or do we need to manually parse
+> common.env?
 
-Let me explain what the patch does, in the hope of helping somebody else
-find out why it behaves badly on MacOS.  Unfortunately, a proper
-explanation requires quite some context.  Bear with me.
+Hmm.. Good question. We have either parse common.env, and still create self.python variable.
 
-In the beginning, there was just one monitor, and it ran entirely in the
-main loop (callback when input is available).  To keep the main loop
-going, monitor commands better complete quickly.
+Or drop it, and include common.env directly to bash tests. For this we'll need to export
 
-Then we got multiple monitors.  Same story, just multiple input streams,
-each with a callback.
+BUILD_IOTESTS, and do
+  . $BUILD_IOTESTS/common.env
 
-We also got additional threads.  When I say "main loop", I mean the main
-thread's main loop.
+in common.rc..
 
-"Must complete quickly" means no blocking I/O and such.  Writing code
-that way is somewhere between hard and impractical.  Much code called by
-monitor commands wasn't written that way.
 
-When a monitor command blocks, the main loop blocks, and that means no
-more monitor commands can run, not even on other monitors.
+> 
+>>>
+>>>> +        def root(*names):
+>>>> +            return os.path.join(self.build_root, *names)
+>>>> +
+>>>> +        arch = os.uname().machine
+>>>> +        if 'ppc64' in arch:
+>>>> +            arch = 'ppc64'
+>>>> +
+>>>> +        self.qemu_prog = os.getenv('QEMU_PROG', root(f'qemu-system-{arch}'))
+>>>> +        self.qemu_img_prog = os.getenv('QEMU_IMG_PROG', root('qemu-img'))
+>>>> +        self.qemu_io_prog = os.getenv('QEMU_IO_PROG', root('qemu-io'))
+>>>> +        self.qemu_nbd_prog = os.getenv('QEMU_NBD_PROG', root('qemu-nbd'))
+>>>> +        self.qsd_prog = os.getenv('QSD_PROG', root('storage-daemon',
+>>>> +                                                   'qemu-storage-daemon'))
+>>>> +
+>>>> +        for b in [self.qemu_img_prog, self.qemu_io_prog, self.qemu_nbd_prog,
+>>>> +                  self.qemu_prog, self.qsd_prog]:
+>>>> +            if not os.path.exists(b):
+>>>> +                exit('Not such file: ' + b)
+>>>> +            if not os.access(b, os.X_OK):
+>>>> +                exit('Not executable: ' + b)
+>>>> +
+>>>> +        helper_path = os.path.join(self.build_iotests, 'socket_scm_helper')
+>>>> +        if os.access(helper_path, os.X_OK):
+>>>> +            self.socket_scm_helper = helper_path  # SOCKET_SCM_HELPER
+>>>> +
+>>>> +    def __init__(self, argv: List[str]) -> None:
+>>>> +        """Parse args and environment"""
+>>>> +
+>>>> +        # Initialize generic paths: build_root, build_iotests, source_iotests,
+>>>> +        # which are needed to initialize some environment variables. They are
+>>>> +        # used by init_*() functions as well.
+>>>> +
+>>>> +
+>>>> +        if os.path.islink(sys.argv[0]):
+>>>> +            # called from the build tree
+>>>> +            self.source_iotests = os.path.dirname(os.readlink(sys.argv[0]))
+>>>> +            self.build_iotests = os.path.dirname(os.path.abspath(sys.argv[0]))
+>>>> +        else:
+>>>> +            # called from the source tree
+>>>> +            self.source_iotests = os.getcwd()
+>>>> +            self.build_iotests = self.source_iotests
+>>>> +
+>>>> +        self.build_root = os.path.join(self.build_iotests, '..', '..')
+>>>> +
+>>>> +        self.init_handle_argv(argv)
+>>>> +        self.init_directories()
+>>>> +        self.init_binaries()
+>>>> +
+>>>> +        # QEMU_OPTIONS
+>>>> +        self.qemu_options = '-nodefaults -display none -accel qtest'
+>>>> +        machine_map = (
+>>>> +            (('arm', 'aarch64'), 'virt'),
+>>>
+>>> How does this work? Won't we check for "qemu-system-('arm', 'aarch64')"
+>>> below, which we'll never find?
+>>
+>> Hmm. I just took existing logic from check:
+>>
+>> [..]
+>>    case "$QEMU_PROG" in
+>>        *qemu-system-arm|*qemu-system-aarch64)
+>>            export QEMU_OPTIONS="$QEMU_OPTIONS -machine virt"
+>>            ;;
+>> [..]
+> 
+> What I mean is that the code below doesn't look like it's prepared to
+> interpret a tuple like ('arm', 'aarch64'), it expects a single string:
+> 
+>>>
+>>>> +            ('avr', 'mega2560'),
+>>>> +            ('rx', 'gdbsim-r5f562n8'),
+>>>> +            ('tricore', 'tricore_testboard')
+>>>> +        )
+>>>> +        for suffix, machine in machine_map:
+>>>> +            if self.qemu_prog.endswith(f'qemu-system-{suffix}'):
+> 
+> Here we get effectively:
+> 
+>      suffix: Tuple[str, str] = ('arm', 'aarch64')
+> 
+> The formatted string uses str(suffix), which makes the result
+> "qemu-system-('arm', 'aarch64')".
+> 
+> Or am I misunderstanding something here?
 
-"Doctor, doctor, running code in the main loop hurts".  Sadly, the
-doctor's recommended remedy "don't do that then" is really hard to
-apply: a lot of code has been written assuming "running in the main
-loop, with the big QEMU lock held".
+Ah, you are right:) Will fix. I interpreted your
 
-The first small step towards it was taken to enable the "out-of-band"
-feature.  We moved the QMP monitor proper out of the main loop into a
-monitor I/O thread.  The monitor commands get funneled to the main loop.
-Instead of the main loop calling the monitor when a file descriptor has
-input, it now calls the command dispatcher when a funnel queue has a
-command.
+   Won't we check for "qemu-system-('arm', 'aarch64')"
 
-Why bother?  Because now we can thread execute special "out-of-band"
-commands right away, in the I/O thread, regardless of how badly the main
-loop is.  Peter Xu wanted this badly enough for postcopy recovery to
-code it up.  It was hard.  It's not generally useful, as the restriction
-on what OOB commands can do are severe.
+as
+   
+   Won't we check for "qemu-system-arm" or "qemu-system-aarch64"
 
-The next step was the coroutine feature.  Quite a few of the problematic
-monitor commands are actually running coroutine-capable code: when
-running in coroutine context, the code yields instead of blocking.
-Running such commands in monitor context improves things from "blocks
-the main loop" to "blocks all monitor commands".
 
-Sadly, code exists that falls apart in coroutine context.  So we had to
-make running in coroutine context opt-in.  Right now only two commands
-opt in: block_resize and screendump.  Hopefully, we can get to the point
-where most or all do.
 
-Until all do, the dispatcher needs to run some commands coroutine
-context, and others outside coroutine context.  How?
-
-We've finally reached commit 9ce44e2ce2 "qmp: Move dispatcher to a
-coroutine".
-
-The QMP command dispatcher runs in a coroutine in the main loop (HMP
-works differently, but let's ignore it here).
-
-If the command can be executed in coroutine context, the dispatcher
-calls its handler as before.  Right now, we take this path just for
-block_resize and screendump.
-
-Else, we create a bottom half that calls the handler, and schedule it to
-run in the main loop.  Right now, we take this path for all the other
-commands.
-
-Hypothesis: on MacOS, taking this path is s-l-o-w.  Perhaps creating
-bottom halves takes ages.  Perhaps the delay until a scheduled bottom
-half actually runs is huge.
-
-Possibly useful experiment: find out which QMP commands the slow test
-case runs a lot, and mark them 'coroutine': true in the QAPI schema.
-
-Another hypothesis: entering and leaving the QMP dispatcher coroutine is
-slow.  If yes, all coroutines are probably slow, which hurts a lot more
-than just QMP.
-
-Hope this helps.
-
+-- 
+Best regards,
+Vladimir
 
