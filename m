@@ -2,71 +2,47 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7E03B2F7FDE
-	for <lists+qemu-devel@lfdr.de>; Fri, 15 Jan 2021 16:42:40 +0100 (CET)
-Received: from localhost ([::1]:56206 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1DBC72F7FDF
+	for <lists+qemu-devel@lfdr.de>; Fri, 15 Jan 2021 16:42:56 +0100 (CET)
+Received: from localhost ([::1]:57620 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l0RFH-0003Qj-J8
-	for lists+qemu-devel@lfdr.de; Fri, 15 Jan 2021 10:42:39 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42668)
+	id 1l0RFX-0003zU-4h
+	for lists+qemu-devel@lfdr.de; Fri, 15 Jan 2021 10:42:55 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43158)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1l0R4l-0006Ga-Pf
- for qemu-devel@nongnu.org; Fri, 15 Jan 2021 10:31:47 -0500
-Received: from mail-ej1-x631.google.com ([2a00:1450:4864:20::631]:36158)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1l0R4j-0001PA-OY
- for qemu-devel@nongnu.org; Fri, 15 Jan 2021 10:31:47 -0500
-Received: by mail-ej1-x631.google.com with SMTP id l9so8133972ejx.3
- for <qemu-devel@nongnu.org>; Fri, 15 Jan 2021 07:31:45 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=BhRij+EoyIN8UTYptS59mU3NLJWdZ0DssPP3KymxnbM=;
- b=h/I9pV6PjvwoX+sGzJc/JvwQ4rR9dHxo8BbFgeE2XyG/3mYYNzHWv3tmY3EptC8jO/
- g0+ZLXxJhvmGq5rgJ07pQmWKF5FFVc/an1qSOdysWVB6j31aJ+8ujdSywyN+5e/QQZmQ
- mZuA87Dyd/y0Ui+C1SAPjcvdw9o+t1cNKXislGw3AFiO9Pmk1+/967v+b/KNUpfG+Lhh
- RiE+FbTcPuajeZO93j17Hoh0ww8mUHKtadik/IQ7zlq78BlfXRJHLBse/5yew/3GK/Np
- X1itLKVlKHZRKjj30vnbQeCvVm/WSUJUo/IZcWK7i/q4YMzCW5tPzp5Frez7dZLZwQ7X
- XrMg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=BhRij+EoyIN8UTYptS59mU3NLJWdZ0DssPP3KymxnbM=;
- b=A7k0AtZc7bn0BCAdaxXgB56iavxXZnAq9N6I1DgI/TgbatNpuByginsEe/+O5NCZDb
- uxl9pGug2rjCAQaYz4LjCIeJlQUc6skEF94ahtereOBeSkEwW6um1tj6AIYmMr7n4Lfb
- JlK8QhrwyKwXFGeZ4jXKen7jk/Ej2BJzJhKpbf1FzWmryR6lyZ9DR8ovOXj82gMs/RYd
- 0eKraiJbMkrKFzhe2dLOOgnhmpJWbXDOq+HNg+D80D4YKIocmXfE7sR9wr37qxnrrGn1
- 7cvOcf8RZRzOcohJhwbThKllAWzELLV6hLFj6pbK0m+fsM931cjkDegc62RbsTprukTh
- aBDw==
-X-Gm-Message-State: AOAM531ZeyVwS2n3FCN5dKdvf7yG5dwkfn/FlPaD1VHQJkHKFtB1ljKH
- 4lTKGUSWtwJDIw/gJTIiC0kqCKhRbBctZtcWFopo7A==
-X-Google-Smtp-Source: ABdhPJyiA4LZIE06F5WqteXWfz6Lb7ztsbQUMSugp5CE+nBbXDnaIk0R/aHpVAk4EtGG12dax590Q1Yaswc0b2dko7U=
-X-Received: by 2002:a17:906:195a:: with SMTP id
- b26mr9023964eje.4.1610724704268; 
- Fri, 15 Jan 2021 07:31:44 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <alxndr@bu.edu>) id 1l0R7B-0000a0-2T
+ for qemu-devel@nongnu.org; Fri, 15 Jan 2021 10:34:17 -0500
+Received: from relay64.bu.edu ([128.197.228.104]:50760)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <alxndr@bu.edu>) id 1l0R78-0002O0-W3
+ for qemu-devel@nongnu.org; Fri, 15 Jan 2021 10:34:16 -0500
+X-Envelope-From: alxndr@bu.edu
+X-BU-AUTH: mozz.bu.edu [128.197.127.33]
+Received: from BU-AUTH (localhost.localdomain [127.0.0.1]) (authenticated
+ bits=0)
+ by relay64.bu.edu (8.14.3/8.14.3) with ESMTP id 10FFWZYl010619
+ (version=TLSv1/SSLv3 cipher=AES256-GCM-SHA384 bits=256 verify=NO);
+ Fri, 15 Jan 2021 10:32:38 -0500
+Date: Fri, 15 Jan 2021 10:32:35 -0500
+From: Alexander Bulekov <alxndr@bu.edu>
+To: Greg Kurz <groug@kaod.org>
+Subject: Re: [PATCH] fuzz: Add virtio-9p configurations for fuzzing
+Message-ID: <20210115153235.pc4nijjc2eyndfaa@mozz.bu.edu>
+References: <20210114221748.503565-1-alxndr@bu.edu>
+ <20210115132308.371a0675@bahia.lan>
 MIME-Version: 1.0
-References: <20210115130828.23968-1-alex.bennee@linaro.org>
-In-Reply-To: <20210115130828.23968-1-alex.bennee@linaro.org>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Fri, 15 Jan 2021 15:31:33 +0000
-Message-ID: <CAFEAcA9HzF_-HyGZDxLN+2-Ay1rtijqOOh9WJPFS+yyDKLERPg@mail.gmail.com>
-Subject: Re: [PULL 00/30] testing, gdbstub and semihosting
-To: =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::631;
- envelope-from=peter.maydell@linaro.org; helo=mail-ej1-x631.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20210115132308.371a0675@bahia.lan>
+Received-SPF: pass client-ip=128.197.228.104; envelope-from=alxndr@bu.edu;
+ helo=relay64.bu.edu
+X-Spam_score_int: -15
+X-Spam_score: -1.6
+X-Spam_bar: -
+X-Spam_report: (-1.6 / 5.0 requ) BAYES_00=-1.9, HK_RANDOM_ENVFROM=0.001,
+ HK_RANDOM_FROM=0.998, RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -79,56 +55,81 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: QEMU Developers <qemu-devel@nongnu.org>
+Cc: Laurent Vivier <lvivier@redhat.com>, Thomas Huth <thuth@redhat.com>,
+ Christian Schoenebeck <qemu_oss@crudebyte.com>, qemu-devel@nongnu.org,
+ Bandan Das <bsd@redhat.com>, Stefan Hajnoczi <stefanha@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, 15 Jan 2021 at 13:08, Alex Benn=C3=A9e <alex.bennee@linaro.org> wro=
-te:
->
-> The following changes since commit 7c79721606be11b5bc556449e5bcbc331ef686=
-7d:
->
->   Merge remote-tracking branch 'remotes/rth-gitlab/tags/pull-tcg-20210113=
-' into staging (2021-01-14 09:54:29 +0000)
->
-> are available in the Git repository at:
->
->   https://github.com/stsquad/qemu.git tags/pull-testing-and-misc-150121-1
->
-> for you to fetch changes up to be846761ca8b5a7e2e7b7108c8c156126b799824:
->
->   semihosting: Implement SYS_ISERROR (2021-01-15 11:12:34 +0000)
->
-> ----------------------------------------------------------------
-> Testing, gdbstub and semihosting patches:
->
->   - clean-ups to docker images
->   - drop duplicate jobs from shippable
->   - prettier tag generation (+gtags)
->   - generate browsable source tree
->   - more Travis->GitLab migrations
->   - fix checkpatch to deal with commits
->   - gate gdbstub tests on 8.3.1, expand tests
->   - support Xfer:auxv:read gdb packet
->   - better gdbstub cleanup
->   - use GDB's SVE register layout
->   - make arm-compat-semihosting common
->   - add riscv semihosting support
->   - add HEAPINFO, ELAPSED, TICKFREQ, TMPNAM and ISERROR to semihosting
+On 210115 1323, Greg Kurz wrote:
+> On Thu, 14 Jan 2021 17:17:48 -0500
+> Alexander Bulekov <alxndr@bu.edu> wrote:
+> 
+> > Signed-off-by: Alexander Bulekov <alxndr@bu.edu>
+> > ---
+> 
+> No changelog at all ? 
+> 
+> >  tests/qtest/fuzz/generic_fuzz_configs.h | 12 ++++++++++++
+> >  1 file changed, 12 insertions(+)
+> > 
+> > diff --git a/tests/qtest/fuzz/generic_fuzz_configs.h b/tests/qtest/fuzz/generic_fuzz_configs.h
+> > index 7fed035345..ffdb590c58 100644
+> > --- a/tests/qtest/fuzz/generic_fuzz_configs.h
+> > +++ b/tests/qtest/fuzz/generic_fuzz_configs.h
+> > @@ -59,6 +59,18 @@ const generic_fuzz_config predefined_configs[] = {
+> >          .name = "virtio-mouse",
+> >          .args = "-machine q35 -nodefaults -device virtio-mouse",
+> >          .objects = "virtio*",
+> > +    },{
+> > +        .name = "virtio-9p",
+> > +        .args = "-machine q35 -nodefaults "
+> > +        "-device virtio-9p,fsdev=hshare,mount_tag=hshare "
+> > +        "-fsdev local,id=hshare,path=/tmp/,security_model=none",
+> 
+> Sharing a general purpose directory like "/tmp" is definitely not a
+> recommended practice. This is typically the kind of thing that I'd
+> like to see documented in the changelog to help me understand ;-)
 
-Fails to build, netbsd:
+Hi Greg,
+Yes it is not a great solution. The fuzzers in this file are mainly
+configured to run on OSS-Fuzz (https://github.com/google/oss-fuzz),
+where fuzzers are executed in individual containers, and there shouldn't
+be anything sensitive in /tmp/. In v2, I'll use a safer solution.
 
-../src/gdbstub.c: In function 'handle_query_xfer_auxv':
-../src/gdbstub.c:2258:26: error: 'struct image_info' has no member
-named 'saved_auxv'
-     saved_auxv =3D ts->info->saved_auxv;
-                          ^~
-../src/gdbstub.c:2259:24: error: 'struct image_info' has no member
-named 'auxv_len'
-     auxv_len =3D ts->info->auxv_len;
-                        ^~
+> 
+> What operations does the fuzz test perform on the device ?
 
-thanks
--- PMM
+The generic-fuzzer will interact with the Port IO/MMIO and PCI Config
+Space regions associated with the virtio-9p device. When the
+device tries to access some guest memory using DMA, the fuzzer will
+place some fuzzed data at the corresponding location. For many devices,
+this is sufficient to achieve high coverage. If this doesn't work well
+for the virtio-9p, we can add a tailored fuzzer based on the libqos
+interface, in the future.
+
+> 
+> > +        .objects = "virtio*",
+> > +    },{
+> > +        .name = "virtio-9p-synth",
+> > +        .args = "-machine q35 -nodefaults "
+> > +        "-device virtio-9p,fsdev=hshare,mount_tag=hshare "
+> > +        "-fsdev synth,id=hshare",
+> > +        .objects = "virtio*",
+> 
+> Not sure this is super useful since the only known use case for
+> the synth fsdev driver is running the virtio-9p qtest, but
+> it looks fine anyway.
+
+My hope here was is that this configureation will cut down on syscalls
+(improve fuzzing speed) and avoid leaky state (files left in the /tmp/
+directory between individual fuzzer inputs).
+-Alex
+
+> 
+> >      },{
+> >          .name = "e1000",
+> >          .args = "-M q35 -nodefaults "
+> 
 
