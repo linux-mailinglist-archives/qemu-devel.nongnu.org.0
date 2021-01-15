@@ -2,79 +2,129 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 40B552F78E2
-	for <lists+qemu-devel@lfdr.de>; Fri, 15 Jan 2021 13:27:58 +0100 (CET)
-Received: from localhost ([::1]:48776 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C7C2B2F7994
+	for <lists+qemu-devel@lfdr.de>; Fri, 15 Jan 2021 13:39:47 +0100 (CET)
+Received: from localhost ([::1]:51980 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l0OCr-0006ip-Bv
-	for lists+qemu-devel@lfdr.de; Fri, 15 Jan 2021 07:27:57 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55122)
+	id 1l0OOI-0000kH-EE
+	for lists+qemu-devel@lfdr.de; Fri, 15 Jan 2021 07:39:46 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57646)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <frasse.iglesias@gmail.com>)
- id 1l0OBY-00063h-Cw; Fri, 15 Jan 2021 07:26:37 -0500
-Received: from mail-lj1-x234.google.com ([2a00:1450:4864:20::234]:40437)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <frasse.iglesias@gmail.com>)
- id 1l0OBV-0004D7-SQ; Fri, 15 Jan 2021 07:26:36 -0500
-Received: by mail-lj1-x234.google.com with SMTP id x23so10148581lji.7;
- Fri, 15 Jan 2021 04:26:32 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:in-reply-to:user-agent;
- bh=8zz4ZDmI+ILhSeApMpp9S9TSfvDExpA10KFZoxCTabg=;
- b=EERCydsqIcFriC73PoNcQQkfiZh92WXp+VhsMzWKLJtdPE9v0l6a8EgxsiKuuRzSHM
- InurshL1rVA6O+bBHvsES6ttge90Cn0IisGAVHmACzOXz2UeGNF3guVRTMttOs9Ge/0h
- bXTjuxzrTOPpMizj9/J2f/ErVuAOUbg7u/gD83fxwaLBVwNfN2X2pgd1Wp0UWx3UJs7L
- U24vR8Iqn1RRJl0G4NqDZwflPw/q5oDfxA0XTyK0VWXhR34JcM2pGektKqpPOSpOPmH2
- TKjKCQMLn1lW9sJguNM5SoD7mlZiZz6JVZPob+x6uT0LQ2G2bpOG1FKGAimAsmo89tCp
- opbQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to:user-agent;
- bh=8zz4ZDmI+ILhSeApMpp9S9TSfvDExpA10KFZoxCTabg=;
- b=iOnufv+Afo2eZtIIgWMi23At8WQJTohwWG6DD3o6ra5Uq+otcjYmzBEoVOksDrYb/3
- OD4a1Bre++y63Pj+FNU90QjRdKIAwqKuAjTWlazoDG7nvAvqs1yNUDWBrogO0RUbXSk0
- aibfVthOcTXKAC0/URZUD2Pb5gLoAk9HzjiUBzIgXLfLQCg+92GQzJuASLXmCAxlzlnV
- XhcXznj4D72e6wN0OvfrCipnLExkM4OXH9bcLKs24B0xZkLplO/+M7Y+3/2cBy4Sk86N
- iV5nf5pbctHe5PYp82JTYp8euuf7JxM7dbc/fYJ2OjGOPZj1O5KAtQPAVETg+0mIuWd0
- RAyQ==
-X-Gm-Message-State: AOAM530Z3uSdl6/Ll8M1RHEkylwt2G9qGFizL7doy/jgs10J5EuIx7Vw
- mR+l5mimYxhgbiMp2ycpc8k=
-X-Google-Smtp-Source: ABdhPJyXvRgm69nBrgJqbcM9UI4Cx4ABn60vWs+qP6u9yNnhilh8YQacgTnNrf9+3Imls9GEkrboiQ==
-X-Received: by 2002:a05:651c:3db:: with SMTP id
- f27mr5255332ljp.494.1610713591171; 
- Fri, 15 Jan 2021 04:26:31 -0800 (PST)
-Received: from fralle-msi (31-208-27-151.cust.bredband2.com. [31.208.27.151])
- by smtp.gmail.com with ESMTPSA id
- a15sm769719lji.105.2021.01.15.04.26.29
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 15 Jan 2021 04:26:30 -0800 (PST)
-Date: Fri, 15 Jan 2021 13:26:28 +0100
-From: Francisco Iglesias <frasse.iglesias@gmail.com>
-To: Bin Meng <bmeng.cn@gmail.com>
-Subject: Re: [PATCH 0/9] hw/block: m25p80: Fix the mess of dummy bytes needed
- for fast read commands
-Message-ID: <20210115122627.GB29923@fralle-msi>
-References: <20210114150902.11515-1-bmeng.cn@gmail.com>
- <20210114181300.GA29923@fralle-msi>
- <CAEUhbmXiYNFVY0EkrKqNGKV3C0QV0+WvkvEkfPUa-pSg2zGvuA@mail.gmail.com>
+ (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
+ id 1l0OLt-0000Co-Na; Fri, 15 Jan 2021 07:37:18 -0500
+Received: from mail-eopbgr70139.outbound.protection.outlook.com
+ ([40.107.7.139]:13646 helo=EUR04-HE1-obe.outbound.protection.outlook.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
+ id 1l0OLq-0000o7-CR; Fri, 15 Jan 2021 07:37:17 -0500
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=ER3hblIlJ65MxVtbowVBcV257Z+JGfEK0unz5dsb+DtBFXu5T3DRmtISgVakIdUUyuGBeQzvqbKHdQZaUsS9Aq/93rAu2J4bWrKp1GP0LW2OcAovqwJjm/aXxL/CRKWG23evHd92HZFScW00GN8FlajjKKxtb9FzDD3L+7YhgT0JDFpd7UEHAzZ4Y11BMEBhzA9tZILuSbv/Z9dHZStjNqvP+5OnqQOluQCfW7wkO8zfvBLXn3UevVlAF31c9wusV3PxXgKD1dOJvw8OMRD8j9r0Zex0fiH4qLqvujMz/sYZYRaqRcZvHkmf6hTrK5dtE2iPfy8YZ8oU9gTorihXUQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=7RkxeoUG8TLLat5EtfaTunCgJ0xVrRDldJn/OmJ7q7A=;
+ b=BLb8sgVB3sxGOfFJWBB1bnnnA6owdhBOTD/mnzvVuYLOCFxrBrtrhtNMXxTEBS9RhQUu0eUXLBGLnFWfWgRIWWjpBONzwroZP5RjsVpTxVUHVbF8ga8b22hppHV1Ef9pjM/rdWiHqTxmW2w1RKkvhp2jE+bYl+oZvyKoznCosDkprDpBdTPJF+okiSLHrJKvmTNdBUM2FGH2ZbwGzbDExlTaJorlsFtSt/bZX67ItePHE1i7aiXrclV7SmGyoKfpyvk/OpvcPe5XkcfIMhfd76M3RKhl0JuEQYWPZbkGuAYDN/VE3xyPLPCHn2/SbkeCB2YHhpmWBySstzPRjw/Whw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=virtuozzo.com; dmarc=pass action=none
+ header.from=virtuozzo.com; dkim=pass header.d=virtuozzo.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=7RkxeoUG8TLLat5EtfaTunCgJ0xVrRDldJn/OmJ7q7A=;
+ b=vc3wzXQmDbOOXRfY19WSSeE8BD4lhhND1EshK3J4jjcpOHOxfbfOGXn5WfHOp82XN1EYN8mXumJ2dLkWMZP80sLQcG6bUpH08HcwzLFoqmIF5li2xgAlczL9UoK6LZKqAzMy3GRsnE+9O9lKsAvGmATW+yzR1kaEobRgwOO92CM=
+Authentication-Results: redhat.com; dkim=none (message not signed)
+ header.d=none;redhat.com; dmarc=none action=none header.from=virtuozzo.com;
+Received: from AM7PR08MB5494.eurprd08.prod.outlook.com (2603:10a6:20b:dc::15)
+ by AS8PR08MB5912.eurprd08.prod.outlook.com (2603:10a6:20b:29f::12)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3742.6; Fri, 15 Jan
+ 2021 12:37:10 +0000
+Received: from AM7PR08MB5494.eurprd08.prod.outlook.com
+ ([fe80::214a:3545:368c:7ae8]) by AM7PR08MB5494.eurprd08.prod.outlook.com
+ ([fe80::214a:3545:368c:7ae8%9]) with mapi id 15.20.3763.011; Fri, 15 Jan 2021
+ 12:37:09 +0000
+Subject: Re: [PATCH v3 02/10] iotests/297: Rewrite in Python and extend reach
+To: Max Reitz <mreitz@redhat.com>, qemu-block@nongnu.org
+References: <20210114170304.87507-1-mreitz@redhat.com>
+ <20210114170304.87507-3-mreitz@redhat.com>
+ <a6000188-ec04-e681-3e59-4e2e7be44574@virtuozzo.com>
+ <8c975a86-516e-bdcb-7bc8-9f90dc71eba2@redhat.com>
+From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+Message-ID: <d34b98bf-c9b2-5629-75ed-1e59ddb94680@virtuozzo.com>
+Date: Fri, 15 Jan 2021 15:37:08 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.6.1
+In-Reply-To: <8c975a86-516e-bdcb-7bc8-9f90dc71eba2@redhat.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+X-Originating-IP: [185.215.60.75]
+X-ClientProxiedBy: AM0PR08CA0027.eurprd08.prod.outlook.com
+ (2603:10a6:208:d2::40) To AM7PR08MB5494.eurprd08.prod.outlook.com
+ (2603:10a6:20b:dc::15)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CAEUhbmXiYNFVY0EkrKqNGKV3C0QV0+WvkvEkfPUa-pSg2zGvuA@mail.gmail.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
-Received-SPF: pass client-ip=2a00:1450:4864:20::234;
- envelope-from=frasse.iglesias@gmail.com; helo=mail-lj1-x234.google.com
-X-Spam_score_int: -1020
-X-Spam_score: -102.1
-X-Spam_bar: ---------------------------------------------------
-X-Spam_report: (-102.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- USER_IN_WELCOMELIST=-0.01,
- USER_IN_WHITELIST=-100 autolearn=ham autolearn_force=no
+X-MS-Exchange-MessageSentRepresentingType: 1
+Received: from [192.168.100.8] (185.215.60.75) by
+ AM0PR08CA0027.eurprd08.prod.outlook.com (2603:10a6:208:d2::40) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.3763.9 via Frontend Transport; Fri, 15 Jan 2021 12:37:09 +0000
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: b3e851a3-b030-4a6e-6105-08d8b95246ab
+X-MS-TrafficTypeDiagnostic: AS8PR08MB5912:
+X-Microsoft-Antispam-PRVS: <AS8PR08MB59127D27CF259E2E2C68B5F5C1A70@AS8PR08MB5912.eurprd08.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:9508;
+X-MS-Exchange-SenderADCheck: 1
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: MeNNlxWqJGbonoeOeB+buByq4SPNfQZkthmESlFM4hl3h9vb4bNXk8exQRA6YPV9gCTSp/aeKZ5vL88O2WiWKZT9R1z6IzcmuWd9cX8CYpXZmP9iRv8iDY00ivNcblNfBly+oMPNf12pEFMfhvtwnteTY9ElQOD4rFJFwxVKKOWYxbHviiL4TPx8G1XLKEK8mGVHGzhuZ1PxZRc6VgxGC7s/aayB7mz2G+yCfbksYTJXGASLlfpnNp4J0f4GMwgilLZ0sAJU3JYJO7I9aruAunAr55QvbEj0XyfBbknuQqlGwnRX6LhFknVuBQeKX6hewoTuOd6Y0OAJsYqGt2U8NA0vTCOA5imppOQZbGmDOfXg+lYHWtJXHzvhLpo0hv0H57Gbtq1sjHGnq+3a/COEpzq5PRskDxlFXWtWdQ1E7O+7EpLuYiW/bgon11oSelokI8pR8Q4CSNaxqtOr2yxI4BwHrfX6W2ncXGbwIJWRTW8grsuai4lP3dAU11jmQP5SHhXR39O07b1caIa9EVRDHFcff2G9kR3j9Y6GQd83I7oSxuCW6S+JHl1N+197zsUIakN57CwAdAGF4bLGo8xiPA==
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:AM7PR08MB5494.eurprd08.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(4636009)(366004)(346002)(136003)(396003)(376002)(39840400004)(186003)(26005)(36756003)(52116002)(2616005)(66556008)(53546011)(5660300002)(478600001)(66946007)(83380400001)(4326008)(66476007)(16576012)(86362001)(6486002)(31696002)(31686004)(54906003)(2906002)(8936002)(956004)(16526019)(8676002)(316002)(21314003)(45980500001)(43740500002);
+ DIR:OUT; SFP:1102; 
+X-MS-Exchange-AntiSpam-MessageData: =?utf-8?B?VTEzekZIMHBOL0tDUlFOSzRPVkh4SHJmajRpZmtLUDBiRnF6c0E4OThnQmpz?=
+ =?utf-8?B?cEZyNytZdGd2RjBBMWtzWVJKbzBoak0wRStnc0lxY0tOODNXY2RRUTkweDhQ?=
+ =?utf-8?B?cUhPZVdad2c0VWw0ak52aTlnSEZmS0hzeVFXeG1kSlJyM2FnendaUVMzc2RU?=
+ =?utf-8?B?c2pYbkdyb0taTnFUeXQ1SzF4VmozaXBWbzdBV0NQM3RDa0ZhRE85SDIwNlNU?=
+ =?utf-8?B?ZGt1M0ZudTlpRFd1cUFkbDhzMlMvblpxUXRiOFMrU2Y1U1RsY3ZCM2pYY3hn?=
+ =?utf-8?B?cW95RDVFUWhCRURzNkx2cVNnTEZrMjY2SDdQTnYyN1dBeGpJWStkRzc2eWg0?=
+ =?utf-8?B?cmtBNVh1MmlTUTE1aXh4M011S2IvbWlNWkw4VlYxaWhEV0RRa0RWd1FYQnRB?=
+ =?utf-8?B?SXJFZy94ZmZEQ3BKclMwY2VSVC82aFQrRFNFK0hpem9NbnhpQ0NBN1dpQWRS?=
+ =?utf-8?B?QjhTZitXUHlmc29vVnBibnZJdW9VOVlkWFlnUGdIczRGbVBLODIyN2xCaS83?=
+ =?utf-8?B?UWpQcDBlemRmZW1kU3VqSDJoaFYyL1hKbVp1aXpXUFBTczJvdkJnSFc5K3BU?=
+ =?utf-8?B?U3U2NnF3ZUtJKzJ3ZERQVnhkREdQandlZDdiNkNhTlhrQ2thOWxBei9hUEZo?=
+ =?utf-8?B?R0REeUZURWNMUjNMbmMyUEd4bS93cDJGZ0ViRGhhbkFJMHdaWVAzcDMwZ2FG?=
+ =?utf-8?B?MlpOTDlJdXpSa3JyNjdTendBRXNzNThVZWlsdGtRZmVKQjM5SWxtWjFxakNw?=
+ =?utf-8?B?SmdtbzBsU1VoTFJUSUNhWmRlY0lPTUZJaTJaTjhwTDRCZlltMUlsVFNvT1E3?=
+ =?utf-8?B?QmdsQnZEQkRzakZERUhsTVIxRXFDMTU4UXQxM1lYOXlUZU12aEczQXlZNDQ5?=
+ =?utf-8?B?cEJDSGJqeUEvOHRBaHI5Yy9JWkpDTVk5Mk9zTnZiTU81eUNNZTJPV09wRU11?=
+ =?utf-8?B?NEh5WGpQZzAzbzFwRHZFNmVQMVhFNlJYcE1PbVF0NUNRNmFDSGwyWGRMbStU?=
+ =?utf-8?B?ZmtvTEJrWFdVb09sKy9vcFlKMkIwSzljUWtraE1aQmZXUDljMlpJMnlIeXN5?=
+ =?utf-8?B?bUdESzBIZW9PRlJ0RXpvWEkzT0Q4OVRMSVZvN1FXRTRGM0JkYXoreG83cHRT?=
+ =?utf-8?B?QXdtUVc3ZXBHRVcraWEzNkhJem51R0dBVlJtUEU4djFkR0d3L0dUTEY3dksz?=
+ =?utf-8?B?QzBuZHplb1JqcDBNSWVMS2JieGRjQVgvckxiVFlIWk5sRHVON01MUm0zS0lD?=
+ =?utf-8?B?WjRYTGNYOEYzV1dXVitES2ZZN3ljNGpPT2duT1V3a2Z2UGtPMTJmQVdqNFlH?=
+ =?utf-8?Q?jHj2/RNF8+WrJV8LES9adSngEYWowK5X8h?=
+X-OriginatorOrg: virtuozzo.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: b3e851a3-b030-4a6e-6105-08d8b95246ab
+X-MS-Exchange-CrossTenant-AuthSource: AM7PR08MB5494.eurprd08.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 15 Jan 2021 12:37:09.8078 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: SxzTVUo4Xb/trkEvNNC/XafD5gylhBdXmnzr+BMjcf1SE8v0H0JRVxHnUrIeBnPkMJK1eluw8pomQOf4lI//r6lKSadlAIO1cmAkET6QnD8=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: AS8PR08MB5912
+Received-SPF: pass client-ip=40.107.7.139;
+ envelope-from=vsementsov@virtuozzo.com;
+ helo=EUR04-HE1-obe.outbound.protection.outlook.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ MSGID_FROM_MTA_HEADER=0.001, NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001,
+ RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_PASS=-0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -87,200 +137,219 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, Peter Maydell <peter.maydell@linaro.org>,
- "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
- Qemu-block <qemu-block@nongnu.org>, Andrew Jeffery <andrew@aj.id.au>,
- Bin Meng <bin.meng@windriver.com>,
- Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <f4bug@amsat.org>,
- Havard Skinnemoen <hskinnemoen@google.com>, Tyrone Ting <kfting@nuvoton.com>,
- qemu-arm <qemu-arm@nongnu.org>, Alistair Francis <alistair.francis@wdc.com>,
- =?iso-8859-1?Q?C=E9dric?= Le Goater <clg@kaod.org>,
- Joe Komlodi <komlodi@xilinx.com>, Max Reitz <mreitz@redhat.com>,
- Joel Stanley <joel@jms.id.au>
+Cc: Kevin Wolf <kwolf@redhat.com>, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi Bin,
-
-On [2021 Jan 15] Fri 10:07:52, Bin Meng wrote:
-> Hi Francisco,
+15.01.2021 14:57, Max Reitz wrote:
+> On 15.01.21 12:13, Vladimir Sementsov-Ogievskiy wrote:
+>> 14.01.2021 20:02, Max Reitz wrote:
+>>> Instead of checking iotests.py only, check all Python files in the
+>>> qemu-iotests/ directory.  Of course, most of them do not pass, so there
+>>> is an extensive skip list for now.  (The only files that do pass are
+>>> 209, 254, 283, and iotests.py.)
+>>>
+>>> (Alternatively, we could have the opposite, i.e. an explicit list of
+>>> files that we do want to check, but I think it is better to check files
+>>> by default.)
+>>>
+>>> Unless started in debug mode (./check -d), the output has no information
+>>> on which files are tested, so we will not have a problem e.g. with
+>>> backports, where some files may be missing when compared to upstream.
+>>>
+>>> Besides the technical rewrite, some more things are changed:
+>>>
+>>> - For the pylint invocation, PYTHONPATH is adjusted.  This mirrors
+>>>    setting MYPYPATH for mypy.
+>>>
+>>> - Also, MYPYPATH is now derived from PYTHONPATH, so that we include
+>>>    paths set by the environment.  Maybe at some point we want to let the
+>>>    check script add '../../python/' to PYTHONPATH so that iotests.py does
+>>>    not need to do that.
+>>>
+>>> - Passing --notes=FIXME,XXX to pylint suppresses warnings for TODO
+>>>    comments.  TODO is fine, we do not need 297 to complain about such
+>>>    comments.
+>>>
+>>> - The "Success" line from mypy's output is suppressed, because (A) it
+>>>    does not add useful information, and (B) it would leak information
+>>>    about the files having been tested to the reference output, which we
+>>>    decidedly do not want.
+>>>
+>>> Suggested-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+>>> Signed-off-by: Max Reitz <mreitz@redhat.com>
+>>> ---
+>>>   tests/qemu-iotests/297     | 109 +++++++++++++++++++++++++++++--------
+>>>   tests/qemu-iotests/297.out |   5 +-
+>>>   2 files changed, 89 insertions(+), 25 deletions(-)
+>>>
+>>> diff --git a/tests/qemu-iotests/297 b/tests/qemu-iotests/297
+>>> index 5c5420712b..bfa26d280b 100755
+>>> --- a/tests/qemu-iotests/297
+>>> +++ b/tests/qemu-iotests/297
+>>> @@ -1,4 +1,4 @@
+>>> -#!/usr/bin/env bash
+>>> +#!/usr/bin/env python3
+>>>   #
+>>>   # Copyright (C) 2020 Red Hat, Inc.
+>>>   #
+>>> @@ -15,30 +15,95 @@
+>>>   # You should have received a copy of the GNU General Public License
+>>>   # along with this program.  If not, see <http://www.gnu.org/licenses/>.
+>>> -seq=$(basename $0)
+>>> -echo "QA output created by $seq"
+>>> +import os
+>>> +import re
+>>> +import shutil
+>>> +import subprocess
+>>> +import sys
+>>> -status=1    # failure is the default!
+>>> +import iotests
+>>> -# get standard environment
+>>> -. ./common.rc
+>>> -if ! type -p "pylint-3" > /dev/null; then
+>>> -    _notrun "pylint-3 not found"
+>>> -fi
+>>> -if ! type -p "mypy" > /dev/null; then
+>>> -    _notrun "mypy not found"
+>>> -fi
+>>> +# TODO: Empty this list!
+>>> +SKIP_FILES = (
+>>> +    '030', '040', '041', '044', '045', '055', '056', '057', '065', '093',
+>>> +    '096', '118', '124', '129', '132', '136', '139', '147', '148', '149',
+>>> +    '151', '152', '155', '163', '165', '169', '194', '196', '199', '202',
+>>> +    '203', '205', '206', '207', '208', '210', '211', '212', '213', '216',
+>>> +    '218', '219', '222', '224', '228', '234', '235', '236', '237', '238',
+>>> +    '240', '242', '245', '246', '248', '255', '256', '257', '258', '260',
+>>> +    '262', '264', '266', '274', '277', '280', '281', '295', '296', '298',
+>>> +    '299', '300', '302', '303', '304', '307',
+>>> +    'nbd-fault-injector.py', 'qcow2.py', 'qcow2_format.py', 'qed.py'
+>>> +)
+>>> -pylint-3 --score=n iotests.py
+>>> -MYPYPATH=../../python/ mypy --warn-unused-configs --disallow-subclassing-any \
+>>> -    --disallow-any-generics --disallow-incomplete-defs \
+>>> -    --disallow-untyped-decorators --no-implicit-optional \
+>>> -    --warn-redundant-casts --warn-unused-ignores \
+>>> -    --no-implicit-reexport iotests.py
+>>> +def is_python_file(filename):
+>>> +    if not os.path.isfile(filename):
+>>> +        return False
+>>> -# success, all done
+>>> -echo "*** done"
+>>> -rm -f $seq.full
+>>> -status=0
+>>> +    if filename.endswith('.py'):
+>>> +        return True
+>>> +
+>>> +    with open(filename) as f:
+>>> +        try:
+>>> +            first_line = f.readline()
+>>> +            return re.match('^#!.*python', first_line) is not None
+>>> +        except UnicodeDecodeError: # Ignore binary files
+>>
+>> PEP8 asks for two spaces before inline comment
 > 
-> On Fri, Jan 15, 2021 at 2:13 AM Francisco Iglesias
-> <frasse.iglesias@gmail.com> wrote:
-> >
-> > Hi Bin,
-> >
-> > On [2021 Jan 14] Thu 23:08:53, Bin Meng wrote:
-> > > From: Bin Meng <bin.meng@windriver.com>
-> > >
-> > > The m25p80 model uses s->needed_bytes to indicate how many follow-up
-> > > bytes are expected to be received after it receives a command. For
-> > > example, depending on the address mode, either 3-byte address or
-> > > 4-byte address is needed.
-> > >
-> > > For fast read family commands, some dummy cycles are required after
-> > > sending the address bytes, and the dummy cycles need to be counted
-> > > in s->needed_bytes. This is where the mess began.
-> > >
-> > > As the variable name (needed_bytes) indicates, the unit is in byte.
-> > > It is not in bit, or cycle. However for some reason the model has
-> > > been using the number of dummy cycles for s->needed_bytes. The right
-> > > approach is to convert the number of dummy cycles to bytes based on
-> > > the SPI protocol, for example, 6 dummy cycles for the Fast Read Quad
-> > > I/O (EBh) should be converted to 3 bytes per the formula (6 * 4 / 8).
-> >
-> > While not being the original implementor I must assume that above solution was
-> > considered but not chosen by the developers due to it is inaccuracy (it
-> > wouldn't be possible to model exacly 6 dummy cycles, only a multiple of 8,
-> > meaning that if the controller is wrongly programmed to generate 7 the error
-> > wouldn't be caught and the controller will still be considered "correct"). Now
-> > that we have this detail in the implementation I'm in favor of keeping it, this
-> > also because the detail is already in use for catching exactly above error.
-> >
-> 
-> I found no clue from the commit message that my proposed solution here
-> was ever considered, otherwise all SPI controller models supporting
-> software generation should have been found out seriously broken long
-> time ago!
+> Wow.  I really hate PEP8.
 
-
-The controllers you are referring to might lack support for commands requiring
-dummy clock cycles but I really hope they work with the other commands? If so I
-don't think it is fair to call them 'seriously broken' (and else we should
-probably let the maintainers know about it). Most likely the lack of support
-for the commands is because no request has been made for them. Also there is
-one controller that has support.
-
+Wow, it's unexpected :) I like it since first meet..
 
 > 
-> The issue you pointed out that we require the total number of dummy
-> bits should be multiple of 8 is true, that's why I added the
-> unimplemented log message in this series (patch 2/3/4) to warn users
-> if this expectation is not met. However this will not cause any issue
-> when running U-Boot or Linux, because both spi-nor drivers expect the
-> same assumption as we do here.
+>>> +            return False
+>>> +
+>>
+>> and two empty lines here
+>>
+>> (good ALE vim plugin runs flake8, mypy and pylint asynchronously for me and shows these things)
 > 
-> See U-Boot spi_nor_read_data() and Linux spi_nor_spimem_read_data(),
-> there is a logic to calculate the dummy bytes needed for fast read
-> command:
+> I’d like to argue that that isn’t good, but I need to quench my anger. Perhaps one day I can quench it sufficiently to install ALE myself.
 > 
->     /* convert the dummy cycles to the number of bytes */
->     op.dummy.nbytes = (nor->read_dummy * op.dummy.buswidth) / 8;
+>>> +def run_linters():
+>>> +    files = [filename for filename in (set(os.listdir('.')) - set(SKIP_FILES))
+>>> +             if is_python_file(filename)]
+>>> +
+>>> +    iotests.logger.debug('Files to be checked:')
+>>> +    iotests.logger.debug(', '.join(sorted(files)))
+>>
+>> O, good.
+>>
+>>> +
+>>> +    print('=== pylint ===')
+>>> +    sys.stdout.flush()
+>>
+>> Should not hurt.. But why? Should be flushed anyway as print will put a '\n'.. And why you care about it at all?
 > 
-> Note the default dummy cycles configuration for all flashes I have
-> looked into as of today, meets the multiple of 8 assumption. On some
-> flashes the dummy cycle number is configurable, and if it's been
-> configured to be an odd value, it would not work on U-Boot/Linux in
-> the first place.
+> When pylint fails, I can see its result above the '=== pylint ===' line, even though its output is on stdout.  I suspect the Python output indeed isn’t flushed on \n.
 > 
-> > >
-> > > Things get complicated when interacting with different SPI or QSPI
-> > > flash controllers. There are major two cases:
-> > >
-> > > - Dummy bytes prepared by drivers, and wrote to the controller fifo.
-> > >   For such case, driver will calculate the correct number of dummy
-> > >   bytes and write them into the tx fifo. Fixing the m25p80 model will
-> > >   fix flashes working with such controllers.
-> >
-> > Above can be fixed while still keeping the detailed dummy cycle implementation
-> > inside m25p80. Perhaps one of the following could be looked into: configurating
-> > the amount, letting the spi ctrl fetch the amount from m25p80 or by inheriting
-> > some functionality handling this in the SPI controller. Or a mixture of above.
+> (Test it by dropping the flush(), and then also e.g. 041 from the ignore list.  Perhaps you get a different result, but for me, the errors appear above the '=== pylint ===' line.)
+
+Checked. Hmm, you are right. Interesting. Probably it explains similar issues with failed iotests output I see sometimes..
+
 > 
-> Please send patches to explain this in detail how this is going to
-> work. I am open to all possible solutions.
+>>> +
+>>> +    # Todo notes are fine, but fixme's or xxx's should probably just be
+>>> +    # fixed (in tests, at least)
+>>> +    env = os.environ
+>>> +    try:
+>>> +        env['PYTHONPATH'] += ':../../python/'
+>>> +    except KeyError:
+>>> +        env['PYTHONPATH'] = '../../python/'
+>>> +    subprocess.run(('pylint-3', '--score=n', '--notes=FIXME,XXX', *files),
+>>> +                   env=env, check=False)
+>>
+>> as I understand, you don't need env argument, as os.environ is inherited by default.
+> 
+> Yes, but os.environ['PYTHONPATH'] doesn’t include ../../python/, which is why I copy it.
+> 
+> On second though, I don’t copy it.  I think the “env = os.environ” line should be “env = os.environ.copy()”, actually, or I’ll modify 297’s own PYTHONPATH.
 
-In that case I suggest that you instead try with a device property
-'model_dummy_bytes' used to select to convert the accurate dummy clock cycle
-count to dummy bytes inside m25p80. Below is an example on how to modify the
-decode_fast_read_cmd function (the other commands requiring dummy clock cycles
-can follow a similar pattern). This way the fifo mode will be able to work the
-way you desire while also keeping the current functionality intact. Suddenly
-removing functionality (features) will take users by surprise. 
+I think modifying os.environ won't hurt in this case.. But copying is more strict of course.
+
+> 
+>>> +
+>>> +    print('=== mypy ===')
+>>> +    sys.stdout.flush()
+>>> +
+>>> +    # We have to call mypy separately for each file.  Otherwise, it
+>>> +    # will interpret all given files as belonging together (i.e., they
+>>> +    # may not both define the same classes, etc.; most notably, they
+>>> +    # must not both define the __main__ module).
+>>> +    env['MYPYPATH'] = env['PYTHONPATH']
+>>> +    for filename in files:
+>>> +        p = subprocess.run(('mypy',
+>>> +                            '--warn-unused-configs',
+>>> +                            '--disallow-subclassing-any',
+>>> +                            '--disallow-any-generics',
+>>> +                            '--disallow-incomplete-defs',
+>>> +                            '--disallow-untyped-decorators',
+>>> +                            '--no-implicit-optional',
+>>> +                            '--warn-redundant-casts',
+>>> +                            '--warn-unused-ignores',
+>>> +                            '--no-implicit-reexport',
+>>> +                            filename),
+>>> +                           env=env,
+>>> +                           check=False,
+>>> +                           stdout=subprocess.PIPE,
+>>> +                           stderr=subprocess.STDOUT,
+>>> +                           text=True)
+>>
+>> Can you really use "text" ? We require python 3.6 (in check), but text comes from 3.7..
+> 
+> Oh well.  My fault for just reading the current docs.
+> 
+>> It may break some test environments. I think we need old good universal_newlines=True which is the same.
+> 
+> Good enough for me.
+> 
+>> With s/text/universal_newlines/:
+>> Reviewed-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+> 
+> Thanks!  I’ll clean up the PEP8 violations, make the “env = os.environ” line an “env = os.environ.copy()”, and use universal_newlines here.
+> 
+
+OK, thanks, keep my r-b with it.
 
 
-static void decode_fast_read_cmd(Flash *s)
-{
-    uint8_t dummy_clk_cycles = 0;
-    uint8_t extra_bytes;
-
-    s->needed_bytes = get_addr_length(s);
-
-    /* Obtain the number of dummy clock cycles needed */
-    switch (get_man(s)) {
-    case MAN_WINBOND:
-        dummy_clk_cycles += 8;
-        break;
-    case MAN_NUMONYX:
-        dummy_clk_cycles += numonyx_extract_cfg_num_dummies(s);
-        break;
-    case MAN_MACRONIX:
-        if (extract32(s->volatile_cfg, 6, 2) == 1) {
-            dummy_clk_cycles += 6;
-        } else {
-            dummy_clk_cycles += 8;
-        }
-        break;
-    case MAN_SPANSION:
-        dummy_clk_cycles += extract32(s->spansion_cr2v,
-                                    SPANSION_DUMMY_CLK_POS,
-                                    SPANSION_DUMMY_CLK_LEN
-                                    );
-        break;
-    default:
-        break;
-    }
-
-    if (s->model_dummy_bytes) {
-        int lines = 1;
-
-        /*
-         * Expect dummy bytes from the controller so convert the dummy
-         * clock cycles to dummy_bytes.
-         */
-        extra_bytes = convert_to_dummy_bytes(dummy_clk_count, lines);
-    } else {
-        /* Model individual dummy clock cycles as byte writes */
-        extra_bytes = dummy_clk_cycles;
-    }
-
-    s->needed_bytes += extra_bytes;
-    s->pos = 0;
-    s->len = 0;
-    s->state = STATE_COLLECTING_DATA;
-}
-
+-- 
 Best regards,
-Francisco Iglesias
-
-> 
-> >
-> > > - Dummy bytes not prepared by drivers. Drivers just tell the hardware
-> > >   the dummy cycle configuration via some registers, and hardware will
-> > >   automatically generate dummy cycles for us. Fixing the m25p80 model
-> > >   is not enough, and we will need to fix the SPI/QSPI models for such
-> > >   controllers.
-> > >
-> > > This series fixes the mess in the m25p80 from the flash side first,
-> >
-> > Considering the problems solved by the solution in tree I find m25p80 pretty
-> > clean, at least I don't see any clearly better way for accurately modeling the
-> > dummy clock cycles. Counting bits instead of bytes would for example still
-> > force the controllers to mark which bits to count (when transmitting one dummy
-> > byte from a txfifo on four lines (Quad command) it generates 2 dummy clock
-> > cycles since it takes two cycles to transfer 8 bits).
-> >
-> 
-> SPI is a bit based protocol, not bytes. If you insist on bit modeling
-> with the dummy cycles then you should also suggest we change all
-> cycles (including command/addr/dummy/data phases) to be modeled with
-> bits. That way we can accurately emulate everything, for example one
-> potential problem like transferring 9 bit in the data phase.
-> 
-> However modeling everything with bit is super inefficient. My view is
-> that we should avoid trying to support uncommon use cases (like not
-> multiple of 8 for dummy bits) in QEMU.
-> 
-> Regards,
-> Bin
+Vladimir
 
