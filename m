@@ -2,166 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 924632F8831
-	for <lists+qemu-devel@lfdr.de>; Fri, 15 Jan 2021 23:10:05 +0100 (CET)
-Received: from localhost ([::1]:35376 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 89C9F2F8832
+	for <lists+qemu-devel@lfdr.de>; Fri, 15 Jan 2021 23:12:38 +0100 (CET)
+Received: from localhost ([::1]:38580 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l0XIC-0000Vm-M8
-	for lists+qemu-devel@lfdr.de; Fri, 15 Jan 2021 17:10:04 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44032)
+	id 1l0XKf-00023b-IL
+	for lists+qemu-devel@lfdr.de; Fri, 15 Jan 2021 17:12:37 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44288)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <Cupertino.Miranda@synopsys.com>)
- id 1l0XFO-000832-Mp
- for qemu-devel@nongnu.org; Fri, 15 Jan 2021 17:07:11 -0500
-Received: from smtprelay-out1.synopsys.com ([149.117.73.133]:50238)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <Cupertino.Miranda@synopsys.com>)
- id 1l0XFG-0008Je-Kk
- for qemu-devel@nongnu.org; Fri, 15 Jan 2021 17:07:09 -0500
-Received: from mailhost.synopsys.com (badc-mailhost4.synopsys.com
- [10.192.0.82])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
- (No client certificate requested)
- by smtprelay-out1.synopsys.com (Postfix) with ESMTPS id EFE2B40387;
- Fri, 15 Jan 2021 22:06:59 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=synopsys.com; s=mail;
- t=1610748420; bh=n8xnjN12k3+fZ/hjqHXannvFoJF8eHgzIrQuRQDo6LI=;
- h=From:To:CC:Subject:Date:References:In-Reply-To:From;
- b=M0iYVuDHaMqmUYZH3chGKVqpC/ph15OE3cvAv/ttJd8MAE7ZfLfshLDDl5Adqs780
- mXf9yk3312LSgc6fWq9Q4wwbKfRgcP/b2owWE/aZnjX++Kj+GbWi3qeLUQkSbBGeQv
- wf/xwGc6UjDZ/lDw+8AeMPXzjpZ87WCOUX48wmdeKSNRiTmOU36/efsu7KqYww1QJ0
- M1+bXqKMkROlLVfBxwmMPHjlyxaSjXFNJO4wIKaaZQaHCEKsr4gAbQ5EZAiplRelxM
- mPkTKzCHJcVlM6bYDBLxVinr2feqf9sXdeyulxE3EL0WXud+fW5sMtuzbfjvtldEb8
- E0PgGL95Q0JLg==
-Received: from o365relay-in.synopsys.com (us03-o365relay1.synopsys.com
- [10.4.161.137])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
- (No client certificate requested)
- by mailhost.synopsys.com (Postfix) with ESMTPS id 7009EA0083;
- Fri, 15 Jan 2021 22:06:59 +0000 (UTC)
-Received: from NAM11-DM6-obe.outbound.protection.outlook.com
- (mail-dm6nam11lp2169.outbound.protection.outlook.com [104.47.57.169])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (Client CN "mail.protection.outlook.com",
- Issuer "GlobalSign Organization Validation CA - SHA256 - G3" (verified OK))
- by o365relay-in.synopsys.com (Postfix) with ESMTPS id 8B75681530;
- Fri, 15 Jan 2021 22:06:57 +0000 (UTC)
-Authentication-Results: o365relay-in.synopsys.com;
- dmarc=pass (p=reject dis=none) header.from=synopsys.com
-Authentication-Results: o365relay-in.synopsys.com;
- spf=pass smtp.mailfrom=cmiranda@synopsys.com
-Authentication-Results: o365relay-in.synopsys.com; dkim=pass (1024-bit key;
- unprotected) header.d=synopsys.com header.i=@synopsys.com header.b="oOCMSL7k";
- dkim-atps=neutral
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=ddFo3kdSdeLOpbLv4F7+tzd8PDRzhQm8ejsWpkdMCqYOS5iXgAhaX9NukaYSoWcnDyAcweqFo4rGD169TI1gs5rzS+kg6DE6H58eR5b1IN+oh+y/95ueL5bBFVR8gxIqMbBiNr5S/KH6YxemMvs9fxpcsKQYAazJNzWmBaaXT73s0Kqg0YnmmVBradwXNtWwXypdkHzAn8iFQR7rWwqVmKfsWhF8bsfFFuxCbm89ee4bUIWOIVAnYRT9B2DrV8DAayxyKNBQpCNctVhferyksVEjSNGFX63eomOzTP5hEzE7x3JDAfA/cIX9RRxsuPX5j+1CUqvvVyHZdulERdwK+g==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=n8xnjN12k3+fZ/hjqHXannvFoJF8eHgzIrQuRQDo6LI=;
- b=RqukJsrf6X4VtK59ufVQRVA7zTySzHt4uhmxiIzI6grckdEocoYaFm69kuHF3uHTOQJv3BweRVVRrDkvtaSSHQmBcfCvogKMZHpXojWHPtPWfDKJ2QZurxT5mskkVumz9T9g9xMEJn+8P9nBc7DMFSRyoc7yim1OSiFc7maQaeg1hRTZfZBtV7dfVVIvDDgHdKHu7vzjTM3Xkj93lIVfyLAyAxAdi3XQrvD0URcamtZlQv0lHDQYDjTtJACd1MTVwkrEOvF4jC3TJXf8cH0SF6X+z1NirTQAOBX430iRKAgJZuEGJcr01BsSncT/7pAaRI38G1qGPEHsR5q1FxKkAw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=synopsys.com; dmarc=pass action=none header.from=synopsys.com;
- dkim=pass header.d=synopsys.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=synopsys.com;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=n8xnjN12k3+fZ/hjqHXannvFoJF8eHgzIrQuRQDo6LI=;
- b=oOCMSL7kKgnFc6QQAfK2eWtKYHFEwBubPVd/VULv5cxzL4SMeQJ0WvEDrXpct/+vvzZSDOosI7lWrYtMtUTC95GTKi6lUKT1xKIu4blDF/bDrMjvucwuGWFaCJ0ZHaEAOUureKVFeDHmIoN/NsZQf2uXaszsrPXSml9ifFEsOqA=
-Received: from BL0PR12MB4673.namprd12.prod.outlook.com (2603:10b6:207:1d::16)
- by MN2PR12MB4032.namprd12.prod.outlook.com (2603:10b6:208:16d::32)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3742.6; Fri, 15 Jan
- 2021 22:06:55 +0000
-Received: from BL0PR12MB4673.namprd12.prod.outlook.com
- ([fe80::b123:27a0:c5e2:f5f0]) by BL0PR12MB4673.namprd12.prod.outlook.com
- ([fe80::b123:27a0:c5e2:f5f0%7]) with mapi id 15.20.3763.012; Fri, 15 Jan 2021
- 22:06:55 +0000
-X-SNPS-Relay: synopsys.com
-From: Cupertino Miranda <Cupertino.Miranda@synopsys.com>
-To: Richard Henderson <richard.henderson@linaro.org>,
- Cupertino Miranda <Cupertino.Miranda@synopsys.com>,
- "cupertinomiranda@gmail.com" <cupertinomiranda@gmail.com>,
- "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>
-Subject: Re: [PATCH 04/15] arc: TCG and decoder glue code and helpers
-Thread-Topic: [PATCH 04/15] arc: TCG and decoder glue code and helpers
-Thread-Index: AQHW62F0vmOtZqCO7Uy4HrbUomKevA==
-Date: Fri, 15 Jan 2021 22:06:55 +0000
-Message-ID: <a3cff6e3-3945-4feb-0840-47e658d7de29@synopsys.com>
-References: <20201111161758.9636-1-cupertinomiranda@gmail.com>
- <20201111161758.9636-5-cupertinomiranda@gmail.com>
- <33ba8432-64c7-db76-459c-5fa6fd7e549a@linaro.org>
- <a1ea9064-dab5-c683-9899-bb19785f8ee4@synopsys.com>
- <e13f0b99-c5d5-4c8b-95c1-1ef79bdfd95a@linaro.org>
- <826051d0-623c-9e29-e62d-8c3818c3e0af@synopsys.com>
- <83e57a69-5d2f-0c6d-4f65-44ef0669d71e@linaro.org>
-In-Reply-To: <83e57a69-5d2f-0c6d-4f65-44ef0669d71e@linaro.org>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-authentication-results: linaro.org; dkim=none (message not signed)
- header.d=none;linaro.org; dmarc=none action=none header.from=synopsys.com;
-x-originating-ip: [188.250.163.183]
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: 80b89390-accf-404f-a561-08d8b9a1df18
-x-ms-traffictypediagnostic: MN2PR12MB4032:
-x-ms-exchange-transport-forked: True
-x-microsoft-antispam-prvs: <MN2PR12MB4032602B1FFAC8AC22476329A8A70@MN2PR12MB4032.namprd12.prod.outlook.com>
-x-ms-oob-tlc-oobclassifiers: OLM:7219;
-x-ms-exchange-senderadcheck: 1
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: 0fr3SdSGaVlq1JVwJeWvT+R3R/XUtFPp/AOrWi/geqPVYtiGOVyWLJPFaovL5pbTUwI/THFEwQmQ89Ft0whMzCInFjnOwWd99RF6VGHDLKXEYufUSbSZEOdFNrfmL6KSLMIXPARSFHhI4Ao+I5N8gUm+gkh4G4Emy8oP2YRuopOQnAPSBCh/hgDDVgzytzT7RVqYz4a5e4+5HkxjN0sgM/A2T0PA+32Ilkhs8p66+NdVIzEQ1m4+XL5vsONBysmbvC7TOaeld4mrhuFnDcfVDzLfrD1MYLNq6IwS3ci9QJLrPM+mNqh2zQm0TbSsWvHLxZeYqbW1sXqONFQsftaabS50CpzkpMnwExR55mQycMunl9krswJy4n/gy5NQRsTbsxkkFz2xq9TmraDoxFbKCA9P92yDClW+asxQpQji87LJQzQXLu4Q22Rb7qBoSYB2
-x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:BL0PR12MB4673.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(39860400002)(396003)(136003)(366004)(346002)(376002)(2616005)(66476007)(107886003)(31686004)(66446008)(91956017)(53546011)(31696002)(5660300002)(478600001)(2906002)(66556008)(86362001)(110136005)(36756003)(71200400001)(54906003)(6486002)(6512007)(6506007)(316002)(8676002)(186003)(8936002)(66946007)(26005)(76116006)(64756008)(4326008)(4744005)(45980500001);
- DIR:OUT; SFP:1102; 
-x-ms-exchange-antispam-messagedata: =?utf-8?B?LzVSQS94SHptazNzTGtyK1ducS9WR1djOEpQdzNYbjFPTDkxMFBiUktMelhK?=
- =?utf-8?B?S2FDeW84N0NndGllWHZXTENnRVQya3AyVkZLSHEzOTl3b2pvRmEvcmlsZjZa?=
- =?utf-8?B?SzYrV2t5b2x3WllNampVc0t5aHBGU2lIZ2UrYXlzb2FXZDVTcVRYMGxxTUt6?=
- =?utf-8?B?QTI2NEdpNnlGWlB0OEsra1BCSGVCcVBNRmR3eE5HRnpQUWN0bGRmbzl0M29Y?=
- =?utf-8?B?cGd6NWd1OVd0OHFrdm8vVkRuNEFVZlN4a3k4ZkRqQnVFbnA3RHpmNTgvT1Q1?=
- =?utf-8?B?Wkt2ckpBNlI2TThXbHJKL2hZVkZOYlAxbUI4dnQ5czErK1dYaTNMQXRvWDRE?=
- =?utf-8?B?ODRNV1p6VVJVbWNidWRBRHhQcTdkZGdYM0RqRTVJb3FKaWZKb0k1Q2hVZTI4?=
- =?utf-8?B?L2hrZG9JcGk0eFhWbllvQmxpNDZxZGJKZzNxRVhwczJyUnVXdHFUblVHNGdX?=
- =?utf-8?B?TTR0ckQ3eTVnVndpcEljazZDWVJuQ2x2YUo3UUNjUlVycjh0RDlPNk12eGpW?=
- =?utf-8?B?cjErYmdTRWhvNGQxaHFjZFJ6RjVYc0hZZWcwaS9UQWlsakczUlNzMmtUdzRV?=
- =?utf-8?B?ZE5CeW9VNGV0WVgrSVhqVzFYSEtLR1BFM3phOG85QzNBbGdXV1djSGc0THlP?=
- =?utf-8?B?MjRlRTUzVkVIZnFnY2VaazlzTTE1UnNiSVJoTjc4aXRjL0tzUklRM0h2akZD?=
- =?utf-8?B?eVdIaW9tNlBndXdzaE5idExjOVgyYitaalZPTUNmUHMvZWdPYXhuVDRYbmtm?=
- =?utf-8?B?MzJua0JDSXh2aVFvd2dZdXVtd0ZoT2tyRnFEUGtORmFBNmFBM2hYVnZGekxJ?=
- =?utf-8?B?UURVK043SEJNYzc5cEFySFQ1d09qV0s5Y0pBS0JRenlpcG95T3puanFhTU8z?=
- =?utf-8?B?Ym4zTDY0aU13K0xBUjFxWkhaUW5TL3NIaXZyb21oSlI5MWZhZ0VXTTRYbmsw?=
- =?utf-8?B?ZUtJL01USzJsQkVjcFFpYUE0N0t6SXFxcDVLOHI2em1wTkpVWEYrazJ1MkVx?=
- =?utf-8?B?NjA4UHJVbGVKdjJaa2VJaVBmTm5yR1hMSGR1dHVzTzdGUmsralFjZEUzU3cx?=
- =?utf-8?B?SG9EeGcvazk4UEZ1QSt5NTdDUWZqclpzOXdtNkNWVWNwOEFUN01ITFZkMXNN?=
- =?utf-8?B?NTRBQkM0SzZJdHl0ZDZIMzFXeUJSNEhFSHlmMmpESm10bFh0clIzQzUreE96?=
- =?utf-8?B?NTdzZG9aZ1hTdVRBeUhBWGNJOGdqS1Fudk43K2trQWJlVDFlb2lhT2IyWExM?=
- =?utf-8?B?M3k3NUhPL3d1MXVTMGJ6TjJmOWI1d2UzazhnYU1uZkNPOS9QeXBZNmVRcUp0?=
- =?utf-8?Q?cCAsn/5bEMoFE=3D?=
-Content-Type: text/plain; charset="utf-8"
-Content-ID: <9A52B2D6923E80479152D0EC274ABA4A@namprd12.prod.outlook.com>
-Content-Transfer-Encoding: base64
+ (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
+ id 1l0XGj-0000FP-E6; Fri, 15 Jan 2021 17:08:33 -0500
+Received: from mail-io1-xd2d.google.com ([2607:f8b0:4864:20::d2d]:46721)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
+ id 1l0XGY-0000CA-Hl; Fri, 15 Jan 2021 17:08:33 -0500
+Received: by mail-io1-xd2d.google.com with SMTP id q2so19429817iow.13;
+ Fri, 15 Jan 2021 14:08:20 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=8KbMqBmRUbjsRt+OJQyxO22WRGLA6Zi3cO370kxDOwY=;
+ b=FDt+jpjyHbTJKUUVY6pDZera7wFmR/VyW2IM84n/zFyNGLKrg56gNQ+wU3nVv9DYcx
+ g8H0TGivOvTQgyN+h78Sprx9YGMAefa3fDZpDPeIVYE3u6jcZDevt4tQer4VXGa4fww0
+ T8+PrWWzwuU6vKcwTIqURXds+S1HZ10nNR7uxnEc758xv0xnUGXWdW/njhTg/G1ZX03Q
+ xfCcKfhJHWHFz9w92NXW6cZmk6ovJL03Vrr4KXBQ+WmfgC9CN6skwoemllEjPGp2BQnx
+ G/imwnOt5SfaBuZ6cV/lbhLwu7jxoLlgVaWqWmf3xG8jKZbhWyZIP3XCRTiU2GARRyO/
+ Ogyg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=8KbMqBmRUbjsRt+OJQyxO22WRGLA6Zi3cO370kxDOwY=;
+ b=N2Z3o+tWTlLNQnwTHTUjwmYZQLl9mUIO5jodQ+p8sYXAlZnVkmjS0gzKaDTGl2trps
+ TIozYfkhpd3uUxE1mpAmtuZk6iKq2OTMcqmkB9tWoUUiJV9dY8QrtpgQ0ehBbau5vMTp
+ Zn8+onr3ZYQCOpzLiO9JBEVTmSzIEdsmJJgJ+eacotmyzLatWOGucTWdQkhedgzuu6gt
+ iTMLzYJnrMsxp6dxo4QvXRn6L0177O+h4np48zBG4k/y8cEzGArBWqBbnNHSmmNjfG5w
+ zRzG1gNKs6FsU+TvBVmTe45Wwa0cJwt1gDiye0o2He+nPxgHbVbt3ZgM6OKd0+0jUuAt
+ yv5Q==
+X-Gm-Message-State: AOAM533e5oloYBCZJg0+tTPy2ip6YzIJw6NN/9VXndHCzD8PXUSnlxFv
+ l98C8CFaoifHODCo0sIInW0vrm1tC3X7/pZoSUU=
+X-Google-Smtp-Source: ABdhPJy7zh2TXOp3T7Faj9LNbiG+cmaArGf5wJBLvaawhTJKgmtO9NIy+lNYzey6Vh/u0iRKPNToNYYQuirpt2aecdU=
+X-Received: by 2002:a02:634b:: with SMTP id j72mr4247164jac.106.1610748499664; 
+ Fri, 15 Jan 2021 14:08:19 -0800 (PST)
 MIME-Version: 1.0
-X-OriginatorOrg: synopsys.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: BL0PR12MB4673.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 80b89390-accf-404f-a561-08d8b9a1df18
-X-MS-Exchange-CrossTenant-originalarrivaltime: 15 Jan 2021 22:06:55.5410 (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: c33c9f88-1eb7-4099-9700-16013fd9e8aa
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: YIIcIUFh/ufYLqUxqeB6Dtjd3FWOKJOq6IdSAVAfgNPw9JtlLxxxL9zKT8AEUgIWkK/9vwBcwWu1vDtVF+HbBA==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN2PR12MB4032
-Received-SPF: pass client-ip=149.117.73.133;
- envelope-from=Cupertino.Miranda@synopsys.com; helo=smtprelay-out1.synopsys.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+References: <1610427124-49887-1-git-send-email-bmeng.cn@gmail.com>
+ <1610427124-49887-4-git-send-email-bmeng.cn@gmail.com>
+ <CAKmqyKO2noST5un=fRqhzWG6mL8R2rws_h6Bt1R27b+F7ujqjA@mail.gmail.com>
+In-Reply-To: <CAKmqyKO2noST5un=fRqhzWG6mL8R2rws_h6Bt1R27b+F7ujqjA@mail.gmail.com>
+From: Alistair Francis <alistair23@gmail.com>
+Date: Fri, 15 Jan 2021 14:07:53 -0800
+Message-ID: <CAKmqyKNRzBYHWwY_yo-yLQTY5BMBcbY3kYHh2NY2g-=9_Qg_dw@mail.gmail.com>
+Subject: Re: [PATCH 3/4] target/riscv: Generate the GDB XML file for CSR
+ registers dynamically
+To: Bin Meng <bmeng.cn@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::d2d;
+ envelope-from=alistair23@gmail.com; helo=mail-io1-xd2d.google.com
+X-Spam_score_int: -17
+X-Spam_score: -1.8
+X-Spam_bar: -
+X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -175,24 +78,477 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Shahab Vahedi <shahab.vahedi@gmail.com>,
- Claudiu Zissulescu <Claudiu.Zissulescu@synopsys.com>,
- "linux-snps-arc@lists.infradead.org" <linux-snps-arc@lists.infradead.org>,
- Claudiu Zissulescu <claziss@gmail.com>,
- Shahab Vahedi <Shahab.Vahedi@synopsys.com>
+Cc: "open list:RISC-V" <qemu-riscv@nongnu.org>,
+ Bin Meng <bin.meng@windriver.com>, Alistair Francis <alistair.francis@wdc.com>,
+ "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
+ Jim Wilson <jimw@sifive.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-T2ssIGVudGVyIGFuZCBsZWF2ZSB3aWxsIG9mZmljaWFsbHkgZ2V0IHRvIGJlIFRDRyBjb2RlLg0K
-VG8gYmUgaG9uZXN0IGluaXRpYWxseSB3ZSB0aG91Z2h0IHRoYXQgaGVscGVyIGNvZGUgd291bGQg
-YmUgcHJlZmVyYWJsZSANCnRvIFRDRyBvbmUuIEFwcGFyZW50bHkgd2Ugd2VyZSB3cm9uZy4gOi0p
-DQoNClRoYW5rcyBmb3IgeW91ciBxdWljayBmZWVkYmFjay4NCg0KT24gMS8xNS8yMSA5OjUzIFBN
-LCBSaWNoYXJkIEhlbmRlcnNvbiB3cm90ZToNCj4gT24gMS8xNS8yMSAxMTo0OCBBTSwgQ3VwZXJ0
-aW5vIE1pcmFuZGEgd3JvdGU6DQo+Pj4gSW4gdGhlIGNhc2Ugb2YgZW50ZXIgb3IgbGVhdmUsIHRo
-aXMgaXMgb25lIGxvYWQvc3RvcmUgcGx1cyBvbmUgYWRkaXRpb24sDQo+Pj4gZm9sbG93ZWQgYnkg
-YSBicmFuY2guICBBbGwgb2Ygd2hpY2ggaXMgZW5jb2RlZCBhcyBmaWVsZHMgaW4gdGhlIGluc3Ry
-dWN0aW9uLg0KPj4+IEV4dHJlbWVseSBzaW1wbGUuDQo+Pg0KPj4gU28geW91ciByZWNvbW1lbmRh
-dGlvbiBpcyBsZWF2ZSB0aGUgY29uZGl0aW9uYWwgZXhjZXB0aW9uIHRyaWdnZXJpbmcgb2YNCj4+
-IGVudGVyIGFuZCBsZWF2ZSBpbiBhIGhlbHBlciBhbmQgbW92ZSB0aGUgbG9hZHMvc3RvcmVzIHRv
-IHRjZyA/DQo+IA0KPiBXaGF0PyAgTm8uDQo+IA0KPiANCj4gcn4NCj4gDQo=
+On Fri, Jan 15, 2021 at 1:59 PM Alistair Francis <alistair23@gmail.com> wrote:
+>
+> On Mon, Jan 11, 2021 at 8:55 PM Bin Meng <bmeng.cn@gmail.com> wrote:
+> >
+> > From: Bin Meng <bin.meng@windriver.com>
+> >
+> > At present QEMU RISC-V uses a hardcoded XML to report the feature
+> > "org.gnu.gdb.riscv.csr" [1]. There are two major issues with the
+> > approach being used currently:
+> >
+> > - The XML does not specify the "regnum" field of a CSR entry, hence
+> >   consecutive numbers are used by the remote GDB client to access
+> >   CSRs. In QEMU we have to maintain a map table to convert the GDB
+> >   number to the hardware number which is error prone.
+> > - The XML contains some CSRs that QEMU does not implement at all,
+> >   which causes an "E14" response sent to remote GDB client.
+> >
+> > Change to generate the CSR register list dynamically, based on the
+> > availability presented in the CSR function table. This new approach
+> > will reflect a correct list of CSRs that QEMU actually implements.
+> >
+> > [1] https://sourceware.org/gdb/current/onlinedocs/gdb/RISC_002dV-Features.html#RISC_002dV-Features
+
+Do you mind rebasing this patch on the current riscv-to-apply.next
+branch: https://github.com/alistair23/qemu/tree/riscv-to-apply.next
+
+Alistair
+
+> >
+> > Signed-off-by: Bin Meng <bin.meng@windriver.com>
+>
+> Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
+>
+> Alistair
+>
+> > ---
+> >
+> >  target/riscv/cpu.h     |   2 +
+> >  target/riscv/cpu.c     |  12 ++
+> >  target/riscv/gdbstub.c | 308 +++++++------------------------------------------
+> >  3 files changed, 58 insertions(+), 264 deletions(-)
+> >
+> > diff --git a/target/riscv/cpu.h b/target/riscv/cpu.h
+> > index 6684316..f810169 100644
+> > --- a/target/riscv/cpu.h
+> > +++ b/target/riscv/cpu.h
+> > @@ -272,6 +272,8 @@ struct RISCVCPU {
+> >      CPUNegativeOffsetState neg;
+> >      CPURISCVState env;
+> >
+> > +    char *dyn_csr_xml;
+> > +
+> >      /* Configuration Settings */
+> >      struct {
+> >          bool ext_i;
+> > diff --git a/target/riscv/cpu.c b/target/riscv/cpu.c
+> > index dfe5d4e..c0dd646 100644
+> > --- a/target/riscv/cpu.c
+> > +++ b/target/riscv/cpu.c
+> > @@ -569,6 +569,17 @@ static gchar *riscv_gdb_arch_name(CPUState *cs)
+> >      }
+> >  }
+> >
+> > +static const char *riscv_gdb_get_dynamic_xml(CPUState *cs, const char *xmlname)
+> > +{
+> > +    RISCVCPU *cpu = RISCV_CPU(cs);
+> > +
+> > +    if (strcmp(xmlname, "riscv-csr.xml") == 0) {
+> > +        return cpu->dyn_csr_xml;
+> > +    }
+> > +
+> > +    return NULL;
+> > +}
+> > +
+> >  static void riscv_cpu_class_init(ObjectClass *c, void *data)
+> >  {
+> >      RISCVCPUClass *mcc = RISCV_CPU_CLASS(c);
+> > @@ -607,6 +618,7 @@ static void riscv_cpu_class_init(ObjectClass *c, void *data)
+> >      cc->write_elf32_note = riscv_cpu_write_elf32_note;
+> >  #endif
+> >      cc->gdb_arch_name = riscv_gdb_arch_name;
+> > +    cc->gdb_get_dynamic_xml = riscv_gdb_get_dynamic_xml;
+> >  #ifdef CONFIG_TCG
+> >      cc->tcg_initialize = riscv_translate_init;
+> >      cc->tlb_fill = riscv_cpu_tlb_fill;
+> > diff --git a/target/riscv/gdbstub.c b/target/riscv/gdbstub.c
+> > index eba12a8..5f96b7e 100644
+> > --- a/target/riscv/gdbstub.c
+> > +++ b/target/riscv/gdbstub.c
+> > @@ -20,256 +20,6 @@
+> >  #include "exec/gdbstub.h"
+> >  #include "cpu.h"
+> >
+> > -/*
+> > - * The GDB CSR xml files list them in documentation order, not numerical order,
+> > - * and are missing entries for unnamed CSRs.  So we need to map the gdb numbers
+> > - * to the hardware numbers.
+> > - */
+> > -
+> > -static int csr_register_map[] = {
+> > -    CSR_USTATUS,
+> > -    CSR_UIE,
+> > -    CSR_UTVEC,
+> > -    CSR_USCRATCH,
+> > -    CSR_UEPC,
+> > -    CSR_UCAUSE,
+> > -    CSR_UTVAL,
+> > -    CSR_UIP,
+> > -    CSR_FFLAGS,
+> > -    CSR_FRM,
+> > -    CSR_FCSR,
+> > -    CSR_CYCLE,
+> > -    CSR_TIME,
+> > -    CSR_INSTRET,
+> > -    CSR_HPMCOUNTER3,
+> > -    CSR_HPMCOUNTER4,
+> > -    CSR_HPMCOUNTER5,
+> > -    CSR_HPMCOUNTER6,
+> > -    CSR_HPMCOUNTER7,
+> > -    CSR_HPMCOUNTER8,
+> > -    CSR_HPMCOUNTER9,
+> > -    CSR_HPMCOUNTER10,
+> > -    CSR_HPMCOUNTER11,
+> > -    CSR_HPMCOUNTER12,
+> > -    CSR_HPMCOUNTER13,
+> > -    CSR_HPMCOUNTER14,
+> > -    CSR_HPMCOUNTER15,
+> > -    CSR_HPMCOUNTER16,
+> > -    CSR_HPMCOUNTER17,
+> > -    CSR_HPMCOUNTER18,
+> > -    CSR_HPMCOUNTER19,
+> > -    CSR_HPMCOUNTER20,
+> > -    CSR_HPMCOUNTER21,
+> > -    CSR_HPMCOUNTER22,
+> > -    CSR_HPMCOUNTER23,
+> > -    CSR_HPMCOUNTER24,
+> > -    CSR_HPMCOUNTER25,
+> > -    CSR_HPMCOUNTER26,
+> > -    CSR_HPMCOUNTER27,
+> > -    CSR_HPMCOUNTER28,
+> > -    CSR_HPMCOUNTER29,
+> > -    CSR_HPMCOUNTER30,
+> > -    CSR_HPMCOUNTER31,
+> > -    CSR_CYCLEH,
+> > -    CSR_TIMEH,
+> > -    CSR_INSTRETH,
+> > -    CSR_HPMCOUNTER3H,
+> > -    CSR_HPMCOUNTER4H,
+> > -    CSR_HPMCOUNTER5H,
+> > -    CSR_HPMCOUNTER6H,
+> > -    CSR_HPMCOUNTER7H,
+> > -    CSR_HPMCOUNTER8H,
+> > -    CSR_HPMCOUNTER9H,
+> > -    CSR_HPMCOUNTER10H,
+> > -    CSR_HPMCOUNTER11H,
+> > -    CSR_HPMCOUNTER12H,
+> > -    CSR_HPMCOUNTER13H,
+> > -    CSR_HPMCOUNTER14H,
+> > -    CSR_HPMCOUNTER15H,
+> > -    CSR_HPMCOUNTER16H,
+> > -    CSR_HPMCOUNTER17H,
+> > -    CSR_HPMCOUNTER18H,
+> > -    CSR_HPMCOUNTER19H,
+> > -    CSR_HPMCOUNTER20H,
+> > -    CSR_HPMCOUNTER21H,
+> > -    CSR_HPMCOUNTER22H,
+> > -    CSR_HPMCOUNTER23H,
+> > -    CSR_HPMCOUNTER24H,
+> > -    CSR_HPMCOUNTER25H,
+> > -    CSR_HPMCOUNTER26H,
+> > -    CSR_HPMCOUNTER27H,
+> > -    CSR_HPMCOUNTER28H,
+> > -    CSR_HPMCOUNTER29H,
+> > -    CSR_HPMCOUNTER30H,
+> > -    CSR_HPMCOUNTER31H,
+> > -    CSR_SSTATUS,
+> > -    CSR_SEDELEG,
+> > -    CSR_SIDELEG,
+> > -    CSR_SIE,
+> > -    CSR_STVEC,
+> > -    CSR_SCOUNTEREN,
+> > -    CSR_SSCRATCH,
+> > -    CSR_SEPC,
+> > -    CSR_SCAUSE,
+> > -    CSR_STVAL,
+> > -    CSR_SIP,
+> > -    CSR_SATP,
+> > -    CSR_MVENDORID,
+> > -    CSR_MARCHID,
+> > -    CSR_MIMPID,
+> > -    CSR_MHARTID,
+> > -    CSR_MSTATUS,
+> > -    CSR_MISA,
+> > -    CSR_MEDELEG,
+> > -    CSR_MIDELEG,
+> > -    CSR_MIE,
+> > -    CSR_MTVEC,
+> > -    CSR_MCOUNTEREN,
+> > -    CSR_MSCRATCH,
+> > -    CSR_MEPC,
+> > -    CSR_MCAUSE,
+> > -    CSR_MTVAL,
+> > -    CSR_MIP,
+> > -    CSR_MTINST,
+> > -    CSR_MTVAL2,
+> > -    CSR_PMPCFG0,
+> > -    CSR_PMPCFG1,
+> > -    CSR_PMPCFG2,
+> > -    CSR_PMPCFG3,
+> > -    CSR_PMPADDR0,
+> > -    CSR_PMPADDR1,
+> > -    CSR_PMPADDR2,
+> > -    CSR_PMPADDR3,
+> > -    CSR_PMPADDR4,
+> > -    CSR_PMPADDR5,
+> > -    CSR_PMPADDR6,
+> > -    CSR_PMPADDR7,
+> > -    CSR_PMPADDR8,
+> > -    CSR_PMPADDR9,
+> > -    CSR_PMPADDR10,
+> > -    CSR_PMPADDR11,
+> > -    CSR_PMPADDR12,
+> > -    CSR_PMPADDR13,
+> > -    CSR_PMPADDR14,
+> > -    CSR_PMPADDR15,
+> > -    CSR_MCYCLE,
+> > -    CSR_MINSTRET,
+> > -    CSR_MHPMCOUNTER3,
+> > -    CSR_MHPMCOUNTER4,
+> > -    CSR_MHPMCOUNTER5,
+> > -    CSR_MHPMCOUNTER6,
+> > -    CSR_MHPMCOUNTER7,
+> > -    CSR_MHPMCOUNTER8,
+> > -    CSR_MHPMCOUNTER9,
+> > -    CSR_MHPMCOUNTER10,
+> > -    CSR_MHPMCOUNTER11,
+> > -    CSR_MHPMCOUNTER12,
+> > -    CSR_MHPMCOUNTER13,
+> > -    CSR_MHPMCOUNTER14,
+> > -    CSR_MHPMCOUNTER15,
+> > -    CSR_MHPMCOUNTER16,
+> > -    CSR_MHPMCOUNTER17,
+> > -    CSR_MHPMCOUNTER18,
+> > -    CSR_MHPMCOUNTER19,
+> > -    CSR_MHPMCOUNTER20,
+> > -    CSR_MHPMCOUNTER21,
+> > -    CSR_MHPMCOUNTER22,
+> > -    CSR_MHPMCOUNTER23,
+> > -    CSR_MHPMCOUNTER24,
+> > -    CSR_MHPMCOUNTER25,
+> > -    CSR_MHPMCOUNTER26,
+> > -    CSR_MHPMCOUNTER27,
+> > -    CSR_MHPMCOUNTER28,
+> > -    CSR_MHPMCOUNTER29,
+> > -    CSR_MHPMCOUNTER30,
+> > -    CSR_MHPMCOUNTER31,
+> > -    CSR_MCYCLEH,
+> > -    CSR_MINSTRETH,
+> > -    CSR_MHPMCOUNTER3H,
+> > -    CSR_MHPMCOUNTER4H,
+> > -    CSR_MHPMCOUNTER5H,
+> > -    CSR_MHPMCOUNTER6H,
+> > -    CSR_MHPMCOUNTER7H,
+> > -    CSR_MHPMCOUNTER8H,
+> > -    CSR_MHPMCOUNTER9H,
+> > -    CSR_MHPMCOUNTER10H,
+> > -    CSR_MHPMCOUNTER11H,
+> > -    CSR_MHPMCOUNTER12H,
+> > -    CSR_MHPMCOUNTER13H,
+> > -    CSR_MHPMCOUNTER14H,
+> > -    CSR_MHPMCOUNTER15H,
+> > -    CSR_MHPMCOUNTER16H,
+> > -    CSR_MHPMCOUNTER17H,
+> > -    CSR_MHPMCOUNTER18H,
+> > -    CSR_MHPMCOUNTER19H,
+> > -    CSR_MHPMCOUNTER20H,
+> > -    CSR_MHPMCOUNTER21H,
+> > -    CSR_MHPMCOUNTER22H,
+> > -    CSR_MHPMCOUNTER23H,
+> > -    CSR_MHPMCOUNTER24H,
+> > -    CSR_MHPMCOUNTER25H,
+> > -    CSR_MHPMCOUNTER26H,
+> > -    CSR_MHPMCOUNTER27H,
+> > -    CSR_MHPMCOUNTER28H,
+> > -    CSR_MHPMCOUNTER29H,
+> > -    CSR_MHPMCOUNTER30H,
+> > -    CSR_MHPMCOUNTER31H,
+> > -    CSR_MHPMEVENT3,
+> > -    CSR_MHPMEVENT4,
+> > -    CSR_MHPMEVENT5,
+> > -    CSR_MHPMEVENT6,
+> > -    CSR_MHPMEVENT7,
+> > -    CSR_MHPMEVENT8,
+> > -    CSR_MHPMEVENT9,
+> > -    CSR_MHPMEVENT10,
+> > -    CSR_MHPMEVENT11,
+> > -    CSR_MHPMEVENT12,
+> > -    CSR_MHPMEVENT13,
+> > -    CSR_MHPMEVENT14,
+> > -    CSR_MHPMEVENT15,
+> > -    CSR_MHPMEVENT16,
+> > -    CSR_MHPMEVENT17,
+> > -    CSR_MHPMEVENT18,
+> > -    CSR_MHPMEVENT19,
+> > -    CSR_MHPMEVENT20,
+> > -    CSR_MHPMEVENT21,
+> > -    CSR_MHPMEVENT22,
+> > -    CSR_MHPMEVENT23,
+> > -    CSR_MHPMEVENT24,
+> > -    CSR_MHPMEVENT25,
+> > -    CSR_MHPMEVENT26,
+> > -    CSR_MHPMEVENT27,
+> > -    CSR_MHPMEVENT28,
+> > -    CSR_MHPMEVENT29,
+> > -    CSR_MHPMEVENT30,
+> > -    CSR_MHPMEVENT31,
+> > -    CSR_TSELECT,
+> > -    CSR_TDATA1,
+> > -    CSR_TDATA2,
+> > -    CSR_TDATA3,
+> > -    CSR_DCSR,
+> > -    CSR_DPC,
+> > -    CSR_DSCRATCH,
+> > -    CSR_HSTATUS,
+> > -    CSR_HEDELEG,
+> > -    CSR_HIDELEG,
+> > -    CSR_HIE,
+> > -    CSR_HCOUNTEREN,
+> > -    CSR_HTVAL,
+> > -    CSR_HIP,
+> > -    CSR_HTINST,
+> > -    CSR_HGATP,
+> > -    CSR_MBASE,
+> > -    CSR_MBOUND,
+> > -    CSR_MIBASE,
+> > -    CSR_MIBOUND,
+> > -    CSR_MDBASE,
+> > -    CSR_MDBOUND,
+> > -    CSR_MUCOUNTEREN,
+> > -    CSR_MSCOUNTEREN,
+> > -    CSR_MHCOUNTEREN,
+> > -};
+> > -
+> >  int riscv_cpu_gdb_read_register(CPUState *cs, GByteArray *mem_buf, int n)
+> >  {
+> >      RISCVCPU *cpu = RISCV_CPU(cs);
+> > @@ -315,11 +65,11 @@ static int riscv_gdb_get_fpu(CPURISCVState *env, GByteArray *buf, int n)
+> >          target_ulong val = 0;
+> >          int result;
+> >          /*
+> > -         * CSR_FFLAGS is at index 8 in csr_register, and gdb says it is FP
+> > +         * CSR_FFLAGS is at index 1 in csr_register, and gdb says it is FP
+> >           * register 33, so we recalculate the map index.
+> >           * This also works for CSR_FRM and CSR_FCSR.
+> >           */
+> > -        result = riscv_csrrw_debug(env, n - 33 + csr_register_map[8], &val,
+> > +        result = riscv_csrrw_debug(env, n - 32, &val,
+> >                                     0, 0);
+> >          if (result == 0) {
+> >              return gdb_get_regl(buf, val);
+> > @@ -338,11 +88,11 @@ static int riscv_gdb_set_fpu(CPURISCVState *env, uint8_t *mem_buf, int n)
+> >          target_ulong val = ldtul_p(mem_buf);
+> >          int result;
+> >          /*
+> > -         * CSR_FFLAGS is at index 8 in csr_register, and gdb says it is FP
+> > +         * CSR_FFLAGS is at index 1 in csr_register, and gdb says it is FP
+> >           * register 33, so we recalculate the map index.
+> >           * This also works for CSR_FRM and CSR_FCSR.
+> >           */
+> > -        result = riscv_csrrw_debug(env, n - 33 + csr_register_map[8], NULL,
+> > +        result = riscv_csrrw_debug(env, n - 32, NULL,
+> >                                     val, -1);
+> >          if (result == 0) {
+> >              return sizeof(target_ulong);
+> > @@ -353,11 +103,11 @@ static int riscv_gdb_set_fpu(CPURISCVState *env, uint8_t *mem_buf, int n)
+> >
+> >  static int riscv_gdb_get_csr(CPURISCVState *env, GByteArray *buf, int n)
+> >  {
+> > -    if (n < ARRAY_SIZE(csr_register_map)) {
+> > +    if (n < CSR_TABLE_SIZE) {
+> >          target_ulong val = 0;
+> >          int result;
+> >
+> > -        result = riscv_csrrw_debug(env, csr_register_map[n], &val, 0, 0);
+> > +        result = riscv_csrrw_debug(env, n, &val, 0, 0);
+> >          if (result == 0) {
+> >              return gdb_get_regl(buf, val);
+> >          }
+> > @@ -367,11 +117,11 @@ static int riscv_gdb_get_csr(CPURISCVState *env, GByteArray *buf, int n)
+> >
+> >  static int riscv_gdb_set_csr(CPURISCVState *env, uint8_t *mem_buf, int n)
+> >  {
+> > -    if (n < ARRAY_SIZE(csr_register_map)) {
+> > +    if (n < CSR_TABLE_SIZE) {
+> >          target_ulong val = ldtul_p(mem_buf);
+> >          int result;
+> >
+> > -        result = riscv_csrrw_debug(env, csr_register_map[n], NULL, val, -1);
+> > +        result = riscv_csrrw_debug(env, n, NULL, val, -1);
+> >          if (result == 0) {
+> >              return sizeof(target_ulong);
+> >          }
+> > @@ -405,6 +155,38 @@ static int riscv_gdb_set_virtual(CPURISCVState *cs, uint8_t *mem_buf, int n)
+> >      return 0;
+> >  }
+> >
+> > +static int riscv_gen_dynamic_csr_xml(CPUState *cs, int base_reg)
+> > +{
+> > +    RISCVCPU *cpu = RISCV_CPU(cs);
+> > +    CPURISCVState *env = &cpu->env;
+> > +    GString *s = g_string_new(NULL);
+> > +    riscv_csr_predicate_fn predicate;
+> > +    int bitsize = riscv_cpu_is_32bit(env) ? 32 : 64;
+> > +    int i;
+> > +
+> > +    g_string_printf(s, "<?xml version=\"1.0\"?>");
+> > +    g_string_append_printf(s, "<!DOCTYPE feature SYSTEM \"gdb-target.dtd\">");
+> > +    g_string_append_printf(s, "<feature name=\"org.gnu.gdb.riscv.csr\">");
+> > +
+> > +    for (i = 0; i < CSR_TABLE_SIZE; i++) {
+> > +        predicate = csr_ops[i].predicate;
+> > +        if (predicate && !predicate(env, i)) {
+> > +            if (csr_ops[i].name) {
+> > +                g_string_append_printf(s, "<reg name=\"%s\"", csr_ops[i].name);
+> > +            } else {
+> > +                g_string_append_printf(s, "<reg name=\"csr%03x\"", i);
+> > +            }
+> > +            g_string_append_printf(s, " bitsize=\"%d\"", bitsize);
+> > +            g_string_append_printf(s, " regnum=\"%d\"/>", base_reg + i);
+> > +        }
+> > +    }
+> > +
+> > +    g_string_append_printf(s, "</feature>");
+> > +
+> > +    cpu->dyn_csr_xml = g_string_free(s, false);
+> > +    return CSR_TABLE_SIZE;
+> > +}
+> > +
+> >  void riscv_cpu_register_gdb_regs_for_features(CPUState *cs)
+> >  {
+> >      RISCVCPU *cpu = RISCV_CPU(cs);
+> > @@ -417,16 +199,14 @@ void riscv_cpu_register_gdb_regs_for_features(CPUState *cs)
+> >                                   36, "riscv-32bit-fpu.xml", 0);
+> >      }
+> >  #if defined(TARGET_RISCV32)
+> > -    gdb_register_coprocessor(cs, riscv_gdb_get_csr, riscv_gdb_set_csr,
+> > -                             240, "riscv-32bit-csr.xml", 0);
+> > -
+> >      gdb_register_coprocessor(cs, riscv_gdb_get_virtual, riscv_gdb_set_virtual,
+> >                               1, "riscv-32bit-virtual.xml", 0);
+> >  #elif defined(TARGET_RISCV64)
+> > -    gdb_register_coprocessor(cs, riscv_gdb_get_csr, riscv_gdb_set_csr,
+> > -                             240, "riscv-64bit-csr.xml", 0);
+> > -
+> >      gdb_register_coprocessor(cs, riscv_gdb_get_virtual, riscv_gdb_set_virtual,
+> >                               1, "riscv-64bit-virtual.xml", 0);
+> >  #endif
+> > +
+> > +    gdb_register_coprocessor(cs, riscv_gdb_get_csr, riscv_gdb_set_csr,
+> > +                             riscv_gen_dynamic_csr_xml(cs, cs->gdb_num_regs),
+> > +                             "riscv-csr.xml", 0);
+> >  }
+> > --
+> > 2.7.4
+> >
+> >
 
