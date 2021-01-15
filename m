@@ -2,55 +2,55 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DBDD62F87D7
-	for <lists+qemu-devel@lfdr.de>; Fri, 15 Jan 2021 22:46:27 +0100 (CET)
-Received: from localhost ([::1]:33584 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 903512F87D8
+	for <lists+qemu-devel@lfdr.de>; Fri, 15 Jan 2021 22:46:29 +0100 (CET)
+Received: from localhost ([::1]:33744 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l0WvK-0003Av-U1
-	for lists+qemu-devel@lfdr.de; Fri, 15 Jan 2021 16:46:26 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38644)
+	id 1l0WvM-0003F9-K7
+	for lists+qemu-devel@lfdr.de; Fri, 15 Jan 2021 16:46:28 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38658)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1l0WsM-0001tg-9o; Fri, 15 Jan 2021 16:43:22 -0500
-Received: from mail-qv1-xf36.google.com ([2607:f8b0:4864:20::f36]:36418)
+ id 1l0WsO-0001vX-5U; Fri, 15 Jan 2021 16:43:24 -0500
+Received: from mail-qt1-x831.google.com ([2607:f8b0:4864:20::831]:43397)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1l0WsK-0000ju-5J; Fri, 15 Jan 2021 16:43:22 -0500
-Received: by mail-qv1-xf36.google.com with SMTP id j18so4702977qvu.3;
- Fri, 15 Jan 2021 13:43:19 -0800 (PST)
+ id 1l0WsM-0000kw-6Q; Fri, 15 Jan 2021 16:43:23 -0500
+Received: by mail-qt1-x831.google.com with SMTP id 2so7117325qtt.10;
+ Fri, 15 Jan 2021 13:43:21 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=subject:to:cc:references:from:message-id:date:user-agent
  :mime-version:in-reply-to:content-language:content-transfer-encoding;
  bh=uzbdvQ2BUK1tX7gjgF19Y9Sd64zyqsFOsH2gIOFma6A=;
- b=sIe1jQzupeDqzHS33Tf+NKu/6oHVyisKDJjWlEahPbUULH7hZsBJpf6q9nAxXuySXV
- v2io31jN3cwgZ8KTruOp3sdP+fZdTQvpeIvDp5DWJcypbqIHE/QAypl/Cw5uk3/0QUY/
- 3+I3OJoE8/qSJcMj9WTrS7pb/72b6+53L03E4Xc+aJYXgpqXSnHVNi49FblhDr259bgE
- aL1851KOITbmUSSfbIDx7vsvFIjT0tb/O1SDpOCBkJjfrWJVeBXxmhBhU5RO93/TF1A9
- iX4pYVQ7Hu29C/nrLJ73e0r9Ie/soK+3ialu5gdGEzTTCVlSunus9hdoQQWvFvthFmRK
- dagw==
+ b=lrL6EbsdjgFdu6Gcmm49r2ebQwVc+GfgwP9jmyFykIvAmf7cwT4ahq7ZOTU6Oqu+Vn
+ 0d6eyORhupC9BTh/0Fp1bNZ+TvCwkg07jSAKwedr7SPbNAg18YyC6ImSJXLjOFEi4i43
+ lIfRaxTiIQG20UjH/+hg5wpFX30W2/it06de6VFlJQLwoB/0o6iJv/bzjgN5gmmiGvKL
+ 7kL6uctNad4VxAZsxKLigblNx95SaGJaaYHCVr1g4e0cNTF9p8dBaXnof0a+zs1lDmAS
+ hRthRirWPCrbPCE8it287uNciq75m8dJjA4cq+EkmdYCsiVlNapbUAmG4K8VOgwCfKsX
+ ZDqw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:subject:to:cc:references:from:message-id:date
  :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
  bh=uzbdvQ2BUK1tX7gjgF19Y9Sd64zyqsFOsH2gIOFma6A=;
- b=oy0QIMUndnXsf0kui1Y20CtXH9MBp7gzzP4NEhhZL4fHkFUasmpmPj02jND/vhO2E0
- Nf/WF/KKbqpSvnPsm2/FxWZE1tU/2q/w86WSN6jhr+pb2YqSrZAuJjiMLStMJm6fQRDn
- 7AHsbxcSMnCtSGIgX/7CfuEhK5GMMQHJg52kSiUg4xrGFhyi+7VRT80b9C2lYXsyc5xO
- e/2kECn2bYJtb40K+NN8uhVm4BIzxk4FORsjfWSEeP7SGI5Zg2hETQv9bBflbYzayH6C
- IK3FLR0xUzNEKYwwLu9i0Tj6AN83/RERiXVcTExVQO9BfMAaQm2KQwTgsHC/dkWcpHgl
- 5S9Q==
-X-Gm-Message-State: AOAM531XIYwmgWBp6PeD+GfLIqWDWyVj/dvVXD8MSLcdNIUnvPsQSan7
- 6yZK8YYmIr3C7/QYW6Nu2L0=
-X-Google-Smtp-Source: ABdhPJxKuImcbVf8EGTBAtpGInnDU/XkpHa2YE/raLrZ9BLaYjyEQhBjVhUUAgGpj9BXQECL7A3lsw==
-X-Received: by 2002:ad4:4f11:: with SMTP id fb17mr14341165qvb.46.1610746998711; 
- Fri, 15 Jan 2021 13:43:18 -0800 (PST)
+ b=fs1y3ugLGPLTmMqDLfCSC+MKqpDOXvHWJkDw3glFIaOSoGdkdJDPEAHCTPYn3xP+Fh
+ fy/6SxOWl6ZEHSqWtfXT3ykidJWm3piCltBtUvfmQ8iyvu4vX/ZbY6J2eOIQ4im/01db
+ C+T2pTDKi0QMDt7RMeV4xBtZN1f4l50hwm+45ZNWrPJnCBnZglLTU0C5FSQuQH13qHCL
+ 8OhLuBIC7HhtnnEEOT8gWO2exWQq3XyasEfBOyg4Hr3gqV112F9RZqtd6pLblPy7g6kl
+ XHQz2I9M37/5ib+sM35/0VzBXFy+f54yc1AefuT2x0ypE5S5LyA7MgE2l5Qw+A+wcj/W
+ wNXQ==
+X-Gm-Message-State: AOAM530fgimeqtK7p7lYdEyZqrvCsgmTAzuzDul3xJgM/MgHWj6LP9WF
+ 58X8Z0hqCWu+DcWW+uNISkI=
+X-Google-Smtp-Source: ABdhPJxM+cxaeISn6KlFcq15Yr1eIKBmSPenaAt7JbZRX+0HLrnjwWVKjgbU8LxaPzFfnC4aOGCcyg==
+X-Received: by 2002:ac8:5909:: with SMTP id 9mr13672030qty.39.1610747000770;
+ Fri, 15 Jan 2021 13:43:20 -0800 (PST)
 Received: from ?IPv6:2804:431:c7c7:a75a:cb34:ba60:6de6:be1d?
  ([2804:431:c7c7:a75a:cb34:ba60:6de6:be1d])
- by smtp.gmail.com with ESMTPSA id w127sm5720270qkb.133.2021.01.15.13.43.16
+ by smtp.gmail.com with ESMTPSA id 17sm5994982qtu.23.2021.01.15.13.43.19
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 15 Jan 2021 13:43:18 -0800 (PST)
+ Fri, 15 Jan 2021 13:43:20 -0800 (PST)
 Subject: Re: [PATCH v1 7/7] spapr.c: consider CPU core online state before
  allowing unplug
 To: Greg Kurz <groug@kaod.org>
@@ -58,8 +58,8 @@ References: <20210114180628.1675603-1-danielhb413@gmail.com>
  <20210114180628.1675603-8-danielhb413@gmail.com>
  <20210115182216.6dccadee@bahia.lan>
 From: Daniel Henrique Barboza <danielhb413@gmail.com>
-Message-ID: <b2dea006-791f-237e-9ffd-fdbf8bfb7023@gmail.com>
-Date: Fri, 15 Jan 2021 18:43:14 -0300
+Message-ID: <d9d32724-d76e-4112-b798-59c5ed44f31f@gmail.com>
+Date: Fri, 15 Jan 2021 18:43:17 -0300
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.6.0
 MIME-Version: 1.0
@@ -67,8 +67,8 @@ In-Reply-To: <20210115182216.6dccadee@bahia.lan>
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::f36;
- envelope-from=danielhb413@gmail.com; helo=mail-qv1-xf36.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::831;
+ envelope-from=danielhb413@gmail.com; helo=mail-qt1-x831.google.com
 X-Spam_score_int: -18
 X-Spam_score: -1.9
 X-Spam_bar: -
