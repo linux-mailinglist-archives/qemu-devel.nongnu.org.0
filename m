@@ -2,60 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9DAFC2F74EC
-	for <lists+qemu-devel@lfdr.de>; Fri, 15 Jan 2021 10:11:14 +0100 (CET)
-Received: from localhost ([::1]:47100 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 43E2D2F7500
+	for <lists+qemu-devel@lfdr.de>; Fri, 15 Jan 2021 10:13:25 +0100 (CET)
+Received: from localhost ([::1]:52520 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l0L8T-0006DP-DS
-	for lists+qemu-devel@lfdr.de; Fri, 15 Jan 2021 04:11:13 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41842)
+	id 1l0LAa-0003YF-Cr
+	for lists+qemu-devel@lfdr.de; Fri, 15 Jan 2021 04:13:24 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41968)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <chen.zhang@intel.com>)
- id 1l0L5L-0004PT-5g
- for qemu-devel@nongnu.org; Fri, 15 Jan 2021 04:07:59 -0500
-Received: from mga14.intel.com ([192.55.52.115]:37081)
+ id 1l0L5u-00056v-Hq
+ for qemu-devel@nongnu.org; Fri, 15 Jan 2021 04:08:34 -0500
+Received: from mga06.intel.com ([134.134.136.31]:37450)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <chen.zhang@intel.com>)
- id 1l0L5I-0005tB-2h
- for qemu-devel@nongnu.org; Fri, 15 Jan 2021 04:07:58 -0500
-IronPort-SDR: IGoAgvgxLgIbvwbNtuZt7J4vVJokL+IRiyjopcia3931Je10yoOPTKW9XBbTaINR477PZR6GdK
- dsfYlA8/94ng==
-X-IronPort-AV: E=McAfee;i="6000,8403,9864"; a="177743503"
-X-IronPort-AV: E=Sophos;i="5.79,349,1602572400"; d="scan'208";a="177743503"
+ id 1l0L5r-00068s-FO
+ for qemu-devel@nongnu.org; Fri, 15 Jan 2021 04:08:33 -0500
+IronPort-SDR: Q+lkdLaoo0ckjPKRVI0IyR28XVl/D68TMHOwyvOBwrCVCYOLY/n3Ju1PzrQaxTf/e3ZqxR80jj
+ sZp7KYeaq2MA==
+X-IronPort-AV: E=McAfee;i="6000,8403,9864"; a="240067023"
+X-IronPort-AV: E=Sophos;i="5.79,349,1602572400"; d="scan'208";a="240067023"
 Received: from orsmga008.jf.intel.com ([10.7.209.65])
- by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 15 Jan 2021 01:07:50 -0800
-IronPort-SDR: krvIXMqvSSioAscMCKMuViAFbUwkaLyn8rFNCAp9f8zgCoruZa5JcC0mi7i3ZWkq4N9/wxLczo
- L3VAtnx8RpuQ==
+ by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 15 Jan 2021 01:08:27 -0800
+IronPort-SDR: jFfDUoWqU6QLpm8aOyWnFbfYeHV9T3WmeRdRbN+TAMnKMYRXMAbL2pQGPeipxtJhJm6THRzDeu
+ QR99Ny70Phvw==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.79,349,1602572400"; d="scan'208";a="382597257"
+X-IronPort-AV: E=Sophos;i="5.79,349,1602572400"; d="scan'208";a="382597374"
 Received: from fmsmsx602.amr.corp.intel.com ([10.18.126.82])
- by orsmga008.jf.intel.com with ESMTP; 15 Jan 2021 01:07:49 -0800
-Received: from shsmsx602.ccr.corp.intel.com (10.109.6.142) by
+ by orsmga008.jf.intel.com with ESMTP; 15 Jan 2021 01:08:27 -0800
+Received: from shsmsx603.ccr.corp.intel.com (10.109.6.143) by
  fmsmsx602.amr.corp.intel.com (10.18.126.82) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.1713.5; Fri, 15 Jan 2021 01:07:48 -0800
+ 15.1.1713.5; Fri, 15 Jan 2021 01:08:26 -0800
 Received: from shsmsx605.ccr.corp.intel.com (10.109.6.215) by
- SHSMSX602.ccr.corp.intel.com (10.109.6.142) with Microsoft SMTP Server
+ SHSMSX603.ccr.corp.intel.com (10.109.6.143) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.1713.5; Fri, 15 Jan 2021 17:07:47 +0800
+ 15.1.1713.5; Fri, 15 Jan 2021 17:08:24 +0800
 Received: from shsmsx605.ccr.corp.intel.com ([10.109.6.215]) by
  SHSMSX605.ccr.corp.intel.com ([10.109.6.215]) with mapi id 15.01.1713.004;
- Fri, 15 Jan 2021 17:07:47 +0800
+ Fri, 15 Jan 2021 17:08:24 +0800
 From: "Zhang, Chen" <chen.zhang@intel.com>
 To: Lukas Straub <lukasstraub2@web.de>
 Subject: RE: [PATCH 3/3] net/colo-compare: Add handler for passthrough
  connection
 Thread-Topic: [PATCH 3/3] net/colo-compare: Add handler for passthrough
  connection
-Thread-Index: AQHW2ZH5s2h38bDoTUGttKnR+TafgqomvcCAgAHIsRA=
-Date: Fri, 15 Jan 2021 09:07:47 +0000
-Message-ID: <63df670857ed4a278fab273557ee97d6@intel.com>
+Thread-Index: AQHW2ZH5s2h38bDoTUGttKnR+TafgqomvzmAgAHJe4A=
+Date: Fri, 15 Jan 2021 09:08:24 +0000
+Message-ID: <7b08aa481627408fbe930382d7ef4af1@intel.com>
 References: <20201224010918.19275-1-chen.zhang@intel.com>
  <20201224010918.19275-4-chen.zhang@intel.com>
- <20210114144521.76a6a135@gecko.fritz.box>
-In-Reply-To: <20210114144521.76a6a135@gecko.fritz.box>
+ <20210114145037.706fe8c7@gecko.fritz.box>
+In-Reply-To: <20210114145037.706fe8c7@gecko.fritz.box>
 Accept-Language: en-US
 Content-Language: en-US
 X-MS-Has-Attach: 
@@ -67,12 +67,12 @@ x-originating-ip: [10.239.127.36]
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: quoted-printable
 MIME-Version: 1.0
-Received-SPF: pass client-ip=192.55.52.115; envelope-from=chen.zhang@intel.com;
- helo=mga14.intel.com
-X-Spam_score_int: -68
-X-Spam_score: -6.9
-X-Spam_bar: ------
-X-Spam_report: (-6.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_HI=-5,
+Received-SPF: pass client-ip=134.134.136.31; envelope-from=chen.zhang@intel.com;
+ helo=mga06.intel.com
+X-Spam_score_int: -41
+X-Spam_score: -4.2
+X-Spam_bar: ----
+X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -96,7 +96,7 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 > -----Original Message-----
 > From: Lukas Straub <lukasstraub2@web.de>
-> Sent: Thursday, January 14, 2021 9:45 PM
+> Sent: Thursday, January 14, 2021 9:51 PM
 > To: Zhang, Chen <chen.zhang@intel.com>
 > Cc: Jason Wang <jasowang@redhat.com>; qemu-dev <qemu-
 > devel@nongnu.org>; Eric Blake <eblake@redhat.com>; Dr. David Alan
@@ -132,18 +132,6 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 > > +static QLIST_HEAD(, PassthroughEntry) passthroughlist =3D
 > > +    QLIST_HEAD_INITIALIZER(passthroughlist);
 > > +
->=20
-> Hi,
-> I think this should be per colo-compare instance e.g. inside 'struct
-> CompareState'.
-
-It looks QMP and HMP also need to add colo-compare object ID to control it.
-Do we need make this command more general?
-
-Thanks
-Chen
-
->=20
 > >  #define COMPARE_READ_LEN_MAX NET_BUFSIZE  #define
 > MAX_QUEUE_SIZE 1024
 > >
@@ -221,6 +209,16 @@ Chen
 > > +    }
 > > +}
 > > +
+>=20
+> Access to "passtroughlist" needs to be protected by a lock, as
+> "packet_enqueue" is called from a different iothread.
+
+OK, I will add the lock in next version.
+
+Thanks
+Chen
+
+>=20
 > >  static void colo_compare_class_init(ObjectClass *oc, void *data)  {
 > >      UserCreatableClass *ucc =3D USER_CREATABLE_CLASS(oc); diff --git
 > > a/net/colo-compare.h b/net/colo-compare.h index
