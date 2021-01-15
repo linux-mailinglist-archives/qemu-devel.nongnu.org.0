@@ -2,70 +2,96 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DAB962F835D
-	for <lists+qemu-devel@lfdr.de>; Fri, 15 Jan 2021 19:12:28 +0100 (CET)
-Received: from localhost ([::1]:38118 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BACD52F8440
+	for <lists+qemu-devel@lfdr.de>; Fri, 15 Jan 2021 19:23:59 +0100 (CET)
+Received: from localhost ([::1]:42070 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l0TaF-0001wx-K0
-	for lists+qemu-devel@lfdr.de; Fri, 15 Jan 2021 13:12:27 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51690)
+	id 1l0TlO-0004BY-CP
+	for lists+qemu-devel@lfdr.de; Fri, 15 Jan 2021 13:23:58 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54102)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1l0TYZ-00015n-Mz
- for qemu-devel@nongnu.org; Fri, 15 Jan 2021 13:10:43 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:27081)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1l0TYX-0002fD-S3
- for qemu-devel@nongnu.org; Fri, 15 Jan 2021 13:10:43 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1610734240;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:in-reply-to:in-reply-to:  references:references;
- bh=bS2I7Xu/shcBG7A3Td+51IYLGWfr5T4THPQD2+0iG4I=;
- b=MUkbj7580Am0DB1ehAfUOh9WDvCOa6SU5BGARJUKH+TP7uX9UNXxxbqcl475ggSq1mQBUB
- 6K4ugI+rxfwU+4rilcwi3c2CbzCJzmaFIVR5D+kc9tRLvKhx7XiLhhvkSNZpgc8mf2/b8s
- E6OJ1AHoiXVp1nhPsPYhA1qXud6FCxA=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-35-JEvzODPlMEuE_woK-xIoTA-1; Fri, 15 Jan 2021 13:10:34 -0500
-X-MC-Unique: JEvzODPlMEuE_woK-xIoTA-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id C859B9CC09
- for <qemu-devel@nongnu.org>; Fri, 15 Jan 2021 18:10:33 +0000 (UTC)
-Received: from redhat.com (ovpn-115-76.ams2.redhat.com [10.36.115.76])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 6BC24648A1;
- Fri, 15 Jan 2021 18:10:32 +0000 (UTC)
-Date: Fri, 15 Jan 2021 18:10:29 +0000
-From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-To: P J P <ppandit@redhat.com>
-Subject: Re: About 'qemu-security' list subscription process
-Message-ID: <20210115181029.GY1692978@redhat.com>
-References: <r95p856o-o5r3-1r88-p675-2111r17p7794@erqung.pbz>
-MIME-Version: 1.0
-In-Reply-To: <r95p856o-o5r3-1r88-p675-2111r17p7794@erqung.pbz>
-User-Agent: Mutt/1.14.6 (2020-07-11)
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=berrange@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=berrange@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -29
-X-Spam_score: -3.0
-X-Spam_bar: ---
-X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.25,
+ (Exim 4.90_1) (envelope-from <jag.raman@oracle.com>)
+ id 1l0Tjr-0003jQ-N2
+ for qemu-devel@nongnu.org; Fri, 15 Jan 2021 13:22:23 -0500
+Received: from userp2130.oracle.com ([156.151.31.86]:33966)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <jag.raman@oracle.com>)
+ id 1l0Tjp-0006Pz-BJ
+ for qemu-devel@nongnu.org; Fri, 15 Jan 2021 13:22:23 -0500
+Received: from pps.filterd (userp2130.oracle.com [127.0.0.1])
+ by userp2130.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 10FIFIQY184960;
+ Fri, 15 Jan 2021 18:21:07 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com;
+ h=content-type :
+ mime-version : subject : from : in-reply-to : date : cc :
+ content-transfer-encoding : message-id : references : to;
+ s=corp-2020-01-29; bh=6OINlLcpNa1Y/C632EF6vEq9c4oBBQaEYw0eJoGiBuY=;
+ b=Chc/fS4izfVv6NYSGLpOTVDcb59SNyZwf0WPMtE7yVB4Vf4XNoKgDJ+LDiJduY3MxnQk
+ p+PGHsQMHJlnZm7MfTDietc1mW9Lnx1Kci+3F8NftSvMm/7pIDOyEqrveLQS4zcnTHGb
+ U7D9VuA4WXbQs7gFzp3Jw3mTkhLl0fkPaqgBomel2LVQUODvjlef0trXiV6YIELgbNO4
+ PBICNm7jSYnmqqMq/L8ImnQJQn9wSImZDMvs3mE4pn0fYIPTRyPQ7qFypV68buPg/3BV
+ bd0v+jUPfVonwtuLbVXVnre6Btrtk5lc15+qBNLLU/S0gvAR3SKszXxyEbGpntFDoHLQ 3Q== 
+Received: from userp3030.oracle.com (userp3030.oracle.com [156.151.31.80])
+ by userp2130.oracle.com with ESMTP id 360kvke4gh-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Fri, 15 Jan 2021 18:21:07 +0000
+Received: from pps.filterd (userp3030.oracle.com [127.0.0.1])
+ by userp3030.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 10FIF9vx060465;
+ Fri, 15 Jan 2021 18:19:06 GMT
+Received: from aserv0121.oracle.com (aserv0121.oracle.com [141.146.126.235])
+ by userp3030.oracle.com with ESMTP id 360keq7y3h-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Fri, 15 Jan 2021 18:19:06 +0000
+Received: from abhmp0003.oracle.com (abhmp0003.oracle.com [141.146.116.9])
+ by aserv0121.oracle.com (8.14.4/8.13.8) with ESMTP id 10FIJ4Dk029583;
+ Fri, 15 Jan 2021 18:19:04 GMT
+Received: from dhcp-10-39-219-53.vpn.oracle.com (/10.39.219.53)
+ by default (Oracle Beehive Gateway v4.0)
+ with ESMTP ; Fri, 15 Jan 2021 10:19:03 -0800
+Content-Type: text/plain;
+	charset=utf-8
+Mime-Version: 1.0 (Mac OS X Mail 14.0 \(3654.40.0.2.32\))
+Subject: Re: [PATCH v19 08/20] io: add qio_channel_readv_full_all_eof &
+ qio_channel_readv_full_all helpers
+From: Jag Raman <jag.raman@oracle.com>
+In-Reply-To: <20210115092017.GA334489@stefanha-x1.localdomain>
+Date: Fri, 15 Jan 2021 13:19:01 -0500
+Content-Transfer-Encoding: quoted-printable
+Message-Id: <C2D5772D-CA1A-4E06-9971-DCD589CF8CAD@oracle.com>
+References: <cover.1610638428.git.jag.raman@oracle.com>
+ <02a82c80a35ab60b98028c85aa94f688a2843943.1610638428.git.jag.raman@oracle.com>
+ <20210114162729.GB306329@stefanha-x1.localdomain>
+ <CA0E47D0-F1F5-4825-ABB7-BE73AAD3E375@oracle.com>
+ <20210114180035.GY1643043@redhat.com>
+ <1DE4BD83-5AD6-4F70-8702-03DE1548DBED@oracle.com>
+ <20210115092017.GA334489@stefanha-x1.localdomain>
+To: Stefan Hajnoczi <stefanha@redhat.com>
+X-Mailer: Apple Mail (2.3654.40.0.2.32)
+X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9865
+ signatures=668683
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 mlxscore=0
+ phishscore=0 spamscore=0
+ malwarescore=0 suspectscore=0 mlxlogscore=999 adultscore=0 bulkscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2009150000
+ definitions=main-2101150110
+X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9865
+ signatures=668683
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 mlxlogscore=999
+ phishscore=0
+ lowpriorityscore=0 bulkscore=0 priorityscore=1501 malwarescore=0
+ clxscore=1015 impostorscore=0 spamscore=0 mlxscore=0 suspectscore=0
+ adultscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2009150000 definitions=main-2101150110
+Received-SPF: pass client-ip=156.151.31.86; envelope-from=jag.raman@oracle.com;
+ helo=userp2130.oracle.com
+X-Spam_score_int: -46
+X-Spam_score: -4.7
+X-Spam_bar: ----
+X-Spam_report: (-4.7 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.25,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_MED=-2.3, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_PASS=-0.001,
+ SPF_PASS=-0.001, UNPARSEABLE_RELAY=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -78,48 +104,146 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-Cc: Michael Tsirkin <mtsirkin@redhat.com>, qemu-devel@nongnu.org
+Cc: Elena Ufimtseva <elena.ufimtseva@oracle.com>, Fam Zheng <fam@euphon.net>,
+ Swapnil Ingle <swapnil.ingle@nutanix.com>,
+ John G Johnson <john.g.johnson@oracle.com>, qemu-level <qemu-devel@nongnu.org>,
+ Gerd Hoffmann <kraxel@redhat.com>, quintela@redhat.com, mst@redhat.com,
+ armbru@redhat.com, kanth.ghatraju@oracle.com, felipe@nutanix.com,
+ thuth@redhat.com, ehabkost@redhat.com, konrad.wilk@oracle.com,
+ dgilbert@redhat.com, alex.williamson@redhat.com, thanos.makatos@nutanix.com,
+ kwolf@redhat.com,
+ =?utf-8?B?IkRhbmllbCBQLiBCZXJyYW5nw6ki?= <berrange@redhat.com>,
+ mreitz@redhat.com, ross.lagerwall@citrix.com, marcandre.lureau@gmail.com,
+ pbonzini@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, Jan 14, 2021 at 07:33:32PM +0530, P J P wrote:
->   Hello,
-> 
-> * We have received quite a few subscription requests for the 'qemu-security'
->   list in the last few weeks. Majority of them are rejected because we could
->   not identify the user from merely their email-id.
-> 
-> * I have requested them to send a subscription request email with a 'Self
->   Introduction' to the list.
-> 
-> * However, some of the subscribers are familiar from the
->   qemu-devel/oss-security mailing lists. And some are corporate emails like
->   <secalert@rh.c>
-> 
-> * One of the request is pending (3+) votes/acks for OR against member
->   subscription.
-> 
-> How do we handle these requests?
 
-I believe we want to keep the membership of qemu-security reasonably
-small. Primarily people who can commit to helping with the initial
-triage to identify which specific subsystem maintainers to pull in.
-In addition major consumers of QEMU with whom we need to coordinate
-choice of disclosure date for embargoed images.
 
-There is obviously a danger to the project if we mistakenly allow
-membership from someone who is not acting in interests in the QEMU
-project, so I think the bar needs to be reasonably high. IOW ideally
-there should be some web of trust whereby some existing member(s)
-knows the person/entity who is requesting acces. Other cases would
-have to be evaluated case-by-case basis.
+> On Jan 15, 2021, at 4:20 AM, Stefan Hajnoczi <stefanha@redhat.com> =
+wrote:
+>=20
+> On Thu, Jan 14, 2021 at 01:24:37PM -0500, Jag Raman wrote:
+>>=20
+>>=20
+>>> On Jan 14, 2021, at 1:00 PM, Daniel P. Berrang=C3=A9 =
+<berrange@redhat.com> wrote:
+>>>=20
+>>> On Thu, Jan 14, 2021 at 12:55:58PM -0500, Jag Raman wrote:
+>>>>=20
+>>>>=20
+>>>>> On Jan 14, 2021, at 11:27 AM, Stefan Hajnoczi =
+<stefanha@redhat.com> wrote:
+>>>>>=20
+>>>>> On Thu, Jan 14, 2021 at 10:40:03AM -0500, Jagannathan Raman wrote:
+>>>>>> +int qio_channel_readv_full_all(QIOChannel *ioc,
+>>>>>> +                               const struct iovec *iov,
+>>>>>> +                               size_t niov,
+>>>>>> +                               int **fds, size_t *nfds,
+>>>>>> +                               Error **errp)
+>>>>>> {
+>>>>>> -    int ret =3D qio_channel_readv_all_eof(ioc, iov, niov, errp);
+>>>>>> +    int ret =3D qio_channel_readv_full_all_eof(ioc, iov, niov, =
+fds, nfds, errp);
+>>>>>>=20
+>>>>>>   if (ret =3D=3D 0) {
+>>>>>> -        ret =3D -1;
+>>>>>>       error_setg(errp,
+>>>>>>                  "Unexpected end-of-file before all bytes were =
+read");
+>>>>>=20
+>>>>> qio_channel_readv_full_all_eof() can read file descriptors but no =
+data
+>>>>> and return 0.
+>>>>>=20
+>>>>> Here that case is converted into an error and the file descriptors
+>>>>> aren't closed, freed, and fds/nfds isn't cleared.
+>>>>=20
+>>>> That=E2=80=99s a valid point. I=E2=80=99m wondering if the fix for =
+this case should be in
+>>>> qio_channel_readv_full_all_eof(), instead of here.
+>>>>=20
+>>>> qio_channel_readv_full_all_eof() should probably return error (-1) =
+if the
+>>>> amount of data read does not match iov_size(). If the caller is =
+only expecting
+>>>> to read fds, and not any data, it would indicate that by setting =
+iov to NULL
+>>>> and/or setting niov=3D0. If the caller is setting these parameters, =
+it means it is
+>>>> expecting data.Does that sound good?
+>>>=20
+>>> The API spec for the existing _eof() methods says:
+>>>=20
+>>> * The function will wait for all requested data
+>>> * to be read, yielding from the current coroutine
+>>> * if required.
+>>> *
+>>> * If end-of-file occurs before any data is read,
+>>> * no error is reported; otherwise, if it occurs
+>>> * before all requested data has been read, an error
+>>> * will be reported.
+>>>=20
+>>>=20
+>>> IOW, return '0' is *only* valid if we've not read anything. I =
+consider
+>>> file descriptors to be something.
+>>>=20
+>>> IOW, qio_channel_readv_full_all_eof must only return 0, if it didn't
+>>> read any data and also didn't receive any file descriptors. So yeah,
+>>> we must return -1 in the scenario Stefan describes
+>>=20
+>> That makes sense to me. Reading =E2=80=9Cfds" is something, which is =
+different
+>> from our previous understanding. I thought data only meant iov, and =
+not fds.
+>>=20
+>> So the return values for qio_channel_readv_full_all_eof() would be:
+>>  - =E2=80=980=E2=80=99 only if EOF is reached without reading any fds =
+and data.
+>>  - =E2=80=981=E2=80=99 if all data that the caller expects are read =
+(even if the caller reads
+>>    fds exclusively, without any iovs)
+>>  - =E2=80=98-1=E2=80=99 otherwise, considered as error
+>>=20
+>> qio_channel_readv_full_all() would return:
+>>  - =E2=80=980=E2=80=99 if all the data that caller expects are read
+>>  - =E2=80=98-1=E2=80=99 otherwise, considered as error
+>>=20
+>> Hey Stefan,
+>>=20
+>>    Does this sound good to you?
+>=20
+> The while (nlocal_iov > 0) loop only runs if the caller has requested =
+to
+> read at least some data, so the fds-only case doesn't work yet.
+>=20
+> This suggests that no current QEMU code relies on the fds-only case.
+> Therefore you could change the doc comment to clarify this instead of
+> adding support for this case to the code.
+>=20
+> But if you would to fully support the fds-only case that would be even
+> better.
+>=20
+> Stefan
 
-Regards,
-Daniel
--- 
-|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
-|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
-|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
+We are working on sending the next revision out. We could handle the
+fds-only case by altering the while loop condition to be:
+((nlocal_iov > 0) || local_fds)
 
+For reference, we would need to handle the following cases:
+len < 0; !partial, !*nfds       =3D> ret =3D -1;
+len =3D 0; !partial, !*nfds       =3D> ret =3D 0;
+len < 0; partial, !*nfds        =3D> ret =3D -1; errmsg;
+len =3D 0; partial, !*nfds        =3D> ret =3D -1; errmsg;
+len < 0; partial, *nfds         =3D> ret =3D -1; errmsg, clearfds
+len < 0; !partial, *nfds        =3D> ret =3D -1; errmsg, clearfds
+len =3D 0; partial, *nfds         =3D> ret =3D -1; errmsg, clearfds
+len =3D 0; !partial, *nfds        =3D> ret =3D -1; errmsg, clearfds
+len =3D 0; !niov; (nfds && *nfds) =3D> ret =3D 1 /* fds-only */
+len > 0                         =3D> ret 1
+
+Thank you!
+--
+Jag=
 
