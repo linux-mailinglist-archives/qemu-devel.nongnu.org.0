@@ -2,42 +2,43 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F08972F6FE0
-	for <lists+qemu-devel@lfdr.de>; Fri, 15 Jan 2021 02:13:50 +0100 (CET)
-Received: from localhost ([::1]:57082 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A23FB2F6FDD
+	for <lists+qemu-devel@lfdr.de>; Fri, 15 Jan 2021 02:11:45 +0100 (CET)
+Received: from localhost ([::1]:51084 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l0DgU-0001FC-2H
-	for lists+qemu-devel@lfdr.de; Thu, 14 Jan 2021 20:13:50 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56722)
+	id 1l0DeR-00078K-CG
+	for lists+qemu-devel@lfdr.de; Thu, 14 Jan 2021 20:11:44 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56726)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1l0DaQ-000491-5A; Thu, 14 Jan 2021 20:07:34 -0500
-Received: from bilbo.ozlabs.org ([2401:3900:2:1::2]:51857 helo=ozlabs.org)
+ id 1l0DaQ-00049O-AA; Thu, 14 Jan 2021 20:07:34 -0500
+Received: from bilbo.ozlabs.org ([2401:3900:2:1::2]:56213 helo=ozlabs.org)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1l0DaK-0003Sg-Ri; Thu, 14 Jan 2021 20:07:33 -0500
+ id 1l0DaK-0003Sh-Qh; Thu, 14 Jan 2021 20:07:34 -0500
 Received: by ozlabs.org (Postfix, from userid 1007)
- id 4DH31c0rW4z9sWR; Fri, 15 Jan 2021 12:07:15 +1100 (AEDT)
+ id 4DH31c1V4xz9sWb; Fri, 15 Jan 2021 12:07:16 +1100 (AEDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=gibson.dropbear.id.au; s=201602; t=1610672836;
- bh=UeBsrKgaBOyYJghSEQHogj9TdyuE4V39CkWNm8xg2eU=;
+ bh=fKMVFSkuryjXgndTjmGPq6afPRIArWhTutA1WP5oxaI=;
  h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=KRu4cX8EJ8DmUAAdup8uK1ATzB3ijutIY8Ka1iWs5vHmiWU/Ek5jt/V7gDYlI5Qub
- UjA1/bt05xO4MNe9VcyqI/91BIFfM0vhghuVCZXENuQjSc/v8ihEiHtaysbzC+B699
- X0jFOwkPyO0svKDV+WzkU7w9l5Uhmh82djohSDqE=
-Date: Fri, 15 Jan 2021 11:52:45 +1100
+ b=Wb84IYmokwbq6YNwvYOSdb/d85/8UihI60Pu3RKPGSHv8d8ie9UYyH1pg8PLqe0df
+ TCMthC/dN+8yZtkWXX37sqk2w8obqQJ0XufFKB6hw3b0E0dZEWkgyloNNzBUz2G+Gt
+ TzmDLOMsaNi1frtVUVPWUto3SDPZJrUoXzBWXlBA=
+Date: Fri, 15 Jan 2021 12:03:00 +1100
 From: David Gibson <david@gibson.dropbear.id.au>
 To: Daniel Henrique Barboza <danielhb413@gmail.com>
-Subject: Re: [PATCH v1 6/7] spapr.c: introduce spapr_core_unplug_possible()
-Message-ID: <20210115005245.GV435587@yekko.fritz.box>
+Subject: Re: [PATCH v1 7/7] spapr.c: consider CPU core online state before
+ allowing unplug
+Message-ID: <20210115010300.GW435587@yekko.fritz.box>
 References: <20210114180628.1675603-1-danielhb413@gmail.com>
- <20210114180628.1675603-7-danielhb413@gmail.com>
+ <20210114180628.1675603-8-danielhb413@gmail.com>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="Avw2VvEbzfULB0h1"
+ protocol="application/pgp-signature"; boundary="RMorpr61ug7CvG36"
 Content-Disposition: inline
-In-Reply-To: <20210114180628.1675603-7-danielhb413@gmail.com>
+In-Reply-To: <20210114180628.1675603-8-danielhb413@gmail.com>
 Received-SPF: pass client-ip=2401:3900:2:1::2; envelope-from=dgibson@ozlabs.org;
  helo=ozlabs.org
 X-Spam_score_int: -17
@@ -58,86 +59,147 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-ppc@nongnu.org, qemu-devel@nongnu.org, groug@kaod.org
+Cc: Xujun Ma <xuma@redhat.com>, qemu-ppc@nongnu.org, qemu-devel@nongnu.org,
+ groug@kaod.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 
---Avw2VvEbzfULB0h1
+--RMorpr61ug7CvG36
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Thu, Jan 14, 2021 at 03:06:27PM -0300, Daniel Henrique Barboza wrote:
-> Next patch is going to add more conditions to allow a CPU core
-> hotunplug. Let's put it into a separated function to avoid crowding
-> the body of spapr_core_unplug_request().
+On Thu, Jan 14, 2021 at 03:06:28PM -0300, Daniel Henrique Barboza wrote:
+> The only restriction we have when unplugging CPUs is to forbid unplug of
+> the boot cpu core. spapr_core_unplug_possible() does not contemplate the
+> possibility of some cores being offlined by the guest, meaning that we're
+> rolling the dice regarding on whether we're unplugging the last online
+> CPU core the guest has.
 >=20
+> If we hit the jackpot, we're going to detach the core DRC and pulse the
+> hotplug IRQ, but the guest OS will refuse to release the CPU. Our
+> spapr_core_unplug() DRC release callback will never be called and the CPU
+> core object will keep existing in QEMU. No error message will be sent
+> to the user, but the CPU core wasn't unplugged from the guest.
+>=20
+> If the guest OS onlines the CPU core again we won't be able to hotunplug =
+it
+> either. 'dmesg' inside the guest will report a failed attempt to offline =
+an
+> unknown CPU:
+>=20
+> [  923.003994] pseries-hotplug-cpu: Failed to offline CPU <NULL>, rc: -16
+>=20
+> This is the result of stopping the DRC state transition in the middle in =
+the
+> first failed attempt.
+>=20
+> We can avoid this, and potentially other bad things from happening, if we
+> avoid to attempt the unplug altogether in this scenario. Let's check for
+> the online/offline state of the CPU cores in the guest before allowing
+> the hotunplug, and forbid removing a CPU core if it's the last one online
+> in the guest.
+
+Good explanation overall, but I think it would be a bit clearer and
+more direct if you remove the "roll the dice" / "hit the jackpot"
+metaphor.
+
+
+
+> Reported-by: Xujun Ma <xuma@redhat.com>
+> Fixes: https://bugzilla.redhat.com/show_bug.cgi?id=3D1911414
 > Signed-off-by: Daniel Henrique Barboza <danielhb413@gmail.com>
-
-LGTM, except for naming.  I'd expect a function named *_possible() to
-return a boolean, where "true" means it *is* possible, rather than a
-0-or-negative-error value.
-
-So you could either change the type and sense of the function, or
-change the name to, say spapr_core_unplug_check(), which I would
-expect to return an error code.
-
 > ---
->  hw/ppc/spapr.c | 27 ++++++++++++++++++++-------
->  1 file changed, 20 insertions(+), 7 deletions(-)
+>  hw/ppc/spapr.c | 39 ++++++++++++++++++++++++++++++++++++++-
+>  1 file changed, 38 insertions(+), 1 deletion(-)
 >=20
 > diff --git a/hw/ppc/spapr.c b/hw/ppc/spapr.c
-> index 2c403b574e..a2f01c21aa 100644
+> index a2f01c21aa..d269dcd102 100644
 > --- a/hw/ppc/spapr.c
 > +++ b/hw/ppc/spapr.c
-> @@ -3706,22 +3706,35 @@ static void spapr_core_unplug(HotplugHandler *hot=
-plug_dev, DeviceState *dev)
->      qdev_unrealize(dev);
->  }
-> =20
-> -static
-> -void spapr_core_unplug_request(HotplugHandler *hotplug_dev, DeviceState =
-*dev,
-> -                               Error **errp)
-> +static int spapr_core_unplug_possible(HotplugHandler *hotplug_dev, CPUCo=
+> @@ -3709,9 +3709,16 @@ static void spapr_core_unplug(HotplugHandler *hotp=
+lug_dev, DeviceState *dev)
+>  static int spapr_core_unplug_possible(HotplugHandler *hotplug_dev, CPUCo=
 re *cc,
-> +                                      Error **errp)
+>                                        Error **errp)
+
+This will need a small rework w.r.t. my suggestions for the previous
+patch, obviously.
+
 >  {
-> -    SpaprMachineState *spapr =3D SPAPR_MACHINE(OBJECT(hotplug_dev));
+> +    CPUArchId *core_slot;
+> +    SpaprCpuCore *core;
+> +    PowerPCCPU *cpu;
+> +    CPUState *cs;
+> +    bool last_cpu_online =3D true;
 >      int index;
-> -    SpaprDrc *drc;
-> -    CPUCore *cc =3D CPU_CORE(dev);
 > =20
->      if (!spapr_find_cpu_slot(MACHINE(hotplug_dev), cc->core_id, &index))=
+> -    if (!spapr_find_cpu_slot(MACHINE(hotplug_dev), cc->core_id, &index))=
  {
+> +    core_slot =3D spapr_find_cpu_slot(MACHINE(hotplug_dev), cc->core_id,
+> +                                    &index);
+> +    if (!core_slot) {
 >          error_setg(errp, "Unable to find CPU core with core-id: %d",
 >                     cc->core_id);
-> -        return;
-> +        return -1;
+>          return -1;
+> @@ -3722,6 +3729,36 @@ static int spapr_core_unplug_possible(HotplugHandl=
+er *hotplug_dev, CPUCore *cc,
+>          return -1;
 >      }
+> =20
+> +    /* Allow for any non-boot CPU core to be unplugged if already offlin=
+e */
+> +    core =3D SPAPR_CPU_CORE(core_slot->cpu);
+> +    cs =3D CPU(core->threads[0]);
+> +    if (cs->halted) {
+> +        return 0;
+> +    }
+
+I think you need to check that *all* the cpu's threads are offline,
+not just thread 0 for this to be correct.
+
 > +
->      if (index =3D=3D 0) {
->          error_setg(errp, "Boot CPU core may not be unplugged");
+> +    /*
+> +     * Do not allow core unplug if it's the last core online.
+> +     */
+> +    cpu =3D POWERPC_CPU(cs);
+> +    CPU_FOREACH(cs) {
+> +        PowerPCCPU *c =3D POWERPC_CPU(cs);
+> +
+> +        if (c =3D=3D cpu) {
+> +            continue;
+> +        }
+> +
+> +        if (!cs->halted) {
+> +            last_cpu_online =3D false;
+> +            break;
+> +        }
+> +    }
+
+Likewise here I think your logic needs more careful handling of
+threads - you need to disallow the hotplug if all of the currently
+online threads are on the core slated for removal.
+
+I'm also a little bit worried about whether just checking cs->halted
+is sufficient.  That's a qemu/tcg core concept that I think that may
+be set in some circumstances when the CPU is *not* offline.  The logic
+of the suspend-me RTAS call is specifically to both set halted *and*
+to block interrupts so there's nothing that can pull the vcpu out of
+halted state.  It's possible that handling this correctly will require
+adding some qemu internal state to explicitly track the "online" state
+of a vcpu as managed by "suspend-me" and "start-cpu" RTAS calls.
+
+> +
+> +    if (last_cpu_online) {
+> +        error_setg(errp, "Unable to unplug CPU core with core-id %d: it =
+is "
+> +                   "the only CPU core online in the guest", cc->core_id);
 > +        return -1;
 > +    }
 > +
-> +    return 0;
-> +}
-> +
-> +static
-> +void spapr_core_unplug_request(HotplugHandler *hotplug_dev, DeviceState =
-*dev,
-> +                               Error **errp)
-> +{
-> +    ERRP_GUARD();
-> +    SpaprMachineState *spapr =3D SPAPR_MACHINE(OBJECT(hotplug_dev));
-> +    SpaprDrc *drc;
-> +    CPUCore *cc =3D CPU_CORE(dev);
-> +
-> +    if (spapr_core_unplug_possible(hotplug_dev, cc, errp) < 0) {
->          return;
->      }
+>      return 0;
+>  }
 > =20
 
 --=20
@@ -146,25 +208,25 @@ david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
 				| _way_ _around_!
 http://www.ozlabs.org/~dgibson
 
---Avw2VvEbzfULB0h1
+--RMorpr61ug7CvG36
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAmAA510ACgkQbDjKyiDZ
-s5K77w//WU2EE80pDLC1Gqkhl6fXCUvyEAJurkDtjjKi0kupL+m3r+5mdOUEF+Ut
-GPdJ2v3c7xQ30nELT5S6f+8TqH0vU7dTC2PI3rNlGcj8EPBrxzcOlzq750/4AVdo
-kIFbZ/kDtpH1mQBWKMq2h127B6NW2ebExGWnJbIB827X/uxihuep4+xqKasoqWsT
-YhJNritRP3i+qV7wW8KAIYGHNtZJ7ldtm1ZoP+ixhd5CuFhCPo5DX3yMT3hELqRf
-jpmeCSM3x0QmuBZCwjMwdC8gFRqKh9yLmKrmCLJ/aj5kC3D/351synTNSPSJQUzC
-b81QTayZnOH/BhD4nrIl0eclBVSm14tcyyGgUDrYm1rJqFXiknKAw6Q6Ioj9Ay2R
-ank1k8BPFpSQys0FzBbjPV1/15iwISpzhFvVOx0G24opabUphBoCv6+TyG+XIi+O
-OHtvSPZfGJw7GYlHZg4gMw/emuhlRKNVEXRVVun7WG4cMlELbAXT4+QtZWFpaZKA
-kBgNcCz90ZUB2qaxmPdz2DB+wq3tAYHC7+mTioJHk13niFeGYUktpP4/U3gFhuYX
-bU3Fv0mHoyynRis20aQk+TF65cMTYGOiGzHl00uRjexXfxxp5FsT3cZOd+Z6ViIn
-7CDth8tYKweBeGi9EjzWA+HyAkqrjlUJMmkJLJcIxBf6eLV8e70=
-=gEHL
+iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAmAA6cIACgkQbDjKyiDZ
+s5LCQA/+MMIkjnkyI8z6TsVihQtwX2WtegOLSj4K1GNC6O7zYM/biO+FZREAG7mR
+kcM38E3JGru7U//gzU8j6Ve97sp3eBIveJf8y03s4AK737HTqGRne3rjnGh+5OKK
+qoHLbI0159qKVaN3DoxGzXzkT6XUcksxZNfVr+4WmpfPI4mQKO7wXJtgUs5aUL70
+EeDdA+5s2lguyYrQ/kr5XhrBvTDnGhwcpJNGGQu7IIJiF5cFecvuocJMC9antlQq
+vG6WzjKzGkyZ+tg0H4cTwj7MIvABVdB66Paj78wdel4yeYpd+kAYZkGP4gaiHnK3
+Sxk8Do97joVJ3ZmAIyZMMhNmXy7dtJ58i0ZjLlv6ijf7Rg7yRXOxSIN7AGrPOe76
+CW9t/Yq6qSiN0YiPaCs8uiis+pAjSELZHb0VbXYmAsZ7+nCGYxvYecnHpK8T03xL
+t0hk3eyO2hz+oUpwBvvirJ1KUA0bi7D/W0c29tR4VkTUfN8r6LbaSebEitRmet9h
+fKk583GSdQjuTLTcrv2tSiCLGHSQQ3GEbQUt9H55yqo+ynxaqoB4sSy4WveeKO7m
+Z9nUpgvfo3f+adUIBiACm56zIYdZv6mEDkC4yQ2Ds6CrBnr+Wj5O2aLPjC7OGHkW
+iL1uReFBZoBeroiuCTzqE1Hummiu7Hj1BgKu/7k9IWHM3mN0lQY=
+=xGby
 -----END PGP SIGNATURE-----
 
---Avw2VvEbzfULB0h1--
+--RMorpr61ug7CvG36--
 
