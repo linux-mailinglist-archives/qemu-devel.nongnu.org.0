@@ -2,88 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1706A2F76C5
-	for <lists+qemu-devel@lfdr.de>; Fri, 15 Jan 2021 11:35:47 +0100 (CET)
-Received: from localhost ([::1]:33794 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4CE6E2F76E6
+	for <lists+qemu-devel@lfdr.de>; Fri, 15 Jan 2021 11:44:34 +0100 (CET)
+Received: from localhost ([::1]:40606 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l0MSI-0007SJ-4N
-	for lists+qemu-devel@lfdr.de; Fri, 15 Jan 2021 05:35:46 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59064)
+	id 1l0Man-0002X4-Bp
+	for lists+qemu-devel@lfdr.de; Fri, 15 Jan 2021 05:44:33 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60498)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <darren.kenny@oracle.com>)
- id 1l0MRB-0006EO-ED
- for qemu-devel@nongnu.org; Fri, 15 Jan 2021 05:34:37 -0500
-Received: from aserp2130.oracle.com ([141.146.126.79]:35944)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <darren.kenny@oracle.com>)
- id 1l0MR7-0003lH-Re
- for qemu-devel@nongnu.org; Fri, 15 Jan 2021 05:34:36 -0500
-Received: from pps.filterd (aserp2130.oracle.com [127.0.0.1])
- by aserp2130.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 10FAY07X102306;
- Fri, 15 Jan 2021 10:34:00 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com;
- h=from : to : cc :
- subject : in-reply-to : references : date : message-id : mime-version :
- content-type; s=corp-2020-01-29;
- bh=bH8krPDQpvZ8uhal4dD6hrOQS2VRbKQAWKBkSTC5SMY=;
- b=WHNdNpvTM4lGfzGq/cK3/7Mt1IzIX/GhWGm33yx9HlEdC4doPkVayjdC5u5vTnHDUT06
- nZ8LMSfDUaD3WTJ1aUr83suTbi8IQAjcS0XV53RZTXwwfb+6pooqDjZOy/o+r+gu8hkD
- m/UVHq2nLX+wK1ut1hQ1XAARt8NH05krmccD/Vt0lWGEzX+iGkjUgpd0IPGzUII0x4La
- NRAQdakpQoVFsW2STLNlmdIomqgP8N6RJvXDeLW7jFuWqMR8EFFjatNAIMIy5GcJ0Ow4
- pxZJESmy0ZFmd3YY4RQo8CV2+n4rhzR0P9VjYQcpGN9mPmGPG4hNI1eeb9q3qebgKqFq 7A== 
-Received: from aserp3020.oracle.com (aserp3020.oracle.com [141.146.126.70])
- by aserp2130.oracle.com with ESMTP id 360kg24d0p-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Fri, 15 Jan 2021 10:34:00 +0000
-Received: from pps.filterd (aserp3020.oracle.com [127.0.0.1])
- by aserp3020.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 10FATlkj172052;
- Fri, 15 Jan 2021 10:34:00 GMT
-Received: from aserv0122.oracle.com (aserv0122.oracle.com [141.146.126.236])
- by aserp3020.oracle.com with ESMTP id 360keb172r-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Fri, 15 Jan 2021 10:33:59 +0000
-Received: from abhmp0015.oracle.com (abhmp0015.oracle.com [141.146.116.21])
- by aserv0122.oracle.com (8.14.4/8.14.4) with ESMTP id 10FAXvgd017182;
- Fri, 15 Jan 2021 10:33:57 GMT
-Received: from starbug-mbp.localdomain (/79.97.215.145)
- by default (Oracle Beehive Gateway v4.0)
- with ESMTP ; Fri, 15 Jan 2021 02:33:57 -0800
-Received: by starbug-mbp.localdomain (Postfix, from userid 501)
- id 401EF2DEBC10; Fri, 15 Jan 2021 10:33:58 +0000 (GMT)
-From: Darren Kenny <darren.kenny@oracle.com>
-To: Alexander Bulekov <alxndr@bu.edu>, qemu-devel@nongnu.org
-Subject: Re: [PATCH] fuzz: Add virtio-9p configurations for fuzzing
-In-Reply-To: <20210114221748.503565-1-alxndr@bu.edu>
-References: <20210114221748.503565-1-alxndr@bu.edu>
-Date: Fri, 15 Jan 2021 10:33:58 +0000
-Message-ID: <m2sg72fq09.fsf@oracle.com>
+ (Exim 4.90_1) (envelope-from <pkrempa@redhat.com>)
+ id 1l0MZi-00026s-0y
+ for qemu-devel@nongnu.org; Fri, 15 Jan 2021 05:43:26 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:54935)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <pkrempa@redhat.com>)
+ id 1l0MZd-0007tr-Hu
+ for qemu-devel@nongnu.org; Fri, 15 Jan 2021 05:43:25 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1610707399;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=8nIT9RxP5hozqX55lfuhf2braxQWNddqA8JFV1yPA0o=;
+ b=hS01Zw74yz0wFbFWbYj3ppFdmFXZEdH+rlHmVzwlgqS699KHLsUCXCsOluqVhALV2FA4lp
+ 5SrO5go3jdd204FNuDKdFK9FG+7kd/yN/sz3JsKcqtFnhGFFkkmFec2PMjXBkb4yHF/Nu6
+ dwc32UNEO6JUKrJ7/jkXbveemqn35fQ=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-209-yf7Ckd5SPxSyrP6g5A7sLQ-1; Fri, 15 Jan 2021 05:43:18 -0500
+X-MC-Unique: yf7Ckd5SPxSyrP6g5A7sLQ-1
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
+ [10.5.11.16])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id D9EAA806664;
+ Fri, 15 Jan 2021 10:43:16 +0000 (UTC)
+Received: from angien.pipo.sk (unknown [10.40.208.30])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 506E671D5E;
+ Fri, 15 Jan 2021 10:43:15 +0000 (UTC)
+Date: Fri, 15 Jan 2021 11:43:10 +0100
+From: Peter Krempa <pkrempa@redhat.com>
+To: Peter Maydell <peter.maydell@linaro.org>
+Subject: Re: [PATCH v2] machine: add missing doc for memory-backend option
+Message-ID: <20210115104310.GA2794356@angien.pipo.sk>
+References: <20210114234612.795621-1-imammedo@redhat.com>
+ <CAFEAcA843rP6rvktc0FSZEjK8C9E8h_5_PbCBUXYM4XJRE7KHQ@mail.gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain
-X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9864
- signatures=668683
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 adultscore=0
- suspectscore=0 spamscore=0
- mlxlogscore=999 malwarescore=0 bulkscore=0 mlxscore=0 phishscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2009150000
- definitions=main-2101150063
-X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9864
- signatures=668683
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 malwarescore=0
- suspectscore=0
- clxscore=1011 impostorscore=0 spamscore=0 priorityscore=1501 mlxscore=0
- phishscore=0 mlxlogscore=999 bulkscore=0 adultscore=0 lowpriorityscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2009150000
- definitions=main-2101150063
-Received-SPF: pass client-ip=141.146.126.79;
- envelope-from=darren.kenny@oracle.com; helo=aserp2130.oracle.com
-X-Spam_score_int: -46
-X-Spam_score: -4.7
-X-Spam_bar: ----
-X-Spam_report: (-4.7 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.248,
+In-Reply-To: <CAFEAcA843rP6rvktc0FSZEjK8C9E8h_5_PbCBUXYM4XJRE7KHQ@mail.gmail.com>
+X-PGP-Key-ID: 0xD018682B
+X-PGP-Key-Fingerprint: D294 FF38 A6A2 BF40 6C75  5DEF 36EC 16AC D018 682B
+User-Agent: Mutt/1.14.6 (2020-07-11)
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=pkrempa@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=pkrempa@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -29
+X-Spam_score: -3.0
+X-Spam_bar: ---
+X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.248,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_MED=-2.3, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_PASS=-0.001,
- SPF_PASS=-0.001, UNPARSEABLE_RELAY=0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -96,55 +81,51 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Laurent Vivier <lvivier@redhat.com>, Thomas Huth <thuth@redhat.com>,
- Christian Schoenebeck <qemu_oss@crudebyte.com>, Greg Kurz <groug@kaod.org>,
- Alexander Bulekov <alxndr@bu.edu>, Bandan Das <bsd@redhat.com>,
- Stefan Hajnoczi <stefanha@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>
+Cc: Igor Mammedov <imammedo@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ QEMU Developers <qemu-devel@nongnu.org>,
+ Michal Privoznik <mprivozn@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi Alex,
+On Fri, Jan 15, 2021 at 10:02:04 +0000, Peter Maydell wrote:
+> On Thu, 14 Jan 2021 at 23:48, Igor Mammedov <imammedo@redhat.com> wrote:
+> >
+> > Add documentation for '-machine memory-backend' CLI option and
+> > how to use it.
+> >
+> > And document that x-use-canonical-path-for-ramblock-id,
+> > is considered to be stable to make sure it won't go away by accident.
+> 
+> That's not what the x- prefix is supposed to mean.
 
-On Thursday, 2021-01-14 at 17:17:48 -05, Alexander Bulekov wrote:
-> Signed-off-by: Alexander Bulekov <alxndr@bu.edu>
+This is the exact reason I was asking on behalf of the libvirt team for
+adding such statement if we were to use it. We want guarantee that it's
+considered stable since without that it will not be accepted into
+libvirt.
 
-In general this look good, so:
+> If we have an internal constraint that we mustn't delete
+> the option in order to support some other must-be-stable
+> interface (eg migration of some machines) we can document
+> that in a comment, but that doesn't mean that we should
+> document to users that direct use of an x-prefix option
+> is supported as a stable interface.
 
-Reviewed-by: Darren Kenny <darren.kenny@oracle.com>
+AFAIK the issue is that with the new approach to configure system memory
+(via a memory-backend=id, since the old one was deprecated) migration
+fails from/to older qemus ...
 
-but I do have a question below...
+> Alternatively, if the option is really stable for direct
+> use by users then we should commit to making it so by
+> removing the x-.
 
-> ---
->  tests/qtest/fuzz/generic_fuzz_configs.h | 12 ++++++++++++
->  1 file changed, 12 insertions(+)
->
-> diff --git a/tests/qtest/fuzz/generic_fuzz_configs.h b/tests/qtest/fuzz/generic_fuzz_configs.h
-> index 7fed035345..ffdb590c58 100644
-> --- a/tests/qtest/fuzz/generic_fuzz_configs.h
-> +++ b/tests/qtest/fuzz/generic_fuzz_configs.h
-> @@ -59,6 +59,18 @@ const generic_fuzz_config predefined_configs[] = {
->          .name = "virtio-mouse",
->          .args = "-machine q35 -nodefaults -device virtio-mouse",
->          .objects = "virtio*",
-> +    },{
-> +        .name = "virtio-9p",
-> +        .args = "-machine q35 -nodefaults "
-> +        "-device virtio-9p,fsdev=hshare,mount_tag=hshare "
-> +        "-fsdev local,id=hshare,path=/tmp/,security_model=none",
-> +        .objects = "virtio*",
+... thus the idea behind keeping this interface as is is it also fixes
+the migration compatibility for qemu 5.0/5.1/5.2 which were already
+released.
 
-I wonder about the use of "/tmp" rather than maybe some generated name
-using mkdtemp() - I also realise that the ability to generate this and
-plug it in here probably doesn't exist either, hence not holding you to
-it for this patch. Also the fact that in OSS-Fuzz this is run in limited
-containers.
+Removing the 'x-' will fix it only starting with qemu-6.0 and any
+downstream which backports the removal of the prefix.
 
-Have you observed any changes to "/tmp" while this is running? My
-concerns may be unfounded since I don't really know what state things
-are in while this is executed with no running OS.
-
-Thanks,
-
-Darren.
+Obviously not using 'x-' prefixed options is strongly preferred in
+libvirt. 
 
 
