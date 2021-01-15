@@ -2,57 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EBA9B2F7043
-	for <lists+qemu-devel@lfdr.de>; Fri, 15 Jan 2021 02:57:04 +0100 (CET)
-Received: from localhost ([::1]:42318 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 68ED62F704F
+	for <lists+qemu-devel@lfdr.de>; Fri, 15 Jan 2021 03:02:12 +0100 (CET)
+Received: from localhost ([::1]:46722 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l0EMK-0004GH-2m
-	for lists+qemu-devel@lfdr.de; Thu, 14 Jan 2021 20:57:04 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36260)
+	id 1l0ERH-0006N6-4n
+	for lists+qemu-devel@lfdr.de; Thu, 14 Jan 2021 21:02:11 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37056)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <no-reply@patchew.org>)
- id 1l0EKN-0003Z5-Qc; Thu, 14 Jan 2021 20:55:03 -0500
-Resent-Date: Thu, 14 Jan 2021 20:55:03 -0500
-Resent-Message-Id: <E1l0EKN-0003Z5-Qc@lists.gnu.org>
-Received: from sender4-of-o53.zoho.com ([136.143.188.53]:21383)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <no-reply@patchew.org>)
- id 1l0EKL-0002PU-EV; Thu, 14 Jan 2021 20:55:03 -0500
-ARC-Seal: i=1; a=rsa-sha256; t=1610675687; cv=none; 
- d=zohomail.com; s=zohoarc; 
- b=C45+1kBLhBlsgowCRn5Mde2rX2Q90TLCg7hTmFsy+PnE2CeGC17bR0g5lwr5xatBF2Xm/Ix6BgDBnGa3oLxoNVZOkzjtXS7HnLev1C6YXhfP5isXLNJ5HSowVjYmaQvb0z4etZ0MbG+cHY/N7s06QYRsXfM2qGC8Gedi4Z0XAcw=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
- s=zohoarc; t=1610675687;
- h=Content-Type:Content-Transfer-Encoding:Cc:Date:From:In-Reply-To:MIME-Version:Message-ID:Reply-To:Subject:To;
- bh=326YZzSn0bshP2Pmk5wCw6hR9MvzjvKvHgq6cqhY0NE=; 
- b=fsWbTIEeANGaEK1+kLAoA+2/MYrmE/lE+vnZL1R5CRtURZxvsjKHg9qSfS2NivSn7E4CeJfmDSB+drtz6RQy4IkOSxC9LzQsZQGYNeZrQIpngFn8L7X62UUvdluSp/a8Ej2K32BceTzCNpBn0AD0v/DQrqVo0rcZOFVGD3TK/NI=
-ARC-Authentication-Results: i=1; mx.zohomail.com;
- spf=pass  smtp.mailfrom=no-reply@patchew.org;
- dmarc=pass header.from=<no-reply@patchew.org>
- header.from=<no-reply@patchew.org>
-Received: from [172.17.0.3] (23.253.156.214 [23.253.156.214]) by
- mx.zohomail.com with SMTPS id 1610675685452674.4957428190091;
- Thu, 14 Jan 2021 17:54:45 -0800 (PST)
-In-Reply-To: <20210115012431.79533-1-zhanghan64@huawei.com>
-Subject: Re: [PATCH v2 0/7]Fix some style problems in audio
-Message-ID: <161067568385.26655.3608742083119578086@73fb1a5943b8>
+ (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
+ id 1l0EOe-0005Mq-Ps
+ for qemu-devel@nongnu.org; Thu, 14 Jan 2021 20:59:29 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:54032)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
+ id 1l0EOY-0003tp-TN
+ for qemu-devel@nongnu.org; Thu, 14 Jan 2021 20:59:28 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1610675960;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=5vducu0L/O2UAk3xTdcFzVS/bh9VL2IfXv3riV30alo=;
+ b=XNdakr5vEaObvFzjTJoj427G/DihGKLyKIXvFmvneOVSZ5krR5SdQFRiMzxHMaDhkGTehT
+ YN6roaBoy1WwS2KrX60mGn38xx0CaaCkvK8W4rhaXM8+KOMfB/VVB22RuaVguJtYiTu43O
+ OgAMisDWjPIkNK2rL3fQjdNwffAQvGc=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-474-3dcofda3NjaEOCkRe_OJXw-1; Thu, 14 Jan 2021 20:59:15 -0500
+X-MC-Unique: 3dcofda3NjaEOCkRe_OJXw-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 3D62C806666
+ for <qemu-devel@nongnu.org>; Fri, 15 Jan 2021 01:59:14 +0000 (UTC)
+Received: from localhost (unknown [10.40.208.23])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id EA5666F985;
+ Fri, 15 Jan 2021 01:59:03 +0000 (UTC)
+Date: Fri, 15 Jan 2021 02:59:02 +0100
+From: Igor Mammedov <imammedo@redhat.com>
+To: "Michael S. Tsirkin" <mst@redhat.com>
+Subject: Re: [RFC 0/5] pc: support user provided NIC naming/indexing
+Message-ID: <20210115025902.13e84f7c@redhat.com>
+In-Reply-To: <20210113064312-mutt-send-email-mst@kernel.org>
+References: <20201222233934.451578-1-imammedo@redhat.com>
+ <20210113064312-mutt-send-email-mst@kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
-Resent-From: 
-From: no-reply@patchew.org
-To: zhanghan64@huawei.com
-Date: Thu, 14 Jan 2021 17:54:45 -0800 (PST)
-X-ZohoMailClient: External
-Received-SPF: pass client-ip=136.143.188.53; envelope-from=no-reply@patchew.org;
- helo=sender4-of-o53.zoho.com
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
- RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=imammedo@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=imammedo@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -29
+X-Spam_score: -3.0
+X-Spam_bar: ---
+X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.248,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -65,56 +79,158 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: qemu-devel@nongnu.org
-Cc: hunongda@huawei.com, zhang.zhanghailiang@huawei.com,
- qemu-trivial@nongnu.org, qemu-devel@nongnu.org, alex.chen@huawei.com,
- kraxel@redhat.com, zhanghan64@huawei.com
+Cc: jusual@redhat.com, qemu-devel@nongnu.org, laine@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-UGF0Y2hldyBVUkw6IGh0dHBzOi8vcGF0Y2hldy5vcmcvUUVNVS8yMDIxMDExNTAxMjQzMS43OTUz
-My0xLXpoYW5naGFuNjRAaHVhd2VpLmNvbS8KCgoKSGksCgpUaGlzIHNlcmllcyBzZWVtcyB0byBo
-YXZlIHNvbWUgY29kaW5nIHN0eWxlIHByb2JsZW1zLiBTZWUgb3V0cHV0IGJlbG93IGZvcgptb3Jl
-IGluZm9ybWF0aW9uOgoKVHlwZTogc2VyaWVzCk1lc3NhZ2UtaWQ6IDIwMjEwMTE1MDEyNDMxLjc5
-NTMzLTEtemhhbmdoYW42NEBodWF3ZWkuY29tClN1YmplY3Q6IFtQQVRDSCB2MiAwLzddRml4IHNv
-bWUgc3R5bGUgcHJvYmxlbXMgaW4gYXVkaW8KCj09PSBURVNUIFNDUklQVCBCRUdJTiA9PT0KIyEv
-YmluL2Jhc2gKZ2l0IHJldi1wYXJzZSBiYXNlID4gL2Rldi9udWxsIHx8IGV4aXQgMApnaXQgY29u
-ZmlnIC0tbG9jYWwgZGlmZi5yZW5hbWVsaW1pdCAwCmdpdCBjb25maWcgLS1sb2NhbCBkaWZmLnJl
-bmFtZXMgVHJ1ZQpnaXQgY29uZmlnIC0tbG9jYWwgZGlmZi5hbGdvcml0aG0gaGlzdG9ncmFtCi4v
-c2NyaXB0cy9jaGVja3BhdGNoLnBsIC0tbWFpbGJhY2sgYmFzZS4uCj09PSBURVNUIFNDUklQVCBF
-TkQgPT09CgpVcGRhdGluZyAzYzhjZjVhOWMyMWZmODc4MjE2NGQxZGVmN2Y0NGJkODg4NzEzMzg0
-CkZyb20gaHR0cHM6Ly9naXRodWIuY29tL3BhdGNoZXctcHJvamVjdC9xZW11CiAqIFtuZXcgdGFn
-XSAgICAgICAgIHBhdGNoZXcvMjAyMTAxMTUwMTI0MzEuNzk1MzMtMS16aGFuZ2hhbjY0QGh1YXdl
-aS5jb20gLT4gcGF0Y2hldy8yMDIxMDExNTAxMjQzMS43OTUzMy0xLXpoYW5naGFuNjRAaHVhd2Vp
-LmNvbQpTd2l0Y2hlZCB0byBhIG5ldyBicmFuY2ggJ3Rlc3QnCmFhOWZkNDEgYXVkaW86IHNwYWNl
-IHByb2hpYml0ZWQgYmV0d2VlbiBmdW5jdGlvbiBuYW1lIGFuZCBwYXJlbnRoZXNpcycoJwpmMzZl
-YmU5IGF1ZGlvOiBTdXNwZWN0IGNvZGUgaW5kZW50IGZvciBjb25kaXRpb25hbCBzdGF0ZW1lbnRz
-CmE1MDQ4YjQgYXVkaW86IERvbid0IHVzZSAnJSMnIGluIGZvcm1hdCBzdHJpbmdzCjEzNmRmNWQg
-YXVkaW86IEZpeCBsaW5lcyBvdmVyIDkwIGNoYXJhY3RlcnMKNWNmZWExNiBhdWRpbzogZm9vKiBi
-YXIiIHNob3VsZCBiZSAiZm9vICpiYXIiLgowZjQzMjRmIGF1ZGlvOiBBZGQgc3BhY2VzIGFyb3Vu
-ZCBvcGVyYXRvci9kZWxldGUgcmVkdW5kYW50IHNwYWNlcwo0YTliOTE2IGF1ZGlvOiBBZGQgYnJh
-Y2VzIGZvciBzdGF0ZW1lbnRzL2ZpeCBicmFjZXMnIHBvc2l0aW9uCgo9PT0gT1VUUFVUIEJFR0lO
-ID09PQoxLzcgQ2hlY2tpbmcgY29tbWl0IDRhOWI5MTYwZjNjOSAoYXVkaW86IEFkZCBicmFjZXMg
-Zm9yIHN0YXRlbWVudHMvZml4IGJyYWNlcycgcG9zaXRpb24pCjIvNyBDaGVja2luZyBjb21taXQg
-MGY0MzI0ZmY2MzMzIChhdWRpbzogQWRkIHNwYWNlcyBhcm91bmQgb3BlcmF0b3IvZGVsZXRlIHJl
-ZHVuZGFudCBzcGFjZXMpCkVSUk9SOiBzcGFjZSBwcm9oaWJpdGVkIGJldHdlZW4gZnVuY3Rpb24g
-bmFtZSBhbmQgb3BlbiBwYXJlbnRoZXNpcyAnKCcKIzIzOiBGSUxFOiBhdWRpby9hdWRpb190ZW1w
-bGF0ZS5oOjIxMToKKyAgICAgICAgZ2x1ZSAoYXVkaW9fcGNtX2h3X2ZyZWVfcmVzb3VyY2VzXyAs
-IFRZUEUpIChodyk7Cgp0b3RhbDogMSBlcnJvcnMsIDAgd2FybmluZ3MsIDMyIGxpbmVzIGNoZWNr
-ZWQKClBhdGNoIDIvNyBoYXMgc3R5bGUgcHJvYmxlbXMsIHBsZWFzZSByZXZpZXcuICBJZiBhbnkg
-b2YgdGhlc2UgZXJyb3JzCmFyZSBmYWxzZSBwb3NpdGl2ZXMgcmVwb3J0IHRoZW0gdG8gdGhlIG1h
-aW50YWluZXIsIHNlZQpDSEVDS1BBVENIIGluIE1BSU5UQUlORVJTLgoKMy83IENoZWNraW5nIGNv
-bW1pdCA1Y2ZlYTE2M2RkODcgKGF1ZGlvOiBmb28qIGJhciIgc2hvdWxkIGJlICJmb28gKmJhciIu
-KQo0LzcgQ2hlY2tpbmcgY29tbWl0IDEzNmRmNWQ3Njc2MiAoYXVkaW86IEZpeCBsaW5lcyBvdmVy
-IDkwIGNoYXJhY3RlcnMpCjUvNyBDaGVja2luZyBjb21taXQgYTUwNDhiNDM3ZGFkIChhdWRpbzog
-RG9uJ3QgdXNlICclIycgaW4gZm9ybWF0IHN0cmluZ3MpCjYvNyBDaGVja2luZyBjb21taXQgZjM2
-ZWJlOTc1NTlmIChhdWRpbzogU3VzcGVjdCBjb2RlIGluZGVudCBmb3IgY29uZGl0aW9uYWwgc3Rh
-dGVtZW50cykKNy83IENoZWNraW5nIGNvbW1pdCBhYTlmZDQxOTQ3YjQgKGF1ZGlvOiBzcGFjZSBw
-cm9oaWJpdGVkIGJldHdlZW4gZnVuY3Rpb24gbmFtZSBhbmQgcGFyZW50aGVzaXMnKCcpCj09PSBP
-VVRQVVQgRU5EID09PQoKVGVzdCBjb21tYW5kIGV4aXRlZCB3aXRoIGNvZGU6IDEKCgpUaGUgZnVs
-bCBsb2cgaXMgYXZhaWxhYmxlIGF0Cmh0dHA6Ly9wYXRjaGV3Lm9yZy9sb2dzLzIwMjEwMTE1MDEy
-NDMxLjc5NTMzLTEtemhhbmdoYW42NEBodWF3ZWkuY29tL3Rlc3RpbmcuY2hlY2twYXRjaC8/dHlw
-ZT1tZXNzYWdlLgotLS0KRW1haWwgZ2VuZXJhdGVkIGF1dG9tYXRpY2FsbHkgYnkgUGF0Y2hldyBb
-aHR0cHM6Ly9wYXRjaGV3Lm9yZy9dLgpQbGVhc2Ugc2VuZCB5b3VyIGZlZWRiYWNrIHRvIHBhdGNo
-ZXctZGV2ZWxAcmVkaGF0LmNvbQ==
+On Wed, 13 Jan 2021 07:09:56 -0500
+"Michael S. Tsirkin" <mst@redhat.com> wrote:
+
+> On Tue, Dec 22, 2020 at 06:39:29PM -0500, Igor Mammedov wrote:
+> > 
+> > Series implements support for 'onboard' naming scheme for network
+> > interfaces (1), which is based on PCI firmware spec and lets user
+> > to explicitly specify index that will be used by guest to name
+> > network interface, ex:
+> >     -device e1000,acpi-index=33
+> > should make guest rename NIC name to 'eno33' where 'eno' is default
+> > prefix for this scheme.
+> > 
+> > Hope is that it will allow to simplify launching VMs from
+> > template disk images with different set VM configurations
+> > without need to reconfigure guest network intrfaces or
+> > risk of loosing network connectivity.  
+> 
+> Questions:
+> the spec says:
+> Assignment of specific device names to multi-function devices installed in expansion
+> slots, and/or PCI or PCI Express devices that are hot-added to expansion slots in operating system-
+> environment would be handled in operating system-specific manner, and is not specified via this
+> specification.
+> 
+> Accordingly, link below says:
+> " Names incorporating Firmware/BIOS provided index numbers for on-board devices (example: eno1)"
+> 
+> to what extend does guest assume the index is for on-board devices?
+> it seems things work for fedora but how confident are we that this
+> will keep working.
+
+code itself is not limiting it to onboard devices in any way.
+(I can only speculate here, reason for calling it onboard is that
+on real hardware ACPI is mostly static tables and firmware provides
+an option to set index for only built-in NICs).
+Technically there is no reason to call in onboad though.
+
+I'd believe it should work with any distribution that uses
+recent enough systemd/udev (released starting from 2003).
+
+> Further, code seems to only look at the slot level.
+> According to this, and according to the spec, this does not work with
+> multifunction devices, does it?
+
+we probably should disable it for multifunction devices,
+any suggestions how to detect those in QEMU?
+
+
+> The link you supplied lists another option:
+> "Names incorporating Firmware/BIOS provided PCI Express hotplug slot index numbers (example: ens1)"
+> these are under management control already ... 
+
+with it interface name continues to depend on PCI topology (and theoretically
+limited to PCI expess). That's becomes harder to consume as complexity grows
+(i.e. mgmt needs to keep NIC in the same place for which guest image was configured for).
+acpi-index doesn't impose such limitation.
+
+In case of 1 NIC, it could be moved anywhere within PCI hierarchy and guest
+doesn't have to be reconfigured to account for new interface name
+(i.e without loosing network connectivity - that's the actual issue coming from
+upper layers that made me look into acpi-index approach).
+
+In another words acpi index is easier to consume for users above libvirt
+and frees mgmt hands in a way it could distribute PCI devices.
+Even better would be if guest image could carry index as metadata
+
+> Also if we ask users to supply the property on the slot then it seems
+> that the property can be baked into ACPI when it's created instead of
+> being loaded from host - we can avoid adding new registers, this seems
+> preferable.  Could someone from management side chime in on whether that
+> is sufficient?
+
+I did consider it (it would be simpler, but not much), however unless we disable
+PCI hotplug for affected slots it won't work. (unplug device from such slot and
+plug another in that place will still return boot time index.
+That's why I ended up with hotplug variant. 
+
+I chose abusing existing PCI hotplug registers for it, 
+but we can use a new range if that's preferred. 
+
+> More questions:
+> 
+> does all this affect windows guests at all?
+I don't know (spec shows examples that reminded
+me about NIC naming which Windows use(s|d)).
+But I won't bet on it.
+If I recall correctly, for e1000 NIC, it didn't made any
+difference in naming (pre-existing guest image).
+
+> where does the "acpi index" terminology come from?
+> the pci firmware spec talks about "instance number", right?
+it comes from linux kernel (that's how it's named in sysfs)
+and systemd/udev uses it. So I tried to avoid making up another
+one.
+
+
+> > For more detailed description/examples see patches [3-4/5]
+> > 
+> > 1)
+> >  https://www.freedesktop.org/wiki/Software/systemd/PredictableNetworkInterfaceNames/ 
+> > 
+> > Git repo for testing:
+> >    https://github.com/imammedo/qemu/branches acpi-index-rfc
+> > 
+> > Igor Mammedov (5):
+> >   acpi: add aml_to_decimalstring() and aml_call6() helpers
+> >   tests: acpi: temporary whitelist DSDT changes
+> >   pci: introduce apci-index property for PCI device
+> >   pci: acpi: add _DSM method to PCI devices
+> >   tests: acpi: update expected data files
+> > 
+> >  include/hw/acpi/aml-build.h                 |   3 +
+> >  include/hw/acpi/pci.h                       |   1 +
+> >  include/hw/acpi/pcihp.h                     |   7 +-
+> >  include/hw/pci/pci.h                        |   1 +
+> >  tests/qtest/bios-tables-test-allowed-diff.h |  21 +++++
+> >  hw/acpi/aml-build.c                         |  28 +++++++
+> >  hw/acpi/pci.c                               |  84 ++++++++++++++++++++
+> >  hw/acpi/pcihp.c                             |  25 +++++-
+> >  hw/i386/acpi-build.c                        |  31 +++++++-
+> >  hw/pci/pci.c                                |   1 +
+> >  tests/data/acpi/pc/DSDT                     | Bin 5065 -> 6023 bytes
+> >  tests/data/acpi/pc/DSDT.acpihmat            | Bin 6390 -> 7348 bytes
+> >  tests/data/acpi/pc/DSDT.bridge              | Bin 6924 -> 8689 bytes
+> >  tests/data/acpi/pc/DSDT.cphp                | Bin 5529 -> 6487 bytes
+> >  tests/data/acpi/pc/DSDT.dimmpxm             | Bin 6719 -> 7677 bytes
+> >  tests/data/acpi/pc/DSDT.hpbridge            | Bin 5026 -> 5990 bytes
+> >  tests/data/acpi/pc/DSDT.hpbrroot            | Bin 3084 -> 3177 bytes
+> >  tests/data/acpi/pc/DSDT.ipmikcs             | Bin 5137 -> 6095 bytes
+> >  tests/data/acpi/pc/DSDT.memhp               | Bin 6424 -> 7382 bytes
+> >  tests/data/acpi/pc/DSDT.numamem             | Bin 5071 -> 6029 bytes
+> >  tests/data/acpi/pc/DSDT.roothp              | Bin 5261 -> 6324 bytes
+> >  tests/data/acpi/q35/DSDT                    | Bin 7801 -> 7863 bytes
+> >  tests/data/acpi/q35/DSDT.acpihmat           | Bin 9126 -> 9188 bytes
+> >  tests/data/acpi/q35/DSDT.bridge             | Bin 7819 -> 7911 bytes
+> >  tests/data/acpi/q35/DSDT.cphp               | Bin 8265 -> 8327 bytes
+> >  tests/data/acpi/q35/DSDT.dimmpxm            | Bin 9455 -> 9517 bytes
+> >  tests/data/acpi/q35/DSDT.ipmibt             | Bin 7876 -> 7938 bytes
+> >  tests/data/acpi/q35/DSDT.memhp              | Bin 9160 -> 9222 bytes
+> >  tests/data/acpi/q35/DSDT.mmio64             | Bin 8932 -> 9024 bytes
+> >  tests/data/acpi/q35/DSDT.numamem            | Bin 7807 -> 7869 bytes
+> >  tests/data/acpi/q35/DSDT.tis                | Bin 8407 -> 8468 bytes
+> >  31 files changed, 197 insertions(+), 5 deletions(-)
+> > 
+> > -- 
+> > 2.27.0  
+> 
+> 
+
 
