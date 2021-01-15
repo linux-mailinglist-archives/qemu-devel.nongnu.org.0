@@ -2,68 +2,80 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EF57D2F80E0
-	for <lists+qemu-devel@lfdr.de>; Fri, 15 Jan 2021 17:36:11 +0100 (CET)
-Received: from localhost ([::1]:58400 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E76C92F8109
+	for <lists+qemu-devel@lfdr.de>; Fri, 15 Jan 2021 17:42:16 +0100 (CET)
+Received: from localhost ([::1]:45550 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l0S54-0001Ns-Ge
-	for lists+qemu-devel@lfdr.de; Fri, 15 Jan 2021 11:36:10 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55138)
+	id 1l0SAx-00085z-Vm
+	for lists+qemu-devel@lfdr.de; Fri, 15 Jan 2021 11:42:16 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56234)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1l0RvF-00016K-Pu
- for qemu-devel@nongnu.org; Fri, 15 Jan 2021 11:26:01 -0500
-Received: from indium.canonical.com ([91.189.90.7]:50466)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1l0RvE-0002Il-4K
- for qemu-devel@nongnu.org; Fri, 15 Jan 2021 11:26:01 -0500
-Received: from loganberry.canonical.com ([91.189.90.37])
- by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1l0RvC-0004yW-Gu
- for <qemu-devel@nongnu.org>; Fri, 15 Jan 2021 16:25:58 +0000
-Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 5E06C2E813C
- for <qemu-devel@nongnu.org>; Fri, 15 Jan 2021 16:25:58 +0000 (UTC)
+ (Exim 4.90_1) (envelope-from <kchamart@redhat.com>)
+ id 1l0S0U-0006J0-Hk
+ for qemu-devel@nongnu.org; Fri, 15 Jan 2021 11:31:27 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:46316)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <kchamart@redhat.com>)
+ id 1l0S0Q-0004ZO-BE
+ for qemu-devel@nongnu.org; Fri, 15 Jan 2021 11:31:25 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1610728279;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=A4p1M4NCsvFL52USQXmMTDiGQGYf/Bv2xiQJ5c6bEPc=;
+ b=eDBlG4GE3rvyQhNBmJp4n83ytMDVtrYxx3iEXnTWRADsO2pckbaJ/IawR9Bmnng56dgvy4
+ //Ls6RH4WarOyLdc2cTlbRgLGACFXGPlcHXCmuIn+MKP1MRyuzo5/GQiLU7oj2TKVgkUaO
+ ndp8dglIsWnUIK3Jhuf79ViOACo9Ch4=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-589-szDgQYBsNEKceAK005quIA-1; Fri, 15 Jan 2021 11:31:17 -0500
+X-MC-Unique: szDgQYBsNEKceAK005quIA-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id D3BEC107ACF8;
+ Fri, 15 Jan 2021 16:31:16 +0000 (UTC)
+Received: from paraplu.localdomain (ovpn-115-33.ams2.redhat.com [10.36.115.33])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 9DA265C675;
+ Fri, 15 Jan 2021 16:31:13 +0000 (UTC)
+Received: by paraplu.localdomain (Postfix, from userid 1001)
+ id E3D123E0497; Fri, 15 Jan 2021 17:31:10 +0100 (CET)
+Date: Fri, 15 Jan 2021 17:31:10 +0100
+From: Kashyap Chamarthy <kchamart@redhat.com>
+To: John Snow <jsnow@redhat.com>
+Subject: Re: Call for Google Summer of Code 2021 project ideas
+Message-ID: <20210115163110.GB94798@paraplu.home>
+References: <CAJSP0QWWg__21otbMXAXWGD1FaHYLzZP7axZ47Unq6jtMvdfsA@mail.gmail.com>
+ <92903d8d-24c4-5177-67c9-1690ea794739@redhat.com>
+ <87pn29kxcp.fsf@dusky.pond.sub.org>
+ <b860c470-cbe3-00b5-1966-59fa87045024@redhat.com>
+ <87h7njsnui.fsf@dusky.pond.sub.org>
+ <c26786ac-159e-149a-aa5e-dd08f418d11e@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-Date: Fri, 15 Jan 2021 16:17:07 -0000
-From: Peter Maydell <1901532@bugs.launchpad.net>
-To: qemu-devel@nongnu.org
-X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=Confirmed; importance=Undecided;
- assignee=None; 
-X-Launchpad-Bug-Tags: fuzzer
-X-Launchpad-Bug-Information-Type: Public
-X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: cwmyung
-X-Launchpad-Bug-Reporter: Cheol-Woo,Myung (cwmyung)
-X-Launchpad-Bug-Modifier: Peter Maydell (pmaydell)
-References: <160371197903.29636.2526014342409272320.malonedeb@chaenomeles.canonical.com>
-Message-Id: <161072742777.23174.15501785235647531910.launchpad@soybean.canonical.com>
-Subject: [Bug 1901532] Re: Assertion failure `mr != NULL' failed through
- usb-ehci
-X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
-X-Launchpad-Message-For: qemu-devel-ml
-Precedence: bulk
-X-Generated-By: Launchpad (canonical.com);
- Revision="511b4a3b6512aa3d421c5f7d74f3527e78bff26e"; Instance="production"
-X-Launchpad-Hash: 5a0ec2f56b572c5b8f64abe0797677e12d054b6d
-Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
- helo=indium.canonical.com
-X-Spam_score_int: -65
-X-Spam_score: -6.6
-X-Spam_bar: ------
-X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9,
- HEADER_FROM_DIFFERENT_DOMAINS=0.249, RCVD_IN_DNSWL_HI=-5,
- RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <c26786ac-159e-149a-aa5e-dd08f418d11e@redhat.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kchamart@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=kchamart@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -29
+X-Spam_score: -3.0
+X-Spam_bar: ---
+X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.25,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -72,49 +84,67 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1901532 <1901532@bugs.launchpad.net>
+Cc: Stefan Hajnoczi <stefanha@gmail.com>, Eduardo Habkost <ehabkost@redhat.com>,
+ Markus Armbruster <armbru@redhat.com>, Stefan Hajnoczi <stefanha@redhat.com>,
+ QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-** Tags added: fuzzer
+On Thu, Jan 14, 2021 at 11:36:23AM -0500, John Snow wrote:
+> On 1/14/21 7:29 AM, Markus Armbruster wrote:
 
--- =
+[...]
 
-You received this bug notification because you are a member of qemu-
-devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1901532
+> So I see two possible options for "not inventing a language":
+> 
+> 1. Raw QMP
+> 2. The existing qmp-shell syntax, warts and all.
+> 
+> I don't see a tremendous problem with doing both; but we can start with raw
+> QMP. The existing qmp-shell syntax is at least definitely very easy to write
+> a new parser for, even if it's kind of ugly and insufficient. I still see
+> value in designing a new TUI with the old syntax.
+> 
+> > The project then aims to build a tool that adds useful features over
+> > "socat "READLINE,history=$HOME/.qmp_history,prompt=QMP>"
+> > UNIX-CONNECT:/path/to/socket".
+> > 
+> > If it succeeds, you can still design and implement a "better" language,
+> > and let users choose the one they prefer.  Or you could add features to
+> > help with typing QMP.
+> > 
+> > >                                                             I don't
+> > > think it's a blocker to have someone work on the TUI and asynchronous
+> > > dispatch elements. I think even just keeping our current parsing but
+> > > adding some of the features outlined in the proposal would be a big
+> > > usability win.
+> > 
+> > I don't feel this particular itch, but I'm certainly not objecting to
+> > anyone scratching.
+> > 
+> 
+> It's something I'd like to see so that I can walk non-QEMU devs through
+> interacting with QEMU at a low level for the purposes of debugging,
+> reproducing problems, prototyping features, etc.
+>
+> I use qmp-shell all the time for debugging things myself, I find it easier
+> to use than copy-pasting things directly into socat. I wouldn't mind the
+> shell getting a little smarter to help me out -- the ability to see async
+> events and reconnect on disconnect would already be a massive improvement to
+> *my* quality of life.
 
-Title:
-  Assertion failure `mr !=3D NULL' failed through usb-ehci
+As an infrequent user of `qmp-shell`, the async events stuff is really
+beneficial to me too.  And, I'm happy to play the test guinea pig to
+give the patchs a spin.  (I'm somewhat behind on the goings-on in this
+area, very slowly catching up.)
 
-Status in QEMU:
-  Confirmed
+> So much so that I spent a lot of time in December to write an async qmp
+> library O:-)
 
-Bug description:
-  Hello,
+Nice, I recall that you planned to use the 'asyncio' primitives from
+Python 3.6.
 
-  Using hypervisor fuzzer, hyfuzz, I found an assertion failure through
-  usb-ehci.
+-- 
+/kashyap
 
-  This was found in version 5.0.1 (stable-5.0).
-
-  --------
-
-  qemu-system-i386: src/qemu-repro/exec.c:3581: address_space_unmap: Assert=
-ion `mr !=3D NULL' failed.
-  [1]    14721 abort      src/qemu-repro/build/i386-softmmu/qemu-system-i386
-
-  =
-
-  To reproduce the assertion failure, please run the QEMU with following co=
-mmand line.
-
-  ```
-  $ qemu-system-i386 -drive file=3D./hyfuzz.img,index=3D0,media=3Ddisk,form=
-at=3Draw -m 512 -drive if=3Dnone,id=3Dstick,file=3D./usbdisk.img -device us=
-b-ehci,id=3Dehci -device usb-storage,bus=3Dehci.0,drive=3Dstick
-  ```
-
-To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1901532/+subscriptions
 
