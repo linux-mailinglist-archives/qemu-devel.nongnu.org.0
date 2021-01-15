@@ -2,70 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 634C12F7FFA
-	for <lists+qemu-devel@lfdr.de>; Fri, 15 Jan 2021 16:50:40 +0100 (CET)
-Received: from localhost ([::1]:46216 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A92FD2F7FE4
+	for <lists+qemu-devel@lfdr.de>; Fri, 15 Jan 2021 16:44:05 +0100 (CET)
+Received: from localhost ([::1]:60286 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l0RN1-0002fA-FL
-	for lists+qemu-devel@lfdr.de; Fri, 15 Jan 2021 10:50:39 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44580)
+	id 1l0RGe-00054H-Nx
+	for lists+qemu-devel@lfdr.de; Fri, 15 Jan 2021 10:44:04 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44988)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1l0RDR-0001wT-8A
- for qemu-devel@nongnu.org; Fri, 15 Jan 2021 10:40:45 -0500
-Received: from mail-ej1-x632.google.com ([2a00:1450:4864:20::632]:45330)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1l0RDP-0005ED-Bv
- for qemu-devel@nongnu.org; Fri, 15 Jan 2021 10:40:44 -0500
-Received: by mail-ej1-x632.google.com with SMTP id ke15so6233605ejc.12
- for <qemu-devel@nongnu.org>; Fri, 15 Jan 2021 07:40:42 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=YyleLIaAGzaShdrDc+e75gdNdqoij+HNUiGfu0OeNa8=;
- b=zWMJRHesP2CyLoYGCV5oGzYuO6kwRZ2oR+ynNOROnUtHw7wXw/OsjYYrhDDsQ6rsFH
- p2AoXtPwTc/lP9jIQ8YakgMWSdcYHSQe02fyoKfJ6argNy/BGUFe3AGLmCY6+m7jEN/4
- rHcPtWVuMEF+aAyfTu1ns5F9Fk5feBj07S4sIGnc1x+juCNp4lvFRjkEWpNhxm/3lMtp
- aVouQ4X8BkI/+mcgOMROLL8cVU1EymBO5UnN3jWSuv14qe4fSVH5BTLWquHB+AAdoGqJ
- td2HYwHAHVnLIq8QP5nCY2+1Q4oJ5v8OcPWjXnfrvFJiLDBerlji/9zNi9jA3+dld9Zk
- 4HjA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=YyleLIaAGzaShdrDc+e75gdNdqoij+HNUiGfu0OeNa8=;
- b=WEOVVMfLnkWPtwdD4Sm0WGlNU9tFgjfoaisg6ZvNniAbMdO7XfvaqKAdFAZUIiamtz
- FUrb24RfHe54bEYMuJs56bWbgrV7tXEXUTbZVsmnxktaaPvl+dH1+Hu8sdyIQ6c+Ec1j
- VcNNXFiYKXZf2DlaGsb3ylDNSSgZTLuuZIBET22jCxS5xF5A/GygDh9HFJPY9Dr5jvKK
- 7rKngk8BuLP7XvoD5cTLXabxjJeY/PzQINR8VQ/wcFsMzRfvj2Jq4AbDQwD1nIrwZNxM
- 3TcHVrTf3AxpEOXmJ0oiiTs6QFTBNpKQOlkLN3ACN/YMNw5qtNHymLZSTorRPpnGhPN6
- nbJw==
-X-Gm-Message-State: AOAM5328pQfVgMAB8ygcgAW34WdPmE2I9uiQ+Ue1PmLMRh89vl1cRzjm
- c8NvRYDunWnFAUgArj9UEep1BK++tt55twa7fb20gA==
-X-Google-Smtp-Source: ABdhPJyyNLmszv7pNWg3YcMI8H4WAitB1fjjMWRBKROkTNCPi8CHJVcXc6mB1wFo5WGkKCQyH1rdy1p8viiUOAt84Uk=
-X-Received: by 2002:a17:906:3d4a:: with SMTP id
- q10mr9391161ejf.85.1610725241233; 
- Fri, 15 Jan 2021 07:40:41 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <cohuck@redhat.com>) id 1l0REz-0003fK-Dk
+ for qemu-devel@nongnu.org; Fri, 15 Jan 2021 10:42:21 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:35487)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <cohuck@redhat.com>) id 1l0REw-000604-3p
+ for qemu-devel@nongnu.org; Fri, 15 Jan 2021 10:42:21 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1610725337;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=X0Ml8GeSPx6eTfDk4Qrq1C0++fo/oGqMTB9cMjB7X6E=;
+ b=dCgjqsMVcOVbsCSDwoD1w6jMqinfHDi8QXjBkjciCrUukAcuOgdf0lW1GxD+kocCMAlI7F
+ AC5eQ3VNzM2KjIrQhoDPtwFwtpwkVve/p7kAxW3CCEu6YIYWMS0N5jnnowoQyD2309oWmf
+ AWSPXOJtTo0okLr56eceBl648KyUuSw=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-348-QWWsuQnJPcqYM9v2kjrjNg-1; Fri, 15 Jan 2021 10:42:13 -0500
+X-MC-Unique: QWWsuQnJPcqYM9v2kjrjNg-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id EA16D806662;
+ Fri, 15 Jan 2021 15:42:10 +0000 (UTC)
+Received: from gondolin (ovpn-114-124.ams2.redhat.com [10.36.114.124])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 32A2A60BF3;
+ Fri, 15 Jan 2021 15:41:54 +0000 (UTC)
+Date: Fri, 15 Jan 2021 16:41:51 +0100
+From: Cornelia Huck <cohuck@redhat.com>
+To: David Gibson <david@gibson.dropbear.id.au>
+Subject: Re: [PATCH v7 10/13] spapr: Add PEF based confidential guest support
+Message-ID: <20210115164151.087826c5.cohuck@redhat.com>
+In-Reply-To: <20210113235811.1909610-11-david@gibson.dropbear.id.au>
+References: <20210113235811.1909610-1-david@gibson.dropbear.id.au>
+ <20210113235811.1909610-11-david@gibson.dropbear.id.au>
+Organization: Red Hat GmbH
 MIME-Version: 1.0
-References: <CAFEAcA8ozrnbh8XVZa8OF9C9SnNKb4Wb-=gZianHPPp5zcKjmw@mail.gmail.com>
- <980269ad-bd28-08e5-0be0-fb5564aa7cd5@weilnetz.de>
-In-Reply-To: <980269ad-bd28-08e5-0be0-fb5564aa7cd5@weilnetz.de>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Fri, 15 Jan 2021 15:40:30 +0000
-Message-ID: <CAFEAcA8myFRpx9KOYY4nw_jX81_Pz1OgCb4dQjoEMUVnFLLSJQ@mail.gmail.com>
-Subject: Re: Windows installer builds apparently broken since October?
-To: Stefan Weil <sw@weilnetz.de>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2a00:1450:4864:20::632;
- envelope-from=peter.maydell@linaro.org; helo=mail-ej1-x632.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=cohuck@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -29
+X-Spam_score: -3.0
+X-Spam_bar: ---
+X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.25,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -78,38 +74,145 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: John Snow <jsnow@redhat.com>, "Daniel P. Berrange" <berrange@redhat.com>,
- =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>,
- QEMU Developers <qemu-devel@nongnu.org>
+Cc: pair@us.ibm.com, brijesh.singh@amd.com, kvm@vger.kernel.org,
+ David Hildenbrand <david@redhat.com>, qemu-devel@nongnu.org,
+ frankja@linux.ibm.com, pragyansri.pathi@intel.com, mst@redhat.com,
+ mdroth@linux.vnet.ibm.com, pasic@linux.ibm.com, borntraeger@de.ibm.com,
+ andi.kleen@intel.com, thuth@redhat.com, Eduardo Habkost <ehabkost@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>, dgilbert@redhat.com,
+ Greg Kurz <groug@kaod.org>, qemu-s390x@nongnu.org, jun.nakajima@intel.com,
+ berrange@redhat.com, Marcelo Tosatti <mtosatti@redhat.com>,
+ qemu-ppc@nongnu.org, Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, 15 Jan 2021 at 15:34, Stefan Weil <sw@weilnetz.de> wrote:
-> although I have some local fixes (available for example in
-> https://github.com/stweil/qemu/) I am still struggling with 5.2.0.
->
-> One problem which was recently discussed on the list is the directory
-> structure of the installation (especially the location for BIOS and
-> similar files) which still needs changes (which als require updates for
-> qemu.nsi). I'd prefer a similar hierarchical structure for both Linux
-> and Windows (instead of a flat one which does not work with the current
-> code).
+On Thu, 14 Jan 2021 10:58:08 +1100
+David Gibson <david@gibson.dropbear.id.au> wrote:
 
-Yeah, that was about where I got stuck. Somehow the way the
-temporary install directory is created for the Windows build
-shoves everything in a single directory (you don't get this if
-you do a normal Linux install -- that has separate bin, docs,
-icons, etc subdirectories). This gets even worse with the single-manual
-documentation because all the files for the manual are then in
-that same directory too :-(
+> Some upcoming POWER machines have a system called PEF (Protected
+> Execution Facility) which uses a small ultravisor to allow guests to
+> run in a way that they can't be eavesdropped by the hypervisor.  The
+> effect is roughly similar to AMD SEV, although the mechanisms are
+> quite different.
+> 
+> Most of the work of this is done between the guest, KVM and the
+> ultravisor, with little need for involvement by qemu.  However qemu
+> does need to tell KVM to allow secure VMs.
+> 
+> Because the availability of secure mode is a guest visible difference
+> which depends on having the right hardware and firmware, we don't
+> enable this by default.  In order to run a secure guest you need to
+> create a "pef-guest" object and set the confidential-guest-support
+> property to point to it.
+> 
+> Note that this just *allows* secure guests, the architecture of PEF is
+> such that the guest still needs to talk to the ultravisor to enter
+> secure mode.  Qemu has no directl way of knowing if the guest is in
+> secure mode, and certainly can't know until well after machine
+> creation time.
+> 
+> To start a PEF-capable guest, use the command line options:
+>     -object pef-guest,id=pef0 -machine confidential-guest-support=pef0
+> 
+> Signed-off-by: David Gibson <david@gibson.dropbear.id.au>
+> ---
+>  docs/confidential-guest-support.txt |   3 +
+>  docs/papr-pef.txt                   |  30 +++++++
+>  hw/ppc/meson.build                  |   1 +
+>  hw/ppc/pef.c                        | 119 ++++++++++++++++++++++++++++
+>  hw/ppc/spapr.c                      |   6 ++
+>  include/hw/ppc/pef.h                |  25 ++++++
+>  target/ppc/kvm.c                    |  18 -----
+>  target/ppc/kvm_ppc.h                |   6 --
+>  8 files changed, 184 insertions(+), 24 deletions(-)
+>  create mode 100644 docs/papr-pef.txt
+>  create mode 100644 hw/ppc/pef.c
+>  create mode 100644 include/hw/ppc/pef.h
+> 
+> diff --git a/docs/confidential-guest-support.txt b/docs/confidential-guest-support.txt
+> index 2790425b38..f0801814ff 100644
+> --- a/docs/confidential-guest-support.txt
+> +++ b/docs/confidential-guest-support.txt
+> @@ -40,4 +40,7 @@ Currently supported confidential guest mechanisms are:
+>  AMD Secure Encrypted Virtualization (SEV)
+>      docs/amd-memory-encryption.txt
+>  
+> +POWER Protected Execution Facility (PEF)
+> +    docs/papr-pef.txt
+> +
+>  Other mechanisms may be supported in future.
+> diff --git a/docs/papr-pef.txt b/docs/papr-pef.txt
+> new file mode 100644
+> index 0000000000..6419e995cf
+> --- /dev/null
+> +++ b/docs/papr-pef.txt
 
-I don't think I can really get this to work with the single-manual
-documentation setup as qemu.nsi stands in master. So my plan is
-to just commit the single-manual changes (probably next week some
-time) and then we I'm happy to help with the Windows installer
-changes necessary for the manual part once it's basically working
-again.
+Same here, make this .rst and add it to the system guide?
 
-thanks
--- PMM
+> @@ -0,0 +1,30 @@
+> +POWER (PAPR) Protected Execution Facility (PEF)
+> +===============================================
+> +
+> +Protected Execution Facility (PEF), also known as Secure Guest support
+> +is a feature found on IBM POWER9 and POWER10 processors.
+> +
+> +If a suitable firmware including an Ultravisor is installed, it adds
+> +an extra memory protection mode to the CPU.  The ultravisor manages a
+> +pool of secure memory which cannot be accessed by the hypervisor.
+> +
+> +When this feature is enabled in qemu, a guest can use ultracalls to
+
+s/qemu/QEMU/
+
+> +enter "secure mode".  This transfers most of its memory to secure
+> +memory, where it cannot be eavesdropped by a compromised hypervisor.
+> +
+> +Launching
+> +---------
+> +
+> +To launch a guest which will be permitted to enter PEF secure mode:
+> +
+> +# ${QEMU} \
+> +    -object pef-guest,id=pef0 \
+> +    -machine confidential-guest-support=pef0 \
+> +    ...
+> +
+> +Live Migration
+> +----------------
+> +
+> +Live migration is not yet implemented for PEF guests.  For
+> +consistency, we currently prevent migration if the PEF feature is
+> +enabled, whether or not the guest has actually entered secure mode.
+> diff --git a/hw/ppc/meson.build b/hw/ppc/meson.build
+> index ffa2ec37fa..218631c883 100644
+> --- a/hw/ppc/meson.build
+> +++ b/hw/ppc/meson.build
+> @@ -27,6 +27,7 @@ ppc_ss.add(when: 'CONFIG_PSERIES', if_true: files(
+>    'spapr_nvdimm.c',
+>    'spapr_rtas_ddw.c',
+>    'spapr_numa.c',
+> +  'pef.c',
+>  ))
+>  ppc_ss.add(when: 'CONFIG_SPAPR_RNG', if_true: files('spapr_rng.c'))
+>  ppc_ss.add(when: ['CONFIG_PSERIES', 'CONFIG_LINUX'], if_true: files(
+> diff --git a/hw/ppc/pef.c b/hw/ppc/pef.c
+> new file mode 100644
+> index 0000000000..02b9b3b460
+> --- /dev/null
+> +++ b/hw/ppc/pef.c
+> @@ -0,0 +1,119 @@
+> +/*
+> + * PEF (Protected Execution Facility) for POWER support
+> + *
+> + * Copyright David Gibson, Redhat Inc. 2020
+
+2021?
+
+> + *
+> + * This work is licensed under the terms of the GNU GPL, version 2 or later.
+> + * See the COPYING file in the top-level directory.
+> + *
+> + */
+> +
+
 
