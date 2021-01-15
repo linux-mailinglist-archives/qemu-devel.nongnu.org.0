@@ -2,74 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 900222F7644
-	for <lists+qemu-devel@lfdr.de>; Fri, 15 Jan 2021 11:13:07 +0100 (CET)
-Received: from localhost ([::1]:47956 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id ABB962F7663
+	for <lists+qemu-devel@lfdr.de>; Fri, 15 Jan 2021 11:14:31 +0100 (CET)
+Received: from localhost ([::1]:51442 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l0M6M-0005Hx-LI
-	for lists+qemu-devel@lfdr.de; Fri, 15 Jan 2021 05:13:06 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54952)
+	id 1l0M7i-0006iC-QO
+	for lists+qemu-devel@lfdr.de; Fri, 15 Jan 2021 05:14:30 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54982)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <maxim.uvarov@linaro.org>)
- id 1l0M4s-00043s-5l
- for qemu-devel@nongnu.org; Fri, 15 Jan 2021 05:11:34 -0500
-Received: from mail-lj1-x233.google.com ([2a00:1450:4864:20::233]:43474)
+ id 1l0M4t-00044F-Fl
+ for qemu-devel@nongnu.org; Fri, 15 Jan 2021 05:11:35 -0500
+Received: from mail-lj1-x229.google.com ([2a00:1450:4864:20::229]:37523)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <maxim.uvarov@linaro.org>)
- id 1l0M4q-0001xy-LB
- for qemu-devel@nongnu.org; Fri, 15 Jan 2021 05:11:33 -0500
-Received: by mail-lj1-x233.google.com with SMTP id e7so9763082ljg.10
+ id 1l0M4r-0001y4-Ej
+ for qemu-devel@nongnu.org; Fri, 15 Jan 2021 05:11:35 -0500
+Received: by mail-lj1-x229.google.com with SMTP id w26so9782849ljo.4
  for <qemu-devel@nongnu.org>; Fri, 15 Jan 2021 02:11:32 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=dI3m5apsFpRzkZoJU0PtHodMAshsYUKsXH+0XXCFfFM=;
- b=MHyD8mGnSVVB1d36yaC+ardXR4WaRHkCgqUNiOafXFgC1UMzHzoMkQ+OOaTNkw43v1
- TljI25K/B/u9lfjL7iV04wpADD6sWCk3SORQ0c5uLxk26jf+4SX51m5jqdZNegtcw9gX
- UZhlQ/1itisx7/+05hAiI2w0EJkvRivfkL+fcJD63DrKEeIO/2RLyv451erS1niumvRb
- QY9N4B1pMtYRk1KLB885Qzbo2q7jn9sKo/7zXzyf1pAocszo5pqDPstz14qs4FfvtBYI
- 57d5CuGSyqRt2WidoSqoU5jcq1asaT+42PORfVi+zzTLvHOq/G4Fjd4/2RzIaEs11UTb
- gk6A==
+ h=from:to:cc:subject:date:message-id:in-reply-to:references;
+ bh=62h8W8c/MHOTaJfr80jgkPG/YCUcGgeW9/I/zkhkDxM=;
+ b=GyH5cAgj8gBMOB9g6vIMa6uul6ha6L4Hbw0pM98N6O6QoRwupKRoSEWMK3VhHkcSU+
+ GFcID6kPoUleGXhzGnEiVX42tI5PRV2bBqUFenMiAjPyYwJlDbooDaLyjpThj/Sz6sVv
+ +eB1y7EUlSTZhe7+7DNcNl9EilDhQyZ3SK0DHhfgegaPFQViVjNdUBvpj/LR+Hkk4jN6
+ 8/OA8ZAsdQYYEe1uqeqQj7TJrbLIC+ocejMh5G8zYo7lL3vps5epBzAeFokqYeswfrmQ
+ IiW5L5wHBYuJH4OKlVWY1C4Zkgyl9qDIsOR4uuZoRVAjsg8x+SN4nE6uNEyCC6TpyVwv
+ d9Zw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=dI3m5apsFpRzkZoJU0PtHodMAshsYUKsXH+0XXCFfFM=;
- b=nusibhlNdP/Mmmxj5L3nGt3fhAsl+F6nBav7jywBvg4ipso7wCvWxlg23sPkmzK5Nj
- fv+b7tRezH/eYUVFcRShOc718Y7V+P3HV6Z0osYc+IHR6/FgRetF99x+1G0A8sK+PkHu
- jCfl/gXU+IgtwIXW3SurGB3NLQ/6pvb3kDtKUUTNkjIjM6e8waisL2jKSgvDZA1SDahF
- AMMRbgnd7c2cmRzF/VJxhWexb/nXDIicxxd8XxZ7jaojeoLdi0gQkK90AApEUtgy/ZTk
- xJL85XrIkXce98Veb94qT33YLEkd44quGLvYQAoBJNEvrXPlqcz+gsTOagNc8YlKQtNH
- 65/Q==
-X-Gm-Message-State: AOAM533N1bVTIyPMXWGhBFqApqtIHB6FDnGmGhp7e0EafkSZCT+ojOnN
- 0ryN0IO2g/SEr20snALa44NasQ==
-X-Google-Smtp-Source: ABdhPJyVXYNtdF6AgCPMMyKLMwqYEVcQGgwfvlM7P94Eg65N3P5KWqrX+X5NzOvgt63fcrlrFF/s2Q==
-X-Received: by 2002:a2e:95d5:: with SMTP id y21mr5262677ljh.477.1610705489942; 
- Fri, 15 Jan 2021 02:11:29 -0800 (PST)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+ :references;
+ bh=62h8W8c/MHOTaJfr80jgkPG/YCUcGgeW9/I/zkhkDxM=;
+ b=pYaAo5aKHi2MWwl8Gn79dwaBVdIx+sMALh33PTGjA/ofmzOJ2/DwpPn5O9bF39/cGb
+ C5x+QamHyzMf4wePP0sEtRCTo8PMCNVY5zl6pYmfzPA7xmT3hkoy4X61DiuYYMT9Ywn+
+ pykgf82n2BxcWNvsSSiGQ01eAnP2o8lHUGTMF7lXpZtpLWvz8gl06/2nSlJzdB0HVtra
+ Puy1CHx0K8OU+rbZc7B4jfx1HueqC9T3NEXHBDre3Co6LGwdSZzS5vUEm6yqfGEA1gdb
+ zyLN85uiKK1ZziZxcpUEM0JeoeBACtmy4zfRDX2nAIuBro3uLChR0kospgLyOhsdubvm
+ 0XUA==
+X-Gm-Message-State: AOAM530PrXlICIpijHdb6xt7kAT6lYxtCH0x9BzRO94o6/nVQ07CTniR
+ f8NbH8q+wfvWX4pn1aOY7AtcO7J3SKQNYA==
+X-Google-Smtp-Source: ABdhPJxTOoSDvPspimR2HWD86UNGYuebaMsHI0egy88hhupHFW67lrCf2R34Zp7LZIqplv37DU88Og==
+X-Received: by 2002:a05:651c:383:: with SMTP id
+ e3mr4970599ljp.422.1610705491760; 
+ Fri, 15 Jan 2021 02:11:31 -0800 (PST)
 Received: from localhost.localdomain ([91.193.178.207])
- by smtp.gmail.com with ESMTPSA id a15sm731886lji.105.2021.01.15.02.11.28
+ by smtp.gmail.com with ESMTPSA id a15sm731886lji.105.2021.01.15.02.11.30
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 15 Jan 2021 02:11:29 -0800 (PST)
+ Fri, 15 Jan 2021 02:11:31 -0800 (PST)
 From: Maxim Uvarov <maxim.uvarov@linaro.org>
 To: qemu-arm@nongnu.org,
 	qemu-devel@nongnu.org
-Subject: [PATCHv7 0/3] arm-virt: add secure pl061 for reset/power down
-Date: Fri, 15 Jan 2021 13:11:23 +0300
-Message-Id: <20210115101126.4259-1-maxim.uvarov@linaro.org>
+Subject: [PATCHv7 1/3] hw: gpio: implement gpio-pwr driver for qemu
+ reset/poweroff
+Date: Fri, 15 Jan 2021 13:11:24 +0300
+Message-Id: <20210115101126.4259-2-maxim.uvarov@linaro.org>
 X-Mailer: git-send-email 2.17.1
-MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::233;
- envelope-from=maxim.uvarov@linaro.org; helo=mail-lj1-x233.google.com
+In-Reply-To: <20210115101126.4259-1-maxim.uvarov@linaro.org>
+References: <20210115101126.4259-1-maxim.uvarov@linaro.org>
+Received-SPF: pass client-ip=2a00:1450:4864:20::229;
+ envelope-from=maxim.uvarov@linaro.org; helo=mail-lj1-x229.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -88,40 +88,120 @@ Cc: peter.maydell@linaro.org, drjones@redhat.com,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
- v7: - same as v6, but resplit patches: patch 2 no function changes and refactor
-	gpio setup for virt platfrom and patch 3 adds secure gpio.
- v6: - 64k align gpio memory region (Andrew Jones)
-     - adjusted memory region to map this address in the corresponding atf patch
- v5: - removed vms flag, added fdt  (Andrew Jones)
-     - added patch3 to combine secure and non secure pl061. It has to be
-       more easy to review if this changes are in the separate patch.
- v4: rework patches accodring to Peter Maydells comments:
-	- split patches on gpio-pwr driver and arm-virt integration.
-	- start secure gpio only from virt-6.0.
-	- rework qemu interface for gpio-pwr to use 2 named gpio.
-	- put secure gpio to secure name space.
- v3: added missed include qemu/log.h for qemu_log(.. 
- v2: replace printf with qemu_log (Philippe Mathieu-Daudé)
+Implement gpio-pwr driver to allow reboot and poweroff machine.
+This is simple driver with just 2 gpios lines. Current use case
+is to reboot and poweroff virt machine in secure mode. Secure
+pl066 gpio chip is needed for that.
 
-This patch works together with ATF patch:
-	https://github.com/muvarov/arm-trusted-firmware/commit/7556d07e87f755c602cd9d90359341bdd14d9d57
-
-Previus discussion for reboot issue was here:
-     https://www.mail-archive.com/qemu-devel@nongnu.org/msg757705.html
-Maxim Uvarov (3):
-  hw: gpio: implement gpio-pwr driver for qemu reset/poweroff
-  arm-virt: refactor gpios creation
-  arm-virt: add secure pl061 for reset/power down
-
- hw/arm/Kconfig        |   1 +
- hw/arm/virt.c         | 117 ++++++++++++++++++++++++++++++++++--------
- hw/gpio/Kconfig       |   3 ++
- hw/gpio/gpio_pwr.c    |  70 +++++++++++++++++++++++++
- hw/gpio/meson.build   |   1 +
- include/hw/arm/virt.h |   2 +
- 6 files changed, 174 insertions(+), 20 deletions(-)
+Signed-off-by: Maxim Uvarov <maxim.uvarov@linaro.org>
+Reviewed-by: Hao Wu <wuhaotsh@google.com>
+---
+ hw/gpio/Kconfig     |  3 ++
+ hw/gpio/gpio_pwr.c  | 70 +++++++++++++++++++++++++++++++++++++++++++++
+ hw/gpio/meson.build |  1 +
+ 3 files changed, 74 insertions(+)
  create mode 100644 hw/gpio/gpio_pwr.c
 
+diff --git a/hw/gpio/Kconfig b/hw/gpio/Kconfig
+index b6fdaa2586..f0e7405f6e 100644
+--- a/hw/gpio/Kconfig
++++ b/hw/gpio/Kconfig
+@@ -8,5 +8,8 @@ config PL061
+ config GPIO_KEY
+     bool
+ 
++config GPIO_PWR
++    bool
++
+ config SIFIVE_GPIO
+     bool
+diff --git a/hw/gpio/gpio_pwr.c b/hw/gpio/gpio_pwr.c
+new file mode 100644
+index 0000000000..8ed8d5d24f
+--- /dev/null
++++ b/hw/gpio/gpio_pwr.c
+@@ -0,0 +1,70 @@
++/*
++ * GPIO qemu power controller
++ *
++ * Copyright (c) 2020 Linaro Limited
++ *
++ * Author: Maxim Uvarov <maxim.uvarov@linaro.org>
++ *
++ * Virtual gpio driver which can be used on top of pl061
++ * to reboot and shutdown qemu virtual machine. One of use
++ * case is gpio driver for secure world application (ARM
++ * Trusted Firmware.).
++ *
++ * This work is licensed under the terms of the GNU GPL, version 2 or later.
++ * See the COPYING file in the top-level directory.
++ * SPDX-License-Identifier: GPL-2.0-or-later
++ */
++
++/*
++ * QEMU interface:
++ * two named input GPIO lines:
++ *   'reset' : when asserted, trigger system reset
++ *   'shutdown' : when asserted, trigger system shutdown
++ */
++
++#include "qemu/osdep.h"
++#include "hw/sysbus.h"
++#include "sysemu/runstate.h"
++
++#define TYPE_GPIOPWR "gpio-pwr"
++OBJECT_DECLARE_SIMPLE_TYPE(GPIO_PWR_State, GPIOPWR)
++
++struct GPIO_PWR_State {
++    SysBusDevice parent_obj;
++};
++
++static void gpio_pwr_reset(void *opaque, int n, int level)
++{
++    if (!level) {
++        qemu_system_reset_request(SHUTDOWN_CAUSE_GUEST_RESET);
++    }
++}
++
++static void gpio_pwr_shutdown(void *opaque, int n, int level)
++{
++    if (!level) {
++        qemu_system_reset_request(SHUTDOWN_CAUSE_GUEST_SHUTDOWN);
++    }
++}
++
++static void gpio_pwr_init(Object *obj)
++{
++    DeviceState *dev = DEVICE(obj);
++
++    qdev_init_gpio_in_named(dev, gpio_pwr_reset, "reset", 1);
++    qdev_init_gpio_in_named(dev, gpio_pwr_shutdown, "shutdown", 1);
++}
++
++static const TypeInfo gpio_pwr_info = {
++    .name          = TYPE_GPIOPWR,
++    .parent        = TYPE_SYS_BUS_DEVICE,
++    .instance_size = sizeof(GPIO_PWR_State),
++    .instance_init = gpio_pwr_init,
++};
++
++static void gpio_pwr_register_types(void)
++{
++    type_register_static(&gpio_pwr_info);
++}
++
++type_init(gpio_pwr_register_types)
+diff --git a/hw/gpio/meson.build b/hw/gpio/meson.build
+index 5c0a7d7b95..79568f00ce 100644
+--- a/hw/gpio/meson.build
++++ b/hw/gpio/meson.build
+@@ -1,5 +1,6 @@
+ softmmu_ss.add(when: 'CONFIG_E500', if_true: files('mpc8xxx.c'))
+ softmmu_ss.add(when: 'CONFIG_GPIO_KEY', if_true: files('gpio_key.c'))
++softmmu_ss.add(when: 'CONFIG_GPIO_PWR', if_true: files('gpio_pwr.c'))
+ softmmu_ss.add(when: 'CONFIG_MAX7310', if_true: files('max7310.c'))
+ softmmu_ss.add(when: 'CONFIG_PL061', if_true: files('pl061.c'))
+ softmmu_ss.add(when: 'CONFIG_PUV3', if_true: files('puv3_gpio.c'))
 -- 
 2.17.1
 
