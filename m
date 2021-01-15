@@ -2,87 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 970922F7399
-	for <lists+qemu-devel@lfdr.de>; Fri, 15 Jan 2021 08:18:31 +0100 (CET)
-Received: from localhost ([::1]:50616 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 78F0A2F73AA
+	for <lists+qemu-devel@lfdr.de>; Fri, 15 Jan 2021 08:22:08 +0100 (CET)
+Received: from localhost ([::1]:55776 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l0JNO-00005x-8K
-	for lists+qemu-devel@lfdr.de; Fri, 15 Jan 2021 02:18:30 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50984)
+	id 1l0JQt-0002RO-J8
+	for lists+qemu-devel@lfdr.de; Fri, 15 Jan 2021 02:22:07 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52244)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
- id 1l0JG1-0006Ym-Fc; Fri, 15 Jan 2021 02:10:53 -0500
-Received: from out1-smtp.messagingengine.com ([66.111.4.25]:39121)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
- id 1l0JFz-0002NY-RG; Fri, 15 Jan 2021 02:10:53 -0500
-Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
- by mailout.nyi.internal (Postfix) with ESMTP id DCD4B5C0125;
- Fri, 15 Jan 2021 02:10:50 -0500 (EST)
-Received: from mailfrontend1 ([10.202.2.162])
- by compute4.internal (MEProxy); Fri, 15 Jan 2021 02:10:50 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=irrelevant.dk;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-type:in-reply-to; s=fm2; bh=ArolEwo01ZbuT+rLEpy9pb9czvt
- T/fTWC47RWLk5KU4=; b=f8o0p1Qs2JI5OoRotibg5DKyzYL7tBe4uj7J8UVqy4h
- FeRba/2PwHiAYja7OTLlAzqzISmos9i4BjgFUUkkJkSu39XI3dqU0psJ6d7x/yqM
- dAnVLMmmfIUuG3ko4PENxpR0CAcWEiw79yRGITHcAL7aSMfz64JFi3Uxk8Yni/UU
- 5Ukjydtz4hegE97chZR+mx73CVRxNhyK6Uhd0qAPLS011q/K4hi+Hk3uySgYxskf
- ljrEbEHgYlyeGkmiFKSCV2x+accRLoykAz6qgCT2j35tzg3a+ucvsuUBf43thF5O
- JW/NAuZXGvWzm70G6DTBAYAJbjpbdP6CxqKFVgZW3NA==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:content-type:date:from:in-reply-to
- :message-id:mime-version:references:subject:to:x-me-proxy
- :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; bh=ArolEw
- o01ZbuT+rLEpy9pb9czvtT/fTWC47RWLk5KU4=; b=VzFd8WF+qTO5C46yNxj+JE
- B9OjL9hzqoUVeJbe2azOU5mW3zS47mK7OmQdSnNdmy7IwAwu93WSwkcw6gF02WN9
- jwiokJWvtZAqsHF7ZjWbnBSHI57irV4MZrL4c+BM33BUlQk0XXCEcfBq7jDhaVRH
- okKnw6oIaL1kfWz2+5LALAVro651ZlqaQzHtH6Rvo/4G/QdG/q/wZNjIyduEr7/k
- EtvZ/e8F8IX73K0RqcRV3htEHxRWSB9u/btAHk/8GnaIjOpKuqMFGXlKJ4s0Ia89
- NjfRrOJ7O000fXIIfy3k8VPKUvI4tZlWfAaAyLMcp6FN1ovgae0i4eP2vUxA5N4Q
- ==
-X-ME-Sender: <xms:-j8BYDeGOOZtrOVYAvZ_HlQg5Kt54UQ_Uv-5IeZ7gQKeI-mVViOgXQ>
- <xme:-j8BYJOrUIPDHgIgaHHoocePGyTK5rCOEeUdJl6E_MT7zMlWds7NS-YLj_myGcDAg
- ZqhAyuEXrNPdAMsjcY>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduledrtddugddutdegucetufdoteggodetrfdotf
- fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
- uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
- cujfgurhepfffhvffukfhfgggtuggjsehgtderredttdejnecuhfhrohhmpefmlhgruhhs
- ucflvghnshgvnhcuoehithhssehirhhrvghlvghvrghnthdrughkqeenucggtffrrghtth
- gvrhhnpeejgeduffeuieetkeeileekvdeuleetveejudeileduffefjeegfffhuddvudff
- keenucfkphepkedtrdduieejrdelkedrudeltdenucevlhhushhtvghrufhiiigvpedune
- curfgrrhgrmhepmhgrihhlfhhrohhmpehithhssehirhhrvghlvghvrghnthdrughk
-X-ME-Proxy: <xmx:-j8BYMh3YwBy8hpiIEyU0x7Lf0FTM7K2W7KyQhSNmgMxCJzEfR_hVQ>
- <xmx:-j8BYE8cO6n17Ezcz8AX_nZ2__ou6ftoCMNW8xMNp20b4fZVexRhBA>
- <xmx:-j8BYPvLsQAsgKcK_dDQBsSTIESDNddpHfJbp0vu7AghN6Q3Af7RJQ>
- <xmx:-j8BYJLcHrBKiG185Y3RJvFdO7Zj1bzafO6UxmCwTy-RU7AEOjM1Fg>
-Received: from apples.localdomain (80-167-98-190-cable.dk.customer.tdc.net
- [80.167.98.190])
- by mail.messagingengine.com (Postfix) with ESMTPA id 1FAB224005E;
- Fri, 15 Jan 2021 02:10:49 -0500 (EST)
-Date: Fri, 15 Jan 2021 08:10:47 +0100
-From: Klaus Jensen <its@irrelevant.dk>
-To: Keith Busch <kbusch@kernel.org>
-Subject: Re: [PATCH] hw/block/nvme: conditionally enable DULBE for zoned
- namespaces
-Message-ID: <YAE/93O2HjTJXBG9@apples.localdomain>
-References: <20210111180952.112488-1-its@irrelevant.dk>
- <20210114233928.GF1511902@dhcp-10-100-145-180.wdc.com>
+ (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
+ id 1l0JPg-0001tT-IH
+ for qemu-devel@nongnu.org; Fri, 15 Jan 2021 02:20:52 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:25612)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
+ id 1l0JPZ-0006vr-9G
+ for qemu-devel@nongnu.org; Fri, 15 Jan 2021 02:20:49 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1610695244;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=23Fh5cEWSU0P3EQtrJ+SxMg+N8n27ZKKV2+B8kGzpW4=;
+ b=A3PYbuGy0mhwwDPJDNrp4udFCsz4pdrJwt9LKc3PH2ILZT3UEhlAe6dkDBs9yukh0WB9QQ
+ XvGbG+bNzsbP6f5M7YNcciwhcwnBRTJ9dsopzozmadD/fM2oRfOuZGFZQbJTR//uqsyjWq
+ JSeaxp3Z+3xBcqXb3x0REp9sodMRrig=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-125-jxyvVTkKOwu7KxSYd9NKhw-1; Fri, 15 Jan 2021 02:20:42 -0500
+X-MC-Unique: jxyvVTkKOwu7KxSYd9NKhw-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 0CD1C107ACF8;
+ Fri, 15 Jan 2021 07:20:41 +0000 (UTC)
+Received: from [10.72.13.19] (ovpn-13-19.pek2.redhat.com [10.72.13.19])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 9708E60BF3;
+ Fri, 15 Jan 2021 07:20:33 +0000 (UTC)
+Subject: Re: [RFC PATCH v3 5/6] virtio-net: Added eBPF RSS to virtio-net.
+To: Andrew Melnychenko <andrew@daynix.com>, mst@redhat.com
+References: <20210114211612.387052-1-andrew@daynix.com>
+ <20210114211612.387052-6-andrew@daynix.com>
+From: Jason Wang <jasowang@redhat.com>
+Message-ID: <266f9040-542e-199e-1903-fb871ae3ad81@redhat.com>
+Date: Fri, 15 Jan 2021 15:20:31 +0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="jr4oirwRm7X08uYW"
-Content-Disposition: inline
-In-Reply-To: <20210114233928.GF1511902@dhcp-10-100-145-180.wdc.com>
-Received-SPF: pass client-ip=66.111.4.25; envelope-from=its@irrelevant.dk;
- helo=out1-smtp.messagingengine.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
-X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <20210114211612.387052-6-andrew@daynix.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=jasowang@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 8bit
+Content-Language: en-US
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=jasowang@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -32
+X-Spam_score: -3.3
+X-Spam_bar: ---
+X-Spam_report: (-3.3 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.248,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.237, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -95,53 +83,182 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, Klaus Jensen <k.jensen@samsung.com>,
- qemu-devel@nongnu.org, qemu-block@nongnu.org, Max Reitz <mreitz@redhat.com>
+Cc: yan@daynix.com, yuri.benditovich@daynix.com, berrange@redhat.com,
+ qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 
---jr4oirwRm7X08uYW
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+On 2021/1/15 上午5:16, Andrew Melnychenko wrote:
+> From: Andrew <andrew@daynix.com>
+>
+> When RSS is enabled the device tries to load the eBPF program
+> to select RX virtqueue in the TUN. If eBPF can be loaded
+> the RSS will function also with vhost (works with kernel 5.8 and later).
+> Software RSS is used as a fallback with vhost=off when eBPF can't be loaded
+> or when hash population requested by the guest.
+>
+> Signed-off-by: Yuri Benditovich <yuri.benditovich@daynix.com>
+> Signed-off-by: Andrew Melnychenko <andrew@daynix.com>
+> ---
+>   hw/net/vhost_net.c             |   2 +
+>   hw/net/virtio-net.c            | 125 +++++++++++++++++++++++++++++++--
+>   include/hw/virtio/virtio-net.h |   4 ++
+>   net/vhost-vdpa.c               |   2 +
+>   4 files changed, 129 insertions(+), 4 deletions(-)
+>
+> diff --git a/hw/net/vhost_net.c b/hw/net/vhost_net.c
+> index 24d555e764..16124f99c3 100644
+> --- a/hw/net/vhost_net.c
+> +++ b/hw/net/vhost_net.c
+> @@ -71,6 +71,8 @@ static const int user_feature_bits[] = {
+>       VIRTIO_NET_F_MTU,
+>       VIRTIO_F_IOMMU_PLATFORM,
+>       VIRTIO_F_RING_PACKED,
+> +    VIRTIO_NET_F_RSS,
+> +    VIRTIO_NET_F_HASH_REPORT,
+>   
+>       /* This bit implies RARP isn't sent by QEMU out of band */
+>       VIRTIO_NET_F_GUEST_ANNOUNCE,
+> diff --git a/hw/net/virtio-net.c b/hw/net/virtio-net.c
+> index 09ceb02c9d..37016fc73a 100644
+> --- a/hw/net/virtio-net.c
+> +++ b/hw/net/virtio-net.c
+> @@ -691,6 +691,19 @@ static void virtio_net_set_queues(VirtIONet *n)
+>   
+>   static void virtio_net_set_multiqueue(VirtIONet *n, int multiqueue);
+>   
+> +static uint64_t fix_ebpf_vhost_features(uint64_t features)
+> +{
+> +    /* If vhost=on & CONFIG_EBPF doesn't set - disable RSS feature */
 
-On Jan 14 15:39, Keith Busch wrote:
-> On Mon, Jan 11, 2021 at 07:09:52PM +0100, Klaus Jensen wrote:
-> > From: Klaus Jensen <k.jensen@samsung.com>
-> >=20
-> > The device uses the BDRV_BLOCK_ZERO flag to determine the "deallocated"
-> > status of logical blocks. Since the zoned namespaces command set
-> > specification defines that logical blocks SHALL be marked as deallocated
-> > when the zone is in the Empty or Offline states, DULBE can only be
-> > supported if the zone size is a multiple of the calculated deallocation
-> > granularity (reported in NPDG) which depends on the underlying block
-> > device cluster size (if applicable) or the configured
-> > discard_granularity.
-> >=20
-> > Signed-off-by: Klaus Jensen <k.jensen@samsung.com>
->=20
-> Looks good.
->=20
-> Reviewed-by: Keith Busch <kbusch@kernel.org>
->=20
 
-Thanks! Applied to nvme-next.
+I still think we should not clear feature silently. This may break 
+migraiton if the feature is cleared on destination.
 
---jr4oirwRm7X08uYW
-Content-Type: application/pgp-signature; name="signature.asc"
 
------BEGIN PGP SIGNATURE-----
+> +    uint64_t ret = features;
+> +#ifndef CONFIG_EBPF
+> +    virtio_clear_feature(&ret, VIRTIO_NET_F_RSS);
+> +#endif
+> +    /* for now, there is no solution for populating the hash from eBPF */
+> +    virtio_clear_feature(&ret, VIRTIO_NET_F_HASH_REPORT);
+> +
+> +    return ret;
+> +}
+> +
+>   static uint64_t virtio_net_get_features(VirtIODevice *vdev, uint64_t features,
+>                                           Error **errp)
+>   {
+> @@ -725,9 +738,9 @@ static uint64_t virtio_net_get_features(VirtIODevice *vdev, uint64_t features,
+>           return features;
+>       }
+>   
+> -    virtio_clear_feature(&features, VIRTIO_NET_F_RSS);
+> -    virtio_clear_feature(&features, VIRTIO_NET_F_HASH_REPORT);
+> -    features = vhost_net_get_features(get_vhost_net(nc->peer), features);
+> +    features = fix_ebpf_vhost_features(
+> +            vhost_net_get_features(get_vhost_net(nc->peer), features));
+> +
+>       vdev->backend_features = features;
+>   
+>       if (n->mtu_bypass_backend &&
+> @@ -1151,12 +1164,79 @@ static int virtio_net_handle_announce(VirtIONet *n, uint8_t cmd,
+>       }
+>   }
+>   
+> +static void virtio_net_detach_epbf_rss(VirtIONet *n);
+> +
+>   static void virtio_net_disable_rss(VirtIONet *n)
+>   {
+>       if (n->rss_data.enabled) {
+>           trace_virtio_net_rss_disable();
+>       }
+>       n->rss_data.enabled = false;
+> +
+> +    virtio_net_detach_epbf_rss(n);
+> +}
+> +
+> +static bool virtio_net_attach_ebpf_to_backend(NICState *nic, int prog_fd)
+> +{
+> +    NetClientState *nc = qemu_get_peer(qemu_get_queue(nic), 0);
+> +    if (nc == NULL || nc->info->set_steering_ebpf == NULL) {
+> +        return false;
+> +    }
+> +
+> +    return nc->info->set_steering_ebpf(nc, prog_fd);
+> +}
+> +
+> +static void rss_data_to_rss_config(struct VirtioNetRssData *data,
+> +                                   struct EBPFRSSConfig *config)
+> +{
+> +    config->redirect = data->redirect;
+> +    config->populate_hash = data->populate_hash;
+> +    config->hash_types = data->hash_types;
+> +    config->indirections_len = data->indirections_len;
+> +    config->default_queue = data->default_queue;
+> +}
+> +
+> +static bool virtio_net_attach_epbf_rss(VirtIONet *n)
+> +{
+> +    struct EBPFRSSConfig config = {};
+> +
+> +    if (!ebpf_rss_is_loaded(&n->ebpf_rss)) {
+> +        return false;
+> +    }
+> +
+> +    rss_data_to_rss_config(&n->rss_data, &config);
+> +
+> +    if (!ebpf_rss_set_all(&n->ebpf_rss, &config,
+> +                          n->rss_data.indirections_table, n->rss_data.key)) {
+> +        return false;
+> +    }
+> +
+> +    if (!virtio_net_attach_ebpf_to_backend(n->nic, n->ebpf_rss.program_fd)) {
+> +        return false;
+> +    }
+> +
+> +    return true;
+> +}
+> +
+> +static void virtio_net_detach_epbf_rss(VirtIONet *n)
+> +{
+> +    virtio_net_attach_ebpf_to_backend(n->nic, -1);
+> +}
+> +
+> +static bool virtio_net_load_ebpf(VirtIONet *n)
+> +{
+> +    if (!virtio_net_attach_ebpf_to_backend(n->nic, -1)) {
+> +        /* backend does't support steering ebpf */
+> +        return false;
+> +    }
+> +
+> +    return ebpf_rss_load(&n->ebpf_rss);
+> +}
+> +
+> +static void virtio_net_unload_ebpf(VirtIONet *n)
+> +{
+> +    virtio_net_attach_ebpf_to_backend(n->nic, -1);
+> +    ebpf_rss_unload(&n->ebpf_rss);
+>   }
+>   
+>   static uint16_t virtio_net_handle_rss(VirtIONet *n,
+> @@ -1271,6 +1351,25 @@ static uint16_t virtio_net_handle_rss(VirtIONet *n,
+>           goto error;
+>       }
+>       n->rss_data.enabled = true;
+> +
+> +    if (!n->rss_data.populate_hash) {
+> +        if (!virtio_net_attach_epbf_rss(n)) {
+> +            /* EBPF must be loaded for vhost */
+> +            if (get_vhost_net(qemu_get_queue(n->nic)->peer)) {
+> +                warn_report("Can't load eBPF RSS for vhost");
+> +                goto error;
 
-iQEzBAEBCAAdFiEEUigzqnXi3OaiR2bATeGvMW1PDekFAmABP/UACgkQTeGvMW1P
-Dem9EAf+JQTKGA8vpopLYcJBEAt7WD6ng7Puxq32OiEqxPFjZZHOSFo3vhO5yxP8
-GWENwt84CStPh6j9icOo6RtJIRBrepq+OgqYGE4L5zV1fD6Yjx7B5xLarINsPdpk
-nd/qTrSyTkOCQsCsbnzVFidLq0HUDNUTbRhakM+CGSSzJ6n3V3bhz0fnDYAGSSH9
-T8TBzLZXiLNtj2YSlSaYmQkEZ95aaha5zX8mq1xVL1iRd7ZFpSXeKKG7hSEyMOO0
-ZK21pd9Of1XcyPuDSRA4w1wdfMz4lUEhX6H74yMxjQ2xNJg9KRmh5zIaCSrtnjxt
-llv3Z1wS6dPc3znm2vBGpOPN7ulPBg==
-=ioSq
------END PGP SIGNATURE-----
 
---jr4oirwRm7X08uYW--
+How about stop the vhost in this case?
+
+Thanks
+
+
 
