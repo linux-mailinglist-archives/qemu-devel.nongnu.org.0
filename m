@@ -2,65 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4870C2F8207
-	for <lists+qemu-devel@lfdr.de>; Fri, 15 Jan 2021 18:21:03 +0100 (CET)
-Received: from localhost ([::1]:55414 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A24042F8218
+	for <lists+qemu-devel@lfdr.de>; Fri, 15 Jan 2021 18:23:02 +0100 (CET)
+Received: from localhost ([::1]:59274 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l0SmU-0002aC-CK
-	for lists+qemu-devel@lfdr.de; Fri, 15 Jan 2021 12:21:02 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39700)
+	id 1l0SoN-0004G1-2j
+	for lists+qemu-devel@lfdr.de; Fri, 15 Jan 2021 12:23:01 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40100)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <wrampazz@redhat.com>)
- id 1l0SlF-0001sg-6A
- for qemu-devel@nongnu.org; Fri, 15 Jan 2021 12:19:45 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:34094)
+ id 1l0Smj-00039m-Go
+ for qemu-devel@nongnu.org; Fri, 15 Jan 2021 12:21:17 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:21265)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <wrampazz@redhat.com>)
- id 1l0Sl8-0000gt-CF
- for qemu-devel@nongnu.org; Fri, 15 Jan 2021 12:19:44 -0500
+ id 1l0Smh-0001JD-Cf
+ for qemu-devel@nongnu.org; Fri, 15 Jan 2021 12:21:17 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1610731176;
+ s=mimecast20190719; t=1610731274;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=pN6nn8Uc/nHqVyZpugjFrDSwlCA5ChimXwjnehQPdkI=;
- b=PEclhe1xpthxZO9l8I9ObC+gBb/jBcsh8sTUOZNkAMTZTJcIIJWBwORNcHN8L9hOMhEKSQ
- U2xRKnKh7wKwiqsqWVg7E+3y63c9Ch+puhBWch8YhkZ/HGlwvn+N6XRw6+4gh2nYtIccjN
- CLuDNtlpnXGq17wX2at3GjtgEOC+gWQ=
+ bh=ByY2zsD/6nZRGOrykiiiPRjjiEC9K0p5e8ym+LUUbkw=;
+ b=YRG32DUTXbVWQ5zwFh7S8qq3Q5P8xkNk3tt6lTCs3KjaSjKc64DQsWpXv88Dl28kdNjYBI
+ WMSlWFzsg2EGVKOAkL4wWtWblkMgTMyQZem696IOfJ+2QLzGrvvOFegSHGFQEi85BqKJ4U
+ Q9K6s2Casmb92imRAMV3Bxd048G4vD4=
 Received: from mail-vk1-f199.google.com (mail-vk1-f199.google.com
  [209.85.221.199]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-165-QcQQPqDNPtyeh3MhqkvLoQ-1; Fri, 15 Jan 2021 12:19:35 -0500
-X-MC-Unique: QcQQPqDNPtyeh3MhqkvLoQ-1
-Received: by mail-vk1-f199.google.com with SMTP id m20so4374268vkk.16
- for <qemu-devel@nongnu.org>; Fri, 15 Jan 2021 09:19:35 -0800 (PST)
+ us-mta-191-wufhSd0rNo-n1MOYUzKtWA-1; Fri, 15 Jan 2021 12:21:12 -0500
+X-MC-Unique: wufhSd0rNo-n1MOYUzKtWA-1
+Received: by mail-vk1-f199.google.com with SMTP id p184so4390603vkd.18
+ for <qemu-devel@nongnu.org>; Fri, 15 Jan 2021 09:21:11 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=pN6nn8Uc/nHqVyZpugjFrDSwlCA5ChimXwjnehQPdkI=;
- b=PpTNroVxt35JAclODeReCBUs7bw8h+Xnff4iUT2wXoHaP7pJtOoNKfpClgszphSqUa
- ZYIC2Ok4FwFy5cZFmD0TymDAwlePFgNhA+dllW7vgDLYoX+NU4irkI7pN0S2RdIMJr4d
- WKMoeumQggxDlEQT2zSHiAqoL/+BUsx/xqGdpbaAOdxdsfxFbzCr4GLdBzR0ch/KCUz/
- +6lLRSOHV5Jjw+g1XvDxH4ev/bRvFctUK+AevBWd3QxSAEeQckBlAmQ440C9e2pPjqdL
- Y7p1NKou5WD1oBfsyPvQw2iQIL5ROVOn/0PpO8fq6hIWUWnlFLbH8yDCzsqf4W/EJXBd
- mTlg==
-X-Gm-Message-State: AOAM530F3RvC2QHHA0MJ+6WRZ1Maj2qZ8mnyLK9U4m24EoFOlIimccAk
- M8Em+8YHYf9VR7dV+7GR0ANENCp7YNCZkGLERngo2D2KeY1Gwqvi1PZzURJMOsAiHVdl0M/0SER
- 7YuSiL3vNvfktX3zWQe3LnRRBZGBAhwY=
-X-Received: by 2002:a67:e155:: with SMTP id o21mr11137156vsl.39.1610731174719; 
- Fri, 15 Jan 2021 09:19:34 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJzBl2/yb+C0Yv9dtqcp+WwCTsAdT8CUPGocwFAbkqcgxeYovMdXCx2VxiyoEgHmPc8hlFIwJG57uv1Bpw/S9us=
-X-Received: by 2002:a67:e155:: with SMTP id o21mr11137129vsl.39.1610731174518; 
- Fri, 15 Jan 2021 09:19:34 -0800 (PST)
+ bh=ByY2zsD/6nZRGOrykiiiPRjjiEC9K0p5e8ym+LUUbkw=;
+ b=DxxdLOH3m5AeFQ3zxCvDNSWMjXDgQDBlZlPaOyKyyvdeLPSa8PXq57TB5JbTElgDmZ
+ ZrKW2QtrW3MC+vLntiPZ6Gw3e8z4m0+Vk3zrBCd2ZzuKsfHx/VktAMDia5rwjXfo0WQe
+ RAJRfTHJ+r+uBXsPgT4wG9v8HSlpPAJhySVtVeXLBq/c/Ep6S3N/D21fCh9QC6c+4Itl
+ 7Jr8v/YGHhIe5K4lMqyec+1Dlh7gNG5quLaZvU5zhZYvmE4kWROAQza7saAKoyMhuad0
+ bLXLqd9Fnhcy69mrgtbi51d2UTb/w8IdYA+8qv1Y8XYFKK+7s0C5stmCZhGBY2YfVrtJ
+ 90hw==
+X-Gm-Message-State: AOAM532veVtmXKrvn2Gwlp3zOC2579XmnJ/L7bLUkpLoLApEPHEfMP0O
+ Svycxv9TFDt9NVfi/y9hm5lAwTvnm0dv9+eQClY6E6hqE8Cx9o5naoFmIiR+A8OvHnjpUu6RScB
+ V2Ake6Uy7dAd7+MIAk7ma1AmGs1wr9sM=
+X-Received: by 2002:a67:c282:: with SMTP id k2mr10963268vsj.1.1610731271413;
+ Fri, 15 Jan 2021 09:21:11 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJwrshv23snTPC4AODKGNeOfaOlgBNIfu7vO4Yh1JRlEoGfaiQQxZcJ/J/i/8E7g9AHm+8ylqUUs6ldVPvRF6Ss=
+X-Received: by 2002:a67:c282:: with SMTP id k2mr10963245vsj.1.1610731271273;
+ Fri, 15 Jan 2021 09:21:11 -0800 (PST)
 MIME-Version: 1.0
 References: <20210112164045.98565-1-thuth@redhat.com>
- <20210112164045.98565-3-thuth@redhat.com>
-In-Reply-To: <20210112164045.98565-3-thuth@redhat.com>
+ <20210112164045.98565-4-thuth@redhat.com>
+In-Reply-To: <20210112164045.98565-4-thuth@redhat.com>
 From: Willian Rampazzo <wrampazz@redhat.com>
-Date: Fri, 15 Jan 2021 14:19:08 -0300
-Message-ID: <CAKJDGDYECxMBnThzXcPnTGJ3fDrvcsJ+w0cxMq_f-Vt=a-6puQ@mail.gmail.com>
-Subject: Re: [PATCH 2/3] tests/acceptance: Test the mpc8544ds machine
+Date: Fri, 15 Jan 2021 14:20:45 -0300
+Message-ID: <CAKJDGDZng=SxwSGrpdmG9ZQ_d5uqU2Z5uyzdAmWir9-RVuMT8Q@mail.gmail.com>
+Subject: Re: [PATCH 3/3] tests/acceptance: Add a test for the virtex-ml507 ppc
+ machine
 To: Thomas Huth <thuth@redhat.com>
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=wrampazz@redhat.com
@@ -97,14 +98,15 @@ Cc: Greg Kurz <groug@kaod.org>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, Jan 12, 2021 at 1:44 PM Thomas Huth <thuth@redhat.com> wrote:
+On Tue, Jan 12, 2021 at 1:45 PM Thomas Huth <thuth@redhat.com> wrote:
 >
-> We can use the "Stupid creek" image to test the mpc8544ds ppc machine.
+> The "And a hippo new year" image from the QEMU advent calendar 2020
+> can be used to test the virtex-ml507 ppc machine.
 >
 > Signed-off-by: Thomas Huth <thuth@redhat.com>
 > ---
->  tests/acceptance/machine_ppc.py | 17 +++++++++++++++++
->  1 file changed, 17 insertions(+)
+>  tests/acceptance/machine_ppc.py | 18 ++++++++++++++++++
+>  1 file changed, 18 insertions(+)
 
 Reviewed-by: Willian Rampazzo <willianr@redhat.com>
 
