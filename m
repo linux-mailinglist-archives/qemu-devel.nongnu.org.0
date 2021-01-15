@@ -2,69 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C35A22F88FD
-	for <lists+qemu-devel@lfdr.de>; Fri, 15 Jan 2021 23:58:34 +0100 (CET)
-Received: from localhost ([::1]:46668 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 45A6C2F88EF
+	for <lists+qemu-devel@lfdr.de>; Fri, 15 Jan 2021 23:54:10 +0100 (CET)
+Received: from localhost ([::1]:38070 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l0Y37-0005aV-Pf
-	for lists+qemu-devel@lfdr.de; Fri, 15 Jan 2021 17:58:33 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53608)
+	id 1l0Xyr-0001yN-A9
+	for lists+qemu-devel@lfdr.de; Fri, 15 Jan 2021 17:54:09 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53660)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1l0Xs3-0003Xd-QB
+ id 1l0Xs6-0003Xw-T2
  for qemu-devel@nongnu.org; Fri, 15 Jan 2021 17:47:13 -0500
-Received: from mail-pl1-x62a.google.com ([2607:f8b0:4864:20::62a]:44028)
+Received: from mail-pl1-x62f.google.com ([2607:f8b0:4864:20::62f]:36033)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1l0Xrt-0005D0-U0
- for qemu-devel@nongnu.org; Fri, 15 Jan 2021 17:47:04 -0500
-Received: by mail-pl1-x62a.google.com with SMTP id x12so5437788plr.10
- for <qemu-devel@nongnu.org>; Fri, 15 Jan 2021 14:46:56 -0800 (PST)
+ id 1l0Xru-0005Dw-B0
+ for qemu-devel@nongnu.org; Fri, 15 Jan 2021 17:47:09 -0500
+Received: by mail-pl1-x62f.google.com with SMTP id e9so1287105plh.3
+ for <qemu-devel@nongnu.org>; Fri, 15 Jan 2021 14:46:57 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=uDiO56BD9yBVu0nwAI/hhOcXCMAfaRu426dsljY4dMQ=;
- b=Ii11emU21XXA52/szniJPxFW7eatwD+xZDT7o7o6j3R9fHAsGDCsRXujER8F9l0bV9
- qSFsWQUaSvCuosTkzdQHBEYqgy5E3uO+y66zlvQH6bmaVbyhmNMi4HMgmSERSNCNFF0a
- qr90BL4XHqOmZHQg9TGVCWCWX1r35lnVAxKZvyvb8z7PQ9oMAyss/4ZJ8IaWQ/9FqEgI
- WAI2nGwYzR+b6d7HYudUVrgXaHzrN2+OBADyBuqKXO8KBKOIgtyg6jYyDjZVtWZ7lqoq
- GEbdMwzoNSWo8WWZRHAiUmTNb6f9OmXGL162uoeHdIXzB8rWLeyxj6FBArY1DKBRWNMq
- Hmlg==
+ bh=BPFkHBCfiYE2/tooUwU3w49LVJJCP7NOmKVnwS50G54=;
+ b=cVKi/EO5fMAfl0J+r2MBksBLyMqvCDyxcwuWFw/B7d/QyOp3jq6CjIqXBdd5qtgeYx
+ BK6B3yOo23/ugG7c2INs0jNR0Vpgxfmg7X/dgJONJOwZG2EU6r/OyikYnND6l+kcHJwU
+ Qg3VKh7366OMoeOzo9TXybPAhNh83PeG4OODSM/JKNzefTkMGK+gE6WKwTEc9FahaYhD
+ tVR0sK2xp7+e9GKKOoT+cVQZRXJUDBgWQRPocHFn//aVL8gxsF7dokk5sAs1wSDKJ46v
+ fKjaJZjyLVJ3LNZQTzeMbdA2H8kL1k+I0hGZsjiJYj+Yh3kjp701dDTMqDzebEQoKXRM
+ 4H1A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=uDiO56BD9yBVu0nwAI/hhOcXCMAfaRu426dsljY4dMQ=;
- b=FPL4Hz4D02VtKypIq+bFXguNKYAeusPxJhGtzJE55fTXqilB8f2vzrimQujosrOmyw
- vHiyS8LaYKOwfKkBxNq7kygPHOJLmuZgr50MLkcZk4jdVXV65Kl/cbQ11r1uXBEw78Pq
- iRkt94NophRajbuslcVnHacLZiCXat+ZnIzw5GZbROdgjRWI1zGpeUTK7E6Gq2H6YcP0
- wVYIW3u2LkBG3C08Z6lsfHEImSMnlAVbsuZ1HNoAdv+mtZpe0J/kUGPRD+cJVitqTust
- w4ORj2Qoc71jioW4fd0HCEZySQVT9JLO6NYhPjTh7+5lGAsbOBbHBH49kKYZnGBZ+xyq
- VbYw==
-X-Gm-Message-State: AOAM53279/xDD9XeraP5eY9EzmR5oo4cmFwEnWO1RL/r5ig6UY0iAY4s
- 2qMVf4SxJ1S22JvcKRRUy81JGbLgdg4QNBhW
-X-Google-Smtp-Source: ABdhPJxgO9LF9GZs8nh8w+N3IXQ9fG/yQg85ZY7eyDFiP1Kb+fx5SEuhsTdB2Lgh+euIMmdOUWZlCg==
-X-Received: by 2002:a17:90a:5991:: with SMTP id
- l17mr1845333pji.187.1610750815323; 
- Fri, 15 Jan 2021 14:46:55 -0800 (PST)
+ bh=BPFkHBCfiYE2/tooUwU3w49LVJJCP7NOmKVnwS50G54=;
+ b=dpC368ri+fwTNwen1lv4zrIf0Vu6cY/43xVPSj1ZKAgvYbG5Fj0HSFYm9KYtDXQTzU
+ blVG66alDBmjxaHQNLrDkI6AgPnIROeoIm4ppT82P3Xkb+o858jmIe59UsGYbx7UdrVR
+ 8BupONV/il6SMHzVtZqzk7iAsmvPne9JY1lc6J2urJY5rha3rWdd9jRq7t+0PveeoPfs
+ 7IrGc1fClhL3epElfhBUseJwYnTPvyb2Ktmi5Vzf/Jpy/g4gZrMPSkeOJ1K5npzvyAOK
+ SUTXgW/WaSGVpB6NuXJKJrssTZRv7b3edh8DIHnCzHNUuXqyPUh5FBYAyOoTOufTSPFt
+ eTMQ==
+X-Gm-Message-State: AOAM532p+rQnqzT5QydetM2OCYz9qo8pEyRgsto3j6m2ECKRDiugnH7Z
+ 3IpZOJCiDAFkJZ+7Pv9GiFyDqsLhp3hCBJJS
+X-Google-Smtp-Source: ABdhPJyBOpOsu6OBJWbBU/auhm1HBzyzQEWFRl2H0VnP6d/hHQRD/m3916MQp2cwnQkSEk+D/k/9fw==
+X-Received: by 2002:a17:902:8d82:b029:dc:20b8:3c19 with SMTP id
+ v2-20020a1709028d82b02900dc20b83c19mr14798262plo.29.1610750817019; 
+ Fri, 15 Jan 2021 14:46:57 -0800 (PST)
 Received: from localhost.localdomain (rrcs-173-197-107-21.west.biz.rr.com.
  [173.197.107.21])
- by smtp.gmail.com with ESMTPSA id s13sm9521700pfd.99.2021.01.15.14.46.54
+ by smtp.gmail.com with ESMTPSA id s13sm9521700pfd.99.2021.01.15.14.46.55
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 15 Jan 2021 14:46:54 -0800 (PST)
+ Fri, 15 Jan 2021 14:46:56 -0800 (PST)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v3 04/21] exec: Use uintptr_t in cpu_ldst.h
-Date: Fri, 15 Jan 2021 12:46:28 -1000
-Message-Id: <20210115224645.1196742-5-richard.henderson@linaro.org>
+Subject: [PATCH v3 05/21] exec: Improve types for guest_addr_valid
+Date: Fri, 15 Jan 2021 12:46:29 -1000
+Message-Id: <20210115224645.1196742-6-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20210115224645.1196742-1-richard.henderson@linaro.org>
 References: <20210115224645.1196742-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::62a;
- envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x62a.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::62f;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x62f.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -88,44 +88,28 @@ Cc: peter.maydell@linaro.org, qemu-arm@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This is more descriptive than 'unsigned long'.
-No functional change, since these match on all linux+bsd hosts.
+Return bool not int; pass abi_ulong not 'unsigned long'.
+All callers use abi_ulong already, so the change in type
+has no effect.
 
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- include/exec/cpu_ldst.h | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
+ include/exec/cpu_ldst.h | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/include/exec/cpu_ldst.h b/include/exec/cpu_ldst.h
-index ef54cb7e1f..3f9063aade 100644
+index 3f9063aade..5e8878ee9b 100644
 --- a/include/exec/cpu_ldst.h
 +++ b/include/exec/cpu_ldst.h
-@@ -70,14 +70,14 @@ typedef uint64_t abi_ptr;
+@@ -79,7 +79,7 @@ typedef uint64_t abi_ptr;
  #endif
+ #define h2g_valid(x) guest_addr_valid((uintptr_t)(x) - guest_base)
  
- /* All direct uses of g2h and h2g need to go away for usermode softmmu.  */
--#define g2h(x) ((void *)((unsigned long)(abi_ptr)(x) + guest_base))
-+#define g2h(x) ((void *)((uintptr_t)(abi_ptr)(x) + guest_base))
- 
- #if HOST_LONG_BITS <= TARGET_VIRT_ADDR_SPACE_BITS
- #define guest_addr_valid(x) (1)
- #else
- #define guest_addr_valid(x) ((x) <= GUEST_ADDR_MAX)
- #endif
--#define h2g_valid(x) guest_addr_valid((unsigned long)(x) - guest_base)
-+#define h2g_valid(x) guest_addr_valid((uintptr_t)(x) - guest_base)
- 
- static inline int guest_range_valid(unsigned long start, unsigned long len)
+-static inline int guest_range_valid(unsigned long start, unsigned long len)
++static inline bool guest_range_valid(abi_ulong start, abi_ulong len)
  {
-@@ -85,7 +85,7 @@ static inline int guest_range_valid(unsigned long start, unsigned long len)
+     return len - 1 <= GUEST_ADDR_MAX && start <= GUEST_ADDR_MAX - len + 1;
  }
- 
- #define h2g_nocheck(x) ({ \
--    unsigned long __ret = (unsigned long)(x) - guest_base; \
-+    uintptr_t __ret = (uintptr_t)(x) - guest_base; \
-     (abi_ptr)__ret; \
- })
- 
 -- 
 2.25.1
 
