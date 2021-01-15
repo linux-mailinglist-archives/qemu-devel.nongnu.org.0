@@ -2,71 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D79BB2F76AE
-	for <lists+qemu-devel@lfdr.de>; Fri, 15 Jan 2021 11:28:46 +0100 (CET)
-Received: from localhost ([::1]:44066 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8593D2F76AF
+	for <lists+qemu-devel@lfdr.de>; Fri, 15 Jan 2021 11:29:54 +0100 (CET)
+Received: from localhost ([::1]:47300 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l0MLV-0008AB-UR
-	for lists+qemu-devel@lfdr.de; Fri, 15 Jan 2021 05:28:45 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57460)
+	id 1l0MMb-00013b-Jb
+	for lists+qemu-devel@lfdr.de; Fri, 15 Jan 2021 05:29:53 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57992)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1l0MHZ-000378-E1
- for qemu-devel@nongnu.org; Fri, 15 Jan 2021 05:24:41 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:45089)
+ (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1l0MKW-0007q9-9T
+ for qemu-devel@nongnu.org; Fri, 15 Jan 2021 05:27:44 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:55753)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1l0MHW-0007v0-2k
- for qemu-devel@nongnu.org; Fri, 15 Jan 2021 05:24:41 -0500
+ (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1l0MKU-0000uk-Cv
+ for qemu-devel@nongnu.org; Fri, 15 Jan 2021 05:27:44 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1610706277;
+ s=mimecast20190719; t=1610706461;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=e4S//0RAq1sheEAwGBfdtDxCxLG2WR48+gZADyuhQT8=;
- b=CWr3hKhqnxtCZ5scBT3WximhFqiwOtZ4f3dBByodnmHaLqgePUpBnmkVe0OacueVbOGLli
- J4bjyktd4J0o9l9UFPy5DEmHOaViEsiUPq0bGv5McrtOeon1KV9YBO0hyvq/X3LsG6efW1
- tu3wIxBk+0tNcxi7Xcw7BA/EFGNVm2U=
+ bh=DlyKwa+h6ktjs4tjrEI39rWNicK/UMxDrl3youZ9jF8=;
+ b=dSJxhdZRjJvK1Y9GQzcGeUq0gUQz9i+jlPwH48SnDhZJBCR9jgqDqXdO2IMs2cagF80xwn
+ kgMIoYHhlTAbvxqhl6N9V6WQ4TS4x+G+vJ/pffQcLmdBR57oeFE+GQsbf4VYFyHlRDthH1
+ zD4qV06JKgYZMpemYD7+aFGnx8Di5iA=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-261-g9vRB7juPciezaU19aVXyw-1; Fri, 15 Jan 2021 05:24:35 -0500
-X-MC-Unique: g9vRB7juPciezaU19aVXyw-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
+ us-mta-374-gfWmWReGMyqbd9nJpFKFMg-1; Fri, 15 Jan 2021 05:27:37 -0500
+X-MC-Unique: gfWmWReGMyqbd9nJpFKFMg-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 1E75215726
- for <qemu-devel@nongnu.org>; Fri, 15 Jan 2021 10:24:34 +0000 (UTC)
-Received: from sirius.home.kraxel.org (ovpn-112-182.ams2.redhat.com
- [10.36.112.182])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id C61C56F922;
- Fri, 15 Jan 2021 10:24:30 +0000 (UTC)
-Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
- id 0256C1800D45; Fri, 15 Jan 2021 11:24:25 +0100 (CET)
-From: Gerd Hoffmann <kraxel@redhat.com>
-To: qemu-devel@nongnu.org
-Subject: [PULL 11/11] vnc: add support for extended desktop resize
-Date: Fri, 15 Jan 2021 11:24:24 +0100
-Message-Id: <20210115102424.1360437-12-kraxel@redhat.com>
-In-Reply-To: <20210115102424.1360437-1-kraxel@redhat.com>
-References: <20210115102424.1360437-1-kraxel@redhat.com>
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 4545B19611A2;
+ Fri, 15 Jan 2021 10:27:36 +0000 (UTC)
+Received: from [10.36.112.11] (ovpn-112-11.ams2.redhat.com [10.36.112.11])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 46A9E100AE3F;
+ Fri, 15 Jan 2021 10:27:21 +0000 (UTC)
+Subject: Re: [PATCH v4 04/11] vfio: Support for RamDiscardMgr in the !vIOMMU
+ case
+From: David Hildenbrand <david@redhat.com>
+To: Alex Williamson <alex.williamson@redhat.com>
+References: <20210107133423.44964-1-david@redhat.com>
+ <20210107133423.44964-5-david@redhat.com>
+ <20210113162745.5c92e04f@omen.home.shazbot.org>
+ <651d5ef7-096f-0b71-2190-53532dab3dd0@redhat.com>
+ <dd05a30d-55cd-07f4-a175-7bc534281292@redhat.com>
+Organization: Red Hat GmbH
+Message-ID: <1fd4e7c2-067b-4a19-3940-65c3df3b18a1@redhat.com>
+Date: Fri, 15 Jan 2021 11:27:20 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.5.0
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+In-Reply-To: <dd05a30d-55cd-07f4-a175-7bc534281292@redhat.com>
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kraxel@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=david@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=kraxel@redhat.com;
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=david@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -29
-X-Spam_score: -3.0
+X-Spam_score_int: -32
+X-Spam_score: -3.3
 X-Spam_bar: ---
-X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.248,
+X-Spam_report: (-3.3 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.248,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ NICE_REPLY_A=-0.237, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -79,152 +86,175 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?q?Daniel=20P=20=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
- Gerd Hoffmann <kraxel@redhat.com>
+Cc: Pankaj Gupta <pankaj.gupta.linux@gmail.com>,
+ Wei Yang <richard.weiyang@linux.alibaba.com>,
+ "Michael S. Tsirkin" <mst@redhat.com>,
+ Jonathan Cameron <Jonathan.Cameron@huawei.com>, qemu-devel@nongnu.org,
+ Peter Xu <peterx@redhat.com>, "Dr . David Alan Gilbert" <dgilbert@redhat.com>,
+ Auger Eric <eric.auger@redhat.com>, teawater <teawaterz@linux.alibaba.com>,
+ Igor Mammedov <imammedo@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ Marek Kedzierski <mkedzier@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The extended desktop resize encoding adds support for (a) clients
-sending resize requests to the server, and (b) multihead support.
+On 14.01.21 16:57, David Hildenbrand wrote:
+> On 14.01.21 16:54, David Hildenbrand wrote:
+>> On 14.01.21 00:27, Alex Williamson wrote:
+>>> On Thu,  7 Jan 2021 14:34:16 +0100
+>>> David Hildenbrand <david@redhat.com> wrote:
+>>>
+>>>> Implement support for RamDiscardMgr, to prepare for virtio-mem
+>>>> support. Instead of mapping the whole memory section, we only map
+>>>> "populated" parts and update the mapping when notified about
+>>>> discarding/population of memory via the RamDiscardListener. Similarly, when
+>>>> syncing the dirty bitmaps, sync only the actually mapped (populated) parts
+>>>> by replaying via the notifier.
+>>>>
+>>>> Using virtio-mem with vfio is still blocked via
+>>>> ram_block_discard_disable()/ram_block_discard_require() after this patch.
+>>>>
+>>>> Cc: Paolo Bonzini <pbonzini@redhat.com>
+>>>> Cc: "Michael S. Tsirkin" <mst@redhat.com>
+>>>> Cc: Alex Williamson <alex.williamson@redhat.com>
+>>>> Cc: Dr. David Alan Gilbert <dgilbert@redhat.com>
+>>>> Cc: Igor Mammedov <imammedo@redhat.com>
+>>>> Cc: Pankaj Gupta <pankaj.gupta.linux@gmail.com>
+>>>> Cc: Peter Xu <peterx@redhat.com>
+>>>> Cc: Auger Eric <eric.auger@redhat.com>
+>>>> Cc: Wei Yang <richard.weiyang@linux.alibaba.com>
+>>>> Cc: teawater <teawaterz@linux.alibaba.com>
+>>>> Cc: Marek Kedzierski <mkedzier@redhat.com>
+>>>> Signed-off-by: David Hildenbrand <david@redhat.com>
+>>>> ---
+>>>>  hw/vfio/common.c              | 200 ++++++++++++++++++++++++++++++++++
+>>>>  include/hw/vfio/vfio-common.h |  12 ++
+>>>>  2 files changed, 212 insertions(+)
+>>>>
+>>>> diff --git a/hw/vfio/common.c b/hw/vfio/common.c
+>>>> index 6ff1daa763..2bd219cf1d 100644
+>>>> --- a/hw/vfio/common.c
+>>>> +++ b/hw/vfio/common.c
+>>>> @@ -654,6 +654,136 @@ out:
+>>>>      rcu_read_unlock();
+>>>>  }
+>>>>  
+>>>> +static void vfio_ram_discard_notify_discard(RamDiscardListener *rdl,
+>>>> +                                            const MemoryRegion *mr,
+>>>> +                                            ram_addr_t offset, ram_addr_t size)
+>>>> +{
+>>>> +    VFIORamDiscardListener *vrdl = container_of(rdl, VFIORamDiscardListener,
+>>>> +                                                listener);
+>>>> +    const hwaddr mr_start = MAX(offset, vrdl->offset_within_region);
+>>>> +    const hwaddr mr_end = MIN(offset + size,
+>>>> +                              vrdl->offset_within_region + vrdl->size);
+>>>> +    const hwaddr iova = mr_start - vrdl->offset_within_region +
+>>>> +                        vrdl->offset_within_address_space;
+>>>> +    int ret;
+>>>> +
+>>>> +    if (mr_start >= mr_end) {
+>>>> +        return;
+>>>> +    }
+>>>> +
+>>>> +    /* Unmap with a single call. */
+>>>> +    ret = vfio_dma_unmap(vrdl->container, iova, mr_end - mr_start, NULL);
+>>>> +    if (ret) {
+>>>> +        error_report("%s: vfio_dma_unmap() failed: %s", __func__,
+>>>> +                     strerror(-ret));
+>>>> +    }
+>>>> +}
+>>>> +
+>>>> +static int vfio_ram_discard_notify_populate(RamDiscardListener *rdl,
+>>>> +                                            const MemoryRegion *mr,
+>>>> +                                            ram_addr_t offset, ram_addr_t size)
+>>>> +{
+>>>> +    VFIORamDiscardListener *vrdl = container_of(rdl, VFIORamDiscardListener,
+>>>> +                                                listener);
+>>>> +    const hwaddr mr_end = MIN(offset + size,
+>>>> +                              vrdl->offset_within_region + vrdl->size);
+>>>> +    hwaddr mr_start = MAX(offset, vrdl->offset_within_region);
+>>>> +    hwaddr mr_next, iova;
+>>>> +    void *vaddr;
+>>>> +    int ret;
+>>>> +
+>>>> +    /*
+>>>> +     * Map in (aligned within memory region) minimum granularity, so we can
+>>>> +     * unmap in minimum granularity later.
+>>>> +     */
+>>>> +    for (; mr_start < mr_end; mr_start = mr_next) {
+>>>> +        mr_next = ROUND_UP(mr_start + 1, vrdl->granularity);
+>>>> +        mr_next = MIN(mr_next, mr_end);
+>>>> +
+>>>> +        iova = mr_start - vrdl->offset_within_region +
+>>>> +               vrdl->offset_within_address_space;
+>>>> +        vaddr = memory_region_get_ram_ptr(vrdl->mr) + mr_start;
+>>>> +
+>>>> +        ret = vfio_dma_map(vrdl->container, iova, mr_next - mr_start,
+>>>> +                           vaddr, mr->readonly);
+>>>> +        if (ret) {
+>>>> +            /* Rollback */
+>>>> +            vfio_ram_discard_notify_discard(rdl, mr, offset, size);
+>>>> +            return ret;
+>>>> +        }
+>>>> +    }
+>>>> +    return 0;
+>>>> +}
+>>>> +
+>>>> +static void vfio_ram_discard_notify_discard_all(RamDiscardListener *rdl,
+>>>> +                                                const MemoryRegion *mr)
+>>>> +{
+>>>> +    VFIORamDiscardListener *vrdl = container_of(rdl, VFIORamDiscardListener,
+>>>> +                                                listener);
+>>>> +    int ret;
+>>>> +
+>>>> +    /* Unmap with a single call. */
+>>>> +    ret = vfio_dma_unmap(vrdl->container, vrdl->offset_within_address_space,
+>>>> +                         vrdl->size, NULL);
+>>>> +    if (ret) {
+>>>> +        error_report("%s: vfio_dma_unmap() failed: %s", __func__,
+>>>> +                     strerror(-ret));
+>>>> +    }
+>>>> +}
+>>>> +
+>>>> +static void vfio_register_ram_discard_notifier(VFIOContainer *container,
+>>>> +                                               MemoryRegionSection *section)
+>>>> +{
+>>>> +    RamDiscardMgr *rdm = memory_region_get_ram_discard_mgr(section->mr);
+>>>> +    RamDiscardMgrClass *rdmc = RAM_DISCARD_MGR_GET_CLASS(rdm);
+>>>> +    VFIORamDiscardListener *vrdl;
+>>>> +
+>>>> +    vrdl = g_new0(VFIORamDiscardListener, 1);
+>>>> +    vrdl->container = container;
+>>>> +    vrdl->mr = section->mr;
+>>>> +    vrdl->offset_within_region = section->offset_within_region;
+>>>> +    vrdl->offset_within_address_space = section->offset_within_address_space;
+>>>> +    vrdl->size = int128_get64(section->size);
+>>>> +    vrdl->granularity = rdmc->get_min_granularity(rdm, section->mr);
+>>>> +
+>>>> +    /* Ignore some corner cases not relevant in practice. */
+>>>> +    g_assert(QEMU_IS_ALIGNED(vrdl->offset_within_region, TARGET_PAGE_SIZE));
+>>>> +    g_assert(QEMU_IS_ALIGNED(vrdl->offset_within_address_space,
+>>>> +                             TARGET_PAGE_SIZE));
+>>>> +    g_assert(QEMU_IS_ALIGNED(vrdl->size, TARGET_PAGE_SIZE));
+>>>
+>>> Should probably toss in a test of vrdl->granularity vs
+>>> container->pgsizes too, right?  Looks good otherwise:
+>>
+>> Makes sense as a sanity check. What about
+>>
+>> g_assert(vrdl->granularity && !is_power_of_2(vrdl->granularity));
+> 
+> ^ g_assert(vrdl->granularity >= 1 << ctz64(container->pgsizes));
+> 
 
-This patch implements (a).  All resize requests are rejected by qemu.
-Qemu can't resize the framebuffer on its own, this is in the hands of
-the guest, so all qemu can do is forward the request to the guest.
-Should the guest actually resize the framebuffer we can notify the vnc
-client later with a separate message.
+Ehm, I guess my brain needs some time to cool down over the weekend :D
 
-This requires support in the display device.  Works with virtio-gpu.
++    g_assert(vrdl->granularity && is_power_of_2(vrdl->granularity));
++    g_assert(vrdl->granularity >= 1 << ctz64(container->pgsizes));
 
-https://github.com/rfbproto/rfbproto/blob/master/rfbproto.rst#extendeddesktopsize-pseudo-encoding
 
-Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
-Reviewed-by: Daniel P. Berrangé <berrange@redhat.com>
-Message-id: 20210112134120.2031837-4-kraxel@redhat.com
----
- ui/vnc.h |  2 ++
- ui/vnc.c | 64 +++++++++++++++++++++++++++++++++++++++++++++++++++++++-
- 2 files changed, 65 insertions(+), 1 deletion(-)
-
-diff --git a/ui/vnc.h b/ui/vnc.h
-index 5feeef9df08c..116463d5f099 100644
---- a/ui/vnc.h
-+++ b/ui/vnc.h
-@@ -444,6 +444,7 @@ enum {
- 
- enum VncFeatures {
-     VNC_FEATURE_RESIZE,
-+    VNC_FEATURE_RESIZE_EXT,
-     VNC_FEATURE_HEXTILE,
-     VNC_FEATURE_POINTER_TYPE_CHANGE,
-     VNC_FEATURE_WMVI,
-@@ -459,6 +460,7 @@ enum VncFeatures {
- };
- 
- #define VNC_FEATURE_RESIZE_MASK              (1 << VNC_FEATURE_RESIZE)
-+#define VNC_FEATURE_RESIZE_EXT_MASK          (1 << VNC_FEATURE_RESIZE_EXT)
- #define VNC_FEATURE_HEXTILE_MASK             (1 << VNC_FEATURE_HEXTILE)
- #define VNC_FEATURE_POINTER_TYPE_CHANGE_MASK (1 << VNC_FEATURE_POINTER_TYPE_CHANGE)
- #define VNC_FEATURE_WMVI_MASK                (1 << VNC_FEATURE_WMVI)
-diff --git a/ui/vnc.c b/ui/vnc.c
-index b4e98cf647f5..d429bfee5a65 100644
---- a/ui/vnc.c
-+++ b/ui/vnc.c
-@@ -655,10 +655,35 @@ void vnc_framebuffer_update(VncState *vs, int x, int y, int w, int h,
-     vnc_write_s32(vs, encoding);
- }
- 
-+static void vnc_desktop_resize_ext(VncState *vs, int reject_reason)
-+{
-+    vnc_lock_output(vs);
-+    vnc_write_u8(vs, VNC_MSG_SERVER_FRAMEBUFFER_UPDATE);
-+    vnc_write_u8(vs, 0);
-+    vnc_write_u16(vs, 1); /* number of rects */
-+    vnc_framebuffer_update(vs,
-+                           reject_reason ? 1 : 0,
-+                           reject_reason,
-+                           vs->client_width, vs->client_height,
-+                           VNC_ENCODING_DESKTOP_RESIZE_EXT);
-+    vnc_write_u8(vs, 1);  /* number of screens */
-+    vnc_write_u8(vs, 0);  /* padding */
-+    vnc_write_u8(vs, 0);  /* padding */
-+    vnc_write_u8(vs, 0);  /* padding */
-+    vnc_write_u32(vs, 0); /* screen id */
-+    vnc_write_u16(vs, 0); /* screen x-pos */
-+    vnc_write_u16(vs, 0); /* screen y-pos */
-+    vnc_write_u16(vs, vs->client_width);
-+    vnc_write_u16(vs, vs->client_height);
-+    vnc_write_u32(vs, 0); /* screen flags */
-+    vnc_unlock_output(vs);
-+    vnc_flush(vs);
-+}
- 
- static void vnc_desktop_resize(VncState *vs)
- {
--    if (vs->ioc == NULL || !vnc_has_feature(vs, VNC_FEATURE_RESIZE)) {
-+    if (vs->ioc == NULL || (!vnc_has_feature(vs, VNC_FEATURE_RESIZE) &&
-+                            !vnc_has_feature(vs, VNC_FEATURE_RESIZE_EXT))) {
-         return;
-     }
- 
-@@ -668,6 +693,12 @@ static void vnc_desktop_resize(VncState *vs)
-            pixman_image_get_height(vs->vd->server) >= 0);
-     vs->client_width = pixman_image_get_width(vs->vd->server);
-     vs->client_height = pixman_image_get_height(vs->vd->server);
-+
-+    if (vnc_has_feature(vs, VNC_FEATURE_RESIZE_EXT)) {
-+        vnc_desktop_resize_ext(vs, 0);
-+        return;
-+    }
-+
-     vnc_lock_output(vs);
-     vnc_write_u8(vs, VNC_MSG_SERVER_FRAMEBUFFER_UPDATE);
-     vnc_write_u8(vs, 0);
-@@ -2114,6 +2145,9 @@ static void set_encodings(VncState *vs, int32_t *encodings, size_t n_encodings)
-         case VNC_ENCODING_DESKTOPRESIZE:
-             vs->features |= VNC_FEATURE_RESIZE_MASK;
-             break;
-+        case VNC_ENCODING_DESKTOP_RESIZE_EXT:
-+            vs->features |= VNC_FEATURE_RESIZE_EXT_MASK;
-+            break;
-         case VNC_ENCODING_POINTER_TYPE_CHANGE:
-             vs->features |= VNC_FEATURE_POINTER_TYPE_CHANGE_MASK;
-             break;
-@@ -2474,6 +2508,34 @@ static int protocol_client_msg(VncState *vs, uint8_t *data, size_t len)
-             break;
-         }
-         break;
-+    case VNC_MSG_CLIENT_SET_DESKTOP_SIZE:
-+    {
-+        size_t size;
-+        uint8_t screens;
-+
-+        if (len < 8) {
-+            return 8;
-+        }
-+
-+        screens = read_u8(data, 6);
-+        size    = 8 + screens * 16;
-+        if (len < size) {
-+            return size;
-+        }
-+
-+        if (dpy_ui_info_supported(vs->vd->dcl.con)) {
-+            QemuUIInfo info;
-+            memset(&info, 0, sizeof(info));
-+            info.width = read_u16(data, 2);
-+            info.height = read_u16(data, 4);
-+            dpy_set_ui_info(vs->vd->dcl.con, &info);
-+            vnc_desktop_resize_ext(vs, 4 /* Request forwarded */);
-+        } else {
-+            vnc_desktop_resize_ext(vs, 3 /* Invalid screen layout */);
-+        }
-+
-+        break;
-+    }
-     default:
-         VNC_DEBUG("Msg: %d\n", data[0]);
-         vnc_client_error(vs);
 -- 
-2.29.2
+Thanks,
+
+David / dhildenb
 
 
