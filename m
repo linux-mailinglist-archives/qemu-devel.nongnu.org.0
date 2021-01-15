@@ -2,71 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EE2DD2F7D66
-	for <lists+qemu-devel@lfdr.de>; Fri, 15 Jan 2021 14:57:32 +0100 (CET)
-Received: from localhost ([::1]:53620 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 613102F7D44
+	for <lists+qemu-devel@lfdr.de>; Fri, 15 Jan 2021 14:56:10 +0100 (CET)
+Received: from localhost ([::1]:48446 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l0PbX-0005Ch-VB
-	for lists+qemu-devel@lfdr.de; Fri, 15 Jan 2021 08:57:32 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42384)
+	id 1l0PaD-0002x0-Do
+	for lists+qemu-devel@lfdr.de; Fri, 15 Jan 2021 08:56:09 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42582)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kchamart@redhat.com>)
- id 1l0PCv-0008JR-LD
- for qemu-devel@nongnu.org; Fri, 15 Jan 2021 08:32:07 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:23724)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <kchamart@redhat.com>)
- id 1l0PCs-0007T6-R4
- for qemu-devel@nongnu.org; Fri, 15 Jan 2021 08:32:05 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1610717522;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=r53Se0g+/TCVHS49vu74STlzn+H2plp9K7RU4vC8zww=;
- b=gR7Yr1zMNGi1ouCbNZ5jHoDWseaYOiP5MiH406JomrWPG5YU/tScEDOS4HBuFktDJDbnW/
- S5GW0DS+n/VSy8odle2s0cBXX1H4syR9Hx8T7Sv/YPZMGpy+ugL/TXUB38a/0b414O0r1G
- 5vQXtCBiECDrpIsUSgEg3nCUrw2JCjs=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-564-WNHsZ73dMFuNYcEI1ft5sA-1; Fri, 15 Jan 2021 08:31:57 -0500
-X-MC-Unique: WNHsZ73dMFuNYcEI1ft5sA-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 4D6AF802B45;
- Fri, 15 Jan 2021 13:31:56 +0000 (UTC)
-Received: from paraplu.localdomain (ovpn-115-33.ams2.redhat.com [10.36.115.33])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id D3BDC6B8DD;
- Fri, 15 Jan 2021 13:31:55 +0000 (UTC)
-Received: by paraplu.localdomain (Postfix, from userid 1001)
- id 46C753E0497; Fri, 15 Jan 2021 14:31:54 +0100 (CET)
-Date: Fri, 15 Jan 2021 14:31:54 +0100
-From: Kashyap Chamarthy <kchamart@redhat.com>
-To: Alberto Garcia <berto@igalia.com>
-Subject: Re: [RFC PATCH 0/2] Allow changing bs->file on reopen
-Message-ID: <20210115133154.GA531618@paraplu>
-References: <cover.1610715661.git.berto@igalia.com>
+ (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
+ id 1l0PEC-0000tU-AZ
+ for qemu-devel@nongnu.org; Fri, 15 Jan 2021 08:33:25 -0500
+Received: from mail-yb1-xb2c.google.com ([2607:f8b0:4864:20::b2c]:42508)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
+ id 1l0PE8-0007ux-Hm
+ for qemu-devel@nongnu.org; Fri, 15 Jan 2021 08:33:24 -0500
+Received: by mail-yb1-xb2c.google.com with SMTP id b11so2758938ybj.9
+ for <qemu-devel@nongnu.org>; Fri, 15 Jan 2021 05:33:18 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=KW1ia311CHdNv9ojQeYwfrENngfGFLYS4sPKtb6sMGU=;
+ b=TJt9RzM1wsjAK03GP3uJHnPe5UPHxzJ0lT629pIhUKI8SIaSAbD3j99fNs+ePdTMgc
+ OM018sROa/w6CRPyNIcDwJA8HMeM9shajf++MJKEVy1eBvTpCnLFeER6YGe7L7H1XGTN
+ 25RAJp/hQV8iyLU7GnrLieKvx308mHUEB2dycByrA0DaXeZzV/rQAJnnk1vmqM2iRwW8
+ dmR0adNSr/KUrXrAR9w9vPb8d1azT8orqYPQO7O58+2SKQ/pwS3z2l+w1fDsiyMfcNfQ
+ WoewVRiS4tGJ7PPLzxaWt3xSLObuEKxBE/spqnfdnkEpA+ZxVqyg7VHhqkAV/+rVPvWW
+ LCUQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=KW1ia311CHdNv9ojQeYwfrENngfGFLYS4sPKtb6sMGU=;
+ b=iF+PwveeSKvEDgiVJxHT3U0kQRaARyO99FfLDv17hF46l6L6cnPGcTkFfgW5MDD6kJ
+ 72mEzi7ulKC37875+PT44l5MROTne+7eEUk17RmsjXCnd8+f4Hdiu022BVCJr+2V/PbN
+ 2mQgrutflOEdoswkst1oZem8RTxMti+DmrsmY8jG4ZJQ9BCWtmmv9bfkqmORYbyOWn1M
+ Pc6/R5z5l9W0EXpbUqprgYKY9V6DjxQMc88tl/XJR8F7AJSah8jsbU4sJd59/oIgF2jG
+ Kw7HXOUyCSJSnfXisvEPiFhk5x2x7DUpgGSaud+KxO8m6E8B+rmhPBUtroaV7iUxT3Rj
+ 2jAw==
+X-Gm-Message-State: AOAM533UUmcIYW+hmtZElXeAqF+b1l0akO03sX9zeB5EaROi38tPSLH0
+ EO6hutlJlVV/6z8AizqPWtyP//sSeCUbzUzYy5M=
+X-Google-Smtp-Source: ABdhPJyhogCF9ge7jjxQSbpuOj/gVR7Oa7FYKpxCSBwMgpLQyogVApnnG+WuvRLier7A8PhBF+qIeeWsX30YHacoL/8=
+X-Received: by 2002:a25:2041:: with SMTP id g62mr18759955ybg.152.1610717597833; 
+ Fri, 15 Jan 2021 05:33:17 -0800 (PST)
 MIME-Version: 1.0
-In-Reply-To: <cover.1610715661.git.berto@igalia.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kchamart@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: multipart/mixed; boundary="1yeeQ81UyVL57Vl7"
-Content-Disposition: inline
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=kchamart@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -29
-X-Spam_score: -3.0
-X-Spam_bar: ---
-X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.25,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+References: <20201104092900.21214-1-green.wan@sifive.com>
+ <CAFEAcA_EykbnmTQuz4RT3qGMt-Atf=EAdaHd-QqBvJCPvwemqA@mail.gmail.com>
+In-Reply-To: <CAFEAcA_EykbnmTQuz4RT3qGMt-Atf=EAdaHd-QqBvJCPvwemqA@mail.gmail.com>
+From: Bin Meng <bmeng.cn@gmail.com>
+Date: Fri, 15 Jan 2021 21:33:06 +0800
+Message-ID: <CAEUhbmULDEgfs0zkt6k1DWo+AD4T701xDp5TCyjQHFypmr037g@mail.gmail.com>
+Subject: Re: [PATCH] hw/misc/sifive_u_otp: handling the fails of blk_pread and
+ blk_pwrite
+To: Peter Maydell <peter.maydell@linaro.org>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::b2c;
+ envelope-from=bmeng.cn@gmail.com; helo=mail-yb1-xb2c.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -79,141 +78,23 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>,
- Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>, qemu-devel@nongnu.org,
- qemu-block@nongnu.org, Max Reitz <mreitz@redhat.com>
+Cc: Alistair Francis <alistair23@gmail.com>,
+ QEMU Developers <qemu-devel@nongnu.org>, Green Wan <green.wan@sifive.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---1yeeQ81UyVL57Vl7
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+On Fri, Jan 15, 2021 at 7:50 PM Peter Maydell <peter.maydell@linaro.org> wrote:
+>
+> Ping! This patch was trying to fix a Coverity issue (CID 1435959,
+> 1435960, 1435961) -- is anybody planning to review it?
+>
+> (I'm not entirely sure 'guest error' is the right warning category,
+> but I don't know the specifics of this device.)
+>
 
-On Fri, Jan 15, 2021 at 02:02:36PM +0100, Alberto Garcia wrote:
-> Hi,
+I think we should just use 'printf' instead of log a "guest error"
+because the guest does nothing wrong.
 
-Hi, 
-
-> during the past months we talked about making x-blockdev-reopen stable
-> API, and one of the missing things was having support for changing
-> bs->file. See here for the discusssion (I can't find the message from
-> Kashyap that started the thread in the web archives):
-> 
->    https://lists.gnu.org/archive/html/qemu-block/2020-10/msg00922.html
-
-Yeah, I noticed that too -- seems like it got "lost" somehow :-(.  For
-the record, I've attached here the original e-mail I sent on 06-OCT-2020
-that started the above thread.
-
-Thanks for working on this!
-
-> I was testing this and one of the problems that I found was that
-> removing a filter node using this command is tricky because of the
-> permission system, see here for details:
-> 
->    https://lists.gnu.org/archive/html/qemu-block/2020-12/msg00092.html
-> 
-> The good news is that Vladimir posted a set of patches that changes
-> the way that permissions are updated on reopen:
-> 
->    https://lists.gnu.org/archive/html/qemu-block/2020-11/msg00745.html
-> 
-> I was testing if this would be useful to solve the problem that I
-> mentioned earlier and it seems to be the case so I wrote a patch to
-> add support for changing bs->file, along with a couple of test cases.
-> 
-> This is still an RFC but you can see the idea.
-> 
-> These patches apply on top of Vladimir's branch:
-> 
-> git: https://src.openvz.org/scm/~vsementsov/qemu.git
-> tag: up-block-topologic-perm-v2
-> 
-> Opinions are very welcome!
-> 
-> Berto
-> 
-> Alberto Garcia (2):
->   block: Allow changing bs->file on reopen
->   iotests: Update 245 to support replacing files with x-blockdev-reopen
-> 
->  include/block/block.h      |  1 +
->  block.c                    | 61 ++++++++++++++++++++++++++++++++++++++
->  tests/qemu-iotests/245     | 61 +++++++++++++++++++++++++++++++++++---
->  tests/qemu-iotests/245.out |  4 +--
->  4 files changed, 121 insertions(+), 6 deletions(-)
-> 
-> -- 
-> 2.20.1
-> 
-
--- 
-/kashyap
-
---1yeeQ81UyVL57Vl7
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: attachment;
-	filename="x-blockdev-reopen-thread_06OCT2020.txt"
-Content-Transfer-Encoding: 8bit
-
-Date: Tue, 6 Oct 2020 11:10:01 +0200
-From: Kashyap Chamarthy <kchamart@redhat.com>
-To: qemu-devel@nongnu.org, qemu-block@nongnu.org
-Cc: berto@igalia.com, eblake@redhat.com
-Subject: Plans to bring QMP 'x-blockdev-reopen' out of experimental?
-Message-ID: <20201006091001.GA64583@paraplu>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-
-Hi, folks
-
-If this was already discussed on the list, please point me to the
-thread.  I took a quick look at my local archives, I didn't find any,
-besides patches to tests.
-
-I learn that `x-blockdev-reopen` enables a couple of interesting use
-cases:
-
-(#) Allowing one to live-change the backing file to point to a different
-    location, with the target having content identical to original.
-    This one I was already familiar with.
-
-(#) Yesterday I learnt another use case from Peter Krempa and Eric
-    Blake.  Allow me to quote (paraphrasing) Eric's example from IRC.
-    E.g.  we have (where 'overlay1' has a bitmap):
-
-        base <- overlay1
-
-    Then create a temporary snapshot (which results a bitmap being
-    created in 'overlay2', because 'overlay1' had one):
-    
-        base <- overlay1 <- overlay2
-    
-    If you want to do a `block-commit` to merge 'overlay2' back into
-    'overlay1', currently upstream QEMU does not merge the bitmap states
-    from 'overlay2' back into 'overlay1' properly.  This current
-    limitation is because QEMU can't merge the bitmaps unless it can
-    reopen 'overlay1' [for read-write] _prior_ to doing the commit — but
-    the only way to do that is with `x-blockdev-reopen`.
-
-            - - -
-
-From an old chat with Berto on #qemu, he was looking for some more
-robust testing, before lifting it out of experimental mode, as it was a
-rather complicated command to implement.
-
-Currently, I see there are some 'qemu-iotests' that exercise
-'x-blockdev-reopen': 155, 165, 245, and 248.  What else kind of tests
-can give more confidence?
-
-(I personally don't have an urgent need for this, so I'm not trying to
-rush anything. :-))
-
--- 
-/kashyap
-
---1yeeQ81UyVL57Vl7--
-
+Regards,
+Bin
 
