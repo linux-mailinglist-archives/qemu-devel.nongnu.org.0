@@ -2,77 +2,85 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3E55D2F7E09
-	for <lists+qemu-devel@lfdr.de>; Fri, 15 Jan 2021 15:22:26 +0100 (CET)
-Received: from localhost ([::1]:36148 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 80EBD2F7E08
+	for <lists+qemu-devel@lfdr.de>; Fri, 15 Jan 2021 15:22:19 +0100 (CET)
+Received: from localhost ([::1]:58370 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l0Pzd-0000gG-9U
-	for lists+qemu-devel@lfdr.de; Fri, 15 Jan 2021 09:22:25 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46352)
+	id 1l0PzW-0006NU-Bz
+	for lists+qemu-devel@lfdr.de; Fri, 15 Jan 2021 09:22:18 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47548)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <wainersm@redhat.com>)
- id 1l0PY0-0002NB-FD
- for qemu-devel@nongnu.org; Fri, 15 Jan 2021 08:53:52 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:49840)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <wainersm@redhat.com>)
- id 1l0PXx-0008FS-3v
- for qemu-devel@nongnu.org; Fri, 15 Jan 2021 08:53:51 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1610718826;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=qyhkcwoh8eiMEDFzRgeDRy/JWk+TOE9QP0FabiMP4uY=;
- b=ZrzxSt+IcJ8VrToeeuSABildMlPBM3QXg9ivR6fih+5sHnqTaEw9Exn8q/5mhKLVDV4NMd
- hDqbLaEjSINS6PT3bsLm01S5fjes+YCSmXZep0HhMmG4agfPqbutRW6bddpQ2WYdrGoadG
- 6rTfRySct8fiibT+1z5wSE0JPK1A7HU=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-252-0jv9dXYLMDaIe5OKhmUpgQ-1; Fri, 15 Jan 2021 08:53:42 -0500
-X-MC-Unique: 0jv9dXYLMDaIe5OKhmUpgQ-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id CD8821DDE0;
- Fri, 15 Jan 2021 13:53:41 +0000 (UTC)
-Received: from wainer-laptop.localdomain (ovpn-116-88.gru2.redhat.com
- [10.97.116.88])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 422D65D9E3;
- Fri, 15 Jan 2021 13:53:37 +0000 (UTC)
-Subject: Re: [PATCH v2 02/25] tests/docker: don't use BUILDKIT in GitLab either
-To: =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
- qemu-devel@nongnu.org
-References: <20210114130245.1654081-1-berrange@redhat.com>
- <20210114130245.1654081-3-berrange@redhat.com>
-From: Wainer dos Santos Moschetta <wainersm@redhat.com>
-Message-ID: <678eec1f-9cf6-ef96-8a11-e8ddaff4710e@redhat.com>
-Date: Fri, 15 Jan 2021 10:53:34 -0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.4.0
+ (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
+ id 1l0PeR-0000yK-P8; Fri, 15 Jan 2021 09:00:31 -0500
+Received: from out4-smtp.messagingengine.com ([66.111.4.28]:48387)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
+ id 1l0PeO-0002Nt-Iu; Fri, 15 Jan 2021 09:00:31 -0500
+Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
+ by mailout.nyi.internal (Postfix) with ESMTP id 3E0505C01C4;
+ Fri, 15 Jan 2021 09:00:24 -0500 (EST)
+Received: from mailfrontend2 ([10.202.2.163])
+ by compute4.internal (MEProxy); Fri, 15 Jan 2021 09:00:24 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=irrelevant.dk;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-type:in-reply-to; s=fm2; bh=ojr991irad/SQ2jqVhFXW//2p8X
+ toEnpBnuWj2/37XM=; b=FePk8bjf8dTA1ilpYd5ZW5r4EmAVFNJUFAkLC7QxGdr
+ AUQT7VlPH5pYoSqLkU3v7lnYpPuUXrz/XJr5PZx4OvfVxsacu+nJz7/YMltdBV/b
+ e4TlF4QvuiiDO72NaFVWr5Udiqjqm3i4AGEpk6maQX/dSV1gqQNUWn40O7u4I2qH
+ tNBKdFZLumLInY9C4DEakZ7nbNwvSsWVndSYNOtEc9cTElM+LaU2tFV5gmbftfJs
+ rlPqyEWSDVckptqxg6C/97t+0WrTXJcrjnk9zHFPfWoPIjSH1YuULKYYUbf7WIHf
+ 6NJ86yeqHeM0Wh3q9CsUzpkIfSlVUoDmmrW+Ou8Ia5A==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+ messagingengine.com; h=cc:content-type:date:from:in-reply-to
+ :message-id:mime-version:references:subject:to:x-me-proxy
+ :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; bh=ojr991
+ irad/SQ2jqVhFXW//2p8XtoEnpBnuWj2/37XM=; b=JHgq0gzhDi58a1pjzMPLlw
+ Erw8UwYQTPOpnp9YWfIP4VvBO6vOSWrDeWYsi6PfMWE0B7KMAqVnzUIJ8Viz4Qv1
+ N4oTQlJG9t8tWQvDu4ofs67F3J27yhMQIcguZfTopCqk4gBQO4gHQnD3Fr1AGpMj
+ ywcFHmXrG8+EpoTNnkGc88ZGtKZzbBIg3Fi4xeeVijwWhHtlQq9GC4Fr8tQtQUHF
+ QAOY+r05BLrQZOZP6CfJluPLoVxO2j/0u5Wpb0Xf6omQXpBVneQCm7wdxZ1PXgto
+ ADgktdBup4E0zffkCjJHUZWI1b7/Ay+EpuvoDRjRTlB8DEFWiGalttcuO0kIPu/g
+ ==
+X-ME-Sender: <xms:958BYCk63u4jU_iZQw2Cd0tfcRXm7R1sWXHWT9WWuK3opUToMa5wRQ>
+ <xme:958BYJ21odC4KQJUTKHSoTYi65xedw0QG59ekmX1baVUEEM08kdtYVDhypIRolMPC
+ 8FcTo4VhK1Hcc81GOs>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduledrtddvgdefgecutefuodetggdotefrodftvf
+ curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
+ uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
+ fjughrpeffhffvuffkfhggtggujgesghdtreertddtjeenucfhrhhomhepmfhlrghushcu
+ lfgvnhhsvghnuceoihhtshesihhrrhgvlhgvvhgrnhhtrdgukheqnecuggftrfgrthhtvg
+ hrnhepjeegudffueeiteekieelkedvueelteevjeduieeludfffeejgeffhfduvdduffek
+ necukfhppeektddrudeijedrleekrdduledtnecuvehluhhsthgvrhfuihiivgeptdenuc
+ frrghrrghmpehmrghilhhfrhhomhepihhtshesihhrrhgvlhgvvhgrnhhtrdgukh
+X-ME-Proxy: <xmx:958BYAq6Iaid2vuxfiL6HYj9Bn8Jdggri77fvSqq_28rLHcVBcpO7Q>
+ <xmx:958BYGmenFWdAmsjf2UcS4pp9Frhj-mTz6VZivsCpiuQknMdhGeTmg>
+ <xmx:958BYA2NEX1-SHDbenKBKJh7auFEizylcOSdhr0eLBT_l2rM9wit7g>
+ <xmx:-J8BYDQrz09QpR37_OaQMWFafWfUSPeIFB-yitPAMi2f-iWWZ_RPlg>
+Received: from apples.localdomain (80-167-98-190-cable.dk.customer.tdc.net
+ [80.167.98.190])
+ by mail.messagingengine.com (Postfix) with ESMTPA id 8E8491080057;
+ Fri, 15 Jan 2021 09:00:22 -0500 (EST)
+Date: Fri, 15 Jan 2021 15:00:20 +0100
+From: Klaus Jensen <its@irrelevant.dk>
+To: Minwoo Im <minwoo.im.dev@gmail.com>
+Subject: Re: [PATCH] hw/block/nvme: add zoned I/O commands to nvme_io_opc_str()
+Message-ID: <YAGf9NOJwxtufjNx@apples.localdomain>
+References: <20210115134845.17618-1-minwoo.im.dev@gmail.com>
 MIME-Version: 1.0
-In-Reply-To: <20210114130245.1654081-3-berrange@redhat.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=wainersm@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Content-Language: en-US
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=wainersm@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -29
-X-Spam_score: -3.0
-X-Spam_bar: ---
-X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.25,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="DTepGJfl2guxlbAd"
+Content-Disposition: inline
+In-Reply-To: <20210115134845.17618-1-minwoo.im.dev@gmail.com>
+Received-SPF: pass client-ip=66.111.4.28; envelope-from=its@irrelevant.dk;
+ helo=out4-smtp.messagingengine.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
+X-Spam_bar: --
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -85,50 +93,65 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Fam Zheng <fam@euphon.net>, Peter Maydell <peter.maydell@linaro.org>,
- =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+Cc: Keith Busch <kbusch@kernel.org>, Kevin Wolf <kwolf@redhat.com>,
+ qemu-devel@nongnu.org, qemu-block@nongnu.org, Max Reitz <mreitz@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi,
 
-On 1/14/21 10:02 AM, Daniel P. Berrangé wrote:
-> Using BUILDKIT breaks with certain container registries such as CentOS,
-> with docker build reporting an error such as
->
->    failed to solve with frontend dockerfile.v0:
->    failed to build LLB: failed to load cache key:
->    unexpected status code
->    https://registry.centos.org/v2/centos/manifests/7:
->    403 Forbidden
->
-> Signed-off-by: Daniel P. Berrangé <berrange@redhat.com>
+--DTepGJfl2guxlbAd
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+
+On Jan 15 22:48, Minwoo Im wrote:
+> Currently, Zoned I/O commands are parsed as unknown:
+>   pci_nvme_io_cmd cid 768 nsid 1 sqid 4 opc 0x79 opname 'NVME_NVM_CMD_UNK=
+NOWN'
+>=20
+> Parse zoned I/O commands along with other I/O commands to print.
+>=20
+> Signed-off-by: Minwoo Im <minwoo.im.dev@gmail.com>
 > ---
->   tests/docker/docker.py | 4 +++-
->   1 file changed, 3 insertions(+), 1 deletion(-)
->
-> diff --git a/tests/docker/docker.py b/tests/docker/docker.py
-> index 36b7868406..d1d0da9419 100755
-> --- a/tests/docker/docker.py
-> +++ b/tests/docker/docker.py
-> @@ -222,7 +222,9 @@ class Docker(object):
->       def __init__(self):
->           self._command = _guess_engine_command()
->   
-> -        if "docker" in self._command and "TRAVIS" not in os.environ:
-> +        if ("docker" in self._command and
-> +            "TRAVIS" not in os.environ and
-> +            "CI" not in os.environ):
+>  hw/block/nvme.h | 3 +++
+>  1 file changed, 3 insertions(+)
+>=20
+> diff --git a/hw/block/nvme.h b/hw/block/nvme.h
+> index b7fbcca39d9f..0c1cb6fd2549 100644
+> --- a/hw/block/nvme.h
+> +++ b/hw/block/nvme.h
+> @@ -66,6 +66,9 @@ static inline const char *nvme_io_opc_str(uint8_t opc)
+>      case NVME_CMD_READ:             return "NVME_NVM_CMD_READ";
+>      case NVME_CMD_WRITE_ZEROES:     return "NVME_NVM_CMD_WRITE_ZEROES";
+>      case NVME_CMD_DSM:              return "NVME_NVM_CMD_DSM";
+> +    case NVME_CMD_ZONE_MGMT_SEND:   return "NVME_NVM_CMD_ZONE_MGMT_SEND";
+> +    case NVME_CMD_ZONE_MGMT_RECV:   return "NVME_NVM_CMD_ZONE_MGMT_RECV";
+> +    case NVME_CMD_ZONE_APPEND:      return "NVME_NVM_CMD_ZONE_APPEND";
+>      default:                        return "NVME_NVM_CMD_UNKNOWN";
+>      }
+>  }
+> --=20
+> 2.17.1
+>=20
 
+I have this in a series under review. Compare is also missing ;)
 
-The variable CI is also exported in Travis. But if you want to keep this 
-guard specific to gitlab then you can use GITLAB_CI.
+"[PATCH 5/6] hw/block/nvme: add missing string representations for commands"
 
-- Wainer
+--DTepGJfl2guxlbAd
+Content-Type: application/pgp-signature; name="signature.asc"
 
->               os.environ["DOCKER_BUILDKIT"] = "1"
->               self._buildkit = True
->           else:
+-----BEGIN PGP SIGNATURE-----
 
+iQEzBAEBCAAdFiEEUigzqnXi3OaiR2bATeGvMW1PDekFAmABn/MACgkQTeGvMW1P
+DenJzwf+PZwC8zZlllf1zQw6RZ38RI8GvgFISzaDULWa1ybY0OexJkW8TJwj5RaW
+ghYXmo2+X35+eSJHTfe883HhQTxeuPjruzwHLWjHdUh49nqIbJ5pRTWSu94a7/sr
+iafYwIL9t5yjQyzmwCS7yPkjqAgIhi+d0+waKMDiKguquajUXbyfaOsk/CYEgz9E
+l52q8eMCOvWNwtlM7fJgwYR7S/OseahUZxaHU9hiK+fL4O6juhBw7QVrVLf4nG+z
+DT7Naqs7J/bydULKuyo3OOI7ZEX0hMKasnHRWsZ2M7947HI6yHJ8VhLh/KeCs+E+
+lMXBDYSVEIzhcHWHKOFUkZUZ5D9Z9A==
+=2aMq
+-----END PGP SIGNATURE-----
+
+--DTepGJfl2guxlbAd--
 
