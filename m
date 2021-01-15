@@ -2,80 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 644A42F8485
-	for <lists+qemu-devel@lfdr.de>; Fri, 15 Jan 2021 19:34:06 +0100 (CET)
-Received: from localhost ([::1]:57836 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1848F2F84B2
+	for <lists+qemu-devel@lfdr.de>; Fri, 15 Jan 2021 19:47:24 +0100 (CET)
+Received: from localhost ([::1]:48314 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l0TvB-0002d6-5b
-	for lists+qemu-devel@lfdr.de; Fri, 15 Jan 2021 13:34:05 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56016)
+	id 1l0U83-0002dg-4B
+	for lists+qemu-devel@lfdr.de; Fri, 15 Jan 2021 13:47:23 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57374)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <wrampazz@redhat.com>)
- id 1l0TsR-0001Mm-UG
- for qemu-devel@nongnu.org; Fri, 15 Jan 2021 13:31:16 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:22800)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <wrampazz@redhat.com>)
- id 1l0TsO-0001Ap-59
- for qemu-devel@nongnu.org; Fri, 15 Jan 2021 13:31:15 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1610735471;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=YWePsKG224XHorSYwYw3aM2CaiWVBNqRUClkXfgpOOE=;
- b=IBZudL7dh6HjjZKlax9Lw14eaUqSa6Gwe8v5AQrMiedEog+baUzEN+V/cKCas2c3UtwSxM
- j1hJj074jwAUxSCHwdYtGnSMiOCvObI33tfX0KzMZRaVKD8V9jrdemwjbEVt1z8RnAxdEA
- fqzJkzrl57UAJRqlVqvf1IsqptOSug0=
-Received: from mail-vs1-f69.google.com (mail-vs1-f69.google.com
- [209.85.217.69]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-451-vQo72dQBMRK4f8vkD7znKw-1; Fri, 15 Jan 2021 13:31:08 -0500
-X-MC-Unique: vQo72dQBMRK4f8vkD7znKw-1
-Received: by mail-vs1-f69.google.com with SMTP id g3so1831075vso.1
- for <qemu-devel@nongnu.org>; Fri, 15 Jan 2021 10:31:08 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <minwoo.im.dev@gmail.com>)
+ id 1l0TzR-0006Vz-W7; Fri, 15 Jan 2021 13:38:31 -0500
+Received: from mail-pl1-x636.google.com ([2607:f8b0:4864:20::636]:36968)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <minwoo.im.dev@gmail.com>)
+ id 1l0TzK-0003Vi-Bh; Fri, 15 Jan 2021 13:38:29 -0500
+Received: by mail-pl1-x636.google.com with SMTP id be12so5147475plb.4;
+ Fri, 15 Jan 2021 10:38:21 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:in-reply-to:user-agent;
+ bh=O1ktJIpvcKoM786sLttFaCz1BNdfgFRNsMyN0P4hiz4=;
+ b=A/BFLpVOoWloc/jEN8khF820X6RfjTufzTIFExGN/6AqF35+oihxhaBmtN5HOowied
+ TWmH4dX5yUVR6D7uq7Llh4WBP4jDa55AB77mUeaWWoAULZJe22WhlFKjs7onZCR7svE6
+ Li2tfSrAGKneP3t6JBGGO8z6gr1CVFX7WXIi7U+1AeOEay/TTlWOmf+4Qd5HuV+4vs30
+ 5HyrxWJ/DzlAJEBKN2YxJW5y1qyRVPt5Z8nZqWn8dygMz+zkNEW7qv1V3fwCiFChc7ej
+ LixamGYtOjRGLj5B1hfdCPwhttX6XRkhYcy6BUhx56c4PLGk2s8moe1VABH2oa3LnlWr
+ qHLA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=YWePsKG224XHorSYwYw3aM2CaiWVBNqRUClkXfgpOOE=;
- b=B2e/jtRe4wR2YugxHGXEYGRhxpOj3dteBi3pOfQlTn1KgBt7Wy6K0gC/Bn60tXh2Q2
- bxVaIyz2V+enDutoPhXeo5GzEEAnpseBbDsYUFGFAAotAr/Ln/3KG3/6RJ8NYochN2hl
- Syut6GrsZW3GRK6+J7lCaHObJxYIqfAOiM6S1B/Miv12Kzrr5ewWcU5dvCi5cnSuYB4M
- CVvbzC+G5yzK71tdQeSNwF7zjE/ONyt3pLADaWZWU/7KAIZf3afcpnaW9UOceDo5xj1v
- em+NUJjF6jjzZ7JT/hrN1QscvM3z07R2PWpzjV0XJnPyDssAiHopoi8DYn0JJf2YUbZC
- rasA==
-X-Gm-Message-State: AOAM530XqAtnvj5RCe4UmZFwKP6Aclkl4BV6tLjxStq59+yVIg8bnfB6
- E46W3zwmgRRHLV0JnPalmShLv2p7yTlf93yXsqkiNAk3I2V6JocOM1iPLto8g5/HPbn5IhcGma/
- Ru243nY1e8+xuTUnmX4lT1vLq1wB+H+E=
-X-Received: by 2002:a67:c282:: with SMTP id k2mr11348299vsj.1.1610735467834;
- Fri, 15 Jan 2021 10:31:07 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJzjAxOWDzmiEuAK0i/MGZlhXcfkowFocgp2kZ4p6exFUOvsVVES1FF1/IMoi7fY6mdyh9IjwPy/3qjELDUpPug=
-X-Received: by 2002:a67:c282:: with SMTP id k2mr11348280vsj.1.1610735467703;
- Fri, 15 Jan 2021 10:31:07 -0800 (PST)
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to:user-agent;
+ bh=O1ktJIpvcKoM786sLttFaCz1BNdfgFRNsMyN0P4hiz4=;
+ b=pHYp5ffZde75X2p7XfG661r/3TV7rIzVBfmtr4+scvIfMjTqmCKzb7pDO9EX0f7txi
+ O2Bkrw2mKw2qAOw795im3/Bnc/tol/Xrq+LY/yS/9AziSbyd6lz7IAi69oCNif65Nbbb
+ WWzM+xj08MEdm+gWG4lJS7Kk6W886UMfsAY/JbnZ5SktxwH+4zvAudrpOUfJhNOnTlIk
+ g6dz/H9qevjdcIFiC7+8SgRSy4yjGaDNQipTyRCE9h/XpDHimyVSaR7svDODUf5ZXPn1
+ BVrHcioHRWzvPjegfpOJmlKDzekpLBIlU3Bn26W/3nIFEIDYhA11sdAa6WxzcN7znlDu
+ ngaQ==
+X-Gm-Message-State: AOAM532eiM+6LomqaA5kdV21XSkub1HfFY81YIHHtnHcABrKot6f5JKm
+ XrM5s36wISihjc39y7NDuHI=
+X-Google-Smtp-Source: ABdhPJxBY7ODHq3Qekl6E1oXDMpiTDAQ+bhGR13jg75q4dyvXCkOewPTq1ssrkYigKW+1h4jYqP/Pg==
+X-Received: by 2002:a17:902:8a8d:b029:dc:8ac6:a149 with SMTP id
+ p13-20020a1709028a8db02900dc8ac6a149mr14121883plo.18.1610735900586; 
+ Fri, 15 Jan 2021 10:38:20 -0800 (PST)
+Received: from localhost ([211.108.35.36])
+ by smtp.gmail.com with ESMTPSA id s23sm8846900pgj.29.2021.01.15.10.38.19
+ (version=TLS1_2 cipher=ECDHE-ECDSA-CHACHA20-POLY1305 bits=256/256);
+ Fri, 15 Jan 2021 10:38:19 -0800 (PST)
+Date: Sat, 16 Jan 2021 03:38:18 +0900
+From: Minwoo Im <minwoo.im.dev@gmail.com>
+To: Klaus Jensen <its@irrelevant.dk>
+Subject: Re: [RFC PATCH 0/5] hw/block/nvme: support multi-path for ctrl/ns
+Message-ID: <20210115183818.GB2822@localhost.localdomain>
+References: <20210115120558.29313-1-minwoo.im.dev@gmail.com>
+ <YAGfWe+OMxiBggh3@apples.localdomain>
+ <20210115173504.GH1511902@dhcp-10-100-145-180.wdc.com>
+ <YAHVKFOYaEO4N6I5@apples.localdomain>
 MIME-Version: 1.0
-References: <20210115174315.30949-1-mreitz@redhat.com>
- <20210115174315.30949-4-mreitz@redhat.com>
-In-Reply-To: <20210115174315.30949-4-mreitz@redhat.com>
-From: Willian Rampazzo <wrampazz@redhat.com>
-Date: Fri, 15 Jan 2021 15:30:41 -0300
-Message-ID: <CAKJDGDazSG=vXa8U9WMBrXC9107SuLyJE6WrLSpnPK52cOnJUg@mail.gmail.com>
-Subject: Re: [PATCH v4 03/10] iotests: Move try_remove to iotests.py
-To: Max Reitz <mreitz@redhat.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=wrampazz@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=wrampazz@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -29
-X-Spam_score: -3.0
-X-Spam_bar: ---
-X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.25,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <YAHVKFOYaEO4N6I5@apples.localdomain>
+User-Agent: Mutt/1.11.4 (2019-03-13)
+Received-SPF: pass client-ip=2607:f8b0:4864:20::636;
+ envelope-from=minwoo.im.dev@gmail.com; helo=mail-pl1-x636.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -88,23 +85,75 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>,
- Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
- qemu-devel <qemu-devel@nongnu.org>, qemu-block@nongnu.org
+Cc: Keith Busch <kbusch@kernel.org>, Kevin Wolf <kwolf@redhat.com>,
+ qemu-devel@nongnu.org, qemu-block@nongnu.org, Max Reitz <mreitz@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, Jan 15, 2021 at 2:43 PM Max Reitz <mreitz@redhat.com> wrote:
->
-> Signed-off-by: Max Reitz <mreitz@redhat.com>
-> Reviewed-by: Eric Blake <eblake@redhat.com>
-> Reviewed-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-> ---
->  tests/qemu-iotests/124        |  8 +-------
->  tests/qemu-iotests/iotests.py | 11 +++++++----
->  2 files changed, 8 insertions(+), 11 deletions(-)
->
+On 21-01-15 18:47:20, Klaus Jensen wrote:
+> On Jan 15 09:35, Keith Busch wrote:
+> > On Fri, Jan 15, 2021 at 02:57:45PM +0100, Klaus Jensen wrote:
+> > > 
+> > > As you already mentioned, the problem I see with this approach is that
+> > > we have separate namespaces attached to separate controllers. So we are
+> > > faking it to the max and if I/O starts going through the other
+> > > controller we end up on a namespace that is unrelated (different data).
+> > > Havoc ensues.
+> > > 
+> > > My approach looks a lot like yours, but I hacked around this by adding
+> > > extra 'ctrl-0', 'ctrl-1', ..., link-parameters to the namespace device,
+> > > replacing the bus. This works well because the namespace then just
+> > > registers with multiple controllers. But adding more parameters like
+> > > that just isnt nice, so I've been trying to figure out how to allow a
+> > > parameter to be specified multiple times, so we could just do more
+> > > 'ctrl'-parameters.
+> > > 
+> > > Alas, since I started thinking about namespace sharing I have been
+> > > regretting that I didn't reverse the bus-mechanic for namespace
+> > > attachment. It would align better with the theory of operation if it was
+> > > the controllers that attached to namespaces, and not the other way
+> > > around. So what I would actually really prefer, is that we had multiple
+> > > 'ns' link parameters on the controller device.
+> > 
+> > Would this work better if we introduce a new device in the nvme hierarchy:
+> > the nvme-subsystem? You could attach multi-path namespaces and
+> > controllers to that, and namespaces you don't want shared can attach
+> > directly to controllers like they do today. You could also auto-assign
+> > cntlid, and you wouldn't need to duplicate serial numbers in your
+> > parameters.
+> 
+> I kinda POC'ed that, but I think I tried to make it work with a bus and
+> walking it and all kinds of fancy stuff.
+> 
+> I think it can just be a 'link' parameter, so something like:
+> 
+>   -device nvme-subsys,id=subsys0
 
-Reviewed-by: Willian Rampazzo <willianr@redhat.com>
+Do we have any plan for default subsys hierarchy?  Or is it going to be
+a mandatory root node of nvme controllers and namespaces?
 
+>   -device nvme,id=nvme0,subsys=subsys0
+>   -device nvme,id=nvme1,subsys=subsys0
+>   -device nvme-ns,id=shared-ns1,nsid=1,subsys=subsys0
+
+In this case, what is the default set-up for shared-ns1?  Is this
+namespace going to be ready right after the two nvme controllers being
+realized?  If so, do we iterate all the namespace devices in the NVM
+subsystem and attach them to this controller in the initial time?
+
+If so, I agree with this approach.
+
+>   -device nvme-ns,id=private-ns2,nsid=2,bus=nvme0
+
+This must be the case what Keith mentioned of directly attaching to a
+controller.  It looks nice.  But, one concerning point here is that, in
+!shared namespace, if we don't specify 'subsys' property here to attach
+it to directly to a controller, it means it implicitly will belong to
+the subsys0 where the nvme0 belongs to.  It means that user should give
+nsid different than 1 which is already shared.
+
+So, how do we make subsys property as a mandatory for namespace device
+and provide optional choice for bus.  If bus is given to a controller,
+then it can mean a private namespace, otherwise it can be shared among
+controllers in a subsystem.
 
