@@ -2,36 +2,37 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 708E32F714E
-	for <lists+qemu-devel@lfdr.de>; Fri, 15 Jan 2021 04:59:44 +0100 (CET)
-Received: from localhost ([::1]:35362 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6D99D2F714D
+	for <lists+qemu-devel@lfdr.de>; Fri, 15 Jan 2021 04:59:04 +0100 (CET)
+Received: from localhost ([::1]:33418 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l0GH1-0000Uu-FQ
-	for lists+qemu-devel@lfdr.de; Thu, 14 Jan 2021 22:59:43 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55090)
+	id 1l0GGN-00086Y-Ey
+	for lists+qemu-devel@lfdr.de; Thu, 14 Jan 2021 22:59:03 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55166)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <chaihaoyu1@huawei.com>)
- id 1l0GEL-0006y4-70
- for qemu-devel@nongnu.org; Thu, 14 Jan 2021 22:56:57 -0500
-Received: from szxga07-in.huawei.com ([45.249.212.35]:2639)
+ id 1l0GEk-00077A-1e
+ for qemu-devel@nongnu.org; Thu, 14 Jan 2021 22:57:22 -0500
+Received: from szxga06-in.huawei.com ([45.249.212.32]:2594)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <chaihaoyu1@huawei.com>)
- id 1l0GEI-0004kW-9b
- for qemu-devel@nongnu.org; Thu, 14 Jan 2021 22:56:56 -0500
-Received: from DGGEMS402-HUB.china.huawei.com (unknown [172.30.72.58])
- by szxga07-in.huawei.com (SkyGuard) with ESMTP id 4DH6ly6rFSz7Gw8;
- Fri, 15 Jan 2021 11:55:42 +0800 (CST)
+ id 1l0GEi-0004rk-1v
+ for qemu-devel@nongnu.org; Thu, 14 Jan 2021 22:57:21 -0500
+Received: from DGGEMS412-HUB.china.huawei.com (unknown [172.30.72.58])
+ by szxga06-in.huawei.com (SkyGuard) with ESMTP id 4DH6mm3ydlzj6nc;
+ Fri, 15 Jan 2021 11:56:24 +0800 (CST)
 Received: from [10.108.235.54] (10.108.235.54) by
- DGGEMS402-HUB.china.huawei.com (10.3.19.202) with Microsoft SMTP Server id
- 14.3.498.0; Fri, 15 Jan 2021 11:56:36 +0800
-Subject: [PATCH v2 2/5] softmmu: braces {} are needed for if statement
+ DGGEMS412-HUB.china.huawei.com (10.3.19.212) with Microsoft SMTP Server id
+ 14.3.498.0; Fri, 15 Jan 2021 11:57:07 +0800
+Subject: [PATCH v2 3/5] softmmu: don't use '#' flag of printf format ('%#') in
+ format strings
 From: chaihaoyu <chaihaoyu1@huawei.com>
 To: <qemu-devel@nongnu.org>, <pbonzini@redhat.com>, Peter Xu
  <peterx@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>
 References: <aaa530f5-b7ec-3198-a80b-efb88de20c6c@huawei.com>
-Message-ID: <ccc5bed3-0614-da43-8260-8b3a341bbb2a@huawei.com>
-Date: Fri, 15 Jan 2021 11:56:36 +0800
+Message-ID: <6cfe1902-1de6-43ca-c448-ad8c650f2c61@huawei.com>
+Date: Fri, 15 Jan 2021 11:57:07 +0800
 User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
  Thunderbird/78.4.0
 MIME-Version: 1.0
@@ -40,8 +41,8 @@ Content-Type: text/plain; charset="gbk"
 Content-Transfer-Encoding: 7bit
 X-Originating-IP: [10.108.235.54]
 X-CFilter-Loop: Reflected
-Received-SPF: pass client-ip=45.249.212.35; envelope-from=chaihaoyu1@huawei.com;
- helo=szxga07-in.huawei.com
+Received-SPF: pass client-ip=45.249.212.32; envelope-from=chaihaoyu1@huawei.com;
+ helo=szxga06-in.huawei.com
 X-Spam_score_int: -41
 X-Spam_score: -4.2
 X-Spam_bar: ----
@@ -65,168 +66,43 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 This patch fixes error messages found by checkpatch.pl:
-braces {} are needed for if statement
+don't use '#' flag of printf format ('%#') in format strings
 
 Signed-off-by: Haoyu Chai <chaihaoyu1@huawei.com>
 
 ---
- softmmu/cpus.c         |  6 ++++--
- softmmu/dma-helpers.c  |  3 ++-
- softmmu/memory.c       |  3 ++-
- softmmu/physmem.c      | 15 ++++++++++-----
- softmmu/qdev-monitor.c | 12 ++++++++----
- 5 files changed, 26 insertions(+), 13 deletions(-)
+ softmmu/device_tree.c | 2 +-
+ softmmu/runstate.c    | 4 ++--
+ 2 files changed, 3 insertions(+), 3 deletions(-)
 
-diff --git a/softmmu/cpus.c b/softmmu/cpus.c
-index 1dc20b9dc3..0d16855543 100644
---- a/softmmu/cpus.c
-+++ b/softmmu/cpus.c
-@@ -744,8 +744,9 @@ void qmp_memsave(int64_t addr, int64_t size, const char *filename,
+diff --git a/softmmu/device_tree.c b/softmmu/device_tree.c
+index b9a3ddc518..f1f4fd6f0d 100644
+--- a/softmmu/device_tree.c
++++ b/softmmu/device_tree.c
+@@ -367,7 +367,7 @@ int qemu_fdt_setprop_cell(void *fdt, const char *node_path,
 
-     while (size != 0) {
-         l = sizeof(buf);
--        if (l > size)
-+        if (l > size) {
-             l = size;
-+        }
-         if (cpu_memory_rw_debug(cpu, addr, buf, l, 0) != 0) {
-             error_setg(errp, "Invalid addr 0x%016" PRIx64 "/size %" PRId64
-                              " specified", orig_addr, orig_size);
-@@ -778,8 +779,9 @@ void qmp_pmemsave(int64_t addr, int64_t size, const char *filename,
-
-     while (size != 0) {
-         l = sizeof(buf);
--        if (l > size)
-+        if (l > size) {
-             l = size;
-+        }
-         cpu_physical_memory_read(addr, buf, l);
-         if (fwrite(buf, 1, l, f) != l) {
-             error_setg(errp, QERR_IO_ERROR);
-diff --git a/softmmu/dma-helpers.c b/softmmu/dma-helpers.c
-index 29001b5459..ccea3a7750 100644
---- a/softmmu/dma-helpers.c
-+++ b/softmmu/dma-helpers.c
-@@ -165,8 +165,9 @@ static void dma_blk_cb(void *opaque, int ret)
-                 }
-             }
-         }
--        if (!mem)
-+        if (!mem) {
-             break;
-+        }
-         qemu_iovec_add(&dbs->iov, mem, cur_len);
-         dbs->sg_cur_byte += cur_len;
-         if (dbs->sg_cur_byte == dbs->sg->sg[dbs->sg_cur_index].len) {
-diff --git a/softmmu/memory.c b/softmmu/memory.c
-index 2d346b9de4..0ff81def99 100644
---- a/softmmu/memory.c
-+++ b/softmmu/memory.c
-@@ -671,8 +671,9 @@ void flatview_for_each_range(FlatView *fv, flatview_cb cb , void *opaque)
-     assert(cb);
-
-     FOR_EACH_FLAT_RANGE(fr, fv) {
--        if (cb(fr->addr.start, fr->addr.size, fr->mr, opaque))
-+        if (cb(fr->addr.start, fr->addr.size, fr->mr, opaque)) {
-             break;
-+        }
+     r = fdt_setprop_cell(fdt, findnode_nofail(fdt, node_path), property, val);
+     if (r < 0) {
+-        error_report("%s: Couldn't set %s/%s = %#08x: %s", __func__,
++        error_report("%s: Couldn't set %s/%s = 0x%08x: %s", __func__,
+                      node_path, property, val, fdt_strerror(r));
+         exit(1);
      }
- }
+diff --git a/softmmu/runstate.c b/softmmu/runstate.c
+index 636aab0add..87ce18282b 100644
+--- a/softmmu/runstate.c
++++ b/softmmu/runstate.c
+@@ -490,8 +490,8 @@ void qemu_system_guest_panicked(GuestPanicInformation *info)
 
-diff --git a/softmmu/physmem.c b/softmmu/physmem.c
-index 6301f4f0a5..43e37660c7 100644
---- a/softmmu/physmem.c
-+++ b/softmmu/physmem.c
-@@ -797,8 +797,9 @@ int cpu_watchpoint_insert(CPUState *cpu, vaddr addr, vaddr len,
-         tlb_flush(cpu);
-     }
-
--    if (watchpoint)
-+    if (watchpoint) {
-         *watchpoint = wp;
-+    }
-     return 0;
- }
-
-@@ -1210,8 +1211,9 @@ void flatview_add_to_dispatch(FlatView *fv, MemoryRegionSection *section)
-
- void qemu_flush_coalesced_mmio_buffer(void)
- {
--    if (kvm_enabled())
-+    if (kvm_enabled()) {
-         kvm_flush_coalesced_mmio_buffer();
-+    }
- }
-
- void qemu_mutex_lock_ramlist(void)
-@@ -2495,8 +2497,9 @@ static int subpage_register(subpage_t *mmio, uint32_t start, uint32_t end,
- {
-     int idx, eidx;
-
--    if (start >= TARGET_PAGE_SIZE || end >= TARGET_PAGE_SIZE)
-+    if (start >= TARGET_PAGE_SIZE || end >= TARGET_PAGE_SIZE) {
-         return -1;
-+    }
-     idx = SUBPAGE_IDX(start);
-     eidx = SUBPAGE_IDX(end);
- #if defined(DEBUG_SUBPAGE)
-@@ -3410,11 +3413,13 @@ int cpu_memory_rw_debug(CPUState *cpu, target_ulong addr,
-         phys_addr = cpu_get_phys_page_attrs_debug(cpu, page, &attrs);
-         asidx = cpu_asidx_from_attrs(cpu, attrs);
-         /* if no physical page mapped, return an error */
--        if (phys_addr == -1)
-+        if (phys_addr == -1) {
-             return -1;
-+        }
-         l = (page + TARGET_PAGE_SIZE) - addr;
--        if (l > len)
-+        if (l > len) {
-             l = len;
-+        }
-         phys_addr += (addr & ~TARGET_PAGE_MASK);
-         if (is_write) {
-             res = address_space_write_rom(cpu->cpu_ases[asidx].as, phys_addr,
-diff --git a/softmmu/qdev-monitor.c b/softmmu/qdev-monitor.c
-index a681d6a4e8..8642b2a208 100644
---- a/softmmu/qdev-monitor.c
-+++ b/softmmu/qdev-monitor.c
-@@ -182,10 +182,12 @@ static int set_property(void *opaque, const char *name, const char *value,
- {
-     Object *obj = opaque;
-
--    if (strcmp(name, "driver") == 0)
-+    if (strcmp(name, "driver") == 0) {
-         return 0;
--    if (strcmp(name, "bus") == 0)
-+    }
-+    if (strcmp(name, "bus") == 0) {
-         return 0;
-+    }
-
-     if (!object_property_parse(obj, name, value, errp)) {
-         return -1;
-@@ -683,8 +685,9 @@ static void qbus_print(Monitor *mon, BusState *bus, int indent);
- static void qdev_print_props(Monitor *mon, DeviceState *dev, Property *props,
-                              int indent)
- {
--    if (!props)
-+    if (!props) {
-         return;
-+    }
-     for (; props->name; props++) {
-         char *value;
-         char *legacy_name = g_strdup_printf("legacy-%s", props->name);
-@@ -769,8 +772,9 @@ static void qbus_print(Monitor *mon, BusState *bus, int indent)
-
- void hmp_info_qtree(Monitor *mon, const QDict *qdict)
- {
--    if (sysbus_get_default())
-+    if (sysbus_get_default()) {
-         qbus_print(mon, sysbus_get_default(), 0);
-+    }
- }
-
- void hmp_info_qdm(Monitor *mon, const QDict *qdict)
+     if (info) {
+         if (info->type == GUEST_PANIC_INFORMATION_TYPE_HYPER_V) {
+-            qemu_log_mask(LOG_GUEST_ERROR, "\nHV crash parameters: (%#"PRIx64
+-                          " %#"PRIx64" %#"PRIx64" %#"PRIx64" %#"PRIx64")\n",
++            qemu_log_mask(LOG_GUEST_ERROR, "\nHV crash parameters: (0x%"PRIx64
++                          " 0x%"PRIx64" 0x%"PRIx64" 0x%"PRIx64" 0x%"PRIx64")\n",
+                           info->u.hyper_v.arg1,
+                           info->u.hyper_v.arg2,
+                           info->u.hyper_v.arg3,
 -- 
 2.29.1.59.gf9b6481aed
 
