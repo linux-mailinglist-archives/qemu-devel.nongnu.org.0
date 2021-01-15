@@ -2,67 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 808742F747E
+	by mail.lfdr.de (Postfix) with ESMTPS id 82AE82F747F
 	for <lists+qemu-devel@lfdr.de>; Fri, 15 Jan 2021 09:41:34 +0100 (CET)
-Received: from localhost ([::1]:59930 helo=lists1p.gnu.org)
+Received: from localhost ([::1]:59998 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l0Kfl-0004za-AX
+	id 1l0Kfl-00051L-Gy
 	for lists+qemu-devel@lfdr.de; Fri, 15 Jan 2021 03:41:33 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35836)
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35876)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1l0KeU-00040s-EG
- for qemu-devel@nongnu.org; Fri, 15 Jan 2021 03:40:14 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:28494)
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1l0Kea-000424-8C
+ for qemu-devel@nongnu.org; Fri, 15 Jan 2021 03:40:24 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:53520)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1l0KeO-0001hX-Ts
- for qemu-devel@nongnu.org; Fri, 15 Jan 2021 03:40:13 -0500
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1l0KeT-0001iy-S0
+ for qemu-devel@nongnu.org; Fri, 15 Jan 2021 03:40:20 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1610700005;
+ s=mimecast20190719; t=1610700011;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=LKu70xEjkbiLbtNhprUwm/zdGZ3qsOhC2quWCQ8jbVs=;
- b=NkK0LdtLIpJp3Y4b5yWiEF2yU6puG8bbYJbKj3VnwDbwxzv2CWVGvmSUBxoQryXmi4R9gl
- N9PxjmqbRk3R11BXn7Y7vO8hyVq+6rPRjMgeEu7ygawS81yO9xxbQDlgAl2RJg2EajsMNP
- 8od6Hr8gKeOl7mHPiCS6ek1ayT+Ftl8=
+ bh=EpW/SFjS6fUiuR19np4jlJ9PVNPPifDn4RWLb/2WrRM=;
+ b=XWQkRzIFo5gt0oHNW7srRArCD2vMv5cV47tcW/AgewqwRRV44BpOVv/M3NxVgrm4TiXGD5
+ 4uUyBoX8oAjJEltrGyVDrSCciTeB67Mv7fXZ5hjuhHreoer78Zi8i2tpP0qf1ROF9r82Kc
+ SZYDh68xEi5wpXspPtc5gb7uBsU2ymU=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-310-gJLQMkv_M9W2QOE2UDV3vg-1; Fri, 15 Jan 2021 03:40:03 -0500
-X-MC-Unique: gJLQMkv_M9W2QOE2UDV3vg-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
+ us-mta-226-QysT5S0OOcGhxR2TGm0gJg-1; Fri, 15 Jan 2021 03:40:08 -0500
+X-MC-Unique: QysT5S0OOcGhxR2TGm0gJg-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id B67BA8015A4;
- Fri, 15 Jan 2021 08:40:02 +0000 (UTC)
-Received: from blackfin.pond.sub.org (ovpn-112-172.ams2.redhat.com
- [10.36.112.172])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 967FF27C22;
- Fri, 15 Jan 2021 08:39:59 +0000 (UTC)
-Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id 2A6D311386A7; Fri, 15 Jan 2021 09:39:58 +0100 (CET)
-From: Markus Armbruster <armbru@redhat.com>
-To: Volker =?utf-8?Q?R=C3=BCmelin?= <vr_qemu@t-online.de>
-Subject: Re: [PATCH 03/23] sdlaudio: add -audiodev sdl, out.buffer-count option
-References: <9315afe5-5958-c0b4-ea1e-14769511a9d5@t-online.de>
- <20210110100239.27588-3-vr_qemu@t-online.de>
-Date: Fri, 15 Jan 2021 09:39:58 +0100
-In-Reply-To: <20210110100239.27588-3-vr_qemu@t-online.de> ("Volker
- =?utf-8?Q?R=C3=BCmelin=22's?=
- message of "Sun, 10 Jan 2021 11:02:19 +0100")
-Message-ID: <87pn264mqp.fsf@dusky.pond.sub.org>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.1 (gnu/linux)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 5593F15723;
+ Fri, 15 Jan 2021 08:40:07 +0000 (UTC)
+Received: from sirius.home.kraxel.org (ovpn-112-182.ams2.redhat.com
+ [10.36.112.182])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 1CA0C10013C0;
+ Fri, 15 Jan 2021 08:40:07 +0000 (UTC)
+Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
+ id 8FC8B1800606; Fri, 15 Jan 2021 09:40:05 +0100 (CET)
+Date: Fri, 15 Jan 2021 09:40:05 +0100
+From: Gerd Hoffmann <kraxel@redhat.com>
+To: Nikola Pavlica <pavlica.nikola@gmail.com>
+Subject: Re: [PATCH 0/2] ui/gtk: Update refresh rate on EGL as well
+Message-ID: <20210115084005.73vicpjwzgdjtrfp@sirius.home.kraxel.org>
+References: <20210114140153.301473-1-pavlica.nikola@gmail.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+In-Reply-To: <20210114140153.301473-1-pavlica.nikola@gmail.com>
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=armbru@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kraxel@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=armbru@redhat.com;
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=kraxel@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -29
 X-Spam_score: -3.0
@@ -83,105 +78,29 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?utf-8?B?Wm9sdMOhbiBLxZF2w6Fnw7M=?= <dirty.ice.hu@gmail.com>,
- Gerd Hoffmann <kraxel@redhat.com>, QEMU <qemu-devel@nongnu.org>
+Cc: r_qemu@t-online.de, philmd@redhat.com, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Volker R=C3=BCmelin <vr_qemu@t-online.de> writes:
+  Hi,
 
-> Currently there is a crackling noise with SDL2 audio playback.
-> Commit bcf19777df: "audio/sdlaudio: Allow audio playback with
-> SDL2" already mentioned the crackling noise.
->
-> Add an out.buffer-count option to give users a chance to select
-> sane settings for glitch free audio playback. The idea was taken
-> from the coreaudio backend.
->
-> The in.buffer-count option will be used with one of the next
-> patches.
->
-> Signed-off-by: Volker R=C3=BCmelin <vr_qemu@t-online.de>
-> ---
-[...]
-> diff --git a/qapi/audio.json b/qapi/audio.json
-> index 072ed79def..9cba0df8a4 100644
-> --- a/qapi/audio.json
-> +++ b/qapi/audio.json
-> @@ -301,6 +301,37 @@
->      '*out':    'AudiodevPaPerDirectionOptions',
->      '*server': 'str' } }
-> =20
-> +##
-> +# @AudiodevSdlPerDirectionOptions:
-> +#
-> +# Options of the SDL audio backend that are used for both playback and
-> +# recording.
-> +#
-> +# @buffer-count: number of buffers (default 4)
-> +#
-> +# Since: 6.0
-> +##
-> +{ 'struct': 'AudiodevSdlPerDirectionOptions',
-> +  'base': 'AudiodevPerDirectionOptions',
-> +  'data': {
-> +    '*buffer-count': 'uint32' } }
-> +
-> +##
-> +# @AudiodevSdlOptions:
-> +#
-> +# Options of the SDL audio backend.
-> +#
-> +# @in: options of the recording stream
-> +#
-> +# @out: options of the playback stream
-> +#
-> +# Since: 6.0
-> +##
-> +{ 'struct': 'AudiodevSdlOptions',
-> +  'data': {
-> +    '*in':  'AudiodevSdlPerDirectionOptions',
-> +    '*out': 'AudiodevSdlPerDirectionOptions' } }
-> +
->  ##
->  # @AudiodevWavOptions:
->  #
-> @@ -385,6 +416,6 @@
->      'jack':      'AudiodevJackOptions',
->      'oss':       'AudiodevOssOptions',
->      'pa':        'AudiodevPaOptions',
-> -    'sdl':       'AudiodevGenericOptions',
-> +    'sdl':       'AudiodevSdlOptions',
->      'spice':     'AudiodevGenericOptions',
->      'wav':       'AudiodevWavOptions' } }
-> diff --git a/qemu-options.hx b/qemu-options.hx
-> index 1698a0c751..4e02e9bd76 100644
-> --- a/qemu-options.hx
-> +++ b/qemu-options.hx
-> @@ -588,6 +588,7 @@ DEF("audiodev", HAS_ARG, QEMU_OPTION_audiodev,
->  #endif
->  #ifdef CONFIG_AUDIO_SDL
->      "-audiodev sdl,id=3Did[,prop[=3Dvalue][,...]]\n"
-> +    "                in|out.buffer-count=3D number of buffers\n"
->  #endif
->  #ifdef CONFIG_SPICE
->      "-audiodev spice,id=3Did[,prop[=3Dvalue][,...]]\n"
-> @@ -745,7 +746,12 @@ SRST
->  ``-audiodev sdl,id=3Did[,prop[=3Dvalue][,...]]``
->      Creates a backend using SDL. This backend is available on most
->      systems, but you should use your platform's native backend if
-> -    possible. This backend has no backend specific properties.
-> +    possible.
-> +
-> +    SDL specific options are:
-> +
-> +    ``in|out.buffer-count=3Dcount``
-> +        Sets the count of the buffers.
-> =20
->  ``-audiodev spice,id=3Did[,prop[=3Dvalue][,...]]``
->      Creates a backend that sends audio through SPICE. This backend
+> These patches were made in response to Volkers patches which dealt with
+>  cleaning up my previous code:
+>  https://www.mail-archive.com/qemu-devel@nongnu.org/msg766686.html
+>  and thus are meant to be merged after Volker's patches.
+> 
+> Hopefully, this commit message isn't too daunting ;)
+> 
+> EDIT: Sorry about the badly formatted patch emailss, still can't get
+>  a hand of how git send-email works.
 
-These parts:
-Acked-by: Markus Armbruster <armbru@redhat.com>
+Well, I got three copies of the patch series.  Guess that comes from
+trying to get git send-email going ;)
+
+Good news is the patches (tried the most recent mails) apply just fine
+on top of Volkers series, so it seems you got it working in the end.
+
+Patches are queued up now,
+  Gerd
 
 
