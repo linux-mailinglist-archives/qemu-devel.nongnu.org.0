@@ -2,87 +2,85 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C2EEB2F8323
-	for <lists+qemu-devel@lfdr.de>; Fri, 15 Jan 2021 18:58:04 +0100 (CET)
-Received: from localhost ([::1]:46424 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 81C7D2F8326
+	for <lists+qemu-devel@lfdr.de>; Fri, 15 Jan 2021 18:59:36 +0100 (CET)
+Received: from localhost ([::1]:51974 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l0TMJ-0008Aa-Ll
-	for lists+qemu-devel@lfdr.de; Fri, 15 Jan 2021 12:58:03 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45586)
+	id 1l0TNn-0002Gq-Ji
+	for lists+qemu-devel@lfdr.de; Fri, 15 Jan 2021 12:59:35 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46784)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
- id 1l0TC5-00084x-W0; Fri, 15 Jan 2021 12:47:32 -0500
-Received: from out5-smtp.messagingengine.com ([66.111.4.29]:47163)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
- id 1l0TC1-0002yu-Vv; Fri, 15 Jan 2021 12:47:29 -0500
-Received: from compute2.internal (compute2.nyi.internal [10.202.2.42])
- by mailout.nyi.internal (Postfix) with ESMTP id 37B385C01B3;
- Fri, 15 Jan 2021 12:47:24 -0500 (EST)
-Received: from mailfrontend2 ([10.202.2.163])
- by compute2.internal (MEProxy); Fri, 15 Jan 2021 12:47:24 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=irrelevant.dk;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-type:in-reply-to; s=fm2; bh=jYjZ9Flkuyezty6BtL3qmVim4R/
- Vsd5htSiI+x+VDQs=; b=HdnWVnnTHRNaQaCgfaYNexbD2JmCR2VIfOvSkekbdr5
- 4Kze4dm4elqY4W7sqi2KH25c4BwXCnHDL/4HuKXl2aV8nxw/Yzf5qO4bnobPx5UR
- 7/tKhnVFzXh/90LCOYGEbgl3oofGHLuXjIBSqj25QPaiLq4+JuLcVGamy5MV/whO
- cHEtoRq1dhdabBOe3Ji0m8ZCU/tDJcVYLk2idna4ERGKMkbBSEvYpnJ1Bzc+VWwU
- veRgEno4ztMzzHMJ+1Ee0ioUnolJE/JyhsvSXVB/XwFv37D07MGfttOZYB4lbC6f
- dpW34oGZ6r98AIIlF64p3v986zaujAY5muxHAkH8xeA==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:content-type:date:from:in-reply-to
- :message-id:mime-version:references:subject:to:x-me-proxy
- :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; bh=jYjZ9F
- lkuyezty6BtL3qmVim4R/Vsd5htSiI+x+VDQs=; b=BJX/Wt/8xxxZqp5M3Hf6XA
- +0qEGEPJhQtxCD0o+e4Fgv7RVUZuLEmb7bjqmU4IWvMxQodENaOfxTL+goy2pKdJ
- O+zaMrYfjPIZ+kNfIsAKp1Sscib9ZwsRRXDxYmjRSmcwS1K7pmnmB64RJtpvDrpL
- s/C5we2E7IsumasjTeP5Ao+W+Jd5zGUjY243pJyS8B+8aCgVafkurSz3VO4mqryG
- t1Lf4yEchB7N+xg3AwVYh2Xu0mgtD0LdTYsUhVYHvevElGb1lZB3o87PmEF7mSFb
- xLD9+AJkRH0MRyQLb8++FB9hXSoMnuh0aNOq3hrHeQyawfvD20hub3DqJsYtpZRg
- ==
-X-ME-Sender: <xms:K9UBYCvGaOBj6B2PONVWTSR67HxuyCovsfE-PYd2yaDpr1PMJL4Emw>
- <xme:K9UBYBG134O0vRBxF4gzVFbAVBuHsGhrP9yUDftaQ__RsqNKSygZUoqqj8RZzJDNd
- Tiu9qGbstVvUyuvdrc>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduledrtddvgdektdcutefuodetggdotefrodftvf
- curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
- uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
- fjughrpeffhffvuffkfhggtggujgesghdtreertddtjeenucfhrhhomhepmfhlrghushcu
- lfgvnhhsvghnuceoihhtshesihhrrhgvlhgvvhgrnhhtrdgukheqnecuggftrfgrthhtvg
- hrnhepjeegudffueeiteekieelkedvueelteevjeduieeludfffeejgeffhfduvdduffek
- necukfhppeektddrudeijedrleekrdduledtnecuvehluhhsthgvrhfuihiivgeptdenuc
- frrghrrghmpehmrghilhhfrhhomhepihhtshesihhrrhgvlhgvvhgrnhhtrdgukh
-X-ME-Proxy: <xmx:K9UBYNxVa36KTcbtKKH1cMl8JGDbMDnQPrpprOsbg-dLKwurpH6K1w>
- <xmx:K9UBYAg_JWaCrHVzwCTKClCwHcVAGWXBiG5abSceGDs8z7hYgGBlEA>
- <xmx:K9UBYAyKp-jCeyYh6tSvV40_cCMPgogPiau1qDZWBnigJQvqNIPDmA>
- <xmx:LNUBYFoCGOIx5sHrveXO0xKWqhJjVmlR-iPizDS0OKjm6H3Bm6zCag>
-Received: from apples.localdomain (80-167-98-190-cable.dk.customer.tdc.net
- [80.167.98.190])
- by mail.messagingengine.com (Postfix) with ESMTPA id 501C91080057;
- Fri, 15 Jan 2021 12:47:22 -0500 (EST)
-Date: Fri, 15 Jan 2021 18:47:20 +0100
-From: Klaus Jensen <its@irrelevant.dk>
-To: Keith Busch <kbusch@kernel.org>
-Subject: Re: [RFC PATCH 0/5] hw/block/nvme: support multi-path for ctrl/ns
-Message-ID: <YAHVKFOYaEO4N6I5@apples.localdomain>
-References: <20210115120558.29313-1-minwoo.im.dev@gmail.com>
- <YAGfWe+OMxiBggh3@apples.localdomain>
- <20210115173504.GH1511902@dhcp-10-100-145-180.wdc.com>
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1l0TGG-0004ED-Kx
+ for qemu-devel@nongnu.org; Fri, 15 Jan 2021 12:51:48 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:27015)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1l0TGC-0004fs-6q
+ for qemu-devel@nongnu.org; Fri, 15 Jan 2021 12:51:48 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1610733101;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=z0ZhCfIjTJTZklb4Px+QgMD1cvwLEvqa0prsg+AcV2M=;
+ b=JtIqt6tBiVV49Eqy/hwhF+HFsS9fqjUIl8XYNab8DWshpCABapIfUsaHUb0wvPMTF+p/ZR
+ +7ssxu90bLRdDBf5XsfVPfSMSXD6WMHUzTrESdEhemo5dBO4EDbLNBltUrcG3Y+Z3jfkb/
+ ogpenO2txQpz/+yht4zHn8+0MgM+8aE=
+Received: from mail-ej1-f69.google.com (mail-ej1-f69.google.com
+ [209.85.218.69]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-596-7Zru2MAXPfqLk58xlo83zw-1; Fri, 15 Jan 2021 12:51:38 -0500
+X-MC-Unique: 7Zru2MAXPfqLk58xlo83zw-1
+Received: by mail-ej1-f69.google.com with SMTP id m4so3868375ejc.14
+ for <qemu-devel@nongnu.org>; Fri, 15 Jan 2021 09:51:38 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=z0ZhCfIjTJTZklb4Px+QgMD1cvwLEvqa0prsg+AcV2M=;
+ b=P3KEDkx98XuSBD1Rg6B4/hDTuUY61+cQvzFCa+XBX1opYHbpOLrN37/qlBJFIes/L8
+ Mk1O/XTejpu0apkoju+h7Y3i79uAri/ANMbmSGJvSWDZNMKu91SJ/IREpaDGeQhZNZBZ
+ odr87xt23eJvPZfMtrKlGq7UFiz/2420rl0iLl5MOFOQ3n8fWVM82FPr/HZYRwm1q+kL
+ rOR6YMmgTKEiYMhLt7OO1kV19cOE6SpOM3gCMxSf1gO3Bxi7JTxjgTVqsebs8n+rkbqN
+ 7FLy4cEN9jzxo0bwcZnJ+l4tPDQ5XndlQNNb8jWNUlVZYQqstHgketl7NS0qcnCw+/bX
+ vGbQ==
+X-Gm-Message-State: AOAM530ISkvtc2SrSerCOaB13YMbX0e4m28Ml1vqK90EY7t5PhyPIGpD
+ jHf8FW+xjGuhJMzj4P7LLpmm8n3Gl7Oc8FRFvHuq7XxTiVDWR8VuYciaoibWYvVujaXhN4Iya/4
+ nJrgMsKyinA+qRlWYMFMj90L2dKqdV2WjU4cNZnW3Xp4y/XCi5hiRX466NG5ofAzg
+X-Received: by 2002:a17:906:edd2:: with SMTP id
+ sb18mr10188272ejb.114.1610733097242; 
+ Fri, 15 Jan 2021 09:51:37 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJyt3KQaKQadSgYgdfXuec1PkMrtK72E5Hz2dPaMkyHBNrXTwLz4VEtOp+qW3jlMY/OX0i+vPQ==
+X-Received: by 2002:a17:906:edd2:: with SMTP id
+ sb18mr10188256ejb.114.1610733097041; 
+ Fri, 15 Jan 2021 09:51:37 -0800 (PST)
+Received: from x1w.redhat.com (13.red-83-57-169.dynamicip.rima-tde.net.
+ [83.57.169.13])
+ by smtp.gmail.com with ESMTPSA id y59sm4421993ede.59.2021.01.15.09.51.35
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 15 Jan 2021 09:51:36 -0800 (PST)
+From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
+To: qemu-devel@nongnu.org
+Subject: [RFC PATCH] meson: Only install ROMs when building system emulation
+ binaries
+Date: Fri, 15 Jan 2021 18:51:34 +0100
+Message-Id: <20210115175135.3402714-1-philmd@redhat.com>
+X-Mailer: git-send-email 2.26.2
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="aLGk8zn8JvYR+Fst"
-Content-Disposition: inline
-In-Reply-To: <20210115173504.GH1511902@dhcp-10-100-145-180.wdc.com>
-Received-SPF: pass client-ip=66.111.4.29; envelope-from=its@irrelevant.dk;
- helo=out5-smtp.messagingengine.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
-X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=philmd@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -29
+X-Spam_score: -3.0
+X-Spam_bar: ---
+X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.25,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -95,85 +93,47 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, Minwoo Im <minwoo.im.dev@gmail.com>,
- qemu-devel@nongnu.org, qemu-block@nongnu.org, Max Reitz <mreitz@redhat.com>
+Cc: Paolo Bonzini <pbonzini@redhat.com>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
+ Laurent Vivier <laurent@vivier.eu>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+It is pointless to install ROM blobs for user emulation.
 
---aLGk8zn8JvYR+Fst
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+---
+RFC because I think it would be better to make the 'blobs'
+option a 'feature' instead of a boolean so we can set it
+as 'auto' and then in that case we could do something
 
-On Jan 15 09:35, Keith Busch wrote:
-> On Fri, Jan 15, 2021 at 02:57:45PM +0100, Klaus Jensen wrote:
-> >=20
-> > As you already mentioned, the problem I see with this approach is that
-> > we have separate namespaces attached to separate controllers. So we are
-> > faking it to the max and if I/O starts going through the other
-> > controller we end up on a namespace that is unrelated (different data).
-> > Havoc ensues.
-> >=20
-> > My approach looks a lot like yours, but I hacked around this by adding
-> > extra 'ctrl-0', 'ctrl-1', ..., link-parameters to the namespace device,
-> > replacing the bus. This works well because the namespace then just
-> > registers with multiple controllers. But adding more parameters like
-> > that just isnt nice, so I've been trying to figure out how to allow a
-> > parameter to be specified multiple times, so we could just do more
-> > 'ctrl'-parameters.
-> >=20
-> > Alas, since I started thinking about namespace sharing I have been
-> > regretting that I didn't reverse the bus-mechanic for namespace
-> > attachment. It would align better with the theory of operation if it was
-> > the controllers that attached to namespaces, and not the other way
-> > around. So what I would actually really prefer, is that we had multiple
-> > 'ns' link parameters on the controller device.
->=20
-> Would this work better if we introduce a new device in the nvme hierarchy:
-> the nvme-subsystem? You could attach multi-path namespaces and
-> controllers to that, and namespaces you don't want shared can attach
-> directly to controllers like they do today. You could also auto-assign
-> cntlid, and you wouldn't need to duplicate serial numbers in your
-> parameters.
+  blobs = have_system
 
-I kinda POC'ed that, but I think I tried to make it work with a bus and
-walking it and all kinds of fancy stuff.
+because currently ./configure still displays:
 
-I think it can just be a 'link' parameter, so something like:
+                    Install blobs: YES
 
-  -device nvme-subsys,id=3Dsubsys0
-  -device nvme,id=3Dnvme0,subsys=3Dsubsys0
-  -device nvme,id=3Dnvme1,subsys=3Dsubsys0
-  -device nvme-ns,id=3Dshared-ns1,nsid=3D1,subsys=3Dsubsys0
-  -device nvme-ns,id=3Dprivate-ns2,nsid=3D2,bus=3Dnvme0
+which is confusing.
+---
+ meson.build | 4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
 
-When a controller "registers" with the subsystem it attaches to all
-namespaces known, and when a namespace attaches, it attaches to all
-controllers known. We can even add a 'detached' bool parameter to the
-namespace and keep controllers from attaching, but allowing for later
-attachment.
+diff --git a/meson.build b/meson.build
+index 954152c90fe..273b8e6baa9 100644
+--- a/meson.build
++++ b/meson.build
+@@ -2254,7 +2254,9 @@
+ 
+ subdir('scripts')
+ subdir('tools')
+-subdir('pc-bios')
++if have_system
++  subdir('pc-bios')
++endif
+ subdir('docs')
+ subdir('tests')
+ if gtk.found()
+-- 
+2.26.2
 
-Cool!
-
-Question: NSIDs must be the same on each controller for shared
-namespaces, but can private namespaces "share" nsid across controllers
-in the subsystem?  I don't think the spec is clear on that point.
-
---aLGk8zn8JvYR+Fst
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEEUigzqnXi3OaiR2bATeGvMW1PDekFAmAB1SYACgkQTeGvMW1P
-DenUpwf9F80Wg81WxugT9ODPqCyYaB2kJm2gQe9GTJDBN2ru1pZVWknl0+TFFPZG
-Sj1wFKA8qB5sKt58hOl4Vh/IuTwzRVSZCk/3QdE2Cj1DVJxjdORkwpqj1zPZi8DA
-SVBf797uu/RhKIHwEuYts139wCAuD5hX+L+pIFz85uenGn3y2ZjZX2EHF/CD6oqn
-ZFUd6nwHnaFYXnXx3zH2277akuoRaNpKk5peBV6UeDYe1AgWMwTI5WNMyTdM8zIx
-ceTy0Kk5XpJn2y0OjdRuCskRAHJobZtL+Jhs3KwhGBTNgvURcxO812UXsaJSMSap
-jsgJAbVXNenIWnp9D9CePbpjqCiNew==
-=j90y
------END PGP SIGNATURE-----
-
---aLGk8zn8JvYR+Fst--
 
