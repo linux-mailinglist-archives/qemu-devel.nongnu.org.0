@@ -2,92 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C23992F803D
-	for <lists+qemu-devel@lfdr.de>; Fri, 15 Jan 2021 17:07:14 +0100 (CET)
-Received: from localhost ([::1]:33836 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 812D92F8042
+	for <lists+qemu-devel@lfdr.de>; Fri, 15 Jan 2021 17:08:14 +0100 (CET)
+Received: from localhost ([::1]:36168 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l0Rd3-0002kb-9W
-	for lists+qemu-devel@lfdr.de; Fri, 15 Jan 2021 11:07:13 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50394)
+	id 1l0Re1-00042j-IZ
+	for lists+qemu-devel@lfdr.de; Fri, 15 Jan 2021 11:08:13 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50622)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1l0Rc2-0001yW-P8
- for qemu-devel@nongnu.org; Fri, 15 Jan 2021 11:06:11 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:52313)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1l0Rby-0000Uy-Rg
- for qemu-devel@nongnu.org; Fri, 15 Jan 2021 11:06:10 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1610726765;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=6vHsoWBhmrSyBe3aT1JSEa0JwGXVo21SZ5PFWaeYEbQ=;
- b=G4qDTJXah2Oh0vqlb3mu0uaHseK5aN8pGdimWlEzAGAlCCg+n7s5Wgtwna+uozSTaBsolb
- tXOqdSHdq5znPvxZpKKrGMyRDj/GCfCrB33cKiAHqPmnc0C/c4bZ5d7RbOoCoHC+iHBJQu
- eiDgDqJGEAQylBUIJMDhlj1s/d6bE8A=
-Received: from mail-ed1-f71.google.com (mail-ed1-f71.google.com
- [209.85.208.71]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-40-b8qhptVzPWKJtGeVNY0B8A-1; Fri, 15 Jan 2021 11:06:03 -0500
-X-MC-Unique: b8qhptVzPWKJtGeVNY0B8A-1
-Received: by mail-ed1-f71.google.com with SMTP id w4so325221edu.0
- for <qemu-devel@nongnu.org>; Fri, 15 Jan 2021 08:06:03 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=6vHsoWBhmrSyBe3aT1JSEa0JwGXVo21SZ5PFWaeYEbQ=;
- b=ebCc+1Xb8pruvxu3ovSJd2W82jjDar6GJHn7lN+KWyGVE11n/uvnc+x7XFnaIO3qu0
- AMMTLJfi6clSebU+8JmstCa0vevoNHHRfzXE1VxCbAbwqp4+0Y2CcG+nquwfxtxzPviu
- Sazs+Uf7yOB+J3IH+4fy80lGzmy7gLe+03x7G9156M/wmIKd4/iMuK4MgHjVjY+ML6kE
- MvvXeeWmgphrHGB2v8ngCt4to0r1kp2Q8WkSZxSRAhK6/fR8U8PZpFKhSNxxwVzzfZ6v
- ms2TkKwf1kwLtDBzXEIyk2rJ4wtJjqmXhdXlmYgO0GDNRAyp9APxL5ehKJvdEdilcsEj
- LTcA==
-X-Gm-Message-State: AOAM5300q3A5j70tfSn1aowpwnsGnahntUB6z0X0xWZwwYOCcEoINEao
- YM+5zOJgMokkoEFd9DXBD/WAT7K09SEKgUUTyjhMzM9sxIxNRIirTJdzOzNjOELrsr1iNLNu3ZX
- XxHnxSdjeoPkEWRU=
-X-Received: by 2002:a50:f9cc:: with SMTP id a12mr9862439edq.335.1610726762169; 
- Fri, 15 Jan 2021 08:06:02 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJy5EBqC91jssNKfKV+amSU7XxVKkLb+55LlSfjKwp5MEZKK5wcYMfQqtw2SpWINE0uaf82Jaw==
-X-Received: by 2002:a50:f9cc:: with SMTP id a12mr9862413edq.335.1610726762014; 
- Fri, 15 Jan 2021 08:06:02 -0800 (PST)
-Received: from [192.168.1.36] (13.red-83-57-169.dynamicip.rima-tde.net.
- [83.57.169.13])
- by smtp.gmail.com with ESMTPSA id r18sm4300217edx.41.2021.01.15.08.06.00
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 15 Jan 2021 08:06:01 -0800 (PST)
-Subject: Re: [PATCH 1/4] tests/qtest: Remove TPM tests
-To: Stefan Berger <stefanb@linux.ibm.com>, qemu-devel@nongnu.org
-References: <20210115150936.3333282-1-philmd@redhat.com>
- <20210115150936.3333282-2-philmd@redhat.com>
- <647c3b2d-a68d-43a1-052f-1f5c08b6f3cc@redhat.com>
- <56096449-e909-0f5e-b458-0aae20132865@linux.ibm.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-Message-ID: <a3b60b30-4e7c-5fc8-381f-5f4e6abe11c8@redhat.com>
-Date: Fri, 15 Jan 2021 17:06:00 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.6.0
+ (Exim 4.90_1) (envelope-from <lukasstraub2@web.de>)
+ id 1l0Rcq-00036L-6Z
+ for qemu-devel@nongnu.org; Fri, 15 Jan 2021 11:07:00 -0500
+Received: from mout.web.de ([217.72.192.78]:37465)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <lukasstraub2@web.de>)
+ id 1l0Rch-00015H-6k
+ for qemu-devel@nongnu.org; Fri, 15 Jan 2021 11:06:59 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=web.de;
+ s=dbaedf251592; t=1610726799;
+ bh=CYj758eKoHfWSF6lAzKQCSUwedE4YIrmELfuiNRq/lE=;
+ h=X-UI-Sender-Class:Date:From:To:Cc:Subject:In-Reply-To:References;
+ b=ToghO+PevKaidtVox53ul4wgronK5I6urQ0iLNCC4ttypk9dqr2ZMlRSavier0xiN
+ zcSwwYCwNWEZKBYE5nZq50+sa6bNeFfUGVNBcnzut+XH+m0sEinTwqVXQLbxb9XJcf
+ uUhGJdKz3sWyr/AZKAFI4t3M/GmF7kqnuhzqDFRQ=
+X-UI-Sender-Class: c548c8c5-30a9-4db5-a2e7-cb6cb037b8f9
+Received: from gecko.fritz.box ([89.247.255.204]) by smtp.web.de (mrweb101
+ [213.165.67.124]) with ESMTPSA (Nemesis) id 0Lrs70-1m3mBl0MIw-013hho; Fri, 15
+ Jan 2021 17:06:39 +0100
+Date: Fri, 15 Jan 2021 17:06:29 +0100
+From: Lukas Straub <lukasstraub2@web.de>
+To: "Zhang, Chen" <chen.zhang@intel.com>
+Subject: Re: [PATCH 3/3] net/colo-compare: Add handler for passthrough
+ connection
+Message-ID: <20210115170629.39cc364f@gecko.fritz.box>
+In-Reply-To: <63df670857ed4a278fab273557ee97d6@intel.com>
+References: <20201224010918.19275-1-chen.zhang@intel.com>
+ <20201224010918.19275-4-chen.zhang@intel.com>
+ <20210114144521.76a6a135@gecko.fritz.box>
+ <63df670857ed4a278fab273557ee97d6@intel.com>
 MIME-Version: 1.0
-In-Reply-To: <56096449-e909-0f5e-b458-0aae20132865@linux.ibm.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=philmd@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -29
-X-Spam_score: -3.0
-X-Spam_bar: ---
-X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.25,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: multipart/signed; boundary="Sig_/1SVqz0V1I63GAykJM2ohfsa";
+ protocol="application/pgp-signature"; micalg=pgp-sha256
+X-Provags-ID: V03:K1:I83oqNmZyPrDgJ6zICdZ2y/5ybdsn5sTHcABQU5B0LfS1HZhsk2
+ VLiwBTwOeaYMl88Bz+eThQywR1FSPeGrGoh/rwcJmHI85WVhmWoDyFHu1YpqLHTUnDUWEgL
+ 6SMviv+1KJxroZt1NVaWVvAZ/M/aD7Y2OR/qjzRq0oofl7C1Un9u6OnuV99rMceo3Qo9lxb
+ HoPWdgNsECpw/5RTR4Syw==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:u9qgwIlE4k0=:mzRh4M5bOqyz/EK4yi9lGu
+ ECGh8YXh0ROzbxPAGR59BhxVdT4NiGL65L28/Oi1oq36vN5debBcyIFwh2DFsygxagfjpZk0U
+ xwsm36tXqPXXbdtueLhSMmJe+I3vbMNeY0iPlQHAv4wS51oDHVpb59J8kOLZvyKrmdzXbhIUA
+ 0ocGDjkEiJX2XAJL1mzQuoIX0Sc7VGZ7bsGP3gBcPOGDaBlZQgiRxY4zdGT3qcb4EPX7LC5ph
+ Yi6U8PF54fcxQeMdMdqCmnbc88XA/sesAhBUDDHoTv0/Lg36btAAv3Ole7kPe2NKmFDZ7duvy
+ iHTq4RWb8Uk7FIbE11DV/4lBZf1sWYfdSHfMNbZWQjRD7v/9vXHjJ2+TmYr8oig7SV8zU5YmT
+ RLhA+U4uFpDwGaBskuLQLlY9yQiHxoRC4Ag9WbNnk7K2fERw0ChkSdeWXe7iKY2mLRrMdKEqe
+ DPKvkAzkSfkNERMK5US61Drh4QG6PBKqX/8lrMiNaq7U9VXqQOdK7vvhnKwAzTTn8Ybo6koF+
+ Oz/hT2k2AG+9S79AXiiTfAN6QpURaNveV3pYP9vYyTanjGKKHtuTOqdcEUmGr7yBZEUsF0oZI
+ tAVXfW0gYg2LXJt7ihuDykE/MJrkwtnLhDeP8vUWMeMP3nwnk3txK07q3j7MgIb8InpR0Mv49
+ 1n64pnai73uEVzPVDDN2Igz/UB7YqCVIM7hWV35l0xwAYK9jWsfwxnaOhKxn6O/cRGEIk6DXT
+ 9wX83exlF64XH380o0ltaLgWEyw3MLB3THzT6yRH4dAYtzYWCJPcNWqaA7cz1hj+Qj0F1BBfP
+ VnEm5M2RoUmzvf+b8UwZB+hbNmLSGOtnWWteAWvn5dnuTOaoARnF8kHSuWVuegxvs92CgDsCC
+ uFRhT/zs1+I2k6Uw2j+A==
+Received-SPF: pass client-ip=217.72.192.78; envelope-from=lukasstraub2@web.de;
+ helo=mout.web.de
+X-Spam_score_int: -17
+X-Spam_score: -1.8
+X-Spam_bar: -
+X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001, SPF_PASS=-0.001,
+ T_SPF_HELO_TEMPERROR=0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -100,37 +83,99 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Fam Zheng <fam@euphon.net>, Laurent Vivier <lvivier@redhat.com>,
- Thomas Huth <thuth@redhat.com>, qemu-block@nongnu.org,
- Li Qiang <liq3ea@gmail.com>, Hannes Reinecke <hare@suse.com>,
- Alexander Bulekov <alxndr@bu.edu>, Paolo Bonzini <pbonzini@redhat.com>,
- =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>
+Cc: Jason Wang <jasowang@redhat.com>, Markus Armbruster <armbru@redhat.com>,
+ qemu-dev <qemu-devel@nongnu.org>, Zhang Chen <zhangckid@gmail.com>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 1/15/21 4:53 PM, Stefan Berger wrote:
-> On 1/15/21 10:52 AM, Philippe Mathieu-Daudé wrote:
->> Subject is incorrect, this is not a removal of the tests, but
->> removal of their execution. The tests are still in the repository.
->> This is more of a disablement.
-> 
-> How do you compile / run them to have the LeakSanitizer checks?
+--Sig_/1SVqz0V1I63GAykJM2ohfsa
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: quoted-printable
 
-I used:
+On Fri, 15 Jan 2021 09:07:47 +0000
+"Zhang, Chen" <chen.zhang@intel.com> wrote:
 
-../configure --cc=clang --enable-sanitizers && make check-qtest
+> > -----Original Message-----
+> > From: Lukas Straub <lukasstraub2@web.de>
+> > Sent: Thursday, January 14, 2021 9:45 PM
+> > To: Zhang, Chen <chen.zhang@intel.com>
+> > Cc: Jason Wang <jasowang@redhat.com>; qemu-dev <qemu- =20
+> > devel@nongnu.org>; Eric Blake <eblake@redhat.com>; Dr. David Alan =20
+> > Gilbert <dgilbert@redhat.com>; Markus Armbruster <armbru@redhat.com>;
+> > Zhang Chen <zhangckid@gmail.com>
+> > Subject: Re: [PATCH 3/3] net/colo-compare: Add handler for passthrough
+> > connection
+> >=20
+> > On Thu, 24 Dec 2020 09:09:18 +0800
+> > Zhang Chen <chen.zhang@intel.com > wrote:
+> >  =20
+> > > From: Zhang Chen <chen.zhang@intel.com>
+> > >
+> > > Currently, we just use guest's TCP/UDP source port as the key to
+> > > bypass certain network traffic.
+> > >
+> > > Signed-off-by: Zhang Chen <chen.zhang@intel.com>
+> > > ---
+> > >  net/colo-compare.c | 49
+> > > ++++++++++++++++++++++++++++++++++++++++++++++
+> > >  net/colo-compare.h |  2 ++
+> > >  net/net.c          | 27 +++++++++++++++++++++++++
+> > >  3 files changed, 78 insertions(+)
+> > >
+> > > diff --git a/net/colo-compare.c b/net/colo-compare.c index
+> > > 337025b44f..11a32caa9b 100644
+> > > --- a/net/colo-compare.c
+> > > +++ b/net/colo-compare.c
+> > > @@ -46,6 +46,9 @@ static QTAILQ_HEAD(, CompareState) net_compares =3D
+> > > static NotifierList colo_compare_notifiers =3D
+> > >      NOTIFIER_LIST_INITIALIZER(colo_compare_notifiers);
+> > >
+> > > +static QLIST_HEAD(, PassthroughEntry) passthroughlist =3D
+> > > +    QLIST_HEAD_INITIALIZER(passthroughlist);
+> > > + =20
+> >=20
+> > Hi,
+> > I think this should be per colo-compare instance e.g. inside 'struct
+> > CompareState'. =20
+>=20
+> It looks QMP and HMP also need to add colo-compare object ID to control i=
+t.
+> Do we need make this command more general?
 
-$ clang -v
-clang version 10.0.1 (Fedora 10.0.1-3.fc32)
+Yes, it gives more flexibility. For example if the VM a "public" and a sepa=
+rate "management" network interface, passthrough can then be enabled just o=
+n the "management" interface.
 
-This was previously covered by patchew CI. I just figured
-patchew is running without the LeakSanitizer since commit
-6f89ec7442e ("docker: test-debug: disable LeakSanitizer"):
+Regards,
+Lukas Straub
 
- docker: test-debug: disable LeakSanitizer
+> Thanks
+> Chen
+>=20
+> >  =20
+> > >  [...]
 
- There are just too many leaks in device-introspect-test (especially for
- the plethora of arm and aarch64 boards) to make LeakSanitizer useful;
- disable it for now.
+--Sig_/1SVqz0V1I63GAykJM2ohfsa
+Content-Type: application/pgp-signature
+Content-Description: OpenPGP digital signature
 
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAEBCAAdFiEEg/qxWKDZuPtyYo+kNasLKJxdslgFAmABvYUACgkQNasLKJxd
+slgk0w//fKkiAZ6UpFdg4WQjssxAaN7xJ4vb2SJLJLwDKhft95tWl87nl8d3O2ky
+RLPd5IkgiYU0cLZfwh3fBQo71E3pOjhQI1nIzc16GMdbckerIQR97W4B5BeystDY
+r5qCgHWnsJs5ya5w0PFqxe6GAMa1kVYys4fnsA3GMczrnyr1d2S+L36nOn1nnVH0
+NL+FIesssS5VZcu+97IUxs6+CVPdIj7moT2pl4iwA+2If6BScxoejQwqADYnKLMQ
+Txao9YVMATq72q8N8si1zfzYwAvAWq3cOd5rM09q6JE4bq0vYed90la6IiR+OHil
+bEIN3IVWonkx9ZymBeaV4I7xc56Idu/DKtXHX0y66K8pkEMgUos6qRWuM+D+1Mw6
+MEwdh5sLef1sMhuFIxfIe3E+LSon3/h/vKp56T3veiQ38yGAq35p/3sS5uk+Tp7j
+VZWNpizQs2aspMEwazS6L+kPJHdm+hTFhDqMlvhsXwuQpN++xwqS3N3k/oKggJNA
+txkXvPBAiVwpC1odtGR34eaVO9mR6NcaRuoyeKwUHs0hZsaMQ3y/pgo7Z8FMWTjs
+pCf+Pey04yQBmAblEHI4ZY72Jfw3yo77AfmzlFGyvuaiR0LlMiJA2Wr+WtObV0SQ
+ukmlM0Dh2EMpdJk2R1CX46cVE8w8syeUbB6pCXkMUMGHEHMY8AU=
+=3z2b
+-----END PGP SIGNATURE-----
+
+--Sig_/1SVqz0V1I63GAykJM2ohfsa--
 
