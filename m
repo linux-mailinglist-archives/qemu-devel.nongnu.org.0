@@ -2,75 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EEF752F8949
-	for <lists+qemu-devel@lfdr.de>; Sat, 16 Jan 2021 00:19:04 +0100 (CET)
-Received: from localhost ([::1]:33120 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8395C2F894C
+	for <lists+qemu-devel@lfdr.de>; Sat, 16 Jan 2021 00:21:50 +0100 (CET)
+Received: from localhost ([::1]:37194 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l0YMy-00073k-2l
-	for lists+qemu-devel@lfdr.de; Fri, 15 Jan 2021 18:19:04 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57398)
+	id 1l0YPd-0000aI-IB
+	for lists+qemu-devel@lfdr.de; Fri, 15 Jan 2021 18:21:49 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57720)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <palmer@dabbelt.com>)
- id 1l0Y8N-0002Ip-Ct
- for qemu-devel@nongnu.org; Fri, 15 Jan 2021 18:04:03 -0500
-Received: from mail-pj1-x102b.google.com ([2607:f8b0:4864:20::102b]:35097)
+ (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
+ id 1l0YA7-0003DU-3E
+ for qemu-devel@nongnu.org; Fri, 15 Jan 2021 18:05:47 -0500
+Received: from mail-io1-xd29.google.com ([2607:f8b0:4864:20::d29]:38796)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <palmer@dabbelt.com>)
- id 1l0Y8G-000265-1J
- for qemu-devel@nongnu.org; Fri, 15 Jan 2021 18:03:59 -0500
-Received: by mail-pj1-x102b.google.com with SMTP id b5so6089930pjl.0
- for <qemu-devel@nongnu.org>; Fri, 15 Jan 2021 15:03:44 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=dabbelt-com.20150623.gappssmtp.com; s=20150623;
- h=date:subject:in-reply-to:cc:from:to:message-id:mime-version
- :content-transfer-encoding;
- bh=ny6yCuzAh45/P52gTzra8NwAP8rfm3rnZPgYk1259no=;
- b=aLJAQIGdBBk503kBo3iq7YTdrnPJILyUD5ygWBLRwj1hcdr+yMnRkApw2Eb8izTDEj
- Zksj1h/ZPSa2PHy7w64y99ItRSOOkhzZE70TUnKVNufVfROs8opt8icgtc40aduh3PAN
- bayAWP8JSl9mPByEuPrMmdoY09j15aKXDxnoY2uyplhlU8mhycZ/pN08fse44a7gcJ3k
- BdednBX8MMYrhCLKThe9V5Th76Y4tukp1a8R0nkWIXpNz+Wmpe5uia3RLE0DDTgL2QHv
- TtlNighlvWgtaTbAcD0XLdUshy/QnWaay6RAwOnL7JPV+L/0Evs16QZFZhN+llzQlnAM
- 5QIQ==
+ (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
+ id 1l0YA5-0002jG-E9
+ for qemu-devel@nongnu.org; Fri, 15 Jan 2021 18:05:46 -0500
+Received: by mail-io1-xd29.google.com with SMTP id e22so21307659iom.5
+ for <qemu-devel@nongnu.org>; Fri, 15 Jan 2021 15:05:43 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=sc/OZLX6n5pPcUsomLQ1n2IqfgD/WRAqAY2BINg6eQg=;
+ b=ZBYiEeed1AGfZXox25JZf93OJ/IKfYPePs0z8Qgx112fNlPDvclFYVs1/7kzb28/71
+ hA2fSTfdxlvYh1jKuPunhe+PQFO7S6CCaLf1KCaVMxb2KbClFBiFdrpFUDmLKf8s3op2
+ /o62F1wlc/t+1xkiQXXNYlGFi6zqGeKKs2j4f0Lolm2Q0iD5WsEA9eOVhpSyOxRQaPbU
+ rzVQzb7XagUAw+NIUe+qenoMlRTBX2qe3HKvoH9Efm18iHHROWKLQdYlfAaQOWH7zQ+Z
+ 6XYhole9NyJpOfY+OGSzGMjgh6nE6XjxSU4pWxeDln4WpTef1d6RXOeA9EAN7HoNxPPr
+ awTw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:date:subject:in-reply-to:cc:from:to:message-id
- :mime-version:content-transfer-encoding;
- bh=ny6yCuzAh45/P52gTzra8NwAP8rfm3rnZPgYk1259no=;
- b=ax8ZSOzhX99jEpjU4xtqaKSRYXMud5feg2ohs12b4aArSeEtFdCJ/OqwEN7ku1ZvwF
- AH+EPqAcyC5Xih7t83TDSuYyvz+q7RlinbXuqV2ThMb9w2Oq9TVOV5vOWiIV2D9wwzAA
- LB9FlIlS0lBZl1GypBoD3bBgvPwlXO8a5W5IpTyrUO0HvcTfz+ISySqCuNHabs7LQEyw
- zVyGIFfQz7IULnEf+EQItKHAGnYYHunEvkuRVzOue8+ErZ+9gFDz6FZlpR6PF23QfChW
- wQ/8sZMpD6sMJ0+FryPoy1fHBoV5t4S0QSWXCZpmDyEozkOvJHdg0lH2TSQ45HbOZUQg
- 3poQ==
-X-Gm-Message-State: AOAM531Y4NTUQA3e24F+rQXVxdhCAL5jcxUOoFiW4mIXV68hUVIjtk/+
- 9vL7fU5EX74oTbJgOH/bUwkIJf/pVgna+g==
-X-Google-Smtp-Source: ABdhPJz3f81Z/rDy4wjZ6vUNOPoSII9OEyuv8XrR+rI0eKjva/gTLgWiBoinSwaHTVr5bMALxEfrLA==
-X-Received: by 2002:a17:902:9009:b029:dc:52a6:575 with SMTP id
- a9-20020a1709029009b02900dc52a60575mr14428438plp.57.1610751822830; 
- Fri, 15 Jan 2021 15:03:42 -0800 (PST)
-Received: from localhost (76-210-143-223.lightspeed.sntcca.sbcglobal.net.
- [76.210.143.223])
- by smtp.gmail.com with ESMTPSA id p8sm9025456pjf.11.2021.01.15.15.03.41
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 15 Jan 2021 15:03:42 -0800 (PST)
-Date: Fri, 15 Jan 2021 15:03:42 -0800 (PST)
-X-Google-Original-Date: Fri, 15 Jan 2021 15:03:34 PST (-0800)
-Subject: Re: [PATCH v1 1/1] riscv: Pass RISCVHartArrayState by pointer
-In-Reply-To: <f3e04424723e0e222769991896cc82308fd23f76.1610751609.git.alistair.francis@wdc.com>
-From: Palmer Dabbelt <palmer@dabbelt.com>
-To: Alistair Francis <Alistair.Francis@wdc.com>
-Message-ID: <mhng-a17abc78-14f3-4e8e-a63a-21e0c98078d6@penguin>
-Mime-Version: 1.0 (MHng)
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::102b;
- envelope-from=palmer@dabbelt.com; helo=mail-pj1-x102b.google.com
-X-Spam_score_int: -18
-X-Spam_score: -1.9
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=sc/OZLX6n5pPcUsomLQ1n2IqfgD/WRAqAY2BINg6eQg=;
+ b=Ct819+oS93cAK1Ji/JKwfzHWtExXVSbsIHNwA9QGkWCelt+GDQE1HrPgsQtHEz3vPx
+ mllwfY9LQ1Ib/jLW/cXBlcpezMGcB3/Y+TDNB1NtVM2q2iqmJgQ6an3Ovl9J3/57Pir7
+ dG9R8OXYIfnuV2A5LsDUmeY1WvtBTZk6pAhTO8+PsppO39CosRC46zPjhPoYB0pybJLr
+ AlzeFqr/pSCZvy+lL8q3S1LJ1joco1wGhrbBEoc3tIJSn70wHb4QPJ7cw7VekQEa3NQa
+ TTvFYGukjDqqc8AbBuaAwecyQjWgkS/MifYdGxmrAciNThj6VbGBoAtU83qbmbCtlp2Z
+ NonQ==
+X-Gm-Message-State: AOAM533TLFM5R1g2wLxZUR5go4hZFMCvGURMi13Kk1IFxDb6CUz4MOJW
+ qFwb7GFg6/O+ihw7+aotMqdh7731BdqU9xFuXYY=
+X-Google-Smtp-Source: ABdhPJyRDZcaXqHK/Fq64gHVKnPK8fCcL7v3f0v4MBisywTnE6FLedIOnxu477SMHcUO5Be69eInsosijAOIQBB7zFk=
+X-Received: by 2002:a05:6e02:194f:: with SMTP id
+ x15mr12988882ilu.177.1610751943289; 
+ Fri, 15 Jan 2021 15:05:43 -0800 (PST)
+MIME-Version: 1.0
+References: <20201104092900.21214-1-green.wan@sifive.com>
+ <CAFEAcA_EykbnmTQuz4RT3qGMt-Atf=EAdaHd-QqBvJCPvwemqA@mail.gmail.com>
+ <CAEUhbmULDEgfs0zkt6k1DWo+AD4T701xDp5TCyjQHFypmr037g@mail.gmail.com>
+ <CAFEAcA9QrTA6bEiK608HfB9vfN66SGBPJw6pEDDk2YH3v4M8SQ@mail.gmail.com>
+ <CAEUhbmX4GtWfU1Z+cbSb435MCgBo+OaLbSg0qP_mRgPxSJRLnQ@mail.gmail.com>
+ <CAKmqyKP=URfpTZXsax=Xmvn9-cz0GY7C6eih+bdycZhRASH2Fw@mail.gmail.com>
+ <CAFEAcA9m=y+V_euSE_gWcyeKBY=meTaroRcMdH9_CWtkUjVKWw@mail.gmail.com>
+In-Reply-To: <CAFEAcA9m=y+V_euSE_gWcyeKBY=meTaroRcMdH9_CWtkUjVKWw@mail.gmail.com>
+From: Alistair Francis <alistair23@gmail.com>
+Date: Fri, 15 Jan 2021 15:05:17 -0800
+Message-ID: <CAKmqyKMmt178QODH3vY1cq9jG8wsy8Awh6PUF1jS2bc1YzTkUA@mail.gmail.com>
+Subject: Re: [PATCH] hw/misc/sifive_u_otp: handling the fails of blk_pread and
+ blk_pwrite
+To: Peter Maydell <peter.maydell@linaro.org>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::d29;
+ envelope-from=alistair23@gmail.com; helo=mail-io1-xd29.google.com
+X-Spam_score_int: -17
+X-Spam_score: -1.8
 X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -84,213 +85,44 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Alistair Francis <Alistair.Francis@wdc.com>, bmeng.cn@gmail.com,
- qemu-riscv@nongnu.org, qemu-devel@nongnu.org, alistair23@gmail.com
+Cc: Bin Meng <bmeng.cn@gmail.com>, QEMU Developers <qemu-devel@nongnu.org>,
+ Green Wan <green.wan@sifive.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, 15 Jan 2021 15:00:27 PST (-0800), Alistair Francis wrote:
-> We were accidently passing RISCVHartArrayState by value instead of
-> pointer. The type is 824 bytes long so let's correct that and pass it by
-> pointer instead.
+On Fri, Jan 15, 2021 at 2:17 PM Peter Maydell <peter.maydell@linaro.org> wrote:
 >
-> Fixes: Coverity CID 1438099
-> Fixes: Coverity CID 1438100
-> Fixes: Coverity CID 1438101
-> Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
-> ---
->  include/hw/riscv/boot.h |  6 +++---
->  hw/riscv/boot.c         |  8 ++++----
->  hw/riscv/sifive_u.c     | 10 +++++-----
->  hw/riscv/spike.c        |  8 ++++----
->  hw/riscv/virt.c         |  8 ++++----
->  5 files changed, 20 insertions(+), 20 deletions(-)
+> On Fri, 15 Jan 2021 at 21:43, Alistair Francis <alistair23@gmail.com> wrote:
+> >
+> > On Fri, Jan 15, 2021 at 6:09 AM Bin Meng <bmeng.cn@gmail.com> wrote:
+> > >
+> > > On Fri, Jan 15, 2021 at 9:55 PM Peter Maydell <peter.maydell@linaro.org> wrote
+> > > > printf is definitely the wrong thing... you need to either report
+> > > > the error back to the guest if the interface the guest is using
+> > > > has a facility for reporting read/write failures, or log or report
+> > > > it to the user using one of our APIs for that.
+> > >
+> > > It seems the hardware does not have a mechanism to report to the
+> > > software when hardware cannot fulfill the task requested by software.
+> > >
+> > > I checked all existence of block_pwrite() callers. It looks like this
+> > > is not handled consistently. Some indeed call printf(), some call
+> > > error_setg_errno(), some call fprintf(stderr), some call qemu_log()
+> > > ...
+> >
+> > Logging a guest error seems like the best bet, I'm not really sure
+> > what else we would do.
 >
-> diff --git a/include/hw/riscv/boot.h b/include/hw/riscv/boot.h
-> index 20ff5fe5e5..11a21dd584 100644
-> --- a/include/hw/riscv/boot.h
-> +++ b/include/hw/riscv/boot.h
-> @@ -24,9 +24,9 @@
->  #include "hw/loader.h"
->  #include "hw/riscv/riscv_hart.h"
->
-> -bool riscv_is_32bit(RISCVHartArrayState harts);
-> +bool riscv_is_32bit(RISCVHartArrayState *harts);
->
-> -target_ulong riscv_calc_kernel_start_addr(RISCVHartArrayState harts,
-> +target_ulong riscv_calc_kernel_start_addr(RISCVHartArrayState *harts,
->                                            target_ulong firmware_end_addr);
->  target_ulong riscv_find_and_load_firmware(MachineState *machine,
->                                            const char *default_machine_firmware,
-> @@ -42,7 +42,7 @@ target_ulong riscv_load_kernel(const char *kernel_filename,
->  hwaddr riscv_load_initrd(const char *filename, uint64_t mem_size,
->                           uint64_t kernel_entry, hwaddr *start);
->  uint32_t riscv_load_fdt(hwaddr dram_start, uint64_t dram_size, void *fdt);
-> -void riscv_setup_rom_reset_vec(MachineState *machine, RISCVHartArrayState harts,
-> +void riscv_setup_rom_reset_vec(MachineState *machine, RISCVHartArrayState *harts,
->                                 hwaddr saddr,
->                                 hwaddr rom_base, hwaddr rom_size,
->                                 uint64_t kernel_entry,
-> diff --git a/hw/riscv/boot.c b/hw/riscv/boot.c
-> index 83586aef41..acf77675b2 100644
-> --- a/hw/riscv/boot.c
-> +++ b/hw/riscv/boot.c
-> @@ -33,14 +33,14 @@
->
->  #include <libfdt.h>
->
-> -bool riscv_is_32bit(RISCVHartArrayState harts)
-> +bool riscv_is_32bit(RISCVHartArrayState *harts)
->  {
-> -    RISCVCPU hart = harts.harts[0];
-> +    RISCVCPU hart = harts->harts[0];
->
->      return riscv_cpu_is_32bit(&hart.env);
->  }
->
-> -target_ulong riscv_calc_kernel_start_addr(RISCVHartArrayState harts,
-> +target_ulong riscv_calc_kernel_start_addr(RISCVHartArrayState *harts,
->                                            target_ulong firmware_end_addr) {
->      if (riscv_is_32bit(harts)) {
->          return QEMU_ALIGN_UP(firmware_end_addr, 4 * MiB);
-> @@ -247,7 +247,7 @@ void riscv_rom_copy_firmware_info(MachineState *machine, hwaddr rom_base,
->                             &address_space_memory);
->  }
->
-> -void riscv_setup_rom_reset_vec(MachineState *machine, RISCVHartArrayState harts,
-> +void riscv_setup_rom_reset_vec(MachineState *machine, RISCVHartArrayState *harts,
->                                 hwaddr start_addr,
->                                 hwaddr rom_base, hwaddr rom_size,
->                                 uint64_t kernel_entry,
-> diff --git a/hw/riscv/sifive_u.c b/hw/riscv/sifive_u.c
-> index f5c400dd44..d23f349b4e 100644
-> --- a/hw/riscv/sifive_u.c
-> +++ b/hw/riscv/sifive_u.c
-> @@ -466,7 +466,7 @@ static void sifive_u_machine_init(MachineState *machine)
->
->      /* create device tree */
->      create_fdt(s, memmap, machine->ram_size, machine->kernel_cmdline,
-> -               riscv_is_32bit(s->soc.u_cpus));
-> +               riscv_is_32bit(&s->soc.u_cpus));
->
->      if (s->start_in_flash) {
->          /*
-> @@ -495,7 +495,7 @@ static void sifive_u_machine_init(MachineState *machine)
->          break;
->      }
->
-> -    if (riscv_is_32bit(s->soc.u_cpus)) {
-> +    if (riscv_is_32bit(&s->soc.u_cpus)) {
->          firmware_end_addr = riscv_find_and_load_firmware(machine,
->                                      "opensbi-riscv32-generic-fw_dynamic.bin",
->                                      start_addr, NULL);
-> @@ -506,7 +506,7 @@ static void sifive_u_machine_init(MachineState *machine)
->      }
->
->      if (machine->kernel_filename) {
-> -        kernel_start_addr = riscv_calc_kernel_start_addr(s->soc.u_cpus,
-> +        kernel_start_addr = riscv_calc_kernel_start_addr(&s->soc.u_cpus,
->                                                           firmware_end_addr);
->
->          kernel_entry = riscv_load_kernel(machine->kernel_filename,
-> @@ -533,7 +533,7 @@ static void sifive_u_machine_init(MachineState *machine)
->      /* Compute the fdt load address in dram */
->      fdt_load_addr = riscv_load_fdt(memmap[SIFIVE_U_DEV_DRAM].base,
->                                     machine->ram_size, s->fdt);
-> -    if (!riscv_is_32bit(s->soc.u_cpus)) {
-> +    if (!riscv_is_32bit(&s->soc.u_cpus)) {
->          start_addr_hi32 = (uint64_t)start_addr >> 32;
->      }
->
-> @@ -552,7 +552,7 @@ static void sifive_u_machine_init(MachineState *machine)
->          0x00000000,
->                                         /* fw_dyn: */
->      };
-> -    if (riscv_is_32bit(s->soc.u_cpus)) {
-> +    if (riscv_is_32bit(&s->soc.u_cpus)) {
->          reset_vec[4] = 0x0202a583;     /*     lw     a1, 32(t0) */
->          reset_vec[5] = 0x0182a283;     /*     lw     t0, 24(t0) */
->      } else {
-> diff --git a/hw/riscv/spike.c b/hw/riscv/spike.c
-> index e723ca0ac9..56986ecfe0 100644
-> --- a/hw/riscv/spike.c
-> +++ b/hw/riscv/spike.c
-> @@ -244,7 +244,7 @@ static void spike_board_init(MachineState *machine)
->
->      /* create device tree */
->      create_fdt(s, memmap, machine->ram_size, machine->kernel_cmdline,
-> -               riscv_is_32bit(s->soc[0]));
-> +               riscv_is_32bit(&s->soc[0]));
->
->      /* boot rom */
->      memory_region_init_rom(mask_rom, NULL, "riscv.spike.mrom",
-> @@ -257,7 +257,7 @@ static void spike_board_init(MachineState *machine)
->       * keeping ELF files here was intentional because BIN files don't work
->       * for the Spike machine as HTIF emulation depends on ELF parsing.
->       */
-> -    if (riscv_is_32bit(s->soc[0])) {
-> +    if (riscv_is_32bit(&s->soc[0])) {
->          firmware_end_addr = riscv_find_and_load_firmware(machine,
->                                      "opensbi-riscv32-generic-fw_dynamic.elf",
->                                      memmap[SPIKE_DRAM].base,
-> @@ -270,7 +270,7 @@ static void spike_board_init(MachineState *machine)
->      }
->
->      if (machine->kernel_filename) {
-> -        kernel_start_addr = riscv_calc_kernel_start_addr(s->soc[0],
-> +        kernel_start_addr = riscv_calc_kernel_start_addr(&s->soc[0],
->                                                           firmware_end_addr);
->
->          kernel_entry = riscv_load_kernel(machine->kernel_filename,
-> @@ -299,7 +299,7 @@ static void spike_board_init(MachineState *machine)
->      fdt_load_addr = riscv_load_fdt(memmap[SPIKE_DRAM].base,
->                                     machine->ram_size, s->fdt);
->      /* load the reset vector */
-> -    riscv_setup_rom_reset_vec(machine, s->soc[0], memmap[SPIKE_DRAM].base,
-> +    riscv_setup_rom_reset_vec(machine, &s->soc[0], memmap[SPIKE_DRAM].base,
->                                memmap[SPIKE_MROM].base,
->                                memmap[SPIKE_MROM].size, kernel_entry,
->                                fdt_load_addr, s->fdt);
-> diff --git a/hw/riscv/virt.c b/hw/riscv/virt.c
-> index 8de4c35c9d..2299b3a6be 100644
-> --- a/hw/riscv/virt.c
-> +++ b/hw/riscv/virt.c
-> @@ -601,7 +601,7 @@ static void virt_machine_init(MachineState *machine)
->
->      /* create device tree */
->      create_fdt(s, memmap, machine->ram_size, machine->kernel_cmdline,
-> -               riscv_is_32bit(s->soc[0]));
-> +               riscv_is_32bit(&s->soc[0]));
->
->      /* boot rom */
->      memory_region_init_rom(mask_rom, NULL, "riscv_virt_board.mrom",
-> @@ -609,7 +609,7 @@ static void virt_machine_init(MachineState *machine)
->      memory_region_add_subregion(system_memory, memmap[VIRT_MROM].base,
->                                  mask_rom);
->
-> -    if (riscv_is_32bit(s->soc[0])) {
-> +    if (riscv_is_32bit(&s->soc[0])) {
->          firmware_end_addr = riscv_find_and_load_firmware(machine,
->                                      "opensbi-riscv32-generic-fw_dynamic.bin",
->                                      start_addr, NULL);
-> @@ -620,7 +620,7 @@ static void virt_machine_init(MachineState *machine)
->      }
->
->      if (machine->kernel_filename) {
-> -        kernel_start_addr = riscv_calc_kernel_start_addr(s->soc[0],
-> +        kernel_start_addr = riscv_calc_kernel_start_addr(&s->soc[0],
->                                                           firmware_end_addr);
->
->          kernel_entry = riscv_load_kernel(machine->kernel_filename,
-> @@ -656,7 +656,7 @@ static void virt_machine_init(MachineState *machine)
->      fdt_load_addr = riscv_load_fdt(memmap[VIRT_DRAM].base,
->                                     machine->ram_size, s->fdt);
->      /* load the reset vector */
-> -    riscv_setup_rom_reset_vec(machine, s->soc[0], start_addr,
-> +    riscv_setup_rom_reset_vec(machine, &s->soc[0], start_addr,
->                                virt_memmap[VIRT_MROM].base,
->                                virt_memmap[VIRT_MROM].size, kernel_entry,
->                                fdt_load_addr, s->fdt);
+> Looking at the other options, I think error_report() of some kind is
+> probably the best bet here.
 
-Reviewed-by: Palmer Dabbelt <palmerdabbelt@google.com>
+Ok
+
+@Green Wan do you mind sending a new version?
+
+Alistair
+
+>
+> thanks
+> -- PMM
 
