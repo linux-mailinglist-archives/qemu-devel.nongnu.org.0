@@ -2,55 +2,54 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1E8E02F80DA
-	for <lists+qemu-devel@lfdr.de>; Fri, 15 Jan 2021 17:32:59 +0100 (CET)
-Received: from localhost ([::1]:50354 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 85F462F80E1
+	for <lists+qemu-devel@lfdr.de>; Fri, 15 Jan 2021 17:36:28 +0100 (CET)
+Received: from localhost ([::1]:58546 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l0S1y-0006Li-2T
-	for lists+qemu-devel@lfdr.de; Fri, 15 Jan 2021 11:32:58 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55086)
+	id 1l0S5L-0001S8-JN
+	for lists+qemu-devel@lfdr.de; Fri, 15 Jan 2021 11:36:27 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55112)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1l0RvB-0000yH-Ta
- for qemu-devel@nongnu.org; Fri, 15 Jan 2021 11:25:57 -0500
-Received: from indium.canonical.com ([91.189.90.7]:50042)
+ id 1l0RvD-00011X-LV
+ for qemu-devel@nongnu.org; Fri, 15 Jan 2021 11:25:59 -0500
+Received: from indium.canonical.com ([91.189.90.7]:50344)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1l0Rv7-0002A0-8a
- for qemu-devel@nongnu.org; Fri, 15 Jan 2021 11:25:57 -0500
+ id 1l0RvB-0002FN-RY
+ for qemu-devel@nongnu.org; Fri, 15 Jan 2021 11:25:59 -0500
 Received: from loganberry.canonical.com ([91.189.90.37])
  by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1l0Rv5-0004iN-52
- for <qemu-devel@nongnu.org>; Fri, 15 Jan 2021 16:25:51 +0000
+ id 1l0RvA-0004kX-Hb
+ for <qemu-devel@nongnu.org>; Fri, 15 Jan 2021 16:25:56 +0000
 Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id D6D9C2E813D
- for <qemu-devel@nongnu.org>; Fri, 15 Jan 2021 16:25:50 +0000 (UTC)
+ by loganberry.canonical.com (Postfix) with ESMTP id 739282E813C
+ for <qemu-devel@nongnu.org>; Fri, 15 Jan 2021 16:25:56 +0000 (UTC)
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
-Date: Fri, 15 Jan 2021 16:16:48 -0000
-From: Peter Maydell <1909247@bugs.launchpad.net>
+Date: Fri, 15 Jan 2021 16:16:59 -0000
+From: Peter Maydell <1904652@bugs.launchpad.net>
 To: qemu-devel@nongnu.org
 X-Launchpad-Notification-Type: bug
 X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
-X-Launchpad-Bug-Tags: cve fuzzer qemu security
-X-Launchpad-Bug-Information-Type: Public Security
+X-Launchpad-Bug-Tags: fuzzer
+X-Launchpad-Bug-Information-Type: Public
 X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: yes
-X-Launchpad-Bug-Commenters: mauro-cascella
-X-Launchpad-Bug-Reporter: Mauro Matteo Cascella (mauro-cascella)
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: cwmyung
+X-Launchpad-Bug-Reporter: Cheol-Woo,Myung (cwmyung)
 X-Launchpad-Bug-Modifier: Peter Maydell (pmaydell)
-References: <160882932286.4370.15587232403500958955.malonedeb@wampee.canonical.com>
-Message-Id: <161072740882.6498.7752845700334346967.launchpad@wampee.canonical.com>
-Subject: [Bug 1909247] Re: QEMU: use after free vulnerability in esp_do_dma()
- in hw/scsi/esp.c
+References: <160567182664.18318.5998464734058327883.malonedeb@wampee.canonical.com>
+Message-Id: <161072742030.14155.9427025808812246157.launchpad@gac.canonical.com>
+Subject: [Bug 1904652] Re: Assertion failure in usb-ohci
 X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
 X-Launchpad-Message-For: qemu-devel-ml
 Precedence: bulk
 X-Generated-By: Launchpad (canonical.com);
  Revision="511b4a3b6512aa3d421c5f7d74f3527e78bff26e"; Instance="production"
-X-Launchpad-Hash: 2ec0c85a9f9d5770ae858ee54c4360f0da518504
+X-Launchpad-Hash: 0fa3513567984e33dbbc037183d2e278da418ce9
 Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
  helo=indium.canonical.com
 X-Spam_score_int: -65
@@ -71,7 +70,7 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1909247 <1909247@bugs.launchpad.net>
+Reply-To: Bug 1904652 <1904652@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
@@ -81,51 +80,83 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 You received this bug notification because you are a member of qemu-
 devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1909247
+https://bugs.launchpad.net/bugs/1904652
 
 Title:
-  QEMU: use after free vulnerability in esp_do_dma() in hw/scsi/esp.c
+  Assertion failure in usb-ohci
 
 Status in QEMU:
   New
 
 Bug description:
-  A use-after-free vulnerability was found in the am53c974 SCSI host bus
-  adapter emulation of QEMU. It could occur in the esp_do_dma() function
-  in hw/scsi/esp.c while handling the 'Information Transfer' command
-  (CMD_TI). A privileged guest user may abuse this flaw to crash the
-  QEMU process on the host, resulting in a denial of service or
-  potential code execution with the privileges of the QEMU process.
+  Hello,
 
-  This issue was reported by Cheolwoo Myung (Seoul National University).
+  Using hypervisor fuzzer, hyfuzz, I found an assertion failure through
+  usb-ohci.
 
-  Original report:
-  Using hypervisor fuzzer, hyfuzz, I found a use-after-free issue in
-  am53c974 emulator of QEMU enabled ASan.
+  A malicious guest user/process could use this flaw to abort the QEMU
+  process on the host, resulting in a denial of service.
 
-  It occurs while transferring information, as it does not check the
-  buffer to be transferred.
+  This was found in version 5.2.0 (master)
 
-  A malicious guest user/process could use this flaw to crash the QEMU
-  process resulting in DoS scenario.
+  --------
 
-  To reproduce this issue, please run the QEMU with the following command
-  line.
+  ```
 
-  # To enable ASan option, please set configuration with the following
-  $ ./configure --target-list=3Di386-softmmu --disable-werror --enable-sani=
-tizers
-  $ make
+  Program terminated with signal SIGABRT, Aborted.
 
-  # To reproduce this issue, please run the QEMU process with the following=
- command line
-  $ ./qemu-system-i386 -m 512 -drive file=3D./hyfuzz.img,index=3D0,media=3D=
-disk,format=3Draw \
-  -device am53c974,id=3Dscsi -device scsi-hd,drive=3DSysDisk \
-  -drive id=3DSysDisk,if=3Dnone,file=3D./disk.img
+  #0  __GI_raise (sig=3Dsig@entry=3D0x6) at ../sysdeps/unix/sysv/linux/rais=
+e.c:51
+  51      ../sysdeps/unix/sysv/linux/raise.c: No such file or directory.
+  [Current thread is 1 (Thread 0x7f34d0411440 (LWP 9418))]
+  gdb-peda$ bt
+  #0  0x00007f34c8d4ef47 in __GI_raise (sig=3Dsig@entry=3D0x6) at ../sysdep=
+s/unix/sysv/linux/raise.c:51
+  #1  0x00007f34c8d508b1 in __GI_abort () at abort.c:79
+  #2  0x000055d3a2081844 in ohci_frame_boundary (opaque=3D0x55d3a4ecdaf0) a=
+t ../hw/usb/hcd-ohci.c:1297
+  #3  0x000055d3a25be155 in timerlist_run_timers (timer_list=3D0x55d3a3fd98=
+40) at ../util/qemu-timer.c:574
+  #4  0x000055d3a25beaba in qemu_clock_run_timers (type=3DQEMU_CLOCK_VIRTUA=
+L) at ../util/qemu-timer.c:588
+  #5  0x000055d3a25beaba in qemu_clock_run_all_timers () at ../util/qemu-ti=
+mer.c:670
+  #6  0x000055d3a25e69a1 in main_loop_wait (nonblocking=3D<optimized out>) =
+at ../util/main-loop.c:531
+  #7  0x000055d3a2433972 in qemu_main_loop () at ../softmmu/vl.c:1678
+  #8  0x000055d3a1d0969b in main (argc=3D<optimized out>, argc@entry=3D0x15=
+, argv=3D<optimized out>,
+      argv@entry=3D0x7ffc6de722a8, envp=3D<optimized out>) at ../softmmu/ma=
+in.c:50
+  #9  0x00007f34c8d31b97 in __libc_start_main (main=3D
+      0x55d3a1d09690 <main>, argc=3D0x15, argv=3D0x7ffc6de722a8, init=3D<op=
+timized out>, fini=3D<optimized out>, rtld_fini=3D<optimized out>, stack_en=
+d=3D0x7ffc6de72298) at ../csu/libc-start.c:310
+  #10 0x000055d3a1d095aa in _start ()
+  ```
 
-  Please find attached the disk images to reproduce this issue.
+  To reproduce the assertion failure, please run the QEMU with the
+  following command line.
+
+  ```
+  [Terminal 1]
+
+  $ qemu-system-i386 -m 512 -drive
+  file=3D./fs.img,index=3D1,media=3Ddisk,format=3Draw -drive
+  file=3D./hyfuzz.img,index=3D0,media=3Ddisk,format=3Draw -drive
+  if=3Dnone,id=3Dstick,file=3D./usbdisk.img,format=3Draw -device pci-ohci,i=
+d=3Dusb
+  -device usb-storage,bus=3Dusb.0,drive=3Dstick
+
+  [Terminal 2]
+
+  $ ./repro_log ./fs.img ./pci-ohci
+
+  ```
+
+  Please let me know if I can provide any further info.
+  -Cheolwoo, Myung (Seoul National University)
 
 To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1909247/+subscriptions
+https://bugs.launchpad.net/qemu/+bug/1904652/+subscriptions
 
