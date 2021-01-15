@@ -2,61 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A01C42F7E5C
-	for <lists+qemu-devel@lfdr.de>; Fri, 15 Jan 2021 15:37:44 +0100 (CET)
-Received: from localhost ([::1]:52448 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3525B2F7E62
+	for <lists+qemu-devel@lfdr.de>; Fri, 15 Jan 2021 15:39:16 +0100 (CET)
+Received: from localhost ([::1]:57064 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l0QER-0002jk-Ns
-	for lists+qemu-devel@lfdr.de; Fri, 15 Jan 2021 09:37:43 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44462)
+	id 1l0QFv-0004cG-6f
+	for lists+qemu-devel@lfdr.de; Fri, 15 Jan 2021 09:39:15 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46538)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
- id 1l0POL-00058t-SG; Fri, 15 Jan 2021 08:43:54 -0500
-Received: from mail-yb1-xb2b.google.com ([2607:f8b0:4864:20::b2b]:35839)
+ id 1l0PYy-0003Cm-FQ; Fri, 15 Jan 2021 08:54:54 -0500
+Received: from mail-yb1-xb30.google.com ([2607:f8b0:4864:20::b30]:38145)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
- id 1l0POI-00049I-Ng; Fri, 15 Jan 2021 08:43:53 -0500
-Received: by mail-yb1-xb2b.google.com with SMTP id 18so5075393ybx.2;
- Fri, 15 Jan 2021 05:43:50 -0800 (PST)
+ id 1l0PYu-0000BM-Ki; Fri, 15 Jan 2021 08:54:52 -0500
+Received: by mail-yb1-xb30.google.com with SMTP id r63so5088760ybf.5;
+ Fri, 15 Jan 2021 05:54:47 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=LwMEl09LPQkfeGvNBLWB1ahF5RkWrcXXzXHIq4IUuS4=;
- b=D4Gxkxr79qg2dmNESL3vmB76sBZtw7E1EVdan7ptPLMf646U9kq4G2mWXrxKiy2lkN
- LCkTv7l+PhQIps22QP2yXdy2PTQE5lJsJI3QdSSZQw9kTkANlEyn9HRCXoxT4+Pbv4Wd
- o2dXZmKH6/t+s1CIXPRTE135WUejuHUBAD10xb0lOaPCwHC4hxfn6GlbUwIR5Mh77s3v
- P652W4WOqohzv0cLUO9D9autjJhiPPp18qPVbFtg4eYJv7M0SgK/EM31fwjgy6b0aq5K
- m+dx6NNS5mUBR3E0nAqYExdmQ1TOX6EmddutSjikFBZL1Mbf4L15wIA1e+FEYImPB6Vm
- Nd9w==
+ :cc; bh=ixNEZN1pFQbixJvXzSJWe23RlLp2otnpJ4+txpnch/o=;
+ b=F1Iq4pDKrn3IOwon2r2rmwNT32Sw1mjR67TxXwpbZfAz1GSeZ7RI+JxQnW8Ji3yOpx
+ 9OJo5MGZnBjesiU1amQHo+4jMf4Ny0xo/F/kvnbB0whGtsnQ4YOjP+A+j5XdeIdliQCn
+ gspjLruVKlPfgWgo60211Bur9mykT2lv/GVxLjr+u7zAm3c/UnJWEOrGiwvRlXmZ83YU
+ 7Uqi/q2HROjfivDavAjmQRRnbZarrkt2eOeYDSyYuiCGnubSIV/OE7eWTVrf1OWLlKSa
+ x856/kQPYrkG1SLTJzQNt8o83p8vvHuIyHOGBVK50/v7Ewb1msxJVS/6qAI7GuogdcrH
+ zZsA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=LwMEl09LPQkfeGvNBLWB1ahF5RkWrcXXzXHIq4IUuS4=;
- b=BMDfLkkuOTufRRcDR5m2ax0sC6lPbCM59QMlwzwXf4TtpENU/EfrjUCtNe95T5EWMl
- YL0zMdSmuhjqC0xWd8movtM6PsfU5FV9Vo9iO49Gxr5ALp+oSdT4d/DR/Gz8iqon/geS
- 83mMtyfisJ8wA4gCuZ+iv4/wv3Msyj8VRh8nqym7IN+GCut00WMrkYw+wHZ5c3x9YgeP
- n0JGliZbVUFQW2gTK98l17JH3lsvE/oya9S0j8oElkRWZX6+PnCfsjNmf9thOGOnN5K2
- hBWGOGN/uevmYzc201D+KI66pbrh5JvNIIn5rZhG8U9PE0RV8JsqFp+gTWqATWKuNdbZ
- JdIg==
-X-Gm-Message-State: AOAM533Da1Fbm9oZYAA8WyGqnNSqYA542kOnmQOXEZYzNWZCjK2r39D4
- y6oOK42eS5+h9U5Sjk77YtV4aSIPLpUHt+cnVIU=
-X-Google-Smtp-Source: ABdhPJzYNAonF/YqCfpvd7vhbnCg9adLX8wvjt7cMZGa+7Xv1jg9zhY9UfIiC0vqu6LwG2V35MO16Iv99DH8BBs0xUE=
-X-Received: by 2002:a5b:5ce:: with SMTP id w14mr4687076ybp.314.1610718229272; 
- Fri, 15 Jan 2021 05:43:49 -0800 (PST)
+ bh=ixNEZN1pFQbixJvXzSJWe23RlLp2otnpJ4+txpnch/o=;
+ b=pDllgeoKufoKcLsCJy5Kjw6HY7Io5aHwWSqlXzVrC5aq1B+ZfC0xKPMMmJBd2fdl7e
+ fwgq+Mr8Aik0BPwr+JIboDdTsirA1F4kRw/MgcGCG3sYnL5yXtfjr29iC1S70RfJS+4J
+ VLOA+/80lsQS2SuPJjMFJdRhpCrgL7cK1NfnehQMxIEP93kz1V6m+MK1UPLK01f011AF
+ 6LMazjoT8jfGRdVtm7qIiZSO9de8aOybn6aBwI94wDls8k626opp7C2DJ1lLuAaGD79b
+ yiEJO6Yv2TcSY3THZFfP1EiNcFat9RwKDMYSJD5B9fLxBHpOjSLCv4TY0Vci9vs8uDEB
+ W0rg==
+X-Gm-Message-State: AOAM531pGZk02hyvZgFQA9fDCG6sXpQC1QKcMD23g+qjLFPJDL/5oQz4
+ 4O3Rjd8jYY/+E8Qm0kj8EIl7oU6uFhCQuesWNGY=
+X-Google-Smtp-Source: ABdhPJwJl9gl7UUtMNtIqIwkwP4MuugcTobNwEkOmATZgTk9ak+ImMVdV49SKs49FugTitD9Ixjd1zwslxllmuaJmp0=
+X-Received: by 2002:a05:6902:210:: with SMTP id
+ j16mr18907535ybs.122.1610718886727; 
+ Fri, 15 Jan 2021 05:54:46 -0800 (PST)
 MIME-Version: 1.0
-References: <1610427124-49887-1-git-send-email-bmeng.cn@gmail.com>
- <1610427124-49887-3-git-send-email-bmeng.cn@gmail.com>
- <CAEeofcgCkcRw-HcakxY+canSO3=PYfVEvEi_uWdKcW9gydsBiw@mail.gmail.com>
-In-Reply-To: <CAEeofcgCkcRw-HcakxY+canSO3=PYfVEvEi_uWdKcW9gydsBiw@mail.gmail.com>
+References: <20210114150902.11515-1-bmeng.cn@gmail.com>
+ <20210114181300.GA29923@fralle-msi>
+ <CAEUhbmXiYNFVY0EkrKqNGKV3C0QV0+WvkvEkfPUa-pSg2zGvuA@mail.gmail.com>
+ <CAFQmdRYgc-Gs9JUtfzGtrpEdEm439mkyWfkcX3izvfRFuEpYgw@mail.gmail.com>
+In-Reply-To: <CAFQmdRYgc-Gs9JUtfzGtrpEdEm439mkyWfkcX3izvfRFuEpYgw@mail.gmail.com>
 From: Bin Meng <bmeng.cn@gmail.com>
-Date: Fri, 15 Jan 2021 21:43:38 +0800
-Message-ID: <CAEUhbmWc6_wRiiPf8amNEiNOYZ8o3k4dUZkBp0dbszPnvgzQaQ@mail.gmail.com>
-Subject: Re: [PATCH 2/4] target/riscv: Add CSR name in the CSR function table
-To: Alexander Richardson <Alexander.Richardson@cl.cam.ac.uk>
+Date: Fri, 15 Jan 2021 21:54:34 +0800
+Message-ID: <CAEUhbmWp59Bu35Ga0U5TiZF4c0vDriFB4sebZc-k8ANRNRjybw@mail.gmail.com>
+Subject: Re: [PATCH 0/9] hw/block: m25p80: Fix the mess of dummy bytes needed
+ for fast read commands
+To: Havard Skinnemoen <hskinnemoen@google.com>
 Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::b2b;
- envelope-from=bmeng.cn@gmail.com; helo=mail-yb1-xb2b.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::b30;
+ envelope-from=bmeng.cn@gmail.com; helo=mail-yb1-xb30.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -76,66 +79,152 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "open list:RISC-V" <qemu-riscv@nongnu.org>,
- Bin Meng <bin.meng@windriver.com>, Alistair Francis <alistair.francis@wdc.com>,
+Cc: Kevin Wolf <kwolf@redhat.com>, Peter Maydell <peter.maydell@linaro.org>,
  "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
- Jim Wilson <jimw@sifive.com>
+ Qemu-block <qemu-block@nongnu.org>, Andrew Jeffery <andrew@aj.id.au>,
+ Francisco Iglesias <frasse.iglesias@gmail.com>,
+ Bin Meng <bin.meng@windriver.com>,
+ =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>,
+ Max Reitz <mreitz@redhat.com>, Tyrone Ting <kfting@nuvoton.com>,
+ qemu-arm <qemu-arm@nongnu.org>, Alistair Francis <alistair.francis@wdc.com>,
+ =?UTF-8?Q?C=C3=A9dric_Le_Goater?= <clg@kaod.org>,
+ Joe Komlodi <komlodi@xilinx.com>, Joel Stanley <joel@jms.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi Alex,
+Hi Havard,
 
-On Fri, Jan 15, 2021 at 9:14 PM Alexander Richardson
-<Alexander.Richardson@cl.cam.ac.uk> wrote:
+On Fri, Jan 15, 2021 at 11:29 AM Havard Skinnemoen
+<hskinnemoen@google.com> wrote:
 >
-> On Tue, 12 Jan 2021 at 05:02, Bin Meng <bmeng.cn@gmail.com> wrote:
-> >
-> > From: Bin Meng <bin.meng@windriver.com>
-> >
-> > In preparation to generate the CSR register list for GDB stub
-> > dynamically, let's add the CSR name in the CSR function table.
-> >
-> > Signed-off-by: Bin Meng <bin.meng@windriver.com>
-> > ---
-> >
-> >  target/riscv/cpu.h |   1 +
-> >  target/riscv/csr.c | 332 +++++++++++++++++++++++++++++++++++++++--------------
-> >  2 files changed, 249 insertions(+), 84 deletions(-)
-> >
-> > diff --git a/target/riscv/cpu.h b/target/riscv/cpu.h
-> > index 6f9e1cc..6684316 100644
-> > --- a/target/riscv/cpu.h
-> > +++ b/target/riscv/cpu.h
-> > @@ -476,6 +476,7 @@ typedef int (*riscv_csr_op_fn)(CPURISCVState *env, int csrno,
-> >      target_ulong *ret_value, target_ulong new_value, target_ulong write_mask);
-> >
-> >  typedef struct {
-> > +    const char *name;
-> >      riscv_csr_predicate_fn predicate;
-> >      riscv_csr_read_fn read;
-> >      riscv_csr_write_fn write;
+> Hi Bin,
 >
-> In our CHERI fork, we also added the name to this table for better
-> instruction logging output:
-> <https://github.com/CTSRD-CHERI/qemu/commit/446dbebdfd7d8f9b75041041f5e8c5ebc8f815b8#diff-ff63c6a6531e6beae8637664aed5a008f79c76b8f14fd941c370d28c670faa12R1396>
-
-Thanks for the info.
-
-> We used some macros to avoid repeating the same string multiple times:
-> in that patch we use e.g. [CSR_FCSR] = CSR_OP_RW(fs, fcsr)," instead
-> of
-> "[CSR_FCSR]     = { "fcsr",     fs,     read_fcsr,    write_fcsr   },"
-> Would it make sense to upstream these helper macros? This would
-> significantly reduce merge conflicts on our side in the future.
+> On Thu, Jan 14, 2021 at 6:08 PM Bin Meng <bmeng.cn@gmail.com> wrote:
+> >
+> > Hi Francisco,
+> >
+> > On Fri, Jan 15, 2021 at 2:13 AM Francisco Iglesias
+> > <frasse.iglesias@gmail.com> wrote:
+> > >
+> > > Hi Bin,
+> > >
+> > > On [2021 Jan 14] Thu 23:08:53, Bin Meng wrote:
+> > > > From: Bin Meng <bin.meng@windriver.com>
+> > > >
+> > > > The m25p80 model uses s->needed_bytes to indicate how many follow-up
+> > > > bytes are expected to be received after it receives a command. For
+> > > > example, depending on the address mode, either 3-byte address or
+> > > > 4-byte address is needed.
+> > > >
+> > > > For fast read family commands, some dummy cycles are required after
+> > > > sending the address bytes, and the dummy cycles need to be counted
+> > > > in s->needed_bytes. This is where the mess began.
+> > > >
+> > > > As the variable name (needed_bytes) indicates, the unit is in byte.
+> > > > It is not in bit, or cycle. However for some reason the model has
+> > > > been using the number of dummy cycles for s->needed_bytes. The right
+> > > > approach is to convert the number of dummy cycles to bytes based on
+> > > > the SPI protocol, for example, 6 dummy cycles for the Fast Read Quad
+> > > > I/O (EBh) should be converted to 3 bytes per the formula (6 * 4 / 8).
+> > >
+> > > While not being the original implementor I must assume that above solution was
+> > > considered but not chosen by the developers due to it is inaccuracy (it
+> > > wouldn't be possible to model exacly 6 dummy cycles, only a multiple of 8,
+> > > meaning that if the controller is wrongly programmed to generate 7 the error
+> > > wouldn't be caught and the controller will still be considered "correct"). Now
+> > > that we have this detail in the implementation I'm in favor of keeping it, this
+> > > also because the detail is already in use for catching exactly above error.
+> > >
+> >
+> > I found no clue from the commit message that my proposed solution here
+> > was ever considered, otherwise all SPI controller models supporting
+> > software generation should have been found out seriously broken long
+> > time ago!
+> >
+> > The issue you pointed out that we require the total number of dummy
+> > bits should be multiple of 8 is true, that's why I added the
+> > unimplemented log message in this series (patch 2/3/4) to warn users
+> > if this expectation is not met. However this will not cause any issue
+> > when running U-Boot or Linux, because both spi-nor drivers expect the
+> > same assumption as we do here.
+> >
+> > See U-Boot spi_nor_read_data() and Linux spi_nor_spimem_read_data(),
+> > there is a logic to calculate the dummy bytes needed for fast read
+> > command:
+> >
+> >     /* convert the dummy cycles to the number of bytes */
+> >     op.dummy.nbytes = (nor->read_dummy * op.dummy.buswidth) / 8;
+> >
+> > Note the default dummy cycles configuration for all flashes I have
+> > looked into as of today, meets the multiple of 8 assumption. On some
+> > flashes the dummy cycle number is configurable, and if it's been
+> > configured to be an odd value, it would not work on U-Boot/Linux in
+> > the first place.
+> >
+> > > >
+> > > > Things get complicated when interacting with different SPI or QSPI
+> > > > flash controllers. There are major two cases:
+> > > >
+> > > > - Dummy bytes prepared by drivers, and wrote to the controller fifo.
+> > > >   For such case, driver will calculate the correct number of dummy
+> > > >   bytes and write them into the tx fifo. Fixing the m25p80 model will
+> > > >   fix flashes working with such controllers.
+> > >
+> > > Above can be fixed while still keeping the detailed dummy cycle implementation
+> > > inside m25p80. Perhaps one of the following could be looked into: configurating
+> > > the amount, letting the spi ctrl fetch the amount from m25p80 or by inheriting
+> > > some functionality handling this in the SPI controller. Or a mixture of above.
+> >
+> > Please send patches to explain this in detail how this is going to
+> > work. I am open to all possible solutions.
+> >
+> > >
+> > > > - Dummy bytes not prepared by drivers. Drivers just tell the hardware
+> > > >   the dummy cycle configuration via some registers, and hardware will
+> > > >   automatically generate dummy cycles for us. Fixing the m25p80 model
+> > > >   is not enough, and we will need to fix the SPI/QSPI models for such
+> > > >   controllers.
+> > > >
+> > > > This series fixes the mess in the m25p80 from the flash side first,
+> > >
+> > > Considering the problems solved by the solution in tree I find m25p80 pretty
+> > > clean, at least I don't see any clearly better way for accurately modeling the
+> > > dummy clock cycles. Counting bits instead of bytes would for example still
+> > > force the controllers to mark which bits to count (when transmitting one dummy
+> > > byte from a txfifo on four lines (Quad command) it generates 2 dummy clock
+> > > cycles since it takes two cycles to transfer 8 bits).
+> > >
+> >
+> > SPI is a bit based protocol, not bytes. If you insist on bit modeling
+> > with the dummy cycles then you should also suggest we change all
+> > cycles (including command/addr/dummy/data phases) to be modeled with
+> > bits. That way we can accurately emulate everything, for example one
+> > potential problem like transferring 9 bit in the data phase.
+>
+> I agree with this. There's really nothing special about dummy cycles.
+> Making them special makes it super painful to implement SPI controller
+> emulation because you have to anticipate when ssi_transfer changes
+> semantics from byte-at-a-time to bit-at-a-time. I doubt all the SPI
+> controllers in the tree gets it right all the time.
 >
 
-Anyway there will be a merge conflict. So the question is: do you guys
-want to upstream the CSR logging changes you mentioned in your fork?
-If not, I am not sure if it brings enough value to just upstream the
-macros but maybe others have a different view.
+Yep, it's not just painful for SPI controllers, and for the case 1 SPI
+controller it's impossible to snoop the data to distinguish when the
+dummy cycles begin.
 
-If the answer is yes, then whoever upstreams the macro changes has to
-deal with that unfortunately :(
+> > However modeling everything with bit is super inefficient. My view is
+> > that we should avoid trying to support uncommon use cases (like not
+> > multiple of 8 for dummy bits) in QEMU.
+>
+> Perhaps ssi_transfer could take an additional bits parameter? That
+> should make it possible to transfer any number of bits up to 32, while
+> keeping the common case simple on both sides. And it would work for
+> any SPI transfer, not just dummy cycles.
+
+This sounds like a good tradeoff from the emulator perspective. But I
+am not sure we should do this to solve the dummy cycle mess given all
+the default dummy cycle configurations so far match the multiple of 8
+assumption.
 
 Regards,
 Bin
