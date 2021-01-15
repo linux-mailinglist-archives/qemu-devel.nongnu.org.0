@@ -2,69 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7EA0D2F8925
-	for <lists+qemu-devel@lfdr.de>; Sat, 16 Jan 2021 00:08:03 +0100 (CET)
-Received: from localhost ([::1]:35620 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8E6852F8926
+	for <lists+qemu-devel@lfdr.de>; Sat, 16 Jan 2021 00:09:03 +0100 (CET)
+Received: from localhost ([::1]:38086 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l0YCI-0004ev-Bz
-	for lists+qemu-devel@lfdr.de; Fri, 15 Jan 2021 18:08:02 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53912)
+	id 1l0YDG-0005fT-JS
+	for lists+qemu-devel@lfdr.de; Fri, 15 Jan 2021 18:09:02 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53990)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1l0XsH-0003i9-MQ
- for qemu-devel@nongnu.org; Fri, 15 Jan 2021 17:47:21 -0500
-Received: from mail-pf1-x430.google.com ([2607:f8b0:4864:20::430]:38709)
+ id 1l0XsK-0003od-8n
+ for qemu-devel@nongnu.org; Fri, 15 Jan 2021 17:47:24 -0500
+Received: from mail-pf1-x432.google.com ([2607:f8b0:4864:20::432]:36601)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1l0Xs6-0005GS-NP
- for qemu-devel@nongnu.org; Fri, 15 Jan 2021 17:47:21 -0500
-Received: by mail-pf1-x430.google.com with SMTP id y205so584029pfc.5
- for <qemu-devel@nongnu.org>; Fri, 15 Jan 2021 14:47:10 -0800 (PST)
+ id 1l0XsA-0005H4-Q6
+ for qemu-devel@nongnu.org; Fri, 15 Jan 2021 17:47:23 -0500
+Received: by mail-pf1-x432.google.com with SMTP id b3so6421282pft.3
+ for <qemu-devel@nongnu.org>; Fri, 15 Jan 2021 14:47:14 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=tHmvo/lrgkE+wi7yTJ56b6ape2S0MwV/XIHtk24Q15o=;
- b=PVQmPkDZuObSBMkVwP5TC2YbQzB6YZQzbNKRTYz3x3rJSlCRRm0EoPoK+HCBeT+qJr
- urbUWkSE4m9Gr4Fq/sWX64x07lVAHJRHqAU/GEXnEDERyNBHqEtxng4fF+kWGLJV8stJ
- /QUkhOlXkY0dwVqvr8yqRy5T6kUj2KzXKPBcmzGrtKOqOz0hq9dvKCD7+372kFaB3OyF
- /Jzq9QAh4+6pz8D7bvPvV7BO+GV/cdoBEKrLGwmZ17KQjOQEmEgBhlPl4yQzpQhWyin0
- TDppDi9gSmVa3mxyPXHEe4hCqFdmweQSGp2s08cMaBJUncCnCGcf5uBdgxrn8WtIGuFf
- oDLw==
+ bh=0M+ib82Q9NUsY8Zir/mvOr8pifWIKMIlNlMsQviVw94=;
+ b=bvYoZzrUkQF3jvfLh8Vq77cIFtMUsoVGfyRpQtnQ42H/oMcy7izIfTvfHYhUXnmbJ5
+ l/mUBjeAfRXpEmC/BZ14Xqk9FUfEGY/N1g7DqZfaQorz5EcGkUuhdmX1Dfw0H2HVfTo5
+ Cn66q2nzdpIWujmYUc8BaTW9sJip9HZt2juvh2K7K54OPpDJYBuozVX7opcd2Y8PDkRC
+ YTfsklVWJimCl3oFPU0XpnI4M4r5uY1VXuU5Sp8FC4+3k/hr4ejxmpzdEebk3S0edNSH
+ 6sN0zuxqjKs9AR+Q6UkmG3ZzD57qvopzs+arXjNCmkv7UueoG9BkchYeQJC2LvGWf4UB
+ aCXw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=tHmvo/lrgkE+wi7yTJ56b6ape2S0MwV/XIHtk24Q15o=;
- b=rKASMZn2r/FGW0i7bR86ZgeBUkHJGANhUqxx19TRV4Ax+U4vSjs2Ferv7+yIqQG/Fn
- F8vimgLJBEtoBdZbNfn/9BOrbvOAb3hgKwukCMnmIjhFLPxZE8M3z0alAVO1JdAZ0t8A
- ob4rXVnNm9m+TlLxvKXLnOnBEzN8AseSlIknhmRgVa4eCRzi4EhayydvX59E+uDKp2R/
- 25IwAY2aE4TC2Zh/kyqK4OiV2j3QNWcUyKyEuokDyXu5fjUvnfi1RQrnPwvl4Bqckdt9
- K6nb6ts1f7/7a9I9Qm49NsIQrOZYvqpiaexuQBi0rGnbUPFSCHJ9SLlR6Sty0oBv0Von
- GlZA==
-X-Gm-Message-State: AOAM531Thk+K+QA35mzWgAAW5Vt1bnIvVOm40w9Whb0Gb+K85TI+S/4D
- b1r6qQZEEijB0a33JToglvDuUe3q7IyI8nOv
-X-Google-Smtp-Source: ABdhPJxmkzpa1HqLyKXo1jEv5PkeolzXJStKFycCgTA6yyzP8JJmhDKGRCZYd3He+DjMj8wNPnfT2g==
-X-Received: by 2002:a63:d650:: with SMTP id d16mr14809092pgj.277.1610750829482; 
- Fri, 15 Jan 2021 14:47:09 -0800 (PST)
+ bh=0M+ib82Q9NUsY8Zir/mvOr8pifWIKMIlNlMsQviVw94=;
+ b=TLmscKKc4TInU3ARQk+wcffvR+kFmIhdmsPXj59Y+xvUgr6voR52DpRhFl57iZhMcF
+ TMtjihGH4fbrB118yzdO5dy1w9Xd5JZxzTAX6HmLPwuferhjg6iRE3UcqXiTNSlEX7Pl
+ dwXsuJH+mMRbOLYJb9n6r0JZyPNshdwu2/Zcg+DlIR7y0ETrxalz3lHzIx1QnynvMASH
+ c+iatH1nafuotKay1nOMwPwiib9Dxf9CBDAnxsQ9qHHyLjWA70mHvm6ObK/RsSDnPgyL
+ Qw/wnIe4a1I1vW460LvyDbU+Q6eHc0BQM95fehqz5SrlO8xoh+V6kfJ2hKYPH84KZL+n
+ btyQ==
+X-Gm-Message-State: AOAM533Uyku/YP8DD3mEvaRlB4JSOpTMS8XTAIiCYJpHpbVdViHtO1m1
+ VZZd1GylcMiOTytxJlMldTPAerNs/a68tZoj
+X-Google-Smtp-Source: ABdhPJwvwxSmRRDNQZC74+OU5v9v/FpSewVFy9+aTH7hlGklYVpNXLikdI/1Kk7JKzZ0aq9uXqLsXA==
+X-Received: by 2002:a65:6116:: with SMTP id z22mr15091532pgu.264.1610750832944; 
+ Fri, 15 Jan 2021 14:47:12 -0800 (PST)
 Received: from localhost.localdomain (rrcs-173-197-107-21.west.biz.rr.com.
  [173.197.107.21])
- by smtp.gmail.com with ESMTPSA id s13sm9521700pfd.99.2021.01.15.14.47.08
+ by smtp.gmail.com with ESMTPSA id s13sm9521700pfd.99.2021.01.15.14.47.11
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 15 Jan 2021 14:47:08 -0800 (PST)
+ Fri, 15 Jan 2021 14:47:12 -0800 (PST)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v3 13/21] linux-user/aarch64: Implement PR_MTE_TCF and
- PR_MTE_TAG
-Date: Fri, 15 Jan 2021 12:46:37 -1000
-Message-Id: <20210115224645.1196742-14-richard.henderson@linaro.org>
+Subject: [PATCH v3 15/21] target/arm: Split out syndrome.h from internals.h
+Date: Fri, 15 Jan 2021 12:46:39 -1000
+Message-Id: <20210115224645.1196742-16-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20210115224645.1196742-1-richard.henderson@linaro.org>
 References: <20210115224645.1196742-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::430;
- envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x430.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::432;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x432.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -88,106 +87,558 @@ Cc: peter.maydell@linaro.org, qemu-arm@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-These prctl fields are required for the function of MTE.
+Move everything related to syndromes to a new file,
+which can be shared with linux-user.
 
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- linux-user/aarch64/target_syscall.h |  9 ++++++
- linux-user/syscall.c                | 44 +++++++++++++++++++++++++++++
- 2 files changed, 53 insertions(+)
+ target/arm/internals.h | 245 +-----------------------------------
+ target/arm/syndrome.h  | 273 +++++++++++++++++++++++++++++++++++++++++
+ 2 files changed, 274 insertions(+), 244 deletions(-)
+ create mode 100644 target/arm/syndrome.h
 
-diff --git a/linux-user/aarch64/target_syscall.h b/linux-user/aarch64/target_syscall.h
-index 820601dfcc..76f6c3391d 100644
---- a/linux-user/aarch64/target_syscall.h
-+++ b/linux-user/aarch64/target_syscall.h
-@@ -33,5 +33,14 @@ struct target_pt_regs {
- #define TARGET_PR_SET_TAGGED_ADDR_CTRL 55
- #define TARGET_PR_GET_TAGGED_ADDR_CTRL 56
- # define TARGET_PR_TAGGED_ADDR_ENABLE  (1UL << 0)
-+/* MTE tag check fault modes */
-+# define TARGET_PR_MTE_TCF_SHIFT       1
-+# define TARGET_PR_MTE_TCF_NONE        (0UL << TARGET_PR_MTE_TCF_SHIFT)
-+# define TARGET_PR_MTE_TCF_SYNC        (1UL << TARGET_PR_MTE_TCF_SHIFT)
-+# define TARGET_PR_MTE_TCF_ASYNC       (2UL << TARGET_PR_MTE_TCF_SHIFT)
-+# define TARGET_PR_MTE_TCF_MASK        (3UL << TARGET_PR_MTE_TCF_SHIFT)
-+/* MTE tag inclusion mask */
-+# define TARGET_PR_MTE_TAG_SHIFT       3
-+# define TARGET_PR_MTE_TAG_MASK        (0xffffUL << TARGET_PR_MTE_TAG_SHIFT)
+diff --git a/target/arm/internals.h b/target/arm/internals.h
+index 5460678756..1e60c0e0e8 100644
+--- a/target/arm/internals.h
++++ b/target/arm/internals.h
+@@ -26,6 +26,7 @@
+ #define TARGET_ARM_INTERNALS_H
  
- #endif /* AARCH64_TARGET_SYSCALL_H */
-diff --git a/linux-user/syscall.c b/linux-user/syscall.c
-index ebb4e2898c..0316497636 100644
---- a/linux-user/syscall.c
-+++ b/linux-user/syscall.c
-@@ -10952,10 +10952,46 @@ static abi_long do_syscall1(void *cpu_env, int num, abi_long arg1,
-             {
-                 abi_ulong valid_mask = TARGET_PR_TAGGED_ADDR_ENABLE;
-                 CPUARMState *env = cpu_env;
-+                ARMCPU *cpu = env_archcpu(env);
-+
-+                if (cpu_isar_feature(aa64_mte, cpu)) {
-+                    valid_mask |= TARGET_PR_MTE_TCF_MASK;
-+                    valid_mask |= TARGET_PR_MTE_TAG_MASK;
-+                }
+ #include "hw/registerfields.h"
++#include "syndrome.h"
  
-                 if ((arg2 & ~valid_mask) || arg3 || arg4 || arg5) {
-                     return -TARGET_EINVAL;
-                 }
-+
-+                if (cpu_isar_feature(aa64_mte, cpu)) {
-+                    switch (arg2 & TARGET_PR_MTE_TCF_MASK) {
-+                    case TARGET_PR_MTE_TCF_NONE:
-+                    case TARGET_PR_MTE_TCF_SYNC:
-+                    case TARGET_PR_MTE_TCF_ASYNC:
-+                        break;
-+                    default:
-+                        return -EINVAL;
-+                    }
-+
-+                    /*
-+                     * Write PR_MTE_TCF to SCTLR_EL1[TCF0].
-+                     * Note that the syscall values are consistent with hw.
-+                     */
-+                    env->cp15.sctlr_el[1] =
-+                        deposit64(env->cp15.sctlr_el[1], 38, 2,
-+                                  arg2 >> TARGET_PR_MTE_TCF_SHIFT);
-+
-+                    /*
-+                     * Write PR_MTE_TAG to GCR_EL1[Exclude].
-+                     * Note that the syscall uses an include mask,
-+                     * and hardware uses an exclude mask -- invert.
-+                     */
-+                    env->cp15.gcr_el1 =
-+                        deposit64(env->cp15.gcr_el1, 0, 16,
-+                                  ~arg2 >> TARGET_PR_MTE_TAG_SHIFT);
-+                    arm_rebuild_hflags(env);
-+                }
-+
-                 env->untagged_addr_mask = (arg2 & TARGET_PR_TAGGED_ADDR_ENABLE
-                                            ? MAKE_64BIT_MASK(0, 56) : -1);
-                 return 0;
-@@ -10964,6 +11000,7 @@ static abi_long do_syscall1(void *cpu_env, int num, abi_long arg1,
-             {
-                 abi_long ret = 0;
-                 CPUARMState *env = cpu_env;
-+                ARMCPU *cpu = env_archcpu(env);
+ /* register banks for CPU modes */
+ #define BANK_USRSYS 0
+@@ -256,250 +257,6 @@ static inline bool extended_addresses_enabled(CPUARMState *env)
+            (arm_feature(env, ARM_FEATURE_LPAE) && (tcr->raw_tcr & TTBCR_EAE));
+ }
  
-                 if (arg2 || arg3 || arg4 || arg5) {
-                     return -TARGET_EINVAL;
-@@ -10971,6 +11008,13 @@ static abi_long do_syscall1(void *cpu_env, int num, abi_long arg1,
-                 if (env->untagged_addr_mask != -1) {
-                     ret |= TARGET_PR_TAGGED_ADDR_ENABLE;
-                 }
-+                if (cpu_isar_feature(aa64_mte, cpu)) {
-+                    /* See above. */
-+                    ret |= (extract64(env->cp15.sctlr_el[1], 38, 2)
-+                            << TARGET_PR_MTE_TCF_SHIFT);
-+                    ret = deposit64(ret, TARGET_PR_MTE_TAG_SHIFT, 16,
-+                                    ~env->cp15.gcr_el1);
-+                }
-                 return ret;
-             }
- #endif /* AARCH64 */
+-/* Valid Syndrome Register EC field values */
+-enum arm_exception_class {
+-    EC_UNCATEGORIZED          = 0x00,
+-    EC_WFX_TRAP               = 0x01,
+-    EC_CP15RTTRAP             = 0x03,
+-    EC_CP15RRTTRAP            = 0x04,
+-    EC_CP14RTTRAP             = 0x05,
+-    EC_CP14DTTRAP             = 0x06,
+-    EC_ADVSIMDFPACCESSTRAP    = 0x07,
+-    EC_FPIDTRAP               = 0x08,
+-    EC_PACTRAP                = 0x09,
+-    EC_CP14RRTTRAP            = 0x0c,
+-    EC_BTITRAP                = 0x0d,
+-    EC_ILLEGALSTATE           = 0x0e,
+-    EC_AA32_SVC               = 0x11,
+-    EC_AA32_HVC               = 0x12,
+-    EC_AA32_SMC               = 0x13,
+-    EC_AA64_SVC               = 0x15,
+-    EC_AA64_HVC               = 0x16,
+-    EC_AA64_SMC               = 0x17,
+-    EC_SYSTEMREGISTERTRAP     = 0x18,
+-    EC_SVEACCESSTRAP          = 0x19,
+-    EC_INSNABORT              = 0x20,
+-    EC_INSNABORT_SAME_EL      = 0x21,
+-    EC_PCALIGNMENT            = 0x22,
+-    EC_DATAABORT              = 0x24,
+-    EC_DATAABORT_SAME_EL      = 0x25,
+-    EC_SPALIGNMENT            = 0x26,
+-    EC_AA32_FPTRAP            = 0x28,
+-    EC_AA64_FPTRAP            = 0x2c,
+-    EC_SERROR                 = 0x2f,
+-    EC_BREAKPOINT             = 0x30,
+-    EC_BREAKPOINT_SAME_EL     = 0x31,
+-    EC_SOFTWARESTEP           = 0x32,
+-    EC_SOFTWARESTEP_SAME_EL   = 0x33,
+-    EC_WATCHPOINT             = 0x34,
+-    EC_WATCHPOINT_SAME_EL     = 0x35,
+-    EC_AA32_BKPT              = 0x38,
+-    EC_VECTORCATCH            = 0x3a,
+-    EC_AA64_BKPT              = 0x3c,
+-};
+-
+-#define ARM_EL_EC_SHIFT 26
+-#define ARM_EL_IL_SHIFT 25
+-#define ARM_EL_ISV_SHIFT 24
+-#define ARM_EL_IL (1 << ARM_EL_IL_SHIFT)
+-#define ARM_EL_ISV (1 << ARM_EL_ISV_SHIFT)
+-
+-static inline uint32_t syn_get_ec(uint32_t syn)
+-{
+-    return syn >> ARM_EL_EC_SHIFT;
+-}
+-
+-/* Utility functions for constructing various kinds of syndrome value.
+- * Note that in general we follow the AArch64 syndrome values; in a
+- * few cases the value in HSR for exceptions taken to AArch32 Hyp
+- * mode differs slightly, and we fix this up when populating HSR in
+- * arm_cpu_do_interrupt_aarch32_hyp().
+- * The exception is FP/SIMD access traps -- these report extra information
+- * when taking an exception to AArch32. For those we include the extra coproc
+- * and TA fields, and mask them out when taking the exception to AArch64.
+- */
+-static inline uint32_t syn_uncategorized(void)
+-{
+-    return (EC_UNCATEGORIZED << ARM_EL_EC_SHIFT) | ARM_EL_IL;
+-}
+-
+-static inline uint32_t syn_aa64_svc(uint32_t imm16)
+-{
+-    return (EC_AA64_SVC << ARM_EL_EC_SHIFT) | ARM_EL_IL | (imm16 & 0xffff);
+-}
+-
+-static inline uint32_t syn_aa64_hvc(uint32_t imm16)
+-{
+-    return (EC_AA64_HVC << ARM_EL_EC_SHIFT) | ARM_EL_IL | (imm16 & 0xffff);
+-}
+-
+-static inline uint32_t syn_aa64_smc(uint32_t imm16)
+-{
+-    return (EC_AA64_SMC << ARM_EL_EC_SHIFT) | ARM_EL_IL | (imm16 & 0xffff);
+-}
+-
+-static inline uint32_t syn_aa32_svc(uint32_t imm16, bool is_16bit)
+-{
+-    return (EC_AA32_SVC << ARM_EL_EC_SHIFT) | (imm16 & 0xffff)
+-        | (is_16bit ? 0 : ARM_EL_IL);
+-}
+-
+-static inline uint32_t syn_aa32_hvc(uint32_t imm16)
+-{
+-    return (EC_AA32_HVC << ARM_EL_EC_SHIFT) | ARM_EL_IL | (imm16 & 0xffff);
+-}
+-
+-static inline uint32_t syn_aa32_smc(void)
+-{
+-    return (EC_AA32_SMC << ARM_EL_EC_SHIFT) | ARM_EL_IL;
+-}
+-
+-static inline uint32_t syn_aa64_bkpt(uint32_t imm16)
+-{
+-    return (EC_AA64_BKPT << ARM_EL_EC_SHIFT) | ARM_EL_IL | (imm16 & 0xffff);
+-}
+-
+-static inline uint32_t syn_aa32_bkpt(uint32_t imm16, bool is_16bit)
+-{
+-    return (EC_AA32_BKPT << ARM_EL_EC_SHIFT) | (imm16 & 0xffff)
+-        | (is_16bit ? 0 : ARM_EL_IL);
+-}
+-
+-static inline uint32_t syn_aa64_sysregtrap(int op0, int op1, int op2,
+-                                           int crn, int crm, int rt,
+-                                           int isread)
+-{
+-    return (EC_SYSTEMREGISTERTRAP << ARM_EL_EC_SHIFT) | ARM_EL_IL
+-        | (op0 << 20) | (op2 << 17) | (op1 << 14) | (crn << 10) | (rt << 5)
+-        | (crm << 1) | isread;
+-}
+-
+-static inline uint32_t syn_cp14_rt_trap(int cv, int cond, int opc1, int opc2,
+-                                        int crn, int crm, int rt, int isread,
+-                                        bool is_16bit)
+-{
+-    return (EC_CP14RTTRAP << ARM_EL_EC_SHIFT)
+-        | (is_16bit ? 0 : ARM_EL_IL)
+-        | (cv << 24) | (cond << 20) | (opc2 << 17) | (opc1 << 14)
+-        | (crn << 10) | (rt << 5) | (crm << 1) | isread;
+-}
+-
+-static inline uint32_t syn_cp15_rt_trap(int cv, int cond, int opc1, int opc2,
+-                                        int crn, int crm, int rt, int isread,
+-                                        bool is_16bit)
+-{
+-    return (EC_CP15RTTRAP << ARM_EL_EC_SHIFT)
+-        | (is_16bit ? 0 : ARM_EL_IL)
+-        | (cv << 24) | (cond << 20) | (opc2 << 17) | (opc1 << 14)
+-        | (crn << 10) | (rt << 5) | (crm << 1) | isread;
+-}
+-
+-static inline uint32_t syn_cp14_rrt_trap(int cv, int cond, int opc1, int crm,
+-                                         int rt, int rt2, int isread,
+-                                         bool is_16bit)
+-{
+-    return (EC_CP14RRTTRAP << ARM_EL_EC_SHIFT)
+-        | (is_16bit ? 0 : ARM_EL_IL)
+-        | (cv << 24) | (cond << 20) | (opc1 << 16)
+-        | (rt2 << 10) | (rt << 5) | (crm << 1) | isread;
+-}
+-
+-static inline uint32_t syn_cp15_rrt_trap(int cv, int cond, int opc1, int crm,
+-                                         int rt, int rt2, int isread,
+-                                         bool is_16bit)
+-{
+-    return (EC_CP15RRTTRAP << ARM_EL_EC_SHIFT)
+-        | (is_16bit ? 0 : ARM_EL_IL)
+-        | (cv << 24) | (cond << 20) | (opc1 << 16)
+-        | (rt2 << 10) | (rt << 5) | (crm << 1) | isread;
+-}
+-
+-static inline uint32_t syn_fp_access_trap(int cv, int cond, bool is_16bit)
+-{
+-    /* AArch32 FP trap or any AArch64 FP/SIMD trap: TA == 0 coproc == 0xa */
+-    return (EC_ADVSIMDFPACCESSTRAP << ARM_EL_EC_SHIFT)
+-        | (is_16bit ? 0 : ARM_EL_IL)
+-        | (cv << 24) | (cond << 20) | 0xa;
+-}
+-
+-static inline uint32_t syn_simd_access_trap(int cv, int cond, bool is_16bit)
+-{
+-    /* AArch32 SIMD trap: TA == 1 coproc == 0 */
+-    return (EC_ADVSIMDFPACCESSTRAP << ARM_EL_EC_SHIFT)
+-        | (is_16bit ? 0 : ARM_EL_IL)
+-        | (cv << 24) | (cond << 20) | (1 << 5);
+-}
+-
+-static inline uint32_t syn_sve_access_trap(void)
+-{
+-    return EC_SVEACCESSTRAP << ARM_EL_EC_SHIFT;
+-}
+-
+-static inline uint32_t syn_pactrap(void)
+-{
+-    return EC_PACTRAP << ARM_EL_EC_SHIFT;
+-}
+-
+-static inline uint32_t syn_btitrap(int btype)
+-{
+-    return (EC_BTITRAP << ARM_EL_EC_SHIFT) | btype;
+-}
+-
+-static inline uint32_t syn_insn_abort(int same_el, int ea, int s1ptw, int fsc)
+-{
+-    return (EC_INSNABORT << ARM_EL_EC_SHIFT) | (same_el << ARM_EL_EC_SHIFT)
+-        | ARM_EL_IL | (ea << 9) | (s1ptw << 7) | fsc;
+-}
+-
+-static inline uint32_t syn_data_abort_no_iss(int same_el, int fnv,
+-                                             int ea, int cm, int s1ptw,
+-                                             int wnr, int fsc)
+-{
+-    return (EC_DATAABORT << ARM_EL_EC_SHIFT) | (same_el << ARM_EL_EC_SHIFT)
+-           | ARM_EL_IL
+-           | (fnv << 10) | (ea << 9) | (cm << 8) | (s1ptw << 7)
+-           | (wnr << 6) | fsc;
+-}
+-
+-static inline uint32_t syn_data_abort_with_iss(int same_el,
+-                                               int sas, int sse, int srt,
+-                                               int sf, int ar,
+-                                               int ea, int cm, int s1ptw,
+-                                               int wnr, int fsc,
+-                                               bool is_16bit)
+-{
+-    return (EC_DATAABORT << ARM_EL_EC_SHIFT) | (same_el << ARM_EL_EC_SHIFT)
+-           | (is_16bit ? 0 : ARM_EL_IL)
+-           | ARM_EL_ISV | (sas << 22) | (sse << 21) | (srt << 16)
+-           | (sf << 15) | (ar << 14)
+-           | (ea << 9) | (cm << 8) | (s1ptw << 7) | (wnr << 6) | fsc;
+-}
+-
+-static inline uint32_t syn_swstep(int same_el, int isv, int ex)
+-{
+-    return (EC_SOFTWARESTEP << ARM_EL_EC_SHIFT) | (same_el << ARM_EL_EC_SHIFT)
+-        | ARM_EL_IL | (isv << 24) | (ex << 6) | 0x22;
+-}
+-
+-static inline uint32_t syn_watchpoint(int same_el, int cm, int wnr)
+-{
+-    return (EC_WATCHPOINT << ARM_EL_EC_SHIFT) | (same_el << ARM_EL_EC_SHIFT)
+-        | ARM_EL_IL | (cm << 8) | (wnr << 6) | 0x22;
+-}
+-
+-static inline uint32_t syn_breakpoint(int same_el)
+-{
+-    return (EC_BREAKPOINT << ARM_EL_EC_SHIFT) | (same_el << ARM_EL_EC_SHIFT)
+-        | ARM_EL_IL | 0x22;
+-}
+-
+-static inline uint32_t syn_wfx(int cv, int cond, int ti, bool is_16bit)
+-{
+-    return (EC_WFX_TRAP << ARM_EL_EC_SHIFT) |
+-           (is_16bit ? 0 : (1 << ARM_EL_IL_SHIFT)) |
+-           (cv << 24) | (cond << 20) | ti;
+-}
+-
+ /* Update a QEMU watchpoint based on the information the guest has set in the
+  * DBGWCR<n>_EL1 and DBGWVR<n>_EL1 registers.
+  */
+diff --git a/target/arm/syndrome.h b/target/arm/syndrome.h
+new file mode 100644
+index 0000000000..39a31260f2
+--- /dev/null
++++ b/target/arm/syndrome.h
+@@ -0,0 +1,273 @@
++/*
++ * QEMU ARM CPU -- syndrome functions and types
++ *
++ * Copyright (c) 2014 Linaro Ltd
++ *
++ * This program is free software; you can redistribute it and/or
++ * modify it under the terms of the GNU General Public License
++ * as published by the Free Software Foundation; either version 2
++ * of the License, or (at your option) any later version.
++ *
++ * This program is distributed in the hope that it will be useful,
++ * but WITHOUT ANY WARRANTY; without even the implied warranty of
++ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
++ * GNU General Public License for more details.
++ *
++ * You should have received a copy of the GNU General Public License
++ * along with this program; if not, see
++ * <http://www.gnu.org/licenses/gpl-2.0.html>
++ *
++ * This header defines functions, types, etc which need to be shared
++ * between different source files within target/arm/ but which are
++ * private to it and not required by the rest of QEMU.
++ */
++
++#ifndef TARGET_ARM_SYNDROME_H
++#define TARGET_ARM_SYNDROME_H
++
++/* Valid Syndrome Register EC field values */
++enum arm_exception_class {
++    EC_UNCATEGORIZED          = 0x00,
++    EC_WFX_TRAP               = 0x01,
++    EC_CP15RTTRAP             = 0x03,
++    EC_CP15RRTTRAP            = 0x04,
++    EC_CP14RTTRAP             = 0x05,
++    EC_CP14DTTRAP             = 0x06,
++    EC_ADVSIMDFPACCESSTRAP    = 0x07,
++    EC_FPIDTRAP               = 0x08,
++    EC_PACTRAP                = 0x09,
++    EC_CP14RRTTRAP            = 0x0c,
++    EC_BTITRAP                = 0x0d,
++    EC_ILLEGALSTATE           = 0x0e,
++    EC_AA32_SVC               = 0x11,
++    EC_AA32_HVC               = 0x12,
++    EC_AA32_SMC               = 0x13,
++    EC_AA64_SVC               = 0x15,
++    EC_AA64_HVC               = 0x16,
++    EC_AA64_SMC               = 0x17,
++    EC_SYSTEMREGISTERTRAP     = 0x18,
++    EC_SVEACCESSTRAP          = 0x19,
++    EC_INSNABORT              = 0x20,
++    EC_INSNABORT_SAME_EL      = 0x21,
++    EC_PCALIGNMENT            = 0x22,
++    EC_DATAABORT              = 0x24,
++    EC_DATAABORT_SAME_EL      = 0x25,
++    EC_SPALIGNMENT            = 0x26,
++    EC_AA32_FPTRAP            = 0x28,
++    EC_AA64_FPTRAP            = 0x2c,
++    EC_SERROR                 = 0x2f,
++    EC_BREAKPOINT             = 0x30,
++    EC_BREAKPOINT_SAME_EL     = 0x31,
++    EC_SOFTWARESTEP           = 0x32,
++    EC_SOFTWARESTEP_SAME_EL   = 0x33,
++    EC_WATCHPOINT             = 0x34,
++    EC_WATCHPOINT_SAME_EL     = 0x35,
++    EC_AA32_BKPT              = 0x38,
++    EC_VECTORCATCH            = 0x3a,
++    EC_AA64_BKPT              = 0x3c,
++};
++
++#define ARM_EL_EC_SHIFT 26
++#define ARM_EL_IL_SHIFT 25
++#define ARM_EL_ISV_SHIFT 24
++#define ARM_EL_IL (1 << ARM_EL_IL_SHIFT)
++#define ARM_EL_ISV (1 << ARM_EL_ISV_SHIFT)
++
++static inline uint32_t syn_get_ec(uint32_t syn)
++{
++    return syn >> ARM_EL_EC_SHIFT;
++}
++
++/*
++ * Utility functions for constructing various kinds of syndrome value.
++ * Note that in general we follow the AArch64 syndrome values; in a
++ * few cases the value in HSR for exceptions taken to AArch32 Hyp
++ * mode differs slightly, and we fix this up when populating HSR in
++ * arm_cpu_do_interrupt_aarch32_hyp().
++ * The exception is FP/SIMD access traps -- these report extra information
++ * when taking an exception to AArch32. For those we include the extra coproc
++ * and TA fields, and mask them out when taking the exception to AArch64.
++ */
++static inline uint32_t syn_uncategorized(void)
++{
++    return (EC_UNCATEGORIZED << ARM_EL_EC_SHIFT) | ARM_EL_IL;
++}
++
++static inline uint32_t syn_aa64_svc(uint32_t imm16)
++{
++    return (EC_AA64_SVC << ARM_EL_EC_SHIFT) | ARM_EL_IL | (imm16 & 0xffff);
++}
++
++static inline uint32_t syn_aa64_hvc(uint32_t imm16)
++{
++    return (EC_AA64_HVC << ARM_EL_EC_SHIFT) | ARM_EL_IL | (imm16 & 0xffff);
++}
++
++static inline uint32_t syn_aa64_smc(uint32_t imm16)
++{
++    return (EC_AA64_SMC << ARM_EL_EC_SHIFT) | ARM_EL_IL | (imm16 & 0xffff);
++}
++
++static inline uint32_t syn_aa32_svc(uint32_t imm16, bool is_16bit)
++{
++    return (EC_AA32_SVC << ARM_EL_EC_SHIFT) | (imm16 & 0xffff)
++        | (is_16bit ? 0 : ARM_EL_IL);
++}
++
++static inline uint32_t syn_aa32_hvc(uint32_t imm16)
++{
++    return (EC_AA32_HVC << ARM_EL_EC_SHIFT) | ARM_EL_IL | (imm16 & 0xffff);
++}
++
++static inline uint32_t syn_aa32_smc(void)
++{
++    return (EC_AA32_SMC << ARM_EL_EC_SHIFT) | ARM_EL_IL;
++}
++
++static inline uint32_t syn_aa64_bkpt(uint32_t imm16)
++{
++    return (EC_AA64_BKPT << ARM_EL_EC_SHIFT) | ARM_EL_IL | (imm16 & 0xffff);
++}
++
++static inline uint32_t syn_aa32_bkpt(uint32_t imm16, bool is_16bit)
++{
++    return (EC_AA32_BKPT << ARM_EL_EC_SHIFT) | (imm16 & 0xffff)
++        | (is_16bit ? 0 : ARM_EL_IL);
++}
++
++static inline uint32_t syn_aa64_sysregtrap(int op0, int op1, int op2,
++                                           int crn, int crm, int rt,
++                                           int isread)
++{
++    return (EC_SYSTEMREGISTERTRAP << ARM_EL_EC_SHIFT) | ARM_EL_IL
++        | (op0 << 20) | (op2 << 17) | (op1 << 14) | (crn << 10) | (rt << 5)
++        | (crm << 1) | isread;
++}
++
++static inline uint32_t syn_cp14_rt_trap(int cv, int cond, int opc1, int opc2,
++                                        int crn, int crm, int rt, int isread,
++                                        bool is_16bit)
++{
++    return (EC_CP14RTTRAP << ARM_EL_EC_SHIFT)
++        | (is_16bit ? 0 : ARM_EL_IL)
++        | (cv << 24) | (cond << 20) | (opc2 << 17) | (opc1 << 14)
++        | (crn << 10) | (rt << 5) | (crm << 1) | isread;
++}
++
++static inline uint32_t syn_cp15_rt_trap(int cv, int cond, int opc1, int opc2,
++                                        int crn, int crm, int rt, int isread,
++                                        bool is_16bit)
++{
++    return (EC_CP15RTTRAP << ARM_EL_EC_SHIFT)
++        | (is_16bit ? 0 : ARM_EL_IL)
++        | (cv << 24) | (cond << 20) | (opc2 << 17) | (opc1 << 14)
++        | (crn << 10) | (rt << 5) | (crm << 1) | isread;
++}
++
++static inline uint32_t syn_cp14_rrt_trap(int cv, int cond, int opc1, int crm,
++                                         int rt, int rt2, int isread,
++                                         bool is_16bit)
++{
++    return (EC_CP14RRTTRAP << ARM_EL_EC_SHIFT)
++        | (is_16bit ? 0 : ARM_EL_IL)
++        | (cv << 24) | (cond << 20) | (opc1 << 16)
++        | (rt2 << 10) | (rt << 5) | (crm << 1) | isread;
++}
++
++static inline uint32_t syn_cp15_rrt_trap(int cv, int cond, int opc1, int crm,
++                                         int rt, int rt2, int isread,
++                                         bool is_16bit)
++{
++    return (EC_CP15RRTTRAP << ARM_EL_EC_SHIFT)
++        | (is_16bit ? 0 : ARM_EL_IL)
++        | (cv << 24) | (cond << 20) | (opc1 << 16)
++        | (rt2 << 10) | (rt << 5) | (crm << 1) | isread;
++}
++
++static inline uint32_t syn_fp_access_trap(int cv, int cond, bool is_16bit)
++{
++    /* AArch32 FP trap or any AArch64 FP/SIMD trap: TA == 0 coproc == 0xa */
++    return (EC_ADVSIMDFPACCESSTRAP << ARM_EL_EC_SHIFT)
++        | (is_16bit ? 0 : ARM_EL_IL)
++        | (cv << 24) | (cond << 20) | 0xa;
++}
++
++static inline uint32_t syn_simd_access_trap(int cv, int cond, bool is_16bit)
++{
++    /* AArch32 SIMD trap: TA == 1 coproc == 0 */
++    return (EC_ADVSIMDFPACCESSTRAP << ARM_EL_EC_SHIFT)
++        | (is_16bit ? 0 : ARM_EL_IL)
++        | (cv << 24) | (cond << 20) | (1 << 5);
++}
++
++static inline uint32_t syn_sve_access_trap(void)
++{
++    return EC_SVEACCESSTRAP << ARM_EL_EC_SHIFT;
++}
++
++static inline uint32_t syn_pactrap(void)
++{
++    return EC_PACTRAP << ARM_EL_EC_SHIFT;
++}
++
++static inline uint32_t syn_btitrap(int btype)
++{
++    return (EC_BTITRAP << ARM_EL_EC_SHIFT) | btype;
++}
++
++static inline uint32_t syn_insn_abort(int same_el, int ea, int s1ptw, int fsc)
++{
++    return (EC_INSNABORT << ARM_EL_EC_SHIFT) | (same_el << ARM_EL_EC_SHIFT)
++        | ARM_EL_IL | (ea << 9) | (s1ptw << 7) | fsc;
++}
++
++static inline uint32_t syn_data_abort_no_iss(int same_el, int fnv,
++                                             int ea, int cm, int s1ptw,
++                                             int wnr, int fsc)
++{
++    return (EC_DATAABORT << ARM_EL_EC_SHIFT) | (same_el << ARM_EL_EC_SHIFT)
++           | ARM_EL_IL
++           | (fnv << 10) | (ea << 9) | (cm << 8) | (s1ptw << 7)
++           | (wnr << 6) | fsc;
++}
++
++static inline uint32_t syn_data_abort_with_iss(int same_el,
++                                               int sas, int sse, int srt,
++                                               int sf, int ar,
++                                               int ea, int cm, int s1ptw,
++                                               int wnr, int fsc,
++                                               bool is_16bit)
++{
++    return (EC_DATAABORT << ARM_EL_EC_SHIFT) | (same_el << ARM_EL_EC_SHIFT)
++           | (is_16bit ? 0 : ARM_EL_IL)
++           | ARM_EL_ISV | (sas << 22) | (sse << 21) | (srt << 16)
++           | (sf << 15) | (ar << 14)
++           | (ea << 9) | (cm << 8) | (s1ptw << 7) | (wnr << 6) | fsc;
++}
++
++static inline uint32_t syn_swstep(int same_el, int isv, int ex)
++{
++    return (EC_SOFTWARESTEP << ARM_EL_EC_SHIFT) | (same_el << ARM_EL_EC_SHIFT)
++        | ARM_EL_IL | (isv << 24) | (ex << 6) | 0x22;
++}
++
++static inline uint32_t syn_watchpoint(int same_el, int cm, int wnr)
++{
++    return (EC_WATCHPOINT << ARM_EL_EC_SHIFT) | (same_el << ARM_EL_EC_SHIFT)
++        | ARM_EL_IL | (cm << 8) | (wnr << 6) | 0x22;
++}
++
++static inline uint32_t syn_breakpoint(int same_el)
++{
++    return (EC_BREAKPOINT << ARM_EL_EC_SHIFT) | (same_el << ARM_EL_EC_SHIFT)
++        | ARM_EL_IL | 0x22;
++}
++
++static inline uint32_t syn_wfx(int cv, int cond, int ti, bool is_16bit)
++{
++    return (EC_WFX_TRAP << ARM_EL_EC_SHIFT) |
++           (is_16bit ? 0 : (1 << ARM_EL_IL_SHIFT)) |
++           (cv << 24) | (cond << 20) | ti;
++}
++
++#endif /* TARGET_ARM_SYNDROME_H */
 -- 
 2.25.1
 
