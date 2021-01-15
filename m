@@ -2,69 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2AC342F88EA
-	for <lists+qemu-devel@lfdr.de>; Fri, 15 Jan 2021 23:53:19 +0100 (CET)
-Received: from localhost ([::1]:35674 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C35A22F88FD
+	for <lists+qemu-devel@lfdr.de>; Fri, 15 Jan 2021 23:58:34 +0100 (CET)
+Received: from localhost ([::1]:46668 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l0Xy0-0000zo-27
-	for lists+qemu-devel@lfdr.de; Fri, 15 Jan 2021 17:53:16 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53560)
+	id 1l0Y37-0005aV-Pf
+	for lists+qemu-devel@lfdr.de; Fri, 15 Jan 2021 17:58:33 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53608)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1l0Xs0-0003XQ-BK
- for qemu-devel@nongnu.org; Fri, 15 Jan 2021 17:47:11 -0500
-Received: from mail-pl1-x62d.google.com ([2607:f8b0:4864:20::62d]:44766)
+ id 1l0Xs3-0003Xd-QB
+ for qemu-devel@nongnu.org; Fri, 15 Jan 2021 17:47:13 -0500
+Received: from mail-pl1-x62a.google.com ([2607:f8b0:4864:20::62a]:44028)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1l0Xrr-0005Cc-0p
- for qemu-devel@nongnu.org; Fri, 15 Jan 2021 17:47:00 -0500
-Received: by mail-pl1-x62d.google.com with SMTP id r4so5433205pls.11
- for <qemu-devel@nongnu.org>; Fri, 15 Jan 2021 14:46:54 -0800 (PST)
+ id 1l0Xrt-0005D0-U0
+ for qemu-devel@nongnu.org; Fri, 15 Jan 2021 17:47:04 -0500
+Received: by mail-pl1-x62a.google.com with SMTP id x12so5437788plr.10
+ for <qemu-devel@nongnu.org>; Fri, 15 Jan 2021 14:46:56 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=Q6Vn8EuRt3zWEIGcR+Vsso1EpzS5NZb4Sjnv0xY+IUE=;
- b=PaMRsJ4AsTRmfgunMw9G8wCbtxV4VxB1Y1z9QfOjPTRXIaAdiK3IdR+RcWr7+RQjVV
- +5NEQMFyR4LvlAwjdEjoQ97GxyFyzv+Igw+PjGZnPtWaKBdm2i2I62Lt3mhEShKDLWKb
- RQVHuBB0r5K009sLlE/7GuVkX8lqY/NWLZKu9WwpBL0WTWSYLqokrupSOpy2itAf/I8r
- xzKYdyff9RMsNShrlrPEytol4MLV4QYtcmIHF9d17/OvZ34GN+wYxIRoVJy4rVvkegJ6
- 1DN2OBlmCZw2Q4pRc2GZ8uYn0/uzok7N19XV7hNiy5EMdYYwoHXDn/jPqInbKKV2oEaA
- Pm5A==
+ bh=uDiO56BD9yBVu0nwAI/hhOcXCMAfaRu426dsljY4dMQ=;
+ b=Ii11emU21XXA52/szniJPxFW7eatwD+xZDT7o7o6j3R9fHAsGDCsRXujER8F9l0bV9
+ qSFsWQUaSvCuosTkzdQHBEYqgy5E3uO+y66zlvQH6bmaVbyhmNMi4HMgmSERSNCNFF0a
+ qr90BL4XHqOmZHQg9TGVCWCWX1r35lnVAxKZvyvb8z7PQ9oMAyss/4ZJ8IaWQ/9FqEgI
+ WAI2nGwYzR+b6d7HYudUVrgXaHzrN2+OBADyBuqKXO8KBKOIgtyg6jYyDjZVtWZ7lqoq
+ GEbdMwzoNSWo8WWZRHAiUmTNb6f9OmXGL162uoeHdIXzB8rWLeyxj6FBArY1DKBRWNMq
+ Hmlg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=Q6Vn8EuRt3zWEIGcR+Vsso1EpzS5NZb4Sjnv0xY+IUE=;
- b=uF5POL/xeVXnZavmKV0O7NRxVo4/Lx/zmIufbnWn4CyMwAY1WoVF+1DxzhxvTvLhIE
- 5ngwIFbQ4GNDfii2OEl8BjE2rtVRlGpz3SB2Zuvk5a+zZ8DGhAblCauXV/IP0o63+YnO
- Ks+rGI75HOllFtUB0ETHV0Hv/Gr7ZimE8m/ZFEcuYPXkPltznYhtxHHDxwA6A9kp5oYO
- 2vfunfckL5ol7XsIBH+QSmgroHX17X9eP/3BaPUHhEEbVKRpic3l6bsDTL0HOSPxBiUf
- wW7X03abWrTiWq+HLhkvSi/JZg5664PNlXVagyCtDQVfitqbUmrfErC3pCGhXBSPZRP1
- Aicw==
-X-Gm-Message-State: AOAM531IuHLhZQ3EnRNVJcvxQ0F3pNsN7d25Hf4oYgAEay9d7/oHHd2P
- utcOpKjbrwQq0EXIqC7f9A8aUIEzIGMLifjr
-X-Google-Smtp-Source: ABdhPJz/yEGErCk7Zt/Jr61dhPZ59UrTF4umCcm5gp1WUGuNvi9T7g+4Ef3q+Jc0PjMiCJzrq2y4Zw==
-X-Received: by 2002:a17:902:8341:b029:dc:27b:be2d with SMTP id
- z1-20020a1709028341b02900dc027bbe2dmr15083974pln.30.1610750813805; 
- Fri, 15 Jan 2021 14:46:53 -0800 (PST)
+ bh=uDiO56BD9yBVu0nwAI/hhOcXCMAfaRu426dsljY4dMQ=;
+ b=FPL4Hz4D02VtKypIq+bFXguNKYAeusPxJhGtzJE55fTXqilB8f2vzrimQujosrOmyw
+ vHiyS8LaYKOwfKkBxNq7kygPHOJLmuZgr50MLkcZk4jdVXV65Kl/cbQ11r1uXBEw78Pq
+ iRkt94NophRajbuslcVnHacLZiCXat+ZnIzw5GZbROdgjRWI1zGpeUTK7E6Gq2H6YcP0
+ wVYIW3u2LkBG3C08Z6lsfHEImSMnlAVbsuZ1HNoAdv+mtZpe0J/kUGPRD+cJVitqTust
+ w4ORj2Qoc71jioW4fd0HCEZySQVT9JLO6NYhPjTh7+5lGAsbOBbHBH49kKYZnGBZ+xyq
+ VbYw==
+X-Gm-Message-State: AOAM53279/xDD9XeraP5eY9EzmR5oo4cmFwEnWO1RL/r5ig6UY0iAY4s
+ 2qMVf4SxJ1S22JvcKRRUy81JGbLgdg4QNBhW
+X-Google-Smtp-Source: ABdhPJxgO9LF9GZs8nh8w+N3IXQ9fG/yQg85ZY7eyDFiP1Kb+fx5SEuhsTdB2Lgh+euIMmdOUWZlCg==
+X-Received: by 2002:a17:90a:5991:: with SMTP id
+ l17mr1845333pji.187.1610750815323; 
+ Fri, 15 Jan 2021 14:46:55 -0800 (PST)
 Received: from localhost.localdomain (rrcs-173-197-107-21.west.biz.rr.com.
  [173.197.107.21])
- by smtp.gmail.com with ESMTPSA id s13sm9521700pfd.99.2021.01.15.14.46.52
+ by smtp.gmail.com with ESMTPSA id s13sm9521700pfd.99.2021.01.15.14.46.54
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 15 Jan 2021 14:46:53 -0800 (PST)
+ Fri, 15 Jan 2021 14:46:54 -0800 (PST)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v3 03/21] exec: Use uintptr_t for guest_base
-Date: Fri, 15 Jan 2021 12:46:27 -1000
-Message-Id: <20210115224645.1196742-4-richard.henderson@linaro.org>
+Subject: [PATCH v3 04/21] exec: Use uintptr_t in cpu_ldst.h
+Date: Fri, 15 Jan 2021 12:46:28 -1000
+Message-Id: <20210115224645.1196742-5-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20210115224645.1196742-1-richard.henderson@linaro.org>
 References: <20210115224645.1196742-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::62d;
- envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x62d.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::62a;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x62a.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -93,50 +93,39 @@ No functional change, since these match on all linux+bsd hosts.
 
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- include/exec/cpu-all.h | 2 +-
- bsd-user/main.c        | 2 +-
- linux-user/main.c      | 2 +-
- 3 files changed, 3 insertions(+), 3 deletions(-)
+ include/exec/cpu_ldst.h | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
-diff --git a/include/exec/cpu-all.h b/include/exec/cpu-all.h
-index c23c77589b..c52180e8e6 100644
---- a/include/exec/cpu-all.h
-+++ b/include/exec/cpu-all.h
-@@ -158,7 +158,7 @@ static inline void tswap64s(uint64_t *s)
- /* On some host systems the guest address space is reserved on the host.
-  * This allows the guest address space to be offset to a convenient location.
-  */
--extern unsigned long guest_base;
-+extern uintptr_t guest_base;
- extern bool have_guest_base;
- extern unsigned long reserved_va;
+diff --git a/include/exec/cpu_ldst.h b/include/exec/cpu_ldst.h
+index ef54cb7e1f..3f9063aade 100644
+--- a/include/exec/cpu_ldst.h
++++ b/include/exec/cpu_ldst.h
+@@ -70,14 +70,14 @@ typedef uint64_t abi_ptr;
+ #endif
  
-diff --git a/bsd-user/main.c b/bsd-user/main.c
-index 65163e1396..5c8e6a4acd 100644
---- a/bsd-user/main.c
-+++ b/bsd-user/main.c
-@@ -41,7 +41,7 @@
+ /* All direct uses of g2h and h2g need to go away for usermode softmmu.  */
+-#define g2h(x) ((void *)((unsigned long)(abi_ptr)(x) + guest_base))
++#define g2h(x) ((void *)((uintptr_t)(abi_ptr)(x) + guest_base))
  
- int singlestep;
- unsigned long mmap_min_addr;
--unsigned long guest_base;
-+uintptr_t guest_base;
- bool have_guest_base;
- unsigned long reserved_va;
+ #if HOST_LONG_BITS <= TARGET_VIRT_ADDR_SPACE_BITS
+ #define guest_addr_valid(x) (1)
+ #else
+ #define guest_addr_valid(x) ((x) <= GUEST_ADDR_MAX)
+ #endif
+-#define h2g_valid(x) guest_addr_valid((unsigned long)(x) - guest_base)
++#define h2g_valid(x) guest_addr_valid((uintptr_t)(x) - guest_base)
  
-diff --git a/linux-user/main.c b/linux-user/main.c
-index bb4e55e8fc..2600245300 100644
---- a/linux-user/main.c
-+++ b/linux-user/main.c
-@@ -58,7 +58,7 @@ static const char *cpu_model;
- static const char *cpu_type;
- static const char *seed_optarg;
- unsigned long mmap_min_addr;
--unsigned long guest_base;
-+uintptr_t guest_base;
- bool have_guest_base;
+ static inline int guest_range_valid(unsigned long start, unsigned long len)
+ {
+@@ -85,7 +85,7 @@ static inline int guest_range_valid(unsigned long start, unsigned long len)
+ }
  
- /*
+ #define h2g_nocheck(x) ({ \
+-    unsigned long __ret = (unsigned long)(x) - guest_base; \
++    uintptr_t __ret = (uintptr_t)(x) - guest_base; \
+     (abi_ptr)__ret; \
+ })
+ 
 -- 
 2.25.1
 
