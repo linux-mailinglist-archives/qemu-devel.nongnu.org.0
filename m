@@ -2,108 +2,82 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BDE6D2F84E5
-	for <lists+qemu-devel@lfdr.de>; Fri, 15 Jan 2021 19:58:19 +0100 (CET)
-Received: from localhost ([::1]:39016 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 81C3D2F8551
+	for <lists+qemu-devel@lfdr.de>; Fri, 15 Jan 2021 20:23:02 +0100 (CET)
+Received: from localhost ([::1]:42310 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l0UIc-0002EF-RV
-	for lists+qemu-devel@lfdr.de; Fri, 15 Jan 2021 13:58:18 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:32772)
+	id 1l0UgX-0005LU-1O
+	for lists+qemu-devel@lfdr.de; Fri, 15 Jan 2021 14:23:01 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36934)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <linuxram@us.ibm.com>)
- id 1l0UGE-0000o9-Vq; Fri, 15 Jan 2021 13:55:52 -0500
-Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:61206)
+ (Exim 4.90_1) (envelope-from <mihai.carabas@oracle.com>)
+ id 1l0Ueq-0004pZ-Ap
+ for qemu-devel@nongnu.org; Fri, 15 Jan 2021 14:21:16 -0500
+Received: from aserp2120.oracle.com ([141.146.126.78]:43038)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <linuxram@us.ibm.com>)
- id 1l0UGA-00015H-PV; Fri, 15 Jan 2021 13:55:50 -0500
-Received: from pps.filterd (m0187473.ppops.net [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id
- 10FIXKB1048120; Fri, 15 Jan 2021 13:55:29 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
- h=date : from : to : cc :
- message-id : reply-to : references : mime-version : content-type :
- in-reply-to : subject; s=pp1;
- bh=gLkjcSk2zkN5prE8N5G7+0uj44eLd6dzpR8aLgmPUUo=;
- b=dQpL7/SfdCPmc8TXx/kv26twI1HMy9+tqiK9Y0FKz7NAhpaIqjZ1pd9gWc0wrov8f3XZ
- SwHGr9wIqRTH+neRZQMFcZZiWkyXq5oU6PX4aD1HP7WzDP4CAz2lVXCBYKBBrKaVvURK
- Myqu0Ff7nScRgNlI2GwNJw1NxzD5DhytJm2T3v1S86ixqc9cjofrmHVersrtp2UFVEK7
- ZFIRhxyjp/zt88S9OTdjRbbWia0O84xEqZnHVrUfwjACiESRREhCVVT+rYPkBJXzFCGS
- jHjvtU7ur7ZMsfQimpB9hJmxV8QLwMhCNy4pNx+3D0c1pPbp4fjypr/2cLAsxFY8Amwm Pg== 
-Received: from pps.reinject (localhost [127.0.0.1])
- by mx0a-001b2d01.pphosted.com with ESMTP id 363gbmrkqg-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Fri, 15 Jan 2021 13:55:29 -0500
-Received: from m0187473.ppops.net (m0187473.ppops.net [127.0.0.1])
- by pps.reinject (8.16.0.36/8.16.0.36) with SMTP id 10FIXO34048323;
- Fri, 15 Jan 2021 13:55:28 -0500
-Received: from ppma06ams.nl.ibm.com (66.31.33a9.ip4.static.sl-reverse.com
- [169.51.49.102])
- by mx0a-001b2d01.pphosted.com with ESMTP id 363gbmrkpk-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Fri, 15 Jan 2021 13:55:28 -0500
-Received: from pps.filterd (ppma06ams.nl.ibm.com [127.0.0.1])
- by ppma06ams.nl.ibm.com (8.16.0.42/8.16.0.42) with SMTP id 10FImINd030595;
- Fri, 15 Jan 2021 18:55:25 GMT
-Received: from b06avi18878370.portsmouth.uk.ibm.com
- (b06avi18878370.portsmouth.uk.ibm.com [9.149.26.194])
- by ppma06ams.nl.ibm.com with ESMTP id 35ydrdfmk5-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Fri, 15 Jan 2021 18:55:25 +0000
-Received: from d06av23.portsmouth.uk.ibm.com (d06av23.portsmouth.uk.ibm.com
- [9.149.105.59])
- by b06avi18878370.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP
- id 10FItHVo30146936
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Fri, 15 Jan 2021 18:55:17 GMT
-Received: from d06av23.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id A3DCEA4053;
- Fri, 15 Jan 2021 18:55:22 +0000 (GMT)
-Received: from d06av23.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 0A41FA4040;
- Fri, 15 Jan 2021 18:55:18 +0000 (GMT)
-Received: from ram-ibm-com.ibm.com (unknown [9.160.82.178])
- by d06av23.portsmouth.uk.ibm.com (Postfix) with ESMTPS;
- Fri, 15 Jan 2021 18:55:17 +0000 (GMT)
-Date: Fri, 15 Jan 2021 10:55:14 -0800
-From: Ram Pai <linuxram@us.ibm.com>
-To: Cornelia Huck <cohuck@redhat.com>
-Message-ID: <20210115185514.GB24076@ram-ibm-com.ibm.com>
-References: <20210104071550.GA22585@ram-ibm-com.ibm.com>
- <20210104134629.49997b53.pasic@linux.ibm.com>
- <20210104184026.GD4102@ram-ibm-com.ibm.com>
- <20210105115614.7daaadd6.pasic@linux.ibm.com>
- <20210105204125.GE4102@ram-ibm-com.ibm.com>
- <20210111175914.13adfa2e.cohuck@redhat.com>
- <20210111195830.GA23898@ram-ibm-com.ibm.com>
- <20210112091943.095c3b29.cohuck@redhat.com>
- <20210112185511.GB23898@ram-ibm-com.ibm.com>
- <20210113090629.2f41a9d3.cohuck@redhat.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20210113090629.2f41a9d3.cohuck@redhat.com>
-User-Agent: Mutt/1.5.21 (2010-09-15)
-X-TM-AS-GCONF: 00
-Subject: Re:  Re: [for-6.0 v5 11/13] spapr: PEF: prevent migration
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.343, 18.0.737
- definitions=2021-01-15_09:2021-01-15,
- 2021-01-15 signatures=0
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- mlxscore=0 impostorscore=0
- adultscore=0 spamscore=0 suspectscore=0 priorityscore=1501 malwarescore=0
- bulkscore=0 phishscore=0 mlxlogscore=999 clxscore=1015 lowpriorityscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2009150000
- definitions=main-2101150111
-Received-SPF: pass client-ip=148.163.156.1; envelope-from=linuxram@us.ibm.com;
- helo=mx0a-001b2d01.pphosted.com
-X-Spam_score_int: -26
-X-Spam_score: -2.7
-X-Spam_bar: --
-X-Spam_report: (-2.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_DNSWL_LOW=-0.7,
- RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ (Exim 4.90_1) (envelope-from <mihai.carabas@oracle.com>)
+ id 1l0Uem-0001v6-IE
+ for qemu-devel@nongnu.org; Fri, 15 Jan 2021 14:21:15 -0500
+Received: from pps.filterd (aserp2120.oracle.com [127.0.0.1])
+ by aserp2120.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 10FJE0Sg005523;
+ Fri, 15 Jan 2021 19:21:07 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com;
+ h=from : to : cc :
+ subject : date : message-id; s=corp-2020-01-29;
+ bh=qS1dtLxP8/z1INMxne5MoT9kMHjGaYuPS+kv0bO93pk=;
+ b=o9oANPOKjGI5Yu6xWEumLafTEdbc0zbX9lx7SLe42WNsUresP1SwVaaw8GCT0duOBpMn
+ nXm2VkHAyf8ObfBuxrVYBOoZzZrKFfvw+8Lhh96UnYya3kGWhk0W3exrk9wQO6wePUOl
+ HT7xk70zGdh6xxwTDh6U+VCua/uLpH8qKUNrAU4WbHPFo07/HCzNxP5x0bZo8dO1YsJV
+ 2CCywOIBLWbPhXEEKKfmWQN2bK555VdR43uWmAkG52KoZ28zxOcZUd8r8xPYhJFaSh8e
+ bcwq1n6nnISCFeJ1/XbfRPo/rY0BeljLbWXmbTfQNyvdzuM0s5aWVRfptyFtdk0MGVRv Vw== 
+Received: from userp3020.oracle.com (userp3020.oracle.com [156.151.31.79])
+ by aserp2120.oracle.com with ESMTP id 360kd06dq7-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Fri, 15 Jan 2021 19:21:07 +0000
+Received: from pps.filterd (userp3020.oracle.com [127.0.0.1])
+ by userp3020.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 10FJKsUd173101;
+ Fri, 15 Jan 2021 19:21:06 GMT
+Received: from userv0122.oracle.com (userv0122.oracle.com [156.151.31.75])
+ by userp3020.oracle.com with ESMTP id 360kfbf73w-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Fri, 15 Jan 2021 19:21:06 +0000
+Received: from abhmp0006.oracle.com (abhmp0006.oracle.com [141.146.116.12])
+ by userv0122.oracle.com (8.14.4/8.14.4) with ESMTP id 10FJL5Jt005860;
+ Fri, 15 Jan 2021 19:21:05 GMT
+Received: from mihai.localdomain (/10.153.73.25)
+ by default (Oracle Beehive Gateway v4.0)
+ with ESMTP ; Fri, 15 Jan 2021 11:21:04 -0800
+From: Mihai Carabas <mihai.carabas@oracle.com>
+To: qemu-devel@nongnu.org
+Subject: [PATCH v3] Add support for pvpanic pci device
+Date: Fri, 15 Jan 2021 20:34:02 +0200
+Message-Id: <1610735646-13313-1-git-send-email-mihai.carabas@oracle.com>
+X-Mailer: git-send-email 1.8.3.1
+X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9865
+ signatures=668683
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 suspectscore=0
+ malwarescore=0
+ mlxlogscore=999 phishscore=0 bulkscore=0 spamscore=0 mlxscore=0
+ adultscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2009150000 definitions=main-2101150117
+X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9865
+ signatures=668683
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 spamscore=0
+ phishscore=0
+ impostorscore=0 bulkscore=0 adultscore=0 suspectscore=0 malwarescore=0
+ lowpriorityscore=0 clxscore=1015 mlxlogscore=999 mlxscore=0
+ priorityscore=1501 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2009150000 definitions=main-2101150116
+Received-SPF: pass client-ip=141.146.126.78;
+ envelope-from=mihai.carabas@oracle.com; helo=aserp2120.oracle.com
+X-Spam_score_int: -46
+X-Spam_score: -4.7
+X-Spam_bar: ----
+X-Spam_report: (-4.7 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.25,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_MED=-2.3, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_PASS=-0.001,
+ SPF_PASS=-0.001, UNPARSEABLE_RELAY=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -116,130 +90,49 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Ram Pai <linuxram@us.ibm.com>
-Cc: pair@us.ibm.com, brijesh.singh@amd.com, kvm@vger.kernel.org,
- "Michael S. Tsirkin" <mst@redhat.com>, qemu-devel@nongnu.org,
- frankja@linux.ibm.com, david@redhat.com, mdroth@linux.vnet.ibm.com,
- Halil Pasic <pasic@linux.ibm.com>, borntraeger@de.ibm.com,
- David Gibson <david@gibson.dropbear.id.au>, thuth@redhat.com,
- Eduardo Habkost <ehabkost@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>, Greg Kurz <groug@kaod.org>,
- dgilbert@redhat.com, qemu-s390x@nongnu.org, rth@twiddle.net,
- berrange@redhat.com, Marcelo Tosatti <mtosatti@redhat.com>,
- qemu-ppc@nongnu.org, pbonzini@redhat.com
+Cc: Mihai Carabas <mihai.carabas@oracle.com>, peter.maydell@linaro.org,
+ kraxel@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, Jan 13, 2021 at 09:06:29AM +0100, Cornelia Huck wrote:
-> On Tue, 12 Jan 2021 10:55:11 -0800
-> Ram Pai <linuxram@us.ibm.com> wrote:
-> 
-> > On Tue, Jan 12, 2021 at 09:19:43AM +0100, Cornelia Huck wrote:
-> > > On Mon, 11 Jan 2021 11:58:30 -0800
-> > > Ram Pai <linuxram@us.ibm.com> wrote:
-> > >   
-> > > > On Mon, Jan 11, 2021 at 05:59:14PM +0100, Cornelia Huck wrote:  
-> > > > > On Tue, 5 Jan 2021 12:41:25 -0800
-> > > > > Ram Pai <linuxram@us.ibm.com> wrote:
-> > > > >     
-> > > > > > On Tue, Jan 05, 2021 at 11:56:14AM +0100, Halil Pasic wrote:    
-> > > > > > > On Mon, 4 Jan 2021 10:40:26 -0800
-> > > > > > > Ram Pai <linuxram@us.ibm.com> wrote:    
-> > > > >     
-> > > > > > > > The main difference between my proposal and the other proposal is...
-> > > > > > > > 
-> > > > > > > >   In my proposal the guest makes the compatibility decision and acts
-> > > > > > > >   accordingly.  In the other proposal QEMU makes the compatibility
-> > > > > > > >   decision and acts accordingly. I argue that QEMU cannot make a good
-> > > > > > > >   compatibility decision, because it wont know in advance, if the guest
-> > > > > > > >   will or will-not switch-to-secure.
-> > > > > > > >       
-> > > > > > > 
-> > > > > > > You have a point there when you say that QEMU does not know in advance,
-> > > > > > > if the guest will or will-not switch-to-secure. I made that argument
-> > > > > > > regarding VIRTIO_F_ACCESS_PLATFORM (iommu_platform) myself. My idea
-> > > > > > > was to flip that property on demand when the conversion occurs. David
-> > > > > > > explained to me that this is not possible for ppc, and that having the
-> > > > > > > "securable-guest-memory" property (or whatever the name will be)
-> > > > > > > specified is a strong indication, that the VM is intended to be used as
-> > > > > > > a secure VM (thus it is OK to hurt the case where the guest does not
-> > > > > > > try to transition). That argument applies here as well.      
-> > > > > > 
-> > > > > > As suggested by Cornelia Huck, what if QEMU disabled the
-> > > > > > "securable-guest-memory" property if 'must-support-migrate' is enabled?
-> > > > > > Offcourse; this has to be done with a big fat warning stating
-> > > > > > "secure-guest-memory" feature is disabled on the machine.
-> > > > > > Doing so, will continue to support guest that do not try to transition.
-> > > > > > Guest that try to transition will fail and terminate themselves.    
-> > > > > 
-> > > > > Just to recap the s390x situation:
-> > > > > 
-> > > > > - We currently offer a cpu feature that indicates secure execution to
-> > > > >   be available to the guest if the host supports it.
-> > > > > - When we introduce the secure object, we still need to support
-> > > > >   previous configurations and continue to offer the cpu feature, even
-> > > > >   if the secure object is not specified.
-> > > > > - As migration is currently not supported for secured guests, we add a
-> > > > >   blocker once the guest actually transitions. That means that
-> > > > >   transition fails if --only-migratable was specified on the command
-> > > > >   line. (Guests not transitioning will obviously not notice anything.)
-> > > > > - With the secure object, we will already fail starting QEMU if
-> > > > >   --only-migratable was specified.
-> > > > > 
-> > > > > My suggestion is now that we don't even offer the cpu feature if
-> > > > > --only-migratable has been specified. For a guest that does not want to
-> > > > > transition to secure mode, nothing changes; a guest that wants to
-> > > > > transition to secure mode will notice that the feature is not available
-> > > > > and fail appropriately (or ultimately, when the ultravisor call fails).    
-> > > > 
-> > > > 
-> > > > On POWER, secure-execution is not **automatically** enabled even when
-> > > > the host supports it.  The feature is enabled only if the secure-object
-> > > > is configured, and the host supports it.  
-> > > 
-> > > Yes, the cpu feature on s390x is simply pre-existing.
-> > >   
-> > > > 
-> > > > However the behavior proposed above will be consistent on POWER and
-> > > > on s390x,  when '--only-migratable' is specified and 'secure-object'
-> > > > is NOT specified.
-> > > > 
-> > > > So I am in agreement till now. 
-> > > > 
-> > > >   
-> > > > > We'd still fail starting QEMU for the secure object + --only-migratable
-> > > > > combination.    
-> > > > 
-> > > > Why fail? 
-> > > > 
-> > > > Instead, print a warning and  disable the secure-object; which will
-> > > > disable your cpu-feature. Guests that do not transition to secure, will
-> > > > continue to operate, and guests that transition to secure, will fail.  
-> > > 
-> > > But that would be consistent with how other non-migratable objects are
-> > > handled, no? It's simply a case of incompatible options on the command
-> > > line.  
-> > 
-> > Actually the two options are inherently NOT incompatible.  Halil also
-> > mentioned this in one of his replies.
-> > 
-> > Its just that the current implementation is lacking, which will be fixed
-> > in the near future. 
-> > 
-> > We can design it upfront, with the assumption that they both are compatible.
-> > In the short term  disable one; preferrably the secure-object, if both 
-> > options are specified. In the long term, remove the restriction, when
-> > the implemetation is complete.
-> 
-> Can't we simply mark the object as non-migratable now, and then remove
-> that later? I don't see what is so special about it.
+This patchset adds support for pvpanic pci device.
 
-This is fine too. 
+v3 applied feedback:
 
-However I am told that libvirt has some assumptions, where it assumes
-that the VM is guaranteed to be migratable if '--only-migratable' is
-specified. Silently turning off that option can be bad.
+- patch 1: made pvpanic isa device available only for PC, compile pvpanic-test
+  only when isa device is present
+
+- patch 2: fixed device id to 0x0011, used OBJECT_DECLARE_TYPE,
+  PVPANIC_PCI_DEVICE, added VMSTATE_PCI_DEVICE, removed INTERFACE_PCIE_DEVICE
+
+- patch 3: fixed documentation
+
+- patch 4: add a qtest for pvpanic-pci
+
+Mihai Carabas (4):
+  hw/misc/pvpanic: split-out generic and bus dependent code
+  hw/misc/pvpanic: add PCI interface support
+  pvpanic : update pvpanic spec document
+  tests/qtest: add a test case for pvpanic-pci
+
+ docs/specs/pci-ids.txt         |  1 +
+ docs/specs/pvpanic.txt         | 13 +++++-
+ hw/i386/Kconfig                |  2 +-
+ hw/misc/Kconfig                | 12 +++++-
+ hw/misc/meson.build            |  4 +-
+ hw/misc/pvpanic-isa.c          | 94 ++++++++++++++++++++++++++++++++++++++++++
+ hw/misc/pvpanic-pci.c          | 94 ++++++++++++++++++++++++++++++++++++++++++
+ hw/misc/pvpanic.c              | 85 +++-----------------------------------
+ include/hw/misc/pvpanic.h      | 24 ++++++++++-
+ include/hw/pci/pci.h           |  1 +
+ tests/qtest/meson.build        |  3 +-
+ tests/qtest/pvpanic-pci-test.c | 62 ++++++++++++++++++++++++++++
+ 12 files changed, 309 insertions(+), 86 deletions(-)
+ create mode 100644 hw/misc/pvpanic-isa.c
+ create mode 100644 hw/misc/pvpanic-pci.c
+ create mode 100644 tests/qtest/pvpanic-pci-test.c
 
 -- 
-Ram Pai
+1.8.3.1
+
 
