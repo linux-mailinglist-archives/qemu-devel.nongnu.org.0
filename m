@@ -2,67 +2,54 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2B0EC2F7FE7
-	for <lists+qemu-devel@lfdr.de>; Fri, 15 Jan 2021 16:45:16 +0100 (CET)
-Received: from localhost ([::1]:35798 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1B69D2F7FF9
+	for <lists+qemu-devel@lfdr.de>; Fri, 15 Jan 2021 16:48:51 +0100 (CET)
+Received: from localhost ([::1]:44038 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l0RHn-0006aX-6u
-	for lists+qemu-devel@lfdr.de; Fri, 15 Jan 2021 10:45:15 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44230)
+	id 1l0RLG-0001jP-6s
+	for lists+qemu-devel@lfdr.de; Fri, 15 Jan 2021 10:48:50 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44286)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1l0RBg-0008Ed-RB
- for qemu-devel@nongnu.org; Fri, 15 Jan 2021 10:38:56 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:27335)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1l0RBf-0004Tz-3h
- for qemu-devel@nongnu.org; Fri, 15 Jan 2021 10:38:56 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1610725134;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type;
- bh=T1gEFYs8BJq4VgEOQSlhRu2XCUetWfopliW4eNbcSqM=;
- b=XfEMhvQRr33Q+9/xfpIbOwDXpb/6YUxoVK4sUiQHuexPOY1HyjfEgbkv4Nl6JrC8KWsioI
- xyJUZRPLEgHEe2+kFzcnyOv7wFGAc1CRwd8phsDUPOguRtuV9lHqG8ZKBb9hy1Zh8Dlusf
- 84g4SsndIV9NRZYd40VubUfnNgpsSwY=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-164-6sIR6yXwOUqggplAkGZMgg-1; Fri, 15 Jan 2021 10:38:52 -0500
-X-MC-Unique: 6sIR6yXwOUqggplAkGZMgg-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A2C2C80A5C0;
- Fri, 15 Jan 2021 15:38:50 +0000 (UTC)
-Received: from blackfin.pond.sub.org (ovpn-115-142.ams2.redhat.com
- [10.36.115.142])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 0718E6F7E5;
- Fri, 15 Jan 2021 15:38:44 +0000 (UTC)
-Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id 7339011386A7; Fri, 15 Jan 2021 16:38:42 +0100 (CET)
-From: Markus Armbruster <armbru@redhat.com>
-To: qemu-devel@nongnu.org
-Subject: Realize methods realizing "sideways" in the composition tree
-Date: Fri, 15 Jan 2021 16:38:42 +0100
-Message-ID: <87im7yi519.fsf@dusky.pond.sub.org>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.1 (gnu/linux)
+ (Exim 4.90_1) (envelope-from <pl@kamp.de>) id 1l0RCA-0000Vr-BT
+ for qemu-devel@nongnu.org; Fri, 15 Jan 2021 10:39:27 -0500
+Received: from kerio.kamp.de ([195.62.97.192]:54961)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <pl@kamp.de>) id 1l0RC7-0004ea-65
+ for qemu-devel@nongnu.org; Fri, 15 Jan 2021 10:39:26 -0500
+X-Footer: a2FtcC5kZQ==
+Received: from submission.kamp.de ([195.62.97.28]) by kerio.kamp.de with ESMTPS
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256 bits))
+ for qemu-devel@nongnu.org; Fri, 15 Jan 2021 16:39:14 +0100
+Received: (qmail 43374 invoked from network); 15 Jan 2021 15:39:18 -0000
+Received: from ac13.vpn.kamp-intra.net (HELO ?172.20.250.13?)
+ (pl@kamp.de@::ffff:172.20.250.13)
+ by submission.kamp.de with ESMTPS (DHE-RSA-AES128-SHA encrypted) ESMTPA;
+ 15 Jan 2021 15:39:18 -0000
+Subject: Re: [PATCH 7/7] block/rbd: change request alignment to 1 byte
+To: dillaman@redhat.com
+References: <20201227164236.10143-1-pl@kamp.de>
+ <20201227164236.10143-8-pl@kamp.de>
+ <CA+aFP1AJ1cMdMGr-Odq+qzgZo9FF89mVy1KzNcoKifjQFwDvJA@mail.gmail.com>
+ <f7358dc9-6135-dfa7-fd50-f863d0c8890a@kamp.de>
+ <CA+aFP1Aayup5p482M8tsK3Zy62FLsfgUuQYnw_bSte-RuBrQXg@mail.gmail.com>
+From: Peter Lieven <pl@kamp.de>
+Message-ID: <75992ffb-3b6e-c31a-a9a0-956daa7752e6@kamp.de>
+Date: Fri, 15 Jan 2021 16:39:18 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=armbru@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=armbru@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -29
-X-Spam_score: -3.0
-X-Spam_bar: ---
-X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.25,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <CA+aFP1Aayup5p482M8tsK3Zy62FLsfgUuQYnw_bSte-RuBrQXg@mail.gmail.com>
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 8bit
+Content-Language: en-US
+Received-SPF: pass client-ip=195.62.97.192; envelope-from=pl@kamp.de;
+ helo=kerio.kamp.de
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -75,66 +62,61 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Sai Pavan Boddu <sai.pavan.boddu@xilinx.com>,
- Paolo Bonzini <pbonzini@redhat.com>, Gerd Hoffmann <kraxel@redhat.com>
+Cc: Kevin Wolf <kwolf@redhat.com>, Christian Theune <ct@flyingcircus.io>,
+ qemu-devel <qemu-devel@nongnu.org>, qemu-block <qemu-block@nongnu.org>,
+ Max Reitz <mreitz@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Perhaps I'm slow on the uptake today...
+Am 15.01.21 um 16:27 schrieb Jason Dillaman:
+> On Thu, Jan 14, 2021 at 2:59 PM Peter Lieven <pl@kamp.de> wrote:
+>> Am 14.01.21 um 20:19 schrieb Jason Dillaman:
+>>> On Sun, Dec 27, 2020 at 11:42 AM Peter Lieven <pl@kamp.de> wrote:
+>>>> since we implement byte interfaces and librbd supports aio on byte granularity we can lift
+>>>> the 512 byte alignment.
+>>>>
+>>>> Signed-off-by: Peter Lieven <pl@kamp.de>
+>>>> ---
+>>>>  block/rbd.c | 2 --
+>>>>  1 file changed, 2 deletions(-)
+>>>>
+>>>> diff --git a/block/rbd.c b/block/rbd.c
+>>>> index 27b4404adf..8673e8f553 100644
+>>>> --- a/block/rbd.c
+>>>> +++ b/block/rbd.c
+>>>> @@ -223,8 +223,6 @@ done:
+>>>>  static void qemu_rbd_refresh_limits(BlockDriverState *bs, Error **errp)
+>>>>  {
+>>>>      BDRVRBDState *s = bs->opaque;
+>>>> -    /* XXX Does RBD support AIO on less than 512-byte alignment? */
+>>>> -    bs->bl.request_alignment = 512;
+>>> Just a suggestion, but perhaps improve discard alignment, max discard,
+>>> optimal alignment (if that's something QEMU handles internally) if not
+>>> overridden by the user.
+>>
+>> Qemu supports max_discard and discard_alignment. Is there a call to get these limits
+>>
+>> from librbd?
+>>
+>>
+>> What do you mean by optimal_alignment? The object size?
+> krbd does a good job of initializing defaults [1] where optimal and
+> discard alignment is 64KiB (can actually be 4KiB now), max IO size for
+> writes, discards, and write-zeroes is the object size * the stripe
+> count.
 
-We have
 
-    typedef struct XHCIPciState {
-        /*< private >*/
-        PCIDevice parent_obj;
-        /*< public >*/
-(1)     XHCIState xhci;
-        OnOffAuto msi;
-        OnOffAuto msix;
-    } XHCIPciState;
+Okay, I will have a look at it. If qemu issues a write, discard, write_zero greater than
 
-This is a PCI device that contains a (bus-less) TYPE_XHCI device, at
-(1).
+obj_size  * stripe count will librbd split it internally or will the request fail?
 
-    static void xhci_instance_init(Object *obj)
-    {
-        XHCIPciState *s = XHCI_PCI(obj);
-        /*
-         * QEMU_PCI_CAP_EXPRESS initialization does not depend on QEMU command
-         * line, therefore, no need to wait to realize like other devices
-         */
-        PCI_DEVICE(obj)->cap_present |= QEMU_PCI_CAP_EXPRESS;
-(2)     object_initialize_child(obj, "xhci-core", &s->xhci, TYPE_XHCI);
-        qdev_alias_all_properties(DEVICE(&s->xhci), obj);
-    }
 
-The .instance_init() method initializes the child as it should, at (2).
+Regarding the alignment it seems that rbd_dev->opts->alloc_size is something that comes from the device
 
-    static void usb_xhci_pci_realize(struct PCIDevice *dev, Error **errp)
-    {
-        int ret;
-        Error *err = NULL;
-        XHCIPciState *s = XHCI_PCI(dev);
+configuration and not from rbd? I don't have that information inside the Qemu RBD driver.
 
-        [a few dev->config[] modifications...]
 
-(1)     object_property_set_link(OBJECT(&s->xhci), "host", OBJECT(s), NULL);
-        s->xhci.intr_update = xhci_pci_intr_update;
-        s->xhci.intr_raise = xhci_pci_intr_raise;
-(2)     object_property_set_bool(OBJECT(&s->xhci), "realized", true, &err);
-        if (err) {
-            error_propagate(errp, err);
-            return;
-        }
+Peter
 
-The .realize() method realizes the child at (1).  It should use
-qdev_realize() like we do everywhere else, since commit ce189ab230
-"qdev: Convert bus-less devices to qdev_realize() with Coccinelle".
-
-It sets a link property from the child back to the parent at (2).  Why
-do we need a link?  Each QOM Object contains a pointer to its parent,
-doesn't it?
-
-Same for xhci_sysbus_realize().
 
 
