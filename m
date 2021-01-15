@@ -2,60 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E721F2F757D
-	for <lists+qemu-devel@lfdr.de>; Fri, 15 Jan 2021 10:33:21 +0100 (CET)
-Received: from localhost ([::1]:54904 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C13122F7596
+	for <lists+qemu-devel@lfdr.de>; Fri, 15 Jan 2021 10:38:28 +0100 (CET)
+Received: from localhost ([::1]:58638 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l0LTs-0001LF-UQ
-	for lists+qemu-devel@lfdr.de; Fri, 15 Jan 2021 04:33:20 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46618)
+	id 1l0LYp-0003CQ-Rv
+	for lists+qemu-devel@lfdr.de; Fri, 15 Jan 2021 04:38:27 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47694)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1l0LSG-0000SN-3c
- for qemu-devel@nongnu.org; Fri, 15 Jan 2021 04:31:40 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:28994)
+ (Exim 4.90_1) (envelope-from <mprivozn@redhat.com>)
+ id 1l0LXk-0002Jv-2o
+ for qemu-devel@nongnu.org; Fri, 15 Jan 2021 04:37:20 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:20823)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1l0LSB-0008RC-K1
- for qemu-devel@nongnu.org; Fri, 15 Jan 2021 04:31:39 -0500
+ (Exim 4.90_1) (envelope-from <mprivozn@redhat.com>)
+ id 1l0LXi-0002fg-Ck
+ for qemu-devel@nongnu.org; Fri, 15 Jan 2021 04:37:19 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1610703436;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=BBFmHW/hskTQGqFHdrpkVNS/QUPIu1bLyKfDfQNSiSs=;
+ b=bF8yfRwwZv8dnZTAoWLfV0qMx1g2RsNREIb4bJWoHs5/ttQUHov4ydzwOMSPBZcS13HHaI
+ VqWezX1JhccB7YvknHREgnC6Q4d2TUIx5rMA1QBGm7GDZNa49jhxQsXOcibOewYA0zUebT
+ bzY5CJ+U4oDNXIVbi50J5dW9cYVpI5w=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-543--1QW-hSuPsai-jvzUBKPHg-1; Fri, 15 Jan 2021 04:31:32 -0500
-X-MC-Unique: -1QW-hSuPsai-jvzUBKPHg-1
+ us-mta-518-J3vP7BfiNDu4vGuaE0Z64Q-1; Fri, 15 Jan 2021 04:36:09 -0500
+X-MC-Unique: J3vP7BfiNDu4vGuaE0Z64Q-1
 Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
  [10.5.11.16])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id F0A88107ACF8;
- Fri, 15 Jan 2021 09:31:30 +0000 (UTC)
-Received: from sirius.home.kraxel.org (ovpn-112-182.ams2.redhat.com
- [10.36.112.182])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id B46335C1A3;
- Fri, 15 Jan 2021 09:31:30 +0000 (UTC)
-Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
- id 1C8931800606; Fri, 15 Jan 2021 10:31:29 +0100 (CET)
-Date: Fri, 15 Jan 2021 10:31:29 +0100
-From: Gerd Hoffmann <gerd@kraxel.org>
-To: "Pagan, Angel" <Angel.Pagan@stratus.com>
-Subject: Re: USB Gen2 passthrough not working
-Message-ID: <20210115093129.5bqkyme4uz2zzczx@sirius.home.kraxel.org>
-References: <BL0PR08MB4676559855A6894E3B987514E5A80@BL0PR08MB4676.namprd08.prod.outlook.com>
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 76B1F1922028
+ for <qemu-devel@nongnu.org>; Fri, 15 Jan 2021 09:36:08 +0000 (UTC)
+Received: from [10.40.194.52] (unknown [10.40.194.52])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 7A44C5C1A3;
+ Fri, 15 Jan 2021 09:36:07 +0000 (UTC)
+Subject: Re: [PATCH v2] machine: add missing doc for memory-backend option
+To: Igor Mammedov <imammedo@redhat.com>, qemu-devel@nongnu.org
+References: <20210114234612.795621-1-imammedo@redhat.com>
+From: Michal Privoznik <mprivozn@redhat.com>
+Message-ID: <d3bb0b7d-6c1f-90d9-1bd9-a89eef994462@redhat.com>
+Date: Fri, 15 Jan 2021 10:36:05 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.6.0
 MIME-Version: 1.0
-In-Reply-To: <BL0PR08MB4676559855A6894E3B987514E5A80@BL0PR08MB4676.namprd08.prod.outlook.com>
+In-Reply-To: <20210114234612.795621-1-imammedo@redhat.com>
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kraxel@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mprivozn@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=kraxel@redhat.com;
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=mprivozn@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -23
-X-Spam_score: -2.4
-X-Spam_bar: --
-X-Spam_report: (-2.4 / 5.0 requ) BAYES_00=-1.9,
- HEADER_FROM_DIFFERENT_DOMAINS=0.248, RCVD_IN_DNSWL_LOW=-0.7,
- RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+X-Spam_score_int: -32
+X-Spam_score: -3.3
+X-Spam_bar: ---
+X-Spam_report: (-3.3 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.248,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.237, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -69,38 +82,66 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>
+Cc: pbonzini@redhat.com, pkrempa@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-  Hi,
+On 1/15/21 12:46 AM, Igor Mammedov wrote:
+> Add documentation for '-machine memory-backend' CLI option and
+> how to use it.
+> 
+> And document that x-use-canonical-path-for-ramblock-id,
+> is considered to be stable to make sure it won't go away by accident.
+> 
+> Signed-off-by: Igor Mammedov <imammedo@redhat.com>
+> ---
+> v2:
+>   - add doc that x-use-canonical-path-for-ramblock-id is considered stable,
+>     (Peter Krempa <pkrempa@redhat.com>)
+> ---
+>   backends/hostmem.c | 10 ++++++++++
+>   qemu-options.hx    | 28 +++++++++++++++++++++++++++-
+>   2 files changed, 37 insertions(+), 1 deletion(-)
+> 
 
->  usb 2-3: new SuperSpeedPlus Gen 2 USB device number 3 using xhci_hcd
 
-> localhost login: [   72.763264] usb 1-4: new low-speed USB device number 3 using xhci_hcd
+> @@ -96,6 +97,31 @@ SRST
+>       ``hmat=on|off``
+>           Enables or disables ACPI Heterogeneous Memory Attribute Table
+>           (HMAT) support. The default is off.
+> +
+> +     ``memory-backend='id'``
+> +        An alternative to legacy ``-mem-path`` and ``mem-prealloc`` options.
+> +        Allows to use a memory backend as main RAM.
+> +
+> +        For example:
+> +        ::
+> +        -object memory-backend-file,id=pc.ram,size=512M,mem-path=/hugetlbfs,prealloc=on,share=on
+> +        -machine memory-backend=pc.ram
+> +        -m 512M
+> +
+> +        Migration compatibility note:
+> +        a) as backend id one shall use value of 'default-ram-id', advertised by
+> +        machine type (available via ``query-machines`` QMP command)
+> +        b) for machine types 4.0 and older, user shall
+> +        use ``x-use-canonical-path-for-ramblock-id=on`` backend option
+> +        (this option must be considered stable, as if it didn't have the 'x-'
+> +        prefix including deprecation period, as long as 4.0 and older machine
+> +        types exists),
+> +        if migration to/from old QEMU (<5.0) is expected.
+> +        For example:
+> +        ::
+> +        -object memory-backend-ram,id=pc.ram,size=512M,x-use-canonical-path-for-ramblock-id=on
+> +        -machine memory-backend=pc.ram
+> +        -m 512M
 
-ilibusb reports LIBUSB_SPEED_SUPER_PLUS and qemu
-doesn't handle it ...
+Igor, this doesn't correspond with your comment in bugzilla:
 
-Lets treat it like superspeed for now, does that help?
+https://bugzilla.redhat.com/show_bug.cgi?id=1836043#c31
 
---- a/hw/usb/host-libusb.c
-+++ b/hw/usb/host-libusb.c
-@@ -186,6 +186,7 @@ static const char *speed_name[] = {
-     [LIBUSB_SPEED_FULL]    = "12",
-     [LIBUSB_SPEED_HIGH]    = "480",
-     [LIBUSB_SPEED_SUPER]   = "5000",
-+    [LIBUSB_SPEED_SUPER_PLUS] = "5000+",
- };
- 
- static const unsigned int speed_map[] = {
-@@ -193,6 +194,7 @@ static const unsigned int speed_map[] = {
-     [LIBUSB_SPEED_FULL]    = USB_SPEED_FULL,
-     [LIBUSB_SPEED_HIGH]    = USB_SPEED_HIGH,
-     [LIBUSB_SPEED_SUPER]   = USB_SPEED_SUPER,
-+    [LIBUSB_SPEED_SUPER_PLUS] = USB_SPEED_SUPER,
- };
- 
- static const unsigned int status_map[] = {
+In fact, we had to turn the attribute OFF so that canonical path is not 
+used. Isn't ON the default state anyway?
+
+Michal
 
 
