@@ -2,62 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0087E2F7DD3
-	for <lists+qemu-devel@lfdr.de>; Fri, 15 Jan 2021 15:13:29 +0100 (CET)
-Received: from localhost ([::1]:40454 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A4C842F7D7E
+	for <lists+qemu-devel@lfdr.de>; Fri, 15 Jan 2021 15:02:10 +0100 (CET)
+Received: from localhost ([::1]:35824 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l0Pqy-0006ub-2H
-	for lists+qemu-devel@lfdr.de; Fri, 15 Jan 2021 09:13:28 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40596)
+	id 1l0Pg1-0001EV-Jl
+	for lists+qemu-devel@lfdr.de; Fri, 15 Jan 2021 09:02:09 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40502)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1l0P3h-0007Ec-MO
- for qemu-devel@nongnu.org; Fri, 15 Jan 2021 08:22:33 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:23399)
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1l0P3V-0007Ag-Td
+ for qemu-devel@nongnu.org; Fri, 15 Jan 2021 08:22:21 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:39519)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1l0P3B-0003Kj-Pl
- for qemu-devel@nongnu.org; Fri, 15 Jan 2021 08:22:32 -0500
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1l0P3B-0003Kc-NI
+ for qemu-devel@nongnu.org; Fri, 15 Jan 2021 08:22:21 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1610716921;
+ s=mimecast20190719; t=1610716920;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=EpOOK1CspKZO58htbzpQyU23REswRuLr7U08A9xXOzU=;
- b=b4ZiwQfYsEyQBl6ji4HJBpaCInlkq5Ilj6cVIGIVwutld1dYM26VDcyjGJYTeeWmPX+9Lj
- Gf6kMVpbAG4a4xOca/pSk0BqSDL127a9izr7YnJ4tMQyfjJCEzzEIDBxJJ/xgLE9wV0SXM
- t19U93obX5y4LPs6KL1P8aX46phw8w4=
+ bh=YZLIFVueT1RPqG4+onnpnYr9Ai41uR4lMWlYwgPMOHM=;
+ b=Fq1wDBorynhsTVLhhHmz8ScNvyAoR+WLbxbcscwMNAwjNfsUtmr6ZUghtrj7YEVgvjoj8j
+ qeHQ8JKuwBwMj2H2M4wjST0c/j72nW7pgwouB8t3QQHfjYk0O3WOy75QnaP8PnjroTA1pi
+ kokJQLmezyY9a+XQ3eFSA/uLhTZHV2I=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-59-UFS7yLOqOluFg_Hku6EczA-1; Fri, 15 Jan 2021 08:21:59 -0500
-X-MC-Unique: UFS7yLOqOluFg_Hku6EczA-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
+ us-mta-527-1ei_b5xROL-8ajO-U72oOQ-1; Fri, 15 Jan 2021 08:21:59 -0500
+X-MC-Unique: 1ei_b5xROL-8ajO-U72oOQ-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id F20F0806660;
- Fri, 15 Jan 2021 13:21:56 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id E7E71180A09B;
+ Fri, 15 Jan 2021 13:21:57 +0000 (UTC)
 Received: from sirius.home.kraxel.org (ovpn-112-182.ams2.redhat.com
  [10.36.112.182])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id B277163746;
- Fri, 15 Jan 2021 13:21:56 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 752E86F991;
+ Fri, 15 Jan 2021 13:21:57 +0000 (UTC)
 Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
- id 51CBD1800D54; Fri, 15 Jan 2021 14:21:47 +0100 (CET)
+ id 66F731800D57; Fri, 15 Jan 2021 14:21:47 +0100 (CET)
 From: Gerd Hoffmann <kraxel@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 25/30] audio: Add spaces around operator/delete redundant spaces
-Date: Fri, 15 Jan 2021 14:21:41 +0100
-Message-Id: <20210115132146.1443592-26-kraxel@redhat.com>
+Subject: [PULL 27/30] audio: Fix lines over 90 characters
+Date: Fri, 15 Jan 2021 14:21:43 +0100
+Message-Id: <20210115132146.1443592-28-kraxel@redhat.com>
 In-Reply-To: <20210115132146.1443592-1-kraxel@redhat.com>
 References: <20210115132146.1443592-1-kraxel@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kraxel@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="US-ASCII"
 Received-SPF: pass client-ip=216.205.24.124; envelope-from=kraxel@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -29
@@ -79,82 +79,122 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Zhang Han <zhanghan64@huawei.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
- Gerd Hoffmann <kraxel@redhat.com>, Markus Armbruster <armbru@redhat.com>
+Cc: Zhang Han <zhanghan64@huawei.com>, Gerd Hoffmann <kraxel@redhat.com>,
+ Markus Armbruster <armbru@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Zhang Han <zhanghan64@huawei.com>
 
-Fix problems about spaces:
--operator needs spaces around it, add them.
--somespaces are redundant, remove them.
+Fix the line width of code.
 
 Signed-off-by: Zhang Han <zhanghan64@huawei.com>
-Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 Message-id: 20210115012431.79533-1-zhanghan64@huawei.com
-Message-Id: <20210115012431.79533-3-zhanghan64@huawei.com>
+Message-Id: <20210115012431.79533-5-zhanghan64@huawei.com>
 Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
 ---
- audio/audio_template.h | 2 +-
- audio/coreaudio.c      | 2 +-
- audio/dsoundaudio.c    | 2 +-
- audio/jackaudio.c      | 2 +-
- 4 files changed, 4 insertions(+), 4 deletions(-)
+ audio/dsoundaudio.c | 37 +++++++++++++++++++++++++++----------
+ 1 file changed, 27 insertions(+), 10 deletions(-)
 
-diff --git a/audio/audio_template.h b/audio/audio_template.h
-index f77210e40435..f82593bb8db2 100644
---- a/audio/audio_template.h
-+++ b/audio/audio_template.h
-@@ -208,7 +208,7 @@ static void glue (audio_pcm_hw_gc_, TYPE) (HW **hwp)
-         QLIST_REMOVE (hw, entries);
-         glue (hw->pcm_ops->fini_, TYPE) (hw);
-         glue (s->nb_hw_voices_, TYPE) += 1;
--        glue (audio_pcm_hw_free_resources_ ,TYPE) (hw);
-+        glue (audio_pcm_hw_free_resources_ , TYPE) (hw);
-         g_free (hw);
-         *hwp = NULL;
-     }
-diff --git a/audio/coreaudio.c b/audio/coreaudio.c
-index 408b5871261c..6ca0d79c1f5e 100644
---- a/audio/coreaudio.c
-+++ b/audio/coreaudio.c
-@@ -270,7 +270,7 @@ static void coreaudio_logstatus (OSStatus status)
- {
-     const char *str = "BUG";
- 
--    switch(status) {
-+    switch (status) {
-     case kAudioHardwareNoError:
-         str = "kAudioHardwareNoError";
-         break;
 diff --git a/audio/dsoundaudio.c b/audio/dsoundaudio.c
-index e59bd83dc717..21c2891772de 100644
+index 21c2891772de..3b4afb949631 100644
 --- a/audio/dsoundaudio.c
 +++ b/audio/dsoundaudio.c
-@@ -133,7 +133,7 @@ static void dsound_log_hresult (HRESULT hr)
+@@ -89,7 +89,9 @@ static void dsound_log_hresult (HRESULT hr)
+ #endif
+ #ifdef DSERR_ALLOCATED
+     case DSERR_ALLOCATED:
+-        str = "The request failed because resources, such as a priority level, were already in use by another caller";
++        str = "The request failed because resources, "
++              "such as a priority level, were already in use "
++              "by another caller";
+         break;
+ #endif
+ #ifdef DSERR_ALREADYINITIALIZED
+@@ -104,7 +106,8 @@ static void dsound_log_hresult (HRESULT hr)
+ #endif
+ #ifdef DSERR_BADSENDBUFFERGUID
+     case DSERR_BADSENDBUFFERGUID:
+-        str = "The GUID specified in an audiopath file does not match a valid mix-in buffer";
++        str = "The GUID specified in an audiopath file "
++              "does not match a valid mix-in buffer";
+         break;
+ #endif
+ #ifdef DSERR_BUFFERLOST
+@@ -114,22 +117,31 @@ static void dsound_log_hresult (HRESULT hr)
+ #endif
+ #ifdef DSERR_BUFFERTOOSMALL
+     case DSERR_BUFFERTOOSMALL:
+-        str = "The buffer size is not great enough to enable effects processing";
++        str = "The buffer size is not great enough to "
++              "enable effects processing";
+         break;
+ #endif
+ #ifdef DSERR_CONTROLUNAVAIL
+     case DSERR_CONTROLUNAVAIL:
+-        str = "The buffer control (volume, pan, and so on) requested by the caller is not available. Controls must be specified when the buffer is created, using the dwFlags member of DSBUFFERDESC";
++        str = "The buffer control (volume, pan, and so on) "
++              "requested by the caller is not available. "
++              "Controls must be specified when the buffer is created, "
++              "using the dwFlags member of DSBUFFERDESC";
+         break;
+ #endif
+ #ifdef DSERR_DS8_REQUIRED
+     case DSERR_DS8_REQUIRED:
+-        str = "A DirectSound object of class CLSID_DirectSound8 or later is required for the requested functionality. For more information, see IDirectSound8 Interface";
++        str = "A DirectSound object of class CLSID_DirectSound8 or later "
++              "is required for the requested functionality. "
++              "For more information, see IDirectSound8 Interface";
+         break;
+ #endif
+ #ifdef DSERR_FXUNAVAILABLE
+     case DSERR_FXUNAVAILABLE:
+-        str = "The effects requested could not be found on the system, or they are in the wrong order or in the wrong location; for example, an effect expected in hardware was found in software";
++        str = "The effects requested could not be found on the system, "
++              "or they are in the wrong order or in the wrong location; "
++              "for example, an effect expected in hardware "
++              "was found in software";
          break;
  #endif
  #ifdef DSERR_GENERIC
--    case DSERR_GENERIC :
-+    case DSERR_GENERIC:
-         str = "An undetermined error occurred inside the DirectSound subsystem";
+@@ -154,7 +166,8 @@ static void dsound_log_hresult (HRESULT hr)
+ #endif
+ #ifdef DSERR_NODRIVER
+     case DSERR_NODRIVER:
+-        str = "No sound driver is available for use, or the given GUID is not a valid DirectSound device ID";
++        str = "No sound driver is available for use, "
++              "or the given GUID is not a valid DirectSound device ID";
          break;
  #endif
-diff --git a/audio/jackaudio.c b/audio/jackaudio.c
-index f8afb5cc318c..3031c4e29bd4 100644
---- a/audio/jackaudio.c
-+++ b/audio/jackaudio.c
-@@ -277,7 +277,7 @@ static int qjack_process(jack_nframes_t nframes, void *arg)
-         if (likely(c->enabled)) {
-             qjack_buffer_read_l(&c->fifo, buffers, nframes);
-         } else {
--            for(int i = 0; i < c->nchannels; ++i) {
-+            for (int i = 0; i < c->nchannels; ++i) {
-                 memset(buffers[i], 0, nframes * sizeof(float));
-             }
-         }
+ #ifdef DSERR_NOINTERFACE
+@@ -169,12 +182,14 @@ static void dsound_log_hresult (HRESULT hr)
+ #endif
+ #ifdef DSERR_OTHERAPPHASPRIO
+     case DSERR_OTHERAPPHASPRIO:
+-        str = "Another application has a higher priority level, preventing this call from succeeding";
++        str = "Another application has a higher priority level, "
++              "preventing this call from succeeding";
+         break;
+ #endif
+ #ifdef DSERR_OUTOFMEMORY
+     case DSERR_OUTOFMEMORY:
+-        str = "The DirectSound subsystem could not allocate sufficient memory to complete the caller's request";
++        str = "The DirectSound subsystem could not allocate "
++               "sufficient memory to complete the caller's request";
+         break;
+ #endif
+ #ifdef DSERR_PRIOLEVELNEEDED
+@@ -189,7 +204,9 @@ static void dsound_log_hresult (HRESULT hr)
+ #endif
+ #ifdef DSERR_UNINITIALIZED
+     case DSERR_UNINITIALIZED:
+-        str = "The Initialize method has not been called or has not been called successfully before other methods were called";
++        str = "The Initialize method has not been called "
++              "or has not been called successfully "
++              "before other methods were called";
+         break;
+ #endif
+ #ifdef DSERR_UNSUPPORTED
 -- 
 2.29.2
 
