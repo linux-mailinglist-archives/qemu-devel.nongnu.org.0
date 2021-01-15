@@ -2,75 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8395C2F894C
-	for <lists+qemu-devel@lfdr.de>; Sat, 16 Jan 2021 00:21:50 +0100 (CET)
-Received: from localhost ([::1]:37194 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E23042F894A
+	for <lists+qemu-devel@lfdr.de>; Sat, 16 Jan 2021 00:19:11 +0100 (CET)
+Received: from localhost ([::1]:33512 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l0YPd-0000aI-IB
-	for lists+qemu-devel@lfdr.de; Fri, 15 Jan 2021 18:21:49 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57720)
+	id 1l0YN1-0007Dk-Ng
+	for lists+qemu-devel@lfdr.de; Fri, 15 Jan 2021 18:19:09 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57704)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1l0YA7-0003DU-3E
- for qemu-devel@nongnu.org; Fri, 15 Jan 2021 18:05:47 -0500
-Received: from mail-io1-xd29.google.com ([2607:f8b0:4864:20::d29]:38796)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1l0YA1-00038Y-Fs
+ for qemu-devel@nongnu.org; Fri, 15 Jan 2021 18:05:41 -0500
+Received: from mail-pg1-x52a.google.com ([2607:f8b0:4864:20::52a]:46096)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1l0YA5-0002jG-E9
- for qemu-devel@nongnu.org; Fri, 15 Jan 2021 18:05:46 -0500
-Received: by mail-io1-xd29.google.com with SMTP id e22so21307659iom.5
- for <qemu-devel@nongnu.org>; Fri, 15 Jan 2021 15:05:43 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=sc/OZLX6n5pPcUsomLQ1n2IqfgD/WRAqAY2BINg6eQg=;
- b=ZBYiEeed1AGfZXox25JZf93OJ/IKfYPePs0z8Qgx112fNlPDvclFYVs1/7kzb28/71
- hA2fSTfdxlvYh1jKuPunhe+PQFO7S6CCaLf1KCaVMxb2KbClFBiFdrpFUDmLKf8s3op2
- /o62F1wlc/t+1xkiQXXNYlGFi6zqGeKKs2j4f0Lolm2Q0iD5WsEA9eOVhpSyOxRQaPbU
- rzVQzb7XagUAw+NIUe+qenoMlRTBX2qe3HKvoH9Efm18iHHROWKLQdYlfAaQOWH7zQ+Z
- 6XYhole9NyJpOfY+OGSzGMjgh6nE6XjxSU4pWxeDln4WpTef1d6RXOeA9EAN7HoNxPPr
- awTw==
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1l0Y9z-0002i0-45
+ for qemu-devel@nongnu.org; Fri, 15 Jan 2021 18:05:41 -0500
+Received: by mail-pg1-x52a.google.com with SMTP id c22so6929129pgg.13
+ for <qemu-devel@nongnu.org>; Fri, 15 Jan 2021 15:05:37 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=ebnzjwVguKxw/csjqUv7Px25j/JIheXeopz65cUiHwE=;
+ b=qeD77m998Bq3PbnJG6m3ie0UaldOxlQw+RpUZ+AnUBE1dH+F9tr8s0+izPpacW/dP8
+ U6ltIZ4CulAw5tl/WaNXsCn2KZjv8eEsD6VmHffzEZ1jsMarcXBqQxyBRUMg4SrtearW
+ rAvLuOI9bBNyjfBS5QXtex1v9RenAPxUgq2R7nM01WCQeJba8o+gsttr5yZ9RaERJlpt
+ 739AoRwfELIhAeSG3lAYP1HPpvaEIltEOI4uQVbk9wJff9sPC56pt2x+UGMVpLbEhy1S
+ S+CmzXZeuNPRFwRE9Dtm9pMt8+6RbmGkhJVifJOkN5B+JYfcsmDXiwkBubtq3UtDzT57
+ 2n9Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=sc/OZLX6n5pPcUsomLQ1n2IqfgD/WRAqAY2BINg6eQg=;
- b=Ct819+oS93cAK1Ji/JKwfzHWtExXVSbsIHNwA9QGkWCelt+GDQE1HrPgsQtHEz3vPx
- mllwfY9LQ1Ib/jLW/cXBlcpezMGcB3/Y+TDNB1NtVM2q2iqmJgQ6an3Ovl9J3/57Pir7
- dG9R8OXYIfnuV2A5LsDUmeY1WvtBTZk6pAhTO8+PsppO39CosRC46zPjhPoYB0pybJLr
- AlzeFqr/pSCZvy+lL8q3S1LJ1joco1wGhrbBEoc3tIJSn70wHb4QPJ7cw7VekQEa3NQa
- TTvFYGukjDqqc8AbBuaAwecyQjWgkS/MifYdGxmrAciNThj6VbGBoAtU83qbmbCtlp2Z
- NonQ==
-X-Gm-Message-State: AOAM533TLFM5R1g2wLxZUR5go4hZFMCvGURMi13Kk1IFxDb6CUz4MOJW
- qFwb7GFg6/O+ihw7+aotMqdh7731BdqU9xFuXYY=
-X-Google-Smtp-Source: ABdhPJyRDZcaXqHK/Fq64gHVKnPK8fCcL7v3f0v4MBisywTnE6FLedIOnxu477SMHcUO5Be69eInsosijAOIQBB7zFk=
-X-Received: by 2002:a05:6e02:194f:: with SMTP id
- x15mr12988882ilu.177.1610751943289; 
- Fri, 15 Jan 2021 15:05:43 -0800 (PST)
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=ebnzjwVguKxw/csjqUv7Px25j/JIheXeopz65cUiHwE=;
+ b=M7UudhnBkNiqHIHlSXSZ8z+rnBYsggUCNQpl/16NRgBHfUq8KiBTxIRhGvWj0mChSJ
+ C3YnCqDZCei+yIX6cP8f38vKEiloMsaGJmtkTIBtIeZoyWwp0dur2Bi2+/DTe7hbi0x8
+ n4ped74c9k4Ik3j0mfDVYT+HFpDUu5DUHgPd28HUEr3eIncXX3fQGMprvW4bKjqUROaf
+ aD3mw2wLOtQ7tcXNiJuuDWWSxachZ1oSBhk59r1EI4HipmPQTW6htehGImETws3amhLO
+ gTpNo3Vw7ONfvJd3fkPzhAkt5/lNw9sf1CDjsszxy0FbOz5QxzJoaoMyZGHSLORZucO8
+ tfgQ==
+X-Gm-Message-State: AOAM531KtR1U8uf99fz+gELmFiuJq7eapE1SnM0DrQDx+0QjpdIZdq0N
+ GnsRoahlFAyeHeWQjy/3EuXCuw==
+X-Google-Smtp-Source: ABdhPJyqMcg48xApzqn/CTz/KHfhz5fSP5DstEz6Hl/SvOxZYqvVzSAVC0MTx7ao7A3J6XHIl3MJbg==
+X-Received: by 2002:aa7:8b51:0:b029:1ae:687f:d39b with SMTP id
+ i17-20020aa78b510000b02901ae687fd39bmr15010298pfd.50.1610751936416; 
+ Fri, 15 Jan 2021 15:05:36 -0800 (PST)
+Received: from [10.25.18.3] (rrcs-173-197-107-21.west.biz.rr.com.
+ [173.197.107.21])
+ by smtp.gmail.com with ESMTPSA id a7sm703686pfb.95.2021.01.15.15.05.35
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 15 Jan 2021 15:05:35 -0800 (PST)
+Subject: Re: [PATCH] cpu_exec_step_atomic: update the cpu running flag
+To: Douglas Crosher <dtc-ubuntu@scieneer.com>, qemu-devel@nongnu.org
+References: <a272c656-f7c5-019d-1cc0-499b8f80f2fc@scieneer.com>
+From: Richard Henderson <richard.henderson@linaro.org>
+Message-ID: <bd0d8648-d270-2b59-41fb-94f9cbcb228d@linaro.org>
+Date: Fri, 15 Jan 2021 13:05:32 -1000
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
 MIME-Version: 1.0
-References: <20201104092900.21214-1-green.wan@sifive.com>
- <CAFEAcA_EykbnmTQuz4RT3qGMt-Atf=EAdaHd-QqBvJCPvwemqA@mail.gmail.com>
- <CAEUhbmULDEgfs0zkt6k1DWo+AD4T701xDp5TCyjQHFypmr037g@mail.gmail.com>
- <CAFEAcA9QrTA6bEiK608HfB9vfN66SGBPJw6pEDDk2YH3v4M8SQ@mail.gmail.com>
- <CAEUhbmX4GtWfU1Z+cbSb435MCgBo+OaLbSg0qP_mRgPxSJRLnQ@mail.gmail.com>
- <CAKmqyKP=URfpTZXsax=Xmvn9-cz0GY7C6eih+bdycZhRASH2Fw@mail.gmail.com>
- <CAFEAcA9m=y+V_euSE_gWcyeKBY=meTaroRcMdH9_CWtkUjVKWw@mail.gmail.com>
-In-Reply-To: <CAFEAcA9m=y+V_euSE_gWcyeKBY=meTaroRcMdH9_CWtkUjVKWw@mail.gmail.com>
-From: Alistair Francis <alistair23@gmail.com>
-Date: Fri, 15 Jan 2021 15:05:17 -0800
-Message-ID: <CAKmqyKMmt178QODH3vY1cq9jG8wsy8Awh6PUF1jS2bc1YzTkUA@mail.gmail.com>
-Subject: Re: [PATCH] hw/misc/sifive_u_otp: handling the fails of blk_pread and
- blk_pwrite
-To: Peter Maydell <peter.maydell@linaro.org>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::d29;
- envelope-from=alistair23@gmail.com; helo=mail-io1-xd29.google.com
-X-Spam_score_int: -17
-X-Spam_score: -1.8
-X-Spam_bar: -
-X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001,
+In-Reply-To: <a272c656-f7c5-019d-1cc0-499b8f80f2fc@scieneer.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::52a;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x52a.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -85,44 +88,34 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Bin Meng <bmeng.cn@gmail.com>, QEMU Developers <qemu-devel@nongnu.org>,
- Green Wan <green.wan@sifive.com>
+Cc: pbonzini@redhat.com, rth@twiddle.net
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, Jan 15, 2021 at 2:17 PM Peter Maydell <peter.maydell@linaro.org> wrote:
->
-> On Fri, 15 Jan 2021 at 21:43, Alistair Francis <alistair23@gmail.com> wrote:
-> >
-> > On Fri, Jan 15, 2021 at 6:09 AM Bin Meng <bmeng.cn@gmail.com> wrote:
-> > >
-> > > On Fri, Jan 15, 2021 at 9:55 PM Peter Maydell <peter.maydell@linaro.org> wrote
-> > > > printf is definitely the wrong thing... you need to either report
-> > > > the error back to the guest if the interface the guest is using
-> > > > has a facility for reporting read/write failures, or log or report
-> > > > it to the user using one of our APIs for that.
-> > >
-> > > It seems the hardware does not have a mechanism to report to the
-> > > software when hardware cannot fulfill the task requested by software.
-> > >
-> > > I checked all existence of block_pwrite() callers. It looks like this
-> > > is not handled consistently. Some indeed call printf(), some call
-> > > error_setg_errno(), some call fprintf(stderr), some call qemu_log()
-> > > ...
-> >
-> > Logging a guest error seems like the best bet, I'm not really sure
-> > what else we would do.
->
-> Looking at the other options, I think error_report() of some kind is
-> probably the best bet here.
+On 9/21/20 9:42 PM, Douglas Crosher wrote:
+> 
+> The cpu_exec_step_atomic() function is called with the cpu->running
+> clear and proceeds to run target code without setting this flag. If
+> this target code generates an exception then handle_cpu_signal() will
+> unnecessarily abort.
+> 
+> For example if atomic code generates a memory protection fault.
+> 
+> This patch at least sets and clears this running flag.
+> 
+> The related code paths look rather convoluted and it is not immediately clear
+> that this patch comprehensively addresses the issue, but it might at least
+> direct people to a problem, and it might be an incremental improvement, and it
+> gets some code running here. The patch adds some assertions to help detect
+> other cases.
+> 
+> Signed-off-by: Douglas Crosher <dtc-ubuntu@scieneer.com>
 
-Ok
+Sorry this got overlooked, but better late than never.
+Yes, this looks right, thanks.
 
-@Green Wan do you mind sending a new version?
+Queued to tcg-next.
 
-Alistair
 
->
-> thanks
-> -- PMM
+r~
 
