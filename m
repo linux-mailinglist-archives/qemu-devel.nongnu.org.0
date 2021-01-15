@@ -2,69 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 63AC92F8675
-	for <lists+qemu-devel@lfdr.de>; Fri, 15 Jan 2021 21:17:24 +0100 (CET)
-Received: from localhost ([::1]:60674 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A69722F8696
+	for <lists+qemu-devel@lfdr.de>; Fri, 15 Jan 2021 21:21:55 +0100 (CET)
+Received: from localhost ([::1]:41824 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l0VX9-0002JP-EA
-	for lists+qemu-devel@lfdr.de; Fri, 15 Jan 2021 15:17:23 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47708)
+	id 1l0VbW-0006Jv-O7
+	for lists+qemu-devel@lfdr.de; Fri, 15 Jan 2021 15:21:54 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47728)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1l0VSG-0005uj-2X
- for qemu-devel@nongnu.org; Fri, 15 Jan 2021 15:12:20 -0500
-Received: from mail-wm1-x334.google.com ([2a00:1450:4864:20::334]:36107)
+ id 1l0VSH-0005wu-4r
+ for qemu-devel@nongnu.org; Fri, 15 Jan 2021 15:12:21 -0500
+Received: from mail-wm1-x329.google.com ([2a00:1450:4864:20::329]:51698)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1l0VSE-0008If-B1
- for qemu-devel@nongnu.org; Fri, 15 Jan 2021 15:12:19 -0500
-Received: by mail-wm1-x334.google.com with SMTP id v184so4429093wma.1
- for <qemu-devel@nongnu.org>; Fri, 15 Jan 2021 12:12:17 -0800 (PST)
+ id 1l0VSF-0008Jn-Dh
+ for qemu-devel@nongnu.org; Fri, 15 Jan 2021 15:12:20 -0500
+Received: by mail-wm1-x329.google.com with SMTP id h17so8293101wmq.1
+ for <qemu-devel@nongnu.org>; Fri, 15 Jan 2021 12:12:19 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=5z3pjzGRytH16qZkplw8pjDFH2MUg1wej/HifHKVc/k=;
- b=YsDn/oMyFDnaqA3IJQXcIukFZgZu1cC9UKzzR/IimgpwC7mDv3B6Tn2mh0QcYUpZaU
- aNZX6y2QksPBh7Abzuc1TvuzWYVF2lc3J0ovojG8mj9LOeq+KW5CItAAdQQWoLyKZ2Ls
- Q3xUZlbjiqCqXWV60TiSMJu+xOaDtGJQ3ISmvvqKnTqA/K7O6ZS+mlMYOQ44QhpGliqx
- AE2wHEwHbgkMA+174psm2Nbdfvh1Ki1exMCFLql4pNVbMPppy1SGhZ6qJmpNbg3kai9W
- TxPIezjvMotqhZGEof9JVt5jHf0e0xKe7c/DHaPsvCdQxWoXFsMOpjC7AqnO71isXB11
- +IwQ==
+ bh=s8uTdRNQNLyJc2a5BTXUw8GgoVjbscNIEvNw+cn6bTs=;
+ b=b0UAPeg5328E2sC1f3S8uIpJ/iTd3H4PiyjKHe6KhhOKR+3u+emmjNieuy/IlA/+1g
+ FRv+r0VrJ9HqMG0pknIAtCaz6XOAYe5TbMqpplv/nDred+1D2pEWz4OSyiXddCtH2mpI
+ r8aVrh/bzuBzuYgDjEPcRQn6579poTgtojp441DdO8pXTzdcizT1zVJkYS7QhF2yfqCm
+ 4vO0VT926FR97vhPCHDx3CeECEc1X1UNFYO0P8VEsWqAfPvR6yXK5oa70GUva05t4a9m
+ 6fopcSMmhblN3nxZLa/D19vOFchWNMZJ2V8TjzqE+x/FC1TeI1liewOKkdMCOx5XtawZ
+ 4hKg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=5z3pjzGRytH16qZkplw8pjDFH2MUg1wej/HifHKVc/k=;
- b=RqOBSVIdhWdkTSDvRb5gVZnr3ohKuF95Vm1yWjdXruqLpFlcPYbKlhtStZ4+uB2h56
- 7Ja2kxdUghEbjhQGHrEXXcf7W4Kf55Gev/0bdlhwmuobPLowshZ6vzmKKTnzukkdHedc
- Zcj/ke5Yr/75NpiNistm2HhPXNKj/+MEWBg/Sv0+2/FM2xBQhAP9+8idH5yxghYmRl++
- y2+IfbYqCabHHotxMfJZxNEIgLTdl+bjF4fRbUDVJP6+3cG9cRiWHAKv9oAKKkcRcTGH
- fiZp4DSuHVTLaXl9+5i20DNGFeGOO4AnhjGk5K/AmjLSsUqJ9nS8g8oSGPHOU3+fLDxS
- v6dQ==
-X-Gm-Message-State: AOAM533w/7a7YcOY7Dot4VLTOXVRvp85uiIYVZf3ozKZXTrbmFAJGWtR
- F6nCi+CFjbt7Hu7ql5JAze0k0j5+ywNaSA==
-X-Google-Smtp-Source: ABdhPJywhHhOSk/78/KXTBOVpTFY7TlZHKzMdN3NAbtmHfs3lVgpjKtBBoFfRI0Cl0jaQSIm8QdFrA==
-X-Received: by 2002:a05:600c:21c7:: with SMTP id
- x7mr10108768wmj.75.1610741536803; 
- Fri, 15 Jan 2021 12:12:16 -0800 (PST)
+ bh=s8uTdRNQNLyJc2a5BTXUw8GgoVjbscNIEvNw+cn6bTs=;
+ b=d/XVQBDMqmPaOubZtrFPtQ8UyyWtlDxko6IZU9VDxKtakTVqHkJPLfYvw8XS0eUk1K
+ uEvwvwqYDRlZ0WIvcVXBcMH+kvFue6o7PIxk3gC2nm9FPuTpMK1KdWwoFxGxg9OPIHqH
+ FPrphFo8LVwfHB1NWss14rAGbo35aLVnn6ORxIVDjiVEh5AEOjsK46iscTqG1XV0jXll
+ nE3B1Vq+qxBoxa8C6gW4tapJic8I+KdIMC3QsQuTf1HXTyGZf4jdjMnaXMaXi10Bz1MS
+ Jioh+45dph5sJBb3E4SW8S3g+kV5w0Mug4lqpSTYWhiveKdteMg3zKa6lXORIPaKE5tf
+ Dexw==
+X-Gm-Message-State: AOAM533gCpb/PO764UzErvK4shAfggf3WqpiUcVjfCRvM06G9zVXTQPh
+ N4apaLK9HRUS2/lVsxGmVLcTWfzKkbbYPQ==
+X-Google-Smtp-Source: ABdhPJyO/YTJ8UrLDF5ck61fx4vs+GmmCfdrthxO4O4WtxSP6GlnRxsHNzULcMEEfwwP8XBRv2j4GQ==
+X-Received: by 2002:a1c:2d92:: with SMTP id
+ t140mr10529622wmt.114.1610741537840; 
+ Fri, 15 Jan 2021 12:12:17 -0800 (PST)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
- by smtp.gmail.com with ESMTPSA id b3sm10353807wrn.70.2021.01.15.12.12.15
+ by smtp.gmail.com with ESMTPSA id b3sm10353807wrn.70.2021.01.15.12.12.16
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 15 Jan 2021 12:12:16 -0800 (PST)
+ Fri, 15 Jan 2021 12:12:17 -0800 (PST)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 07/11] hw/m68k/next-cube: Make next_irq GPIO inputs to NEXT_PC
- device
-Date: Fri, 15 Jan 2021 20:12:02 +0000
-Message-Id: <20210115201206.17347-8-peter.maydell@linaro.org>
+Subject: [PATCH 08/11] hw/m68k/next-cube: Move rtc into NeXTPC struct
+Date: Fri, 15 Jan 2021 20:12:03 +0000
+Message-Id: <20210115201206.17347-9-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20210115201206.17347-1-peter.maydell@linaro.org>
 References: <20210115201206.17347-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::334;
- envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x334.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::329;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x329.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -88,89 +87,94 @@ Cc: Thomas Huth <huth@tuxfamily.org>, Laurent Vivier <laurent@vivier.eu>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Make the next_irq function be GPIO inputs to the NEXT_PC
-device, rather than a freestanding set of qemu_irq lines.
+Move the rtc into the NeXTPC struct. Since this is the last
+use of the 'backdoor' NextState pointer we can now remove that.
 
-This fixes a minor Coverity issue where it correctly points
-out the trivial memory leak of the memory allocated in the
-call to qemu_allocate_irqs().
+Probably the RTC should be its own device at some point: in hardware
+there is a separate MCS1850 RTC chip connected to the Peripheral
+Controller via a 1-bit serial interface.  That goes beyond the remit
+of the current refactoring, though.
 
-Fixes: CID 1421962
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 ---
- include/hw/m68k/next-cube.h |  3 ++-
- hw/m68k/next-cube.c         | 21 ++++-----------------
- 2 files changed, 6 insertions(+), 18 deletions(-)
+ hw/m68k/next-cube.c | 22 ++++++++--------------
+ 1 file changed, 8 insertions(+), 14 deletions(-)
 
-diff --git a/include/hw/m68k/next-cube.h b/include/hw/m68k/next-cube.h
-index 5a56c354b8e..d38c52d540d 100644
---- a/include/hw/m68k/next-cube.h
-+++ b/include/hw/m68k/next-cube.h
-@@ -39,7 +39,8 @@ enum next_irqs {
-     NEXT_ENRX_DMA_I,
-     NEXT_SCSI_DMA_I,
-     NEXT_SCC_DMA_I,
--    NEXT_SND_I
-+    NEXT_SND_I,
-+    NEXT_NUM_IRQS
- };
- 
- #endif /* NEXT_CUBE_H */
 diff --git a/hw/m68k/next-cube.c b/hw/m68k/next-cube.c
-index 6b4bcfd4b9b..5a8fc24ed35 100644
+index 5a8fc24ed35..3c83b874c56 100644
 --- a/hw/m68k/next-cube.c
 +++ b/hw/m68k/next-cube.c
-@@ -734,10 +734,6 @@ static const MemoryRegionOps dma_ops = {
-     .endianness = DEVICE_NATIVE_ENDIAN,
+@@ -78,8 +78,6 @@ struct NeXTState {
+     qemu_irq scsi_dma;
+     qemu_irq scsi_reset;
+     qemu_irq *fd_irq;
+-
+-    NextRtc rtc;
  };
  
--/*
-- * TODO: set the shift numbers as values in the enum, so the first switch
-- * will not be needed
-- */
- static void next_irq(void *opaque, int number, int level)
- {
-     NeXTPC *s = NEXT_PC(opaque);
-@@ -838,19 +834,8 @@ static void next_irq(void *opaque, int number, int level)
-     }
- }
+ #define TYPE_NEXT_PC "next-pc"
+@@ -88,9 +86,6 @@ OBJECT_DECLARE_SIMPLE_TYPE(NeXTPC, NEXT_PC)
+ struct NeXTPC {
+     SysBusDevice parent_obj;
  
--static void next_serial_irq(void *opaque, int n, int level)
--{
--    /* DPRINTF("SCC IRQ NUM %i\n",n); */
--    if (n) {
--        next_irq(opaque, NEXT_SCC_DMA_I, level);
--    } else {
--        next_irq(opaque, NEXT_SCC_I, level);
--    }
--}
+-    /* Temporary until all functionality has been moved into this device */
+-    NeXTState *ns;
 -
- static void next_escc_init(DeviceState *pcdev)
- {
--    qemu_irq *ser_irq = qemu_allocate_irqs(next_serial_irq, pcdev, 2);
-     DeviceState *dev;
-     SysBusDevice *s;
+     M68kCPU *cpu;
  
-@@ -866,8 +851,8 @@ static void next_escc_init(DeviceState *pcdev)
+     MemoryRegion mmiomem;
+@@ -102,6 +97,8 @@ struct NeXTPC {
+     uint8_t scsi_csr_2;
+     uint32_t int_mask;
+     uint32_t int_status;
++
++    NextRtc rtc;
+ };
  
-     s = SYS_BUS_DEVICE(dev);
-     sysbus_realize_and_unref(s, &error_fatal);
--    sysbus_connect_irq(s, 0, ser_irq[0]);
--    sysbus_connect_irq(s, 1,  ser_irq[1]);
-+    sysbus_connect_irq(s, 0, qdev_get_gpio_in(pcdev, NEXT_SCC_I));
-+    sysbus_connect_irq(s, 1, qdev_get_gpio_in(pcdev, NEXT_SCC_DMA_I));
-     sysbus_mmio_map(s, 0, 0x2118000);
+ /* Thanks to NeXT forums for this */
+@@ -130,7 +127,7 @@ static void nextscr2_write(NeXTPC *s, uint32_t val, int size)
+     static int phase;
+     static uint8_t old_scr2;
+     uint8_t scr2_2;
+-    NextRtc *rtc = &s->ns->rtc;
++    NextRtc *rtc = &s->rtc;
+ 
+     if (size == 4) {
+         scr2_2 = (val >> 8) & 0xFF;
+@@ -864,6 +861,11 @@ static void next_pc_reset(DeviceState *dev)
+     /*     0x0000XX00 << vital bits */
+     s->scr1 = 0x00011102;
+     s->scr2 = 0x00ff0c80;
++
++    s->rtc.status = 0x90;
++
++    /* Load RTC RAM - TODO: provide possibility to load contents from file */
++    memcpy(s->rtc.ram, rtc_ram2, 32);
  }
  
-@@ -886,6 +871,8 @@ static void next_pc_realize(DeviceState *dev, Error **errp)
-     NeXTPC *s = NEXT_PC(dev);
-     SysBusDevice *sbd = SYS_BUS_DEVICE(dev);
+ static void next_pc_realize(DeviceState *dev, Error **errp)
+@@ -920,7 +922,6 @@ static void next_cube_init(MachineState *machine)
+     MemoryRegion *bmapm2 = g_new(MemoryRegion, 1);
+     MemoryRegion *sysmem = get_system_memory();
+     const char *bios_name = machine->firmware ?: ROM_FILE;
+-    NeXTState *ns = NEXT_MACHINE(machine);
+     DeviceState *dev;
+     DeviceState *pcdev;
  
-+    qdev_init_gpio_in(dev, next_irq, NEXT_NUM_IRQS);
-+
-     memory_region_init_io(&s->mmiomem, OBJECT(s), &mmio_ops, s,
-                           "next.mmio", 0xD0000);
-     memory_region_init_io(&s->scrmem, OBJECT(s), &scr_ops, s,
+@@ -940,13 +941,6 @@ static void next_cube_init(MachineState *machine)
+     pcdev = qdev_new(TYPE_NEXT_PC);
+     object_property_set_link(OBJECT(pcdev), "cpu", OBJECT(cpu), &error_abort);
+     sysbus_realize_and_unref(SYS_BUS_DEVICE(pcdev), &error_fatal);
+-    /* Temporary while we refactor this code */
+-    NEXT_PC(pcdev)->ns = ns;
+-
+-    ns->rtc.status = 0x90;
+-
+-    /* Load RTC RAM - TODO: provide possibility to load contents from file */
+-    memcpy(ns->rtc.ram, rtc_ram2, 32);
+ 
+     /* 64MB RAM starting at 0x04000000  */
+     memory_region_add_subregion(sysmem, 0x04000000, machine->ram);
 -- 
 2.20.1
 
