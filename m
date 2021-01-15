@@ -2,61 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BC5422F8918
-	for <lists+qemu-devel@lfdr.de>; Sat, 16 Jan 2021 00:03:37 +0100 (CET)
-Received: from localhost ([::1]:55238 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7EA0D2F8925
+	for <lists+qemu-devel@lfdr.de>; Sat, 16 Jan 2021 00:08:03 +0100 (CET)
+Received: from localhost ([::1]:35620 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l0Y7z-0000ux-Ht
-	for lists+qemu-devel@lfdr.de; Fri, 15 Jan 2021 18:03:35 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53886)
+	id 1l0YCI-0004ev-Bz
+	for lists+qemu-devel@lfdr.de; Fri, 15 Jan 2021 18:08:02 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53912)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1l0XsG-0003gG-P2
- for qemu-devel@nongnu.org; Fri, 15 Jan 2021 17:47:20 -0500
-Received: from mail-pf1-x430.google.com ([2607:f8b0:4864:20::430]:39729)
+ id 1l0XsH-0003i9-MQ
+ for qemu-devel@nongnu.org; Fri, 15 Jan 2021 17:47:21 -0500
+Received: from mail-pf1-x430.google.com ([2607:f8b0:4864:20::430]:38709)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1l0Xs6-0005GJ-Mx
- for qemu-devel@nongnu.org; Fri, 15 Jan 2021 17:47:20 -0500
-Received: by mail-pf1-x430.google.com with SMTP id m6so6406543pfm.6
- for <qemu-devel@nongnu.org>; Fri, 15 Jan 2021 14:47:08 -0800 (PST)
+ id 1l0Xs6-0005GS-NP
+ for qemu-devel@nongnu.org; Fri, 15 Jan 2021 17:47:21 -0500
+Received: by mail-pf1-x430.google.com with SMTP id y205so584029pfc.5
+ for <qemu-devel@nongnu.org>; Fri, 15 Jan 2021 14:47:10 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=kevGJM1Q+4BI+TG/qeyrIdbD80I/diyx5FwIEqL89Lg=;
- b=yjl20JCzeSyY0d+TkDuN3wwMZiKpjLRYjZZFtN5FAQY0IP+krpQQkm7x9J+ZgBtnBK
- RxpY5TF6YB2r1Se761rLFzK0PUICPe21i+qUv9AywzvwvirYPO8ExUFEPfxAw2a2w4HX
- mO/gjZUUlb8YtnY/Q38ocaXymemjMP+7AjZqixWpccHwCTIowIWQtuWy1uje5RiDUknM
- hbariWoPORK3SyQIa7arfgicB8ao+WktrsL+r8bd8auzMwOoZVNKX9ojUP1zHkXoiRFM
- /cxDqFlj4W/eO72nLzxjNFhd02m1tPbI6X+C8nJnxnlQguPPZ6C+Q8xNuSw7iiwrP/VI
- LlSQ==
+ bh=tHmvo/lrgkE+wi7yTJ56b6ape2S0MwV/XIHtk24Q15o=;
+ b=PVQmPkDZuObSBMkVwP5TC2YbQzB6YZQzbNKRTYz3x3rJSlCRRm0EoPoK+HCBeT+qJr
+ urbUWkSE4m9Gr4Fq/sWX64x07lVAHJRHqAU/GEXnEDERyNBHqEtxng4fF+kWGLJV8stJ
+ /QUkhOlXkY0dwVqvr8yqRy5T6kUj2KzXKPBcmzGrtKOqOz0hq9dvKCD7+372kFaB3OyF
+ /Jzq9QAh4+6pz8D7bvPvV7BO+GV/cdoBEKrLGwmZ17KQjOQEmEgBhlPl4yQzpQhWyin0
+ TDppDi9gSmVa3mxyPXHEe4hCqFdmweQSGp2s08cMaBJUncCnCGcf5uBdgxrn8WtIGuFf
+ oDLw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=kevGJM1Q+4BI+TG/qeyrIdbD80I/diyx5FwIEqL89Lg=;
- b=GQP8fOu8wXUEWtfR3AGzjV8oYHgaJT8V4IbH5hn8/WYgn63hBfsWZzYT1b6uWITkVt
- 4TyHVyD4/AEGqKhTa4uTfefMMWhK5eR8xOGgA8tEZDCpVDXV1GWPTXigNlwkMki2skOu
- Eyl5KRPDY1zaWw9YyfI6LXDJY/ENWOEGaANNpPuYvohSKaCpqPJikqlZq4NzkJdO2exM
- oXybio4gPW/cQJ5XgoKGDwOhY6TkWJQbKgbZK8w3mZ6sGtOo3HwBmVgdSVEg+OAiHb7r
- tBo60k8l1MIqYFgD28TjzE2ozzLBUcMRCpDowPPY17j8RvSTnyVcYTWj1aCtA4qXgeX5
- GTJQ==
-X-Gm-Message-State: AOAM530Zml0+QmIPlWSUCcVi65ZDTo4pJkCfSg/nuhU5er8CqEcIGgHO
- 4HfMqsQByrt3erWt/S5MZKWc6LP7+mBk+qER
-X-Google-Smtp-Source: ABdhPJyV4SgVfvjZsXZSxCadhQf89wBQz68zzBFY4Y27oBJ+wKCss2UjY+1HDCkPRs7oVPN61VZeTQ==
-X-Received: by 2002:a63:ea01:: with SMTP id c1mr14823034pgi.138.1610750827934; 
- Fri, 15 Jan 2021 14:47:07 -0800 (PST)
+ bh=tHmvo/lrgkE+wi7yTJ56b6ape2S0MwV/XIHtk24Q15o=;
+ b=rKASMZn2r/FGW0i7bR86ZgeBUkHJGANhUqxx19TRV4Ax+U4vSjs2Ferv7+yIqQG/Fn
+ F8vimgLJBEtoBdZbNfn/9BOrbvOAb3hgKwukCMnmIjhFLPxZE8M3z0alAVO1JdAZ0t8A
+ ob4rXVnNm9m+TlLxvKXLnOnBEzN8AseSlIknhmRgVa4eCRzi4EhayydvX59E+uDKp2R/
+ 25IwAY2aE4TC2Zh/kyqK4OiV2j3QNWcUyKyEuokDyXu5fjUvnfi1RQrnPwvl4Bqckdt9
+ K6nb6ts1f7/7a9I9Qm49NsIQrOZYvqpiaexuQBi0rGnbUPFSCHJ9SLlR6Sty0oBv0Von
+ GlZA==
+X-Gm-Message-State: AOAM531Thk+K+QA35mzWgAAW5Vt1bnIvVOm40w9Whb0Gb+K85TI+S/4D
+ b1r6qQZEEijB0a33JToglvDuUe3q7IyI8nOv
+X-Google-Smtp-Source: ABdhPJxmkzpa1HqLyKXo1jEv5PkeolzXJStKFycCgTA6yyzP8JJmhDKGRCZYd3He+DjMj8wNPnfT2g==
+X-Received: by 2002:a63:d650:: with SMTP id d16mr14809092pgj.277.1610750829482; 
+ Fri, 15 Jan 2021 14:47:09 -0800 (PST)
 Received: from localhost.localdomain (rrcs-173-197-107-21.west.biz.rr.com.
  [173.197.107.21])
- by smtp.gmail.com with ESMTPSA id s13sm9521700pfd.99.2021.01.15.14.47.06
+ by smtp.gmail.com with ESMTPSA id s13sm9521700pfd.99.2021.01.15.14.47.08
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 15 Jan 2021 14:47:07 -0800 (PST)
+ Fri, 15 Jan 2021 14:47:08 -0800 (PST)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v3 12/21] linux-user/aarch64: Implement PR_TAGGED_ADDR_ENABLE
-Date: Fri, 15 Jan 2021 12:46:36 -1000
-Message-Id: <20210115224645.1196742-13-richard.henderson@linaro.org>
+Subject: [PATCH v3 13/21] linux-user/aarch64: Implement PR_MTE_TCF and
+ PR_MTE_TAG
+Date: Fri, 15 Jan 2021 12:46:37 -1000
+Message-Id: <20210115224645.1196742-14-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20210115224645.1196742-1-richard.henderson@linaro.org>
 References: <20210115224645.1196742-1-richard.henderson@linaro.org>
@@ -70,7 +71,7 @@ X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -87,137 +88,106 @@ Cc: peter.maydell@linaro.org, qemu-arm@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This is the prctl bit that controls whether syscalls accept tagged
-addresses.  See Documentation/arm64/tagged-address-abi.rst in the
-linux kernel.
+These prctl fields are required for the function of MTE.
 
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- linux-user/aarch64/target_syscall.h |  4 ++++
- target/arm/cpu-param.h              |  3 +++
- target/arm/cpu.h                    | 23 +++++++++++++++++++++++
- linux-user/syscall.c                | 25 +++++++++++++++++++++++++
- target/arm/cpu.c                    |  3 +++
- 5 files changed, 58 insertions(+)
+ linux-user/aarch64/target_syscall.h |  9 ++++++
+ linux-user/syscall.c                | 44 +++++++++++++++++++++++++++++
+ 2 files changed, 53 insertions(+)
 
 diff --git a/linux-user/aarch64/target_syscall.h b/linux-user/aarch64/target_syscall.h
-index 3194e6b009..820601dfcc 100644
+index 820601dfcc..76f6c3391d 100644
 --- a/linux-user/aarch64/target_syscall.h
 +++ b/linux-user/aarch64/target_syscall.h
-@@ -30,4 +30,8 @@ struct target_pt_regs {
- # define TARGET_PR_PAC_APDBKEY   (1 << 3)
- # define TARGET_PR_PAC_APGAKEY   (1 << 4)
+@@ -33,5 +33,14 @@ struct target_pt_regs {
+ #define TARGET_PR_SET_TAGGED_ADDR_CTRL 55
+ #define TARGET_PR_GET_TAGGED_ADDR_CTRL 56
+ # define TARGET_PR_TAGGED_ADDR_ENABLE  (1UL << 0)
++/* MTE tag check fault modes */
++# define TARGET_PR_MTE_TCF_SHIFT       1
++# define TARGET_PR_MTE_TCF_NONE        (0UL << TARGET_PR_MTE_TCF_SHIFT)
++# define TARGET_PR_MTE_TCF_SYNC        (1UL << TARGET_PR_MTE_TCF_SHIFT)
++# define TARGET_PR_MTE_TCF_ASYNC       (2UL << TARGET_PR_MTE_TCF_SHIFT)
++# define TARGET_PR_MTE_TCF_MASK        (3UL << TARGET_PR_MTE_TCF_SHIFT)
++/* MTE tag inclusion mask */
++# define TARGET_PR_MTE_TAG_SHIFT       3
++# define TARGET_PR_MTE_TAG_MASK        (0xffffUL << TARGET_PR_MTE_TAG_SHIFT)
  
-+#define TARGET_PR_SET_TAGGED_ADDR_CTRL 55
-+#define TARGET_PR_GET_TAGGED_ADDR_CTRL 56
-+# define TARGET_PR_TAGGED_ADDR_ENABLE  (1UL << 0)
-+
  #endif /* AARCH64_TARGET_SYSCALL_H */
-diff --git a/target/arm/cpu-param.h b/target/arm/cpu-param.h
-index 6321385b46..f922aa0650 100644
---- a/target/arm/cpu-param.h
-+++ b/target/arm/cpu-param.h
-@@ -20,6 +20,9 @@
- 
- #ifdef CONFIG_USER_ONLY
- #define TARGET_PAGE_BITS 12
-+# ifdef TARGET_AARCH64
-+#  define TARGET_TAGGED_ADDRESSES
-+# endif
- #else
- /*
-  * ARMv7 and later CPUs have 4K pages minimum, but ARMv5 and v6
-diff --git a/target/arm/cpu.h b/target/arm/cpu.h
-index f3bca73d98..6ddfd9ebe6 100644
---- a/target/arm/cpu.h
-+++ b/target/arm/cpu.h
-@@ -712,6 +712,10 @@ typedef struct CPUARMState {
-     const struct arm_boot_info *boot_info;
-     /* Store GICv3CPUState to access from this struct */
-     void *gicv3state;
-+
-+#ifdef TARGET_TAGGED_ADDRESSES
-+    target_ulong untagged_addr_mask;
-+#endif
- } CPUARMState;
- 
- static inline void set_feature(CPUARMState *env, int feature)
-@@ -3556,6 +3560,25 @@ static inline MemTxAttrs *typecheck_memtxattrs(MemTxAttrs *x)
-  */
- #define PAGE_BTI  PAGE_TARGET_1
- 
-+#ifdef TARGET_TAGGED_ADDRESSES
-+/**
-+ * cpu_untagged_addr:
-+ * @cs: CPU context
-+ * @x: tagged address
-+ *
-+ * Remove any address tag from @x.  This is explicitly related to the
-+ * linux syscall TIF_TAGGED_ADDR setting, not TBI in general.
-+ *
-+ * There should be a better place to put this, but we need this in
-+ * include/exec/cpu_ldst.h, and not some place linux-user specific.
-+ */
-+static inline target_ulong cpu_untagged_addr(CPUState *cs, target_ulong x)
-+{
-+    ARMCPU *cpu = ARM_CPU(cs);
-+    return x & cpu->env.untagged_addr_mask;
-+}
-+#endif
-+
- /*
-  * Naming convention for isar_feature functions:
-  * Functions which test 32-bit ID registers should have _aa32_ in
 diff --git a/linux-user/syscall.c b/linux-user/syscall.c
-index bec2ab7769..ebb4e2898c 100644
+index ebb4e2898c..0316497636 100644
 --- a/linux-user/syscall.c
 +++ b/linux-user/syscall.c
-@@ -10948,6 +10948,31 @@ static abi_long do_syscall1(void *cpu_env, int num, abi_long arg1,
+@@ -10952,10 +10952,46 @@ static abi_long do_syscall1(void *cpu_env, int num, abi_long arg1,
+             {
+                 abi_ulong valid_mask = TARGET_PR_TAGGED_ADDR_ENABLE;
+                 CPUARMState *env = cpu_env;
++                ARMCPU *cpu = env_archcpu(env);
++
++                if (cpu_isar_feature(aa64_mte, cpu)) {
++                    valid_mask |= TARGET_PR_MTE_TCF_MASK;
++                    valid_mask |= TARGET_PR_MTE_TAG_MASK;
++                }
+ 
+                 if ((arg2 & ~valid_mask) || arg3 || arg4 || arg5) {
+                     return -TARGET_EINVAL;
                  }
++
++                if (cpu_isar_feature(aa64_mte, cpu)) {
++                    switch (arg2 & TARGET_PR_MTE_TCF_MASK) {
++                    case TARGET_PR_MTE_TCF_NONE:
++                    case TARGET_PR_MTE_TCF_SYNC:
++                    case TARGET_PR_MTE_TCF_ASYNC:
++                        break;
++                    default:
++                        return -EINVAL;
++                    }
++
++                    /*
++                     * Write PR_MTE_TCF to SCTLR_EL1[TCF0].
++                     * Note that the syscall values are consistent with hw.
++                     */
++                    env->cp15.sctlr_el[1] =
++                        deposit64(env->cp15.sctlr_el[1], 38, 2,
++                                  arg2 >> TARGET_PR_MTE_TCF_SHIFT);
++
++                    /*
++                     * Write PR_MTE_TAG to GCR_EL1[Exclude].
++                     * Note that the syscall uses an include mask,
++                     * and hardware uses an exclude mask -- invert.
++                     */
++                    env->cp15.gcr_el1 =
++                        deposit64(env->cp15.gcr_el1, 0, 16,
++                                  ~arg2 >> TARGET_PR_MTE_TAG_SHIFT);
++                    arm_rebuild_hflags(env);
++                }
++
+                 env->untagged_addr_mask = (arg2 & TARGET_PR_TAGGED_ADDR_ENABLE
+                                            ? MAKE_64BIT_MASK(0, 56) : -1);
+                 return 0;
+@@ -10964,6 +11000,7 @@ static abi_long do_syscall1(void *cpu_env, int num, abi_long arg1,
+             {
+                 abi_long ret = 0;
+                 CPUARMState *env = cpu_env;
++                ARMCPU *cpu = env_archcpu(env);
+ 
+                 if (arg2 || arg3 || arg4 || arg5) {
+                     return -TARGET_EINVAL;
+@@ -10971,6 +11008,13 @@ static abi_long do_syscall1(void *cpu_env, int num, abi_long arg1,
+                 if (env->untagged_addr_mask != -1) {
+                     ret |= TARGET_PR_TAGGED_ADDR_ENABLE;
+                 }
++                if (cpu_isar_feature(aa64_mte, cpu)) {
++                    /* See above. */
++                    ret |= (extract64(env->cp15.sctlr_el[1], 38, 2)
++                            << TARGET_PR_MTE_TCF_SHIFT);
++                    ret = deposit64(ret, TARGET_PR_MTE_TAG_SHIFT, 16,
++                                    ~env->cp15.gcr_el1);
++                }
+                 return ret;
              }
-             return -TARGET_EINVAL;
-+        case TARGET_PR_SET_TAGGED_ADDR_CTRL:
-+            {
-+                abi_ulong valid_mask = TARGET_PR_TAGGED_ADDR_ENABLE;
-+                CPUARMState *env = cpu_env;
-+
-+                if ((arg2 & ~valid_mask) || arg3 || arg4 || arg5) {
-+                    return -TARGET_EINVAL;
-+                }
-+                env->untagged_addr_mask = (arg2 & TARGET_PR_TAGGED_ADDR_ENABLE
-+                                           ? MAKE_64BIT_MASK(0, 56) : -1);
-+                return 0;
-+            }
-+        case TARGET_PR_GET_TAGGED_ADDR_CTRL:
-+            {
-+                abi_long ret = 0;
-+                CPUARMState *env = cpu_env;
-+
-+                if (arg2 || arg3 || arg4 || arg5) {
-+                    return -TARGET_EINVAL;
-+                }
-+                if (env->untagged_addr_mask != -1) {
-+                    ret |= TARGET_PR_TAGGED_ADDR_ENABLE;
-+                }
-+                return ret;
-+            }
  #endif /* AARCH64 */
-         case PR_GET_SECCOMP:
-         case PR_SET_SECCOMP:
-diff --git a/target/arm/cpu.c b/target/arm/cpu.c
-index 8387e94b94..abc0affd00 100644
---- a/target/arm/cpu.c
-+++ b/target/arm/cpu.c
-@@ -208,6 +208,9 @@ static void arm_cpu_reset(DeviceState *dev)
-          * Do not modify this without other changes.
-          */
-         env->cp15.tcr_el[1].raw_tcr = (3ULL << 37);
-+# ifdef TARGET_TAGGED_ADDRESSES
-+        env->untagged_addr_mask = -1;
-+# endif
- #else
-         /* Reset into the highest available EL */
-         if (arm_feature(env, ARM_FEATURE_EL3)) {
 -- 
 2.25.1
 
