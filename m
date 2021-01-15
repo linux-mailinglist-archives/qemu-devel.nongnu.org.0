@@ -2,43 +2,43 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9DCCA2F6FD6
-	for <lists+qemu-devel@lfdr.de>; Fri, 15 Jan 2021 02:10:12 +0100 (CET)
-Received: from localhost ([::1]:47620 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 13A472F6FDF
+	for <lists+qemu-devel@lfdr.de>; Fri, 15 Jan 2021 02:13:23 +0100 (CET)
+Received: from localhost ([::1]:55548 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l0Dcx-0005j6-4k
-	for lists+qemu-devel@lfdr.de; Thu, 14 Jan 2021 20:10:11 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56678)
+	id 1l0Dg2-0000by-4k
+	for lists+qemu-devel@lfdr.de; Thu, 14 Jan 2021 20:13:22 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56680)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1l0DaH-00041W-ES; Thu, 14 Jan 2021 20:07:26 -0500
-Received: from bilbo.ozlabs.org ([2401:3900:2:1::2]:35379 helo=ozlabs.org)
+ id 1l0DaI-00041d-LZ; Thu, 14 Jan 2021 20:07:26 -0500
+Received: from bilbo.ozlabs.org ([2401:3900:2:1::2]:38029 helo=ozlabs.org)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1l0DaC-0003QA-JJ; Thu, 14 Jan 2021 20:07:23 -0500
+ id 1l0DaC-0003Q9-JP; Thu, 14 Jan 2021 20:07:23 -0500
 Received: by ozlabs.org (Postfix, from userid 1007)
- id 4DH31b4vSpz9sP7; Fri, 15 Jan 2021 12:07:15 +1100 (AEDT)
+ id 4DH31c01Lhz9sWW; Fri, 15 Jan 2021 12:07:15 +1100 (AEDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=gibson.dropbear.id.au; s=201602; t=1610672835;
- bh=8AW8NelBjLkty43bdMJHP6o0DHoMkPCrqDOibvHqv0E=;
+ d=gibson.dropbear.id.au; s=201602; t=1610672836;
+ bh=99W15X76qGo6Dz8pHcZoDwwjEO534KEH8ogb/iLMRXA=;
  h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=HTUrlKi+sgPoRE7WtU5oeEOM6AOuTlveGgtJ6pnYkpcs9jN2Y0QOn6P+PJxGl0Ghp
- a51LPp+FJhFSGz3nK59LWr3DyWf4Mi+OQPuF9cb8PgbIdO/sGJ4rR1+y1n/ZK4nrcz
- tTX4//nBAHiPUpK7F+R5rMDKu/xqy3ksm4XxlDJw=
-Date: Fri, 15 Jan 2021 11:44:58 +1100
+ b=OOuqyv5xRHKN8bciMDyhtp6SaQ880HHy74uF47RL8beYajcVbpaWIIn5QV2XXdWXa
+ wL7VD5TTKGbM+LJrW5rmUNZQGiK6uguV2uxTskk5gbWpoE4BUy3liRC+wB8mq5zOLx
+ zvkUjcB8L+V7zd15MUN4x26jnpw5qbIcwIZvej7s=
+Date: Fri, 15 Jan 2021 11:45:50 +1100
 From: David Gibson <david@gibson.dropbear.id.au>
 To: Daniel Henrique Barboza <danielhb413@gmail.com>
-Subject: Re: [PATCH v1 3/7] spapr_rtas.c: fix identation in
- rtas_ibm_nmi_interlock() string
-Message-ID: <20210115004458.GS435587@yekko.fritz.box>
+Subject: Re: [PATCH v1 4/7] spapr_rtas.c: fix identation of
+ rtas_ibm_suspend_me() args
+Message-ID: <20210115004550.GT435587@yekko.fritz.box>
 References: <20210114180628.1675603-1-danielhb413@gmail.com>
- <20210114180628.1675603-4-danielhb413@gmail.com>
+ <20210114180628.1675603-5-danielhb413@gmail.com>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="s9pXJW6w71JX4l3T"
+ protocol="application/pgp-signature"; boundary="k8r0khnpBuGu0wUi"
 Content-Disposition: inline
-In-Reply-To: <20210114180628.1675603-4-danielhb413@gmail.com>
+In-Reply-To: <20210114180628.1675603-5-danielhb413@gmail.com>
 Received-SPF: pass client-ip=2401:3900:2:1::2; envelope-from=dgibson@ozlabs.org;
  helo=ozlabs.org
 X-Spam_score_int: -17
@@ -64,36 +64,39 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 
---s9pXJW6w71JX4l3T
+--k8r0khnpBuGu0wUi
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Thu, Jan 14, 2021 at 03:06:24PM -0300, Daniel Henrique Barboza wrote:
+On Thu, Jan 14, 2021 at 03:06:25PM -0300, Daniel Henrique Barboza wrote:
 > Signed-off-by: Daniel Henrique Barboza <danielhb413@gmail.com>
 
-Nack.  I believe the general consensus is that greppability for long
-error message strings is sufficient reason to break the normal coding
-style rules.
+Applied to ppc-for-6.0, thanks.
 
 > ---
->  hw/ppc/spapr_rtas.c | 3 ++-
->  1 file changed, 2 insertions(+), 1 deletion(-)
+>  hw/ppc/spapr_rtas.c | 6 +++---
+>  1 file changed, 3 insertions(+), 3 deletions(-)
 >=20
 > diff --git a/hw/ppc/spapr_rtas.c b/hw/ppc/spapr_rtas.c
-> index 513c7a8435..d014684d60 100644
+> index d014684d60..fbefd5d3cb 100644
 > --- a/hw/ppc/spapr_rtas.c
 > +++ b/hw/ppc/spapr_rtas.c
-> @@ -463,7 +463,8 @@ static void rtas_ibm_nmi_interlock(PowerPCCPU *cpu,
+> @@ -219,9 +219,9 @@ static void rtas_stop_self(PowerPCCPU *cpu, SpaprMach=
+ineState *spapr,
+>  }
 > =20
->      if (spapr->fwnmi_machine_check_addr =3D=3D -1) {
->          qemu_log_mask(LOG_GUEST_ERROR,
-> -"FWNMI: ibm,nmi-interlock RTAS called with FWNMI not registered.\n");
-> +                      "FWNMI: ibm,nmi-interlock RTAS called with "
-> +                      "FWNMI not registered.\n");
+>  static void rtas_ibm_suspend_me(PowerPCCPU *cpu, SpaprMachineState *spap=
+r,
+> -                           uint32_t token, uint32_t nargs,
+> -                           target_ulong args,
+> -                           uint32_t nret, target_ulong rets)
+> +                                uint32_t token, uint32_t nargs,
+> +                                target_ulong args,
+> +                                uint32_t nret, target_ulong rets)
+>  {
+>      CPUState *cs;
 > =20
->          /* NMI register not called */
->          rtas_st(rets, 0, RTAS_OUT_PARAM_ERROR);
 
 --=20
 David Gibson			| I'll have my music baroque, and my code
@@ -101,25 +104,25 @@ david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
 				| _way_ _around_!
 http://www.ozlabs.org/~dgibson
 
---s9pXJW6w71JX4l3T
+--k8r0khnpBuGu0wUi
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAmAA5YoACgkQbDjKyiDZ
-s5KkuA//b/vWmpKyx8s1E9Igm+6njWQT3MsuGBNnC/cn8fW5YKgMTp1mwnRmHq2r
-RNvAOu6m4k29Sp3wpqHbMyzNRvV4GNDFg2OHbflYyIna8iiAuYsdYabFNL2WUxCu
-BiNLxHalkVp5RZD5HAAw4NPrqu/69fUJM/Eb+VhMFK5h9QdrZ+t5UOjUwuXk2aY/
-yu7ImWjk4zaN3CEKkSD2dzd5UkrndJ2vcI5oJmqp8mgYWIX+a0Zgykyfe1eOduIc
-K+vvlzOBt90guOk6RoMfp+PkGM2nUC9bm6lmmApRNcAO4AVI020sdID9e6Is2buc
-vx7Qyh43cZZevrWPZgC0R6jb4pNWmhhnUJMleWz3opATMlUv/sMAjicKFK7whHFu
-R+X6VXbkE5pCZ63bbYWbEfptBne+L4m24ABUDmLe4F4KV6K7SgaF4F31ksSMsOZS
-3Eqiyp7J4DsZOqcEe7ZQKzNRJmVkJL/6QPprVCckZwIqkGuMGSjiAbjwu0UvLNoe
-YFGMKomkt42Hom5BG5RX5fKlZxX9gpgGRBPPySElp1HGIXKV9/vZ1MlQZvZAX0hJ
-I/10Y6kLGwS9NMkMZMmUkg6+l1JcS4Pnfj584oHkdnHqMgAEABD6rQ3EgkaMYGTw
-DDcghWZnxQ0TUxrg1GiHnD9ZHseqLIO1K1cYXT9+qFAq2rVl9eA=
-=JGCB
+iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAmAA5b4ACgkQbDjKyiDZ
+s5K7xw//boDq304ux1BbuLd6f/OEAi/OW6QG9mg/5Rjt9Lu4kNfbQiwPn+2fc4jM
+XgHZo5dOPjpxzwQcnHpgJFy1AiPvyUR/IlJ501kRJCj2JwuubFbfdTQ2ZvFzyoq+
+gCJf5cxgtx58ypoAomam4K3r6W85xrwb0m5gvsGr77GBv7668qLRm7ZGK50hme3s
+G800D86yx/tBK3jonq8M3Xcb0vb0xzCmPwPlhecQfVtFdPB2eSlKWxgXIVSB7ZgM
+QUPAdJ5MNPW0j8+Pdg+lnfiM1/lB7BLyTCmTxcg2fBpXrJMUO+IyzlRhPuOLUXQR
+yt5fZmfjQQorfU/ZctcslTdWYpsRiKiRQo8FJC/2NdLgrMg1+8ZXMjS3D194kJaN
+C3GPdjuwt1FzEVXnsBES1QbUcm8r/tRNAshfviB2VGagjBNe2dNXEBNocvR8mk+s
+2VAp3q7zO64gG3rZ5OWxsLIVUYy8R8Lp8tk8GmOmREH1lmdEypjr17NHOI31yHpF
+Wj5oDwX38KsuXjQ+P+nqvynFHqlqIVaWQtYE/XFoaNbXIj1Tlya5wr8cZWOS50wV
+myasHK+SAZ+86B29G5EeY4LUXCEOwrV2GNiKGAZIJ/MMrZNh7CK6Yv3zyi9BhYY7
+8817ejagD8OaY38zygbKimOn/TWyV4E+y9aKD8uz/oEplbM2L9k=
+=39Su
 -----END PGP SIGNATURE-----
 
---s9pXJW6w71JX4l3T--
+--k8r0khnpBuGu0wUi--
 
