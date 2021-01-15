@@ -2,72 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 936062F70F0
-	for <lists+qemu-devel@lfdr.de>; Fri, 15 Jan 2021 04:28:45 +0100 (CET)
-Received: from localhost ([::1]:44536 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EC1C32F70EF
+	for <lists+qemu-devel@lfdr.de>; Fri, 15 Jan 2021 04:28:44 +0100 (CET)
+Received: from localhost ([::1]:44534 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l0Fn2-0007KL-Ku
-	for lists+qemu-devel@lfdr.de; Thu, 14 Jan 2021 22:28:44 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50388)
+	id 1l0Fn1-0007KJ-J9
+	for lists+qemu-devel@lfdr.de; Thu, 14 Jan 2021 22:28:43 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50414)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pizhenwei@bytedance.com>)
- id 1l0Flf-0005vN-3j
+ id 1l0Flf-0005vV-0T
  for qemu-devel@nongnu.org; Thu, 14 Jan 2021 22:27:19 -0500
-Received: from mail-pf1-x42b.google.com ([2607:f8b0:4864:20::42b]:42000)
+Received: from mail-pf1-x436.google.com ([2607:f8b0:4864:20::436]:45715)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <pizhenwei@bytedance.com>)
- id 1l0FlY-0000dt-Py
- for qemu-devel@nongnu.org; Thu, 14 Jan 2021 22:27:15 -0500
-Received: by mail-pf1-x42b.google.com with SMTP id h10so4620647pfo.9
- for <qemu-devel@nongnu.org>; Thu, 14 Jan 2021 19:27:11 -0800 (PST)
+ id 1l0Flc-0000fm-Oy
+ for qemu-devel@nongnu.org; Thu, 14 Jan 2021 22:27:18 -0500
+Received: by mail-pf1-x436.google.com with SMTP id c13so4603597pfi.12
+ for <qemu-devel@nongnu.org>; Thu, 14 Jan 2021 19:27:16 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=bytedance-com.20150623.gappssmtp.com; s=20150623;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=m5p801JKIJC/wp03gj/uy7UR5GXKX9PM9orgLXl9Gn4=;
- b=BWYowHHMi1K4dR3TfIyTEaeFgLGI0ReJ2a/dnQANhkvl+XTv10eRqLbuYGQI5KF5rH
- ZuN6vsQvUN924MtXfpEHX771Uzu2qYi897Al+rZK42Fjuoamsjmn8mmtoUSsF0zcngYo
- 6fYh1He2fnv3Ic9ApsET9d9aWmjE7MUpNRxR7mkQbDj0aCtOdHqqJLMZpKxgBcnoYC9N
- fbymSiAuafkuR5kaiZ3ZMyUpmRSZkZ5GlTqSVl1IHNv2qRCOn8jnGOIirRiXH69YdsaK
- dw2UEqgt9ayjGYVAeESzqsG+I+J/ilMEwaULKJMlhKp7kmHiHNY9AbyZvxvlrf+U9NUc
- lkAw==
+ h=from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=Ew8cu4iWibVSoFd8U1aw0x9TqKwKGBm+oggzSrlqzRs=;
+ b=zkwQhwHW56AgBn3/EpEYzRbMQrFN7wF+lsCPVzdIwESowFCV60ySH4EdeM6E5a+qXp
+ JmJ7bD0R8bSqqLzvbxcNWFLZ01K3t4Fap6BebcrdPeipiKQ5R11o4AVQB4IIDL6GAtAV
+ twLYe1C/upJ5shvZPY0gzG727xWP/I7qxpww0y69Cpkurn8cdwD49PTVjFzwEmlo2nEz
+ WxIwta3JgxUT+Zf0dW+qYQ09DX0cglHHMI8glb8d17rhxswaCh7WWp6H8AyGkEIx7V8x
+ XbHbAJZoD/bPmviwMRBdxx9GGIh6UrcUz5ekHsdZuYMLaPawfFbbyPJ3kHLSjF5ZLZv9
+ UkzQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=m5p801JKIJC/wp03gj/uy7UR5GXKX9PM9orgLXl9Gn4=;
- b=Ns6zHsm7duU8u5jG8G477MB7nhhCSiM2n5VB1zpQLrFozbPi5kFeZ915OthBZN8lxN
- Y9+Qr3IccznJfSpeFmfpEcrcqbu7kz8tlkt4n1VM+mcteZaPI+KoAyYEnd+tq3WwhJNe
- cl7I/010L5pzQnau+dT9ayZGfncY/Rz3fPB9vfXiVK30wHj2vx1HnKjS1PtN91HkWYrL
- 4Fn5HodCNl5Xl0Xi3HoXQMZWU+1SKpf4Rtt6n2h2XjkNuh2hOfqQ6asae1DIyytFvzC/
- xVmd34Y18PW7Z3zr6hQHsf15pLpb0tyJbYaFZXVtIw4oL8TnFpvpwVXkYspr7YkDf3J7
- df+Q==
-X-Gm-Message-State: AOAM5312hjLfCBfN32vR0bF/HDe4mPZLq1nlAUf35mdudkTjB/awJHfV
- 1AdpUddf9DLTxmJFZwEkjfFZCg==
-X-Google-Smtp-Source: ABdhPJystvTqKFsbp7GuYLWbYriAf9+svRzOsn0EAiHJlfl+O5MsKlCfoqCN1Q68q6CcbcfHubAlnw==
-X-Received: by 2002:a63:cb0e:: with SMTP id p14mr10480271pgg.408.1610681230911; 
- Thu, 14 Jan 2021 19:27:10 -0800 (PST)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=Ew8cu4iWibVSoFd8U1aw0x9TqKwKGBm+oggzSrlqzRs=;
+ b=FZK9HbJdfNWfz2AnEiYtu/eknxCV33ZjNmQWfuY8HZer3GtyxwGlZ20jCC0dtKZMSa
+ bhMaaCXb8KYsktMhEADNuUV2a704RpbkDsP47ANHC9dgychO9N9SgiZebeKgaGvyAw6+
+ BIPB48F7hYdOm/AKzheBJyEENolwTPJqSL/IKQ4kNeKIX7gLJC6GU4JdABAW/toLB5ZT
+ lnoNbHIM/rBJBUzH40QVgnsSTW7ZlL2+JewXVoZe5pbNZyz27evHxRYublJZxEidOpSD
+ eEd7B0+KCiVJUF+fLpXmqT2CZEtv0hXKKP3Uj6TFaIwsX9T2g1DcFjtNktvoLxv0iPD+
+ gBsQ==
+X-Gm-Message-State: AOAM532aH4Tx8DnBNQWU5o0Yq/mEimH83DECrm/+2+WISZt15BCKYo47
+ IEWSA6YoTeqzzUsV6Qy93ynm0w==
+X-Google-Smtp-Source: ABdhPJz2mzt58x3F961KTfvbvefute37Ujx6BR5hwBiWsRlFEdvuyC/4nIC2+Z7WHhAyt5oYUbRYvw==
+X-Received: by 2002:a62:ca:0:b029:19e:67a9:f0f2 with SMTP id
+ 193-20020a6200ca0000b029019e67a9f0f2mr10485116pfa.60.1610681235475; 
+ Thu, 14 Jan 2021 19:27:15 -0800 (PST)
 Received: from always-libai.bytedance.net ([61.120.150.71])
- by smtp.gmail.com with ESMTPSA id j16sm6583662pjj.18.2021.01.14.19.27.06
+ by smtp.gmail.com with ESMTPSA id j16sm6583662pjj.18.2021.01.14.19.27.11
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 14 Jan 2021 19:27:10 -0800 (PST)
+ Thu, 14 Jan 2021 19:27:14 -0800 (PST)
 From: zhenwei pi <pizhenwei@bytedance.com>
 To: kbusch@kernel.org, its@irrelevant.dk, kwolf@redhat.com, mreitz@redhat.com
-Subject: [PATCH v4 0/3] support NVMe smart critial warning injection
-Date: Fri, 15 Jan 2021 11:26:59 +0800
-Message-Id: <20210115032702.466631-1-pizhenwei@bytedance.com>
+Subject: [PATCH v4 1/3] block/nvme: introduce bit 5 for critical warning
+Date: Fri, 15 Jan 2021 11:27:00 +0800
+Message-Id: <20210115032702.466631-2-pizhenwei@bytedance.com>
 X-Mailer: git-send-email 2.25.1
+In-Reply-To: <20210115032702.466631-1-pizhenwei@bytedance.com>
+References: <20210115032702.466631-1-pizhenwei@bytedance.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::42b;
- envelope-from=pizhenwei@bytedance.com; helo=mail-pf1-x42b.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::436;
+ envelope-from=pizhenwei@bytedance.com; helo=mail-pf1-x436.google.com
 X-Spam_score_int: -18
 X-Spam_score: -1.9
 X-Spam_bar: -
 X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -85,40 +88,27 @@ Cc: zhenwei pi <pizhenwei@bytedance.com>, philmd@redhat.com,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-v3 -> v4:
-- Drop "Fix overwritten bar.cap". (Already fixed)
+According to NVMe spec 1.4 section
+<SMART / Health Information (Log Identifier 02h)>, introduce bit 5
+for "Persistent Memory Region has become read-only or unreliable".
 
-- Avoid to enqueue the duplicate event.
+Signed-off-by: zhenwei pi <pizhenwei@bytedance.com>
+---
+ include/block/nvme.h | 1 +
+ 1 file changed, 1 insertion(+)
 
-- Several minor changes for coding style & function/variable name.
-
-v2 -> v3:
-- Introduce "Persistent Memory Region has become read-only or
-  unreliable"
-
-- Fix overwritten bar.cap
-
-- Check smart critical warning value from QOM.
-
-- Trigger asynchronous event during smart warning injection.
-
-v1 -> v2:
-- Suggested by Philippe & Klaus, set/get smart_critical_warning by QMP.
-
-v1:
-- Add smart_critical_warning for nvme device which can be set by QEMU
-  command line to emulate hardware error.
-
-Zhenwei Pi (3):
-  block/nvme: introduce bit 5 for critical warning
-  hw/block/nvme: add smart_critical_warning property
-  hw/blocl/nvme: trigger async event during injecting smart warning
-
- hw/block/nvme.c      | 91 +++++++++++++++++++++++++++++++++++++++-----
- hw/block/nvme.h      |  1 +
- include/block/nvme.h |  3 ++
- 3 files changed, 86 insertions(+), 9 deletions(-)
-
+diff --git a/include/block/nvme.h b/include/block/nvme.h
+index 9494246f1f..0baf4b27cd 100644
+--- a/include/block/nvme.h
++++ b/include/block/nvme.h
+@@ -789,6 +789,7 @@ enum NvmeSmartWarn {
+     NVME_SMART_RELIABILITY            = 1 << 2,
+     NVME_SMART_MEDIA_READ_ONLY        = 1 << 3,
+     NVME_SMART_FAILED_VOLATILE_MEDIA  = 1 << 4,
++    NVME_SMART_PMR_UNRELIABLE         = 1 << 5,
+ };
+ 
+ typedef struct NvmeEffectsLog {
 -- 
 2.25.1
 
