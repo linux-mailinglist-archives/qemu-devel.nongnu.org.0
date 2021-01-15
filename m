@@ -2,78 +2,80 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 43E2D2F7500
-	for <lists+qemu-devel@lfdr.de>; Fri, 15 Jan 2021 10:13:25 +0100 (CET)
-Received: from localhost ([::1]:52520 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 858652F7512
+	for <lists+qemu-devel@lfdr.de>; Fri, 15 Jan 2021 10:18:40 +0100 (CET)
+Received: from localhost ([::1]:59990 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l0LAa-0003YF-Cr
-	for lists+qemu-devel@lfdr.de; Fri, 15 Jan 2021 04:13:24 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41968)
+	id 1l0LFf-0008Tv-05
+	for lists+qemu-devel@lfdr.de; Fri, 15 Jan 2021 04:18:39 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43574)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <chen.zhang@intel.com>)
- id 1l0L5u-00056v-Hq
- for qemu-devel@nongnu.org; Fri, 15 Jan 2021 04:08:34 -0500
-Received: from mga06.intel.com ([134.134.136.31]:37450)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <chen.zhang@intel.com>)
- id 1l0L5r-00068s-FO
- for qemu-devel@nongnu.org; Fri, 15 Jan 2021 04:08:33 -0500
-IronPort-SDR: Q+lkdLaoo0ckjPKRVI0IyR28XVl/D68TMHOwyvOBwrCVCYOLY/n3Ju1PzrQaxTf/e3ZqxR80jj
- sZp7KYeaq2MA==
-X-IronPort-AV: E=McAfee;i="6000,8403,9864"; a="240067023"
-X-IronPort-AV: E=Sophos;i="5.79,349,1602572400"; d="scan'208";a="240067023"
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
- by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 15 Jan 2021 01:08:27 -0800
-IronPort-SDR: jFfDUoWqU6QLpm8aOyWnFbfYeHV9T3WmeRdRbN+TAMnKMYRXMAbL2pQGPeipxtJhJm6THRzDeu
- QR99Ny70Phvw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.79,349,1602572400"; d="scan'208";a="382597374"
-Received: from fmsmsx602.amr.corp.intel.com ([10.18.126.82])
- by orsmga008.jf.intel.com with ESMTP; 15 Jan 2021 01:08:27 -0800
-Received: from shsmsx603.ccr.corp.intel.com (10.109.6.143) by
- fmsmsx602.amr.corp.intel.com (10.18.126.82) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.1713.5; Fri, 15 Jan 2021 01:08:26 -0800
-Received: from shsmsx605.ccr.corp.intel.com (10.109.6.215) by
- SHSMSX603.ccr.corp.intel.com (10.109.6.143) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.1713.5; Fri, 15 Jan 2021 17:08:24 +0800
-Received: from shsmsx605.ccr.corp.intel.com ([10.109.6.215]) by
- SHSMSX605.ccr.corp.intel.com ([10.109.6.215]) with mapi id 15.01.1713.004;
- Fri, 15 Jan 2021 17:08:24 +0800
-From: "Zhang, Chen" <chen.zhang@intel.com>
-To: Lukas Straub <lukasstraub2@web.de>
-Subject: RE: [PATCH 3/3] net/colo-compare: Add handler for passthrough
- connection
-Thread-Topic: [PATCH 3/3] net/colo-compare: Add handler for passthrough
- connection
-Thread-Index: AQHW2ZH5s2h38bDoTUGttKnR+TafgqomvzmAgAHJe4A=
-Date: Fri, 15 Jan 2021 09:08:24 +0000
-Message-ID: <7b08aa481627408fbe930382d7ef4af1@intel.com>
-References: <20201224010918.19275-1-chen.zhang@intel.com>
- <20201224010918.19275-4-chen.zhang@intel.com>
- <20210114145037.706fe8c7@gecko.fritz.box>
-In-Reply-To: <20210114145037.706fe8c7@gecko.fritz.box>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-dlp-product: dlpe-windows
-dlp-version: 11.5.1.3
-dlp-reaction: no-action
-x-originating-ip: [10.239.127.36]
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1l0LCr-0003fX-FG; Fri, 15 Jan 2021 04:15:47 -0500
+Received: from mail-ed1-x52e.google.com ([2a00:1450:4864:20::52e]:34484)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1l0LCp-0001Kc-Nf; Fri, 15 Jan 2021 04:15:45 -0500
+Received: by mail-ed1-x52e.google.com with SMTP id dk8so8767308edb.1;
+ Fri, 15 Jan 2021 01:15:43 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=sender:subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=Mq/mlI5B4bMXas3BIzzTwe+cKDCqDZ3dG8QrzfLUvX0=;
+ b=IebdCecstNewYtiRND8rqwa+vrcfsmQX50U40Fdk7W/Zb627zImKYtUsgTe1xc9Bro
+ yWyJE00MjRt2jefrd9GoHEpkOq8UxBtKiverNFkXE9FcWyEYvHXXsIixVQ/FYToUHgvD
+ CPtp11UGOMqYjlNdwFuip3tHXAiE/ENGsxfX2Kz2/chvUjp3Q6eF8/smZVhOEjL7hDUZ
+ tporNZ8K5jqslIgF5g1G8raBFTFax1q6rXeWo3K65aWlrUqSHxN8wLv2Cyy9c60AQDCM
+ XTVBqE4PJguIFKMnIZU5By3GTG56ed7hp3JCKqkxi3GT0yNrXDp2bAQa6kTvrYTpaqHg
+ M9lA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
+ :date:user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=Mq/mlI5B4bMXas3BIzzTwe+cKDCqDZ3dG8QrzfLUvX0=;
+ b=Gnid1IwHFUDJT54vVqfnRE70RySv3Cf1u7lXCFbHl/oTb33U5t4ZsK20eAWrnhsXvm
+ ZVpKCoCi3objqn481M0GupeLx/P1dcAUYVk1QcdoTtlRyw+K0x/XMXcTFr6yvCRk4M/V
+ kTS62qXLDjCtrrHdweu/grvcUYnlbUN6UVlxv1TyQ03h/M9SZ4gElEscVkTzqPhE3IRD
+ BKPXEewKFv6KKhhUfeEYWUEEKL18N7U76jXr8U8dfAVjUQxeSPrXAWyAPxQfp82i0BCU
+ 1Yxh1ipEcgu4Qgi5MZUNp89J/5tU+xQGhR5nyDTy1Pen1iCf7vQ8bMKQ6l7BWT0DG42/
+ ZYQQ==
+X-Gm-Message-State: AOAM532fssld6uMkegwhs+qj3Zcl/nuGN2WgC/Wxc+CrwKGQzIaG+Jka
+ 31k+HoGrF9StGEc8FnD6Fgo=
+X-Google-Smtp-Source: ABdhPJzHngKCvHurxZcIAP85iMR3R13GBeaieiKbWjJu2CzDo1UioMcur6An2Fb7LMea9kllMW9ZzQ==
+X-Received: by 2002:a05:6402:13c8:: with SMTP id
+ a8mr4139922edx.191.1610702141345; 
+ Fri, 15 Jan 2021 01:15:41 -0800 (PST)
+Received: from [192.168.1.36] (13.red-83-57-169.dynamicip.rima-tde.net.
+ [83.57.169.13])
+ by smtp.gmail.com with ESMTPSA id s7sm2993141eja.97.2021.01.15.01.15.39
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 15 Jan 2021 01:15:40 -0800 (PST)
+Subject: Re: [PATCH] qtest/npcm7xx_pwm-test: Fix memleak in pwm_qom_get
+To: Gan Qixin <ganqixin@huawei.com>, qemu-devel@nongnu.org,
+ qemu-trivial@nongnu.org
+References: <20210115075634.717909-1-ganqixin@huawei.com>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
+Message-ID: <74ba9c97-4d1f-111a-cffe-7aff18ac3f7c@amsat.org>
+Date: Fri, 15 Jan 2021 10:15:38 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.6.0
 MIME-Version: 1.0
-Received-SPF: pass client-ip=134.134.136.31; envelope-from=chen.zhang@intel.com;
- helo=mga06.intel.com
-X-Spam_score_int: -41
-X-Spam_score: -4.2
-X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <20210115075634.717909-1-ganqixin@huawei.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::52e;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-ed1-x52e.google.com
+X-Spam_score_int: -16
+X-Spam_score: -1.7
+X-Spam_bar: -
+X-Spam_report: (-1.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.248,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.248, NICE_REPLY_A=-0.237,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -86,208 +88,49 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Jason Wang <jasowang@redhat.com>, Markus Armbruster <armbru@redhat.com>,
- qemu-dev <qemu-devel@nongnu.org>, Zhang Chen <zhangckid@gmail.com>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+Cc: Laurent Vivier <lvivier@redhat.com>, Thomas Huth <thuth@redhat.com>,
+ zhang.zhanghailiang@huawei.com, Havard Skinnemoen <hskinnemoen@google.com>,
+ Tyrone Ting <kfting@nuvoton.com>, Euler Robot <euler.robot@huawei.com>,
+ kuhn.chenqun@huawei.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+On 1/15/21 8:56 AM, Gan Qixin wrote:
+> The pwm_qom_get function didn't free "response", which caused an indirect
+> memory leak. So use qobject_unref() to fix it.
+> 
+> ASAN shows memory leak stack:
+> 
+> Indirect leak of 74160000 byte(s) in 18000 object(s) allocated from:
+>     #0 0x7f96e2f79d4e in __interceptor_calloc (/lib64/libasan.so.5+0x112d4e)
+>     #1 0x7f96e2d98a50 in g_malloc0 (/lib64/libglib-2.0.so.0+0x55a50)
+>     #2 0x556313112180 in qdict_new ../qobject/qdict.c:30
+>     #3 0x556313115bca in parse_object ../qobject/json-parser.c:318
+>     #4 0x556313117810 in parse_value ../qobject/json-parser.c:546
+>     #5 0x556313117bda in json_parser_parse ../qobject/json-parser.c:580
+>     #6 0x55631310fe67 in json_message_process_token ../qobject/json-streamer.c:92
+>     #7 0x5563131210b7 in json_lexer_feed_char ../qobject/json-lexer.c:313
+>     #8 0x556313121662 in json_lexer_feed ../qobject/json-lexer.c:350
+>     #9 0x5563131101e9 in json_message_parser_feed ../qobject/json-streamer.c:121
+>     #10 0x5563130cb81e in qmp_fd_receive ../tests/qtest/libqtest.c:614
+>     #11 0x5563130cba2b in qtest_qmp_receive_dict ../tests/qtest/libqtest.c:636
+>     #12 0x5563130cb939 in qtest_qmp_receive ../tests/qtest/libqtest.c:624
+>     #13 0x5563130cbe0d in qtest_vqmp ../tests/qtest/libqtest.c:715
+>     #14 0x5563130cc40f in qtest_qmp ../tests/qtest/libqtest.c:756
+>     #15 0x5563130c5623 in pwm_qom_get ../tests/qtest/npcm7xx_pwm-test.c:180
+>     #16 0x5563130c595e in pwm_get_duty ../tests/qtest/npcm7xx_pwm-test.c:210
+>     #17 0x5563130c7529 in test_toggle ../tests/qtest/npcm7xx_pwm-test.c:447
+> 
+> Reported-by: Euler Robot <euler.robot@huawei.com>
+> Signed-off-by: Gan Qixin <ganqixin@huawei.com>
+> ---
+> Cc: Havard Skinnemoen <hskinnemoen@google.com>
+> Cc: Tyrone Ting <kfting@nuvoton.com>
+> Cc: Thomas Huth <thuth@redhat.com>
+> Cc: Laurent Vivier <lvivier@redhat.com>
+> ---
+>  tests/qtest/npcm7xx_pwm-test.c | 5 ++++-
+>  1 file changed, 4 insertions(+), 1 deletion(-)
 
-
-> -----Original Message-----
-> From: Lukas Straub <lukasstraub2@web.de>
-> Sent: Thursday, January 14, 2021 9:51 PM
-> To: Zhang, Chen <chen.zhang@intel.com>
-> Cc: Jason Wang <jasowang@redhat.com>; qemu-dev <qemu-
-> devel@nongnu.org>; Eric Blake <eblake@redhat.com>; Dr. David Alan
-> Gilbert <dgilbert@redhat.com>; Markus Armbruster <armbru@redhat.com>;
-> Zhang Chen <zhangckid@gmail.com>
-> Subject: Re: [PATCH 3/3] net/colo-compare: Add handler for passthrough
-> connection
->=20
-> On Thu, 24 Dec 2020 09:09:18 +0800
-> Zhang Chen <chen.zhang@intel.com > wrote:
->=20
-> > From: Zhang Chen <chen.zhang@intel.com>
-> >
-> > Currently, we just use guest's TCP/UDP source port as the key to
-> > bypass certain network traffic.
-> >
-> > Signed-off-by: Zhang Chen <chen.zhang@intel.com>
-> > ---
-> >  net/colo-compare.c | 49
-> > ++++++++++++++++++++++++++++++++++++++++++++++
-> >  net/colo-compare.h |  2 ++
-> >  net/net.c          | 27 +++++++++++++++++++++++++
-> >  3 files changed, 78 insertions(+)
-> >
-> > diff --git a/net/colo-compare.c b/net/colo-compare.c index
-> > 337025b44f..11a32caa9b 100644
-> > --- a/net/colo-compare.c
-> > +++ b/net/colo-compare.c
-> > @@ -46,6 +46,9 @@ static QTAILQ_HEAD(, CompareState) net_compares =3D
-> > static NotifierList colo_compare_notifiers =3D
-> >      NOTIFIER_LIST_INITIALIZER(colo_compare_notifiers);
-> >
-> > +static QLIST_HEAD(, PassthroughEntry) passthroughlist =3D
-> > +    QLIST_HEAD_INITIALIZER(passthroughlist);
-> > +
-> >  #define COMPARE_READ_LEN_MAX NET_BUFSIZE  #define
-> MAX_QUEUE_SIZE 1024
-> >
-> > @@ -103,6 +106,12 @@ typedef struct SendEntry {
-> >      uint8_t *buf;
-> >  } SendEntry;
-> >
-> > +typedef struct PassthroughEntry {
-> > +    bool is_tcp;
-> > +    uint16_t port;
-> > +    QLIST_ENTRY(PassthroughEntry) node; } PassthroughEntry;
-> > +
-> >  struct CompareState {
-> >      Object parent;
-> >
-> > @@ -247,6 +256,7 @@ static int packet_enqueue(CompareState *s, int
-> mode, Connection **con)
-> >      ConnectionKey key;
-> >      Packet *pkt =3D NULL;
-> >      Connection *conn;
-> > +    PassthroughEntry *bypass, *next;
-> >      int ret;
-> >
-> >      if (mode =3D=3D PRIMARY_IN) {
-> > @@ -264,8 +274,23 @@ static int packet_enqueue(CompareState *s, int
-> mode, Connection **con)
-> >          pkt =3D NULL;
-> >          return -1;
-> >      }
-> > +
-> >      fill_connection_key(pkt, &key);
-> >
-> > +    /* Check COLO passthrough connenction */
-> > +    if (!QLIST_EMPTY(&passthroughlist)) {
-> > +        QLIST_FOREACH_SAFE(bypass, &passthroughlist, node, next) {
-> > +            if (((key.ip_proto =3D=3D IPPROTO_TCP) && bypass->is_tcp) =
-||
-> > +                ((key.ip_proto =3D=3D IPPROTO_UDP) && !bypass->is_tcp)=
-) {
-> > +                if (bypass->port =3D=3D key.src_port) {
-> > +                    packet_destroy(pkt, NULL);
-> > +                    pkt =3D NULL;
-> > +                    return -1;
-> > +                }
-> > +            }
-> > +        }
-> > +    }
-> > +
-> >      conn =3D connection_get(s->connection_track_table,
-> >                            &key,
-> >                            &s->conn_list); @@ -1373,6 +1398,30 @@
-> > static void colo_flush_packets(void *opaque, void *user_data)
-> >      }
-> >  }
-> >
-> > +void colo_compare_passthrough_add(bool is_tcp, const uint16_t port) {
-> > +    PassthroughEntry *bypass =3D NULL;
-> > +
-> > +    bypass =3D g_new0(PassthroughEntry, 1);
-> > +    bypass->is_tcp =3D is_tcp;
-> > +    bypass->port =3D port;
-> > +    QLIST_INSERT_HEAD(&passthroughlist, bypass, node); }
-> > +
-> > +void colo_compare_passthrough_del(bool is_tcp, const uint16_t port) {
-> > +    PassthroughEntry *bypass =3D NULL, *next =3D NULL;
-> > +
-> > +    if (!QLIST_EMPTY(&passthroughlist)) {
-> > +        QLIST_FOREACH_SAFE(bypass, &passthroughlist, node, next) {
-> > +            if ((bypass->is_tcp =3D=3D is_tcp) && (bypass->port =3D=3D=
- port)) {
-> > +                QLIST_REMOVE(bypass, node);
-> > +                g_free(bypass);
-> > +            }
-> > +        }
-> > +    }
-> > +}
-> > +
->=20
-> Access to "passtroughlist" needs to be protected by a lock, as
-> "packet_enqueue" is called from a different iothread.
-
-OK, I will add the lock in next version.
-
-Thanks
-Chen
-
->=20
-> >  static void colo_compare_class_init(ObjectClass *oc, void *data)  {
-> >      UserCreatableClass *ucc =3D USER_CREATABLE_CLASS(oc); diff --git
-> > a/net/colo-compare.h b/net/colo-compare.h index
-> 22ddd512e2..1fa026c85e
-> > 100644
-> > --- a/net/colo-compare.h
-> > +++ b/net/colo-compare.h
-> > @@ -20,5 +20,7 @@
-> >  void colo_notify_compares_event(void *opaque, int event, Error
-> > **errp);  void colo_compare_register_notifier(Notifier *notify);  void
-> > colo_compare_unregister_notifier(Notifier *notify);
-> > +void colo_compare_passthrough_add(bool is_tcp, const uint16_t port);
-> > +void colo_compare_passthrough_del(bool is_tcp, const uint16_t port);
-> >
-> >  #endif /* QEMU_COLO_COMPARE_H */
-> > diff --git a/net/net.c b/net/net.c
-> > index eac7a92618..1f303e8309 100644
-> > --- a/net/net.c
-> > +++ b/net/net.c
-> > @@ -55,6 +55,7 @@
-> >  #include "sysemu/sysemu.h"
-> >  #include "net/filter.h"
-> >  #include "qapi/string-output-visitor.h"
-> > +#include "net/colo-compare.h"
-> >
-> >  /* Net bridge is currently not supported for W32. */  #if
-> > !defined(_WIN32) @@ -1155,12 +1156,38 @@ void
-> > qmp_colo_passthrough_add(const char *prot, const uint32_t port,
-> >                                Error **errp)  {
-> >      /* Setup passthrough connection */
-> > +    if (port > 65536) {
-> > +        error_setg(errp, "COLO pass through get wrong port");
-> > +        return;
-> > +    }
-> > +
-> > +    if (!strcmp(prot, "tcp") || !strcmp(prot, "TCP")) {
-> > +        colo_compare_passthrough_add(true, (uint16_t)port);
-> > +    } else if (!strcmp(prot, "udp") || !strcmp(prot, "UDP")) {
-> > +        colo_compare_passthrough_add(false, (uint16_t)port);
-> > +    } else {
-> > +        error_setg(errp, "COLO pass through just support tcp or udp
-> protocol");
-> > +        return;
-> > +    }
-> >  }
-> >
-> >  void qmp_colo_passthrough_del(const char *prot, const uint32_t port,
-> >                                Error **errp)  {
-> >      /* Delete passthrough connection */
-> > +    if (port > 65536) {
-> > +        error_setg(errp, "COLO pass through get wrong port");
-> > +        return;
-> > +    }
-> > +
-> > +    if (!strcmp(prot, "tcp") || !strcmp(prot, "TCP")) {
-> > +        colo_compare_passthrough_del(true, (uint16_t)port);
-> > +    } else if (!strcmp(prot, "udp") || !strcmp(prot, "UDP")) {
-> > +        colo_compare_passthrough_del(false, (uint16_t)port);
-> > +    } else {
-> > +        error_setg(errp, "COLO pass through just support tcp or udp
-> protocol");
-> > +        return;
-> > +    }
-> >  }
-> >
-> >  static void netfilter_print_info(Monitor *mon, NetFilterState *nf)
->=20
->=20
->=20
-> --
-
+Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 
