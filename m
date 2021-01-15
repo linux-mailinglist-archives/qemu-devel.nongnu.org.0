@@ -2,60 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 410352F8835
-	for <lists+qemu-devel@lfdr.de>; Fri, 15 Jan 2021 23:13:37 +0100 (CET)
-Received: from localhost ([::1]:40064 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CCCA12F883D
+	for <lists+qemu-devel@lfdr.de>; Fri, 15 Jan 2021 23:17:24 +0100 (CET)
+Received: from localhost ([::1]:46000 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l0XLc-0002hG-Bh
-	for lists+qemu-devel@lfdr.de; Fri, 15 Jan 2021 17:13:36 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44668)
+	id 1l0XPH-0005Xr-U2
+	for lists+qemu-devel@lfdr.de; Fri, 15 Jan 2021 17:17:23 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45458)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1l0XIv-0001f0-7Q; Fri, 15 Jan 2021 17:10:54 -0500
-Received: from mail-io1-xd2f.google.com ([2607:f8b0:4864:20::d2f]:43073)
+ id 1l0XML-00045v-Gb
+ for qemu-devel@nongnu.org; Fri, 15 Jan 2021 17:14:21 -0500
+Received: from mail-io1-xd31.google.com ([2607:f8b0:4864:20::d31]:35442)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1l0XIq-0000qH-Rl; Fri, 15 Jan 2021 17:10:48 -0500
-Received: by mail-io1-xd2f.google.com with SMTP id x21so2882529iog.10;
- Fri, 15 Jan 2021 14:10:44 -0800 (PST)
+ id 1l0XMJ-0001xU-Sa
+ for qemu-devel@nongnu.org; Fri, 15 Jan 2021 17:14:21 -0500
+Received: by mail-io1-xd31.google.com with SMTP id y19so21137600iov.2
+ for <qemu-devel@nongnu.org>; Fri, 15 Jan 2021 14:14:19 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=DYZpsgnhclGWg/H3qE1wMCxFW6zBSxrXc7vaRA3rIRA=;
- b=LMPN6rbKreVwd3E/DjrveRZDBQWEZstVul3GCHtnGyDg+TvHXuuTOqSga9LGC/TmEa
- fqy8ioUO2vwxty6YG01MtzztfNz4n3n68vvjT4b5YdhtiufjYJYyR0SrtznauW6coP2R
- XQ36gHLmb/xNrjQLa0BTwXAYeCnbzyDwfH8ak48FhSSIp16VWEd5EyynKLB0wrLMWKLX
- wj5RHZp20XFa41yWk2B5wv8yma/68xo0v/Nm8kE2pW2FOW6MXsd+N1X/MDVfl14v8r4K
- waN1hpMdjrW6MWZDg8Pet4lVbAC9URepjgE25K2jJdPsvzB4D5fyclFSoUY+/yfNRUPC
- kr8Q==
+ :cc; bh=nLW8JmWm0xb6VUaAjVFEGfRA3pIb+YDZkOQfF9bmUGQ=;
+ b=BYI6aMuVXQxl9XSdl0iXxtyHYji2SoD9/tZmL1E4CbspvJxteCv7v/4t/kMKhThvvr
+ uuP0QdOPS7pLq9Z+4/cwGHwoXatLjbtTgPS2IF5143EjAhG8bPA1IuV12baQYGs4QOOQ
+ g6oyIma6Rq4oqdLYLw0fpoUvZVqdQFFTwJdM7RnKPyi/b5Z6WuqlEh8lGueypnVpGw2R
+ P5nAX2efXlUUeNvk/LSEKur0wQdaBJDKPxZCQ2fd1H5vCdEEncfcRCYM2L4gJcb4AAgd
+ RI0nZSlaZzeqdPWgr3q8vy/IxiJ7JUNI434iFVLYdqU0PCsfkxLHpChiq7rd3qwLJokt
+ owow==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=DYZpsgnhclGWg/H3qE1wMCxFW6zBSxrXc7vaRA3rIRA=;
- b=ssOTaGeTcU/sVCnpOaKA3zHBynFkQK9qhPV+FRKm00xzDZYfTbdLuXjUP3Q2NsbyOh
- z0a20WkJtgpusUnr7D58n99Fx+I21wCBq0APm6ZoiKhhrB5JGt/QjTIhQQrRTSJG3Bsr
- w6GysDQgu/QPmaya5jhlY4EdYZ8QtdzG3VXcaFQ+gOOvahqoQwO4R0bpApt0XOKyYqqu
- 9G6ET83RfU5T/34WE6zsitGwBIJzFry7UKDx8Xbw+zzN+yWjHJkvqj1O/qNARmW5u0W/
- iILr5DB9Vo0Wz6ye3yTAx4cxtJcjdNxZ3qS/vgWofWbuqz8ImPYXCuxAz7thHARJa7lX
- clcA==
-X-Gm-Message-State: AOAM531s4Z8UQTjD8muk2Ikqnb9zVwcgnZHFY3tLoTykvoI3xEymVP0j
- drd3P2eKEGyhrZpSYYKBUXFb41scOUV7WtvxiPs=
-X-Google-Smtp-Source: ABdhPJwQjm/VLcraZS5gedCc+b0Ekb6Iujn5aOrgJzUWRW2eshjbZlZBDX8eaLzsxzG8mBMvasvg064iCiWCTtyjJSs=
-X-Received: by 2002:a5e:850b:: with SMTP id i11mr10012671ioj.42.1610748643587; 
- Fri, 15 Jan 2021 14:10:43 -0800 (PST)
+ bh=nLW8JmWm0xb6VUaAjVFEGfRA3pIb+YDZkOQfF9bmUGQ=;
+ b=LZ+DHvudmHZNzR2iVB7BoPPdrVGKX+hsAGXUWLppJ1MUJoiCg2hAWJfjJV2XHnSkIz
+ JvWfozg+S+NCmnK8vadMgEo3mEvS7PRrlpTQ8hHJ6kQAggMNjBe8U1OjUtgrasvjiPz0
+ bb18k+/jZvOqgNP6ibEgeAT3R9d06796zOKUw3atUCJPP7lTmXGkK8937VIaLZTpCnlD
+ 5xKzP4thCv7dQEkDqeUWejyDY5k2cvs0RFC6lfTs3g0VVSsfYoZ2Pa5jOv1LfVeNgax2
+ CVmXZ/m8aHW+dqyj27SZpO4VAcDIlOUzFHDoR/i9DnOmSXGdf3CknLBw+ravqHKRP3l5
+ RIew==
+X-Gm-Message-State: AOAM532w93emHFZqfA7fDpUIosiIv5Km+bc+p6etyDqcHJtvhfNxcDWH
+ uquC8024ga0GV9uPzxDnhvCem6ynDVLlJnWoNHg=
+X-Google-Smtp-Source: ABdhPJzlNXkl3FsmS4AmahJ957ZgBoykBmS7ePjcsLPpvQyrZaZGj1cPOqlHjhFKvaYcbXYHUgcUE9q8sflWRhHHlBA=
+X-Received: by 2002:a92:8455:: with SMTP id l82mr601316ild.40.1610748858786;
+ Fri, 15 Jan 2021 14:14:18 -0800 (PST)
 MIME-Version: 1.0
-References: <20210110185109.29841-1-space.monkey.delivers@gmail.com>
- <20210110185109.29841-7-space.monkey.delivers@gmail.com>
-In-Reply-To: <20210110185109.29841-7-space.monkey.delivers@gmail.com>
+References: <20210115210456.1053477-1-richard.henderson@linaro.org>
+ <20210115210456.1053477-10-richard.henderson@linaro.org>
+In-Reply-To: <20210115210456.1053477-10-richard.henderson@linaro.org>
 From: Alistair Francis <alistair23@gmail.com>
-Date: Fri, 15 Jan 2021 14:10:17 -0800
-Message-ID: <CAKmqyKPw3e376VUoxhUmm6eZK5t6iNmmKGZbUA6iGv8U6=7=KQ@mail.gmail.com>
-Subject: Re: [PATCH v7 6/6] [RISCV_PM] Allow experimental J-ext to be turned on
-To: Alexey Baturo <baturo.alexey@gmail.com>
+Date: Fri, 15 Jan 2021 14:13:52 -0800
+Message-ID: <CAKmqyKN5CXyHTE22rB+TA57UxZbT1pD7f9QJLyWXyZ11crg1fA@mail.gmail.com>
+Subject: Re: [PATCH v2 09/22] tcg/riscv: Split out target constraints to
+ tcg-target-con-str.h
+To: Richard Henderson <richard.henderson@linaro.org>
 Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::d2f;
- envelope-from=alistair23@gmail.com; helo=mail-io1-xd2f.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::d31;
+ envelope-from=alistair23@gmail.com; helo=mail-io1-xd31.google.com
 X-Spam_score_int: -17
 X-Spam_score: -1.8
 X-Spam_bar: -
@@ -76,50 +79,134 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "open list:RISC-V" <qemu-riscv@nongnu.org>,
- Sagar Karandikar <sagark@eecs.berkeley.edu>,
- Bastian Koppelmann <kbastian@mail.uni-paderborn.de>,
- Richard Henderson <richard.henderson@linaro.org>,
- "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
- space.monkey.delivers@gmail.com, Alistair Francis <Alistair.Francis@wdc.com>,
- kupokupokupopo@gmail.com, Palmer Dabbelt <palmer@dabbelt.com>
+Cc: "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Sun, Jan 10, 2021 at 11:00 AM Alexey Baturo <baturo.alexey@gmail.com> wrote:
+On Fri, Jan 15, 2021 at 1:09 PM Richard Henderson
+<richard.henderson@linaro.org> wrote:
 >
-> Signed-off-by: Alexey Baturo <space.monkey.delivers@gmail.com>
+> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+> ---
+>  tcg/riscv/tcg-target-con-str.h | 21 ++++++++++++++
+>  tcg/riscv/tcg-target.h         |  1 +
+>  tcg/riscv/tcg-target.c.inc     | 50 ++++++++--------------------------
+>  3 files changed, 33 insertions(+), 39 deletions(-)
+>  create mode 100644 tcg/riscv/tcg-target-con-str.h
+>
+> diff --git a/tcg/riscv/tcg-target-con-str.h b/tcg/riscv/tcg-target-con-str.h
+> new file mode 100644
+> index 0000000000..587fcd3593
+> --- /dev/null
+> +++ b/tcg/riscv/tcg-target-con-str.h
+> @@ -0,0 +1,21 @@
+> +/* SPDX-License-Identifier: MIT */
+> +/*
+> + * Define RISC-V target-specific operand constraints.
+> + * Copyright (c) 2021 Linaro
+> + */
+> +
+> +/*
+> + * Define constraint letters for register sets:
+> + * REGS(letter, register_mask)
+> + */
+> +REGS('r', ALL_GENERAL_REGS)
+> +REGS('L', ALL_QLDST_REGS)
+> +
+> +/*
+> + * Define constraint letters for constants:
+> + * CONST(letter, TCG_CT_CONST_* bit set)
+> + */
+> +CONST('I', TCG_CT_CONST_S12)
+> +CONST('N', TCG_CT_CONST_N12)
+> +CONST('M', TCG_CT_CONST_M12)
+> +CONST('Z', TCG_CT_CONST_ZERO)
+> diff --git a/tcg/riscv/tcg-target.h b/tcg/riscv/tcg-target.h
+> index 727c8df418..daf3ef7b5c 100644
+> --- a/tcg/riscv/tcg-target.h
+> +++ b/tcg/riscv/tcg-target.h
+> @@ -171,5 +171,6 @@ void tb_target_set_jmp_target(uintptr_t, uintptr_t, uintptr_t, uintptr_t);
+>  #define TCG_TARGET_NEED_POOL_LABELS
+>
+>  #define TCG_TARGET_HAS_MEMORY_BSWAP 0
+> +#define TCG_TARGET_CON_STR_H
+>
+>  #endif
+> diff --git a/tcg/riscv/tcg-target.c.inc b/tcg/riscv/tcg-target.c.inc
+> index 71c0badc02..185b569f4b 100644
+> --- a/tcg/riscv/tcg-target.c.inc
+> +++ b/tcg/riscv/tcg-target.c.inc
+> @@ -122,6 +122,17 @@ static const int tcg_target_call_oarg_regs[] = {
+>  #define TCG_CT_CONST_N12   0x400
+>  #define TCG_CT_CONST_M12   0x800
+>
+> +#define ALL_GENERAL_REGS  0xffffffffu
+> +#ifdef CONFIG_SOFTMMU
+> +#define ALL_QLDST_REGS \
+> +    (ALL_GENERAL_REGS & ~((1 << TCG_REG_A0) | (1 << TCG_REG_A1) | \
+> +                          (1 << TCG_REG_A2) | (1 << TCG_REG_A3) | \
+> +                          (1 << TCG_REG_A5)))
 
-Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
+Why is this not TCG_REG_A4?
 
 Alistair
 
-> ---
->  target/riscv/cpu.c | 2 ++
->  1 file changed, 2 insertions(+)
+> +#else
+> +#define ALL_QLDST_REGS   ALL_GENERAL_REGS
+> +#endif
+> +
+> +
+>  static inline tcg_target_long sextreg(tcg_target_long val, int pos, int len)
+>  {
+>      if (TCG_TARGET_REG_BITS == 32) {
+> @@ -131,45 +142,6 @@ static inline tcg_target_long sextreg(tcg_target_long val, int pos, int len)
+>      }
+>  }
 >
-> diff --git a/target/riscv/cpu.c b/target/riscv/cpu.c
-> index 19398977d3..234401c3c6 100644
-> --- a/target/riscv/cpu.c
-> +++ b/target/riscv/cpu.c
-> @@ -499,6 +499,7 @@ static void riscv_cpu_realize(DeviceState *dev, Error **errp)
->          }
->          if (cpu->cfg.ext_j) {
->              env->mmte |= PM_EXT_INITIAL;
-> +            target_misa |= RVJ;
->          }
->          if (cpu->cfg.ext_v) {
->              target_misa |= RVV;
-> @@ -571,6 +572,7 @@ static Property riscv_cpu_properties[] = {
->      DEFINE_PROP_BOOL("u", RISCVCPU, cfg.ext_u, true),
->      /* This is experimental so mark with 'x-' */
->      DEFINE_PROP_BOOL("x-h", RISCVCPU, cfg.ext_h, false),
-> +    DEFINE_PROP_BOOL("x-j", RISCVCPU, cfg.ext_j, false),
->      DEFINE_PROP_BOOL("x-v", RISCVCPU, cfg.ext_v, false),
->      DEFINE_PROP_BOOL("Counters", RISCVCPU, cfg.ext_counters, true),
->      DEFINE_PROP_BOOL("Zifencei", RISCVCPU, cfg.ext_ifencei, true),
+> -/* parse target specific constraints */
+> -static const char *target_parse_constraint(TCGArgConstraint *ct,
+> -                                           const char *ct_str, TCGType type)
+> -{
+> -    switch (*ct_str++) {
+> -    case 'r':
+> -        ct->regs = 0xffffffff;
+> -        break;
+> -    case 'L':
+> -        /* qemu_ld/qemu_st constraint */
+> -        ct->regs = 0xffffffff;
+> -        /* qemu_ld/qemu_st uses TCG_REG_TMP0 */
+> -#if defined(CONFIG_SOFTMMU)
+> -        tcg_regset_reset_reg(ct->regs, tcg_target_call_iarg_regs[0]);
+> -        tcg_regset_reset_reg(ct->regs, tcg_target_call_iarg_regs[1]);
+> -        tcg_regset_reset_reg(ct->regs, tcg_target_call_iarg_regs[2]);
+> -        tcg_regset_reset_reg(ct->regs, tcg_target_call_iarg_regs[3]);
+> -        tcg_regset_reset_reg(ct->regs, tcg_target_call_iarg_regs[4]);
+> -#endif
+> -        break;
+> -    case 'I':
+> -        ct->ct |= TCG_CT_CONST_S12;
+> -        break;
+> -    case 'N':
+> -        ct->ct |= TCG_CT_CONST_N12;
+> -        break;
+> -    case 'M':
+> -        ct->ct |= TCG_CT_CONST_M12;
+> -        break;
+> -    case 'Z':
+> -        /* we can use a zero immediate as a zero register argument. */
+> -        ct->ct |= TCG_CT_CONST_ZERO;
+> -        break;
+> -    default:
+> -        return NULL;
+> -    }
+> -    return ct_str;
+> -}
+> -
+>  /* test if a constant matches the constraint */
+>  static int tcg_target_const_match(tcg_target_long val, TCGType type,
+>                                    const TCGArgConstraint *arg_ct)
 > --
-> 2.20.1
+> 2.25.1
 >
 >
 
