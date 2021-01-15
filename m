@@ -2,73 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3F3272F705E
-	for <lists+qemu-devel@lfdr.de>; Fri, 15 Jan 2021 03:09:54 +0100 (CET)
-Received: from localhost ([::1]:50744 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 81A5F2F7067
+	for <lists+qemu-devel@lfdr.de>; Fri, 15 Jan 2021 03:13:14 +0100 (CET)
+Received: from localhost ([::1]:55772 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l0EYj-0008Rw-4X
-	for lists+qemu-devel@lfdr.de; Thu, 14 Jan 2021 21:09:53 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38430)
+	id 1l0Ebx-0002DY-Kl
+	for lists+qemu-devel@lfdr.de; Thu, 14 Jan 2021 21:13:13 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38984)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1l0EX3-0007RE-Ki
- for qemu-devel@nongnu.org; Thu, 14 Jan 2021 21:08:09 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:29043)
+ (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
+ id 1l0Eaf-0001Tk-V3
+ for qemu-devel@nongnu.org; Thu, 14 Jan 2021 21:11:53 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:59959)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1l0EWz-0006uD-Kb
- for qemu-devel@nongnu.org; Thu, 14 Jan 2021 21:08:08 -0500
+ (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
+ id 1l0Eae-0008De-2o
+ for qemu-devel@nongnu.org; Thu, 14 Jan 2021 21:11:53 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1610676484;
+ s=mimecast20190719; t=1610676709;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=4S8jmM1gdO+j7RtHM9AtEshSRA1tVh2KfskVQ5Rxb70=;
- b=PX9I0N9hBvBq0IT74o5BcX3FDj5AkGfUmwIju3NLzqCg+Q+u2NmoGArpgg8Gvv8PDZ3Nx+
- G5VSbaq8Sm0he0wBrF3U6FRwAcwr/VS/94cGuMG6RGq+fJ8j+q5JUBEnImdyKRAvkGM+Rk
- in6+qNpl2cDeU76wLFF5M2nIZnTTG8s=
+ bh=lb6gxig1j2936gFrE/3dcd19ezPNdfX6cbCTa7f2gwo=;
+ b=XII4nx3govdF/qirDZglpjD8vkjzMaUHNIFdapDxRduSvlfj3IwXPYNVEiaEVMNOb+WSYW
+ Bl8muL2YIuF3kuS+Tmyu3wevEUPbZfyKxVkaASIQegw0Idmb4NVCgrGCu+sGPIJeFvGExU
+ 7VHf60isf4iXFgIkxEE/K9/nRKqz9SE=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-20-d2YF-BYTOEqNQfLowJfrfA-1; Thu, 14 Jan 2021 21:08:02 -0500
-X-MC-Unique: d2YF-BYTOEqNQfLowJfrfA-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
+ us-mta-219-Pl5EQMhbP0iHtoyO22taPg-1; Thu, 14 Jan 2021 21:11:47 -0500
+X-MC-Unique: Pl5EQMhbP0iHtoyO22taPg-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 6418615720
- for <qemu-devel@nongnu.org>; Fri, 15 Jan 2021 02:08:01 +0000 (UTC)
-Received: from [10.10.120.151] (ovpn-120-151.rdu2.redhat.com [10.10.120.151])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 827155D739;
- Fri, 15 Jan 2021 02:07:57 +0000 (UTC)
-Subject: Re: [PATCH 09/11] qapi/gen: Support for switching to another module
- temporarily
-To: Markus Armbruster <armbru@redhat.com>, qemu-devel@nongnu.org
-References: <20201218205407.1326907-1-armbru@redhat.com>
- <20201218205407.1326907-10-armbru@redhat.com>
-From: John Snow <jsnow@redhat.com>
-Message-ID: <df6a8584-fbf4-48aa-2283-1f90ed981491@redhat.com>
-Date: Thu, 14 Jan 2021 21:07:57 -0500
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.6.0
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 9D8AC806663
+ for <qemu-devel@nongnu.org>; Fri, 15 Jan 2021 02:11:46 +0000 (UTC)
+Received: from localhost (unknown [10.40.208.23])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 067C75D9C2;
+ Fri, 15 Jan 2021 02:11:44 +0000 (UTC)
+Date: Fri, 15 Jan 2021 03:11:42 +0100
+From: Igor Mammedov <imammedo@redhat.com>
+To: Vitaly Kuznetsov <vkuznets@redhat.com>
+Subject: Re: [PATCH v3 18/19] i386: provide simple 'hv-default=on' option
+Message-ID: <20210115031142.7c171a7f@redhat.com>
+In-Reply-To: <20210107151449.541062-1-vkuznets@redhat.com>
+References: <20210107150640.539239-1-vkuznets@redhat.com>
+ <20210107151449.541062-1-vkuznets@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <20201218205407.1326907-10-armbru@redhat.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=jsnow@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=imammedo@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
+Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=jsnow@redhat.com;
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=imammedo@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -25
-X-Spam_score: -2.6
-X-Spam_bar: --
-X-Spam_report: (-2.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.248,
+X-Spam_score_int: -29
+X-Spam_score: -3.0
+X-Spam_bar: ---
+X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.248,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.237, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -81,18 +79,155 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: marcandre.lureau@redhat.com, ehabkost@redhat.com, crosa@redhat.com
+Cc: Paolo Bonzini <pbonzini@redhat.com>, Marcelo Tosatti <mtosatti@redhat.com>,
+ qemu-devel@nongnu.org, Eduardo Habkost <ehabkost@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 12/18/20 3:54 PM, Markus Armbruster wrote:
-> +    @contextmanager
-> +    def _temp_module(self, name: str) -> ContextManager[None]:
+On Thu,  7 Jan 2021 16:14:49 +0100
+Vitaly Kuznetsov <vkuznets@redhat.com> wrote:
 
-Doesn't quite typecheck; we want Iterator[None] -- I think we're typing 
-the function that is yet-to-be-decorated -- mypy will handle typing the 
-resulting function.
+> Enabling Hyper-V emulation for a Windows VM is a tiring experience as it
+> requires listing all currently supported enlightenments ("hv-*" CPU
+> features) explicitly. We do have 'hv-passthrough' mode enabling
+> everything but it can't be used in production as it prevents migration.
+> 
+> Introduce a simple 'hv-default=on' CPU flag enabling all currently supported
+> Hyper-V enlightenments. Later, when new enlightenments get implemented,
+> compat_props mechanism will be used to disable them for legacy machine types,
+> this will keep 'hv-default=on' configurations migratable.
+> 
+> Signed-off-by: Vitaly Kuznetsov <vkuznets@redhat.com>
+> ---
+>  docs/hyperv.txt   | 16 +++++++++++++---
+>  target/i386/cpu.c | 38 ++++++++++++++++++++++++++++++++++++++
+>  target/i386/cpu.h |  5 +++++
+>  3 files changed, 56 insertions(+), 3 deletions(-)
+> 
+> diff --git a/docs/hyperv.txt b/docs/hyperv.txt
+> index 5df00da54fc4..a54c066cab09 100644
+> --- a/docs/hyperv.txt
+> +++ b/docs/hyperv.txt
+> @@ -17,10 +17,20 @@ compatible hypervisor and use Hyper-V specific features.
+>  
+>  2. Setup
+>  =========
+> -No Hyper-V enlightenments are enabled by default by either KVM or QEMU. In
+> -QEMU, individual enlightenments can be enabled through CPU flags, e.g:
+> +All currently supported Hyper-V enlightenments can be enabled by specifying
+> +'hv-default=on' CPU flag:
+>  
+> -  qemu-system-x86_64 --enable-kvm --cpu host,hv_relaxed,hv_vpindex,hv_time, ...
+> +  qemu-system-x86_64 --enable-kvm --cpu host,hv-default ...
+> +
+> +Alternatively, it is possible to do fine-grained enablement through CPU flags,
+> +e.g:
+> +
+> +  qemu-system-x86_64 --enable-kvm --cpu host,hv-relaxed,hv-vpindex,hv-time ...
 
---js
+I'd put here not '...' but rather recommended list of flags, and update
+it every time when new feature added if necessary.
+
+(not to mention that if we had it to begin with, then new 'hv-default' won't
+be necessary, I still see it as functionality duplication but I will not oppose it)
+
+
+> +It is also possible to disable individual enlightenments from the default list,
+> +this can be used for debugging purposes:
+> +
+> +  qemu-system-x86_64 --enable-kvm --cpu host,hv-default=on,hv-evmcs=off ...
+>  
+>  Sometimes there are dependencies between enlightenments, QEMU is supposed to
+>  check that the supplied configuration is sane.
+> diff --git a/target/i386/cpu.c b/target/i386/cpu.c
+> index 48007a876e32..99338de00f78 100644
+> --- a/target/i386/cpu.c
+> +++ b/target/i386/cpu.c
+> @@ -4552,6 +4552,24 @@ static void x86_cpuid_set_tsc_freq(Object *obj, Visitor *v, const char *name,
+>      cpu->env.tsc_khz = cpu->env.user_tsc_khz = value / 1000;
+>  }
+>  
+> +static bool x86_hv_default_get(Object *obj, Error **errp)
+> +{
+> +    X86CPU *cpu = X86_CPU(obj);
+> +
+> +    return cpu->hyperv_default;
+> +}
+> +
+> +static void x86_hv_default_set(Object *obj, bool value, Error **errp)
+> +{
+> +    X86CPU *cpu = X86_CPU(obj);
+> +
+> +    cpu->hyperv_default = value;
+> +
+> +    if (value) {
+> +        cpu->hyperv_features |= cpu->hyperv_default_features;
+
+s/|="/=/ please,
+i.e. no option overrides whatever was specified before to keep semantics consistent.
+
+> +    }
+> +}
+> +
+>  /* Generic getter for "feature-words" and "filtered-features" properties */
+>  static void x86_cpu_get_feature_words(Object *obj, Visitor *v,
+>                                        const char *name, void *opaque,
+> @@ -6955,10 +6973,26 @@ static void x86_cpu_initfn(Object *obj)
+>      object_property_add_alias(obj, "pause_filter", obj, "pause-filter");
+>      object_property_add_alias(obj, "sse4_1", obj, "sse4.1");
+>      object_property_add_alias(obj, "sse4_2", obj, "sse4.2");
+> +    object_property_add_alias(obj, "hv_default", obj, "hv-default");
+>  
+>      if (xcc->model) {
+>          x86_cpu_load_model(cpu, xcc->model);
+>      }
+> +
+> +    /* Hyper-V features enabled with 'hv-default=on' */
+> +    cpu->hyperv_default_features = BIT(HYPERV_FEAT_RELAXED) |
+> +        BIT(HYPERV_FEAT_VAPIC) | BIT(HYPERV_FEAT_TIME) |
+> +        BIT(HYPERV_FEAT_CRASH) | BIT(HYPERV_FEAT_RESET) |
+> +        BIT(HYPERV_FEAT_VPINDEX) | BIT(HYPERV_FEAT_RUNTIME) |
+> +        BIT(HYPERV_FEAT_SYNIC) | BIT(HYPERV_FEAT_STIMER) |
+> +        BIT(HYPERV_FEAT_FREQUENCIES) | BIT(HYPERV_FEAT_REENLIGHTENMENT) |
+> +        BIT(HYPERV_FEAT_TLBFLUSH) | BIT(HYPERV_FEAT_IPI) |
+> +        BIT(HYPERV_FEAT_STIMER_DIRECT);
+> +
+> +    /* Enlightened VMCS is only available on Intel/VMX */
+> +    if (kvm_hv_evmcs_available()) {
+> +        cpu->hyperv_default_features |= BIT(HYPERV_FEAT_EVMCS);
+> +    }
+what if VVM is migrated to another host without evmcs,
+will it change CPUID?
+
+>  }
+>  
+>  static int64_t x86_cpu_get_arch_id(CPUState *cs)
+> @@ -7285,6 +7319,10 @@ static void x86_cpu_common_class_init(ObjectClass *oc, void *data)
+>                                x86_cpu_get_crash_info_qom, NULL, NULL, NULL);
+>  #endif
+>  
+> +    object_class_property_add_bool(oc, "hv-default",
+> +                              x86_hv_default_get,
+> +                              x86_hv_default_set);
+> +
+>      for (w = 0; w < FEATURE_WORDS; w++) {
+>          int bitnr;
+>          for (bitnr = 0; bitnr < 64; bitnr++) {
+> diff --git a/target/i386/cpu.h b/target/i386/cpu.h
+> index 6220cb2cabb9..8a484becb6b9 100644
+> --- a/target/i386/cpu.h
+> +++ b/target/i386/cpu.h
+> @@ -1657,6 +1657,11 @@ struct X86CPU {
+>      bool hyperv_synic_kvm_only;
+>      uint64_t hyperv_features;
+>      bool hyperv_passthrough;
+> +
+> +    /* 'hv-default' enablement */
+> +    uint64_t hyperv_default_features;
+> +    bool hyperv_default;
+> +
+>      OnOffAuto hyperv_no_nonarch_cs;
+>      uint32_t hyperv_vendor_id[3];
+>      uint32_t hyperv_interface_id[4];
 
 
