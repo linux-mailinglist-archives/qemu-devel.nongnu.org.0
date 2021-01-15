@@ -2,71 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 81A5F2F7067
-	for <lists+qemu-devel@lfdr.de>; Fri, 15 Jan 2021 03:13:14 +0100 (CET)
-Received: from localhost ([::1]:55772 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 68CB22F7070
+	for <lists+qemu-devel@lfdr.de>; Fri, 15 Jan 2021 03:14:41 +0100 (CET)
+Received: from localhost ([::1]:58040 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l0Ebx-0002DY-Kl
-	for lists+qemu-devel@lfdr.de; Thu, 14 Jan 2021 21:13:13 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38984)
+	id 1l0EdM-0003Cu-He
+	for lists+qemu-devel@lfdr.de; Thu, 14 Jan 2021 21:14:40 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39112)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
- id 1l0Eaf-0001Tk-V3
- for qemu-devel@nongnu.org; Thu, 14 Jan 2021 21:11:53 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:59959)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
- id 1l0Eae-0008De-2o
- for qemu-devel@nongnu.org; Thu, 14 Jan 2021 21:11:53 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1610676709;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=lb6gxig1j2936gFrE/3dcd19ezPNdfX6cbCTa7f2gwo=;
- b=XII4nx3govdF/qirDZglpjD8vkjzMaUHNIFdapDxRduSvlfj3IwXPYNVEiaEVMNOb+WSYW
- Bl8muL2YIuF3kuS+Tmyu3wevEUPbZfyKxVkaASIQegw0Idmb4NVCgrGCu+sGPIJeFvGExU
- 7VHf60isf4iXFgIkxEE/K9/nRKqz9SE=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-219-Pl5EQMhbP0iHtoyO22taPg-1; Thu, 14 Jan 2021 21:11:47 -0500
-X-MC-Unique: Pl5EQMhbP0iHtoyO22taPg-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 9D8AC806663
- for <qemu-devel@nongnu.org>; Fri, 15 Jan 2021 02:11:46 +0000 (UTC)
-Received: from localhost (unknown [10.40.208.23])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 067C75D9C2;
- Fri, 15 Jan 2021 02:11:44 +0000 (UTC)
-Date: Fri, 15 Jan 2021 03:11:42 +0100
-From: Igor Mammedov <imammedo@redhat.com>
-To: Vitaly Kuznetsov <vkuznets@redhat.com>
-Subject: Re: [PATCH v3 18/19] i386: provide simple 'hv-default=on' option
-Message-ID: <20210115031142.7c171a7f@redhat.com>
-In-Reply-To: <20210107151449.541062-1-vkuznets@redhat.com>
-References: <20210107150640.539239-1-vkuznets@redhat.com>
- <20210107151449.541062-1-vkuznets@redhat.com>
-MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=imammedo@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=imammedo@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -29
-X-Spam_score: -3.0
-X-Spam_bar: ---
-X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.248,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ (Exim 4.90_1) (envelope-from <palmer@dabbelt.com>)
+ id 1l0Eb3-0001yo-TR
+ for qemu-devel@nongnu.org; Thu, 14 Jan 2021 21:12:17 -0500
+Received: from mail-pg1-x529.google.com ([2607:f8b0:4864:20::529]:39170)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <palmer@dabbelt.com>)
+ id 1l0Eb1-0008LN-Ao
+ for qemu-devel@nongnu.org; Thu, 14 Jan 2021 21:12:17 -0500
+Received: by mail-pg1-x529.google.com with SMTP id 30so5043356pgr.6
+ for <qemu-devel@nongnu.org>; Thu, 14 Jan 2021 18:12:14 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=dabbelt-com.20150623.gappssmtp.com; s=20150623;
+ h=date:subject:in-reply-to:cc:from:to:message-id:mime-version
+ :content-transfer-encoding;
+ bh=Z9uzsGdK7eWJoTB97Sa3dCLhYkoi5bHcXg2enRd0QJI=;
+ b=AFjBOii9XbHC4Z9Yo0lsjgs1arLwZRAgtA3bBdxspemUFFqHZRkNJw2tfduLEOe0Xd
+ D/6mD6JUMf/PP4wkaA1LbJeQwItrseMDFmledyStKVLTnkQuovCf3aOD3inbVQeMbnTQ
+ NPZ1qxgi5oeXLJCYIjLojkI4M+E4FYUbXZbLKyJZQE0E777JmLbyXIXwHHjrrTkmswzY
+ Asb+xaqstBQwZdLsFstmelYbNYIJue2v8/8pATduKqsr9AI7XNf03yg+Wy5Y8G9XoPgl
+ 8K+mYcVPBWhwwGyPtVq/OS65VUayPbi21jvHIDKtF3oQM96HHE57aned+fzxzfOHn/Ro
+ 3FFg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:subject:in-reply-to:cc:from:to:message-id
+ :mime-version:content-transfer-encoding;
+ bh=Z9uzsGdK7eWJoTB97Sa3dCLhYkoi5bHcXg2enRd0QJI=;
+ b=cLYxUfiDKt+shudYrjx2p9L5122lT7c0CuHtMMK9UetfltX48J9k67f1u2QIcxTbem
+ 1DoLc2LTn5JqOA1UnfLtAEnydDdZ9c+WdSt8kp29J9LDj32Ja7FV30C3WEBfS3G/OCJ5
+ 7t5Qo73F0N+HFStqTlO7pFJHzZpy7ZGwxGcXB4WT1iCcSFO7YJJsRBjUjBNaNu17TQhS
+ 17GSPkf5rLlgCYDVdYfOx622XiQP7brnWBcgq8+40A/5Xsa6zhENNF3A0qrynpLWU6JK
+ JcpcjFurA9C3R9KzFQQmkSEoNCipaXWgvALmC5t6s/JigiTSTwl4VfDdOrNwDXZnEroV
+ ZGLQ==
+X-Gm-Message-State: AOAM532bIhlR7OxPO6gHxRnOfqYmLNtir1rd5c/pHED05vEtRD9J8k1z
+ OavyVIDyGvXX4mAEaO2OvkcNM/VmjohOdl+S
+X-Google-Smtp-Source: ABdhPJwWpvTw2WvoCw9jmR79iQ5hp1fuId1AJJLvxp7LHXnWoC64dDhy2dyWvxWFpNOy3umgBRdwCQ==
+X-Received: by 2002:a62:37c7:0:b029:1aa:22ea:537d with SMTP id
+ e190-20020a6237c70000b02901aa22ea537dmr10151382pfa.56.1610676733369; 
+ Thu, 14 Jan 2021 18:12:13 -0800 (PST)
+Received: from localhost (76-210-143-223.lightspeed.sntcca.sbcglobal.net.
+ [76.210.143.223])
+ by smtp.gmail.com with ESMTPSA id u25sm6468980pfn.170.2021.01.14.18.12.12
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 14 Jan 2021 18:12:12 -0800 (PST)
+Date: Thu, 14 Jan 2021 18:12:12 -0800 (PST)
+X-Google-Original-Date: Thu, 14 Jan 2021 18:12:11 PST (-0800)
+Subject: Re: [PATCH v3 1/1] target-riscv: support QMP dump-guest-memory
+In-Reply-To: <20210115012819.2053-2-jiangyifei@huawei.com>
+From: Palmer Dabbelt <palmer@dabbelt.com>
+To: jiangyifei@huawei.com
+Message-ID: <mhng-768ea3f7-e144-44a4-9cdc-2e812a1bb5f5@penguin>
+Mime-Version: 1.0 (MHng)
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::529;
+ envelope-from=palmer@dabbelt.com; helo=mail-pg1-x529.google.com
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -79,155 +84,300 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Paolo Bonzini <pbonzini@redhat.com>, Marcelo Tosatti <mtosatti@redhat.com>,
- qemu-devel@nongnu.org, Eduardo Habkost <ehabkost@redhat.com>
+Cc: drjones@redhat.com, qemu-riscv@nongnu.org, zhang.zhanghailiang@huawei.com,
+ sagark@eecs.berkeley.edu, Bastian Koppelmann <kbastian@mail.uni-paderborn.de>,
+ qemu-devel@nongnu.org, limingwang@huawei.com,
+ Alistair Francis <Alistair.Francis@wdc.com>, jiangyifei@huawei.com,
+ fanliang@huawei.com, wu.wubin@huawei.com, dengkai1@huawei.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu,  7 Jan 2021 16:14:49 +0100
-Vitaly Kuznetsov <vkuznets@redhat.com> wrote:
+On Thu, 14 Jan 2021 17:28:19 PST (-0800), jiangyifei@huawei.com wrote:
+> Add the support needed for creating prstatus elf notes. Now elf notes
+> only contains user_regs. This allows us to use QMP dump-guest-memory.
 
-> Enabling Hyper-V emulation for a Windows VM is a tiring experience as it
-> requires listing all currently supported enlightenments ("hv-*" CPU
-> features) explicitly. We do have 'hv-passthrough' mode enabling
-> everything but it can't be used in production as it prevents migration.
-> 
-> Introduce a simple 'hv-default=on' CPU flag enabling all currently supported
-> Hyper-V enlightenments. Later, when new enlightenments get implemented,
-> compat_props mechanism will be used to disable them for legacy machine types,
-> this will keep 'hv-default=on' configurations migratable.
-> 
-> Signed-off-by: Vitaly Kuznetsov <vkuznets@redhat.com>
+"Now elf notes only contains user_regs" sounds a bit odd.  Also, I usually see 
+this as ELF.
+
+> Signed-off-by: Yifei Jiang <jiangyifei@huawei.com>
+> Signed-off-by: Mingwang Li <limingwang@huawei.com>
 > ---
->  docs/hyperv.txt   | 16 +++++++++++++---
->  target/i386/cpu.c | 38 ++++++++++++++++++++++++++++++++++++++
->  target/i386/cpu.h |  5 +++++
->  3 files changed, 56 insertions(+), 3 deletions(-)
-> 
-> diff --git a/docs/hyperv.txt b/docs/hyperv.txt
-> index 5df00da54fc4..a54c066cab09 100644
-> --- a/docs/hyperv.txt
-> +++ b/docs/hyperv.txt
-> @@ -17,10 +17,20 @@ compatible hypervisor and use Hyper-V specific features.
->  
->  2. Setup
->  =========
-> -No Hyper-V enlightenments are enabled by default by either KVM or QEMU. In
-> -QEMU, individual enlightenments can be enabled through CPU flags, e.g:
-> +All currently supported Hyper-V enlightenments can be enabled by specifying
-> +'hv-default=on' CPU flag:
->  
-> -  qemu-system-x86_64 --enable-kvm --cpu host,hv_relaxed,hv_vpindex,hv_time, ...
-> +  qemu-system-x86_64 --enable-kvm --cpu host,hv-default ...
+>  target/riscv/arch_dump.c | 202 +++++++++++++++++++++++++++++++++++++++
+>  target/riscv/cpu.c       |   2 +
+>  target/riscv/cpu.h       |   4 +
+>  target/riscv/cpu_bits.h  |   1 +
+>  target/riscv/meson.build |   1 +
+>  5 files changed, 210 insertions(+)
+>  create mode 100644 target/riscv/arch_dump.c
+>
+> diff --git a/target/riscv/arch_dump.c b/target/riscv/arch_dump.c
+> new file mode 100644
+> index 0000000000..6ad8f25920
+> --- /dev/null
+> +++ b/target/riscv/arch_dump.c
+> @@ -0,0 +1,202 @@
+> +/* Support for writing ELF notes for RISC-V architectures
+> + *
+> + * Copyright (C) 2020 Huawei Technologies Co., Ltd
+> + *
+> + * This program is free software; you can redistribute it and/or modify it
+> + * under the terms and conditions of the GNU General Public License,
+> + * version 2 or later, as published by the Free Software Foundation.
+> + *
+> + * This program is distributed in the hope it will be useful, but WITHOUT
+> + * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
+> + * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for
+> + * more details.
+> + *
+> + * You should have received a copy of the GNU General Public License along with
+> + * this program.  If not, see <http://www.gnu.org/licenses/>.
+> + */
 > +
-> +Alternatively, it is possible to do fine-grained enablement through CPU flags,
-> +e.g:
+> +#include "qemu/osdep.h"
+> +#include "cpu.h"
+> +#include "elf.h"
+> +#include "sysemu/dump.h"
 > +
-> +  qemu-system-x86_64 --enable-kvm --cpu host,hv-relaxed,hv-vpindex,hv-time ...
-
-I'd put here not '...' but rather recommended list of flags, and update
-it every time when new feature added if necessary.
-
-(not to mention that if we had it to begin with, then new 'hv-default' won't
-be necessary, I still see it as functionality duplication but I will not oppose it)
-
-
-> +It is also possible to disable individual enlightenments from the default list,
-> +this can be used for debugging purposes:
+> +/* struct user_regs_struct from arch/riscv/include/uapi/asm/ptrace.h */
+> +struct riscv64_user_regs {
+> +    uint64_t pc;
+> +    uint64_t regs[31];
+> +} QEMU_PACKED;
 > +
-> +  qemu-system-x86_64 --enable-kvm --cpu host,hv-default=on,hv-evmcs=off ...
->  
->  Sometimes there are dependencies between enlightenments, QEMU is supposed to
->  check that the supplied configuration is sane.
-> diff --git a/target/i386/cpu.c b/target/i386/cpu.c
-> index 48007a876e32..99338de00f78 100644
-> --- a/target/i386/cpu.c
-> +++ b/target/i386/cpu.c
-> @@ -4552,6 +4552,24 @@ static void x86_cpuid_set_tsc_freq(Object *obj, Visitor *v, const char *name,
->      cpu->env.tsc_khz = cpu->env.user_tsc_khz = value / 1000;
->  }
->  
-> +static bool x86_hv_default_get(Object *obj, Error **errp)
+> +QEMU_BUILD_BUG_ON(sizeof(struct riscv64_user_regs) != 256);
+> +
+> +/* struct elf_prstatus from include/uapi/linux/elfcore.h */
+
+It's just include/linux/elfcore.h.
+
+We don't have any ABI document that defines core dumps in RISC-V.  That 
+shouldn't block this, as there's tons of stuff we don't have written down, but 
+this would be a good thing to put in the ELF psABI specification.
+
+> +struct riscv64_elf_prstatus {
+> +    char pad1[32]; /* 32 == offsetof(struct elf_prstatus, pr_pid) */
+> +    uint32_t pr_pid;
+> +    char pad2[76]; /* 76 == offsetof(struct elf_prstatus, pr_reg) -
+> +                            offsetof(struct elf_prstatus, pr_ppid) */
+> +    struct riscv64_user_regs pr_reg;
+> +    char pad3[8];
+> +} QEMU_PACKED;
+> +
+> +QEMU_BUILD_BUG_ON(sizeof(struct riscv64_elf_prstatus) != 376);
+> +
+> +struct riscv64_note {
+> +    Elf64_Nhdr hdr;
+> +    char name[8]; /* align_up(sizeof("CORE"), 4) */
+> +    struct riscv64_elf_prstatus prstatus;
+> +} QEMU_PACKED;
+> +
+> +#define RISCV64_NOTE_HEADER_SIZE offsetof(struct riscv64_note, prstatus)
+> +#define RISCV64_PRSTATUS_NOTE_SIZE \
+> +            (RISCV64_NOTE_HEADER_SIZE + sizeof(struct riscv64_elf_prstatus))
+> +
+> +static void riscv64_note_init(struct riscv64_note *note, DumpState *s,
+> +                              const char *name, Elf64_Word namesz,
+> +                              Elf64_Word type, Elf64_Word descsz)
 > +{
-> +    X86CPU *cpu = X86_CPU(obj);
+> +    memset(note, 0, sizeof(*note));
 > +
-> +    return cpu->hyperv_default;
+> +    note->hdr.n_namesz = cpu_to_dump32(s, namesz);
+> +    note->hdr.n_descsz = cpu_to_dump32(s, descsz);
+> +    note->hdr.n_type = cpu_to_dump32(s, type);
+> +
+> +    memcpy(note->name, name, namesz);
 > +}
 > +
-> +static void x86_hv_default_set(Object *obj, bool value, Error **errp)
+> +int riscv_cpu_write_elf64_note(WriteCoreDumpFunction f, CPUState *cs,
+> +                               int cpuid, void *opaque)
 > +{
-> +    X86CPU *cpu = X86_CPU(obj);
+> +    struct riscv64_note note;
+> +    RISCVCPU *cpu = RISCV_CPU(cs);
+> +    CPURISCVState *env = &cpu->env;
+> +    DumpState *s = opaque;
+> +    int ret, i = 0;
+> +    const char name[] = "CORE";
 > +
-> +    cpu->hyperv_default = value;
+> +    riscv64_note_init(&note, s, name, sizeof(name),
+> +                      NT_PRSTATUS, sizeof(note.prstatus));
 > +
-> +    if (value) {
-> +        cpu->hyperv_features |= cpu->hyperv_default_features;
-
-s/|="/=/ please,
-i.e. no option overrides whatever was specified before to keep semantics consistent.
-
+> +    note.prstatus.pr_pid = cpu_to_dump32(s, cpuid);
+> +
+> +    note.prstatus.pr_reg.pc = cpu_to_dump64(s, env->pc);
+> +
+> +    for (i = 0; i < 31; i++) {
+> +        note.prstatus.pr_reg.regs[i] = cpu_to_dump64(s, env->gpr[i + 1]);
 > +    }
+> +
+> +    ret = f(&note, RISCV64_PRSTATUS_NOTE_SIZE, s);
+> +    if (ret < 0) {
+> +        return -1;
+> +    }
+> +
+> +    return ret;
 > +}
 > +
->  /* Generic getter for "feature-words" and "filtered-features" properties */
->  static void x86_cpu_get_feature_words(Object *obj, Visitor *v,
->                                        const char *name, void *opaque,
-> @@ -6955,10 +6973,26 @@ static void x86_cpu_initfn(Object *obj)
->      object_property_add_alias(obj, "pause_filter", obj, "pause-filter");
->      object_property_add_alias(obj, "sse4_1", obj, "sse4.1");
->      object_property_add_alias(obj, "sse4_2", obj, "sse4.2");
-> +    object_property_add_alias(obj, "hv_default", obj, "hv-default");
->  
->      if (xcc->model) {
->          x86_cpu_load_model(cpu, xcc->model);
->      }
+> +struct riscv32_user_regs {
+> +    uint32_t pc;
+> +    uint32_t regs[31];
+> +} QEMU_PACKED;
 > +
-> +    /* Hyper-V features enabled with 'hv-default=on' */
-> +    cpu->hyperv_default_features = BIT(HYPERV_FEAT_RELAXED) |
-> +        BIT(HYPERV_FEAT_VAPIC) | BIT(HYPERV_FEAT_TIME) |
-> +        BIT(HYPERV_FEAT_CRASH) | BIT(HYPERV_FEAT_RESET) |
-> +        BIT(HYPERV_FEAT_VPINDEX) | BIT(HYPERV_FEAT_RUNTIME) |
-> +        BIT(HYPERV_FEAT_SYNIC) | BIT(HYPERV_FEAT_STIMER) |
-> +        BIT(HYPERV_FEAT_FREQUENCIES) | BIT(HYPERV_FEAT_REENLIGHTENMENT) |
-> +        BIT(HYPERV_FEAT_TLBFLUSH) | BIT(HYPERV_FEAT_IPI) |
-> +        BIT(HYPERV_FEAT_STIMER_DIRECT);
+> +QEMU_BUILD_BUG_ON(sizeof(struct riscv32_user_regs) != 128);
 > +
-> +    /* Enlightened VMCS is only available on Intel/VMX */
-> +    if (kvm_hv_evmcs_available()) {
-> +        cpu->hyperv_default_features |= BIT(HYPERV_FEAT_EVMCS);
+> +struct riscv32_elf_prstatus {
+> +    char pad1[24]; /* 24 == offsetof(struct elf_prstatus, pr_pid) */
+> +    uint32_t pr_pid;
+> +    char pad2[44]; /* 44 == offsetof(struct elf_prstatus, pr_reg) -
+> +                            offsetof(struct elf_prstatus, pr_ppid) */
+> +    struct riscv32_user_regs pr_reg;
+> +    char pad3[4];
+> +} QEMU_PACKED;
+> +
+> +QEMU_BUILD_BUG_ON(sizeof(struct riscv32_elf_prstatus) != 204);
+> +
+> +struct riscv32_note {
+> +    Elf32_Nhdr hdr;
+> +    char name[8]; /* align_up(sizeof("CORE"), 4) */
+> +    struct riscv32_elf_prstatus prstatus;
+> +} QEMU_PACKED;
+> +
+> +#define RISCV32_NOTE_HEADER_SIZE offsetof(struct riscv32_note, prstatus)
+> +#define RISCV32_PRSTATUS_NOTE_SIZE \
+> +            (RISCV32_NOTE_HEADER_SIZE + sizeof(struct riscv32_elf_prstatus))
+> +
+> +static void riscv32_note_init(struct riscv32_note *note, DumpState *s,
+> +                              const char *name, Elf32_Word namesz,
+> +                              Elf32_Word type, Elf32_Word descsz)
+> +{
+> +    memset(note, 0, sizeof(*note));
+> +
+> +    note->hdr.n_namesz = cpu_to_dump32(s, namesz);
+> +    note->hdr.n_descsz = cpu_to_dump32(s, descsz);
+> +    note->hdr.n_type = cpu_to_dump32(s, type);
+> +
+> +    memcpy(note->name, name, namesz);
+> +}
+> +
+> +int riscv_cpu_write_elf32_note(WriteCoreDumpFunction f, CPUState *cs,
+> +                               int cpuid, void *opaque)
+> +{
+> +    struct riscv32_note note;
+> +    RISCVCPU *cpu = RISCV_CPU(cs);
+> +    CPURISCVState *env = &cpu->env;
+> +    DumpState *s = opaque;
+> +    int ret, i;
+> +    const char name[] = "CORE";
+> +
+> +    riscv32_note_init(&note, s, name, sizeof(name),
+> +                      NT_PRSTATUS, sizeof(note.prstatus));
+> +
+> +    note.prstatus.pr_pid = cpu_to_dump32(s, cpuid);
+> +
+> +    note.prstatus.pr_reg.pc = cpu_to_dump32(s, env->pc);
+> +
+> +    for (i = 0; i < 31; i++) {
+> +        note.prstatus.pr_reg.regs[i] = cpu_to_dump32(s, env->gpr[i + 1]);
 > +    }
-what if VVM is migrated to another host without evmcs,
-will it change CPUID?
-
->  }
->  
->  static int64_t x86_cpu_get_arch_id(CPUState *cs)
-> @@ -7285,6 +7319,10 @@ static void x86_cpu_common_class_init(ObjectClass *oc, void *data)
->                                x86_cpu_get_crash_info_qom, NULL, NULL, NULL);
+> +
+> +    ret = f(&note, RISCV32_PRSTATUS_NOTE_SIZE, s);
+> +    if (ret < 0) {
+> +        return -1;
+> +    }
+> +
+> +    return ret;
+> +}
+> +
+> +int cpu_get_dump_info(ArchDumpInfo *info,
+> +                      const GuestPhysBlockList *guest_phys_blocks)
+> +{
+> +    RISCVCPU *cpu;
+> +    CPURISCVState *env;
+> +
+> +    if (first_cpu == NULL) {
+> +        return -1;
+> +    }
+> +    cpu = RISCV_CPU(first_cpu);
+> +    env = &cpu->env;
+> +
+> +    info->d_machine = EM_RISCV;
+> +
+> +#if defined(TARGET_RISCV64)
+> +    info->d_class = ELFCLASS64;
+> +#else
+> +    info->d_class = ELFCLASS32;
+> +#endif
+> +
+> +    info->d_endian = (env->mstatus & MSTATUS_UBE) != 0
+> +                     ? ELFDATA2MSB : ELFDATA2LSB;
+> +
+> +    return 0;
+> +}
+> +
+> +ssize_t cpu_get_note_size(int class, int machine, int nr_cpus)
+> +{
+> +    size_t note_size;
+> +
+> +    if (class == ELFCLASS64) {
+> +        note_size = RISCV64_PRSTATUS_NOTE_SIZE;
+> +    } else {
+> +        note_size = RISCV32_PRSTATUS_NOTE_SIZE;
+> +    }
+> +
+> +    return note_size * nr_cpus;
+> +}
+> diff --git a/target/riscv/cpu.c b/target/riscv/cpu.c
+> index 8227d7aea9..eebc35b53e 100644
+> --- a/target/riscv/cpu.c
+> +++ b/target/riscv/cpu.c
+> @@ -591,6 +591,8 @@ static void riscv_cpu_class_init(ObjectClass *c, void *data)
+> +    cc->write_elf64_note = riscv_cpu_write_elf64_note;
+> +    cc->write_elf32_note = riscv_cpu_write_elf32_note;
 >  #endif
->  
-> +    object_class_property_add_bool(oc, "hv-default",
-> +                              x86_hv_default_get,
-> +                              x86_hv_default_set);
-> +
->      for (w = 0; w < FEATURE_WORDS; w++) {
->          int bitnr;
->          for (bitnr = 0; bitnr < 64; bitnr++) {
-> diff --git a/target/i386/cpu.h b/target/i386/cpu.h
-> index 6220cb2cabb9..8a484becb6b9 100644
-> --- a/target/i386/cpu.h
-> +++ b/target/i386/cpu.h
-> @@ -1657,6 +1657,11 @@ struct X86CPU {
->      bool hyperv_synic_kvm_only;
->      uint64_t hyperv_features;
->      bool hyperv_passthrough;
-> +
-> +    /* 'hv-default' enablement */
-> +    uint64_t hyperv_default_features;
-> +    bool hyperv_default;
-> +
->      OnOffAuto hyperv_no_nonarch_cs;
->      uint32_t hyperv_vendor_id[3];
->      uint32_t hyperv_interface_id[4];
+>  #ifdef CONFIG_TCG
+>      cc->tcg_initialize = riscv_translate_init;
+> diff --git a/target/riscv/cpu.h b/target/riscv/cpu.h
+> index 6339e84819..2649949924 100644
+> --- a/target/riscv/cpu.h
+> +++ b/target/riscv/cpu.h
+> @@ -321,6 +321,10 @@ extern const char * const riscv_intr_names[];
+>
+>  const char *riscv_cpu_get_trap_name(target_ulong cause, bool async);
+>  void riscv_cpu_do_interrupt(CPUState *cpu);
+> +int riscv_cpu_write_elf64_note(WriteCoreDumpFunction f, CPUState *cs,
+> +                               int cpuid, void *opaque);
+> +int riscv_cpu_write_elf32_note(WriteCoreDumpFunction f, CPUState *cs,
+> +                               int cpuid, void *opaque);
+>  int riscv_cpu_gdb_read_register(CPUState *cpu, GByteArray *buf, int reg);
+>  int riscv_cpu_gdb_write_register(CPUState *cpu, uint8_t *buf, int reg);
+>  bool riscv_cpu_exec_interrupt(CPUState *cs, int interrupt_request);
+> diff --git a/target/riscv/cpu_bits.h b/target/riscv/cpu_bits.h
+> index b41e8836c3..24b2fa9b72 100644
+> --- a/target/riscv/cpu_bits.h
+> +++ b/target/riscv/cpu_bits.h
+> @@ -368,6 +368,7 @@
+>  #define MSTATUS_MIE         0x00000008
+>  #define MSTATUS_UPIE        0x00000010
+>  #define MSTATUS_SPIE        0x00000020
+> +#define MSTATUS_UBE         0x00000040
+>  #define MSTATUS_MPIE        0x00000080
+>  #define MSTATUS_SPP         0x00000100
+>  #define MSTATUS_MPP         0x00001800
+> diff --git a/target/riscv/meson.build b/target/riscv/meson.build
+> index 14a5c62dac..88ab850682 100644
+> --- a/target/riscv/meson.build
+> +++ b/target/riscv/meson.build
+> @@ -26,6 +26,7 @@ riscv_ss.add(files(
+>
+>  riscv_softmmu_ss = ss.source_set()
+>  riscv_softmmu_ss.add(files(
+> +  'arch_dump.c',
+>    'pmp.c',
+>    'monitor.c',
+>    'machine.c'
 
+Reviewed-by: Palmer Dabbelt <palmerdabbelt@google.com>
+
+Has anyone tested this with GDB?
+
+Thanks!
 
