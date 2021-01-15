@@ -2,67 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 48FEF2F7AE0
-	for <lists+qemu-devel@lfdr.de>; Fri, 15 Jan 2021 13:58:02 +0100 (CET)
-Received: from localhost ([::1]:35326 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 372C52F7BAE
+	for <lists+qemu-devel@lfdr.de>; Fri, 15 Jan 2021 14:06:10 +0100 (CET)
+Received: from localhost ([::1]:44220 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l0Ofx-0007Iw-9d
-	for lists+qemu-devel@lfdr.de; Fri, 15 Jan 2021 07:58:01 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33662)
+	id 1l0Ono-0003HO-NS
+	for lists+qemu-devel@lfdr.de; Fri, 15 Jan 2021 08:06:08 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35726)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cohuck@redhat.com>) id 1l0OeY-0006lN-BJ
- for qemu-devel@nongnu.org; Fri, 15 Jan 2021 07:56:34 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:28829)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <cohuck@redhat.com>) id 1l0OeV-00014o-D1
- for qemu-devel@nongnu.org; Fri, 15 Jan 2021 07:56:33 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1610715390;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=NfzysKlTj5st1xcFMl1oLSiDESXibEg7nkCMhCh1EY4=;
- b=QXcPenEp0MlKo9wuTJcw7BCa9lv50TlPCJH2/wpYJiK+M+7fyOrnauWNoCkn3AupXZCNKP
- G9Lzc2T/bef/CWw+pyBkF/luS6VwiKvgmsTfD6n/4rk4k4opn+KPSORfyBCwUYFviJVQsK
- iMgIu/GqBHV+jbS/YfPkV54fNsAKvq4=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-172-i--ufkYEOuy-okm5AMtuvw-1; Fri, 15 Jan 2021 07:56:28 -0500
-X-MC-Unique: i--ufkYEOuy-okm5AMtuvw-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 5763D100E437;
- Fri, 15 Jan 2021 12:56:26 +0000 (UTC)
-Received: from gondolin (ovpn-114-124.ams2.redhat.com [10.36.114.124])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 0057960C6F;
- Fri, 15 Jan 2021 12:56:10 +0000 (UTC)
-Date: Fri, 15 Jan 2021 13:56:07 +0100
-From: Cornelia Huck <cohuck@redhat.com>
-To: David Gibson <david@gibson.dropbear.id.au>
-Subject: Re: [PATCH v7 04/13] confidential guest support: Move side effect
- out of machine_set_memory_encryption()
-Message-ID: <20210115135607.76003e1b.cohuck@redhat.com>
-In-Reply-To: <20210113235811.1909610-5-david@gibson.dropbear.id.au>
-References: <20210113235811.1909610-1-david@gibson.dropbear.id.au>
- <20210113235811.1909610-5-david@gibson.dropbear.id.au>
-Organization: Red Hat GmbH
+ (Exim 4.90_1) (envelope-from <berto@igalia.com>)
+ id 1l0Ol7-00022Q-J5; Fri, 15 Jan 2021 08:03:21 -0500
+Received: from fanzine.igalia.com ([178.60.130.6]:44634)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <berto@igalia.com>)
+ id 1l0Ol3-0003wB-TD; Fri, 15 Jan 2021 08:03:21 -0500
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com;
+ s=20170329; 
+ h=Content-Transfer-Encoding:MIME-Version:Message-Id:Date:Subject:Cc:To:From;
+ bh=33Z7xEdyIfs5ZEhzPjtmubsdYtm4WxfagtvLw25VEio=; 
+ b=H+fpePDVRSkqb7BnGHeNkPMBCRvRZzoZnRrkDGyXV3x0kmFLIa6ZSkyddVqOP41reFAzPkp3VYR5hXODbguxF6yNwMdRv5rI+SUnvwdQxJczjwhHiCcsEwcIvCEkEauG3/PQ5BJOf2T+HGmn3RNdMNRRw/hKkppZl6bdkUqHr74w1y9gpmpMscUB4rTWYIliV9YSe5LuCQnqrrPFxRCZPe42OF5vUQSg8piBLv/+jtOWSo3BtJybbkax6gd9CUq1YSujAlWMRjxkDZSHEHLTF84fuQFPyyk75ViCJJ4txItUeB2Q+3vkPCeW8/c8tw7Wlycdh9DNblY8YjNIe9IBAA==;
+Received: from [213.94.31.64] (helo=perseus.local)
+ by fanzine.igalia.com with esmtpsa 
+ (Cipher TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim)
+ id 1l0Okg-0007Wd-Rp; Fri, 15 Jan 2021 14:02:54 +0100
+Received: from berto by perseus.local with local (Exim 4.92)
+ (envelope-from <berto@igalia.com>)
+ id 1l0OkT-0003fk-QN; Fri, 15 Jan 2021 14:02:41 +0100
+From: Alberto Garcia <berto@igalia.com>
+To: qemu-devel@nongnu.org
+Subject: [RFC PATCH 0/2] Allow changing bs->file on reopen
+Date: Fri, 15 Jan 2021 14:02:36 +0100
+Message-Id: <cover.1610715661.git.berto@igalia.com>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=cohuck@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -29
-X-Spam_score: -3.0
-X-Spam_bar: ---
-X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.25,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=178.60.130.6; envelope-from=berto@igalia.com;
+ helo=fanzine.igalia.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -75,40 +57,59 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: pair@us.ibm.com, brijesh.singh@amd.com, kvm@vger.kernel.org,
- David Hildenbrand <david@redhat.com>, qemu-devel@nongnu.org,
- frankja@linux.ibm.com, pragyansri.pathi@intel.com, mst@redhat.com,
- mdroth@linux.vnet.ibm.com, pasic@linux.ibm.com, borntraeger@de.ibm.com,
- andi.kleen@intel.com, thuth@redhat.com, Eduardo Habkost <ehabkost@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>, dgilbert@redhat.com,
- Greg Kurz <groug@kaod.org>, qemu-s390x@nongnu.org, jun.nakajima@intel.com,
- berrange@redhat.com, Marcelo Tosatti <mtosatti@redhat.com>,
- qemu-ppc@nongnu.org, Paolo Bonzini <pbonzini@redhat.com>
+Cc: Kevin Wolf <kwolf@redhat.com>,
+ Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
+ Alberto Garcia <berto@igalia.com>, qemu-block@nongnu.org,
+ Kashyap Chamarthy <kchamart@redhat.com>, Max Reitz <mreitz@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, 14 Jan 2021 10:58:02 +1100
-David Gibson <david@gibson.dropbear.id.au> wrote:
+Hi,
 
-> When the "memory-encryption" property is set, we also disable KSM
-> merging for the guest, since it won't accomplish anything.
-> 
-> We want that, but doing it in the property set function itself is
-> thereoretically incorrect, in the unlikely event of some configuration
-> environment that set the property then cleared it again before
-> constructing the guest.
-> 
-> More importantly, it makes some other cleanups we want more difficult.
-> So, instead move this logic to machine_run_board_init() conditional on
-> the final value of the property.
-> 
-> Signed-off-by: David Gibson <david@gibson.dropbear.id.au>
-> Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-> Reviewed-by: Greg Kurz <groug@kaod.org>
-> ---
->  hw/core/machine.c | 17 +++++++++--------
->  1 file changed, 9 insertions(+), 8 deletions(-)
+during the past months we talked about making x-blockdev-reopen stable
+API, and one of the missing things was having support for changing
+bs->file. See here for the discusssion (I can't find the message from
+Kashyap that started the thread in the web archives):
 
-Reviewed-by: Cornelia Huck <cohuck@redhat.com>
+   https://lists.gnu.org/archive/html/qemu-block/2020-10/msg00922.html
+
+I was testing this and one of the problems that I found was that
+removing a filter node using this command is tricky because of the
+permission system, see here for details:
+
+   https://lists.gnu.org/archive/html/qemu-block/2020-12/msg00092.html
+
+The good news is that Vladimir posted a set of patches that changes
+the way that permissions are updated on reopen:
+
+   https://lists.gnu.org/archive/html/qemu-block/2020-11/msg00745.html
+
+I was testing if this would be useful to solve the problem that I
+mentioned earlier and it seems to be the case so I wrote a patch to
+add support for changing bs->file, along with a couple of test cases.
+
+This is still an RFC but you can see the idea.
+
+These patches apply on top of Vladimir's branch:
+
+git: https://src.openvz.org/scm/~vsementsov/qemu.git
+tag: up-block-topologic-perm-v2
+
+Opinions are very welcome!
+
+Berto
+
+Alberto Garcia (2):
+  block: Allow changing bs->file on reopen
+  iotests: Update 245 to support replacing files with x-blockdev-reopen
+
+ include/block/block.h      |  1 +
+ block.c                    | 61 ++++++++++++++++++++++++++++++++++++++
+ tests/qemu-iotests/245     | 61 +++++++++++++++++++++++++++++++++++---
+ tests/qemu-iotests/245.out |  4 +--
+ 4 files changed, 121 insertions(+), 6 deletions(-)
+
+-- 
+2.20.1
 
 
