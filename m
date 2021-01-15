@@ -2,56 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A00CA2F7CB4
-	for <lists+qemu-devel@lfdr.de>; Fri, 15 Jan 2021 14:33:36 +0100 (CET)
-Received: from localhost ([::1]:37388 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3EF532F7D07
+	for <lists+qemu-devel@lfdr.de>; Fri, 15 Jan 2021 14:47:08 +0100 (CET)
+Received: from localhost ([::1]:48856 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l0PEN-0008A5-Lm
-	for lists+qemu-devel@lfdr.de; Fri, 15 Jan 2021 08:33:35 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40424)
+	id 1l0PRT-00080S-9O
+	for lists+qemu-devel@lfdr.de; Fri, 15 Jan 2021 08:47:07 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40358)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1l0P3M-00074E-NF
- for qemu-devel@nongnu.org; Fri, 15 Jan 2021 08:22:12 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:50262)
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1l0P3K-0006yo-C7
+ for qemu-devel@nongnu.org; Fri, 15 Jan 2021 08:22:10 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:22475)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1l0P3A-0003JG-76
- for qemu-devel@nongnu.org; Fri, 15 Jan 2021 08:22:12 -0500
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1l0P3A-0003JJ-4E
+ for qemu-devel@nongnu.org; Fri, 15 Jan 2021 08:22:10 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
  s=mimecast20190719; t=1610716918;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=0LBA83OsZdc5NiYe4eEtS2i8fh03LsyFVlbEeRAvgyM=;
- b=IOC+fi0KRCBRqwS+jDRVzkdXrDr7OjdA4C3wGC5DfHpHEwsezs76QUUTu5xXaTAbOZIXx8
- jft25XeFTnD3dAZOWVUftOgoyeK0eFIFAMc8xNu/8w1YxM6/3g8S98Af147aNjzYf/17EK
- zrLuYGg7YqXjrmCRH+jjgmX7/ie4YfY=
+ bh=HYOcwhM19OS83x0r3EaTN7pPiiX5hv/Nyz4UpIeAs5o=;
+ b=HA1GzWaflkNIpVKsCtViB/oLqe3o9dJdrzptvGpuR/rn6ZZS2CHGAXUstJAaCspPbiZzu2
+ XwVJ+Dw6BzAkgWyl8dUWsUIY0F1nK6awxBo/s2MudRbI1GTgd3L45qiMB+luuhhEbq/P/N
+ eB5A3N3sj37RraA2AvuoxQ4pdfXdUjY=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-327-10kBzmYTPtSz1VTraCGoIQ-1; Fri, 15 Jan 2021 08:21:56 -0500
-X-MC-Unique: 10kBzmYTPtSz1VTraCGoIQ-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
+ us-mta-347-pfN2gyj4NounUwctn-2ODA-1; Fri, 15 Jan 2021 08:21:56 -0500
+X-MC-Unique: pfN2gyj4NounUwctn-2ODA-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id BC2E9CE649;
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 791B7CE647;
  Fri, 15 Jan 2021 13:21:55 +0000 (UTC)
 Received: from sirius.home.kraxel.org (ovpn-112-182.ams2.redhat.com
  [10.36.112.182])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 90DA01975E;
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 987635D9E8;
  Fri, 15 Jan 2021 13:21:54 +0000 (UTC)
 Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
- id 188EB1800D50; Fri, 15 Jan 2021 14:21:47 +0100 (CET)
+ id 23A3E1800D51; Fri, 15 Jan 2021 14:21:47 +0100 (CET)
 From: Gerd Hoffmann <kraxel@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 21/30] dsoundaudio: rename dsound_open()
-Date: Fri, 15 Jan 2021 14:21:37 +0100
-Message-Id: <20210115132146.1443592-22-kraxel@redhat.com>
+Subject: [PULL 22/30] dsoundaudio: enable f32 audio sample format
+Date: Fri, 15 Jan 2021 14:21:38 +0100
+Message-Id: <20210115132146.1443592-23-kraxel@redhat.com>
 In-Reply-To: <20210115132146.1443592-1-kraxel@redhat.com>
 References: <20210115132146.1443592-1-kraxel@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kraxel@redhat.com
 X-Mimecast-Spam-Score: 0
@@ -86,40 +86,135 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Volker Rümelin <vr_qemu@t-online.de>
 
-Rename dsound_open() to dsound_set_cooperative_level(). The
-only task of that function is to set the cooperative level for
-DirectSound.
+Enable the f32 audio sample format for the DirectSound backend.
 
 Signed-off-by: Volker Rümelin <vr_qemu@t-online.de>
 Message-id: 9315afe5-5958-c0b4-ea1e-14769511a9d5@t-online.de
-Message-Id: <20210110100239.27588-21-vr_qemu@t-online.de>
+Message-Id: <20210110100239.27588-22-vr_qemu@t-online.de>
 Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
 ---
- audio/dsoundaudio.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ audio/audio_win_int.c | 65 +++++++++++++++++++++++++++++--------------
+ 1 file changed, 44 insertions(+), 21 deletions(-)
 
-diff --git a/audio/dsoundaudio.c b/audio/dsoundaudio.c
-index 0fbdf770ac75..d3695f3af653 100644
---- a/audio/dsoundaudio.c
-+++ b/audio/dsoundaudio.c
-@@ -342,7 +342,7 @@ static void dsound_clear_sample (HWVoiceOut *hw, LPDIRECTSOUNDBUFFER dsb,
-     dsound_unlock_out (dsb, p1, p2, blen1, blen2);
- }
+diff --git a/audio/audio_win_int.c b/audio/audio_win_int.c
+index b938fd667bae..b7db34900c7c 100644
+--- a/audio/audio_win_int.c
++++ b/audio/audio_win_int.c
+@@ -5,6 +5,7 @@
  
--static int dsound_open (dsound *s)
-+static int dsound_set_cooperative_level(dsound *s)
+ #define AUDIO_CAP "win-int"
+ #include <windows.h>
++#include <mmreg.h>
+ #include <mmsystem.h>
+ 
+ #include "audio.h"
+@@ -16,7 +17,6 @@ int waveformat_from_audio_settings (WAVEFORMATEX *wfx,
  {
-     HRESULT hr;
-     HWND hwnd;
-@@ -673,7 +673,7 @@ static void *dsound_audio_init(Audiodev *dev)
-         }
+     memset (wfx, 0, sizeof (*wfx));
+ 
+-    wfx->wFormatTag = WAVE_FORMAT_PCM;
+     wfx->nChannels = as->nchannels;
+     wfx->nSamplesPerSec = as->freq;
+     wfx->nAvgBytesPerSec = as->freq << (as->nchannels == 2);
+@@ -26,11 +26,13 @@ int waveformat_from_audio_settings (WAVEFORMATEX *wfx,
+     switch (as->fmt) {
+     case AUDIO_FORMAT_S8:
+     case AUDIO_FORMAT_U8:
++        wfx->wFormatTag = WAVE_FORMAT_PCM;
+         wfx->wBitsPerSample = 8;
+         break;
+ 
+     case AUDIO_FORMAT_S16:
+     case AUDIO_FORMAT_U16:
++        wfx->wFormatTag = WAVE_FORMAT_PCM;
+         wfx->wBitsPerSample = 16;
+         wfx->nAvgBytesPerSec <<= 1;
+         wfx->nBlockAlign <<= 1;
+@@ -38,6 +40,14 @@ int waveformat_from_audio_settings (WAVEFORMATEX *wfx,
+ 
+     case AUDIO_FORMAT_S32:
+     case AUDIO_FORMAT_U32:
++        wfx->wFormatTag = WAVE_FORMAT_PCM;
++        wfx->wBitsPerSample = 32;
++        wfx->nAvgBytesPerSec <<= 2;
++        wfx->nBlockAlign <<= 2;
++        break;
++
++    case AUDIO_FORMAT_F32:
++        wfx->wFormatTag = WAVE_FORMAT_IEEE_FLOAT;
+         wfx->wBitsPerSample = 32;
+         wfx->nAvgBytesPerSec <<= 2;
+         wfx->nBlockAlign <<= 2;
+@@ -54,12 +64,6 @@ int waveformat_from_audio_settings (WAVEFORMATEX *wfx,
+ int waveformat_to_audio_settings (WAVEFORMATEX *wfx,
+                                   struct audsettings *as)
+ {
+-    if (wfx->wFormatTag != WAVE_FORMAT_PCM) {
+-        dolog ("Invalid wave format, tag is not PCM, but %d\n",
+-               wfx->wFormatTag);
+-        return -1;
+-    }
+-
+     if (!wfx->nSamplesPerSec) {
+         dolog ("Invalid wave format, frequency is zero\n");
+         return -1;
+@@ -83,23 +87,42 @@ int waveformat_to_audio_settings (WAVEFORMATEX *wfx,
+         return -1;
      }
  
--    err = dsound_open (s);
-+    err = dsound_set_cooperative_level(s);
-     if (err) {
-         dsound_audio_fini (s);
-         return NULL;
+-    switch (wfx->wBitsPerSample) {
+-    case 8:
+-        as->fmt = AUDIO_FORMAT_U8;
+-        break;
++    if (wfx->wFormatTag == WAVE_FORMAT_PCM) {
++        switch (wfx->wBitsPerSample) {
++        case 8:
++            as->fmt = AUDIO_FORMAT_U8;
++            break;
+ 
+-    case 16:
+-        as->fmt = AUDIO_FORMAT_S16;
+-        break;
++        case 16:
++            as->fmt = AUDIO_FORMAT_S16;
++            break;
+ 
+-    case 32:
+-        as->fmt = AUDIO_FORMAT_S32;
+-        break;
++        case 32:
++            as->fmt = AUDIO_FORMAT_S32;
++            break;
+ 
+-    default:
+-        dolog ("Invalid wave format, bits per sample is not "
+-               "8, 16 or 32, but %d\n",
+-               wfx->wBitsPerSample);
++        default:
++            dolog("Invalid PCM wave format, bits per sample is not "
++                  "8, 16 or 32, but %d\n",
++                  wfx->wBitsPerSample);
++            return -1;
++        }
++    } else if (wfx->wFormatTag == WAVE_FORMAT_IEEE_FLOAT) {
++        switch (wfx->wBitsPerSample) {
++        case 32:
++            as->fmt = AUDIO_FORMAT_F32;
++            break;
++
++        default:
++            dolog("Invalid IEEE_FLOAT wave format, bits per sample is not "
++                  "32, but %d\n",
++                  wfx->wBitsPerSample);
++            return -1;
++        }
++    } else {
++        dolog("Invalid wave format, tag is not PCM and not IEEE_FLOAT, "
++              "but %d\n",
++              wfx->wFormatTag);
+         return -1;
+     }
+ 
 -- 
 2.29.2
 
