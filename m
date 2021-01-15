@@ -2,46 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5B5CF2F7FA3
-	for <lists+qemu-devel@lfdr.de>; Fri, 15 Jan 2021 16:34:01 +0100 (CET)
-Received: from localhost ([::1]:53238 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7FB452F7FA4
+	for <lists+qemu-devel@lfdr.de>; Fri, 15 Jan 2021 16:34:09 +0100 (CET)
+Received: from localhost ([::1]:53902 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l0R6u-0007GF-Cr
-	for lists+qemu-devel@lfdr.de; Fri, 15 Jan 2021 10:34:00 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41678)
+	id 1l0R72-0007Xu-HN
+	for lists+qemu-devel@lfdr.de; Fri, 15 Jan 2021 10:34:08 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42304)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <steven.price@arm.com>)
- id 1l0R1f-00020D-Iy
- for qemu-devel@nongnu.org; Fri, 15 Jan 2021 10:28:35 -0500
-Received: from foss.arm.com ([217.140.110.172]:35542)
- by eggs.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <steven.price@arm.com>) id 1l0R1b-0008Mj-OE
- for qemu-devel@nongnu.org; Fri, 15 Jan 2021 10:28:35 -0500
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
- by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id CC61412FC;
- Fri, 15 Jan 2021 07:28:29 -0800 (PST)
-Received: from e112269-lin.arm.com (unknown [172.31.20.19])
- by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 1D39C3F70D;
- Fri, 15 Jan 2021 07:28:26 -0800 (PST)
-From: Steven Price <steven.price@arm.com>
-To: Catalin Marinas <catalin.marinas@arm.com>, Marc Zyngier <maz@kernel.org>,
- Will Deacon <will@kernel.org>
-Subject: [RFC PATCH v7 3/3] KVM: arm64: ioctl to fetch/store tags in a guest
-Date: Fri, 15 Jan 2021 15:28:11 +0000
-Message-Id: <20210115152811.8398-4-steven.price@arm.com>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20210115152811.8398-1-steven.price@arm.com>
-References: <20210115152811.8398-1-steven.price@arm.com>
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1l0R41-0005Xw-2I; Fri, 15 Jan 2021 10:31:02 -0500
+Received: from mail-ej1-x62c.google.com ([2a00:1450:4864:20::62c]:39743)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1l0R3u-0000xH-P3; Fri, 15 Jan 2021 10:30:56 -0500
+Received: by mail-ej1-x62c.google.com with SMTP id n26so13839419eju.6;
+ Fri, 15 Jan 2021 07:30:53 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=sender:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=uiFGIlAxUu4JOJhVYdjndEVzVqFiiMzibebdemylKWc=;
+ b=SmLOaRcNu35hmJxclAkpq/Z2zfsTp3xq16m9aSBrEvCu4FTaet74EH1C46B8PkjM87
+ sQiV1D9fOSG78UGvFdezNOZ2hyIYV7F1iVLeMVgL8Su/nlR8DEKiYKAdBfaD/8dX4rzG
+ tfzb+bx6E085mzcsc/RO8uv+TAvOjqdGdjFcpdq1ia+q5FvH24m92rFEdsF4LzATePIu
+ v92PDJCdFkfr9O1JOrg10fm+IG4zWNPt3L9t/vmpQXnYU/BFUEqJX1s7eE5gocN3AGLq
+ 5JyHJcOHIr40D0O9VLE1yB2Rm21el8Dzx1zpg6RyGydaGFLsZu+itOh8VMcY2Q+vzh/2
+ N2Qg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
+ :mime-version:content-transfer-encoding;
+ bh=uiFGIlAxUu4JOJhVYdjndEVzVqFiiMzibebdemylKWc=;
+ b=loLgq0wmHsg4A6I00FGe1JAyOdIHHPNzkhZDH5/e3nBrcX5H+eKazLu4ReR6JiEtyo
+ DWbDGxhtjqy1Za4W3UjwPLT812PS/oQUk05hBdvcMTo8uz3OwvwUFKzt1EazUyPKF28q
+ HDf0ErW4GL5fMNT6bqHsO9Sv0E3D+0t/dGwx87fNN/gIATGMVQxioM4r6nTbGcAjaykK
+ ZNoBhZKlPFFkeBd1yQHkw7pH807aI/n/Jq3iXqZnRm0yB10h540kA8gcPJ/cA1MFJ8J8
+ A2n+AU4Zds1Wjapjeku7tKNTK2Ku8Z8GOm8RWQUyFS/06UTRix80hq3TFWiW3vrZV2tq
+ mTqg==
+X-Gm-Message-State: AOAM532z5FYdhc5N1Ag3NtEUAnIxr0p98FbsNyInmuyTN/arSxKtNaK5
+ smOXBsd7BReGQjbXXclncsEgJ7jCJX0=
+X-Google-Smtp-Source: ABdhPJz+SELq/tgKJRbXYPqq96EQjxJjXEQIWGf52pq+7rP3wqlOsvG5MCGBL4+yGfesghburUs1YQ==
+X-Received: by 2002:a17:907:3f29:: with SMTP id
+ hq41mr9334716ejc.227.1610724651944; 
+ Fri, 15 Jan 2021 07:30:51 -0800 (PST)
+Received: from x1w.redhat.com (13.red-83-57-169.dynamicip.rima-tde.net.
+ [83.57.169.13])
+ by smtp.gmail.com with ESMTPSA id k22sm4261481edv.33.2021.01.15.07.30.50
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 15 Jan 2021 07:30:51 -0800 (PST)
+From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
+To: qemu-devel@nongnu.org
+Subject: [PATCH v7 0/9] hw/ssi: imx_spi: Fix various bugs in the imx_spi model
+Date: Fri, 15 Jan 2021 16:30:40 +0100
+Message-Id: <20210115153049.3353008-1-f4bug@amsat.org>
+X-Mailer: git-send-email 2.26.2
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=217.140.110.172;
- envelope-from=steven.price@arm.com; helo=foss.arm.com
-X-Spam_score_int: -41
-X-Spam_score: -4.2
-X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2a00:1450:4864:20::62c;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-ej1-x62c.google.com
+X-Spam_score_int: -14
+X-Spam_score: -1.5
+X-Spam_bar: -
+X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.248,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -54,151 +82,99 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Mark Rutland <mark.rutland@arm.com>,
- Peter Maydell <peter.maydell@linaro.org>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
- Andrew Jones <drjones@redhat.com>, Haibo Xu <Haibo.Xu@arm.com>,
- Suzuki K Poulose <suzuki.poulose@arm.com>, qemu-devel@nongnu.org,
- Dave Martin <Dave.Martin@arm.com>, Juan Quintela <quintela@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>, linux-kernel@vger.kernel.org,
- Steven Price <steven.price@arm.com>, James Morse <james.morse@arm.com>,
- Julien Thierry <julien.thierry.kdev@gmail.com>,
- Thomas Gleixner <tglx@linutronix.de>, kvmarm@lists.cs.columbia.edu,
- linux-arm-kernel@lists.infradead.org
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ Alistair Francis <alistair@alistair23.me>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
+ Jean-Christophe Dubois <jcd@tribudubois.net>, qemu-arm@nongnu.org,
+ Peter Chubb <peter.chubb@nicta.com.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The VMM may not wish to have it's own mapping of guest memory mapped
-with PROT_MTE because this causes problems if the VMM has tag checking
-enabled (the guest controls the tags in physical RAM and it's unlikely
-the tags are correct for the VMM).
-
-Instead add a new ioctl which allows the VMM to easily read/write the
-tags from guest memory, allowing the VMM's mapping to be non-PROT_MTE
-while the VMM can still read/write the tags for the purpose of
-migration.
-
-Signed-off-by: Steven Price <steven.price@arm.com>
----
- arch/arm64/include/uapi/asm/kvm.h | 13 +++++++
- arch/arm64/kvm/arm.c              | 59 +++++++++++++++++++++++++++++++
- include/uapi/linux/kvm.h          |  1 +
- 3 files changed, 73 insertions(+)
-
-diff --git a/arch/arm64/include/uapi/asm/kvm.h b/arch/arm64/include/uapi/asm/kvm.h
-index 24223adae150..5fc2534ac5df 100644
---- a/arch/arm64/include/uapi/asm/kvm.h
-+++ b/arch/arm64/include/uapi/asm/kvm.h
-@@ -184,6 +184,19 @@ struct kvm_vcpu_events {
- 	__u32 reserved[12];
- };
- 
-+struct kvm_arm_copy_mte_tags {
-+	__u64 guest_ipa;
-+	__u64 length;
-+	union {
-+		void __user *addr;
-+		__u64 padding;
-+	};
-+	__u64 flags;
-+};
-+
-+#define KVM_ARM_TAGS_TO_GUEST		0
-+#define KVM_ARM_TAGS_FROM_GUEST		1
-+
- /* If you need to interpret the index values, here is the key: */
- #define KVM_REG_ARM_COPROC_MASK		0x000000000FFF0000
- #define KVM_REG_ARM_COPROC_SHIFT	16
-diff --git a/arch/arm64/kvm/arm.c b/arch/arm64/kvm/arm.c
-index f4c2fd2e7c49..d6dd6b79bb77 100644
---- a/arch/arm64/kvm/arm.c
-+++ b/arch/arm64/kvm/arm.c
-@@ -1303,6 +1303,55 @@ static int kvm_vm_ioctl_set_device_addr(struct kvm *kvm,
- 	}
- }
- 
-+static int kvm_vm_ioctl_mte_copy_tags(struct kvm *kvm,
-+				      struct kvm_arm_copy_mte_tags *copy_tags)
-+{
-+	gpa_t guest_ipa = copy_tags->guest_ipa;
-+	size_t length = copy_tags->length;
-+	void __user *tags = copy_tags->addr;
-+	gpa_t gfn;
-+	size_t pages;
-+	bool write = !(copy_tags->flags & KVM_ARM_TAGS_FROM_GUEST);
-+
-+	if (copy_tags->flags & ~KVM_ARM_TAGS_FROM_GUEST)
-+		return -EINVAL;
-+
-+	if (length & ~PAGE_MASK || guest_ipa & ~PAGE_MASK)
-+		return -EINVAL;
-+
-+	gfn = gpa_to_gfn(guest_ipa);
-+	pages = length >> PAGE_SHIFT;
-+
-+	while (length > 0) {
-+		kvm_pfn_t pfn = gfn_to_pfn_prot(kvm, gfn, write, NULL);
-+		void *maddr;
-+		unsigned long num_tags = PAGE_SIZE / MTE_GRANULE_SIZE;
-+
-+		if (is_error_noslot_pfn(pfn))
-+			return -ENOENT;
-+
-+		maddr = page_address(pfn_to_page(pfn));
-+
-+		if (!write) {
-+			num_tags = mte_copy_tags_to_user(tags, maddr, num_tags);
-+			kvm_release_pfn_clean(pfn);
-+		} else {
-+			num_tags = mte_copy_tags_from_user(maddr, tags,
-+							   num_tags);
-+			kvm_release_pfn_dirty(pfn);
-+		}
-+
-+		if (num_tags != PAGE_SIZE / MTE_GRANULE_SIZE)
-+			return -EFAULT;
-+
-+		gfn++;
-+		tags += num_tags;
-+		length -= PAGE_SIZE;
-+	}
-+
-+	return 0;
-+}
-+
- long kvm_arch_vm_ioctl(struct file *filp,
- 		       unsigned int ioctl, unsigned long arg)
- {
-@@ -1339,6 +1388,16 @@ long kvm_arch_vm_ioctl(struct file *filp,
- 
- 		return 0;
- 	}
-+	case KVM_ARM_MTE_COPY_TAGS: {
-+		struct kvm_arm_copy_mte_tags copy_tags;
-+
-+		if (!kvm_has_mte(kvm))
-+			return -EINVAL;
-+
-+		if (copy_from_user(&copy_tags, argp, sizeof(copy_tags)))
-+			return -EFAULT;
-+		return kvm_vm_ioctl_mte_copy_tags(kvm, &copy_tags);
-+	}
- 	default:
- 		return -EINVAL;
- 	}
-diff --git a/include/uapi/linux/kvm.h b/include/uapi/linux/kvm.h
-index de737d5102ca..76fccb33d025 100644
---- a/include/uapi/linux/kvm.h
-+++ b/include/uapi/linux/kvm.h
-@@ -1397,6 +1397,7 @@ struct kvm_s390_ucas_mapping {
- /* Available with KVM_CAP_PMU_EVENT_FILTER */
- #define KVM_SET_PMU_EVENT_FILTER  _IOW(KVMIO,  0xb2, struct kvm_pmu_event_filter)
- #define KVM_PPC_SVM_OFF		  _IO(KVMIO,  0xb3)
-+#define KVM_ARM_MTE_COPY_TAGS	  _IOR(KVMIO,  0xb4, struct kvm_arm_copy_mte_tags)
- 
- /* ioctl for vm fd */
- #define KVM_CREATE_DEVICE	  _IOWR(KVMIO,  0xe0, struct kvm_create_device)
--- 
-2.20.1
-
+Hi,=0D
+=0D
+This is how I understand the ecSPI reset works, after=0D
+looking at the IMX6DQRM.pdf datasheet.=0D
+=0D
+This is a respin of Ben's v5 series [*].=0D
+=0D
+Since v6:=0D
+- Dropped "Reduce 'change_mask' variable scope" patch=0D
+- Fixed inverted reset logic=0D
+- Added Juan R-b tags=0D
+- Removed 'RFC' tag as tests pass=0D
+=0D
+Based-on: <1608688825-81519-1-git-send-email-bmeng.cn@gmail.com>=0D
+(queued on riscv-next).=0D
+=0D
+Copy of Ben's v5 cover:=0D
+=0D
+  This series fixes a bunch of bugs in current implementation of the imx=0D
+  spi controller, including the following issues:=0D
+=0D
+  - chip select signal was not lower down when spi controller is disabled=0D
+  - remove imx_spi_update_irq() in imx_spi_reset()=0D
+  - round up the tx burst length to be multiple of 8=0D
+  - transfer incorrect data when the burst length is larger than 32 bit=0D
+  - spi controller tx and rx fifo endianness is incorrect=0D
+=0D
+[*] https://lists.gnu.org/archive/html/qemu-devel/2021-01/msg02333.html=0D
+=0D
+Diff with v6:=0D
+=0D
+Key:=0D
+[----] : patches are identical=0D
+[####] : number of functional differences between upstream/downstream patch=
+=0D
+[down] : patch is downstream-only=0D
+The flags [FC] indicate (F)unctional and (C)ontextual differences, respecti=
+ve=3D=0D
+ly=0D
+=0D
+001/9:[----] [--] 'hw/ssi: imx_spi: Use a macro for number of chip selects =
+su=3D=0D
+pported'=0D
+002/9:[----] [--] 'hw/ssi: imx_spi: Remove pointless variable initializatio=
+n'=0D
+003/9:[----] [-C] 'hw/ssi: imx_spi: Rework imx_spi_reset() to keep CONREG r=
+eg=3D=0D
+ister value'=0D
+004/9:[----] [-C] 'hw/ssi: imx_spi: Rework imx_spi_read() to handle block d=
+is=3D=0D
+abled'=0D
+005/9:[0003] [FC] 'hw/ssi: imx_spi: Rework imx_spi_write() to handle block =
+di=3D=0D
+sabled'=0D
+006/9:[----] [--] 'hw/ssi: imx_spi: Disable chip selects when controller is=
+ d=3D=0D
+isabled'=0D
+007/9:[----] [--] 'hw/ssi: imx_spi: Round up the burst length to be multipl=
+e =3D=0D
+of 8'=0D
+008/9:[----] [--] 'hw/ssi: imx_spi: Correct the burst length > 32 bit trans=
+fe=3D=0D
+r logic'=0D
+009/9:[----] [--] 'hw/ssi: imx_spi: Correct tx and rx fifo endianness'=0D
+=0D
+Bin Meng (4):=0D
+  hw/ssi: imx_spi: Use a macro for number of chip selects supported=0D
+  hw/ssi: imx_spi: Round up the burst length to be multiple of 8=0D
+  hw/ssi: imx_spi: Correct the burst length > 32 bit transfer logic=0D
+  hw/ssi: imx_spi: Correct tx and rx fifo endianness=0D
+=0D
+Philippe Mathieu-Daud=3DC3=3DA9 (4):=0D
+  hw/ssi: imx_spi: Remove pointless variable initialization=0D
+  hw/ssi: imx_spi: Rework imx_spi_reset() to keep CONREG register value=0D
+  hw/ssi: imx_spi: Rework imx_spi_read() to handle block disabled=0D
+  hw/ssi: imx_spi: Rework imx_spi_write() to handle block disabled=0D
+=0D
+Xuzhou Cheng (1):=0D
+  hw/ssi: imx_spi: Disable chip selects when controller is disabled=0D
+=0D
+ include/hw/ssi/imx_spi.h |   5 +-=0D
+ hw/ssi/imx_spi.c         | 137 +++++++++++++++++++++++----------------=0D
+ 2 files changed, 86 insertions(+), 56 deletions(-)=0D
+=0D
+--=3D20=0D
+2.26.2=0D
+=0D
 
