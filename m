@@ -2,47 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1DBC72F7FDF
-	for <lists+qemu-devel@lfdr.de>; Fri, 15 Jan 2021 16:42:56 +0100 (CET)
-Received: from localhost ([::1]:57620 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 080CB2F7FE6
+	for <lists+qemu-devel@lfdr.de>; Fri, 15 Jan 2021 16:44:42 +0100 (CET)
+Received: from localhost ([::1]:34556 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l0RFX-0003zU-4h
-	for lists+qemu-devel@lfdr.de; Fri, 15 Jan 2021 10:42:55 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43158)
+	id 1l0RHF-00065R-18
+	for lists+qemu-devel@lfdr.de; Fri, 15 Jan 2021 10:44:41 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43278)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alxndr@bu.edu>) id 1l0R7B-0000a0-2T
- for qemu-devel@nongnu.org; Fri, 15 Jan 2021 10:34:17 -0500
-Received: from relay64.bu.edu ([128.197.228.104]:50760)
+ (Exim 4.90_1) (envelope-from <sw@weilnetz.de>) id 1l0R7V-0001GV-8h
+ for qemu-devel@nongnu.org; Fri, 15 Jan 2021 10:34:37 -0500
+Received: from mail.weilnetz.de ([37.120.169.71]:50286
+ helo=mail.v2201612906741603.powersrv.de)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alxndr@bu.edu>) id 1l0R78-0002O0-W3
- for qemu-devel@nongnu.org; Fri, 15 Jan 2021 10:34:16 -0500
-X-Envelope-From: alxndr@bu.edu
-X-BU-AUTH: mozz.bu.edu [128.197.127.33]
-Received: from BU-AUTH (localhost.localdomain [127.0.0.1]) (authenticated
- bits=0)
- by relay64.bu.edu (8.14.3/8.14.3) with ESMTP id 10FFWZYl010619
- (version=TLSv1/SSLv3 cipher=AES256-GCM-SHA384 bits=256 verify=NO);
- Fri, 15 Jan 2021 10:32:38 -0500
-Date: Fri, 15 Jan 2021 10:32:35 -0500
-From: Alexander Bulekov <alxndr@bu.edu>
-To: Greg Kurz <groug@kaod.org>
-Subject: Re: [PATCH] fuzz: Add virtio-9p configurations for fuzzing
-Message-ID: <20210115153235.pc4nijjc2eyndfaa@mozz.bu.edu>
-References: <20210114221748.503565-1-alxndr@bu.edu>
- <20210115132308.371a0675@bahia.lan>
+ (Exim 4.90_1) (envelope-from <sw@weilnetz.de>) id 1l0R7R-0002Un-38
+ for qemu-devel@nongnu.org; Fri, 15 Jan 2021 10:34:36 -0500
+Received: from edv-macbook-pro.fritz.box (p5b1511bf.dip0.t-ipconnect.de
+ [91.21.17.191])
+ (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+ key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+ (No client certificate requested)
+ by mail.v2201612906741603.powersrv.de (Postfix) with ESMTPSA id 9480EDA0CFF;
+ Fri, 15 Jan 2021 16:34:29 +0100 (CET)
+To: Peter Maydell <peter.maydell@linaro.org>,
+ QEMU Developers <qemu-devel@nongnu.org>
+References: <CAFEAcA8ozrnbh8XVZa8OF9C9SnNKb4Wb-=gZianHPPp5zcKjmw@mail.gmail.com>
+From: Stefan Weil <sw@weilnetz.de>
+Subject: Re: Windows installer builds apparently broken since October?
+Message-ID: <980269ad-bd28-08e5-0be0-fb5564aa7cd5@weilnetz.de>
+Date: Fri, 15 Jan 2021 16:34:28 +0100
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.16; rv:78.0)
+ Gecko/20100101 Thunderbird/78.6.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20210115132308.371a0675@bahia.lan>
-Received-SPF: pass client-ip=128.197.228.104; envelope-from=alxndr@bu.edu;
- helo=relay64.bu.edu
-X-Spam_score_int: -15
-X-Spam_score: -1.6
+In-Reply-To: <CAFEAcA8ozrnbh8XVZa8OF9C9SnNKb4Wb-=gZianHPPp5zcKjmw@mail.gmail.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=37.120.169.71; envelope-from=sw@weilnetz.de;
+ helo=mail.v2201612906741603.powersrv.de
+X-Spam_score_int: -18
+X-Spam_score: -1.9
 X-Spam_bar: -
-X-Spam_report: (-1.6 / 5.0 requ) BAYES_00=-1.9, HK_RANDOM_ENVFROM=0.001,
- HK_RANDOM_FROM=0.998, RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -55,81 +57,69 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Laurent Vivier <lvivier@redhat.com>, Thomas Huth <thuth@redhat.com>,
- Christian Schoenebeck <qemu_oss@crudebyte.com>, qemu-devel@nongnu.org,
- Bandan Das <bsd@redhat.com>, Stefan Hajnoczi <stefanha@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>
+Cc: John Snow <jsnow@redhat.com>,
+ =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
+ "Daniel P. Berrange" <berrange@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 210115 1323, Greg Kurz wrote:
-> On Thu, 14 Jan 2021 17:17:48 -0500
-> Alexander Bulekov <alxndr@bu.edu> wrote:
-> 
-> > Signed-off-by: Alexander Bulekov <alxndr@bu.edu>
-> > ---
-> 
-> No changelog at all ? 
-> 
-> >  tests/qtest/fuzz/generic_fuzz_configs.h | 12 ++++++++++++
-> >  1 file changed, 12 insertions(+)
-> > 
-> > diff --git a/tests/qtest/fuzz/generic_fuzz_configs.h b/tests/qtest/fuzz/generic_fuzz_configs.h
-> > index 7fed035345..ffdb590c58 100644
-> > --- a/tests/qtest/fuzz/generic_fuzz_configs.h
-> > +++ b/tests/qtest/fuzz/generic_fuzz_configs.h
-> > @@ -59,6 +59,18 @@ const generic_fuzz_config predefined_configs[] = {
-> >          .name = "virtio-mouse",
-> >          .args = "-machine q35 -nodefaults -device virtio-mouse",
-> >          .objects = "virtio*",
-> > +    },{
-> > +        .name = "virtio-9p",
-> > +        .args = "-machine q35 -nodefaults "
-> > +        "-device virtio-9p,fsdev=hshare,mount_tag=hshare "
-> > +        "-fsdev local,id=hshare,path=/tmp/,security_model=none",
-> 
-> Sharing a general purpose directory like "/tmp" is definitely not a
-> recommended practice. This is typically the kind of thing that I'd
-> like to see documented in the changelog to help me understand ;-)
+Am 15.01.21 um 15:01 schrieb Peter Maydell:
 
-Hi Greg,
-Yes it is not a great solution. The fuzzers in this file are mainly
-configured to run on OSS-Fuzz (https://github.com/google/oss-fuzz),
-where fuzzers are executed in individual containers, and there shouldn't
-be anything sensitive in /tmp/. In v2, I'll use a safer solution.
+> I was just trying to see what updates the qemu.nsi file needed for
+> the merge-all-the-manuals-into-one-place change, and I discovered
+> that it's been broken since October when we removed the Changelog file:=
 
-> 
-> What operations does the fuzz test perform on the device ?
+>
+> File: "/tmp/qemu-test/src\Changelog" -> no files found.
+> Usage: File [/nonfatal] [/a] ([/r] [/x filespec [...]] filespec [...] |=
 
-The generic-fuzzer will interact with the Port IO/MMIO and PCI Config
-Space regions associated with the virtio-9p device. When the
-device tries to access some guest memory using DMA, the fuzzer will
-place some fuzzed data at the corresponding location. For many devices,
-this is sufficient to achieve high coverage. If this doesn't work well
-for the virtio-9p, we can add a tailored fuzzer based on the libqos
-interface, in the future.
+>     /oname=3Doutfile one_file_only)
+> Error in script "../src/qemu.nsi" on line 119 -- aborting creation proc=
+ess
+>
+> You can reproduce that with:
+>
+> make -C my-build-dir docker-image-fedora V=3D1 NETWORK=3D1
+> make -C my-build-dir docker-test-mingw@fedora J=3D8 NETWORK=3D1
+>
+> This used to be in CI (patchew ran this config) but it clearly can't
+> be being CI'd any more, or we'd have noticed.
+>
+> Stefan, I see you have more recent installer binaries on your
+> site than that -- do you have some local patches for this?
 
-> 
-> > +        .objects = "virtio*",
-> > +    },{
-> > +        .name = "virtio-9p-synth",
-> > +        .args = "-machine q35 -nodefaults "
-> > +        "-device virtio-9p,fsdev=hshare,mount_tag=hshare "
-> > +        "-fsdev synth,id=hshare",
-> > +        .objects = "virtio*",
-> 
-> Not sure this is super useful since the only known use case for
-> the synth fsdev driver is running the virtio-9p qtest, but
-> it looks fine anyway.
 
-My hope here was is that this configureation will cut down on syscalls
-(improve fuzzing speed) and avoid leaky state (files left in the /tmp/
-directory between individual fuzzer inputs).
--Alex
+Hello Peter,
 
-> 
-> >      },{
-> >          .name = "e1000",
-> >          .args = "-M q35 -nodefaults "
-> 
+although I have some local fixes (available for example in=20
+https://github.com/stweil/qemu/) I am still struggling with 5.2.0.
+
+One problem which was recently discussed on the list is the directory=20
+structure of the installation (especially the location for BIOS and=20
+similar files) which still needs changes (which als require updates for=20
+qemu.nsi). I'd prefer a similar hierarchical structure for both Linux=20
+and Windows (instead of a flat one which does not work with the current=20
+code).
+
+Other problems are caused by the new QEMU build system in my special=20
+build context (Debian cross build with Cygwin packages).
+
+A third challenge comes from users who would like to see new features=20
+like zstd or braille which up to now were missing in my binaries.
+
+As I am quite busy with other things, too, I am afraid that it will take =
+
+some more weeks until I can send a set of patches to fix the most urgent =
+
+issues.
+
+Removing Changelog from qemu.nsi is easy, but not nearly sufficient:=20
+https://github.com/stweil/qemu/commit/923c93a663e4e51231f6ea389c19c0a960f=
+a9f99.
+
+Kind regards,
+
+Stefan
+
+
 
