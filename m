@@ -2,38 +2,39 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 85F462F80E1
-	for <lists+qemu-devel@lfdr.de>; Fri, 15 Jan 2021 17:36:28 +0100 (CET)
-Received: from localhost ([::1]:58546 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EF57D2F80E0
+	for <lists+qemu-devel@lfdr.de>; Fri, 15 Jan 2021 17:36:11 +0100 (CET)
+Received: from localhost ([::1]:58400 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l0S5L-0001S8-JN
-	for lists+qemu-devel@lfdr.de; Fri, 15 Jan 2021 11:36:27 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55112)
+	id 1l0S54-0001Ns-Ge
+	for lists+qemu-devel@lfdr.de; Fri, 15 Jan 2021 11:36:10 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55138)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1l0RvD-00011X-LV
- for qemu-devel@nongnu.org; Fri, 15 Jan 2021 11:25:59 -0500
-Received: from indium.canonical.com ([91.189.90.7]:50344)
+ id 1l0RvF-00016K-Pu
+ for qemu-devel@nongnu.org; Fri, 15 Jan 2021 11:26:01 -0500
+Received: from indium.canonical.com ([91.189.90.7]:50466)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1l0RvB-0002FN-RY
- for qemu-devel@nongnu.org; Fri, 15 Jan 2021 11:25:59 -0500
+ id 1l0RvE-0002Il-4K
+ for qemu-devel@nongnu.org; Fri, 15 Jan 2021 11:26:01 -0500
 Received: from loganberry.canonical.com ([91.189.90.37])
  by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1l0RvA-0004kX-Hb
- for <qemu-devel@nongnu.org>; Fri, 15 Jan 2021 16:25:56 +0000
+ id 1l0RvC-0004yW-Gu
+ for <qemu-devel@nongnu.org>; Fri, 15 Jan 2021 16:25:58 +0000
 Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 739282E813C
- for <qemu-devel@nongnu.org>; Fri, 15 Jan 2021 16:25:56 +0000 (UTC)
+ by loganberry.canonical.com (Postfix) with ESMTP id 5E06C2E813C
+ for <qemu-devel@nongnu.org>; Fri, 15 Jan 2021 16:25:58 +0000 (UTC)
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
-Date: Fri, 15 Jan 2021 16:16:59 -0000
-From: Peter Maydell <1904652@bugs.launchpad.net>
+Date: Fri, 15 Jan 2021 16:17:07 -0000
+From: Peter Maydell <1901532@bugs.launchpad.net>
 To: qemu-devel@nongnu.org
 X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
+X-Launchpad-Bug: product=qemu; status=Confirmed; importance=Undecided;
+ assignee=None; 
 X-Launchpad-Bug-Tags: fuzzer
 X-Launchpad-Bug-Information-Type: Public
 X-Launchpad-Bug-Private: no
@@ -41,15 +42,16 @@ X-Launchpad-Bug-Security-Vulnerability: no
 X-Launchpad-Bug-Commenters: cwmyung
 X-Launchpad-Bug-Reporter: Cheol-Woo,Myung (cwmyung)
 X-Launchpad-Bug-Modifier: Peter Maydell (pmaydell)
-References: <160567182664.18318.5998464734058327883.malonedeb@wampee.canonical.com>
-Message-Id: <161072742030.14155.9427025808812246157.launchpad@gac.canonical.com>
-Subject: [Bug 1904652] Re: Assertion failure in usb-ohci
+References: <160371197903.29636.2526014342409272320.malonedeb@chaenomeles.canonical.com>
+Message-Id: <161072742777.23174.15501785235647531910.launchpad@soybean.canonical.com>
+Subject: [Bug 1901532] Re: Assertion failure `mr != NULL' failed through
+ usb-ehci
 X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
 X-Launchpad-Message-For: qemu-devel-ml
 Precedence: bulk
 X-Generated-By: Launchpad (canonical.com);
  Revision="511b4a3b6512aa3d421c5f7d74f3527e78bff26e"; Instance="production"
-X-Launchpad-Hash: 0fa3513567984e33dbbc037183d2e278da418ce9
+X-Launchpad-Hash: 5a0ec2f56b572c5b8f64abe0797677e12d054b6d
 Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
  helo=indium.canonical.com
 X-Spam_score_int: -65
@@ -70,7 +72,7 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1904652 <1904652@bugs.launchpad.net>
+Reply-To: Bug 1901532 <1901532@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
@@ -80,83 +82,39 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 You received this bug notification because you are a member of qemu-
 devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1904652
+https://bugs.launchpad.net/bugs/1901532
 
 Title:
-  Assertion failure in usb-ohci
+  Assertion failure `mr !=3D NULL' failed through usb-ehci
 
 Status in QEMU:
-  New
+  Confirmed
 
 Bug description:
   Hello,
 
   Using hypervisor fuzzer, hyfuzz, I found an assertion failure through
-  usb-ohci.
+  usb-ehci.
 
-  A malicious guest user/process could use this flaw to abort the QEMU
-  process on the host, resulting in a denial of service.
-
-  This was found in version 5.2.0 (master)
+  This was found in version 5.0.1 (stable-5.0).
 
   --------
 
-  ```
+  qemu-system-i386: src/qemu-repro/exec.c:3581: address_space_unmap: Assert=
+ion `mr !=3D NULL' failed.
+  [1]    14721 abort      src/qemu-repro/build/i386-softmmu/qemu-system-i386
 
-  Program terminated with signal SIGABRT, Aborted.
+  =
 
-  #0  __GI_raise (sig=3Dsig@entry=3D0x6) at ../sysdeps/unix/sysv/linux/rais=
-e.c:51
-  51      ../sysdeps/unix/sysv/linux/raise.c: No such file or directory.
-  [Current thread is 1 (Thread 0x7f34d0411440 (LWP 9418))]
-  gdb-peda$ bt
-  #0  0x00007f34c8d4ef47 in __GI_raise (sig=3Dsig@entry=3D0x6) at ../sysdep=
-s/unix/sysv/linux/raise.c:51
-  #1  0x00007f34c8d508b1 in __GI_abort () at abort.c:79
-  #2  0x000055d3a2081844 in ohci_frame_boundary (opaque=3D0x55d3a4ecdaf0) a=
-t ../hw/usb/hcd-ohci.c:1297
-  #3  0x000055d3a25be155 in timerlist_run_timers (timer_list=3D0x55d3a3fd98=
-40) at ../util/qemu-timer.c:574
-  #4  0x000055d3a25beaba in qemu_clock_run_timers (type=3DQEMU_CLOCK_VIRTUA=
-L) at ../util/qemu-timer.c:588
-  #5  0x000055d3a25beaba in qemu_clock_run_all_timers () at ../util/qemu-ti=
-mer.c:670
-  #6  0x000055d3a25e69a1 in main_loop_wait (nonblocking=3D<optimized out>) =
-at ../util/main-loop.c:531
-  #7  0x000055d3a2433972 in qemu_main_loop () at ../softmmu/vl.c:1678
-  #8  0x000055d3a1d0969b in main (argc=3D<optimized out>, argc@entry=3D0x15=
-, argv=3D<optimized out>,
-      argv@entry=3D0x7ffc6de722a8, envp=3D<optimized out>) at ../softmmu/ma=
-in.c:50
-  #9  0x00007f34c8d31b97 in __libc_start_main (main=3D
-      0x55d3a1d09690 <main>, argc=3D0x15, argv=3D0x7ffc6de722a8, init=3D<op=
-timized out>, fini=3D<optimized out>, rtld_fini=3D<optimized out>, stack_en=
-d=3D0x7ffc6de72298) at ../csu/libc-start.c:310
-  #10 0x000055d3a1d095aa in _start ()
-  ```
-
-  To reproduce the assertion failure, please run the QEMU with the
-  following command line.
+  To reproduce the assertion failure, please run the QEMU with following co=
+mmand line.
 
   ```
-  [Terminal 1]
-
-  $ qemu-system-i386 -m 512 -drive
-  file=3D./fs.img,index=3D1,media=3Ddisk,format=3Draw -drive
-  file=3D./hyfuzz.img,index=3D0,media=3Ddisk,format=3Draw -drive
-  if=3Dnone,id=3Dstick,file=3D./usbdisk.img,format=3Draw -device pci-ohci,i=
-d=3Dusb
-  -device usb-storage,bus=3Dusb.0,drive=3Dstick
-
-  [Terminal 2]
-
-  $ ./repro_log ./fs.img ./pci-ohci
-
+  $ qemu-system-i386 -drive file=3D./hyfuzz.img,index=3D0,media=3Ddisk,form=
+at=3Draw -m 512 -drive if=3Dnone,id=3Dstick,file=3D./usbdisk.img -device us=
+b-ehci,id=3Dehci -device usb-storage,bus=3Dehci.0,drive=3Dstick
   ```
-
-  Please let me know if I can provide any further info.
-  -Cheolwoo, Myung (Seoul National University)
 
 To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1904652/+subscriptions
+https://bugs.launchpad.net/qemu/+bug/1901532/+subscriptions
 
