@@ -2,69 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6CA542F7FC2
-	for <lists+qemu-devel@lfdr.de>; Fri, 15 Jan 2021 16:39:01 +0100 (CET)
-Received: from localhost ([::1]:45102 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 467BB2F7FDC
+	for <lists+qemu-devel@lfdr.de>; Fri, 15 Jan 2021 16:41:06 +0100 (CET)
+Received: from localhost ([::1]:52286 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l0RBk-0007B7-GP
-	for lists+qemu-devel@lfdr.de; Fri, 15 Jan 2021 10:39:00 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42582)
+	id 1l0RDl-0001hp-CA
+	for lists+qemu-devel@lfdr.de; Fri, 15 Jan 2021 10:41:05 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42618)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1l0R4d-00062N-06; Fri, 15 Jan 2021 10:31:39 -0500
-Received: from mail-ej1-x62f.google.com ([2a00:1450:4864:20::62f]:39756)
+ id 1l0R4i-00069X-Hg; Fri, 15 Jan 2021 10:31:44 -0500
+Received: from mail-ej1-x630.google.com ([2a00:1450:4864:20::630]:46131)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1l0R4b-0001Kq-DB; Fri, 15 Jan 2021 10:31:38 -0500
-Received: by mail-ej1-x62f.google.com with SMTP id n26so13842961eju.6;
- Fri, 15 Jan 2021 07:31:36 -0800 (PST)
+ id 1l0R4g-0001NU-VY; Fri, 15 Jan 2021 10:31:44 -0500
+Received: by mail-ej1-x630.google.com with SMTP id t16so13793852ejf.13;
+ Fri, 15 Jan 2021 07:31:42 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=4fJWv7T8ni1UgNw8omgysewBjnwqG7EbsoSKPeXsii8=;
- b=lzifNm3cJxOPtWGXFvfLqIGNzR8hJHhy9rToFJfvGcE97KyWAgQnlDexulLCWYSjEd
- VwA/bcttwCqYYJJryfLNGVtyqGdV6xPaQdcNr+8nzKNHCO6nLojpqsQfim9mzsajXUbu
- xJ1Vrj1eA1P8YHHic+Enie56T79CIK6NjSGD5ET3CYWg3bp5sY4UZaXji23E3cEBMgG7
- zIa3zouHEIDt0k+A0UIgPlJ31r//wokYZmx+cHEyAlPXl5uWi3OBj5froQzEff3RphoK
- mPH20NWxM4UClN5VoxzPwIW5eshFDV3TD8dQapL1/MD7AWvlflknqFyarNdQT1IoFY8C
- gvlw==
+ bh=aEe4vTMLP9auxSgIg50YIr5kL7dVLhmpX4y+OZIHpwk=;
+ b=ASpgClg+JRP/ky8FIiFta/JZigSt9d0hu6L3+YKSl+b6Psm5H6Nz66j9blO/MsG5Uh
+ TigbpTMoukHoTNLLmqBtnefgiOpNl12IXY+pkIuAfTdFNgAPjLd27taOHQS9FSEt2FOA
+ KwRO7jJghfcqIa0DfRUUVHTpCD02SIx3M3Qt4uZRA2gtBh1ru6lKkkFmBhYuDVY28ea8
+ oDzaTG4wvpuhKKcnjze5bEBvaMhBkTgAOsTv/PslY2Qqlt1nY7epEUnKObPKkXt3eFkG
+ rB18BjOeFcdh93Yo7/avKPEIe6KWGvbLVa9VqPcFyn22urzdvrlJ0ACjO2DM6sWdrvuh
+ B5VQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=4fJWv7T8ni1UgNw8omgysewBjnwqG7EbsoSKPeXsii8=;
- b=P/D6r2SaDkSKZEFdG5OBKwBxxMiB5B0DoVRKq7OcprSQ75XFlr0Ar171AZm1ahQ5+B
- oBBGgc1FDqSmYof7BOVtHUjgTAiaUxP8U5+nNq+mJTXc6bKwHthURoHnSkXlaF+yvCIF
- MFZ0NI3z6AN2n539wxDZ4uhFIl+QQjcgdCJ7e4fi2bZLuWWcASSy3EUr5chH5TCpvgPF
- 2UHjDzUgf7JPkfIsaufkMCdHpdtdvdzXejsvKcEdHCi0RtZjKwuQgs90fa+33Qu0zUAc
- mNSeB4zyml5S9sApOrVmVyQNUqmVR7PeqNvs6FK4PMHaRjcz4ckI7LAwfvxV1pac3FTy
- hyug==
-X-Gm-Message-State: AOAM5302pLvjy+914/SBUfWTeWTtx4jeo5yvY8jHBLp6CO+upfapZbSG
- F6Ejz9dpy7oWxbfQ0hh/ZunUY0AFRVc=
-X-Google-Smtp-Source: ABdhPJzZmXzxRol0w1xttkBVBhbTSTguYFnzG3SCxDBpOO2WQ86RWctTz2Zm/N0EmMRnnqpg8G7UKA==
-X-Received: by 2002:a17:906:aec6:: with SMTP id
- me6mr9090264ejb.542.1610724695528; 
- Fri, 15 Jan 2021 07:31:35 -0800 (PST)
+ bh=aEe4vTMLP9auxSgIg50YIr5kL7dVLhmpX4y+OZIHpwk=;
+ b=qYpvyWlJ3+F+9VTd4oCqNupIYi6ThkbCGPXnVSAbci1mslmG5/I+UVlFoQ5g2EZo2X
+ PVQmJbkYQQBxFMaBeIJoF4obmkkYWYiF3y2jg4M/NdUfwb9XEENWiYDEX9sDoL1BXmrP
+ xrww6/mmsVxFgPUcIA1nxSndv2sR0SLAyIgC/KXAWIpq5RAoc0KAPJpFAGdomIAknBoE
+ OGTp5z+15f1FV5sM35rQKsmEmtt2VwTkOC4Wx68GPfoPPnNUPJEMaVZ4X6Ug8AZu2+f5
+ L6pdCxH+k0+vd2F8eJglqYVcqzzSlU9BfQ5ucrJ9TNigRdGp70FPiRugOwEaBSNJbSsq
+ lLYg==
+X-Gm-Message-State: AOAM532NWRyS60VvrONbQM9SdIqWrvu9vOFbu0wN1p+Jec0FTAQ1IdtA
+ ZROw+bBs3f5dU/T4xmBmOaqQEzanUeU=
+X-Google-Smtp-Source: ABdhPJzv3vkO37wk3vhcrLrdJw6BuyJyGc4fTtVXoe0XV4v2Ls8bhk+3nXEvkzgq44c31BnOJPRSbg==
+X-Received: by 2002:a17:906:fa85:: with SMTP id
+ lt5mr9330813ejb.344.1610724700940; 
+ Fri, 15 Jan 2021 07:31:40 -0800 (PST)
 Received: from x1w.redhat.com (13.red-83-57-169.dynamicip.rima-tde.net.
  [83.57.169.13])
- by smtp.gmail.com with ESMTPSA id k6sm3681616ejb.84.2021.01.15.07.31.34
+ by smtp.gmail.com with ESMTPSA id oq7sm3872991ejb.63.2021.01.15.07.31.39
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 15 Jan 2021 07:31:34 -0800 (PST)
+ Fri, 15 Jan 2021 07:31:40 -0800 (PST)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v7 8/9] hw/ssi: imx_spi: Correct the burst length > 32 bit
- transfer logic
-Date: Fri, 15 Jan 2021 16:30:48 +0100
-Message-Id: <20210115153049.3353008-9-f4bug@amsat.org>
+Subject: [PATCH v7 9/9] hw/ssi: imx_spi: Correct tx and rx fifo endianness
+Date: Fri, 15 Jan 2021 16:30:49 +0100
+Message-Id: <20210115153049.3353008-10-f4bug@amsat.org>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20210115153049.3353008-1-f4bug@amsat.org>
 References: <20210115153049.3353008-1-f4bug@amsat.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::62f;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-ej1-x62f.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::630;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-ej1-x630.google.com
 X-Spam_score_int: -14
 X-Spam_score: -1.5
 X-Spam_bar: -
@@ -95,47 +94,70 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Bin Meng <bin.meng@windriver.com>
 
-For the ECSPIx_CONREG register BURST_LENGTH field, the manual says:
+The endianness of data exchange between tx and rx fifo is incorrect.
+Earlier bytes are supposed to show up on MSB and later bytes on LSB,
+ie: in big endian. The manual does not explicitly say this, but the
+U-Boot and Linux driver codes have a swap on the data transferred
+to tx fifo and from rx fifo.
 
-0x020 A SPI burst contains the 1 LSB in first word and all 32 bits in second word.
-0x021 A SPI burst contains the 2 LSB in first word and all 32 bits in second word.
+With this change, U-Boot read from / write to SPI flash tests pass.
 
-Current logic uses either s->burst_length or 32, whichever smaller,
-to determine how many bits it should read from the tx fifo each time.
-For example, for a 48 bit burst length, current logic transfers the
-first 32 bit from the first word in the tx fifo, followed by a 16
-bit from the second word in the tx fifo, which is wrong. The correct
-logic should be: transfer the first 16 bit from the first word in
-the tx fifo, followed by a 32 bit from the second word in the tx fifo.
-
-With this change, SPI flash can be successfully probed by U-Boot on
-imx6 sabrelite board.
-
-  => sf probe
-  SF: Detected sst25vf016b with page size 256 Bytes, erase size 4 KiB, total 2 MiB
+  => sf test 1ff000 1000
+  SPI flash test:
+  0 erase: 0 ticks, 4096000 KiB/s 32768.000 Mbps
+  1 check: 3 ticks, 1333 KiB/s 10.664 Mbps
+  2 write: 235 ticks, 17 KiB/s 0.136 Mbps
+  3 read: 2 ticks, 2000 KiB/s 16.000 Mbps
+  Test passed
+  0 erase: 0 ticks, 4096000 KiB/s 32768.000 Mbps
+  1 check: 3 ticks, 1333 KiB/s 10.664 Mbps
+  2 write: 235 ticks, 17 KiB/s 0.136 Mbps
+  3 read: 2 ticks, 2000 KiB/s 16.000 Mbps
 
 Fixes: c906a3a01582 ("i.MX: Add the Freescale SPI Controller")
 Signed-off-by: Bin Meng <bin.meng@windriver.com>
-Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
-Message-Id: <20210112145526.31095-6-bmeng.cn@gmail.com>
+Message-Id: <20210112145526.31095-7-bmeng.cn@gmail.com>
 Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 ---
- hw/ssi/imx_spi.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ hw/ssi/imx_spi.c | 7 ++-----
+ 1 file changed, 2 insertions(+), 5 deletions(-)
 
 diff --git a/hw/ssi/imx_spi.c b/hw/ssi/imx_spi.c
-index b79304d93d9..707defb8b3f 100644
+index 707defb8b3f..081b7e464ff 100644
 --- a/hw/ssi/imx_spi.c
 +++ b/hw/ssi/imx_spi.c
-@@ -191,7 +191,7 @@ static void imx_spi_flush_txfifo(IMXSPIState *s)
+@@ -175,7 +175,6 @@ static void imx_spi_flush_txfifo(IMXSPIState *s)
  
-         DPRINTF("data tx:0x%08x\n", tx);
+     while (!fifo32_is_empty(&s->tx_fifo)) {
+         int tx_burst = 0;
+-        int index = 0;
  
--        tx_burst = MIN(s->burst_length, 32);
-+        tx_burst = (s->burst_length % 32) ? : 32;
- 
+         if (s->burst_length <= 0) {
+             s->burst_length = imx_spi_burst_length(s);
+@@ -196,7 +195,7 @@ static void imx_spi_flush_txfifo(IMXSPIState *s)
          rx = 0;
  
+         while (tx_burst > 0) {
+-            uint8_t byte = tx & 0xff;
++            uint8_t byte = tx >> (tx_burst - 8);
+ 
+             DPRINTF("writing 0x%02x\n", (uint32_t)byte);
+ 
+@@ -205,13 +204,11 @@ static void imx_spi_flush_txfifo(IMXSPIState *s)
+ 
+             DPRINTF("0x%02x read\n", (uint32_t)byte);
+ 
+-            tx = tx >> 8;
+-            rx |= (byte << (index * 8));
++            rx = (rx << 8) | byte;
+ 
+             /* Remove 8 bits from the actual burst */
+             tx_burst -= 8;
+             s->burst_length -= 8;
+-            index++;
+         }
+ 
+         DPRINTF("data rx:0x%08x\n", rx);
 -- 
 2.26.2
 
