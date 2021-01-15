@@ -2,71 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B3BE82F7D69
-	for <lists+qemu-devel@lfdr.de>; Fri, 15 Jan 2021 14:58:45 +0100 (CET)
-Received: from localhost ([::1]:57080 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2794D2F7CCD
+	for <lists+qemu-devel@lfdr.de>; Fri, 15 Jan 2021 14:37:39 +0100 (CET)
+Received: from localhost ([::1]:47932 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l0Pci-0006au-Oy
-	for lists+qemu-devel@lfdr.de; Fri, 15 Jan 2021 08:58:44 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42656)
+	id 1l0PII-0004DO-6s
+	for lists+qemu-devel@lfdr.de; Fri, 15 Jan 2021 08:37:38 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39730)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1l0PEP-0000yN-Pb
- for qemu-devel@nongnu.org; Fri, 15 Jan 2021 08:33:37 -0500
-Received: from mail-wr1-x42e.google.com ([2a00:1450:4864:20::42e]:40604)
+ id 1l0P0B-0005I8-0A
+ for qemu-devel@nongnu.org; Fri, 15 Jan 2021 08:18:55 -0500
+Received: from mail-wm1-x330.google.com ([2a00:1450:4864:20::330]:34759)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1l0PEN-00082O-O0
- for qemu-devel@nongnu.org; Fri, 15 Jan 2021 08:33:37 -0500
-Received: by mail-wr1-x42e.google.com with SMTP id 91so9308509wrj.7
- for <qemu-devel@nongnu.org>; Fri, 15 Jan 2021 05:33:35 -0800 (PST)
+ id 1l0P08-0002Mh-AT
+ for qemu-devel@nongnu.org; Fri, 15 Jan 2021 08:18:54 -0500
+Received: by mail-wm1-x330.google.com with SMTP id o10so1880365wmc.1
+ for <qemu-devel@nongnu.org>; Fri, 15 Jan 2021 05:18:51 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=ldh2RZcPciHS3IeZWtBzIRmDunW2E0Q1bR4gP7fB6wc=;
- b=HQ5GQ56V0smLxmh1tMc0TTB84e5CDmglMxtqYn3kiighh5X7S2ZI7FAviLWfwd+9WB
- BPgK2VYqA/xfxiJRvRRP1i0vXkIEONsUXRPYyXtwqoYNI1QXDUsHxzV4Q1OkiDsKHC3K
- Kc9ov0iwx/a1bNDsotUF+wb0pZWNrv9e0c6IBclUUqHCKBjxz+LPncZhYbh7dvm0LWa8
- w9mYL03P4+sYIZlHhwA8MIKbs1Ejc0pmTUrYMU/CcVBnFkR9zWY+OMq+pLODkxY2+Pgo
- RdrK0E+Dy1UbYx7ZMpm8K3SYlWSGlhgQ5Ga+scn5acvzrIfU8ykDZUeEkyEpT8QgElly
- jkWw==
+ bh=7kYCjAdFXPUkM10wP/gFX4tRyZKG7p65iiW2L3+wBKM=;
+ b=L6cjWEy/oBuTSMfycwHxssPlgw4BzuGAEcN2PHtSWIhUO+pADupPAwa0KX6VyWABqb
+ ATl+xSJDIMiquGXrcjvTLMvRnym2P0TAVQJcqA5+Xj0vposetN9dVSvBD0ApW+TzoeBC
+ IQQ0gaOCtlKdLMRyY3X6+2o34s0ygQIYTrrZpTDCxHbTYX6ZyCArTJl4PoZeMZQaXw0Z
+ 8OnjXA+Q5aG0yMUmQhvx9DOvqFCeGURaU9bwLE9MfQ8pc8oWeXurM8EhJjRKAorTAf+3
+ Uqz71XSorAj7Tp4HWu5qmw4nIDd57VBsnV7Fdupgy68lG+qsn0/f7cVt4SID3FkXRVIM
+ Qb7A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=ldh2RZcPciHS3IeZWtBzIRmDunW2E0Q1bR4gP7fB6wc=;
- b=LLwQY0XbIO47WX7ib6MS2pSUwmX+ZG4rbi5DMsZlDneM5w3LMz2Z3EqgwH4OXQ7Oqq
- +MKIHApIGlZUm/pd76LwgJkYV2GmqbGykti/PBhwKPCV3tjB0rmO553sYiErvJnD9hEq
- zwnM7fDaXIN+HvGYJ7b2sVAr82la4YyQJcbcL337zSKNSlJFbWDm00NtBRyFDMqM/zpz
- LbBGT20jn5+9neX28WkUZ8kQqh0O+dtMj8loxBQRDFx3BLw0tA7SeTrHkZFSCQ2fFQTu
- mL7paDl493IdvxMRkYFBH4F4ouh8wH5xdlMeKPtR6Jek+fXeBWnX/vzJuyiBogNT0yx1
- VhHQ==
-X-Gm-Message-State: AOAM533KSI61zyHbOmQCJ6as8205mYIKTo07P8wQnbWZBaVXvOjSJXBq
- aE4QkNrcTPhbPSDodZy601pqfA==
-X-Google-Smtp-Source: ABdhPJyhOP0LnDCj2aMzpSNJF0Va5rPxpFdfCve64YMZG6/+Rr2Wt8OMOLKNUWa+hDoZGltca5vtEw==
-X-Received: by 2002:a5d:660c:: with SMTP id n12mr13382075wru.291.1610717614171; 
- Fri, 15 Jan 2021 05:33:34 -0800 (PST)
+ bh=7kYCjAdFXPUkM10wP/gFX4tRyZKG7p65iiW2L3+wBKM=;
+ b=K690phszN3d0vyXy9UTfRfNoUc+gXXLo6exgl7LXRTa/8qE+F5TknOUxVIt2ADBYLd
+ e4WqSC10RHgbDtOSYglmfLWqKZFJgHf47zidG21eEsWg3RG6uJC71Z6GQ8xDf9IqFvwG
+ i4Bv47D1RKZlAyDIkq4WBevUkbtijTrvLvjEqUoczFNTrENaFVPUArGPp35fTMH634Kc
+ /UFte0Wzlwb3zN0PhNIfsd8PZbmtxnU4qSXd857fZZvyYrk+7JtgGaF7Y+NYOOv0VOH8
+ xMcHcyR+Qg+d2mCXzUpaZ5MKloE8A23a+NfDYcxgi/O7Wvmass7mzpmlYqxoQYOo9ar7
+ LPqw==
+X-Gm-Message-State: AOAM533VXutyGMoT4GCMWsXxBViUlLWdA3S0DEGaetwXmJU4YOsVmtyW
+ BJOuDUMNWPmpf8QYVyciQRWkBQ==
+X-Google-Smtp-Source: ABdhPJxqpAIVjFbqs+76xt9nGh3ia578fDrhUDcZA8Pnza856agFMVs/+pUZMYaGfQ8phPKETuPr+g==
+X-Received: by 2002:a7b:ce17:: with SMTP id m23mr8694324wmc.117.1610716730615; 
+ Fri, 15 Jan 2021 05:18:50 -0800 (PST)
 Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id c10sm16528611wrb.92.2021.01.15.05.33.32
+ by smtp.gmail.com with ESMTPSA id r1sm15222794wrl.95.2021.01.15.05.18.35
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 15 Jan 2021 05:33:32 -0800 (PST)
+ Fri, 15 Jan 2021 05:18:46 -0800 (PST)
 Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id DD2001FFA6;
- Fri, 15 Jan 2021 13:08:32 +0000 (GMT)
+ by zen.linaroharston (Postfix) with ESMTP id 339CB1FFB3;
+ Fri, 15 Jan 2021 13:08:35 +0000 (GMT)
 From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: peter.maydell@linaro.org
-Subject: [PULL 19/30] gdbstub: drop gdbserver_cleanup in favour of gdb_exit
-Date: Fri, 15 Jan 2021 13:08:17 +0000
-Message-Id: <20210115130828.23968-20-alex.bennee@linaro.org>
+Subject: [PULL 28/30] semihosting: Implement SYS_ELAPSED and SYS_TICKFREQ
+Date: Fri, 15 Jan 2021 13:08:26 +0000
+Message-Id: <20210115130828.23968-29-alex.bennee@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20210115130828.23968-1-alex.bennee@linaro.org>
 References: <20210115130828.23968-1-alex.bennee@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::42e;
- envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x42e.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::330;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x330.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -86,84 +86,109 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Richard Henderson <richard.henderson@linaro.org>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
- =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>, qemu-devel@nongnu.org,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
+Cc: Keith Packard <keithp@keithp.com>,
+ =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Despite it's name it didn't actually clean-up so let us document
-gdb_exit() better and use that.
+From: Keith Packard <keithp@keithp.com>
 
+These are part of Semihosting for AArch32 and AArch64 Release 2.0
+
+Signed-off-by: Keith Packard <keithp@keithp.com>
 Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
-Message-Id: <20210108224256.2321-9-alex.bennee@linaro.org>
+Message-Id: <20210107170717.2098982-8-keithp@keithp.com>
+Message-Id: <20210108224256.2321-19-alex.bennee@linaro.org>
 
-diff --git a/include/exec/gdbstub.h b/include/exec/gdbstub.h
-index 492db0f512..ff0b7bc45e 100644
---- a/include/exec/gdbstub.h
-+++ b/include/exec/gdbstub.h
-@@ -46,7 +46,17 @@ void gdb_do_syscall(gdb_syscall_complete_cb cb, const char *fmt, ...);
- void gdb_do_syscallv(gdb_syscall_complete_cb cb, const char *fmt, va_list va);
- int use_gdb_syscalls(void);
- void gdb_set_stop_cpu(CPUState *cpu);
--void gdb_exit(int);
-+
-+/**
-+ * gdb_exit: exit gdb session, reporting inferior status
-+ * @code: exit code reported
-+ *
-+ * This closes the session and sends a final packet to GDB reporting
-+ * the exit status of the program. It also cleans up any connections
-+ * detritus before returning.
-+ */
-+void gdb_exit(int code);
-+
- #ifdef CONFIG_USER_ONLY
- /**
-  * gdb_handlesig: yield control to gdb
-@@ -187,8 +197,6 @@ static inline uint8_t * gdb_get_reg_ptr(GByteArray *buf, int len)
-  */
- int gdbserver_start(const char *port_or_device);
- 
--void gdbserver_cleanup(void);
--
- /**
-  * gdb_has_xml:
-  * This is an ugly hack to cope with both new and old gdb.
-diff --git a/gdbstub.c b/gdbstub.c
-index afa553e8fc..bab8476357 100644
---- a/gdbstub.c
-+++ b/gdbstub.c
-@@ -3547,13 +3547,6 @@ int gdbserver_start(const char *device)
-     return 0;
+diff --git a/include/qemu/timer.h b/include/qemu/timer.h
+index 61296ea980..1678238384 100644
+--- a/include/qemu/timer.h
++++ b/include/qemu/timer.h
+@@ -808,6 +808,8 @@ static inline int64_t get_clock_realtime(void)
+     return tv.tv_sec * 1000000000LL + (tv.tv_usec * 1000);
  }
  
--void gdbserver_cleanup(void)
--{
--    if (gdbserver_state.init) {
--        put_packet("W00");
--    }
--}
--
- static void register_types(void)
- {
-     type_register_static(&char_gdb_type_info);
-diff --git a/softmmu/runstate.c b/softmmu/runstate.c
-index 636aab0add..6177693a30 100644
---- a/softmmu/runstate.c
-+++ b/softmmu/runstate.c
-@@ -775,7 +775,7 @@ void qemu_init_subsystems(void)
++extern int64_t clock_start;
++
+ /* Warning: don't insert tracepoints into these functions, they are
+    also used by simpletrace backend and tracepoints would cause
+    an infinite recursion! */
+diff --git a/hw/semihosting/arm-compat-semi.c b/hw/semihosting/arm-compat-semi.c
+index 5fcb8663c6..3d6604dcdd 100644
+--- a/hw/semihosting/arm-compat-semi.c
++++ b/hw/semihosting/arm-compat-semi.c
+@@ -38,6 +38,7 @@
+ #include "hw/semihosting/console.h"
+ #include "hw/semihosting/common-semi.h"
+ #include "qemu/log.h"
++#include "qemu/timer.h"
+ #ifdef CONFIG_USER_ONLY
+ #include "qemu.h"
  
- void qemu_cleanup(void)
- {
--    gdbserver_cleanup();
-+    gdb_exit(0);
+@@ -73,6 +74,8 @@
+ #define TARGET_SYS_EXIT        0x18
+ #define TARGET_SYS_SYNCCACHE   0x19
+ #define TARGET_SYS_EXIT_EXTENDED 0x20
++#define TARGET_SYS_ELAPSED     0x30
++#define TARGET_SYS_TICKFREQ    0x31
  
-     /*
-      * cleaning up the migration object cancels any existing migration
+ /* ADP_Stopped_ApplicationExit is used for exit(0),
+  * anything else is implemented as exit(1) */
+@@ -837,6 +840,7 @@ target_ulong do_common_semihosting(CPUState *cs)
+     uint32_t ret;
+     uint32_t len;
+     GuestFD *gf;
++    int64_t elapsed;
+ 
+     (void) env; /* Used implicitly by arm lock_user macro */
+     nr = common_semi_arg(cs, 0) & 0xffffffffU;
+@@ -1246,6 +1250,18 @@ target_ulong do_common_semihosting(CPUState *cs)
+         }
+         gdb_exit(ret);
+         exit(ret);
++    case TARGET_SYS_ELAPSED:
++        elapsed = get_clock() - clock_start;
++        if (sizeof(target_ulong) == 8) {
++            SET_ARG(0, elapsed);
++        } else {
++            SET_ARG(0, (uint32_t) elapsed);
++            SET_ARG(1, (uint32_t) (elapsed >> 32));
++        }
++        return 0;
++    case TARGET_SYS_TICKFREQ:
++        /* qemu always uses nsec */
++        return 1000000000;
+     case TARGET_SYS_SYNCCACHE:
+         /*
+          * Clean the D-cache and invalidate the I-cache for the specified
+diff --git a/util/qemu-timer-common.c b/util/qemu-timer-common.c
+index baf3317f74..cc1326f726 100644
+--- a/util/qemu-timer-common.c
++++ b/util/qemu-timer-common.c
+@@ -27,6 +27,8 @@
+ /***********************************************************/
+ /* real time host monotonic timer */
+ 
++int64_t clock_start;
++
+ #ifdef _WIN32
+ 
+ int64_t clock_freq;
+@@ -41,6 +43,7 @@ static void __attribute__((constructor)) init_get_clock(void)
+         exit(1);
+     }
+     clock_freq = freq.QuadPart;
++    clock_start = get_clock();
+ }
+ 
+ #else
+@@ -55,5 +58,6 @@ static void __attribute__((constructor)) init_get_clock(void)
+     if (clock_gettime(CLOCK_MONOTONIC, &ts) == 0) {
+         use_rt_clock = 1;
+     }
++    clock_start = get_clock();
+ }
+ #endif
 -- 
 2.20.1
 
