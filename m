@@ -2,68 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 50E702F8917
-	for <lists+qemu-devel@lfdr.de>; Sat, 16 Jan 2021 00:03:31 +0100 (CET)
-Received: from localhost ([::1]:55156 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BC5422F8918
+	for <lists+qemu-devel@lfdr.de>; Sat, 16 Jan 2021 00:03:37 +0100 (CET)
+Received: from localhost ([::1]:55238 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l0Y7u-0000t1-Cf
-	for lists+qemu-devel@lfdr.de; Fri, 15 Jan 2021 18:03:30 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53890)
+	id 1l0Y7z-0000ux-Ht
+	for lists+qemu-devel@lfdr.de; Fri, 15 Jan 2021 18:03:35 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53886)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1l0XsG-0003gn-SB
+ id 1l0XsG-0003gG-P2
  for qemu-devel@nongnu.org; Fri, 15 Jan 2021 17:47:20 -0500
-Received: from mail-pf1-x429.google.com ([2607:f8b0:4864:20::429]:36592)
+Received: from mail-pf1-x430.google.com ([2607:f8b0:4864:20::430]:39729)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1l0Xs6-0005G1-Mw
+ id 1l0Xs6-0005GJ-Mx
  for qemu-devel@nongnu.org; Fri, 15 Jan 2021 17:47:20 -0500
-Received: by mail-pf1-x429.google.com with SMTP id b3so6421144pft.3
- for <qemu-devel@nongnu.org>; Fri, 15 Jan 2021 14:47:07 -0800 (PST)
+Received: by mail-pf1-x430.google.com with SMTP id m6so6406543pfm.6
+ for <qemu-devel@nongnu.org>; Fri, 15 Jan 2021 14:47:08 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=X+LaZKuwwsvEvbJ+r5ztAOZO016eLRKSU8aYWIJf1AQ=;
- b=LcG7qzDJHtDNdykP4TizHyjuonvDePY1rRb+OzUOPSISfOdv6f99MecPmI4SQFsF/+
- nl8ZcxYvz6Y0w6HeI1ml2PWZrOym7gftokPucD4W7IZ2EdcVB0OT5JIGYAnNBj0q7FmV
- Amejm4HesUHbbbSrgcxzQEvrP6mzc80yj8xrXqmSpUhp9AeT21VjsXB6tXyXgmqhRh6H
- U/J33hGJT1lE+amylRe5H/zivAw+xyw340BVXyvl9Kg1hN0jR5c41MvjaqhN7KVIMGrG
- XxcXUGr2pISM4z2cDkUFctVz8btNmF698Iy+p6kyzd5W0uPduXLNK7q/fEuYGxmI8O0k
- 5C9Q==
+ bh=kevGJM1Q+4BI+TG/qeyrIdbD80I/diyx5FwIEqL89Lg=;
+ b=yjl20JCzeSyY0d+TkDuN3wwMZiKpjLRYjZZFtN5FAQY0IP+krpQQkm7x9J+ZgBtnBK
+ RxpY5TF6YB2r1Se761rLFzK0PUICPe21i+qUv9AywzvwvirYPO8ExUFEPfxAw2a2w4HX
+ mO/gjZUUlb8YtnY/Q38ocaXymemjMP+7AjZqixWpccHwCTIowIWQtuWy1uje5RiDUknM
+ hbariWoPORK3SyQIa7arfgicB8ao+WktrsL+r8bd8auzMwOoZVNKX9ojUP1zHkXoiRFM
+ /cxDqFlj4W/eO72nLzxjNFhd02m1tPbI6X+C8nJnxnlQguPPZ6C+Q8xNuSw7iiwrP/VI
+ LlSQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=X+LaZKuwwsvEvbJ+r5ztAOZO016eLRKSU8aYWIJf1AQ=;
- b=KaWcRjQEkSEfKa9wKRipaXO3hcKUT7YX5NR0Pvx5hm2NFkZCP4BGYhoatZPlgzE6La
- 5aIBjqXqzTcFeMcN3OMc8hYimpNYhhcTd7iF57farJ9adtS+i2tfslOMx6NaaevtqmCs
- jPQXZkUXhYY7JokT7TfI+nRFdUbV/T5qp1gjQ+VOeEWy0BimXB5h4+w3i0G2XpGiS6S1
- wmE5zpJtqj+QQX67NxuBs47iNbBfwmspJ7bz8KPCxp87uoYHnZx5ZbhZM1wtBoCNz38P
- OuNJbpbAOVrg6ITuLXoEf1HYnX6xn0e1egmsucIUl3c+9jPtPvHBlInNYlmt0Fp1RHF5
- HEDw==
-X-Gm-Message-State: AOAM532eeVbNxuaFwG0J8ClZUnsizV0g9aF4sLvEzjQcoR86Pf4a3Anv
- UKv7zCL85cbnZfu9XYntEKt2b1ubCaFvE1My
-X-Google-Smtp-Source: ABdhPJzwOvTLazBZPSJKsjMWwkS/+c08OWJK8hkFYuOuyJ3RQTjE+5fr+AWDq+gvDLSF+3w2wI1A/A==
-X-Received: by 2002:a63:574b:: with SMTP id h11mr14885891pgm.25.1610750826381; 
- Fri, 15 Jan 2021 14:47:06 -0800 (PST)
+ bh=kevGJM1Q+4BI+TG/qeyrIdbD80I/diyx5FwIEqL89Lg=;
+ b=GQP8fOu8wXUEWtfR3AGzjV8oYHgaJT8V4IbH5hn8/WYgn63hBfsWZzYT1b6uWITkVt
+ 4TyHVyD4/AEGqKhTa4uTfefMMWhK5eR8xOGgA8tEZDCpVDXV1GWPTXigNlwkMki2skOu
+ Eyl5KRPDY1zaWw9YyfI6LXDJY/ENWOEGaANNpPuYvohSKaCpqPJikqlZq4NzkJdO2exM
+ oXybio4gPW/cQJ5XgoKGDwOhY6TkWJQbKgbZK8w3mZ6sGtOo3HwBmVgdSVEg+OAiHb7r
+ tBo60k8l1MIqYFgD28TjzE2ozzLBUcMRCpDowPPY17j8RvSTnyVcYTWj1aCtA4qXgeX5
+ GTJQ==
+X-Gm-Message-State: AOAM530Zml0+QmIPlWSUCcVi65ZDTo4pJkCfSg/nuhU5er8CqEcIGgHO
+ 4HfMqsQByrt3erWt/S5MZKWc6LP7+mBk+qER
+X-Google-Smtp-Source: ABdhPJyV4SgVfvjZsXZSxCadhQf89wBQz68zzBFY4Y27oBJ+wKCss2UjY+1HDCkPRs7oVPN61VZeTQ==
+X-Received: by 2002:a63:ea01:: with SMTP id c1mr14823034pgi.138.1610750827934; 
+ Fri, 15 Jan 2021 14:47:07 -0800 (PST)
 Received: from localhost.localdomain (rrcs-173-197-107-21.west.biz.rr.com.
  [173.197.107.21])
- by smtp.gmail.com with ESMTPSA id s13sm9521700pfd.99.2021.01.15.14.47.05
+ by smtp.gmail.com with ESMTPSA id s13sm9521700pfd.99.2021.01.15.14.47.06
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 15 Jan 2021 14:47:05 -0800 (PST)
+ Fri, 15 Jan 2021 14:47:07 -0800 (PST)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v3 11/21] exec: Add support for TARGET_TAGGED_ADDRESSES
-Date: Fri, 15 Jan 2021 12:46:35 -1000
-Message-Id: <20210115224645.1196742-12-richard.henderson@linaro.org>
+Subject: [PATCH v3 12/21] linux-user/aarch64: Implement PR_TAGGED_ADDR_ENABLE
+Date: Fri, 15 Jan 2021 12:46:36 -1000
+Message-Id: <20210115224645.1196742-13-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20210115224645.1196742-1-richard.henderson@linaro.org>
 References: <20210115224645.1196742-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::429;
- envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x429.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::430;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x430.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -87,66 +87,137 @@ Cc: peter.maydell@linaro.org, qemu-arm@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The AArch64 Linux ABI has always enabled TBI, but has historically
-required that pointer tags be removed before a syscall.  This has
-changed in the lead-up to ARMv8.5-MTE, in a way that affects the
-ABI generically and not specifically to MTE.
-
-This patch allows the target to indicate that (1) there are tags
-and (2) whether or not they should be taken into account at the
-syscall level.
-
-Adjust g2h, guest_addr_valid, and guest_range_valid to ignore
-pointer tags, similar to how TIF_TAGGED_ADDR alters __range_ok
-in the arm64 kernel source.
-
-The prctl syscall is not not yet updated, so this change by itself
-has no visible effect.
+This is the prctl bit that controls whether syscalls accept tagged
+addresses.  See Documentation/arm64/tagged-address-abi.rst in the
+linux kernel.
 
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- include/exec/cpu_ldst.h | 20 +++++++++++++++++---
- 1 file changed, 17 insertions(+), 3 deletions(-)
+ linux-user/aarch64/target_syscall.h |  4 ++++
+ target/arm/cpu-param.h              |  3 +++
+ target/arm/cpu.h                    | 23 +++++++++++++++++++++++
+ linux-user/syscall.c                | 25 +++++++++++++++++++++++++
+ target/arm/cpu.c                    |  3 +++
+ 5 files changed, 58 insertions(+)
 
-diff --git a/include/exec/cpu_ldst.h b/include/exec/cpu_ldst.h
-index e62f4fba00..1df9b93e59 100644
---- a/include/exec/cpu_ldst.h
-+++ b/include/exec/cpu_ldst.h
-@@ -69,17 +69,31 @@ typedef uint64_t abi_ptr;
- #define TARGET_ABI_FMT_ptr "%"PRIx64
- #endif
+diff --git a/linux-user/aarch64/target_syscall.h b/linux-user/aarch64/target_syscall.h
+index 3194e6b009..820601dfcc 100644
+--- a/linux-user/aarch64/target_syscall.h
++++ b/linux-user/aarch64/target_syscall.h
+@@ -30,4 +30,8 @@ struct target_pt_regs {
+ # define TARGET_PR_PAC_APDBKEY   (1 << 3)
+ # define TARGET_PR_PAC_APGAKEY   (1 << 4)
  
-+static inline abi_ptr untagged_addr(abi_ptr x)
-+{
-+#ifdef TARGET_TAGGED_ADDRESSES
-+    if (current_cpu) {
-+        return cpu_untagged_addr(current_cpu, x);
-+    }
-+#endif
-+    return x;
-+}
++#define TARGET_PR_SET_TAGGED_ADDR_CTRL 55
++#define TARGET_PR_GET_TAGGED_ADDR_CTRL 56
++# define TARGET_PR_TAGGED_ADDR_ENABLE  (1UL << 0)
 +
- /* All direct uses of g2h and h2g need to go away for usermode softmmu.  */
--#define g2h(x) ((void *)((uintptr_t)(abi_ptr)(x) + guest_base))
-+static inline void *g2h(abi_ulong x)
+ #endif /* AARCH64_TARGET_SYSCALL_H */
+diff --git a/target/arm/cpu-param.h b/target/arm/cpu-param.h
+index 6321385b46..f922aa0650 100644
+--- a/target/arm/cpu-param.h
++++ b/target/arm/cpu-param.h
+@@ -20,6 +20,9 @@
+ 
+ #ifdef CONFIG_USER_ONLY
+ #define TARGET_PAGE_BITS 12
++# ifdef TARGET_AARCH64
++#  define TARGET_TAGGED_ADDRESSES
++# endif
+ #else
+ /*
+  * ARMv7 and later CPUs have 4K pages minimum, but ARMv5 and v6
+diff --git a/target/arm/cpu.h b/target/arm/cpu.h
+index f3bca73d98..6ddfd9ebe6 100644
+--- a/target/arm/cpu.h
++++ b/target/arm/cpu.h
+@@ -712,6 +712,10 @@ typedef struct CPUARMState {
+     const struct arm_boot_info *boot_info;
+     /* Store GICv3CPUState to access from this struct */
+     void *gicv3state;
++
++#ifdef TARGET_TAGGED_ADDRESSES
++    target_ulong untagged_addr_mask;
++#endif
+ } CPUARMState;
+ 
+ static inline void set_feature(CPUARMState *env, int feature)
+@@ -3556,6 +3560,25 @@ static inline MemTxAttrs *typecheck_memtxattrs(MemTxAttrs *x)
+  */
+ #define PAGE_BTI  PAGE_TARGET_1
+ 
++#ifdef TARGET_TAGGED_ADDRESSES
++/**
++ * cpu_untagged_addr:
++ * @cs: CPU context
++ * @x: tagged address
++ *
++ * Remove any address tag from @x.  This is explicitly related to the
++ * linux syscall TIF_TAGGED_ADDR setting, not TBI in general.
++ *
++ * There should be a better place to put this, but we need this in
++ * include/exec/cpu_ldst.h, and not some place linux-user specific.
++ */
++static inline target_ulong cpu_untagged_addr(CPUState *cs, target_ulong x)
 +{
-+    return (void *)((uintptr_t)untagged_addr(x) + guest_base);
++    ARMCPU *cpu = ARM_CPU(cs);
++    return x & cpu->env.untagged_addr_mask;
 +}
- 
- static inline bool guest_addr_valid(abi_ulong x)
- {
--    return x <= GUEST_ADDR_MAX;
-+    return untagged_addr(x) <= GUEST_ADDR_MAX;
- }
- 
- static inline bool guest_range_valid(abi_ulong start, abi_ulong len)
- {
--    return len - 1 <= GUEST_ADDR_MAX && start <= GUEST_ADDR_MAX - len + 1;
-+    return len - 1 <= GUEST_ADDR_MAX &&
-+           untagged_addr(start) <= GUEST_ADDR_MAX - len + 1;
- }
- 
- #define h2g_valid(x) \
++#endif
++
+ /*
+  * Naming convention for isar_feature functions:
+  * Functions which test 32-bit ID registers should have _aa32_ in
+diff --git a/linux-user/syscall.c b/linux-user/syscall.c
+index bec2ab7769..ebb4e2898c 100644
+--- a/linux-user/syscall.c
++++ b/linux-user/syscall.c
+@@ -10948,6 +10948,31 @@ static abi_long do_syscall1(void *cpu_env, int num, abi_long arg1,
+                 }
+             }
+             return -TARGET_EINVAL;
++        case TARGET_PR_SET_TAGGED_ADDR_CTRL:
++            {
++                abi_ulong valid_mask = TARGET_PR_TAGGED_ADDR_ENABLE;
++                CPUARMState *env = cpu_env;
++
++                if ((arg2 & ~valid_mask) || arg3 || arg4 || arg5) {
++                    return -TARGET_EINVAL;
++                }
++                env->untagged_addr_mask = (arg2 & TARGET_PR_TAGGED_ADDR_ENABLE
++                                           ? MAKE_64BIT_MASK(0, 56) : -1);
++                return 0;
++            }
++        case TARGET_PR_GET_TAGGED_ADDR_CTRL:
++            {
++                abi_long ret = 0;
++                CPUARMState *env = cpu_env;
++
++                if (arg2 || arg3 || arg4 || arg5) {
++                    return -TARGET_EINVAL;
++                }
++                if (env->untagged_addr_mask != -1) {
++                    ret |= TARGET_PR_TAGGED_ADDR_ENABLE;
++                }
++                return ret;
++            }
+ #endif /* AARCH64 */
+         case PR_GET_SECCOMP:
+         case PR_SET_SECCOMP:
+diff --git a/target/arm/cpu.c b/target/arm/cpu.c
+index 8387e94b94..abc0affd00 100644
+--- a/target/arm/cpu.c
++++ b/target/arm/cpu.c
+@@ -208,6 +208,9 @@ static void arm_cpu_reset(DeviceState *dev)
+          * Do not modify this without other changes.
+          */
+         env->cp15.tcr_el[1].raw_tcr = (3ULL << 37);
++# ifdef TARGET_TAGGED_ADDRESSES
++        env->untagged_addr_mask = -1;
++# endif
+ #else
+         /* Reset into the highest available EL */
+         if (arm_feature(env, ARM_FEATURE_EL3)) {
 -- 
 2.25.1
 
