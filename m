@@ -2,69 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6073E2F7630
-	for <lists+qemu-devel@lfdr.de>; Fri, 15 Jan 2021 11:04:05 +0100 (CET)
-Received: from localhost ([::1]:43350 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 900222F7644
+	for <lists+qemu-devel@lfdr.de>; Fri, 15 Jan 2021 11:13:07 +0100 (CET)
+Received: from localhost ([::1]:47956 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l0Lxb-0002tz-UH
-	for lists+qemu-devel@lfdr.de; Fri, 15 Jan 2021 05:04:03 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53402)
+	id 1l0M6M-0005Hx-LI
+	for lists+qemu-devel@lfdr.de; Fri, 15 Jan 2021 05:13:06 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54952)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1l0Lvz-0002OK-Vr
- for qemu-devel@nongnu.org; Fri, 15 Jan 2021 05:02:25 -0500
-Received: from mail-ej1-x629.google.com ([2a00:1450:4864:20::629]:35400)
+ (Exim 4.90_1) (envelope-from <maxim.uvarov@linaro.org>)
+ id 1l0M4s-00043s-5l
+ for qemu-devel@nongnu.org; Fri, 15 Jan 2021 05:11:34 -0500
+Received: from mail-lj1-x233.google.com ([2a00:1450:4864:20::233]:43474)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1l0Lvu-0005vU-J8
- for qemu-devel@nongnu.org; Fri, 15 Jan 2021 05:02:23 -0500
-Received: by mail-ej1-x629.google.com with SMTP id q22so12471012eja.2
- for <qemu-devel@nongnu.org>; Fri, 15 Jan 2021 02:02:17 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <maxim.uvarov@linaro.org>)
+ id 1l0M4q-0001xy-LB
+ for qemu-devel@nongnu.org; Fri, 15 Jan 2021 05:11:33 -0500
+Received: by mail-lj1-x233.google.com with SMTP id e7so9763082ljg.10
+ for <qemu-devel@nongnu.org>; Fri, 15 Jan 2021 02:11:32 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=CegIyuc28gNG8rWzk2Oea8Of5d1nBVLk73I1gH7cBoM=;
- b=wbpiYy5Z9vzxiCptQ5QMV7ijMUq5kASaSGC/kGDda4RyC5byvXmB+8FWmPD21sGecZ
- e/cz9PlMqDHnrCv7lGEu6EMy78S6WfsAEiOHNxjeked+yH0m+SE/JtqRV9aLzl5A+spa
- RwRuLeWgbTeDk45cnD/Ek+bd0x12K+Qg3W84PfqwSWEkmNRp0DUmrMJabyuzzIDhSZX/
- 8V6CTNeSC1PPBpQASGeo5TGDU1udib+fMWX0RxEO7lC7ysX0htRrLQfuTMkvpKBpumIu
- xFAHSo++OQ9XyvUT2WUx4AiuvhQLD/kSsa0eCfBZSfUGfifKRxV4q7sbkg7hszfZmJ24
- YbRA==
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=dI3m5apsFpRzkZoJU0PtHodMAshsYUKsXH+0XXCFfFM=;
+ b=MHyD8mGnSVVB1d36yaC+ardXR4WaRHkCgqUNiOafXFgC1UMzHzoMkQ+OOaTNkw43v1
+ TljI25K/B/u9lfjL7iV04wpADD6sWCk3SORQ0c5uLxk26jf+4SX51m5jqdZNegtcw9gX
+ UZhlQ/1itisx7/+05hAiI2w0EJkvRivfkL+fcJD63DrKEeIO/2RLyv451erS1niumvRb
+ QY9N4B1pMtYRk1KLB885Qzbo2q7jn9sKo/7zXzyf1pAocszo5pqDPstz14qs4FfvtBYI
+ 57d5CuGSyqRt2WidoSqoU5jcq1asaT+42PORfVi+zzTLvHOq/G4Fjd4/2RzIaEs11UTb
+ gk6A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=CegIyuc28gNG8rWzk2Oea8Of5d1nBVLk73I1gH7cBoM=;
- b=AozQFQfsrZ3+XXImInOg88QXM/nHjgerx5XUlXCft3/Zoz7a01Jcj2RkrVOqxp1U+9
- oFLYm9+NRipiMNzPRSAXIRQTPND+FztqrAkCKI5SscauHFD2Rvi5YGYHmaCd6QoIeLMV
- mcJTZvm4DoGjS1uLw33ShojHVPs5+MiQKaWpD8TdwSm5AisngVMAjWFJ5iJDuoXE+01I
- qB65MUycrHzBD+ZYAGaEl0gZiZYDKyUSiGQL823U8kW61bK983GLViLgTPx5H7j405NG
- btuoc4oYstMVJnJG2/M28wACR1qN8YsdphGB3jJTjMvOLWB10jH9NRWOGthCarOKWvUd
- Ze2Q==
-X-Gm-Message-State: AOAM530EzuIxKktkKJ5+OR9FTdRnt8vjlowBWhMdbbmnkjF/uoqdUtVV
- VUwslMFm3XyF7yZKYQTKCbr6l9+Uy2fkZnXaY/aZ2AQF8Ew=
-X-Google-Smtp-Source: ABdhPJzPCblSQWiXyKsf/r/3kfXZml+IVGt8J4Cts3/eKL8xSSBaVbrk8raqW366tWCG9yFXk7OxODBttOUnVnJe3q8=
-X-Received: by 2002:a17:906:6b88:: with SMTP id
- l8mr8343483ejr.482.1610704936183; 
- Fri, 15 Jan 2021 02:02:16 -0800 (PST)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=dI3m5apsFpRzkZoJU0PtHodMAshsYUKsXH+0XXCFfFM=;
+ b=nusibhlNdP/Mmmxj5L3nGt3fhAsl+F6nBav7jywBvg4ipso7wCvWxlg23sPkmzK5Nj
+ fv+b7tRezH/eYUVFcRShOc718Y7V+P3HV6Z0osYc+IHR6/FgRetF99x+1G0A8sK+PkHu
+ jCfl/gXU+IgtwIXW3SurGB3NLQ/6pvb3kDtKUUTNkjIjM6e8waisL2jKSgvDZA1SDahF
+ AMMRbgnd7c2cmRzF/VJxhWexb/nXDIicxxd8XxZ7jaojeoLdi0gQkK90AApEUtgy/ZTk
+ xJL85XrIkXce98Veb94qT33YLEkd44quGLvYQAoBJNEvrXPlqcz+gsTOagNc8YlKQtNH
+ 65/Q==
+X-Gm-Message-State: AOAM533N1bVTIyPMXWGhBFqApqtIHB6FDnGmGhp7e0EafkSZCT+ojOnN
+ 0ryN0IO2g/SEr20snALa44NasQ==
+X-Google-Smtp-Source: ABdhPJyVXYNtdF6AgCPMMyKLMwqYEVcQGgwfvlM7P94Eg65N3P5KWqrX+X5NzOvgt63fcrlrFF/s2Q==
+X-Received: by 2002:a2e:95d5:: with SMTP id y21mr5262677ljh.477.1610705489942; 
+ Fri, 15 Jan 2021 02:11:29 -0800 (PST)
+Received: from localhost.localdomain ([91.193.178.207])
+ by smtp.gmail.com with ESMTPSA id a15sm731886lji.105.2021.01.15.02.11.28
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 15 Jan 2021 02:11:29 -0800 (PST)
+From: Maxim Uvarov <maxim.uvarov@linaro.org>
+To: qemu-arm@nongnu.org,
+	qemu-devel@nongnu.org
+Subject: [PATCHv7 0/3] arm-virt: add secure pl061 for reset/power down
+Date: Fri, 15 Jan 2021 13:11:23 +0300
+Message-Id: <20210115101126.4259-1-maxim.uvarov@linaro.org>
+X-Mailer: git-send-email 2.17.1
 MIME-Version: 1.0
-References: <20210114234612.795621-1-imammedo@redhat.com>
-In-Reply-To: <20210114234612.795621-1-imammedo@redhat.com>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Fri, 15 Jan 2021 10:02:04 +0000
-Message-ID: <CAFEAcA843rP6rvktc0FSZEjK8C9E8h_5_PbCBUXYM4XJRE7KHQ@mail.gmail.com>
-Subject: Re: [PATCH v2] machine: add missing doc for memory-backend option
-To: Igor Mammedov <imammedo@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2a00:1450:4864:20::629;
- envelope-from=peter.maydell@linaro.org; helo=mail-ej1-x629.google.com
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::233;
+ envelope-from=maxim.uvarov@linaro.org; helo=mail-lj1-x233.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -77,31 +82,47 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Michal Privoznik <mprivozn@redhat.com>, Peter Krempa <pkrempa@redhat.com>,
- QEMU Developers <qemu-devel@nongnu.org>, Paolo Bonzini <pbonzini@redhat.com>
+Cc: peter.maydell@linaro.org, drjones@redhat.com,
+ Maxim Uvarov <maxim.uvarov@linaro.org>, Jose.Marinho@arm.com, f4bug@amsat.org,
+ tf-a@lists.trustedfirmware.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, 14 Jan 2021 at 23:48, Igor Mammedov <imammedo@redhat.com> wrote:
->
-> Add documentation for '-machine memory-backend' CLI option and
-> how to use it.
->
-> And document that x-use-canonical-path-for-ramblock-id,
-> is considered to be stable to make sure it won't go away by accident.
+ v7: - same as v6, but resplit patches: patch 2 no function changes and refactor
+	gpio setup for virt platfrom and patch 3 adds secure gpio.
+ v6: - 64k align gpio memory region (Andrew Jones)
+     - adjusted memory region to map this address in the corresponding atf patch
+ v5: - removed vms flag, added fdt  (Andrew Jones)
+     - added patch3 to combine secure and non secure pl061. It has to be
+       more easy to review if this changes are in the separate patch.
+ v4: rework patches accodring to Peter Maydells comments:
+	- split patches on gpio-pwr driver and arm-virt integration.
+	- start secure gpio only from virt-6.0.
+	- rework qemu interface for gpio-pwr to use 2 named gpio.
+	- put secure gpio to secure name space.
+ v3: added missed include qemu/log.h for qemu_log(.. 
+ v2: replace printf with qemu_log (Philippe Mathieu-Daudé)
 
-That's not what the x- prefix is supposed to mean.
-If we have an internal constraint that we mustn't delete
-the option in order to support some other must-be-stable
-interface (eg migration of some machines) we can document
-that in a comment, but that doesn't mean that we should
-document to users that direct use of an x-prefix option
-is supported as a stable interface.
+This patch works together with ATF patch:
+	https://github.com/muvarov/arm-trusted-firmware/commit/7556d07e87f755c602cd9d90359341bdd14d9d57
 
-Alternatively, if the option is really stable for direct
-use by users then we should commit to making it so by
-removing the x-.
+Previus discussion for reboot issue was here:
+     https://www.mail-archive.com/qemu-devel@nongnu.org/msg757705.html
+Maxim Uvarov (3):
+  hw: gpio: implement gpio-pwr driver for qemu reset/poweroff
+  arm-virt: refactor gpios creation
+  arm-virt: add secure pl061 for reset/power down
 
-thanks
--- PMM
+ hw/arm/Kconfig        |   1 +
+ hw/arm/virt.c         | 117 ++++++++++++++++++++++++++++++++++--------
+ hw/gpio/Kconfig       |   3 ++
+ hw/gpio/gpio_pwr.c    |  70 +++++++++++++++++++++++++
+ hw/gpio/meson.build   |   1 +
+ include/hw/arm/virt.h |   2 +
+ 6 files changed, 174 insertions(+), 20 deletions(-)
+ create mode 100644 hw/gpio/gpio_pwr.c
+
+-- 
+2.17.1
+
 
