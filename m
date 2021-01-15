@@ -2,57 +2,57 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2BB172F8564
-	for <lists+qemu-devel@lfdr.de>; Fri, 15 Jan 2021 20:28:58 +0100 (CET)
-Received: from localhost ([::1]:52126 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C61672F855A
+	for <lists+qemu-devel@lfdr.de>; Fri, 15 Jan 2021 20:26:21 +0100 (CET)
+Received: from localhost ([::1]:47282 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l0UmH-0001CT-9C
-	for lists+qemu-devel@lfdr.de; Fri, 15 Jan 2021 14:28:57 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37260)
+	id 1l0Ujk-0007WY-RY
+	for lists+qemu-devel@lfdr.de; Fri, 15 Jan 2021 14:26:20 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37258)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <mihai.carabas@oracle.com>)
- id 1l0Ugm-0005uC-A4
- for qemu-devel@nongnu.org; Fri, 15 Jan 2021 14:23:18 -0500
-Received: from userp2130.oracle.com ([156.151.31.86]:40192)
+ id 1l0Ugm-0005tw-1q
+ for qemu-devel@nongnu.org; Fri, 15 Jan 2021 14:23:16 -0500
+Received: from aserp2120.oracle.com ([141.146.126.78]:44610)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <mihai.carabas@oracle.com>)
- id 1l0Ugi-0002pe-CC
- for qemu-devel@nongnu.org; Fri, 15 Jan 2021 14:23:16 -0500
-Received: from pps.filterd (userp2130.oracle.com [127.0.0.1])
- by userp2130.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 10FJG7Ul114910;
+ id 1l0Ugh-0002pX-5D
+ for qemu-devel@nongnu.org; Fri, 15 Jan 2021 14:23:15 -0500
+Received: from pps.filterd (aserp2120.oracle.com [127.0.0.1])
+ by aserp2120.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 10FJE7up005643;
  Fri, 15 Jan 2021 19:23:09 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com;
  h=from : to : cc :
  subject : date : message-id : in-reply-to : references; s=corp-2020-01-29;
- bh=lE/N/EgAAFvsPfBUwY70BWLsikKKhYJTk7gku7gNxVo=;
- b=Uz3OkLITbuFbumtk/D79lNwhsFnLptalRqjuFx1xgkbNpvsIoyBDujAvp4QgCXkSP+CV
- dp03CISjxWs2cY/uahr9YVEOsCk72BwGuKnPWI/dVJmLViOxikUpK8MaVzIp9LItvlFk
- 79QzUKLpaJvOOXmgE6p6nyLedtFc3N+XTofRs4UotpMCOA92C4iqGGFSzxMxaU2z2kxM
- GHlEOIkd6/tPoG3lVMyRVM0BW+sUoAwFgEVvLcDJ78FIuJwFWHC8GHm6JntF5DscvQFh
- ZeSk6PzsjyrUpgt2IJkr+S0CdJyzADp3NugY4KYt3tHu1zGw4YEgNBWLi5Vdb+NWVO35 sQ== 
+ bh=MExvka13xMaO0SwGFNkha+7iM89S1A16w8rQFvjAxyc=;
+ b=NZdFGB3qqOnRpCN+uQ3YnfsnDEchOietQp8MtJI9E+ypfC+ii/ydRcNGEzJijBJWMHU1
+ tGaRuN/pkd5iRn2/RAHSMQOzguojCjreKXoe1xOiZ6Zm5Qveke0JZc2qWEFXb5WbIHHj
+ oMmlosKMYMr3L1yMGqon5m60b4kH3pWElL/b/4Z8RS/mr8792jzYQGGDp55kIux122ky
+ sfFsEWDpz54geITp5aom1atxQWZADg7eUQN9Tc36bkZTiHi3LcWN5Fsc02e2vaDFik1T
+ bjdB1wJLf2T5tZMo8VouvM3AVVulR9L53UK8KS/pRVm99jUKDOdvJ+oc33vJG8meWZU8 DQ== 
 Received: from userp3030.oracle.com (userp3030.oracle.com [156.151.31.80])
- by userp2130.oracle.com with ESMTP id 360kvkec6m-1
+ by aserp2120.oracle.com with ESMTP id 360kd06dvv-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
  Fri, 15 Jan 2021 19:23:09 +0000
 Received: from pps.filterd (userp3030.oracle.com [127.0.0.1])
- by userp3030.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 10FJL472051968;
+ by userp3030.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 10FJL4NY051945;
  Fri, 15 Jan 2021 19:21:08 GMT
-Received: from aserv0122.oracle.com (aserv0122.oracle.com [141.146.126.236])
- by userp3030.oracle.com with ESMTP id 360keqayr9-1
+Received: from aserv0121.oracle.com (aserv0121.oracle.com [141.146.126.235])
+ by userp3030.oracle.com with ESMTP id 360keqayrp-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
  Fri, 15 Jan 2021 19:21:08 +0000
 Received: from abhmp0006.oracle.com (abhmp0006.oracle.com [141.146.116.12])
- by aserv0122.oracle.com (8.14.4/8.14.4) with ESMTP id 10FJL68q001531;
+ by aserv0121.oracle.com (8.14.4/8.13.8) with ESMTP id 10FJL7Lm000934;
  Fri, 15 Jan 2021 19:21:07 GMT
 Received: from mihai.localdomain (/10.153.73.25)
  by default (Oracle Beehive Gateway v4.0)
- with ESMTP ; Fri, 15 Jan 2021 11:21:06 -0800
+ with ESMTP ; Fri, 15 Jan 2021 11:21:07 -0800
 From: Mihai Carabas <mihai.carabas@oracle.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 3/4] pvpanic : update pvpanic spec document
-Date: Fri, 15 Jan 2021 20:34:05 +0200
-Message-Id: <1610735646-13313-4-git-send-email-mihai.carabas@oracle.com>
+Subject: [PATCH 4/4] tests/qtest: add a test case for pvpanic-pci
+Date: Fri, 15 Jan 2021 20:34:06 +0200
+Message-Id: <1610735646-13313-5-git-send-email-mihai.carabas@oracle.com>
 X-Mailer: git-send-email 1.8.3.1
 In-Reply-To: <1610735646-13313-1-git-send-email-mihai.carabas@oracle.com>
 References: <1610735646-13313-1-git-send-email-mihai.carabas@oracle.com>
@@ -65,14 +65,14 @@ X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 mlxscore=0
  definitions=main-2101150117
 X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9865
  signatures=668683
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 mlxlogscore=999
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 spamscore=0
  phishscore=0
- lowpriorityscore=0 bulkscore=0 priorityscore=1501 malwarescore=0
- clxscore=1015 impostorscore=0 spamscore=0 mlxscore=0 suspectscore=0
- adultscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ impostorscore=0 bulkscore=0 adultscore=0 suspectscore=0 malwarescore=0
+ lowpriorityscore=0 clxscore=1015 mlxlogscore=999 mlxscore=0
+ priorityscore=1501 classifier=spam adjust=0 reason=mlx scancount=1
  engine=8.12.0-2009150000 definitions=main-2101150116
-Received-SPF: pass client-ip=156.151.31.86;
- envelope-from=mihai.carabas@oracle.com; helo=userp2130.oracle.com
+Received-SPF: pass client-ip=141.146.126.78;
+ envelope-from=mihai.carabas@oracle.com; helo=aserp2120.oracle.com
 X-Spam_score_int: -46
 X-Spam_score: -4.7
 X-Spam_bar: ----
@@ -97,51 +97,96 @@ Cc: Mihai Carabas <mihai.carabas@oracle.com>, peter.maydell@linaro.org,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Add pvpanic PCI device support details in docs/specs/pvpanic.txt.
+Add a test case for pvpanic-pci device. The scenario is the same as pvpapnic
+ISA device, but is using the PCI bus.
 
 Signed-off-by: Mihai Carabas <mihai.carabas@oracle.com>
 ---
- docs/specs/pvpanic.txt | 13 ++++++++++++-
- 1 file changed, 12 insertions(+), 1 deletion(-)
+ tests/qtest/meson.build        |  1 +
+ tests/qtest/pvpanic-pci-test.c | 62 ++++++++++++++++++++++++++++++++++++++++++
+ 2 files changed, 63 insertions(+)
+ create mode 100644 tests/qtest/pvpanic-pci-test.c
 
-diff --git a/docs/specs/pvpanic.txt b/docs/specs/pvpanic.txt
-index a90fbca..974aafd 100644
---- a/docs/specs/pvpanic.txt
-+++ b/docs/specs/pvpanic.txt
-@@ -1,7 +1,7 @@
- PVPANIC DEVICE
- ==============
+diff --git a/tests/qtest/meson.build b/tests/qtest/meson.build
+index b050289..f689cad 100644
+--- a/tests/qtest/meson.build
++++ b/tests/qtest/meson.build
+@@ -20,6 +20,7 @@ endif
  
--pvpanic device is a simulated ISA device, through which a guest panic
-+pvpanic device is a simulated device, through which a guest panic
- event is sent to qemu, and a QMP event is generated. This allows
- management apps (e.g. libvirt) to be notified and respond to the event.
+ qtests_pci = \
+   (config_all_devices.has_key('CONFIG_VGA') ? ['display-vga-test'] : []) +                  \
++  (config_all_devices.has_key('CONFIG_PVPANIC_PCI') ? ['pvpanic-pci-test'] : []) +          \
+   (config_all_devices.has_key('CONFIG_IVSHMEM_DEVICE') ? ['ivshmem-test'] : [])
  
-@@ -9,6 +9,9 @@ The management app has the option of waiting for GUEST_PANICKED events,
- and/or polling for guest-panicked RunState, to learn when the pvpanic
- device has fired a panic event.
- 
-+The pvpanic device can be implemented as an ISA device (using IOPORT) or as a
-+PCI device.
+ qtests_i386 = \
+diff --git a/tests/qtest/pvpanic-pci-test.c b/tests/qtest/pvpanic-pci-test.c
+new file mode 100644
+index 0000000..79b8065
+--- /dev/null
++++ b/tests/qtest/pvpanic-pci-test.c
+@@ -0,0 +1,62 @@
++/*
++ * QTest testcase for PV Panic PCI device
++ *
++ * Copyright (C) 2020 Oracle
++ *
++ * Authors:
++ *     Mihai Carabas <mihai.carabas@oracle.com>
++ *
++ * This work is licensed under the terms of the GNU GPL, version 2 or later.
++ * See the COPYING file in the top-level directory.
++ *
++ */
 +
- ISA Interface
- -------------
- 
-@@ -24,6 +27,14 @@ bit 1: a guest panic has happened and will be handled by the guest;
-        the host should record it or report it, but should not affect
-        the execution of the guest.
- 
-+PCI Interface
-+-------------
++#include "qemu/osdep.h"
++#include "libqos/libqtest.h"
++#include "qapi/qmp/qdict.h"
++#include "libqos/pci.h"
++#include "libqos/pci-pc.h"
++#include "hw/pci/pci_regs.h"
 +
-+The PCI interface is similar to the ISA interface except that it uses an MMIO
-+address space provided by its BAR0, 1 byte long. Any machine with a PCI device
-+can enable a pvpanic device by adding '-device pvpanic-pci' to the command
-+line.
++static void test_panic(void)
++{
++    uint8_t val;
++    QDict *response, *data;
++    QTestState *qts;
++    QPCIBus *pcibus;
++    QPCIDevice *dev;
++    QPCIBar bar;
 +
- ACPI Interface
- --------------
- 
++    qts = qtest_init("-device pvpanic-pci");
++    pcibus = qpci_new_pc(qts, NULL);
++    dev = qpci_device_find(pcibus, QPCI_DEVFN(0x4, 0x0));
++    qpci_device_enable(dev);
++    bar = qpci_iomap(dev, 0, NULL);
++
++    qpci_memread(dev, bar, 0, &val, sizeof(val));
++    g_assert_cmpuint(val, ==, 3);
++
++    val = 1;
++    qpci_memwrite(dev, bar, 0, &val, sizeof(val));
++
++    response = qtest_qmp_eventwait_ref(qts, "GUEST_PANICKED");
++    g_assert(qdict_haskey(response, "data"));
++    data = qdict_get_qdict(response, "data");
++    g_assert(qdict_haskey(data, "action"));
++    g_assert_cmpstr(qdict_get_str(data, "action"), ==, "pause");
++    qobject_unref(response);
++
++    qtest_quit(qts);
++}
++
++int main(int argc, char **argv)
++{
++    int ret;
++
++    g_test_init(&argc, &argv, NULL);
++    qtest_add_func("/pvpanic-pci/panic", test_panic);
++
++    ret = g_test_run();
++
++    return ret;
++}
 -- 
 1.8.3.1
 
