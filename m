@@ -2,68 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 708752F867A
-	for <lists+qemu-devel@lfdr.de>; Fri, 15 Jan 2021 21:19:41 +0100 (CET)
-Received: from localhost ([::1]:37516 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 63AC92F8675
+	for <lists+qemu-devel@lfdr.de>; Fri, 15 Jan 2021 21:17:24 +0100 (CET)
+Received: from localhost ([::1]:60674 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l0VZM-0004QR-Fi
-	for lists+qemu-devel@lfdr.de; Fri, 15 Jan 2021 15:19:40 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47692)
+	id 1l0VX9-0002JP-EA
+	for lists+qemu-devel@lfdr.de; Fri, 15 Jan 2021 15:17:23 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47708)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1l0VSE-0005sD-U6
- for qemu-devel@nongnu.org; Fri, 15 Jan 2021 15:12:18 -0500
-Received: from mail-wr1-x434.google.com ([2a00:1450:4864:20::434]:44867)
+ id 1l0VSG-0005uj-2X
+ for qemu-devel@nongnu.org; Fri, 15 Jan 2021 15:12:20 -0500
+Received: from mail-wm1-x334.google.com ([2a00:1450:4864:20::334]:36107)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1l0VSD-0008IQ-6i
- for qemu-devel@nongnu.org; Fri, 15 Jan 2021 15:12:18 -0500
-Received: by mail-wr1-x434.google.com with SMTP id w5so10469332wrm.11
- for <qemu-devel@nongnu.org>; Fri, 15 Jan 2021 12:12:16 -0800 (PST)
+ id 1l0VSE-0008If-B1
+ for qemu-devel@nongnu.org; Fri, 15 Jan 2021 15:12:19 -0500
+Received: by mail-wm1-x334.google.com with SMTP id v184so4429093wma.1
+ for <qemu-devel@nongnu.org>; Fri, 15 Jan 2021 12:12:17 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=u5SEU2LlCzjLfCWQO/ACZ9Nq9yD70zys6hJbaEYaJA0=;
- b=VLxgGQ3tqTzI1RfpjBdVhqOQFZrSob/M2Jc3m75dh69daPiZI8nC+Xswsle4Zy8TRj
- qNQkd5adzm0xKbBrBNu6i28+igaR9teOk9Uv8v8zl3UkbnNzC4lGTBmc9piMt5EzANkX
- xqzp0UahNt9H1MVBBOwzEDpdKdDQmTxbvUzDEqrF0hUygoupxP2PS3YQCU9j03ZFMz3X
- vN8JhONZ03OWvzrpon5iiqgj4A1jjE90M/8hyO/e9Qex4tRDmHki9lrV61oajUA/txvC
- 5iGH1H3CPO1xqvfo7MGggRomEYB3c3LhtA+HEO0XT86vq5E6sWZIhjGCcImcPjB08hxl
- jEtQ==
+ bh=5z3pjzGRytH16qZkplw8pjDFH2MUg1wej/HifHKVc/k=;
+ b=YsDn/oMyFDnaqA3IJQXcIukFZgZu1cC9UKzzR/IimgpwC7mDv3B6Tn2mh0QcYUpZaU
+ aNZX6y2QksPBh7Abzuc1TvuzWYVF2lc3J0ovojG8mj9LOeq+KW5CItAAdQQWoLyKZ2Ls
+ Q3xUZlbjiqCqXWV60TiSMJu+xOaDtGJQ3ISmvvqKnTqA/K7O6ZS+mlMYOQ44QhpGliqx
+ AE2wHEwHbgkMA+174psm2Nbdfvh1Ki1exMCFLql4pNVbMPppy1SGhZ6qJmpNbg3kai9W
+ TxPIezjvMotqhZGEof9JVt5jHf0e0xKe7c/DHaPsvCdQxWoXFsMOpjC7AqnO71isXB11
+ +IwQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=u5SEU2LlCzjLfCWQO/ACZ9Nq9yD70zys6hJbaEYaJA0=;
- b=NPE4ZbIZ9pYsVFqZfElI+6vQsREzJzWWOLAkCIJ74WrOF/6V/4vxJsKX56+8ldLqCQ
- pG1nYRf7hQRll4v+YLgcjHjTpb5SbceNc21PTqS24Mq5i0Dr0NR8x2eobEVDhIqevW0S
- uAx5uoY9IspitvO6ByPkWStKPj8E6wmMxOcF/mN/fSEQ5qO0sfpbJjG0tUZi8EFGfIiu
- BU5dC8yp9eVwvdn2gUVuLy69IXWBRYef2KfJipanpdaCASGJVYAMhBRj6DU3jzd62ZjN
- B8f54ZRXHd+JILMRfGejIc6xz9bLsFdaIAeyy9ChZbSpoDiweYQn6FemTNW9fXu+MrOK
- quhw==
-X-Gm-Message-State: AOAM530ubCd1uTYc/WsJBSt7horvu9mUwW2xBt8kn+8Ex8uUGEnxVQNv
- M7JfIPwyP4f8CY7x8idxAWxdh8RC3defYw==
-X-Google-Smtp-Source: ABdhPJxZvY456k0Ic1/h7cgIZ++a3Df+K0d41MgQQRCdkwdaWkoJxoOhdjXn5M9QBLMTWDtB4inuYA==
-X-Received: by 2002:adf:f78e:: with SMTP id q14mr14790400wrp.320.1610741535729; 
- Fri, 15 Jan 2021 12:12:15 -0800 (PST)
+ bh=5z3pjzGRytH16qZkplw8pjDFH2MUg1wej/HifHKVc/k=;
+ b=RqOBSVIdhWdkTSDvRb5gVZnr3ohKuF95Vm1yWjdXruqLpFlcPYbKlhtStZ4+uB2h56
+ 7Ja2kxdUghEbjhQGHrEXXcf7W4Kf55Gev/0bdlhwmuobPLowshZ6vzmKKTnzukkdHedc
+ Zcj/ke5Yr/75NpiNistm2HhPXNKj/+MEWBg/Sv0+2/FM2xBQhAP9+8idH5yxghYmRl++
+ y2+IfbYqCabHHotxMfJZxNEIgLTdl+bjF4fRbUDVJP6+3cG9cRiWHAKv9oAKKkcRcTGH
+ fiZp4DSuHVTLaXl9+5i20DNGFeGOO4AnhjGk5K/AmjLSsUqJ9nS8g8oSGPHOU3+fLDxS
+ v6dQ==
+X-Gm-Message-State: AOAM533w/7a7YcOY7Dot4VLTOXVRvp85uiIYVZf3ozKZXTrbmFAJGWtR
+ F6nCi+CFjbt7Hu7ql5JAze0k0j5+ywNaSA==
+X-Google-Smtp-Source: ABdhPJywhHhOSk/78/KXTBOVpTFY7TlZHKzMdN3NAbtmHfs3lVgpjKtBBoFfRI0Cl0jaQSIm8QdFrA==
+X-Received: by 2002:a05:600c:21c7:: with SMTP id
+ x7mr10108768wmj.75.1610741536803; 
+ Fri, 15 Jan 2021 12:12:16 -0800 (PST)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
- by smtp.gmail.com with ESMTPSA id b3sm10353807wrn.70.2021.01.15.12.12.14
+ by smtp.gmail.com with ESMTPSA id b3sm10353807wrn.70.2021.01.15.12.12.15
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 15 Jan 2021 12:12:15 -0800 (PST)
+ Fri, 15 Jan 2021 12:12:16 -0800 (PST)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 06/11] hw/m68k/next-cube: Move int_status and int_mask to
- NeXTPC struct
-Date: Fri, 15 Jan 2021 20:12:01 +0000
-Message-Id: <20210115201206.17347-7-peter.maydell@linaro.org>
+Subject: [PATCH 07/11] hw/m68k/next-cube: Make next_irq GPIO inputs to NEXT_PC
+ device
+Date: Fri, 15 Jan 2021 20:12:02 +0000
+Message-Id: <20210115201206.17347-8-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20210115201206.17347-1-peter.maydell@linaro.org>
 References: <20210115201206.17347-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::434;
- envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x434.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::334;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x334.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -87,119 +88,89 @@ Cc: Thomas Huth <huth@tuxfamily.org>, Laurent Vivier <laurent@vivier.eu>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-All the code which accesses int_status and int_mask is now doing
-so via the NeXTPC->NeXTState indirection, so we can move these
-fields into the NeXTPC struct where they belong.
+Make the next_irq function be GPIO inputs to the NEXT_PC
+device, rather than a freestanding set of qemu_irq lines.
 
+This fixes a minor Coverity issue where it correctly points
+out the trivial memory leak of the memory allocated in the
+call to qemu_allocate_irqs().
+
+Fixes: CID 1421962
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 ---
- hw/m68k/next-cube.c | 33 ++++++++++++++++-----------------
- 1 file changed, 16 insertions(+), 17 deletions(-)
+ include/hw/m68k/next-cube.h |  3 ++-
+ hw/m68k/next-cube.c         | 21 ++++-----------------
+ 2 files changed, 6 insertions(+), 18 deletions(-)
 
-diff --git a/hw/m68k/next-cube.c b/hw/m68k/next-cube.c
-index a9e57304e04..6b4bcfd4b9b 100644
---- a/hw/m68k/next-cube.c
-+++ b/hw/m68k/next-cube.c
-@@ -73,9 +73,6 @@ typedef struct NextRtc {
- struct NeXTState {
-     MachineState parent;
- 
--    uint32_t int_mask;
--    uint32_t int_status;
--
-     next_dma dma[10];
-     qemu_irq *scsi_irq;
-     qemu_irq scsi_dma;
-@@ -103,6 +100,8 @@ struct NeXTPC {
-     uint32_t scr2;
-     uint8_t scsi_csr_1;
-     uint8_t scsi_csr_2;
-+    uint32_t int_mask;
-+    uint32_t int_status;
+diff --git a/include/hw/m68k/next-cube.h b/include/hw/m68k/next-cube.h
+index 5a56c354b8e..d38c52d540d 100644
+--- a/include/hw/m68k/next-cube.h
++++ b/include/hw/m68k/next-cube.h
+@@ -39,7 +39,8 @@ enum next_irqs {
+     NEXT_ENRX_DMA_I,
+     NEXT_SCSI_DMA_I,
+     NEXT_SCC_DMA_I,
+-    NEXT_SND_I
++    NEXT_SND_I,
++    NEXT_NUM_IRQS
  };
  
- /* Thanks to NeXT forums for this */
-@@ -243,7 +242,7 @@ static void nextscr2_write(NeXTPC *s, uint32_t val, int size)
-                     /* clear FTU */
-                     if (rtc->value & 0x04) {
-                         rtc->status = rtc->status & (~0x18);
--                        s->ns->int_status = s->ns->int_status & (~0x04);
-+                        s->int_status = s->int_status & (~0x04);
-                     }
-                 }
-             }
-@@ -302,12 +301,12 @@ static uint32_t mmio_readl(NeXTPC *s, hwaddr addr)
+ #endif /* NEXT_CUBE_H */
+diff --git a/hw/m68k/next-cube.c b/hw/m68k/next-cube.c
+index 6b4bcfd4b9b..5a8fc24ed35 100644
+--- a/hw/m68k/next-cube.c
++++ b/hw/m68k/next-cube.c
+@@ -734,10 +734,6 @@ static const MemoryRegionOps dma_ops = {
+     .endianness = DEVICE_NATIVE_ENDIAN,
+ };
+ 
+-/*
+- * TODO: set the shift numbers as values in the enum, so the first switch
+- * will not be needed
+- */
+ static void next_irq(void *opaque, int number, int level)
  {
-     switch (addr) {
-     case 0x7000:
--        /* DPRINTF("Read INT status: %x\n", s->ns->int_status); */
--        return s->ns->int_status;
-+        /* DPRINTF("Read INT status: %x\n", s->int_status); */
-+        return s->int_status;
- 
-     case 0x7800:
--        DPRINTF("MMIO Read INT mask: %x\n", s->ns->int_mask);
--        return s->ns->int_mask;
-+        DPRINTF("MMIO Read INT mask: %x\n", s->int_mask);
-+        return s->int_mask;
- 
-     case 0xc000:
-         return s->scr1;
-@@ -342,12 +341,12 @@ static void mmio_writel(NeXTPC *s, hwaddr addr, uint32_t val)
- {
-     switch (addr) {
-     case 0x7000:
--        DPRINTF("INT Status old: %x new: %x\n", s->ns->int_status, val);
--        s->ns->int_status = val;
-+        DPRINTF("INT Status old: %x new: %x\n", s->int_status, val);
-+        s->int_status = val;
-         break;
-     case 0x7800:
--        DPRINTF("INT Mask old: %x new: %x\n", s->ns->int_mask, val);
--        s->ns->int_mask  = val;
-+        DPRINTF("INT Mask old: %x new: %x\n", s->int_mask, val);
-+        s->int_mask  = val;
-         break;
-     case 0xc000:
-         DPRINTF("SCR1 Write: %x\n", val);
-@@ -504,9 +503,9 @@ static void scr_writeb(NeXTPC *s, hwaddr addr, uint32_t value)
-             DPRINTF("SCSICSR CPUDMA\n");
-             /* qemu_irq_raise(s->scsi_dma); */
- 
--            s->ns->int_status |= 0x4000000;
-+            s->int_status |= 0x4000000;
-         } else {
--            s->ns->int_status &= ~(0x4000000);
-+            s->int_status &= ~(0x4000000);
-         }
-         if (value & SCSICSR_INTMASK) {
-             DPRINTF("SCSICSR INTMASK\n");
-@@ -798,14 +797,14 @@ static void next_irq(void *opaque, int number, int level)
-      * this HAS to be wrong, the interrupt handlers in mach and together
-      * int_status and int_mask and return if there is a hit
-      */
--    if (s->ns->int_mask & (1 << shift)) {
-+    if (s->int_mask & (1 << shift)) {
-         DPRINTF("%x interrupt masked @ %x\n", 1 << shift, cpu->env.pc);
-         /* return; */
-     }
- 
-     /* second switch triggers the correct interrupt */
-     if (level) {
--        s->ns->int_status |= 1 << shift;
-+        s->int_status |= 1 << shift;
- 
-         switch (number) {
-         /* level 3 - floppy, kbd/mouse, power, ether rx/tx, scsi, clock */
-@@ -834,7 +833,7 @@ static void next_irq(void *opaque, int number, int level)
-             break;
-         }
-     } else {
--        s->ns->int_status &= ~(1 << shift);
-+        s->int_status &= ~(1 << shift);
-         cpu_reset_interrupt(CPU(cpu), CPU_INTERRUPT_HARD);
+     NeXTPC *s = NEXT_PC(opaque);
+@@ -838,19 +834,8 @@ static void next_irq(void *opaque, int number, int level)
      }
  }
+ 
+-static void next_serial_irq(void *opaque, int n, int level)
+-{
+-    /* DPRINTF("SCC IRQ NUM %i\n",n); */
+-    if (n) {
+-        next_irq(opaque, NEXT_SCC_DMA_I, level);
+-    } else {
+-        next_irq(opaque, NEXT_SCC_I, level);
+-    }
+-}
+-
+ static void next_escc_init(DeviceState *pcdev)
+ {
+-    qemu_irq *ser_irq = qemu_allocate_irqs(next_serial_irq, pcdev, 2);
+     DeviceState *dev;
+     SysBusDevice *s;
+ 
+@@ -866,8 +851,8 @@ static void next_escc_init(DeviceState *pcdev)
+ 
+     s = SYS_BUS_DEVICE(dev);
+     sysbus_realize_and_unref(s, &error_fatal);
+-    sysbus_connect_irq(s, 0, ser_irq[0]);
+-    sysbus_connect_irq(s, 1,  ser_irq[1]);
++    sysbus_connect_irq(s, 0, qdev_get_gpio_in(pcdev, NEXT_SCC_I));
++    sysbus_connect_irq(s, 1, qdev_get_gpio_in(pcdev, NEXT_SCC_DMA_I));
+     sysbus_mmio_map(s, 0, 0x2118000);
+ }
+ 
+@@ -886,6 +871,8 @@ static void next_pc_realize(DeviceState *dev, Error **errp)
+     NeXTPC *s = NEXT_PC(dev);
+     SysBusDevice *sbd = SYS_BUS_DEVICE(dev);
+ 
++    qdev_init_gpio_in(dev, next_irq, NEXT_NUM_IRQS);
++
+     memory_region_init_io(&s->mmiomem, OBJECT(s), &mmio_ops, s,
+                           "next.mmio", 0xD0000);
+     memory_region_init_io(&s->scrmem, OBJECT(s), &scr_ops, s,
 -- 
 2.20.1
 
