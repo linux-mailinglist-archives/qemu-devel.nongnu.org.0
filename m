@@ -2,56 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6F4DD2F7DC0
-	for <lists+qemu-devel@lfdr.de>; Fri, 15 Jan 2021 15:08:28 +0100 (CET)
-Received: from localhost ([::1]:51846 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0BA192F7DFC
+	for <lists+qemu-devel@lfdr.de>; Fri, 15 Jan 2021 15:19:54 +0100 (CET)
+Received: from localhost ([::1]:57848 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l0Pm7-0007yh-Dl
-	for lists+qemu-devel@lfdr.de; Fri, 15 Jan 2021 09:08:27 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40512)
+	id 1l0PxB-00069l-1F
+	for lists+qemu-devel@lfdr.de; Fri, 15 Jan 2021 09:19:53 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40612)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1l0P3Y-0007DH-2w
- for qemu-devel@nongnu.org; Fri, 15 Jan 2021 08:22:25 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:36942)
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1l0P3j-0007FQ-HM
+ for qemu-devel@nongnu.org; Fri, 15 Jan 2021 08:22:41 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:28711)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1l0P3A-0003Jq-Uu
- for qemu-devel@nongnu.org; Fri, 15 Jan 2021 08:22:23 -0500
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1l0P3C-0003Ku-40
+ for qemu-devel@nongnu.org; Fri, 15 Jan 2021 08:22:34 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1610716920;
+ s=mimecast20190719; t=1610716921;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=4qlwhf25t/fMbWfP7mPYJ4QN5+k3A61Ud3sPas/O3NY=;
- b=aWfnqQVJi4A/IV/laCnem9A7CxM4+zlg6rurjMKJDgHoiumR7sgXpglEZGF5PlCu/fYTgJ
- ka4B93VZauC8vkGdhrrqrLRsn8SDnjgToA2/fb+a4A7hG3N8eLyzWGj1DjVnuthmyVqFix
- C4hU2EtpK/vFIQhvWtQh6Edod6CPv60=
+ bh=u5KAmuZZ+pHkKVDoOgjVaDNcS/Mh/vkpiooZYHRwnis=;
+ b=a76C0gqJVUT8G3qwmpK+HsJL/lJ7FVk62m7HtZQWPEGNICd18pVTWB/yQPPqJCZXgte5FB
+ LS7RVImLGOjvITiMbf9VzNA+wPtHnWGj9yZxle/7zCCSr9tukWh0JHKlc5egYiiLVrRco0
+ j0WMpOwP28ArYh7G7m9AuApp+zDlbrM=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-564--qHi3oJWNG6SZ0Fnl2DCJw-1; Fri, 15 Jan 2021 08:21:56 -0500
-X-MC-Unique: -qHi3oJWNG6SZ0Fnl2DCJw-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
+ us-mta-306-StRqNrVjP9q_LSyijI4Khw-1; Fri, 15 Jan 2021 08:21:56 -0500
+X-MC-Unique: StRqNrVjP9q_LSyijI4Khw-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 8F6FF806662;
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id C0E9E100F342;
  Fri, 15 Jan 2021 13:21:55 +0000 (UTC)
 Received: from sirius.home.kraxel.org (ovpn-112-182.ams2.redhat.com
  [10.36.112.182])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id A41E11002C11;
- Fri, 15 Jan 2021 13:21:52 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 7A05160C6E;
+ Fri, 15 Jan 2021 13:21:54 +0000 (UTC)
 Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
- id C27751800D49; Fri, 15 Jan 2021 14:21:46 +0100 (CET)
+ id 0234A1800D4E; Fri, 15 Jan 2021 14:21:47 +0100 (CET)
 From: Gerd Hoffmann <kraxel@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 14/30] paaudio: wait for PA_STREAM_READY in qpa_write()
-Date: Fri, 15 Jan 2021 14:21:30 +0100
-Message-Id: <20210115132146.1443592-15-kraxel@redhat.com>
+Subject: [PULL 19/30] paaudio: send recorded data in smaller chunks
+Date: Fri, 15 Jan 2021 14:21:35 +0100
+Message-Id: <20210115132146.1443592-20-kraxel@redhat.com>
 In-Reply-To: <20210115132146.1443592-1-kraxel@redhat.com>
 References: <20210115132146.1443592-1-kraxel@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kraxel@redhat.com
 X-Mimecast-Spam-Score: 0
@@ -86,48 +86,38 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Volker Rümelin <vr_qemu@t-online.de>
 
-Don't call pa_stream_writable_size() in qpa_write() before the
-playback stream is ready. This prevents a lot of the following
-pulseaudio error messages.
+Tell PulseAudio to send recorded audio data in smaller chunks
+than timer_period, so there's a good chance that qemu can read
+recorded audio data every time it looks for new data.
 
-pulseaudio: pa_stream_writable_size failed
-pulseaudio: Reason: Bad state
-
-To reproduce start qemu with
--parallel none -device gus,audiodev=audio0
--audiodev pa,id=audio0,out.mixing-engine=off
+PulseAudio tries to send buffer updates at a fragsize / 2 rate.
+With fragsize = timer_period / 2 * 3 the update rate is 75% of
+timer_period. The lower limit for the recording buffer size
+maxlength is fragsize * 2.
 
 Signed-off-by: Volker Rümelin <vr_qemu@t-online.de>
 Message-id: 9315afe5-5958-c0b4-ea1e-14769511a9d5@t-online.de
-Message-Id: <20210110100239.27588-14-vr_qemu@t-online.de>
+Message-Id: <20210110100239.27588-19-vr_qemu@t-online.de>
 Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
 ---
- audio/paaudio.c | 6 ++++++
- 1 file changed, 6 insertions(+)
+ audio/paaudio.c | 5 +++--
+ 1 file changed, 3 insertions(+), 2 deletions(-)
 
 diff --git a/audio/paaudio.c b/audio/paaudio.c
-index 229bcfcae838..1a7252b16d6d 100644
+index 318686829428..1e6f4448ce37 100644
 --- a/audio/paaudio.c
 +++ b/audio/paaudio.c
-@@ -269,6 +269,11 @@ static size_t qpa_write(HWVoiceOut *hw, void *data, size_t length)
+@@ -568,8 +568,9 @@ static int qpa_init_in(HWVoiceIn *hw, struct audsettings *as, void *drv_opaque)
+     ss.channels = as->nchannels;
+     ss.rate = as->freq;
  
-     CHECK_DEAD_GOTO(c, p->stream, unlock_and_fail,
-                     "pa_threaded_mainloop_lock failed\n");
-+    if (pa_stream_get_state(p->stream) != PA_STREAM_READY) {
-+        /* wait for stream to become ready */
-+        l = 0;
-+        goto unlock;
-+    }
- 
-     l = pa_stream_writable_size(p->stream);
- 
-@@ -282,6 +287,7 @@ static size_t qpa_write(HWVoiceOut *hw, void *data, size_t length)
-     r = pa_stream_write(p->stream, data, l, NULL, 0LL, PA_SEEK_RELATIVE);
-     CHECK_SUCCESS_GOTO(c, r >= 0, unlock_and_fail, "pa_stream_write failed\n");
- 
-+unlock:
-     pa_threaded_mainloop_unlock(c->mainloop);
-     return l;
+-    ba.fragsize = pa_usec_to_bytes(ppdo->latency, &ss);
+-    ba.maxlength = pa_usec_to_bytes(ppdo->latency * 2, &ss);
++    ba.fragsize = pa_usec_to_bytes((g->dev->timer_period >> 1) * 3, &ss);
++    ba.maxlength = pa_usec_to_bytes(
++        MAX(ppdo->latency, g->dev->timer_period * 3), &ss);
+     ba.minreq = -1;
+     ba.prebuf = -1;
  
 -- 
 2.29.2
