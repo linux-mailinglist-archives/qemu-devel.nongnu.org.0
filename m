@@ -2,84 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5FF392F8E50
-	for <lists+qemu-devel@lfdr.de>; Sat, 16 Jan 2021 18:32:01 +0100 (CET)
-Received: from localhost ([::1]:36830 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 212CD2F8E64
+	for <lists+qemu-devel@lfdr.de>; Sat, 16 Jan 2021 18:42:10 +0100 (CET)
+Received: from localhost ([::1]:42214 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l0pQe-0002LD-EI
-	for lists+qemu-devel@lfdr.de; Sat, 16 Jan 2021 12:32:00 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39790)
+	id 1l0paT-0005Tw-66
+	for lists+qemu-devel@lfdr.de; Sat, 16 Jan 2021 12:42:09 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41236)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1l0pOH-0001la-HT
- for qemu-devel@nongnu.org; Sat, 16 Jan 2021 12:29:33 -0500
-Received: from mail-pj1-x102d.google.com ([2607:f8b0:4864:20::102d]:52523)
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1l0pZE-0004vR-6z
+ for qemu-devel@nongnu.org; Sat, 16 Jan 2021 12:40:53 -0500
+Received: from indium.canonical.com ([91.189.90.7]:53164)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1l0pOF-0007y7-Rk
- for qemu-devel@nongnu.org; Sat, 16 Jan 2021 12:29:33 -0500
-Received: by mail-pj1-x102d.google.com with SMTP id v1so6846897pjr.2
- for <qemu-devel@nongnu.org>; Sat, 16 Jan 2021 09:29:28 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=oN0EmZZUtxQ8kdP/PJs75bmD9Luf3uqCbe74b3Faex4=;
- b=X/NFqlQGKhgZuV8XTkgqPxAkZCJqcjpe4H6zfrz10v/olKjJP1hf6PpD9hx5K+MQFG
- KqTy9nyNig2N3A5Xp9nSdG8al78BiwpbfMS63jemJdVR6NFIfEGNMwe/00OY5mEZJPNk
- mVuAIO8Vy2WilouhYj5gzFagOTpdL8wAZhIIKemYbFi2CwXh3MbL9vD7Ue0M+kNVRzY5
- 4KimrDv7twGHAwUVk+vBAib5KhA+nBIb1LcBgtmp6IAIonQzW+E8nhgwO2aYJP42Wy12
- xIeO70quCxpBM96gH2PKeFrOQf7r9JdDc+XWQ4A/rjbT1irEJKhEH+YwOcCd273E3S7d
- ZzJw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=oN0EmZZUtxQ8kdP/PJs75bmD9Luf3uqCbe74b3Faex4=;
- b=QyFh/TtaI5k8ENt4NnbQY/6pBeT/9025URTQiY5G91qGB9xTO3s8oRcMBNYPFo/vj4
- h47oLUzrkTC3AWkiQ/wiF/K7S4r59zZx5ojNCX4avDcwOjlLhVM7zjIz5Ylnr/zRRGeD
- 7R30GwgQDowWyrCsYdShwFBMxNLeafj3lnLkobEA6ZVwaVvuA1yYDrKooQsfUTMe18NM
- QB3ijZgWYM1Jar0w7DqhUJZLsXH2oUXMD8vd5KJJGXd4td2ZSykt5s8oOvQQsgRnuDQ1
- yhJl14zkYZ8hvWTBgJJTHE6uX8l7dDAJlbcYguNwrbfy+sPozdJAQ681RfobXxiHPrjb
- z0kw==
-X-Gm-Message-State: AOAM532tFZ9ddF9asRAMgL/pQVdUBO/vdUYx2B8VkPpao8q/eLQEP8p7
- KpBJHoUxNVOBF1avA0/0uftG+A==
-X-Google-Smtp-Source: ABdhPJztThGsozKm1ntzcO74HmDebpT7pKRS510RXDW508oOlA67KGt/2Btl1yAKHcG3hPN7dP1Yhw==
-X-Received: by 2002:a17:902:123:b029:dc:27b:3c62 with SMTP id
- 32-20020a1709020123b02900dc027b3c62mr18221644plb.16.1610818166976; 
- Sat, 16 Jan 2021 09:29:26 -0800 (PST)
-Received: from [10.25.18.3] (rrcs-173-197-107-21.west.biz.rr.com.
- [173.197.107.21])
- by smtp.gmail.com with ESMTPSA id gj1sm11057373pjb.11.2021.01.16.09.29.25
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sat, 16 Jan 2021 09:29:26 -0800 (PST)
-Subject: Re: Recent TCG commit breaks PPC
-To: BALATON Zoltan <balaton@eik.bme.hu>, qemu-devel@nongnu.org
-References: <cd52c38c-4b9-791d-fca0-87f99bb0a011@eik.bme.hu>
-From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <5310dc77-6fa6-36b2-dd51-cd6e1bebaddb@linaro.org>
-Date: Sat, 16 Jan 2021 07:29:22 -1000
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1l0pZC-00047F-1v
+ for qemu-devel@nongnu.org; Sat, 16 Jan 2021 12:40:51 -0500
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1l0pZ9-0007DA-O0
+ for <qemu-devel@nongnu.org>; Sat, 16 Jan 2021 17:40:47 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id 97AB12E8139
+ for <qemu-devel@nongnu.org>; Sat, 16 Jan 2021 17:40:47 +0000 (UTC)
 MIME-Version: 1.0
-In-Reply-To: <cd52c38c-4b9-791d-fca0-87f99bb0a011@eik.bme.hu>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::102d;
- envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x102d.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.039,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Date: Sat, 16 Jan 2021 17:29:37 -0000
+From: Harry Sintonen <1912065@bugs.launchpad.net>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: harrysintonen
+X-Launchpad-Bug-Reporter: Harry Sintonen (harrysintonen)
+X-Launchpad-Bug-Modifier: Harry Sintonen (harrysintonen)
+Message-Id: <161081817733.30007.5357056175605529567.malonedeb@chaenomeles.canonical.com>
+Subject: [Bug 1912065] [NEW] Segfaults in tcg/optimize.c:212 after commit
+ 7c79721606be11b5bc556449e5bcbc331ef6867d
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="511b4a3b6512aa3d421c5f7d74f3527e78bff26e"; Instance="production"
+X-Launchpad-Hash: 24e986894fe925e87fe2d53b103b7de330026c4a
+Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
+ helo=indium.canonical.com
+X-Spam_score_int: -65
+X-Spam_score: -6.6
+X-Spam_bar: ------
+X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9,
+ HEADER_FROM_DIFFERENT_DOMAINS=0.249, RCVD_IN_DNSWL_HI=-5,
+ RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -88,31 +69,115 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Alistair Francis <Alistair.Francis@wdc.com>, qemu-ppc@nongnu.org
+Reply-To: Bug 1912065 <1912065@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 1/16/21 4:38 AM, BALATON Zoltan wrote:
-> 
-> Commit 8fe35e0444be (tcg/optimize: Use tcg_constant_internal with constant
-> folding) seems to break PPC emulation for me:
-> 
-> Thread 3 "qemu-system-ppc" received signal SIGSEGV, Segmentation fault.
-> [Switching to Thread 0x7ffff51e7700 (LWP 22636)]
-> 0x0000555555afd4ee in ts_are_copies (ts2=0x7fff8c008f90, ts1=0x7fff8c001510) at
-> ../tcg/optimize.c:68
-> 68        return ts_info(ts)->next_copy != ts;
+Public bug reported:
 
-I don't replicate this assertion.
+QEMU segfaults to NULL dereference in tcg/optimize.c:212 semi-randomly
+after commit 7c79721606be11b5bc556449e5bcbc331ef6867d
 
-Interestingly, I replicate a different assertion:
+Exception Type:        EXC_BAD_ACCESS (SIGSEGV)
+Exception Codes:       KERN_INVALID_ADDRESS at 0x0000000000000020
+Exception Note:        EXC_CORPSE_NOTIFY
 
-qemu-system-ppc: ../qemu/tcg/tcg.c:1210: tcg_temp_alloc: Assertion `n < 512'
-failed.
-Aborted (core dumped)
+...
 
-What compiler version(s) are you guys using?
+Thread 4 Crashed:
+0   qemu-system-ppc               	0x0000000109cd26d2 tcg_opt_gen_mov + 178=
+ (optimize.c:212)
+1   qemu-system-ppc               	0x0000000109ccf838 tcg_optimize + 5656
+2   qemu-system-ppc               	0x0000000109c27600 tcg_gen_code + 64 (tc=
+g.c:4490)
+3   qemu-system-ppc               	0x0000000109c17b6d tb_gen_code + 493 (tr=
+anslate-all.c:1952)
+4   qemu-system-ppc               	0x0000000109c16085 tb_find + 41 (cpu-exe=
+c.c:454) [inlined]
+5   qemu-system-ppc               	0x0000000109c16085 cpu_exec + 2117 (cpu-=
+exec.c:810)
+6   qemu-system-ppc               	0x0000000109c09ac3 tcg_cpus_exec + 35 (t=
+cg-cpus.c:57)
+7   qemu-system-ppc               	0x0000000109c75edd rr_cpu_thread_fn + 44=
+5 (tcg-cpus-rr.c:217)
+8   qemu-system-ppc               	0x0000000109e41fae qemu_thread_start + 1=
+26 (qemu-thread-posix.c:521)
+9   libsystem_pthread.dylib       	0x00007fff2038e950 _pthread_start + 224
+10  libsystem_pthread.dylib       	0x00007fff2038a47b thread_start + 15
 
+Here the crash is in tcg/optimize.c line 212:
 
-r~
+  mask =3D si->mask;
+
+"si" is NULL. The NULL value arises from tcg/optimize.c line 198:
+
+ si =3D ts_info(src_ts);
+
+I did not attempt to determine the root cause of this issue, however. It
+clearly is related to the "tcg/optimize" changes in this commit. The
+previous commit c0dd6654f207810b16a75b673258f5ce2ceffbf0 doesn't crash.
+
+** Affects: qemu
+     Importance: Undecided
+         Status: New
+
+-- =
+
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1912065
+
+Title:
+  Segfaults in tcg/optimize.c:212 after commit
+  7c79721606be11b5bc556449e5bcbc331ef6867d
+
+Status in QEMU:
+  New
+
+Bug description:
+  QEMU segfaults to NULL dereference in tcg/optimize.c:212 semi-randomly
+  after commit 7c79721606be11b5bc556449e5bcbc331ef6867d
+
+  Exception Type:        EXC_BAD_ACCESS (SIGSEGV)
+  Exception Codes:       KERN_INVALID_ADDRESS at 0x0000000000000020
+  Exception Note:        EXC_CORPSE_NOTIFY
+
+  ...
+
+  Thread 4 Crashed:
+  0   qemu-system-ppc               	0x0000000109cd26d2 tcg_opt_gen_mov + 1=
+78 (optimize.c:212)
+  1   qemu-system-ppc               	0x0000000109ccf838 tcg_optimize + 5656
+  2   qemu-system-ppc               	0x0000000109c27600 tcg_gen_code + 64 (=
+tcg.c:4490)
+  3   qemu-system-ppc               	0x0000000109c17b6d tb_gen_code + 493 (=
+translate-all.c:1952)
+  4   qemu-system-ppc               	0x0000000109c16085 tb_find + 41 (cpu-e=
+xec.c:454) [inlined]
+  5   qemu-system-ppc               	0x0000000109c16085 cpu_exec + 2117 (cp=
+u-exec.c:810)
+  6   qemu-system-ppc               	0x0000000109c09ac3 tcg_cpus_exec + 35 =
+(tcg-cpus.c:57)
+  7   qemu-system-ppc               	0x0000000109c75edd rr_cpu_thread_fn + =
+445 (tcg-cpus-rr.c:217)
+  8   qemu-system-ppc               	0x0000000109e41fae qemu_thread_start +=
+ 126 (qemu-thread-posix.c:521)
+  9   libsystem_pthread.dylib       	0x00007fff2038e950 _pthread_start + 224
+  10  libsystem_pthread.dylib       	0x00007fff2038a47b thread_start + 15
+
+  Here the crash is in tcg/optimize.c line 212:
+
+    mask =3D si->mask;
+
+  "si" is NULL. The NULL value arises from tcg/optimize.c line 198:
+
+   si =3D ts_info(src_ts);
+
+  I did not attempt to determine the root cause of this issue, however.
+  It clearly is related to the "tcg/optimize" changes in this commit.
+  The previous commit c0dd6654f207810b16a75b673258f5ce2ceffbf0 doesn't
+  crash.
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1912065/+subscriptions
 
