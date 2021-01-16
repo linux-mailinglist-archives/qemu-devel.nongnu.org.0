@@ -2,55 +2,55 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 190322F8B25
+	by mail.lfdr.de (Postfix) with ESMTPS id 88FEB2F8B26
 	for <lists+qemu-devel@lfdr.de>; Sat, 16 Jan 2021 05:29:23 +0100 (CET)
-Received: from localhost ([::1]:34112 helo=lists1p.gnu.org)
+Received: from localhost ([::1]:34174 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l0dDF-00012z-JT
-	for lists+qemu-devel@lfdr.de; Fri, 15 Jan 2021 23:29:21 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34594)
+	id 1l0dDG-00014G-J2
+	for lists+qemu-devel@lfdr.de; Fri, 15 Jan 2021 23:29:22 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34576)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1l0dAG-0007rZ-Cz
- for qemu-devel@nongnu.org; Fri, 15 Jan 2021 23:26:16 -0500
-Received: from indium.canonical.com ([91.189.90.7]:46690)
+ id 1l0dAE-0007rP-Ap
+ for qemu-devel@nongnu.org; Fri, 15 Jan 2021 23:26:14 -0500
+Received: from indium.canonical.com ([91.189.90.7]:46646)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1l0dAC-00066z-8m
- for qemu-devel@nongnu.org; Fri, 15 Jan 2021 23:26:16 -0500
+ id 1l0dAC-00066Q-8G
+ for qemu-devel@nongnu.org; Fri, 15 Jan 2021 23:26:14 -0500
 Received: from loganberry.canonical.com ([91.189.90.37])
  by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1l0dA9-0001on-G9
+ id 1l0dA9-0001VX-2M
  for <qemu-devel@nongnu.org>; Sat, 16 Jan 2021 04:26:09 +0000
 Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 703552E8144
- for <qemu-devel@nongnu.org>; Sat, 16 Jan 2021 04:26:09 +0000 (UTC)
+ by loganberry.canonical.com (Postfix) with ESMTP id A72FF2E8144
+ for <qemu-devel@nongnu.org>; Sat, 16 Jan 2021 04:26:08 +0000 (UTC)
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
-Date: Sat, 16 Jan 2021 04:17:53 -0000
-From: Launchpad Bug Tracker <1743337@bugs.launchpad.net>
+Date: Sat, 16 Jan 2021 04:17:54 -0000
+From: Launchpad Bug Tracker <1744009@bugs.launchpad.net>
 To: qemu-devel@nongnu.org
 X-Launchpad-Notification-Type: bug
 X-Launchpad-Bug: product=qemu; status=Expired; importance=Undecided;
  assignee=None; 
-X-Launchpad-Bug-Tags: corruption hpfs i386 os2 warp4
 X-Launchpad-Bug-Information-Type: Public
 X-Launchpad-Bug-Private: no
 X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: janitor mvoloshin th-huth
-X-Launchpad-Bug-Reporter: MVoloshin (mvoloshin)
+X-Launchpad-Bug-Commenters: janitor qihaimou th-huth
+X-Launchpad-Bug-Reporter: qihaimou (qihaimou)
 X-Launchpad-Bug-Modifier: Launchpad Janitor (janitor)
-References: <151600970022.20222.12880965081591608460.malonedeb@chaenomeles.canonical.com>
-Message-Id: <161077067364.27726.10353131097710150663.malone@loganberry.canonical.com>
-Subject: [Bug 1743337] Re: OS/2 Warp 4 HPFS corruption
+References: <151626726470.4861.474936740354528920.malonedeb@wampee.canonical.com>
+Message-Id: <161077067449.27726.7590399147040676384.malone@loganberry.canonical.com>
+Subject: [Bug 1744009] Re: qemu for windows fails to use multicast socket as
+ netdev
 X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
 X-Launchpad-Message-For: qemu-devel-ml
 Precedence: bulk
 X-Generated-By: Launchpad (canonical.com);
  Revision="511b4a3b6512aa3d421c5f7d74f3527e78bff26e"; Instance="production"
-X-Launchpad-Hash: 14c467252761358612bc7280441685bfdefad090
+X-Launchpad-Hash: be798aeb529dc9dcaa27aa0283dfa308c021810f
 Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
  helo=indium.canonical.com
 X-Spam_score_int: -65
@@ -71,7 +71,7 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1743337 <1743337@bugs.launchpad.net>
+Reply-To: Bug 1744009 <1744009@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
@@ -84,24 +84,34 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 You received this bug notification because you are a member of qemu-
 devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1743337
+https://bugs.launchpad.net/bugs/1744009
 
 Title:
-  OS/2 Warp 4 HPFS corruption
+  qemu for windows fails to use multicast socket as netdev
 
 Status in QEMU:
   Expired
 
 Bug description:
-  How to reproduce:
-  Install OS/2 Warp 4 onto HPFS-formatted partition. After reboot there wil=
-l be messages about "missing" files and OS2.INI not found. Chkdsk C: compla=
-ins about FS corruption. Nothing changes even after fixing errors and next =
-reboot. If you install OS/2 onto FAT partition instead, everything will be =
-OK. I also tried booting images with OS/2 pre-installed through VBOX with s=
-ame results. Is that HPFS driver or QEMU fault?
-  There is an image for bug reproducing: https://yadi.sk/d/skMswNoy7txIg
+  My host OS is Windows 7 x64 SP1. I installed qemu for windows from
+  https://qemu.weilnetz.de/w64/.The version is 2.10.1,
+  qemu-w64-setup-20171006.exe. I run qemu with the following command:
+
+  qemu-system-x86_64.exe -net nic -net socket,mcast=3D234.5.5.5:6000
+  disk1.qcow2
+
+  It stopped with error:
+  bind: Unknown error
+  qemu-system-x86_64.exe: -net socket,mcast=3D234.5.5.5:6000: Device 'socke=
+t' could not be initialized
+
+  Using the -netdev option has the same problem:
+  qemu-system-x86_64.exe -netdev socket,id=3Dhostnet0,mcast=3D234.5.5.5:600=
+0 -device e1000,netdev=3Dhostnet0 disk1.qcow2
+
+  I tried many versions from https://qemu.weilnetz.de/w64/, but none of
+  them could work.
 
 To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1743337/+subscriptions
+https://bugs.launchpad.net/qemu/+bug/1744009/+subscriptions
 
