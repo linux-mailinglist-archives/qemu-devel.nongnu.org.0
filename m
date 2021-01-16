@@ -2,35 +2,35 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 84EE42F8B46
-	for <lists+qemu-devel@lfdr.de>; Sat, 16 Jan 2021 05:35:59 +0100 (CET)
-Received: from localhost ([::1]:47082 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B2F992F8B45
+	for <lists+qemu-devel@lfdr.de>; Sat, 16 Jan 2021 05:34:13 +0100 (CET)
+Received: from localhost ([::1]:44496 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l0dJe-000716-K0
-	for lists+qemu-devel@lfdr.de; Fri, 15 Jan 2021 23:35:58 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34666)
+	id 1l0dHw-0005td-Rw
+	for lists+qemu-devel@lfdr.de; Fri, 15 Jan 2021 23:34:12 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34618)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1l0dAS-0007vC-8i
- for qemu-devel@nongnu.org; Fri, 15 Jan 2021 23:26:28 -0500
-Received: from indium.canonical.com ([91.189.90.7]:47574)
+ id 1l0dAL-0007ts-Sb
+ for qemu-devel@nongnu.org; Fri, 15 Jan 2021 23:26:24 -0500
+Received: from indium.canonical.com ([91.189.90.7]:47124)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1l0dAQ-0006D1-6u
- for qemu-devel@nongnu.org; Fri, 15 Jan 2021 23:26:28 -0500
+ id 1l0dAJ-0006Ai-KM
+ for qemu-devel@nongnu.org; Fri, 15 Jan 2021 23:26:21 -0500
 Received: from loganberry.canonical.com ([91.189.90.37])
  by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1l0dAM-0002EQ-Na
- for <qemu-devel@nongnu.org>; Sat, 16 Jan 2021 04:26:22 +0000
+ id 1l0dAG-00022Y-JF
+ for <qemu-devel@nongnu.org>; Sat, 16 Jan 2021 04:26:16 +0000
 Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 6A2FA2E815B
- for <qemu-devel@nongnu.org>; Sat, 16 Jan 2021 04:26:20 +0000 (UTC)
+ by loganberry.canonical.com (Postfix) with ESMTP id 643BF2E8157
+ for <qemu-devel@nongnu.org>; Sat, 16 Jan 2021 04:26:15 +0000 (UTC)
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
-Date: Sat, 16 Jan 2021 04:17:50 -0000
-From: Launchpad Bug Tracker <1699867@bugs.launchpad.net>
+Date: Sat, 16 Jan 2021 04:17:51 -0000
+From: Launchpad Bug Tracker <1740887@bugs.launchpad.net>
 To: qemu-devel@nongnu.org
 X-Launchpad-Notification-Type: bug
 X-Launchpad-Bug: product=qemu; status=Expired; importance=Undecided;
@@ -38,18 +38,19 @@ X-Launchpad-Bug: product=qemu; status=Expired; importance=Undecided;
 X-Launchpad-Bug-Information-Type: Public
 X-Launchpad-Bug-Private: no
 X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: anatol janitor th-huth
-X-Launchpad-Bug-Reporter: Anatol Pomozov (anatol)
+X-Launchpad-Bug-Commenters: hitchhikr janitor rtillet th-huth
+X-Launchpad-Bug-Reporter: charlet franck (hitchhikr)
 X-Launchpad-Bug-Modifier: Launchpad Janitor (janitor)
-References: <149815632727.3205.9408286229805240743.malonedeb@chaenomeles.canonical.com>
-Message-Id: <161077067036.27726.4164130919986705958.malone@loganberry.canonical.com>
-Subject: [Bug 1699867] Re: x86_64 qemu crashes at far call into long-mode
+References: <151490925457.26459.4227536724801475724.malonedeb@gac.canonical.com>
+Message-Id: <161077067194.27726.108067158803859516.malone@loganberry.canonical.com>
+Subject: [Bug 1740887] Re: qemu-system-arm & qemu-system-aarch64 for windows
+ crash at start
 X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
 X-Launchpad-Message-For: qemu-devel-ml
 Precedence: bulk
 X-Generated-By: Launchpad (canonical.com);
  Revision="511b4a3b6512aa3d421c5f7d74f3527e78bff26e"; Instance="production"
-X-Launchpad-Hash: 543d2c3c278dac69c2f18b4f94e5833be1d703cf
+X-Launchpad-Hash: 7437b4a3852239b7e8066aa47e09bf4ef57c02ab
 Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
  helo=indium.canonical.com
 X-Spam_score_int: -65
@@ -70,7 +71,7 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1699867 <1699867@bugs.launchpad.net>
+Reply-To: Bug 1740887 <1740887@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
@@ -83,49 +84,33 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 You received this bug notification because you are a member of qemu-
 devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1699867
+https://bugs.launchpad.net/bugs/1740887
 
 Title:
-  x86_64 qemu crashes at far call into long-mode
+  qemu-system-arm & qemu-system-aarch64 for windows crash at start
 
 Status in QEMU:
   Expired
 
 Bug description:
-  I am experimenting with this OS https://github.com/phil-opp/blog_os
-  and spotted a weird behavior with qemu.
+  In Windows 7 64 bit (both 32 & 64 bit QEMU emulator version 2.11.0
+  (v2.11.0-11693-g21057c841e-dirty)).
 
-  I am looking at code that does transition from 32bit mode to 64bit
-  mode. Right now it does 'jmp $SELECTOR,64bitfunction'.
-  https://github.com/phil-
-  opp/blog_os/blob/557c6a58ea11e31685b9d014d307002d64df5c22/src/arch/x86_64=
-/boot.asm#L32
+  With arguments:
 
-  This code works fine with qemu/kvm/vmware.
+  qemu-system-arm.exe -M raspi2
 
-  To transition from 32 to 64 bit code it is possible to use 'call'
-  operation. So I am trying to replace that code with 'call
-  $SELECTOR,64bitfunction'. It works fine with kvm and wmware. But it
-  fails with Qemu emulation. See the interrup debug log attached. qemu
-  crashes at 10302c (far call mnemonic).
+  It crashes and reports:
 
-  =
+  ERROR:/home/stefan/src/qemu/repo.or.cz/qemu/ar7/qom/object.c:176:type_get=
+_parent:
+  assertion failed: (type->parent_type !=3D NULL)
 
-    103016:       e8 18 00 00 00          callq  103033 <set_up_page_tables>
-    10301b:       e8 5c 00 00 00          callq  10307c <enable_paging>
-    103020:       e8 ec 00 00 00          callq  103111 <set_up_SSE>
-    103025:       0f 01 15 28 00 10 00    lgdt   0x100028(%rip)        # 20=
-3054 <GCC_except_table2+0xdb5f8>
-    10302c:       9a                      (bad)  =
+  Same goes for qemu-system-aarch64.exe or with -M raspi argument.
 
-    10302d:       40 31 10                rex xor %edx,(%rax)
-    103030:       00 08                   add    %cl,(%rax)
-
-  =
-
-  As the code works at hardware I expect it to work with qemu. Thus current=
- qemu behavior looks like a bug.
+  Have a nice day,
+  f.
 
 To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1699867/+subscriptions
+https://bugs.launchpad.net/qemu/+bug/1740887/+subscriptions
 
