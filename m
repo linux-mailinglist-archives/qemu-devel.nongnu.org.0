@@ -2,46 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 24D032F8ECB
-	for <lists+qemu-devel@lfdr.de>; Sat, 16 Jan 2021 19:59:21 +0100 (CET)
-Received: from localhost ([::1]:52910 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3FE272F8ED0
+	for <lists+qemu-devel@lfdr.de>; Sat, 16 Jan 2021 20:07:01 +0100 (CET)
+Received: from localhost ([::1]:55514 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l0qnA-0002ph-7l
-	for lists+qemu-devel@lfdr.de; Sat, 16 Jan 2021 13:59:20 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55156)
+	id 1l0qua-0004eh-3E
+	for lists+qemu-devel@lfdr.de; Sat, 16 Jan 2021 14:07:00 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56522)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dilfridge@gentoo.org>)
- id 1l0qlo-00029n-JN
- for qemu-devel@nongnu.org; Sat, 16 Jan 2021 13:57:56 -0500
-Received: from dev.gentoo.org ([2001:470:ea4a:1:5054:ff:fec7:86e4]:43993
- helo=smtp.gentoo.org)
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1l0qtL-0004Cj-Cq
+ for qemu-devel@nongnu.org; Sat, 16 Jan 2021 14:05:45 -0500
+Received: from indium.canonical.com ([91.189.90.7]:59364)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <dilfridge@gentoo.org>)
- id 1l0qlm-0005h5-8B
- for qemu-devel@nongnu.org; Sat, 16 Jan 2021 13:57:56 -0500
-From: Andreas =?ISO-8859-1?Q?K=2E_H=FCttel?= <dilfridge@gentoo.org>
-To: qemu-devel@nongnu.org
-Subject: Re: [PATCH v1 1/1] linux-user/signal: Decode waitid si_code
-Date: Sat, 16 Jan 2021 20:57:41 +0200
-Message-ID: <18309429.fSG56mABFh@farino>
-Organization: Gentoo Linux
-In-Reply-To: <1a4df1b5638d73b64200add175be9d69013418d8.1608401453.git.alistair.francis@wdc.com>
-References: <1a4df1b5638d73b64200add175be9d69013418d8.1608401453.git.alistair.francis@wdc.com>
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1l0qtI-0008Qr-Lt
+ for qemu-devel@nongnu.org; Sat, 16 Jan 2021 14:05:43 -0500
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1l0qtG-0004l7-Lp
+ for <qemu-devel@nongnu.org>; Sat, 16 Jan 2021 19:05:38 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id 9E7592E813A
+ for <qemu-devel@nongnu.org>; Sat, 16 Jan 2021 19:05:38 +0000 (UTC)
 MIME-Version: 1.0
-Content-Type: multipart/signed; boundary="nextPart2080420.hkbZ0PkbqX";
- micalg="pgp-sha512"; protocol="application/pgp-signature"
-Received-SPF: pass client-ip=2001:470:ea4a:1:5054:ff:fec7:86e4;
- envelope-from=dilfridge@gentoo.org; helo=smtp.gentoo.org
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
- SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Date: Sat, 16 Jan 2021 18:58:05 -0000
+From: =?utf-8?q?Andreas_K=2E_H=C3=BCttel?= <1906193@bugs.launchpad.net>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=Confirmed; importance=Undecided;
+ assignee=None; 
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: alistair2323 dilfridge
+X-Launchpad-Bug-Reporter: =?utf-8?q?Andreas_K=2E_H=C3=BCttel_=28dilfridge?=
+ =?utf-8?q?=29?=
+X-Launchpad-Bug-Modifier: =?utf-8?q?Andreas_K=2E_H=C3=BCttel_=28dilfridge?=
+ =?utf-8?q?=29?=
+References: <160669515259.21126.12178770886175022752.malonedeb@gac.canonical.com>
+Message-Id: <161082348548.13903.2793287809210292056.malone@gac.canonical.com>
+Subject: [Bug 1906193] Re: riscv32 user mode emulation: fork return values
+ broken
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="511b4a3b6512aa3d421c5f7d74f3527e78bff26e"; Instance="production"
+X-Launchpad-Hash: 8bf738562cbf4f3d2142ef0a0c30864476c7adaa
+Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
+ helo=indium.canonical.com
+X-Spam_score_int: -65
+X-Spam_score: -6.6
+X-Spam_bar: ------
+X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9,
+ HEADER_FROM_DIFFERENT_DOMAINS=0.249, RCVD_IN_DNSWL_HI=-5,
+ RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -50,120 +73,90 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Reply-To: Bug 1906193 <1906193@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---nextPart2080420.hkbZ0PkbqX
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset="iso-8859-1"; protected-headers="v1"
-From: Andreas =?ISO-8859-1?Q?K=2E_H=FCttel?= <dilfridge@gentoo.org>
-To: qemu-devel@nongnu.org
-Subject: Re: [PATCH v1 1/1] linux-user/signal: Decode waitid si_code
-Date: Sat, 16 Jan 2021 20:57:41 +0200
-Message-ID: <18309429.fSG56mABFh@farino>
-Organization: Gentoo Linux
-In-Reply-To: <1a4df1b5638d73b64200add175be9d69013418d8.1608401453.git.alistair.francis@wdc.com>
-References: <1a4df1b5638d73b64200add175be9d69013418d8.1608401453.git.alistair.francis@wdc.com>
+Done (took a while to figure out how...)
 
-Am Samstag, 19. Dezember 2020, 20:11:13 EET schrieb Alistair Francis:
-> When mapping the host waitid status to the target status we previously
-> just used decoding information in the status value. This doesn't follow
-> what the waitid documentation describes, which instead suggests using
-> the si_code value for the decoding. This results in the incorrect values
-> seen when calling waitid. This is especially apparent on RV32 where all
-> wait calls use waitid (see the bug case).
->=20
-> This patch uses the si_code value to map the waitid status.
->=20
-> Buglink: https://bugs.launchpad.net/qemu/+bug/1906193
-> Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
+-- =
 
-Tested-by: Andreas K. H=FCttel <dilfridge@gentoo.org>
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1906193
 
+Title:
+  riscv32 user mode emulation: fork return values broken
 
-> ---
->  linux-user/signal.c | 26 ++++++++++++++++++++++++--
->  1 file changed, 24 insertions(+), 2 deletions(-)
->=20
-> diff --git a/linux-user/signal.c b/linux-user/signal.c
-> index 73de934c65..b6c9326521 100644
-> --- a/linux-user/signal.c
-> +++ b/linux-user/signal.c
-> @@ -305,6 +305,7 @@ static inline void
-> host_to_target_siginfo_noswap(target_siginfo_t *tinfo, int sig =3D
-> host_to_target_signal(info->si_signo);
->      int si_code =3D info->si_code;
->      int si_type;
-> +    int status =3D info->si_status;
->      tinfo->si_signo =3D sig;
->      tinfo->si_errno =3D 0;
->      tinfo->si_code =3D info->si_code;
-> @@ -349,8 +350,29 @@ static inline void
-> host_to_target_siginfo_noswap(target_siginfo_t *tinfo, case TARGET_SIGCHL=
-D:
->              tinfo->_sifields._sigchld._pid =3D info->si_pid;
->              tinfo->_sifields._sigchld._uid =3D info->si_uid;
-> -            tinfo->_sifields._sigchld._status
-> -                =3D host_to_target_waitstatus(info->si_status);
-> +
-> +            /*
-> +             * Map host to target signal numbers for the waitid family of
-> +             * syscalls. This is similar to the functionality in
-> +             * host_to_target_waitstatus() except we use the si_code to
-> +             * determine the operation.
-> +             */
-> +            switch (info->si_code) {
-> +            case CLD_KILLED:
-> +            case CLD_DUMPED:
-> +                tinfo->_sifields._sigchld._status =3D
-> +                    host_to_target_signal(WTERMSIG(status)) |
-> +                                          (status & ~0x7f);
-> +                break;
-> +            case CLD_STOPPED:
-> +                tinfo->_sifields._sigchld._status =3D
-> +                (host_to_target_signal(WSTOPSIG(status)) << 8) |
-> +                    (status & 0xff);
-> +                break;
-> +            default:
-> +                tinfo->_sifields._sigchld._status =3D status;
-> +            }
-> +
->              tinfo->_sifields._sigchld._utime =3D info->si_utime;
->              tinfo->_sifields._sigchld._stime =3D info->si_stime;
->              si_type =3D QEMU_SI_CHLD;
+Status in QEMU:
+  Confirmed
 
+Bug description:
+  When running in a chroot with riscv32 (on x86_64; qemu git master as
+  of today):
 
-=2D-=20
-Andreas K. H=FCttel
-dilfridge@gentoo.org
-Gentoo Linux developer=20
-(council, qa, toolchain, base-system, perl, libreoffice)
---nextPart2080420.hkbZ0PkbqX
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: This is a digitally signed message part.
-Content-Transfer-Encoding: 7Bit
+  The following short program forks; the child immediately returns with
+  exit(42). The parent checks for the return value - and obtains 40!
 
------BEGIN PGP SIGNATURE-----
+  gcc-10.2
 
-iQKTBAABCgB9FiEE2dlecvcVU8/ThuQ/jJJgxvbXoxAFAmADNyVfFIAAAAAALgAo
-aXNzdWVyLWZwckBub3RhdGlvbnMub3BlbnBncC5maWZ0aGhvcnNlbWFuLm5ldEQ5
-RDk1RTcyRjcxNTUzQ0ZEMzg2RTQzRjhDOTI2MEM2RjZEN0EzMTAACgkQjJJgxvbX
-oxBY9hAArdgCo4zcqOmyMk+PRj/X5jAsVGkNlMe/AwI4RRnlZs3bCu8NsYxWvzlN
-snUSejgueTXr2cPs+gPtlmy4xUeu5Ea/5RlXaAYyLN/x8LhHit4eYtEGZI3eGCL7
-b1LYmRPBirLhsmESdL2fhbJeyXQ1hPtENWYP0L5cYcccMPkJTbu9Xstd78OX/6Wd
-U1X10Yu28SjusPTg9qpxa1U22RVgH2Wq7zRU5Tgvdz2+hQJvEc4ZaF82kWf4NfKz
-Unc7Nk8G/3YC9A1n0xqp/yosPANiEM5Dm0MlhVlLvfB7GBebR9oU019Z4Y/V6ZMb
-7HcjrquCbrWxSw/zTuNVzkWZOeme0aQ4fYvcdMJf2uhFd/tBK69779REKLpJLdWx
-z48Ueu3c+VGQ2NgdmJVqWUKAQ14Vw2EmUdfhRZk1U5H4WgHTDYjQF8jzm4MxyN4G
-g+ZGxYpQ/TYk25yHe1WldGuADDUK8XPrFFK2jK8twbv/o14BFs/uYNVw7kQMi5hc
-UuePosTi2ABhP+o+LDrnvDaccczgpp8MEEr4qluLwxZoaiHMOvr1xavrfSzZSkyD
-EvdUZ6AVgPJDpE2Lwtlxze+TWOq/NKkrHfabQ8j2Q1CXcpBQmfPIdg3boX7/QVsC
-FHpg5hV5xvcEf8LoiFwywD+0/2q18fzVojsNUddSKNFnBDKXNZo=
-=4mAL
------END PGP SIGNATURE-----
+  =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+  #include <stdlib.h>
+  #include <unistd.h>
+  #include <stdio.h>
+  #include <sys/wait.h>
 
---nextPart2080420.hkbZ0PkbqX--
+  main(c, v)
+       int c;
+       char **v;
+  {
+    pid_t pid, p;
+    int s, i, n;
 
+    s =3D 0;
+    pid =3D fork();
+    if (pid =3D=3D 0)
+      exit(42);
 
+    /* wait for the process */
+    p =3D wait(&s);
+    if (p !=3D pid)
+      exit (255);
 
+    if (WIFEXITED(s))
+    {
+       int r=3DWEXITSTATUS(s);
+       if (r!=3D42) {
+        printf("child wants to return %i (0x%X), parent received %i (0x%X),=
+ difference %i\n",42,42,r,r,r-42);
+       }
+    }
+  }
+  =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+
+  (riscv-ilp32 chroot) farino /tmp # ./wait-test-short =
+
+  child wants to return 42 (0x2A), parent received 40 (0x28), difference -2
+
+  =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+  (riscv-ilp32 chroot) farino /tmp # gcc --version
+  gcc (Gentoo 10.2.0-r1 p2) 10.2.0
+  Copyright (C) 2020 Free Software Foundation, Inc.
+  Dies ist freie Software; die Kopierbedingungen stehen in den Quellen. Es
+  gibt KEINE Garantie; auch nicht f=C3=BCr MARKTG=C3=84NGIGKEIT oder F=C3=
+=9CR SPEZIELLE ZWECKE.
+
+  (riscv-ilp32 chroot) farino /tmp # ld --version
+  GNU ld (Gentoo 2.34 p6) 2.34.0
+  Copyright (C) 2020 Free Software Foundation, Inc.
+  This program is free software; you may redistribute it under the terms of
+  the GNU General Public License version 3 or (at your option) a later vers=
+ion.
+  This program has absolutely no warranty.
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1906193/+subscriptions
 
