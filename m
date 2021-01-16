@@ -2,55 +2,55 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B2F992F8B45
-	for <lists+qemu-devel@lfdr.de>; Sat, 16 Jan 2021 05:34:13 +0100 (CET)
-Received: from localhost ([::1]:44496 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 343DB2F8B2B
+	for <lists+qemu-devel@lfdr.de>; Sat, 16 Jan 2021 05:31:52 +0100 (CET)
+Received: from localhost ([::1]:40610 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l0dHw-0005td-Rw
-	for lists+qemu-devel@lfdr.de; Fri, 15 Jan 2021 23:34:12 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34618)
+	id 1l0dFf-0003qU-8S
+	for lists+qemu-devel@lfdr.de; Fri, 15 Jan 2021 23:31:51 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34596)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1l0dAL-0007ts-Sb
- for qemu-devel@nongnu.org; Fri, 15 Jan 2021 23:26:24 -0500
-Received: from indium.canonical.com ([91.189.90.7]:47124)
+ id 1l0dAH-0007rt-Ms
+ for qemu-devel@nongnu.org; Fri, 15 Jan 2021 23:26:18 -0500
+Received: from indium.canonical.com ([91.189.90.7]:46744)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1l0dAJ-0006Ai-KM
- for qemu-devel@nongnu.org; Fri, 15 Jan 2021 23:26:21 -0500
+ id 1l0dAD-00067Z-0n
+ for qemu-devel@nongnu.org; Fri, 15 Jan 2021 23:26:17 -0500
 Received: from loganberry.canonical.com ([91.189.90.37])
  by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1l0dAG-00022Y-JF
- for <qemu-devel@nongnu.org>; Sat, 16 Jan 2021 04:26:16 +0000
+ id 1l0dAA-0001VU-BP
+ for <qemu-devel@nongnu.org>; Sat, 16 Jan 2021 04:26:10 +0000
 Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 643BF2E8157
- for <qemu-devel@nongnu.org>; Sat, 16 Jan 2021 04:26:15 +0000 (UTC)
+ by loganberry.canonical.com (Postfix) with ESMTP id 556482E8142
+ for <qemu-devel@nongnu.org>; Sat, 16 Jan 2021 04:26:10 +0000 (UTC)
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
-Date: Sat, 16 Jan 2021 04:17:51 -0000
-From: Launchpad Bug Tracker <1740887@bugs.launchpad.net>
+Date: Sat, 16 Jan 2021 04:17:52 -0000
+From: Launchpad Bug Tracker <1743214@bugs.launchpad.net>
 To: qemu-devel@nongnu.org
 X-Launchpad-Notification-Type: bug
 X-Launchpad-Bug: product=qemu; status=Expired; importance=Undecided;
  assignee=None; 
+X-Launchpad-Bug-Tags: broken i386 os2 support trap warp
 X-Launchpad-Bug-Information-Type: Public
 X-Launchpad-Bug-Private: no
 X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: hitchhikr janitor rtillet th-huth
-X-Launchpad-Bug-Reporter: charlet franck (hitchhikr)
+X-Launchpad-Bug-Commenters: balaton-4 janitor mvoloshin th-huth
+X-Launchpad-Bug-Reporter: MVoloshin (mvoloshin)
 X-Launchpad-Bug-Modifier: Launchpad Janitor (janitor)
-References: <151490925457.26459.4227536724801475724.malonedeb@gac.canonical.com>
-Message-Id: <161077067194.27726.108067158803859516.malone@loganberry.canonical.com>
-Subject: [Bug 1740887] Re: qemu-system-arm & qemu-system-aarch64 for windows
- crash at start
+References: <151593225024.11261.9880390596143098449.malonedeb@soybean.canonical.com>
+Message-Id: <161077067277.27726.14721517715262770977.malone@loganberry.canonical.com>
+Subject: [Bug 1743214] Re: OS/2 Warp 3 support broken in 2.11
 X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
 X-Launchpad-Message-For: qemu-devel-ml
 Precedence: bulk
 X-Generated-By: Launchpad (canonical.com);
  Revision="511b4a3b6512aa3d421c5f7d74f3527e78bff26e"; Instance="production"
-X-Launchpad-Hash: 7437b4a3852239b7e8066aa47e09bf4ef57c02ab
+X-Launchpad-Hash: f6d15d0e5cf0d183879d5a771009db022ed9af4e
 Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
  helo=indium.canonical.com
 X-Spam_score_int: -65
@@ -71,7 +71,7 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1740887 <1740887@bugs.launchpad.net>
+Reply-To: Bug 1743214 <1743214@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
@@ -84,33 +84,23 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 You received this bug notification because you are a member of qemu-
 devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1740887
+https://bugs.launchpad.net/bugs/1743214
 
 Title:
-  qemu-system-arm & qemu-system-aarch64 for windows crash at start
+  OS/2 Warp 3 support broken in 2.11
 
 Status in QEMU:
   Expired
 
 Bug description:
-  In Windows 7 64 bit (both 32 & 64 bit QEMU emulator version 2.11.0
-  (v2.11.0-11693-g21057c841e-dirty)).
-
-  With arguments:
-
-  qemu-system-arm.exe -M raspi2
-
-  It crashes and reports:
-
-  ERROR:/home/stefan/src/qemu/repo.or.cz/qemu/ar7/qom/object.c:176:type_get=
-_parent:
-  assertion failed: (type->parent_type !=3D NULL)
-
-  Same goes for qemu-system-aarch64.exe or with -M raspi argument.
-
-  Have a nice day,
-  f.
+  Hello, I used to run OS/2 Warp 3 on QEMU with the following command line:=
+ qemu-system-i386 -vga cirrus -soundhw sb16 -hda os2warp3v2.img -boot c. It=
+ runs OK on QEMU 2.10, but immediately gives TRAP 0006 (invalid opcode?) on=
+ QEMU 2.11 (see screenshot).
+  If it is important I have Fixpack 40 and GRADD installed in OS/2.
+  Here is the image:
+  https://drive.google.com/open?id=3D15umPecy7JlPLKUP6520MB_87CfrCDWO5
 
 To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1740887/+subscriptions
+https://bugs.launchpad.net/qemu/+bug/1743214/+subscriptions
 
