@@ -2,53 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 33F322F8D79
-	for <lists+qemu-devel@lfdr.de>; Sat, 16 Jan 2021 14:51:40 +0100 (CET)
-Received: from localhost ([::1]:46418 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1EDE02F8D7D
+	for <lists+qemu-devel@lfdr.de>; Sat, 16 Jan 2021 14:57:33 +0100 (CET)
+Received: from localhost ([::1]:57926 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l0lzP-00013x-9n
-	for lists+qemu-devel@lfdr.de; Sat, 16 Jan 2021 08:51:39 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58262)
+	id 1l0m55-00064C-Ty
+	for lists+qemu-devel@lfdr.de; Sat, 16 Jan 2021 08:57:31 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58284)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
- id 1l0ltH-0003OX-68; Sat, 16 Jan 2021 08:45:19 -0500
-Received: from mail-db8eur05on2123.outbound.protection.outlook.com
- ([40.107.20.123]:62560 helo=EUR05-DB8-obe.outbound.protection.outlook.com)
+ id 1l0ltJ-0003UR-Gv; Sat, 16 Jan 2021 08:45:21 -0500
+Received: from mail-eopbgr60109.outbound.protection.outlook.com
+ ([40.107.6.109]:49662 helo=EUR04-DB3-obe.outbound.protection.outlook.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
- id 1l0ltE-0007XP-Iz; Sat, 16 Jan 2021 08:45:18 -0500
+ id 1l0ltG-0007U8-SV; Sat, 16 Jan 2021 08:45:21 -0500
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=k27/CqK2X7ulQ/Iy/rxuMbeDGuKDZn67PY6uCKsY73xqFIpwA4B2jGWC/2BMfDeZs/ByDpGRNzYFzFKT27mi7ih2jhsw37yovIZtjENsHGMIP6KNuaGoSq14r8Nn8ZqPDXt02o91NQq0rdu4VzNZohYyxYisALMaJIIoc6lotuwsCYzj2rQgeubEFcgh3BhSquWAONZRq7yxkT4dpFECA/wOHNTI5UMZTdTHshwojMLfUfP2qnkBI2001ZviIkeaTSEvHIAnx/sIe8pX9uOiVu/hFmudIWKANquMa2x8jyRySkozHpAwVcS1mptY77r9ghdnomQ9Xq1NOVEc4OKS3Q==
+ b=A2h2Hf+qo5jgvB2NReugRrcR8ySn5uOCJSW/9rE+OrCzRc1BdmMKKLMkjpMhikIrjZbHRXsRwACGYUS5/8juM8vWkUdTimv4K8RFnxijTyW4LiBcB9aO4WU2OcMZYujSlxHcmq/BYfgXWO5SNlqvuU5n9vFc/gk6+RREUMHN9C63kl5xycR5SYMwkbe6Ot+xLCwFfP/ybNgBDmZe4Pv1uUjDFd9hLcrKbMYhf/yG50PD1N+Cmz2PxgxZsARDHvsNrkM/sFCFAC9UEf2fnQ95ZLwSXWrXXGsTGzGjHWmXkmLsMAFevDFmnPNO4o5tvj/UD7C6b6TqYBP5n80Y/QLjSA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=JObIUl9NczEQZDbdmDooA/RBDAj+ThhLsNDPHU4wjwk=;
- b=GGCSo/4jDuu0cRWtKYPAuHRv1gqH7TiV0A2YlaOfYLPaIKztKaNmT/6aUl3yNnYkdKLof0jh8Q8qDP2P3f8LNsIGI5IGHmB8X+UR+T+LQCxBGUIkwUHvxSy+ZK/zI4Lj0z37e+sXcZaDY1dZbwcmffdllaZhq6apqDEJyRXxIf53xFihaHQIPFs286ivLN2j5egwKCWS6/M2yeZa+pzi4bSOS8sal9P5F9nv/JLwDhHKkbGu0ddeFFgiKBiqdVoi5cbh+F4Gs7i0RAhIYrFJp47pB2oWtSf9J9/xwJcRqsoX1JMIyGeopVImZLnNVMxake2HQfA1uDNeXkoS7KcNJw==
+ bh=j9Q71Gx/heEzWm83K6Uvx1xmDV/7EYYn1GKFqpbO8OE=;
+ b=dlkHvD/Ltx48Zb0NRFmws4gRi5O43KtMcbxiPEKB28O4fy8qrVi+3rfUiyOL72Xx/WsfHXnEJjoue2iZLjXScxVF9rGm587KcJ7J/Gy0pOZhQ5lEGug4I3O+mfoGQ8N70WXl+CtPxsTBo0C5R8buEJsQVQbqjGkp+NXQ1UJ4Eddu8dPdPNc0SG1YD3H5TqQfBIM+f/ra7bc9SwV+CBLeFDAjvVq1dMRN1RkCwnYBmNTJ5aJwK4X73o71qomMN80DJ58raHdlw170gqFzKNcdpU8xhQvW82hVbdvEtfLv7h1jDPlnkDYUKk62ZrcM2UpCwkDAX6A+hxucs/mXBZoh4w==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=virtuozzo.com; dmarc=pass action=none
  header.from=virtuozzo.com; dkim=pass header.d=virtuozzo.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
  s=selector2;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=JObIUl9NczEQZDbdmDooA/RBDAj+ThhLsNDPHU4wjwk=;
- b=M69UWqV0oZhBgt7Rd/Pa8/ijZZYBeNc9ahEAEz8FLXD/wCa/6vvoonVsoNPtmUridb69FKp2y/JCC97ot6ftmBMIHdqcYstOzA89635FiYR0uMvkMVKItw2vnQFRKNc02cy1MH09VRuA1I4k92LPh6tkp+etflCjIwNOm0vePv8=
+ bh=j9Q71Gx/heEzWm83K6Uvx1xmDV/7EYYn1GKFqpbO8OE=;
+ b=S77GxMLMNT11TpHkrQ8D2qmnPvM1EgyhcQLVFuPTJnpAdMA9xelf6vM6TjQDTqgJAo6d+w0SK/czK4DeBufa8VM8ZJh/PGhkAdZkjFksxGKecPTFht9EjVzOeYA3mADy4T/JU/O01aT9IMQRiGDr5DDUT8JEC53XefAojQ/kNSc=
 Authentication-Results: nongnu.org; dkim=none (message not signed)
  header.d=none;nongnu.org; dmarc=none action=none header.from=virtuozzo.com;
 Received: from AM7PR08MB5494.eurprd08.prod.outlook.com (2603:10a6:20b:dc::15)
  by AM5PR0801MB2098.eurprd08.prod.outlook.com (2603:10a6:203:4a::8)
  with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3763.11; Sat, 16 Jan
- 2021 13:45:09 +0000
+ 2021 13:45:10 +0000
 Received: from AM7PR08MB5494.eurprd08.prod.outlook.com
  ([fe80::214a:3545:368c:7ae8]) by AM7PR08MB5494.eurprd08.prod.outlook.com
  ([fe80::214a:3545:368c:7ae8%9]) with mapi id 15.20.3763.013; Sat, 16 Jan 2021
- 13:45:09 +0000
+ 13:45:10 +0000
 From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 To: qemu-block@nongnu.org
-Subject: [PATCH v7 08/11] iotests: add testenv.py
-Date: Sat, 16 Jan 2021 16:44:21 +0300
-Message-Id: <20210116134424.82867-9-vsementsov@virtuozzo.com>
+Subject: [PATCH v7 09/11] iotests: add testrunner.py
+Date: Sat, 16 Jan 2021 16:44:22 +0300
+Message-Id: <20210116134424.82867-10-vsementsov@virtuozzo.com>
 X-Mailer: git-send-email 2.29.2
 In-Reply-To: <20210116134424.82867-1-vsementsov@virtuozzo.com>
 References: <20210116134424.82867-1-vsementsov@virtuozzo.com>
@@ -64,59 +64,58 @@ Received: from kvm.sw.ru (185.215.60.72) by
  AM4PR0701CA0019.eurprd07.prod.outlook.com (2603:10a6:200:42::29) with
  Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3784.4 via Frontend
- Transport; Sat, 16 Jan 2021 13:45:08 +0000
+ Transport; Sat, 16 Jan 2021 13:45:09 +0000
 X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 73d0b759-0338-4716-772d-08d8ba24f09f
+X-MS-Office365-Filtering-Correlation-Id: 61e2c1d7-26d1-40eb-8c5c-08d8ba24f124
 X-MS-TrafficTypeDiagnostic: AM5PR0801MB2098:
 X-MS-Exchange-Transport-Forked: True
-X-Microsoft-Antispam-PRVS: <AM5PR0801MB209824F53D924BB0CAF6AD61C1A60@AM5PR0801MB2098.eurprd08.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:9508;
+X-Microsoft-Antispam-PRVS: <AM5PR0801MB2098D3C0FBDFC450BAFC8357C1A60@AM5PR0801MB2098.eurprd08.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:5236;
 X-MS-Exchange-SenderADCheck: 1
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: YTbjqP7j25WfwBwl6krGYEa+rsCsVz/ObW2V0lPL3zXDgVbsOhxUTZaBEAt2CMceZH4eLWZKtr1SvGOdtMP6Ij6X9NaZQ8m2foB785w1aLrie4LKH1F7bF2IsNjoSsVLFJT45KrJqRJUvCQ4WGiEI/yjwgdWbxJDvhLpC7A7IDLOq+wiI8UaVdy4bEONbQcYjvLMOX9/6qoBIaFRT3gbL7aeEocKFRzNJkarYDEJNr9wreZvYEnaLEm9kjtVXnzseKupLurltQXI50caaLhtpIZpb22Tnx7n4bEHtu9yESYQT47KuSDHBkNcSXb3yxsNPc+zKjhF73+ziYUo4ntwvYqeLwDQrAoYgZmmBEyYnBubaRVhU765ITiZc+E3d+lAwrgKSTsWhJXhHr0SYMtda191BDxDMy8td+/nFNOkBVhpP9UzGFHpi7RhvHPv2PxwFeeKsTA5RJQ8veIm9WnaFQ/g4FKqvZSfK1UJaNAK10YCdabI3kEUP2ohq/VxEPwTWoFbsF4yZytSu04AsO1r59p4Vrf2H239ECPri2HM6GNBoiWD5iTN9OFO767CKvWfe2ZFux2rGgeIxphZDK3JzVs+x5D8KWamnqbLJTv5Ou6lkBjUPZscP7DeT17AB1gtNRSY6kUoEoP7FJXlYpq5dQ==
+X-Microsoft-Antispam-Message-Info: zJ6SDlYBBldhJrCDylIjczbDq+Yl7FCGiqY1eSw20dsbnqEXgUxrNkGejhHjof1bygAvrXdc3fEMyiwXXl7Hf6Nx6KWh2iXpgOlk7QEt/QNADKp3z/AFvvv6HCjZgD5PHXIPAqk4jfh4JR1gPrP+kwgT+fBRn3pg4WPDMPZD9IW80O2wOeiL/QK+fo8LNDjDO7phC8bwME+/cvf2L+sM9NVjANOwKO0FAY28FIHRNeH+soFwlwjQR0wpZ6ZQhPLq901OIq1K+CQGTEresgzKMAGGE4yfUqivvdaDHQ89+gdzLzeK0jPpj4LvqXICz1s03RWd671R5bEOH4asecl3vf+X+6ZHq/6bxZ7+xXDt9ixqPx/oVj6rOFoiwwpl8agZBmtQDS/VaT8w1jFjZrfa1txwyGgiv6pLVzSqnhr4q+BaQxwa6sPaqNv3DUsicj1sWApQDeGRAdrY0IYe3ZzDrpmqj1Cj+6np+TltW2O8gR/XTRDTPU7e+fa5ihisF5duxlJM8BfYlperFBq+lSSt1RaJy7MJhgvzb9GcReK8bIlhhkmQ962fmxellj/7DtMeuR5zONnS22SoNlf2o2kYI652/SzDxSU+Rdt0DMM01MWb0qRmwwriJoj+3EKqIgz4/QgtM1MvzGV4dGjsjoe17w==
 X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
  IPV:NLI; SFV:NSPM; H:AM7PR08MB5494.eurprd08.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(4636009)(396003)(136003)(366004)(376002)(346002)(39830400003)(6916009)(36756003)(83380400001)(66946007)(6666004)(6512007)(86362001)(1076003)(66556008)(5660300002)(6486002)(66476007)(6506007)(478600001)(4326008)(8676002)(8936002)(956004)(2906002)(52116002)(186003)(16526019)(316002)(26005)(2616005)(2004002);
+ SFS:(4636009)(396003)(136003)(366004)(376002)(346002)(39830400003)(6916009)(36756003)(83380400001)(66946007)(6666004)(6512007)(86362001)(30864003)(1076003)(66556008)(5660300002)(6486002)(66476007)(6506007)(478600001)(4326008)(8676002)(8936002)(956004)(2906002)(52116002)(186003)(16526019)(316002)(26005)(2616005)(2004002);
  DIR:OUT; SFP:1102; 
-X-MS-Exchange-AntiSpam-MessageData: =?us-ascii?Q?D5SAS8FC+lY+fsI+FHOmTGKXFZyQvQzisJ1+BhkxiXum/egM1i07dPTNof9I?=
- =?us-ascii?Q?/umzzOmrL/tItCQ3I6naJKx256Fubn+8MEjP/6zj58TjsjgZzActONOAdPmB?=
- =?us-ascii?Q?4xrjY0v1GW9d5G8KcqoJHIl/UTTcBsMXwNNzbHJDd7w0MHnpvTHdPfm4d2bq?=
- =?us-ascii?Q?FHN3oYwADBqnPOX3j8ifWQ44l/o4HabRb1YXUeJT+Ee0EOjLeuBAkrAYXY2o?=
- =?us-ascii?Q?LS5K1DKjJo3F1/Vj15GKzMbe3BrLi9OmGI7oNR6dZK+C+HvH4eZpJjWda7ag?=
- =?us-ascii?Q?cWzSYoWDHmLCZUHRjp5HJ6tjt2+teswbjCbflvgO3+A4x3D0uLsHxNApVK2U?=
- =?us-ascii?Q?DHOTgT7RaxrP/gEbnYYKLIAWmZajPLGzkzU5Kc+xjY3tkZqObWJmbIpp80Cu?=
- =?us-ascii?Q?013Hy6/wNG3/h4Z3CC6/Yw9a1K+tLmDbeeGxYwSascDiW2sYjrGRLLSEk+3d?=
- =?us-ascii?Q?c7DnIwCCXKXHsdBpKqe5AC15sYU9WWOmjR1raPb7pkq5Hta+/bq4z6rRjXit?=
- =?us-ascii?Q?GRU3ieYAtS5IKt3rhVU6gdWFn4yY/TknW7fM3ybOWJOsfC1javeH5KbeglP1?=
- =?us-ascii?Q?R40GXpQPhXTYrBPRxJDeEi9wCs8Q4Xam8M4q+WWL/FFKS8poSVdF5c3AmN3Z?=
- =?us-ascii?Q?MbcO2WEoA0c1q/ZrVKQdKR7H2X6BEs/A2gIZ5acLW7JiDgN60ZL+A2CmpMxo?=
- =?us-ascii?Q?ug7Ukrgg4p/HckjHigFvDB0kWVIIVTuRjF8kSPQBrMmmaqI3HmZph2nYXQjL?=
- =?us-ascii?Q?w0UN448jw1SRr0hk5eaoAmQETbJVTTgJNfybXxYMBx37bDjxkiw5LILNiVQQ?=
- =?us-ascii?Q?jQMVPbStb7BxBaVXgNZLc/pPt4pOKzYHJ7Ozu1h1ODSeH4efI3cGPxuzaGO4?=
- =?us-ascii?Q?BZHFRYh+IrQ9ucz2r/Uf1aV6G3R1XlqejldBNxmk0MU4lsAa/spKlvQ+XSMl?=
- =?us-ascii?Q?K8utl7s8E+mzjMFUiQWB7VxE1B8auwild6DN5gUoDCF1XzHoyweh9Ha6ak+6?=
- =?us-ascii?Q?/Ocw?=
+X-MS-Exchange-AntiSpam-MessageData: =?us-ascii?Q?FBoXVzJufMHHzSOyRG6aBtOdKb31lAdegvGD8o54r2Gv73g+JKYRTOoJMCUm?=
+ =?us-ascii?Q?yDCd1BaihsOgjmdh762cpaBh7OS4p6tXZaqxfF72B2qwG0O7XxgRwD4WUgNX?=
+ =?us-ascii?Q?wI2URVWtK8J5hnRDv3tJPTuuMfTzt4n9db9Tjh9B6WrD6b0bpQ9HVFcV/3AS?=
+ =?us-ascii?Q?HNhh5GVc+tSKG4ujqbZCskKfKOo3Q7Tfilr2cFjzr0ZXvWoDDHyKfpFoSF1C?=
+ =?us-ascii?Q?tIy+RE9g/zZuXGy3VU6QykrB99IcMAH+LkgpEB8cg679V4zVEp9YnWWZnbdO?=
+ =?us-ascii?Q?QgYJBdExPRTCp8Utqjx2On9j6TOXvwwaaLFSlycqkTH+grivm68qMUVNYxXW?=
+ =?us-ascii?Q?Os8llSpYJqg9b5ZBv8wdyFlILqbsxBTuZQ08z/U/WaU+Y53T+/c9d9H29Xuq?=
+ =?us-ascii?Q?PNd5D6vBQ8AdApb/TRCOPeDhvbhAgPtVUaq5Pf1YByimGcrelZVtra2uLLZa?=
+ =?us-ascii?Q?nKeifykTkSi/ILC79kZXDtWBEbYqiTE9vylnirvC24Ghfvfa5/AndaxEkXI0?=
+ =?us-ascii?Q?Nqdu9pr1spfG7UwfI1FqdTB/3iQpJPt+gVG9PecZHDCLGeAAyjbgJB6lpRnU?=
+ =?us-ascii?Q?WGu2zKb0bzFGWQYGwhM7yxOXL67pZAP0xLsJ7Vpd3OyLYQpAN5Rg3qOdbmaE?=
+ =?us-ascii?Q?5LlEwkQ7Krq5zFF/9phcF9OfvaYOigsO3Dpo76tNUmJFNZc9dFS6RpQsG9rZ?=
+ =?us-ascii?Q?izF7Alj+Po9cHV41u8L99Pa7mukWmZ4SnNgVidtiN3rFb7zWXPO6N3iPpXVp?=
+ =?us-ascii?Q?Y3PILG5u7lvUChEBfzFFjvKlgd+CNo5SKbYXmRANhG/4DehWJf54zWn6GuOf?=
+ =?us-ascii?Q?0Fm1uV822Zq+wvZbQLk8TONeAHo4zhnXzBLGIlFWuAhaBTaALxzaaiUbr/CH?=
+ =?us-ascii?Q?8Ixm0ZNgvZpfMwSd7pjf0HolaQXkdIHtsagmLbMusFZbT7efL+ywPX3CzX9y?=
+ =?us-ascii?Q?VkHOC5H8BvBcuJkJaolZMSNv7DDf27BSkxduTC3mq8aoBS84K+0dUmBNtu1f?=
+ =?us-ascii?Q?fYX1?=
 X-OriginatorOrg: virtuozzo.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 73d0b759-0338-4716-772d-08d8ba24f09f
+X-MS-Exchange-CrossTenant-Network-Message-Id: 61e2c1d7-26d1-40eb-8c5c-08d8ba24f124
 X-MS-Exchange-CrossTenant-AuthSource: AM7PR08MB5494.eurprd08.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 16 Jan 2021 13:45:09.2880 (UTC)
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 16 Jan 2021 13:45:10.1871 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 1CeUvRo4TKoW7EiblQy5WSqbcew6K27lBLJQSvCO9VTUK4ZJCZ9ARNZzI4AsfO0abZk50jFc/K8s+YJewkorBbW7UN2AzF/gTKbLDIkwcQo=
+X-MS-Exchange-CrossTenant-UserPrincipalName: 6pEeBg1RBVek0qRllpumqJ3rEIM4hyyQbp/BmumLscnjZhUNQ+gJySmDR0BBlGP5dsa98BFR+4TQ+viQ9uaZWI0QoDJGEz5jQRJNtBJ6vOo=
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM5PR0801MB2098
-Received-SPF: pass client-ip=40.107.20.123;
+Received-SPF: pass client-ip=40.107.6.109;
  envelope-from=vsementsov@virtuozzo.com;
- helo=EUR05-DB8-obe.outbound.protection.outlook.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+ helo=EUR04-DB3-obe.outbound.protection.outlook.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- MSGID_FROM_MTA_HEADER=0.001, RCVD_IN_DNSWL_NONE=-0.0001,
- RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_PASS=-0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ MSGID_FROM_MTA_HEADER=0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -134,29 +133,31 @@ Cc: kwolf@redhat.com, vsementsov@virtuozzo.com, jsnow@redhat.com,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Add TestEnv class, which will handle test environment in a new python
-iotests running framework.
+Add TestRunner class, which will run tests in a new python iotests
+running framework.
 
-Difference with current ./check interface:
-- -v (verbose) option dropped, as it is unused
-
-- -xdiff option is dropped, until somebody complains that it is needed
-- same for -n option
-- same for looking for binaries in $build_iotests directory.
+There are some differences with current ./check behavior, most
+significant are:
+- Consider all tests self-executable, just run them, don't run python
+  by hand.
+- Elapsed time is cached in json file
+- Elapsed time precision increased a bit
+- use python difflib instead of "diff -w", to ignore spaces at line
+  ends strip lines by hand. Do not ignore other spaces.
 
 Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 ---
- tests/qemu-iotests/testenv.py | 255 ++++++++++++++++++++++++++++++++++
- 1 file changed, 255 insertions(+)
- create mode 100644 tests/qemu-iotests/testenv.py
+ tests/qemu-iotests/testrunner.py | 344 +++++++++++++++++++++++++++++++
+ 1 file changed, 344 insertions(+)
+ create mode 100644 tests/qemu-iotests/testrunner.py
 
-diff --git a/tests/qemu-iotests/testenv.py b/tests/qemu-iotests/testenv.py
+diff --git a/tests/qemu-iotests/testrunner.py b/tests/qemu-iotests/testrunner.py
 new file mode 100644
-index 0000000000..0fe5076088
+index 0000000000..92722cc68b
 --- /dev/null
-+++ b/tests/qemu-iotests/testenv.py
-@@ -0,0 +1,255 @@
-+# TestEnv class to manage test environment variables.
++++ b/tests/qemu-iotests/testrunner.py
+@@ -0,0 +1,344 @@
++# Class for actual tests running.
 +#
 +# Copyright (c) 2020-2021 Virtuozzo International GmbH
 +#
@@ -175,242 +176,331 @@ index 0000000000..0fe5076088
 +#
 +
 +import os
-+import sys
-+import tempfile
++import random
 +from pathlib import Path
-+import shutil
-+import collections
++import datetime
++import time
++import difflib
 +import subprocess
++import collections
++import contextlib
++import json
++import termios
++import sys
++from contextlib import contextmanager
 +from contextlib import AbstractContextManager
-+from typing import Dict, Any, Optional
++from typing import List, Optional, Iterator, Any
++
++from testenv import TestEnv
 +
 +
-+def get_default_machine(qemu_prog: str) -> str:
-+    outp = subprocess.run([qemu_prog, '-machine', 'help'], check=True,
-+                          text=True, stdout=subprocess.PIPE).stdout
-+
-+    machines = outp.split('\n')
-+    default_machine = next(m for m in machines if m.endswith(' (default)'))
-+    default_machine = default_machine.split(' ', 1)[0]
-+
-+    alias_suf = ' (alias of {})'.format(default_machine)
-+    alias = next((m for m in machines if m.endswith(alias_suf)), None)
-+    if alias is not None:
-+        default_machine = alias.split(' ', 1)[0]
-+
-+    return default_machine
++def silent_unlink(path: Path) -> None:
++    try:
++        path.unlink()
++    except OSError:
++        pass
 +
 +
-+class TestEnv(AbstractContextManager['TestEnv']):
++def file_diff(file1: str, file2: str) -> List[str]:
++    with open(file1) as f1, open(file2) as f2:
++        # We want to ignore spaces at line ends. There are a lot of mess about
++        # it in iotests.
++        # TODO: fix all tests to not produce extra spaces, fix all .out files
++        # and use strict diff here!
++        seq1 = [line.rstrip() for line in f1]
++        seq2 = [line.rstrip() for line in f2]
++        return list(difflib.unified_diff(seq1, seq2, file1, file2))
++
++
++# We want to save current tty settings during test run,
++# since an aborting qemu call may leave things screwed up.
++@contextmanager
++def savetty() -> Iterator[None]:
++    isterm = sys.stdin.isatty()
++    if isterm:
++        fd = sys.stdin.fileno()
++        attr = termios.tcgetattr(0)
++
++    try:
++        yield
++    finally:
++        if isterm:
++            termios.tcsetattr(fd, termios.TCSADRAIN, attr)
++
++
++class LastElapsedTime(AbstractContextManager['LastElapsedTime']):
++    """ Cache for elapsed time for tests, to show it during new test run
++
++    Use get() in any time. But, if use update you should then call save(),
++    or use update() inside with-block.
 +    """
-+    Manage system environment for running tests
++    def __init__(self, cache_file: str, env: TestEnv) -> None:
++        self.env = env
++        self.cache_file = cache_file
 +
-+    The following variables are supported/provided. They are represented by
-+    lower-cased TestEnv attributes.
-+    """
++        try:
++            with open(cache_file) as f:
++                self.cache = json.load(f)
++        except (OSError, ValueError):
++            self.cache = {}
 +
-+    # We store environment variables as instance attributes, and there are a
-+    # lot of them. Silence pylint:
-+    # pylint: disable=too-many-instance-attributes
++    def get(self, test: str,
++            default: Optional[float] = None) -> Optional[float]:
++        if test not in self.cache:
++            return default
 +
-+    env_variables = ['PYTHONPATH', 'TEST_DIR', 'SOCK_DIR', 'SAMPLE_IMG_DIR',
-+                     'OUTPUT_DIR', 'PYTHON', 'QEMU_PROG', 'QEMU_IMG_PROG',
-+                     'QEMU_IO_PROG', 'QEMU_NBD_PROG', 'QSD_PROG',
-+                     'SOCKET_SCM_HELPER', 'QEMU_OPTIONS', 'QEMU_IMG_OPTIONS',
-+                     'QEMU_IO_OPTIONS', 'QEMU_NBD_OPTIONS', 'IMGOPTS',
-+                     'IMGFMT', 'IMGPROTO', 'AIOMODE', 'CACHEMODE',
-+                     'VALGRIND_QEMU', 'CACHEMODE_IS_DEFAULT', 'IMGFMT_GENERIC',
-+                     'IMGOPTSSYNTAX', 'IMGKEYSECRET', 'QEMU_DEFAULT_MACHINE']
++        if self.env.imgproto not in self.cache[test]:
++            return default
 +
-+    def get_env(self) -> Dict[str, str]:
-+        env = {}
-+        for v in self.env_variables:
-+            val = getattr(self, v.lower(), None)
-+            if val is not None:
-+                env[v] = val
++        return self.cache[test][self.env.imgproto].get(self.env.imgfmt,
++                                                       default)
 +
-+        return env
++    def update(self, test: str, elapsed: float) -> None:
++        d = self.cache.setdefault(test, {})
++        d = d.setdefault(self.env.imgproto, {})
++        d[self.env.imgfmt] = elapsed
 +
-+    def init_directories(self):
-+        """Init directory variables:
-+             PYTHONPATH
-+             TEST_DIR
-+             SOCK_DIR
-+             SAMPLE_IMG_DIR
-+             OUTPUT_DIR
-+        """
-+        self.pythonpath = os.getenv('PYTHONPATH')
-+        if self.pythonpath:
-+            self.pythonpath = self.source_iotests + os.pathsep + \
-+                self.pythonpath
-+        else:
-+            self.pythonpath = self.source_iotests
++    def save(self) -> None:
++        with open(self.cache_file, 'w') as f:
++            json.dump(self.cache, f)
 +
-+        self.test_dir = os.getenv('TEST_DIR',
-+                                  os.path.join(os.getcwd(), 'scratch'))
-+        Path(self.test_dir).mkdir(parents=True, exist_ok=True)
-+
-+        self.sock_dir = os.getenv('SOCK_DIR')
-+        self.tmp_sock_dir = False
-+        if self.sock_dir:
-+            Path(self.test_dir).mkdir(parents=True, exist_ok=True)
-+        else:
-+            self.sock_dir = tempfile.mkdtemp()
-+            self.tmp_sock_dir = True
-+
-+        self.sample_img_dir = os.getenv('SAMPLE_IMG_DIR',
-+                                        os.path.join(self.source_iotests,
-+                                                     'sample_images'))
-+
-+        self.output_dir = os.getcwd()  # OUTPUT_DIR
-+
-+    def init_binaries(self):
-+        """Init binary path variables:
-+             PYTHON (for bash tests)
-+             QEMU_PROG, QEMU_IMG_PROG, QEMU_IO_PROG, QEMU_NBD_PROG, QSD_PROG
-+             SOCKET_SCM_HELPER
-+        """
-+        self.python = sys.executable
-+
-+        def root(*names):
-+            return os.path.join(self.build_root, *names)
-+
-+        arch = os.uname().machine
-+        if 'ppc64' in arch:
-+            arch = 'ppc64'
-+
-+        self.qemu_prog = os.getenv('QEMU_PROG', root(f'qemu-system-{arch}'))
-+        self.qemu_img_prog = os.getenv('QEMU_IMG_PROG', root('qemu-img'))
-+        self.qemu_io_prog = os.getenv('QEMU_IO_PROG', root('qemu-io'))
-+        self.qemu_nbd_prog = os.getenv('QEMU_NBD_PROG', root('qemu-nbd'))
-+        self.qsd_prog = os.getenv('QSD_PROG', root('storage-daemon',
-+                                                   'qemu-storage-daemon'))
-+
-+        for b in [self.qemu_img_prog, self.qemu_io_prog, self.qemu_nbd_prog,
-+                  self.qemu_prog, self.qsd_prog]:
-+            if not os.path.exists(b):
-+                sys.exit('Not such file: ' + b)
-+            if not os.access(b, os.X_OK):
-+                sys.exit('Not executable: ' + b)
-+
-+        helper_path = os.path.join(self.build_iotests, 'socket_scm_helper')
-+        if os.access(helper_path, os.X_OK):
-+            self.socket_scm_helper = helper_path  # SOCKET_SCM_HELPER
-+
-+    def __init__(self, imgfmt: str, imgproto: str, aiomode: str,
-+                 cachemode: Optional[str] = None,
-+                 imgopts: Optional[str] = None,
-+                 misalign: bool = False,
-+                 debug: bool = False) -> None:
-+        self.imgfmt = imgfmt
-+        self.imgproto = imgproto
-+        self.aiomode = aiomode
-+        self.imgopts = imgopts
-+        self.misalign = misalign
-+        self.debug = debug
-+
-+        if cachemode is None:
-+            self.cachemode_is_default = 'true'
-+            self.cachemode = 'writeback'
-+        else:
-+            self.cachemode_is_default = 'false'
-+            self.cachemode = cachemode
-+
-+        # Initialize generic paths: build_root, build_iotests, source_iotests,
-+        # which are needed to initialize some environment variables. They are
-+        # used by init_*() functions as well.
-+
-+        if os.path.islink(sys.argv[0]):
-+            # called from the build tree
-+            self.source_iotests = os.path.dirname(os.readlink(sys.argv[0]))
-+            self.build_iotests = os.path.dirname(os.path.abspath(sys.argv[0]))
-+        else:
-+            # called from the source tree
-+            self.source_iotests = os.getcwd()
-+            self.build_iotests = self.source_iotests
-+
-+        self.build_root = os.path.join(self.build_iotests, '..', '..')
-+
-+        self.init_directories()
-+        self.init_binaries()
-+
-+        # QEMU_OPTIONS
-+        self.qemu_options = '-nodefaults -display none -accel qtest'
-+        machine_map = (
-+            ('arm', 'virt'),
-+            ('aarch64', 'virt'),
-+            ('avr', 'mega2560'),
-+            ('rx', 'gdbsim-r5f562n8'),
-+            ('tricore', 'tricore_testboard')
-+        )
-+        for suffix, machine in machine_map:
-+            if self.qemu_prog.endswith(f'qemu-system-{suffix}'):
-+                self.qemu_options += f' -machine {machine}'
-+
-+        # QEMU_DEFAULT_MACHINE
-+        self.qemu_default_machine = get_default_machine(self.qemu_prog)
-+
-+        self.qemu_img_options = os.getenv('QEMU_IMG_OPTIONS')
-+        self.qemu_nbd_options = os.getenv('QEMU_NBD_OPTIONS')
-+
-+        is_generic = self.imgfmt not in ['bochs', 'cloop', 'dmg']
-+        self.imgfmt_generic = 'true' if is_generic else 'false'
-+
-+        self.qemu_io_options = f'--cache {self.cachemode} --aio {self.aiomode}'
-+        if self.misalign:
-+            self.qemu_io_options += ' --misalign'
-+
-+        self.qemu_io_options_no_fmt = self.qemu_io_options
-+
-+        if self.imgfmt == 'luks':
-+            self.imgoptssyntax = 'true'
-+            self.imgkeysecret = '123456'
-+            if not self.imgopts:
-+                self.imgopts = 'iter-time=10'
-+            elif 'iter-time=' not in self.imgopts:
-+                self.imgopts += ',iter-time=10'
-+        else:
-+            self.imgoptssyntax = 'false'
-+            self.qemu_io_options += ' -f ' + self.imgfmt
-+
-+        if self.imgfmt == 'vmkd':
-+            if not self.imgopts:
-+                self.imgopts = 'zeroed_grain=on'
-+            elif 'zeroed_grain=' not in self.imgopts:
-+                self.imgopts += ',zeroed_grain=on'
-+
-+    def close(self) -> None:
-+        if self.tmp_sock_dir:
-+            shutil.rmtree(self.sock_dir)
-+
-+    def __enter__(self) -> 'TestEnv':
++    def __enter__(self) -> 'LastElapsedTime':
 +        return self
 +
 +    def __exit__(self, exc_type: Any, exc_value: Any, traceback: Any) -> None:
-+        self.close()
++        self.save()
 +
-+    def print_env(self) -> None:
-+        template = """\
-+QEMU          -- "{QEMU_PROG}" {QEMU_OPTIONS}
-+QEMU_IMG      -- "{QEMU_IMG_PROG}" {QEMU_IMG_OPTIONS}
-+QEMU_IO       -- "{QEMU_IO_PROG}" {QEMU_IO_OPTIONS}
-+QEMU_NBD      -- "{QEMU_NBD_PROG}" {QEMU_NBD_OPTIONS}
-+IMGFMT        -- {IMGFMT}{imgopts}
-+IMGPROTO      -- {IMGPROTO}
-+PLATFORM      -- {platform}
-+TEST_DIR      -- {TEST_DIR}
-+SOCK_DIR      -- {SOCK_DIR}
-+SOCKET_SCM_HELPER -- {SOCKET_SCM_HELPER}"""
 +
-+        args = collections.defaultdict(str, self.get_env())
++TestResult = collections.namedtuple(
++    'TestResult',
++    ['status', 'description', 'elapsed', 'diff', 'casenotrun'],
++    defaults=('', '', '', ''))
 +
-+        if 'IMGOPTS' in args:
-+            args['imgopts'] = f" ({args['IMGOPTS']})"
 +
-+        u = os.uname()
-+        args['platform'] = f'{u.sysname}/{u.machine} {u.nodename} {u.release}'
++class TestRunner(AbstractContextManager['TestRunner']):
++    def __init__(self, env: TestEnv, makecheck: bool = False) -> None:
++        self.env = env
++        self.test_run_env = self.env.get_env()
++        if 'MALLOC_PERTURB_' not in os.environ and \
++                'MALLOC_PERTURB_' not in self.test_run_env:
++            x = random.randrange(1, 255)
++            self.test_run_env['MALLOC_PERTURB_'] = str(x)
 +
-+        print(template.format_map(args))
++        self.makecheck = makecheck
++
++        self.last_elapsed = LastElapsedTime('.last-elapsed-cache', env)
++
++    def __enter__(self) -> 'TestRunner':
++        # pylint: disable=attribute-defined-outside-init
++        self._stack = contextlib.ExitStack()
++        self._stack.enter_context(self.env)
++        self._stack.enter_context(self.last_elapsed)
++        self._stack.enter_context(savetty())
++        return self
++
++    def __exit__(self, exc_type: Any, exc_value: Any, traceback: Any) -> None:
++        self._stack.close()
++
++    def test_print_one_line(self, test: str, starttime: str,
++                            endtime: Optional[str] = None, status: str = '...',
++                            lasttime: Optional[float] = None,
++                            thistime: Optional[str] = None,
++                            description: str = '',
++                            test_field_width: Optional[int] = None,
++                            end: str = '\n') -> None:
++        """ Print short test info before/after test run """
++        test = os.path.basename(test)
++
++        if test_field_width is None:
++            test_field_width = 8
++
++        if self.makecheck and status != '...':
++            if status and status != 'pass':
++                status = f' [{status}]'
++            else:
++                status = ''
++
++            print(f'  TEST   iotest-{self.env.imgfmt}: {test}{status}')
++            return
++
++        if lasttime:
++            lasttime_s = f' (last: {lasttime}s)'
++        else:
++            lasttime_s = ''
++        if thistime:
++            thistime = f'{thistime:.1f}s'
++        else:
++            thistime = '...'
++
++        if endtime:
++            endtime = f'[{endtime}]'
++        else:
++            endtime = ''
++
++        if status == 'pass':
++            col = '\033[32m'
++        elif status == 'fail':
++            col = '\033[1m\033[31m'
++        elif status == 'not run':
++            col = '\033[33m'
++        else:
++            col = ''
++
++        col_end = '\033[0m'
++
++        print(f'{test:{test_field_width}} {col}{status:10}{col_end} '
++              f'[{starttime}] {endtime:13}{thistime:5} {lasttime_s:14} '
++              f'{description}', end=end)
++
++    def find_reference(self, test: str) -> str:
++        if self.env.cachemode == 'none':
++            ref = f'{test}.out.nocache'
++            if os.path.isfile(ref):
++                return ref
++
++        ref = f'{test}.out.{self.env.imgfmt}'
++        if os.path.isfile(ref):
++            return ref
++
++        ref = f'{test}.{self.env.qemu_default_machine}.out'
++        if os.path.isfile(ref):
++            return ref
++
++        return f'{test}.out'
++
++    def do_run_test(self, test: str) -> TestResult:
++        f_test = Path(test)
++        f_bad = Path(f_test.name + '.out.bad')
++        f_notrun = Path(f_test.name + '.notrun')
++        f_casenotrun = Path(f_test.name + '.casenotrun')
++        f_reference = Path(self.find_reference(test))
++
++        if not f_test.exists():
++            return TestResult(status='fail',
++                              description=f'No such test file: {f_test}')
++
++        if not os.access(str(f_test), os.X_OK):
++            sys.exit(f'Not executable: {f_test}')
++
++        if not f_reference.exists():
++            return TestResult(status='fail',
++                              description='No qualified output '
++                                          f'(expected {f_reference})')
++
++        for p in (f_bad, f_notrun, f_casenotrun):
++            silent_unlink(p)
++
++        args = [str(f_test.resolve())]
++        if self.env.debug:
++            args.append('-d')
++
++        with f_test.open() as f:
++            try:
++                if f.readline() == '#!/usr/bin/env python3':
++                    args.insert(0, self.env.python)
++            except UnicodeDecodeError:  # binary test? for future.
++                pass
++
++        env = os.environ.copy()
++        env.update(self.test_run_env)
++
++        t0 = time.time()
++        with f_bad.open('w') as f:
++            ret = subprocess.run(args, cwd=str(f_test.parent), env=env,
++                                 stdout=f, stderr=subprocess.STDOUT,
++                                 check=False).returncode
++        elapsed = round(time.time() - t0, 1)
++
++        if ret != 0:
++            return TestResult(status='fail', elapsed=elapsed,
++                              description=f'failed, exit status {ret}',
++                              diff=file_diff(str(f_reference), str(f_bad)))
++
++        if f_notrun.exists():
++            return TestResult(status='not run', elapsed=elapsed,
++                              description=f_notrun.read_text().strip())
++
++        casenotrun = None
++        if f_casenotrun.exists():
++            casenotrun = f_casenotrun.read_text()
++
++        diff = file_diff(str(f_reference), str(f_bad))
++        if diff:
++            return TestResult(status='fail', elapsed=elapsed,
++                              description='output mismatch (see {f_bad})',
++                              diff=diff, casenotrun=casenotrun)
++        else:
++            f_bad.unlink()
++            self.last_elapsed.update(test, elapsed)
++            return TestResult(status='pass', elapsed=elapsed,
++                              casenotrun=casenotrun)
++
++    def run_test(self, test: str,
++                 test_field_width: Optional[int] = None) -> TestResult:
++        last_el = self.last_elapsed.get(test)
++        start = datetime.datetime.now().strftime('%H:%M:%S')
++
++        self.test_print_one_line(test=test, starttime=start, lasttime=last_el,
++                                 end='\r', test_field_width=test_field_width)
++
++        res = self.do_run_test(test)
++
++        end = datetime.datetime.now().strftime('%H:%M:%S')
++        self.test_print_one_line(test=test, status=res.status,
++                                 starttime=start, endtime=end,
++                                 lasttime=last_el, thistime=res.elapsed,
++                                 description=res.description,
++                                 test_field_width=test_field_width)
++
++        if res.casenotrun:
++            print(res.casenotrun)
++
++        return res
++
++    def run_tests(self, tests: List[str]) -> None:
++        n_run = 0
++        failed = []
++        notrun = []
++        casenotrun = []
++
++        if not self.makecheck:
++            self.env.print_env()
++            print()
++
++        test_field_width = max(len(os.path.basename(t)) for t in tests) + 2
++
++        for t in tests:
++            name = os.path.basename(t)
++            res = self.run_test(t, test_field_width=test_field_width)
++
++            assert res.status in ('pass', 'fail', 'not run')
++
++            if res.casenotrun:
++                casenotrun.append(t)
++
++            if res.status != 'not run':
++                n_run += 1
++
++            if res.status == 'fail':
++                failed.append(name)
++                if self.makecheck:
++                    self.env.print_env()
++                if res.diff:
++                    print('\n'.join(res.diff))
++            elif res.status == 'not run':
++                notrun.append(name)
++
++        if notrun:
++            print('Not run:', ' '.join(notrun))
++
++        if casenotrun:
++            print('Some cases not run in:', ' '.join(casenotrun))
++
++        if failed:
++            print('Failures:', ' '.join(failed))
++            print(f'Failed {len(failed)} of {n_run} iotests')
++        else:
++            print(f'Passed all {n_run} iotests')
 -- 
 2.29.2
 
