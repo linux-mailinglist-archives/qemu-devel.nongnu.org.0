@@ -2,121 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4DB912F8FAE
-	for <lists+qemu-devel@lfdr.de>; Sat, 16 Jan 2021 23:21:56 +0100 (CET)
-Received: from localhost ([::1]:41168 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AAAE52F8FB2
+	for <lists+qemu-devel@lfdr.de>; Sat, 16 Jan 2021 23:27:57 +0100 (CET)
+Received: from localhost ([::1]:45472 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l0txD-00044w-Du
-	for lists+qemu-devel@lfdr.de; Sat, 16 Jan 2021 17:21:55 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51794)
+	id 1l0u32-00064D-Q7
+	for lists+qemu-devel@lfdr.de; Sat, 16 Jan 2021 17:27:56 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56350)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
- id 1l0tVU-0004x2-NN; Sat, 16 Jan 2021 16:53:16 -0500
-Received: from mail-vi1eur05on2133.outbound.protection.outlook.com
- ([40.107.21.133]:35449 helo=EUR05-VI1-obe.outbound.protection.outlook.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
- id 1l0tVP-0000ae-Mv; Sat, 16 Jan 2021 16:53:16 -0500
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=OuK+UE58GI45Z0ZNJJhQG391sT/DP2PbviSVPf24Vew2dcjR7TOTheO9HLONlC9gwwLAC8Xyq+jbNX0fwvkaFrNif6djZrFxLQ48ym8NofaLVGmb4+X/ieHzXz0qnDzf7E8wAwJwVmH+hxl9ORk4r9EOnI3V7HbcvBMuq9ipqxv/RYxSYw87KdKgEmx8aZsIty5Pgv/5e6g5/W6DTA0pE3mOXrdOQ/BwUrQjtjEXWt2mf/7mVy7xVIxCgIE9O8Vaf2Mb7HZA/gB+FKYVqRlB1xCLmP8QgfrvRJQBLSIcNuMnHwIiT626mQrpjYUOppqWES4vlYxALQchCl4+XFRj+A==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=5lt+3wuX2e86j2Pnvr5qrDfn07c0EWNcNHtEUNru6QU=;
- b=A1whagXBWqQ/eQoIet/tqOwFagBjGqXVLJoEZ3Qg7Xx5IMUsGOw2S5F2g1RtK/An5H8pKVstqhfBs7vj0cHim3Gf1vRfLVD6Dk17RLANu7ZK4j5VWnzb7ps/k6+pz9SIJ/4xvBvMxAySBO2Qen9/F1Iabf+VSga9TV7DEA90rbXiWrG+xbVeFUnnauiDSWFjFJpzC6i9iAtSnb3k7IMCNrZUqbkY+j4Hv6fmZj6bMOOMx1VdxjjIp3LDWJA8Z20P11qULkGaNhb2K6pD4besg6WjZ0Y9Y/QuprACg4A9fL0C5ErdhKSv4GNw3IaPSA+pjfW+xKEU9zBVfFA8jUQWcg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=virtuozzo.com; dmarc=pass action=none
- header.from=virtuozzo.com; dkim=pass header.d=virtuozzo.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=5lt+3wuX2e86j2Pnvr5qrDfn07c0EWNcNHtEUNru6QU=;
- b=bTlhvPuuS79wvWt6USZeeTA4ZgW2UzF/DDwlzV2DU1BgQww2ExQsJZxF3jEUmE3W8jrV8m7w4ujtLHGj5uGHKFNKpDjVVP65EGWbsnvmxjG6smecqtLC3DLAZ8v6pn1gDJyXOx0oBzEDRHs0ev4ewzc4isdv15Bk1m8qij4a6Cg=
-Authentication-Results: nongnu.org; dkim=none (message not signed)
- header.d=none;nongnu.org; dmarc=none action=none header.from=virtuozzo.com;
-Received: from AM7PR08MB5494.eurprd08.prod.outlook.com (2603:10a6:20b:dc::15)
- by AM6PR08MB3542.eurprd08.prod.outlook.com (2603:10a6:20b:4b::19)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3763.12; Sat, 16 Jan
- 2021 21:53:01 +0000
-Received: from AM7PR08MB5494.eurprd08.prod.outlook.com
- ([fe80::214a:3545:368c:7ae8]) by AM7PR08MB5494.eurprd08.prod.outlook.com
- ([fe80::214a:3545:368c:7ae8%9]) with mapi id 15.20.3763.013; Sat, 16 Jan 2021
- 21:53:01 +0000
-From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-To: qemu-block@nongnu.org
-Subject: [PATCH v6 14/14] block/qcow2: refactor qcow2_update_options_prepare
- error paths
-Date: Sun, 17 Jan 2021 00:52:09 +0300
-Message-Id: <20210116215209.823266-15-vsementsov@virtuozzo.com>
-X-Mailer: git-send-email 2.29.2
-In-Reply-To: <20210116215209.823266-1-vsementsov@virtuozzo.com>
-References: <20210116215209.823266-1-vsementsov@virtuozzo.com>
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-Originating-IP: [185.215.60.72]
-X-ClientProxiedBy: AM9P195CA0006.EURP195.PROD.OUTLOOK.COM
- (2603:10a6:20b:21f::11) To AM7PR08MB5494.eurprd08.prod.outlook.com
- (2603:10a6:20b:dc::15)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1l0u1s-0005K5-UO; Sat, 16 Jan 2021 17:26:44 -0500
+Received: from mail-wr1-x42d.google.com ([2a00:1450:4864:20::42d]:44166)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1l0u1q-0003Yi-BS; Sat, 16 Jan 2021 17:26:44 -0500
+Received: by mail-wr1-x42d.google.com with SMTP id w5so12846590wrm.11;
+ Sat, 16 Jan 2021 14:26:41 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=sender:subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=FW88776lj+jpH+NkWSrDf2uf0l8cGjL0eAe/epUB6N4=;
+ b=udv8hDVfKvpCo8J9cGRAgVvx8RTPkJWVxIKfbGGEZ7p0W/RXpOckGrCNopg1jiA13h
+ dNmqY/fywIZ62V1Z2gqzNdAD9FBVnex/dSngGRvdl3OO4YuY7T81C6nHoBv5L1rVu6ea
+ UclNPVAntPdQhJtUO1GoqEP/DH4PeU6satXsa7CKg9Q51BKl6gYIv9MQPQ4JyHJ66ZUe
+ G+F/E4cUGwaXdxaRowyLzs09N4nvbyKngcL0ptBsYZSv/2CbpjWEzTQEgvS4ICkz04tU
+ u1Psm03Iz53B5EonfDg3pRrTwpx839mUzWf86AvfgD47MwGcTGxflgyJ0NVFOwOe9PrB
+ ryGA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
+ :date:user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=FW88776lj+jpH+NkWSrDf2uf0l8cGjL0eAe/epUB6N4=;
+ b=CZ59+sT0H/pkt5oYTJeipeugKJgkDXX7ovQzuMWUqy0V0nN2a8XU8mBXLZV7s7OELu
+ gClkP3pWMdHsAaGC01EBbCF2bGECzhIbEKhLbWM35zgD3G1CWGb+VB2EH40//EEAEov2
+ Gre55qIC+Y9hG55+UiI7FVM+D18nCBm1Mn+048kf41aw9O8yiBS81nuWDRNVREYOuiNq
+ S7VdZYVr2K42K9M9i0JgdDtW9RYTazHvz1jetun6Sqa1SvDOxA2S6DR0s79Xa+52nlot
+ 7pmKyFWB174niOXUhs75b2f2WOFxiTnfen9t6aC9Lhyk1L0WQsZLjbyMigxl44p+m5lU
+ hTlg==
+X-Gm-Message-State: AOAM532Xfl3+OJVSceIdPeHrYmADk4GwJH3sykRPAt/K8U8xR6MIPkXc
+ fsbLO/ohzaiTxcLPF6IvGVT+jlmhWL0=
+X-Google-Smtp-Source: ABdhPJwsh7CGGe3xx7hnLXWBNN9lggdos/fc3EYTnAZD4/trEUIZU17TgehxBEkAV94luEmyuf7Gtw==
+X-Received: by 2002:adf:fb49:: with SMTP id c9mr19611521wrs.72.1610835999627; 
+ Sat, 16 Jan 2021 14:26:39 -0800 (PST)
+Received: from [192.168.1.36] (13.red-83-57-169.dynamicip.rima-tde.net.
+ [83.57.169.13])
+ by smtp.gmail.com with ESMTPSA id d187sm16338039wmd.8.2021.01.16.14.26.38
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Sat, 16 Jan 2021 14:26:38 -0800 (PST)
+Subject: Re: Recent TCG commit breaks PPC
+To: BALATON Zoltan <balaton@eik.bme.hu>,
+ Richard Henderson <richard.henderson@linaro.org>
+References: <cd52c38c-4b9-791d-fca0-87f99bb0a011@eik.bme.hu>
+ <5310dc77-6fa6-36b2-dd51-cd6e1bebaddb@linaro.org>
+ <42de183-3c50-562a-d22-6e61dbbe893f@eik.bme.hu>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
+Message-ID: <f527c38b-14d0-a192-0834-a7ab2196d082@amsat.org>
+Date: Sat, 16 Jan 2021 23:26:32 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.6.0
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-Received: from kvm.sw.ru (185.215.60.72) by
- AM9P195CA0006.EURP195.PROD.OUTLOOK.COM (2603:10a6:20b:21f::11) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.3763.10 via Frontend Transport; Sat, 16 Jan 2021 21:53:00 +0000
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 27fbd997-9f82-4c83-e6be-08d8ba6917fe
-X-MS-TrafficTypeDiagnostic: AM6PR08MB3542:
-X-MS-Exchange-Transport-Forked: True
-X-Microsoft-Antispam-PRVS: <AM6PR08MB3542FA9F51799B0C8BEA17C5C1A60@AM6PR08MB3542.eurprd08.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:92;
-X-MS-Exchange-SenderADCheck: 1
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: mz+4mZEFNHvsAbbtqXJ/8608tq8IVfQi1Mqocqc57UHjkA7AUmgpiaISCaR7Y+wR0BFn5aSLQjwWAAaKJ8rHjAxdB8aIR6SZPDibSnl32wRGjJujpzztr1/r3g3aBsI6cTf6gFwRh5P/kljgxB5OoC646fhDaxH9/T3k5uhRaRBrIFaA8UPaQJnBthQhhRopA4Oxhu2YHo5ZYwR/wtsKPS0EsZmoGIdgqnE1wYRRZiBJSHxjL+TGxgz6reQh5I9U0bDGU7o812IoIahwLNAMKR6CcXmTMF4JNQwlMG8wALCH678RdeUImfdYOoZpSYd5pzk0/czZAmVse7gd4vlKkAU4ayETzFr+L1NqAK9tz4FBqQFmvcz1ZUIbs7rj/YlKBLCojjRv5V6gShyfBpMAnYJuoBaNLxtgN1jcwkwWaBqGx3kLleDwIyoB+z1gN8I0e7NjB2wR5qwwP+Qoh0kdwMzocgMgVkod48HsyS+lUWdfcIM9Wp5OCtemZGsfns3Ty1xYacXwwgqEVE9DRtNIGg==
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:AM7PR08MB5494.eurprd08.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(4636009)(346002)(39840400004)(376002)(136003)(366004)(396003)(66946007)(66556008)(66476007)(83380400001)(6486002)(26005)(8676002)(8936002)(86362001)(2906002)(16526019)(478600001)(316002)(6506007)(52116002)(186003)(36756003)(4326008)(6916009)(6512007)(2616005)(5660300002)(1076003)(7416002)(956004);
- DIR:OUT; SFP:1102; 
-X-MS-Exchange-AntiSpam-MessageData: =?us-ascii?Q?n3rTw1vGeANE8DTy1nwRV0b3UyT2VdnPFnHPnrM0x9OYGygoip/a4+SNdygp?=
- =?us-ascii?Q?nZpvAgQLJEr1bOkmJaeWTMgjGuaioDMp49P6Gogtz5LQbMhKl2RoV1CRHQZ0?=
- =?us-ascii?Q?pwh0FhvAq2qheoCvHk8uC/H+8UU0hQH3iAOd62QzuSkswnLf6Waz3+oaV5ou?=
- =?us-ascii?Q?Mpv7x9YxR4clMv3NE207hjEWaUHhTBy6y58ZAAEsrYCRiBPnlZL/PETUpwy/?=
- =?us-ascii?Q?6zL/4H2PWpQFHm2CWiDvRiKl/MrNUDVBpKGKJBvkTnDxuv8CBpZUJKyCuwDN?=
- =?us-ascii?Q?SdFMGtB+uXufzbUbhJKWKpupa5ilE6UoT8sy2Ug4Z1wCSGwj4uc66ZUiJZ2+?=
- =?us-ascii?Q?svpHq7CoPRXEwObEsOBtmjWfImwGUU1i52UGhDuZAgII9TGVkJa5VOwh0IGF?=
- =?us-ascii?Q?WhT7gmel95DvLVkwnTSo4urfxyIz9mKWuVChO0rX/gCXBUxd379yNiYT2ZDG?=
- =?us-ascii?Q?o/Mvnza6QCifa/zRKpFBbnrrWV4yh+Q0ogyJHM8Do6wSYHNvIStxy5tQK00M?=
- =?us-ascii?Q?UJrybPENnmOqiitqYv5RghbCPfc/CEJ4fXQJLiUUdQGLg/uESBUlAHKlUK4N?=
- =?us-ascii?Q?j21azH2qR3LoIBH+vjcw7cwdpD40vQRa23TX9WNgLDcw97L+RqqiPbYK+gOy?=
- =?us-ascii?Q?L/tDCeP7elIQXim020563t0tV/oCm8IyLHTMLrGZcWXPU3ifeE7aYwuldqhk?=
- =?us-ascii?Q?iKr4zA7wxX0w3qGgMIHzCcpZG5h4OjbEl4SYHXQLbT21e8LInzhzjLCTkfES?=
- =?us-ascii?Q?ItGjEDJrzP1XeargKPhz+jCy3rtOk+fsbqqNp8NnBGikOJgdX1xKcFigx2Mc?=
- =?us-ascii?Q?IZHkZZSE85QrbwFjGohj5TN3QJKbKav4OCjMzWvSM4oYiJhTwS4e7TMuftn9?=
- =?us-ascii?Q?+j/JGBg9PzA8z/umhSTLOqr2Nct2570UqhtwslXj6/feBQ7NoWrm8D57gWbh?=
- =?us-ascii?Q?s8uQ1gWJ2xmABVp0IYu714p57kTuSw1OqzLjdvDXN6bpqRbRddip7n4nZtZM?=
- =?us-ascii?Q?PaJ0?=
-X-OriginatorOrg: virtuozzo.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 27fbd997-9f82-4c83-e6be-08d8ba6917fe
-X-MS-Exchange-CrossTenant-AuthSource: AM7PR08MB5494.eurprd08.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 16 Jan 2021 21:53:01.1372 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: SZSKJ4/RkIGwbBXBXqIXi3lM3ibvJexbbwUMA6/ABxdxLyYM8WAcqMDh5bC/LKTQ90NR6+sgiWQe7pHpE/XJihqKGDyUoB93ClEJPtFYKCQ=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM6PR08MB3542
-Received-SPF: pass client-ip=40.107.21.133;
- envelope-from=vsementsov@virtuozzo.com;
- helo=EUR05-VI1-obe.outbound.protection.outlook.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- MSGID_FROM_MTA_HEADER=0.001, RCVD_IN_DNSWL_NONE=-0.0001,
- RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_PASS=-0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <42de183-3c50-562a-d22-6e61dbbe893f@eik.bme.hu>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::42d;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x42d.google.com
+X-Spam_score_int: -14
+X-Spam_score: -1.5
+X-Spam_bar: -
+X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.25,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249, NICE_REPLY_A=-0.039,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -129,58 +89,80 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: kwolf@redhat.com, vsementsov@virtuozzo.com, berto@igalia.com,
- pavel.dovgaluk@ispras.ru, qemu-devel@nongnu.org, armbru@redhat.com,
- stefanha@redhat.com, pbonzini@redhat.com, mreitz@redhat.com, jsnow@redhat.com,
- ari@tuxera.com
+Cc: qemu-ppc@nongnu.org, Alistair Francis <Alistair.Francis@wdc.com>,
+ qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Keep setting ret close to setting errp and don't merge different error
-paths into one. This way it's more obvious that we don't return
-error without setting errp.
+On 1/16/21 8:46 PM, BALATON Zoltan wrote:
+> On Sat, 16 Jan 2021, Richard Henderson wrote:
+>> On 1/16/21 4:38 AM, BALATON Zoltan wrote:
+>>>
+>>> Commit 8fe35e0444be (tcg/optimize: Use tcg_constant_internal with
+>>> constant
+>>> folding) seems to break PPC emulation for me:
+>>>
+>>> Thread 3 "qemu-system-ppc" received signal SIGSEGV, Segmentation fault.
+>>> [Switching to Thread 0x7ffff51e7700 (LWP 22636)]
+>>> 0x0000555555afd4ee in ts_are_copies (ts2=0x7fff8c008f90,
+>>> ts1=0x7fff8c001510) at
+>>> ../tcg/optimize.c:68
+>>> 68        return ts_info(ts)->next_copy != ts;
+>>
+>> I don't replicate this assertion.
+>>
+>> Interestingly, I replicate a different assertion:
+>>
+>> qemu-system-ppc: ../qemu/tcg/tcg.c:1210: tcg_temp_alloc: Assertion `n
+>> < 512'
+>> failed.
+>> Aborted (core dumped)
+>>
+>> What compiler version(s) are you guys using?
+> 
+> With --enable-debug (that I don't normally use because it makes PPC
+> emulation too slow) I get the same assertion:
+> 
+> qemu-system-ppc: ../tcg/tcg.c:1210: tcg_temp_alloc: Assertion `n < 512'
+> failed.
+> 
+> Thread 3 "qemu-system-ppc" received signal SIGABRT, Aborted.
+> 
+> (gdb) bt
+> #0  0x00007ffff6b29a7a in raise () at /lib64/libc.so.6
+> #1  0x00007ffff6b12524 in abort () at /lib64/libc.so.6
+> #2  0x00007ffff6b1240f in _nl_load_domain.cold.0 () at /lib64/libc.so.6
+> #3  0x00007ffff6b1e9a2 in  () at /lib64/libc.so.6
+> #4  0x0000555555c5e7a6 in tcg_temp_alloc (s=0x7fff50000b60) at
+> tcg/tcg.c:1210
+> #5  0x0000555555c5efcb in tcg_constant_internal (type=TCG_TYPE_I32,
+> val=-7401584) at tcg/tcg.c:1436
+> #6  0x0000555555c7f921 in tcg_opt_gen_movi
+>     (s=0x7fff50000b60, temps_used=0x7ffff51e94c0, op=0x7fff505d6308,
+> dst=140734535570720, val=18446744073702150032)
+>     at tcg/optimize.c:247
+> #7  0x0000555555c81e4b in tcg_optimize (s=0x7fff50000b60) at
+> tcg/optimize.c:1178
+> #8  0x0000555555c6580a in tcg_gen_code (s=0x7fff50000b60,
+> tb=0x7fffb3181a00) at tcg/tcg.c:4490
+> #9  0x0000555555c34f9c in tb_gen_code (cpu=0x5555567851e0,
+> pc=4287582720, cs_base=0, flags=24576, cflags=-16777216)
+>     at accel/tcg/translate-all.c:1952
+> #10 0x0000555555c79842 in tb_find (cpu=0x5555567851e0, last_tb=0x0,
+> tb_exit=0, cf_mask=0) at accel/tcg/cpu-exec.c:454
+> #11 0x0000555555c7a109 in cpu_exec (cpu=0x5555567851e0) at
+> accel/tcg/cpu-exec.c:810
+> #12 0x0000555555c6e906 in tcg_cpus_exec (cpu=0x5555567851e0) at
+> accel/tcg/tcg-cpus.c:57
+> #13 0x0000555555cbf18e in rr_cpu_thread_fn (arg=0x5555567851e0) at
+> accel/tcg/tcg-cpus-rr.c:217
+> #14 0x0000555555ea8531 in qemu_thread_start (args=0x5555567c63d0) at
+> util/qemu-thread-posix.c:521
+> #15 0x00007ffff6cc004c in start_thread () at /lib64/libpthread.so.0
+> #16 0x00007ffff6bf13af in clone () at /lib64/libc.so.6
+> 
+> Previous one was when configuring without --enable-debug, so maybe it
+> depends on compiler flags (-O2 vs. -O0).
 
-Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-Reviewed-by: Alberto Garcia <berto@igalia.com>
----
- block/qcow2.c | 11 ++++++++---
- 1 file changed, 8 insertions(+), 3 deletions(-)
-
-diff --git a/block/qcow2.c b/block/qcow2.c
-index 436bcf0a97..0aa6ae1e1f 100644
---- a/block/qcow2.c
-+++ b/block/qcow2.c
-@@ -1158,6 +1158,10 @@ static int qcow2_update_options_prepare(BlockDriverState *bs,
-         }
-         qdict_put_str(encryptopts, "format", "qcow");
-         r->crypto_opts = block_crypto_open_opts_init(encryptopts, errp);
-+        if (!r->crypto_opts) {
-+            ret = -EINVAL;
-+            goto fail;
-+        }
-         break;
- 
-     case QCOW_CRYPT_LUKS:
-@@ -1170,14 +1174,15 @@ static int qcow2_update_options_prepare(BlockDriverState *bs,
-         }
-         qdict_put_str(encryptopts, "format", "luks");
-         r->crypto_opts = block_crypto_open_opts_init(encryptopts, errp);
-+        if (!r->crypto_opts) {
-+            ret = -EINVAL;
-+            goto fail;
-+        }
-         break;
- 
-     default:
-         error_setg(errp, "Unsupported encryption method %d",
-                    s->crypt_method_header);
--        break;
--    }
--    if (s->crypt_method_header != QCOW_CRYPT_NONE && !r->crypto_opts) {
-         ret = -EINVAL;
-         goto fail;
-     }
--- 
-2.29.2
-
+--debug enables CONFIG_DEBUG_TCG (the n < 512 assertion).
 
