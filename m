@@ -2,35 +2,35 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 454712F8B35
-	for <lists+qemu-devel@lfdr.de>; Sat, 16 Jan 2021 05:33:15 +0100 (CET)
-Received: from localhost ([::1]:43078 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 84EE42F8B46
+	for <lists+qemu-devel@lfdr.de>; Sat, 16 Jan 2021 05:35:59 +0100 (CET)
+Received: from localhost ([::1]:47082 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l0dH0-0005J9-Bg
-	for lists+qemu-devel@lfdr.de; Fri, 15 Jan 2021 23:33:14 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35176)
+	id 1l0dJe-000716-K0
+	for lists+qemu-devel@lfdr.de; Fri, 15 Jan 2021 23:35:58 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34666)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1l0dF9-0004Fj-Nb
- for qemu-devel@nongnu.org; Fri, 15 Jan 2021 23:31:19 -0500
-Received: from indium.canonical.com ([91.189.90.7]:49344)
+ id 1l0dAS-0007vC-8i
+ for qemu-devel@nongnu.org; Fri, 15 Jan 2021 23:26:28 -0500
+Received: from indium.canonical.com ([91.189.90.7]:47574)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1l0dF4-00086u-Nv
- for qemu-devel@nongnu.org; Fri, 15 Jan 2021 23:31:19 -0500
+ id 1l0dAQ-0006D1-6u
+ for qemu-devel@nongnu.org; Fri, 15 Jan 2021 23:26:28 -0500
 Received: from loganberry.canonical.com ([91.189.90.37])
  by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1l0dF1-0002wI-Jq
- for <qemu-devel@nongnu.org>; Sat, 16 Jan 2021 04:31:11 +0000
+ id 1l0dAM-0002EQ-Na
+ for <qemu-devel@nongnu.org>; Sat, 16 Jan 2021 04:26:22 +0000
 Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 78EE22E815D
- for <qemu-devel@nongnu.org>; Sat, 16 Jan 2021 04:31:07 +0000 (UTC)
+ by loganberry.canonical.com (Postfix) with ESMTP id 6A2FA2E815B
+ for <qemu-devel@nongnu.org>; Sat, 16 Jan 2021 04:26:20 +0000 (UTC)
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
-Date: Sat, 16 Jan 2021 04:17:25 -0000
-From: Launchpad Bug Tracker <1492649@bugs.launchpad.net>
+Date: Sat, 16 Jan 2021 04:17:50 -0000
+From: Launchpad Bug Tracker <1699867@bugs.launchpad.net>
 To: qemu-devel@nongnu.org
 X-Launchpad-Notification-Type: bug
 X-Launchpad-Bug: product=qemu; status=Expired; importance=Undecided;
@@ -38,19 +38,18 @@ X-Launchpad-Bug: product=qemu; status=Expired; importance=Undecided;
 X-Launchpad-Bug-Information-Type: Public
 X-Launchpad-Bug-Private: no
 X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: andrewjamescollett custin empire glemsom janitor
- jjrcop th-huth
-X-Launchpad-Bug-Reporter: Nek (empire)
+X-Launchpad-Bug-Commenters: anatol janitor th-huth
+X-Launchpad-Bug-Reporter: Anatol Pomozov (anatol)
 X-Launchpad-Bug-Modifier: Launchpad Janitor (janitor)
-References: <20150905230202.8521.4531.malonedeb@wampee.canonical.com>
-Message-Id: <161077064558.27726.10523966452604121540.malone@loganberry.canonical.com>
-Subject: [Bug 1492649] Re: QEMU soundhw HDA huge microphone lag
+References: <149815632727.3205.9408286229805240743.malonedeb@chaenomeles.canonical.com>
+Message-Id: <161077067036.27726.4164130919986705958.malone@loganberry.canonical.com>
+Subject: [Bug 1699867] Re: x86_64 qemu crashes at far call into long-mode
 X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
 X-Launchpad-Message-For: qemu-devel-ml
 Precedence: bulk
 X-Generated-By: Launchpad (canonical.com);
  Revision="511b4a3b6512aa3d421c5f7d74f3527e78bff26e"; Instance="production"
-X-Launchpad-Hash: 2886910b6d5bdf44e69ea3776b293652c6edb41b
+X-Launchpad-Hash: 543d2c3c278dac69c2f18b4f94e5833be1d703cf
 Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
  helo=indium.canonical.com
 X-Spam_score_int: -65
@@ -71,7 +70,7 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1492649 <1492649@bugs.launchpad.net>
+Reply-To: Bug 1699867 <1699867@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
@@ -84,29 +83,49 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 You received this bug notification because you are a member of qemu-
 devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1492649
+https://bugs.launchpad.net/bugs/1699867
 
 Title:
-  QEMU soundhw HDA huge microphone lag
+  x86_64 qemu crashes at far call into long-mode
 
 Status in QEMU:
   Expired
 
 Bug description:
-  I use a Windows 7 x86_64 guest with VGA passthrough and -soundhw hda.
-  The audio plays fine, but the microphone input is delayed by more than
-  20 seconds.
+  I am experimenting with this OS https://github.com/phil-opp/blog_os
+  and spotted a weird behavior with qemu.
 
-  -soundhw ac97 does not have this delay but it has choppy sound
-  playback and input.
+  I am looking at code that does transition from 32bit mode to 64bit
+  mode. Right now it does 'jmp $SELECTOR,64bitfunction'.
+  https://github.com/phil-
+  opp/blog_os/blob/557c6a58ea11e31685b9d014d307002d64df5c22/src/arch/x86_64=
+/boot.asm#L32
 
-  System:
-  Arch linux
-  Kernel: 4.1.6-1-ARCH
-  Audio hardware: 00:1b.0 Audio device: Intel Corporation 82801JI (ICH10 Fa=
-mily) HD Audio Controller
-  Audio system: Pulseaudio 6.0
+  This code works fine with qemu/kvm/vmware.
+
+  To transition from 32 to 64 bit code it is possible to use 'call'
+  operation. So I am trying to replace that code with 'call
+  $SELECTOR,64bitfunction'. It works fine with kvm and wmware. But it
+  fails with Qemu emulation. See the interrup debug log attached. qemu
+  crashes at 10302c (far call mnemonic).
+
+  =
+
+    103016:       e8 18 00 00 00          callq  103033 <set_up_page_tables>
+    10301b:       e8 5c 00 00 00          callq  10307c <enable_paging>
+    103020:       e8 ec 00 00 00          callq  103111 <set_up_SSE>
+    103025:       0f 01 15 28 00 10 00    lgdt   0x100028(%rip)        # 20=
+3054 <GCC_except_table2+0xdb5f8>
+    10302c:       9a                      (bad)  =
+
+    10302d:       40 31 10                rex xor %edx,(%rax)
+    103030:       00 08                   add    %cl,(%rax)
+
+  =
+
+  As the code works at hardware I expect it to work with qemu. Thus current=
+ qemu behavior looks like a bug.
 
 To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1492649/+subscriptions
+https://bugs.launchpad.net/qemu/+bug/1699867/+subscriptions
 
