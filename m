@@ -2,60 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 835132F8E72
-	for <lists+qemu-devel@lfdr.de>; Sat, 16 Jan 2021 18:50:00 +0100 (CET)
-Received: from localhost ([::1]:45366 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8F0032F8E75
+	for <lists+qemu-devel@lfdr.de>; Sat, 16 Jan 2021 18:52:20 +0100 (CET)
+Received: from localhost ([::1]:47854 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l0pi3-0007QB-KK
-	for lists+qemu-devel@lfdr.de; Sat, 16 Jan 2021 12:49:59 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42352)
+	id 1l0pkJ-0000Iu-M2
+	for lists+qemu-devel@lfdr.de; Sat, 16 Jan 2021 12:52:19 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42686)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1l0pgb-0006ti-22; Sat, 16 Jan 2021 12:48:29 -0500
-Received: from mail-io1-xd32.google.com ([2607:f8b0:4864:20::d32]:45111)
+ id 1l0pjF-0008EH-0C; Sat, 16 Jan 2021 12:51:13 -0500
+Received: from mail-io1-xd35.google.com ([2607:f8b0:4864:20::d35]:38486)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1l0pgZ-0006rh-L0; Sat, 16 Jan 2021 12:48:28 -0500
-Received: by mail-io1-xd32.google.com with SMTP id n4so24551965iow.12;
- Sat, 16 Jan 2021 09:48:27 -0800 (PST)
+ id 1l0pjD-0007fL-E3; Sat, 16 Jan 2021 12:51:12 -0500
+Received: by mail-io1-xd35.google.com with SMTP id e22so24608054iom.5;
+ Sat, 16 Jan 2021 09:51:10 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=U8BNnLYFKRlO3Xft81e3C5gsPUvxa7gYO9lm1Itd7FU=;
- b=k/lgVubWx7tq4BTL2CL8PbZ4k8b6osy+eO+GmtDGhudGLorTrhJxASFAr39xwabHyt
- dd+tn3yBW7xuMwrPrEgErfBZO92Tp/fupjOjWW9dYRYTCsrZa4j8GixfdzL0CuXVvJGi
- p+0nMsuzaqy26ldTAzzOrEXGweAQvYb0WT24jA1el55EnEA1Soj1v/mNbqAmcuYxf+5k
- SlZduica10N15r8LWcEjYTKausXHJ5pMmpnfJqB5dPTDiG8fUY+sLvzKh5SlBZhfLImT
- Rwa8Nna4ftzclBVAGwAOHShJ7mjI996T21aEBB4yrTXc3Rvw6SCsnuJvlO3mGeVGpTyh
- ok4Q==
+ :cc; bh=YCh2shL2KOKnU0/0NoSqFfNY1k10Gvr85WCrafsCPN8=;
+ b=DGdpl6bEvcLgwLynBDCC5VyjIm2YqRwoN2Ri1bHMqR/tmNnT+PMJt7QZxgrr5+tCbd
+ PiTjgrta8r5YRZiq/tCIT9lrVKFPjUw/8rinVOUkqsyUgFTPQej/+wIxwcGzC8F8OFaq
+ e188z26J7i3htJy6N8SxJjdvwdoifRaQInQUGICf28wtNk9cPHcmdJpiSNM7fIFwBbtz
+ C0YZ+sXUJTQtzsUVZnJ8izu/IBMJ6wcSstHqx+mWM2H51dcgYMC70FY+1kcWwtqj8AO3
+ RqLCmrQ1lz9IsZ2YjmZNHGVL0E81oxaIctzhFUbgpylYoYY25RCAdO0Ncn4/oom4NJfY
+ 0WEA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=U8BNnLYFKRlO3Xft81e3C5gsPUvxa7gYO9lm1Itd7FU=;
- b=FP4SRwQizi1hXxu+/c2pDviAzZxO5BD2cYJlgazX7mZWli03B/IoqMYsAg1cpcWnn5
- r2a9QifIzI19Xxasa5RMLo30oIXIq3SSHQlOnU5KmVl+ZfKEs8J2nO0FJ/V4mnluzVQ+
- U9rkZ+UqpRpC1X8zV/VMQDogLkCSyYPCewiTWKui7RIjRIs9FpSI67GMA39uoD2+NLng
- 9jjr9Dl3Y/WI5dsC1WAeCMKYOaSMDnYa/S+weOL1avcpbv+M4cKS56lvRzNOEUGzYE8T
- wPNg/Nc8gb9BYCrslGwJZJxYqagZK61+O1RZ6nDoC2tlDbfeNSArTx+V3B1okXrNWp1+
- VWNQ==
-X-Gm-Message-State: AOAM530rMERGKOB8+d6SuIbN/HqsoH3uh1EmQOvLkbyjOx1PXsTEnAJL
- YwKpu4l3cQQBaD2nT4zxh9Jj1Th5bHUDF3ite5E=
-X-Google-Smtp-Source: ABdhPJy9t0NcrsUKnn95cskXs5dnq0pBcPPtpWo4nzDfQzS24+buoFDFNl+JwBMGWFdEohFOM+FCyp2P6oGQaDQes9A=
-X-Received: by 2002:a92:c942:: with SMTP id i2mr15308458ilq.227.1610819306279; 
- Sat, 16 Jan 2021 09:48:26 -0800 (PST)
+ bh=YCh2shL2KOKnU0/0NoSqFfNY1k10Gvr85WCrafsCPN8=;
+ b=H0MbXBd/CGBHHj+AJtV6NxdWewfSl7vDqLk7cHLDIY0J0WCEylvVle9Gf1b/XH1Azq
+ lATxgIx2DDgsYPQH5yorLOf64Of3YACC8CCOIkMpfdXEsF6eJYt7XpbyvOMx3/e5Xptv
+ A4Q2a73xSYfKeSqVY5twkZ70dfq6UZyWI3LwhUHdcMRnMK8UXvR/b8jvLIl2wpLycAru
+ 0GSWzzjcRfxUDemseNSysIxpPicF3xqp78ctnbtT/3TT+9FkW28QAccXHOOcScqgb2lZ
+ RlVWP6LumgyorNVSUgOMSOH7JLSOLGrSmzM3hPmyMVPBIXDIis6qxFKx/RoP2tuYRXH8
+ NgdA==
+X-Gm-Message-State: AOAM532wNKvDISbXCMFc62C3VqP0Ty9f3n35cJtpLpw+lvFY14oBPWwS
+ rIobK5/TXQ46dhezGYzNn0neRLwSD7eqhcKfEkY=
+X-Google-Smtp-Source: ABdhPJxxXJId63mWUj58b5K/BoE2QiKcBWuafyWDPFXUBbsgG1mJYm6MRgwBPyssi8P2Ztlbybx+hxKqyn52BA2h32w=
+X-Received: by 2002:a05:6e02:20e5:: with SMTP id
+ q5mr6567289ilv.131.1610819469560; 
+ Sat, 16 Jan 2021 09:51:09 -0800 (PST)
 MIME-Version: 1.0
-References: <cd52c38c-4b9-791d-fca0-87f99bb0a011@eik.bme.hu>
- <5310dc77-6fa6-36b2-dd51-cd6e1bebaddb@linaro.org>
-In-Reply-To: <5310dc77-6fa6-36b2-dd51-cd6e1bebaddb@linaro.org>
+References: <f3e04424723e0e222769991896cc82308fd23f76.1610751609.git.alistair.francis@wdc.com>
+ <CAEUhbmWC5CDqK3QuuLY9PFAxr=OcePsJqsUQjhw3em5GOH+Ccg@mail.gmail.com>
+In-Reply-To: <CAEUhbmWC5CDqK3QuuLY9PFAxr=OcePsJqsUQjhw3em5GOH+Ccg@mail.gmail.com>
 From: Alistair Francis <alistair23@gmail.com>
-Date: Sat, 16 Jan 2021 09:47:59 -0800
-Message-ID: <CAKmqyKPbe9QW+3wYRb1MJ-nSaxs2xDdxBAboiJmEgLCeydOZcw@mail.gmail.com>
-Subject: Re: Recent TCG commit breaks PPC
-To: Richard Henderson <richard.henderson@linaro.org>
+Date: Sat, 16 Jan 2021 09:50:42 -0800
+Message-ID: <CAKmqyKNV0v9RJ_57UrD9Xsnexh9SMh47VZ2Zsp0xQXN0i9-3sg@mail.gmail.com>
+Subject: Re: [PATCH v1 1/1] riscv: Pass RISCVHartArrayState by pointer
+To: Bin Meng <bmeng.cn@gmail.com>
 Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::d32;
- envelope-from=alistair23@gmail.com; helo=mail-io1-xd32.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::d35;
+ envelope-from=alistair23@gmail.com; helo=mail-io1-xd35.google.com
 X-Spam_score_int: -17
 X-Spam_score: -1.8
 X-Spam_bar: -
@@ -76,44 +77,45 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "open list:New World" <qemu-ppc@nongnu.org>,
- Alistair Francis <Alistair.Francis@wdc.com>,
+Cc: "open list:RISC-V" <qemu-riscv@nongnu.org>,
+ Palmer Dabbelt <palmer@dabbelt.com>,
+ Alistair Francis <alistair.francis@wdc.com>,
  "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Sat, Jan 16, 2021 at 9:29 AM Richard Henderson
-<richard.henderson@linaro.org> wrote:
+On Sat, Jan 16, 2021 at 8:30 AM Bin Meng <bmeng.cn@gmail.com> wrote:
 >
-> On 1/16/21 4:38 AM, BALATON Zoltan wrote:
+> On Sat, Jan 16, 2021 at 7:00 AM Alistair Francis
+> <alistair.francis@wdc.com> wrote:
 > >
-> > Commit 8fe35e0444be (tcg/optimize: Use tcg_constant_internal with constant
-> > folding) seems to break PPC emulation for me:
+> > We were accidently passing RISCVHartArrayState by value instead of
+> > pointer. The type is 824 bytes long so let's correct that and pass it by
+> > pointer instead.
 > >
-> > Thread 3 "qemu-system-ppc" received signal SIGSEGV, Segmentation fault.
-> > [Switching to Thread 0x7ffff51e7700 (LWP 22636)]
-> > 0x0000555555afd4ee in ts_are_copies (ts2=0x7fff8c008f90, ts1=0x7fff8c001510) at
-> > ../tcg/optimize.c:68
-> > 68        return ts_info(ts)->next_copy != ts;
+> > Fixes: Coverity CID 1438099
+> > Fixes: Coverity CID 1438100
+> > Fixes: Coverity CID 1438101
 >
-> I don't replicate this assertion.
->
-> Interestingly, I replicate a different assertion:
->
-> qemu-system-ppc: ../qemu/tcg/tcg.c:1210: tcg_temp_alloc: Assertion `n < 512'
-> failed.
-> Aborted (core dumped)
->
-> What compiler version(s) are you guys using?
+> Where can I look at the Coverity report for QEMU?
 
-I'm using:
+I don't think you can. I think there are only a few people who can see
+them and they just report them to everyone else.
 
-gcc (GCC) 10.2.0
+>
+> > Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
+> > ---
+> >  include/hw/riscv/boot.h |  6 +++---
+> >  hw/riscv/boot.c         |  8 ++++----
+> >  hw/riscv/sifive_u.c     | 10 +++++-----
+> >  hw/riscv/spike.c        |  8 ++++----
+> >  hw/riscv/virt.c         |  8 ++++----
+> >  5 files changed, 20 insertions(+), 20 deletions(-)
+> >
+>
+> Reviewed-by: Bin Meng <bin.meng@windriver.com>
+
+Thanks!
 
 Alistair
-
->
->
-> r~
->
 
