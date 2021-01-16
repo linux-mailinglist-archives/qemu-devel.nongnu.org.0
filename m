@@ -2,68 +2,43 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2C1842F8D86
-	for <lists+qemu-devel@lfdr.de>; Sat, 16 Jan 2021 15:06:23 +0100 (CET)
-Received: from localhost ([::1]:42416 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1ED232F8D8C
+	for <lists+qemu-devel@lfdr.de>; Sat, 16 Jan 2021 15:39:58 +0100 (CET)
+Received: from localhost ([::1]:47738 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l0mDe-0003EX-08
-	for lists+qemu-devel@lfdr.de; Sat, 16 Jan 2021 09:06:22 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33142)
+	id 1l0mk8-00085v-Ls
+	for lists+qemu-devel@lfdr.de; Sat, 16 Jan 2021 09:39:56 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38038)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
- id 1l0mBg-0002OX-Um; Sat, 16 Jan 2021 09:04:20 -0500
-Received: from mail-yb1-xb34.google.com ([2607:f8b0:4864:20::b34]:44171)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
- id 1l0mBc-00077G-1H; Sat, 16 Jan 2021 09:04:20 -0500
-Received: by mail-yb1-xb34.google.com with SMTP id x78so3468051ybe.11;
- Sat, 16 Jan 2021 06:04:15 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=+9nb/K8vwwd5x39k2McpOKj8Lo9D+53Dc4FSxYQOg4A=;
- b=pMUS/1dgVdfzcIPIGC20v0SBAHICPI5PRaPb1QjLk1nN6Kn8WvWc9zyrysXATj1M76
- Mi2G5ZoID26pG8vbQgaIWckyCQ9T1jLVr21FDl6Z1K/Gtx4pepBB7YY5elouTWPN9s1Y
- f5SfDndipbljMArCmuRnbUon9CLXayNMXaxtlIgFagpixhjWC2f0rqpJ0CW/h3rtIxFu
- TMSqBCNCoAfM5Xz8rwuiQBuByJkwRNWTqcGfql0AO/FZ6EfO0zC6n2jzO4GPosQ2tbCR
- 5vD54z8gqkOrAKHOeBEAkokt3A9rZ1F4q53lXWjAkniXpS7cBPuZPTVs56TysYuYYD5o
- fM0A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=+9nb/K8vwwd5x39k2McpOKj8Lo9D+53Dc4FSxYQOg4A=;
- b=AqeXlLf67WpUDCLNbUxOhi37wu1Q0lwJ0kevLlzr6wmplyc1iWtO56iCP7NejJ4E73
- DFsaNx41W2cVzgqCSyOAc8LpOf1C5/mNx33ur3tT4UyIzdSJhdrRvvdkNexaRJxHBBjf
- 8c/Sk+P+ibpO6BKCDaZ7ghSHUN65YrHT9KlS2jcGfEVW3qGkDjc7PQLSrHFj7kj38VE0
- hgP+/VSHOHpbecrg4x956XFY4UH7asuFt3ZOidyZoIfYxPZlwqpx8MO/josJbaHURCfz
- UIJStw5CEAcFA2Oef7hq1NCmse/ASVEHgOcpaasQuYViULxAYb58fhdLRR+1gKN8xAZN
- XgrQ==
-X-Gm-Message-State: AOAM531NPbyt05xyST99Z87H63eQfo/NNOedYZSy5FUPE164ZqHsIenp
- 7EzwFf4X76Kx3tHwWvpPNxID8qpgwBlpY89jGzg=
-X-Google-Smtp-Source: ABdhPJw3XKV2wdlvhoNzf156h1sqIlvq2DHHzXE0Hw8MKMnBgAjv6jaMYGmUOUBMZSOzTaS1RTnFX+ule3qB3dub8Qs=
-X-Received: by 2002:a25:2041:: with SMTP id g62mr26121504ybg.152.1610805854382; 
- Sat, 16 Jan 2021 06:04:14 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
+ id 1l0mjD-0007gH-4C; Sat, 16 Jan 2021 09:38:59 -0500
+Received: from zero.eik.bme.hu ([2001:738:2001:2001::2001]:36683)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
+ id 1l0mjA-0005o5-BJ; Sat, 16 Jan 2021 09:38:58 -0500
+Received: from zero.eik.bme.hu (blah.eik.bme.hu [152.66.115.182])
+ by localhost (Postfix) with SMTP id 6A39D7462DB;
+ Sat, 16 Jan 2021 15:38:49 +0100 (CET)
+Received: by zero.eik.bme.hu (Postfix, from userid 432)
+ id 4007E7462D3; Sat, 16 Jan 2021 15:38:49 +0100 (CET)
+Received: from localhost (localhost [127.0.0.1])
+ by zero.eik.bme.hu (Postfix) with ESMTP id 3ED7E7462BD;
+ Sat, 16 Jan 2021 15:38:49 +0100 (CET)
+Date: Sat, 16 Jan 2021 15:38:49 +0100 (CET)
+From: BALATON Zoltan <balaton@eik.bme.hu>
+To: qemu-devel@nongnu.org
+Subject: Recent TCG commit breaks PPC
+Message-ID: <cd52c38c-4b9-791d-fca0-87f99bb0a011@eik.bme.hu>
 MIME-Version: 1.0
-References: <20210115153049.3353008-1-f4bug@amsat.org>
-In-Reply-To: <20210115153049.3353008-1-f4bug@amsat.org>
-From: Bin Meng <bmeng.cn@gmail.com>
-Date: Sat, 16 Jan 2021 22:03:59 +0800
-Message-ID: <CAEUhbmXVLKTqQ0GmoYSDtkeiYA96KkuickvLyFm_L6idTNJPkw@mail.gmail.com>
-Subject: Re: [PATCH v7 0/9] hw/ssi: imx_spi: Fix various bugs in the imx_spi
- model
-To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2607:f8b0:4864:20::b34;
- envelope-from=bmeng.cn@gmail.com; helo=mail-yb1-xb34.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+Content-Type: text/plain; format=flowed; charset=US-ASCII
+X-Spam-Probability: 8%
+Received-SPF: pass client-ip=2001:738:2001:2001::2001;
+ envelope-from=balaton@eik.bme.hu; helo=zero.eik.bme.hu
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -77,39 +52,45 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- Alistair Francis <alistair@alistair23.me>,
- "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
- Jean-Christophe Dubois <jcd@tribudubois.net>, qemu-arm <qemu-arm@nongnu.org>,
- Peter Chubb <peter.chubb@nicta.com.au>
+Cc: Richard Henderson <richard.henderson@linaro.org>, qemu-ppc@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi Philippe,
+Hello,
 
-On Fri, Jan 15, 2021 at 11:31 PM Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.o=
-rg> wrote:
->
-> Hi,
->
-> This is how I understand the ecSPI reset works, after
-> looking at the IMX6DQRM.pdf datasheet.
->
-> This is a respin of Ben's v5 series [*].
->
-> Since v6:
-> - Dropped "Reduce 'change_mask' variable scope" patch
-> - Fixed inverted reset logic
-> - Added Juan R-b tags
-> - Removed 'RFC' tag as tests pass
->
-> Based-on: <1608688825-81519-1-git-send-email-bmeng.cn@gmail.com>
-> (queued on riscv-next).
->
+Commit 8fe35e0444be (tcg/optimize: Use tcg_constant_internal with constant 
+folding) seems to break PPC emulation for me:
 
-This series dropped my imx_spi_soft_reset() change that has the
-imx_spi_update_irq() moved from imx_spi_reset(). May I know why?
+Thread 3 "qemu-system-ppc" received signal SIGSEGV, Segmentation fault.
+[Switching to Thread 0x7ffff51e7700 (LWP 22636)]
+0x0000555555afd4ee in ts_are_copies (ts2=0x7fff8c008f90, ts1=0x7fff8c001510) at ../tcg/optimize.c:68
+68	    return ts_info(ts)->next_copy != ts;
+(gdb) bt
+#0  0x0000555555afd4ee in ts_are_copies (ts2=0x7fff8c008f90, ts1=0x7fff8c001510) at tcg/optimize.c:68
+#1  0x0000555555afd4ee in tcg_opt_gen_mov
+     (s=s@entry=0x7fff8c000b60, op=op@entry=0x7fff8c6b2348, dst=140735542203664, src=140735542235024) at tcg/optimize.c:191
+#2  0x0000555555afe05a in tcg_opt_gen_movi
+     (s=s@entry=0x7fff8c000b60, temps_used=temps_used@entry=0x7ffff51e63c0, op=op@entry=0x7fff8c6b2348, dst=<optimized out>,
+     val=<optimized out>) at include/tcg/tcg.h:731
+#3  0x0000555555aff79f in tcg_optimize (s=s@entry=0x7fff8c000b60) at tcg/optimize.c:1189
+#4  0x0000555555b13c39 in tcg_gen_code (s=0x7fff8c000b60, tb=tb@entry=0x7fffb3181380 <code_gen_buffer+4088659>) at tcg/tcg.c:4490
+#5  0x0000555555b1b485 in tb_gen_code
+     (cpu=cpu@entry=0x55555651c870, pc=pc@entry=4287582720, cs_base=cs_base@entry=0, flags=flags@entry=24576, cflags=-16777216,
+     cflags@entry=0) at accel/tcg/translate-all.c:1952
+#6  0x0000555555b7c303 in tb_find (cf_mask=0, tb_exit=0, last_tb=0x0, cpu=0x0) at accel/tcg/cpu-exec.c:454
+#7  0x0000555555b7c303 in cpu_exec (cpu=cpu@entry=0x55555651c870) at accel/tcg/cpu-exec.c:810
+#8  0x0000555555ab5ea2 in tcg_cpus_exec (cpu=cpu@entry=0x55555651c870) at accel/tcg/tcg-cpus.c:57
+#9  0x0000555555ab7a03 in rr_cpu_thread_fn (arg=arg@entry=0x55555651c870) at accel/tcg/tcg-cpus-rr.c:217
+#10 0x0000555555cc355a in qemu_thread_start (args=<optimized out>) at util/qemu-thread-posix.c:521
+#11 0x00007ffff6cc004c in start_thread () at /lib64/libpthread.so.0
+#12 0x00007ffff6bf13af in clone () at /lib64/libc.so.6
+
+This can be reproduced for example with booting AROS as described here:
+
+http://zero.eik.bme.hu/~balaton/qemu/amiga/#aros
+
+The segfault happens during boot.
 
 Regards,
-Bin
+BALATON Zoltan
 
