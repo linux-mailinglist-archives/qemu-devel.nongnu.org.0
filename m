@@ -2,53 +2,54 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E20A42F8F98
-	for <lists+qemu-devel@lfdr.de>; Sat, 16 Jan 2021 23:06:07 +0100 (CET)
-Received: from localhost ([::1]:58586 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0CA962F8F99
+	for <lists+qemu-devel@lfdr.de>; Sat, 16 Jan 2021 23:08:00 +0100 (CET)
+Received: from localhost ([::1]:35906 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l0thu-0004aS-Vp
-	for lists+qemu-devel@lfdr.de; Sat, 16 Jan 2021 17:06:07 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51592)
+	id 1l0tjj-0006xi-2W
+	for lists+qemu-devel@lfdr.de; Sat, 16 Jan 2021 17:07:59 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51636)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
- id 1l0tV7-0004Mu-9T; Sat, 16 Jan 2021 16:52:54 -0500
-Received: from mail-vi1eur05on2126.outbound.protection.outlook.com
- ([40.107.21.126]:26209 helo=EUR05-VI1-obe.outbound.protection.outlook.com)
+ id 1l0tVD-0004ON-5t; Sat, 16 Jan 2021 16:52:59 -0500
+Received: from mail-vi1eur05on2133.outbound.protection.outlook.com
+ ([40.107.21.133]:35449 helo=EUR05-VI1-obe.outbound.protection.outlook.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
- id 1l0tV4-0000WU-PF; Sat, 16 Jan 2021 16:52:52 -0500
+ id 1l0tVA-0000ae-Cu; Sat, 16 Jan 2021 16:52:58 -0500
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=chxUp8eoePBQi+DPPDRjoGfY3Mp4fAKfL/lkZ3i+puTUH0Z/8EM9G0q3q9EeTD3HRbHeuzmWkmxGYcHnSKrxGVAE+lbZx7iYWIJeeYTCMnjib9b2opLzJ8Hxwp2IyKBhWFTiCDHfEu8xCg4I4IHZP0RMQwirjX2eHnUhGzCDYN66Fu7oLzez6dlp5yl5FPKhXeE6MxgXosT+baZmwpQyI3JUpMywK+S6VfH71AxeeN0q+1Ha9Z2+giFEaMY+XZRvOPmRdKAJHRT+MW1jHRiidJgRcv8pSeiPfQ0skFg9XJfFlbz+08N3+PcUKaGT8yx46s2wYKWmCQMyw6Nq7ZMsAw==
+ b=hutX3dnkQ7/mMgT1hny79FJtinlX1L9M2N1cfzrEukRuzwYdreNwN/oWHBGPGHk2fSXOgxMGwpztEAg9EBC9twwTWB+nh4pzRwuO2AH0B8/VbiWxhQ0ypTxPSXk9HgLmxCDm21ggSjtOzeDTV4NdWDlYfXjej9JQHroFwTSoHYvzytJUStNuLhAdzRqns0u6YrtkIgEUM1t9yovuHVkhV3NI1DCA1bLs18v2D4q4qPCG+REecPkTfbp5pMPCmmGOvL3jOT1l2wmxqScqU5cD5SwQbnwclGWe2eINgUe5I7bvftx26L28YwEBVfL0kbrL9JrAikvgG0atHLjdDrlTFQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=fJQuVP3QkPx4tU3Ve9RIH3B8zD/ZCxXj3/xFI9/V8ns=;
- b=ZlM1kP4Xw0kI5i2k3I5Y0UZnggOcLVFu4jmAHNquxZCvi8kpfx+oz26cvkQXep49+IFhtKavvjKMIlMQ2ilXqbktDLMwSgeVLFviW4Z5LZivJD7vJcrh0pP7HRDybnymBKEv18AzL9Lb4/6Zv3iKEwmQbDEC4c8XFx2CPnAf7wC3fM0jUKGun7p2+zr2HivkLQue3yq8XfY00ozXaDeLaxM6ZDs++u8vkY4QuSv1ipjfr/4PRU/QVDvaCrTwcBH4i6mfS2zsrEU2kIsNdinWH7jwaIoqi/uvzApIpVPB5csNTk9zQvpt1RpuT3uAAWFlMy1nPLhMpvv291ukmqo8lQ==
+ bh=SHiqVSYrrsIGha2K3VmGGWdTMKAgFqst8R0FSwT8/Ho=;
+ b=PycblVjJI3Q04AAhr2TFMJdAUa9xrqgyqgAxiIk9MRAkCNEW+GXKQYxFsqfZaiA46SBq+peTJAR96hfXOy6hFf8oseTwr8KM+Qn6o4gv14+URLA2K8YdtJllSKsv15/ljYplbCaVYRHTG+OH8kqqtyAMMlXGma4q193n0AmwoWPHcB5JQd1VLCSTjfuNJfzWaa1kGX5jbjbgpJltrlzU10aY16DXH1WykBi/o34GIh3DXr8rp6PfzZm0rpUg34+/dbt19r6msdedtT3tzl5DQvUWTWlh4+lLvOnGmlSibbuPnkzhC6AOtCHbsMmrGxXXosiP/vbBDZHOnmNPJ9WSKg==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=virtuozzo.com; dmarc=pass action=none
  header.from=virtuozzo.com; dkim=pass header.d=virtuozzo.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
  s=selector2;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=fJQuVP3QkPx4tU3Ve9RIH3B8zD/ZCxXj3/xFI9/V8ns=;
- b=bPeVXLFHRM5GaepOgBL0daIerzfT7VmJww1MAcXuAafWZvGkxsTgkrtE8W1xmAR7gi2RKs91AiO5hVe04UEXvDDTkhwO7rUGK8oHDsLLJS1PmYwSJPijG+RGMlfXzG1ilbwbx5lqo5hYUYCGQeCXhTSkAD6D1QGBzTZlQGK9K2w=
+ bh=SHiqVSYrrsIGha2K3VmGGWdTMKAgFqst8R0FSwT8/Ho=;
+ b=LuSna4ocIfF1XYywuS1yUjuSnDfEcvJBPhdHoooy0yAi50yzv5ZjBDdAbQ6deO0Pa8ADWFOcpQw839ZXvp0UaxvsjjrONeLT+mmd/7mDFh16G9FtFjcU1bM0O47QPcyIP32RWx6VWk7uOFq/LbNjCrtQlpeJgCbDPIm90lEtFlc=
 Authentication-Results: nongnu.org; dkim=none (message not signed)
  header.d=none;nongnu.org; dmarc=none action=none header.from=virtuozzo.com;
 Received: from AM7PR08MB5494.eurprd08.prod.outlook.com (2603:10a6:20b:dc::15)
  by AM6PR08MB3542.eurprd08.prod.outlook.com (2603:10a6:20b:4b::19)
  with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3763.12; Sat, 16 Jan
- 2021 21:52:45 +0000
+ 2021 21:52:48 +0000
 Received: from AM7PR08MB5494.eurprd08.prod.outlook.com
  ([fe80::214a:3545:368c:7ae8]) by AM7PR08MB5494.eurprd08.prod.outlook.com
  ([fe80::214a:3545:368c:7ae8%9]) with mapi id 15.20.3763.013; Sat, 16 Jan 2021
- 21:52:45 +0000
+ 21:52:48 +0000
 From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 To: qemu-block@nongnu.org
-Subject: [PATCH v6 01/14] block: return status from bdrv_append and friends
-Date: Sun, 17 Jan 2021 00:51:56 +0300
-Message-Id: <20210116215209.823266-2-vsementsov@virtuozzo.com>
+Subject: [PATCH v6 03/14] block: check return value of bdrv_open_child and
+ drop error propagation
+Date: Sun, 17 Jan 2021 00:51:58 +0300
+Message-Id: <20210116215209.823266-4-vsementsov@virtuozzo.com>
 X-Mailer: git-send-email 2.29.2
 In-Reply-To: <20210116215209.823266-1-vsementsov@virtuozzo.com>
 References: <20210116215209.823266-1-vsementsov@virtuozzo.com>
@@ -63,58 +64,59 @@ X-MS-Exchange-MessageSentRepresentingType: 1
 Received: from kvm.sw.ru (185.215.60.72) by
  AM9P195CA0006.EURP195.PROD.OUTLOOK.COM (2603:10a6:20b:21f::11) with Microsoft
  SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.3763.10 via Frontend Transport; Sat, 16 Jan 2021 21:52:44 +0000
+ 15.20.3763.10 via Frontend Transport; Sat, 16 Jan 2021 21:52:47 +0000
 X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: db895dbd-5c1a-4e3b-ae8a-08d8ba690ec4
+X-MS-Office365-Filtering-Correlation-Id: ceca64c3-dde8-4419-3a89-08d8ba691030
 X-MS-TrafficTypeDiagnostic: AM6PR08MB3542:
 X-MS-Exchange-Transport-Forked: True
-X-Microsoft-Antispam-PRVS: <AM6PR08MB35428FF8188E0E72FDCDC20BC1A60@AM6PR08MB3542.eurprd08.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:873;
+X-Microsoft-Antispam-PRVS: <AM6PR08MB354260F4F044376E728C93E3C1A60@AM6PR08MB3542.eurprd08.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:126;
 X-MS-Exchange-SenderADCheck: 1
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: 01m9cXfOeLAVV9vfsFDiKCULavlDcuOzQrp8WWvqitNgIGWectt4CBAAcQGfTobhIlFepHue+bDy/Zz1TB5Ub8KU6/bHtgj+e/o5urSx18ggUPOiHNRtBec3VMpfoukFPup/2iO9qUrmlQI/FznVUdAreVvJrNj7N9hZ38g0M5IMSW+VFpPYXI96xzHgMDjpSpplpo7k5nXsLYYHwDtCPx5l2hLqRMUsV8sukAtuwYorIBq38EHnswHWrri2bqnD/VyG6Hx8VL9YgNqeDYR/aY4jaggbYvPfMmu266tADesHRm+GaPymz9a/5TCqM89tJ+YBA+aRgJRtmhO4EFC4O/EM2LHm/EN3xRr67qxl3NLHCNPOm+WgYj2qEAPawTiHzdHScYbvkx/tu0daSnqpQ/m0qWSNqIxzo4b8zEOcwSKK1tPyxZOiN8j5h8ceLlmFgBAo+lvJygaq3tNcrQVui3F1KVAcUf3iXs+MX3Sq5YAr6/s/QEAbVAyoAAw7BXoTPkrNhfH74BTfMA06irn2yQ==
+X-Microsoft-Antispam-Message-Info: 9zTHbUBCwJvcRhTgjjUsiHuw5aiBR77rgWOItIcNP/92TgIKXYFv1XJDrGVKHalqprAf6+gi/D4BHJ3vbX2boGZ6qFNtxBNAgi8WHuhHSHy8+SUj/0AMgpMSjyfHEnfcc26u06VMsVlG2TJwxLRYNsdyLxx8xk31UKJlQjpFuIRvk6BDJSfr7X4B5wHgWGPKD8zo6ZfvYki5TTqj3iVl3HDD82Vvyq7Kh4EPdft4VEnlK9Ohofz1GC37b4MKSek2uDXlLjTMOo60vbOCUn5w8BaBygnIMCSBmzqc2Aiv1o1Wqj6ejl1GQV7cxMR8SA9EOfwDI4kGCyF0GSC90X+/2VNblB5kri1NH1F6O2Hg0eBS+LljJEV9HGSBe7qkFtQfZSAerlxG6G1Vs7zUwJALaHTf13aFWQ24BOCYYvtIhNxeFklnnLgLeyHJttgVJpX/6wIMK7r0HqUosR0vUL95o2JZpS0+XSFVzPu/Pl6w4ljU6lX1aHXN+tPuTGm0BKBymtcASMeqd/lZl0QS2t94jA==
 X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
  IPV:NLI; SFV:NSPM; H:AM7PR08MB5494.eurprd08.prod.outlook.com; PTR:; CAT:NONE;
  SFS:(4636009)(346002)(39840400004)(376002)(136003)(366004)(396003)(66946007)(66556008)(66476007)(83380400001)(6486002)(26005)(8676002)(8936002)(86362001)(2906002)(16526019)(478600001)(316002)(6506007)(52116002)(186003)(36756003)(6666004)(4326008)(6916009)(6512007)(2616005)(5660300002)(1076003)(7416002)(956004);
  DIR:OUT; SFP:1102; 
-X-MS-Exchange-AntiSpam-MessageData: =?us-ascii?Q?uc28SC2STGk3r4KxxP2Nh81FcWFDMK2W4YOH2gx+kqYPIhoiICvRdBEugV9+?=
- =?us-ascii?Q?uJbUt2pHBrMszpj4SRLDZRas9/s++ikZjNL4r4YkTvnqDH8hJzcSHLPSPtTt?=
- =?us-ascii?Q?/HMyU9VbPN7nHhrvrMCkjUBT79iOlejDtB2X/B067EXYrQwhctkBTa8TCvkx?=
- =?us-ascii?Q?A2McQXAfFtYJNgTFw1uD5YPCqTTfd7QPamn4MWQ/3I1+f03hFurtsNlrRpW6?=
- =?us-ascii?Q?UIAOndVWBG2gPU39Q17e2GD/Me1MBIc5zoag5Ir49+ARsI7byRwIz263Cfz6?=
- =?us-ascii?Q?49IDn6cbiaexcvqoKLM2jNqF8lMt2nqAymwqmyxupNCRx5yWWSy4vGfmNhYm?=
- =?us-ascii?Q?EMqqv8hFog9UMBiuYgfvzXMm8H75hleje+N8nOkGlrjgI7EFNTg8uTu+eps1?=
- =?us-ascii?Q?XBojJMNmMa7jLdFtkL5ymBXznq+FRiouOtWygB0cLI2aWzZbYa+oHowP5Hyq?=
- =?us-ascii?Q?hgkxVXy/iawjxOAO8BW2Tsdwf7pouXX3ONI44B6e9rbGl7h4xuMfKj2hiWTJ?=
- =?us-ascii?Q?4WzR309/0B6S9RFN2eHyimehri6kBO/I/D9dvdMBZZQyjQOn58axdx7Ptl68?=
- =?us-ascii?Q?moURl4ledDBgSf1JqffXIR9PIFPY0Ai+VFdK7LHiHulBmcFida4ubfsm4/m4?=
- =?us-ascii?Q?jIUxOlIFR9VPWwdA/WyADQ4nX0F4nQY4sJN+/pPpDJvGgJhOCFKYv+80Suel?=
- =?us-ascii?Q?q+hTWnbPtks3T6IeQf+3Mo5PcHLXc9rPM2J1icINp7fgBKOGW1Yysh/BaR7l?=
- =?us-ascii?Q?8mbAI/ATNEQX7vTB4/vJ3eL3tHem8718GpWVhu6kDc0VHbySzDUh9GywawLx?=
- =?us-ascii?Q?AXpp5ErrsUH2qwquTAlZTEo9p+YUgmo8AL2BboX43SI7U03EE2w2AUY4xMds?=
- =?us-ascii?Q?STMUlAMKcQBCcZXM6CqCeFQMNxTUrtrqxU8yBjHrNd8XNh0Z21uXLQOfmr1y?=
- =?us-ascii?Q?svuOHWe/uSORcY3vbodml7QVk38oob7V0IFaoI7Rd7gvTiypsjHIRkEei9g9?=
- =?us-ascii?Q?mE3x?=
+X-MS-Exchange-AntiSpam-MessageData: =?us-ascii?Q?UNNQa0beh2nX7mLRp7KGkShZ7FEzzvhIXgDXt/5aJF+4VJLWz/9QuT4vc14h?=
+ =?us-ascii?Q?HZJ95WarAEuETY9o6bxIEplyvQ61394GlHL8ohJ6kNOWq1r0RIQ6VR4oXIOo?=
+ =?us-ascii?Q?K7m5O7qxjSYTDnqFbKfyRoknrzm7l3bkf0RcfSq75YrocFnFULrem1XH6+f3?=
+ =?us-ascii?Q?ZKIngPDUTWkhkmenTgBArzYUheMCt2t84i4fCryItNiLqCTr1zyZbfPbZOeK?=
+ =?us-ascii?Q?0F15v1/PSY+SFfdBUpOQLWERT2KrjcNiCl4mF85TZExkNZg0rjqr6qAHIJMt?=
+ =?us-ascii?Q?31X7zu2wkgl3ojCkaKgMC/gjyKYNsX0jNVNaOh5hI+3t2B9oe8Nw8InSjIYh?=
+ =?us-ascii?Q?sK9uUtNzTEg3DG1iXBdQhbvXx68dV3Hr9P7eMpRFKiZGf30xACjXcRTbbGhJ?=
+ =?us-ascii?Q?G7UEn3HDllavgXgVbRH5+ikM/vds04uUgZ4hETTB3rOFiwhR9/Z4rQh12HYk?=
+ =?us-ascii?Q?96CXqTrxqhlrqWXNGQRX5kWxh38mQECIyXJHQ462Hdfxbn63EF/647auBoGp?=
+ =?us-ascii?Q?u7uYv06UR18MBvB7J+sqosXFOlF2f7gDGB9LAnRgG8vDtVKf5+2vilfKPzUj?=
+ =?us-ascii?Q?8N+k+ZlO6+J36XWslJfJOgGvk1pM9B524uPJ4jodB2dodKlnyMKzxxacJWNN?=
+ =?us-ascii?Q?8ijn4eF9NcgHfHpagc9Ng7a+EWtWukMu7qYycGSaHQqiM+HsclBdTCFflx+Y?=
+ =?us-ascii?Q?1O28A7r1eOPqYet7sXOaZJD3+kZOBE+YorpTDkYsvy3qrbIv1zD55kG7JZ1o?=
+ =?us-ascii?Q?q9VnW2ZZruM6ZsHAscXA+pOwpv9F4F+czRozgQ3SGpGIwLUTtrKJ+v6UEV6v?=
+ =?us-ascii?Q?1Fx6FsB6W0g9ctLYlBmdXO8obMmrtGzN9mGJ27XrdMgM/Nz0rMceEpVZWkPn?=
+ =?us-ascii?Q?oGpeSYPUxUVJU+pYrfwg9KfbFp5H3dgwRdG+j57HdUqtr1/759C1e65OlTgy?=
+ =?us-ascii?Q?jxU2iUZH4Cs90PkPa9RxU+C/e/s2Rrr3nG1ja8n1KAahBB5XLDBVJpBDl+so?=
+ =?us-ascii?Q?tPWv?=
 X-OriginatorOrg: virtuozzo.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: db895dbd-5c1a-4e3b-ae8a-08d8ba690ec4
+X-MS-Exchange-CrossTenant-Network-Message-Id: ceca64c3-dde8-4419-3a89-08d8ba691030
 X-MS-Exchange-CrossTenant-AuthSource: AM7PR08MB5494.eurprd08.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 16 Jan 2021 21:52:45.6506 (UTC)
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 16 Jan 2021 21:52:48.0277 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: uq4oCoDlxNlM2fvI57mvaPwyZVUagaBKNzQKt8fjL8n6sIp8TgMi8EvP/QUwUdgz9eYti48SRB7DGiuaMHbYAqB+NGkFSNbcW5jmJ5VmxEg=
+X-MS-Exchange-CrossTenant-UserPrincipalName: NEKmTC3d21bUyvEb3ljRwkLPq+sGHqY6nlH51hzms+DwNNQr21uPHYeImYrZe0SWX+7rX1RNMABcfxuSfNcfm5hfPeuCOR8dppIr+LctXnw=
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM6PR08MB3542
-Received-SPF: pass client-ip=40.107.21.126;
+Received-SPF: pass client-ip=40.107.21.133;
  envelope-from=vsementsov@virtuozzo.com;
  helo=EUR05-VI1-obe.outbound.protection.outlook.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- MSGID_FROM_MTA_HEADER=0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ MSGID_FROM_MTA_HEADER=0.001, RCVD_IN_DNSWL_NONE=-0.0001,
+ RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_PASS=-0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -129,194 +131,200 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: kwolf@redhat.com, vsementsov@virtuozzo.com, berto@igalia.com,
  pavel.dovgaluk@ispras.ru, qemu-devel@nongnu.org, armbru@redhat.com,
- stefanha@redhat.com, pbonzini@redhat.com, mreitz@redhat.com, jsnow@redhat.com,
- ari@tuxera.com
+ Greg Kurz <groug@kaod.org>, stefanha@redhat.com, pbonzini@redhat.com,
+ mreitz@redhat.com, jsnow@redhat.com, ari@tuxera.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The recommended use of qemu error api assumes returning status together
-with setting errp and avoid void functions with errp parameter. Let's
-improve bdrv_append and some friends to reduce error-propagation
-overhead in further patches.
+This patch is generated by cocci script:
 
-Choose int return status, because bdrv_replace_node_common() has call
-to bdrv_check_update_perm(), which reports int status, which seems
-correct to propagate.
+@@
+symbol bdrv_open_child, errp, local_err;
+expression file;
+@@
+
+  file = bdrv_open_child(...,
+-                        &local_err
++                        errp
+                        );
+- if (local_err)
++ if (!file)
+  {
+      ...
+-     error_propagate(errp, local_err);
+      ...
+  }
+
+with command
+
+spatch --sp-file x.cocci --macro-file scripts/cocci-macro-file.h \
+--in-place --no-show-diff --max-width 80 --use-gitgrep block
 
 Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+Reviewed-by: Greg Kurz <groug@kaod.org>
+Reviewed-by: Alberto Garcia <berto@igalia.com>
 ---
- include/block/block.h | 12 ++++-----
- block.c               | 58 +++++++++++++++++++++++++++----------------
- 2 files changed, 43 insertions(+), 27 deletions(-)
+ block/blkdebug.c     |  6 ++----
+ block/blklogwrites.c | 10 ++++------
+ block/blkreplay.c    |  6 ++----
+ block/blkverify.c    | 11 ++++-------
+ block/qcow2.c        |  5 ++---
+ block/quorum.c       |  6 ++----
+ 6 files changed, 16 insertions(+), 28 deletions(-)
 
-diff --git a/include/block/block.h b/include/block/block.h
-index a193545b6a..b4e0347b49 100644
---- a/include/block/block.h
-+++ b/include/block/block.h
-@@ -354,10 +354,10 @@ int bdrv_create(BlockDriver *drv, const char* filename,
- int bdrv_create_file(const char *filename, QemuOpts *opts, Error **errp);
- 
- BlockDriverState *bdrv_new(void);
--void bdrv_append(BlockDriverState *bs_new, BlockDriverState *bs_top,
--                 Error **errp);
--void bdrv_replace_node(BlockDriverState *from, BlockDriverState *to,
--                       Error **errp);
-+int bdrv_append(BlockDriverState *bs_new, BlockDriverState *bs_top,
-+                Error **errp);
-+int bdrv_replace_node(BlockDriverState *from, BlockDriverState *to,
-+                      Error **errp);
- 
- int bdrv_parse_aio(const char *mode, int *flags);
- int bdrv_parse_cache_mode(const char *mode, int *flags, bool *writethrough);
-@@ -369,8 +369,8 @@ BdrvChild *bdrv_open_child(const char *filename,
-                            BdrvChildRole child_role,
-                            bool allow_none, Error **errp);
- BlockDriverState *bdrv_open_blockdev_ref(BlockdevRef *ref, Error **errp);
--void bdrv_set_backing_hd(BlockDriverState *bs, BlockDriverState *backing_hd,
--                         Error **errp);
-+int bdrv_set_backing_hd(BlockDriverState *bs, BlockDriverState *backing_hd,
-+                        Error **errp);
- int bdrv_open_backing_file(BlockDriverState *bs, QDict *parent_options,
-                            const char *bdref_key, Error **errp);
- BlockDriverState *bdrv_open(const char *filename, const char *reference,
-diff --git a/block.c b/block.c
-index 8b9d457546..fecfe27d5e 100644
---- a/block.c
-+++ b/block.c
-@@ -2827,14 +2827,15 @@ static BdrvChildRole bdrv_backing_role(BlockDriverState *bs)
-  * Sets the bs->backing link of a BDS. A new reference is created; callers
-  * which don't need their own reference any more must call bdrv_unref().
-  */
--void bdrv_set_backing_hd(BlockDriverState *bs, BlockDriverState *backing_hd,
--                         Error **errp)
-+int bdrv_set_backing_hd(BlockDriverState *bs, BlockDriverState *backing_hd,
-+                        Error **errp)
+diff --git a/block/blkdebug.c b/block/blkdebug.c
+index 5fe6172da9..315965a013 100644
+--- a/block/blkdebug.c
++++ b/block/blkdebug.c
+@@ -465,7 +465,6 @@ static int blkdebug_open(BlockDriverState *bs, QDict *options, int flags,
  {
-+    int ret = 0;
-     bool update_inherits_from = bdrv_chain_contains(bs, backing_hd) &&
-         bdrv_inherits_from_recursive(backing_hd, bs);
+     BDRVBlkdebugState *s = bs->opaque;
+     QemuOpts *opts;
+-    Error *local_err = NULL;
+     int ret;
+     uint64_t align;
  
-     if (bdrv_is_backing_chain_frozen(bs, child_bs(bs->backing), errp)) {
--        return;
-+        return -EPERM;
+@@ -495,10 +494,9 @@ static int blkdebug_open(BlockDriverState *bs, QDict *options, int flags,
+     bs->file = bdrv_open_child(qemu_opt_get(opts, "x-image"), options, "image",
+                                bs, &child_of_bds,
+                                BDRV_CHILD_FILTERED | BDRV_CHILD_PRIMARY,
+-                               false, &local_err);
+-    if (local_err) {
++                               false, errp);
++    if (!bs->file) {
+         ret = -EINVAL;
+-        error_propagate(errp, local_err);
+         goto out;
      }
  
-     if (backing_hd) {
-@@ -2853,15 +2854,22 @@ void bdrv_set_backing_hd(BlockDriverState *bs, BlockDriverState *backing_hd,
- 
-     bs->backing = bdrv_attach_child(bs, backing_hd, "backing", &child_of_bds,
-                                     bdrv_backing_role(bs), errp);
-+    if (!bs->backing) {
-+        ret = -EPERM;
-+        goto out;
-+    }
-+
-     /* If backing_hd was already part of bs's backing chain, and
-      * inherits_from pointed recursively to bs then let's update it to
-      * point directly to bs (else it will become NULL). */
--    if (bs->backing && update_inherits_from) {
-+    if (update_inherits_from) {
-         backing_hd->inherits_from = bs;
+diff --git a/block/blklogwrites.c b/block/blklogwrites.c
+index 13ae63983b..b7579370a3 100644
+--- a/block/blklogwrites.c
++++ b/block/blklogwrites.c
+@@ -157,19 +157,17 @@ static int blk_log_writes_open(BlockDriverState *bs, QDict *options, int flags,
+     /* Open the file */
+     bs->file = bdrv_open_child(NULL, options, "file", bs, &child_of_bds,
+                                BDRV_CHILD_FILTERED | BDRV_CHILD_PRIMARY, false,
+-                               &local_err);
+-    if (local_err) {
++                               errp);
++    if (!bs->file) {
+         ret = -EINVAL;
+-        error_propagate(errp, local_err);
+         goto fail;
      }
  
- out:
-     bdrv_refresh_limits(bs, NULL);
-+
-+    return ret;
- }
+     /* Open the log file */
+     s->log_file = bdrv_open_child(NULL, options, "log", bs, &child_of_bds,
+-                                  BDRV_CHILD_METADATA, false, &local_err);
+-    if (local_err) {
++                                  BDRV_CHILD_METADATA, false, errp);
++    if (!s->log_file) {
+         ret = -EINVAL;
+-        error_propagate(errp, local_err);
+         goto fail;
+     }
  
- /*
-@@ -4533,9 +4541,9 @@ static bool should_update_child(BdrvChild *c, BlockDriverState *to)
-  * With auto_skip=false the error is returned if from has a parent which should
-  * not be updated.
-  */
--static void bdrv_replace_node_common(BlockDriverState *from,
--                                     BlockDriverState *to,
--                                     bool auto_skip, Error **errp)
-+static int bdrv_replace_node_common(BlockDriverState *from,
-+                                    BlockDriverState *to,
-+                                    bool auto_skip, Error **errp)
- {
-     BdrvChild *c, *next;
-     GSList *list = NULL, *p;
-@@ -4557,11 +4565,13 @@ static void bdrv_replace_node_common(BlockDriverState *from,
-             if (auto_skip) {
-                 continue;
-             }
-+            ret = -EINVAL;
-             error_setg(errp, "Should not change '%s' link to '%s'",
-                        c->name, from->node_name);
-             goto out;
-         }
-         if (c->frozen) {
-+            ret = -EPERM;
-             error_setg(errp, "Cannot change '%s' link to '%s'",
-                        c->name, from->node_name);
-             goto out;
-@@ -4592,14 +4602,18 @@ static void bdrv_replace_node_common(BlockDriverState *from,
- 
-     bdrv_set_perm(to);
- 
-+    ret = 0;
-+
- out:
-     g_slist_free(list);
-     bdrv_drained_end(from);
-     bdrv_unref(from);
-+
-+    return ret;
- }
- 
--void bdrv_replace_node(BlockDriverState *from, BlockDriverState *to,
--                       Error **errp)
-+int bdrv_replace_node(BlockDriverState *from, BlockDriverState *to,
-+                      Error **errp)
- {
-     return bdrv_replace_node_common(from, to, true, errp);
- }
-@@ -4620,28 +4634,30 @@ void bdrv_replace_node(BlockDriverState *from, BlockDriverState *to,
-  * parents of bs_top after bdrv_append() returns. If the caller needs to keep a
-  * reference of its own, it must call bdrv_ref().
-  */
--void bdrv_append(BlockDriverState *bs_new, BlockDriverState *bs_top,
--                 Error **errp)
-+int bdrv_append(BlockDriverState *bs_new, BlockDriverState *bs_top,
-+                Error **errp)
+diff --git a/block/blkreplay.c b/block/blkreplay.c
+index 30a0f5d57a..4a247752fd 100644
+--- a/block/blkreplay.c
++++ b/block/blkreplay.c
+@@ -23,16 +23,14 @@ typedef struct Request {
+ static int blkreplay_open(BlockDriverState *bs, QDict *options, int flags,
+                           Error **errp)
  {
 -    Error *local_err = NULL;
--
--    bdrv_set_backing_hd(bs_new, bs_top, &local_err);
+     int ret;
+ 
+     /* Open the image file */
+     bs->file = bdrv_open_child(NULL, options, "image", bs, &child_of_bds,
+                                BDRV_CHILD_FILTERED | BDRV_CHILD_PRIMARY,
+-                               false, &local_err);
 -    if (local_err) {
++                               false, errp);
++    if (!bs->file) {
+         ret = -EINVAL;
 -        error_propagate(errp, local_err);
-+    int ret = bdrv_set_backing_hd(bs_new, bs_top, errp);
-+    if (ret < 0) {
-         goto out;
+         goto fail;
      }
  
--    bdrv_replace_node(bs_top, bs_new, &local_err);
+diff --git a/block/blkverify.c b/block/blkverify.c
+index 4aed53ab59..95ae73e2aa 100644
+--- a/block/blkverify.c
++++ b/block/blkverify.c
+@@ -112,7 +112,6 @@ static int blkverify_open(BlockDriverState *bs, QDict *options, int flags,
+ {
+     BDRVBlkverifyState *s = bs->opaque;
+     QemuOpts *opts;
+-    Error *local_err = NULL;
+     int ret;
+ 
+     opts = qemu_opts_create(&runtime_opts, NULL, 0, &error_abort);
+@@ -125,20 +124,18 @@ static int blkverify_open(BlockDriverState *bs, QDict *options, int flags,
+     bs->file = bdrv_open_child(qemu_opt_get(opts, "x-raw"), options, "raw",
+                                bs, &child_of_bds,
+                                BDRV_CHILD_FILTERED | BDRV_CHILD_PRIMARY,
+-                               false, &local_err);
 -    if (local_err) {
++                               false, errp);
++    if (!bs->file) {
+         ret = -EINVAL;
 -        error_propagate(errp, local_err);
-+    ret = bdrv_replace_node(bs_top, bs_new, errp);
-+    if (ret < 0) {
-         bdrv_set_backing_hd(bs_new, NULL, &error_abort);
-         goto out;
+         goto fail;
      }
  
--    /* bs_new is now referenced by its new parents, we don't need the
--     * additional reference any more. */
-+    ret = 0;
-+
- out:
-+    /*
-+     * bs_new is now referenced by its new parents, we don't need the
-+     * additional reference any more.
-+     */
-     bdrv_unref(bs_new);
-+
-+    return ret;
- }
+     /* Open the test file */
+     s->test_file = bdrv_open_child(qemu_opt_get(opts, "x-image"), options,
+                                    "test", bs, &child_of_bds, BDRV_CHILD_DATA,
+-                                   false, &local_err);
+-    if (local_err) {
++                                   false, errp);
++    if (!s->test_file) {
+         ret = -EINVAL;
+-        error_propagate(errp, local_err);
+         goto fail;
+     }
  
- static void bdrv_delete(BlockDriverState *bs)
+diff --git a/block/qcow2.c b/block/qcow2.c
+index 5d94f45be9..e8dd42d73b 100644
+--- a/block/qcow2.c
++++ b/block/qcow2.c
+@@ -1611,9 +1611,8 @@ static int coroutine_fn qcow2_do_open(BlockDriverState *bs, QDict *options,
+     /* Open external data file */
+     s->data_file = bdrv_open_child(NULL, options, "data-file", bs,
+                                    &child_of_bds, BDRV_CHILD_DATA,
+-                                   true, &local_err);
+-    if (local_err) {
+-        error_propagate(errp, local_err);
++                                   true, errp);
++    if (!s->data_file) {
+         ret = -EINVAL;
+         goto fail;
+     }
+diff --git a/block/quorum.c b/block/quorum.c
+index 0bd75450de..cfc1436abb 100644
+--- a/block/quorum.c
++++ b/block/quorum.c
+@@ -929,7 +929,6 @@ static int quorum_open(BlockDriverState *bs, QDict *options, int flags,
+                        Error **errp)
+ {
+     BDRVQuorumState *s = bs->opaque;
+-    Error *local_err = NULL;
+     QemuOpts *opts = NULL;
+     const char *pattern_str;
+     bool *opened;
+@@ -1007,9 +1006,8 @@ static int quorum_open(BlockDriverState *bs, QDict *options, int flags,
+ 
+         s->children[i] = bdrv_open_child(NULL, options, indexstr, bs,
+                                          &child_of_bds, BDRV_CHILD_DATA, false,
+-                                         &local_err);
+-        if (local_err) {
+-            error_propagate(errp, local_err);
++                                         errp);
++        if (!s->children[i]) {
+             ret = -EINVAL;
+             goto close_exit;
+         }
 -- 
 2.29.2
 
