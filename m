@@ -2,58 +2,57 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B9EA32F8CCC
-	for <lists+qemu-devel@lfdr.de>; Sat, 16 Jan 2021 11:26:10 +0100 (CET)
-Received: from localhost ([::1]:59170 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6784A2F8CD5
+	for <lists+qemu-devel@lfdr.de>; Sat, 16 Jan 2021 11:36:59 +0100 (CET)
+Received: from localhost ([::1]:33454 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l0imV-0008LU-G2
-	for lists+qemu-devel@lfdr.de; Sat, 16 Jan 2021 05:26:07 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56502)
+	id 1l0iwz-0001rd-Rr
+	for lists+qemu-devel@lfdr.de; Sat, 16 Jan 2021 05:36:58 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58088)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <th.huth@gmail.com>) id 1l0ilK-0007u9-PM
- for qemu-devel@nongnu.org; Sat, 16 Jan 2021 05:24:54 -0500
-Received: from mail-ed1-f47.google.com ([209.85.208.47]:41254)
+ (Exim 4.90_1) (envelope-from <th.huth@gmail.com>) id 1l0ivN-0001DE-UK
+ for qemu-devel@nongnu.org; Sat, 16 Jan 2021 05:35:18 -0500
+Received: from mail-ed1-f50.google.com ([209.85.208.50]:43226)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <th.huth@gmail.com>) id 1l0ilI-00015w-RB
- for qemu-devel@nongnu.org; Sat, 16 Jan 2021 05:24:54 -0500
-Received: by mail-ed1-f47.google.com with SMTP id bm23so22340edb.8
- for <qemu-devel@nongnu.org>; Sat, 16 Jan 2021 02:24:52 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <th.huth@gmail.com>) id 1l0ivL-0005wY-Mb
+ for qemu-devel@nongnu.org; Sat, 16 Jan 2021 05:35:17 -0500
+Received: by mail-ed1-f50.google.com with SMTP id by27so12296307edb.10
+ for <qemu-devel@nongnu.org>; Sat, 16 Jan 2021 02:35:15 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=bdaRSf/n5FcirFIxbetozzcSwe+KiFuAG5P2ZNNrKYw=;
- b=oAHYDgJPq74GaqNmYRHqRZSr6bXD4+ImF9pTxIbL2YBMPRHTmEEns8/OFb0bwJZC/s
- 60mbr+J4aoj9ynag+FvzsGkYusYgu7pDqFkc0PN1yYpRN7kkbJGy0REbiuAG4UnFEXX9
- 4IU6UM5mWZDMHHu6649wxBhf6fg5kq+pM15CeIzeNHdDvkHlQH2iyYqDD4YNjth2TybM
- 0aC9rtlatCWn7txTl+5Ur7DsdsCghbGhXtEbcocF/gwQSWbakvKxREuKK0VoqAFFDrnT
- FCNFVQmNwvMVd5uvsDyZobU3p7LtQ9YYyXtk/3WvoWGefmoYeZJuUgVNZrXAI6lG9uIN
- 3EbA==
-X-Gm-Message-State: AOAM533c/yybRCegKamIWd5WvPkVpSOkLndTxr92UKRsmQpN72R7HYOZ
- ZuWUNfo5qAmlxue9uI2g26M=
-X-Google-Smtp-Source: ABdhPJyVJ+B14Kg+C65krz0mqn35mjlOztun2tmISkJ5OO+3s3m5/9kUPdOWYhvLvero8PCVmTBgYw==
-X-Received: by 2002:a50:9ee9:: with SMTP id a96mr4656809edf.343.1610792691181; 
- Sat, 16 Jan 2021 02:24:51 -0800 (PST)
+ bh=/Sq4KQSi5IU6hPxw/X+SknXIVRCgYBAOgXdcaY9+zFk=;
+ b=Y4D5GMlkcUtGqvEkYKIGm6Ww2MH2yGpyBPsp6xfCaykYDjYSEOFJQ6AMqQY0s6EdPu
+ jli9rDAk1UQEhIrvOkSO3VDMYfw+/odjYIiRm/2nJRB9s1BWPQ4eh4HhC3ybdtxYaHQc
+ Y5eeG0krHy/2y2xe+/8pSPx1pKQRDC3i0bNOXa8ctO6pwqdv8o5m9Tn++CfGsYVKAJzz
+ 9VARQZIlOEO+4J3DaaKdEdRr71Q16XaDW4eLaECFyMVRG14aWfTjBjRJXJIP8i4W35U7
+ lR9dS2vuiLnR53KPme96VQiYGz6SiVwgbU1Sy32HZi2JciKYPIHVcsiPAsfH18Uxvgf5
+ FFYg==
+X-Gm-Message-State: AOAM5306G8GsBTp3hQj3eKpGPBI8C1oY7T3J2CV3kQmlH20dSQeU46yT
+ s5ZMsnMEhvz0GBVCXK8QATY=
+X-Google-Smtp-Source: ABdhPJx+rOMGwDX5LMVDY1HV8aQdXEwmZsLXy1XVPM6ivUkFPTuyjttmQQNISU0yTL335cFBSGQH7w==
+X-Received: by 2002:a50:d6dc:: with SMTP id l28mr13211707edj.105.1610793314321; 
+ Sat, 16 Jan 2021 02:35:14 -0800 (PST)
 Received: from localhost (pd9e83641.dip0.t-ipconnect.de. [217.232.54.65])
- by smtp.gmail.com with ESMTPSA id zg24sm6127996ejb.120.2021.01.16.02.24.49
+ by smtp.gmail.com with ESMTPSA id w18sm3200527ejq.59.2021.01.16.02.35.13
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 16 Jan 2021 02:24:50 -0800 (PST)
-Date: Sat, 16 Jan 2021 11:24:48 +0100
+ Sat, 16 Jan 2021 02:35:13 -0800 (PST)
+Date: Sat, 16 Jan 2021 11:35:10 +0100
 From: Thomas Huth <huth@tuxfamily.org>
 To: Peter Maydell <peter.maydell@linaro.org>
-Subject: Re: [PATCH 07/11] hw/m68k/next-cube: Make next_irq GPIO inputs to
- NEXT_PC device
-Message-ID: <20210116112448.15c2b8dd@tuxfamily.org>
-In-Reply-To: <20210115201206.17347-8-peter.maydell@linaro.org>
+Subject: Re: [PATCH 08/11] hw/m68k/next-cube: Move rtc into NeXTPC struct
+Message-ID: <20210116113510.4c414402@tuxfamily.org>
+In-Reply-To: <20210115201206.17347-9-peter.maydell@linaro.org>
 References: <20210115201206.17347-1-peter.maydell@linaro.org>
- <20210115201206.17347-8-peter.maydell@linaro.org>
+ <20210115201206.17347-9-peter.maydell@linaro.org>
 X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=209.85.208.47; envelope-from=th.huth@gmail.com;
- helo=mail-ed1-f47.google.com
+Received-SPF: pass client-ip=209.85.208.50; envelope-from=th.huth@gmail.com;
+ helo=mail-ed1-f50.google.com
 X-Spam_score_int: -13
 X-Spam_score: -1.4
 X-Spam_bar: -
@@ -78,93 +77,102 @@ Cc: qemu-devel@nongnu.org, Laurent Vivier <laurent@vivier.eu>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Am Fri, 15 Jan 2021 20:12:02 +0000
+Am Fri, 15 Jan 2021 20:12:03 +0000
 schrieb Peter Maydell <peter.maydell@linaro.org>:
 
-> Make the next_irq function be GPIO inputs to the NEXT_PC
-> device, rather than a freestanding set of qemu_irq lines.
+> Move the rtc into the NeXTPC struct. Since this is the last
+> use of the 'backdoor' NextState pointer we can now remove that.
 > 
-> This fixes a minor Coverity issue where it correctly points
-> out the trivial memory leak of the memory allocated in the
-> call to qemu_allocate_irqs().
+> Probably the RTC should be its own device at some point: in hardware
+> there is a separate MCS1850 RTC chip connected to the Peripheral
+> Controller via a 1-bit serial interface.  That goes beyond the remit
+> of the current refactoring, though.
 > 
-> Fixes: CID 1421962
 > Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 > ---
->  include/hw/m68k/next-cube.h |  3 ++-
->  hw/m68k/next-cube.c         | 21 ++++-----------------
->  2 files changed, 6 insertions(+), 18 deletions(-)
+>  hw/m68k/next-cube.c | 22 ++++++++--------------
+>  1 file changed, 8 insertions(+), 14 deletions(-)
 > 
-> diff --git a/include/hw/m68k/next-cube.h b/include/hw/m68k/next-cube.h
-> index 5a56c354b8e..d38c52d540d 100644
-> --- a/include/hw/m68k/next-cube.h
-> +++ b/include/hw/m68k/next-cube.h
-> @@ -39,7 +39,8 @@ enum next_irqs {
->      NEXT_ENRX_DMA_I,
->      NEXT_SCSI_DMA_I,
->      NEXT_SCC_DMA_I,
-> -    NEXT_SND_I
-> +    NEXT_SND_I,
-> +    NEXT_NUM_IRQS
->  };
->  
->  #endif /* NEXT_CUBE_H */
 > diff --git a/hw/m68k/next-cube.c b/hw/m68k/next-cube.c
-> index 6b4bcfd4b9b..5a8fc24ed35 100644
+> index 5a8fc24ed35..3c83b874c56 100644
 > --- a/hw/m68k/next-cube.c
 > +++ b/hw/m68k/next-cube.c
-> @@ -734,10 +734,6 @@ static const MemoryRegionOps dma_ops = {
->      .endianness = DEVICE_NATIVE_ENDIAN,
+> @@ -78,8 +78,6 @@ struct NeXTState {
+>      qemu_irq scsi_dma;
+>      qemu_irq scsi_reset;
+>      qemu_irq *fd_irq;
+> -
+> -    NextRtc rtc;
 >  };
 >  
-> -/*
-> - * TODO: set the shift numbers as values in the enum, so the first
-> switch
-> - * will not be needed
-> - */
->  static void next_irq(void *opaque, int number, int level)
->  {
->      NeXTPC *s = NEXT_PC(opaque);
-> @@ -838,19 +834,8 @@ static void next_irq(void *opaque, int number,
-> int level) }
->  }
+>  #define TYPE_NEXT_PC "next-pc"
+> @@ -88,9 +86,6 @@ OBJECT_DECLARE_SIMPLE_TYPE(NeXTPC, NEXT_PC)
+>  struct NeXTPC {
+>      SysBusDevice parent_obj;
 >  
-> -static void next_serial_irq(void *opaque, int n, int level)
-> -{
-> -    /* DPRINTF("SCC IRQ NUM %i\n",n); */
-> -    if (n) {
-> -        next_irq(opaque, NEXT_SCC_DMA_I, level);
-> -    } else {
-> -        next_irq(opaque, NEXT_SCC_I, level);
-> -    }
-> -}
+> -    /* Temporary until all functionality has been moved into this
+> device */
+> -    NeXTState *ns;
 > -
->  static void next_escc_init(DeviceState *pcdev)
->  {
-> -    qemu_irq *ser_irq = qemu_allocate_irqs(next_serial_irq, pcdev,
-> 2); DeviceState *dev;
->      SysBusDevice *s;
+>      M68kCPU *cpu;
 >  
-> @@ -866,8 +851,8 @@ static void next_escc_init(DeviceState *pcdev)
+>      MemoryRegion mmiomem;
+> @@ -102,6 +97,8 @@ struct NeXTPC {
+>      uint8_t scsi_csr_2;
+>      uint32_t int_mask;
+>      uint32_t int_status;
+> +
+> +    NextRtc rtc;
+>  };
 >  
->      s = SYS_BUS_DEVICE(dev);
->      sysbus_realize_and_unref(s, &error_fatal);
-> -    sysbus_connect_irq(s, 0, ser_irq[0]);
-> -    sysbus_connect_irq(s, 1,  ser_irq[1]);
-> +    sysbus_connect_irq(s, 0, qdev_get_gpio_in(pcdev, NEXT_SCC_I));
-> +    sysbus_connect_irq(s, 1, qdev_get_gpio_in(pcdev,
-> NEXT_SCC_DMA_I)); sysbus_mmio_map(s, 0, 0x2118000);
+>  /* Thanks to NeXT forums for this */
+> @@ -130,7 +127,7 @@ static void nextscr2_write(NeXTPC *s, uint32_t
+> val, int size) static int phase;
+>      static uint8_t old_scr2;
+>      uint8_t scr2_2;
+> -    NextRtc *rtc = &s->ns->rtc;
+> +    NextRtc *rtc = &s->rtc;
+>  
+>      if (size == 4) {
+>          scr2_2 = (val >> 8) & 0xFF;
+> @@ -864,6 +861,11 @@ static void next_pc_reset(DeviceState *dev)
+>      /*     0x0000XX00 << vital bits */
+>      s->scr1 = 0x00011102;
+>      s->scr2 = 0x00ff0c80;
+> +
+> +    s->rtc.status = 0x90;
+> +
+> +    /* Load RTC RAM - TODO: provide possibility to load contents
+> from file */
+> +    memcpy(s->rtc.ram, rtc_ram2, 32);
 >  }
 >  
-> @@ -886,6 +871,8 @@ static void next_pc_realize(DeviceState *dev,
-> Error **errp) NeXTPC *s = NEXT_PC(dev);
->      SysBusDevice *sbd = SYS_BUS_DEVICE(dev);
+>  static void next_pc_realize(DeviceState *dev, Error **errp)
+> @@ -920,7 +922,6 @@ static void next_cube_init(MachineState *machine)
+>      MemoryRegion *bmapm2 = g_new(MemoryRegion, 1);
+>      MemoryRegion *sysmem = get_system_memory();
+>      const char *bios_name = machine->firmware ?: ROM_FILE;
+> -    NeXTState *ns = NEXT_MACHINE(machine);
+>      DeviceState *dev;
+>      DeviceState *pcdev;
 >  
-> +    qdev_init_gpio_in(dev, next_irq, NEXT_NUM_IRQS);
-> +
->      memory_region_init_io(&s->mmiomem, OBJECT(s), &mmio_ops, s,
->                            "next.mmio", 0xD0000);
->      memory_region_init_io(&s->scrmem, OBJECT(s), &scr_ops, s,
+> @@ -940,13 +941,6 @@ static void next_cube_init(MachineState *machine)
+>      pcdev = qdev_new(TYPE_NEXT_PC);
+>      object_property_set_link(OBJECT(pcdev), "cpu", OBJECT(cpu),
+> &error_abort); sysbus_realize_and_unref(SYS_BUS_DEVICE(pcdev),
+> &error_fatal);
+> -    /* Temporary while we refactor this code */
+> -    NEXT_PC(pcdev)->ns = ns;
+> -
+> -    ns->rtc.status = 0x90;
+> -
+> -    /* Load RTC RAM - TODO: provide possibility to load contents
+> from file */
+> -    memcpy(ns->rtc.ram, rtc_ram2, 32);
+>  
+>      /* 64MB RAM starting at 0x04000000  */
+>      memory_region_add_subregion(sysmem, 0x04000000, machine->ram);
 
-Acked-by: Thomas Huth <huth@tuxfamily.org>
+Reviewed-by: Thomas Huth <huth@tuxfamily.org>
+
 
