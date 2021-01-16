@@ -2,67 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BF7B52F8DB1
-	for <lists+qemu-devel@lfdr.de>; Sat, 16 Jan 2021 17:31:27 +0100 (CET)
-Received: from localhost ([::1]:36728 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 12F3B2F8E40
+	for <lists+qemu-devel@lfdr.de>; Sat, 16 Jan 2021 18:22:52 +0100 (CET)
+Received: from localhost ([::1]:58862 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l0oU2-000197-SH
-	for lists+qemu-devel@lfdr.de; Sat, 16 Jan 2021 11:31:26 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57110)
+	id 1l0pHm-0007ei-HH
+	for lists+qemu-devel@lfdr.de; Sat, 16 Jan 2021 12:22:50 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38582)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
- id 1l0oTB-0000Uz-Jz; Sat, 16 Jan 2021 11:30:33 -0500
-Received: from mail-ej1-x62a.google.com ([2a00:1450:4864:20::62a]:37467)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1l0pGh-000789-RS
+ for qemu-devel@nongnu.org; Sat, 16 Jan 2021 12:21:43 -0500
+Received: from mail-pg1-x532.google.com ([2607:f8b0:4864:20::532]:37837)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
- id 1l0oT9-0000Bq-Uh; Sat, 16 Jan 2021 11:30:33 -0500
-Received: by mail-ej1-x62a.google.com with SMTP id b5so1248681ejv.4;
- Sat, 16 Jan 2021 08:30:30 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=a996qffOhPVC8h5EeKaDNaF2f7H9yETuT2jGJPfiNwI=;
- b=s753u0nS/uXb5BBEItuU4+gU190o6i0LX7ItfZq1vssPLwGlJgea8OK5vayUAj3jyM
- jk2LKHOE/igZIFvdhkp9i7bvciRSipv+hbUr2CZIU5SlGufkI5lmScax4rO6l9TgQZ4z
- i9Xln8a8Oc0eNf4KSMqCFUGgQWtUJQeRYf/fYb8i0EYIyJL0SYlzTpE5A3kR6qfgYA6o
- 0V+w7f6u5ON4YojbhI5E+SWZ3SBEyozMT9QLkSB/m9CTBqTvyq3+4aeGTVKNBG1Wz29d
- C/RAaVOjGawnaFvfonkdjixlaYGvFvRRhBMRHzkQ34b8ZdgA7skh7gGL3xTl8PG4WyLd
- xf5w==
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1l0pGe-0005QI-Ue
+ for qemu-devel@nongnu.org; Sat, 16 Jan 2021 12:21:43 -0500
+Received: by mail-pg1-x532.google.com with SMTP id z21so8178244pgj.4
+ for <qemu-devel@nongnu.org>; Sat, 16 Jan 2021 09:21:40 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=bVxsI6wCQi5l1f0F+hFe7ec/qjDpAfa+cZv4+7SW3DM=;
+ b=gfQQX/+HQ5/W7ZDV7Xkremt7eaI0IZKvSzz2Kn/Wf+eXlQbnLA3SCtPlLc30ld5HSJ
+ EkdW66gfDf95QSf/oVwmtRozXwSSULRGVv4j64YUQlheQ8i54z+xSPd3eqeKjjMASZQ1
+ KrSL4esfDIVkD0EDsfNLQKX70crXvAsHXcntT2Yg0qc6KuAWd8722NAqwxqgiCmasxAw
+ CPethIfWS8vAlO6NdWMrwXuvVpx1OLj343SheU8t+PSvc9TrBXlsQM1DB3xc0XqpdY0+
+ nyPeXeY6VQzUBYv/pQ+Rk0nIg5CFGbV3k1Z26LDmDqNvDl8a+qeuIagRoiAujgKFkmgi
+ i0jg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=a996qffOhPVC8h5EeKaDNaF2f7H9yETuT2jGJPfiNwI=;
- b=WkiLGyC9kP7lLj/z5xG2jadBVwE2BIkyMmwZRcMpSIzdaGfjVKLtl7wz/7X0QGMrVH
- 6/nTAzx/3yeCGSImGdD/yBYfSPzZ2jbrd8bFvUWdIx9RnJTGIixtEWXzgx+/lJfseVcU
- bH4Vvw3GrESFhPZ9u6Iexe9QpPjVFjK1OvwjU73dmTLNHvbHMVAFNeI0KaToP/g2MsB8
- 2ffUThaXk85EDZQJbZDM//Wz/guMPg9yrjG+OW07sNznNKPLdtHk5uwPumze6iLXtaG1
- 1cFtyOa0B0S7X3aDTOmBjXBdWzMWiSaVP2QICPoGy7kV0nHwDSGTAHDS+ja8W4kmJw9+
- P6ig==
-X-Gm-Message-State: AOAM5300mDP0f7Lbg4j7dthpTFOQm0e3nZ4Fa4PcmIG7woaoDkBJPrel
- diiVWce5WX60jGC0ftKuzuumYypPBrqA+xj7hR8=
-X-Google-Smtp-Source: ABdhPJwbe9jcXevWyvJyZsPLUqfBMHmKmnNL15ha+zpduUQh9JOVDfU0JiR7jwypP6aGwyya+axiU8Exy9SJeJ6EFuY=
-X-Received: by 2002:a17:906:1c0c:: with SMTP id
- k12mr8479999ejg.354.1610814629782; 
- Sat, 16 Jan 2021 08:30:29 -0800 (PST)
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=bVxsI6wCQi5l1f0F+hFe7ec/qjDpAfa+cZv4+7SW3DM=;
+ b=swUtv9gMqE78zr6zy9EfAYH1BGSKhrKA3HxT4wSTbitVUfgRNFy5nK234pg/rJj2dE
+ BWgAA9aMygWhcLn3oXCnrfAh4j3Yrt5PVxTbc69Wmz9psIohOfwhM8GPG71/rdRXDcs7
+ VscMJN2rixUa9PN1S/EEgLxV8a6K+bWzXlpYaQcFlXZdupPfzBsvzaR1/ZGaP3hjjWHi
+ wH3v2ajv5HeN2kL8IiX7JQQXUYq2GbMatC3Bff+3aoGo4TRIFgihW72jyNuF1lzcJnHR
+ 9lNJb42/HPOfhi1lCetQ83SSZItU2uyznzQtWAzBZmSBuLrpyJV/uuGVLBqlUznWZj0M
+ hp4A==
+X-Gm-Message-State: AOAM531Bxaf7xR5GxbG2pTZuKFXa55kcXfYagKr9swPCwlbAmfpou97B
+ Il76uwGGgtZmIUPKvQm+24vHJQ==
+X-Google-Smtp-Source: ABdhPJzuY8plAlelC47kpNqyXGMN7/keFqJvVqoGZs67dmqDntz6MymvSzTM+fcFJPJdvXwWwaKujg==
+X-Received: by 2002:a65:6207:: with SMTP id d7mr18823134pgv.92.1610817698864; 
+ Sat, 16 Jan 2021 09:21:38 -0800 (PST)
+Received: from [10.25.18.3] (rrcs-173-197-107-21.west.biz.rr.com.
+ [173.197.107.21])
+ by smtp.gmail.com with ESMTPSA id gx21sm11782609pjb.31.2021.01.16.09.21.36
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Sat, 16 Jan 2021 09:21:38 -0800 (PST)
+Subject: Re: Recent TCG commit breaks PPC
+To: BALATON Zoltan <balaton@eik.bme.hu>, qemu-devel@nongnu.org
+References: <cd52c38c-4b9-791d-fca0-87f99bb0a011@eik.bme.hu>
+From: Richard Henderson <richard.henderson@linaro.org>
+Message-ID: <1934d78f-c349-e2ae-fcf8-d34f83a71c88@linaro.org>
+Date: Sat, 16 Jan 2021 07:21:34 -1000
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
 MIME-Version: 1.0
-References: <f3e04424723e0e222769991896cc82308fd23f76.1610751609.git.alistair.francis@wdc.com>
-In-Reply-To: <f3e04424723e0e222769991896cc82308fd23f76.1610751609.git.alistair.francis@wdc.com>
-From: Bin Meng <bmeng.cn@gmail.com>
-Date: Sun, 17 Jan 2021 00:30:18 +0800
-Message-ID: <CAEUhbmWC5CDqK3QuuLY9PFAxr=OcePsJqsUQjhw3em5GOH+Ccg@mail.gmail.com>
-Subject: Re: [PATCH v1 1/1] riscv: Pass RISCVHartArrayState by pointer
-To: Alistair Francis <alistair.francis@wdc.com>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2a00:1450:4864:20::62a;
- envelope-from=bmeng.cn@gmail.com; helo=mail-ej1-x62a.google.com
+In-Reply-To: <cd52c38c-4b9-791d-fca0-87f99bb0a011@eik.bme.hu>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::532;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x532.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.039,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -75,35 +87,66 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Palmer Dabbelt <palmer@dabbelt.com>,
- "open list:RISC-V" <qemu-riscv@nongnu.org>,
- "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
- Alistair Francis <alistair23@gmail.com>
+Cc: Alistair Francis <alistair23@gmail.com>, qemu-ppc@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Sat, Jan 16, 2021 at 7:00 AM Alistair Francis
-<alistair.francis@wdc.com> wrote:
->
-> We were accidently passing RISCVHartArrayState by value instead of
-> pointer. The type is 824 bytes long so let's correct that and pass it by
-> pointer instead.
->
-> Fixes: Coverity CID 1438099
-> Fixes: Coverity CID 1438100
-> Fixes: Coverity CID 1438101
+On 1/16/21 4:38 AM, BALATON Zoltan wrote:
+> Hello,
+> 
+> Commit 8fe35e0444be (tcg/optimize: Use tcg_constant_internal with constant
+> folding) seems to break PPC emulation for me:
+> 
+> Thread 3 "qemu-system-ppc" received signal SIGSEGV, Segmentation fault.
+> [Switching to Thread 0x7ffff51e7700 (LWP 22636)]
+> 0x0000555555afd4ee in ts_are_copies (ts2=0x7fff8c008f90, ts1=0x7fff8c001510) at
+> ../tcg/optimize.c:68
+> 68        return ts_info(ts)->next_copy != ts;
 
-Where can I look at the Coverity report for QEMU?
+Ok, riscv32 seems to have the same problem.  I'm on it.
+I'll note that check-acceptance passes, so this points out a hole in our testing...
 
-> Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
-> ---
->  include/hw/riscv/boot.h |  6 +++---
->  hw/riscv/boot.c         |  8 ++++----
->  hw/riscv/sifive_u.c     | 10 +++++-----
->  hw/riscv/spike.c        |  8 ++++----
->  hw/riscv/virt.c         |  8 ++++----
->  5 files changed, 20 insertions(+), 20 deletions(-)
->
 
-Reviewed-by: Bin Meng <bin.meng@windriver.com>
+r~
+
+> (gdb) bt
+> #0  0x0000555555afd4ee in ts_are_copies (ts2=0x7fff8c008f90,
+> ts1=0x7fff8c001510) at tcg/optimize.c:68
+> #1  0x0000555555afd4ee in tcg_opt_gen_mov
+>     (s=s@entry=0x7fff8c000b60, op=op@entry=0x7fff8c6b2348, dst=140735542203664,
+> src=140735542235024) at tcg/optimize.c:191
+> #2  0x0000555555afe05a in tcg_opt_gen_movi
+>     (s=s@entry=0x7fff8c000b60, temps_used=temps_used@entry=0x7ffff51e63c0,
+> op=op@entry=0x7fff8c6b2348, dst=<optimized out>,
+>     val=<optimized out>) at include/tcg/tcg.h:731
+> #3  0x0000555555aff79f in tcg_optimize (s=s@entry=0x7fff8c000b60) at
+> tcg/optimize.c:1189
+> #4  0x0000555555b13c39 in tcg_gen_code (s=0x7fff8c000b60,
+> tb=tb@entry=0x7fffb3181380 <code_gen_buffer+4088659>) at tcg/tcg.c:4490
+> #5  0x0000555555b1b485 in tb_gen_code
+>     (cpu=cpu@entry=0x55555651c870, pc=pc@entry=4287582720,
+> cs_base=cs_base@entry=0, flags=flags@entry=24576, cflags=-16777216,
+>     cflags@entry=0) at accel/tcg/translate-all.c:1952
+> #6  0x0000555555b7c303 in tb_find (cf_mask=0, tb_exit=0, last_tb=0x0, cpu=0x0)
+> at accel/tcg/cpu-exec.c:454
+> #7  0x0000555555b7c303 in cpu_exec (cpu=cpu@entry=0x55555651c870) at
+> accel/tcg/cpu-exec.c:810
+> #8  0x0000555555ab5ea2 in tcg_cpus_exec (cpu=cpu@entry=0x55555651c870) at
+> accel/tcg/tcg-cpus.c:57
+> #9  0x0000555555ab7a03 in rr_cpu_thread_fn (arg=arg@entry=0x55555651c870) at
+> accel/tcg/tcg-cpus-rr.c:217
+> #10 0x0000555555cc355a in qemu_thread_start (args=<optimized out>) at
+> util/qemu-thread-posix.c:521
+> #11 0x00007ffff6cc004c in start_thread () at /lib64/libpthread.so.0
+> #12 0x00007ffff6bf13af in clone () at /lib64/libc.so.6
+> 
+> This can be reproduced for example with booting AROS as described here:
+> 
+> http://zero.eik.bme.hu/~balaton/qemu/amiga/#aros
+> 
+> The segfault happens during boot.
+> 
+> Regards,
+> BALATON Zoltan
+
 
