@@ -2,85 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1EDCB2F8D94
-	for <lists+qemu-devel@lfdr.de>; Sat, 16 Jan 2021 16:23:02 +0100 (CET)
-Received: from localhost ([::1]:34530 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 329162F8D9A
+	for <lists+qemu-devel@lfdr.de>; Sat, 16 Jan 2021 16:51:50 +0100 (CET)
+Received: from localhost ([::1]:44368 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l0nPo-0000NB-VU
-	for lists+qemu-devel@lfdr.de; Sat, 16 Jan 2021 10:23:00 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45562)
+	id 1l0nrg-00060z-Me
+	for lists+qemu-devel@lfdr.de; Sat, 16 Jan 2021 10:51:48 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50162)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1l0nOP-0008By-Cm; Sat, 16 Jan 2021 10:21:33 -0500
-Received: from mail-wr1-x42a.google.com ([2a00:1450:4864:20::42a]:34389)
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1l0nqd-0005b9-P6
+ for qemu-devel@nongnu.org; Sat, 16 Jan 2021 10:50:43 -0500
+Received: from indium.canonical.com ([91.189.90.7]:40040)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1l0nON-0000XO-Rg; Sat, 16 Jan 2021 10:21:33 -0500
-Received: by mail-wr1-x42a.google.com with SMTP id q18so12221350wrn.1;
- Sat, 16 Jan 2021 07:21:31 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=AjEQHqFZK0FcaMs+bXU5E0skq7VdWBykRyB/SIX8kA4=;
- b=tS5Wr+qnGFa9xT42RZxT21UgdmcIiVlVWWXwID8pDqIBA+LUNIhN6KP9T6f6UNMmmB
- o+TInL0jDaxxt9gbJQJoIaXRreyzhanJj3x0CfbDiargtYDkd7YCCeQUP5aBHPPoF4sz
- YfZNTIqHLT1WKiwVCRBE+kU9glRetAcBLfLOLkjiOEza0w/fiVdNglTMfbh/GbDyn3Dd
- XXt/BLh+clM3RAWG1PECY7WXWMwaGM5KeKinQmKCdLGKABkqUHHZrB8kkXqAPmvD+2S1
- 0Iiahaa/V2DSsiIP/byd9Txrs7u0RUXeOc6nnN2o4qJWC5pyph2B4woP+E5hb7E3EjE7
- O5Iw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
- :date:user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=AjEQHqFZK0FcaMs+bXU5E0skq7VdWBykRyB/SIX8kA4=;
- b=VKP4uqfOoL5eoLVwNgp5dojmpVCdAyH5fqGXo09k1itMAvvW2qdLxhj49i0qi7U6/y
- aDjoOOLctgpeU1kWf3ywlkpZZeZIYqm50BNdN4X5Oj7QGulQm2nOCEE23QFIZjJEm4a0
- 144ZIVhT57b4xAoidcMGP1Bb0DSr8tKqIuIaULeC8yT8dF4rfwCvjAYOCVl4CzVg917i
- qezWXz8xE3x0zV6FAHpnAsuAwd6RdQe38D7pbFTA5IJkyI7ZnN6QbIOSaurma6ruFB5L
- o5OJ8s0r5hlwbkoZkfSA7wBu21PRjiZEhKk5kvPESLHWJme3/PsS9PZX78Hrxlj74+7w
- yveA==
-X-Gm-Message-State: AOAM530e4PB6lIFhEB/sZWqAJCrgxsl97LYp0gU/N+6sDHi57Gwck1WK
- akSnHKv27Jx8cf6dgqVOQAw=
-X-Google-Smtp-Source: ABdhPJxDQDwPYx3+ODWT/yUgaIBKZg0qqHFpgqRtQtVfbxvUrSh+6EoKWy5XEq6rCG30RZMFaAU3+w==
-X-Received: by 2002:adf:8184:: with SMTP id 4mr18984362wra.63.1610810490111;
- Sat, 16 Jan 2021 07:21:30 -0800 (PST)
-Received: from [192.168.1.36] (13.red-83-57-169.dynamicip.rima-tde.net.
- [83.57.169.13])
- by smtp.gmail.com with ESMTPSA id s13sm19965798wra.53.2021.01.16.07.21.28
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sat, 16 Jan 2021 07:21:29 -0800 (PST)
-Subject: Re: [PATCH v7 5/9] hw/ssi: imx_spi: Rework imx_spi_write() to handle
- block disabled
-To: Bin Meng <bmeng.cn@gmail.com>
-References: <20210115153049.3353008-1-f4bug@amsat.org>
- <20210115153049.3353008-6-f4bug@amsat.org>
- <CAEUhbmUXfm4JqqopEhq9-FQYJeY8Md7uwCczbSHm2H9oqERkJg@mail.gmail.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
-Message-ID: <7fcb40af-12a4-8926-b612-34d21988baf5@amsat.org>
-Date: Sat, 16 Jan 2021 16:21:28 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.6.0
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1l0nqa-00062a-UU
+ for qemu-devel@nongnu.org; Sat, 16 Jan 2021 10:50:43 -0500
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1l0nqW-0004ja-C8
+ for <qemu-devel@nongnu.org>; Sat, 16 Jan 2021 15:50:36 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id 480212E8143
+ for <qemu-devel@nongnu.org>; Sat, 16 Jan 2021 15:50:36 +0000 (UTC)
 MIME-Version: 1.0
-In-Reply-To: <CAEUhbmUXfm4JqqopEhq9-FQYJeY8Md7uwCczbSHm2H9oqERkJg@mail.gmail.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::42a;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x42a.google.com
-X-Spam_score_int: -14
-X-Spam_score: -1.5
-X-Spam_bar: -
-X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.25,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249, NICE_REPLY_A=-0.039,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Date: Sat, 16 Jan 2021 15:41:48 -0000
+From: =?utf-8?q?Philippe_Mathieu-Daud=C3=A9?= <1912059@bugs.launchpad.net>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: philmd
+X-Launchpad-Bug-Reporter: =?utf-8?q?Philippe_Mathieu-Daud=C3=A9_=28philmd?=
+ =?utf-8?q?=29?=
+X-Launchpad-Bug-Modifier: =?utf-8?q?Philippe_Mathieu-Daud=C3=A9_=28philmd?=
+ =?utf-8?q?=29?=
+Message-Id: <161081170825.23111.15517151874905086702.malonedeb@soybean.canonical.com>
+Subject: [Bug 1912059] [NEW] capstone link failure building linux-user static
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="511b4a3b6512aa3d421c5f7d74f3527e78bff26e"; Instance="production"
+X-Launchpad-Hash: 1ffcedbf0a0db3ca9570bf9d02fbb780a59c1502
+Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
+ helo=indium.canonical.com
+X-Spam_score_int: -65
+X-Spam_score: -6.6
+X-Spam_bar: ------
+X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9,
+ HEADER_FROM_DIFFERENT_DOMAINS=0.249, RCVD_IN_DNSWL_HI=-5,
+ RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -89,107 +70,125 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- Alistair Francis <alistair@alistair23.me>,
- "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
- Jean-Christophe Dubois <jcd@tribudubois.net>, qemu-arm <qemu-arm@nongnu.org>,
- Peter Chubb <peter.chubb@nicta.com.au>
+Reply-To: Bug 1912059 <1912059@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi Bin,
+Public bug reported:
 
-On 1/16/21 2:57 PM, Bin Meng wrote:
-> On Fri, Jan 15, 2021 at 11:37 PM Philippe Mathieu-Daudé <f4bug@amsat.org> wrote:
->>
->> When the block is disabled, only the ECSPI_CONREG register can
->> be modified. Setting the EN bit enabled the device, clearing it
-> 
-> I don't know how this conclusion came out. The manual only says the
-> following 2 registers ignore the write when the block is disabled.
-> 
-> ECSPI_TXDATA, ECSPI_INTREG
+$ ../configure --disable-system --static
 
-21.4.5 Reset
+qemu 5.2.50
 
-  Whenever a device reset occurs, a reset is performed on the
-  ECSPI, resetting all registers to their default values.
+                     static build: YES
+                         capstone: system
+[...]
 
-My understanding is it is pointless to update them when the
-device is in reset, as they will get their default value when
-going out of reset.
+$ make qemu-i386
+[...]
+[478/478] Linking target qemu-i386
+FAILED: qemu-i386 =
 
-> 
->> "disables the block and resets the internal logic with the
->> exception of the ECSPI_CONREG" register.
->>
->> Move the imx_spi_is_enabled() check earlier.
->>
->> Ref: i.MX 6DQ Applications Processor Reference Manual (IMX6DQRM),
->>      chapter 21.7.3: Control Register (ECSPIx_CONREG)
->>
->> Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
->> ---
->>  hw/ssi/imx_spi.c | 26 ++++++++++++++++----------
->>  1 file changed, 16 insertions(+), 10 deletions(-)
->>
->> diff --git a/hw/ssi/imx_spi.c b/hw/ssi/imx_spi.c
->> index ba7d3438d87..f06bbf317e2 100644
->> --- a/hw/ssi/imx_spi.c
->> +++ b/hw/ssi/imx_spi.c
->> @@ -322,6 +322,21 @@ static void imx_spi_write(void *opaque, hwaddr offset, uint64_t value,
->>      DPRINTF("reg[%s] <= 0x%" PRIx32 "\n", imx_spi_reg_name(index),
->>              (uint32_t)value);
->>
->> +    if (!imx_spi_is_enabled(s)) {
->> +        /* Block is disabled */
->> +        if (index != ECSPI_CONREG) {
->> +            /* Ignore access */
->> +            return;
->> +        }
->> +        s->regs[ECSPI_CONREG] = value;
+cc  -o qemu-i386 libcommon.fa.p/hw_core_cpu.c.o libcommon.fa.p/disas_capsto=
+ne.c.o libcommon.fa.p/disas_i386.c.o ... -Wl,--as-needed -Wl,--no-undefined=
+ -Wl,--whole-archive libhwcore.fa libqom.fa -Wl,--no-whole-archive -Wl,--wa=
+rn-common -Wl,-z,relro -Wl,-z,now -static -m64 -fstack-protector-strong -Wl=
+,--start-group libqemuutil.a subprojects/libvhost-user/libvhost-user-glib.a=
+ subprojects/libvhost-user/libvhost-user.a libhwcore.fa libqom.fa -lcapston=
+e -lrt -pthread -lutil -lm -lgthread-2.0 -lglib-2.0 -lpcre -lgthread-2.0 -l=
+glib-2.0 -lpcre -Wl,--end-group
+/usr/bin/ld: cannot find -lcapstone
+collect2: error: ld returned 1 exit status
+ninja: build stopped: subcommand failed.
+make: *** [Makefile:172: run-ninja] Error 1
 
-                                   [*]
+$ rpm -ql capstone-devel
+/usr/include/capstone
+/usr/include/capstone/arm.h
+/usr/include/capstone/arm64.h
+/usr/include/capstone/capstone.h
+/usr/include/capstone/evm.h
+/usr/include/capstone/m680x.h
+/usr/include/capstone/m68k.h
+/usr/include/capstone/mips.h
+/usr/include/capstone/platform.h
+/usr/include/capstone/ppc.h
+/usr/include/capstone/sparc.h
+/usr/include/capstone/systemz.h
+/usr/include/capstone/tms320c64x.h
+/usr/include/capstone/x86.h
+/usr/include/capstone/xcore.h
+/usr/lib64/libcapstone.so
+/usr/lib64/pkgconfig/capstone.pc
 
->> +        if (!(value & ECSPI_CONREG_EN)) {
->> +            /* Keep disabled */
-> 
-> So other bits except ECSPI_CONREG_EN are discarded? The manual does
-> not explicitly mention this but this looks suspicious.
+libcapstone.a seems detected by Meson but is not installed on the system
+(Fedora 32).
 
-See in [*], all bits from the register are updated. We simply check
-ECSPI_CONREG_EN to see if we need to go out of reset.
+** Affects: qemu
+     Importance: Undecided
+         Status: New
 
-See:
+-- =
 
-21.5 Initialization
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1912059
 
-  This section provides initialization information for ECSPI.
+Title:
+  capstone link failure building linux-user static
 
-  To initialize the block:
+Status in QEMU:
+  New
 
-  1. Clear the EN bit in ECSPI_CONREG to reset the block.
-  2. Enable the clocks for ECSPI.
-  3. Set the EN bit in ECSPI_CONREG to put ECSPI out of reset.
-  4. Configure corresponding IOMUX for ECSPI external signals.
-  5 Configure registers of ECSPI properly according to the
-    specifications of the external SPI device.
+Bug description:
+  $ ../configure --disable-system --static
 
-And ECSPI_CONREG_EN bit description:
+  qemu 5.2.50
 
-  SPI Block Enable Control. This bit enables the ECSPI. This bit
-  must be set before writing to other registers or initiating an
-  exchange. Writing zero to this bit disables the block and resets
-  the internal logic with the exception of the ECSPI_CONREG. The
-  block's internal clocks are gated off whenever the block is
-  disabled.
+                       static build: YES
+                           capstone: system
+  [...]
 
+  $ make qemu-i386
+  [...]
+  [478/478] Linking target qemu-i386
+  FAILED: qemu-i386 =
 
-I simply wanted to help you. I don't want to delay your work, so
-if you think my approach is incorrect, suggest Peter to queue your
-v5 or resend it (once riscv-next is merged) as v8.
+  cc  -o qemu-i386 libcommon.fa.p/hw_core_cpu.c.o libcommon.fa.p/disas_caps=
+tone.c.o libcommon.fa.p/disas_i386.c.o ... -Wl,--as-needed -Wl,--no-undefin=
+ed -Wl,--whole-archive libhwcore.fa libqom.fa -Wl,--no-whole-archive -Wl,--=
+warn-common -Wl,-z,relro -Wl,-z,now -static -m64 -fstack-protector-strong -=
+Wl,--start-group libqemuutil.a subprojects/libvhost-user/libvhost-user-glib=
+.a subprojects/libvhost-user/libvhost-user.a libhwcore.fa libqom.fa -lcapst=
+one -lrt -pthread -lutil -lm -lgthread-2.0 -lglib-2.0 -lpcre -lgthread-2.0 =
+-lglib-2.0 -lpcre -Wl,--end-group
+  /usr/bin/ld: cannot find -lcapstone
+  collect2: error: ld returned 1 exit status
+  ninja: build stopped: subcommand failed.
+  make: *** [Makefile:172: run-ninja] Error 1
 
-Regards,
+  $ rpm -ql capstone-devel
+  /usr/include/capstone
+  /usr/include/capstone/arm.h
+  /usr/include/capstone/arm64.h
+  /usr/include/capstone/capstone.h
+  /usr/include/capstone/evm.h
+  /usr/include/capstone/m680x.h
+  /usr/include/capstone/m68k.h
+  /usr/include/capstone/mips.h
+  /usr/include/capstone/platform.h
+  /usr/include/capstone/ppc.h
+  /usr/include/capstone/sparc.h
+  /usr/include/capstone/systemz.h
+  /usr/include/capstone/tms320c64x.h
+  /usr/include/capstone/x86.h
+  /usr/include/capstone/xcore.h
+  /usr/lib64/libcapstone.so
+  /usr/lib64/pkgconfig/capstone.pc
 
-Phil.
+  libcapstone.a seems detected by Meson but is not installed on the
+  system (Fedora 32).
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1912059/+subscriptions
 
