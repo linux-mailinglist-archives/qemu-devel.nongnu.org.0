@@ -2,74 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DA3F22F8A85
-	for <lists+qemu-devel@lfdr.de>; Sat, 16 Jan 2021 02:38:43 +0100 (CET)
-Received: from localhost ([::1]:42118 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 28D932F8B27
+	for <lists+qemu-devel@lfdr.de>; Sat, 16 Jan 2021 05:29:25 +0100 (CET)
+Received: from localhost ([::1]:34388 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l0aY6-0006HL-FI
-	for lists+qemu-devel@lfdr.de; Fri, 15 Jan 2021 20:38:42 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51596)
+	id 1l0dDI-00019R-6q
+	for lists+qemu-devel@lfdr.de; Fri, 15 Jan 2021 23:29:24 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34668)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
- id 1l0aWJ-0005jt-HR; Fri, 15 Jan 2021 20:36:51 -0500
-Received: from mail-yb1-xb2d.google.com ([2607:f8b0:4864:20::b2d]:43215)
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1l0dAU-0007vo-3r
+ for qemu-devel@nongnu.org; Fri, 15 Jan 2021 23:26:30 -0500
+Received: from indium.canonical.com ([91.189.90.7]:47638)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
- id 1l0aWH-0001II-OL; Fri, 15 Jan 2021 20:36:51 -0500
-Received: by mail-yb1-xb2d.google.com with SMTP id y128so6774247ybf.10;
- Fri, 15 Jan 2021 17:36:49 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=7lp0Ef58W/Yt6Vest35/k9tef9VJ8QOVGYd/N6GO1eg=;
- b=HBnVvpsQ5d+iC+oWrYpSySI3nYFqXFwFFYJe86gE/vD8tGrHougyq4psDld2K0Zjh7
- ZgIDip4sk9MUkTNXo4Rjws5GV9LkXZSf4/Uel0PyT74FTIXDwDycyGG7q7aFNuUw7dOx
- a+1WyEjOWck2hcJwn+qzUDGv4VRZRSYHwt1RDUGVvHA9Db52ZAkAzrJ+F8JLePyFJG4E
- 5lXTMcLp5IOaJY+EiFi4QwkydClZQ1ewlWYi7PY23NDdwn340R0QbreCg/z+ZAWNyTZs
- falUWQ+rf6w4qKMb2gJSPStOu1j4mAMQZRChn688PuAbOC1n+1IKfnD6e1OzJmue8oBq
- beAA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=7lp0Ef58W/Yt6Vest35/k9tef9VJ8QOVGYd/N6GO1eg=;
- b=gXsE8iaKdvqKxrh9bT1cQHE4cJqdKdxxm25KHBgbRQBvPRj41QmhuOKt0y2nJHU16V
- PSLrRPQ/P5iP3j5Yca/4j/6bSPBj/0NQ54Y0+eEnXB/CeVVZZBnULOzXqdcEw6feXM1R
- A6ynzEFfJXG/eoTxpA/Evvo/9TwlGa7X3g98TUBm98o38kBzLCKFdQJvS0TnFDokWD+K
- Y9qWYttPyhHaNDV1iGLghsgk9zuSfkVJI2BVKb5Wb6bV3BPUP8asJ/tA+uy06I+9d7ka
- M0bvDLGe9DrGa6VYGiIc4Gio7lMtCJ7A/TWnrvsPKq8/EykueF19jo3SsXsAFaixVPeY
- t0Mg==
-X-Gm-Message-State: AOAM532ziU+SNt0dbC0iNbG71NT8HMQz9BDOcODABJ5TsUWwD2wCTWqH
- 3SM5FhVqjOp/GGwMPs24xcdk1CslquIeFl7PLEQ=
-X-Google-Smtp-Source: ABdhPJwk229q6nYZd//6zopPZV/9wiZ8/FT/CRxMv9MrzRPLRDVm8NgY12jcnL7uAkyk7aDu8I5Qpi2jds4LS/73pjQ=
-X-Received: by 2002:a25:2041:: with SMTP id g62mr22939905ybg.152.1610761008396; 
- Fri, 15 Jan 2021 17:36:48 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1l0dAQ-0006D7-JO
+ for qemu-devel@nongnu.org; Fri, 15 Jan 2021 23:26:29 -0500
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1l0dAN-0002EC-IL
+ for <qemu-devel@nongnu.org>; Sat, 16 Jan 2021 04:26:23 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id 1EFE22E816F
+ for <qemu-devel@nongnu.org>; Sat, 16 Jan 2021 04:26:21 +0000 (UTC)
 MIME-Version: 1.0
-References: <1610427124-49887-1-git-send-email-bmeng.cn@gmail.com>
- <1610427124-49887-4-git-send-email-bmeng.cn@gmail.com>
- <CAKmqyKO2noST5un=fRqhzWG6mL8R2rws_h6Bt1R27b+F7ujqjA@mail.gmail.com>
- <CAKmqyKNRzBYHWwY_yo-yLQTY5BMBcbY3kYHh2NY2g-=9_Qg_dw@mail.gmail.com>
-In-Reply-To: <CAKmqyKNRzBYHWwY_yo-yLQTY5BMBcbY3kYHh2NY2g-=9_Qg_dw@mail.gmail.com>
-From: Bin Meng <bmeng.cn@gmail.com>
-Date: Sat, 16 Jan 2021 09:36:37 +0800
-Message-ID: <CAEUhbmWLK4-X3exVLrtUn8Vi54c=jVrFFv0pphaodc97Y6NYoQ@mail.gmail.com>
-Subject: Re: [PATCH 3/4] target/riscv: Generate the GDB XML file for CSR
- registers dynamically
-To: Alistair Francis <alistair23@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::b2d;
- envelope-from=bmeng.cn@gmail.com; helo=mail-yb1-xb2d.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Date: Sat, 16 Jan 2021 04:17:49 -0000
+From: Launchpad Bug Tracker <1696746@bugs.launchpad.net>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=Expired; importance=Undecided;
+ assignee=None; 
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: janitor nathan-renniewaldock th-huth
+X-Launchpad-Bug-Reporter: Nathan Rennie-Waldock (nathan-renniewaldock)
+X-Launchpad-Bug-Modifier: Launchpad Janitor (janitor)
+References: <149692831501.10366.4878345375882367011.malonedeb@wampee.canonical.com>
+Message-Id: <161077066952.27726.10430610550699446915.malone@loganberry.canonical.com>
+Subject: [Bug 1696746] Re: netdev user,
+ restrict=on prevents forwarded ports from being accessed from other
+ systems
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="511b4a3b6512aa3d421c5f7d74f3527e78bff26e"; Instance="production"
+X-Launchpad-Hash: e4deefcb26f5890d220165731eb5a90e108fb547
+Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
+ helo=indium.canonical.com
+X-Spam_score_int: -65
+X-Spam_score: -6.6
+X-Spam_bar: ------
+X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9,
+ HEADER_FROM_DIFFERENT_DOMAINS=0.249, RCVD_IN_DNSWL_HI=-5,
+ RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -78,44 +72,51 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "open list:RISC-V" <qemu-riscv@nongnu.org>,
- Bin Meng <bin.meng@windriver.com>, Alistair Francis <alistair.francis@wdc.com>,
- "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
- Jim Wilson <jimw@sifive.com>
+Reply-To: Bug 1696746 <1696746@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Sat, Jan 16, 2021 at 6:08 AM Alistair Francis <alistair23@gmail.com> wrote:
->
-> On Fri, Jan 15, 2021 at 1:59 PM Alistair Francis <alistair23@gmail.com> wrote:
-> >
-> > On Mon, Jan 11, 2021 at 8:55 PM Bin Meng <bmeng.cn@gmail.com> wrote:
-> > >
-> > > From: Bin Meng <bin.meng@windriver.com>
-> > >
-> > > At present QEMU RISC-V uses a hardcoded XML to report the feature
-> > > "org.gnu.gdb.riscv.csr" [1]. There are two major issues with the
-> > > approach being used currently:
-> > >
-> > > - The XML does not specify the "regnum" field of a CSR entry, hence
-> > >   consecutive numbers are used by the remote GDB client to access
-> > >   CSRs. In QEMU we have to maintain a map table to convert the GDB
-> > >   number to the hardware number which is error prone.
-> > > - The XML contains some CSRs that QEMU does not implement at all,
-> > >   which causes an "E14" response sent to remote GDB client.
-> > >
-> > > Change to generate the CSR register list dynamically, based on the
-> > > availability presented in the CSR function table. This new approach
-> > > will reflect a correct list of CSRs that QEMU actually implements.
-> > >
-> > > [1] https://sourceware.org/gdb/current/onlinedocs/gdb/RISC_002dV-Features.html#RISC_002dV-Features
->
-> Do you mind rebasing this patch on the current riscv-to-apply.next
-> branch: https://github.com/alistair23/qemu/tree/riscv-to-apply.next
->
+[Expired for QEMU because there has been no activity for 60 days.]
 
-Yes, for sure.
+** Changed in: qemu
+       Status: Incomplete =3D> Expired
 
-Regards,
-Bin
+-- =
+
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1696746
+
+Title:
+  netdev user,restrict=3Don prevents forwarded ports from being accessed
+  from other systems
+
+Status in QEMU:
+  Expired
+
+Bug description:
+  I've got a guest only network and I'm wanting to access SSH on one of the=
+ guests externally.
+  I'm using -netdev user,id=3Dusernet0,hostfwd=3Dtcp::2222-:22,restrict=3Dy=
+es -device virtio-net-pci,netdev=3Dusernet0
+  to forward 2222 to 22 in the guest.
+
+  The docs state:
+  restrict=3Don|off
+
+      If this option is enabled, the guest will be isolated, i.e. it
+  will not be able to contact the host and no guest IP packets will be
+  routed over the host to the outside. This option does not affect any
+  explicitly set forwarding rules.
+
+  =
+
+  However, with restrict=3Don, the forwarded port is only accessible from t=
+he host. Other systems receive no data.
+
+  This was tested with qemu 2.8. Changelog for 2.9 doesn't mention any
+  (relevant) user networking changes, so that should also fail.
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1696746/+subscriptions
 
