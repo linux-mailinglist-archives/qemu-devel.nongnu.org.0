@@ -2,67 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 343DB2F8B2B
-	for <lists+qemu-devel@lfdr.de>; Sat, 16 Jan 2021 05:31:52 +0100 (CET)
-Received: from localhost ([::1]:40610 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 423872F8BB8
+	for <lists+qemu-devel@lfdr.de>; Sat, 16 Jan 2021 06:43:21 +0100 (CET)
+Received: from localhost ([::1]:35660 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l0dFf-0003qU-8S
-	for lists+qemu-devel@lfdr.de; Fri, 15 Jan 2021 23:31:51 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34596)
+	id 1l0eMp-00029o-Sk
+	for lists+qemu-devel@lfdr.de; Sat, 16 Jan 2021 00:43:19 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44546)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1l0dAH-0007rt-Ms
- for qemu-devel@nongnu.org; Fri, 15 Jan 2021 23:26:18 -0500
-Received: from indium.canonical.com ([91.189.90.7]:46744)
+ (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
+ id 1l0eLD-00013x-Pq; Sat, 16 Jan 2021 00:41:39 -0500
+Received: from mail-pf1-x436.google.com ([2607:f8b0:4864:20::436]:34649)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1l0dAD-00067Z-0n
- for qemu-devel@nongnu.org; Fri, 15 Jan 2021 23:26:17 -0500
-Received: from loganberry.canonical.com ([91.189.90.37])
- by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1l0dAA-0001VU-BP
- for <qemu-devel@nongnu.org>; Sat, 16 Jan 2021 04:26:10 +0000
-Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 556482E8142
- for <qemu-devel@nongnu.org>; Sat, 16 Jan 2021 04:26:10 +0000 (UTC)
+ (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
+ id 1l0eLB-0005OO-Qn; Sat, 16 Jan 2021 00:41:39 -0500
+Received: by mail-pf1-x436.google.com with SMTP id m6so6866672pfk.1;
+ Fri, 15 Jan 2021 21:41:36 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=ZROxoXlrun9OaOA5qjzcpat0eaMeekx5L3NbjA8Z/jE=;
+ b=emtwbWxZ4QGD8V6FgGiq27g6i18uDeBcGdvJc9OVzOrjwDIWfxwoFZHELuzQubUon5
+ BJbVxmlYV+Qqtq9biSeS8ktYUMN/ACc0YIfH1dXYoQE7kGArw74euj5tGs8KidG7Vd1o
+ ++R62SnSwsopqFR8+HKCWx9VnmZQWYA7S3POl+AUzW/ScpKsvSNzHgHCVQKNcS4ew0xh
+ T5yho4VIs3gSzMJIQW01y9Tf4YcrQmP44kZ1VE3Ewb2pEV3pp4t52eMVJvYA1w3l6FiY
+ sTAVI9fOa3tR5PKk2VdgvBd93dw8xB9lRbyQH1GC00YQssJizkF++I6qgsnDGjT7Ujkh
+ O7vw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=ZROxoXlrun9OaOA5qjzcpat0eaMeekx5L3NbjA8Z/jE=;
+ b=EFEbrQtk7G2UuwmT0Jv2Cmvgx1qW3i9xAS8dLgwIF2aQgH1dUe6sP5Ii/oOrrbDyEQ
+ Dx1lUbOXMIf3pvsHLm6cPfLz/FJaz7NzhvzEpTbFPoX6ZFfuN21pscCfmOuhTnaoIyMR
+ OTHfN5vLQk/1gDRnyW58Hfk6EUwiXdma95gZhChpQYOsO/X7NDtPT5ck58xqY2S5Qqat
+ IKMQpjdMY5K3kssyLVqhg6REjZ/RFTflY+GtIilft6dDrlGK1hrikBNofLgqmQk49nVg
+ qrNtt0uDCiPNsNYBCo1piM/ED5dunCEQA8/hGV/VgsZBO4hiCluOphfKw8GkUhREASUE
+ 68mQ==
+X-Gm-Message-State: AOAM5320viDOfV8yNmK5mo6Op/GyZNYyw+u6JaLrFG3o03zsAf6koSHn
+ ZgCiB5+Km6rjKGq3j+lch00=
+X-Google-Smtp-Source: ABdhPJy/jW3hpUHcYmV5kwVJ8Tzn2BqmqBkbRzaL4pc5qfpy0rTs4MECHARu7NVcuBoLiQAhAKRRwg==
+X-Received: by 2002:a65:4bc2:: with SMTP id p2mr16212195pgr.169.1610775695723; 
+ Fri, 15 Jan 2021 21:41:35 -0800 (PST)
+Received: from i9-aorus-gtx1080.localdomain (144.168.56.201.16clouds.com.
+ [144.168.56.201])
+ by smtp.gmail.com with ESMTPSA id v19sm9603798pjg.50.2021.01.15.21.41.32
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 15 Jan 2021 21:41:35 -0800 (PST)
+From: Bin Meng <bmeng.cn@gmail.com>
+To: Jim Wilson <jimw@sifive.com>, Alistair Francis <alistair.francis@wdc.com>
+Subject: [PATCH v2 0/2] target/riscv: Generate the GDB XML file for CSR
+ registers dynamically
+Date: Sat, 16 Jan 2021 13:41:21 +0800
+Message-Id: <20210116054123.5457-1-bmeng.cn@gmail.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-Date: Sat, 16 Jan 2021 04:17:52 -0000
-From: Launchpad Bug Tracker <1743214@bugs.launchpad.net>
-To: qemu-devel@nongnu.org
-X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=Expired; importance=Undecided;
- assignee=None; 
-X-Launchpad-Bug-Tags: broken i386 os2 support trap warp
-X-Launchpad-Bug-Information-Type: Public
-X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: balaton-4 janitor mvoloshin th-huth
-X-Launchpad-Bug-Reporter: MVoloshin (mvoloshin)
-X-Launchpad-Bug-Modifier: Launchpad Janitor (janitor)
-References: <151593225024.11261.9880390596143098449.malonedeb@soybean.canonical.com>
-Message-Id: <161077067277.27726.14721517715262770977.malone@loganberry.canonical.com>
-Subject: [Bug 1743214] Re: OS/2 Warp 3 support broken in 2.11
-X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
-X-Launchpad-Message-For: qemu-devel-ml
-Precedence: bulk
-X-Generated-By: Launchpad (canonical.com);
- Revision="511b4a3b6512aa3d421c5f7d74f3527e78bff26e"; Instance="production"
-X-Launchpad-Hash: f6d15d0e5cf0d183879d5a771009db022ed9af4e
-Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
- helo=indium.canonical.com
-X-Spam_score_int: -65
-X-Spam_score: -6.6
-X-Spam_bar: ------
-X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9,
- HEADER_FROM_DIFFERENT_DOMAINS=0.249, RCVD_IN_DNSWL_HI=-5,
- RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=ham autolearn_force=no
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::436;
+ envelope-from=bmeng.cn@gmail.com; helo=mail-pf1-x436.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -71,36 +80,53 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1743214 <1743214@bugs.launchpad.net>
+Cc: Bin Meng <bin.meng@windriver.com>, qemu-riscv@nongnu.org,
+ qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-[Expired for QEMU because there has been no activity for 60 days.]
+From: Bin Meng <bin.meng@windriver.com>
 
-** Changed in: qemu
-       Status: Incomplete =3D> Expired
 
--- =
+At present QEMU RISC-V uses a hardcoded XML to report the feature
+"org.gnu.gdb.riscv.csr" [1]. There are two major issues with the
+approach being used currently:
 
-You received this bug notification because you are a member of qemu-
-devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1743214
+- The XML does not specify the "regnum" field of a CSR entry, hence
+  consecutive numbers are used by the remote GDB client to access
+  CSRs. In QEMU we have to maintain a map table to convert the GDB
+  number to the hardware number which is error prone.
+- The XML contains some CSRs that QEMU does not implement at all,
+  which causes an "E14" response sent to remote GDB client.
 
-Title:
-  OS/2 Warp 3 support broken in 2.11
+Change to generate the CSR register list dynamically, based on the
+availability presented in the CSR function table. This new approach
+will reflect a correct list of CSRs that QEMU actually implements.
 
-Status in QEMU:
-  Expired
+[1] https://sourceware.org/gdb/current/onlinedocs/gdb/RISC_002dV-Features.html#RISC_002dV-Features
 
-Bug description:
-  Hello, I used to run OS/2 Warp 3 on QEMU with the following command line:=
- qemu-system-i386 -vga cirrus -soundhw sb16 -hda os2warp3v2.img -boot c. It=
- runs OK on QEMU 2.10, but immediately gives TRAP 0006 (invalid opcode?) on=
- QEMU 2.11 (see screenshot).
-  If it is important I have Fixpack 40 and GRADD installed in OS/2.
-  Here is the image:
-  https://drive.google.com/open?id=3D15umPecy7JlPLKUP6520MB_87CfrCDWO5
+Changes in v2:
+- rebase on top of riscv-to-apply.next branch
+- drop the first 2 patches that are already applied on riscv-to-apply.next
 
-To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1743214/+subscriptions
+Bin Meng (2):
+  target/riscv: Generate the GDB XML file for CSR registers dynamically
+  target/riscv: Remove built-in GDB XML files for CSRs
+
+ .../targets/riscv32-linux-user.mak            |   2 +-
+ default-configs/targets/riscv32-softmmu.mak   |   2 +-
+ .../targets/riscv64-linux-user.mak            |   2 +-
+ default-configs/targets/riscv64-softmmu.mak   |   2 +-
+ target/riscv/cpu.h                            |   2 +
+ target/riscv/cpu.c                            |  12 +
+ target/riscv/gdbstub.c                        | 308 +++---------------
+ gdb-xml/riscv-32bit-csr.xml                   | 250 --------------
+ gdb-xml/riscv-64bit-csr.xml                   | 250 --------------
+ 9 files changed, 62 insertions(+), 768 deletions(-)
+ delete mode 100644 gdb-xml/riscv-32bit-csr.xml
+ delete mode 100644 gdb-xml/riscv-64bit-csr.xml
+
+-- 
+2.25.1
+
 
