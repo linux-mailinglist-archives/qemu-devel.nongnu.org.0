@@ -2,58 +2,58 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3856F2F8BF0
-	for <lists+qemu-devel@lfdr.de>; Sat, 16 Jan 2021 07:48:17 +0100 (CET)
-Received: from localhost ([::1]:50094 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id F11CF2F8BF5
+	for <lists+qemu-devel@lfdr.de>; Sat, 16 Jan 2021 08:11:21 +0100 (CET)
+Received: from localhost ([::1]:55822 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l0fNf-0004Zk-P1
-	for lists+qemu-devel@lfdr.de; Sat, 16 Jan 2021 01:48:15 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52200)
+	id 1l0fk0-0008Pg-Hq
+	for lists+qemu-devel@lfdr.de; Sat, 16 Jan 2021 02:11:20 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57648)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <th.huth@gmail.com>) id 1l0fMN-00045d-1f
- for qemu-devel@nongnu.org; Sat, 16 Jan 2021 01:46:55 -0500
-Received: from mail-ej1-f43.google.com ([209.85.218.43]:42155)
+ (Exim 4.90_1) (envelope-from <th.huth@gmail.com>) id 1l0fiU-0007lO-TN
+ for qemu-devel@nongnu.org; Sat, 16 Jan 2021 02:09:47 -0500
+Received: from mail-ed1-f44.google.com ([209.85.208.44]:37504)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <th.huth@gmail.com>) id 1l0fML-0001ih-2X
- for qemu-devel@nongnu.org; Sat, 16 Jan 2021 01:46:54 -0500
-Received: by mail-ej1-f43.google.com with SMTP id r12so5083899ejb.9
- for <qemu-devel@nongnu.org>; Fri, 15 Jan 2021 22:46:51 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <th.huth@gmail.com>) id 1l0fiR-0004RB-78
+ for qemu-devel@nongnu.org; Sat, 16 Jan 2021 02:09:46 -0500
+Received: by mail-ed1-f44.google.com with SMTP id g1so11350935edu.4
+ for <qemu-devel@nongnu.org>; Fri, 15 Jan 2021 23:09:42 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=fWoUUwFKwBAV+qB9lJbAE8lqcRb3leOg/58upQRJgDg=;
- b=Vh1IaZstxp5UBHl2IkV30BbRyvm87JCUX612EA5zMPLLYPnbKEjdeghsHqfyCfU4DD
- B8DzjkhMaDniSJWfSpM8U9pnPZXpMLegq9zcebZes5fl0nwIvA0/b9gD3d8wvLK5ClWh
- P1W1+idJL6VFwe67Lh48Q6yJzfQpxIHItVmb3HjsUhmobdy8auvqIXonAtP5yWRsRFKf
- Levq4W7c/n8gzih4CQ3YZkQnvVQvL9AHLnF3QBy760G6V0SiCUF8h7phoO2D7H6Bj2nT
- 63rLnXH9k8x/nJy7qRJUVANTvOSNZ+B7He+3d8pvKYcB5ucvkM1A/UGIXPTlOCZNG4SF
- zsRw==
-X-Gm-Message-State: AOAM533lpfa1RdKehxJV7cU3nzmMGWhMPH639ISRIU2Z5Sw6An5htL1V
- nV0ZyDHTH+RH9+Q42tVfH+k=
-X-Google-Smtp-Source: ABdhPJw6bLY1EKAGqHYA5wHlQYmanbZ0uhB5WfIn2fZHckSblbcRvxIe5qys9uuQ+Xvoa/moOWUnqA==
-X-Received: by 2002:a17:907:36a:: with SMTP id
- rs10mr11555312ejb.281.1610779610017; 
- Fri, 15 Jan 2021 22:46:50 -0800 (PST)
+ bh=p8po+8zMDsGUp2rnx806VNhhtf4mdtTUPdDzM9Ib0A0=;
+ b=ILGMxFyerdEUy65LIyKTbuODzZVUfDpI4HQuP+4PKD2p3T2MFtsr4JgP/HIhB9xGeB
+ w8ST98dJbL6TUbAxZBYo7v5UzBefmUQ8jnH67VQp7Zj3JJ/WN7OhAZs3mgMdZjzIjH6r
+ +DxQg8xBnGeIcBtzBLOzEt0LlIafVWFaEJ+BtMsFS168KTZJOuxWm8jSYi4+kTwn1ZMM
+ WNcs9w+wL8yEf6ZJnPob9o2f+CBgCN9lB/e2aem8nOd3uv6i4iHfdcc0wUhIag12i1L0
+ q9ZIrlu2jB12LtwfYVW3HttFXldifRFkdwaRtqpKUKY576fHj+hGS3QyRRTruoauc7S+
+ wg2Q==
+X-Gm-Message-State: AOAM530U4ExJkktMFpYadrUn6cud6LjjHhNceySTHMXyByXE7zAWYiLY
+ QOecJCavd2Lc5rq6t4ioJMw=
+X-Google-Smtp-Source: ABdhPJyLTvKEh+PPUqr0IIKtnt5ZiheUkYpn6jX0JW3Kfa+0tqJRzsfffv+KNRb18EBCTpjoxBhKSg==
+X-Received: by 2002:a05:6402:c83:: with SMTP id
+ cm3mr12428117edb.189.1610780981268; 
+ Fri, 15 Jan 2021 23:09:41 -0800 (PST)
 Received: from localhost (pd9e834f0.dip0.t-ipconnect.de. [217.232.52.240])
- by smtp.gmail.com with ESMTPSA id m24sm5603426ejo.52.2021.01.15.22.46.48
+ by smtp.gmail.com with ESMTPSA id k22sm4307013eji.101.2021.01.15.23.09.40
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 15 Jan 2021 22:46:49 -0800 (PST)
-Date: Sat, 16 Jan 2021 07:46:47 +0100
+ Fri, 15 Jan 2021 23:09:40 -0800 (PST)
+Date: Sat, 16 Jan 2021 08:09:39 +0100
 From: Thomas Huth <huth@tuxfamily.org>
 To: Peter Maydell <peter.maydell@linaro.org>
-Subject: Re: [PATCH 01/11] hw/m68k/next-cube: Make next_irq() function static
-Message-ID: <20210116074647.7bda71cb@tuxfamily.org>
-In-Reply-To: <20210115201206.17347-2-peter.maydell@linaro.org>
+Subject: Re: [PATCH 03/11] hw/m68k/next-cube: Move mmio_ops into NeXTPC device
+Message-ID: <20210116080939.12bb9637@tuxfamily.org>
+In-Reply-To: <20210115201206.17347-4-peter.maydell@linaro.org>
 References: <20210115201206.17347-1-peter.maydell@linaro.org>
- <20210115201206.17347-2-peter.maydell@linaro.org>
+ <20210115201206.17347-4-peter.maydell@linaro.org>
 X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=209.85.218.43; envelope-from=th.huth@gmail.com;
- helo=mail-ej1-f43.google.com
+Received-SPF: pass client-ip=209.85.208.44; envelope-from=th.huth@gmail.com;
+ helo=mail-ed1-f44.google.com
 X-Spam_score_int: -13
 X-Spam_score: -1.4
 X-Spam_bar: -
@@ -78,17 +78,17 @@ Cc: qemu-devel@nongnu.org, Laurent Vivier <laurent@vivier.eu>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Am Fri, 15 Jan 2021 20:11:56 +0000
+Am Fri, 15 Jan 2021 20:11:58 +0000
 schrieb Peter Maydell <peter.maydell@linaro.org>:
 
-> The next_irq() function is global, but isn't actually used anywhere
-> outside next-cube.c. Make it static.
+> Move the registers handled by the mmio_ops struct into the NeXTPC
+> device.  This allows us to also move the scr1 and scr2 data fields.
 > 
 > Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 > ---
->  include/hw/m68k/next-cube.h | 2 --
->  hw/m68k/next-cube.c         | 2 +-
->  2 files changed, 1 insertion(+), 3 deletions(-)
+>  hw/m68k/next-cube.c | 80
+> +++++++++++++++++++++++++-------------------- 1 file changed, 44
+> insertions(+), 36 deletions(-)
 
 Reviewed-by: Thomas Huth <huth@tuxfamily.org>
 
