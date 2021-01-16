@@ -2,58 +2,58 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0EC9F2F8C33
-	for <lists+qemu-devel@lfdr.de>; Sat, 16 Jan 2021 09:20:26 +0100 (CET)
-Received: from localhost ([::1]:39686 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1B5D72F8C44
+	for <lists+qemu-devel@lfdr.de>; Sat, 16 Jan 2021 09:40:43 +0100 (CET)
+Received: from localhost ([::1]:42362 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l0gom-0000Km-SK
-	for lists+qemu-devel@lfdr.de; Sat, 16 Jan 2021 03:20:24 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38522)
+	id 1l0h8S-0002mL-61
+	for lists+qemu-devel@lfdr.de; Sat, 16 Jan 2021 03:40:40 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40938)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <th.huth@gmail.com>) id 1l0gnV-0008K7-Ao
- for qemu-devel@nongnu.org; Sat, 16 Jan 2021 03:19:01 -0500
-Received: from mail-ej1-f43.google.com ([209.85.218.43]:38322)
+ (Exim 4.90_1) (envelope-from <th.huth@gmail.com>) id 1l0h7Z-0002MI-1L
+ for qemu-devel@nongnu.org; Sat, 16 Jan 2021 03:39:45 -0500
+Received: from mail-ed1-f47.google.com ([209.85.208.47]:45587)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <th.huth@gmail.com>) id 1l0gnT-0002Nc-6N
- for qemu-devel@nongnu.org; Sat, 16 Jan 2021 03:19:01 -0500
-Received: by mail-ej1-f43.google.com with SMTP id 6so16613388ejz.5
- for <qemu-devel@nongnu.org>; Sat, 16 Jan 2021 00:18:58 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <th.huth@gmail.com>) id 1l0h7W-0003co-T5
+ for qemu-devel@nongnu.org; Sat, 16 Jan 2021 03:39:44 -0500
+Received: by mail-ed1-f47.google.com with SMTP id r5so12097691eda.12
+ for <qemu-devel@nongnu.org>; Sat, 16 Jan 2021 00:39:42 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=IcyrWM9l8UkUwBoZAGxzZiZvvC6fZs3OIdcPkqYLbQI=;
- b=E8yUQwDBi6D9I2lisXL+u5gqhXOEAAJkzcjOJSE5NqNw5JIq4kWOFpnmLoNpMqsrib
- 41VEw5qjs46mwCeg0fkDZ6YZKw4m3tX7e+ACxtwFRnUWu7yZkNmsYRCyOWfdyYoJDP/w
- ZJ4AT7CpHpqNQqI7fMhwGWM3H2wtZPxqMsBtF3d+FbdDl9GS5qZhTAmEsJCDRfEdQCI3
- F4C/jkTkIFxZ+NGYW5KTrJ8Qy/QYW6jSLNiCIY4mvSxoeVy06R6qe/SAwkWapHOfZfLp
- aoCvA5/5MpLxK090wwGdSVfAURBHkipL0zjGC3q+7WB4lJcsb2wwja4roqtqW62Cjuv0
- ntPQ==
-X-Gm-Message-State: AOAM531nbSaU6HaGNhuBXkLFFEZHsuN/OHe8xSWxk2QMPIMVkqGHPshg
- EETVOW3UBTE5POJSvWPr008=
-X-Google-Smtp-Source: ABdhPJx8mJkehnW7ISzLNdrD7eDoxcN0JvrSgeDc9TQJcDFsEuhpSTg5E21+CHl4fAgjbV9D9mOaZg==
-X-Received: by 2002:a17:906:c00c:: with SMTP id
- e12mr11180904ejz.103.1610785137379; 
- Sat, 16 Jan 2021 00:18:57 -0800 (PST)
+ bh=2CsCjICG7IOGhH5S1Epx3alYAlSdMJp4iEZ4YmG8JyY=;
+ b=LbO8IODFtV28aKTwwm22rW6dErWa3batGIuj7yHz5ws76DQvYA9aBv3ranNU6ohFv4
+ 2rMG5x5UUHjZYNRwtyjaEoLL3ZzocHCkdnr95kwuTTbV1phk9Tuk7WfSte3muZmNqM24
+ quElFwxvPg8FrzBuy37Hmy543LZnOOtsXg9XYxKTDeL+B4Vc4OLzvpHX+u8NG4t7TaNi
+ Yxv6Zd/YZmrgoP74RvMeqN+refSmdsk4PYe3Kdg+25z0++yVcDO/a3knds9IZpxjIZ3m
+ PRb1aB+CizSBOEmb0XbegAdSCFLsiFjvRHRITJHHY+ePRvRwYJD9pXsgK6Fk7h4Dfu9f
+ Stvw==
+X-Gm-Message-State: AOAM532vS2HYK9UCA7Hal3Y9lrZQ3eobkO3PMQfZHyQEBIff7oWVi6qL
+ 2lDCc/nB1sJsx5uWySDHpbI=
+X-Google-Smtp-Source: ABdhPJymr+2z1Dh9bbZXnIvVxeAn2fm0wig0wMPpjnpth5NKIS+dwwz+SX99ZHZd7h+V4+5Vt0er5Q==
+X-Received: by 2002:aa7:c403:: with SMTP id j3mr12417018edq.217.1610786381391; 
+ Sat, 16 Jan 2021 00:39:41 -0800 (PST)
 Received: from localhost (pd9e834f0.dip0.t-ipconnect.de. [217.232.52.240])
- by smtp.gmail.com with ESMTPSA id a22sm3354719edv.67.2021.01.16.00.18.56
+ by smtp.gmail.com with ESMTPSA id d18sm6699927edz.14.2021.01.16.00.39.40
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 16 Jan 2021 00:18:56 -0800 (PST)
-Date: Sat, 16 Jan 2021 09:18:53 +0100
+ Sat, 16 Jan 2021 00:39:40 -0800 (PST)
+Date: Sat, 16 Jan 2021 09:39:38 +0100
 From: Thomas Huth <huth@tuxfamily.org>
 To: Peter Maydell <peter.maydell@linaro.org>
-Subject: Re: [PATCH 04/11] hw/m68k/next-cube: Move scr_ops into NeXTPC device
-Message-ID: <20210116091853.089f5e80@tuxfamily.org>
-In-Reply-To: <20210115201206.17347-5-peter.maydell@linaro.org>
+Subject: Re: [PATCH 05/11] hw/m68k/next-cube: Make next_irq take NeXTPC* as
+ its opaque
+Message-ID: <20210116093938.00668b47@tuxfamily.org>
+In-Reply-To: <20210115201206.17347-6-peter.maydell@linaro.org>
 References: <20210115201206.17347-1-peter.maydell@linaro.org>
- <20210115201206.17347-5-peter.maydell@linaro.org>
+ <20210115201206.17347-6-peter.maydell@linaro.org>
 X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=209.85.218.43; envelope-from=th.huth@gmail.com;
- helo=mail-ej1-f43.google.com
+Received-SPF: pass client-ip=209.85.208.47; envelope-from=th.huth@gmail.com;
+ helo=mail-ed1-f47.google.com
 X-Spam_score_int: -13
 X-Spam_score: -1.4
 X-Spam_bar: -
@@ -74,194 +74,137 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Bryce Lanham <blanham@gmail.com>, qemu-devel@nongnu.org,
- Laurent Vivier <laurent@vivier.eu>
+Cc: qemu-devel@nongnu.org, Laurent Vivier <laurent@vivier.eu>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Am Fri, 15 Jan 2021 20:11:59 +0000
+Am Fri, 15 Jan 2021 20:12:00 +0000
 schrieb Peter Maydell <peter.maydell@linaro.org>:
 
-> Move the registers handled by the scr_ops struct into the NeXTPC
-> device.
+> Make the next_irq function take a NeXTPC* as its opaque rather than
+> the M68kCPU*.  This will make it simpler to turn the next_irq
+> function into a gpio input line of the NeXTPC device in the next
+> commit.
+> 
+> For this to work we have to pass the CPU to the NeXTPC device via a
+> link property, in the same way we do in q800.c (and for the same
+> reason).
 > 
 > Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 > ---
->  hw/m68k/next-cube.c | 50
-> ++++++++++++++++++++++----------------------- 1 file changed, 25
-> insertions(+), 25 deletions(-)
+>  hw/m68k/next-cube.c | 31 +++++++++++++++++++++++--------
+>  1 file changed, 23 insertions(+), 8 deletions(-)
 > 
 > diff --git a/hw/m68k/next-cube.c b/hw/m68k/next-cube.c
-> index ff121143e92..f5575cb43b8 100644
+> index f5575cb43b8..a9e57304e04 100644
 > --- a/hw/m68k/next-cube.c
 > +++ b/hw/m68k/next-cube.c
-> @@ -76,8 +76,6 @@ struct NeXTState {
->      uint32_t int_mask;
->      uint32_t int_status;
+> @@ -94,6 +94,8 @@ struct NeXTPC {
+>      /* Temporary until all functionality has been moved into this
+> device */ NeXTState *ns;
 >  
-> -    uint8_t scsi_csr_1;
-> -    uint8_t scsi_csr_2;
->      next_dma dma[10];
->      qemu_irq *scsi_irq;
->      qemu_irq scsi_dma;
-> @@ -97,9 +95,12 @@ struct NeXTPC {
->      NeXTState *ns;
->  
->      MemoryRegion mmiomem;
-> +    MemoryRegion scrmem;
->  
->      uint32_t scr1;
->      uint32_t scr2;
-> +    uint8_t scsi_csr_1;
-> +    uint8_t scsi_csr_2;
->  };
->  
->  /* Thanks to NeXT forums for this */
-> @@ -402,7 +403,7 @@ static const MemoryRegionOps mmio_ops = {
->      .endianness = DEVICE_NATIVE_ENDIAN,
->  };
->  
-> -static uint32_t scr_readb(NeXTState *s, hwaddr addr)
-> +static uint32_t scr_readb(NeXTPC *s, hwaddr addr)
->  {
->      switch (addr) {
->      case 0x14108:
-> @@ -436,13 +437,13 @@ static uint32_t scr_readb(NeXTState *s, hwaddr
-> addr) }
->  }
->  
-> -static uint32_t scr_readw(NeXTState *s, hwaddr addr)
-> +static uint32_t scr_readw(NeXTPC *s, hwaddr addr)
->  {
->      DPRINTF("BMAP Read W @ %x\n", (unsigned int)addr);
->      return 0;
->  }
->  
-> -static uint32_t scr_readl(NeXTState *s, hwaddr addr)
-> +static uint32_t scr_readl(NeXTPC *s, hwaddr addr)
->  {
->      DPRINTF("BMAP Read L @ %x\n", (unsigned int)addr);
->      return 0;
-> @@ -455,7 +456,7 @@ static uint32_t scr_readl(NeXTState *s, hwaddr
-> addr) #define SCSICSR_CPUDMA  0x10  /* if set, dma enabled */
->  #define SCSICSR_INTMASK 0x20  /* if set, interrupt enabled */
->  
-> -static void scr_writeb(NeXTState *s, hwaddr addr, uint32_t value)
-> +static void scr_writeb(NeXTPC *s, hwaddr addr, uint32_t value)
->  {
->      switch (addr) {
->      case 0x14108:
-> @@ -501,9 +502,9 @@ static void scr_writeb(NeXTState *s, hwaddr addr,
-> uint32_t value) DPRINTF("SCSICSR CPUDMA\n");
->              /* qemu_irq_raise(s->scsi_dma); */
->  
-> -            s->int_status |= 0x4000000;
-> +            s->ns->int_status |= 0x4000000;
->          } else {
-> -            s->int_status &= ~(0x4000000);
-> +            s->ns->int_status &= ~(0x4000000);
->          }
->          if (value & SCSICSR_INTMASK) {
->              DPRINTF("SCSICSR INTMASK\n");
-> @@ -533,27 +534,27 @@ static void scr_writeb(NeXTState *s, hwaddr
-> addr, uint32_t value) }
->  }
->  
-> -static void scr_writew(NeXTState *s, hwaddr addr, uint32_t value)
-> +static void scr_writew(NeXTPC *s, hwaddr addr, uint32_t value)
->  {
->      DPRINTF("BMAP Write W @ %x with %x\n", (unsigned int)addr,
-> value); }
->  
-> -static void scr_writel(NeXTState *s, hwaddr addr, uint32_t value)
-> +static void scr_writel(NeXTPC *s, hwaddr addr, uint32_t value)
->  {
->      DPRINTF("BMAP Write L @ %x with %x\n", (unsigned int)addr,
-> value); }
->  
->  static uint64_t scr_readfn(void *opaque, hwaddr addr, unsigned size)
->  {
-> -    NeXTState *ns = NEXT_MACHINE(opaque);
-> +    NeXTPC *s = NEXT_PC(opaque);
->  
->      switch (size) {
->      case 1:
-> -        return scr_readb(ns, addr);
-> +        return scr_readb(s, addr);
->      case 2:
-> -        return scr_readw(ns, addr);
-> +        return scr_readw(s, addr);
->      case 4:
-> -        return scr_readl(ns, addr);
-> +        return scr_readl(s, addr);
->      default:
->          g_assert_not_reached();
->      }
-> @@ -562,17 +563,17 @@ static uint64_t scr_readfn(void *opaque, hwaddr
-> addr, unsigned size) static void scr_writefn(void *opaque, hwaddr
-> addr, uint64_t value, unsigned size)
->  {
-> -    NeXTState *ns = NEXT_MACHINE(opaque);
-> +    NeXTPC *s = NEXT_PC(opaque);
->  
->      switch (size) {
->      case 1:
-> -        scr_writeb(ns, addr, value);
-> +        scr_writeb(s, addr, value);
->          break;
->      case 2:
-> -        scr_writew(ns, addr, value);
-> +        scr_writew(s, addr, value);
->          break;
->      case 4:
-> -        scr_writel(ns, addr, value);
-> +        scr_writel(s, addr, value);
->          break;
->      default:
->          g_assert_not_reached();
-> @@ -886,8 +887,10 @@ static void next_pc_realize(DeviceState *dev,
-> Error **errp) 
->      memory_region_init_io(&s->mmiomem, OBJECT(s), &mmio_ops, s,
->                            "next.mmio", 0xD0000);
-> -
-> +    memory_region_init_io(&s->scrmem, OBJECT(s), &scr_ops, s,
-> +                          "next.scr", 0x20000);
->      sysbus_init_mmio(sbd, &s->mmiomem);
-> +    sysbus_init_mmio(sbd, &s->scrmem);
->  }
->  
->  static void next_pc_class_init(ObjectClass *klass, void *data)
-> @@ -912,7 +915,6 @@ static void next_cube_init(MachineState *machine)
->      M68kCPU *cpu;
->      CPUM68KState *env;
->      MemoryRegion *rom = g_new(MemoryRegion, 1);
-> -    MemoryRegion *scrmem = g_new(MemoryRegion, 1);
->      MemoryRegion *dmamem = g_new(MemoryRegion, 1);
->      MemoryRegion *bmapm1 = g_new(MemoryRegion, 1);
->      MemoryRegion *bmapm2 = g_new(MemoryRegion, 1);
-> @@ -956,6 +958,9 @@ static void next_cube_init(MachineState *machine)
->      /* MMIO */
->      sysbus_mmio_map(SYS_BUS_DEVICE(pcdev), 0, 0x02000000);
->  
-> +    /* BMAP IO - acts as a catch-all for now */
-> +    sysbus_mmio_map(SYS_BUS_DEVICE(pcdev), 1, 0x02100000);
+> +    M68kCPU *cpu;
 > +
->      /* BMAP memory */
->      memory_region_init_ram_shared_nomigrate(bmapm1, NULL,
-> "next.bmapmem", 64, true, &error_fatal);
-> @@ -964,11 +969,6 @@ static void next_cube_init(MachineState *machine)
->      memory_region_init_alias(bmapm2, NULL, "next.bmapmem2", bmapm1,
-> 0x0, 64); memory_region_add_subregion(sysmem, 0x820c0000, bmapm2);
+>      MemoryRegion mmiomem;
+>      MemoryRegion scrmem;
 >  
-> -    /* BMAP IO - acts as a catch-all for now */
-> -    memory_region_init_io(scrmem, NULL, &scr_ops, machine,
-> "next.scr",
-> -                          0x20000);
-> -    memory_region_add_subregion(sysmem, 0x02100000, scrmem);
-> -
->      /* KBD */
->      dev = qdev_new(TYPE_NEXTKBD);
->      sysbus_realize_and_unref(SYS_BUS_DEVICE(dev), &error_fatal);
+> @@ -739,9 +741,9 @@ static const MemoryRegionOps dma_ops = {
+>   */
+>  static void next_irq(void *opaque, int number, int level)
+>  {
+> -    M68kCPU *cpu = opaque;
+> +    NeXTPC *s = NEXT_PC(opaque);
+> +    M68kCPU *cpu = s->cpu;
+>      int shift = 0;
+> -    NeXTState *ns = NEXT_MACHINE(qdev_get_machine());
+>  
+>      /* first switch sets interupt status */
+>      /* DPRINTF("IRQ %i\n",number); */
+> @@ -796,14 +798,14 @@ static void next_irq(void *opaque, int number,
+> int level)
+>       * this HAS to be wrong, the interrupt handlers in mach and
+> together
+>       * int_status and int_mask and return if there is a hit
+>       */
+> -    if (ns->int_mask & (1 << shift)) {
+> +    if (s->ns->int_mask & (1 << shift)) {
+>          DPRINTF("%x interrupt masked @ %x\n", 1 << shift,
+> cpu->env.pc); /* return; */
+>      }
+>  
+>      /* second switch triggers the correct interrupt */
+>      if (level) {
+> -        ns->int_status |= 1 << shift;
+> +        s->ns->int_status |= 1 << shift;
+>  
+>          switch (number) {
+>          /* level 3 - floppy, kbd/mouse, power, ether rx/tx, scsi,
+> clock */ @@ -832,7 +834,7 @@ static void next_irq(void *opaque, int
+> number, int level) break;
+>          }
+>      } else {
+> -        ns->int_status &= ~(1 << shift);
+> +        s->ns->int_status &= ~(1 << shift);
+>          cpu_reset_interrupt(CPU(cpu), CPU_INTERRUPT_HARD);
+>      }
+>  }
+> @@ -847,9 +849,9 @@ static void next_serial_irq(void *opaque, int n,
+> int level) }
+>  }
+>  
+> -static void next_escc_init(M68kCPU *cpu)
+> +static void next_escc_init(DeviceState *pcdev)
+>  {
+> -    qemu_irq *ser_irq = qemu_allocate_irqs(next_serial_irq, cpu, 2);
+> +    qemu_irq *ser_irq = qemu_allocate_irqs(next_serial_irq, pcdev,
+> 2); DeviceState *dev;
+>      SysBusDevice *s;
+>  
+> @@ -893,6 +895,17 @@ static void next_pc_realize(DeviceState *dev,
+> Error **errp) sysbus_init_mmio(sbd, &s->scrmem);
+>  }
+>  
+> +/*
+> + * If the m68k CPU implemented its inbound irq lines as GPIO lines
+> + * rather than via the m68k_set_irq_level() function we would not
+> need
+> + * this cpu link property and could instead provide outbound IRQ
+> lines
+> + * that the board could wire up to the CPU.
+> + */
+> +static Property next_pc_properties[] = {
+> +    DEFINE_PROP_LINK("cpu", NeXTPC, cpu, TYPE_M68K_CPU, M68kCPU *),
+> +    DEFINE_PROP_END_OF_LIST(),
+> +};
+> +
+>  static void next_pc_class_init(ObjectClass *klass, void *data)
+>  {
+>      DeviceClass *dc = DEVICE_CLASS(klass);
+> @@ -900,6 +913,7 @@ static void next_pc_class_init(ObjectClass
+> *klass, void *data) dc->desc = "NeXT Peripheral Controller";
+>      dc->realize = next_pc_realize;
+>      dc->reset = next_pc_reset;
+> +    device_class_set_props(dc, next_pc_properties);
+>      /* We will add the VMState in a later commit */
+>  }
+>  
+> @@ -938,6 +952,7 @@ static void next_cube_init(MachineState *machine)
+>  
+>      /* Peripheral Controller */
+>      pcdev = qdev_new(TYPE_NEXT_PC);
+> +    object_property_set_link(OBJECT(pcdev), "cpu", OBJECT(cpu),
+> &error_abort); sysbus_realize_and_unref(SYS_BUS_DEVICE(pcdev),
+> &error_fatal); /* Temporary while we refactor this code */
+>      NEXT_PC(pcdev)->ns = ns;
+> @@ -996,7 +1011,7 @@ static void next_cube_init(MachineState *machine)
+>      }
+>  
+>      /* Serial */
+> -    next_escc_init(cpu);
+> +    next_escc_init(pcdev);
+>  
+>      /* TODO: */
+>      /* Network */
 
 Reviewed-by: Thomas Huth <huth@tuxfamily.org>
 
