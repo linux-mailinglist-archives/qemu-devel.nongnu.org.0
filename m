@@ -2,59 +2,59 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A19D42F95AC
-	for <lists+qemu-devel@lfdr.de>; Sun, 17 Jan 2021 22:57:53 +0100 (CET)
-Received: from localhost ([::1]:50546 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 356D22F95A5
+	for <lists+qemu-devel@lfdr.de>; Sun, 17 Jan 2021 22:55:43 +0100 (CET)
+Received: from localhost ([::1]:43008 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l1G3U-000224-JQ
-	for lists+qemu-devel@lfdr.de; Sun, 17 Jan 2021 16:57:52 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59106)
+	id 1l1G1O-0007MY-40
+	for lists+qemu-devel@lfdr.de; Sun, 17 Jan 2021 16:55:42 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59112)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
  (envelope-from <prvs=64494dccb=alistair.francis@wdc.com>)
- id 1l1Fzy-0005hk-2D
+ id 1l1Fzz-0005i2-T0
  for qemu-devel@nongnu.org; Sun, 17 Jan 2021 16:54:15 -0500
-Received: from esa5.hgst.iphmx.com ([216.71.153.144]:21692)
+Received: from esa5.hgst.iphmx.com ([216.71.153.144]:21685)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
  (envelope-from <prvs=64494dccb=alistair.francis@wdc.com>)
- id 1l1Fzw-0005Ux-9A
- for qemu-devel@nongnu.org; Sun, 17 Jan 2021 16:54:13 -0500
+ id 1l1Fzw-0005UE-RO
+ for qemu-devel@nongnu.org; Sun, 17 Jan 2021 16:54:15 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
  d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
  t=1610920452; x=1642456452;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=OyqeSrK4z3EFuRbBI4aHmMrvzd1dz/TK7VvfkMHCx74=;
- b=Vm4wz+0cTkCNzT27QGytQiUx9ZtY0Lt9jkmeEvuV3mglri+JNfwSW1PF
- +pNBi1J/wr/ke5NTRnuulBAPj944Bz6D6W6S79/hH3Jye1eAjs1kviRxg
- FRLyUvWAHMenVPYIVxGM3D7THmsG842LIe/RjjFdRfW8+LJJuCGr37FNk
- MkdYOhpymxXVXiG2O4q3TKwLuUZWSTdBMvSqfPNQMPkjIf2yeBLhvMvKu
- b1/MmTusR5LyLJxglwoRQ8y/lu1DOVRDlUvqO65rlaEmU7LDYugWY3E/u
- uGq4rKiaPEA/DgI/f4x5RpQ9X+5QCAQpqP3F3YXLLTbR9EKMmPG3McBxb w==;
-IronPort-SDR: oaDauIXVWrxrfA8M4VtiG/V932QsrSWVNdl1PAdwQMTClCvQZKJjoKlCKvONCBGs8DQBdtIEop
- +EimJKcUIPcIpylMuuALfHBi6grLr0+w6RCKUJlKbRd0IWLnUgYpsV/dGqg5o6IkXYkXfjNQYf
- +WDc21HzEd09s5kaXZOyuOgjOkQZ1eWc+xTcXgMjMdi/TD2S4oeVSK8jtJMfHSJrHi4wXIfDFE
- yXzPOSb2oRlQ7CptBLUPSCqtXJKv/vUum4rn8YIu9y8ePPJDDKZTM/qliCfeWS5RStuFPMf/nP
- aWY=
-X-IronPort-AV: E=Sophos;i="5.79,355,1602518400"; d="scan'208";a="157645966"
+ bh=9uJ+/j2JwaP+9An/iZxf0sTQOr3EQxrWnRygwBLhPrI=;
+ b=gEG/1j4Q1Gz908qfibRLUyypYz+IxoUPVz/koaE5/0vrQnuUYOs2mu1x
+ iH0hHr9c4p9CNi0ydThyDvd1CSQlmF4b9KKr7nfDgT/ZbZZLup4P5gOih
+ rpdBFK5OW7E0AxV7K2vKeznkM7xoCvErUWVI/LeX2YY0jxrDrmJbC36qP
+ DRd7IcNRTdpd12PPmwOhhLzE7ZAIqGslb+dCmEb0y9hc0T7xo669d3czq
+ sFY6JPh4X5ngiOQl5+PW/v62hbFcaxrhNiWyu1hn3J6QoXadrD17GFsM3
+ khUlBLWuvPiKMcdh4ecUudSzn32+WMc7ouYkn1RyhDjHELJHIDm5JG6Os A==;
+IronPort-SDR: Jj46JEURbqLL1STMpMBSq5N7aztz5EJh8YdO03oODEtlBjaiPpiv7L/V0JxTDvevb4iYE3vqzn
+ 5G68bYY0ksGdaGxPqTBj6R34Im6pFVeeeX/eyTkyQiLp/0WAOKrltnYFQWrxquwgamaXca8iw4
+ Ikxur5nkyODHs3Y+LDNnVZgRHx5g0bcvFT404TPa32dbmkPVLZamPml3nnQKREPl0ghrXGdT2V
+ 3/4o2L2v43LYYm1FsuszB0+u5h+r6J9cfjFjpXcXK170pVSHmmMlm/qIfhtirm9T5EUwD5p0hD
+ vz0=
+X-IronPort-AV: E=Sophos;i="5.79,355,1602518400"; d="scan'208";a="157645968"
 Received: from uls-op-cesaip01.wdc.com (HELO uls-op-cesaep01.wdc.com)
  ([199.255.45.14])
  by ob1.hgst.iphmx.com with ESMTP; 18 Jan 2021 05:54:06 +0800
-IronPort-SDR: b0EytWAACbQJ1125opEEjxHbdXznI+YviRsUjjPzufMDD3IOSMK5dufz7HZT7cEg4D+0HGGBm0
- rrt9dGYrLEvcb1KTb4rX/z244iy+UR7ot6/B2Ty+gAOU3fA/9lKJmoApo5dFziVMYJrdVPMGn3
- EH1uPDG0HNzTtsUsGM/N6mry6wfnZnSytwAFHukDeQ0SebvAwbJU00DeISfbxKqyAK5ZfKNR59
- tRlxfM3gh6vschzUcWfO7MkuBJBK6jgNJhP6+Lm5v8IjaCmvPULsnFNmjYHZaDjoDzKLBovU6A
- RiVh4m89yRJ9C2o2VM/4KrYZ
+IronPort-SDR: UCjUy7QWfMgL1NZqhg3zqZQoYh3AtDNrCQfSNexfCHOT7x2kDLWICdeh/cahncNfCcwxhfMB3A
+ n2i/fUpSsuCHa0dqs8yt7CTXs6EwNL2Mxe6IdxZbR8dL0UY1pwmJAbGLGu3fpwmqS/XPy4K8Bt
+ WMaS9Gb+FZzS6ReS8o244Md67byFMeEfwKVWzXySpN5MCFNEJnoJThbetMJJGvQoxJzSHR9lfe
+ FfY/U/WYdgLB3A9qisTALfYbm6iDzHV2HPAkHcDbRuOQeEQJkNATW6GxEzoBTXxyVDWqf120Wd
+ VLxTgFyd1yrJWBYS7lwbaChb
 Received: from uls-op-cesaip01.wdc.com ([10.248.3.36])
  by uls-op-cesaep01.wdc.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
  17 Jan 2021 13:38:45 -0800
-IronPort-SDR: 3uOnDKeC9eNnzcgt5wLWts8Y1fxsmGnzvCab8ddZJM4qd2KtktcpKkMw3qD2JNRKw0dL7mt64v
- +b4+L17I53YVsoTe4CreqjqGRy8JQJNl1tYEf2F5j7ioMADWTLhvGIGfwpiwnqx4XFeVcNUDDR
- jLXow+OVpfaoYEK6UVIrm3SERBKMlNb92luItsR8oSUVoyWw74a8pmFUYa5bNvbdy5qB2/UdYd
- Qzh5Se7VsThbAvNqgckbD4xOGOjTK20crR8avwenQLWGOIN/wmmRzUFTenJ4a8GEk/0YBZOrLr
- 9xA=
+IronPort-SDR: RpSa+kJzi+zXcA2lH7xLOnHynfZtlF1yfgiolLq/cOdn9H/u345VtK/ILVGh68k98zLRNmAeid
+ jmrpHT/WYfT2LUodhLMmObgVwpf1vN902w6azNTx1/FK5Y/2g+3P/d+S6dJgWDFsvzwpqeY+Rc
+ BOFQnCDUaizlKajjm4g/515NngRJdkhRY5tlzdN/AzCRw6Grcqw9CdSBuRPcfrqViTp8VEhJX/
+ ryHxwiw1p3Hu0H1I4r0X0g/4aVFsn1zvMWJgNXwAVZ4pnRPOhUEa2W3wCzLglMLNO5l9q8TojA
+ PLg=
 WDCIronportException: Internal
 Received: from 7l95g12.ad.shared (HELO risc6-mainframe.hgst.com)
  ([10.86.62.251])
@@ -62,14 +62,15 @@ Received: from 7l95g12.ad.shared (HELO risc6-mainframe.hgst.com)
 From: Alistair Francis <alistair.francis@wdc.com>
 To: peter.maydell@linaro.org,
 	qemu-devel@nongnu.org
-Subject: [PULL 05/12] target/riscv/pmp: Raise exception if no PMP entry is
- configured
-Date: Sun, 17 Jan 2021 13:53:56 -0800
-Message-Id: <20210117215403.2277103-6-alistair.francis@wdc.com>
+Subject: [PULL 06/12] hw/riscv: sifive_u: Use SIFIVE_U_CPU for
+ mc->default_cpu_type
+Date: Sun, 17 Jan 2021 13:53:57 -0800
+Message-Id: <20210117215403.2277103-7-alistair.francis@wdc.com>
 X-Mailer: git-send-email 2.29.2
 In-Reply-To: <20210117215403.2277103-1-alistair.francis@wdc.com>
 References: <20210117215403.2277103-1-alistair.francis@wdc.com>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 Received-SPF: pass client-ip=216.71.153.144;
  envelope-from=prvs=64494dccb=alistair.francis@wdc.com;
@@ -93,75 +94,43 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Atish Patra <atish.patra@wdc.com>,
- Alistair Francis <alistair.francis@wdc.com>
+Cc: Bin Meng <bin.meng@windriver.com>,
+ Alistair Francis <alistair.francis@wdc.com>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Atish Patra <atish.patra@wdc.com>
+From: Bin Meng <bin.meng@windriver.com>
 
-As per the privilege specification, any access from S/U mode should fail
-if no pmp region is configured.
+SIFIVE_U_CPU is conditionally set to SIFIVE_U34 or SIFIVE_U54, hence
+there is no need to use #idef to set the mc->default_cpu_type.
 
-Signed-off-by: Atish Patra <atish.patra@wdc.com>
+Signed-off-by: Bin Meng <bin.meng@windriver.com>
+Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
-Message-id: 20201223192553.332508-1-atish.patra@wdc.com
+Message-id: 20210109143637.29645-1-bmeng.cn@gmail.com
 Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
 ---
- target/riscv/pmp.h       | 1 +
- target/riscv/op_helper.c | 5 +++++
- target/riscv/pmp.c       | 4 ++--
- 3 files changed, 8 insertions(+), 2 deletions(-)
+ hw/riscv/sifive_u.c | 6 +-----
+ 1 file changed, 1 insertion(+), 5 deletions(-)
 
-diff --git a/target/riscv/pmp.h b/target/riscv/pmp.h
-index 6c6b4c9bef..c8d5ef4a69 100644
---- a/target/riscv/pmp.h
-+++ b/target/riscv/pmp.h
-@@ -64,5 +64,6 @@ bool pmp_is_range_in_tlb(CPURISCVState *env, hwaddr tlb_sa,
-                          target_ulong *tlb_size);
- void pmp_update_rule_addr(CPURISCVState *env, uint32_t pmp_index);
- void pmp_update_rule_nums(CPURISCVState *env);
-+uint32_t pmp_get_num_rules(CPURISCVState *env);
+diff --git a/hw/riscv/sifive_u.c b/hw/riscv/sifive_u.c
+index f5c400dd44..e083510e0e 100644
+--- a/hw/riscv/sifive_u.c
++++ b/hw/riscv/sifive_u.c
+@@ -628,11 +628,7 @@ static void sifive_u_machine_class_init(ObjectClass *oc, void *data)
+     mc->init = sifive_u_machine_init;
+     mc->max_cpus = SIFIVE_U_MANAGEMENT_CPU_COUNT + SIFIVE_U_COMPUTE_CPU_COUNT;
+     mc->min_cpus = SIFIVE_U_MANAGEMENT_CPU_COUNT + 1;
+-#if defined(TARGET_RISCV32)
+-    mc->default_cpu_type = TYPE_RISCV_CPU_SIFIVE_U34;
+-#elif defined(TARGET_RISCV64)
+-    mc->default_cpu_type = TYPE_RISCV_CPU_SIFIVE_U54;
+-#endif
++    mc->default_cpu_type = SIFIVE_U_CPU;
+     mc->default_cpus = mc->min_cpus;
  
- #endif
-diff --git a/target/riscv/op_helper.c b/target/riscv/op_helper.c
-index d55def76cf..1eddcb94de 100644
---- a/target/riscv/op_helper.c
-+++ b/target/riscv/op_helper.c
-@@ -150,6 +150,11 @@ target_ulong helper_mret(CPURISCVState *env, target_ulong cpu_pc_deb)
- 
-     uint64_t mstatus = env->mstatus;
-     target_ulong prev_priv = get_field(mstatus, MSTATUS_MPP);
-+
-+    if (!pmp_get_num_rules(env) && (prev_priv != PRV_M)) {
-+        riscv_raise_exception(env, RISCV_EXCP_ILLEGAL_INST, GETPC());
-+    }
-+
-     target_ulong prev_virt = get_field(env->mstatus, MSTATUS_MPV);
-     mstatus = set_field(mstatus, MSTATUS_MIE,
-                         get_field(mstatus, MSTATUS_MPIE));
-diff --git a/target/riscv/pmp.c b/target/riscv/pmp.c
-index 2eda8e1e2f..80d0334e1b 100644
---- a/target/riscv/pmp.c
-+++ b/target/riscv/pmp.c
-@@ -74,7 +74,7 @@ static inline int pmp_is_locked(CPURISCVState *env, uint32_t pmp_index)
- /*
-  * Count the number of active rules.
-  */
--static inline uint32_t pmp_get_num_rules(CPURISCVState *env)
-+uint32_t pmp_get_num_rules(CPURISCVState *env)
- {
-      return env->pmp_state.num_rules;
- }
-@@ -237,7 +237,7 @@ bool pmp_hart_has_privs(CPURISCVState *env, target_ulong addr,
- 
-     /* Short cut if no rules */
-     if (0 == pmp_get_num_rules(env)) {
--        return true;
-+        return (env->priv == PRV_M) ? true : false;
-     }
- 
-     if (size == 0) {
+     object_class_property_add_bool(oc, "start-in-flash",
 -- 
 2.29.2
 
