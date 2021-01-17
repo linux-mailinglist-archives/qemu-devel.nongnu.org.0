@@ -2,65 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 05D662F9228
-	for <lists+qemu-devel@lfdr.de>; Sun, 17 Jan 2021 12:55:41 +0100 (CET)
-Received: from localhost ([::1]:57904 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 26FB02F9234
+	for <lists+qemu-devel@lfdr.de>; Sun, 17 Jan 2021 13:01:58 +0100 (CET)
+Received: from localhost ([::1]:39336 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l16eh-0006WO-Od
-	for lists+qemu-devel@lfdr.de; Sun, 17 Jan 2021 06:55:39 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41184)
+	id 1l16km-0002KJ-SN
+	for lists+qemu-devel@lfdr.de; Sun, 17 Jan 2021 07:01:57 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41186)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1l16WA-0001qh-Fr
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1l16WA-0001s6-TO
  for qemu-devel@nongnu.org; Sun, 17 Jan 2021 06:46:50 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:30074)
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:29949)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1l16W5-0008Gz-5C
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1l16W2-0008Ge-Et
  for qemu-devel@nongnu.org; Sun, 17 Jan 2021 06:46:50 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1610884003;
+ s=mimecast20190719; t=1610884000;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=MqQtAiWC5T/ws37y6nXf0OqujwVirS3Y8UGvrA7Ic9M=;
- b=KPkkxrYJViwa1P4YpmNQJSJ1vqJHt2Esrd6LObwUIhDeFSTJgcqWt55K41dVyIORAjPNDm
- cGHxbDcUYkCkDfiOvuRwBcoyXrmXrUdEd0zPnNYf16wLjTsw9HBNAf2E5+N3yd4mz09Lum
- a0c9k4htT0rWLUy4baaBVJcYAn/2/rE=
-Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
- [209.85.221.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-500-4yAPnoY9M9qvGnTwBXSAig-1; Sun, 17 Jan 2021 06:46:41 -0500
-X-MC-Unique: 4yAPnoY9M9qvGnTwBXSAig-1
-Received: by mail-wr1-f72.google.com with SMTP id v7so6734200wra.3
- for <qemu-devel@nongnu.org>; Sun, 17 Jan 2021 03:46:41 -0800 (PST)
+ bh=3Ve2ARHYvLFIq8kepyLE4GCsFnzf21hx4ojk8moHaEs=;
+ b=IhsJzgE2X/HvIBo8FtMHtDI9JUW8NEI8DzGxXVCvW3FieFaGmb03Iu0b8MLxDMQiNylIbZ
+ TSfb8XDV+TfYgePtnhuhPuEvUg2QY9WZFCmwx1pIT4/OsFqbr5m0LE9EeoTI8zbRgKJxP+
+ CLEzv1ZHSGM9N3A4kkXxzevYeTSEyp4=
+Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
+ [209.85.221.69]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-63-qRQulJVkOnml6SnbT7W_1Q-1; Sun, 17 Jan 2021 06:46:38 -0500
+X-MC-Unique: qRQulJVkOnml6SnbT7W_1Q-1
+Received: by mail-wr1-f69.google.com with SMTP id q18so6784195wrc.20
+ for <qemu-devel@nongnu.org>; Sun, 17 Jan 2021 03:46:38 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
  :mime-version:content-disposition:in-reply-to;
- bh=MqQtAiWC5T/ws37y6nXf0OqujwVirS3Y8UGvrA7Ic9M=;
- b=QW4GuPbmcaDq5oFvXKMHXynhFIYdB8haT1E6PuOCFOl5L8xZlpk0sBlk9u3cK4yVvr
- SFd0TA/Y62lsHM4OlufZ1mv6WmJLJtaqxGytM91fPLtYNaX1mIFSesDGipjSj/FzNXrH
- WWaBrAL7to00k9uvc23r7pyDXQfqg2pQJjy1/lO0Utn5wcgpac+yvwGsdVtb2cuYbEBi
- Li1tKM0XVR+deXQyTGbf+QvnC8r4rF/Y2Hij5AnvL6WNixL0b/7f71/N4G7aBGbPY0yv
- 3oCOyr0q53LRBtP2YlTTcsbhQePCrLNxUxWTdW3Y5+8QZmyXqe3oISezcYo1wKdDYE6C
- /f+w==
-X-Gm-Message-State: AOAM530QYF7z7o/gUohyYqylFUp1Uq4NJrM7jmS10YVvTABewyXE7TEq
- 806W2HzSN+Mm8j+744T5WOPkuTg5k0P+W4V+jWQJrf6JmJUBZeWzqAyQ87IHsKTnSi2vkzxXt2E
- +RxArx0XqbGYdPQNv6/ogCrEAFTXkFEF6A70+el/fpl2WAvKEZUA+LHevw//v
-X-Received: by 2002:a5d:47ae:: with SMTP id 14mr21013439wrb.378.1610883999715; 
- Sun, 17 Jan 2021 03:46:39 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJxKNVRsBIXxYuKmHrxr/5tSRtxZmi+9Tj6HTOP8jzaSlPjEUMe1VyE1R/avdmeIA/usEpkh/w==
-X-Received: by 2002:a5d:47ae:: with SMTP id 14mr21013429wrb.378.1610883999553; 
- Sun, 17 Jan 2021 03:46:39 -0800 (PST)
+ bh=3Ve2ARHYvLFIq8kepyLE4GCsFnzf21hx4ojk8moHaEs=;
+ b=Y1adugXrSiqBKRaI2HpzaBqYo37dTSjcQSehubAGR3p27b4dCUcrRHWuHatOu6I+Q+
+ crFXzN8vZQDEebqSRXk2pgLVbicrghkDucD8jF7gmjW4LKxdrXu7BlLMF/8wLcReqIJW
+ dCpxuLFQsD1v+Ydyc6Y8Jx78lmFSqXwXySbioLZgRgtes+5txKKFN8xILd6f0LC+Vr4x
+ 4GLmwqknLXTupGoEHMGRGa8JBYDAQVPo3dxZ3q4M+aCKyic5xNUl7hUZ4n8kz9s0cmw/
+ nZGUQ4cCdHpBW/COjQ+biGPk1uS4h1zzZr776LFxM2WhAGgMW/2rbaqjRlLtBn9X/+EL
+ RuIg==
+X-Gm-Message-State: AOAM5336AUymCxGSFAIm0yAMvlkdqFdYDmEdW9iIBbh4hGV+rjWxwAgG
+ bf+/LhDx9lOk+HGFUTi6CrxPq8Baq2cZAzwigXOMmm7MKOUC6S7dsg7YhWdcDUt9j0+44wzcQcx
+ L91YXVFYmUvv6Q/FPnTcRBYpCvrVo8vt5ElUYT5TLHa7wcmkPL0iNBbBq6Hjx
+X-Received: by 2002:a1c:3c04:: with SMTP id j4mr16614538wma.177.1610883997308; 
+ Sun, 17 Jan 2021 03:46:37 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJz7n6EC4+ir/pfsNq4vcfAuhGCPJFrDNHqzY4JP9w7pTBSMhfYWcKVrAM6UcJGxOftH+aHZUg==
+X-Received: by 2002:a1c:3c04:: with SMTP id j4mr16614524wma.177.1610883997089; 
+ Sun, 17 Jan 2021 03:46:37 -0800 (PST)
 Received: from redhat.com (bzq-79-176-30-58.red.bezeqint.net. [79.176.30.58])
  by smtp.gmail.com with ESMTPSA id
- i5sm18085138wmq.27.2021.01.17.03.46.37
+ h5sm24090493wrp.56.2021.01.17.03.46.35
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 17 Jan 2021 03:46:38 -0800 (PST)
-Date: Sun, 17 Jan 2021 06:46:37 -0500
+ Sun, 17 Jan 2021 03:46:36 -0800 (PST)
+Date: Sun, 17 Jan 2021 06:46:34 -0500
 From: "Michael S. Tsirkin" <mst@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 09/10] acpi: Enable pxb unit-test for ARM virt machine
-Message-ID: <20210117114519.539647-10-mst@redhat.com>
+Subject: [PULL 08/10] Kconfig: Compile PXB for ARM_VIRT
+Message-ID: <20210117114519.539647-9-mst@redhat.com>
 References: <20210117114519.539647-1-mst@redhat.com>
 MIME-Version: 1.0
 In-Reply-To: <20210117114519.539647-1-mst@redhat.com>
@@ -72,14 +72,14 @@ X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=mst@redhat.com;
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=mst@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -29
 X-Spam_score: -3.0
 X-Spam_bar: ---
 X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.252,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -100,49 +100,30 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Jiahui Cen <cenjiahui@huawei.com>
 
-No matter whether the pxb is enabled or not, the CONFIG_PXB macro in test
-would keep undefined. And since pxb is now enabled for ARM Virt machine
-by default, let's enable pxb unit-test by removing the CONFIG_PXB.
+PXB is now supported on ARM, so let's compile for arm_virt machine.
 
 Acked-by: Igor Mammedov <imammedo@redhat.com>
 Signed-off-by: Jiahui Cen <cenjiahui@huawei.com>
-Message-Id: <20210114100643.10617-8-cenjiahui@huawei.com>
+Message-Id: <20210114100643.10617-7-cenjiahui@huawei.com>
 Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
 Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
 ---
- tests/qtest/bios-tables-test.c | 4 ----
- 1 file changed, 4 deletions(-)
+ hw/pci-bridge/Kconfig | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/tests/qtest/bios-tables-test.c b/tests/qtest/bios-tables-test.c
-index 4e026f90d0..669202fc95 100644
---- a/tests/qtest/bios-tables-test.c
-+++ b/tests/qtest/bios-tables-test.c
-@@ -1196,7 +1196,6 @@ static void test_acpi_virt_tcg_numamem(void)
+diff --git a/hw/pci-bridge/Kconfig b/hw/pci-bridge/Kconfig
+index a51ec716f5..f8df4315ba 100644
+--- a/hw/pci-bridge/Kconfig
++++ b/hw/pci-bridge/Kconfig
+@@ -5,7 +5,7 @@ config PCIE_PORT
  
- }
+ config PXB
+     bool
+-    default y if Q35
++    default y if Q35 || ARM_VIRT
  
--#ifdef CONFIG_PXB
- static void test_acpi_virt_tcg_pxb(void)
- {
-     test_data data = {
-@@ -1228,7 +1227,6 @@ static void test_acpi_virt_tcg_pxb(void)
- 
-     free_test_data(&data);
- }
--#endif
- 
- static void test_acpi_tcg_acpi_hmat(const char *machine)
- {
-@@ -1342,9 +1340,7 @@ int main(int argc, char *argv[])
-         qtest_add_func("acpi/virt", test_acpi_virt_tcg);
-         qtest_add_func("acpi/virt/numamem", test_acpi_virt_tcg_numamem);
-         qtest_add_func("acpi/virt/memhp", test_acpi_virt_tcg_memhp);
--#ifdef CONFIG_PXB
-         qtest_add_func("acpi/virt/pxb", test_acpi_virt_tcg_pxb);
--#endif
-     }
-     ret = g_test_run();
-     boot_sector_cleanup(disk);
+ config XIO3130
+     bool
 -- 
 MST
 
