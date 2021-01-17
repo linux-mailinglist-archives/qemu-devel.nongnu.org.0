@@ -2,69 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 28A632F940A
-	for <lists+qemu-devel@lfdr.de>; Sun, 17 Jan 2021 17:52:51 +0100 (CET)
-Received: from localhost ([::1]:59566 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 360532F9409
+	for <lists+qemu-devel@lfdr.de>; Sun, 17 Jan 2021 17:52:47 +0100 (CET)
+Received: from localhost ([::1]:59120 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l1BII-0000Pu-6f
-	for lists+qemu-devel@lfdr.de; Sun, 17 Jan 2021 11:52:50 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33910)
+	id 1l1BIE-0000ES-8w
+	for lists+qemu-devel@lfdr.de; Sun, 17 Jan 2021 11:52:46 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33942)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1l1BE0-0003p0-GP
- for qemu-devel@nongnu.org; Sun, 17 Jan 2021 11:48:24 -0500
-Received: from mail-wr1-x42e.google.com ([2a00:1450:4864:20::42e]:38847)
+ id 1l1BE6-00042V-DE
+ for qemu-devel@nongnu.org; Sun, 17 Jan 2021 11:48:30 -0500
+Received: from mail-wr1-x42c.google.com ([2a00:1450:4864:20::42c]:47057)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1l1BDz-0001ov-0A
- for qemu-devel@nongnu.org; Sun, 17 Jan 2021 11:48:24 -0500
-Received: by mail-wr1-x42e.google.com with SMTP id a9so10749025wrt.5
- for <qemu-devel@nongnu.org>; Sun, 17 Jan 2021 08:48:22 -0800 (PST)
+ id 1l1BE4-0001qu-AM
+ for qemu-devel@nongnu.org; Sun, 17 Jan 2021 11:48:30 -0500
+Received: by mail-wr1-x42c.google.com with SMTP id d13so14165748wrc.13
+ for <qemu-devel@nongnu.org>; Sun, 17 Jan 2021 08:48:27 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=xDfrjU7kI1sr1RDYArfADvyCVAF59u47MTJHcFAtFYw=;
- b=imypN1rpJz8e9ZiUVoWa5BvlKtQwgK3bobVSemLSV2fQI/G/nxGfkN3Dh/t3Jhbr3n
- 8bZBILuu60QBQ7xAoA8kQmQS5RAx5aIEtbXRw9XzgcDJsrmK0MuFeO76eEn2uPQ7g0/1
- Pt6braFeW9twcm2rR7yOffloNtuZIfkOofdLP7Sm0JSS/BLaH25O2WbzPFN3YVbHI7xz
- BT8WHnhK3WGIA1OWM1AcunLhtiNjZ0u4DFbyreiYEi2Y3Mg6wvbI+0Q9In0HdFQPVNcJ
- 9cazlGS4KC6nXg3tHGgFe93hipJ8SVErgraOPNiCzHEEVJXgxOZIj7q8m/GdV4skKI/k
- IXLQ==
+ bh=K3CQSqrytpiHS5Sve5/wJnq6BGWF/nQ2DFQWKfnG4qE=;
+ b=ak+8WZa6ga6z2O6djG4mmWplZS3o+nsf+wJk6RWvPFGsj1RGzEET5tK6mNxXZ/9zXD
+ YUoAZOQ5G55p0DidsHSJadJHFWlgqbUUvKpfVrF+ji7RU3YQieaOwKAnrovwK8y2gWZy
+ nkVmVXhvRUUdNWTF+oLrX5ZNOKMtXiTDQjEPXL7gvzLY9y23Rvf3LSlyQUsIlO+Eoef/
+ qD/FKqEAZgSoF4Z0/2QBMk536wsthb+zYtZ6nLY4wp+FsiKVAX1+n2EyNO+yKcrKr3WJ
+ JcmjS1tVvLLxCC45c40JVmbqv0Rf7jB30rf0S6KG5Rmn8W+lsHRLvpokH35r6aos+Qxb
+ r9oQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=xDfrjU7kI1sr1RDYArfADvyCVAF59u47MTJHcFAtFYw=;
- b=o8d7ld9FOIPVaMCFJ7YJaQIwicpA6CaAfR2HlKFmHH+7phfz00a2OAvkPoRd73O49Y
- Sfg6n1J6/QyFs6tm3P0M3270++0oQ56LMEu8rsnDC5HVOxn/nblmbWNeihqSc91dKiUC
- EH+lX2H1M2yt03vQcmtzdqXrvALsy9lXf6QKNmn1iwU4X4HVXUxeZvJIjn6Io8F82DHs
- 8cD5YD5oe61nxX7V2IEsjaAVmKpdrZYEj8Y0ZkjeJMC5iaXu01SlECrV5dFJwFGuonnL
- MYMUW3WIn37tpEYvhkXEU/xrBAFWnKmrmgUiIAE1SY6JceiHF0AqL9H+lvq7/pHyjnCi
- j+pg==
-X-Gm-Message-State: AOAM532u/HKRJi5yXP09Km+8Wc6IfEWWO8z5UkSC4kKDcfPlhb52ej6d
- s3/SZpbkOgBaPoDB5ImXCQRtRA1BNQs=
-X-Google-Smtp-Source: ABdhPJydWQhkpkd8PD68Pwm/KDlDLBr8mI9TKOIEAKbpff8AfzxUeVQ/T4xf4p5ziObbNqPqkRJE/w==
-X-Received: by 2002:a5d:6443:: with SMTP id d3mr21803331wrw.422.1610902101470; 
- Sun, 17 Jan 2021 08:48:21 -0800 (PST)
+ bh=K3CQSqrytpiHS5Sve5/wJnq6BGWF/nQ2DFQWKfnG4qE=;
+ b=pEXbpbcwA1ozswwiHoG8D95Tks840Z711ZhT4ZXQTjAoEKbLNP71X5pFZwSxJwFMui
+ xUStr5Xc2RkBB1i0rpWKUeNiNpJMteWdnc15IxfJMzab/YfvA5yD+nRWMDOkIk4FNIzJ
+ mu7mRAhbWVeyJhJQoiANq3vgqpKMIbjVAyZkbk3WKmXus2/4n8uLKssZdkKwBASprt3V
+ T551Cb9/K34/oaVrdTZzIkL0STcJHhCgMjl1CM/i8fxT4dAsVMmbz668emaOeLh1Fsjh
+ ZPBZINiyGVCDe74Z+1sB9fH5c0uaEFu4RnPTOkJdwC1X4OYPAxvBiU4VA0ywpJKs6WnO
+ HNuQ==
+X-Gm-Message-State: AOAM530/G9OoenPLobP3XTaQC45Ro2mRy9l4AXl/rDA9f8dOGZySSzbI
+ sR4+7NLECuBmFeh15FdpCWBKrDBqKKE=
+X-Google-Smtp-Source: ABdhPJxJB4TinkeAcxOO1nH8psKfQDrExlvlGEAeQKeFeHBdkKFyUqn8+DyYmDenmEtY2rKtJrMkgw==
+X-Received: by 2002:a5d:61ca:: with SMTP id q10mr22541873wrv.124.1610902106676; 
+ Sun, 17 Jan 2021 08:48:26 -0800 (PST)
 Received: from localhost.localdomain (13.red-83-57-169.dynamicip.rima-tde.net.
  [83.57.169.13])
- by smtp.gmail.com with ESMTPSA id z8sm6534364wmi.44.2021.01.17.08.48.20
+ by smtp.gmail.com with ESMTPSA id i16sm22755267wrx.89.2021.01.17.08.48.25
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 17 Jan 2021 08:48:20 -0800 (PST)
+ Sun, 17 Jan 2021 08:48:26 -0800 (PST)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 1/6] accel/tcg: Make cpu_gen_init() static
-Date: Sun, 17 Jan 2021 17:48:08 +0100
-Message-Id: <20210117164813.4101761-2-f4bug@amsat.org>
+Subject: [PATCH 2/6] accel/tcg: Restrict tb_flush_jmp_cache() from other
+ accelerators
+Date: Sun, 17 Jan 2021 17:48:09 +0100
+Message-Id: <20210117164813.4101761-3-f4bug@amsat.org>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20210117164813.4101761-1-f4bug@amsat.org>
 References: <20210117164813.4101761-1-f4bug@amsat.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::42e;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x42e.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::42c;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x42c.google.com
 X-Spam_score_int: -14
 X-Spam_score: -1.5
 X-Spam_bar: -
@@ -94,43 +95,80 @@ Cc: Peter Maydell <peter.maydell@linaro.org>, Riku Voipio <riku.voipio@iki.fi>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-cpu_gen_init() is TCG specific, only used in tcg/translate-all.c.
-No need to export it to other accelerators, declare it statically.
+tb_flush_jmp_cache() is only called within TCG accelerator,
+declare it locally.
 
 Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 ---
-We could also inline the 1-line call..
+We could also inline it in cputlb.c, the single user.
 ---
- include/exec/exec-all.h   | 2 --
- accel/tcg/translate-all.c | 2 +-
- 2 files changed, 1 insertion(+), 3 deletions(-)
+ accel/tcg/internal.h      | 16 ++++++++++++++++
+ include/exec/exec-all.h   |  3 ---
+ accel/tcg/cputlb.c        |  1 +
+ accel/tcg/translate-all.c |  1 +
+ 4 files changed, 18 insertions(+), 3 deletions(-)
+ create mode 100644 accel/tcg/internal.h
 
+diff --git a/accel/tcg/internal.h b/accel/tcg/internal.h
+new file mode 100644
+index 00000000000..4981d98dbfd
+--- /dev/null
++++ b/accel/tcg/internal.h
+@@ -0,0 +1,16 @@
++/*
++ * internal execution defines for qemu
++ *
++ *  Copyright (c) 2003 Fabrice Bellard
++ *
++ * SPDX-License-Identifier: LGPL-2.1-or-later
++ */
++
++#ifndef ACCEL_TCG_INTERNAL_H
++#define ACCEL_TCG_INTERNAL_H
++
++#include "exec/exec-all.h"
++
++void tb_flush_jmp_cache(CPUState *cpu, target_ulong addr);
++
++#endif
 diff --git a/include/exec/exec-all.h b/include/exec/exec-all.h
-index 2e5b4bba48f..516013e735a 100644
+index 516013e735a..1e3e7cf8e78 100644
 --- a/include/exec/exec-all.h
 +++ b/include/exec/exec-all.h
-@@ -47,8 +47,6 @@ void gen_intermediate_code(CPUState *cpu, TranslationBlock *tb, int max_insns);
- void restore_state_to_opc(CPUArchState *env, TranslationBlock *tb,
-                           target_ulong *data);
+@@ -663,9 +663,6 @@ tb_page_addr_t get_page_addr_code_hostp(CPUArchState *env, target_ulong addr,
+ void tlb_reset_dirty(CPUState *cpu, ram_addr_t start1, ram_addr_t length);
+ void tlb_set_dirty(CPUState *cpu, target_ulong vaddr);
  
--void cpu_gen_init(void);
+-/* exec.c */
+-void tb_flush_jmp_cache(CPUState *cpu, target_ulong addr);
 -
- /**
-  * cpu_restore_state:
-  * @cpu: the vCPU state is to be restore to
+ MemoryRegionSection *
+ address_space_translate_for_iotlb(CPUState *cpu, int asidx, hwaddr addr,
+                                   hwaddr *xlat, hwaddr *plen,
+diff --git a/accel/tcg/cputlb.c b/accel/tcg/cputlb.c
+index ced3dc077ec..b1f0f404aa5 100644
+--- a/accel/tcg/cputlb.c
++++ b/accel/tcg/cputlb.c
+@@ -36,6 +36,7 @@
+ #include "exec/translate-all.h"
+ #include "trace/trace-root.h"
+ #include "trace/mem.h"
++#include "internal.h"
+ #ifdef CONFIG_PLUGIN
+ #include "qemu/plugin-memory.h"
+ #endif
 diff --git a/accel/tcg/translate-all.c b/accel/tcg/translate-all.c
-index e9de6ff9dd7..ca7ef6aa177 100644
+index ca7ef6aa177..6427bf87ae0 100644
 --- a/accel/tcg/translate-all.c
 +++ b/accel/tcg/translate-all.c
-@@ -243,7 +243,7 @@ static void page_table_config_init(void)
-     assert(v_l2_levels >= 0);
- }
+@@ -60,6 +60,7 @@
+ #include "sysemu/cpu-timers.h"
+ #include "sysemu/tcg.h"
+ #include "qapi/error.h"
++#include "internal.h"
  
--void cpu_gen_init(void)
-+static void cpu_gen_init(void)
- {
-     tcg_context_init(&tcg_init_ctx);
- }
+ /* #define DEBUG_TB_INVALIDATE */
+ /* #define DEBUG_TB_FLUSH */
 -- 
 2.26.2
 
