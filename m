@@ -2,71 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 517732F940B
-	for <lists+qemu-devel@lfdr.de>; Sun, 17 Jan 2021 17:53:01 +0100 (CET)
-Received: from localhost ([::1]:60536 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 570E32F9408
+	for <lists+qemu-devel@lfdr.de>; Sun, 17 Jan 2021 17:51:51 +0100 (CET)
+Received: from localhost ([::1]:55466 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l1BIS-0000ny-Ck
-	for lists+qemu-devel@lfdr.de; Sun, 17 Jan 2021 11:53:00 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34052)
+	id 1l1BHK-0007CD-DQ
+	for lists+qemu-devel@lfdr.de; Sun, 17 Jan 2021 11:51:50 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34078)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1l1BEN-0004BA-2c
- for qemu-devel@nongnu.org; Sun, 17 Jan 2021 11:48:47 -0500
-Received: from mail-wm1-x332.google.com ([2a00:1450:4864:20::332]:40742)
+ id 1l1BEQ-0004JV-CY
+ for qemu-devel@nongnu.org; Sun, 17 Jan 2021 11:48:50 -0500
+Received: from mail-wr1-x429.google.com ([2a00:1450:4864:20::429]:44383)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1l1BEK-0001vM-V0
- for qemu-devel@nongnu.org; Sun, 17 Jan 2021 11:48:46 -0500
-Received: by mail-wm1-x332.google.com with SMTP id r4so11815949wmh.5
- for <qemu-devel@nongnu.org>; Sun, 17 Jan 2021 08:48:43 -0800 (PST)
+ id 1l1BEO-0001wX-Qo
+ for qemu-devel@nongnu.org; Sun, 17 Jan 2021 11:48:50 -0500
+Received: by mail-wr1-x429.google.com with SMTP id w5so14174322wrm.11
+ for <qemu-devel@nongnu.org>; Sun, 17 Jan 2021 08:48:48 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=UZYwqIRQuLmBtaprCcoYNaqSL+UUeepn3F/UBlfKHSc=;
- b=Mg7UU5eoMqdI+nhY0LeAI+Qune6QfeigS3jDa2pSJ88ArzDXWYZrZ4iZCTFhv27FAt
- XBkDE7fVKw5QFwafvoH0ltcr8Q58U18U/BPZWNGfiDzxDjB+7oz5dJRsHNW77x6nJ3dV
- ED01HFuzwdUXs6UTz0QxOoN3Vk1WDoxDtTjuJXjs4WKDDT5gEytfYnBs3/eUnXk32XWb
- 4ygGms+c3esnPgNyGHremMRkAJl4rfYE0FVGf5UAKtdcYjT2XckhjJCyYO5hSRxuLC5Z
- w15B8l0BqCWsKChRJqHksUu1fIqNC92+qgiGVdf4UjxU9OQJMp6NhbwP6JgDE/McaonR
- 2iOg==
+ bh=Qrc7nsDG3FWYyx7ue2FQKi4KA+9IIfDo7x9aiypq15A=;
+ b=E32zuVYxWLsH4GDKEMZXzXPX4V9TYli0Xg6FqBdIaROyfGC7vjQb1Z7rpurhRkjGNS
+ Ld5y5/DFAFVLFgvbpKOvY2EUSRwe5K++OxLYeXOK3iH3t2Cb1D+pdkNEPdvTreQdB4sT
+ 55JjxRz69I/CwZWj2RR+3/WfBjqHBnn5O4Esg89SDurOerSxeo0bHGAVA9TlPZaI4qkk
+ vu04Tl3qmoloWFeDIgncmOMrytoZwvONmxTYC5X53kAy4ZYUUdXZ8gjqxl2YGq1PX6eX
+ XwNVDV87pvT0vurwWNul2aG1ObI5x9JloEkT0xIapZ4v+qsl0BBc5R8PLVHkwBZZeO5J
+ 4ggw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=UZYwqIRQuLmBtaprCcoYNaqSL+UUeepn3F/UBlfKHSc=;
- b=qgmWg+w2YN/tYRwtcRwbnaAgvgrFjgczKbV9rOsX6L4OP8Vn4N0ETDQMEToTcq2r90
- wHfmV1JfgRysoK2PoYQSzT/kVC4EuiKOyDwaUaN25W8Ju3BermLtihYQIV6FcEk5N+Nw
- Dgh3X0vaIsO9l0j52noa2+ouEEfRGo8JMpCpMNsjXqsehY5UDnl8hV+iJsqFcnI2mu1X
- XGB++Teg9UbDaUWw5ul8OlPkv8QSKvgDK249mCcm3jxXWXrYVBHTDgO/v27GTAGY73xY
- wka/SChQZAD7fDP3WMtUeY/Pzk+7OFHkjj691qREUvQ6qGRh2cifwLYO8of5BdaHsRXx
- RaOg==
-X-Gm-Message-State: AOAM532nNchVXagxk5AHlmXPxF6cfng/NiB4i8D7MR1njbHCuILS2zJS
- yo6kuLt4Ziv0uZfF+8EF+K0zNf9rhho=
-X-Google-Smtp-Source: ABdhPJzUybtrTFNUCU/BSNg/VvtwLquz2yYQGtaAQhiEDwZTLN4tVAZS9V8aRKVK73APW8fp0w0WOg==
-X-Received: by 2002:a05:600c:3549:: with SMTP id
- i9mr16527154wmq.89.1610902122108; 
- Sun, 17 Jan 2021 08:48:42 -0800 (PST)
+ bh=Qrc7nsDG3FWYyx7ue2FQKi4KA+9IIfDo7x9aiypq15A=;
+ b=RmqglRkxIXDznNgMuI5L7NqbG3i8GRJq0V9846Jczb4m66AxRRq19kbnsSBCiCTQDf
+ Wnl/Fy6eRLEqwqV+iMvqoUbwUMrJBdPsO3yFYlfNiktvN50jT7iW98sx9kGjdoWM1CNN
+ jR7L0i9tqycIYfOjXv5dJIY1OLSkMiZkx4EBLdfU2KqdwjJIxwKOMMeQDysKNElVOFMG
+ szzvJf/6Bj3Zy6FK6XKESdR3pMurK1vhSlUBojWKYApsWu6FHVH+4QbKEChF3PSiwyMa
+ LKVKd5S70eVP/dO3mEEWWYfFB7m9nNmmlfwD7+ivFfrOlkqgmS+TU2NasOkEBqMO6oDz
+ P8kQ==
+X-Gm-Message-State: AOAM532tPq/DBUypXH1aYxqEy7icwhd0wlwfbMtjSUApNP5X27wNAXOB
+ lRgkJZtMuEaXm1uqPeEnMFcN8V/zrQY=
+X-Google-Smtp-Source: ABdhPJx30sU2mlGVYbzDuAhucMNms3y8calEJ/yFf5v0bA21fSR37afAvB7opQRCJGMErmW8O6Nzxw==
+X-Received: by 2002:a5d:5105:: with SMTP id s5mr16279432wrt.252.1610902127372; 
+ Sun, 17 Jan 2021 08:48:47 -0800 (PST)
 Received: from localhost.localdomain (13.red-83-57-169.dynamicip.rima-tde.net.
  [83.57.169.13])
- by smtp.gmail.com with ESMTPSA id z8sm6535744wmi.44.2021.01.17.08.48.40
+ by smtp.gmail.com with ESMTPSA id r20sm27374693wrg.66.2021.01.17.08.48.46
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 17 Jan 2021 08:48:41 -0800 (PST)
+ Sun, 17 Jan 2021 08:48:46 -0800 (PST)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 To: qemu-devel@nongnu.org
-Subject: [RFC PATCH 5/6] accel/tcg: Restrict cpu_io_recompile() from other
- accelerators
-Date: Sun, 17 Jan 2021 17:48:12 +0100
-Message-Id: <20210117164813.4101761-6-f4bug@amsat.org>
+Subject: [RFC PATCH 6/6] softmmu: Restrict watchpoint handlers to TCG
+ accelerator
+Date: Sun, 17 Jan 2021 17:48:13 +0100
+Message-Id: <20210117164813.4101761-7-f4bug@amsat.org>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20210117164813.4101761-1-f4bug@amsat.org>
 References: <20210117164813.4101761-1-f4bug@amsat.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::332;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x332.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::429;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x429.google.com
 X-Spam_score_int: -14
 X-Spam_score: -1.5
 X-Spam_bar: -
@@ -96,40 +95,78 @@ Cc: Peter Maydell <peter.maydell@linaro.org>, Riku Voipio <riku.voipio@iki.fi>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-As cpu_io_recompile() is only called within TCG accelerator
-in cputlb.c, declare it locally.
+Watchpoint funtions use cpu_restore_state() which is only
+available when TCG accelerator is built. Restrict them
+to TCG.
 
 Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 ---
-RFC because not sure if other accelerator could implement this.
+RFC because we could keep that code by adding an empty
+    stub for cpu_restore_state(), but it is unclear as
+    the function is named generically.
 ---
- accel/tcg/internal.h    | 2 ++
- include/exec/exec-all.h | 1 -
- 2 files changed, 2 insertions(+), 1 deletion(-)
+ include/hw/core/cpu.h | 4 ++--
+ softmmu/physmem.c     | 4 ++++
+ 2 files changed, 6 insertions(+), 2 deletions(-)
 
-diff --git a/accel/tcg/internal.h b/accel/tcg/internal.h
-index f7e18c3498b..c72a69e4d63 100644
---- a/accel/tcg/internal.h
-+++ b/accel/tcg/internal.h
-@@ -18,4 +18,6 @@ TranslationBlock *tb_gen_code(CPUState *cpu,
+diff --git a/include/hw/core/cpu.h b/include/hw/core/cpu.h
+index 140fa32a5e3..1b4af30db04 100644
+--- a/include/hw/core/cpu.h
++++ b/include/hw/core/cpu.h
+@@ -1033,7 +1033,7 @@ static inline bool cpu_breakpoint_test(CPUState *cpu, vaddr pc, int mask)
+     return false;
+ }
  
- void tb_flush_jmp_cache(CPUState *cpu, target_ulong addr);
+-#ifdef CONFIG_USER_ONLY
++#if !defined(CONFIG_TCG) || defined(CONFIG_USER_ONLY)
+ static inline int cpu_watchpoint_insert(CPUState *cpu, vaddr addr, vaddr len,
+                                         int flags, CPUWatchpoint **watchpoint)
+ {
+@@ -1098,7 +1098,7 @@ void cpu_check_watchpoint(CPUState *cpu, vaddr addr, vaddr len,
+  * If no watchpoint is registered for the range, the result is 0.
+  */
+ int cpu_watchpoint_address_matches(CPUState *cpu, vaddr addr, vaddr len);
+-#endif
++#endif /* !CONFIG_TCG || CONFIG_USER_ONLY */
  
-+void QEMU_NORETURN cpu_io_recompile(CPUState *cpu, uintptr_t retaddr);
-+
- #endif
-diff --git a/include/exec/exec-all.h b/include/exec/exec-all.h
-index 3acc7c2943a..125000bcf70 100644
---- a/include/exec/exec-all.h
-+++ b/include/exec/exec-all.h
-@@ -63,7 +63,6 @@ void restore_state_to_opc(CPUArchState *env, TranslationBlock *tb,
- bool cpu_restore_state(CPUState *cpu, uintptr_t searched_pc, bool will_exit);
+ /**
+  * cpu_get_address_space:
+diff --git a/softmmu/physmem.c b/softmmu/physmem.c
+index 65602ed548e..5135a6371b5 100644
+--- a/softmmu/physmem.c
++++ b/softmmu/physmem.c
+@@ -765,6 +765,7 @@ AddressSpace *cpu_get_address_space(CPUState *cpu, int asidx)
+     return cpu->cpu_ases[asidx].as;
+ }
  
- void QEMU_NORETURN cpu_loop_exit_noexc(CPUState *cpu);
--void QEMU_NORETURN cpu_io_recompile(CPUState *cpu, uintptr_t retaddr);
- void QEMU_NORETURN cpu_loop_exit(CPUState *cpu);
- void QEMU_NORETURN cpu_loop_exit_restore(CPUState *cpu, uintptr_t pc);
- void QEMU_NORETURN cpu_loop_exit_atomic(CPUState *cpu, uintptr_t pc);
++#ifdef CONFIG_TCG
+ /* Add a watchpoint.  */
+ int cpu_watchpoint_insert(CPUState *cpu, vaddr addr, vaddr len,
+                           int flags, CPUWatchpoint **watchpoint)
+@@ -873,6 +874,7 @@ int cpu_watchpoint_address_matches(CPUState *cpu, vaddr addr, vaddr len)
+     }
+     return ret;
+ }
++#endif /* CONFIG_TCG */
+ 
+ /* Called from RCU critical section */
+ static RAMBlock *qemu_get_ram_block(ram_addr_t addr)
+@@ -2356,6 +2358,7 @@ ram_addr_t qemu_ram_addr_from_host(void *ptr)
+     return block->offset + offset;
+ }
+ 
++#ifdef CONFIG_TCG
+ /* Generate a debug exception if a watchpoint has been hit.  */
+ void cpu_check_watchpoint(CPUState *cpu, vaddr addr, vaddr len,
+                           MemTxAttrs attrs, int flags, uintptr_t ra)
+@@ -2424,6 +2427,7 @@ void cpu_check_watchpoint(CPUState *cpu, vaddr addr, vaddr len,
+         }
+     }
+ }
++#endif /* CONFIG_TCG */
+ 
+ static MemTxResult flatview_read(FlatView *fv, hwaddr addr,
+                                  MemTxAttrs attrs, void *buf, hwaddr len);
 -- 
 2.26.2
 
