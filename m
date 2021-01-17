@@ -2,69 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4A28C2F94DE
-	for <lists+qemu-devel@lfdr.de>; Sun, 17 Jan 2021 20:29:46 +0100 (CET)
-Received: from localhost ([::1]:50464 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4BE3E2F94E0
+	for <lists+qemu-devel@lfdr.de>; Sun, 17 Jan 2021 20:30:10 +0100 (CET)
+Received: from localhost ([::1]:51552 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l1Dk9-00023X-BM
-	for lists+qemu-devel@lfdr.de; Sun, 17 Jan 2021 14:29:45 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58040)
+	id 1l1DkX-0002XG-99
+	for lists+qemu-devel@lfdr.de; Sun, 17 Jan 2021 14:30:09 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58162)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1l1Dg3-0007qh-Fk; Sun, 17 Jan 2021 14:25:34 -0500
-Received: from mail-wm1-x336.google.com ([2a00:1450:4864:20::336]:37376)
+ id 1l1DgV-0008Ck-38; Sun, 17 Jan 2021 14:26:00 -0500
+Received: from mail-wm1-x32b.google.com ([2a00:1450:4864:20::32b]:40352)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1l1Dg2-0005D6-3m; Sun, 17 Jan 2021 14:25:31 -0500
-Received: by mail-wm1-x336.google.com with SMTP id g10so12049085wmh.2;
- Sun, 17 Jan 2021 11:25:29 -0800 (PST)
+ id 1l1DgT-0005Kg-ME; Sun, 17 Jan 2021 14:25:58 -0500
+Received: by mail-wm1-x32b.google.com with SMTP id r4so12028468wmh.5;
+ Sun, 17 Jan 2021 11:25:56 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=wX5YisuWL/1kxfpeKOV4oTMHdWldWIq42qYJ2gfj7dc=;
- b=o70zgkLCjTk2UunB4bDarF1cLu3Jbi3yIP7VJDK7c11SrDRhmIV1yLNUdenmCjok8u
- 4ADSSGJ6qzqcc5l7sZO87WbUkT1bQekPohWaF331aijg6hXgpjmGh9WGnH6VEgLMQOkO
- mWyu/4neq/W1ekNPxcPHi3H1kTToXfUH9cwmTF23l0OoV5i9Kix8CDi9hXz9MaZxtpeV
- g2Z82AJbxVOrPQUSWdq2cRU6FTqfCJYXIv0kiazkBEZhqiNsOanbpt0RxMRUpDL7zns9
- 9oDaTS1eQ5PuTUwHQ4gJLaIVJFurBATIV05O0YiAc1FnEPPcNkONEk2KQC7IDaNn26Mn
- KYSg==
+ bh=ywUmqbvL1fXxkTM+pHTvth+aqc+cAGL+9PBE1kwGlvU=;
+ b=k7DODHe+DDG3vQtF/snRglJd6BfW3ctKhMz9N5ZFRJPXSf0dzDpFVpp9dGeQyIgka2
+ mdTqYVgIVGe5jiF7pLc665Uf/KYCTz00064LRcNBOnBSZwp4xOO/C2FsgmaTxp+Kiri3
+ 3Mf9O0Cx7AipZaS1Zz8GU8BYzJTllHxdSsIAZYe4jQYB666OfBzttpHt1QlcVEFKMp2/
+ DUtIxBfJ+7eq4+Tuhq2c7ApuCa19fDN6L1A5gmBj05wZQPRf7cxIsFi8TZ+4YZM1sl73
+ AzwsJyf9tONeU4ZjEQivy5FmqH5hXP/mttczYyRpcyFWIc7Di+uYnV/oAf6jLi0l8iIp
+ oobg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=wX5YisuWL/1kxfpeKOV4oTMHdWldWIq42qYJ2gfj7dc=;
- b=Fpk9SIzCyYHNVllfYWtW4JJBig+ZKIdr0G3upcivLqSwera/Qv8eL1P9koP7pJy5Ug
- 6NzjHDvE+7nubVxKk2HS3yWiqEb1dqeV/sq6BSaIsKpX4M2e4AW5u0Kr0ZyB8iJR/tPJ
- o8mGZXHXpjJ2oZ4/b/1MC+wQh2v1rCCCgFwJ8i1fWnpUNZVhTVweQjrqLbzXjTXPAu3z
- 7U6VO0FtJN0HTsZxcBmTEidqKK14NFxDYH5/x/s9HbIoO5+3YEAnIuEI96ko2pqPLhNP
- YEnG2zezXQxx5nRsXl94bgUCQgSsFzBe2Ym6LiFHqpWr7+r67DdHRlTq9dBeMuwXqMgd
- dywg==
-X-Gm-Message-State: AOAM530iPcl5ceZsfzR8+Hq0WpkQG3hP67ghPZFlbcx9jmHTJGrMpWGA
- 0GoPlcetrSBglHMNP/Feu9Q=
-X-Google-Smtp-Source: ABdhPJw5tInLIHrxS25OFyOXfZ0TxV2j0sp/xO2VJT+x5kdUNjd34M8oQ5/ZX1VSSeyeFHBh8CdBVA==
-X-Received: by 2002:a7b:c5d6:: with SMTP id n22mr17103434wmk.70.1610911528446; 
- Sun, 17 Jan 2021 11:25:28 -0800 (PST)
+ bh=ywUmqbvL1fXxkTM+pHTvth+aqc+cAGL+9PBE1kwGlvU=;
+ b=JO3E7PMNOhR12fnOh8SGjSW0hJSAzkiJQPitnwtNEXaAKf6NRInpSqAuBZx4xGQfr9
+ 0wwosy4h5Pql16JH70dqXL/Eppq7fx26rj+TSuNv1QAEr2g4oonRvdDblhOBQLG8j7Ez
+ S5qoljalsEjKczlVJlV6RH+uC5+WOA5oVGRKTcH2b7o6Y66p4CqCcHXziN5qP6Izwe9o
+ FoixtFRj9aPKo4HmZeVTWRJbYyefq+afAfVByUg1ZsL2LvmImUsfd/yHXfgVav5utuhm
+ WVUfHU+brS0lJltQ5FetA9P4z0x5upEHbOzdwyRZbwxITiSSkccQJBYAtAAovXq5IO+4
+ cGCw==
+X-Gm-Message-State: AOAM533g0oP2YfIJEVAsfIY+7sHQTEvgJEUwXrygP+Mvud3CvGUVeR8W
+ 9qTeNe0XHH5FnrPmRvZapNg=
+X-Google-Smtp-Source: ABdhPJza6zbRor9M5WyThlg8NoJDp6Fltcq7KawV8Ng1oH1jGEM16OJHPmdV21ZTChQidt5vQpLFbQ==
+X-Received: by 2002:a1c:9c91:: with SMTP id
+ f139mr18028374wme.118.1610911556017; 
+ Sun, 17 Jan 2021 11:25:56 -0800 (PST)
 Received: from localhost.localdomain (13.red-83-57-169.dynamicip.rima-tde.net.
  [83.57.169.13])
- by smtp.gmail.com with ESMTPSA id y13sm25915641wrl.63.2021.01.17.11.25.26
+ by smtp.gmail.com with ESMTPSA id c18sm42879172wmk.0.2021.01.17.11.25.54
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 17 Jan 2021 11:25:27 -0800 (PST)
+ Sun, 17 Jan 2021 11:25:55 -0800 (PST)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 To: "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
 	qemu-devel@nongnu.org
-Subject: [RFC PATCH v2 07/20] hw/core/split-irq: Mark the device with no
+Subject: [RFC PATCH v2 12/20] hw/misc/armsse-cpuid: Mark the device with no
  migratable fields
-Date: Sun, 17 Jan 2021 20:24:33 +0100
-Message-Id: <20210117192446.23753-8-f4bug@amsat.org>
+Date: Sun, 17 Jan 2021 20:24:38 +0100
+Message-Id: <20210117192446.23753-13-f4bug@amsat.org>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20210117192446.23753-1-f4bug@amsat.org>
 References: <20210117192446.23753-1-f4bug@amsat.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::336;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x336.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::32b;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x32b.google.com
 X-Spam_score_int: -14
 X-Spam_score: -1.5
 X-Spam_bar: -
@@ -102,24 +103,23 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 This device doesn't have fields to migrate. Be explicit
 by using vmstate_qdev_no_state_to_migrate.
 
-Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
 Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 ---
- hw/core/split-irq.c | 1 +
+ hw/misc/armsse-cpuid.c | 1 +
  1 file changed, 1 insertion(+)
 
-diff --git a/hw/core/split-irq.c b/hw/core/split-irq.c
-index 3b90af2e8f9..a7072f922cd 100644
---- a/hw/core/split-irq.c
-+++ b/hw/core/split-irq.c
-@@ -71,6 +71,7 @@ static void split_irq_class_init(ObjectClass *klass, void *data)
-     /* No state to reset or migrate */
-     device_class_set_props(dc, split_irq_properties);
-     dc->realize = split_irq_realize;
+diff --git a/hw/misc/armsse-cpuid.c b/hw/misc/armsse-cpuid.c
+index d58138dc28c..61251d538b9 100644
+--- a/hw/misc/armsse-cpuid.c
++++ b/hw/misc/armsse-cpuid.c
+@@ -115,6 +115,7 @@ static void armsse_cpuid_class_init(ObjectClass *klass, void *data)
+      * This device has no guest-modifiable state and so it
+      * does not need a reset function or VMState.
+      */
 +    dc->vmsd = vmstate_qdev_no_state_to_migrate;
  
-     /* Reason: Needs to be wired up to work */
-     dc->user_creatable = false;
+     device_class_set_props(dc, armsse_cpuid_props);
+ }
 -- 
 2.26.2
 
