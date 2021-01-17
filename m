@@ -2,73 +2,80 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4A5D82F9417
-	for <lists+qemu-devel@lfdr.de>; Sun, 17 Jan 2021 18:07:36 +0100 (CET)
-Received: from localhost ([::1]:51448 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9C4702F9428
+	for <lists+qemu-devel@lfdr.de>; Sun, 17 Jan 2021 18:30:02 +0100 (CET)
+Received: from localhost ([::1]:59284 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l1BWY-0001cp-Nw
-	for lists+qemu-devel@lfdr.de; Sun, 17 Jan 2021 12:07:34 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36528)
+	id 1l1BsH-0007Go-4r
+	for lists+qemu-devel@lfdr.de; Sun, 17 Jan 2021 12:30:01 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39158)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1l1BTO-0000Vz-3n
- for qemu-devel@nongnu.org; Sun, 17 Jan 2021 12:04:18 -0500
-Received: from mail-wm1-x32b.google.com ([2a00:1450:4864:20::32b]:34157)
+ id 1l1BrI-0006gs-FA; Sun, 17 Jan 2021 12:29:00 -0500
+Received: from mail-wm1-x32b.google.com ([2a00:1450:4864:20::32b]:35069)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1l1BTM-0007Mi-Dm
- for qemu-devel@nongnu.org; Sun, 17 Jan 2021 12:04:17 -0500
-Received: by mail-wm1-x32b.google.com with SMTP id o10so4738030wmc.1
- for <qemu-devel@nongnu.org>; Sun, 17 Jan 2021 09:04:15 -0800 (PST)
+ id 1l1BrG-0007df-Ne; Sun, 17 Jan 2021 12:29:00 -0500
+Received: by mail-wm1-x32b.google.com with SMTP id e15so5490513wme.0;
+ Sun, 17 Jan 2021 09:28:57 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=Uuhg9E01gIMN6bxPkPWGwBLQ5Y4pX/rH09FJ5cXM4eg=;
- b=fv9NEdiVgZ10QSTl0hVJjuNZYRukbZwkCmwg3kY/5hwozedB+THQt6wjo3RWR3Dc+T
- XmJl9mmrvM0yjt8Yx8nkaFCtVE0olYMF6DNYJ/4boqr0+/gr1DYgKH4QwJfGxHHa8ewN
- S/TDg21HiWPewIzvjCLIIeSbEFNZrEWRU6IFo5dDo2lJ9dyMOXrjvrYZAzD+Kp8+e/JE
- hPEWBsomBx3JnEYrHlToJbBBkO9g9n++M3vo5Zq+Ohzad7PNChz0f+tKcZH5UQWl/UNG
- XLnkbZOc2FX0tb75hP2Ea/on3RxuTAtIqQzhBMUcRRispqiu7IoIhckd1wenmnamUHEi
- jkBA==
+ h=sender:subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=wjL5E7Yxi5OMKSh3EgWuck0lfVOC8x4MHz5HEOfuN+g=;
+ b=m1A13RzD2QmNYbjyP18xwQElSWd2g3MacTbZWlM2R9PKO0FJI1W43f5RznbZiWIwjh
+ IpwyBARnFi7PcZnVZY5WiHYMmySLQWLZFTmW6IDdxmMd+TtmeDeRsHnUXi0LsI70H1jK
+ X6uSi0p+RBiA1sv2i+pFWLzjuIx2iHWI/ZmnHxvt0ScaipIgV0DlGux3QbgjeUkPjyLF
+ wp6MSnS35o0fEGTcQQQFbccbr2zie8vqp2vjD6Iy6ltGS6UFN+EPCpMiiHAnDS/oq+2b
+ VYe3sDreMNzQjvuxc0353MD8WfSz1TLXa9X5qCEKp+KI44nIGnT/NpSIhz0nXocmA+TU
+ 6GsA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
- :mime-version:content-transfer-encoding;
- bh=Uuhg9E01gIMN6bxPkPWGwBLQ5Y4pX/rH09FJ5cXM4eg=;
- b=Ux9lry2dRl94XmNDG7SriPtCMXK9JA0BXG/oMCK6R9KT6scftsGYNCgooXiQhexZbg
- Hd4IVAA2c0JsdeHCf4yH037j2Bn7DMBxAPSSrnm197KCWoThMTqnCIHmEbBjvtnO4xm4
- LS8qbf5plyz8N5wiVyhpL3BpyBvEMZQ2TbQT+CJ66OpT2wcOMzZmx7O6uTchGfnhiBbB
- kli21WNmnczITo/SyZ6mxkErwsXyfqhJdhkbdENcZFXl79uxN+QJRFaQ1WoW+rrjekDF
- iCFQwipdE4z0wMXbv+LnUY+9esn/WLn0+q33RWvr9ySPzOCOR9VBoQpKc6SsChxE/w9Y
- Ef9A==
-X-Gm-Message-State: AOAM532Au4LHrVzZxndqhCVfjkrMJhOOT/6mM0K33OBAUprjTP5y6o2W
- ns1vNCjR8Zeulw+zUn78q2aqWvLFLhQ=
-X-Google-Smtp-Source: ABdhPJwz9Gi6LDlBnfFGk1aKKWiM4cBb4H3TtJ5IITkIiAdFxyjnSmQ5eelXnbBChPdFA6qfqXFG8g==
-X-Received: by 2002:a1c:e90b:: with SMTP id q11mr17605631wmc.102.1610903054288; 
- Sun, 17 Jan 2021 09:04:14 -0800 (PST)
-Received: from localhost.localdomain (13.red-83-57-169.dynamicip.rima-tde.net.
+ h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
+ :date:user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=wjL5E7Yxi5OMKSh3EgWuck0lfVOC8x4MHz5HEOfuN+g=;
+ b=hhnLrioFjFGieIO8NhAdJH1uOKML59ahXCjB2PWWVrJEySC56ey+Ydev4hYxHgLs2m
+ hqM0i/RTxEe25kxirtEQD6I3c/ndAJp5rwASrBkDyeukivdK+uKCFMxuxp4UQOi87xPY
+ J7QDTUPKeuhjnPgE1G96AsB8q+WoNVJEaVkHhFDDNZ4QyPNO8JPugfbxQPQYZoSMVwzq
+ ReH1tOL0PQ/FDuG9C86vQw/2sOE6KuDLiML0AfO48VDuu/SFI1QYWkGlL3iNvA3WRKU6
+ 0V881JYUCt2io3/Y9SKN4P4+is4inKQvQo73eRK5feEURxPxgkJepBOPjWw4Ew5Osp6r
+ umow==
+X-Gm-Message-State: AOAM531akbxr2rTQkBnADycGrN8LIJJdEII10ywe5zPzZKQl6aEnbxxc
+ RzGxbv8RUpo+33ay9nXNZYg=
+X-Google-Smtp-Source: ABdhPJz8orFYe8xxexYRsRBKx7GUI3PquFuZhxb7Fc0kSdp5h1dGh7XvwPhTtaTJLQF3xPEOuTjsJg==
+X-Received: by 2002:a1c:5454:: with SMTP id p20mr517738wmi.128.1610904536020; 
+ Sun, 17 Jan 2021 09:28:56 -0800 (PST)
+Received: from [192.168.1.36] (13.red-83-57-169.dynamicip.rima-tde.net.
  [83.57.169.13])
- by smtp.gmail.com with ESMTPSA id v20sm26342639wra.19.2021.01.17.09.04.13
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 17 Jan 2021 09:04:13 -0800 (PST)
-From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
-To: qemu-devel@nongnu.org
-Subject: [PATCH v2] softmmu/physmem: Silence GCC 10 maybe-uninitialized error
-Date: Sun, 17 Jan 2021 18:04:11 +0100
-Message-Id: <20210117170411.4106949-1-f4bug@amsat.org>
-X-Mailer: git-send-email 2.26.2
+ by smtp.gmail.com with ESMTPSA id x17sm24097616wro.40.2021.01.17.09.28.54
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Sun, 17 Jan 2021 09:28:55 -0800 (PST)
+Subject: Re: [RFC PATCH 18/18] hw/core/qdev: Display warning for devices
+ missing migration state
+To: Peter Maydell <peter.maydell@linaro.org>,
+ "Dr . David Alan Gilbert" <dgilbert@redhat.com>
+References: <20200703201911.26573-1-f4bug@amsat.org>
+ <20200703201911.26573-19-f4bug@amsat.org>
+ <CAFEAcA98Wz2URx3Pt0YfaoQSPnnMT4wg6HBfzdDO4Zq+4fgT5g@mail.gmail.com>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
+Message-ID: <a4a0c335-8ebf-4b22-b7ff-be59054b5705@amsat.org>
+Date: Sun, 17 Jan 2021 18:28:53 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.6.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+In-Reply-To: <CAFEAcA98Wz2URx3Pt0YfaoQSPnnMT4wg6HBfzdDO4Zq+4fgT5g@mail.gmail.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
 Content-Transfer-Encoding: 8bit
 Received-SPF: pass client-ip=2a00:1450:4864:20::32b;
  envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x32b.google.com
-X-Spam_score_int: -14
-X-Spam_score: -1.5
+X-Spam_score_int: -17
+X-Spam_score: -1.8
 X-Spam_bar: -
-X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.25,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.25,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.25, NICE_REPLY_A=-0.252,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
@@ -83,50 +90,62 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Paolo Bonzini <pbonzini@redhat.com>, Thomas Huth <thuth@redhat.com>,
- =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
- Peter Maydell <peter.maydell@linaro.org>
+Cc: Laurent Vivier <laurent@vivier.eu>, Gerd Hoffmann <kraxel@redhat.com>,
+ =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
+ Eduardo Habkost <ehabkost@redhat.com>, Juan Quintela <quintela@redhat.com>,
+ Andrew Jeffery <andrew@aj.id.au>,
+ Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
+ QEMU Developers <qemu-devel@nongnu.org>,
+ Andrew Baumann <Andrew.Baumann@microsoft.com>,
+ Subbaraya Sundeep <sundeep.lkml@gmail.com>, qemu-arm <qemu-arm@nongnu.org>,
+ =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>,
+ Paolo Bonzini <pbonzini@redhat.com>,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
+ Artyom Tarasenko <atar4qemu@gmail.com>, Joel Stanley <joel@jms.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-When building with GCC 10.2 configured with --extra-cflags=-Os, we get:
+On 7/9/20 9:14 PM, Peter Maydell wrote:
+> On Fri, 3 Jul 2020 at 21:19, Philippe Mathieu-Daudé <f4bug@amsat.org> wrote:
+>>
+>> When built with --enable-qdev-debug, QEMU displays warnings
+>> listing devices missing migration state:
+>>
+>>   $ qemu-system-arm -S -M spitz
+>>   qemu-system-arm: warning: missing migration state for type: 'pxa270-c0-arm-cpu'
+>>   qemu-system-arm: warning: missing migration state for type: 'serial'
+>>   qemu-system-arm: warning: missing migration state for type: 'pxa2xx-pcmcia'
+>>   qemu-system-arm: warning: missing migration state for type: 'pxa2xx-pcmcia'
+>>   qemu-system-arm: warning: missing migration state for type: 'pxa2xx-i2c-slave'
+>>   qemu-system-arm: warning: missing migration state for type: 'pxa2xx-i2c-slave'
+>>   qemu-system-arm: warning: missing migration state for type: 'ads7846'
+>>   qemu-system-arm: warning: missing migration state for type: 'max1111'
+>>
+>> Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+>> ---
+>> RFC because there might be something simpler than --enable-qdev-debug.
+> 
+> I think where we'd like to get to is installing a migration
+> blocker if the machine has any devices which don't have a vmsd.
+> But for that we'd need to be pretty sure we'd got all the devices
+> on machines where we care about migration, and we're clearly a
+> fair way from that (eg we need to do something about the
+> devices like the CPU which don't have a vmsd but handle their
+> migration some other way so they don't trigger the condition
+> for warning/migration-blocker).
 
-  softmmu/physmem.c: In function ‘address_space_translate_for_iotlb’:
-  softmmu/physmem.c:643:26: error: ‘notifier’ may be used uninitialized in this function [-Werror=maybe-uninitialized]
-    643 |         notifier->active = true;
-        |                          ^
-  softmmu/physmem.c:608:23: note: ‘notifier’ was declared here
-    608 |     TCGIOMMUNotifier *notifier;
-        |                       ^~~~~~~~
+Dave made a comment about it, I'd rather let him have a look.
 
-Initialize 'notifier' to silence the warning.
+> I don't have a strong objection to this --enable-qdev-debug, I guess.
+> Another option halfway between this and a full migration-blocker
+> would be do a warn_report() for the relevant devices when savevm
+> tries to migrate them.
 
-Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
----
-v2: Remove pointless assert (Peter Maydell)
+OK. The problem is vmstate_save_state() is not qdev specific, it
+migrates a blob, which we can not report much about. I'll repost
+using 2 warnings.
 
-Yet another hole in our CI.
+Thanks for your review,
 
-Supersedes: <20210117160754.4086411-1-f4bug@amsat.org>
----
- softmmu/physmem.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/softmmu/physmem.c b/softmmu/physmem.c
-index 6301f4f0a5c..cdcd197656f 100644
---- a/softmmu/physmem.c
-+++ b/softmmu/physmem.c
-@@ -605,7 +605,7 @@ static void tcg_register_iommu_notifier(CPUState *cpu,
-      * when the IOMMU tells us the mappings we've cached have changed.
-      */
-     MemoryRegion *mr = MEMORY_REGION(iommu_mr);
--    TCGIOMMUNotifier *notifier;
-+    TCGIOMMUNotifier *notifier = NULL;
-     int i;
- 
-     for (i = 0; i < cpu->iommu_notifiers->len; i++) {
--- 
-2.26.2
-
+Phil.
 
