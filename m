@@ -2,59 +2,59 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 055C32F95A3
+	by mail.lfdr.de (Postfix) with ESMTPS id 11C3B2F95A4
 	for <lists+qemu-devel@lfdr.de>; Sun, 17 Jan 2021 22:55:42 +0100 (CET)
-Received: from localhost ([::1]:42798 helo=lists1p.gnu.org)
+Received: from localhost ([::1]:42790 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l1G1M-0007HO-Gv
+	id 1l1G1M-0007HG-MN
 	for lists+qemu-devel@lfdr.de; Sun, 17 Jan 2021 16:55:40 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59008)
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59046)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
  (envelope-from <prvs=64494dccb=alistair.francis@wdc.com>)
- id 1l1Fzu-0005dX-GN
- for qemu-devel@nongnu.org; Sun, 17 Jan 2021 16:54:10 -0500
-Received: from esa5.hgst.iphmx.com ([216.71.153.144]:21685)
+ id 1l1Fzv-0005ef-L6
+ for qemu-devel@nongnu.org; Sun, 17 Jan 2021 16:54:11 -0500
+Received: from esa5.hgst.iphmx.com ([216.71.153.144]:21687)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
  (envelope-from <prvs=64494dccb=alistair.francis@wdc.com>)
- id 1l1Fzs-0005UE-8N
- for qemu-devel@nongnu.org; Sun, 17 Jan 2021 16:54:10 -0500
+ id 1l1Fzs-0005UJ-RF
+ for qemu-devel@nongnu.org; Sun, 17 Jan 2021 16:54:11 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
  d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
  t=1610920448; x=1642456448;
- h=from:to:cc:subject:date:message-id:mime-version:
- content-transfer-encoding;
- bh=/NUraJuwALU3et2WWDshPaN7o1IjIklJQ//folpGy4Y=;
- b=qrmkdwpLq017wTDpm6fycUjlFduY5QCCKbaeBOjUhTXoCwu5e/MOIsrS
- Ol/Wsx+I6lXJGSnBh8v9L69Hc2vB0i0pH3HUa5gc7zuXP0kDNI688XusW
- JsCI/uubxr51jvBogUQekjf2fXhZH0GQbfBN8zouJuHPQ8jxQIAX/vds3
- IXgxweWO2xf+jYXBVUWN1fX3plCEZbpUS0SPW29h8PB34UjXtwRlT6m1m
- OKvL5aIxaWoaPOJkw03ihMi8ndtPeKbTjdHW5KLXCrPYAIjt6Fe0URri/
- tGNWjvBgYHl3RivNrP3L+//lkCb9xSiMQFVKb2HWXNOMes+8QD6I8By/4 g==;
-IronPort-SDR: 5yojTRu39K0fz86MYFZ/Y3136ptrl6A4fHwbTUeOJD9Vnebd4CfHXsgy53Y9/h5K8lbThMrgRz
- b0fY+VYobeawXHxtawDkV9RyB8Vv9L43MMYCBxUDf8c/0ggx2c+rjkijZxXZHCVAARwEKtHlPL
- 0sQcHe5WV5rCsV9PHVhslol/nAbgYVXwr0cbNJZk2Wbi9Q2v2gC4seNNIK7OtmFqCeDDhtB7J+
- FOZwC1j5+xlcG+0PCCgq+LzALcfvGil2Qt2YovoLf/T8YLu0r0msUsVQGGr1Ma3BUiry4KJWhf
- Xsw=
-X-IronPort-AV: E=Sophos;i="5.79,355,1602518400"; d="scan'208";a="157645957"
+ h=from:to:cc:subject:date:message-id:in-reply-to:
+ references:mime-version:content-transfer-encoding;
+ bh=8ys3DgxDIzNqMty7G70cUegQ6LRqHf44ge9b+5j2f4k=;
+ b=EziPpFZRc3+vXyEQkzAQEMn4W/VA4m5ly9qUBvH6YpEVxR/Sxx0kJlXg
+ 4XPmHxuTm2gF0RWHxKNxjI6XHQ0jG4Xc8giKCcSWUWa8E/zwPdtnJNMx4
+ YaQ3VMrldkojsBTZgvc7NDRLa9ff/Du3nFWGt2YIOCyBqOwfRRKMD5XIM
+ 4MjYOfbFkERKUEts04gYCbv7KY5OES2l8vmrUo3OXdovhUr9AcePtb8q1
+ ACqAqG3MOkkHNk0klWM+lQvxbiyis/te6Gi69yCOckgnO9J57GNYXOTnW
+ hLHbX6eTAvMqBOPVxY6PNDNscAL8MYIws6NkRMP2cv4t7jCuYFCISFmr0 Q==;
+IronPort-SDR: LYl81xpQz/D9Qfe0JVBzk5pxATjqw3yiPTDEpwHJXyUol35xXNjHd6riH2UR4ESp3tEOM4eJ+D
+ 0zmOIBVeAb41DcSBdwPybNCToTfHVYeJLx/Y99IQgpaqTxVs92RuzhDQOGcKR5GKPdcEj52ei2
+ vbmAG/95OZkSBb/DX8jMBEq3d888fNrCLHFcA/DZ500dhMJTipuZ55b3v4t5F+0x3NTSqTV1x7
+ 6xPjEJC0YN0ylFgK/qYwQckNqkMITkdik5bjWxM0EPsvCi9GhFAGHepy32F0v4HioZzYRJe4+S
+ jTc=
+X-IronPort-AV: E=Sophos;i="5.79,355,1602518400"; d="scan'208";a="157645958"
 Received: from uls-op-cesaip01.wdc.com (HELO uls-op-cesaep01.wdc.com)
  ([199.255.45.14])
  by ob1.hgst.iphmx.com with ESMTP; 18 Jan 2021 05:54:05 +0800
-IronPort-SDR: im3J+WkhP1Fq770CtvcCURmndDR2ccXteZL2UA3YK143Ho4FLr+XVtRZKcX0Bck7JrZFHrc1gL
- tvkYUnbZDsLTvNIwzpDGdCHWcv7mMM9r/Kj2C3dWWLgMP8qUBjeMjRkHeMx6s80heBfLmfF0Gn
- 7JLsZIah88aMj0FPx9yY8lZj5zmaWUJ/nlKMsLVdTNS3ntI1DSYgrOdYxH27CsBzy7rp3nQycd
- jWVbQJI9msnAfFURpq9EFOAJR//01xIGkeS8VbMG72LEMa/n1+SgGwlMnKpqEqZsdVUWwQLEaf
- mD9XkRActGtK7FsfONYbvxli
+IronPort-SDR: P/ePjYWMEoy8FgSHZyxZ6F3hUqJxK5/yg3VOHxgxr+MQqTnYvYNJR0kePlslE26+VZjegGhyLl
+ GRlzIRI5zJjpZysDQvttk2CBChcTKNvf41YDljXGPsmtz8gxvD42egRU8UJ9J2tR27T8PTM//M
+ ehSwtYxbIj2tK5fo7rnMMJ7KcDDG/yC7JMIi94i6jct2QoB5RiMs2HQbYZPCeZaWno2CkCSE2Y
+ eLujjLyMKqTuWg8cnEt8hLxE/nxANnNPXl91cgwlXHf/ohlstouW+csgXcOuwJ73pAEy9chkOZ
+ O/DvynjxAc5cHAoKsb1udeGW
 Received: from uls-op-cesaip01.wdc.com ([10.248.3.36])
  by uls-op-cesaep01.wdc.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
  17 Jan 2021 13:38:44 -0800
-IronPort-SDR: KTirKQuQX7efOyGqQp9hIdXLwEuievoWRSYIXyrpsel6USbusHjNCd9MLjoJOor2YxW6lnfx4j
- s98Vqyw/x269VBBVgPyxXumNZviPbE9s5njCqvnFJST2ArUP1CPGeK+CVXJwkmlJgwf0snyFSZ
- J4aFbUW5+01CQn11RlzicBhdF13g31hiheCs/pnu61vq6NZEZmgJPUMA5uFasEIDvQTXiX56hu
- pveNaE2czo6QNxR6QUhKLcnlhMH37cY5XvDOnSQotxKuNiwjiyXZ9o7kMCkMXjf1tXVGRQHZxH
- x/M=
+IronPort-SDR: uRvU3o4atUZjreQdFBUzUrDLvP+0jsyRUlcReT+Q797thJqT0hbFKtyKlDp7KE43dGzPCRIT9P
+ +TYgcE6CT4cPbC3W262SHwb7GaimTFk6F6lLboIgV7KPtfxIHx6wGOYrP77IdBbTt1eEiKc/Qi
+ PVqZpDU1LSkn8Lol4oQlnQnKDvkNCTyT3KbcJ8NwUQbx69UmYJY5p0oOnloP9J+UMkSikHxrUJ
+ u8FK7RXpE5QuJWkCNjBs4MSKGSyPRCdK6mNp9NDMocIExUbkzCK4Tk8MBmUkmG7MVjymDUzNqu
+ uAY=
 WDCIronportException: Internal
 Received: from 7l95g12.ad.shared (HELO risc6-mainframe.hgst.com)
  ([10.86.62.251])
@@ -62,10 +62,13 @@ Received: from 7l95g12.ad.shared (HELO risc6-mainframe.hgst.com)
 From: Alistair Francis <alistair.francis@wdc.com>
 To: peter.maydell@linaro.org,
 	qemu-devel@nongnu.org
-Subject: [PULL 00/12] riscv-to-apply queue
-Date: Sun, 17 Jan 2021 13:53:51 -0800
-Message-Id: <20210117215403.2277103-1-alistair.francis@wdc.com>
+Subject: [PULL 01/12] hw/block: m25p80: Don't write to flash if write is
+ disabled
+Date: Sun, 17 Jan 2021 13:53:52 -0800
+Message-Id: <20210117215403.2277103-2-alistair.francis@wdc.com>
 X-Mailer: git-send-email 2.29.2
+In-Reply-To: <20210117215403.2277103-1-alistair.francis@wdc.com>
+References: <20210117215403.2277103-1-alistair.francis@wdc.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
@@ -91,78 +94,40 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Alistair Francis <alistair.francis@wdc.com>
+Cc: Francisco Iglesias <frasse.iglesias@gmail.com>,
+ Bin Meng <bin.meng@windriver.com>, Alistair Francis <alistair.francis@wdc.com>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The following changes since commit 825a215c003cd028e26c7d19aa5049d957345f43:
+From: Bin Meng <bin.meng@windriver.com>
 
-  Merge remote-tracking branch 'remotes/kraxel/tags/audio-20210115-pull-request' into staging (2021-01-15 22:21:21 +0000)
+When write is disabled, the write to flash should be avoided
+in flash_write8().
 
-are available in the Git repository at:
+Fixes: 82a2499011a7 ("m25p80: Initial implementation of SPI flash device")
+Signed-off-by: Bin Meng <bin.meng@windriver.com>
+Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+Reviewed-by: Francisco Iglesias <frasse.iglesias@gmail.com>
+Message-id: 1608688825-81519-1-git-send-email-bmeng.cn@gmail.com
+Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
+---
+ hw/block/m25p80.c | 1 +
+ 1 file changed, 1 insertion(+)
 
-  git@github.com:alistair23/qemu.git tags/pull-riscv-to-apply-20210117-3
+diff --git a/hw/block/m25p80.c b/hw/block/m25p80.c
+index 1b3f2405a1..63278cbda5 100644
+--- a/hw/block/m25p80.c
++++ b/hw/block/m25p80.c
+@@ -601,6 +601,7 @@ void flash_write8(Flash *s, uint32_t addr, uint8_t data)
+ 
+     if (!s->write_enable) {
+         qemu_log_mask(LOG_GUEST_ERROR, "M25P80: write with write protect!\n");
++        return;
+     }
+ 
+     if ((prev ^ data) & data) {
+-- 
+2.29.2
 
-for you to fetch changes up to a8259b53230782f5e0a0d66013655c4ed5d71b7e:
-
-  riscv: Pass RISCVHartArrayState by pointer (2021-01-16 14:34:46 -0800)
-
-----------------------------------------------------------------
-First RISC-V PR for 6.0
-
-This PR:
- - Fixes some issues with the m25p80
- - Improves GDB support for RISC-V
- - Fixes some Linux boot issues, specifiaclly 32-bit boot failures
- - Enforces PMP exceptions correctly
- - Fixes some Coverity issues
-
-----------------------------------------------------------------
-Alistair Francis (1):
-      riscv: Pass RISCVHartArrayState by pointer
-
-Atish Patra (2):
-      RISC-V: Place DTB at 3GB boundary instead of 4GB
-      target/riscv/pmp: Raise exception if no PMP entry is configured
-
-Bin Meng (6):
-      hw/block: m25p80: Don't write to flash if write is disabled
-      hw/riscv: sifive_u: Use SIFIVE_U_CPU for mc->default_cpu_type
-      target/riscv: Make csr_ops[CSR_TABLE_SIZE] external
-      target/riscv: Add CSR name in the CSR function table
-      target/riscv: Generate the GDB XML file for CSR registers dynamically
-      target/riscv: Remove built-in GDB XML files for CSRs
-
-Green Wan (1):
-      hw/misc/sifive_u_otp: handling the fails of blk_pread and blk_pwrite
-
-Sylvain Pelissier (1):
-      gdb: riscv: Add target description
-
-Xuzhou Cheng (1):
-      hw/block: m25p80: Implement AAI-WP command support for SST flashes
-
- default-configs/targets/riscv32-linux-user.mak |   2 +-
- default-configs/targets/riscv32-softmmu.mak    |   2 +-
- default-configs/targets/riscv64-linux-user.mak |   2 +-
- default-configs/targets/riscv64-softmmu.mak    |   2 +-
- include/hw/riscv/boot.h                        |   6 +-
- target/riscv/cpu.h                             |  11 +
- target/riscv/pmp.h                             |   1 +
- hw/block/m25p80.c                              |  74 ++++++
- hw/misc/sifive_u_otp.c                         |  31 ++-
- hw/riscv/boot.c                                |  18 +-
- hw/riscv/sifive_u.c                            |  16 +-
- hw/riscv/spike.c                               |   8 +-
- hw/riscv/virt.c                                |   8 +-
- target/riscv/cpu.c                             |  25 ++
- target/riscv/csr.c                             | 342 ++++++++++++++++++-------
- target/riscv/gdbstub.c                         | 308 ++++------------------
- target/riscv/op_helper.c                       |   5 +
- target/riscv/pmp.c                             |   4 +-
- gdb-xml/riscv-32bit-csr.xml                    | 250 ------------------
- gdb-xml/riscv-64bit-csr.xml                    | 250 ------------------
- 20 files changed, 463 insertions(+), 902 deletions(-)
- delete mode 100644 gdb-xml/riscv-32bit-csr.xml
- delete mode 100644 gdb-xml/riscv-64bit-csr.xml
 
