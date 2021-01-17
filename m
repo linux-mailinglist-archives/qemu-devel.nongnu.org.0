@@ -2,69 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5212B2F94F0
-	for <lists+qemu-devel@lfdr.de>; Sun, 17 Jan 2021 20:37:16 +0100 (CET)
-Received: from localhost ([::1]:40400 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 600B72F94F8
+	for <lists+qemu-devel@lfdr.de>; Sun, 17 Jan 2021 20:44:06 +0100 (CET)
+Received: from localhost ([::1]:59572 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l1DrP-0001Ph-Ba
-	for lists+qemu-devel@lfdr.de; Sun, 17 Jan 2021 14:37:15 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58232)
+	id 1l1Dy1-00010G-EV
+	for lists+qemu-devel@lfdr.de; Sun, 17 Jan 2021 14:44:05 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58254)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1l1Dgn-0008N5-Tc; Sun, 17 Jan 2021 14:26:17 -0500
-Received: from mail-wm1-x32a.google.com ([2a00:1450:4864:20::32a]:40352)
+ id 1l1Dgr-0008PJ-Pn; Sun, 17 Jan 2021 14:26:21 -0500
+Received: from mail-wm1-x32c.google.com ([2a00:1450:4864:20::32c]:33197)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1l1Dgk-0005PB-6z; Sun, 17 Jan 2021 14:26:16 -0500
-Received: by mail-wm1-x32a.google.com with SMTP id r4so12028771wmh.5;
- Sun, 17 Jan 2021 11:26:12 -0800 (PST)
+ id 1l1Dgo-0005Tv-Vv; Sun, 17 Jan 2021 14:26:20 -0500
+Received: by mail-wm1-x32c.google.com with SMTP id s24so3914301wmj.0;
+ Sun, 17 Jan 2021 11:26:18 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=OG4UEEhgrdnthw/7SfhW0jpVgnxGKL48F7b84mxBL0Y=;
- b=d1hCPPD2xD1wJ+ELj4EXKXvHf5LWkdVFuJ6DUWt6j6JneNcQ5YKxKbitQlO+YmW+vO
- EnGhR+vcKbFIoe5cCUn/VYx+ycAQesN4/1eQKKGJ8aRaJ3O/iFxgq7XOsEEJGgOLFfVu
- 1Pv9HxD9KNv3eutgax74SADs46HixAvEknnx8jGCMz/i8NO+1YLgYT1z4s4Xuh5XHYTo
- E+XV3hrJ7nzNIE75qSqNrcxBlqp8dxtgsodEkFx93MEaPGLCxMpRyrRxLVglDI05Xl2D
- iU9v6VRnloJr1dHA5Xn1doJe9TcNhoTdsJY7MJOMcT3W8wGR67ygmXeqUHe5UQx4xmNN
- 04ug==
+ bh=Bx350E5m3VyPci30nthMcxfcvDfYIGiblZKZEeXM5tA=;
+ b=HDL1cOYRAppqKDmt0+6iCG+tyRa20Vszx0WdmS5WO4jtkTwdghRo7ux+0D8e69Uuiw
+ 5Q/xpoa4zO6PZxWg34I8XAcOCHbo09E8+8AymMWcJ+19VUo/dFWq072XbTkgYlap/Iv4
+ 34tjuUMRZkwuhTEq75obgsagYTcucmWPEESKu4unh5QY05yV8W4ImCOJaL2TdlgfmTn7
+ Paoui5pA9tXlupK38Io8YVI1ozZL8qLn/V6PAUOonYkcOiE8KWeocwhDD009rHjUedXq
+ edFMLdbiI4AM33Wp2tryl8IrOQ8fOhStobBacJ+f63I31IVazo4JE8UW7WPcbt7zFtCZ
+ wpxg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=OG4UEEhgrdnthw/7SfhW0jpVgnxGKL48F7b84mxBL0Y=;
- b=kgXJcf0UfVvKcTYTvGqOYbgvl9S67JbiIJTe68UISCFcD+dLZdseMgNQwMDtT0oGJ7
- IFk37QPj7fnuCqCvp5heTCvwnB3ZpMYchX6vKIgG5An/PpnmytjiJeSi5QzxYZMmo+IU
- 74ayC+eume0HFvrVqP/2SMn6ymPiPRWCoVyRNeHsoFGDfFkulXpuO1QoWy3FPKcSljIB
- W7TJvMJwUF+oN14zGUGnKntBYmrzg0f1GfIiIMqWriwyZfuwGZN5nGBsB4XpcFyKTwv5
- syAFqrT1lpHDKoSwyPJ89L1IvqIQWRg8KAYW8Ok+i57X1bE8F76Kw+ANAdKa6uqlMeZs
- DZDw==
-X-Gm-Message-State: AOAM532yEctNGjBclFblL+ld1TAzseKBAz02h93WD7jO0dR7gNDIjhiT
- +TjBycO6EtwN6+0ffxJsrQs=
-X-Google-Smtp-Source: ABdhPJzutk6ePzHawSll3xN2iOVVCJtHT1zjoYf0c0Fn7F8ecRYwBXidzFLAGHXx/CMlgKv6LoEgdA==
-X-Received: by 2002:a7b:ce11:: with SMTP id m17mr721232wmc.158.1610911572131; 
- Sun, 17 Jan 2021 11:26:12 -0800 (PST)
+ bh=Bx350E5m3VyPci30nthMcxfcvDfYIGiblZKZEeXM5tA=;
+ b=ioFa+DBgLbQPN3klRzQqZlVpaAmyIWkrmSly+cy63Mk9OQYITiZd5Q/H49s91FbkOY
+ fzvmoAm5fR5G9r0vrlqTUQZRFySTVWzM0vEhV1ddHb+5QDFh6HZrcgK7TwI496fnf7GX
+ XH3LiWyEzoZL7zaaxrNHTaknWqUQsRKUdWlhO1Zr4p7iVSIZomezOLcz12R1rZI4M6VO
+ LWGb27D/pWEKPic/miu4vMVW9DKDO6Efp5YC3xCYW7hrJBVtuZYI12w1KMQnucpdB0C6
+ U3Z+i9pb1s1jm02DpZwpeSOswhhhOI6BNSj3gLIq2jJp1AI93mUkdgvuvUVthXvxc+lr
+ 9odA==
+X-Gm-Message-State: AOAM533q66OjPd9Zvpiknj9JPX2wgnbYETKT5Dcb7RDKXXtJO7kA3dVi
+ N7wcT3a3x8gTf9/mZRnee9I=
+X-Google-Smtp-Source: ABdhPJwOdTStGNdd9lQ6Q15iSvEbhn8d+kx24B0aMkfbK/kzK64HdGME4mUFDC/bS4yOg2dAnQX5dA==
+X-Received: by 2002:a1c:984a:: with SMTP id a71mr11036888wme.175.1610911577485; 
+ Sun, 17 Jan 2021 11:26:17 -0800 (PST)
 Received: from localhost.localdomain (13.red-83-57-169.dynamicip.rima-tde.net.
  [83.57.169.13])
- by smtp.gmail.com with ESMTPSA id v20sm27021723wra.19.2021.01.17.11.26.10
+ by smtp.gmail.com with ESMTPSA id a24sm15013983wmj.17.2021.01.17.11.26.15
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 17 Jan 2021 11:26:11 -0800 (PST)
+ Sun, 17 Jan 2021 11:26:16 -0800 (PST)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 To: "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
 	qemu-devel@nongnu.org
-Subject: [RFC PATCH v2 15/20] hw/nubus/mac-nubus-bridge: Mark the device with
- no migratable fields
-Date: Sun, 17 Jan 2021 20:24:41 +0100
-Message-Id: <20210117192446.23753-16-f4bug@amsat.org>
+Subject: [RFC PATCH v2 16/20] hw/sparc64/sun4u: Mark devices with no
+ migratable fields
+Date: Sun, 17 Jan 2021 20:24:42 +0100
+Message-Id: <20210117192446.23753-17-f4bug@amsat.org>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20210117192446.23753-1-f4bug@amsat.org>
 References: <20210117192446.23753-1-f4bug@amsat.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::32a;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x32a.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::32c;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x32c.google.com
 X-Spam_score_int: -14
 X-Spam_score: -1.5
 X-Spam_bar: -
@@ -99,26 +99,46 @@ Cc: Peter Maydell <peter.maydell@linaro.org>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This device doesn't have fields to migrate. Be explicit
+These devices don't have fields to migrate. Be explicit
 by using vmstate_qdev_no_state_to_migrate.
+
+Add a more descriptive comment to keep a clear separation
+between static property vs runtime changeable.
 
 Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 ---
- hw/nubus/mac-nubus-bridge.c | 1 +
- 1 file changed, 1 insertion(+)
+ hw/sparc64/sun4u.c | 6 +++++-
+ 1 file changed, 5 insertions(+), 1 deletion(-)
 
-diff --git a/hw/nubus/mac-nubus-bridge.c b/hw/nubus/mac-nubus-bridge.c
-index 7c329300b82..ede36ccc5dd 100644
---- a/hw/nubus/mac-nubus-bridge.c
-+++ b/hw/nubus/mac-nubus-bridge.c
-@@ -27,6 +27,7 @@ static void mac_nubus_bridge_class_init(ObjectClass *klass, void *data)
-     DeviceClass *dc = DEVICE_CLASS(klass);
+diff --git a/hw/sparc64/sun4u.c b/hw/sparc64/sun4u.c
+index 0fa13a73302..fdf0aa875be 100644
+--- a/hw/sparc64/sun4u.c
++++ b/hw/sparc64/sun4u.c
+@@ -84,12 +84,15 @@ struct hwdef {
+ struct EbusState {
+     /*< private >*/
+     PCIDevice parent_obj;
++    /*< public >*/
  
-     dc->desc = "Nubus bridge";
+     ISABus *isa_bus;
+     qemu_irq isa_bus_irqs[ISA_NUM_IRQS];
+-    uint64_t console_serial_base;
+     MemoryRegion bar0;
+     MemoryRegion bar1;
++
++    /* Properties */
++    uint64_t console_serial_base;
+ };
+ 
+ #define TYPE_EBUS "ebus"
+@@ -386,6 +389,7 @@ static void ebus_class_init(ObjectClass *klass, void *data)
+     k->device_id = PCI_DEVICE_ID_SUN_EBUS;
+     k->revision = 0x01;
+     k->class_id = PCI_CLASS_BRIDGE_OTHER;
 +    dc->vmsd = vmstate_qdev_no_state_to_migrate;
+     device_class_set_props(dc, ebus_properties);
  }
  
- static const TypeInfo mac_nubus_bridge_info = {
 -- 
 2.26.2
 
