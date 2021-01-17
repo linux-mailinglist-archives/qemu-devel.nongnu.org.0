@@ -2,74 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7075B2F8FBF
-	for <lists+qemu-devel@lfdr.de>; Sat, 16 Jan 2021 23:40:22 +0100 (CET)
-Received: from localhost ([::1]:59984 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 29F062F9071
+	for <lists+qemu-devel@lfdr.de>; Sun, 17 Jan 2021 05:28:39 +0100 (CET)
+Received: from localhost ([::1]:48682 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l0uF3-0004PO-1m
-	for lists+qemu-devel@lfdr.de; Sat, 16 Jan 2021 17:40:21 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58566)
+	id 1l0zg6-000714-82
+	for lists+qemu-devel@lfdr.de; Sat, 16 Jan 2021 23:28:38 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43806)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1l0uDm-0003x8-Lr; Sat, 16 Jan 2021 17:39:02 -0500
-Received: from mail-io1-xd32.google.com ([2607:f8b0:4864:20::d32]:35963)
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1l0ze0-0005fn-6E
+ for qemu-devel@nongnu.org; Sat, 16 Jan 2021 23:26:29 -0500
+Received: from indium.canonical.com ([91.189.90.7]:37028)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1l0uDl-0007mv-3H; Sat, 16 Jan 2021 17:39:02 -0500
-Received: by mail-io1-xd32.google.com with SMTP id d81so10373380iof.3;
- Sat, 16 Jan 2021 14:38:59 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=Lq2JW80kWwlpDQ58U2GuQKSW7uHMdd0VJQroswgWs2E=;
- b=raondZ25QIJLFW5y8VaLTQk2YADocSFlwYFGe8idD8/vfA6Q+cAh7ufaaeHoriIn4Y
- Aw10qfdphnmbExV1gJFrVH9yRpzASmygupdP5R0Z0Ec1lcq3lSXLYllvnn5a1pOTJI9S
- K863rr8MLk4AMMIdgEF+uX7nQIHT47+9wt/VIBcy7fNFSrNxVlD3Fl7zjq3EHuEmHfzq
- Wk0XHhS9itaHxHum60wKsfTW07XxVoH/s/JFf4Wzw3SFT907ajLHIPaDQHe/lTEWknL7
- tw0Q6h0q0/d37jDobVDHHdkksN/2h8e8mLnUA8X+pftLK2IlNrNVnmd6lmYxjus6D95H
- aAiA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=Lq2JW80kWwlpDQ58U2GuQKSW7uHMdd0VJQroswgWs2E=;
- b=dIIcqKRIpRq5ekpnoowbPM9hdsf7qIddaH4Q1rhZqOWbP6wpFLboolmw/rBrhVkw+Y
- PuwkHcIOekEyPcSd0U04qxrFBP0g3J4c4Qym2FEiYiySJPUNACDDgzoBMgqlPYbJ9hPN
- jHfjOxjj+661+qf8WpP+pa6MRrNaQm2iikIodnHCrQB0tZGjO5evL0a3gVXyfSQbI3rb
- B87ncrZWxfNKs9XvzoxPmq2RsSDRcDYMgJOs6n3KMf3hoGyZZZTAIU3baP5liuscOg0J
- n4u4LW0xZEZjz/jzUBZBSC1OamBtPZlIsCw3IsFPY2lNkaRG3vtbYcePopCCiOJjLeDx
- 7c6A==
-X-Gm-Message-State: AOAM533DSI87Sy1Lxkk/PEMdWE3brLJhqx4HZ6Dt0iAI3VkYqRQ/WC+j
- 8nmrR46nfQeKfIKjqkAHeesEKr3ynzu7y00jTkc=
-X-Google-Smtp-Source: ABdhPJwjoflQ0jdWiSc8Ebx3oJu77IjbW2JkmAGdhcgQXSivJSD+NsVesx/jiy0obfMjHBjoDXOqOm2CcWQSfSrf3m8=
-X-Received: by 2002:a92:c942:: with SMTP id i2mr15790835ilq.227.1610836739142; 
- Sat, 16 Jan 2021 14:38:59 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1l0zdw-0005RE-Ai
+ for qemu-devel@nongnu.org; Sat, 16 Jan 2021 23:26:27 -0500
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1l0zdr-0001f1-Ik
+ for <qemu-devel@nongnu.org>; Sun, 17 Jan 2021 04:26:19 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id 4CA5B2E8175
+ for <qemu-devel@nongnu.org>; Sun, 17 Jan 2021 04:26:17 +0000 (UTC)
 MIME-Version: 1.0
-References: <f3e04424723e0e222769991896cc82308fd23f76.1610751609.git.alistair.francis@wdc.com>
- <a566580a-ef30-0d2f-116e-1e3666f1187d@amsat.org>
-In-Reply-To: <a566580a-ef30-0d2f-116e-1e3666f1187d@amsat.org>
-From: Alistair Francis <alistair23@gmail.com>
-Date: Sat, 16 Jan 2021 14:38:32 -0800
-Message-ID: <CAKmqyKNvtuY2eaQHiM4YMKyy_bWAiHFrMan_R+7M_fw7=ioW=A@mail.gmail.com>
-Subject: Re: [PATCH v1 1/1] riscv: Pass RISCVHartArrayState by pointer
-To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2607:f8b0:4864:20::d32;
- envelope-from=alistair23@gmail.com; helo=mail-io1-xd32.google.com
-X-Spam_score_int: -17
-X-Spam_score: -1.8
-X-Spam_bar: -
-X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Date: Sun, 17 Jan 2021 04:17:19 -0000
+From: Launchpad Bug Tracker <1757363@bugs.launchpad.net>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=Expired; importance=Undecided;
+ assignee=None; 
+X-Launchpad-Bug-Tags: mips
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: dantachen janitor philmd
+X-Launchpad-Bug-Reporter: dantachen (dantachen)
+X-Launchpad-Bug-Modifier: Launchpad Janitor (janitor)
+References: <152162151775.22331.14638507477656772309.malonedeb@soybean.canonical.com>
+Message-Id: <161085703961.5995.17811348886037775649.malone@loganberry.canonical.com>
+Subject: [Bug 1757363] Re: infinite loop due to improper deal with "eret" on
+ mips32
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="511b4a3b6512aa3d421c5f7d74f3527e78bff26e"; Instance="production"
+X-Launchpad-Hash: 18f0b345db1dba2544491ee3f6aee98d0528cd6e
+Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
+ helo=indium.canonical.com
+X-Spam_score_int: -65
+X-Spam_score: -6.6
+X-Spam_bar: ------
+X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9,
+ HEADER_FROM_DIFFERENT_DOMAINS=0.249, RCVD_IN_DNSWL_HI=-5,
+ RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -78,91 +72,64 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "open list:RISC-V" <qemu-riscv@nongnu.org>,
- Palmer Dabbelt <palmer@dabbelt.com>, Bin Meng <bmeng.cn@gmail.com>,
- Alistair Francis <alistair.francis@wdc.com>,
- "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>
+Reply-To: Bug 1757363 <1757363@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Sat, Jan 16, 2021 at 2:32 PM Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.or=
-g> wrote:
->
-> On 1/16/21 12:00 AM, Alistair Francis wrote:
-> > We were accidently passing RISCVHartArrayState by value instead of
-> > pointer. The type is 824 bytes long so let's correct that and pass it b=
-y
-> > pointer instead.
-> >
-> > Fixes: Coverity CID 1438099
-> > Fixes: Coverity CID 1438100
-> > Fixes: Coverity CID 1438101
-> > Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
-> > ---
-> >  include/hw/riscv/boot.h |  6 +++---
-> >  hw/riscv/boot.c         |  8 ++++----
-> >  hw/riscv/sifive_u.c     | 10 +++++-----
-> >  hw/riscv/spike.c        |  8 ++++----
-> >  hw/riscv/virt.c         |  8 ++++----
-> >  5 files changed, 20 insertions(+), 20 deletions(-)
-> >
-> > diff --git a/include/hw/riscv/boot.h b/include/hw/riscv/boot.h
-> > index 20ff5fe5e5..11a21dd584 100644
-> > --- a/include/hw/riscv/boot.h
-> > +++ b/include/hw/riscv/boot.h
-> > @@ -24,9 +24,9 @@
-> >  #include "hw/loader.h"
-> >  #include "hw/riscv/riscv_hart.h"
-> >
-> > -bool riscv_is_32bit(RISCVHartArrayState harts);
-> > +bool riscv_is_32bit(RISCVHartArrayState *harts);
-> >
-> > -target_ulong riscv_calc_kernel_start_addr(RISCVHartArrayState harts,
-> > +target_ulong riscv_calc_kernel_start_addr(RISCVHartArrayState *harts,
-> >                                            target_ulong firmware_end_ad=
-dr);
-> >  target_ulong riscv_find_and_load_firmware(MachineState *machine,
-> >                                            const char *default_machine_=
-firmware,
-> > @@ -42,7 +42,7 @@ target_ulong riscv_load_kernel(const char *kernel_fil=
-ename,
-> >  hwaddr riscv_load_initrd(const char *filename, uint64_t mem_size,
-> >                           uint64_t kernel_entry, hwaddr *start);
-> >  uint32_t riscv_load_fdt(hwaddr dram_start, uint64_t dram_size, void *f=
-dt);
-> > -void riscv_setup_rom_reset_vec(MachineState *machine, RISCVHartArraySt=
-ate harts,
-> > +void riscv_setup_rom_reset_vec(MachineState *machine, RISCVHartArraySt=
-ate *harts,
-> >                                 hwaddr saddr,
-> >                                 hwaddr rom_base, hwaddr rom_size,
-> >                                 uint64_t kernel_entry,
-> > diff --git a/hw/riscv/boot.c b/hw/riscv/boot.c
-> > index 83586aef41..acf77675b2 100644
-> > --- a/hw/riscv/boot.c
-> > +++ b/hw/riscv/boot.c
-> > @@ -33,14 +33,14 @@
-> >
-> >  #include <libfdt.h>
-> >
-> > -bool riscv_is_32bit(RISCVHartArrayState harts)
-> > +bool riscv_is_32bit(RISCVHartArrayState *harts)
-> >  {
-> > -    RISCVCPU hart =3D harts.harts[0];
-> > +    RISCVCPU hart =3D harts->harts[0];
->
-> This doesn't look improved. Maybe you want:
->
->        return riscv_cpu_is_32bit(&harts->harts[0].env);
+[Expired for QEMU because there has been no activity for 60 days.]
 
-I suspect this ends up generating the same code.
+** Changed in: qemu
+       Status: Incomplete =3D> Expired
 
-Either way, good point I have just squashed this change into the patch.
+-- =
 
-Alistair
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1757363
 
->
-> >
-> >      return riscv_cpu_is_32bit(&hart.env);
-> >  }
+Title:
+  infinite loop due to improper deal with "eret" on mips32
+
+Status in QEMU:
+  Expired
+
+Bug description:
+  1.qemu 2.9.1 release on the official web build with tcg
+  2.cmd: qemu-system-mips -kernel kernelfile
+  3. host: ubuntu 16.04.1 with linux kernel 4.6.2 x86_64
+     guest: mips bigendian 32bit (tplink firmware)
+
+  =
+
+  detail:
+
+  static inline void exception_return(CPUMIPSState *env)
+  {
+      debug_pre_eret(env);
+      if (env->CP0_Status & (1 << CP0St_ERL)) {
+          set_pc(env, env->CP0_ErrorEPC);
+          env->CP0_Status &=3D ~(1 << CP0St_ERL);
+      } else {
+          set_pc(env, env->CP0_EPC);
+          env->CP0_Status &=3D ~(1 << CP0St_EXL);=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D> ISSUE????
+      }
+      compute_hflags(env);
+      debug_post_eret(env);
+  }
+
+  void helper_eret(CPUMIPSState *env)
+  {
+      exception_return(env);
+      env->lladdr =3D 1;
+  }
+
+  =
+
+  In the Issue Line, there is no check CP0_Status whether int is disabled (=
+should not enter int routine),
+  that result in the cpu can not jump out the int routine.
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1757363/+subscriptions
 
