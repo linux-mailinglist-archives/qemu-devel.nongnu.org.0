@@ -2,91 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2FAD42F9401
-	for <lists+qemu-devel@lfdr.de>; Sun, 17 Jan 2021 17:44:16 +0100 (CET)
-Received: from localhost ([::1]:43990 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8D6992F9403
+	for <lists+qemu-devel@lfdr.de>; Sun, 17 Jan 2021 17:49:26 +0100 (CET)
+Received: from localhost ([::1]:47240 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l1B9y-0002Ag-Q1
-	for lists+qemu-devel@lfdr.de; Sun, 17 Jan 2021 11:44:14 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60810)
+	id 1l1BEz-0003lm-J1
+	for lists+qemu-devel@lfdr.de; Sun, 17 Jan 2021 11:49:25 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33736)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1l1B99-0001fN-Ff
- for qemu-devel@nongnu.org; Sun, 17 Jan 2021 11:43:23 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:27436)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1l1B96-0008ON-9K
- for qemu-devel@nongnu.org; Sun, 17 Jan 2021 11:43:22 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1610901798;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=48WKtWO3GLc07dUk+0V7gia0jN9m+GtRLmTQyQFnvYU=;
- b=iJKBevtUGUqM2GOgwSPYyWxYT3I3xlft+LukjETzz+avKNMyVFNLdvzMHzcGOZuSIpCZUI
- D68uhViJPpKCK4W3KuVdYqmYOhHJvduEkx1I3DsapJWjtZxvMf4OheJdibQ6NFyoUBYnEG
- 8kmHdOM/jwPMG+p7LFyAfnoPfXMvqZk=
-Received: from mail-ed1-f71.google.com (mail-ed1-f71.google.com
- [209.85.208.71]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-317-GtiWPLGtNWK7bFO1Be6riw-1; Sun, 17 Jan 2021 11:43:16 -0500
-X-MC-Unique: GtiWPLGtNWK7bFO1Be6riw-1
-Received: by mail-ed1-f71.google.com with SMTP id t9so676390edd.3
- for <qemu-devel@nongnu.org>; Sun, 17 Jan 2021 08:43:16 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1l1BDS-00038U-CC
+ for qemu-devel@nongnu.org; Sun, 17 Jan 2021 11:47:50 -0500
+Received: from mail-ed1-x533.google.com ([2a00:1450:4864:20::533]:46656)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1l1BDQ-0001dP-Q6
+ for qemu-devel@nongnu.org; Sun, 17 Jan 2021 11:47:50 -0500
+Received: by mail-ed1-x533.google.com with SMTP id dj23so12356613edb.13
+ for <qemu-devel@nongnu.org>; Sun, 17 Jan 2021 08:47:47 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=Ol7Pplt1QX2TgzlDXq8iDZsLGkuYBPVKYlMm0bYXch0=;
+ b=cU4mnCYcWX7ZvgizqQfW04ayZT3cvqSMD/GGJNRQh4eCPxNA/oYFFGWQHYu5GnaeRg
+ p0nSfp4OEplOSxxfykTsR6Elc5U99cXySt0yygbhR0AeiX36YhgHBKE8YJLVmpGYXzts
+ jM8JIK38058iiXgKI50yrw3uf9dC/liK5y+9tM8liozNsMei7X9RxMmBqIkzREyeOxRb
+ AjYkbS32SbYPUHrQDAqmsSOR3S9X8etc5sn8dsMev7uwqR5YhE0oSbWja6iY0z2M7r1P
+ weDyPY5vdQqHL4J5HznfxzdlE6C0PNAVUhQJyNVf0D5Kz6VcmdnoBhe/bb1WeL41ElUK
+ xyjg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=48WKtWO3GLc07dUk+0V7gia0jN9m+GtRLmTQyQFnvYU=;
- b=XGEinkBKFJ+c0xJJGlS6F98noekIsC5pbKbtcBUOaVWEpKCzhMmb11vCjGzPAA6vKu
- sTwfnqnwZCEHcdZEuPlPAdc2CFNVg6PXutB+EdS9pmbzjSL5/zwJ8iza98ptVXu77Gxx
- /sU/M0kUI2JRTbbE6GdTY9AZ8M9OReJaT+URan9kuA7GSMttiZoepDo8QAlKTwj6BKKf
- 16NcOC0kN3KcqKqXP3xJzhGxEIPTb5qt4R0KNsY5mmepFWiy9lpKz//YrteAvvpS+3pi
- o1EJi0X6HG/L88qPwWjkTjmHLrn5KbXhqmNrHEuSCMxKJ2xrxAwPqcgCcNNJ1zkQ6VwY
- KIzQ==
-X-Gm-Message-State: AOAM532oNVEMxMW/UAn5MSnh+8CwlenuP392/14g+EjGrZbGU+lAmiJr
- +CBZq+Pfn8+hNjfH6sf3LQkORzqg0xDcEWAuHyDHozhO60wMr8pZh4QSVqb+l8d/Agkhn7u5EMW
- BsLcUtUfCObd0//U=
-X-Received: by 2002:aa7:cb49:: with SMTP id w9mr17218922edt.357.1610901795078; 
- Sun, 17 Jan 2021 08:43:15 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJxXP5hQ/yiq9vwwSAfYtXPJ4GPAUp0onPS6aWzPaCRayFs/YnTtHvo/1amWv/2kkn/U5nfM1Q==
-X-Received: by 2002:aa7:cb49:: with SMTP id w9mr17218901edt.357.1610901794816; 
- Sun, 17 Jan 2021 08:43:14 -0800 (PST)
-Received: from ?IPv6:2001:b07:6468:f312:c8dd:75d4:99ab:290a?
- ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
- by smtp.gmail.com with ESMTPSA id dm1sm2764409edb.72.2021.01.17.08.43.13
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sun, 17 Jan 2021 08:43:13 -0800 (PST)
-Subject: Re: [PATCH] util/cacheflush: Fix error generated by clang
-To: Gan Qixin <ganqixin@huawei.com>, qemu-devel@nongnu.org,
- qemu-trivial@nongnu.org
-References: <20210115075656.717957-1-ganqixin@huawei.com>
-From: Paolo Bonzini <pbonzini@redhat.com>
-Message-ID: <ba0fdc6d-8efa-cbeb-6ebb-8589cd129d64@redhat.com>
-Date: Sun, 17 Jan 2021 17:43:12 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.6.0
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=Ol7Pplt1QX2TgzlDXq8iDZsLGkuYBPVKYlMm0bYXch0=;
+ b=hQ882gk3I4Ogcgs18Wj+Im9DP50ddqWidqtRWxDZW9QuC6wDQbBGqae2Gv7ej2UpTX
+ zsFjwDthK5pX9pJmLzYPRqynidN1LYJiSb/ZasfvPNQhnFE3UpYzxzwwMfux3Ofhtcp8
+ h28N5PzshELDQ2sB7XSrwyoM4UGrHnG4XaJDGHtv17wLtfKw8K5d0xHG865Ymj59A7Nc
+ MJ9cFGx4U3rMPD7R2jkh0AQsdbDTvK/WvX3KlTinOUnhjWFvgz8pMIG78Km5H4BH7RYJ
+ SffXYmoB1Mn+HAvcKwGCOy1yAsS11/OB6du6vIyJevPrMTXg9Een0/LU/K4hcspIXm6I
+ 4zpg==
+X-Gm-Message-State: AOAM532EdhF9zg3/PqmWzWihMHk7NB+z76O/ncXgkqE14ZO82nNz/sQI
+ ZWekM0yE3yklWsYXvWLmAnNC4FKhh1w0/BvCviUdOQ==
+X-Google-Smtp-Source: ABdhPJwvXj5aquDdO+E66/EFJhOkJMmJCWbXBPXMUgCED2z49wFyF9vTjG0PXg4YYavy4aBW5zZFzRVpr0JOrGHV7oQ=
+X-Received: by 2002:a50:9ee3:: with SMTP id a90mr4081379edf.44.1610902066131; 
+ Sun, 17 Jan 2021 08:47:46 -0800 (PST)
 MIME-Version: 1.0
-In-Reply-To: <20210115075656.717957-1-ganqixin@huawei.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=pbonzini@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=pbonzini@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -32
-X-Spam_score: -3.3
-X-Spam_bar: ---
-X-Spam_report: (-3.3 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.189,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.252, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=-0.01,
- RCVD_IN_MSPIKE_WL=-0.01, SPF_HELO_NONE=0.001,
+References: <20210117160754.4086411-1-f4bug@amsat.org>
+In-Reply-To: <20210117160754.4086411-1-f4bug@amsat.org>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Sun, 17 Jan 2021 16:47:35 +0000
+Message-ID: <CAFEAcA8U74GifK08MtY8xU25EgfMxQf2kJO_Mn_yKeoabQokaA@mail.gmail.com>
+Subject: Re: [PATCH] softmmu/physmem: Hint notifier is not NULL in
+ as_translate_for_iotlb()
+To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2a00:1450:4864:20::533;
+ envelope-from=peter.maydell@linaro.org; helo=mail-ed1-x533.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -100,63 +79,66 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: kuhn.chenqun@huawei.com, Richard Henderson <richard.henderson@linaro.org>,
- zhang.zhanghailiang@huawei.com, Euler Robot <euler.robot@huawei.com>
+Cc: Paolo Bonzini <pbonzini@redhat.com>, Thomas Huth <thuth@redhat.com>,
+ =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>,
+ QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 15/01/21 08:56, Gan Qixin wrote:
-> When compiling qemu-fuzz-i386 on aarch64 host, clang reported the following
-> error:
-> 
-> ../util/cacheflush.c:38:44: error: value size does not match register size
-> specified by the constraint and modifier [-Werror,-Wasm-operand-widths]
->      asm volatile("mrs\t%0, ctr_el0" : "=r"(save_ctr_el0));
->                                             ^
-> ../util/cacheflush.c:38:24: note: use constraint modifier "w"
->      asm volatile("mrs\t%0, ctr_el0" : "=r"(save_ctr_el0));
->                         ^~
->                         %w0
-> 
-> Modify the type of save_ctr_el0 to uint64_t to fix it.
-> 
-> Reported-by: Euler Robot <euler.robot@huawei.com>
-> Signed-off-by: Gan Qixin <ganqixin@huawei.com>
+On Sun, 17 Jan 2021 at 16:07, Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>=
+ wrote:
+>
+> When using GCC 10.2 configured with --extra-cflags=3D-Os, we get:
+>
+>   softmmu/physmem.c: In function =E2=80=98address_space_translate_for_iot=
+lb=E2=80=99:
+>   softmmu/physmem.c:643:26: error: =E2=80=98notifier=E2=80=99 may be used=
+ uninitialized in this function [-Werror=3Dmaybe-uninitialized]
+>     643 |         notifier->active =3D true;
+>         |                          ^
+>   softmmu/physmem.c:608:23: note: =E2=80=98notifier=E2=80=99 was declared=
+ here
+>     608 |     TCGIOMMUNotifier *notifier;
+>         |                       ^~~~~~~~
+>
+> Insert assertions as hint to the compiler that 'notifier' can
+> not be NULL there.
+>
+> Signed-off-by: Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>
 > ---
-> Cc: Richard Henderson <richard.henderson@linaro.org>
-> Cc: Paolo Bonzini <pbonzini@redhat.com>
+> Yet another hole in our CI.
 > ---
->   util/cacheflush.c | 8 ++++----
->   1 file changed, 4 insertions(+), 4 deletions(-)
-> 
-> diff --git a/util/cacheflush.c b/util/cacheflush.c
-> index 6a20723902..933355b0c9 100644
-> --- a/util/cacheflush.c
-> +++ b/util/cacheflush.c
-> @@ -32,7 +32,7 @@ void flush_idcache_range(uintptr_t rx, uintptr_t rw, size_t len)
->    * We want to save the whole contents of CTR_EL0, so that we
->    * have more than the linesize, but also IDC and DIC.
->    */
-> -static unsigned int save_ctr_el0;
-> +static uint64_t save_ctr_el0;
->   static void __attribute__((constructor)) init_ctr_el0(void)
->   {
->       asm volatile("mrs\t%0, ctr_el0" : "=r"(save_ctr_el0));
-> @@ -46,9 +46,9 @@ void flush_idcache_range(uintptr_t rx, uintptr_t rw, size_t len)
->   {
->       const unsigned CTR_IDC = 1u << 28;
->       const unsigned CTR_DIC = 1u << 29;
-> -    const unsigned int ctr_el0 = save_ctr_el0;
-> -    const uintptr_t icache_lsize = 4 << extract32(ctr_el0, 0, 4);
-> -    const uintptr_t dcache_lsize = 4 << extract32(ctr_el0, 16, 4);
-> +    const uint64_t ctr_el0 = save_ctr_el0;
-> +    const uintptr_t icache_lsize = 4 << extract64(ctr_el0, 0, 4);
-> +    const uintptr_t dcache_lsize = 4 << extract64(ctr_el0, 16, 4);
->       uintptr_t p;
->   
->       /*
-> 
+>  softmmu/physmem.c | 3 ++-
+>  1 file changed, 2 insertions(+), 1 deletion(-)
+>
+> diff --git a/softmmu/physmem.c b/softmmu/physmem.c
+> index 6301f4f0a5c..65602ed548e 100644
+> --- a/softmmu/physmem.c
+> +++ b/softmmu/physmem.c
+> @@ -605,7 +605,7 @@ static void tcg_register_iommu_notifier(CPUState *cpu=
+,
+>       * when the IOMMU tells us the mappings we've cached have changed.
+>       */
+>      MemoryRegion *mr =3D MEMORY_REGION(iommu_mr);
+> -    TCGIOMMUNotifier *notifier;
+> +    TCGIOMMUNotifier *notifier =3D NULL;
+>      int i;
+>
+>      for (i =3D 0; i < cpu->iommu_notifiers->len; i++) {
+> @@ -638,6 +638,7 @@ static void tcg_register_iommu_notifier(CPUState *cpu=
+,
+>          memory_region_register_iommu_notifier(notifier->mr, &notifier->n=
+,
+>                                                &error_fatal);
+>      }
+> +    assert(notifier !=3D NULL);
+>
+>      if (!notifier->active) {
+>          notifier->active =3D true;
 
-Queued, thanks.
+Is the assert() necessary to prevent the compiler complaining?
+Usually we don't bother if it's about to be dereferenced anyway.
 
+thanks
+-- PMM
 
