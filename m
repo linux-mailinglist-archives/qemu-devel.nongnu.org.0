@@ -2,69 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 45A562F94E8
-	for <lists+qemu-devel@lfdr.de>; Sun, 17 Jan 2021 20:33:02 +0100 (CET)
-Received: from localhost ([::1]:57538 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 447F02F94EA
+	for <lists+qemu-devel@lfdr.de>; Sun, 17 Jan 2021 20:33:34 +0100 (CET)
+Received: from localhost ([::1]:59060 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l1DnH-000539-Ql
-	for lists+qemu-devel@lfdr.de; Sun, 17 Jan 2021 14:33:01 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57882)
+	id 1l1Dnp-0005eK-9X
+	for lists+qemu-devel@lfdr.de; Sun, 17 Jan 2021 14:33:33 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57938)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1l1Dfb-0007cY-2L; Sun, 17 Jan 2021 14:25:03 -0500
-Received: from mail-wm1-x32b.google.com ([2a00:1450:4864:20::32b]:38961)
+ id 1l1Dfk-0007dV-O3; Sun, 17 Jan 2021 14:25:14 -0500
+Received: from mail-wm1-x32a.google.com ([2a00:1450:4864:20::32a]:38783)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1l1DfV-0004yI-Eh; Sun, 17 Jan 2021 14:25:00 -0500
-Received: by mail-wm1-x32b.google.com with SMTP id u14so7849985wmq.4;
- Sun, 17 Jan 2021 11:24:56 -0800 (PST)
+ id 1l1Dfg-00051O-At; Sun, 17 Jan 2021 14:25:10 -0500
+Received: by mail-wm1-x32a.google.com with SMTP id y187so12067502wmd.3;
+ Sun, 17 Jan 2021 11:25:07 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=Vafwmt7UGiwAARCHIG5psXHv2hnCIeQD5qlHTz8atP8=;
- b=YIvRs5DEaJw/jyD9Lu9/F/RTIrW7XhEmbkbHFnNcCIGrl9cOlqxwEtSJW/8TwNIZ+l
- CoDzJMMuG0IrdayVH48zlOpVgL6LJmuhaaa3bXbPTZALbuE2KoZmPyy4o/60m8FRSdKc
- XO2GmJj/whS33/I3SxDL+TfPZSKym4rtP3R+/rTe9sh9lc6oRqWxaPLH4iCAIkPJxkXd
- 3PmT1aAer7RkKcEo8oHTy1CW11qLe6I3L/tW8W4tIrbliYm2AQMfAtrqCB3evdClCsNV
- EneNw0l+iPT/wH/qiuV/Bua9Fy9n9YNu1N7vAhzNTVFbmYlUQGE1tMu3cnTEluO/JRPX
- Wukg==
+ bh=wgGk6yPxUB2DXYQxZxUZbUfoW7pWWFaws3b1nVoeQJI=;
+ b=bqRm9TOuPkd2JJzuiyB3+fC/IaQmbzS4vjNWsXGFo8+5Mflus030NR2kBkBcyAY/TY
+ dX3c8vZ7mTigiWmGz1TjoZtig2/ssKmjq325+fujlQL59FlqKNOSopcsHzOYrOaSepVf
+ 4cAzYJILLGjz+GqgDA49atJK3MjD4tSF2eM5Ob1d0QiXVE0XTaHHwDfRTva9SAAddjDR
+ 8on2onc7unLskg1eeRVvy6qMjk+UCmlJZRW1lMCmco3StadumZWmL6EidgQVa2Cci5Ng
+ Yxlzv7LoOeScwOMTeFppoXhfkx+A8a+7/anoWV68P/Nc1kWtENblYlvDQGnX8OgnS2Rg
+ qtgg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=Vafwmt7UGiwAARCHIG5psXHv2hnCIeQD5qlHTz8atP8=;
- b=a3U3+e11lMtrSisMFx+8s5vhPRPCQqekzRrDmV7VjkqZr0klBBX4HF8vSJooFCDwNN
- +fiK4N6v7c9fVl7TFmPalj2Ks8ugMp6okfUIUqQETykumiiKL2NsU44/BTN40bRcHTr7
- YmStnsrTCjMmqpo+7xoKu19b1SarNWwjMapzwiU2xFqfsWCdFoV+aE490R8GEKOGPQGd
- xEzi6TRFxdTJ1R2zPNOE4ksOYxqtpch4P+THofT5h1styVfA9QY78CPrbKqFJLe2t16R
- 5p1396WVWZ26Y3aXANg9qvTY5krCPxM8OihH9NkvWyFSWXIbGJES74I0f8jpr7RAvemq
- D32w==
-X-Gm-Message-State: AOAM533NcxynBtRGMdASaVyTQ3Mnr/rsqgdfJ7pUSDlFShDznIvxDXp3
- jFkbp8h2xr0O/9VbqA1SsNw=
-X-Google-Smtp-Source: ABdhPJy2Z0EpzHJ5eAxkzhF93tt6soq0TpV11Q2+cAzt1rcQWY8ORK1vmFknf6ry9LKUxd1Hems5bg==
-X-Received: by 2002:a1c:4b14:: with SMTP id y20mr5519916wma.166.1610911495872; 
- Sun, 17 Jan 2021 11:24:55 -0800 (PST)
+ bh=wgGk6yPxUB2DXYQxZxUZbUfoW7pWWFaws3b1nVoeQJI=;
+ b=bvJisTFXWKpJ2Sb1f+rIHH9YfUR6OxvqnyyUW+3TcAWUPijTwIvLU6TbngK9nHELHr
+ jnH/dF203lKWDqwQXo7no1VMZJDUnapiAOGROwkyjdYZFw3C2PEDIOn7VdbaZiJzYApC
+ +dsuN22q8fbyV0oFjXpMZpoDg06+mfUS7BpSiiyvE1M6/P61Sq1FcZZoseS7KpPnEQUy
+ DNTzZl3twq9z07eJew2mdWwvvEoFcExyaFEzj2re76o4yoiTiSpLORzbVineKDOQdgxu
+ XVliurjkkpc8nZX2CN+P9m9FkeJ3KwC/YoAtLA1qjYh33rTPcLfDc0i12vgHFJLdg/qf
+ 1Mnw==
+X-Gm-Message-State: AOAM531LwC8KxVgqfUzZKnPYPk0yY6pg027Q1qx2RKJheQzUG9BgIEjG
+ bSLxugjMBRNgmgrZ9jmH7Ik=
+X-Google-Smtp-Source: ABdhPJwpd7o10gr0UWFsvUMmVK3jnwDM/gu8QrHjDx+1/Q3pAUJsv7+0OC7//09bWuFgQ+VEzCWJFQ==
+X-Received: by 2002:a1c:e255:: with SMTP id z82mr9888944wmg.60.1610911506845; 
+ Sun, 17 Jan 2021 11:25:06 -0800 (PST)
 Received: from localhost.localdomain (13.red-83-57-169.dynamicip.rima-tde.net.
  [83.57.169.13])
- by smtp.gmail.com with ESMTPSA id g10sm15146735wmq.3.2021.01.17.11.24.54
+ by smtp.gmail.com with ESMTPSA id g132sm7677099wmg.2.2021.01.17.11.25.05
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 17 Jan 2021 11:24:55 -0800 (PST)
+ Sun, 17 Jan 2021 11:25:06 -0800 (PST)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 To: "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
 	qemu-devel@nongnu.org
-Subject: [RFC PATCH v2 01/20] migration/vmstate: Restrict vmstate_dummy to
- user-mode
-Date: Sun, 17 Jan 2021 20:24:27 +0100
-Message-Id: <20210117192446.23753-2-f4bug@amsat.org>
+Subject: [RFC PATCH v2 03/20] hw/arm/armv7m: Mark the device with no
+ migratable fields
+Date: Sun, 17 Jan 2021 20:24:29 +0100
+Message-Id: <20210117192446.23753-4-f4bug@amsat.org>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20210117192446.23753-1-f4bug@amsat.org>
 References: <20210117192446.23753-1-f4bug@amsat.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::32b;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x32b.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::32a;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x32a.google.com
 X-Spam_score_int: -14
 X-Spam_score: -1.5
 X-Spam_bar: -
@@ -99,66 +99,29 @@ Cc: Peter Maydell <peter.maydell@linaro.org>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-'vmstate_dummy' is special and only used for user-mode. Rename
-it to something more specific.
-It was introduced restricted to user-mode in commit c71c3e99b8
-("Add a vmstate_dummy struct for CONFIG_USER_ONLY") but this
-restriction was later removed in commit 6afc14e92ac ("migration:
-Fix warning caused by missing declaration of vmstate_dummy").
-Avoid the missing declaration warning by adding a stub for the
-symbol, and restore the #ifdef'ry.
+The TYPE_BITBAND device doesn't have fields to migrate.
+Be explicit by using vmstate_qdev_no_state_to_migrate.
 
-Suggested-by: Daniel Berrangé <berrange@redhat.com>
+Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
 Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 ---
- include/hw/core/cpu.h       | 2 +-
- include/migration/vmstate.h | 4 +++-
- stubs/vmstate.c             | 4 +++-
- 3 files changed, 7 insertions(+), 3 deletions(-)
+v2: Reworded (Peter)
+---
+ hw/arm/armv7m.c | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/include/hw/core/cpu.h b/include/hw/core/cpu.h
-index 140fa32a5e3..c79a58db9b9 100644
---- a/include/hw/core/cpu.h
-+++ b/include/hw/core/cpu.h
-@@ -1132,7 +1132,7 @@ bool target_words_bigendian(void);
- #ifdef CONFIG_SOFTMMU
- extern const VMStateDescription vmstate_cpu_common;
- #else
--#define vmstate_cpu_common vmstate_dummy
-+#define vmstate_cpu_common vmstate_user_mode_cpu_dummy
- #endif
+diff --git a/hw/arm/armv7m.c b/hw/arm/armv7m.c
+index 8224d4ade9f..41ac1b88ab4 100644
+--- a/hw/arm/armv7m.c
++++ b/hw/arm/armv7m.c
+@@ -347,6 +347,7 @@ static void bitband_class_init(ObjectClass *klass, void *data)
+     DeviceClass *dc = DEVICE_CLASS(klass);
  
- #define VMSTATE_CPU() {                                                     \
-diff --git a/include/migration/vmstate.h b/include/migration/vmstate.h
-index 075ee800960..dda65c9987d 100644
---- a/include/migration/vmstate.h
-+++ b/include/migration/vmstate.h
-@@ -194,7 +194,9 @@ struct VMStateDescription {
-     const VMStateDescription **subsections;
- };
+     dc->realize = bitband_realize;
++    dc->vmsd = vmstate_qdev_no_state_to_migrate;
+     device_class_set_props(dc, bitband_properties);
+ }
  
--extern const VMStateDescription vmstate_dummy;
-+#if defined(CONFIG_USER_ONLY)
-+extern const VMStateDescription vmstate_user_mode_cpu_dummy;
-+#endif
- 
- extern const VMStateInfo vmstate_info_bool;
- 
-diff --git a/stubs/vmstate.c b/stubs/vmstate.c
-index cc4fe41dfc2..8da777a1fb4 100644
---- a/stubs/vmstate.c
-+++ b/stubs/vmstate.c
-@@ -1,7 +1,9 @@
- #include "qemu/osdep.h"
- #include "migration/vmstate.h"
- 
--const VMStateDescription vmstate_dummy = {};
-+#if defined(CONFIG_USER_ONLY)
-+const VMStateDescription vmstate_user_mode_cpu_dummy = {};
-+#endif
- 
- int vmstate_register_with_alias_id(VMStateIf *obj,
-                                    uint32_t instance_id,
 -- 
 2.26.2
 
