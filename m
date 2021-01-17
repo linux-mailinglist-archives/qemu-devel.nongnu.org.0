@@ -2,59 +2,59 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CFE342F95B8
-	for <lists+qemu-devel@lfdr.de>; Sun, 17 Jan 2021 23:02:11 +0100 (CET)
-Received: from localhost ([::1]:34366 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EAF4B2F95BC
+	for <lists+qemu-devel@lfdr.de>; Sun, 17 Jan 2021 23:03:59 +0100 (CET)
+Received: from localhost ([::1]:38650 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l1G7e-00073N-VA
-	for lists+qemu-devel@lfdr.de; Sun, 17 Jan 2021 17:02:10 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59170)
+	id 1l1G9P-0000L0-2f
+	for lists+qemu-devel@lfdr.de; Sun, 17 Jan 2021 17:03:59 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59214)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
  (envelope-from <prvs=64494dccb=alistair.francis@wdc.com>)
- id 1l1G08-0005nQ-Ee
- for qemu-devel@nongnu.org; Sun, 17 Jan 2021 16:54:24 -0500
-Received: from esa5.hgst.iphmx.com ([216.71.153.144]:21687)
+ id 1l1G0J-00063B-0F
+ for qemu-devel@nongnu.org; Sun, 17 Jan 2021 16:54:35 -0500
+Received: from esa5.hgst.iphmx.com ([216.71.153.144]:21685)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
  (envelope-from <prvs=64494dccb=alistair.francis@wdc.com>)
- id 1l1G04-0005UJ-7P
- for qemu-devel@nongnu.org; Sun, 17 Jan 2021 16:54:24 -0500
+ id 1l1G0F-0005UE-Rv
+ for qemu-devel@nongnu.org; Sun, 17 Jan 2021 16:54:34 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
  d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
- t=1610920460; x=1642456460;
+ t=1610920471; x=1642456471;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=94WOHNyZiVhE+oo2h7DvLhsCfhILnlqkwHEMYJLBxOk=;
- b=B5k+pCTWXLKjr2tBrlbhbEMZIJEVghgvIMfngP6XAFwG3ifJjJRFakOK
- kTPdMKd7kPyPtSjXRdoQLkp5g9CwwZ58+nGup0w9znMt5yatI4fwlwxjp
- DSZoF4IGxM6ZmXpJY90WIwXCi7p8SwRGsRKJtq74ZAtkM7+BHJaLe7SN5
- yyMwa6MoYNiaHEcXmaoYqTj0aBrYHSyFEZYl3XklgSKtzg0e5CmGEJ8PC
- 8OqVn2zYO2i6k1Ehda9cLifsEX87EvvbP//N9ZGxWqGgeeFC3JWHt2/R6
- MA+TjwKOBJkcfWwu2ISNL1u6xnYYfxfZx5TVqdLEGAf754DtSViwnCANI Q==;
-IronPort-SDR: +CTPEvmrRQiRzd+hX1FAlT6iA+AIglSUbMH/Ln6ozp2kmrWoJ3UVix0+kAklXPMDoiQWL4MHEK
- VyvfLh2m0Q/CY5Dp9WCc65VQds+QlGMqa8z4xZ5X7X1phJCVNm1Jy5+5je/sWY9xpCzP8Jamkh
- d/YFR7nlVs/m9fIki97f3g/OTkv4Lf9OmpFQTYK4VYj09CVpdOVEBnr2ZdiSSrjFF7l7VnzVRq
- KAT/gRUMTg4cvzYV1RH7sxWe1PJWMbi0W+aASVGJD8DfY0oKkHw0xNzy/ByewOkvByLoVUUg6U
- 9wY=
-X-IronPort-AV: E=Sophos;i="5.79,355,1602518400"; d="scan'208";a="157645973"
+ bh=Vw1xZCwr5EI0sjtFsLFn/Y3ucj4oafLs53g4rtNkwSs=;
+ b=AoKOfKmcT30C8SqYBeRXXxCJf4SxTmqF7v0cEIjCHzpmg6wkH6EVgBp3
+ +/t/WnO83K4uVRgG4fIlMO26SC5CTFl8qiuq399uxbmTM8jUed3stTxvI
+ fD5qk4qiF8hh81r9JFT36ldqBcSpVQbxTvEZeU8EvLTkaZOmWI+WJrEKM
+ F7wfw6DPUOsoHHtJY0nzrkHPkzGeDdoeA7o+Bz38OK28kRqjaz+Tr2oGj
+ AAQg/sX53KJ2HRlkdd3+s+sVOIt6WyPR5B5BGNOb3aAkoQhPQ+XjewGj5
+ 6IwFZXhoUHh9crXvgE3IZ0eyUs1n9ZtNEWUeUjm/Wvb8Q1qM56A0oBRef w==;
+IronPort-SDR: zbG32QmSzyjZT9k0VeUV52XbvKZufGtEBueHc96jy5m3Th+eucKBW/oOncuRKYz6axALa+Etyy
+ vj4Pa96yRjYHIY3/it+wIobjOLLHPCKChFpeEWc3STYU1fFu/CKckh2Y8sBvKvKmyNjJGMnC13
+ McdEXZMRMsTaSpipRwUrSXlxna0GFmhmVvGCwDF6625+rvfbjHJOQkMy/IArmBphBEp5YhA/mo
+ gNwoO5v3WOhKnVZQ/DdhysvjousY0OCQ8tr1Px9yi/84iNnXhBuS5qIsvHzXckA3doC1FeZ799
+ XdY=
+X-IronPort-AV: E=Sophos;i="5.79,355,1602518400"; d="scan'208";a="157645975"
 Received: from uls-op-cesaip01.wdc.com (HELO uls-op-cesaep01.wdc.com)
  ([199.255.45.14])
  by ob1.hgst.iphmx.com with ESMTP; 18 Jan 2021 05:54:07 +0800
-IronPort-SDR: fH2lyfMnyWmdpbLH7D+jnf/MlwqW8wcVBxVqMz8tM/dzCNMnG55RkbeC+ydGjJaqLocx5cZr8+
- gNAkygVFKPVycD0NYTMFGJ5+iIMU/AtGniyhQ4KLCx6QFGvPk9sZdFqDmqMhYuSAIdOkKdWvzO
- TPhMLgo406uurP2PVm9g1qdAdXEM+XteTXmzhadsooZsq1PABouMdMUL+Z0RdWT945Xddzb9zu
- f4bw5MXiEsIWt0Aao0nlbklvEjcPHtad3VF1UqL19hCgCKCYODfJkiscPGflPs4Z84TQy32xSy
- Ov0TuhxIUfhzUQBL7+Mtpf/X
+IronPort-SDR: q1LWzPdmdvQooJfem4VPjJQbkU6qGNCi9SDxfn/AejWbHnL3iyCaQBhyh33mY2R3J1zwX+zkgk
+ xJeX5eWzO5p+LCC13WX8Lr593hVHlXJoGzrY5Mq4GuvOhqi9eYzO4uPatdSXAc43IeZ96th/HI
+ TE1K+eQOmFbPAB+IZJGK4QC/BBSczLrT6qNQ8DXUvJH83WfD8Lvto/7hYCfspBuKPXAkucDPJh
+ RyZUCD0hvONtNnVCUmG2mXW6lhKYDxYN0H0nsMkikVYuMuw3yfa5J9ktcwdeLgK7IUTBLl8OKZ
+ D61WBueVzkCxGa/3LxpK2RNT
 Received: from uls-op-cesaip01.wdc.com ([10.248.3.36])
  by uls-op-cesaep01.wdc.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
  17 Jan 2021 13:38:46 -0800
-IronPort-SDR: wDZ8WYl1oEj4bHc3Xd5PSbiTGaHud/4fdnSeAne/qyfEwYQiNXMbIKs2lom9Som7Id+polwupj
- WmDBrpfnqELw5sAD/PJ1DqE3/ghAKTiSapOiPNX9hKMAWj1pxL1PdsvaK9nVzcGvO7rhUVmMpu
- mCCfZCgjbgr/03k0ciVnR6dv+PfVh87CNvxIUPDkyNgWDyDWOglCP9PSxv3zsFDCQQSFjaFBoK
- +rcaBO6Jx3y4x4D36ss5dAbbM/Q/+NoOsW/4yfW7hqZwwDA1GlfG34arAQKqlqLXe7VPGXpVfM
- gq4=
+IronPort-SDR: 8ToHMDw1bjqY7CETv8mvCdQ/78D784eHASW6HqaiETNJHn5SADXMP9wTo3WKmYq3+YPB0WXywo
+ Qa2nlEOHy8o5fgSCHXMRkkFWqy8BqpRAo5d1i+4en69qBS5io6PfML9AN9tCpBDrl+l9p19oZW
+ L0ZEhzvXuhLYHwsSc5WTadf6PaFQ6bn3aq0k5Y/uMCtlv3ZBqJ/VS/bVEcdJBulQtoVGG8M3Uc
+ NlZdwOk2VEEh0wVisZ51H03hwmJ2I6iNizT3U2X7sI2mwBw9mhLo1CN7u2luxb+5+BhZd1o1ZX
+ g5U=
 WDCIronportException: Internal
 Received: from 7l95g12.ad.shared (HELO risc6-mainframe.hgst.com)
  ([10.86.62.251])
@@ -62,10 +62,9 @@ Received: from 7l95g12.ad.shared (HELO risc6-mainframe.hgst.com)
 From: Alistair Francis <alistair.francis@wdc.com>
 To: peter.maydell@linaro.org,
 	qemu-devel@nongnu.org
-Subject: [PULL 10/12] target/riscv: Generate the GDB XML file for CSR
- registers dynamically
-Date: Sun, 17 Jan 2021 13:54:01 -0800
-Message-Id: <20210117215403.2277103-11-alistair.francis@wdc.com>
+Subject: [PULL 11/12] target/riscv: Remove built-in GDB XML files for CSRs
+Date: Sun, 17 Jan 2021 13:54:02 -0800
+Message-Id: <20210117215403.2277103-12-alistair.francis@wdc.com>
 X-Mailer: git-send-email 2.29.2
 In-Reply-To: <20210117215403.2277103-1-alistair.francis@wdc.com>
 References: <20210117215403.2277103-1-alistair.francis@wdc.com>
@@ -100,453 +99,578 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Bin Meng <bin.meng@windriver.com>
 
-At present QEMU RISC-V uses a hardcoded XML to report the feature
-"org.gnu.gdb.riscv.csr" [1]. There are two major issues with the
-approach being used currently:
-
-- The XML does not specify the "regnum" field of a CSR entry, hence
-  consecutive numbers are used by the remote GDB client to access
-  CSRs. In QEMU we have to maintain a map table to convert the GDB
-  number to the hardware number which is error prone.
-- The XML contains some CSRs that QEMU does not implement at all,
-  which causes an "E14" response sent to remote GDB client.
-
-Change to generate the CSR register list dynamically, based on the
-availability presented in the CSR function table. This new approach
-will reflect a correct list of CSRs that QEMU actually implements.
-
-[1] https://sourceware.org/gdb/current/onlinedocs/gdb/RISC_002dV-Features.html#RISC_002dV-Features
+Now that we have switched to generate the RISC-V CSR XML dynamically,
+remove the built-in hardcoded XML files.
 
 Signed-off-by: Bin Meng <bin.meng@windriver.com>
 Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
-Message-id: 20210116054123.5457-2-bmeng.cn@gmail.com
+Message-id: 20210116054123.5457-3-bmeng.cn@gmail.com
 Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
 ---
- target/riscv/cpu.h     |   2 +
- target/riscv/cpu.c     |  12 ++
- target/riscv/gdbstub.c | 308 ++++++-----------------------------------
- 3 files changed, 58 insertions(+), 264 deletions(-)
+ .../targets/riscv32-linux-user.mak            |   2 +-
+ default-configs/targets/riscv32-softmmu.mak   |   2 +-
+ .../targets/riscv64-linux-user.mak            |   2 +-
+ default-configs/targets/riscv64-softmmu.mak   |   2 +-
+ gdb-xml/riscv-32bit-csr.xml                   | 250 ------------------
+ gdb-xml/riscv-64bit-csr.xml                   | 250 ------------------
+ 6 files changed, 4 insertions(+), 504 deletions(-)
+ delete mode 100644 gdb-xml/riscv-32bit-csr.xml
+ delete mode 100644 gdb-xml/riscv-64bit-csr.xml
 
-diff --git a/target/riscv/cpu.h b/target/riscv/cpu.h
-index 2718617ef4..02758ae0eb 100644
---- a/target/riscv/cpu.h
-+++ b/target/riscv/cpu.h
-@@ -272,6 +272,8 @@ struct RISCVCPU {
-     CPUNegativeOffsetState neg;
-     CPURISCVState env;
- 
-+    char *dyn_csr_xml;
-+
-     /* Configuration Settings */
-     struct {
-         bool ext_i;
-diff --git a/target/riscv/cpu.c b/target/riscv/cpu.c
-index 6aafe4e62c..27788021eb 100644
---- a/target/riscv/cpu.c
-+++ b/target/riscv/cpu.c
-@@ -569,6 +569,17 @@ static gchar *riscv_gdb_arch_name(CPUState *cs)
-     }
- }
- 
-+static const char *riscv_gdb_get_dynamic_xml(CPUState *cs, const char *xmlname)
-+{
-+    RISCVCPU *cpu = RISCV_CPU(cs);
-+
-+    if (strcmp(xmlname, "riscv-csr.xml") == 0) {
-+        return cpu->dyn_csr_xml;
-+    }
-+
-+    return NULL;
-+}
-+
- static void riscv_cpu_class_init(ObjectClass *c, void *data)
- {
-     RISCVCPUClass *mcc = RISCV_CPU_CLASS(c);
-@@ -605,6 +616,7 @@ static void riscv_cpu_class_init(ObjectClass *c, void *data)
-     cc->vmsd = &vmstate_riscv_cpu;
- #endif
-     cc->gdb_arch_name = riscv_gdb_arch_name;
-+    cc->gdb_get_dynamic_xml = riscv_gdb_get_dynamic_xml;
- #ifdef CONFIG_TCG
-     cc->tcg_initialize = riscv_translate_init;
-     cc->tlb_fill = riscv_cpu_tlb_fill;
-diff --git a/target/riscv/gdbstub.c b/target/riscv/gdbstub.c
-index eba12a86f2..5f96b7ea2a 100644
---- a/target/riscv/gdbstub.c
-+++ b/target/riscv/gdbstub.c
-@@ -20,256 +20,6 @@
- #include "exec/gdbstub.h"
- #include "cpu.h"
- 
--/*
-- * The GDB CSR xml files list them in documentation order, not numerical order,
-- * and are missing entries for unnamed CSRs.  So we need to map the gdb numbers
-- * to the hardware numbers.
-- */
+diff --git a/default-configs/targets/riscv32-linux-user.mak b/default-configs/targets/riscv32-linux-user.mak
+index dfb259e8aa..07e6ca13f3 100644
+--- a/default-configs/targets/riscv32-linux-user.mak
++++ b/default-configs/targets/riscv32-linux-user.mak
+@@ -1,4 +1,4 @@
+ TARGET_ARCH=riscv32
+ TARGET_BASE_ARCH=riscv
+ TARGET_ABI_DIR=riscv
+-TARGET_XML_FILES= gdb-xml/riscv-32bit-cpu.xml gdb-xml/riscv-32bit-fpu.xml gdb-xml/riscv-64bit-fpu.xml gdb-xml/riscv-32bit-csr.xml gdb-xml/riscv-32bit-virtual.xml
++TARGET_XML_FILES= gdb-xml/riscv-32bit-cpu.xml gdb-xml/riscv-32bit-fpu.xml gdb-xml/riscv-64bit-fpu.xml gdb-xml/riscv-32bit-virtual.xml
+diff --git a/default-configs/targets/riscv32-softmmu.mak b/default-configs/targets/riscv32-softmmu.mak
+index 9446d96d13..d8b71cddcd 100644
+--- a/default-configs/targets/riscv32-softmmu.mak
++++ b/default-configs/targets/riscv32-softmmu.mak
+@@ -1,5 +1,5 @@
+ TARGET_ARCH=riscv32
+ TARGET_BASE_ARCH=riscv
+ TARGET_SUPPORTS_MTTCG=y
+-TARGET_XML_FILES= gdb-xml/riscv-32bit-cpu.xml gdb-xml/riscv-32bit-fpu.xml gdb-xml/riscv-64bit-fpu.xml gdb-xml/riscv-32bit-csr.xml gdb-xml/riscv-32bit-virtual.xml
++TARGET_XML_FILES= gdb-xml/riscv-32bit-cpu.xml gdb-xml/riscv-32bit-fpu.xml gdb-xml/riscv-64bit-fpu.xml gdb-xml/riscv-32bit-virtual.xml
+ TARGET_NEED_FDT=y
+diff --git a/default-configs/targets/riscv64-linux-user.mak b/default-configs/targets/riscv64-linux-user.mak
+index b13895f3b0..191c2c483f 100644
+--- a/default-configs/targets/riscv64-linux-user.mak
++++ b/default-configs/targets/riscv64-linux-user.mak
+@@ -1,4 +1,4 @@
+ TARGET_ARCH=riscv64
+ TARGET_BASE_ARCH=riscv
+ TARGET_ABI_DIR=riscv
+-TARGET_XML_FILES= gdb-xml/riscv-64bit-cpu.xml gdb-xml/riscv-32bit-fpu.xml gdb-xml/riscv-64bit-fpu.xml gdb-xml/riscv-64bit-csr.xml gdb-xml/riscv-64bit-virtual.xml
++TARGET_XML_FILES= gdb-xml/riscv-64bit-cpu.xml gdb-xml/riscv-32bit-fpu.xml gdb-xml/riscv-64bit-fpu.xml gdb-xml/riscv-64bit-virtual.xml
+diff --git a/default-configs/targets/riscv64-softmmu.mak b/default-configs/targets/riscv64-softmmu.mak
+index d809bd666a..7c0e7eeb42 100644
+--- a/default-configs/targets/riscv64-softmmu.mak
++++ b/default-configs/targets/riscv64-softmmu.mak
+@@ -1,5 +1,5 @@
+ TARGET_ARCH=riscv64
+ TARGET_BASE_ARCH=riscv
+ TARGET_SUPPORTS_MTTCG=y
+-TARGET_XML_FILES= gdb-xml/riscv-64bit-cpu.xml gdb-xml/riscv-32bit-fpu.xml gdb-xml/riscv-64bit-fpu.xml gdb-xml/riscv-64bit-csr.xml gdb-xml/riscv-64bit-virtual.xml
++TARGET_XML_FILES= gdb-xml/riscv-64bit-cpu.xml gdb-xml/riscv-32bit-fpu.xml gdb-xml/riscv-64bit-fpu.xml gdb-xml/riscv-64bit-virtual.xml
+ TARGET_NEED_FDT=y
+diff --git a/gdb-xml/riscv-32bit-csr.xml b/gdb-xml/riscv-32bit-csr.xml
+deleted file mode 100644
+index da1bf19e2f..0000000000
+--- a/gdb-xml/riscv-32bit-csr.xml
++++ /dev/null
+@@ -1,250 +0,0 @@
+-<?xml version="1.0"?>
+-<!-- Copyright (C) 2018-2019 Free Software Foundation, Inc.
 -
--static int csr_register_map[] = {
--    CSR_USTATUS,
--    CSR_UIE,
--    CSR_UTVEC,
--    CSR_USCRATCH,
--    CSR_UEPC,
--    CSR_UCAUSE,
--    CSR_UTVAL,
--    CSR_UIP,
--    CSR_FFLAGS,
--    CSR_FRM,
--    CSR_FCSR,
--    CSR_CYCLE,
--    CSR_TIME,
--    CSR_INSTRET,
--    CSR_HPMCOUNTER3,
--    CSR_HPMCOUNTER4,
--    CSR_HPMCOUNTER5,
--    CSR_HPMCOUNTER6,
--    CSR_HPMCOUNTER7,
--    CSR_HPMCOUNTER8,
--    CSR_HPMCOUNTER9,
--    CSR_HPMCOUNTER10,
--    CSR_HPMCOUNTER11,
--    CSR_HPMCOUNTER12,
--    CSR_HPMCOUNTER13,
--    CSR_HPMCOUNTER14,
--    CSR_HPMCOUNTER15,
--    CSR_HPMCOUNTER16,
--    CSR_HPMCOUNTER17,
--    CSR_HPMCOUNTER18,
--    CSR_HPMCOUNTER19,
--    CSR_HPMCOUNTER20,
--    CSR_HPMCOUNTER21,
--    CSR_HPMCOUNTER22,
--    CSR_HPMCOUNTER23,
--    CSR_HPMCOUNTER24,
--    CSR_HPMCOUNTER25,
--    CSR_HPMCOUNTER26,
--    CSR_HPMCOUNTER27,
--    CSR_HPMCOUNTER28,
--    CSR_HPMCOUNTER29,
--    CSR_HPMCOUNTER30,
--    CSR_HPMCOUNTER31,
--    CSR_CYCLEH,
--    CSR_TIMEH,
--    CSR_INSTRETH,
--    CSR_HPMCOUNTER3H,
--    CSR_HPMCOUNTER4H,
--    CSR_HPMCOUNTER5H,
--    CSR_HPMCOUNTER6H,
--    CSR_HPMCOUNTER7H,
--    CSR_HPMCOUNTER8H,
--    CSR_HPMCOUNTER9H,
--    CSR_HPMCOUNTER10H,
--    CSR_HPMCOUNTER11H,
--    CSR_HPMCOUNTER12H,
--    CSR_HPMCOUNTER13H,
--    CSR_HPMCOUNTER14H,
--    CSR_HPMCOUNTER15H,
--    CSR_HPMCOUNTER16H,
--    CSR_HPMCOUNTER17H,
--    CSR_HPMCOUNTER18H,
--    CSR_HPMCOUNTER19H,
--    CSR_HPMCOUNTER20H,
--    CSR_HPMCOUNTER21H,
--    CSR_HPMCOUNTER22H,
--    CSR_HPMCOUNTER23H,
--    CSR_HPMCOUNTER24H,
--    CSR_HPMCOUNTER25H,
--    CSR_HPMCOUNTER26H,
--    CSR_HPMCOUNTER27H,
--    CSR_HPMCOUNTER28H,
--    CSR_HPMCOUNTER29H,
--    CSR_HPMCOUNTER30H,
--    CSR_HPMCOUNTER31H,
--    CSR_SSTATUS,
--    CSR_SEDELEG,
--    CSR_SIDELEG,
--    CSR_SIE,
--    CSR_STVEC,
--    CSR_SCOUNTEREN,
--    CSR_SSCRATCH,
--    CSR_SEPC,
--    CSR_SCAUSE,
--    CSR_STVAL,
--    CSR_SIP,
--    CSR_SATP,
--    CSR_MVENDORID,
--    CSR_MARCHID,
--    CSR_MIMPID,
--    CSR_MHARTID,
--    CSR_MSTATUS,
--    CSR_MISA,
--    CSR_MEDELEG,
--    CSR_MIDELEG,
--    CSR_MIE,
--    CSR_MTVEC,
--    CSR_MCOUNTEREN,
--    CSR_MSCRATCH,
--    CSR_MEPC,
--    CSR_MCAUSE,
--    CSR_MTVAL,
--    CSR_MIP,
--    CSR_MTINST,
--    CSR_MTVAL2,
--    CSR_PMPCFG0,
--    CSR_PMPCFG1,
--    CSR_PMPCFG2,
--    CSR_PMPCFG3,
--    CSR_PMPADDR0,
--    CSR_PMPADDR1,
--    CSR_PMPADDR2,
--    CSR_PMPADDR3,
--    CSR_PMPADDR4,
--    CSR_PMPADDR5,
--    CSR_PMPADDR6,
--    CSR_PMPADDR7,
--    CSR_PMPADDR8,
--    CSR_PMPADDR9,
--    CSR_PMPADDR10,
--    CSR_PMPADDR11,
--    CSR_PMPADDR12,
--    CSR_PMPADDR13,
--    CSR_PMPADDR14,
--    CSR_PMPADDR15,
--    CSR_MCYCLE,
--    CSR_MINSTRET,
--    CSR_MHPMCOUNTER3,
--    CSR_MHPMCOUNTER4,
--    CSR_MHPMCOUNTER5,
--    CSR_MHPMCOUNTER6,
--    CSR_MHPMCOUNTER7,
--    CSR_MHPMCOUNTER8,
--    CSR_MHPMCOUNTER9,
--    CSR_MHPMCOUNTER10,
--    CSR_MHPMCOUNTER11,
--    CSR_MHPMCOUNTER12,
--    CSR_MHPMCOUNTER13,
--    CSR_MHPMCOUNTER14,
--    CSR_MHPMCOUNTER15,
--    CSR_MHPMCOUNTER16,
--    CSR_MHPMCOUNTER17,
--    CSR_MHPMCOUNTER18,
--    CSR_MHPMCOUNTER19,
--    CSR_MHPMCOUNTER20,
--    CSR_MHPMCOUNTER21,
--    CSR_MHPMCOUNTER22,
--    CSR_MHPMCOUNTER23,
--    CSR_MHPMCOUNTER24,
--    CSR_MHPMCOUNTER25,
--    CSR_MHPMCOUNTER26,
--    CSR_MHPMCOUNTER27,
--    CSR_MHPMCOUNTER28,
--    CSR_MHPMCOUNTER29,
--    CSR_MHPMCOUNTER30,
--    CSR_MHPMCOUNTER31,
--    CSR_MCYCLEH,
--    CSR_MINSTRETH,
--    CSR_MHPMCOUNTER3H,
--    CSR_MHPMCOUNTER4H,
--    CSR_MHPMCOUNTER5H,
--    CSR_MHPMCOUNTER6H,
--    CSR_MHPMCOUNTER7H,
--    CSR_MHPMCOUNTER8H,
--    CSR_MHPMCOUNTER9H,
--    CSR_MHPMCOUNTER10H,
--    CSR_MHPMCOUNTER11H,
--    CSR_MHPMCOUNTER12H,
--    CSR_MHPMCOUNTER13H,
--    CSR_MHPMCOUNTER14H,
--    CSR_MHPMCOUNTER15H,
--    CSR_MHPMCOUNTER16H,
--    CSR_MHPMCOUNTER17H,
--    CSR_MHPMCOUNTER18H,
--    CSR_MHPMCOUNTER19H,
--    CSR_MHPMCOUNTER20H,
--    CSR_MHPMCOUNTER21H,
--    CSR_MHPMCOUNTER22H,
--    CSR_MHPMCOUNTER23H,
--    CSR_MHPMCOUNTER24H,
--    CSR_MHPMCOUNTER25H,
--    CSR_MHPMCOUNTER26H,
--    CSR_MHPMCOUNTER27H,
--    CSR_MHPMCOUNTER28H,
--    CSR_MHPMCOUNTER29H,
--    CSR_MHPMCOUNTER30H,
--    CSR_MHPMCOUNTER31H,
--    CSR_MHPMEVENT3,
--    CSR_MHPMEVENT4,
--    CSR_MHPMEVENT5,
--    CSR_MHPMEVENT6,
--    CSR_MHPMEVENT7,
--    CSR_MHPMEVENT8,
--    CSR_MHPMEVENT9,
--    CSR_MHPMEVENT10,
--    CSR_MHPMEVENT11,
--    CSR_MHPMEVENT12,
--    CSR_MHPMEVENT13,
--    CSR_MHPMEVENT14,
--    CSR_MHPMEVENT15,
--    CSR_MHPMEVENT16,
--    CSR_MHPMEVENT17,
--    CSR_MHPMEVENT18,
--    CSR_MHPMEVENT19,
--    CSR_MHPMEVENT20,
--    CSR_MHPMEVENT21,
--    CSR_MHPMEVENT22,
--    CSR_MHPMEVENT23,
--    CSR_MHPMEVENT24,
--    CSR_MHPMEVENT25,
--    CSR_MHPMEVENT26,
--    CSR_MHPMEVENT27,
--    CSR_MHPMEVENT28,
--    CSR_MHPMEVENT29,
--    CSR_MHPMEVENT30,
--    CSR_MHPMEVENT31,
--    CSR_TSELECT,
--    CSR_TDATA1,
--    CSR_TDATA2,
--    CSR_TDATA3,
--    CSR_DCSR,
--    CSR_DPC,
--    CSR_DSCRATCH,
--    CSR_HSTATUS,
--    CSR_HEDELEG,
--    CSR_HIDELEG,
--    CSR_HIE,
--    CSR_HCOUNTEREN,
--    CSR_HTVAL,
--    CSR_HIP,
--    CSR_HTINST,
--    CSR_HGATP,
--    CSR_MBASE,
--    CSR_MBOUND,
--    CSR_MIBASE,
--    CSR_MIBOUND,
--    CSR_MDBASE,
--    CSR_MDBOUND,
--    CSR_MUCOUNTEREN,
--    CSR_MSCOUNTEREN,
--    CSR_MHCOUNTEREN,
--};
+-     Copying and distribution of this file, with or without modification,
+-     are permitted in any medium without royalty provided the copyright
+-     notice and this notice are preserved.  -->
 -
- int riscv_cpu_gdb_read_register(CPUState *cs, GByteArray *mem_buf, int n)
- {
-     RISCVCPU *cpu = RISCV_CPU(cs);
-@@ -315,11 +65,11 @@ static int riscv_gdb_get_fpu(CPURISCVState *env, GByteArray *buf, int n)
-         target_ulong val = 0;
-         int result;
-         /*
--         * CSR_FFLAGS is at index 8 in csr_register, and gdb says it is FP
-+         * CSR_FFLAGS is at index 1 in csr_register, and gdb says it is FP
-          * register 33, so we recalculate the map index.
-          * This also works for CSR_FRM and CSR_FCSR.
-          */
--        result = riscv_csrrw_debug(env, n - 33 + csr_register_map[8], &val,
-+        result = riscv_csrrw_debug(env, n - 32, &val,
-                                    0, 0);
-         if (result == 0) {
-             return gdb_get_regl(buf, val);
-@@ -338,11 +88,11 @@ static int riscv_gdb_set_fpu(CPURISCVState *env, uint8_t *mem_buf, int n)
-         target_ulong val = ldtul_p(mem_buf);
-         int result;
-         /*
--         * CSR_FFLAGS is at index 8 in csr_register, and gdb says it is FP
-+         * CSR_FFLAGS is at index 1 in csr_register, and gdb says it is FP
-          * register 33, so we recalculate the map index.
-          * This also works for CSR_FRM and CSR_FCSR.
-          */
--        result = riscv_csrrw_debug(env, n - 33 + csr_register_map[8], NULL,
-+        result = riscv_csrrw_debug(env, n - 32, NULL,
-                                    val, -1);
-         if (result == 0) {
-             return sizeof(target_ulong);
-@@ -353,11 +103,11 @@ static int riscv_gdb_set_fpu(CPURISCVState *env, uint8_t *mem_buf, int n)
- 
- static int riscv_gdb_get_csr(CPURISCVState *env, GByteArray *buf, int n)
- {
--    if (n < ARRAY_SIZE(csr_register_map)) {
-+    if (n < CSR_TABLE_SIZE) {
-         target_ulong val = 0;
-         int result;
- 
--        result = riscv_csrrw_debug(env, csr_register_map[n], &val, 0, 0);
-+        result = riscv_csrrw_debug(env, n, &val, 0, 0);
-         if (result == 0) {
-             return gdb_get_regl(buf, val);
-         }
-@@ -367,11 +117,11 @@ static int riscv_gdb_get_csr(CPURISCVState *env, GByteArray *buf, int n)
- 
- static int riscv_gdb_set_csr(CPURISCVState *env, uint8_t *mem_buf, int n)
- {
--    if (n < ARRAY_SIZE(csr_register_map)) {
-+    if (n < CSR_TABLE_SIZE) {
-         target_ulong val = ldtul_p(mem_buf);
-         int result;
- 
--        result = riscv_csrrw_debug(env, csr_register_map[n], NULL, val, -1);
-+        result = riscv_csrrw_debug(env, n, NULL, val, -1);
-         if (result == 0) {
-             return sizeof(target_ulong);
-         }
-@@ -405,6 +155,38 @@ static int riscv_gdb_set_virtual(CPURISCVState *cs, uint8_t *mem_buf, int n)
-     return 0;
- }
- 
-+static int riscv_gen_dynamic_csr_xml(CPUState *cs, int base_reg)
-+{
-+    RISCVCPU *cpu = RISCV_CPU(cs);
-+    CPURISCVState *env = &cpu->env;
-+    GString *s = g_string_new(NULL);
-+    riscv_csr_predicate_fn predicate;
-+    int bitsize = riscv_cpu_is_32bit(env) ? 32 : 64;
-+    int i;
-+
-+    g_string_printf(s, "<?xml version=\"1.0\"?>");
-+    g_string_append_printf(s, "<!DOCTYPE feature SYSTEM \"gdb-target.dtd\">");
-+    g_string_append_printf(s, "<feature name=\"org.gnu.gdb.riscv.csr\">");
-+
-+    for (i = 0; i < CSR_TABLE_SIZE; i++) {
-+        predicate = csr_ops[i].predicate;
-+        if (predicate && !predicate(env, i)) {
-+            if (csr_ops[i].name) {
-+                g_string_append_printf(s, "<reg name=\"%s\"", csr_ops[i].name);
-+            } else {
-+                g_string_append_printf(s, "<reg name=\"csr%03x\"", i);
-+            }
-+            g_string_append_printf(s, " bitsize=\"%d\"", bitsize);
-+            g_string_append_printf(s, " regnum=\"%d\"/>", base_reg + i);
-+        }
-+    }
-+
-+    g_string_append_printf(s, "</feature>");
-+
-+    cpu->dyn_csr_xml = g_string_free(s, false);
-+    return CSR_TABLE_SIZE;
-+}
-+
- void riscv_cpu_register_gdb_regs_for_features(CPUState *cs)
- {
-     RISCVCPU *cpu = RISCV_CPU(cs);
-@@ -417,16 +199,14 @@ void riscv_cpu_register_gdb_regs_for_features(CPUState *cs)
-                                  36, "riscv-32bit-fpu.xml", 0);
-     }
- #if defined(TARGET_RISCV32)
--    gdb_register_coprocessor(cs, riscv_gdb_get_csr, riscv_gdb_set_csr,
--                             240, "riscv-32bit-csr.xml", 0);
+-<!DOCTYPE feature SYSTEM "gdb-target.dtd">
+-<feature name="org.gnu.gdb.riscv.csr">
+-  <reg name="ustatus" bitsize="32"/>
+-  <reg name="uie" bitsize="32"/>
+-  <reg name="utvec" bitsize="32"/>
+-  <reg name="uscratch" bitsize="32"/>
+-  <reg name="uepc" bitsize="32"/>
+-  <reg name="ucause" bitsize="32"/>
+-  <reg name="utval" bitsize="32"/>
+-  <reg name="uip" bitsize="32"/>
+-  <reg name="fflags" bitsize="32"/>
+-  <reg name="frm" bitsize="32"/>
+-  <reg name="fcsr" bitsize="32"/>
+-  <reg name="cycle" bitsize="32"/>
+-  <reg name="time" bitsize="32"/>
+-  <reg name="instret" bitsize="32"/>
+-  <reg name="hpmcounter3" bitsize="32"/>
+-  <reg name="hpmcounter4" bitsize="32"/>
+-  <reg name="hpmcounter5" bitsize="32"/>
+-  <reg name="hpmcounter6" bitsize="32"/>
+-  <reg name="hpmcounter7" bitsize="32"/>
+-  <reg name="hpmcounter8" bitsize="32"/>
+-  <reg name="hpmcounter9" bitsize="32"/>
+-  <reg name="hpmcounter10" bitsize="32"/>
+-  <reg name="hpmcounter11" bitsize="32"/>
+-  <reg name="hpmcounter12" bitsize="32"/>
+-  <reg name="hpmcounter13" bitsize="32"/>
+-  <reg name="hpmcounter14" bitsize="32"/>
+-  <reg name="hpmcounter15" bitsize="32"/>
+-  <reg name="hpmcounter16" bitsize="32"/>
+-  <reg name="hpmcounter17" bitsize="32"/>
+-  <reg name="hpmcounter18" bitsize="32"/>
+-  <reg name="hpmcounter19" bitsize="32"/>
+-  <reg name="hpmcounter20" bitsize="32"/>
+-  <reg name="hpmcounter21" bitsize="32"/>
+-  <reg name="hpmcounter22" bitsize="32"/>
+-  <reg name="hpmcounter23" bitsize="32"/>
+-  <reg name="hpmcounter24" bitsize="32"/>
+-  <reg name="hpmcounter25" bitsize="32"/>
+-  <reg name="hpmcounter26" bitsize="32"/>
+-  <reg name="hpmcounter27" bitsize="32"/>
+-  <reg name="hpmcounter28" bitsize="32"/>
+-  <reg name="hpmcounter29" bitsize="32"/>
+-  <reg name="hpmcounter30" bitsize="32"/>
+-  <reg name="hpmcounter31" bitsize="32"/>
+-  <reg name="cycleh" bitsize="32"/>
+-  <reg name="timeh" bitsize="32"/>
+-  <reg name="instreth" bitsize="32"/>
+-  <reg name="hpmcounter3h" bitsize="32"/>
+-  <reg name="hpmcounter4h" bitsize="32"/>
+-  <reg name="hpmcounter5h" bitsize="32"/>
+-  <reg name="hpmcounter6h" bitsize="32"/>
+-  <reg name="hpmcounter7h" bitsize="32"/>
+-  <reg name="hpmcounter8h" bitsize="32"/>
+-  <reg name="hpmcounter9h" bitsize="32"/>
+-  <reg name="hpmcounter10h" bitsize="32"/>
+-  <reg name="hpmcounter11h" bitsize="32"/>
+-  <reg name="hpmcounter12h" bitsize="32"/>
+-  <reg name="hpmcounter13h" bitsize="32"/>
+-  <reg name="hpmcounter14h" bitsize="32"/>
+-  <reg name="hpmcounter15h" bitsize="32"/>
+-  <reg name="hpmcounter16h" bitsize="32"/>
+-  <reg name="hpmcounter17h" bitsize="32"/>
+-  <reg name="hpmcounter18h" bitsize="32"/>
+-  <reg name="hpmcounter19h" bitsize="32"/>
+-  <reg name="hpmcounter20h" bitsize="32"/>
+-  <reg name="hpmcounter21h" bitsize="32"/>
+-  <reg name="hpmcounter22h" bitsize="32"/>
+-  <reg name="hpmcounter23h" bitsize="32"/>
+-  <reg name="hpmcounter24h" bitsize="32"/>
+-  <reg name="hpmcounter25h" bitsize="32"/>
+-  <reg name="hpmcounter26h" bitsize="32"/>
+-  <reg name="hpmcounter27h" bitsize="32"/>
+-  <reg name="hpmcounter28h" bitsize="32"/>
+-  <reg name="hpmcounter29h" bitsize="32"/>
+-  <reg name="hpmcounter30h" bitsize="32"/>
+-  <reg name="hpmcounter31h" bitsize="32"/>
+-  <reg name="sstatus" bitsize="32"/>
+-  <reg name="sedeleg" bitsize="32"/>
+-  <reg name="sideleg" bitsize="32"/>
+-  <reg name="sie" bitsize="32"/>
+-  <reg name="stvec" bitsize="32"/>
+-  <reg name="scounteren" bitsize="32"/>
+-  <reg name="sscratch" bitsize="32"/>
+-  <reg name="sepc" bitsize="32"/>
+-  <reg name="scause" bitsize="32"/>
+-  <reg name="stval" bitsize="32"/>
+-  <reg name="sip" bitsize="32"/>
+-  <reg name="satp" bitsize="32"/>
+-  <reg name="mvendorid" bitsize="32"/>
+-  <reg name="marchid" bitsize="32"/>
+-  <reg name="mimpid" bitsize="32"/>
+-  <reg name="mhartid" bitsize="32"/>
+-  <reg name="mstatus" bitsize="32"/>
+-  <reg name="misa" bitsize="32"/>
+-  <reg name="medeleg" bitsize="32"/>
+-  <reg name="mideleg" bitsize="32"/>
+-  <reg name="mie" bitsize="32"/>
+-  <reg name="mtvec" bitsize="32"/>
+-  <reg name="mcounteren" bitsize="32"/>
+-  <reg name="mscratch" bitsize="32"/>
+-  <reg name="mepc" bitsize="32"/>
+-  <reg name="mcause" bitsize="32"/>
+-  <reg name="mtval" bitsize="32"/>
+-  <reg name="mip" bitsize="32"/>
+-  <reg name="pmpcfg0" bitsize="32"/>
+-  <reg name="pmpcfg1" bitsize="32"/>
+-  <reg name="pmpcfg2" bitsize="32"/>
+-  <reg name="pmpcfg3" bitsize="32"/>
+-  <reg name="pmpaddr0" bitsize="32"/>
+-  <reg name="pmpaddr1" bitsize="32"/>
+-  <reg name="pmpaddr2" bitsize="32"/>
+-  <reg name="pmpaddr3" bitsize="32"/>
+-  <reg name="pmpaddr4" bitsize="32"/>
+-  <reg name="pmpaddr5" bitsize="32"/>
+-  <reg name="pmpaddr6" bitsize="32"/>
+-  <reg name="pmpaddr7" bitsize="32"/>
+-  <reg name="pmpaddr8" bitsize="32"/>
+-  <reg name="pmpaddr9" bitsize="32"/>
+-  <reg name="pmpaddr10" bitsize="32"/>
+-  <reg name="pmpaddr11" bitsize="32"/>
+-  <reg name="pmpaddr12" bitsize="32"/>
+-  <reg name="pmpaddr13" bitsize="32"/>
+-  <reg name="pmpaddr14" bitsize="32"/>
+-  <reg name="pmpaddr15" bitsize="32"/>
+-  <reg name="mcycle" bitsize="32"/>
+-  <reg name="minstret" bitsize="32"/>
+-  <reg name="mhpmcounter3" bitsize="32"/>
+-  <reg name="mhpmcounter4" bitsize="32"/>
+-  <reg name="mhpmcounter5" bitsize="32"/>
+-  <reg name="mhpmcounter6" bitsize="32"/>
+-  <reg name="mhpmcounter7" bitsize="32"/>
+-  <reg name="mhpmcounter8" bitsize="32"/>
+-  <reg name="mhpmcounter9" bitsize="32"/>
+-  <reg name="mhpmcounter10" bitsize="32"/>
+-  <reg name="mhpmcounter11" bitsize="32"/>
+-  <reg name="mhpmcounter12" bitsize="32"/>
+-  <reg name="mhpmcounter13" bitsize="32"/>
+-  <reg name="mhpmcounter14" bitsize="32"/>
+-  <reg name="mhpmcounter15" bitsize="32"/>
+-  <reg name="mhpmcounter16" bitsize="32"/>
+-  <reg name="mhpmcounter17" bitsize="32"/>
+-  <reg name="mhpmcounter18" bitsize="32"/>
+-  <reg name="mhpmcounter19" bitsize="32"/>
+-  <reg name="mhpmcounter20" bitsize="32"/>
+-  <reg name="mhpmcounter21" bitsize="32"/>
+-  <reg name="mhpmcounter22" bitsize="32"/>
+-  <reg name="mhpmcounter23" bitsize="32"/>
+-  <reg name="mhpmcounter24" bitsize="32"/>
+-  <reg name="mhpmcounter25" bitsize="32"/>
+-  <reg name="mhpmcounter26" bitsize="32"/>
+-  <reg name="mhpmcounter27" bitsize="32"/>
+-  <reg name="mhpmcounter28" bitsize="32"/>
+-  <reg name="mhpmcounter29" bitsize="32"/>
+-  <reg name="mhpmcounter30" bitsize="32"/>
+-  <reg name="mhpmcounter31" bitsize="32"/>
+-  <reg name="mcycleh" bitsize="32"/>
+-  <reg name="minstreth" bitsize="32"/>
+-  <reg name="mhpmcounter3h" bitsize="32"/>
+-  <reg name="mhpmcounter4h" bitsize="32"/>
+-  <reg name="mhpmcounter5h" bitsize="32"/>
+-  <reg name="mhpmcounter6h" bitsize="32"/>
+-  <reg name="mhpmcounter7h" bitsize="32"/>
+-  <reg name="mhpmcounter8h" bitsize="32"/>
+-  <reg name="mhpmcounter9h" bitsize="32"/>
+-  <reg name="mhpmcounter10h" bitsize="32"/>
+-  <reg name="mhpmcounter11h" bitsize="32"/>
+-  <reg name="mhpmcounter12h" bitsize="32"/>
+-  <reg name="mhpmcounter13h" bitsize="32"/>
+-  <reg name="mhpmcounter14h" bitsize="32"/>
+-  <reg name="mhpmcounter15h" bitsize="32"/>
+-  <reg name="mhpmcounter16h" bitsize="32"/>
+-  <reg name="mhpmcounter17h" bitsize="32"/>
+-  <reg name="mhpmcounter18h" bitsize="32"/>
+-  <reg name="mhpmcounter19h" bitsize="32"/>
+-  <reg name="mhpmcounter20h" bitsize="32"/>
+-  <reg name="mhpmcounter21h" bitsize="32"/>
+-  <reg name="mhpmcounter22h" bitsize="32"/>
+-  <reg name="mhpmcounter23h" bitsize="32"/>
+-  <reg name="mhpmcounter24h" bitsize="32"/>
+-  <reg name="mhpmcounter25h" bitsize="32"/>
+-  <reg name="mhpmcounter26h" bitsize="32"/>
+-  <reg name="mhpmcounter27h" bitsize="32"/>
+-  <reg name="mhpmcounter28h" bitsize="32"/>
+-  <reg name="mhpmcounter29h" bitsize="32"/>
+-  <reg name="mhpmcounter30h" bitsize="32"/>
+-  <reg name="mhpmcounter31h" bitsize="32"/>
+-  <reg name="mhpmevent3" bitsize="32"/>
+-  <reg name="mhpmevent4" bitsize="32"/>
+-  <reg name="mhpmevent5" bitsize="32"/>
+-  <reg name="mhpmevent6" bitsize="32"/>
+-  <reg name="mhpmevent7" bitsize="32"/>
+-  <reg name="mhpmevent8" bitsize="32"/>
+-  <reg name="mhpmevent9" bitsize="32"/>
+-  <reg name="mhpmevent10" bitsize="32"/>
+-  <reg name="mhpmevent11" bitsize="32"/>
+-  <reg name="mhpmevent12" bitsize="32"/>
+-  <reg name="mhpmevent13" bitsize="32"/>
+-  <reg name="mhpmevent14" bitsize="32"/>
+-  <reg name="mhpmevent15" bitsize="32"/>
+-  <reg name="mhpmevent16" bitsize="32"/>
+-  <reg name="mhpmevent17" bitsize="32"/>
+-  <reg name="mhpmevent18" bitsize="32"/>
+-  <reg name="mhpmevent19" bitsize="32"/>
+-  <reg name="mhpmevent20" bitsize="32"/>
+-  <reg name="mhpmevent21" bitsize="32"/>
+-  <reg name="mhpmevent22" bitsize="32"/>
+-  <reg name="mhpmevent23" bitsize="32"/>
+-  <reg name="mhpmevent24" bitsize="32"/>
+-  <reg name="mhpmevent25" bitsize="32"/>
+-  <reg name="mhpmevent26" bitsize="32"/>
+-  <reg name="mhpmevent27" bitsize="32"/>
+-  <reg name="mhpmevent28" bitsize="32"/>
+-  <reg name="mhpmevent29" bitsize="32"/>
+-  <reg name="mhpmevent30" bitsize="32"/>
+-  <reg name="mhpmevent31" bitsize="32"/>
+-  <reg name="tselect" bitsize="32"/>
+-  <reg name="tdata1" bitsize="32"/>
+-  <reg name="tdata2" bitsize="32"/>
+-  <reg name="tdata3" bitsize="32"/>
+-  <reg name="dcsr" bitsize="32"/>
+-  <reg name="dpc" bitsize="32"/>
+-  <reg name="dscratch" bitsize="32"/>
+-  <reg name="hstatus" bitsize="32"/>
+-  <reg name="hedeleg" bitsize="32"/>
+-  <reg name="hideleg" bitsize="32"/>
+-  <reg name="hie" bitsize="32"/>
+-  <reg name="htvec" bitsize="32"/>
+-  <reg name="hscratch" bitsize="32"/>
+-  <reg name="hepc" bitsize="32"/>
+-  <reg name="hcause" bitsize="32"/>
+-  <reg name="hbadaddr" bitsize="32"/>
+-  <reg name="hip" bitsize="32"/>
+-  <reg name="mbase" bitsize="32"/>
+-  <reg name="mbound" bitsize="32"/>
+-  <reg name="mibase" bitsize="32"/>
+-  <reg name="mibound" bitsize="32"/>
+-  <reg name="mdbase" bitsize="32"/>
+-  <reg name="mdbound" bitsize="32"/>
+-  <reg name="mucounteren" bitsize="32"/>
+-  <reg name="mscounteren" bitsize="32"/>
+-  <reg name="mhcounteren" bitsize="32"/>
+-</feature>
+diff --git a/gdb-xml/riscv-64bit-csr.xml b/gdb-xml/riscv-64bit-csr.xml
+deleted file mode 100644
+index 6aa4bed9f5..0000000000
+--- a/gdb-xml/riscv-64bit-csr.xml
++++ /dev/null
+@@ -1,250 +0,0 @@
+-<?xml version="1.0"?>
+-<!-- Copyright (C) 2018-2019 Free Software Foundation, Inc.
 -
-     gdb_register_coprocessor(cs, riscv_gdb_get_virtual, riscv_gdb_set_virtual,
-                              1, "riscv-32bit-virtual.xml", 0);
- #elif defined(TARGET_RISCV64)
--    gdb_register_coprocessor(cs, riscv_gdb_get_csr, riscv_gdb_set_csr,
--                             240, "riscv-64bit-csr.xml", 0);
+-     Copying and distribution of this file, with or without modification,
+-     are permitted in any medium without royalty provided the copyright
+-     notice and this notice are preserved.  -->
 -
-     gdb_register_coprocessor(cs, riscv_gdb_get_virtual, riscv_gdb_set_virtual,
-                              1, "riscv-64bit-virtual.xml", 0);
- #endif
-+
-+    gdb_register_coprocessor(cs, riscv_gdb_get_csr, riscv_gdb_set_csr,
-+                             riscv_gen_dynamic_csr_xml(cs, cs->gdb_num_regs),
-+                             "riscv-csr.xml", 0);
- }
+-<!DOCTYPE feature SYSTEM "gdb-target.dtd">
+-<feature name="org.gnu.gdb.riscv.csr">
+-  <reg name="ustatus" bitsize="64"/>
+-  <reg name="uie" bitsize="64"/>
+-  <reg name="utvec" bitsize="64"/>
+-  <reg name="uscratch" bitsize="64"/>
+-  <reg name="uepc" bitsize="64"/>
+-  <reg name="ucause" bitsize="64"/>
+-  <reg name="utval" bitsize="64"/>
+-  <reg name="uip" bitsize="64"/>
+-  <reg name="fflags" bitsize="64"/>
+-  <reg name="frm" bitsize="64"/>
+-  <reg name="fcsr" bitsize="64"/>
+-  <reg name="cycle" bitsize="64"/>
+-  <reg name="time" bitsize="64"/>
+-  <reg name="instret" bitsize="64"/>
+-  <reg name="hpmcounter3" bitsize="64"/>
+-  <reg name="hpmcounter4" bitsize="64"/>
+-  <reg name="hpmcounter5" bitsize="64"/>
+-  <reg name="hpmcounter6" bitsize="64"/>
+-  <reg name="hpmcounter7" bitsize="64"/>
+-  <reg name="hpmcounter8" bitsize="64"/>
+-  <reg name="hpmcounter9" bitsize="64"/>
+-  <reg name="hpmcounter10" bitsize="64"/>
+-  <reg name="hpmcounter11" bitsize="64"/>
+-  <reg name="hpmcounter12" bitsize="64"/>
+-  <reg name="hpmcounter13" bitsize="64"/>
+-  <reg name="hpmcounter14" bitsize="64"/>
+-  <reg name="hpmcounter15" bitsize="64"/>
+-  <reg name="hpmcounter16" bitsize="64"/>
+-  <reg name="hpmcounter17" bitsize="64"/>
+-  <reg name="hpmcounter18" bitsize="64"/>
+-  <reg name="hpmcounter19" bitsize="64"/>
+-  <reg name="hpmcounter20" bitsize="64"/>
+-  <reg name="hpmcounter21" bitsize="64"/>
+-  <reg name="hpmcounter22" bitsize="64"/>
+-  <reg name="hpmcounter23" bitsize="64"/>
+-  <reg name="hpmcounter24" bitsize="64"/>
+-  <reg name="hpmcounter25" bitsize="64"/>
+-  <reg name="hpmcounter26" bitsize="64"/>
+-  <reg name="hpmcounter27" bitsize="64"/>
+-  <reg name="hpmcounter28" bitsize="64"/>
+-  <reg name="hpmcounter29" bitsize="64"/>
+-  <reg name="hpmcounter30" bitsize="64"/>
+-  <reg name="hpmcounter31" bitsize="64"/>
+-  <reg name="cycleh" bitsize="64"/>
+-  <reg name="timeh" bitsize="64"/>
+-  <reg name="instreth" bitsize="64"/>
+-  <reg name="hpmcounter3h" bitsize="64"/>
+-  <reg name="hpmcounter4h" bitsize="64"/>
+-  <reg name="hpmcounter5h" bitsize="64"/>
+-  <reg name="hpmcounter6h" bitsize="64"/>
+-  <reg name="hpmcounter7h" bitsize="64"/>
+-  <reg name="hpmcounter8h" bitsize="64"/>
+-  <reg name="hpmcounter9h" bitsize="64"/>
+-  <reg name="hpmcounter10h" bitsize="64"/>
+-  <reg name="hpmcounter11h" bitsize="64"/>
+-  <reg name="hpmcounter12h" bitsize="64"/>
+-  <reg name="hpmcounter13h" bitsize="64"/>
+-  <reg name="hpmcounter14h" bitsize="64"/>
+-  <reg name="hpmcounter15h" bitsize="64"/>
+-  <reg name="hpmcounter16h" bitsize="64"/>
+-  <reg name="hpmcounter17h" bitsize="64"/>
+-  <reg name="hpmcounter18h" bitsize="64"/>
+-  <reg name="hpmcounter19h" bitsize="64"/>
+-  <reg name="hpmcounter20h" bitsize="64"/>
+-  <reg name="hpmcounter21h" bitsize="64"/>
+-  <reg name="hpmcounter22h" bitsize="64"/>
+-  <reg name="hpmcounter23h" bitsize="64"/>
+-  <reg name="hpmcounter24h" bitsize="64"/>
+-  <reg name="hpmcounter25h" bitsize="64"/>
+-  <reg name="hpmcounter26h" bitsize="64"/>
+-  <reg name="hpmcounter27h" bitsize="64"/>
+-  <reg name="hpmcounter28h" bitsize="64"/>
+-  <reg name="hpmcounter29h" bitsize="64"/>
+-  <reg name="hpmcounter30h" bitsize="64"/>
+-  <reg name="hpmcounter31h" bitsize="64"/>
+-  <reg name="sstatus" bitsize="64"/>
+-  <reg name="sedeleg" bitsize="64"/>
+-  <reg name="sideleg" bitsize="64"/>
+-  <reg name="sie" bitsize="64"/>
+-  <reg name="stvec" bitsize="64"/>
+-  <reg name="scounteren" bitsize="64"/>
+-  <reg name="sscratch" bitsize="64"/>
+-  <reg name="sepc" bitsize="64"/>
+-  <reg name="scause" bitsize="64"/>
+-  <reg name="stval" bitsize="64"/>
+-  <reg name="sip" bitsize="64"/>
+-  <reg name="satp" bitsize="64"/>
+-  <reg name="mvendorid" bitsize="64"/>
+-  <reg name="marchid" bitsize="64"/>
+-  <reg name="mimpid" bitsize="64"/>
+-  <reg name="mhartid" bitsize="64"/>
+-  <reg name="mstatus" bitsize="64"/>
+-  <reg name="misa" bitsize="64"/>
+-  <reg name="medeleg" bitsize="64"/>
+-  <reg name="mideleg" bitsize="64"/>
+-  <reg name="mie" bitsize="64"/>
+-  <reg name="mtvec" bitsize="64"/>
+-  <reg name="mcounteren" bitsize="64"/>
+-  <reg name="mscratch" bitsize="64"/>
+-  <reg name="mepc" bitsize="64"/>
+-  <reg name="mcause" bitsize="64"/>
+-  <reg name="mtval" bitsize="64"/>
+-  <reg name="mip" bitsize="64"/>
+-  <reg name="pmpcfg0" bitsize="64"/>
+-  <reg name="pmpcfg1" bitsize="64"/>
+-  <reg name="pmpcfg2" bitsize="64"/>
+-  <reg name="pmpcfg3" bitsize="64"/>
+-  <reg name="pmpaddr0" bitsize="64"/>
+-  <reg name="pmpaddr1" bitsize="64"/>
+-  <reg name="pmpaddr2" bitsize="64"/>
+-  <reg name="pmpaddr3" bitsize="64"/>
+-  <reg name="pmpaddr4" bitsize="64"/>
+-  <reg name="pmpaddr5" bitsize="64"/>
+-  <reg name="pmpaddr6" bitsize="64"/>
+-  <reg name="pmpaddr7" bitsize="64"/>
+-  <reg name="pmpaddr8" bitsize="64"/>
+-  <reg name="pmpaddr9" bitsize="64"/>
+-  <reg name="pmpaddr10" bitsize="64"/>
+-  <reg name="pmpaddr11" bitsize="64"/>
+-  <reg name="pmpaddr12" bitsize="64"/>
+-  <reg name="pmpaddr13" bitsize="64"/>
+-  <reg name="pmpaddr14" bitsize="64"/>
+-  <reg name="pmpaddr15" bitsize="64"/>
+-  <reg name="mcycle" bitsize="64"/>
+-  <reg name="minstret" bitsize="64"/>
+-  <reg name="mhpmcounter3" bitsize="64"/>
+-  <reg name="mhpmcounter4" bitsize="64"/>
+-  <reg name="mhpmcounter5" bitsize="64"/>
+-  <reg name="mhpmcounter6" bitsize="64"/>
+-  <reg name="mhpmcounter7" bitsize="64"/>
+-  <reg name="mhpmcounter8" bitsize="64"/>
+-  <reg name="mhpmcounter9" bitsize="64"/>
+-  <reg name="mhpmcounter10" bitsize="64"/>
+-  <reg name="mhpmcounter11" bitsize="64"/>
+-  <reg name="mhpmcounter12" bitsize="64"/>
+-  <reg name="mhpmcounter13" bitsize="64"/>
+-  <reg name="mhpmcounter14" bitsize="64"/>
+-  <reg name="mhpmcounter15" bitsize="64"/>
+-  <reg name="mhpmcounter16" bitsize="64"/>
+-  <reg name="mhpmcounter17" bitsize="64"/>
+-  <reg name="mhpmcounter18" bitsize="64"/>
+-  <reg name="mhpmcounter19" bitsize="64"/>
+-  <reg name="mhpmcounter20" bitsize="64"/>
+-  <reg name="mhpmcounter21" bitsize="64"/>
+-  <reg name="mhpmcounter22" bitsize="64"/>
+-  <reg name="mhpmcounter23" bitsize="64"/>
+-  <reg name="mhpmcounter24" bitsize="64"/>
+-  <reg name="mhpmcounter25" bitsize="64"/>
+-  <reg name="mhpmcounter26" bitsize="64"/>
+-  <reg name="mhpmcounter27" bitsize="64"/>
+-  <reg name="mhpmcounter28" bitsize="64"/>
+-  <reg name="mhpmcounter29" bitsize="64"/>
+-  <reg name="mhpmcounter30" bitsize="64"/>
+-  <reg name="mhpmcounter31" bitsize="64"/>
+-  <reg name="mcycleh" bitsize="64"/>
+-  <reg name="minstreth" bitsize="64"/>
+-  <reg name="mhpmcounter3h" bitsize="64"/>
+-  <reg name="mhpmcounter4h" bitsize="64"/>
+-  <reg name="mhpmcounter5h" bitsize="64"/>
+-  <reg name="mhpmcounter6h" bitsize="64"/>
+-  <reg name="mhpmcounter7h" bitsize="64"/>
+-  <reg name="mhpmcounter8h" bitsize="64"/>
+-  <reg name="mhpmcounter9h" bitsize="64"/>
+-  <reg name="mhpmcounter10h" bitsize="64"/>
+-  <reg name="mhpmcounter11h" bitsize="64"/>
+-  <reg name="mhpmcounter12h" bitsize="64"/>
+-  <reg name="mhpmcounter13h" bitsize="64"/>
+-  <reg name="mhpmcounter14h" bitsize="64"/>
+-  <reg name="mhpmcounter15h" bitsize="64"/>
+-  <reg name="mhpmcounter16h" bitsize="64"/>
+-  <reg name="mhpmcounter17h" bitsize="64"/>
+-  <reg name="mhpmcounter18h" bitsize="64"/>
+-  <reg name="mhpmcounter19h" bitsize="64"/>
+-  <reg name="mhpmcounter20h" bitsize="64"/>
+-  <reg name="mhpmcounter21h" bitsize="64"/>
+-  <reg name="mhpmcounter22h" bitsize="64"/>
+-  <reg name="mhpmcounter23h" bitsize="64"/>
+-  <reg name="mhpmcounter24h" bitsize="64"/>
+-  <reg name="mhpmcounter25h" bitsize="64"/>
+-  <reg name="mhpmcounter26h" bitsize="64"/>
+-  <reg name="mhpmcounter27h" bitsize="64"/>
+-  <reg name="mhpmcounter28h" bitsize="64"/>
+-  <reg name="mhpmcounter29h" bitsize="64"/>
+-  <reg name="mhpmcounter30h" bitsize="64"/>
+-  <reg name="mhpmcounter31h" bitsize="64"/>
+-  <reg name="mhpmevent3" bitsize="64"/>
+-  <reg name="mhpmevent4" bitsize="64"/>
+-  <reg name="mhpmevent5" bitsize="64"/>
+-  <reg name="mhpmevent6" bitsize="64"/>
+-  <reg name="mhpmevent7" bitsize="64"/>
+-  <reg name="mhpmevent8" bitsize="64"/>
+-  <reg name="mhpmevent9" bitsize="64"/>
+-  <reg name="mhpmevent10" bitsize="64"/>
+-  <reg name="mhpmevent11" bitsize="64"/>
+-  <reg name="mhpmevent12" bitsize="64"/>
+-  <reg name="mhpmevent13" bitsize="64"/>
+-  <reg name="mhpmevent14" bitsize="64"/>
+-  <reg name="mhpmevent15" bitsize="64"/>
+-  <reg name="mhpmevent16" bitsize="64"/>
+-  <reg name="mhpmevent17" bitsize="64"/>
+-  <reg name="mhpmevent18" bitsize="64"/>
+-  <reg name="mhpmevent19" bitsize="64"/>
+-  <reg name="mhpmevent20" bitsize="64"/>
+-  <reg name="mhpmevent21" bitsize="64"/>
+-  <reg name="mhpmevent22" bitsize="64"/>
+-  <reg name="mhpmevent23" bitsize="64"/>
+-  <reg name="mhpmevent24" bitsize="64"/>
+-  <reg name="mhpmevent25" bitsize="64"/>
+-  <reg name="mhpmevent26" bitsize="64"/>
+-  <reg name="mhpmevent27" bitsize="64"/>
+-  <reg name="mhpmevent28" bitsize="64"/>
+-  <reg name="mhpmevent29" bitsize="64"/>
+-  <reg name="mhpmevent30" bitsize="64"/>
+-  <reg name="mhpmevent31" bitsize="64"/>
+-  <reg name="tselect" bitsize="64"/>
+-  <reg name="tdata1" bitsize="64"/>
+-  <reg name="tdata2" bitsize="64"/>
+-  <reg name="tdata3" bitsize="64"/>
+-  <reg name="dcsr" bitsize="64"/>
+-  <reg name="dpc" bitsize="64"/>
+-  <reg name="dscratch" bitsize="64"/>
+-  <reg name="hstatus" bitsize="64"/>
+-  <reg name="hedeleg" bitsize="64"/>
+-  <reg name="hideleg" bitsize="64"/>
+-  <reg name="hie" bitsize="64"/>
+-  <reg name="htvec" bitsize="64"/>
+-  <reg name="hscratch" bitsize="64"/>
+-  <reg name="hepc" bitsize="64"/>
+-  <reg name="hcause" bitsize="64"/>
+-  <reg name="hbadaddr" bitsize="64"/>
+-  <reg name="hip" bitsize="64"/>
+-  <reg name="mbase" bitsize="64"/>
+-  <reg name="mbound" bitsize="64"/>
+-  <reg name="mibase" bitsize="64"/>
+-  <reg name="mibound" bitsize="64"/>
+-  <reg name="mdbase" bitsize="64"/>
+-  <reg name="mdbound" bitsize="64"/>
+-  <reg name="mucounteren" bitsize="64"/>
+-  <reg name="mscounteren" bitsize="64"/>
+-  <reg name="mhcounteren" bitsize="64"/>
+-</feature>
 -- 
 2.29.2
 
