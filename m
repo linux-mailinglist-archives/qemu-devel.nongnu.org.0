@@ -2,59 +2,59 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 503962F95A6
-	for <lists+qemu-devel@lfdr.de>; Sun, 17 Jan 2021 22:55:44 +0100 (CET)
-Received: from localhost ([::1]:43106 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A19D42F95AC
+	for <lists+qemu-devel@lfdr.de>; Sun, 17 Jan 2021 22:57:53 +0100 (CET)
+Received: from localhost ([::1]:50546 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l1G1P-0007Ov-DC
-	for lists+qemu-devel@lfdr.de; Sun, 17 Jan 2021 16:55:43 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59100)
+	id 1l1G3U-000224-JQ
+	for lists+qemu-devel@lfdr.de; Sun, 17 Jan 2021 16:57:52 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59106)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
  (envelope-from <prvs=64494dccb=alistair.francis@wdc.com>)
- id 1l1Fzx-0005hB-Nv
- for qemu-devel@nongnu.org; Sun, 17 Jan 2021 16:54:13 -0500
-Received: from esa5.hgst.iphmx.com ([216.71.153.144]:21687)
+ id 1l1Fzy-0005hk-2D
+ for qemu-devel@nongnu.org; Sun, 17 Jan 2021 16:54:15 -0500
+Received: from esa5.hgst.iphmx.com ([216.71.153.144]:21692)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
  (envelope-from <prvs=64494dccb=alistair.francis@wdc.com>)
- id 1l1Fzw-0005UJ-15
+ id 1l1Fzw-0005Ux-9A
  for qemu-devel@nongnu.org; Sun, 17 Jan 2021 16:54:13 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
  d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
  t=1610920452; x=1642456452;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=LPHatuc1HExLszmOMM95DV77X3WQJxDJU0s5O2Qiim8=;
- b=Qtuq6C4b5OJRU8pWue7CP7392XfXFkNgXrV2O/rwfauSPsZ37Yaeui+j
- U/gY3i3HtPk6U648aOJVI+4onehjptCZu211ueiu9Ho2xDCh/wdujqtmV
- YO2Us8/2BndYMY1rst1XHXBnS+9oHk+16RcdAfWhGNDYcFo9xgLrxBjcw
- g6ohbOKZdESqTBUDVFP/5mqe0+Kmm4sNqqnJkQ1qLm7YZDUZWx2LUCz70
- TppDW43JrbTmo5H8EdrFFNc6nNhPogJLNWAjq3uVKIer9lU0e/ZUkP6KP
- jOabqnAkPLPn5qsmZhpuvhc08r0WvGJRvL5zgB9PHJUNcdI5TAHLuRxFu A==;
-IronPort-SDR: cqP0B+TxGnSGyj731/3maUZCgUQyoD42fwTQIlEdngsYlI48BSrvXSF2YNPZlTebRW4e52MpaH
- gGr4ATwIp2+LI87nWcnr8jqQ8NRDyUGPPeRsSTid1cjlo7jHMTJs44KXCFW9cDOGt08Gs/dkWA
- UfvDsmHbdjCK8ESxvzPl5BV9rllPzxFphQGSBh7ZzQ4kjsrCLHoeBJwSzfoIHq2DLgZJ+mbLkj
- mCW5I0czKlzikp7NEbePE1qDueUmbItMqucd5Cx4pFhbQ6tgyG3xdWCAqaGB8RxpJstFmmXpR4
- 4ls=
-X-IronPort-AV: E=Sophos;i="5.79,355,1602518400"; d="scan'208";a="157645965"
+ bh=OyqeSrK4z3EFuRbBI4aHmMrvzd1dz/TK7VvfkMHCx74=;
+ b=Vm4wz+0cTkCNzT27QGytQiUx9ZtY0Lt9jkmeEvuV3mglri+JNfwSW1PF
+ +pNBi1J/wr/ke5NTRnuulBAPj944Bz6D6W6S79/hH3Jye1eAjs1kviRxg
+ FRLyUvWAHMenVPYIVxGM3D7THmsG842LIe/RjjFdRfW8+LJJuCGr37FNk
+ MkdYOhpymxXVXiG2O4q3TKwLuUZWSTdBMvSqfPNQMPkjIf2yeBLhvMvKu
+ b1/MmTusR5LyLJxglwoRQ8y/lu1DOVRDlUvqO65rlaEmU7LDYugWY3E/u
+ uGq4rKiaPEA/DgI/f4x5RpQ9X+5QCAQpqP3F3YXLLTbR9EKMmPG3McBxb w==;
+IronPort-SDR: oaDauIXVWrxrfA8M4VtiG/V932QsrSWVNdl1PAdwQMTClCvQZKJjoKlCKvONCBGs8DQBdtIEop
+ +EimJKcUIPcIpylMuuALfHBi6grLr0+w6RCKUJlKbRd0IWLnUgYpsV/dGqg5o6IkXYkXfjNQYf
+ +WDc21HzEd09s5kaXZOyuOgjOkQZ1eWc+xTcXgMjMdi/TD2S4oeVSK8jtJMfHSJrHi4wXIfDFE
+ yXzPOSb2oRlQ7CptBLUPSCqtXJKv/vUum4rn8YIu9y8ePPJDDKZTM/qliCfeWS5RStuFPMf/nP
+ aWY=
+X-IronPort-AV: E=Sophos;i="5.79,355,1602518400"; d="scan'208";a="157645966"
 Received: from uls-op-cesaip01.wdc.com (HELO uls-op-cesaep01.wdc.com)
  ([199.255.45.14])
  by ob1.hgst.iphmx.com with ESMTP; 18 Jan 2021 05:54:06 +0800
-IronPort-SDR: JHfC+4pmrL09DwZ2xZftUVrpPCtgLm3X8D/Y7t/PViPjBr500sMMaoCPU5wTZY1RtfuI+dDvjJ
- 2Ercj08NYP/iCt+9rFRyzPrJ5eWYS1keLZ3mGtYxGcSXZobSvhLvulAJL6ud6bGTV9uorKExLf
- kYdfxCjvk2njxNN5qFJQP3WIWBjoZze6couYhOUrwm442Yhvy9LfvowCPR0BP9zd/Snx3PJ2mo
- JPmn4mApbToCI2Asl15yFPFeGAU3sBaM2TXm5ooYWWJERPv2K1hhby+FhVq9NZpS0bfZmpgK1n
- BYeBKoQ99b2qdZCdrGyW/WuE
+IronPort-SDR: b0EytWAACbQJ1125opEEjxHbdXznI+YviRsUjjPzufMDD3IOSMK5dufz7HZT7cEg4D+0HGGBm0
+ rrt9dGYrLEvcb1KTb4rX/z244iy+UR7ot6/B2Ty+gAOU3fA/9lKJmoApo5dFziVMYJrdVPMGn3
+ EH1uPDG0HNzTtsUsGM/N6mry6wfnZnSytwAFHukDeQ0SebvAwbJU00DeISfbxKqyAK5ZfKNR59
+ tRlxfM3gh6vschzUcWfO7MkuBJBK6jgNJhP6+Lm5v8IjaCmvPULsnFNmjYHZaDjoDzKLBovU6A
+ RiVh4m89yRJ9C2o2VM/4KrYZ
 Received: from uls-op-cesaip01.wdc.com ([10.248.3.36])
  by uls-op-cesaep01.wdc.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
  17 Jan 2021 13:38:45 -0800
-IronPort-SDR: zW7bMo7S6XPG1ric94Ag67aoDxrl6GPv0qE8m4u11/CkU2AxErwmo9Ikl+TMDIB3MH5BTYPgO0
- 62GjhC966kIqJDps5vh8ftde150JGPszZlLwM07/2jZyOvHqUk7l72MLALs7ePVyxzV8zbeo0k
- xHnfgJ6wDUo70DziVsEpM3EhVqHivqzEFsKHqUhELardi7syzbesoUd3irrgZ+qDnz19n95F4S
- WYQwCTEQ796NlXsDF/5o+Od24eSn+w26nKKiYWNzXqiTj52NQQNDffZEhEo2RsnW/L1wu8F1r+
- lMo=
+IronPort-SDR: 3uOnDKeC9eNnzcgt5wLWts8Y1fxsmGnzvCab8ddZJM4qd2KtktcpKkMw3qD2JNRKw0dL7mt64v
+ +b4+L17I53YVsoTe4CreqjqGRy8JQJNl1tYEf2F5j7ioMADWTLhvGIGfwpiwnqx4XFeVcNUDDR
+ jLXow+OVpfaoYEK6UVIrm3SERBKMlNb92luItsR8oSUVoyWw74a8pmFUYa5bNvbdy5qB2/UdYd
+ Qzh5Se7VsThbAvNqgckbD4xOGOjTK20crR8avwenQLWGOIN/wmmRzUFTenJ4a8GEk/0YBZOrLr
+ 9xA=
 WDCIronportException: Internal
 Received: from 7l95g12.ad.shared (HELO risc6-mainframe.hgst.com)
  ([10.86.62.251])
@@ -62,9 +62,10 @@ Received: from 7l95g12.ad.shared (HELO risc6-mainframe.hgst.com)
 From: Alistair Francis <alistair.francis@wdc.com>
 To: peter.maydell@linaro.org,
 	qemu-devel@nongnu.org
-Subject: [PULL 04/12] RISC-V: Place DTB at 3GB boundary instead of 4GB
-Date: Sun, 17 Jan 2021 13:53:55 -0800
-Message-Id: <20210117215403.2277103-5-alistair.francis@wdc.com>
+Subject: [PULL 05/12] target/riscv/pmp: Raise exception if no PMP entry is
+ configured
+Date: Sun, 17 Jan 2021 13:53:56 -0800
+Message-Id: <20210117215403.2277103-6-alistair.francis@wdc.com>
 X-Mailer: git-send-email 2.29.2
 In-Reply-To: <20210117215403.2277103-1-alistair.francis@wdc.com>
 References: <20210117215403.2277103-1-alistair.francis@wdc.com>
@@ -92,53 +93,75 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Atish Patra <atish.patra@wdc.com>, Bin Meng <bin.meng@windriver.com>,
+Cc: Atish Patra <atish.patra@wdc.com>,
  Alistair Francis <alistair.francis@wdc.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Atish Patra <atish.patra@wdc.com>
 
-Currently, we place the DTB at 2MB from 4GB or end of DRAM which ever is
-lesser. However, Linux kernel can address only 1GB of memory for RV32.
-Thus, it can not map anything beyond 3GB (assuming 2GB is the starting address).
-As a result, it can not process DT and panic if opensbi dynamic firmware
-is used. While at it, place the DTB further away to avoid in memory placement
-issues in future.
+As per the privilege specification, any access from S/U mode should fail
+if no pmp region is configured.
 
-Fix this by placing the DTB at 16MB from 3GB or end of DRAM whichever is lower.
-
-Fixes: 66b1205bc5ab ("RISC-V: Copy the fdt in dram instead of ROM")
-
-Reviewed-by: Bin Meng <bin.meng@windriver.com>
-Tested-by: Bin Meng <bin.meng@windriver.com>
 Signed-off-by: Atish Patra <atish.patra@wdc.com>
-Message-id: 20210107091127.3407870-1-atish.patra@wdc.com
+Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
+Message-id: 20201223192553.332508-1-atish.patra@wdc.com
 Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
 ---
- hw/riscv/boot.c | 8 ++++----
- 1 file changed, 4 insertions(+), 4 deletions(-)
+ target/riscv/pmp.h       | 1 +
+ target/riscv/op_helper.c | 5 +++++
+ target/riscv/pmp.c       | 4 ++--
+ 3 files changed, 8 insertions(+), 2 deletions(-)
 
-diff --git a/hw/riscv/boot.c b/hw/riscv/boot.c
-index 83586aef41..10a601b4dc 100644
---- a/hw/riscv/boot.c
-+++ b/hw/riscv/boot.c
-@@ -194,11 +194,11 @@ uint32_t riscv_load_fdt(hwaddr dram_base, uint64_t mem_size, void *fdt)
-     /*
-      * We should put fdt as far as possible to avoid kernel/initrd overwriting
-      * its content. But it should be addressable by 32 bit system as well.
--     * Thus, put it at an aligned address that less than fdt size from end of
--     * dram or 4GB whichever is lesser.
-+     * Thus, put it at an 16MB aligned address that less than fdt size from the
-+     * end of dram or 3GB whichever is lesser.
-      */
--    temp = MIN(dram_end, 4096 * MiB);
--    fdt_addr = QEMU_ALIGN_DOWN(temp - fdtsize, 2 * MiB);
-+    temp = MIN(dram_end, 3072 * MiB);
-+    fdt_addr = QEMU_ALIGN_DOWN(temp - fdtsize, 16 * MiB);
+diff --git a/target/riscv/pmp.h b/target/riscv/pmp.h
+index 6c6b4c9bef..c8d5ef4a69 100644
+--- a/target/riscv/pmp.h
++++ b/target/riscv/pmp.h
+@@ -64,5 +64,6 @@ bool pmp_is_range_in_tlb(CPURISCVState *env, hwaddr tlb_sa,
+                          target_ulong *tlb_size);
+ void pmp_update_rule_addr(CPURISCVState *env, uint32_t pmp_index);
+ void pmp_update_rule_nums(CPURISCVState *env);
++uint32_t pmp_get_num_rules(CPURISCVState *env);
  
-     fdt_pack(fdt);
-     /* copy in the device tree */
+ #endif
+diff --git a/target/riscv/op_helper.c b/target/riscv/op_helper.c
+index d55def76cf..1eddcb94de 100644
+--- a/target/riscv/op_helper.c
++++ b/target/riscv/op_helper.c
+@@ -150,6 +150,11 @@ target_ulong helper_mret(CPURISCVState *env, target_ulong cpu_pc_deb)
+ 
+     uint64_t mstatus = env->mstatus;
+     target_ulong prev_priv = get_field(mstatus, MSTATUS_MPP);
++
++    if (!pmp_get_num_rules(env) && (prev_priv != PRV_M)) {
++        riscv_raise_exception(env, RISCV_EXCP_ILLEGAL_INST, GETPC());
++    }
++
+     target_ulong prev_virt = get_field(env->mstatus, MSTATUS_MPV);
+     mstatus = set_field(mstatus, MSTATUS_MIE,
+                         get_field(mstatus, MSTATUS_MPIE));
+diff --git a/target/riscv/pmp.c b/target/riscv/pmp.c
+index 2eda8e1e2f..80d0334e1b 100644
+--- a/target/riscv/pmp.c
++++ b/target/riscv/pmp.c
+@@ -74,7 +74,7 @@ static inline int pmp_is_locked(CPURISCVState *env, uint32_t pmp_index)
+ /*
+  * Count the number of active rules.
+  */
+-static inline uint32_t pmp_get_num_rules(CPURISCVState *env)
++uint32_t pmp_get_num_rules(CPURISCVState *env)
+ {
+      return env->pmp_state.num_rules;
+ }
+@@ -237,7 +237,7 @@ bool pmp_hart_has_privs(CPURISCVState *env, target_ulong addr,
+ 
+     /* Short cut if no rules */
+     if (0 == pmp_get_num_rules(env)) {
+-        return true;
++        return (env->priv == PRV_M) ? true : false;
+     }
+ 
+     if (size == 0) {
 -- 
 2.29.2
 
