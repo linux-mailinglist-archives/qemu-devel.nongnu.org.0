@@ -2,70 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D76E82F94FB
-	for <lists+qemu-devel@lfdr.de>; Sun, 17 Jan 2021 20:46:39 +0100 (CET)
-Received: from localhost ([::1]:36136 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 645812F94FE
+	for <lists+qemu-devel@lfdr.de>; Sun, 17 Jan 2021 20:48:16 +0100 (CET)
+Received: from localhost ([::1]:39666 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l1E0U-0002yR-V3
-	for lists+qemu-devel@lfdr.de; Sun, 17 Jan 2021 14:46:38 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58296)
+	id 1l1E23-0004Xo-G7
+	for lists+qemu-devel@lfdr.de; Sun, 17 Jan 2021 14:48:15 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58330)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1l1Dh1-00007H-LL; Sun, 17 Jan 2021 14:26:31 -0500
-Received: from mail-wr1-x435.google.com ([2a00:1450:4864:20::435]:40427)
+ id 1l1Dh6-0000Gr-OT; Sun, 17 Jan 2021 14:26:37 -0500
+Received: from mail-wr1-x42c.google.com ([2a00:1450:4864:20::42c]:40419)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1l1Dgz-0005Z8-R1; Sun, 17 Jan 2021 14:26:31 -0500
-Received: by mail-wr1-x435.google.com with SMTP id 91so14459064wrj.7;
- Sun, 17 Jan 2021 11:26:29 -0800 (PST)
+ id 1l1Dh5-0005bA-AT; Sun, 17 Jan 2021 14:26:36 -0500
+Received: by mail-wr1-x42c.google.com with SMTP id 91so14459156wrj.7;
+ Sun, 17 Jan 2021 11:26:34 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=sLzS9Bs5+OgQ/PoK/Es1Ix8oJMDYYC+sg+uBbYc2jF4=;
- b=CkwMsV8INxC6IbZrpQSLWtqkYM7Lrst93pFDrrc3JrCNpyl8DEtgIQRIklY4zeLfhI
- yXFPy4lMl4WV92ZnEdFZvwSS/hHcJ8PznnYo9IrN4tZz9iVrWbilg4pN3Mo7HFefVzT4
- z/aybAzi/R5NF6BQ5rPc7h1KyRFdiRHhCHZvo65slVvfl3OW+0ilZcnHTg6a2G+sHcok
- n17dBnJhF6oRK3A3+h28snY7ClgEiKLuoa7FsnKBDQ4tDr9njcijK8/E/wxwy84l+LZB
- eXRJu8NLo6kjCugqwFJICAkikVgZn2rwDx3ndHgvbski6Ayk5W4o70rkLtpwTNf3k2Pv
- PlkA==
+ bh=cQ7WuH65hManE2WTAsW8tOQLREFQZ7ZlBTq/RCNJDW0=;
+ b=JVwXzyhxfwZ0PfTAO21ov55DvH4NurMxFuxYYskpxXRWpJ5OgzEF+m6pBPZL+aJssr
+ rDHVXdKh0nM+GSV1JvyKTpCWg9JUEFk8k28CQ5O4bHDM2uH0S9CHS/odVO9PKWtWTVFA
+ /mK61ANrkf9p/Aox3nkyVxxu+2rpdpW4DNZIUDeHJgbYFKwM3Gl373e9YWZgg4TD6X8C
+ IN1BMR8bvV3CochTmOSOSiDmQm4zjCMYWv+ArKTDNPxUBUW1g8hlcL78zKAZAWCkzQqL
+ zWzkFgXamnC8XE1TjDmvlfyYoqLPjDq8jVwymbn7lT+XZNmGkIzBK1RJPYzwj14UqUfj
+ ykNQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=sLzS9Bs5+OgQ/PoK/Es1Ix8oJMDYYC+sg+uBbYc2jF4=;
- b=iHJQwQBbiMqjLlt82Bb0DLY+Sz2xrxFbuciWx0gfcIUYIMUc4A4KT3uYuoi8Z/YZ6+
- U/OkgGU0//9bx57BOQCNXRfgEy75XJNwbY/+6NEXR5vyEJOuO5wnpbGWnWN4c8J0o2pT
- 31PnNIet/AEMc0DcHibHWC1MOmuPaxHcebS4MBTY156GutQYp/QObLj1khgn0sjlvnhy
- szojsNthWVdgSJC55ZalK9kHYahSMBAm6Z9fOK1SDZQS4ZQ738JYCLtXbG8iiD1c5yCy
- UhodwBOsTh7GNsbYysbrhRNdbia7ANsCQXRLr5YASCPUw/CrYSCd8iGiNzp6IWSMAykj
- z7kA==
-X-Gm-Message-State: AOAM533DE9AATkUHM73MjGAAFHyJNcJUuF+1/TexPJwMJgmlUUNQAGgT
- af3KS70TwienHkdG8XZfVsQ=
-X-Google-Smtp-Source: ABdhPJxWrf+AFOLydS3QL/cdCmgoG08Uh/rSVPpDcMqUO7MHLHlm/zfTafxeQ0CNyCiIKJf+lJj5Eg==
-X-Received: by 2002:a05:6000:1565:: with SMTP id
- 5mr23155649wrz.109.1610911588342; 
- Sun, 17 Jan 2021 11:26:28 -0800 (PST)
+ bh=cQ7WuH65hManE2WTAsW8tOQLREFQZ7ZlBTq/RCNJDW0=;
+ b=om5QYKqOt14KHXrevv7BGUCU+XwZfYjNWi9DxftWKojRa1qmluHnNcmh0oVWEQ5VmA
+ T7xwosWEjKIQkVAIjpIuhwNMupZjhepifJoZd/IeAcGk2EpHGJQpbULQjvo51Pqq65go
+ eodGpYUJ3E/Vkjy7uogHNK0806dOUrQxhpOFuLzULzbk8bzbkgbQOuojQWe7U+BO+SxK
+ CM8siQYkrLW1pWOtahYlOafhHCMbWZHWRkpWOyH0KDyROGQK6q/QNZ/my2ZqWN1UMt/g
+ dR2PryudHBowUeEdLjokZtkVcntv/AfI5gP00haPD1wPSxxMRsuUWtaVA62N5Lx7AdHF
+ wXwQ==
+X-Gm-Message-State: AOAM531nlv4UK44IvZVShG5RBg1+2LFHVZvYseSBrEgHiYFmqJGYQn13
+ TUF0GHlqJ2Cvr1Mi81LWyBc=
+X-Google-Smtp-Source: ABdhPJw0affoOQBd3BXv6ayluNOZxyQlytCo+1A20sV29BzouOR7ewU9Q8FY0mIPS4j8uDKHxbwQCg==
+X-Received: by 2002:adf:d0d0:: with SMTP id z16mr22876173wrh.209.1610911593569; 
+ Sun, 17 Jan 2021 11:26:33 -0800 (PST)
 Received: from localhost.localdomain (13.red-83-57-169.dynamicip.rima-tde.net.
  [83.57.169.13])
- by smtp.gmail.com with ESMTPSA id z3sm25943380wrn.59.2021.01.17.11.26.26
+ by smtp.gmail.com with ESMTPSA id v11sm24403198wrt.25.2021.01.17.11.26.32
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 17 Jan 2021 11:26:27 -0800 (PST)
+ Sun, 17 Jan 2021 11:26:32 -0800 (PST)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 To: "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
 	qemu-devel@nongnu.org
-Subject: [RFC PATCH v2 18/20] hw/core/qdev: Display warning for devices
- missing migration state
-Date: Sun, 17 Jan 2021 20:24:44 +0100
-Message-Id: <20210117192446.23753-19-f4bug@amsat.org>
+Subject: [RFC PATCH v2 19/20] stubs/vmstate: Add VMSTATE_END_OF_LIST to
+ vmstate_user_mode_cpu_dummy
+Date: Sun, 17 Jan 2021 20:24:45 +0100
+Message-Id: <20210117192446.23753-20-f4bug@amsat.org>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20210117192446.23753-1-f4bug@amsat.org>
 References: <20210117192446.23753-1-f4bug@amsat.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::435;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x435.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::42c;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x42c.google.com
 X-Spam_score_int: -14
 X-Spam_score: -1.5
 X-Spam_bar: -
@@ -100,109 +99,32 @@ Cc: Peter Maydell <peter.maydell@linaro.org>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-When built with --enable-qdev-debug, QEMU displays warnings
-listing devices missing migration state:
+Add a name and end marker to the vmstate_user_mode_cpu_dummy variable.
 
-  $ qemu-system-arm -S -M spitz
-  qemu-system-arm: warning: missing migration state for type: 'pxa270-c0-arm-cpu'
-  qemu-system-arm: warning: missing migration state for type: 'serial'
-  qemu-system-arm: warning: missing migration state for type: 'pxa2xx-pcmcia'
-  qemu-system-arm: warning: missing migration state for type: 'pxa2xx-pcmcia'
-  qemu-system-arm: warning: missing migration state for type: 'pxa2xx-i2c-slave'
-  qemu-system-arm: warning: missing migration state for type: 'pxa2xx-i2c-slave'
-  qemu-system-arm: warning: missing migration state for type: 'ads7846'
-  qemu-system-arm: warning: missing migration state for type: 'max1111'
-
+Reported-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
 Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 ---
-Unresolved issue:
+ stubs/vmstate.c | 7 ++++++-
+ 1 file changed, 6 insertions(+), 1 deletion(-)
 
-https://www.mail-archive.com/qemu-devel@nongnu.org/msg721700.html
-Peter:
-> I think where we'd like to get to is installing a migration
-> blocker if the machine has any devices which don't have a vmsd.
-> But for that we'd need to be pretty sure we'd got all the devices
-> on machines where we care about migration, and we're clearly a
-> fair way from that (eg we need to do something about the
-> devices like the CPU which don't have a vmsd but handle their
-> migration some other way so they don't trigger the condition
-> for warning/migration-blocker).
----
- configure      | 10 ++++++++++
- meson.build    |  1 +
- hw/core/qdev.c |  5 +++++
- 3 files changed, 16 insertions(+)
-
-diff --git a/configure b/configure
-index 155dda124c2..984befbb99d 100755
---- a/configure
-+++ b/configure
-@@ -383,6 +383,7 @@ blobs="true"
- pkgversion=""
- pie=""
- qom_cast_debug="yes"
-+qdev_debug="no"
- trace_backends="log"
- trace_file="trace"
- spice="$default_feature"
-@@ -1005,6 +1006,10 @@ for opt do
-   ;;
-   --enable-qom-cast-debug) qom_cast_debug="yes"
-   ;;
-+  --disable-qdev-debug) qdev_debug="no"
-+  ;;
-+  --enable-qdev-debug) qdev_debug="yes"
-+  ;;
-   --disable-virtfs) virtfs="disabled"
-   ;;
-   --enable-virtfs) virtfs="enabled"
-@@ -1048,6 +1053,7 @@ for opt do
-       debug="yes"
-       strip_opt="no"
-       fortify_source="no"
-+      qdev_debug="yes"
-   ;;
-   --enable-sanitizers) sanitizers="yes"
-   ;;
-@@ -5912,6 +5918,10 @@ if test "$qom_cast_debug" = "yes" ; then
-   echo "CONFIG_QOM_CAST_DEBUG=y" >> $config_host_mak
- fi
+diff --git a/stubs/vmstate.c b/stubs/vmstate.c
+index f561f9f39bd..1d0e03e233b 100644
+--- a/stubs/vmstate.c
++++ b/stubs/vmstate.c
+@@ -2,7 +2,12 @@
+ #include "migration/vmstate.h"
  
-+if test "$qdev_debug" = "yes" ; then
-+  echo "CONFIG_QDEV_DEBUG=y" >> $config_host_mak
-+fi
-+
- echo "CONFIG_COROUTINE_BACKEND=$coroutine" >> $config_host_mak
- if test "$coroutine_pool" = "yes" ; then
-   echo "CONFIG_COROUTINE_POOL=1" >> $config_host_mak
-diff --git a/meson.build b/meson.build
-index 3d889857a09..545c8f9f88b 100644
---- a/meson.build
-+++ b/meson.build
-@@ -2472,6 +2472,7 @@
- summary_info += {'TPM support':       config_host.has_key('CONFIG_TPM')}
- summary_info += {'libssh support':    config_host.has_key('CONFIG_LIBSSH')}
- summary_info += {'QOM debugging':     config_host.has_key('CONFIG_QOM_CAST_DEBUG')}
-+summary_info += {'QDEV debugging':    config_host.has_key('CONFIG_QDEV_DEBUG')}
- summary_info += {'Live block migration': config_host.has_key('CONFIG_LIVE_BLOCK_MIGRATION')}
- summary_info += {'lzo support':       lzo.found()}
- summary_info += {'snappy support':    snappy.found()}
-diff --git a/hw/core/qdev.c b/hw/core/qdev.c
-index f0d0afd438d..9a73a242fa4 100644
---- a/hw/core/qdev.c
-+++ b/hw/core/qdev.c
-@@ -792,6 +792,11 @@ static void device_set_realized(Object *obj, bool value, Error **errp)
-                                                &local_err) < 0) {
-                 goto post_realize_fail;
-             }
-+        } else {
-+#ifdef CONFIG_QDEV_DEBUG
-+            warn_report("missing migration state for type: '%s'",
-+                        object_get_typename(OBJECT(dev)));
-+#endif
-         }
+ #if defined(CONFIG_USER_ONLY)
+-const VMStateDescription vmstate_user_mode_cpu_dummy = {};
++const VMStateDescription vmstate_user_mode_cpu_dummy = {
++    .name = "cpu_common_user",
++    .fields = (VMStateField[]) {
++        VMSTATE_END_OF_LIST()
++    },
++};
+ #endif
  
-         /*
+ const VMStateDescription vmstate_no_state_to_migrate = {
 -- 
 2.26.2
 
