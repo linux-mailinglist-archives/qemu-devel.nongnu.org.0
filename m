@@ -2,67 +2,87 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 94DD22F9550
-	for <lists+qemu-devel@lfdr.de>; Sun, 17 Jan 2021 22:02:55 +0100 (CET)
-Received: from localhost ([::1]:59294 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 055C32F95A3
+	for <lists+qemu-devel@lfdr.de>; Sun, 17 Jan 2021 22:55:42 +0100 (CET)
+Received: from localhost ([::1]:42798 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l1FCI-0003VE-63
-	for lists+qemu-devel@lfdr.de; Sun, 17 Jan 2021 16:02:54 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45742)
+	id 1l1G1M-0007HO-Gv
+	for lists+qemu-devel@lfdr.de; Sun, 17 Jan 2021 16:55:40 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59008)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1l1FAP-0002R5-CG
- for qemu-devel@nongnu.org; Sun, 17 Jan 2021 16:00:58 -0500
-Received: from indium.canonical.com ([91.189.90.7]:49474)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1l1FAD-0003Jr-Pe
- for qemu-devel@nongnu.org; Sun, 17 Jan 2021 16:00:57 -0500
-Received: from loganberry.canonical.com ([91.189.90.37])
- by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1l1FAB-00085d-I6
- for <qemu-devel@nongnu.org>; Sun, 17 Jan 2021 21:00:43 +0000
-Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 6AA8C2E813B
- for <qemu-devel@nongnu.org>; Sun, 17 Jan 2021 21:00:43 +0000 (UTC)
+ (Exim 4.90_1)
+ (envelope-from <prvs=64494dccb=alistair.francis@wdc.com>)
+ id 1l1Fzu-0005dX-GN
+ for qemu-devel@nongnu.org; Sun, 17 Jan 2021 16:54:10 -0500
+Received: from esa5.hgst.iphmx.com ([216.71.153.144]:21685)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1)
+ (envelope-from <prvs=64494dccb=alistair.francis@wdc.com>)
+ id 1l1Fzs-0005UE-8N
+ for qemu-devel@nongnu.org; Sun, 17 Jan 2021 16:54:10 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
+ d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
+ t=1610920448; x=1642456448;
+ h=from:to:cc:subject:date:message-id:mime-version:
+ content-transfer-encoding;
+ bh=/NUraJuwALU3et2WWDshPaN7o1IjIklJQ//folpGy4Y=;
+ b=qrmkdwpLq017wTDpm6fycUjlFduY5QCCKbaeBOjUhTXoCwu5e/MOIsrS
+ Ol/Wsx+I6lXJGSnBh8v9L69Hc2vB0i0pH3HUa5gc7zuXP0kDNI688XusW
+ JsCI/uubxr51jvBogUQekjf2fXhZH0GQbfBN8zouJuHPQ8jxQIAX/vds3
+ IXgxweWO2xf+jYXBVUWN1fX3plCEZbpUS0SPW29h8PB34UjXtwRlT6m1m
+ OKvL5aIxaWoaPOJkw03ihMi8ndtPeKbTjdHW5KLXCrPYAIjt6Fe0URri/
+ tGNWjvBgYHl3RivNrP3L+//lkCb9xSiMQFVKb2HWXNOMes+8QD6I8By/4 g==;
+IronPort-SDR: 5yojTRu39K0fz86MYFZ/Y3136ptrl6A4fHwbTUeOJD9Vnebd4CfHXsgy53Y9/h5K8lbThMrgRz
+ b0fY+VYobeawXHxtawDkV9RyB8Vv9L43MMYCBxUDf8c/0ggx2c+rjkijZxXZHCVAARwEKtHlPL
+ 0sQcHe5WV5rCsV9PHVhslol/nAbgYVXwr0cbNJZk2Wbi9Q2v2gC4seNNIK7OtmFqCeDDhtB7J+
+ FOZwC1j5+xlcG+0PCCgq+LzALcfvGil2Qt2YovoLf/T8YLu0r0msUsVQGGr1Ma3BUiry4KJWhf
+ Xsw=
+X-IronPort-AV: E=Sophos;i="5.79,355,1602518400"; d="scan'208";a="157645957"
+Received: from uls-op-cesaip01.wdc.com (HELO uls-op-cesaep01.wdc.com)
+ ([199.255.45.14])
+ by ob1.hgst.iphmx.com with ESMTP; 18 Jan 2021 05:54:05 +0800
+IronPort-SDR: im3J+WkhP1Fq770CtvcCURmndDR2ccXteZL2UA3YK143Ho4FLr+XVtRZKcX0Bck7JrZFHrc1gL
+ tvkYUnbZDsLTvNIwzpDGdCHWcv7mMM9r/Kj2C3dWWLgMP8qUBjeMjRkHeMx6s80heBfLmfF0Gn
+ 7JLsZIah88aMj0FPx9yY8lZj5zmaWUJ/nlKMsLVdTNS3ntI1DSYgrOdYxH27CsBzy7rp3nQycd
+ jWVbQJI9msnAfFURpq9EFOAJR//01xIGkeS8VbMG72LEMa/n1+SgGwlMnKpqEqZsdVUWwQLEaf
+ mD9XkRActGtK7FsfONYbvxli
+Received: from uls-op-cesaip01.wdc.com ([10.248.3.36])
+ by uls-op-cesaep01.wdc.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 17 Jan 2021 13:38:44 -0800
+IronPort-SDR: KTirKQuQX7efOyGqQp9hIdXLwEuievoWRSYIXyrpsel6USbusHjNCd9MLjoJOor2YxW6lnfx4j
+ s98Vqyw/x269VBBVgPyxXumNZviPbE9s5njCqvnFJST2ArUP1CPGeK+CVXJwkmlJgwf0snyFSZ
+ J4aFbUW5+01CQn11RlzicBhdF13g31hiheCs/pnu61vq6NZEZmgJPUMA5uFasEIDvQTXiX56hu
+ pveNaE2czo6QNxR6QUhKLcnlhMH37cY5XvDOnSQotxKuNiwjiyXZ9o7kMCkMXjf1tXVGRQHZxH
+ x/M=
+WDCIronportException: Internal
+Received: from 7l95g12.ad.shared (HELO risc6-mainframe.hgst.com)
+ ([10.86.62.251])
+ by uls-op-cesaip01.wdc.com with ESMTP; 17 Jan 2021 13:54:05 -0800
+From: Alistair Francis <alistair.francis@wdc.com>
+To: peter.maydell@linaro.org,
+	qemu-devel@nongnu.org
+Subject: [PULL 00/12] riscv-to-apply queue
+Date: Sun, 17 Jan 2021 13:53:51 -0800
+Message-Id: <20210117215403.2277103-1-alistair.francis@wdc.com>
+X-Mailer: git-send-email 2.29.2
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-Date: Sun, 17 Jan 2021 20:52:48 -0000
-From: Richard Henderson <1912065@bugs.launchpad.net>
-To: qemu-devel@nongnu.org
-X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=In Progress; importance=Undecided;
- assignee=rth@twiddle.net; 
-X-Launchpad-Bug-Information-Type: Public
-X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: balaton-4 harrysintonen
-X-Launchpad-Bug-Reporter: Harry Sintonen (harrysintonen)
-X-Launchpad-Bug-Modifier: Richard Henderson (rth)
-References: <161081817733.30007.5357056175605529567.malonedeb@chaenomeles.canonical.com>
-Message-Id: <161091677128.30791.1750049028686968999.launchpad@chaenomeles.canonical.com>
-Subject: [Bug 1912065] Re: Segfaults in tcg/optimize.c:212 after commit
- 7c79721606be11b5bc556449e5bcbc331ef6867d
-X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
-X-Launchpad-Message-For: qemu-devel-ml
-Precedence: bulk
-X-Generated-By: Launchpad (canonical.com);
- Revision="511b4a3b6512aa3d421c5f7d74f3527e78bff26e"; Instance="production"
-X-Launchpad-Hash: 377ba4b2b2078f66df671c6f40b66e1181e2bce0
-Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
- helo=indium.canonical.com
-X-Spam_score_int: -66
-X-Spam_score: -6.7
-X-Spam_bar: ------
-X-Spam_report: (-6.7 / 5.0 requ) BAYES_00=-1.9,
- HEADER_FROM_DIFFERENT_DOMAINS=0.25, RCVD_IN_DNSWL_HI=-5,
- RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=216.71.153.144;
+ envelope-from=prvs=64494dccb=alistair.francis@wdc.com;
+ helo=esa5.hgst.iphmx.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
+X-Spam_bar: --
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_PASS=-0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -71,73 +91,78 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1912065 <1912065@bugs.launchpad.net>
+Cc: Alistair Francis <alistair.francis@wdc.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-** Changed in: qemu
-       Status: New =3D> In Progress
+The following changes since commit 825a215c003cd028e26c7d19aa5049d957345f43:
 
-** Changed in: qemu
-     Assignee: (unassigned) =3D> Richard Henderson (rth)
+  Merge remote-tracking branch 'remotes/kraxel/tags/audio-20210115-pull-request' into staging (2021-01-15 22:21:21 +0000)
 
--- =
+are available in the Git repository at:
 
-You received this bug notification because you are a member of qemu-
-devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1912065
+  git@github.com:alistair23/qemu.git tags/pull-riscv-to-apply-20210117-3
 
-Title:
-  Segfaults in tcg/optimize.c:212 after commit
-  7c79721606be11b5bc556449e5bcbc331ef6867d
+for you to fetch changes up to a8259b53230782f5e0a0d66013655c4ed5d71b7e:
 
-Status in QEMU:
-  In Progress
+  riscv: Pass RISCVHartArrayState by pointer (2021-01-16 14:34:46 -0800)
 
-Bug description:
-  QEMU segfaults to NULL dereference in tcg/optimize.c:212 semi-randomly
-  after commit 7c79721606be11b5bc556449e5bcbc331ef6867d
+----------------------------------------------------------------
+First RISC-V PR for 6.0
 
-  Exception Type:        EXC_BAD_ACCESS (SIGSEGV)
-  Exception Codes:       KERN_INVALID_ADDRESS at 0x0000000000000020
-  Exception Note:        EXC_CORPSE_NOTIFY
+This PR:
+ - Fixes some issues with the m25p80
+ - Improves GDB support for RISC-V
+ - Fixes some Linux boot issues, specifiaclly 32-bit boot failures
+ - Enforces PMP exceptions correctly
+ - Fixes some Coverity issues
 
-  ...
+----------------------------------------------------------------
+Alistair Francis (1):
+      riscv: Pass RISCVHartArrayState by pointer
 
-  Thread 4 Crashed:
-  0   qemu-system-ppc               	0x0000000109cd26d2 tcg_opt_gen_mov + 1=
-78 (optimize.c:212)
-  1   qemu-system-ppc               	0x0000000109ccf838 tcg_optimize + 5656
-  2   qemu-system-ppc               	0x0000000109c27600 tcg_gen_code + 64 (=
-tcg.c:4490)
-  3   qemu-system-ppc               	0x0000000109c17b6d tb_gen_code + 493 (=
-translate-all.c:1952)
-  4   qemu-system-ppc               	0x0000000109c16085 tb_find + 41 (cpu-e=
-xec.c:454) [inlined]
-  5   qemu-system-ppc               	0x0000000109c16085 cpu_exec + 2117 (cp=
-u-exec.c:810)
-  6   qemu-system-ppc               	0x0000000109c09ac3 tcg_cpus_exec + 35 =
-(tcg-cpus.c:57)
-  7   qemu-system-ppc               	0x0000000109c75edd rr_cpu_thread_fn + =
-445 (tcg-cpus-rr.c:217)
-  8   qemu-system-ppc               	0x0000000109e41fae qemu_thread_start +=
- 126 (qemu-thread-posix.c:521)
-  9   libsystem_pthread.dylib       	0x00007fff2038e950 _pthread_start + 224
-  10  libsystem_pthread.dylib       	0x00007fff2038a47b thread_start + 15
+Atish Patra (2):
+      RISC-V: Place DTB at 3GB boundary instead of 4GB
+      target/riscv/pmp: Raise exception if no PMP entry is configured
 
-  Here the crash is in tcg/optimize.c line 212:
+Bin Meng (6):
+      hw/block: m25p80: Don't write to flash if write is disabled
+      hw/riscv: sifive_u: Use SIFIVE_U_CPU for mc->default_cpu_type
+      target/riscv: Make csr_ops[CSR_TABLE_SIZE] external
+      target/riscv: Add CSR name in the CSR function table
+      target/riscv: Generate the GDB XML file for CSR registers dynamically
+      target/riscv: Remove built-in GDB XML files for CSRs
 
-    mask =3D si->mask;
+Green Wan (1):
+      hw/misc/sifive_u_otp: handling the fails of blk_pread and blk_pwrite
 
-  "si" is NULL. The NULL value arises from tcg/optimize.c line 198:
+Sylvain Pelissier (1):
+      gdb: riscv: Add target description
 
-   si =3D ts_info(src_ts);
+Xuzhou Cheng (1):
+      hw/block: m25p80: Implement AAI-WP command support for SST flashes
 
-  I did not attempt to determine the root cause of this issue, however.
-  It clearly is related to the "tcg/optimize" changes in this commit.
-  The previous commit c0dd6654f207810b16a75b673258f5ce2ceffbf0 doesn't
-  crash.
-
-To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1912065/+subscriptions
+ default-configs/targets/riscv32-linux-user.mak |   2 +-
+ default-configs/targets/riscv32-softmmu.mak    |   2 +-
+ default-configs/targets/riscv64-linux-user.mak |   2 +-
+ default-configs/targets/riscv64-softmmu.mak    |   2 +-
+ include/hw/riscv/boot.h                        |   6 +-
+ target/riscv/cpu.h                             |  11 +
+ target/riscv/pmp.h                             |   1 +
+ hw/block/m25p80.c                              |  74 ++++++
+ hw/misc/sifive_u_otp.c                         |  31 ++-
+ hw/riscv/boot.c                                |  18 +-
+ hw/riscv/sifive_u.c                            |  16 +-
+ hw/riscv/spike.c                               |   8 +-
+ hw/riscv/virt.c                                |   8 +-
+ target/riscv/cpu.c                             |  25 ++
+ target/riscv/csr.c                             | 342 ++++++++++++++++++-------
+ target/riscv/gdbstub.c                         | 308 ++++------------------
+ target/riscv/op_helper.c                       |   5 +
+ target/riscv/pmp.c                             |   4 +-
+ gdb-xml/riscv-32bit-csr.xml                    | 250 ------------------
+ gdb-xml/riscv-64bit-csr.xml                    | 250 ------------------
+ 20 files changed, 463 insertions(+), 902 deletions(-)
+ delete mode 100644 gdb-xml/riscv-32bit-csr.xml
+ delete mode 100644 gdb-xml/riscv-64bit-csr.xml
 
