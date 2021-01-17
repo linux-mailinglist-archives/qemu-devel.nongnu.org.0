@@ -2,65 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C507F2F9229
-	for <lists+qemu-devel@lfdr.de>; Sun, 17 Jan 2021 12:55:44 +0100 (CET)
-Received: from localhost ([::1]:58046 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 21E2F2F922D
+	for <lists+qemu-devel@lfdr.de>; Sun, 17 Jan 2021 12:58:34 +0100 (CET)
+Received: from localhost ([::1]:35472 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l16ek-0006Zu-9E
-	for lists+qemu-devel@lfdr.de; Sun, 17 Jan 2021 06:55:43 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41094)
+	id 1l16hV-0000YU-6R
+	for lists+qemu-devel@lfdr.de; Sun, 17 Jan 2021 06:58:33 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41146)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1l16Vw-0001ZO-3K
- for qemu-devel@nongnu.org; Sun, 17 Jan 2021 06:46:36 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:24148)
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1l16W2-0001gl-Mb
+ for qemu-devel@nongnu.org; Sun, 17 Jan 2021 06:46:42 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:59989)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1l16Vu-0008De-8o
- for qemu-devel@nongnu.org; Sun, 17 Jan 2021 06:46:35 -0500
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1l16Vw-0008FB-Sq
+ for qemu-devel@nongnu.org; Sun, 17 Jan 2021 06:46:40 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1610883993;
+ s=mimecast20190719; t=1610883996;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=cv8NCSnDR61r/aUfo07trvUlRljwOTJNatKWO9Bv3Hg=;
- b=Vfe1vBcDZCHx6ZyNOvSsHtwT/fPi0+lFJASv/8uGbbTXXZTS8B5lyIM92MC7ZoddeEQd4u
- NcLWLvAZr7G7/fucjoWVvQwT4+tZAzUMT4U6G6NnDWYB/9Wh6ohf8wJI1XEyAZfttD4TEG
- xL5iJglrM6iiHWOz/kfVQ5zoA2dvV6g=
-Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
- [209.85.221.71]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-581-Ni2Jh-PDMu2M6DUCbTW2pg-1; Sun, 17 Jan 2021 06:46:31 -0500
-X-MC-Unique: Ni2Jh-PDMu2M6DUCbTW2pg-1
-Received: by mail-wr1-f71.google.com with SMTP id u14so6791568wrr.15
- for <qemu-devel@nongnu.org>; Sun, 17 Jan 2021 03:46:31 -0800 (PST)
+ bh=64ubvJBtg1XcRnPmbMoHYG7QMqq5ANQsdIveleP9CdQ=;
+ b=QPFFhVpyJzMD5VH1yPDKyDEi4kkZzHMlaRsXI1GweVd60SS6Ea/gS7nlR8KMay9ZfdLBX9
+ 7OxjFhTfnzv+nek6vm9uNRRHGabfUy+tyneqBbe2KtGxR4zu2zRExscnxlPh8Ye0S9YwIh
+ BtKHt9+K40M+OQc5mIAyaU4APsDyxOs=
+Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
+ [209.85.221.69]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-21-nW5_rnPcM2qxQnShgf5-zQ-1; Sun, 17 Jan 2021 06:46:34 -0500
+X-MC-Unique: nW5_rnPcM2qxQnShgf5-zQ-1
+Received: by mail-wr1-f69.google.com with SMTP id g16so6803427wrv.1
+ for <qemu-devel@nongnu.org>; Sun, 17 Jan 2021 03:46:34 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
  :mime-version:content-disposition:in-reply-to;
- bh=cv8NCSnDR61r/aUfo07trvUlRljwOTJNatKWO9Bv3Hg=;
- b=sSlA+ukVsPcK1X+RCMQzCJEcbz+/4ero7jEL9iVRR6sM90JP+xdMnf0/6mGzM4tJwy
- rKemdQKxfJ9kdOaguV2bhY1we3tOMcOb7P6WwPf5HF5ZPAemR6dzDqOEuCuVv7Dx4NhB
- mDe88QPZxKC30sT7jZM4MuSeFXx10hYDfWz5vuaoQPWK596yRKZKH7Gdg8AHO8HSstgy
- T8qTNJ3ovwh+8G2a25Dht5Ntl00uAW7OofK14CHrLQimuqmUjm9y6Q96Hh0I0aD8XDAg
- 9ru2PT9I3UpajxZ6x8vgxJ12qsYP2F8EFuNr2WfYEmQ1AI7ik8+qvyjUU4uS15B4temm
- HElg==
-X-Gm-Message-State: AOAM531KBjrBuohOVvWwiqfodpf4KQ7Z1ky4zq+lJ34sMIo3z8QAcTRu
- Iuf3jxrS5F2hYdXZ+ZzM/55hks5mNETQ06337ffSvEtBjJHN9GWtztxgLq/5Y8vRjEZO8fQBoAF
- OglBjyJjYU6L8E1FusM+QGSxW3nJ8KPVUKGowsnERsRLmCz1MjnDxtnB0PKVO
-X-Received: by 2002:adf:ded1:: with SMTP id i17mr21064910wrn.190.1610883990123; 
- Sun, 17 Jan 2021 03:46:30 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJya7GxmacKoZ5ewNMETUO4uvI3qANJnhHbW7tMU9BaIAUVmNl4BZZD+HA8WSeaFiqicPAp7Mg==
-X-Received: by 2002:adf:ded1:: with SMTP id i17mr21064888wrn.190.1610883989951; 
- Sun, 17 Jan 2021 03:46:29 -0800 (PST)
+ bh=64ubvJBtg1XcRnPmbMoHYG7QMqq5ANQsdIveleP9CdQ=;
+ b=guhjFWph3JoNGbqeecqXjz2YqEAkyNx13+t2NXOmRx/j7GCgvzVE7iGmGkFQzVuw03
+ dG59CZkk8NaJekYTJuKHxQKLjBi372R2A/YAaqcaJGz6Jw5BGRuE1TUGWAiD5HwnzYA/
+ DhwBuu7a6OA+e+sNkYonsAA8oQcqyTIuWnS7td0DxdyiUUr/fCauN7Whalis+SOS4r8V
+ PLTm+vxsh6zJiW2v47afeQ23rZU2IPR6hUX349eR/zOh4chSV/YsszTb+JsNpo+HkdsC
+ PpnyE1iB1W5QL65ihZiUmIK16NdArqJDuavL8jlR9Z7lR7muCsFrguRS3VgdCyPqL+bL
+ 4p5w==
+X-Gm-Message-State: AOAM531GInU24gq1UlHdPB8qdTxgd15jlXrsn2tXznfTprE07AkScI0Z
+ j4SkZ/F7sD33NQnzIoKnrDnXf2bJejjRSh8N5KLvp4wXEUg98YyfN+RBWojbpLL7JWDvDU995eL
+ w65sAe5i04pgOMlCab+iA5GmhAvvlmbnxi1W6fWk4rWvYhgyLIMRYHxBXmDwU
+X-Received: by 2002:a1c:96d7:: with SMTP id y206mr16746914wmd.9.1610883992497; 
+ Sun, 17 Jan 2021 03:46:32 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJxG+sq+B32wLg44yohnDVANTj//6UZ2/gjvCb0JscEGR4tLg5b5Y8M8AlBlor3sB749d/Iogw==
+X-Received: by 2002:a1c:96d7:: with SMTP id y206mr16746899wmd.9.1610883992280; 
+ Sun, 17 Jan 2021 03:46:32 -0800 (PST)
 Received: from redhat.com (bzq-79-176-30-58.red.bezeqint.net. [79.176.30.58])
  by smtp.gmail.com with ESMTPSA id
- g5sm23726445wro.60.2021.01.17.03.46.28
+ b10sm5189931wmj.2.2021.01.17.03.46.30
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 17 Jan 2021 03:46:29 -0800 (PST)
-Date: Sun, 17 Jan 2021 06:46:27 -0500
+ Sun, 17 Jan 2021 03:46:31 -0800 (PST)
+Date: Sun, 17 Jan 2021 06:46:30 -0500
 From: "Michael S. Tsirkin" <mst@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 05/10] acpi: Add addr offset in build_crs
-Message-ID: <20210117114519.539647-6-mst@redhat.com>
+Subject: [PULL 06/10] acpi/gpex: Inform os to keep firmware resource map
+Message-ID: <20210117114519.539647-7-mst@redhat.com>
 References: <20210117114519.539647-1-mst@redhat.com>
 MIME-Version: 1.0
 In-Reply-To: <20210117114519.539647-1-mst@redhat.com>
@@ -94,134 +94,83 @@ List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: Peter Maydell <peter.maydell@linaro.org>, Jiahui Cen <cenjiahui@huawei.com>,
- Eduardo Habkost <ehabkost@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- Igor Mammedov <imammedo@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>
+ Gerd Hoffmann <kraxel@redhat.com>, Yubo Miao <miaoyubo@huawei.com>,
+ Igor Mammedov <imammedo@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Jiahui Cen <cenjiahui@huawei.com>
 
-AML needs Address Translation offset to describe how a bridge translates
-addresses accross the bridge when using an address descriptor, and
-especially on ARM, the translation offset of pio resource is usually
-non zero.
+There may be some differences in pci resource assignment between guest os
+and firmware.
 
-Therefore, it's necessary to pass offset for pio, mmio32, mmio64 and bus
-number into build_crs.
+Eg. A Bridge with Bus [d2]
+    -+-[0000:d2]---01.0-[d3]----01.0
+
+    where [d2:01.00] is a pcie-pci-bridge with BAR0 (mem, 64-bit, non-pref) [size=256]
+          [d3:01.00] is a PCI Device with BAR0 (mem, 64-bit, pref) [size=128K]
+                                          BAR4 (mem, 64-bit, pref) [size=64M]
+
+    In EDK2, the Resource Map would be:
+        PciBus: Resource Map for Bridge [D2|01|00]
+        Type = PMem64; Base = 0x8004000000;     Length = 0x4100000;     Alignment = 0x3FFFFFF
+           Base = 0x8004000000; Length = 0x4000000;     Alignment = 0x3FFFFFF;  Owner = PCI [D3|01|00:20]
+           Base = 0x8008000000; Length = 0x20000;       Alignment = 0x1FFFF;    Owner = PCI [D3|01|00:10]
+        Type =  Mem64; Base = 0x8008100000;     Length = 0x100; Alignment = 0xFFF
+    It would use 0x4100000 to calculate the root bus's PMem64 resource window.
+
+    While in Linux, kernel will use 0x1FFFFFF as the alignment to calculate
+    the PMem64 size, which would be 0x6000000. So kernel would try to
+    allocate 0x6000000 from the PMem64 resource window, but since the window
+    size is 0x4100000 as assigned by EDK2, the allocation would fail.
+
+The diffences could result in resource assignment failure.
+
+Using _DSM #5 method to inform guest os not to ignore the PCI configuration
+that firmware has done at boot time could handle the differences.
 
 Acked-by: Igor Mammedov <imammedo@redhat.com>
 Signed-off-by: Jiahui Cen <cenjiahui@huawei.com>
-Message-Id: <20210114100643.10617-4-cenjiahui@huawei.com>
+Message-Id: <20210114100643.10617-5-cenjiahui@huawei.com>
 Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
 Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
 ---
- include/hw/acpi/aml-build.h |  4 +++-
- hw/acpi/aml-build.c         | 18 ++++++++++--------
- hw/i386/acpi-build.c        |  3 ++-
- hw/pci-host/gpex-acpi.c     |  3 ++-
- 4 files changed, 17 insertions(+), 11 deletions(-)
+ hw/pci-host/gpex-acpi.c | 20 ++++++++++++++++++--
+ 1 file changed, 18 insertions(+), 2 deletions(-)
 
-diff --git a/include/hw/acpi/aml-build.h b/include/hw/acpi/aml-build.h
-index e727bea1bc..54a5aec4d7 100644
---- a/include/hw/acpi/aml-build.h
-+++ b/include/hw/acpi/aml-build.h
-@@ -452,7 +452,9 @@ void crs_replace_with_free_ranges(GPtrArray *ranges,
- void crs_range_set_init(CrsRangeSet *range_set);
- void crs_range_set_free(CrsRangeSet *range_set);
- 
--Aml *build_crs(PCIHostState *host, CrsRangeSet *range_set);
-+Aml *build_crs(PCIHostState *host, CrsRangeSet *range_set, uint32_t io_offset,
-+               uint32_t mmio32_offset, uint64_t mmio64_offset,
-+               uint16_t bus_nr_offset);
- 
- void build_srat_memory(AcpiSratMemoryAffinity *numamem, uint64_t base,
-                        uint64_t len, int node, MemoryAffinityFlags flags);
-diff --git a/hw/acpi/aml-build.c b/hw/acpi/aml-build.c
-index f976aa667b..7b6ebb0cc8 100644
---- a/hw/acpi/aml-build.c
-+++ b/hw/acpi/aml-build.c
-@@ -2076,7 +2076,9 @@ void build_tpm2(GArray *table_data, BIOSLinker *linker, GArray *tcpalog)
-                  tpm2_ptr, "TPM2", table_data->len - tpm2_start, 4, NULL, NULL);
- }
- 
--Aml *build_crs(PCIHostState *host, CrsRangeSet *range_set)
-+Aml *build_crs(PCIHostState *host, CrsRangeSet *range_set, uint32_t io_offset,
-+               uint32_t mmio32_offset, uint64_t mmio64_offset,
-+               uint16_t bus_nr_offset)
- {
-     Aml *crs = aml_resource_template();
-     CrsRangeSet temp_range_set;
-@@ -2189,10 +2191,10 @@ Aml *build_crs(PCIHostState *host, CrsRangeSet *range_set)
-     for (i = 0; i < temp_range_set.io_ranges->len; i++) {
-         entry = g_ptr_array_index(temp_range_set.io_ranges, i);
-         aml_append(crs,
--                   aml_word_io(AML_MIN_FIXED, AML_MAX_FIXED,
--                               AML_POS_DECODE, AML_ENTIRE_RANGE,
--                               0, entry->base, entry->limit, 0,
--                               entry->limit - entry->base + 1));
-+                   aml_dword_io(AML_MIN_FIXED, AML_MAX_FIXED,
-+                                AML_POS_DECODE, AML_ENTIRE_RANGE,
-+                                0, entry->base, entry->limit, io_offset,
-+                                entry->limit - entry->base + 1));
-         crs_range_insert(range_set->io_ranges, entry->base, entry->limit);
-     }
- 
-@@ -2205,7 +2207,7 @@ Aml *build_crs(PCIHostState *host, CrsRangeSet *range_set)
-                    aml_dword_memory(AML_POS_DECODE, AML_MIN_FIXED,
-                                     AML_MAX_FIXED, AML_NON_CACHEABLE,
-                                     AML_READ_WRITE,
--                                    0, entry->base, entry->limit, 0,
-+                                    0, entry->base, entry->limit, mmio32_offset,
-                                     entry->limit - entry->base + 1));
-         crs_range_insert(range_set->mem_ranges, entry->base, entry->limit);
-     }
-@@ -2217,7 +2219,7 @@ Aml *build_crs(PCIHostState *host, CrsRangeSet *range_set)
-                    aml_qword_memory(AML_POS_DECODE, AML_MIN_FIXED,
-                                     AML_MAX_FIXED, AML_NON_CACHEABLE,
-                                     AML_READ_WRITE,
--                                    0, entry->base, entry->limit, 0,
-+                                    0, entry->base, entry->limit, mmio64_offset,
-                                     entry->limit - entry->base + 1));
-         crs_range_insert(range_set->mem_64bit_ranges,
-                          entry->base, entry->limit);
-@@ -2230,7 +2232,7 @@ Aml *build_crs(PCIHostState *host, CrsRangeSet *range_set)
-                             0,
-                             pci_bus_num(host->bus),
-                             max_bus,
--                            0,
-+                            bus_nr_offset,
-                             max_bus - pci_bus_num(host->bus) + 1));
- 
-     return crs;
-diff --git a/hw/i386/acpi-build.c b/hw/i386/acpi-build.c
-index f18b71dea9..f56d699c7f 100644
---- a/hw/i386/acpi-build.c
-+++ b/hw/i386/acpi-build.c
-@@ -1360,7 +1360,8 @@ build_dsdt(GArray *table_data, BIOSLinker *linker,
-             }
- 
-             aml_append(dev, build_prt(false));
--            crs = build_crs(PCI_HOST_BRIDGE(BUS(bus)->parent), &crs_range_set);
-+            crs = build_crs(PCI_HOST_BRIDGE(BUS(bus)->parent), &crs_range_set,
-+                            0, 0, 0, 0);
-             aml_append(dev, aml_name_decl("_CRS", crs));
-             aml_append(scope, dev);
-             aml_append(dsdt, scope);
 diff --git a/hw/pci-host/gpex-acpi.c b/hw/pci-host/gpex-acpi.c
-index 7f20ee1c98..11b3db8f71 100644
+index 11b3db8f71..cb13e75d2f 100644
 --- a/hw/pci-host/gpex-acpi.c
 +++ b/hw/pci-host/gpex-acpi.c
-@@ -168,7 +168,8 @@ void acpi_dsdt_add_gpex(Aml *scope, struct GPEXConfig *cfg)
-              * 1. The resources the pci-brige/pcie-root-port need.
-              * 2. The resources the devices behind pxb need.
-              */
--            crs = build_crs(PCI_HOST_BRIDGE(BUS(bus)->parent), &crs_range_set);
-+            crs = build_crs(PCI_HOST_BRIDGE(BUS(bus)->parent), &crs_range_set,
-+                            cfg->pio.base, 0, 0, 0);
-             aml_append(dev, aml_name_decl("_CRS", crs));
+@@ -112,10 +112,26 @@ static void acpi_dsdt_add_pci_osc(Aml *dev)
+     UUID = aml_touuid("E5C937D0-3553-4D7A-9117-EA4D19C3434D");
+     ifctx = aml_if(aml_equal(aml_arg(0), UUID));
+     ifctx1 = aml_if(aml_equal(aml_arg(2), aml_int(0)));
+-    uint8_t byte_list[1] = {1};
+-    buf = aml_buffer(1, byte_list);
++    uint8_t byte_list[] = {
++                0x1 << 0 /* support for functions other than function 0 */ |
++                0x1 << 5 /* support for function 5 */
++                };
++    buf = aml_buffer(ARRAY_SIZE(byte_list), byte_list);
+     aml_append(ifctx1, aml_return(buf));
+     aml_append(ifctx, ifctx1);
++
++    /*
++     * PCI Firmware Specification 3.1
++     * 4.6.5. _DSM for Ignoring PCI Boot Configurations
++     */
++    /* Arg2: Function Index: 5 */
++    ifctx1 = aml_if(aml_equal(aml_arg(2), aml_int(5)));
++    /*
++     * 0 - The operating system must not ignore the PCI configuration that
++     *     firmware has done at boot time.
++     */
++    aml_append(ifctx1, aml_return(aml_int(0)));
++    aml_append(ifctx, ifctx1);
+     aml_append(method, ifctx);
  
-             acpi_dsdt_add_pci_osc(dev);
+     byte_list[0] = 0;
 -- 
 MST
 
