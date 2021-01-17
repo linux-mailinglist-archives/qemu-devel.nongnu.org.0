@@ -2,75 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 356D22F95A5
-	for <lists+qemu-devel@lfdr.de>; Sun, 17 Jan 2021 22:55:43 +0100 (CET)
-Received: from localhost ([::1]:43008 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 154EC2F95B3
+	for <lists+qemu-devel@lfdr.de>; Sun, 17 Jan 2021 23:00:40 +0100 (CET)
+Received: from localhost ([::1]:56888 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l1G1O-0007MY-40
-	for lists+qemu-devel@lfdr.de; Sun, 17 Jan 2021 16:55:42 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59112)
+	id 1l1G6B-0004cR-3G
+	for lists+qemu-devel@lfdr.de; Sun, 17 Jan 2021 17:00:39 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59150)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
  (envelope-from <prvs=64494dccb=alistair.francis@wdc.com>)
- id 1l1Fzz-0005i2-T0
- for qemu-devel@nongnu.org; Sun, 17 Jan 2021 16:54:15 -0500
-Received: from esa5.hgst.iphmx.com ([216.71.153.144]:21685)
+ id 1l1G03-0005ji-IP
+ for qemu-devel@nongnu.org; Sun, 17 Jan 2021 16:54:19 -0500
+Received: from esa5.hgst.iphmx.com ([216.71.153.144]:21687)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
  (envelope-from <prvs=64494dccb=alistair.francis@wdc.com>)
- id 1l1Fzw-0005UE-RO
- for qemu-devel@nongnu.org; Sun, 17 Jan 2021 16:54:15 -0500
+ id 1l1Fzy-0005UJ-2u
+ for qemu-devel@nongnu.org; Sun, 17 Jan 2021 16:54:19 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
  d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
- t=1610920452; x=1642456452;
+ t=1610920454; x=1642456454;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=9uJ+/j2JwaP+9An/iZxf0sTQOr3EQxrWnRygwBLhPrI=;
- b=gEG/1j4Q1Gz908qfibRLUyypYz+IxoUPVz/koaE5/0vrQnuUYOs2mu1x
- iH0hHr9c4p9CNi0ydThyDvd1CSQlmF4b9KKr7nfDgT/ZbZZLup4P5gOih
- rpdBFK5OW7E0AxV7K2vKeznkM7xoCvErUWVI/LeX2YY0jxrDrmJbC36qP
- DRd7IcNRTdpd12PPmwOhhLzE7ZAIqGslb+dCmEb0y9hc0T7xo669d3czq
- sFY6JPh4X5ngiOQl5+PW/v62hbFcaxrhNiWyu1hn3J6QoXadrD17GFsM3
- khUlBLWuvPiKMcdh4ecUudSzn32+WMc7ouYkn1RyhDjHELJHIDm5JG6Os A==;
-IronPort-SDR: Jj46JEURbqLL1STMpMBSq5N7aztz5EJh8YdO03oODEtlBjaiPpiv7L/V0JxTDvevb4iYE3vqzn
- 5G68bYY0ksGdaGxPqTBj6R34Im6pFVeeeX/eyTkyQiLp/0WAOKrltnYFQWrxquwgamaXca8iw4
- Ikxur5nkyODHs3Y+LDNnVZgRHx5g0bcvFT404TPa32dbmkPVLZamPml3nnQKREPl0ghrXGdT2V
- 3/4o2L2v43LYYm1FsuszB0+u5h+r6J9cfjFjpXcXK170pVSHmmMlm/qIfhtirm9T5EUwD5p0hD
- vz0=
-X-IronPort-AV: E=Sophos;i="5.79,355,1602518400"; d="scan'208";a="157645968"
+ bh=tTSW+22skBu2j2o8VAyrEiHQQ3F2O/cFv5WxYlTsDwU=;
+ b=dOKE8OTe7UEzOHv6blnBO0UNNtU4ElAVXwyzbcXWF+5SUp5e6/VDE0sE
+ eNw17vKq1YIWll0kiL7EhH3u7n4XAzTUEweEkpPwBM4MKGQjsIO2euMcO
+ aMTwdJK24p/zh1lDetOPAvY23YEhAdVwcjkhRfP5xxzsNyde7fa+bI2pk
+ seUi/caRv4AMLKN6U2TXPuxSYWQSyu34H24G5CN71mPtxSphRvopmvHDE
+ Ryw3VYiCjgBG8kpCl/R19L27HhATop2NYwtWsRge+UtG4GGRHHW+Ya8nA
+ QRgPmhQRTihKowF1lYY6OJfLAUBGgi4trTSosGZd9iJAZAUOaLYvQSoD4 w==;
+IronPort-SDR: 2jZFzf37vTVS9PUr+lR3wx69kNYtJ2JWJDs7TnL0TVicG1jTic2OBsu8YGoaGeAmAnbPg52EHl
+ bZwsf5zK8wujBUDitc2KccE7wIf8K3xK9C2/KsNz/blo1n+NCCAFbs0khTEMrykxo6bKT6rIAB
+ U3p/MG8NyphsAmfmFg7EIDg0TzzT9W9l9cDT1Wg65Gf2kJiqitDWVPKp/aTHb1yinGicCX3d4y
+ qbi8T5Lz4g4notjN8OELZKmK/wJmsxJydHQeJA+s2ri9Ocn5YcPfmXhfy2heFPuRXuOE81J25t
+ 5PM=
+X-IronPort-AV: E=Sophos;i="5.79,355,1602518400"; d="scan'208";a="157645969"
 Received: from uls-op-cesaip01.wdc.com (HELO uls-op-cesaep01.wdc.com)
  ([199.255.45.14])
- by ob1.hgst.iphmx.com with ESMTP; 18 Jan 2021 05:54:06 +0800
-IronPort-SDR: UCjUy7QWfMgL1NZqhg3zqZQoYh3AtDNrCQfSNexfCHOT7x2kDLWICdeh/cahncNfCcwxhfMB3A
- n2i/fUpSsuCHa0dqs8yt7CTXs6EwNL2Mxe6IdxZbR8dL0UY1pwmJAbGLGu3fpwmqS/XPy4K8Bt
- WMaS9Gb+FZzS6ReS8o244Md67byFMeEfwKVWzXySpN5MCFNEJnoJThbetMJJGvQoxJzSHR9lfe
- FfY/U/WYdgLB3A9qisTALfYbm6iDzHV2HPAkHcDbRuOQeEQJkNATW6GxEzoBTXxyVDWqf120Wd
- VLxTgFyd1yrJWBYS7lwbaChb
+ by ob1.hgst.iphmx.com with ESMTP; 18 Jan 2021 05:54:07 +0800
+IronPort-SDR: ARWyfhaD+qhz2OLjbFV9ebfb2F+/X+Q5ZSTCBiZQWqu02yZhup3kqWVrPkeBoW0Vy5AofuaYW/
+ Bd/6o+bHHY1Y+bzSloz3iM8PIzPhYXDCVyjF5aBgzcVc4r03ALg+shgR6SbWToQ9WyhhZQnZy1
+ Y4OsuCEPXwuASuFoCrv6HO8Yp5Z0B2/1edtifnMu75OaX52KixiEiXJ2IU5eJL/FkXno4RzGDp
+ C63R4F7x0QYOZgqlY3+8xjjuzXLr3vb2qEzYX3O8rw8pLDj+MwqN8qZkKl9yWEPkQKRogHExES
+ My9BVRMxDXuPBuNpC32aMl+T
 Received: from uls-op-cesaip01.wdc.com ([10.248.3.36])
  by uls-op-cesaep01.wdc.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
  17 Jan 2021 13:38:45 -0800
-IronPort-SDR: RpSa+kJzi+zXcA2lH7xLOnHynfZtlF1yfgiolLq/cOdn9H/u345VtK/ILVGh68k98zLRNmAeid
- jmrpHT/WYfT2LUodhLMmObgVwpf1vN902w6azNTx1/FK5Y/2g+3P/d+S6dJgWDFsvzwpqeY+Rc
- BOFQnCDUaizlKajjm4g/515NngRJdkhRY5tlzdN/AzCRw6Grcqw9CdSBuRPcfrqViTp8VEhJX/
- ryHxwiw1p3Hu0H1I4r0X0g/4aVFsn1zvMWJgNXwAVZ4pnRPOhUEa2W3wCzLglMLNO5l9q8TojA
- PLg=
+IronPort-SDR: 0Jc94paDFugpJAOILvtaGumyRghJbBqR1ENRHE+AmtEZ73Msvi8viukjwKh8Kz1n6VRLzLr0fw
+ QP//WSZW6UT5FZaJz17lc5wn4cXLXKeS+vTtx0RUjL2GIbNT6pX7qA/OO7dfAm4NY0I27RWogd
+ J4GYhmF6mWkHIfP3fXtbTyCz0yNfKwNWLLTqh9wGy0olsNLfFb9wdZXRLk6RShjVDDNqhW8r87
+ HzPQDNmSfcsctNnh+bL8S7MkZ66MLGisY+jKrZLhf+s3y2C1NF20PI/6AT4aM1iGVlVUGTImKd
+ A2M=
 WDCIronportException: Internal
 Received: from 7l95g12.ad.shared (HELO risc6-mainframe.hgst.com)
  ([10.86.62.251])
- by uls-op-cesaip01.wdc.com with ESMTP; 17 Jan 2021 13:54:06 -0800
+ by uls-op-cesaip01.wdc.com with ESMTP; 17 Jan 2021 13:54:07 -0800
 From: Alistair Francis <alistair.francis@wdc.com>
 To: peter.maydell@linaro.org,
 	qemu-devel@nongnu.org
-Subject: [PULL 06/12] hw/riscv: sifive_u: Use SIFIVE_U_CPU for
- mc->default_cpu_type
-Date: Sun, 17 Jan 2021 13:53:57 -0800
-Message-Id: <20210117215403.2277103-7-alistair.francis@wdc.com>
+Subject: [PULL 07/12] hw/misc/sifive_u_otp: handling the fails of blk_pread
+ and blk_pwrite
+Date: Sun, 17 Jan 2021 13:53:58 -0800
+Message-Id: <20210117215403.2277103-8-alistair.francis@wdc.com>
 X-Mailer: git-send-email 2.29.2
 In-Reply-To: <20210117215403.2277103-1-alistair.francis@wdc.com>
 References: <20210117215403.2277103-1-alistair.francis@wdc.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 Received-SPF: pass client-ip=216.71.153.144;
  envelope-from=prvs=64494dccb=alistair.francis@wdc.com;
@@ -94,43 +93,85 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Bin Meng <bin.meng@windriver.com>,
- Alistair Francis <alistair.francis@wdc.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
+Cc: Alistair Francis <alistair.francis@wdc.com>,
+ Green Wan <green.wan@sifive.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Bin Meng <bin.meng@windriver.com>
+From: Green Wan <green.wan@sifive.com>
 
-SIFIVE_U_CPU is conditionally set to SIFIVE_U34 or SIFIVE_U54, hence
-there is no need to use #idef to set the mc->default_cpu_type.
+Fix code coverage issues by checking return value and handling fail case
+of blk_pread() and blk_pwrite(). Return default value 0xff if read fails.
 
-Signed-off-by: Bin Meng <bin.meng@windriver.com>
-Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+Fixes: Coverity CID 1435959
+Fixes: Coverity CID 1435960
+Fixes: Coverity CID 1435961
+Signed-off-by: Green Wan <green.wan@sifive.com>
 Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
-Message-id: 20210109143637.29645-1-bmeng.cn@gmail.com
+Message-id: 20201104092900.21214-1-green.wan@sifive.com
 Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
 ---
- hw/riscv/sifive_u.c | 6 +-----
- 1 file changed, 1 insertion(+), 5 deletions(-)
+ hw/misc/sifive_u_otp.c | 31 +++++++++++++++++++++++--------
+ 1 file changed, 23 insertions(+), 8 deletions(-)
 
-diff --git a/hw/riscv/sifive_u.c b/hw/riscv/sifive_u.c
-index f5c400dd44..e083510e0e 100644
---- a/hw/riscv/sifive_u.c
-+++ b/hw/riscv/sifive_u.c
-@@ -628,11 +628,7 @@ static void sifive_u_machine_class_init(ObjectClass *oc, void *data)
-     mc->init = sifive_u_machine_init;
-     mc->max_cpus = SIFIVE_U_MANAGEMENT_CPU_COUNT + SIFIVE_U_COMPUTE_CPU_COUNT;
-     mc->min_cpus = SIFIVE_U_MANAGEMENT_CPU_COUNT + 1;
--#if defined(TARGET_RISCV32)
--    mc->default_cpu_type = TYPE_RISCV_CPU_SIFIVE_U34;
--#elif defined(TARGET_RISCV64)
--    mc->default_cpu_type = TYPE_RISCV_CPU_SIFIVE_U54;
--#endif
-+    mc->default_cpu_type = SIFIVE_U_CPU;
-     mc->default_cpus = mc->min_cpus;
+diff --git a/hw/misc/sifive_u_otp.c b/hw/misc/sifive_u_otp.c
+index 4401787a5c..f921c67644 100644
+--- a/hw/misc/sifive_u_otp.c
++++ b/hw/misc/sifive_u_otp.c
+@@ -63,8 +63,13 @@ static uint64_t sifive_u_otp_read(void *opaque, hwaddr addr, unsigned int size)
+             if (s->blk) {
+                 int32_t buf;
  
-     object_class_property_add_bool(oc, "start-in-flash",
+-                blk_pread(s->blk, s->pa * SIFIVE_U_OTP_FUSE_WORD, &buf,
+-                          SIFIVE_U_OTP_FUSE_WORD);
++                if (blk_pread(s->blk, s->pa * SIFIVE_U_OTP_FUSE_WORD, &buf,
++                              SIFIVE_U_OTP_FUSE_WORD) < 0) {
++                    qemu_log_mask(LOG_GUEST_ERROR,
++                                  "read error index<%d>\n", s->pa);
++                    return 0xff;
++                }
++
+                 return buf;
+             }
+ 
+@@ -161,8 +166,12 @@ static void sifive_u_otp_write(void *opaque, hwaddr addr,
+ 
+             /* write to backend */
+             if (s->blk) {
+-                blk_pwrite(s->blk, s->pa * SIFIVE_U_OTP_FUSE_WORD,
+-                           &s->fuse[s->pa], SIFIVE_U_OTP_FUSE_WORD, 0);
++                if (blk_pwrite(s->blk, s->pa * SIFIVE_U_OTP_FUSE_WORD,
++                               &s->fuse[s->pa], SIFIVE_U_OTP_FUSE_WORD,
++                               0) < 0) {
++                    qemu_log_mask(LOG_GUEST_ERROR,
++                                  "write error index<%d>\n", s->pa);
++                }
+             }
+ 
+             /* update written bit */
+@@ -249,12 +258,18 @@ static void sifive_u_otp_reset(DeviceState *dev)
+         int index = SIFIVE_U_OTP_SERIAL_ADDR;
+ 
+         serial_data = s->serial;
+-        blk_pwrite(s->blk, index * SIFIVE_U_OTP_FUSE_WORD,
+-                   &serial_data, SIFIVE_U_OTP_FUSE_WORD, 0);
++        if (blk_pwrite(s->blk, index * SIFIVE_U_OTP_FUSE_WORD,
++                       &serial_data, SIFIVE_U_OTP_FUSE_WORD, 0) < 0) {
++            qemu_log_mask(LOG_GUEST_ERROR,
++                          "write error index<%d>\n", index);
++        }
+ 
+         serial_data = ~(s->serial);
+-        blk_pwrite(s->blk, (index + 1) * SIFIVE_U_OTP_FUSE_WORD,
+-                   &serial_data, SIFIVE_U_OTP_FUSE_WORD, 0);
++        if (blk_pwrite(s->blk, (index + 1) * SIFIVE_U_OTP_FUSE_WORD,
++                       &serial_data, SIFIVE_U_OTP_FUSE_WORD, 0) < 0) {
++            qemu_log_mask(LOG_GUEST_ERROR,
++                          "write error index<%d>\n", index + 1);
++        }
+     }
+ 
+     /* Initialize write-once map */
 -- 
 2.29.2
 
