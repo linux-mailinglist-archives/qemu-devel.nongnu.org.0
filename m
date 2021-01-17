@@ -2,65 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 21E2F2F922D
-	for <lists+qemu-devel@lfdr.de>; Sun, 17 Jan 2021 12:58:34 +0100 (CET)
-Received: from localhost ([::1]:35472 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8763D2F922F
+	for <lists+qemu-devel@lfdr.de>; Sun, 17 Jan 2021 12:58:50 +0100 (CET)
+Received: from localhost ([::1]:35584 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l16hV-0000YU-6R
-	for lists+qemu-devel@lfdr.de; Sun, 17 Jan 2021 06:58:33 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41146)
+	id 1l16hk-0000bO-Ib
+	for lists+qemu-devel@lfdr.de; Sun, 17 Jan 2021 06:58:49 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41182)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1l16W2-0001gl-Mb
- for qemu-devel@nongnu.org; Sun, 17 Jan 2021 06:46:42 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:59989)
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1l16WA-0001qO-Bz
+ for qemu-devel@nongnu.org; Sun, 17 Jan 2021 06:46:50 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:55218)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1l16Vw-0008FB-Sq
- for qemu-devel@nongnu.org; Sun, 17 Jan 2021 06:46:40 -0500
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1l16Vz-0008GB-E8
+ for qemu-devel@nongnu.org; Sun, 17 Jan 2021 06:46:48 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1610883996;
+ s=mimecast20190719; t=1610883998;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=64ubvJBtg1XcRnPmbMoHYG7QMqq5ANQsdIveleP9CdQ=;
- b=QPFFhVpyJzMD5VH1yPDKyDEi4kkZzHMlaRsXI1GweVd60SS6Ea/gS7nlR8KMay9ZfdLBX9
- 7OxjFhTfnzv+nek6vm9uNRRHGabfUy+tyneqBbe2KtGxR4zu2zRExscnxlPh8Ye0S9YwIh
- BtKHt9+K40M+OQc5mIAyaU4APsDyxOs=
-Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
- [209.85.221.69]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-21-nW5_rnPcM2qxQnShgf5-zQ-1; Sun, 17 Jan 2021 06:46:34 -0500
-X-MC-Unique: nW5_rnPcM2qxQnShgf5-zQ-1
-Received: by mail-wr1-f69.google.com with SMTP id g16so6803427wrv.1
- for <qemu-devel@nongnu.org>; Sun, 17 Jan 2021 03:46:34 -0800 (PST)
+ bh=yM0UVe2zhRG2MUk1cz+zM7uKYIy9ql8KcLv5si30cN4=;
+ b=bUJMXpsBlzhV6HBVJBuv9ArQ7r1r2RzFgnIF78BLbmA83WjCjDrMNxapIs2m2HyFtZBpA2
+ KA+Y2iMnx1KUztF7Z5Z+9+GFOpUt1RkSwC8pzFjJW10rIx2acTcRCLZyBcQjZIjNMi0Tmc
+ STbOCrI6TTDzof2UiXMvkB9FSbPzH/I=
+Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
+ [209.85.221.72]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-85-BlhPcC2DMzqBiEPIsO5Mdg-1; Sun, 17 Jan 2021 06:46:36 -0500
+X-MC-Unique: BlhPcC2DMzqBiEPIsO5Mdg-1
+Received: by mail-wr1-f72.google.com with SMTP id n11so6775031wro.7
+ for <qemu-devel@nongnu.org>; Sun, 17 Jan 2021 03:46:36 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
  :mime-version:content-disposition:in-reply-to;
- bh=64ubvJBtg1XcRnPmbMoHYG7QMqq5ANQsdIveleP9CdQ=;
- b=guhjFWph3JoNGbqeecqXjz2YqEAkyNx13+t2NXOmRx/j7GCgvzVE7iGmGkFQzVuw03
- dG59CZkk8NaJekYTJuKHxQKLjBi372R2A/YAaqcaJGz6Jw5BGRuE1TUGWAiD5HwnzYA/
- DhwBuu7a6OA+e+sNkYonsAA8oQcqyTIuWnS7td0DxdyiUUr/fCauN7Whalis+SOS4r8V
- PLTm+vxsh6zJiW2v47afeQ23rZU2IPR6hUX349eR/zOh4chSV/YsszTb+JsNpo+HkdsC
- PpnyE1iB1W5QL65ihZiUmIK16NdArqJDuavL8jlR9Z7lR7muCsFrguRS3VgdCyPqL+bL
- 4p5w==
-X-Gm-Message-State: AOAM531GInU24gq1UlHdPB8qdTxgd15jlXrsn2tXznfTprE07AkScI0Z
- j4SkZ/F7sD33NQnzIoKnrDnXf2bJejjRSh8N5KLvp4wXEUg98YyfN+RBWojbpLL7JWDvDU995eL
- w65sAe5i04pgOMlCab+iA5GmhAvvlmbnxi1W6fWk4rWvYhgyLIMRYHxBXmDwU
-X-Received: by 2002:a1c:96d7:: with SMTP id y206mr16746914wmd.9.1610883992497; 
- Sun, 17 Jan 2021 03:46:32 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJxG+sq+B32wLg44yohnDVANTj//6UZ2/gjvCb0JscEGR4tLg5b5Y8M8AlBlor3sB749d/Iogw==
-X-Received: by 2002:a1c:96d7:: with SMTP id y206mr16746899wmd.9.1610883992280; 
- Sun, 17 Jan 2021 03:46:32 -0800 (PST)
+ bh=yM0UVe2zhRG2MUk1cz+zM7uKYIy9ql8KcLv5si30cN4=;
+ b=rRdf33KP1jF8NKY9CILWbMxhKRUaJoYC2RQvbUdi259/s28BFqiZpOqFTuzSIIW2JA
+ vt8V5/061FgGTLHo5BBdyu/7B1xCsGZ5DgzSNrXSvEprNhLwU/n916sm84RQ24jaYSiz
+ +geMgmdKieFfgZUDKdlx7nYKRsSdyBNmMsSTBZKgxk7gZ7THIAhgYiGeOkvqtI4sdMWk
+ YGF3EHNx9KX1vV890gDtzOjAJosh1ilTfqca3eh7sRDCaJHI0miOoKcZpNQChuAeCTy6
+ fCAGn2/hUXmBxgOPMguBzjh01xE/MixBUH4263R/tGQGewt4+54IYWtKeEgIA44hoavV
+ O0WA==
+X-Gm-Message-State: AOAM532ol4czE9okT9DPNJbMn5wzFmP5QmQe8UYFoXJH4lVFstiRMeQF
+ YyTVORQEFXyUnHC1ZFG2/BYrkquDp0kIXo9qJW6SEO65Nj77UVE3HtZdJAW/elKTKh7AD379EEG
+ bnpoA8DjofmJqbRQWAAlfXnsJiy/O07NizrObU0KzWjfjmuIVNsPKyWqOWmtI
+X-Received: by 2002:a5d:50c3:: with SMTP id f3mr21148312wrt.287.1610883995029; 
+ Sun, 17 Jan 2021 03:46:35 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJyx4aVfeK9iUe6JySlrW1Xad/q55NKd51w06jwB5qKj0AcUfJsOuyJJe4xKMsdCg9R5paDWnA==
+X-Received: by 2002:a5d:50c3:: with SMTP id f3mr21148297wrt.287.1610883994819; 
+ Sun, 17 Jan 2021 03:46:34 -0800 (PST)
 Received: from redhat.com (bzq-79-176-30-58.red.bezeqint.net. [79.176.30.58])
  by smtp.gmail.com with ESMTPSA id
- b10sm5189931wmj.2.2021.01.17.03.46.30
+ c2sm18233915wrt.87.2021.01.17.03.46.33
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 17 Jan 2021 03:46:31 -0800 (PST)
-Date: Sun, 17 Jan 2021 06:46:30 -0500
+ Sun, 17 Jan 2021 03:46:34 -0800 (PST)
+Date: Sun, 17 Jan 2021 06:46:32 -0500
 From: "Michael S. Tsirkin" <mst@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 06/10] acpi/gpex: Inform os to keep firmware resource map
-Message-ID: <20210117114519.539647-7-mst@redhat.com>
+Subject: [PULL 07/10] acpi/gpex: Exclude pxb's resources from PCI0
+Message-ID: <20210117114519.539647-8-mst@redhat.com>
 References: <20210117114519.539647-1-mst@redhat.com>
 MIME-Version: 1.0
 In-Reply-To: <20210117114519.539647-1-mst@redhat.com>
@@ -93,84 +93,131 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>, Jiahui Cen <cenjiahui@huawei.com>,
- Gerd Hoffmann <kraxel@redhat.com>, Yubo Miao <miaoyubo@huawei.com>,
+Cc: Yubo Miao <miaoyubo@huawei.com>, Peter Maydell <peter.maydell@linaro.org>,
+ Jiahui Cen <cenjiahui@huawei.com>, Gerd Hoffmann <kraxel@redhat.com>,
  Igor Mammedov <imammedo@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Jiahui Cen <cenjiahui@huawei.com>
 
-There may be some differences in pci resource assignment between guest os
-and firmware.
-
-Eg. A Bridge with Bus [d2]
-    -+-[0000:d2]---01.0-[d3]----01.0
-
-    where [d2:01.00] is a pcie-pci-bridge with BAR0 (mem, 64-bit, non-pref) [size=256]
-          [d3:01.00] is a PCI Device with BAR0 (mem, 64-bit, pref) [size=128K]
-                                          BAR4 (mem, 64-bit, pref) [size=64M]
-
-    In EDK2, the Resource Map would be:
-        PciBus: Resource Map for Bridge [D2|01|00]
-        Type = PMem64; Base = 0x8004000000;     Length = 0x4100000;     Alignment = 0x3FFFFFF
-           Base = 0x8004000000; Length = 0x4000000;     Alignment = 0x3FFFFFF;  Owner = PCI [D3|01|00:20]
-           Base = 0x8008000000; Length = 0x20000;       Alignment = 0x1FFFF;    Owner = PCI [D3|01|00:10]
-        Type =  Mem64; Base = 0x8008100000;     Length = 0x100; Alignment = 0xFFF
-    It would use 0x4100000 to calculate the root bus's PMem64 resource window.
-
-    While in Linux, kernel will use 0x1FFFFFF as the alignment to calculate
-    the PMem64 size, which would be 0x6000000. So kernel would try to
-    allocate 0x6000000 from the PMem64 resource window, but since the window
-    size is 0x4100000 as assigned by EDK2, the allocation would fail.
-
-The diffences could result in resource assignment failure.
-
-Using _DSM #5 method to inform guest os not to ignore the PCI configuration
-that firmware has done at boot time could handle the differences.
+Exclude the resources of extra root bridges from PCI0's _CRS. Otherwise,
+the resource windows would overlap in guest, and the IO resource window
+would fail to be registered.
 
 Acked-by: Igor Mammedov <imammedo@redhat.com>
 Signed-off-by: Jiahui Cen <cenjiahui@huawei.com>
-Message-Id: <20210114100643.10617-5-cenjiahui@huawei.com>
+Message-Id: <20210114100643.10617-6-cenjiahui@huawei.com>
 Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
 Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
 ---
- hw/pci-host/gpex-acpi.c | 20 ++++++++++++++++++--
- 1 file changed, 18 insertions(+), 2 deletions(-)
+ hw/pci-host/gpex-acpi.c | 64 +++++++++++++++++++++++++++--------------
+ 1 file changed, 43 insertions(+), 21 deletions(-)
 
 diff --git a/hw/pci-host/gpex-acpi.c b/hw/pci-host/gpex-acpi.c
-index 11b3db8f71..cb13e75d2f 100644
+index cb13e75d2f..446912d771 100644
 --- a/hw/pci-host/gpex-acpi.c
 +++ b/hw/pci-host/gpex-acpi.c
-@@ -112,10 +112,26 @@ static void acpi_dsdt_add_pci_osc(Aml *dev)
-     UUID = aml_touuid("E5C937D0-3553-4D7A-9117-EA4D19C3434D");
-     ifctx = aml_if(aml_equal(aml_arg(0), UUID));
-     ifctx1 = aml_if(aml_equal(aml_arg(2), aml_int(0)));
--    uint8_t byte_list[1] = {1};
--    buf = aml_buffer(1, byte_list);
-+    uint8_t byte_list[] = {
-+                0x1 << 0 /* support for functions other than function 0 */ |
-+                0x1 << 5 /* support for function 5 */
-+                };
-+    buf = aml_buffer(ARRAY_SIZE(byte_list), byte_list);
-     aml_append(ifctx1, aml_return(buf));
-     aml_append(ifctx, ifctx1);
-+
-+    /*
-+     * PCI Firmware Specification 3.1
-+     * 4.6.5. _DSM for Ignoring PCI Boot Configurations
-+     */
-+    /* Arg2: Function Index: 5 */
-+    ifctx1 = aml_if(aml_equal(aml_arg(2), aml_int(5)));
-+    /*
-+     * 0 - The operating system must not ignore the PCI configuration that
-+     *     firmware has done at boot time.
-+     */
-+    aml_append(ifctx1, aml_return(aml_int(0)));
-+    aml_append(ifctx, ifctx1);
-     aml_append(method, ifctx);
+@@ -146,6 +146,8 @@ void acpi_dsdt_add_gpex(Aml *scope, struct GPEXConfig *cfg)
+     Aml *method, *crs, *dev, *rbuf;
+     PCIBus *bus = cfg->bus;
+     CrsRangeSet crs_range_set;
++    CrsRangeEntry *entry;
++    int i;
  
-     byte_list[0] = 0;
+     /* start to construct the tables for pxb */
+     crs_range_set_init(&crs_range_set);
+@@ -193,7 +195,6 @@ void acpi_dsdt_add_gpex(Aml *scope, struct GPEXConfig *cfg)
+             aml_append(scope, dev);
+         }
+     }
+-    crs_range_set_free(&crs_range_set);
+ 
+     /* tables for the main */
+     dev = aml_device("%s", "PCI0");
+@@ -211,36 +212,55 @@ void acpi_dsdt_add_gpex(Aml *scope, struct GPEXConfig *cfg)
+     aml_append(method, aml_return(aml_int(cfg->ecam.base)));
+     aml_append(dev, method);
+ 
++    /*
++     * At this point crs_range_set has all the ranges used by pci
++     * busses *other* than PCI0.  These ranges will be excluded from
++     * the PCI0._CRS.
++     */
+     rbuf = aml_resource_template();
+     aml_append(rbuf,
+         aml_word_bus_number(AML_MIN_FIXED, AML_MAX_FIXED, AML_POS_DECODE,
+                             0x0000, 0x0000, nr_pcie_buses - 1, 0x0000,
+                             nr_pcie_buses));
+     if (cfg->mmio32.size) {
+-        aml_append(rbuf,
+-                   aml_dword_memory(AML_POS_DECODE, AML_MIN_FIXED, AML_MAX_FIXED,
+-                                    AML_NON_CACHEABLE, AML_READ_WRITE, 0x0000,
+-                                    cfg->mmio32.base,
+-                                    cfg->mmio32.base + cfg->mmio32.size - 1,
+-                                    0x0000,
+-                                    cfg->mmio32.size));
++        crs_replace_with_free_ranges(crs_range_set.mem_ranges,
++                                     cfg->mmio32.base,
++                                     cfg->mmio32.base + cfg->mmio32.size - 1);
++        for (i = 0; i < crs_range_set.mem_ranges->len; i++) {
++            entry = g_ptr_array_index(crs_range_set.mem_ranges, i);
++            aml_append(rbuf,
++                aml_dword_memory(AML_POS_DECODE, AML_MIN_FIXED, AML_MAX_FIXED,
++                                 AML_NON_CACHEABLE, AML_READ_WRITE, 0x0000,
++                                 entry->base, entry->limit,
++                                 0x0000, entry->limit - entry->base + 1));
++        }
+     }
+     if (cfg->pio.size) {
+-        aml_append(rbuf,
+-                   aml_dword_io(AML_MIN_FIXED, AML_MAX_FIXED, AML_POS_DECODE,
+-                                AML_ENTIRE_RANGE, 0x0000, 0x0000,
+-                                cfg->pio.size - 1,
+-                                cfg->pio.base,
+-                                cfg->pio.size));
++        crs_replace_with_free_ranges(crs_range_set.io_ranges,
++                                     0x0000,
++                                     cfg->pio.size - 1);
++        for (i = 0; i < crs_range_set.io_ranges->len; i++) {
++            entry = g_ptr_array_index(crs_range_set.io_ranges, i);
++            aml_append(rbuf,
++                aml_dword_io(AML_MIN_FIXED, AML_MAX_FIXED, AML_POS_DECODE,
++                             AML_ENTIRE_RANGE, 0x0000, entry->base,
++                             entry->limit, cfg->pio.base,
++                             entry->limit - entry->base + 1));
++        }
+     }
+     if (cfg->mmio64.size) {
+-        aml_append(rbuf,
+-                   aml_qword_memory(AML_POS_DECODE, AML_MIN_FIXED, AML_MAX_FIXED,
+-                                    AML_NON_CACHEABLE, AML_READ_WRITE, 0x0000,
+-                                    cfg->mmio64.base,
+-                                    cfg->mmio64.base + cfg->mmio64.size - 1,
+-                                    0x0000,
+-                                    cfg->mmio64.size));
++        crs_replace_with_free_ranges(crs_range_set.mem_64bit_ranges,
++                                     cfg->mmio64.base,
++                                     cfg->mmio64.base + cfg->mmio64.size - 1);
++        for (i = 0; i < crs_range_set.mem_64bit_ranges->len; i++) {
++            entry = g_ptr_array_index(crs_range_set.mem_64bit_ranges, i);
++            aml_append(rbuf,
++                aml_qword_memory(AML_POS_DECODE, AML_MIN_FIXED, AML_MAX_FIXED,
++                                 AML_NON_CACHEABLE, AML_READ_WRITE, 0x0000,
++                                 entry->base,
++                                 entry->limit, 0x0000,
++                                 entry->limit - entry->base + 1));
++        }
+     }
+     aml_append(dev, aml_name_decl("_CRS", rbuf));
+ 
+@@ -259,4 +279,6 @@ void acpi_dsdt_add_gpex(Aml *scope, struct GPEXConfig *cfg)
+     aml_append(dev_res0, aml_name_decl("_CRS", crs));
+     aml_append(dev, dev_res0);
+     aml_append(scope, dev);
++
++    crs_range_set_free(&crs_range_set);
+ }
 -- 
 MST
 
