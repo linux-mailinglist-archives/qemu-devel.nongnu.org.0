@@ -2,62 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4BE3E2F94E0
-	for <lists+qemu-devel@lfdr.de>; Sun, 17 Jan 2021 20:30:10 +0100 (CET)
-Received: from localhost ([::1]:51552 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 45A562F94E8
+	for <lists+qemu-devel@lfdr.de>; Sun, 17 Jan 2021 20:33:02 +0100 (CET)
+Received: from localhost ([::1]:57538 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l1DkX-0002XG-99
-	for lists+qemu-devel@lfdr.de; Sun, 17 Jan 2021 14:30:09 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58162)
+	id 1l1DnH-000539-Ql
+	for lists+qemu-devel@lfdr.de; Sun, 17 Jan 2021 14:33:01 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57882)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1l1DgV-0008Ck-38; Sun, 17 Jan 2021 14:26:00 -0500
-Received: from mail-wm1-x32b.google.com ([2a00:1450:4864:20::32b]:40352)
+ id 1l1Dfb-0007cY-2L; Sun, 17 Jan 2021 14:25:03 -0500
+Received: from mail-wm1-x32b.google.com ([2a00:1450:4864:20::32b]:38961)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1l1DgT-0005Kg-ME; Sun, 17 Jan 2021 14:25:58 -0500
-Received: by mail-wm1-x32b.google.com with SMTP id r4so12028468wmh.5;
- Sun, 17 Jan 2021 11:25:56 -0800 (PST)
+ id 1l1DfV-0004yI-Eh; Sun, 17 Jan 2021 14:25:00 -0500
+Received: by mail-wm1-x32b.google.com with SMTP id u14so7849985wmq.4;
+ Sun, 17 Jan 2021 11:24:56 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=ywUmqbvL1fXxkTM+pHTvth+aqc+cAGL+9PBE1kwGlvU=;
- b=k7DODHe+DDG3vQtF/snRglJd6BfW3ctKhMz9N5ZFRJPXSf0dzDpFVpp9dGeQyIgka2
- mdTqYVgIVGe5jiF7pLc665Uf/KYCTz00064LRcNBOnBSZwp4xOO/C2FsgmaTxp+Kiri3
- 3Mf9O0Cx7AipZaS1Zz8GU8BYzJTllHxdSsIAZYe4jQYB666OfBzttpHt1QlcVEFKMp2/
- DUtIxBfJ+7eq4+Tuhq2c7ApuCa19fDN6L1A5gmBj05wZQPRf7cxIsFi8TZ+4YZM1sl73
- AzwsJyf9tONeU4ZjEQivy5FmqH5hXP/mttczYyRpcyFWIc7Di+uYnV/oAf6jLi0l8iIp
- oobg==
+ bh=Vafwmt7UGiwAARCHIG5psXHv2hnCIeQD5qlHTz8atP8=;
+ b=YIvRs5DEaJw/jyD9Lu9/F/RTIrW7XhEmbkbHFnNcCIGrl9cOlqxwEtSJW/8TwNIZ+l
+ CoDzJMMuG0IrdayVH48zlOpVgL6LJmuhaaa3bXbPTZALbuE2KoZmPyy4o/60m8FRSdKc
+ XO2GmJj/whS33/I3SxDL+TfPZSKym4rtP3R+/rTe9sh9lc6oRqWxaPLH4iCAIkPJxkXd
+ 3PmT1aAer7RkKcEo8oHTy1CW11qLe6I3L/tW8W4tIrbliYm2AQMfAtrqCB3evdClCsNV
+ EneNw0l+iPT/wH/qiuV/Bua9Fy9n9YNu1N7vAhzNTVFbmYlUQGE1tMu3cnTEluO/JRPX
+ Wukg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=ywUmqbvL1fXxkTM+pHTvth+aqc+cAGL+9PBE1kwGlvU=;
- b=JO3E7PMNOhR12fnOh8SGjSW0hJSAzkiJQPitnwtNEXaAKf6NRInpSqAuBZx4xGQfr9
- 0wwosy4h5Pql16JH70dqXL/Eppq7fx26rj+TSuNv1QAEr2g4oonRvdDblhOBQLG8j7Ez
- S5qoljalsEjKczlVJlV6RH+uC5+WOA5oVGRKTcH2b7o6Y66p4CqCcHXziN5qP6Izwe9o
- FoixtFRj9aPKo4HmZeVTWRJbYyefq+afAfVByUg1ZsL2LvmImUsfd/yHXfgVav5utuhm
- WVUfHU+brS0lJltQ5FetA9P4z0x5upEHbOzdwyRZbwxITiSSkccQJBYAtAAovXq5IO+4
- cGCw==
-X-Gm-Message-State: AOAM533g0oP2YfIJEVAsfIY+7sHQTEvgJEUwXrygP+Mvud3CvGUVeR8W
- 9qTeNe0XHH5FnrPmRvZapNg=
-X-Google-Smtp-Source: ABdhPJza6zbRor9M5WyThlg8NoJDp6Fltcq7KawV8Ng1oH1jGEM16OJHPmdV21ZTChQidt5vQpLFbQ==
-X-Received: by 2002:a1c:9c91:: with SMTP id
- f139mr18028374wme.118.1610911556017; 
- Sun, 17 Jan 2021 11:25:56 -0800 (PST)
+ bh=Vafwmt7UGiwAARCHIG5psXHv2hnCIeQD5qlHTz8atP8=;
+ b=a3U3+e11lMtrSisMFx+8s5vhPRPCQqekzRrDmV7VjkqZr0klBBX4HF8vSJooFCDwNN
+ +fiK4N6v7c9fVl7TFmPalj2Ks8ugMp6okfUIUqQETykumiiKL2NsU44/BTN40bRcHTr7
+ YmStnsrTCjMmqpo+7xoKu19b1SarNWwjMapzwiU2xFqfsWCdFoV+aE490R8GEKOGPQGd
+ xEzi6TRFxdTJ1R2zPNOE4ksOYxqtpch4P+THofT5h1styVfA9QY78CPrbKqFJLe2t16R
+ 5p1396WVWZ26Y3aXANg9qvTY5krCPxM8OihH9NkvWyFSWXIbGJES74I0f8jpr7RAvemq
+ D32w==
+X-Gm-Message-State: AOAM533NcxynBtRGMdASaVyTQ3Mnr/rsqgdfJ7pUSDlFShDznIvxDXp3
+ jFkbp8h2xr0O/9VbqA1SsNw=
+X-Google-Smtp-Source: ABdhPJy2Z0EpzHJ5eAxkzhF93tt6soq0TpV11Q2+cAzt1rcQWY8ORK1vmFknf6ry9LKUxd1Hems5bg==
+X-Received: by 2002:a1c:4b14:: with SMTP id y20mr5519916wma.166.1610911495872; 
+ Sun, 17 Jan 2021 11:24:55 -0800 (PST)
 Received: from localhost.localdomain (13.red-83-57-169.dynamicip.rima-tde.net.
  [83.57.169.13])
- by smtp.gmail.com with ESMTPSA id c18sm42879172wmk.0.2021.01.17.11.25.54
+ by smtp.gmail.com with ESMTPSA id g10sm15146735wmq.3.2021.01.17.11.24.54
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 17 Jan 2021 11:25:55 -0800 (PST)
+ Sun, 17 Jan 2021 11:24:55 -0800 (PST)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 To: "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
 	qemu-devel@nongnu.org
-Subject: [RFC PATCH v2 12/20] hw/misc/armsse-cpuid: Mark the device with no
- migratable fields
-Date: Sun, 17 Jan 2021 20:24:38 +0100
-Message-Id: <20210117192446.23753-13-f4bug@amsat.org>
+Subject: [RFC PATCH v2 01/20] migration/vmstate: Restrict vmstate_dummy to
+ user-mode
+Date: Sun, 17 Jan 2021 20:24:27 +0100
+Message-Id: <20210117192446.23753-2-f4bug@amsat.org>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20210117192446.23753-1-f4bug@amsat.org>
 References: <20210117192446.23753-1-f4bug@amsat.org>
@@ -100,26 +99,66 @@ Cc: Peter Maydell <peter.maydell@linaro.org>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This device doesn't have fields to migrate. Be explicit
-by using vmstate_qdev_no_state_to_migrate.
+'vmstate_dummy' is special and only used for user-mode. Rename
+it to something more specific.
+It was introduced restricted to user-mode in commit c71c3e99b8
+("Add a vmstate_dummy struct for CONFIG_USER_ONLY") but this
+restriction was later removed in commit 6afc14e92ac ("migration:
+Fix warning caused by missing declaration of vmstate_dummy").
+Avoid the missing declaration warning by adding a stub for the
+symbol, and restore the #ifdef'ry.
 
+Suggested-by: Daniel Berrangé <berrange@redhat.com>
 Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 ---
- hw/misc/armsse-cpuid.c | 1 +
- 1 file changed, 1 insertion(+)
+ include/hw/core/cpu.h       | 2 +-
+ include/migration/vmstate.h | 4 +++-
+ stubs/vmstate.c             | 4 +++-
+ 3 files changed, 7 insertions(+), 3 deletions(-)
 
-diff --git a/hw/misc/armsse-cpuid.c b/hw/misc/armsse-cpuid.c
-index d58138dc28c..61251d538b9 100644
---- a/hw/misc/armsse-cpuid.c
-+++ b/hw/misc/armsse-cpuid.c
-@@ -115,6 +115,7 @@ static void armsse_cpuid_class_init(ObjectClass *klass, void *data)
-      * This device has no guest-modifiable state and so it
-      * does not need a reset function or VMState.
-      */
-+    dc->vmsd = vmstate_qdev_no_state_to_migrate;
+diff --git a/include/hw/core/cpu.h b/include/hw/core/cpu.h
+index 140fa32a5e3..c79a58db9b9 100644
+--- a/include/hw/core/cpu.h
++++ b/include/hw/core/cpu.h
+@@ -1132,7 +1132,7 @@ bool target_words_bigendian(void);
+ #ifdef CONFIG_SOFTMMU
+ extern const VMStateDescription vmstate_cpu_common;
+ #else
+-#define vmstate_cpu_common vmstate_dummy
++#define vmstate_cpu_common vmstate_user_mode_cpu_dummy
+ #endif
  
-     device_class_set_props(dc, armsse_cpuid_props);
- }
+ #define VMSTATE_CPU() {                                                     \
+diff --git a/include/migration/vmstate.h b/include/migration/vmstate.h
+index 075ee800960..dda65c9987d 100644
+--- a/include/migration/vmstate.h
++++ b/include/migration/vmstate.h
+@@ -194,7 +194,9 @@ struct VMStateDescription {
+     const VMStateDescription **subsections;
+ };
+ 
+-extern const VMStateDescription vmstate_dummy;
++#if defined(CONFIG_USER_ONLY)
++extern const VMStateDescription vmstate_user_mode_cpu_dummy;
++#endif
+ 
+ extern const VMStateInfo vmstate_info_bool;
+ 
+diff --git a/stubs/vmstate.c b/stubs/vmstate.c
+index cc4fe41dfc2..8da777a1fb4 100644
+--- a/stubs/vmstate.c
++++ b/stubs/vmstate.c
+@@ -1,7 +1,9 @@
+ #include "qemu/osdep.h"
+ #include "migration/vmstate.h"
+ 
+-const VMStateDescription vmstate_dummy = {};
++#if defined(CONFIG_USER_ONLY)
++const VMStateDescription vmstate_user_mode_cpu_dummy = {};
++#endif
+ 
+ int vmstate_register_with_alias_id(VMStateIf *obj,
+                                    uint32_t instance_id,
 -- 
 2.26.2
 
