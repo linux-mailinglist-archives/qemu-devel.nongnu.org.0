@@ -2,71 +2,80 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8D6992F9403
-	for <lists+qemu-devel@lfdr.de>; Sun, 17 Jan 2021 17:49:26 +0100 (CET)
-Received: from localhost ([::1]:47240 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9C13B2F9404
+	for <lists+qemu-devel@lfdr.de>; Sun, 17 Jan 2021 17:49:56 +0100 (CET)
+Received: from localhost ([::1]:49760 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l1BEz-0003lm-J1
-	for lists+qemu-devel@lfdr.de; Sun, 17 Jan 2021 11:49:25 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33736)
+	id 1l1BFT-0004nd-NL
+	for lists+qemu-devel@lfdr.de; Sun, 17 Jan 2021 11:49:55 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33790)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1l1BDS-00038U-CC
- for qemu-devel@nongnu.org; Sun, 17 Jan 2021 11:47:50 -0500
-Received: from mail-ed1-x533.google.com ([2a00:1450:4864:20::533]:46656)
+ (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
+ id 1l1BDj-0003Ps-Ds; Sun, 17 Jan 2021 11:48:07 -0500
+Received: from mail-ej1-x62b.google.com ([2a00:1450:4864:20::62b]:33286)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1l1BDQ-0001dP-Q6
- for qemu-devel@nongnu.org; Sun, 17 Jan 2021 11:47:50 -0500
-Received: by mail-ed1-x533.google.com with SMTP id dj23so12356613edb.13
- for <qemu-devel@nongnu.org>; Sun, 17 Jan 2021 08:47:47 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=Ol7Pplt1QX2TgzlDXq8iDZsLGkuYBPVKYlMm0bYXch0=;
- b=cU4mnCYcWX7ZvgizqQfW04ayZT3cvqSMD/GGJNRQh4eCPxNA/oYFFGWQHYu5GnaeRg
- p0nSfp4OEplOSxxfykTsR6Elc5U99cXySt0yygbhR0AeiX36YhgHBKE8YJLVmpGYXzts
- jM8JIK38058iiXgKI50yrw3uf9dC/liK5y+9tM8liozNsMei7X9RxMmBqIkzREyeOxRb
- AjYkbS32SbYPUHrQDAqmsSOR3S9X8etc5sn8dsMev7uwqR5YhE0oSbWja6iY0z2M7r1P
- weDyPY5vdQqHL4J5HznfxzdlE6C0PNAVUhQJyNVf0D5Kz6VcmdnoBhe/bb1WeL41ElUK
- xyjg==
+ (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
+ id 1l1BDh-0001iB-LG; Sun, 17 Jan 2021 11:48:07 -0500
+Received: by mail-ej1-x62b.google.com with SMTP id by1so13947959ejc.0;
+ Sun, 17 Jan 2021 08:48:04 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=sender:subject:from:to:cc:references:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=/s0DFF8WaXFbtUAbsxf7ZL3LlLs/rE2wcWl3kwPmFTk=;
+ b=Q9i9kEYPM95GNf3JxaX2Zmr0LaX9fvwOv+8Qg0zMC88ieSCSq9Bqz3XCpJL+Nz4jAY
+ pEswPcbcJu7jPnobiGaP4nkg3cYyXwE6pseRAZWSh9iuM7NtItrcWRAb3sl49ysAMesB
+ boHPSsRHsT5vaYfZuKBxfFjhkfngXvLCHLQt4uh96fgyn2Kh/AbL/sXuYe7pHRpMVl6e
+ 8tbTEo8MLrRF5vRVfWAbt8Lvzlrd1rhNcmcq8+BYw0kwQVAAv6ogTYlbiFZq76Vhk3BM
+ l5cIMbmtBK5gpnR1ckf4d0GkL0h6vkE83jhnrRDQEY2h4wc7vlVBefHhq6vpoPEMVhpS
+ GNKQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=Ol7Pplt1QX2TgzlDXq8iDZsLGkuYBPVKYlMm0bYXch0=;
- b=hQ882gk3I4Ogcgs18Wj+Im9DP50ddqWidqtRWxDZW9QuC6wDQbBGqae2Gv7ej2UpTX
- zsFjwDthK5pX9pJmLzYPRqynidN1LYJiSb/ZasfvPNQhnFE3UpYzxzwwMfux3Ofhtcp8
- h28N5PzshELDQ2sB7XSrwyoM4UGrHnG4XaJDGHtv17wLtfKw8K5d0xHG865Ymj59A7Nc
- MJ9cFGx4U3rMPD7R2jkh0AQsdbDTvK/WvX3KlTinOUnhjWFvgz8pMIG78Km5H4BH7RYJ
- SffXYmoB1Mn+HAvcKwGCOy1yAsS11/OB6du6vIyJevPrMTXg9Een0/LU/K4hcspIXm6I
- 4zpg==
-X-Gm-Message-State: AOAM532EdhF9zg3/PqmWzWihMHk7NB+z76O/ncXgkqE14ZO82nNz/sQI
- ZWekM0yE3yklWsYXvWLmAnNC4FKhh1w0/BvCviUdOQ==
-X-Google-Smtp-Source: ABdhPJwvXj5aquDdO+E66/EFJhOkJMmJCWbXBPXMUgCED2z49wFyF9vTjG0PXg4YYavy4aBW5zZFzRVpr0JOrGHV7oQ=
-X-Received: by 2002:a50:9ee3:: with SMTP id a90mr4081379edf.44.1610902066131; 
- Sun, 17 Jan 2021 08:47:46 -0800 (PST)
+ h=x-gm-message-state:sender:subject:from:to:cc:references:message-id
+ :date:user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=/s0DFF8WaXFbtUAbsxf7ZL3LlLs/rE2wcWl3kwPmFTk=;
+ b=soQ0gBvnk1OWaeKNI3aE1o1SJgWm653JKzMgPvSNb6RIsyHuvoaVFh9jNgop8QZrX8
+ +8MnED4kUGSmE+TkmMQmkXSAK7aJrfhAuAs9c0pqyt2xh0WdYEuppR65scHKCB21FbFS
+ J72HsQDr0gq84zsq0gDx+0qETOXmZIWfAaA4zn9UO8j14UcnlSghUaWYcS1ICChoJmto
+ pKa3rNcuOdl0jplPM2fsNnxmTBiHs2XdAhynNdKxtfkxl47Tj+xlxeN0DSaB5Zk/OR/C
+ 7uQrJoJLGZYfXXCtLVaWxAXpGPlKXCu0yvbMfvH48eXM/oBpQ/xTjf1elrvebUX3AYzr
+ vp3g==
+X-Gm-Message-State: AOAM530saS0TL8nQ++Ads9mIutEOOL7CT8tRrVPQONHvc4yy5vhesXRm
+ 2v9CKC6sb0HDI3JqtFZ4A/EG+0Ho0Cnsww==
+X-Google-Smtp-Source: ABdhPJxD5VzMBq4cfzexEN3Rjmn8/zngDNIFqmoZrtDO+P1M3qibDXr8ImKghxNT2YJGfTp/Kfb2Mw==
+X-Received: by 2002:a17:906:c045:: with SMTP id
+ bm5mr15098287ejb.190.1610902083504; 
+ Sun, 17 Jan 2021 08:48:03 -0800 (PST)
+Received: from ?IPv6:2001:b07:6468:f312:c8dd:75d4:99ab:290a?
+ ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
+ by smtp.googlemail.com with ESMTPSA id j9sm9415618eds.66.2021.01.17.08.48.02
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Sun, 17 Jan 2021 08:48:02 -0800 (PST)
+Subject: Re: [PATCH 00/28] qemu-option, keyval, vl: switch -object/-M/-accel
+ to keyval parsing
+From: Paolo Bonzini <pbonzini@redhat.com>
+To: qemu-devel@nongnu.org
+References: <20201202090305.4129317-1-pbonzini@redhat.com>
+Message-ID: <de8c073c-471b-8149-1200-8c7f061aae37@redhat.com>
+Date: Sun, 17 Jan 2021 17:48:01 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.6.0
 MIME-Version: 1.0
-References: <20210117160754.4086411-1-f4bug@amsat.org>
-In-Reply-To: <20210117160754.4086411-1-f4bug@amsat.org>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Sun, 17 Jan 2021 16:47:35 +0000
-Message-ID: <CAFEAcA8U74GifK08MtY8xU25EgfMxQf2kJO_Mn_yKeoabQokaA@mail.gmail.com>
-Subject: Re: [PATCH] softmmu/physmem: Hint notifier is not NULL in
- as_translate_for_iotlb()
-To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::533;
- envelope-from=peter.maydell@linaro.org; helo=mail-ed1-x533.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+In-Reply-To: <20201202090305.4129317-1-pbonzini@redhat.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::62b;
+ envelope-from=paolo.bonzini@gmail.com; helo=mail-ej1-x62b.google.com
+X-Spam_score_int: -17
+X-Spam_score: -1.8
+X-Spam_bar: -
+X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.25,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.25, NICE_REPLY_A=-0.252,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -79,66 +88,108 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Paolo Bonzini <pbonzini@redhat.com>, Thomas Huth <thuth@redhat.com>,
- =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>,
- QEMU Developers <qemu-devel@nongnu.org>
+Cc: kwolf@redhat.com, imammedo@redhat.com, armbru@redhat.com,
+ qemu-block@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Sun, 17 Jan 2021 at 16:07, Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>=
- wrote:
->
-> When using GCC 10.2 configured with --extra-cflags=3D-Os, we get:
->
->   softmmu/physmem.c: In function =E2=80=98address_space_translate_for_iot=
-lb=E2=80=99:
->   softmmu/physmem.c:643:26: error: =E2=80=98notifier=E2=80=99 may be used=
- uninitialized in this function [-Werror=3Dmaybe-uninitialized]
->     643 |         notifier->active =3D true;
->         |                          ^
->   softmmu/physmem.c:608:23: note: =E2=80=98notifier=E2=80=99 was declared=
- here
->     608 |     TCGIOMMUNotifier *notifier;
->         |                       ^~~~~~~~
->
-> Insert assertions as hint to the compiler that 'notifier' can
-> not be NULL there.
->
-> Signed-off-by: Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>
-> ---
-> Yet another hole in our CI.
-> ---
->  softmmu/physmem.c | 3 ++-
->  1 file changed, 2 insertions(+), 1 deletion(-)
->
-> diff --git a/softmmu/physmem.c b/softmmu/physmem.c
-> index 6301f4f0a5c..65602ed548e 100644
-> --- a/softmmu/physmem.c
-> +++ b/softmmu/physmem.c
-> @@ -605,7 +605,7 @@ static void tcg_register_iommu_notifier(CPUState *cpu=
-,
->       * when the IOMMU tells us the mappings we've cached have changed.
->       */
->      MemoryRegion *mr =3D MEMORY_REGION(iommu_mr);
-> -    TCGIOMMUNotifier *notifier;
-> +    TCGIOMMUNotifier *notifier =3D NULL;
->      int i;
->
->      for (i =3D 0; i < cpu->iommu_notifiers->len; i++) {
-> @@ -638,6 +638,7 @@ static void tcg_register_iommu_notifier(CPUState *cpu=
-,
->          memory_region_register_iommu_notifier(notifier->mr, &notifier->n=
-,
->                                                &error_fatal);
->      }
-> +    assert(notifier !=3D NULL);
->
->      if (!notifier->active) {
->          notifier->active =3D true;
+On 02/12/20 10:02, Paolo Bonzini wrote:
+> This series switches -object, -M and -accel from QemuOpts to keyval.
+> Monitor commands device_add and netdev_add are also switched to keyval,
+> though -device and -netdev for now are not.
+> 
+> Along the way, the syntax of keyval and QemuOpts becomes more consistent
+> and support for keyval-based options is added to -readconfig.  -writeconfig
+> instead is removed (see patch 13 for rationale).
+> 
+> The reason to do this is:
+> 
+> - to make qemu-io, qemu-nbd, qemu-img and QEMU's parsing of -object
+>    consistent with qemu-storage-daemon's
+> 
+> - to allow using compound properties in -object, -M and -accel
+> 
+> Patch 1-5: make QemuOpts parsing a bit more restrictive, warning for
+> short-form boolean options and removing weird ways to request help
+> such as "help=foo" or "no?".
+> 
+> Patch 6-12: let keyval accept escaped commas in implied options,
+> switch comma-separated syntax for HMP from QemuOpts to keyval,
+> add help support to object_add
+> 
+> Patch 13-18: plumbing for reading keyval-based options in vl.c,
+> including -set and -readconfig.
+> 
+> Patch 19-23: switch -object to keyval everywhere
+> 
+> Patch 24-28: switch -M and -accel to keyval
+> 
+> Paolo Bonzini (28):
+>    qemu-option: simplify search for end of key
+>    qemu-option: pass QemuOptsList to opts_accepts_any
+>    qemu-option: clean up id vs. list->merge_lists
+>    qemu-option: move help handling to get_opt_name_value
+>    qemu-option: warn for short-form boolean options
+>    keyval: accept escaped commas in implied option
+>    keyval: simplify keyval_parse_one
+>    tests: convert check-qom-proplist to keyval
+>    keyval: introduce keyval_parse_into
+>    hmp: replace "O" parser with keyval
+>    qom: use qemu_printf to print help for user-creatable objects
+>    hmp: special case help options for object_add
+>    remove -writeconfig
+>    qemu-config: add error propagation to qemu_config_parse
+>    qemu-option: support accept-any QemuOptsList in qemu_opts_absorb_qdict
+>    qemu-config: parse configuration files to a QDict
+>    vl: plumb keyval-based options into -set and -readconfig
+>    qom: do not modify QDict argument in user_creatable_add_dict
+>    qemu-io: use keyval for -object parsing
+>    qemu-nbd: use keyval for -object parsing
+>    qemu-img: use keyval for -object parsing
+>    qemu: use keyval for -object parsing
+>    storage-daemon: do not register the "object" group with QemuOpts
+>    qom: export more functions for use with non-UserCreatable objects
+>    vl: rename local variable in configure_accelerators
+>    vl: switch -M parsing to keyval
+>    qemu-option: remove now-dead code
+>    vl: switch -accel parsing to keyval
+> 
+>   accel/accel.c                        |   6 +
+>   block/blkdebug.c                     |   3 +-
+>   docs/system/deprecated.rst           |   6 +
+>   hmp-commands.hx                      |   6 +-
+>   include/block/qdict.h                |   2 -
+>   include/qapi/qmp/qdict.h             |   3 +
+>   include/qemu/config-file.h           |   9 +-
+>   include/qemu/help_option.h           |  11 -
+>   include/qemu/option.h                |   6 +-
+>   include/qom/object.h                 |  21 +
+>   include/qom/object_interfaces.h      |  68 +--
+>   include/sysemu/accel.h               |   1 +
+>   monitor/hmp-cmds.c                   |  22 +-
+>   monitor/hmp.c                        |  20 +-
+>   qemu-img.c                           | 258 ++--------
+>   qemu-io.c                            |  42 +-
+>   qemu-nbd.c                           |  42 +-
+>   qemu-options.hx                      |  13 +-
+>   qom/object_interfaces.c              | 152 ++----
+>   softmmu/vl.c                         | 687 ++++++++++++++-------------
+>   storage-daemon/qemu-storage-daemon.c |  10 -
+>   tests/check-qom-proplist.c           |  58 ++-
+>   tests/test-keyval.c                  |  53 ++-
+>   tests/test-qemu-opts.c               |  37 +-
+>   util/keyval.c                        | 230 +++++----
+>   util/qemu-config.c                   | 141 +++---
+>   util/qemu-option.c                   | 184 ++++---
+>   27 files changed, 946 insertions(+), 1145 deletions(-)
+> 
 
-Is the assert() necessary to prevent the compiler complaining?
-Usually we don't bother if it's about to be dereferenced anyway.
+Ping?  It's been over a month (even if with the Christmas vacation).
 
-thanks
--- PMM
+Patches 1-2 were already reviewed so I have included them already.  I 
+would like at least the next 14 patches to go in as soon as possible. 
+(The rest can be routed through maintainer trees or I can post them 
+together with the softmmu/vl.c cleanups).
+
+Paolo
 
