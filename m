@@ -2,67 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 77CF42F9405
-	for <lists+qemu-devel@lfdr.de>; Sun, 17 Jan 2021 17:50:42 +0100 (CET)
-Received: from localhost ([::1]:51086 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 28A632F940A
+	for <lists+qemu-devel@lfdr.de>; Sun, 17 Jan 2021 17:52:51 +0100 (CET)
+Received: from localhost ([::1]:59566 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l1BGD-0005LF-Ey
-	for lists+qemu-devel@lfdr.de; Sun, 17 Jan 2021 11:50:41 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33884)
+	id 1l1BII-0000Pu-6f
+	for lists+qemu-devel@lfdr.de; Sun, 17 Jan 2021 11:52:50 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33910)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1l1BDy-0003kL-Aj
- for qemu-devel@nongnu.org; Sun, 17 Jan 2021 11:48:22 -0500
-Received: from mail-wm1-x332.google.com ([2a00:1450:4864:20::332]:34115)
+ id 1l1BE0-0003p0-GP
+ for qemu-devel@nongnu.org; Sun, 17 Jan 2021 11:48:24 -0500
+Received: from mail-wr1-x42e.google.com ([2a00:1450:4864:20::42e]:38847)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1l1BDu-0001mi-Mw
- for qemu-devel@nongnu.org; Sun, 17 Jan 2021 11:48:19 -0500
-Received: by mail-wm1-x332.google.com with SMTP id o10so4721871wmc.1
- for <qemu-devel@nongnu.org>; Sun, 17 Jan 2021 08:48:18 -0800 (PST)
+ id 1l1BDz-0001ov-0A
+ for qemu-devel@nongnu.org; Sun, 17 Jan 2021 11:48:24 -0500
+Received: by mail-wr1-x42e.google.com with SMTP id a9so10749025wrt.5
+ for <qemu-devel@nongnu.org>; Sun, 17 Jan 2021 08:48:22 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=j3JO6B4e+EksihTZ4KfA1a5Cno5UeILnoolPiRJ8pcI=;
- b=YkpPqM1oOwfyBRG+q9tS50pmH6pgiQQ/qvcyMSjTpDN1WNDXyPpUQawXMiPbNnZYhM
- ZP+s4vt5IUQOK31ZSK7fmoyfWzwojtCCuKTqn3iOHn6SbvHHyqcFlU7SUbff0g3p/9Le
- vNnvnACMC0VkZmkATaJPXA8XC7a7ZhQUgn/ZL7cC5pmJ7G7kVzazLoQ+eexQejn2kU4Z
- 5zG4OOe1cBqHlMQZhTA+HfqVuCHH7rqXnNp7BujF8dPObXNTJf9qVhBUkhi4dtlhtStB
- KB/AeQHIHayEuLbxG5YtXUuJqSpUsIw3WPLdApNZY16k3kYVMtiral6QVQh5zpaYpflT
- otmQ==
+ h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=xDfrjU7kI1sr1RDYArfADvyCVAF59u47MTJHcFAtFYw=;
+ b=imypN1rpJz8e9ZiUVoWa5BvlKtQwgK3bobVSemLSV2fQI/G/nxGfkN3Dh/t3Jhbr3n
+ 8bZBILuu60QBQ7xAoA8kQmQS5RAx5aIEtbXRw9XzgcDJsrmK0MuFeO76eEn2uPQ7g0/1
+ Pt6braFeW9twcm2rR7yOffloNtuZIfkOofdLP7Sm0JSS/BLaH25O2WbzPFN3YVbHI7xz
+ BT8WHnhK3WGIA1OWM1AcunLhtiNjZ0u4DFbyreiYEi2Y3Mg6wvbI+0Q9In0HdFQPVNcJ
+ 9cazlGS4KC6nXg3tHGgFe93hipJ8SVErgraOPNiCzHEEVJXgxOZIj7q8m/GdV4skKI/k
+ IXLQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
- :mime-version:content-transfer-encoding;
- bh=j3JO6B4e+EksihTZ4KfA1a5Cno5UeILnoolPiRJ8pcI=;
- b=t4NaoUC+80HT13ES/8pUCkaiC16md1aKsByPMQ9Ut6CzG5ADxjjCKx5AY24YGpO1YX
- aVO7bkgZjobJlrxcL+0696UZR89Cs2lYWcC3LB2cVmXducxZw41lNDzcDoArRNRLhnVQ
- QkljcPVGqNPtyIedEO1R+H+SwrsUKftMdSGf3tPBSUExNSuHvvrxxL/3a4eHVkK4kjAK
- XeVOqOxK2B0XuBOVMOUIdQXHbA3k5WclCHXh7Kv8oigfvwAzqaQxhMM61nohftHxjOLt
- UJHQ10MrC6GRbwO+VmgHu3wDWiyUMM5C0h3j/Yx1xBafZp+hjUhmsLkogoUGfyUnlTdE
- SAag==
-X-Gm-Message-State: AOAM531ruR2NrbHvDGvBNiWFP90pQ/ruAfhUmHyXp4Eqcgsk4SMfRbAt
- dgLLP5cnqsFc5vikMkLG0NDx9r5cSzk=
-X-Google-Smtp-Source: ABdhPJy6yZBcyMc4IxiPyTVlfC6thFZHe3S7haW7zp89Rh2ENSvfgF2CbEJJ4/GmHyxdhSriNWoOwg==
-X-Received: by 2002:a7b:c31a:: with SMTP id k26mr17035379wmj.72.1610902096473; 
- Sun, 17 Jan 2021 08:48:16 -0800 (PST)
+ :in-reply-to:references:mime-version:content-transfer-encoding;
+ bh=xDfrjU7kI1sr1RDYArfADvyCVAF59u47MTJHcFAtFYw=;
+ b=o8d7ld9FOIPVaMCFJ7YJaQIwicpA6CaAfR2HlKFmHH+7phfz00a2OAvkPoRd73O49Y
+ Sfg6n1J6/QyFs6tm3P0M3270++0oQ56LMEu8rsnDC5HVOxn/nblmbWNeihqSc91dKiUC
+ EH+lX2H1M2yt03vQcmtzdqXrvALsy9lXf6QKNmn1iwU4X4HVXUxeZvJIjn6Io8F82DHs
+ 8cD5YD5oe61nxX7V2IEsjaAVmKpdrZYEj8Y0ZkjeJMC5iaXu01SlECrV5dFJwFGuonnL
+ MYMUW3WIn37tpEYvhkXEU/xrBAFWnKmrmgUiIAE1SY6JceiHF0AqL9H+lvq7/pHyjnCi
+ j+pg==
+X-Gm-Message-State: AOAM532u/HKRJi5yXP09Km+8Wc6IfEWWO8z5UkSC4kKDcfPlhb52ej6d
+ s3/SZpbkOgBaPoDB5ImXCQRtRA1BNQs=
+X-Google-Smtp-Source: ABdhPJydWQhkpkd8PD68Pwm/KDlDLBr8mI9TKOIEAKbpff8AfzxUeVQ/T4xf4p5ziObbNqPqkRJE/w==
+X-Received: by 2002:a5d:6443:: with SMTP id d3mr21803331wrw.422.1610902101470; 
+ Sun, 17 Jan 2021 08:48:21 -0800 (PST)
 Received: from localhost.localdomain (13.red-83-57-169.dynamicip.rima-tde.net.
  [83.57.169.13])
- by smtp.gmail.com with ESMTPSA id g18sm18132670wrw.61.2021.01.17.08.48.14
+ by smtp.gmail.com with ESMTPSA id z8sm6534364wmi.44.2021.01.17.08.48.20
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 17 Jan 2021 08:48:15 -0800 (PST)
+ Sun, 17 Jan 2021 08:48:20 -0800 (PST)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 0/6] accel: Restrict TCG-specific code
-Date: Sun, 17 Jan 2021 17:48:07 +0100
-Message-Id: <20210117164813.4101761-1-f4bug@amsat.org>
+Subject: [PATCH 1/6] accel/tcg: Make cpu_gen_init() static
+Date: Sun, 17 Jan 2021 17:48:08 +0100
+Message-Id: <20210117164813.4101761-2-f4bug@amsat.org>
 X-Mailer: git-send-email 2.26.2
+In-Reply-To: <20210117164813.4101761-1-f4bug@amsat.org>
+References: <20210117164813.4101761-1-f4bug@amsat.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::332;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x332.google.com
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::42e;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x42e.google.com
 X-Spam_score_int: -14
 X-Spam_score: -1.5
 X-Spam_bar: -
@@ -92,37 +94,44 @@ Cc: Peter Maydell <peter.maydell@linaro.org>, Riku Voipio <riku.voipio@iki.fi>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi,=0D
-=0D
-I've prepared some patches to have KVM-only builds.=0D
-Some patches are generic - well kind of, instead they are=0D
-TCG specific =3D) - so I'm sending them as a separate series.=0D
-=0D
-Please review,=0D
-=0D
-Phil.=0D
-=0D
-Philippe Mathieu-Daud=C3=A9 (6):=0D
-  accel/tcg: Make cpu_gen_init() static=0D
-  accel/tcg: Restrict tb_flush_jmp_cache() from other accelerators=0D
-  accel/tcg: Restrict tb_gen_code() from other accelerators=0D
-  accel/tcg: Declare missing cpu_loop_exit*() stubs=0D
-  accel/tcg: Restrict cpu_io_recompile() from other accelerators=0D
-  softmmu: Restrict watchpoint handlers to TCG accelerator=0D
-=0D
- accel/tcg/internal.h      | 23 +++++++++++++++++++++++=0D
- include/exec/exec-all.h   | 11 -----------=0D
- include/hw/core/cpu.h     |  4 ++--=0D
- accel/stubs/tcg-stub.c    | 10 ++++++++++=0D
- accel/tcg/cpu-exec.c      |  1 +=0D
- accel/tcg/cputlb.c        |  1 +=0D
- accel/tcg/translate-all.c |  3 ++-=0D
- accel/tcg/user-exec.c     |  1 +=0D
- softmmu/physmem.c         |  4 ++++=0D
- 9 files changed, 44 insertions(+), 14 deletions(-)=0D
- create mode 100644 accel/tcg/internal.h=0D
-=0D
--- =0D
-2.26.2=0D
-=0D
+cpu_gen_init() is TCG specific, only used in tcg/translate-all.c.
+No need to export it to other accelerators, declare it statically.
+
+Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+---
+We could also inline the 1-line call..
+---
+ include/exec/exec-all.h   | 2 --
+ accel/tcg/translate-all.c | 2 +-
+ 2 files changed, 1 insertion(+), 3 deletions(-)
+
+diff --git a/include/exec/exec-all.h b/include/exec/exec-all.h
+index 2e5b4bba48f..516013e735a 100644
+--- a/include/exec/exec-all.h
++++ b/include/exec/exec-all.h
+@@ -47,8 +47,6 @@ void gen_intermediate_code(CPUState *cpu, TranslationBlock *tb, int max_insns);
+ void restore_state_to_opc(CPUArchState *env, TranslationBlock *tb,
+                           target_ulong *data);
+ 
+-void cpu_gen_init(void);
+-
+ /**
+  * cpu_restore_state:
+  * @cpu: the vCPU state is to be restore to
+diff --git a/accel/tcg/translate-all.c b/accel/tcg/translate-all.c
+index e9de6ff9dd7..ca7ef6aa177 100644
+--- a/accel/tcg/translate-all.c
++++ b/accel/tcg/translate-all.c
+@@ -243,7 +243,7 @@ static void page_table_config_init(void)
+     assert(v_l2_levels >= 0);
+ }
+ 
+-void cpu_gen_init(void)
++static void cpu_gen_init(void)
+ {
+     tcg_context_init(&tcg_init_ctx);
+ }
+-- 
+2.26.2
+
 
