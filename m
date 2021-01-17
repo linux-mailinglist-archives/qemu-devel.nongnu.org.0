@@ -2,69 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 67A352F940E
-	for <lists+qemu-devel@lfdr.de>; Sun, 17 Jan 2021 17:54:18 +0100 (CET)
-Received: from localhost ([::1]:38182 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 517732F940B
+	for <lists+qemu-devel@lfdr.de>; Sun, 17 Jan 2021 17:53:01 +0100 (CET)
+Received: from localhost ([::1]:60536 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l1BJh-0003Dd-EB
-	for lists+qemu-devel@lfdr.de; Sun, 17 Jan 2021 11:54:17 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34000)
+	id 1l1BIS-0000ny-Ck
+	for lists+qemu-devel@lfdr.de; Sun, 17 Jan 2021 11:53:00 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34052)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1l1BEG-00048C-Nw
- for qemu-devel@nongnu.org; Sun, 17 Jan 2021 11:48:41 -0500
-Received: from mail-wm1-x331.google.com ([2a00:1450:4864:20::331]:36788)
+ id 1l1BEN-0004BA-2c
+ for qemu-devel@nongnu.org; Sun, 17 Jan 2021 11:48:47 -0500
+Received: from mail-wm1-x332.google.com ([2a00:1450:4864:20::332]:40742)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1l1BEF-0001tr-98
- for qemu-devel@nongnu.org; Sun, 17 Jan 2021 11:48:40 -0500
-Received: by mail-wm1-x331.google.com with SMTP id v184so7614724wma.1
- for <qemu-devel@nongnu.org>; Sun, 17 Jan 2021 08:48:37 -0800 (PST)
+ id 1l1BEK-0001vM-V0
+ for qemu-devel@nongnu.org; Sun, 17 Jan 2021 11:48:46 -0500
+Received: by mail-wm1-x332.google.com with SMTP id r4so11815949wmh.5
+ for <qemu-devel@nongnu.org>; Sun, 17 Jan 2021 08:48:43 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=IdvZXWO0/2ft9HXnEBMCvSFP098rRCS4xqKPXBAMD88=;
- b=q+LybSz3hTQG0sdPiNPSWhBg9FIBb5NC04B+Ee7coimMmQUjrU7/FZA9BvTIhQ4HfU
- kKW+SH8zd7As6FUdm4x5fthoVMyvGH+YzcWQNfD/h2+y4m8jCz3OIY4gUhAYRZV+AGXt
- 0QXYqU5oun5JFRRzIn0NcfkqE0PRy7iBr9krpEQt9Ne5XR7+15L/Y0LDh6Xc9Q7QPrj9
- 7xk/5Oi6uOwAHbhfxsVUWN+9lw92zm4EIASm+uTgnGNVPDIZ6o1NUnmmGzWwQsaQThCp
- edAv1lrJSzgeN/XcHBnRTTkNv1aZRWFI9eZ6Uld9SzZd3owXCRFas807ENarK7R/Yb6A
- 6z1Q==
+ bh=UZYwqIRQuLmBtaprCcoYNaqSL+UUeepn3F/UBlfKHSc=;
+ b=Mg7UU5eoMqdI+nhY0LeAI+Qune6QfeigS3jDa2pSJ88ArzDXWYZrZ4iZCTFhv27FAt
+ XBkDE7fVKw5QFwafvoH0ltcr8Q58U18U/BPZWNGfiDzxDjB+7oz5dJRsHNW77x6nJ3dV
+ ED01HFuzwdUXs6UTz0QxOoN3Vk1WDoxDtTjuJXjs4WKDDT5gEytfYnBs3/eUnXk32XWb
+ 4ygGms+c3esnPgNyGHremMRkAJl4rfYE0FVGf5UAKtdcYjT2XckhjJCyYO5hSRxuLC5Z
+ w15B8l0BqCWsKChRJqHksUu1fIqNC92+qgiGVdf4UjxU9OQJMp6NhbwP6JgDE/McaonR
+ 2iOg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=IdvZXWO0/2ft9HXnEBMCvSFP098rRCS4xqKPXBAMD88=;
- b=n3Fc56jRaIMeE/1AV1Jh/bcVZLweLGw+PAQwOJS58aS34eqTcc6nos+2NDyV5TZw1t
- Mx70kPCBEPhC6uEZVBQFhaeZEQirMXdVRH3QvJtHifDyN+qY7gdEdJUDIiRoFC9Ziijl
- 7V7hkByOGsOfttVGorHDwVE4BMLyXGoIWQMOmbhvaeFeC9SwxNmRGj0pPmBhKQxY03g8
- bCg6hPS0fTOQee+4H5a/498oPLHH+vbX1Dw/xHT3WcYTK1gonHKvjtxXZz2ehQ4YSoCf
- 5WdAWHB/20Uc4YgUFbFEEQBieslwgsD3TFGuUwpL0kTeMI6b4ol8R1VRXaYyOzDXwFED
- vf5g==
-X-Gm-Message-State: AOAM533iRcVGC8QzjhZ9mt/MvuFjOQUn0xHQhm1aqUqB37gm/De04TcU
- CwMeDXjo5OWI0yo8jGDJr06d35Mn+ug=
-X-Google-Smtp-Source: ABdhPJySu7s0H+ZsCwsLugDNtCt67aIogtEi2clUdX79r66Ba+dIzNkbv397uoZyfTRIlrO7ANThQQ==
-X-Received: by 2002:a7b:c3d3:: with SMTP id t19mr8998552wmj.151.1610902116757; 
- Sun, 17 Jan 2021 08:48:36 -0800 (PST)
+ bh=UZYwqIRQuLmBtaprCcoYNaqSL+UUeepn3F/UBlfKHSc=;
+ b=qgmWg+w2YN/tYRwtcRwbnaAgvgrFjgczKbV9rOsX6L4OP8Vn4N0ETDQMEToTcq2r90
+ wHfmV1JfgRysoK2PoYQSzT/kVC4EuiKOyDwaUaN25W8Ju3BermLtihYQIV6FcEk5N+Nw
+ Dgh3X0vaIsO9l0j52noa2+ouEEfRGo8JMpCpMNsjXqsehY5UDnl8hV+iJsqFcnI2mu1X
+ XGB++Teg9UbDaUWw5ul8OlPkv8QSKvgDK249mCcm3jxXWXrYVBHTDgO/v27GTAGY73xY
+ wka/SChQZAD7fDP3WMtUeY/Pzk+7OFHkjj691qREUvQ6qGRh2cifwLYO8of5BdaHsRXx
+ RaOg==
+X-Gm-Message-State: AOAM532nNchVXagxk5AHlmXPxF6cfng/NiB4i8D7MR1njbHCuILS2zJS
+ yo6kuLt4Ziv0uZfF+8EF+K0zNf9rhho=
+X-Google-Smtp-Source: ABdhPJzUybtrTFNUCU/BSNg/VvtwLquz2yYQGtaAQhiEDwZTLN4tVAZS9V8aRKVK73APW8fp0w0WOg==
+X-Received: by 2002:a05:600c:3549:: with SMTP id
+ i9mr16527154wmq.89.1610902122108; 
+ Sun, 17 Jan 2021 08:48:42 -0800 (PST)
 Received: from localhost.localdomain (13.red-83-57-169.dynamicip.rima-tde.net.
  [83.57.169.13])
- by smtp.gmail.com with ESMTPSA id z8sm6535372wmi.44.2021.01.17.08.48.35
+ by smtp.gmail.com with ESMTPSA id z8sm6535744wmi.44.2021.01.17.08.48.40
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 17 Jan 2021 08:48:36 -0800 (PST)
+ Sun, 17 Jan 2021 08:48:41 -0800 (PST)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 4/6] accel/tcg: Declare missing cpu_loop_exit*() stubs
-Date: Sun, 17 Jan 2021 17:48:11 +0100
-Message-Id: <20210117164813.4101761-5-f4bug@amsat.org>
+Subject: [RFC PATCH 5/6] accel/tcg: Restrict cpu_io_recompile() from other
+ accelerators
+Date: Sun, 17 Jan 2021 17:48:12 +0100
+Message-Id: <20210117164813.4101761-6-f4bug@amsat.org>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20210117164813.4101761-1-f4bug@amsat.org>
 References: <20210117164813.4101761-1-f4bug@amsat.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::331;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x331.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::332;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x332.google.com
 X-Spam_score_int: -14
 X-Spam_score: -1.5
 X-Spam_bar: -
@@ -94,58 +96,40 @@ Cc: Peter Maydell <peter.maydell@linaro.org>, Riku Voipio <riku.voipio@iki.fi>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-cpu_loop_exit*() functions are declared in accel/tcg/cpu-exec-common.c,
-and are not available when TCG accelerator is not built. Add stubs so
-linking without TCG succeed.
-
-Problematic files:
-
-- hw/semihosting/console.c in qemu_semihosting_console_inc()
-- hw/ppc/spapr_hcall.c in h_confer()
-- hw/s390x/ipl.c in s390_ipl_reset_request()
-- hw/misc/mips_itu.c
+As cpu_io_recompile() is only called within TCG accelerator
+in cputlb.c, declare it locally.
 
 Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 ---
-I suppose the s390x kvm-only build didn't catch this because
-of compiler optimization:
-
-in s390_ipl_reset_request():
-
-640     if (tcg_enabled()) {
-641         cpu_loop_exit(cs);
-642     }
-
-and "sysemu/tcg.h" is:
-
- 13 #ifdef CONFIG_TCG
- 14 extern bool tcg_allowed;
- 15 #define tcg_enabled() (tcg_allowed)
- 16 #else
- 17 #define tcg_enabled() 0
- 18 #endif
+RFC because not sure if other accelerator could implement this.
 ---
- accel/stubs/tcg-stub.c | 10 ++++++++++
- 1 file changed, 10 insertions(+)
+ accel/tcg/internal.h    | 2 ++
+ include/exec/exec-all.h | 1 -
+ 2 files changed, 2 insertions(+), 1 deletion(-)
 
-diff --git a/accel/stubs/tcg-stub.c b/accel/stubs/tcg-stub.c
-index 8c18d3eabdd..2304606f8e0 100644
---- a/accel/stubs/tcg-stub.c
-+++ b/accel/stubs/tcg-stub.c
-@@ -28,3 +28,13 @@ void *probe_access(CPUArchState *env, target_ulong addr, int size,
-      /* Handled by hardware accelerator. */
-      g_assert_not_reached();
- }
+diff --git a/accel/tcg/internal.h b/accel/tcg/internal.h
+index f7e18c3498b..c72a69e4d63 100644
+--- a/accel/tcg/internal.h
++++ b/accel/tcg/internal.h
+@@ -18,4 +18,6 @@ TranslationBlock *tb_gen_code(CPUState *cpu,
+ 
+ void tb_flush_jmp_cache(CPUState *cpu, target_ulong addr);
+ 
++void QEMU_NORETURN cpu_io_recompile(CPUState *cpu, uintptr_t retaddr);
 +
-+void QEMU_NORETURN cpu_loop_exit(CPUState *cpu)
-+{
-+    g_assert_not_reached();
-+}
-+
-+void QEMU_NORETURN cpu_loop_exit_restore(CPUState *cpu, uintptr_t pc)
-+{
-+    g_assert_not_reached();
-+}
+ #endif
+diff --git a/include/exec/exec-all.h b/include/exec/exec-all.h
+index 3acc7c2943a..125000bcf70 100644
+--- a/include/exec/exec-all.h
++++ b/include/exec/exec-all.h
+@@ -63,7 +63,6 @@ void restore_state_to_opc(CPUArchState *env, TranslationBlock *tb,
+ bool cpu_restore_state(CPUState *cpu, uintptr_t searched_pc, bool will_exit);
+ 
+ void QEMU_NORETURN cpu_loop_exit_noexc(CPUState *cpu);
+-void QEMU_NORETURN cpu_io_recompile(CPUState *cpu, uintptr_t retaddr);
+ void QEMU_NORETURN cpu_loop_exit(CPUState *cpu);
+ void QEMU_NORETURN cpu_loop_exit_restore(CPUState *cpu, uintptr_t pc);
+ void QEMU_NORETURN cpu_loop_exit_atomic(CPUState *cpu, uintptr_t pc);
 -- 
 2.26.2
 
