@@ -2,70 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4E1B92F94F7
-	for <lists+qemu-devel@lfdr.de>; Sun, 17 Jan 2021 20:41:20 +0100 (CET)
-Received: from localhost ([::1]:53896 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AAB822F94E9
+	for <lists+qemu-devel@lfdr.de>; Sun, 17 Jan 2021 20:33:33 +0100 (CET)
+Received: from localhost ([::1]:59006 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l1DvL-00075D-CX
-	for lists+qemu-devel@lfdr.de; Sun, 17 Jan 2021 14:41:19 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58136)
+	id 1l1Dno-0005dG-Ng
+	for lists+qemu-devel@lfdr.de; Sun, 17 Jan 2021 14:33:32 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58150)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1l1DgL-0007ue-Ub; Sun, 17 Jan 2021 14:25:50 -0500
-Received: from mail-wr1-x436.google.com ([2a00:1450:4864:20::436]:36146)
+ id 1l1DgP-00080G-L6; Sun, 17 Jan 2021 14:25:53 -0500
+Received: from mail-wr1-x435.google.com ([2a00:1450:4864:20::435]:38732)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1l1DgJ-0005Hp-5C; Sun, 17 Jan 2021 14:25:49 -0500
-Received: by mail-wr1-x436.google.com with SMTP id 6so7158530wri.3;
- Sun, 17 Jan 2021 11:25:45 -0800 (PST)
+ id 1l1DgO-0005Iv-5u; Sun, 17 Jan 2021 14:25:53 -0500
+Received: by mail-wr1-x435.google.com with SMTP id a9so11001436wrt.5;
+ Sun, 17 Jan 2021 11:25:51 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=jZzarPuuax9WApxhmE01fr+TB+KCuz6yb6zkBqC3alw=;
- b=BjEEoijBKCngZNJ4PJZ9MgD12GyN9KvoyfaGeEFEvlCRaOIoYLXGxTatCJpEj4A7y3
- QeYv14aOuInHEnyD2NXsa1mdVFUhA4VsRr4jEeV0C6EH32G6pFo0XnD9buanUxPH/Udv
- Pj9vdTuj8vCc5hEOHzcdAAW81FX1G1O/iPSCtd9ArbzAtBvlkn5kfY3oGmREszpgJyjq
- PLGcmzXandd80hwLqc8pxwMEt709t7gPmIaEl+Jhk8jwEClgjH6k0D6RnY81wPR4fZeg
- pooL7huiagIHMJwBXtLpoAOMO2p8C1JidxSVlDjan/PgzTuikmo3UojoSN7dzQPT86Hl
- t3nw==
+ bh=Z6fdnKTIA2Uc0MDNjyGFMUBSbkvaU7MEUTklOzizagw=;
+ b=i831de7ev0B0ka/oKIaU7WcweUF8wA6VKEUx3FYesxBXhAhi8O2BP9AKIfHV6h2Zdb
+ /KdQ2Qhs5o3gouffIc31QonCGidlp9UD+KBva0GCd9KslDqfyEwLCfCg6OHWsgCVeaip
+ qYZncpxH3yJ3U0zQiedGxfG3Jt6bg4lry0ZcjuRWV1xUydMHr6Nlzh5mx+R4sZX6/Jn0
+ 1mOgQNwgDuhqBH/shdu1RCmylc4/KJyLr1/uFhom5rx6HzokXlYUnodFYfe2etd6a7V/
+ ONu3ivBrmll+MpFjeawgRm4QOAuLvq5Ez8e3vITnBoCI3T4vLZ/BZa8PEz0fYwD/AW/c
+ pHZQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=jZzarPuuax9WApxhmE01fr+TB+KCuz6yb6zkBqC3alw=;
- b=f6eis7R7bqSTLQxNpN3f47s+q9ZbvOpREUasBwZxRQOnUF+A8ZsXdAEJSBP3hAj2Cx
- 5pvbXA+bjBT58ZS+qBXBR6dXghpkqGZHOkdMO9L7sEONfCDKIIoXBS1+t+eEmldGMh5s
- eiQXyisapaLgDS+2PcdDLHuV/5NIGq+ud01e+9YJTyQmjkFwJejK+/HDry+Cv/+Nml46
- CNgRwt7SUE/H5vQf4WuDeEBLYEGPJKf0aQtvO9oWL6cBlecnZKlo08WiZR78v9bF/zRw
- HkfarQC/SOih0Mv/NKIOTVwvr6tzF7UQ5cc7f1pWIooqQJaEif76Q34vHOafM/tcjRmZ
- z3XQ==
-X-Gm-Message-State: AOAM530qzSufZja1wj4LOcG4zWcEIFcH9QsoLaaX/gIrs1fTDdczp/cj
- 7CYMIbwqBIQ3+eirqESu3IM=
-X-Google-Smtp-Source: ABdhPJzhHN5NH3XdmnMDGLeheKdmt+bcamNy9x8l13em+2QyDbAM7LcWd7IqgOeUT8KztyA/3dOdlg==
-X-Received: by 2002:a05:6000:1547:: with SMTP id
- 7mr16295455wry.301.1610911545081; 
- Sun, 17 Jan 2021 11:25:45 -0800 (PST)
+ bh=Z6fdnKTIA2Uc0MDNjyGFMUBSbkvaU7MEUTklOzizagw=;
+ b=TUR/82hrUKAX9jP+BDoLLh6yI3wtJgZDRkR7b7RKPoPXAC2IGt3r8sqDWF9BSEdPMz
+ +yr3UUuSx68qNsF4jDlVB34T2E4/y/dYGI6fVD3GSvVYauBlTJZJHna6bCyBINY9Sqcf
+ xRn6isqDI/tWVbtIijnURyMMkKhJrHytMN8AKZimgaA7M62RydGYGLWWyVS/QzOmYfcX
+ N5Drs9jVb2WRW8bG31xa5GX/2rtaOmMNtq5iQeIlLi1ypp3G5mh54WYNbe0HfpyVnnCL
+ 7hTKAAML9rL7x/pWFF7ZrNMb6alMz9qEo7qAtNt+Ut7pQMIhHbXM5zNcsYxzd9mc20Ij
+ ng0A==
+X-Gm-Message-State: AOAM531LutsHxrxHhJsxHU1g9mAk1wfNyUOfg9KpKiaUbTgJtXpzuAJ4
+ yMujdEYX2dqtwRcGb9X1fnc=
+X-Google-Smtp-Source: ABdhPJxWmbI7JojtrE4OgQhnrClZGqIaWR+FS2o3uA3TmpANaN2WRmhoOGuP+gy12dgSvAnRLi6ROQ==
+X-Received: by 2002:adf:cc81:: with SMTP id p1mr22516009wrj.339.1610911550627; 
+ Sun, 17 Jan 2021 11:25:50 -0800 (PST)
 Received: from localhost.localdomain (13.red-83-57-169.dynamicip.rima-tde.net.
  [83.57.169.13])
- by smtp.gmail.com with ESMTPSA id a62sm23805600wmh.40.2021.01.17.11.25.43
+ by smtp.gmail.com with ESMTPSA id p17sm1553314wmg.46.2021.01.17.11.25.49
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 17 Jan 2021 11:25:44 -0800 (PST)
+ Sun, 17 Jan 2021 11:25:49 -0800 (PST)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 To: "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
 	qemu-devel@nongnu.org
-Subject: [RFC PATCH v2 10/20] hw/usb/hcd-ohci: Mark the device with no
+Subject: [RFC PATCH v2 11/20] hw/intc/arm_gicv2m: Mark the device with no
  migratable fields
-Date: Sun, 17 Jan 2021 20:24:36 +0100
-Message-Id: <20210117192446.23753-11-f4bug@amsat.org>
+Date: Sun, 17 Jan 2021 20:24:37 +0100
+Message-Id: <20210117192446.23753-12-f4bug@amsat.org>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20210117192446.23753-1-f4bug@amsat.org>
 References: <20210117192446.23753-1-f4bug@amsat.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::436;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x436.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::435;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x435.google.com
 X-Spam_score_int: -14
 X-Spam_score: -1.5
 X-Spam_bar: -
@@ -108,35 +107,29 @@ between static property vs runtime changeable.
 
 Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 ---
- hw/usb/hcd-ohci.h | 2 ++
- hw/usb/hcd-ohci.c | 1 +
- 2 files changed, 3 insertions(+)
+ hw/intc/arm_gicv2m.c | 2 ++
+ 1 file changed, 2 insertions(+)
 
-diff --git a/hw/usb/hcd-ohci.h b/hw/usb/hcd-ohci.h
-index 11ac57058d1..fd4842a352f 100644
---- a/hw/usb/hcd-ohci.h
-+++ b/hw/usb/hcd-ohci.h
-@@ -101,6 +101,8 @@ struct OHCISysBusState {
-     /*< public >*/
+diff --git a/hw/intc/arm_gicv2m.c b/hw/intc/arm_gicv2m.c
+index d564b857eba..664cc9fb032 100644
+--- a/hw/intc/arm_gicv2m.c
++++ b/hw/intc/arm_gicv2m.c
+@@ -55,6 +55,7 @@ struct ARMGICv2mState {
+     MemoryRegion iomem;
+     qemu_irq spi[GICV2M_NUM_SPI_MAX];
  
-     OHCIState ohci;
-+
 +    /* Properties */
-     char *masterbus;
-     uint32_t num_ports;
-     uint32_t firstport;
-diff --git a/hw/usb/hcd-ohci.c b/hw/usb/hcd-ohci.c
-index f8c64c8b95b..302aab30992 100644
---- a/hw/usb/hcd-ohci.c
-+++ b/hw/usb/hcd-ohci.c
-@@ -2007,6 +2007,7 @@ static void ohci_sysbus_class_init(ObjectClass *klass, void *data)
-     DeviceClass *dc = DEVICE_CLASS(klass);
+     uint32_t base_spi;
+     uint32_t num_spi;
+ };
+@@ -182,6 +183,7 @@ static void gicv2m_class_init(ObjectClass *klass, void *data)
  
-     dc->realize = ohci_realize_pxa;
+     device_class_set_props(dc, gicv2m_properties);
+     dc->realize = gicv2m_realize;
 +    dc->vmsd = vmstate_qdev_no_state_to_migrate;
-     set_bit(DEVICE_CATEGORY_USB, dc->categories);
-     dc->desc = "OHCI USB Controller";
-     device_class_set_props(dc, ohci_sysbus_properties);
+ }
+ 
+ static const TypeInfo gicv2m_info = {
 -- 
 2.26.2
 
