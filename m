@@ -2,65 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 02C3D2F9321
-	for <lists+qemu-devel@lfdr.de>; Sun, 17 Jan 2021 15:59:36 +0100 (CET)
-Received: from localhost ([::1]:36788 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A3DB32F9320
+	for <lists+qemu-devel@lfdr.de>; Sun, 17 Jan 2021 15:59:34 +0100 (CET)
+Received: from localhost ([::1]:36716 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l19Wh-0001Up-1S
-	for lists+qemu-devel@lfdr.de; Sun, 17 Jan 2021 09:59:35 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43282)
+	id 1l19Wf-0001TB-Mb
+	for lists+qemu-devel@lfdr.de; Sun, 17 Jan 2021 09:59:33 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43294)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <minwoo.im.dev@gmail.com>)
- id 1l19RI-0004QZ-Lm; Sun, 17 Jan 2021 09:54:00 -0500
-Received: from mail-pj1-x102b.google.com ([2607:f8b0:4864:20::102b]:39263)
+ id 1l19RM-0004SE-CZ; Sun, 17 Jan 2021 09:54:04 -0500
+Received: from mail-pl1-x634.google.com ([2607:f8b0:4864:20::634]:38462)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <minwoo.im.dev@gmail.com>)
- id 1l19RG-00042q-Ti; Sun, 17 Jan 2021 09:54:00 -0500
-Received: by mail-pj1-x102b.google.com with SMTP id u4so8049924pjn.4;
- Sun, 17 Jan 2021 06:53:58 -0800 (PST)
+ id 1l19RJ-00044A-7y; Sun, 17 Jan 2021 09:54:04 -0500
+Received: by mail-pl1-x634.google.com with SMTP id d4so7211937plh.5;
+ Sun, 17 Jan 2021 06:54:00 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=from:to:cc:subject:date:message-id:in-reply-to:references;
- bh=LPwEuV0/04eVLqoLUFPzyx3q6xjC8+PXkwPXg+pptj4=;
- b=byfhCWBSdqF5R6vdqmx/S05qNCC3AWQ9oePLjRmHjV7Xe5uYCww3sDqOe8FaJjH91P
- 7q/BWlYVk6bnRoyd8U9Il0p4dUcQ4UsmtfNI6vhe3LudY1ss3j4nWO6YG+BBDUErqZ+f
- xhINovf+lmGrSD+SohsalO4gh/w4X+FddzVBZuaBbNGdLFa92AACL5DeYhkJfAHa2q3C
- HOYZB5tdQOa5GlqukghRdvweApdGHnVj7eezru3DaaBnL69IZp8gI5cTjHQw54Tai3Y9
- z1xaZZawZp+DLkBOkwcXLkF31ztYC2zG0WCNPnIqkoXzpEu0yPVc0U7tET2LN5FhpOyl
- dI3Q==
+ bh=rE9OF6JGzyy16WYqRAitzHWBoYb2h0+LL0UAOO+IgQA=;
+ b=n2ZCE2VbEJo0yWkAsvoS7iZNFQR1KmXMc79WBpNjpLyrZZSHuQUc71xF/Z0MRU9Xps
+ I6Vttgjba7b1Gdxb7PjUlEPcNVPnh93dp9PfH7Tj7BryPgAIJ5lb+/+XnVWwzlRpE4Y+
+ QIEo7/jyKXYnbowvFHGJmjob13UzjMu0SwpeplMz8UvIXC7hBvhXwlL1O2MmCXgqbWSr
+ xYo5+dNJ8rnxZbEItuvjVxcxfRMyH3U3IqqrSX/oO1feoPZzEu3JvBTRFd9k5ib7j88Z
+ XX3wRWx1gADnhk+4+gi0WYMvPuK48lDcKVO+vSUigNVStfiKBnuwjsm2IV/j4yvMpdeE
+ pzgg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references;
- bh=LPwEuV0/04eVLqoLUFPzyx3q6xjC8+PXkwPXg+pptj4=;
- b=ah8tQjDgbbZTrGip/bIUUPGQBgcUS+/q8qLaUo8x4DrfxNQnQuv/zA7R5P9YLDvT1e
- XommEju9KQ/ghy0ARfq8FaWptHRAyeeMrb1sflR/Z8fHc1a4+KGe76dhsXeZ5mfQufyB
- rkvxPoIDyReD9M+3zGnyftEsmdOx50koMo59EC3W5zr0fLnj6w13eadgkOzToXLGJokO
- Qjwfch3RjMSj2vrsI3+90q4Y//w0pKIZbXTkKTScWtFgI7vclhMBGBIEWT8ir8yKQJBj
- a3c3//PFCiFR64TPzPxrWeCM/6HPMI/FbjCYREwieKyPvIDrmXTV+LxPkTMRzyYOC97E
- 5BwQ==
-X-Gm-Message-State: AOAM5312Hhh89vgCZZGwXdM112LdCbAvAW6VzWAn92LK5BrkIqXwBRHW
- yqPy6A8hg6za739+lnwFWg4g4eCcOVpYgQ==
-X-Google-Smtp-Source: ABdhPJxhhz9LCy77eyWRjQFyJJDMPo7BHNb80WR6nPRpXwLjx6NRkSFp5uknaE/p64LYZq5qm39a7w==
-X-Received: by 2002:a17:90a:a60d:: with SMTP id
- c13mr21587281pjq.11.1610895237212; 
- Sun, 17 Jan 2021 06:53:57 -0800 (PST)
+ bh=rE9OF6JGzyy16WYqRAitzHWBoYb2h0+LL0UAOO+IgQA=;
+ b=IcPuGlC0cYcwCf+9ReeQL+bJ292wIvj36Gi1gvprYxNTmhi+BFztv33jJrdKnBaUwn
+ LZUG8Pa2DQwEn89h75K4fkk8Z+1Ym0jOBPdB6lz+GFIS/8Kfwv6LN+twI+LFy6U1afcZ
+ ULRueIya1nSFu6kFHjCVqwGHqguJkFXMsT7kFon45V5YO+7TUdtwGPGQRsGz0xGxxsio
+ 2WmW+heuUsOj01FomE4LsbNzHItptnD7kZsnpaMlb1Ts5Oe6jgEo0WW+/XAukCQDIUy8
+ aAHPwGO9HFfPeQy3oBL6Sojq+cc/aLUjOIKbV8KDSrL/+cWi6HpWrhwUNr3k1PW3XiVu
+ fyDA==
+X-Gm-Message-State: AOAM530RhaWx1N4hNR2YYl9+7p240Z126dG3XxqRzHt4837zvBLhZFG9
+ i9uKo34SywQ+W7g7H7I/3xf4SpIbvF/Z1A==
+X-Google-Smtp-Source: ABdhPJxDCaCozuJzKgS/cCseiAVFoGqIbT5mv4HTAg+5SseqjMQxaLRYSUC1KIbC/PLrmdv6i4e02A==
+X-Received: by 2002:a17:90b:1014:: with SMTP id
+ gm20mr15745347pjb.5.1610895239574; 
+ Sun, 17 Jan 2021 06:53:59 -0800 (PST)
 Received: from localhost.localdomain ([211.108.35.36])
- by smtp.gmail.com with ESMTPSA id x127sm13143583pfb.74.2021.01.17.06.53.55
+ by smtp.gmail.com with ESMTPSA id x127sm13143583pfb.74.2021.01.17.06.53.57
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 17 Jan 2021 06:53:56 -0800 (PST)
+ Sun, 17 Jan 2021 06:53:59 -0800 (PST)
 From: Minwoo Im <minwoo.im.dev@gmail.com>
 To: qemu-devel@nongnu.org,
 	qemu-block@nongnu.org
-Subject: [RFC PATCH V2 03/11] hw/block/nvme: remove unused argument in
- nvme_ns_init_blk
-Date: Sun, 17 Jan 2021 23:53:33 +0900
-Message-Id: <20210117145341.23310-4-minwoo.im.dev@gmail.com>
+Subject: [RFC PATCH V2 04/11] hw/block/nvme: split setup and register for
+ namespace
+Date: Sun, 17 Jan 2021 23:53:34 +0900
+Message-Id: <20210117145341.23310-5-minwoo.im.dev@gmail.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20210117145341.23310-1-minwoo.im.dev@gmail.com>
 References: <20210117145341.23310-1-minwoo.im.dev@gmail.com>
-Received-SPF: pass client-ip=2607:f8b0:4864:20::102b;
- envelope-from=minwoo.im.dev@gmail.com; helo=mail-pj1-x102b.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::634;
+ envelope-from=minwoo.im.dev@gmail.com; helo=mail-pl1-x634.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -86,35 +86,54 @@ Cc: Keith Busch <kbusch@kernel.org>, Klaus Jensen <its@irrelevant.dk>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Removed no longer used aregument NvmeCtrl object in nvme_ns_init_blk().
+In NVMe, namespace is being attached to process I/O.  We register NVMe
+namespace to a controller via nvme_register_namespace() during
+nvme_ns_setup().  This is main reason of receiving NvmeCtrl object
+instance to this function to map the namespace to a controller.
+
+To make namespace instance more independent, it should be split into two
+parts: setup and register.  This patch split them into two differnt
+parts, and finally nvme_ns_setup() does not have nothing to do with
+NvmeCtrl instance at all.
+
+This patch is a former patch to introduce NVMe subsystem scheme to the
+existing design especially for multi-path.  In that case, it should be
+split into two to make namespace independent from a controller.
 
 Signed-off-by: Minwoo Im <minwoo.im.dev@gmail.com>
 ---
- hw/block/nvme-ns.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ hw/block/nvme-ns.c | 11 +++++++----
+ 1 file changed, 7 insertions(+), 4 deletions(-)
 
 diff --git a/hw/block/nvme-ns.c b/hw/block/nvme-ns.c
-index c403cd36b6bd..fc42ae184e01 100644
+index fc42ae184e01..3f0e4e461420 100644
 --- a/hw/block/nvme-ns.c
 +++ b/hw/block/nvme-ns.c
-@@ -66,7 +66,7 @@ static int nvme_ns_init(NvmeNamespace *ns, Error **errp)
+@@ -320,10 +320,6 @@ int nvme_ns_setup(NvmeCtrl *n, NvmeNamespace *ns, Error **errp)
+         nvme_ns_init_zoned(ns, 0);
+     }
+ 
+-    if (nvme_register_namespace(n, ns, errp)) {
+-        return -1;
+-    }
+-
      return 0;
  }
  
--static int nvme_ns_init_blk(NvmeCtrl *n, NvmeNamespace *ns, Error **errp)
-+static int nvme_ns_init_blk(NvmeNamespace *ns, Error **errp)
- {
-     if (!blkconf_blocksizes(&ns->blkconf, errp)) {
-         return -1;
-@@ -306,7 +306,7 @@ int nvme_ns_setup(NvmeCtrl *n, NvmeNamespace *ns, Error **errp)
-         return -1;
+@@ -361,6 +357,13 @@ static void nvme_ns_realize(DeviceState *dev, Error **errp)
+                                 "could not setup namespace: ");
+         return;
      }
++
++    if (nvme_register_namespace(n, ns, errp)) {
++        error_propagate_prepend(errp, local_err,
++                                "could not register namespace: ");
++        return;
++    }
++
+ }
  
--    if (nvme_ns_init_blk(n, ns, errp)) {
-+    if (nvme_ns_init_blk(ns, errp)) {
-         return -1;
-     }
- 
+ static Property nvme_ns_props[] = {
 -- 
 2.17.1
 
