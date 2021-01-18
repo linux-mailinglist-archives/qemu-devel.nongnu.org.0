@@ -2,119 +2,91 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E74AD2F962B
-	for <lists+qemu-devel@lfdr.de>; Mon, 18 Jan 2021 00:14:08 +0100 (CET)
-Received: from localhost ([::1]:40028 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 50B142F96C2
+	for <lists+qemu-devel@lfdr.de>; Mon, 18 Jan 2021 01:42:36 +0100 (CET)
+Received: from localhost ([::1]:54116 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l1HFI-0000NO-1Z
-	for lists+qemu-devel@lfdr.de; Sun, 17 Jan 2021 18:14:08 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44406)
+	id 1l1Ics-0003b7-W5
+	for lists+qemu-devel@lfdr.de; Sun, 17 Jan 2021 19:42:35 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56772)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alxndr@bu.edu>) id 1l1HB7-0005dL-AZ
- for qemu-devel@nongnu.org; Sun, 17 Jan 2021 18:09:50 -0500
-Received: from mail-eopbgr760103.outbound.protection.outlook.com
- ([40.107.76.103]:12485 helo=NAM02-CY1-obe.outbound.protection.outlook.com)
+ (Exim 4.90_1) (envelope-from <jiaxun.yang@flygoat.com>)
+ id 1l1Ibn-0003B2-Ts
+ for qemu-devel@nongnu.org; Sun, 17 Jan 2021 19:41:27 -0500
+Received: from new3-smtp.messagingengine.com ([66.111.4.229]:56307)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alxndr@bu.edu>) id 1l1HB4-0006XA-W5
- for qemu-devel@nongnu.org; Sun, 17 Jan 2021 18:09:48 -0500
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=KzAcQl3+D++dCmKXKmZaQzxBU72ptUrt3uNeyegcS4ePRSxN+00Y6dXHw8QGNDm5m99QB3ZZgY7yZsE9ajKN2Z3MlU+6wjd+XPyONmed5ZXNraz9AuAZMUm+v9h7eQsvEf6xclL7mxVC9GH4XCiJPepVC8oIWOMZcby/NLS/RP3/ZmU61dL1ts8V+xEmsuaZ/uxhbglAXvLGgsD4n4qCHK6PdKDjKBMZ1f/L5NGkIvWNFRt5ljVXdXBEf+Elu1jEuZ8vLAzrU4xw7TdCmUk+9lNy0foIxdSkqzU31bVzm1sRfj8Ao2Fb2CA8ZUGehAnoEzg85y3/fiih/KUFt08aRQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=zOFt2e/UKzpOrLEo34OfHlZAptfi8NHhLckGsX+l5VQ=;
- b=WtEL6eJ9rpUKDj3cMAHZHmfD4KO5dCtCwPm/B8FtfIH6EImH5IRqnjXKd1Hd/22NrwQsthTC7AJMe48zjyEDoMfmPS65GyT2VrqHLJNToQaTFqXDtNXXiZXSMwXnmxLfLTYswsUNnsnC1V7ybvyye/9sm6izSCVPSlxmWSdgyjNBFbiE0EAZglc68MBOLg3eoNdbxy3uedqyJU3PnngAjTkoxohOk8nv9EZ+kyYOMkGk91I8YronjiiIh8Gh3KO39/tuPACPhS2g8RegF0j6nmorUEyMVNatftxA8iKrkYDS1Gr1qSxQSouIXbFT2a+yRe5NcPjzaTsQdoKyvyNz3g==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=bu.edu; dmarc=pass action=none header.from=bu.edu; dkim=pass
- header.d=bu.edu; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=bushare.onmicrosoft.com; s=selector2-bushare-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=zOFt2e/UKzpOrLEo34OfHlZAptfi8NHhLckGsX+l5VQ=;
- b=X4kvLGNuVQ1ZEyJcg8WocwE3/fV1Jd5+7ZrAutRngpxs8y8239if3vb8pmU1SIrZntO3yhIOHjXnHsysB3Yf8cAmbIggZHWoVKOiFgtFib/h65tZplEHQoWnULwQHCyca/ckZiawH0PuNxNLWRHFOyHHCKJ4SAKiSw7fuAh3eHk=
-Authentication-Results: nongnu.org; dkim=none (message not signed)
- header.d=none;nongnu.org; dmarc=none action=none header.from=bu.edu;
-Received: from SN6PR03MB3871.namprd03.prod.outlook.com (2603:10b6:805:6d::32)
- by SN2PR03MB2208.namprd03.prod.outlook.com (2603:10b6:804:c::23) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3763.10; Sun, 17 Jan
- 2021 23:09:38 +0000
-Received: from SN6PR03MB3871.namprd03.prod.outlook.com
- ([fe80::e828:cd84:e00c:6310]) by SN6PR03MB3871.namprd03.prod.outlook.com
- ([fe80::e828:cd84:e00c:6310%6]) with mapi id 15.20.3763.014; Sun, 17 Jan 2021
- 23:09:38 +0000
-From: Alexander Bulekov <alxndr@bu.edu>
-To: qemu-devel@nongnu.org
-Subject: [PATCH v2 3/3] fuzz: add virtio-9p configurations for fuzzing
-Date: Sun, 17 Jan 2021 18:09:24 -0500
-Message-Id: <20210117230924.449676-4-alxndr@bu.edu>
-X-Mailer: git-send-email 2.28.0
-In-Reply-To: <20210117230924.449676-1-alxndr@bu.edu>
-References: <20210117230924.449676-1-alxndr@bu.edu>
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-Originating-IP: [72.74.210.193]
-X-ClientProxiedBy: MN2PR05CA0018.namprd05.prod.outlook.com
- (2603:10b6:208:c0::31) To SN6PR03MB3871.namprd03.prod.outlook.com
- (2603:10b6:805:6d::32)
+ (Exim 4.90_1) (envelope-from <jiaxun.yang@flygoat.com>)
+ id 1l1Ibl-0003TP-QY
+ for qemu-devel@nongnu.org; Sun, 17 Jan 2021 19:41:27 -0500
+Received: from compute6.internal (compute6.nyi.internal [10.202.2.46])
+ by mailnew.nyi.internal (Postfix) with ESMTP id 03729580670;
+ Sun, 17 Jan 2021 19:41:22 -0500 (EST)
+Received: from mailfrontend1 ([10.202.2.162])
+ by compute6.internal (MEProxy); Sun, 17 Jan 2021 19:41:22 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=flygoat.com; h=
+ subject:to:cc:references:from:message-id:date:mime-version
+ :in-reply-to:content-type:content-transfer-encoding; s=fm1; bh=I
+ f/PDr1Gi4hly3XBVQHF9YX9e1tBtowAjiwKNA5ehmE=; b=BYh8FewZXWR+cwWM1
+ DavjK6HlnOdcdgHMcNoYis4hQ0uzevOaGdXelhvy3AYwinKwVSocVN0ztQV8hojr
+ ZBk4RCEtPeBQ1KbWVOa4KvT7eTyncDp90FhKGV8ZME+tN4xTstPaaUMgmzNPwoy3
+ pADePWEqId3137Xo+JFwDaBhIqWGaXeLcpa3Tici9J2D3KfknD+W3hvL+QHI+D4M
+ llTkPUjXgEWEp04svF+z4p45SovswRTD7r4V7ZKhcKw52jmFmYEt0uB+0zo5kDOu
+ jcW4ITLI3Kl7rsLzEXd3L+0nDjEjJEK4ElLH4jR+CZMlAe3N6mdk+TmaBWBOpWBy
+ y+hvg==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+ messagingengine.com; h=cc:content-transfer-encoding:content-type
+ :date:from:in-reply-to:message-id:mime-version:references
+ :subject:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender
+ :x-sasl-enc; s=fm1; bh=If/PDr1Gi4hly3XBVQHF9YX9e1tBtowAjiwKNA5eh
+ mE=; b=jru9SQdH//ONefesD9DYHTdnVwKxmjhGaavM55h8koZb6A7vtGrh+HCJ7
+ 9//zpNHc9D0q8KGpHaXtBuT0V3GK1LQZFLKW+/24DRmvzynu/PCyil6K3gvmW8gZ
+ Y5VF8FJWXayT2pXHLhG03knVLEMhUPd8VDpK77HRXE4LM9EpwaIg7LMYUJaGFzyd
+ mhKYMamIMeIZJuIqdBPN76ALeYY1eIkhMIaKYNuozAMTHrPKUVjJyZPNydeLdfQo
+ ZGQ78NDpJ+6nJ3PrLkpe4cYNJWfwVfYho9ngUwukvMmEQZKCFhvqAsyf7ShXGQq6
+ xUa1cgLxHWBls4fmOjqr/FiA7nZ8g==
+X-ME-Sender: <xms:MNkEYAKyfLsuA7zUILZZKBmIj8oH8fs2hsHWHIWWv1VC_lrF6rDgaw>
+ <xme:MNkEYAKz0_lBx4_j2xpb5-eZcHF3uD5Ldnbv8Asm8SlIF-ki_cP8TO4ZiJyg7I5u8
+ er6OfWdOihImKKuESY>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduledrtdejgddvgecutefuodetggdotefrodftvf
+ curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
+ uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
+ fjughrpefuvfhfhffkffgfgggjtgfgsehtkeertddtfeejnecuhfhrohhmpeflihgrgihu
+ nhcujggrnhhguceojhhirgiguhhnrdihrghnghesfhhlhihgohgrthdrtghomheqnecugg
+ ftrfgrthhtvghrnhepiefhgffhieekudegjeevgfffveegveegheffhfduieeiffffveff
+ ueegveefgfefnecukfhppeeghedrfeefrdehtddrvdehgeenucevlhhushhtvghrufhiii
+ gvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehjihgrgihunhdrhigrnhhgsehflhih
+ ghhorghtrdgtohhm
+X-ME-Proxy: <xmx:MNkEYAtcL0sd35nWaogJrLtw2vtTd2GXgV58TG4miAKTWUiz_CHl5g>
+ <xmx:MNkEYNZ-4zhNoTybdiVG5G1gTcgrWVPZ4KuaWA765qpYZAMVJ11Vlg>
+ <xmx:MNkEYHYJXVo2dkeFwxE6ZEc8WbcccSxZ7R8pYRnznAN891ObTMvRZg>
+ <xmx:MdkEYGX9Q0FWK-uhHkOUpIrzU0TCf2e_RvLXv_eRllTsGzSLkIA7lA>
+Received: from [0.0.0.0] (li1000-254.members.linode.com [45.33.50.254])
+ by mail.messagingengine.com (Postfix) with ESMTPA id 2C452240057;
+ Sun, 17 Jan 2021 19:41:17 -0500 (EST)
+Subject: Re: [PATCH] target/mips: fetch code with translator_ld
+To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
+ qemu-devel@nongnu.org
+References: <20210116181328.3890849-1-f4bug@amsat.org>
+From: Jiaxun Yang <jiaxun.yang@flygoat.com>
+Message-ID: <f4c55393-c980-44d0-cc8c-63e5e6420b30@flygoat.com>
+Date: Mon, 18 Jan 2021 08:41:14 +0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.6.1
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-Received: from stormtrooper.vrmnet (72.74.210.193) by
- MN2PR05CA0018.namprd05.prod.outlook.com (2603:10b6:208:c0::31) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.3784.7 via Frontend Transport; Sun, 17 Jan 2021 23:09:37 +0000
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 44ef5e2b-8871-4709-dbd8-08d8bb3cf692
-X-MS-TrafficTypeDiagnostic: SN2PR03MB2208:
-X-MS-Exchange-Transport-Forked: True
-X-Microsoft-Antispam-PRVS: <SN2PR03MB2208DF2AB00794D2DE4B29D4BAA50@SN2PR03MB2208.namprd03.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:8882;
-X-MS-Exchange-SenderADCheck: 1
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: MXpjYLU17m/YqUmDmzuI1xjvdLaANyrJ/E8az9cgRkY7eSv1DZD4bZm7gA2EqzYwXiO5Fzt0TXJIBigyC+ATevEo70jJqBq0xWnFHvq+ipM4dXWx2yN1SGaCsmCmkTQ2bgatWd8rNCFbIAcG93EKiTLE+w+DVgPd4LlfNoMh04TSnzvyCj50d9Qf4aSPfhkdJKVFSAXHDo2rYut5FKAa8ZX4qKpqkbUssgCjbaGddxQorQxsLqB0yml6WJis8SlKbPdhK5FR4fSgCZKxbtF60V8F/qnRmmh+F2fl3Dm7307nuQBxQisnfrQKymueokNtyvQTefNIMIXA2VO2qP/wqmINeh2PalxI7L89xocuzQC8eKWIrYE4IvZOPHgPyb3rnTsPvqbVLKRa/Z7yXV2svg==
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:SN6PR03MB3871.namprd03.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(4636009)(39860400002)(136003)(396003)(366004)(346002)(376002)(6916009)(8676002)(54906003)(86362001)(8936002)(1076003)(2906002)(6506007)(16526019)(786003)(6486002)(36756003)(316002)(83380400001)(52116002)(478600001)(186003)(75432002)(26005)(6512007)(66946007)(66476007)(6666004)(5660300002)(956004)(4326008)(2616005)(66556008);
- DIR:OUT; SFP:1102; 
-X-MS-Exchange-AntiSpam-MessageData: =?us-ascii?Q?OPPNLLHt++B3tNv93W6YDa8r7cWXpNFTJpIGuxm5qawv6fAoDRkQyFLT/xt2?=
- =?us-ascii?Q?Ib7D748mRmLuJ31MEHZ6P8TXZuyTJ1cHhzw1a7Dcqz/+s0rSE233KfsXqJm3?=
- =?us-ascii?Q?FyJt+FCUYTkjolVOXRVi8eWIHz57fkuLJdl+pea7UsaTMW+DvY7VoeeQ/aKN?=
- =?us-ascii?Q?nygEGtplV8Uhn/nNaFmE31vG8pn6HZnmvBgBNMiE2fnTzF8gV5bQ3piF2AIa?=
- =?us-ascii?Q?WxHjZroRLbK7L7NKGqwcBFEhvzyDn7RwKRpTKEa+GU2c7SuXpFRivWjLBIuU?=
- =?us-ascii?Q?TDch6EW35GACa2BbHQlNqF+XSJrZrJajDZdk7RT7pzYxV+mNRB7ICcyMvCtZ?=
- =?us-ascii?Q?IKG4czx4PAe5nBBYXRs1GAyvBR7QBEhfKgbM1dwh/h2oCW/t3bRPfYscU4UC?=
- =?us-ascii?Q?5Ucdi1vzBiJfg9Us5cN6j3a7UpC4zhDh0AtE2vCuTvKTsGfgqjdQaVuuEZjz?=
- =?us-ascii?Q?SMywioFAj9lRmAUetNqp512TcCSf3sSVSFm4F7qEaJFBy5ceHIoqgl9bDYYr?=
- =?us-ascii?Q?X62FY6L8YmzmwbwQIqZFZHLe8WbWsrCN6yyS6ItDaceVGl70XS2VgPshAYIv?=
- =?us-ascii?Q?kzZDave9BImtbo7o2KlBb2IQYYXNxMPqnFyHDiHJHGeLXeLCBZKqg7ZLOqWv?=
- =?us-ascii?Q?Xj7y+8fiCSiRR74/01C8vB6hlmro6gIXU5yrtEbGQolV1Td3ICGq1OU0hjre?=
- =?us-ascii?Q?Iutlk2ijSmpRQndMtfc60darPxXLKwhv3f/pucg7kvwfL/sh6fjH3V/8Hs0f?=
- =?us-ascii?Q?UQimlSDyrg4Y8wFnzYxzJ1PfVzXss4bBeDHzX1xxrCPOSnVWzWinxBhU3dU3?=
- =?us-ascii?Q?nmDPTtzIpqI/bW44SQYLn54s8Bdvdc4SoRqH1sJGTxGmqmYv6PYZu/R8tkwP?=
- =?us-ascii?Q?5+Jng6F/xT248O07bg6GaVNJWhneJKkpF0V8ZAU9JvUc7rckdSQ2bZsRiljQ?=
- =?us-ascii?Q?B8Tzehe1C4iBFlPOdg3J09W4ngdQClq4MGklSAsV06KtBm0dKm59keiqmsSf?=
- =?us-ascii?Q?UPAO?=
-X-OriginatorOrg: bu.edu
-X-MS-Exchange-CrossTenant-Network-Message-Id: 44ef5e2b-8871-4709-dbd8-08d8bb3cf692
-X-MS-Exchange-CrossTenant-AuthSource: SN6PR03MB3871.namprd03.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 17 Jan 2021 23:09:38.3678 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: d57d32cc-c121-488f-b07b-dfe705680c71
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 3aDZ8WtmGK6llirnyXt0QJBn0C6j0RU8eQQg+n1SOAA1q25UGzXXpQpZX0rmV0Ij
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SN2PR03MB2208
-Received-SPF: pass client-ip=40.107.76.103; envelope-from=alxndr@bu.edu;
- helo=NAM02-CY1-obe.outbound.protection.outlook.com
-X-Spam_score_int: -8
-X-Spam_score: -0.9
-X-Spam_bar: /
-X-Spam_report: (-0.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, HK_RANDOM_ENVFROM=0.001, HK_RANDOM_FROM=0.999,
- MSGID_FROM_MTA_HEADER=0.001, RCVD_IN_DNSWL_NONE=-0.0001,
- RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_PASS=-0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+In-Reply-To: <20210116181328.3890849-1-f4bug@amsat.org>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 8bit
+Content-Language: en-US
+Received-SPF: pass client-ip=66.111.4.229;
+ envelope-from=jiaxun.yang@flygoat.com; helo=new3-smtp.messagingengine.com
+X-Spam_score_int: -30
+X-Spam_score: -3.1
+X-Spam_bar: ---
+X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.252,
+ RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_PASS=-0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -127,78 +99,164 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Laurent Vivier <lvivier@redhat.com>, Thomas Huth <thuth@redhat.com>,
- Christian Schoenebeck <qemu_oss@crudebyte.com>, Greg Kurz <groug@kaod.org>,
- Alexander Bulekov <alxndr@bu.edu>, Bandan Das <bsd@redhat.com>,
- Stefan Hajnoczi <stefanha@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>
+Cc: Richard Henderson <richard.henderson@linaro.org>,
+ Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>,
+ "Emilio G . Cota" <cota@braap.org>,
+ =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
+ Aurelien Jarno <aurelien@aurel32.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-virtio-9p devices are often used to expose a virtual-filesystem to the
-guest. There have been some bugs reported in this device, such as
-CVE-2018-19364, and CVE-2021-20181. We should fuzz this device
+在 2021/1/17 上午2:13, Philippe Mathieu-Daudé 写道:
+> Similarly to commits ae82adc8e29..7f93879e444, use the
+> translator_ld*() API introduced in commit 409c1a0bf0f
+> to fetch the code on the MIPS target.
+>
+> Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 
-This patch adds two virtio-9p configurations:
- * One with the widely used -fsdev local driver. This driver leaks some
-   state in the form of files/directories created in the shared dir.
- * One with the synth driver. While it is not used in the real world, this
-   driver won't leak leak state between fuzz inputs.
+Reviewed-by: Jiaxun Yang  <jiaxun.yang@flygoat.com>
 
-Signed-off-by: Alexander Bulekov <alxndr@bu.edu>
----
-CC: Christian Schoenebeck <qemu_oss@crudebyte.com>
-CC: Greg Kurz <groug@kaod.org>
-
-I considered adding an atexit handler to remove the temp directory,
-however I am worried that there might be some error that results in a
-call to exit(), rather than abort(), which will cause problems for
-future fork()-ed fuzzers. I don't think there are such calls in the 9p
-code, however there might be something in the APIs used by 9p. As this
-code is primarily for ephemeral OSS-Fuzz conainers, this shouldn't be
-too much of an issue.
-
- tests/qtest/fuzz/generic_fuzz_configs.h | 20 ++++++++++++++++++++
- 1 file changed, 20 insertions(+)
-
-diff --git a/tests/qtest/fuzz/generic_fuzz_configs.h b/tests/qtest/fuzz/generic_fuzz_configs.h
-index 1a133655ee..f99657cdbc 100644
---- a/tests/qtest/fuzz/generic_fuzz_configs.h
-+++ b/tests/qtest/fuzz/generic_fuzz_configs.h
-@@ -19,6 +19,16 @@ typedef struct generic_fuzz_config {
-     gchar* (*argfunc)(void); /* Result must be freeable by g_free() */
- } generic_fuzz_config;
- 
-+static inline gchar *generic_fuzzer_virtio_9p_args(void){
-+    char tmpdir[] = "/tmp/qemu-fuzz.XXXXXX";
-+    g_assert_nonnull(mkdtemp(tmpdir));
-+
-+    return g_strdup_printf("-machine q35 -nodefaults "
-+    "-device virtio-9p,fsdev=hshare,mount_tag=hshare "
-+    "-fsdev local,id=hshare,path=%s,security_model=mapped-xattr,"
-+    "writeout=immediate,fmode=0600,dmode=0700", tmpdir);
-+}
-+
- const generic_fuzz_config predefined_configs[] = {
-     {
-         .name = "virtio-net-pci-slirp",
-@@ -60,6 +70,16 @@ const generic_fuzz_config predefined_configs[] = {
-         .name = "virtio-mouse",
-         .args = "-machine q35 -nodefaults -device virtio-mouse",
-         .objects = "virtio*",
-+    },{
-+        .name = "virtio-9p",
-+        .argfunc = generic_fuzzer_virtio_9p_args,
-+        .objects = "virtio*",
-+    },{
-+        .name = "virtio-9p-synth",
-+        .args = "-machine q35 -nodefaults "
-+        "-device virtio-9p,fsdev=hshare,mount_tag=hshare "
-+        "-fsdev synth,id=hshare",
-+        .objects = "virtio*",
-     },{
-         .name = "e1000",
-         .args = "-M q35 -nodefaults "
--- 
-2.28.0
+> ---
+>   target/mips/tlb_helper.c | 16 ++++++++--------
+>   target/mips/translate.c  | 20 ++++++++++----------
+>   2 files changed, 18 insertions(+), 18 deletions(-)
+>
+> diff --git a/target/mips/tlb_helper.c b/target/mips/tlb_helper.c
+> index 082c17928d3..f855453ca4d 100644
+> --- a/target/mips/tlb_helper.c
+> +++ b/target/mips/tlb_helper.c
+> @@ -21,7 +21,7 @@
+>   #include "cpu.h"
+>   #include "internal.h"
+>   #include "exec/exec-all.h"
+> -#include "exec/cpu_ldst.h"
+> +#include "exec/translator.h"
+>   #include "exec/log.h"
+>   #include "hw/mips/cpudevs.h"
+>   
+> @@ -526,9 +526,9 @@ static bool get_pte(CPUMIPSState *env, uint64_t vaddr, int entry_size,
+>           return false;
+>       }
+>       if (entry_size == 64) {
+> -        *pte = cpu_ldq_code(env, vaddr);
+> +        *pte = translator_ldq(env, vaddr);
+>       } else {
+> -        *pte = cpu_ldl_code(env, vaddr);
+> +        *pte = translator_ldl(env, vaddr);
+>       }
+>       return true;
+>   }
+> @@ -941,14 +941,14 @@ static inline void set_badinstr_registers(CPUMIPSState *env)
+>   {
+>       if (env->insn_flags & ISA_NANOMIPS32) {
+>           if (env->CP0_Config3 & (1 << CP0C3_BI)) {
+> -            uint32_t instr = (cpu_lduw_code(env, env->active_tc.PC)) << 16;
+> +            uint32_t instr = (translator_lduw(env, env->active_tc.PC)) << 16;
+>               if ((instr & 0x10000000) == 0) {
+> -                instr |= cpu_lduw_code(env, env->active_tc.PC + 2);
+> +                instr |= translator_lduw(env, env->active_tc.PC + 2);
+>               }
+>               env->CP0_BadInstr = instr;
+>   
+>               if ((instr & 0xFC000000) == 0x60000000) {
+> -                instr = cpu_lduw_code(env, env->active_tc.PC + 4) << 16;
+> +                instr = translator_lduw(env, env->active_tc.PC + 4) << 16;
+>                   env->CP0_BadInstrX = instr;
+>               }
+>           }
+> @@ -960,11 +960,11 @@ static inline void set_badinstr_registers(CPUMIPSState *env)
+>           return;
+>       }
+>       if (env->CP0_Config3 & (1 << CP0C3_BI)) {
+> -        env->CP0_BadInstr = cpu_ldl_code(env, env->active_tc.PC);
+> +        env->CP0_BadInstr = translator_ldl(env, env->active_tc.PC);
+>       }
+>       if ((env->CP0_Config3 & (1 << CP0C3_BP)) &&
+>           (env->hflags & MIPS_HFLAG_BMASK)) {
+> -        env->CP0_BadInstrP = cpu_ldl_code(env, env->active_tc.PC - 4);
+> +        env->CP0_BadInstrP = translator_ldl(env, env->active_tc.PC - 4);
+>       }
+>   }
+>   
+> diff --git a/target/mips/translate.c b/target/mips/translate.c
+> index a5cf1742a8b..a6e835809aa 100644
+> --- a/target/mips/translate.c
+> +++ b/target/mips/translate.c
+> @@ -26,7 +26,7 @@
+>   #include "cpu.h"
+>   #include "internal.h"
+>   #include "tcg/tcg-op.h"
+> -#include "exec/cpu_ldst.h"
+> +#include "exec/translator.h"
+>   #include "exec/helper-proto.h"
+>   #include "exec/helper-gen.h"
+>   #include "hw/semihosting/semihost.h"
+> @@ -13911,7 +13911,7 @@ static void decode_i64_mips16(DisasContext *ctx,
+>   
+>   static int decode_extended_mips16_opc(CPUMIPSState *env, DisasContext *ctx)
+>   {
+> -    int extend = cpu_lduw_code(env, ctx->base.pc_next + 2);
+> +    int extend = translator_lduw(env, ctx->base.pc_next + 2);
+>       int op, rx, ry, funct, sa;
+>       int16_t imm, offset;
+>   
+> @@ -14161,7 +14161,7 @@ static int decode_mips16_opc(CPUMIPSState *env, DisasContext *ctx)
+>           /* No delay slot, so just process as a normal instruction */
+>           break;
+>       case M16_OPC_JAL:
+> -        offset = cpu_lduw_code(env, ctx->base.pc_next + 2);
+> +        offset = translator_lduw(env, ctx->base.pc_next + 2);
+>           offset = (((ctx->opcode & 0x1f) << 21)
+>                     | ((ctx->opcode >> 5) & 0x1f) << 16
+>                     | offset) << 2;
+> @@ -16295,7 +16295,7 @@ static void decode_micromips32_opc(CPUMIPSState *env, DisasContext *ctx)
+>       uint32_t op, minor, minor2, mips32_op;
+>       uint32_t cond, fmt, cc;
+>   
+> -    insn = cpu_lduw_code(env, ctx->base.pc_next + 2);
+> +    insn = translator_lduw(env, ctx->base.pc_next + 2);
+>       ctx->opcode = (ctx->opcode << 16) | insn;
+>   
+>       rt = (ctx->opcode >> 21) & 0x1f;
+> @@ -21350,7 +21350,7 @@ static int decode_nanomips_32_48_opc(CPUMIPSState *env, DisasContext *ctx)
+>       int offset;
+>       int imm;
+>   
+> -    insn = cpu_lduw_code(env, ctx->base.pc_next + 2);
+> +    insn = translator_lduw(env, ctx->base.pc_next + 2);
+>       ctx->opcode = (ctx->opcode << 16) | insn;
+>   
+>       rt = extract32(ctx->opcode, 21, 5);
+> @@ -21469,7 +21469,7 @@ static int decode_nanomips_32_48_opc(CPUMIPSState *env, DisasContext *ctx)
+>           break;
+>       case NM_P48I:
+>           {
+> -            insn = cpu_lduw_code(env, ctx->base.pc_next + 4);
+> +            insn = translator_lduw(env, ctx->base.pc_next + 4);
+>               target_long addr_off = extract32(ctx->opcode, 0, 16) | insn << 16;
+>               switch (extract32(ctx->opcode, 16, 5)) {
+>               case NM_LI48:
+> @@ -29087,17 +29087,17 @@ static void mips_tr_translate_insn(DisasContextBase *dcbase, CPUState *cs)
+>   
+>       is_slot = ctx->hflags & MIPS_HFLAG_BMASK;
+>       if (ctx->insn_flags & ISA_NANOMIPS32) {
+> -        ctx->opcode = cpu_lduw_code(env, ctx->base.pc_next);
+> +        ctx->opcode = translator_lduw(env, ctx->base.pc_next);
+>           insn_bytes = decode_nanomips_opc(env, ctx);
+>       } else if (!(ctx->hflags & MIPS_HFLAG_M16)) {
+> -        ctx->opcode = cpu_ldl_code(env, ctx->base.pc_next);
+> +        ctx->opcode = translator_ldl(env, ctx->base.pc_next);
+>           insn_bytes = 4;
+>           decode_opc(env, ctx);
+>       } else if (ctx->insn_flags & ASE_MICROMIPS) {
+> -        ctx->opcode = cpu_lduw_code(env, ctx->base.pc_next);
+> +        ctx->opcode = translator_lduw(env, ctx->base.pc_next);
+>           insn_bytes = decode_micromips_opc(env, ctx);
+>       } else if (ctx->insn_flags & ASE_MIPS16) {
+> -        ctx->opcode = cpu_lduw_code(env, ctx->base.pc_next);
+> +        ctx->opcode = translator_lduw(env, ctx->base.pc_next);
+>           insn_bytes = decode_mips16_opc(env, ctx);
+>       } else {
+>           gen_reserved_instruction(ctx);
 
 
