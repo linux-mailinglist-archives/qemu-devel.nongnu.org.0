@@ -2,49 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8DD972F9D82
-	for <lists+qemu-devel@lfdr.de>; Mon, 18 Jan 2021 12:06:48 +0100 (CET)
-Received: from localhost ([::1]:47468 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EECD32F9D75
+	for <lists+qemu-devel@lfdr.de>; Mon, 18 Jan 2021 12:04:00 +0100 (CET)
+Received: from localhost ([::1]:41912 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l1SMx-00017P-Lg
-	for lists+qemu-devel@lfdr.de; Mon, 18 Jan 2021 06:06:47 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47808)
+	id 1l1SKG-0007Fl-13
+	for lists+qemu-devel@lfdr.de; Mon, 18 Jan 2021 06:04:00 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47796)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1l1SEH-0008PX-PF
- for qemu-devel@nongnu.org; Mon, 18 Jan 2021 05:57:50 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:29327)
+ (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1l1SEG-0008OR-8g
+ for qemu-devel@nongnu.org; Mon, 18 Jan 2021 05:57:48 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:41882)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1l1SEE-00019q-EP
- for qemu-devel@nongnu.org; Mon, 18 Jan 2021 05:57:49 -0500
+ (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1l1SEE-00019x-GD
+ for qemu-devel@nongnu.org; Mon, 18 Jan 2021 05:57:48 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
  s=mimecast20190719; t=1610967465;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=/SVi4QwDAwcgbZha5HXJxZFLYGc11imSrFrDDXfiV8Q=;
- b=Ew7/tGMO2HZRznIH9H3vCMyF7tfSQczdJqogB//L92UF1T/0OR0da9lpU+sM/P9WpqvkRL
- VD0raccx2ZSfW5Ln0YBp2AB3kqhOu6Ry45vKw8YqqBBJhXjnx4I0N+G7hip3Kr2sVOU36l
- 8T0LiwhQ/h02e/5IHCrj0ZlRjD6eMHg=
+ bh=NFxf7K8kLVxAMlKNbwpPKafMOOZSkYJ+OBIiS33ee8U=;
+ b=L4hsFMtxNEAUYrOH6n/AvlcNPEEzl8k/Ohk/GJIwaAeodKPvlQ5+LJe6mA1BxaAWj3HFKV
+ QmV6iXh2N8Ncc3ntQV2D55BZgCjor9+lurnYlXbZPYMNvGD/zhLU0ezxC+tPeOuSbanacG
+ HDIjoriNXGECWHYuGAnjlw76a1AeQ14=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-214-fFht4ZfeNUqQgQHsaxecaw-1; Mon, 18 Jan 2021 05:57:41 -0500
-X-MC-Unique: fFht4ZfeNUqQgQHsaxecaw-1
+ us-mta-506-DdrrOJjVNByWsaLpj69jmA-1; Mon, 18 Jan 2021 05:57:44 -0500
+X-MC-Unique: DdrrOJjVNByWsaLpj69jmA-1
 Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
  [10.5.11.23])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id D4CEB1005513;
- Mon, 18 Jan 2021 10:57:40 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 288FC8030A0;
+ Mon, 18 Jan 2021 10:57:43 +0000 (UTC)
 Received: from localhost (ovpn-114-253.ams2.redhat.com [10.36.114.253])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 6E15C19D80;
- Mon, 18 Jan 2021 10:57:40 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id B5E6B19717;
+ Mon, 18 Jan 2021 10:57:42 +0000 (UTC)
 From: Max Reitz <mreitz@redhat.com>
 To: qemu-block@nongnu.org
-Subject: [PATCH v5 07/10] iotests/129: Actually test a commit job
-Date: Mon, 18 Jan 2021 11:57:17 +0100
-Message-Id: <20210118105720.14824-8-mreitz@redhat.com>
+Subject: [PATCH v5 08/10] iotests/129: Limit mirror job's buffer size
+Date: Mon, 18 Jan 2021 11:57:18 +0100
+Message-Id: <20210118105720.14824-9-mreitz@redhat.com>
 In-Reply-To: <20210118105720.14824-1-mreitz@redhat.com>
 References: <20210118105720.14824-1-mreitz@redhat.com>
 MIME-Version: 1.0
@@ -63,7 +63,7 @@ X-Spam_bar: ---
 X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.189,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -82,81 +82,41 @@ Cc: Kevin Wolf <kwolf@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Before this patch, test_block_commit() performs an active commit, which
-under the hood is a mirror job.  If we want to test various different
-block jobs, we should perhaps run an actual commit job instead.
+Issuing 'stop' on the VM drains all nodes.  If the mirror job has many
+large requests in flight, this may lead to significant I/O that looks a
+bit like 'stop' would make the job try to complete (which is what 129
+should verify not to happen).
 
-Doing so requires adding an overlay above the source node before the
-commit is done (and then specifying the source node as the top node for
-the commit job).
+We can limit the I/O in flight by limiting the buffer size, so mirror
+will make very little progress during the 'stop' drain.
+
+(We do not need to do anything about commit, which has a buffer size of
+512 kB by default; or backup, which goes cluster by cluster.  Once we
+have asynchronous requests for backup, that will change, but then we can
+fine-tune the backup job to only perform a single request on a very
+small chunk, too.)
 
 Signed-off-by: Max Reitz <mreitz@redhat.com>
 Reviewed-by: Eric Blake <eblake@redhat.com>
 Reviewed-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 Reviewed-by: Willian Rampazzo <willianr@redhat.com>
 ---
- tests/qemu-iotests/129 | 27 +++++++++++++++++++++++++--
- 1 file changed, 25 insertions(+), 2 deletions(-)
+ tests/qemu-iotests/129 | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/tests/qemu-iotests/129 b/tests/qemu-iotests/129
-index d40e2db24e..104be6dded 100755
+index 104be6dded..80a5db521b 100755
 --- a/tests/qemu-iotests/129
 +++ b/tests/qemu-iotests/129
-@@ -26,6 +26,7 @@ class TestStopWithBlockJob(iotests.QMPTestCase):
-     test_img = os.path.join(iotests.test_dir, 'test.img')
-     target_img = os.path.join(iotests.test_dir, 'target.img')
-     base_img = os.path.join(iotests.test_dir, 'base.img')
-+    overlay_img = os.path.join(iotests.test_dir, 'overlay.img')
+@@ -67,7 +67,7 @@ class TestStopWithBlockJob(iotests.QMPTestCase):
+     def test_drive_mirror(self):
+         self.do_test_stop("drive-mirror", device="drive0",
+                           target=self.target_img, format=iotests.imgfmt,
+-                          sync="full")
++                          sync="full", buf_size=65536)
  
-     def setUp(self):
-         iotests.qemu_img('create', '-f', iotests.imgfmt, self.base_img, "1G")
-@@ -36,6 +37,7 @@ class TestStopWithBlockJob(iotests.QMPTestCase):
-         self.vm.add_object('throttle-group,id=tg0,x-bps-total=1024')
- 
-         source_drive = 'driver=throttle,' \
-+                       'node-name=source,' \
-                        'throttle-group=tg0,' \
-                        f'file.driver={iotests.imgfmt},' \
-                        f'file.file.filename={self.test_img}'
-@@ -45,7 +47,8 @@ class TestStopWithBlockJob(iotests.QMPTestCase):
- 
-     def tearDown(self):
-         self.vm.shutdown()
--        for img in (self.test_img, self.target_img, self.base_img):
-+        for img in (self.test_img, self.target_img, self.base_img,
-+                    self.overlay_img):
-             iotests.try_remove(img)
- 
-     def do_test_stop(self, cmd, **args):
-@@ -72,7 +75,27 @@ class TestStopWithBlockJob(iotests.QMPTestCase):
-                           sync="full")
- 
-     def test_block_commit(self):
--        self.do_test_stop("block-commit", device="drive0")
-+        # Add overlay above the source node so that we actually use a
-+        # commit job instead of a mirror job
-+
-+        iotests.qemu_img('create', '-f', iotests.imgfmt, self.overlay_img,
-+                         '1G')
-+
-+        result = self.vm.qmp('blockdev-add', **{
-+                                 'node-name': 'overlay',
-+                                 'driver': iotests.imgfmt,
-+                                 'file': {
-+                                     'driver': 'file',
-+                                     'filename': self.overlay_img
-+                                 }
-+                             })
-+        self.assert_qmp(result, 'return', {})
-+
-+        result = self.vm.qmp('blockdev-snapshot',
-+                             node='source', overlay='overlay')
-+        self.assert_qmp(result, 'return', {})
-+
-+        self.do_test_stop('block-commit', device='drive0', top_node='source')
- 
- if __name__ == '__main__':
-     iotests.main(supported_fmts=["qcow2"],
+     def test_drive_backup(self):
+         self.do_test_stop("drive-backup", device="drive0",
 -- 
 2.29.2
 
