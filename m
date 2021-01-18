@@ -2,140 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 243CB2F9853
-	for <lists+qemu-devel@lfdr.de>; Mon, 18 Jan 2021 04:37:44 +0100 (CET)
-Received: from localhost ([::1]:44292 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D9E9D2F9855
+	for <lists+qemu-devel@lfdr.de>; Mon, 18 Jan 2021 04:41:01 +0100 (CET)
+Received: from localhost ([::1]:49186 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l1LMN-0004Lw-6F
-	for lists+qemu-devel@lfdr.de; Sun, 17 Jan 2021 22:37:43 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54920)
+	id 1l1LPY-0006OA-Lg
+	for lists+qemu-devel@lfdr.de; Sun, 17 Jan 2021 22:41:00 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55540)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
- (envelope-from <prvs=645c2efc4=Dmitry.Fomichev@wdc.com>)
- id 1l1LKf-00031e-Ud; Sun, 17 Jan 2021 22:35:57 -0500
-Received: from esa3.hgst.iphmx.com ([216.71.153.141]:65159)
+ (envelope-from <prvs=645c2efc4=dmitry.fomichev@wdc.com>)
+ id 1l1LO2-0005s6-2S; Sun, 17 Jan 2021 22:39:26 -0500
+Received: from esa5.hgst.iphmx.com ([216.71.153.144]:52722)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
- (envelope-from <prvs=645c2efc4=Dmitry.Fomichev@wdc.com>)
- id 1l1LKc-0004bH-Px; Sun, 17 Jan 2021 22:35:57 -0500
+ (envelope-from <prvs=645c2efc4=dmitry.fomichev@wdc.com>)
+ id 1l1LNy-00060t-Pa; Sun, 17 Jan 2021 22:39:24 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
  d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
- t=1610940954; x=1642476954;
- h=from:to:cc:subject:date:message-id:references:
- in-reply-to:content-id:content-transfer-encoding: mime-version;
- bh=WOPdHazOM4qQMfQHWW/Nn/EQPI2uf3r8HlEzCh6B6TI=;
- b=mVFrn3cPXj0hQ4LFzOQn19CkfIxej0kPsdngcrDpT9F8fbfYYP0j/JN9
- h6jQ38X0fBWfNcQQ1+eBRZKtXkVv5iv6lBeCtK6SZicaC0PwBRVFTg6qc
- xj+6a2ZnWyhKzj+0hjEvD3Qk8XCgVuJy5cYlOHuFBD8Vo6OztKslQggOz
- TT3yOlbjr3lI0CfTfel2IzmaY5A0CpW86yMb0sjJgDk/RKq/bMXI5A0Uv
- VSpR+w1Sa3Y6L0dWAsL3IW6DRIU5fEEpaJcA3mSSUZQiwlXbl60DEph7n
- nt1P7nwHCal9MY09ZYIw7CySMNopelBxT4RKX0fFwKYF5/W3KVlU0rrZG w==;
-IronPort-SDR: Hmvy2aIoYzyWrgK7lGouk0nUDQBDsNk/6nOLKeKS4g842IhxV7yyqQgnKvyZt4eIMr7WrpAUYX
- QrXko4cy+tRHRfe2cqQaUrpYDosEAs8A99ZiOG6Pf8K4kbM6UAU5e418XYMvixXdk70T2ERVg1
- i2O5PavoVESgKuouDX6wChg6a2a+0rKrADlvbOjDM/AxuyFbvNFH+WhxNTkehltSxzaZhTrbL5
- hpTjt89UJT/CjnZBWO0Da7pDnvzj8zuY1Ze6a35lByybQlCq1h2C8XzmoBH7Kh/lwgFBuiV4qQ
- 0+U=
-X-IronPort-AV: E=Sophos;i="5.79,355,1602518400"; d="scan'208";a="162107398"
-Received: from mail-sn1nam02lp2059.outbound.protection.outlook.com (HELO
- NAM02-SN1-obe.outbound.protection.outlook.com) ([104.47.36.59])
- by ob1.hgst.iphmx.com with ESMTP; 18 Jan 2021 11:35:51 +0800
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=Kvm3izGn+qLPd7LDuIW5U3A+qLIwqUYU6psonBgyPOj6enMnnrnvCz/0yfeVob9Iv6fRVmyQFd0U+y09uRWtsBfj4BjX3FLrQ1E5iOC8JSJ2a02aUPNKbfdMsiIxdJgi1lVlu3S+3BSSVHEnO5bRLtA35UVzyrm14wqL1RMi375yKARH/glIAz7jxZm+3xfcxWFIjYvJTVcvmrmgY2LawrzPB5OTXhFuxZy7L3fVyMiHcsT2d1p38X9gc4riA4SY3gcPS8oSCien+DWjKLVbRQu0pqEjpyucTkeAllIAY1X1ZOgVi2lx4agoTL60YKKqgTklCSDq2KOivAHwVdLuOQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=WOPdHazOM4qQMfQHWW/Nn/EQPI2uf3r8HlEzCh6B6TI=;
- b=JtvifkDcknnCtt9MCKqfPc/bQvK060q6V8y4hVbEWeUPT8FdUwqBMFT/SGlAuxvLWpw7Nzn/jFiNjrzaq5Y8TG/y+XUSsoACOFmV+nb8Xe+xrbJHDZSijBRF3jEKHzgcYdd5JQh5v5MkfNJGKHb9r3VorBMox3CiyAdNrT5RgQoulFxWfmWaot5Q9N4n5NifqTEjWG545NgG01bGILKQIzf8j/W/aBfqpRI4+v03vi2s6Uv416IIGqUYgSIF3uApEM9+Ju7jZZ0d9yD+Uahrq9mNrKJYLF1xHG1avlZ5xdHYG3fBG2xjTqbqJZEmswHzf8aLXif47TmsXb48GgQTew==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=wdc.com; dmarc=pass action=none header.from=wdc.com; dkim=pass
- header.d=wdc.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=sharedspace.onmicrosoft.com; s=selector2-sharedspace-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=WOPdHazOM4qQMfQHWW/Nn/EQPI2uf3r8HlEzCh6B6TI=;
- b=jyx3oqs51BxPJZBJUeG1qCcxfWwcHPTzCc7yL0ujM2uCX+mOaNSBmVNOMJP3ZRCGBJibWvzXVBd3dAkoxMS2q78po8WjpUZMxyTLIJdrZudoQo/74yJA2409mAkz5cfGlGDEFUjlcNgdh1bkP93uhsc9s17fkTguFDOTETtgnL8=
-Received: from MN2PR04MB5951.namprd04.prod.outlook.com (2603:10b6:208:3f::13)
- by MN2PR04MB6125.namprd04.prod.outlook.com (2603:10b6:208:e1::22)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3763.11; Mon, 18 Jan
- 2021 03:35:50 +0000
-Received: from MN2PR04MB5951.namprd04.prod.outlook.com
- ([fe80::61cd:6fe8:7a7e:79a3]) by MN2PR04MB5951.namprd04.prod.outlook.com
- ([fe80::61cd:6fe8:7a7e:79a3%3]) with mapi id 15.20.3763.014; Mon, 18 Jan 2021
- 03:35:50 +0000
-From: Dmitry Fomichev <Dmitry.Fomichev@wdc.com>
-To: "its@irrelevant.dk" <its@irrelevant.dk>, "qemu-devel@nongnu.org"
- <qemu-devel@nongnu.org>
-Subject: Re: [PATCH 0/6] hw/block/nvme: zoned misc fixes
-Thread-Topic: [PATCH 0/6] hw/block/nvme: zoned misc fixes
-Thread-Index: AQHW6BXWN8p25/S3kUSiFLCVrInIVqosxduA
-Date: Mon, 18 Jan 2021 03:35:50 +0000
-Message-ID: <0e93635d89378b7cb0250ad4a73555676d0ad4ea.camel@wdc.com>
-References: <20210111123223.76248-1-its@irrelevant.dk>
-In-Reply-To: <20210111123223.76248-1-its@irrelevant.dk>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-user-agent: Evolution 3.38.2 (3.38.2-1.fc33) 
-authentication-results: irrelevant.dk; dkim=none (message not signed)
- header.d=none;irrelevant.dk; dmarc=none action=none header.from=wdc.com;
-x-originating-ip: [74.102.244.173]
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-ht: Tenant
-x-ms-office365-filtering-correlation-id: 6ea7e118-7858-497f-8676-08d8bb6226c0
-x-ms-traffictypediagnostic: MN2PR04MB6125:
-x-microsoft-antispam-prvs: <MN2PR04MB61259CB165D045D0BBBF6988E1A40@MN2PR04MB6125.namprd04.prod.outlook.com>
-wdcipoutbound: EOP-TRUE
-x-ms-oob-tlc-oobclassifiers: OLM:6108;
-x-ms-exchange-senderadcheck: 1
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: tmNxr4Aoh4qlArVwp7t2BG/bSxy2twY1iCpwpT8VNSwo672IoNEE9J3Qg1WbFnaTzOhDqaOf9HwMHRmqLe5aB3uYu0DD0iJY2utQtfTF7iHR4ucIW75tvQ/7t5uNfXT45ZSo8IEqE6ztl0nwxYje/gqDZ5xXilGVjZqKOz0Z9kDXMV+yRHGTcUCOrKKnkNXnUzJGJ/vdQFYEb3Rp+kWSQu4iBGEgp8/g3tN9mOkWmgwiSbwi64L5AtKhYw98z7IcXo0wrA954h62JdNMzVHj3EhPi7OgufDsknU1JdkXW9PlI8Fh6hpflLUqQZWR7050qxKc5S7uj7LkfNq8QTw3jGs+El70hc6+qfJzWGapixEh8ZyAhknYEZtJW9JbfIBz+GF54MfrxDdJA/cPWbul7sMOwRt4/45BaxSCeSAUAb+CDFxkPkr+1hlySY6/Qy3076s90BxLKPPhhMB0099woyxLEc7RAqtrOFQW/SIub5FSky4WZNP3jCEBWoU0sRwLe7gXYJV7wfMMFWe1FIjfmQ==
-x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:MN2PR04MB5951.namprd04.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(4636009)(136003)(376002)(366004)(39860400002)(396003)(346002)(110136005)(316002)(54906003)(71200400001)(2616005)(86362001)(66946007)(5660300002)(64756008)(66476007)(76116006)(66556008)(6486002)(66446008)(4326008)(2906002)(26005)(6506007)(83380400001)(8936002)(478600001)(8676002)(6512007)(36756003)(186003);
- DIR:OUT; SFP:1102; 
-x-ms-exchange-antispam-messagedata: =?utf-8?B?R2RqQlVNdVQwdHgzWEVTdzVyaEc1WVJrTDQ1QW8xUGtBa2ZGYlU2NXdPa2k5?=
- =?utf-8?B?SlYyUndjb09rTUN1b1Z0Z2d0TE9Wakdld2pjV1kxclNDa3AyYmN5VWgxcHJY?=
- =?utf-8?B?eUcwdjBqYy9RWVVpa1hSeEl5ZUJwdWptSk50d3ZNYmwyRDh2L1ZtODdOZEQ5?=
- =?utf-8?B?V1RCNzFndjRyb3Q4Vk9lTk5LdlA1MXhLYUZ6RTk0NEpHQitCWWhuTnplL21M?=
- =?utf-8?B?aWtIbytIQVgrUDVvY0o5dDVEMlMxd2ZEMkgrY0UyTVhkdXQ1NWVHUmxGUjRk?=
- =?utf-8?B?QkJQYnFRYjJoaDV3OUFSd3Zvcml4eitBUFRhSFRRNUgyVmNlRERlMzNralZO?=
- =?utf-8?B?dFgvblNsaDhXQzFCcmJaVWEwZ0hBdlgzWjl6OXdGNkZmLzdUR0ZtNVdVNCts?=
- =?utf-8?B?M0pxemJ0WDUra2o5b1RFMTlFUkNXaXh1U0dYRDBmenFGbVdlcklRYjdSNW9z?=
- =?utf-8?B?YytILzAvdXlJVDA3NjdKN2ZCc0dxbzlmS2g5N2NuWnhlSGp0OG5KRUdQY2hC?=
- =?utf-8?B?RnRIZnJPbFR0UlMrME9PMjRpcEZwMXIvdU5YZHNSNDRXS2QxeDF5emV0UnVJ?=
- =?utf-8?B?ekpPbU1SNDE4MFkxbk9lN3ZGSmkyWUhnU0hpOXVMVWpVOTNDcHd5RFVxNklG?=
- =?utf-8?B?L243UEc2MnNqMmIwc1pYNER3TG9LUG9zajRYU2VFR1NNYUs5eHFiMVF6VGp3?=
- =?utf-8?B?MUxHUFVWRUp0OWxhOXJPRkVzdVlVZkxPazhSQ2V6UjA2Tkc4UjBYSkY5SHB4?=
- =?utf-8?B?MlRtRGVOVGNKMi9TaVgzTFZxclE3K3VmS0puY3NMVDc0TitWY1dhS251QmR6?=
- =?utf-8?B?TnI3MU1XVWFQVkFTbVZRa2s3a1RjQVorMWtlSGRxWitKV3l1cmNjeFprSTJV?=
- =?utf-8?B?QVROVjFvQVliTXliMU41K1hpTGVzUVgzMGJ1N2ZBVGNwYWNZMy9qR3NDTFJm?=
- =?utf-8?B?czlzQjRRelMzOHU4ZkdoRDUvZ0x6SzY5cHh5ZUtuV1FWcTFNVEZoeUhuRlR1?=
- =?utf-8?B?S0Q4NjRjVUpJbVJGWW93eXpNb0JsOVc2ODhhYm83M0duQzl3TUErMUlFMGFr?=
- =?utf-8?B?eWVYWStpYy8rSytuUDkzS0tWdmRtNzkySWhDY3VtSDFSWTBIQzR5MWxTYisr?=
- =?utf-8?B?NmZJVjlUQjdEVmhscEVyOGpBWmdnWU5hNEZrTGtMekhobk1RSHJMT0hSaVhL?=
- =?utf-8?B?dTZEUVFWaWxGODBLLzRRN016dmNSWjBJdUJ5V3FYcTR1SnIrMjB6RS9mN3kr?=
- =?utf-8?B?K0lSaVB0bzRGbXoxU1pZekZyRGhtbnlRMGJHSGVhK2Nsbm05TEVJWHpyZk1E?=
- =?utf-8?Q?58z5ZDf8bXSxRZX3PlKy7z5mXjLfUvLx6j?=
-x-ms-exchange-transport-forked: True
-Content-Type: text/plain; charset="utf-8"
-Content-ID: <33223D46CC6246439F94D9F5FE0B3270@namprd04.prod.outlook.com>
-Content-Transfer-Encoding: base64
+ t=1610941162; x=1642477162;
+ h=from:to:cc:subject:date:message-id:mime-version:
+ content-transfer-encoding;
+ bh=NKFAM5nvhD6WJd8Z42eetx6GEXkMzPUI9giI17H63EM=;
+ b=k/QpN75/X1tqlVcgq0m1iXlbvB9pBZwb6bCpvQqlhPwLND6C8Wv8HlQi
+ fNp1HhgRb+U+oaMSoH54fiUwuKQlfVNMcynGD+0/w8HcTW1j+QLQxxCqc
+ XHlW27AmydGn0tltcaYuSQu/JQVUZTJ3kyY4iXb0FMue+TyZHK5vUiPBr
+ Lo18RrkWhvHiysXQNt95np3UxKk+HBu1wj00usbT2k0cPPnEPwxX8MKHE
+ c59SO0lEtfPUVBQ+qNrKWkp1Ngi+1QbmqAP+dzcu8DSfTyZykJshs+zjr
+ y0yuqHZfLDqsX/B/NC2BIbdNVxDJLP8wACDsGr1gxsb49eAl99Tz9skIL w==;
+IronPort-SDR: inD1Iozx1GKBXrAqJ4EgNG7MvXDn2KXSxbfrsDK6tUXZxlgYwu7EX/niE7dVITAOqiAynN9D5R
+ YgqWHlkUmQIq5pND4O0H0wuwNdwzn0I0C4/ZPxXttNLV1sPOSPm9GBsNaoROyAJTH2Kh9KwNyZ
+ 98rYimIkWkjxpdHu8+O9Yxq9taFQGqmvMyOoZyjNEWHM8JWGzZdW5an8EtRmehY19Vtt74Xo6Q
+ f1Wwiwy1BYBDunlVjsDfdxTkbLN6N/pjGU2JOv8vK2lsOf8aSB5SOFM0g2jU1neGI7N/3PAhrO
+ 2HU=
+X-IronPort-AV: E=Sophos;i="5.79,355,1602518400"; d="scan'208";a="157664409"
+Received: from h199-255-45-15.hgst.com (HELO uls-op-cesaep02.wdc.com)
+ ([199.255.45.15])
+ by ob1.hgst.iphmx.com with ESMTP; 18 Jan 2021 11:39:19 +0800
+IronPort-SDR: j5Uq2bLm0djYWnjEUmsDEirabe1nN7nfMVfaCceTtYBDsLQ1iS4haq3ILoCwYLMsvELx2iokzm
+ JAwW7rpbgXb6fwz756jgFQM4zl4hhs1iZzSwj+U79ZEPyBtxYPKxo/0qwN24VT+5jrXWRxQvUW
+ N06+PX7dQB/EUgQpNB7GkOu7q4yF5OI82OUQlzb1R35XLvFvfu++ilG2NHliR2Hq3Nt/G4hpXK
+ blg5gsK5lww7KjT5Y6ufhIKrW7fYIozOg556GSm+tlmh76BVesExE3e8ixnYgHnkkdXGGlzIvQ
+ a3vUIA5PaUMd1EEhisDPAqUS
+Received: from uls-op-cesaip02.wdc.com ([10.248.3.37])
+ by uls-op-cesaep02.wdc.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 17 Jan 2021 19:21:56 -0800
+IronPort-SDR: pDh3YdO8OCzhYVLDxGFbuBktLidGO0wZku/m1ie57u/w7l25+epDxqF/L7GbuF1+o45D7SVFBr
+ sNqb3gOtrXVrWnNmEU9qqTSP5frepkh1QpYLIg4P4qgWOjUAElgeWEics5JiXdvs+Jnpdpic1D
+ +ULzGGPyGocprI0t7Ya49YZHfGoMPcvlvZsYPXnUS7vhiCXkNXkDMBReQDPUe1BgArp1cWBkr8
+ FmxP/cBuEK6e7Z3bfIRwlxOY0GNvfaPHrKUtWH49789LwCZ9MQIoCP5tEEc778YZC+pIU0LTz6
+ zME=
+WDCIronportException: Internal
+Received: from unknown (HELO redsun50.ssa.fujisawa.hgst.com) ([10.149.66.24])
+ by uls-op-cesaip02.wdc.com with ESMTP; 17 Jan 2021 19:39:18 -0800
+From: Dmitry Fomichev <dmitry.fomichev@wdc.com>
+To: Klaus Jensen <k.jensen@samsung.com>, Keith Busch <kbusch@kernel.org>,
+ Kevin Wolf <kwolf@redhat.com>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
+ Max Reitz <mreitz@redhat.com>, qemu-devel@nongnu.org
+Subject: [PATCH] hw/block/nvme: Correct error status for unaligned ZA
+Date: Mon, 18 Jan 2021 12:39:17 +0900
+Message-Id: <20210118033917.5576-1-dmitry.fomichev@wdc.com>
+X-Mailer: git-send-email 2.28.0
 MIME-Version: 1.0
-X-OriginatorOrg: wdc.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: MN2PR04MB5951.namprd04.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 6ea7e118-7858-497f-8676-08d8bb6226c0
-X-MS-Exchange-CrossTenant-originalarrivaltime: 18 Jan 2021 03:35:50.3586 (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: b61c8803-16f3-4c35-9b17-6f65f441df86
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: woq7B7I6dILmbcczPFvnW83j4Nwps5VqHGY0gC4xpLTA2FRaMyjot8zZ20nEwW419/Z2jLe+Bw+sGheDHHQDMA==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN2PR04MB6125
-Received-SPF: pass client-ip=216.71.153.141;
- envelope-from=prvs=645c2efc4=Dmitry.Fomichev@wdc.com; helo=esa3.hgst.iphmx.com
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=216.71.153.144;
+ envelope-from=prvs=645c2efc4=dmitry.fomichev@wdc.com; helo=esa5.hgst.iphmx.com
 X-Spam_score_int: -27
 X-Spam_score: -2.8
 X-Spam_bar: --
@@ -155,34 +88,37 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "kbusch@kernel.org" <kbusch@kernel.org>,
- "kwolf@redhat.com" <kwolf@redhat.com>,
- "k.jensen@samsung.com" <k.jensen@samsung.com>,
- "qemu-block@nongnu.org" <qemu-block@nongnu.org>,
- "mreitz@redhat.com" <mreitz@redhat.com>
+Cc: Dmitry Fomichev <dmitry.fomichev@wdc.com>,
+ Damien Le Moal <damien.lemoal@wdc.com>, qemu-block@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-T24gTW9uLCAyMDIxLTAxLTExIGF0IDEzOjMyICswMTAwLCBLbGF1cyBKZW5zZW4gd3JvdGU6DQo+
-IEZyb206IEtsYXVzIEplbnNlbiA8ay5qZW5zZW5Ac2Ftc3VuZy5jb20+DQoNCktsYXVzLA0KDQpU
-aGlzIHNlcmllcyBsb29rcyBnb29kIHRvIG1lLiBJJ3ZlIG1hZGUgYSBjb21tZW50IGluICJ6ZXJv
-IG91dCB6b25lcyBvbiByZXNldCINCnBhdGNoLCBidXQgaXQgaXMgb25seSBjb3NtZXRpYyBpbiBu
-YXR1cmUuIEkgYW0gZ29pbmcgdG8gc2VuZCBhIHBhdGNoDQp3aXRoIGFub3RoZXIgc21hbGwgZml4
-IGluIFpOUyBjb2RlLg0KDQpCZXN0IHJlZ2FyZHMsDQpEbWl0cnkNCg0KVGVzdGVkLWJ5OiBEbWl0
-cnkgRm9taWNoZXYgPGRtaXRyeS5mb21pY2hldkB3ZGMuY29tPg0KUmV2aWV3ZWQtYnk6IERtaXRy
-eSBGb21pY2hldiA8ZG1pdHJ5LmZvbWljaGV2QHdkYy5jb20+DQoNCj4gDQo+IFRoZXNlIGFyZSBz
-b21lIGZvbGxvdy11cCBwYXRjaGVzIHRvIHRoZSBqdXN0IG1lcmdlZCB6b25lZCBzZXJpZXMuDQo+
-IA0KPiBUaGUgYmlnZ2VzdCBhZGRpdGlvbiBoZXJlIGlzIGFzeW5jaHJvbm91cyB6ZXJvaW5nIG9m
-IHpvbmVzIG9uIHJlc2V0Lg0KPiANCj4gS2xhdXMgSmVuc2VuICg2KToNCj4gwqDCoGh3L2Jsb2Nr
-L252bWU6IGZpeCBzaHV0ZG93bi9yZXNldCBsb2dpYw0KPiDCoMKgaHcvYmxvY2svbnZtZTogbWVy
-Z2UgaW1wbGljaXRseS9leHBsaWNpdGx5IG9wZW5lZCBwcm9jZXNzaW5nIG1hc2tzDQo+IMKgwqBo
-dy9ibG9jay9udm1lOiBlbnVtIHN0eWxlIGZpeA0KPiDCoMKgaHcvYmxvY2svbnZtZTogemVybyBv
-dXQgem9uZXMgb24gcmVzZXQNCj4gwqDCoGh3L2Jsb2NrL252bWU6IGFkZCBtaXNzaW5nIHN0cmlu
-ZyByZXByZXNlbnRhdGlvbnMgZm9yIGNvbW1hbmRzDQo+IMKgwqBody9ibG9jay9udm1lOiByZW1v
-dmUgdW5uZWNlc3NhcnkgY2hlY2sgZm9yIGFwcGVuZA0KPiANCj4gwqBody9ibG9jay9udm1lLW5z
-LmggICAgfCAgIDQgKy0NCj4gwqBody9ibG9jay9udm1lLmggICAgICAgfCAgIDQgKw0KPiDCoGlu
-Y2x1ZGUvYmxvY2svbnZtZS5oICB8ICAgNCArLQ0KPiDCoGh3L2Jsb2NrL252bWUuYyAgICAgICB8
-IDIwMCArKysrKysrKysrKysrKysrKysrKysrKysrKystLS0tLS0tLS0tLS0tLS0NCj4gwqBody9i
-bG9jay90cmFjZS1ldmVudHMgfCAgIDEgKw0KPiDCoDUgZmlsZXMgY2hhbmdlZCwgMTQwIGluc2Vy
-dGlvbnMoKyksIDczIGRlbGV0aW9ucygtKQ0KPiANCj4gLS0gDQo+IDIuMzAuMA0KPiANCg0K
+TP 4053 says (in section 2.3.1.1) -
+... if a Zone Append command specifies a ZSLBA that is not the lowest
+logical block address in that zone, then the controller shall abort
+that command with a status code of Invalid Field In Command.
+
+In the code, Zone Invalid Write is returned instead, fix this.
+
+Signed-off-by: Dmitry Fomichev <dmitry.fomichev@wdc.com>
+---
+ hw/block/nvme.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/hw/block/nvme.c b/hw/block/nvme.c
+index a8dc13553d..f64676a930 100644
+--- a/hw/block/nvme.c
++++ b/hw/block/nvme.c
+@@ -1150,7 +1150,7 @@ static uint16_t nvme_check_zone_write(NvmeCtrl *n, NvmeNamespace *ns,
+         if (append) {
+             if (unlikely(slba != zone->d.zslba)) {
+                 trace_pci_nvme_err_append_not_at_start(slba, zone->d.zslba);
+-                status = NVME_ZONE_INVALID_WRITE;
++                status = NVME_INVALID_FIELD;
+             }
+             if (nvme_l2b(ns, nlb) > (n->page_size << n->zasl)) {
+                 trace_pci_nvme_err_append_too_large(slba, nlb, n->zasl);
+-- 
+2.28.0
+
 
