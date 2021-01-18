@@ -2,60 +2,51 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8A98F2F9A24
-	for <lists+qemu-devel@lfdr.de>; Mon, 18 Jan 2021 07:53:06 +0100 (CET)
-Received: from localhost ([::1]:50330 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2644D2F9A50
+	for <lists+qemu-devel@lfdr.de>; Mon, 18 Jan 2021 08:03:27 +0100 (CET)
+Received: from localhost ([::1]:40380 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l1OPR-0001mV-Im
-	for lists+qemu-devel@lfdr.de; Mon, 18 Jan 2021 01:53:05 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33996)
+	id 1l1OZS-0001CN-8D
+	for lists+qemu-devel@lfdr.de; Mon, 18 Jan 2021 02:03:26 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35362)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <no-reply@patchew.org>)
- id 1l1OD7-0003QV-At
- for qemu-devel@nongnu.org; Mon, 18 Jan 2021 01:40:21 -0500
-Resent-Date: Mon, 18 Jan 2021 01:40:21 -0500
-Resent-Message-Id: <E1l1OD7-0003QV-At@lists.gnu.org>
-Received: from sender4-of-o54.zoho.com ([136.143.188.54]:21441)
+ (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
+ id 1l1OO0-0001U1-KS; Mon, 18 Jan 2021 01:51:36 -0500
+Received: from bilbo.ozlabs.org ([2401:3900:2:1::2]:44735 helo=ozlabs.org)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <no-reply@patchew.org>)
- id 1l1OCx-0007pe-Ab
- for qemu-devel@nongnu.org; Mon, 18 Jan 2021 01:40:20 -0500
-ARC-Seal: i=1; a=rsa-sha256; t=1610951985; cv=none; 
- d=zohomail.com; s=zohoarc; 
- b=fhxGdGQx/sCr7GOrD1GHmB9Ir77kwlVJIrgdwB8GGEKQoYzXRBec8cFJHMTdTLeaAm6TyByMd4Nd33f/GQ0ExJ6v20PysLYeD6M7xSOXModI3o8WdWA5MV2OHMcc6J4sD/MeSdxM2+kEBoe3BKloN4JNKFjBq5E+rqJZNjFK7C0=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
- s=zohoarc; t=1610951985;
- h=Content-Type:Content-Transfer-Encoding:Cc:Date:From:In-Reply-To:MIME-Version:Message-ID:Reply-To:Subject:To;
- bh=lC1t/JOfVc1cYxG6QuuR9x1oCnVGCVnBprYw7bLOo74=; 
- b=Q53gOM2OgGpQpQA6MK1L/9qjQd1OH5z3LI/5xkzUP9/FS36ZtIVnJU4QrteQPWEVMaYlXqlY3g8JHkvEMPuB7G34X2Yi+65fjsfOk3Y6Rl2A0ZAti0jVo8ezqe7pGqkFuS+/GHPXAowAQ+jp/2DbEAAp2xwtlERYQnokJbPX6kM=
-ARC-Authentication-Results: i=1; mx.zohomail.com;
- spf=pass  smtp.mailfrom=no-reply@patchew.org;
- dmarc=pass header.from=<no-reply@patchew.org>
- header.from=<no-reply@patchew.org>
-Received: from [172.17.0.3] (23.253.156.214 [23.253.156.214]) by
- mx.zohomail.com with SMTPS id 1610951984807668.8223867574773;
- Sun, 17 Jan 2021 22:39:44 -0800 (PST)
-In-Reply-To: <20210118063229.442350-1-ppandit@redhat.com>
-Subject: Re: [PATCH v2] ide: atapi: check logical block address and read size
- (CVE-2020-29443)
-Message-ID: <161095198330.12958.15407181311584410519@73fb1a5943b8>
+ (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
+ id 1l1ONq-000457-K9; Mon, 18 Jan 2021 01:51:35 -0500
+Received: by ozlabs.org (Postfix, from userid 1007)
+ id 4DK2WD22T7z9sRR; Mon, 18 Jan 2021 17:51:20 +1100 (AEDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=gibson.dropbear.id.au; s=201602; t=1610952680;
+ bh=7NMMFuxqR/oqmJmRsYnvF4j5LoauvHYx94eOpc6vSaQ=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=mr7B7qJ1AkiT3ZWIpzqj5zv/ALvvjFMKgzxYJMu6vxfdph1hcJmItCSd1SXOoSrT8
+ dW/ieNdckTW+7NF4worGTgay8tTgnOoFswsAWAHOSEOZBlXRv8HEpC3mkvVj8/PzAY
+ UHiznGMwupWZj9rQzcwJ8vlHP8egzonVAigGJqV0=
+Date: Mon, 18 Jan 2021 17:31:37 +1100
+From: David Gibson <david@gibson.dropbear.id.au>
+To: Greg Kurz <groug@kaod.org>
+Subject: Re: [PATCH] spapr: Improve handling of memory unplug with old guests
+Message-ID: <20210118063137.GJ2089552@yekko.fritz.box>
+References: <161012708715.801107.11418801796987916516.stgit@bahia.lan>
+ <20210113012058.GJ435587@yekko.fritz.box>
+ <20210113180127.563126ad@bahia.lan>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
-Resent-From: 
-From: no-reply@patchew.org
-To: ppandit@redhat.com
-Date: Sun, 17 Jan 2021 22:39:44 -0800 (PST)
-X-ZohoMailClient: External
-Received-SPF: pass client-ip=136.143.188.54; envelope-from=no-reply@patchew.org;
- helo=sender4-of-o54.zoho.com
-X-Spam_score_int: -18
-X-Spam_score: -1.9
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="8jNwmpfkpox/fiJK"
+Content-Disposition: inline
+In-Reply-To: <20210113180127.563126ad@bahia.lan>
+Received-SPF: pass client-ip=2401:3900:2:1::2; envelope-from=dgibson@ozlabs.org;
+ helo=ozlabs.org
+X-Spam_score_int: -17
+X-Spam_score: -1.8
 X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
- RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, HEADER_FROM_DIFFERENT_DOMAINS=0.25,
+ SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -68,44 +59,128 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: qemu-devel@nongnu.org
-Cc: peter.maydell@linaro.org, pjp@fedoraproject.org, jsnow@redhat.com,
- qemu-devel@nongnu.org, armbru@redhat.com, leonwxqian@gmail.com,
- pbonzini@redhat.com, philmd@redhat.com
+Cc: qemu-ppc@nongnu.org, qemu-devel@nongnu.org,
+ Laurent Vivier <laurent@vivier.eu>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-UGF0Y2hldyBVUkw6IGh0dHBzOi8vcGF0Y2hldy5vcmcvUUVNVS8yMDIxMDExODA2MzIyOS40NDIz
-NTAtMS1wcGFuZGl0QHJlZGhhdC5jb20vCgoKCkhpLAoKVGhpcyBzZXJpZXMgc2VlbXMgdG8gaGF2
-ZSBzb21lIGNvZGluZyBzdHlsZSBwcm9ibGVtcy4gU2VlIG91dHB1dCBiZWxvdyBmb3IKbW9yZSBp
-bmZvcm1hdGlvbjoKClR5cGU6IHNlcmllcwpNZXNzYWdlLWlkOiAyMDIxMDExODA2MzIyOS40NDIz
-NTAtMS1wcGFuZGl0QHJlZGhhdC5jb20KU3ViamVjdDogW1BBVENIIHYyXSBpZGU6IGF0YXBpOiBj
-aGVjayBsb2dpY2FsIGJsb2NrIGFkZHJlc3MgYW5kIHJlYWQgc2l6ZSAoQ1ZFLTIwMjAtMjk0NDMp
-Cgo9PT0gVEVTVCBTQ1JJUFQgQkVHSU4gPT09CiMhL2Jpbi9iYXNoCmdpdCByZXYtcGFyc2UgYmFz
-ZSA+IC9kZXYvbnVsbCB8fCBleGl0IDAKZ2l0IGNvbmZpZyAtLWxvY2FsIGRpZmYucmVuYW1lbGlt
-aXQgMApnaXQgY29uZmlnIC0tbG9jYWwgZGlmZi5yZW5hbWVzIFRydWUKZ2l0IGNvbmZpZyAtLWxv
-Y2FsIGRpZmYuYWxnb3JpdGhtIGhpc3RvZ3JhbQouL3NjcmlwdHMvY2hlY2twYXRjaC5wbCAtLW1h
-aWxiYWNrIGJhc2UuLgo9PT0gVEVTVCBTQ1JJUFQgRU5EID09PQoKVXBkYXRpbmcgM2M4Y2Y1YTlj
-MjFmZjg3ODIxNjRkMWRlZjdmNDRiZDg4ODcxMzM4NApGcm9tIGh0dHBzOi8vZ2l0aHViLmNvbS9w
-YXRjaGV3LXByb2plY3QvcWVtdQogKiBbbmV3IHRhZ10gICAgICAgICBwYXRjaGV3LzIwMjEwMTE4
-MDYzMjI5LjQ0MjM1MC0xLXBwYW5kaXRAcmVkaGF0LmNvbSAtPiBwYXRjaGV3LzIwMjEwMTE4MDYz
-MjI5LjQ0MjM1MC0xLXBwYW5kaXRAcmVkaGF0LmNvbQpTd2l0Y2hlZCB0byBhIG5ldyBicmFuY2gg
-J3Rlc3QnCjhmNTYwNDkgaWRlOiBhdGFwaTogY2hlY2sgbG9naWNhbCBibG9jayBhZGRyZXNzIGFu
-ZCByZWFkIHNpemUgKENWRS0yMDIwLTI5NDQzKQoKPT09IE9VVFBVVCBCRUdJTiA9PT0KRVJST1I6
-IHNwYWNlIHByb2hpYml0ZWQgYmV0d2VlbiBmdW5jdGlvbiBuYW1lIGFuZCBvcGVuIHBhcmVudGhl
-c2lzICcoJwojMjU6IEZJTEU6IGh3L2lkZS9hdGFwaS5jOjMyNToKKyAgICBhc3NlcnQgKDAgPD0g
-bGJhICYmIGxiYSA8IChzLT5uYl9zZWN0b3JzID4+IDIpKTsKCkVSUk9SOiBzcGFjZSBwcm9oaWJp
-dGVkIGJldHdlZW4gZnVuY3Rpb24gbmFtZSBhbmQgb3BlbiBwYXJlbnRoZXNpcyAnKCcKIzM0OiBG
-SUxFOiBody9pZGUvYXRhcGkuYzo0MjU6CisgICAgYXNzZXJ0ICgwIDw9IGxiYSAmJiBsYmEgPCAo
-cy0+bmJfc2VjdG9ycyA+PiAyKSk7Cgp0b3RhbDogMiBlcnJvcnMsIDAgd2FybmluZ3MsIDcxIGxp
-bmVzIGNoZWNrZWQKCkNvbW1pdCA4ZjU2MDQ5MmMyMDQgKGlkZTogYXRhcGk6IGNoZWNrIGxvZ2lj
-YWwgYmxvY2sgYWRkcmVzcyBhbmQgcmVhZCBzaXplIChDVkUtMjAyMC0yOTQ0MykpIGhhcyBzdHls
-ZSBwcm9ibGVtcywgcGxlYXNlIHJldmlldy4gIElmIGFueSBvZiB0aGVzZSBlcnJvcnMKYXJlIGZh
-bHNlIHBvc2l0aXZlcyByZXBvcnQgdGhlbSB0byB0aGUgbWFpbnRhaW5lciwgc2VlCkNIRUNLUEFU
-Q0ggaW4gTUFJTlRBSU5FUlMuCj09PSBPVVRQVVQgRU5EID09PQoKVGVzdCBjb21tYW5kIGV4aXRl
-ZCB3aXRoIGNvZGU6IDEKCgpUaGUgZnVsbCBsb2cgaXMgYXZhaWxhYmxlIGF0Cmh0dHA6Ly9wYXRj
-aGV3Lm9yZy9sb2dzLzIwMjEwMTE4MDYzMjI5LjQ0MjM1MC0xLXBwYW5kaXRAcmVkaGF0LmNvbS90
-ZXN0aW5nLmNoZWNrcGF0Y2gvP3R5cGU9bWVzc2FnZS4KLS0tCkVtYWlsIGdlbmVyYXRlZCBhdXRv
-bWF0aWNhbGx5IGJ5IFBhdGNoZXcgW2h0dHBzOi8vcGF0Y2hldy5vcmcvXS4KUGxlYXNlIHNlbmQg
-eW91ciBmZWVkYmFjayB0byBwYXRjaGV3LWRldmVsQHJlZGhhdC5jb20=
+
+--8jNwmpfkpox/fiJK
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+
+On Wed, Jan 13, 2021 at 06:01:27PM +0100, Greg Kurz wrote:
+> On Wed, 13 Jan 2021 12:20:58 +1100
+> David Gibson <david@gibson.dropbear.id.au> wrote:
+>=20
+> > On Fri, Jan 08, 2021 at 06:31:27PM +0100, Greg Kurz wrote:
+> > > Since commit 1e8b5b1aa16b ("spapr: Allow memory unplug to always succ=
+eed")
+> > > trying to unplug memory from a guest that doesn't support it (eg. rhe=
+l6)
+> > > no longer generates an error like it used to. Instead, it leaves the
+> > > memory around : only a subsequent reboot or manual use of drmgr within
+> > > the guest can complete the hot-unplug sequence. A flag was added to
+> > > SpaprMachineClass so that this new behavior only applies to the defau=
+lt
+> > > machine type.
+> > >=20
+> > > We can do better. CAS processes all pending hot-unplug requests. This
+> > > means that we don't really care about what the guest supports if
+> > > the hot-unplug request happens before CAS.
+> > >=20
+> > > All guests that we care for, even old ones, set enough bits in OV5
+> > > that lead to a non-empty bitmap in spapr->ov5_cas. Use that as a
+> > > heuristic to decide if CAS has already occured or not.
+> > >=20
+> > > Always accept unplug requests that happen before CAS since CAS will
+> > > process them. Restore the previous behavior of rejecting them after
+> > > CAS when we know that the guest doesn't support memory hot-unplug.
+> > >=20
+> > > This behavior is suitable for all machine types : this allows to
+> > > drop the pre_6_0_memory_unplug flag.
+> > >=20
+> > > Fixes: 1e8b5b1aa16b ("spapr: Allow memory unplug to always succeed")
+> > > Signed-off-by: Greg Kurz <groug@kaod.org>
+> >=20
+> > Applied, sorry it too me so long.
+> >=20
+>=20
+> No problem. Any estimate for your next PR ?
+
+Intending to do it tomorrow (Tuesday 19th).
+
+>=20
+> > > ---
+> > >  hw/ppc/spapr.c              |   24 +++++++++++++-----------
+> > >  hw/ppc/spapr_events.c       |    3 +--
+> > >  hw/ppc/spapr_ovec.c         |    7 +++++++
+> > >  include/hw/ppc/spapr.h      |    2 +-
+> > >  include/hw/ppc/spapr_ovec.h |    1 +
+> > >  5 files changed, 23 insertions(+), 14 deletions(-)
+> > >=20
+> > > diff --git a/hw/ppc/spapr.c b/hw/ppc/spapr.c
+> > > index 2c403b574e37..6c47466fc2f1 100644
+> > > --- a/hw/ppc/spapr.c
+> > > +++ b/hw/ppc/spapr.c
+> > > @@ -4048,6 +4048,18 @@ static void spapr_machine_device_unplug(Hotplu=
+gHandler *hotplug_dev,
+> > >      }
+> > >  }
+> > > =20
+> > > +bool spapr_memory_hot_unplug_supported(SpaprMachineState *spapr)
+> > > +{
+> > > +    return spapr_ovec_test(spapr->ov5_cas, OV5_HP_EVT) ||
+> > > +        /*
+> > > +         * CAS will process all pending unplug requests.
+> > > +         *
+> > > +         * HACK: a guest could theoretically have cleared all bits i=
+n OV5,
+> > > +         * but none of the guests we care for do.
+> > > +         */
+> >=20
+> > Hrm.  This is pretty ugly - I thought we had a better canonical way of
+> > determining if CAS had already happened this boot, but it appears
+> > not.  I don't want to delay this patch, since it is an important fix,
+> > but it would be nice if you could do a later cleanup to have a nicer
+> > way of detecting CAS-hasn't-happened.
+> >=20
+>=20
+> Yeah, I fully agree this is ugly. I'll try to find something nicer later.
+>=20
+> Thanks for taking it anyway !
+>=20
+> Cheers,
+>=20
+
+
+
+--=20
+David Gibson			| I'll have my music baroque, and my code
+david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
+				| _way_ _around_!
+http://www.ozlabs.org/~dgibson
+
+--8jNwmpfkpox/fiJK
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAmAFK0kACgkQbDjKyiDZ
+s5L4JQ/+L0B4sn/KZQ3S4zA1FT/1hKgpXNERpLQJi9zno2dUeFB0ROIV++ZCNq87
+qXCt9zjpPvpItD9lBS1Jxf57rayurFsbqsFoudggY8gw7awF02lWIraTOuBHaPe5
++lwJjB9DZ/ZQmDetagUkUTukzt3QWrhLITFLOR/yTbrpVA995dPizlBND/mC62GY
+BdyxWGjcNDofzq3MUhIbYF0NmoDeeZ+acstmj9GLyYG1wM/g2EWTiby7Zmn9Q5+U
+wmVcwtV9wQa0GTCjV5uHy/RJQIglzAwwndaKfY7Ab+x/KYZyRnL1Zzvl40gdsI4z
+cxjF6fwiGrfWV4qbXuxKswuYVLZH3ZoDIMC0h8sLkJIpTlDmtVWrrLFaKNuzkb6H
+tIBs/Plzk6uSoT1Si0O1BYDvgOZ15TNr505pmY4yyvLDPhLXt0nPN731noxhrSnv
+tvawqX4JLS/e7WoQ5cbFpH88l8MKQaMpUMtYsOXJBvMP3lR1ZQf7L3IojCXr0WZo
+3xC9nijs1GQaAPX/LdEfeFeyi2rzXnjLis7ZViljz1Qi2AkUxxlXcn/CLD4mCPH3
+LPMygy1TsNFXSVaPZyQGSrL+OSQdxbxgh/JQDT3D1oO92v7Igp9FtlA0djVQJZ9n
+YlwZOhGoljLB+fz9in5w4Eo4zW5V+gJK1sj5zKvZnuU84YaHbTY=
+=8SM9
+-----END PGP SIGNATURE-----
+
+--8jNwmpfkpox/fiJK--
 
