@@ -2,68 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5F80C2F99FD
-	for <lists+qemu-devel@lfdr.de>; Mon, 18 Jan 2021 07:36:01 +0100 (CET)
-Received: from localhost ([::1]:57930 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7EB292F9A15
+	for <lists+qemu-devel@lfdr.de>; Mon, 18 Jan 2021 07:46:45 +0100 (CET)
+Received: from localhost ([::1]:37302 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l1O8t-0000q6-Ve
-	for lists+qemu-devel@lfdr.de; Mon, 18 Jan 2021 01:35:59 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33084)
+	id 1l1OJI-0004Zi-9c
+	for lists+qemu-devel@lfdr.de; Mon, 18 Jan 2021 01:46:44 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33566)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <ppandit@redhat.com>)
- id 1l1O7n-0000RA-Oy
- for qemu-devel@nongnu.org; Mon, 18 Jan 2021 01:34:51 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:27490)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <ppandit@redhat.com>)
- id 1l1O7j-0005cL-L9
- for qemu-devel@nongnu.org; Mon, 18 Jan 2021 01:34:50 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1610951684;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=qL7iuHZzt0H83Hek19HhIBXs9JEYYGdBc/ZVM+dCu0o=;
- b=g8WrzDx2AHrrUeZTQ8fPnJ/NIAu92yYvp+vWK1rWTFNVzJlBrJH6PYwOewnz+JPUQG8a6h
- 6vFhoxkUGIQpKqxloxrM3435SO4tqK6LD5SBcnjPTvEGfGoFiUq8tvZD5OjRpvZ74EHANL
- dm8Hb7ZcP4KzBKvEx8ucJO/yPTjpMOU=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-151-j2n1-jhcPn2sSvOba_cqtQ-1; Mon, 18 Jan 2021 01:34:41 -0500
-X-MC-Unique: j2n1-jhcPn2sSvOba_cqtQ-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 9B2C7107ACE3;
- Mon, 18 Jan 2021 06:34:40 +0000 (UTC)
-Received: from localhost.localdomain (unknown [10.40.192.71])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 41FD1620D7;
- Mon, 18 Jan 2021 06:34:35 +0000 (UTC)
-From: P J P <ppandit@redhat.com>
-To: Paolo Bonzini <pbonzini@redhat.com>
-Subject: [PATCH v2] ide: atapi: check logical block address and read size
- (CVE-2020-29443)
-Date: Mon, 18 Jan 2021 12:02:29 +0530
-Message-Id: <20210118063229.442350-1-ppandit@redhat.com>
+ (Exim 4.90_1) (envelope-from <jiaxun.yang@flygoat.com>)
+ id 1l1OBI-0002bP-Uu; Mon, 18 Jan 2021 01:38:31 -0500
+Received: from wnew4-smtp.messagingengine.com ([64.147.123.18]:41051)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <jiaxun.yang@flygoat.com>)
+ id 1l1OBF-0007Hw-Js; Mon, 18 Jan 2021 01:38:28 -0500
+Received: from compute6.internal (compute6.nyi.internal [10.202.2.46])
+ by mailnew.west.internal (Postfix) with ESMTP id 36CDF16A5;
+ Mon, 18 Jan 2021 01:38:22 -0500 (EST)
+Received: from mailfrontend1 ([10.202.2.162])
+ by compute6.internal (MEProxy); Mon, 18 Jan 2021 01:38:23 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=flygoat.com; h=
+ from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding; s=fm1; bh=DgEncLxHOwju3s3qsQovwzM5MS
+ urO/+K7pT6AH/ZnM4=; b=ccWMOF063Ku6MMNGUrlAMjPF9KPsClnCmWNEv2gxFJ
+ LHXYvLUKN/6/lyxJbxnhB8vkYgHY6hlFiuLDt8hVJbz0U5Y+ElqsXBXuvyiOfld+
+ gzw2H3KEYEorw9Px/yJw6MZzS7xLsyGv3N/dgIq1bVCwo86/EtOuKvyJ0aoEBo0y
+ hMSREwiHo9J3JRkF7H7W7uhqCxAeggDwJAL2gMfPWkBDf2ma88Nw4VQzRY9A64LG
+ r0m7IrAscxNo9P4821yweTzSAG/Z7JSxju8Siwwjz/2P1zW8MIzcJVWpSXswMFSq
+ QIvdVdYFncngMS7tvWYZpTCKUZwvEZs+VRZ6qe2BdwEQ==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+ messagingengine.com; h=cc:content-transfer-encoding:date:from
+ :message-id:mime-version:subject:to:x-me-proxy:x-me-proxy
+ :x-me-sender:x-me-sender:x-sasl-enc; s=fm1; bh=DgEncLxHOwju3s3qs
+ QovwzM5MSurO/+K7pT6AH/ZnM4=; b=PlOoDjisa4rhkTAeEfJ3RsmKiRi1CJp/j
+ QBz6jvD79OAzrVn+kO2p38KMV0cJtt1fzw2xvkA3DrK0EcEA9UmGKVmBTT3P99ia
+ SAKBpcXmpSvHJxta9BFMyk7G5h+XkteSIBf7lCI/Y90Vluq9crgHMf931GN4Hm3V
+ a+/ib6owhucEoRsSqVmnZQAIqdAPKHFHwLOu6QaruBJoFU9shd6cgzdMamkNnQt+
+ gO1a2Yp0C6SpWeZwqsEhV5YRDEPYZIvEN9ReQKWkDMMrFnM5zs50iOd9NEOVQh2p
+ 1OlK3OjyshSvqQCeg4nmL1Fgp5mzRvwFbmNzodR1IPrgeWMFjlslg==
+X-ME-Sender: <xms:3CwFYPZnlIm_u1iAn_-aPsgdP0k7feH3gYh01eT1ePDpoVddwVcqIg>
+ <xme:3CwFYOZjVVwEQAHZKZidXGCj53XOgBWvXU07BM_kGOEQMo_tY7PamVALyrdjWGI3q
+ Hox2Aht5XmzNII2RMY>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduledrtdejgdeliecutefuodetggdotefrodftvf
+ curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
+ uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
+ fjughrpefhvffufffkofgggfestdekredtredttdenucfhrhhomheplfhirgiguhhnucgj
+ rghnghcuoehjihgrgihunhdrhigrnhhgsehflhihghhorghtrdgtohhmqeenucggtffrrg
+ htthgvrhhnpeehgfdtkefggfetgeffgfeuuedtjeejudekveevfeevjeefgeettdefleet
+ gfdvudenucffohhmrghinhepghhithhlrggsrdgtohhmnecukfhppeduudeirddvvdekrd
+ ekgedrvdenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhm
+ pehjihgrgihunhdrhigrnhhgsehflhihghhorghtrdgtohhm
+X-ME-Proxy: <xmx:3CwFYB-FhIvTYl22E5U7prntTbIAkVigIumpzLl1HjSL0jtlcrxk0Q>
+ <xmx:3CwFYFr0fVb4rO2ztQKeuDlf9XSO8wtNSVGE0e3ErVGG_4Gc1AChIg>
+ <xmx:3CwFYKqqZYhwv1Prk61mmqPA5O307gjgeFNXe6eVATbxmK9boI-DVw>
+ <xmx:3SwFYObR50qMvbcydSoD8bUFcrqPLgOFZp2BrXBguJZBls6qd9lbZbW_talotIup>
+Received: from strike.U-LINK.com (unknown [116.228.84.2])
+ by mail.messagingengine.com (Postfix) with ESMTPA id 4F4BD24005B;
+ Mon, 18 Jan 2021 01:38:14 -0500 (EST)
+From: Jiaxun Yang <jiaxun.yang@flygoat.com>
+To: qemu-devel@nongnu.org
+Subject: [PATCH v2 0/9] Alpine Linux build fix and CI pipeline
+Date: Mon, 18 Jan 2021 14:37:59 +0800
+Message-Id: <20210118063808.12471-1-jiaxun.yang@flygoat.com>
+X-Mailer: git-send-email 2.30.0
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=ppandit@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=ppandit@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -29
-X-Spam_score: -3.0
-X-Spam_bar: ---
-X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.189,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Received-SPF: pass client-ip=64.147.123.18;
+ envelope-from=jiaxun.yang@flygoat.com; helo=wnew4-smtp.messagingengine.com
+X-Spam_score_int: -12
+X-Spam_score: -1.3
+X-Spam_bar: -
+X-Spam_report: (-1.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_SORBS_WEB=1.5, SPF_HELO_PASS=-0.001,
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -76,110 +89,77 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- Prasad J Pandit <pjp@fedoraproject.org>,
+Cc: Fam Zheng <fam@euphon.net>, Laurent Vivier <lvivier@redhat.com>,
+ Thomas Huth <thuth@redhat.com>,
+ Viktor Prutyanov <viktor.prutyanov@phystech.edu>, kvm@vger.kernel.org,
+ =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
+ Alistair Francis <alistair@alistair23.me>, Greg Kurz <groug@kaod.org>,
+ Wainer dos Santos Moschetta <wainersm@redhat.com>,
+ Max Reitz <mreitz@redhat.com>, qemu-ppc@nongnu.org,
+ Kevin Wolf <kwolf@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ qemu-block@nongnu.org,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
- QEMU Developers <qemu-devel@nongnu.org>, Markus Armbruster <armbru@redhat.com>,
- Wenxiang Qian <leonwxqian@gmail.com>, John Snow <jsnow@redhat.com>
+ David Gibson <david@gibson.dropbear.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Prasad J Pandit <pjp@fedoraproject.org>
+Alpine Linux is a security-oriented, lightweight Linux distribution
+based on musl libc and busybox.
 
-While processing ATAPI cmd_read/cmd_read_cd commands,
-Logical Block Address (LBA) maybe invalid OR closer to the last block,
-leading to an OOB access issues. Add range check to avoid it.
+It it popular among Docker guests and embedded applications.
 
-Fixes: CVE-2020-29443
-Reported-by: Wenxiang Qian <leonwxqian@gmail.com>
-Fix-suggested-by: Paolo Bonzini <pbonzini@redhat.com>
-Signed-off-by: Prasad J Pandit <pjp@fedoraproject.org>
----
- hw/ide/atapi.c | 30 ++++++++++++++++++++++++------
- 1 file changed, 24 insertions(+), 6 deletions(-)
+Adding it to test against different libc.
 
-Update v2: range check lba value early in cmd_read[_cd] routines
-  -> https://lists.gnu.org/archive/html/qemu-devel/2020-12/msg00151.html
+Patches pending review at v2 are: 7, 8, 9
 
-diff --git a/hw/ide/atapi.c b/hw/ide/atapi.c
-index e79157863f..35b8494dc8 100644
---- a/hw/ide/atapi.c
-+++ b/hw/ide/atapi.c
-@@ -322,6 +322,8 @@ static void ide_atapi_cmd_reply(IDEState *s, int size, int max_size)
- static void ide_atapi_cmd_read_pio(IDEState *s, int lba, int nb_sectors,
-                                    int sector_size)
- {
-+    assert (0 <= lba && lba < (s->nb_sectors >> 2));
-+
-     s->lba = lba;
-     s->packet_transfer_size = nb_sectors * sector_size;
-     s->elementary_transfer_size = 0;
-@@ -420,6 +422,8 @@ eot:
- static void ide_atapi_cmd_read_dma(IDEState *s, int lba, int nb_sectors,
-                                    int sector_size)
- {
-+    assert (0 <= lba && lba < (s->nb_sectors >> 2));
-+
-     s->lba = lba;
-     s->packet_transfer_size = nb_sectors * sector_size;
-     s->io_buffer_size = 0;
-@@ -973,35 +977,49 @@ static void cmd_prevent_allow_medium_removal(IDEState *s, uint8_t* buf)
+Tree avilable at: https://gitlab.com/FlyGoat/qemu/-/commits/alpine_linux_v2
+CI All green: https://gitlab.com/FlyGoat/qemu/-/pipelines/242003288
 
- static void cmd_read(IDEState *s, uint8_t* buf)
- {
--    int nb_sectors, lba;
-+    unsigned int nb_sectors, lba;
-+
-+    /* Total logical sectors of ATAPI_SECTOR_SIZE(=2048) bytes */
-+    uint64_t total_sectors = s->nb_sectors >> 2;
+It is known to have checkpatch complains about identation but they're
+all pre-existing issues as I'm only doing string replacement. 
 
-     if (buf[0] == GPCMD_READ_10) {
-         nb_sectors = lduw_be_p(buf + 7);
-     } else {
-         nb_sectors = ldl_be_p(buf + 6);
-     }
--
--    lba = ldl_be_p(buf + 2);
-     if (nb_sectors == 0) {
-         ide_atapi_cmd_ok(s);
-         return;
-     }
+v2:
+ - Reoreder patches (Wainer)
+ - Add shadow to dockerfile (Wainer)
+ - Pickup proper signal.h fix (PMM)
+ - Correct clock_adjtime title (Thomas Huth)
+ - Collect review tags
 
-+    lba = ldl_be_p(buf + 2);
-+    if (lba >= total_sectors || lba + nb_sectors - 1 >= total_sectors) {
-+        ide_atapi_cmd_error(s, ILLEGAL_REQUEST, ASC_LOGICAL_BLOCK_OOR);
-+        return;
-+    }
-+
-     ide_atapi_cmd_read(s, lba, nb_sectors, 2048);
- }
+Jiaxun Yang (8):
+  configure: Add sys/timex.h to probe clock_adjtime
+  libvhost-user: Include poll.h instead of sys/poll.h
+  hw/block/nand: Rename PAGE_SIZE to NAND_PAGE_SIZE
+  elf2dmp: Rename PAGE_SIZE to ELF2DMP_PAGE_SIZE
+  tests: Rename PAGE_SIZE definitions
+  accel/kvm: avoid using predefined PAGE_SIZE
+  tests/docker: Add dockerfile for Alpine Linux
+  gitlab-ci: Add alpine to pipeline
 
- static void cmd_read_cd(IDEState *s, uint8_t* buf)
- {
--    int nb_sectors, lba, transfer_request;
-+    unsigned int nb_sectors, lba, transfer_request;
-+
-+    /* Total logical sectors of ATAPI_SECTOR_SIZE(=2048) bytes */
-+    uint64_t total_sectors = s->nb_sectors >> 2;
+Michael Forney (1):
+  osdep.h: Remove <sys/signal.h> include
 
-     nb_sectors = (buf[6] << 16) | (buf[7] << 8) | buf[8];
--    lba = ldl_be_p(buf + 2);
--
-     if (nb_sectors == 0) {
-         ide_atapi_cmd_ok(s);
-         return;
-     }
+ configure                                 |  1 +
+ meson.build                               |  1 -
+ contrib/elf2dmp/addrspace.h               |  6 +-
+ include/qemu/osdep.h                      |  4 --
+ subprojects/libvhost-user/libvhost-user.h |  2 +-
+ accel/kvm/kvm-all.c                       |  3 +
+ contrib/elf2dmp/addrspace.c               |  4 +-
+ contrib/elf2dmp/main.c                    | 18 +++---
+ hw/block/nand.c                           | 40 ++++++-------
+ tests/migration/stress.c                  | 10 ++--
+ tests/qtest/libqos/malloc-pc.c            |  4 +-
+ tests/qtest/libqos/malloc-spapr.c         |  4 +-
+ tests/qtest/m25p80-test.c                 | 54 ++++++++---------
+ tests/tcg/multiarch/system/memory.c       |  6 +-
+ tests/test-xbzrle.c                       | 70 +++++++++++------------
+ .gitlab-ci.d/containers.yml               |  5 ++
+ .gitlab-ci.yml                            | 23 ++++++++
+ tests/docker/dockerfiles/alpine.docker    | 57 ++++++++++++++++++
+ 18 files changed, 198 insertions(+), 114 deletions(-)
+ create mode 100644 tests/docker/dockerfiles/alpine.docker
 
-+    lba = ldl_be_p(buf + 2);
-+    if (lba >= total_sectors || lba + nb_sectors - 1 >= total_sectors) {
-+        ide_atapi_cmd_error(s, ILLEGAL_REQUEST, ASC_LOGICAL_BLOCK_OOR);
-+        return;
-+    }
-+
-     transfer_request = buf[9] & 0xf8;
-     if (transfer_request == 0x00) {
-         /* nothing */
---
-2.29.2
+-- 
+2.30.0
 
 
