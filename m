@@ -2,59 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C5DA92F9CA6
-	for <lists+qemu-devel@lfdr.de>; Mon, 18 Jan 2021 11:36:06 +0100 (CET)
-Received: from localhost ([::1]:40292 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EC0F02F9D55
+	for <lists+qemu-devel@lfdr.de>; Mon, 18 Jan 2021 11:59:43 +0100 (CET)
+Received: from localhost ([::1]:55444 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l1RtF-00027L-Sy
-	for lists+qemu-devel@lfdr.de; Mon, 18 Jan 2021 05:36:05 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39184)
+	id 1l1SG6-0001FI-Iu
+	for lists+qemu-devel@lfdr.de; Mon, 18 Jan 2021 05:59:42 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47622)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1l1RrY-0001Gy-MQ
- for qemu-devel@nongnu.org; Mon, 18 Jan 2021 05:34:20 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:51136)
+ (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1l1SE4-0007uY-W1
+ for qemu-devel@nongnu.org; Mon, 18 Jan 2021 05:57:37 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:40301)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1l1RrV-0006Ka-Q9
- for qemu-devel@nongnu.org; Mon, 18 Jan 2021 05:34:20 -0500
+ (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1l1SE1-00012u-JJ
+ for qemu-devel@nongnu.org; Mon, 18 Jan 2021 05:57:36 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1610966057;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:in-reply-to:in-reply-to:  references:references;
- bh=s+e7vZqKRgz+P9p93AaFif74eexCFytOYcwt/WFV9W4=;
- b=J+AIgnaZxPpdhgZqWKjKNKf15qaix+h3jCMf0fSIMfPJ7UdPl1qVL6b03ahyo2z1Qx+YFv
- QiYa8F+MQmsQ1VpaPTHa6VY05Y1+J5Ksh9CDjPfLgtpDtPdSrDTlGJ67M+vMZeIEy/K7p/
- NvCUqD0dAOLG7IRbLjyqeixQxU0xMMg=
+ s=mimecast20190719; t=1610967452;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=glzYiS9nCbaqdeVsmfNBCcoeml7p8cyuCJSpyJ+EZZQ=;
+ b=dusu+mDstn+IbAPf2dpO/7USV1Ifzn2fxzRHnnitDsVBZFfpQWGa/SIIISdQdWtloiFHGs
+ nrG+r+rHxZ6zLrx0HZHfiMSq6w5DBlBFp+m98RFLDq+c1EDvtHnULPsJbfa565l8dI3ZIQ
+ xnCZhtfeeSQjWVrdmNJE1XAtJ9m0lwg=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-242-1QaHYPbaOiexR0QYRMrBGQ-1; Mon, 18 Jan 2021 05:34:01 -0500
-X-MC-Unique: 1QaHYPbaOiexR0QYRMrBGQ-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
+ us-mta-66-jQpt8uhQPEWCMZh68y7cdA-1; Mon, 18 Jan 2021 05:57:25 -0500
+X-MC-Unique: jQpt8uhQPEWCMZh68y7cdA-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 14EE6B811D;
- Mon, 18 Jan 2021 10:34:00 +0000 (UTC)
-Received: from redhat.com (ovpn-116-34.ams2.redhat.com [10.36.116.34])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 53A7D5D9CD;
- Mon, 18 Jan 2021 10:33:47 +0000 (UTC)
-Date: Mon, 18 Jan 2021 10:33:45 +0000
-From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-To: Jiaxun Yang <jiaxun.yang@flygoat.com>
-Subject: Re: [PATCH v2 8/9] tests/docker: Add dockerfile for Alpine Linux
-Message-ID: <20210118103345.GE1789637@redhat.com>
-References: <20210118063808.12471-1-jiaxun.yang@flygoat.com>
- <20210118063808.12471-9-jiaxun.yang@flygoat.com>
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A264B806660;
+ Mon, 18 Jan 2021 10:57:24 +0000 (UTC)
+Received: from localhost (ovpn-114-253.ams2.redhat.com [10.36.114.253])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 448EE60BFA;
+ Mon, 18 Jan 2021 10:57:24 +0000 (UTC)
+From: Max Reitz <mreitz@redhat.com>
+To: qemu-block@nongnu.org
+Subject: [PATCH v5 01/10] iotests.py: Assume a couple of variables as given
+Date: Mon, 18 Jan 2021 11:57:11 +0100
+Message-Id: <20210118105720.14824-2-mreitz@redhat.com>
+In-Reply-To: <20210118105720.14824-1-mreitz@redhat.com>
+References: <20210118105720.14824-1-mreitz@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20210118063808.12471-9-jiaxun.yang@flygoat.com>
-User-Agent: Mutt/1.14.6 (2020-07-11)
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=berrange@redhat.com;
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mreitz@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="US-ASCII"
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=mreitz@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -29
 X-Spam_score: -3.0
@@ -75,129 +76,95 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-Cc: Fam Zheng <fam@euphon.net>, Laurent Vivier <lvivier@redhat.com>,
- Thomas Huth <thuth@redhat.com>, kvm@vger.kernel.org,
- Viktor Prutyanov <viktor.prutyanov@phystech.edu>, qemu-block@nongnu.org,
- Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
- Alistair Francis <alistair@alistair23.me>, qemu-devel@nongnu.org,
- Wainer dos Santos Moschetta <wainersm@redhat.com>, Greg Kurz <groug@kaod.org>,
- qemu-ppc@nongnu.org, Paolo Bonzini <pbonzini@redhat.com>,
- Kevin Wolf <kwolf@redhat.com>, Max Reitz <mreitz@redhat.com>,
- Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>,
- David Gibson <david@gibson.dropbear.id.au>
+Cc: Kevin Wolf <kwolf@redhat.com>,
+ Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>, qemu-devel@nongnu.org,
+ Max Reitz <mreitz@redhat.com>, Willian Rampazzo <wrampazz@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, Jan 18, 2021 at 02:38:07PM +0800, Jiaxun Yang wrote:
-> Alpine Linux[1] is a security-oriented, lightweight Linux distribution
-> based on musl libc and busybox.
-> 
-> It it popular among Docker guests and embedded applications.
-> 
-> Adding it to test against different libc.
-> 
-> [1]: https://alpinelinux.org/
-> 
-> Signed-off-by: Jiaxun Yang <jiaxun.yang@flygoat.com>
-> ---
->  tests/docker/dockerfiles/alpine.docker | 57 ++++++++++++++++++++++++++
->  1 file changed, 57 insertions(+)
->  create mode 100644 tests/docker/dockerfiles/alpine.docker
-> 
-> diff --git a/tests/docker/dockerfiles/alpine.docker b/tests/docker/dockerfiles/alpine.docker
-> new file mode 100644
-> index 0000000000..5be5198d00
-> --- /dev/null
-> +++ b/tests/docker/dockerfiles/alpine.docker
-> @@ -0,0 +1,57 @@
-> +
-> +FROM alpine:edge
-> +
-> +RUN apk update
-> +RUN apk upgrade
-> +
-> +# Please keep this list sorted alphabetically
-> +ENV PACKAGES \
-> +	alsa-lib-dev \
-> +	bash \
-> +	bison \
+There are a couple of environment variables that we fetch with
+os.environ.get() without supplying a default.  Clearly they are required
+and expected to be set by the ./check script (as evidenced by
+execute_setup_common(), which checks for test_dir and
+qemu_default_machine to be set, and aborts if they are not).
 
-This shouldn't be required.
+Using .get() this way has the disadvantage of returning an Optional[str]
+type, which mypy will complain about when tests just assume these values
+to be str.
 
-> +	build-base \
+Use [] instead, which raises a KeyError for environment variables that
+are not set.  When this exception is raised, catch it and move the abort
+code from execute_setup_common() there.
 
-This seems to be a meta packae that pulls in other
-misc toolchain packages. Please list the pieces we
-need explicitly instead.
+Drop the 'assert iotests.sock_dir is not None' from iotest 300, because
+that sort of thing is precisely what this patch wants to prevent.
 
-> +	coreutils \
-> +	curl-dev \
-> +	flex \
+Signed-off-by: Max Reitz <mreitz@redhat.com>
+Reviewed-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+Reviewed-by: Willian Rampazzo <willianr@redhat.com>
+---
+ tests/qemu-iotests/300        |  1 -
+ tests/qemu-iotests/iotests.py | 26 +++++++++++++-------------
+ 2 files changed, 13 insertions(+), 14 deletions(-)
 
-This shouldn't be needed.
-
-> +	git \
-> +	glib-dev \
-> +	glib-static \
-> +	gnutls-dev \
-> +	gtk+3.0-dev \
-> +	libaio-dev \
-> +	libcap-dev \
-
-Should not be required, as we use cap-ng.
-
-> +	libcap-ng-dev \
-> +	libjpeg-turbo-dev \
-> +	libnfs-dev \
-> +	libpng-dev \
-> +	libseccomp-dev \
-> +	libssh-dev \
-> +	libusb-dev \
-> +	libxml2-dev \
-> +	linux-headers \
-
-Is this really needed ? We don't install kernel-headers on other
-distros AFAICT.
-
-> +	lzo-dev \
-> +	mesa-dev \
-> +	mesa-egl \
-> +	mesa-gbm \
-> +	meson \
-> +	ncurses-dev \
-> +	ninja \
-> +	paxmark \
-
-What is this needed for ?
-
-> +	perl \
-> +	pulseaudio-dev \
-> +	python3 \
-> +	py3-sphinx \
-> +	shadow \
-
-Is this really needed ?
-
-> +	snappy-dev \
-> +	spice-dev \
-> +	texinfo \
-> +	usbredir-dev \
-> +	util-linux-dev \
-> +	vde2-dev \
-> +	virglrenderer-dev \
-> +	vte3-dev \
-> +	xfsprogs-dev \
-> +	zlib-dev \
-> +	zlib-static
-> +
-> +RUN apk add $PACKAGES
-
-Regards,
-Daniel
+diff --git a/tests/qemu-iotests/300 b/tests/qemu-iotests/300
+index 5b75121b84..b864a21d5e 100755
+--- a/tests/qemu-iotests/300
++++ b/tests/qemu-iotests/300
+@@ -27,7 +27,6 @@ import qemu
+ 
+ BlockBitmapMapping = List[Dict[str, Union[str, List[Dict[str, str]]]]]
+ 
+-assert iotests.sock_dir is not None
+ mig_sock = os.path.join(iotests.sock_dir, 'mig_sock')
+ 
+ 
+diff --git a/tests/qemu-iotests/iotests.py b/tests/qemu-iotests/iotests.py
+index dcdcd0387f..52facb8e04 100644
+--- a/tests/qemu-iotests/iotests.py
++++ b/tests/qemu-iotests/iotests.py
+@@ -75,12 +75,20 @@ qemu_opts = os.environ.get('QEMU_OPTIONS', '').strip().split(' ')
+ 
+ imgfmt = os.environ.get('IMGFMT', 'raw')
+ imgproto = os.environ.get('IMGPROTO', 'file')
+-test_dir = os.environ.get('TEST_DIR')
+-sock_dir = os.environ.get('SOCK_DIR')
+ output_dir = os.environ.get('OUTPUT_DIR', '.')
+-cachemode = os.environ.get('CACHEMODE')
+-aiomode = os.environ.get('AIOMODE')
+-qemu_default_machine = os.environ.get('QEMU_DEFAULT_MACHINE')
++
++try:
++    test_dir = os.environ['TEST_DIR']
++    sock_dir = os.environ['SOCK_DIR']
++    cachemode = os.environ['CACHEMODE']
++    aiomode = os.environ['AIOMODE']
++    qemu_default_machine = os.environ['QEMU_DEFAULT_MACHINE']
++except KeyError:
++    # We are using these variables as proxies to indicate that we're
++    # not being run via "check". There may be other things set up by
++    # "check" that individual test cases rely on.
++    sys.stderr.write('Please run this test via the "check" script\n')
++    sys.exit(os.EX_USAGE)
+ 
+ socket_scm_helper = os.environ.get('SOCKET_SCM_HELPER', 'socket_scm_helper')
+ 
+@@ -1294,14 +1302,6 @@ def execute_setup_common(supported_fmts: Sequence[str] = (),
+     """
+     # Note: Python 3.6 and pylint do not like 'Collection' so use 'Sequence'.
+ 
+-    # We are using TEST_DIR and QEMU_DEFAULT_MACHINE as proxies to
+-    # indicate that we're not being run via "check". There may be
+-    # other things set up by "check" that individual test cases rely
+-    # on.
+-    if test_dir is None or qemu_default_machine is None:
+-        sys.stderr.write('Please run this test via the "check" script\n')
+-        sys.exit(os.EX_USAGE)
+-
+     debug = '-d' in sys.argv
+     if debug:
+         sys.argv.remove('-d')
 -- 
-|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
-|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
-|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
+2.29.2
 
 
