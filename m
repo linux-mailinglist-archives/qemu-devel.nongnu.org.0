@@ -2,74 +2,55 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5A5472F9A79
-	for <lists+qemu-devel@lfdr.de>; Mon, 18 Jan 2021 08:28:05 +0100 (CET)
-Received: from localhost ([::1]:48404 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 448D52F9A85
+	for <lists+qemu-devel@lfdr.de>; Mon, 18 Jan 2021 08:30:27 +0100 (CET)
+Received: from localhost ([::1]:50820 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l1OxI-0006Ht-2r
-	for lists+qemu-devel@lfdr.de; Mon, 18 Jan 2021 02:28:04 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43758)
+	id 1l1Oza-0007NW-CC
+	for lists+qemu-devel@lfdr.de; Mon, 18 Jan 2021 02:30:26 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44096)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1l1OwK-0005np-VH
- for qemu-devel@nongnu.org; Mon, 18 Jan 2021 02:27:05 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:60364)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1l1OwH-0002OP-ME
- for qemu-devel@nongnu.org; Mon, 18 Jan 2021 02:27:04 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1610954819;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=Coji9c2FDJ91DV2PUSf2qf+WjtoUooixxMOrwr49BmI=;
- b=hr3uPUgh7QIZnYDXSTm61jFSaw9mCQP4/KLdHwBkdPEQxZ3KF3HMfFxTF9dI6YQ4eW4adf
- xHwUX5is8CWkywxsJ2rnTH84gQEGaEagsjHfJsP4NwHZHneXVpwaOFUmMnR9I2p8WgXW4y
- LkmXa9g3y+e99noqpHstdb0f3s5qwQc=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-393-u4ULHPkKMH2BcZmQOu5NDw-1; Mon, 18 Jan 2021 02:26:57 -0500
-X-MC-Unique: u4ULHPkKMH2BcZmQOu5NDw-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 46491CC621;
- Mon, 18 Jan 2021 07:26:56 +0000 (UTC)
-Received: from thuth.remote.csb (ovpn-112-189.ams2.redhat.com [10.36.112.189])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 00DF770464;
- Mon, 18 Jan 2021 07:26:54 +0000 (UTC)
-Subject: Re: [PATCH v2] softmmu/physmem: Silence GCC 10 maybe-uninitialized
- error
-To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
- qemu-devel@nongnu.org
-References: <20210117170411.4106949-1-f4bug@amsat.org>
-From: Thomas Huth <thuth@redhat.com>
-Message-ID: <5358e757-fa02-59d5-d1d1-81e5ea08e6a9@redhat.com>
-Date: Mon, 18 Jan 2021 08:26:54 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.6.0
+ (Exim 4.90_1) (envelope-from <changzihao1@huawei.com>)
+ id 1l1OxF-0006cu-RM
+ for qemu-devel@nongnu.org; Mon, 18 Jan 2021 02:28:01 -0500
+Received: from szxga04-in.huawei.com ([45.249.212.190]:3296)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <changzihao1@huawei.com>)
+ id 1l1OxC-0002kI-BZ
+ for qemu-devel@nongnu.org; Mon, 18 Jan 2021 02:28:01 -0500
+Received: from DGGEMS413-HUB.china.huawei.com (unknown [172.30.72.60])
+ by szxga04-in.huawei.com (SkyGuard) with ESMTP id 4DK3Hb5fJqzl6P2;
+ Mon, 18 Jan 2021 15:26:19 +0800 (CST)
+Received: from [10.174.186.85] (10.174.186.85) by
+ DGGEMS413-HUB.china.huawei.com (10.3.19.213) with Microsoft SMTP Server id
+ 14.3.498.0; Mon, 18 Jan 2021 15:27:33 +0800
+Subject: Re: [PATCH v2 2/2] vnc: add qmp to support reload vnc tls certificates
+To: =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>, "Markus
+ Armbruster" <armbru@redhat.com>
+References: <20210107143032.752-1-changzihao1@huawei.com>
+ <20210107143032.752-3-changzihao1@huawei.com>
+ <87turil3s2.fsf@dusky.pond.sub.org> <20210115134710.GH1692978@redhat.com>
+From: Zihao Chang <changzihao1@huawei.com>
+Message-ID: <64ce816e-017f-1613-9001-a8cd968a9ec9@huawei.com>
+Date: Mon, 18 Jan 2021 15:27:33 +0800
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
+ Thunderbird/78.4.0
 MIME-Version: 1.0
-In-Reply-To: <20210117170411.4106949-1-f4bug@amsat.org>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=thuth@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8; format=flowed
+In-Reply-To: <20210115134710.GH1692978@redhat.com>
+Content-Type: text/plain; charset="utf-8"
 Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=thuth@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -32
-X-Spam_score: -3.3
-X-Spam_bar: ---
-X-Spam_report: (-3.3 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.189,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.252, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=-0.01,
- RCVD_IN_MSPIKE_WL=-0.01, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Originating-IP: [10.174.186.85]
+X-CFilter-Loop: Reflected
+Received-SPF: pass client-ip=45.249.212.190;
+ envelope-from=changzihao1@huawei.com; helo=szxga04-in.huawei.com
+X-Spam_score_int: -44
+X-Spam_score: -4.5
+X-Spam_bar: ----
+X-Spam_report: (-4.5 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.252,
+ RCVD_IN_DNSWL_MED=-2.3, RCVD_IN_MSPIKE_H4=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -82,39 +63,164 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Paolo Bonzini <pbonzini@redhat.com>,
- =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
- Peter Maydell <peter.maydell@linaro.org>
+Cc: oscar.zhangbo@huawei.com, qemu-devel@nongnu.org, xiexiangyou@huawei.com,
+ kraxel@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 17/01/2021 18.04, Philippe Mathieu-Daudé wrote:
-> When building with GCC 10.2 configured with --extra-cflags=-Os, we get:
-> 
->    softmmu/physmem.c: In function ‘address_space_translate_for_iotlb’:
->    softmmu/physmem.c:643:26: error: ‘notifier’ may be used uninitialized in this function [-Werror=maybe-uninitialized]
->      643 |         notifier->active = true;
->          |                          ^
->    softmmu/physmem.c:608:23: note: ‘notifier’ was declared here
->      608 |     TCGIOMMUNotifier *notifier;
->          |                       ^~~~~~~~
-> 
-> Initialize 'notifier' to silence the warning.
-> 
-> Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
-> ---
-> v2: Remove pointless assert (Peter Maydell)
-> 
-> Yet another hole in our CI.
 
 
-I wouldn't call this a hole in the CI. AFAIU we don't support compiling with 
-anything else than the default -O2 (and maybe -O0 for debugging?). -O3 is 
-known to produce a lot of compiler warnings, and apparently -Os has such 
-"problems", too. As far as I can see, it's a false positive warning here, 
-"notifier" should always get initialized, the compiler just fails to see it 
-correctly. Anyway, initializing the variable also can not hurt, so:
+On 2021/1/15 21:47, Daniel P. Berrangé wrote:
+> On Fri, Jan 15, 2021 at 02:37:33PM +0100, Markus Armbruster wrote:
+>> Zihao Chang <changzihao1@huawei.com> writes:
+>>
+>>> QEMU loads vnc tls certificates only when vm is started. This patch
+>>> provides a new qmp to reload vnc tls certificates without restart
+>>> vnc-server/VM.
+>>> {"execute": "reload-vnc-cert"}
+>>>
+>>> Signed-off-by: Zihao Chang <changzihao1@huawei.com>
+>>> ---
+>>>  include/ui/console.h |  1 +
+>>>  monitor/qmp-cmds.c   |  5 +++++
+>>>  qapi/ui.json         | 18 ++++++++++++++++++
+>>>  ui/vnc.c             | 24 ++++++++++++++++++++++++
+>>>  4 files changed, 48 insertions(+)
+>>>
+>>> diff --git a/include/ui/console.h b/include/ui/console.h
+>>> index 5dd21976a3..60a24a8bb5 100644
+>>> --- a/include/ui/console.h
+>>> +++ b/include/ui/console.h
+>>> @@ -441,6 +441,7 @@ int vnc_display_password(const char *id, const char *password);
+>>>  int vnc_display_pw_expire(const char *id, time_t expires);
+>>>  QemuOpts *vnc_parse(const char *str, Error **errp);
+>>>  int vnc_init_func(void *opaque, QemuOpts *opts, Error **errp);
+>>> +void vnc_display_reload_cert(const char *id,  Error **errp);
+>>
+>> Make this return bool, please.
+>>
+I will fix this in the next version.
+Thank your for your reviews.
 
-Reviewed-by: Thomas Huth <thuth@redhat.com>
+>> error.h's big comment:
+>>
+>>  * = Rules =
+>>  *
+>>  * - Functions that use Error to report errors have an Error **errp
+>>  *   parameter.  It should be the last parameter, except for functions
+>>  *   taking variable arguments.
+>>  *
+>>  * - You may pass NULL to not receive the error, &error_abort to abort
+>>  *   on error, &error_fatal to exit(1) on error, or a pointer to a
+>>  *   variable containing NULL to receive the error.
+>>  *
+>>  * - Separation of concerns: the function is responsible for detecting
+>>  *   errors and failing cleanly; handling the error is its caller's
+>>  *   job.  Since the value of @errp is about handling the error, the
+>>  *   function should not examine it.
+>>  *
+>>  * - The function may pass @errp to functions it calls to pass on
+>>  *   their errors to its caller.  If it dereferences @errp to check
+>>  *   for errors, it must use ERRP_GUARD().
+>>  *
+>>  * - On success, the function should not touch *errp.  On failure, it
+>>  *   should set a new error, e.g. with error_setg(errp, ...), or
+>>  *   propagate an existing one, e.g. with error_propagate(errp, ...).
+>>  *
+>>  * - Whenever practical, also return a value that indicates success /
+>>  *   failure.  This can make the error checking more concise, and can
+>>  *   avoid useless error object creation and destruction.  Note that
+>>  *   we still have many functions returning void.  We recommend
+>>  *   • bool-valued functions return true on success / false on failure,
+>>  *   • pointer-valued functions return non-null / null pointer, and
+>>  *   • integer-valued functions return non-negative / negative.
+>>
+>>>  
+>>>  /* input.c */
+>>>  int index_from_key(const char *key, size_t key_length);
+>>> diff --git a/monitor/qmp-cmds.c b/monitor/qmp-cmds.c
+>>> index 34f7e75b7b..84f2b74ea8 100644
+>>> --- a/monitor/qmp-cmds.c
+>>> +++ b/monitor/qmp-cmds.c
+>>> @@ -287,6 +287,11 @@ static void qmp_change_vnc(const char *target, bool has_arg, const char *arg,
+>>>          qmp_change_vnc_listen(target, errp);
+>>>      }
+>>>  }
+>>> +
+>>> +void qmp_reload_vnc_cert(Error **errp)
+>>> +{
+>>> +    vnc_display_reload_cert(NULL, errp);
+>>> +}
+>>>  #endif /* !CONFIG_VNC */
+>>>  
+>>>  void qmp_change(const char *device, const char *target,
+>>> diff --git a/qapi/ui.json b/qapi/ui.json
+>>> index d08d72b439..855b1ac007 100644
+>>> --- a/qapi/ui.json
+>>> +++ b/qapi/ui.json
+>>> @@ -1179,3 +1179,21 @@
+>>>  ##
+>>>  { 'command': 'query-display-options',
+>>>    'returns': 'DisplayOptions' }
+>>> +
+>>> +##
+>>> +# @reload-vnc-cert:
+>>> +#
+>>> +# Reload certificates for vnc.
+>>> +#
+>>> +# Returns: nothing
+>>> +#
+>>> +# Since: 5.2
+>>
+>> 6.0 now.
+>>
+>>> +#
+>>> +# Example:
+>>> +#
+>>> +# -> { "execute": "reload-vnc-cert" }
+>>> +# <- { "return": {} }
+>>> +#
+>>> +##
+>>> +{ 'command': 'reload-vnc-cert',
+>>> +  'if': 'defined(CONFIG_VNC)' }
+>>
+>> Daniel's objection to another patch that adds a rather specialized QMP
+>> command may apply: "I'm not a fan of adding adhoc new commands for
+>> specific properties."
+>>
+>>     From: Daniel P. Berrangé <berrange@redhat.com>
+>>     Subject: Re: [PATCH] vnc: add qmp to support change authz
+>>     Message-ID: <20210107161830.GE1029501@redhat.com>
+> 
+> Yeah, though this scenario is a ittle more complicated. Tihs patch is
+> not actually changing any object properties in the VNC server config.
+> It is simply telling the VNC server to reload the existing object it
+> has configured.
+> 
+> My proposed  "display-update" command would not directly map to what
+> this "reload-vnc-cert" command does, unless we declared the certs are
+> always reloaded after every display-update command.
+> 
+> Or we could have a more generic  "display-reload" command, which has
+> fields indicating what aspect to reload. eg a 'tls-certs: bool' field
+> to indicate reload of TLS certs in the display. This could be useful
+> if we wanted the ability to reload authz access control lists, though
+> we did actually wire them up to auto-reload using inotify.
+> 
+> 
+> Regards,
+> Daniel
+> 
 
+If we add field for each reloadable attribute(tls-certs, authz,...),
+the number of parameters for qmp_display_reload() may increase sharply
+(bool has_tls_certs, bool tls_certs, ... twice the number of attributes).
+
+How about using a list[] to determine which attributes need to be
+reloaded["tls_certs", "authz*"...], and define an enum to ensure the
+validity of list elements.
+
+
+Regards,
+Zihao
 
