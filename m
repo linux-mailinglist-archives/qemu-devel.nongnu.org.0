@@ -2,80 +2,92 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7D2342FA530
-	for <lists+qemu-devel@lfdr.de>; Mon, 18 Jan 2021 16:52:29 +0100 (CET)
-Received: from localhost ([::1]:35666 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id F1A0F2FA550
+	for <lists+qemu-devel@lfdr.de>; Mon, 18 Jan 2021 16:57:25 +0100 (CET)
+Received: from localhost ([::1]:38842 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l1WpQ-0003HK-Ig
-	for lists+qemu-devel@lfdr.de; Mon, 18 Jan 2021 10:52:28 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47994)
+	id 1l1WuD-0004n0-2o
+	for lists+qemu-devel@lfdr.de; Mon, 18 Jan 2021 10:57:25 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49746)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <xadimgnik@gmail.com>)
- id 1l1Wmp-0002Eo-8W; Mon, 18 Jan 2021 10:49:47 -0500
-Received: from mail-wr1-x433.google.com ([2a00:1450:4864:20::433]:41607)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <xadimgnik@gmail.com>)
- id 1l1Wmm-0000kB-VB; Mon, 18 Jan 2021 10:49:47 -0500
-Received: by mail-wr1-x433.google.com with SMTP id a12so16895462wrv.8;
- Mon, 18 Jan 2021 07:49:43 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=from:reply-to:to:cc:references:in-reply-to:subject:date:message-id
- :mime-version:content-transfer-encoding:thread-index
- :content-language;
- bh=bueLRhGnMFSaD5BV6OB46NiQT5MIKIabH3Mj8UAiQbk=;
- b=KC6DuXLelzuof+WkJU5Uk/ENpVF62l3gZLtnvRvejynd67fvkZSeF/FAfFXG3viYJb
- 4K+QuzI2u3D6KNaklkyNpCQj+X6GGJ5Nr9mKjF9LWu9n78t1LJu6zJG5+RIeFHyDtQoF
- v6BTM4vjArWMELLWinc90nnnVzha4M6xRb5eAzgAtJCp8GTM+1L04GkW0thymWZGqdKR
- TooM0GKVkBkwG+QjUPOZIZkkPq0sLnm5i4U66lEBinBBZ8XJnGNE/2oZQbJUuIcEz9Dr
- lp/vQGAj8PwzmCfAg9euH7RwDrqk2yw/Qlrh3AfLD0W6NXCd4SjjrhThoXMqtlAYo20A
- i2kQ==
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1l1Wss-0004J7-EU
+ for qemu-devel@nongnu.org; Mon, 18 Jan 2021 10:56:02 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:56265)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1l1Wso-0003cO-Cv
+ for qemu-devel@nongnu.org; Mon, 18 Jan 2021 10:56:01 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1610985356;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=cgv/vOo0cKwN5UEirMBvjTR+wBczbrgg8KoK/oi9fT8=;
+ b=WTOddkPWGo1pkheOv4KiatZDd1+7lQMQuJx5eoaa45ctzH0PtF191mZyFwiw559DruJVUp
+ T8i5DbyUuF86MsC6Pk3mJS8CGJCQ8Ydq3lshzO5EDMULJ6PWws593wlqWHZzNbOZgGW/iQ
+ 4yUfiQaAvDc7/zVfThDiXBWGw6Wr5rQ=
+Received: from mail-ej1-f71.google.com (mail-ej1-f71.google.com
+ [209.85.218.71]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-415-XTzyUj-yNU29n_X7snzhbw-1; Mon, 18 Jan 2021 10:55:52 -0500
+X-MC-Unique: XTzyUj-yNU29n_X7snzhbw-1
+Received: by mail-ej1-f71.google.com with SMTP id x22so5297407ejb.10
+ for <qemu-devel@nongnu.org>; Mon, 18 Jan 2021 07:55:52 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:reply-to:to:cc:references:in-reply-to
- :subject:date:message-id:mime-version:content-transfer-encoding
- :thread-index:content-language;
- bh=bueLRhGnMFSaD5BV6OB46NiQT5MIKIabH3Mj8UAiQbk=;
- b=T57uX/TG8HgISyq9ECriAWWF8ILwv6V6CG7oYjkVn+U8Xi5DyhLrKKYCisy4VTPR1z
- BFHVC5IK38Fg5s+saWoQ07Seaf3K9vIUtJRzgbV7mfqTsfxIIgK00vMh2T8eceyvx6JR
- DVt2OVH3yRQEcnKID2dK7mi4Baq/et1SHdnftDG/2qS7amqH0Lo4jpM7GlMT0Zlvsvfc
- LrHslQCZjJgG/EJVC6RbF+6bs/3mh0oDgNXi1u/cpmAHb0bBcaJljmIovtqJduCC0CtI
- uDkZ6QvunFnfR7y59wwvhQvUo9FHLr7lwO/K4eDo6WlYG2mn5QjwuV/Lf4L7hfCjlCOI
- HRig==
-X-Gm-Message-State: AOAM5336dnuKqc2Bb4BiXA8o3+qPkTF1NGt0toyO+y0kbwH0X6qI9E/w
- ejwKsNfcpyxWMdLhGrTfcJI=
-X-Google-Smtp-Source: ABdhPJxiPC2OChaveXMqD0rIthafoYXmtdcNoEYh9vEMEVKUJD26R+IXQm6fjLZmNOUugiqBSkMK1A==
-X-Received: by 2002:adf:f681:: with SMTP id v1mr97027wrp.133.1610984982739;
- Mon, 18 Jan 2021 07:49:42 -0800 (PST)
-Received: from CBGR90WXYV0 (host86-183-162-242.range86-183.btcentralplus.com.
- [86.183.162.242])
- by smtp.gmail.com with ESMTPSA id r126sm12606693wma.48.2021.01.18.07.49.41
- (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
- Mon, 18 Jan 2021 07:49:42 -0800 (PST)
-From: Paul Durrant <xadimgnik@gmail.com>
-X-Google-Original-From: "Paul Durrant" <paul@xen.org>
-To: "'Roger Pau Monne'" <roger.pau@citrix.com>,
-	<qemu-devel@nongnu.org>
-References: <20210118153330.82324-1-roger.pau@citrix.com>
-In-Reply-To: <20210118153330.82324-1-roger.pau@citrix.com>
-Subject: RE: [PATCH] xen-block: fix reporting of discard feature
-Date: Mon, 18 Jan 2021 15:49:41 -0000
-Message-ID: <00d701d6edb1$894122f0$9bc368d0$@xen.org>
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=cgv/vOo0cKwN5UEirMBvjTR+wBczbrgg8KoK/oi9fT8=;
+ b=mGD73zJg8xpRYZkbI8VYaBkjzZ7uA5wXOut8MsxG5ORbnL+X7dDmSllAFy0Z0IAMJl
+ ulsXutLq4JzTk7t//TK3G3AWxC9ouOuHcJoXeUXtDSiZDBgBWt5fTEeCkF7UDAIx5N0O
+ xqELrmdKEddYa1oGNaAtX7NGi6aTsDTkUrWuLHx5/Fl2hv6CZPmah6thWJzXyxZMb/+U
+ 20K2iaHWTZYrAiT8C8c1Sb8SZg+ooo1LUR8MXXQekJLoKtIXwVnK7FyNchCe4ajn1L7i
+ EchsmLKUEjCzMeuzhlit9q8QpMc3rLTEQn0qPAxBQbPGte3xaoIzqeFjxUDQjQKvnLIF
+ 2gag==
+X-Gm-Message-State: AOAM531N1yBydt7VBmc8x3YU4NU78Wd4ScFX05PCPVzw2FFdX1wTNhFd
+ WQOBxOG671Gv83er0MlA2wT2nVUdQ48ThkW5XwXM7axRfrOqI9ft9C6DqYR91H5QM5Kp3YE4daU
+ eUborRhhQLmZh3s8=
+X-Received: by 2002:a17:906:a453:: with SMTP id
+ cb19mr207669ejb.459.1610985351633; 
+ Mon, 18 Jan 2021 07:55:51 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJzfzFOXzEg41XKZd7ypxEdqmlvDV5lj3zEgncHh1ApcYC3S6zvLKHOZz7mDLUNN7eiCD+A4fQ==
+X-Received: by 2002:a17:906:a453:: with SMTP id
+ cb19mr207656ejb.459.1610985351359; 
+ Mon, 18 Jan 2021 07:55:51 -0800 (PST)
+Received: from [192.168.1.36] (13.red-83-57-169.dynamicip.rima-tde.net.
+ [83.57.169.13])
+ by smtp.gmail.com with ESMTPSA id z24sm10889757edr.9.2021.01.18.07.55.49
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 18 Jan 2021 07:55:50 -0800 (PST)
+Subject: Re: [PATCH 1/2] block: Separate blk_is_writable() and
+ blk_supports_write_perm()
+To: Kevin Wolf <kwolf@redhat.com>, qemu-block@nongnu.org
+References: <20210118123448.307825-1-kwolf@redhat.com>
+ <20210118123448.307825-2-kwolf@redhat.com>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+Message-ID: <a35ee6f1-e5b5-1261-16df-e986c5a05a03@redhat.com>
+Date: Mon, 18 Jan 2021 16:55:49 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.6.0
 MIME-Version: 1.0
-Content-Type: text/plain;
-	charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-X-Mailer: Microsoft Outlook 16.0
-Thread-Index: AQKr9v/Nt+LMBjUs9/3Ji6x60nJqgaiDdLPw
-Content-Language: en-gb
-Received-SPF: pass client-ip=2a00:1450:4864:20::433;
- envelope-from=xadimgnik@gmail.com; helo=mail-wr1-x433.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+In-Reply-To: <20210118123448.307825-2-kwolf@redhat.com>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=philmd@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -31
+X-Spam_score: -3.2
+X-Spam_bar: ---
+X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.175,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.194, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -89,76 +101,57 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: paul@xen.org
-Cc: 'Kevin Wolf' <kwolf@redhat.com>,
- 'Stefano Stabellini' <sstabellini@kernel.org>, qemu-block@nongnu.org,
- 'Arthur Borsboom' <arthurborsboom@gmail.com>, 'Max Reitz' <mreitz@redhat.com>,
- 'Anthony Perard' <anthony.perard@citrix.com>, xen-devel@lists.xenproject.org
+Cc: alxndr@bu.edu, qemu-devel@nongnu.org, mreitz@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-> -----Original Message-----
-> From: Roger Pau Monne <roger.pau@citrix.com>
-> Sent: 18 January 2021 15:34
-> To: qemu-devel@nongnu.org
-> Cc: Roger Pau Monne <roger.pau@citrix.com>; Arthur Borsboom =
-<arthurborsboom@gmail.com>; Stefano
-> Stabellini <sstabellini@kernel.org>; Anthony Perard =
-<anthony.perard@citrix.com>; Paul Durrant
-> <paul@xen.org>; Kevin Wolf <kwolf@redhat.com>; Max Reitz =
-<mreitz@redhat.com>; xen-
-> devel@lists.xenproject.org; qemu-block@nongnu.org
-> Subject: [PATCH] xen-block: fix reporting of discard feature
->=20
-> Linux blkfront expects both "discard-granularity" and
-> "discard-alignment" present on xenbus in order to properly enable the
-> feature, not exposing "discard-alignment" left some Linux blkfront
-> versions with a broken discard setup. This has also been addressed in
-> Linux with:
->=20
-> =
-https://lore.kernel.org/lkml/20210118151528.81668-1-roger.pau@citrix.com/=
-T/#u
->=20
-> Fix QEMU to report a "discard-alignment" of 0, in order for it to work
-> with older Linux frontends.
->=20
-> Reported-by: Arthur Borsboom <arthurborsboom@gmail.com>
-> Signed-off-by: Roger Pau Monn=C3=A9 <roger.pau@citrix.com>
-
-Reviewed-by: Paul Durrant <paul@xen.org>
-
+On 1/18/21 1:34 PM, Kevin Wolf wrote:
+> Currently, blk_is_read_only() tells whether a given BlockBackend can
+> only be used in read-only mode because its root node is read-only. Some
+> callers actually try to answer a slightly different question: Is the
+> BlockBackend configured to be writable, by taking write permissions on
+> the root node?
+> 
+> This can differ, for example, for CD-ROM devices which don't take write
+> permissions, but may be backed by a writable image file. scsi-cd allows
+> write requests to the drive if blk_is_read_only() returns false.
+> However, the write request will immediately run into an assertion
+> failure because the write permission is missing.
+> 
+> This patch introduces separate functions for both questions.
+> blk_supports_write_perm() answers the question whether the block
+> node/image file can support writable devices, whereas blk_is_writable()
+> tells whether the BlockBackend is currently configured to be writable.
+> 
+> All calls of blk_is_read_only() are converted to one of the two new
+> functions.
+> 
+> Fixes: https://bugs.launchpad.net/bugs/1906693
+> Cc: qemu-stable@nongnu.org
+> Signed-off-by: Kevin Wolf <kwolf@redhat.com>
 > ---
-> Cc: Stefano Stabellini <sstabellini@kernel.org>
-> Cc: Anthony Perard <anthony.perard@citrix.com>
-> Cc: Paul Durrant <paul@xen.org>
-> Cc: Kevin Wolf <kwolf@redhat.com>
-> Cc: Max Reitz <mreitz@redhat.com>
-> Cc: xen-devel@lists.xenproject.org
-> Cc: qemu-block@nongnu.org
-> ---
->  hw/block/xen-block.c | 1 +
->  1 file changed, 1 insertion(+)
->=20
-> diff --git a/hw/block/xen-block.c b/hw/block/xen-block.c
-> index 718d886e5c..246d9c23a2 100644
-> --- a/hw/block/xen-block.c
-> +++ b/hw/block/xen-block.c
-> @@ -253,6 +253,7 @@ static void xen_block_realize(XenDevice *xendev, =
-Error **errp)
->          xen_device_backend_printf(xendev, "feature-discard", "%u", =
-1);
->          xen_device_backend_printf(xendev, "discard-granularity", =
-"%u",
->                                    conf->discard_granularity);
-> +        xen_device_backend_printf(xendev, "discard-alignment", "%u", =
-0);
->      }
->=20
->      xen_device_backend_printf(xendev, "feature-flush-cache", "%u", =
-1);
-> --
-> 2.29.2
+>  include/sysemu/block-backend.h |  3 ++-
+>  block/block-backend.c          | 19 ++++++++++++++++---
+>  hw/block/dataplane/xen-block.c |  2 +-
+>  hw/block/fdc.c                 |  9 +++++----
+>  hw/block/m25p80.c              |  6 +++---
+>  hw/block/nand.c                |  2 +-
+>  hw/block/nvme-ns.c             |  7 ++++---
+>  hw/block/onenand.c             |  2 +-
+>  hw/block/pflash_cfi01.c        |  2 +-
+>  hw/block/pflash_cfi02.c        |  2 +-
+>  hw/block/swim.c                |  6 +++---
+>  hw/block/virtio-blk.c          |  6 +++---
+>  hw/block/xen-block.c           |  2 +-
+>  hw/ide/core.c                  |  2 +-
+>  hw/misc/sifive_u_otp.c         |  2 +-
+>  hw/ppc/pnv_pnor.c              |  2 +-
+>  hw/scsi/scsi-disk.c            | 10 +++++-----
+>  hw/scsi/scsi-generic.c         |  4 ++--
+>  hw/sd/sd.c                     |  6 +++---
+>  hw/usb/dev-storage.c           |  4 ++--
+>  20 files changed, 57 insertions(+), 41 deletions(-)
 
+Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 
 
