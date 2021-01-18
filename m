@@ -2,35 +2,35 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 44DBE2F97D6
-	for <lists+qemu-devel@lfdr.de>; Mon, 18 Jan 2021 03:23:35 +0100 (CET)
-Received: from localhost ([::1]:51632 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 249BB2F97D7
+	for <lists+qemu-devel@lfdr.de>; Mon, 18 Jan 2021 03:24:07 +0100 (CET)
+Received: from localhost ([::1]:54076 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l1KCc-0005ZS-Ba
-	for lists+qemu-devel@lfdr.de; Sun, 17 Jan 2021 21:23:34 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42434)
+	id 1l1KD8-0006YS-8A
+	for lists+qemu-devel@lfdr.de; Sun, 17 Jan 2021 21:24:06 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42542)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <shiliyang@huawei.com>)
- id 1l1KA1-0002y9-NI
- for qemu-devel@nongnu.org; Sun, 17 Jan 2021 21:20:53 -0500
-Received: from szxga04-in.huawei.com ([45.249.212.190]:3291)
+ id 1l1KAh-0003ey-Fg
+ for qemu-devel@nongnu.org; Sun, 17 Jan 2021 21:21:35 -0500
+Received: from szxga04-in.huawei.com ([45.249.212.190]:3355)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <shiliyang@huawei.com>)
- id 1l1K9z-0003j8-TC
- for qemu-devel@nongnu.org; Sun, 17 Jan 2021 21:20:53 -0500
-Received: from DGGEMS413-HUB.china.huawei.com (unknown [172.30.72.59])
- by szxga04-in.huawei.com (SkyGuard) with ESMTP id 4DJwTV3z1wzl6Fv;
- Mon, 18 Jan 2021 10:19:26 +0800 (CST)
+ id 1l1KAc-0003yT-NH
+ for qemu-devel@nongnu.org; Sun, 17 Jan 2021 21:21:35 -0500
+Received: from DGGEMS407-HUB.china.huawei.com (unknown [172.30.72.59])
+ by szxga04-in.huawei.com (SkyGuard) with ESMTP id 4DJwVX000Pz15rk0;
+ Mon, 18 Jan 2021 10:20:19 +0800 (CST)
 Received: from [10.108.235.13] (10.108.235.13) by
- DGGEMS413-HUB.china.huawei.com (10.3.19.213) with Microsoft SMTP Server id
- 14.3.498.0; Mon, 18 Jan 2021 10:20:39 +0800
-Subject: [PATCH V4 3/4] bsd-user: do not use C99 // comments
+ DGGEMS407-HUB.china.huawei.com (10.3.19.207) with Microsoft SMTP Server id
+ 14.3.498.0; Mon, 18 Jan 2021 10:21:18 +0800
+Subject: [PATCH V4 4/4] bsd-user: space required after semicolon
 References: <c75512b3-0665-d686-5ea4-248a9819355d@huawei.com>
 To: Warner Losh <imp@bsdimp.com>, Peter Maydell <peter.maydell@linaro.org>
 From: shiliyang <shiliyang@huawei.com>
-Message-ID: <2d69a2e7-67a2-3660-8ffe-de0962a046af@huawei.com>
-Date: Mon, 18 Jan 2021 10:20:39 +0800
+Message-ID: <6bdfc158-0f16-b19f-4c65-8c47338f1dcc@huawei.com>
+Date: Mon, 18 Jan 2021 10:21:18 +0800
 User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
  Thunderbird/78.4.0
 MIME-Version: 1.0
@@ -65,36 +65,56 @@ Cc: alex.chen@huawei.com, hunongda@huawei.com,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This patch fixes error messages found by checkpatch.pl:
-ERROR: do not use C99 // comments
+This patch fixes error style problems found by checkpatch.pl:
+ERROR: space required after that ','
 
 Signed-off-by: Liyang Shi <shiliyang@huawei.com>
 ---
- bsd-user/elfload.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ bsd-user/elfload.c | 10 +++++-----
+ 1 file changed, 5 insertions(+), 5 deletions(-)
 
 diff --git a/bsd-user/elfload.c b/bsd-user/elfload.c
-index d5cab25607..2842dfe56b 100644
+index 2842dfe56b..c89c998c22 100644
 --- a/bsd-user/elfload.c
 +++ b/bsd-user/elfload.c
-@@ -390,7 +390,7 @@ static const char *lookup_symbolxx(struct syminfo *s, target_ulong orig_addr)
-     struct elf_sym *syms = s->disas_symtab.elf64;
- #endif
+@@ -636,8 +636,8 @@ int load_elf_binary(struct bsd_binprm *bprm, struct target_pt_regs *regs,
 
--    // binary search
-+    /* binary search */
-     struct elf_sym *sym;
+ #ifndef __FreeBSD__
+     bprm->p = copy_elf_strings(1, &bprm->filename, bprm->page, bprm->p);
+-    bprm->p = copy_elf_strings(bprm->envc,bprm->envp,bprm->page,bprm->p);
+-    bprm->p = copy_elf_strings(bprm->argc,bprm->argv,bprm->page,bprm->p);
++    bprm->p = copy_elf_strings(bprm->envc, bprm->envp, bprm->page, bprm->p);
++    bprm->p = copy_elf_strings(bprm->argc, bprm->argv, bprm->page, bprm->p);
+     if (!bprm->p) {
+         retval = -E2BIG;
+     }
+@@ -739,7 +739,7 @@ int load_elf_binary(struct bsd_binprm *bprm, struct target_pt_regs *regs,
+             if (retval >= 0) {
+                 retval = lseek(interpreter_fd, 0, SEEK_SET);
+                 if(retval >= 0) {
+-                    retval = read(interpreter_fd,bprm->buf,128);
++                    retval = read(interpreter_fd, bprm->buf, 128);
+                 }
+             }
+             if (retval >= 0) {
+@@ -769,7 +769,7 @@ int load_elf_binary(struct bsd_binprm *bprm, struct target_pt_regs *regs,
+         }
 
-     sym = bsearch(&orig_addr, syms, s->disas_num_syms, sizeof(*syms), symfind);
-@@ -465,7 +465,7 @@ found:
-     i = 0;
-     while (i < nsyms) {
-         bswap_sym(syms + i);
--        // Throw away entries which we do not need.
-+        /* Throw away entries which we do not need. */
-         if (syms[i].st_shndx == SHN_UNDEF ||
-                 syms[i].st_shndx >= SHN_LORESERVE ||
-                 ELF_ST_TYPE(syms[i].st_info) != STT_FUNC) {
+         if (interp_elf_ex.e_ident[0] != 0x7f ||
+-                strncmp((char *)&interp_elf_ex.e_ident[1], "ELF",3) != 0) {
++                strncmp((char *)&interp_elf_ex.e_ident[1], "ELF", 3) != 0) {
+             interpreter_type &= ~INTERPRETER_ELF;
+         }
+
+@@ -792,7 +792,7 @@ int load_elf_binary(struct bsd_binprm *bprm, struct target_pt_regs *regs,
+             passed_p = passed_fileno;
+
+             if (elf_interpreter) {
+-                bprm->p = copy_elf_strings(1,&passed_p,bprm->page,bprm->p);
++                bprm->p = copy_elf_strings(1, &passed_p, bprm->page, bprm->p);
+                 bprm->argc++;
+             }
+         }
 -- 
 2.29.1.59.gf9b6481aed
 
