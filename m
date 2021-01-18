@@ -2,53 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 33E6A2FA697
-	for <lists+qemu-devel@lfdr.de>; Mon, 18 Jan 2021 17:46:02 +0100 (CET)
-Received: from localhost ([::1]:59664 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A625B2FA698
+	for <lists+qemu-devel@lfdr.de>; Mon, 18 Jan 2021 17:47:21 +0100 (CET)
+Received: from localhost ([::1]:34188 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l1XfF-0004nn-64
-	for lists+qemu-devel@lfdr.de; Mon, 18 Jan 2021 11:46:01 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35052)
+	id 1l1XgW-000677-NC
+	for lists+qemu-devel@lfdr.de; Mon, 18 Jan 2021 11:47:20 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35068)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1l1XRS-0002P5-6q
- for qemu-devel@nongnu.org; Mon, 18 Jan 2021 11:31:46 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:39872)
+ id 1l1XRT-0002QH-4d
+ for qemu-devel@nongnu.org; Mon, 18 Jan 2021 11:31:47 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:57085)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1l1XRL-0001Vr-7a
- for qemu-devel@nongnu.org; Mon, 18 Jan 2021 11:31:45 -0500
+ id 1l1XRM-0001W0-4m
+ for qemu-devel@nongnu.org; Mon, 18 Jan 2021 11:31:46 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1610987497;
+ s=mimecast20190719; t=1610987498;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=/l66c/uMNUcein0za809TJUNXOq6gAF1uDOgM6Sx+dg=;
- b=KSjK7oq+ZRsT6YR4YXHk2wd+QGCOYXeYRr9V31/aOQa1Lql9Tub6WXVsYJONZLz3BzJmoX
- qcdlQxqHMqx883+a2sofDyjxk2NAiSO0sQxU4k+/Oo6s70EniH3eRFuIqytWBNy9pK04dK
- J8UAxh/o3DUNej3g5Y+sOga8/Uk6AgA=
+ bh=8aL1b7WwqTyIDej+PdsviYOcvQcOFJwTIWoYWkKCTlU=;
+ b=dfTjlvPTVb763Soe9SQs4XR4tci+RX/8cbw85Ar5EtzdpYlS+iUxIl9TeMsYFuzvO+/kaO
+ bf3uUOYu1Jiv8D3YwETCY9ClgYUo3LuvciuRhrWbcbmfbffELipxDCv5b4zSIq6LB4alMt
+ V6gHbo1rHHuoZf5uS2ACgoVHLOow6TQ=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-435-1Tj6zroYNSWXpKtKt4JVfQ-1; Mon, 18 Jan 2021 11:31:35 -0500
-X-MC-Unique: 1Tj6zroYNSWXpKtKt4JVfQ-1
+ us-mta-494-onWdjSoZMbGJMT3M92NzTQ-1; Mon, 18 Jan 2021 11:31:36 -0500
+X-MC-Unique: onWdjSoZMbGJMT3M92NzTQ-1
 Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
  [10.5.11.22])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 0EF8A800D62
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A3F8E107ACE3
  for <qemu-devel@nongnu.org>; Mon, 18 Jan 2021 16:31:35 +0000 (UTC)
 Received: from virtlab701.virt.lab.eng.bos.redhat.com
  (virtlab701.virt.lab.eng.bos.redhat.com [10.19.152.228])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 8D7B610023AE;
- Mon, 18 Jan 2021 16:31:34 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 2EE1110023AE;
+ Mon, 18 Jan 2021 16:31:35 +0000 (UTC)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 16/25] qom: do not modify QDict argument in
- user_creatable_add_dict
-Date: Mon, 18 Jan 2021 11:31:04 -0500
-Message-Id: <20210118163113.780171-17-pbonzini@redhat.com>
+Subject: [PATCH 17/25] qemu-io: use keyval for -object parsing
+Date: Mon, 18 Jan 2021 11:31:05 -0500
+Message-Id: <20210118163113.780171-18-pbonzini@redhat.com>
 In-Reply-To: <20210118163113.780171-1-pbonzini@redhat.com>
 References: <20210118163113.780171-1-pbonzini@redhat.com>
 MIME-Version: 1.0
@@ -59,14 +58,14 @@ X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=pbonzini@redhat.com;
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=pbonzini@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -29
 X-Spam_score: -3.0
 X-Spam_bar: ---
 X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.175,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -84,73 +83,88 @@ Cc: kwolf@redhat.com, imammedo@redhat.com, armbru@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
--object will process its QDicts in two steps, first for the "early" objects and
-then for the "late" objects.  If qom-type is removed by the "early" pass, the
-late pass fails.  So just create a shallow copy of the QDict in
-user_creatable_add_dict.
+Enable creation of object with non-scalar properties.
 
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- include/qom/object_interfaces.h |  2 +-
- qom/object_interfaces.c         | 11 +++++++----
- 2 files changed, 8 insertions(+), 5 deletions(-)
+ qemu-io.c | 42 +++++++++++++-----------------------------
+ 1 file changed, 13 insertions(+), 29 deletions(-)
 
-diff --git a/include/qom/object_interfaces.h b/include/qom/object_interfaces.h
-index abb23eaea3..ed0d7d663b 100644
---- a/include/qom/object_interfaces.h
-+++ b/include/qom/object_interfaces.h
-@@ -102,7 +102,7 @@ Object *user_creatable_add_type(const char *type, const char *id,
-  *
-  * Returns: %true on success, %false on failure.
-  */
--bool user_creatable_add_dict(QDict *qdict, bool keyval, Error **errp);
-+bool user_creatable_add_dict(const QDict *qdict, bool keyval, Error **errp);
+diff --git a/qemu-io.c b/qemu-io.c
+index ac88d8bd40..306086f767 100644
+--- a/qemu-io.c
++++ b/qemu-io.c
+@@ -477,23 +477,6 @@ enum {
+     OPTION_IMAGE_OPTS = 257,
+ };
  
- /**
-  * user_creatable_add_opts:
-diff --git a/qom/object_interfaces.c b/qom/object_interfaces.c
-index 97bf88908e..fbbf5e8ad3 100644
---- a/qom/object_interfaces.c
-+++ b/qom/object_interfaces.c
-@@ -105,24 +105,25 @@ out:
-     return obj;
- }
+-static QemuOptsList qemu_object_opts = {
+-    .name = "object",
+-    .implied_opt_name = "qom-type",
+-    .head = QTAILQ_HEAD_INITIALIZER(qemu_object_opts.head),
+-    .desc = {
+-        { }
+-    },
+-};
+-
+-static bool qemu_io_object_print_help(const char *type, QemuOpts *opts)
+-{
+-    if (user_creatable_print_help(type, opts)) {
+-        exit(0);
+-    }
+-    return true;
+-}
+-
+ static QemuOptsList file_opts = {
+     .name = "file",
+     .implied_opt_name = "file",
+@@ -550,7 +533,6 @@ int main(int argc, char **argv)
+     qcrypto_init(&error_fatal);
  
--bool user_creatable_add_dict(QDict *qdict, bool keyval, Error **errp)
-+bool user_creatable_add_dict(const QDict *dict, bool keyval, Error **errp)
- {
-     Visitor *v;
--    Object *obj;
-+    Object *obj = NULL;
-+    QDict *qdict = qdict_clone_shallow(dict);
-     g_autofree char *type = NULL;
-     g_autofree char *id = NULL;
+     module_call_init(MODULE_INIT_QOM);
+-    qemu_add_opts(&qemu_object_opts);
+     qemu_add_opts(&qemu_trace_opts);
+     bdrv_init();
  
-     type = g_strdup(qdict_get_try_str(qdict, "qom-type"));
-     if (!type) {
-         error_setg(errp, QERR_MISSING_PARAMETER, "qom-type");
--        return false;
-+        goto out;
+@@ -612,14 +594,20 @@ int main(int argc, char **argv)
+         case 'U':
+             force_share = true;
+             break;
+-        case OPTION_OBJECT: {
+-            QemuOpts *qopts;
+-            qopts = qemu_opts_parse_noisily(&qemu_object_opts,
+-                                            optarg, true);
+-            if (!qopts) {
+-                exit(1);
++        case OPTION_OBJECT:
++            {
++                QDict *args;
++                bool help;
++
++                args = keyval_parse(optarg, "qom-type", &help, &error_fatal);
++                if (help) {
++                    user_creatable_print_help_from_qdict(args);
++                    exit(EXIT_SUCCESS);
++                }
++                user_creatable_add_dict(args, true, &error_fatal);
++                qobject_unref(args);
++                break;
+             }
+-        }   break;
+         case OPTION_IMAGE_OPTS:
+             imageOpts = true;
+             break;
+@@ -644,10 +632,6 @@ int main(int argc, char **argv)
+         exit(1);
      }
-     qdict_del(qdict, "qom-type");
  
-     id = g_strdup(qdict_get_try_str(qdict, "id"));
-     if (!id) {
-         error_setg(errp, QERR_MISSING_PARAMETER, "id");
--        return false;
-+        goto out;
+-    qemu_opts_foreach(&qemu_object_opts,
+-                      user_creatable_add_opts_foreach,
+-                      qemu_io_object_print_help, &error_fatal);
+-
+     if (!trace_init_backends()) {
+         exit(1);
      }
-     qdict_del(qdict, "id");
- 
-@@ -134,6 +135,8 @@ bool user_creatable_add_dict(QDict *qdict, bool keyval, Error **errp)
-     obj = user_creatable_add_type(type, id, qdict, v, errp);
-     visit_free(v);
-     object_unref(obj);
-+out:
-+    qobject_unref(qdict);
-     return !!obj;
- }
- 
 -- 
 2.26.2
 
