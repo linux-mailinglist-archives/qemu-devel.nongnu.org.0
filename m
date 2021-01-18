@@ -2,47 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 314052FA515
-	for <lists+qemu-devel@lfdr.de>; Mon, 18 Jan 2021 16:47:58 +0100 (CET)
-Received: from localhost ([::1]:60400 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7D2342FA530
+	for <lists+qemu-devel@lfdr.de>; Mon, 18 Jan 2021 16:52:29 +0100 (CET)
+Received: from localhost ([::1]:35666 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l1Wl3-0001YS-A0
-	for lists+qemu-devel@lfdr.de; Mon, 18 Jan 2021 10:47:57 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47172)
+	id 1l1WpQ-0003HK-Ig
+	for lists+qemu-devel@lfdr.de; Mon, 18 Jan 2021 10:52:28 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47994)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alxndr@bu.edu>) id 1l1Wif-0000eF-QI
- for qemu-devel@nongnu.org; Mon, 18 Jan 2021 10:45:31 -0500
-Received: from relay68.bu.edu ([128.197.228.73]:50048)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alxndr@bu.edu>) id 1l1WiZ-00072F-E9
- for qemu-devel@nongnu.org; Mon, 18 Jan 2021 10:45:26 -0500
-X-Envelope-From: alxndr@bu.edu
-X-BU-AUTH: mozz.bu.edu [128.197.127.33]
-Received: from BU-AUTH (localhost.localdomain [127.0.0.1]) (authenticated
- bits=0)
- by relay68.bu.edu (8.14.3/8.14.3) with ESMTP id 10IFiblO019120
- (version=TLSv1/SSLv3 cipher=AES256-GCM-SHA384 bits=256 verify=NO);
- Mon, 18 Jan 2021 10:44:40 -0500
-Date: Mon, 18 Jan 2021 10:44:37 -0500
-From: Alexander Bulekov <alxndr@bu.edu>
-To: Darren Kenny <darren.kenny@oracle.com>
-Subject: Re: [PATCH v2 3/3] fuzz: add virtio-9p configurations for fuzzing
-Message-ID: <20210118154437.rk6fwk3s7iusykrk@mozz.bu.edu>
-References: <20210117230924.449676-1-alxndr@bu.edu>
- <20210117230924.449676-4-alxndr@bu.edu> <m25z3ufe9p.fsf@oracle.com>
+ (Exim 4.90_1) (envelope-from <xadimgnik@gmail.com>)
+ id 1l1Wmp-0002Eo-8W; Mon, 18 Jan 2021 10:49:47 -0500
+Received: from mail-wr1-x433.google.com ([2a00:1450:4864:20::433]:41607)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <xadimgnik@gmail.com>)
+ id 1l1Wmm-0000kB-VB; Mon, 18 Jan 2021 10:49:47 -0500
+Received: by mail-wr1-x433.google.com with SMTP id a12so16895462wrv.8;
+ Mon, 18 Jan 2021 07:49:43 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=from:reply-to:to:cc:references:in-reply-to:subject:date:message-id
+ :mime-version:content-transfer-encoding:thread-index
+ :content-language;
+ bh=bueLRhGnMFSaD5BV6OB46NiQT5MIKIabH3Mj8UAiQbk=;
+ b=KC6DuXLelzuof+WkJU5Uk/ENpVF62l3gZLtnvRvejynd67fvkZSeF/FAfFXG3viYJb
+ 4K+QuzI2u3D6KNaklkyNpCQj+X6GGJ5Nr9mKjF9LWu9n78t1LJu6zJG5+RIeFHyDtQoF
+ v6BTM4vjArWMELLWinc90nnnVzha4M6xRb5eAzgAtJCp8GTM+1L04GkW0thymWZGqdKR
+ TooM0GKVkBkwG+QjUPOZIZkkPq0sLnm5i4U66lEBinBBZ8XJnGNE/2oZQbJUuIcEz9Dr
+ lp/vQGAj8PwzmCfAg9euH7RwDrqk2yw/Qlrh3AfLD0W6NXCd4SjjrhThoXMqtlAYo20A
+ i2kQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:reply-to:to:cc:references:in-reply-to
+ :subject:date:message-id:mime-version:content-transfer-encoding
+ :thread-index:content-language;
+ bh=bueLRhGnMFSaD5BV6OB46NiQT5MIKIabH3Mj8UAiQbk=;
+ b=T57uX/TG8HgISyq9ECriAWWF8ILwv6V6CG7oYjkVn+U8Xi5DyhLrKKYCisy4VTPR1z
+ BFHVC5IK38Fg5s+saWoQ07Seaf3K9vIUtJRzgbV7mfqTsfxIIgK00vMh2T8eceyvx6JR
+ DVt2OVH3yRQEcnKID2dK7mi4Baq/et1SHdnftDG/2qS7amqH0Lo4jpM7GlMT0Zlvsvfc
+ LrHslQCZjJgG/EJVC6RbF+6bs/3mh0oDgNXi1u/cpmAHb0bBcaJljmIovtqJduCC0CtI
+ uDkZ6QvunFnfR7y59wwvhQvUo9FHLr7lwO/K4eDo6WlYG2mn5QjwuV/Lf4L7hfCjlCOI
+ HRig==
+X-Gm-Message-State: AOAM5336dnuKqc2Bb4BiXA8o3+qPkTF1NGt0toyO+y0kbwH0X6qI9E/w
+ ejwKsNfcpyxWMdLhGrTfcJI=
+X-Google-Smtp-Source: ABdhPJxiPC2OChaveXMqD0rIthafoYXmtdcNoEYh9vEMEVKUJD26R+IXQm6fjLZmNOUugiqBSkMK1A==
+X-Received: by 2002:adf:f681:: with SMTP id v1mr97027wrp.133.1610984982739;
+ Mon, 18 Jan 2021 07:49:42 -0800 (PST)
+Received: from CBGR90WXYV0 (host86-183-162-242.range86-183.btcentralplus.com.
+ [86.183.162.242])
+ by smtp.gmail.com with ESMTPSA id r126sm12606693wma.48.2021.01.18.07.49.41
+ (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
+ Mon, 18 Jan 2021 07:49:42 -0800 (PST)
+From: Paul Durrant <xadimgnik@gmail.com>
+X-Google-Original-From: "Paul Durrant" <paul@xen.org>
+To: "'Roger Pau Monne'" <roger.pau@citrix.com>,
+	<qemu-devel@nongnu.org>
+References: <20210118153330.82324-1-roger.pau@citrix.com>
+In-Reply-To: <20210118153330.82324-1-roger.pau@citrix.com>
+Subject: RE: [PATCH] xen-block: fix reporting of discard feature
+Date: Mon, 18 Jan 2021 15:49:41 -0000
+Message-ID: <00d701d6edb1$894122f0$9bc368d0$@xen.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <m25z3ufe9p.fsf@oracle.com>
-Received-SPF: pass client-ip=128.197.228.73; envelope-from=alxndr@bu.edu;
- helo=relay68.bu.edu
-X-Spam_score_int: -15
-X-Spam_score: -1.6
-X-Spam_bar: -
-X-Spam_report: (-1.6 / 5.0 requ) BAYES_00=-1.9, HK_RANDOM_ENVFROM=0.001,
- HK_RANDOM_FROM=0.998, RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+Content-Type: text/plain;
+	charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+X-Mailer: Microsoft Outlook 16.0
+Thread-Index: AQKr9v/Nt+LMBjUs9/3Ji6x60nJqgaiDdLPw
+Content-Language: en-gb
+Received-SPF: pass client-ip=2a00:1450:4864:20::433;
+ envelope-from=xadimgnik@gmail.com; helo=mail-wr1-x433.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -55,102 +89,76 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Laurent Vivier <lvivier@redhat.com>, Thomas Huth <thuth@redhat.com>,
- Christian Schoenebeck <qemu_oss@crudebyte.com>, qemu-devel@nongnu.org,
- Greg Kurz <groug@kaod.org>, Bandan Das <bsd@redhat.com>,
- Stefan Hajnoczi <stefanha@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>
+Reply-To: paul@xen.org
+Cc: 'Kevin Wolf' <kwolf@redhat.com>,
+ 'Stefano Stabellini' <sstabellini@kernel.org>, qemu-block@nongnu.org,
+ 'Arthur Borsboom' <arthurborsboom@gmail.com>, 'Max Reitz' <mreitz@redhat.com>,
+ 'Anthony Perard' <anthony.perard@citrix.com>, xen-devel@lists.xenproject.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 210118 1536, Darren Kenny wrote:
-> On Sunday, 2021-01-17 at 18:09:24 -05, Alexander Bulekov wrote:
-> > virtio-9p devices are often used to expose a virtual-filesystem to the
-> > guest. There have been some bugs reported in this device, such as
-> > CVE-2018-19364, and CVE-2021-20181. We should fuzz this device
-> >
-> > This patch adds two virtio-9p configurations:
-> >  * One with the widely used -fsdev local driver. This driver leaks some
-> >    state in the form of files/directories created in the shared dir.
-> >  * One with the synth driver. While it is not used in the real world, this
-> >    driver won't leak leak state between fuzz inputs.
-> >
-> > Signed-off-by: Alexander Bulekov <alxndr@bu.edu>
-> > ---
-> > CC: Christian Schoenebeck <qemu_oss@crudebyte.com>
-> > CC: Greg Kurz <groug@kaod.org>
-> >
-> > I considered adding an atexit handler to remove the temp directory,
-> > however I am worried that there might be some error that results in a
-> > call to exit(), rather than abort(), which will cause problems for
-> > future fork()-ed fuzzers. I don't think there are such calls in the 9p
-> > code, however there might be something in the APIs used by 9p. As this
-> > code is primarily for ephemeral OSS-Fuzz conainers, this shouldn't be
-> > too much of an issue.
-> 
-> As I understand it, this creation of a new directory should happen a lot
-> less than the amount of actual executions of the target, since it is
-> only run on the first 'parent' target process executed, prior to the
-> process cloning operations that the fork execution performs - or any
-> time that 'parent' target process is renewed, after several thousand
-> cloned processes.
-> 
-> Is that correct? Or am I misunderstanding when the
-> generic_fuzzer_virtio_9p_args() function is run?
+> -----Original Message-----
+> From: Roger Pau Monne <roger.pau@citrix.com>
+> Sent: 18 January 2021 15:34
+> To: qemu-devel@nongnu.org
+> Cc: Roger Pau Monne <roger.pau@citrix.com>; Arthur Borsboom =
+<arthurborsboom@gmail.com>; Stefano
+> Stabellini <sstabellini@kernel.org>; Anthony Perard =
+<anthony.perard@citrix.com>; Paul Durrant
+> <paul@xen.org>; Kevin Wolf <kwolf@redhat.com>; Max Reitz =
+<mreitz@redhat.com>; xen-
+> devel@lists.xenproject.org; qemu-block@nongnu.org
+> Subject: [PATCH] xen-block: fix reporting of discard feature
+>=20
+> Linux blkfront expects both "discard-granularity" and
+> "discard-alignment" present on xenbus in order to properly enable the
+> feature, not exposing "discard-alignment" left some Linux blkfront
+> versions with a broken discard setup. This has also been addressed in
+> Linux with:
+>=20
+> =
+https://lore.kernel.org/lkml/20210118151528.81668-1-roger.pau@citrix.com/=
+T/#u
+>=20
+> Fix QEMU to report a "discard-alignment" of 0, in order for it to work
+> with older Linux frontends.
+>=20
+> Reported-by: Arthur Borsboom <arthurborsboom@gmail.com>
+> Signed-off-by: Roger Pau Monn=C3=A9 <roger.pau@citrix.com>
 
-Correct. It happens once: before we initialize QEMU in the parent
-fuzzing process. There are two questions:
-1. What is the best way to remove the directory after the parent process
-   exits(and not after child processes exit())?
-2. Should we do any cleanup on the temp directory between input
-   executions.
--Alex
+Reviewed-by: Paul Durrant <paul@xen.org>
 
-> 
-> Thanks,
-> 
-> Darren.
-> 
-> >  tests/qtest/fuzz/generic_fuzz_configs.h | 20 ++++++++++++++++++++
-> >  1 file changed, 20 insertions(+)
-> >
-> > diff --git a/tests/qtest/fuzz/generic_fuzz_configs.h b/tests/qtest/fuzz/generic_fuzz_configs.h
-> > index 1a133655ee..f99657cdbc 100644
-> > --- a/tests/qtest/fuzz/generic_fuzz_configs.h
-> > +++ b/tests/qtest/fuzz/generic_fuzz_configs.h
-> > @@ -19,6 +19,16 @@ typedef struct generic_fuzz_config {
-> >      gchar* (*argfunc)(void); /* Result must be freeable by g_free() */
-> >  } generic_fuzz_config;
-> >  
-> > +static inline gchar *generic_fuzzer_virtio_9p_args(void){
-> > +    char tmpdir[] = "/tmp/qemu-fuzz.XXXXXX";
-> > +    g_assert_nonnull(mkdtemp(tmpdir));
-> > +
-> > +    return g_strdup_printf("-machine q35 -nodefaults "
-> > +    "-device virtio-9p,fsdev=hshare,mount_tag=hshare "
-> > +    "-fsdev local,id=hshare,path=%s,security_model=mapped-xattr,"
-> > +    "writeout=immediate,fmode=0600,dmode=0700", tmpdir);
-> > +}
-> > +
-> >  const generic_fuzz_config predefined_configs[] = {
-> >      {
-> >          .name = "virtio-net-pci-slirp",
-> > @@ -60,6 +70,16 @@ const generic_fuzz_config predefined_configs[] = {
-> >          .name = "virtio-mouse",
-> >          .args = "-machine q35 -nodefaults -device virtio-mouse",
-> >          .objects = "virtio*",
-> > +    },{
-> > +        .name = "virtio-9p",
-> > +        .argfunc = generic_fuzzer_virtio_9p_args,
-> > +        .objects = "virtio*",
-> > +    },{
-> > +        .name = "virtio-9p-synth",
-> > +        .args = "-machine q35 -nodefaults "
-> > +        "-device virtio-9p,fsdev=hshare,mount_tag=hshare "
-> > +        "-fsdev synth,id=hshare",
-> > +        .objects = "virtio*",
-> >      },{
-> >          .name = "e1000",
-> >          .args = "-M q35 -nodefaults "
-> > -- 
-> > 2.28.0
+> ---
+> Cc: Stefano Stabellini <sstabellini@kernel.org>
+> Cc: Anthony Perard <anthony.perard@citrix.com>
+> Cc: Paul Durrant <paul@xen.org>
+> Cc: Kevin Wolf <kwolf@redhat.com>
+> Cc: Max Reitz <mreitz@redhat.com>
+> Cc: xen-devel@lists.xenproject.org
+> Cc: qemu-block@nongnu.org
+> ---
+>  hw/block/xen-block.c | 1 +
+>  1 file changed, 1 insertion(+)
+>=20
+> diff --git a/hw/block/xen-block.c b/hw/block/xen-block.c
+> index 718d886e5c..246d9c23a2 100644
+> --- a/hw/block/xen-block.c
+> +++ b/hw/block/xen-block.c
+> @@ -253,6 +253,7 @@ static void xen_block_realize(XenDevice *xendev, =
+Error **errp)
+>          xen_device_backend_printf(xendev, "feature-discard", "%u", =
+1);
+>          xen_device_backend_printf(xendev, "discard-granularity", =
+"%u",
+>                                    conf->discard_granularity);
+> +        xen_device_backend_printf(xendev, "discard-alignment", "%u", =
+0);
+>      }
+>=20
+>      xen_device_backend_printf(xendev, "feature-flush-cache", "%u", =
+1);
+> --
+> 2.29.2
+
+
 
