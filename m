@@ -2,77 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 64E262FA2FD
-	for <lists+qemu-devel@lfdr.de>; Mon, 18 Jan 2021 15:29:12 +0100 (CET)
-Received: from localhost ([::1]:38680 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A1E662FA36D
+	for <lists+qemu-devel@lfdr.de>; Mon, 18 Jan 2021 15:45:16 +0100 (CET)
+Received: from localhost ([::1]:56750 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l1VWp-0006gI-GH
-	for lists+qemu-devel@lfdr.de; Mon, 18 Jan 2021 09:29:11 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53146)
+	id 1l1VmN-0006n1-Fv
+	for lists+qemu-devel@lfdr.de; Mon, 18 Jan 2021 09:45:15 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57946)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1l1VVQ-0006CO-QB
- for qemu-devel@nongnu.org; Mon, 18 Jan 2021 09:27:44 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:46299)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1l1VVN-00043W-FO
- for qemu-devel@nongnu.org; Mon, 18 Jan 2021 09:27:44 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1610980059;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=mDMfXzaahJW2NM+75XV8/L8vBralcz6upWLyIQ/JycY=;
- b=iYj4TdzwHyxvL0+FsPzfGAjAL/xgKV8tHB9lgcRvL1HSd49aTSPMn2uWZG3fFpYnCkhl5/
- VhkaMr64Q9uxoKlPG+2xsHOKrQwi9hvZsk67JlagMMQlZJtvI7aOM3jb09KqfgOfYlrQzC
- OMH7XBzDueMA+A8vQOvgxwRXY5BSW30=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-35-VcufSRCKNFO2L0PP8UOA0A-1; Mon, 18 Jan 2021 09:27:31 -0500
-X-MC-Unique: VcufSRCKNFO2L0PP8UOA0A-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 1CEC7800D62;
- Mon, 18 Jan 2021 14:27:30 +0000 (UTC)
-Received: from redhat.com (ovpn-116-34.ams2.redhat.com [10.36.116.34])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id A0FA35D9D2;
- Mon, 18 Jan 2021 14:27:24 +0000 (UTC)
-Date: Mon, 18 Jan 2021 14:27:21 +0000
-From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-To: Zihao Chang <changzihao1@huawei.com>
-Subject: Re: [PATCH v2 2/2] vnc: add qmp to support reload vnc tls certificates
-Message-ID: <20210118142721.GB1799018@redhat.com>
-References: <20210107143032.752-1-changzihao1@huawei.com>
- <20210107143032.752-3-changzihao1@huawei.com>
- <87turil3s2.fsf@dusky.pond.sub.org>
- <20210115134710.GH1692978@redhat.com>
- <64ce816e-017f-1613-9001-a8cd968a9ec9@huawei.com>
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1l1Vkv-0005zN-NB
+ for qemu-devel@nongnu.org; Mon, 18 Jan 2021 09:43:46 -0500
+Received: from mail-wm1-x32e.google.com ([2a00:1450:4864:20::32e]:54655)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1l1Vkt-0002yF-Fj
+ for qemu-devel@nongnu.org; Mon, 18 Jan 2021 09:43:45 -0500
+Received: by mail-wm1-x32e.google.com with SMTP id i63so13818944wma.4
+ for <qemu-devel@nongnu.org>; Mon, 18 Jan 2021 06:43:42 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=references:user-agent:from:to:cc:subject:date:in-reply-to
+ :message-id:mime-version:content-transfer-encoding;
+ bh=a8sFsVyPEI9dB2iCeYKsODwWWvY0LIzGZgkCqaEnzyA=;
+ b=XlgQ1Vno/di6OM/vykrYrym8yBbRcAn3VrTg2YPjcxXCDElV8rNn7PQUQl3ThLXXAY
+ mHEZqeFvOYplZ0v01mhahijilUiD2HMWMRWCYLYLCTv2QXS7sOPTLTQyuvfpow1rJ8Le
+ V7nZWKuctEIxpsTAUvNfLrk7cy8Zn1uWKd9qMQJYuhsZBHGdjSSUsYUv+3d7KwR7MBIf
+ 0Je31b0eal1Y2XWN4Y+VIKG7Oj9bZdyqRd36kO5H2PmBVCvIQYalNSTFJqSiyqrdpy9M
+ Gx3Q7H5CxKeV+G5xrr5PEWXdZHNBf/aP4V0HaqpdjTTsAdbylCkxNsAsKivukYwf+pCq
+ 1/FA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:references:user-agent:from:to:cc:subject:date
+ :in-reply-to:message-id:mime-version:content-transfer-encoding;
+ bh=a8sFsVyPEI9dB2iCeYKsODwWWvY0LIzGZgkCqaEnzyA=;
+ b=kEOaxICaPqxYJrmT/ILO+NuEakli3IK1LZQ/BFzQi4yWtR0JNoOhC+f9IwHwpUoPRV
+ G8gdxCWLx6N0matUUHaLG8KDUkch2ByiqiRsoxhpqai/eP2tii0541htvJ2HkN7XXJR2
+ NxG+jb19ltUKfE0QVPFioDnGftEuZ0FGFR6j1i7F7rjGAn/MkAjzQ51IiytBd01sRb9/
+ 4cOqpKQmQsbsZJf+VjZ6I1Qfzwi2sUbeLpCuWEN3DuS96AkAsgLLTLRLRQoWVRMXKu05
+ jIWBnSedmXU3T6xMo2ExsaG0WsRI2BEZfYXy5k2zrAxcpf1rboKQeAfR2acqHeu2W/YD
+ yZEw==
+X-Gm-Message-State: AOAM530QVsszKOx4R477k6Ovtw56egpFAAVj28G7EdDAtmaRen53qEsn
+ RbCI5hIuaaYw1Mnp4K8zpnJjBg==
+X-Google-Smtp-Source: ABdhPJzkwsDW2RNTBNLtmrF4TE7xycsAyKSezPIAyXmjLu+LOCKNioWGsdEEG0CgwLxTDNSUaNL7sQ==
+X-Received: by 2002:a7b:c5d2:: with SMTP id n18mr9544781wmk.56.1610981021469; 
+ Mon, 18 Jan 2021 06:43:41 -0800 (PST)
+Received: from zen.linaroharston ([51.148.130.216])
+ by smtp.gmail.com with ESMTPSA id f68sm16690096wmf.6.2021.01.18.06.43.40
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 18 Jan 2021 06:43:40 -0800 (PST)
+Received: from zen (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id AF79A1FF7E;
+ Mon, 18 Jan 2021 14:43:39 +0000 (GMT)
+References: <20201125083300.861206-1-philmd@redhat.com>
+User-agent: mu4e 1.5.7; emacs 28.0.50
+From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>
+Subject: Re: [PATCH v3] hw/core/qdev-properties-system: Rewrite
+ set_pci_host_devaddr using GLib
+Date: Mon, 18 Jan 2021 14:16:40 +0000
+In-reply-to: <20201125083300.861206-1-philmd@redhat.com>
+Message-ID: <87v9buuwys.fsf@linaro.org>
 MIME-Version: 1.0
-In-Reply-To: <64ce816e-017f-1613-9001-a8cd968a9ec9@huawei.com>
-User-Agent: Mutt/1.14.6 (2020-07-11)
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=berrange@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=berrange@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -29
-X-Spam_score: -3.0
-X-Spam_bar: ---
-X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.175,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2a00:1450:4864:20::32e;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x32e.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -85,180 +87,173 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-Cc: oscar.zhangbo@huawei.com, kraxel@redhat.com,
- Markus Armbruster <armbru@redhat.com>, xiexiangyou@huawei.com,
- qemu-devel@nongnu.org
+Cc: qemu-devel@nongnu.org, Paolo Bonzini <pbonzini@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ =?utf-8?Q?Daniel_P=2E_Berrang=C3=A9?= <berrange@redhat.com>,
+ Eduardo Habkost <ehabkost@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, Jan 18, 2021 at 03:27:33PM +0800, Zihao Chang wrote:
-> 
-> 
-> On 2021/1/15 21:47, Daniel P. Berrangé wrote:
-> > On Fri, Jan 15, 2021 at 02:37:33PM +0100, Markus Armbruster wrote:
-> >> Zihao Chang <changzihao1@huawei.com> writes:
-> >>
-> >>> QEMU loads vnc tls certificates only when vm is started. This patch
-> >>> provides a new qmp to reload vnc tls certificates without restart
-> >>> vnc-server/VM.
-> >>> {"execute": "reload-vnc-cert"}
-> >>>
-> >>> Signed-off-by: Zihao Chang <changzihao1@huawei.com>
-> >>> ---
-> >>>  include/ui/console.h |  1 +
-> >>>  monitor/qmp-cmds.c   |  5 +++++
-> >>>  qapi/ui.json         | 18 ++++++++++++++++++
-> >>>  ui/vnc.c             | 24 ++++++++++++++++++++++++
-> >>>  4 files changed, 48 insertions(+)
-> >>>
-> >>> diff --git a/include/ui/console.h b/include/ui/console.h
-> >>> index 5dd21976a3..60a24a8bb5 100644
-> >>> --- a/include/ui/console.h
-> >>> +++ b/include/ui/console.h
-> >>> @@ -441,6 +441,7 @@ int vnc_display_password(const char *id, const char *password);
-> >>>  int vnc_display_pw_expire(const char *id, time_t expires);
-> >>>  QemuOpts *vnc_parse(const char *str, Error **errp);
-> >>>  int vnc_init_func(void *opaque, QemuOpts *opts, Error **errp);
-> >>> +void vnc_display_reload_cert(const char *id,  Error **errp);
-> >>
-> >> Make this return bool, please.
-> >>
-> I will fix this in the next version.
-> Thank your for your reviews.
-> 
-> >> error.h's big comment:
-> >>
-> >>  * = Rules =
-> >>  *
-> >>  * - Functions that use Error to report errors have an Error **errp
-> >>  *   parameter.  It should be the last parameter, except for functions
-> >>  *   taking variable arguments.
-> >>  *
-> >>  * - You may pass NULL to not receive the error, &error_abort to abort
-> >>  *   on error, &error_fatal to exit(1) on error, or a pointer to a
-> >>  *   variable containing NULL to receive the error.
-> >>  *
-> >>  * - Separation of concerns: the function is responsible for detecting
-> >>  *   errors and failing cleanly; handling the error is its caller's
-> >>  *   job.  Since the value of @errp is about handling the error, the
-> >>  *   function should not examine it.
-> >>  *
-> >>  * - The function may pass @errp to functions it calls to pass on
-> >>  *   their errors to its caller.  If it dereferences @errp to check
-> >>  *   for errors, it must use ERRP_GUARD().
-> >>  *
-> >>  * - On success, the function should not touch *errp.  On failure, it
-> >>  *   should set a new error, e.g. with error_setg(errp, ...), or
-> >>  *   propagate an existing one, e.g. with error_propagate(errp, ...).
-> >>  *
-> >>  * - Whenever practical, also return a value that indicates success /
-> >>  *   failure.  This can make the error checking more concise, and can
-> >>  *   avoid useless error object creation and destruction.  Note that
-> >>  *   we still have many functions returning void.  We recommend
-> >>  *   • bool-valued functions return true on success / false on failure,
-> >>  *   • pointer-valued functions return non-null / null pointer, and
-> >>  *   • integer-valued functions return non-negative / negative.
-> >>
-> >>>  
-> >>>  /* input.c */
-> >>>  int index_from_key(const char *key, size_t key_length);
-> >>> diff --git a/monitor/qmp-cmds.c b/monitor/qmp-cmds.c
-> >>> index 34f7e75b7b..84f2b74ea8 100644
-> >>> --- a/monitor/qmp-cmds.c
-> >>> +++ b/monitor/qmp-cmds.c
-> >>> @@ -287,6 +287,11 @@ static void qmp_change_vnc(const char *target, bool has_arg, const char *arg,
-> >>>          qmp_change_vnc_listen(target, errp);
-> >>>      }
-> >>>  }
-> >>> +
-> >>> +void qmp_reload_vnc_cert(Error **errp)
-> >>> +{
-> >>> +    vnc_display_reload_cert(NULL, errp);
-> >>> +}
-> >>>  #endif /* !CONFIG_VNC */
-> >>>  
-> >>>  void qmp_change(const char *device, const char *target,
-> >>> diff --git a/qapi/ui.json b/qapi/ui.json
-> >>> index d08d72b439..855b1ac007 100644
-> >>> --- a/qapi/ui.json
-> >>> +++ b/qapi/ui.json
-> >>> @@ -1179,3 +1179,21 @@
-> >>>  ##
-> >>>  { 'command': 'query-display-options',
-> >>>    'returns': 'DisplayOptions' }
-> >>> +
-> >>> +##
-> >>> +# @reload-vnc-cert:
-> >>> +#
-> >>> +# Reload certificates for vnc.
-> >>> +#
-> >>> +# Returns: nothing
-> >>> +#
-> >>> +# Since: 5.2
-> >>
-> >> 6.0 now.
-> >>
-> >>> +#
-> >>> +# Example:
-> >>> +#
-> >>> +# -> { "execute": "reload-vnc-cert" }
-> >>> +# <- { "return": {} }
-> >>> +#
-> >>> +##
-> >>> +{ 'command': 'reload-vnc-cert',
-> >>> +  'if': 'defined(CONFIG_VNC)' }
-> >>
-> >> Daniel's objection to another patch that adds a rather specialized QMP
-> >> command may apply: "I'm not a fan of adding adhoc new commands for
-> >> specific properties."
-> >>
-> >>     From: Daniel P. Berrangé <berrange@redhat.com>
-> >>     Subject: Re: [PATCH] vnc: add qmp to support change authz
-> >>     Message-ID: <20210107161830.GE1029501@redhat.com>
-> > 
-> > Yeah, though this scenario is a ittle more complicated. Tihs patch is
-> > not actually changing any object properties in the VNC server config.
-> > It is simply telling the VNC server to reload the existing object it
-> > has configured.
-> > 
-> > My proposed  "display-update" command would not directly map to what
-> > this "reload-vnc-cert" command does, unless we declared the certs are
-> > always reloaded after every display-update command.
-> > 
-> > Or we could have a more generic  "display-reload" command, which has
-> > fields indicating what aspect to reload. eg a 'tls-certs: bool' field
-> > to indicate reload of TLS certs in the display. This could be useful
-> > if we wanted the ability to reload authz access control lists, though
-> > we did actually wire them up to auto-reload using inotify.
-> > 
-> > 
-> > Regards,
-> > Daniel
-> > 
-> 
-> If we add field for each reloadable attribute(tls-certs, authz,...),
-> the number of parameters for qmp_display_reload() may increase sharply
-> (bool has_tls_certs, bool tls_certs, ... twice the number of attributes).
 
-There's a fairly limited conceptual set of VNC features which are going
-to require a reload operation, so I don't think it'll grow too unreasonably
-large.
+Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com> writes:
 
-> How about using a list[] to determine which attributes need to be
-> reloaded["tls_certs", "authz*"...], and define an enum to ensure the
-> validity of list elements.
+> set_pci_host_devaddr() is hard to follow, thus bug-prone.
+>
+> For example, a bug was introduced in commit bccb20c49df, as
+> the same line might be used to parse a bus (up to 0xff) or
+> a slot (up to 0x1f).
+>
+> Instead of making things worst, rewrite using g_strsplit().
 
-The enum is simple, but if we require data to be provided fr the
-reload operation, instead of a simple boolean, then it gets a bit
-more limiting.
+This no longer applies to my tip of tree but in general I'm a fan. Do we
+have any unit tests for the qdev parsing? I couldn't see any but I'm not
+sure if the generic QOM tests would exercise this code.
+
+Generally when re-writing a parser it's nice to have a unit test just so
+you can check you've covered all the corner cases (witness the number of
+iterations the dfilter logic took to get right :-/).
+
+>
+> Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
+> ---
+> v3: Rebased
+> v2: Free g_strsplit() with g_auto(GStrv) (Daniel)
+> ---
+>  hw/core/qdev-properties-system.c | 62 ++++++++++++++------------------
+>  1 file changed, 27 insertions(+), 35 deletions(-)
+>
+> diff --git a/hw/core/qdev-properties-system.c b/hw/core/qdev-properties-s=
+ystem.c
+> index 9d80a07d26f..79408e32289 100644
+> --- a/hw/core/qdev-properties-system.c
+> +++ b/hw/core/qdev-properties-system.c
+> @@ -857,11 +857,11 @@ static void set_pci_host_devaddr(Object *obj, Visit=
+or *v, const char *name,
+>      DeviceState *dev =3D DEVICE(obj);
+>      Property *prop =3D opaque;
+>      PCIHostDeviceAddress *addr =3D qdev_get_prop_ptr(dev, prop);
+> -    char *str, *p;
+> -    char *e;
+> +    g_autofree char *str =3D NULL;
+> +    g_auto(GStrv) col_s0 =3D NULL;
+> +    g_auto(GStrv) dot_s =3D NULL;
+> +    char **col_s;
+>      unsigned long val;
+> -    unsigned long dom =3D 0, bus =3D 0;
+> -    unsigned int slot =3D 0, func =3D 0;
+>=20=20
+>      if (dev->realized) {
+>          qdev_prop_set_after_realize(dev, name, errp);
+> @@ -872,58 +872,50 @@ static void set_pci_host_devaddr(Object *obj, Visit=
+or *v, const char *name,
+>          return;
+>      }
+>=20=20
+> -    p =3D str;
+> -    val =3D strtoul(p, &e, 16);
+> -    if (e =3D=3D p || *e !=3D ':') {
+> +    col_s =3D col_s0 =3D g_strsplit(str, ":", 3);
+> +    if (!col_s || !col_s[0] || !col_s[1]) {
+
+I'm not sure you want max_tokens 3 because 1:2:3:4 would end up with the
+malformed ["1", "2", "3:4"]. You could just make your test:
+
+  cols_s =3D g_strsplit(str, ":", -1);
+  if (!cols_s || g_strv_length(cols_s) !=3D 3) {
+    error_set_from_qdev_prop_error(errp, EINVAL, dev, prop, str);=20=20
+    return;
+  }
+
+>          goto inval;
+>      }
+> -    bus =3D val;
+>=20=20
+> -    p =3D e + 1;
+> -    val =3D strtoul(p, &e, 16);
+> -    if (e =3D=3D p) {
+> -        goto inval;
+> -    }
+> -    if (*e =3D=3D ':') {
+> -        dom =3D bus;
+> -        bus =3D val;
+> -        p =3D e + 1;
+> -        val =3D strtoul(p, &e, 16);
+> -        if (e =3D=3D p) {
+> +    /* domain */
+> +    if (col_s[2]) {
+> +        if (qemu_strtoul(col_s[0], NULL, 16, &val) < 0 || val > 0xffff) {
+>              goto inval;
+>          }
+> +        addr->domain =3D val;
+> +        col_s++;
+> +    } else {
+> +        addr->domain =3D 0;
+>      }
+> -    slot =3D val;
+
+Hmm ok PCI ids are more complex than I knew. Maybe the test above needs
+to be:
+
+  cols_s =3D g_strsplit(str, ":", -1);
+  cols_l =3D g_strv_length(cols_s);
+  if (!cols_s || !(cols_l =3D=3D 2 || cols_l =3D=3D3)) {
+    error_set_from_qdev_prop_error(errp, EINVAL, dev, prop, str);=20=20
+    return;
+  }
+=20=20
+
+>=20=20
+> -    if (*e !=3D '.') {
+> +    /* bus */
+> +    if (qemu_strtoul(col_s[0], NULL, 16, &val) < 0 || val > 0xff) {
+>          goto inval;
+>      }
+> -    p =3D e + 1;
+> -    val =3D strtoul(p, &e, 10);
+> -    if (e =3D=3D p) {
+> -        goto inval;
+> -    }
+> -    func =3D val;
+> +    addr->bus =3D val;
+>=20=20
+> -    if (dom > 0xffff || bus > 0xff || slot > 0x1f || func > 7) {
+> +    /* <slot>.<func> */
+> +    dot_s =3D g_strsplit(col_s[1], ".", 2);
+> +    if (!dot_s || !dot_s[0] || !dot_s[1]) {
+>          goto inval;
+>      }
+
+I think there is a similar length validation needed here.
+
+>=20=20
+> -    if (*e) {
+> +    /* slot */
+> +    if (qemu_strtoul(dot_s[0], NULL, 16, &val) < 0 || val > 0x1f) {
+>          goto inval;
+>      }
+> +    addr->slot =3D val;
+>=20=20
+> -    addr->domain =3D dom;
+> -    addr->bus =3D bus;
+> -    addr->slot =3D slot;
+> -    addr->function =3D func;
+> +    /* func */
+> +    if (qemu_strtoul(dot_s[1], NULL, 10, &val) < 0 || val > 7) {
+> +        goto inval;
+> +    }
+> +    addr->function =3D val;
+>=20=20
+> -    g_free(str);
+>      return;
+>=20=20
+>  inval:
+>      error_set_from_qdev_prop_error(errp, EINVAL, dev, prop, str);
+> -    g_free(str);
+>  }
+>=20=20
+>  const PropertyInfo qdev_prop_pci_host_devaddr =3D {
 
 
-Regards,
-Daniel
--- 
-|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
-|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
-|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
-
+--=20
+Alex Benn=C3=A9e
 
