@@ -2,61 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 392D92F97E1
-	for <lists+qemu-devel@lfdr.de>; Mon, 18 Jan 2021 03:39:05 +0100 (CET)
-Received: from localhost ([::1]:59946 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D0A732F97E4
+	for <lists+qemu-devel@lfdr.de>; Mon, 18 Jan 2021 03:40:18 +0100 (CET)
+Received: from localhost ([::1]:36398 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l1KRc-0001RR-89
-	for lists+qemu-devel@lfdr.de; Sun, 17 Jan 2021 21:39:04 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45524)
+	id 1l1KSn-0003KE-TU
+	for lists+qemu-devel@lfdr.de; Sun, 17 Jan 2021 21:40:17 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45652)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <wlosh@bsdimp.com>) id 1l1KQ1-0000Kq-O8
- for qemu-devel@nongnu.org; Sun, 17 Jan 2021 21:37:25 -0500
-Received: from mail-qk1-x732.google.com ([2607:f8b0:4864:20::732]:33568)
+ (Exim 4.90_1) (envelope-from <wlosh@bsdimp.com>) id 1l1KQn-0000wj-9Z
+ for qemu-devel@nongnu.org; Sun, 17 Jan 2021 21:38:13 -0500
+Received: from mail-qk1-x736.google.com ([2607:f8b0:4864:20::736]:41802)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <wlosh@bsdimp.com>) id 1l1KPw-0001IG-Ml
- for qemu-devel@nongnu.org; Sun, 17 Jan 2021 21:37:25 -0500
-Received: by mail-qk1-x732.google.com with SMTP id f26so17523513qka.0
- for <qemu-devel@nongnu.org>; Sun, 17 Jan 2021 18:37:20 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <wlosh@bsdimp.com>) id 1l1KQl-0001W7-8e
+ for qemu-devel@nongnu.org; Sun, 17 Jan 2021 21:38:13 -0500
+Received: by mail-qk1-x736.google.com with SMTP id 19so17522197qkm.8
+ for <qemu-devel@nongnu.org>; Sun, 17 Jan 2021 18:38:09 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=bsdimp-com.20150623.gappssmtp.com; s=20150623;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=BWKg7T7AA1RzsOwaQQUFuuTXCdkP25EHCTH2JCANgdc=;
- b=sVO1M0FqkaEygJw5WOoSgbcPQq2Cv/fsO0oR/ZkUJPRwUhkesbmoU30Vw9AJ8aDfLO
- +art65/UFzeosiPasZKtBvbJiX+DgJD9HJ+nGRGp03lvZmz1+XoZvYGOcUDYHiJZ2838
- OpBeQlFfAXKD+dlnjwHzmuyvvMRZzQWq3EjCKAUtN2hXSXINRt5YvNBVfqh/5pLVnuki
- Jw/UASmW9XRT6kGeWCaNP+Tbi6EzLXyGae0pc7b8mLHBZbSqXB1YaLHLJCcQakbex0ST
- fJCT2Nv6m8R+W2PDVRDcbTF5twtyGUGJqpbTUT7hrUOqVjL6wYRyyA4JHfqR/yPropr7
- 2cxA==
+ :cc; bh=vEaO1DRc1Z6Azf9BkeMMoR74Gzw49kHvwAN7Mxn5u0M=;
+ b=1TKGEJEOze16/pK+YaDP5qNgDuWC4s2sF8ntUH020jwwNMAdXPTLj5ImwZqWhiqkqj
+ 1UZF3zaxo5DNm6uW1hmcqIGW5t3KCk7+E7Y5KTrMST9S2nz27VNkZ7xo2wfklyfsX3mP
+ EWJ3uJYgkckvoAzKUzbpgXILcowm+23ZKzr1qCOFuZqX9hJqMTBH6RnRJ6gBsZHxlEDI
+ p39Um+Q/H2rOVgnxYvvz0ESrhCnkyIEoiwAjeUgF3BGmIfOvhfY48GdhfG/B/pspg9Fw
+ yRuCMISRz3ZeimslFTCH9tDNovdZO9NtALjdtpjEDlOvpoQ1Tlepz5sA0huaaQyK0J/d
+ fV9Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=BWKg7T7AA1RzsOwaQQUFuuTXCdkP25EHCTH2JCANgdc=;
- b=Jd3+BQMIFC0Zjn57X69Zwgli7Gst0GDegqZ7tyc7lpAGijrdGCMZAMNQtb1qz2Qq0A
- vrhKiqKVqm+WpwV2a0ePjPYSTW6KGaC2/5c/BRqzU2ioD9NQGLqlUxlhrqwo1QIHMM+i
- 5okHvWWMAItWdAd2SyuvrJuhetcu2d1oknlPzAqIUsJE5twDC86OoJunLy9nm177HJos
- q7oU6nSoJTGz94oeQ3T8bI87MvycmpY/I4GijulA8/Lh3NPb0df734zAnRdPbmyBQlGI
- 5kZB0iYtNsW3ZfmazRbFiFu6CU9gNKJuBgTkhYCV4AwCS1a3+c2eeTycHlMbo8+6hlNt
- rj/g==
-X-Gm-Message-State: AOAM533GTfNsSiv5pWbxxESiP3h1EHndtmh3Kgzk2cbi2fCP5+5pWZ3c
- F1ge9s5vwlBSWLkU6P6oIVNeXAxnAHVxIjARA3+doQ==
-X-Google-Smtp-Source: ABdhPJyADGd4X3LyGzQ9j47+di79LIiXcWIRXVZAVHPofCc1Kf4dPJsJbuPt9Z+txRSwFJd8ppfgCRO9WDwz3UtLicI=
-X-Received: by 2002:a37:8505:: with SMTP id h5mr22721502qkd.44.1610937439662; 
- Sun, 17 Jan 2021 18:37:19 -0800 (PST)
+ bh=vEaO1DRc1Z6Azf9BkeMMoR74Gzw49kHvwAN7Mxn5u0M=;
+ b=TUrgZ/zdgBlNRYB4547sw4Abd8ME8kv6KiWGbfX4Ub6KjCXn5B7pRcOL1bF65y5NWb
+ 9Hmnd4LOZWLka2TGbAHEBFQb83VwPkElpQcxlgXEuwa6FFFpndwbaWeSgHi0CpQEnKks
+ /oZeUNZZBNVjB97Lp5eShIiDAg8cWoM7R/4xOM9mcm3BNfU30/VKKf7Fe2L1ia96Ls2q
+ Iml3xlIL54rPamCdkXkCSMdCvY6roAIzk3TWXdfkBSqlO0xRRY77MQ5UcHm6D8jlyfHa
+ fdH4+Ent0GpQvRAV6Wu0+aXHKB682uNMB/pg8zknMPJFwmdXY5Z3GD4PYRI1wWQ3Kjio
+ BG/w==
+X-Gm-Message-State: AOAM531Z0Crnj0xC9ThIt7CYRk3DIrB1nMjfanVLSbqJ4b3xi1FPgtwl
+ Z2L8T5e01FJ0ET7MCbJ9hO9e4EVXfeIBObOSNMQYxA==
+X-Google-Smtp-Source: ABdhPJyE92c1u0QhUXzI5G3hlatV50RTkn+veJYBN1e2ZnyHjXCtPUY7vVSM7AT9PjdMzAYYnOBFTXoAJ20JYdbQoP0=
+X-Received: by 2002:a37:83c2:: with SMTP id
+ f185mr21861095qkd.206.1610937489256; 
+ Sun, 17 Jan 2021 18:38:09 -0800 (PST)
 MIME-Version: 1.0
 References: <c75512b3-0665-d686-5ea4-248a9819355d@huawei.com>
- <2d69a2e7-67a2-3660-8ffe-de0962a046af@huawei.com>
-In-Reply-To: <2d69a2e7-67a2-3660-8ffe-de0962a046af@huawei.com>
+In-Reply-To: <c75512b3-0665-d686-5ea4-248a9819355d@huawei.com>
 From: Warner Losh <imp@bsdimp.com>
-Date: Sun, 17 Jan 2021 19:37:07 -0700
-Message-ID: <CANCZdfqQhc_aP6vQ8GKnDwKJ6nhoR3H1Q08w4v2VdKS7=GY50Q@mail.gmail.com>
-Subject: Re: [PATCH V4 3/4] bsd-user: do not use C99 // comments
+Date: Sun, 17 Jan 2021 19:37:57 -0700
+Message-ID: <CANCZdfoeNh91tEKQB2-AnCrd8RT3tedy67N5JXDFe7kUSkuySg@mail.gmail.com>
+Subject: Re: [PATCH V4 0/4] bsd-user: Fix some code style problems
 To: shiliyang <shiliyang@huawei.com>
-Content-Type: multipart/alternative; boundary="000000000000d8cad305b9239963"
-Received-SPF: none client-ip=2607:f8b0:4864:20::732;
- envelope-from=wlosh@bsdimp.com; helo=mail-qk1-x732.google.com
+Content-Type: multipart/alternative; boundary="000000000000cd89df05b9239cf0"
+Received-SPF: none client-ip=2607:f8b0:4864:20::736;
+ envelope-from=wlosh@bsdimp.com; helo=mail-qk1-x736.google.com
 X-Spam_score_int: -18
 X-Spam_score: -1.9
 X-Spam_bar: -
@@ -80,106 +80,77 @@ Cc: alex.chen@huawei.com, Peter Maydell <peter.maydell@linaro.org>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---000000000000d8cad305b9239963
+--000000000000cd89df05b9239cf0
 Content-Type: text/plain; charset="UTF-8"
 
-Same: please submit this via http://github.com/qemu-bsd-user...
+Please submit these via http://github.com/qemu-bsd-user/
 
-Warner
+On Sun, Jan 17, 2021, 7:17 PM shiliyang <shiliyang@huawei.com> wrote:
 
-On Sun, Jan 17, 2021, 7:20 PM shiliyang <shiliyang@huawei.com> wrote:
-
-> This patch fixes error messages found by checkpatch.pl:
-> ERROR: do not use C99 // comments
+> This patch series fixes error style problems found by checkpatch.pl.
 >
-> Signed-off-by: Liyang Shi <shiliyang@huawei.com>
-> ---
->  bsd-user/elfload.c | 4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
+> V3->V4:
+> Fix code style problems with branch bsd-user-rebase-3.1.
 >
-> diff --git a/bsd-user/elfload.c b/bsd-user/elfload.c
-> index d5cab25607..2842dfe56b 100644
-> --- a/bsd-user/elfload.c
-> +++ b/bsd-user/elfload.c
-> @@ -390,7 +390,7 @@ static const char *lookup_symbolxx(struct syminfo *s,
-> target_ulong orig_addr)
->      struct elf_sym *syms = s->disas_symtab.elf64;
->  #endif
+> V2->V3:
+> Make the patch into a series.
 >
-> -    // binary search
-> +    /* binary search */
->      struct elf_sym *sym;
+> V1->V2:
+> Add cover letter message.
+> Fix some style error in patch file before.
 >
->      sym = bsearch(&orig_addr, syms, s->disas_num_syms, sizeof(*syms),
-> symfind);
-> @@ -465,7 +465,7 @@ found:
->      i = 0;
->      while (i < nsyms) {
->          bswap_sym(syms + i);
-> -        // Throw away entries which we do not need.
-> +        /* Throw away entries which we do not need. */
->          if (syms[i].st_shndx == SHN_UNDEF ||
->                  syms[i].st_shndx >= SHN_LORESERVE ||
->                  ELF_ST_TYPE(syms[i].st_info) != STT_FUNC) {
+> Liyang Shi (4):
+>   bsd-user: "foo * bar" should be "foo *bar"
+>   bsd-user: suspect code indent for conditional statements
+>   bsd-user: do not use C99 // comments
+>   bsd-user: space required after semicolon
+>
+>  bsd-user/bsdload.c |  4 ++--
+>  bsd-user/elfload.c | 32 ++++++++++++++++----------------
+>  bsd-user/mmap.c    | 25 +++++++++++++------------
+>  3 files changed, 31 insertions(+), 30 deletions(-)
+>
 > --
 > 2.29.1.59.gf9b6481aed
 >
->
 
---000000000000d8cad305b9239963
+--000000000000cd89df05b9239cf0
 Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-<div dir=3D"auto">Same: please submit this via <a href=3D"http://github.com=
-/qemu-bsd-user.">http://github.com/qemu-bsd-user.</a>..<div dir=3D"auto"><b=
-r></div><div dir=3D"auto">Warner</div></div><br><div class=3D"gmail_quote">=
-<div dir=3D"ltr" class=3D"gmail_attr">On Sun, Jan 17, 2021, 7:20 PM shiliya=
-ng &lt;<a href=3D"mailto:shiliyang@huawei.com">shiliyang@huawei.com</a>&gt;=
- wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8=
-ex;border-left:1px #ccc solid;padding-left:1ex">This patch fixes error mess=
-ages found by <a href=3D"http://checkpatch.pl" rel=3D"noreferrer noreferrer=
-" target=3D"_blank">checkpatch.pl</a>:<br>
-ERROR: do not use C99 // comments<br>
+<div dir=3D"auto">Please submit these via <a href=3D"http://github.com/qemu=
+-bsd-user/">http://github.com/qemu-bsd-user/</a></div><br><div class=3D"gma=
+il_quote"><div dir=3D"ltr" class=3D"gmail_attr">On Sun, Jan 17, 2021, 7:17 =
+PM shiliyang &lt;<a href=3D"mailto:shiliyang@huawei.com">shiliyang@huawei.c=
+om</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"margi=
+n:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex">This patch series=
+ fixes error style problems found by <a href=3D"http://checkpatch.pl" rel=
+=3D"noreferrer noreferrer" target=3D"_blank">checkpatch.pl</a>.<br>
 <br>
-Signed-off-by: Liyang Shi &lt;<a href=3D"mailto:shiliyang@huawei.com" targe=
-t=3D"_blank" rel=3D"noreferrer">shiliyang@huawei.com</a>&gt;<br>
----<br>
-=C2=A0bsd-user/elfload.c | 4 ++--<br>
-=C2=A01 file changed, 2 insertions(+), 2 deletions(-)<br>
+V3-&gt;V4:<br>
+Fix code style problems with branch bsd-user-rebase-3.1.<br>
 <br>
-diff --git a/bsd-user/elfload.c b/bsd-user/elfload.c<br>
-index d5cab25607..2842dfe56b 100644<br>
---- a/bsd-user/elfload.c<br>
-+++ b/bsd-user/elfload.c<br>
-@@ -390,7 +390,7 @@ static const char *lookup_symbolxx(struct syminfo *s, t=
-arget_ulong orig_addr)<br>
-=C2=A0 =C2=A0 =C2=A0struct elf_sym *syms =3D s-&gt;disas_symtab.elf64;<br>
-=C2=A0#endif<br>
+V2-&gt;V3:<br>
+Make the patch into a series.<br>
 <br>
--=C2=A0 =C2=A0 // binary search<br>
-+=C2=A0 =C2=A0 /* binary search */<br>
-=C2=A0 =C2=A0 =C2=A0struct elf_sym *sym;<br>
+V1-&gt;V2:<br>
+Add cover letter message.<br>
+Fix some style error in patch file before.<br>
 <br>
-=C2=A0 =C2=A0 =C2=A0sym =3D bsearch(&amp;orig_addr, syms, s-&gt;disas_num_s=
-yms, sizeof(*syms), symfind);<br>
-@@ -465,7 +465,7 @@ found:<br>
-=C2=A0 =C2=A0 =C2=A0i =3D 0;<br>
-=C2=A0 =C2=A0 =C2=A0while (i &lt; nsyms) {<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0bswap_sym(syms + i);<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 // Throw away entries which we do not need.<br=
->
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 /* Throw away entries which we do not need. */=
+Liyang Shi (4):<br>
+=C2=A0 bsd-user: &quot;foo * bar&quot; should be &quot;foo *bar&quot;<br>
+=C2=A0 bsd-user: suspect code indent for conditional statements<br>
+=C2=A0 bsd-user: do not use C99 // comments<br>
+=C2=A0 bsd-user: space required after semicolon<br>
 <br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0if (syms[i].st_shndx =3D=3D SHN_UNDEF ||<=
-br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0syms[i].st_sh=
-ndx &gt;=3D SHN_LORESERVE ||<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0ELF_ST_TYPE(s=
-yms[i].st_info) !=3D STT_FUNC) {<br>
+=C2=A0bsd-user/bsdload.c |=C2=A0 4 ++--<br>
+=C2=A0bsd-user/elfload.c | 32 ++++++++++++++++----------------<br>
+=C2=A0bsd-user/mmap.c=C2=A0 =C2=A0 | 25 +++++++++++++------------<br>
+=C2=A03 files changed, 31 insertions(+), 30 deletions(-)<br>
+<br>
 -- <br>
 2.29.1.59.gf9b6481aed<br>
-<br>
 </blockquote></div>
 
---000000000000d8cad305b9239963--
+--000000000000cd89df05b9239cf0--
 
