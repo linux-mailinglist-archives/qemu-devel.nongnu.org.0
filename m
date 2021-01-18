@@ -2,62 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0F7F92F9D81
-	for <lists+qemu-devel@lfdr.de>; Mon, 18 Jan 2021 12:05:42 +0100 (CET)
-Received: from localhost ([::1]:46006 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9756D2F9DD7
+	for <lists+qemu-devel@lfdr.de>; Mon, 18 Jan 2021 12:19:09 +0100 (CET)
+Received: from localhost ([::1]:55408 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l1SLt-0000Tl-3y
-	for lists+qemu-devel@lfdr.de; Mon, 18 Jan 2021 06:05:41 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49460)
+	id 1l1SYu-00051S-Fb
+	for lists+qemu-devel@lfdr.de; Mon, 18 Jan 2021 06:19:08 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53224)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <groug@kaod.org>)
- id 1l1SK2-0007bb-0a; Mon, 18 Jan 2021 06:03:46 -0500
-Received: from smtpout1.mo804.mail-out.ovh.net ([79.137.123.220]:46259)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <groug@kaod.org>)
- id 1l1SJy-0003kj-UX; Mon, 18 Jan 2021 06:03:45 -0500
-Received: from mxplan5.mail.ovh.net (unknown [10.109.143.25])
- by mo804.mail-out.ovh.net (Postfix) with ESMTPS id 7EECC833632C;
- Mon, 18 Jan 2021 12:03:29 +0100 (CET)
-Received: from kaod.org (37.59.142.103) by DAG8EX1.mxp5.local (172.16.2.71)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2044.4; Mon, 18 Jan
- 2021 12:03:25 +0100
-Authentication-Results: garm.ovh; auth=pass
- (GARM-103G005c2288891-85d3-4f8d-828f-07c9b31a7f80,
- C55FA5616C381A35358043B9246BB8CC6413A4D0) smtp.auth=groug@kaod.org
-X-OVh-ClientIp: 82.253.208.248
-Date: Mon, 18 Jan 2021 12:03:20 +0100
-From: Greg Kurz <groug@kaod.org>
-To: David Gibson <david@gibson.dropbear.id.au>
-Subject: Re: [PATCH v1 7/7] spapr.c: consider CPU core online state before
- allowing unplug
-Message-ID: <20210118120320.22018f18@bahia.lan>
-In-Reply-To: <20210118011203.GC2089552@yekko.fritz.box>
-References: <20210114180628.1675603-1-danielhb413@gmail.com>
- <20210114180628.1675603-8-danielhb413@gmail.com>
- <20210115182216.6dccadee@bahia.lan>
- <20210118011203.GC2089552@yekko.fritz.box>
-X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1l1SXf-0004by-NK
+ for qemu-devel@nongnu.org; Mon, 18 Jan 2021 06:17:51 -0500
+Received: from mail-wm1-x32a.google.com ([2a00:1450:4864:20::32a]:34010)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1l1SXd-00025p-FL
+ for qemu-devel@nongnu.org; Mon, 18 Jan 2021 06:17:51 -0500
+Received: by mail-wm1-x32a.google.com with SMTP id o10so5681148wmc.1
+ for <qemu-devel@nongnu.org>; Mon, 18 Jan 2021 03:17:48 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=pviYIAPGnPPpQWGISbuqzpVXqCAK10wCDqvSJv7v3XY=;
+ b=Fo/sA1brvztW2/7uT0wSi9b94EMBjSPELq/Sbrny1txAgMgJzEt/kgnNmAsNxUQivD
+ orKRZJQWxWnG8nw9NFIeLa2B52AMXkr2EidwPy4zXiM+9fdZDr2pBEwkRsDd0fIFg9Jz
+ 9FJwumpyrOqA+WvTzzxYwI5X4CaRZFSDyr+lmk2BzHcytt4qrfq23dMgyZVBkM2Pvb/q
+ dklgaA/pTlpjAEJAmJHtt//rRuwJ5XRP+Di6+6nEeckr8rEG3ne+S4AJ87y5m/OIIYeA
+ bWk7oOCE0x5FMijE1ovM8zei0xT9ZwQ5UFWiqnwEV+iv/4R61TgOuhcYtf4huEXrbgcg
+ dd3g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=pviYIAPGnPPpQWGISbuqzpVXqCAK10wCDqvSJv7v3XY=;
+ b=azLewPT/GfuH9djboxQsh6vrGpdlKH5JF2ccRUp9wVDUQ/eKx0O0y+2MVT6BRaOBPb
+ znXjmDdySu8R6VqRdJyTHzAdkzsabh4DhL/x80qGnrai8S825An98bGJL9MUVrFhKWUG
+ kq2Td7U3vQTilAmV2wpmxbQqHWOzCGWdHpMjWBRqBnChqNeXHiZfPgrgSdSfuAYd53T8
+ 76td+naCtMcBQyKuN0s+uldxsC41McIHYwIkGVe51KwRgiB0akzX6MI7Cecmvs22428B
+ //NzGUN/hD8aj/jU3YzPwlhawrF87Om4U1yexlhV9MW9uE1O+n2zIO//El1Ae2gDRiqu
+ ljWg==
+X-Gm-Message-State: AOAM530i04+iDpsei8GyJF3OtU1qsgAEgvhP9xQ9yH5y69t5bouJ0ybN
+ HVvBIkNMm4Kic+3L+Unsn3lbHA==
+X-Google-Smtp-Source: ABdhPJxGU9m5t5xnXEguAUp8ezwJqouZN63yi1j8xjDEj3TN2ahjQLVmw7b48n3Uan9EvbJPzzTbFg==
+X-Received: by 2002:a1c:2341:: with SMTP id j62mr7200920wmj.34.1610968667391; 
+ Mon, 18 Jan 2021 03:17:47 -0800 (PST)
+Received: from zen.linaroharston ([51.148.130.216])
+ by smtp.gmail.com with ESMTPSA id l12sm11735584wmj.9.2021.01.18.03.17.45
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 18 Jan 2021 03:17:45 -0800 (PST)
+Received: from zen.lan (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id 29BF51FF7E;
+ Mon, 18 Jan 2021 11:17:45 +0000 (GMT)
+From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: peter.maydell@linaro.org
+Subject: [PULL v2 00/30] testing, gdbstub and semihosting
+Date: Mon, 18 Jan 2021 11:17:45 +0000
+Message-Id: <20210118111745.20104-1-alex.bennee@linaro.org>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-Content-Type: multipart/signed; boundary="Sig_/ix9u9wDbzq+OWnWjGHJ_hUS";
- protocol="application/pgp-signature"; micalg=pgp-sha256
-X-Originating-IP: [37.59.142.103]
-X-ClientProxiedBy: DAG4EX2.mxp5.local (172.16.2.32) To DAG8EX1.mxp5.local
- (172.16.2.71)
-X-Ovh-Tracer-GUID: 4b3bb3c5-2064-4b91-b029-1d5691789292
-X-Ovh-Tracer-Id: 7710162565509650851
-X-VR-SPAMSTATE: OK
-X-VR-SPAMSCORE: -100
-X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgeduledrtdekgddvfecutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfqggfjpdevjffgvefmvefgnecuuegrihhlohhuthemucehtddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpeffhffvuffkjghfofggtghisehgtderreertdejnecuhfhrohhmpefirhgvghcumfhurhiiuceoghhrohhugheskhgrohgurdhorhhgqeenucggtffrrghtthgvrhhnpeduveehvdduffdufffguddvgedtudfgkefgieffuedvgeeufffftdehvdevffekgeenucffohhmrghinheprhgvughhrghtrdgtohhmnecukfhppedtrddtrddtrddtpdefjedrheelrddugedvrddutdefnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmohguvgepshhmthhpqdhouhhtpdhhvghlohepmhigphhlrghnhedrmhgrihhlrdhovhhhrdhnvghtpdhinhgvtheptddrtddrtddrtddpmhgrihhlfhhrohhmpehgrhhouhhgsehkrghougdrohhrghdprhgtphhtthhopeiguhhmrgesrhgvughhrghtrdgtohhm
-Received-SPF: pass client-ip=79.137.123.220; envelope-from=groug@kaod.org;
- helo=smtpout1.mo804.mail-out.ovh.net
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
- RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::32a;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x32a.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -71,239 +84,158 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Daniel Henrique Barboza <danielhb413@gmail.com>, qemu-ppc@nongnu.org,
- qemu-devel@nongnu.org, Xujun Ma <xuma@redhat.com>
+Cc: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
+ qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---Sig_/ix9u9wDbzq+OWnWjGHJ_hUS
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+The following changes since commit 825a215c003cd028e26c7d19aa5049d957345f43:
 
-On Mon, 18 Jan 2021 12:12:03 +1100
-David Gibson <david@gibson.dropbear.id.au> wrote:
+  Merge remote-tracking branch 'remotes/kraxel/tags/audio-20210115-pull-request' into staging (2021-01-15 22:21:21 +0000)
 
-> On Fri, Jan 15, 2021 at 06:22:16PM +0100, Greg Kurz wrote:
-> > On Thu, 14 Jan 2021 15:06:28 -0300
-> > Daniel Henrique Barboza <danielhb413@gmail.com> wrote:
-> >=20
-> > > The only restriction we have when unplugging CPUs is to forbid unplug=
- of
-> > > the boot cpu core. spapr_core_unplug_possible() does not contemplate =
-the
-> >=20
-> > I can't remember why this restriction was introduced in the first place=
-...
-> > This should be investigated and documented if the limitation still stan=
-ds.
-> >=20
-> > > possibility of some cores being offlined by the guest, meaning that w=
-e're
-> > > rolling the dice regarding on whether we're unplugging the last online
-> > > CPU core the guest has.
-> > >=20
-> >=20
-> > Trying to unplug the last CPU is obviously something that deserves
-> > special care. LoPAPR is quite explicit on the outcome : this should
-> > terminate the partition.
-> >=20
-> > 13.7.4.1.1. Isolation of CPUs
-> >=20
-> > The isolation of a CPU, in all cases, is preceded by the stop-self
-> > RTAS function for all processor threads, and the OS insures that all
-> > the CPU=E2=80=99s threads are in the RTAS stopped state prior to isolat=
-ing the
-> > CPU. Isolation of a processor that is not stopped produces unpredictable
-> > results. The stopping of the last processor thread of a LPAR partition
-> > effectively kills the partition, and at that point, ownership of all
-> > partition resources reverts to the platform firmware.
-> >=20
-> > R1-13.7.4.1.1-1. For the LRDR option: Prior to issuing the RTAS
-> > set-indicator specifying isolate isolation-state of a CPU DR
-> > connector type, all the CPU threads must be in the RTAS stopped
-> > state.
-> >=20
-> > R1-13.7.4.1.1-2. For the LRDR option: Stopping of the last processor
-> > thread of a LPAR partition with the stop-self RTAS function, must kill
-> > the partition, with ownership of all partition resources reverting to
-> > the platform firmware.
-> >=20
-> > This is clearly not how things work today : linux doesn't call
-> > "stop-self" on the last vCPU and even if it did, QEMU doesn't
-> > terminate the VM.
->=20
-> > If there's a valid reason to not implement this PAPR behavior, I'd like
-> > it to be documented.
->=20
-> So, we should implement this in QEMU - if you stop-self the last
-> thread, it should be the equivalent of a power off.  Linux not ever
-> doing that probably makes sense - it wants you to encourage you to
-> shut down properly for data safety.
->=20
+are available in the Git repository at:
 
-Yes I agree it's fine if linux enforces some safeguard to prevent
-a brutal shutdown when writing 0 to /sys/devices/system/cpu/cpu?/online
-within the guest. But in this case, off-lining is part of the usual CPU
-unplug sequence, which was requested by the host : I don't think the
-safeguard is relevant in this case. This PAPR _feature_ is just another
-way of uncleanly shutting down the guest.
+  https://github.com/stsquad/qemu.git tags/pull-testing-and-misc-180121-2
 
-> > > If we hit the jackpot, we're going to detach the core DRC and pulse t=
-he
-> > > hotplug IRQ, but the guest OS will refuse to release the CPU. Our
-> > > spapr_core_unplug() DRC release callback will never be called and the=
- CPU
-> > > core object will keep existing in QEMU. No error message will be sent
-> > > to the user, but the CPU core wasn't unplugged from the guest.
-> > >=20
-> > > If the guest OS onlines the CPU core again we won't be able to hotunp=
-lug it
-> > > either. 'dmesg' inside the guest will report a failed attempt to offl=
-ine an
-> > > unknown CPU:
-> > >=20
-> > > [  923.003994] pseries-hotplug-cpu: Failed to offline CPU <NULL>, rc:=
- -16
-> > >=20
-> > > This is the result of stopping the DRC state transition in the middle=
- in the
-> > > first failed attempt.
-> > >=20
-> >=20
-> > Yes, at this point only a machine reset can fix things up.
-> >=20
-> > Given this is linux's choice not to call "stop-self" as it should do, I=
-'m not
-> > super fan of hardcoding this logic in QEMU, unless there are really good
-> > reasons to do so.
->=20
-> Uh.. sorry I don't follow how linux is doing something wrong here.
->=20
+for you to fetch changes up to 767ba049b8f8f8ebfebe90ecaf1b5a9cf8c865ff:
 
-Well... it doesn't finalize the hot-unplug sequence, and we have no
-way to cope with that except a machine reset. So I would nearly say
-this is working as expected : CPU hot unplug was requested and we
-wait for the guest to release the CPU. Linux not wanting to release
-the CPU until next reboot for some reason isn't really our concern.
+  semihosting: Implement SYS_ISERROR (2021-01-18 10:05:06 +0000)
 
-> > > We can avoid this, and potentially other bad things from happening, i=
-f we
-> > > avoid to attempt the unplug altogether in this scenario. Let's check =
-for
-> > > the online/offline state of the CPU cores in the guest before allowing
-> > > the hotunplug, and forbid removing a CPU core if it's the last one on=
-line
-> > > in the guest.
-> > >=20
+----------------------------------------------------------------
+Testing, gdbstub and semihosting patches:
 
-An unplug request can be accepted but its handling can still race with some
-manual off-lining in the guest, which would leave us in the very same situa=
-tion.
-So I don't think this patch fixes anything actually (TOCTOU).
+  - clean-ups to docker images
+  - drop duplicate jobs from shippable
+  - prettier tag generation (+gtags)
+  - generate browsable source tree
+  - more Travis->GitLab migrations
+  - fix checkpatch to deal with commits
+  - gate gdbstub tests on 8.3.1, expand tests
+  - support Xfer:auxv:read gdb packet
+  - better gdbstub cleanup
+  - use GDB's SVE register layout
+  - make arm-compat-semihosting common
+  - add riscv semihosting support
+  - add HEAPINFO, ELAPSED, TICKFREQ, TMPNAM and ISERROR to semihosting
 
-I tend to think that mixing manual CPU off-lining and CPU hot-unplug
-is probably not the best thing to do in the first place, unless one
-really knows what they're doing. Maybe we should rather document the
-caveats instead of adding workarounds for what remains a corner case ?
+----------------------------------------------------------------
+Alessandro Di Federico (1):
+      Add newline when generating Dockerfile
 
-> > > Reported-by: Xujun Ma <xuma@redhat.com>
-> > > Fixes: https://bugzilla.redhat.com/show_bug.cgi?id=3D1911414
-> > > Signed-off-by: Daniel Henrique Barboza <danielhb413@gmail.com>
-> > > ---
-> > >  hw/ppc/spapr.c | 39 ++++++++++++++++++++++++++++++++++++++-
-> > >  1 file changed, 38 insertions(+), 1 deletion(-)
-> > >=20
-> > > diff --git a/hw/ppc/spapr.c b/hw/ppc/spapr.c
-> > > index a2f01c21aa..d269dcd102 100644
-> > > --- a/hw/ppc/spapr.c
-> > > +++ b/hw/ppc/spapr.c
-> > > @@ -3709,9 +3709,16 @@ static void spapr_core_unplug(HotplugHandler *=
-hotplug_dev, DeviceState *dev)
-> > >  static int spapr_core_unplug_possible(HotplugHandler *hotplug_dev, C=
-PUCore *cc,
-> > >                                        Error **errp)
-> > >  {
-> > > +    CPUArchId *core_slot;
-> > > +    SpaprCpuCore *core;
-> > > +    PowerPCCPU *cpu;
-> > > +    CPUState *cs;
-> > > +    bool last_cpu_online =3D true;
-> > >      int index;
-> > > =20
-> > > -    if (!spapr_find_cpu_slot(MACHINE(hotplug_dev), cc->core_id, &ind=
-ex)) {
-> > > +    core_slot =3D spapr_find_cpu_slot(MACHINE(hotplug_dev), cc->core=
-_id,
-> > > +                                    &index);
-> > > +    if (!core_slot) {
-> > >          error_setg(errp, "Unable to find CPU core with core-id: %d",
-> > >                     cc->core_id);
-> > >          return -1;
-> > > @@ -3722,6 +3729,36 @@ static int spapr_core_unplug_possible(HotplugH=
-andler *hotplug_dev, CPUCore *cc,
-> > >          return -1;
-> > >      }
-> > > =20
-> > > +    /* Allow for any non-boot CPU core to be unplugged if already of=
-fline */
-> > > +    core =3D SPAPR_CPU_CORE(core_slot->cpu);
-> > > +    cs =3D CPU(core->threads[0]);
-> > > +    if (cs->halted) {
-> > > +        return 0;
-> > > +    }
-> > > +
-> > > +    /*
-> > > +     * Do not allow core unplug if it's the last core online.
-> > > +     */
-> > > +    cpu =3D POWERPC_CPU(cs);
-> > > +    CPU_FOREACH(cs) {
-> > > +        PowerPCCPU *c =3D POWERPC_CPU(cs);
-> > > +
-> > > +        if (c =3D=3D cpu) {
-> > > +            continue;
-> > > +        }
-> > > +
-> > > +        if (!cs->halted) {
-> > > +            last_cpu_online =3D false;
-> > > +            break;
-> > > +        }
-> > > +    }
-> > > +
-> > > +    if (last_cpu_online) {
-> > > +        error_setg(errp, "Unable to unplug CPU core with core-id %d:=
- it is "
-> > > +                   "the only CPU core online in the guest", cc->core=
-_id);
-> > > +        return -1;
-> > > +    }
-> > > +
-> > >      return 0;
-> > >  }
-> > > =20
-> >=20
->=20
+Alex Bennée (16):
+      Makefile: add GNU global tags support
+      Makefile: wrap ctags in quiet-command calls
+      Makefile: wrap etags in quiet-command calls
+      Makefile: wrap cscope in quiet-command calls
+      docker: expand debian-amd64 image to include tag tools
+      gitlab: move docs and tools build across from Travis
+      gitlab: migrate the minimal tools and unit tests from Travis
+      scripts/checkpatch.pl: fix git-show invocation to include diffstat
+      test/guest-debug: echo QEMU command as well
+      configure: gate our use of GDB to 8.3.1 or above
+      Revert "tests/tcg/multiarch/Makefile.target: Disable run-gdbstub-sha1 test"
+      gdbstub: implement a softmmu based test
+      gdbstub: drop CPUEnv from gdb_exit()
+      gdbstub: drop gdbserver_cleanup in favour of gdb_exit
+      gdbstub: ensure we clean-up when terminated
+      target/arm: use official org.gnu.gdb.aarch64.sve layout for registers
 
+Keith Packard (8):
+      semihosting: Move ARM semihosting code to shared directories
+      semihosting: Change common-semi API to be architecture-independent
+      semihosting: Change internal common-semi interfaces to use CPUState *
+      semihosting: Support SYS_HEAPINFO when env->boot_info is not set
+      riscv: Add semihosting support
+      semihosting: Implement SYS_ELAPSED and SYS_TICKFREQ
+      semihosting: Implement SYS_TMPNAM
+      semihosting: Implement SYS_ISERROR
 
---Sig_/ix9u9wDbzq+OWnWjGHJ_hUS
-Content-Type: application/pgp-signature
-Content-Description: OpenPGP digital signature
+Kito Cheng (1):
+      riscv: Add semihosting support for user mode
 
------BEGIN PGP SIGNATURE-----
+Lirong Yuan (1):
+      gdbstub: add support to Xfer:auxv:read: packet
 
-iQIzBAEBCAAdFiEEtIKLr5QxQM7yo0kQcdTV5YIvc9YFAmAFavgACgkQcdTV5YIv
-c9YGqRAAkKxbMDAMSE/8hZyxiKQyv9PW+ibS57fDS6mFpxCbseq0XvdbAtggYXfi
-7KOy9RhfHPCIsuGvsYALuG4F6TE76AlA40pXEXWywtydoY3or0wBoXKNWBXjfvCJ
-dGY+86YBTLy1D+Ss/x0y8V+SMD+3ysmWscu3gyQaDkiOudwmoHBzokjc9AqSruTP
-O3DNwVfP1dbhAuRcudJznB0VSN+eEu9GNhPiyFQ/LF+/ql8UaGIN26xXFAuDn4vn
-lS4aLJS6Mv5HF0UNHiu1if07AHvxA/YOPCaJ716P9cs0kvQtotb4au8mfiHljstG
-1ZV4wJPPob5Cs6rbF+nrNiJCmV2mYhOhfMj5V4RSNd4uyGdXVmsOy/4rTYDfKr5n
-XmM3GR0DgRorsOH2l3M6npveeFw5xLcf4vK6aOVDEs7wT9dyPlO7yYsLeZM7uILB
-X3ZJUsnet5tMFV6y0hRItkizr5bd1oOKVUXF1MjdN2NHyLlOMHyUJcb99xGOGxK6
-fg47tVYk/JBTnrqaS2rAT92bonBvlqkeFkBmw/eIvSosjyHgeZjyf+/9Pcl8hDa4
-CHPZZCF+dCxSYd69yRIUUgp4nM0Dip1aCyZOiAC2n/RtFQmGhKIdJBJG/JHvq3hN
-O6VuurSbhvD/NKKWZZU5KWEiupgg1F2w7zC7a6BlKKZzbVbSsyA=
-=W6xM
------END PGP SIGNATURE-----
+Lukas Straub (1):
+      Fix build with new yank feature by adding stubs
 
---Sig_/ix9u9wDbzq+OWnWjGHJ_hUS--
+Philippe Mathieu-Daudé (2):
+      tests/docker: Remove Debian 9 remnant lines
+      shippable.yml: Remove jobs duplicated on Gitlab-CI
+
+ configure                                          |   7 +-
+ Makefile                                           |  46 +-
+ default-configs/devices/arm-softmmu.mak            |   1 +
+ default-configs/devices/riscv32-softmmu.mak        |   2 +
+ default-configs/devices/riscv64-softmmu.mak        |   2 +
+ default-configs/targets/aarch64-linux-user.mak     |   1 +
+ default-configs/targets/aarch64_be-linux-user.mak  |   1 +
+ default-configs/targets/arm-linux-user.mak         |   1 +
+ default-configs/targets/armeb-linux-user.mak       |   1 +
+ default-configs/targets/riscv32-linux-user.mak     |   1 +
+ default-configs/targets/riscv64-linux-user.mak     |   1 +
+ hw/semihosting/common-semi.h                       |  39 ++
+ include/exec/gdbstub.h                             |  14 +-
+ include/qemu/timer.h                               |   2 +
+ linux-user/qemu.h                                  |   4 +-
+ target/arm/cpu.h                                   |   8 -
+ target/riscv/cpu_bits.h                            |   1 +
+ bsd-user/syscall.c                                 |   6 +-
+ gdbstub.c                                          |  65 ++-
+ .../arm-semi.c => hw/semihosting/arm-compat-semi.c | 525 ++++++++++++++-------
+ linux-user/aarch64/cpu_loop.c                      |   3 +-
+ linux-user/arm/cpu_loop.c                          |   3 +-
+ linux-user/exit.c                                  |   2 +-
+ linux-user/riscv/cpu_loop.c                        |   5 +
+ linux-user/{arm => }/semihost.c                    |   8 +-
+ softmmu/runstate.c                                 |   2 +-
+ stubs/yank.c                                       |  29 ++
+ target/arm/gdbstub.c                               |  75 ++-
+ target/arm/helper.c                                |   7 +-
+ target/arm/m_helper.c                              |   7 +-
+ target/m68k/m68k-semi.c                            |   2 +-
+ target/nios2/nios2-semi.c                          |   2 +-
+ target/riscv/cpu_helper.c                          |  10 +
+ target/riscv/translate.c                           |  11 +
+ util/qemu-timer-common.c                           |   4 +
+ target/riscv/insn_trans/trans_privileged.c.inc     |  37 +-
+ .gitignore                                         |   3 +
+ .gitlab-ci.yml                                     |  30 +-
+ .shippable.yml                                     |  14 +-
+ .travis.yml                                        |  25 -
+ MAINTAINERS                                        |   2 +
+ hw/semihosting/Kconfig                             |   4 +
+ hw/semihosting/meson.build                         |   3 +
+ linux-user/arm/meson.build                         |   3 -
+ linux-user/meson.build                             |   1 +
+ qemu-options.hx                                    |  10 +-
+ scripts/checkpatch.pl                              |   2 +-
+ stubs/meson.build                                  |   1 +
+ target/arm/meson.build                             |   2 -
+ tests/docker/Makefile.include                      |   1 -
+ tests/docker/docker.py                             |   4 +-
+ tests/docker/dockerfiles/debian-amd64.docker       |   5 +-
+ tests/guest-debug/run-test.py                      |  35 +-
+ tests/tcg/aarch64/Makefile.softmmu-target          |   1 +
+ tests/tcg/aarch64/gdbstub/test-sve-ioctl.py        |  11 +
+ tests/tcg/aarch64/system/boot.S                    |   1 +
+ tests/tcg/i386/Makefile.softmmu-target             |   1 +
+ tests/tcg/i386/system/boot.S                       |   2 +-
+ tests/tcg/multiarch/Makefile.target                |  13 +-
+ tests/tcg/multiarch/gdbstub/memory.py              | 130 +++++
+ .../tcg/multiarch/gdbstub/test-qxfer-auxv-read.py  |  57 +++
+ tests/tcg/multiarch/system/Makefile.softmmu-target |  19 +-
+ tests/tcg/x86_64/Makefile.softmmu-target           |   1 +
+ tests/tcg/x86_64/system/boot.S                     |   2 +-
+ 64 files changed, 982 insertions(+), 336 deletions(-)
+ create mode 100644 hw/semihosting/common-semi.h
+ rename target/arm/arm-semi.c => hw/semihosting/arm-compat-semi.c (66%)
+ rename linux-user/{arm => }/semihost.c (89%)
+ create mode 100644 stubs/yank.c
+ create mode 100644 tests/tcg/multiarch/gdbstub/memory.py
+ create mode 100644 tests/tcg/multiarch/gdbstub/test-qxfer-auxv-read.py
+
+-- 
+2.20.1
+
 
