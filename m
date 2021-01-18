@@ -2,86 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C0B3D2F99C2
-	for <lists+qemu-devel@lfdr.de>; Mon, 18 Jan 2021 07:08:52 +0100 (CET)
-Received: from localhost ([::1]:48596 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5F80C2F99FD
+	for <lists+qemu-devel@lfdr.de>; Mon, 18 Jan 2021 07:36:01 +0100 (CET)
+Received: from localhost ([::1]:57930 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l1Nid-0003Z8-OF
-	for lists+qemu-devel@lfdr.de; Mon, 18 Jan 2021 01:08:51 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54570)
+	id 1l1O8t-0000q6-Ve
+	for lists+qemu-devel@lfdr.de; Mon, 18 Jan 2021 01:35:59 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33084)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
- id 1l1NYG-0001aY-S9; Mon, 18 Jan 2021 00:58:08 -0500
-Received: from wout2-smtp.messagingengine.com ([64.147.123.25]:48995)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
- id 1l1NYE-0005Ge-Ef; Mon, 18 Jan 2021 00:58:08 -0500
-Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
- by mailout.west.internal (Postfix) with ESMTP id 8A4B21647;
- Mon, 18 Jan 2021 00:58:04 -0500 (EST)
-Received: from mailfrontend2 ([10.202.2.163])
- by compute4.internal (MEProxy); Mon, 18 Jan 2021 00:58:05 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=irrelevant.dk;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-type:in-reply-to; s=fm2; bh=7TYoVtzqpD3tVm+/BiDdRWah5zj
- JACg1qvyUgdCcOTg=; b=RL0ZHNNNJB08w8e9CQeNsv6wS4frNrg5V+AH+PdEmpp
- U/5ryAKLsmacgj/BeSq5yMx5Axu8xDIv7WhGCKYYxxb885/hoAfWMycuKjdqhzjE
- tND2uOIAQUxS6iZpFJkxRFD57gx6+w68MX+dAGQeKoUl9wqdzKiKJa8rfEOJ961f
- l2UiqQtUCYU4GGcLuNtrQjgnMx3+f5YdcjrVvnH6eOzs0+7ap2iEg08VcNDamwQN
- MIvZiZEIBSQlfhVKaWnRkEb8uPESKZab6ziowuozF2rpHV/voPnpG6lW/fOPRg61
- PDebUWDvHojYGd/osfHsnTAx50XImYT8vGjlHBuyCLQ==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:content-type:date:from:in-reply-to
- :message-id:mime-version:references:subject:to:x-me-proxy
- :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; bh=7TYoVt
- zqpD3tVm+/BiDdRWah5zjJACg1qvyUgdCcOTg=; b=MQ3P6AlEeMcBRHIYH7io8c
- fEERjc6O6aZZ9xaiCU2Nu6YbPgnGduA6Jg+51C82Pr3a2azdryXYgPvOfFoIjNlV
- 8CgH9tXSRoXOmD2n42CoTRVuEvkDx8U52ijimLeD3QfGD/Fw6mdJU2WSCjRA07vK
- MFn8gaLZIxWLBMqQtlfNYLk6DKM1DChNs7wi5AHaYDNaWcAa1zR1nFeG5YR2ILs5
- gkIdcjRswMNLZpkyZoLpirDATWr2jODYrgYJCXDoB7JFqe6RbBlV1ijSmbW+aUOX
- vkMY/x9+UZLswQwqTP+oXechNZHcw8Ms+5pM00/x4WhvY9RpIhFlJcWbZc0MqkZQ
- ==
-X-ME-Sender: <xms:bCMFYKnfV4T1kptiK_cdvSj5pm1_9ttSFw2qpU73doxNt0d0VQD8Zw>
- <xme:bCMFYBySnXKszqBpzIvY4cQUGFV2baUBhGjOE48b8rWlEKKdKNJ_3jeAiVpPh8QJ1
- m6iwaitT-3_bzt8Lis>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduledrtdejgdekkecutefuodetggdotefrodftvf
- curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
- uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
- fjughrpeffhffvuffkfhggtggujgesghdtreertddtjeenucfhrhhomhepmfhlrghushcu
- lfgvnhhsvghnuceoihhtshesihhrrhgvlhgvvhgrnhhtrdgukheqnecuggftrfgrthhtvg
- hrnhepjeegudffueeiteekieelkedvueelteevjeduieeludfffeejgeffhfduvdduffek
- necukfhppeektddrudeijedrleekrdduledtnecuvehluhhsthgvrhfuihiivgepudenuc
- frrghrrghmpehmrghilhhfrhhomhepihhtshesihhrrhgvlhgvvhgrnhhtrdgukh
-X-ME-Proxy: <xmx:bCMFYFhTUfnFazDM1fEZyB-4C8LQPWwEyY2Vx5eS31C57xpFSpnmog>
- <xmx:bCMFYGV5TB8X0njcXe3VItDDb14FG6YEXQmh8_BoAcpiABJftvlFVQ>
- <xmx:bCMFYH13u5bCljQ7QPGj5S4VwK4SUEpWfd4XVNxc0X4Cv31G7hHdzw>
- <xmx:bCMFYBiiU4YQepLxrEPRayWcA_ZbyjIm1whksTHk9cYVB3EFdDMtDw>
-Received: from apples.localdomain (80-167-98-190-cable.dk.customer.tdc.net
- [80.167.98.190])
- by mail.messagingengine.com (Postfix) with ESMTPA id 0FAC1108005F;
- Mon, 18 Jan 2021 00:58:02 -0500 (EST)
-Date: Mon, 18 Jan 2021 06:58:01 +0100
-From: Klaus Jensen <its@irrelevant.dk>
-To: Dmitry Fomichev <Dmitry.Fomichev@wdc.com>
-Subject: Re: [PATCH 0/6] hw/block/nvme: zoned misc fixes
-Message-ID: <YAUjaQFSJ+rlRnvd@apples.localdomain>
-References: <20210111123223.76248-1-its@irrelevant.dk>
- <0e93635d89378b7cb0250ad4a73555676d0ad4ea.camel@wdc.com>
+ (Exim 4.90_1) (envelope-from <ppandit@redhat.com>)
+ id 1l1O7n-0000RA-Oy
+ for qemu-devel@nongnu.org; Mon, 18 Jan 2021 01:34:51 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:27490)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <ppandit@redhat.com>)
+ id 1l1O7j-0005cL-L9
+ for qemu-devel@nongnu.org; Mon, 18 Jan 2021 01:34:50 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1610951684;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=qL7iuHZzt0H83Hek19HhIBXs9JEYYGdBc/ZVM+dCu0o=;
+ b=g8WrzDx2AHrrUeZTQ8fPnJ/NIAu92yYvp+vWK1rWTFNVzJlBrJH6PYwOewnz+JPUQG8a6h
+ 6vFhoxkUGIQpKqxloxrM3435SO4tqK6LD5SBcnjPTvEGfGoFiUq8tvZD5OjRpvZ74EHANL
+ dm8Hb7ZcP4KzBKvEx8ucJO/yPTjpMOU=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-151-j2n1-jhcPn2sSvOba_cqtQ-1; Mon, 18 Jan 2021 01:34:41 -0500
+X-MC-Unique: j2n1-jhcPn2sSvOba_cqtQ-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 9B2C7107ACE3;
+ Mon, 18 Jan 2021 06:34:40 +0000 (UTC)
+Received: from localhost.localdomain (unknown [10.40.192.71])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 41FD1620D7;
+ Mon, 18 Jan 2021 06:34:35 +0000 (UTC)
+From: P J P <ppandit@redhat.com>
+To: Paolo Bonzini <pbonzini@redhat.com>
+Subject: [PATCH v2] ide: atapi: check logical block address and read size
+ (CVE-2020-29443)
+Date: Mon, 18 Jan 2021 12:02:29 +0530
+Message-Id: <20210118063229.442350-1-ppandit@redhat.com>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="jmcmKnnfCYY+hg26"
-Content-Disposition: inline
-In-Reply-To: <0e93635d89378b7cb0250ad4a73555676d0ad4ea.camel@wdc.com>
-Received-SPF: pass client-ip=64.147.123.25; envelope-from=its@irrelevant.dk;
- helo=wout2-smtp.messagingengine.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
-X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=ppandit@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="US-ASCII"
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=ppandit@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -29
+X-Spam_score: -3.0
+X-Spam_bar: ---
+X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.189,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
- SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -94,57 +76,110 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "kwolf@redhat.com" <kwolf@redhat.com>,
- "qemu-block@nongnu.org" <qemu-block@nongnu.org>,
- "k.jensen@samsung.com" <k.jensen@samsung.com>,
- "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
- "mreitz@redhat.com" <mreitz@redhat.com>,
- "kbusch@kernel.org" <kbusch@kernel.org>
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ Prasad J Pandit <pjp@fedoraproject.org>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
+ QEMU Developers <qemu-devel@nongnu.org>, Markus Armbruster <armbru@redhat.com>,
+ Wenxiang Qian <leonwxqian@gmail.com>, John Snow <jsnow@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+From: Prasad J Pandit <pjp@fedoraproject.org>
 
---jmcmKnnfCYY+hg26
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+While processing ATAPI cmd_read/cmd_read_cd commands,
+Logical Block Address (LBA) maybe invalid OR closer to the last block,
+leading to an OOB access issues. Add range check to avoid it.
 
-On Jan 18 03:35, Dmitry Fomichev wrote:
-> On Mon, 2021-01-11 at 13:32 +0100, Klaus Jensen wrote:
-> > From: Klaus Jensen <k.jensen@samsung.com>
->=20
-> Klaus,
->=20
-> This series looks good to me. I've made a comment in "zero out zones on r=
-eset"
-> patch, but it is only cosmetic in nature. I am going to send a patch
-> with another small fix in ZNS code.
->=20
-> Best regards,
-> Dmitry
->=20
-> Tested-by: Dmitry Fomichev <dmitry.fomichev@wdc.com>
-> Reviewed-by: Dmitry Fomichev <dmitry.fomichev@wdc.com>
->=20
+Fixes: CVE-2020-29443
+Reported-by: Wenxiang Qian <leonwxqian@gmail.com>
+Fix-suggested-by: Paolo Bonzini <pbonzini@redhat.com>
+Signed-off-by: Prasad J Pandit <pjp@fedoraproject.org>
+---
+ hw/ide/atapi.c | 30 ++++++++++++++++++++++++------
+ 1 file changed, 24 insertions(+), 6 deletions(-)
 
-Thanks for the review AND testing! :)
+Update v2: range check lba value early in cmd_read[_cd] routines
+  -> https://lists.gnu.org/archive/html/qemu-devel/2020-12/msg00151.html
 
-Applying to nvme-next!
+diff --git a/hw/ide/atapi.c b/hw/ide/atapi.c
+index e79157863f..35b8494dc8 100644
+--- a/hw/ide/atapi.c
++++ b/hw/ide/atapi.c
+@@ -322,6 +322,8 @@ static void ide_atapi_cmd_reply(IDEState *s, int size, int max_size)
+ static void ide_atapi_cmd_read_pio(IDEState *s, int lba, int nb_sectors,
+                                    int sector_size)
+ {
++    assert (0 <= lba && lba < (s->nb_sectors >> 2));
++
+     s->lba = lba;
+     s->packet_transfer_size = nb_sectors * sector_size;
+     s->elementary_transfer_size = 0;
+@@ -420,6 +422,8 @@ eot:
+ static void ide_atapi_cmd_read_dma(IDEState *s, int lba, int nb_sectors,
+                                    int sector_size)
+ {
++    assert (0 <= lba && lba < (s->nb_sectors >> 2));
++
+     s->lba = lba;
+     s->packet_transfer_size = nb_sectors * sector_size;
+     s->io_buffer_size = 0;
+@@ -973,35 +977,49 @@ static void cmd_prevent_allow_medium_removal(IDEState *s, uint8_t* buf)
 
---jmcmKnnfCYY+hg26
-Content-Type: application/pgp-signature; name="signature.asc"
+ static void cmd_read(IDEState *s, uint8_t* buf)
+ {
+-    int nb_sectors, lba;
++    unsigned int nb_sectors, lba;
++
++    /* Total logical sectors of ATAPI_SECTOR_SIZE(=2048) bytes */
++    uint64_t total_sectors = s->nb_sectors >> 2;
 
------BEGIN PGP SIGNATURE-----
+     if (buf[0] == GPCMD_READ_10) {
+         nb_sectors = lduw_be_p(buf + 7);
+     } else {
+         nb_sectors = ldl_be_p(buf + 6);
+     }
+-
+-    lba = ldl_be_p(buf + 2);
+     if (nb_sectors == 0) {
+         ide_atapi_cmd_ok(s);
+         return;
+     }
 
-iQEzBAEBCAAdFiEEUigzqnXi3OaiR2bATeGvMW1PDekFAmAFI2YACgkQTeGvMW1P
-DemG1gf/Qk5/Y/8H5w4PAsyBcVmieOVf8TI1ngbrRN2qNK5j9Dhk1/OHhaIo3tKe
-+otSuGiSA4nzf7Pd2073iCTH2+OAcztk04EBXJ4PirHJ4mJuzzBRZRjt2XjnqWOL
-MrCKYwesAvq8mSzVXza4rFrsjdUh6JxlCzDBV0y9z4ToFjnYwKxMA+rtuVawF7/c
-Cm3hIpYcnIIezfFMF3UWcG6WLoXyanogUCXSeFHQWSEAxoFosTbMl4VA4Ecrs10W
-vkYouoSaq3ERY4tTLrtu2bB9iaJ+4243G96htHePDUA7Gh//xKpj2NocxcgOjpdc
-4q4m5EQJrRnsiWNkxfq4R3htr7jpOQ==
-=9Gm+
------END PGP SIGNATURE-----
++    lba = ldl_be_p(buf + 2);
++    if (lba >= total_sectors || lba + nb_sectors - 1 >= total_sectors) {
++        ide_atapi_cmd_error(s, ILLEGAL_REQUEST, ASC_LOGICAL_BLOCK_OOR);
++        return;
++    }
++
+     ide_atapi_cmd_read(s, lba, nb_sectors, 2048);
+ }
 
---jmcmKnnfCYY+hg26--
+ static void cmd_read_cd(IDEState *s, uint8_t* buf)
+ {
+-    int nb_sectors, lba, transfer_request;
++    unsigned int nb_sectors, lba, transfer_request;
++
++    /* Total logical sectors of ATAPI_SECTOR_SIZE(=2048) bytes */
++    uint64_t total_sectors = s->nb_sectors >> 2;
+
+     nb_sectors = (buf[6] << 16) | (buf[7] << 8) | buf[8];
+-    lba = ldl_be_p(buf + 2);
+-
+     if (nb_sectors == 0) {
+         ide_atapi_cmd_ok(s);
+         return;
+     }
+
++    lba = ldl_be_p(buf + 2);
++    if (lba >= total_sectors || lba + nb_sectors - 1 >= total_sectors) {
++        ide_atapi_cmd_error(s, ILLEGAL_REQUEST, ASC_LOGICAL_BLOCK_OOR);
++        return;
++    }
++
+     transfer_request = buf[9] & 0xf8;
+     if (transfer_request == 0x00) {
+         /* nothing */
+--
+2.29.2
+
 
