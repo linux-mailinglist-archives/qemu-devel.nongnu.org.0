@@ -2,66 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EABF22FA5E1
-	for <lists+qemu-devel@lfdr.de>; Mon, 18 Jan 2021 17:18:32 +0100 (CET)
-Received: from localhost ([::1]:57792 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0A91F2FA60A
+	for <lists+qemu-devel@lfdr.de>; Mon, 18 Jan 2021 17:26:42 +0100 (CET)
+Received: from localhost ([::1]:33590 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l1XEe-00079e-0T
-	for lists+qemu-devel@lfdr.de; Mon, 18 Jan 2021 11:18:32 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56992)
+	id 1l1XMW-0000ya-MY
+	for lists+qemu-devel@lfdr.de; Mon, 18 Jan 2021 11:26:40 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:32882)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1l1XCs-0006cp-9s
- for qemu-devel@nongnu.org; Mon, 18 Jan 2021 11:16:42 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:44351)
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1l1XLe-0000MV-4S
+ for qemu-devel@nongnu.org; Mon, 18 Jan 2021 11:25:46 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:41037)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1l1XCp-0004Vm-V6
- for qemu-devel@nongnu.org; Mon, 18 Jan 2021 11:16:41 -0500
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1l1XLb-0007t0-SE
+ for qemu-devel@nongnu.org; Mon, 18 Jan 2021 11:25:45 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1610986599;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:in-reply-to:in-reply-to:  references:references;
- bh=iULOiin4DUw0xul5jhHjuCP4Aj3Ua3qIeFQDhv2xmtI=;
- b=c+qAcinhcyBIrPQqHBm2ajZ01NAudseOajluMhdhdz+i8I+SwaFw3YS/hQI44plO+p9O/A
- elYAQN6VOoatglxNZyZR+QHXS2Z1lzY9dT8FgFMqjqABoz+s2+NFqoH1Cd3uYt5RC64chp
- CCq96A2FHTEahtnFyCgYxOb+Xcy6Ex8=
+ s=mimecast20190719; t=1610987141;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=/h6/sK+7NBVzrl8kG33odiHbt8P2Pe/t/OGYGOP5BfE=;
+ b=Zlwdvb2au3H5GqZmDe6AM6+Jn2tThD6c11JkgxZAwr6fLWEj6notjah1UCAFU113iwNUv/
+ KmjIAtDu5xYNn0BTZHD9vey5GMgvRCz01tuQHnDJ2J2ZdsH1o75GDgFme4aVtH7vu1Az+M
+ aFGM5vief5KiXiXJX7lOO9iROHPcm+I=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-470-gLrtFWVQOnODoZdpTXZEEg-1; Mon, 18 Jan 2021 11:16:34 -0500
-X-MC-Unique: gLrtFWVQOnODoZdpTXZEEg-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
+ us-mta-432-JTGEoDGxPi-5v9U5lEZ77A-1; Mon, 18 Jan 2021 11:25:39 -0500
+X-MC-Unique: JTGEoDGxPi-5v9U5lEZ77A-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 5D7EE10054FF;
- Mon, 18 Jan 2021 16:16:33 +0000 (UTC)
-Received: from redhat.com (ovpn-116-34.ams2.redhat.com [10.36.116.34])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id C54325D705;
- Mon, 18 Jan 2021 16:16:28 +0000 (UTC)
-Date: Mon, 18 Jan 2021 16:16:25 +0000
-From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-To: Gerd Hoffmann <kraxel@redhat.com>
-Subject: Re: [PATCH v2 2/2] vnc: add qmp to support reload vnc tls certificates
-Message-ID: <20210118161625.GE1799018@redhat.com>
-References: <20210107143032.752-1-changzihao1@huawei.com>
- <20210107143032.752-3-changzihao1@huawei.com>
- <87turil3s2.fsf@dusky.pond.sub.org>
- <20210115134710.GH1692978@redhat.com>
- <20210118161316.yptquytrr23yv4bs@sirius.home.kraxel.org>
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 68C57107ACE4;
+ Mon, 18 Jan 2021 16:25:38 +0000 (UTC)
+Received: from virtlab701.virt.lab.eng.bos.redhat.com
+ (virtlab701.virt.lab.eng.bos.redhat.com [10.19.152.228])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 21BC119C66;
+ Mon, 18 Jan 2021 16:25:37 +0000 (UTC)
+From: Paolo Bonzini <pbonzini@redhat.com>
+To: qemu-devel@nongnu.org
+Subject: [PATCH] arm: rename xlnx-zcu102.canbusN properties
+Date: Mon, 18 Jan 2021 11:25:37 -0500
+Message-Id: <20210118162537.779542-1-pbonzini@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <20210118161316.yptquytrr23yv4bs@sirius.home.kraxel.org>
-User-Agent: Mutt/1.14.6 (2020-07-11)
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=berrange@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=pbonzini@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=berrange@redhat.com;
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="US-ASCII"
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=pbonzini@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -29
 X-Spam_score: -3.0
@@ -82,37 +76,110 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-Cc: oscar.zhangbo@huawei.com, Zihao Chang <changzihao1@huawei.com>,
- Markus Armbruster <armbru@redhat.com>, xiexiangyou@huawei.com,
- qemu-devel@nongnu.org
+Cc: peter.maydell@linaro.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, Jan 18, 2021 at 05:13:16PM +0100, Gerd Hoffmann wrote:
->   Hi,
-> 
-> > Or we could have a more generic  "display-reload" command, which has
-> > fields indicating what aspect to reload. eg a 'tls-certs: bool' field
-> > to indicate reload of TLS certs in the display. This could be useful
-> > if we wanted the ability to reload authz access control lists, though
-> > we did actually wire them up to auto-reload using inotify.
-> 
-> Maybe we should just use inotify-based reload for the certs too?
+The properties to attach a CANBUS object to the xlnx-zcu102 machine have
+a period in them.  We want to use periods in properties for compound QAPI types,
+and besides the "xlnx-zcu102." prefix is both unnecessary and different
+from any other machine property name.  Remove it.
 
-The authz access control is easy because it is just one file.
+Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
+---
+ hw/arm/xlnx-zcu102.c        |  4 ++--
+ tests/qtest/xlnx-can-test.c | 30 +++++++++++++++---------------
+ 2 files changed, 17 insertions(+), 17 deletions(-)
 
-When updating the certs though, we have 1-4 files that need loading, and
-they can only be reloaded once all of them are updated on disk. This gives
-a synchronization challenge for use of inotify, as when we see 1 updated,
-we don't know if we need to wait for the others to be updated or not.
-
-
-Regards,
-Daniel
+diff --git a/hw/arm/xlnx-zcu102.c b/hw/arm/xlnx-zcu102.c
+index 4ef0c516bf..c9713638c5 100644
+--- a/hw/arm/xlnx-zcu102.c
++++ b/hw/arm/xlnx-zcu102.c
+@@ -219,12 +219,12 @@ static void xlnx_zcu102_machine_instance_init(Object *obj)
+     s->secure = false;
+     /* Default to virt (EL2) being disabled */
+     s->virt = false;
+-    object_property_add_link(obj, "xlnx-zcu102.canbus0", TYPE_CAN_BUS,
++    object_property_add_link(obj, "canbus0", TYPE_CAN_BUS,
+                              (Object **)&s->canbus[0],
+                              object_property_allow_set_link,
+                              0);
+ 
+-    object_property_add_link(obj, "xlnx-zcu102.canbus1", TYPE_CAN_BUS,
++    object_property_add_link(obj, "canbus1", TYPE_CAN_BUS,
+                              (Object **)&s->canbus[1],
+                              object_property_allow_set_link,
+                              0);
+diff --git a/tests/qtest/xlnx-can-test.c b/tests/qtest/xlnx-can-test.c
+index 3d1120005b..54de71a686 100644
+--- a/tests/qtest/xlnx-can-test.c
++++ b/tests/qtest/xlnx-can-test.c
+@@ -138,9 +138,9 @@ static void test_can_bus(void)
+     uint8_t can_timestamp = 1;
+ 
+     QTestState *qts = qtest_init("-machine xlnx-zcu102"
+-                " -object can-bus,id=canbus0"
+-                " -machine xlnx-zcu102.canbus0=canbus0"
+-                " -machine xlnx-zcu102.canbus1=canbus0"
++                " -object can-bus,id=canbus"
++                " -machine canbus0=canbus"
++                " -machine canbus1=canbus"
+                 );
+ 
+     /* Configure the CAN0 and CAN1. */
+@@ -175,9 +175,9 @@ static void test_can_loopback(void)
+     uint32_t status = 0;
+ 
+     QTestState *qts = qtest_init("-machine xlnx-zcu102"
+-                " -object can-bus,id=canbus0"
+-                " -machine xlnx-zcu102.canbus0=canbus0"
+-                " -machine xlnx-zcu102.canbus1=canbus0"
++                " -object can-bus,id=canbus"
++                " -machine canbus0=canbus"
++                " -machine canbus1=canbus"
+                 );
+ 
+     /* Configure the CAN0 in loopback mode. */
+@@ -223,9 +223,9 @@ static void test_can_filter(void)
+     uint8_t can_timestamp = 1;
+ 
+     QTestState *qts = qtest_init("-machine xlnx-zcu102"
+-                " -object can-bus,id=canbus0"
+-                " -machine xlnx-zcu102.canbus0=canbus0"
+-                " -machine xlnx-zcu102.canbus1=canbus0"
++                " -object can-bus,id=canbus"
++                " -machine canbus0=canbus"
++                " -machine canbus1=canbus"
+                 );
+ 
+     /* Configure the CAN0 and CAN1. */
+@@ -271,9 +271,9 @@ static void test_can_sleepmode(void)
+     uint8_t can_timestamp = 1;
+ 
+     QTestState *qts = qtest_init("-machine xlnx-zcu102"
+-                " -object can-bus,id=canbus0"
+-                " -machine xlnx-zcu102.canbus0=canbus0"
+-                " -machine xlnx-zcu102.canbus1=canbus0"
++                " -object can-bus,id=canbus"
++                " -machine canbus0=canbus"
++                " -machine canbus1=canbus"
+                 );
+ 
+     /* Configure the CAN0. */
+@@ -317,9 +317,9 @@ static void test_can_snoopmode(void)
+     uint8_t can_timestamp = 1;
+ 
+     QTestState *qts = qtest_init("-machine xlnx-zcu102"
+-                " -object can-bus,id=canbus0"
+-                " -machine xlnx-zcu102.canbus0=canbus0"
+-                " -machine xlnx-zcu102.canbus1=canbus0"
++                " -object can-bus,id=canbus"
++                " -machine canbus0=canbus"
++                " -machine canbus1=canbus"
+                 );
+ 
+     /* Configure the CAN0. */
 -- 
-|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
-|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
-|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
+2.26.2
 
 
