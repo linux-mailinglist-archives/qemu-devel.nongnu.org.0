@@ -2,85 +2,83 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 75EB82F9BEC
-	for <lists+qemu-devel@lfdr.de>; Mon, 18 Jan 2021 10:39:06 +0100 (CET)
-Received: from localhost ([::1]:55724 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 909CF2F9BEB
+	for <lists+qemu-devel@lfdr.de>; Mon, 18 Jan 2021 10:38:14 +0100 (CET)
+Received: from localhost ([::1]:57018 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l1R04-0001PW-QG
-	for lists+qemu-devel@lfdr.de; Mon, 18 Jan 2021 04:39:05 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49646)
+	id 1l1QzF-0001xi-Lo
+	for lists+qemu-devel@lfdr.de; Mon, 18 Jan 2021 04:38:13 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50468)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
- id 1l1QvZ-0000HE-6A; Mon, 18 Jan 2021 04:34:25 -0500
-Received: from out5-smtp.messagingengine.com ([66.111.4.29]:40407)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
- id 1l1QvW-00030Q-SU; Mon, 18 Jan 2021 04:34:24 -0500
-Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
- by mailout.nyi.internal (Postfix) with ESMTP id 76AB85C0186;
- Mon, 18 Jan 2021 04:34:21 -0500 (EST)
-Received: from mailfrontend2 ([10.202.2.163])
- by compute4.internal (MEProxy); Mon, 18 Jan 2021 04:34:21 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=irrelevant.dk;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-type:in-reply-to; s=fm2; bh=DiEH6eM9vROcx6ph5ZI7m7f2FC6
- 9lFKTZevubs9QzjU=; b=xiK2yTPLh0u31FzWudME1gth3OVP7fLHsW7rE3scIpC
- Sl74qhDPHq1XwZim7YDr6HIEpjOMGi3UO72Wn2qQ7C4XuMj8i/CC6pDp9x9F2a7/
- DvKaXq1wuJH3wTc0+J2V5q+tHNOyGsHbQifzbE4VS4bfNRDeLmdyxOPvMEG4IEVH
- w0G53hyk/7hpV9NNoVsIrU4x7pSxG4MqsnZe7G5k/t3xug1tHJl99+ui6PXpwjRj
- aAYkRBhkQPG/b74v3ks3zE+eMd6ZUwhthke50TJ0scfPmD180SYIL3oj+do5pxm+
- ZX3/oCOGHe9Hq0TtJqjA6hxENz7ftSPoclaQTKrJCKA==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:content-type:date:from:in-reply-to
- :message-id:mime-version:references:subject:to:x-me-proxy
- :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; bh=DiEH6e
- M9vROcx6ph5ZI7m7f2FC69lFKTZevubs9QzjU=; b=lEWS5RkZOCKZMTN0irv26M
- r8H6oagnuG/W6TKw6c4enrslQ0gjqNkvyBmiIkJbZQx4uJLMNZHtzqqdbYOnUiEm
- ryA69eXV6Ov4VMZqALJnpKLxgdBX63aVxk33YK/SDMjlElMpCU8POkYuJ9yUeoKi
- OaCu2jNr6N1ixmco4j22Gha1SUqk1nTGT9DijAh2cpz7F79YvE20dlxbE2ac0K1Z
- ijE0J7hz2oIvh+YuFVHOiRXyPric1FxHDNe4NXM09c52JND2fo8bmotpihOhpmLj
- 4shHGfikZSzjhhCfiFkPlk7IblMexoZ2hNOTMyNVlYeuV/Dm7KJzMbji1aK/glKg
- ==
-X-ME-Sender: <xms:HFYFYB1nXMFJPnCR980jbCIFI6fx8L_vaKEb-lF6AnLxKSw-q0TdTw>
- <xme:HFYFYIERrtXxO-h3ebZ3VbUHlWLegvpOJTOLnUrHML46C_swMqDL7tL7eogW4Uvrg
- jTdFgwdxmyBihlevR4>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduledrtdekgddthecutefuodetggdotefrodftvf
- curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
- uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
- fjughrpeffhffvuffkfhggtggujgesghdtreertddtjeenucfhrhhomhepmfhlrghushcu
- lfgvnhhsvghnuceoihhtshesihhrrhgvlhgvvhgrnhhtrdgukheqnecuggftrfgrthhtvg
- hrnhepjeegudffueeiteekieelkedvueelteevjeduieeludfffeejgeffhfduvdduffek
- necukfhppeektddrudeijedrleekrdduledtnecuvehluhhsthgvrhfuihiivgeptdenuc
- frrghrrghmpehmrghilhhfrhhomhepihhtshesihhrrhgvlhgvvhgrnhhtrdgukh
-X-ME-Proxy: <xmx:HFYFYB6yI1fE90YioEJ1LKbKD_x1Ws3x1aUas0DDQQeeMaKRlxE2hg>
- <xmx:HFYFYO02xahye4pZ0GnpUicen0Xn5MB-BjNR8Mc-KcQoH09GDFM3dg>
- <xmx:HFYFYEEVEXDRXMffyLndv2wv3QnaehjpEDRmixLTOcxvj--VxEG85g>
- <xmx:HVYFYJOEz19MycnLhPAEsidUgdJzoNnjvatqPvZGHTzkNQBHoenn9Q>
-Received: from apples.localdomain (80-167-98-190-cable.dk.customer.tdc.net
- [80.167.98.190])
- by mail.messagingengine.com (Postfix) with ESMTPA id 56184108005B;
- Mon, 18 Jan 2021 04:34:19 -0500 (EST)
-Date: Mon, 18 Jan 2021 10:34:16 +0100
-From: Klaus Jensen <its@irrelevant.dk>
-To: zhenwei pi <pizhenwei@bytedance.com>
-Subject: Re: [PATCH v4 0/3] support NVMe smart critial warning injection
-Message-ID: <YAVWGC4HKFlaKolQ@apples.localdomain>
-References: <20210115032702.466631-1-pizhenwei@bytedance.com>
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1l1QyA-0001Pk-A9
+ for qemu-devel@nongnu.org; Mon, 18 Jan 2021 04:37:07 -0500
+Received: from mail-wr1-x433.google.com ([2a00:1450:4864:20::433]:37566)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1l1Qy8-0004Ph-4h
+ for qemu-devel@nongnu.org; Mon, 18 Jan 2021 04:37:05 -0500
+Received: by mail-wr1-x433.google.com with SMTP id v15so12091276wrx.4
+ for <qemu-devel@nongnu.org>; Mon, 18 Jan 2021 01:37:03 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=sender:subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=AJ/NAMq6NV6UgYmHJRBoAjqVRaAsE2hxi5/tebO3E+Q=;
+ b=DJsHTz7FKWfG1hUN8+akYg9804K6o7eGNJxZXR/tSvY1r/CEZDqsthpZaqjgbLy/oV
+ 30QD3bm/K2HS8A8WKluhpJqI6786CeXcRPOiXx1u+ZARJgrXUrc84jf1SizBUz11Pat0
+ q7dQMEXpSKNKJmuIrPCsbDm+C9Ng6FyeWDsEKXeFDSDXVADBx0o2K3wzkiMsyvESxLsc
+ gYKllxx6yWBW9f12vnbhvntephO6yoaH9zUM4LSre3FWsT4aJP5ESefXZLIAxQYn8dR0
+ 0FK61Zq2+RWt9ETYiLE5T+lqL7hsozB7bvRnN12DqrV7rmUl6wME7kx46qWJtpdyqGDi
+ 77tA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
+ :date:user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=AJ/NAMq6NV6UgYmHJRBoAjqVRaAsE2hxi5/tebO3E+Q=;
+ b=o4ieDFwfd9P7m2xK/JqIvxUmD/CCsOrFq2Q6nG2iYqUyq9IugUEiZpgcRVfKzthz+K
+ riV7iGKvpXxUogk7MIg4wU7Q1VptKA2dF/c7MjbmqfPlIsJS5U3EMVUt0A3zpRSXvUAg
+ ZaGByGbL5CSTSWYvHZ/eQR7ff2qi9gRB7n5t+Gz13i853wSdLGhiG8BZFVUUWkXllsLT
+ zcRgt/oZ2OzIKezcQQ4kskG/FddGEPcikYOztvZE8hlbTxasZJsReBe2JsDKMombw7N0
+ q492nOwRajciYeORwN7fQf7noZNyd1onBfd4V6ypXg+d7/j6+ugKiAmPMhrn8YZoMP+G
+ 0i4A==
+X-Gm-Message-State: AOAM530H3DLOP2G6zQeF3nAg9DpewVU6ItPTwQgvMmDZ1SN7WXE6fr77
+ J0ySj3MivzCwj7IrB7RcpNg=
+X-Google-Smtp-Source: ABdhPJxZRKCpIPscdAJDGhvcuomyFkCvWC41aDNTfegv4hT8IA8TOfTR0q0AZmylhWnowTQeNeDR7w==
+X-Received: by 2002:adf:b519:: with SMTP id a25mr24667561wrd.263.1610962621793; 
+ Mon, 18 Jan 2021 01:37:01 -0800 (PST)
+Received: from [192.168.1.36] (13.red-83-57-169.dynamicip.rima-tde.net.
+ [83.57.169.13])
+ by smtp.gmail.com with ESMTPSA id x17sm28479647wro.40.2021.01.18.01.37.00
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 18 Jan 2021 01:37:01 -0800 (PST)
+Subject: Re: [RFC PATCH 6/6] softmmu: Restrict watchpoint handlers to TCG
+ accelerator
+To: Claudio Fontana <cfontana@suse.de>, qemu-devel@nongnu.org
+References: <20210117164813.4101761-1-f4bug@amsat.org>
+ <20210117164813.4101761-7-f4bug@amsat.org>
+ <56d3c4ca-8963-b1c3-8635-58f20fcb8e37@suse.de>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
+Message-ID: <40633db0-62ac-4a17-cc20-0cab61bb5df6@amsat.org>
+Date: Mon, 18 Jan 2021 10:36:59 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.6.0
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="iuaYio6o20RFWdv/"
-Content-Disposition: inline
-In-Reply-To: <20210115032702.466631-1-pizhenwei@bytedance.com>
-Received-SPF: pass client-ip=66.111.4.29; envelope-from=its@irrelevant.dk;
- helo=out5-smtp.messagingengine.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
-X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
- SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <56d3c4ca-8963-b1c3-8635-58f20fcb8e37@suse.de>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::433;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x433.google.com
+X-Spam_score_int: -17
+X-Spam_score: -1.8
+X-Spam_bar: -
+X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.25,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.25, NICE_REPLY_A=-0.252,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -93,75 +91,77 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: kwolf@redhat.com, qemu-block@nongnu.org, qemu-devel@nongnu.org,
- mreitz@redhat.com, kbusch@kernel.org, philmd@redhat.com
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ Huacai Chen <chenhuacai@kernel.org>, Eduardo Habkost <ehabkost@redhat.com>,
+ Riku Voipio <riku.voipio@iki.fi>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ Paolo Bonzini <pbonzini@redhat.com>,
+ =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+On 1/18/21 10:10 AM, Claudio Fontana wrote:
+> On 1/17/21 5:48 PM, Philippe Mathieu-Daudé wrote:
+>> Watchpoint funtions use cpu_restore_state() which is only
+>> available when TCG accelerator is built. Restrict them
+>> to TCG.
+>>
+>> Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+> 
+> I am doing some of this in my series, and I did not notice that
+> cpu_watchpoint_insert was also TCG only.
+> 
+> Probably we should merge this somehow.
+> 
+> I thought it was used by gdbstub.c as well, passing flags BP_GDB .
 
---iuaYio6o20RFWdv/
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+BP_MEM_ACCESS for watchpoint.
 
-On Jan 15 11:26, zhenwei pi wrote:
-> v3 -> v4:
-> - Drop "Fix overwritten bar.cap". (Already fixed)
->=20
-> - Avoid to enqueue the duplicate event.
->=20
-> - Several minor changes for coding style & function/variable name.
->=20
-> v2 -> v3:
-> - Introduce "Persistent Memory Region has become read-only or
->   unreliable"
->=20
-> - Fix overwritten bar.cap
->=20
-> - Check smart critical warning value from QOM.
->=20
-> - Trigger asynchronous event during smart warning injection.
->=20
-> v1 -> v2:
-> - Suggested by Philippe & Klaus, set/get smart_critical_warning by QMP.
->=20
-> v1:
-> - Add smart_critical_warning for nvme device which can be set by QEMU
->   command line to emulate hardware error.
->=20
-> Zhenwei Pi (3):
->   block/nvme: introduce bit 5 for critical warning
->   hw/block/nvme: add smart_critical_warning property
->   hw/blocl/nvme: trigger async event during injecting smart warning
->=20
->  hw/block/nvme.c      | 91 +++++++++++++++++++++++++++++++++++++++-----
->  hw/block/nvme.h      |  1 +
->  include/block/nvme.h |  3 ++
->  3 files changed, 86 insertions(+), 9 deletions(-)
->=20
+> I noticed that gdbstub does something else entirely for kvm_enabled(), ie, kvm_insert_breakpoint,
+> but what about the other accels, it seems that the code flows to the cpu_breakpoint_insert and watchpoint_insert..?
+> 
+> should cpu_breakpoint_insert have the same fate then?
+> 
+> And is this really all TCG specific?
+> 
+> From gdbstub.c:1020:
+> 
+> static int gdb_breakpoint_insert(int type, target_ulong addr, target_ulong len)
+> {
+>     CPUState *cpu;
+>     int err = 0;
+> 
+>     if (kvm_enabled()) {
+>         return kvm_insert_breakpoint(gdbserver_state.c_cpu, addr, len, type);
 
-This looks pretty good to me.
+Doh I missed that. I remember Peter and Richard explained it once
+but I forgot and couldn't find on the list, maybe it was on IRC.
 
-I think maybe we want to handle the duplicate event stuff more generally
-=66rom the AER/AEN code, but this does the job.
+See i.e. in target/arm/kvm64.c:
 
-Tested-by: Klaus Jensen <k.jensen@samsung.com>
-Reviewed-by: Klaus Jensen <k.jensen@samsung.com>
+ 312 int kvm_arch_insert_hw_breakpoint(target_ulong addr,
+ 313                                   target_ulong len, int type)
+ 314 {
+ 315     switch (type) {
+ 316     case GDB_BREAKPOINT_HW:
+ 317         return insert_hw_breakpoint(addr);
+ 318         break;
+ 319     case GDB_WATCHPOINT_READ:
+ 320     case GDB_WATCHPOINT_WRITE:
+ 321     case GDB_WATCHPOINT_ACCESS:
+ 322         return insert_hw_watchpoint(addr, len, type);
+ 323     default:
+ 324         return -ENOSYS;
+ 325     }
+ 326 }
 
---iuaYio6o20RFWdv/
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEEUigzqnXi3OaiR2bATeGvMW1PDekFAmAFVhcACgkQTeGvMW1P
-DekObwgAxUSptyY5t1X2Gnl4664ndqKOJa0+nj+HwBjqG+PYSJNPdIa7qghxPBi6
-RtfuJezuBs5WwR2+gxI4XJz9vALQkwjAM9BmjHETPH0FKEs+IigbLqarCkFJhJgQ
-QOQAfmXBKB1ZaR6uAhvi9XsRO6rTLOt9K0R0D0Vc4hZ3NGWfdt/K1bD3EMJO8c4A
-inSEauZXsjbeoQ3HvbGK1/T0H1rFjYTQLUKDIVCREAyBIW5XDaZA6VpnJLpBVn40
-mCumHOFNE6szgSwbHR62LGPw04en88wHL795Jvo4mFp2BOlpA8HVw0IBfJZsqDJt
-Vb54btNTGHgk6Njy1Fda57lbwUzOAw==
-=6pT0
------END PGP SIGNATURE-----
-
---iuaYio6o20RFWdv/--
+> 
+>> ---
+>> RFC because we could keep that code by adding an empty
+>>     stub for cpu_restore_state(), but it is unclear as
+>>     the function is named generically.
+>> ---
+>>  include/hw/core/cpu.h | 4 ++--
+>>  softmmu/physmem.c     | 4 ++++
+>>  2 files changed, 6 insertions(+), 2 deletions(-)
 
