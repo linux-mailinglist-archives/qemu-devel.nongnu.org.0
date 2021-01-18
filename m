@@ -2,84 +2,46 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 81FB82F9A4C
-	for <lists+qemu-devel@lfdr.de>; Mon, 18 Jan 2021 08:01:51 +0100 (CET)
-Received: from localhost ([::1]:37348 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DD8A82F9A4B
+	for <lists+qemu-devel@lfdr.de>; Mon, 18 Jan 2021 08:01:17 +0100 (CET)
+Received: from localhost ([::1]:36850 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l1OXu-0008Lc-IW
-	for lists+qemu-devel@lfdr.de; Mon, 18 Jan 2021 02:01:50 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33828)
+	id 1l1OXN-00082W-0C
+	for lists+qemu-devel@lfdr.de; Mon, 18 Jan 2021 02:01:17 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36592)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jiaxun.yang@flygoat.com>)
- id 1l1OC8-0002qV-CA; Mon, 18 Jan 2021 01:39:20 -0500
-Received: from wnew4-smtp.messagingengine.com ([64.147.123.18]:48055)
+ (Exim 4.90_1) (envelope-from <ganqixin@huawei.com>)
+ id 1l1OVc-00076l-0a; Mon, 18 Jan 2021 01:59:28 -0500
+Received: from szxga05-in.huawei.com ([45.249.212.191]:3035)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jiaxun.yang@flygoat.com>)
- id 1l1OC4-0007ZF-7t; Mon, 18 Jan 2021 01:39:17 -0500
-Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
- by mailnew.west.internal (Postfix) with ESMTP id 318C615DB;
- Mon, 18 Jan 2021 01:39:13 -0500 (EST)
-Received: from mailfrontend1 ([10.202.2.162])
- by compute4.internal (MEProxy); Mon, 18 Jan 2021 01:39:14 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=flygoat.com; h=
- from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding; s=fm1; bh=yDi3rR9AlpqoZ
- Pff7ititIXIq7aDJehwY82Gzczm7E0=; b=Xs1Xs32fAu+tIcIncKODym0Mbvxkv
- w4hiLo05Xll3jpwwYmrU9heNJn6jnJNXVHXIo3NPoVcRN00CDuNZstGfAwP85HXE
- WiymN5G6K0C8HSAT5tvAkEjIdoxyTDs6MmpqG2W/XfhcYMSSlJ0D2eedTJA7gemQ
- /tMg4Lztl/h5+zKirk5iIBq5bzCDFoiZ+HVqQJYzwHJqNaU8p2DR27X+o7zrfM1/
- fUXHeLZ5umI0KpBBIdrUQqGJVT2Zt019Pe/N2IAMYPzZuJDBYeQ168Zf0pe1hVdN
- kYmUjgHPaeY6RZ0JDOpqw8JIzEL24b9khvGYvJKODrmfggIHD97FCdFBA==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:content-transfer-encoding:date:from
- :in-reply-to:message-id:mime-version:references:subject:to
- :x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
- fm1; bh=yDi3rR9AlpqoZPff7ititIXIq7aDJehwY82Gzczm7E0=; b=GbbUBH5e
- xFrVODVI70fe2WsmMF5YADHM+VCKPr7LdJH0ilRa7dxRbX664HU7EGHPDrRzfWk8
- jAG3S1CYDTClCTr4Gc+WK577qdhyCmlZgFOidkjsRJgZI1/PX/OtwliJE4ohjWrL
- /6PA42tqtq4Phxh+KTwFYApJbbUyxQRSjpXFdCxXWEBk3lok6iMrucOwItbvkWpl
- qJMzUm6bcAOJuljexvsbXuPIXpdJp+2ihgI+1mpFZyz0EIlBDbQtsht3jYeHMlGd
- Yn4jOEIZ3CpFCRxe4jKTVc1ZiLAuEXEIevHHgGpvmFgNT4HxbEtpxu96x4Z+28Pv
- nWcDjMPIsoHlMA==
-X-ME-Sender: <xms:Dy0FYAM3KZeQyKQ5_r98gQLmRtWsc5WQAJLxiY4v2nIEAdXHNY8esQ>
- <xme:Dy0FYLQJVVKmO0GGtkn-xlrGduJVMKELAno2O666EB18CrfWBjWYy5uXey_f5X84m
- a1nk2ESjgrKE1DNDtk>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduledrtdejgdeljecutefuodetggdotefrodftvf
- curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
- uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
- fjughrpefhvffufffkofgjfhgggfestdekredtredttdenucfhrhhomheplfhirgiguhhn
- ucgjrghnghcuoehjihgrgihunhdrhigrnhhgsehflhihghhorghtrdgtohhmqeenucggtf
- frrghtthgvrhhnpeejuefhkeegheehffetgfeuveeuvdeukeevkeeigeduhffhgfdvvdeh
- hefhfffhudenucffohhmrghinheprghlphhinhgvlhhinhhugidrohhrghenucfkphepud
- duiedrvddvkedrkeegrddvnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehm
- rghilhhfrhhomhepjhhirgiguhhnrdihrghnghesfhhlhihgohgrthdrtghomh
-X-ME-Proxy: <xmx:Dy0FYGaMcVpS_GvjPteAHeVa01fJvyXKGSeOyRKz62xqrJZaCD6DBg>
- <xmx:Dy0FYA1jVhpbIi4j0RwMDnf5E6mxJbZq4_ecqxCz8tUayBWdhaNHIg>
- <xmx:Dy0FYOXiP55YfThQoV3kEQgLQ5QPCXFdmfYFRnr3a4j1WbnIRzm4og>
- <xmx:EC0FYA3PfCH4s5O1JJhIjhx60iXNwqMGf3ozt6_SY54gl_JWsqxfwRfdj5bV2IPD>
-Received: from strike.U-LINK.com (unknown [116.228.84.2])
- by mail.messagingengine.com (Postfix) with ESMTPA id 090C524005B;
- Mon, 18 Jan 2021 01:39:05 -0500 (EST)
-From: Jiaxun Yang <jiaxun.yang@flygoat.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH v2 8/9] tests/docker: Add dockerfile for Alpine Linux
-Date: Mon, 18 Jan 2021 14:38:07 +0800
-Message-Id: <20210118063808.12471-9-jiaxun.yang@flygoat.com>
-X-Mailer: git-send-email 2.30.0
-In-Reply-To: <20210118063808.12471-1-jiaxun.yang@flygoat.com>
-References: <20210118063808.12471-1-jiaxun.yang@flygoat.com>
+ (Exim 4.90_1) (envelope-from <ganqixin@huawei.com>)
+ id 1l1OVZ-00071M-7h; Mon, 18 Jan 2021 01:59:27 -0500
+Received: from DGGEMS411-HUB.china.huawei.com (unknown [172.30.72.58])
+ by szxga05-in.huawei.com (SkyGuard) with ESMTP id 4DK2g04QfPzj8nX;
+ Mon, 18 Jan 2021 14:58:04 +0800 (CST)
+Received: from huawei.com (10.175.104.175) by DGGEMS411-HUB.china.huawei.com
+ (10.3.19.211) with Microsoft SMTP Server id 14.3.498.0; Mon, 18 Jan 2021
+ 14:59:02 +0800
+From: Gan Qixin <ganqixin@huawei.com>
+To: <qemu-devel@nongnu.org>, <qemu-trivial@nongnu.org>
+Subject: [PATCH] npcm7xx_adc-test: Fix memleak in adc_qom_set
+Date: Mon, 18 Jan 2021 14:56:27 +0800
+Message-ID: <20210118065627.79903-1-ganqixin@huawei.com>
+X-Mailer: git-send-email 2.27.0
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=64.147.123.18;
- envelope-from=jiaxun.yang@flygoat.com; helo=wnew4-smtp.messagingengine.com
-X-Spam_score_int: -12
-X-Spam_score: -1.3
-X-Spam_bar: -
-X-Spam_report: (-1.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_SORBS_WEB=1.5, SPF_HELO_PASS=-0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+Content-Type: text/plain
+X-Originating-IP: [10.175.104.175]
+X-CFilter-Loop: Reflected
+Received-SPF: pass client-ip=45.249.212.191; envelope-from=ganqixin@huawei.com;
+ helo=szxga05-in.huawei.com
+X-Spam_score_int: -41
+X-Spam_score: -4.2
+X-Spam_bar: ----
+X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
+ RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -92,99 +54,64 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Fam Zheng <fam@euphon.net>, Laurent Vivier <lvivier@redhat.com>,
- Thomas Huth <thuth@redhat.com>,
- Viktor Prutyanov <viktor.prutyanov@phystech.edu>, kvm@vger.kernel.org,
- =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
- Alistair Francis <alistair@alistair23.me>, Greg Kurz <groug@kaod.org>,
- Wainer dos Santos Moschetta <wainersm@redhat.com>,
- Max Reitz <mreitz@redhat.com>, qemu-ppc@nongnu.org,
- Kevin Wolf <kwolf@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
- qemu-block@nongnu.org,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
- David Gibson <david@gibson.dropbear.id.au>
+Cc: Laurent Vivier <lvivier@redhat.com>, Thomas Huth <thuth@redhat.com>,
+ zhang.zhanghailiang@huawei.com, Havard Skinnemoen <hskinnemoen@google.com>,
+ Hao Wu <wuhaotsh@google.com>, Tyrone
+ Ting <kfting@nuvoton.com>, Gan Qixin <ganqixin@huawei.com>,
+ Euler Robot <euler.robot@huawei.com>, kuhn.chenqun@huawei.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Alpine Linux[1] is a security-oriented, lightweight Linux distribution
-based on musl libc and busybox.
+The adc_qom_set function didn't free "response", which caused an indirect
+memory leak. So use qobject_unref() to fix it.
 
-It it popular among Docker guests and embedded applications.
+ASAN shows memory leak stack:
 
-Adding it to test against different libc.
+Indirect leak of 593280 byte(s) in 144 object(s) allocated from:
+    #0 0x7f9a5e7e8d4e in __interceptor_calloc (/lib64/libasan.so.5+0x112d4e)
+    #1 0x7f9a5e607a50 in g_malloc0 (/lib64/libglib-2.0.so.0+0x55a50)
+    #2 0x55b1bebf636b in qdict_new ../qobject/qdict.c:30
+    #3 0x55b1bec09699 in parse_object ../qobject/json-parser.c:318
+    #4 0x55b1bec0b2df in parse_value ../qobject/json-parser.c:546
+    #5 0x55b1bec0b6a9 in json_parser_parse ../qobject/json-parser.c:580
+    #6 0x55b1bec060d1 in json_message_process_token ../qobject/json-streamer.c:92
+    #7 0x55b1bec16a12 in json_lexer_feed_char ../qobject/json-lexer.c:313
+    #8 0x55b1bec16fbd in json_lexer_feed ../qobject/json-lexer.c:350
+    #9 0x55b1bec06453 in json_message_parser_feed ../qobject/json-streamer.c:121
+    #10 0x55b1bebc2d51 in qmp_fd_receive ../tests/qtest/libqtest.c:614
+    #11 0x55b1bebc2f5e in qtest_qmp_receive_dict ../tests/qtest/libqtest.c:636
+    #12 0x55b1bebc2e6c in qtest_qmp_receive ../tests/qtest/libqtest.c:624
+    #13 0x55b1bebc3340 in qtest_vqmp ../tests/qtest/libqtest.c:715
+    #14 0x55b1bebc3942 in qtest_qmp ../tests/qtest/libqtest.c:756
+    #15 0x55b1bebbd64a in adc_qom_set ../tests/qtest/npcm7xx_adc-test.c:127
+    #16 0x55b1bebbd793 in adc_write_input ../tests/qtest/npcm7xx_adc-test.c:140
+    #17 0x55b1bebbdf92 in test_convert_external ../tests/qtest/npcm7xx_adc-test.c:246
 
-[1]: https://alpinelinux.org/
-
-Signed-off-by: Jiaxun Yang <jiaxun.yang@flygoat.com>
+Reported-by: Euler Robot <euler.robot@huawei.com>
+Signed-off-by: Gan Qixin <ganqixin@huawei.com>
 ---
- tests/docker/dockerfiles/alpine.docker | 57 ++++++++++++++++++++++++++
- 1 file changed, 57 insertions(+)
- create mode 100644 tests/docker/dockerfiles/alpine.docker
+Cc: Hao Wu <wuhaotsh@google.com>
+Cc: Havard Skinnemoen <hskinnemoen@google.com>
+Cc: Tyrone Ting <kfting@nuvoton.com>
+Cc: Thomas Huth <thuth@redhat.com>
+Cc: Laurent Vivier <lvivier@redhat.com>
+---
+ tests/qtest/npcm7xx_adc-test.c | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/tests/docker/dockerfiles/alpine.docker b/tests/docker/dockerfiles/alpine.docker
-new file mode 100644
-index 0000000000..5be5198d00
---- /dev/null
-+++ b/tests/docker/dockerfiles/alpine.docker
-@@ -0,0 +1,57 @@
-+
-+FROM alpine:edge
-+
-+RUN apk update
-+RUN apk upgrade
-+
-+# Please keep this list sorted alphabetically
-+ENV PACKAGES \
-+	alsa-lib-dev \
-+	bash \
-+	bison \
-+	build-base \
-+	coreutils \
-+	curl-dev \
-+	flex \
-+	git \
-+	glib-dev \
-+	glib-static \
-+	gnutls-dev \
-+	gtk+3.0-dev \
-+	libaio-dev \
-+	libcap-dev \
-+	libcap-ng-dev \
-+	libjpeg-turbo-dev \
-+	libnfs-dev \
-+	libpng-dev \
-+	libseccomp-dev \
-+	libssh-dev \
-+	libusb-dev \
-+	libxml2-dev \
-+	linux-headers \
-+	lzo-dev \
-+	mesa-dev \
-+	mesa-egl \
-+	mesa-gbm \
-+	meson \
-+	ncurses-dev \
-+	ninja \
-+	paxmark \
-+	perl \
-+	pulseaudio-dev \
-+	python3 \
-+	py3-sphinx \
-+	shadow \
-+	snappy-dev \
-+	spice-dev \
-+	texinfo \
-+	usbredir-dev \
-+	util-linux-dev \
-+	vde2-dev \
-+	virglrenderer-dev \
-+	vte3-dev \
-+	xfsprogs-dev \
-+	zlib-dev \
-+	zlib-static
-+
-+RUN apk add $PACKAGES
+diff --git a/tests/qtest/npcm7xx_adc-test.c b/tests/qtest/npcm7xx_adc-test.c
+index f029706945..5ce8ce13b3 100644
+--- a/tests/qtest/npcm7xx_adc-test.c
++++ b/tests/qtest/npcm7xx_adc-test.c
+@@ -129,6 +129,7 @@ static void adc_qom_set(QTestState *qts, const ADC *adc,
+             path, name, value);
+     /* The qom set message returns successfully. */
+     g_assert_true(qdict_haskey(response, "return"));
++    qobject_unref(response);
+ }
+ 
+ static void adc_write_input(QTestState *qts, const ADC *adc,
 -- 
-2.30.0
+2.27.0
 
 
