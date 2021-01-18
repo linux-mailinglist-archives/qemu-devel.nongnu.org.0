@@ -2,45 +2,44 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 423452F980D
-	for <lists+qemu-devel@lfdr.de>; Mon, 18 Jan 2021 04:07:11 +0100 (CET)
-Received: from localhost ([::1]:44516 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 43F8F2F9810
+	for <lists+qemu-devel@lfdr.de>; Mon, 18 Jan 2021 04:09:54 +0100 (CET)
+Received: from localhost ([::1]:48720 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l1Kso-00009Q-63
-	for lists+qemu-devel@lfdr.de; Sun, 17 Jan 2021 22:07:10 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50220)
+	id 1l1KvR-0001xD-C4
+	for lists+qemu-devel@lfdr.de; Sun, 17 Jan 2021 22:09:53 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50978)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1l1KqS-0007fS-4M; Sun, 17 Jan 2021 22:04:44 -0500
-Received: from bilbo.ozlabs.org ([203.11.71.1]:55449 helo=ozlabs.org)
+ id 1l1Kuh-0001Qz-8a; Sun, 17 Jan 2021 22:09:07 -0500
+Received: from bilbo.ozlabs.org ([2401:3900:2:1::2]:33991 helo=ozlabs.org)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1l1KqO-0002Oo-Ku; Sun, 17 Jan 2021 22:04:43 -0500
+ id 1l1Kuf-0003rp-5s; Sun, 17 Jan 2021 22:09:06 -0500
 Received: by ozlabs.org (Postfix, from userid 1007)
- id 4DJxTZ20N5z9sVS; Mon, 18 Jan 2021 14:04:34 +1100 (AEDT)
+ id 4DJxZj05CSz9sVs; Mon, 18 Jan 2021 14:09:00 +1100 (AEDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=gibson.dropbear.id.au; s=201602; t=1610939074;
- bh=19ZhsKQRbEsGZBpmPQe7yoYh0jntDutUTZZSvePFwCs=;
+ d=gibson.dropbear.id.au; s=201602; t=1610939341;
+ bh=IbM+28WiNylPwcorneBx4ClTkb6UACgBWdnifdHVcSw=;
  h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=KeIVG9Z/nYNzUqbirHqkRt+kNHEH4qezfYP8nuriF6TClzIm58BdbOc7YCFXTRi/T
- njBmZD7YnAEPDUjW+WfMsOU91k5mOXP8vXJiGFDsamjk7I6MrwCZNkl4lUcZN/IjN1
- 3Wy3Jj2N84/D1B1i32MBg0JxpB/PsxmgncCWYDRY=
-Date: Mon, 18 Jan 2021 14:03:08 +1100
+ b=ollaxCw5WS2EKsaNtvwzrT47zOnHIRmM+2g2EfznOCr2ru3ZEC50+oMlmlhE/kGDj
+ OvkKEe1IjTOGyR6zjN6IJtQovQpLQ8M9Y7qeVGtptKh0verrx4mW6TyrnsUlHlzHne
+ C8WvgIiAMgoLvcZQWgKn6mVln+4/PoKOdrK9puSw=
+Date: Mon, 18 Jan 2021 14:08:29 +1100
 From: David Gibson <david@gibson.dropbear.id.au>
-To: Cornelia Huck <cohuck@redhat.com>
-Subject: Re: [PATCH v7 08/13] confidential guest support: Move SEV
- initialization into arch specific code
-Message-ID: <20210118030308.GG2089552@yekko.fritz.box>
-References: <20210113235811.1909610-1-david@gibson.dropbear.id.au>
- <20210113235811.1909610-9-david@gibson.dropbear.id.au>
- <20210115142425.540b6126.cohuck@redhat.com>
+To: Bharata B Rao <bharata@linux.ibm.com>
+Subject: Re: [RFC PATCH v0 1/1] target/ppc: Support for H_RPT_INVALIDATE hcall
+Message-ID: <20210118030829.GH2089552@yekko.fritz.box>
+References: <20210106085910.2200795-1-bharata@linux.ibm.com>
+ <20210113172256.0d32dc5d@bahia.lan>
+ <20210115083128.GA2457611@in.ibm.com>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="1XWsVB21DFCvn2e8"
+ protocol="application/pgp-signature"; boundary="3VRmKSg17yJg2MZg"
 Content-Disposition: inline
-In-Reply-To: <20210115142425.540b6126.cohuck@redhat.com>
-Received-SPF: pass client-ip=203.11.71.1; envelope-from=dgibson@ozlabs.org;
+In-Reply-To: <20210115083128.GA2457611@in.ibm.com>
+Received-SPF: pass client-ip=2401:3900:2:1::2; envelope-from=dgibson@ozlabs.org;
  helo=ozlabs.org
 X-Spam_score_int: -17
 X-Spam_score: -1.8
@@ -60,109 +59,160 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: pair@us.ibm.com, brijesh.singh@amd.com, kvm@vger.kernel.org,
- David Hildenbrand <david@redhat.com>, qemu-devel@nongnu.org,
- frankja@linux.ibm.com, pragyansri.pathi@intel.com, mst@redhat.com,
- mdroth@linux.vnet.ibm.com, pasic@linux.ibm.com, borntraeger@de.ibm.com,
- andi.kleen@intel.com, thuth@redhat.com, Eduardo Habkost <ehabkost@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>, dgilbert@redhat.com,
- Greg Kurz <groug@kaod.org>, qemu-s390x@nongnu.org, jun.nakajima@intel.com,
- berrange@redhat.com, Marcelo Tosatti <mtosatti@redhat.com>,
- qemu-ppc@nongnu.org, Paolo Bonzini <pbonzini@redhat.com>
+Cc: paulus@ozlabs.org, qemu-ppc@nongnu.org, Greg Kurz <groug@kaod.org>,
+ qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 
---1XWsVB21DFCvn2e8
+--3VRmKSg17yJg2MZg
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Fri, Jan 15, 2021 at 02:24:25PM +0100, Cornelia Huck wrote:
-> On Thu, 14 Jan 2021 10:58:06 +1100
-> David Gibson <david@gibson.dropbear.id.au> wrote:
->=20
-> > While we've abstracted some (potential) differences between mechanisms =
-for
-> > securing guest memory, the initialization is still specific to SEV.  Gi=
-ven
-> > that, move it into x86's kvm_arch_init() code, rather than the generic
-> > kvm_init() code.
+On Fri, Jan 15, 2021 at 02:01:28PM +0530, Bharata B Rao wrote:
+> On Wed, Jan 13, 2021 at 05:22:56PM +0100, Greg Kurz wrote:
+> > Hi Bharata,
 > >=20
-> > Signed-off-by: David Gibson <david@gibson.dropbear.id.au>
-> > ---
-> >  accel/kvm/kvm-all.c   | 14 --------------
-> >  accel/kvm/sev-stub.c  |  4 ++--
-> >  target/i386/kvm/kvm.c | 12 ++++++++++++
-> >  target/i386/sev.c     |  7 ++++++-
-> >  4 files changed, 20 insertions(+), 17 deletions(-)
+> > On Wed,  6 Jan 2021 14:29:10 +0530
+> > Bharata B Rao <bharata@linux.ibm.com> wrote:
 > >=20
+> > > If KVM_CAP_RPT_INVALIDATE KVM capability is enabled, then
+> > >=20
+> > > - indicate the availability of H_RPT_INVALIDATE hcall to the guest via
+> > >   ibm,hypertas-functions property.
+> > > - Enable the hcall
+> > >=20
+> > > Both the above are done only if the new sPAPR machine capability
+> > > cap-rpt-invalidate is set.
+> > >=20
+> > > Note: The KVM implementation of the hcall has been posted for upstream
+> > > review here:
+> > > https://lore.kernel.org/linuxppc-dev/20210105090557.2150104-1-bharata=
+@linux.ibm.com/T/#t
+> > >=20
+> > > Update to linux-headers/linux/kvm.h here is temporary, will be
+> > > done via header updates once the kernel change is accepted upstream.
+> > >=20
+> > > Signed-off-by: Bharata B Rao <bharata@linux.ibm.com>
+> > > ---
+> >=20
+> > Patch looks mostly fine. A few remarks below.
+> >=20
+> > >  hw/ppc/spapr.c            |  7 ++++++
+> > >  hw/ppc/spapr_caps.c       | 49 +++++++++++++++++++++++++++++++++++++=
+++
+> > >  include/hw/ppc/spapr.h    |  8 +++++--
+> > >  linux-headers/linux/kvm.h |  1 +
+> > >  target/ppc/kvm.c          | 12 ++++++++++
+> > >  target/ppc/kvm_ppc.h      | 11 +++++++++
+> > >  6 files changed, 86 insertions(+), 2 deletions(-)
+> > >=20
+> > > diff --git a/hw/ppc/spapr.c b/hw/ppc/spapr.c
+> > > index 489cefcb81..0228083800 100644
+> > > --- a/hw/ppc/spapr.c
+> > > +++ b/hw/ppc/spapr.c
+> > > @@ -890,6 +890,11 @@ static void spapr_dt_rtas(SpaprMachineState *spa=
+pr, void *fdt)
+> > >      add_str(hypertas, "hcall-copy");
+> > >      add_str(hypertas, "hcall-debug");
+> > >      add_str(hypertas, "hcall-vphn");
+> > > +    if (kvm_enabled() &&
+> >=20
+> > You shouldn't check KVM here. The capability is enough to decide if we
+> > should expose "hcall-rpt-invalidate" or not. FWIW we won't even reach
+> > this code when running with anything but KVM.
 >=20
-> (...)
->=20
-> > @@ -2135,6 +2136,17 @@ int kvm_arch_init(MachineState *ms, KVMState *s)
-> >      uint64_t shadow_mem;
-> >      int ret;
-> >      struct utsname utsname;
-> > +    Error *local_err =3D NULL;
-> > +
-> > +    /*
-> > +     * if memory encryption object is specified then initialize the
-> > +     * memory encryption context (no-op otherwise)
-> > +     */
-> > +    ret =3D sev_kvm_init(ms->cgs, &local_err);
->=20
-> Maybe still leave a comment here, as the code will still need to be
-> modified to handle non-SEV x86 mechanisms?
+> Correct, the capability itself can be only for KVM case.
 
-Uh.. I'm confused.. this hunk is adding a comment, not removing one..
+Hrm.. that's kind of a problem in itself.  Enabling KVM should not
+change the guest visible environment.
 
 >=20
-> > +    if (ret < 0) {
-> > +        error_report_err(local_err);
-> > +        return ret;
-> > +    }
-> > =20
-> >      if (!kvm_check_extension(s, KVM_CAP_IRQ_ROUTING)) {
-> >          error_report("kvm: KVM_CAP_IRQ_ROUTING not supported by KVM");
-> > diff --git a/target/i386/sev.c b/target/i386/sev.c
-> > index 3d94635397..aa79cacabe 100644
-> > --- a/target/i386/sev.c
-> > +++ b/target/i386/sev.c
-> > @@ -664,13 +664,18 @@ sev_vm_state_change(void *opaque, int running, Ru=
-nState state)
-> > =20
-> >  int sev_kvm_init(ConfidentialGuestSupport *cgs, Error **errp)
-> >  {
-> > -    SevGuestState *sev =3D SEV_GUEST(cgs);
-> > +    SevGuestState *sev
-> > +        =3D (SevGuestState *)object_dynamic_cast(OBJECT(cgs), TYPE_SEV=
-_GUEST);
+> >=20
+> > > +        (spapr_get_cap(spapr, SPAPR_CAP_RPT_INVALIDATE) =3D=3D SPAPR=
+_CAP_ON)) {
+> > > +        add_str(hypertas, "hcall-rpt-invalidate");
+> > > +    }
+> > > +
+> > >      add_str(qemu_hypertas, "hcall-memop1");
+> > > =20
+> > >      if (!kvm_enabled() || kvmppc_spapr_use_multitce()) {
+> > > @@ -2021,6 +2026,7 @@ static const VMStateDescription vmstate_spapr =
+=3D {
+> > >          &vmstate_spapr_cap_ccf_assist,
+> > >          &vmstate_spapr_cap_fwnmi,
+> > >          &vmstate_spapr_fwnmi,
+> > > +        &vmstate_spapr_cap_rpt_invalidate,
+> > >          NULL
+> > >      }
+> > >  };
+> > > @@ -4478,6 +4484,7 @@ static void spapr_machine_class_init(ObjectClas=
+s *oc, void *data)
+> > >      smc->default_caps.caps[SPAPR_CAP_LARGE_DECREMENTER] =3D SPAPR_CA=
+P_ON;
+> > >      smc->default_caps.caps[SPAPR_CAP_CCF_ASSIST] =3D SPAPR_CAP_ON;
+> > >      smc->default_caps.caps[SPAPR_CAP_FWNMI] =3D SPAPR_CAP_ON;
+> > > +    smc->default_caps.caps[SPAPR_CAP_RPT_INVALIDATE] =3D SPAPR_CAP_O=
+FF;
+> >=20
+> > Any reason for not enabling this for the default machine type and
+> > disabling it for existing machine types only ?
 >=20
-> This looks a bit ugly; maybe we want the generic code to generate a
-> separate version of the cast macro that doesn't assert? Just cosmetics,
-> though.
-
-I tend to the view that the clunkiness of this textually is
-outweighted by using object_dynamic_cast() which has well known
-semantics, rather than requiring someone reading the code to
-understand another intermediate macro.
-
-> >      char *devname;
-> >      int ret, fw_error;
-> >      uint32_t ebx;
-> >      uint32_t host_cbitpos;
-> >      struct sev_user_data_status status =3D {};
-> > =20
-> > +    if (!sev) {
-> > +        return 0;
-> > +    }
-> > +
-> >      ret =3D ram_block_discard_disable(true);
-> >      if (ret) {
-> >          error_report("%s: cannot disable RAM discard", __func__);
+> If this capability is enabled, then
 >=20
-> Reviewed-by: Cornelia Huck <cohuck@redhat.com>
+> 1. First level guest (L1) can off-load the TLB invalidations to the
+> new hcall if the platform has disabled LPCR[GTSE].
+>=20
+> 2. Nested guest (L2) will switch to this new hcall rather than using
+> the old H_TLB_INVALIDATE hcall.
+>=20
+> Case 2 is optional and case 1 makes sense only if LPCR[GTSE]=3Doff.
+> Hence I thought keeping it off by default and expecting the
+> user to turn it on only if required would be correct.
+>=20
+> Please note that turning this capability ON will result in the
+> new hcall being exposed to the guest. I hope this is the right
+> usage of spapr-caps?
+>=20
+> > > diff --git a/target/ppc/kvm_ppc.h b/target/ppc/kvm_ppc.h
+> > > index 73ce2bc951..8e27f8421f 100644
+> > > --- a/target/ppc/kvm_ppc.h
+> > > +++ b/target/ppc/kvm_ppc.h
+> > > @@ -24,6 +24,7 @@ void kvmppc_enable_logical_ci_hcalls(void);
+> > >  void kvmppc_enable_set_mode_hcall(void);
+> > >  void kvmppc_enable_clear_ref_mod_hcalls(void);
+> > >  void kvmppc_enable_h_page_init(void);
+> > > +void kvmppc_enable_h_rpt_invalidate(void);
+> > >  void kvmppc_set_papr(PowerPCCPU *cpu);
+> > >  int kvmppc_set_compat(PowerPCCPU *cpu, uint32_t compat_pvr);
+> > >  void kvmppc_set_mpic_proxy(PowerPCCPU *cpu, int mpic_proxy);
+> > > @@ -72,6 +73,7 @@ bool kvmppc_has_cap_nested_kvm_hv(void);
+> > >  int kvmppc_set_cap_nested_kvm_hv(int enable);
+> > >  int kvmppc_get_cap_large_decr(void);
+> > >  int kvmppc_enable_cap_large_decr(PowerPCCPU *cpu, int enable);
+> > > +int kvmppc_has_cap_rpt_invalidate(void);
+> > >  int kvmppc_enable_hwrng(void);
+> > >  int kvmppc_put_books_sregs(PowerPCCPU *cpu);
+> > >  PowerPCCPUClass *kvm_ppc_get_host_cpu_class(void);
+> > > @@ -151,6 +153,10 @@ static inline void kvmppc_enable_h_page_init(voi=
+d)
+> > >  {
+> > >  }
+> > > =20
+> > > +static inline void kvmppc_enable_h_rpt_invalidate(void)
+> > > +{
+> >=20
+> > g_assert_not_reached() ?
+>=20
+> Don't see many others doing that, is that a new preferred
+> way?
+
+Pretty much, yes.
+
+>=20
+> Regards,
+> Bharata.
 >=20
 
 --=20
@@ -171,25 +221,25 @@ david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
 				| _way_ _around_!
 http://www.ozlabs.org/~dgibson
 
---1XWsVB21DFCvn2e8
+--3VRmKSg17yJg2MZg
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAmAE+mwACgkQbDjKyiDZ
-s5JmlQ//TxCrs3vQHpA/Vy+qnAXlrIP8nw9BCkEPRSFJUEy8MpuZ8UTtpgdCHvRg
-jqnJV0w+ybDGxk6gllJAGmHALhNyoLVIPdM/WpCHlyWzHW4Nqn2L/Hm2OLRgJi2X
-TfQiDiDwTfrasx9bledF15VojdBSQkeeLagCx19F7pK5YaquzMKcytD1evb2ADk5
-quFxpmlX8QtMR6EjTI/GAxBk8vcZmNPvW7OuOQ4QiMCaozwRuku8nOQ/NnmQPTDh
-Iqp6isqO2DtXZb1IN9S8qwozMBoyS5HUjsBRT2JbV2MpaIxhkDiBfxeDo7YRHxVz
-OmfgaUbqCDrFa8Mkbl8yKSlW9+Rb87B5fg0/M1JCsaIKLHHDIMGyXKCpXjRDeDMw
-AxfuF9oYzXP+6/DvxgaT2QFdA2v7VBFjhViwlu6XSi3eRhIhokypt+R3MmWvjAYO
-EL/5g0py6oBNL3hcQRcREaOD7bCtwTrEK3CD3P0MeSaRKWEC7crmeCYH/LacnfRF
-6YF2vvQwpBbZPgLeHmjqwSY0RpSt1uOhI0SLjHWpwn5TGqxnak0GqbYBBdXt/o+V
-kqK2aMPiHcL5fWmkSo//2ANJHGSxZKjSMRU5C0mc47xY8HYoZQDdhebwYemZFbqx
-Rj+lLwpduJow5zDW8jqBjIy0fKWa97npooF5mO85v9W/3neUcgw=
-=Dpic
+iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAmAE+60ACgkQbDjKyiDZ
+s5LoWhAA2+teBV/Cq3u3o3rGPooN1KdgePdlEuooSOq+0kvn4N4H59iB++7fc5OF
+6R5rGehkIVudKPLDRdvf7dZShndTbkCsoYP97xJVbtRI4yhNJRq7VyZ841uMutt7
+uLnAwO7ZkbfmbawwQl5tv+Bo/dkVajw5N2IkfewytDXHAMoVhedi7M/uqTJBTB5B
+P+akqD7Qp0N2gQymw6TrfKOAmEWWcOyPf1COSs25DcY2orptySa5jtI++PnHTXmk
+xTBCl0V9IvfMYlc8wj1eYGXO48jZoNTNJd7Hnlkv/Ruarh3l/9QKNCGFNWoybLgc
+0ZKhbgM3JEhA9xeYlPZG/xqjCZFgsYmvDWwl84393pO5imm7I4vFL0jSrj/rgEXL
+YO0jdW0FzTrqH7kSwsG5BSbuzCa3QZwas6KS6F+fLtmvt7PyVkcx0Q/DncXSzgFz
+yyl3j3MCaRrkNJplsNaNjwiaSZVyL6pZcJrUV8nv38ChsfVxiEVcLXiDV3AuXz8+
+FHTgY3PuuA7IRjdZ3nPoBbrvVOUDoDJRCeYZlpnxUNGskmE+0Pc3urelkk41fcSZ
+w51kODEbFsbL8NMmM7kXZMYjWXsVL1snQb8OlWPh0bYE3FU14y3oG96Z8jo5y3i1
+iPkM/dBQyIsfzdm8J2U3M+wHeA77CEbjDF+jSrnzN6CL4arUEBk=
+=XRRJ
 -----END PGP SIGNATURE-----
 
---1XWsVB21DFCvn2e8--
+--3VRmKSg17yJg2MZg--
 
