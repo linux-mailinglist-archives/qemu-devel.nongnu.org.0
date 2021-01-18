@@ -2,66 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 673B62F9EB2
-	for <lists+qemu-devel@lfdr.de>; Mon, 18 Jan 2021 12:51:04 +0100 (CET)
-Received: from localhost ([::1]:60374 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 90C032F9ECF
+	for <lists+qemu-devel@lfdr.de>; Mon, 18 Jan 2021 12:55:27 +0100 (CET)
+Received: from localhost ([::1]:37092 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l1T3n-0003sU-GY
-	for lists+qemu-devel@lfdr.de; Mon, 18 Jan 2021 06:51:03 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34038)
+	id 1l1T82-00067R-MI
+	for lists+qemu-devel@lfdr.de; Mon, 18 Jan 2021 06:55:26 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35588)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1l1T1a-0003Is-0Q
- for qemu-devel@nongnu.org; Mon, 18 Jan 2021 06:48:46 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:57325)
+ (Exim 4.90_1) (envelope-from <ppandit@redhat.com>)
+ id 1l1T6l-0005gd-GV
+ for qemu-devel@nongnu.org; Mon, 18 Jan 2021 06:54:07 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:26401)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1l1T1Y-0007nj-1L
- for qemu-devel@nongnu.org; Mon, 18 Jan 2021 06:48:45 -0500
+ (Exim 4.90_1) (envelope-from <ppandit@redhat.com>)
+ id 1l1T6g-0001YQ-SN
+ for qemu-devel@nongnu.org; Mon, 18 Jan 2021 06:54:07 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1610970522;
+ s=mimecast20190719; t=1610970841;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=VFMUsPlYLVMAWHd89rOzuMhGW52wriQcxIJYel05Sh8=;
- b=AfWxw2/0FV/GT+GlyPmLgBI4AGG9Ea4fGTBrkq5jLwduj5C6bizBKsMIKjoBfT7zbfSWvK
- rlCTbpxk+WTEZaF+8MnsnzNOVlwrotSNuDWfQmSjnN6wUDrqzGNVAgHMLCayZl77vjOcfW
- Fn6auzWSoilL4rx/8oyergnfeOYJUsM=
+ content-transfer-encoding:content-transfer-encoding;
+ bh=t02qZHqElruEje9H2HUQ//DZ2O8BhzliustNfGhNgpA=;
+ b=FJ/abliwzixxXwYLVVy2OJc4ctkGGzZXuweYO5GUb7oF9o8B28Hi30+/xhwy98H5/nFoZo
+ zESk+UF+BOP9VHD1ZW4HJ8DulBX4GypgkEJkIVi+kxf+lrlY3JN8BGtWKxcYEydWg2gEta
+ a2QHlVoNRM/mO38+PqPgf62osfjShTc=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-509-xeNc-rJKMce10F1jbaM7CQ-1; Mon, 18 Jan 2021 06:48:41 -0500
-X-MC-Unique: xeNc-rJKMce10F1jbaM7CQ-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
+ us-mta-517-O2LGETIFN8yZicihVcQLZQ-1; Mon, 18 Jan 2021 06:53:45 -0500
+X-MC-Unique: O2LGETIFN8yZicihVcQLZQ-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id E3EE918C8C0C;
- Mon, 18 Jan 2021 11:48:38 +0000 (UTC)
-Received: from work-vm (ovpn-115-197.ams2.redhat.com [10.36.115.197])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id A702260BFA;
- Mon, 18 Jan 2021 11:48:28 +0000 (UTC)
-Date: Mon, 18 Jan 2021 11:48:25 +0000
-From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
-To: Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <f4bug@amsat.org>
-Subject: Re: [RFC PATCH v2 01/20] migration/vmstate: Restrict vmstate_dummy
- to user-mode
-Message-ID: <20210118114825.GJ2998@work-vm>
-References: <20210117192446.23753-1-f4bug@amsat.org>
- <20210117192446.23753-2-f4bug@amsat.org>
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id ADF7C10054FF;
+ Mon, 18 Jan 2021 11:53:42 +0000 (UTC)
+Received: from localhost.localdomain (unknown [10.40.192.71])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 081B95D9D3;
+ Mon, 18 Jan 2021 11:53:37 +0000 (UTC)
+From: P J P <ppandit@redhat.com>
+To: Paolo Bonzini <pbonzini@redhat.com>
+Subject: [PATCH v3] ide: atapi: check logical block address and read size
+ (CVE-2020-29443)
+Date: Mon, 18 Jan 2021 17:21:30 +0530
+Message-Id: <20210118115130.457044-1-ppandit@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <20210117192446.23753-2-f4bug@amsat.org>
-User-Agent: Mutt/1.14.6 (2020-07-11)
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=dgilbert@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=ppandit@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=dgilbert@redhat.com;
+Content-Type: text/plain; charset="US-ASCII"
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=ppandit@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -29
 X-Spam_score: -3.0
@@ -83,87 +77,111 @@ List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: Peter Maydell <peter.maydell@linaro.org>,
- Daniel =?iso-8859-1?Q?P=2E_Berrang=E9?= <berrange@redhat.com>,
- Eduardo Habkost <ehabkost@redhat.com>, Juan Quintela <quintela@redhat.com>,
- Andrew Jeffery <andrew@aj.id.au>,
- Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>, qemu-devel@nongnu.org,
- Andrew Baumann <Andrew.Baumann@microsoft.com>,
- Subbaraya Sundeep <sundeep.lkml@gmail.com>, Joel Stanley <joel@jms.id.au>,
- Laurent Vivier <laurent@vivier.eu>, qemu-arm@nongnu.org,
- =?iso-8859-1?Q?C=E9dric?= Le Goater <clg@kaod.org>,
- Paolo Bonzini <pbonzini@redhat.com>, Artyom Tarasenko <atar4qemu@gmail.com>,
- Gerd Hoffmann <kraxel@redhat.com>
+ Prasad J Pandit <pjp@fedoraproject.org>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
+ QEMU Developers <qemu-devel@nongnu.org>, Markus Armbruster <armbru@redhat.com>,
+ Wenxiang Qian <leonwxqian@gmail.com>, John Snow <jsnow@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-* Philippe Mathieu-Daudé (f4bug@amsat.org) wrote:
-> 'vmstate_dummy' is special and only used for user-mode. Rename
-> it to something more specific.
-> It was introduced restricted to user-mode in commit c71c3e99b8
-> ("Add a vmstate_dummy struct for CONFIG_USER_ONLY") but this
-> restriction was later removed in commit 6afc14e92ac ("migration:
-> Fix warning caused by missing declaration of vmstate_dummy").
-> Avoid the missing declaration warning by adding a stub for the
-> symbol, and restore the #ifdef'ry.
-> 
-> Suggested-by: Daniel Berrangé <berrange@redhat.com>
-> Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+From: Prasad J Pandit <pjp@fedoraproject.org>
 
-Reviewed-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
+While processing ATAPI cmd_read/cmd_read_cd commands,
+Logical Block Address (LBA) maybe invalid OR closer to the last block,
+leading to an OOB access issues. Add range check to avoid it.
 
-> ---
->  include/hw/core/cpu.h       | 2 +-
->  include/migration/vmstate.h | 4 +++-
->  stubs/vmstate.c             | 4 +++-
->  3 files changed, 7 insertions(+), 3 deletions(-)
-> 
-> diff --git a/include/hw/core/cpu.h b/include/hw/core/cpu.h
-> index 140fa32a5e3..c79a58db9b9 100644
-> --- a/include/hw/core/cpu.h
-> +++ b/include/hw/core/cpu.h
-> @@ -1132,7 +1132,7 @@ bool target_words_bigendian(void);
->  #ifdef CONFIG_SOFTMMU
->  extern const VMStateDescription vmstate_cpu_common;
->  #else
-> -#define vmstate_cpu_common vmstate_dummy
-> +#define vmstate_cpu_common vmstate_user_mode_cpu_dummy
->  #endif
->  
->  #define VMSTATE_CPU() {                                                     \
-> diff --git a/include/migration/vmstate.h b/include/migration/vmstate.h
-> index 075ee800960..dda65c9987d 100644
-> --- a/include/migration/vmstate.h
-> +++ b/include/migration/vmstate.h
-> @@ -194,7 +194,9 @@ struct VMStateDescription {
->      const VMStateDescription **subsections;
->  };
->  
-> -extern const VMStateDescription vmstate_dummy;
-> +#if defined(CONFIG_USER_ONLY)
-> +extern const VMStateDescription vmstate_user_mode_cpu_dummy;
-> +#endif
->  
->  extern const VMStateInfo vmstate_info_bool;
->  
-> diff --git a/stubs/vmstate.c b/stubs/vmstate.c
-> index cc4fe41dfc2..8da777a1fb4 100644
-> --- a/stubs/vmstate.c
-> +++ b/stubs/vmstate.c
-> @@ -1,7 +1,9 @@
->  #include "qemu/osdep.h"
->  #include "migration/vmstate.h"
->  
-> -const VMStateDescription vmstate_dummy = {};
-> +#if defined(CONFIG_USER_ONLY)
-> +const VMStateDescription vmstate_user_mode_cpu_dummy = {};
-> +#endif
->  
->  int vmstate_register_with_alias_id(VMStateIf *obj,
->                                     uint32_t instance_id,
-> -- 
-> 2.26.2
-> 
--- 
-Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
+Fixes: CVE-2020-29443
+Reported-by: Wenxiang Qian <leonwxqian@gmail.com>
+Suggested-by: Paolo Bonzini <pbonzini@redhat.com>
+Reviewed-by: Paolo Bonzini <pbonzini@redhat.com>
+Signed-off-by: Prasad J Pandit <pjp@fedoraproject.org>
+---
+ hw/ide/atapi.c | 30 ++++++++++++++++++++++++------
+ 1 file changed, 24 insertions(+), 6 deletions(-)
+
+Update v3: Fix space typo/error, add Reviewed-by tag
+  -> https://lists.gnu.org/archive/html/qemu-devel/2021-01/msg04159.html
+  -> https://lists.gnu.org/archive/html/qemu-devel/2021-01/msg04173.html
+
+diff --git a/hw/ide/atapi.c b/hw/ide/atapi.c
+index e79157863f..b626199e3d 100644
+--- a/hw/ide/atapi.c
++++ b/hw/ide/atapi.c
+@@ -322,6 +322,8 @@ static void ide_atapi_cmd_reply(IDEState *s, int size, int max_size)
+ static void ide_atapi_cmd_read_pio(IDEState *s, int lba, int nb_sectors,
+                                    int sector_size)
+ {
++    assert(0 <= lba && lba < (s->nb_sectors >> 2));
++
+     s->lba = lba;
+     s->packet_transfer_size = nb_sectors * sector_size;
+     s->elementary_transfer_size = 0;
+@@ -420,6 +422,8 @@ eot:
+ static void ide_atapi_cmd_read_dma(IDEState *s, int lba, int nb_sectors,
+                                    int sector_size)
+ {
++    assert(0 <= lba && lba < (s->nb_sectors >> 2));
++
+     s->lba = lba;
+     s->packet_transfer_size = nb_sectors * sector_size;
+     s->io_buffer_size = 0;
+@@ -973,35 +977,49 @@ static void cmd_prevent_allow_medium_removal(IDEState *s, uint8_t* buf)
+
+ static void cmd_read(IDEState *s, uint8_t* buf)
+ {
+-    int nb_sectors, lba;
++    unsigned int nb_sectors, lba;
++
++    /* Total logical sectors of ATAPI_SECTOR_SIZE(=2048) bytes */
++    uint64_t total_sectors = s->nb_sectors >> 2;
+
+     if (buf[0] == GPCMD_READ_10) {
+         nb_sectors = lduw_be_p(buf + 7);
+     } else {
+         nb_sectors = ldl_be_p(buf + 6);
+     }
+-
+-    lba = ldl_be_p(buf + 2);
+     if (nb_sectors == 0) {
+         ide_atapi_cmd_ok(s);
+         return;
+     }
+
++    lba = ldl_be_p(buf + 2);
++    if (lba >= total_sectors || lba + nb_sectors - 1 >= total_sectors) {
++        ide_atapi_cmd_error(s, ILLEGAL_REQUEST, ASC_LOGICAL_BLOCK_OOR);
++        return;
++    }
++
+     ide_atapi_cmd_read(s, lba, nb_sectors, 2048);
+ }
+
+ static void cmd_read_cd(IDEState *s, uint8_t* buf)
+ {
+-    int nb_sectors, lba, transfer_request;
++    unsigned int nb_sectors, lba, transfer_request;
++
++    /* Total logical sectors of ATAPI_SECTOR_SIZE(=2048) bytes */
++    uint64_t total_sectors = s->nb_sectors >> 2;
+
+     nb_sectors = (buf[6] << 16) | (buf[7] << 8) | buf[8];
+-    lba = ldl_be_p(buf + 2);
+-
+     if (nb_sectors == 0) {
+         ide_atapi_cmd_ok(s);
+         return;
+     }
+
++    lba = ldl_be_p(buf + 2);
++    if (lba >= total_sectors || lba + nb_sectors - 1 >= total_sectors) {
++        ide_atapi_cmd_error(s, ILLEGAL_REQUEST, ASC_LOGICAL_BLOCK_OOR);
++        return;
++    }
++
+     transfer_request = buf[9] & 0xf8;
+     if (transfer_request == 0x00) {
+         /* nothing */
+--
+2.29.2
 
 
