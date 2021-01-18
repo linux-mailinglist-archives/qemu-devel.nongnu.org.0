@@ -2,84 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D9E9D2F9855
-	for <lists+qemu-devel@lfdr.de>; Mon, 18 Jan 2021 04:41:01 +0100 (CET)
-Received: from localhost ([::1]:49186 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9D2CF2F989A
+	for <lists+qemu-devel@lfdr.de>; Mon, 18 Jan 2021 05:27:35 +0100 (CET)
+Received: from localhost ([::1]:57710 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l1LPY-0006OA-Lg
-	for lists+qemu-devel@lfdr.de; Sun, 17 Jan 2021 22:41:00 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55540)
+	id 1l1M8b-00065Q-Uo
+	for lists+qemu-devel@lfdr.de; Sun, 17 Jan 2021 23:27:33 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39500)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1)
- (envelope-from <prvs=645c2efc4=dmitry.fomichev@wdc.com>)
- id 1l1LO2-0005s6-2S; Sun, 17 Jan 2021 22:39:26 -0500
-Received: from esa5.hgst.iphmx.com ([216.71.153.144]:52722)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1)
- (envelope-from <prvs=645c2efc4=dmitry.fomichev@wdc.com>)
- id 1l1LNy-00060t-Pa; Sun, 17 Jan 2021 22:39:24 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
- d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
- t=1610941162; x=1642477162;
- h=from:to:cc:subject:date:message-id:mime-version:
- content-transfer-encoding;
- bh=NKFAM5nvhD6WJd8Z42eetx6GEXkMzPUI9giI17H63EM=;
- b=k/QpN75/X1tqlVcgq0m1iXlbvB9pBZwb6bCpvQqlhPwLND6C8Wv8HlQi
- fNp1HhgRb+U+oaMSoH54fiUwuKQlfVNMcynGD+0/w8HcTW1j+QLQxxCqc
- XHlW27AmydGn0tltcaYuSQu/JQVUZTJ3kyY4iXb0FMue+TyZHK5vUiPBr
- Lo18RrkWhvHiysXQNt95np3UxKk+HBu1wj00usbT2k0cPPnEPwxX8MKHE
- c59SO0lEtfPUVBQ+qNrKWkp1Ngi+1QbmqAP+dzcu8DSfTyZykJshs+zjr
- y0yuqHZfLDqsX/B/NC2BIbdNVxDJLP8wACDsGr1gxsb49eAl99Tz9skIL w==;
-IronPort-SDR: inD1Iozx1GKBXrAqJ4EgNG7MvXDn2KXSxbfrsDK6tUXZxlgYwu7EX/niE7dVITAOqiAynN9D5R
- YgqWHlkUmQIq5pND4O0H0wuwNdwzn0I0C4/ZPxXttNLV1sPOSPm9GBsNaoROyAJTH2Kh9KwNyZ
- 98rYimIkWkjxpdHu8+O9Yxq9taFQGqmvMyOoZyjNEWHM8JWGzZdW5an8EtRmehY19Vtt74Xo6Q
- f1Wwiwy1BYBDunlVjsDfdxTkbLN6N/pjGU2JOv8vK2lsOf8aSB5SOFM0g2jU1neGI7N/3PAhrO
- 2HU=
-X-IronPort-AV: E=Sophos;i="5.79,355,1602518400"; d="scan'208";a="157664409"
-Received: from h199-255-45-15.hgst.com (HELO uls-op-cesaep02.wdc.com)
- ([199.255.45.15])
- by ob1.hgst.iphmx.com with ESMTP; 18 Jan 2021 11:39:19 +0800
-IronPort-SDR: j5Uq2bLm0djYWnjEUmsDEirabe1nN7nfMVfaCceTtYBDsLQ1iS4haq3ILoCwYLMsvELx2iokzm
- JAwW7rpbgXb6fwz756jgFQM4zl4hhs1iZzSwj+U79ZEPyBtxYPKxo/0qwN24VT+5jrXWRxQvUW
- N06+PX7dQB/EUgQpNB7GkOu7q4yF5OI82OUQlzb1R35XLvFvfu++ilG2NHliR2Hq3Nt/G4hpXK
- blg5gsK5lww7KjT5Y6ufhIKrW7fYIozOg556GSm+tlmh76BVesExE3e8ixnYgHnkkdXGGlzIvQ
- a3vUIA5PaUMd1EEhisDPAqUS
-Received: from uls-op-cesaip02.wdc.com ([10.248.3.37])
- by uls-op-cesaep02.wdc.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 17 Jan 2021 19:21:56 -0800
-IronPort-SDR: pDh3YdO8OCzhYVLDxGFbuBktLidGO0wZku/m1ie57u/w7l25+epDxqF/L7GbuF1+o45D7SVFBr
- sNqb3gOtrXVrWnNmEU9qqTSP5frepkh1QpYLIg4P4qgWOjUAElgeWEics5JiXdvs+Jnpdpic1D
- +ULzGGPyGocprI0t7Ya49YZHfGoMPcvlvZsYPXnUS7vhiCXkNXkDMBReQDPUe1BgArp1cWBkr8
- FmxP/cBuEK6e7Z3bfIRwlxOY0GNvfaPHrKUtWH49789LwCZ9MQIoCP5tEEc778YZC+pIU0LTz6
- zME=
-WDCIronportException: Internal
-Received: from unknown (HELO redsun50.ssa.fujisawa.hgst.com) ([10.149.66.24])
- by uls-op-cesaip02.wdc.com with ESMTP; 17 Jan 2021 19:39:18 -0800
-From: Dmitry Fomichev <dmitry.fomichev@wdc.com>
-To: Klaus Jensen <k.jensen@samsung.com>, Keith Busch <kbusch@kernel.org>,
- Kevin Wolf <kwolf@redhat.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
- Max Reitz <mreitz@redhat.com>, qemu-devel@nongnu.org
-Subject: [PATCH] hw/block/nvme: Correct error status for unaligned ZA
-Date: Mon, 18 Jan 2021 12:39:17 +0900
-Message-Id: <20210118033917.5576-1-dmitry.fomichev@wdc.com>
-X-Mailer: git-send-email 2.28.0
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1l1M7W-0005Fc-Mx
+ for qemu-devel@nongnu.org; Sun, 17 Jan 2021 23:26:26 -0500
+Received: from indium.canonical.com ([91.189.90.7]:51166)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1l1M7T-0003nK-Eq
+ for qemu-devel@nongnu.org; Sun, 17 Jan 2021 23:26:26 -0500
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1l1M7P-0003Jt-S9
+ for <qemu-devel@nongnu.org>; Mon, 18 Jan 2021 04:26:19 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id 4AD2E2E815C
+ for <qemu-devel@nongnu.org>; Mon, 18 Jan 2021 04:26:19 +0000 (UTC)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=216.71.153.144;
- envelope-from=prvs=645c2efc4=dmitry.fomichev@wdc.com; helo=esa5.hgst.iphmx.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
-X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_PASS=-0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Date: Mon, 18 Jan 2021 04:17:18 -0000
+From: Launchpad Bug Tracker <1837651@bugs.launchpad.net>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=Expired; importance=Undecided;
+ assignee=None; 
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: janitor randy3 th-huth
+X-Launchpad-Bug-Reporter: Randy Rhoads (randy3)
+X-Launchpad-Bug-Modifier: Launchpad Janitor (janitor)
+References: <156390245893.17717.9714318475636842772.malonedeb@gac.canonical.com>
+Message-Id: <161094343816.15998.17439741037054943540.malone@loganberry.canonical.com>
+Subject: [Bug 1837651] Re: -netdev socket uses 100% cpu on Windows host
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="511b4a3b6512aa3d421c5f7d74f3527e78bff26e"; Instance="production"
+X-Launchpad-Hash: 01c27e48a4f9cc714a072f64bd6d048853155dcf
+Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
+ helo=indium.canonical.com
+X-Spam_score_int: -66
+X-Spam_score: -6.7
+X-Spam_bar: ------
+X-Spam_report: (-6.7 / 5.0 requ) BAYES_00=-1.9,
+ HEADER_FROM_DIFFERENT_DOMAINS=0.25, RCVD_IN_DNSWL_HI=-5,
+ RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -88,37 +70,45 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Dmitry Fomichev <dmitry.fomichev@wdc.com>,
- Damien Le Moal <damien.lemoal@wdc.com>, qemu-block@nongnu.org
+Reply-To: Bug 1837651 <1837651@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-TP 4053 says (in section 2.3.1.1) -
-... if a Zone Append command specifies a ZSLBA that is not the lowest
-logical block address in that zone, then the controller shall abort
-that command with a status code of Invalid Field In Command.
+[Expired for QEMU because there has been no activity for 60 days.]
 
-In the code, Zone Invalid Write is returned instead, fix this.
+** Changed in: qemu
+       Status: Incomplete =3D> Expired
 
-Signed-off-by: Dmitry Fomichev <dmitry.fomichev@wdc.com>
----
- hw/block/nvme.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+-- =
 
-diff --git a/hw/block/nvme.c b/hw/block/nvme.c
-index a8dc13553d..f64676a930 100644
---- a/hw/block/nvme.c
-+++ b/hw/block/nvme.c
-@@ -1150,7 +1150,7 @@ static uint16_t nvme_check_zone_write(NvmeCtrl *n, NvmeNamespace *ns,
-         if (append) {
-             if (unlikely(slba != zone->d.zslba)) {
-                 trace_pci_nvme_err_append_not_at_start(slba, zone->d.zslba);
--                status = NVME_ZONE_INVALID_WRITE;
-+                status = NVME_INVALID_FIELD;
-             }
-             if (nvme_l2b(ns, nlb) > (n->page_size << n->zasl)) {
-                 trace_pci_nvme_err_append_too_large(slba, nlb, n->zasl);
--- 
-2.28.0
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1837651
 
+Title:
+  -netdev socket uses 100% cpu on Windows host
+
+Status in QEMU:
+  Expired
+
+Bug description:
+  On Windows hosts, any `-netdev socket` option (tcp listen, tcp
+  connect, udp passing a fd) causes qemu to use 100% cpu. The guest
+  still runs, but only sluggishly.
+
+  A simple testcase is:
+
+  > qemu-system-i386.exe -netdev socket,listen=3D:8000,id=3Dn
+
+  And, in another command prompt:
+
+  > echo foo | nc.exe localhost 8000
+
+  Where nc.exe is netcat.
+
+  Tested on qemu 3.1 (from https://qemu.weilnetz.de/w64/) and 4.0 (self
+  compiled).
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1837651/+subscriptions
 
