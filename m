@@ -2,126 +2,90 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 70C342FA4DC
-	for <lists+qemu-devel@lfdr.de>; Mon, 18 Jan 2021 16:36:42 +0100 (CET)
-Received: from localhost ([::1]:45936 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BF6B52FA4E7
+	for <lists+qemu-devel@lfdr.de>; Mon, 18 Jan 2021 16:38:53 +0100 (CET)
+Received: from localhost ([::1]:50166 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l1Wa9-0003Em-Gr
-	for lists+qemu-devel@lfdr.de; Mon, 18 Jan 2021 10:36:41 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44070)
+	id 1l1WcG-00055B-Sr
+	for lists+qemu-devel@lfdr.de; Mon, 18 Jan 2021 10:38:52 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44948)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <roger.pau@citrix.com>)
- id 1l1WXK-0001pT-7P; Mon, 18 Jan 2021 10:33:46 -0500
-Received: from esa4.hc3370-68.iphmx.com ([216.71.155.144]:6368)
+ (Exim 4.90_1) (envelope-from <darren.kenny@oracle.com>)
+ id 1l1Wav-0004bS-Lz
+ for qemu-devel@nongnu.org; Mon, 18 Jan 2021 10:37:29 -0500
+Received: from aserp2130.oracle.com ([141.146.126.79]:42464)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <roger.pau@citrix.com>)
- id 1l1WXH-0001VU-7F; Mon, 18 Jan 2021 10:33:45 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
- d=citrix.com; s=securemail; t=1610984022;
- h=from:to:cc:subject:date:message-id:
- content-transfer-encoding:mime-version;
- bh=5IgWQMiytAxeLeEdXsmof0S9L2LFsUa5TMj2P3zL12k=;
- b=QmvoSmNGHyHKT9IYZCFatHOb9M0WeUFFTQRknLObJP26fLplTnH2ifFk
- nvEKREtH8u5bcUAbgXurWQZFLWZBDNkLoYh1jKJ/9CZnpnUeZWzpW3q2y
- 0RkQzYXiUVsepp4rIpWK5lR557SVVxuTJmBxbkaQ1qN/FkWuCv51tSbnZ c=;
-Authentication-Results: esa4.hc3370-68.iphmx.com;
- dkim=pass (signature verified)
- header.i=@citrix.onmicrosoft.com
-IronPort-SDR: VGue1MCqGxbMfd6Neo4leRV//MEVur/8VqgbzCLedVS3x5ugx/22Jwv/scH/7MGUZVgdSDlZdR
- OhuQ38U4/1pUiyGW3KbPvfXJHAXmx/SD18Dg3loMfR3/OzghWKrnLLLhuwEsZ/JdEQ8YGc9xrr
- O/PF1NLaFDzmQusCWrJTvdlAVaSUmJuP4oRujJvKewDNFtggzWUHjUKX8zRD+Nt4u6YuRIl/Qu
- z2FqZh6PsRCl5PAmhnXpUVMyG1lYW5AabGoiUv7hqNmgUZxVfbKPtMzJWBThdMMXoUs/8RhT/o
- zQ0=
-X-SBRS: 5.2
-X-MesageID: 36604199
-X-Ironport-Server: esa4.hc3370-68.iphmx.com
-X-Remote-IP: 162.221.156.83
-X-Policy: $RELAYED
-X-IronPort-AV: E=Sophos;i="5.79,356,1602561600"; d="scan'208";a="36604199"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=MFK6eCmH6+D8WPgct5aBDEebF0wYe11xD+9uVv0hFopyviKeHFk0Pgx1ChSWMwElbHC19RkGxqd+DFXo3pCqTlzVId1L9AO61J0aAN9n+rqeaRtSybFj8YV3Y+qdRRLsfxJOqLVet0ltkP/XOKWD7xB5TOClQkog/CwooTLARNXQo2uBEpDsgKqHVGdFJOWWTD6NC4tJvI3mfD1zq08bRDynHJKbOwe5jFki6Dd1T3DwgJ40k7mJLIa5hk1Cz4hxuKWFTIVVr3LOwqRjpHMYDuCBfITpd2LorTst9euqzYEZvPqLw+zmqtq+J95lkeBofD4Ol66IvYIp/FoHgAZYkw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=414HAnI51gzZNcMd8XEwXwGUTwqdX0TMfXgV5vrF0kQ=;
- b=jYkCA2+GhmvKAOD/X17EvmllYFsnj0Evgjgk0OBaELlrl51teyQh7cU/I4kqYyEuZv9bfCLWx+ZxzfzlwttCjWQtSS/WhAmxUX8xPJx740rclxbkptNEg9fbD1z+ajSH29SGzwM/G8VFriT1LHVcubKOlCR3USQFAWfJUtP1vpeZ6LweU9B7poW/Wo6cPsz//KbmQUahj6I4t9cXssHHV8fPmwzsObfzAZBNIlqizUTf8O/F5gNWGJSwNN1PQFIz41zcjrCKtmt/P5POMtloyH0uX3sxb7a94+IQRpjKRjs6/w2u+MDuUcBOT38IeR6iLLqVFBdrSTXQX3eW6TRqKQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=citrix.com; dmarc=pass action=none header.from=citrix.com;
- dkim=pass header.d=citrix.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=citrix.onmicrosoft.com; s=selector2-citrix-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=414HAnI51gzZNcMd8XEwXwGUTwqdX0TMfXgV5vrF0kQ=;
- b=ShQh2PU/7T2/saAemMr1dhYCp5fE1gU1VkXDftxyDaWrxIZcgOsOSmBARW/Opw2bGIdXIcHD6gVtHNK7PtSaA5R+KMj9UDxNV3ViKlZ745uKfXmGmrqd+Ic520ok55yZ3lZ6Q8/4y9Imf7waDMK9IOMrbYaB2X+F/SheVMDB/WQ=
-To: <qemu-devel@nongnu.org>
-Subject: [PATCH] xen-block: fix reporting of discard feature
-Date: Mon, 18 Jan 2021 16:33:30 +0100
-Message-ID: <20210118153330.82324-1-roger.pau@citrix.com>
-X-Mailer: git-send-email 2.29.2
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: MR2P264CA0073.FRAP264.PROD.OUTLOOK.COM
- (2603:10a6:500:32::13) To DS7PR03MB5608.namprd03.prod.outlook.com
- (2603:10b6:5:2c9::18)
+ (Exim 4.90_1) (envelope-from <darren.kenny@oracle.com>)
+ id 1l1Was-0003HE-Tu
+ for qemu-devel@nongnu.org; Mon, 18 Jan 2021 10:37:28 -0500
+Received: from pps.filterd (aserp2130.oracle.com [127.0.0.1])
+ by aserp2130.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 10IFUsoI156862;
+ Mon, 18 Jan 2021 15:36:35 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com;
+ h=from : to : cc :
+ subject : in-reply-to : references : date : message-id : mime-version :
+ content-type; s=corp-2020-01-29;
+ bh=4LIIaqIpgEjieaK1iEH1YvASgmi78KnXI54cAjVkjWI=;
+ b=ANsJcVsnnl7dbAp28NnXe4901oTC251KHgd0Xa3oAX7oRZ/Toc4i8TrfIGqFpRmDUU4X
+ gY8yc2OjfJLSwWz8UYXmU49ji8Cz+A972U5XSeEG7CGQUu4B6zLghL334YZsgNv6cD9g
+ kGHfYHp/0auFB6xs0dylXhb2OQGUX5iyCeFZCgHq5769mLE37hfsGeysD8ekuaIHpNNz
+ Xwx6derX1dzqOhFw6Sxnoero8CaW2Z1O6PcRUu26t+VWIrpl7WpQ0+0wvzFTnKwo40L8
+ HoRlqWqNolfG7uRvWZAQ926wdcyJuHpQ7CDJyuNC/SZ6ks2KLsHXRVXoFCmmXeTDXsbh 5A== 
+Received: from userp3020.oracle.com (userp3020.oracle.com [156.151.31.79])
+ by aserp2130.oracle.com with ESMTP id 363nnadwku-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Mon, 18 Jan 2021 15:36:35 +0000
+Received: from pps.filterd (userp3020.oracle.com [127.0.0.1])
+ by userp3020.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 10IFW0Wm142929;
+ Mon, 18 Jan 2021 15:36:34 GMT
+Received: from aserv0122.oracle.com (aserv0122.oracle.com [141.146.126.236])
+ by userp3020.oracle.com with ESMTP id 3649wq6hp1-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Mon, 18 Jan 2021 15:36:34 +0000
+Received: from abhmp0012.oracle.com (abhmp0012.oracle.com [141.146.116.18])
+ by aserv0122.oracle.com (8.14.4/8.14.4) with ESMTP id 10IFaULQ006744;
+ Mon, 18 Jan 2021 15:36:30 GMT
+Received: from starbug-mbp.localdomain (/79.97.215.145)
+ by default (Oracle Beehive Gateway v4.0)
+ with ESMTP ; Mon, 18 Jan 2021 07:36:30 -0800
+Received: from starbug-mbp (localhost [127.0.0.1])
+ by starbug-mbp.localdomain (Postfix) with ESMTP id 5B0502E6B685;
+ Mon, 18 Jan 2021 15:36:34 +0000 (GMT)
+From: Darren Kenny <darren.kenny@oracle.com>
+To: Alexander Bulekov <alxndr@bu.edu>, qemu-devel@nongnu.org
+Subject: Re: [PATCH v2 3/3] fuzz: add virtio-9p configurations for fuzzing
+In-Reply-To: <20210117230924.449676-4-alxndr@bu.edu>
+References: <20210117230924.449676-1-alxndr@bu.edu>
+ <20210117230924.449676-4-alxndr@bu.edu>
+Date: Mon, 18 Jan 2021 15:36:34 +0000
+Message-ID: <m25z3ufe9p.fsf@oracle.com>
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 2ef8352a-9fd1-4db0-ce06-08d8bbc66bf5
-X-MS-TrafficTypeDiagnostic: DM6PR03MB4219:
-X-LD-Processed: 335836de-42ef-43a2-b145-348c2ee9ca5b,ExtAddr
-X-MS-Exchange-Transport-Forked: True
-X-Microsoft-Antispam-PRVS: <DM6PR03MB4219BFD4FF770C2436CBC67B8FA40@DM6PR03MB4219.namprd03.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:3968;
-X-MS-Exchange-SenderADCheck: 1
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: +BMT44CkRZPYVXWRPAN2hQn+Vd/lyny2bHlgcy3pAPiAD5irsSxLw3wjAMXWFqYTb1+HOIWkvSo5py+V7CykYy9mdwah3L6dtw0ARtcwDnA4Fpht8J3FmON7txRqthdhm/ibiR/cmj0NN792iFrA8ObdyukFFF5ZUEPgYRimimH7ooz6MVXqaVlsu/EmdT9WWLJc5lhqjTfyeKH+6Q92/JC55OygCaei07eK2/vGnKta1uka835DENSSDq9KBEpLufYpCk15axWUepV66RJ0a8MDAUHqvGmTsIQAD9oHYRmqPPqRhkBEKjf8itO9z3nXO3w3QcozQUKpc3HKPfmMrU2teCJG9EK2uyVrWTl1x4wbycNwahwPNFtyGjo229JLVf1BUl15sSf5eeICxBGSaIENI3ecGcp3xBZgQFhy4Rj7KpOlRwcud4OUjaIO8ksgTEcnlWfsFe0ujt40ujqQAw==
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:DS7PR03MB5608.namprd03.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(4636009)(39860400002)(376002)(396003)(136003)(346002)(366004)(186003)(54906003)(2616005)(26005)(6916009)(1076003)(956004)(966005)(16526019)(83380400001)(8676002)(478600001)(316002)(86362001)(66556008)(8936002)(66476007)(5660300002)(4326008)(66946007)(36756003)(2906002)(6496006)(6486002)(6666004);
- DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData: =?utf-8?B?V01QMUw0RXVKdE4zV01xNXVxTlNRaldHTndTVEVrMHlZMnpMRXFyeGhLUU5O?=
- =?utf-8?B?Nm9DeG1LT3dycExIQTRiMytnRU5HaWZ2eEV3aTlDeUFpYXVIYVVkbkVncFJT?=
- =?utf-8?B?VUhPNnh3QzJEa3JkL3FNZkx1cWJHRHpTV0s4VDJUK1hXdUFadVllVDRKM21L?=
- =?utf-8?B?ZjQwMXlONnNOYTF2QUdYNWFjckVtOEswUllycG5jMmlrOHVpRDNPcnVNc2Jz?=
- =?utf-8?B?c1VwUkxieFJEYlgyZDM5andXVWZYa3ZQdVcyU01WUnNWSS9BSjNGOVgzck0r?=
- =?utf-8?B?WUo5dnBZcEsrRG95SitYWjFqS0dMLzh4WC9QU2J6cWlmQ1ZJWkY5dEN3WXlW?=
- =?utf-8?B?aDZmVkZqR0NIWFpGMlBhcVVKbi91SjlnTmRNTFkxYWRoY2dLbnRQNHFWMkdt?=
- =?utf-8?B?RFQyZDRZeTJWclRwS09sS0VpQmNjL3gvN3k5UGFoMVhmSmZvamY3UFo4S2J5?=
- =?utf-8?B?SHhycEhzNFUwaDNNc1JDbWxzUDZCUEdOeGI4UkNRUWFDUU9rNEI4dHNOYWZX?=
- =?utf-8?B?aEZOUWlxTEtCVVJTY3RINHJZeDZLaGdsc2lpZEJ2RVpxdDBOUmRKa09nZGRm?=
- =?utf-8?B?dEIzeWYxKzc2aml3a05BTHc4LzlpS1lVTmxZS1lBTVNIY1dCQlB4cXoxT0NN?=
- =?utf-8?B?M2FaUlRBR0FodGhsdlRwcGZZMGJDQkZvYTM0M0JTUG5XMXozUzNleWtsQUND?=
- =?utf-8?B?YkNZNVBzM0ROZlJicy9wbWlDTUVDK2xISEdUWFZLeklDRVpDa1VwZ3ZHTkUz?=
- =?utf-8?B?Nnh0bGxPa28wUnQ1a0ZuSUJxUkNTZVpwamxsNTZPdDAzdW4rUThFaC9Jc3FE?=
- =?utf-8?B?eDRsenhEM3d0VHU0TXp2QXlNMnEzendzYzZtcW9ROGR2Wk11QjdWYzZ0WVpT?=
- =?utf-8?B?My9qd1NROEtSYXE0aUhyd1IwcXJQaDVHd3QyTW52LzZ4c1R2REw3dVE4SDFa?=
- =?utf-8?B?NGh3NGh5M1hmZHpLaGxaNUhhUnpSZlpES2g1UG9rUDl3M01ZSGdZTDdKdk1a?=
- =?utf-8?B?em1uRzEvN3hxREZhcll6NkxBSUZnUTBmMW8wZk04ZFBjdmgyc0plTmtURU1M?=
- =?utf-8?B?NVRZNU1OMm1mRm14dHY4REdUODVMMDJ5clFKb09pTnJUV2hWRUt5NyszTFJY?=
- =?utf-8?B?WlVvY1pINFZBbDVhTEJRdnkzQTVPcUdKaHczOGUwcWtUdk4yYzZEMWpTZ3lV?=
- =?utf-8?B?c1RtWThRVFkvb24yNUg3OEc4N0NXcjM0bXNJbk1YZkpIN0tpQUNJcDBNSnJu?=
- =?utf-8?B?YmRELy94MEdBdnBiWStLWGU2NFVzMDQzd3RBRkkrWkFLc0F0Wk5lcGhqT2NN?=
- =?utf-8?Q?sw2ZsN90ZFYSjeeRIrOrwQcDXHbqhdJIdB?=
-X-MS-Exchange-CrossTenant-Network-Message-Id: 2ef8352a-9fd1-4db0-ce06-08d8bbc66bf5
-X-MS-Exchange-CrossTenant-AuthSource: DS7PR03MB5608.namprd03.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 18 Jan 2021 15:33:36.3976 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 335836de-42ef-43a2-b145-348c2ee9ca5b
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: d3aXhdyBLrtGMthpneCxYJ12F5+mBUVlQrZziJGefV3ia56Z5ELRIXNyuiR+XmHd2l9QWOT/VeE3waVHY1oZXg==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM6PR03MB4219
-X-OriginatorOrg: citrix.com
-Received-SPF: pass client-ip=216.71.155.144; envelope-from=roger.pau@citrix.com;
- helo=esa4.hc3370-68.iphmx.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_PASS=-0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain
+X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9867
+ signatures=668683
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 mlxscore=0
+ mlxlogscore=900 bulkscore=0
+ spamscore=0 phishscore=0 malwarescore=0 adultscore=0 suspectscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2009150000
+ definitions=main-2101180094
+X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9867
+ signatures=668683
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 impostorscore=0
+ spamscore=0
+ mlxlogscore=896 clxscore=1015 bulkscore=0 adultscore=0 lowpriorityscore=0
+ suspectscore=0 phishscore=0 mlxscore=0 malwarescore=0 priorityscore=1501
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2009150000
+ definitions=main-2101180094
+Received-SPF: pass client-ip=141.146.126.79;
+ envelope-from=darren.kenny@oracle.com; helo=aserp2130.oracle.com
+X-Spam_score_int: -45
+X-Spam_score: -4.6
+X-Spam_bar: ----
+X-Spam_report: (-4.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.175,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_MED=-2.3, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_PASS=-0.001,
+ SPF_PASS=-0.001, UNPARSEABLE_RELAY=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -134,54 +98,92 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, Stefano Stabellini <sstabellini@kernel.org>,
- qemu-block@nongnu.org, Paul Durrant <paul@xen.org>,
- Arthur Borsboom <arthurborsboom@gmail.com>, Max Reitz <mreitz@redhat.com>,
- Anthony Perard <anthony.perard@citrix.com>, xen-devel@lists.xenproject.org,
- Roger Pau Monne <roger.pau@citrix.com>
+Cc: Laurent Vivier <lvivier@redhat.com>, Thomas Huth <thuth@redhat.com>,
+ Christian Schoenebeck <qemu_oss@crudebyte.com>, Greg Kurz <groug@kaod.org>,
+ Alexander Bulekov <alxndr@bu.edu>, Bandan Das <bsd@redhat.com>,
+ Stefan Hajnoczi <stefanha@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
-Reply-to:  Roger Pau Monne <roger.pau@citrix.com>
-From: roger.pau--- via <qemu-devel@nongnu.org>
 
-Linux blkfront expects both "discard-granularity" and
-"discard-alignment" present on xenbus in order to properly enable the
-feature, not exposing "discard-alignment" left some Linux blkfront
-versions with a broken discard setup. This has also been addressed in
-Linux with:
+On Sunday, 2021-01-17 at 18:09:24 -05, Alexander Bulekov wrote:
+> virtio-9p devices are often used to expose a virtual-filesystem to the
+> guest. There have been some bugs reported in this device, such as
+> CVE-2018-19364, and CVE-2021-20181. We should fuzz this device
+>
+> This patch adds two virtio-9p configurations:
+>  * One with the widely used -fsdev local driver. This driver leaks some
+>    state in the form of files/directories created in the shared dir.
+>  * One with the synth driver. While it is not used in the real world, this
+>    driver won't leak leak state between fuzz inputs.
+>
+> Signed-off-by: Alexander Bulekov <alxndr@bu.edu>
+> ---
+> CC: Christian Schoenebeck <qemu_oss@crudebyte.com>
+> CC: Greg Kurz <groug@kaod.org>
+>
+> I considered adding an atexit handler to remove the temp directory,
+> however I am worried that there might be some error that results in a
+> call to exit(), rather than abort(), which will cause problems for
+> future fork()-ed fuzzers. I don't think there are such calls in the 9p
+> code, however there might be something in the APIs used by 9p. As this
+> code is primarily for ephemeral OSS-Fuzz conainers, this shouldn't be
+> too much of an issue.
 
-https://lore.kernel.org/lkml/20210118151528.81668-1-roger.pau@citrix.com/T/#u
+As I understand it, this creation of a new directory should happen a lot
+less than the amount of actual executions of the target, since it is
+only run on the first 'parent' target process executed, prior to the
+process cloning operations that the fork execution performs - or any
+time that 'parent' target process is renewed, after several thousand
+cloned processes.
 
-Fix QEMU to report a "discard-alignment" of 0, in order for it to work
-with older Linux frontends.
+Is that correct? Or am I misunderstanding when the
+generic_fuzzer_virtio_9p_args() function is run?
 
-Reported-by: Arthur Borsboom <arthurborsboom@gmail.com>
-Signed-off-by: Roger Pau Monné <roger.pau@citrix.com>
----
-Cc: Stefano Stabellini <sstabellini@kernel.org>
-Cc: Anthony Perard <anthony.perard@citrix.com>
-Cc: Paul Durrant <paul@xen.org>
-Cc: Kevin Wolf <kwolf@redhat.com>
-Cc: Max Reitz <mreitz@redhat.com>
-Cc: xen-devel@lists.xenproject.org
-Cc: qemu-block@nongnu.org
----
- hw/block/xen-block.c | 1 +
- 1 file changed, 1 insertion(+)
+Thanks,
 
-diff --git a/hw/block/xen-block.c b/hw/block/xen-block.c
-index 718d886e5c..246d9c23a2 100644
---- a/hw/block/xen-block.c
-+++ b/hw/block/xen-block.c
-@@ -253,6 +253,7 @@ static void xen_block_realize(XenDevice *xendev, Error **errp)
-         xen_device_backend_printf(xendev, "feature-discard", "%u", 1);
-         xen_device_backend_printf(xendev, "discard-granularity", "%u",
-                                   conf->discard_granularity);
-+        xen_device_backend_printf(xendev, "discard-alignment", "%u", 0);
-     }
- 
-     xen_device_backend_printf(xendev, "feature-flush-cache", "%u", 1);
--- 
-2.29.2
+Darren.
 
+>  tests/qtest/fuzz/generic_fuzz_configs.h | 20 ++++++++++++++++++++
+>  1 file changed, 20 insertions(+)
+>
+> diff --git a/tests/qtest/fuzz/generic_fuzz_configs.h b/tests/qtest/fuzz/generic_fuzz_configs.h
+> index 1a133655ee..f99657cdbc 100644
+> --- a/tests/qtest/fuzz/generic_fuzz_configs.h
+> +++ b/tests/qtest/fuzz/generic_fuzz_configs.h
+> @@ -19,6 +19,16 @@ typedef struct generic_fuzz_config {
+>      gchar* (*argfunc)(void); /* Result must be freeable by g_free() */
+>  } generic_fuzz_config;
+>  
+> +static inline gchar *generic_fuzzer_virtio_9p_args(void){
+> +    char tmpdir[] = "/tmp/qemu-fuzz.XXXXXX";
+> +    g_assert_nonnull(mkdtemp(tmpdir));
+> +
+> +    return g_strdup_printf("-machine q35 -nodefaults "
+> +    "-device virtio-9p,fsdev=hshare,mount_tag=hshare "
+> +    "-fsdev local,id=hshare,path=%s,security_model=mapped-xattr,"
+> +    "writeout=immediate,fmode=0600,dmode=0700", tmpdir);
+> +}
+> +
+>  const generic_fuzz_config predefined_configs[] = {
+>      {
+>          .name = "virtio-net-pci-slirp",
+> @@ -60,6 +70,16 @@ const generic_fuzz_config predefined_configs[] = {
+>          .name = "virtio-mouse",
+>          .args = "-machine q35 -nodefaults -device virtio-mouse",
+>          .objects = "virtio*",
+> +    },{
+> +        .name = "virtio-9p",
+> +        .argfunc = generic_fuzzer_virtio_9p_args,
+> +        .objects = "virtio*",
+> +    },{
+> +        .name = "virtio-9p-synth",
+> +        .args = "-machine q35 -nodefaults "
+> +        "-device virtio-9p,fsdev=hshare,mount_tag=hshare "
+> +        "-fsdev synth,id=hshare",
+> +        .objects = "virtio*",
+>      },{
+>          .name = "e1000",
+>          .args = "-M q35 -nodefaults "
+> -- 
+> 2.28.0
 
