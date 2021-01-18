@@ -2,75 +2,93 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9756D2F9DD7
-	for <lists+qemu-devel@lfdr.de>; Mon, 18 Jan 2021 12:19:09 +0100 (CET)
-Received: from localhost ([::1]:55408 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6529A2F9E34
+	for <lists+qemu-devel@lfdr.de>; Mon, 18 Jan 2021 12:33:09 +0100 (CET)
+Received: from localhost ([::1]:58812 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l1SYu-00051S-Fb
-	for lists+qemu-devel@lfdr.de; Mon, 18 Jan 2021 06:19:08 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53224)
+	id 1l1SmR-0007ZN-W3
+	for lists+qemu-devel@lfdr.de; Mon, 18 Jan 2021 06:33:08 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56992)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1l1SXf-0004by-NK
- for qemu-devel@nongnu.org; Mon, 18 Jan 2021 06:17:51 -0500
-Received: from mail-wm1-x32a.google.com ([2a00:1450:4864:20::32a]:34010)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1l1SXd-00025p-FL
- for qemu-devel@nongnu.org; Mon, 18 Jan 2021 06:17:51 -0500
-Received: by mail-wm1-x32a.google.com with SMTP id o10so5681148wmc.1
- for <qemu-devel@nongnu.org>; Mon, 18 Jan 2021 03:17:48 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=pviYIAPGnPPpQWGISbuqzpVXqCAK10wCDqvSJv7v3XY=;
- b=Fo/sA1brvztW2/7uT0wSi9b94EMBjSPELq/Sbrny1txAgMgJzEt/kgnNmAsNxUQivD
- orKRZJQWxWnG8nw9NFIeLa2B52AMXkr2EidwPy4zXiM+9fdZDr2pBEwkRsDd0fIFg9Jz
- 9FJwumpyrOqA+WvTzzxYwI5X4CaRZFSDyr+lmk2BzHcytt4qrfq23dMgyZVBkM2Pvb/q
- dklgaA/pTlpjAEJAmJHtt//rRuwJ5XRP+Di6+6nEeckr8rEG3ne+S4AJ87y5m/OIIYeA
- bWk7oOCE0x5FMijE1ovM8zei0xT9ZwQ5UFWiqnwEV+iv/4R61TgOuhcYtf4huEXrbgcg
- dd3g==
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1l1Skf-00072t-8F
+ for qemu-devel@nongnu.org; Mon, 18 Jan 2021 06:31:17 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:58552)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1l1Skb-0008Kj-MO
+ for qemu-devel@nongnu.org; Mon, 18 Jan 2021 06:31:17 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1610969472;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=aTKapHRF6Lj6+WhAfnW2ESnDhmdPUQxUdwECCP8MAag=;
+ b=Vl2z38MEV3fuiwTbTbt0FTyAr76wsLeDuAW/KKL8TOf6V/UrfAocuP8nNm5wAR8+pX3y60
+ 122dj6nBXC0lsMLfKQpYmrFOIcHyT8+oVD3j+bY9D0e516HE7gt3jU+fcImkn+5xieF/i2
+ Zy+Q1C0Gbbb2sjAXoRXWLWpEC2gF3Ps=
+Received: from mail-ej1-f70.google.com (mail-ej1-f70.google.com
+ [209.85.218.70]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-460-CD9nxSEGOXm9UMsIIvtu7Q-1; Mon, 18 Jan 2021 06:31:11 -0500
+X-MC-Unique: CD9nxSEGOXm9UMsIIvtu7Q-1
+Received: by mail-ej1-f70.google.com with SMTP id gs3so5100427ejb.5
+ for <qemu-devel@nongnu.org>; Mon, 18 Jan 2021 03:31:11 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=pviYIAPGnPPpQWGISbuqzpVXqCAK10wCDqvSJv7v3XY=;
- b=azLewPT/GfuH9djboxQsh6vrGpdlKH5JF2ccRUp9wVDUQ/eKx0O0y+2MVT6BRaOBPb
- znXjmDdySu8R6VqRdJyTHzAdkzsabh4DhL/x80qGnrai8S825An98bGJL9MUVrFhKWUG
- kq2Td7U3vQTilAmV2wpmxbQqHWOzCGWdHpMjWBRqBnChqNeXHiZfPgrgSdSfuAYd53T8
- 76td+naCtMcBQyKuN0s+uldxsC41McIHYwIkGVe51KwRgiB0akzX6MI7Cecmvs22428B
- //NzGUN/hD8aj/jU3YzPwlhawrF87Om4U1yexlhV9MW9uE1O+n2zIO//El1Ae2gDRiqu
- ljWg==
-X-Gm-Message-State: AOAM530i04+iDpsei8GyJF3OtU1qsgAEgvhP9xQ9yH5y69t5bouJ0ybN
- HVvBIkNMm4Kic+3L+Unsn3lbHA==
-X-Google-Smtp-Source: ABdhPJxGU9m5t5xnXEguAUp8ezwJqouZN63yi1j8xjDEj3TN2ahjQLVmw7b48n3Uan9EvbJPzzTbFg==
-X-Received: by 2002:a1c:2341:: with SMTP id j62mr7200920wmj.34.1610968667391; 
- Mon, 18 Jan 2021 03:17:47 -0800 (PST)
-Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id l12sm11735584wmj.9.2021.01.18.03.17.45
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 18 Jan 2021 03:17:45 -0800 (PST)
-Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 29BF51FF7E;
- Mon, 18 Jan 2021 11:17:45 +0000 (GMT)
-From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: peter.maydell@linaro.org
-Subject: [PULL v2 00/30] testing, gdbstub and semihosting
-Date: Mon, 18 Jan 2021 11:17:45 +0000
-Message-Id: <20210118111745.20104-1-alex.bennee@linaro.org>
-X-Mailer: git-send-email 2.20.1
+ bh=aTKapHRF6Lj6+WhAfnW2ESnDhmdPUQxUdwECCP8MAag=;
+ b=Cv4rGfak4vwm9qF1kuju+kBuLdyQ+fZyY/6dAcow5uZPcblyLolz5PCFBJb1PAIorQ
+ J/odGOy376MkMnQgHGOsNC2WYSK3mVKa9wHX1raRYgC66dcrNpbGHub4Hpc1Xk4duwsb
+ ObhnWyR7/zCrd+dEuprmx5eWNsGL5yn+/oR+fBcMeK4uezzHL17UYlE/xrtEt//kHPS3
+ oXc3u7SNxUUXb/VUhtZOIdyPG3DzxzJlHnWnatr17NsoVXP+fYoHMTHGWxWrvQnv5VSD
+ HVAAugqSiJHoXpKI+NOdAypq4z4hu8Pwapfp1+3tZRsk3UgE0RzQrrIVFJ/rbgIT45PV
+ sIXg==
+X-Gm-Message-State: AOAM531OoOGdS4bHk5WU+Int93lQDejXinXcpkbyQCxVGgPLn4le76Wz
+ RM0hrxcynryqN+SpsDVba7fFRJAHRsIs1lK36vu/7DCdB3e50VDW77zdviahdfH+X5uN3NUnRMy
+ C1dZX5cBju6Y3b50=
+X-Received: by 2002:a05:6402:4c1:: with SMTP id
+ n1mr19001726edw.66.1610969470055; 
+ Mon, 18 Jan 2021 03:31:10 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJwTCTjR6LeB133FSwleOPBeRwE9OcnC6XFT6P4DfVoB0x+glG98yyq1AIXs4+Rxtd6HutSDRg==
+X-Received: by 2002:a05:6402:4c1:: with SMTP id
+ n1mr19001707edw.66.1610969469737; 
+ Mon, 18 Jan 2021 03:31:09 -0800 (PST)
+Received: from [192.168.1.36] (13.red-83-57-169.dynamicip.rima-tde.net.
+ [83.57.169.13])
+ by smtp.gmail.com with ESMTPSA id j23sm10755398edv.45.2021.01.18.03.31.07
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 18 Jan 2021 03:31:08 -0800 (PST)
+Subject: Re: [Qemu-devel] [PULL 7/7] hw/usb: avoid format truncation warning
+ when formatting port name
+To: Gerd Hoffmann <kraxel@redhat.com>,
+ "Daniel P . Berrange" <berrange@redhat.com>
+References: <20190503065954.17069-1-kraxel@redhat.com>
+ <20190503065954.17069-8-kraxel@redhat.com>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+Message-ID: <227c9e6b-61e4-d9ec-1b4b-b33d6323bbd9@redhat.com>
+Date: Mon, 18 Jan 2021 12:31:07 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.6.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+In-Reply-To: <20190503065954.17069-8-kraxel@redhat.com>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::32a;
- envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x32a.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=philmd@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -32
+X-Spam_score: -3.3
+X-Spam_bar: ---
+X-Spam_report: (-3.3 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.189,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.252, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=-0.01,
+ RCVD_IN_MSPIKE_WL=-0.01, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -84,158 +102,153 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
- qemu-devel@nongnu.org
+Cc: qemu-devel@nongnu.org, Aurelien Jarno <aurelien@aurel32.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The following changes since commit 825a215c003cd028e26c7d19aa5049d957345f43:
+Hello,
 
-  Merge remote-tracking branch 'remotes/kraxel/tags/audio-20210115-pull-request' into staging (2021-01-15 22:21:21 +0000)
+On 5/3/19 8:59 AM, Gerd Hoffmann wrote:
+> From: Daniel P. Berrangé <berrange@redhat.com>
+> 
+> hw/usb/hcd-xhci.c: In function ‘usb_xhci_realize’:
+> hw/usb/hcd-xhci.c:3339:66: warning: ‘%d’ directive output may be truncated writing between 1 and 10 bytes into a region of size 5 [-Wformat-trunca\
+> tion=]
+>  3339 |             snprintf(port->name, sizeof(port->name), "usb2 port #%d", i+1);
+>       |                                                                  ^~
+> hw/usb/hcd-xhci.c:3339:54: note: directive argument in the range [1, 2147483647]
+>  3339 |             snprintf(port->name, sizeof(port->name), "usb2 port #%d", i+1);
+>       |                                                      ^~~~~~~~~~~~~~~
+> 
+> The xhci code formats the port name into a fixed length
+> buffer which is only large enough to hold port numbers
+> upto 5 digits in decimal representation. We're never
+> going to have a port number that large, so aserting the
+> port number is sensible is sufficient to tell GCC the
+> formatted string won't be truncated.
+> 
+> Signed-off-by: Daniel P. Berrangé <berrange@redhat.com>
+> Message-Id: <20190412121626.19829-5-berrange@redhat.com>
+> 
+> [ kraxel: also s/int/unsigned int/ to tell gcc they can't
+>           go negative. ]
+> 
+> Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
+> ---
+>  hw/usb/hcd-xhci.c | 4 +++-
+>  1 file changed, 3 insertions(+), 1 deletion(-)
+> 
+> diff --git a/hw/usb/hcd-xhci.c b/hw/usb/hcd-xhci.c
+> index d8472b4fea7f..2e9a839f2bf9 100644
+> --- a/hw/usb/hcd-xhci.c
+> +++ b/hw/usb/hcd-xhci.c
+> @@ -3306,7 +3306,7 @@ static void usb_xhci_init(XHCIState *xhci)
+>  {
+>      DeviceState *dev = DEVICE(xhci);
+>      XHCIPort *port;
+> -    int i, usbports, speedmask;
+> +    unsigned int i, usbports, speedmask;
+>  
+>      xhci->usbsts = USBSTS_HCH;
+>  
+> @@ -3336,6 +3336,7 @@ static void usb_xhci_init(XHCIState *xhci)
+>                  USB_SPEED_MASK_LOW  |
+>                  USB_SPEED_MASK_FULL |
+>                  USB_SPEED_MASK_HIGH;
+> +            assert(i < MAXPORTS);
+>              snprintf(port->name, sizeof(port->name), "usb2 port #%d", i+1);
+>              speedmask |= port->speedmask;
+>          }
+> @@ -3349,6 +3350,7 @@ static void usb_xhci_init(XHCIState *xhci)
+>              }
+>              port->uport = &xhci->uports[i];
+>              port->speedmask = USB_SPEED_MASK_SUPER;
+> +            assert(i < MAXPORTS);
+>              snprintf(port->name, sizeof(port->name), "usb3 port #%d", i+1);
+>              speedmask |= port->speedmask;
+>          }
+> 
 
-are available in the Git repository at:
+I am confused, I upgraded Fedora 32 -> 33 and am now getting this
+error back, the assertion being apparently ignored:
 
-  https://github.com/stsquad/qemu.git tags/pull-testing-and-misc-180121-2
+C compiler for the host machine: cc (gcc 10.2.1 "cc (GCC) 10.2.1
+20201125 (Red Hat 10.2.1-9)")
 
-for you to fetch changes up to 767ba049b8f8f8ebfebe90ecaf1b5a9cf8c865ff:
+...
+                      QEMU_CFLAGS: -U_FORTIFY_SOURCE -D_FORTIFY_SOURCE=2
+-m32 -D_GNU_SOURCE -D_FILE_OFFSET_BITS=64 -D_LARGEFILE_SOURCE
+-Wstrict-prototypes -Wredundant-decls -Wundef -Wwrite-strings
+-Wmissing-prototypes -fno-strict-aliasing -fno-common -fwrapv  -m32
+-Wold-style-declaration -Wold-style-definition -Wtype-limits
+-Wformat-security -Wformat-y2k -Winit-self -Wignored-qualifiers
+-Wempty-body -Wnested-externs -Wendif-labels -Wexpansion-to-defined
+-Wimplicit-fallthrough=2 -Wno-missing-include-dirs
+-Wno-shift-negative-value -Wno-psabi -fstack-protector-strong
+                     QEMU_LDFLAGS: -Wl,--warn-common -Wl,-z,relro
+-Wl,-z,now -m32  -m32 -fstack-protector-strong
+...
 
-  semihosting: Implement SYS_ISERROR (2021-01-18 10:05:06 +0000)
-
-----------------------------------------------------------------
-Testing, gdbstub and semihosting patches:
-
-  - clean-ups to docker images
-  - drop duplicate jobs from shippable
-  - prettier tag generation (+gtags)
-  - generate browsable source tree
-  - more Travis->GitLab migrations
-  - fix checkpatch to deal with commits
-  - gate gdbstub tests on 8.3.1, expand tests
-  - support Xfer:auxv:read gdb packet
-  - better gdbstub cleanup
-  - use GDB's SVE register layout
-  - make arm-compat-semihosting common
-  - add riscv semihosting support
-  - add HEAPINFO, ELAPSED, TICKFREQ, TMPNAM and ISERROR to semihosting
-
-----------------------------------------------------------------
-Alessandro Di Federico (1):
-      Add newline when generating Dockerfile
-
-Alex Bennée (16):
-      Makefile: add GNU global tags support
-      Makefile: wrap ctags in quiet-command calls
-      Makefile: wrap etags in quiet-command calls
-      Makefile: wrap cscope in quiet-command calls
-      docker: expand debian-amd64 image to include tag tools
-      gitlab: move docs and tools build across from Travis
-      gitlab: migrate the minimal tools and unit tests from Travis
-      scripts/checkpatch.pl: fix git-show invocation to include diffstat
-      test/guest-debug: echo QEMU command as well
-      configure: gate our use of GDB to 8.3.1 or above
-      Revert "tests/tcg/multiarch/Makefile.target: Disable run-gdbstub-sha1 test"
-      gdbstub: implement a softmmu based test
-      gdbstub: drop CPUEnv from gdb_exit()
-      gdbstub: drop gdbserver_cleanup in favour of gdb_exit
-      gdbstub: ensure we clean-up when terminated
-      target/arm: use official org.gnu.gdb.aarch64.sve layout for registers
-
-Keith Packard (8):
-      semihosting: Move ARM semihosting code to shared directories
-      semihosting: Change common-semi API to be architecture-independent
-      semihosting: Change internal common-semi interfaces to use CPUState *
-      semihosting: Support SYS_HEAPINFO when env->boot_info is not set
-      riscv: Add semihosting support
-      semihosting: Implement SYS_ELAPSED and SYS_TICKFREQ
-      semihosting: Implement SYS_TMPNAM
-      semihosting: Implement SYS_ISERROR
-
-Kito Cheng (1):
-      riscv: Add semihosting support for user mode
-
-Lirong Yuan (1):
-      gdbstub: add support to Xfer:auxv:read: packet
-
-Lukas Straub (1):
-      Fix build with new yank feature by adding stubs
-
-Philippe Mathieu-Daudé (2):
-      tests/docker: Remove Debian 9 remnant lines
-      shippable.yml: Remove jobs duplicated on Gitlab-CI
-
- configure                                          |   7 +-
- Makefile                                           |  46 +-
- default-configs/devices/arm-softmmu.mak            |   1 +
- default-configs/devices/riscv32-softmmu.mak        |   2 +
- default-configs/devices/riscv64-softmmu.mak        |   2 +
- default-configs/targets/aarch64-linux-user.mak     |   1 +
- default-configs/targets/aarch64_be-linux-user.mak  |   1 +
- default-configs/targets/arm-linux-user.mak         |   1 +
- default-configs/targets/armeb-linux-user.mak       |   1 +
- default-configs/targets/riscv32-linux-user.mak     |   1 +
- default-configs/targets/riscv64-linux-user.mak     |   1 +
- hw/semihosting/common-semi.h                       |  39 ++
- include/exec/gdbstub.h                             |  14 +-
- include/qemu/timer.h                               |   2 +
- linux-user/qemu.h                                  |   4 +-
- target/arm/cpu.h                                   |   8 -
- target/riscv/cpu_bits.h                            |   1 +
- bsd-user/syscall.c                                 |   6 +-
- gdbstub.c                                          |  65 ++-
- .../arm-semi.c => hw/semihosting/arm-compat-semi.c | 525 ++++++++++++++-------
- linux-user/aarch64/cpu_loop.c                      |   3 +-
- linux-user/arm/cpu_loop.c                          |   3 +-
- linux-user/exit.c                                  |   2 +-
- linux-user/riscv/cpu_loop.c                        |   5 +
- linux-user/{arm => }/semihost.c                    |   8 +-
- softmmu/runstate.c                                 |   2 +-
- stubs/yank.c                                       |  29 ++
- target/arm/gdbstub.c                               |  75 ++-
- target/arm/helper.c                                |   7 +-
- target/arm/m_helper.c                              |   7 +-
- target/m68k/m68k-semi.c                            |   2 +-
- target/nios2/nios2-semi.c                          |   2 +-
- target/riscv/cpu_helper.c                          |  10 +
- target/riscv/translate.c                           |  11 +
- util/qemu-timer-common.c                           |   4 +
- target/riscv/insn_trans/trans_privileged.c.inc     |  37 +-
- .gitignore                                         |   3 +
- .gitlab-ci.yml                                     |  30 +-
- .shippable.yml                                     |  14 +-
- .travis.yml                                        |  25 -
- MAINTAINERS                                        |   2 +
- hw/semihosting/Kconfig                             |   4 +
- hw/semihosting/meson.build                         |   3 +
- linux-user/arm/meson.build                         |   3 -
- linux-user/meson.build                             |   1 +
- qemu-options.hx                                    |  10 +-
- scripts/checkpatch.pl                              |   2 +-
- stubs/meson.build                                  |   1 +
- target/arm/meson.build                             |   2 -
- tests/docker/Makefile.include                      |   1 -
- tests/docker/docker.py                             |   4 +-
- tests/docker/dockerfiles/debian-amd64.docker       |   5 +-
- tests/guest-debug/run-test.py                      |  35 +-
- tests/tcg/aarch64/Makefile.softmmu-target          |   1 +
- tests/tcg/aarch64/gdbstub/test-sve-ioctl.py        |  11 +
- tests/tcg/aarch64/system/boot.S                    |   1 +
- tests/tcg/i386/Makefile.softmmu-target             |   1 +
- tests/tcg/i386/system/boot.S                       |   2 +-
- tests/tcg/multiarch/Makefile.target                |  13 +-
- tests/tcg/multiarch/gdbstub/memory.py              | 130 +++++
- .../tcg/multiarch/gdbstub/test-qxfer-auxv-read.py  |  57 +++
- tests/tcg/multiarch/system/Makefile.softmmu-target |  19 +-
- tests/tcg/x86_64/Makefile.softmmu-target           |   1 +
- tests/tcg/x86_64/system/boot.S                     |   2 +-
- 64 files changed, 982 insertions(+), 336 deletions(-)
- create mode 100644 hw/semihosting/common-semi.h
- rename target/arm/arm-semi.c => hw/semihosting/arm-compat-semi.c (66%)
- rename linux-user/{arm => }/semihost.c (89%)
- create mode 100644 stubs/yank.c
- create mode 100644 tests/tcg/multiarch/gdbstub/memory.py
- create mode 100644 tests/tcg/multiarch/gdbstub/test-qxfer-auxv-read.py
-
--- 
-2.20.1
+[889/5130] Compiling C object libcommon.fa.p/hw_usb_hcd-xhci.c.o
+FAILED: libcommon.fa.p/hw_usb_hcd-xhci.c.o
+cc -Ilibcommon.fa.p -I. -I.. -I../slirp -I../slirp/src
+-I../capstone/include/capstone -I../dtc/libfdt -Iqapi -Itrace -Iui
+-Iui/shader -I/usr/include/glib-2.0 -I/usr/lib/glib-2.0/include
+-I/usr/include/libmount -I/usr/include/blkid -I/usr/include/gio-unix-2.0
+-I/usr/include/pixman-1 -I/usr/include/p11-kit-1
+-fdiagnostics-color=auto -pipe -Wall -Winvalid-pch -Werror -std=gnu99
+-O2 -g -U_FORTIFY_SOURCE -D_FORTIFY_SOURCE=2 -m32 -D_GNU_SOURCE
+-D_FILE_OFFSET_BITS=64 -D_LARGEFILE_SOURCE -Wstrict-prototypes
+-Wredundant-decls -Wundef -Wwrite-strings -Wmissing-prototypes
+-fno-strict-aliasing -fno-common -fwrapv -m32 -Wold-style-declaration
+-Wold-style-definition -Wtype-limits -Wformat-security -Wformat-y2k
+-Winit-self -Wignored-qualifiers -Wempty-body -Wnested-externs
+-Wendif-labels -Wexpansion-to-defined -Wimplicit-fallthrough=2
+-Wno-missing-include-dirs -Wno-shift-negative-value -Wno-psabi
+-fstack-protector-strong -isystem linux-headers -isystem linux-headers
+-iquote tcg/i386 -iquote . -iquote accel/tcg -iquote include -iquote
+disas/libvixl -pthread -fPIC -MD -MQ libcommon.fa.p/hw_usb_hcd-xhci.c.o
+-MF libcommon.fa.p/hw_usb_hcd-xhci.c.o.d -o
+libcommon.fa.p/hw_usb_hcd-xhci.c.o -c ../hw/usb/hcd-xhci.c
+../hw/usb/hcd-xhci.c: In function 'usb_xhci_realize':
+../hw/usb/hcd-xhci.c:3309:54: error: '%d' directive output may be
+truncated writing between 1 and 8 bytes into a region of size 5
+[-Werror=format-truncation=]
+ 3309 |             snprintf(port->name, sizeof(port->name), "usb2 port
+#%d", i+1);
+      |                                                      ^~~~~~~~~~~~~~~
+../hw/usb/hcd-xhci.c:3309:54: note: directive argument in the range [1,
+89478486]
+In file included from /usr/include/stdio.h:866,
+                 from include/qemu/osdep.h:85,
+                 from ../hw/usb/hcd-xhci.c:22:
+/usr/include/bits/stdio2.h:70:10: note: '__builtin___snprintf_chk'
+output between 13 and 20 bytes into a destination of size 16
+   70 |   return __builtin___snprintf_chk (__s, __n, __USE_FORTIFY_LEVEL
+- 1,
+      |
+^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   71 |        __bos (__s), __fmt, __va_arg_pack ());
+      |        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+../hw/usb/hcd-xhci.c:3323:54: error: '%d' directive output may be
+truncated writing between 1 and 8 bytes into a region of size 5
+[-Werror=format-truncation=]
+ 3323 |             snprintf(port->name, sizeof(port->name), "usb3 port
+#%d", i+1);
+      |                                                      ^~~~~~~~~~~~~~~
+../hw/usb/hcd-xhci.c:3323:54: note: directive argument in the range [1,
+89478486]
+In file included from /usr/include/stdio.h:866,
+                 from include/qemu/osdep.h:85,
+                 from ../hw/usb/hcd-xhci.c:22:
+/usr/include/bits/stdio2.h:70:10: note: '__builtin___snprintf_chk'
+output between 13 and 20 bytes into a destination of size 16
+   70 |   return __builtin___snprintf_chk (__s, __n, __USE_FORTIFY_LEVEL
+- 1,
+      |
+^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   71 |        __bos (__s), __fmt, __va_arg_pack ());
+      |        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+cc1: all warnings being treated as errors
 
 
