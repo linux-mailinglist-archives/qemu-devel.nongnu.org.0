@@ -2,87 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 777232FAB89
-	for <lists+qemu-devel@lfdr.de>; Mon, 18 Jan 2021 21:33:59 +0100 (CET)
-Received: from localhost ([::1]:36358 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7F6452FAB93
+	for <lists+qemu-devel@lfdr.de>; Mon, 18 Jan 2021 21:36:44 +0100 (CET)
+Received: from localhost ([::1]:40372 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l1bDq-0001tJ-6n
-	for lists+qemu-devel@lfdr.de; Mon, 18 Jan 2021 15:33:58 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56880)
+	id 1l1bGV-0003mY-Jq
+	for lists+qemu-devel@lfdr.de; Mon, 18 Jan 2021 15:36:43 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57364)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
- id 1l1apo-0001zo-DG; Mon, 18 Jan 2021 15:09:08 -0500
-Received: from out4-smtp.messagingengine.com ([66.111.4.28]:44907)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
- id 1l1apm-0000ML-13; Mon, 18 Jan 2021 15:09:08 -0500
-Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
- by mailout.nyi.internal (Postfix) with ESMTP id 383035C01D4;
- Mon, 18 Jan 2021 15:09:05 -0500 (EST)
-Received: from mailfrontend1 ([10.202.2.162])
- by compute4.internal (MEProxy); Mon, 18 Jan 2021 15:09:05 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=irrelevant.dk;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-type:in-reply-to; s=fm2; bh=/TrLic+yXAS+BjH5aJUT/TLAmMs
- uvF4gQdhCYQtzBig=; b=mgURls2PY7zM/iou5Be5JnvFQMOQplVHXlCs4IRNl2C
- 0w/faDHpd43Pqo13LcS0XoM7jnhlfY8ygNUwDFYhCL+7M/GjbI8MRIuwjeKUZlNv
- +gS66z2EE54sgUux8AhqdanIBwpH8GLryLt8hT0LtY7qvpINxkJArnDIvg1AuAym
- UdNEkfG6W/4cbQr5nKMo6fV6Tq887ZO4cYbqCkSlEmllp+HDcHKBBqXXthVfFNne
- Ec72RB3UwY2kNCpWpe1lbPfSWOm5Yn7ThGBNhgQnRON+G+7+WQr08JN5LCye/sLS
- RzOvxOrCb/QmapzSabvCj/sLnlWK0bQanpPS0F5b9TA==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:content-type:date:from:in-reply-to
- :message-id:mime-version:references:subject:to:x-me-proxy
- :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; bh=/TrLic
- +yXAS+BjH5aJUT/TLAmMsuvF4gQdhCYQtzBig=; b=dcQ74Vi7kwcnbEw7b8K22v
- 1cp+LXYTSo3C8JrxVbSlAiip8G26fCutdmIIFSZBGaFNlkNhohdoiurOhWoKlG00
- t6bHg1PejvtrLGBv2vlyLYwMyfSS7NyEXX2jARt7pPD09F9GKRvZ1ZM/txO2ImNa
- 6kjvH/d/oxbjSbpNfQ3UZstFA/iEp86wzBuWfxuRQXEiUpr5Q5waJJfOyUTs5THI
- zxTR9pNl+JvlNSkQOwF7NXVZiyVgCi8lMry2lq/USlgzl5AI3k8yFhn+f0bRb6by
- C5dyBTce1XQ9HumjzcwgGFChHHvGRW6bSljBC4osQKOTjKD4k7RxSpS6DFledI+Q
- ==
-X-ME-Sender: <xms:4OoFYFRB0W4H43NrBkSgH-Y4RtlpjMsZmgf9rAYJV9oUxfd5rXRocg>
- <xme:4OoFYOxkMImKEg9cPu1FIr-e8NBTtvqo6kl1Cr-e_WSGU6YUbbLAr_3ya6xTUcDdN
- etxL6WJU5024-2BnFA>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduledrtdekgddufeehucetufdoteggodetrfdotf
- fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
- uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
- cujfgurhepfffhvffukfhfgggtuggjsehgtderredttdejnecuhfhrohhmpefmlhgruhhs
- ucflvghnshgvnhcuoehithhssehirhhrvghlvghvrghnthdrughkqeenucggtffrrghtth
- gvrhhnpeejgeduffeuieetkeeileekvdeuleetveejudeileduffefjeegfffhuddvudff
- keenucfkphepkedtrdduieejrdelkedrudeltdenucevlhhushhtvghrufhiiigvpedtne
- curfgrrhgrmhepmhgrihhlfhhrohhmpehithhssehirhhrvghlvghvrghnthdrughk
-X-ME-Proxy: <xmx:4OoFYK1YN415aLAO_he46XKt1KHuKmGOPGGnSKixnnQyUKtbmTUmUA>
- <xmx:4OoFYNCbm-QPEvkcDOsd9dyFNDnRQpxFyE7nKdC0LITU6MTEgAKynw>
- <xmx:4OoFYOj7QWRuH0JkjnJXbvzcOl8bp-p5NuGIpZIcnlxKJgMUsOVizw>
- <xmx:4eoFYGf4fhXdt7lk_LmoN11XhrnG9W6acsd38KHW-QcwRRXWH_9SBg>
-Received: from apples.localdomain (80-167-98-190-cable.dk.customer.tdc.net
- [80.167.98.190])
- by mail.messagingengine.com (Postfix) with ESMTPA id 941DC24005B;
- Mon, 18 Jan 2021 15:09:03 -0500 (EST)
-Date: Mon, 18 Jan 2021 21:09:01 +0100
-From: Klaus Jensen <its@irrelevant.dk>
-To: Minwoo Im <minwoo.im.dev@gmail.com>
-Subject: Re: [RFC PATCH V2 05/11] hw/block/nvme: remove unused argument in
- nvme_ns_setup
-Message-ID: <YAXq3TxHWJvYL8ax@apples.localdomain>
-References: <20210117145341.23310-1-minwoo.im.dev@gmail.com>
- <20210117145341.23310-6-minwoo.im.dev@gmail.com>
+ (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
+ id 1l1ari-0002em-Pc
+ for qemu-devel@nongnu.org; Mon, 18 Jan 2021 15:11:07 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:45317)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
+ id 1l1arf-000136-QF
+ for qemu-devel@nongnu.org; Mon, 18 Jan 2021 15:11:05 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1611000662;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=WUVVBo6Ajtsp1p1cl9vt8il5Uqeysu/ud/O2QfPozL8=;
+ b=cwA//VxcW9Z1oC6OvFd0PKzVjptXYyRuIu2VPOSX6eg2/g9rClFQ+BM9dIpJO924p8ia9A
+ +GzxcE5BDLLI8OXWvhC59Ohh4bN+BhV70G/ypHrUtX6w77FOAutirLNqbe0VlmYhAar7Wa
+ 4bxYJth66T1GDEDygJNNlI6efUdvhcI=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-492-_5-D_X5wMBS0cETqTD7Ozg-1; Mon, 18 Jan 2021 15:10:58 -0500
+X-MC-Unique: _5-D_X5wMBS0cETqTD7Ozg-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 8A459192FDA3;
+ Mon, 18 Jan 2021 20:10:56 +0000 (UTC)
+Received: from work-vm (ovpn-115-197.ams2.redhat.com [10.36.115.197])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id BB2DE1002388;
+ Mon, 18 Jan 2021 20:10:47 +0000 (UTC)
+Date: Mon, 18 Jan 2021 20:10:45 +0000
+From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+To: Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <f4bug@amsat.org>
+Subject: Re: [RFC PATCH v2 10/20] hw/usb/hcd-ohci: Mark the device with no
+ migratable fields
+Message-ID: <20210118201045.GI9899@work-vm>
+References: <20210117192446.23753-1-f4bug@amsat.org>
+ <20210117192446.23753-11-f4bug@amsat.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="/pLSaSt4oz9O4rNE"
+In-Reply-To: <20210117192446.23753-11-f4bug@amsat.org>
+User-Agent: Mutt/1.14.6 (2020-07-11)
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=dgilbert@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
-In-Reply-To: <20210117145341.23310-6-minwoo.im.dev@gmail.com>
-Received-SPF: pass client-ip=66.111.4.28; envelope-from=its@irrelevant.dk;
- helo=out4-smtp.messagingengine.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
-X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=dgilbert@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -29
+X-Spam_score: -3.0
+X-Spam_bar: ---
+X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.175,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -95,42 +82,73 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Keith Busch <kbusch@kernel.org>, Kevin Wolf <kwolf@redhat.com>,
- qemu-devel@nongnu.org, qemu-block@nongnu.org, Max Reitz <mreitz@redhat.com>
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ Daniel =?iso-8859-1?Q?P=2E_Berrang=E9?= <berrange@redhat.com>,
+ Eduardo Habkost <ehabkost@redhat.com>, Juan Quintela <quintela@redhat.com>,
+ Andrew Jeffery <andrew@aj.id.au>,
+ Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>, qemu-devel@nongnu.org,
+ Andrew Baumann <Andrew.Baumann@microsoft.com>,
+ Subbaraya Sundeep <sundeep.lkml@gmail.com>, Joel Stanley <joel@jms.id.au>,
+ Laurent Vivier <laurent@vivier.eu>, qemu-arm@nongnu.org,
+ =?iso-8859-1?Q?C=E9dric?= Le Goater <clg@kaod.org>,
+ Paolo Bonzini <pbonzini@redhat.com>, Artyom Tarasenko <atar4qemu@gmail.com>,
+ Gerd Hoffmann <kraxel@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+* Philippe Mathieu-Daudé (f4bug@amsat.org) wrote:
+> This device doesn't have fields to migrate. Be explicit
+> by using vmstate_qdev_no_state_to_migrate.
+> 
+> Add a more descriptive comment to keep a clear separation
+> between static property vs runtime changeable.
+> 
+> Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 
---/pLSaSt4oz9O4rNE
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+OK,
 
-On Jan 17 23:53, Minwoo Im wrote:
-> nvme_ns_setup() finally does not have nothing to do with NvmeCtrl
-> instance.
->=20
-> Signed-off-by: Minwoo Im <minwoo.im.dev@gmail.com>
+Reviewed-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
 
-I also think this *could* be squashed into [04/11] without too much
-strain on the eye, but
 
-Reviewed-by: Klaus Jensen <k.jensen@samsung.com>
+although I think it's quite interesting; I think we have
+a base class which has data to migrate which expects any
+child classes to migrate it's data; so marking it as
+not actually having any state is not quite right.
 
---/pLSaSt4oz9O4rNE
-Content-Type: application/pgp-signature; name="signature.asc"
+> ---
+>  hw/usb/hcd-ohci.h | 2 ++
+>  hw/usb/hcd-ohci.c | 1 +
+>  2 files changed, 3 insertions(+)
+> 
+> diff --git a/hw/usb/hcd-ohci.h b/hw/usb/hcd-ohci.h
+> index 11ac57058d1..fd4842a352f 100644
+> --- a/hw/usb/hcd-ohci.h
+> +++ b/hw/usb/hcd-ohci.h
+> @@ -101,6 +101,8 @@ struct OHCISysBusState {
+>      /*< public >*/
+>  
+>      OHCIState ohci;
+> +
+> +    /* Properties */
+>      char *masterbus;
+>      uint32_t num_ports;
+>      uint32_t firstport;
+> diff --git a/hw/usb/hcd-ohci.c b/hw/usb/hcd-ohci.c
+> index f8c64c8b95b..302aab30992 100644
+> --- a/hw/usb/hcd-ohci.c
+> +++ b/hw/usb/hcd-ohci.c
+> @@ -2007,6 +2007,7 @@ static void ohci_sysbus_class_init(ObjectClass *klass, void *data)
+>      DeviceClass *dc = DEVICE_CLASS(klass);
+>  
+>      dc->realize = ohci_realize_pxa;
+> +    dc->vmsd = vmstate_qdev_no_state_to_migrate;
+>      set_bit(DEVICE_CATEGORY_USB, dc->categories);
+>      dc->desc = "OHCI USB Controller";
+>      device_class_set_props(dc, ohci_sysbus_properties);
+> -- 
+> 2.26.2
+> 
+-- 
+Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
 
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEEUigzqnXi3OaiR2bATeGvMW1PDekFAmAF6twACgkQTeGvMW1P
-DemCOwf7Bwr1aldaPL7KG1YIaez3o9bcxzHesCaqkYV+bgPdlkWZcyiZaSbJKOTK
-r8PVARivckDUXutBb2DJIxFHxQKqYbpCzYaWj3gVsf35p0VQU+pZGkjOsE3El7dG
-SvKlNdxPa/FqtNIL3Xb6ntNqdR1mDYgVh6QJA8de6IaES42u0Y23njcHMt8+EH1U
-4DDs2boK7Lbxea/f3VoY0ZGFKZfPsFgkBvt8hrIy52dRqUWvgppjD5CCXVxHOGf9
-DJ/ekeGTsfhTTdJ8U3L9ZCN1Kg6vo6xXsMgj+z4uVSwNwKDDGFjd0lYTbnY6d2BT
-jZQboPtlW32C33KTXVjrPvhzBMBS9Q==
-=t6Dq
------END PGP SIGNATURE-----
-
---/pLSaSt4oz9O4rNE--
 
