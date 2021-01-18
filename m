@@ -2,81 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 924F02F9BC4
-	for <lists+qemu-devel@lfdr.de>; Mon, 18 Jan 2021 10:14:30 +0100 (CET)
-Received: from localhost ([::1]:51808 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 90F0E2F9BC6
+	for <lists+qemu-devel@lfdr.de>; Mon, 18 Jan 2021 10:16:57 +0100 (CET)
+Received: from localhost ([::1]:55214 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l1QcH-0003wv-BS
-	for lists+qemu-devel@lfdr.de; Mon, 18 Jan 2021 04:14:29 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41096)
+	id 1l1Qee-0005b6-Lj
+	for lists+qemu-devel@lfdr.de; Mon, 18 Jan 2021 04:16:56 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41162)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1l1QYj-0001ym-2q
- for qemu-devel@nongnu.org; Mon, 18 Jan 2021 04:10:49 -0500
-Received: from mail-wm1-x329.google.com ([2a00:1450:4864:20::329]:39121)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1l1QYh-0008NF-9S
- for qemu-devel@nongnu.org; Mon, 18 Jan 2021 04:10:48 -0500
-Received: by mail-wm1-x329.google.com with SMTP id u14so8897402wmq.4
- for <qemu-devel@nongnu.org>; Mon, 18 Jan 2021 01:10:45 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=TdWwdNDpUWoaUe/w0t4Iu5/W5MqOg16omDDpCiMaZa8=;
- b=HJxs222g1IDgUvwdjuzogOHTvE27o1i8WicRqq8lR9sLaePBc1QehR2TMuHbOUwnRQ
- +6DDuB51QKDlRg7E7iJan/kkzzJVAP1BicBeHQGqJ4c1u9gmpPmO3DCSLqhEW6gNNuNM
- 86f6XVoxmCxWa/tVO3Nic+lteNQMX0ddqfLcj8U9B+rmc3M4G+DMHkcAsEk4FdJTk0Fo
- Az2X6uiAxljOBIXwVWpOlDryn+UYM7uNOt5H129sBNpEwfDknV4RFJWoQoZxVEFMbtPb
- ok9Qv8CPpR8FbZX0kYx5sCNQnve84h3qtfucBWDscmigYIAXACDFFiu2yVCTLa/qZvwC
- 0f0Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
- :date:user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=TdWwdNDpUWoaUe/w0t4Iu5/W5MqOg16omDDpCiMaZa8=;
- b=OBJSOXnlVQGzIc9i6EIaHKNev7fe7IKLwT+rD67IuN7i/JixMHDhw4YGk2SnNHzVmv
- xIe97rgosMN9UxaM57jxbGjvqA8Qoq9xfLBInedCl6iPthffUvEW1IiEPGi7G/zNcNA2
- baLEONo2kvjTSz9BSMGGzOG5P9sKimOA64dCKwgY7gkS6rYyouZgu9IHEkt553KMa5pp
- brVPJaRltT4GVWvt/eGHi7m9EJKEPA/sT4i7B4w8NsHeNItAdieWC8hiC8uuZaP7niOK
- SULwuDRuO3LHfObEz0LfSP/zhCBDt58WGlz2+Q451lpGz3PZYaBM4U5+Ig7wOc7ZqJeh
- IhvQ==
-X-Gm-Message-State: AOAM532FAL01j0N9DqiqPQVk9bxDiObbtrV7B71FsEYDEzLArNnLWsA9
- JdUGrjUiW8tPceZdGtSV/80=
-X-Google-Smtp-Source: ABdhPJxl2wXkMVAgdyPy52rNf5+zHgKAdnbm0t7ZfNT4fCDkgvW3CuXYI6tnAmW0wcJxPfPEi1i1+A==
-X-Received: by 2002:a1c:984a:: with SMTP id a71mr13114566wme.175.1610961044626; 
- Mon, 18 Jan 2021 01:10:44 -0800 (PST)
-Received: from [192.168.1.36] (13.red-83-57-169.dynamicip.rima-tde.net.
- [83.57.169.13])
- by smtp.gmail.com with ESMTPSA id m17sm30593698wrn.0.2021.01.18.01.10.43
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 18 Jan 2021 01:10:43 -0800 (PST)
-Subject: Re: [PATCH v3 2/2] hw/mips/loongson3_virt: Add TCG SMP support
-To: Jiaxun Yang <jiaxun.yang@flygoat.com>, qemu-devel@nongnu.org
-References: <20210118011706.22639-1-jiaxun.yang@flygoat.com>
- <20210118011706.22639-3-jiaxun.yang@flygoat.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
-Message-ID: <c1f6a50e-d276-c487-141c-31ff65fd8b41@amsat.org>
-Date: Mon, 18 Jan 2021 10:10:43 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.6.0
+ (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1l1QYt-000288-T7
+ for qemu-devel@nongnu.org; Mon, 18 Jan 2021 04:11:02 -0500
+Received: from mx2.suse.de ([195.135.220.15]:48978)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1l1QYp-0008RN-Jj
+ for qemu-devel@nongnu.org; Mon, 18 Jan 2021 04:10:59 -0500
+X-Virus-Scanned: by amavisd-new at test-mx.suse.de
+Received: from relay2.suse.de (unknown [195.135.221.27])
+ by mx2.suse.de (Postfix) with ESMTP id 39143AC6E;
+ Mon, 18 Jan 2021 09:10:54 +0000 (UTC)
+Subject: Re: [RFC PATCH 6/6] softmmu: Restrict watchpoint handlers to TCG
+ accelerator
+To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
+ qemu-devel@nongnu.org
+References: <20210117164813.4101761-1-f4bug@amsat.org>
+ <20210117164813.4101761-7-f4bug@amsat.org>
+From: Claudio Fontana <cfontana@suse.de>
+Message-ID: <56d3c4ca-8963-b1c3-8635-58f20fcb8e37@suse.de>
+Date: Mon, 18 Jan 2021 10:10:53 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.12.0
 MIME-Version: 1.0
-In-Reply-To: <20210118011706.22639-3-jiaxun.yang@flygoat.com>
+In-Reply-To: <20210117164813.4101761-7-f4bug@amsat.org>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::329;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x329.google.com
-X-Spam_score_int: -17
-X-Spam_score: -1.8
-X-Spam_bar: -
-X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.25,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.25, NICE_REPLY_A=-0.252,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+Received-SPF: pass client-ip=195.135.220.15; envelope-from=cfontana@suse.de;
+ helo=mx2.suse.de
+X-Spam_score_int: -44
+X-Spam_score: -4.5
+X-Spam_bar: ----
+X-Spam_report: (-4.5 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.252,
+ RCVD_IN_DNSWL_MED=-2.3, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -89,26 +57,134 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Huacai Chen <chenhuacai@kernel.org>
+Cc: Peter Maydell <peter.maydell@linaro.org>, Riku Voipio <riku.voipio@iki.fi>,
+ Eduardo Habkost <ehabkost@redhat.com>, Huacai Chen <chenhuacai@kernel.org>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ Paolo Bonzini <pbonzini@redhat.com>,
+ =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 1/18/21 2:17 AM, Jiaxun Yang wrote:
-> loongson3_virt has KVM SMP support in kenrel.
-> This patch adds TCG SMP support by enable IPI controller
-> for machine.
+On 1/17/21 5:48 PM, Philippe Mathieu-Daudé wrote:
+> Watchpoint funtions use cpu_restore_state() which is only
+> available when TCG accelerator is built. Restrict them
+> to TCG.
 > 
-> Also add definition about IRQs to enhance readability.
-> 
-> Note that TCG SMP can only support up to 4 CPUs as we
-> didn't implement multi-node support.
-> 
-> Signed-off-by: Jiaxun Yang <jiaxun.yang@flygoat.com>
-> ---
->  hw/mips/loongson3_bootp.h |  1 +
->  hw/mips/loongson3_virt.c  | 41 ++++++++++++++++++++++++++++++++-------
->  hw/mips/Kconfig           |  1 +
->  3 files changed, 36 insertions(+), 7 deletions(-)
+> Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 
-Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+I am doing some of this in my series, and I did not notice that
+cpu_watchpoint_insert was also TCG only.
+
+Probably we should merge this somehow.
+
+I thought it was used by gdbstub.c as well, passing flags BP_GDB .
+
+I noticed that gdbstub does something else entirely for kvm_enabled(), ie, kvm_insert_breakpoint,
+but what about the other accels, it seems that the code flows to the cpu_breakpoint_insert and watchpoint_insert..?
+
+should cpu_breakpoint_insert have the same fate then?
+
+And is this really all TCG specific?
+
+From gdbstub.c:1020:
+
+static int gdb_breakpoint_insert(int type, target_ulong addr, target_ulong len)
+{
+    CPUState *cpu;
+    int err = 0;
+
+    if (kvm_enabled()) {
+        return kvm_insert_breakpoint(gdbserver_state.c_cpu, addr, len, type);
+    }
+
+    switch (type) {
+    case GDB_BREAKPOINT_SW:
+    case GDB_BREAKPOINT_HW:
+        CPU_FOREACH(cpu) {
+            err = cpu_breakpoint_insert(cpu, addr, BP_GDB, NULL);
+            if (err) {
+                break;
+            }
+        }
+        return err;
+#ifndef CONFIG_USER_ONLY
+    case GDB_WATCHPOINT_WRITE:
+    case GDB_WATCHPOINT_READ:
+    case GDB_WATCHPOINT_ACCESS:
+        CPU_FOREACH(cpu) {
+            err = cpu_watchpoint_insert(cpu, addr, len,
+                                        xlat_gdb_type(cpu, type), NULL);
+
+
+
+
+> ---
+> RFC because we could keep that code by adding an empty
+>     stub for cpu_restore_state(), but it is unclear as
+>     the function is named generically.
+> ---
+>  include/hw/core/cpu.h | 4 ++--
+>  softmmu/physmem.c     | 4 ++++
+>  2 files changed, 6 insertions(+), 2 deletions(-)
+> 
+> diff --git a/include/hw/core/cpu.h b/include/hw/core/cpu.h
+> index 140fa32a5e3..1b4af30db04 100644
+> --- a/include/hw/core/cpu.h
+> +++ b/include/hw/core/cpu.h
+> @@ -1033,7 +1033,7 @@ static inline bool cpu_breakpoint_test(CPUState *cpu, vaddr pc, int mask)
+>      return false;
+>  }
+>  
+> -#ifdef CONFIG_USER_ONLY
+> +#if !defined(CONFIG_TCG) || defined(CONFIG_USER_ONLY)
+>  static inline int cpu_watchpoint_insert(CPUState *cpu, vaddr addr, vaddr len,
+>                                          int flags, CPUWatchpoint **watchpoint)
+>  {
+> @@ -1098,7 +1098,7 @@ void cpu_check_watchpoint(CPUState *cpu, vaddr addr, vaddr len,
+>   * If no watchpoint is registered for the range, the result is 0.
+>   */
+>  int cpu_watchpoint_address_matches(CPUState *cpu, vaddr addr, vaddr len);
+> -#endif
+> +#endif /* !CONFIG_TCG || CONFIG_USER_ONLY */
+>  
+>  /**
+>   * cpu_get_address_space:
+> diff --git a/softmmu/physmem.c b/softmmu/physmem.c
+> index 65602ed548e..5135a6371b5 100644
+> --- a/softmmu/physmem.c
+> +++ b/softmmu/physmem.c
+> @@ -765,6 +765,7 @@ AddressSpace *cpu_get_address_space(CPUState *cpu, int asidx)
+>      return cpu->cpu_ases[asidx].as;
+>  }
+>  
+> +#ifdef CONFIG_TCG
+>  /* Add a watchpoint.  */
+>  int cpu_watchpoint_insert(CPUState *cpu, vaddr addr, vaddr len,
+>                            int flags, CPUWatchpoint **watchpoint)
+> @@ -873,6 +874,7 @@ int cpu_watchpoint_address_matches(CPUState *cpu, vaddr addr, vaddr len)
+>      }
+>      return ret;
+>  }
+> +#endif /* CONFIG_TCG */
+>  
+>  /* Called from RCU critical section */
+>  static RAMBlock *qemu_get_ram_block(ram_addr_t addr)
+> @@ -2356,6 +2358,7 @@ ram_addr_t qemu_ram_addr_from_host(void *ptr)
+>      return block->offset + offset;
+>  }
+>  
+> +#ifdef CONFIG_TCG
+>  /* Generate a debug exception if a watchpoint has been hit.  */
+>  void cpu_check_watchpoint(CPUState *cpu, vaddr addr, vaddr len,
+>                            MemTxAttrs attrs, int flags, uintptr_t ra)
+> @@ -2424,6 +2427,7 @@ void cpu_check_watchpoint(CPUState *cpu, vaddr addr, vaddr len,
+>          }
+>      }
+>  }
+> +#endif /* CONFIG_TCG */
+>  
+>  static MemTxResult flatview_read(FlatView *fv, hwaddr addr,
+>                                   MemTxAttrs attrs, void *buf, hwaddr len);
+> 
+
 
