@@ -2,75 +2,88 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A577C2FA076
-	for <lists+qemu-devel@lfdr.de>; Mon, 18 Jan 2021 13:53:45 +0100 (CET)
-Received: from localhost ([::1]:35784 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 62F1F2FA08E
+	for <lists+qemu-devel@lfdr.de>; Mon, 18 Jan 2021 13:59:25 +0100 (CET)
+Received: from localhost ([::1]:41574 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l1U2S-00073p-Mi
-	for lists+qemu-devel@lfdr.de; Mon, 18 Jan 2021 07:53:44 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52234)
+	id 1l1U7w-0001Ao-AC
+	for lists+qemu-devel@lfdr.de; Mon, 18 Jan 2021 07:59:24 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52828)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <minwoo.im.dev@gmail.com>)
- id 1l1U1K-0006Fh-Cl; Mon, 18 Jan 2021 07:52:35 -0500
-Received: from mail-pj1-x1031.google.com ([2607:f8b0:4864:20::1031]:38014)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <minwoo.im.dev@gmail.com>)
- id 1l1U1H-0002VB-2r; Mon, 18 Jan 2021 07:52:34 -0500
-Received: by mail-pj1-x1031.google.com with SMTP id x20so4351301pjh.3;
- Mon, 18 Jan 2021 04:52:30 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
+ id 1l1U2m-0007cS-Uy; Mon, 18 Jan 2021 07:54:04 -0500
+Received: from out1-smtp.messagingengine.com ([66.111.4.25]:52879)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
+ id 1l1U2k-0003Ap-1i; Mon, 18 Jan 2021 07:54:04 -0500
+Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
+ by mailout.nyi.internal (Postfix) with ESMTP id 17D555C0117;
+ Mon, 18 Jan 2021 07:53:59 -0500 (EST)
+Received: from mailfrontend2 ([10.202.2.163])
+ by compute4.internal (MEProxy); Mon, 18 Jan 2021 07:53:59 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=irrelevant.dk;
  h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:in-reply-to:user-agent;
- bh=DGEwHl5uKzCqTXAfi3qkJIwWXtFlZgCvJmIZgVk56A8=;
- b=miMv8tXyRzc8QzaEBPvWrpy26IbsPLjCLyYlOfO8R4pQTo5eUzolTdRTY570Tu4LAm
- 69jtMjxtXmG1fSyPxr4pAK43sYpGqIR7Tm1J9pMkbvW78m71ovWS1Mxh8vWejIeIV7bM
- 852uGlj7NvU78XBtpNTnfVu39fUSediFyIcRxep7t3jpptI+A66eNPMt2IOCT8T2oLt5
- 0T1qMN0OPFRaTEC8cPlheCoBnrcnXHpFpE4+7ORYTTwXx45MwGW8Ba8BWpP2dk9i9W83
- ZPgvATp088IFGQArLxKpe+O+LuALYC7wdgngasR67/IIMHYefN3ya5KUfm6SM6WD/JBN
- LoJA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to:user-agent;
- bh=DGEwHl5uKzCqTXAfi3qkJIwWXtFlZgCvJmIZgVk56A8=;
- b=bAN2H016/Z3XlyyqFwUtv/mDRMOPUF4kkoZRjbqme4pMkgYyRRMXxBEERK1H7BDFcK
- HpmOmOxgjL4Q9jpkBopu88EhDLbPbulyRS8OB+P1MzoyED3nILPpL1wO1TlsP0KMGHt9
- Ols7olGgfe3JwOoQQCYVml9VVIA5VDZ02P+5AKm/LSC1XjDuvUOvr4PpbuEsO+OwtzRF
- cPUabxl2VpppWXbm7TLkwfd28jxEWVL6cffSV8s92ezDq7sCM79VAj9iACpUNlHoLqaF
- YrdN4vmh1kKVifCtocX5uiZIK/lsx04F56411CwDpX9v+kQ5tgAEErB6t6X6wOuhw7Sx
- Z2CQ==
-X-Gm-Message-State: AOAM531UVT+/6wfSk4R8Mobo3JVryQN+35lhSBf8oQtr8m0L5zAKF0d2
- Xh8bPE2M+Ya3mpQBy59FhBQ=
-X-Google-Smtp-Source: ABdhPJyVETb5cWgaXyD98mN5qDWaXdsTbQZ1JNshNx02c9O5+c3Vurcaq2xz/Tc8Y/IRNPo77vRLbg==
-X-Received: by 2002:a17:90a:de13:: with SMTP id
- m19mr16781460pjv.171.1610974349395; 
- Mon, 18 Jan 2021 04:52:29 -0800 (PST)
-Received: from localhost ([211.108.35.36])
- by smtp.gmail.com with ESMTPSA id g17sm16524416pgg.78.2021.01.18.04.52.28
- (version=TLS1_2 cipher=ECDHE-ECDSA-CHACHA20-POLY1305 bits=256/256);
- Mon, 18 Jan 2021 04:52:29 -0800 (PST)
-Date: Mon, 18 Jan 2021 21:52:27 +0900
-From: Minwoo Im <minwoo.im.dev@gmail.com>
-To: Klaus Jensen <its@irrelevant.dk>
-Subject: Re: [PATCH v2 06/12] hw/block/nvme: rename PMR/CMB shift/mask fields
-Message-ID: <20210118125227.GF18718@localhost.localdomain>
+ :content-type:in-reply-to; s=fm2; bh=t9CMczppE1vs/qxl/riViTt+MpZ
+ XH/rQsaT0f4AD5K0=; b=keF1QbztEJz5bO9ljxRRYegDmQel3F7Qyckhi1XKTfE
+ +IlPg4wwfae44AvDHNiPRQR1bR/4w4h/jvWRXCLoYbfTM1PZNoDpgsgR5bKFrHo1
+ hErUODCBVh7ugygzwjmYx55BVVTOV8mzyUq6pzJyVmPTMCpt+lA/h5EP+aGD+9Jk
+ T6pgxZI/THaNcZ6EDIgG+AD65+zYrFDbsNbg71R2E0cGeA5OrBCDLdpbwUhRC/I/
+ 1+lNq+xAgZithl6gIPWvq3nEYBrZ0QZ3uLAVxHYQE8Byqy7ABG1PhbZLp6Ktyif+
+ 2LHVbuMBZiD4OvlLak+mBplIPOHmE/Ze1GBOHThLrUw==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+ messagingengine.com; h=cc:content-type:date:from:in-reply-to
+ :message-id:mime-version:references:subject:to:x-me-proxy
+ :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; bh=t9CMcz
+ ppE1vs/qxl/riViTt+MpZXH/rQsaT0f4AD5K0=; b=oazn51JPkjeHeDgDgyH8nf
+ mV2uOfOr+pQ4pYAf3wrPVma50vZKFEVZBY/qJsRx1EGPhqkiQV6tkKbRIdwM0dPN
+ Kw/w5kICMrHJEkBSlKqhNm93K003421FIUrOndspndp1bZS2H3nyi72iaxRRH44y
+ AAK2X05ft/fF7ypb3UB4DEzbPSln7/eoqIUdeeWJ2Mu3HLV/WppCn98F4tnxG0vo
+ pKUqoSubYwu5NTZxyCkHvr7ksvhqXvTrQmptOnXrBP0cVTDxcUQIbvNAAlymGlyl
+ oUljUACgcJwVwVWmqJqKphFeQfZMSWV+0lcHIin2ZWjcHK2cBvDXR7BM2Z7Gv4og
+ ==
+X-ME-Sender: <xms:5YQFYNJ0u2Sr6ELgoOL-ZxYlgAT5j_I3nAhNSvmeDLHbM_x7tit94g>
+ <xme:5YQFYJKFU2SE61buKk8WRVQZl1e33XJu5ol2VXXMxxHJbYB7de2iDUfvr9htNoyMc
+ jERwRhnQqNmgGE3wb0>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduledrtdekgdeghecutefuodetggdotefrodftvf
+ curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
+ uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
+ fjughrpeffhffvuffkfhggtggujgesghdtreertddtjeenucfhrhhomhepmfhlrghushcu
+ lfgvnhhsvghnuceoihhtshesihhrrhgvlhgvvhgrnhhtrdgukheqnecuggftrfgrthhtvg
+ hrnhepjeegudffueeiteekieelkedvueelteevjeduieeludfffeejgeffhfduvdduffek
+ necukfhppeektddrudeijedrleekrdduledtnecuvehluhhsthgvrhfuihiivgeptdenuc
+ frrghrrghmpehmrghilhhfrhhomhepihhtshesihhrrhgvlhgvvhgrnhhtrdgukh
+X-ME-Proxy: <xmx:5YQFYFtjiXc_t_zNZrU_cv7GlQ8PQvA_F9QSbc60oMKkq1TmFWMxhA>
+ <xmx:5YQFYOZ7ihv8reYZfhJAKDBmGEL3zevah7M2811cDcZeuqzS3dAIcg>
+ <xmx:5YQFYEYpkw0Jxu6NygC0TDgRBw1p08pUPBduS52HcqcwhHegodcjcg>
+ <xmx:54QFYE6Y0Vgbv8fTJA_5g5jeQjupF3b54KWmAbgd6GajGeUHOUj9sQ>
+Received: from apples.localdomain (80-167-98-190-cable.dk.customer.tdc.net
+ [80.167.98.190])
+ by mail.messagingengine.com (Postfix) with ESMTPA id E3D9D1080066;
+ Mon, 18 Jan 2021 07:53:55 -0500 (EST)
+Date: Mon, 18 Jan 2021 13:53:53 +0100
+From: Klaus Jensen <its@irrelevant.dk>
+To: Minwoo Im <minwoo.im.dev@gmail.com>
+Subject: Re: [PATCH v2 02/12] hw/block/nvme: fix 64 bit register hi/lo split
+ writes
+Message-ID: <YAWE4cDhwQOoc8NT@apples.localdomain>
 References: <20210118094705.56772-1-its@irrelevant.dk>
- <20210118094705.56772-7-its@irrelevant.dk>
+ <20210118094705.56772-3-its@irrelevant.dk>
+ <20210118124100.GB18718@localhost.localdomain>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="0bZi2fgMGVYlTvNP"
 Content-Disposition: inline
-In-Reply-To: <20210118094705.56772-7-its@irrelevant.dk>
-User-Agent: Mutt/1.11.4 (2019-03-13)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1031;
- envelope-from=minwoo.im.dev@gmail.com; helo=mail-pj1-x1031.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+In-Reply-To: <20210118124100.GB18718@localhost.localdomain>
+Received-SPF: pass client-ip=66.111.4.25; envelope-from=its@irrelevant.dk;
+ helo=out1-smtp.messagingengine.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -90,66 +103,89 @@ Cc: Fam Zheng <fam@euphon.net>, Kevin Wolf <kwolf@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 21-01-18 10:46:59, Klaus Jensen wrote:
-> From: Klaus Jensen <k.jensen@samsung.com>
-> 
-> Use the correct field names.
-> 
-> Signed-off-by: Klaus Jensen <k.jensen@samsung.com>
-> ---
->  include/block/nvme.h | 16 ++++++++--------
->  1 file changed, 8 insertions(+), 8 deletions(-)
-> 
-> diff --git a/include/block/nvme.h b/include/block/nvme.h
-> index 86d7fc2f905c..f3cbe17d0971 100644
-> --- a/include/block/nvme.h
-> +++ b/include/block/nvme.h
-> @@ -35,8 +35,8 @@ enum NvmeCapShift {
->      CAP_CSS_SHIFT      = 37,
->      CAP_MPSMIN_SHIFT   = 48,
->      CAP_MPSMAX_SHIFT   = 52,
-> -    CAP_PMR_SHIFT      = 56,
-> -    CAP_CMB_SHIFT      = 57,
-> +    CAP_PMRS_SHIFT     = 56,
-> +    CAP_CMBS_SHIFT     = 57,
->  };
->  
->  enum NvmeCapMask {
-> @@ -49,8 +49,8 @@ enum NvmeCapMask {
->      CAP_CSS_MASK       = 0xff,
->      CAP_MPSMIN_MASK    = 0xf,
->      CAP_MPSMAX_MASK    = 0xf,
-> -    CAP_PMR_MASK       = 0x1,
-> -    CAP_CMB_MASK       = 0x1,
-> +    CAP_PMRS_MASK      = 0x1,
-> +    CAP_CMBS_MASK      = 0x1,
->  };
->  
->  #define NVME_CAP_MQES(cap)  (((cap) >> CAP_MQES_SHIFT)   & CAP_MQES_MASK)
-> @@ -81,10 +81,10 @@ enum NvmeCapMask {
->                                                             << CAP_MPSMIN_SHIFT)
->  #define NVME_CAP_SET_MPSMAX(cap, val) (cap |= (uint64_t)(val & CAP_MPSMAX_MASK)\
->                                                             << CAP_MPSMAX_SHIFT)
-> -#define NVME_CAP_SET_PMRS(cap, val)   (cap |= (uint64_t)(val & CAP_PMR_MASK)   \
-> -                                                           << CAP_PMR_SHIFT)
-> -#define NVME_CAP_SET_CMBS(cap, val)   (cap |= (uint64_t)(val & CAP_CMB_MASK)   \
-> -                                                           << CAP_CMB_SHIFT)
-> +#define NVME_CAP_SET_PMRS(cap, val)   (cap |= (uint64_t)(val & CAP_PMRS_MASK)  \
-> +                                                           << CAP_PMRS_SHIFT)
-> +#define NVME_CAP_SET_CMBS(cap, val)   (cap |= (uint64_t)(val & CAP_CMBS_MASK)  \
-> +                                                           << CAP_CMBS_SHIFT)
 
-Oh, it would have been better folded into [3/12] patch, though.
+--0bZi2fgMGVYlTvNP
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Changes are looking good to me to represent "Supported".
+On Jan 18 21:41, Minwoo Im wrote:
+> On 21-01-18 10:46:55, Klaus Jensen wrote:
+> > From: Klaus Jensen <k.jensen@samsung.com>
+> >=20
+> > 64 bit registers like ASQ and ACQ should be writable by both a hi/lo 32
+> > bit write combination as well as a plain 64 bit write. The spec does not
+> > define ordering on the hi/lo split, but the code currently assumes that
+> > the low order bits are written first. Additionally, the code does not
+> > consider that another address might already have been written into the
+> > register, causing the OR'ing to result in a bad address.
+> >=20
+> > Fix this by explicitly overwriting only the low or high order bits for
+> > 32 bit writes.
+> >=20
+> > Signed-off-by: Klaus Jensen <k.jensen@samsung.com>
+> > ---
+> >  hw/block/nvme.c | 10 ++++++----
+> >  1 file changed, 6 insertions(+), 4 deletions(-)
+> >=20
+> > diff --git a/hw/block/nvme.c b/hw/block/nvme.c
+> > index bd7e258c3c26..40b9f8ccfc0e 100644
+> > --- a/hw/block/nvme.c
+> > +++ b/hw/block/nvme.c
+> > @@ -3781,19 +3781,21 @@ static void nvme_write_bar(NvmeCtrl *n, hwaddr =
+offset, uint64_t data,
+> >          trace_pci_nvme_mmio_aqattr(data & 0xffffffff);
+> >          break;
+> >      case 0x28:  /* ASQ */
+> > -        n->bar.asq =3D data;
+> > +        n->bar.asq =3D size =3D=3D 8 ? data :
+> > +            (n->bar.asq & ~0xffffffff) | (data & 0xffffffff);
+>                              ^^^^^^^^^^^
+> If this one is to unmask lower 32bits other than higher 32bits, then
+> it should be:
+>=20
+> 	(n->bar.asq & ~0xffffffffULL)
+>=20
 
-Reviewed-by: Minwoo Im <minwoo.im.dev@gmail.com>
+Ouch. Yes, thanks!
 
->  
->  enum NvmeCapCss {
->      NVME_CAP_CSS_NVM        = 1 << 0,
-> -- 
-> 2.30.0
-> 
-> 
+> Also, maybe we should take care of lower than 4bytes as:
+>=20
+> 	.min_access_size =3D 2,
+> 	.max_access_size =3D 8,
+>=20
+> Even we have some error messages up there with:
+>=20
+> 	if (unlikely(size < sizeof(uint32_t))) {
+> 	    NVME_GUEST_ERR(pci_nvme_ub_mmiowr_toosmall,
+> 			   "MMIO write smaller than 32-bits,"
+> 			   " offset=3D0x%"PRIx64", size=3D%u",
+> 			   offset, size);
+> 	    /* should be ignored, fall through for now */
+> 	}
+>=20
+> It's a fall-thru error, and that's it.  I would prefer not to have this
+> error and support for 2bytes access also, OR do not support for 2bytes
+> access for this MMIO area.
+>=20
+
+The spec requires aligned 32 bit accesses (or the size of the register),
+so maybe it's about time we actually ignore instead of falling through.
+
+--0bZi2fgMGVYlTvNP
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEEUigzqnXi3OaiR2bATeGvMW1PDekFAmAFhN4ACgkQTeGvMW1P
+DenSagf9Fr2EsBhCFR1eaieGl5sF4iF/PzRP4gV0/wDuu8sqS0J4tUHbA+OWBWXT
+sAUDzNBqosH9Gr2DDdH6qGdba+tOGET+UskidgLt+DVnlue/Eg/pDyQt2EzCG/GK
+xufAZXLfS/h3N0R167qKGfTrb5r6dqA+Lnp2Slt1gPXwNEhcdPsKQa2X535e+zZl
+wDadGY2qyPHMbEd1xh1Me5YB1UkEe7LlbA+DynXWvmCE0HFy2E5bUmOBn4YxvdRm
+Pvp0ZFahK53qNuY8rBDAbZLjC8dcUDIXnK+IICgiEx1GjQcjOKeOHmJs/IlWe2yZ
+24MTNwrZb3nvsnpx5Axg7JrDZvdOVA==
+=bW0q
+-----END PGP SIGNATURE-----
+
+--0bZi2fgMGVYlTvNP--
 
