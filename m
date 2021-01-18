@@ -2,59 +2,59 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D66592F97E0
-	for <lists+qemu-devel@lfdr.de>; Mon, 18 Jan 2021 03:37:39 +0100 (CET)
-Received: from localhost ([::1]:57022 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 392D92F97E1
+	for <lists+qemu-devel@lfdr.de>; Mon, 18 Jan 2021 03:39:05 +0100 (CET)
+Received: from localhost ([::1]:59946 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l1KQE-00009O-FM
-	for lists+qemu-devel@lfdr.de; Sun, 17 Jan 2021 21:37:38 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45170)
+	id 1l1KRc-0001RR-89
+	for lists+qemu-devel@lfdr.de; Sun, 17 Jan 2021 21:39:04 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45524)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <wlosh@bsdimp.com>) id 1l1KOu-00082y-Gl
- for qemu-devel@nongnu.org; Sun, 17 Jan 2021 21:36:21 -0500
-Received: from mail-qk1-x732.google.com ([2607:f8b0:4864:20::732]:46109)
+ (Exim 4.90_1) (envelope-from <wlosh@bsdimp.com>) id 1l1KQ1-0000Kq-O8
+ for qemu-devel@nongnu.org; Sun, 17 Jan 2021 21:37:25 -0500
+Received: from mail-qk1-x732.google.com ([2607:f8b0:4864:20::732]:33568)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <wlosh@bsdimp.com>) id 1l1KOs-0000ql-72
- for qemu-devel@nongnu.org; Sun, 17 Jan 2021 21:36:16 -0500
-Received: by mail-qk1-x732.google.com with SMTP id d14so17478437qkc.13
- for <qemu-devel@nongnu.org>; Sun, 17 Jan 2021 18:36:12 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <wlosh@bsdimp.com>) id 1l1KPw-0001IG-Ml
+ for qemu-devel@nongnu.org; Sun, 17 Jan 2021 21:37:25 -0500
+Received: by mail-qk1-x732.google.com with SMTP id f26so17523513qka.0
+ for <qemu-devel@nongnu.org>; Sun, 17 Jan 2021 18:37:20 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=bsdimp-com.20150623.gappssmtp.com; s=20150623;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=2wyvwHhXT+kJjlJdUBpoNpgUn3iTqGj8x32qfPPgaEM=;
- b=alIjD8GQqiaZXDsxRezPKuIUIP4kZn+8D+rJ+XmW8Ux1oaAStWELmdjccg1BCTg7tw
- 3r2jawgYHoqCDRZk9Z9yXZPpURdGok4zcBg3lg6oH2n015zaudtoVNCfnll92ipirQww
- UvW/Mf1BvqWOs2NUbP5/iEq4wXTmSUVpzoissGoZUZzaYzYjq85xOO8fiLGSPPc/3ySM
- XhJuzBnUwVTUBstSCcwoYnB9tIvJ438tkOVAh5DWZRFl4OLbQUf+dSalbyyf7trWzPfU
- ophxsD1+3KiU2TNu1cJaKauBpSRSD31NApwcFI2WR5cQksFfn4y562UiTXtuAF9RTTGk
- NoYA==
+ :cc; bh=BWKg7T7AA1RzsOwaQQUFuuTXCdkP25EHCTH2JCANgdc=;
+ b=sVO1M0FqkaEygJw5WOoSgbcPQq2Cv/fsO0oR/ZkUJPRwUhkesbmoU30Vw9AJ8aDfLO
+ +art65/UFzeosiPasZKtBvbJiX+DgJD9HJ+nGRGp03lvZmz1+XoZvYGOcUDYHiJZ2838
+ OpBeQlFfAXKD+dlnjwHzmuyvvMRZzQWq3EjCKAUtN2hXSXINRt5YvNBVfqh/5pLVnuki
+ Jw/UASmW9XRT6kGeWCaNP+Tbi6EzLXyGae0pc7b8mLHBZbSqXB1YaLHLJCcQakbex0ST
+ fJCT2Nv6m8R+W2PDVRDcbTF5twtyGUGJqpbTUT7hrUOqVjL6wYRyyA4JHfqR/yPropr7
+ 2cxA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=2wyvwHhXT+kJjlJdUBpoNpgUn3iTqGj8x32qfPPgaEM=;
- b=MeE9hkWPw5z28HHY5VS2mNhlE13WA67MXfz0GwWSz5gnNvB8T56qq7I0KTJTTNRFRP
- Fdnf4EdtM5wQ2faZZN+u95PSPfAgDkvtsJQtI+smr9rvvYWjXf3ybIEPZPJHcnqpLkjL
- C6MUWXfSsUY9QAHXR5b0ncUIwk2YLQkongM/i1cBd3+FW2N6iZbif6C08SDPpDuNR3PD
- Ri7YzJ30n/9jaqc+/Q6VzaQM8XqXgjgy2m6c8T21r6a8TcIeIfeAXy51luW/m8ee6I3r
- IC7tdhao9wpmVwU4AadklwKMC6hbW16/Rxrolj81fqZrdMn/1tIF84WJZsUL9Zomzbqd
- AYCQ==
-X-Gm-Message-State: AOAM531OdYFsaT7usRIrgvs3rE+zYbCdOOiS+fnNxBm3/Bl/supdAARV
- SSnexZ3WPEquEm61zuxE7wFO+EwWYX45xXDLLmbYfQ==
-X-Google-Smtp-Source: ABdhPJw0ZyVKdrvaOf/4I5klX3A3r7O0I9nr+fwwYZNDDcakcW3ioFKPLU4aCCKTzrp8dvSOSxfq2Y+lQZxuXggU5CQ=
-X-Received: by 2002:a37:4a4e:: with SMTP id x75mr22953825qka.89.1610937371399; 
- Sun, 17 Jan 2021 18:36:11 -0800 (PST)
+ bh=BWKg7T7AA1RzsOwaQQUFuuTXCdkP25EHCTH2JCANgdc=;
+ b=Jd3+BQMIFC0Zjn57X69Zwgli7Gst0GDegqZ7tyc7lpAGijrdGCMZAMNQtb1qz2Qq0A
+ vrhKiqKVqm+WpwV2a0ePjPYSTW6KGaC2/5c/BRqzU2ioD9NQGLqlUxlhrqwo1QIHMM+i
+ 5okHvWWMAItWdAd2SyuvrJuhetcu2d1oknlPzAqIUsJE5twDC86OoJunLy9nm177HJos
+ q7oU6nSoJTGz94oeQ3T8bI87MvycmpY/I4GijulA8/Lh3NPb0df734zAnRdPbmyBQlGI
+ 5kZB0iYtNsW3ZfmazRbFiFu6CU9gNKJuBgTkhYCV4AwCS1a3+c2eeTycHlMbo8+6hlNt
+ rj/g==
+X-Gm-Message-State: AOAM533GTfNsSiv5pWbxxESiP3h1EHndtmh3Kgzk2cbi2fCP5+5pWZ3c
+ F1ge9s5vwlBSWLkU6P6oIVNeXAxnAHVxIjARA3+doQ==
+X-Google-Smtp-Source: ABdhPJyADGd4X3LyGzQ9j47+di79LIiXcWIRXVZAVHPofCc1Kf4dPJsJbuPt9Z+txRSwFJd8ppfgCRO9WDwz3UtLicI=
+X-Received: by 2002:a37:8505:: with SMTP id h5mr22721502qkd.44.1610937439662; 
+ Sun, 17 Jan 2021 18:37:19 -0800 (PST)
 MIME-Version: 1.0
 References: <c75512b3-0665-d686-5ea4-248a9819355d@huawei.com>
- <6bdfc158-0f16-b19f-4c65-8c47338f1dcc@huawei.com>
-In-Reply-To: <6bdfc158-0f16-b19f-4c65-8c47338f1dcc@huawei.com>
+ <2d69a2e7-67a2-3660-8ffe-de0962a046af@huawei.com>
+In-Reply-To: <2d69a2e7-67a2-3660-8ffe-de0962a046af@huawei.com>
 From: Warner Losh <imp@bsdimp.com>
-Date: Sun, 17 Jan 2021 19:35:58 -0700
-Message-ID: <CANCZdfos9ck76mZoaYUOe060ziexTNCH8SJiT_c=MY5=QwoxMA@mail.gmail.com>
-Subject: Re: [PATCH V4 4/4] bsd-user: space required after semicolon
+Date: Sun, 17 Jan 2021 19:37:07 -0700
+Message-ID: <CANCZdfqQhc_aP6vQ8GKnDwKJ6nhoR3H1Q08w4v2VdKS7=GY50Q@mail.gmail.com>
+Subject: Re: [PATCH V4 3/4] bsd-user: do not use C99 // comments
 To: shiliyang <shiliyang@huawei.com>
-Content-Type: multipart/alternative; boundary="000000000000c72e5405b92395db"
+Content-Type: multipart/alternative; boundary="000000000000d8cad305b9239963"
 Received-SPF: none client-ip=2607:f8b0:4864:20::732;
  envelope-from=wlosh@bsdimp.com; helo=mail-qk1-x732.google.com
 X-Spam_score_int: -18
@@ -80,172 +80,106 @@ Cc: alex.chen@huawei.com, Peter Maydell <peter.maydell@linaro.org>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---000000000000c72e5405b92395db
+--000000000000d8cad305b9239963
 Content-Type: text/plain; charset="UTF-8"
 
-Can you submit this to our current fork at http://github.com/qemu-bsd-user
-on the rebase-3.1 branch? Having churn like this upstream just slows us
-down since we have extensive changes and these will conflict.
+Same: please submit this via http://github.com/qemu-bsd-user...
 
 Warner
 
-On Sun, Jan 17, 2021, 7:21 PM shiliyang <shiliyang@huawei.com> wrote:
+On Sun, Jan 17, 2021, 7:20 PM shiliyang <shiliyang@huawei.com> wrote:
 
-> This patch fixes error style problems found by checkpatch.pl:
-> ERROR: space required after that ','
+> This patch fixes error messages found by checkpatch.pl:
+> ERROR: do not use C99 // comments
 >
 > Signed-off-by: Liyang Shi <shiliyang@huawei.com>
 > ---
->  bsd-user/elfload.c | 10 +++++-----
->  1 file changed, 5 insertions(+), 5 deletions(-)
+>  bsd-user/elfload.c | 4 ++--
+>  1 file changed, 2 insertions(+), 2 deletions(-)
 >
 > diff --git a/bsd-user/elfload.c b/bsd-user/elfload.c
-> index 2842dfe56b..c89c998c22 100644
+> index d5cab25607..2842dfe56b 100644
 > --- a/bsd-user/elfload.c
 > +++ b/bsd-user/elfload.c
-> @@ -636,8 +636,8 @@ int load_elf_binary(struct bsd_binprm *bprm, struct
-> target_pt_regs *regs,
+> @@ -390,7 +390,7 @@ static const char *lookup_symbolxx(struct syminfo *s,
+> target_ulong orig_addr)
+>      struct elf_sym *syms = s->disas_symtab.elf64;
+>  #endif
 >
->  #ifndef __FreeBSD__
->      bprm->p = copy_elf_strings(1, &bprm->filename, bprm->page, bprm->p);
-> -    bprm->p = copy_elf_strings(bprm->envc,bprm->envp,bprm->page,bprm->p);
-> -    bprm->p = copy_elf_strings(bprm->argc,bprm->argv,bprm->page,bprm->p);
-> +    bprm->p = copy_elf_strings(bprm->envc, bprm->envp, bprm->page,
-> bprm->p);
-> +    bprm->p = copy_elf_strings(bprm->argc, bprm->argv, bprm->page,
-> bprm->p);
->      if (!bprm->p) {
->          retval = -E2BIG;
->      }
-> @@ -739,7 +739,7 @@ int load_elf_binary(struct bsd_binprm *bprm, struct
-> target_pt_regs *regs,
->              if (retval >= 0) {
->                  retval = lseek(interpreter_fd, 0, SEEK_SET);
->                  if(retval >= 0) {
-> -                    retval = read(interpreter_fd,bprm->buf,128);
-> +                    retval = read(interpreter_fd, bprm->buf, 128);
->                  }
->              }
->              if (retval >= 0) {
-> @@ -769,7 +769,7 @@ int load_elf_binary(struct bsd_binprm *bprm, struct
-> target_pt_regs *regs,
->          }
+> -    // binary search
+> +    /* binary search */
+>      struct elf_sym *sym;
 >
->          if (interp_elf_ex.e_ident[0] != 0x7f ||
-> -                strncmp((char *)&interp_elf_ex.e_ident[1], "ELF",3) != 0)
-> {
-> +                strncmp((char *)&interp_elf_ex.e_ident[1], "ELF", 3) !=
-> 0) {
->              interpreter_type &= ~INTERPRETER_ELF;
->          }
->
-> @@ -792,7 +792,7 @@ int load_elf_binary(struct bsd_binprm *bprm, struct
-> target_pt_regs *regs,
->              passed_p = passed_fileno;
->
->              if (elf_interpreter) {
-> -                bprm->p =
-> copy_elf_strings(1,&passed_p,bprm->page,bprm->p);
-> +                bprm->p = copy_elf_strings(1, &passed_p, bprm->page,
-> bprm->p);
->                  bprm->argc++;
->              }
->          }
+>      sym = bsearch(&orig_addr, syms, s->disas_num_syms, sizeof(*syms),
+> symfind);
+> @@ -465,7 +465,7 @@ found:
+>      i = 0;
+>      while (i < nsyms) {
+>          bswap_sym(syms + i);
+> -        // Throw away entries which we do not need.
+> +        /* Throw away entries which we do not need. */
+>          if (syms[i].st_shndx == SHN_UNDEF ||
+>                  syms[i].st_shndx >= SHN_LORESERVE ||
+>                  ELF_ST_TYPE(syms[i].st_info) != STT_FUNC) {
 > --
 > 2.29.1.59.gf9b6481aed
 >
 >
 
---000000000000c72e5405b92395db
+--000000000000d8cad305b9239963
 Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-<div dir=3D"auto">Can you submit this to our current fork at <a href=3D"htt=
-p://github.com/qemu-bsd-user">http://github.com/qemu-bsd-user</a> on the re=
-base-3.1 branch? Having churn like this upstream just slows us down since w=
-e have extensive changes and these will conflict.<div dir=3D"auto"><br></di=
-v><div dir=3D"auto">Warner=C2=A0</div></div><br><div class=3D"gmail_quote">=
-<div dir=3D"ltr" class=3D"gmail_attr">On Sun, Jan 17, 2021, 7:21 PM shiliya=
+<div dir=3D"auto">Same: please submit this via <a href=3D"http://github.com=
+/qemu-bsd-user.">http://github.com/qemu-bsd-user.</a>..<div dir=3D"auto"><b=
+r></div><div dir=3D"auto">Warner</div></div><br><div class=3D"gmail_quote">=
+<div dir=3D"ltr" class=3D"gmail_attr">On Sun, Jan 17, 2021, 7:20 PM shiliya=
 ng &lt;<a href=3D"mailto:shiliyang@huawei.com">shiliyang@huawei.com</a>&gt;=
  wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8=
-ex;border-left:1px #ccc solid;padding-left:1ex">This patch fixes error styl=
-e problems found by <a href=3D"http://checkpatch.pl" rel=3D"noreferrer nore=
-ferrer" target=3D"_blank">checkpatch.pl</a>:<br>
-ERROR: space required after that &#39;,&#39;<br>
+ex;border-left:1px #ccc solid;padding-left:1ex">This patch fixes error mess=
+ages found by <a href=3D"http://checkpatch.pl" rel=3D"noreferrer noreferrer=
+" target=3D"_blank">checkpatch.pl</a>:<br>
+ERROR: do not use C99 // comments<br>
 <br>
 Signed-off-by: Liyang Shi &lt;<a href=3D"mailto:shiliyang@huawei.com" targe=
 t=3D"_blank" rel=3D"noreferrer">shiliyang@huawei.com</a>&gt;<br>
 ---<br>
-=C2=A0bsd-user/elfload.c | 10 +++++-----<br>
-=C2=A01 file changed, 5 insertions(+), 5 deletions(-)<br>
+=C2=A0bsd-user/elfload.c | 4 ++--<br>
+=C2=A01 file changed, 2 insertions(+), 2 deletions(-)<br>
 <br>
 diff --git a/bsd-user/elfload.c b/bsd-user/elfload.c<br>
-index 2842dfe56b..c89c998c22 100644<br>
+index d5cab25607..2842dfe56b 100644<br>
 --- a/bsd-user/elfload.c<br>
 +++ b/bsd-user/elfload.c<br>
-@@ -636,8 +636,8 @@ int load_elf_binary(struct bsd_binprm *bprm, struct tar=
-get_pt_regs *regs,<br>
+@@ -390,7 +390,7 @@ static const char *lookup_symbolxx(struct syminfo *s, t=
+arget_ulong orig_addr)<br>
+=C2=A0 =C2=A0 =C2=A0struct elf_sym *syms =3D s-&gt;disas_symtab.elf64;<br>
+=C2=A0#endif<br>
 <br>
-=C2=A0#ifndef __FreeBSD__<br>
-=C2=A0 =C2=A0 =C2=A0bprm-&gt;p =3D copy_elf_strings(1, &amp;bprm-&gt;filena=
-me, bprm-&gt;page, bprm-&gt;p);<br>
--=C2=A0 =C2=A0 bprm-&gt;p =3D copy_elf_strings(bprm-&gt;envc,bprm-&gt;envp,=
-bprm-&gt;page,bprm-&gt;p);<br>
--=C2=A0 =C2=A0 bprm-&gt;p =3D copy_elf_strings(bprm-&gt;argc,bprm-&gt;argv,=
-bprm-&gt;page,bprm-&gt;p);<br>
-+=C2=A0 =C2=A0 bprm-&gt;p =3D copy_elf_strings(bprm-&gt;envc, bprm-&gt;envp=
-, bprm-&gt;page, bprm-&gt;p);<br>
-+=C2=A0 =C2=A0 bprm-&gt;p =3D copy_elf_strings(bprm-&gt;argc, bprm-&gt;argv=
-, bprm-&gt;page, bprm-&gt;p);<br>
-=C2=A0 =C2=A0 =C2=A0if (!bprm-&gt;p) {<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0retval =3D -E2BIG;<br>
-=C2=A0 =C2=A0 =C2=A0}<br>
-@@ -739,7 +739,7 @@ int load_elf_binary(struct bsd_binprm *bprm, struct tar=
-get_pt_regs *regs,<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0if (retval &gt;=3D 0) {<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0retval =3D ls=
-eek(interpreter_fd, 0, SEEK_SET);<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0if(retval &gt=
-;=3D 0) {<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 retv=
-al =3D read(interpreter_fd,bprm-&gt;buf,128);<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 retv=
-al =3D read(interpreter_fd, bprm-&gt;buf, 128);<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0}<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0}<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0if (retval &gt;=3D 0) {<br>
-@@ -769,7 +769,7 @@ int load_elf_binary(struct bsd_binprm *bprm, struct tar=
-get_pt_regs *regs,<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0}<br>
+-=C2=A0 =C2=A0 // binary search<br>
++=C2=A0 =C2=A0 /* binary search */<br>
+=C2=A0 =C2=A0 =C2=A0struct elf_sym *sym;<br>
 <br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0if (interp_elf_ex.e_ident[0] !=3D 0x7f ||=
+=C2=A0 =C2=A0 =C2=A0sym =3D bsearch(&amp;orig_addr, syms, s-&gt;disas_num_s=
+yms, sizeof(*syms), symfind);<br>
+@@ -465,7 +465,7 @@ found:<br>
+=C2=A0 =C2=A0 =C2=A0i =3D 0;<br>
+=C2=A0 =C2=A0 =C2=A0while (i &lt; nsyms) {<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0bswap_sym(syms + i);<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 // Throw away entries which we do not need.<br=
+>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 /* Throw away entries which we do not need. */=
 <br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 strncmp((char *)&a=
-mp;interp_elf_ex.e_ident[1], &quot;ELF&quot;,3) !=3D 0) {<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 strncmp((char *)&a=
-mp;interp_elf_ex.e_ident[1], &quot;ELF&quot;, 3) !=3D 0) {<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0interpreter_type &amp;=3D ~=
-INTERPRETER_ELF;<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0}<br>
-<br>
-@@ -792,7 +792,7 @@ int load_elf_binary(struct bsd_binprm *bprm, struct tar=
-get_pt_regs *regs,<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0passed_p =3D passed_fileno;=
-<br>
-<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0if (elf_interpreter) {<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 bprm-&gt;p =3D cop=
-y_elf_strings(1,&amp;passed_p,bprm-&gt;page,bprm-&gt;p);<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 bprm-&gt;p =3D cop=
-y_elf_strings(1, &amp;passed_p, bprm-&gt;page, bprm-&gt;p);<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0bprm-&gt;argc=
-++;<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0}<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0}<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0if (syms[i].st_shndx =3D=3D SHN_UNDEF ||<=
+br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0syms[i].st_sh=
+ndx &gt;=3D SHN_LORESERVE ||<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0ELF_ST_TYPE(s=
+yms[i].st_info) !=3D STT_FUNC) {<br>
 -- <br>
 2.29.1.59.gf9b6481aed<br>
 <br>
 </blockquote></div>
 
---000000000000c72e5405b92395db--
+--000000000000d8cad305b9239963--
 
