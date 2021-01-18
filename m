@@ -2,37 +2,38 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D4C062F9BB1
-	for <lists+qemu-devel@lfdr.de>; Mon, 18 Jan 2021 10:03:38 +0100 (CET)
-Received: from localhost ([::1]:42230 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8888D2F9BB9
+	for <lists+qemu-devel@lfdr.de>; Mon, 18 Jan 2021 10:06:51 +0100 (CET)
+Received: from localhost ([::1]:44446 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l1QRh-0007ko-9t
-	for lists+qemu-devel@lfdr.de; Mon, 18 Jan 2021 04:03:34 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39220)
+	id 1l1QUs-0000Mm-LN
+	for lists+qemu-devel@lfdr.de; Mon, 18 Jan 2021 04:06:50 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39672)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1l1QQL-0007H3-CS
- for qemu-devel@nongnu.org; Mon, 18 Jan 2021 04:02:09 -0500
-Received: from mx2.suse.de ([195.135.220.15]:44938)
+ (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1l1QSY-0008Gz-VA
+ for qemu-devel@nongnu.org; Mon, 18 Jan 2021 04:04:29 -0500
+Received: from mx2.suse.de ([195.135.220.15]:45792)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1l1QQG-0004kM-Ip
- for qemu-devel@nongnu.org; Mon, 18 Jan 2021 04:02:09 -0500
+ (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1l1QSR-0005Zs-JW
+ for qemu-devel@nongnu.org; Mon, 18 Jan 2021 04:04:25 -0500
 X-Virus-Scanned: by amavisd-new at test-mx.suse.de
 Received: from relay2.suse.de (unknown [195.135.221.27])
- by mx2.suse.de (Postfix) with ESMTP id 73E96AC6E;
- Mon, 18 Jan 2021 09:02:01 +0000 (UTC)
-Subject: Re: [PATCH 4/6] accel/tcg: Declare missing cpu_loop_exit*() stubs
+ by mx2.suse.de (Postfix) with ESMTP id 21FF2ACF4;
+ Mon, 18 Jan 2021 09:04:18 +0000 (UTC)
+Subject: Re: [RFC PATCH 5/6] accel/tcg: Restrict cpu_io_recompile() from other
+ accelerators
 To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
  qemu-devel@nongnu.org
 References: <20210117164813.4101761-1-f4bug@amsat.org>
- <20210117164813.4101761-5-f4bug@amsat.org>
+ <20210117164813.4101761-6-f4bug@amsat.org>
 From: Claudio Fontana <cfontana@suse.de>
-Message-ID: <d47b56cb-a331-7eeb-b13d-5621a04240de@suse.de>
-Date: Mon, 18 Jan 2021 10:02:00 +0100
+Message-ID: <2434cd1b-57e9-f0ab-22b0-cffe96a536e1@suse.de>
+Date: Mon, 18 Jan 2021 10:04:17 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.12.0
 MIME-Version: 1.0
-In-Reply-To: <20210117164813.4101761-5-f4bug@amsat.org>
+In-Reply-To: <20210117164813.4101761-6-f4bug@amsat.org>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 8bit
@@ -65,73 +66,44 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On 1/17/21 5:48 PM, Philippe Mathieu-Daudé wrote:
-> cpu_loop_exit*() functions are declared in accel/tcg/cpu-exec-common.c,
-> and are not available when TCG accelerator is not built. Add stubs so
-> linking without TCG succeed.
-> 
-> Problematic files:
-> 
-> - hw/semihosting/console.c in qemu_semihosting_console_inc()
-> - hw/ppc/spapr_hcall.c in h_confer()
-> - hw/s390x/ipl.c in s390_ipl_reset_request()
-> - hw/misc/mips_itu.c
+> As cpu_io_recompile() is only called within TCG accelerator
+> in cputlb.c, declare it locally.
 > 
 > Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+
+It's only used in accel/tcg/cputlb.c, should it be a static function there?
+
+
 > ---
-> I suppose the s390x kvm-only build didn't catch this because
-> of compiler optimization:
-> 
-> in s390_ipl_reset_request():
-> 
-> 640     if (tcg_enabled()) {
-> 641         cpu_loop_exit(cs);
-> 642     }
-
-Ciao Philippe,
-
-yes I have seen this a lot on x86 also, and seems to depend on the compiler used.
-
-On OpenSUSE 15.2, with gcc based on 7.5.0, I am getting this optimization also, and so no error happens in these cases.
-
-It is a bit inconvenient because I have to rely completely on the CI to catch these situations.
-
-Ciao,
-
-Claudio
-
-
-
-> 
-> and "sysemu/tcg.h" is:
-> 
->  13 #ifdef CONFIG_TCG
->  14 extern bool tcg_allowed;
->  15 #define tcg_enabled() (tcg_allowed)
->  16 #else
->  17 #define tcg_enabled() 0
->  18 #endif
+> RFC because not sure if other accelerator could implement this.
 > ---
->  accel/stubs/tcg-stub.c | 10 ++++++++++
->  1 file changed, 10 insertions(+)
+>  accel/tcg/internal.h    | 2 ++
+>  include/exec/exec-all.h | 1 -
+>  2 files changed, 2 insertions(+), 1 deletion(-)
 > 
-> diff --git a/accel/stubs/tcg-stub.c b/accel/stubs/tcg-stub.c
-> index 8c18d3eabdd..2304606f8e0 100644
-> --- a/accel/stubs/tcg-stub.c
-> +++ b/accel/stubs/tcg-stub.c
-> @@ -28,3 +28,13 @@ void *probe_access(CPUArchState *env, target_ulong addr, int size,
->       /* Handled by hardware accelerator. */
->       g_assert_not_reached();
->  }
+> diff --git a/accel/tcg/internal.h b/accel/tcg/internal.h
+> index f7e18c3498b..c72a69e4d63 100644
+> --- a/accel/tcg/internal.h
+> +++ b/accel/tcg/internal.h
+> @@ -18,4 +18,6 @@ TranslationBlock *tb_gen_code(CPUState *cpu,
+>  
+>  void tb_flush_jmp_cache(CPUState *cpu, target_ulong addr);
+>  
+> +void QEMU_NORETURN cpu_io_recompile(CPUState *cpu, uintptr_t retaddr);
 > +
-> +void QEMU_NORETURN cpu_loop_exit(CPUState *cpu)
-> +{
-> +    g_assert_not_reached();
-> +}
-> +
-> +void QEMU_NORETURN cpu_loop_exit_restore(CPUState *cpu, uintptr_t pc)
-> +{
-> +    g_assert_not_reached();
-> +}
+>  #endif
+> diff --git a/include/exec/exec-all.h b/include/exec/exec-all.h
+> index 3acc7c2943a..125000bcf70 100644
+> --- a/include/exec/exec-all.h
+> +++ b/include/exec/exec-all.h
+> @@ -63,7 +63,6 @@ void restore_state_to_opc(CPUArchState *env, TranslationBlock *tb,
+>  bool cpu_restore_state(CPUState *cpu, uintptr_t searched_pc, bool will_exit);
+>  
+>  void QEMU_NORETURN cpu_loop_exit_noexc(CPUState *cpu);
+> -void QEMU_NORETURN cpu_io_recompile(CPUState *cpu, uintptr_t retaddr);
+>  void QEMU_NORETURN cpu_loop_exit(CPUState *cpu);
+>  void QEMU_NORETURN cpu_loop_exit_restore(CPUState *cpu, uintptr_t pc);
+>  void QEMU_NORETURN cpu_loop_exit_atomic(CPUState *cpu, uintptr_t pc);
 > 
 
 
