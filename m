@@ -2,86 +2,84 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 669942FAC74
-	for <lists+qemu-devel@lfdr.de>; Mon, 18 Jan 2021 22:20:06 +0100 (CET)
-Received: from localhost ([::1]:58786 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 879F72FAD58
+	for <lists+qemu-devel@lfdr.de>; Mon, 18 Jan 2021 23:34:56 +0100 (CET)
+Received: from localhost ([::1]:52900 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l1bwS-0006Oy-Nh
-	for lists+qemu-devel@lfdr.de; Mon, 18 Jan 2021 16:20:04 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41482)
+	id 1l1d6t-0004Lh-1K
+	for lists+qemu-devel@lfdr.de; Mon, 18 Jan 2021 17:34:55 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56428)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
- id 1l1brQ-0005fl-JP; Mon, 18 Jan 2021 16:14:52 -0500
-Received: from out4-smtp.messagingengine.com ([66.111.4.28]:48115)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
- id 1l1brO-0006x5-DX; Mon, 18 Jan 2021 16:14:52 -0500
-Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
- by mailout.nyi.internal (Postfix) with ESMTP id D343B5C00C6;
- Mon, 18 Jan 2021 16:14:48 -0500 (EST)
-Received: from mailfrontend1 ([10.202.2.162])
- by compute4.internal (MEProxy); Mon, 18 Jan 2021 16:14:48 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=irrelevant.dk;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-type:in-reply-to; s=fm2; bh=XdGfe1h3eeYguWybZrtd9kWZ/vU
- 3VbNczWdxx5J8XyE=; b=QldKby9LJ4+/iRHzFT071y7P0K08OGQhjy6LKmLCVoE
- pfeBvbGghj//T7l/j48TzLc3MKgB+sR+jwxTeXVGABj2YKY5J9/g9x2RS7UfnXAz
- vZNcSwIvpF0AnPWJUs+G+CdOe4CjdeQp9eETjk5BiVBsv42Dm+qYIuZ34UGFtxij
- +SBxB1VaVWAhuiwflNbmYh+fXooKLkuTBk1nQU09e6MdOZne5Yi3VUl7oHlj4GBm
- +YQfpPM1xujQJgS711tg5BS7n/1kwEW+SMeIcHk7Rnj4UgpEAl829dwvNKi+BjKo
- 50sQeecofnJ/DGXpWE7RgUgobvIu8Y0veoSDQA9+6Dg==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:content-type:date:from:in-reply-to
- :message-id:mime-version:references:subject:to:x-me-proxy
- :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; bh=XdGfe1
- h3eeYguWybZrtd9kWZ/vU3VbNczWdxx5J8XyE=; b=hr6gZM3AlyUFolDDHcePtE
- ftwwgywnn/9dTVZ2aM61wOV0S9ohCVkab8OhUEo60HTL3VV9HPiTye0US0t+036+
- GQbRTCETVPlM+9LXu7QdXeLe0AjJOokMCPKVTmCC+1lR2pbBxqibWQ8OPlFp3Whh
- LvrQRkctsmIu9TS8qZ4glKyHTPryk2qD41udlJoy4UhlbCoYnpud5TYr/t/+M3oy
- 9H5+SZa2kUv8Dsnpiew5WhZCtRmr0VH3f0aXXkqto2PkH0GW+01/AL988A6FFkzD
- YHaS9D4oR5U3xZjFwNsmYmfUNleS24Vapox3AxSzk5K29Fxs56Mj4zA2Eff9rDCQ
- ==
-X-ME-Sender: <xms:SPoFYGLYwPASbO42ok7KpKxeWOjxzSup_J4v146TlIWrGKv-tyCyag>
- <xme:SPoFYOJJ0oIxtyDiAYqtWTH9W0icmeUWInNBLAOpzkVKj0BE07vU0Tj1IpaGfqIAT
- py-fkVfC2j1tKxlejM>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduledrtdekgddugeekucetufdoteggodetrfdotf
- fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
- uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
- cujfgurhepfffhvffukfhfgggtuggjsehgtderredttdejnecuhfhrohhmpefmlhgruhhs
- ucflvghnshgvnhcuoehithhssehirhhrvghlvghvrghnthdrughkqeenucggtffrrghtth
- gvrhhnpeehgeehgfffgeekveefteetudekheejffdtvedvudfgffelleefvdfftdekgffg
- udenucffohhmrghinhepvddtudelqddtkedrohhrghenucfkphepkedtrdduieejrdelke
- drudeltdenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhm
- pehithhssehirhhrvghlvghvrghnthdrughk
-X-ME-Proxy: <xmx:SPoFYGvZorFW07oqKA3bSnp0Q8jm-w0QVve3g06VbURk88ku3-roew>
- <xmx:SPoFYLYgNG8bKfz0RESy_hUC0SWvgSzEh4T_EwUolE_7zbQOrQ2A6g>
- <xmx:SPoFYNY1oWaIeop1-LilDHwbSuoXYQOXEn0_H5vdqQIyIJ96gZWn5g>
- <xmx:SPoFYMX8PCBv2CsowPzx1vZG6QD2NDBxAg_2QzHGUpYKe-5G3VfxjQ>
-Received: from apples.localdomain (80-167-98-190-cable.dk.customer.tdc.net
- [80.167.98.190])
- by mail.messagingengine.com (Postfix) with ESMTPA id 71DBC24005C;
- Mon, 18 Jan 2021 16:14:47 -0500 (EST)
-Date: Mon, 18 Jan 2021 22:14:45 +0100
-From: Klaus Jensen <its@irrelevant.dk>
-To: Minwoo Im <minwoo.im.dev@gmail.com>
-Subject: Re: [RFC PATCH V2 00/11] hw/block/nvme: support multi-path for ctrl/ns
-Message-ID: <YAX6RcpFiX9xthQI@apples.localdomain>
-References: <20210117145341.23310-1-minwoo.im.dev@gmail.com>
+ (Exim 4.90_1) (envelope-from <jdillama@redhat.com>)
+ id 1l1d5n-0003hg-VM
+ for qemu-devel@nongnu.org; Mon, 18 Jan 2021 17:33:47 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:23736)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <jdillama@redhat.com>)
+ id 1l1d5l-0001w7-5G
+ for qemu-devel@nongnu.org; Mon, 18 Jan 2021 17:33:47 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1611009224;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:in-reply-to:in-reply-to:  references:references;
+ bh=6hk3ruznFDJOAPanNAtGcZvmcKW9rKsENEPUYgJSOWQ=;
+ b=XJT5E4FGEnWMOD5KqzHa9GvUqXJdSI3kk7VK9bqPP9T28tdKweRJrta1vmL4bgb2o/uQY/
+ 9nvfUF65fQcCWALVaKbFqzgCcZAAGQitKtsNB9dKLMHzBnCrh7ozi+kGkammTLCWMRHXQv
+ m1P8kiktyRv8oL7iBRZiDJiS34gCdes=
+Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
+ [209.85.221.71]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-330-UD-Myxy7PXmoGJdw3F0QqQ-1; Mon, 18 Jan 2021 17:33:40 -0500
+X-MC-Unique: UD-Myxy7PXmoGJdw3F0QqQ-1
+Received: by mail-wr1-f71.google.com with SMTP id r8so8939809wro.22
+ for <qemu-devel@nongnu.org>; Mon, 18 Jan 2021 14:33:39 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:reply-to
+ :from:date:message-id:subject:to:cc;
+ bh=6hk3ruznFDJOAPanNAtGcZvmcKW9rKsENEPUYgJSOWQ=;
+ b=qSVEMu04QOO53ZQX8HfZcmk9fa8vi1eFqIj2PLHbzCAwHUKFUyunXR4VkGq7r0+Ybh
+ ZU24MW8FQXfLBkwejVrE2IvBI/oLM3x49W9I/dM44NBGc37xniIRXYZoNil3C4NopY5E
+ 84L4r0o0WCMAfwUpkebh0o1icE7LgShhwJjUs19JHU4m7qv394Kjyt4OzY5lGTtd5Hzt
+ 4uSZcq2D7g/eFMmf/EAXE+nHfgMpGRRdXTxNRURKE48c7lWs4kOpzGsLgjcZ9+rXQJux
+ heL13ewUMH2CsdLDzWA0+mSOrq5bLvoblFSyFSd4aLtLePaK6LwB4qN69m/fJcU7KWAA
+ r68w==
+X-Gm-Message-State: AOAM531YFGSANcTGjGrpiRQKhD8f4aZjrqcdOVAP2vYgGFk/sLZdMNX2
+ DZSvEhbo++l+nZcdri0EeElTbDA/MUZXwbbSFvqDvhl5sNlEINqPsUjbTsR5cpeVHj/VkFYtw7q
+ KVp5a/EraE4JvNSUCXiBy73I1eoWfENo=
+X-Received: by 2002:a1c:a90f:: with SMTP id s15mr1303507wme.154.1611009218897; 
+ Mon, 18 Jan 2021 14:33:38 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJw1eARsfvM6fhOTOsKm6BtT8445O5SWnnwnAFm6m2G8QpdsaGWo3+lvR6YrOKhKLCdtXhgvVZGKNmVcrZzgd/Q=
+X-Received: by 2002:a1c:a90f:: with SMTP id s15mr1303497wme.154.1611009218667; 
+ Mon, 18 Jan 2021 14:33:38 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="NGMolId4a56V0r0z"
-Content-Disposition: inline
-In-Reply-To: <20210117145341.23310-1-minwoo.im.dev@gmail.com>
-Received-SPF: pass client-ip=66.111.4.28; envelope-from=its@irrelevant.dk;
- helo=out4-smtp.messagingengine.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
-X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+References: <20201227164236.10143-1-pl@kamp.de>
+ <20201227164236.10143-8-pl@kamp.de>
+ <CA+aFP1AJ1cMdMGr-Odq+qzgZo9FF89mVy1KzNcoKifjQFwDvJA@mail.gmail.com>
+ <f7358dc9-6135-dfa7-fd50-f863d0c8890a@kamp.de>
+ <CA+aFP1Aayup5p482M8tsK3Zy62FLsfgUuQYnw_bSte-RuBrQXg@mail.gmail.com>
+ <75992ffb-3b6e-c31a-a9a0-956daa7752e6@kamp.de>
+In-Reply-To: <75992ffb-3b6e-c31a-a9a0-956daa7752e6@kamp.de>
+From: Jason Dillaman <jdillama@redhat.com>
+Date: Mon, 18 Jan 2021 17:33:28 -0500
+Message-ID: <CA+aFP1DMTdxvi=C2=8hXYrWBf3nXqQ9ZjHPCEbsCo5biiRnQrA@mail.gmail.com>
+Subject: Re: [PATCH 7/7] block/rbd: change request alignment to 1 byte
+To: Peter Lieven <pl@kamp.de>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=jdillama@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=jdillama@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -29
+X-Spam_score: -3.0
+X-Spam_bar: ---
+X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.175,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -94,148 +92,76 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Keith Busch <kbusch@kernel.org>, Kevin Wolf <kwolf@redhat.com>,
- qemu-devel@nongnu.org, qemu-block@nongnu.org, Max Reitz <mreitz@redhat.com>
+Reply-To: dillaman@redhat.com
+Cc: Kevin Wolf <kwolf@redhat.com>, Christian Theune <ct@flyingcircus.io>,
+ qemu-devel <qemu-devel@nongnu.org>, qemu-block <qemu-block@nongnu.org>,
+ Max Reitz <mreitz@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+On Fri, Jan 15, 2021 at 10:39 AM Peter Lieven <pl@kamp.de> wrote:
+>
+> Am 15.01.21 um 16:27 schrieb Jason Dillaman:
+> > On Thu, Jan 14, 2021 at 2:59 PM Peter Lieven <pl@kamp.de> wrote:
+> >> Am 14.01.21 um 20:19 schrieb Jason Dillaman:
+> >>> On Sun, Dec 27, 2020 at 11:42 AM Peter Lieven <pl@kamp.de> wrote:
+> >>>> since we implement byte interfaces and librbd supports aio on byte granularity we can lift
+> >>>> the 512 byte alignment.
+> >>>>
+> >>>> Signed-off-by: Peter Lieven <pl@kamp.de>
+> >>>> ---
+> >>>>  block/rbd.c | 2 --
+> >>>>  1 file changed, 2 deletions(-)
+> >>>>
+> >>>> diff --git a/block/rbd.c b/block/rbd.c
+> >>>> index 27b4404adf..8673e8f553 100644
+> >>>> --- a/block/rbd.c
+> >>>> +++ b/block/rbd.c
+> >>>> @@ -223,8 +223,6 @@ done:
+> >>>>  static void qemu_rbd_refresh_limits(BlockDriverState *bs, Error **errp)
+> >>>>  {
+> >>>>      BDRVRBDState *s = bs->opaque;
+> >>>> -    /* XXX Does RBD support AIO on less than 512-byte alignment? */
+> >>>> -    bs->bl.request_alignment = 512;
+> >>> Just a suggestion, but perhaps improve discard alignment, max discard,
+> >>> optimal alignment (if that's something QEMU handles internally) if not
+> >>> overridden by the user.
+> >>
+> >> Qemu supports max_discard and discard_alignment. Is there a call to get these limits
+> >>
+> >> from librbd?
+> >>
+> >>
+> >> What do you mean by optimal_alignment? The object size?
+> > krbd does a good job of initializing defaults [1] where optimal and
+> > discard alignment is 64KiB (can actually be 4KiB now), max IO size for
+> > writes, discards, and write-zeroes is the object size * the stripe
+> > count.
+>
+>
+> Okay, I will have a look at it. If qemu issues a write, discard, write_zero greater than
+>
+> obj_size  * stripe count will librbd split it internally or will the request fail?
 
---NGMolId4a56V0r0z
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+librbd will handle it as needed. My goal is really just to get the
+hints down the guest OS.
 
-On Jan 17 23:53, Minwoo Im wrote:
-> Hello,
->=20
-> This patch series introduces NVMe subsystem device to support multi-path
-> I/O in NVMe device model.  Two use-cases are supported along with this
-> patch: Multi-controller, Namespace Sharing.
->=20
-> V1 RFC has been discussed with Klaus and Keith, I really appreciate them
-> for this patch series to have proper direction [1].
->=20
-> This patch series contains few start-up refactoring pathces from the
-> first to fifth patches to make nvme-ns device not to rely on the nvme
-> controller always.  Because nvme-ns shall be able to be mapped to the
-> subsystem level, not a single controller level so that it should provide
-> generic initialization code: nvme_ns_setup() with NvmeCtrl.  To do that,
-> the first five patches are to remove the NvmeCtrl * instance argument
-> from the nvme_ns_setup().  I'd be happy if they are picked!
->=20
-> For controller and namespace devices, 'subsys' property has been
-> introduced to map them to a subsystem.  If multi-controller needed, we
-> can specify 'subsys' to controllers the same.
->=20
-> For namespace deivice, if 'subsys' is not given just like it was, it
-> will have to be provided with 'bus' parameter to specify a nvme
-> controller device to attach, it means, they are mutual-exlusive.  To
-> share a namespace between or among controllers, then nvme-ns should have
-> 'subsys' property to a single nvme subsystem instance.  To make a
-> namespace private one, then we need to specify 'bus' property rather
-> than the 'subsys'.
->=20
-> Of course, this series does not require any updates for the run command
-> for the previos users.
->=20
-> Plase refer the following example with nvme-cli output:
->=20
-> QEMU Run:
->   -device nvme-subsys,id=3Dsubsys0 \
->   -device nvme,serial=3Dfoo,id=3Dnvme0,subsys=3Dsubsys0 \
->   -device nvme,serial=3Dbar,id=3Dnvme1,subsys=3Dsubsys0 \
->   -device nvme,serial=3Dbaz,id=3Dnvme2,subsys=3Dsubsys0 \
->   -device nvme-ns,id=3Dns1,drive=3Ddrv10,nsid=3D1,subsys=3Dsubsys0 \
->   -device nvme-ns,id=3Dns2,drive=3Ddrv11,nsid=3D2,bus=3Dnvme2 \
->   \
->   -device nvme,serial=3Dqux,id=3Dnvme3 \
->   -device nvme-ns,id=3Dns3,drive=3Ddrv12,nsid=3D3,bus=3Dnvme3
->=20
-> nvme-cli:
->   root@vm:~/work# nvme list -v
->   NVM Express Subsystems
->=20
->   Subsystem        Subsystem-NQN                                         =
-                                           Controllers
->   ---------------- ------------------------------------------------------=
------------------------------------------- ----------------
->   nvme-subsys1     nqn.2019-08.org.qemu:subsys0                          =
-                                           nvme0, nvme1, nvme2
->   nvme-subsys3     nqn.2019-08.org.qemu:qux                              =
-                                           nvme3
->=20
->   NVM Express Controllers
->=20
->   Device   SN                   MN                                       =
-FR       TxPort Address        Subsystem    Namespaces
->   -------- -------------------- ---------------------------------------- =
--------- ------ -------------- ------------ ----------------
->   nvme0    foo                  QEMU NVMe Ctrl                           =
-1.0      pcie   0000:00:06.0   nvme-subsys1 nvme1n1
->   nvme1    bar                  QEMU NVMe Ctrl                           =
-1.0      pcie   0000:00:07.0   nvme-subsys1 nvme1n1
->   nvme2    baz                  QEMU NVMe Ctrl                           =
-1.0      pcie   0000:00:08.0   nvme-subsys1 nvme1n1, nvme1n2
->   nvme3    qux                  QEMU NVMe Ctrl                           =
-1.0      pcie   0000:00:09.0   nvme-subsys3
->=20
->   NVM Express Namespaces
->=20
->   Device       NSID     Usage                      Format           Contr=
-ollers
->   ------------ -------- -------------------------- ---------------- -----=
------------
->   nvme1n1      1        134.22  MB / 134.22  MB    512   B +  0 B   nvme0=
-, nvme1, nvme2
->   nvme1n2      2        268.44  MB / 268.44  MB    512   B +  0 B   nvme2
->   nvme3n1      3        268.44  MB / 268.44  MB    512   B +  0 B   nvme3
->=20
-> Summary:
->   - Refactored nvme-ns device not to rely on controller during the
->     setup.  [1/11 - 5/11]
->   - Introduced a nvme-subsys device model. [6/11]
->   - Create subsystem NQN based on subsystem. [7/11]
->   - Introduced multi-controller model. [8/11 - 9/11]
->   - Updated namespace sharing scheme to be based on nvme-subsys
->     hierarchy. [10/11 - 11/11]
->=20
-> Since RFC V1:
->   - Updated namespace sharing scheme to be based on nvme-subsys
->     hierarchy.
->=20
+> Regarding the alignment it seems that rbd_dev->opts->alloc_size is something that comes from the device
+>
+> configuration and not from rbd? I don't have that information inside the Qemu RBD driver.
 
-Great stuff Minwoo. Thanks!
+librbd doesn't really have the information either. The 64KiB guess
+that krbd uses was a compromise since that was the default OSD
+allocation size for HDDs since Luminous. Starting with Pacific that
+default is going down to 4KiB.
 
-I'll pick up [01-05/11] directly since they are pretty trivial.
+>
+> Peter
+>
+>
 
-The subsystem model looks pretty much like it should, I don't have a lot
-of comments.
 
-One thing that I considered, is if we should reverse the "registration"
-and think about it as namespace attachment. The spec is about
-controllers attaching to namespaces, not the other way around.
-Basically, let the namespaces be configured first and register on the
-subsystem (accumulating in a "namespaces" array), then have the
-controllers register with the subsystem and attach to all "non-detached"
-namespaces. This allows detached namespaces to "linger" in the subsystem
-to be attached later on. If there are any private namespaces (like ns2
-in your example above), it will be defined after the controller with the
-bus=3DctrlX parameter like normal.
+-- 
+Jason
 
---NGMolId4a56V0r0z
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEEUigzqnXi3OaiR2bATeGvMW1PDekFAmAF+kQACgkQTeGvMW1P
-DemAXQf/SYJTLhG22DtwUBJoyL0cHaxM0XCArEFCnWiSdnJRoAMzYDGdiLoa5wAR
-vV73rxyExwGND8RfCsxfDB9H3jfSTPdG0Gh5HhuCacJIM2m/VcJgdgRGLyZNPP/z
-TFV5k9OnHSpHDa9Ur3A20GAIrChEfZoTKkusqsQ9JBgadDcTqGjiwd0apCu6CrHk
-J8NTAPN7Mat1hWBWk0kU8OZbsd3qeRL6z5JF79bB5c5C69/N6zeVEpNKNJ7S6fWV
-K3Uyw6bOG77zD/XVx0anheb7sslQvhLXRUdyD1rG1fSsdntwb5X/m8FeUS3PFZ31
-Dda4kpnt0Eblhi5j62smYxXdmGckeQ==
-=Grua
------END PGP SIGNATURE-----
-
---NGMolId4a56V0r0z--
 
