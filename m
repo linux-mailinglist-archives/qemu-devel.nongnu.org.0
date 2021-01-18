@@ -2,69 +2,90 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2EADE2FA445
-	for <lists+qemu-devel@lfdr.de>; Mon, 18 Jan 2021 16:14:51 +0100 (CET)
-Received: from localhost ([::1]:56312 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 62F102FA45E
+	for <lists+qemu-devel@lfdr.de>; Mon, 18 Jan 2021 16:18:36 +0100 (CET)
+Received: from localhost ([::1]:58628 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l1WF0-0003G4-9G
-	for lists+qemu-devel@lfdr.de; Mon, 18 Jan 2021 10:14:50 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38864)
+	id 1l1WId-0004Pt-EA
+	for lists+qemu-devel@lfdr.de; Mon, 18 Jan 2021 10:18:35 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39580)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1l1WDz-0002Vx-9x
- for qemu-devel@nongnu.org; Mon, 18 Jan 2021 10:13:47 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:32621)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1l1WDx-0000PF-Vn
- for qemu-devel@nongnu.org; Mon, 18 Jan 2021 10:13:47 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1610982825;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=yvfH9qGN8+miLd2Afe0DeNu+dav7IRoIqY5hHF9D2Ks=;
- b=D8cLbDciurYo6rNVG848+QTbB3d6iyEYnVa7PdafDtBc2W3R/os/K0ZFwYbbGM3o6XfOii
- cDG9jRpnHF0/KWORXc1pS1dXbgyuhWhUszGbE5BZmhfYlm7KVaKN1euMFoLRBb4tfrxt25
- OX3PBCEbi52l0aElSk3jlNxUdAbAqHs=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-580-oetOt1Y0OySsp9MS0aGkzg-1; Mon, 18 Jan 2021 10:13:41 -0500
-X-MC-Unique: oetOt1Y0OySsp9MS0aGkzg-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 449719CDB7;
- Mon, 18 Jan 2021 15:13:39 +0000 (UTC)
-Received: from merkur.fritz.box (ovpn-115-75.ams2.redhat.com [10.36.115.75])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 9C02A3CC5;
- Mon, 18 Jan 2021 15:13:37 +0000 (UTC)
-Date: Mon, 18 Jan 2021 16:13:36 +0100
-From: Kevin Wolf <kwolf@redhat.com>
-To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-Subject: Re: [PATCH v2 06/36] block: BdrvChildClass: add
- .get_parent_aio_context handler
-Message-ID: <20210118151336.GG11555@merkur.fritz.box>
-References: <20201127144522.29991-1-vsementsov@virtuozzo.com>
- <20201127144522.29991-7-vsementsov@virtuozzo.com>
+ (Exim 4.90_1) (envelope-from <darren.kenny@oracle.com>)
+ id 1l1WHL-0003yH-GY
+ for qemu-devel@nongnu.org; Mon, 18 Jan 2021 10:17:15 -0500
+Received: from userp2130.oracle.com ([156.151.31.86]:42956)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <darren.kenny@oracle.com>)
+ id 1l1WHJ-00024l-Ab
+ for qemu-devel@nongnu.org; Mon, 18 Jan 2021 10:17:14 -0500
+Received: from pps.filterd (userp2130.oracle.com [127.0.0.1])
+ by userp2130.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 10IF9Qa9178784;
+ Mon, 18 Jan 2021 15:17:04 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com;
+ h=from : to : cc :
+ subject : in-reply-to : references : date : message-id : mime-version :
+ content-type; s=corp-2020-01-29;
+ bh=cWyOsHx7NTs2IIN8wthje0rOsrQl4f73Ve3+pnDe0u4=;
+ b=XWsz3WaMP565dHJk+FQKg3pRVcRx+k/JEQl5kO5+yCvTZw0y5D9zjq9icj7cY1I3aLW9
+ ijmOikIGTfUkdIOflvRVqFNC5rn4SVccTqz3idGxXMvFvUedFcMze98WMMW+Tuj1EPOH
+ tM5x2kdaHu4RfvtoGsdmKOieiLNFsCPX96uBhrp6XIo8je5Zu9QhYgX0FooIGDde6kSk
+ LVLx6a2C0LX3VCBJNDZ5kQvCRerUmHH/TGrRQg2+SQMw+13FmTPSwwzBcRInjC8dX7GV
+ ppwNRVdl6jdepBSfopbjENU8vG1dAkDwbFo3EUo1QHuIOnxb0b+QtO6le8OLBczhJfQd Kg== 
+Received: from userp3020.oracle.com (userp3020.oracle.com [156.151.31.79])
+ by userp2130.oracle.com with ESMTP id 363xyhn1ue-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Mon, 18 Jan 2021 15:17:04 +0000
+Received: from pps.filterd (userp3020.oracle.com [127.0.0.1])
+ by userp3020.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 10IFAtFU077858;
+ Mon, 18 Jan 2021 15:17:04 GMT
+Received: from userv0122.oracle.com (userv0122.oracle.com [156.151.31.75])
+ by userp3020.oracle.com with ESMTP id 3649wq5shf-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Mon, 18 Jan 2021 15:17:04 +0000
+Received: from abhmp0009.oracle.com (abhmp0009.oracle.com [141.146.116.15])
+ by userv0122.oracle.com (8.14.4/8.14.4) with ESMTP id 10IFH3Zt008529;
+ Mon, 18 Jan 2021 15:17:03 GMT
+Received: from starbug-mbp.localdomain (/79.97.215.145)
+ by default (Oracle Beehive Gateway v4.0)
+ with ESMTP ; Mon, 18 Jan 2021 07:17:02 -0800
+Received: from starbug-mbp (localhost [127.0.0.1])
+ by starbug-mbp.localdomain (Postfix) with ESMTP id C109E2E6AED2;
+ Mon, 18 Jan 2021 15:17:07 +0000 (GMT)
+From: Darren Kenny <darren.kenny@oracle.com>
+To: Alexander Bulekov <alxndr@bu.edu>, qemu-devel@nongnu.org
+Subject: Re: [PATCH v2 2/3] docs/fuzz: add some information about OSS-Fuzz
+In-Reply-To: <20210117230924.449676-3-alxndr@bu.edu>
+References: <20210117230924.449676-1-alxndr@bu.edu>
+ <20210117230924.449676-3-alxndr@bu.edu>
+Date: Mon, 18 Jan 2021 15:17:07 +0000
+Message-ID: <m28s8qff64.fsf@oracle.com>
 MIME-Version: 1.0
-In-Reply-To: <20201127144522.29991-7-vsementsov@virtuozzo.com>
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kwolf@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=kwolf@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -29
-X-Spam_score: -3.0
-X-Spam_bar: ---
-X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.175,
+Content-Type: text/plain
+X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9867
+ signatures=668683
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 mlxscore=0
+ mlxlogscore=999 bulkscore=0
+ spamscore=0 phishscore=0 malwarescore=0 adultscore=0 suspectscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2009150000
+ definitions=main-2101180093
+X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9867
+ signatures=668683
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 adultscore=0
+ phishscore=0
+ malwarescore=0 mlxlogscore=999 bulkscore=0 priorityscore=1501 spamscore=0
+ mlxscore=0 impostorscore=0 lowpriorityscore=0 suspectscore=0 clxscore=1015
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2009150000
+ definitions=main-2101180093
+Received-SPF: pass client-ip=156.151.31.86;
+ envelope-from=darren.kenny@oracle.com; helo=userp2130.oracle.com
+X-Spam_score_int: -45
+X-Spam_score: -4.6
+X-Spam_bar: ----
+X-Spam_report: (-4.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.175,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ RCVD_IN_DNSWL_MED=-2.3, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_PASS=-0.001,
+ SPF_PASS=-0.001, UNPARSEABLE_RELAY=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -77,25 +98,58 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-block@nongnu.org, armbru@redhat.com, qemu-devel@nongnu.org,
- mreitz@redhat.com, den@openvz.org, jsnow@redhat.com
+Cc: Alexander Bulekov <alxndr@bu.edu>, Bandan Das <bsd@redhat.com>,
+ Thomas Huth <thuth@redhat.com>, Stefan Hajnoczi <stefanha@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Am 27.11.2020 um 15:44 hat Vladimir Sementsov-Ogievskiy geschrieben:
-> Add new handler to get aio context and implement it in all child
-> classes. Add corresponding public interface to be used soon.
-> 
-> Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+On Sunday, 2021-01-17 at 18:09:23 -05, Alexander Bulekov wrote:
+> Signed-off-by: Alexander Bulekov <alxndr@bu.edu>
 
-Hm, are you going to introduce cases where parent and child context
-don't match, or why is this a useful function?
+Reviewed-by: Darren Kenny <darren.kenny@oracle.com>
 
-Even if so, I feel it shouldn't be any of the child's business what
-AioContext the parent uses.
-
-Well, maybe the rest of the series will answer this.
-
-Kevin
-
+> ---
+>  docs/devel/fuzzing.rst | 26 ++++++++++++++++++++++++++
+>  1 file changed, 26 insertions(+)
+>
+> diff --git a/docs/devel/fuzzing.rst b/docs/devel/fuzzing.rst
+> index 6096242d99..8792358854 100644
+> --- a/docs/devel/fuzzing.rst
+> +++ b/docs/devel/fuzzing.rst
+> @@ -181,6 +181,32 @@ To ensure that these env variables have been configured correctly, we can use::
+>  
+>  The output should contain a complete list of matched MemoryRegions.
+>  
+> +OSS-Fuzz
+> +--------
+> +QEMU is continuously fuzzed on `OSS-Fuzz` __(https://github.com/google/oss-fuzz).
+> +By default, the OSS-Fuzz build will try to fuzz every fuzz-target. Since the
+> +generic-fuzz target requires additional information provided in environment
+> +variables, we pre-define some generic-fuzz configs in
+> +``tests/qtest/fuzz/generic_fuzz_configs.h``. Each config must specify:
+> + * ``.name``: To identify the fuzzer config
+> + * ``.args`` OR ``.argfunc``: A string or pointer to a function returning a
+> +   string.  These strings are used to specify the ``QEMU_FUZZ_ARGS``
+> +   environment variable.  ``argfunc`` is useful when the config relies on e.g.
+> +   a dynamically created temp directory, or a free tcp/udp port.
+> + * ``.objects``: A string that specifies the ``QEMU_FUZZ_OBJECTS`` environment
+> +   variable.
+> +
+> +To fuzz additional devices/device configuration on OSS-Fuzz:
+> + * Send patches for a new device-specific fuzzer
+> + * Send patches for a new generic-fuzz config
+> +
+> +Build details:
+> + * `The basic Dockerfile that sets up the environment for building QEMU's
+> +   fuzzers on OSS-Fuzz
+> +   <https://github.com/google/oss-fuzz/blob/master/projects/qemu/Dockerfile>`_
+> + * The script responsible for building the fuzzers:
+> +   ``scripts/oss-fuzz/build.sh``
+> +
+>  Implementation Details / Fuzzer Lifecycle
+>  -----------------------------------------
+>  
+> -- 
+> 2.28.0
 
