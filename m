@@ -2,75 +2,80 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 42A302F9C32
-	for <lists+qemu-devel@lfdr.de>; Mon, 18 Jan 2021 11:11:11 +0100 (CET)
-Received: from localhost ([::1]:53690 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9F4CE2F9C33
+	for <lists+qemu-devel@lfdr.de>; Mon, 18 Jan 2021 11:11:13 +0100 (CET)
+Received: from localhost ([::1]:53916 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l1RV8-0008Vp-Ae
-	for lists+qemu-devel@lfdr.de; Mon, 18 Jan 2021 05:11:10 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58592)
+	id 1l1RVA-00009n-L7
+	for lists+qemu-devel@lfdr.de; Mon, 18 Jan 2021 05:11:12 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58608)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1l1RTP-0007Eq-Jy
- for qemu-devel@nongnu.org; Mon, 18 Jan 2021 05:09:23 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:51612)
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1l1RTR-0007Ic-W7
+ for qemu-devel@nongnu.org; Mon, 18 Jan 2021 05:09:26 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:59376)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1l1RTM-0002cs-F0
- for qemu-devel@nongnu.org; Mon, 18 Jan 2021 05:09:23 -0500
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1l1RTQ-0002fk-3O
+ for qemu-devel@nongnu.org; Mon, 18 Jan 2021 05:09:25 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1610964559;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ s=mimecast20190719; t=1610964562;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=tECtPI+tvRCsRvZZDSrrTa+R40PwK1owpFWaxNP7EQ0=;
- b=CXeRU5B7nTPvz/dKjfKIO6COA5XrTBwLmAz+7s0iQO+R8gtPi/o6hPIWrPaO2iW6nY4ajB
- kTHOYIE5+/nQaP55GH9YkwId2XlxYUQizVaMTxR5kNGk+CpdPYYMBxNMi3RYRYEulhK7Y1
- KmXRo7ozIz5SWLovEavnm+dZNgvd+30=
+ bh=iQifKEhJiWMwz+Sd1NZht2/U4poGM5wChXBd+LprkjE=;
+ b=LB0BHsAs8zbPdUxzT0zll2X8dMwKLSn1S/UJArZlxBSlgmKCH/IemmjQcHKTkWxpwXUYd2
+ 8xscXZAx3yCaEN+tDxVYw/ehVTrjCObu5cIHouzMuoXf8aoWL666jdPJJlRV4eNJ+zSN3l
+ T5RnTL8AnwnRHZN/d3kxfk3o2QTgKok=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-171-P_X_Zze3M-WfAKoG3r0wlw-1; Mon, 18 Jan 2021 05:09:15 -0500
-X-MC-Unique: P_X_Zze3M-WfAKoG3r0wlw-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
+ us-mta-102-Be-yplPWM42BWeMdEI6e2g-1; Mon, 18 Jan 2021 05:09:19 -0500
+X-MC-Unique: Be-yplPWM42BWeMdEI6e2g-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 2165C39387;
- Mon, 18 Jan 2021 10:09:14 +0000 (UTC)
-Received: from dresden.str.redhat.com (ovpn-114-253.ams2.redhat.com
- [10.36.114.253])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 866DA71C99;
- Mon, 18 Jan 2021 10:09:12 +0000 (UTC)
-Subject: Re: [PATCH v4 02/10] iotests/297: Rewrite in Python and extend reach
-To: Willian Rampazzo <wrampazz@redhat.com>
-References: <20210115174315.30949-1-mreitz@redhat.com>
- <20210115174315.30949-3-mreitz@redhat.com>
- <CAKJDGDbf=bWEuR-LkOJNN5t9EDYR7kqcb-6DDBskX-aPntjhzg@mail.gmail.com>
-From: Max Reitz <mreitz@redhat.com>
-Message-ID: <d035e1e5-ac49-0410-743e-1c04134d9a65@redhat.com>
-Date: Mon, 18 Jan 2021 11:09:10 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.5.0
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A4D361005513;
+ Mon, 18 Jan 2021 10:09:18 +0000 (UTC)
+Received: from redhat.com (ovpn-116-34.ams2.redhat.com [10.36.116.34])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id D6B291001281;
+ Mon, 18 Jan 2021 10:09:16 +0000 (UTC)
+Date: Mon, 18 Jan 2021 10:09:14 +0000
+From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+To: Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>
+Subject: Re: [PATCH-for-5.2 2/2] gitlab-ci: Avoid running the EDK2 job when
+ not necessary
+Message-ID: <20210118100914.GB1789637@redhat.com>
+References: <20201110121606.2792442-1-philmd@redhat.com>
+ <20201110121606.2792442-3-philmd@redhat.com>
+ <20201110153505.GH869656@redhat.com>
+ <3ec6bc01-906b-2e34-b760-76138bbff7cb@redhat.com>
+ <1d3ef711-9509-f43b-11e0-d9ead8cc95af@redhat.com>
+ <b0268ed2-0347-1c00-265c-910b2dc0f870@redhat.com>
+ <93d7aa9e-4916-4c71-b017-36ccb5e410c8@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <CAKJDGDbf=bWEuR-LkOJNN5t9EDYR7kqcb-6DDBskX-aPntjhzg@mail.gmail.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+In-Reply-To: <93d7aa9e-4916-4c71-b017-36ccb5e410c8@redhat.com>
+User-Agent: Mutt/1.14.6 (2020-07-11)
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mreitz@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=berrange@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=mreitz@redhat.com;
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=berrange@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -32
-X-Spam_score: -3.3
+X-Spam_score_int: -29
+X-Spam_score: -3.0
 X-Spam_bar: ---
-X-Spam_report: (-3.3 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.189,
+X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.189,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.252, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=-0.01,
- RCVD_IN_MSPIKE_WL=-0.01, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -83,166 +88,76 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>,
- Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
- qemu-devel <qemu-devel@nongnu.org>, qemu-block@nongnu.org
+Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+Cc: Thomas Huth <thuth@redhat.com>, Laszlo Ersek <lersek@redhat.com>,
+ qemu-devel@nongnu.org, Willian Rampazzo <wrampazz@redhat.com>,
+ Bin Meng <bmeng.cn@gmail.com>,
+ Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 15.01.21 20:27, Willian Rampazzo wrote:
-> On Fri, Jan 15, 2021 at 2:43 PM Max Reitz <mreitz@redhat.com> wrote:
->>
->> Instead of checking iotests.py only, check all Python files in the
->> qemu-iotests/ directory.  Of course, most of them do not pass, so there
->> is an extensive skip list for now.  (The only files that do pass are
->> 209, 254, 283, and iotests.py.)
->>
->> (Alternatively, we could have the opposite, i.e. an explicit list of
->> files that we do want to check, but I think it is better to check files
->> by default.)
->>
->> Unless started in debug mode (./check -d), the output has no information
->> on which files are tested, so we will not have a problem e.g. with
->> backports, where some files may be missing when compared to upstream.
->>
->> Besides the technical rewrite, some more things are changed:
->>
->> - For the pylint invocation, PYTHONPATH is adjusted.  This mirrors
->>    setting MYPYPATH for mypy.
->>
->> - Also, MYPYPATH is now derived from PYTHONPATH, so that we include
->>    paths set by the environment.  Maybe at some point we want to let the
->>    check script add '../../python/' to PYTHONPATH so that iotests.py does
->>    not need to do that.
->>
->> - Passing --notes=FIXME,XXX to pylint suppresses warnings for TODO
->>    comments.  TODO is fine, we do not need 297 to complain about such
->>    comments.
->>
->> - The "Success" line from mypy's output is suppressed, because (A) it
->>    does not add useful information, and (B) it would leak information
->>    about the files having been tested to the reference output, which we
->>    decidedly do not want.
->>
->> Suggested-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
->> Signed-off-by: Max Reitz <mreitz@redhat.com>
->> Reviewed-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
->> ---
->>   tests/qemu-iotests/297     | 110 +++++++++++++++++++++++++++++--------
->>   tests/qemu-iotests/297.out |   5 +-
->>   2 files changed, 90 insertions(+), 25 deletions(-)
->>
->> diff --git a/tests/qemu-iotests/297 b/tests/qemu-iotests/297
->> index 5c5420712b..fa9e2cac78 100755
->> --- a/tests/qemu-iotests/297
->> +++ b/tests/qemu-iotests/297
->> @@ -1,4 +1,4 @@
->> -#!/usr/bin/env bash
->> +#!/usr/bin/env python3
->>   #
->>   # Copyright (C) 2020 Red Hat, Inc.
->>   #
->> @@ -15,30 +15,96 @@
->>   # You should have received a copy of the GNU General Public License
->>   # along with this program.  If not, see <http://www.gnu.org/licenses/>.
->>
->> -seq=$(basename $0)
->> -echo "QA output created by $seq"
->> +import os
->> +import re
->> +import shutil
->> +import subprocess
->> +import sys
->>
->> -status=1       # failure is the default!
->> +import iotests
->>
->> -# get standard environment
->> -. ./common.rc
->>
->> -if ! type -p "pylint-3" > /dev/null; then
->> -    _notrun "pylint-3 not found"
->> -fi
->> -if ! type -p "mypy" > /dev/null; then
->> -    _notrun "mypy not found"
->> -fi
->> +# TODO: Empty this list!
->> +SKIP_FILES = (
->> +    '030', '040', '041', '044', '045', '055', '056', '057', '065', '093',
->> +    '096', '118', '124', '129', '132', '136', '139', '147', '148', '149',
->> +    '151', '152', '155', '163', '165', '169', '194', '196', '199', '202',
->> +    '203', '205', '206', '207', '208', '210', '211', '212', '213', '216',
->> +    '218', '219', '222', '224', '228', '234', '235', '236', '237', '238',
->> +    '240', '242', '245', '246', '248', '255', '256', '257', '258', '260',
->> +    '262', '264', '266', '274', '277', '280', '281', '295', '296', '298',
->> +    '299', '300', '302', '303', '304', '307',
->> +    'nbd-fault-injector.py', 'qcow2.py', 'qcow2_format.py', 'qed.py'
->> +)
->>
->> -pylint-3 --score=n iotests.py
->>
->> -MYPYPATH=../../python/ mypy --warn-unused-configs --disallow-subclassing-any \
->> -    --disallow-any-generics --disallow-incomplete-defs \
->> -    --disallow-untyped-decorators --no-implicit-optional \
->> -    --warn-redundant-casts --warn-unused-ignores \
->> -    --no-implicit-reexport iotests.py
->> +def is_python_file(filename):
->> +    if not os.path.isfile(filename):
->> +        return False
->>
->> -# success, all done
->> -echo "*** done"
->> -rm -f $seq.full
->> -status=0
->> +    if filename.endswith('.py'):
->> +        return True
->> +
->> +    with open(filename) as f:
->> +        try:
->> +            first_line = f.readline()
->> +            return re.match('^#!.*python', first_line) is not None
->> +        except UnicodeDecodeError:  # Ignore binary files
->> +            return False
->> +
->> +
->> +def run_linters():
->> +    files = [filename for filename in (set(os.listdir('.')) - set(SKIP_FILES))
->> +             if is_python_file(filename)]
->> +
->> +    iotests.logger.debug('Files to be checked:')
->> +    iotests.logger.debug(', '.join(sorted(files)))
->> +
->> +    print('=== pylint ===')
->> +    sys.stdout.flush()
->> +
->> +    # Todo notes are fine, but fixme's or xxx's should probably just be
->> +    # fixed (in tests, at least)
->> +    env = os.environ.copy()
->> +    try:
->> +        env['PYTHONPATH'] += ':../../python/'
+On Mon, Jan 18, 2021 at 10:26:15AM +0100, Philippe Mathieu-Daudé wrote:
+> On 1/18/21 9:30 AM, Thomas Huth wrote:
+> > On 17/01/2021 19.48, Philippe Mathieu-Daudé wrote:
+> >> On 11/11/20 10:18 AM, Philippe Mathieu-Daudé wrote:
+> >>> On 11/10/20 4:35 PM, Daniel P. Berrangé wrote:
+> >>>> On Tue, Nov 10, 2020 at 01:16:06PM +0100, Philippe Mathieu-Daudé wrote:
+> >>>>> The EDK2 jobs use the 'changes' keyword, which "makes it
+> >>>>> possible to define if a job should be created based on files
+> >>>>> modified by a Git push event." (see [1]). This keyword comes
+> >>>>> with a warning:
+> >>>>>
+> >>>>>    Caution:
+> >>>>>
+> >>>>>      In pipelines with sources other than the three above
+> >>>>>      changes can’t determine if a given file is new or old
+> >>>>>      and always returns true."
+> >>>>>
+> >>>>> In commit 922febe2af we moved the YAML config file from the
+> >>>>> repository root directory to the .gitlab-ci.d/ directory.
+> >>>>>
+> >>>>> We didn't respect the previous warning and disabled the
+> >>>>> 'changes' filter rule, as the files are now in a (directory)
+> >>>>> three above the YAML config file.
+> >>>>
+> >>>> This description is a bit wierd. I don't see how the location
+> >>>> in the directory tree has any relevance here.
+> >>>>
+> >>>> IIUC the caution docs quoted above are referring to what triggered
+> >>>> the pipeline. They're saying that if the trigger was not a "branch",
+> >>>> "merge request", or "external pull request", then the "changes" rule
+> >>>> always evaluates true.
+> >>>>
+> >>>> The "branch" source us a bit wierd though, as I'm not seeing
+> >>>> how gitlab figures out which commits are "new" to the pipeline
+> >>>> and thus whether the files were modified or not.
+> >>>>
+> >>>> Strangely qemu-project/qemu CI for master seems to be behaving
+> >>>> correctly and skipping the jobs.
+> >>>
+> >>> What about this one?
+> >>>
+> >>> https://gitlab.com/berrange/qemu/-/jobs/827459510
+> >>
+> >> Ping?
+> > 
+> > Daniel's comment sounded like there are some changes required here, at
+> > least to improve the commit message? So I was expecting a v2 here.
+> > Please clarify Daniel's concerns, then I can either pick up this version
+> > here or the v2 (in case you send one).
 > 
-> Do you have any objection to using os.path.dirname and os.path.join
-> here? This would make the code more pythonic.
+> Sorry, this "ping" was for Daniel. I'm not sure how to continue,
+> so shared an example in his namespace of "incorrect behavior".
 
-Intuitively, I felt a bit uneasy about os.path.join here, because it 
-would make it look like this was platform-independent, when it is not: 
-The colon as a PATH separator is probably more platform-dependent than 
-the slashes.
+Looking at pipelines than ran for me last week, I'm not seeing
+ED2 being run, likewise for recent git master jobs on the main
+repo.
 
-So turns out there is os.pathsep, which yields a colon on e.g. Linux and 
-a semicolon on e.g. Windows.
-
-I wondered if
-
-   env['PYTHONPATH'] = os.pathsep.join(sys.path)
-
-wouldn’t be the most simple solution, but seems like mypy doesn’t like 
-that very much for the MYPYPATH.  Too bad.
-
-Guess the try-except block will have to remain, then.
-(Just with os.pathsep instead of a colon, and with 
-os.path.join(os.path.dirname(__file__), ...).)
-
-Max
+Regards,
+Daniel
+-- 
+|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
+|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
+|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
 
 
