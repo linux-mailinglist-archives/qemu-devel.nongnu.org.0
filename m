@@ -2,75 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7296D2FA810
-	for <lists+qemu-devel@lfdr.de>; Mon, 18 Jan 2021 18:58:02 +0100 (CET)
-Received: from localhost ([::1]:60936 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1B47A2FA84B
+	for <lists+qemu-devel@lfdr.de>; Mon, 18 Jan 2021 19:07:08 +0100 (CET)
+Received: from localhost ([::1]:44422 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l1Ymv-0003j0-IJ
-	for lists+qemu-devel@lfdr.de; Mon, 18 Jan 2021 12:58:01 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43924)
+	id 1l1Yvh-0000sB-Dg
+	for lists+qemu-devel@lfdr.de; Mon, 18 Jan 2021 13:07:05 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34792)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1l1Ykp-00021y-NF
- for qemu-devel@nongnu.org; Mon, 18 Jan 2021 12:55:53 -0500
-Received: from mail-pj1-x1030.google.com ([2607:f8b0:4864:20::1030]:33355)
+ id 1l1YVy-0004mD-Uu
+ for qemu-devel@nongnu.org; Mon, 18 Jan 2021 12:40:30 -0500
+Received: from mail-pg1-x532.google.com ([2607:f8b0:4864:20::532]:45969)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1l1Ykh-0002vq-PY
- for qemu-devel@nongnu.org; Mon, 18 Jan 2021 12:55:49 -0500
-Received: by mail-pj1-x1030.google.com with SMTP id lw17so224562pjb.0
- for <qemu-devel@nongnu.org>; Mon, 18 Jan 2021 09:55:41 -0800 (PST)
+ id 1l1YVu-0007TS-Tr
+ for qemu-devel@nongnu.org; Mon, 18 Jan 2021 12:40:29 -0500
+Received: by mail-pg1-x532.google.com with SMTP id v19so11315673pgj.12
+ for <qemu-devel@nongnu.org>; Mon, 18 Jan 2021 09:40:26 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=subject:to:cc:references:from:message-id:date:user-agent
  :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=SE8vf9eW3SnOLCOT2l+Ewm+uuWHLP0vI5RKOCNL6ErA=;
- b=hDpm9JT1/UhY4UC3Gfj5B3666m4C4vIHiPebdV04kHBEFycKJK5KmFlBklM4EOx5oo
- UvX5pRbldpEj54E5Uyf/qqgjJ2k2c17xcM5QVxX99nqucqi0HIC4e+PoQCgyZCSCWSXG
- hs4BCqrd5wuvVHJnzHBOASi19gmtg/xQEVgCqQknvqHaHcViyLyd5XZLh3Q9eIY/MqsW
- IJFKp2fjqX3GyhH2cLvJUEwIpCEy4R+Hfc9kTW1aHg05k87ba5H7IVCZVERGEZP7fVHI
- Czv3pzw1aFNzkG7U0B/ubFaFs6EcdmmYwcuEn60YeMh7nslzPrBh4K9d2TsuvlkASsV/
- NR5A==
+ bh=UIoa2Mr8IM1P7i42oI3clOgGWmlXt7pYolrrYLn6uYk=;
+ b=nppuRWfgA2cazs48D1bF7BCHw0BE+eD1TjtBt70/gF/7nuvO+cMSMaToVrJxA8o1fR
+ aZXcMoI426rQ75hRM8MGfsjOlqDP1eH4qw8AMQWJsHHzh6W34cG4LXOYJe5b8OkpbrqW
+ bWiTdMbPGadMQcVeaPAcDzaZP7rJUw6tKnLOCV7l96UbCSrmhA63u0B5GL01Zo7i9x+2
+ D++8Lpsn9IeWYv9G0gG7CVgXYwJx5JIBCGdrpJlQl1wnXXqAK2l4LOa+W9mnXgUGCBys
+ e7RkkNCvKkGwBCqH4qYRhWQfbFUkLds/K5K/uYvWecN8tOHWgRJZ/+0DXCCDqcDGfLD6
+ +lsQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:subject:to:cc:references:from:message-id:date
  :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=SE8vf9eW3SnOLCOT2l+Ewm+uuWHLP0vI5RKOCNL6ErA=;
- b=GTXGr6t1mkHHTbY1UFerXom/hIu+R4rQVMTP4AeYfqo9fGvELWrYl26DJq0d8hDFbf
- KJfc2Ahq2Av4m13mnGhDQ0RvGX/OvF/+f2vjn5bU3jAWlAqJlQRWoru78Py6d8FsweEQ
- QUomrYZlCpmaktr7CeYFTu2c+O0PiwiZPw/6y7uneb/b5kGIEl7df7FTUspMd1XAwhkx
- oeTVMMcqVFBtkUOc1+dJPqDxgTfbdVBPTGydv64ab7+8wmQeZdEMyxs4aJIPWtRfOc6r
- 6fkFJnI8m54cX6Np+ZroD30I4DKcYwwex/eWpOQjkfCG1hq5gPrIqkyBLGrduGn1lkJr
- vOiw==
-X-Gm-Message-State: AOAM533NoJtamBP1dPtwFaKvBQbciw36DtakKHZ2eYzMtCkPfvzZvgxO
- nMUuPvesUOduy8vjJr2p1Q63LbF84dc/cA==
-X-Google-Smtp-Source: ABdhPJxhb07BKMCdI6+mB2vDkiO6FvJY2x/0ch03DBI6coGDsBt4I7LsWwkkpsfmuo/wKfwEI9YOvQ==
-X-Received: by 2002:a17:90a:d249:: with SMTP id
- o9mr479378pjw.196.1610992541039; 
- Mon, 18 Jan 2021 09:55:41 -0800 (PST)
+ bh=UIoa2Mr8IM1P7i42oI3clOgGWmlXt7pYolrrYLn6uYk=;
+ b=M7p+3bDDuiUCVkCy6+GnSTssZ99WcUY0seDmw49hqebBY0Qkk6wYJwjpOovICcb92v
+ iMwQo2JI68LYN+WHZcgOXpNitpnX7ghnTJL1uiKmjHDbmJQPRj1QS2ltWzKGUc5oT7up
+ ZzM01zFJ506/BWYP1UqQ707OsM/8W1ubBCZ6faMiRGbosTci0f8j1UsZXyCGcBz6u+Ew
+ L2mGyT3M8YOju86qPneYT44YrcHl5zCo2WLm0Mjk0ADCCs5pum39QwPfMnX0IhKDGSiJ
+ c/mDfW09KstWZsBYFvT3WqZ7Iplhb16hH8RO1PzfnNgJLYv1Zlo+nu9dLQOR4PRLFUrS
+ 9s6w==
+X-Gm-Message-State: AOAM530BmMr5Pbqi93B5Mec7xSxcZ+93Xh8ImRX1NvZAYB/o/9wj7o72
+ arhJz7wjL9ZrUDIWAZioOfpxvA==
+X-Google-Smtp-Source: ABdhPJymz9/Gn7YGPYcpLY90XThNWk7M6hBE9/Ld1auJGlJdtyRh6HYetMn68wXYNF0ICJSrwm04nw==
+X-Received: by 2002:a63:6fce:: with SMTP id k197mr691978pgc.423.1610991625296; 
+ Mon, 18 Jan 2021 09:40:25 -0800 (PST)
 Received: from [192.168.3.43] (cpe-66-75-72-126.hawaii.res.rr.com.
  [66.75.72.126])
- by smtp.gmail.com with ESMTPSA id b2sm16702799pff.79.2021.01.18.09.55.39
+ by smtp.gmail.com with ESMTPSA id a5sm16289298pgl.41.2021.01.18.09.40.23
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 18 Jan 2021 09:55:40 -0800 (PST)
-Subject: Re: [PATCH 1/4] target/riscv: Make csr_ops[CSR_TABLE_SIZE] external
-To: Bin Meng <bmeng.cn@gmail.com>, Jim Wilson <jimw@sifive.com>,
- Alistair Francis <alistair.francis@wdc.com>
-References: <1610427124-49887-1-git-send-email-bmeng.cn@gmail.com>
- <1610427124-49887-2-git-send-email-bmeng.cn@gmail.com>
+ Mon, 18 Jan 2021 09:40:24 -0800 (PST)
+Subject: Re: [PATCH] target/mips: fetch code with translator_ld
+To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
+ qemu-devel@nongnu.org
+References: <20210116181328.3890849-1-f4bug@amsat.org>
 From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <5bb89965-266d-d789-bd64-a963559ea28f@linaro.org>
-Date: Mon, 18 Jan 2021 07:55:37 -1000
+Message-ID: <632baae5-f8a4-72fd-e33b-d1622b13a04f@linaro.org>
+Date: Mon, 18 Jan 2021 07:40:21 -1000
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.10.0
 MIME-Version: 1.0
-In-Reply-To: <1610427124-49887-2-git-send-email-bmeng.cn@gmail.com>
+In-Reply-To: <20210116181328.3890849-1-f4bug@amsat.org>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1030;
- envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1030.google.com
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::532;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x532.google.com
 X-Spam_score_int: -22
 X-Spam_score: -2.3
 X-Spam_bar: --
@@ -90,18 +88,38 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Bin Meng <bin.meng@windriver.com>, qemu-riscv@nongnu.org,
- qemu-devel@nongnu.org
+Cc: Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>,
+ "Emilio G . Cota" <cota@braap.org>,
+ =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
+ Aurelien Jarno <aurelien@aurel32.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 1/11/21 6:52 PM, Bin Meng wrote:
-> +extern riscv_csr_operations csr_ops[];
+On 1/16/21 8:13 AM, Philippe Mathieu-Daudé wrote:
+> +++ b/target/mips/tlb_helper.c
+> @@ -21,7 +21,7 @@
+>  #include "cpu.h"
+>  #include "internal.h"
+>  #include "exec/exec-all.h"
+> -#include "exec/cpu_ldst.h"
+> +#include "exec/translator.h"
+>  #include "exec/log.h"
+>  #include "hw/mips/cpudevs.h"
+>  
+> @@ -526,9 +526,9 @@ static bool get_pte(CPUMIPSState *env, uint64_t vaddr, int entry_size,
+>          return false;
+>      }
+>      if (entry_size == 64) {
+> -        *pte = cpu_ldq_code(env, vaddr);
+> +        *pte = translator_ldq(env, vaddr);
+>      } else {
+> -        *pte = cpu_ldl_code(env, vaddr);
+> +        *pte = translator_ldl(env, vaddr);
+>      }
+>      return true;
+>  }
 
-You might as well use CSR_TABLE_SIZE here.
-
-Otherwise,
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+NACK.  This is not within the translator.
 
 
 r~
