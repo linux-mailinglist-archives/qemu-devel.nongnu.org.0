@@ -2,49 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C43F82F9C2A
-	for <lists+qemu-devel@lfdr.de>; Mon, 18 Jan 2021 11:04:56 +0100 (CET)
-Received: from localhost ([::1]:38848 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B41722F9C27
+	for <lists+qemu-devel@lfdr.de>; Mon, 18 Jan 2021 11:03:33 +0100 (CET)
+Received: from localhost ([::1]:37328 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l1RP5-0001vL-Mx
-	for lists+qemu-devel@lfdr.de; Mon, 18 Jan 2021 05:04:55 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53424)
+	id 1l1RNk-0001CK-84
+	for lists+qemu-devel@lfdr.de; Mon, 18 Jan 2021 05:03:32 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53444)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
- id 1l1R85-0000mL-1l; Mon, 18 Jan 2021 04:47:21 -0500
-Received: from out5-smtp.messagingengine.com ([66.111.4.29]:41765)
+ id 1l1R86-0000oK-AR; Mon, 18 Jan 2021 04:47:22 -0500
+Received: from out5-smtp.messagingengine.com ([66.111.4.29]:39685)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
- id 1l1R83-00016j-D6; Mon, 18 Jan 2021 04:47:20 -0500
+ id 1l1R84-00017s-On; Mon, 18 Jan 2021 04:47:22 -0500
 Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
- by mailout.nyi.internal (Postfix) with ESMTP id A828B5C0164;
- Mon, 18 Jan 2021 04:47:18 -0500 (EST)
+ by mailout.nyi.internal (Postfix) with ESMTP id 0A80B5C0097;
+ Mon, 18 Jan 2021 04:47:20 -0500 (EST)
 Received: from mailfrontend1 ([10.202.2.162])
- by compute4.internal (MEProxy); Mon, 18 Jan 2021 04:47:18 -0500
+ by compute4.internal (MEProxy); Mon, 18 Jan 2021 04:47:20 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=irrelevant.dk;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding; s=fm2; bh=+uRqlbEx0fkoa
- 5YOaRoZO1Pw488di9s9lI1NNCnfOMs=; b=H7LDP032op6gOsp5KBKn48swNZv7N
- sbTrcQSLbGrhNXZbrpxiuWmwCTJkjDVDBqzNcLvg9I/T4OizusDcPUc7+6zPClWE
- J1G8a9FygPAJJEIGpcHKjsk/fmNpWseGMvT6qeuLnAY28j0qEGyu1Y67NtFUrzhf
- sXOhGGXrpU4QcM4sGz/T2F32LH79aGsJ7mnpMhQIhlvTZVo7crOJBKw9wLNeONBq
- eyJ5VqztKH5ExPoNztHeXOqtN5AQkOzS5fLpLIev2wsyg27f+uNd8ENQDSsYNmuy
- 0nKXvxS4ux/axEz9wTBb4W+nTPGBnCrOhEOu2aiSeCjymDO7lrhVVq8lQ==
+ :mime-version:content-transfer-encoding; s=fm2; bh=V3wtdgABk8Vyu
+ hYVIxZbuF3R8610D5En464gP+b4gnE=; b=V1hWvyTQqsB09Uyl2zBr9rDCHwWr4
+ 7GDffY67OiUoG2LyYVdBHxbZX8VzOc4DAav5ccGGm5OXxjdSCXJsZdSmCUwb9YO7
+ NHwnDg7CTIHd24q/jUI42pQJufNyqhe4Hn+x0+mQQ7AF1CF0WNPxgb1XeyxjP2aB
+ epbE+anxwnTwkgRYWjJPg5sWVeGlSGhXhTLNy5cgr0YMX6ZKfI3Z3Y9nHwAn90LC
+ QCrKoQkoEpVh3JI03VpaCyxl8i/XB0o5/kBFsBCexkdJhrTOZCtz1Xk1fEb+EKxf
+ U7Or0jp9ank28bAVy38RgIOkmSWbp5zxO3TWbZGxCakQT43DaIK3XsNYw==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
  messagingengine.com; h=cc:content-transfer-encoding:date:from
  :in-reply-to:message-id:mime-version:references:subject:to
  :x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
- fm1; bh=+uRqlbEx0fkoa5YOaRoZO1Pw488di9s9lI1NNCnfOMs=; b=dy9zbdA4
- NP4sD3qrvFmzaB3z7ftgNBINreQes5HQD1A+M29sdctyMz8w/M4gsfuA28x80OpM
- ohaQRGwZ5M4H5Kp1Qsz/f7JkuyB7AxPwtl+AVzQKLZuMMuQz5jTesYhmJbclp4tL
- h79wZL+n2slbnxL+a04uTjwM1Vbf8OiY8MV8rwWUX5cTx3IAEiNsgUEWtNmksu28
- 6CUonxZinqPh9qz79E85AsSP5cFrcK0H7xij6ZeV/q4gCt6BAIC4Q+Lihd7DrIll
- PFXwD4ufY3PQPopp6miahrIvv5PItpmMee/Gg0+pFZWAygzixAJFNYLcaFTA6feC
- Lg0XHr2V9gC4Dw==
-X-ME-Sender: <xms:JlkFYMYh_dnnE2wLY7vKFHAOrAqrriF1FzYYKlOEkvtkVjcftTbzww>
- <xme:JlkFYHZhnVsKA5qYRf9FjqTqs4T90JhENviLFCJ2P0-G88KCTNN9bL48xJIIBqpGt
- I6togRySTuLWfi0ri8>
+ fm1; bh=V3wtdgABk8VyuhYVIxZbuF3R8610D5En464gP+b4gnE=; b=jt3cdzsC
+ iYg6b8P4UU0bvv79JLXJ2u0PBWTJXms9BWXRkXhJGU8vq9+vGXm8ylObjE5IWDGs
+ DFnYps6FCt4u4ZulucMbv4YQKUIYa5ouQZDHGs4SwknMnpFqdncynvGO+v7TIQwD
+ Gwe3nObrcDJY8a7ImTthd4JbCCkOs/ntV6k7Ai88PlJ0Qeo+DMjt2ejnPMrQsWPm
+ w9oKbg95umnUeSwP3t5vupVgnQxZvLwcTM10YraGJg2Du6fC4Jps6WjwRokcBkew
+ fp1ZzkvNEbslbVIJGpzDO6Y/cgpRK/sevDsjIhXaSjvIMkYL1ZOup7ZUyfAeJySQ
+ OeBJ+Nih8ceE8w==
+X-ME-Sender: <xms:J1kFYJz4fholSnEbHTyQqkeLf4BpybecnHs6adC10oBzz_qeOMu2Hw>
+ <xme:J1kFYJQeMhu8rH5wQjgwndGA5vuqzCtt-nNdBmKoMOizgw5JqCe-l5HuAcqTUDIpD
+ vmX6W-v_x3XSoL4fho>
 X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduledrtdekgddtkecutefuodetggdotefrodftvf
  curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
  uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
@@ -53,20 +53,19 @@ X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduledrtdekgddtkecutefuodetggdote
  hrnhepueelteegieeuhffgkeefgfevjeeigfetkeeitdfgtdeifefhtdfhfeeuffevgfek
  necukfhppeektddrudeijedrleekrdduledtnecuvehluhhsthgvrhfuihiivgepfeenuc
  frrghrrghmpehmrghilhhfrhhomhepihhtshesihhrrhgvlhgvvhgrnhhtrdgukh
-X-ME-Proxy: <xmx:JlkFYG_buov30esVSiBXfinE65Khnr_9nHe--uu-8MMbwOLyGhlruw>
- <xmx:JlkFYGqU7DBAHE9nB-WlsS3unwkPKCWfW-21Lf7pEnF_BmSnuiOqPw>
- <xmx:JlkFYHoxDly45Nl1Z8aGOC6nP-lBGtFHmbVK4k9-GwhQu9CGwf3aLA>
- <xmx:JlkFYIeEroysOepq8kmUmoxbfjPpOuUDrj5_rCiJpOx8xjLRwXNdUw>
+X-ME-Proxy: <xmx:J1kFYDVVoBtQvTrF_njQzRoWVvsi0wGby1OUXDLM5qa5UcmPzZJhDw>
+ <xmx:J1kFYLhRkZe3eF8u-Fe41nluvAjZC1UtxyYnDBM9HXbhQ44kQCJodw>
+ <xmx:J1kFYLDfLjrQYoCw4yf_Bxp-KzocU6pCg6fKfnvGltunzTImhnmwSw>
+ <xmx:KFkFYN28S4qaenKopbE9yMZMjcvJJxcUZB7uIfU0RPYLJ0mxpHuamg>
 Received: from apples.local (80-167-98-190-cable.dk.customer.tdc.net
  [80.167.98.190])
- by mail.messagingengine.com (Postfix) with ESMTPA id 642A224005A;
- Mon, 18 Jan 2021 04:47:17 -0500 (EST)
+ by mail.messagingengine.com (Postfix) with ESMTPA id BA69824005A;
+ Mon, 18 Jan 2021 04:47:18 -0500 (EST)
 From: Klaus Jensen <its@irrelevant.dk>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 07/12] hw/block/nvme: remove redundant zeroing of PMR
- registers
-Date: Mon, 18 Jan 2021 10:47:00 +0100
-Message-Id: <20210118094705.56772-8-its@irrelevant.dk>
+Subject: [PATCH v2 08/12] hw/block/nvme: disable PMR at boot up
+Date: Mon, 18 Jan 2021 10:47:01 +0100
+Message-Id: <20210118094705.56772-9-its@irrelevant.dk>
 X-Mailer: git-send-email 2.30.0
 In-Reply-To: <20210118094705.56772-1-its@irrelevant.dk>
 References: <20210118094705.56772-1-its@irrelevant.dk>
@@ -102,62 +101,47 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Klaus Jensen <k.jensen@samsung.com>
 
-The controller registers are initially zero. Remove the redundant
-zeroing.
+The PMR should not be enabled at boot up. Disable the PMR MemoryRegion
+initially and implement MMIO for PMRCTL, allowing the host to enable the
+PMR explicitly.
 
 Signed-off-by: Klaus Jensen <k.jensen@samsung.com>
 ---
- hw/block/nvme.c | 35 -----------------------------------
- 1 file changed, 35 deletions(-)
+ hw/block/nvme.c | 14 ++++++++++++--
+ 1 file changed, 12 insertions(+), 2 deletions(-)
 
 diff --git a/hw/block/nvme.c b/hw/block/nvme.c
-index f3bea582b3c0..9ee9570bb65c 100644
+index 9ee9570bb65c..937a6ed0a70d 100644
 --- a/hw/block/nvme.c
 +++ b/hw/block/nvme.c
-@@ -4179,43 +4179,8 @@ static void nvme_init_cmb(NvmeCtrl *n, PCIDevice *pci_dev)
- 
- static void nvme_init_pmr(NvmeCtrl *n, PCIDevice *pci_dev)
- {
--    /* PMR Capabities register */
--    n->bar.pmrcap = 0;
--    NVME_PMRCAP_SET_RDS(n->bar.pmrcap, 0);
--    NVME_PMRCAP_SET_WDS(n->bar.pmrcap, 0);
-     NVME_PMRCAP_SET_BIR(n->bar.pmrcap, NVME_PMR_BIR);
--    NVME_PMRCAP_SET_PMRTU(n->bar.pmrcap, 0);
--    /* Turn on bit 1 support */
-     NVME_PMRCAP_SET_PMRWBM(n->bar.pmrcap, 0x02);
--    NVME_PMRCAP_SET_PMRTO(n->bar.pmrcap, 0);
--    NVME_PMRCAP_SET_CMSS(n->bar.pmrcap, 0);
--
--    /* PMR Control register */
--    n->bar.pmrctl = 0;
--    NVME_PMRCTL_SET_EN(n->bar.pmrctl, 0);
--
--    /* PMR Status register */
--    n->bar.pmrsts = 0;
--    NVME_PMRSTS_SET_ERR(n->bar.pmrsts, 0);
--    NVME_PMRSTS_SET_NRDY(n->bar.pmrsts, 0);
--    NVME_PMRSTS_SET_HSTS(n->bar.pmrsts, 0);
--    NVME_PMRSTS_SET_CBAI(n->bar.pmrsts, 0);
--
--    /* PMR Elasticity Buffer Size register */
--    n->bar.pmrebs = 0;
--    NVME_PMREBS_SET_PMRSZU(n->bar.pmrebs, 0);
--    NVME_PMREBS_SET_RBB(n->bar.pmrebs, 0);
--    NVME_PMREBS_SET_PMRWBZ(n->bar.pmrebs, 0);
--
--    /* PMR Sustained Write Throughput register */
--    n->bar.pmrswtp = 0;
--    NVME_PMRSWTP_SET_PMRSWTU(n->bar.pmrswtp, 0);
--    NVME_PMRSWTP_SET_PMRSWTV(n->bar.pmrswtp, 0);
--
--    /* PMR Memory Space Control register */
--    n->bar.pmrmsc = 0;
--    NVME_PMRMSC_SET_CMSE(n->bar.pmrmsc, 0);
--    NVME_PMRMSC_SET_CBA(n->bar.pmrmsc, 0);
- 
-     pci_register_bar(pci_dev, NVME_PMRCAP_BIR(n->bar.pmrcap),
+@@ -3810,8 +3810,16 @@ static void nvme_write_bar(NvmeCtrl *n, hwaddr offset, uint64_t data,
+         NVME_GUEST_ERR(pci_nvme_ub_mmiowr_pmrcap_readonly,
+                        "invalid write to PMRCAP register, ignored");
+         return;
+-    case 0xE04: /* TODO PMRCTL */
+-        break;
++    case 0xE04: /* PMRCTL */
++        n->bar.pmrctl = data;
++        if (NVME_PMRCTL_EN(data)) {
++            memory_region_set_enabled(&n->pmrdev->mr, true);
++            n->bar.pmrsts = 0;
++        } else {
++            memory_region_set_enabled(&n->pmrdev->mr, false);
++            NVME_PMRSTS_SET_NRDY(n->bar.pmrsts, 1);
++        }
++        return;
+     case 0xE08: /* PMRSTS */
+         NVME_GUEST_ERR(pci_nvme_ub_mmiowr_pmrsts_readonly,
+                        "invalid write to PMRSTS register, ignored");
+@@ -4186,6 +4194,8 @@ static void nvme_init_pmr(NvmeCtrl *n, PCIDevice *pci_dev)
                       PCI_BASE_ADDRESS_SPACE_MEMORY |
+                      PCI_BASE_ADDRESS_MEM_TYPE_64 |
+                      PCI_BASE_ADDRESS_MEM_PREFETCH, &n->pmrdev->mr);
++
++    memory_region_set_enabled(&n->pmrdev->mr, false);
+ }
+ 
+ static int nvme_init_pci(NvmeCtrl *n, PCIDevice *pci_dev, Error **errp)
 -- 
 2.30.0
 
