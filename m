@@ -2,49 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 152BE2FAAEA
-	for <lists+qemu-devel@lfdr.de>; Mon, 18 Jan 2021 21:06:58 +0100 (CET)
-Received: from localhost ([::1]:45460 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 73B4F2FAB26
+	for <lists+qemu-devel@lfdr.de>; Mon, 18 Jan 2021 21:14:24 +0100 (CET)
+Received: from localhost ([::1]:50096 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l1ang-0000RT-Dc
-	for lists+qemu-devel@lfdr.de; Mon, 18 Jan 2021 15:06:56 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54582)
+	id 1l1aus-0002xE-SI
+	for lists+qemu-devel@lfdr.de; Mon, 18 Jan 2021 15:14:23 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55706)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
- id 1l1ahc-0007ae-OE; Mon, 18 Jan 2021 15:00:43 -0500
-Received: from out4-smtp.messagingengine.com ([66.111.4.28]:48579)
+ id 1l1alh-0000Pt-EN; Mon, 18 Jan 2021 15:04:54 -0500
+Received: from out4-smtp.messagingengine.com ([66.111.4.28]:49861)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
- id 1l1ahV-0005X4-C6; Mon, 18 Jan 2021 15:00:39 -0500
-Received: from compute1.internal (compute1.nyi.internal [10.202.2.41])
- by mailout.nyi.internal (Postfix) with ESMTP id 56DED5C01FA;
- Mon, 18 Jan 2021 15:00:29 -0500 (EST)
-Received: from mailfrontend1 ([10.202.2.162])
- by compute1.internal (MEProxy); Mon, 18 Jan 2021 15:00:29 -0500
+ id 1l1alZ-0007Bs-Uz; Mon, 18 Jan 2021 15:04:52 -0500
+Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
+ by mailout.nyi.internal (Postfix) with ESMTP id 647375C01ED;
+ Mon, 18 Jan 2021 15:04:44 -0500 (EST)
+Received: from mailfrontend2 ([10.202.2.163])
+ by compute4.internal (MEProxy); Mon, 18 Jan 2021 15:04:44 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=irrelevant.dk;
  h=date:from:to:cc:subject:message-id:references:mime-version
- :content-type:in-reply-to; s=fm2; bh=EI9YXp3tuitz01WaKD0UiMHMsX3
- nxTMDLPRadXOjqpQ=; b=HR1cpZ66UXX4i24U+3KiHIpo21Qco8kaoh2GaEK+VAc
- vbNa6hA69c/VFpX1h5pWGMXW0z5M+JCWBOef/NVL7DvHrC4KUbT0soEiQ1qC6ZE7
- tBBxtmyEDd8Tf7GrvVw2LxXHfmye8Lg9CyDETlX35O1TJTZtS6xMFD3YQwgCLKeU
- 6DMU/ldNZISevU9g34iyzpxpTEzbZWlr2q/chNop5cYBSx2avkk6IeIMF9DliD1g
- Q5NoHhRfC/Zv2mZ4fkdLszQPMejHnweEaZZzeOxRszvK2Eudldp1UFW15bhx6qCw
- W7QDwpZANOFExL0oyWkMXI7uZ75+cDCKsjvLK/wZlsw==
+ :content-type:in-reply-to; s=fm2; bh=K992nmaJLyDCCPd0vd3xrJFg6WG
+ AfytJNrB4py4HAEg=; b=HnyKOyBWzoDN0YeF/WliyEAiFlrEqr0tv0dK6GPvQhq
+ FiWqBXC0BK+3vvajTn4cMxxleS+32XlJBzt/zfe8RFgl7HpKSEfV4BXxZqbMlGwc
+ 5Xam7RTUH1+fhFNeOsp2w+iH9YMt6PC0Zh2N+NlMTes+gQUWjX9PxzllmBntxXU/
+ XycvGpDydffdIV8m/Eviasg6fGhZqymLXUoAhAjiJ6knmNdcUZf+3BWDB2hm++//
+ ouw2yEbJN9VhBbjwI0Hgtv4qe2mDUWR7THb+eoNLUSY+C8DthOc/TkTLZ8S6GBu1
+ kGyz++YRFw6C7UqG9ADAuPdqbmjhcfDlHY3qX4soI+g==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
  messagingengine.com; h=cc:content-type:date:from:in-reply-to
  :message-id:mime-version:references:subject:to:x-me-proxy
- :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; bh=EI9YXp
- 3tuitz01WaKD0UiMHMsX3nxTMDLPRadXOjqpQ=; b=dGfCy632FLJojGowV9QSDd
- W2nVgwYovxUSKOD9LK69hBdE1LN79sy48aDiaarETJiLZcN+iHwET27PAY08ubqT
- D5Z+zDK2x+I5HHm52pZUGRNsGvbPH6MohgbrW9sIKsWJbsR6Voq+Ns1bVufY2iI8
- 685pv9BPLte4CFiD3WEUWXn6WrOvfyoDhi2Z8fP50pW8PX9sXjuIOZf7k85YI56O
- nG3h+tJBBb9Z0BO7+gcuh30c+lvLv6rDRsN7krbO+KqkuTh5pNm3K5IMPSXk14Zy
- 7nkJgRG38IiPvdjYiER+/C+KyfL164ItMZM+iUGAGJaTStbVTi19Q6yPSs+VYAXg
+ :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; bh=K992nm
+ aJLyDCCPd0vd3xrJFg6WGAfytJNrB4py4HAEg=; b=SmpKn6aTzhJZPEU4dPQBN5
+ Ooqwmb0HFHqgvT7B8CJUBg93ZqdmqEwKchTuffBr8fJVEzN5hYjJ4qzohvKKJS57
+ Kj0NqzWzT+j7zN9OFUqPcnZEUfplwBTUVeMZsPRl6aB3W8FpPMRhbBvjv6v42Qks
+ bha+SWYXCjRpeC/AFOBUaOkhyRWHpXDsPW1rCVhIzcIR7Zfo5i7CpqTK8jswYkQ2
+ T7C3NN5eAtQrP4Unxb2fZwGmtyzyEDNYAqlbEnOjLHhsa1JkRlmUEXfFObivqNS9
+ JQZfuY1/nahUEjwCfSdDlr/QuapUibrdgd8PcLczW/9B+ilg4mFCPZyQ7Pb9WPzA
  ==
-X-ME-Sender: <xms:3OgFYKRZTs1Ec6iN0pd4-PwDlFNX8lRgpwWDDoR4Wxa0FJdEpy9r7g>
- <xme:3OgFYHN651srbpsxQc5wr_qz57bpAJOy67PoXKVq8V-JA_FNI714eVBQrSebtkLhJ
- K6TsoJux_Gl-FoxYuw>
+X-ME-Sender: <xms:3OkFYInYall16O4It_jKDkrnHNR1w7JIYC5mQQmQqcjxCPXJpv2W0Q>
+ <xme:3OkFYH1kS8V8wgA4E7HyWpxkH0CzM0lUkDU6oX_SfCR2XPgNlroaBvq79Fu7VhVOE
+ uwuhAq-QQYeO88JETg>
 X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduledrtdekgddufeegucetufdoteggodetrfdotf
  fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
  uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
@@ -53,27 +53,27 @@ X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduledrtdekgddufeegucetufdoteggod
  gvrhhnpeejgeduffeuieetkeeileekvdeuleetveejudeileduffefjeegfffhuddvudff
  keenucfkphepkedtrdduieejrdelkedrudeltdenucevlhhushhtvghrufhiiigvpedtne
  curfgrrhgrmhepmhgrihhlfhhrohhmpehithhssehirhhrvghlvghvrghnthdrughk
-X-ME-Proxy: <xmx:3OgFYFN9FOo0s49hRd-TbFLtyH3iBDijR_6UaaUY1KRGPfxo3aaGVQ>
- <xmx:3OgFYPtxoH7P586132cOYgDGIvOII6AeDPqWX99up2HRLQjXEsqqVQ>
- <xmx:3OgFYHWFfThlz4ckK1QzGQVyu-FjOxQirKFymY6yxGTrpNacZi1f_w>
- <xmx:3egFYI1LMFydYhXejPWlkli3yzXyZPkl3ZGHGB8mrEzCLziUx1BMEw>
+X-ME-Proxy: <xmx:3OkFYGpv_r2udHxOO6lTSSv-Sy2kH7pdk29g2BkfyVN2E4lGNjmiJw>
+ <xmx:3OkFYEkYCmRVVBMrSNwS9RUoIiFiv6UqWUrkHVEzKMjP35OvYYvYjA>
+ <xmx:3OkFYG2xrZdEv91JcSsJQjBW9l-hkmGlHNlB_i4-Ebyp_GrOYrskAQ>
+ <xmx:3OkFYJTia39XNVySeFniVLbN5tdrXQbRtGrbZgjoABI-0ZkcRugdNg>
 Received: from apples.localdomain (80-167-98-190-cable.dk.customer.tdc.net
  [80.167.98.190])
- by mail.messagingengine.com (Postfix) with ESMTPA id BEB4C24005C;
- Mon, 18 Jan 2021 15:00:27 -0500 (EST)
-Date: Mon, 18 Jan 2021 21:00:25 +0100
+ by mail.messagingengine.com (Postfix) with ESMTPA id 11CA71080067;
+ Mon, 18 Jan 2021 15:04:42 -0500 (EST)
+Date: Mon, 18 Jan 2021 21:04:40 +0100
 From: Klaus Jensen <its@irrelevant.dk>
 To: Minwoo Im <minwoo.im.dev@gmail.com>
-Subject: Re: [RFC PATCH V2 01/11] hw/block/nvme: remove unused argument in
- nvme_ns_init_zoned
-Message-ID: <YAXo2ar45usqyteO@apples.localdomain>
+Subject: Re: [RFC PATCH V2 02/11] hw/block/nvme: open code for volatile write
+ cache
+Message-ID: <YAXp2IPV9hFWzIJd@apples.localdomain>
 References: <20210117145341.23310-1-minwoo.im.dev@gmail.com>
- <20210117145341.23310-2-minwoo.im.dev@gmail.com>
+ <20210117145341.23310-3-minwoo.im.dev@gmail.com>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="buQ07qm7Ei5blQvq"
+ protocol="application/pgp-signature"; boundary="1HjJAJbkrBWkeJLN"
 Content-Disposition: inline
-In-Reply-To: <20210117145341.23310-2-minwoo.im.dev@gmail.com>
+In-Reply-To: <20210117145341.23310-3-minwoo.im.dev@gmail.com>
 Received-SPF: pass client-ip=66.111.4.28; envelope-from=its@irrelevant.dk;
  helo=out4-smtp.messagingengine.com
 X-Spam_score_int: -27
@@ -101,32 +101,44 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 
---buQ07qm7Ei5blQvq
+--1HjJAJbkrBWkeJLN
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
 On Jan 17 23:53, Minwoo Im wrote:
-> nvme_ns_init_zoned() has no use for given NvmeCtrl object.
+> Volatile Write Cache(VWC) feature is set in nvme_ns_setup() in the
+> initial time.  This feature is related to block device backed,  but this
+> feature is controlled in controller level via Set/Get Features command.
+>=20
+> This patch removed dependency between nvme and nvme-ns to manage the VWC
+> flag value.  Also, it open coded the Get Features for VWC to check all
+> namespaces attached to the controller, and if false detected, return
+> directly false.
 >=20
 > Signed-off-by: Minwoo Im <minwoo.im.dev@gmail.com>
 
+The VWC feature really should be namespace specific. I wonder why they
+didn't fix that when they added an NSID to the Flush command...
+
+Anyway, this is much better.
+
 Reviewed-by: Klaus Jensen <k.jensen@samsung.com>
 
---buQ07qm7Ei5blQvq
+--1HjJAJbkrBWkeJLN
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQEzBAEBCAAdFiEEUigzqnXi3OaiR2bATeGvMW1PDekFAmAF6NYACgkQTeGvMW1P
-DemkPQgAl5tQAaj0jO5Kw5ftYG5pjnL5XLE+g0adnNGBLXiorA5kD3xM/drYLRvf
-z6spRGwSE6bEDKoJw2RBaOhJxuJORUBzqFVOsY5Y+Hy5rKjSlikim8ybVVspla9S
-HQdy/6dxHZirZElHkFMrgUMxWRFnnSafoDIKro26BVebeQnXaGSV7z5pGNun17wf
-bZgL9Iu7XJiQOA9q2H39M3XxcRMBrzhSg9clZ4FIUVIe/c4VEdysXwN2j7fv7rPv
-4fRgVHxA317qZtSPvfo+shcgkOG3yTfbJ96JqVGarf+A2Yd/jVm7KchWiE4RlXpf
-8D7hTcodfof/tw5ZhC1/21KaRu5qzg==
-=PsRS
+iQEzBAEBCAAdFiEEUigzqnXi3OaiR2bATeGvMW1PDekFAmAF6dQACgkQTeGvMW1P
+DemxHQgAmQ016aXoWnCBEicAN5yVDehV5foNWKVEFouoxk97hBgn/bpG51rspm61
+TtdLWXFJB1h7oIa6XCtVF07zjv1U4qOTCwgRU4xsXzzvZlZ8hAZ2Y1SY/sTj4JTH
+ubM87AJNZnku9O4dhuPjUlhx0jRMfmDFfC/fjd30e6kM5cgkS2DExOLER0YD9P/W
+2Si+73o5HDSazHQHBd+nf2mqhPHYPoPLaFrNAikbHiIIGDe/dHo+RItkB/v7x/jh
+tCgKQyyqk+G5oERBWh0YkI5G+BYU+yU2teHTQ4XSZZZ7rbYSVtljHKfKGWVpzV28
+keyBMX7he5RlE+lLTgAkYki/kyPeZw==
+=wfNy
 -----END PGP SIGNATURE-----
 
---buQ07qm7Ei5blQvq--
+--1HjJAJbkrBWkeJLN--
 
