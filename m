@@ -2,83 +2,91 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CE3AD2FA130
-	for <lists+qemu-devel@lfdr.de>; Mon, 18 Jan 2021 14:19:48 +0100 (CET)
-Received: from localhost ([::1]:35886 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 55C5E2FA199
+	for <lists+qemu-devel@lfdr.de>; Mon, 18 Jan 2021 14:31:46 +0100 (CET)
+Received: from localhost ([::1]:43148 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l1URf-0003HX-T4
-	for lists+qemu-devel@lfdr.de; Mon, 18 Jan 2021 08:19:47 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60404)
+	id 1l1UdD-0007B2-11
+	for lists+qemu-devel@lfdr.de; Mon, 18 Jan 2021 08:31:43 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33870)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1l1UP2-0002B5-6r
- for qemu-devel@nongnu.org; Mon, 18 Jan 2021 08:17:04 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:58670)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1l1UOu-0005AR-Qj
- for qemu-devel@nongnu.org; Mon, 18 Jan 2021 08:17:02 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1610975814;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=2cdow12u0bqQLNatwwbL9dbE0MklN/d37zKsKUjNmW0=;
- b=hN4AzDgBqnoIKr/QRqBeEbo84EnESvpdc99n4Ju9SFStlsa8zCzOYtVKoO5xvIW7Bg6dfK
- a7MDoxHr2r8ZHgddgguEz4Nib+opNCtUwhP9wWhf+lZ6vlb0HOP1VZznjOocOi01hV6ZI5
- mjw+W3q7ApaBcWaWxGKQx3cgOjPj+LY=
-Received: from mail-oi1-f199.google.com (mail-oi1-f199.google.com
- [209.85.167.199]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-467-vwNy_Tq7NuKngQNv0sEAWg-1; Mon, 18 Jan 2021 08:16:53 -0500
-X-MC-Unique: vwNy_Tq7NuKngQNv0sEAWg-1
-Received: by mail-oi1-f199.google.com with SMTP id c7so1919649oig.17
- for <qemu-devel@nongnu.org>; Mon, 18 Jan 2021 05:16:53 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=2cdow12u0bqQLNatwwbL9dbE0MklN/d37zKsKUjNmW0=;
- b=LCTXUc1q1/Kfh5RoDvA3pYm8bbHwqcedX6Jj8ishyT/QC+ZU/HDNoLO7vE9WgghqN5
- fsDiupBJbqmTPYTH49sxbkggBhVxdP+JfNlY6JSZQu7RpL2A591/5tp7SQnThtaKwBkd
- 5gheOXqq4ABwTXEXUbaH5sL8jDYl9bOejq5Etb4htw4KJnbkX5unf4CMv5X4mivSlc1q
- P5Jgrt1gxfvRc+J5UJPj622t0dGtMI9zMIIavs5t5Q7wo6VXd5D8DQhuNVo9yaqd6WxZ
- H+i2+4zvLXRzXOezcqrj/QSIV7UPfwcpcHemFLeR5qZi4ISr/esVuryjy/jma0iThMZk
- X7hg==
-X-Gm-Message-State: AOAM530BgsKW63f6oE3i4mXs1XxyF8q0LMOCXz5HEQ1eYziYKVPc/Nkt
- Zh1WW9C3fqIns407aVNLJY27sfnQRbSToiDbUnOKBwBQcGLn866HTuXet/spNYsCsO8npYNCCZw
- vhzqnwYvljxARCMIMBdAr2S8s6wOM3Us=
-X-Received: by 2002:a05:6830:1306:: with SMTP id
- p6mr17052225otq.244.1610975812339; 
- Mon, 18 Jan 2021 05:16:52 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJxTGhoW2mgtYwm1AdQSLtWP/IJaNxVCki/VNmvGhA5JPMkmSlASBBAlnGtFnLaM9IaIOx7kT5xJvsX/Px2BV74=
-X-Received: by 2002:a05:6830:1306:: with SMTP id
- p6mr17052209otq.244.1610975812123; 
- Mon, 18 Jan 2021 05:16:52 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
+ id 1l1UUG-0004zK-EG; Mon, 18 Jan 2021 08:22:29 -0500
+Received: from new3-smtp.messagingengine.com ([66.111.4.229]:45681)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
+ id 1l1UUD-0007Yh-BA; Mon, 18 Jan 2021 08:22:28 -0500
+Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
+ by mailnew.nyi.internal (Postfix) with ESMTP id 39EB55806EF;
+ Mon, 18 Jan 2021 08:22:24 -0500 (EST)
+Received: from mailfrontend1 ([10.202.2.162])
+ by compute4.internal (MEProxy); Mon, 18 Jan 2021 08:22:24 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=irrelevant.dk;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-type:in-reply-to; s=fm2; bh=87No7PPWOJGy8DlGzWVCmPPkZBM
+ Wh9l4uTAzWvz6sT4=; b=iYqONkxNfsfnMqXKs9gIDeiuY/6hmUkShnLu2CGd9+3
+ DLZlWeAHuJbBDvLtBa3XqsQdd4lOLqqnZbiWSMadPKHCNrc6dU1JwFDL17+YnI18
+ e9X9t18l/sac/zTVuAEBGPvdcQRu5NSCsqgfm8nX32r2FoJhtM0MqVuY7ujkdeFz
+ l8AHA5CoOuFCubZp9FryNp2czPRAWr7J8quaOmFl2whLleeqAoiTiGUYMGHR0JTR
+ 4cTzIe8gNivN5cMzxuxmT1zntULWahhMojJAMJ9Q1B+Yb5jMgVtCw7xQ85EHQVmb
+ smrZzXlL5L87FYOqqJxgbB1ZMAvtMgPa21Svffj3IfQ==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+ messagingengine.com; h=cc:content-type:date:from:in-reply-to
+ :message-id:mime-version:references:subject:to:x-me-proxy
+ :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; bh=87No7P
+ PWOJGy8DlGzWVCmPPkZBMWh9l4uTAzWvz6sT4=; b=CcD1091E59xBdHhjR7AIAj
+ u1DcdQPwuC/Yg7V7XR+K1iO9Vk/tCBPUk6JOH89/1VAzLYVvmKSGD2DQMNOsindm
+ Imnl01157L5OZp58tUqHAQOGMCN+ELqM8myapfWjOdi0tJEPs8w65PWR0+l73qTP
+ fjioLLzUYI9gGE4n+7BGwVaD3afuBhpq1W9XJS9pZa5EYapopIn4yH2iw3UaBDdH
+ xVwRKYtl8buHyBb595hBIVlWQA+qXok8spAdO3y5LD2RVCj/cVLrZbUf5A+eJ6z0
+ uWjfjWBRyBRTkolYJf95DdfrriO5uUdPFqPICgNYJ6yFxY5RwY6myWHachMzG9OQ
+ ==
+X-ME-Sender: <xms:josFYEL0YVquf38GXanptbVbDXfCL2SkypBifPPo6_3pwUaXB0RdkA>
+ <xme:josFYEJo9i2_zZSkMYzmdMO0n5d6jrcdZR4ztFHXm_dOlvpPJl471YDyMTo-ecuvj
+ L27ueVENMvYonuY3PA>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduledrtdekgdehudcutefuodetggdotefrodftvf
+ curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
+ uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
+ fjughrpeffhffvuffkfhggtggujgesghdtreertddtjeenucfhrhhomhepmfhlrghushcu
+ lfgvnhhsvghnuceoihhtshesihhrrhgvlhgvvhgrnhhtrdgukheqnecuggftrfgrthhtvg
+ hrnhepjeegudffueeiteekieelkedvueelteevjeduieeludfffeejgeffhfduvdduffek
+ necukfhppeektddrudeijedrleekrdduledtnecuvehluhhsthgvrhfuihiivgeptdenuc
+ frrghrrghmpehmrghilhhfrhhomhepihhtshesihhrrhgvlhgvvhgrnhhtrdgukh
+X-ME-Proxy: <xmx:j4sFYEsIzkO0ifx7L67o795s29kMviJckE6pXaiPzgsZJdimanarJw>
+ <xmx:j4sFYBZWNO7AX-36ALABxGNiIUTLpBcXtktXzCeOGrCBooIviHxu0g>
+ <xmx:j4sFYLYvLB4itPzuZlCUWOIBoS80YgsR6CSZmtfXWpVw-4Ohh2et_A>
+ <xmx:kIsFYJOZC-3i6gS-g-V1mO-7V0fZ7bFgpAWBybKhKQ8el7U4-mvn9A>
+Received: from apples.localdomain (80-167-98-190-cable.dk.customer.tdc.net
+ [80.167.98.190])
+ by mail.messagingengine.com (Postfix) with ESMTPA id 5F85E24005D;
+ Mon, 18 Jan 2021 08:22:21 -0500 (EST)
+Date: Mon, 18 Jan 2021 14:22:19 +0100
+From: Klaus Jensen <its@irrelevant.dk>
+To: Minwoo Im <minwoo.im.dev@gmail.com>
+Subject: Re: [PATCH v2 10/12] hw/block/nvme: move cmb logic to v1.4
+Message-ID: <YAWLi/ynEMfyQ66T@apples.localdomain>
+References: <20210118094705.56772-1-its@irrelevant.dk>
+ <20210118094705.56772-11-its@irrelevant.dk>
+ <20210118125859.GH18718@localhost.localdomain>
+ <YAWHSaXmpo64xmmp@apples.localdomain>
+ <20210118130946.GJ18718@localhost.localdomain>
+ <YAWI2sFftUEspcT+@apples.localdomain>
+ <20210118131205.GK18718@localhost.localdomain>
 MIME-Version: 1.0
-References: <20201125083300.861206-1-philmd@redhat.com>
- <ad4cf02d-e5d3-b97a-6254-6d495fb39c04@redhat.com>
-In-Reply-To: <ad4cf02d-e5d3-b97a-6254-6d495fb39c04@redhat.com>
-From: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>
-Date: Mon, 18 Jan 2021 14:16:41 +0100
-Message-ID: <CAP+75-XnmZ0Foo0zDyV5dOs9_fmTuWowspgDaLJ1yzg7Yzt6pA@mail.gmail.com>
-Subject: Re: [PATCH v3] hw/core/qdev-properties-system: Rewrite
- set_pci_host_devaddr using GLib
-To: QEMU Developers <qemu-devel@nongnu.org>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=philmd@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -29
-X-Spam_score: -3.0
-X-Spam_bar: ---
-X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.175,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="OpRCC7qYMtAY6BkT"
+Content-Disposition: inline
+In-Reply-To: <20210118131205.GK18718@localhost.localdomain>
+Received-SPF: pass client-ip=66.111.4.229; envelope-from=its@irrelevant.dk;
+ helo=new3-smtp.messagingengine.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
+X-Spam_bar: --
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_PASS=-0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -91,144 +99,68 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Paolo Bonzini <pbonzini@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- =?UTF-8?Q?Daniel_P=2E_Berrang=C3=A9?= <berrange@redhat.com>,
- Eduardo Habkost <ehabkost@redhat.com>
+Cc: Fam Zheng <fam@euphon.net>, Kevin Wolf <kwolf@redhat.com>,
+ Stefan Hajnoczi <stefanha@redhat.com>, qemu-block@nongnu.org,
+ Klaus Jensen <k.jensen@samsung.com>, qemu-devel@nongnu.org,
+ Max Reitz <mreitz@redhat.com>, Padmakar Kalghatgi <p.kalghatgi@samsung.com>,
+ Keith Busch <kbusch@kernel.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Ping^2
 
-On Fri, Jan 8, 2021 at 5:02 PM Philippe Mathieu-Daud=C3=A9 <philmd@redhat.c=
-om> wrote:
->
-> Ping?
->
-> On 11/25/20 9:33 AM, Philippe Mathieu-Daud=C3=A9 wrote:
-> > set_pci_host_devaddr() is hard to follow, thus bug-prone.
-> >
-> > For example, a bug was introduced in commit bccb20c49df, as
-> > the same line might be used to parse a bus (up to 0xff) or
-> > a slot (up to 0x1f).
-> >
-> > Instead of making things worst, rewrite using g_strsplit().
-> >
-> > Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
-> > ---
-> > v3: Rebased
-> > v2: Free g_strsplit() with g_auto(GStrv) (Daniel)
-> > ---
-> >  hw/core/qdev-properties-system.c | 62 ++++++++++++++------------------
-> >  1 file changed, 27 insertions(+), 35 deletions(-)
-> >
-> > diff --git a/hw/core/qdev-properties-system.c b/hw/core/qdev-properties=
--system.c
-> > index 9d80a07d26f..79408e32289 100644
-> > --- a/hw/core/qdev-properties-system.c
-> > +++ b/hw/core/qdev-properties-system.c
-> > @@ -857,11 +857,11 @@ static void set_pci_host_devaddr(Object *obj, Vis=
-itor *v, const char *name,
-> >      DeviceState *dev =3D DEVICE(obj);
-> >      Property *prop =3D opaque;
-> >      PCIHostDeviceAddress *addr =3D qdev_get_prop_ptr(dev, prop);
-> > -    char *str, *p;
-> > -    char *e;
-> > +    g_autofree char *str =3D NULL;
-> > +    g_auto(GStrv) col_s0 =3D NULL;
-> > +    g_auto(GStrv) dot_s =3D NULL;
-> > +    char **col_s;
-> >      unsigned long val;
-> > -    unsigned long dom =3D 0, bus =3D 0;
-> > -    unsigned int slot =3D 0, func =3D 0;
-> >
-> >      if (dev->realized) {
-> >          qdev_prop_set_after_realize(dev, name, errp);
-> > @@ -872,58 +872,50 @@ static void set_pci_host_devaddr(Object *obj, Vis=
-itor *v, const char *name,
-> >          return;
-> >      }
-> >
-> > -    p =3D str;
-> > -    val =3D strtoul(p, &e, 16);
-> > -    if (e =3D=3D p || *e !=3D ':') {
-> > +    col_s =3D col_s0 =3D g_strsplit(str, ":", 3);
-> > +    if (!col_s || !col_s[0] || !col_s[1]) {
-> >          goto inval;
-> >      }
-> > -    bus =3D val;
-> >
-> > -    p =3D e + 1;
-> > -    val =3D strtoul(p, &e, 16);
-> > -    if (e =3D=3D p) {
-> > -        goto inval;
-> > -    }
-> > -    if (*e =3D=3D ':') {
-> > -        dom =3D bus;
-> > -        bus =3D val;
-> > -        p =3D e + 1;
-> > -        val =3D strtoul(p, &e, 16);
-> > -        if (e =3D=3D p) {
-> > +    /* domain */
-> > +    if (col_s[2]) {
-> > +        if (qemu_strtoul(col_s[0], NULL, 16, &val) < 0 || val > 0xffff=
-) {
-> >              goto inval;
-> >          }
-> > +        addr->domain =3D val;
-> > +        col_s++;
-> > +    } else {
-> > +        addr->domain =3D 0;
-> >      }
-> > -    slot =3D val;
-> >
-> > -    if (*e !=3D '.') {
-> > +    /* bus */
-> > +    if (qemu_strtoul(col_s[0], NULL, 16, &val) < 0 || val > 0xff) {
-> >          goto inval;
-> >      }
-> > -    p =3D e + 1;
-> > -    val =3D strtoul(p, &e, 10);
-> > -    if (e =3D=3D p) {
-> > -        goto inval;
-> > -    }
-> > -    func =3D val;
-> > +    addr->bus =3D val;
-> >
-> > -    if (dom > 0xffff || bus > 0xff || slot > 0x1f || func > 7) {
-> > +    /* <slot>.<func> */
-> > +    dot_s =3D g_strsplit(col_s[1], ".", 2);
-> > +    if (!dot_s || !dot_s[0] || !dot_s[1]) {
-> >          goto inval;
-> >      }
-> >
-> > -    if (*e) {
-> > +    /* slot */
-> > +    if (qemu_strtoul(dot_s[0], NULL, 16, &val) < 0 || val > 0x1f) {
-> >          goto inval;
-> >      }
-> > +    addr->slot =3D val;
-> >
-> > -    addr->domain =3D dom;
-> > -    addr->bus =3D bus;
-> > -    addr->slot =3D slot;
-> > -    addr->function =3D func;
-> > +    /* func */
-> > +    if (qemu_strtoul(dot_s[1], NULL, 10, &val) < 0 || val > 7) {
-> > +        goto inval;
-> > +    }
-> > +    addr->function =3D val;
-> >
-> > -    g_free(str);
-> >      return;
-> >
-> >  inval:
-> >      error_set_from_qdev_prop_error(errp, EINVAL, dev, prop, str);
-> > -    g_free(str);
-> >  }
-> >
-> >  const PropertyInfo qdev_prop_pci_host_devaddr =3D {
-> >
->
+--OpRCC7qYMtAY6BkT
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
+On Jan 18 22:12, Minwoo Im wrote:
+> On 21-01-18 14:10:50, Klaus Jensen wrote:
+> > On Jan 18 22:09, Minwoo Im wrote:
+> > > > > Yes, CMB in v1.4 is not backward-compatible, but is it okay to mo=
+ve onto
+> > > > > the CMB v1.4 from v1.3 without supporting the v1.3 usage on this =
+device
+> > > > > model?
+> > > >=20
+> > > > Next patch moves to v1.4. I wanted to split it because the "bump" p=
+atch
+> > > > also adds a couple of other v1.4 requires fields. But I understand =
+that
+> > > > this is slightly wrong.
+> > >=20
+> > > Sorry, I meant I'd like to have CMB for v1.3 support along with the v=
+1.4
+> > > support in this device model separately.  Maybe I missed the linux-nv=
+me
+> > > mailing list for CMB v1.4, but is there no plan to keep supportin CMB
+> > > v1.3 in NVMe driver?
+> >=20
+> > I posted a patch on linux-nvme for v1.4 support in the kernel. It will
+> > support both the v1.3 and v1.4 behavior :)
+>=20
+> Then, can we maintain CMB v1.3 also in QEMU also along with v1.4 ? :)
+
+My first version of this patch actually included compatibility support
+for v1.3 ("legacy cmb"), but Keith suggested we just drop that and keep
+this device compliant.
+
+What we could do is allow the spec version to be chosen with a
+parameter?
+
+--OpRCC7qYMtAY6BkT
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEEUigzqnXi3OaiR2bATeGvMW1PDekFAmAFi4kACgkQTeGvMW1P
+Denv8gf/dg67SbBzyv5xsHcFrbJLNGicf378pr3r+h8W/Wnw1GpnC2M4YwPap5I8
+y0VVji+sdBCCV7c2BRqUZplQFfZ/6onFhIUUvd/wGGRXqWWbcnxhLQHH3gqxYnip
+/b6KVqMnwJZ9+2RcTBNg9eEipkhdss428c6wRLycg75VRC608SAdPFWyZ1fhrGgU
+ml/Xc9b63Md9YIPWXes+ZHWEORAz5s9nNCvdkr56jRR6cZQpmWXJrxgL6ZvlBbD5
+rQ56sNskP8qR6CmJ/dHbAS9TFUEDyyfAIiheeyENh3+mIypukP/zQodkyxqSO9G5
+ss6jr6jw7jj2QqQcp2WJB852NOu3Pw==
+=BS3N
+-----END PGP SIGNATURE-----
+
+--OpRCC7qYMtAY6BkT--
 
