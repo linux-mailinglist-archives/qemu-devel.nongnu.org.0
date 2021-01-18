@@ -2,63 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1F2C32FA713
-	for <lists+qemu-devel@lfdr.de>; Mon, 18 Jan 2021 18:09:51 +0100 (CET)
-Received: from localhost ([::1]:52554 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6F9DC2FA731
+	for <lists+qemu-devel@lfdr.de>; Mon, 18 Jan 2021 18:14:42 +0100 (CET)
+Received: from localhost ([::1]:35276 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l1Y2I-0002QD-5o
-	for lists+qemu-devel@lfdr.de; Mon, 18 Jan 2021 12:09:50 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35178)
+	id 1l1Y6z-0007yH-77
+	for lists+qemu-devel@lfdr.de; Mon, 18 Jan 2021 12:14:41 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36504)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1l1XRW-0002YP-U9
- for qemu-devel@nongnu.org; Mon, 18 Jan 2021 11:31:51 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:33003)
+ (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
+ id 1l1XVY-0005RR-1W
+ for qemu-devel@nongnu.org; Mon, 18 Jan 2021 11:36:01 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:48204)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1l1XRQ-0001XC-Qv
- for qemu-devel@nongnu.org; Mon, 18 Jan 2021 11:31:50 -0500
+ (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
+ id 1l1XVV-0002CT-U1
+ for qemu-devel@nongnu.org; Mon, 18 Jan 2021 11:35:59 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1610987503;
+ s=mimecast20190719; t=1610987756;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=8W9OdTC9JXFXVy+TmMTW+M6jXNMM1l1yzEIIravvNl8=;
- b=QhBN3WB1v5gSSWFawoICAXe2+lSA7uoP9z6iewIfLL7FM/1HFrvLFe5gT+as8MKpA6e8Ot
- fa+c+wEI9pbTnV4Q/WG5rhMRsG6t1CakiiH2whO1WcPNaYzM9fFCDLLhmry8L36ToFKete
- qP3r8ojxwigd5JoPaItIVUqk90TRJZg=
+ bh=SvTOao+WybnzDweKWjYDqv3bSiP35OnIrSByGm7NO3o=;
+ b=QV8Pb3Xg2J60H6gZlJ94jE04glQKfIZ9vPKu+IIKXdzGPyXhoA85I074AssK/QLjloo7DN
+ HZD5yo7QywYpT6teHZA/1WKJcnBfM0kANgrYR5vXl/dT7zezfVbOZlTpcLTy59X9RVjh6v
+ hibNtRPbiuL+Y3t1zSjG8F8bAB0o3Xg=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-376-Z79reHwoPPKLXKy9ZXiw-g-1; Mon, 18 Jan 2021 11:31:41 -0500
-X-MC-Unique: Z79reHwoPPKLXKy9ZXiw-g-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
+ us-mta-600-McanboyuOeuOVVCqshzSOg-1; Mon, 18 Jan 2021 11:35:53 -0500
+X-MC-Unique: McanboyuOeuOVVCqshzSOg-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 09B221005504
- for <qemu-devel@nongnu.org>; Mon, 18 Jan 2021 16:31:41 +0000 (UTC)
-Received: from virtlab701.virt.lab.eng.bos.redhat.com
- (virtlab701.virt.lab.eng.bos.redhat.com [10.19.152.228])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 863F719C66;
- Mon, 18 Jan 2021 16:31:40 +0000 (UTC)
-From: Paolo Bonzini <pbonzini@redhat.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH 25/25] vl: switch -accel parsing to keyval
-Date: Mon, 18 Jan 2021 11:31:13 -0500
-Message-Id: <20210118163113.780171-26-pbonzini@redhat.com>
-In-Reply-To: <20210118163113.780171-1-pbonzini@redhat.com>
-References: <20210118163113.780171-1-pbonzini@redhat.com>
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 70685800D62;
+ Mon, 18 Jan 2021 16:35:51 +0000 (UTC)
+Received: from localhost (ovpn-114-203.ams2.redhat.com [10.36.114.203])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 426F860C67;
+ Mon, 18 Jan 2021 16:35:42 +0000 (UTC)
+Date: Mon, 18 Jan 2021 16:35:41 +0000
+From: Stefan Hajnoczi <stefanha@redhat.com>
+To: Jag Raman <jag.raman@oracle.com>
+Subject: Re: [PATCH v19 08/20] io: add qio_channel_readv_full_all_eof &
+ qio_channel_readv_full_all helpers
+Message-ID: <20210118163541.GC255498@stefanha-x1.localdomain>
+References: <cover.1610638428.git.jag.raman@oracle.com>
+ <02a82c80a35ab60b98028c85aa94f688a2843943.1610638428.git.jag.raman@oracle.com>
+ <20210114162729.GB306329@stefanha-x1.localdomain>
+ <CA0E47D0-F1F5-4825-ABB7-BE73AAD3E375@oracle.com>
+ <20210114180035.GY1643043@redhat.com>
+ <1DE4BD83-5AD6-4F70-8702-03DE1548DBED@oracle.com>
+ <20210115092017.GA334489@stefanha-x1.localdomain>
+ <C2D5772D-CA1A-4E06-9971-DCD589CF8CAD@oracle.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+In-Reply-To: <C2D5772D-CA1A-4E06-9971-DCD589CF8CAD@oracle.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=pbonzini@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=stefanha@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=pbonzini@redhat.com;
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="UFHRwCdBEJvubb2X"
+Content-Disposition: inline
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=stefanha@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -29
 X-Spam_score: -3.0
@@ -79,306 +86,170 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: kwolf@redhat.com, imammedo@redhat.com, armbru@redhat.com
+Cc: Elena Ufimtseva <elena.ufimtseva@oracle.com>, Fam Zheng <fam@euphon.net>,
+ Swapnil Ingle <swapnil.ingle@nutanix.com>,
+ John G Johnson <john.g.johnson@oracle.com>, qemu-level <qemu-devel@nongnu.org>,
+ Gerd Hoffmann <kraxel@redhat.com>, quintela@redhat.com, mst@redhat.com,
+ armbru@redhat.com, kanth.ghatraju@oracle.com, felipe@nutanix.com,
+ thuth@redhat.com, ehabkost@redhat.com, konrad.wilk@oracle.com,
+ dgilbert@redhat.com, alex.williamson@redhat.com, thanos.makatos@nutanix.com,
+ kwolf@redhat.com,
+ =?iso-8859-1?Q?=22Daniel_P=2E_Berrang=E9=22?= <berrange@redhat.com>,
+ mreitz@redhat.com, ross.lagerwall@citrix.com, marcandre.lureau@gmail.com,
+ pbonzini@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Switch from QemuOpts to keyval.  This enables compound options
-for accelerators.
+--UFHRwCdBEJvubb2X
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
----
- accel/accel.c          |   6 ++
- include/sysemu/accel.h |   1 +
- softmmu/vl.c           | 134 ++++++++++++++++++-----------------------
- 3 files changed, 67 insertions(+), 74 deletions(-)
+On Fri, Jan 15, 2021 at 01:19:01PM -0500, Jag Raman wrote:
+>=20
+>=20
+> > On Jan 15, 2021, at 4:20 AM, Stefan Hajnoczi <stefanha@redhat.com> wrot=
+e:
+> >=20
+> > On Thu, Jan 14, 2021 at 01:24:37PM -0500, Jag Raman wrote:
+> >>=20
+> >>=20
+> >>> On Jan 14, 2021, at 1:00 PM, Daniel P. Berrang=C3=A9 <berrange@redhat=
+.com> wrote:
+> >>>=20
+> >>> On Thu, Jan 14, 2021 at 12:55:58PM -0500, Jag Raman wrote:
+> >>>>=20
+> >>>>=20
+> >>>>> On Jan 14, 2021, at 11:27 AM, Stefan Hajnoczi <stefanha@redhat.com>=
+ wrote:
+> >>>>>=20
+> >>>>> On Thu, Jan 14, 2021 at 10:40:03AM -0500, Jagannathan Raman wrote:
+> >>>>>> +int qio_channel_readv_full_all(QIOChannel *ioc,
+> >>>>>> +                               const struct iovec *iov,
+> >>>>>> +                               size_t niov,
+> >>>>>> +                               int **fds, size_t *nfds,
+> >>>>>> +                               Error **errp)
+> >>>>>> {
+> >>>>>> -    int ret =3D qio_channel_readv_all_eof(ioc, iov, niov, errp);
+> >>>>>> +    int ret =3D qio_channel_readv_full_all_eof(ioc, iov, niov, fd=
+s, nfds, errp);
+> >>>>>>=20
+> >>>>>>   if (ret =3D=3D 0) {
+> >>>>>> -        ret =3D -1;
+> >>>>>>       error_setg(errp,
+> >>>>>>                  "Unexpected end-of-file before all bytes were rea=
+d");
+> >>>>>=20
+> >>>>> qio_channel_readv_full_all_eof() can read file descriptors but no d=
+ata
+> >>>>> and return 0.
+> >>>>>=20
+> >>>>> Here that case is converted into an error and the file descriptors
+> >>>>> aren't closed, freed, and fds/nfds isn't cleared.
+> >>>>=20
+> >>>> That=E2=80=99s a valid point. I=E2=80=99m wondering if the fix for t=
+his case should be in
+> >>>> qio_channel_readv_full_all_eof(), instead of here.
+> >>>>=20
+> >>>> qio_channel_readv_full_all_eof() should probably return error (-1) i=
+f the
+> >>>> amount of data read does not match iov_size(). If the caller is only=
+ expecting
+> >>>> to read fds, and not any data, it would indicate that by setting iov=
+ to NULL
+> >>>> and/or setting niov=3D0. If the caller is setting these parameters, =
+it means it is
+> >>>> expecting data.Does that sound good?
+> >>>=20
+> >>> The API spec for the existing _eof() methods says:
+> >>>=20
+> >>> * The function will wait for all requested data
+> >>> * to be read, yielding from the current coroutine
+> >>> * if required.
+> >>> *
+> >>> * If end-of-file occurs before any data is read,
+> >>> * no error is reported; otherwise, if it occurs
+> >>> * before all requested data has been read, an error
+> >>> * will be reported.
+> >>>=20
+> >>>=20
+> >>> IOW, return '0' is *only* valid if we've not read anything. I conside=
+r
+> >>> file descriptors to be something.
+> >>>=20
+> >>> IOW, qio_channel_readv_full_all_eof must only return 0, if it didn't
+> >>> read any data and also didn't receive any file descriptors. So yeah,
+> >>> we must return -1 in the scenario Stefan describes
+> >>=20
+> >> That makes sense to me. Reading =E2=80=9Cfds" is something, which is d=
+ifferent
+> >> from our previous understanding. I thought data only meant iov, and no=
+t fds.
+> >>=20
+> >> So the return values for qio_channel_readv_full_all_eof() would be:
+> >>  - =E2=80=980=E2=80=99 only if EOF is reached without reading any fds =
+and data.
+> >>  - =E2=80=981=E2=80=99 if all data that the caller expects are read (e=
+ven if the caller reads
+> >>    fds exclusively, without any iovs)
+> >>  - =E2=80=98-1=E2=80=99 otherwise, considered as error
+> >>=20
+> >> qio_channel_readv_full_all() would return:
+> >>  - =E2=80=980=E2=80=99 if all the data that caller expects are read
+> >>  - =E2=80=98-1=E2=80=99 otherwise, considered as error
+> >>=20
+> >> Hey Stefan,
+> >>=20
+> >>    Does this sound good to you?
+> >=20
+> > The while (nlocal_iov > 0) loop only runs if the caller has requested t=
+o
+> > read at least some data, so the fds-only case doesn't work yet.
+> >=20
+> > This suggests that no current QEMU code relies on the fds-only case.
+> > Therefore you could change the doc comment to clarify this instead of
+> > adding support for this case to the code.
+> >=20
+> > But if you would to fully support the fds-only case that would be even
+> > better.
+> >=20
+> > Stefan
+>=20
+> We are working on sending the next revision out. We could handle the
+> fds-only case by altering the while loop condition to be:
+> ((nlocal_iov > 0) || local_fds)
+>=20
+> For reference, we would need to handle the following cases:
+> len < 0; !partial, !*nfds       =3D> ret =3D -1;
+> len =3D 0; !partial, !*nfds       =3D> ret =3D 0;
+> len < 0; partial, !*nfds        =3D> ret =3D -1; errmsg;
+> len =3D 0; partial, !*nfds        =3D> ret =3D -1; errmsg;
+> len < 0; partial, *nfds         =3D> ret =3D -1; errmsg, clearfds
+> len < 0; !partial, *nfds        =3D> ret =3D -1; errmsg, clearfds
+> len =3D 0; partial, *nfds         =3D> ret =3D -1; errmsg, clearfds
+> len =3D 0; !partial, *nfds        =3D> ret =3D -1; errmsg, clearfds
+> len =3D 0; !niov; (nfds && *nfds) =3D> ret =3D 1 /* fds-only */
+> len > 0                         =3D> ret 1
 
-diff --git a/accel/accel.c b/accel/accel.c
-index cb555e3b06..f7fdc2f5a8 100644
---- a/accel/accel.c
-+++ b/accel/accel.c
-@@ -46,6 +46,12 @@ AccelClass *accel_find(const char *opt_name)
-     return ac;
- }
- 
-+bool accel_print_class_properties(const char *opt_name)
-+{
-+    g_autofree char *class_name = g_strdup_printf(ACCEL_CLASS_NAME("%s"), opt_name);
-+    return type_print_class_properties(class_name);
-+}
-+
- int accel_init_machine(AccelState *accel, MachineState *ms)
- {
-     AccelClass *acc = ACCEL_GET_CLASS(accel);
-diff --git a/include/sysemu/accel.h b/include/sysemu/accel.h
-index e08b8ab8fa..737db49d21 100644
---- a/include/sysemu/accel.h
-+++ b/include/sysemu/accel.h
-@@ -67,6 +67,7 @@ typedef struct AccelClass {
-     OBJECT_GET_CLASS(AccelClass, (obj), TYPE_ACCEL)
- 
- AccelClass *accel_find(const char *opt_name);
-+bool accel_print_class_properties(const char *opt_name);
- int accel_init_machine(AccelState *accel, MachineState *ms);
- 
- /* Called just before os_setup_post (ie just before drop OS privs) */
-diff --git a/softmmu/vl.c b/softmmu/vl.c
-index ff906d541d..b87ab08ea6 100644
---- a/softmmu/vl.c
-+++ b/softmmu/vl.c
-@@ -139,6 +139,7 @@ static const char *loadvm;
- static const char *accelerators;
- static QDict *machine_opts_dict;
- static GSList *object_opts_list = NULL;
-+static GSList *accel_opts_list = NULL;
- static ram_addr_t maxram_size;
- static uint64_t ram_slots;
- static int display_remote;
-@@ -229,20 +230,6 @@ static QemuOptsList qemu_option_rom_opts = {
-     },
- };
- 
--static QemuOptsList qemu_accel_opts = {
--    .name = "accel",
--    .implied_opt_name = "accel",
--    .head = QTAILQ_HEAD_INITIALIZER(qemu_accel_opts.head),
--    .desc = {
--        /*
--         * no elements => accept any
--         * sanity checking will happen later
--         * when setting accelerator properties
--         */
--        { }
--    },
--};
--
- static QemuOptsList qemu_boot_opts = {
-     .name = "boot-opts",
-     .implied_opt_name = "order",
-@@ -1567,21 +1554,6 @@ static MachineClass *select_machine(QDict *qdict, Error **errp)
-     return machine_class;
- }
- 
--static int object_parse_property_opt(Object *obj,
--                                     const char *name, const char *value,
--                                     const char *skip, Error **errp)
--{
--    if (g_str_equal(name, skip)) {
--        return 0;
--    }
--
--    if (!object_property_parse(obj, name, value, errp)) {
--        return -1;
--    }
--
--    return 0;
--}
--
- /* *Non*recursively replace underscores with dashes in QDict keys.  */
- static void keyval_dashify(QDict *qdict, Error **errp)
- {
-@@ -2036,7 +2008,8 @@ static int global_init_func(void *opaque, QemuOpts *opts, Error **errp)
- static bool is_qemuopts_group(const char *group)
- {
-     if (g_str_equal(group, "object") ||
--        g_str_equal(group, "machine")) {
-+        g_str_equal(group, "machine") ||
-+        g_str_equal(group, "accel")) {
-         return false;
-     }
-     return true;
-@@ -2050,6 +2023,8 @@ static GSList **qemu_config_list(const char *group)
- {
-     if (g_str_equal(group, "object")) {
-         return &object_opts_list;
-+    } else if (g_str_equal(group, "accel")) {
-+        return &accel_opts_list;
-     }
-     return NULL;
- }
-@@ -2188,22 +2163,20 @@ static int do_configure_icount(void *opaque, QemuOpts *opts, Error **errp)
-     return 0;
- }
- 
--static int accelerator_set_property(void *opaque,
--                                const char *name, const char *value,
--                                Error **errp)
--{
--    return object_parse_property_opt(opaque, name, value, "accel", errp);
--}
--
--static int do_configure_accelerator(void *opaque, QemuOpts *opts, Error **errp)
-+static void do_configure_accelerator(void *data, void *opaque)
- {
-     bool *p_init_failed = opaque;
--    const char *acc = qemu_opt_get(opts, "accel");
-+    QDict *qdict = data;
-+    const char *acc = qdict_get_try_str(qdict, "accel");
-     AccelClass *ac = accel_find(acc);
-     AccelState *accel;
-     int ret;
-     bool qtest_with_kvm;
- 
-+    if (current_accel()) {
-+        return;
-+    }
-+
-     qtest_with_kvm = g_str_equal(acc, "kvm") && qtest_chrdev != NULL;
- 
-     if (!ac) {
-@@ -2211,24 +2184,20 @@ static int do_configure_accelerator(void *opaque, QemuOpts *opts, Error **errp)
-         if (!qtest_with_kvm) {
-             error_report("invalid accelerator %s", acc);
-         }
--        return 0;
-+        return;
-     }
-     accel = ACCEL(object_new_with_class(OBJECT_CLASS(ac)));
-     object_apply_compat_props(OBJECT(accel));
--    qemu_opt_foreach(opts, accelerator_set_property,
--                     accel,
--                     &error_fatal);
-+    qdict_del(qdict, "accel");
-+    object_set_properties_from_keyval(OBJECT(accel), qdict, &error_fatal);
- 
-     ret = accel_init_machine(accel, current_machine);
-     if (ret < 0) {
-         *p_init_failed = true;
-         if (!qtest_with_kvm || ret != -ENOENT) {
--            error_report("failed to initialize %s: %s", acc, strerror(-ret));
-+            error_report("failed to initialize %s: %s", ac->name, strerror(-ret));
-         }
--        return 0;
-     }
--
--    return 1;
- }
- 
- static void configure_accelerators(const char *progname)
-@@ -2238,7 +2207,7 @@ static void configure_accelerators(const char *progname)
-     qemu_opts_foreach(qemu_find_opts("icount"),
-                       do_configure_icount, NULL, &error_fatal);
- 
--    if (QTAILQ_EMPTY(&qemu_accel_opts.head)) {
-+    if (!accel_opts_list) {
-         char **accel_list, **tmp;
- 
-         if (accelerators == NULL) {
-@@ -2271,7 +2240,9 @@ static void configure_accelerators(const char *progname)
-              * such as "-machine accel=tcg,,thread=single".
-              */
-             if (accel_find(*tmp)) {
--                qemu_opts_parse_noisily(qemu_find_opts("accel"), *tmp, true);
-+                QDict *qdict = qdict_new();
-+                qdict_put_str(qdict, "accel", *tmp);
-+                accel_opts_list = g_slist_prepend(accel_opts_list, qdict);
-             } else {
-                 init_failed = true;
-                 error_report("invalid accelerator %s", *tmp);
-@@ -2285,8 +2256,12 @@ static void configure_accelerators(const char *progname)
-         }
-     }
- 
--    if (!qemu_opts_foreach(qemu_find_opts("accel"),
--                           do_configure_accelerator, &init_failed, &error_fatal)) {
-+    accel_opts_list = g_slist_reverse(accel_opts_list);
-+    g_slist_foreach(accel_opts_list,
-+                    do_configure_accelerator,
-+                    &init_failed);
-+
-+    if (!current_accel()) {
-         if (!init_failed) {
-             error_report("no accelerator found");
-         }
-@@ -2304,6 +2279,27 @@ static void configure_accelerators(const char *progname)
-     }
- }
- 
-+static void list_accelerators(void)
-+{
-+    printf("Accelerators supported in QEMU binary:\n");
-+    GSList *el, *accel_list = object_class_get_list(TYPE_ACCEL,
-+                                                    false);
-+    for (el = accel_list; el; el = el->next) {
-+        gchar *typename = g_strdup(object_class_get_name(
-+                                   OBJECT_CLASS(el->data)));
-+        /* omit qtest which is used for tests only */
-+        if (g_strcmp0(typename, ACCEL_CLASS_NAME("qtest")) &&
-+            g_str_has_suffix(typename, ACCEL_CLASS_SUFFIX)) {
-+            gchar **optname = g_strsplit(typename,
-+                                         ACCEL_CLASS_SUFFIX, 0);
-+            printf("%s\n", optname[0]);
-+            g_strfreev(optname);
-+        }
-+        g_free(typename);
-+    }
-+    g_slist_free(accel_list);
-+}
-+
- static void create_default_memdev(MachineState *ms, const char *path)
- {
-     Object *obj;
-@@ -2627,7 +2623,7 @@ void qmp_x_exit_preconfig(Error **errp)
- void qemu_init(int argc, char **argv, char **envp)
- {
-     QemuOpts *opts;
--    QemuOpts *icount_opts = NULL, *accel_opts = NULL;
-+    QemuOpts *icount_opts = NULL;
-     QemuOptsList *olist;
-     int optind;
-     const char *optarg;
-@@ -2651,7 +2647,6 @@ void qemu_init(int argc, char **argv, char **envp)
-     qemu_add_opts(&qemu_trace_opts);
-     qemu_plugin_add_opts();
-     qemu_add_opts(&qemu_option_rom_opts);
--    qemu_add_opts(&qemu_accel_opts);
-     qemu_add_opts(&qemu_mem_opts);
-     qemu_add_opts(&qemu_smp_opts);
-     qemu_add_opts(&qemu_boot_opts);
-@@ -3207,30 +3202,21 @@ void qemu_init(int argc, char **argv, char **envp)
-                     break;
-                 }
-             case QEMU_OPTION_accel:
--                accel_opts = qemu_opts_parse_noisily(qemu_find_opts("accel"),
--                                                     optarg, true);
--                optarg = qemu_opt_get(accel_opts, "accel");
--                if (!optarg || is_help_option(optarg)) {
--                    printf("Accelerators supported in QEMU binary:\n");
--                    GSList *el, *accel_list = object_class_get_list(TYPE_ACCEL,
--                                                                    false);
--                    for (el = accel_list; el; el = el->next) {
--                        gchar *typename = g_strdup(object_class_get_name(
--                                                   OBJECT_CLASS(el->data)));
--                        /* omit qtest which is used for tests only */
--                        if (g_strcmp0(typename, ACCEL_CLASS_NAME("qtest")) &&
--                            g_str_has_suffix(typename, ACCEL_CLASS_SUFFIX)) {
--                            gchar **optname = g_strsplit(typename,
--                                                         ACCEL_CLASS_SUFFIX, 0);
--                            printf("%s\n", optname[0]);
--                            g_strfreev(optname);
-+                {
-+                    QDict *args;
-+                    bool help;
-+
-+                    args = keyval_parse(optarg, "accel", &help, &error_fatal);
-+                    if (help) {
-+                        const char *type = qdict_get_try_str(args, "accel");
-+                        if (!type || !accel_print_class_properties(type)) {
-+                            list_accelerators();
-                         }
--                        g_free(typename);
-+                        exit(0);
-                     }
--                    g_slist_free(accel_list);
--                    exit(0);
-+                    qemu_record_config_group("accel", args, &error_abort);
-+                    break;
-                 }
--                break;
-             case QEMU_OPTION_usb:
-                 qdict_put_str(machine_opts_dict, "usb", "on");
-                 break;
--- 
-2.26.2
+Yes, I think that looks right.
+
+Stefan
+
+--UFHRwCdBEJvubb2X
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAmAFuN0ACgkQnKSrs4Gr
+c8jyPQf/fEe3XAzd2QSqE9QaYFssk+uyg67z+WY6fagWAFVTHAGTm4PGuaFlPnT+
+OFapR8Rw78UV2voeNCE6933kSVjmJwihMXjlvpAmka3i/6RvFvSewcZqL8rNNFqN
+fvmD1OT8sny1L5r3ItI6CFcfuzN+lbHC14PRS4qUjQduq6ZhBql0WCq+V9e1pJSx
+8wpQPu1B3rq4c2bg2C7WwY+q6ejkGaQ8Bud02PwKVOVSv0RCOY0bJbtPya7OMMQi
+yOzn76n0rFIC7x6KtaUKEfjyp3C14gcsNqX8A+s6cQTjXQxS9FRX/x5xdJ1IdXJc
+G3ZhPcEPHV2DBPrwI21HtqVCnYcJJA==
+=Nbto
+-----END PGP SIGNATURE-----
+
+--UFHRwCdBEJvubb2X--
 
 
