@@ -2,84 +2,90 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CFCAF2F9C38
-	for <lists+qemu-devel@lfdr.de>; Mon, 18 Jan 2021 11:15:13 +0100 (CET)
-Received: from localhost ([::1]:58396 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D68572F9C31
+	for <lists+qemu-devel@lfdr.de>; Mon, 18 Jan 2021 11:09:26 +0100 (CET)
+Received: from localhost ([::1]:49160 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l1RZ2-0001zY-Nj
-	for lists+qemu-devel@lfdr.de; Mon, 18 Jan 2021 05:15:12 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53598)
+	id 1l1RTR-0006ae-UB
+	for lists+qemu-devel@lfdr.de; Mon, 18 Jan 2021 05:09:25 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53548)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
- id 1l1R8X-0001Ap-2W; Mon, 18 Jan 2021 04:47:49 -0500
-Received: from out5-smtp.messagingengine.com ([66.111.4.29]:54547)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
- id 1l1R8U-0001Bl-DE; Mon, 18 Jan 2021 04:47:48 -0500
-Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
- by mailout.nyi.internal (Postfix) with ESMTP id 9EF4E5C0175;
- Mon, 18 Jan 2021 04:47:25 -0500 (EST)
-Received: from mailfrontend1 ([10.202.2.162])
- by compute4.internal (MEProxy); Mon, 18 Jan 2021 04:47:25 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=irrelevant.dk;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding; s=fm2; bh=VgRp9IaFYkHOY
- EmojIbrUoJX3fRHam+GrGWeifIKBbo=; b=sweB5C1UbJwDp+2dS917S7T4mljEB
- EQ3YPGludZPfGIx+45lqPj6W3oAAm9wOPP/+0vj41TkxuyvTgS6MiZxKzFODAL43
- FWJEM12UPBazmopxa3NKBj+JX5BeDQH7goZZJgIHPLE8i6UodHGbCrXMBDgPI9LN
- Mm5Qk62FG0kQ/0x4qUIvMgAw10dD1RGzcmxb6GUwk2whs5E/AvoyJtigEVmn8yrM
- qNhnZqWA247ri+bDTsPL9oRmp3U+YzAoT0vd2D34S9KLkbAGdDShjfchdiIqEsEv
- 3uX0nxx6ba6dGDnmQPJgdMe5wvPA4laHceOyhNbOdVEqOIPms4M80WXag==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:content-transfer-encoding:date:from
- :in-reply-to:message-id:mime-version:references:subject:to
- :x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
- fm1; bh=VgRp9IaFYkHOYEmojIbrUoJX3fRHam+GrGWeifIKBbo=; b=LCLL6uLv
- R/5azlF38DmodSmQjtlLRR/8zuFNMtl1dm+R2V5WfOu1oymNIwFK0pYTD3NIUDqM
- cD33909IA7lyRxl5DEY8H+ipUJ7CqPFiQhWMUd1lZx448Qnnn5u2lLph+XyWlBVJ
- //b1YEUQvQwWXE5VLNJG6sptR9C0OPciy51Fz2+O2bTOaPJ2z25Et2eb7QA4z9/0
- Tvhxbb3sldHJJJJ3M0T42QBFk/9nm0olf8/QCB3NIWu+3cz35moGb1Y4+s1eC5Wc
- og8UsPR84S4T15GcLuieigLkXsvtLbAJkehJJY1eUiZ+ZiYFQFlTMv4P0kffURtZ
- tyN70yov9zZ65A==
-X-ME-Sender: <xms:LVkFYCpXu_QJo7icDWrZorNbff5arrnvoMNefddq5YM0lfpfHFR4dQ>
- <xme:LVkFYAr1wZJQxIeR4ufHGwPSfUBRHCInFpNKt5hjXPr0U0FUTYG29pCmkhytbtKRD
- MLP1nNwdJ_wDSD1lvY>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduledrtdekgddtkecutefuodetggdotefrodftvf
- curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
- uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
- fjughrpefhvffufffkofgjfhgggfestdekredtredttdenucfhrhhomhepmfhlrghushcu
- lfgvnhhsvghnuceoihhtshesihhrrhgvlhgvvhgrnhhtrdgukheqnecuggftrfgrthhtvg
- hrnhepueelteegieeuhffgkeefgfevjeeigfetkeeitdfgtdeifefhtdfhfeeuffevgfek
- necukfhppeektddrudeijedrleekrdduledtnecuvehluhhsthgvrhfuihiivgepjeenuc
- frrghrrghmpehmrghilhhfrhhomhepihhtshesihhrrhgvlhgvvhgrnhhtrdgukh
-X-ME-Proxy: <xmx:LVkFYHOpVEesTTbYi_i1gangRWAzDrpH2I2jU1SbkZzeJv72tp8dFw>
- <xmx:LVkFYB7kMKSCGv5FmdUs4HE4n-pZBfneKbkUFZsdhzijvOGWNv2iUg>
- <xmx:LVkFYB7Zr2GsgYz9lpM4W6ha9RH-52OfKlJq7P7gP8etL_zKmRF96Q>
- <xmx:LVkFYOvatISzhDaetoY36qZSluOMApDuMF60sx5AEBHqjNkegTfDpA>
-Received: from apples.local (80-167-98-190-cable.dk.customer.tdc.net
- [80.167.98.190])
- by mail.messagingengine.com (Postfix) with ESMTPA id 5AA7F24005A;
- Mon, 18 Jan 2021 04:47:24 -0500 (EST)
-From: Klaus Jensen <its@irrelevant.dk>
-To: qemu-devel@nongnu.org
-Subject: [PATCH v2 12/12] hw/block/nvme: lift cmb restrictions
-Date: Mon, 18 Jan 2021 10:47:05 +0100
-Message-Id: <20210118094705.56772-13-its@irrelevant.dk>
-X-Mailer: git-send-email 2.30.0
-In-Reply-To: <20210118094705.56772-1-its@irrelevant.dk>
-References: <20210118094705.56772-1-its@irrelevant.dk>
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1l1R8F-0000zY-D9
+ for qemu-devel@nongnu.org; Mon, 18 Jan 2021 04:47:31 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:58622)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1l1R8B-0001Cv-PR
+ for qemu-devel@nongnu.org; Mon, 18 Jan 2021 04:47:31 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1610963247;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=h3fuvZp+lrDwiaB7C6iDX8zQyy7iI1p6lhJanq5+GG8=;
+ b=ANp00R6aCxuF8cTfuZbGqEnYgYcLze/DVu+vMAU0vc6XTBSAuBj2ApUxihKrzUQV0614Jc
+ Effy28Z7hY14h93rwd2HlRkMwoOt/zU0p6NJchhebDlKNllUY2KICAMPNO5k2y4C49AOJg
+ +3BvlCwcvsxkqw3/pee1lkTpndMHLGY=
+Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
+ [209.85.128.72]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-472-8mvhGSxFN2OKkItYGupj5w-1; Mon, 18 Jan 2021 04:47:25 -0500
+X-MC-Unique: 8mvhGSxFN2OKkItYGupj5w-1
+Received: by mail-wm1-f72.google.com with SMTP id h21so4233000wmq.7
+ for <qemu-devel@nongnu.org>; Mon, 18 Jan 2021 01:47:25 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=h3fuvZp+lrDwiaB7C6iDX8zQyy7iI1p6lhJanq5+GG8=;
+ b=FKyD9tItuaR/Fw842+L3tUprdSaVIihl2KcWiGGIMXEXI6IYd6NrKipN0HZ3C0J1P2
+ QRwBLGKPd5u1UwSEowf23yu38AgqZNGv/l/0zMbl4J1bWQPpP1q+HsFwYIb/oSN+dFRl
+ rIpByHCzNA8cBruK5+VQTtQOaUmhGcvnlqmuHu1xpf1zh/IbpAdtCbPpHSy1JVoTizYy
+ 2UmrRFfvguWuQ5SbMFKkEvJMihdUidRApS3s7cHDWPQ8gK+c6FmsTmpP4dc+szuYhfOK
+ 6Oi0dLZzThdlNOmrXOwXFNsDFtzqKaih+EOtY+M+/uS1SP8ThT2571QDVnwDmUsxrjyd
+ LfGA==
+X-Gm-Message-State: AOAM5336/Xgo8fT38Pj/T365eu+4g1fMBUOm9FErf6vKl9uTNj7IMccO
+ RkNbYQyVCHybd1v1iDH7GAN6+iv1D6ml2isYcFojZ8xZSprF1Za6Bj1tLpbp9MT9cQttSgFWI/3
+ BCYE2uEzlNE8WRJE=
+X-Received: by 2002:a7b:c09a:: with SMTP id r26mr4844297wmh.64.1610963244290; 
+ Mon, 18 Jan 2021 01:47:24 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJy8COcCkXe8PQWeE8FIzffZ9MNBL4S35PWLxiBL8vLCQnUOMhWx4vouHjd3jlolTgo5leIwvQ==
+X-Received: by 2002:a7b:c09a:: with SMTP id r26mr4844288wmh.64.1610963244180; 
+ Mon, 18 Jan 2021 01:47:24 -0800 (PST)
+Received: from [192.168.1.36] (13.red-83-57-169.dynamicip.rima-tde.net.
+ [83.57.169.13])
+ by smtp.gmail.com with ESMTPSA id g5sm29664539wro.60.2021.01.18.01.47.22
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 18 Jan 2021 01:47:23 -0800 (PST)
+Subject: Re: [PATCH v2 6/9] tests: Rename PAGE_SIZE definitions
+To: Jiaxun Yang <jiaxun.yang@flygoat.com>, qemu-devel@nongnu.org
+References: <20210118063808.12471-1-jiaxun.yang@flygoat.com>
+ <20210118063808.12471-7-jiaxun.yang@flygoat.com>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+Message-ID: <abafe09d-369c-0f97-db89-b4a163843ad4@redhat.com>
+Date: Mon, 18 Jan 2021 10:47:21 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.6.0
 MIME-Version: 1.0
+In-Reply-To: <20210118063808.12471-7-jiaxun.yang@flygoat.com>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=66.111.4.29; envelope-from=its@irrelevant.dk;
- helo=out5-smtp.messagingengine.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
-X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
- SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=philmd@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -32
+X-Spam_score: -3.3
+X-Spam_bar: ---
+X-Spam_report: (-3.3 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.189,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.252, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=-0.01,
+ RCVD_IN_MSPIKE_WL=-0.01, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -92,112 +98,63 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Fam Zheng <fam@euphon.net>, Kevin Wolf <kwolf@redhat.com>,
- qemu-block@nongnu.org, Klaus Jensen <k.jensen@samsung.com>,
- Max Reitz <mreitz@redhat.com>, Klaus Jensen <its@irrelevant.dk>,
- Stefan Hajnoczi <stefanha@redhat.com>, Keith Busch <kbusch@kernel.org>
+Cc: Fam Zheng <fam@euphon.net>, Laurent Vivier <lvivier@redhat.com>,
+ Thomas Huth <thuth@redhat.com>,
+ Viktor Prutyanov <viktor.prutyanov@phystech.edu>, kvm@vger.kernel.org,
+ Alistair Francis <alistair@alistair23.me>, Greg Kurz <groug@kaod.org>,
+ Wainer dos Santos Moschetta <wainersm@redhat.com>,
+ Max Reitz <mreitz@redhat.com>, qemu-ppc@nongnu.org,
+ Kevin Wolf <kwolf@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ qemu-block@nongnu.org, =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
+ David Gibson <david@gibson.dropbear.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Klaus Jensen <k.jensen@samsung.com>
+On 1/18/21 7:38 AM, Jiaxun Yang wrote:
+> As per POSIX specification of limits.h [1], OS libc may define
+> PAGE_SIZE in limits.h.
+> 
+> Self defined PAGE_SIZE is frequently used in tests, to prevent
+> collosion of definition, we give PAGE_SIZE definitons reasonable
+> prefixs.
+> 
+> [1]: https://pubs.opengroup.org/onlinepubs/7908799/xsh/limits.h.html
+> 
+> Signed-off-by: Jiaxun Yang <jiaxun.yang@flygoat.com>
+> Reviewed-by: Thomas Huth <thuth@redhat.com>
+> ---
+>  tests/migration/stress.c            | 10 ++---
+>  tests/qtest/libqos/malloc-pc.c      |  4 +-
+>  tests/qtest/libqos/malloc-spapr.c   |  4 +-
+>  tests/qtest/m25p80-test.c           | 54 +++++++++++-----------
+>  tests/tcg/multiarch/system/memory.c |  6 +--
+>  tests/test-xbzrle.c                 | 70 ++++++++++++++---------------
+>  6 files changed, 74 insertions(+), 74 deletions(-)
+...
 
-The controller now implements v1.4 and we can lift the restrictions on
-CMB Data Pointer and Command Independent Locations Support (CDPCILS) and
-CMB Data Pointer Mixed Locations Support (CDPMLS) since the device
-really does not care about mixed host/cmb pointers in those cases.
+> diff --git a/tests/tcg/multiarch/system/memory.c b/tests/tcg/multiarch/system/memory.c
+> index d124502d73..eb0ec6f8eb 100644
+> --- a/tests/tcg/multiarch/system/memory.c
+> +++ b/tests/tcg/multiarch/system/memory.c
+> @@ -20,12 +20,12 @@
+>  # error "Target does not specify CHECK_UNALIGNED"
+>  #endif
+>  
+> -#define PAGE_SIZE 4096             /* nominal 4k "pages" */
+> -#define TEST_SIZE (PAGE_SIZE * 4)  /* 4 pages */
+> +#define MEM_PAGE_SIZE 4096             /* nominal 4k "pages" */
+> +#define TEST_SIZE (MEM_PAGE_SIZE * 4)  /* 4 pages */
 
-Signed-off-by: Klaus Jensen <k.jensen@samsung.com>
----
- hw/block/nvme.c | 33 ++-------------------------------
- 1 file changed, 2 insertions(+), 31 deletions(-)
+Clearer renaming TEST_PAGE_SIZE and TEST_MEM_SIZE.
 
-diff --git a/hw/block/nvme.c b/hw/block/nvme.c
-index 992665376a71..23a836a343e2 100644
---- a/hw/block/nvme.c
-+++ b/hw/block/nvme.c
-@@ -509,7 +509,6 @@ static uint16_t nvme_map_prp(NvmeCtrl *n, uint64_t prp1, uint64_t prp2,
-     trans_len = MIN(len, trans_len);
-     int num_prps = (len >> n->page_bits) + 1;
-     uint16_t status;
--    bool prp_list_in_cmb = false;
-     int ret;
- 
-     QEMUSGList *qsg = &req->qsg;
-@@ -535,10 +534,6 @@ static uint16_t nvme_map_prp(NvmeCtrl *n, uint64_t prp1, uint64_t prp2,
-             uint32_t nents, prp_trans;
-             int i = 0;
- 
--            if (nvme_addr_is_cmb(n, prp2)) {
--                prp_list_in_cmb = true;
--            }
--
-             nents = (len + n->page_size - 1) >> n->page_bits;
-             prp_trans = MIN(n->max_prp_ents, nents) * sizeof(uint64_t);
-             ret = nvme_addr_read(n, prp2, (void *)prp_list, prp_trans);
-@@ -555,10 +550,6 @@ static uint16_t nvme_map_prp(NvmeCtrl *n, uint64_t prp1, uint64_t prp2,
-                         return NVME_INVALID_PRP_OFFSET | NVME_DNR;
-                     }
- 
--                    if (prp_list_in_cmb != nvme_addr_is_cmb(n, prp_ent)) {
--                        return NVME_INVALID_USE_OF_CMB | NVME_DNR;
--                    }
--
-                     i = 0;
-                     nents = (len + n->page_size - 1) >> n->page_bits;
-                     prp_trans = MIN(n->max_prp_ents, nents) * sizeof(uint64_t);
-@@ -692,7 +683,6 @@ static uint16_t nvme_map_sgl(NvmeCtrl *n, QEMUSGList *qsg, QEMUIOVector *iov,
-     uint64_t nsgld;
-     uint32_t seg_len;
-     uint16_t status;
--    bool sgl_in_cmb = false;
-     hwaddr addr;
-     int ret;
- 
-@@ -714,18 +704,6 @@ static uint16_t nvme_map_sgl(NvmeCtrl *n, QEMUSGList *qsg, QEMUIOVector *iov,
-         goto out;
-     }
- 
--    /*
--     * If the segment is located in the CMB, the submission queue of the
--     * request must also reside there.
--     */
--    if (nvme_addr_is_cmb(n, addr)) {
--        if (!nvme_addr_is_cmb(n, req->sq->dma_addr)) {
--            return NVME_INVALID_USE_OF_CMB | NVME_DNR;
--        }
--
--        sgl_in_cmb = true;
--    }
--
-     for (;;) {
-         switch (NVME_SGL_TYPE(sgld->type)) {
-         case NVME_SGL_DESCR_TYPE_SEGMENT:
-@@ -814,15 +792,6 @@ static uint16_t nvme_map_sgl(NvmeCtrl *n, QEMUSGList *qsg, QEMUIOVector *iov,
-         if (status) {
-             goto unmap;
-         }
--
--        /*
--         * If the next segment is in the CMB, make sure that the sgl was
--         * already located there.
--         */
--        if (sgl_in_cmb != nvme_addr_is_cmb(n, addr)) {
--            status = NVME_INVALID_USE_OF_CMB | NVME_DNR;
--            goto unmap;
--        }
-     }
- 
- out:
-@@ -3739,6 +3708,8 @@ static int nvme_start_ctrl(NvmeCtrl *n)
- 
- static void nvme_cmb_enable_regs(NvmeCtrl *n)
- {
-+    NVME_CMBLOC_SET_CDPCILS(n->bar.cmbloc, 1);
-+    NVME_CMBLOC_SET_CDPMLS(n->bar.cmbloc, 1);
-     NVME_CMBLOC_SET_BIR(n->bar.cmbloc, NVME_CMB_BIR);
- 
-     NVME_CMBSZ_SET_SQS(n->bar.cmbsz, 1);
--- 
-2.30.0
+If possible using TEST_PAGE_SIZE / TEST_MEM_SIZE:
+Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+
+>  
+>  #define ARRAY_SIZE(x) ((sizeof(x) / sizeof((x)[0])))
+>  
+> -__attribute__((aligned(PAGE_SIZE)))
+> +__attribute__((aligned(MEM_PAGE_SIZE)))
+>  static uint8_t test_data[TEST_SIZE];
 
 
