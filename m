@@ -2,70 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E62392F9A25
-	for <lists+qemu-devel@lfdr.de>; Mon, 18 Jan 2021 07:53:19 +0100 (CET)
-Received: from localhost ([::1]:50592 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C6DDE2F9A23
+	for <lists+qemu-devel@lfdr.de>; Mon, 18 Jan 2021 07:52:39 +0100 (CET)
+Received: from localhost ([::1]:49050 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l1OPe-0001v3-Vo
-	for lists+qemu-devel@lfdr.de; Mon, 18 Jan 2021 01:53:19 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33802)
+	id 1l1OP0-0001CC-TA
+	for lists+qemu-devel@lfdr.de; Mon, 18 Jan 2021 01:52:38 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33876)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <jiaxun.yang@flygoat.com>)
- id 1l1OC4-0002pc-H8; Mon, 18 Jan 2021 01:39:18 -0500
-Received: from wnew4-smtp.messagingengine.com ([64.147.123.18]:42981)
+ id 1l1OCI-0002td-Aj; Mon, 18 Jan 2021 01:39:35 -0500
+Received: from wnew4-smtp.messagingengine.com ([64.147.123.18]:34129)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <jiaxun.yang@flygoat.com>)
- id 1l1OBy-0007Xv-H3; Mon, 18 Jan 2021 01:39:15 -0500
+ id 1l1OCB-0007bH-3W; Mon, 18 Jan 2021 01:39:27 -0500
 Received: from compute6.internal (compute6.nyi.internal [10.202.2.46])
- by mailnew.west.internal (Postfix) with ESMTP id 5282216B4;
- Mon, 18 Jan 2021 01:39:06 -0500 (EST)
+ by mailnew.west.internal (Postfix) with ESMTP id 460DE16B6;
+ Mon, 18 Jan 2021 01:39:19 -0500 (EST)
 Received: from mailfrontend1 ([10.202.2.162])
- by compute6.internal (MEProxy); Mon, 18 Jan 2021 01:39:07 -0500
+ by compute6.internal (MEProxy); Mon, 18 Jan 2021 01:39:20 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=flygoat.com; h=
  from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding; s=fm1; bh=f02riIqmTLQjf
- sxRmbAMxWaoH+GGUs+3oNGVdaXSoVI=; b=lz/uwNtjyS4HJK6A9jLDosCCw2xu/
- lKGto8uYLz1han+qS4v8X4RhN1ETSsgaWTAwKmwGTQrMnrETkrb3L81AzHVeLQnP
- wHwjKoDf6w8kDMQ3uRC3tSeZHAnFbWb2ng0dsnfW9tfiTmCFSxgfYx22TpM8jPPf
- PyfdvSmnRDyrn7ws3cCqPYBmWNuc1/dE/MPMm0kafxzjOhxvPdRYV0TG/TEabjFv
- LpMbjJTyBKtJzK2a/r6aSPBQdvULxKG9byNOD07E//kUsrzJhUf4PrxEs+arzAer
- K8D1syicVce8HJNPNvZgDPfSR3zVNYQp2rd+qg10caMfOt0acgJBjYQbA==
+ :mime-version:content-transfer-encoding; s=fm1; bh=xp8rMS5fYi67I
+ zBTztXoRRHYHPvcz6CsxRtqujbiTX8=; b=XRkZhcuwfbvDW9WPlzqGCkZpgCxXo
+ Ya7cEM0p3uGKSWcWUe+lpfY7E4j+t/Ip4ts+Vih9+Ym7V8pJqU98FfCIFgjwa9xw
+ /kQkhEbnpjj8tZ1wEyDmMAUzee3T0T6YdySmQssumueg5MBII6fH5SmW9tRNRda/
+ h3wVxdVY695O7rP7RH6pOu6ap+GFtgOX5HzIfzJKFD5T1H3s+XeAVMRK6EWlgaT3
+ nA5rGqLC2Kjg7K9Gn7j0sGzTpJOzBP0mFoXsrFfa0J/23I2eUliBRFa+NmbdThdj
+ IYyH5VijUXyYrSauFE3v1Taw3XegnyZFKOGStJRBK/kuOKxhYxGfvgGQQ==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
  messagingengine.com; h=cc:content-transfer-encoding:date:from
  :in-reply-to:message-id:mime-version:references:subject:to
  :x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
- fm1; bh=f02riIqmTLQjfsxRmbAMxWaoH+GGUs+3oNGVdaXSoVI=; b=IItl3g64
- 587aclrnXUPhADssPjQRWvNfM0ii43Rjnb0JCnBRL/SnduS5YKmswjKRF8VXkBl9
- l0vVfQgcJEQGlfXK2R+VDPSnKTlAEsWBHRxeIYgdPEarC4r44cOWwjmu1YhDxYUU
- I2UZssX6lde82ljHgxg97F9xF0IbXFk5S9nnke/KQEglnK92ri4GsSVI0W0ddtYX
- JihmSk3dRSH/4aEHL0IO4c2es4ndc/z5hACTayPKgIjfLGxOyth+GCOtmz5PpNMU
- FzvmRDAUX0xkFi1UmCzDVrNPzCOEP+BU7fXvOzqGrPQe34vymPbiMvAjyoY+k10z
- rhsofRywjHaxpw==
-X-ME-Sender: <xms:CS0FYO1cJ7KEh2R5-sWcG-fdA_B8wsv3Vtdv2dJmykoehAcbhaWxgQ>
- <xme:CS0FYBGbsbAnWZQDbsK1IMHvd8MPZBnCfE9kd8rxRYkq7-GKZCMO9d83yEAEodeyf
- AfMOeWHdv6TQM1Ucxg>
+ fm1; bh=xp8rMS5fYi67IzBTztXoRRHYHPvcz6CsxRtqujbiTX8=; b=GJpW6OMA
+ OhUqFDRpb15U6GX0ZPNwReD2/b3m4gaptaPIBWUCXpVoAEAMAFtgcsDt7qK7VAIV
+ 96IC7lAbGXh7ZcXAhxHKMvCH+EBJuTbV4CUvPj/4EshTdh5zYWx+F1yxqk18bIUQ
+ nFj2mYcGEAfsi6FUriEhRw2WtqM/chpKmrFGM6/3NcZM2LOcDKB0jYd1+nJaFash
+ cgvVC50ZDUcWHCRYm0oEVlPEUU/TSgyCvywHJkEqVaQcJqk193QnlVCl47Jrbd6q
+ Gb369STdGyYzopKxavO1oWh9BXGh4rbro6sebIX/2vj0qABh7hyxyr9wcItTmiUh
+ wLDoWim57UP5tg==
+X-ME-Sender: <xms:Fi0FYK79gFPV_Y-8OLeI4LB_mcQRAjI3uNTBVm1Kmq6pcSsPRoremQ>
+ <xme:Fi0FYD5zNHo8oAuacHYEtimpGnrFYKcuomvbRGBrCtwKVIUZhXcuZ93rnPsJqzieT
+ 23DP3gKXrdvW4jdFqM>
 X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduledrtdejgdeliecutefuodetggdotefrodftvf
  curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
  uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
  fjughrpefhvffufffkofgjfhgggfestdekredtredttdenucfhrhhomheplfhirgiguhhn
  ucgjrghnghcuoehjihgrgihunhdrhigrnhhgsehflhihghhorghtrdgtohhmqeenucggtf
- frrghtthgvrhhnpedtveehvdefleeghfeuveffjeeuffetffekhfeviedujeeiieevuddv
- iedtheffjeenucffohhmrghinhepohhpvghnghhrohhuphdrohhrghenucfkphepudduie
- drvddvkedrkeegrddvnecuvehluhhsthgvrhfuihiivgepvdenucfrrghrrghmpehmrghi
- lhhfrhhomhepjhhirgiguhhnrdihrghnghesfhhlhihgohgrthdrtghomh
-X-ME-Proxy: <xmx:CS0FYG6k_HVbjyz-1sDMQH5mP-Z_ASBFPq0t2QeQVQbwVVbWXTqg0Q>
- <xmx:CS0FYP1CmHbAODeVPDsjuzW9ILgnAypeIwGw_ZjJ_dw3sBGkR4Xomg>
- <xmx:CS0FYBGYg653Q6CKtevhG7z7gRgoiEQRKxCnna6TEYZ8ZwSDQyZOsA>
- <xmx:CS0FYDEcWQVXPhChRaAlwqCaUxRbremDLrBt2-e6fcPIdEm9Jb9Tqhu0Qg1ZTnm1>
+ frrghtthgvrhhnpeejiefhgfetleekleffudektdehvedujedvgeekkeejfefhhffhtedu
+ tefgtdffueenucfkphepudduiedrvddvkedrkeegrddvnecuvehluhhsthgvrhfuihiivg
+ epfeenucfrrghrrghmpehmrghilhhfrhhomhepjhhirgiguhhnrdihrghnghesfhhlhihg
+ ohgrthdrtghomh
+X-ME-Proxy: <xmx:Fi0FYJcdZyCEaydEtjSY3UhyuZY6ZBagLJ6Gz9A4TpYjeAZoYVrt-A>
+ <xmx:Fi0FYHKvlO5Ac5pdlI7kgZfcdNmZokVr4cAYlv2yBLntqurgb0I6EQ>
+ <xmx:Fi0FYOLjSgBNXJM1ArpoH4VhuBugq81wAHryRyCbA0tPbmICtenGfQ>
+ <xmx:Fi0FYD66NSDWoMTHgOES0DwHlT44gIuHwL_d5y5t3oVo4cTMZu5YxaUcAGtdgu8w>
 Received: from strike.U-LINK.com (unknown [116.228.84.2])
- by mail.messagingengine.com (Postfix) with ESMTPA id 97DE424005C;
- Mon, 18 Jan 2021 01:38:59 -0500 (EST)
+ by mail.messagingengine.com (Postfix) with ESMTPA id EE8D9240062;
+ Mon, 18 Jan 2021 01:39:11 -0500 (EST)
 From: Jiaxun Yang <jiaxun.yang@flygoat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 7/9] accel/kvm: avoid using predefined PAGE_SIZE
-Date: Mon, 18 Jan 2021 14:38:06 +0800
-Message-Id: <20210118063808.12471-8-jiaxun.yang@flygoat.com>
+Subject: [PATCH v2 9/9] gitlab-ci: Add alpine to pipeline
+Date: Mon, 18 Jan 2021 14:38:08 +0800
+Message-Id: <20210118063808.12471-10-jiaxun.yang@flygoat.com>
 X-Mailer: git-send-email 2.30.0
 In-Reply-To: <20210118063808.12471-1-jiaxun.yang@flygoat.com>
 References: <20210118063808.12471-1-jiaxun.yang@flygoat.com>
@@ -106,35 +106,65 @@ Cc: Fam Zheng <fam@euphon.net>, Laurent Vivier <lvivier@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-As per POSIX specification of limits.h [1], OS libc may define
-PAGE_SIZE in limits.h.
-
-PAGE_SIZE is used in included kernel uapi headers.
-
-To prevent collosion of definition, we discard PAGE_SIZE from
-defined by libc and take QEMU's variable.
-
-[1]: https://pubs.opengroup.org/onlinepubs/7908799/xsh/limits.h.html
+We only run build test and check-acceptance as their are too many
+failures in checks due to minor string mismatch.
 
 Signed-off-by: Jiaxun Yang <jiaxun.yang@flygoat.com>
 ---
- accel/kvm/kvm-all.c | 3 +++
- 1 file changed, 3 insertions(+)
+ .gitlab-ci.d/containers.yml |  5 +++++
+ .gitlab-ci.yml              | 23 +++++++++++++++++++++++
+ 2 files changed, 28 insertions(+)
 
-diff --git a/accel/kvm/kvm-all.c b/accel/kvm/kvm-all.c
-index 389eaace72..3feb17d965 100644
---- a/accel/kvm/kvm-all.c
-+++ b/accel/kvm/kvm-all.c
-@@ -58,6 +58,9 @@
- /* KVM uses PAGE_SIZE in its definition of KVM_COALESCED_MMIO_MAX. We
-  * need to use the real host PAGE_SIZE, as that's what KVM will use.
-  */
-+#ifdef PAGE_SIZE
-+#undef PAGE_SIZE
-+#endif
- #define PAGE_SIZE qemu_real_host_page_size
+diff --git a/.gitlab-ci.d/containers.yml b/.gitlab-ci.d/containers.yml
+index 910754a699..90fac85ce4 100644
+--- a/.gitlab-ci.d/containers.yml
++++ b/.gitlab-ci.d/containers.yml
+@@ -28,6 +28,11 @@
+     - if: '$CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH'
+     - if: '$CI_COMMIT_REF_NAME == "testing/next"'
  
- //#define DEBUG_KVM
++amd64-alpine-container:
++  <<: *container_job_definition
++  variables:
++    NAME: alpine
++
+ amd64-centos7-container:
+   <<: *container_job_definition
+   variables:
+diff --git a/.gitlab-ci.yml b/.gitlab-ci.yml
+index 4532f1718a..6cc922aedb 100644
+--- a/.gitlab-ci.yml
++++ b/.gitlab-ci.yml
+@@ -72,6 +72,29 @@ include:
+     - cd build
+     - du -chs ${CI_PROJECT_DIR}/avocado-cache
+ 
++build-system-alpine:
++  <<: *native_build_job_definition
++  variables:
++    IMAGE: alpine
++    TARGETS: aarch64-softmmu alpha-softmmu cris-softmmu hppa-softmmu
++      moxie-softmmu microblazeel-softmmu mips64el-softmmu
++    MAKE_CHECK_ARGS: check-build
++    CONFIGURE_ARGS: --enable-docs
++  artifacts:
++    expire_in: 2 days
++    paths:
++      - build
++
++acceptance-system-alpine:
++  <<: *native_test_job_definition
++  needs:
++    - job: build-system-alpine
++      artifacts: true
++  variables:
++    IMAGE: alpine
++    MAKE_CHECK_ARGS: check-acceptance
++  <<: *acceptance_definition
++
+ build-system-ubuntu:
+   <<: *native_build_job_definition
+   variables:
 -- 
 2.30.0
 
