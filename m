@@ -2,50 +2,50 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 41C1A2FAABE
-	for <lists+qemu-devel@lfdr.de>; Mon, 18 Jan 2021 20:59:11 +0100 (CET)
-Received: from localhost ([::1]:40604 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 152BE2FAAEA
+	for <lists+qemu-devel@lfdr.de>; Mon, 18 Jan 2021 21:06:58 +0100 (CET)
+Received: from localhost ([::1]:45460 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l1ag9-0006VJ-Md
-	for lists+qemu-devel@lfdr.de; Mon, 18 Jan 2021 14:59:09 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52890)
+	id 1l1ang-0000RT-Dc
+	for lists+qemu-devel@lfdr.de; Mon, 18 Jan 2021 15:06:56 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54582)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
- id 1l1aai-0005Vh-5K; Mon, 18 Jan 2021 14:53:32 -0500
-Received: from out4-smtp.messagingengine.com ([66.111.4.28]:58885)
+ id 1l1ahc-0007ae-OE; Mon, 18 Jan 2021 15:00:43 -0500
+Received: from out4-smtp.messagingengine.com ([66.111.4.28]:48579)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
- id 1l1aaf-0003Ei-P6; Mon, 18 Jan 2021 14:53:31 -0500
-Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
- by mailout.nyi.internal (Postfix) with ESMTP id 6EC3F5C009E;
- Mon, 18 Jan 2021 14:53:28 -0500 (EST)
+ id 1l1ahV-0005X4-C6; Mon, 18 Jan 2021 15:00:39 -0500
+Received: from compute1.internal (compute1.nyi.internal [10.202.2.41])
+ by mailout.nyi.internal (Postfix) with ESMTP id 56DED5C01FA;
+ Mon, 18 Jan 2021 15:00:29 -0500 (EST)
 Received: from mailfrontend1 ([10.202.2.162])
- by compute4.internal (MEProxy); Mon, 18 Jan 2021 14:53:28 -0500
+ by compute1.internal (MEProxy); Mon, 18 Jan 2021 15:00:29 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=irrelevant.dk;
  h=date:from:to:cc:subject:message-id:references:mime-version
- :content-type:in-reply-to; s=fm2; bh=gSr+fez7EpE531p7263b9unywrm
- t3aazLHHZeMHwN8E=; b=L5MsQl8a3q4/xKzQ7rWGL3nWIQU0e2+DIVU3UHPu45z
- +xvRMCpewj+CeFyRmDaXiFhOY/TpFqPhX5cFLzyXnbmMH4+mfl/ggrmlVAtJAn1K
- Jr5Bh+6mHflFVy7BvFAqlnVXK0vPd2/ULkD6So0CzuoLgtscGUQUwiCF7tEiGkIC
- OG061j+qsUMmZSlA7Ear+0mTcctYvVspe5ek0s7c9AkkIY6g8DvuFV9/YZv/mkrN
- SaUSUIsrc7FS3I327+Hcx3jQfPtmKk6Uex+BiQVNf+RaFxDs6k2CtYagb3mByKAC
- +qKnPFwZDoAldv6KJjImoG/lkwLh58yrMSGtOD5LagQ==
+ :content-type:in-reply-to; s=fm2; bh=EI9YXp3tuitz01WaKD0UiMHMsX3
+ nxTMDLPRadXOjqpQ=; b=HR1cpZ66UXX4i24U+3KiHIpo21Qco8kaoh2GaEK+VAc
+ vbNa6hA69c/VFpX1h5pWGMXW0z5M+JCWBOef/NVL7DvHrC4KUbT0soEiQ1qC6ZE7
+ tBBxtmyEDd8Tf7GrvVw2LxXHfmye8Lg9CyDETlX35O1TJTZtS6xMFD3YQwgCLKeU
+ 6DMU/ldNZISevU9g34iyzpxpTEzbZWlr2q/chNop5cYBSx2avkk6IeIMF9DliD1g
+ Q5NoHhRfC/Zv2mZ4fkdLszQPMejHnweEaZZzeOxRszvK2Eudldp1UFW15bhx6qCw
+ W7QDwpZANOFExL0oyWkMXI7uZ75+cDCKsjvLK/wZlsw==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
  messagingengine.com; h=cc:content-type:date:from:in-reply-to
  :message-id:mime-version:references:subject:to:x-me-proxy
- :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; bh=gSr+fe
- z7EpE531p7263b9unywrmt3aazLHHZeMHwN8E=; b=H10ccoKlkRYpVOeLRN0sGs
- 3BhfVBmgVmvzYUJh25wb3c7gew3RSm8uZFAs6uix2/rWcRpaWVOFYsOb/jA56VkU
- jwPUWDP8c3Zuezq6ZF31wEWeQhYIPbWVmABRq8EvNH0A/F9qiX9ySEcnyAsq5OQS
- Sk8Y3ODe17fALMyoOsJC9z7eY5uKagGwPMMff5EKPgDfT+R/8wT0TpIZ8kYtKzpp
- e5vsjJ7NdH2r2L6EkX5ZuUCYGplRQ8HKfbZH7ZL5bALAWz6T8ppul4Y/rwV41nPX
- lxHzlX/XzA9fWm0PI3AiuVWlNi8krr0lFzighI+zlvirP4LCGK0sGUyo9pXM8Ebg
+ :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; bh=EI9YXp
+ 3tuitz01WaKD0UiMHMsX3nxTMDLPRadXOjqpQ=; b=dGfCy632FLJojGowV9QSDd
+ W2nVgwYovxUSKOD9LK69hBdE1LN79sy48aDiaarETJiLZcN+iHwET27PAY08ubqT
+ D5Z+zDK2x+I5HHm52pZUGRNsGvbPH6MohgbrW9sIKsWJbsR6Voq+Ns1bVufY2iI8
+ 685pv9BPLte4CFiD3WEUWXn6WrOvfyoDhi2Z8fP50pW8PX9sXjuIOZf7k85YI56O
+ nG3h+tJBBb9Z0BO7+gcuh30c+lvLv6rDRsN7krbO+KqkuTh5pNm3K5IMPSXk14Zy
+ 7nkJgRG38IiPvdjYiER+/C+KyfL164ItMZM+iUGAGJaTStbVTi19Q6yPSs+VYAXg
  ==
-X-ME-Sender: <xms:N-cFYNtxaE6VsASyiLtsO-jT6-rQhJy735_XHCj1xr-qhqsfrhXuEA>
- <xme:N-cFYGdYnWC11RGfA8-oaxV0xSdYd2kb95Eeva-O-RcWKAfolHjKxvVUjEQY00Em8
- 5mgDGe6D9uPeaNRip4>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduledrtdekgddufedvucetufdoteggodetrfdotf
+X-ME-Sender: <xms:3OgFYKRZTs1Ec6iN0pd4-PwDlFNX8lRgpwWDDoR4Wxa0FJdEpy9r7g>
+ <xme:3OgFYHN651srbpsxQc5wr_qz57bpAJOy67PoXKVq8V-JA_FNI714eVBQrSebtkLhJ
+ K6TsoJux_Gl-FoxYuw>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduledrtdekgddufeegucetufdoteggodetrfdotf
  fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
  uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
  cujfgurhepfffhvffukfhfgggtuggjsehgtderredttdejnecuhfhrohhmpefmlhgruhhs
@@ -53,30 +53,27 @@ X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduledrtdekgddufedvucetufdoteggod
  gvrhhnpeejgeduffeuieetkeeileekvdeuleetveejudeileduffefjeegfffhuddvudff
  keenucfkphepkedtrdduieejrdelkedrudeltdenucevlhhushhtvghrufhiiigvpedtne
  curfgrrhgrmhepmhgrihhlfhhrohhmpehithhssehirhhrvghlvghvrghnthdrughk
-X-ME-Proxy: <xmx:N-cFYAyGv0jtj-PQck9NVYjzMHX-ZxVMvNjHSDjt9Tc7MOGjzZgLyg>
- <xmx:N-cFYENH7ktq1N0NoN6VHxdjuisCGhQ1-KPRAluh-CeKitYghQF8yw>
- <xmx:N-cFYN9NgnDcG8bqqsq20lnGatPPwg6-Ltj1183jJi69nkCRm11urg>
- <xmx:OOcFYGPKuWMTy451__B6dAjOVGfAIzP_1N267F_Y-FDkrV_FqEhUiA>
+X-ME-Proxy: <xmx:3OgFYFN9FOo0s49hRd-TbFLtyH3iBDijR_6UaaUY1KRGPfxo3aaGVQ>
+ <xmx:3OgFYPtxoH7P586132cOYgDGIvOII6AeDPqWX99up2HRLQjXEsqqVQ>
+ <xmx:3OgFYHWFfThlz4ckK1QzGQVyu-FjOxQirKFymY6yxGTrpNacZi1f_w>
+ <xmx:3egFYI1LMFydYhXejPWlkli3yzXyZPkl3ZGHGB8mrEzCLziUx1BMEw>
 Received: from apples.localdomain (80-167-98-190-cable.dk.customer.tdc.net
  [80.167.98.190])
- by mail.messagingengine.com (Postfix) with ESMTPA id CAC0724005A;
- Mon, 18 Jan 2021 14:53:25 -0500 (EST)
-Date: Mon, 18 Jan 2021 20:53:24 +0100
+ by mail.messagingengine.com (Postfix) with ESMTPA id BEB4C24005C;
+ Mon, 18 Jan 2021 15:00:27 -0500 (EST)
+Date: Mon, 18 Jan 2021 21:00:25 +0100
 From: Klaus Jensen <its@irrelevant.dk>
 To: Minwoo Im <minwoo.im.dev@gmail.com>
-Subject: Re: [PATCH v2 02/12] hw/block/nvme: fix 64 bit register hi/lo split
- writes
-Message-ID: <YAXnNAo/Cva7gTQx@apples.localdomain>
-References: <20210118094705.56772-1-its@irrelevant.dk>
- <20210118094705.56772-3-its@irrelevant.dk>
- <20210118124100.GB18718@localhost.localdomain>
- <YAWE4cDhwQOoc8NT@apples.localdomain>
- <20210118125945.GI18718@localhost.localdomain>
+Subject: Re: [RFC PATCH V2 01/11] hw/block/nvme: remove unused argument in
+ nvme_ns_init_zoned
+Message-ID: <YAXo2ar45usqyteO@apples.localdomain>
+References: <20210117145341.23310-1-minwoo.im.dev@gmail.com>
+ <20210117145341.23310-2-minwoo.im.dev@gmail.com>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="svB2vzK65gQgD5F8"
+ protocol="application/pgp-signature"; boundary="buQ07qm7Ei5blQvq"
 Content-Disposition: inline
-In-Reply-To: <20210118125945.GI18718@localhost.localdomain>
+In-Reply-To: <20210117145341.23310-2-minwoo.im.dev@gmail.com>
 Received-SPF: pass client-ip=66.111.4.28; envelope-from=its@irrelevant.dk;
  helo=out4-smtp.messagingengine.com
 X-Spam_score_int: -27
@@ -98,47 +95,38 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Fam Zheng <fam@euphon.net>, Kevin Wolf <kwolf@redhat.com>,
- qemu-block@nongnu.org, Klaus Jensen <k.jensen@samsung.com>,
- qemu-devel@nongnu.org, Max Reitz <mreitz@redhat.com>,
- Stefan Hajnoczi <stefanha@redhat.com>, Keith Busch <kbusch@kernel.org>
+Cc: Keith Busch <kbusch@kernel.org>, Kevin Wolf <kwolf@redhat.com>,
+ qemu-devel@nongnu.org, qemu-block@nongnu.org, Max Reitz <mreitz@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 
---svB2vzK65gQgD5F8
+--buQ07qm7Ei5blQvq
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Jan 18 21:59, Minwoo Im wrote:
-> > The spec requires aligned 32 bit accesses (or the size of the register),
-> > so maybe it's about time we actually ignore instead of falling through.
+On Jan 17 23:53, Minwoo Im wrote:
+> nvme_ns_init_zoned() has no use for given NvmeCtrl object.
 >=20
-> Agreed.
->=20
+> Signed-off-by: Minwoo Im <minwoo.im.dev@gmail.com>
 
-On the other hand.
+Reviewed-by: Klaus Jensen <k.jensen@samsung.com>
 
-The spec just allows undefined behavior if the alignment or size
-requirement is violated. So falling through is not wrong.
-
-Keith, any thoughts on this?
-
---svB2vzK65gQgD5F8
+--buQ07qm7Ei5blQvq
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQEzBAEBCAAdFiEEUigzqnXi3OaiR2bATeGvMW1PDekFAmAF5zEACgkQTeGvMW1P
-DekOkwgAxOjpSRi6Ofn6DdjfCFYz7hwEnFm+dwfzESsIshyUAN7uTDEn5ofbIaPz
-sr2Rhr6hjqEg8/KOAVp1cvBxZwjYwhPWPQvzNHEV9hUvsfnCFlBqbCt17Kz6iPbK
-+ISLmBD9dyivhupCMAQ0xh03ocu+4nqZ5S+dnRaMcNqhT93ApjAaBn7Fy4NHjsdu
-Fp/q44xx6SXx2nuA7KjbGw3tp9gNyuwDxr+AQZZi4nRW/DkVF9gNX7poX9Yc/nsW
-/WkGGdwtlYoUGqRF5LhNhySpNF1SqsmkMZzarc5t+944eWVOiPMMleoEAbrtgwKx
-W1i2JNg/3u5pkBJblHaPh/l7FVMGQg==
-=KCer
+iQEzBAEBCAAdFiEEUigzqnXi3OaiR2bATeGvMW1PDekFAmAF6NYACgkQTeGvMW1P
+DemkPQgAl5tQAaj0jO5Kw5ftYG5pjnL5XLE+g0adnNGBLXiorA5kD3xM/drYLRvf
+z6spRGwSE6bEDKoJw2RBaOhJxuJORUBzqFVOsY5Y+Hy5rKjSlikim8ybVVspla9S
+HQdy/6dxHZirZElHkFMrgUMxWRFnnSafoDIKro26BVebeQnXaGSV7z5pGNun17wf
+bZgL9Iu7XJiQOA9q2H39M3XxcRMBrzhSg9clZ4FIUVIe/c4VEdysXwN2j7fv7rPv
+4fRgVHxA317qZtSPvfo+shcgkOG3yTfbJ96JqVGarf+A2Yd/jVm7KchWiE4RlXpf
+8D7hTcodfof/tw5ZhC1/21KaRu5qzg==
+=PsRS
 -----END PGP SIGNATURE-----
 
---svB2vzK65gQgD5F8--
+--buQ07qm7Ei5blQvq--
 
