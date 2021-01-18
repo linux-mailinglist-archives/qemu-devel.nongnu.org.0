@@ -2,79 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CA2172FA780
-	for <lists+qemu-devel@lfdr.de>; Mon, 18 Jan 2021 18:28:38 +0100 (CET)
-Received: from localhost ([::1]:36198 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2C1A42FA759
+	for <lists+qemu-devel@lfdr.de>; Mon, 18 Jan 2021 18:21:58 +0100 (CET)
+Received: from localhost ([::1]:47258 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l1YKT-00041J-RR
-	for lists+qemu-devel@lfdr.de; Mon, 18 Jan 2021 12:28:37 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45200)
+	id 1l1YE1-00051P-7N
+	for lists+qemu-devel@lfdr.de; Mon, 18 Jan 2021 12:21:57 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44510)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1l1Xuf-0004Kk-NG
- for qemu-devel@nongnu.org; Mon, 18 Jan 2021 12:01:57 -0500
-Received: from mail-wr1-x42d.google.com ([2a00:1450:4864:20::42d]:45815)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1l1Xuc-0007M3-Ax
- for qemu-devel@nongnu.org; Mon, 18 Jan 2021 12:01:57 -0500
-Received: by mail-wr1-x42d.google.com with SMTP id d26so17137042wrb.12
- for <qemu-devel@nongnu.org>; Mon, 18 Jan 2021 09:01:53 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=references:user-agent:from:to:cc:subject:date:in-reply-to
- :message-id:mime-version:content-transfer-encoding;
- bh=NOuBFHusNf64Rlv9ZpOzWl+jAufp8me91HyAHOSdXbo=;
- b=Mq+NnthsBTx/HyMOH+p28xOmZxWq1q0Z6DKLjHjdlM+h9tnkTafWo8k51FECoGSuJQ
- lVVbjMPcMNzKuiXA8cxOO8pFlGYazhFvj1Z8GPfsQcfNCdv4ka83RzuZk+l9dFqwn56S
- wZuJhq84Q03KVIhBExf7G63BP4K8d2vFWdF4Bm0AiLtAP0mGkRaIFOk1ssI2tU13crNd
- 0lalaU27+GGTu/GX6YlbSoIWoYan2/82ST1t7gqMYzoDysMa6UitA51U1PmyZdz2fCq5
- OFd40Wg+I4sQCmMhT2q21C5wPY4iabaLVanOwLCZsPn6l4CJU9HZvEGS/WraeiWMi3Uu
- Sh/Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:references:user-agent:from:to:cc:subject:date
- :in-reply-to:message-id:mime-version:content-transfer-encoding;
- bh=NOuBFHusNf64Rlv9ZpOzWl+jAufp8me91HyAHOSdXbo=;
- b=WRX9H8RlQZ/CATcyHkgSDayi4FcDzXe2EBPdGPVMykWOvhJWCBbcUIEmtiMfjuHiCe
- KoOGNNbVTXuAx5r/mpUmlhHlWLW28cWu+YQrIyQ4QSN+pxe68wNH7K7B9sPH3tFEzN1q
- 0c1lpxRojpNTVRMusC+2suHGapk719cx3GDLRnvKoXfq9jcuRCEkD9Hwkf2ncRsaZkpZ
- s9v2xHNiWTC48G8A4YMEmJlX106RxCAm6jrgHAa7+9r1grFzNz642JXa/ftcPEtSZIsA
- HTyOd8/Jxuyecyerl0Sw7F4fszPu+AZrr5juY7oZW3QclnEQIymy47HzgW3k7VLxMX9T
- I3Ug==
-X-Gm-Message-State: AOAM532C9LE1eeJvzwhvScTyFFY6CArEl09hy6e554j9eG9iBnn7NPas
- /wkxgGxu1Oim8mZvBPvVTF4xJA==
-X-Google-Smtp-Source: ABdhPJwOxaEssDB9ofrX7268596g84htSuPs/JiPi3PEOW0mmFVyoURCGRJDYeRkDap11GkyxbC5wA==
-X-Received: by 2002:adf:e94c:: with SMTP id m12mr408410wrn.141.1610989312329; 
- Mon, 18 Jan 2021 09:01:52 -0800 (PST)
-Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id u83sm27939521wmu.12.2021.01.18.09.01.50
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 18 Jan 2021 09:01:51 -0800 (PST)
-Received: from zen (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 626CC1FF7E;
- Mon, 18 Jan 2021 17:01:50 +0000 (GMT)
-References: <20210112020708.62922-1-jiaxun.yang@flygoat.com>
- <0cf6ab15-f976-39ad-ad9c-df48aaa8d1ec@amsat.org>
-User-agent: mu4e 1.5.7; emacs 28.0.50
-From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
-Subject: Re: [PATCH] tests/acceptance: Test PMON with Loongson-3A1000 CPU
-Date: Mon, 18 Jan 2021 16:54:19 +0000
-In-reply-to: <0cf6ab15-f976-39ad-ad9c-df48aaa8d1ec@amsat.org>
-Message-ID: <87pn22uqkh.fsf@linaro.org>
+ (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
+ id 1l1Xsi-0002pt-Kb
+ for qemu-devel@nongnu.org; Mon, 18 Jan 2021 11:59:56 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:20202)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
+ id 1l1Xsd-0006yZ-HX
+ for qemu-devel@nongnu.org; Mon, 18 Jan 2021 11:59:56 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1610989189;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=jh9McZubgqjbpKGbxA4L2amcwsSoMLDEqNpDCJgKMa8=;
+ b=KGLSb/eIjATHIe7+8+Lxu3zi3bMdYjMzaaaq+/Knu0cUHmAmTq1CSa7UAXJ7IFFyRQ6Zac
+ WlB0mqE8UcZvAdD+T/HwDWSiHHD5EK+UaNnhX7vyrFDOiSbrXq5ExkpbNsIN/vqcRGe5PS
+ NSi3My0qQt3uxpfXurCaQ5F+TjK4rr8=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-508-FfOqGngwPWK6ltZyeIugyg-1; Mon, 18 Jan 2021 11:59:43 -0500
+X-MC-Unique: FfOqGngwPWK6ltZyeIugyg-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+ [10.5.11.15])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 1D349806660;
+ Mon, 18 Jan 2021 16:59:42 +0000 (UTC)
+Received: from work-vm (ovpn-115-197.ams2.redhat.com [10.36.115.197])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 69D7E5D72E;
+ Mon, 18 Jan 2021 16:59:37 +0000 (UTC)
+Date: Mon, 18 Jan 2021 16:59:34 +0000
+From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+To: Daniel =?iso-8859-1?Q?P=2E_Berrang=E9?= <berrange@redhat.com>
+Subject: Re: [PATCH RFC 0/2] Add debug interface to kick/call on purpose
+Message-ID: <20210118165934.GD9899@work-vm>
+References: <20210115002730.1279-1-dongli.zhang@oracle.com>
+ <20210115102727.GC1692978@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::42d;
- envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x42d.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <20210115102727.GC1692978@redhat.com>
+User-Agent: Mutt/1.14.6 (2020-07-11)
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=dgilbert@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=dgilbert@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -29
+X-Spam_score: -3.0
+X-Spam_bar: ---
+X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.175,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -87,149 +81,66 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Huacai Chen <chenhuacai@kernel.org>,
- Wainer dos Santos Moschetta <wainersm@redhat.com>, qemu-devel@nongnu.org,
- Cleber Rosa <crosa@redhat.com>
+Cc: ehabkost@redhat.com, mst@redhat.com, Dongli Zhang <dongli.zhang@oracle.com>,
+ joe.jin@oracle.com, qemu-devel@nongnu.org, armbru@redhat.com,
+ pbonzini@redhat.com, joao.m.martins@oracle.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+* Daniel P. Berrangé (berrange@redhat.com) wrote:
+> On Thu, Jan 14, 2021 at 04:27:28PM -0800, Dongli Zhang wrote:
+> > The virtio device/driver (e.g., vhost-scsi and indeed any device including
+> > e1000e) may hang due to the lost of IRQ or the lost of doorbell register
+> > kick, e.g.,
+> > 
+> > https://lists.gnu.org/archive/html/qemu-devel/2018-12/msg01711.html
+> > 
+> > The virtio-net was in trouble in above link because the 'kick' was not
+> > taking effect (missed).
+> > 
+> > This RFC adds a new debug interface 'DeviceEvent' to DeviceClass to help
+> > narrow down if the issue is due to lost of irq/kick. So far the new
+> > interface handles only two events: 'call' and 'kick'. Any device (e.g.,
+> > e1000e or vhost-scsi) may implement (e.g., via eventfd, MSI-X or legacy
+> > IRQ).
+> > 
+> > The 'call' is to inject irq on purpose by admin for a specific device (e.g.,
+> > vhost-scsi) from QEMU/host to VM, while the 'kick' is to kick the doorbell
+> > on purpose by admin at QEMU/host side for a specific device.
+> 
+> I'm really not convinced that we want to give admins the direct ability to
+> poke at internals of devices in a running QEMU. It feels like there is way
+> too much potential for the admin to make a situation far worse by doing
+> the wrong thing here,
 
-Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org> writes:
+We already do have commands to write to an iport, and to inject MCEs for
+example; is this that much different?
 
-> Hi Jiaxun, Alex,
->
-> On 1/12/21 3:07 AM, Jiaxun Yang wrote:
->> Test booting of PMON bootloader on loongson3-virt platform.
->>=20
->> $ (venv) AVOCADO_ALLOW_UNTRUSTED_CODE=3D1 \
->>     avocado --show=3Dapp,console \
->>       run -t machine:loongson3-virt tests/acceptance
->> Fetching asset from tests/acceptance/machine_mips_loongson3v.py:MipsLoon=
-gson3v.test_pmon_serial_console
->> JOB ID     : 8e202b3727847c9104d0d3d6546ed225d35f6706
->> JOB LOG    : /home/flygoat/avocado/job-results/job-2021-01-12T10.02-8e20=
-2b3/job.log
-> ...
->> console: This software may be redistributed under the BSD copyright.
->> console: Copyright 2000-2002, Opsycon AB, Sweden.
->> console: Copyright 2005, ICT CAS.
->> console: CPU GODSON3 BogoMIPS: 1327
->> PASS (3.89 s)
->> RESULTS    : PASS 1 | ERROR 0 | FAIL 0 | SKIP 0 | WARN 0 | INTERRUPT 0 |=
- CANCEL 0
->> JOB TIME   : 4.38 s
->>=20
->> Signed-off-by: Jiaxun Yang <jiaxun.yang@flygoat.com>
->> ---
->>  MAINTAINERS                                 |  1 +
->>  tests/acceptance/machine_mips_loongson3v.py | 39 +++++++++++++++++++++
->>  2 files changed, 40 insertions(+)
->>  create mode 100644 tests/acceptance/machine_mips_loongson3v.py
->>=20
->> diff --git a/MAINTAINERS b/MAINTAINERS
->> index 4be087b88e..f38882f997 100644
->> --- a/MAINTAINERS
->> +++ b/MAINTAINERS
->> @@ -1164,6 +1164,7 @@ F: hw/intc/loongson_liointc.c
->>  F: hw/mips/loongson3_bootp.c
->>  F: hw/mips/loongson3_bootp.h
->>  F: hw/mips/loongson3_virt.c
->> +F: tests/acceptance/machine_mips_loongson3v.py
->>=20=20
->>  Boston
->>  M: Paul Burton <paulburton@kernel.org>
->> diff --git a/tests/acceptance/machine_mips_loongson3v.py b/tests/accepta=
-nce/machine_mips_loongson3v.py
->> new file mode 100644
->> index 0000000000..17a85de69f
->> --- /dev/null
->> +++ b/tests/acceptance/machine_mips_loongson3v.py
->> @@ -0,0 +1,39 @@
->> +# Functional tests for the Generic Loongson-3 Platform.
->> +#
->> +# Copyright (c) 2020 Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>
->
-> 2021 Jiaxun Yang <jiaxun.yang@flygoat.com>? :D
->
->> +#
->> +# This work is licensed under the terms of the GNU GPL, version 2 or la=
-ter.
->> +# See the COPYING file in the top-level directory.
->> +#
->> +# SPDX-License-Identifier: GPL-2.0-or-later
->> +
->> +import os
->> +import time
->> +
->> +from avocado import skipUnless
->> +from avocado_qemu import Test
->> +from avocado_qemu import wait_for_console_pattern
->> +
->> +class MipsLoongson3v(Test):
->> +    @skipUnless(os.getenv('AVOCADO_ALLOW_UNTRUSTED_CODE'), 'untrusted c=
-ode')
->
-> The source code is published [1], you provided reproducible
-> workflow [2] and a tag [3] with a public build artifacts [4],
-> so my understanding is this is "trustable" binary.
->
-> Alex, would it be OK to add this test without the UNTRUSTED tag
-> (amending the links in the commit description)?
+> and people dealing with support tickets will have
+> no idea that the admin has been poking internals of the device and broken
+> it by doing something wrong.
 
-It's a subjective call. Having open source code is a minimum step to
-being "trusted" but really the trust is in the community that hosts the
-code. The upstream distros (e.g. Debian/Fedora) are trusted because
-people install their software on their desktops and basically give the
-software publisher root on their machines. There has to be a level of
-trust that the distros won't abuse that to steal information from their
-users.
+You could add a one time log entry to say that this mischeivous command
+had been used.
 
-I personally have no idea about the loongson community because it's not
-one I interact with so I have no idea what sort of place it is. Is it a
-code dump for semi-proprietary non-upstreamed kernels or is it a place
-that has a good development culture with a sane security process that is
-responsive to problems and moderately conservative with what they merge?
+> You pointed to bug that hit where this could conceivably be useful, but
+> that's a one time issue and should not a common occurrance that justifies
+> making an official public API to poke at devices forever more IMHO.
 
-If you would trust your keys to a machine running this communities
-software then by all means treated it as a trusted source.
+I think where it might be practically useful is if you were debugging a
+hung customers VM and need to find a way to get it to move again.
+THat's something I'm not familiar with on the virtio side;
+mst - is this useful from a virtio side?
 
->
-> [1] https://github.com/loongson-community/pmon/
-> [2]
-> https://github.com/loongson-community/pmon/blob/master/.github/workflows/=
-compile.yml
-> [3] https://github.com/loongson-community/pmon/releases/tag/20210112
-> [4] https://github.com/loongson-community/pmon/actions/runs/479132723
->
->> +    def test_pmon_serial_console(self):
->> +        """
->> +        :avocado: tags=3Darch:mips64el
->> +        :avocado: tags=3Dendian:little
->> +        :avocado: tags=3Dmachine:loongson3-virt
->> +        :avocado: tags=3Dcpu:Loongson-3A1000
->> +        :avocado: tags=3Ddevice:liointc
->> +        :avocado: tags=3Ddevice:goldfish_rtc
->> +        """
->> +
->> +        pmon_hash =3D '7c8b45dd81ccfc55ff28f5aa267a41c3'
->> +        pmon_path =3D self.fetch_asset('https://github.com/loongson-com=
-munity/pmon/'
->> +                                    'releases/download/20210112/pmon-3a=
-virt.bin',
->> +                                     asset_hash=3Dpmon_hash, algorithm=
-=3D'md5')
->> +
->> +        self.vm.set_console()
->> +        self.vm.add_args('-bios', pmon_path)
->> +        self.vm.launch()
->> +        wait_for_console_pattern(self, 'PMON2000 MIPS Initializing. Sta=
-ndby...')
->> +        wait_for_console_pattern(self, 'Copy PMON to execute location d=
-one.')
->> +        wait_for_console_pattern(self, 'CPU GODSON3 BogoMIPS:')
->>=20
+Dave
 
+> Regards,
+> Daniel
+> -- 
+> |: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
+> |: https://libvirt.org         -o-            https://fstop138.berrange.com :|
+> |: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
+-- 
+Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
 
---=20
-Alex Benn=C3=A9e
 
