@@ -2,51 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 310012F97AF
-	for <lists+qemu-devel@lfdr.de>; Mon, 18 Jan 2021 03:13:04 +0100 (CET)
-Received: from localhost ([::1]:58748 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3C7E62F97C0
+	for <lists+qemu-devel@lfdr.de>; Mon, 18 Jan 2021 03:14:57 +0100 (CET)
+Received: from localhost ([::1]:33594 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l1K2Q-0005AU-Sh
-	for lists+qemu-devel@lfdr.de; Sun, 17 Jan 2021 21:13:02 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40596)
+	id 1l1K4G-0006RL-B5
+	for lists+qemu-devel@lfdr.de; Sun, 17 Jan 2021 21:14:56 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41098)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <chenhuacai@kernel.org>)
- id 1l1K0x-0004kk-QO
- for qemu-devel@nongnu.org; Sun, 17 Jan 2021 21:11:31 -0500
-Received: from mail.kernel.org ([198.145.29.99]:46314)
+ id 1l1K2Q-0005V5-7x
+ for qemu-devel@nongnu.org; Sun, 17 Jan 2021 21:13:02 -0500
+Received: from mail.kernel.org ([198.145.29.99]:46694)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <chenhuacai@kernel.org>)
- id 1l1K0v-0000RZ-Oh
- for qemu-devel@nongnu.org; Sun, 17 Jan 2021 21:11:31 -0500
-Received: by mail.kernel.org (Postfix) with ESMTPSA id DA00522510
- for <qemu-devel@nongnu.org>; Mon, 18 Jan 2021 02:11:26 +0000 (UTC)
+ id 1l1K2N-0000vw-VO
+ for qemu-devel@nongnu.org; Sun, 17 Jan 2021 21:13:01 -0500
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 64237224DF
+ for <qemu-devel@nongnu.org>; Mon, 18 Jan 2021 02:12:58 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1610935886;
- bh=aiYIxtPOVjKG0SURRP8xkdA+L1fGxRjGLCsf6+KGsSA=;
+ s=k20201202; t=1610935978;
+ bh=bnIFVS3mreLjKZD5G/Ru8zbXhvIQ4ixaA0WiS02aq2Y=;
  h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
- b=P/qFLz9aV8bpect4W84Sq8l7sad86vkEuSHFGxL1xgHkaccA0pfUMPHeyJEA79tiz
- FNFZNDr+CbaHHV+2VXHhyEN3ioKzJvG2m3bbkOL0P9K0FHHn75GmUB1f+u17pwAWoy
- xu2ebrRpD3nXWuEK92YRC/zAaZFfUlJQHnYxyMVSDWrDddXWkShX2FodIUOGfe2iAI
- rJeDed814sB+0WAyZuExUfEU5VLjkdGfjVf7bZ6SD3eqcrkTZpO7a3h3op3QPllNyo
- qoZ42BiaQI9mmhVKiuwmzT54tHaTzHogTDGnZGaND7gSBvu0Hyh2/OX87JPj5aJ4dt
- T1gxD8mhjNsqA==
-Received: by mail-io1-f44.google.com with SMTP id u17so30042513iow.1
- for <qemu-devel@nongnu.org>; Sun, 17 Jan 2021 18:11:26 -0800 (PST)
-X-Gm-Message-State: AOAM533I2GjGr9YpnSh4VIOPyAfckva8qSBtUGPn8jxOrb33Cxqhx1f7
- JBP2qNcoVOfljGBciSDL65xHcal4od8lGw7LbrE=
-X-Google-Smtp-Source: ABdhPJwM2xtcGglr4qYu+l9oPFgQvQ/8DbVm+iAGntFx5x4PW0K5b0N7jBmiNHMXNK56Xqeu1E9+YdSrg6XJP6M1Z98=
-X-Received: by 2002:a02:95e3:: with SMTP id b90mr13350983jai.32.1610935886313; 
- Sun, 17 Jan 2021 18:11:26 -0800 (PST)
+ b=opuzNOawubHXmQSDfOgj+x7A80hjLW8tVVUPmwX6rh1Bmu70qiBLMd4RlETHk8zCK
+ fvmF4ClFiM8SqeT/w26wcX6a4CMUfIHDnpM6s8gLLN8bWW9f757dvlM+x6P48v0HE/
+ jUINa4TvEsOv9CyKx7BSWkDxDMlNssgsUta4UMXeMldMLkv7J+5KON+N2uueuATnXi
+ /XFeAZlGMW/D3/wriNM/0VSqXkFRFupAfoipSxmdpKO5aw/tmA9OXqs45iBRHH6kSg
+ l9cCXwjFa+ZLzWhlL58gXB0jL3/NCOripbAdYKdGyJfksexKBw6+z4mZotjYWX4UJ/
+ tYKybJun4seGQ==
+Received: by mail-io1-f44.google.com with SMTP id e22so6308425iog.6
+ for <qemu-devel@nongnu.org>; Sun, 17 Jan 2021 18:12:58 -0800 (PST)
+X-Gm-Message-State: AOAM530brwIW30k8Ps0qifQG5LbWArKfNL3Y9X7PA0BzmSzGSzdBPG4p
+ 4goVGTBacCiFdErRWnqagmvRfa8fMpry/m4gmd8=
+X-Google-Smtp-Source: ABdhPJwBblPDu6HFF6Evg/2u/pJhPiYyUek2TcgB/r0WOcYPJJ720P7r1aTOsjcJkqq4eyUSQEfe/B1sExDKnZSn6ac=
+X-Received: by 2002:a5e:9612:: with SMTP id a18mr15632654ioq.13.1610935977826; 
+ Sun, 17 Jan 2021 18:12:57 -0800 (PST)
 MIME-Version: 1.0
 References: <20210118011706.22639-1-jiaxun.yang@flygoat.com>
- <20210118011706.22639-3-jiaxun.yang@flygoat.com>
-In-Reply-To: <20210118011706.22639-3-jiaxun.yang@flygoat.com>
+ <20210118011706.22639-2-jiaxun.yang@flygoat.com>
+In-Reply-To: <20210118011706.22639-2-jiaxun.yang@flygoat.com>
 From: Huacai Chen <chenhuacai@kernel.org>
-Date: Mon, 18 Jan 2021 10:11:14 +0800
-X-Gmail-Original-Message-ID: <CAAhV-H4Au2RW=vhUDmh6=ZMqYX6JOJy+4y+SViE+YtQUg9uc8Q@mail.gmail.com>
-Message-ID: <CAAhV-H4Au2RW=vhUDmh6=ZMqYX6JOJy+4y+SViE+YtQUg9uc8Q@mail.gmail.com>
-Subject: Re: [PATCH v3 2/2] hw/mips/loongson3_virt: Add TCG SMP support
+Date: Mon, 18 Jan 2021 10:12:46 +0800
+X-Gmail-Original-Message-ID: <CAAhV-H4SqGgxPMA06sr8YVcB_-0E+jQYmab6AECS1PmXh25rig@mail.gmail.com>
+Message-ID: <CAAhV-H4SqGgxPMA06sr8YVcB_-0E+jQYmab6AECS1PmXh25rig@mail.gmail.com>
+Subject: Re: [PATCH v3 1/2] hw/intc: Add Loongson Inter Processor Interrupt
+ controller
 To: Jiaxun Yang <jiaxun.yang@flygoat.com>
 Content-Type: text/plain; charset="UTF-8"
 Received-SPF: pass client-ip=198.145.29.99; envelope-from=chenhuacai@kernel.org;
@@ -79,149 +80,274 @@ Hi, Jiaxun,
 
 On Mon, Jan 18, 2021 at 9:17 AM Jiaxun Yang <jiaxun.yang@flygoat.com> wrote:
 >
-> loongson3_virt has KVM SMP support in kenrel.
-s/kenrel/kernel/g
-
-Huacai
-> This patch adds TCG SMP support by enable IPI controller
-> for machine.
+> Loongson IPI controller is a MMIO based simple level triggered
+> interrupt controller. It will trigger IRQ to it's upstream
+> processor when set register is written.
 >
-> Also add definition about IRQs to enhance readability.
->
-> Note that TCG SMP can only support up to 4 CPUs as we
-> didn't implement multi-node support.
+> It also has 4 64bit mailboxes to pass boot information to
+> secondary processor.
 >
 > Signed-off-by: Jiaxun Yang <jiaxun.yang@flygoat.com>
 > ---
->  hw/mips/loongson3_bootp.h |  1 +
->  hw/mips/loongson3_virt.c  | 41 ++++++++++++++++++++++++++++++++-------
->  hw/mips/Kconfig           |  1 +
->  3 files changed, 36 insertions(+), 7 deletions(-)
+>  include/hw/intc/loongson_ipi.h |  20 ++++
+>  hw/intc/loongson_ipi.c         | 174 +++++++++++++++++++++++++++++++++
+>  hw/intc/Kconfig                |   3 +
+>  hw/intc/meson.build            |   1 +
+>  hw/intc/trace-events           |   4 +
+>  5 files changed, 202 insertions(+)
+>  create mode 100644 include/hw/intc/loongson_ipi.h
+>  create mode 100644 hw/intc/loongson_ipi.c
 >
-> diff --git a/hw/mips/loongson3_bootp.h b/hw/mips/loongson3_bootp.h
-> index 09f8480abf..4756aa44f6 100644
-> --- a/hw/mips/loongson3_bootp.h
-> +++ b/hw/mips/loongson3_bootp.h
-> @@ -210,6 +210,7 @@ enum {
->      VIRT_PCIE_ECAM,
->      VIRT_BIOS_ROM,
->      VIRT_UART,
-> +    VIRT_IPIS,
->      VIRT_LIOINTC,
->      VIRT_PCIE_MMIO,
->      VIRT_HIGHMEM
-> diff --git a/hw/mips/loongson3_virt.c b/hw/mips/loongson3_virt.c
-> index d4a82fa536..0765addb7f 100644
-> --- a/hw/mips/loongson3_virt.c
-> +++ b/hw/mips/loongson3_virt.c
-> @@ -35,6 +35,7 @@
->  #include "hw/boards.h"
->  #include "hw/char/serial.h"
->  #include "hw/intc/loongson_liointc.h"
+> diff --git a/include/hw/intc/loongson_ipi.h b/include/hw/intc/loongson_ipi.h
+> new file mode 100644
+> index 0000000000..a535c467bf
+> --- /dev/null
+> +++ b/include/hw/intc/loongson_ipi.h
+> @@ -0,0 +1,20 @@
+> +/*
+> + * This file is subject to the terms and conditions of the GNU General Public
+> + * License.  See the file "COPYING" in the main directory of this archive
+> + * for more details.
+> + *
+> + * Copyright (c) 2020-2021 Jiaxun Yang <jiaxun.yang@flygoat.com>
+> + *
+> + */
+> +
+> +#ifndef LOONGSON_IPI_H
+> +#define LOONGSON_IPI_H
+> +
+> +#include "qemu/units.h"
+> +#include "hw/sysbus.h"
+> +#include "qom/object.h"
+> +
+> +#define TYPE_LOONGSON_IPI "loongson.ipi"
+> +#define LOONGSON_IPI(obj) OBJECT_CHECK(struct loongson_ipi, (obj), TYPE_LOONGSON_IPI)
+> +
+> +#endif /* LOONGSON_IPI_H */
+> diff --git a/hw/intc/loongson_ipi.c b/hw/intc/loongson_ipi.c
+> new file mode 100644
+> index 0000000000..cce1da8fb9
+> --- /dev/null
+> +++ b/hw/intc/loongson_ipi.c
+> @@ -0,0 +1,174 @@
+> +/*
+> + * QEMU Loongson Inter Processor Interrupt Controller
+> + *
+> + * Copyright (c) 2020-2021 Jiaxun Yang <jiaxun.yang@flygoat.com>
+> + *
+> + * This program is free software: you can redistribute it and/or modify
+> + * it under the terms of the GNU General Public License as published by
+> + * the Free Software Foundation, either version 2 of the License, or
+> + * (at your option) any later version.
+> + *
+> + * This program is distributed in the hope that it will be useful,
+> + * but WITHOUT ANY WARRANTY; without even the implied warranty of
+> + * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+> + * GNU General Public License for more details.
+> + *
+> + * You should have received a copy of the GNU General Public License
+> + * along with this program. If not, see <https://www.gnu.org/licenses/>.
+> + *
+> + */
+> +
+> +#include "qemu/osdep.h"
+> +#include "hw/sysbus.h"
+> +#include "qemu/module.h"
+> +#include "qemu/log.h"
+> +#include "hw/irq.h"
+> +#include "hw/qdev-properties.h"
 > +#include "hw/intc/loongson_ipi.h"
->  #include "hw/mips/mips.h"
->  #include "hw/mips/cpudevs.h"
->  #include "hw/mips/fw_cfg.h"
-> @@ -59,7 +60,11 @@
->
->  #define PM_CNTL_MODE          0x10
->
-> -#define LOONGSON_MAX_VCPUS      16
-> +#define VCPU_PER_NODE         4
-> +#define TCG_MAX_NODES         1
-> +#define KVM_MAX_NODES         4
-> +#define TCG_MAX_VCPUS         (TCG_MAX_NODES  * VCPU_PER_NODE)
-> +#define KVM_MAX_VCPUS         (KVM_MAX_NODES  * VCPU_PER_NODE)
->
->  /*
->   * Loongson-3's virtual machine BIOS can be obtained here:
-> @@ -68,9 +73,16 @@
->   */
->  #define LOONGSON3_BIOSNAME "bios_loongson3.bin"
->
-> +/* IRQ allocation of CPU IP */
-> +#define LIOINTC_IP_START    2
-> +#define LIOINTC_IP_END      5
-> +#define IPI_IP              6
+> +#include "sysemu/reset.h"
+> +#include "trace.h"
 > +
-> +/* IRQ allcation of LIOINTC */
->  #define UART_IRQ            0
->  #define RTC_IRQ             1
->  #define PCIE_IRQ_BASE       2
-> +#define IPI_REG_SPACE       0x100
->
->  const struct MemmapEntry virt_memmap[] = {
->      [VIRT_LOWMEM] =      { 0x00000000,    0x10000000 },
-> @@ -81,6 +93,7 @@ const struct MemmapEntry virt_memmap[] = {
->      [VIRT_PCIE_ECAM] =   { 0x1a000000,     0x2000000 },
->      [VIRT_BIOS_ROM] =    { 0x1fc00000,      0x200000 },
->      [VIRT_UART] =        { 0x1fe001e0,           0x8 },
-> +    [VIRT_IPIS] =        { 0x3ff01000,         0x400 },
->      [VIRT_LIOINTC] =     { 0x3ff01400,          0x64 },
->      [VIRT_PCIE_MMIO] =   { 0x40000000,    0x40000000 },
->      [VIRT_HIGHMEM] =     { 0x80000000,           0x0 }, /* Variable */
-> @@ -495,6 +508,10 @@ static void mips_loongson3_virt_init(MachineState *machine)
->              error_report("Loongson-3/TCG needs cpu type Loongson-3A1000");
->              exit(1);
->          }
-> +        if (machine->smp.cpus > TCG_MAX_VCPUS) {
-> +            error_report("Loongson-3/TCG supports up to %d CPUs", TCG_MAX_VCPUS);
-> +            exit(1);
-> +        }
->      } else {
->          if (!machine->cpu_type) {
->              machine->cpu_type = MIPS_CPU_TYPE_NAME("Loongson-3A4000");
-> @@ -544,14 +561,24 @@ static void mips_loongson3_virt_init(MachineState *machine)
->          cpu_mips_clock_init(cpu);
->          qemu_register_reset(main_cpu_reset, cpu);
->
-> -        if (i >= 4) {
-> -            continue; /* Only node-0 can be connected to LIOINTC */
-> +        if (i >= VCPU_PER_NODE) {
-> +            continue; /* Only node-0 can be connected to LIOINTC and IPI */
-> +        }
+> +/*
+> + * Mailboxes are actually 4 64bit registers but we treat it as 8 32bit
+> + * to simplify implementation.
+> + */
+> +#define NUM_MBOX  8
 > +
-> +        if (!kvm_enabled()) {
-> +            /* IPI is handled by kernel for KVM */
-> +            DeviceState *ipi;
-> +            ipi = qdev_new(TYPE_LOONGSON_IPI);
-> +            sysbus_realize_and_unref(SYS_BUS_DEVICE(ipi), &error_fatal);
-> +            sysbus_mmio_map(SYS_BUS_DEVICE(ipi), 0,
-> +                            virt_memmap[VIRT_IPIS].base + IPI_REG_SPACE * i);
-> +            sysbus_connect_irq(SYS_BUS_DEVICE(ipi), 0, cpu->env.irq[IPI_IP]);
->          }
+> +enum {
+> +    R_ISR = 0,
+> +    R_IEN = 1,
+> +    R_SET = 2,
+> +    R_CLR = 3,
+> +    /* No register at 0x10~0x20 */
+> +    R_MBOX0 = 8,
+> +    R_END = R_MBOX0 + NUM_MBOX
+> +};
+> +
+> +struct loongson_ipi {
+> +    SysBusDevice parent_obj;
+> +
+> +    MemoryRegion mmio;
+> +    qemu_irq parent_irq;
+> +
+> +    uint32_t isr;
+> +    uint32_t ien;
+> +    uint32_t mbox[NUM_MBOX];
+> +};
+> +
+> +static uint64_t
+> +ipi_read(void *opaque, hwaddr addr, unsigned int size)
+> +{
+> +    struct loongson_ipi *p = opaque;
+> +    uint64_t r = 0;
+> +
+> +    addr >>= 2;
+> +    switch (addr) {
+> +    case R_ISR:
+> +        r = p->isr;
+> +        break;
+> +    case R_IEN:
+> +        r = p->ien;
+> +        break;
+> +    case R_SET:
+> +    case R_CLR:
+> +        qemu_log_mask(LOG_GUEST_ERROR,
+> +                      "%s: Reading write only reg: 0x%" HWADDR_PRIx "\n",
+> +                      __func__, addr);
+> +        break;
+> +    case R_MBOX0 ... (R_END - 1):
+> +        r = p->mbox[addr - R_MBOX0];
+> +        break;
+> +    default:
+> +        break;
+> +    }
+> +
+> +    trace_loongson_ipi_read(addr, r);
+> +
+> +    return r;
+> +}
+> +
+> +static void
+> +ipi_write(void *opaque, hwaddr addr,
+> +          uint64_t val64, unsigned int size)
+> +{
+> +    struct loongson_ipi *p = opaque;
+> +    uint32_t value = val64;
+> +
+> +    addr >>= 2;
+> +    switch (addr) {
+> +    case R_ISR:
+> +        /* Do nothing */
+> +        break;
+> +    case R_IEN:
+> +        p->ien = value;
+> +        break;
+> +    case R_SET:
+> +        p->isr |= value;
+> +        break;
+> +    case R_CLR:
+> +        p->isr &= ~value;
+> +        break;
+> +    case R_MBOX0 ... (R_END - 1):
+> +        p->mbox[addr - R_MBOX0] = value;
+> +        break;
+> +    default:
+> +        break;
+> +    }
+> +    p->isr &= p->ien;
+> +
+> +    trace_loongson_ipi_write(addr, value);
+> +
+> +    qemu_set_irq(p->parent_irq, !!p->isr);
+> +}
+> +
+> +static void ipi_reset(void *opaque)
+> +{
+> +    int i;
+> +    struct loongson_ipi *p = opaque;
+> +
+> +    p->ien = 0;
+> +    p->isr = 0;
+> +    for (i = 0; i < NUM_MBOX; i++) {
+> +        p->mbox[i] = 0;
+> +    }
+> +}
+> +
+> +static const MemoryRegionOps pic_mmio_ops = {
+> +    .read = ipi_read,
+> +    .write = ipi_write,
+> +    .endianness = DEVICE_NATIVE_ENDIAN,
+> +    .impl = {
+> +        .min_access_size = 4,
+> +        .max_access_size = 4
+> +    },
+> +    .valid = {
+> +        .min_access_size = 4,
+> +        .max_access_size = 8
+> +    },
+> +};
+> +
+> +static void loongson_ipi_init(Object *obj)
+> +{
+> +    struct loongson_ipi *p = LOONGSON_IPI(obj);
+> +
+> +    sysbus_init_irq(SYS_BUS_DEVICE(obj), &p->parent_irq);
+> +
+> +    memory_region_init_io(&p->mmio, obj, &pic_mmio_ops, p,
+> +                          "loongson.ipi", R_END * 4);
+> +    sysbus_init_mmio(SYS_BUS_DEVICE(obj), &p->mmio);
+> +    qemu_register_reset(ipi_reset, p);
+> +}
+> +
+> +static const TypeInfo loongson_ipi_info = {
+> +    .name          = TYPE_LOONGSON_IPI,
+> +    .parent        = TYPE_SYS_BUS_DEVICE,
+> +    .instance_size = sizeof(struct loongson_ipi),
+> +    .instance_init = loongson_ipi_init,
+> +};
+> +
+> +static void loongson_ipi_register_types(void)
+> +{
+> +    type_register_static(&loongson_ipi_info);
+> +}
+> +
+> +type_init(loongson_ipi_register_types)
+> diff --git a/hw/intc/Kconfig b/hw/intc/Kconfig
+> index c18d11142a..0e15102662 100644
+> --- a/hw/intc/Kconfig
+> +++ b/hw/intc/Kconfig
+> @@ -59,6 +59,9 @@ config RX_ICU
+>  config LOONGSON_LIOINTC
+>      bool
 >
-> -        for (ip = 0; ip < 4 ; ip++) {
-> -            int pin = i * 4 + ip;
-> +        for (ip = LIOINTC_IP_START; ip <= LIOINTC_IP_END ; ip++) {
-> +            int pin = i * 4 + (ip - LIOINTC_IP_START);
->              sysbus_connect_irq(SYS_BUS_DEVICE(liointc),
-> -                               pin, cpu->env.irq[ip + 2]);
-> +                               pin, cpu->env.irq[ip]);
->          }
->      }
->      env = &MIPS_CPU(first_cpu)->env;
-> @@ -619,7 +646,7 @@ static void loongson3v_machine_class_init(ObjectClass *oc, void *data)
->      mc->desc = "Loongson-3 Virtualization Platform";
->      mc->init = mips_loongson3_virt_init;
->      mc->block_default_type = IF_IDE;
-> -    mc->max_cpus = LOONGSON_MAX_VCPUS;
-> +    mc->max_cpus = KVM_MAX_VCPUS;
->      mc->default_ram_id = "loongson3.highram";
->      mc->default_ram_size = 1600 * MiB;
->      mc->kvm_type = mips_kvm_type;
-> diff --git a/hw/mips/Kconfig b/hw/mips/Kconfig
-> index aadd436bf4..4fb0cc49e8 100644
-> --- a/hw/mips/Kconfig
-> +++ b/hw/mips/Kconfig
-> @@ -39,6 +39,7 @@ config LOONGSON3V
->      select SERIAL
->      select GOLDFISH_RTC
->      select LOONGSON_LIOINTC
-> +    select LOONGSON_IPI if TCG
->      select PCI_DEVICES
->      select PCI_EXPRESS_GENERIC_BRIDGE
->      select MSI_NONBROKEN
+> +config LOONGSON_IPI
+> +    bool
+> +
+>  config SIFIVE_CLINT
+>      bool
+>
+> diff --git a/hw/intc/meson.build b/hw/intc/meson.build
+> index 53cba11569..5257c5fb94 100644
+> --- a/hw/intc/meson.build
+> +++ b/hw/intc/meson.build
+> @@ -36,6 +36,7 @@ specific_ss.add(when: 'CONFIG_GRLIB', if_true: files('grlib_irqmp.c'))
+>  specific_ss.add(when: 'CONFIG_IBEX', if_true: files('ibex_plic.c'))
+>  specific_ss.add(when: 'CONFIG_IOAPIC', if_true: files('ioapic.c'))
+>  specific_ss.add(when: 'CONFIG_LOONGSON_LIOINTC', if_true: files('loongson_liointc.c'))
+> +specific_ss.add(when: 'CONFIG_LOONGSON_IPI', if_true: files('loongson_ipi.c'))
+Maybe sort by alpha-betical is better (put IPI before LIOINTC)?
+
+Huacai
+>  specific_ss.add(when: 'CONFIG_MIPS_CPS', if_true: files('mips_gic.c'))
+>  specific_ss.add(when: 'CONFIG_OMAP', if_true: files('omap_intc.c'))
+>  specific_ss.add(when: 'CONFIG_OMPIC', if_true: files('ompic.c'))
+> diff --git a/hw/intc/trace-events b/hw/intc/trace-events
+> index 8ed397a0d5..e43e318be0 100644
+> --- a/hw/intc/trace-events
+> +++ b/hw/intc/trace-events
+> @@ -60,6 +60,10 @@ lm32_pic_set_ip(uint32_t ip) "ip 0x%08x"
+>  lm32_pic_get_im(uint32_t im) "im 0x%08x"
+>  lm32_pic_get_ip(uint32_t ip) "ip 0x%08x"
+>
+> +# loongson_ipi.c
+> +loongson_ipi_read(uint64_t addr, uint64_t value) "addr 0x%02" PRIx64 " value 0x%08" PRIx64
+> +loongson_ipi_write(uint64_t addr, uint64_t value) "addr 0x%02" PRIx64 " value 0x%08" PRIx64
+> +
+>  # xics.c
+>  xics_icp_check_ipi(int server, uint8_t mfrr) "CPU %d can take IPI mfrr=0x%x"
+>  xics_icp_accept(uint32_t old_xirr, uint32_t new_xirr) "icp_accept: XIRR 0x%"PRIx32"->0x%"PRIx32
 > --
 > 2.30.0
 >
