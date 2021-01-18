@@ -2,90 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C11E82F9C3A
-	for <lists+qemu-devel@lfdr.de>; Mon, 18 Jan 2021 11:17:46 +0100 (CET)
-Received: from localhost ([::1]:36272 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A0EAD2F9C2D
+	for <lists+qemu-devel@lfdr.de>; Mon, 18 Jan 2021 11:08:22 +0100 (CET)
+Received: from localhost ([::1]:45856 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l1RbV-0004cW-R2
-	for lists+qemu-devel@lfdr.de; Mon, 18 Jan 2021 05:17:45 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53954)
+	id 1l1RSP-0005Ft-Nt
+	for lists+qemu-devel@lfdr.de; Mon, 18 Jan 2021 05:08:21 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56214)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1l1RAG-0002Nn-IO
- for qemu-devel@nongnu.org; Mon, 18 Jan 2021 04:49:36 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:33074)
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1l1RKB-0000SU-5Y
+ for qemu-devel@nongnu.org; Mon, 18 Jan 2021 04:59:51 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:51966)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1l1RAC-00026c-6d
- for qemu-devel@nongnu.org; Mon, 18 Jan 2021 04:49:36 -0500
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1l1RK7-0006a8-HZ
+ for qemu-devel@nongnu.org; Mon, 18 Jan 2021 04:59:50 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1610963371;
+ s=mimecast20190719; t=1610963986;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=pGLt3sGOa1DX63ebI5z69+0IiO9HEDs1oee+fF3mB90=;
- b=NaXBiqmKtn63aDGmJXbDp7XsMVgH1phqgi1PBnErhStSxJ2nk0BU90GjEXIdliowPIUhS3
- 2x/oWHuCqk+3sFVP045hr27iV3xQj1FqaUKH7AeDL7epSswY9FyAr0X3d9rqVWi6tc8zqR
- IegGughwa4zU6FXBQYCSk9ZjDIf4DTo=
-Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
- [209.85.221.69]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-542-coLNlVm9MxSytQiSoAHeeg-1; Mon, 18 Jan 2021 04:49:30 -0500
-X-MC-Unique: coLNlVm9MxSytQiSoAHeeg-1
-Received: by mail-wr1-f69.google.com with SMTP id m20so8032757wrh.2
- for <qemu-devel@nongnu.org>; Mon, 18 Jan 2021 01:49:29 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=pGLt3sGOa1DX63ebI5z69+0IiO9HEDs1oee+fF3mB90=;
- b=lo7Y9tF4600ZWCBHtqZ0GFSxrph3QuY5p+MGKysx8G67InwLk4tU4M2HsqdhMnT8jE
- bwgoDxbh4MOu+sRvRSnJ8TfoYvReoxalwpS5+Uv2oJI6E7WcVuMolEdZl5camLluFIGF
- /upd+u+JGImsnMFw0GzdceHj/6zGCv+Hnna2yYwH+gv5iP7JtUJEOm5/hwOafRp7pPEo
- g3UcuyfWx4rU578qQRICqR1NRJwFs7mvlmqiqRD44YWhPg5wZ95UafQ/2UaWIL/I7Kzx
- FvyEh6Onu0XUtRslTs1IykSd790or/7fBMY2cuW4z4IRaKyxUlbMN8DWHSuL/6Zs6qmC
- B9ig==
-X-Gm-Message-State: AOAM5329c5oqFhltoGbr/PYQK5E5M2xNsEdax6C0kHJOU0kWiO/+CR7A
- YC6YDpK6/A5lECObuUaqghoIiErjhjjV4vvuhtl9GkyNAZwwKQ9aTaaVNlUaDURmqTp7mNzFmB/
- 2+ENkaCDczMO5r5I=
-X-Received: by 2002:a1c:2c82:: with SMTP id s124mr19516801wms.81.1610963368679; 
- Mon, 18 Jan 2021 01:49:28 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJzQJ4rhWD0vYsf8kCpb4L65W2eUXLR5W0BysQ65BAZq4fitqwZjMOEnn4oD/bZqv+cQGso2lg==
-X-Received: by 2002:a1c:2c82:: with SMTP id s124mr19516786wms.81.1610963368471; 
- Mon, 18 Jan 2021 01:49:28 -0800 (PST)
-Received: from [192.168.1.36] (13.red-83-57-169.dynamicip.rima-tde.net.
- [83.57.169.13])
- by smtp.gmail.com with ESMTPSA id g192sm16337429wmg.18.2021.01.18.01.49.27
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 18 Jan 2021 01:49:27 -0800 (PST)
-Subject: Re: [PATCH v2] ide: atapi: check logical block address and read size
- (CVE-2020-29443)
-To: P J P <ppandit@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>
-References: <20210118063229.442350-1-ppandit@redhat.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-Message-ID: <d6f38367-136a-7a34-4b9e-c00c753b298c@redhat.com>
-Date: Mon, 18 Jan 2021 10:49:26 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.6.0
+ bh=DpcY3437a8PVy6geJVwRKEsBgaB9qPlibQZk+0ZJ0lI=;
+ b=QFH4tZ4qAIbvkZhjZOpwxag3gVtRiqRl5e3f4CGM+Ay2JP1Eupyc32LVK6f/2mndF5e8+U
+ YoFS5Yy41iDjh3RJMgyTMAdlZkdbzpezhNxuVosWZb9p2JtCw3hY7DB/pV7gtezA8wSLR4
+ 0T0PFBSNg6dv+Ppspv1yCpdnoA2hIxk=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-386-_Qihui0VNguXjfjFJf-nOQ-1; Mon, 18 Jan 2021 04:59:43 -0500
+X-MC-Unique: _Qihui0VNguXjfjFJf-nOQ-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+ [10.5.11.15])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 76E7C180A0A8;
+ Mon, 18 Jan 2021 09:59:42 +0000 (UTC)
+Received: from merkur.fritz.box (ovpn-115-75.ams2.redhat.com [10.36.115.75])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 070676267E;
+ Mon, 18 Jan 2021 09:59:40 +0000 (UTC)
+Date: Mon, 18 Jan 2021 10:59:39 +0100
+From: Kevin Wolf <kwolf@redhat.com>
+To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+Subject: Re: [PATCH v6 08/11] iotests: add testenv.py
+Message-ID: <20210118095939.GA11555@merkur.fritz.box>
+References: <20210109122631.167314-1-vsementsov@virtuozzo.com>
+ <20210109122631.167314-9-vsementsov@virtuozzo.com>
+ <20210115111827.GB5429@merkur.fritz.box>
+ <6fbbcc18-3f14-bcd6-05a2-a40e0352710d@virtuozzo.com>
+ <20210115124555.GC5429@merkur.fritz.box>
+ <41e62d69-30f1-eb86-6cc3-cdd052aadb26@virtuozzo.com>
+ <20210115132019.GD5429@merkur.fritz.box>
+ <7e520790-bc1e-739e-3822-ca78799f5a3f@virtuozzo.com>
+ <c52d0f46-116f-5f28-a15f-0bc128fca7eb@virtuozzo.com>
 MIME-Version: 1.0
-In-Reply-To: <20210118063229.442350-1-ppandit@redhat.com>
+In-Reply-To: <c52d0f46-116f-5f28-a15f-0bc128fca7eb@virtuozzo.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kwolf@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=philmd@redhat.com;
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=kwolf@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -32
-X-Spam_score: -3.3
+X-Spam_score_int: -29
+X-Spam_score: -3.0
 X-Spam_bar: ---
-X-Spam_report: (-3.3 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.189,
+X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.189,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.252, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=-0.01,
- RCVD_IN_MSPIKE_WL=-0.01, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -98,29 +85,81 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- Prasad J Pandit <pjp@fedoraproject.org>,
- QEMU Developers <qemu-devel@nongnu.org>, Markus Armbruster <armbru@redhat.com>,
- Wenxiang Qian <leonwxqian@gmail.com>, John Snow <jsnow@redhat.com>
+Cc: qemu-block@nongnu.org, qemu-devel@nongnu.org, mreitz@redhat.com,
+ den@openvz.org, jsnow@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 1/18/21 7:32 AM, P J P wrote:
-> From: Prasad J Pandit <pjp@fedoraproject.org>
+Am 16.01.2021 um 12:03 hat Vladimir Sementsov-Ogievskiy geschrieben:
+> 15.01.2021 16:30, Vladimir Sementsov-Ogievskiy wrote:
+> > 15.01.2021 16:20, Kevin Wolf wrote:
+> > > Am 15.01.2021 um 14:10 hat Vladimir Sementsov-Ogievskiy geschrieben:
+> > > > 15.01.2021 15:45, Kevin Wolf wrote:
+> > > > > Am 15.01.2021 um 13:19 hat Vladimir Sementsov-Ogievskiy geschrieben:
+> > > > > > 15.01.2021 14:18, Kevin Wolf wrote:
+> > > > > > > Am 09.01.2021 um 13:26 hat Vladimir Sementsov-Ogievskiy geschrieben:
+> > > > > > > > Add TestEnv class, which will handle test environment in a new python
+> > > > > > > > iotests running framework.
+> > > > > > > > 
+> > > > > > > > Difference with current ./check interface:
+> > > > > > > > - -v (verbose) option dropped, as it is unused
+> > > > > > > > 
+> > > > > > > > - -xdiff option is dropped, until somebody complains that it is needed
+> > > > > > > > - same for -n option
+> > > > > > > > 
+> > > > > > > > Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+> > > > > > > > ---
+> > > > > > > >     tests/qemu-iotests/testenv.py | 328 ++++++++++++++++++++++++++++++++++
+> > > > > > > >     1 file changed, 328 insertions(+)
+> > > > > > > >     create mode 100755 tests/qemu-iotests/testenv.py
+> > > > > > > > 
+> > > > 
+> > > > [..]
+> > > > 
+> > > > > > > > +    def init_binaries(self):
+> > > > > > > > +        """Init binary path variables:
+> > > > > > > > +             PYTHON (for bash tests)
+> > > > > > > > +             QEMU_PROG, QEMU_IMG_PROG, QEMU_IO_PROG, QEMU_NBD_PROG, QSD_PROG
+> > > > > > > > +             SOCKET_SCM_HELPER
+> > > > > > > > +        """
+> > > > > > > > +        self.python = '/usr/bin/python3 -B'
+> > > > > > > 
+> > > > > > > This doesn't look right, we need to respect the Python binary set in
+> > > > > > > configure (which I think we get from common.env)
+> > > > > > 
+> > > > > > Oh, I missed the change. Then I should just drop this self.python.
+> > > > > 
+> > > > > Do we still get the value from elsewhere or do we need to manually parse
+> > > > > common.env?
+> > > > 
+> > > > Hmm.. Good question. We have either parse common.env, and still create self.python variable.
+> > > > 
+> > > > Or drop it, and include common.env directly to bash tests. For this we'll need to export
+> > > > 
+> > > > BUILD_IOTESTS, and do
+> > > >   . $BUILD_IOTESTS/common.env
+> > > > 
+> > > > in common.rc..
+> > > 
+> > > check uses it, too, for running Python test cases.
+> > > 
+> > 
+> > But new check (written in python) doesn't.. Should I keep bash check, which will have only one line to call check.py with help of PYTHON?
+> > 
+> > 
 > 
-> While processing ATAPI cmd_read/cmd_read_cd commands,
-> Logical Block Address (LBA) maybe invalid OR closer to the last block,
-> leading to an OOB access issues. Add range check to avoid it.
-> 
-> Fixes: CVE-2020-29443
-> Reported-by: Wenxiang Qian <leonwxqian@gmail.com>
-> Fix-suggested-by: Paolo Bonzini <pbonzini@redhat.com>
+> Or finally, may be just drop it? Can we just use system python for
+> tests, now when we are already in a python3 world?
 
-"Suggested-by"
+You can only assume the Python 3 (or more specifically 3.6+) world if
+you are using the Python interpreter that was passed to configure. This
+will commonly be the same thing as the first python3 in PATH, but it
+doesn't have to be.
 
-> Signed-off-by: Prasad J Pandit <pjp@fedoraproject.org>
-> ---
->  hw/ide/atapi.c | 30 ++++++++++++++++++++++++------
->  1 file changed, 24 insertions(+), 6 deletions(-)
+So your solution of just using the same interpreter as for check might
+be okay as long as we make sure that 'make check' calls check with the
+configured Python interpreter instead of relying on the shebang line.
+
+Kevin
 
 
