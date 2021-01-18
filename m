@@ -2,90 +2,93 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 55C5E2FA199
-	for <lists+qemu-devel@lfdr.de>; Mon, 18 Jan 2021 14:31:46 +0100 (CET)
-Received: from localhost ([::1]:43148 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5BEC42FA1AF
+	for <lists+qemu-devel@lfdr.de>; Mon, 18 Jan 2021 14:34:43 +0100 (CET)
+Received: from localhost ([::1]:46666 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l1UdD-0007B2-11
-	for lists+qemu-devel@lfdr.de; Mon, 18 Jan 2021 08:31:43 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33870)
+	id 1l1Ug6-0000U8-CG
+	for lists+qemu-devel@lfdr.de; Mon, 18 Jan 2021 08:34:42 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37934)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
- id 1l1UUG-0004zK-EG; Mon, 18 Jan 2021 08:22:29 -0500
-Received: from new3-smtp.messagingengine.com ([66.111.4.229]:45681)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
- id 1l1UUD-0007Yh-BA; Mon, 18 Jan 2021 08:22:28 -0500
-Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
- by mailnew.nyi.internal (Postfix) with ESMTP id 39EB55806EF;
- Mon, 18 Jan 2021 08:22:24 -0500 (EST)
-Received: from mailfrontend1 ([10.202.2.162])
- by compute4.internal (MEProxy); Mon, 18 Jan 2021 08:22:24 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=irrelevant.dk;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-type:in-reply-to; s=fm2; bh=87No7PPWOJGy8DlGzWVCmPPkZBM
- Wh9l4uTAzWvz6sT4=; b=iYqONkxNfsfnMqXKs9gIDeiuY/6hmUkShnLu2CGd9+3
- DLZlWeAHuJbBDvLtBa3XqsQdd4lOLqqnZbiWSMadPKHCNrc6dU1JwFDL17+YnI18
- e9X9t18l/sac/zTVuAEBGPvdcQRu5NSCsqgfm8nX32r2FoJhtM0MqVuY7ujkdeFz
- l8AHA5CoOuFCubZp9FryNp2czPRAWr7J8quaOmFl2whLleeqAoiTiGUYMGHR0JTR
- 4cTzIe8gNivN5cMzxuxmT1zntULWahhMojJAMJ9Q1B+Yb5jMgVtCw7xQ85EHQVmb
- smrZzXlL5L87FYOqqJxgbB1ZMAvtMgPa21Svffj3IfQ==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:content-type:date:from:in-reply-to
- :message-id:mime-version:references:subject:to:x-me-proxy
- :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; bh=87No7P
- PWOJGy8DlGzWVCmPPkZBMWh9l4uTAzWvz6sT4=; b=CcD1091E59xBdHhjR7AIAj
- u1DcdQPwuC/Yg7V7XR+K1iO9Vk/tCBPUk6JOH89/1VAzLYVvmKSGD2DQMNOsindm
- Imnl01157L5OZp58tUqHAQOGMCN+ELqM8myapfWjOdi0tJEPs8w65PWR0+l73qTP
- fjioLLzUYI9gGE4n+7BGwVaD3afuBhpq1W9XJS9pZa5EYapopIn4yH2iw3UaBDdH
- xVwRKYtl8buHyBb595hBIVlWQA+qXok8spAdO3y5LD2RVCj/cVLrZbUf5A+eJ6z0
- uWjfjWBRyBRTkolYJf95DdfrriO5uUdPFqPICgNYJ6yFxY5RwY6myWHachMzG9OQ
- ==
-X-ME-Sender: <xms:josFYEL0YVquf38GXanptbVbDXfCL2SkypBifPPo6_3pwUaXB0RdkA>
- <xme:josFYEJo9i2_zZSkMYzmdMO0n5d6jrcdZR4ztFHXm_dOlvpPJl471YDyMTo-ecuvj
- L27ueVENMvYonuY3PA>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduledrtdekgdehudcutefuodetggdotefrodftvf
- curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
- uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
- fjughrpeffhffvuffkfhggtggujgesghdtreertddtjeenucfhrhhomhepmfhlrghushcu
- lfgvnhhsvghnuceoihhtshesihhrrhgvlhgvvhgrnhhtrdgukheqnecuggftrfgrthhtvg
- hrnhepjeegudffueeiteekieelkedvueelteevjeduieeludfffeejgeffhfduvdduffek
- necukfhppeektddrudeijedrleekrdduledtnecuvehluhhsthgvrhfuihiivgeptdenuc
- frrghrrghmpehmrghilhhfrhhomhepihhtshesihhrrhgvlhgvvhgrnhhtrdgukh
-X-ME-Proxy: <xmx:j4sFYEsIzkO0ifx7L67o795s29kMviJckE6pXaiPzgsZJdimanarJw>
- <xmx:j4sFYBZWNO7AX-36ALABxGNiIUTLpBcXtktXzCeOGrCBooIviHxu0g>
- <xmx:j4sFYLYvLB4itPzuZlCUWOIBoS80YgsR6CSZmtfXWpVw-4Ohh2et_A>
- <xmx:kIsFYJOZC-3i6gS-g-V1mO-7V0fZ7bFgpAWBybKhKQ8el7U4-mvn9A>
-Received: from apples.localdomain (80-167-98-190-cable.dk.customer.tdc.net
- [80.167.98.190])
- by mail.messagingengine.com (Postfix) with ESMTPA id 5F85E24005D;
- Mon, 18 Jan 2021 08:22:21 -0500 (EST)
-Date: Mon, 18 Jan 2021 14:22:19 +0100
-From: Klaus Jensen <its@irrelevant.dk>
-To: Minwoo Im <minwoo.im.dev@gmail.com>
-Subject: Re: [PATCH v2 10/12] hw/block/nvme: move cmb logic to v1.4
-Message-ID: <YAWLi/ynEMfyQ66T@apples.localdomain>
-References: <20210118094705.56772-1-its@irrelevant.dk>
- <20210118094705.56772-11-its@irrelevant.dk>
- <20210118125859.GH18718@localhost.localdomain>
- <YAWHSaXmpo64xmmp@apples.localdomain>
- <20210118130946.GJ18718@localhost.localdomain>
- <YAWI2sFftUEspcT+@apples.localdomain>
- <20210118131205.GK18718@localhost.localdomain>
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1l1Uf9-0008TI-FN
+ for qemu-devel@nongnu.org; Mon, 18 Jan 2021 08:33:43 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:21965)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1l1Uf5-0004mg-3c
+ for qemu-devel@nongnu.org; Mon, 18 Jan 2021 08:33:41 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1610976817;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=QpPCHWB5wVDg5QRgly2wVwsfgyJhmhHOpb64LCuIzrA=;
+ b=HPwUf1X+Lg24+UV6wCXnSUvZ6kSOJnqFJSlNDMq8PvaqK6YAA/jwR2vPPre92xifKk5nWr
+ fXiO3eSyj7tr/eh61aggkxOnTF1uqAmutDFm79yOz9AgjvW29u5WlUcql91mPDU1ILAHyX
+ wbgv1wsdON+9OJZxWMmdXQr0fVTf5AU=
+Received: from mail-ed1-f70.google.com (mail-ed1-f70.google.com
+ [209.85.208.70]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-525-XDolpabOPYy-99B3xNYdSA-1; Mon, 18 Jan 2021 08:33:33 -0500
+X-MC-Unique: XDolpabOPYy-99B3xNYdSA-1
+Received: by mail-ed1-f70.google.com with SMTP id w4so4123868edu.0
+ for <qemu-devel@nongnu.org>; Mon, 18 Jan 2021 05:33:33 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=QpPCHWB5wVDg5QRgly2wVwsfgyJhmhHOpb64LCuIzrA=;
+ b=ES5+8ZVyZgJjoJFkLHOR0DEoh2+Q2KAX5WktHeY98tsMaTH0Y+7ody2ETt4xepjbLP
+ ckvdKcbLKvhsHSir7YXTH5JZdH7JEQ5MjU7NnVCgqUGGznXr51lUW/MlCJUi8845TKoE
+ HvVEbaAdNyLiVgFX0RYazXfoYCH8xsHL0nVMwGF0o4inMK7dpkjODw1oGEtIA5/KcoKk
+ f68hxu4SAgPKV+1FloTR/0MkeKDgM29vs7Be35LkXofQmfaeJ+Uv6hXtLW3cWLaLV46n
+ 7+kcCnz/grBnqxXYpvXz9uH73fFF0RMkt77xKrvKPAjhXeW1v2uMD507dQFrLkDh+ogj
+ huhA==
+X-Gm-Message-State: AOAM533AUoOq6aFZ7f+9+IiJuq3d+M8fx7PsZT+csCUWO+emKqB6wA/6
+ 9k//+D/l2FqqYLd1ZF0iTPIT0KGUky5MNvhRsVexuErIFIzHQdlhapjBj2UWTcUK1qVesWSHrlZ
+ onJYPNLnN18AZz5jxmiXX/dYWfwYrx9vT/Ik348Wi9lK2jmtjS5MzJlX1NLGv6wU+
+X-Received: by 2002:a17:906:5285:: with SMTP id
+ c5mr18073397ejm.17.1610976812330; 
+ Mon, 18 Jan 2021 05:33:32 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJw4NTaS+/qEWN46LOu8cmBClBbykdTE8scjtAxU/T9sZccTb8ltca+L/YUi5XnB70IetX1fxw==
+X-Received: by 2002:a17:906:5285:: with SMTP id
+ c5mr18073358ejm.17.1610976811504; 
+ Mon, 18 Jan 2021 05:33:31 -0800 (PST)
+Received: from [192.168.1.36] (13.red-83-57-169.dynamicip.rima-tde.net.
+ [83.57.169.13])
+ by smtp.gmail.com with ESMTPSA id s19sm11018144edx.7.2021.01.18.05.33.30
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 18 Jan 2021 05:33:30 -0800 (PST)
+Subject: Re: [PULL 00/30] testing, gdbstub and semihosting
+To: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
+ Peter Maydell <peter.maydell@linaro.org>
+References: <20210115130828.23968-1-alex.bennee@linaro.org>
+ <CAFEAcA9HzF_-HyGZDxLN+2-Ay1rtijqOOh9WJPFS+yyDKLERPg@mail.gmail.com>
+ <871reiwi7k.fsf@linaro.org>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+Message-ID: <7e22d425-7e9a-afca-e035-f7e56837518d@redhat.com>
+Date: Mon, 18 Jan 2021 14:33:29 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.6.0
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="OpRCC7qYMtAY6BkT"
-Content-Disposition: inline
-In-Reply-To: <20210118131205.GK18718@localhost.localdomain>
-Received-SPF: pass client-ip=66.111.4.229; envelope-from=its@irrelevant.dk;
- helo=new3-smtp.messagingengine.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
-X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_PASS=-0.001,
+In-Reply-To: <871reiwi7k.fsf@linaro.org>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=philmd@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -31
+X-Spam_score: -3.2
+X-Spam_bar: ---
+X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.175,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.194, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -99,68 +102,73 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Fam Zheng <fam@euphon.net>, Kevin Wolf <kwolf@redhat.com>,
- Stefan Hajnoczi <stefanha@redhat.com>, qemu-block@nongnu.org,
- Klaus Jensen <k.jensen@samsung.com>, qemu-devel@nongnu.org,
- Max Reitz <mreitz@redhat.com>, Padmakar Kalghatgi <p.kalghatgi@samsung.com>,
- Keith Busch <kbusch@kernel.org>
+Cc: QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+Hi Alex,
 
---OpRCC7qYMtAY6BkT
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+On 1/18/21 1:18 PM, Alex Bennée wrote:
+> 
+> Peter Maydell <peter.maydell@linaro.org> writes:
+> 
+>> On Fri, 15 Jan 2021 at 13:08, Alex Bennée <alex.bennee@linaro.org> wrote:
+>>>
+>>> The following changes since commit 7c79721606be11b5bc556449e5bcbc331ef6867d:
+>>>
+>>>   Merge remote-tracking branch 'remotes/rth-gitlab/tags/pull-tcg-20210113' into staging (2021-01-14 09:54:29 +0000)
+>>>
+>>> are available in the Git repository at:
+>>>
+>>>   https://github.com/stsquad/qemu.git tags/pull-testing-and-misc-150121-1
+>>>
+>>> for you to fetch changes up to be846761ca8b5a7e2e7b7108c8c156126b799824:
+>>>
+>>>   semihosting: Implement SYS_ISERROR (2021-01-15 11:12:34 +0000)
+>>>
+>>> ----------------------------------------------------------------
+>>> Testing, gdbstub and semihosting patches:
+>>>
+>>>   - clean-ups to docker images
+>>>   - drop duplicate jobs from shippable
+>>>   - prettier tag generation (+gtags)
+>>>   - generate browsable source tree
+>>>   - more Travis->GitLab migrations
+>>>   - fix checkpatch to deal with commits
+>>>   - gate gdbstub tests on 8.3.1, expand tests
+>>>   - support Xfer:auxv:read gdb packet
+>>>   - better gdbstub cleanup
+>>>   - use GDB's SVE register layout
+>>>   - make arm-compat-semihosting common
+>>>   - add riscv semihosting support
+>>>   - add HEAPINFO, ELAPSED, TICKFREQ, TMPNAM and ISERROR to semihosting
+>>
+>> Fails to build, netbsd:
+>>
+>> ../src/gdbstub.c: In function 'handle_query_xfer_auxv':
+>> ../src/gdbstub.c:2258:26: error: 'struct image_info' has no member
+>> named 'saved_auxv'
+>>      saved_auxv = ts->info->saved_auxv;
+>>                           ^~
+>> ../src/gdbstub.c:2259:24: error: 'struct image_info' has no member
+>> named 'auxv_len'
+>>      auxv_len = ts->info->auxv_len;
+> 
+> I've:
+> 
+> #if defined(CONFIG_USER_ONLY) && defined(CONFIG_LINUX_USER)
+> 
+> around the code so it won't build for the *BSDs.
 
-On Jan 18 22:12, Minwoo Im wrote:
-> On 21-01-18 14:10:50, Klaus Jensen wrote:
-> > On Jan 18 22:09, Minwoo Im wrote:
-> > > > > Yes, CMB in v1.4 is not backward-compatible, but is it okay to mo=
-ve onto
-> > > > > the CMB v1.4 from v1.3 without supporting the v1.3 usage on this =
-device
-> > > > > model?
-> > > >=20
-> > > > Next patch moves to v1.4. I wanted to split it because the "bump" p=
-atch
-> > > > also adds a couple of other v1.4 requires fields. But I understand =
-that
-> > > > this is slightly wrong.
-> > >=20
-> > > Sorry, I meant I'd like to have CMB for v1.3 support along with the v=
-1.4
-> > > support in this device model separately.  Maybe I missed the linux-nv=
-me
-> > > mailing list for CMB v1.4, but is there no plan to keep supportin CMB
-> > > v1.3 in NVMe driver?
-> >=20
-> > I posted a patch on linux-nvme for v1.4 support in the kernel. It will
-> > support both the v1.3 and v1.4 behavior :)
->=20
-> Then, can we maintain CMB v1.3 also in QEMU also along with v1.4 ? :)
+CONFIG_LINUX_USER implies CONFIG_USER_ONLY, right?
 
-My first version of this patch actually included compatibility support
-for v1.3 ("legacy cmb"), but Keith suggested we just drop that and keep
-this device compliant.
+Maybe long-term this can become:
 
-What we could do is allow the spec version to be chosen with a
-parameter?
+#if defined(CONFIG_LINUX_USER)
+#elif defined(...BSD...)
+#endif
 
---OpRCC7qYMtAY6BkT
-Content-Type: application/pgp-signature; name="signature.asc"
+(maybe worth to fix if the pullreq isn't processed,
+else not a big deal).
 
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEEUigzqnXi3OaiR2bATeGvMW1PDekFAmAFi4kACgkQTeGvMW1P
-Denv8gf/dg67SbBzyv5xsHcFrbJLNGicf378pr3r+h8W/Wnw1GpnC2M4YwPap5I8
-y0VVji+sdBCCV7c2BRqUZplQFfZ/6onFhIUUvd/wGGRXqWWbcnxhLQHH3gqxYnip
-/b6KVqMnwJZ9+2RcTBNg9eEipkhdss428c6wRLycg75VRC608SAdPFWyZ1fhrGgU
-ml/Xc9b63Md9YIPWXes+ZHWEORAz5s9nNCvdkr56jRR6cZQpmWXJrxgL6ZvlBbD5
-rQ56sNskP8qR6CmJ/dHbAS9TFUEDyyfAIiheeyENh3+mIypukP/zQodkyxqSO9G5
-ss6jr6jw7jj2QqQcp2WJB852NOu3Pw==
-=BS3N
------END PGP SIGNATURE-----
-
---OpRCC7qYMtAY6BkT--
 
