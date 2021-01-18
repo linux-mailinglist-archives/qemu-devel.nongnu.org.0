@@ -2,63 +2,58 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 077A52F9AD1
-	for <lists+qemu-devel@lfdr.de>; Mon, 18 Jan 2021 08:53:01 +0100 (CET)
-Received: from localhost ([::1]:35406 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 83D0C2F9AF1
+	for <lists+qemu-devel@lfdr.de>; Mon, 18 Jan 2021 09:04:37 +0100 (CET)
+Received: from localhost ([::1]:41364 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l1PLQ-0005hK-3Y
-	for lists+qemu-devel@lfdr.de; Mon, 18 Jan 2021 02:53:00 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48628)
+	id 1l1PWe-0000CG-61
+	for lists+qemu-devel@lfdr.de; Mon, 18 Jan 2021 03:04:36 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51812)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1l1PJP-0004LS-5V
- for qemu-devel@nongnu.org; Mon, 18 Jan 2021 02:50:56 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:32718)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1l1PUw-0007zx-Cr
+ for qemu-devel@nongnu.org; Mon, 18 Jan 2021 03:02:51 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:42351)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1l1PJL-0004lS-Nf
- for qemu-devel@nongnu.org; Mon, 18 Jan 2021 02:50:54 -0500
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1l1PUo-0001m2-39
+ for qemu-devel@nongnu.org; Mon, 18 Jan 2021 03:02:50 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1610956250;
+ s=mimecast20190719; t=1610956960;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=GMoFPVyImnVMWpfanf0MGCEsAma+g+xjUYvSDl9K2C0=;
- b=HES9R5CY7GyqKwSLiCijnHrS6ZHY3DvDnsKLdBDnVliHL954xURzlpRK3kBt/PFNHRN+3o
- BgqODHoB0hlsJSf8ti7HGAXAXBZUqO6hKfp1bEG7oOEWcd4iwFAIsS+hGRoqk0OIzJ5TyY
- QmN/ePocJQ0JCXuq+A058iV2fCJbRVA=
+ bh=jTgNdRDUMjp+NABm74DpOQpjeQcqsyUbCjmMQCacUck=;
+ b=iz/P/dwOj2FJtQ426HcEkfSB9b9gYs1g/dzGvGL1h7Oq6NwAQEnYw1UZgmaYLJwz9JtcYX
+ aqUNSSa/lpj4jpMX+eHd59Qr/I85xkYqSCbPKaGNnvMHl5W3CD+z+EVyxzpzghNmT1jgN+
+ YG6v5IB3f6C81uVPVesMM6a3bHei0iA=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-41-fgVI_upsONavhayvn3Dn4Q-1; Mon, 18 Jan 2021 02:50:48 -0500
-X-MC-Unique: fgVI_upsONavhayvn3Dn4Q-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
+ us-mta-107-4I_9-2YMOoCxpesbMZiLUw-1; Mon, 18 Jan 2021 03:02:36 -0500
+X-MC-Unique: 4I_9-2YMOoCxpesbMZiLUw-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id CD357107ACE3;
- Mon, 18 Jan 2021 07:50:47 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 32FB7107ACFA;
+ Mon, 18 Jan 2021 08:02:34 +0000 (UTC)
 Received: from thuth.remote.csb (ovpn-112-189.ams2.redhat.com [10.36.112.189])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 64D2B71C9B;
- Mon, 18 Jan 2021 07:50:40 +0000 (UTC)
-Subject: Re: [PATCH 2/2] fuzz: log the arguments used to initialize QEMU
-To: Alexander Bulekov <alxndr@bu.edu>, qemu-devel@nongnu.org
-References: <20210117201014.271610-1-alxndr@bu.edu>
- <20210117201014.271610-3-alxndr@bu.edu>
+ by smtp.corp.redhat.com (Postfix) with ESMTP id CDC3E6F986;
+ Mon, 18 Jan 2021 08:02:25 +0000 (UTC)
+Subject: Re: [PATCH v2 0/9] Alpine Linux build fix and CI pipeline
+To: Jiaxun Yang <jiaxun.yang@flygoat.com>, qemu-devel@nongnu.org
+References: <20210118063808.12471-1-jiaxun.yang@flygoat.com>
 From: Thomas Huth <thuth@redhat.com>
-Message-ID: <d97f0ac0-244b-eecf-848e-c09c1fcea474@redhat.com>
-Date: Mon, 18 Jan 2021 08:50:39 +0100
+Message-ID: <a34add77-2b12-3c83-4362-1241e2aef034@redhat.com>
+Date: Mon, 18 Jan 2021 09:02:25 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.6.0
 MIME-Version: 1.0
-In-Reply-To: <20210117201014.271610-3-alxndr@bu.edu>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=thuth@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
+In-Reply-To: <20210118063808.12471-1-jiaxun.yang@flygoat.com>
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
 Received-SPF: pass client-ip=216.205.24.124; envelope-from=thuth@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -32
@@ -68,7 +63,7 @@ X-Spam_report: (-3.3 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.189,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  NICE_REPLY_A=-0.252, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=-0.01,
  RCVD_IN_MSPIKE_WL=-0.01, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -81,58 +76,81 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Laurent Vivier <lvivier@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
- Bandan Das <bsd@redhat.com>, Stefan Hajnoczi <stefanha@redhat.com>
+Cc: Fam Zheng <fam@euphon.net>, Laurent Vivier <lvivier@redhat.com>,
+ Viktor Prutyanov <viktor.prutyanov@phystech.edu>, kvm@vger.kernel.org,
+ =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
+ Alistair Francis <alistair@alistair23.me>, Greg Kurz <groug@kaod.org>,
+ Wainer dos Santos Moschetta <wainersm@redhat.com>,
+ Max Reitz <mreitz@redhat.com>, qemu-ppc@nongnu.org,
+ Kevin Wolf <kwolf@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ qemu-block@nongnu.org,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
+ David Gibson <david@gibson.dropbear.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 17/01/2021 21.10, Alexander Bulekov wrote:
-> This is useful for building reproducers. Instead checking the code or
-> the QEMU_FUZZ_ARGS, the arguments are at the top of the crash log.
+On 18/01/2021 07.37, Jiaxun Yang wrote:
+> Alpine Linux is a security-oriented, lightweight Linux distribution
+> based on musl libc and busybox.
 > 
-> Signed-off-by: Alexander Bulekov <alxndr@bu.edu>
-> ---
->   tests/qtest/fuzz/fuzz.c | 11 ++++++++++-
->   1 file changed, 10 insertions(+), 1 deletion(-)
+> It it popular among Docker guests and embedded applications.
 > 
-> diff --git a/tests/qtest/fuzz/fuzz.c b/tests/qtest/fuzz/fuzz.c
-> index 238866a037..496d11a231 100644
-> --- a/tests/qtest/fuzz/fuzz.c
-> +++ b/tests/qtest/fuzz/fuzz.c
-> @@ -159,6 +159,8 @@ int LLVMFuzzerInitialize(int *argc, char ***argv, char ***envp)
->       char *target_name;
->       const char *bindir;
->       char *datadir;
-> +    GString *cmd_line;
-> +    gchar *pretty_cmd_line;
->       bool serialize = false;
->   
->       /* Initialize qgraph and modules */
-> @@ -217,7 +219,7 @@ int LLVMFuzzerInitialize(int *argc, char ***argv, char ***envp)
->       }
->   
->       /* Run QEMU's softmmu main with the fuzz-target dependent arguments */
-> -    GString *cmd_line = fuzz_target->get_init_cmdline(fuzz_target);
-> +    cmd_line = fuzz_target->get_init_cmdline(fuzz_target);
->       g_string_append_printf(cmd_line, " %s -qtest /dev/null ",
->                              getenv("QTEST_LOG") ? "" : "-qtest-log none");
->   
-> @@ -226,6 +228,13 @@ int LLVMFuzzerInitialize(int *argc, char ***argv, char ***envp)
->       wordexp(cmd_line->str, &result, 0);
->       g_string_free(cmd_line, true);
->   
-> +    if (getenv("QTEST_LOG")) {
-> +        pretty_cmd_line  = g_strjoinv(" ", result.we_wordv + 1);
-> +        printf("Starting %s with Arguments: %s\n",
-> +                result.we_wordv[0], pretty_cmd_line);
-> +        g_free(pretty_cmd_line);
-> +    }
-> +
->       qemu_init(result.we_wordc, result.we_wordv, NULL);
->   
->       /* re-enable the rcu atfork, which was previously disabled in qemu_init */
+> Adding it to test against different libc.
+> 
+> Patches pending review at v2 are: 7, 8, 9
+> 
+> Tree avilable at: https://gitlab.com/FlyGoat/qemu/-/commits/alpine_linux_v2
+> CI All green: https://gitlab.com/FlyGoat/qemu/-/pipelines/242003288
+> 
+> It is known to have checkpatch complains about identation but they're
+> all pre-existing issues as I'm only doing string replacement.
+> 
+> v2:
+>   - Reoreder patches (Wainer)
+>   - Add shadow to dockerfile (Wainer)
+>   - Pickup proper signal.h fix (PMM)
+>   - Correct clock_adjtime title (Thomas Huth)
+>   - Collect review tags
+> 
+> Jiaxun Yang (8):
+>    configure: Add sys/timex.h to probe clock_adjtime
+>    libvhost-user: Include poll.h instead of sys/poll.h
+>    hw/block/nand: Rename PAGE_SIZE to NAND_PAGE_SIZE
+>    elf2dmp: Rename PAGE_SIZE to ELF2DMP_PAGE_SIZE
+>    tests: Rename PAGE_SIZE definitions
+>    accel/kvm: avoid using predefined PAGE_SIZE
+>    tests/docker: Add dockerfile for Alpine Linux
+>    gitlab-ci: Add alpine to pipeline
+> 
+> Michael Forney (1):
+>    osdep.h: Remove <sys/signal.h> include
+> 
+>   configure                                 |  1 +
+>   meson.build                               |  1 -
+>   contrib/elf2dmp/addrspace.h               |  6 +-
+>   include/qemu/osdep.h                      |  4 --
+>   subprojects/libvhost-user/libvhost-user.h |  2 +-
+>   accel/kvm/kvm-all.c                       |  3 +
+>   contrib/elf2dmp/addrspace.c               |  4 +-
+>   contrib/elf2dmp/main.c                    | 18 +++---
+>   hw/block/nand.c                           | 40 ++++++-------
+>   tests/migration/stress.c                  | 10 ++--
+>   tests/qtest/libqos/malloc-pc.c            |  4 +-
+>   tests/qtest/libqos/malloc-spapr.c         |  4 +-
+>   tests/qtest/m25p80-test.c                 | 54 ++++++++---------
+>   tests/tcg/multiarch/system/memory.c       |  6 +-
+>   tests/test-xbzrle.c                       | 70 +++++++++++------------
+>   .gitlab-ci.d/containers.yml               |  5 ++
+>   .gitlab-ci.yml                            | 23 ++++++++
+>   tests/docker/dockerfiles/alpine.docker    | 57 ++++++++++++++++++
+>   18 files changed, 198 insertions(+), 114 deletions(-)
+>   create mode 100644 tests/docker/dockerfiles/alpine.docker
 > 
 
-Reviewed-by: Thomas Huth <thuth@redhat.com>
+Thanks! I'll take this through my testing-next branch:
+
+  https://gitlab.com/huth/qemu/-/commits/testing-next/
+
+  Thomas
 
 
