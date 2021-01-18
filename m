@@ -2,70 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E18892FA6D1
-	for <lists+qemu-devel@lfdr.de>; Mon, 18 Jan 2021 17:58:27 +0100 (CET)
-Received: from localhost ([::1]:56596 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 73D282FA6E1
+	for <lists+qemu-devel@lfdr.de>; Mon, 18 Jan 2021 17:59:16 +0100 (CET)
+Received: from localhost ([::1]:59710 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l1XrG-0007hA-Kc
-	for lists+qemu-devel@lfdr.de; Mon, 18 Jan 2021 11:58:26 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35136)
+	id 1l1Xs3-0000eS-Ey
+	for lists+qemu-devel@lfdr.de; Mon, 18 Jan 2021 11:59:15 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35128)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1l1XRV-0002VN-HM
+ id 1l1XRV-0002UM-1W
  for qemu-devel@nongnu.org; Mon, 18 Jan 2021 11:31:49 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:52915)
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:36105)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1l1XRM-0001WI-HM
- for qemu-devel@nongnu.org; Mon, 18 Jan 2021 11:31:49 -0500
+ id 1l1XRO-0001WR-SE
+ for qemu-devel@nongnu.org; Mon, 18 Jan 2021 11:31:48 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1610987499;
+ s=mimecast20190719; t=1610987500;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=YYTiOyCxOIcltjhC+6tXZQrbcVLx6viAR2L/FMaCavU=;
- b=cFCgvbo6MWn4y5law6rJm3leA/Kn8GjYiKoCAdg6r9ulFZ1mI4ArKGpcnT/iJ9FEx4P1rS
- kAp6Afe/hpCsPjHRuDAF6rOoPOsDmJ/zWScs2uieL7XAmCzKJR47IZnuuaVR5uMPmWy1nA
- BxzWLKVUveEyY4CvfvRnwxlaXxNmCjg=
+ bh=VusMVIcUlpdEPythzKcO4qpmlu4Q6CLiHFYFhyW/ObY=;
+ b=NnJFfi471+X/ljBmhXiPRT9o1wIup+HafElyjnOhy8Fvnjl+TIsHYcBkMZekeZFOzK2/cp
+ uhH4fJIiu1RRj2cB2bCHQs8UaBlJVApNIhzjlmRxZB98fN+SMyFNP6KCAS3nJCXgcITCkC
+ vD/b/GEKeTeqSUhqg5pbVqStd7VcPFs=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-142-tsBX5HBvOnyKGdo2KSq-AQ-1; Mon, 18 Jan 2021 11:31:37 -0500
-X-MC-Unique: tsBX5HBvOnyKGdo2KSq-AQ-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
+ us-mta-325-JK6NYIfTOhmiVgVEUqtX3Q-1; Mon, 18 Jan 2021 11:31:38 -0500
+X-MC-Unique: JK6NYIfTOhmiVgVEUqtX3Q-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id E28AB1005513
- for <qemu-devel@nongnu.org>; Mon, 18 Jan 2021 16:31:36 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id E4E5F107ACF5
+ for <qemu-devel@nongnu.org>; Mon, 18 Jan 2021 16:31:37 +0000 (UTC)
 Received: from virtlab701.virt.lab.eng.bos.redhat.com
  (virtlab701.virt.lab.eng.bos.redhat.com [10.19.152.228])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 694AE10013C0;
- Mon, 18 Jan 2021 16:31:36 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 5A23C19C66;
+ Mon, 18 Jan 2021 16:31:37 +0000 (UTC)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 19/25] qemu-img: use keyval for -object parsing
-Date: Mon, 18 Jan 2021 11:31:07 -0500
-Message-Id: <20210118163113.780171-20-pbonzini@redhat.com>
+Subject: [PATCH 20/25] qemu: use keyval for -object parsing
+Date: Mon, 18 Jan 2021 11:31:08 -0500
+Message-Id: <20210118163113.780171-21-pbonzini@redhat.com>
 In-Reply-To: <20210118163113.780171-1-pbonzini@redhat.com>
 References: <20210118163113.780171-1-pbonzini@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=pbonzini@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=pbonzini@redhat.com;
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=pbonzini@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -29
 X-Spam_score: -3.0
 X-Spam_bar: ---
 X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.175,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -83,20 +83,216 @@ Cc: kwolf@redhat.com, imammedo@redhat.com, armbru@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Enable creation of object with non-scalar properties.
-
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- qemu-img.c | 258 +++++++++++------------------------------------------
- 1 file changed, 52 insertions(+), 206 deletions(-)
+ include/qom/object_interfaces.h | 65 +---------------------------
+ qom/object_interfaces.c         | 75 ---------------------------------
+ softmmu/vl.c                    | 75 +++++++++++++++++++++------------
+ 3 files changed, 48 insertions(+), 167 deletions(-)
 
-diff --git a/qemu-img.c b/qemu-img.c
-index 8597d069af..639a7b0256 100644
---- a/qemu-img.c
-+++ b/qemu-img.c
-@@ -226,21 +226,27 @@ static void QEMU_NORETURN help(void)
-     exit(EXIT_SUCCESS);
+diff --git a/include/qom/object_interfaces.h b/include/qom/object_interfaces.h
+index ed0d7d663b..1caa4fca57 100644
+--- a/include/qom/object_interfaces.h
++++ b/include/qom/object_interfaces.h
+@@ -104,51 +104,6 @@ Object *user_creatable_add_type(const char *type, const char *id,
+  */
+ bool user_creatable_add_dict(const QDict *qdict, bool keyval, Error **errp);
+ 
+-/**
+- * user_creatable_add_opts:
+- * @opts: the object definition
+- * @errp: if an error occurs, a pointer to an area to store the error
+- *
+- * Create an instance of the user creatable object whose type
+- * is defined in @opts by the 'qom-type' option, placing it
+- * in the object composition tree with name provided by the
+- * 'id' field. The remaining options in @opts are used to
+- * initialize the object properties.
+- *
+- * Returns: the newly created object or NULL on error
+- */
+-Object *user_creatable_add_opts(QemuOpts *opts, Error **errp);
+-
+-
+-/**
+- * user_creatable_add_opts_predicate:
+- * @type: the QOM type to be added
+- *
+- * A callback function to determine whether an object
+- * of type @type should be created. Instances of this
+- * callback should be passed to user_creatable_add_opts_foreach
+- */
+-typedef bool (*user_creatable_add_opts_predicate)(const char *type);
+-
+-/**
+- * user_creatable_add_opts_foreach:
+- * @opaque: a user_creatable_add_opts_predicate callback or NULL
+- * @opts: options to create
+- * @errp: unused
+- *
+- * An iterator callback to be used in conjunction with
+- * the qemu_opts_foreach() method for creating a list of
+- * objects from a set of QemuOpts
+- *
+- * The @opaque parameter can be passed a user_creatable_add_opts_predicate
+- * callback to filter which types of object are created during iteration.
+- * When it fails, report the error.
+- *
+- * Returns: 0 on success, -1 when an error was reported.
+- */
+-int user_creatable_add_opts_foreach(void *opaque,
+-                                    QemuOpts *opts, Error **errp);
+-
+ /**
+  * user_creatable_print_types:
+  *
+@@ -156,30 +111,12 @@ int user_creatable_add_opts_foreach(void *opaque,
+  */
+ void user_creatable_print_types(void);
+ 
+-/**
+- * user_creatable_print_help:
+- * @type: the QOM type to be added
+- * @opts: options to create
+- *
+- * Prints help if requested in @type or @opts. Note that if @type is neither
+- * "help"/"?" nor a valid user creatable type, no help will be printed
+- * regardless of @opts.
+- *
+- * Returns: true if a help option was found and help was printed, false
+- * otherwise.
+- */
+-bool user_creatable_print_help(const char *type, QemuOpts *opts);
+-
+ /**
+  * user_creatable_print_help_from_qdict:
+  * @args: options to create
+  *
+  * Prints help considering the other options given in @args (if "qom-type" is
+- * given and valid, print properties for the type, otherwise print valid types)
+- *
+- * In contrast to user_creatable_print_help(), this function can't return that
+- * no help was requested. It should only be called if we know that help is
+- * requested and it will always print some help.
++ * given and valid, print properties for the type, otherwise print valid types).
+  */
+ void user_creatable_print_help_from_qdict(const QDict *args);
+ 
+diff --git a/qom/object_interfaces.c b/qom/object_interfaces.c
+index fbbf5e8ad3..654f717431 100644
+--- a/qom/object_interfaces.c
++++ b/qom/object_interfaces.c
+@@ -140,60 +140,6 @@ out:
+     return !!obj;
  }
+ 
+-Object *user_creatable_add_opts(QemuOpts *opts, Error **errp)
+-{
+-    Visitor *v;
+-    QDict *pdict;
+-    Object *obj;
+-    const char *id = qemu_opts_id(opts);
+-    char *type = qemu_opt_get_del(opts, "qom-type");
+-
+-    if (!type) {
+-        error_setg(errp, QERR_MISSING_PARAMETER, "qom-type");
+-        return NULL;
+-    }
+-    if (!id) {
+-        error_setg(errp, QERR_MISSING_PARAMETER, "id");
+-        qemu_opt_set(opts, "qom-type", type, &error_abort);
+-        g_free(type);
+-        return NULL;
+-    }
+-
+-    qemu_opts_set_id(opts, NULL);
+-    pdict = qemu_opts_to_qdict(opts, NULL);
+-
+-    v = opts_visitor_new(opts);
+-    obj = user_creatable_add_type(type, id, pdict, v, errp);
+-    visit_free(v);
+-
+-    qemu_opts_set_id(opts, (char *) id);
+-    qemu_opt_set(opts, "qom-type", type, &error_abort);
+-    g_free(type);
+-    qobject_unref(pdict);
+-    return obj;
+-}
+-
+-
+-int user_creatable_add_opts_foreach(void *opaque, QemuOpts *opts, Error **errp)
+-{
+-    bool (*type_opt_predicate)(const char *, QemuOpts *) = opaque;
+-    Object *obj = NULL;
+-    const char *type;
+-
+-    type = qemu_opt_get(opts, "qom-type");
+-    if (type && type_opt_predicate &&
+-        !type_opt_predicate(type, opts)) {
+-        return 0;
+-    }
+-
+-    obj = user_creatable_add_opts(opts, errp);
+-    if (!obj) {
+-        return -1;
+-    }
+-    object_unref(obj);
+-    return 0;
+-}
+-
+ char *object_property_help(const char *name, const char *type,
+                            QObject *defval, const char *description)
+ {
+@@ -269,20 +215,6 @@ static bool user_creatable_print_type_properites(const char *type)
+     return true;
+ }
+ 
+-bool user_creatable_print_help(const char *type, QemuOpts *opts)
+-{
+-    if (is_help_option(type)) {
+-        user_creatable_print_types();
+-        return true;
+-    }
+-
+-    if (qemu_opt_has_help_opt(opts)) {
+-        return user_creatable_print_type_properites(type);
+-    }
+-
+-    return false;
+-}
+-
+ void user_creatable_print_help_from_qdict(const QDict *args)
+ {
+     const char *type = qdict_get_try_str(args, "qom-type");
+@@ -309,13 +241,6 @@ bool user_creatable_del(const char *id, Error **errp)
+         return false;
+     }
+ 
+-    /*
+-     * if object was defined on the command-line, remove its corresponding
+-     * option group entry
+-     */
+-    qemu_opts_del(qemu_opts_find(qemu_find_opts_err("object", &error_abort),
+-                                 id));
+-
+     object_unparent(obj);
+     return true;
+ }
+diff --git a/softmmu/vl.c b/softmmu/vl.c
+index ce0693cdda..f8b28618c9 100644
+--- a/softmmu/vl.c
++++ b/softmmu/vl.c
+@@ -136,6 +136,7 @@ static const char *cpu_option;
+ static const char *mem_path;
+ static const char *incoming;
+ static const char *loadvm;
++static GSList *object_opts_list = NULL;
+ static ram_addr_t maxram_size;
+ static uint64_t ram_slots;
+ static int display_remote;
+@@ -308,15 +309,6 @@ static QemuOptsList qemu_add_fd_opts = {
+     },
+ };
  
 -static QemuOptsList qemu_object_opts = {
 -    .name = "object",
@@ -107,499 +303,147 @@ index 8597d069af..639a7b0256 100644
 -    },
 -};
 -
--static bool qemu_img_object_print_help(const char *type, QemuOpts *opts)
-+static void qemu_img_object_parse(const char *optarg, int exit_code)
+ static QemuOptsList qemu_tpmdev_opts = {
+     .name = "tpmdev",
+     .implied_opt_name = "type",
+@@ -1687,12 +1679,8 @@ static int machine_set_property(void *opaque,
+  * cannot be created here, as it depends on the chardev
+  * already existing.
+  */
+-static bool object_create_early(const char *type, QemuOpts *opts)
++static bool object_create_early(const char *type)
  {
 -    if (user_creatable_print_help(type, opts)) {
 -        exit(0);
-+    QDict *args;
-+    bool help;
-+    Error *local_error = NULL;
+-    }
+-
+     /*
+      * Objects should not be made "delayed" without a reason.  If you
+      * add one, state the reason in a comment!
+@@ -1784,6 +1772,22 @@ static void qemu_apply_machine_options(void)
+     }
+ }
+ 
++static void user_creatable_add_dict_foreach(void *data, void *opaque)
++{
++    bool (*type_opt_predicate)(const char *) = opaque;
++    const QDict *dict = data;
++    const char *type = qdict_get_try_str(dict, "qom-type");
 +
-+    args = keyval_parse(optarg, "qom-type", &help, &local_error);
-+    if (local_error) {
-+        error_report_err(local_error);
-+        exit(exit_code);
-     }
--    return true;
-+    if (help) {
-+        user_creatable_print_help_from_qdict(args);
-+        exit(EXIT_SUCCESS);
++    if (!type) {
++        error_report("Parameter 'qom-type' is missing");
 +    }
-+    user_creatable_add_dict(args, true, &local_error);
-+    if (local_error) {
-+        error_report_err(local_error);
-+        exit(exit_code);
++    if (type_opt_predicate && !type_opt_predicate(type)) {
++        return;
 +    }
-+    qobject_unref(args);
- }
- 
- /*
-@@ -566,14 +572,9 @@ static int img_create(int argc, char **argv)
-         case 'u':
-             flags |= BDRV_O_NO_BACKING;
-             break;
--        case OPTION_OBJECT: {
--            QemuOpts *opts;
--            opts = qemu_opts_parse_noisily(&qemu_object_opts,
--                                           optarg, true);
--            if (!opts) {
--                goto fail;
--            }
--        }   break;
-+        case OPTION_OBJECT:
-+            qemu_img_object_parse(optarg, 1);
-+            break;
-         }
-     }
- 
-@@ -589,12 +590,6 @@ static int img_create(int argc, char **argv)
-     }
-     optind++;
- 
--    if (qemu_opts_foreach(&qemu_object_opts,
--                          user_creatable_add_opts_foreach,
--                          qemu_img_object_print_help, &error_fatal)) {
--        goto fail;
--    }
--
-     /* Get image size, if specified */
-     if (optind < argc) {
-         int64_t sval;
-@@ -804,14 +799,9 @@ static int img_check(int argc, char **argv)
-         case 'U':
-             force_share = true;
-             break;
--        case OPTION_OBJECT: {
--            QemuOpts *opts;
--            opts = qemu_opts_parse_noisily(&qemu_object_opts,
--                                           optarg, true);
--            if (!opts) {
--                return 1;
--            }
--        }   break;
-+        case OPTION_OBJECT:
-+            qemu_img_object_parse(optarg, 1);
-+            break;
-         case OPTION_IMAGE_OPTS:
-             image_opts = true;
-             break;
-@@ -831,12 +821,6 @@ static int img_check(int argc, char **argv)
-         return 1;
-     }
- 
--    if (qemu_opts_foreach(&qemu_object_opts,
--                          user_creatable_add_opts_foreach,
--                          qemu_img_object_print_help, &error_fatal)) {
--        return 1;
--    }
--
-     ret = bdrv_parse_cache_mode(cache, &flags, &writethrough);
-     if (ret < 0) {
-         error_report("Invalid source cache option: %s", cache);
-@@ -1034,14 +1018,9 @@ static int img_commit(int argc, char **argv)
-                 return 1;
-             }
-             break;
--        case OPTION_OBJECT: {
--            QemuOpts *opts;
--            opts = qemu_opts_parse_noisily(&qemu_object_opts,
--                                           optarg, true);
--            if (!opts) {
--                return 1;
--            }
--        }   break;
-+        case OPTION_OBJECT:
-+            qemu_img_object_parse(optarg, 1);
-+            break;
-         case OPTION_IMAGE_OPTS:
-             image_opts = true;
-             break;
-@@ -1058,12 +1037,6 @@ static int img_commit(int argc, char **argv)
-     }
-     filename = argv[optind++];
- 
--    if (qemu_opts_foreach(&qemu_object_opts,
--                          user_creatable_add_opts_foreach,
--                          qemu_img_object_print_help, &error_fatal)) {
--        return 1;
--    }
--
-     flags = BDRV_O_RDWR | BDRV_O_UNMAP;
-     ret = bdrv_parse_cache_mode(cache, &flags, &writethrough);
-     if (ret < 0) {
-@@ -1423,15 +1396,9 @@ static int img_compare(int argc, char **argv)
-         case 'U':
-             force_share = true;
-             break;
--        case OPTION_OBJECT: {
--            QemuOpts *opts;
--            opts = qemu_opts_parse_noisily(&qemu_object_opts,
--                                           optarg, true);
--            if (!opts) {
--                ret = 2;
--                goto out4;
--            }
--        }   break;
-+        case OPTION_OBJECT:
-+            qemu_img_object_parse(optarg, 2);
-+            break;
-         case OPTION_IMAGE_OPTS:
-             image_opts = true;
-             break;
-@@ -1450,13 +1417,6 @@ static int img_compare(int argc, char **argv)
-     filename1 = argv[optind++];
-     filename2 = argv[optind++];
- 
--    if (qemu_opts_foreach(&qemu_object_opts,
--                          user_creatable_add_opts_foreach,
--                          qemu_img_object_print_help, &error_fatal)) {
--        ret = 2;
--        goto out4;
--    }
--
-     /* Initialize before goto out */
-     qemu_progress_init(progress, 2.0);
- 
-@@ -1641,7 +1601,6 @@ out2:
-     blk_unref(blk1);
- out3:
-     qemu_progress_end();
--out4:
-     return ret;
- }
- 
-@@ -2342,15 +2301,9 @@ static int img_convert(int argc, char **argv)
-                 goto fail_getopt;
-             }
-             break;
--        case OPTION_OBJECT: {
--            QemuOpts *object_opts;
--            object_opts = qemu_opts_parse_noisily(&qemu_object_opts,
--                                                  optarg, true);
--            if (!object_opts) {
--                goto fail_getopt;
--            }
-+        case OPTION_OBJECT:
-+            qemu_img_object_parse(optarg, 1);
-             break;
--        }
-         case OPTION_IMAGE_OPTS:
-             image_opts = true;
-             break;
-@@ -2378,12 +2331,6 @@ static int img_convert(int argc, char **argv)
-         out_fmt = "raw";
-     }
- 
--    if (qemu_opts_foreach(&qemu_object_opts,
--                          user_creatable_add_opts_foreach,
--                          qemu_img_object_print_help, &error_fatal)) {
--        goto fail_getopt;
--    }
--
-     if (s.compressed && s.copy_range) {
-         error_report("Cannot enable copy offloading when -c is used");
-         goto fail_getopt;
-@@ -2975,14 +2922,9 @@ static int img_info(int argc, char **argv)
-         case OPTION_BACKING_CHAIN:
-             chain = true;
-             break;
--        case OPTION_OBJECT: {
--            QemuOpts *opts;
--            opts = qemu_opts_parse_noisily(&qemu_object_opts,
--                                           optarg, true);
--            if (!opts) {
--                return 1;
--            }
--        }   break;
-+        case OPTION_OBJECT:
-+            qemu_img_object_parse(optarg, 1);
-+            break;
-         case OPTION_IMAGE_OPTS:
-             image_opts = true;
-             break;
-@@ -3002,12 +2944,6 @@ static int img_info(int argc, char **argv)
-         return 1;
-     }
- 
--    if (qemu_opts_foreach(&qemu_object_opts,
--                          user_creatable_add_opts_foreach,
--                          qemu_img_object_print_help, &error_fatal)) {
--        return 1;
--    }
--
-     list = collect_image_info_list(image_opts, filename, fmt, chain,
-                                    force_share);
-     if (!list) {
-@@ -3217,14 +3153,9 @@ static int img_map(int argc, char **argv)
-                 return 1;
-             }
-             break;
--        case OPTION_OBJECT: {
--            QemuOpts *opts;
--            opts = qemu_opts_parse_noisily(&qemu_object_opts,
--                                           optarg, true);
--            if (!opts) {
--                return 1;
--            }
--        }   break;
-+        case OPTION_OBJECT:
-+            qemu_img_object_parse(optarg, 1);
-+            break;
-         case OPTION_IMAGE_OPTS:
-             image_opts = true;
-             break;
-@@ -3244,12 +3175,6 @@ static int img_map(int argc, char **argv)
-         return 1;
-     }
- 
--    if (qemu_opts_foreach(&qemu_object_opts,
--                          user_creatable_add_opts_foreach,
--                          qemu_img_object_print_help, &error_fatal)) {
--        return 1;
--    }
--
-     blk = img_open(image_opts, filename, fmt, 0, false, false, force_share);
-     if (!blk) {
-         return 1;
-@@ -3388,14 +3313,9 @@ static int img_snapshot(int argc, char **argv)
-         case 'U':
-             force_share = true;
-             break;
--        case OPTION_OBJECT: {
--            QemuOpts *opts;
--            opts = qemu_opts_parse_noisily(&qemu_object_opts,
--                                           optarg, true);
--            if (!opts) {
--                return 1;
--            }
--        }   break;
-+        case OPTION_OBJECT:
-+            qemu_img_object_parse(optarg, 1);
-+            break;
-         case OPTION_IMAGE_OPTS:
-             image_opts = true;
-             break;
-@@ -3407,12 +3327,6 @@ static int img_snapshot(int argc, char **argv)
-     }
-     filename = argv[optind++];
- 
--    if (qemu_opts_foreach(&qemu_object_opts,
--                          user_creatable_add_opts_foreach,
--                          qemu_img_object_print_help, &error_fatal)) {
--        return 1;
--    }
--
-     /* Open the image */
-     blk = img_open(image_opts, filename, NULL, bdrv_oflags, false, quiet,
-                    force_share);
-@@ -3546,14 +3460,9 @@ static int img_rebase(int argc, char **argv)
-         case 'q':
-             quiet = true;
-             break;
--        case OPTION_OBJECT: {
--            QemuOpts *opts;
--            opts = qemu_opts_parse_noisily(&qemu_object_opts,
--                                           optarg, true);
--            if (!opts) {
--                return 1;
--            }
--        }   break;
-+        case OPTION_OBJECT:
-+            qemu_img_object_parse(optarg, 1);
-+            break;
-         case OPTION_IMAGE_OPTS:
-             image_opts = true;
-             break;
-@@ -3575,12 +3484,6 @@ static int img_rebase(int argc, char **argv)
-     }
-     filename = argv[optind++];
- 
--    if (qemu_opts_foreach(&qemu_object_opts,
--                          user_creatable_add_opts_foreach,
--                          qemu_img_object_print_help, &error_fatal)) {
--        return 1;
--    }
--
-     qemu_progress_init(progress, 2.0);
-     qemu_progress_print(0, 100);
- 
-@@ -3971,14 +3874,9 @@ static int img_resize(int argc, char **argv)
-         case 'q':
-             quiet = true;
-             break;
--        case OPTION_OBJECT: {
--            QemuOpts *opts;
--            opts = qemu_opts_parse_noisily(&qemu_object_opts,
--                                           optarg, true);
--            if (!opts) {
--                return 1;
--            }
--        }   break;
-+        case OPTION_OBJECT:
-+            qemu_img_object_parse(optarg, 1);
-+            break;
-         case OPTION_IMAGE_OPTS:
-             image_opts = true;
-             break;
-@@ -4000,12 +3898,6 @@ static int img_resize(int argc, char **argv)
-     }
-     filename = argv[optind++];
- 
--    if (qemu_opts_foreach(&qemu_object_opts,
--                          user_creatable_add_opts_foreach,
--                          qemu_img_object_print_help, &error_fatal)) {
--        return 1;
--    }
--
-     /* Choose grow, shrink, or absolute resize mode */
-     switch (size[0]) {
-     case '+':
-@@ -4185,12 +4077,7 @@ static int img_amend(int argc, char **argv)
-             quiet = true;
-             break;
-         case OPTION_OBJECT:
--            opts = qemu_opts_parse_noisily(&qemu_object_opts,
--                                           optarg, true);
--            if (!opts) {
--                ret = -1;
--                goto out_no_progress;
--            }
-+            qemu_img_object_parse(optarg, 1);
-             break;
-         case OPTION_IMAGE_OPTS:
-             image_opts = true;
-@@ -4205,13 +4092,6 @@ static int img_amend(int argc, char **argv)
-         error_exit("Must specify options (-o)");
-     }
- 
--    if (qemu_opts_foreach(&qemu_object_opts,
--                          user_creatable_add_opts_foreach,
--                          qemu_img_object_print_help, &error_fatal)) {
--        ret = -1;
--        goto out_no_progress;
--    }
--
-     if (quiet) {
-         progress = false;
-     }
-@@ -4670,7 +4550,6 @@ static int img_bitmap(int argc, char **argv)
++
++    user_creatable_add_dict(dict, true, &error_fatal);
++}
++
+ static void qemu_create_early_backends(void)
  {
-     Error *err = NULL;
-     int c, ret = 1;
--    QemuOpts *opts = NULL;
-     const char *fmt = NULL, *src_fmt = NULL, *src_filename = NULL;
-     const char *filename, *bitmap;
-     BlockBackend *blk = NULL, *src = NULL;
-@@ -4764,10 +4643,7 @@ static int img_bitmap(int argc, char **argv)
-             merge = true;
-             break;
-         case OPTION_OBJECT:
--            opts = qemu_opts_parse_noisily(&qemu_object_opts, optarg, true);
--            if (!opts) {
--                goto out;
--            }
-+            qemu_img_object_parse(optarg, 1);
-             break;
-         case OPTION_IMAGE_OPTS:
-             image_opts = true;
-@@ -4775,12 +4651,6 @@ static int img_bitmap(int argc, char **argv)
-         }
+     MachineClass *machine_class = MACHINE_GET_CLASS(current_machine);
+@@ -1810,9 +1814,9 @@ static void qemu_create_early_backends(void)
+         exit(1);
      }
  
--    if (qemu_opts_foreach(&qemu_object_opts,
--                          user_creatable_add_opts_foreach,
--                          qemu_img_object_print_help, &error_fatal)) {
--        goto out;
--    }
--
-     if (QSIMPLEQ_EMPTY(&actions)) {
-         error_report("Need at least one of --add, --remove, --clear, "
-                      "--enable, --disable, or --merge");
-@@ -4876,7 +4746,6 @@ static int img_bitmap(int argc, char **argv)
-  out:
-     blk_unref(src);
-     blk_unref(blk);
--    qemu_opts_del(opts);
-     return ret;
+-    qemu_opts_foreach(qemu_find_opts("object"),
+-                      user_creatable_add_opts_foreach,
+-                      object_create_early, &error_fatal);
++    g_slist_foreach(object_opts_list,
++                    user_creatable_add_dict_foreach,
++                    object_create_early);
+ 
+     /* spice needs the timers to be initialized by this point */
+     /* spice must initialize before audio as it changes the default auiodev */
+@@ -1841,9 +1845,9 @@ static void qemu_create_early_backends(void)
+  * The remainder of object creation happens after the
+  * creation of chardev, fsdev, net clients and device data types.
+  */
+-static bool object_create_late(const char *type, QemuOpts *opts)
++static bool object_create_late(const char *type)
+ {
+-    return !object_create_early(type, opts);
++    return !object_create_early(type);
  }
  
-@@ -5038,10 +4907,7 @@ static int img_dd(int argc, char **argv)
-             force_share = true;
-             break;
-         case OPTION_OBJECT:
--            if (!qemu_opts_parse_noisily(&qemu_object_opts, optarg, true)) {
--                ret = -1;
--                goto out;
--            }
-+            qemu_img_object_parse(optarg, 1);
-             break;
-         case OPTION_IMAGE_OPTS:
-             image_opts = true;
-@@ -5088,13 +4954,6 @@ static int img_dd(int argc, char **argv)
-         goto out;
-     }
+ static void qemu_create_late_backends(void)
+@@ -1854,9 +1858,9 @@ static void qemu_create_late_backends(void)
  
--    if (qemu_opts_foreach(&qemu_object_opts,
--                          user_creatable_add_opts_foreach,
--                          qemu_img_object_print_help, &error_fatal)) {
--        ret = -1;
--        goto out;
--    }
--
-     blk1 = img_open(image_opts, in.filename, fmt, 0, false, false,
-                     force_share);
+     net_init_clients(&error_fatal);
  
-@@ -5270,7 +5129,6 @@ static int img_measure(int argc, char **argv)
-     char *snapshot_name = NULL;
-     bool force_share = false;
-     QemuOpts *opts = NULL;
--    QemuOpts *object_opts = NULL;
-     QemuOpts *sn_opts = NULL;
-     QemuOptsList *create_opts = NULL;
-     bool image_opts = false;
-@@ -5315,11 +5173,7 @@ static int img_measure(int argc, char **argv)
-             force_share = true;
-             break;
-         case OPTION_OBJECT:
--            object_opts = qemu_opts_parse_noisily(&qemu_object_opts,
--                                                  optarg, true);
--            if (!object_opts) {
--                goto out;
--            }
-+            qemu_img_object_parse(optarg, 1);
-             break;
-         case OPTION_IMAGE_OPTS:
-             image_opts = true;
-@@ -5349,12 +5203,6 @@ static int img_measure(int argc, char **argv)
+-    qemu_opts_foreach(qemu_find_opts("object"),
+-                      user_creatable_add_opts_foreach,
+-                      object_create_late, &error_fatal);
++    g_slist_foreach(object_opts_list,
++                    user_creatable_add_dict_foreach,
++                    object_create_late);
+ 
+     if (tpm_init() < 0) {
+         exit(1);
+@@ -2063,6 +2067,9 @@ static int global_init_func(void *opaque, QemuOpts *opts, Error **errp)
+  */
+ static bool is_qemuopts_group(const char *group)
+ {
++    if (g_str_equal(group, "object")) {
++        return false;
++    }
+     return true;
+ }
+ 
+@@ -2072,6 +2079,9 @@ static bool is_qemuopts_group(const char *group)
+  */
+ static GSList **qemu_config_list(const char *group)
+ {
++    if (g_str_equal(group, "object")) {
++        return &object_opts_list;
++    }
+     return NULL;
+ }
+ 
+@@ -2679,7 +2689,6 @@ void qemu_init(int argc, char **argv, char **envp)
+     qemu_add_opts(&qemu_smp_opts);
+     qemu_add_opts(&qemu_boot_opts);
+     qemu_add_opts(&qemu_add_fd_opts);
+-    qemu_add_opts(&qemu_object_opts);
+     qemu_add_opts(&qemu_tpmdev_opts);
+     qemu_add_opts(&qemu_overcommit_opts);
+     qemu_add_opts(&qemu_msg_opts);
+@@ -3455,12 +3464,18 @@ void qemu_init(int argc, char **argv, char **envp)
+ #endif
+                 break;
+             case QEMU_OPTION_object:
+-                opts = qemu_opts_parse_noisily(qemu_find_opts("object"),
+-                                               optarg, true);
+-                if (!opts) {
+-                    exit(1);
++                {
++                    QDict *args;
++                    bool help;
++
++                    args = keyval_parse(optarg, "qom-type", &help, &error_fatal);
++                    if (help) {
++                        user_creatable_print_help_from_qdict(args);
++                        exit(EXIT_SUCCESS);
++                    }
++                    qemu_record_config_group("object", args, &error_abort);
++                    break;
+                 }
+-                break;
+             case QEMU_OPTION_overcommit:
+                 opts = qemu_opts_parse_noisily(qemu_find_opts("overcommit"),
+                                                optarg, false);
+@@ -3504,6 +3519,10 @@ void qemu_init(int argc, char **argv, char **envp)
+             }
          }
      }
- 
--    if (qemu_opts_foreach(&qemu_object_opts,
--                          user_creatable_add_opts_foreach,
--                          qemu_img_object_print_help, &error_fatal)) {
--        goto out;
--    }
--
-     if (argc - optind > 1) {
-         error_report("At most one filename argument is allowed.");
-         goto out;
-@@ -5442,7 +5290,6 @@ static int img_measure(int argc, char **argv)
- 
- out:
-     qapi_free_BlockMeasureInfo(info);
--    qemu_opts_del(object_opts);
-     qemu_opts_del(opts);
-     qemu_opts_del(sn_opts);
-     qemu_opts_free(create_opts);
-@@ -5494,7 +5341,6 @@ int main(int argc, char **argv)
-         error_exit("Not enough arguments");
-     }
- 
--    qemu_add_opts(&qemu_object_opts);
-     qemu_add_opts(&qemu_source_opts);
-     qemu_add_opts(&qemu_trace_opts);
- 
++
++    /* Cleanup after option parsing loop.  */
++    object_opts_list = g_slist_reverse(object_opts_list);
++
+     /*
+      * Clear error location left behind by the loop.
+      * Best done right after the loop.  Do not insert code here!
 -- 
 2.26.2
 
