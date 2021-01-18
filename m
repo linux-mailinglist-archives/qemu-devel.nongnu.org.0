@@ -2,83 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5B9222F9C58
-	for <lists+qemu-devel@lfdr.de>; Mon, 18 Jan 2021 11:31:05 +0100 (CET)
-Received: from localhost ([::1]:60564 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6F50C2F9C59
+	for <lists+qemu-devel@lfdr.de>; Mon, 18 Jan 2021 11:31:36 +0100 (CET)
+Received: from localhost ([::1]:34806 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l1RoO-0006k7-EI
-	for lists+qemu-devel@lfdr.de; Mon, 18 Jan 2021 05:31:04 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37402)
+	id 1l1Rot-0007q5-He
+	for lists+qemu-devel@lfdr.de; Mon, 18 Jan 2021 05:31:35 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37670)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1l1Rlz-0005Xz-AX; Mon, 18 Jan 2021 05:28:35 -0500
-Received: from mail-qt1-x832.google.com ([2607:f8b0:4864:20::832]:45567)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1l1Rlx-0003aQ-A6; Mon, 18 Jan 2021 05:28:35 -0500
-Received: by mail-qt1-x832.google.com with SMTP id d15so5449352qtw.12;
- Mon, 18 Jan 2021 02:28:32 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=sQl6BbI4RE0/cU41qPaTlmO6I+2T7dSR2T7AVsJHSFI=;
- b=BHgxO1arnYUKpsXt5O390S/jG2ANYb94oQUJ/8j9C6c9efkpCN8Kl2ltaYfKKHs+fj
- 5OvRPRVz5XlsmtH2xZvWi6SlW85ex7RLw2QpOJu8UB05Mw20+9HCrcTiHqdD399VXvd6
- 6UzxXNq6dqNBajOpj5ZvJXhcqRzJ4FTtPKlBIq9qq0uYArJ+7D3qjwqb9CjqHqoCCCqj
- tWLg1CGalPszXvTfS4ocClyDagdceHzJ5kxtBjX6SCxbXdPpmTuWG67unZ1skYwr349D
- WIY5dMZWfNhCCeXf+zw6ukANGScS1Abo3n9H1Hun2HmH6SPW02C23QjtJnLJ65tMvM5w
- EtVg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=sQl6BbI4RE0/cU41qPaTlmO6I+2T7dSR2T7AVsJHSFI=;
- b=RNPjlVUfPy5RUk2HQmZRfwN6CblT14Q4+izFEfJ+LesNPq6itlWVe8BQo0gEE+eu28
- 0qxOr/e1kStYwBmuIDQlDChOgluANT5VTzDfuEwTIjpnb3BAEuiBbVfeY3nIk8Hde7KA
- 9qnTAlFRE4NaDwTcZpGawrrEv9jhwQ5iqQzH9ooy6N1XbrjO+j/pVBVsUUVMO3F2cG4z
- x1pH+X7S/dPQXhL6AHnfKcUzTETOGH+lFAfCqvhfvKDUyki45XZNSO+6yDHk/Yf8Jw0Q
- PGs3ZizmwSMy3hs7hbmDLUVj/YMLMrO0w4OZaURChBQ1lWCvcMxGFZ9hycOqUqQLIVKQ
- RhAQ==
-X-Gm-Message-State: AOAM532PFih6Hu5Yf3lgsiXTpgWhA2lyV0Qaldx2r9lVwBVE92NqLOui
- H5lkHTk7CIYR4MXx2JhvMxA=
-X-Google-Smtp-Source: ABdhPJyz2dqQAQxZ+/fm48GXnFCLNLnSbd7yrZvSSFodlUR9SVBAIzfv9wE0M0MZDCKM/NKdCEGSdw==
-X-Received: by 2002:ac8:4b54:: with SMTP id e20mr22502815qts.236.1610965711461; 
- Mon, 18 Jan 2021 02:28:31 -0800 (PST)
-Received: from ?IPv6:2804:431:c7c7:a75a:cb34:ba60:6de6:be1d?
- ([2804:431:c7c7:a75a:cb34:ba60:6de6:be1d])
- by smtp.gmail.com with ESMTPSA id f134sm10322315qke.23.2021.01.18.02.28.29
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 18 Jan 2021 02:28:30 -0800 (PST)
-Subject: Re: [PATCH v1 7/7] spapr.c: consider CPU core online state before
- allowing unplug
-To: David Gibson <david@gibson.dropbear.id.au>
-References: <20210114180628.1675603-1-danielhb413@gmail.com>
- <20210114180628.1675603-8-danielhb413@gmail.com>
- <20210115182216.6dccadee@bahia.lan>
- <14cfa384-9972-6817-5c5f-f37bc1880043@gmail.com>
- <20210118011848.GD2089552@yekko.fritz.box>
-From: Daniel Henrique Barboza <danielhb413@gmail.com>
-Message-ID: <5a89f311-9c67-fcd0-8b6c-4dcc9be66c2d@gmail.com>
-Date: Mon, 18 Jan 2021 07:28:25 -0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.6.0
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1l1RnH-0006aG-JO
+ for qemu-devel@nongnu.org; Mon, 18 Jan 2021 05:29:55 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:22617)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1l1RnG-0004Ac-48
+ for qemu-devel@nongnu.org; Mon, 18 Jan 2021 05:29:55 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1610965792;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=t8mWNt8hJw0hQ9PEvDoNhosqvlo4sZCpXsYV2OEGWUw=;
+ b=UNMx7EY3VsnQ6Vo+ZvVMTtcW1vl1HW2+aqiy4qHXYdgNPzaOF5GMtEavvb3CH/74mIG1jl
+ COmTE8/v421zTNig+NXQEG4hBs/oM9f8pDL3HeA+aJZ6cJ24Hh1ODRTb8IeNCoJRyTjHUF
+ F1jmGVog06n9Dfvvcf4ekQPy2VCaJz0=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-523-8L2zcLudMRaAyXLFejrB4w-1; Mon, 18 Jan 2021 05:29:48 -0500
+X-MC-Unique: 8L2zcLudMRaAyXLFejrB4w-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 6EA2918C8C11;
+ Mon, 18 Jan 2021 10:29:47 +0000 (UTC)
+Received: from merkur.fritz.box (ovpn-115-75.ams2.redhat.com [10.36.115.75])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 415CF6F98B;
+ Mon, 18 Jan 2021 10:29:46 +0000 (UTC)
+Date: Mon, 18 Jan 2021 11:29:44 +0100
+From: Kevin Wolf <kwolf@redhat.com>
+To: Paolo Bonzini <pbonzini@redhat.com>
+Subject: Re: [PATCH 00/28] qemu-option, keyval, vl: switch -object/-M/-accel
+ to keyval parsing
+Message-ID: <20210118102944.GB11555@merkur.fritz.box>
+References: <20201202090305.4129317-1-pbonzini@redhat.com>
+ <de8c073c-471b-8149-1200-8c7f061aae37@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <20210118011848.GD2089552@yekko.fritz.box>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::832;
- envelope-from=danielhb413@gmail.com; helo=mail-qt1-x832.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001, NICE_REPLY_A=-0.252,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <de8c073c-471b-8149-1200-8c7f061aae37@redhat.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kwolf@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=kwolf@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -29
+X-Spam_score: -3.0
+X-Spam_bar: ---
+X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.189,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -91,213 +77,32 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Xujun Ma <xuma@redhat.com>, qemu-ppc@nongnu.org, Greg Kurz <groug@kaod.org>,
- qemu-devel@nongnu.org
+Cc: imammedo@redhat.com, qemu-devel@nongnu.org, qemu-block@nongnu.org,
+ armbru@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+Am 17.01.2021 um 17:48 hat Paolo Bonzini geschrieben:
+> On 02/12/20 10:02, Paolo Bonzini wrote:
+> > This series switches -object, -M and -accel from QemuOpts to keyval.
+> > Monitor commands device_add and netdev_add are also switched to keyval,
+> > though -device and -netdev for now are not.
+> > 
+> > Along the way, the syntax of keyval and QemuOpts becomes more consistent
+> > and support for keyval-based options is added to -readconfig.  -writeconfig
+> > instead is removed (see patch 13 for rationale).
 
-
-On 1/17/21 10:18 PM, David Gibson wrote:
-> On Fri, Jan 15, 2021 at 03:52:56PM -0300, Daniel Henrique Barboza wrote:
->>
->>
->> On 1/15/21 2:22 PM, Greg Kurz wrote:
->>> On Thu, 14 Jan 2021 15:06:28 -0300
->>> Daniel Henrique Barboza <danielhb413@gmail.com> wrote:
->>>
->>>> The only restriction we have when unplugging CPUs is to forbid unplug of
->>>> the boot cpu core. spapr_core_unplug_possible() does not contemplate the
->>
->> I'll look into it.
->>
->>>
->>> I can't remember why this restriction was introduced in the first place...
->>> This should be investigated and documented if the limitation still stands.
->>>
->>>> possibility of some cores being offlined by the guest, meaning that we're
->>>> rolling the dice regarding on whether we're unplugging the last online
->>>> CPU core the guest has.
->>>>
->>>
->>> Trying to unplug the last CPU is obviously something that deserves
->>> special care. LoPAPR is quite explicit on the outcome : this should
->>> terminate the partition.
->>>
->>> 13.7.4.1.1. Isolation of CPUs
->>>
->>> The isolation of a CPU, in all cases, is preceded by the stop-self
->>> RTAS function for all processor threads, and the OS insures that all
->>> the CPU’s threads are in the RTAS stopped state prior to isolating the
->>> CPU. Isolation of a processor that is not stopped produces unpredictable
->>> results. The stopping of the last processor thread of a LPAR partition
->>> effectively kills the partition, and at that point, ownership of all
->>> partition resources reverts to the platform firmware.
->>
->>
->> I was just investigating a reason why we should check for all thread
->> states before unplugging the core, like David suggested in his reply.
->> rtas_stop_self() was setting 'cs->halted = 1' without a thread activity
->> check like ibm,suspend-me() does and I was wondering why. This text you sent
->> explains it, quoting:
->>
->> "> The isolation of a CPU, in all cases, is preceded by the stop-self
->>   RTAS function for all processor threads, and the OS insures that all
->>   the CPU’s threads are in the RTAS stopped state prior to isolating the
->>   CPU."
->>
->>
->> This seems to be corroborated by arch/powerpc/platform/pseries/hotplug-cpu.c:
+> Ping?  It's been over a month (even if with the Christmas vacation).
 > 
-> Um... this seems like you're overcomplicating this.  The crucial point
-> here is that 'start-cpu' and 'stop-self' operate on individual
-> threads, where as dynamic reconfiguration hotplug and unplug works on
-> whole cores.
-> 
->> static void pseries_cpu_offline_self(void)
->> {
->> 	unsigned int hwcpu = hard_smp_processor_id();
->>
->> 	local_irq_disable();
->> 	idle_task_exit();
->> 	if (xive_enabled())
->> 		xive_teardown_cpu();
->> 	else
->> 		xics_teardown_cpu();
->>
->> 	unregister_slb_shadow(hwcpu);
->> 	rtas_stop_self();
->>
->> 	/* Should never get here... */
->> 	BUG();
->> 	for(;;);
->> }
->>
->>
->> IIUC this means that we can rely on cs->halted = 1 since it's coming right
->> after a rtas_stop_self() call. This is still a bit confusing though and I
->> wouldn't mind standardizing the 'CPU core is offline' condition with what
->> ibm,suspend-me is already doing.
-> 
-> At the moment we have no tracking of whether a core is online.  We
-> kinda-sorta track whether a *thread* is online through stop-self /
-> start-cpu.
-> 
->> David, what do you think?
-> 
-> I think we can rely on cs->halted = 1 when the thread is offline.
-> What I'm much less certain about is whether we can count on the thread
-> being offline when cs->halted = 1.
+> Patches 1-2 were already reviewed so I have included them already.  I would
+> like at least the next 14 patches to go in as soon as possible. (The rest
+> can be routed through maintainer trees or I can post them together with the
+> softmmu/vl.c cleanups).
 
-I guess we should just stick with your first suggestion then. I'll check for
-both cs->halted and msr to assert whether a whole core if offline, like
-ibm,suspend-me is doing:
+On which commit is this based? It doesn't seem to apply to master (maybe
+no surprise), but also not to 5.2.0-rc4, which was the state of master
+when this was posted.
 
-         if (!cs->halted || (e->msr & (1ULL << MSR_EE))) {
-             rtas_st(rets, 0, H_MULTI_THREADS_ACTIVE);
-             return;
-         }
+Kevin
 
-Another question not necessarily related to this fix: we do a similar check
-in the start of do_client_architecture_support(), returning the same
-H_MULTI_THREADS_ACTIVE error, but we're not checking e->msr:
-
-
-     /* CAS is supposed to be called early when only the boot vCPU is active. */
-     CPU_FOREACH(cs) {
-         if (cs == CPU(cpu)) {
-             continue;
-         }
-         if (!cs->halted) {
-             warn_report("guest has multiple active vCPUs at CAS, which is not allowed");
-             return H_MULTI_THREADS_ACTIVE;
-         }
-     }
-
-
-Should we bother changing this logic to check for e->msr as well? If there is no
-possible harm done I'd rather have the same check returning H_MULTI_THREADS_ACTIVE
-in both places. If there is a special condition in early boot where this check in
-do_client_architecture_support() is enough, I would like to put a comment in there
-to make it clear why.
-
-
-
-Thanks,
-
-
-DHB
-
-
-> 
->>> R1-13.7.4.1.1-1. For the LRDR option: Prior to issuing the RTAS
->>> set-indicator specifying isolate isolation-state of a CPU DR
->>> connector type, all the CPU threads must be in the RTAS stopped
->>> state.
->>>
->>> R1-13.7.4.1.1-2. For the LRDR option: Stopping of the last processor
->>> thread of a LPAR partition with the stop-self RTAS function, must kill
->>> the partition, with ownership of all partition resources reverting to
->>> the platform firmware.
->>>
->>> This is clearly not how things work today : linux doesn't call
->>> "stop-self" on the last vCPU and even if it did, QEMU doesn't
->>> terminate the VM.
->>>
->>> If there's a valid reason to not implement this PAPR behavior, I'd like
->>> it to be documented.
->>
->>
->> I can only speculate. This would create a unorthodox way of shutting down
->> the guest, when the user can just shutdown the whole thing gracefully.
->>
->> Unless we're considering borderline cases, like the security risk mentioned
->> in the kernel docs (Documentation/core-api/cpu_hotplug.rst):
->>
->> "Such advances require CPUs available to a kernel to be removed either for
->> provisioning reasons, or for RAS purposes to keep an offending CPU off
->> system execution path. Hence the need for CPU hotplug support in the
->> Linux kernel."
->>
->> In this extreme scenario I can see a reason to kill the partition/guest
->> by offlining the last online CPU - if it's compromising the host we'd
->> rather terminate immediately instead of waiting for graceful
->> shutdown.
-> 
-> I'm a bit confused by this comment.  You seem to be conflating
-> online/offline operations (start-cpu/stop-self) with hot plug/unplug
-> operations - they're obviously related, but they're not the same
-> thing.
-> 
->>>> If we hit the jackpot, we're going to detach the core DRC and pulse the
->>>> hotplug IRQ, but the guest OS will refuse to release the CPU. Our
->>>> spapr_core_unplug() DRC release callback will never be called and the CPU
->>>> core object will keep existing in QEMU. No error message will be sent
->>>> to the user, but the CPU core wasn't unplugged from the guest.
->>>>
->>>> If the guest OS onlines the CPU core again we won't be able to hotunplug it
->>>> either. 'dmesg' inside the guest will report a failed attempt to offline an
->>>> unknown CPU:
->>>>
->>>> [  923.003994] pseries-hotplug-cpu: Failed to offline CPU <NULL>, rc: -16
->>>>
->>>> This is the result of stopping the DRC state transition in the middle in the
->>>> first failed attempt.
->>>>
->>>
->>> Yes, at this point only a machine reset can fix things up.
->>>
->>> Given this is linux's choice not to call "stop-self" as it should do, I'm not
->>> super fan of hardcoding this logic in QEMU, unless there are really good
->>> reasons to do so.
->>
->> I understand where are you coming from and I sympathize. Not sure about how users
->> would feel about that though. They expect a somewhat compatible behavior of
->> multi-arch features like hotplug/hotunplug, and x86 will neither hotunplug nor offline
->> the last CPU as well.
->>
->> There is a very high chance that, even if we pull this design off, I'll need to go to
->> Libvirt and disable it because we broke compatibility with how vcpu unplug operated
->> earlier.
-> 
 
