@@ -2,79 +2,87 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BABD02FABBB
-	for <lists+qemu-devel@lfdr.de>; Mon, 18 Jan 2021 21:43:07 +0100 (CET)
-Received: from localhost ([::1]:43884 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0F0682FAB79
+	for <lists+qemu-devel@lfdr.de>; Mon, 18 Jan 2021 21:31:14 +0100 (CET)
+Received: from localhost ([::1]:34702 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l1bMg-0005pP-QO
-	for lists+qemu-devel@lfdr.de; Mon, 18 Jan 2021 15:43:06 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58740)
+	id 1l1bB3-0000zs-KM
+	for lists+qemu-devel@lfdr.de; Mon, 18 Jan 2021 15:31:11 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60188)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <lvivier@redhat.com>)
- id 1l1ay3-0004ae-Fg
- for qemu-devel@nongnu.org; Mon, 18 Jan 2021 15:17:39 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:60028)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <lvivier@redhat.com>)
- id 1l1ay1-0003Pg-DU
- for qemu-devel@nongnu.org; Mon, 18 Jan 2021 15:17:38 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1611001055;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=dQroBxjwrzS931alxGXATn99mt0PDII9I/oK7ry28As=;
- b=TGYhJe9WLAZ4UYMEohEvvz353uFMPSnvPjr6HUUkFZgD6BgFaDiknV3ZjqlIgDGsK1CBRH
- /cwd2ZYohi0PYApkXMgmF3/NW83u1+FB4MRcvs6g2A2cMeqVp0ucu5ISUR3LzaN3NoNO71
- l21NsuK3P2x8eJTkoj+1JAuvrOeOrQg=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-597-PmhEMeFYNiSYk7p-7EAtXQ-1; Mon, 18 Jan 2021 15:17:32 -0500
-X-MC-Unique: PmhEMeFYNiSYk7p-7EAtXQ-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id F19C0107ACF7;
- Mon, 18 Jan 2021 20:17:30 +0000 (UTC)
-Received: from [10.36.113.27] (ovpn-113-27.ams2.redhat.com [10.36.113.27])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 04A785D9CD;
- Mon, 18 Jan 2021 20:17:29 +0000 (UTC)
-Subject: Re: [PULL 11/24] tcg/optimize: Use tcg_constant_internal with
- constant folding
-To: Richard Henderson <richard.henderson@linaro.org>,
- Alistair Francis <alistair23@gmail.com>
-References: <20210114021654.647242-1-richard.henderson@linaro.org>
- <20210114021654.647242-12-richard.henderson@linaro.org>
- <CAKmqyKOezdn_bjyjAsAbiXQj_Cz-fphYCezo-tbBAjGR=Emgng@mail.gmail.com>
- <ccc7858f-46e7-0634-cad3-fe5bb0d5e99a@linaro.org>
-From: Laurent Vivier <lvivier@redhat.com>
-Message-ID: <aec0a4e1-31e3-7fde-d8d9-3f81d9a16383@redhat.com>
-Date: Mon, 18 Jan 2021 21:17:28 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.6.0
+ (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
+ id 1l1b5e-0007sv-Re; Mon, 18 Jan 2021 15:25:30 -0500
+Received: from out4-smtp.messagingengine.com ([66.111.4.28]:60315)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
+ id 1l1b5c-000674-9P; Mon, 18 Jan 2021 15:25:30 -0500
+Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
+ by mailout.nyi.internal (Postfix) with ESMTP id 1073E5C01F6;
+ Mon, 18 Jan 2021 15:25:27 -0500 (EST)
+Received: from mailfrontend1 ([10.202.2.162])
+ by compute4.internal (MEProxy); Mon, 18 Jan 2021 15:25:27 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=irrelevant.dk;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-type:in-reply-to; s=fm2; bh=i9sTf2xWdhwlMou1xdRRJQ5byPP
+ 9OcLwXFagGPNT9d8=; b=3tyLE0+IGJ42JwqPGYaPKB3C2sZAVZ6DraZ0vA0vNzj
+ EJIfB3VwYQYEyvG+ChQ3v5Zzf998fDnaJ0/+QpWyURHBBlODijG4EiiejopwgSMq
+ ja8pei9A2wm9As/83KkhhOGacIGL87GH2Ms5+jPkkVgBF4nNGoKiIYv+9GpsVRwb
+ yO80c0OB5/V55cez8FJ3aCP7AoL9bW2mswavAOP1JgGs9IJEZ/bogVIcE6BgDHfZ
+ DS3kSb3tB9D/Zhsg0jSbEnEkZZZFyz6Tb5qoX5ygYYx1lIKDYbZt2WGer4gHiPDm
+ 2BxXRKhkStQQM5LFs529DGsjQ3afHQ+0i3V5ljng0mQ==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+ messagingengine.com; h=cc:content-type:date:from:in-reply-to
+ :message-id:mime-version:references:subject:to:x-me-proxy
+ :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; bh=i9sTf2
+ xWdhwlMou1xdRRJQ5byPP9OcLwXFagGPNT9d8=; b=U2h4RxW497vpDNvezMnW3d
+ /PagKoeE+z0/z1TRPq9QIpgRvj2CsYaHScPnPFrNpFc+u4beVacx8a9BEu5t2VWF
+ g+1Y1QDuDJnFsAfWoWFlyUX4+tggewuiTjfg7wGJLntb63sNT9tVZVRySNSDgQG6
+ zko778y55IYIS4E7LJjmtgoHj4zQTbpehAPutTagIlToHhgtjm8L6wPg/dux5mLV
+ 6riU7GjLSMPgMeC2N2Nm8mL6sfUrkiepunpgltEZTfKB5Rq0ljsbGnzZvq9+3aYW
+ pAVrwQVTyZ4cYUoVZHXsw5S7cJvl9F18xxyfQbPCsctDIualydVQVYX6B8ZD6RGQ
+ ==
+X-ME-Sender: <xms:tu4FYJWZ_bYLZPIQaDG0oC3fpuxZPrLJ9sM7otBby4sBSAgJ71sihQ>
+ <xme:tu4FYJleSNUNThITjSclUcXaUMN-n7xuotKX6X3H2cZQ_kKsGVhRLBl0jXdxMY1oJ
+ lmySq9bUS6Vp0UV0mY>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduledrtdekgddufeekucetufdoteggodetrfdotf
+ fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+ uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
+ cujfgurhepfffhvffukfhfgggtuggjsehgtderredttdejnecuhfhrohhmpefmlhgruhhs
+ ucflvghnshgvnhcuoehithhssehirhhrvghlvghvrghnthdrughkqeenucggtffrrghtth
+ gvrhhnpeejgeduffeuieetkeeileekvdeuleetveejudeileduffefjeegfffhuddvudff
+ keenucfkphepkedtrdduieejrdelkedrudeltdenucevlhhushhtvghrufhiiigvpedtne
+ curfgrrhgrmhepmhgrihhlfhhrohhmpehithhssehirhhrvghlvghvrghnthdrughk
+X-ME-Proxy: <xmx:tu4FYFYVOq8bNgnqMul0-jmMCzu3Di7ITSZHXtc0onnkBhX6ztMi_w>
+ <xmx:tu4FYMXFEU9B56usw0FnkmmOsVSmdfUrSqVvwIl1QaS9SjwQPJ8lQw>
+ <xmx:tu4FYDn3HwbqksmjY1MJN2hVLw-KytCcbVhHoNHCNqQUiC1YRcByjA>
+ <xmx:t-4FYMBkRg5tUfL6ir_1NZjdr7SR5vO-K8Tp0A6B3IV8VtGlnWRyiQ>
+Received: from apples.localdomain (80-167-98-190-cable.dk.customer.tdc.net
+ [80.167.98.190])
+ by mail.messagingengine.com (Postfix) with ESMTPA id 7577C24005B;
+ Mon, 18 Jan 2021 15:25:25 -0500 (EST)
+Date: Mon, 18 Jan 2021 21:25:23 +0100
+From: Klaus Jensen <its@irrelevant.dk>
+To: Minwoo Im <minwoo.im.dev@gmail.com>
+Subject: Re: [RFC PATCH V2 10/11] hw/block/nvme: add NMIC enum value for
+ Identify Namespace
+Message-ID: <YAXusxmM1mUN4D7w@apples.localdomain>
+References: <20210117145341.23310-1-minwoo.im.dev@gmail.com>
+ <20210117145341.23310-11-minwoo.im.dev@gmail.com>
 MIME-Version: 1.0
-In-Reply-To: <ccc7858f-46e7-0634-cad3-fe5bb0d5e99a@linaro.org>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=lvivier@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=lvivier@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -31
-X-Spam_score: -3.2
-X-Spam_bar: ---
-X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.175,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.194, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="PUZND8nT4CHtFDw5"
+Content-Disposition: inline
+In-Reply-To: <20210117145341.23310-11-minwoo.im.dev@gmail.com>
+Received-SPF: pass client-ip=66.111.4.28; envelope-from=its@irrelevant.dk;
+ helo=out4-smtp.messagingengine.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
+X-Spam_bar: --
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -87,72 +95,58 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>
+Cc: Keith Busch <kbusch@kernel.org>, Kevin Wolf <kwolf@redhat.com>,
+ qemu-devel@nongnu.org, qemu-block@nongnu.org, Max Reitz <mreitz@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 16/01/2021 18:24, Richard Henderson wrote:
-> On 1/15/21 1:03 PM, Alistair Francis wrote:
->> I run QEMU with these arguments:
->>
->> ./build/riscv32-softmmu/qemu-system-riscv32 \
->>     -machine virt -serial mon:stdio -serial null -nographic \
->>     -append "root=/dev/vda rw highres=off  console=ttyS0 ip=dhcp earlycon=sbi" \
->>     -device virtio-net-device,netdev=net0,mac=52:54:00:12:34:02
->> -netdev user,id=net0 \
->>     -object rng-random,filename=/dev/urandom,id=rng0 -device
->> virtio-rng-device,rng=rng0 \
->>     -smp 4 -d guest_errors -m 256M \
->>     -kernel ./Image \
->>     -drive id=disk0,file=./core-image-minimal-qemuriscv32.ext4,if=none,format=raw
->> \
->>     -device virtio-blk-device,drive=disk0 \
->>     -bios default
->>
->> I am uploading the images to:
->> https://nextcloud.alistair23.me/index.php/s/MQFyGGNLPZjLZPH
-> 
-> I don't replicate the assertion failure, I get to
-> 
-> /sbin/init: error while loading shared libraries: libkmod.so.2: cannot open
-> shared object file: Error 74
-> [    0.819845] Kernel panic - not syncing: Attempted to kill init!
-> exitcode=0x00007f00
-> [    0.820430] CPU: 1 PID: 1 Comm: init Not tainted 5.11.0-rc3 #1
 
-This commit breaks the build of my hello world test program with mips64el/stretch guest
-(and I guess some others too).
+--PUZND8nT4CHtFDw5
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-cat > $CHROOT/tmp/hello.c <<EOF
-#include <stdio.h>
-int main(void)
-{
-    printf("Hello World!\n");
-    return 0;
-}
-EOF
+On Jan 17 23:53, Minwoo Im wrote:
+> Added Namespace Multi-path I/O and Namespace Sharing Capabilities (NMIC)
+> field to support shared namespace from controller(s).
+>=20
+> This field is in Identify Namespace data structure in [30].
+>=20
+> Signed-off-by: Minwoo Im <minwoo.im.dev@gmail.com>
+> ---
+>  include/block/nvme.h | 4 ++++
+>  1 file changed, 4 insertions(+)
+>=20
+> diff --git a/include/block/nvme.h b/include/block/nvme.h
+> index e83ec1e124c6..dd7b5ba9ef4c 100644
+> --- a/include/block/nvme.h
+> +++ b/include/block/nvme.h
+> @@ -1110,6 +1110,10 @@ enum NvmeNsIdentifierType {
+>      NVME_NIDT_CSI               =3D 0x04,
+>  };
+> =20
+> +enum NvmeNsNmic {
+> +    NVME_NMIC_NS_SHARED         =3D 1 << 0,
+> +};
+> +
 
-unshare --time --ipc --uts --pid --fork --kill-child --mount --mount-proc --root \
-        $CHROOT gcc /tmp/hello.c -o /tmp/hello
-/tmp/hello.c:1:0: internal compiler error: Segmentation fault
- #include <stdio.h>
+Let's keep convention (or should be convention...) of using NvmeIdNs
+prefix for identify data structure fields on the enum.
 
-executable file is not ELF
-Please submit a full bug report,
-with preprocessed source if appropriate.
-See <file:///usr/share/doc/gcc-6/README.Bugs> for instructions.
+--PUZND8nT4CHtFDw5
+Content-Type: application/pgp-signature; name="signature.asc"
 
-# gcc --version
-gcc (Debian 6.3.0-18+deb9u1) 6.3.0 20170516
-Copyright (C) 2016 Free Software Foundation, Inc.
-This is free software; see the source for copying conditions.  There is NO
-warranty; not even for MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+-----BEGIN PGP SIGNATURE-----
 
-Any idea?
+iQEzBAEBCAAdFiEEUigzqnXi3OaiR2bATeGvMW1PDekFAmAF7rIACgkQTeGvMW1P
+DenI2Qf9HBxMckTTquRCD6KCwOsJhQZk3BOb8ZMgM/bSw/pN0hp2nWfNFu9LAZJM
+HyPFdSXL7jstbtkY3ClbUeFa6pxD+SGtu09Od0uhyG3MdY+6hIai/r3U5P+UNtTV
+iBarBOszFhVFiwA5zD257MGG9zx4UDGo43yRTd1gfgnXTqWYvLtfAJLCORM5fsXF
+BVx67Lv7XqizEl9nqYiptzVquMtlhMzzwn7AqbddRkmRQbfzVJNICxlmuMKQ1Odr
+E48dR3/LR5g94Dzv86QXAy72ndkWOuXawW446No/nN4NLaI6u+vgdvDKJLR7VQCL
+y2DE3fQzz/bMe2uQOOLutBOUv4tlJw==
+=uECi
+-----END PGP SIGNATURE-----
 
-Thanks,
-Laurent
-
-
+--PUZND8nT4CHtFDw5--
 
