@@ -2,38 +2,38 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E1E192F9BCB
-	for <lists+qemu-devel@lfdr.de>; Mon, 18 Jan 2021 10:18:45 +0100 (CET)
-Received: from localhost ([::1]:59588 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0FE332F9BCD
+	for <lists+qemu-devel@lfdr.de>; Mon, 18 Jan 2021 10:20:43 +0100 (CET)
+Received: from localhost ([::1]:33684 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l1QgP-0007TZ-1M
-	for lists+qemu-devel@lfdr.de; Mon, 18 Jan 2021 04:18:45 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41642)
+	id 1l1QiI-0008TW-3A
+	for lists+qemu-devel@lfdr.de; Mon, 18 Jan 2021 04:20:42 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42492)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1l1QaB-00036I-VD
- for qemu-devel@nongnu.org; Mon, 18 Jan 2021 04:12:19 -0500
-Received: from mx2.suse.de ([195.135.220.15]:49706)
+ (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1l1Qc2-00048I-6b
+ for qemu-devel@nongnu.org; Mon, 18 Jan 2021 04:14:14 -0500
+Received: from mx2.suse.de ([195.135.220.15]:51100)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1l1QaA-0000gh-Bn
- for qemu-devel@nongnu.org; Mon, 18 Jan 2021 04:12:19 -0500
+ (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1l1Qc0-0001Xi-4t
+ for qemu-devel@nongnu.org; Mon, 18 Jan 2021 04:14:13 -0500
 X-Virus-Scanned: by amavisd-new at test-mx.suse.de
 Received: from relay2.suse.de (unknown [195.135.221.27])
- by mx2.suse.de (Postfix) with ESMTP id D5929B1A1;
- Mon, 18 Jan 2021 09:12:16 +0000 (UTC)
-Subject: Re: [PATCH 3/6] accel/tcg: Restrict tb_gen_code() from other
+ by mx2.suse.de (Postfix) with ESMTP id 9835CAC6E;
+ Mon, 18 Jan 2021 09:14:10 +0000 (UTC)
+Subject: Re: [PATCH 2/6] accel/tcg: Restrict tb_flush_jmp_cache() from other
  accelerators
 To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
  qemu-devel@nongnu.org
 References: <20210117164813.4101761-1-f4bug@amsat.org>
- <20210117164813.4101761-4-f4bug@amsat.org>
+ <20210117164813.4101761-3-f4bug@amsat.org>
 From: Claudio Fontana <cfontana@suse.de>
-Message-ID: <7359d7bd-ed7d-71ad-3610-b839c9c99fd5@suse.de>
-Date: Mon, 18 Jan 2021 10:12:15 +0100
+Message-ID: <80eb180d-4f91-a286-5e97-5406cdb7b25d@suse.de>
+Date: Mon, 18 Jan 2021 10:14:09 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.12.0
 MIME-Version: 1.0
-In-Reply-To: <20210117164813.4101761-4-f4bug@amsat.org>
+In-Reply-To: <20210117164813.4101761-3-f4bug@amsat.org>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 8bit
@@ -66,80 +66,87 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On 1/17/21 5:48 PM, Philippe Mathieu-Daudé wrote:
-> tb_gen_code() is only called within TCG accelerator,
+> tb_flush_jmp_cache() is only called within TCG accelerator,
 > declare it locally.
-
-Is this used only in accel/tcg/cpu-exec.c ? Should it be a static function there?
-
-Ciao,
-
-Claudio
-
 > 
 > Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 > ---
->  accel/tcg/internal.h    | 5 +++++
->  include/exec/exec-all.h | 5 -----
->  accel/tcg/cpu-exec.c    | 1 +
->  accel/tcg/user-exec.c   | 1 +
->  4 files changed, 7 insertions(+), 5 deletions(-)
+> We could also inline it in cputlb.c, the single user.
+
+That is what I was thinking, I would be more inclined to put it as a static function there.
+
+Thanks,
+
+Claudio
+
+> ---
+>  accel/tcg/internal.h      | 16 ++++++++++++++++
+>  include/exec/exec-all.h   |  3 ---
+>  accel/tcg/cputlb.c        |  1 +
+>  accel/tcg/translate-all.c |  1 +
+>  4 files changed, 18 insertions(+), 3 deletions(-)
+>  create mode 100644 accel/tcg/internal.h
 > 
 > diff --git a/accel/tcg/internal.h b/accel/tcg/internal.h
-> index 4981d98dbfd..f7e18c3498b 100644
-> --- a/accel/tcg/internal.h
+> new file mode 100644
+> index 00000000000..4981d98dbfd
+> --- /dev/null
 > +++ b/accel/tcg/internal.h
-> @@ -11,6 +11,11 @@
->  
->  #include "exec/exec-all.h"
->  
-> +TranslationBlock *tb_gen_code(CPUState *cpu,
-> +                              target_ulong pc, target_ulong cs_base,
-> +                              uint32_t flags,
-> +                              int cflags);
+> @@ -0,0 +1,16 @@
+> +/*
+> + * internal execution defines for qemu
+> + *
+> + *  Copyright (c) 2003 Fabrice Bellard
+> + *
+> + * SPDX-License-Identifier: LGPL-2.1-or-later
+> + */
 > +
->  void tb_flush_jmp_cache(CPUState *cpu, target_ulong addr);
->  
->  #endif
+> +#ifndef ACCEL_TCG_INTERNAL_H
+> +#define ACCEL_TCG_INTERNAL_H
+> +
+> +#include "exec/exec-all.h"
+> +
+> +void tb_flush_jmp_cache(CPUState *cpu, target_ulong addr);
+> +
+> +#endif
 > diff --git a/include/exec/exec-all.h b/include/exec/exec-all.h
-> index 1e3e7cf8e78..3acc7c2943a 100644
+> index 516013e735a..1e3e7cf8e78 100644
 > --- a/include/exec/exec-all.h
 > +++ b/include/exec/exec-all.h
-> @@ -64,11 +64,6 @@ bool cpu_restore_state(CPUState *cpu, uintptr_t searched_pc, bool will_exit);
+> @@ -663,9 +663,6 @@ tb_page_addr_t get_page_addr_code_hostp(CPUArchState *env, target_ulong addr,
+>  void tlb_reset_dirty(CPUState *cpu, ram_addr_t start1, ram_addr_t length);
+>  void tlb_set_dirty(CPUState *cpu, target_ulong vaddr);
 >  
->  void QEMU_NORETURN cpu_loop_exit_noexc(CPUState *cpu);
->  void QEMU_NORETURN cpu_io_recompile(CPUState *cpu, uintptr_t retaddr);
-> -TranslationBlock *tb_gen_code(CPUState *cpu,
-> -                              target_ulong pc, target_ulong cs_base,
-> -                              uint32_t flags,
-> -                              int cflags);
+> -/* exec.c */
+> -void tb_flush_jmp_cache(CPUState *cpu, target_ulong addr);
 > -
->  void QEMU_NORETURN cpu_loop_exit(CPUState *cpu);
->  void QEMU_NORETURN cpu_loop_exit_restore(CPUState *cpu, uintptr_t pc);
->  void QEMU_NORETURN cpu_loop_exit_atomic(CPUState *cpu, uintptr_t pc);
-> diff --git a/accel/tcg/cpu-exec.c b/accel/tcg/cpu-exec.c
-> index e0df9b6a1dd..43676ae8d13 100644
-> --- a/accel/tcg/cpu-exec.c
-> +++ b/accel/tcg/cpu-exec.c
-> @@ -41,6 +41,7 @@
->  #include "exec/cpu-all.h"
->  #include "sysemu/cpu-timers.h"
->  #include "sysemu/replay.h"
-> +#include "internal.h"
->  
->  /* -icount align implementation. */
->  
-> diff --git a/accel/tcg/user-exec.c b/accel/tcg/user-exec.c
-> index 1215b55ca08..05f3c09cbf9 100644
-> --- a/accel/tcg/user-exec.c
-> +++ b/accel/tcg/user-exec.c
-> @@ -28,6 +28,7 @@
->  #include "qemu/atomic128.h"
+>  MemoryRegionSection *
+>  address_space_translate_for_iotlb(CPUState *cpu, int asidx, hwaddr addr,
+>                                    hwaddr *xlat, hwaddr *plen,
+> diff --git a/accel/tcg/cputlb.c b/accel/tcg/cputlb.c
+> index ced3dc077ec..b1f0f404aa5 100644
+> --- a/accel/tcg/cputlb.c
+> +++ b/accel/tcg/cputlb.c
+> @@ -36,6 +36,7 @@
+>  #include "exec/translate-all.h"
 >  #include "trace/trace-root.h"
 >  #include "trace/mem.h"
 > +#include "internal.h"
+>  #ifdef CONFIG_PLUGIN
+>  #include "qemu/plugin-memory.h"
+>  #endif
+> diff --git a/accel/tcg/translate-all.c b/accel/tcg/translate-all.c
+> index ca7ef6aa177..6427bf87ae0 100644
+> --- a/accel/tcg/translate-all.c
+> +++ b/accel/tcg/translate-all.c
+> @@ -60,6 +60,7 @@
+>  #include "sysemu/cpu-timers.h"
+>  #include "sysemu/tcg.h"
+>  #include "qapi/error.h"
+> +#include "internal.h"
 >  
->  #undef EAX
->  #undef ECX
+>  /* #define DEBUG_TB_INVALIDATE */
+>  /* #define DEBUG_TB_FLUSH */
 > 
 
 
