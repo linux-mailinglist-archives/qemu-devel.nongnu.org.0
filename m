@@ -2,52 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C4C7E2FA68A
-	for <lists+qemu-devel@lfdr.de>; Mon, 18 Jan 2021 17:44:57 +0100 (CET)
-Received: from localhost ([::1]:58642 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 92E022FA6A4
+	for <lists+qemu-devel@lfdr.de>; Mon, 18 Jan 2021 17:49:44 +0100 (CET)
+Received: from localhost ([::1]:38274 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l1XeC-0004OM-SN
-	for lists+qemu-devel@lfdr.de; Mon, 18 Jan 2021 11:44:56 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34804)
+	id 1l1Xim-0007yn-Vw
+	for lists+qemu-devel@lfdr.de; Mon, 18 Jan 2021 11:49:43 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34820)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1l1XR9-0002GY-PX
- for qemu-devel@nongnu.org; Mon, 18 Jan 2021 11:31:27 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:21055)
+ id 1l1XRB-0002Gw-N5
+ for qemu-devel@nongnu.org; Mon, 18 Jan 2021 11:31:29 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:22783)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1l1XR6-0001SE-RP
- for qemu-devel@nongnu.org; Mon, 18 Jan 2021 11:31:27 -0500
+ id 1l1XR7-0001SI-Fq
+ for qemu-devel@nongnu.org; Mon, 18 Jan 2021 11:31:28 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
  s=mimecast20190719; t=1610987484;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=g+ziezKQHOA7nAOL1qkukwVvY64I/jKaJ2A6tbeG+Zk=;
- b=UCJBbVZ46zjU8/3kxgL50eolqvP7axsmLSYWDznv0Je+nMPhFKaaZhraq6+qX9UjM5z9jx
- DjJpeRILuPPRh7WnWKxBwSOuG5ybZokJcC4IjbEqI9LAa6p/Rex5hd8tGHkvWKcA8gl1TW
- AvnRwRKEMLWBgEWQg5w8F79iH/UHj64=
+ bh=noy79EvYM/u0kxF7Cga+UjabI3ZZskOaA4kQSysyXuk=;
+ b=G6S2XbTzySH2QHcaRJ9O17zIodEXj9D/c3BUFMEuOYIlvfZ4CMDLogritg+YRJrTKK0Qwu
+ yOXfIeS4YonknhW0KxSmhuTLUK08WZGeYgEyjKRiTjMJJc84l5I9NtpxteI8Qdf5hqSaPR
+ 6BpsbWqAKAO8svtKL3y6y/1lIZBDQh0=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-310-X44kZd4TPr-DNomLohyoOA-1; Mon, 18 Jan 2021 11:31:22 -0500
-X-MC-Unique: X44kZd4TPr-DNomLohyoOA-1
+ us-mta-358-nCLM8egvP1WVz0yZ1qgU3g-1; Mon, 18 Jan 2021 11:31:23 -0500
+X-MC-Unique: nCLM8egvP1WVz0yZ1qgU3g-1
 Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
  [10.5.11.16])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 9917E84A5E0
- for <qemu-devel@nongnu.org>; Mon, 18 Jan 2021 16:31:21 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 37F8D107ACF5
+ for <qemu-devel@nongnu.org>; Mon, 18 Jan 2021 16:31:22 +0000 (UTC)
 Received: from virtlab701.virt.lab.eng.bos.redhat.com
  (virtlab701.virt.lab.eng.bos.redhat.com [10.19.152.228])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 8A47C17B0B;
- Mon, 18 Jan 2021 16:31:15 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id B915D1820E;
+ Mon, 18 Jan 2021 16:31:21 +0000 (UTC)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 03/25] qemu-option: warn for short-form boolean options
-Date: Mon, 18 Jan 2021 11:30:51 -0500
-Message-Id: <20210118163113.780171-4-pbonzini@redhat.com>
+Subject: [PATCH 04/25] keyval: accept escaped commas in implied option
+Date: Mon, 18 Jan 2021 11:30:52 -0500
+Message-Id: <20210118163113.780171-5-pbonzini@redhat.com>
 In-Reply-To: <20210118163113.780171-1-pbonzini@redhat.com>
 References: <20210118163113.780171-1-pbonzini@redhat.com>
 MIME-Version: 1.0
@@ -83,173 +83,345 @@ Cc: kwolf@redhat.com, imammedo@redhat.com, armbru@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Options such as "server" or "nowait", that are commonly found in -chardev,
-are sugar for "server=on" and "wait=off".  This is quite surprising and
-also does not have any notion of typing attached.  It is even possible to
-do "-device e1000,noid" and get a device with "id=off".
+This is used with the weirdly-named device "SUNFD,fdtwo":
 
-Deprecate it and print a warning when it is encountered.  In general,
-this short form for boolean options only seems to be in wide use for
--chardev and -spice.
+  $ qemu-system-sparc -device SUNW,,fdtwo,help
+  SUNW,fdtwo options:
+    drive=<str>            - Node name or ID of a block device to use as a backend
+    fallback=<FdcDriveType> - FDC drive type, 144/288/120/none/auto (default: "144")
+    ...
+
+Therefore, accepting it is a preparatory step towards keyval-ifying
+-device and the device_add monitor command.  In general, however, this
+unexpected wart of the keyval syntax leads to suboptimal errors compared
+to QemuOpts:
+
+  $ ./qemu-system-x86_64 -object foo,,bar,id=obj
+  qemu-system-x86_64: -object foo,,bar,id=obj: invalid object type: foo,bar
+  $ storage-daemon/qemu-storage-daemon --object foo,,bar,id=obj
+  qemu-storage-daemon: Invalid parameter ''
+
+To implement this, the flow of the parser is changed to first unescape
+everything up to the next comma or equal sign.  This is done in a
+new function keyval_fetch_string for both the key and value part.
+Keys therefore are now parsed in unescaped form, but this makes no
+difference in practice because a comma is an invalid character for a
+QAPI name.  Thus keys with a comma in them are rejected anyway, as
+demonstrated by the new testcase.
+
+As a side effect of the new code, parse errors are slightly improved as
+well: "Invalid parameter ''" becomes "Expected parameter before '='"
+when keyval is fed a string starting with an equal sign.
+
+The slightly baroque interface of keyval_fetch_string lets me keep the
+key parsing loop mostly untouched.  It is simplified in the next patch,
+however.
 
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- docs/system/deprecated.rst |  6 ++++++
- tests/test-qemu-opts.c     |  2 +-
- util/qemu-option.c         | 29 ++++++++++++++++++-----------
- 3 files changed, 25 insertions(+), 12 deletions(-)
+ include/qemu/help_option.h |  11 ---
+ tests/test-keyval.c        |  21 ++++--
+ util/keyval.c              | 145 ++++++++++++++++++++-----------------
+ 3 files changed, 92 insertions(+), 85 deletions(-)
 
-diff --git a/docs/system/deprecated.rst b/docs/system/deprecated.rst
-index e20bfcb17a..e71faefbe5 100644
---- a/docs/system/deprecated.rst
-+++ b/docs/system/deprecated.rst
-@@ -127,6 +127,12 @@ Drives with interface types other than ``if=none`` are for onboard
- devices.  It is possible to use drives the board doesn't pick up with
- -device.  This usage is now deprecated.  Use ``if=none`` instead.
+diff --git a/include/qemu/help_option.h b/include/qemu/help_option.h
+index ca6389a154..328d2a89fd 100644
+--- a/include/qemu/help_option.h
++++ b/include/qemu/help_option.h
+@@ -19,15 +19,4 @@ static inline bool is_help_option(const char *s)
+     return !strcmp(s, "?") || !strcmp(s, "help");
+ }
  
-+Short-form boolean options (since 5.2)
-+''''''''''''''''''''''''''''''''''''''
-+
-+Boolean options such as ``share=on``/``share=off`` can be written
-+in short form as ``share`` and ``noshare``.  This is deprecated
-+and will cause a warning.
- 
- QEMU Machine Protocol (QMP) commands
- ------------------------------------
-diff --git a/tests/test-qemu-opts.c b/tests/test-qemu-opts.c
-index 2aab831d10..8bbb17b1c7 100644
---- a/tests/test-qemu-opts.c
-+++ b/tests/test-qemu-opts.c
-@@ -515,7 +515,7 @@ static void test_opts_parse(void)
+-static inline int starts_with_help_option(const char *s)
+-{
+-    if (*s == '?') {
+-        return 1;
+-    }
+-    if (g_str_has_prefix(s, "help")) {
+-        return 4;
+-    }
+-    return 0;
+-}
+-
+ #endif
+diff --git a/tests/test-keyval.c b/tests/test-keyval.c
+index ee927fe4e4..19f664f535 100644
+--- a/tests/test-keyval.c
++++ b/tests/test-keyval.c
+@@ -89,6 +89,11 @@ static void test_keyval_parse(void)
      error_free_or_abort(&err);
-     g_assert(!opts);
+     g_assert(!qdict);
  
--    /* Implied value */
-+    /* Implied value (qemu_opts_parse warns but accepts it) */
-     opts = qemu_opts_parse(&opts_list_03, "an,noaus,noaus=",
-                            false, &error_abort);
-     g_assert_cmpuint(opts_count(opts), ==, 3);
-diff --git a/util/qemu-option.c b/util/qemu-option.c
-index 5f27d4369d..40564a12eb 100644
---- a/util/qemu-option.c
-+++ b/util/qemu-option.c
-@@ -756,10 +756,12 @@ void qemu_opts_print(QemuOpts *opts, const char *separator)
++    /* Keys must be QAPI identifiers */
++    qdict = keyval_parse("weird,,=key", NULL, NULL, &err);
++    error_free_or_abort(&err);
++    g_assert(!qdict);
++
+     /* Multiple keys, last one wins */
+     qdict = keyval_parse("a=1,b=2,,x,a=3", NULL, NULL, &error_abort);
+     g_assert_cmpuint(qdict_size(qdict), ==, 2);
+@@ -178,15 +183,15 @@ static void test_keyval_parse(void)
+     error_free_or_abort(&err);
+     g_assert(!qdict);
  
- static const char *get_opt_name_value(const char *params,
-                                       const char *firstname,
-+                                      bool warn_on_flag,
-                                       bool *help_wanted,
-                                       char **name, char **value)
+-    /* Likewise (qemu_opts_parse(): implied key with comma value) */
+-    qdict = keyval_parse(",,,a=1", "implied", NULL, &err);
+-    error_free_or_abort(&err);
+-    g_assert(!qdict);
++    /* Implied key's value can have a comma */
++    qdict = keyval_parse(",,,a=1", "implied", NULL, &error_abort);
++    g_assert_cmpstr(qdict_get_try_str(qdict, "implied"), ==, ",");
++    g_assert_cmpstr(qdict_get_try_str(qdict, "a"), ==, "1");
++    qobject_unref(qdict);
+ 
+-    /* Implied key's value can't have comma (qemu_opts_parse(): it can) */
+-    qdict = keyval_parse("val,,ue", "implied", NULL, &err);
+-    error_free_or_abort(&err);
+-    g_assert(!qdict);
++    qdict = keyval_parse("val,,ue", "implied", NULL, &error_abort);
++    g_assert_cmpstr(qdict_get_try_str(qdict, "implied"), ==, "val,ue");
++    qobject_unref(qdict);
+ 
+     /* Empty key is not an implied key */
+     qdict = keyval_parse("=val", "implied", NULL, &err);
+diff --git a/util/keyval.c b/util/keyval.c
+index be34928813..eb9b9c55ec 100644
+--- a/util/keyval.c
++++ b/util/keyval.c
+@@ -16,8 +16,8 @@
+  *   key-vals     = [ key-val { ',' key-val } [ ',' ] ]
+  *   key-val      = key '=' val | help
+  *   key          = key-fragment { '.' key-fragment }
+- *   key-fragment = / [^=,.]+ /
+- *   val          = { / [^,]+ / | ',,' }
++ *   key-fragment = { / [^=,.] / | ',,' }
++ *   val          = { / [^,] / | ',,' }
+  *   help         = 'help' | '?'
+  *
+  * Semantics defined by reduction to JSON:
+@@ -78,13 +78,13 @@
+  * Alternative syntax for use with an implied key:
+  *
+  *   key-vals     = [ key-val-1st { ',' key-val } [ ',' ] ]
+- *   key-val-1st  = val-no-key | key-val
+- *   val-no-key   = / [^=,]+ / - help
++ *   key-val-1st  = (val-no-key - help) | key-val
++ *   val-no-key   = { / [^=,] / | ',,' }
+  *
+  * where val-no-key is syntactic sugar for implied-key=val-no-key.
+  *
+- * Note that you can't use the sugared form when the value contains
+- * '=' or ','.
++ * Note that you can't use the sugared form when the value is empty
++ * or contains '='.
+  */
+ 
+ #include "qemu/osdep.h"
+@@ -141,7 +141,7 @@ static int key_to_index(const char *key, const char **end)
+  * On failure, store an error through @errp and return NULL.
+  */
+ static QObject *keyval_parse_put(QDict *cur,
+-                                 const char *key_in_cur, QString *value,
++                                 const char *key_in_cur, const char *value,
+                                  const char *key, const char *key_cursor,
+                                  Error **errp)
  {
-     const char *p;
-+    const char *prefix = "";
-     size_t len;
-     bool is_help = false;
- 
-@@ -776,10 +778,15 @@ static const char *get_opt_name_value(const char *params,
-             if (strncmp(*name, "no", 2) == 0) {
-                 memmove(*name, *name + 2, strlen(*name + 2) + 1);
-                 *value = g_strdup("off");
-+                prefix = "no";
-             } else {
-                 *value = g_strdup("on");
-                 is_help = is_help_option(*name);
-             }
-+            if (!is_help && warn_on_flag) {
-+                warn_report("short-form boolean option '%s%s' deprecated", prefix, *name);
-+                error_printf("Please use %s=%s instead\n", *name, *value);
-+            }
+@@ -152,20 +152,56 @@ static QObject *keyval_parse_put(QDict *cur,
+         if (qobject_type(old) != (value ? QTYPE_QSTRING : QTYPE_QDICT)) {
+             error_setg(errp, "Parameters '%.*s.*' used inconsistently",
+                        (int)(key_cursor - key), key);
+-            qobject_unref(value);
+             return NULL;
          }
-     } else {
-         /* found "foo=bar,more" */
-@@ -801,14 +808,14 @@ static const char *get_opt_name_value(const char *params,
- 
- static bool opts_do_parse(QemuOpts *opts, const char *params,
-                           const char *firstname, bool prepend,
--                          bool *help_wanted, Error **errp)
-+                          bool warn_on_flag, bool *help_wanted, Error **errp)
- {
-     char *option, *value;
-     const char *p;
-     QemuOpt *opt;
- 
-     for (p = params; *p;) {
--        p = get_opt_name_value(p, firstname, help_wanted, &option, &value);
-+        p = get_opt_name_value(p, firstname, warn_on_flag, help_wanted, &option, &value);
-         if (help_wanted && *help_wanted) {
-             g_free(option);
-             g_free(value);
-@@ -839,7 +846,7 @@ static char *opts_parse_id(const char *params)
-     char *name, *value;
- 
-     for (p = params; *p;) {
--        p = get_opt_name_value(p, NULL, NULL, &name, &value);
-+        p = get_opt_name_value(p, NULL, false, NULL, &name, &value);
-         if (!strcmp(name, "id")) {
-             g_free(name);
-             return value;
-@@ -858,7 +865,7 @@ bool has_help_option(const char *params)
-     bool ret = false;
- 
-     for (p = params; *p;) {
--        p = get_opt_name_value(p, NULL, &ret, &name, &value);
-+        p = get_opt_name_value(p, NULL, false, &ret, &name, &value);
-         g_free(name);
-         g_free(value);
-         if (ret) {
-@@ -878,12 +885,12 @@ bool has_help_option(const char *params)
- bool qemu_opts_do_parse(QemuOpts *opts, const char *params,
-                        const char *firstname, Error **errp)
- {
--    return opts_do_parse(opts, params, firstname, false, NULL, errp);
-+    return opts_do_parse(opts, params, firstname, false, false, NULL, errp);
+         if (!value) {
+             return old;         /* already QDict, do nothing */
+         }
+-        new = QOBJECT(value);   /* replacement */
+-    } else {
+-        new = value ? QOBJECT(value) : QOBJECT(qdict_new());
+     }
++    new = value ? QOBJECT(qstring_from_str(value)) : QOBJECT(qdict_new());
+     qdict_put_obj(cur, key_in_cur, new);
+     return new;
  }
  
- static QemuOpts *opts_parse(QemuOptsList *list, const char *params,
-                             bool permit_abbrev, bool defaults,
--                            bool *help_wanted, Error **errp)
-+                            bool warn_on_flag, bool *help_wanted, Error **errp)
++/*
++ * Parse and unescape the string (key or value) pointed to by @start,
++ * stopping at a single comma or if @key is true an equal sign.
++ * The string is unescaped and NUL-terminated in place.
++ *
++ * On return:
++ * - either NUL or the separator (comma or equal sign) is returned.
++ * - the length of the string is stored in @len.
++ * - @start is advanced to either the NUL or the first character past the
++ *   separator.
++ */
++static char keyval_fetch_string(char **start, size_t *len, bool key)
++{
++    char sep;
++    char *p, *unescaped;
++    p = unescaped = *start;
++    for (;;) {
++        sep = *p;
++        if (!sep) {
++            break;
++        }
++        if (key && sep == '=') {
++            ++p;
++            break;
++        }
++        if (sep == ',') {
++            if (*++p != ',') {
++                break;
++            }
++        }
++        *unescaped++ = *p++;
++    }
++
++    *unescaped = 0;
++    *len = unescaped - *start;
++    *start = p;
++    return sep;
++}
++
+ /*
+  * Parse one parameter from @params.
+  *
+@@ -179,35 +215,42 @@ static QObject *keyval_parse_put(QDict *cur,
+  * On success, return a pointer to the next parameter, or else to '\0'.
+  * On failure, return NULL.
+  */
+-static const char *keyval_parse_one(QDict *qdict, const char *params,
+-                                    const char *implied_key, bool *help,
+-                                    Error **errp)
++static char *keyval_parse_one(QDict *qdict, char *params,
++                              const char *implied_key, bool *help,
++                              Error **errp)
  {
-     const char *firstname;
-     char *id = opts_parse_id(params);
-@@ -906,8 +913,8 @@ static QemuOpts *opts_parse(QemuOptsList *list, const char *params,
+-    const char *key, *key_end, *val_end, *s, *end;
++    const char *key, *key_end, *s, *end;
++    const char *val = NULL;
++    char sep;
+     size_t len;
+     char key_in_cur[128];
+     QDict *cur;
+     int ret;
+     QObject *next;
+-    GString *val;
+ 
+     key = params;
+-    val_end = NULL;
+-    len = strcspn(params, "=,");
+-    if (len && key[len] != '=') {
+-        if (starts_with_help_option(key) == len) {
++    sep = keyval_fetch_string(&params, &len, true);
++    if (!len) {
++        if (sep) {
++            error_setg(errp, "Expected parameter before '%c%s'", sep, params);
++        } else {
++            error_setg(errp, "Expected parameter at end of string");
++        }
++        return NULL;
++    }
++    if (sep != '=') {
++        if (is_help_option(key)) {
+             *help = true;
+-            s = key + len;
+-            if (*s == ',') {
+-                s++;
+-            }
+-            return s;
++            return params;
+         }
+         if (implied_key) {
+             /* Desugar implied key */
++            val = key;
+             key = implied_key;
+-            val_end = params + len;
+             len = strlen(implied_key);
++        } else {
++            error_setg(errp, "No implicit parameter name for value '%s'", key);
++            return NULL;
+         }
+     }
+     key_end = key + len;
+@@ -218,7 +261,7 @@ static const char *keyval_parse_one(QDict *qdict, const char *params,
+      */
+     cur = qdict;
+     s = key;
+-    for (;;) {
++    do {
+         /* Want a key index (unless it's first) or a QAPI name */
+         if (s != key && key_to_index(s, &end) >= 0) {
+             len = end - s;
+@@ -254,47 +297,16 @@ static const char *keyval_parse_one(QDict *qdict, const char *params,
+         memcpy(key_in_cur, s, len);
+         key_in_cur[len] = 0;
+         s += len;
++    } while (*s++ == '.');
+ 
+-        if (*s != '.') {
+-            break;
+-        }
+-        s++;
+-    }
+-
+-    if (key == implied_key) {
+-        assert(!*s);
+-        val = g_string_new_len(params, val_end - params);
+-        s = val_end;
+-        if (*s == ',') {
+-            s++;
+-        }
+-    } else {
+-        if (*s != '=') {
+-            error_setg(errp, "Expected '=' after parameter '%.*s'",
+-                       (int)(s - key), key);
+-            return NULL;
+-        }
+-        s++;
+-
+-        val = g_string_new(NULL);
+-        for (;;) {
+-            if (!*s) {
+-                break;
+-            } else if (*s == ',') {
+-                s++;
+-                if (*s != ',') {
+-                    break;
+-                }
+-            }
+-            g_string_append_c(val, *s++);
+-        }
++    if (key != implied_key) {
++        val = params;
++        keyval_fetch_string(&params, &len, false);
+     }
+-
+-    if (!keyval_parse_put(cur, key_in_cur, qstring_from_gstring(val),
+-                          key, key_end, errp)) {
++    if (!keyval_parse_put(cur, key_in_cur, val, key, key_end, errp)) {
          return NULL;
      }
- 
--    if (!opts_do_parse(opts, params, firstname, defaults, help_wanted,
--                       errp)) {
-+    if (!opts_do_parse(opts, params, firstname, defaults,
-+                       warn_on_flag, help_wanted, errp)) {
-         qemu_opts_del(opts);
-         return NULL;
-     }
-@@ -925,7 +932,7 @@ static QemuOpts *opts_parse(QemuOptsList *list, const char *params,
- QemuOpts *qemu_opts_parse(QemuOptsList *list, const char *params,
-                           bool permit_abbrev, Error **errp)
- {
--    return opts_parse(list, params, permit_abbrev, false, NULL, errp);
-+    return opts_parse(list, params, permit_abbrev, false, false, NULL, errp);
+-    return s;
++    return params;
  }
  
- /**
-@@ -943,7 +950,7 @@ QemuOpts *qemu_opts_parse_noisily(QemuOptsList *list, const char *params,
-     QemuOpts *opts;
-     bool help_wanted = false;
- 
--    opts = opts_parse(list, params, permit_abbrev, false,
-+    opts = opts_parse(list, params, permit_abbrev, false, true,
-                       opts_accepts_any(list) ? NULL : &help_wanted,
-                       &err);
-     if (!opts) {
-@@ -962,7 +969,7 @@ void qemu_opts_set_defaults(QemuOptsList *list, const char *params,
+ static char *reassemble_key(GSList *key)
+@@ -439,10 +451,11 @@ QDict *keyval_parse(const char *params, const char *implied_key,
  {
-     QemuOpts *opts;
+     QDict *qdict = qdict_new();
+     QObject *listified;
+-    const char *s;
++    g_autofree char *dup;
++    char *s;
+     bool help = false;
  
--    opts = opts_parse(list, params, permit_abbrev, true, NULL, NULL);
-+    opts = opts_parse(list, params, permit_abbrev, true, false, NULL, NULL);
-     assert(opts);
- }
- 
+-    s = params;
++    s = dup = g_strdup(params);
+     while (*s) {
+         s = keyval_parse_one(qdict, s, implied_key, &help, errp);
+         if (!s) {
 -- 
 2.26.2
 
