@@ -2,55 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 287452FA35E
-	for <lists+qemu-devel@lfdr.de>; Mon, 18 Jan 2021 15:43:53 +0100 (CET)
-Received: from localhost ([::1]:53594 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DAD082FA382
+	for <lists+qemu-devel@lfdr.de>; Mon, 18 Jan 2021 15:47:57 +0100 (CET)
+Received: from localhost ([::1]:59578 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l1Vl2-0005Rw-4h
-	for lists+qemu-devel@lfdr.de; Mon, 18 Jan 2021 09:43:52 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57572)
+	id 1l1Voy-0008A5-Mu
+	for lists+qemu-devel@lfdr.de; Mon, 18 Jan 2021 09:47:56 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58424)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <qemu_oss@crudebyte.com>)
- id 1l1Vjd-0004Ua-CM
- for qemu-devel@nongnu.org; Mon, 18 Jan 2021 09:42:25 -0500
-Received: from kylie.crudebyte.com ([5.189.157.229]:59739)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <qemu_oss@crudebyte.com>)
- id 1l1VjY-0002Ko-5P
- for qemu-devel@nongnu.org; Mon, 18 Jan 2021 09:42:24 -0500
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- d=crudebyte.com; s=kylie; h=Content-Type:Content-Transfer-Encoding:
- MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:
- Content-ID:Content-Description;
- bh=rl4SYFQAifn4qpWJOaWl4q1+zc55bAcoAsETTefx/pI=; b=vRE2253BYeDiRkQQn3mEotUnH8
- buo1zMpeipF0AV/xbxquSDYrrq7AbNiFQ19K5MoSlnasktW93EmVQ9AlMZ8D4WUAqt89JsJitEVxE
- PumNmJuCNXsQoV6YXgKBdmDAbzZTaJW4BRdnxCR0NPZiWwgk4B0/eLo6kn4QQYRY/DiWsRzIqQlbg
- zeX+TUuhEJdUxPRLF7srO7wmEhh9O4SQIQwWWImhygMTIf6bTxvE79jErxDm3nVzlCTYpyiEyq2+T
- Gc+AmQrhaKDHwVcKuLAKQSE1TtsIN8haPOxGhAoNvIWhg/26Yh1yzOdd9ZTxYapxen3CZNXQsb9Lj
- Z0I2qcJWHGpXdIpOzVpCo3PMRe5/IC+e2WMAF3NX0e8HrUlU5SeNFpt80vebpw8iNEU00aCsDAO6Q
- oXQVDfUP5yU2fyyDvzeH7XlW5RBx3HyPr8DJuLOjYzxFJeVSJlhBuvyQfaFRSpHRcP2C2dud7K52T
- 200f7MtuGL7779ed5s6dCnXRu/Ckwk5rJEfbJ1hQiIFvA9GkOUbv/wrgvRMjAvdux1ChIavSRKtSv
- tOroA9SlsEPpiEwY5VHSBSxs3nMWMUMMMKcP7sr+7FquY1fOpuLkUuuyE1LHf2vTVxgPIrUv7vVto
- sQQlsvFiG7PT8PGRKtLT32BG6PixByO0SsNUJAgsM=;
-From: Christian Schoenebeck <qemu_oss@crudebyte.com>
-To: qemu-devel@nongnu.org
-Subject: Re: [PATCH 1/3] 9pfs: Convert V9fsFidState::clunked to bool
-Date: Mon, 18 Jan 2021 15:42:17 +0100
-Message-ID: <1653749.QGb0FL96xq@silver>
-In-Reply-To: <20210118142300.801516-2-groug@kaod.org>
-References: <20210118142300.801516-1-groug@kaod.org>
- <20210118142300.801516-2-groug@kaod.org>
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1l1VmF-0007Bi-7D
+ for qemu-devel@nongnu.org; Mon, 18 Jan 2021 09:45:08 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:31594)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1l1VmC-0003dy-DV
+ for qemu-devel@nongnu.org; Mon, 18 Jan 2021 09:45:06 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1610981103;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=CtRRqyhOZNrMklCShy3k+WSqpjnR9LT9mE9ABLmCb3M=;
+ b=cdnrhwGd3u5z/WY6v261thY8IJ4TtOtQhKptOJxreMHdlcXPMZ92JtOIYIgjhMbe1UWpai
+ y2INwiZNXYPajzZ+01BMTfsZo9nGLnlHtNlVVrJgxxVB3CFOu1CIcBDhjQIlZyKz0gRngo
+ 4vBFrHZa03+rhbhWzzN2f98DedlsLSA=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-33-LfXy7sJrMBCjdVz3TU6q0w-1; Mon, 18 Jan 2021 09:45:00 -0500
+X-MC-Unique: LfXy7sJrMBCjdVz3TU6q0w-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 8ACD010054FF;
+ Mon, 18 Jan 2021 14:44:58 +0000 (UTC)
+Received: from thuth.remote.csb (ovpn-112-189.ams2.redhat.com [10.36.112.189])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 2054C100239F;
+ Mon, 18 Jan 2021 14:44:50 +0000 (UTC)
+Subject: Re: [PATCH v2 9/9] gitlab-ci: Add alpine to pipeline
+To: Jiaxun Yang <jiaxun.yang@flygoat.com>,
+ =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>
+References: <20210118063808.12471-1-jiaxun.yang@flygoat.com>
+ <20210118063808.12471-10-jiaxun.yang@flygoat.com>
+ <20210118101159.GC1789637@redhat.com>
+ <fb7308f2-ecc7-48b8-9388-91fd30691767@www.fastmail.com>
+From: Thomas Huth <thuth@redhat.com>
+Message-ID: <307dea8e-148e-6666-c6f1-5cc66a54a7af@redhat.com>
+Date: Mon, 18 Jan 2021 15:44:49 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.6.0
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
-Received-SPF: pass client-ip=5.189.157.229;
- envelope-from=qemu_oss@crudebyte.com; helo=kylie.crudebyte.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
+In-Reply-To: <fb7308f2-ecc7-48b8-9388-91fd30691767@www.fastmail.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=thuth@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -31
+X-Spam_score: -3.2
+X-Spam_bar: ---
+X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.175,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.194, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -64,60 +80,53 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Greg Kurz <groug@kaod.org>
+Cc: Fam Zheng <fam@euphon.net>, Laurent Vivier <lvivier@redhat.com>,
+ qemu-block@nongnu.org, kvm@vger.kernel.org,
+ Viktor Prutyanov <viktor.prutyanov@phystech.edu>,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
+ Alistair Francis <alistair@alistair23.me>,
+ BALATON Zoltan via <qemu-devel@nongnu.org>,
+ Wainer dos Santos Moschetta <wainersm@redhat.com>, Greg Kurz <groug@kaod.org>,
+ qemu-ppc@nongnu.org, Paolo Bonzini <pbonzini@redhat.com>,
+ Kevin Wolf <kwolf@redhat.com>, Max Reitz <mreitz@redhat.com>,
+ =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
+ David Gibson <david@gibson.dropbear.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Montag, 18. Januar 2021 15:22:58 CET Greg Kurz wrote:
-> This can only be 0 or 1.
+On 18/01/2021 14.37, Jiaxun Yang wrote:
 > 
-> Signed-off-by: Greg Kurz <groug@kaod.org>
-
-Reviewed-by: Christian Schoenebeck <qemu_oss@crudebyte.com>
-
-I still need to go through the other 2 patches. I should be done tomorrow.
-
-> ---
->  hw/9pfs/9p.c | 4 ++--
->  hw/9pfs/9p.h | 2 +-
->  2 files changed, 3 insertions(+), 3 deletions(-)
 > 
-> diff --git a/hw/9pfs/9p.c b/hw/9pfs/9p.c
-> index 6026b51a1c04..37c3379b7462 100644
-> --- a/hw/9pfs/9p.c
-> +++ b/hw/9pfs/9p.c
-> @@ -413,7 +413,7 @@ static V9fsFidState *clunk_fid(V9fsState *s, int32_t
-> fid) }
->      fidp = *fidpp;
->      *fidpp = fidp->next;
-> -    fidp->clunked = 1;
-> +    fidp->clunked = true;
->      return fidp;
->  }
+> On Mon, Jan 18, 2021, at 6:11 PM, Daniel P. Berrangé wrote:
+>> On Mon, Jan 18, 2021 at 02:38:08PM +0800, Jiaxun Yang wrote:
+>>> We only run build test and check-acceptance as their are too many
+>>> failures in checks due to minor string mismatch.
+>>
+>> Can you give real examples of what's broken here, as that sounds
+>> rather suspicious, and I'm not convinced it should be ignored.
 > 
-> @@ -544,7 +544,7 @@ static void coroutine_fn virtfs_reset(V9fsPDU *pdu)
-> 
->          /* Clunk fid */
->          s->fid_list = fidp->next;
-> -        fidp->clunked = 1;
-> +        fidp->clunked = true;
-> 
->          put_fid(pdu, fidp);
->      }
-> diff --git a/hw/9pfs/9p.h b/hw/9pfs/9p.h
-> index 32df81f360ea..93656323d1d7 100644
-> --- a/hw/9pfs/9p.h
-> +++ b/hw/9pfs/9p.h
-> @@ -279,7 +279,7 @@ struct V9fsFidState {
->      int open_flags;
->      uid_t uid;
->      int ref;
-> -    int clunked;
-> +    bool clunked;
->      V9fsFidState *next;
->      V9fsFidState *rclm_lst;
->  };
+> Mostly Input/Output error vs I/O Error.
 
+Right, out of curiosity, I also gave it a try:
 
+  https://gitlab.com/huth/qemu/-/jobs/969225330
+
+Apart from the "I/O Error" vs. "Input/Output Error" difference, there also 
+seems to be a problem with "sed" in some of the tests.
+
+Jiaxun, I think you could simply add a job like this instead:
+
+check-system-alpine:
+   <<: *native_test_job_definition
+   needs:
+     - job: build-system-alpine
+       artifacts: true
+   variables:
+     IMAGE: alpine
+     MAKE_CHECK_ARGS: check-qtest check-unit check-qapi-schema check-softfloat
+
+That will run all the other tests, without the problematic check-block part.
+
+  Thomas
 
 
