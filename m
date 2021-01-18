@@ -2,57 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B0AF62FA331
-	for <lists+qemu-devel@lfdr.de>; Mon, 18 Jan 2021 15:37:31 +0100 (CET)
-Received: from localhost ([::1]:44648 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 287452FA35E
+	for <lists+qemu-devel@lfdr.de>; Mon, 18 Jan 2021 15:43:53 +0100 (CET)
+Received: from localhost ([::1]:53594 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l1Ves-0001GL-Qt
-	for lists+qemu-devel@lfdr.de; Mon, 18 Jan 2021 09:37:30 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55610)
+	id 1l1Vl2-0005Rw-4h
+	for lists+qemu-devel@lfdr.de; Mon, 18 Jan 2021 09:43:52 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57572)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>)
- id 1l1Vdp-0000kj-Fh; Mon, 18 Jan 2021 09:36:25 -0500
-Received: from mout.kundenserver.de ([217.72.192.73]:52787)
+ (Exim 4.90_1) (envelope-from <qemu_oss@crudebyte.com>)
+ id 1l1Vjd-0004Ua-CM
+ for qemu-devel@nongnu.org; Mon, 18 Jan 2021 09:42:25 -0500
+Received: from kylie.crudebyte.com ([5.189.157.229]:59739)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>)
- id 1l1Vdn-00080u-AE; Mon, 18 Jan 2021 09:36:25 -0500
-Received: from [192.168.100.1] ([82.252.149.54]) by mrelayeu.kundenserver.de
- (mreue108 [213.165.67.119]) with ESMTPSA (Nemesis) id
- 1MAwTn-1lCGCn2F8D-00BJNo; Mon, 18 Jan 2021 15:36:16 +0100
-Subject: Re: [PATCH v1 1/1] linux-user/signal: Decode waitid si_code
-To: Alistair Francis <alistair.francis@wdc.com>, qemu-devel@nongnu.org,
- qemu-riscv@nongnu.org
-References: <1a4df1b5638d73b64200add175be9d69013418d8.1608401453.git.alistair.francis@wdc.com>
-From: Laurent Vivier <laurent@vivier.eu>
-Message-ID: <eac70d13-7e70-756e-503c-329fdb14a312@vivier.eu>
-Date: Mon, 18 Jan 2021 15:36:15 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.6.0
+ (Exim 4.90_1) (envelope-from <qemu_oss@crudebyte.com>)
+ id 1l1VjY-0002Ko-5P
+ for qemu-devel@nongnu.org; Mon, 18 Jan 2021 09:42:24 -0500
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+ d=crudebyte.com; s=kylie; h=Content-Type:Content-Transfer-Encoding:
+ MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:
+ Content-ID:Content-Description;
+ bh=rl4SYFQAifn4qpWJOaWl4q1+zc55bAcoAsETTefx/pI=; b=vRE2253BYeDiRkQQn3mEotUnH8
+ buo1zMpeipF0AV/xbxquSDYrrq7AbNiFQ19K5MoSlnasktW93EmVQ9AlMZ8D4WUAqt89JsJitEVxE
+ PumNmJuCNXsQoV6YXgKBdmDAbzZTaJW4BRdnxCR0NPZiWwgk4B0/eLo6kn4QQYRY/DiWsRzIqQlbg
+ zeX+TUuhEJdUxPRLF7srO7wmEhh9O4SQIQwWWImhygMTIf6bTxvE79jErxDm3nVzlCTYpyiEyq2+T
+ Gc+AmQrhaKDHwVcKuLAKQSE1TtsIN8haPOxGhAoNvIWhg/26Yh1yzOdd9ZTxYapxen3CZNXQsb9Lj
+ Z0I2qcJWHGpXdIpOzVpCo3PMRe5/IC+e2WMAF3NX0e8HrUlU5SeNFpt80vebpw8iNEU00aCsDAO6Q
+ oXQVDfUP5yU2fyyDvzeH7XlW5RBx3HyPr8DJuLOjYzxFJeVSJlhBuvyQfaFRSpHRcP2C2dud7K52T
+ 200f7MtuGL7779ed5s6dCnXRu/Ckwk5rJEfbJ1hQiIFvA9GkOUbv/wrgvRMjAvdux1ChIavSRKtSv
+ tOroA9SlsEPpiEwY5VHSBSxs3nMWMUMMMKcP7sr+7FquY1fOpuLkUuuyE1LHf2vTVxgPIrUv7vVto
+ sQQlsvFiG7PT8PGRKtLT32BG6PixByO0SsNUJAgsM=;
+From: Christian Schoenebeck <qemu_oss@crudebyte.com>
+To: qemu-devel@nongnu.org
+Subject: Re: [PATCH 1/3] 9pfs: Convert V9fsFidState::clunked to bool
+Date: Mon, 18 Jan 2021 15:42:17 +0100
+Message-ID: <1653749.QGb0FL96xq@silver>
+In-Reply-To: <20210118142300.801516-2-groug@kaod.org>
+References: <20210118142300.801516-1-groug@kaod.org>
+ <20210118142300.801516-2-groug@kaod.org>
 MIME-Version: 1.0
-In-Reply-To: <1a4df1b5638d73b64200add175be9d69013418d8.1608401453.git.alistair.francis@wdc.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: fr
-Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:V6OfQqlm2VvFg1zeC4EZFTc9lylc3WSMcp/D7Qc7wu6ju+0BmME
- RRU6B6fEUBHUIjBzHiblF+4Fp4+viT7Bm8UW5Ftqbm6O2CpRdTwsLgFBfsB/2LIz/A558M7
- ZV1QJfg9yvsvwZ73NnOb596ZExxY4NgICSoYlpYBA6e2M7BDZHazCBaAGO/sot61kUub34O
- ZaGbZfFnCklTeyn9y6oDA==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:7gN2Jn6gXNY=:sg05yga2fGUEK/p4O9rx5h
- Yq3UGUrPs3ymHKVCiJSjDJHYny/KUWrIvG4Exabg8CK4LkO1GYJc6clj3OKN/BVem9Eubw8OG
- YBP0tCTRmFd/gTDTi3/0xpglTsFNUepjEqVkTysq3iodn8xYnsjJv/WlsezJvk13bMqVYCXlq
- baVYSnqShw4sCA17BvAhwmju0VDfpF39YHl1/VR+R/fIMLDtMqT6lOVuBhX+H1cIS3LuJkliz
- l9J+XUDxPMBC9rs4bx7+zhdmX8zJSUVLyWohcEw6pYlkH1kAiPWi4EvmeeT3bpuxdGeRx85cE
- Iy7iCdEfzCGY3N/hsN/6TJxF5mRyQ8wGBpumbmm17gxIQPyDpMhOCKAR/v7Q+qo6JFVkJFnF3
- B6ppfjbIrFaML1Z7VyMUGTaQ9VuCh1jWnbViaQwzTe9jt6qBgq4G9oXmNTQqI
-Received-SPF: none client-ip=217.72.192.73; envelope-from=laurent@vivier.eu;
- helo=mout.kundenserver.de
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
+Received-SPF: pass client-ip=5.189.157.229;
+ envelope-from=qemu_oss@crudebyte.com; helo=kylie.crudebyte.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.194,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -65,70 +64,60 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: alistair23@gmail.com, bmeng.cn@gmail.com, palmer@dabbelt.com
+Cc: Greg Kurz <groug@kaod.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Le 19/12/2020 à 19:11, Alistair Francis a écrit :
-> When mapping the host waitid status to the target status we previously
-> just used decoding information in the status value. This doesn't follow
-> what the waitid documentation describes, which instead suggests using
-> the si_code value for the decoding. This results in the incorrect values
-> seen when calling waitid. This is especially apparent on RV32 where all
-> wait calls use waitid (see the bug case).
+On Montag, 18. Januar 2021 15:22:58 CET Greg Kurz wrote:
+> This can only be 0 or 1.
 > 
-> This patch uses the si_code value to map the waitid status.
-> 
-> Buglink: https://bugs.launchpad.net/qemu/+bug/1906193
-> Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
+> Signed-off-by: Greg Kurz <groug@kaod.org>
+
+Reviewed-by: Christian Schoenebeck <qemu_oss@crudebyte.com>
+
+I still need to go through the other 2 patches. I should be done tomorrow.
+
 > ---
->  linux-user/signal.c | 26 ++++++++++++++++++++++++--
->  1 file changed, 24 insertions(+), 2 deletions(-)
+>  hw/9pfs/9p.c | 4 ++--
+>  hw/9pfs/9p.h | 2 +-
+>  2 files changed, 3 insertions(+), 3 deletions(-)
 > 
-> diff --git a/linux-user/signal.c b/linux-user/signal.c
-> index 73de934c65..b6c9326521 100644
-> --- a/linux-user/signal.c
-> +++ b/linux-user/signal.c
-> @@ -305,6 +305,7 @@ static inline void host_to_target_siginfo_noswap(target_siginfo_t *tinfo,
->      int sig = host_to_target_signal(info->si_signo);
->      int si_code = info->si_code;
->      int si_type;
-> +    int status = info->si_status;
->      tinfo->si_signo = sig;
->      tinfo->si_errno = 0;
->      tinfo->si_code = info->si_code;
-> @@ -349,8 +350,29 @@ static inline void host_to_target_siginfo_noswap(target_siginfo_t *tinfo,
->          case TARGET_SIGCHLD:
->              tinfo->_sifields._sigchld._pid = info->si_pid;
->              tinfo->_sifields._sigchld._uid = info->si_uid;
-> -            tinfo->_sifields._sigchld._status
-> -                = host_to_target_waitstatus(info->si_status);
-> +
-> +            /*
-> +             * Map host to target signal numbers for the waitid family of
-> +             * syscalls. This is similar to the functionality in
-> +             * host_to_target_waitstatus() except we use the si_code to
-> +             * determine the operation.
-> +             */
-> +            switch (info->si_code) {
-> +            case CLD_KILLED:
-> +            case CLD_DUMPED:
-> +                tinfo->_sifields._sigchld._status =
-> +                    host_to_target_signal(WTERMSIG(status)) |
-> +                                          (status & ~0x7f);
-> +                break;
-> +            case CLD_STOPPED:
-> +                tinfo->_sifields._sigchld._status =
-> +                (host_to_target_signal(WSTOPSIG(status)) << 8) |
-> +                    (status & 0xff);
-> +                break;
-> +            default:
+> diff --git a/hw/9pfs/9p.c b/hw/9pfs/9p.c
+> index 6026b51a1c04..37c3379b7462 100644
+> --- a/hw/9pfs/9p.c
+> +++ b/hw/9pfs/9p.c
+> @@ -413,7 +413,7 @@ static V9fsFidState *clunk_fid(V9fsState *s, int32_t
+> fid) }
+>      fidp = *fidpp;
+>      *fidpp = fidp->next;
+> -    fidp->clunked = 1;
+> +    fidp->clunked = true;
+>      return fidp;
+>  }
+> 
+> @@ -544,7 +544,7 @@ static void coroutine_fn virtfs_reset(V9fsPDU *pdu)
+> 
+>          /* Clunk fid */
+>          s->fid_list = fidp->next;
+> -        fidp->clunked = 1;
+> +        fidp->clunked = true;
+> 
+>          put_fid(pdu, fidp);
+>      }
+> diff --git a/hw/9pfs/9p.h b/hw/9pfs/9p.h
+> index 32df81f360ea..93656323d1d7 100644
+> --- a/hw/9pfs/9p.h
+> +++ b/hw/9pfs/9p.h
+> @@ -279,7 +279,7 @@ struct V9fsFidState {
+>      int open_flags;
+>      uid_t uid;
+>      int ref;
+> -    int clunked;
+> +    bool clunked;
+>      V9fsFidState *next;
+>      V9fsFidState *rclm_lst;
+>  };
 
-I guess the the operation is not encoded in the status coming from the host as we need to use the
-si_code to decode the status, so why do we need to encode it in the status we send to the guest?
 
-Can it be only "tinfo->_sifields._sigchld._status = status" for all the cases?
 
-Thanks,
-Laurent
 
