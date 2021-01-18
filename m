@@ -2,55 +2,54 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3BF4A2F98B1
-	for <lists+qemu-devel@lfdr.de>; Mon, 18 Jan 2021 05:33:45 +0100 (CET)
-Received: from localhost ([::1]:36344 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CD8A22F98AE
+	for <lists+qemu-devel@lfdr.de>; Mon, 18 Jan 2021 05:33:40 +0100 (CET)
+Received: from localhost ([::1]:35926 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l1MEa-0000i1-Ah
-	for lists+qemu-devel@lfdr.de; Sun, 17 Jan 2021 23:33:44 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40410)
+	id 1l1MEV-0000XZ-Sb
+	for lists+qemu-devel@lfdr.de; Sun, 17 Jan 2021 23:33:39 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40398)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1l1MC1-0007Pm-OE
- for qemu-devel@nongnu.org; Sun, 17 Jan 2021 23:31:05 -0500
-Received: from indium.canonical.com ([91.189.90.7]:51424)
+ id 1l1MC0-0007Oq-7Y
+ for qemu-devel@nongnu.org; Sun, 17 Jan 2021 23:31:04 -0500
+Received: from indium.canonical.com ([91.189.90.7]:51380)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1l1MBz-00065W-R8
- for qemu-devel@nongnu.org; Sun, 17 Jan 2021 23:31:05 -0500
+ id 1l1MBy-00064p-Jd
+ for qemu-devel@nongnu.org; Sun, 17 Jan 2021 23:31:04 -0500
 Received: from loganberry.canonical.com ([91.189.90.37])
  by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1l1MBy-0003mf-5Y
- for <qemu-devel@nongnu.org>; Mon, 18 Jan 2021 04:31:02 +0000
+ id 1l1MBx-0003mv-DV
+ for <qemu-devel@nongnu.org>; Mon, 18 Jan 2021 04:31:01 +0000
 Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 2909C2E8138
- for <qemu-devel@nongnu.org>; Mon, 18 Jan 2021 04:31:02 +0000 (UTC)
+ by loganberry.canonical.com (Postfix) with ESMTP id 5234B2E8145
+ for <qemu-devel@nongnu.org>; Mon, 18 Jan 2021 04:31:01 +0000 (UTC)
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
-Date: Mon, 18 Jan 2021 04:17:14 -0000
-From: Launchpad Bug Tracker <1243968@bugs.launchpad.net>
+Date: Mon, 18 Jan 2021 04:17:16 -0000
+From: Launchpad Bug Tracker <1565395@bugs.launchpad.net>
 To: qemu-devel@nongnu.org
 X-Launchpad-Notification-Type: bug
 X-Launchpad-Bug: product=qemu; status=Expired; importance=Undecided;
  assignee=None; 
-X-Launchpad-Bug-Tags: esxi hypercall vmware
 X-Launchpad-Bug-Information-Type: Public
 X-Launchpad-Bug-Private: no
 X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: 6-mail-f janitor th-huth
-X-Launchpad-Bug-Reporter: Nathan Shearer (6-mail-f)
+X-Launchpad-Bug-Commenters: janitor john-frankish th-huth
+X-Launchpad-Bug-Reporter: John Frankish (john-frankish)
 X-Launchpad-Bug-Modifier: Launchpad Janitor (janitor)
-References: <20131023225742.32032.88482.malonedeb@chaenomeles.canonical.com>
-Message-Id: <161094343537.15998.14235784962816397762.malone@loganberry.canonical.com>
-Subject: [Bug 1243968] Re: VMware ESXi on QEmu Kernel Panic
+References: <20160403045416.18318.45266.malonedeb@chaenomeles.canonical.com>
+Message-Id: <161094343663.15998.12830631611626011599.malone@loganberry.canonical.com>
+Subject: [Bug 1565395] Re: qemu-2.4.1 fails when compiled against pulseaudio
 X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
 X-Launchpad-Message-For: qemu-devel-ml
 Precedence: bulk
 X-Generated-By: Launchpad (canonical.com);
  Revision="511b4a3b6512aa3d421c5f7d74f3527e78bff26e"; Instance="production"
-X-Launchpad-Hash: 81a4d88bc5f6b8486b56c183f51d5e6590710672
+X-Launchpad-Hash: 467bb8b326617e701f1107445befef7644934b9b
 Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
  helo=indium.canonical.com
 X-Spam_score_int: -66
@@ -71,7 +70,7 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1243968 <1243968@bugs.launchpad.net>
+Reply-To: Bug 1565395 <1565395@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
@@ -84,57 +83,39 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 You received this bug notification because you are a member of qemu-
 devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1243968
+https://bugs.launchpad.net/bugs/1565395
 
 Title:
-  VMware ESXi on QEmu Kernel Panic
+  qemu-2.4.1 fails when compiled against pulseaudio
 
 Status in QEMU:
   Expired
 
 Bug description:
-  I attempted to install ESXi 5.5 (the free version) into a QEmu 1.6.1
-  VM. The guest OS does have the svm capabilities, but it appears VMware
-  is trying to do some kind of hypercall that crashes the guest.
+  If I compile qemu-2.4.1 like this:
 
-  There is more information here:
-  https://communities.vmware.com/message/2297382
+  CC=3D"gcc -mtune=3Dgeneric -Os -pipe" CXX=3D"g++ -mtune=3Dgeneric -Os -pi=
+pe
+  -fno-exceptions -fno-rtti" ./configure --prefix=3D/usr/local
+  --localstatedir=3D/var --libexecdir=3D/usr/local/lib/qemu
+  --interp-prefix=3D/usr/local/share/qemu --disable-smartcard-nss
+  --disable-curses --disable-brlapi --audio-drv-list=3D"oss alsa sdl"
+  --target-list=3D"i386-softmmu i386-linux-user x86_64-softmmu
+  x86_64-linux-user" --smbd=3D/usr/local/sbin/smbd
 
-  It seems to me that this stubbed feature should just be disabled if it
-  is unusable. Or at the very least I should be able to disable it at
-  run-time with a command-line argument.
+  find . -name config-host.mak -type f -exec sed -i 's/-O2//g' {} \;
 
-  Is there some way to disable all the hypervisor features that makes it
-  very obvious to a guest os that it is running inside a VM? It would be
-  great if I could install a software and it would actually work (even
-  if it's slow with those features disabled).
+  make
 
-  FYI, my guest OS capabilities are:
+  ..it works fine.
 
-  # cat /proc/cpuinfo
-  processor       : 0
-  vendor_id       : AuthenticAMD
-  cpu family      : 6
-  model           : 2
-  model name      : QEMU Virtual CPU version 1.5.3
-  stepping        : 3
-  microcode       : 0x1000065
-  cpu MHz         : 1999.999
-  cache size      : 512 KB
-  fpu             : yes
-  fpu_exception   : yes
-  cpuid level     : 4
-  wp              : yes
-  flags           : fpu de pse tsc msr pae mce cx8 apic sep mtrr pge mca cm=
-ov pat pse36 clflush mmx fxsr sse sse2 syscall nx lm nopl pni cx16 popcnt h=
-ypervisor lahf_lm svm abm sse4a
-  bogomips        : 3999.99
-  TLB size        : 1024 4K pages
-  clflush size    : 64
-  cache_alignment : 64
-  address sizes   : 40 bits physical, 48 bits virtual
-  power management:
+  If I add pulseaudio dev files and use --audio-drv-list=3D"oss alsa sdl pa=
+",
+  then "qemu-system-x86_64 -blah-blah" opens a window, displays the bios
+  message and stops. Strace shows qemu is not hung, but loops continually.
+
+  The same happens with qemu-2.2.1 and qemu-2.5.0.
 
 To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1243968/+subscriptions
+https://bugs.launchpad.net/qemu/+bug/1565395/+subscriptions
 
